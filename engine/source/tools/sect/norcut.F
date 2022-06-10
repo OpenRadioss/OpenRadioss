@@ -36,10 +36,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VN(7,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   S3000
       INTEGER IC,I,INORM(3),IFT,ILT,LASTN(*)

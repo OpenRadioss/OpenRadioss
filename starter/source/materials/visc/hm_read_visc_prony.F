@@ -103,7 +103,7 @@ C-----------------------------------------------
      . COSTFG,COSTFK,DERIVG,DERIVK,GINFINI,KINFINI
 C      
       LOGICAL :: IS_AVAILABLE,IS_CRYPTED
-C======================================
+C=======================================================================
       IS_CRYPTED   = .FALSE.
       IS_AVAILABLE = .FALSE.
 

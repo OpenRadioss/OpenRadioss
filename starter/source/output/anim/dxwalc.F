@@ -40,14 +40,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MSR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), RWL(*),XMIN ,YMIN ,ZMIN  ,XMAX ,YMAX  , ZMAX
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XWL, YWL, ZWL,XN,YN,ZN,D,DX,DY,DZ,XL, R, V1, V2, V3, VV1,
      .   VV2, VV3, VV, X0, Y0, Z0, ALPHA, S, C

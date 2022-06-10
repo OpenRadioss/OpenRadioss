@@ -49,7 +49,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NOD(*), NBY(*), ISKEW(*),ITAB(*), WEIGHT(*),ID, NODREAC(*)
       INTEGER, INTENT(IN) :: IFAIL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   V(3,*), VR(3,*), X(3,*), RBY(*), SKEW(LSKEW,*), FS(*),
      .   A(3,*),AR(3,*),IN(*),MS(*),FREAC(6,*)
@@ -73,7 +73,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER M, NSN, ICODR, ISK, I, N,ISENS, J, L
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XDUM(3), VG(3), VI(3),
      .   V1X2, V2X1, V2X3, V3X2, V3X1, V1X3,USDT,DT05,

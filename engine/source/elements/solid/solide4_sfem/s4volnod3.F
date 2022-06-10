@@ -45,7 +45,7 @@ C-----------------------------------------------
       INTEGER NC1(*),NC2(*),NC3(*),NC4(*),NEL
       DOUBLE PRECISION
      .   VOLNOD6(6,2*NUMNOD),SAV(NEL,9)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),OFFG(*)
 C-----------------------------------------------
@@ -57,7 +57,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, K
-C     REAL ou REAL*8
+C     REAL
 
       my_real
      .   X41, Y41, Z41, X42, Y42, Z42, X43, Y43, Z43
@@ -172,7 +172,7 @@ C-----------------------------------------------
       INTEGER NC1(*),NC2(*),NC3(*),NC4(*),NEL
       DOUBLE PRECISION
      .   VOLNOD6(6,2*NUMNOD),SAV(NEL,9)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   V(3,*),OFFG(*),VOL0(*),AMU(*)
 C-----------------------------------------------
@@ -188,7 +188,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, K,INDEX(MVSIZ),NE_SM,J
-C     REAL ou REAL*8
+C     REAL
 
       my_real
      .   X41, Y41, Z41, X42, Y42, Z42, X43, Y43, Z43,DVOL

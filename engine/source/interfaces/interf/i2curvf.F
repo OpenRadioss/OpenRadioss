@@ -61,7 +61,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN,NMN,IDEL2
       INTEGER IRECT(4,*),NSV(*),MSR(*),IRTL(*),WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  MS(*),IN(*),MMASS(*),SMASS(*),SINER(*),X(3,*),V(3,*),
      .  VR(3,*),A(3,*),AR(3,*),STIFN(*),STIFR(*),FSAV(*),

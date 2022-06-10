@@ -51,7 +51,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NX, NEL,NGRELE
       INTEGER IX(NX,*), IPOINT(2,*),IPARTS(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*)
 C-----------------------------------------------

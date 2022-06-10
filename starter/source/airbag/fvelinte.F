@@ -50,7 +50,7 @@ C-----------------------------------------------
       INTEGER IXC(NIXC,*), IXTG(NIXTG,*), IPM(NPROPMI,*), ILVOUT, IFV
       INTEGER IBUF(*), ELEM(3,*), NNT, NTG, ITAB(*),SURF_ELTYP(*),SURF_ELEM(*)
       INTEGER NSEG,NTGI, ELTG(*), NB_NODE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*), POROSITY(*)
 C-----------------------------------------------

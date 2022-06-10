@@ -59,7 +59,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NNC, NC(MVSIZ,NNC), MAT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VNS(8,*),BNS(8,*),VNSX(12,*),BNSX(12,*),
      .   VOLU(*), FILL(*),
@@ -71,7 +71,7 @@ C-----------------------------------------------
      .        IPERM101(10),IPERM102(10),IPERM103(10),
      .        IPERM161(16),IPERM162(16),
      .        IPERM201(20),IPERM202(20)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FAC,AV1,CV1,AV2,CV2
 C

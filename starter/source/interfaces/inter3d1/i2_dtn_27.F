@@ -52,7 +52,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,*),NSN,N
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),STIFN(*),MS(*),IN(*)
 C
@@ -121,7 +121,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRECT(4,*), NSV(*),IRTL(*),
      .        IPARI(*),MSEGTYP2(*),IRUPT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),CRST(2,*),STIFN(*),STIFR(*), MS(*),CSTS_BIS(2,*),IN(*)
 C-----------------------------------------------
@@ -363,7 +363,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  IRECT(4,*),NSV(*),IRTL(*),MSEGTYP2(*),IPARI(*),IRUPT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),IN(*),STIFN(*),STIFR(*),STFN(*),STFR(*),CRST(2,*),VISC
 C-----------------------------------------------
@@ -377,7 +377,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NIR,I,J,II,JJ,L,W,NN,KK,LLT,
      .        IX1, IX2, IX3, IX4,NSVG,NSN
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   S,T,SP,SM,TP,TM,E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,
      .   XSM,YSM,ZSM,XM,YM,ZM,X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,X0,Y0,Z0,XS,YS,ZS,STIFM,

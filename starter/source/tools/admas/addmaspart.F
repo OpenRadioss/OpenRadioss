@@ -56,7 +56,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPART(LIPART1,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PARTSAV(20,*),PARTSAV_PON(*),PART_AREA(*),
      .   PM(NPROPM,*),ADDEDMS(*)
@@ -67,12 +67,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,ID_MASS,IPA,IP,NMAS,KAD,II,IMID,ITYPE,IFLAG
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AMAS,MSP,MASST(NODMAS),RATIO,ADDMAS
       CHARACTER*nchartitle,
      .   TITR
-C======================================================================
+C=======================================================================
 !---
       MASST(1:NODMAS) = ZERO
 !

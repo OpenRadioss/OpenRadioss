@@ -68,7 +68,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPART(LIPART1,*), IPADMESH(KIPADMESH,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .       PADMESH(KPADMESH,*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
@@ -78,7 +78,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ID,
      .  N,IP,I,J,INILEV,NPART_ADM,ID_IP
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  ANGL,ANGLDEGR,THKERR
       CHARACTER MESS*40,TITR*nchartitle,KEY*ncharkey,KEY2*ncharkey

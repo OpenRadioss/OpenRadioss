@@ -55,7 +55,7 @@ C-----------------------------------------------
       INTEGER IPART(*), NC(MVSIZ,10)
       DOUBLE PRECISION
      .   XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MASS(*), MS(*),PARTSAV(20,*), MSS(8,*),DELTAX2(*), 
      .   VOLU(*),
@@ -66,7 +66,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IP,N1,N2,N11,N22,IPERM1(10),IPERM2(10),N,IPERM3(10)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AXX,AYY,AZZ,AXY,AYZ,AZX,AM,BM,FAC,BI,AAA,FACIROT,PTG(10,MVSIZ),
      .   BBB
@@ -352,7 +352,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RHO(*), MASS(*),VOLU(*),DTELEM(*),STI(*),
      .   SIG(NEL,6),EINT(*),OFF(*),

@@ -80,10 +80,10 @@ C-----------------------------------------------
      .   SH3TREE(KSH3TREE,*), SH4TREE(KSH4TREE,*),IXR(NIXR,*) ,
      .   IPART(LIPART1,*),IPARTC(*),IPARTTG(*),NOD2EL1D(*),KNOD2EL1D(*),
      .   ITAB(*), IXS10(6,*), IXS16(*), IXS20(*),IGEO(NPROPGI,*),IWORKSH(3,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STFAC, GAP,GAPMIN,GAPINF, GAPMAX,PERCENT_SIZE, BGAPSMX 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), STF(*), PM(NPROPM,*), GEO(NPROPG,*), STFN(*),
      .   MS(*),WA(*),GAP_S(*),GAP_M(*),
@@ -100,7 +100,7 @@ C-----------------------------------------------
      .   IP, NLEV, MYLEV, K, P, R, T,IGTYP,IPGMAT,IGMAT,
      .   ISUBSTACK
       INTEGER JPERM(4)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DXM, GAPMX, GAPMN, AREA, VOL, DX,GAPS1,GAPS2, GAPM, DDX, 
      .   GAPTMP, GAPSCALE,SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,

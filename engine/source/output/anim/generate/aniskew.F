@@ -51,7 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), SKEW(LSKEW,*), GEO(NPROPG,*)
       INTEGER IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),IPARG(NPARG,*),

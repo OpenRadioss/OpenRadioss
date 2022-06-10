@@ -51,7 +51,7 @@ C-----------------------------------------------
       INTEGER I,J,K,IAD,IWAVE,LEN,SIZE,NDDL,NNOD
       INTEGER, DIMENSION(4)  :: HEAD
       INTEGER, DIMENSION(:), ALLOCATABLE :: RBUF
-c=======================================================================
+C=======================================================================
 c     read failwave data
 c
       CALL READ_I_C(HEAD, 4)

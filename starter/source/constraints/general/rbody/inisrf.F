@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-C===============================================
+C=======================================================================
 C
 Chd|====================================================================
 Chd|  INISRF                        source/constraints/general/rbody/inisrf.F
@@ -37,7 +37,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE GROUPDEF_MOD
       USE MESSAGE_MOD
-C===============================================
+C=======================================================================
 C    * Verifie qu'il n'y a pas deux RIGID BODIES (.../... deux conditions
 C      cinematiques)
 C    qui definissent le mvt de la meme Surface.
@@ -62,7 +62,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPBY(NNPBY,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),V(3,*),VR(3,*),RBY(NRBY,*),BUFSF(*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF

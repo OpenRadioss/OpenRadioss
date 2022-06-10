@@ -523,7 +523,7 @@ C-----------------------------------------------
       INTEGER LUJI(NFXVEL),IBID
       INTEGER I,J,N, IAD,NTY,NDDL0,IIC(NDDLI),ND,
      .        ITOK1(NDDLI),IDEN(NDDL),NNZK0,L1,L2,K,IKP,NN
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   LBI(NDDLI),RBID,LB0(NDDLI)
 C--------diak=0->IIC=10--------------------------------------
@@ -1118,7 +1118,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,*),NUM_IMP(*),
      .        NS_IMP(*),NE_IMP(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  X(3,*),UD(3,*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
@@ -1197,7 +1197,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JLT,NS_IMP(*),NE_IMP(*),IRECT(4,*),NSV(*),NSN
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  X(3,*),UD(3,*)
 C-----------------------------------------------
@@ -1268,7 +1268,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JLT,NS_IMP(*),NE_IMP(*),IRECTS(2,*),IRECTM(2,*),NSN
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  X(3,*),UD(3,*)
 C-----------------------------------------------
@@ -1316,7 +1316,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NS,IRECT(4)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*)    ,H(4)
 C-----------------------------------------------
@@ -1325,7 +1325,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER N1,N2,N3,N4
       my_real
      .   X0, Y0, Z0, XL1, XL2, XL3, XL4, YY1, YY2, YY3, YY4,
@@ -1505,7 +1505,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NS(2),NM(2)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*)    ,HS(2),HM(2)
 C-----------------------------------------------
@@ -1514,7 +1514,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     XS12,YS12,ZS12,XM12,YM12,ZM12,XA,XB,
      .     XS2,XM2,XSM,XS2M2,YS2,YM2,YSM,YS2M2,ZS2,ZM2,ZSM,ZS2M2,
@@ -1616,7 +1616,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(*)
       INTEGER NUM_IMP,CAND_N(*),CAND_E(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  X(3,*),UD(3,*)
 
@@ -1628,7 +1628,7 @@ C-----------------------------------------------
       INTEGER JX1(MVSIZ), JX2(MVSIZ), JX3(MVSIZ), JX4(MVSIZ),
      .        NSVG(MVSIZ), I3N ,IGIMP
       INTEGER, DIMENSION(MVSIZ) :: IX1,IX2,IX3,IX4
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, FRIC, GAP, STOPT,DIST(MVSIZ)
       my_real, DIMENSION(MVSIZ) :: X1,X2,X3,X4,XI
@@ -1715,7 +1715,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LFT    ,LLT    ,NSVG(*) ,JX1(*), JX2(*),
      .         JX3(*), JX4(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   UD(3,*)
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: H1,H2,H3,H4,XFACE
@@ -1791,7 +1791,7 @@ C-----------------------------------------------
       INTEGER NPBY(NNPBY,*),NRBYAC,IRBYAC(*),LPBY(*),DOFSPC(*)
       INTEGER NINT2,IINT2(*),IPARI(NPARI,*),NDOF(*),
      .        IRBE3(NRBE3L,*) ,LRBE3(*),IRBE2(NRBE2L,*),LRBE2(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*)
 

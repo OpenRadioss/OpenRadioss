@@ -48,7 +48,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,IPLA,IMAT,ISRATE,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real, INTENT(INOUT) :: SIG(NEL,5)
       my_real
      .   PM(NPROPM,*),OFF(*),EPSEQ(*),DT1C(*),EZZ(*),
@@ -62,7 +62,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ICC(MVSIZ)
       INTEGER I,J,N,NINDX,INDEX(MVSIZ),NMAX
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   CA(MVSIZ),CB(MVSIZ),CN(MVSIZ),YMAX(MVSIZ),
      .   CC(MVSIZ),EPDR(MVSIZ),SVM(MVSIZ),A(MVSIZ),B(MVSIZ),

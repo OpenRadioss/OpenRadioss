@@ -45,7 +45,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NRTM,NUMNOD,IRECT(4,NRTM),NMN,MSR(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,NUMNOD), NOD_NORMAL(3,NUMNOD)
 C-----------------------------------------------
@@ -130,7 +130,7 @@ C-----------------------------------------------
       INTEGER NRTM,NUMNOD,NMN,MAXCC,LENT,
      .        IRECT(4,NRTM),MSR(*),
      .        IAD_ELEM(2,*),FR_ELEM(*),ISDSIZ(*),IRCSIZ(*),ITAG(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,NUMNOD), NOD_NORMAL(3,NUMNOD)
 C-----------------------------------------------
@@ -252,7 +252,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NRTM,NUMNOD,LENT,MAXCC,
      .        IRECT(4,NRTM),ITAG(*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -332,7 +332,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JLT ,IRECT(4,*),CAND_E(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    NNX1(MVSIZ), NNX2(MVSIZ), NNX3(MVSIZ), NNX4(MVSIZ),
      .    NNY1(MVSIZ), NNY2(MVSIZ), NNY3(MVSIZ), NNY4(MVSIZ),
@@ -489,7 +489,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JLT,
      .  IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    X(3,*),NOD_NORMAL(3,*),
      .    H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
@@ -724,7 +724,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JLT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X1(MVSIZ), X2(MVSIZ), 
      .   Y1(MVSIZ), Y2(MVSIZ), 

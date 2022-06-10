@@ -52,7 +52,7 @@ C-----------------------------------------------
       INTEGER NSV(*),IXC(NIXC,*),IXTG(NIXTG,*),IXS(NIXS,*),ITAB(*),
      .   KNOD2ELC(*),KNOD2ELTG(*),KNOD2ELS(*),NOD2ELC(*),
      .   NOD2ELTG(*),NOD2ELS(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),AREA(*)
       INTEGER ID
@@ -63,7 +63,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, N, IAD, IS, IEL, ICOQ, ISOL,
      .   N1,N2,N3,N4,N5,N6,N7,N8
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   EX,EY,EZ,X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,X4,Y4,Z4,
      .   X5,Y5,Z5,X6,Y6,Z6,X7,Y7,Z7,X8,Y8,Z8,

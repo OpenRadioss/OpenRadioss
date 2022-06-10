@@ -94,7 +94,7 @@ C-----------------------------------------------
      .        LAGBUF(*),IBCSLAG(*),GJBUFI(LKJNI,*),
      .        IBMPC(*),NPBYL(NNPBY,*),LPBYL(*),IBFV(NIFV,*),NPF(*),
      .        NEWFRONT(*),ICONTACT(*),LPRW(*),NPRW(*),KINET(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), D(3,*), DR(3,*), A(3,*), AR(3,*), V(3,*), VR(3,*),
      .   MS(*), IN(*), LAMBDA(*),FANI(3,*),FSAV(NTHVKI,*),
@@ -466,7 +466,7 @@ C-----------------------------------------------
      .        NEWFRONT(*),ICONTACT(*),LPRW(*),NPRW(*),KINET(*),
      .        NODGLOB(*), WEIGHT(*), FR_LAGF(3,*), LLAGF(*),
      .        IAD_ELEM(2,*), FR_ELEM(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), D(3,*), DR(3,*), A(3,*), AR(3,*), V(3,*), VR(3,*),
      .   MS(*), IN(*), LAMBDA(*),FANI(3,*),FSAV(6,*),

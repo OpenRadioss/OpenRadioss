@@ -308,7 +308,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, IC, IFLAG, IDOWN, NCNOD, PMAIN, TAG_LNK
       INTEGER NOD(*),WEIGHT(*), ITAB(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MS(*), A(3,*), FRL(4)
       DOUBLE PRECISION FRL6(4,6)
@@ -316,7 +316,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, IJ, N, K
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MASS, AX, AY, AZ, XNSN,
      .   F1(NSN), F2(NSN), F3(NSN), F4(NSN)
@@ -477,7 +477,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, IC, IFLAG, IDOWN, PMAIN, TAG_LNK
       INTEGER NOD(*),WEIGHT(*), ITAB(*), ISK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MS(*), A(3,*),SKEW(*), FRL(4)
       DOUBLE PRECISION FRL6(4,6)
@@ -485,7 +485,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IC1, ICC, IC2, IC3, I, N, K
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MASS, AX, AY, AZ, DAX, DAY, DAZ, AAX, AAY,
      .   AAZ, XNSN,
@@ -666,7 +666,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, IC, IFLAG, IDOWN, PMAIN, TAG_LNK
       INTEGER NOD(*),WEIGHT(*), ITAB(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MS(*), X(3,*), A(3,*), V(3,*),
      .   XFRAME(*), FRL(4)
@@ -675,7 +675,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IC1, ICC, IC2, IC3, I, N, K
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MASS, AX, AY, AZ, DAX, DAY, DAZ, AAX, AAY,
      .   AAZ, RX, RY, RZ, SX, SY, SZ,

@@ -237,7 +237,7 @@ C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF
       TYPE (STACK_PLY) :: STACK
-C=============================================================
+C=======================================================================
       GBUF => ELBUF_STR%GBUF
 C-----
       IUN = 1

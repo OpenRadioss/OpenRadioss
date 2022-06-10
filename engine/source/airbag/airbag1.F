@@ -54,7 +54,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPC(*),LSENSOR(NSENSI,*),IVOLU(*),NJET,IBAGJET(NIBJET,*),
      .        NVENT,IBAGHOL(NIBHOL,*),ICBAG(NICBAG,*),PMAIN
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TF(*),SENSOR(NSENSR,*),RVOLU(*),RBAGJET(NRBJET,*),
      .   RBAGHOL(NRBHOL,*),RCBAG(NRCBAG,*),RVOLUV(NRVOLU,*),VOL
@@ -64,7 +64,7 @@ C-----------------------------------------------
       INTEGER I, IMASS, ITEMP, ISENS, K, IFLU, IEQUI,
      .        IDEF, NAV, II, IS, IDTPDEF,IDPDEF,
      .        IV, IJ,ITTF
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PDEF, PEXT, PVOIS, DTPDEFC,
      .   GAMA, AMU, TSTART, TSG,

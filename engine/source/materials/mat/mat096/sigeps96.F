@@ -111,7 +111,7 @@ c
      .  S1N,S2N,S3N,S4N,S5N,S6N,PN,QN,Q,F,FAC_E,FRATE   
       my_real SMALL,BIG,TOL 
       my_real ,DIMENSION(:), POINTER :: EPSPD,EPSPV
-c=======================================================================
+C=======================================================================
 c      UPARAM(1)   E    : Young modulus
 c      UPARAM(2)   G    : Shear modulus
 c      UPARAM(3)   K    : Bulk modulus
@@ -132,7 +132,7 @@ c      UPARAM(20)  NUP  : Plastic deformation Poisson coefficient
 c---------------------     
 c      UVAR(1)     YIELD
 c      UVAR(2)     EPSD
-c=======================================================================
+C=======================================================================
       NITER = 3
       SMALL = EM10
       BIG   = EP20

@@ -39,7 +39,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
       INTEGER IPARTS(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  PARTSAV(NPSAV,*), EINT(*), RHO(*), AREAT(*),
      .  VXA(*), VYA(*), VZA(*), VA2(*), FILL(*)
@@ -47,7 +47,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,M
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   EI_SAV(NEL),EK_SAV(NEL),XMAS(NEL),
      .   XM_SAV(NEL),YM_SAV(NEL),ZM_SAV(NEL)

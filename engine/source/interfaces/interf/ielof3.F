@@ -44,7 +44,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NRT, NSN, NEL, IER
       INTEGER IRECT(4,*), IXC(NIXC,*), NSEG(*), LNSV(*), NSV(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STF(*), STFN(*)
 C-----------------------------------------------

@@ -124,7 +124,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITASK,IAF(*),IDATA(*),IFLOW(*),
      .   IRUNN_BIS
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AF(*),RDATA(*),RFLOW(*),MCP(*),TEMP(*) ,
      .   FORNEQS(*)

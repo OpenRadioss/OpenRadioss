@@ -72,7 +72,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPF(*),IXR(NIXR,*),IGEO(NPROPGI,*),NGL(*),MGN(*),
      .        NC1(*),NC2(*),NC3(*),NUVAR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG,*), F(*), AL0(*), E(*), DL(*), TF(*), OFF(*),
      .   DPL(*), FEP(*), DPX2(*),DFS(*),V(3,*),DF(*),ANIM(*),
@@ -89,7 +89,7 @@ C-----------------------------------------------
      .        IECROU(MVSIZ), IFUNC(MVSIZ), IFV(MVSIZ),
      .        NINDX, INDX(MVSIZ),I,ILENG,IPID,J, 
      .        IFUNC3(MVSIZ),ITABF(MVSIZ),IFRIC(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     XL0(MVSIZ),DMN(MVSIZ),DMX(MVSIZ),
      .     DLOLD(MVSIZ),B(MVSIZ), D(MVSIZ), DV(MVSIZ),

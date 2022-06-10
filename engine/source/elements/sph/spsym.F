@@ -70,7 +70,7 @@ C-----------------------------------------------
      .        ISPCOND(NISPCOND,*),ISPSYM(NSPCOND,*),
      .        IREDUCE, WSP2SORT(*), ITASK, KREDUCE(*),
      .        LGAUGE(3,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*) ,V(3,*) ,MS(*) ,SPBUF(NSPBUF,*) ,
      .   XFRAME(NXFRAME,*) ,

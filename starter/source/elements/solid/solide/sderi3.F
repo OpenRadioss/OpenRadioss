@@ -67,7 +67,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IGEO(NPROPGI,*), NGL(*), NGEO(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VOL(*), VEUL(LVEUL,*) , GEO(NPROPG,*),
      .   AJ1(*), AJ2(*), AJ3(*), AJ4(*), AJ5(*), AJ6(*),
@@ -86,7 +86,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
       
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AJ7(MVSIZ), AJ8(MVSIZ) , AJ9(MVSIZ),
      .   A17, A28,
@@ -280,7 +280,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*),
      .   X7(*), X8(*), Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*),
@@ -298,7 +298,7 @@ C-----------------------------------------------
      .   YD5(MVSIZ), YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ),
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ),
      .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AJ1(MVSIZ), AJ2(MVSIZ), AJ3(MVSIZ), 
      .   AJ4(MVSIZ), AJ5(MVSIZ), AJ6(MVSIZ),

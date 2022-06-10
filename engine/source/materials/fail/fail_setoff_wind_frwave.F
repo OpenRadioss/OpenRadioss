@@ -92,7 +92,7 @@ c     OFFPG(NEL,NPG)  failure flag of PG in each layer  1=alive ,0=dead
 c     THK_LY     Ratio of layer thickness / element thickness
 c     THK        Total element thickness
 c     TFAIL(NEL) : global element variable - start of relaxation time before element suppression
-c=======================================================================
+C=======================================================================
       IPTHKLY   = 700
       IPWEIGHT  = 900
       P_THICKG  = GEO(42,PID)

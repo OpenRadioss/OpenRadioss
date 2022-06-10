@@ -73,7 +73,7 @@ C-----------------------------------------------
      .   IFUNC,NBF,NBF_L, NBPART,NBF_PXFEMG,
      .   IADP(*),IADG(NSPMD,*),IPM(NPROPMI,*),
      .   IGEO(NPROPGI,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FUNC(*), MASS(*) , GEO(NPROPG,*),
      .   EHOUR(*),ANIM(*),PM(NPROPM,*),THKE(*),
@@ -84,7 +84,7 @@ C     REAL ou REAL*8
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   EVAR(MVSIZ),
      .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,

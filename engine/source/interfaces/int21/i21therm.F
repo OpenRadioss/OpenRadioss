@@ -60,7 +60,7 @@ C-----------------------------------------------
       INTEGER JLT, NOINT, IFUNCTK, FCOND, 
      . NPC(*),IFORM,ITAB(*),
      . NSV(*),MSR(*),IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real DCOND
       my_real
      .   TEMPI(MVSIZ), XI(MVSIZ), YI(MVSIZ),TEMP(*),
@@ -82,7 +82,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TS,  RSTIF, TSTIFM, TSTIFT, DIST, COND, P, DYDX,
      .   TM, DDCOND, DD, HCOND

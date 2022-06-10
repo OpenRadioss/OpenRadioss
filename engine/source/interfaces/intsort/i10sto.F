@@ -65,7 +65,7 @@ C-----------------------------------------------
       INTEGER I_MEM,J_STOK,NSN4,NOINT,ESHIFT,NSN,NSNROLD,IGAP,NIN
       INTEGER IRECT(4,*),NSV(*),CAND_N(*),CAND_E(*),CAND_A(*)
       INTEGER PROV_N(MVSIZ),PROV_E(MVSIZ), OLDNUM(*),II_STOK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), GAP_S(*), GAP_M(*),
      .   MARGE, GAP, GAPMIN, GAPMAX, BID
@@ -75,7 +75,7 @@ C-----------------------------------------------
       INTEGER I,J,K_STOK,I_STOK,N,NE,NN,IBID
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),

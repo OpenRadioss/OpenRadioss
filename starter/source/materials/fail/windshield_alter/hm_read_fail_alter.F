@@ -86,7 +86,7 @@ c  IMOD = 1 => XFEM FAILURE PROPAGATION
 c  IMOD = 2 => ISOTROPIC FRONTWAVE PROPAGATION 
 c  IMOD = 3 => DIRECTIONAL FRONTWAVE PROPAGATION - edges only
 c  IMOD = 4 => DIRECTIONAL FRONTWAVE PROPAGATION - edges and diagonals
-c=======================================================================
+C=======================================================================
       IS_CRYPTED   = .FALSE.
       IS_AVAILABLE = .FALSE.
       IXFEM     = 0

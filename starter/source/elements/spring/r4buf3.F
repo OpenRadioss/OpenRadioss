@@ -71,7 +71,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, NG, I1, I2, I3, ISK, IALIGN, K, USENS, MID, MTYP, IGTYP
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X1, Y1, Z1,
      .   NRLOC(MVSIZ),PRVC(3,MVSIZ),NPRVC(MVSIZ)

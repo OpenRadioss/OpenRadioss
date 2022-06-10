@@ -73,7 +73,7 @@ C-----------------------------------------------
      .        II_STOK,ITAB(*),NBINFLG(*),MBINFLG(*),ISEADD(*),
      .        ISEDGE(*),CAND_T(*),FLAGREMNODE,KREMNOD(*),REMNOD(*),
      .        CAND_A(*) ,RENUM(*),NSNROLD,IRTSE(5,*),IS2SE(2,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GAP,PMAX_GAP,VMAXDT,
      .   BMINMA(6),CURV_MAX(NRTM),BGAPSMX, MARGE
@@ -90,7 +90,7 @@ C-----------------------------------------------
       INTEGER I, J, IP0, IP1, MAXSIZ,
      .        LOC_PROC, N, ISZNSNR,
      .        NSNFIOLD(NSPMD)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        XYZM(6), AAA
       INTEGER NBX,NBY,NBZ,NSNF,NSNL

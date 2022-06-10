@@ -81,7 +81,7 @@ C-----------------------------------------------
       INTEGER IPARI(*), IADI2(*),WEIGHT(*),IGEO(NPROPGI,*),
      .        NODNX_SMS(*),ITAB(*)
       INTEGER I2MSCH, I0, NIR, I2SIZE,NELTST,ITYPTST
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(*), V(*), A(*),DMAST,ADM(*), 
      .   MS(*),IN(*),AR(*),VR(*),STIFN(*),STIFR(*),FSKYI2(*),

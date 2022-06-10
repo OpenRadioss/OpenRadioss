@@ -69,7 +69,7 @@ C-----------------------------------------------
       INTEGER CAND_E(*),CAND_N(*),IFPEN(*),NLG(*)
       INTEGER NCONTACT,ESHIFT,ILD,NB_N_B, IGAP, NCONT,
      .        NBINFLG(*), MBINFLG(*),I_MEM,II_STOK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GAP,TZINF,MAXBOX,MINBOX,
      .   GAPMIN, GAPMAX,
@@ -90,7 +90,7 @@ C
       INTEGER I, J,  I_ADD, IP0, IP1, MAXSIZ,
      .        ADD(2,I_ADD_MAX), LOC_PROC, N, ISZNSNR,
      .        NSNFIOLD(NSPMD)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        XYZM(6,I_ADD_MAX-1), MARGE
       my_real
@@ -255,7 +255,7 @@ C-----------------------------------------------
       INTEGER CAND_M(*),CAND_S(*),NLG(*)
       INTEGER ESHIFT,ILD, NB_N_B, NCONTACT, NCONT,
      .        ITAB(*), I_MEM,II_STOKE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GAP,TZINF,MAXBOX,MINBOX,
      .   BMINMA(6)
@@ -273,7 +273,7 @@ C-----------------------------------------------
 C
       INTEGER I, J, N1, N2, I_ADD, MAXSIZ,
      .        ADD(2,I_ADD_MAX), N
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        XYZM(6,I_ADD_MAX-1)
       INTEGER NB_OLD(2,I_ADD_MAX+1)

@@ -42,7 +42,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IELC_L(*),IELTG_L(*),INOD_L(*),LEN_IA,
      .        NUMELC_L,NUMELTG_L,NUMNOD_L,NUMNODCRK_L,NODLEVXF_L(*)
-c=======================================================================
+C=======================================================================
       CALL WRITE_I_C(INOD_L,NUMNOD_L)     ! nodes std
       LEN_IA = LEN_IA + NUMNOD_L
 C      

@@ -109,7 +109,7 @@ C----------resol [K]{X}={F}------
      .        IRBE2(*),LRBE2(*) 
       INTEGER NEWFRONT(*),NBINTC,INTLIST(*),ISENDTO(*),IRECVFROM(*),
      .        NODFT ,NODLT,IDIV0
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_K(*),LT_K(*),F(*),R02,DIAG_M(*),LT_M(*),
      .  DIAG_I(*),LT_I(*),D(3,*),DR(3,*),DD(3,*),DDR(3,*),
@@ -132,7 +132,7 @@ C-----------------------------------------------
 C----------resol [K]{X}={F}------
       INTEGER  I  ,J ,ND,IP,ITMP,ICOV,ICALU,IER,ISETK0,IRIKS,
      .         F_DDL ,L_DDL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  R2,U2,DU2,TOL,RR,RU,TEMP,FR,RE,DE,R1,NL_TOL,R01,RR1,
      .  GAPN,LAMDA,FA,UC2,UM1,UM2,PMAX
@@ -816,7 +816,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  IT,NDIV
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  UR,RR,ER,TOL
 C-----------------------------------------------
@@ -904,7 +904,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IDIV,IINT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  R0,R1,S0,S,DTOL,PREC
 C-----------------------------------------------
@@ -974,7 +974,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER N,I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  D(3,*),VMAX
 C-----------------------------------------------
@@ -1020,7 +1020,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IDIV,ICONT,ICONT0,IRIKS
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  E1,S,EP,SP,EN,SN,DTOL
 C-----------------------------------------------
@@ -1140,7 +1140,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL,NDDL0,IDDL(*)  ,NDOF(*)  ,IKC(*),W_DDL(*) ,IER
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  LAMDA,DG(3,*),DGR(3,*),DI(3,*),DIR(3,*),DD(3,*),DDR(3,*),
      .  L_A,SW2
@@ -1217,7 +1217,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL,NDDL0,IDDL(*)  ,NDOF(*)  ,IKC(*),W_DDL(*)  
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  LAMDA,DG(3,*),DGR(3,*),DI(3,*),DIR(3,*),DD(3,*),DDR(3,*),
      .  L_A,SW2
@@ -1261,7 +1261,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DLAMDA,F(*),FEXT(*)
 C-----------------------------------------------
@@ -1294,7 +1294,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  F_DDL  ,L_DDL 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DLAMDA,F(*),FEXT(*)
 C-----------------------------------------------
@@ -1338,7 +1338,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL,NDDL0,IDDL(*)  ,NDOF(*)  ,IKC(*),W_DDL(*) ,IER,
      .         FT_N  ,LT_N  ,F_DDL ,L_DDL ,ITASK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  LAMDA,DG(3,*),DGR(3,*),DI(3,*),DIR(3,*),DD(3,*),DDR(3,*),
      .  L_A,SW2
@@ -1432,7 +1432,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL,NDDL0,IDDL(*)  ,NDOF(*)  ,IKC(*),W_DDL(*),  
      .         FT_N  ,LT_N  ,F_DDL ,L_DDL ,ITASK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  LAMDA,DG(3,*),DGR(3,*),DI(3,*),DIR(3,*),DD(3,*),DDR(3,*),
      .  L_A,SW2
@@ -1481,7 +1481,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NDDL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DLAMDA,F(*),FEXT(*)
 C-----------------------------------------------
@@ -1528,7 +1528,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL,NDDL0,IDDL(*)  ,NDOF(*)  ,IKC(*),W_DDL(*) ,IER,
      .         FT_N  ,LT_N  
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  LAMDA,DG(3,*),DGR(3,*),DI(3,*),DIR(3,*),DD(3,*),DDR(3,*),
      .  L_A,SW2
@@ -1610,7 +1610,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL,NDDL0,IDDL(*)  ,NDOF(*)  ,IKC(*),W_DDL(*)  
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  LAMDA,DG(3,*),DGR(3,*),DI(3,*),DIR(3,*),DD(3,*),DDR(3,*),
      .  L_A,SW2

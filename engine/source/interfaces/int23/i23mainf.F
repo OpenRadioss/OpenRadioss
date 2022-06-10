@@ -105,7 +105,7 @@ C-----------------------------------------------
       INTEGER NB_JLT,NB_JLT_NEW,NB_STOK_N,JTASK,
      .        LINDMAX,DIMFB
       INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*),IND_IMP(*), WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .   X(*), A(3,*), FSAV(*), V(3,*),
      .   MS(*),STIFN(*),FSKYI(LSKYI,4), FCONT(3,*),
@@ -130,7 +130,7 @@ C-----------------------------------------------
      .        CAND_N_N(MVSIZ), CAND_E_N(MVSIZ), KINI(MVSIZ),
      .        INDEX2(LINDMAX),
      .        NSMS(MVSIZ), ISENSINT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, FRIC, GAP, STOPT, 
      .   VISC,STIGLO,GAPMIN,
@@ -142,7 +142,7 @@ C-----------------------------------------------
       my_real  
      .        FINTER
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   LB(MVSIZ), LC(MVSIZ),
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),

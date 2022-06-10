@@ -44,7 +44,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER BHOLE(NMULT,*) ,NM
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VTOT(*), PHI(*), FLUX(4,*), FLU1(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT

@@ -111,7 +111,7 @@ C-----------------------------------------------
      .        IRECT(4,*), VOXEL(NBX+2,NBY+2,NBZ+2),II_STOK,ITAB(*),
      .        NBINFLG(*),MBINFLG(*),ILEV,MSEGTYP(*),
      .        FLAGREMNODE,KREMNOD(*),REMNOD(*), ICODT(*), ISKEW(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),V(3,*),XYZM(6),STF(*),STFN(*),GAP_S(*),GAP_M(*),
      .   CURV_MAX(*),PENE_OLD(5,NSN),GAP_S_L(*),GAP_M_L(*),
@@ -123,7 +123,7 @@ C-----------------------------------------------
      .        N1,N2,N3,N4,NN,NE,K,L,J_STOK,II,JJ,
      .        PROV_N(MVSIZ),PROV_E(MVSIZ),
      .        NSNF, NSNL,M,NS1,NS2,NSE,NS,ip,DELNOD
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DX,DY,DZ,XS,YS,ZS,XX,SX,SY,SZ,S2,
      .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, TZ, GAPSMX, GAPL,
@@ -166,9 +166,9 @@ c     dev future: xminb plus grand que xmin...
       YMAXB = YMAX
       ZMAXB = ZMAX
 
-C================================================================
+C=======================================================================
 C 1   mise des noeuds dans les boites
-C================================================================
+C=======================================================================
       IF(ITASK == 0)THEN
        DO I=1,NSN
         IIX(I)=0
@@ -214,10 +214,10 @@ c         on saute directement au dernier
           NEXT_NOD(I)     = 0 ! pas de next apres I
         ENDIF
        ENDDO
-C================================================================
+C=======================================================================
 C 2   mise des noeuds dans les boites
 C     candidats non locaux en SPMD
-C================================================================
+C=======================================================================
        DO J = 1, NSNR
         IIX(NSN+J)=INT(NBX*(XREM(1,J)-XMINB)/(XMAXB-XMINB))
         IIY(NSN+J)=INT(NBY*(XREM(2,J)-YMINB)/(YMAXB-YMINB))
@@ -250,10 +250,10 @@ c         on saute directement au dernier
       END IF
 C Barrier to wait task0 treatment
       CALL MY_BARRIER
-C================================================================
+C=======================================================================
 C 3   recherche des boites concernant chaque facette
 C     et creation des candidats
-C================================================================
+C=======================================================================
       J_STOK = 0
 C
       IF(FLAGREMNODE == 2)THEN
@@ -637,9 +637,9 @@ C-------------------------------------------------------------------------
      6              ITAB  ,IGAP ,GAP_S_L,GAP_M_L,ICODT,ISKEW,
      7              DRAD  )
 
-C================================================================
+C=======================================================================
 C 4   remise a zero des noeuds dans les boites
-C================================================================
+C=======================================================================
  100  CONTINUE
 
 C Barrier to avoid reinitialization before end of sorting
@@ -652,10 +652,10 @@ C Barrier to avoid reinitialization before end of sorting
           VOXEL(IIX(I),IIY(I),IIZ(I))=0
         ENDIF
       ENDDO
-C================================================================
+C=======================================================================
 C 5   remise a zero des noeuds dans les boites
 C     candidats non locaux en SPMD
-C================================================================
+C=======================================================================
       NSNF = 1 + ITASK*NSNR / NTHREAD
       NSNL = (ITASK+1)*NSNR / NTHREAD
       DO J = NSNF, NSNL

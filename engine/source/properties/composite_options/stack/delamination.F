@@ -62,7 +62,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,IR,IS,NPT,NEL
       INTEGER MAT_IPLY(MVSIZ,*),IPM(NPROPMI,*),NGL(*),NPF(*),PID(*)
-C     REAL ou REAL*8
+C     REAL
       my_real  
      .   PM(NPROPM,*),  TH_IPLY(MVSIZ,NPT),
      .   DEL_PLY(MVSIZ,3,NPT),OFF(*),TF(*),DT1C(*),
@@ -81,7 +81,7 @@ C-----------------------------------------------
        INTEGER  MAT(MVSIZ),IFAIL(MVSIZ),MATF(MVSIZ),
      .   IFUNC(100),NBIPLY_DEL(MVSIZ),NIPLY_DEL(MVSIZ,NPT),JLY,
      .   NINDX,INDX(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  SYZ(MVSIZ),SXZ(MVSIZ),SZZ(MVSIZ) , DU_IPLY(3,MVSIZ),
      .  SYZ0(MVSIZ),SXZ0(MVSIZ),SZZ0(MVSIZ),

@@ -71,7 +71,7 @@ C-----------------------------------------------
 C
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
 C
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), V(*), VR(*), XMAS(*), XIN(*),
      .   SKEW(LSKEW,*), DTELEM(*),STIFN(*),STIFR(*),PARTSAV(20,*),
@@ -89,7 +89,7 @@ C-----------------------------------------------
       INTEGER ID
       CHARACTER*nchartitle,
      .   TITR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DT, DTC, XK, XC, XKR, XCR, XM, XINE, A,
      .   DTE, MASSELE
@@ -259,16 +259,16 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER KXX(NIXX),IXX(*),NX,ITAB(*),UIX(NX),UID
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),V(3,*),VR(3,*),OFF,
      .   XUSR(3,NX),VUSR(3,NX),VRUSR(3,NX)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, K, I1, IADNOD
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
       OFF=ONE
 C
@@ -316,7 +316,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER KXX(NIXX),IXX(*),IPART
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   UMASS(*), UINER(*), MS(*), XIN(*),X(3,*),V(3,*),
      .   PARTSAV(20,*)
@@ -324,7 +324,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, K, IP, I1, NX, IADNOD
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XX,YY,ZZ,XY,YZ,ZX
       my_real

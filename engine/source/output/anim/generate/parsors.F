@@ -54,7 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER IADD(*),IPARG(NPARG,*),IXS(NIXS,*),
      .        MATER(*),EL2FA(*),IPARTS(*),
      .        IADG(NSPMD,*),
@@ -65,7 +65,7 @@ C     REAL ou REAL*8
      .        KXIG3D(NIXIG3D,*),
      .        IGEO(NPROPGI,*),IG3DSOLID(8,27,*)
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF
       INTEGER II(8),IE,NG, ITY, LFT, LLT, KPT, N, I, J, 

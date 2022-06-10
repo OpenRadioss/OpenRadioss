@@ -46,7 +46,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NODFT, NODLT, NDDIM, NALE(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  D(3,*) ,V(3,*) 
 cc      DOUBLE PRECISION

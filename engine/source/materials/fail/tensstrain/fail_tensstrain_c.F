@@ -118,7 +118,7 @@ C-----------------------------------------------
      .        EL_REF,SC_EL,SCALE_TEMP,RFAC,RFAC2,EPST_A,EPST_B,
      .        UNIT_T,EPSP_UNIT
       my_real ,DIMENSION(NEL) :: EPS_MAX,EPST1,EPST2,DAMAGE,EPSRATE
-c=======================================================================
+C=======================================================================
       DMG_FLAG     = 1
       S_FLAG       = 1
       SCALE_FLAG   = 1

@@ -68,7 +68,7 @@ C-----------------------------------------------
      .        ISPCOND(NISPCOND,*),  ISPSYM(NSPCOND,*), WASPACT(*), 
      .        SPH2SOL(*), IXSP(KVOISPH,*), NOD2SP(*), IPART(LIPART1,*),
      .        IPARTSP(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   WA(KWASPH,*), WASIGSM(6,*), WAR(10,*), STAB(7,*), 
      .   SPBUF(NSPBUF,*), X(3,*), XSPSYM(3,*)
@@ -192,7 +192,7 @@ C-----------------------------------------------
       INTEGER ITASK, IPARG(NPARG,*), NGROUNC, IGROUNC(*), KXSP(NISP,*),
      .        ISPCOND(NISPCOND,*),  ISPSYM(NSPCOND,*), WASPACT(*), 
      .        SPH2SOL(*), IXSP(KVOISPH,*), NOD2SP(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   WA(KWASPH,*), WASIGSM(6,*), WAR(10,*), STAB(7,*), 
      .   SPBUF(NSPBUF,*), X(3,*)

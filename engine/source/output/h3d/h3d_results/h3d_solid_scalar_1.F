@@ -2244,7 +2244,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: RX,RY,RZ
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: SX,SY,SZ
       my_real, DIMENSION(MVSIZ), INTENT(OUT) :: DET
@@ -2255,7 +2255,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   E3X(NEL), E3Y(NEL), E3Z(NEL) 
 C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2287,7 +2287,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: RX,RY,RZ
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: SX,SY,SZ
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: TX,TY,TZ
@@ -2299,7 +2299,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real JAC1, JAC2, JAC3, JAC4, JAC5, JAC6, JAC7, JAC8, JAC9 
 C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       DO I=1,NEL

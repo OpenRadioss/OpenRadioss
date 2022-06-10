@@ -83,7 +83,7 @@ C-----------------------------------------------
      .   GSTRBID(8,MVSIZ), FOR(5,MVSIZ), MOM(3,MVSIZ),
      .   EINT(2,MVSIZ)   , THK(MVSIZ), AREA(MVSIZ),
      .   NU(MVSIZ), G(MVSIZ), A1(MVSIZ), A2(MVSIZ), GS(MVSIZ)
-c=======================================================================
+C=======================================================================
       DO IG=1,NELTG,MVSIZ
         OFFSET=IG-1
         LFT=1
@@ -231,7 +231,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT
-C     REAL ou REAL*8
+C     REAL
       my_real VL(3,3,*),GSTR(8,*),PX1(*),PY1(*),PY2(*)
       my_real EXX(MVSIZ),EYY(MVSIZ),EXY(MVSIZ),EZX(MVSIZ),EYZ(MVSIZ),
      .    E1X(MVSIZ) , E1Y(MVSIZ) , E1Z(MVSIZ) , 
@@ -241,7 +241,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    VX1(MVSIZ) , VX2(MVSIZ) , VX3(MVSIZ) ,
      .    VY1(MVSIZ) , VY2(MVSIZ) , VY3(MVSIZ) ,
@@ -250,7 +250,7 @@ C     REAL ou REAL*8
      .    VY12(MVSIZ), VY13(MVSIZ), VY23(MVSIZ),
      .    VZ12(MVSIZ), VZ13(MVSIZ), VZ23(MVSIZ)
       my_real FAC1
-c=======================================================================
+C=======================================================================
       DO I=JFT,JLT
         VX1(I)=E1X(I)*VL(1,1,I)+E1Y(I)*VL(2,1,I)+E1Z(I)*VL(3,1,I)
         VX2(I)=E1X(I)*VL(1,2,I)+E1Y(I)*VL(2,2,I)+E1Z(I)*VL(3,2,I)
@@ -336,7 +336,7 @@ C-----------------------------------------------
      .     RY1(MVSIZ),  RY2(MVSIZ),  RY3(MVSIZ)
       my_real
      .     RX12T,RX13T,RX23T,RY12T,RY13T,RY23T,RYAVT,RXAVT,FAC1
-c=======================================================================
+C=======================================================================
       DO I=JFT,JLT
         RX1(I)=E1X(I)*VRL(1,1,I)+E1Y(I)*VRL(2,1,I)+E1Z(I)*VRL(3,1,I)
         RX2(I)=E1X(I)*VRL(1,2,I)+E1Y(I)*VRL(2,2,I)+E1Z(I)*VRL(3,2,I)

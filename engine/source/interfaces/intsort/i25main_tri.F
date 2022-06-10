@@ -119,7 +119,7 @@ C-----------------------------------------------
      .        ISENDTO(NINTER+1,*),IRCVFROM(NINTER+1,*),
      .        WEIGHT(*), IAD_ELEM(2,*) ,FR_ELEM(*),
      .        RENUM(*), NSNFIOLD(NSPMD), NODNX_SMS(*), ICODT(*), ISKEW(*)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .    X(3,*), V(*), MS(*),TEMP(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
@@ -138,7 +138,7 @@ C-----------------------------------------------
 
       INTEGER NEDGE_TOTAL,NEDGE_LOCAL
       INTEGER :: ISENS
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT,GAP,STOPT,DIST,
      .   XMAXL, YMAXL, ZMAXL, XMINL, YMINL, ZMINL, GAPMIN, GAPMAX,DRAD,

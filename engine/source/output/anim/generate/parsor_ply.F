@@ -56,7 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(*),D(*),XNORM(3,*),CDG(*)
       INTEGER IXC(NIXC,*),IXTG(NIXTG,*),IPARG(NPARG,*),
@@ -70,7 +70,7 @@ C-----------------------------------------------
       INTEGER GET_PLY_NOD
       EXTERNAL GET_PLY_NOD
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      * OFF
       INTEGER II(4),IE,NG, ITY, LFT, LLT, N, I, J, 

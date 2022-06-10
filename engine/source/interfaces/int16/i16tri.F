@@ -66,7 +66,7 @@ C-----------------------------------------------
      .        BPE(*),PE(*),BPN(*),PN(*),IXS(NIXS,*),IXS16(8,*),
      .        NSV(*),CAND_N(*),CAND_E(*),NELEM(*),IXS20(12,*),
      .        ESH_T, IXS10(6,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),V(3,*),A(3,*),EMINX(6,*),
      .   MINBOX,TZINF,XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX
@@ -285,7 +285,7 @@ C-----------------------------------------------
      .        ADD(2,*),BPE(*),PE(*),BPN(*),PN(*),
      .        NSV(*),CAND_N(*),CAND_E(*),NELEM(*),
      .        PROV_N(*)  ,PROV_E(*)  ,IXS20(12,*), IXS10(6,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),V(3,*),A(3,*),XYZM(6,*),EMINX(6,*),
      .   MINBOX,TZINF,DIST    
@@ -294,7 +294,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NB_NCN,NB_NCN1,NB_ECN,ADDNN,ADDNE,I,J,DIR,
      .        NN,NE,LE,K,L,NCAND_PROV,N16,N20,N8,N10
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DX,DY,DZ,DSUP,SEUIL,XX,YY,ZZ
 C
@@ -536,7 +536,7 @@ C     on incremente le niveau de descente avant de sortir
             CONT = -3
             RETURN
           ENDIF
-C==================
+C=======================================================================
           CONT=1
 ctmp+++
 c       WRITE(istdo,*)'CONT = ',CONT
@@ -553,7 +553,7 @@ c       WRITE(istdo,*)'Ymax = ',XYZM(5,I_ADD)
 c       WRITE(istdo,*)'Zmax = ',XYZM(6,I_ADD)
 ctmp---
           RETURN
-C==================
+C=======================================================================
         ENDIF
       ENDIF
 C-------------------------------------------------------------------------
@@ -589,10 +589,10 @@ C
       DO I=1,NB_EC
         BPE(I) = PE(ADD(2,I_ADD)+I)
       ENDDO
-C==================
+C=======================================================================
       CONT=1
       RETURN
-C==================
+C=======================================================================
       END
 Chd|====================================================================
 Chd|  I16STO                        source/interfaces/int16/i16tri.F

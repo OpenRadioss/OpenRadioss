@@ -73,7 +73,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBE3(NRBE3L,*),LRBE3(*),WEIGHT(*),IAD_M(*) ,FR_M(*),
      .        ISIZE,FR_MPON(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), A(3,*), AR(3,*), MS(*), IN(*), FRBE3(*),SKEW(*),
      .   STIFN(*) ,STIFR(*),DMAST,ADM(*),DINERT,ADI(*) ,RSUM(*)
@@ -87,7 +87,7 @@ C-----------------------------------------------
      .        IADA,IADMS,IADFN,IADAR,IADIN,IADFR,IADM0,IADI0,IADL,
      .        IPA,IPMS,IPFN,IPAR,IPIN,IPFR,NMP,IADLP,NS,NML,ICOM,
      .        IADLP1,IADM1,IADI1,NMT0,IADMP(SLRBE3/2),IML(SLRBE3/2)
-C     REAL ou REAL*8
+C     REAL
 C------------allacation will be removed to ini_ uniforming smp spmd in v11
 C      my_real
 C     .      , DIMENSION(:), ALLOCATABLE :: RSUM
@@ -221,7 +221,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBE3(NRBE3L,*),LRBE3(*),WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*),AR(3,*),MS(*), IN(*),STIFN(*),STIFR(*)
 C-----------------------------------------------
@@ -300,7 +300,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBE3(NRBE3L,*),LRBE3(*),WEIGHT(*)
       INTEGER MAX_M,IROTG,JT(3,*),JR(3,*),NMT0,IADMP(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), A(3,*), AR(3,*), MS(*), IN(*), FRBE3(*),SKEW(*),
      .   STIFN(*) ,STIFR(*), AM(3,*), ARM(3,*), MSM(*), INM(*),
@@ -309,7 +309,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, NS ,NML, IAD,JJ,IROT,IADS,NM,NN,K,IMOD,IADF
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     FNS(3),MNS(3),MSS(3),INS(3),STN(3),STR(3),FSUM,MSUM,
      .     FMAX,SMAX,MMAX,SFD,SMD
@@ -488,7 +488,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBE3(NRBE3L,*),LRBE3(*),WEIGHT(*),NMT ,IML(*),IROTG
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*), AR(3,*), MS(*), IN(*),
      .   STIFN(*) ,STIFR(*), DA(3,*), DAR(3,*), DMS(*), DIN(*),
@@ -497,7 +497,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, NS ,NML, IAD,JJ,IROT,M
-C     REAL ou REAL*8
+C     REAL
 C======================================================================|
 #include    "vectorize.inc"
       DO I=1,NMT
@@ -574,7 +574,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBE3(NRBE3L,*),LRBE3(*),WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*), AR(3,*), MS(*), IN(*),
      .   STIFN(*) ,STIFR(*), DA(3,*), DAR(3,*), DMS(*), DIN(*),
@@ -583,7 +583,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, NS ,NML, IAD,JJ,IROT,M,ITAG(NUMNOD)
-C     REAL ou REAL*8
+C     REAL
 C======================================================================|
       DO N =1,NUMNOD
        ITAG(N) = 0
@@ -660,7 +660,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBE3(NRBE3L,*),LRBE3(*),WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*), AR(3,*), MS(*), IN(*),STIFN(*) ,STIFR(*)
       DOUBLE PRECISION
@@ -670,7 +670,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, NS ,NML, IAD,JJ,IROT,M
-C     REAL ou REAL*8
+C     REAL
 C======================================================================|
       DO N=1,NRBE3
         IAD = IRBE3(1,N)
@@ -760,7 +760,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBE3(NRBE3L,*),LRBE3(*),WEIGHT(*),IML(*) ,NMT ,IROTG
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*), AR(3,*), MS(*), IN(*),STIFN(*) ,STIFR(*)
       DOUBLE PRECISION
@@ -770,7 +770,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, NS ,NML, IAD,JJ,M
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MS1,AX,AY,AZ
 C======================================================================|
@@ -848,7 +848,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NMT,IRBE3(NRBE3L,*),LRBE3(*),IROTG,WEIGHT(*),IADMP(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MS0(*), IN0(*),DMS(*), DIN(*),
      .   DMAST ,ADM(*)   ,DINERT,ADI(*),MS(*),IN(*)
@@ -857,7 +857,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J ,M,N,NS,NML,IAD,K,IROT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MNS,DMAS0
 C======================================================================|
@@ -966,7 +966,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBE3(NRBE3L,*),MAX_M , IROTG,JT(3,*)  ,JR(3,*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1063,7 +1063,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBE3(NRBE3L,*),JT(3)  ,JR(3),N
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1172,14 +1172,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER INRBE3(*),ILRBE3(*),NG, NS,IROT,ID
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XYZ(3,*), FRBE3(6,*), SKEW(LSKEW,*),FDSTNB(3,6,*), MDSTNB(3,6,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K,N, M ,NML, IAD,JJ,KG,NSNGLR,IELSUB,IERR,ng1
-C     REAL ou REAL*8
+C     REAL
       my_real
      *        TW(3,NG), RW(3,NG),
      *        FUFXLC(3,NG), FUFYLC(3,NG), FUFZLC(3,NG),
@@ -1945,14 +1945,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NML   ,IML(*)   ,NS,JT(*),JR(*),IROT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*), AR(3,*), FDSTNB(3,6,*) ,MDSTNB(3,6,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N,M
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        FNS(3),MNS(3)
 C======================================================================|
@@ -2031,7 +2031,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBE3(NRBE3L,*),LRBE3(*),AD_M(*) ,IML(*) , NMT
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2086,7 +2086,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBE3(NRBE3L,*),LRBE3(*),NMT
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

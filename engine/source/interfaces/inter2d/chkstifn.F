@@ -49,7 +49,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,*)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .   MS(*)
 
@@ -99,14 +99,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, NSV(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        STIFN(*), MS(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
       DO I = 1, NSN
 C si somme masse nulle sur noeuds secnds alors stifn = -1

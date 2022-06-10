@@ -187,7 +187,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,NFT,ILEV
       INTEGER IEL_CRK(*),IADTG_CRK(3,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),V(3,*),VR(3,*),VL1(MVSIZ,3),VL2(MVSIZ,3),VL3(MVSIZ,3),
      .   VRL1(MVSIZ,3),VRL2(MVSIZ,3),VRL3(MVSIZ,3)

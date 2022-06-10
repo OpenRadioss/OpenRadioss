@@ -56,7 +56,7 @@ C-----------------------------------------------
      .        ESH_T, I_STOK_GLOB
       INTEGER CAND_E(*),CAND_N(*),IXS(NIXS,*),IXS16(8,*),
      .        NSV(*),MWA(*),NELEM(*),IXS20(12,*),IXS10(6,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TZINF,MINBOX
       my_real

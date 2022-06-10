@@ -77,7 +77,7 @@ C-----------------------------------------------
      .   INTTH, MSR(*), IXS10(*),
      .   IXS16(*), IXS20(*), IPARTC(*), IPARTTG(*),IGEO(NPROPGI,*),
      .   IWORKSH(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GAP, GAPMIN, GAPINF, GAPMAX, GAPSCALE, BGAPSMX,
      .   X(3,*), PM(NPROPM,*), GEO(NPROPG,*), THK(*), WA(*),
@@ -90,7 +90,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, INRT, NELS, NELC, NELTG, IE, II, MAT, IP, MG, NDX,
      .        IGTYP
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DXM, GAPMX, GAPMN, AREA, DX, GAPM
 C--------------------------------------------------------------

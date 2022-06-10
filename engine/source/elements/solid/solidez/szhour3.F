@@ -1520,7 +1520,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT  ,MTN
       INTEGER MAT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*),CC(MVSIZ,3,3),UPARAM(*),
      .   GAMA(MVSIZ,6),CG(MVSIZ,3,3),G33(MVSIZ,3,3)
@@ -1528,7 +1528,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,MX,IAD,J,K,ipr,NBDAMA
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   NU,LAMDA,GG,C1,QC(MVSIZ,9),QCG(MVSIZ,9),QG(MVSIZ,9),
      .   QGC(MVSIZ,9),G3(MVSIZ,3),TT,TV,CA,CB,CN,
@@ -1778,7 +1778,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT  
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GAMA(MVSIZ,6),QC(MVSIZ,3,3),QCG(MVSIZ,3,3),
      .   QGC(MVSIZ,3,3),QG(MVSIZ,3,3)
@@ -1786,7 +1786,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   E1(MVSIZ,3),E2(MVSIZ,3),E3(MVSIZ,3)
 C-----------------------------------------------
@@ -1854,7 +1854,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT  
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   QC(MVSIZ,3,3),QCG(MVSIZ,3,3),QGC(MVSIZ,3,3),QG(MVSIZ,3,3),
      .   G3(MVSIZ,3),CC(MVSIZ,3,3),CG(MVSIZ,3,3),G33(MVSIZ,3,3)
@@ -1862,7 +1862,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,ISYM
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(MVSIZ,3,3),B(MVSIZ,3,3)
 C-----------------------------------------------
@@ -2058,14 +2058,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT  
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GG(*),CC(MVSIZ,3,3),CG(MVSIZ,3,3),G33(MVSIZ,3,3)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   G_1(MVSIZ)
 C-----------------------------------------------
@@ -2686,7 +2686,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(NEL) ::  DAMAI,DAMA0I
       my_real  YOUNG,NU,G,A11,A12,DE1,DE2,DE3,DE4,DE5,DE6,DEN,
      .         SCAL1,SCAL2,SCAL3,D_MAX
-c=======================================================================
+C=======================================================================
 c     DEi = (1 - DAMi)       coefficients d endommagement de la matrice Hook
 c-----------------------------------------------------------------------
       YOUNG = PM(20)
@@ -2809,7 +2809,7 @@ C-----------------------------------------------
       my_real
      .   G11,G21,G31,G12,G22,G32,G13,G23,G33,
      .   R11,R21,R31,R12,R22,R32,R13,R23,R33
-c=======================================================================
+C=======================================================================
         DO I = 1,NEL
           G11=GAMA(I,1)
           G21=GAMA(I,2)
@@ -2874,7 +2874,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL  
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   QC(MVSIZ,3,3),QCG(MVSIZ,3,3),QGC(MVSIZ,3,3),QG(MVSIZ,3,3),
      .   G3(MVSIZ,3),C33(MVSIZ,3),CC(MVSIZ,3,3),CG(MVSIZ,3,3),G33(MVSIZ,3,3)
@@ -2882,7 +2882,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,ISYM
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   B(MVSIZ,3,3)
 C-----------------------------------------------

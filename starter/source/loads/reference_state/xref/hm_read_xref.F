@@ -95,7 +95,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: ID
       INTEGER  I,J,IE,IN,IP,IR,NN,NITER,PARTID,UID,ITYP
       INTEGER  SUB_ID,NNOD,SUB_INDEX,IMID, MAT_ID,MTN,NSOLID,NPT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  XTMP(3,NUMNOD)
       my_real, DIMENSION(:), ALLOCATABLE ::

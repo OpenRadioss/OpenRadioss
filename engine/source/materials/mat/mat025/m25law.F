@@ -61,7 +61,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MAT(MVSIZ), NGL(MVSIZ),IPM(NPROPMI,*),ILAY,NEL,IPG
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*),OFF(*), SIG(NEL,6), WPLA(*), GAMA(MVSIZ,6), 
      .   EINT(*), DAMT(NEL,2), CRAK(*),  EPSP(*),
@@ -78,7 +78,7 @@ C-----------------------------------------------
       INTEGER NFIS1(MVSIZ), NFIS2(MVSIZ), NFIS3(MVSIZ), INDX(MVSIZ)
       INTEGER I, J, JADR, J1, J2, J3, JJ, II, I2, NINDX, I1,
      .   IOFF,JOFF,MX,IDIR,ISRATE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DEGMB(MVSIZ),DEGFX(MVSIZ),
      .   WPLAR(MVSIZ),STRN1(MVSIZ),STRN2(MVSIZ),STRN3(MVSIZ),

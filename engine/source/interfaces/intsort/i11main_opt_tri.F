@@ -62,7 +62,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NIN ,ITASK
       INTEGER IPARI(NPARI,NINTER), COUNT_REMSLV(NINTER)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .    X(*), V(3,*)
 
@@ -70,7 +70,7 @@ C     REAL ou REAL*8
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, GAP, STOPT, DRAD
 C-----------------------------------------------

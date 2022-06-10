@@ -102,7 +102,7 @@ C
       INTEGER,DIMENSION(:)  ,ALLOCATABLE :: ELCUT
       INTEGER,DIMENSION(:,:),ALLOCATABLE :: EDGEC,EDGETG
       my_real,DIMENSION(:,:),ALLOCATABLE :: BETA
-c=======================================================================
+C=======================================================================
       ITG = 1+NUMELC
       ALLOCATE (ELCUT(NUMELC+NUMELTG))  
       ALLOCATE (BETA(2,NUMELC+NUMELTG)) 
@@ -419,7 +419,7 @@ C-----------------------------------------------
       my_real S1,S2,SUMA
       my_real, DIMENSION(MVSIZ) :: X21,Y21,Z21,X31,Y31,Z31,X41,Y41,Z41,
      .   X42,Y42,Z42,E1X,E2X,E3X,E1Y,E2Y,E3Y,E1Z,E2Z,E3Z,SUM
-c=======================================================================
+C=======================================================================
       DO I=LFT,LLT
         X21(I) = X2(I)-X1(I)
         Y21(I) = Y2(I)-Y1(I)
@@ -523,7 +523,7 @@ C-----------------------------------------------
       INTEGER I,I1
       my_real, DIMENSION(MVSIZ) ::  SUM, RX, RY, RZ, SX, SY, SZ,
      .     E1X, E1Y, E1Z, E2X, E2Y, E2Z, E3X, E3Y, E3Z
-c=======================================================================
+C=======================================================================
       DO I=LFT,LLT
         RX(I) = X2G(I) - X1G(I)
         RY(I) = Y2G(I) - Y1G(I)

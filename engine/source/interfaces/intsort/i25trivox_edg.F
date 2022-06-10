@@ -109,7 +109,7 @@ C     INTEGER :: NEDGE_REMOTE_OLD, RENUM(*)
       INTEGER , INTENT(IN) :: KREMNODE_EDG_SIZ,REMNODe_EDG_SIZ,KREMNODE_E2S_SIZ,REMNODE_E2S_SIZ,
      .        FLAGREMNODE, KREMNODE_EDG(KREMNODE_EDG_SIZ), REMNODE_EDG(REMNODE_EDG_SIZ),
      .        KREMNODE_E2S(KREMNODE_E2S_SIZ), REMNODE_E2S(REMNODE_E2S_SIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),V(3,*),XYZM(6),STF(*), STFE(NEDGE), GAP_M(*), GAP_M_L(*), GAPE(*), GAP_E_L(*),
      .   CAND_P(*),CAND_PS(*),MARGE,BGAPEMX,VMAXDT,DRAD,
@@ -124,7 +124,7 @@ C-----------------------------------------------
      .        N1,N2,NN,NE,K,L,J_STOK,II,JJ,NA,NB,
      .        PROV_S(MVSIZ),PROV_M(MVSIZ),
      .        M,NS1,NS2,NSE,NS,SIZE,Z_FIRST,Z_LAST
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DX,DY,DZ,XS,YS,ZS,XX,SX,SY,SZ,S2,
      .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, TZ, GAPSMX, GAPL,
@@ -209,9 +209,9 @@ c     dev future: xminb plus grand que xmin...
 c     IF( NSPMD > 1) THEN
 c       CALL SPMD_OLDNUMCD(RENUM,OLDNUM,ISZNSNR,NSNROLD)
 c     ENDIF
-C================================================================
+C=======================================================================
 C 1   mise des edges dans les boites
-C================================================================
+C=======================================================================
       IF(ITASK == 0)THEN
 
        CURRENT_ADD=1 ! premiere adresse
@@ -419,16 +419,16 @@ C
 !  comprendre a quoi sert ce tableau
       ALLOCATE(TAGEDG(1:NEDGE+NEDGE_REMOTE))
       TAGEDG(1:NEDGE+NEDGE_REMOTE)=0
-C================================================================
+C=======================================================================
 C     Sorting vs main shell edges
-C================================================================
+C=======================================================================
       IF(SH_EDGE==0) GOTO 300
-C================================================================
+C=======================================================================
 C 3   A partir des voxels occupes par une edge main, on est en
 C     mesure de connaitre toutes les edges escalves dans ce voisinage.
 C     Ce qui permet de creer des couples cancidats pour le contact
 C     Si la penetration est positive.
-C================================================================
+C=======================================================================
 
       J_STOK = 0
 
@@ -682,16 +682,16 @@ C-------------------------------------------------------------------------
      6                 CAND_P,IFQ,CANDE2E_FX ,CANDE2E_FY,CANDE2E_FZ,IFPEN_E)
  
  300  CONTINUE
-C================================================================
+C=======================================================================
 C     Sorting vs main solid edges
-C================================================================
+C=======================================================================
       IF(SOL_EDGE==0) GOTO 400
-C================================================================
+C=======================================================================
 C 3bis A partir des voxels occupes par une edge main, on est en
 C     mesure de connaitre toutes les edges escalves dans ce voisinage.
 C     Ce qui permet de creer des couples cancidats pour le contact
 C     Si la penetration est positive.
-C================================================================
+C=======================================================================
 
       J_STOK = 0
 
@@ -957,9 +957,9 @@ C-------------------------------------------------------------------------
      6                 EDG_BISECTOR,VTX_BISECTOR ,CAND_PS,PROV_IDS,
      7                 IFQ,CANDE2S_FX ,CANDE2S_FY,CANDE2S_FZ,IFPEN_E2S)
  
-C================================================================
+C=======================================================================
 C 4   remise a zero des noeuds dans les boites
-C================================================================
+C=======================================================================
 
 CC=============== DEBUG
 C       DO I = 1, LL_STOK
@@ -977,7 +977,7 @@ C           WRITE(6,"(A,X,2I20)") "VOX LOC",
 C     .      INT_CHECKSUM(IDS,4,1),LEDGE(8,JJ)
 C         ENDIF
 C       ENDDO
-C====================
+C=======================================================================
 
 
  400  CONTINUE
@@ -1013,7 +1013,7 @@ C Barrier to avoid reinitialization before end of sorting
 
       DEALLOCATE(TAGEDG)
 
-C================================================================
+C=======================================================================
 
       RETURN
       END

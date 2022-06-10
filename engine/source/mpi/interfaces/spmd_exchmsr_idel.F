@@ -62,7 +62,7 @@ C-----------------------------------------------
      .        IXTG(NIXTG,*), IPARG(NPARG,*), ITABM1(*),
      .        BUFS(*),ITAGL(*), IRECV(*), CNEL(0:*), ADDCNEL(0:*),
      .        IRSIZE, LBUFS, OFC, OFT, OFTG, OFUR, OFR, OFP, LINDEX
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        GEO(NPROPG,*)
 C-----------------------------------------------

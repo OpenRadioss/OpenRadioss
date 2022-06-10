@@ -72,7 +72,7 @@ C-----------------------------------------------
       INTEGER IRECT(4,*),LEDGE(NLEDGE,*),ADMSR(4,*),CAND_S(*),CAND_M(*),II_STOK,
      .        CAND_A(*),IFPEN(*)
       INTEGER PROV_S(MVSIZ),PROV_M(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), DRAD, MARGE, GAP_M(*), GAP_M_L(*), GAPE(*), GAP_E_L(*), CAND_P(4,*),
      .   CAND_FX(4,*) ,CAND_FY(4,*),CAND_FZ(4,*)
@@ -82,7 +82,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K_STOK,I_STOK,IAD0,IAD,IADFIN,N,NE,EJ
       INTEGER I_STOK_FIRST,NINDX,INDEX(MVSIZ) 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PENE(MVSIZ)
 C-----------------------------------------------

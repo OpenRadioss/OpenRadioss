@@ -84,7 +84,7 @@ C MODIFIED ARGUMENT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER    ::     ID_0N,ID_0S,ID_FN,ID_FS,ISOLID,NFAIL,ISYM 
       my_real    ::     A2, B2 , A3, B3,XSCALE0,XSCALEF,AREASCALE,
      .                  XSCALE0_UNIT,XSCALEF_UNIT

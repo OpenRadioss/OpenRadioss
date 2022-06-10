@@ -120,7 +120,7 @@ C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER   SET_U_PNU,SET_U_GEO
       EXTERNAL  SET_U_PNU,SET_U_GEO
-C=================================================================
+C=======================================================================
 C
       IS_CRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.

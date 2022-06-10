@@ -4347,7 +4347,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,IREP
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RX , RY , RZ, SX , SY , SZ,
      .   E1X, E1Y, E1Z,E2X, E2Y, E2Z,E3X, E3Y, E3Z
@@ -4358,7 +4358,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
 C                                                                     12
       MY_REAL
      .   C1,C2,CC,DET

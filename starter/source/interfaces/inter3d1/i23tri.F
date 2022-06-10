@@ -82,7 +82,7 @@ C-----------------------------------------------
       INTEGER I_BID, I_AMAX,NB_N_B, NOINT, NSN,MULTIMP, IGAP
       INTEGER ADD(2,0:*),IRECT(4,*),BPE(*),PE(*),BPN(*),PN(*)
       INTEGER NSV(*),CAND_N(*),CAND_E(*), ITAB(*), MSR(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),XYZM(6,*),TZINF,DBUC,
      .   MAXBOX,MINBOX, XMAX, YMAX, ZMAX,
@@ -111,7 +111,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NB_NCN,NB_ECN,ADDNN,ADDNE,IPOS,I,IP,J
       INTEGER INF,SUP,DIR,N1,N2,N3,N4,NN,NE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   BID,DX,DY,DZ,DSUP,SEUIL,XMX,XMN,GAPSMAX,
      .   GAPV(MVSIZ)
@@ -166,7 +166,7 @@ C     NOINT        NUMERO USER DE L'INTERFACE
 C     TZINF        TAILLE ZONE INFLUENCE
 C     MAXBOX       TAILLE MAX BUCKET
 C     MINBOX       TAILLE MIN BUCKET
-C================================================
+C=======================================================================
 C
 C
 C    1- TEST ARRET = BOITE VIDE

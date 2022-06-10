@@ -91,7 +91,7 @@ C-----------------------------------------------
      .        WEIGHT(*), IAD_ELEM(2,*) ,FR_ELEM(*),
      .        ISENDTO(NINTER+1,*),IRCVFROM(NINTER+1,*),NODNX_SMS(*), 
      .        RENUM(*),NSNFIOLD(NSPMD)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .   X(*), V(3,*), MS(*),TEMP(*)
 
@@ -105,7 +105,7 @@ C-----------------------------------------------
      .        NCONT, NCONTACT,I_MEM,CAND_N_OLD,
      .        LOC_PROC, KD11_T,I_SK_NEW,NFT,JLT,J,I_STOK,IADFIN,IFORM
       INTEGER, DIMENSION(:), ALLOCATABLE :: OLDINBUF1, OLDINBUF2
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, GAP, MAXBOX, MINBOX, STOPT,DIST,TZINF,
      .   XMAXL, YMAXL, ZMAXL, XMINL, YMINL, ZMINL, INACTI,DRAD

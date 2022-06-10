@@ -63,7 +63,7 @@ C-----------------------------------------------
       DOUBLE PRECISION
      .  XDP(3,*),XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10),SAV(NEL,30)
      
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  X(3,*),V(3,*),W(3,*), VIS(*),
      .  VX(MVSIZ,10),VY(MVSIZ,10),VZ(MVSIZ,10),
@@ -77,7 +77,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IPERM1(10),IPERM2(10),N,N1,N2,NN,IUN,MXT_1
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF_L,DVX,DVY,DVZ,DX,DY,DZ
       DATA IPERM1/0,0,0,0,1,2,3,1,2,3/
@@ -507,14 +507,14 @@ C-----------------------------------------------
       DOUBLE PRECISION
      .  XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10),SAV(NEL,30)
      
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  OFFG(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N,NN
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
        DO N=1,10
            DO I=LFT,LLT
@@ -557,7 +557,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NC(MVSIZ,10),NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  VX0(MVSIZ,10),VY0(MVSIZ,10),VZ0(MVSIZ,10),
      .  D(3,*) ,OFF(*),OFF0(*),X(3,*)
@@ -568,7 +568,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,NPE,N,N2,N3
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C----------------------------
 C     NODAL COORDINATES INITIALES    |
@@ -684,7 +684,7 @@ C-----------------------------------------------
      
       DOUBLE PRECISION
      .  XDP(3,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
      .   R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
@@ -696,7 +696,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N ,NN   
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RX(MVSIZ) , RY(MVSIZ) , RZ(MVSIZ) ,
      .   SX(MVSIZ) , SY(MVSIZ) , SZ(MVSIZ) ,
@@ -756,7 +756,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   R11(*), R12(*), R13(*),
      .   R21(*), R22(*), R23(*),
@@ -770,7 +770,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X,Y,Z
 C-----------------------------------------------
@@ -818,7 +818,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
      .   R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
@@ -830,7 +830,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N
       
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RX(MVSIZ) , RY(MVSIZ) , RZ(MVSIZ) ,
      .   SX(MVSIZ) , SY(MVSIZ) , SZ(MVSIZ) ,
@@ -876,7 +876,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   R11(*), R12(*), R13(*),
      .   R21(*), R22(*), R23(*),
@@ -890,7 +890,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X,Y,Z
 C-----------------------------------------------
@@ -959,7 +959,7 @@ C-----------------------------------------------
      .   R11(*), R12(*), R13(*),
      .   R21(*), R22(*), R23(*),
      .   R31(*), R32(*), R33(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  X(3,*),V(3,*),W(3,*), VIS(*),
      .  VX(MVSIZ,10),VY(MVSIZ,10),VZ(MVSIZ,10),
@@ -973,7 +973,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IPERM1(10),IPERM2(10),N,N1,N2,NN,IUN,MXT_1
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF_L,DVX,DVY,DVZ,DX,DY,DZ
       my_real
@@ -1374,7 +1374,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER NC(MVSIZ,10)
       my_real
      .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
@@ -1387,7 +1387,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N,NN
       
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RX(MVSIZ) , RY(MVSIZ) , RZ(MVSIZ) ,
      .   SX(MVSIZ) , SY(MVSIZ) , SZ(MVSIZ) ,
@@ -1448,14 +1448,14 @@ C-----------------------------------------------
       DOUBLE PRECISION
      .  XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10),SAV(NEL,30)
      
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  OFFG(*),OFFG0(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N,NN
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
        DO N=1,10
            DO I=LFT,LLT

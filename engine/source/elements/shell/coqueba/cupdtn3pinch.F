@@ -48,7 +48,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT, NVC
       INTEGER IXC(NIXC,MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FP(MVSIZ,3,4), FPINCH(3,*),
      .   STI(MVSIZ), STIFPINCH(*), FACP(MVSIZ)

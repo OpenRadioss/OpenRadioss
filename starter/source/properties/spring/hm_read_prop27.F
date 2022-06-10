@@ -67,7 +67,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN)           :: UNITAB 
       INTEGER  IGEO(NPROPGI),IGTYP,IG
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG)
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
@@ -76,7 +76,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IFUNC,IFUNC2,ISENS,IFL,IFAIL,J,ILENG,ITENS,Fsmooth
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MASS,STIFF,DAMP,GAP,MIN_RUP,MAX_RUP,
      .   ASCALE1,ASCALE2,FSCALE1,FSCALE2,

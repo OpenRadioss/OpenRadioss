@@ -65,7 +65,7 @@ C-----------------------------------------------
       INTEGER J_STOK,MULNSN,NOINT,IFORM,IGAP
       INTEGER IRECT(4,*),LEDGE(NLEDGE,*),ADMSR(4,*),CAND_S(*),CAND_M(*),II_STOK,CAND_A(*)
       INTEGER PROV_S(MVSIZ),PROV_M(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), DRAD, MARGE, GAPE(*), GAP_E_L(*), CAND_P(*)
       REAL*4 EDG_BISECTOR(3,4,*), VTX_BISECTOR(3,2,*)
@@ -74,7 +74,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K_STOK,I_STOK,IAD0,IAD,IADFIN,N,NE
       INTEGER I_STOK_FIRST,NINDX,INDEX(MVSIZ) 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PENE(MVSIZ)
 C-----------------------------------------------

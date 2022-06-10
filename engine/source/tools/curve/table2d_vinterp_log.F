@@ -87,7 +87,7 @@ C-----------------------------------------------
      .           X1,X2,Y1,Y2,R1,R2,UNR1,UNR2
       TYPE(TTABLE_XY)                ,POINTER :: TY
       TYPE(TTABLE_XY), DIMENSION(:)  ,POINTER :: TX
-c=======================================================================
+C=======================================================================
       NDIM = TABLE%NDIM
       IF (SIZE(XX,2) < NDIM .or. NDIM > 2) THEN
         CALL ANCMSG(MSGID=36,ANMODE=ANINFO,C1='TABLE INTERPOLATION')

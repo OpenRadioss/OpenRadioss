@@ -49,7 +49,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER KXX(NIXX),IXX(*),NX,KEUSR,IPART,GRTH(*),IGRTH(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),V(3,*),VR(3,*),UMASS(*), UINER(*),FORC(3,*),
      .   TORQ(3,*),EUSR,EINT,PARTSAV(NPSAV,*),GRESAV(NPSAV,*)
@@ -57,7 +57,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, K, IP, I1, IADNOD,J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   EMS, XI
 C--------------------------------------------

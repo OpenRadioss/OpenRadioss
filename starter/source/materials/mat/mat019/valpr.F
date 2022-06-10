@@ -37,7 +37,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER N, MV
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(*), R(*)
 C-----------------------------------------------
@@ -45,7 +45,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IQ, J, I, IJ, IA, IND, L, M, MQ, LQ, LM, LL, MM, ILQ, IMQ,
      .   IM, IL, ILR, IMR, JQ, K
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RANGE, ANORM, ANRMX, THR, X, Y, SINX, SINX2, COSX, COSX2,
      .   SINCS   

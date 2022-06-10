@@ -73,7 +73,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NCC(NIXP,*),JFT,JLT,OFFSET,NEL ,MTN,ISMSTR,IKGEO,
      .        ETAG(*),IDDL(*)  ,NDOF(*)  ,IADK(*) ,JDIK(*)     
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .   PM(*), X(*),GEO(*),
      .   KE11(36,MVSIZ),KE12(36,MVSIZ),KE22(36,MVSIZ),OFF(MVSIZ),

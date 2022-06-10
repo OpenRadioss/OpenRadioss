@@ -57,7 +57,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,IFAILWAVE,NG,NEL,NFT,ITY,IGTYP,IFRW,INOD,NNOD,NDDL,SIZE,MAXLEV
       INTEGER ,DIMENSION(:), ALLOCATABLE :: TAGNOD,INDX,IDXI
-c=======================================================================
+C=======================================================================
 
       ALLOCATE( TAGNOD(NUMNOD),INDX(NUMNOD),IDXI(NUMNOD) )
 c

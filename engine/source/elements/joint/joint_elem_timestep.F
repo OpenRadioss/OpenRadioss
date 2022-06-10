@@ -61,7 +61,7 @@ C-----------------------------------------------
       INTEGER IXR(NIXR,*),IPART(LIPART1,*),IPARTR(*),
      .   IGEO(NPROPGI,*),NPBY(NNPBY,*),
      .   IPARG(NPARG,*),NELTST,ITYPTST,NRBODY,ITAB(*)
-C     REAL ou REAL*8
+C     REAL
       my_real STIFN(*), STIFR(*),MS(*) ,IN(*),
      .   GEO(NPROPG,*),DT2T      
 C

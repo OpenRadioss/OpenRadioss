@@ -70,7 +70,7 @@ C-----------------------------------------------
      .   NBF,IADP(*),NBF_L,NBPART,IADG(NSPMD,*),
      .   IXTG(NIXTG,*),LEN,IEL_CRK(*),IADC_CRK(*),
      .   IPM(NPROPMI,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   EPSDOT(6,*),X(3,*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
@@ -79,7 +79,7 @@ C     REAL ou REAL*8
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A1,A2,A3,THK,SIGE(MVSIZ,5),TENS(3,LEN)
       REAL R4(18)

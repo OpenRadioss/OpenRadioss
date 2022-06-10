@@ -273,7 +273,7 @@ C              Necessaire pour routines telles que sbufad qui dimensionnent
 C              le buffeur elementaire.
 C-----------------------------------------------
 C   S o u r c e  L i n e s
-C======================================================================
+C=======================================================================
       MTN     = IPARG(1,NG)    
       LLT     = IPARG(2,NG)    
       NFT     = IPARG(3,NG)    

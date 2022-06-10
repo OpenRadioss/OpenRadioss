@@ -77,11 +77,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, NSNR,NSP2SORTF,NSP2SORTL
-C     REAL ou REAL*8
+C     REAL
       INTEGER KXSP(NISP,*), IXSP(KVOISPH,*), NOD2SP(*),
      .   MA(*), JVOIS(*), JSTOR(*), JPERM(*), IREDUCE,ITASK,
      .   KREDUCE(*),LGAUGE(3,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),SPBUF(NSPBUF,*),DVOIS(*), BMINMA(12), GAUGE(LLGAUGE,*)
 C-----------------------------------------------
@@ -90,7 +90,7 @@ C-----------------------------------------------
       INTEGER L, N0, N1, N2, N3, N4, I, J, NBMX, N11, N12, N14, N,
      .  INOD,JNOD,NVOIS,NVOIS1,NVOIS2,K,M,NN,NS,MS,JK,IERROR,JTASK,
      .  MY_ADRV,NVOISS
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        MARGE, AAA, 
      .        AAA2, XI,YI,ZI,XJ,YJ,ZJ, D2,D1X,D1Y,D1Z,DK

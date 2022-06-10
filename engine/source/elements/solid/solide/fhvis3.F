@@ -60,7 +60,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MAT(*),PID(*),IPARTS(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*),GEO(NPROPG,*), RHO(*),OFF(*),
      .   VX1(*),VX2(*),VX3(*),VX4(*),VX5(*),VX6(*),VX7(*),VX8(*),
@@ -79,7 +79,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, FLUID,MX, J, II, IC, JST(MVSIZ+1)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   CAQ(MVSIZ), FCL(MVSIZ), FCQ(MVSIZ),EHOU(MVSIZ),
      .   H11(MVSIZ), H12(MVSIZ), H13(MVSIZ), H14(MVSIZ),

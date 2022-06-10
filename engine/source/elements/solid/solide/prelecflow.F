@@ -80,7 +80,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARG(NPARG,*),NBSDVOIS(*),IGROUNC(*),
      .   NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),NGROUNC
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PHI1(*),PHI2(*),POR(*)
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
@@ -191,11 +191,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,MLW
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DT2T
 C
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  PHI1(*),PHI2(*),UVAR(*),PHI3(*)
 C-----------------------------------------------

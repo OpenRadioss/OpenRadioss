@@ -67,7 +67,7 @@ C-----------------------------------------------
       INTEGER IRECT(4,*),NSV(*),CAND_N(*),CAND_E(*),CAND_A(*)
       INTEGER PROV_N(MVSIZ),PROV_E(MVSIZ),IFPEN(*), OLDNUM(*),
      .        NBINFLG(*),MBINFLG(*),II_STOK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        XA(3,*), CAND_P(*), GAP_S(*), GAP_M(*), GAP_SH(*),
      .        MARGE, GAP, GAPMIN, GAPMAX,CURV_MAX(*)
@@ -76,7 +76,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,K_STOK,I_STOK,N,NE,J,ISS1,ISS2,IMS1,IMS2
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
@@ -244,14 +244,14 @@ C-----------------------------------------------
       INTEGER IXLINS(2,*),IXLINM(2,*),CAND_S(*),CAND_M(*),ADDCM(*),
      .        CHAINE(2,*)
       INTEGER PROV_S(MVSIZ),PROV_M(MVSIZ),ESHIFT,II_STOKE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XA(3,*),TZINF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K_STOK,I_STOK,IAD0,IAD,IADFIN
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PENE(MVSIZ)
 C-----------------------------------------------

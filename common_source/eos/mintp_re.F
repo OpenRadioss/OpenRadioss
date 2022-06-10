@@ -20,7 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-C
 Chd|====================================================================
 Chd|  MINTP_RE                      eos/mintp_re.F                
 Chd|-- called by -----------
@@ -32,7 +31,7 @@ Chd|-- calls ---------------
 Chd|        MINTER1D_RAT                  eos/minter1d_rat.F            
 Chd|====================================================================
       SUBROUTINE MINTP_RE(XX,NX,YY,NY,ZZ,X,Y,Z,DYDZ)
-C=====================================
+C=======================================================================
 C
 C                           |         |                |          |
 C                         --+---------+--------*-------+----------+-- YY(IY+2)
@@ -62,7 +61,7 @@ C                           |         |        .       |          |
 C                       XX(IX-1)   XX(IX)      .   XX(IX+1)   XX(IX+2)
 C                                              X
 C
-C====================================
+C=======================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,17 +70,15 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NX, NY
-C     REAL ou REAL*8
       my_real
      .   X, Y, Z, DYDZ
-C     REAL ou REAL*8
       my_real
      .   XX(NX), YY(NY), ZZ(NX,NY)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IX, IY, IXM1, IXP1, IXP2, IYM1, IYP1, IYP2
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XX0, XX1, XX2, XX3, ZZ00, ZZ10, ZZ20, ZZ30, ZZ01, ZZ11, ZZ21,
      .   ZZ31, ZZ02, ZZ12, ZZ22, ZZ32, ZZ03, ZZ13, ZZ23, ZZ33, Z0,
@@ -91,7 +88,6 @@ C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER MINDEX
 C-----------------------------------------------
-C...Translated by Pacific-Sierra Research VAST-2  3.04F10 12:36:18   3/20/92   -
       IX = MINDEX(XX,1,NX,X)
       IY = MINDEX(ZZ(IX,1),NX,NY,Z)
 C

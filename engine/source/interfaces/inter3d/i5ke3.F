@@ -74,7 +74,7 @@ C-----------------------------------------------
       INTEGER IPARI(*)
       INTEGER NUM_IMP,CAND_N(*),CAND_E(*),IDDL(*),
      .         IADK(*)     ,JDIK(*)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .  A(3,*), MS(*), V(3,*),X(*),K_DIAG(*),K_LT(*) 
 
@@ -86,12 +86,12 @@ C-----------------------------------------------
       INTEGER JX1(MVSIZ), JX2(MVSIZ), JX3(MVSIZ), JX4(MVSIZ),
      .        NSVG(MVSIZ), I3N ,IGIMP
       INTEGER, DIMENSION(MVSIZ) :: IX1,IX2,IX3,IX4
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, FRIC, GAP, STOPT,STIGLO,GAPMIN,
      .   KMIN, KMAX, GAPMAX,GAP_IMP
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    NTJ(3,MVSIZ),KI11(9,MVSIZ),KJ11(9,MVSIZ),
      .    KK11(9,MVSIZ),KL11(9,MVSIZ),KI12(9,MVSIZ),FREQ,

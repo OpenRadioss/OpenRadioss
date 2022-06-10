@@ -70,7 +70,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,J,N,ILAW
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  X31(MVSIZ), Y31(MVSIZ), Z31(MVSIZ),
      .  X32(MVSIZ), Y32(MVSIZ), Z32(MVSIZ),

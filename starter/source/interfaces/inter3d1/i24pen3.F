@@ -71,13 +71,13 @@ C-----------------------------------------------
       INTEGER IWPENE,TAG(*),INACTI,NSV(*),NSN,MSEGTYP(*),IWPENE0,
      .        MVOISN(4,*),ILEV,KNOD2ELS(*),NOD2ELS(*),IPARTNS(*),NRTM
 C----  IWPENE0 : nb of tiny inital pene;  IWPENE nb of inital pene  
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GAPV(*)
       INTEGER IRECT(4,*), ITAB(*),CAND_E(*),CAND_N(*),IRTLM(2,*)
       INTEGER IXS(NIXS,*),IXS10(6,*), IXS16(8,*), IXS20(12,*),ICONT_I(*),
      .        IRTSE(*) ,IS2SE(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),PMIN(*),GAP_N(12,*),PENMAX,PENMIN,PEN_OLD(5,NSN),
      .   XFIC(3,*)
@@ -90,7 +90,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER II, I, J, K, L, JJ, NJ, IER,NS,IC,I0,IELIM,NI,ICONN,ip,NS1,
      .        IDEL,NN1,NN2,IE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PEN, ALP,XX(4),YY(4),ZZ(4),SSC,TTC,DIST,DIST0,
      .   XI,YI,ZI,XC,YC,ZC,NN(3),TOL,PEN0,DPEN,NORM,MAXPEN
@@ -421,7 +421,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IER
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XX(4),YY(4),ZZ(4),NN(3), SSC, TTC, ALP,XI,YI,ZI,XC,YC,ZC
 C-----------------------------------------------
@@ -430,7 +430,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   H(4), X0, Y0, Z0, XL1, XL2, XL3, XL4, YY1, YY2, YY3, YY4,
      .   ZZ1, ZZ2, ZZ3, ZZ4, XI1, XI2, XI3, XI4, YI1, YI2, YI3, YI4,
@@ -651,7 +651,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*),IXS10(6,*), IXS16(8,*), IXS20(12,*)
       INTEGER ETYP  ,EL    ,NS,IELIM
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PEN  ,PENMAX
 C-----------------------------------------------
@@ -662,7 +662,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER  EL2
       my_real
      .   S
@@ -717,15 +717,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER IRECT(4), IXS(NIXS,*), KNOD2ELS(*), NOD2ELS(*), 
      .        IXS10(6,*), IXS16(8,*), IXS20(12,*),ICONN,NS
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, JJ, II, K, NN, KK, IC, IAD
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -801,13 +801,13 @@ C-----------------------------------------------
 C-----------------------------------------------
       INTEGER CAND_E(*),CAND_N(*),NSN,IRTLM(2,*),II_STOK,
      *                    MSEGTYP(*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER E, I,ISH
      .        
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------

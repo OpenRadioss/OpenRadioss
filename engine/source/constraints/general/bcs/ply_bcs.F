@@ -91,7 +91,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NINDX, INDX(*), ISKEW(*), ICODT(*),INOD(*),
      .       IBC_PLY(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  B(LSKEW,*), MS_PLY(NPLYXFE,*)
 C-----------------------------------------------
@@ -104,7 +104,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, K, L, ISK, LCOD,J,LG,IBC,ISUP,IINF
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AA, VV,A1,A2,A3,V1,V2,V3
 C-----------------------------------------------

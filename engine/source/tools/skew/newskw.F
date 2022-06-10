@@ -40,7 +40,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(NUMSKW), INTENT(IN) :: ISKWP_L,ISKWP_L_SEND
       INTEGER, DIMENSION(NSPMD), INTENT(IN) :: RECVCOUNT
       INTEGER, INTENT(IN) :: NUMSKW_L,NUMSKW_L_SEND
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SKEW(LSKEW,*), X(3,*)
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
@@ -82,7 +82,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, N1, N2, N3, K, I, J, LOC_PROC,IMOV,IDIR,NN
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   P(12), PP1, PP3, PP2
 C-----------------------------------------------
@@ -409,7 +409,7 @@ C-----------------------------------------------
 !       RECVCOUNT : integer ; dimension=NSPMD
 !                   number of received SKEW
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -424,7 +424,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, N1, N2, N3, K, I, J, LOC_PROC,IMOV,IDIR,NN,NN2
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   P(12), PP1, PP3, PP2
 C-----------------------------------------------

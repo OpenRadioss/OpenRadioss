@@ -68,7 +68,7 @@ C-----------------------------------------------
      .        KXSP(NISP,*),IXSP(KVOISPH,*),NOD2SP(*),
      .        ITAB(*),ICODE(*),ISKEW(*),ISKN(LISKN,*),
      .        ISPSYM(NSPCOND,*),ISPTAG(*),IPART(LIPART1,*),IPARTSP(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        SKEW(LSKEW,*),XFRAME(NXFRAME,*),X(3,*),
      .        PM(NPROPM,*),GEO(NPROPG,*)
@@ -80,7 +80,7 @@ C-----------------------------------------------
       INTEGER I,IGRS,J,INOD,N,
      .        K,K2,K3,IFR,NC,ICSP,ISK,IC1,IC2,IC,J6(6),
      .        ISLIDE,IMAT,IPROP,IPRT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        TX,TY,TZ,UX,UY,UZ,VX,VY,VZ,WX,WY,WZ,NW,NT,PS,
      .        DD,OX,OY,OZ,XI,YI,ZI,DI,MP,RHO,VOL,

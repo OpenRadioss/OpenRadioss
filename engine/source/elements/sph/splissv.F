@@ -108,7 +108,7 @@ C-----------------------------------------------
      .        SPH2SOL(*),IXS(NIXS,*),IRST(3,*),SOL2SPH(2,*),
      .        IPARG(NPARG,*), NGROUNC, IGROUNC(*),
      .        IAD_ELEM(2,*),FR_ELEM(*),IGEO(NPROPGI,*),SOL2SPH_TYP(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*)    ,V(3,*)   ,MS(*)   ,
      .   A(3,*)    ,SPBUF(NSPBUF,*)  ,WA(*),

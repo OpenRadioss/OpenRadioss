@@ -142,7 +142,7 @@ C-----------------------------------------------
      .   NVSUBTH, MONVOL(*), FR_MV(*),INOD(*),
      .   NODREAC(*),KXX(NIXX,*),IGAUP(*),NGAUP(*),ITTYP,
      .   WEIGHT_MD(NUMNOD),SIZE_MES,ISPHIO(NISPHIO,*),ITHFLAG
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*), D(3,*), X(3,*), V(3,*), A(3,*), BUFEL(*), WA(*),
      .   FSAV(NTHVKI,*), FLSW(9,*), SKEW(LSKEW,*), PARTSAV(NPSAV,*),
@@ -1387,7 +1387,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IVOLU(NIMV,*),FR_MV(NSPMD+2,NVOLU)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FSAVVENT(5,*),RBAGHOL(*)
 C-----------------------------------------------

@@ -77,7 +77,7 @@ C-----------------------------------------------
       INTEGER IXR(NIXR,*), ITAB(*),
      .        IGEO(NPROPGI,*),IPM(NPROPMI,*),IPARG(NPARG,*)
       INTEGER, DIMENSION(SIPART), TARGET :: IPART
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG,*),PM(NPROPM,*),UPARAM(*),MS(*),IN(*)
 C-----------------------------------------------
@@ -92,7 +92,7 @@ C-----------------------------------------------
      .        IOK,IDTGRX,NG
       INTEGER I15ATH,I15A,I15B,I15C,I15D,I15E,I15F,I15G,I15H,I15I,I15J,I15K
       INTEGER TAGN(NUMNOD), TAGR(NUMELR),TAGPRT_SMS(NPART)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XKM, XCM, XKR, XCR, XIN(MVSIZ)
       TYPE(G_BUFEL_) ,POINTER :: GBUF

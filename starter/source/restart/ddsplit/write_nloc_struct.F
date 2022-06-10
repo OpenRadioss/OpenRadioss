@@ -72,7 +72,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE   :: ADDCNE_L,SOLTAG,SHTAG,TGTAG,
      .                                        PROCNE_L
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: IADS,IADC,IADTG
-c=======================================================================
+C=======================================================================
       ! Flag for non-local computation 
       ILOC   = NLOC_DMG%IMOD
 c

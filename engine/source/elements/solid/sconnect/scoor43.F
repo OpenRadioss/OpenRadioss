@@ -53,7 +53,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,IMAT,IOUTPRT
       INTEGER IPM(NPROPMI,*),SOLID_ID(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TIME,DT,OFFG(NEL),AREAP(MVSIZ,4),Q(NEL,9),
      .   RXX(NEL),RYY(NEL),RZZ(NEL),
@@ -83,7 +83,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IREP1,MTN
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF_L,CS,SN,KSI,NR,X0,Y0,Z0,VX0,VY0,VZ0,DTI,CC,COSIN
       my_real 

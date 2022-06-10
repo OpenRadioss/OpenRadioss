@@ -91,7 +91,7 @@ C-----------------------------------------------
       INTEGER NSV(*),CAND_N(*),CAND_E(*), ITAB(*),NBINFLG(*),MBINFLG(*),
      *        ILEV,MVOISN(4,*),IPARTNS(*),IPEN0,INACTI,NRTM
       INTEGER IXS(NIXS,*), IXS10(6,*), IXS16(8,*), IXS20(12,*),IRTSE(*),IS2SE(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),XYZM(6,*),TZINF,DBUC,STF(*),STFN(*),
      .   MAXBOX,MINBOX, XMAX, YMAX, ZMAX,
@@ -122,7 +122,7 @@ C-----------------------------------------------
       INTEGER NB_NCN,NB_ECN,ADDNN,ADDNE,IPOS,I,IP,J
       INTEGER INF,SUP,DIR,N1,N2,N3,N4,NN,NE,INS
       INTEGER SKIP,NS,NS1,NS2,NSE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   BID,DX,DY,DZ,DSUP,SEUIL,XMX,XMN,GAPSMAX,
      .   GAPV(MVSIZ),MARGE_E
@@ -177,7 +177,7 @@ C     NOINT        NUMERO USER DE L'INTERFACE
 C     TZINF        TAILLE ZONE INFLUENCE
 C     MAXBOX       TAILLE MAX BUCKET
 C     MINBOX       TAILLE MIN BUCKET
-C================================================
+C=======================================================================
 C
 C
 C    1- TEST ARRET = BOITE VIDE

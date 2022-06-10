@@ -45,14 +45,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IX(NIXR,*),IGEO(NPROPGI,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF(*), GEO(NPROPG,*), X(3,*), AL(*),IPOS(5,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, I1, I2, K, USENS
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   EX, EY, EZ
 C-----------------------------------------------

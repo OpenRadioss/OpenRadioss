@@ -74,7 +74,7 @@ C-----------------------------------------------
       INTEGER IPARI(NPARI,*), ICODT(*),ITAB(*), 
      .        NPC(*), ISKY(*), 
      .        ICONTACT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real DT2T, 
      .   X(*), A(*), FSAV(NTHVKI,*) , WA(*), V(*),MS(*),
      .   STIFN(*), TF(*),FSKYI(LSKY,NFSKYI),VR(3,*),FCONT(3,*),IN(*),

@@ -70,12 +70,12 @@ C-----------------------------------------------
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ),IELEC(*),IELECI(MVSIZ),  NSMS(MVSIZ), 
      .        NODNX_SMS(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GAP, XA(3,*), STF(*), STFA(*),GAP_S(*),GAP_M(*),
      .   MS(*), VA(3,*), RCURV(*),TEMP(*),AREAS(*),PHI(*),TEMPI(*),
      .   AREASI(*), ANGLM(*),GAP_SH(*),STFAC
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
@@ -388,7 +388,7 @@ C-----------------------------------------------
      .        N1(MVSIZ), N2(MVSIZ), NL1(MVSIZ), NL2(MVSIZ),
      .        M1(MVSIZ), M2(MVSIZ), ML1(MVSIZ), ML2(MVSIZ),NLG(*),
      .        NODNX_SMS(*), NSMS(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        GAPMIN, XA(3,*), STFM(*), STFS(*),GAP_S(*),GAP_M(*),
      .        MS(*), VA(3,*),

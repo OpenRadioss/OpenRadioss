@@ -68,7 +68,7 @@ C-----------------------------------------------
      .   NELCUT,NBF,IADP(*),NBF_L,NBPART,IADG(NSPMD,*),
      .   IXTG(NIXTG,*),IPM(NPROPMI,*)
       REAL WA(3*NBF_L)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TENS(3,*),EPSDOT(6,*),X(3,*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
@@ -76,7 +76,7 @@ C     REAL ou REAL*8
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A1,A2,A3,THK
       my_real
@@ -1400,14 +1400,14 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARG(NPARG,*),ITENS, IGEO(NPROPGI,*), 
      .        IXC(NIXC,*),IXTG(NIXTG,*),ITAGPS(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TENS1(3,*),TENS2(3,*), X(3,*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF, FAC, A1, A2, A3, THK, EVAR(6,MVSIZ),AREA(MVSIZ)
       INTEGER I, NG, NEL, NFT, ITY, LFT, NPT, IPT,
@@ -1563,14 +1563,14 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARG(NPARG,*),ITENS, IGEO(NPROPGI,*), 
      .        IXC(NIXC,*),IXTG(NIXTG,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TENS1(3,*),TENS2(3,*), X(3,*),GEO(NPROPG,*),VGPS(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF, FAC, A1, A2, A3, THK0, EVAR(6,MVSIZ),AREA(MVSIZ),
      .   VOL(MVSIZ)

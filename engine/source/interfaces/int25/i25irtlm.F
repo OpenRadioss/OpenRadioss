@@ -30,7 +30,7 @@ Chd|        TRI7BOX                       share/modules/tri7box.F
 Chd|====================================================================
       SUBROUTINE I25IRTLM(
      1                   IPARI   ,INTBUF_TAB ,ITAB   ,NIN      )
-C===============================================================
+C=======================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -65,7 +65,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NIN
       INTEGER IPARI(NPARI,NINTER), ITAB(*)
-C     REAL ou REAL*8
+C     REAL
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -73,9 +73,9 @@ C-----------------------------------------------
       INTEGER 
      .        I, J, L, H, I_STOK_RTLM,
      .        N, NSN, NSNR, IVIS2
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
         NSN   =IPARI(5,NIN)
         NSNR  =IPARI(24,NIN)

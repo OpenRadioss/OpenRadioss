@@ -56,7 +56,7 @@ C-----------------------------------------------
       INTEGER KXSP(NISP,*), IXSP(KVOISPH,*), NOD2SP(*),
      .   JVOIS(*),JSTOR(*), JPERM(*), IREDUCE, KREDUCE(*),
      .   KXSPR(*), IXSPR(KVOISPH,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DVOIS(*),TAB_DK(*)
 C-----------------------------------------------
@@ -65,7 +65,7 @@ C-----------------------------------------------
       INTEGER J, KB, JB, NSBT, IB, IL, MM1, MM2, KM, MM, MG,
      .   JJL, NFT, LLT, JL, JG, JLO, LL1, LL2, LL, LG, N, NN,
      .   NVOIS, KL, K, JK, L, NVOIS1, NVOIS2, IERROR 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   CMS2(MVSIZ),XJJ, YJJ, ZJJ,DK, DL
       my_real, DIMENSION(:), ALLOCATABLE :: DSTOR

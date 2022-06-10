@@ -78,7 +78,7 @@ C-----------------------------------------------
       INTEGER CAND_E(*),CAND_N(*)
       INTEGER NCONTACT,ESHIFT,ILD,INIT,NB_N_B, IGAP,ICURV,
      .        WEIGHT(*),II_STOK,INTTH,ITASK,IRECTT(4,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GAP,TZINF,MAXBOX,MINBOX,
      .   XMAX, YMAX, ZMAX, XMIN, YMIN, ZMIN, GAPMIN, GAPMAX, DEPTH,
@@ -100,7 +100,7 @@ C
      .        ADD(2,I_ADD_MAX), N,L,PP,J_STOK,IAD(NSPMD),
      .        TAG(NMN),NM(4), IERROR1,NODFI,PTR, IERROR2, IERROR3,
      .        IERROR4,LSKYFI
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        XYZM(6,I_ADD_MAX-1)
       my_real

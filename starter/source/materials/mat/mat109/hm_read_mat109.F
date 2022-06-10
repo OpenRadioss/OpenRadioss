@@ -84,7 +84,7 @@ C-----------------------------------------------
       my_real :: YOUNG,NU,G,LAME,BULK,A1,A2,CP,TREF,TINI,ETA,BETA,XRATE,
      .           XSCALE,YSCALE,YSCALE_UNIT,XSCALE_UNIT
       LOGICAL :: IS_AVAILABLE,IS_CRYPTED
-c=======================================================================
+C=======================================================================
       IS_CRYPTED   = .FALSE.
       IS_AVAILABLE = .FALSE.
       ILAW = 109

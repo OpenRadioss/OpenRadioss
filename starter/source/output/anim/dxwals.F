@@ -38,14 +38,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MSR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), RWL(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,L
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XWL, YWL, ZWL,XN,YN,ZN,D,DX,DY,DZ,XX,YY,ZZ,R,XX0,YY0,ZZ0,
      .   X0(6),Y0(6),Z0(6),DX0(6),DY0(6),DZ0(6),DX1(6),DY1(6),DZ1(6)

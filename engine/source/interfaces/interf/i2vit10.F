@@ -39,7 +39,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN,NMN,
      .   IRECT(4,*), MSR(*), NSV(*), IRTL(*),IRUPT(*),WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*),V(3,*),AR(3,*),VR(3,*),X(3,*),MS(*),CRST(2,*)
 C-----------------------------------------------
@@ -50,7 +50,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NIR, I, J, II,JJ,L,NN, ISK, ICOD
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   H(4), SS, TT, AMX, AMY, AMZ, VMX, VMY, VMZ,SP,SM,TP,TM,MAS,
      .   FAC, V1X2, V2X1, V2X3, V3X2, V3X1, V1X3,XC0,YC0,ZC0
@@ -119,7 +119,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN,NMN,
      .   IRECT(4,*), MSR(*), NSV(*), IRTL(*),IRUPT(*),WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*),V(3,*),AR(3,*),VR(3,*),X(3,*),MS(*),CRST(2,*)
 C-----------------------------------------------
@@ -130,7 +130,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NIR, I, J, II,JJ,L,NN, ISK, ICOD
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   H(4), SS, TT, AMX, AMY, AMZ, VMX, VMY, VMZ,SP,SM,TP,TM,MAS,
      .   FAC, V1X2, V2X1, V2X3, V3X2, V3X1, V1X3,XC0,YC0,ZC0

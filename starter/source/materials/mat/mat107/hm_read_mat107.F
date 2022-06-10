@@ -85,7 +85,7 @@ C-----------------------------------------------
      .         TAB_YLD4,TAB_TEMP4,TAB_YLD5,TAB_TEMP5,TAB_YLD1C,TAB_TEMP1C,
      .         TAB_YLD2C,TAB_TEMP2C,TAB_YLDT,TAB_TEMPT,TAB_YLDC,TAB_TEMPC,
      .         TAB_YLDS,TAB_TEMPS
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RHO0,RHOR,
      .   YOUNG1,YOUNG2,YOUNG3,NU12,NU21,G12,G23,G31,

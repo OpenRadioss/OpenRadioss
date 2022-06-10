@@ -69,7 +69,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,K,KK,ELCRK,ELCUT,ENR,IOFF
       my_real OFF_L,AREAP
-c=======================================================================
+C=======================================================================
       IOFF=0
       DO I=JFT,JLT
         IF (OFF(I) == ZERO .AND. OFFG(I) > ZERO) IOFF=1
@@ -536,7 +536,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,NFT,IADC(3,*),IAD_CRKTG(3,*),IXTG(NIXTG,*),
      . IEL_CRKTG(*),ILEV,ELCUTC(2,*),IXFEM,ILAY
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  FSKY(8,LSKY),OFF(*),OFFG(*),
      .  F11(*),F21(*),F31(*),F12(*),F22(*),F32(*),

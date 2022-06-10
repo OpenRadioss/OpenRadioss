@@ -72,7 +72,7 @@ C-----------------------------------------------
      .        SH4TREE(KSH4TREE,*), SH3TREE(KSH3TREE,*),
      .        SH4TRIM(*), SH3TRIM(*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -83,7 +83,7 @@ C-----------------------------------------------
       INTEGER IX1(MAX(NUMELC,NUMELTG)), 
      .        IX2(MAX(NUMELC,NUMELTG)), 
      .        INDEX(2*MAX(NUMELC,NUMELTG))
-C     REAL ou REAL*8
+C     REAL
       CHARACTER MESS*40,TITR*nchartitle,KEY*ncharkey,KEY2*ncharkey
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------

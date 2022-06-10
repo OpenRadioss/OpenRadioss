@@ -49,7 +49,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBE2(NRBE2L,*),LRBE2(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), A(3,*), AR(3,*),V(3,*), VR(3,*),SKEW(LSKEW,*)
 C-----------------------------------------------
@@ -57,7 +57,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, M, NS ,NML, IAD,JJ,IROT,IADS,
      .        JT(3,NRBE2),JR(3,NRBE2),NM,NN,K,ISK,NSN,IRAD
-C     REAL ou REAL*8
+C     REAL
 C======================================================================|
       CALL PRERBE2(IRBE2 ,JT  ,JR   )
       DO N=NRBE2,1,-1
@@ -103,14 +103,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSL,ISL(*),JT(3),JR(3),M
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), A(3,*), AR(3,*), V(3,*), VR(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, NS
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     XS, YS, ZS,VRM(3)
 C======================================================================|
@@ -173,14 +173,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN,ISL(*),JT(3),JR(3),M
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), A(3,*), AR(3,*), V(3,*), VR(3,*),SKEW(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, NS
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XS, YS, ZS,RX, RY,RZ,LRX, LRY,LRZ,RVX,RVY,RVZ,
      .   DVX,DVY,DVZ,VVX,VVY,VVZ,LXS(NSN), LYS(NSN), LZS(NSN)
@@ -265,7 +265,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBE2(NRBE2L,*),LRBE2(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), D(3,*), DR(3,*),SKEW(LSKEW,*)
 C-----------------------------------------------
@@ -273,7 +273,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, M, NS ,NML, IAD,JJ,ISK,
      .        JT(3,NRBE2),JR(3,NRBE2),NM,NN,K,NSL,IRAD
-C     REAL ou REAL*8
+C     REAL
 C======================================================================|
       CALL PRERBE2(IRBE2 ,JT  ,JR   )
       DO N=NRBE2,1,-1
@@ -326,14 +326,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSL,ISL(*),JT(3),JR(3),M,IRAD
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), V(3,*), VR(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, NS
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     XS, YS, ZS,VRM(3),LSM(3),VS(3)
 C======================================================================|
@@ -431,14 +431,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN,ISL(*),JT(3),JR(3),M
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), V(3,*), VR(3,*),SKEW(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NS
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XS, YS, ZS,RX, RY,RZ,LRX, LRY,LRZ,RVX,RVY,RVZ,
      .   DVX,DVY,DVZ,VVX,VVY,VVZ,LXS(NSN), LYS(NSN), LZS(NSN)
@@ -521,14 +521,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN,ISL(*),JT(3),JR(3),M,IRAD
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), V(3,*), VR(3,*),SKEW(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NS ,NT,NR,ICT,ICR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XS, YS, ZS,RX, RY,RZ,LRX, LRY,LRZ,RVX,RVY,RVZ,
      .   DVX,DVY,DVZ,VVX,VVY,VVZ,KTR(3,3)
@@ -828,14 +828,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSL,ISL(*),JT(3),JR(3),M,IRAD
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), A(3,*), AR(3,*), V(3,*), VR(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, NS
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   V1X2, V2X1, V2X3, V3X2, V3X1, V1X3,USDT,DT05,
      .   VX1, VX2, VX3,VG(3)
@@ -940,14 +940,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSL,ISL(*),JT(3),JR(3),M,IRAD
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), A(3,*), AR(3,*), V(3,*), VR(3,*),SKEW(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, NS,ICR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XS, YS, ZS,RX, RY,RZ,LRX, LRY,LRZ,RVX,RVY,RVZ,
      .   DVX,DVY,DVZ,VVX,VVY,VVZ,LXS(NSL),LYS(NSL),LZS(NSL)
@@ -1080,14 +1080,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NS,JT(3),JR(3),M,IRAD,ISK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), V(3,*), VR(3,*),SKEW0(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NT,NR,ICT,ICR,NSN,ISL(1),K
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XS, YS, ZS,RX, RY,RZ,LRX, LRY,LRZ,RVX,RVY,RVZ,
      .   DVX,DVY,DVZ,VVX,VVY,VVZ,KTR(3,3),SKEW(LSKEW)
@@ -1354,7 +1354,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN,ISL(*),JT(3),JR(3),M,IRAD
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), V(3,*), VR(3,*),SKEW(*)
 C-----------------------------------------------
@@ -1362,7 +1362,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NS ,NT,NR,ICT,ICR , J , K,
      .        TDOF1,TDOF2,TDOF3,RDOF1,RDOF2,RDOF3
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RX, RY,RZ,LRX, LRY,LRZ,RVX,RVY,RVZ,
      .   DVX,DVY,DVZ,VVX,VVY,VVZ,KTR(3,3), VLM(3),LOCALSM(3),GL0BLSM(3),

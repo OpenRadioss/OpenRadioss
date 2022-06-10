@@ -36,7 +36,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICUT(44,*),ITABM1(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XCUT(7,*)
 C-----------------------------------------------
@@ -50,7 +50,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I,J,ITYP
-C     REAL ou REAL*8
+C     REAL
       my_real
      . X0(3),VN(3),VIT,VNN  
       CHARACTER IDTITL*40

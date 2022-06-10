@@ -70,7 +70,7 @@ C-----------------------------------------------
       INTEGER I ,J ,N1, N2, N3, N4,IERROR, IAD, IAD1, IAD2, SIZ, NB,
      .        MSGTYP, LOC_PROC, CC, MSGOFF,
      .        STATUS(MPI_STATUS_SIZE),REQ_R(NSPMD)
-C     REAL ou REAL*8
+C     REAL
        my_real
      .        BUFR(LENR), BUFS(LENS)
       DATA MSGOFF/195/

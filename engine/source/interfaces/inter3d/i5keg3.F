@@ -210,11 +210,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(*),LFT, LLT, NFT,I_N(*),I_E(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FRIC
       INTEGER IRECT(4,*), MSR(*), NSV(*), IRTL(*), IRTLO(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), CST(2,*), FRIC0(3,*),TNJ(3,*), FREQ, FTSAV(*),STFM(*)
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: XP,YP,ZP,N1,N2,N3
@@ -226,7 +226,7 @@ C-----------------------------------------------
       INTEGER I, IL, LOLD, JJ, NN, J3,
      .   J2, J1, IG, I3, I2, I1, K, IFQ, MFROT,L
       INTEGER NISKYL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   H(4), XX1(4), XX2(4), XX3(4),
      .   SS0, TT0, XC, ECONVT, ALPHA, ALPHI,

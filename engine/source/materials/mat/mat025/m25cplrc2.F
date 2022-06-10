@@ -51,7 +51,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT, NPT,ICC(*), ISRATE,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   THK(*), OFF(*), WPLA(*), DIR(*),CC(*),
      .   EPDR(*),WWPLA(*),SHF(*),FMAX(MVSIZ),
@@ -68,7 +68,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DP1(MVSIZ), DP2(MVSIZ), DP3(MVSIZ), 
      .   LAMDA(MVSIZ), COEF(MVSIZ), 

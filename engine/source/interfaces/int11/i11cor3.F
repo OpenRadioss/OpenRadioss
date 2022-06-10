@@ -76,7 +76,7 @@ C-----------------------------------------------
      .        INTTH,IELEC(*),IELECI(MVSIZ),ITAB(*),IELES(*),IELESI(MVSIZ),IFORM,
      .        INTFRIC,
      .        IPARTFRICS(*),IPARTFRICSI(MVSIZ),IPARTFRICM(*),IPARTFRICMI(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        GAP, X(3,*), STFM(*), STFS(*),GAP_S(*),GAP_M(*),
      .        MS(*), V(3,*),

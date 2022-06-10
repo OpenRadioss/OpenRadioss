@@ -66,7 +66,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER  IGEO(NPROPGI),IGTYP,IG
-C     REAL ou REAL*8
+C     REAL
       my_real GEO(NPROPG)
       CHARACTER*nchartitle,
      .   IDTITL
@@ -77,7 +77,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
        INTEGER J, IFUNC, IFUNC2, IFUNC3, IECROU, IFV, ISENS,IFL,
      .         ILENG,FTAB_ID,IFRIC
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  A, B, D, E, F, DN, DX, FRIC, LSCALE, FSCALE, RSCALE, PUN, GF3,
      .  YSCALEF,XSCALEF,FMAX,FMIN

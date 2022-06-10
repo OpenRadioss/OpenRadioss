@@ -1,25 +1,25 @@
 Copyright>        OpenRadioss
 Copyright>        Copyright (C) 1986-2022 Altair Engineering Inc.
-Copyright>
+Copyright>    
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
 Copyright>        the Free Software Foundation, either version 3 of the License, or
 Copyright>        (at your option) any later version.
-Copyright>
+Copyright>    
 Copyright>        This program is distributed in the hope that it will be useful,
 Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
 Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 Copyright>        GNU Affero General Public License for more details.
-Copyright>
+Copyright>    
 Copyright>        You should have received a copy of the GNU Affero General Public License
 Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
-Copyright>
-Copyright>
-Copyright>        Commercial Alternative: Altair Radioss Software
-Copyright>
-Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
-Copyright>        software under a commercial license.  Contact Altair to discuss further if the
-Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+Copyright>    
+Copyright>    
+Copyright>        Commercial Alternative: Altair Radioss Software 
+Copyright>    
+Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
+Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
 Chd|  SIGEPS51                      source/materials/mat/mat051/sigeps51.F
 Chd|-- called by -----------
@@ -1665,10 +1665,10 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
          ENDDO
       ENDIF
 
-C==========================================
+C=======================================================================
 C     TEMPERATURES
 C     T > 0
-C==========================================
+C=======================================================================
       DO I=1,NEL
            !---submaterial_1---!
            KK = N0PHAS + 0*NVPHAS
@@ -1736,10 +1736,10 @@ C==========================================
            ENDIF
       ENDDO
 
-C==========================================
+C=======================================================================
 C     PLASTICITY
 C     T > 0
-C==========================================
+C=======================================================================
       ! If at least, one material has plasticity data
       IF(IPLA > ZERO)THEN
         DO I=1,NEL
@@ -1936,9 +1936,9 @@ C==========================================
 
 
 
-C==========================================
+C=======================================================================
 C     THERMODYNAMICAL STATE
-C==========================================
+C=======================================================================
       DO I=1,NEL
 
           !inter22
@@ -2095,11 +2095,11 @@ c              IF(AMU(I) > 0.) ECOLD=ECOLD*(1.+C4(I)*AMU(I)*(1-AMU(I)))
 c             1                         +0.5*C1(I)*AMU2(I)
 c              THETA(I)=(EINT(I)-ECOLD)/SPH(I)
 C
-C============================================
+C=======================================================================
 c  THERMAL CONDUCTION BETWEEN THE MATERIALS
 c     --> Energy is here corrected with TdH
 c                    (dE = dW+dQ = -PdV+TdH)
-C============================================
+C=======================================================================
         IF(JTHE == 1)THEN
          IF(V1OLD+V2OLD+V3OLD > EM03)THEN
          ! chaleur in
@@ -2131,9 +2131,9 @@ C============================================
         IF (TIME  ==  ZERO) THEN
            EINT(I)= EINT1 + EINT2 + EINT3 + EINT4
         ENDIF
-C============================================
+C=======================================================================
 c  NUMERICAL VISCOSITY
-C============================================
+C=======================================================================
         QOLD = Q1OLD*V1OLD + Q2OLD*V2OLD + Q3OLD*V3OLD + Q4OLD*V4OLD
         QOLD = QOLD /(V1OLD + V2OLD + V3OLD + V4OLD)
 
@@ -2247,9 +2247,9 @@ C    UNEPHASE = bit1*2^0 + bit2*2^1 + bit3*2^2 + bit4*2^3    C
 C    UNEPHASE = bit1* 1  + bit2* 2  + bit3* 4  + bit4* 8     C
 C                                                            C
 C------------------------------------------------------------C
-C============================================
+C=======================================================================
 c   MATERIAL PRESENCE (INTEGER UNEPHASE)
-C============================================
+C=======================================================================
         UNEPHASE=0
         MASS = MAS1 + MAS2 + MAS3 + MAS4
         VOLD = V1OLD + V2OLD + V3OLD + V4OLD
@@ -2340,13 +2340,13 @@ C============================================
         dbVOLD_f(3) = V3OLD
         dbVOLD_f(4) = V4OLD
 
-C===================================================
+C=======================================================================
 C IF ONLY ONE MATERIAL IN ELEMENT
 C      MAT1 : (UNEPHASE=1) => Polynomial EOS
 C   or MAT2 : (UNEPHASE=2) => Polynomial EOS
 C   or MAT3 : (UNEPHASE=4) => Polynomial EOS
 C   or MAT4 : (UNEPHASE=8) => JWL EOS
-C===================================================
+C=======================================================================
         IF(UNEPHASE == 1 .OR. UNEPHASE == 2 .OR. UNEPHASE == 4 .OR. UNEPHASE == 8) THEN
 
           P1    = ZERO
@@ -2428,17 +2428,17 @@ C---------------------------------------------------
      .           QA,QB,BFRAC(I))
            ENDIF
 
-C===================================================
+C=======================================================================
 C MORE THAN ONE MATERIAL IN ELEMENT
 C    UNEPHASE /= 1,2,4,8
 C    UNEPHASE /= 0
-C===================================================
+C=======================================================================
         ELSEIF(UNEPHASE /= 0) THEN
-C===================================================
-C===================================================
+C=======================================================================
+C=======================================================================
 C     New solver
-C===================================================
-C===================================================
+C=======================================================================
+C=======================================================================
 C---------------------------------------------------
 C     Submaterial energies evolve according to
 C     dEi / dt + div(Ei u) + alpha_i p_i div(u) = 0
@@ -2751,11 +2751,11 @@ C     Sanity check
           Q4 = Q4OLD
           P = P1 * V1 + P2 * V2 + P3 * V3 + P4 * V4
           P = P / VOLUME(I)
-C===================================================
-C===================================================
+C=======================================================================
+C=======================================================================
 C     END New solver
-C===================================================
-C===================================================
+C=======================================================================
+C=======================================================================
 
 
         ELSEIF(UNEPHASE == 0) THEN
@@ -2794,10 +2794,10 @@ C===================================================
         VISCMAX(I) = VISCMAX(I) + RHO(I)*(TWO*VISA1 + VISB1)/THREE
 
 !
-C===================================================
+C=======================================================================
 C CALCULTATION OF CONSISTENT DENSITY WITH PRESSURE
 C IF ONE MATERIAL IS NOT PRESENT
-C===================================================
+C=======================================================================
 C----------------------------
 C       phases vide calcul de rho consistant avec p
 c
@@ -2836,10 +2836,10 @@ c     rho0e = rho0e + P rho0/rho a
 c     rho   = rho  (1+a)
 C----------------------------
 !
-C===================================================
+C=======================================================================
 C  OUTPUT : STRESS TENSOR
 C           VISCOUS STRESS
-C===================================================
+C=======================================================================
 
         !----------------------------------------------------------------------------------!
         !SUBATERIAL INTERNAL ENERGY HAS TO BE BOUNDED : EINT1+EINT2+EINT3+EINT4 = EINT(new)

@@ -69,12 +69,12 @@ C-----------------------------------------------
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ), 
      .        NSVG(MVSIZ), ADMSR(4,*), SUBTRIA(MVSIZ),
      .        MVOISIN(4,*), MVOISN(MVSIZ,4), LBOUND(*), IBOUND(4,MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), STF(*), STFN(*), GAP_S(*), 
      .   GAPS(MVSIZ), GAP_M(*), GAPM(*), GAPN_M(4,*), GAPNM(4,*), 
      .   GAP_S_L(*), GAP_M_L(*), GAPMXL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
      .   XX(MVSIZ,5), YY(MVSIZ,5), ZZ(MVSIZ,5),
@@ -281,12 +281,12 @@ C-----------------------------------------------
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ), 
      .        NSVG(MVSIZ), ADMSR(4,*), ISLIDE(4,*), KSLIDE(MVSIZ,4),
      .        MVOISIN(4,*), MVOISN(MVSIZ,4), LBOUND(*), IBOUND(4,MVSIZ), ETYP(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), STF(*), STFN(*), GAP_S(*), 
      .   GAPS(MVSIZ), GAP_M(*), GAPM(*), GAPN_M(4,*), GAPNM(4,*), 
      .   GAP_S_L(*), GAP_M_L(*), GAPMXL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
      .   XX(MVSIZ,5), YY(MVSIZ,5), ZZ(MVSIZ,5),
@@ -521,12 +521,12 @@ C-----------------------------------------------
      .        NSVG(MVSIZ), ADMSR(4,*), 
      .        MVOISIN(4,*), MVOISA(MVSIZ,4), MVOISB(MVSIZ,4),
      .        LBOUND(*),IBOUNDA(4,MVSIZ),IBOUNDB(4,MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), STF(*), STFN(*), V(3,*), GAP_S(*), 
      .   GAPS(MVSIZ), GAP_M(*), GAPM(*), GAPN_M(4,*), GAPNM(4,*), 
      .   GAP_S_L(*), GAP_M_L(*), GAPMXL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
      .   XX(MVSIZ,5), YY(MVSIZ,5), ZZ(MVSIZ,5),
@@ -852,13 +852,13 @@ C-----------------------------------------------
      .        NSVG(MVSIZ), NSMS(MVSIZ), IRTLM(4,*), SUBTRIA(MVSIZ),
      .        IPARTFRICS(*),IPARTFRICSI(MVSIZ),IPARTFRICM(*),IPARTFRICMI(MVSIZ),
      .        IREP_FRICM(*),IREP_FRICMI(MVSIZ),IELESI(MVSIZ),IELEMI(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), STF(*), STFN(*), MS(*), V(3,*), 
      .   PENM(4,*), LBM(4,*), LCM(4,*), 
      .   GAPN_M(4,*), GAP_S(*), 
      .   GAP_S_L(*), GAP_M_L(*), GAPMXL(*), AREAS(*),TEMP(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ), KMIN, KMAX,
      .   XX(MVSIZ,5),YY(MVSIZ,5),ZZ(MVSIZ,5),

@@ -46,7 +46,7 @@ c----------------------------------------------------------
 c     calcule intersection de deux segments en 2D : N1-N2 et N3-N4
 c     intersection trouve => OK=1, sinon OK=0
 c     alpha, beta = ratio du point intersection de chaque segment
-c=======================================================================
+C=======================================================================
       OK = 0
       AX = X2 - X1
       AY = Y2 - Y1

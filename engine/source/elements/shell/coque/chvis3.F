@@ -72,7 +72,7 @@ C-----------------------------------------------
       INTEGER IXC(NIXC,*),IPARTC(*), JFT, JLT, 
      .              IHBE   ,NFT     ,ISMSTR,KFTS,IGTYP,
      .              IGMAT,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   THK(*), HOUR(NEL,5), OFF(*),PARTSAV(NPSAV,*),
      .   PX1(*), PX2(*), PY1(*), PY2(*),DT1C(*),EANI(*),
@@ -96,7 +96,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,MX,J, II, IC, JST(MVSIZ+1)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   H1L(MVSIZ), H2L(MVSIZ), H3L(MVSIZ), H1Q(MVSIZ), H2Q(MVSIZ),
      .   H3Q(MVSIZ), HG1(MVSIZ), HG2(MVSIZ),

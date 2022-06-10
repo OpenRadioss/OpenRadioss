@@ -88,7 +88,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
       INTEGER     ::     ISHELL,IFLAG,I
       my_real     ::     P_THICKFAIL,AFRAC,BFRAC,CFRAC,NFRAC,INST,
@@ -2539,7 +2539,7 @@ c!
 c!   UVAR 1 = damage value falg for IP at DSSE instability 
 c!   UVAR 2 = damage value for DSSE 
 c!       
-C=============================================
+C=======================================================================
 C
 C pre definition for user-input data when only 
 C tension test data are provided

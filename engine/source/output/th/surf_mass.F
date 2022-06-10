@@ -51,7 +51,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MONVOL(*), FR_MV(NSPMD+2,NVOLU)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FSAVSURF(3,NSURF), VOLMON(*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
@@ -131,7 +131,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NTGI, ITAG(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   ELFMASS(*), MASS, ELFVEL(*), VEL, ELSINI(*)
 C-----------------------------------------------
@@ -174,7 +174,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICBAG(NICBAG,*), NCA, IDSURF
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RCBAG(NRCBAG,*), MASS, VEL
 C-----------------------------------------------

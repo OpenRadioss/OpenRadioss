@@ -990,7 +990,7 @@ C-----------------------------------------------
      .   IXTG(NIXTG,*), IXT(NIXT,*), IXP(NIXP,*),
      .   IPART(LIPART1,*), IPARTC(*), IPARTTG(*),
      .   MSR(*),NMN,IGEO(NPROPGI,*),MSEGTYP(*), ITHK25
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG,*), THK(*),THK_PART(*),GAP_N(4,*),GAP_M(*),
      .   GAPN_M(*),GAPMAX_M, GAPSCALE,GAPMSAV(*)
@@ -1324,7 +1324,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER N,IC(*),ISELF,IRECT(4,*),I1,I2,IE,IRR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*)
 C-----------------------------------------------
@@ -1440,7 +1440,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER EI,EJ,IRECT(4,*),IOP
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*)
 C----if the normals of two segements are opposite or near opposite

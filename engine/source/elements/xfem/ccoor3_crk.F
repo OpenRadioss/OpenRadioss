@@ -58,7 +58,7 @@ C-----------------------------------------------
       INTEGER JFT,JLT,ILEV
       INTEGER NGL(MVSIZ),IXC(NIXC,*),MAT(MVSIZ),PID(MVSIZ),
      .   IEL_CRK(*),IADC_CRK(4,*),NFT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFFG(*),OFF(*),SIGY(*),
      .   VL1(MVSIZ,3),VL2(MVSIZ,3),VL3(MVSIZ,3),VL4(MVSIZ,3),
@@ -70,7 +70,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,ELCRK,IADC1,IADC2,IADC3,IADC4
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF_L
 C-----------------------------------------------

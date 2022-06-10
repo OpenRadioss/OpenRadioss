@@ -124,7 +124,7 @@ C-----------------------------------------------
      .    NGROUNC,  IGROUNC(*), SOL2SPH(2,*), SPH2SOL(*), IXS(NIXS,*),
      .    IADS(8,*), ADDCNE(*), WASPACT(*), ICONTACT(*), OFF_SPH_R2R(*),
      .    IRUNN_BIS
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), V(3,*), MS(*),PM(NPROPM,*),
      .   GEO(NPROPG,*),BUFMAT(*), BUFGEO(*), PLD(*),

@@ -85,7 +85,7 @@ C-----------------------------------------------
      .        NLIST(*),NOD2SP(*) ,
      .        VOXEL(NBX+2,NBY+2,NBZ+2),JVOIS(*)  ,JSTOR(*), JPERM(*) ,
      .        IREDUCE,KXSP(NISP,*), IXSP(KVOISPH,*), KREDUCE(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),BMINMA(6),
      .   SPBUF(NSPBUF,*),DVOIS(*)
@@ -95,7 +95,7 @@ C-----------------------------------------------
       INTEGER NB_NCN,NB_NCN1,NB_ECN,I,J,DIR,NB_NC,NB_EC,
      .        N1,N2,N3,N4,NN,NE,K,L,II,JJ,JS,NS,N,
      .        NSNF, NSNL,NVOIS, IG, IL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DX,DY,DZ,XS,YS,ZS,XX,SX,SY,SZ,S2,XN,YN,ZN,
      .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, TZ, 
@@ -139,9 +139,9 @@ c     dev future: xminb plus grand que xmin...
       YMAXB = YMAX
       ZMAXB = ZMAX
 
-C================================================================
+C=======================================================================
 C 1   mise des noeuds dans les boites
-C================================================================
+C=======================================================================
 C     IF(ITASK == 0)THEN
 
        DISTMAX = ZERO
@@ -196,10 +196,10 @@ c         on saute directement au dernier
 C     END IF
 C Barrier to wait task0 treatment
 C     CALL MY_BARRIER
-C================================================================
+C=======================================================================
 C 3   recherche des boites concernant chaque facette
 C     et creation des candidats
-C================================================================
+C=======================================================================
       DO NE = NSPHACTF,NSPHACTL
 C on ne retient pas les facettes detruites
 c        IF(STF(NE) == ZERO)CYCLE
@@ -302,9 +302,9 @@ cc       nnr0pelg = nnr0pelg + nnr0pelem
 C-------------------------------------------------------------------------
 C     FIN DU TRI
 C-------------------------------------------------------------------------
-C================================================================
+C=======================================================================
 C 4   remise a zero des noeuds dans les boites
-C================================================================
+C=======================================================================
  100  CONTINUE
 
 C Barrier to avoid reinitialization before end of sorting
@@ -315,7 +315,7 @@ C     CALL MY_BARRIER
           VOXEL(IIX(I),IIY(I),IIZ(I))=0
         ENDIF
       ENDDO
-C================================================================
+C=======================================================================
 C
 C     CALL MY_BARRIER()
 C     IF(ITASK == 0)THEN

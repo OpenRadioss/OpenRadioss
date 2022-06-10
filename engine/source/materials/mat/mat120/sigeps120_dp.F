@@ -122,7 +122,7 @@ c     UVAR(2)    : DAM
 c     UVAR(3)    : TOTAL STRAIN RATE
 c     UVAR(4)    : plastic function residual (for output/convergence check)
 c     UVAR(5)    : non local plastic strain
-c=======================================================================
+C=======================================================================
       YOUNG = UPARAM(1)
       NU    = UPARAM(2)
       G     = UPARAM(3)

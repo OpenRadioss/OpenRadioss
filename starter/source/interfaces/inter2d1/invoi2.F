@@ -39,14 +39,14 @@ C-----------------------------------------------
       INTEGER NSN,NRT
       INTEGER IRECT(4,*), LMSR(*), MSR(*), NSV(*), ILOC(*), IRTL(*),
      .   NSEG(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER II, I, J, K, NUM, NPT, JJ, LL, L, LG, M, MG
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   CMS, DMS, RESULT, C2, C3, S2, S3, CS, D2, CC
 C

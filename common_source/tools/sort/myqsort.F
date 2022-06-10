@@ -53,7 +53,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER N,ERROR,PERM(N)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .  A(N)
 C-----------------------------------------------
@@ -77,7 +77,7 @@ C
       INTEGER :: RLEN
       INTEGER :: TOP  
       INTEGER :: STACK(STACKLEN)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        RK, RV
 C

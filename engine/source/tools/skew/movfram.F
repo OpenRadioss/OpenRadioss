@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 C
 C     This routine is used if (first) STARTER ran was > 4.4b
 C
-C===============================================================
+C=======================================================================
 Chd|====================================================================
 Chd|  MOVFRA1                       source/tools/skew/movfram.F   
 Chd|-- called by -----------
@@ -50,14 +50,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IFRAME(LISKN,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XFRAME(NXFRAME,*), X(3,*), V(3,*), A(3,*), VR(3,*), AR(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, N1, N2, N3, K, IMOV, IDIR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   O(3), P(9), PP1, PP3, PP2, POLD(9),
      .         DR11, DR12, DR13,
@@ -419,7 +419,7 @@ C
 C
 C     This routine is used if (first) STARTER ran was > 4.4b
 C
-C===============================================================
+C=======================================================================
 Chd|====================================================================
 Chd|  MOVFRA2                       source/tools/skew/movfram.F   
 Chd|-- called by -----------
@@ -447,7 +447,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IFRAME(LISKN,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XFRAME(NXFRAME,*), X(3,*), V(3,*), VR(3,*),
      .   D(3,*)
@@ -455,7 +455,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, N1, N2, N3, K, IMOV, IDIR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   O(3), P(9), PP1, PP3, PP2, POLD(9),PT(9),VRN(3),
      .         DR11, DR12, DR13,
@@ -821,7 +821,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IFRAME(LISKN,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XFRAME(NXFRAME,*), X(3,*), V(3,*), A(3,*), VR(3,*), AR(3,*),
      .   D(3,*)
@@ -829,7 +829,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, N1, N2, N3, K, IMOV
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   O(3), P(9), PP1, PP3, PP2, POLD(9),
      .         DR11, DR12, DR13,

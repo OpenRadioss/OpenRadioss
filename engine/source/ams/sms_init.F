@@ -258,7 +258,7 @@ C-----------------------------------------------
      .   IRBE2(NRBE2L,*), IRBE3(NRBE3L,*), LRBE2(*), LRBE3(*),
      .   IAD_ELEM(2,NSPMD+1) ,FR_ELEM(*), NPRW(*), LPRW(*),
      .   IPART(LIPART1,*), IGEO(NPROPGI,*), NATIV_SMS(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MS(*), MS0(*)
 C-----------------------------------------------
@@ -2191,7 +2191,7 @@ C-----------------------------------------------
       INTEGER NPRW(*), LPRW(*), FR_WALL(NSPMD+2,*) ,NRWL_SMS(*),
      .        IAD_ELEM(2,*), FR_ELEM(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2464,7 +2464,7 @@ C-----------------------------------------------
      .   WEIGHT(*), ITAB(*), LJOINT(*), FR_CJ(*),IADCJ(NSPMD+1,*)
       INTEGER NPRW(*), LPRW(*), FR_WALL(NSPMD+2,*) ,NRWL_SMS(*),
      .        IAD_ELEM(2,*), FR_ELEM(*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2565,7 +2565,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,*), IAD_ELEM(2,*), FR_ELEM(*)
       INTEGER INTLIST(*),NBINTC
-C     REAL ou REAL*8
+C     REAL
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

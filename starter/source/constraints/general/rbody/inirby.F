@@ -39,7 +39,7 @@ Chd|====================================================================
      .                  V     ,VR    ,ID    ,TITR  ,ITAGND,
      .                  RBY_INIAXIS)
       USE MESSAGE_MOD
-C===============================================
+C=======================================================================
 C    RBY    EN SORTIE DE INIRBY
 C     1 -> 9 :  MATRICE ROTATION
 C    10 -> 12:  INERTIES PRINCIPALES RBODY
@@ -75,7 +75,7 @@ C-----------------------------------------------
       INTEGER NPBY(NNPBY,*), M, ISPH, NRB
       INTEGER ITAB(*), RBYID,ITAGND(*)
       INTEGER, TARGET :: LPBY(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RBY(NRBY,*), MS(*), IN(*), X(3,*), SKEW(LSKEW,*),
      .   B1, B2, B3, B5, B6, B9,TOTMAS ,XGT ,YGT ,
@@ -1122,7 +1122,7 @@ Chd|====================================================================
      .                   ZGT ,NPBY ,IWA   ,V   ,VR, 
      .                   RBYID,ID  ,TITR  ,ITAGND ,RBY_INIAXIS)
       USE MESSAGE_MOD
-C===============================================
+C=======================================================================
 C    RBY    EN SORTIE DE INIRBY
 C     1 -> 9 :  MATRICE ROTATION
 C    10 -> 12:  INERTIES PRINCIPALES RBODY
@@ -1153,7 +1153,7 @@ C-----------------------------------------------
       INTEGER ITAB(*),NPBY(NNPBY,*) ,IWA(*),
      .        RBYID,ITAGND(*)
       INTEGER, TARGET :: LPBY(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RBY(NRBY,*), MS(*), IN(*), X(3,*), SKEW(LSKEW,*),
      .   V(3,*), VR(3,*),
@@ -1167,7 +1167,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NSL, J, I, N, NONOD,II,NI,K, NSLI,
      .        RBLEVEL, OPT_MERGE, M_I, NSL_XTRA
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XG(3), XM0(3), XX, XY, XZ, YY, YZ, ZZ, XIIN, INMIN,
      .   V1X2, V2X1, V2X3, V3X2, V3X1, V1X3,

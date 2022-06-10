@@ -57,7 +57,7 @@ C-----------------------------------------------
       INTEGER  NSN, NOINT, I2SIZE,I0, NELTST,ITYPTST
       INTEGER  IRECT(4,*),NSV(*),IRTL(*),WEIGHT(*),NODNX_SMS(*),
      .   IADI2(4,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VISC,DT2T
       my_real
@@ -84,7 +84,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NIR,I,J,IR,II,JJ,L,W,KK,K,LLT,NM,
      .   IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),NSVG(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   ECONTT,ECONVT,E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,XSM,YSM,ZSM,DTI,
      .   X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,MLX,MLY,MLZ,

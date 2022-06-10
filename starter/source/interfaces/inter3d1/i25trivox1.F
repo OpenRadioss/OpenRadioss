@@ -108,7 +108,7 @@ C-----------------------------------------------
      .        NBINFLG(*),MBINFLG(*),ILEV,MSEGTYP(*),
      .        IREMNODE,FLAGREMNODE,KREMNODE(*),REMNODE(*),
      .        INACTI, IPARTS(*), NPARTNS(*), LPARTNS(*), IELEM(*), ICODE(*), ISKEW(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),XYZM(6),STF(*),STFN(*),GAP_S(*),GAP_M(*),
      .   GAP_S_L(*),GAP_M_L(*), EDGE_L2(*),LEDGMAX,
@@ -126,7 +126,7 @@ C-----------------------------------------------
      .        PROV_N(MVSIZ),PROV_E(MVSIZ),
      .        M,NS,
      .        IEM,IPM,IPS
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DX,DY,DZ,XS,YS,ZS,XX,SX,SY,SZ,S2,
      .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, 
@@ -165,9 +165,9 @@ c     dev future: xminb plus grand que xmin...
       YMAXB = YMAX
       ZMAXB = ZMAX
 
-C================================================================
+C=======================================================================
 C 1   mise des noeuds dans les boites
-C================================================================
+C=======================================================================
        DO I=1,NSN
         IIX(I)=0
         IIY(I)=0
@@ -212,10 +212,10 @@ c         on saute directement au dernier
           NEXT_NOD(I)     = 0 ! pas de next apres I
         ENDIF
        ENDDO
-C================================================================
+C=======================================================================
 C 2   recherche des boites concernant chaque facette
 C     et creation des candidats
-C================================================================
+C=======================================================================
       TAGNOD(1:NUMNOD) = 0
 C-----------------------------------------------
       J_STOK = 0
@@ -492,9 +492,9 @@ C-------------------------------------------------------------------------
      4                NRTM  ,GAP_S  ,GAP_M ,NBINFLG  ,MBINFLG,
      5                ILEV,MSEGTYP,ITAB  ,IGAP ,GAP_S_L,
      6                GAP_M_L,EDGE_L2,ICODE,ISKEW,DRAD)
-C================================================================
+C=======================================================================
 C 4   remise a zero des noeuds dans les boites
-C================================================================
+C=======================================================================
  100  CONTINUE
 
       DO I=1,NSN

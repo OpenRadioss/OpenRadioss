@@ -71,14 +71,14 @@ C-----------------------------------------------
       INTEGER ICNDS10(3,*),WEIGHT(*),IAD_CNDM(*),FR_CNDM(*),FR_NBCCCND(2,*),
      .        ADDCNCND(*),PROCNCND(*),IADCND(2,*),ITAGND(*),ITAB(*)
       INTEGER NODFTSK,NODLTSK,EFTSK,ELTSK,ITSK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*),FSKYCND(4,*),STIFN(*),STIFND(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, K,ISIZE,LCOMM,LENS,LENR,NCT,NC,N1,N2,ND,IAD1,IAD2,IK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FX,FY,FZ ,FAC,STIF
 C======================================================================|
@@ -267,14 +267,14 @@ C-----------------------------------------------
       INTEGER ICNDS10(3,*),WEIGHT(*),IAD_CNDM(*),FR_CNDM(*),FR_NBCCCND(2,*),
      .        ADDCNCND(*),PROCNCND(*),IADCND(2,*),ITAGND(*),ITAB(*)
       INTEGER NODFTSK,NODLTSK,EFTSK,ELTSK,ITSK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*),FSKYCND(4,*), STIFN(*),STIFND(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, K,ISIZE,LCOMM,LENS,LENR,NCT,NC,N1,N2,ND,IAD1,IAD2,IK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FX,FY,FZ ,FAC,STIF
 C======================================================================|
@@ -439,7 +439,7 @@ C-----------------------------------------------
       INTEGER ICNDS10(3,*),IAD_CNDM(*),FR_CNDM(*),FR_NBCCCND(2,*),
      .        ADDCNCND(*),PROCNCND(*),ITAGND(*),ITAB(*),
      .        IAD_CNDM1(*),FR_CNDM1(*),FR_NBCCCND1(2,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   V(3,*),VND(3,*)
 C-----------------------------------------------
@@ -675,7 +675,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICNDS10(3,*),WEIGHT(*),IAD_CNDM(*),FR_CNDM(*),
      .        FR_NBCCCND(2,*),ADDCNCND(*),PROCNCND(*),IADCND(2,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*),V(3,*),VD(3,*),MS(*),FSKYCND(4,*)
 C-----------------------------------------------
@@ -683,7 +683,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J,NFTSK,NLTSK,N, K,ID1,ID2,NC,N1,N2,ND,CC,NCT,
      .         ISIZE,LCOMM,LENS,LENR
-CC     REAL ou REAL*8
+CC     REAL
       my_real
      .   FX1,FY1,FZ1 ,FX2,FY2,FZ2,FAC,FAC1,FAC2,DT05,VX,VY,VZ
       my_real
@@ -823,14 +823,14 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICNDS10(3,*),WEIGHT(*),IAD_CNDS(*),FR_CNDS(*),ITAB(*)
       INTEGER NODFTSK,NODLTSK,EFTSK,ELTSK,ITSK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STIFN(*),STIFND(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, K,LCOMM,IK,ND
-C     REAL ou REAL*8
+C     REAL
 C======================================================================|
 C-----get STIFND from interface part
 C STIFN of contact (element not done yet)
@@ -972,14 +972,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICNDS10(3,*),itab(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*),V(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J,NFTSK,NLTSK,N, K,ID1,ID2,NC,N1,N2,ND,CC,NCT
-C     REAL ou REAL*8
+C     REAL
          DO I=1,NS10E
            N1  = ICNDS10(2,I)
            N2  = ICNDS10(3,I)
@@ -1329,7 +1329,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICNDS10(3,*),WEIGHT(*),IAD_CNDM(*),FR_CNDM(*),DIM,
      .        FR_NBCCCND(2,*),ADDCNCND(*),PROCNCND(*),IADCND(2,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*),V(3,*),VD(3,*),MS(*),FSKYCND(4,*),
      .   DAMPR(NRDAMP,*), DAMP(DIM,*), SKEW(LSKEW,*)
@@ -1340,7 +1340,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J,NMD,NLTSK,N, K,ID1,ID2,NC,N1,N2,ND,CC,NCT,ISK,IGR
       INTEGER ITAGS(NUMNOD),ISIZE,LCOMM,LENS,LENR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FACTB,DAMPT,D_TSTART,D_TSTOP,DAMP_A(3),VSKW(3),DA_G(3),
      .   FX1,FY1,FZ1 ,FX2,FY2,FZ2,FAC,FAC1,FAC2,VX,VY,VZ
@@ -1673,7 +1673,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICNDS10(3,*),WEIGHT(*),IAD_CNDM(*),FR_CNDM(*),
      .        FR_NBCCCND(2,*),ADDCNCND(*),PROCNCND(*),IADCND(2,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*),V(3,*),VD(3,*),MS(*),FSKYCND(4,*)
 C-----------------------------------------------
@@ -1681,7 +1681,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J,NFTSK,NLTSK,N, K,ID1,ID2,NC,N1,N2,ND,CC,NCT,NGR2USR,
      .         ISIZE,LCOMM,LENS,LENR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FX1,FY1,FZ1 ,FX2,FY2,FZ2,FAC,FAC1,FAC2,DT05,VX,VY,VZ,DAMPC,DOMEGA
       my_real
@@ -1880,14 +1880,14 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICNDS10(3,*),WEIGHT(*),IAD_CNDS(*),FR_CNDS(*),ITAB(*)
       INTEGER NODFTSK,NODLTSK,EFTSK,ELTSK,ITSK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STIFN(*),STIFND(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, K,LCOMM,IK,ND
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STIFEL(NS10E)
 C======================================================================|

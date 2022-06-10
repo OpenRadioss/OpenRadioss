@@ -59,7 +59,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER IGEO(NPROPGI),IG,IGTYP
-C     REAL ou REAL*8
+C     REAL
       my_real GEO(NPROPG)
       CHARACTER*nchartitle,
      .   IDTITL
@@ -68,7 +68,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IROT ,IMODE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    PUN ,FN ,FT ,DX
       LOGICAL IS_AVAILABLE, IS_CRYPTED

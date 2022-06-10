@@ -66,7 +66,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,NINTER), ITASK, NIN,
      * COUNT_REMSLV(*), COUNT_REMSLVE(*)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .   X(*), V(3,*)
 
@@ -75,12 +75,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER KK, I, IFQ, I_STOK,NSNF,NSNL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT,GAP,STOPT
-C========================
+C=======================================================================
 C     ALLOCATABLE
-C========================
+C=======================================================================
 C-----------------------------------------------
       IFQ =IPARI(31,NIN) 
 C

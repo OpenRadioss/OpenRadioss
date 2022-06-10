@@ -115,7 +115,7 @@ C----------------------------------------------------------------
       LOGICAL          TOTAL,UNCHANGED,JACOBI,UNLOADING
       INTEGER          IND1,LD
       INTEGER          II,JJ,KEN,IDEAC
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STRAIN(MVSIZ,3),RATE(MVSIZ,3),RATEM(MVSIZ),
      .   VISC(MVSIZ,3),

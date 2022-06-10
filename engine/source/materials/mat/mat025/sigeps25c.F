@@ -78,7 +78,7 @@ C-----------------------------------------------
      .   IR,IS,IT,IPT,NPTT,NPTTOT,ILAY,IGTYP,IFAILURE,ISHPLYXFEM,IPG
       INTEGER NGL(MVSIZ),IERR(NEL),IPM(NPROPMI,*),
      .        NFIS1(MVSIZ),NFIS2(MVSIZ),NFIS3(MVSIZ),IOFF_DUCT(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*),OFF(*),OFF_OLD(*),GSTR(NEL,8),DIR(*),
      .   THLY(*),DT1C(*),SHF(*),THK0(MVSIZ),EXX(MVSIZ),EYY(MVSIZ),
@@ -110,7 +110,7 @@ C
      .   SIG(NEL,5),SIGPE(MVSIZ,5)
       my_real
      .       , DIMENSION(:), ALLOCATABLE :: GV,BETA
-c=======================================================================
+C=======================================================================
 C     PLASTICITE AUX POINTS D'INTEGRATION
 C-----------------------------------------------------------
 C

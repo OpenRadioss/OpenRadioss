@@ -114,11 +114,11 @@ C-----------------------------------------------
       ILAW    = 71
       CALL HM_GET_FLOATV('MAT_RHO'  ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho',RHOR     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-C======================================
+C=======================================================================
 C
 C     SHAPE MEMORY 
 C
-C======================================
+C=======================================================================
 Card1        
       CALL HM_GET_FLOATV('E'        ,E       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('nu'       ,NU      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -140,7 +140,7 @@ Card4
       CALL HM_GET_FLOATV('TFSA'     ,TFSA    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('CP'       ,CP      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('TINI'     ,TINI    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-C======================================
+C=======================================================================
       EFLAG = 0         
       IF (YLD_ASS >= YLD_ASF) 
      .         CALL ANCMSG(MSGID=1122,

@@ -50,7 +50,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBYM(NIRBYM,*),LNRBYM(*), KIND(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), A(3,*), AR(3,*), VR(3,*),V(3,*),
      .   VRRBYM(3,*), ARBYM(3,*),ARRBYM(3,*),VRBYM(3,*),
@@ -59,7 +59,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, M, NSL, NSLT
-C     REAL ou REAL*8
+C     REAL
       my_real RX, RY, RZ, MSX, MSY, MSZ, FSX, FSY, FSZ,
      .        XG,YG,ZG,USDT,V1X2,V2X1,V2X3,V3X2,V3X1,V1X3,
      .        VX2,VX1,VX3,VG(3)

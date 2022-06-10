@@ -52,7 +52,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NODFT,NODLT,NDDIM,NPLYMAX,NPLYXFE,INOD(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MS_LAYER(NPLYXFE,*), ZI_LAYER(NPLYXFE,*),
      .   MS(*),MSZ2(*)
@@ -227,7 +227,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NODFT,NODLT,NPLYXFE,INOD(*),J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MS(NPLYXFE,*),A(4,*),ALPHA(*)
 C-----------------------------------------------

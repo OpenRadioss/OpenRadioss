@@ -44,7 +44,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NC(MVSIZ,10),ITAGDN(*),NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFFG(*),A(3,*),STIFN(*),STI(*),DELTAX2(*),
      .   FX(MVSIZ,10), FY(MVSIZ,10), FZ(MVSIZ,10),
@@ -487,7 +487,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITAGDN(*),NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFFG(*),FSKYV(LSKY,8),FSKY(8,LSKY),STI(*),DELTAX2(*),
      .   FX(MVSIZ,10), FY(MVSIZ,10), FZ(MVSIZ,10),THEM(MVSIZ,10),

@@ -58,7 +58,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPF(*),IGEO(NPROPGI,*),NGL(*),MGN(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG,*), F(*), AL0(*), E(*), DL(*), TF(*), OFF(*),
      .   DV0(*), DPL2(*), FEP(*),ANIM(*),IPOS(*),FR_WAVE(*),V(3,*),
@@ -70,7 +70,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I, J, ILENG,NINDX, PID
       INTEGER NC1(MVSIZ), NC2(MVSIZ),INDX(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DLOLD(MVSIZ),DMN(MVSIZ),DMX(MVSIZ),XL0(MVSIZ),
      .   DV(MVSIZ),DMAX(MVSIZ),ALPHA(MVSIZ)

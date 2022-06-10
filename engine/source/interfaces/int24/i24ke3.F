@@ -77,12 +77,12 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,NINTER)
       INTEGER NIN,IDDL(*),IADK(*)     ,JDIK(*),LREM
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .  A(3,*), MS(*), V(3,*),X(*),K_DIAG(*),K_LT(*) 
       my_real 
      .        GAP_IMP
-C     REAL ou REAL*8
+C     REAL
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
       TYPE(IMP_INTBUF_STRUCT_) INTBUF_TAB_IMP
@@ -97,13 +97,13 @@ C-----------------------------------------------
      .        IDNJ,IDHJ
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ),KINI(MVSIZ),IXX(MVSIZ,13),ITRIV(4,MVSIZ) 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, FRIC, GAP, STOPT,
      .   VISC,VISCF,STIGLO,GAPMIN,
      .   KMIN, KMAX, GAPMAX,RSTIF,FHEAT,TINT,RHOH,EPS
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     NX1(MVSIZ), NX2(MVSIZ), NX3(MVSIZ), NX4(MVSIZ),
      .     NY1(MVSIZ), NY2(MVSIZ), NY3(MVSIZ), NY4(MVSIZ),

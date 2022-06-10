@@ -45,10 +45,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),D(3,*),CDG(*),XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX, SCALE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DX,DY,DZ
       INTEGER  N

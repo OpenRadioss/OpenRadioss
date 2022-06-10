@@ -113,7 +113,7 @@ C-----------------------------------------------
      .       E11,E22,E33,EPSF1,EPSF2,LAMBDA,UNIT_T,EPSP_UNIT
       my_real,DIMENSION(NEL) :: EPS11,EPS22,EPS33,EPS12,EPS23,EPS31,
      .   EPS_MAX,DAMAGE,RIEF1,RIEF2
-c=======================================================================
+C=======================================================================
       EPSF1   = UPARAM(1)
       EPSF2   = UPARAM(2)
       EPSP1   = UPARAM(3)            

@@ -43,7 +43,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TT,DT1,STIF,V1,V2,V3
       my_real
@@ -53,7 +53,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IREP1,J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   CS,SN,KSI
       my_real 
@@ -162,7 +162,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TT,DT1,STIF,WLX,WLY,WLZ
       my_real
@@ -172,7 +172,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IREP1,J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   CS,SN,KSI
       my_real 
@@ -288,7 +288,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TT,DT1,STIF,VX,VY,VZ,B1,B2,B3,C1,C2,C3,DET
       my_real
@@ -298,7 +298,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IREP1,J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   CS,SN,KSI
       my_real 
@@ -426,7 +426,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TT,DT1,STIF,VX,VY,VZ,B1,B2,B3,C1,C2,C3,DET
       my_real
@@ -436,7 +436,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IREP1,J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   CS,SN,KSI
       my_real 

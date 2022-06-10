@@ -62,14 +62,14 @@ C-----------------------------------------------
       INTEGER IRECT(4,*), IXC(NIXC,*), IXTG(NIXTG,*),
      .        KNOD2ELC(*) ,KNOD2ELTG(*) ,NOD2ELC(*) ,NOD2ELTG(*),
      .        IGEO(NPROPGI,*),IWORKSH(3,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG,*), PM(NPROPM,*),THK(*),PM_STACK(20,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, J, II, K, IAD,IGTYP, IPGMAT,IGMAT,ISUBSTACK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DXM, STM, DX, ST
 C-----------------------------------------------

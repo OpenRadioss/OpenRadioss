@@ -1355,7 +1355,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       INTEGER 
      .      NC1(*),NC2(*),NC3(*),NC4(*),NC5(*),NC6(*),NC7(*),NC8(*)
       my_real
@@ -1493,7 +1493,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER NEL
       my_real
      .   JAC_I(10,*)
@@ -1506,7 +1506,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
       
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AJ1(MVSIZ), AJ2(MVSIZ), AJ3(MVSIZ), 
      .   AJ4(MVSIZ), AJ5(MVSIZ), AJ6(MVSIZ),

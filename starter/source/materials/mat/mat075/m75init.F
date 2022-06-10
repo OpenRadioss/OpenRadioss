@@ -98,7 +98,7 @@ C----------------------------------------------------------------
 C  L O C A L  V A R I A B L E S
 C----------------------------------------------------------------
       INTEGER  I, IMAT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        CE, PE, PS, EN, RHO0S, ALPHAE, BULKS, C0, BETA, AA,
      .        DALPDPE, ALPHAP, BULK

@@ -55,7 +55,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JLT,JFT,NPLAT,IPLAT(*),NG
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VDEFPINCH(MVSIZ,3),DT1C(*),
      .   EPINCHXZ(*),EPINCHYZ(*),EZZ(MVSIZ),EZZPG(MVSIZ,4),

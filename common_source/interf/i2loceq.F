@@ -46,7 +46,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NIR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RS(3),RX(4),RY(4),RZ(4),FMX(4),FMY(4),FMZ(4),H(4),STIFM
 C-----------------------------------------------
@@ -59,7 +59,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FAC,MX,MY,MZ,D1,D2,DD,RAX,RBX,RAY,RBY,
      .   MXY,MYX,MYZ,MZY,MXZ,MZX,MXX,MYY,MZZ,RXX,RYY,FXX,FYY,FZZ,FA,FB
@@ -235,7 +235,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NIR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RS(3),RX(4),RY(4),RZ(4),FMX(4),FMY(4),FMZ(4),H(4),STIFM,MXS,MYS,MZS,STIFMR,
      .   BETAX,BETAY
@@ -249,7 +249,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FAC,MX,MY,MZ,D1,D2,DD,RAX,RBX,RAY,RBY,
      .   MXY,MYX,MYZ,MZY,MXZ,MZX,MXX,MYY,MZZ,RXX,RYY,FXX,FYY,FZZ,FA,FB

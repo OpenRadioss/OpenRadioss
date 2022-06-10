@@ -91,7 +91,7 @@ C-----------------------------------------------
       my_real :: PTHK,ZSHIFT,HM,HF,HR,DM,DN,ASHEAR,VX,VY,VZ,FAILEXP,CVIS,
      .           NORM,ANG,POS,PTHKLY,WEIGHT
       LOGICAL :: IS_AVAILABLE, IS_ENCRYPTED, LFOUND
-c=======================================================================
+C=======================================================================
       IS_AVAILABLE = .FALSE.
       IS_ENCRYPTED = .FALSE.
 c

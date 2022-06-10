@@ -100,7 +100,7 @@ C-----------------------------------------------
      .        IPARG(NPARG,*),ICODT(*),IBFV(*),NPBY(*),DD_R2R_ELEM(*),
      .        SDD_R2R_ELEM,WEIGHT_MD(*),ILENXV,NUMSPH_GLO_R2R,FLG_SPHINOUT_R2R,
      .        IPARI(NPARI,*)
-C     REAL ou REAL*8
+C     REAL
       my_real X(3,*), DX(3,*),MS(*),IN(*),RBY(*),STIFN(*),STIFR(*)
      .              
       DOUBLE PRECISION XDP(3,*)      
@@ -523,7 +523,7 @@ C-----------------------------------------------
      .        WEIGHT(*), DD_R2R(*),OFC,
      .        ADDCNEL(0:*),CNEL(0:*),IXC(NIXC,*),IEX,
      .        INFO,TYP,ICODT(*),ICODR(*),IBFV(NIFV,*)     
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        X(3,*),DX(3,*)
 C-----------------------------------------------
@@ -689,7 +689,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IDP, NNG, NGLOB, GRNOD(*),
      .        WEIGHT(*), DD_R2R(*),FLAG_ROT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        MS(*), IN(*)
 C-----------------------------------------------
@@ -745,7 +745,7 @@ C-----------------------------------------------
       INTEGER IDP, NNG, NGLOB,
      .        GRNOD(*),FLAG_ROT,
      .        WEIGHT(*), DD_R2R(*), IAD_ELEM(2,*), FR_ELEM(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        MS(*), IN(*)
 C-----------------------------------------------
@@ -812,7 +812,7 @@ C-----------------------------------------------
       INTEGER IDP, NNG, NGLOB,GRNOD(*),
      .        WEIGHT(*), DD_R2R(*),FLAG_ROT,
      .        NPBY(*), ADDR     
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        MS(*), IN(*), RBY(NRBY,*)
 C-----------------------------------------------
@@ -903,7 +903,7 @@ C-----------------------------------------------
      .        GRNOD(*),FLAG_ROT,IEX,
      .        WEIGHT(*), DD_R2R(*), IAD_ELEM(2,*), FR_ELEM(*),
      .        NPBY(*),ITAB(*)     
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        MS(*), IN(*), X(3,*),  RBY(NRBY,*)
       DOUBLE PRECISION XDP(3,*)     
@@ -1014,7 +1014,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NNOD,IBUF(*),NPBY(*),ITAB(*),NPROC,WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        MS(*), IN(*), X(*), RBY(NRBY,*)
       DOUBLE PRECISION XDP(3,*)

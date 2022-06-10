@@ -1306,14 +1306,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LFT,LLT,G_PLA,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SIG(NEL,6),E0(*),DEFP(*),FAC(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   S1,S2,S3,SIGY,DEFT
 C-----------------------------------------------
@@ -1367,14 +1367,14 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LFT,LLT,NC1(*), NC2(*), NC3(*), NC4(*), 
      .        NC5(*), NC6(*), NC7(*), NC8(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   KSI,ETA,ZETA,NI(*),TEMP(*),TEMPEL(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RP,SP,TP,SM,RM,TM
 C-----------------------------------------------

@@ -50,7 +50,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,IHBE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VL1(MVSIZ,3),VL2(MVSIZ,3),VL3(MVSIZ,3),VL4(MVSIZ,3),DT1C(*),
      .   PX1(MVSIZ), PX2(MVSIZ), PY1(MVSIZ), PY2(MVSIZ),
@@ -76,7 +76,7 @@ C-----------------------------------------------
      .     DT1V4, TMP1A(MVSIZ), TMP2A(MVSIZ), TMP3A(MVSIZ),
      .     TMP1B(MVSIZ), TMP2B(MVSIZ), TMP3B(MVSIZ),GZX(MVSIZ),
      .     GZY(MVSIZ)
-c=======================================================================
+C=======================================================================
 C
       DO I=JFT,JLT
         VX1(I)=E1X(I)*VL1(I,1)+E1Y(I)*VL1(I,2)+E1Z(I)*VL1(I,3)
@@ -243,7 +243,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PX1(MVSIZ), PX2(MVSIZ), PY1(MVSIZ), PY2(MVSIZ),
      .   VX13(MVSIZ), VX24(MVSIZ), VY13(MVSIZ), VY24(MVSIZ),
@@ -254,7 +254,7 @@ C-----------------------------------------------
       INTEGER I, J
       my_real
      .     S
-c=======================================================================
+C=======================================================================
         DO I=JFT,JLT
           F_DEF(I,1)=PX1(I)*VX13(I)+PX2(I)*VX24(I)
           F_DEF(I,2)=PY1(I)*VY13(I)+PY2(I)*VY24(I)

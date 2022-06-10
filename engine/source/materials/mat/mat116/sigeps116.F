@@ -80,7 +80,7 @@ c     UVAR(9)  = EPSM
 c     UVAR(10) = EPSM1   : mixed mode yield initiation strain
 c     UVAR(11) = EPSM2   : mixed mode damage initiation strain
 c     UVAR(12) = EPSMF   : mixed mode damage initiation strain
-c=======================================================================
+C=======================================================================
 C     INPUT PARAMETERS INITIALIZATION
 C-----------------------------------------------
       E       = UPARAM(1)  

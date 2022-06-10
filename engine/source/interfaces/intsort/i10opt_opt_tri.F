@@ -61,7 +61,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(*), ITASK, NIN,COUNT_REMSLV(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(*), V(3,*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
@@ -69,11 +69,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NOINT, I_STOK,CT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, GAP, STOPT
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 #include "sync_dir.inc"
 C-----------------------------------------------

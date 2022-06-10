@@ -428,7 +428,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPART(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MS(*),IN(*),X(3,*),V(3,*),PARTSAV(20,*),VOL(*),VOLU(*),MASS(*),
      .   MSS(8,*),INS(8,*) ,FILL(*)   
@@ -443,7 +443,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IP,I1,I2,I3,I4,I5,I6,I7,I8, J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XX,YY,ZZ,XY,YZ,ZX,
      .   MAS(MVSIZ,8),INN(MVSIZ,8)

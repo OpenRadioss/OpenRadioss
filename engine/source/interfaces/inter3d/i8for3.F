@@ -84,7 +84,7 @@ C-----------------------------------------------
       INTEGER IBC, IGIMP, NSN,LFT, LLT, NFT, IFORM,IFT0,NINSKID ,NINTERSKID,NIN 
       INTEGER MSR(*), NSV(*), IRTL(*), ICODT(*), ISKY(*),ITAB(*)
       INTEGER NSVGLO(*),NSV2(*),ILOC(*),IRECT(4,*)
-C     REAL ou REAL*8
+C     REAL
       INTEGER IX1(*), IX2(*), IX3(*), IX4(*),
      .  TAGNCONT(NLOADP_HYD_INTER,NUMNOD),
      .  KLOADPINTER(NINTER+1),LOADPINTER((NINTER+1)*NLOADP_HYD),

@@ -1374,7 +1374,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXX3  ,IXX4  , INTERSECA
-C     REAL ou REAL*8
+C     REAL
       my_real
      1     V12   ,V23    ,V34   ,V41    ,
      2     VO12     ,VO23  ,VO34   ,VO41  ,XX1    ,
@@ -1745,7 +1745,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXX3  ,IXX4  , INTERSECA, INTERSECB
-C     REAL ou REAL*8
+C     REAL
       my_real
      1     V12   ,V23    ,V34   ,V41    ,
      2     VO12     ,VO23  ,VO34   ,VO41  ,XX1    ,
@@ -2146,7 +2146,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXX3  ,IXX4  ,INTERSECT, SUBTRIA
-C     REAL ou REAL*8
+C     REAL
       my_real
      1     V12   ,V23    ,V34   ,V41    ,
      2     VO12     ,VO23  ,VO34   ,VO41  ,XX1    ,
@@ -2540,7 +2540,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXX3  ,IXX4  ,INTERSECT
-C     REAL ou REAL*8
+C     REAL
       my_real
      1     V12   ,V23    ,V34   ,V41    ,
      2     VO12     ,VO23  ,VO34   ,VO41  ,XX1    ,

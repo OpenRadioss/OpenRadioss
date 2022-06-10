@@ -31,7 +31,7 @@ Chd|====================================================================
       SUBROUTINE DELNUMBS(IPARG,IXS  ,EL2FA,NBF  ,INUM ,
      .                    DD_IAD  ,IADD ,NBPART,IADG ,KXSP ,
      .                    ISPH3D)
-C===============================================
+C=======================================================================
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -50,7 +50,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER IPARG(NPARG,*),
      .        IXS(NIXS,*),EL2FA(*),INUM(*),
      .        NBF,IADG(NSPMD,*),KXSP(NISP,*)

@@ -135,7 +135,7 @@ C-----------------------------------------------
      .   NPARTH,IPARTH(NPARTH,*),NVPARTH,
      .   NVSUBTH, MONVOL(*), FR_MV(*),INOD(*),NODREAC(*),KXX(NIXX,*),
      .   IXTG(NIXTG,*), IGAUP(*), NGAUP(*),ISPHIO(NISPHIO,*),ITHFLAG
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*), D(3,*), X(3,*), V(3,*), A(3,*), BUFEL(*), WA(*),
      .   FSAV(NTHVKI,*), FLSW(9,*), SKEW(LSKEW,*), PARTSAV(NPSAV,*),

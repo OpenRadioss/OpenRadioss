@@ -51,7 +51,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  ICRK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XNORM(3,*) 
 C-----------------------------------------------
@@ -59,10 +59,10 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I,INORM(3),K,P,IXNN,ND,ARSZ,EMPL,NFNOD_CRKXFEMG
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: INORMAR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   S3000,S
-c=======================================================================
+C=======================================================================
       S3000 = THREE1000
       IXNN = S3000
       IF (FMT_ANI == 4) IXNN=0

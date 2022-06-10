@@ -52,7 +52,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPC(*)
       INTEGER IBFT(NIFT,*),LSENSOR(NSENSI,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TEMP(*),TF(*), VAL(LFACTHER,*), SENSOR(NSENSR,*)
 C-----------------------------------------------
@@ -62,7 +62,7 @@ C-----------------------------------------------
      .        II, IC, NN, IDEB,
      .        ILENC(MVSIZ), IPOSC(MVSIZ), IADC(MVSIZ),
      .        INDEX(MVSIZ), ISMOOTH
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FAC, FACX, STARTT, STOPT, TS,
      .   YC(MVSIZ), TSC(MVSIZ), DYDXC(MVSIZ)

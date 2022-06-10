@@ -56,7 +56,7 @@ C-----------------------------------------------
      .        INVERT(*), NBF,NELCUT,NBPART,IADG(NSPMD,*)
       INTEGER DD_IAD(NSPMD+1,*), IADD(*), NBF_L
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF
       INTEGER II(4),IE,NG, ITY, LFT, LLT, N, I, J,

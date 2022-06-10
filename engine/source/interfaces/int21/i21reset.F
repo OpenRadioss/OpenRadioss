@@ -57,7 +57,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, FIRST, LAST,
      .        NSN
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, STOPT, TOL
 C-----------------------------------------------

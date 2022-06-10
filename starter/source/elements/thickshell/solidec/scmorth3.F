@@ -61,7 +61,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER PID(*),IGEO(NPROPGI,*),IREP,NGL(*),NSIGI,NSIGS,
      .   IXS(NIXS,*),ILAY,IPID,ORTHOGLOB(*),PT(*),NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG,*),SKEW(LSKEW,*),GAMA(NEL,6),ANGLE(*),
      .   RX(*) ,RY(*) ,RZ(*) ,SX(*) ,SY(*) ,SZ(*) ,TX(*) ,TY(*) ,TZ(*),

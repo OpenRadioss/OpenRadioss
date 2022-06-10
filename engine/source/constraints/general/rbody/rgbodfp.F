@@ -60,7 +60,7 @@ C-----------------------------------------------
       INTEGER NOD(*), WEIGHT(*), ICODR(*), ISKEW(*),
      .        IFLAG,NSN,M, NATIV_SMS(*),IPARSENS,
      .        NODREAC(*),CPTREAC
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AF(3,*), AM(3,*), X(3,*), FS(*), RBY(*), VR(3,*), SKEW(LSKEW,*),
      .   STIFN(*),STIFR(*),FOPTA(6),IN(*),MS(*), V(3,*),
@@ -72,7 +72,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N, LCOD, ISK, K
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   WA1, WA2, WA3, DD, VI(3),II1,II2,II3,II4,II5,II6,II7,II8,II9,
      .   ENROTT,ENCINT,XMASST,XMOMTT,YMOMTT,ZMOMTT,MAS,AFM1,AFM2,AFM3,

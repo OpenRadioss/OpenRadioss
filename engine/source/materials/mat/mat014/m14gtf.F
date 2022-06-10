@@ -50,11 +50,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SIG(NEL,6),
      .   AX(*),AY(*),AZ(*),BX(*),BY(*),BZ(*),CX(*),CY(*),CZ(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   T1(*), T2(*), T3(*), T4(*), T5(*), T6(*), D1(*), D2(*),
      .   D3(*), D4(*), D5(*), D6(*), E1(*), E2(*), E3(*), E4(*), E5(*),

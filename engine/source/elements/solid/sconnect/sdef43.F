@@ -41,7 +41,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,NPG
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .   VXLOC(MVSIZ,8),VYLOC(MVSIZ,8),VZLOC(MVSIZ,8),HH(4,NPG),
      .   DZX(MVSIZ,NPG),DYZ(MVSIZ,NPG),DZZ(MVSIZ,NPG)
@@ -49,7 +49,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IEL,IPG
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PG,P1,P2,P3,DXINF,DYINF,DZINF,DXSUP,DYSUP,DZSUP
       DATA   PG/0.5773502691896257645091488/

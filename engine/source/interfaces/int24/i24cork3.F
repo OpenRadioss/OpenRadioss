@@ -62,11 +62,11 @@ C-----------------------------------------------
      .        JLT,IDT, NOINT ,NDDIM, NSN, ITY, NIN, IGSTI,
      .        NVOISIN(8,*), KINI(*)
       INTEGER IXX(MVSIZ,13), NSVG(MVSIZ), ITRIV(4,MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), STF(*), STFN(*),
      .   MS(*), V(3,*),GAPS(MVSIZ),GAP_S(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
      .   XX0(MVSIZ,17),YY0(MVSIZ,17),ZZ0(MVSIZ,17),
@@ -524,8 +524,8 @@ C-----------------------------------------------
      .         JLT,JLT_NEW,NIN,NSN,LREM
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ)
-C     REAL ou REAL*8
-C     REAL ou REAL*8
+C     REAL
+C     REAL
       my_real
      .   VXI(MVSIZ), VYI(MVSIZ), VZI(MVSIZ), MSI(MVSIZ),
      .   X(3,*), STIF(*),N1(MVSIZ), N2(MVSIZ), N3(MVSIZ),
@@ -627,11 +627,11 @@ C-----------------------------------------------
       INTEGER IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*),
      .        JLT,NSN, NIN, NVOISIN(8,*),SUBTRIA(*)
       INTEGER IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ), NSVG(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), STIF_IMP(*), MS(*), V(3,*),N1(*),N2(*),N3(*),
      .   H1(*),H2(*),H3(*),H4(*),NJ_IMP(3,*),HJ_IMP(4,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
      .   VXI(MVSIZ), VYI(MVSIZ), VZI(MVSIZ), MSI(MVSIZ)

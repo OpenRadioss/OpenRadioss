@@ -51,7 +51,7 @@ C-----------------------------------------------
       INTEGER IMAT,IAD,NPARAM,NUMTABL,LENI,LENR
       my_real, DIMENSION(:), ALLOCATABLE :: RBUF
       TYPE(MATPARAM_STRUCT_) , POINTER :: MATPARAM
-c=======================================================================
+C=======================================================================
       NPARAM = 6
       LEN = NPARAM*NUMMAT + 1
       ALLOCATE (RBUF(LEN) )

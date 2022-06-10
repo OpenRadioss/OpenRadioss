@@ -45,14 +45,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPF(*), MAT(*),  IPM(NPROPMI,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   T(*), XK(*), TF(*),PM(NPROPM,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IFUNC, NPOINT, MX
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   BID,TSCAL,KSCAL
 C-----------------------------------------------

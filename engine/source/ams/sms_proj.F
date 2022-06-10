@@ -68,7 +68,7 @@ C-----------------------------------------------
      .         JADI_SMS(*),JDII_SMS(*),
      .         ISKYI_SMS(LSKYI_SMS,*),FR_SMS(NSPMD+1),FR_RMS(NSPMD+1),
      .         LIST_SMS(*), LIST_RMS(*), IMV(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_K(*), LT_K(*)  ,LTI_SMS(*), MSKYI_SMS(*),
      .  MSKYI_FI_SMS(*), VFI(*), MV(*), MS(*)
@@ -205,7 +205,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NODFT,NODLT,NUMNOD,ITASK,WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  X(3,*), R(3,*), DIAG_SMS(*)
 C-----------------------------------------------
@@ -325,7 +325,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NODFT ,NODLT ,NUMNOD ,ITASK,WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  P(3,*) ,PJ(3,*), DIAG_SMS(*)
 C-----------------------------------------------
@@ -448,7 +448,7 @@ C-----------------------------------------------
      .         JADI_SMS(*),JDII_SMS(*),
      .         ISKYI_SMS(LSKYI_SMS,*),FR_SMS(NSPMD+1),FR_RMS(NSPMD+1),
      .         LIST_SMS(*), LIST_RMS(*), IMV(*), KINET(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_K(*), LT_K(*)  ,LTI_SMS(*), MSKYI_SMS(*),
      .  MSKYI_FI_SMS(*), VFI(*), MV(*), MS(*), U(3,*), P(3,*), Y(3,*)
@@ -544,7 +544,7 @@ C-----------------------------------------------
      .         JADI_SMS(*),JDII_SMS(*),
      .         ISKYI_SMS(LSKYI_SMS,*),FR_SMS(NSPMD+1),FR_RMS(NSPMD+1),
      .         LIST_SMS(*), LIST_RMS(*), IMV(*), KINET(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_K(*), LT_K(*)  ,LTI_SMS(*), MSKYI_SMS(*),
      .  MSKYI_FI_SMS(*), VFI(*), MV(*), MS(*), PREC_SMS(*)
@@ -645,7 +645,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NUMNOD, NODFT, NODLT, NPF,   NPL,
      .         NODNX_SMS(*), KINET(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  S(NUMNOD,*)
 C-----------------------------------------------
@@ -713,7 +713,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NODFT  ,NODLT ,WEIGHT(*) ,ITASK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  X(*), Y(*)  ,R
 C-----------------------------------------------
@@ -838,7 +838,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NODFT  ,NODLT ,WEIGHT(*) ,ITASK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  X(*), Y(3,*)  ,R(3)
 C-----------------------------------------------
@@ -1000,7 +1000,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NODFT ,NODLT ,NUMNOD ,MD   ,ITASK ,WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  A(NUMNOD,*), B(3,*), C(3,*)  
 C-----------------------------------------------
@@ -1048,7 +1048,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NODFT ,NODLT ,NUMNOD,MD   ,ITASK,WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  A(NUMNOD,*), B(NUMNOD,*), C(MD,*)  
 C-----------------------------------------------
@@ -1102,7 +1102,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NUMNOD ,MD_F,MD_L,NODFT ,NODLT    ,WEIGHT(*), ITASK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  A(NUMNOD,*)
 C-----------------------------------------------
@@ -1165,7 +1165,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  ND  ,MD   ,ITASK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  A(ND,*), B(3,*), C(3,*)  
 C-----------------------------------------------
@@ -1220,7 +1220,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL  
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  X(*), Y(3,*)  ,R(3)
 C-----------------------------------------------

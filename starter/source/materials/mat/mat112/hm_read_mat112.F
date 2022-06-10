@@ -83,7 +83,7 @@ C-----------------------------------------------
        INTEGER I, J, ILAW, Ires, Itab, Ismooth
        INTEGER TAB_YLD1,TAB_YLD2,TAB_YLD3,TAB_YLD4,TAB_YLD5,
      .         TAB_YLDC,TAB_YLDS
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RHO0,RHOR,
      .   YOUNG1,YOUNG2,YOUNG3,NU12,NU21,G12,G23,G31,

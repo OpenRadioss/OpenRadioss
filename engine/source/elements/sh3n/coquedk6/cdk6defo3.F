@@ -46,7 +46,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C  ds007  18/2/00   +1
       INTEGER JFT, JLT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PX2(*),PY2(*),PX3(*),PY3(*),PB1(MVSIZ,3,3),PB2(MVSIZ,3,3),PB3(MVSIZ,3,6),
      .   VLX(MVSIZ,2),VLY(MVSIZ,2),VLZ(MVSIZ,6),VZ4(MVSIZ,3),VZ5(MVSIZ,3),VZ6(MVSIZ,3),VDEF(MVSIZ,8)

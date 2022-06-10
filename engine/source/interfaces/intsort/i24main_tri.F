@@ -101,7 +101,7 @@ C-----------------------------------------------
      .        ISENDTO(NINTER+1,*),IRCVFROM(NINTER+1,*),
      .        WEIGHT(*), IAD_ELEM(2,*) ,FR_ELEM(*),
      .        RENUM(NUMNOD), NSNFIOLD(NSPMD), NODNX_SMS(*), T2MAIN_SMS(6,*)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .    X(3,*), V(*), MS(*),TEMP(*),T2FAC_SMS(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
@@ -116,7 +116,7 @@ C-----------------------------------------------
       INTEGER 
      .        ILD, NCONT, NCONTACT, INACTII, INACIMP, INTTH,
      .        I_MEM,CAND_N_OLD,ILEV,FLAGREMN, NRTSE ,NMN_L
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT,GAP,MAXBOX,MINBOX,STOPT,DIST,
      .   XMAXL, YMAXL, ZMAXL, XMINL, YMINL, ZMINL, GAPMIN, GAPMAX,

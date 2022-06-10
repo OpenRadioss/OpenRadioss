@@ -43,7 +43,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,NPLAT,
      .        MAT(*),IXC(NIXC,*),IPLAT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AREA(*), 
      .   TEMPNC(*), FPHI(MVSIZ,4), PM(NPROPM,*),DIE(*),
@@ -56,7 +56,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J,MX, EP,N1,N2,N3,N4
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  CA,CB ,KC ,PHIX,PHIY,A,TEMP1,TEMP2,TEMP3,TEMP4,
      .  TEMP13,TEMP24,TEMPH

@@ -64,7 +64,7 @@ C-----------------------------------------------
       INTEGER JFT, JLT,NLAY,ISMSTR,IREP,NEL
       INTEGER IXTG(NIXTG,*),MAT(*),PID(*),NGL(*),IXTG1(4,*),
      .        NVS,IVS(*),IGEO(NPROPGI,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),V(3,*),R(3,*), OFFG(*), OFF(*),
      .   R11(*),R12(*),R13(*),R21(*),R22(*),R23(*),
@@ -83,7 +83,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NC1, NC2, NC3, NC4(MVSIZ), NC5(MVSIZ), NC6(MVSIZ),
      .        I,II(13), J,I1, I2, I3, N ,SVS,JVS(MVSIZ),EP, MAT_1
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ),
      .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), 

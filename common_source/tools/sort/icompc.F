@@ -41,13 +41,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER I, J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TAB(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C...Translated by Pacific-Sierra Research VAST-2  3.04F8  17:16:22  11/15/91   -
         ICOMPC=1
         IF(TAB(I).LT.TAB(J)) THEN
         ICOMPC=-1

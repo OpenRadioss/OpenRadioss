@@ -42,14 +42,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, NSV(*), ITAG(*), ITASK, NEWFRONT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        STFN(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NSNF, NSNL
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
       NSNF = 1 + ITASK*NSN / NTHREAD
       NSNL = (ITASK+1)*NSN / NTHREAD
@@ -90,14 +90,14 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, NSV(*), ITAG(*), ITASK, NEWFRONT
       INTEGER IS2SE(2,*),IRTSE(5,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        STFN(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NSNF, NSNL,ND,SE
-C     REAL ou REAL*8
+C     REAL
       INTEGER IK1(4),IK2(4),IE1,IE2,IED,NS1,NS2
       DATA IK1 /1,2,3,4/
       DATA IK2 /2,3,4,1/
@@ -148,14 +148,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, NSV(*), ITAG(*), ITASK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        STFN(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NSNF, NSNL
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
       NSNF = 1 + ITASK*NSN / NTHREAD
       NSNL = (ITASK+1)*NSN / NTHREAD
@@ -192,14 +192,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, NSV(*), ITAG(*), NLG(*), ITASK, NEWFRONT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        STFA(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NSNF, NSNL
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
       NSNF = 1 + ITASK*NSN / NTHREAD
       NSNL = (ITASK+1)*NSN / NTHREAD
@@ -1977,7 +1977,7 @@ C-----------------------------------------------
      .        CNEL(0:*), ADDCNEL(0:*), OFC, OFT, OFTG, OFUR, NINDG,
      .        NINDEX(*), BUFS(*), TAGEL(*) ,NG,MSEGLO(*),MVOISIN(*),
      .        INDSEGLO(*) ,IBUFSEGLO(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        STF(*)
 C-----------------------------------------------
@@ -1985,7 +1985,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4, 
      .        NN, II, IX, K, NIND, N, NIND2, NINDL(NRTM*2),MA_SURF,IND_SEGLO(NRTM*2),NIND_SEGLO
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
       NMNF = 1 + ITASK*NMN / NTHREAD
       NMNL = (ITASK+1)*NMN / NTHREAD
@@ -2169,7 +2169,7 @@ C-----------------------------------------------
      .        ITABM1(*), CNEL(0:*), ADDCNEL(0:*), OFC, OFT, OFTG, OFUR,
      .        NINDG, NINDEX(*), BUFS(*), TAGEL(*),
      .        NG,MSEGLO(*),MVOISIN(*),IBUFSEGLO(*),INDSEGLO(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        STF(*)
 C-----------------------------------------------
@@ -2177,7 +2177,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4, 
      .        NN, II, IX, K, NIND, NIND2, N, NINDL(NRTM),IND_SEGLO(NRTM*2),NIND_SEGLO
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
       NMNF = 1 + ITASK*NMN / NTHREAD
       NMNL = (ITASK+1)*NMN / NTHREAD
@@ -2353,7 +2353,7 @@ C-----------------------------------------------
      .        IXTG(NIXTG,*), IPARG(NPARG,*), ITAGL(*),ITAB(*),ITABM1(*),
      .        CNEL(0:*), ADDCNEL(0:*), OFC, OFT, OFTG, OFUR, NINDG,
      .        NINDEX(*), BUFS(*), NLG(*), TAGEL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        STF(*)
 C-----------------------------------------------
@@ -2362,7 +2362,7 @@ C-----------------------------------------------
       INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4, 
      .        NN, II, IX, K, NIND, N, NIND2, N1L, N2L, N3L, N4L,
      .        NINDL(NRTM)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
       NMNF = 1 + ITASK*NMN / NTHREAD
       NMNL = (ITASK+1)*NMN / NTHREAD
@@ -2517,7 +2517,7 @@ C-----------------------------------------------
      .        IXTG(NIXTG,*), IPARG(NPARG,*), ITAGL(*), ITAB(*),
      .        ITABM1(*), CNEL(0:*), ADDCNEL(0:*), OFC, OFT, OFTG, OFUR,
      .        NINDG, NINDEX(*), BUFS(*), NLG(*), TAGEL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        STF(*)
 C-----------------------------------------------
@@ -2526,7 +2526,7 @@ C-----------------------------------------------
       INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4, 
      .        NN, II, IX, K, NIND, NIND2, N, N1L, N2L, N3L, N4L,
      .        NINDL(NRTM)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
       NMNF = 1 + ITASK*NMN / NTHREAD
       NMNL = (ITASK+1)*NMN / NTHREAD
@@ -2686,7 +2686,7 @@ C-----------------------------------------------
      .        IFL,NEWFRONT,
      .        CNEL(0:*), ADDCNEL(0:*), OFC, OFT, OFTG, OFUR, OFR, OFP,
      .        NINDG, NINDEX(*), BUFS(*), TAGEL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        STF(*), GEO(NPROPG,*)
 C-----------------------------------------------
@@ -2694,7 +2694,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4, 
      .        NN, II, IX, K, NIND, N, NIND2, NINDL(NRTM)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
       NMNF = 1 + ITASK*NMN / NTHREAD
       NMNL = (ITASK+1)*NMN / NTHREAD
@@ -2865,7 +2865,7 @@ C-----------------------------------------------
      .        ITABM1(*),IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),
      .        CNEL(0:*), ADDCNEL(0:*), OFC, OFT, OFTG, OFUR, OFR, OFP,
      .        NINDG, NINDEX(*), BUFS(*), TAGEL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        STF(*), GEO(NPROPG,*)
 C-----------------------------------------------
@@ -2873,7 +2873,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4, 
      .        NN, II, IX, K, NIND, NIND2, N, NINDL(NRTM)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
       NMNF = 1 + ITASK*NMN / NTHREAD
       NMNL = (ITASK+1)*NMN / NTHREAD
@@ -3047,7 +3047,7 @@ C-----------------------------------------------
      .        IFL,NEWFRONT,
      .        CNEL(0:*), ADDCNEL(0:*), OFC, OFT, OFTG, OFUR, OFR, OFP,
      .        NINDG, NINDEX(*), BUFS(*), NLG(*), TAGEL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        STF(*), GEO(NPROPG,*)
 C-----------------------------------------------
@@ -3055,7 +3055,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N1L, N2L, 
      .        NN, II, IX, K, NIND, N, NIND2, NINDL(NRTM)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
       NMNF = 1 + ITASK*NMN / NTHREAD
       NMNL = (ITASK+1)*NMN / NTHREAD
@@ -3233,7 +3233,7 @@ C-----------------------------------------------
      .        ITABM1(*),IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),
      .        CNEL(0:*), ADDCNEL(0:*), OFC, OFT, OFTG, OFUR, OFR, OFP,
      .        NINDG, NINDEX(*), BUFS(*), NLG(*), TAGEL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        STF(*), GEO(NPROPG,*)
 C-----------------------------------------------
@@ -3241,7 +3241,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N1L, N2L, 
      .        NN, II, IX, K, NIND, NIND2, N, NINDL(NRTM)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
       NMNF = 1 + ITASK*NMN / NTHREAD
       NMNL = (ITASK+1)*NMN / NTHREAD
@@ -3405,7 +3405,7 @@ C-----------------------------------------------
      .        ITAG2(*), IXS(NIXS,*), IXQ(NIXQ,*), IXC(NIXC,*),
      .        IXTG(NIXTG,*), IPARG(NPARG,*), ITAGL(*), TAGEL(*),
      .        CNEL(0:*), ADDCNEL(0:*), OFC, OFT, OFTG, OFUR,ILEV
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        MS(*),IN(*),SMAS(*),SINER(*),ADM(*)
 C-----------------------------------------------
@@ -3413,7 +3413,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, NSNF, NSNL, IS, L, N1, N2, N3, N4, 
      .        II, IX, K, NIND, N, NINDEX(NSN)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C
       CALL MY_BARRIER()
@@ -3535,7 +3535,7 @@ C-----------------------------------------------
      .        IXTG(NIXTG,*), IPARG(NPARG,*), ITAGL(*), TAGEL(*),
      .        CNEL(0:*), ADDCNEL(0:*), OFC, OFT, OFTG, OFUR, ILEV,
      .        NINDG, NINDEX(*), BUFS(*),ITAB(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        MS(*),IN(*),SMAS(*),SINER(*),ADM(*)
 C-----------------------------------------------
@@ -3543,7 +3543,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, NSNF, NSNL, IS, L, N1, N2, N3, N4, 
      .        II, IX, K, NIND, N, NINDEX0(NSN),NIND2
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C
       ICOMP = 0
@@ -3686,7 +3686,7 @@ C-----------------------------------------------
      .        ITABM1(*), CNEL(0:*), ADDCNEL(0:*),
      .        OFC, OFT, OFTG, OFUR, NINDG,
      .        INDEX(*), BUFS(*),IDEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        MS(*),IN(*),SMAS(*),SINER(*),ADM(*)
 C-----------------------------------------------
@@ -3694,7 +3694,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NSNF, NSNL, IS, L, N1, N2, N3, N4, 
      .        NN, II, NINDEX, J
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
       ICOMP = 0
       CALL MY_BARRIER()
@@ -3793,7 +3793,7 @@ C-----------------------------------------------
      .        IXTG(NIXTG,*), IPARG(NPARG,*), ITAGL(*),ITAB(*),ITABM1(*),
      .        CNEL(0:*), ADDCNEL(0:*), OFC, OFT, OFTG, OFUR, NINDG,
      .        NINDEX(*), BUFS(*), TAGEL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        STF(*)
 C-----------------------------------------------
@@ -3801,7 +3801,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4, 
      .        NN, II, IX, K, NIND, N, NIND2, NINDL(NRTM)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
       NMNF = 1 + ITASK*NMN / NTHREAD
       NMNL = (ITASK+1)*NMN / NTHREAD
@@ -3947,7 +3947,7 @@ C-----------------------------------------------
      .        IXTG(NIXTG,*), IPARG(NPARG,*), ITAGL(*), ITAB(*),
      .        ITABM1(*), CNEL(0:*), ADDCNEL(0:*), OFC, OFT, OFTG, OFUR,
      .        NINDG, NINDEX(*), BUFS(*), TAGEL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        STF(*)
 C-----------------------------------------------
@@ -3955,7 +3955,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4, 
      .        NN, II, IX, K, NIND, NIND2, N, NINDL(NRTM)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
       NMNF = 1 + ITASK*NMN / NTHREAD
       NMNL = (ITASK+1)*NMN / NTHREAD
@@ -4089,7 +4089,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NINDG, NTY, IDEL, IFL, NEWFRONT, NINDEX(*), BUFS(*),NRTM,
      *        NG,MSEGLO(*),MVOISIN(*),IBUFSEGLO(*),INDSEGLO(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        STF(*)
 C-----------------------------------------------
@@ -4212,7 +4212,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NINDG, NINDEX(*), BUFS(*), NSV(*), IDEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        MS(*), SMAS(*), IN(*), SINER(*)
 C-----------------------------------------------

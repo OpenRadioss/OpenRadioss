@@ -88,7 +88,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER    ::     ISHELL,IMARGIN,IENG,IXFEM
       my_real    ::     RANI,DADV,FACT_MARGIN,FACT_LOOSEMETAL
 C-----------------------------------------------

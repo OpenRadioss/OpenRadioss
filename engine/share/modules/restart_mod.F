@@ -164,9 +164,9 @@ C Mat+ Prop timers (DDW/MONON)
       my_real, DIMENSION(:,:), ALLOCATABLE :: CPUTIME_MP_GLOB
       my_real, DIMENSION(:), ALLOCATABLE :: CPUTIME_MP
 c      my_real, DIMENSION(:,:), ALLOCATABLE :: PSKID
-C===============================================
+C=======================================================================
 C     Specific Adaptive Meshing :
-C===============================================
+C=======================================================================
 C     SH4TREE(KSHTREE,NUMELC), SH3TREE(KSHTREE,NUMELTG)
 C     1: father
 C     2: 1st son (2nd son = 1st + 1, 3rd son = 1st + 2, 4th son = 1st + 3)
@@ -203,7 +203,7 @@ C     Thermic
 C-----------------------------------------------
       my_real, 
      .         DIMENSION(:),ALLOCATABLE :: MCPC, MCPTG
-C===============================================
+C=======================================================================
       DOUBLE PRECISION,
      .         DIMENSION(:), ALLOCATABLE :: DDP
 
@@ -238,7 +238,7 @@ Chd|====================================================================
      .         DIMENSION(:),ALLOCATABLE :: BUFIN
         TARGET :: BUFIN
       END MODULE INTBUFMOD
-C===============================================
+C=======================================================================
 Chd|====================================================================
 Chd|  INTBUF_MOD                    share/modules/restart_mod.F   
 Chd|-- called by -----------
@@ -257,7 +257,7 @@ Chd|====================================================================
         TYPE(INT8_STRUCT_),TARGET,DIMENSION(:),ALLOCATABLE :: T8
 
       END MODULE INTBUF_MOD
-C===============================================
+C=======================================================================
 Chd|====================================================================
 Chd|  FSKYI_MOD                     share/modules/restart_mod.F   
 Chd|-- called by -----------

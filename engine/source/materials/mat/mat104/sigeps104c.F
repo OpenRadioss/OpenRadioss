@@ -91,12 +91,12 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,II,IGURSON,NSP,ITER,NITER,NINDX,NICE,INDEX(NEL),INDX(NEL),
      .        IR,IS,IT
-c=======================================================================
+C=======================================================================
 c      UVAR(1)     
 c      UVAR(2)     
 C      DEPIJ = PLASTIC STRAIN TENSOR COMPONENT
 C      DEPSIJ = TOTAL STRAIN  TENSOR COMPONENT (EL+PL)
-c=======================================================================
+C=======================================================================
 c  
        NICE    = NINT(UPARAM(11))! Plastic projection method
                                  !  = 1 => Nice method

@@ -453,7 +453,7 @@ C-----------------------------------------------
       INTEGER 
      .        NIR,IRECT(*),I,NR,NODS(*),ITAB(*)
       INTEGER NDDL,IADK(*),JDIK(*),NDOF(*),IDDL(*),IKC(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DIAG_K(*),LT_K(*),B(*)
 C-----------------------------------------------
@@ -466,7 +466,7 @@ C-----------------------------------------------
       INTEGER  J, J1, J2, J3, J4, K, JD, II, L, JJ,
      .        I1,ID,NL,NI,NJ,NIDOF,ND,NDI,NDJ,NDM,NM,L1,NM1,
      .        NIR1,IR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   KDD(6,6),BD(6),KII(6,6),BI(6),FACM,FACM2
 C --------------------------------------------------    

@@ -70,7 +70,7 @@ C-----------------------------------------------
       INTEGER, INTENT(in) :: JFT,JLT
       INTEGER, INTENT(in) :: ITASK
       INTEGER, DIMENSION(*), INTENT(in) ::  IPART
-C     REAL ou REAL*8
+C     REAL
       my_real, DIMENSION(*), INTENT(in) :: EI,EK
       my_real, DIMENSION(*), INTENT(in) :: OFF
 C-----------------------------------------------

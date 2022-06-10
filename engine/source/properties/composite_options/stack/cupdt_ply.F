@@ -60,7 +60,7 @@ C-----------------------------------------------
       INTEGER JFT, JLT, NVC
       INTEGER IADC(4,*),IXC(NIXC,MVSIZ),ISTACK(MVSIZ,NPT),IEL(*),
      .        INOD(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    OFFG(*), OFF(*),  IN(*), MS(*),MS_PLY(NPLYXFE,*),
      .     POSLY(MVSIZ,NPT),ZI_PLY(NPLYXFE,*),

@@ -83,7 +83,7 @@ C-----------------------------------------------
       INTEGER I_STOK,ITASK,ITIED,NINT,NME,NSE,NISKYFI,LSKYI17,NOINT,
      .  CANDN(*),CANDE(*), ISKY(*),
      .  IXS(NIXS,*),IXS16(8,*),NELES(*)  ,NELEM(*) 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  X(3,*),V(3,*),EMINXM(6,*),EMINXS(6,*),A(3,*),STIFN(*),
      .  FSKYI   ,FROTM(7,*),FROTS(7,*),KM(*),KS(*),FRIC(*), FSAV(*),
@@ -344,7 +344,7 @@ C-----------------------------------------------
       INTEGER LLT,ITIED,NINT ,IE_MIN,IES_MIN,NISKYFI,NOINT 
       INTEGER ITASK,
      .        III(MVSIZ,17),IIIS(MVSIZ,16),LE(*) ,LES(*), ISKY(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  V(3,*),A(3,*),KM(*),KS(*),FRIC(*), MS(*)
       my_real
@@ -576,7 +576,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LLT,
      +        ICONT(MVSIZ,4)
-C     REAL ou REAL*8
+C     REAL
       my_real
      + SI_S(MVSIZ,*),NI_S(MVSIZ,*),RI_S(MVSIZ,*),TI_S(MVSIZ,*),
      + XXS(MVSIZ,*) ,YYS(MVSIZ,*) ,ZZS(MVSIZ,*) ,
@@ -1518,7 +1518,7 @@ C-----------------------------------------------
       INTEGER LLT,NINT   
       INTEGER III(MVSIZ,17),IIIS(MVSIZ,16),
      +        ICONT(MVSIZ,4), LES(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  V(3,*),A(3,*),VIT(*)
       my_real
@@ -1653,7 +1653,7 @@ C-----------------------------------------------
       INTEGER LLT,ITIED,NINT,NISKYFI,NOINT   
       INTEGER III(MVSIZ,17),IIIS(MVSIZ,16),ICONT(MVSIZ), ISKY(*),
      .        LE(*) ,LES(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  V(3,*),A(3,*),VIT(*), MS(*)
       my_real
@@ -2187,7 +2187,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSKYI17, NMES, LSKYI17, ISKYI17(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        FSKYI17(LSKYI17,4),FROTS(7,*)
 C-----------------------------------------------

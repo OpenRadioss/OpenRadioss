@@ -112,7 +112,7 @@ C-----------------------------------------------
       INTEGER NPF(*),IXTG(NIXTG,*),IADTG(3,*),IGEO(NPROPGI,*),ITAB(*),
      .        IPM(NPROPMI,*),IPARTTG(*),GRTH(*),IGRTH(*),IPARG(*),
      .        LSENSOR(NSENSI,*)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .   PM(*), X(*), F(*), M(*), V(*), R(*),
      .   GEO(NPROPG,*), TF(*), BUFMAT(*), PMSAV(*),STIFN(*),

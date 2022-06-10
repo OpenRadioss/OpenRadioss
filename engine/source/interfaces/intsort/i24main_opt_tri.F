@@ -63,7 +63,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,NINTER),ITASK, NIN,
      .        COUNT_REMSLV(*),NSNR,T2MAIN_SMS(6,*),LSKYI_SMS_NEW
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .   X(*), V(3,*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
@@ -72,12 +72,12 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER KK, I, IFQ, I_STOK,CT,
      .        IEDGE,IGSTI,NSNEL,NRTSE,IEDG4,IFIT,NFIT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT,GAP,STOPT
-C========================
+C=======================================================================
 C     ALLOCATABLE
-C========================
+C=======================================================================
 C-----------------------------------------------
 
       IFQ =IPARI(31,NIN) 

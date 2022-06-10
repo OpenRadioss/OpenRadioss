@@ -62,7 +62,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,NELTST,ITYPTST,ISMSTR,IOFC,NNE, JSMS,IGTYP
       INTEGER NGL(*),IGMAT,G_DT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF(*),STI(*),STIR(*),OFFG(*),SSP(*),AMU(*),
      .   ALDT(*), ALPE(*), A1(*), THK0(*),THK02(*),
@@ -74,7 +74,7 @@ C-----------------------------------------------
       INTEGER INDXOF(MVSIZ),
      .        I, J, II, NINDX,IDT,ITYEL
       my_real DT(MVSIZ),FAC,MAS,DIVM,MMIN  ,IZ   
-c=======================================================================
+C=======================================================================
       DO I=JFT,JLT
         VISCMX(I) = MAX(VISCMX(I), AMU(I))
         VISCMX(I) = SQRT(ONE + VISCMX(I)*VISCMX(I)) - VISCMX(I)

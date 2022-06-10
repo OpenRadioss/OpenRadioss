@@ -50,7 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       DOUBLE PRECISION
      .   XD1(*), XD2(*), XD3(*), XD4(*), XD5(*), XD6(*), XD7(*), XD8(*),
      .   YD1(*), YD2(*), YD3(*), YD4(*), YD5(*), YD6(*), YD7(*), YD8(*),
@@ -67,7 +67,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,J1,J2,K,IX1,IX2,IX3,IX4,IX5,IX6,IX7,IX8,KMAX
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  X13,Y13,Z13,X24,Y24,Z24,SX(3),SY(3),SZ(3),SN(3),DH,DHX,DHY,DHZ,
      .  XC1,YC1,ZC1,XC2,YC2,ZC2,X(3,8),H,SNMAX,HTEST(MVSIZ),HCLOS(MVSIZ)

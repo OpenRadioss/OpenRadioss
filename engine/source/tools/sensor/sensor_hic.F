@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-C==========================================================
+C=======================================================================
 Chd|====================================================================
 Chd|  SENSOR_HIC                    source/tools/sensor/sensor_hic.F
 Chd|-- called by -----------
@@ -76,7 +76,7 @@ c        SENSOR%VAR(2) :  Integral of acceleration over time within current time
 c        SENSOR%VAR(3) :  Index of current time interval in data table
 c        SENSOR%VAR(4) :  Previous HIC value
 c        SENSOR%VAR(5...5+NPOINT)  : average acceleration data table by time intervals
-c=======================================================================
+C=======================================================================
       IF (SENSOR%STATUS == 3) RETURN   ! already activated
 c
       ISENSOR_TYPE = SENSOR%IPARAM(1)

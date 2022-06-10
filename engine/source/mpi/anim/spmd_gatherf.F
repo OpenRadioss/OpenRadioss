@@ -63,7 +63,7 @@ C-----------------------------------------------
        INTEGER, DIMENSION(:) , ALLOCATABLE :: IBUF
 Cow Tableau utilise par proc 0
        REAL, DIMENSION(:) , ALLOCATABLE :: XGLOB
-C===================================================================
+C=======================================================================
        ALLOCATE(BUFSR(NUMNODM), IBUF(NUMNODM))
        ALLOCATE(XGLOB(NUM))
   

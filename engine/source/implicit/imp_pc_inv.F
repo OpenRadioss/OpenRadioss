@@ -49,7 +49,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL ,NNZ ,IADK(*),JDIK(*),NNZM ,IADM(*),JDIM(*),
      .         MAXC ,MAXA ,MAX_L,IOPT,NNE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_K(*), DIAG_M(*), LT_K(*)  ,LT_M(*) ,PSI 
 C-----------------------------------------------
@@ -125,7 +125,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  M,N ,MAXC
-C     REAL ou REAL*8
+C     REAL
       my_real
      . A(MAXC,*),MJ(*)
 C-----------------------------------------------
@@ -171,7 +171,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL  ,MAXC,MAXA,IADK(*)  ,JDIK(*),IM,M
       INTEGER  NC(*),JM(MAXC,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  A(MAXA,*),LT_K(*),DIAG_K(*),MJ(*)
 C-----------------------------------------------
@@ -278,7 +278,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  MAXC,M,N
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  A(MAXC,*),D_R(*),TAU(*)
 C-----------------------------------------------
@@ -347,7 +347,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  MAXC,M,N
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  A(MAXC,*),TAU(*),B(*)
 C-----------------------------------------------
@@ -391,7 +391,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  MAXC,N
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  A(MAXC,*),D_R(*),B(*)
 C-----------------------------------------------
@@ -435,7 +435,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER I,J        
       INTEGER IADK(*) , JDIK(*)      
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   K_LT(*) ,KIJ
 C-----------------------------------------------

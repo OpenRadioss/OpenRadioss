@@ -114,7 +114,7 @@ C-----------------------------------------------
      .        NBINFLG(*),MBINFLG(*),ILEV,MSEGTYP(*),CAND_T(*),
      .        ISEADD(*) ,ISEDGE(*),FLAGREMNODE,KREMNOD(*),REMNOD(*),CAND_A(*),
      .        RENUM(*),NSNROLD,IRTSE(5,*),IS2SE(2,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),V(3,*),XYZM(6),STF(*),STFN(*),GAP_S(*),
      .   GAP_M(*),CURV_MAX(*),PENE_OLD(5,NSN),EDGE_L2(*),
@@ -126,7 +126,7 @@ C-----------------------------------------------
      .        N1,N2,N3,N4,NN,NE,K,L,J_STOK,II,JJ,
      .        PROV_N(MVSIZ),PROV_E(MVSIZ),
      .        OLDNUM(ISZNSNR), NSNF, NSNL,M,NSE,NS,ip
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DX,DY,DZ,XS,YS,ZS,XX,SX,SY,SZ,S2,
      .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, TZ, GAPSMX, GAPL,
@@ -182,9 +182,9 @@ c INUTIL POUR INT 24 !!!!!!!!!!!!!!!!!
         CALL SPMD_OLDNUMCD(RENUM,OLDNUM,ISZNSNR,NSNROLD)
       END IF 
 
-C================================================================
+C=======================================================================
 C 1   mise des noeuds dans les boites
-C================================================================
+C=======================================================================
 C Note for Edge2Edge : X is no more the Radioss X Array but an extention
 C                      NUMNOD+SNE
 C                      It is updated at any cycle
@@ -233,10 +233,10 @@ c         on saute directement au dernier
           NEXT_NOD(I)     = 0 ! pas de next apres I
         ENDIF
        ENDDO
-C================================================================
+C=======================================================================
 C 2   mise des noeuds dans les boites
 C     candidats non locaux en SPMD
-C================================================================
+C=======================================================================
        DO J = 1, NSNR
 
         IF(IREM(8,J)==-1) CYCLE    ! case IREM / ISEDGE_FI==-1  : Node was added due to Fictive Remote Node only
@@ -273,10 +273,10 @@ c         on saute directement au dernier
       END IF
 C Barrier to wait task0 treatment
       CALL MY_BARRIER
-C================================================================
+C=======================================================================
 C 3   recherche des boites concernant chaque facette
 C     et creation des candidats
-C================================================================
+C=======================================================================
       J_STOK = 0
        IF(FLAGREMNODE == 2)THEN
         DO I=1,NUMNOD+NSNE
@@ -528,9 +528,9 @@ C-------------------------------------------------------------------------
      6              EDGE_L2,IEDGE,ISEADD ,ISEDGE ,CAND_T,ITAB,
      7              CAND_A,OLDNUM,NSNROLD)
 
-C================================================================
+C=======================================================================
 C 4   remise a zero des noeuds dans les boites
-C================================================================
+C=======================================================================
  100  CONTINUE
 
 C Barrier to avoid reinitialization before end of sorting
@@ -543,10 +543,10 @@ C Barrier to avoid reinitialization before end of sorting
           VOXEL(IIX(I),IIY(I),IIZ(I))=0
         ENDIF
       ENDDO
-C================================================================
+C=======================================================================
 C 5   remise a zero des noeuds dans les boites
 C     candidats non locaux en SPMD
-C================================================================
+C=======================================================================
       NSNF = 1 + ITASK*NSNR / NTHREAD
       NSNL = (ITASK+1)*NSNR / NTHREAD
       DO J = NSNF, NSNL

@@ -65,7 +65,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPF(*),IANI,IECROU(MVSIZ),IFUNC(MVSIZ),IFV(MVSIZ),
      .    IFUNC2(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FX(*), XK(*), DX(*), FXEP(*), DXOLD(*), DPX(*), TF(*), XC(*),
      .   OFF(*), E(*), DPX2(*),ANIM(*),POS(5,*),FR_WAVE(*),

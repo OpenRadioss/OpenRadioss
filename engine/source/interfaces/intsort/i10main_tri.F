@@ -95,7 +95,7 @@ C-----------------------------------------------
      .         ISENDTO(NINTER+1,*),IRCVFROM(NINTER+1,*),
      .         WEIGHT(*), IAD_ELEM(2,*) ,FR_ELEM(*),
      .         RENUM(NUMNOD), NSNFIOLD(NSPMD), NODNX_SMS(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(*), V(3,*), MS(*)
 
@@ -109,12 +109,12 @@ C-----------------------------------------------
      .   I_SK_OLD, I_STOK1, ITIED,
      .   ADD1, ILD, NOINT, MULTIMP, ITYP, NCONT, NCONTACT,
      .   IBID,I_MEM,CAND_N_OLD
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, GAP, MAXBOX, MINBOX, STOPT,DIST,TZINF,DIST1,
      .   XMAXL, YMAXL, ZMAXL, XMINL, YMINL, ZMINL, GAPMIN, GAPMAX
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 #include "sync_dir.inc"
 C-----------------------------------------------

@@ -63,7 +63,7 @@ C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       INTEGER IPM(NPROPMI,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*)
 C-----------------------------------------------
@@ -72,7 +72,7 @@ C-----------------------------------------------
       INTEGER UID,HM_NLEAK,IFLAGUNIT,IUNIT
       INTEGER I, K, ILAW, IMID, IMAT, ILEAKAGE, IFTLC, IFTAC, IFTACP,
      .        NFUNC 
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .   ASCALET, ASCALEP, SCALELC, SCALEAC, FLC, FAC,
      .   X0, X1, X2, X3,

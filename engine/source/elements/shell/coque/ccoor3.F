@@ -50,7 +50,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT, J
       INTEGER NGL(MVSIZ), IXC(NIXC,*),MAT(MVSIZ), PID(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), GEO(NPROPG,*), OFFG(*), OFF(*), SIGY(*),
      .   V(3,*),VR(3,*),VL1(MVSIZ,3),VL2(MVSIZ,3),VL3(MVSIZ,3),VL4(MVSIZ,3),
@@ -198,7 +198,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, II(9),NN(4)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .   X0G2(MVSIZ),X0G3(MVSIZ),X0G4(MVSIZ),Y0G2(MVSIZ),
      .   Y0G3(MVSIZ),Y0G4(MVSIZ),Z0G2(MVSIZ),Z0G3(MVSIZ),Z0G4(MVSIZ),
@@ -206,7 +206,7 @@ C     REAL ou REAL*8
      .   XL2(MVSIZ),XL3(MVSIZ),XL4(MVSIZ),YL2(MVSIZ),YL3(MVSIZ),
      .   YL4(MVSIZ),UXYZ(MVSIZ,3,4),A_I(MVSIZ)
 C-----------------------------------------------
-c=======================================================================
+C=======================================================================
       DO I=1,9
         II(I) = NEL*(I-1)
       ENDDO

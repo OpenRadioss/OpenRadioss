@@ -75,7 +75,7 @@ C-----------------------------------------------
      .        IPARTC(NUMELC) ,IPARTTG(NUMELTG),
      .        IGROUPC(*),IGROUPTG(*)    
       INTEGER IGEO(NPROPGI,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RVOLU(*), RVOLUV(NRVOLU,*),RCBAG(NRCBAG,*),PORO(*),
      .   RBAGJET(NRBJET,*),RBAGHOL(NRBHOL,*),FSAV(*),N(3,*),RBAGVJET(*),
@@ -94,7 +94,7 @@ C-----------------------------------------------
      .   IVENTYP,ILEAKAGE,IBLOCKAGE
       INTEGER NEL,TITREVENT(20)
       INTEGER IK, I_INJ, I_TYPINJ, I_GAS, NGASES
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GAMA, CV, CP, PEXT, PDEF, DTPDEFI, DTPDEFC, TVENT, TSTOPE,
      .   APVENT, AVENT, BVENT, 

@@ -67,7 +67,7 @@ C-----------------------------------------------
       INTEGER IRECT(4,*),NSV(*),CAND_N(*),CAND_E(*)
       INTEGER PROV_N(MVSIZ),PROV_E(MVSIZ),II_STOK,MSEGTYP(*),
      .        ITAB(*),ICODT(*),ISKEW(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        DRAD,
      .        X(3,*), V(3,*), GAP_S(*), GAP_M(*),
@@ -79,7 +79,7 @@ C-----------------------------------------------
       INTEGER I,K_STOK,I_STOK,N,NE,J,ITYPE,ISH
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        ETYP(MVSIZ), IBC(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
@@ -165,7 +165,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LLT,NSN,ESHIFT,PROV_N(*),PROV_E(*),NBINFLG(*),MBINFLG(*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -173,7 +173,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N,NE,IMS1,IMS2,ISS1,ISS2
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
       my_real
      .   PENE(*)

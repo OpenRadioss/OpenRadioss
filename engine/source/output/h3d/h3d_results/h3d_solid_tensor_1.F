@@ -79,7 +79,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SOLID_TENSOR(6,*), TENS(6,*),EPSDOT(6,*),PM(NPROPM,*),X(3,*),D(3,*),
      .   SOLID_TENSOR_CORNER(6,*)
@@ -4773,7 +4773,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X1(*), X2(*), X3(*), X4(*),
      .   Y1(*), Y2(*), Y3(*), Y4(*),
@@ -4786,7 +4786,7 @@ C     REAL ou REAL*8
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER I
       my_real
      .   X41, Y41, Z41, X42, Y42, Z42, X43, Y43, Z43,
@@ -4872,7 +4872,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
      .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),  
@@ -4886,7 +4886,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AJ1(NEL),AJ2(NEL),AJ3(NEL),
      .   AJ4(NEL),AJ5(NEL),AJ6(NEL),
@@ -5008,7 +5008,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), 
      .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*),   
@@ -5022,7 +5022,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DETT ,  AJ1(NEL), AJ2(NEL) ,AJ3(NEL), 
      .   AJ4(NEL)  ,  AJ5(NEL), AJ6(NEL),
@@ -5113,14 +5113,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   F(3,3,NEL), STRAIN(6,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
-C     REAL ou REAL*8
+C     REAL
       DOUBLE PRECISION 
      .         FMAT(3,3),UM(3,3),IC,I2C,I3C,IU,I2U,I3U,
      .         C11,C21,C31,C12,C22,C32,C13,C23,C33,DETJ0,DETM1,

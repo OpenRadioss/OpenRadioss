@@ -80,7 +80,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, ILAW, Ivflag, NANGLE, INFO, Icrit, TAB_YLD, Ismooth,
      .        TAB_TEMP,ITER,Ires,Istat
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RHO0,YOUNG,NU,ALPHA,GAMMA,EPSD,ALPHA2,BETA,SIGP,CFAIL,PFAIL,
      .   G,G2,LAM,BULK,NNU,NNU1,RHOF0,SIGP_C0,SIGP_C1,SIGP_N,ALPHA2_C0,

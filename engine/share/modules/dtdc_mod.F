@@ -34,17 +34,17 @@ C-----------------------------------------------------------------------
 C    thick-shell dt of shell, DC : Dynamic,Condensation  
 C----------------------------------------------------------------------- 
 #include "my_real.inc"      
-C=================================================
+C=======================================================================
 c DEFINE ARRAYS (integers arrays)
-C=================================================
+C=======================================================================
         integer  NTSHEGG 
         integer, DIMENSION(:) , POINTER ::  IENUNL   !  2*NTSHEG 
 C-- 1:N_U (Upper), 2:N_L (Lower)  
         integer, DIMENSION(:) , POINTER ::  IAD_STSH,FR_STSH   !  on the front 
         integer, DIMENSION(:) , POINTER ::  IAD_RTSH,FR_RTSH   !  on the front 
-C=================================================
+C=======================================================================
 c DEFINE ARRAYS (float arrays) : work arrays
-C=================================================
+C=======================================================================
          my_real
      .          , DIMENSION(:), ALLOCATABLE :: ALPHA_DC        ! (NUMNOD) workarray
 c---------------

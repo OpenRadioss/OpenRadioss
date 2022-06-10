@@ -72,7 +72,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J, MT, K, MX
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DD(MVSIZ), AL(MVSIZ),
      .   DTX(MVSIZ), AD(MVSIZ), QX(MVSIZ), CX(MVSIZ),

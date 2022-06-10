@@ -238,7 +238,7 @@ C-----------------------------------------------
       INTEGER IVOLU(*),NVENT,IBAGHOL(NIBHOL,*), FR_MV(*),
      .        NN,IPARG(NPARG,*)
       INTEGER, INTENT(IN) :: IGROUPC(*), IGROUPTG(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RVOLU(*),FSAV(*),RBAGHOL(NRBHOL,*),N(3,*)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB

@@ -41,7 +41,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER INOD(4)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   S,T,HSL
       my_real
@@ -58,7 +58,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,J1,J2,J3,J4,II,JJ,L,NN,NIR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X21,X32,X34,X41,Y21,Y32,Y34,Y41,Z21,Z32,Z34,Z41,
      .   SM,SP,TM,TP,SM2,SP2,TM2,TP2,SM3,SP3,TM3,TP3,SUMA,S1,S2

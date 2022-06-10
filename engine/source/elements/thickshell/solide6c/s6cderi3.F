@@ -71,7 +71,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF(*),DET(*),
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), 
@@ -96,7 +96,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NGL(*), I, J,ICOR,NNEGA,INDEX(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
 C                                                                     12
       my_real
      .   DETT(MVSIZ) ,  AJ1(MVSIZ), AJ2(MVSIZ) ,AJ3(MVSIZ), 

@@ -64,7 +64,7 @@ C-----------------------------------------------
      .   ISKWN(LISKN,*), NPBY(NNPBY,*),ITAG(*),LPBY(*), IXTG(NIXTG,*),
      .   WEIGHT(*), FR_RBY2(*), ICFIELD(SIZFIELD,*), LCFIELD(*), TAGSLV_RBY(*)
       INTEGER ONOF,NRBYNF
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SKEW(LSKEW,*),MS(*),IN(*),RBY(NRBY,*),X(3,*),
      .   V(3,*),VR(3,*),PARTSAV(*)
@@ -259,7 +259,7 @@ C-----------------------------------------------
      .   ITAB(*), ITABM1(*),IGRV(NIGRV,*),IBGR(*),
      .   ISKWN(LISKN,*), NPBY(NNPBY,*),ITAG(*),LPBY(*), IXTG(NIXTG,*),
      .   WEIGHT(*), IPART(*), FR_RBY2(3,*), ICFIELD(SIZFIELD,*), LCFIELD(*), TAGSLV_RBY(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SKEW(LSKEW,*),MS(*),IN(*),RBY(NRBY,*),X(3,*),
      .   V(3,*),VR(3,*),SENSOR(NSENSR,*),FSKY(*), A(3,*) ,AR(3,*),

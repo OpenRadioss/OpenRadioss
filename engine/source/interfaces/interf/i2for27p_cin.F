@@ -53,7 +53,7 @@ C-----------------------------------------------
       INTEGER NSN, NMN, I0, NIR, I2SIZE, IDEL2,
      .   IRECT(4,*),IADI2(NIR,*), NSV(*),  WEIGHT(*), IRTL(*),
      .   INDXC(NSN),IADX(NSN),MSEGTYP2(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),V(3,*),A(3,*), CRST(2,*), MS(*), STIFN(*), MMASS(*),
      .   FSKYI2(I2SIZE,*), SMASS(*),FSAV(*),FNCONT(3,*),IN(*),SINER(*),
@@ -74,7 +74,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, I1, I2, I3, II, NN, L, J,K, JJ, I0BASE,
      .        IX1,IX2,IX3,IX4,NIRL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SS, ST, XMSI, FXI, FYI, FZI,SP,SM,TP,TM,
      .   H(4),E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,
@@ -82,7 +82,7 @@ C     REAL ou REAL*8
      .   STIFM,FMX(4),FMY(4),FMZ(4),FX(4),FY(4),FZ(4),
      .   RX(4),RY(4),RZ(4),RS(3),FLX,FLY,FLZ,FAC_TRIANG,DWDU,STBRK,
      .   MXS,MYS,MZS,STIFMR,RM(3),BETAX,BETAY,H2(4)
-c=======================================================================
+C=======================================================================
       I0BASE = I0
 #include "vectorize.inc"
       DO II=1,NSN                                         

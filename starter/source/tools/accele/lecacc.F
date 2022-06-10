@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-C==============================================
+C=======================================================================
 Chd|====================================================================
 Chd|  LECACC                        source/tools/accele/lecacc.F  
 Chd|-- called by -----------
@@ -76,7 +76,7 @@ C-----------------------------------------------
       INTEGER ITABM1(*), LACCELM(3,*),
      .   IXC(NIXC,*),ISKN(LISKN,*)
       INTEGER NOM_OPT(LNOPT1,*)
-C     REAL ou REAL*8
+C     REAL
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
       my_real ACCELM(LLACCELM,*)
 C-----------------------------------------------

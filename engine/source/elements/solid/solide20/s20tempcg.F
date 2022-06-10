@@ -41,7 +41,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPE,NC(MVSIZ,NPE),JFT,JLT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TEMP(*),NI(NPE),TEMPEL(*)
 C-----------------------------------------------
@@ -51,7 +51,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
-C     REAL ou REAL*8  
+C     REAL  
 C ---  tempurature on integration point
        DO I=JFT,JLT 
          TEMPEL(I) = ZERO 

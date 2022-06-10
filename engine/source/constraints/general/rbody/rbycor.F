@@ -52,7 +52,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER WEIGHT(*),LPBY(*),NPBY(NNPBY,*),ISKEW(*),ITAB(*),
      .        KIND(NRBYKIN),IRBKIN_L(*),NRBYKIN_L,WEIGHT_MD(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RBY(NRBY,*) ,X(3,*) ,V(3,*) ,VR(3,*),SKEW(*),
      .   FSAV(NTHVKI,*) ,A(3,*),AR(3,*),IN(*),MS(*) ,MS_2D(*)
@@ -60,7 +60,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  J,K,N,KK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   ENROT_T,ENCIN_T,XMASS_T,
      .   XMOMT_T,YMOMT_T,ZMOMT_T,ENCIN2_T,ENROT2_T

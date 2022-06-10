@@ -130,7 +130,7 @@ C-----------------------------------------------
      .  EPST1,EPST2,EPST_A,EPST_B
       my_real ,DIMENSION(NEL) :: EPS11,EPS22,EPS12,EPSP11,EPSP22,EPSP12 
       my_real ,DIMENSION(:), POINTER :: FSIZE
-c=======================================================================
+C=======================================================================
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
       DMG_FLAG = INT(UPARAM(1))

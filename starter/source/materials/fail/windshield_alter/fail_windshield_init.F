@@ -73,7 +73,7 @@ C-----------------------------------------------
       INTEGER   NGR2USRN
 c
 c     Initialization of failure UVAR table => edge element flag for /FAIL/ALTER
-c=======================================================================
+C=======================================================================
       DO IL=1, ELBUF_STR%NLAY  
         BUFLY => ELBUF_STR%BUFLY(IL)
         NFAIL = BUFLY%NFAIL

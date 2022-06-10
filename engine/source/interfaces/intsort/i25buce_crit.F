@@ -105,7 +105,7 @@ C
       NMNF = 1 + ITASK*NMN / NTHREAD
       NMNL = (ITASK+1)*NMN / NTHREAD
 
-C=====================================================
+C=======================================================================
       IF(NSN+NMN < NUMNOD)THEN
 C
 #include "vectorize.inc"

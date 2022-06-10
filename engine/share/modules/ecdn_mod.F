@@ -37,21 +37,21 @@ C-----------------------------------------------------------------------
 C    CND : CondeNsation Dynamic, ND means aussi Node_Dependent
 C----------------------------------------------------------------------- 
 #include "my_real.inc"      
-C=================================================
+C=======================================================================
 c DEFINE ARRAYS (integers arrays)
-C=================================================
+C=======================================================================
         integer, DIMENSION(:) , POINTER ::  ICNDS10   !  3*NS10E 
 C-- :ND, 2:N1, 3:N2	; ND <0 : degenerated  
-C=================================================
+C=======================================================================
 c DEFINE ARRAYS (float arrays) : intenal arrays :restarter
-C=================================================
+C=======================================================================
         integer, DIMENSION(:) , POINTER ::  IAD_CNDM,FR_CNDM   !  edge node on the front 
         integer, DIMENSION(:) , POINTER ::  IAD_CNDM1,FR_CNDM1   !  edge node on the front 
         integer, DIMENSION(:) , POINTER ::  ADDCNCND,PROCNCND,IADCND   !  P/ON id 
         integer, DIMENSION(:) , POINTER ::  IAD_CNDS,FR_CNDS   ! middle node on the front 
-C=================================================
+C=======================================================================
 c DEFINE ARRAYS (float arrays) : work arrays
-C=================================================
+C=======================================================================
         integer, DIMENSION(:) , POINTER ::  ITAGND   !  (1:NUMNOD) : id of ICNDS10 
 C-- in Engine ITAGND(ND)= id of ICNDS10 < 0 : degenerated iabs() > NS10E :main of Int2
 C------------ ITAGND(N1,N2)= id of Int2 :secnd of Int2

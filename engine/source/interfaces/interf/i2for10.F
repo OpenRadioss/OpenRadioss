@@ -38,7 +38,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NSN
       INTEGER  IRECT(4,*),MSR(*),NSV(*),IRTL(*),IRUPT(*),WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*),MS(*),STIFN(*),FSM(3,*),CRST(2,*),CSTS_BIS(2,*)
 C-----------------------------------------------
@@ -53,7 +53,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NIR,I,J,II,JJ,L,W
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   S,T,SP,SM,TP,TM,FXI,FYI,FZI,XMSI,STFN
       my_real
@@ -159,7 +159,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, NMN, ILEV,
      .   IRECT(4,*), MSR(*), NSV(*), IRTL(*), WEIGHT(*), IRUPT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*), AR(3,*),CRST(2,*), MS(*),
      .   X(3,*),IN(*),STIFR(*),STIFN(*),CSTS_BIS(2,*)
@@ -172,7 +172,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, II, L, JJ, W
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   H(4),S,T,XMSI,FXI,FYI,FZI,MXI,MYI,MZI,INS,AA,
      .   X0,X1,X2,X3,X4,Y0,Y1,Y2,Y3,Y4,Z0,Z1,Z2,Z3,Z4,

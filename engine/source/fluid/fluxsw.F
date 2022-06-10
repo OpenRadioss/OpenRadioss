@@ -37,7 +37,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSFLSW
       INTEGER NEFLSW(*), NNFLSW(8,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   CRFLSW(6,*), FLSW(9,*), X(3,*), V(3,*), ELBUF(*)
 C-----------------------------------------------
@@ -59,7 +59,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I2, IS, NEL, I1, I, IN, N1, N2, N3, N4, ND, IB2, IB3, IB4,
      .   IB5, IB6, IB10, IB11, IB12, J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   CRX, CRY, CRZ, CNX, CNY, CNZ, SRT, SV2, FLVM, PRE, ENE, RHO,
      .   VOL, TKE, TEM, TDE, X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3, X4, Y4,

@@ -686,7 +686,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFFG(*),OFFG0(*),JAC_1(10,NEL),SIG(NEL,6),SIGL(NEL,6)
       DOUBLE PRECISION 
@@ -778,7 +778,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER NEL
       my_real
      .   JAC_I(10,*)

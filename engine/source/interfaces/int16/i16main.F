@@ -94,7 +94,7 @@ C-----------------------------------------------
      .        IADLL(*) ,LLL(*) ,JLL(*) ,SLL(*) ,
      .        IXS(NIXS,*)  ,IXS16(8,*)  ,IXS20(12,*) ,IXS10(6,*),
      .        COMNTAG(*)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .   X(3,*), V(3,*), A(3,*), MS(*),EMINX(*),WAT(*),
      .   XLL(*)
@@ -107,7 +107,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NSN,NME,NAD,EAD,
      .        NME_T,ESH_T,IGN,IGE,MULTIMP,NOINT,I,MX_CAND,itri 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, STOPT,XX,XY,XZ,TZINF,MINBOX
       SAVE itri

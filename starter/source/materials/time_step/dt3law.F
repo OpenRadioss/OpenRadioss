@@ -57,7 +57,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RHO0(MVSIZ), G(MVSIZ),
      .   C1(MVSIZ), C2(MVSIZ), C5(MVSIZ), C6(MVSIZ), SSP(MVSIZ),

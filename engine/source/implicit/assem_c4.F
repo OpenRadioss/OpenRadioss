@@ -52,7 +52,7 @@ C-----------------------------------------------
       INTEGER 
      .       IXC(NIXC,*), NEL   ,IDDL(*)   ,
      .       IADK(*)  ,JDIK(*)  ,NDOF(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF(*),K_DIAG(*) ,K_LT(*)   ,
      .   KC11(6,6,*),KC12(6,6,*),KC13(6,6,*),

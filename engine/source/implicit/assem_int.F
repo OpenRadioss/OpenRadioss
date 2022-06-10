@@ -53,7 +53,7 @@ C-----------------------------------------------
       INTEGER ND  ,NS(*)  ,N1(*)    ,N2(*)  ,N3(*),N4(*)   
       INTEGER 
      .        NEL   ,IDDL(*)   ,IADK(*)  ,JDIK(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   K_DIAG(*) ,K_LT(*)   ,OFF(*),
      .   KI11(ND,ND,*),KI12(ND,ND,*),KJ11(ND,ND,*),KJ12(ND,ND,*),
@@ -122,7 +122,7 @@ C-----------------------------------------------
       INTEGER ND  ,NS(*)  ,N1(*)    ,N2(*)  ,N3(*),N4(*)   
       INTEGER 
      .        NEL   ,IDDL(*)   ,IADK(*)  ,JDIK(*),NIN
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   K_DIAG(*) ,K_LT(*)   ,OFF(*),
      .   KI11(ND,ND,*),KI12(ND,ND,*),KJ11(ND,ND,*),KJ12(ND,ND,*),
@@ -237,7 +237,7 @@ C-----------------------------------------------
       INTEGER ND  ,N1(*)  ,N2(*)    ,M1(*) ,M2(*) 
       INTEGER 
      .        NEL   ,IDDL(*)   ,IADK(*)  ,JDIK(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   K_DIAG(*) ,K_LT(*)   ,OFF(*),
      .   K1I11(ND,ND,*),K1I12(ND,ND,*),K1J11(ND,ND,*),K1J12(ND,ND,*),
@@ -304,7 +304,7 @@ C-----------------------------------------------
       INTEGER ND  ,N1(*)    ,N2(*)  ,M1(*),M2(*)   ,NS(*)    ,NRTS
       INTEGER 
      .        NEL   ,IDDL(*)   ,IADK(*)  ,JDIK(*),NIN
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   K_DIAG(*) ,K_LT(*)   ,OFF(*),
      .   K1I11(ND,ND,*),K1I12(ND,ND,*),K1J11(ND,ND,*),K1J12(ND,ND,*),

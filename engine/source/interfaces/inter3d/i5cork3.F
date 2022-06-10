@@ -49,7 +49,7 @@ C-----------------------------------------------
       INTEGER JX1(MVSIZ), JX2(MVSIZ), JX3(MVSIZ), JX4(MVSIZ),
      .        NSVG(MVSIZ)
       INTEGER, DIMENSION(MVSIZ), INTENT(OUT) :: IX1,IX2,IX3,IX4
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*)
       my_real, DIMENSION(MVSIZ), INTENT(OUT) :: X1,X2,X3,X4
@@ -64,7 +64,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IL, IG, L, NN
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
       DO 100 I=LFT,LLT
       IL=I_N(I)
@@ -129,7 +129,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRECT(4,*), MSR(*), NSV(*), IRTL(*)
       INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -142,7 +142,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IL, IG, L, NN,J
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 !      EQUIVALENCE (ANS,BV(1,22))
 C

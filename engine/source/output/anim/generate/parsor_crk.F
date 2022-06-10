@@ -58,7 +58,7 @@ C-----------------------------------------------
      .        EL2FA(*),IDCRK,IAD_CRK(*),IAD_CRKG(NSPMD,*),INDX_CRK(*),
      .        NBF_L,NBF,NODGLOBXFE(*),ITAB(*)
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real OFF
       INTEGER IE,NG,ITY,LFT,LLT,N,I,J,NEL,NFT,JJ,K,BUF,IXFEM,
      .        IPT,ELC,CRKS,ICRK,IE_EL2FA,NEL_CRK,EMPL,NLEVXF

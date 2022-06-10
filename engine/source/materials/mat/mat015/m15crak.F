@@ -50,7 +50,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NGL(MVSIZ),IMAT
       INTEGER JFT, JLT,ILAYER,ICHA,IFLAG,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*),DAMT(NEL,2),DIR(NEL,2),
      .   SIGR(NEL,6),SIG(MVSIZ,5)

@@ -61,7 +61,7 @@ C-----------------------------------------------
 C   I N P U T   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT,NEL,ISMSTR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  OFF(*),GS(*),THK(*)
       my_real
@@ -87,7 +87,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,MX,J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PA1(MVSIZ),PA2(MVSIZ),PA3(MVSIZ),PA4(MVSIZ),PA5(MVSIZ),
      .   B1(MVSIZ),B2(MVSIZ),B3(MVSIZ),B4(MVSIZ),B5(MVSIZ),

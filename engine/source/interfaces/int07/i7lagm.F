@@ -74,7 +74,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER N_MUL_MX,ITASK,ITIED,NINT,NKMAX ,
      .  LLL(*),JLL(*),SLL(*),IADLL(*),COMNTAG(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  V(3,*),XLL(*),A(3,*),XTAG(*)
       INTEGER JLT, IBAG  ,NOINT,NEWFRONT, IADM

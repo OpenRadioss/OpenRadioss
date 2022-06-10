@@ -55,7 +55,7 @@ C-----------------------------------------------
       INTEGER ITAB(*),CAND_E(*),CAND_N(*), IRECT(4,*), IRTLM(2,*),
      .        ITAG(*)
       INTEGER I_STOK,NSV(*),MSR(*),IWPENE,INACTI,NOINT,NTY,NSN
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STFN(*),X(3,*),PENI(*),GAP_S(*),XM0(3,*),
      .   GAPMIN,GAPMAX,DEPTH,DRAD
@@ -67,7 +67,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, L,JWARN
       INTEGER IX1, IX2, IX3, IX4, NSVG
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
        JWARN = 0
         DO 100 I=1,I_STOK

@@ -46,7 +46,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  IL, IADK(*)  ,JDIK(*),NC,JM(*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -88,7 +88,7 @@ C-----------------------------------------------
 C--IP:0 standard; unpaire:avec pre-filtre; 2,3 level 2; >4 fsai(ip-4 : 6,7:level 2)
       INTEGER  NDDL  ,MAXC,IADK(*)  ,JDIK(*)
       INTEGER  NNZM,IADM(*) ,JDIM(*),NC(*),JM(MAXC,*),IP
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  LT_K(*),DIAG_K(*),PSI
 C-----------------------------------------------
@@ -214,7 +214,7 @@ C   External function
 C-----------------------------------------------
       INTEGER INTAB2
       EXTERNAL INTAB2
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -293,7 +293,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  N ,IADA(*)  ,JDIA(*),MAXA
-C     REAL ou REAL*8
+C     REAL
       my_real
      . DIAG_A(*),LT_A(*),MJ(*)
 C-----------------------------------------------
@@ -345,7 +345,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL  ,IADK(*)  ,JDIK(*),IADA(*)  ,JDIA(*)
       INTEGER  NC    ,JM(*),MAXA
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  LT_K(*),DIAG_K(*),LT_A(*),DIAG_A(*)
 C-----------------------------------------------
@@ -409,7 +409,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL  ,IADK(*)  ,JDIK(*),IADA(*)  ,JDIA(*)
       INTEGER  NC    ,JM(*),MAXA,IDLFT0,IDLFT1
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  LT_K(*),DIAG_K(*),LT_A(*),DIAG_A(*),LT_C(*),DIAG_C(*),
      .  DIAG_M(*) ,LT_M(*)
@@ -496,7 +496,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL  ,IADK(*)  ,JDIK(*),IADA(*)  ,JDIA(*)
       INTEGER  NC    ,JM(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  LT_K(*),DIAG_K(*),LT_A(*),DIAG_A(*)
 C-----------------------------------------------
@@ -649,7 +649,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL ,NNZ ,IADK(*),JDIK(*),MAXC ,MAX_A ,NNE,
      .         IDLFT0 ,IDLFT1,MAX_D
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_K(*), LT_K(*),DIAG_M(*), LT_M(*)   
 C-----------------------------------------------
@@ -750,7 +750,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C----------resol [K]{X}={F}---------
       INTEGER  NDDL  ,NNZ   ,IADK(*)  ,JDIK(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_K(*), LT_K(*) ,R(*)
 C-----------------------------------------------
@@ -990,7 +990,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL ,IADK(*),JDIK(*),MAXC ,MAX_A ,NNE,
      .         IADM(*),JDIM(*)   
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_K(*), LT_K(*),DIAG_M(*), LT_M(*) ,D_TOL  ,P_MACH  
 C-----------------------------------------------
@@ -1097,7 +1097,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL ,NNZ ,IADK(*),JDIK(*),MAXC ,MAX_A ,NNE,
      .         IDLFT0 ,IDLFT1,MAX_D,IADM(*),JDIM(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_K(*), LT_K(*),DIAG_M(*), LT_M(*),D_TOL  ,P_MACH   
 C-----------------------------------------------
@@ -1204,7 +1204,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDF,ND ,IADA(*)  ,JDIA(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      . DIAG_A(*),LT_A(*),TOL,E_PS,DIAG_K(*)
 C-----------------------------------------------
@@ -1304,7 +1304,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL  ,IADK(*)  ,JDIK(*),IADA(*)  ,JDIA(*)
       INTEGER  NC    ,JM(*),MAXA
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  LT_K(*),DIAG_K(*),LT_A(*),DIAG_A(*)
 C-----------------------------------------------
@@ -1369,7 +1369,7 @@ C-----------------------------------------------
       INTEGER  NDDL, IADK(*),JDIK(*),MAXL
       my_real
      .  LT_K(*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1446,7 +1446,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL ,NNZ ,IADK(*),JDIK(*),MAXC ,MAX_A ,NNE,
      .         IDLFT0 ,IDLFT1,MAX_D,ITASK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_K(*), LT_K(*),DIAG_M(*), LT_M(*)   
 C-----------------------------------------------
@@ -1575,7 +1575,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL ,NNZ ,IADK(*),JDIK(*),MAXC ,MAX_A ,NNE,
      .         IDLFT0 ,IDLFT1,MAX_D,IADM(*),JDIM(*),ITASK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_K(*), LT_K(*),DIAG_M(*), LT_M(*),D_TOL  ,P_MACH   
 C-----------------------------------------------
@@ -1688,7 +1688,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  IL, IADK(*)  ,JDIK(*),NC,MAX_A ,MAX_L
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1739,7 +1739,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  I,NDDL ,NC ,IADK(*),JDIK(*),MAX_A ,NNE,
      .         IDLFT0,IDLFT1 ,I_CHK,IADM(*),JDIM(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_K(*), LT_K(*),DIAG_M(*), LT_M(*) ,DIAG_C(*),LT_C(*) 
 C-----------------------------------------------
@@ -1840,7 +1840,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL ,NNZ ,IADK(*),JDIK(*),MAXC ,MAX_A ,NNE,
      .         IDLFT0 ,IDLFT1,MAX_D
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_K(*), LT_K(*),DIAG_M(*), LT_M(*)   
 C-----------------------------------------------
@@ -1932,7 +1932,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL ,NNZ ,IADK(*),JDIK(*),MAXC ,MAX_A ,NNE,
      .         IDLFT0 ,IDLFT1,MAX_D,IADM(*),JDIM(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_K(*), LT_K(*),DIAG_M(*), LT_M(*),D_TOL  ,P_MACH   
 C-----------------------------------------------

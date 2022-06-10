@@ -46,7 +46,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,NVAR
       TYPE (SENSOR_STR_) ,POINTER :: SENSOR_PTR
-c=======================================================================
+C=======================================================================
       DO I=1,NSENSOR
         SENSOR_PTR => SENSOR_TAB(I)
         SENSOR_PTR%TYPE    = -1

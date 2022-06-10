@@ -54,7 +54,7 @@ C-----------------------------------------------
       INTEGER IRBE2(NRBE2L,*),LRBE2(*),NODXI_SMS(*),
      .        JAD_SMS(*),JDI_SMS(*),NMRBE2, IAD_RBE2(*),
      .        FR_RBE2M(*), WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        LT_SMS(*), MS(*), DIAG_SMS(*), PREC_SMS3(3,*), SKEW(LSKEW,*)
 C-----------------------------------------------
@@ -230,7 +230,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBE2(NRBE2L,*),LRBE2(*),NODXI_SMS(*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -301,7 +301,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBE2(NRBE2L,*),LRBE2(*),WEIGHT(*),IAD_RBE2(*),
      .        FR_RBE2M(*) ,NMRBE2
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), A(3,*), AR(3,*), MS(*), IN(*), 
      .   SKEW(LSKEW,*)
@@ -398,7 +398,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBE2(NRBE2L,*),LRBE2(*),WEIGHT(*),IAD_RBE2(*),
      .        FR_RBE2M(*) ,NMRBE2
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   R(3,*), A(3,*), PREC_SMS3(*), SKEW(LSKEW,*)
 C-----------------------------------------------
@@ -454,7 +454,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBE2(NRBE2L,*),LRBE2(*),WEIGHT(*),IAD_RBE2(*),
      .        FR_RBE2M(*) ,NMRBE2
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   V(3,*), W(3,*), MS(*), SKEW(LSKEW,*)
 C-----------------------------------------------
@@ -511,7 +511,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBE2(NRBE2L,*),LRBE2(*),WEIGHT(*),IAD_RBE2(*),
      .        FR_RBE2M(*) ,NMRBE2
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DIAG_SMS(*), MS(*), DIAG_SMS3(3,*), SKEW(LSKEW,*)
 C-----------------------------------------------
@@ -605,7 +605,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSL,ISL(*),WEIGHT(*),JT(3),M,IRAD,ISK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), A(3,*), AR(3,*), MS(*), IN(*), SKEW(LSKEW,*)
       DOUBLE PRECISION
@@ -614,7 +614,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, K, IJT, JT1(3), IC
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   F1(NSL), F2(NSL), F3(NSL), RX, RY, RZ, CDT(9)
 C-----------------------------------------------
@@ -693,14 +693,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSL, ISL(*), JT(3), M, IRAD, ISK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), A(3,*), AR(3,*), SKEW(LSKEW,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, IJT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AAX, AAY, AAZ
 C-----------------------------------------------
@@ -763,14 +763,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSL,ISL(*),JT(3),M,IRAD, ISK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   R(3,*), A(3,*), SKEW(LSKEW,*), PREC_SMS3(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, IJT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     AAX, AAY, AAZ, DAX, DAY, DAZ
 C-----------------------------------------------
@@ -841,14 +841,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSL,ISL(*),JT(3),M,IRAD, ISK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   V(3,*), W(3,*), MS(*), SKEW(LSKEW,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, IJT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     AAX, AAY, AAZ, DAX, DAY, DAZ
 C-----------------------------------------------
@@ -918,7 +918,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSL,ISL(*),WEIGHT(*),JT(3),M,IRAD, ISK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DIAG_SMS3(3,*), MS(*), SKEW(LSKEW,*)
       DOUBLE PRECISION
@@ -927,7 +927,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, K, IJT, JT1(3), IC
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   F1(NSL), F2(NSL), F3(NSL), RX, RY, RZ, CDT(9)
 C-----------------------------------------------
@@ -1009,7 +1009,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBE2(NRBE2L,*),ISIZE, WEIGHT(*),NMRBE2,IH
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(ISIZE,*)
       DOUBLE PRECISION
@@ -1018,7 +1018,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, N, NS ,NML, IAD,JJ,M,MID,IROT,IRAD
-C     REAL ou REAL*8
+C     REAL
 C======================================================================|
 #include    "vectorize.inc"
       DO N=1,NRBE2

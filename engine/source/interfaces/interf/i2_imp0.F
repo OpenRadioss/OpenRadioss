@@ -59,7 +59,7 @@ C-----------------------------------------------
      .        NINT2 ,IINT2(*),NSC2(*),ISIJ2(*),NSS2(*),ISS2(*),
      .        NMC2,IMIJ2(*),ITAB(*)
       INTEGER NDDL,IADK(*),JDIK(*),NDOF(*),IDDL(*),IKC(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(*), MS(*),IN(*),DIAG_K(*),LT_K(*),B(*)
 
@@ -133,7 +133,7 @@ C-----------------------------------------------
       INTEGER IPARI(NPARI,*), WEIGHT(*),
      .        NINT2 ,IINT2(*),NSS2(*),ISS2(*),IAINT2(*),ITAB(*)
       INTEGER NDDL,IADK(*),JDIK(*),NDOF(*),IDDL(*),IKC(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(*), MS(*),IN(*),DIAG_K(*),LT_K(*),B(*)
 

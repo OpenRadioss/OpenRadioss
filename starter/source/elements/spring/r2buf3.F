@@ -48,7 +48,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IX(NIXR,*),IGEO(NPROPGI,*),SKEW_ID(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF(*), GEO(NPROPG,*), X(3,*), X0(*), Y0(*), Z0(*),
      .   SKEW(LSKEW,*),IPOSX(5,*) ,IPOSY(5,*),
@@ -57,7 +57,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, NG, I1, I2, ISK, K, USENS
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X1, Y1, Z1, EX, EY, EZ
 C-----------------------------------------------

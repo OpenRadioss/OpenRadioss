@@ -56,7 +56,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NGL(MVSIZ),NEL
       INTEGER JFT,JLT, ISRATE(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*),WPLA(*),DIR(NEL,2),
      .   DAMT(NEL,2),SHF(*),EPSP(*),
@@ -72,7 +72,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IMATLY,JFLAG,FAIL
       INTEGER ICC(MVSIZ),IFLAG(MVSIZ),FAIL_OLD(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DP1(MVSIZ), DP2(MVSIZ), DP3(MVSIZ),CB(MVSIZ),CN(MVSIZ),
      .   E11(MVSIZ), E22(MVSIZ), NU12(MVSIZ), NU21(MVSIZ),

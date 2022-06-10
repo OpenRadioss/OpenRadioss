@@ -70,7 +70,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER  IGEO(NPROPGI),ISKN(LISKN,*),IGTYP,IUNIT,SUB_ID
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG)
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
@@ -81,7 +81,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
        INTEGER IFUNC, IFUNC2, IFUNC3, IECROU, IFV, ISK, IG,
      .         ISENS,IFL,IFAIL,IEQUIL,IFAIL2,ISRATE,K
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A, B, D, E, F, XM, XIN, XK, XC, DN, DX, PUN,
      .   ASRATE, LSCALE, GF3, CRIT_SCALE,FAC_M,FAC_L,FAC_T,

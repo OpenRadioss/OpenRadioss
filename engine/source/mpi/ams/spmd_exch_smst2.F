@@ -103,7 +103,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: IBUFS, IBUFR
 
       TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: TAG_LOC,TAB_NSVSI
-C     REAL ou REAL*8
+C     REAL
       DATA MSGOFF/240/
       DATA MSGOFF2/241/
 !       -----------------------------------------------

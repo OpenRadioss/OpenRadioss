@@ -68,7 +68,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I,J,IE,IN,ID,NN,IFLAGUNIT,NNOD
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  XX,YY,ZZ,FAC_L
       CHARACTER MESS*40

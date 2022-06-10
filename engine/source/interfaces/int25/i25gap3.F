@@ -56,7 +56,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NRTM,IRECT(4,*),    
      .   MSR(*),NMN,MSEGTYP(*),ITASK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GAP_NM(4,*),GAP_M(*), GAPMSAV(*), THKNOD(NUMNOD),
      .   GAPN_M(*),GAPMAX_M, GAPSCALE, MAXDGAP_G

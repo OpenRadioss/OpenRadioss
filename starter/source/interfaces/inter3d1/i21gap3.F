@@ -74,10 +74,10 @@ C-----------------------------------------------
      .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*), 
      .   NOD2ELTG(*),IELES(*), 
      .   MSR(*), ITAB(*), IKINE(*), IPARTS(*), IPARTC(*), IPARTG(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GAP,GAPMIN,CRITER, GAPMAX, GAPSCALE, DEPTH, LXM, LYM, LZM, DRAD
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), PM(NPROPM,*), GEO(NPROPG,*),
      .   GAP_S(*), THKNOD(*), STF(*), STFN(*), 
@@ -91,7 +91,7 @@ C-----------------------------------------------
       INTEGER NDX, I, J, II, INRT, NELS, NELC, NELTG, NEL,
      .        N1,N2,N3,N4, IX, N, L, LLT, NN, IP, STAT
       INTEGER ITMP(NUMNOD)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DXM, GAPMX, GAPMN, AREA, DX,GAPS1,GAPS2, GAPM, DDX, 
      .   GAPTMP, XXX, YYY, ZZZ, X0, X1, Y0, Y1, Z0, Z1

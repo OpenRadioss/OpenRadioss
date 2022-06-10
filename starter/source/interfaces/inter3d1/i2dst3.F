@@ -264,7 +264,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER TFLAG(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    XI(*),YI(*),ZI(*),XA(*),YA(*),ZA(*),
      .    XB(*),YB(*),ZB(*),XC(*),YC(*),ZC(*),
@@ -277,7 +277,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    XPA,YPA,ZPA,XPB,YPB,ZPB,XPC,YPC,ZPC,
      .    XAB,YAB,ZAB,XAC,YAC,ZAC,ALP,

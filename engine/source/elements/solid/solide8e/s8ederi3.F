@@ -72,7 +72,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICP,IDEG(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF(*),OFFG(*),VOL(*),KSI,ETA,ZETA,WI,
      .   HX(MVSIZ,4),  HY(MVSIZ,4), HZ(MVSIZ,4),   
@@ -113,7 +113,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NGL(*), I, J ,ICOR
-C     REAL ou REAL*8
+C     REAL
 C                                                                     12
       my_real
      .   DET(MVSIZ) ,DETT(MVSIZ) ,  
@@ -408,7 +408,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       DOUBLE PRECISION
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
      .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),  
@@ -433,7 +433,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NGL(*), I, J ,ICOR,NNEGA,INDEX(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
 C                                                                     12
       my_real
      .   DETT(MVSIZ) ,   
@@ -765,7 +765,7 @@ C-----------------------------------------------
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
      .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),  
      .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*)
-C     REAL ou REAL*8   
+C     REAL   
       my_real
      .   OFF(*),DET(*),  
      .   PX1(*), PX2(*), PX3(*), PX4(*),  
@@ -779,7 +779,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NGL(*), I, J ,ICOR
-C     REAL ou REAL*8
+C     REAL
 C                                                                     12
       my_real
      .   DETT(MVSIZ) ,   
@@ -980,7 +980,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PX1(*), PX2(*), PX3(*), PX4(*),
      .   PX5(*), PX6(*), PX7(*), PX8(*),
@@ -1013,7 +1013,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J 
-C     REAL ou REAL*8
+C     REAL
 C                                                                     12
       my_real
      .   BXHI,BYHI,BZHI,TEMP
@@ -1201,7 +1201,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   HX(MVSIZ,4),  HY(MVSIZ,4), HZ(MVSIZ,4),   
      .   CJ1(*),CJ2(*),CJ3(*),
@@ -1214,7 +1214,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J ,IP
-C     REAL ou REAL*8
+C     REAL
 C                                                                     12
       my_real
      .   HX1PG(MVSIZ), HX2PG(MVSIZ), HX3PG(MVSIZ),HX4PG2(MVSIZ),
@@ -1415,7 +1415,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICP,IDEG(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF(*),OFFG(*),VOL(*),KSI,ETA,ZETA,WI,
      .   HX(MVSIZ,4),  HY(MVSIZ,4), HZ(MVSIZ,4),   
@@ -1457,7 +1457,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NGL(*), I, J ,ICOR
-C     REAL ou REAL*8
+C     REAL
 C                                                                     12
       my_real
      .   DET(MVSIZ) ,DETT(MVSIZ) ,  
@@ -1711,7 +1711,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NNEGA,INDEX(*),IPT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFFG(*),WI,
      .   AJ1(*),AJ2(*),AJ3(*),
@@ -1726,7 +1726,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NGL(*), I, J ,ICOR
-C     REAL ou REAL*8
+C     REAL
 C                                                                     12
       my_real
      .   VOL(MVSIZ),DET(MVSIZ) ,DETT(MVSIZ) ,  
@@ -1864,7 +1864,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICP,IDEG(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF(*),OFFG(*),VOL(*),KSI,ETA,ZETA,WI,
      .   PX1(*), PX2(*), PX3(*), PX4(*),
@@ -1907,7 +1907,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NGL(*), I, J ,ICOR
-C     REAL ou REAL*8
+C     REAL
 C                                                                     12
       my_real
      .   A1PR1,A1PR3,A1PR5,A1PR7,
@@ -2081,7 +2081,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NNEGA,INDEX(MVSIZ),NEL
-C     REAL ou REAL*8
+C     REAL
       DOUBLE PRECISION
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
      .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),  
@@ -2101,7 +2101,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NGL(*), I, J ,ICOR
-C     REAL ou REAL*8
+C     REAL
 C                                                                     12
       my_real
      .   DETT(MVSIZ) ,   
@@ -2329,7 +2329,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8   
+C     REAL   
       my_real
      .   OFF(*),DET(*),  
      .   PX1(*), PX2(*), PX3(*), PX4(*),  
@@ -2340,7 +2340,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J ,ICOR
-C     REAL ou REAL*8
+C     REAL
 C                                                                     12
       my_real
      .   AJI1(MVSIZ), AJI2(MVSIZ), AJI3(MVSIZ),
@@ -2440,7 +2440,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICP,IDEG(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF(*),OFFG(*),VOL(*),KSI,ETA,ZETA,WI,
      .   HX(MVSIZ,4),  HY(MVSIZ,4), HZ(MVSIZ,4),   
@@ -2482,7 +2482,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NGL(*), I, J ,ICOR
-C     REAL ou REAL*8
+C     REAL
 C                                                                     12
       my_real
      .   DET(MVSIZ) ,DETT(MVSIZ) ,  
@@ -2686,14 +2686,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PR(8,8),PS(8,8),PT(8,8)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J ,IP
-C     REAL ou REAL*8
+C     REAL
 C                                                                     12
       my_real
      .   PG2,KSI(8),ETA(8),ZETA(8),ETAZETA(8),KSIETA(8),KSIZETA(8),PG,MPG
@@ -2790,7 +2790,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PX1(*), PX2(*), PX3(*), PX4(*),
      .   PX5(*), PX6(*), PX7(*), PX8(*),
@@ -2806,7 +2806,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J 
-C     REAL ou REAL*8
+C     REAL
 C                                                                     12
       my_real
      .   A1PR1,A1PR3,A1PR5,A1PR7,
@@ -2917,7 +2917,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PX1(*), PX2(*), PX3(*), PX4(*),
      .   PX5(*), PX6(*), PX7(*), PX8(*),
@@ -2985,7 +2985,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICP,IDEG(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF(*),OFFG(*),VOL(*),KSI,ETA,ZETA,WI,
      .   PX1(*), PX2(*), PX3(*), PX4(*),
@@ -3026,7 +3026,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I, J ,ICOR
-C     REAL ou REAL*8
+C     REAL
 C                                                                     12
       my_real
      .   A1PR1,A1PR3,A1PR5,A1PR7,
@@ -3132,7 +3132,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   KSI,ETA,ZETA,
      .   PXC1(*), PXC2(*), PXC3(*), PXC4(*),  
@@ -3161,7 +3161,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J ,ICOR,ep
-C     REAL ou REAL*8
+C     REAL
 C                                                                     12
       my_real
      .   D1X(MVSIZ) , D2X(MVSIZ) , D3X(MVSIZ) , D4X(MVSIZ) ,
@@ -3402,7 +3402,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   KSI,ETA,ZETA,WI,
      .   AJP1(*),AJP2(*),AJP3(*),
@@ -3418,7 +3418,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J ,ICOR
-C     REAL ou REAL*8
+C     REAL
 C                                                                     12
       my_real
      .   DET(MVSIZ) ,DETT(MVSIZ) ,  
@@ -3529,7 +3529,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPTR,NPTS,NPTT,NNPT 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  PX1(MVSIZ,NNPT),PX2(MVSIZ,NNPT),PX3(MVSIZ,NNPT),PX4(MVSIZ,NNPT),
      .  PX5(MVSIZ,NNPT),PX6(MVSIZ,NNPT),PX7(MVSIZ,NNPT),PX8(MVSIZ,NNPT),
@@ -3676,7 +3676,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PXY1(*),PXY2(*),PXY3(*),PXY4(*),
      .   PXY5(*),PXY6(*),PXY7(*),PXY8(*),
@@ -3777,7 +3777,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PX1(*), PX2(*), PX3(*), PX4(*),
      .   PX5(*), PX6(*), PX7(*), PX8(*),
@@ -3817,7 +3817,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I, J ,ICOR
-C     REAL ou REAL*8
+C     REAL
 C                                                                     12
       my_real
      .   X1,X3,Y1,Y2,Z2,Z3,X24,Y34,Z14
@@ -4013,7 +4013,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  PX1(MVSIZ),PX2(MVSIZ),PX3(MVSIZ),PX4(MVSIZ),
      .  PX5(MVSIZ),PX6(MVSIZ),PX7(MVSIZ),PX8(MVSIZ),
@@ -4089,7 +4089,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   BXY1(*),BXY2(*),BXY3(*),BXY4(*),
      .   BXY5(*),BXY6(*),BXY7(*),BXY8(*),
@@ -4209,7 +4209,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VX1(*), VX2(*), VX3(*), VX4(*), VX5(*), VX6(*), VX7(*), VX8(*),
      .   VY1(*), VY2(*), VY3(*), VY4(*), VY5(*), VY6(*), VY7(*), VY8(*),
@@ -4807,7 +4807,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER INDEX(*),NCH   ,NEL
       DOUBLE PRECISION
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*),
@@ -4820,7 +4820,7 @@ C-----------------------------------------------
       INTEGER I ,J ,N   
       INTEGER IP,IR, IS, IT,JHBE,IREP,MPT,NLAY,NPTR,NPTS,NPTT,NUVAR,
      .       L_PLA,L_SIGB,NSPHDIR, NCELF, NCELL,LLPIJ,L_JAC,NNPT
-C     REAL ou REAL*8
+C     REAL
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
       my_real

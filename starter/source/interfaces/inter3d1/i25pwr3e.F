@@ -56,7 +56,7 @@ C-----------------------------------------------
      .        N1(*), N2(*), M1(*), M2(*),
      .        CAND_M_G(*),CAND_S_G(*)
       INTEGER LLT,IWPENE,INACTI,NOINT,NTY,NSN,ISTOK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PENE(*), CAND_P(*), CAND_P_G(*)
       INTEGER ID
@@ -67,7 +67,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, L
       INTEGER IX1, IX2, IX3, IX4, NSVG
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
        DO I=1,LLT
 

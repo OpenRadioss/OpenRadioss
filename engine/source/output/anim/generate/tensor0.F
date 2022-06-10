@@ -60,14 +60,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TENS(6,*),EPSDOT(6,*),PM(NPROPM,*),X(3,*)
       INTEGER IPARG(NPARG,*),ITENS, EL2FA(*),IADG(NSPMD,*),
      .   NBF,IADP(*),NBPART,IPART(LIPART1,*),IPARTSP(*),IPM(NPROPMI,*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   G11,G22,G33,G12,G21,G23,G32,G13,G31,
      .   L11,L22,L33,L12,L21,L23,L32,L13,L31,

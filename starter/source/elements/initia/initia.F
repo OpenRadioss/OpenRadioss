@@ -2367,7 +2367,7 @@ C-----------------------------------------------
       INTEGER NUMEL,NIX,NE
       INTEGER IPART(LIPART1,*),IPARTEL(*),IX(NIX,*),EMAT(0:*),EPID(0:*),
      . IGEO(NPROPGI,*), IPM(NPROPMI,*)
-C     REAL ou REAL*8
+C     REAL
 c      my_real
 c     .   PM(NPROPM,*)
       CHARACTER *(*) ELEM
@@ -3074,7 +3074,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPE,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  XREF(8,3,*)
       DOUBLE PRECISION
@@ -3083,7 +3083,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,NPE1,N
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XL(MVSIZ),YL(MVSIZ),ZL(MVSIZ)
 C-----------------------------------------------
@@ -3129,18 +3129,18 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPE,NEL,STRAGLOB(*),PTSOL(*),NSIGI
-C     REAL ou REAL*8
+C     REAL
 C-------!!!!! uniforme SAV between Ismstr>=10 and Ismstr=1
       DOUBLE PRECISION
      .  SAV(NEL,3*(NPE-1))
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SIGSP(NSIGI,*),OFFG(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,NPE1,N,JJ,IIS,IIS0,N2
-C     REAL ou REAL*8
+C     REAL
       DOUBLE PRECISION
      .   XL(NPE),YL(NPE),ZL(NPE)
 C-----------------------------------------------
@@ -3201,18 +3201,18 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPE,NEL,STRAGLOB(*),PTSOL(*),NSIGI
-C     REAL ou REAL*8
+C     REAL
 C-------dim different for quadratic element(historic)
       DOUBLE PRECISION
      .  SAV(NEL,3*NPE)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SIGSP(NSIGI,*),OFFG(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,NPE1,N,JJ,IIS,IIS0
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
        IIS0= NUSOLID+4+NVSOLID1 + NVSOLID2 + NVSOLID3 + NVSOLID4 + NVSOLID5
        DO I=LFT,LLT

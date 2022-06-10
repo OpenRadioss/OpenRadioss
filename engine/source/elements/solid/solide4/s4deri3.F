@@ -55,7 +55,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL, MXT(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       DOUBLE PRECISION
      .   X1(*), X2(*), X3(*), X4(*),
      .   Y1(*), Y2(*), Y3(*), Y4(*),
@@ -72,7 +72,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NGL(*), I,J
       INTEGER NNEGA,INDEX(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       DOUBLE PRECISION
      .   X41, Y41, Z41, X42, Y42, Z42, X43, Y43, Z43,B1DP,C1DP,D1DP
       my_real
@@ -334,7 +334,7 @@ C-----------------------------------------------
      .   X1(*), X2(*), X3(*), X4(*),
      .   Y1(*), Y2(*), Y3(*), Y4(*),
      .   Z1(*), Z2(*), Z3(*), Z4(*),VOLDP(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF(*),DET(*),DELTAX(*),
      .   PX1(*), PX2(*), PX3(*), PX4(*),  
@@ -354,7 +354,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NGL(*), I
-C     REAL ou REAL*8
+C     REAL
 C                                                                     12
       DOUBLE PRECISION
      .   X41, Y41, Z41, X42, Y42, Z42, X43, Y43, Z43,B1DP,C1DP,D1DP
@@ -532,7 +532,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NGL(*),NNEGA,INDEX(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF(*),DET(*),OFFG(*)
 C-----------------------------------------------
@@ -542,7 +542,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J ,ICOR
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
       NNEGA = 0
       IF(JLAG/=0)THEN
@@ -693,7 +693,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF(*),DET(*),
      .   PX1(*), PX2(*), PX3(*), PX4(*),  
@@ -713,7 +713,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I
-C     REAL ou REAL*8
+C     REAL
 C                                                                     12
       my_real
      .   X41, Y41, Z41, X42, Y42, Z42, X43, Y43, Z43

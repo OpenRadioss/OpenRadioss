@@ -57,7 +57,7 @@ C-----------------------------------------------
       INTEGER ICFIELD(SIZFIELD,*),IB(*),LSENSOR(NSENSI,*)
       INTEGER WEIGHT(*),ITASK,NRBYAC,IRBYAC(*),NPBY(NNPBY,*),
      .        IFRAME(LISKN,*),ISKN(LISKN,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FAC(LFACLOAD,*), TF(*), A(3,*), V(3,*), MS(*),
      .   X(3,*), XFRAME(NXFRAME,*), SENSOR(NSENSR,*),TFEXTT, RBY(NRBY,*)

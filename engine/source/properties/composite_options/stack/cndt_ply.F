@@ -56,7 +56,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,NPT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF(*),STI(MVSIZ,*),
      .   ALDT(*), A1(MVSIZ,*), THK(MVSIZ,*),
@@ -67,7 +67,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER INDXOF(MVSIZ),
      .        I, J, JINF,JSUP
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    DIVM ,FAC,VOL
 C-----------------------------------------------

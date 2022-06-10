@@ -58,7 +58,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
       INTEGER NC(MVSIZ,16),MXT(*),NGL(*),NGEO(*),IXS(NIXS,*),IXS16(8,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), V(3,*), XX(MVSIZ,16), YY(MVSIZ,16), ZZ(MVSIZ,16),
      .  VX(MVSIZ,16), VY(MVSIZ,16), VZ(MVSIZ,16),
@@ -68,7 +68,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IPERM1(16),IPERM2(16),N,N1,N2,NN,IUN
-C     REAL ou REAL*8
+C     REAL
       DATA IPERM1/0,0,0,0,0,0,0,0,1,2,3,4,5,6,7,8/
       DATA IPERM2/0,0,0,0,0,0,0,0,2,3,4,1,6,7,8,5/
 C-----------------------------------------------

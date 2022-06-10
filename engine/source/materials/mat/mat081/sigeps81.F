@@ -140,7 +140,7 @@ C-----------------------------------------------
      .  PO,UO,SO1,SO2,SO3,SO4,SO5,SO6,FO
       my_real SMALL,BIG,TOL 
       my_real ,DIMENSION(:), POINTER :: EPSPD,EPSPV
-c=======================================================================
+C=======================================================================
 C         UVAR(1) COHESION
 C         UVAR(2) CAP PRESSURE PB
 C         UVAR(3) U PORE PRESSURE
@@ -163,7 +163,7 @@ C         UPARAM(11) SAT0 Initial "saturation" (1+mu0)
 C         UPARAM(12) U0 Initial pore pressure
 C         UPARAM(13) TOLMU transition for criterion shift
 C         UPARAM(14) Viscosity factor
-C======================================
+C=======================================================================
       SMALL = EM10
       BIG   = EP20
       TOL   = EM20
@@ -744,7 +744,7 @@ Chd|====================================================================
 #include      "implicit_f.inc"
       my_real P,P0,U,TGB,COH,PA,PBMPA2,Q
       my_real A,RC,PU,DP
-c=======================================================================
+C=======================================================================
       IF (P < P0) THEN
         PU = P
       ELSE IF (P <= P0+U) THEN

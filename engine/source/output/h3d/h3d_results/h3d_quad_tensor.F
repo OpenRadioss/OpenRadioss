@@ -74,7 +74,7 @@ C-----------------------------------------------
      .   INFO1,INFO2,IS_WRITTEN_QUAD(*),IPARTQ(*),IPARTTG(*),H3D_PART(*),
      .   LAYER_INPUT ,IPT_INPUT,GAUSS_INPUT,PLY_INPUT,IUVAR_INPUT,II,
      .   IR_INPUT,IS_INPUT,IT_INPUT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TENS(3,*),EPSDOT(6,*),X(3,*),QUAD_TENSOR(6,*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
@@ -83,7 +83,7 @@ C     REAL ou REAL*8
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A1,A2,A3,THK,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
      .   SY,SZ,TY,TZ,SUMA,R11,R12,R13,R21,R22,

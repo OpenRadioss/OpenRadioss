@@ -59,7 +59,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI),ISKY(*), NPC(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   BUFSF(*) ,
      .   A(3,*) ,X(3,*) ,V(3,*) ,FSAV(NTHVKI) ,
@@ -76,7 +76,7 @@ C-----------------------------------------------
       INTEGER N,K,IGI,IGS,IM,NSN,NSC,NSP
       INTEGER NLO,NFRIC,NDAMP1,NDAMP2
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STFAC, GAPMIN, FRIC, VISC, STF
 C-----------------------------------------------

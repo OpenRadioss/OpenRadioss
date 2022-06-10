@@ -91,7 +91,7 @@ C-----------------------------------------------
      .    X1,X2,X3,Y1,Y2,Y3,Z1,Z2,Z3,D,DD,D2,DP,E,G
         my_real A0(2),A1(2),A2(2),AS(3),VS(3)      
         my_real ,DIMENSION(NEL) :: EPS1,EPS2,EPS3
-c=======================================================================
+C=======================================================================
 C USER VARIABLES
 
 c! User variable # 1, to store the previous damage value

@@ -49,7 +49,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRECT(4,*), LMSR(4,*), MSR(*), NSV(*), ILOC(*), IRTL(*),
      .   LCODE(*), ISKEW(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), SKEW(LSKEW,*), A(*), FN(*), FT(*), MSMN(*), MSMT(*),
      .   CRST(2,*), MS(*), NOR(3,*), FRIC
@@ -58,7 +58,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NIR, I, J, I3, J3, I2, J2, I1, J1, II, L, JJ, NN, JJ3,
      .   JJ2, JJ1, ISK, LCOD
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   H(4), N1, N2, N3, AA(3), SS, TT, XMSS, FXI, FYI, FZI, FSN,
      .   FXN, FYN, FZN, FXT, FYT, FZT, FST, FAC, FXMI, FYMI, FZMI,

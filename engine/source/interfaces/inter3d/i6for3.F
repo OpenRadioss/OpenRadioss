@@ -47,11 +47,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IGIMP
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   ANSMX, FMX, FMY, FMZ, PENI
       INTEGER IRECT(4,*), MSR(*), NSV(*), IRTL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STF(*), STFN(*), ES(*), EM(*)
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: N1,N2,N3
@@ -71,7 +71,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IL, L, J3, J2, J1, I3,I2, I1
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PENET
 C-----------------------------------------------

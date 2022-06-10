@@ -51,7 +51,7 @@ c-----------------------------------------------------------------------
 c  COMPUTE EQUIVALENT STRAIN RATE
 c        IDEV = 0 => total strain rate
 c        IDEV = 1 => deviatoric strain rate
-c=======================================================================
+C=======================================================================
       IF (ISRATE >= 0) THEN   ! calculate strain rate
         IF (IDEV == 0) THEN   ! total strain rate
           DO I=1,NEL

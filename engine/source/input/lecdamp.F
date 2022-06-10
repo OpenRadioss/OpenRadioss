@@ -64,7 +64,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER K, L, ID, IDNEW, NGR, OK, KORTH
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DAMPA,DAMPB,DAMPAY,DAMPBY,DAMPAZ,DAMPBZ,FACTB,
      .   DAMPARX,DAMPBRX,DAMPARY,DAMPBRY,DAMPARZ,DAMPBRZ

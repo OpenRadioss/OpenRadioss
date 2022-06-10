@@ -91,7 +91,7 @@ c     NPTTOT     NUMBER OF INTEGRATION POINTS IN ALL LAYERS (TOTAL)
 c     OFFPG(NEL,NPG)  failure flag of PG in each layer  1=alive ,0=dead 
 c     THK_LY     Ratio of layer thickness / element thickness
 c     THK        Total element thickness
-c=======================================================================
+C=======================================================================
       RESID_DMG = ZERO
       IPTHKLY   = 700
       IPWEIGHT  = 900

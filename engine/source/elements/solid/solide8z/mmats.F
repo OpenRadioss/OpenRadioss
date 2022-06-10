@@ -66,7 +66,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT  ,IORTH ,JHBE,MTN,NPPT,NEL
       INTEGER MAT(*),IPM(NPROPMI,*),IGEO(NPROPGI,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*),HH(2,*),CC(3,3,*),UPARAM(*),
      .   GAMA(MVSIZ,6),CG(3,3,*),G33(3,3,*),SIG(NEL,6),EPS(*)
@@ -74,7 +74,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,MX,IAD,J,K,IPLAST
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   NU,LAMDA,GG,C1,QC(9,MVSIZ),QCG(9,MVSIZ),QG(9,MVSIZ),
      .   QGC(9,MVSIZ),G3(3,MVSIZ),TT,TV,CA,CB,CN,G(MVSIZ),QH(MVSIZ),
@@ -266,14 +266,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT  
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GAMA(MVSIZ,6),QC(3,3,*),QCG(3,3,*),QGC(3,3,*),QG(3,3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   E1(MVSIZ,3),E2(MVSIZ,3),E3(MVSIZ,3)
 C-----------------------------------------------
@@ -340,7 +340,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT  
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   QC(3,3,*),QCG(3,3,*),QGC(3,3,*),QG(3,3,*),
      .   G3(3,*),CC(3,3,*),CG(3,3,*),G33(3,3,*)
@@ -348,7 +348,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,ISYM
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,3,MVSIZ),B(3,3,MVSIZ)
 C-----------------------------------------------
@@ -471,7 +471,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LFT,LLT,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DD(3,3,*),G(*),SIG(NEL,6),DD1(3,3,*),GT(3,3,*),HT(*)
 C-----------------------------------------------
@@ -481,7 +481,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SS(3,MVSIZ),ST(3,MVSIZ),P,SIGY49,DS(3,MVSIZ),
      .   SS2,DS2,ST2,NORM(MVSIZ),NORMI,G2
@@ -588,14 +588,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,MTN
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   ET(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I ,J ,MPT,NPTS,IKTMAT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   ETF
 C-----------------------------------------------
@@ -647,14 +647,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,MTN
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SFAC(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I ,J,IKTMAT
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
        CALL IKTMAT_INI(MTN,IKTMAT)
         DO I = 1,NEL
@@ -698,12 +698,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,MTN
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I ,J,IKTMAT
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
        CALL IKTMAT_INI(MTN,IKTMAT)
        IF (IKTMAT > 0.AND.IMCONV>=0) THEN
@@ -739,7 +739,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LFT,LLT,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DD(3,3,*),HH(2,*),SIG(NEL,6),DD1(3,3,*),GT(3,3,*),HT(*)
 C-----------------------------------------------
@@ -749,7 +749,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SS(3,MVSIZ),ST(3,MVSIZ),P,SIGY2,G(MVSIZ),
      .   SS2,DS2,ST2,NORM(MVSIZ),NORMI,G2,TT,TV
@@ -862,14 +862,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT  ,IR,IS,IT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   LAMDA(*),G(*),CC(3,3,*),CG(3,3,*),G33(3,3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,MX,J,K,IPLAST,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   NU,SIG(6,MVSIZ),ALPHA(MVSIZ),G2,TT,TV
       TYPE(L_KTBUFEP_)    , POINTER :: LBUF
@@ -950,7 +950,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LFT,LLT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DD(3,3,*),SIG(6,*),DD1(3,3,*),GT(3,3,*),R(*)
 C-----------------------------------------------
@@ -961,7 +961,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C---------deviatoric normalized stress: sig
       INTEGER I,J,K
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SS(3,MVSIZ),ST(3,MVSIZ)
 C----------  verifier-------------------------------------
@@ -1046,14 +1046,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT  ,IR,IS,IT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   HT(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,MX,J,K
-C     REAL ou REAL*8
+C     REAL
 
       TYPE(L_KTBUFEP_)    , POINTER :: LBUF
       TYPE(MLAW_TAG_)     , POINTER :: MTAG
@@ -1113,7 +1113,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICSIG,IORTH,IR,IS,IT,NEL
       INTEGER MAT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*),HH(2,*),DD(3,3,*),GG(*),VOL(*),
      .   DG(3,3,*),G33(3,3,*),DM(3,3,*),GM(3,3,*),DGM(3,3,*),
@@ -1122,7 +1122,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,ICS,ICT,ICR,J,K
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TT,TV,TT0,G(MVSIZ),QH(MVSIZ),EE,SFAC
 C-----------------------------------------------
@@ -1305,14 +1305,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT ,MTN,IR,IS,IT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AL_IMP(*),SIGNOR(MVSIZ,6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,MX,J,K,IPTR,IPTS,IPTT
-C     REAL ou REAL*8
+C     REAL
 
       TYPE(L_KTBUFEP_)    , POINTER :: SKBUF
       TYPE(MLAW_TAG_)     , POINTER :: MTAG

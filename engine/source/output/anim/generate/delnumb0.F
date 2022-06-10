@@ -30,7 +30,7 @@ Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
 Chd|====================================================================
       SUBROUTINE DELNUMB0(IPARG   ,EL2FA   ,NBF     ,INUM  ,DD_IAD,
      .                    IADD    ,NBPART  ,IADG    ,KXSP  )
-C===============================================
+C=======================================================================
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"

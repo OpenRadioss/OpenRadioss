@@ -96,7 +96,7 @@ C-----------------------------------------------
      .   IXC(NIXC,*),IXTG(NIXTG,*),IPARTC(*),
      .   IXS(NIXS,*),IXS10(*), IXS16(*), IXS20(*),IPARTTG(*),IGEO(*),
      .   IWORKSH(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),XYZM(6,*),ST(*),DMIN(*),TZINF05,THK(*),THK_PART(*),
      .   GEO(NPROPG,*),PM(*),PM_STACK(*)
@@ -126,7 +126,7 @@ C-----------------------------------------------
       INTEGER I_ADD, ADESTK, NB_NC, NB_EC, ADNSTK,IEL,N
       INTEGER IP1, IP2, IP21, IP22, IP31,J_STOK,I_BID,NB_N_B,IS,IAD,
      .   MG,IP,NELS,NELC,NELTG,JJ,JJJ
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DX1,DY1,DZ1,DX3,DY3,DZ3,DX4,DY4,DZ4,DX6,DY6,DZ6,
      .   DD1,DD2,DD3,DD4,DD,XMIN,YMIN,ZMIN,MAXBOX,MINBOX,XMAX,YMAX,ZMAX,

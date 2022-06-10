@@ -59,7 +59,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER M, NSL,ISPH, PMAIN, ICOMM(*), WEIGHT(*)
       INTEGER LSN(*), ITAB(*),IWA(*),NPBYI(NNPBY,*) ,LSNI(*),ID
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RBY(20), MS(*), IN(*), X(3,*), SKEW(LSKEW,*),RBYI(NRBY,*),
      .   F1(NSL), F2(NSL), F3(NSL), F4(NSL),
@@ -69,7 +69,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER J, I, N, NONOD, NI, NSLI, K, II
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XG(3), XMG, XX, XY, XZ, YY, YZ, ZZ, XIIN,MASRB,INERT,
      .   RBY17,RBY18,RBY19,RBY20,RBY21,RBY22,RBY23,RBY24,RBY25,

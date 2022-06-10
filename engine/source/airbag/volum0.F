@@ -53,7 +53,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IVOLU(*), ICONTACT(*), NN, FR_MV(*),
      . SURF_NODES(NN,4),SURF_ELTYP(NN),SURF_ELEM(NN)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), N(3,*),RVOLU(*),PORO(*),VOL
       TYPE(MONVOL_STRUCT_), INTENT(IN) :: T_MONVOLN

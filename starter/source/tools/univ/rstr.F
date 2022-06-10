@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 C-----------------------------------------------------------------------
-C     REAL ou REAL*8
+C     REAL
 #include "my_real.inc"
 Chd|====================================================================
 Chd|  RSTR                          source/tools/univ/rstr.F      

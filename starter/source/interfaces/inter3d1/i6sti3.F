@@ -48,11 +48,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NRT, NSN, NOINT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XMAS
       INTEGER IRECT(4,*), NSV(*), NPBY(NNPBY,*), LPBY(*), ITAB(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STF(*), STFN(*), MS(*)
       INTEGER ID

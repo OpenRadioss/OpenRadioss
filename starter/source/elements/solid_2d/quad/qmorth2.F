@@ -49,7 +49,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JHBE,NEL
       INTEGER PID(*),IGEO(NPROPGI,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG,*),GAMA(NEL,6),
      .   RY(*) ,RZ(*) ,SY(*) ,SZ(*),
@@ -58,7 +58,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IG,ID,ISK,IPNUM,IIS,II,J,JJ,N,IFLAGINI
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XL,YL,ZL,SUM,HX,HY,HZ,KX,KY,KZ,
      .   LX,LY,LZ,PHI,CP,SP,VX,VY,VZ,VN,

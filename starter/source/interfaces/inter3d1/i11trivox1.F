@@ -202,14 +202,14 @@ c     dev future: xminb plus grand que xmin...
       YMAXB = YMAX
       ZMAXB = ZMAX  
 
-C================================================================
+C=======================================================================
 C 1   Pour chaque edge, on marque les voxels occupes.
 C     Le nombre d edge dans un voxels etant variable, on
 C     utilise un tableau chaine.
 C     Ces voxels representent le voisinage de l edge.
 C     On cherchera ensuite toutes les entites interfacees
 C     dans ce voisinage.
-C================================================================
+C=======================================================================
         
         CURRENT_ADD=1 ! premiere adresse
 
@@ -335,12 +335,12 @@ C
         ENDDO !DO I=1,NRTS
 
 
-C================================================================
+C=======================================================================
 C 3   A partir des voxels occupes par une edge main, on est en
 C     mesure de connaitre toutes les edges escalves dans ce voisinage.
 C     Ce qui permet de creer des couples cancidats pour le contact
 C     Si la penetration est positive.
-C================================================================
+C=======================================================================
       NEDG   = 0 
       I_STOK = 0
                       
@@ -496,9 +496,9 @@ C-------------------------------------------------------------------------
 
     
 c      WRITE(6,*) __FILE__,__LINE__,I_STOK,II_STOK
-C================================================================
+C=======================================================================
 C 4   remise a zero des noeuds dans les boites et desallocation
-C================================================================
+C=======================================================================
 
  1000 CONTINUE            
 

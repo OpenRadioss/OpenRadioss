@@ -54,7 +54,7 @@ C-----------------------------------------------
      .       NC3(MVSIZ),NC4(MVSIZ),NC5(MVSIZ),NC6(MVSIZ),
      .       NC7(MVSIZ),NC8(MVSIZ)
       INTEGER IPARTS(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    VOL(*), PX1(*), PX2(*), PX3(*), PX4(*), 
      .    PY1(*), PY2(*), PY3(*), PY4(*),
@@ -66,7 +66,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, M, MX
-C     REAL ou REAL*8
+C     REAL
       my_real CA, CB, KC, PHIX, PHIY, PHIZ, A, B, SPH, T0
 C 
 

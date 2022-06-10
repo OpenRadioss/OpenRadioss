@@ -65,7 +65,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER :: NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*), OFF(MVSIZ) , RHO(NEL) , RK(MVSIZ)  , T(MVSIZ),
      .   RE(MVSIZ)   , STI(*)   , EINT(NEL),
@@ -78,7 +78,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I,J, MT,IPT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DD(MVSIZ), AL(MVSIZ), DTX(MVSIZ), DTY(MVSIZ),
      .   AD(MVSIZ), QX(MVSIZ), CX(MVSIZ),QVIS(MVSIZ),

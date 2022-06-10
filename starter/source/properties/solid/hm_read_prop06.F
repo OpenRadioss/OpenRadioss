@@ -92,7 +92,7 @@ C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER IGEO(NPROPGI),IG,SUB_ID,ISKN(LISKN,*),
      .        IPART(LIPART1,*),IGTYP
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG),RTRANS(NTRANSF,*)
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
@@ -105,7 +105,7 @@ C-----------------------------------------------
       INTEGER IHBE,ISMSTR,IPLAS,ICPRE,ICSTR,IINT,IP,ISK,IREP,JCVT,
      .    NPT,NPTR,NPTS,NPTT,ITET4,IET,ISTR,IHBE_OLD,ITET10,
      .    ISHEAR,ISORTH
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    CVIS,QA,QB,QH,VX,VY,VZ,ANGLE,DTMIN,PX,PY,PZ,VN
       INTEGER K,NSPHDIR,ID_PARTSPH,IPARTSPH,J

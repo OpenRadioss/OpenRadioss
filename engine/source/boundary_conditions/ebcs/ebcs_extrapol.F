@@ -126,17 +126,17 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPOINT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TT, F
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TF(2,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, M
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DT1, DT2, D1, D2, TG
 

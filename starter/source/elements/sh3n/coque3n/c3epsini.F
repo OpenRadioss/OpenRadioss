@@ -275,7 +275,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT, ISMSTR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     PX1(*),  PY1(*),  PY2(*),
      .     PX1G(*), PY1G(*), PY2G(*),
@@ -292,7 +292,7 @@ C-----------------------------------------------
       INTEGER I
       my_real X21G(MVSIZ), Y21G(MVSIZ), Z21G(MVSIZ),
      .        X31G(MVSIZ), Y31G(MVSIZ), Z31G(MVSIZ)
-c=======================================================================
+C=======================================================================
       IF (ISMSTR.NE.3)THEN
         DO I=JFT,JLT
           X21G(I)=X2G(I)-X1G(I)
@@ -528,14 +528,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,ISMSTR,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GSTR(NEL,8),ECOS(MVSIZ),ESIN(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  M2(MVSIZ),N2(MVSIZ),MN(MVSIZ),CM(4),MN2(MVSIZ),T1,T2,T3
 C-----------------------------------------------

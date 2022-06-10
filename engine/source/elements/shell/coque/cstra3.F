@@ -58,7 +58,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT, IHBE,NFT ,ISTRAIN,ISMSTR,MTN,
      .        NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GSTR(NEL,8),
      .   AREA(MVSIZ),SHF(MVSIZ),DT1C(MVSIZ),
@@ -73,7 +73,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER 
      .        I, MX, J, K
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FAC1(MVSIZ), FAC2, Q1(MVSIZ), R1(MVSIZ), R2(MVSIZ),FC1P,
      .   FTMP1(MVSIZ),FTMP2(MVSIZ),FTMP5(MVSIZ),MTMP1(MVSIZ),

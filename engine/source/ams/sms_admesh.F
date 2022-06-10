@@ -42,7 +42,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXC(NIXC,*), IXTG(NIXTG,*), 
      .        SH4TREE(KSH4TREE,*), SH3TREE(KSH3TREE,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*), DIAG_SMS(*)
 C-----------------------------------------------
@@ -188,7 +188,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXC(NIXC,*), IXTG(NIXTG,*), 
      .        SH4TREE(KSH4TREE,*), SH3TREE(KSH3TREE,*), NODNX_SMS(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*), DIAG_SMS(*)
 C-----------------------------------------------
@@ -349,7 +349,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXC(NIXC,*), IXTG(NIXTG,*), 
      .        SH4TREE(KSH4TREE,*), SH3TREE(KSH3TREE,*), ITASK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*), DIAG_SMS(*)
 C-----------------------------------------------

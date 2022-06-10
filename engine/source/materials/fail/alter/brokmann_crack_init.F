@@ -65,7 +65,7 @@ c     UVAR(18) = CR_ANG   :  Random crack angle
 c     UVAR(19) = THK0     :  Initial thickness of the shell (in micrometers)
 c     UVAR(20) = ALDT0    :  Initial width of the shell (in micrometers)
 c     UVAR(21) = SIG_COS  :  Crack opening stress (saved for filtering)
-c=======================================================================
+C=======================================================================
       EXP_N    = UPARAM(1)
       K_IC     = UPARAM(6)
       V0       = UPARAM(8)

@@ -92,7 +92,7 @@ C-----------------------------------------------
 C statistique interface
       INTEGER NB_JLT,NB_JLT_NEW,NB_STOK_N,JTASK
       INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*),IND_IMP(*)
-C     REAL ou REAL*8
+C     REAL
       my_real DT2T,
      .   X(*), A(3,*), FSAV(*), V(3,*),
      .   MS(*),STIFN(*),FSKYI(LSKYI,4),FCONT(*),
@@ -116,13 +116,13 @@ C-----------------------------------------------
      .        CN_LOC(MVSIZ),CE_LOC(MVSIZ),
      .        INDEX2(LINDMAX),IBID,SFSAVPARIT
       INTEGER NSMS(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, GAP, STOPT,
      .   VISC, STIGLO, GAPMIN, KMIN, KMAX, GAPMAX,
      .   RBID
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     NX1(MVSIZ), NX2(MVSIZ), NX3(MVSIZ), NX4(MVSIZ),
      .     NY1(MVSIZ), NY2(MVSIZ), NY3(MVSIZ), NY4(MVSIZ),

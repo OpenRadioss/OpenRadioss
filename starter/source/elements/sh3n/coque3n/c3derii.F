@@ -61,7 +61,7 @@ C-----------------------------------------------
       INTEGER JFT, JLT, ILEV,ISUBSTACK,IMAT,IPROP
       INTEGER IXTG(NIXTG,*), SH3TREE(KSH3TREE,*),IPM(NPROPMI,*),
      .         IGEO(NPROPGI,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*), GEO(NPROPG,*), PX1(*),PY1(*),PY2(*),
      .   STIFN(*),STIFR(*),THK(*),ALDT(*),UPARAM(*),PM_STACK(20,*),STRTG(*)

@@ -63,7 +63,7 @@ C-----------------------------------------------
       INTEGER LLL(*),JLL(*),IADLL(*),IADH(*),JCIH(*),IADHF(*),
      .        JCIHF(*),NPBYL(NNPBY,*),WORK2(*),WORK3(*),
      .        ICFTAG(*),JCFTAG(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  MAS(*),IN(*), A(3,*),AR(3,*),V(3,*),VR(3,*),
      .  XLL(*),P(*),R(*),Q(*),LAMBDA(*),RBYL(NRBY,*),
@@ -452,7 +452,7 @@ C-----------------------------------------------
       INTEGER LLL(*),JLL(*),IADLL(*),IADH(*),JCIH(*),IADHF(*),
      .        JCIHF(*),NPBYL(NNPBY,*),WORK2(*),WORK3(*),
      .        ICFTAG(*),JCFTAG(*), INDEXLAG(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  MAS(*),IN(*), A(3,*),AR(3,*),V(3,*),VR(3,*),
      .  XLL(*),P(*),R(*),Q(*),LAMBDA(*),RBYL(NRBY,*),
@@ -846,7 +846,7 @@ C-----------------------------------------------
       INTEGER LLL(*),JLL(*),IADLL(*),IADH(*),JCIH(*),IADHF(*),
      .        JCIHF(*),NPBYL(NNPBY,*),WORK2(*),WORK3(*),
      .        ICFTAG(*),JCFTAG(*), INDEXLAG(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  MAS(*),IN(*), A(3,*),AR(3,*),V(3,*),VR(3,*),
      .  XLL(*),P(*),R(*),Q(*),LAMBDA(*),RBYL(NRBY,*),

@@ -59,7 +59,7 @@ C-----------------------------------------------
       INTEGER I_STOK,N_MUL_MX,ITASK,ITIED,NINT,NKMAX ,
      .  LLL(*),JLL(*),SLL(*),CANDN(*),CANDE(*),COMNTAG(*),
      .  IXS(NIXS,*),IADLL(*),NSV(*)  ,NELEM(*) 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  X(3,*),V(3,*),XLL(*),
      .  EMINX(6,*),A(3,*)
@@ -237,7 +237,7 @@ C-----------------------------------------------
       INTEGER LLT,N_MUL_MX,ITIED,NINT ,NKMAX   
       INTEGER LLL(*),JLL(*),SLL(*),COMNTAG(*),
      .        III(MVSIZ,9),IADLL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  XLL(*),V(3,*),A(3,*)
       my_real
@@ -520,7 +520,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LLT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XX(MVSIZ,9),YY(MVSIZ,9),ZZ(MVSIZ,9)
       my_real
@@ -803,7 +803,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LLT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DXDR(MVSIZ), DYDR(MVSIZ), DZDR(MVSIZ),
      .   DXDT(MVSIZ), DYDT(MVSIZ), DZDT(MVSIZ),

@@ -61,14 +61,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NRT, NINT, NSN, NTY, NOINT,ISU
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SLSFAC, GAP
       INTEGER IRECT(4,*), IXS(NIXS,*), IXC(NIXC,*),
      .   NSV(*), IXTG(NIXTG,*), NSEG(*), LNSV(*), IELE(*),
      .   KNOD2ELS(*), NOD2ELS(*), 
      .   IXS10(*), IXS16(*), IXS20(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), STF(*), PM(NPROPM,*), GEO(NPROPG,*), STFN(*)
       INTEGER ID

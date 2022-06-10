@@ -105,7 +105,7 @@ C-----------------------------------------------
      .        SEFF,R,RNIH,DEPSZZ,DEELZZ,DEVBOXX,DEVBOYY,DEVBOZZ,DEVBOXY,DYDXE,
      .        DEPLXX,DEPLYY,DEPLXY,DEPLZZ,DEVBXX,DEVBYY,DEVBZZ,DEVBXY,PHI,
      .        DBXX,DBYY,DBZZ,DBXY,BQXX,BQYY,BQZZ,BQXY,YLD,MAX_ASTA
-c=======================================================================
+C=======================================================================
 C     SIGA  (alpha) = CENTER OF YIELD SURFACE ALPHA (Backstress)
 C     SIGB  (beta)  = CENTER OF BOUNDING SURFACE
 C     SIGC  (q)     = CENTER OF NON-IH SURFACE G_SIGMA
@@ -114,7 +114,7 @@ C     UVAR(I,1)     = R : ISOTROPIC HARDENING OF BOUNDING SURFACE
 C     UVAR(I,2)     = r : RADIUS OF G_SIGMA (RNIH)
 C     UVAR(I,3)     = a = B + R - YIELD     (AYU) 
 C     UVAR(I,4)     = Yld Stress
-c=======================================================================
+C=======================================================================
       !=======================================================================
       ! - INITIALISATION OF COMPUTATION ON TIME STEP
       !=======================================================================

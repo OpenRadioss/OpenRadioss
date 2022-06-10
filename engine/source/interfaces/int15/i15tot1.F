@@ -59,7 +59,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER KSURF ,KSI(4,*) ,
      .        NOINT ,NDEB, NSC, IACTIV(4,*), KSC(*), ITAB(*)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .  X(3,*)    ,BUFSF(*)  ,
      .  NOLD(3,*) ,XTK(4,*)  ,YTK(4,*) ,ZTK(4,*) ,

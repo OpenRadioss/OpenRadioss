@@ -47,7 +47,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXC(NIXC,*), JFT, JLT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*),X(3,*),MAS,XC,YC,ZC
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
@@ -55,7 +55,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,MAT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XX,YY,ZZ,XMAS25,XMAS(MVSIZ),AREA(MVSIZ),
      .   RX, RY, RZ,SX,SY,SZ,E3X,E3Y,E3Z
@@ -121,7 +121,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXTG(NIXTG,*), JFT, JLT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*),X(3,*),MAS,XC,YC,ZC
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
@@ -129,7 +129,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,MAT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XX,YY,ZZ,XMAS25,XMAS(MVSIZ),AREA(MVSIZ),
      .   RX, RY, RZ,SX,SY,SZ,E3X,E3Y,E3Z

@@ -61,7 +61,7 @@ C-----------------------------------------------
       my_real RX1(MVSIZ),  RX2(MVSIZ),  RX3(MVSIZ),
      .        RY1(MVSIZ),  RY2(MVSIZ),  RY3(MVSIZ)
       my_real RX12T,RX13T,RX23T,RY12T,RY13T,RY23T,RXAVT,RYAVT
-c=======================================================================
+C=======================================================================
       DO I=JFT,JLT
         RX1(I)=E1X(I)*VRL1(I,1)+E1Y(I)*VRL1(I,2)+E1Z(I)*VRL1(I,3)
         RY1(I)=E2X(I)*VRL1(I,1)+E2Y(I)*VRL1(I,2)+E2Z(I)*VRL1(I,3)

@@ -45,7 +45,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NOD(*), NBY(*), ISKEW(*),ITAB(*), WEIGHT(*),
      .   WEIGHT_MD(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   V(3,*), VR(3,*), X(3,*), RBY(*), SKEW(LSKEW,*), FS(*),
      .   A(3,*),AR(3,*),IN(*),MS(*),ENROT_T,ENCIN_T,XMASS_T,
@@ -65,7 +65,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER M, NSN, ICODR, ISK, I, N,ISENS
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VI(3),VG(3),DT05,MAS,WEWE2
 C to keep enough acuracy in single precision
@@ -503,7 +503,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBE2(NRBE2L,*),LRBE2(*)
       INTEGER WEIGHT(*),ISKEW(*),ITAB(*),WEIGHT_MD(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*) ,V(3,*) ,VR(3,*),SKEW(*),
      .   A(3,*),AR(3,*),IN(*),MS(*) 
@@ -512,7 +512,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  J,K,N,KK,IAD,M,
      .        JT(3,NRBE2),JR(3,NRBE2),NM,NN,ISK,NSN,IRAD
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   ENROT_T,ENCIN_T,XMASS_T,
      .   XMOMT_T,YMOMT_T,ZMOMT_T,ENCIN2_T,ENROT2_T
@@ -576,7 +576,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSL,ISL(*), ITAB(*), WEIGHT(*),
      .         WEIGHT_MD(*),JT(3),JR(3),M,IRAD
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   V(3,*), VR(3,*), X(3,*), 
      .   A(3,*),AR(3,*),IN(*),MS(*),ENROT_T,ENCIN_T,XMASS_T,
@@ -596,7 +596,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, NS,ITRA,IROT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VI(3),VG(3),DT05,MAS,WEWE2,WROT,WROT2,WTRA2
 C to keep enough acuracy in single precision

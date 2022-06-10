@@ -75,7 +75,7 @@ C-----------------------------------------------
      .        IPARI(NPARI,NINTER),
      .        WEIGHT(*), MWAG(*)
       TYPE(INTSTAMP_DATA) INTSTAMP
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .    X(*)
 
@@ -90,7 +90,7 @@ C-----------------------------------------------
       INTEGER 
      .       NRTM_T,ESHIFT,ILD, NCONTACT, NRTM_L,
      .       I_MEM,CAND_N_OLD, IROT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT,GAP,MAXBOX,MINBOX,STOPT,DIST,TZINF,
      .   XMAX, YMAX, ZMAX, XMIN, YMIN, ZMIN, GAPMIN, GAPMAX,

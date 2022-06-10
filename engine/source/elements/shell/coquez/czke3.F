@@ -93,7 +93,7 @@ C     REAL OU REAL*8
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE (STACK_PLY) :: STACK
       TYPE (DRAPE_) :: DRAPE
-c=======================================================================
+C=======================================================================
 c FUNCTION: [K] stiffness Matrix of QEPH element
 c
 c Note:

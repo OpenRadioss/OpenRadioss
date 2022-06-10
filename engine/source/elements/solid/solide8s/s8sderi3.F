@@ -57,7 +57,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       !INTEGER ICP,IDEG(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF(*),OFFG(*),KSI,ETA,ZETA,WI,VOLN(*),
      .   A11(MVSIZ), A12(MVSIZ), A13(MVSIZ), 
@@ -69,7 +69,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NGL(*), I, J ,ICOR,ep
-C     REAL ou REAL*8
+C     REAL
 C                                                                     12
       my_real
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ), 

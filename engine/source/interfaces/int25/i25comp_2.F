@@ -40,7 +40,7 @@ Chd|====================================================================
      1                   IPARI   ,INTBUF_TAB ,X      ,ITAB   ,NIN        ,
      2                   LINDMAX ,KINET      ,JTASK  ,NB_DST2,V          ,
      3                   ICODT   ,ISKEW      )
-C===============================================================
+C=======================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -78,7 +78,7 @@ C-----------------------------------------------
       INTEGER IPARI(NPARI,NINTER), 
      .        ITAB(*), KINET(*), ICODT(*), ISKEW(*)
       INTEGER NB_DST2,JTASK,LINDMAX
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .   X(3,*), V(3,*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
@@ -100,13 +100,13 @@ C-----------------------------------------------
      .        MVOISA(MVSIZ,4), MVOISB(MVSIZ,4), IBOUND(4,MVSIZ),
      .        IBOUNDA(4,MVSIZ), IBOUNDB(4,MVSIZ), ETYP(MVSIZ)
       INTEGER, ALLOCATABLE, DIMENSION(:) :: INDEX2
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FRIC, GAP, 
      .   VISC,VISCF,STIGLO,GAPMIN,
      .   KMIN, KMAX, GAPMAX,RSTIF,FHEAT,TINT,EPS
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   NNX(MVSIZ,5), NNY(MVSIZ,5), NNZ(MVSIZ,5),
      .   NAX(MVSIZ,5), NAY(MVSIZ,5), NAZ(MVSIZ,5),

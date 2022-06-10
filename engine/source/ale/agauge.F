@@ -72,7 +72,7 @@ C-----------------------------------------------
       INTEGER IPARG(NPARG,*), ITASK, LENCOM,
      .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),
      .        IXS(NIXS,*),IXQ(NIXQ,*),LGAUGE(3,*),IGAUP(*),NGAUP(*)   
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PHI(*),GAUGE(LLGAUGE,*),X(3,*),V(3,*)
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_STR
@@ -356,7 +356,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*),LGAUGE(3,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),GAUGE(LLGAUGE,*)
 C-----------------------------------------------
@@ -443,7 +443,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*),LGAUGE(3,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PHI(*),X(3,*),GAUGE(LLGAUGE,*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
@@ -545,7 +545,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXC(NIXC,*),LGAUGE(3,*),IGAUP(*),NGAUP(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),GAUGE(LLGAUGE,*)
 C-----------------------------------------------

@@ -76,7 +76,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT, N
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   F(*)
       DOUBLE PRECISION F6(N,6)
@@ -244,7 +244,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   F(*)
       DOUBLE PRECISION F6(6,*)
@@ -518,7 +518,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 c      INTEGER JFT, JLT
 c      integer*8 I8(*),I8F(3,*)
-cC     REAL ou REAL*8
+cC     REAL
 c      my_real
 c     .   R8(MVSIZ)
 C-----------------------------------------------
@@ -588,7 +588,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT
       integer*8 I8(*),I8F(3,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   R8(MVSIZ)
 C-----------------------------------------------
@@ -649,7 +649,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT, A, B, C, D, E, G, ISENSINT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   F(A,B,C)
       DOUBLE PRECISION F6(D,E,G)
@@ -814,7 +814,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT, A, B, D, E
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   F(A,B)
       DOUBLE PRECISION F6(D,E)

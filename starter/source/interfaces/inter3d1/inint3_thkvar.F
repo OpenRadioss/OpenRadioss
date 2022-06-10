@@ -90,7 +90,7 @@ C-----------------------------------------------
      .   NPBY(NNPBY,*), LPBY(*), IPARTS(*), IPARTC(*), IPARTG(*)
       TYPE(INTSTAMP_DATA) INTSTAMP
       INTEGER NOM_OPT(LNOPT1,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), PM(*), GEO(*),RWA(6,*),
      .   THKSH4_VAR(*), THKSH3_VAR(*), THKNOD(*),
@@ -130,7 +130,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAGNOD
       my_real, DIMENSION(:) ,POINTER  :: GAP_S0
       my_real,TARGET, DIMENSION(1):: GAPS0_BID
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MAXBOX,MINBOX
       my_real
@@ -164,9 +164,9 @@ C
       WRITE(IOUT,2001)NOINT,NTY
       END IF
 C
-c=======================================================================
+C=======================================================================
       IF(NTY.EQ.21) THEN
-c=======================================================================
+C=======================================================================
 C
 C      CALCUL DU GAP, apres INITIA (lecture des epaisseurs).
 C
@@ -271,7 +271,7 @@ C
 C      IF(NUMELS10.GT.0)CALL
 C    .        INSOLT10(IXS(1,NUMELS8+1),IXS(1,NUMELS+1),INTBUF_TAB%IRECTM),
 C    .                 NOINT,NRTM,ITAB,KNOD2ELS,NOD2ELS)
-c=======================================================================
+C=======================================================================
 C       COPIE DONNEES RBODY => INTERFACE
 C----------------------------------------------------------------
         IRB=INTSTAMP%IRB
@@ -330,7 +330,7 @@ C----------------------------------------------------------------
      2   INTBUF_TAB%XM0,INTSTAMP%BRACKET,NRTM,INTBUF_TAB%IRECTM,
      .                                            INTBUF_TAB%VARIABLES(27),
      3   INTBUF_TAB%VARIABLES(28),INTBUF_TAB%VARIABLES(29),NSN,INTBUF_TAB%XSAV)
-c=======================================================================
+C=======================================================================
       ENDIF
       DEALLOCATE(TAGNOD)
 C

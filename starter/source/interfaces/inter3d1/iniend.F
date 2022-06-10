@@ -70,7 +70,7 @@ C-----------------------------------------------
       INTEGER NOIN
       INTEGER INSCR(*), IXS(*), IXC(*), IPARI(*), INTC(*),
      .        ITAB(*), NPBY(*), LPBY(*), MWA(*), IKINE(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(*), PM(*), GEO(*), MS(*), IN(*), STIFINT(*),STIFINTR(*)
       INTEGER ID
@@ -90,7 +90,7 @@ C-----------------------------------------------
      .   IWPENE, I, INCREM, P,
      .   ILEV,ICOR,II,JJ,NIR,K,N,L,N1,N2,N3,N4,INACTI,IGSTI
       integer j
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XMAS1, XMAS2,STFN,STFR
 C=======================================================================

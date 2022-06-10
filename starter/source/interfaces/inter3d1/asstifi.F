@@ -45,7 +45,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSHNOD(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VOLNOD(*), BVOLNOD(*), ETNOD(*), STIFINT(*)
 C-----------------------------------------------

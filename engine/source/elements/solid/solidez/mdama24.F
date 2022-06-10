@@ -55,7 +55,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT  
       INTEGER MAT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*),DAMA_G(MVSIZ,3)
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
@@ -63,7 +63,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,MX,IAD,J,K,ipr,NBDAMA,ISYM
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   CC(MVSIZ,3,3),B(MVSIZ,3,3),G33(MVSIZ,3,3)
       my_real

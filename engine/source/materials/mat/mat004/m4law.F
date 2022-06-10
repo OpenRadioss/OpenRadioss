@@ -58,7 +58,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MAT(MVSIZ),NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*), OFF(MVSIZ), SIG(NEL,6), EPXE(MVSIZ),
      .   TEMPER(MVSIZ),SSP(MVSIZ), D1(MVSIZ),    D2(MVSIZ), 
@@ -71,7 +71,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   G(MVSIZ)    ,G1(MVSIZ)   ,G2(MVSIZ)  ,QS(MVSIZ) ,AK(MVSIZ), 
      .   QH(MVSIZ)   ,TMELT(MVSIZ),AJ2(MVSIZ) ,DAV(MVSIZ),P(MVSIZ) ,

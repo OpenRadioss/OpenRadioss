@@ -51,7 +51,7 @@ C-----------------------------------------------
       INTEGER MAT(*),NC1(MVSIZ),NC2(MVSIZ),
      .       NC3(MVSIZ),NC4(MVSIZ),NC5(MVSIZ),NC6(MVSIZ),
      .       NC7(MVSIZ),NC8(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    VOL(*), PX1(MVSIZ), PY1(MVSIZ),PZ1(MVSIZ),
      .            PX2(MVSIZ), PY2(MVSIZ),PZ2(MVSIZ),
@@ -63,7 +63,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  CA, CB, KC, PHIX, PHIY, PHIZ, A
 C----------------------------------------------- 

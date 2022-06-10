@@ -56,7 +56,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,NFT,ISTRAIN,ISMSTR,NEL
       INTEGER MAT(MVSIZ),PID(MVSIZ),MTN
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GSTR(NEL,8), PM(NPROPM,*),GEO(NPROPG,*),
      .   AREA(MVSIZ),SHF(MVSIZ),
@@ -72,7 +72,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ISH(MVSIZ),
      .        I, MX, J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FSH(MVSIZ),
      .   THK2 ,FAC1, FAC2, FC1P

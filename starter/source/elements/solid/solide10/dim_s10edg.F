@@ -27,7 +27,7 @@ Chd|        LECTUR                        source/starter/lectur.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE DIM_S10EDG(NEDG, IXS10 ,IPARG ,ITAGND)
-C===============================================
+C=======================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -43,7 +43,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEDG,ITAGND(*)
       INTEGER IXS10(6,*),IPARG(NPARG,NGROUP)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -52,7 +52,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NG, NEL, NFT,II, NF2, N, ITY,ISOLNOD,ISROT
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
       NEDG = 0
       DO NG=1,NGROUP
@@ -89,7 +89,7 @@ Chd|        LECTUR                        source/starter/lectur.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE IND_S10EDG(ICNDS10, IXS, IXS10 ,IPARG,ITAGND)
-C===============================================
+C=======================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -105,7 +105,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITAGND(*)
       INTEGER ICNDS10(3,*),IXS(NIXS,*),IXS10(6,*),IPARG(NPARG,*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -115,7 +115,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,NG, NEL, NFT,NF1, NF2, N, ITY,ISOLNOD,ISROT,NC(4)
       INTEGER IPERM1(6),IPERM2(6),N1,N2,NEDG,ND,II,JJ
-C     REAL ou REAL*8
+C     REAL
       DATA IPERM1/1,2,3,1,2,3/
       DATA IPERM2/2,3,1,4,4,4/
 C-----------------------------------------------
@@ -172,7 +172,7 @@ Chd|        LECTUR                        source/starter/lectur.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE REORD_ICND(ICNDS10, ITAGND)
-C===============================================
+C=======================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -184,7 +184,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICNDS10(3,*), ITAGND(*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -193,7 +193,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,ICND_CP(3,NS10E),IE,N
-C     REAL ou REAL*8
+C     REAL
 C------reordering for P/ON----------------------------
       ICND_CP(1:3,1:NS10E)=ICNDS10(1:3,1:NS10E)
 C
@@ -223,7 +223,7 @@ Chd|        HM_READ_RWALL_THERM           source/constraints/general/rwall/hm_re
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE REMOVE_ND(NN, INN, ITAGND)
-C===============================================
+C=======================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -235,7 +235,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NN, INN(*), ITAGND(*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -244,7 +244,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NG, NEL, NFT,NF1, NF2, N,ND
-C     REAL ou REAL*8
+C     REAL
 C------remove tagged nodes in INN(*)----------------------------
       ND = 0
       DO I=1,NN
@@ -265,7 +265,7 @@ Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE REMDEG_ND(NN, INN, ITAGND)
-C===============================================
+C=======================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -277,7 +277,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NN, INN(*), ITAGND(*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -286,7 +286,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NG, NEL, NFT,NF1, NF2, N,ND
-C     REAL ou REAL*8
+C     REAL
 C------remove tagged nodes in INN(*) and will be degenerated-----------
       ND = 0
       DO I=1,NN
@@ -313,7 +313,7 @@ Chd|        INTAB                         source/interfaces/inter3d1/i24tools.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE RIGMODIF_ND(NN, INN, ITAGND,ICNDS10,IU,TITR,ITAB)
-C===============================================
+C=======================================================================
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -332,7 +332,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NN, INN(*), ITAGND(*),ICNDS10(3,*),IU,ITAB(*)
       CHARACTER TITR*(*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   External function
 C-----------------------------------------------
@@ -343,7 +343,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NG, NEL, NFT,NF1, NF2, N,ND,N1,N2,NNEW,ID,IER1,IER2
       LOGICAL IS1,IS2
-C     REAL ou REAL*8
+C     REAL
 C------treatment for tagged nodes in INN(*) first passe-
 C----- IER >0 warning; <0 error out 
 C--- 1: (1,nd,2) are in Rbody, nd will be removed from Rbody
@@ -428,7 +428,7 @@ Chd|        LECTUR                        source/starter/lectur.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE RIGMODIF1_ND(NPBY,LPBY,ITAGND)
-C===============================================
+C=======================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -445,12 +445,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPBY(NNPBY,*), LPBY(*) ,ITAGND(*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,N,K,KK,NSL,NSL_N,K_N,NN
-C     REAL ou REAL*8
+C     REAL
 C------removing Nd from LPBY(*)--degenerating--
       K = 0
       K_N = 0
@@ -482,7 +482,7 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE RBE2MODIF_ND(NN, INN, ITAGND,ICNDS10,IU,ITAB,ITAGM,M,ITAGIC)
-C===============================================
+C=======================================================================
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -496,7 +496,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NN, INN(*), ITAGND(*),ICNDS10(3,*),ITAGM(*),IU,ITAB(*),
      .        M,ITAGIC(*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   External function
 C-----------------------------------------------
@@ -512,7 +512,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NG, NEL, NFT,NF1, NF2, N,ND,N1,N2,NNEW,IER1,ID,IER2,M_1,M_2
       LOGICAL IS1,IS2
-C     REAL ou REAL*8
+C     REAL
 C----- IER >0 warning; <0 error out 
 C--- 1: (1,nd,2) are in RBE2, nd will be removed from RBE2
 C--- 2: (1,nd) or (2,nd) are in RBE2, nd will be removed from RBE2
@@ -638,7 +638,7 @@ Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE RBE2MODIF1_ND(IRBE2,LRBE2,ITAGND)
-C===============================================
+C=======================================================================
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -656,13 +656,13 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBE2(NRBE2L,*), LRBE2(*), ITAGND(*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,N,K,KK,NSL,NSL_N,K_N,NS
       INTEGER ITAG(NUMNOD)
-C     REAL ou REAL*8
+C     REAL
 C-----
       IF (NRBE2==0) RETURN 
       ITAG(1:NUMNOD) = ITAGND(1:NUMNOD)
@@ -693,7 +693,7 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE BCSMODIF_ND(ICODE, ITAGND,ICNDS10,ITAB)
-C===============================================
+C=======================================================================
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -706,7 +706,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICODE(*), ITAGND(*),ICNDS10(3,*),ITAB(*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -717,7 +717,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NG, NEL, NFT,NF1, NF2, N,ND,N1,N2,ID,IPR
       INTEGER IS1,IS2
-C     REAL ou REAL*8
+C     REAL
 C------treatment for /BCS ----------------------------
       IPR = 0
       DO N=1,NUMNOD
@@ -782,7 +782,7 @@ Chd|        SAMEFVID                      source/elements/solid/solide10/dim_s10
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE FIXMODIF_ND(IBFV, ITAGND,ICNDS10,ITAB)
-C===============================================
+C=======================================================================
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -801,7 +801,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IBFV(NIFV,*), ITAGND(*),ICNDS10(3,*),ITAB(*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -812,7 +812,7 @@ C   External function
 C-----------------------------------------------
       LOGICAL SAMEFVID
       EXTERNAL SAMEFVID
-C     REAL ou REAL*8
+C     REAL
 C------treatment for tagged nodes in INN(*)----------------------------
       IPR = 0
       DO I=1,NFXVEL
@@ -1383,7 +1383,7 @@ Chd|        LECTUR                        source/starter/lectur.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE STIFN0_ND(ICNDS10,STIFN)
-C===============================================
+C=======================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1399,14 +1399,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICNDS10(3,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STIFN(*) 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,ND
-C     REAL ou REAL*8
+C     REAL
 C------put STIFN(ND)=0 for mscalling dt estimation
       DO I=1,NS10E
        ND = IABS(ICNDS10(1,I))
@@ -1422,7 +1422,7 @@ Chd|        LECTUR                        source/starter/lectur.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE STIFN1_ND(ICNDS10,STIFN)
-C===============================================
+C=======================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1438,14 +1438,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICNDS10(3,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STIFN(*) 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,ND,N1,N2
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STIF 
 C------condense STIFN(ND)
@@ -1471,7 +1471,7 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE BCSCYCMODIF_ND(IBCSCYC,LBCSCYC,ITAGND,ITAB)
-C===============================================
+C=======================================================================
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1489,12 +1489,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IBCSCYC(4,*), LBCSCYC(2,*), ITAGND(*),ITAB(*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,N,K,KK,NSL,NSL_N,K_N,NS,ID,N1,N2
-C     REAL ou REAL*8
+C     REAL
 C------removing Nd from LBCSCYC(*)--
       DO I = 1, NBCSCYC
         K = IBCSCYC(1,I)

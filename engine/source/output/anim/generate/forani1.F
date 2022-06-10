@@ -53,7 +53,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NFIA,NFEA,NFOA,NODFT,NODLT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*)    ,FANI(3,*) ,FEXT(3,*)
       TYPE (H3D_DATABASE) :: H3D_DATA

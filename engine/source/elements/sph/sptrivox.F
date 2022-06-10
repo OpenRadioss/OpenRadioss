@@ -95,7 +95,7 @@ C-----------------------------------------------
      .        VOXEL(NBX+2,NBY+2,NBZ+2),JVOIS(*)  ,JSTOR(*), JPERM(*) ,
      .        IREDUCE,KXSP(NISP,*), IXSP(KVOISPH,*), KREDUCE(*),
      .        LGAUGE(3,*),KXSPR(*),IXSPR(KVOISPH,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),BMINMA(12),
      .   MARGE ,SPBUF(NSPBUF,*), DVOIS(*), GAUGE(LLGAUGE,*) 
@@ -105,7 +105,7 @@ C-----------------------------------------------
       INTEGER NB_NCN,NB_NCN1,NB_ECN,I,J,DIR,NB_NC,NB_EC,
      .        N1,N2,N3,N4,NN,NE,K,L,II,JJ,JS,NS,N,
      .        NSNF, NSNL,NVOIS, IG, IL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DX,DY,DZ,XS,YS,ZS,XX,SX,SY,SZ,S2,XN,YN,ZN,
      .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, TZ, 
@@ -154,9 +154,9 @@ C
       YMAXB = BMINMA(8)
       ZMAXB = BMINMA(9)
 
-C================================================================
+C=======================================================================
 C 1   mise des noeuds dans les boites
-C================================================================
+C=======================================================================
       IF(ITASK == 0)THEN
 
        DISTMAX = ZERO
@@ -210,10 +210,10 @@ c         on saute directement au dernier
        ENDDO
        VOXEL_LOCAL(1:NBX+2,1:NBY+2,1:NBZ+2) = VOXEL(1:NBX+2,1:NBY+2,1:NBZ+2)
        NEXT_NOD_LOCAL(1:NSN) = NEXT_NOD(1:NSN)
-C================================================================
+C=======================================================================
 C 2   mise des noeuds dans les boites
 C     candidats non locaux en SPMD
-C================================================================
+C=======================================================================
        DO J = 1, NSNR
         I = J+NSN
         N = NLIST(I)-NUMSPH
@@ -256,10 +256,10 @@ C ==============================================================
       ENDIF
       CALL MY_BARRIER
 
-C================================================================
+C=======================================================================
 C 3   recherche des boites concernant chaque facette
 C     et creation des candidats
-C================================================================
+C=======================================================================
       DO NE = NSP2SORTF,NSP2SORTL
 C on ne retient pas les facettes detruites
 c        IF(STF(NE) == ZERO)CYCLE
@@ -383,10 +383,10 @@ C ==============================================================
       ENDIF
       CALL MY_BARRIER
 
-C================================================================
+C=======================================================================
 C 3   recherche des boites concernant chaque facette
 C     et creation des candidats wrt particules remote (sym  trie)
-C================================================================
+C=======================================================================
        DO J = ITASK+1, NSNR, NTHREAD
 
         I = J+NSN
@@ -603,9 +603,9 @@ cc             nnr0pelg = nnr0pelg + nnr0pelem
 C-------------------------------------------------------------------------
 C     FIN DU TRI
 C-------------------------------------------------------------------------
-C================================================================
+C=======================================================================
 C 4   remise a zero des noeuds dans les boites
-C================================================================
+C=======================================================================
  100  CONTINUE
 
 C Barrier to avoid reinitialization before end of sorting
@@ -616,7 +616,7 @@ C Barrier to avoid reinitialization before end of sorting
           VOXEL(IIX(I),IIY(I),IIZ(I))=0
         ENDIF
       ENDDO
-C================================================================
+C=======================================================================
 C 5   remise a zero des noeuds dans les boites
 C     candidats non locaux en SPMD
 C================================================================       

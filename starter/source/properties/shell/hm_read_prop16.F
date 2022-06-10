@@ -74,7 +74,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER IGEO(NPROPGI),IPM(NPROPMI,*),SUB_ID,IGTYP,IG
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG), PM(NPROPM,*)
       my_real
@@ -91,7 +91,7 @@ C-----------------------------------------------
      .   M4, K, N2, N3, ISTRAIN, MLAWLY1,ISHEAR,IHBE,ITHK,IREP,
      .   IDSK, ISK, IPANG, IPPHI, IPTHK, IPPOS, IPOS, IPMAT, PID1,
      .   ISKN(LISKN,*),ISMSTR,ISROT,IHBEOUTP,ISORTH,IHBE_OLD
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    AN, VX, VY, VZ, THICKT, DT, TMIN, TMAX, ASHEAR,PTHK,CVIS,PUN
       INTEGER ISH3N,IRP

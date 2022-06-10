@@ -72,7 +72,7 @@ C-----------------------------------------------
      .   IPART(LIPART1,*) ,IPARTSP(*), NPC(*), IPARG(NPARG,*),
      .   NELTST,ITYPTST,ITAB(*) ,ISPCOND(NISPCOND,*),
      .   ISPSYM(NSPCOND,*), WASPACT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*)  ,V(3,*)   ,MS(*)   ,
      .   PM(NPROPM,*), GEO(NPROPG,*),

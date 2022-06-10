@@ -44,7 +44,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
       INTEGER SOLID_ID(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AREA(NEL),AREAP(MVSIZ,4),OFF(NEL),
      .   X(NEL,8) ,Y(NEL,8),Z(NEL,8),RXX(NEL),RYY(NEL),
@@ -54,7 +54,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,NINDX
       INTEGER INDX(NEL)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PG, XX1,XX2,XX3,XX4,YY1,YY2,YY3,YY4,ZZ1,ZZ2,ZZ3,ZZ4,
      .   L1,L2,XL1,XL2,XL3,XL4,YL2,YL3,YL4,

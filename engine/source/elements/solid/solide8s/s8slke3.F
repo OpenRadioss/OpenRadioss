@@ -172,7 +172,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DN_R(8), DN_S(8), DN_T(8), INVJ(9),
      .   X1,X2,X3,X4,X5,X6,X7,X8,
@@ -186,7 +186,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER J,JJ,L,M,LM
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   B(6,24),C(6,6),UM,UP,
      .   A1A1,A1A2,A1A3,A2A1,A2A2,A2A3,

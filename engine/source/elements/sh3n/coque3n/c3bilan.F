@@ -58,7 +58,7 @@ C-----------------------------------------------
       INTEGER JFT, JLT, IEXPAN,
      .   IPARTTG(*),IXTG(NIXTG,*),GRTH(*),IGRTH(*),IXFEM,
      .   ILEV,IEL_CRK(*),IADTG_CRK(3,*),NFT1,ITASK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*), V(3,*), THK(*), EINT(JLT,2),PARTSAV(NPSAV,*)
       my_real
@@ -68,7 +68,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX, II, J, IC, JST(MVSIZ+1),FLAG
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   IN25,XX,YY,ZZ,XY,YZ,ZX, COEF, INEL, 
      .   VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ),

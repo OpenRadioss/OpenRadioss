@@ -74,7 +74,7 @@ Chd|====================================================================
      I                   APINCH    ,STIFPINCH,NPC   ,TF       ,CONDN   ,
      J                   CONDNSKYI ,QFRICINT,TAGNCONT,KLOADPINTER,LOADPINTER,
      K                   LOADP_HYD_INTER)
-C===============================================================
+C=======================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -132,7 +132,7 @@ C-----------------------------------------------
      .        ISKYI_SMS(*), NODNX_SMS(*), ISENSINT(*),DIMFB
       my_real 
      .        EMINX(*)
-C     REAL ou REAL*8
+C     REAL
       my_real DT2T,
      .   X(*), A(3,*), FSAV(*), V(3,*),FSAVBAG(*),
      .   MS(*),STIFN(*),FSKYI(LSKYI,4),FCONT(3,*),MS0(*),
@@ -181,7 +181,7 @@ C-----------------------------------------------
      .        IAS(MVSIZ),JAS(MVSIZ),IBS(MVSIZ),JBS(MVSIZ)
 
       INTEGER, ALLOCATABLE, DIMENSION(:) :: INDEX2
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, FRIC, GAP, STOPT, PMAX_GAP,
      .   VISC,VISCF,STIGLO,GAPMIN,
@@ -192,7 +192,7 @@ C debug
       integer :: eidm,eids
 C 
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XX(MVSIZ,5), YY(MVSIZ,5), ZZ(MVSIZ,5), 
      .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
@@ -255,7 +255,7 @@ C     REAL ou REAL*8
       my_real,TARGET, DIMENSION(1):: TABCOEF_FRIC_BID
 
       INTEGER :: NEDGE_REM
-C=====================================================
+C=======================================================================
 C
       NRTM   =IPARI(4,NIN)
       NSN   =IPARI(5,NIN)

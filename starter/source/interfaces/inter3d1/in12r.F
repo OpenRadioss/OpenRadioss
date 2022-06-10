@@ -37,7 +37,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN,FLAG
       INTEGER NSV(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), FRIGAP(*)
 C-----------------------------------------------
@@ -47,7 +47,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER II, I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  XX,YY,ZZ,XT,YT,ZT,XC,YC,ZC,XR,YR,ZR,TETA,CS,SN,XCT,YCT,ZCT,
      .  AX,AY,AZ,BX,BY,BZ,BN,

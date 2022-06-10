@@ -51,7 +51,7 @@ C-----------------------------------------------
       INTEGER IPM(NPROPMI,*)
       INTEGER NIX, N, JPS,IUSER,NSIGS,IDEF,JHBE,IGTYP,L_SIGB,IMAT
       INTEGER IX(NIX,*), NSIGI, NUVAR,NEL,STRAGLOB(*),PT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SIGSP(NSIGI,*),SIGI(NSIGS,NEL),UVAR(NEL),
      .   EPS(NEL,6),X(3,*),BUFGAMA(*),SIGB(NEL*L_SIGB),BUFMAT(*)
@@ -173,7 +173,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NIX, JHBE,IGTYP,NSIGI,NEL
       INTEGER IX(NIX,*), STRSGLOB(*),PT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SIGI(NSIGI,*),SIG(NEL,6),X(3,*),BUFGAMA(*),RHO0(*),RHO(*)
       DOUBLE PRECISION

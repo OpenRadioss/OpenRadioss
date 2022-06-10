@@ -61,7 +61,7 @@ C-----------------------------------------------
       INTEGER IRECTS(2,*),IRECTM(2,*), CAND_E(*), CAND_N(*),
      .         JLT,JLT_NEW,NIN,NRTS,LREM
       INTEGER N1(MVSIZ), N2(MVSIZ), M1(MVSIZ), M2(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),D(3,*),  V(3,*), MS(*),
      .   HS1(MVSIZ), HS2(MVSIZ), HM1(MVSIZ), HM2(MVSIZ),
@@ -173,7 +173,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER CAND_N(*),JLT,NIN,NRTS,IUPD
       INTEGER N1(MVSIZ), N2(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DXS1(MVSIZ),DYS1(MVSIZ),DZS1(MVSIZ),
      .   DXS2(MVSIZ),DYS2(MVSIZ),DZS2(MVSIZ),

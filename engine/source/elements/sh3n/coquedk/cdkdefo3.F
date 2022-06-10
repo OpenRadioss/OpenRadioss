@@ -46,7 +46,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C  ds007  18/2/00   +1
       INTEGER JFT, JLT,NFT,ISTRAIN,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PX2(*), PY2(*), PX3(*), PY3(*), 
      .   VLX(MVSIZ,2),VLY(MVSIZ,2),EXX(*),EYY(*),EXY(*),EXZ(*),EYZ(*),
@@ -55,7 +55,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J
-C     REAL ou REAL*8
+C     REAL
 C      my_real
 C     .     DT1V4, TMP1, TMP2, TMP3, 
 C     .     DT1V4B,TMP11,TMP22,VX10,VX20,VX30
@@ -119,7 +119,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    BZ1(MVSIZ,2),BZ2(MVSIZ,2),BZ3(MVSIZ,2), BRX1(MVSIZ,3),
      .    BRX2(MVSIZ,3),BRX3(MVSIZ,3),BRY1(MVSIZ,3),BRY2(MVSIZ,3),BRY3(MVSIZ,3),

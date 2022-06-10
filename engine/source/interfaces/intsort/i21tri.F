@@ -116,7 +116,7 @@ C-----------------------------------------------
      .        MULNSN,NB_N_B,NOINT,I_ADD_MAX,INACTI,IGAP,
      .        ADD(2,*),IRECT(4,*),
      .        CAND_N(*),CAND_E(*),II_STOK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XLOC(3,*),XYZM(6,*),STF(*),STFN(*),GAP_S(*), 
      .   XM0(3,*), NOD_NORMAL(3,*),
@@ -131,7 +131,7 @@ C-----------------------------------------------
      .        TN1(NVECSZ),TN2(NVECSZ),TN3(NVECSZ),TN4(NVECSZ),
 C BPE : utilise sur NRTM et non NRTM + 100 en toute rigueur (ici MAXSIZ = NRTM + 100)
      .        BPE(MAXSIZ/3),PE(MAXSIZ),BPN(NSN),PN(NSN)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DX,DY,DZ,DSUP,SEUIL,SEUILS,SEUILI, XX1, XX2, XX3, XX4,
      .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, TZ, GAPSMX, BGAPSMX, GAPL,
@@ -178,9 +178,9 @@ C
 C
       J_STOK = 0
       GOTO 200
-C===============
+C=======================================================================
  100  CONTINUE
-C===============
+C=======================================================================
 C-----------------------------------------------------------
 C
 C
@@ -416,9 +416,9 @@ C     on incremente le niveau de descente avant de sortir
         I_MEM = 3
         RETURN
       ENDIF
-C===============
+C=======================================================================
  200  CONTINUE
-C===============
+C=======================================================================
 C-----------------------------------------------------------
 C
 C
@@ -686,9 +686,9 @@ Cel necessaire qd NB_NC.LE.NB_N_B ou DSUP.LT.MINBOX et NB_EC+NB_NC.GT.128
            ENDDO
          ENDIF
         ELSE
-C==================
+C=======================================================================
           GOTO 100
-C==================
+C=======================================================================
         ENDIF
       ENDIF
 C-------------------------------------------------------------------------
@@ -703,9 +703,9 @@ C         IL FAUT COPIER LES BAS DES PILES DANS BAS_DE_PILE CORRESPONDANTS
 C         AVANT DE REDESCENDRE DANS LA BRANCHE MITOYENNE
 C-------------------------------------------------------------------------
           CALL I7DSTK(NB_NC,NB_EC,ADD(1,I_ADD),BPN,PN,BPE,PE)
-C==================
+C=======================================================================
           GOTO 200
-C==================
+C=======================================================================
       ENDIF
 C-------------------------------------------------------------------------
 C     FIN DU TRI

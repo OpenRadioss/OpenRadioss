@@ -50,7 +50,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER WEIGHT(*),LPBY(*),NPBY(NNPBY,*),ISKEW(*),ITAB(*)
       INTEGER NDOF(*),NRBYAC,IRBYAC(*),IXR(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), RBY(NRBY,*), SKEW(LSKEW,*), SENSOR(NSENSR,*),
      .   IN(*),MS(*),D(3,*), DR(3,*)
@@ -115,7 +115,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NOD(*), NBY(*), ISKEW(*),ITAB(*), WEIGHT(*)
       INTEGER NDOF(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), RBY(*),SKEW(LSKEW,*),IN(*),MS(*),D(3,*),DR(3,*)
 C-----------------------------------------------
@@ -131,7 +131,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER M, NSN,  I, N
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XS,YS,ZS
 C-----------------------------------------------
@@ -176,13 +176,13 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER M,N
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), D(3,*),DR(3,*), A(3,*), AR(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XS,YS,ZS
 C-----------------------------------------------
@@ -231,7 +231,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER WEIGHT(*),LPBY(*),NPBY(NNPBY,*),ISKEW(*),ITAB(*)
       INTEGER NDOF(*),NRBYAC,IRBYAC(*),IXR(NIXR,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), RBY(NRBY,*), SKEW(LSKEW,*), SENSOR(NSENSR,*),
      .   IN(*),MS(*),D(3,*), DR(3,*)
@@ -282,7 +282,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER N1,N2,M
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),D(3,*),DR(3,*)
 C-----------------------------------------------
@@ -292,7 +292,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N ,K,IT,NP
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XS,YS,ZS,X1(3),X2(3),DRX,DRY,DRZ,L0,L1,S
 C-----------------------------------------------
@@ -375,7 +375,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NOD(*), NBY(*), ISKEW(*),ITAB(*), WEIGHT(*)
       INTEGER NDOF(*),ITRMAX
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), RBY(*),SKEW(LSKEW,*),IN(*),MS(*),D(3,*),DR(3,*)
 C-----------------------------------------------
@@ -392,7 +392,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER M, NSN,  I, N,NP,J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XS,YS,ZS,LMAX,RMAX,LSM1,DRX,DRY,DRZ,A,B
       my_real,
@@ -505,7 +505,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NOD(*), NBY(*), ISKEW(*),ITAB(*), WEIGHT(*)
       INTEGER NDOF(*),ITRMAX
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), RBY(*),SKEW(LSKEW,*),IN(*),MS(*),D(3,*),DR(3,*)
 C-----------------------------------------------
@@ -525,7 +525,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER M, NSN,  I, N,NP,J,K
-C     REAL ou REAL*8
+C     REAL
       DOUBLE PRECISION
      . XS(3), DS(3), VRM(3)
 C-----------------------------------------------

@@ -69,13 +69,13 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 C-----------------------------------------------
       INTEGER JLT, NSVG(*), NSN, MSEGLO(*), MSEGTYP(*), NRTM, IVIS2, ISHARP
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GAPS(*), GAP_NM(4,*), GAPMXL(*)
       INTEGER IRECT(4,*), ITAB(*),CAND_E(*),CAND_N(*),IRTLM(4,*)
       INTEGER IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),
      .        MVOISN(MVSIZ,4), IBOUND(4,MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PENMAX,PENMIN,PENE_OLD(5,NSN),TIME_S(NSN)
       my_real
@@ -91,7 +91,7 @@ C-----------------------------------------------
      .        NINDX, INDX(MVSIZ), I4N(MVSIZ), 
      .        FAR(MVSIZ,4), SUBTRIA(MVSIZ), I1, I2, ITRIA(2,4), JJ
       INTEGER IB1, IB2, IB3, IBX, IX, IY, IZ, NBORD, KBORD(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   UNP,ZEROM,EPS,UNPT,ZEROMT,AAA,BB(MVSIZ,4)
       my_real

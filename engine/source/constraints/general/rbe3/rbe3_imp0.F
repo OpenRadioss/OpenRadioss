@@ -51,7 +51,7 @@ C-----------------------------------------------
       INTEGER WEIGHT(*),IRBE3(NRBE3L,*),LRBE3(*),
      .        IADK(*),JDIK(*),NDOF(*),ITAB(*),
      .        IDDL(*),IKC(*),ISS3(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), SKEW(LSKEW,*), FRBE3(*),
      .   DIAG_K(*),LT_K(*),B(*)
@@ -60,7 +60,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, M, NS ,NML, IAD,JJ,IROT,IADS,MAX_M,IROTG,
      .        JT(3,NRBE3),JR(3,NRBE3),NM,NN,NSJ,IADJ
-C     REAL ou REAL*8
+C     REAL
       my_real,
      .         DIMENSION(:),ALLOCATABLE :: FDSTNB ,MDSTNB
 
@@ -125,7 +125,7 @@ C-----------------------------------------------
       INTEGER WEIGHT(*),IRBE3(NRBE3L,*),LRBE3(*),
      .        IADK(*),JDIK(*),NDOF(*),ITAB(*),
      .        IDDL(*),IKC(*),NSS3(*),ISS3(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), SKEW(LSKEW,*), FRBE3(*),
      .   DIAG_K(*),LT_K(*),B(*)
@@ -134,7 +134,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, M, NS ,NML, IAD,JJ,IROT,IADS,MAX_M,IROTG,
      .        JT(3,NRBE3),JR(3,NRBE3),NM,NN,NSJ,IADJ
-C     REAL ou REAL*8
+C     REAL
       my_real,
      .         DIMENSION(:),ALLOCATABLE :: FDSTNB ,MDSTNB
 
@@ -199,7 +199,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NS, NML,IML(*),NSJ,ISJ(*) ,JT(3),JR(3),IROT
       INTEGER IADK(*),JDIK(*),NDOF(*),IDDL(*),IKC(*),ITAB(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),DIAG_K(*),LT_K(*),B(*),FDSTNB(18,*),MDSTNB(18,*)
 C-----------------------------------------------
@@ -212,7 +212,7 @@ C-----------------------------------------------
       INTEGER NIR, I, J, J1, J2, J3, J4, K, JD, II, L, JJ,
      .        I1,ID,NL,NI,NJ,NIDOF,ND,NDI,NDJ,NDM,NM,L1,NM1,
      .        NIR1,IR,IP,ISTIF
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   KDD(6,6),BD(6),KII(6,6),KIJ(6,6),BI(6)
 C------------------------------------
@@ -338,7 +338,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER WEIGHT(*),IRBE3(NRBE3L,*),LRBE3(*),
      .        NDOF(*),IDDL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), SKEW(LSKEW,*), FRBE3(*),B(*)
 C-----------------------------------------------
@@ -346,7 +346,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, M, NS ,NML, IAD,JJ,IROT,IADS,MAX_M,IROTG,
      .        JT(3,NRBE3),JR(3,NRBE3),NM,NN,NSJ
-C     REAL ou REAL*8
+C     REAL
       my_real,
      .         DIMENSION(:),ALLOCATABLE :: FDSTNB ,MDSTNB
 
@@ -394,7 +394,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NS, NML,IML(*),JT(3),JR(3),NDOF(*),IDDL(*),IROT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),B(*),FDSTNB(18,*),MDSTNB(18,*)
 C-----------------------------------------------
@@ -407,7 +407,7 @@ C-----------------------------------------------
       INTEGER NIR, I, J, J1, J2, J3, J4, K, JD, II, L, JJ,
      .        I1,ID,NL,NI,NJ,NIDOF,ND,NDI,NDJ,NDM,NM,L1,NM1,
      .        NIR1,IR,IP
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   BD(6),BI(6)
 C------------------------------------
@@ -471,7 +471,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER WEIGHT(*),IRBE3(NRBE3L,*),LRBE3(*),
      .        NDOF(*),IDDL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), SKEW(LSKEW,*), FRBE3(*),B(*),A(*),AR(*)
 C-----------------------------------------------
@@ -479,7 +479,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, M, NS ,NML, IAD,JJ,IROT,IADS,MAX_M,IROTG,
      .        JT(3,NRBE3),JR(3,NRBE3),NM,NN,NSJ
-C     REAL ou REAL*8
+C     REAL
       my_real,
      .         DIMENSION(:),ALLOCATABLE :: FDSTNB ,MDSTNB
 
@@ -527,7 +527,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NS, NML,IML(*),JT(3),JR(3),NDOF(*),IDDL(*),IROT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),B(*),FDSTNB(18,*),MDSTNB(18,*),A(3,*),AR(3,*)
 C-----------------------------------------------
@@ -540,7 +540,7 @@ C-----------------------------------------------
       INTEGER NIR, I, J, J1, J2, J3, J4, K, JD, II, L, JJ,
      .        I1,ID,NL,NI,NJ,NIDOF,ND,NDI,NDJ,NDM,NM,L1,NM1,
      .        NIR1,IR,IP
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   BD(6),BI(6)
 C------------------------------------
@@ -635,14 +635,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JT(3),JR(3),ISTIF
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    K(6,6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    R
 C------------------------------------
@@ -684,14 +684,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JT(3),JR(3),ISTIF
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    K(6,6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    R
 C------------------------------------
@@ -735,14 +735,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IROT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    FDI(3,6),MDI(3,6),BD(6),BI(6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J
-C     REAL ou REAL*8
+C     REAL
 C-------Update =CDI^t[BD]---
          DO J=1,6
 	  BI(J) = ZERO
@@ -780,14 +780,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IROT,ND
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    FDI(3,6),MDI(3,6),KDD(6,6),KII(6,6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J,K,L
-C     REAL ou REAL*8
+C     REAL
 C-------Update KII=CDI^t[KDD]CDI----FDI=CDI^t
         DO I=1,6
          DO J=I,6
@@ -860,14 +860,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IROT,ND
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    FDI(3,6),MDI(3,6),FDJ(3,6),MDJ(3,6),KDD(6,6),KIJ(6,6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J,K,L
-C     REAL ou REAL*8
+C     REAL
 C-------Update KII=CDI^t[KDD]CDJ---
         DO I=1,6
          DO J=1,6
@@ -935,14 +935,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IROT,ND,ISYM
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    FDI(3,6),MDI(3,6),KDD(6,6),KIJ(6,6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J,K,L
-C     REAL ou REAL*8
+C     REAL
 C-------Update KIJ=[KDD]CDI---
         DO I=1,6
          DO J=1,6
@@ -993,14 +993,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JT(3),ISTIF
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    K(6,6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    R
 C------------------------------------
@@ -1044,7 +1044,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER
      .   NIR   ,IML(*)   ,NDOF(*),JT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   KSS(6),DIAG_M3(6,NIR),FDSTNB(18,NIR),MDSTNB(18,NIR)
 C-----------------------------------------------
@@ -1055,7 +1055,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J,  JD,  L, JJ,NJ,ND,IROT,NS,ISTIF
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   K0(6,6),KIJ(6,6)
 C-----------------------------------------------
@@ -1106,7 +1106,7 @@ C-----------------------------------------------
       INTEGER NS, NML,IML(*),JT(3),JR(3),IROT
       INTEGER IADK(*),JDIK(*),NDOF(*),ITAB(*),
      .        IDLM(*)  ,ISS  ,ISM,ISK(*),IKC(*),ID
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),DIAG_K(*),LT_K(*),FRBE3(*),SKEW(*),
      .   KSS(6),KSM(3,3),KNM(3,3,*),KRM(3,3,*)
@@ -1118,7 +1118,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FDSTNB(18,NML),MDSTNB(18,NML)
 C------------------------------------
@@ -1162,7 +1162,7 @@ C-----------------------------------------------
       INTEGER NS, NML,IML(*),JT(3),JR(3),IROT
       INTEGER IADK(*),JDIK(*),NDOF(*),ITAB(*),
      .        IDLM(*)  ,ISS  ,ISM,IKC(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),DIAG_K(*),LT_K(*),FDSTNB(18,*),MDSTNB(18,*),
      .   KSS(6),KSM(3,3),KNM(3,3,*),KRM(3,3,*)
@@ -1176,7 +1176,7 @@ C-----------------------------------------------
       INTEGER NIR, I, J, J1, J2, J3, J4, K, JD, II, L, JJ,
      .        I1,ID,NL,NI,NJ,NIDOF,ND,NDI,NDJ,NDM,NM,L1,NM1,
      .        NIR1,IR,IP,ISTIF,NDOFI
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   KDD(6,6),KII(6,6)
 C------------------------------------

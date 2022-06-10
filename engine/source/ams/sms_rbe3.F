@@ -51,7 +51,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBE3(NRBE3L,*),LRBE3(*),NODXI_SMS(*), IAD_M(*), FR_M(*)   
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -169,7 +169,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBE3(NRBE3L,*), LRBE3(*), WEIGHT(*), IAD_M(*), FR_M(*),
      .        FR_MPON(*),R3SIZE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), A(3,*), FRBE3(*), SKEW(*), RSUM(*)
       DOUBLE PRECISION
@@ -182,7 +182,7 @@ C-----------------------------------------------
      .        IPA,IPMS,IPFN,IPAR,IPIN,IPFR,NMP,IADLP,NS,NML,ICOM,
      .        IADLP1,IADM1,IADI1,NMT0,IADMP(SLRBE3/2),IML(SLRBE3/2),
      .        ISIZE
-C     REAL ou REAL*8
+C     REAL
 C------------allacation will be removed to ini_ uniforming smp spmd in v11
 C      my_real
 C     .      , DIMENSION(:), ALLOCATABLE :: RSUM
@@ -287,7 +287,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBE3(NRBE3L,*),LRBE3(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), A(3,*), FRBE3(*), SKEW(*), R(3,*), PREC_SMS3(3,*)
 C-----------------------------------------------
@@ -296,7 +296,7 @@ C-----------------------------------------------
       INTEGER I, J, N, M, NS ,NML, IAD,JJ,IROT,IADS,MAX_M,IROTG,
      .        JT(3,NRBE3),JR(3,NRBE3),NM,NN,K,
      .        NMT,NMT0,IADMP(SLRBE3/2),IML(SLRBE3/2)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .        AS(3)
       my_real, 
@@ -392,7 +392,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBE3(NRBE3L,*), LRBE3(*), WEIGHT(*), IAD_M(*), FR_M(*),
      .        FR_MPON(*),R3SIZE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), DIAG_SMS(*), DIAG_SMS3(*), FRBE3(*), SKEW(*), RSUM(*)
       DOUBLE PRECISION
@@ -405,7 +405,7 @@ C-----------------------------------------------
      .        IPA,IPMS,IPFN,IPAR,IPIN,IPFR,NMP,IADLP,NS,NML,ICOM,
      .        IADLP1,IADM1,IADI1,NMT0,IADMP(SLRBE3/2),IML(SLRBE3/2),
      .        ISIZE
-C     REAL ou REAL*8
+C     REAL
 C------------allacation will be removed to ini_ uniforming smp spmd in v11
 C      my_real
 C     .      , DIMENSION(:), ALLOCATABLE :: RSUM
@@ -508,17 +508,17 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBE3(NRBE3L,*),LRBE3(*),WEIGHT(*)
       INTEGER MAX_M,IROTG,JT(3,*),NMT0,IADMP(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), A(3,*), FRBE3(*),SKEW(*), AM(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, NS ,NML, IAD, IROT, IADS, NN, K
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     FNS(3), SFD, SMD
-C     REAL ou REAL*8
+C     REAL
       my_real,
      .         DIMENSION(:,:,:),ALLOCATABLE :: FDSTNB ,MDSTNB
 C-----------------------------------------------
@@ -587,7 +587,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBE3(NRBE3L,*),LRBE3(*),WEIGHT(*),IML(*) ,NMT,
      .        JT(3,NRBE3)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*)
       DOUBLE PRECISION
@@ -596,7 +596,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, M, N, NS
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AX,AY,AZ
 C======================================================================|
@@ -656,7 +656,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBE3(NRBE3L,*),LRBE3(*),WEIGHT(*),IML(*) ,NMT,
      .        JT(3,NRBE3)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DIAG_SMS3(3,*)
       DOUBLE PRECISION
@@ -665,7 +665,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, M, N, NS
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DD
 C======================================================================|

@@ -70,7 +70,7 @@ C-----------------------------------------------
       INTEGER IRECT(4,*),LEDGE(NLEDGE,NEDGE),ADMSR(4,*),CAND_S(*),CAND_M(*),II_STOK,CAND_A(*)
       INTEGER PROV_S(MVSIZ),PROV_M(MVSIZ),IFPEN(*)
 C     INTEGER NEDGEROLD,RENUM(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,NUMNOD), DRAD, MARGE, GAPE(*), GAP_E_L(*), CAND_P(*),
      .   CAND_FX(*), CAND_FY(*), CAND_FZ(*)
@@ -81,7 +81,7 @@ C-----------------------------------------------
       INTEGER I,J,K_STOK,I_STOK,IAD0,IAD,IADFIN,N,NE,ie,n1,n2
       INTEGER I_STOK_FIRST,NINDX,INDEX(MVSIZ) 
       INTEGER :: EID
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PENE(MVSIZ)
 C-----------------------------------------------

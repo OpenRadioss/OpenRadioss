@@ -57,11 +57,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS, IXQ
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X
       INTEGER IPARG(NPARG,*),ITASK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GRAD(*), VEUL(*)
       TYPE (ELBUF_STRUCT_), DIMENSION (NGROUP), TARGET :: ELBUF_STR

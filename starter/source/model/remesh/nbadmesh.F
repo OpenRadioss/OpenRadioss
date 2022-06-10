@@ -70,7 +70,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NUMNUSR
-C     REAL ou REAL*8
+C     REAL
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
 C-----------------------------------------------
@@ -83,7 +83,7 @@ C-----------------------------------------------
       INTEGER USR2SYS,NUMNUSR1,IDS,NI,NJ,NK,NL,K,L,P,Q,QQ,
      .        NN,OFF_DEF(NSUBMOD),OFF_NOD(NSUBMOD),OFF_EL(NSUBMOD),
      .        UID,IP0,ID_IP
-C     REAL ou REAL*8
+C     REAL
       CHARACTER MESS*40,TITR*nchartitle,KEY*ncharkey
       INTEGER , DIMENSION(:), ALLOCATABLE :: IPARTC, SHELL_ID
       INTEGER , DIMENSION(:), ALLOCATABLE :: IPARTTG, SH3N_ID

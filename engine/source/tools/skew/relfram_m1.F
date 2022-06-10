@@ -44,7 +44,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XG(3), VG(3), AREL(3),
      .   XFRAME(NXFRAME),  VO(3), AO(3)
@@ -52,7 +52,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, K
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   ROT(9),ROT0(9),ROTDT05(9),ROTT05(9),
      .   OMEGAX, OMEGAY, OMEGAZ, NN, CS, SN, UX, UY, UZ,

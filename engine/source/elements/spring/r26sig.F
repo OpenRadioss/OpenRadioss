@@ -45,7 +45,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IANI
       INTEGER NPF(*),IGEO(NPROPGI,*),PID(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG,*),FX(*),XK(*),DX(*),DXOLD(*),TF(*),XL0(*),E(*),
      .   OFF(*), DMN(*), DMX(*), ANIM(*),FR_WAVE(*),DMAX(*),DV0(*),
@@ -62,7 +62,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, J1, J2
       INTEGER FUNC1(MVSIZ), FUNC2(MVSIZ),NFUNC(MVSIZ),NFUND(MVSIZ) 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    DDX(MVSIZ),FOLD(MVSIZ),DVX(MVSIZ),DV(MVSIZ),DL(MVSIZ),
      .    RATE1(MVSIZ),RATE2(MVSIZ),YFAC1(MVSIZ), YFAC2(MVSIZ),

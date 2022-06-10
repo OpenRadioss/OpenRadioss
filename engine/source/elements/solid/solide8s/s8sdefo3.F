@@ -51,7 +51,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICP,I_SH,IDEGE(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DXX(*), DXY(*), DXZ(*),
      .   DYX(*), DYY(*), DYZ(*),
@@ -69,7 +69,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DT1D2,DVC(MVSIZ),TOL,DT1D,UDT1
       DOUBLE PRECISION 
@@ -205,7 +205,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICP,I_SH,IDEGE(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DXX(*), DXY(*), DXZ(*),
      .   DYX(*), DYY(*), DYZ(*),
@@ -232,7 +232,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,JJ,L,M,LM
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DT1D2,DVC(MVSIZ),TOL,DT1D,UDT1,
      .   B(6,24),UM,UP,C(6,6),

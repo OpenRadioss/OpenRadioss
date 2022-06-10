@@ -54,7 +54,7 @@ C-----------------------------------------------
       INTEGER NSN, ITIED, MSR,ICONT,IMP_S,NT_RW
       INTEGER NSW(*), WEIGHT(*), IDDL(*),IKC(*),NDOF(*), NODNX_SMS(*),
      .                WEIGHT_MD(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(*), A(*), V(*), RWL(*), MS(*)
       DOUBLE PRECISION 
@@ -64,7 +64,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER M3, M2, M1, I, N, N3, N2, N1, J, K, JJ,NINDEX,
      .        INDEX(NSN)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RA2, XWL, YWL, ZWL, VXW, VYW, VZW, TFXTN, FACT,
      .   TFXT, VX, VY, VZ, UX, UY, UZ, XC, YC, ZC, DP, XX, XN,

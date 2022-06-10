@@ -84,7 +84,7 @@ C----------------------------------------------------------------
       INTEGER          MFUNC,IUNLOAD,NUPARAM0,IFLAG,ITOTAL,IMSTA,
      .                 NFUNC1,NFUNCUL,NFUNCP,KCOMPAIR,KRECOVER,KDECAY
       INTEGER          I, J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DECAY,TENSIONCUT,TOLERANCE,LAMDA,EFINAL,EPSFIN,
      .   E0,VT,VC,RV,BETA,HYSTER,

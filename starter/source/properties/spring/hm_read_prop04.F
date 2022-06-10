@@ -68,7 +68,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER  IGEO(NPROPGI),IGTYP,IUNIT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG)
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
@@ -78,7 +78,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
        INTEGER J, IFUNC, IFUNC2, IFUNC3, IECROU, IFV, IG,ISENS,
      .         IFL, ILENG, IFORM
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A0, A, B, D, E, F, XM, XIN, XK, XC, DN, DX, PUN, 
      .   LSCALE,GF3,A_UNIT,B_UNIT,D_UNIT,E_UNIT,F_UNIT,LSCALE_UNIT,GF3_UNIT

@@ -54,7 +54,7 @@ C-----------------------------------------------
       INTEGER I,J, N, NSLRB,JWARN1,JWARN2
       INTEGER IK(9), NK(9,NUMNOD),NKK
 C
-C==============================================================
+C=======================================================================
 
        JWARN1 = 0
        JWARN2 = 0
@@ -244,7 +244,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, NG, IG, ITY
 C
-C==============================================================
+C=======================================================================
       IF(IFLAG==1) THEN   ! copy initial Boundary conditions into temporal tab and constraint DDLS
        IF(IRODDL.GT.0)THEN
          DO N=1,NUMNOD 

@@ -84,11 +84,11 @@ C-----------------------------------------------
      *        ISPT2_LOC(MVSIZ),IPARTFRICS(*),IPARTFRICSI(MVSIZ),IPARTFRICM(*),
      .        IPARTFRICMI(MVSIZ),IREP_FRICM(*),IREP_FRICMI(MVSIZ),
      .        IXX3(MVSIZ),IXX4(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), STF(*), STFN(*),
      .   MS(*), V(3,*),GAPS(MVSIZ),GAP_S(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
      .   XX0(MVSIZ,17),YY0(MVSIZ,17),ZZ0(MVSIZ,17),
@@ -924,10 +924,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER CAND_E(*), CAND_N(*),JLT,NSN, NIN, IGSTI,NCFIT,INACTI
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STF(*), STFN(*),STIF(*),KMIN,KMAX,TNCY
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -992,11 +992,11 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, DIMENSION(MVSIZ),INTENT(IN):: CAND_S, CAND_M
       INTEGER JLT,NIN,NCFIT,INACTI,NEDGE
-C     REAL ou REAL*8
+C     REAL
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: STIF
       my_real, DIMENSION(NEDGE), INTENT(IN) :: STFE
       my_real, INTENT(IN) :: TNCY
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

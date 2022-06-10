@@ -91,7 +91,7 @@ C-----------------------------------------------
       my_real :: RHO0,E,G,THICK,GC1_INI,GC2_INI,GC1_INF,GC2_INF,RATG1,RATG2,
      .   FG1,FG2,SIGA1,SIGA2,SIGB1,SIGB2,RATE1,RATE2,UNIT_L,ALPHA
       LOGICAL :: IS_AVAILABLE,IS_CRYPTED
-c=======================================================================
+C=======================================================================
       ILAW = 116
 !
       IS_CRYPTED   = .FALSE.

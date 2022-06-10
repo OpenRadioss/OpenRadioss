@@ -56,7 +56,7 @@ C-----------------------------------------------
       INTEGER NPC(*),LSENSOR(NSENSI,*),IVOLU(*),NJET,IBAGJET(NIBJET,*),
      .        NVENT,IBAGHOL(NIBHOL,*),ICBAG(NICBAG,*),PMAIN,
      .        IGEO(NPROPGI,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TF(*),SENSOR(NSENSR,*),RVOLU(*),RBAGJET(NRBJET,*),
      .   RBAGHOL(NRBHOL,*),RCBAG(NRCBAG,*),RVOLUV(NRVOLU,*),VOL,

@@ -108,7 +108,7 @@ C-----------------------------------------------
       my_real :: RANI,R1,R2,S1,S2,SS,Q,DYDX,E12,FACT_MARGIN,FACT_LOOSEMETAL
       my_real ,ALLOCATABLE, DIMENSION(:) :: XF  
       my_real ,DIMENSION(NEL) :: EMAJ,EMIN,EM
-c=======================================================================
+C=======================================================================
       IENG     = INT(UPARAM(6))
       RANI     = UPARAM(7)
       IMARGIN  = NINT(UPARAM(2))

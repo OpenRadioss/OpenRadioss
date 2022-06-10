@@ -49,7 +49,7 @@ C-----------------------------------------------
      .        ITAG(*),CAND_NN(*),CAND_EN(*), IFPEN(*),
      .        IFPENN(*)
       INTEGER I_STOK,NSV(*),MSR(*),IWPENE,INACTI,NOINT,NTY,NSN,JWARN
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STFN(*),X(3,*),PENE(*),CAND_P(*),GAP_S(*),
      .   GAPMIN,GAPMAX,STF(*),GAPV(*),FPENMAX
@@ -65,7 +65,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, L
       INTEGER IX1, IX2, IX3, IX4, NSVG
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PENMAX
 C-----------------------------------------------

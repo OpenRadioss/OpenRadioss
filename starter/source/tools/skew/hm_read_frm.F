@@ -80,7 +80,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER ISKN(LISKN,*), ITAB(*), ITABM1(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), XFRAME(NXFRAME,*),
      .   RTRANS(NTRANSF,*)
@@ -92,7 +92,7 @@ C-----------------------------------------------
       INTEGER I, IMOV, INOD, J, N1, N2, N3, K, NSK,
      .        IUN, JJ, SUB_ID,
      .        IDIR,IFLAGUNIT,ID,UID,CPT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   P(12), PNOR1, PNOR2, PNORM1, DET1, DET2, DET3, DET, PP,BID
       CHARACTER NOMFG*nchartitle

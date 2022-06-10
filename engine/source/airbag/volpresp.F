@@ -62,7 +62,7 @@ C-----------------------------------------------
       INTEGER IVOLU(*),NJET,IBAGJET(NIBJET,*),LSENSOR(NSENSI,*),
      .        NPC(*),NN,IADMV(4,*),SURF_NODES(NN,4),SURF_ELTYP(NN),
      .        SURF_ELEM(NN)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RVOLU(*),RBAGJET(NRBJET,*),SENSOR(NSENSR,*),
      .   X(3,*), V(3,*), A(3,*), N(3,*),TF(*),
@@ -74,7 +74,7 @@ C-----------------------------------------------
       INTEGER I,II,NJ1,NJ2,NJ3,IPT,IPA,IPZ,
      .        N1,N2,N3,N4,IJ,ISENS,K,
      .        ITYP
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PRES,FX,FY,FZ,P,PEXT,DP,Q,PJ,PJ0,DYDX,XX,YY,ZZ,
      .   THETA,NX1,NX2,NY1,NY2,NZ1,NZ2,AN1,AN,

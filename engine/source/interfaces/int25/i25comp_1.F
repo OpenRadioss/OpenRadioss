@@ -35,7 +35,7 @@ Chd|====================================================================
       SUBROUTINE I25COMP_1(
      1                   IPARI   ,INTBUF_TAB ,X      ,ITAB   ,NIN        ,
      2                   KINET      ,JTASK  ,NB_DST1,V       ,SENSOR     )
-C===============================================================
+C=======================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -70,7 +70,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NIN, NB_DST1, JTASK
       INTEGER IPARI(NPARI,NINTER), ITAB(*), KINET(*)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .   X(3,*), V(3,*), SENSOR(NSENSR,*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
@@ -85,9 +85,9 @@ C-----------------------------------------------
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ), FAR(MVSIZ,4), SUBTRIA(MVSIZ), 
      .        MVOISN(MVSIZ,4), IBOUND(4,MVSIZ)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   NNX(MVSIZ,5), NNY(MVSIZ,5), NNZ(MVSIZ,5),
      .   XX(MVSIZ,5), YY(MVSIZ,5), ZZ(MVSIZ,5), 

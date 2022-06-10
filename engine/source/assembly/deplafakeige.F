@@ -50,7 +50,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER KXIG3D(NIXIG3D,*),IGEO(NPROPGI,*), IXIG3D(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*) ,V(3,*), KNOT(*), WIGE(*),KNOTLOCPC(DEG_MAX,3,*),
      .   KNOTLOCEL(2,3,*)

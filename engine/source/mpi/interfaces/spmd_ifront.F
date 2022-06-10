@@ -87,7 +87,7 @@ C-----------------------------------------------
      .        NEWFRONT(*), INTLIST(*),
      .        ISENDTO(NINTER+1,*) ,IRCVFROM(NINTER+1,*)
       INTEGER MODE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SENSOR(NSENSR,*)
 
@@ -113,7 +113,7 @@ C-----------------------------------------------
       DATA MSGOFF3/1011/
       DATA MSGOFF4/1012/
 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT,GAP,MAXBOX,MINBOX,STOPT,DIST,TZINF,DIST0,
      .   XMAX, YMAX, ZMAX, XMIN, YMIN, ZMIN,TS
@@ -303,7 +303,7 @@ C
 
         ENDIF
       ENDDO
-C=====================================================
+C=======================================================================
 C ENVOI
       IF(ICOMM .NE. 0) THEN
       DO II = 1, NBINTC

@@ -29,7 +29,7 @@ Chd|====================================================================
       SUBROUTINE ININODE_RM(CONNEC,IRIG_NODE,IRBY,SLN,NRB,NRSLN,
      .                      STIFN,STIFR, RMSTIFN, RMSTIFR,NUMEL,
      .                      NER)
-C===============================================
+C=======================================================================
 C            EN SORTIE    
 C    IRBY    Rigid node 
 C    SLN     secnd node number by rigid material
@@ -59,7 +59,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,II,JJ,NR,NR1,NR0,KK,NRC,IR,N,NREST,IE,
      .        NER1,NER0,IEL
-C     REAL ou REAL*8
+C     REAL
 
        INTEGER, DIMENSION(:), ALLOCATABLE :: 
      .                             IRN,INDX,INDX0,ITAG,IRE,

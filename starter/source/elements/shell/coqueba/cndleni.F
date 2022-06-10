@@ -57,7 +57,7 @@ C-----------------------------------------------
       INTEGER IMAT, IPROP
       INTEGER IXC(NIXC,*),IGEO(NPROPGI,*),IHBE, SH4TREE(KSH4TREE,*),
      .   IPM(NPROPMI,*),NLAY,ISUBSTACK,IGEO_STACK(3* NPT_STACK+2,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*), GEO(NPROPG,*),STIFN(*),STIFR(*),THK(*),ALDT(*),
      .   UPARAM(*),PM_STACK(20,*),STRC(*), DTEL(MVSIZ),

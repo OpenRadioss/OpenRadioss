@@ -85,7 +85,7 @@ C-----------------------------------------------
      .   IPART(*),IPARTC(*), IPARTTG(*),IPM(NPROPMI,*),
      .   IGROUPC(*), IGROUPTG(*)
       INTEGER FLAG ! 1 => Monvol, 2 => FVMBAG type 6 8
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), A(3,*), TF(*), V(3,*), N(3,*),PORO(*),
      .   SENSOR(NSENSR,*),VOLMON(*),FSAV(NTHVKI,*),FSKY(*),

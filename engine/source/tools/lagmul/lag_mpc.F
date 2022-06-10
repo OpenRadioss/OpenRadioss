@@ -49,7 +49,7 @@ C-----------------------------------------------
       INTEGER NC, ISKIP, NCF_S,
      .        IMPCNC(*),IMPCNN(*),IMPCDL(*),IMPCSK(*),LLL(*),JLL(*),
      .        SLL(*),IADLL(*),COMNTAG(*),ICFTAG(*),JCFTAG(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  XLL(*),SKEW(LSKEW,*),RBMPC(*),MS(*),IN(*),V(3,*),VR(3,*),
      .  A(3,*),AR(3,*)
@@ -213,7 +213,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NC,  IK,
      .        IMPCNC(*),IMPCNN(*),IMPCDL(*),IMPCSK(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  LAGCOMK(4,*),LAGCOMC(2,*),
      .  SKEW(LSKEW,*),RBMPC(*)

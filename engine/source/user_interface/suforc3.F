@@ -81,8 +81,8 @@ C-----------------------------------------------
       INTEGER LFT, LLT,NEL,NFT,MTN,IGTYP,IFAILURE,NPT, JSMS,IOUTPRT
       INTEGER IXS(NIXS,*), IPARG(*), NPF(*),IADS(8,*),
      .        IPARTS(*), IGEO(NPROPGI,*), IPM(NPROPMI,*),ITASK
-C     REAL ou REAL*8
-C     REAL ou REAL*8
+C     REAL
+C     REAL
       my_real
      .   PM(NPROPM,*), GEO(NPROPG,*), X(*), A(*), V(*), MS(*), W(*),
      .   AR(*), VR(*), IN(*),D(*),TF(*), BUFMAT(*),FR_WAVE(*),
@@ -438,7 +438,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NC(MVSIZ,8)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*),AR(3,*),STIFN(*),STI(*),STIFR(*),STIR(*),
      .   FX(MVSIZ,8),FY(MVSIZ,8),FZ(MVSIZ,8),
@@ -502,7 +502,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STI(*),STIR(*),
      .   FX(MVSIZ,8),FY(MVSIZ,8),FZ(MVSIZ,8),
@@ -594,7 +594,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),V(3,*),VR(3,*),W(3,*), D(3,*),FR_WAVE(*) ,FR_W_E(*),
      .   XX(MVSIZ,*), YY(MVSIZ,*), ZZ(MVSIZ,*), 

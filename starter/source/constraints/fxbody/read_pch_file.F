@@ -73,7 +73,7 @@ C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER USR2SYS
       DATA MESS/'FLEXIBLE BODY DEF - READ OF PCH FILE '/
-C=====================================================================
+C=======================================================================
 C
 C     FLAG = 0 -> PREREADING FOR NODES DETECTION AND NUMBERING (SETRFXBTON.F)
 C     FLAG = 1 -> READING OF NODES AND MATRIX (LECFXB1.F)

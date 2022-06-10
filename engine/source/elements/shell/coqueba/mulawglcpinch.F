@@ -88,7 +88,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IGTYP, I, NUVAR ,NINDX,IGEO(NPROPGI,*),
      .        MX,IOFF_DUCT(MVSIZ),ISRATE
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .   DEGMB(MVSIZ) ,DEGFX(MVSIZ) ,THKN(MVSIZ),
      .   DEPSXX(MVSIZ),DEPSYY(MVSIZ),DEPSZZ(MVSIZ),

@@ -68,7 +68,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER INOISE(*), ITABM1(*)
-C     REAL ou REAL*8
+C     REAL
 C      my_real
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -76,7 +76,7 @@ C-----------------------------------------------
       INTEGER ICODE,ITITLE(80),I,IFILNAM(2148),IWA(33),NOILEN,ITIT40(40),
      .        K,ITEST,J,
      .        INOITMP(NNOISE)
-C     REAL ou REAL*8
+C     REAL
       my_real
      . TITLE(20),TIT40(10)
        CHARACTER FILNAM*100, CH8*8 , EOR*8, CARD*80, CH40*40, CH80*80
@@ -85,7 +85,7 @@ C     REAL ou REAL*8
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       CHARACTER STRI*8
 C-----------------------------------------------
       EXTERNAL STRI

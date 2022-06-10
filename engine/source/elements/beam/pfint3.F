@@ -49,7 +49,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,PID(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FOR(NEL,3),MOM(NEL,3),GEO(NPROPG,*),OFFG(*),OFF(*),AL(MVSIZ), 
      .   F1(MVSIZ),F2(MVSIZ),F3(MVSIZ),M1(MVSIZ),M2(MVSIZ),M3(MVSIZ),
@@ -62,7 +62,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, IG, IR1Y, IR1Z, IR2Y, IR2Z
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF_L
 C---------------------------------------------------

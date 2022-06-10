@@ -684,7 +684,6 @@ C-----------------------------------------------
 #include      "scr24_c.inc"
 #include      "scr_usens_c.inc"
 #include      "chara_c.inc"
-Cel TASK COMMON A TOUJOURS DECLARER A CE NIVEAU (LINUX/PGI)
 #include      "bucki_c.inc"
 #include      "buckr_c.inc"
 #include      "nsvis_c.inc"
@@ -705,7 +704,6 @@ Cel TASK COMMON A TOUJOURS DECLARER A CE NIVEAU (LINUX/PGI)
 #include      "subc_c.inc"
 #include      "spmd_c.inc"
 #include      "buckcom.inc"
-!#include      "dmumps_struc.h"
 #include      "impl2_c.inc"
 #include      "remesh_c.inc"
 #include      "com_xfem1.inc"
@@ -917,7 +915,6 @@ C-----------------------------------------------
       INTEGER CPLXIT, MODE, ADRNOD, ONOF, ONFELT, ICH, IEIG, IADEIG,
      .        LDIAG, LJDIK, LJDIK2, MAXNCV, NM, NMS, NNZL, NBMADD,
      .        IMLS, IFLGADM, NDDL_INI0,MADENDREQUEST,SHIFT_LOC
-c      LOGICAL LDUM,  MKL_DYN, OMP_NEST
       CHARACTER*13 CDUM
       INTEGER IDUM1, KRNFRM, KPNODE, KN, DIM6, DIM_EXCH
       
@@ -973,7 +970,6 @@ C----
      .   DT2PREV, DTMIN1_SAVE, TARGET_DT
       SAVE IMSCH, I2MSCH, ISMSCH
       SAVE DT2PREV
-Cel   Rajout var. save necessaire pour le couplage.
       SAVE
      .     NFIA, NFEA, NFOA, NDMA, NDIN, NDMA2, IFL,
      .     I13A,I13B,I13C,I13D,I13E,I13F,I13G,I13H,I13I,
@@ -1101,7 +1097,7 @@ C Debug CAND INTERFACE TYPE25
       INTEGER NB25_CANDT(PARASIZ),NB25_IMPCT(PARASIZ),
      .        NB25_DST1(PARASIZ),NB25_DST2(PARASIZ)
       SAVE NB25_CANDT,NB25_IMPCT,NB25_DST1,NB25_DST2
-C Communications specifiques INTERFACE TYPE25
+C Communication INTERFACE TYPE25
       INTEGER SFR_I25
       INTEGER, DIMENSION(:), ALLOCATABLE :: FR_I25
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: IAD_I25
@@ -1232,34 +1228,12 @@ C initialize int24 presence flag
       INT24USE = 0
       INT24E2EUSE = 0
 C-----------------------------------------------
-Clm   flag pour exit de la boucle sur le temps
-C          en cas de couplage avec MaDyMo.
+C exit flag for MaDyMo coupling
       CPLXIT=0
       ILASTANIM=0
       ILASTH3D=0
       IOLDSECT = -1
       ILASTDYNAIN=0
-C-----------------------------------------------
-C //
-C-----------------------------------------------
-C ATTENTION !!!!!!!!!!!!!!!!!!
-C ITASK conserve en temporaire le temps de finir de cleaner resol
-C
-C     Initialisation des variables pour //.
-c      NODFT   = 1+ITASK*NUMNOD/ NTHREAD
-c      NODLT   = (ITASK+1)*NUMNOD/NTHREAD
-c      NUMNTHREAD= NODLT - NODFT + 1
-c      NDTASK = 1 + ITASK*NUMNOD
-c      IPMS    = 1 + ITASK*NPSAV*NPART
-c      PARTFT  = 1+ITASK*NPSAV*NPART/ NTHREAD
-c      PARTLT  = (ITASK+1)*NPSAV*NPART/NTHREAD
-c      1
-c      NWAFT   = 1+ITASK*LENWA_T
-c      NWALT   = (ITASK+1)*LENWA_T
-C      LENWA_T = LENWA / NTHREAD
-c      LOUT = (ITASK.EQ.0.AND.IMACH.NE.3).OR.
-c     .       (ISPMD.EQ.0.AND.ITASK.EQ.0.AND.IMACH.EQ.3)
-C-----------------------------------------------
       NODFT   = 1
       NODLT   = NUMNOD
       NWAFT   = 1
@@ -1284,7 +1258,7 @@ C----------------------------------------------
 
 
 C -------------------------------------------------------------------        
-Cow User Libraries get the possibility to use GET_U_NOD_X & GET_U_NOD_V in user elements properties (Solids & Springs)
+C User Libraries get the possibility to use GET_U_NOD_X & GET_U_NOD_V in user elements properties (Solids & Springs)
         GETUNOD_NOCOM=0
 C -------------------------------------------------------------------        
 C========================================================================================
@@ -1312,7 +1286,7 @@ C
 C
         NUMSPH_GLO_R2R = 0
         FLG_SPHINOUT_R2R = 0  
-Cel pre calcul taille LISENDP, LIRECVP
+
         CALL ASSINIT(ADSKY,IAD_ELEM,FR_ELEM,PROCNE,LISENDP,LIRECVP)
         IF(IPLYXFEM > 0 )
      .    CALL ASSINIT_PXFEM(ADSKY_PXFEM,INOD_PXFEM,IAD_ELEM,FR_ELEM,
@@ -1369,10 +1343,8 @@ Cel pre calcul taille LISENDP, LIRECVP
         ELSE
              ALLOCATE(TAGNCONT(0,0))
         ENDIF
-C
-C         ALLOCATION matrice connectivite inverse si idel actif
-C
           IF((IDEL7NG.GT.0).OR.(IRAD2R.NE.0).OR.(IALEMUSCL.GT.0).OR.(PDEL.GT.0))THEN
+C Allocation of inverse connectivity array
             IERROR = 0
             ALLOCATE(CNEL(0:LCNEL),STAT=IERROR2)
             IERROR = IERROR + IERROR2
@@ -1399,7 +1371,7 @@ C
           ALLOCATE(IPARTL(NPART))
           ALLOCATE(PARTSAV2(2,NPART))
 C
-C   initialisation du tableau de travail pour la thermique
+C   Working arrays for thermal analysis                                      
 C
           NODADT_THERM = 0  
           IF(IDT_THERM == 1) THEN
@@ -1452,7 +1424,7 @@ C
           IF(INTHEAT > 0  ) THEN
             IF(IPARIT /= 0 )THEN
               ALLOCATE(FTHESKYI(LSKYI))
-              FTHESKYI(1:LSKYI) = 0 ![really needed, otherwise issues on stamping benchs]
+              FTHESKYI(1:LSKYI) = 0 
             ELSE
               ALLOCATE(FTHESKYI(0))
             ENDIF
@@ -1486,9 +1458,6 @@ cc                 ALLOCATE(PLYSKYI)
                    ALLOCATE(PLY(I)%ITAG(NPLYXFE))
                    PLY(I)%ITAG = 0
                  ENDDO
-cc                 NULLIFY(PLYSKYI%FSKYI)
-cc                 ALLOCATE(PLYSKYI%FSKYI(LSKYI,5))
-cc                 PLYSKYI%FSKYI = ZERO
               ELSE
 C is not available iparit = 0
                DO I=1,NPLYMAX
@@ -1514,11 +1483,6 @@ C for inteface type 24 + pxfem
                    NULLIFY(PLYSKYI%FSKYI)
                    ALLOCATE(PLYSKYI%FSKYI(LSKYI,5))
                     PLYSKYI%FSKYI = ZERO
-!!                    DO I=1,NPLYMAX
-!!                     NULLIFY(PLY(I)%F)
-!!                     ALLOCATE(PLY(I)%F(3,NPLYXFE))
-!!                     PLY(I)%F = ZERO
-!!                   ENDDO
                  ELSE
                    ALLOCATE(PLYSKYI)
                  ENDIF
@@ -1734,7 +1698,6 @@ C for chkpt :: ISMSCH=1
      .               T2FAC_SMS(0))
 C
 C init pointer
-C
 C                    NULLIFY(PTR_SMS) does not work
                      PTR_SMS => NATIV_SMS
           END IF
@@ -1825,20 +1788,6 @@ C------------------------------------------
         ALLOCATE(IGROUPC(0))
         ALLOCATE(IGROUPTG(0))
       ENDIF
-C
-c     IF(NACTIV > 0.AND.(NUMCONV > 0.OR.NUMRADIA > 0).AND.ITHERM_FE > 0) THEN
-c       DO I=1,NUMMAT
-c         IF(IPM(2,I).NE.2.AND.IPM(2,I).NE.4) CYCLE
-c         IGROUPFLG(2)=1
-c       ENDDO
-c       IF(IGROUPFLG(2) == 1) THEN
-c         ALLOCATE(IGROUPS(NUMELS))
-c       ELSE
-c         ALLOCATE(IGROUPS(0))
-c       ENDIF
-c     ELSE
-c       ALLOCATE(IGROUPS(0))
-c     ENDIF
       IGROUPFLG(2)=1
       ALLOCATE(IGROUPS(NUMELS))
 C-----------------------------------------------
@@ -2160,8 +2109,7 @@ C
           ALLOCATE(GRESAV(1))
         ENDIF
         GRESAV = ZERO
-C       ALLOCATION Traitement Flying Nodes si idel actif
-C
+C       ALLOCATION Flying Nodes if IDEL 
         IF(IDEL7NG.GT.0)THEN
           IERROR = 0
           ALLOCATE(IBUFIDEL(LBUFIDEL),STAT=IERROR2)
@@ -2232,18 +2180,6 @@ C Init var parallel SMP
 !$OMP END PARALLEL
 
         ENDIF
-
-C------------------------------------------------
-C     TETRA4 : SMOOTH FINITE ELEMENT FORMULATIONS
-C------------------------------------------------
-C Commented code transfered to the Starter
-c      ISFEM=0
-c      DO I = 1, NGROUNC
-c        NG = IGROUNC(I)         
-c        IF(IPARG(8, NG).EQ.1) CYCLE
-c        IF(IPARG(28,NG).NE.4) CYCLE
-c        IF(IPARG(41,NG) == 3.AND.ISFEM == 0) ISFEM=1
-c      ENDDO
       IF(ISFEM >= 1) THEN
         ALLOCATE(VARNOD(2*NUMNOD))
       ELSE
@@ -2517,7 +2453,7 @@ C---------------------------------------------------------------------
 C========================================================================================
 C                                     SECTION NON PARALLELE SMP
 C========================================================================================
-C ALLOCATION TABLEAUX TRAVAIL AIRBAG BEM
+C ALLOCATION OF WORKING ARRAYS FOR AIRBAG BEM
 C
           ALLOCATE(WIBEM(LWIBEM), WRBEM(LWRBEM), STAT=IERROR)
           IF (IERROR.NE.0) THEN
@@ -2555,7 +2491,7 @@ C
          END IF
 C
 
-Clm     if no subcycling + subcycling next to restart :
+C     if no subcycling + subcycling next to restart :
 C       dt2s=0 => shells computation at 1st cycle next to restart
         IF(ISHSUB.EQ.0 .AND. MCHECK.EQ.0) DT2S=0.0
         IF(MCHECK.NE.0) DT2SAVE = DT2
@@ -2587,7 +2523,6 @@ C------------RBE3----allocation-------------
          LIF=LI6+NMT
          ALLOCATE(RRBE3(LIF),STAT=IER1)
          RRBE3 = ZERO
-c         IF (IPARIT.GT.0.AND.IMACH.EQ.3) THEN ! RBE3_PON is now allocated every time used in partihoff subroutines
           NMP = 6*NMT
           LI1=1
           LI2=LI1+3*NMP
@@ -2638,13 +2573,13 @@ C----------------------------------
      D    NDDL0     ,NNZK0     ,IMPBUF_TAB)
           IF (IMON.GT.0) CALL STOPTIME(31,1)
           IF (IMON.GT.0) CALL STOPTIME(34,1)
-C	 
+C        
             NS_IMP=>IMPBUF_TAB%CAND_N 
             NE_IMP=>IMPBUF_TAB%CAND_E 
            IND_IMP=>IMPBUF_TAB%INDSUBT
                X_A=>X
-		   FEXT_IMP=>IMPBUF_TAB%AC
-		   R_IMP=>IMPBUF_TAB%R_IMP
+                   FEXT_IMP=>IMPBUF_TAB%AC
+                   R_IMP=>IMPBUF_TAB%R_IMP
            ALLOCATE(FAC_K(0), IPIV_K(0))
          IF (IMUMPSV >0.OR.(ISOLV==7.AND.NSPMD>1)) THEN
 #ifdef MUMPS5
@@ -2666,9 +2601,9 @@ C------ one routine for EIG
 #ifdef DNC
          CALL IMP_EIGSOL(
      1                   EIGIPM      , EIGRPM      , MS        ,IN         , EIGIBUF   ,
-     2               	 X           ,IXTG1        ,TF         , NPC       , FR_WAVE   ,
-     3               	 W16         ,LSENSOR      , SENSOR    , WA        ,
-     4               	 ICODT       , ICODR       , ISKEW     ,IBFV       , VEL       ,
+     2                   X           ,IXTG1        ,TF         , NPC       , FR_WAVE   ,
+     3                   W16         ,LSENSOR      , SENSOR    , WA        ,
+     4                   ICODT       , ICODR       , ISKEW     ,IBFV       , VEL       ,
      4                   V           , A           , ELBUF    , IXS       , IXQ     ,
      5                   IXC         , IXT         , IXP      , IXR       , IXTG    ,
      6                   PM          , GEO         , FANI     , ICUT      , SKEW    ,
@@ -2703,7 +2638,7 @@ C------ one routine for EIG
       ELSE
          IMPL_S0 = 0
          X_A=>X
-		 IMP_DUM(1)=0
+                 IMP_DUM(1)=0
          NS_IMP => IMP_DUM 
          NE_IMP => IMP_DUM 
          IND_IMP=> IMP_DUM
@@ -2715,7 +2650,7 @@ C------------------------------------------------------
 C------------------------------------------------------
 C Autres initialisations [MONO THREAD]
 C------------------------------------------------------
-Cel var init echange rb (tjrs a 0 ds resol)
+C   var init echange rb (tjrs a 0 ds resol)
       ONOFP=0
       IAD1 = 0
       IAD2 = 0
@@ -2735,7 +2670,7 @@ Cel var init echange rb (tjrs a 0 ds resol)
      .   CALL SPHRES44B(KXSP ,IXSP ,NOD2SP ,IPARG ,SPBUF )
       ENDIF
 C------------------------------------------------------
-Clm pointers sph
+C pointers sph
 C------------------------------------------------------
       KSPH1 =1+3*NUMSPH
       KSPH21 =NUMSPH+1
@@ -2743,10 +2678,10 @@ C------------------------------------------------------
       KSPH23 =KSPH22+MIN(IUN,NSPHIO)*3*NUMSPH
       KSPACTIV=1
       IF(NSPHSOL==0)THEN
-Clm     pointer to list of paticles to be sorted (to be sorted == active)
+C     pointer to list of paticles to be sorted (to be sorted == active)
         KSP2SORT=1
       ELSE
-Clm     to be sorted > active
+C     to be sorted > active
         KSP2SORT=KSPH23
       END IF
 C-------------------------------
@@ -2778,7 +2713,7 @@ C------------------------
 C     BOUCLE SUR LE TEMPS
 C------------------------
 
-C===================================================================
+C=======================================================================
 C
 C ----------------------------------------------
 #ifdef DNC
@@ -2839,12 +2774,6 @@ C First: try with reduced bounding box
       ! ----------------------
 
  100  CONTINUE
-C
-C===================================================================
-c        ito = nthread
-c        nthread = 1
-c        call omp_set_num_threads(nthread)
-
 C========================================================================================
 C                                     SECTION NON PARALLELE SMP
 C========================================================================================
@@ -2871,13 +2800,10 @@ C     TRACE BACK
 C-----------------------------------------------
       CALL TRACE_IN(3,NCYCLE,ZERO)
 
-C----------------------------
-C       INTERVENTION MANUELLE
-C----------------------------
       IF(IMON.GT.0) CALL STARTIME(6,1)
       IF(IMONM > 0) CALL STARTIME(47,1)
-      CALL MANCTR(SENSOR,H3D_DATA)
 C
+      CALL MANCTR(SENSOR,H3D_DATA)
 C----------------------------
 C       MOVING SKEW  [MONO THREAD]
 C----------------------------------
@@ -2898,10 +2824,9 @@ C
         DT2=EP06
         NT_IMP=0
         DT_THERM=EP06
-Cqz IMPR(IR15): X actualise----
       IF(IMPL_S.GT.0) THEN
        IF(NCYCLE.GT.0) THEN
-		IF(ISMDISP.EQ.1) X_A=>IMPBUF_TAB%X_A
+                IF(ISMDISP.EQ.1) X_A=>IMPBUF_TAB%X_A
         IF (IMON.GT.0) CALL STARTIME(5,1)
         CALL IMP_FANIE(FANI  ,FEXT_IMP,NFIA  ,NFEA  ,NODFT ,NODLT,
      .                 H3D_DATA  )
@@ -2937,12 +2862,12 @@ C       /---------------/
       END IF
 
 C-----------------------------
-C       CAS NON THERMIQUE PURE
+C    Not pure thermal case                          
 C-----------------------------
 
       IF(ILAG+IALE+IEULER.NE.0)THEN
 C--- // N/3 -------------------------------------
-C         ANNULATION DE LA MATRICE DE MASSE EN 2D
+C         CANCEL Mass matrix in 2D
 C------------------------------------------------
           ISYNC = 0
           IF(N2D.NE.0) THEN
@@ -2963,33 +2888,30 @@ C Init var parallel SMP
             CALL ZERO1(MS(NODFTSK),NUMNTSK)
 !$OMP END PARALLEL
 
-
           ENDIF
           ENDIF
 
 C========================================================================================
 C                                     SECTION NON PARALLELE SMP
 C========================================================================================
-
-C---------------------------------------------
           DO I=1+NFOA,NFOA+2*(NSECT+NRBODY+NRWALL+NUMELUR)
              FANI(1,I) = ZERO
              FANI(2,I) = ZERO
              FANI(3,I) = ZERO
           ENDDO
-      IF(ANIM_V(13)+H3D_DATA%N_VECT_CONT2.EQ.1)THEN
-          DO I=1+NFT2,NFT2 + NUMNOD*MIN(1,ANIM_V(13)+H3D_DATA%N_VECT_CONT2)
-             FANI(1,I) = ZERO
-             FANI(2,I) = ZERO
-             FANI(3,I) = ZERO
-          ENDDO
-      ENDIF
+          IF(ANIM_V(13)+H3D_DATA%N_VECT_CONT2.EQ.1)THEN
+              DO I=1+NFT2,NFT2 + NUMNOD*MIN(1,ANIM_V(13)+H3D_DATA%N_VECT_CONT2)
+                 FANI(1,I) = ZERO
+                 FANI(2,I) = ZERO
+                 FANI(3,I) = ZERO
+              ENDDO
+          ENDIF
 
         NGDONE = 1
         NSGDONE = 1
 C------------------------
-Clm       INTERFACES 14 & 15 :
-C         Initialisation buffers forces, moments, et stifness des surfaces.
+C       INTERFACES 14 & 15 :
+C         Initialisation buffers: forces, moments, stifness of surfaces.
 C--- //0 ----------------
         IF (ISPMD.EQ.0) THEN
           IF (NINTER.NE.0) THEN
@@ -3001,11 +2923,10 @@ C--- //0 ----------------
 C
         IF(ISHSUB.EQ.1)THEN
           IF(TT.EQ.ZERO .OR. TT+1.1*DT2OLD.GT.T1SH+DT2S)THEN
-C kshsub=-1 on calcule les coques a ce cycle.
-C           on assemblera ce qui a ete calcule avant de calculer les coques
+C kshsub=-1 shell at this cycle 
             KSHSUB = -1
           ELSE
-C kshsub=1  on ne calcule pas les coques a ce cycle.
+C kshsub=1  No shell at this cycle.
             KSHSUB = 1
             LASTSH = 0
           ENDIF
@@ -3016,14 +2937,11 @@ C                                     SECTION PARALLELE SMP  (synchro implicite)
 C========================================================================================
 !$OMP PARALLEL PRIVATE(ITSK)
           ITSK = OMP_GET_THREAD_NUM()
-
           CALL SHSUB0(FSKY, FSKY, ITSK)
-          
 !$OMP END PARALLEL
           ENDIF
         ENDIF
 
-C This is my change
 C========================================================================================
 C                                     SECTION NON PARALLELE SMP
 C========================================================================================
@@ -3495,7 +3413,7 @@ C--------------------------------------------------------
 
 C-------------------------------------------------------
 C     ADAPTIVE MESHING
-Clm   Get ICONTACT After sort, After Contact forces if SPMD
+C   Get ICONTACT After sort, After Contact forces if SPMD
 C                              Before Contact forces if SMP
 C-------------------------------------------------------
       IF(NADMESH > 0.AND.IMPL_S==0)THEN
@@ -3561,44 +3479,17 @@ C           /---------------/
      1      IPARG     ,ELBUF_TAB ,FSKY   ,FSKY  ,FTHESKY,
      2      IADS(I87C),IADS(I87G),IFLGADM,IGROUC,NGROUC ,
      3      CONDNSKY  )
-C         /---------------/
           CALL MY_BARRIER
-C         /---------------/
-          NGDONE = 1        ! ne sert plus a virer
+          NGDONE = 1    
         END IF
         RCONTACT(NODFTSK:NODLTSK)=EP30
         ACONTACT(NODFTSK:NODLTSK)=EP30
         PCONTACT(NODFTSK:NODLTSK)=ZERO
-C-------
 !$OMP END PARALLEL
         IF (IMON.GT.0) CALL STOPTIME(36,1)
       END IF
-C--- // 3 --------------------------------------------------------
-C       mass fluide +
-C--------------------------------
-cc        NTH0 = NTHREAD
-cc        NTHREAD =1
-cc        CALL OMP_SET_NUM_THREADS(NTHREAD)
-c           /---------------/
-ccc            CALL MY_BARRIER
-c           /---------------/
-ccc  c    IF(IALELAG > 0) THEN
-cccccc!$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
-c        ITSK = OMP_GET_THREAD_NUM()
-c        NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
-c        NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
-c         DO I=NODFTSK,NODLTSK
-c           MSF(I) = MSF(I) - MSNF(I)
-c           MSNF(I) = ZERO
-c         ENDDO
-c           /---------------/
-ccc            CALL MY_BARRIER
-c           /---------------/
-ccccc!$OMP END PARALLEL
-ccc      ENDIF
-cc       NTHREAD =NTH0
 C--- // N/3 --------------------------------------------------------
-C       CALCUL DES  FORCES EXTERNES & INTERNES (ANIM)
+C       EXTERNAL AND INTERNAL FORCES (ANIM)
 C--------------------------------
 
         IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT+
@@ -3623,8 +3514,8 @@ C--------------------------------------------------------
         IF (IALE+IEULER+ITHERM.NE.0) THEN
            CALL STARTIME(MACRO_TIMER_ALEMAIN,1) 
 C-----------------------------
-C     el SPMD : MS=0 sur noeuds frontieres si weight.ne.1  (pour amas03)
-C     el UNIQUEMENT EN PARITH/OFF (PARITH/ON : cumul FSKY ajoute a MS)
+C        SPMD : MS=0 boundary nodes if  weight.ne.1  (pour amas03)
+C        only for PARITH/OFF 
 C-----------------------------
            LENQMV = 1
            IF(TRIMAT>0)LENQMV = MIN(1,TRIMAT)*(NUMELS+NUMELQ)
@@ -3712,7 +3603,6 @@ C
 C========================================================================================
 C                                     SECTION NON PARALLELE SMP
 C========================================================================================
-CFP SKIP OTHER ELEMENTS
 
       IF(IALESUB .EQ.2 .AND. IFSUB.EQ.2)GOTO 22
  21   CONTINUE
@@ -3721,8 +3611,7 @@ C
       IF (IMONM > 0) CALL STARTIME(51,1)
 C----------------------------------
 C       FORCES INTERNES  ELEMENTS RNUR, S8FORC3
-C       les forces internes des solides sont calculees en //
-C       et dans la meme boucle que les autres elements
+C       INTERNAL FORCES: RNUR S8FORC3 
 C----------------------------------
         CALL FORINTS(
      1    PM        ,GEO       ,X         ,A         ,AR        ,
@@ -4233,7 +4122,7 @@ C
 C---- // GROUPS ----------------
 C     FORCES INTERNES DES COQUES, COQUES 3 NOEUDS
 C-------------------------------
-Clm   no subcycling, or subcycling and KSHSUB==0 :
+C   no subcycling, or subcycling and KSHSUB==0 :
       IF(KSHSUB.EQ.0)THEN
         CALL TRACE_IN(14,0,ZERO)
         IF (IMON.GT.0) CALL STARTIME(3,1)
@@ -4242,7 +4131,7 @@ C===============================================================================
 C                                     SECTION PARALLELE SMP
 C========================================================================================
 C -------------------------------------------------------------------        
-Cow User Libraries get the possibility to use GET_U_NOD_X & GET_U_NOD_V in user elements properties (Solids & Springs)
+C   User Libraries get the possibility to use GET_U_NOD_X & GET_U_NOD_V in user elements properties (Solids & Springs)
         GETUNOD_NOCOM=1
 C -------------------------------------------------------------------        
         LLT1 = I87G+3*NUMELTG
@@ -4313,13 +4202,9 @@ C     SHELLS SUB-CYCLING
 C--------------------------------------------------------
 
       IF(ISHSUB.EQ.1)THEN
-
           IF(KSHSUB.EQ.0) THEN
-C kshsub=0  on vient de calculer les coques
-C   kshsub=2  on va a l'assemblage des forces internes des coques
             KSHSUB=2
           ENDIF
-
         IF(KSHSUB.EQ.1) THEN
 C kshsub=1 shells are not computed this cycle, retrieve internal forces
 
@@ -4344,10 +4229,10 @@ C===============================================================================
       ENDIF
 
       IF(ISHSUB .EQ.1 .AND. KSHSUB.EQ.2)GOTO 22
-C  barriere implicite avt asspar
+C  implicit barrier before asspar
 
 C---- // GROUPS ----------------
-C     FORCES INTERNES DES TRUSSES, POUTRES, RESSORTS,
+C     INTERNAL FORCES OF  TRUSSES, POUTRES, RESSORTS,
 C                         SOLIDES, QUAD
 C-------------------------------
 
@@ -4369,9 +4254,6 @@ C-----------------------------------------------------
 C========================================================================================
 C                                     SECTION PARALLELE SMP
 C========================================================================================
-cc       NTH0 = NTHREAD
-cc       NTHREAD =1
-cc       Call OMP_SET_NUM_THREADS(NTHREAD)
 !$OMP PARALLEL
 !$OMP+ PRIVATE(ITSK,NODFTSK,NODLTSK,NUMNTSK,NDTSK,IPMTSK)
 !$OMP+ PRIVATE(PARTFTSK,PARTLTSK,NWAFTSK,DT2TT,NELTSTT,ITYPTSTT)
@@ -4411,7 +4293,7 @@ C
      H IXS(L1)        ,
      I IXS(L2)        ,IADS(LL1)     ,IADS(LL2)   ,IXS(L3)    ,IADS(LL3)       ,
      J W16(I16TSK)    ,FSKYM         ,MSNF        ,IGEO       ,IPM             ,
-C-------- !!!! remove IMPR(IR15),IMPR(IR16) in FORINT	 
+C-------- !!!! remove IMPR(IR15),IMPR(IR16) in FORINT    
      K XSEC           ,ITSK          ,
      M TEMP           ,
      N FTHE(IDX_FTHE) ,FTHESKY                    ,IGROUNC    ,NGROUNC         ,
@@ -4436,7 +4318,6 @@ C
       END IF
 #include "lockoff.inc"
 !$OMP END PARALLEL
-cc       NTHREAD=NTH0
       CALL TRACE_OUT(14)
 
       IF (IMON.GT.0) CALL STOPTIME(3,1)
@@ -4528,7 +4409,7 @@ C----------------------------------
 !$OMP END PARALLEL
 
 C -------------------------------------------------------------------        
-Cow User Libraries get the possibility to use GET_U_NOD_X & GET_U_NOD_V in user elements properties (Solids & Springs)
+C   User Libraries get the possibility to use GET_U_NOD_X & GET_U_NOD_V in user elements properties (Solids & Springs)
         GETUNOD_NOCOM=0
 C -------------------------------------------------------------------        
 
@@ -4542,7 +4423,7 @@ C===============================================================================
       ENDIF
 
 C-----------------------------------------------
-Clm Multidomains : synchro entre proc du flag_activation
+C Multidomains : synchro proc of flag_activation
 C----------------------------------------------
       IF (NSPMD.GT.1) THEN
         IF ((SDD_R2R_ELEM.GT.0).AND.(FLG_SPHINOUT_R2R.GT.0)) THEN
@@ -4592,14 +4473,12 @@ C
 C========================================================================================
 C                                     SECTION NON PARALLELE SMP  (synchro implicit sur A)
 C========================================================================================
-C     Sous cyclage ISHSUB==1
+C     subcycling ISHSUB==1
 C     ----------------------
-C     KSHSUB=-1 <=> On calcule les coques a ce cycle ET on est dans la 1ere phase d'assemblage 
-C                   (des forces de contact)
-C     KSHSUB=1  <=> On ne calcule pas les coques a ce cycle (on déroule le cycle de maniere standard)
+C     KSHSUB=-1 <=> Shell at this cycle  and 1st phase assembly
+C                   (contact force)                      
+C     KSHSUB=1  <=> No shell computation at this cycle 
       IF(ISHSUB==1.AND.KSHSUB/=-1.AND.KSHSUB/=1) GOTO 22
-C 
-
 
  221  CONTINUE
 
@@ -4618,7 +4497,7 @@ C must be done before the reception of remote contact stif
 !$OMP END PARALLEL
       END IF
 C----------------------------------------
-C Communication forces interfaces en SPMD, Partie2 : Reception
+C Communication of interface forces en SPMD, Parti2 : Reception
 C----------------------------------------
        IF(NINTER.NE.0) THEN
         IF(NSPMD.GT.1)THEN
@@ -4666,19 +4545,10 @@ C
 
  22   CONTINUE
 
-!   ----------------------------------
 !   Mpi communication for Nlocal option : parith/of
        IF(IPARIT /= 0.AND.NSPMD > 1.AND. NLOC_DMG%IMOD > 0)THEN
             CALL SPMD_EXCH_SUB_PON(NLOC_DMG)
        ENDIF
-!   ----------------------------------
-
-!   ----------------------------------
-!   SPMD communication for TAGNCONT BEFORE PRESSURE COMPUTATION
-c       IF(NSPMD > 1.AND. NINTLOADP21 > 0)  THEN
-c          CALL SPMD_TAGNCONT_STAMP(IPARI    ,TAGNCONT  ,KLOADPINTER , LOADPINTER,
-c     .                             LOADP_HYD_INTER ,SENSOR , INTBUF_TAB ) 
-c       ENDIF
        IF(NSPMD > 1.AND. NINTLOADP > 0)THEN
          LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
          CALL SPMD_EXCH_TAGNCONT(TAGNCONT,IAD_ELEM ,FR_ELEM,LENR     )
@@ -4698,11 +4568,8 @@ c       ENDIF
            IF (IMON.GT.0) CALL STOPTIME(4,1)
           CALL TRACE_OUT(10)
        ENDIF
-!   ----------------------------------
-
-
 C--- //------------------------------
-C       ASSEMBLAGE DES FORCES
+C       FORCE ASSEMBLY                          
 C-------------------------------------
 C========================================================================================
 C                                     SECTION PARALLELE SMP   (synchro implicit sur A)
@@ -4746,28 +4613,10 @@ C assemblage Parith/OFF necessaire avant communication frontiere si multi-thread
               CALL NLOCAL_DTNODA(NODFT_NL,NODLT_NL,NLOC_DMG,DTNOD_NLOCAL,DT2T)
             ENDIF
         ENDIF
-!   ----------------------------------
-
-
 !$OMP END PARALLEL
-
         IF (IMON.GT.0) CALL STOPTIME(9,1)
       ENDIF
-C----------------------------------------
-C Communication forces frontiere DD (elements+interfaces) en SPMD
-C----------------------------------------
-C--------------------------------------------------------
-C INTERFACE 24 - Communication partie 2 / 4
-C--------------------------------------------------------
-cpasbon          IF (INT24USE == 1)THEN
-cpasbon            IF (IMON.GT.0) CALL STARTIME(8,1)        
-cpasbon              CALL SPMD_EXCH_I24(IPARI    ,INTBUF_TAB       ,ITAB  ,
-cpasbon     *                           IAD_ELEM ,FR_ELEM ,INTLIST ,NBINTC,
-cpasbon     *                           IAD_I24  ,FR_I24  ,SFR_I24,2)
-cpasbon            IF (IMON.GT.0) CALL STOPTIME(8,1)
-cpasbon          ENDIF
-C----------------------------------------
-C Transfert des forces contact des particules dormantes aux noeuds de solides
+C Transfer of contact force from sleeping particles to solid nodes
 C----------------------------------------
 C========================================================================================
 C                                     SECTION PARALLELE SMP   
@@ -4935,12 +4784,6 @@ C
             SIZE = SIZE + 1
           ENDIF
 C
-
-C
-c          IF(NITSCHE > 0 )THEN
-c           SIZE = SIZE + 3*NFACNIT
-c          ENDIF
-     
           LENC = 0
           IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX .NE.0.AND.NINTSTAMP==0) LENC = LENI
 
@@ -4956,25 +4799,17 @@ c          ENDIF
      8     FORNEQSKY,NFACNIT  ,LENC        ,
      9     FANI        ,H3D_DATA  )
 C
-C  exchange gap for int type 24 + pxfem 
-C     
-cc           IF(INTPLYXFEM > 0) THEN
-cc             SIZE = 1        
-cc             LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
-cc             CALL SPMD_EXCH_I24_GAP( WAGAP,IAD_ELEM,FR_ELEM,SIZE  ,LENR )
-cc           ENDIF           
-C
         ENDIF
         IF (IMON.GT.0) CALL STOPTIME(10,1)
       ENDIF
 
 C--- //------------------------------
-C       ASSEMBLAGE PARITH/ON DES FORCES APRES COMMUNICATION
+C       PARITH/ON ASSEMBLY OF FORCES AFTER COMMUNICATION
 C-------------------------------------
       CALL TRACE_IN(15,0,ZERO)
 
       IF (IMON.GT.0) CALL STARTIME(9,1)
-c     mise a jour de nombre des fissures entre les procs
+c     Parallel update of crack                                                  
       IF(ICRACK3D > 0 .AND. NSPMD > 1) CALL SPMD_MAX_XFE_I(NLEVSET)
 C========================================================================================
 C                                     SECTION PARALLELE SMP (synchro implicit sur A)
@@ -4996,8 +4831,7 @@ C===============================================================================
       IF(IPARIT.EQ.1)THEN
 
 C------------------------
-C Assemblage Parith/ON spmd+multi-thread
-c ITAB usefull for debugging
+C Assembly Parith/ON spmd+multi-thread
 C------------------------
         CALL ASSPAR4(
      1       A      ,AR      ,STIFN  ,STIFR       ,MS    ,
@@ -5026,16 +4860,8 @@ C------------------------
             CALL NLOCAL_DTNODA(NODFT_NL,NODLT_NL,NLOC_DMG,DTNOD_NLOCAL,DT2T)
           ENDIF
         ENDIF
-!   ----------------------------------
-
-C-------------------------
-C
-c       IF(IPLYXFEM > 0)
-c     .   CALL PLY_ASSPAR2(
-c     2   ITASK      ,NODFT     , NODLT      ,IADSKY_PXFEM, INOD_PXFEM  )
-C
 C------------------------
-c       Assemblage des forces P/ON sur les phantomes Xfem
+C       Assembly of Parith/ON forces on Phantom Xfem
 C------------------------
         IF(ICRACK3D > 0)THEN
 C         /---------------/
@@ -5046,7 +4872,7 @@ C         /---------------/
      .         NODENR   ,NODLEVXF ,ITAB    )
         ENDIF
       ELSEIF(IPARIT.EQ.2)THEN
-	
+        
         IF(KDTINT.NE.0)THEN
 
 !$OMP SINGLE
@@ -5086,9 +4912,6 @@ C
 !       -------------------------------------------
 !       check if a NaN appears in acc vectors (only available with /DEBUG/NAN option)
       IF( DEBUG(MACRO_DEBUG_NAN)/=0 )CALL CHECK_NAN_ACC(NCYCLE,A,AR)
-!       -------------------------------------------
-
-!       -------------------------------------------
 !       write *.adb files for NON-LOCAL option
       IF (DEBUG(MACRO_DEBUG_ACC).EQ.1.AND.(NLOC_DMG%IMOD>0)) THEN
         IF (ISPMD.EQ.0) THEN
@@ -5102,7 +4925,6 @@ C
      .                               NLOC_DMG%POSI    ,NLOC_DMG,SIZ,NODGLOB,ITAB     )
         ENDIF
       ENDIF
-!       -------------------------------------------
 
 C----------------------------------
 C       ITET2 of S10 Forces condensation; pass 1
@@ -5141,9 +4963,7 @@ C===============================================================================
           END IF
           DMSPH(I)=ZERO
         ENDDO
-
 !$OMP END PARALLEL
-
       ENDIF
 
 
@@ -5160,7 +4980,7 @@ C===============================================================================
           ENDIF
 
 C
-C Communication specifique Interface type20 DAANC6
+C Communication Interface type20 DAANC6
 C
       IF(NBINT20.GT.0.AND.NSPMD.GT.1) THEN
         SIZE = 21
@@ -5170,8 +4990,7 @@ C
      2   SIZE ,NBINT20,LENR ,INTLIST ,NBINTC )
       ENDIF
 C
-C
-C Communication specifique ICONTACT AIRBAG
+C Communication ICONTACT AIRBAG
 C
       IF(KCONTACT.NE.0.AND.NSPMD.GT.1) THEN
         SIZE = 1
@@ -5180,7 +4999,7 @@ C
      +    ,IAD_ELEM ,FR_ELEM,SIZE,LENR)
       ENDIF
 C
-C Communication specifique IFOAM 
+C Communication IFOAM 
 C
       IF(IALELAG > 0.AND.NSPMD.GT.1) THEN 
         SIZE = 1
@@ -5190,18 +5009,16 @@ C
       ENDIF      
 C
       IF(ISHSUB.EQ.1.AND.KSHSUB.EQ.-1) THEN
-Clm     on calcule les coques a ce cycle
-C       on va au calcul des forces internes des coques
+C     Shell computed at this cycle => go to internal force computations
         GOTO 20
       ELSEIF(ISHSUB.EQ.1.AND.KSHSUB.EQ.2) THEN
-Clm     on vient d'assembler les forces internes des coques a ce cycle
-C       on va au calcul du pas de temps des coques
+C     Internal forces assembled = go to timestep
         GOTO 23
       ENDIF
 C
 #ifdef DNC
       IF (IMADCPL.GT.0)THEN
-Cow at every cycle except cycle 0, send the Nodes coordinates
+C   at every cycle except cycle 0, send the Nodes coordinates
          CALL DATA_RECV_MADCPL(X,A,V,MS,FANI,MADCLNOD,MADCLFRECV,H3D_DATA)
       ENDIF
 #endif
@@ -5210,18 +5027,17 @@ CFP SKIP KINEMATIC FORCES
       IF(IALESUB.EQ.2 .AND. IFSUB.EQ.2) GOTO 23
       
 C
-C---------------------------------------------------------------------
-C MILIEUX POREUX (NON//) Deplace de ALEMAIN a apres ASSEMBLAGE
+C POROUS MEDIA (not parallel) 
 C---------------------------------------------------------------------
       IF(NUMPOR.GT.0) THEN
-Cel synchro implicite sur A necessaire en Parith/OFF
+C   synchro implicite sur A necessaire en Parith/OFF
           CALL PORO(
      1       GEO    ,NODPOR ,MS,X   ,V     ,
      2       W      ,A      ,AR,SKEW,WEIGHT,
      3       NPORGEO)
       ENDIF
 C---------------------------------------------------------------------
-C SORTIE DEBUG ACCELERATIONS
+C DEBUG OUTPUT ACCELERATIONS
 C---------------------------------------------------------------------
       IF (DEBUG(MACRO_DEBUG_ACC).EQ.1) THEN
          IF (NCYCLE.GE.DEBSTART .AND.
@@ -5241,7 +5057,7 @@ C---------------------------------------------------------------------
       END IF
 
 C-----------------------------------------------
-C       COMMUNICATION ENTRE ELEMENTS VOISINS DEPLACE APRES ASSEMBLAGE (WA)
+C       COMMUNICATION BETWEEN BOUNDARY ELEMENTS AFTER ASSEMBLY
 C-----------------------------------------------
       IF (IFRWV > 0) THEN
         IF (NSPMD > 1) THEN
@@ -5280,17 +5096,15 @@ C----------------------------------
 C     TRAITEMENT SHOOTING NODES
 C----------------------------------
       IF (IMON.GT.0) CALL STARTIME(8,1)
-Cel deplacement apres assemblage
-C nouvelle routine pour le 2 D
       IF (N2D.NE.0.AND.IDEL7.EQ.2) THEN
           IF (IMON.GT.0) CALL STARTIME(6,1)
           CALL CHKSTIFN(IPARI,MS,INTBUF_TAB)
           IF (IMON.GT.0) CALL STOPTIME(6,1)
 C
-C IDEL7NG : flag global delete facettes/noeuds int. type7, type2
-C IDEL7NG = 0 => ras
-C IDEL7NG = 1 | 2 => delete facettes+noeuds (pour au moins 1 interface)
-C IDEL7NOK = 1 : il faut traiter toutes les interface tq IPARI(17)= 1 | 2
+C IDEL7NG : global flag deleted segments/nodes int. type7, type2
+C IDEL7NG = 0 => nothing
+C IDEL7NG = 1 | 2 => deleted segments/nodes (pour au moins 1 interface)
+C IDEL7NOK = 1 : need all interface such as IPARI(17)= 1 | 2
       ELSEIF(IDEL7NG.GE.1.OR.PDEL.GT.0) THEN
 C        IF (NCYCLE.EQ.97) IDEL7NOK = 1
 C        IF (NCYCLE.EQ.98) IDEL7NOK = 1
@@ -5579,7 +5393,7 @@ C===============================================================================
         NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
         CALL CHKMSIN(NODFTSK,NODLTSK,ITAB,MS,IN,NEGMAS)
 !$OMP END PARALLEL
-C barriere implicite negmas
+C Implicit barrier on NEGMAS
         IF(NEGMAS.NE.0) CALL ARRET(2)
       ENDIF
 
@@ -5765,12 +5579,6 @@ c
       ENDIF
 C----------------------------------------------------------
 C     SCALE TIME STEP
-C----------------------------
-C     SYNCHRONISATION Implicite SUR STIFN ,STIFR
-C----------------------------
-C REINITIALISATION NOUVEAU FLAG DELETE INT7 => remonte
-C      IDEL7NOK=0
-C
 C========================================================================================
 C                                     SECTION PARALLELE SMP
 C========================================================================================
@@ -5802,15 +5610,14 @@ C===============================================================================
 C----------------------------
   23  CONTINUE
 C----------------------------
-Clm SHELLS SUBCYCLING
+C SHELLS SUBCYCLING
 C----------------------------
 C 23  CONTINUE
       IF(ISHSUB.EQ.1 .AND.KSHSUB.EQ.2)THEN
-Clm     on vient d'assembler les forces internes des coques,
-C       on calcule le pas de temps nodal des coques (option SHNOD)
+C       internal shell forces just computed 
+C       Nodal time step for shells (SHNOD)
         IF(NODSUBDT.NE.0)THEN
-C
-Clm         temporary save of DTFAC1(11), DTMIN1(11), IDTMIN(11)
+C         temporary save of DTFAC1(11), DTMIN1(11), IDTMIN(11)
             DTFNOD    =DTFAC1(11)
             DTMNOD    =DTMIN1(11)
             IDTNOD    =IDTMIN(11)
@@ -5838,9 +5645,6 @@ C----------------------------------------------------------
 C========================================================================================
 C                                     FIN SECTION NON PARALLELE SMP
 C========================================================================================
-
-
-C Variable partagee init a 0 avant debut dtnoda et avant section parallele
 
       IMSCH=0
 
@@ -6035,16 +5839,14 @@ C
        ENDIF
 
 C----------------------------
-C     SYNCHRONISATION Implicite SUR DT2 FBIG
+C    IMPLICIT SYNCHRONISATION On DT2 FBIG
 C----------------------------
 C----------------------------
-Clm          sous-cycle de calcul des coques, traitements specifiques apres
-C            la phase de calcul des coques
+C           Sub-cycling for shell
 C----------------------------
  24   CONTINUE
       IF(ISHSUB.EQ.1 .AND.KSHSUB.EQ.2)THEN
         IF(NODSUBDT.NE.0)THEN
-Clm         restoring DTFAC1(11), DTMIN1(11), IDTMIN(11) after call DTNODA()
             DTFAC1(11)=DTFNOD
             DTMIN1(11)=DTMNOD
             IDTMIN(11)=IDTNOD
@@ -6125,8 +5927,7 @@ C-------------------------------------------------------
          IWIOUT = 0
         ENDIF
 
-Clm     on vient d'assembler les forces internes des coques,
-C       on retourne au calcul des elts autres que les coques et coques 3N
+C      Internal shell force computed = go back to other elements
         GOTO 211
 
       ENDIF
@@ -6221,13 +6022,11 @@ C----------------------------------
 
         IF(NVOLU.GT.0)THEN
         IF (IMONM > 0) CALL STARTIME(50,1)
-C DT2 doit etre communique avant d etre change par les procs calculant les mv
-C VOLMON egalement communique pour eviter diff de calcul en // dans mvoludt
         IF(NSPMD.GT.1)
      .    CALL SPMD_GLOB_MINV(DT2,ITYPTS,NELTS,VOLMON, FR_MV)
 
 C========================================================================================
-C                                   TRAITEMENT SPECIFIQUE DOMAIN PROCESSEUR0
+C                                   DOMAIN 0 
 C========================================================================================
 
         IF(ISPMD.EQ.0) CALL MVOLUDT(MONVOL,VOLMON)
@@ -6300,14 +6099,6 @@ C-----------------------------
          IWIOUT = 0
          IF (ISPMD.NE.0) CALL SPMD_CHKW(IWIOUT,IOUT)
        ENDIF
-
-C-----------------------------
-C       CALCUL DU PAS DE TEMPS
-C-----------------------------
-c      IF(IDT_THERM == 1)THEN
-c         DT2 = DT_THERM
-c         DT2T = DT2
-c      ENDIF
 
       ! ----------------------
       ! user library : check out
@@ -6598,7 +6389,7 @@ C
       K11=K10+NUMSPH
 
 C // -------------------------------------------
-C       SYNCHRONISATION Implicite SUR A (FORCES), FV(FUNC) ET SKEW(MOVING)
+C     IMPLICIT  SYNCHRONISATION (FORCES), FV(FUNC) ET SKEW(MOVING)
 C----------------------------
 
 
@@ -6622,8 +6413,6 @@ C===============================================================================
        NODFTSK   = 1+ITSK*NUMNOD/ NTHREAD
        NODLTSK   = (ITSK+1)*NUMNOD/NTHREAD
 
-C       IF(ILINE.EQ.1.AND.NCYCLE.GT.0.AND.ISCAU.EQ.0)
-C     .   CALL INTEGRATOR0(NODFTSK,NODLTSK,V,X )
        IF(ILAG+IALE+IEULER.NE.0)THEN
 C-----------------------
 C       MULTIMATERIAUX
@@ -6631,10 +6420,8 @@ C-----------------------
         IF(NMULT.GT.0) THEN
             CALL BMULTN(FILL,DFILL,IMS,IFILL,NODFTSK,NODLTSK)
         ENDIF
-C       IF (IMON.GT.0) CALL STARTIME(5,ITASK+1)
         CALL IMP_FANII(FANI ,A     ,NFIA      ,NODFT    ,NODLT    ,
      .                 H3D_DATA )
-C       IF (IMON.GT.0) CALL STOPTIME(5,ITASK+1)
         IF (IMPDEB.EQ.1.AND.IMCONV.EQ.0) THEN
          IF (NCYCLE.GE.NDEB0.AND.NCYCLE.LE.NDEB1) THEN
          CALL IMP_FOUT(
@@ -6643,9 +6430,8 @@ C       IF (IMON.GT.0) CALL STOPTIME(5,ITASK+1)
          ENDIF
         ENDIF
 C--- // N/3 ---------------------------------------
-C       CALCUL DES  FORCES INTERNES (ANIM)
+C       INTERNAL FORCES (ANIM)
 C-----------------------------------------------
-C        CALL FORANI2(FANI,A,NFIA,NFEA,NODFTSK,NODLTSK)
           IF(ISECUT.NE.0)THEN
             IF (IMON.GT.0) CALL STARTIME(7,1)
               CALL SECT_IO (
@@ -6752,14 +6538,11 @@ C===============================================================================
      .     TEMP      )
        ENDDO 
 
-C barriere implicite sur end do
 !$OMP END PARALLEL DO
 
        IF(IPARSENS/=0) FBSAV6(1:12,1:6,1:SFSAV6) = ZERO
 
-
           CALL SENSOR2(LSENSOR,SENSOR,SENSOR_TAB)
-
 
 C========================================================================================
 C                                     FIN SECTION PARALLELE SMP (Synchro implicite)
@@ -6926,9 +6709,6 @@ C
           CALL FLOW_ACCELE(ALE_CONNECTIVITY%NALE, MSF    ,AFLOW        ,VFLOW    ,
      2                     NODFTSK,NODLTSK)
         ENDIF
-
-c        print*, 'resol NLOC_DMG%IMOD', NLOC_DMG%IMOD
-c        
 c
         IF (NLOC_DMG%IMOD > 0) THEN
           NODFT_NL   = 1+ ITSK*NLOC_DMG%NNOD/NTHREAD
@@ -6936,7 +6716,7 @@ c
           CALL NLOCAL_ACC(NLOC_DMG, NODFT_NL ,NODLT_NL) 
         ENDIF
 c
-       IF (ICRACK3D > 0) THEN   ! accelerations des phantomes xfem
+       IF (ICRACK3D > 0) THEN                                     
 C        /---------------/
          CALL MY_BARRIER
 C        /---------------/
@@ -7008,7 +6788,7 @@ C                                     SECTION NON PARALLELE SMP
 C========================================================================================
         IF (IMON.GT.0) CALL STOPTIME(5,1)
 C-----------------------------------------------
-Clm Traitement des INLETS,OUTLETS.
+C Traitement des INLETS,OUTLETS.
 C-----------------------------------------------
         IF(NSPHIO.NE.0)THEN
 
@@ -7041,7 +6821,7 @@ C                                     SECTION NON PARALLELE SMP
 C========================================================================================
 
 C-----------------------------------------------
-Clm Traitement des INLETS,OUTLETS.
+C Traitement des INLETS,OUTLETS.
 C-----------------------------------------------
        IF(NSPHIO.NE.0.AND.NSPHACTG.NE.0)THEN
 C--- //0 ----------------
@@ -7060,7 +6840,7 @@ C--- //0 ----------------
         ENDIF
 
 C-----------------------------------------------
-Clm Multidomains : resynchro des accelerations en SPH
+C Multidomains : resynchro des accelerations en SPH
 C----------------------------------------------
         IF (NSPMD.GT.1) THEN
           IF ((SDD_R2R_ELEM.GT.0).AND.(NUMSPH_GLO_R2R.GT.0)) THEN
@@ -7535,7 +7315,7 @@ C--------------------------
            ENCIN2 = ZERO
            ENROT2 = ZERO           
 C--------------------------
-C          VITESSES IMPOSEES
+C          IMPOSED VELOCITY 
 C--------------------------
            IF(NFXVEL.NE.0) THEN
              IF(IMON.GT.0) THEN
@@ -7600,7 +7380,7 @@ C===============================================================================
 !$OMP PARALLEL
 
 C-------------------
-C         MUR RIGIDE         APRES TOUTES LES AUTRES CONDITIONS CINEMATIQUES
+C         RIGID WALL                               
 C---- // -----------
         IF(NRWALL.GT.0.AND.IDTMINS==1)THEN
 C
@@ -7627,7 +7407,7 @@ C         Obsolete
         IF (IMONM > 0) CALL STOPTIME(43,1)
 
 C--------------------------
-C        TEMPERATURES IMPOSEES
+C         IMPOSED TEMPERATURES 
 C--------------------------
          IF(NFXTEMP  > 0 .AND. ITHERM_FE > 0) THEN
            IF(IMON.GT.0) THEN
@@ -7780,7 +7560,7 @@ C                                   SECTION NON PARALLELE SMP (Synchro RBYVIT)
 C========================================================================================
 
 C--------------------------------------------------
-C         CORPS FLEXIBLE RESOLUTION ET VITESSES SUR NOEUDS SECONDS
+C         Flexible bodies solution and velocities on secondary nodes
 C--------------------------------------------------
       IF (NFXBODY.GT.0) THEN
           CALL FXBYVIT(FXBIPM, FXBNOD, FXBMOD, FXBGLM, FXBLM ,
@@ -7790,58 +7570,40 @@ C--------------------------------------------------
      .                 FXBFC , FXBEDP, IAD_ELEM, FR_ELEM)
       END IF
 C--------------------
-C      Rigid Body Mou (retire en v11)
-C--------------------
-c      IF (NIBVEL.GT.0) THEN
-cC  /---------------/
-c    CALL RBMOUV(IBVEL ,LBVEL ,X    ,V ,VR    ,
-c     1         A     ,AR    ,MS   ,IN ,FBVEL ,
-c     2         LBVRS ,WEIGHT)
-c      ENDIF
-C--------------------
 C      RBE3
 C--------------------
       IF (NRBE3.GT.0) THEN
-C       /---------------/
         CALL MY_BARRIER
-C       /---------------/
         IF (ITASK.EQ.0) THEN
           CALL RBE3V(IRBE3 ,LRBE3 ,X    ,A     ,AR    ,
      1                 V   ,VR    ,FRBE3,SKEW  )
         ENDIF
-C       /---------------/
         CALL MY_BARRIER
-C       /---------------/
       ENDIF
 C--------------------
 C      RBE2
 C--------------------
       IF (NRBE2.GT.0) THEN
-C       /---------------/
         CALL MY_BARRIER
-C       /---------------/
         IF (ITASK.EQ.0) THEN
         CALL RBE2V(IRBE2 ,LRBE2 ,X    ,A     ,AR    ,
      1             V     ,VR    ,SKEW )
         ENDIF
-C       /---------------/
         CALL MY_BARRIER
-C       /---------------/
       ENDIF
 C--------------------------------------------------
-C  DAA Calcul des accelerations normales
+C  DAA  normal accelerations
 C--------------------------------------------------
         IF (NFLOW.GT.0) CALL FLOW1(IFLOW, RFLOW, NBGAUGE, A)
 
 C========================================================================================
-C                                   TRAITEMENT SPECIFIQUE DOMAIN PROCESSEUR0
+C                                   DOMAIN 0 
 C========================================================================================
 
       IF(ISPMD.EQ.0)THEN
 
 C------------------------
-Clm       INTERFACES 14 & 15 : Seconde Partie du Travail Forces Secnds
-C                         (Avt Sorties).
+C       INTERFACES 14 & 15
 C--- //0 ----------------
         IF(NINTER.NE.0)THEN
           IF (IMON.GT.0) THEN
@@ -7891,7 +7653,6 @@ C-----------------------------------------------------
 C----------------------------
 C       MOVING FRAME - RETRIEVE ACCELERATION.
 C--- //0 ----------------
-Clm apres redescente des vitesses.
          IF (IMON.GT.0)CALL STARTIME(6,1)
          IF (IMONM > 0) CALL STARTIME(49,1)
          CALL MOVFRA1(XFRAME,IFRAME ,X, V ,A ,VR ,AR)
@@ -7943,14 +7704,9 @@ C-- // --------------
       IF (NACCELM > 0) THEN
 !$OMP PARALLEL DO PRIVATE(K,N,ISK)
       DO K=1,NACCELM
-C test si processeur concerne, sinon echange necessaire partie sensor et/ou th
+C check that proc is concerned. Otherwise necessary exchange for sensor, th
         IF(IACCP(K).EQ.ISPMD+1)THEN
           N  = LACCELM(1,K)
-C probleme de confusion entre les accelerometres et les gauges (meme
-C structure) LACC(1,I)=0 marqueur de gauge
-C  LACC(1,I)=0 ou negatif  marqueur de gauge
-C  LACC(1,I)=NODLOCAL ou 2*NUMNOD (global) marqueur d'accelero
-C
           IF(N > 0 .AND. N/=2*NUMNODG )THEN
             ISK= LACCELM(3,K)
             CALL ACCEL1(
@@ -7959,7 +7715,7 @@ C
           END IF
         END IF
       ENDDO
-C barriere implicite sur end do
+C implicit barrier on end do
 !$OMP END PARALLEL DO
 
       END IF ! Fin NACCELM > 0
@@ -7970,7 +7726,6 @@ C-- // --------------
       IF (NBGAUGE > 0) THEN
 !$OMP PARALLEL DO SCHEDULE(DYNAMIC,1) PRIVATE(N)
       DO K=1,NBGAUGE
-C test si processeur concerne, sinon echange necessaire partie sensor et/ou th
         IF(IGAUP(K).EQ.ISPMD+1)THEN
           N  = LGAUGE(1,K)
 C
@@ -7982,7 +7737,7 @@ C SPH Gauges
           END IF
         END IF
       ENDDO
-C barriere implicite sur end do
+C implicit barrier on end do
 !$OMP END PARALLEL DO
 
       END IF ! Fin NBGAUGE > 0
@@ -8000,7 +7755,7 @@ C-- // --------------
      .        VSPHIO(IVAD+16),1)
         END IF
       ENDDO
-C barriere implicite sur end do
+C implicit barrier on end do
 !$OMP END PARALLEL DO
       END IF
 
@@ -8080,7 +7835,7 @@ C===============================================================================
      .     TEMP      )
        ENDDO
 
-C barriere implicite sur end do
+C implicit barrier on end do
 !$OMP END PARALLEL DO
 
        IF(IPARSENS/=0) FBSAV6(1:12,1:6,1:SFSAV6) = ZERO
@@ -8109,7 +7864,7 @@ C-------------------------------------------------------
         L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
         L2 = L1+6*NUMELS10
         L3 = L2+12*NUMELS20
-Cel cas NSPMD == 1 et options supportees uniquement en SMP
+C cas NSPMD == 1 et options supportees uniquement en SMP
         IF(LAG_SEC == 1 .AND. NSPMD == 1)THEN
 
 C========================================================================================
@@ -8144,7 +7899,7 @@ C===============================================================================
 C                                     FIN SECTION PARALLELE SMP (Syncrho implicite)
 C========================================================================================
 
-        ELSE        ! NSPMD > 1 ou NSPMD = 1 + Options supportees en SPMD (LAG_SEC=0)
+        ELSE     
          IF(ISPMD.EQ.0) THEN
             NBNCL  = FR_LAGF(1,NSPMD+1)
             NBIKL  = FR_LAGF(2,NSPMD+1)
@@ -8156,7 +7911,6 @@ C===============================================================================
             NBNODL=0
             NBNODLR=0
           END IF
-C routine SPMD non multi-thread
           CALL LAG_MULTP(
      1       IPARI    ,X        ,A        ,
      2       WA       ,V        ,MS       ,IN       ,VR       ,
@@ -8348,15 +8102,11 @@ C--------------------------------------------------
         IF (IMON.GT.0) THEN
           CALL STARTIME(7,1)
         ENDIF
-C----------------------
-C       SORTIES FICHIERS: NOISE,ECRIT,FLUXSW,DESSIN,HIST2
-C----------------------
         CALL TRACE_IN(5,0,ZERO)
         L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
         L2 = L1+6*NUMELS10
         L3 = L2+12*NUMELS20
-C
-C dans ce cas on reinitialise car on ne s arrete pas
+C Do not stop yet 
         IF (TT.LE.TSTOP.AND.ILASTANIM.EQ.3) THEN
           ILASTANIM=0
         END IF
@@ -8366,7 +8116,7 @@ C dans ce cas on reinitialise car on ne s arrete pas
         IF (TT.LE.TSTOP.AND.ILASTH3D.EQ.3) THEN
           ILASTH3D=0
         END IF
-C ecriture naturelle de l anim : on ne fait rien
+C Regular animation                                               
         IF (TT.GT.TANIM.AND.ILASTANIM.EQ.0) THEN
           ILASTANIM=3
           LASTANIMCYCLE=NCYCLE
@@ -8465,11 +8215,10 @@ C-------ADYREL----
 C------------
 C       TEMPS
 C------------
-C  ILASTANIM=0 pas d'animation supplementaire a ecrire
-C  ILASTANIM=1 il faut faire un cycle de plus
-C  ILASTANIM=2 le cycle supplementaire est effectue
-C  ILASTANIM=3 l anim est faite naturellement
-C  cycle de reecriture d'anim on passe ILASTANIM a 2 et on peut s arreter
+C  ILASTANIM=0 No additional animation
+C  ILASTANIM=1 One more cycle needed                              
+C  ILASTANIM=2 Additional cycle done                                   
+C  ILASTANIM=3 regular animation                              
         IF (ILASTANIM.EQ.1) THEN
           ILASTANIM=2
         END IF
@@ -8477,7 +8226,7 @@ C  cycle de reecriture d'anim on passe ILASTANIM a 2 et on peut s arreter
           ILASTH3D=2
         END IF
         IF(T1S.EQ.TT)NCYCLE=NCYCLE+1
-C-------> Multidomaines simple precision : on utilise une echelle de temps double precision----
+C-------> Multidomaines single precision:  double precision time scale----
         IF ((IRAD2R.EQ.1).AND.(IRESP.EQ.1)) THEN
           TT_DP=TT_DP+DT2
           TT=TT_DP
@@ -8493,11 +8242,8 @@ C-------> Multidomaines simple precision : on utilise une echelle de temps doubl
                 TT = TT_DOUBLE
             ENDIF
           ENDIF
-          !TT=TT+DT2
         ENDIF
-C  pas d ecriture d anim alors que
-C  TT est proche de TANIM (a 10 pour cent pres)
-C  => on fait un cycle de plus pour ecrire l anim
+C May do 1 more cycle to write animation if TT = TTANIM - 10%
         IF (IMADCPL /= 1) THEN
          IF (DTANIM.GT.ZERO) THEN
           IF (TT.GT.TSTOP.AND.ILASTANIM.EQ.0
@@ -8670,7 +8416,7 @@ C
      7 SKEW,           WA,                ICODT,   ICODR,         ISKEW,          
      9 IBFV,           VEL,             LPBY,      NPBY,           ITAB,
      A WEIGHT,         MS,              IN,        IPARI,     INTBUF_TAB,
-     B X_A ,           ITSK ,	 
+     B X_A ,           ITSK ,    
      E FANI,           ICUT,            XCUT,      FANI(1,1+NFIA), FANI(1,1+NFEA),
      F FANI(1,1+NFOA), ANIN,            NSTRF,     RWBUF,          NPRW,
      G TANI,           DD_IAD,          EANI,      IPART,
@@ -8716,16 +8462,15 @@ C
         TT = MIN(TT,TSTOP+EM10)
         DT2 = DT2T
        ENDIF !IF (IMP_CHK.GT.0)
-C--------pour restart  !!!! new subroutine to do that     
         IF (TT.GT.TSTOP.AND.INCONV.EQ.1) THEN
-	      CALL IMP_RESTARCP(X,V,VR,GEO,IGEO,DMCP,IMPBUF_TAB)
+              CALL IMP_RESTARCP(X,V,VR,GEO,IGEO,DMCP,IMPBUF_TAB)
         ENDIF !IF (TT.GT.TSTOP.AND.INCONV.EQ.1)
 c!$OMP END PARALLEL
 
        CALL TRACE_OUT(3)
        IF (IMON.GT.0) CALL STOPTIME(34,1)
 C---------------------------
-C     CAS NON THERMIQUE PURE
+C     Not pure thermal case                      
 C---------------------------
       ELSEIF(ILAG+IALE+IEULER.NE.0)THEN
 
@@ -8734,19 +8479,15 @@ C                                     SECTION PARALLELE SMP
 C========================================================================================
 
 !$OMP PARALLEL
-c       IF(NSPMD.EQ.1.AND.(ISOLV.EQ.3.OR.ISOLV.EQ.5.OR.ISOLV.EQ.7))THEN
-c         CALL MKL_RESET(MKL_DYN,OMP_NEST)
-c       END IF
 
 C----------------------------
-C    DESCENTE RBODIES VERS SURFACES RIGIDES.
+C    RBODIES TO RIGIDE SURFACE.
 C--- //  ----------------
           IF (NSURF.NE.0) THEN
 
 C========================================================================================
-C                                   TRAITEMENT SPECIFIQUE DOMAIN PROCESSEUR0
+C                                   DOMAIN 0 
 C========================================================================================
-
           IF(ISPMD.EQ.0) THEN    ! traitement int14 sur p0
               CALL SRFVIT(X,V,VR,A,AR,
      .            NPBY  ,RBY  ,MS  ,IN   ,
@@ -8922,7 +8663,7 @@ C===============================================================================
 !$OMP END PARALLEL
 C-------------------------
 C       -EULER+LAGRANGE-
-C DS LE CAS EULER PUR, ON NE CALCULE PAS LES DEPLACEMENTS
+C No displacements computed if pure Euler
 C-------------------------
         ELSEIF(ILAG.EQ.1)THEN
 C // -----------------------------------
@@ -9147,7 +8888,7 @@ C--- //0 ----------------
        ENDIF
  300  CONTINUE
 C---------------
-C     FIN DU RUN
+C     END OF RUN
 C---------------
       IF (TT.GT.TSTOP.AND.IMCONV.EQ.1) THEN
           BOOL_RESTART = (ILASTANIM.EQ.0.OR.ILASTANIM.EQ.1.OR.ILASTANIM.EQ.3)
@@ -9158,8 +8899,6 @@ C
          ENDIF
 C
           CALL BCSN(ICODE,ICODT,ICODR,PARTS0,PARTSAV)
-C necessaire avant restart pour recuperer les positions avant ecriture
-
        IF (INT24USE == 1)THEN
 C E2E Fictive Node Position, Velocity, Mass
 C Usefull to do it before send back to Remote nodes, E2E Fictive node position,
@@ -9332,7 +9071,7 @@ C-----------------------
            WRITE(IOUT, '(A)')' and that they do not penetrate each othe
      .r during their travel.'
          ENDIF
-C appel terminaison wait en cas de dt < 0
+C termination wait if  dt < 0
        IF (INT24USE == 1)THEN
 C E2E Fictive Node Position, Velocity, Mass
 C Usefull to do it before send back to Remote nodes, E2E Fictive node position,
@@ -9427,7 +9166,6 @@ C
       CALL BCSN(ICODE,ICODT,ICODR,PARTS0,PARTSAV)
       IF((MREST.EQ.1.OR.(NCYCLE/NCRST)*NCRST.EQ.NCYCLE)
      .       .AND.WMCHECK.EQ.0)THEN
-C necessaire avant restart pour recuperer les positions avant ecriture
        IF (INT24USE == 1)THEN
 C E2E Fictive Node Position, Velocity, Mass
 C Usefull to do it before send back to Remote nodes, E2E Fictive node position,
@@ -9563,7 +9301,6 @@ C
      .           '/RERUN/',ROOTNAM(1:ROOTLEN),'/',IRUN
             CLOSE(ICHECKD)
           ENDIF
-C necessaire avant restart pour recuperer les positions avant ecriture
           IF(WMCHECK.EQ.1.AND.NCYCLE.NE.1)THEN
        IF (INT24USE == 1)THEN
 C E2E Fictive Node Position, Velocity, Mass
@@ -9712,7 +9449,6 @@ C-------------------------------
 C-------------------------------     
       
       IF(MSTOP.NE.0) THEN
-C mise a 0 de la var PARALLEL_SECTION (ne pas enlever la barriere precedente)
         PARALLEL_SECTION = 0
 C Multidomaines -> fermeture des sockets
         IF (IRAD2R.EQ.1) THEN
@@ -9720,7 +9456,7 @@ C Multidomaines -> fermeture des sockets
             CALL CLOSE_SOCK_C(SOCKET(ITSK))
           END DO
         ENDIF
-C appel terminaison wait en cas de /KILL
+C /KILL
         IF((NCYCLE/NCRST)*NCRST.NE.NCYCLE.AND.
      2     MREST.NE.1.AND.WMCHECK.NE.1.AND.NSPMD.GT.1)THEN
           L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
@@ -9738,7 +9474,6 @@ C appel terminaison wait en cas de /KILL
         ENDIF
         
         DEALLOCATE(ISENDTO, IRCVFROM)
-c       DEALLOCATE(INTLIST) !array needed for interface timer printing
         DEALLOCATE(INTLIST25)
         DEALLOCATE(NISKYFI)
         DEALLOCATE(NISKYFIE)
@@ -9834,7 +9569,7 @@ C
           IF (IPARIT.GT.0) DEALLOCATE(RRBE3_PON)
         END IF
         IF(IMPL_S.GT.0.OR.NEIG.GT.0)THEN
-		   CALL DEALLOC_IMPBUF(IMPBUF_TAB)
+                   CALL DEALLOC_IMPBUF(IMPBUF_TAB)
 #ifdef MUMPS5
           CALL DEALLOCM_IMP(MUMPS_PAR)
 #endif
@@ -9854,10 +9589,7 @@ C
         IF(ITHERM_FE > 0 ) CALL THERMBILAN()
         CALL TRACE_OUT(3)
 
-C DESALLOCATION TABLEAUX TRAVAIL AIRBAG BEM
-C                                     (ne pas enlever la barriere precedente)
         DEALLOCATE(WIBEM, WRBEM)
-C DESALLOCATION TABLEAUX TRAVAIL de La THERMIQUE
         IF(ITHERM_FE > 0  ) DEALLOCATE(FTHE,FTHESKY)
         IF(INTHEAT > 0  )   DEALLOCATE(FTHESKYI)
         IF(NODADT_THERM > 0  ) DEALLOCATE(CONDN,CONDNSKY)
@@ -9889,11 +9621,7 @@ C
       ENDIF    ! MSTOP.NE.0
       
       
-C synchro implicite : ne pas passer dans manctr avt test sur mstop
       CALL TRACE_OUT(3)
-
-cc        nthread = ito
-cc        call omp_set_num_threads(nthread)
 
       GO TO 100
 C

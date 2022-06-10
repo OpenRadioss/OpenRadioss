@@ -65,7 +65,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ILAYER,JFT,JLT,IMAT,NEL,DMG_FLAG,ISRATE
       INTEGER NGL(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*),DIR(NEL,2),SHF(*),EPSPL(*),SIGDMG(MVSIZ,5)
       my_real
@@ -77,7 +77,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SIGE(MVSIZ,5)
 C-----------------------------------------------

@@ -446,7 +446,7 @@ C
       INTEGER :: LEN_TMP_NAME,LEN_RADVERS,OBJECT_ID
       CHARACTER(len=2148) :: TMP_NAME
       CHARACTER RADVERS*68
-c=======================================================================
+C=======================================================================
       CALL STARTIME(MACRO_TIMER_GENH3D,1)
       NDMA2 = NUMNOD*(MIN(1,ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT)
      .              +MIN(1,ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS)

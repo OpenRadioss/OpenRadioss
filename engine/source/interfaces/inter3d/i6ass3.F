@@ -64,7 +64,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NELTST,ITYPTST, IFUNC,IFUN2, NOINT, NSN, NMN,HFLAG,ICOR
       INTEGER MSR(*), NSV(*), NPC(*), ISKY(*)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .   DT2T,ANSMX,ANSMX0,FF0,FMX,FMY,FMZ,XMAS,FFAC,FACX,FAC2,STIFF,
      .   PENI
@@ -76,7 +76,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NPOINT, IL, IG, IG3, IG2, IG1, IL3, IL2, IL1, NISKYL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VSMAX, VMMAX, VMAX, FT,FU,FF, XK, DTMI, FAC, FACDT, DX, FINTER
       EXTERNAL FINTER

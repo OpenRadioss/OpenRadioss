@@ -40,12 +40,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),AL(*) ,VEL(3,*),V(3,*)
       INTEGER NC(5,*),NODCUT,NELCUT,IVOIS(2,*)
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      . X13,Y13,Z13,X24,Y24,Z24,XX,YY,ZZ,S,UN6
       INTEGER I,J,N1,N2,N3,N4

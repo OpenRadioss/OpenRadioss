@@ -46,7 +46,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IROT, NMN, NRTM, NSN, IRECTM(4,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   ROT(9), NOD_NORMAL(3,*), XM0(3,*), BRACKET(3),
      .   LXM, LYM, LZM, XSAV(3,*)
@@ -55,7 +55,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, IX
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     XI(3), NXI(3), LMAX, DD, 
      .     X0, Y0, Z0, X1, Y1, Z1, XXX, YYY, ZZZ

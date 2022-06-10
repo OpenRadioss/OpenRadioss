@@ -41,14 +41,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IX(7,*),NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*), ANG(NEL,6), SF(NEL,3), VK0(NEL), ROB(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IG, MX
-C     REAL ou REAL*8
+C     REAL
 C=======================================================================
 C
       DO I=LFT,LLT

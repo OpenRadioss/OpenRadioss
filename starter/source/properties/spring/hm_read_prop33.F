@@ -88,7 +88,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ITYP,SKFLAG
       LOGICAL IS_AVAILABLE, IS_CRYPTED
-C=================================================================
+C=======================================================================
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------
       CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)

@@ -52,7 +52,7 @@ C-----------------------------------------------
 C-----------------------------------------------                        
 C   D u m m y   A r g u m e n t s                                       
 C-----------------------------------------------                        
-C     REAL ou REAL*8                                                    
+C     REAL                                                    
       my_real                                                           
      .   MAS(*) ,PM(NPROPM,*)                                              
       INTEGER IPARG(NPARG,*),IXS(NIXS,*),EL2FA(*),NBF,IPART(LIPART1,*),     

@@ -122,7 +122,7 @@ C     IRBE3(7,I) : SENSOR NUMBER - not used yet
 C     IRBE3(8,I) :  not used yet,used temporaire for Imodif
 C     IRBE3(9,I) :  not used yet
 C     IRBE3(10,I) :  Numero interne du IRBE3 (necessaire pour Modif/SPMD)
-C=====================================================================
+C=======================================================================
 
       WRITE(IOUT,1000)
 CC
@@ -573,14 +573,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER INRBE3(*),ILRBE3(*),NG, NS,IROT,IMODIF,IERR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XYZ(3,*), FRBE3(6,*), SKEW(LSKEW,*),WMIN
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K,N, M ,NML, IAD,JJ,KG,NSNGLR,IELSUB,KDIAG
-C     REAL ou REAL*8
+C     REAL
       my_real
      *        TW(3,NG), RW(3,NG),
      *        FUFXLC(3,NG), FUFYLC(3,NG), FUFZLC(3,NG),
@@ -1487,7 +1487,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBE3(NRBE3L,*),JT(3)  ,JR(3),N
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

@@ -46,7 +46,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER PERMIGE(*)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .  xigetmp(*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
@@ -105,7 +105,7 @@ C-----------------------------------------------
       INTEGER IADTABIGEINI,NDOUBLONSTOT,PERM(*), NIGETMP(*),NIGE(*)
 c      INTEGER N,NDOUBLONSTOT,NSEGIGE,PERM(*), NIGETMP(*),NIGE(*),
 c     .        IGBUFSSGTMP(*), IGBUFSSG(*)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .  RIGETMP(3,*), XIGETMP(3,*), VIGETMP(3,*),
      .  RIGE(3,*)   , XIGE(3,*)   , VIGE(3,*)
@@ -115,7 +115,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NVALEURS, PERMUTE(IADTABIGEINI),NDOUBLONS,NBTABIGE
       INTEGER I,J,K,ITSURF,DECALSURF,IADTABIGE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     TOL
 C-----------------------------------------------
@@ -200,7 +200,7 @@ C-----------------------------------------------
       INTEGER IADTABIGEINI,NDOUBLONSTOT,PERM(*), NIGETMP(*),NIGE(*)
 c      INTEGER N,NDOUBLONSTOT,NSEGIGE,PERM(*), NIGETMP(*),NIGE(*),
 c     .        IGBUFSSGTMP(*), IGBUFSSG(*)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .  RIGETMP(3,*), XIGETMP(3,*), VIGETMP(3,*),
      .  RIGE(3,*)   , XIGE(3,*)   , VIGE(3,*)
@@ -210,7 +210,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NVALEURS, PERMUTE(IADTABIGEINI),NDOUBLONS,NBTABIGE
       INTEGER I,J,ITSURF,DECALSURF,IADTABIGE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     TOL
 C-----------------------------------------------
@@ -302,7 +302,7 @@ C-----------------------------------------------
       INTEGER N,NDOUBLONSTOT,PERM(*), NIGETMP(*),NIGE(*)
 c      INTEGER N,NDOUBLONSTOT,NSEGIGE,PERM(*), NIGETMP(*),NIGE(*),
 c     .        IGBUFSSGTMP(*), IGBUFSSG(*)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .  RIGETMP(3,*), XIGETMP(3,*), VIGETMP(3,*),
      .  RIGE(3,*)   , XIGE(3,*)   , VIGE(3,*)
@@ -313,7 +313,7 @@ C-----------------------------------------------
       INTEGER NVALEURS, PERMUTE(N-1),NDOUBLONS,NBTABIGE,IADTABIGE,
      .        IADTABIGEINI
       INTEGER I,J,ITSURF,DECALSURF,DECAL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     TOL
 C-----------------------------------------------
@@ -420,7 +420,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NDOUBLONS,PERM(*), NIGETMP(*),NIGE(*),
      .        IADTABIGE
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .  RIGETMP(3,*), XIGETMP(3,*), VIGETMP(3,*),
      .  RIGE(3,*)   , XIGE(3,*)   , VIGE(3,*)
@@ -430,7 +430,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NVALEURS, PERMUTE(IADTABIGE)
       INTEGER I,J,ITSURF
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     TOL
 C-----------------------------------------------
@@ -498,7 +498,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER n,perm (n)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .  X (3,n)
 C-----------------------------------------------

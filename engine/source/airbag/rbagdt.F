@@ -42,14 +42,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IGEO(NPROPGI,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IG, ITYP
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DTX, DTY, GAMA, P, V, S, ROT, VMIN, AL      
 C-----------------------------------------------

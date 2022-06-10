@@ -48,7 +48,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT  ,MTN  
       INTEGER MAT(*), PID(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG,*), PM(NPROPM,*), 
      .    YM(*),G(*),AL(*),ALI(*),SH1(*),SH2(*),
@@ -57,7 +57,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,MX,IPID,J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SHF(MVSIZ),SH,YMA2,ALI2,SH10,SH0,SH20
 C------------- ---------------------------------

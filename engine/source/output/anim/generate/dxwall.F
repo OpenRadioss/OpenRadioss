@@ -43,7 +43,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MSR,FR_WALL(NSPMD+2)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), RWL(*),XMIN ,YMIN ,ZMIN  ,XMAX ,YMAX  , ZMAX
 C-----------------------------------------------

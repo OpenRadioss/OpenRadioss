@@ -73,7 +73,7 @@ C-----------------------------------------------
       INTEGER IPARI(NPARI,NINTER), INDEX2(*)
       INTEGER NUM_IMP,CAND_N(*),CAND_E(*),NIN,IDDL(*),
      .         IADK(*)     ,JDIK(*),LREM
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .  A(3,*), MS(*), V(3,*),X(*),K_DIAG(*),K_LT(*) 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
@@ -86,12 +86,12 @@ C-----------------------------------------------
      .        IGAP, INACTI, IFQ, MFROT, IGSTI
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ), I3N 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, FRIC, GAP, STOPT,STIGLO,GAPMIN,
      .   KMIN, KMAX, GAPMAX,GAP_IMP
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     NX1(MVSIZ), NX2(MVSIZ), NX3(MVSIZ), NX4(MVSIZ),
      .     NY1(MVSIZ), NY2(MVSIZ), NY3(MVSIZ), NY4(MVSIZ),
@@ -302,7 +302,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,*)
       INTEGER NUM_IMP,CAND_N(*),CAND_E(*),NIN
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .  A(3,*), MS(*), V(3,*),D(3,*),X(*) 
 
@@ -314,11 +314,11 @@ C-----------------------------------------------
      .        INACTI, NSN,NTY,L
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), 
      .        IX4(MVSIZ),NSVG(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, FRIC, STOPT
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    VXI(MVSIZ),VYI(MVSIZ),VZI(MVSIZ),
      .    DXI(MVSIZ),DYI(MVSIZ),DZI(MVSIZ),
@@ -443,7 +443,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,*), NIN,JTASK,LINDMAX
       INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*),IND_IMP(*)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .  MS(*), V(3,*),X(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
@@ -458,12 +458,12 @@ C-----------------------------------------------
      .        NSVG(MVSIZ), CN_LOC(MVSIZ),CE_LOC(MVSIZ),
      .        CAND_N_N(MVSIZ),CAND_E_N(MVSIZ),INDEX2(LINDMAX),
      .        I3N ,LREM
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, FRIC, GAP, STOPT,STIGLO,GAPMIN,
      .   KMIN, KMAX, GAPMAX
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     NX1(MVSIZ), NX2(MVSIZ), NX3(MVSIZ), NX4(MVSIZ),
      .     NY1(MVSIZ), NY2(MVSIZ), NY3(MVSIZ), NY4(MVSIZ),
@@ -651,7 +651,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,NINTER), INDEX2(*)
       INTEGER NUM_IMP,CAND_N(*),CAND_E(*),NIN
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .  MS(*),V(3,*),X(*),A(3,*),D(3,*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
@@ -663,12 +663,12 @@ C-----------------------------------------------
      .        IGAP, INACTI, IFQ, MFROT, IGSTI,IUPD
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ), I3N 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, FRIC, GAP, STOPT,STIGLO,GAPMIN,
      .   KMIN, KMAX, GAPMAX,GAP_IMP
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     NX1(MVSIZ), NX2(MVSIZ), NX3(MVSIZ), NX4(MVSIZ),
      .     NY1(MVSIZ), NY2(MVSIZ), NY3(MVSIZ), NY4(MVSIZ),

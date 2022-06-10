@@ -44,7 +44,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT
-C     REAL ou REAL*8
+C     REAL
       my_real F(3,*),FZERO(3,4,*),
      .     E1X(MVSIZ), E1Y(MVSIZ), E1Z(MVSIZ),
      .     E2X(MVSIZ), E2Y(MVSIZ), E2Z(MVSIZ),

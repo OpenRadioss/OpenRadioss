@@ -86,7 +86,7 @@ C-----------------------------------------------
      .   INTTH, IELES(*), MSR(*), IELEM21(*), IXS10(*),
      .   IXS16(*), IXS20(*),IGEO(*),SH3TREE(KSH3TREE,*), SH4TREE(KSH4TREE,*),
      .   IPART(LIPART1,*),IPARTC(*),IPARTTG(*),IWORKSH(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), PM(NPROPM,*), GEO(NPROPG,*), AREAS(*),THK(*),
      .   AS(*), BS(*),PM_STACK(*)
@@ -101,7 +101,7 @@ C-----------------------------------------------
       INTEGER I, J, INRT, NELS, NELC, NELTG, IE, II, MAT,N,LLT,L,N1,N2,N3,N4
       INTEGER ITMP(NUMNOD),NLEV, MYLEV,IP,NELEM,STAT
       INTEGER, DIMENSION(:),ALLOCATABLE ::INRTIE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AREA,SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3
 

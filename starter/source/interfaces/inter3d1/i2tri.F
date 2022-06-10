@@ -96,7 +96,7 @@ C-----------------------------------------------
      .     IXC(*),IXTG(*),IPARTC(*),IXS(*),
      .     IXS10(*), IXS16(*), IXS20(*),IPARTTG(*),IGEO(*),
      .     IWORKSH(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),XYZM(6,*),ST(*),DMIN(*),TZINF,
      .   MAXBOX,MINBOX, XMAX, YMAX, ZMAX,THK(*),THK_PART(*),GEO(*),
@@ -125,7 +125,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NB_NCN,NB_ECN,ADDNN,ADDNE,IPOS,I,IP,J
       INTEGER INF,SUP,DIR,N1,N2,N3,N4,NN,NE,MEMX
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   BID,DX,DY,DZ,DSUP,SEUIL,XMX,XMN,GAPV(MVSIZ)
 C-----------------------------------------------
@@ -174,7 +174,7 @@ C     NOINT        NUMERO USER DE L'INTERFACE
 C     TZINF        TAILLE ZONE INFLUENCE
 C     MAXBOX       TAILLE MAX BUCKET
 C     MINBOX       TAILLE MIN BUCKET
-C================================================
+C=======================================================================
 C
 C
 C    1- TEST ARRET = BOITE VIDE

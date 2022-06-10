@@ -85,7 +85,7 @@ C-----------------------------------------------
      .   ISKWN(LISKN,*), NPBY(*),ITAG(*),LPBY(*),NPBYI(*) ,LPBYI(*),
      .   WEIGHT(*), FR_RBY2(3,*), IPARTC(*)
       INTEGER ONOF,IACTS, ONFELT, IWIOUT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SKEW(LSKEW,*),MS(*),IN(*),PARTSAV(NPSAV,*),
      .   X(3,*),V(3,*),VR(3,*),RBY(*),RBYI(NRBY,*)
@@ -96,7 +96,7 @@ C-----------------------------------------------
       INTEGER I, II, NG, ITY, NEL, NFT, IAD, IGOF, N, NI, LSKYRBKG,
      .   M, ISPH, NALL,MLW, K, PMAIN, TAG, L,
      .   MX,ICOMM(NSPMD+2),ISTRAIN,NPT,IHBE, ID
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XMOM, YMOM, ZMOM,II1,II2,II3,II4,II5,II6,II7,II8,II9,
      .   IG1,IG2,IG3,IG4,IG5,IG6,IG7,IG8,IG9,

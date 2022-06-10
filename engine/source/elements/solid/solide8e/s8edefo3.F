@@ -70,7 +70,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICP,I_SH,IDEGE(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VX1(*), VX2(*), VX3(*), VX4(*), VX5(*), VX6(*), VX7(*), VX8(*),
      .   VY1(*), VY2(*), VY3(*), VY4(*), VY5(*), VY6(*), VY7(*), VY8(*),
@@ -122,7 +122,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DT1D2,DVC(MVSIZ),TOL,DT1D
       DOUBLE PRECISION 
@@ -409,7 +409,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICP,I_SH,IDEGE(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VX1(*), VX2(*), VX3(*), VX4(*), VX5(*), VX6(*), VX7(*), VX8(*),
      .   VY1(*), VY2(*), VY3(*), VY4(*), VY5(*), VY6(*), VY7(*), VY8(*),
@@ -457,7 +457,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DET(MVSIZ),FAC,BASE
 C-----------------------------------------------
@@ -675,7 +675,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VX1(*), VX2(*), VX3(*), VX4(*), VX5(*), VX6(*), VX7(*), VX8(*),
      .   VY1(*), VY2(*), VY3(*), VY4(*), VY5(*), VY6(*), VY7(*), VY8(*),
@@ -727,7 +727,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AJ1(*),AJ2(*),AJ3(*),
      .   AJ4(*),AJ5(*),AJ6(*),
@@ -737,7 +737,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
 C                                                                     12
       my_real
      .   JAC_59_68, JAC_67_49, JAC_48_57,
@@ -788,7 +788,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VX1(*), VX2(*), VX3(*), VX4(*), VX5(*), VX6(*), VX7(*), VX8(*),
      .   VY1(*), VY2(*), VY3(*), VY4(*), VY5(*), VY6(*), VY7(*), VY8(*),
@@ -800,7 +800,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
 C                                                                     12
       my_real
      .   DXX(MVSIZ), DXY(MVSIZ), DXZ(MVSIZ),
@@ -855,7 +855,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VX1(*), VX2(*), VX3(*), VX4(*), VX5(*), VX6(*), VX7(*), VX8(*),
      .   VY1(*), VY2(*), VY3(*), VY4(*), VY5(*), VY6(*), VY7(*), VY8(*),
@@ -871,7 +871,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I, J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DXY, DYX, DXZ,
      .   DZY, DYZ, DZX,
@@ -944,7 +944,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPTR,NPTS,NPTT,NNPT ,I_SH
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  MFXX(MVSIZ,NNPT),MFXY(MVSIZ,NNPT),MFXZ(MVSIZ,NNPT),
      .  MFYX(MVSIZ,NNPT),MFYY(MVSIZ,NNPT),MFYZ(MVSIZ,NNPT),
@@ -1110,7 +1110,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  MB(NEL,6),BXX(*),BYY(*),BZZ(*),
      .  BXY(*),BXZ(*),BYZ(*)
@@ -1178,7 +1178,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ISEL_V,I_SH,ICP,IDEGE(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PX1(*), PX2(*), PX3(*), PX4(*),
      .   PX5(*), PX6(*), PX7(*), PX8(*),
@@ -1229,7 +1229,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VLX1(MVSIZ), VLX2(MVSIZ), VLX3(MVSIZ), VLX4(MVSIZ),
      .   VLX5(MVSIZ), VLX6(MVSIZ), VLX7(MVSIZ), VLX8(MVSIZ),

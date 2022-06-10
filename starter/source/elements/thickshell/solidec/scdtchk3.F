@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE CHK_DTTSH(ELBUF_STR,IXS ,IPARG ,IKINE)
-C===============================================
+C=======================================================================
       USE MESSAGE_MOD
       USE ELBUFDEF_MOD     
 C-----------------------------------------------
@@ -44,7 +44,7 @@ C-----------------------------------------------
       INTEGER,DIMENSION(NPARG,NGROUP),INTENT(IN) :: IPARG
       INTEGER,DIMENSION(NUMNOD*3),INTENT(IN) :: IKINE
       TYPE(ELBUF_STRUCT_),DIMENSION(NGROUP), TARGET :: ELBUF_STR
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -60,7 +60,7 @@ C-----------------------------------------------
       INTEGER I,J,NG, NEL, NFT,N, ITY,JHBE,IGTYP,ICSTR,ISOLNOD
       INTEGER ITAG(NUMNOD),N1,N2,NC(MVSIZ,8),NEDG,IER1,IER2,IKIN
       TYPE(G_BUFEL_) ,POINTER :: GBUF     
-C     REAL ou REAL*8
+C     REAL
 C-------
       ITAG(1:NUMNOD)=0
       NEDG = 0

@@ -53,7 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   EVAR(9,MVSIZ),TORS(15,*),ONED_TORSOR(9,*)
       INTEGER IPARG(NPARG,*),IFUNC,INFO1 ,INFO2 ,
@@ -64,7 +64,7 @@ C     REAL ou REAL*8
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF, FAC, A1, A2, A3, THK
       REAL R4(18)

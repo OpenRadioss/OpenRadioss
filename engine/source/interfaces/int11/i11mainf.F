@@ -98,7 +98,7 @@ C statistique interface
      .        NISKYFI, LINDMAX,ITASK
       INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*), 
      .        ISKYI_SMS(*), NODNX_SMS(*),NPC(*), ISENSINT(*),DIMFB
-C     REAL ou REAL*8
+C     REAL
       my_real DT2T,
      .   X(*), A(3,*), FSAV(*), V(3,*),
      .   MS(*), STIFN(*), FSKYI(LSKYI,NFSKYI), FCONT(3,*),
@@ -126,13 +126,13 @@ C-----------------------------------------------
       INTEGER I_STOK_NEW,CAND_S(MVSIZ),CAND_M(MVSIZ), INDEX2(LINDMAX),
      .        INDEXM1(LINDMAX),IELECI(MVSIZ),IELESI(MVSIZ), IPARTFRICSI(MVSIZ),
      .         IPARTFRICMI(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, FRIC, GAP, STOPT,
      .   VISC,VISCF,STIGLO, GAPMIN, KMIN, KMAX,DTMINI,
      .   TINT,XTHE,KTHE,FRAD,DRAD
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     NX(MVSIZ),NY(MVSIZ),NZ(MVSIZ),
      .     HS1(MVSIZ), HS2(MVSIZ), HM1(MVSIZ), HM2(MVSIZ),

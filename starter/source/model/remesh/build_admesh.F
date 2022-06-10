@@ -255,7 +255,7 @@ C-----------------------------------------------
      .        IXC(NIXC,*), IXTG(NIXTG,*),ITAB(*),ITABM1(*),
      .        SH4TREE(KSH4TREE,*), SH3TREE(KSH3TREE,*),
      .        IPADMESH(KIPADMESH,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .       X(3,*), PADMESH(KPADMESH,*)
 C-----------------------------------------------
@@ -274,7 +274,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:,:),ALLOCATABLE :: TAG
       my_real
      .  ANGL,XA,XB
-C     REAL ou REAL*8
+C     REAL
       CHARACTER MESS*40,TITR*nchartitle,KEY*ncharkey
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s

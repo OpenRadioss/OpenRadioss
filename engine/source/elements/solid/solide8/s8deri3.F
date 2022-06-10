@@ -58,7 +58,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(MVSIZ,8), Y(MVSIZ,8), Z(MVSIZ,8),
      .   PX1(MVSIZ,8),PX2(MVSIZ,8),PX3(MVSIZ,8),PX4(MVSIZ,8),      
@@ -73,7 +73,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I, IPT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AJ11(MVSIZ), AJ12(MVSIZ), AJ13(MVSIZ), AJ21(MVSIZ),
      .   AJ22(MVSIZ), AJ23(MVSIZ), AJ31(MVSIZ), AJ32(MVSIZ),
@@ -86,7 +86,7 @@ C     REAL ou REAL*8
      .   A3115, A3117, A1221, A1222,
      .   A1225, A1226, A2221, A2222,
      .   A2225, A2226, A3221, A3222 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A3225, A3226, A1331, A1332,
      .   A1333, A1334, A2331, A2332,

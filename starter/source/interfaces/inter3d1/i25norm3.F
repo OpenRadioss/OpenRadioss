@@ -60,7 +60,7 @@ C-----------------------------------------------
       INTEGER NRTM,NUMNOD,NRTM0,NADMSR,IEDGE,IRECTM(4,NRTM),NMN,MSR(*),
      .        MVOISIN(4,NRTM), EVOISIN(4,NRTM),ITAB(*),MSEGTYP(*),
      .        NEDGE, LEDGE(NLEDGE,*), LBOUND(*), ADMSR(4,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,NUMNOD)
       REAL*4 NOD_NORMAL(3,4,NRTM), VTX_BISECTOR(3,2,*),E2S_NOD_NORMAL(3,*)
@@ -70,7 +70,7 @@ C-----------------------------------------------
       INTEGER I, J, N, FIRST, LAST, IRM, IEDG, I1, I2, I3, I4, LENR
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        JRM, JEDG, NEDG, IS1, IS2, ISH, SOL_EDGE
-C     REAL ou REAL*8
+C     REAL
       REAL*4
      .     X0(MVSIZ), Y0(MVSIZ), Z0(MVSIZ),
      .     X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),

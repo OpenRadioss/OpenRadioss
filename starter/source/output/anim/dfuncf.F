@@ -53,7 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------                        
 C   D u m m y   A r g u m e n t s                                       
 C-----------------------------------------------                        
-C     REAL ou REAL*8                                                    
+C     REAL                                                    
       my_real                                                           
      .   FUNC(*), MASS(*), PM(NPROPM,*), GEO(NPROPG,*),        
      .   XFUNC1(10,*)                                                   
@@ -66,7 +66,7 @@ C
 C-----------------------------------------------                        
 C   L o c a l   V a r i a b l e s                                       
 C-----------------------------------------------                        
-C     REAL ou REAL*8                                                    
+C     REAL                                                    
       my_real                                                           
      .   EVAR(MVSIZ),                                                   
      .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,                   

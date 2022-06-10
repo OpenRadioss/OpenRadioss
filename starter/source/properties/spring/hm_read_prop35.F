@@ -77,14 +77,14 @@ C-----------------------------------------------
       PARAMETER (KFUNC=29)
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
-C=================================================================
+C=======================================================================
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IFUNC1,IFUNC2,IFUNC3,IFUNC4,IERROR,ILOAD
       my_real 
      .  AMAS,ELASTIF,XLIM1,XLIM2,XK,D1,D2,RLOAD,FSCAL
       LOGICAL IS_AVAILABLE, IS_CRYPTED
-C=================================================================
+C=======================================================================
 C
       IS_CRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.

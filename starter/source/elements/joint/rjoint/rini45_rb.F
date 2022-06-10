@@ -82,7 +82,7 @@ C-----------------------------------------------
       INTEGER FIND_RBY
       EXTERNAL GET_U_GEO,RESET_U_GEO,GET_U_SKEW
       DATA NODES/2/
-C=================================================================
+C=======================================================================
 
       ID=IGEO(1)
       CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1),LTITR)  

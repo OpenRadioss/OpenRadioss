@@ -63,7 +63,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NODPOR(*), WEIGHT(*), NPORGEO(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        GEO(NPROPG,*),MS(*),X(3,*),V(3,*),W(3,*),
      .        AF(3,*),AM(3,*),SKEW(LSKEW,*), AFM(20)

@@ -69,7 +69,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IEDGE, NEDGE
       INTEGER, INTENT(IN) :: MVOISIN(4,*)
       INTEGER, INTENT(INOUT) :: LEDGE(NLEDGE,*)
-C     REAL ou REAL*8
+C     REAL
       my_real, INTENT(IN) :: STIFM(*)
       my_real, INTENT(INOUT) :: STFE(NEDGE)
 C-----------------------------------------------
@@ -167,7 +167,7 @@ C             tag for comm in spmd_getstif25_edg
           END IF
         END DO
 
-C=============================================
+C=======================================================================
         DO NEDG = NEDGFT,NEDGLT
           IRM = LEDGE(LEDGE_LEFT_SEG,NEDG)
           JRM = LEDGE(LEDGE_RIGHT_SEG,NEDG)

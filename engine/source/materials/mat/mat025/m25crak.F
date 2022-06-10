@@ -51,7 +51,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NGL(MVSIZ), IMATLY,IPG
       INTEGER JFT, JLT, ILAYER,PLY_ID,IGTYP,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*), DAMT(NEL,2), DIR(NEL,2), OFF(*),
      .   THLY(*), DAMCR(MVSIZ,2), DMAXT(*),
@@ -61,10 +61,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, MX, NINDX, IDIR
       INTEGER INDX(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     DAM1, DAM2
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   EPST1(MVSIZ),EPST2(MVSIZ),EPSM1(MVSIZ),EPSM2(MVSIZ),
      .   DMAX(MVSIZ)

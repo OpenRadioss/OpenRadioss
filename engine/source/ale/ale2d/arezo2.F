@@ -46,7 +46,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NDIM,IDX
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VAR(NDIM,*), PHI(*), FLUX(4,*), VOL(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
@@ -54,7 +54,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IE, IV1, IV2, IV3, IV4, IAD2
-C     REAL ou REAL*8
+C     REAL
       my_real VOLN
 C-----------------------------------------------
       IF (JMULT == 0) THEN
@@ -133,7 +133,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IE, IV1, IV2, IV3, IV4, IAD2
-C     REAL ou REAL*8
+C     REAL
       my_real VOLN
 C-----------------------------------------------
       IF (JMULT == 0) THEN

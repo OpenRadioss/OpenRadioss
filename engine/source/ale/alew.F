@@ -48,7 +48,7 @@ C-----------------------------------------------
       INTEGER NALE(*), NODFT, NODLT, ITASK,
      .     NBRCVOIS(*),NBSDVOIS(*),
      .     LNRCVOIS(*),LNSDVOIS(*) ,ITAB(*) 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     X(3,*), D(3,*), V(3,*), W(3,*), WA(3,*)
       TYPE(t_connectivity), INTENT(IN) :: ALE_NN_CONNECT

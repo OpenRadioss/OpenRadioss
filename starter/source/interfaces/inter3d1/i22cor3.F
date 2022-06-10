@@ -54,7 +54,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IGAP, IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*),ISTF
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        GAP, GAPMIN, GAPMAX,
      .        X(3,*), STF(*), STFN(*), GAPV(*), GAP_S(*), GAP_M(*),
@@ -72,7 +72,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IL, L, NN, IG
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C
 !      EQUIVALENCE (IX1,IV(1,1)) ,(IX2,IV(1,2)) ,(IX3,IV(1,3))

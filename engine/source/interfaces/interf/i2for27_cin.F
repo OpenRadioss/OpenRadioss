@@ -50,7 +50,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, NMN, IDEL2,
      .   IRECT(4,*), MSR(*), NSV(*), IRTL(*), WEIGHT(*),INDXC(NSN),MSEGTYP2(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    X(3,*),V(3,*),A(3,*),MS(*),CRST(2,*),STIFN(*),MMASS(*),SMASS(*),
      .    FSAV(*),FNCONT(3,*),IN(*),SINER(*),DPARA(7,*),AR(3,*),STIFR(*),CSTS_BIS(2,*),
@@ -71,7 +71,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NIR, I, J, K, II, L, JJ,
      .        IX1,IX2,IX3,IX4
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   H(4),XMSJ, SS, ST, XMSI, FXI, FYI, FZI,SP,SM,TP,TM,
      .   E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,
@@ -79,7 +79,7 @@ C     REAL ou REAL*8
      .   STIFM,FMX(4),FMY(4),FMZ(4),FX(4),FY(4),FZ(4),
      .   RX(4),RY(4),RZ(4),RS(3),FLX,FLY,FLZ,FAC_TRIANG,STBRK,
      .   MXS,MYS,MZS,STIFMR,DWDU,RM(3),BETAX,BETAY,H2(4),MXI,MYI,MZI
-c=======================================================================
+C=======================================================================
       NIR=2
       IF(N2D.EQ.0)NIR=4
 C

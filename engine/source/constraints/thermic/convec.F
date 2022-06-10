@@ -56,7 +56,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPC(*),IAD(4,*)
       INTEGER IBCV(NICONV,*),LSENSOR(NSENSI,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FCONV(LFACTHER,*), TF(*), X(3,*), SENSOR(NSENSR,*),
      .   FTHESKY(LSKY), TEMP(*), FTHE(*)
@@ -65,7 +65,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NL, N1, ISK, N2, N3, N4, N5, ISENS,K,LL,IERR,
      .        ICODE,IFUNC_OLD,IFUNC,IAD1,IAD2,IAD3,IAD4,IFLAG
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   NX, NY, NZ, AXI, AA, A0,  DYDX, TS,FLUX,
      .   TS_OLD, F1, F2, FCX, FCY, T_INF, TE, AREA, H,

@@ -61,7 +61,7 @@ C-----------------------------------------------
       INTEGER DD_IAD(NSPMD+1,*), IADD(*), NBF_L,IPLY,
      .        NEL_PLY,NBF_PXFEMG
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF
       INTEGER II,IE,NG, ITY, LFT, LLT, N, I, J,

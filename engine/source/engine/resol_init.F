@@ -118,13 +118,13 @@ Chd|====================================================================
      e  IRLEN20E,ISLEN20E ,NISKYFIE,IRBE3     ,R3SIZE    ,
      f  MCP     ,MS0      ,INOD_PXFEM,IEL_PXFEM,IADC_PXFEM,
      g  ADSKY_PXFEM,ICODT,ICODR    ,IBFV      ,ADMSMS    ,
-     h  ITHGRP ,ITHBUF  ,NODREAC   ,IGROUC    ,NGROUC	 ,
-     i  IGROUNC  ,NGROUNC ,FR_RBY  ,FR_RBY6   ,NPBY	 ,
-     j  NOM_SECT ,MCPC    ,MCPTG   ,GRTH      ,IGRTH	 ,
-     k  NELEM	 ,LAG_SEC ,NPRW    ,DIAG_SMS  ,DMELC	 ,
-     l  DMELTG   ,NGRTH   ,NFT2    ,DMELS     ,DMELTR	 ,
-     m  DMELP	 ,DMELRT  ,RES_SMS ,I87L      ,IRBE2	 ,
-     n  LRBE2	 ,NMRBE2  ,IAD_RBE2 ,FR_RBE2  ,FR_RBE2M  ,
+     h  ITHGRP ,ITHBUF  ,NODREAC   ,IGROUC    ,NGROUC    ,
+     i  IGROUNC  ,NGROUNC ,FR_RBY  ,FR_RBY6   ,NPBY      ,
+     j  NOM_SECT ,MCPC    ,MCPTG   ,GRTH      ,IGRTH     ,
+     k  NELEM    ,LAG_SEC ,NPRW    ,DIAG_SMS  ,DMELC     ,
+     l  DMELTG   ,NGRTH   ,NFT2    ,DMELS     ,DMELTR    ,
+     m  DMELP    ,DMELRT  ,RES_SMS ,I87L      ,IRBE2     ,
+     n  LRBE2    ,NMRBE2  ,IAD_RBE2 ,FR_RBE2  ,FR_RBE2M  ,
      o  R2SIZE   ,LPBY    ,PROCNE_PXFEM ,ISENDP_PXFEM,IRECVP_PXFEM,
      p  IADSDP_PXFEM,IADRCP_PXFEM,FR_NBCC1,RBY,INT18KINE ,
      q  XDP      ,I87M,INOD_CRKXFEM,IEL_CRKXFEM ,IADC_CRKXFEM,
@@ -378,10 +378,10 @@ C
 C---------RBE2----        
         IROTG=0
         DO I=1,NRBE2 
-	        IC = IRBE2(4,I)     
+                IC = IRBE2(4,I)     
          ICR=(IC-512*(IC/512))/64
          IROTG=MAX(IROTG,ICR)   
-	       IF (IRBE2(11,I)==0) IROTG =1
+               IF (IRBE2(11,I)==0) IROTG =1
         ENDDO
         CALL SPMD_MAX_I(IROTG)
         IF(IROTG.EQ.0) THEN
@@ -389,9 +389,9 @@ C---------RBE2----
         ELSE
           R2SIZE = 8
         ENDIF
-	       NS = NRBE2
+               NS = NRBE2
         CALL SPMD_MAX_I(NS)
-	       IF (NS.EQ.0) R2SIZE = 0
+               IF (NS.EQ.0) R2SIZE = 0
         NFR = IAD_RBE2(NSPMD+1)-IAD_RBE2(1)
         IF (NSPMD.EQ.1) THEN
           R3SIZE = 0
@@ -418,7 +418,7 @@ C
      5       ADDTMPL    ,IPARG     )
         ENDIF
      
-C			  	
+C                               
         IF (IRAD2R /= 0) THEN
           CALL R2R_INIT(IEXLNK ,ITAB,IGRNOD,X       ,
      2                  MS     ,IN  ,DD_R2R,WEIGHT ,IAD_ELEM,
@@ -883,23 +883,6 @@ C-----------------------------------------------
       XMAX_GLOB = -EP30
       YMAX_GLOB = -EP30
       ZMAX_GLOB = -EP30
-c
-c      DO I=1,NUMNOD
-c        XMIN_GLOB = MIN(XMIN_GLOB,X(1,I))
-c        YMIN_GLOB = MIN(YMIN_GLOB,X(2,I))
-c        ZMIN_GLOB = MIN(ZMIN_GLOB,X(3,I))
-c        XMAX_GLOB = MAX(XMAX_GLOB,X(1,I))
-c        YMAX_GLOB = MAX(YMAX_GLOB,X(2,I))
-c        ZMAX_GLOB = MAX(ZMAX_GLOB,X(3,I))
-c      END DO
-      
-c
-c      CALL SPMD_GLOB_MIN(XMIN_GLOB,1)
-c      CALL SPMD_GLOB_MIN(YMIN_GLOB,1)
-c      CALL SPMD_GLOB_MIN(ZMIN_GLOB,1)
-c      CALL SPMD_GLOB_MAX(XMAX_GLOB,1)
-c      CALL SPMD_GLOB_MAX(YMAX_GLOB,1)
-c      CALL SPMD_GLOB_MAX(ZMAX_GLOB,1)
 C-----------------------------------------------
 C  RESTARTING RADIOSS ENGINE.
         IF (IPARIT.EQ.0) THEN
@@ -936,23 +919,6 @@ C
               PINCH_DATA%STIFPINCH(I)=EM20
             ENDDO
           ENDIF   
-C  
-c          IF(IPLYXFEM > 0) THEN
-c           DO J=1,NPLYMAX
-c             DO I=1,NPLYXFE
-c              PLY(J)%A(1,I)=ZERO
-c              PLY(J)%A(2,I)=ZERO
-c              PLY(J)%A(3,I)=ZERO
-c              PLY(J)%V(1,I)=ZERO
-c              PLY(J)%V(2,I)=ZERO
-c              PLY(J)%V(3,I)=ZERO
-c              PLY(J)%U(1,I)=ZERO
-c              PLY(J)%U(2,I)=ZERO
-c              PLY(J)%U(3,I)=ZERO              
-c             ENDDO
-c            ENDDO 
-c           ENDIF   
-          
         ELSE    ! IPARIT.GT.0
           CALL ZEROR(A(1,NODFT),NUMNTHREAD)
           IF(IRODDL.NE.0)CALL ZEROR(AR(1,NODFT),NUMNTHREAD)
@@ -986,22 +952,6 @@ C
               PINCH_DATA%STIFPINCH(I)=EM20
             ENDDO
           ENDIF
-C         
-c          IF(IPLYXFEM > 0) THEN
-c           DO J=1,NPLYMAX
-c             DO I=1,NPLYXFE
-c              PLY(J)%A(1,I)=ZERO
-c              PLY(J)%A(2,I)=ZERO
-c              PLY(J)%A(3,I)=ZERO
-cc              PLY(J)%V(1,I)=ZERO
-c              PLY(J)%V(2,I)=ZERO
-c              PLY(J)%V(3,I)=ZERO
-c              PLY(J)%U(1,I)=ZERO
-cc              PLY(J)%U(2,I)=ZERO
-c              PLY(J)%U(3,I)=ZERO              
-c             ENDDO
-c           ENDDO 
-c          ENDIF  
           ENDIF
 
 C
@@ -1009,13 +959,11 @@ C
         IF(IRODDL.EQ.0) THEN
           DO I = NODFT, NODLT
             STIFN(I) = STIFN(I)*WEIGHT(I)
-C            PINCH_DATA%STIFPINCH(I) = PINCH_DATA%STIFPINCH(I)*WEIGHT(I)
           ENDDO
         ELSE
           DO I = NODFT, NODLT
             STIFN(I) = STIFN(I)*WEIGHT(I)
             STIFR(I) = STIFR(I)*WEIGHT(I)
-C            PINCH_DATA%STIFPINCH(I) = PINCH_DATA%STIFPINCH(I)*WEIGHT(I)
           ENDDO
         ENDIF
       ENDIF
@@ -1042,7 +990,6 @@ C   INIT SELECTIVE MASS SCALING
 C----------------------------------------------------------
        IF(IDTMINS == 1 .AND. IDTMINS_OLD == 1)THEN
          IF(DTFACS /= DTFACS_OLD .OR. DTMINS /= DTMINS_OLD)THEN
-C
 C          Forget about previous mass scaling (reversibility)
            ADMSMS(NODFT:NODLT)=ZERO
            RES_SMS(1:3,NODFT:NODLT)=ZERO
@@ -1623,7 +1570,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C      
-C     Initialisation des variables pour // SMP
+C     Initialisation // SMP
 C 
       ITSK = OMP_GET_THREAD_NUM()
       NODFTSK = 1+ITSK*NUMNOD/ NTHREAD

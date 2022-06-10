@@ -47,7 +47,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,IPLA,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   EZZ(*),OFF(*),EPSEQ(*),GS(*),DPLA(*)
       my_real
@@ -66,7 +66,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,N,NINDX,INDEX(MVSIZ),NMAX
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(MVSIZ),B(MVSIZ),DPLA_I(MVSIZ),DPLA_J(MVSIZ),DR(MVSIZ),
      .   H(MVSIZ),NU1(MVSIZ),NU2(MVSIZ),P(MVSIZ),Q(MVSIZ),

@@ -48,7 +48,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NC1(*),NC2(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   F(3,*), FOR(*),STI(3,*),STIFN(*),
      .   FX1(MVSIZ),FY1(MVSIZ),FZ1(MVSIZ),
@@ -60,7 +60,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   F11(MVSIZ), F21(MVSIZ), F31(MVSIZ)
 C-----------------------------------------------
@@ -126,7 +126,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IADR(3,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FOR(*), STI(3,*),FSKYV(LSKY,8),FSKY(8,LSKY),
      .   FX1(MVSIZ),FY1(MVSIZ),FZ1(MVSIZ),
@@ -138,7 +138,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, II, N, J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   F11(MVSIZ), F21(MVSIZ), F31(MVSIZ)
 C-----------------------------------------------

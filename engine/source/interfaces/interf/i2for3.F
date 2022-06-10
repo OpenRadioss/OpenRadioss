@@ -46,7 +46,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, NMN,
      .   IRECT(4,*), MSR(*), NSV(*), IRTL(*), WEIGHT(*), IDEL2
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    X(*),V(*),A(*),MS(*),CRST(2,*),STIFN(*),MMASS(*),SMASS(*),
      .    FSAV(*),FNCONT(3,*),CSTS_BIS(2,*),FNCONTP(3,*),FTCONTP(3,*) 
@@ -64,7 +64,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NIR, I, J, I3, J3, I2, J2, I1, J1, II, L, JJ
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   H(4),XMSJ, SS, ST, XMSI, FXI, FYI, FZI,SP,SM,TP,TM,H2(4)
 C-----------------------------------------------
@@ -247,7 +247,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, NMN,
      .   IRECT(4,*), MSR(*), NSV(*), IRTL(*), WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(*),V(*),A(*),MS(*),CRST(2,*),STIFN(*),MMASS(*),FSAV(*),
      .   FNCONT(3,*),CSTS_BIS(2,*),FNCONTP(3,*) ,FTCONTP(3,*)
@@ -265,7 +265,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NIR, I, J, I3, J3, I2, J2, I1, J1, II, L, JJ
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   H(4),
      .   XMSJ,SS,ST,XMSI,FXI,FYI,FZI,SP,SM,TP,TM,H2(4)
@@ -451,7 +451,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, NMN,
      .   IRECT(4,*), MSR(*), NSV(*), IRTL(*), WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(*),V(*),A(*),CRST(2,*),MS(*), STIFN(*), MMASS(*),FSAV(*),
      .   FNCONT(3,*), CSTS_BIS(2,*),FNCONTP(3,*),FTCONTP(3,*)
@@ -467,7 +467,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NIR, I, J, I3, J3, I2, J2, I1, J1, II, L, JJ
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   H(4),XMSJ, SS, ST, XMSI, FXI, FYI, FZI,SP,SM,TP,TM, H2(4)
 C-----------------------------------------------
@@ -650,7 +650,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, NMN,
      .   IRECT(4,*), MSR(*), NSV(*), IRTL(*), WEIGHT(*), IDEL2
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*), AR(3,*),CRST(2,*), MS(*),
      .   X(3,*),IN(*),STIFR(*),STIFN(*), SMASS(*), SINER(*),
@@ -669,7 +669,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, I3, J3, I2, J2, I1, J1, II, L, JJ, W,NIR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   H(4), XMSJ, SS, ST, XMSI, FXI, FYI, FZI, MXI, MYI, MZI,INS,
      .   X0,X1,X2,X3,X4,Y0,Y1,Y2,Y3,Y4,Z0,Z1,Z2,Z3,Z4,AA,
@@ -912,7 +912,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, NMN,
      .   IRECT(4,*), MSR(*), NSV(*), IRTL(*), WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*), AR(3,*), CRST(2,*), MS(*),
      .   X(3,*), IN(*), STIFR(*), STIFN(*),MINER(*),CSTS_BIS(2,*)
@@ -927,7 +927,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, I3, J3, I2, J2, I1, J1, II, L, JJ, W,NIR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   H(4), XMSJ, SS, ST, XMSI, FXI, FYI, FZI, MXI, MYI, MZI,INS,
      .   X0,X1,X2,X3,X4,Y0,Y1,Y2,Y3,Y4,Z0,Z1,Z2,Z3,Z4,AA,STF,
@@ -1144,7 +1144,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, NMN,ILEV,
      .   IRECT(4,*), MSR(*), NSV(*), IRTL(*), WEIGHT(*), IDEL2
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),V(3,*),A(3,*),AR(3,*), MMASS(*), CRST(2,*),
      .   DPARA(7,*), MS(*), IN(*),STIFN(*),STIFR(*),DMAST,ADM(*),
@@ -1165,7 +1165,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NIR, I, J, J1,J2,J3,J4, II, L, JJ
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   H(4),XM(4),YM(4),ZM(4),
      .   XMSJ, SS, ST, XMSI, FXS, FYS, FZS,SP,SM,TP,TM,FACM,
@@ -1563,7 +1563,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NMN, MSR(*),WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AR(3,*),IN(*),STIFR(*)
 C-----------------------------------------------

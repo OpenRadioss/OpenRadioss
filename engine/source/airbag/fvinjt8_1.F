@@ -43,7 +43,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NJET, IBAGJET(NIBJET,*), IGEO(NPROPGI,*), IVOLU(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DMOUT, DHOUT, RBAGJET(NRBJET,*),
      .   GEO(NPROPG,*), PM(NPROPM,*), RVOLU(*)

@@ -48,7 +48,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER G_PLA,G_EPSD,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  FY1(*), FY2(*), FY3(*), FY4(*), FZ1(*), FZ2(*), FZ3(*), FZ4(*),
      .  FAY(*), FAZ(*), FAY1(*), FAY2(*), FAY3(*), FAY4(*),PP(*),

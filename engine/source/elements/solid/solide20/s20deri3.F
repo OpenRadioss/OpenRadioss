@@ -53,7 +53,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NGL(*),IR,IS,IT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   R,S,T,W,
      .   DNIDR(20),DNIDS(20),DNIDT(20),DXDR(*),DYDR(*),DZDR(*),

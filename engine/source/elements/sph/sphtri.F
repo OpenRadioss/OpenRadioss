@@ -61,7 +61,7 @@ C-----------------------------------------------
       INTEGER KXSP(NISP,*),IXSP(KVOISPH,*),NOD2SP(*), WSP2SORT(*),
      .        IREDUCE,NSP2SORTF,NSP2SORTL,ITASK, KREDUCE(*),
      .        LGAUGE(3,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        X(3,*),SPBUF(NSPBUF,*), BMINMA(12), GAUGE(LLGAUGE,*)
 C-----------------------------------------------

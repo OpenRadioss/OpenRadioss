@@ -215,12 +215,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NINT, NEL, I, NOINT,IR,J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AREA
       INTEGER IRECT(4,*), IXS(NIXS,*), KNOD2ELS(*), NOD2ELS(*), 
      .        IXS10(6,*), IXS16(8,*), IXS20(12,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*)
 C-----------------------------------------------
@@ -228,7 +228,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IY(4), N, JJ, II, K, NN, KK, IC, IAD,
      .        NUSER, NUSERM
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   N1, N2, N3, DDS
 C-----------------------------------------------
@@ -393,11 +393,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NINT, NEL, I, NOINT,IR, ITAB(*), KNOD2ELS(*), NOD2ELS(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AREA
       INTEGER IRECT(4,*), IXS(NIXS,*), IADD(*), INVC(*),NF,NTY
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*)
       INTEGER ID
@@ -408,7 +408,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IY(4), N, JJ, II, K, NN, KK, IC, IAD,
      .        NUSER, NUSERM,IP(8),CON(8),IBID,MSEGTYP(NUMELS10)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   N1, N2, N3, DDS
 C-----------------------------------------------

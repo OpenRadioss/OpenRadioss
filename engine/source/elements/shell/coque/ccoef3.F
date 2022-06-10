@@ -59,7 +59,7 @@ C-----------------------------------------------
       INTEGER JFT, JLT, MTN,ITHK,
      .            ISMSTR,NPT ,KFTS ,ISUBSTACK
       INTEGER MAT(MVSIZ), PID(MVSIZ), IGEO(NPROPGI,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG,*), PM(NPROPM,*), OFF(*), AREA(*),
      .   STI(*),STIR(*),SHF(*),THK0(*),THK02(*),THK(*),
@@ -70,11 +70,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,ISH,MX,IPID,J,IGTYP,IPGMAT,IGMAT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FAC1(MVSIZ),FSH, FAC1TMP,
      .   RHO_1, YM_1, NU_1, G_1, A11_1, A12_1, SSP_1      
-c=======================================================================
+C=======================================================================
       IF(ITHK.GT.0.AND.ISMSTR.NE.3)THEN
         DO I=JFT,JLT
           ALPE(I)=ONE

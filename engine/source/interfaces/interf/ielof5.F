@@ -43,7 +43,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NRT, NEL
       INTEGER IRECT(4,*), IXC(NIXC,*), NSV(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STF(*)
 C-----------------------------------------------

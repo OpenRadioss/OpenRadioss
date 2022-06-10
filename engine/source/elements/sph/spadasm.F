@@ -62,7 +62,7 @@ C-----------------------------------------------
       INTEGER KXSP(NISP,*),IXSP(KVOISPH,*),NOD2SP(*),ITAB(*),
      .        ISPCOND(NISPCOND,*),ISPSYM(NSPCOND,*),WSP2SORT(*),
      .        ITASK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), V(3,*), MS(*), SPBUF(NSPBUF,*), 
      .   XFRAME(NXFRAME,*), XSPSYM(3,*)
@@ -169,7 +169,7 @@ C-----------------------------------------------
       INTEGER KXSP(NISP,*),IXSP(KVOISPH,*),NOD2SP(*),ITAB(*),
      .        ISPCOND(NISPCOND,*),ISPSYM(NSPCOND,*),WSP2SORT(*),
      .        ITASK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), V(3,*), MS(*), SPBUF(NSPBUF,*), 
      .   XFRAME(NXFRAME,*), VSPSYM(3,*)

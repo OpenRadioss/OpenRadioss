@@ -69,7 +69,7 @@ C-----------------------------------------------
       INTEGER CAND_S(*),CAND_M(*),BPN(*),PN(*)
       INTEGER ADDCM(*),CHAINE(*)
       INTEGER PROV_S(2*MVSIZ),PROV_M(2*MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),XYZM(6,*),TZINF,DBUC,
      .   MAXBOX,MINBOX
@@ -89,7 +89,7 @@ C-----------------------------------------------
       INTEGER NB_SCN1,NB_MCN1,NB_SCN,NB_MCN,ADDNN,ADDNE,IPOS,
      .        I,IP,J,K,L
       INTEGER INF,SUP,DIR,N1,N2,NN1,NN2,NN,NE,MEMX,NCAND_PROV
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DX,DY,DZ,DSUP,SEUIL,XMX,XMN,XX1,XX2,XMIN, XMAX
 CC      integer idb1,idb2,idb3,idb4
@@ -149,7 +149,7 @@ C     NOINT        NUMERO USER DE L'INTERFACE
 C     TZINF        TAILLE ZONE INFLUENCE
 C     MAXBOX       TAILLE MAX BUCKET
 C     MINBOX       TAILLE MIN BUCKET
-C================================================
+C=======================================================================
 C
 C
 C    1- TEST ARRET = BOITE VIDE

@@ -60,7 +60,7 @@ C-----------------------------------------------
       INTEGER NGL(MVSIZ), NDT(*),PID(*),MAT(MVSIZ), IXC(NIXC,*),
      .                  IPARTC(*),JFT, JLT, IADC(4,*),GRTH(*),
      .                  IGRTH(*),ITASK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), GEO(NPROPG,*), OFFG(*), OFF(*), SIGY(*),
      .   D(3,*),DR(3,*),D0(MVSIZ,3,4),DR0(MVSIZ,3,4),PM(*),PARTSAV(*),
@@ -76,7 +76,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, JFTN, JLTN, IFLAG, K, IBID
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     TTN, FAC, BID, ZEROUN
       INTEGER IXCTMP2, IXCTMP3, IXCTMP4, IXCTMP5

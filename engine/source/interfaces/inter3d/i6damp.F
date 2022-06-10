@@ -50,7 +50,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NDAMP1 ,NDAMP2
       INTEGER IRECT(4,*),MSR(*),NSV(*),IRTL(*),IRTLO(*),NPC(*),LOLD(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VISC,ASCALF,ASCALV,FSCALV
       my_real
@@ -69,7 +69,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IG,IL, L, J3, J2, J1, I3, I2, I1
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FDAMP
       my_real

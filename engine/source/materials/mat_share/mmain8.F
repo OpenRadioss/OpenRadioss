@@ -89,7 +89,7 @@ C-----------------------------------------------
       INTEGER IX(*), IPARG(*), NPF(*),MAT(*),NC(*),NGL(*),
      .        NEL, NELTST, ITYPTST, PID(MVSIZ,*),IPM(NPROPMI,*),
      .        ITASK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*), GEO(*), FV(*), V(*), TF(*), 
      .   BUFMAT(*), STIFN(*), X(3,*),WXX(*),WYY(*),WZZ(*),
@@ -108,7 +108,7 @@ C-----------------------------------------------
       INTEGER I,II,J,JJ(6),J1,J2,IC,IR,IP,NFUNC,NUVAR,NUPARAM,NUVARR, 
      .        NVARG, NVARF,  NUMBER_FAILURE,NVARF_MAX,IADBUF
       INTEGER IFUNC(MAXFUNC),I1(MVSIZ),MATF(MVSIZ),IFAIL(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   QNEW(MVSIZ),VIS(MVSIZ),EPSD(MVSIZ),ET(MVSIZ),
      .    DPLA(8*MVSIZ), EPSP(8*MVSIZ),TSTAR(MVSIZ),SXX(MVSIZ),

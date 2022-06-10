@@ -53,7 +53,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPE,NEL
       INTEGER IXS(NIXS,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  X(3,*),TIME,D(3,*),OFF(*),OFF0(*),
      .  VX0(MVSIZ,NPE),VY0(MVSIZ,NPE),VZ0(MVSIZ,NPE)
@@ -65,7 +65,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,NPE1,N,N2,N3
       INTEGER NC(MVSIZ,NPE)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C
       NPE1=NPE-1
@@ -201,7 +201,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPE
       INTEGER IXS(NIXS,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  X(3,*),RX(*), RY(*), RZ(*), SX(*), SY(*), SZ(*),
      .  TX(*), TY(*), TZ(*)
@@ -210,7 +210,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,NPE1,N
       INTEGER NC(MVSIZ,NPE)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  X0(MVSIZ,NPE), Y0(MVSIZ,NPE), Z0(MVSIZ,NPE)
 C-----------------------------------------------

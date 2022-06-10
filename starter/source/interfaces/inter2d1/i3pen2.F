@@ -51,12 +51,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN,IWPENE,NINT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FRIC, GAP
       INTEGER IRECT(4,*), MSR(*), NSV(*), ILOC(*), IRTL(*), IRTLO(*),
      .   ITAB(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), CST(2,*), FRIC0(3,*)
       INTEGER ID
@@ -66,7 +66,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER II, I, J, K, L, M, JJ
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   N2, N3, YS, ZS, T2, T3, XL, PEN, SS, YM1, YM2, ZM1, ZM2
 C

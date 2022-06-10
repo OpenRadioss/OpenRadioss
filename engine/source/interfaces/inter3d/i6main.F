@@ -70,7 +70,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NELTST,ITYPTST
       INTEGER IPARI(*), ICODT(*), NPC(*), ISKY(*)
-C     REAL ou REAL*8
+C     REAL
       my_real DT2T,
      .   X(*),A(*),TF(*),V(*),FSAV(*),FSKYI(LSKYI,NFSKYI),
      .   FCONT(3,*),MS(*)

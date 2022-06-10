@@ -48,7 +48,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT
       INTEGER NCC(NIXR,*),PID(*),NGL(*), IGEO(NPROPGI,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),OFFG(*)  ,OFF(*),AL(3,*),
      .   R11(*),R12(*),R13(*),
@@ -58,7 +58,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J,NC1(MVSIZ),NC2(MVSIZ),ISK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X1(MVSIZ), X2(MVSIZ),Y1(MVSIZ), Y2(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ),X21(MVSIZ),Y21(MVSIZ),Z21(MVSIZ)

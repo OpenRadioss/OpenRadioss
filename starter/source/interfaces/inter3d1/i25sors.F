@@ -51,7 +51,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, NRTS, ITAB(*), ILEV, IPARI(NPARI)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -59,7 +59,7 @@ C-----------------------------------------------
       INTEGER IERROR,WORK(70000)
       INTEGER, DIMENSION(:),ALLOCATABLE :: ITRI, INDEX, LISUBS, INFLG_SUBS, ADDSUBS
       INTEGER, DIMENSION(:,:),ALLOCATABLE :: ISAV
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
       ALLOCATE (ITRI(NSN),ISAV(3,NSN),INDEX(2*NSN),STAT=IERROR)
       IF (IERROR /= 0) 

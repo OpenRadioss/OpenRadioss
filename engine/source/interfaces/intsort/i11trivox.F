@@ -213,14 +213,14 @@ c     dev future: xminb plus grand que xmin...
       XMAXB = XMAX
       YMAXB = YMAX
       ZMAXB = ZMAX  
-C================================================================
+C=======================================================================
 C 1   Pour chaque edge, on marque les voxels occupes.
 C     Le nombre d edge dans un voxels etant variable, on
 C     utilise un tableau chaine.
 C     Ces voxels representent le voisinage de l edge.
 C     On cherchera ensuite toutes les entites interfacees
 C     dans ce voisinage.
-C================================================================
+C=======================================================================
       IF(ITASK == 0)THEN
         
         CURRENT_ADD=1 ! premiere adresse
@@ -346,13 +346,13 @@ C
 
         ENDDO !DO I=1,NRTS
 
-C================================================================
+C=======================================================================
 C 2   Traiter les edges remote. Recuperer les 2 noeuds des
 C    edge remotes qui sont dans les memes voxels
 C
 C           a faire
 C
-C================================================================
+C=======================================================================
         DO I = NRTS+1,NRTS+NRTSR  !si besoin on peut inverser Main/Secnd       
 c            IF(STFS(I).EQ.ZERO)CYCLE !on ne retient pas les facettes detruites, deja fait dans SPMD_MACH::spmd_tri11vox
           J=I-NRTS          
@@ -468,12 +468,12 @@ C
       
       CALL MY_BARRIER  !le tableau voxel doit etre rempli avant de continuer 
                        !max_add doit etre le meme pour tout le monde.
-C================================================================
+C=======================================================================
 C 3   A partir des voxels occupes par une edge main, on est en
 C     mesure de connaitre toutes les edges escalves dans ce voisinage.
 C     Ce qui permet de creer des couples cancidats pour le contact
 C     Si la penetration est positive.
-C================================================================
+C=======================================================================
       NEDG   = 0 
       I_STOK = 0
       MARGE = TZINF - MAX(GAP,DRAD)
@@ -663,9 +663,9 @@ C-------------------------------------------------------------------------
      7              GAP_S_L, GAP_M_L )
 
     
-C================================================================
+C=======================================================================
 C 4   remise a zero des noeuds dans les boites et desallocation
-C================================================================
+C=======================================================================
 
  1000 CONTINUE            
 

@@ -42,7 +42,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    VX(MVSIZ,8), VY(MVSIZ,8), VZ(MVSIZ,8),
      .   PX1(MVSIZ,8),PX2(MVSIZ,8),PX3(MVSIZ,8),PX4(MVSIZ,8),      
@@ -64,7 +64,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DXX(MVSIZ), DYY(MVSIZ), DZZ(MVSIZ),
      .   DXY(MVSIZ), DYX(MVSIZ), DYZ(MVSIZ),

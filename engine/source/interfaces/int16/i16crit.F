@@ -245,7 +245,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LFT ,LLT,NMEF,NMEL,
      .        IXS(NIXS,*),IXS16(8,*),NELEM(*),INDEX(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),V(3,*),A(3,*),EMINX(6,*),SIZE,XMSR(*),XSAV(3,*) 
 C-----------------------------------------------
@@ -556,7 +556,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LFT ,LLT,NMEF,NMEL,
      .        IXS(NIXS,*),IXS20(12,*),NELEM(*),INDEX(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),V(3,*),A(3,*),EMINX(6,*),SIZE,XMSR(*),XSAV(3,*) 
 C-----------------------------------------------
@@ -889,7 +889,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LFT ,LLT,NMEF,NMEL,
      .        IXS(NIXS,*),IXS10(6,*),NELEM(*),INDEX(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),V(3,*),A(3,*),EMINX(6,*),SIZE,XMSR(*),XSAV(3,*) 
 C-----------------------------------------------
@@ -1016,7 +1016,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LFT ,LLT,NMEF,NMEL,
      .        IXS(NIXS,*),NELEM(*),INDEX(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),V(3,*),A(3,*),EMINX(6,*),SIZE,XMSR(*),XSAV(3,*) 
 C-----------------------------------------------

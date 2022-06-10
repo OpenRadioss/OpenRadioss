@@ -83,7 +83,7 @@ c----------------------------------------------------------
 c     SENSOR_TEMP%VAR(1)   = TEMP_MAX
 c     SENSOR_TEMP%VAR(2)   = TEMP_MIN 
 c     SENSOR_TEMP%VAR(3)   = TEMP_AVG 
-c=======================================================================
+C=======================================================================
         ! -----------------
         ! local arrays for min/max/mean
         ALLOCATE( TEMP_MAX(COMM_SENS17%NUM_SENS) )

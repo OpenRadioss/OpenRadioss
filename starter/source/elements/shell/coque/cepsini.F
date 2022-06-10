@@ -97,7 +97,7 @@ C-----------------------------------------------
      .   EXX(MVSIZ),EYY(MVSIZ),EXY(MVSIZ),EYZ(MVSIZ),EZX(MVSIZ)
       my_real, 
      .   DIMENSION(:) , POINTER :: DIR1, DIR2
-c=======================================================================
+C=======================================================================
 c     initial state - rep global
       DO I=JFT,JLT
         I1 = IXC(2,I)
@@ -388,7 +388,7 @@ C-----------------------------------------------
       INTEGER I
       my_real, DIMENSION(MVSIZ) :: 
      .         X21G,Y21G,Z21G,X31G,Y31G,Z31G,X41G, Y41G, Z41G
-c=======================================================================
+C=======================================================================
       IF (ISMSTR /= 3)THEN
         DO I=JFT,JLT
           X21G(I)=X2G(I)-X1G(I)
@@ -474,7 +474,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    VX1(MVSIZ) , VX2(MVSIZ) , VX3(MVSIZ) , VX4(MVSIZ) ,
      .    VY1(MVSIZ) , VY2(MVSIZ) , VY3(MVSIZ) , VY4(MVSIZ) ,

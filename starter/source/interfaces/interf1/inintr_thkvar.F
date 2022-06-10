@@ -48,7 +48,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARG(NPARG,*), IXC(NIXC,*), IXTG(NIXTG,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   THKSH4_VAR(*), THKSH3_VAR(*), THKNOD(*)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB

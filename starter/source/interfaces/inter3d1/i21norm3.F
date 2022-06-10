@@ -55,7 +55,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NRTM, NINT, NTY, NOINT,NMN
       INTEGER IRECTM(4,*), MSR(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), NOD_NORMAL(3,*), XM0(3,*)
 C-----------------------------------------------
@@ -63,7 +63,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, FIRST, LAST, IRM, I1, I2, I3, I4
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     X0(MVSIZ), Y0(MVSIZ), Z0(MVSIZ),
      .     X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
@@ -278,7 +278,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NRTM, IRECT(4,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    XM0(3,*), NOD_NORMAL(3,*), RCURV(*), ANGLM(*)
 C-----------------------------------------------

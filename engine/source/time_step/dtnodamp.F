@@ -63,7 +63,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITAB(*),WEIGHT(*),ISTOP,
      .   I_DAMP_RDOF_TAB(*),ICONTACT(*),IXC(NIXC,*)
-C     REAL ou REAL*8
+C     REAL
       my_real DT2T, DMAST, DINERT, STIFN(*), STIFR(*), 
      .   MS(*) ,IN(*) ,DAMPR(NRDAMP,*),X(3,*)
 C-----------------------------------------------
