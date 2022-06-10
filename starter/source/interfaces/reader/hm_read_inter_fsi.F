@@ -41,7 +41,7 @@ Chd|====================================================================
      2        IGRNOD      ,IGRSURF    ,ILAGM          ,UNITAB   , NI       ,
      3        NOM_OPT     ,TITR       ,IGRBRIC        ,IGRSH3N  , IGRTRUSS ,      
      4        IDDLEVEL    ,NOINT      ,KEY            ,LSUBMODEL, ITAB     ,
-     5        ITABM1      ,ISKN)
+     5        ITABM1      ,ISKN       ,MULTI_FVM)
 C============================================================================
 
 C-----------------------------------------------
@@ -51,6 +51,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
+      USE MULTI_FVM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -80,6 +81,7 @@ C-----------------------------------------------
      .   FRIGAP(*),FRIC_P(*)
       CHARACTER TITR*nchartitle
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
+      TYPE(MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM      
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRBRIC) :: IGRBRIC
@@ -152,7 +154,7 @@ C--------------------------------------------------
              CALL HM_READ_INTER_TYPE18(
      1            IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
      2            IGRNOD     ,IGRSURF    ,IGRBRIC    ,XFILTR    ,FRIC_P   ,
-     3            IDDLEVEL   ,TITR, UNITAB, LSUBMODEL)  
+     3            IDDLEVEL   ,TITR, UNITAB, LSUBMODEL,MULTI_FVM)  
 
          CASE ('TYPE12')
 C--------------------------------------------------
