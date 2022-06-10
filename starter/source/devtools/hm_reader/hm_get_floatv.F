@@ -391,6 +391,7 @@ C     UNITAB       UNIT ARRAY
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
+      USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_BOOL
       USE MESSAGE_MOD       
       USE SUBMODEL_MOD
       USE UNITAB_MOD
@@ -425,19 +426,21 @@ C-----------------------------------------------
       my_real
      .   FAC_L,FAC_M,FAC_T,FAC
       REAL*8 DVAL,LENGTH_DIM,MASS_DIM,TIME_DIM
+      LOGICAL(KIND=C_BOOL) C_IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
 C=======================================================================
 C--------------------------------------------------
-        IS_AVAILABLE = .FALSE.
+        C_IS_AVAILABLE = .FALSE.
         LENGTH_DIM = ZERO
         MASS_DIM = ZERO
         TIME_DIM = ZERO
         FAC = ONE
 C--------------------------------------------------
-        CALL CPP_GET_FLOATV_FLOATD(NAME(1:LEN_TRIM(NAME)),LEN_TRIM(NAME),DVAL,IS_AVAILABLE,
+        CALL CPP_GET_FLOATV_FLOATD(NAME(1:LEN_TRIM(NAME)),LEN_TRIM(NAME),DVAL,C_IS_AVAILABLE,
      .                    LENGTH_DIM,MASS_DIM,TIME_DIM,UID,SUB_ID)
+        IS_AVAILABLE = C_IS_AVAILABLE
 C--------------------------------------------------
 C      ID OFFSETS FOR //SUBMODEL 
 C--------------------------------------------------

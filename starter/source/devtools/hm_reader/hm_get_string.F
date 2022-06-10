@@ -90,6 +90,7 @@ C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD    
+      USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_BOOL 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -114,13 +115,16 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,VALUE_TYPE,SUB_ID
+      LOGICAL(KIND=C_BOOL) C_IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
 C=======================================================================
       SVAL = ''
 C--------------------------------------------------
-      CALL CPP_GET_STRING(NAME(1:LEN_TRIM(NAME)),LEN_TRIM(NAME),SVAL,SIZE,IS_AVAILABLE)
+      C_IS_AVAILABLE = .FALSE.
+      CALL CPP_GET_STRING(NAME(1:LEN_TRIM(NAME)),LEN_TRIM(NAME),SVAL,SIZE,C_IS_AVAILABLE)
+      IS_AVAILABLE = C_IS_AVAILABLE
 C--------------------------------------------------
       RETURN
 C
