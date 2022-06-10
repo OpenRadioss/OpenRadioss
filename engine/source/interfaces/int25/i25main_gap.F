@@ -56,7 +56,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NIN,ITASK,
      .        IPARI(NPARI,NINTER)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .   THKNOD(*), MAXDGAP
 
@@ -65,7 +65,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER KD(50), JD(50), JFI, KFI, IGAP, IDEL, ITHK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, STOPT, GAPMAX_M, GAPSCALE
 C-----------------------------------------------

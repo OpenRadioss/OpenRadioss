@@ -89,7 +89,7 @@ c     NPTTF      NUMBER OF FAILED INTEGRATION POINTS IN THE LAYER
 c     NPTTOT     NUMBER OF INTEGRATION POINTS IN ALL LAYERS (TOTAL)
 c     THK_LY     Ratio of layer thickness / element thickness
 c     THK        Total element thickness
-c=======================================================================
+C=======================================================================
       RESID_DMG = ZERO
       IPTHKLY   = 700
       IPWEIGHT  = 900

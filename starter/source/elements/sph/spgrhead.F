@@ -72,7 +72,7 @@ C-----------------------------------------------
      .        IPART(LIPART1,*),IPARTSP(*), EADD(*), CEPSP(*),
      .        IPM(NPROPMI,*), IGEO(NPROPGI,*),
      .        ND, SPH2SOL(*), SOL2SPH(2,*), IRST(3,NSPHSOL)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        PM(NPROPM,*), SPBUF(NSPBUF,NUMSPH)
 C-----------------------------------------------
@@ -84,7 +84,7 @@ C-----------------------------------------------
       INTEGER WORK(70000),
      .        ITRI(7,NUMSPH), INDEX(2*NUMSPH),
      .        INUM(13,NUMSPH), XEP(NUMSPH)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        RNUM(NSPBUF,NUMSPH)
       DATA IUN/1/

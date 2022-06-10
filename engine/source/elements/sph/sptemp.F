@@ -58,7 +58,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER KXSP(NISP,*),IXSP(KVOISPH,*),NOD2SP(*),
      .        ISPSYM(NSPCOND,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*)    ,MS(*)   ,
      .   SPBUF(NSPBUF,*) ,XSPSYM(3,*) ,
@@ -270,7 +270,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER KXSP(NISP,*),IXSP(KVOISPH,*),NOD2SP(*),
      .        ISPSYM(NSPCOND,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*)    ,MS(*)   ,
      .   SPBUF(NSPBUF,*) ,XSPSYM(3,*) ,
@@ -686,7 +686,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ISPCOND(NISPCOND,*), ISPSYM(NSPCOND,*), WASPACT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XFRAME(NXFRAME,*) ,XSPSYM(3,*) , WGRADT(3,*), 
      .   WGRADTSM(3,*), WGR(3,*) 
@@ -803,7 +803,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER KXSP(NISP,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TEMP(*),TEMPEL(*)
 C-----------------------------------------------

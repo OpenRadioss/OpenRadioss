@@ -45,7 +45,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C  ds007  18/2/00  +1
       INTEGER JFT, JLT,NFT,ISTRAIN,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GSTR(NEL,8), EXX(*), EYY(*), EXY(*),KXX(*), KYY(*), KXY(*),
      .   EPSDOT(6,*),DT1,GSTRPG(NEL,8)

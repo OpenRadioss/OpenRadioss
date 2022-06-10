@@ -67,7 +67,7 @@ C-----------------------------------------------
      .           NUP
       my_real ,DIMENSION(:)  ,ALLOCATABLE :: X_COMP,Y_COMP
       TYPE(TTABLE), DIMENSION(:) ,POINTER ::  TABLE_MAT
-C====================================================================
+C=======================================================================
       FUNC_T = ITABLE(1)
       FUNC_C = ITABLE(2)
       FUNC_S = ITABLE(3)

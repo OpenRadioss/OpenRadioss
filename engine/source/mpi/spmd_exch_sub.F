@@ -286,7 +286,7 @@ C MPI  VARIABLES
       my_real, DIMENSION(:), ALLOCATABLE :: SEND_BUF,RECV_BUF
 
       DATA MSGOFF1/1282/
-c=======================================================================
+C=======================================================================
       NSIZESUB=NLOC_DMG%NNOD
       SIZEA = NLOC_DMG%L_NLOC
 C-------------------------------
@@ -464,7 +464,7 @@ C MPI  VARIABLES
       my_real, DIMENSION(:), ALLOCATABLE :: SEND_BUF,RECV_BUF
 
       DATA MSGOFF1/1283/
-c=======================================================================
+C=======================================================================
       NSIZESUB=NLOC_DMG%NNOD
       SIZEA = NLOC_DMG%L_NLOC
 C-------------------------------

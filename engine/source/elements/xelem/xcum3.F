@@ -41,7 +41,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NX,KXX(NIXX),IXX(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   UFORC(3,*) ,USTIFM(*) , UVISCM(*),
      .   F(3,*) ,STIFN(*),MS(*)
@@ -52,7 +52,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER K, I1, IADNOD
-C     REAL ou REAL*8
+C     REAL
       my_real
      .       XM, XK, XC, A     
 C-----------------------------------------------
@@ -112,7 +112,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NX,KXX(NIXX),IXX(*),NISKYL,ISKY(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   UFORC(3,*), USTIFM(*), UVISCM(*),
      .   MS(*),FSKYI(LSKYI,NFSKYI)
@@ -120,7 +120,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER K, I1, IADNOD
-C     REAL ou REAL*8
+C     REAL
       my_real
      .       XM, XK, XC, A      
 C-----------------------------------------------

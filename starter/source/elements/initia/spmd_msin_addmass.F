@@ -72,7 +72,7 @@ C-----------------------------------------------
      .   SH3TREE(KSH3TREE,*),IPARTS(*),IPARTQ(*),IPARTC(*),
      .   IPARTT(*),IPARTP(*),IPARTR(*),IPARTUR(*),IPARTTG(*),
      .   IPART(LIPART1,*),ITAB(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MSS(8,*),MSSX(12,*),MSQ(*),MSC(*),MST(*),MSP(*),MSR(3,*),
      .   MSTG(*),MSUR(*),PTG(3,*),EVUR(3,*),MS(*),GEO(NPROPG,*),
@@ -220,7 +220,7 @@ C
 C NUMELC
 
 
-C===============================================
+C=======================================================================
 C     Compute area of part
       DO I = 1, NUMELTG
         ITRI(I) = IXTG(6,I)
@@ -244,7 +244,7 @@ C P/ON computation of PART_AREA
         AREA_EL = ELE_AREA(I)
         PART_AREA(IP) = PART_AREA(IP) + AREA_EL
       ENDDO
-C===============================================
+C=======================================================================
 C
       DO IGM=1,NODMAS
         NMAS = IPMAS(IGM)%NPART
@@ -538,7 +538,7 @@ C-----------------------------------------------
      .   IPARTS(*),IPARTQ(*),IPARTC(*),
      .   IPARTT(*),IPARTP(*),IPARTR(*),IPARTUR(*),IPARTTG(*),
      .   IPART(LIPART1,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MSS(8,*),MSSX(12,*),MSQ(*),MSC(*),MST(*),MSP(*),MSR(3,*),
      .   MSTG(*),MSUR(*),GEO(NPROPG,*),PARTSAV1_PON(NPART)

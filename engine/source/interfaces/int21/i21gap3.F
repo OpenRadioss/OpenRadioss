@@ -46,18 +46,18 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITASK, NRTS, NSN, IGAP, IDEL
       INTEGER IRECTS(4,*), NSV(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GAP, GAPMIN, CRITER, GAPMAX, TZINF, DIST, GAPSCALE,
      .   DEPTH, MARGE, DRAD
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GAP_S(*), THKNOD(*), GAP_S0(*), THKNOD0(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NSNF, NSNL, I, J, NELS, NELC, NELTG, NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GAPM, CRITERL, GAPSUPL
 C------------------------------------

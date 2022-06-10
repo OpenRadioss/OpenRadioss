@@ -65,7 +65,7 @@ C-----------------------------------------------
      .        LBOUND(*), JLT, NRTS, IEDGE, ITAB(*),
      .        N1(MVSIZ), N2(MVSIZ), 
      .        M1(4,MVSIZ), M2(4,MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        X(3,*), 
      .        XXS1(MVSIZ), XXS2(MVSIZ), XYS1(MVSIZ), XYS2(MVSIZ),

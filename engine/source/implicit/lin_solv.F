@@ -109,7 +109,7 @@ C----------resol [K]{X}={F}------
      .         IRBE2(*),LRBE2(*)
 C
       INTEGER NMONV,IMONV(*),MONVOL(*),FR_MV(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_K(*),LT_K(*),DIAG_M(*),LT_M(*), F(*),TOL,
      .  DIAG_I(*),LT_I(*),D(3,*),DR(3,*),F_U, FAC_K(*)
@@ -466,7 +466,7 @@ C-----------------------------------------------
       INTEGER  NDDL  ,NNZ ,IADK(*),JDIK(*),ITASK,IPRINT,
      .        ISTOP,NDDLI,ITOK(*),IADI(*),JDII(*),
      .        ISOLV ,ITAB(*), INSOLV,IT, IPIV_K(*), NK, IDSC
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_K(*),LT_K(*),LT_I(*),X(*) ,F(*),
      .  FAC_K(*), DIAG_I(*)
@@ -623,7 +623,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER
      .  MEM
 C-----------------------------------------------
@@ -740,7 +740,7 @@ C----------resol [K]{X}={F}------wothout precoditioner----
      .         IPARI(*) ,NUM_IMP(*),NS_IMP(*),IND_IMP(*)
       INTEGER NMONV,IMONV(*),MONVOL(*),FR_MV(*),
      .        IRBE3(*)  ,LRBE3(*),IRBE2(*)  ,LRBE2(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_K(*),LT_K(*),LT_I(*),  X(*) ,F(*),TOL,F_U,P_MACH
       my_real
@@ -911,7 +911,7 @@ C----------resol [K]{X}={F}------
      .         IPARI(*) ,NUM_IMP(*),NS_IMP(*) ,IND_IMP(*),
      .         IRBE2(*),LRBE2(*)
       INTEGER NMONV,IMONV(*),MONVOL(*),FR_MV(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_K(*),LT_K(*),LT_I(*),DIAG_M(*),LT_M(*), 
      .  X(*) ,F(*),TOL,F_U,P_MACH,XI_C(*),F0(*)
@@ -1211,7 +1211,7 @@ C----------resol [K]{X}={F}------
      .         IPARI(*) ,NUM_IMP(*),NS_IMP(*),IND_IMP(*) ,
      .         IRBE3(*)  ,LRBE3(*),IRBE2(*)  ,LRBE2(*)
       INTEGER NMONV,IMONV(*),MONVOL(*),FR_MV(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_K(*),LT_K(*),LT_I(*),DIAG_M(*),LT_M(*), 
      .  X(*) ,F(*),TOL,F_U,P_MACH,D_TOL,XI_C(*),F0(*)
@@ -1485,7 +1485,7 @@ C----------resol [K]{X}={F}------wothout precoditioner----
      .        INSOLV, ITN, IPIV_K(*), NK, CDDLP(*),IDSC,
      .        IDDL(*), IKC(*), INLOC(*),ILINE ,ILINTF,INTP_C,
      .        IRBE3(*)  ,LRBE3(*) ,IRBE2(*)  ,LRBE2(*) ,IT_PCG,IMUMPSV
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_K(*),LT_K(*),LT_I(*),  X(*) ,F(*),TOL,F_U,P_MACH,
      .  DIAG_I(*),XI_C(*),F0(*)

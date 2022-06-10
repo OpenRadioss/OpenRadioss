@@ -49,14 +49,14 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NLIK, IDIR, IDROT, NSN, IC, ICR, ISKW, ISK
       INTEGER NOD(*), ISKWN(LISKN,*), FR_RL(*), WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   V(3,*), VR(3,*), MS(*), IN(*), SKEW(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IC1, ICC, IC2, IC3, N, K
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MASS, INER, VX, VY, VZ, DVX, DVY, DVZ, VVX, VVY, VVZ,
      .   F1(NSN), F2(NSN), F3(NSN), F4(NSN)

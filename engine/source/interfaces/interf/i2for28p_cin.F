@@ -50,7 +50,7 @@ C-----------------------------------------------
       INTEGER NSN, NMN, I0, NIR, I2SIZE, IDEL2,
      .   IRECT(4,*), MSR(*), NSV(*), IRTL(*), WEIGHT(*),
      .   IADI2(NIR,*),INDXC(*),IADX(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*),AR(3,*), X(3,*),V(*), FSKYI2(I2SIZE,*),MMASS(*),
      .   DPARA(7,*), MS(*), IN(*),STIFN(*),STIFR(*),DMAST,ADM(*),
@@ -70,7 +70,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K,J1,J2,J3,J4, II, L, JJ, NN,NISKY2,I0BASE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   H(4),
      .   S,T,SS, ST, XMSI, FXS, FYS, FZS,SP,SM,TP,TM,

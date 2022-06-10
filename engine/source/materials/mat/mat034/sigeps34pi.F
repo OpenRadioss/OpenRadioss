@@ -68,7 +68,7 @@ C-----------------------------------------------
       my_real :: DDEXX,DDEXY,DDEXZ,DEPSDXX,DEXX,DEPSVXX,DEPSVXY,DEPSVXZ,DP
       my_real, DIMENSION(NEL) :: BULK,G_INS,G_INF,GE,GE2,GV,GV2,BETA,C1,C2,
      .      EPSPXX,EPSPXY,EPSPXZ            
-c=======================================================================
+C=======================================================================
 !!      SHFACT = FIVE_OVER_6
 c
       DO I=1,NEL

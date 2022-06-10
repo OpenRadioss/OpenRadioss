@@ -1168,7 +1168,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  PX1(MVSIZ),PX2(MVSIZ),PX3(MVSIZ),PX4(MVSIZ),
      .  PX5(MVSIZ),PX6(MVSIZ),PX7(MVSIZ),PX8(MVSIZ),
@@ -1247,7 +1247,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPTR,NPTS,NPTT,NNPT 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  PX1(MVSIZ,NNPT),PX2(MVSIZ,NNPT),PX3(MVSIZ,NNPT),PX4(MVSIZ,NNPT),
      .  PX5(MVSIZ,NNPT),PX6(MVSIZ,NNPT),PX7(MVSIZ,NNPT),PX8(MVSIZ,NNPT),
@@ -1394,7 +1394,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PXY1(*),PXY2(*),PXY3(*),PXY4(*),
      .   PXY5(*),PXY6(*),PXY7(*),PXY8(*),
@@ -1476,7 +1476,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PX1(*), PX2(*), PX3(*), PX4(*),
      .   PX5(*), PX6(*), PX7(*), PX8(*),
@@ -1541,7 +1541,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PX1(*), PX2(*), PX3(*), PX4(*),
      .   PX5(*), PX6(*), PX7(*), PX8(*),
@@ -1581,7 +1581,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I, J ,ICOR
-C     REAL ou REAL*8
+C     REAL
 C                                                                     12
       my_real
      .   NU1(MVSIZ),X1,X3,Y1,Y2,Z2,Z3,X24,Y34,Z14
@@ -1775,7 +1775,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   E1X(MVSIZ),E1Y(MVSIZ),E1Z(MVSIZ),E2X(MVSIZ),
      .   E2Y(MVSIZ),E2Z(MVSIZ),E3X(MVSIZ),E3Y(MVSIZ),E3Z(MVSIZ),
@@ -1784,7 +1784,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   E1(MVSIZ,3),E2(MVSIZ,3),E3(MVSIZ,3)
 C-----------------------------------------------
@@ -1844,7 +1844,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   QC(MVSIZ,3,3),QGC(MVSIZ,3,3),BM(MVSIZ,3,3),
      .   BC(MVSIZ,3,3),QT(MVSIZ,3,3)
@@ -1852,7 +1852,7 @@ C----------[BM]g=Qc^t[BM]Qt+QGc^t[BC]Qt
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,EP
-C     REAL ou REAL*8
+C     REAL
 C----------Qc^t[BM]Qt;  QGc^t[BC]Qt
       CALL CKKTRAN3V(LFT   ,LLT    ,QC   ,BM ,QT ) 
       CALL CKKTRAN3V(LFT   ,LLT    ,QGC  ,BC ,QT ) 
@@ -1908,7 +1908,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PX1(*), PX2(*), PX3(*), PX4(*),
      .   PX5(*), PX6(*), PX7(*), PX8(*),
@@ -1945,7 +1945,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I, J ,ICOR
-C     REAL ou REAL*8
+C     REAL
 C                                                                     12
       my_real
      .  XA
@@ -2103,7 +2103,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    PX1(*),  PY1(*),  PZ1(*), 
      .    PXY1(*), PYX1(*), PXZ1(*), PZX1(*), PYZ1(*), PZY1(*),
@@ -2113,7 +2113,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I, J ,ICOR
-C     REAL ou REAL*8
+C     REAL
 C                                                                     12
       my_real
      .  BM(MVSIZ,3,3)  , BC(MVSIZ,3,3)
@@ -2234,7 +2234,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   HX(4,MVSIZ),  HY(4,MVSIZ), HZ(4,MVSIZ),   
      .   CJ1(*),CJ2(*),CJ3(*),
@@ -2247,7 +2247,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J ,IP
-C     REAL ou REAL*8
+C     REAL
 C                                                                     12
       my_real
      .   HX1PG(MVSIZ), HX2PG(MVSIZ), HX3PG(MVSIZ),HX4PG2(MVSIZ),

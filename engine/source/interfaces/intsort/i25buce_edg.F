@@ -84,7 +84,7 @@ C-----------------------------------------------
       INTEGER , INTENT(IN) :: 
      .        FLAGREMNODE, KREMNODE_EDG(KREMNODE_EDG_SIZ), REMNODE_EDG(REMNODE_EDG_SIZ),
      .        KREMNODE_E2S(KREMNODE_E2S_SIZ), REMNODE_E2S(REMNODE_E2S_SIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GAP,PMAX_GAP,VMAXDT,DRAD,
      .   BMINMA(6),BGAPEMX, MARGE
@@ -102,7 +102,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, IP0, IP1, MAXSIZ,  NSNF, NSNL,
      .        LOC_PROC, N, IEDG, I1, I2
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        XYZM(6), AAA, LX, LY, LZ, MY_LX, MY_LY, MY_LZ
       INTEGER NBX,NBY,NBZ

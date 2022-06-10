@@ -98,7 +98,7 @@ C----------------------------------------------------------------
       my_real :: AV(MVSIZ,6),EVV(MVSIZ,3),DIRPRV(MVSIZ,3,3)
       my_real ,DIMENSION(NEL)   :: GTMAX  
       DOUBLE PRECISION AMAX1
-c=======================================================================
+C=======================================================================
 C SET INITIAL MATERIAL CONSTANTS
 
       MU1=UPARAM(1)

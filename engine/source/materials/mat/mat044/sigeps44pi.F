@@ -73,7 +73,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(NEL) :: ICC,ISRATE,VFLAG,IAD,IPOS,ILEN
       my_real, DIMENSION(NEL) :: E,NU,G,G3,YLD,YLDMAX,EPMAX,EPDR,
      .   EPSR1,EPSR2,CA,CB,CN,CP,ASRATE,YSCALE,DFDPLA,DPLA
-c=======================================================================
+C=======================================================================
       SHFACT = FIVE_OVER_6
       EPIF   = ZERO
 c

@@ -50,7 +50,7 @@ C-----------------------------------------------
       INTEGER 
      .       IXTG(NIXTG,*), NEL   ,IDDL(*)   ,NDOF(*)   ,
      .       IADK(*)  ,JDIK(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   K_DIAG(*) ,K_LT(*)   ,OFF(*),
      .   KC11(6,6,*),KC12(6,6,*),KC13(6,6,*),

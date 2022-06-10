@@ -52,7 +52,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARTS(*), NCP,GRTH(*),IGRTH(*),IPARG(*),ITASK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  PARTSAV(NPSAV,*), EINT(*), RHO(*), VOL0(*),
      .  VX(MVSIZ,*),VY(MVSIZ,*),VZ(MVSIZ,*),
@@ -62,7 +62,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,M, FLAG
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VXA(MVSIZ), VYA(MVSIZ) , VZA(MVSIZ), 
      .   VA2(MVSIZ), XMAS(MVSIZ), RBIDON(1),

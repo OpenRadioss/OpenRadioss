@@ -55,7 +55,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICP,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    SIG(NEL,6),AY(*),FAY(*),FAZ(*),
      .    PY1(*),PY2(*),PY3(*),PY4(*),
@@ -84,7 +84,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    S1(MVSIZ),S2(MVSIZ),S3(MVSIZ),S4(MVSIZ),
      .    FAC(MVSIZ),P(MVSIZ),T1,T2,T3,T4

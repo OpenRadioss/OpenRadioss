@@ -85,7 +85,7 @@ C-----------------------------------------------
       INTEGER ITAB(*),NBINFLG(*),MBINFLG(*),ILEV,MSEGTYP(*)
       INTEGER KREMNODE(*),REMNODE(*)
       INTEGER IXS(*), IXS10(*), IXS16(*), IXS20(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STF(*),STFN(*),X(3,*),GAP_S(*),GAP_M(*),PEN_OLD(5,NSN),
      .   DIST,BUMULT,GAP,TZINF,MAXBOX,MINBOX,GAPMIN,GAPMAX,
@@ -99,7 +99,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, L, I1, I2, N1, N2, N3, N4, I_MEM,N_SOL, ESHIFT, MULNSN
       INTEGER IBID, NELS
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DX1,DY1,DZ1,
      .   DX3,DY3,DZ3,
@@ -553,16 +553,16 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL, I
-C     REAL ou REAL*8
+C     REAL
       INTEGER IRECT(4,*), IXS(NIXS,*), KNOD2ELS(*), NOD2ELS(*), 
      .        IXS10(6,*), IXS16(8,*), IXS20(12,*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IY(4), N, JJ, II, K, NN, KK, IC, IAD,
      .        NUSER, NUSERM
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   N1, N2, N3, DDS
 C-----------------------------------------------

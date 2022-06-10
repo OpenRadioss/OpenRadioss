@@ -108,9 +108,9 @@ C    IGRNOD(IGS)%R2R_ALL   ! Multidomaines -> number of node(elems, parts) befor
 C    IGRNOD(IGS)%R2R_SHARE ! shared on boundary subdomain
 C-----------------------------------------------
       IS_AVAILABLE = .FALSE.
-C===============================
+C=======================================================================
 C groupes de noeuds(type NODE,NODENS) + init IGRNOD(IGS)%ID
-C===============================
+C=======================================================================
       IGS=0
       TITR1='NODENS GROUP'
 !

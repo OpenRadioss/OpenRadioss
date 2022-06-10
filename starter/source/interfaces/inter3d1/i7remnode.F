@@ -901,7 +901,7 @@ C-----------------------------------------------
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
 C----IFLAG=0 -> dim   , IREMOV : Global node num. (SECONDARY) 
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -950,7 +950,7 @@ C-----------------------------------------------
       INTEGER IRECT(4,*),NSV(*),IRTL(*), NM, NREMOV,
      .        IREMOV(*),IFLAG,NSN,IADA,TAGD(*)
 C----IFLAG=0 -> dim   , IREMOV : Global node num. (SECONDARY) 
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   External function
 C-----------------------------------------------
@@ -1011,7 +1011,7 @@ C-----------------------------------------------
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
 C----IFLAG=0 -> dim   , IREMOV : Global node num. (SECONDARY) 
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -1058,7 +1058,7 @@ C-----------------------------------------------
       INTEGER IRECT(4,*),NSV(*),IRTL(*), NS, NREMOV,
      .        IREMOV(*),IFLAG,NSN,IADA  ,TAGD(*)  
 C----IFLAG=0 -> dim   , IREMOV : Global node num. (SECONDARY) 
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1114,7 +1114,7 @@ C-----------------------------------------------
       INTEGER N2, NM, IPARI(NPARI,*),NINTER
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -2153,7 +2153,7 @@ C-----------------------------------------------
       INTEGER IRECT(4,*),IRTL(*), NREMOV,
      .        IREMOV(*),IFLAG,IADA  ,TAGD(*)  ,NEW,IS
 C----IFLAG=0 -> dim   , IREMOV : Global node num. (SECONDARY) 
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2203,7 +2203,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRECT(4,*),IRTL(*), TAGD(*)  ,IS
 C----IFLAG=0 -> dim   , IREMOV : Global node num. (SECONDARY) 
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2643,7 +2643,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       INTEGER I_STOK,CAND_E(*),CAND_N(*),KREMNODE(*),IRTLM(2,*),REMNOD(*),
      *        NSV(*),ID,ITAB(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PENE_OLD(5,*)
       CHARACTER*nchartitle,
@@ -2653,7 +2653,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NE, I,NS,NI,I_RM(I_STOK),K,L,J,II_STOK,NRM
       INTEGER ITAG(NUMNOD)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------

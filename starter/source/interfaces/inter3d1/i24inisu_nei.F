@@ -444,7 +444,7 @@ C-----------------------------------------------
      .   IPART(LIPART1,*), IPARTC(*), IPARTTG(*),
      .   NVOISIN(8,*),MSR(*),NMN,INTPLY,IGEO(NPROPGI,*),
      .   MSEGTYP(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG,*), THK(*),THK_PART(*),GAP_N(12,*),GAP_M(*),
      .   GAPN_M(*),GAP_N0(12,*),GAPMAX_M

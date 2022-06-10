@@ -39,14 +39,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LFT,LLT,NEL,EPSIP(*),IP
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SIGP(NEL,6),SIGPI(NEL,6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
          DO I=LFT,LLT
           IF (EPSIP(I)==IP) THEN

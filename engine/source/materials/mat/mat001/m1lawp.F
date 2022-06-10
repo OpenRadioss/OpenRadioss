@@ -53,7 +53,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,MAT(MVSIZ),PID(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*), FOR(NEL,3), MOM(NEL,3), EINT(NEL,2), GEO(NPROPG,*),
      .   OFF(*),A1(MVSIZ),
@@ -65,7 +65,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   YM(MVSIZ),SHF(MVSIZ),B1(MVSIZ),B2(MVSIZ),B3(MVSIZ),
      .   DEGMB(MVSIZ), DEGFX(MVSIZ), 

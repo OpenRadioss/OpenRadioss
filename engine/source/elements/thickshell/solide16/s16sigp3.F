@@ -57,7 +57,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IL,IS,IT,IR,IP,WI,N, MX
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DVM(MVSIZ), DV(MVSIZ,NIPMAX),FAC(MVSIZ),DT3,DVP,F,E0(MVSIZ)
       TYPE(G_BUFEL_) ,POINTER :: GBUF

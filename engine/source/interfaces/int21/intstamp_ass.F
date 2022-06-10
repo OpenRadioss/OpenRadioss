@@ -63,7 +63,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER WEIGHT(*)
       my_real
      .   MS(*), IN(*), A(3,*), AR(3,*), STIFN(*), STIFR(*)
@@ -72,7 +72,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NN, MSR, MSRR, INTDAMP, KDIR, K, IROT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   BUFS(8,NINTSTAMP), ALPHA, VIS, MASS, INM, STF, STR,
      .   VX, VY, VZ, FVX, FVY, FVZ, DT05, DW

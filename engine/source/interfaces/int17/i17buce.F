@@ -64,7 +64,7 @@ C-----------------------------------------------
      .        ESH_T, I_STOK_GLOB, NIN, NMESR, NB_N_B 
       INTEGER CAND_E(*),CAND_N(*),IXS(NIXS,*),IXS16(8,*),
      .        LWAT,NELEM(*),NELES(*),IXS20(12,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TZINF,MINBOX
       my_real
@@ -221,7 +221,7 @@ C-----------------------------------------------
       INTEGER CAND_E(*),CAND_N(*),IXS(NIXS,*),IXS16(8,*),
      .        LWAT,NELEM(*),NELES(*),IXS20(12,*),
      .        ISENDTO(*), IRCVFROM(*), WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TZINF,MINBOX
       my_real

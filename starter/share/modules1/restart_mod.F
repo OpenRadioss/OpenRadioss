@@ -167,9 +167,9 @@ C Simple Precision array XDP
       DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE :: XDP
 C Double Precision array FBSAV6 (sensor 11 or 12 and parith/on)
       DOUBLE PRECISION, DIMENSION(:,:,:), ALLOCATABLE :: FBSAV6
-C===============================================
+C=======================================================================
 C     Specific Adaptive Meshing :
-C===============================================
+C=======================================================================
 C     SH4TREE(KSHTREE,NUMELC), SH3TREE(KSHTREE,NUMELTG)
 C     1: father
 C     2: 1st son (2nd son = 1st + 1, 3rd son = 1st + 2, 4th son = 1st + 3)
@@ -211,7 +211,7 @@ C     OUTPUT
 C-----------------------------------------------
       my_real, 
      .         DIMENSION(:),ALLOCATABLE :: RTHBUF
-C===============================================
+C=======================================================================
 C UNITS
       TYPE (UNIT_TYPE_) :: UNITAB
 C

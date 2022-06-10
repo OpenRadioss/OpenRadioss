@@ -46,7 +46,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(*), ICODT(*), ISKY(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(*), A(*), FSAV(*),FSKYI(*),
      .   FCONT(3,*),FNCONT(3,*), FTCONT(3,*)
@@ -62,7 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT,PTMAX
 

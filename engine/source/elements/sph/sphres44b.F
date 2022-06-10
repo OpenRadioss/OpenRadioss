@@ -49,7 +49,7 @@ C-----------------------------------------------
       INTEGER 
      .    KXSP(NISP,*),IXSP(KVOISPH,*),NOD2SP(*),
      .    IPARG(NPARG,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SPBUF(NSPBUF,*)
 C-----------------------------------------------

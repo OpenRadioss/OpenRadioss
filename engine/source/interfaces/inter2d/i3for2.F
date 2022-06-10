@@ -62,7 +62,7 @@ C-----------------------------------------------
       INTEGER NSN, NMN, NTY, IBC, IMAST
       INTEGER IRECT(4,*), LMSR(*), MSR(*), NSV(*), ILOC(*), IRTL(*),
      .   IRTLO(*), ICODT(*), ISKY(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), E(*), STF(*), CST(2,*), FRIC0(3,*), FRIGAP(*),
      .   STFN(*), FSAV(*),FSKYI(LSKYI,NFSKYI),PTMAX, AREAS(*),
@@ -73,7 +73,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IX(2), II, I, J, K, L, M, IMP, I3, I2, JJ, J3, J2, LOLD,
      .   NISKYL, IPAS
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   H(2), N2, N3, FRIC, GAP, YM1, ZM1, YM2, ZM2, YS, ZS, T2, T3,
      .   XL, ANS, SS, STIF, FNI, FYI, FZI, SS0, FTI, DS, ANST, FMAX,

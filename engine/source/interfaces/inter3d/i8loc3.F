@@ -54,7 +54,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER :: IRECT(4,*), LMSR(*), MSR(*), NSV(*), ILOC(*), NSEG(*)
       INTEGER :: ITAB(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),DISTANCE(*),
      .   XI(*), YI(*), ZI(*), XFACE(*)
@@ -69,7 +69,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IL, IG, JL, JLNEW, LL2, LL1, LL, LG, J, K, M, N, JG,
      .   KG, MG, NG
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GMS, CMS,
      .   DMS, EMS, FMS

@@ -75,7 +75,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICP,ICR,ICS,ICT,NGL(*),IDEG(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VX1(*), VX2(*), VX3(*), VX4(*), VX5(*), VX6(*), VX7(*), VX8(*),
      .   VY1(*), VY2(*), VY3(*), VY4(*), VY5(*), VY6(*), VY7(*), VY8(*),
@@ -124,7 +124,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, ICOR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DVC(MVSIZ),DVCA(MVSIZ),DT1D2,TOL,DT1D
       DOUBLE PRECISION 
@@ -362,7 +362,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICP,IDEG(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VX1(*), VX2(*), VX3(*), VX4(*), VX5(*), VX6(*), VX7(*), VX8(*),
      .   VY1(*), VY2(*), VY3(*), VY4(*), VY5(*), VY6(*), VY7(*), VY8(*),
@@ -404,7 +404,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FAC,DET(MVSIZ),BASE
 C-----------------------------------------------

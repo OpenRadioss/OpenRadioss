@@ -100,7 +100,7 @@ C-----------------------------------------------
      .        IADMERGE2(NUMNOD+1),IXR_KJ(5,*),PTSPRI(*),
      .        IPM(NPROPMI,*),R_SKEW(*)
       INTEGER NOM_OPT(LNOPT1,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), GEO(NPROPG,*), XMAS(*), PLD(*), XIN(*),
      .   SKEW(LSKEW,*), DTELEM(*),STIFN(*),STIFR(*),PARTSAV(20,*), V(*),
@@ -122,7 +122,7 @@ C-----------------------------------------------
      .   NB2A ,NB2B ,NB4A ,NB4B ,NB6A ,NB6B,NB7A,NB7B,NB8A ,NB8B,NB9A, 
      .    NB9B ,NB10A,NB10B,NB11A,NB11B,NB12A,NB12B,NB13A,NB13B,NB18,
      .    IMAT,K1,K11,K14,K12,K13,IADBUF,IMASS
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DT, DTC, XKM, XCM, XKR, XCR, XM, XINE,  EX, EY, EZ,
      .   AL2, STI,RHO,KX,KXY,KXZ,
@@ -571,9 +571,9 @@ C------------------------------------------
 C-------------------------------------------------------------------
 C   SPRINGS --> all types
 C-------------------------------------------------------------------
-C=========================================================
+C=======================================================================
       IF (IGTYP == 4) THEN
-C=========================================================
+C=======================================================================
         CALL RMASS(IXR         ,GEO  ,XMAS        ,XIN ,PARTSAV     ,
      2             X           ,V    ,IPART(NFT+1),XL  ,MSR(1,NFT+1),
      3             INR(1,NFT+1),MSRT ,EMS         )
@@ -598,9 +598,9 @@ C----
      3               BIDON        ,GBUF%DV    ,IGTYP           ,PTSPRI          ,GBUF%DEFINI,
      4               GBUF%FORINI  )
 c------     
-C=========================================================
+C=======================================================================
       ELSEIF (IGTYP == 8) THEN
-C=========================================================
+C=======================================================================
         CALL RMASS(IXR         ,GEO ,XMAS        ,XIN,PARTSAV     ,
      2             X           ,V   ,IPART(NFT+1),XL ,MSR(1,NFT+1),
      3             INR(1,NFT+1),MSRT,EMS         )
@@ -622,9 +622,9 @@ C----
      A PTSPRI                 ,GBUF%DEFINI(II(1))     ,GBUF%DEFINI(II(2))     ,GBUF%DEFINI(II(3))     ,GBUF%DEFINI(II(4))     ,
      B GBUF%DEFINI(II(5))     ,GBUF%DEFINI(II(6))     ,GBUF%FORINI(II(1))     ,GBUF%FORINI(II(2))     ,GBUF%FORINI(II(3))     ,
      B GBUF%FORINI(II(4))     ,GBUF%FORINI(II(5))     ,GBUF%FORINI(II(6))     )
-C=========================================================
+C=======================================================================
       ELSEIF (IGTYP == 12) THEN
-C=========================================================
+C=======================================================================
          CALL RMAS12 (IXR         ,GEO,XMAS        ,XIN,PARTSAV     ,
      2                X           ,V  ,IPART(NFT+1),XL ,MSR(1,NFT+1),
      3                INR(1,NFT+1),MSRT)
@@ -639,9 +639,9 @@ C=========================================================
      2               GBUF%TOTDEPL ,GBUF%FOREP ,GBUF%DEP_IN_TENS,GBUF%DEP_IN_TENS,GBUF%LENGTH,
      3               GBUF%DFS     ,BIDON      ,IGTYP           ,PTSPRI          ,GBUF%DEFINI,
      4               GBUF%FORINI  )
-C=========================================================
+C=======================================================================
       ELSEIF (IGTYP == 13) THEN
-C=========================================================
+C=======================================================================
         CALL RMASS(IXR         ,GEO ,XMAS        ,XIN,PARTSAV     ,
      2             X           ,V   ,IPART(NFT+1),XL ,MSR(1,NFT+1),
      3             INR(1,NFT+1),MSRT,EMS         )
@@ -668,9 +668,9 @@ C=========================================================
      A PTSPRI                 ,GBUF%DEFINI(II(1))     ,GBUF%DEFINI(II(2))     ,GBUF%DEFINI(II(3))     ,GBUF%DEFINI(II(4))     ,
      B GBUF%DEFINI(II(5))     ,GBUF%DEFINI(II(6))     ,GBUF%FORINI(II(1))     ,GBUF%FORINI(II(2))     ,GBUF%FORINI(II(3))     ,
      B GBUF%FORINI(II(4))     ,GBUF%FORINI(II(5))     ,GBUF%FORINI(II(6))     )
-C=========================================================
+C=======================================================================
       ELSEIF (IGTYP == 23) THEN
-C=========================================================
+C=======================================================================
         IDS = 325
         CNT1 = 0
         CNT2 = 0
@@ -714,9 +714,9 @@ C----
      A    PTSPRI                 ,GBUF%DEFINI(II(1))     ,GBUF%DEFINI(II(2))     ,GBUF%DEFINI(II(3))     ,GBUF%DEFINI(II(4))     ,
      B    GBUF%DEFINI(II(5))     ,GBUF%DEFINI(II(6))     ,GBUF%FORINI(II(1))     ,GBUF%FORINI(II(2))     ,GBUF%FORINI(II(3))     ,
      B    GBUF%FORINI(II(4))     ,GBUF%FORINI(II(5))     ,GBUF%FORINI(II(6))     )
-C=========================================================
+C=======================================================================
       ELSEIF (IGTYP == 25) THEN
-C=========================================================
+C=======================================================================
         CALL RMASS(IXR         ,GEO ,XMAS        ,XIN,PARTSAV     ,
      2             X           ,V   ,IPART(NFT+1),XL ,MSR(1,NFT+1),
      3             INR(1,NFT+1),MSRT,EMS         )
@@ -741,9 +741,9 @@ C=========================================================
      A PTSPRI                 ,GBUF%DEFINI(II(1))     ,GBUF%DEFINI(II(2))     ,GBUF%DEFINI(II(3))     ,GBUF%DEFINI(II(4))     ,
      B GBUF%DEFINI(II(5))     ,GBUF%DEFINI(II(6))     ,GBUF%FORINI(II(1))     ,GBUF%FORINI(II(2))     ,GBUF%FORINI(II(3))     ,
      B GBUF%FORINI(II(4))     ,GBUF%FORINI(II(5))     ,GBUF%FORINI(II(6))     )
-C=========================================================
+C=======================================================================
       ELSEIF (IGTYP == 27) THEN
-C=========================================================
+C=======================================================================
         CALL RMASS(IXR         ,GEO  ,XMAS        ,XIN ,PARTSAV     ,
      2             X           ,V    ,IPART(NFT+1),XL  ,MSR(1,NFT+1),
      3             INR(1,NFT+1),MSRT ,EMS         )
@@ -755,9 +755,9 @@ C----
      2              GBUF%TOTDEPL ,GBUF%FOREP ,GBUF%DEP_IN_TENS ,GBUF%DEP_IN_COMP,GBUF%LENGTH,
      3              BIDON        ,BIDON      ,IGTYP            ,PTSPRI   ,GBUF%DEFINI(II(1)),
      4              GBUF%FORINI(II(1)))
-C=========================================================
+C=======================================================================
       ELSEIF (IGTYP == 32 .OR. IGTYP == 33 .OR. IGTYP == 45) THEN
-C=========================================================
+C=======================================================================
         CALL RINI1U(GBUF%OFF ,GEO      ,X        ,UL    ,IXR ,
      2              SKEW     ,GBUF%SKEW,ITAB     ,UIX   ,IGEO)
         NUVAR =  NINT(GEO(25,I0))
@@ -837,9 +837,9 @@ C
      4 GBUF%V_REPCVT(II(1)) ,GBUF%V_REPCVT(II(2)),GBUF%V_REPCVT(II(3)),GBUF%VR_REPCVT(II(1)),GBUF%VR_REPCVT(II(2)),
      5 GBUF%VR_REPCVT(II(3)),GBUF%VAR            ,GBUF%EINT           ,BIDON                ,BIDON                ,
      6 IGTYP                ,PTSPRI)
-C=========================================================
+C=======================================================================
       ELSEIF (IGTYP == 35 .OR. IGTYP == 36) THEN
-C=========================================================
+C=======================================================================
         CALL RINI3U(GBUF%OFF ,GEO       ,X      ,UL     ,IXR ,  
      2              SKEW     ,GBUF%SKEW ,ITAB   ,UIX    ,IGEO)
         NUVAR =  NINT(GEO(25,I0))
@@ -900,9 +900,9 @@ C---
      5  GBUF%VR_REPCVT(II(3)),GBUF%VAR            ,GBUF%EINT           ,BIDON                ,BIDON                ,
      6  IGTYP                ,PTSPRI)
 C
-C=========================================================
+C=======================================================================
       ELSEIF (IGTYP > 28 .AND. IGTYP < 43) THEN  ! reserved for user properties
-C=========================================================
+C=======================================================================
         CALL RINI3U(GBUF%OFF ,GEO       ,X      ,UL     ,IXR ,  
      2              SKEW     ,GBUF%SKEW ,ITAB   ,UIX    ,IGEO)
         NUVAR =  NINT(GEO(25,I0))
@@ -1079,9 +1079,9 @@ C
      4  GBUF%V_REPCVT(II(1)) ,GBUF%V_REPCVT(II(2)),GBUF%V_REPCVT(II(3)),GBUF%VR_REPCVT(II(1)),GBUF%VR_REPCVT(II(2)),
      5  GBUF%VR_REPCVT(II(3)),GBUF%VAR            ,GBUF%EINT           ,BIDON                ,BIDON                ,
      6  IGTYP                ,PTSPRI)
-C=========================================================
+C=======================================================================
       ELSEIF (IGTYP == 44) THEN
-C=========================================================
+C=======================================================================
         CALL RINI3U(GBUF%OFF ,GEO       ,X      ,UL     ,IXR ,  
      2              SKEW     ,GBUF%SKEW ,ITAB   ,UIX    ,IGEO)
         NUVAR =  NINT(GEO(25,I0))
@@ -1133,9 +1133,9 @@ C
      4  GBUF%V_REPCVT(II(1)) ,GBUF%V_REPCVT(II(2)),GBUF%V_REPCVT(II(3)),GBUF%VR_REPCVT(II(1)),GBUF%VR_REPCVT(II(2)),
      5  GBUF%VR_REPCVT(II(3)),GBUF%VAR            ,GBUF%EINT           ,BIDON                ,BIDON                ,
      6  IGTYP                ,PTSPRI)
-C=========================================================
+C=======================================================================
       ELSEIF (IGTYP == 46) THEN
-C=========================================================
+C=======================================================================
         CALL RINI3U(GBUF%OFF ,GEO       ,X      ,UL     ,IXR ,  
      2              SKEW     ,GBUF%SKEW ,ITAB   ,UIX    ,IGEO)
         NUVAR =  NINT(GEO(25,I0))
@@ -1532,7 +1532,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IX(NIXR,*),UIX(4,MVSIZ),ITAB(*), IGEO(NPROPGI,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF(*), GEO(NPROPG,*), X(3,*), X0(*), SKEW(LSKEW,*),
      .   RLOC(6,*)
@@ -1540,7 +1540,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, NG, I1, I2, I3, ISK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X1, Y1, Z1, IDIR
 C-----------------------------------------------
@@ -1631,17 +1631,17 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IX(NIXR,*),UIX(4,MVSIZ),ITAB(*), IGEO(NPROPGI,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF(*), GEO(NPROPG,*), X(3,*), X0(*), SKEW(LSKEW,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RLOC(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, NG, I1, I2, I3, ISK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X1, Y1, Z1
 C-----------------------------------------------
@@ -1729,7 +1729,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IP,I1,I2
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XX,YY,ZZ,XY,YZ,ZX
       my_real
@@ -1856,7 +1856,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NIX,N,NSIGI,NUVAR,NEL,IGTYP
       INTEGER IXR(NIXR,*),PTSPRI(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   F(*),EINT(*),SIGRS(NSIGI,*),DPL(*),DPL2(*),DFS(*),
      .   FEP(*),DL(*),XL0(*),DV(*),DL0(*),F0(*)
@@ -1933,7 +1933,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NIX,N
       INTEGER IXR(NIXR,*),NSIGI,NUVAR,NEL,IGTYP,PTSPRI(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FX(*),FY(*),FZ(*),EINT(*),SIGRS(NSIGI,*),
      .   MX(*),MY(*),MZ(*),DXPL(*),DYPL(*),DZPL(*),
@@ -2053,7 +2053,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NIX,N,NUVAR,IGTYP,NSIGI,NEL
       INTEGER IXR(NIXR,*),PTSPRI(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FX(*),FY(*),FZ(*),XMOM(*),YMOM(*),ZMOM(*),
      .   EINT(*),SIGRS(NSIGI,*),YMOM1(*),ZMOM1(*),

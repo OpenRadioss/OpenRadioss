@@ -95,7 +95,7 @@ C-----------------------------------------------
      .     LSENSOR(NSENSI,*),
      .     MFI,NAIRWA ,IXS(NIXS,*),
      .     LIBAGALE,NPT(*),LRBAGALE,IPM(NPROPMI,*),IGEO(NPROPGI,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     GEO(NPROPG,*), PM(NPROPM,*), X(3,*), V(3,*),
      .     PLD(2,*), MEMBAG, 
@@ -137,7 +137,7 @@ C-----------------------------------------------
       my_real :: PARAM, TMP
       INTEGER :: IMESH_ALL, ICOPY, NJET_NEW(NVOLU)
       
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     AMU, PEXT, PINI, TI,  RHOI, EI,RHOEI,
      .     GAMAI, CPAI, CPBI, CPCI, CPDI, CPEI, CPFI,

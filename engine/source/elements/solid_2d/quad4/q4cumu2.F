@@ -47,7 +47,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NC1(*),NC2(*),NC3(*),NC4(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    E(3,*),STIFN(*),STIM(*),
      .    FY1(*),FZ1(*),FY2(*),FZ2(*),
@@ -113,7 +113,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IADQ(4,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    FSKY(8,LSKY), FSKYV(LSKY,8),
      .    FY1(*), FZ1(*), FY2(*), FZ2(*),

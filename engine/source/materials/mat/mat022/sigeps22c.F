@@ -56,7 +56,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,IPLA,NEL,NPT,NPTT,IMAT,IPT
       INTEGER IOFF_DUCT(MVSIZ),INLOC
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*),THK(*),OFF(*),OFF_OLD(*),SIGY(*),DT1C(*),GS(*)
       my_real
@@ -70,7 +70,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ICC(MVSIZ),I,ILAYER,ICC_1,J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A1(MVSIZ),YLD(MVSIZ),
      .   CA(MVSIZ),CB(MVSIZ),CN(MVSIZ),YMAX(MVSIZ),

@@ -34,10 +34,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),D(3,*),CDG(*), SCALE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX,DX,DY,DZ
       INTEGER II(4), N

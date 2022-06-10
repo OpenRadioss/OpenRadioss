@@ -53,7 +53,7 @@ C----------------------------------------------------------
      .   AMX,AMY,AMZ,BMX,BMY,BMZ,CMX,CMY,CMZ,DMX,DMY,DMZ, 
      .   N1X,N1Y,N1Z,N2X,N2Y,N2Z,N3X,N3Y,N3Z,N4X,N4Y,N4Z,
      .   SX,SY,SZ,D,D1,D2,D3,D4,NORM1,A1,A2,NORM2,NORM3,NORM4
-c=======================================================================
+C=======================================================================
 c     segment barycenter
       MX = FOURTH*(AX + BX + CX + DX)
       MY = FOURTH*(AY + BY + CY + DY)

@@ -68,7 +68,7 @@ C-----------------------------------------------
      .        ITAB(*),IKINE(*),IKINE1(*),IPARI(*),
      .        IXS(NIXS,*),IXC(NIXC,*),IXS10(6,*),IXS16(8,*),IXS20(12,*),IXTG(NIXTG,*)
       INTEGER  IDDLEVEL,IPROJ,NSN_MULTI_CONNEC,T2_ADD_CONNEC(*),T2_CONNEC(*),T2_NB_CONNEC(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),ST(2,*),DMIN(*),TZINF,DSEARCH,STB(2,*)
       INTEGER ID

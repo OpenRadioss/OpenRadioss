@@ -66,7 +66,7 @@ C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER IGEO(NPROPGI),ISKN(LISKN,*),IG,IGTYP
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG)
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
@@ -75,7 +75,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
        INTEGER ITYPE,ID_SKEW,ID_SENS,ISFLAG,K
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  INERTIA,VOL_AIR,PUN
       LOGICAL IS_AVAILABLE, IS_CRYPTED

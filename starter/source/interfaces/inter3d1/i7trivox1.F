@@ -125,7 +125,7 @@ C-----------------------------------------------
      .        IRECT(4,*), VOXEL(NBX+2,NBY+2,NBZ+2),ISTF,
      .        I_STOK ,MULTIMP,PROV_N(*),PROV_E(*),J_STOK,
      .        INDEX(*),KREMNODE(*),REMNODE(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),XYZM(6,2),STF(*),STFN(*),GAP_S(*),GAP_M(*),
      .   TZINF,MARGE,GAP,GAPMIN,GAPMAX,BGAPSMX,DRAD,
@@ -154,7 +154,7 @@ C-----------------------------------------------
       INTEGER NB_NCN,NB_NCN1,NB_ECN,I,J,DIR,NB_NC,NB_EC,
      .        N1,N2,N3,N4,NN,NE,K,L,NCAND_PROV,II,JJ,KK,
      .        NSNF, NSNL, I_BID,DELNOD,TAG(NUMNOD)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DX,DY,DZ,XS,YS,ZS,XX,SX,SY,SZ,S2,
      .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, TZ, GAPSMX, GAPL,
@@ -207,9 +207,9 @@ c      ZMAXB = ZMAX
 
 c      print *,NOINT,'before loop:',XMINB,YMINB,ZMINB,XMAXB,YMAXB,ZMAXB
 c      print *,NOINT,'box big:',XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX
-C================================================================
+C=======================================================================
 C 1   mise des noeuds dans les boites
-C================================================================
+C=======================================================================
 
       DO I=1,NSN
         IIX(I)=0
@@ -270,10 +270,10 @@ c         on saute directement au dernier
           NEXT_NOD(I)     = 0 ! pas de next apres I
         ENDIF
       ENDDO
-C================================================================
+C=======================================================================
 C 3   recherche des boites concernant chaque facette
 C     et creation des candidats
-C================================================================
+C=======================================================================
 
 c      print*,'loop nrtm',NRTM
 c      maxvox=0
@@ -526,9 +526,9 @@ c     print*,'result >100 >1000 > 5000:',jj1,jj2,jj3
 C-------------------------------------------------------------------------
 C     FIN DU TRI
 C-------------------------------------------------------------------------
-C================================================================
+C=======================================================================
 C 4   remise a zero des noeuds dans les boites
-C================================================================
+C=======================================================================
  100  CONTINUE
       DO I=1,NSN
         IF(IIX(I)/=0)THEN

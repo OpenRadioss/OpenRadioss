@@ -123,7 +123,7 @@ C
      .         IPFLAG, PFUN,  IPFUN, IPOSP(MVSIZ),
      .          IADP(MVSIZ), ILENP(MVSIZ), NRATE, NPF(*)
 C
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SIGNXX(*),  SIGNYY(*),  SIGNZZ(*),
      .   SIGNXY(*),  SIGNYZ(*),  SIGNZX(*), 
@@ -143,7 +143,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, II, ITER, NITER, I_BILIN, IPOS
 C
-C     REAL ou REAL*8
+C     REAL
       MY_REAL
      .   XSI, DXSI, LHS, RHS, ALPHA_RADIAL, VM, HEP, R, DPLA,
      .   YLD_CURR, YLD_PREV, YLD_M, H_M, P_SCAL, Y_SCAL,
@@ -159,7 +159,7 @@ C
      .   FINTER2
       EXTERNAL FINTER2
 C
-C===============================================
+C=======================================================================
 C
 C
 c ---- hardening law flag: i_bilin = 1 -- bilinear hardening law

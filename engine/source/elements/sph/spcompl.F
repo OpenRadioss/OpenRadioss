@@ -70,7 +70,7 @@ C-----------------------------------------------
      .        ISPSYM(NSPCOND,*),IPARG(NPARG,*),ISPCOND(NISPCOND,*),
      .        IPART(LIPART1,*),IPARTSP(*),WASPACT(*),
      .        ITASK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*) ,V(3,*) ,MS(*) ,SPBUF(NSPBUF,*) ,
      .   XSPSYM(3,*)   ,VSPSYM(3,*) ,WACOMP(16,*),
@@ -1050,7 +1050,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ISPSYM(NSPCOND,*), ISPCOND(NISPCOND,*),
      .        IPART(LIPART1,*), IPARTSP(*), WASPACT(*), ITASK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   WACOMP(16,*), XFRAME(NXFRAME,*), WSMCOMP(6,*),
      .   GEO(NPROPG,*)

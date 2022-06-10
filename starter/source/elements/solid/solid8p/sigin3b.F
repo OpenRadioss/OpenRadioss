@@ -59,7 +59,7 @@ C-----------------------------------------------
       INTEGER NIX, N, JPS, NSIGI, NEL,IDEF,JHBE,IGTYP, NSIGS
       INTEGER IX(NIX,*), IPM(NPROPMI,*), NPF(*) ,
      .   STRSGLOB(*),STRAGLOB(*),MAT(NEL),L_PLA,PT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SIG(NEL,6),EINT(NEL),RHO(NEL),VOL(*),BUFGAMA(6*NEL), 
      .   SIGSP(NSIGI,*),PM(NPROPM,*),SIGI(NSIGS,*),
@@ -71,7 +71,7 @@ C-----------------------------------------------
       INTEGER I,J,II,JJ,IPT,JPT,JPTP,JPS1,NUVAR,MA,IADBUF,NPAR,
      .   NFUNC,IFLAGINI,KK(6)
       INTEGER IFUNC(MAXFUNC) 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  RHO0(NEL),GAMA(6),TENS(6)
       my_real,

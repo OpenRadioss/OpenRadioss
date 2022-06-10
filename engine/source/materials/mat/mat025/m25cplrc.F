@@ -69,7 +69,7 @@ C-----------------------------------------------
       INTEGER JFT, JLT,ILAYER,
      .   NFIS1(*),NFIS2(*),NFIS3(*),IMATLY,ISRATE, ISHPLYXFEM,
      .   OUTV(*),PLY_ID,IGTYP,IPG
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*), OFF(*), SIG(NEL,5), WPLA(*), DIR(NEL,2),
      .   DAMT(NEL,2), CRAK(NEL,2),SHF(*),EPSP(*),
@@ -88,7 +88,7 @@ C-----------------------------------------------
      .         ISOFT(MVSIZ),IMODWP(MVSIZ)
       INTEGER NINDX,INDEX(MVSIZ),J,ICAS(MVSIZ)
       INTEGER IOFF(MVSIZ),ID,IFAIL0
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DP1(MVSIZ), DP2(MVSIZ), DP3(MVSIZ),CB(MVSIZ),CN(MVSIZ),
      .   E11(MVSIZ), E22(MVSIZ), NU12(MVSIZ), NU21(MVSIZ),

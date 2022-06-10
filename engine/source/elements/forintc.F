@@ -141,7 +141,7 @@ C-----------------------------------------------
      .   INOD_CRK(*),IEL_CRK(*),IADC_CRK(*),ELCUTC(2,*),
      .   NODENR(*),IBORDNODE(*),NODEDGE(2,*),CRKNODIAD(*),
      .   DIMFB, STABSEN,TABSENSOR(STABSEN),ITAB(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*)    ,D(3,*)  ,V(3,*)   ,VR(3,*),
      .   MS(*)     ,IN(*)   ,PM(NPROPM,*),SKEW(LSKEW,*),

@@ -71,7 +71,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   CX(MVSIZ), QX(MVSIZ), AL(MVSIZ) 
       my_real
@@ -137,7 +137,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   CX(MVSIZ), QX(MVSIZ), AL(MVSIZ) 
       my_real

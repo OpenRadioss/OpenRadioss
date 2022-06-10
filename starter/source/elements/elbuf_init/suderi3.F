@@ -68,7 +68,7 @@ C-----------------------------------------------
      .   YD5(MVSIZ), YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ),
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ),
      .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AJ1(MVSIZ), AJ2(MVSIZ), AJ3(MVSIZ), AJ4(MVSIZ), AJ5(MVSIZ), AJ6(MVSIZ),
      .   AJ7(MVSIZ), AJ8(MVSIZ) , AJ9(MVSIZ),

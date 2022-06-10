@@ -74,7 +74,7 @@ C-----------------------------------------------
      .   IXS10(6,*),IXS20(12,*),IXS16(8,*),
      .   SH4TREE(KSH4TREE,*), SH3TREE(KSH3TREE,*),KXIG3D(NIXIG3D,*),
      .   IXIG3D(*),NSHNOD(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MSS(8,*), MSQ(*),MSC(*),MST(*),MSP(*),MSR(3,*),
      .   MSTG(*),MSUR(*),MSSX(12,*),INC(*),

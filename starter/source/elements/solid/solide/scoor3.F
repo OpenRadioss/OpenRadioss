@@ -385,7 +385,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,NPE1,N
       INTEGER NC(MVSIZ,NPE)
-C     REAL ou REAL*8
+C     REAL
 c      my_real
       DOUBLE PRECISION
      .   XL(MVSIZ),YL(MVSIZ),ZL(MVSIZ)

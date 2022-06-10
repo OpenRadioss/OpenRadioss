@@ -50,7 +50,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*),NEL   ,IDDL(*)  ,NDOF(*)  ,
      .          IADK(*)  ,JDIK(*)        
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   K_DIAG(*) ,K_LT(*)   ,
      .   K11(9,*) ,K12(9,*)  ,K13(9,*)  ,K14(9,*)  ,K22(9,*)  ,

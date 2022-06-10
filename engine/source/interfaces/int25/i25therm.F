@@ -80,7 +80,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MATS , MATM 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SX1 , SY1 , SZ1 , SX2 , SY2 , SZ2,
      .   TS,  RSTIF, TSTIFM, TSTIFT, COND, P, DYDX,

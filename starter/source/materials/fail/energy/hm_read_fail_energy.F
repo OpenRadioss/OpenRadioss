@@ -89,7 +89,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
       INTEGER     ::     IRFUN,DMG_FLAG
       my_real     ::     RF1,RF2,RIEF1,RIEF2,SCALE_EPSP,PTHKF
@@ -116,7 +116,7 @@ C=======================================================================
       IF (RIEF2 <= ZERO) RIEF2 = TWO*EP30      
       IF (DMG_FLAG == 0) DMG_FLAG = 1  ! DMG_FLAG = 1    => damage reduces forces after criteria is met
       IF (DMG_FLAG == 2) DMG_FLAG = 0  ! DMG_FLAG = 2->0 => damage reduces saved stress (old method)
-C=============================================
+C=======================================================================
       IF (RIEF1 > RIEF2) THEN
         CALL ANCMSG(MSGID=618,
      .              MSGTYPE=MSGERROR,

@@ -50,7 +50,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEDGE,IGAP,INTFRIC,
      .   LEDGE(NLEDGE,*),IPARTFRIC_E(*) ,IPARTFRICM(*), IPARTSM(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STFE(*), GAPE(*), GAP_E_L(*), STFM(*), GAP_M(*), GAP_M_L(*), GAP_S_L(*), BGAPEMX,
      .   BGAPEMX_L

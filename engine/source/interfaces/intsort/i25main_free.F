@@ -62,13 +62,13 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,NINTER),ITASK,INTLIST25(*)
       INTEGER ISENDTO(NSPMD+1,*),IRECVFROM(NSPMD+1,*)
-C     REAL ou REAL*8
+C     REAL
       TYPE(INTBUF_STRUCT_),DIMENSION(NINTER) :: INTBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, NIN, NRTM, IEDGE, NEDGE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, STOPT
 C-----------------------------------------------

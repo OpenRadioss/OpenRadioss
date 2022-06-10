@@ -101,7 +101,7 @@ C-----------------------------------------------
       ! VARTMP(3)   latest position of TEMP in TAB_TEMP function 
       ! VARTMP(4)   latest position of TEMP in TAB_ETA function 
       ! VARTMP(5)   latest position of PLAS in TAB_ETA function 
-c=======================================================================
+C=======================================================================
 c     Material model parameters
 c-----------------------------------------------
       YOUNG   =  UPARAM(1)       ! Young modulus

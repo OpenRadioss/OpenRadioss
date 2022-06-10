@@ -43,7 +43,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  IT,IT_MAX  
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  R2,TOL 
 C-----------------------------------------------
@@ -524,7 +524,7 @@ C----------resol [K]{X}={F}---------
       INTEGER IAD_ELEM(2,*), FR_ELEM(*), ITAB(*),  
      .        INSOLV, ITN, IPIV_K(*), NK, CDDLP(*), ISOLV, IDSC,
      .        IDDL(*), IKC(*), INLOC(*),NDDLI_G, MICID
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  LT_I(*), TOL, EPS_M, F_X, XI_C(*)
 #if defined knf
@@ -2662,7 +2662,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL,NDDLI,ITN
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2706,7 +2706,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL,NDDLI,NLIM
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2782,7 +2782,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  F_DDL,L_DDL,NDDL,ITASK,W_DDL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  X(*), R(*) 
 C-----------------------------------------------
@@ -2860,7 +2860,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  F_DDL ,L_DDL ,NDDL,ITASK,W_DDL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  P(*) 
 C-----------------------------------------------
@@ -2936,7 +2936,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  ND,F_ND ,L_ND,NPF,   NPL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  S(ND,*),ALEAT
       EXTERNAL ALEAT
@@ -3018,7 +3018,7 @@ C-----------------------------------------------
       INTEGER  NDOF(*),NE_IMP(*),NSREM ,NSL,
      .         IPARI(*) ,NUM_IMP(*),NS_IMP(*) ,IND_IMP(*)
       INTEGER NMONV,IMONV(*),MONVOL(*),FR_MV(*)
-C     REAL ou REAL*8
+C     REAL
         my_real
      .  DIAG_K(*), LT_K(*),LT_I(*) ,XI_C(*),U_TMP(*),P(*),Y(*)
         my_real
@@ -3130,7 +3130,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  IT,F_DDL,L_DDL
-C     REAL ou REAL*8
+C     REAL
         my_real
      .  R2, R2_OLD  ,RMAX  ,PROJ_U(*),P(*)
 C-----------------------------------------------
@@ -3242,7 +3242,7 @@ C----------resol [K]{X}={F}---------
       INTEGER IAD_ELEM(2,*), FR_ELEM(*), ITAB(*),  
      .        INSOLV, ITN, IPIV_K(*), NK, CDDLP(*), ISOLV, IDSC,
      .        IDDL(*), IKC(*), INLOC(*),NDDLI_G
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_K(*), LT_K(*) ,DIAG_M(*),LT_M(*) ,X(*), TOL,
      .  P(*) ,Z(*)  ,R(*)  ,Y(*),LT_I(*) ,EPS_M,F_X,XI_C(*)
@@ -3949,7 +3949,7 @@ C-----------------------------------------------
       INTEGER  NDOF(*),NE_IMP(*),NSREM ,NSL,
      .         IPARI(*) ,NUM_IMP(*),NS_IMP(*) ,IND_IMP(*)
       INTEGER NMONV,IMONV(*),MONVOL(*),FR_MV(*)
-C     REAL ou REAL*8
+C     REAL
         my_real
      .  DIAG_K(*), LT_K(*),LT_I(*) ,XI_C(*),DIAG_M(*), LT_M(*)
         my_real
@@ -4116,7 +4116,7 @@ C-----------------------------------------------
       INTEGER  NDOF(*),NE_IMP(*),NSREM ,NSL,
      .         IPARI(*) ,NUM_IMP(*),NS_IMP(*) ,IND_IMP(*)
       INTEGER NMONV,IMONV(*),MONVOL(*),FR_MV(*)
-C     REAL ou REAL*8
+C     REAL
         my_real
      .  DIAG_K(*), LT_K(*),LT_I(*) ,XI_C(*),U(*),P(*),Y(*)
         my_real
@@ -4256,7 +4256,7 @@ C-----------------------------------------------
      .         IPARI(*) ,NUM_IMP(*),NS_IMP(*) ,IND_IMP(*)
       INTEGER NMONV,IMONV(*),MONVOL(*),FR_MV(*)
       INTEGER IDDL(*), IKC(*), INLOC(*) 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_K(*), LT_K(*) ,DIAG_M(*),LT_M(*) , 
      .  P(*) ,R(*)  ,Y(*),LT_I(*) ,XI_C(*),Z(*),SQ_DIAG_M(*)

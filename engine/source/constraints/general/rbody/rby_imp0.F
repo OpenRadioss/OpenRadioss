@@ -51,7 +51,7 @@ C-----------------------------------------------
      .        NRBYAC,IRBYAC(*),NDDL,IADK(*),JDIK(*),NDOF(*),
      .        IDDL(*),IKC(*),NSC(*),ISIJ(*),NSS(*) ,ISS(*),
      .        NMC,IMIJ(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), RBY(NRBY,*), SKEW(LSKEW,*), SENSOR(NSENSR,*),
      .   IN(*),MS(*),DIAG_K(*),LT_K(*),B(*)
@@ -113,7 +113,7 @@ C-----------------------------------------------
       INTEGER WEIGHT(*),LPBY(*),NPBY(NNPBY,*),ISKEW(*),ITAB(*),
      .        NRBYAC,IRBYAC(*),NDDL,IADK(*),JDIK(*),NDOF(*),
      .        IDDL(*),IKC(*),NSS(*) ,ISS(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), RBY(NRBY,*), SKEW(LSKEW,*), SENSOR(NSENSR,*),
      .   IN(*),MS(*),DIAG_K(*),LT_K(*),B(*)
@@ -177,7 +177,7 @@ C-----------------------------------------------
       INTEGER NOD(*), NBY(*), ISKEW(*),ITAB(*), WEIGHT(*),
      .        NSC,ISI(2,NSC) ,NS(*),NODS(*)
       INTEGER NDDL,IADK(*),JDIK(*),NDOF(*),IDDL(*),IKC(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), RBY(*), SKEW(LSKEW,*),
      .   IN(*),MS(*),DIAG_K(*),LT_K(*),B(*)
@@ -187,7 +187,7 @@ C-----------------------------------------------
 C  ds010   21/2/00  +1
       INTEGER M, NSN, IJD, ISK, I, N, J,NI,NJ,J1,
      .        K,L,ID,JD,ND,IMD,NIDOF,IR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XS,YS,ZS,XS1,YS1,ZS1, KDD(6,6),BD(6)
 C-----------------------------------------------
@@ -286,7 +286,7 @@ C-----------------------------------------------
       INTEGER ISKEW(*),ITAB(*), WEIGHT(*),
      .        NMC,IMI(2,NMC) ,ISI(2,NMC)
       INTEGER IADK(*),JDIK(*),NDOF(*),IDDL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SKEW(LSKEW,*),X(3,*), IN(*),MS(*),LT_K(*)
 C-----------------------------------------------
@@ -294,7 +294,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C  ds010   21/2/00  +1
       INTEGER M, I, NI,NJ,ND,NM,IR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XS,YS,ZS,XS1,YS1,ZS1, KDD(6,6)
 C-----------------------------------------------
@@ -339,14 +339,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NDL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    XS,YS,ZS, BD(6),KDD(6,6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, MI,MJ
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   B(3),K(6,6),KR(3,3),RKR(3,3),RMF(3,3)
 C------------------------------------
@@ -441,14 +441,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NI,NJ
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    XS,YS,ZS, KDD(6,6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   K(6,6)
 C------------------------------------
@@ -506,14 +506,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NI,NJ,ISYM
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    XS,YS,ZS,XS1,YS1,ZS1, KDD(6,6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, MI,MJ
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   K(6,6),KR(3,3),RKR(3,3),RMF(3,3),RK(3,3)
 C------------------------------------
@@ -633,13 +633,13 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER N, M,NDOF(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), A(3,*),AR(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XS,YS,ZS
 C-----------------------------------------------
@@ -674,14 +674,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NDL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    XS,YS,ZS, K(6),KII(6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   KDD(3,3),KR(3,3)
 C------------------------------------
@@ -733,7 +733,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NOD(*), NBY(*),NDOF(*),IDDL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), RBY(*), B(*)
 C-----------------------------------------------
@@ -742,7 +742,7 @@ C-----------------------------------------------
 C  ds010   21/2/00  +1
       INTEGER M, NSN, IJD, ISK, I, N, J,NI,NJ,J1,
      .        K,L,ID,JD,ND,IMD,NIDOF
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XS,YS,ZS,BD(6)
 C-----------------------------------------------
@@ -797,14 +797,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NDL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    XS,YS,ZS, BD(6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, MI,MJ
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   B(3)
 C------------------------------------
@@ -848,7 +848,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NOD(*), NBY(*),NDOF(*),IDDL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), RBY(*), B(*)
 C-----------------------------------------------
@@ -857,7 +857,7 @@ C-----------------------------------------------
 C  ds010   21/2/00  +1
       INTEGER M, NSN, IJD, ISK, I, N, J,NI,NJ,J1,
      .        K,L,ID,JD,ND,IMD,NIDOF
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XS,YS,ZS,BD(6),AC(3,*) ,ACR(3,*)
 C-----------------------------------------------
@@ -920,7 +920,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IADK(*),JDIK(*),NDOF(*),IDDL(*),IDDLM(*),IKC(*),
      .        M, NS,ITAB(*),IDLM ,ISS,ISM
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),DIAG_K(*),LT_K(*),B(*),A(3,*),
      .   KSS(6),KSM(3,3),KNM(3,3),KRM(3,3)
@@ -932,7 +932,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K,ID,NL,NI,NJ,NDOFI,ND,IR,IDM
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   KDD(6,6),BD(6),XS,YS,ZS
 C------------------------------------

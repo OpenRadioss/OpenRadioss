@@ -63,7 +63,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPBY(NNPBY,*), LPBY(*), ITAB(*)
       INTEGER IKINE(*), IDDLEVEL, NUMSL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RBY(NRBY,*)
       INTEGER NOM_OPT(LNOPT1,*)
@@ -96,7 +96,7 @@ C   NPBY(13,N) = RBODY IFLAG
 C   NPBY(14,N) = NUMBER OF XTRA_NODE with Iflag=1
 C   NPBY(15,N) = NUMBER OF XTRA_NODE with Iflag=2
 C   NPBY(16,N) = NUMBER OF XTRA_NODE with Iflag=3
-C=====================================================================
+C=======================================================================
       IF (NUMSL > 0) THEN
         ALLOCATE(TABSL(2,NUMSL))
         ALLOCATE(INDEX(3*NUMSL))

@@ -48,14 +48,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF(*), RHO(*), MS(*),AREA(*)
       INTEGER NC1(*), NC2(*), NC3(*), NC4(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MASS(MVSIZ)
       INTEGER I
@@ -103,14 +103,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF(*), RHO(*), AREA(*), FSKYV(LSKY,8),FSKY(8,LSKY)
       INTEGER IADQ(4,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MASS(MVSIZ)
       INTEGER I, II, K
@@ -185,14 +185,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF(*), RHO(*), AREA(*), FSKYV(LSKY,8),FSKY(8,LSKY)
       INTEGER IADQ(4,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MASS(MVSIZ)
       INTEGER I, II, K
@@ -274,14 +274,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF(*), RHO(*), MS_2D(*),VNEW(*)
       INTEGER NC1(*), NC2(*), NC3(*), NC4(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MASS(MVSIZ)
       INTEGER I
@@ -328,14 +328,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF(*), RHO(*), VNEW(*), FSKYM(*)
       INTEGER IADQ(4,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MASS(MVSIZ)
       INTEGER I, II, K
@@ -387,14 +387,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF(*), RHO(*), VNEW(*), FSKYM(*)
       INTEGER IADQ(4,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MASS(MVSIZ)
       INTEGER I, II, K

@@ -63,7 +63,7 @@ C-----------------------------------------------
      .     RXAVT(MVSIZ), RX13T(MVSIZ), RX24T(MVSIZ), RY13T(MVSIZ),
      .     RYAVT(MVSIZ), RY24T(MVSIZ),
      .     RXAVTA,RX13TA,RX24TA,RY13TA,RYAVTA,RY24TA
-c=======================================================================
+C=======================================================================
       DO I=JFT,JLT
       RX1(I)=E1X(I)*VRL1(I,1)+E1Y(I)*VRL1(I,2)+E1Z(I)*VRL1(I,3)
       RX2(I)=E1X(I)*VRL2(I,1)+E1Y(I)*VRL2(I,2)+E1Z(I)*VRL2(I,3)

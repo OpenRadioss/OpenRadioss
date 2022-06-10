@@ -54,7 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------                        
 C   D u m m y   A r g u m e n t s                                       
 C-----------------------------------------------                        
-C     REAL ou REAL*8                                                    
+C     REAL                                                    
       my_real                                                           
      .   TENS(6,*),PM(NPROPM,*),X(3,*)                         
       INTEGER IPARG(NPARG,*),ITENS, ISPH3D,NBF,                                    
@@ -62,7 +62,7 @@ C     REAL ou REAL*8
       REAL WA(6*NBF)                                                    
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
 C-----------------------------------------------                        
-C     REAL ou REAL*8                                                    
+C     REAL                                                    
       my_real                                                           
      .   EVAR(6,MVSIZ),OFF, FAC, A1, A2, A3, THK, GAMA(6)               
       REAL R4(18)                                                       

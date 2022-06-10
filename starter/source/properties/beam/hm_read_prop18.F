@@ -79,7 +79,7 @@ C-----------------------------------------------
       INTEGER I,J,IP,INTR,INTS,NIP,NIPMAX,NC,NS,IPY,IPZ,IPA,IREF,ISECT,
      .        IRX,IR1X,IR1Y,IR1Z,IR2X,IR2Y,IR2Z,ISS
       INTEGER IHBE,ISMSTR,ISHEAR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    DM,DR,PY,PZ,AI,YI,ZI,WI,AREA,Y0,Z0,L1,L2,L3,L4,L5,L6,PUN
       LOGICAL IS_AVAILABLE, IS_CRYPTED
@@ -333,7 +333,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ISECT,INTR,INTS,NIP,IG
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AREA,L1,L2,L3,L4,L5,L6
       my_real
@@ -343,7 +343,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,IP,NC,NS,IPY,IPZ,IPA 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    AI,YI,ZI,WI,PHI,DPHI,R1,R2,R3,R4,D2, D3, D4
       my_real

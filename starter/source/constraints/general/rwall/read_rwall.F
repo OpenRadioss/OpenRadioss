@@ -90,7 +90,7 @@ C-----------------------------------------------
      .        IMERGE(*),
      .        IKINE1LAG(*),ITAGND(*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RWL(NRWLP,*), MS(*), V(3,*), X(3,*),
      .   RTRANS(NTRANSF,*)

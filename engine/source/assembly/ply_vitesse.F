@@ -47,7 +47,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NODFT,NODLT,NDDIM, NPLYMAX,INOD(*)
-C     REAL ou REAL*8
+C     REAL
 cc        TYPE(LAYER_DATA), DIMENSION(:), ALLOCATABLE :: PLY 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -87,7 +87,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NODFT,NODLT,NDDIM,INOD(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  A(4,*), V(3,*),U(3,*)
 C-----------------------------------------------

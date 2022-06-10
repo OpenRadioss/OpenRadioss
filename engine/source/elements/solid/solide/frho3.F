@@ -51,7 +51,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NGL(*),MAT(*),NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  UVAR(NEL,*),FLUX(MVSIZ,6), FLU1(*),
      .  VOLN(*), DXX(*),DYY(*),DZZ(*),OFF(*),RHO0(*)

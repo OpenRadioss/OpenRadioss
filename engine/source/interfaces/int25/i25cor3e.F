@@ -84,7 +84,7 @@ C-----------------------------------------------
      .        IPARTFRIC_E(*),IPARTFRICSI(MVSIZ),IPARTFRICMI(MVSIZ)
       INTEGER :: EDGE_ID(2,MVSIZ)
       INTEGER NEDGE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        X(3,*), STFE(*), MS(*), V(3,*), GAPE(*), 
      .        XXS1(*), XXS2(*), XYS1(*), XYS2(*),

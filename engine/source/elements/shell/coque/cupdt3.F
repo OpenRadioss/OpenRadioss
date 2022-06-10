@@ -57,7 +57,7 @@ C-----------------------------------------------
       INTEGER JFT, JLT, NVC
       INTEGER IXC(NIXC,MVSIZ),MAT(MVSIZ),IPARTC(*)
       integer*8 I8F(3,3,*), I8M(3,3,*), I8STIFN(3,*), I8STIFR(3,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFFG(*), OFF(*), STI(*), STIR(*), 
      .   F11(MVSIZ), F12(MVSIZ), F13(MVSIZ), F14(MVSIZ),
@@ -81,7 +81,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       INTEGER NVC1, NVC2, NVC3, NVC4, I, J,N,IOFF,MX,MT
       my_real OFF_L
-c=======================================================================
+C=======================================================================
 C cumul de l'energie des elements deletes AU moment du delete
       IOFF=0
       DO I=JFT,JLT
@@ -549,7 +549,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT, NVC, JTHE
       INTEGER IXC(NIXC,MVSIZ),MAT(MVSIZ),IPARTC(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   F(3,*), M(3,*), OFFG(*), OFF(*), STI(*), STIR(*), 
      .   STIFN(*), STIFR(*),
@@ -567,7 +567,7 @@ C-----------------------------------------------
       INTEGER NVC1, NVC2, NVC3, NVC4, I, J,IOFF,MX, MT
       my_real
      .   OFF_L,CF(MVSIZ)
-c=======================================================================
+C=======================================================================
 C
 C cumul de l'energie des elements deletes AU moment du delete
       IOFF=0
@@ -1035,7 +1035,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, II, K, J,IOFF,MX,MT
       my_real OFF_L
-c=======================================================================
+C=======================================================================
 C cumul de l'energie des elements deletes AU moment du delete
       IOFF=0
       DO I=JFT,JLT

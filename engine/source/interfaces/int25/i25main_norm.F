@@ -47,7 +47,7 @@ Chd|====================================================================
      2                   ITAB    ,SENSOR ,IAD_FRNOR    ,FR_NOR   ,
      3                   IAD_FREDG,FR_EDG,IAD_ELEM,FR_ELEM,FSKYN25,
      4                   ADDCSRECT,PROCNOR)
-C===============================================================
+C=======================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -80,7 +80,7 @@ C-----------------------------------------------
       INTEGER IPARI(NPARI,NINTER), INTLIST25(*), ITAB(*),
      .        IAD_FRNOR(NINTER25,*), FR_NOR(*), IAD_FREDG(NINTER25,*), FR_EDG(*), 
      .        IAD_ELEM(2,*), FR_ELEM(*),ADDCSRECT(*), PROCNOR(*)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .   X(3,*), SENSOR(NSENSR,*)
       TYPE(INTBUF_STRUCT_),DIMENSION(NINTER) :: INTBUF_TAB
@@ -93,7 +93,7 @@ C-----------------------------------------------
      .        NRTM, NSN, NSNR, NIN, NRTM_SH, NRTM0, FLAGREMN ,NCSHIFT ,ISHIFT,
      .        SIZE_NODNOR_E2S,I,J,NOD,CC,SOL_EDGE
       INTEGER :: NEDGE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TS, STARTT, STOPT
       REAL*4 RZERO

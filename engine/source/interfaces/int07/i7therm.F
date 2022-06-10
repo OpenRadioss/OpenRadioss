@@ -68,7 +68,7 @@ C-----------------------------------------------
      .        IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),
      .        IELECI(MVSIZ),NPC(*),
      .        IFORM,IFUNCTK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*),TEMP(*),TEMPI(MVSIZ),XI(MVSIZ),YI(MVSIZ),
      .   ZI(MVSIZ),X1(MVSIZ),Y1(MVSIZ),Z1(MVSIZ),X2(MVSIZ),Y2(MVSIZ),
@@ -82,7 +82,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, II,L,NB3M, I3N,LS,J,IE,MAT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SX1 , SY1 , SZ1 , SX2 , SY2 , SZ2,
      .   AREAM ,TS, VOLM, TSTIF, TM,TSTIFM,

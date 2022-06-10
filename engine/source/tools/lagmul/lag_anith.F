@@ -53,7 +53,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NC,IADLL(*),LLL(*),JLL(*),SLL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  XLL(*),FANI(3,*),FSAV(NTHVKI,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
@@ -137,7 +137,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NC,IADLL(*),LLL(*),JLL(*),SLL(*),
      .        FR_LAGF(*), LLAGF(*), INDEXLAG(*), NBNODL, NLAGF
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  XLL(*),FANI(3,*),FSAV(NTHVKI,*), FANIG(3,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
@@ -217,7 +217,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LPBY(*), NPBY(NNPBY,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AF(3,*), AM(3,*), X(3,*), FANI(3,*), FS(*)
 C-----------------------------------------------

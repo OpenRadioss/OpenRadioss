@@ -59,7 +59,7 @@ C-----------------------------------------------
       INTEGER  NDDL  ,NNZ   ,IADM(*) ,JDIM(*),IPREC,ITASK,IPRINT
       INTEGER  IADK(*),JDIK(*),
      .         ISOLV ,ITAB(*), INSOLV,IT, IPIV_K(*), NK, IDSC
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_M(*), Z(*), LT_M(*)  ,V(*) 
       my_real
@@ -169,7 +169,7 @@ C-----------------------------------------------
      .        ITAB(*), IPRINT, 
      .        INSOLV, IT, IPIV_K(*), NK, CDDLP(*), ISOLV, IDSC,
      .        IDDL(*), IKC(*), INLOC(*), NDOF(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_M(*), Z(*), LT_M(*)  ,V(*) 
       my_real
@@ -247,7 +247,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL  ,NNZ   ,IADM(*)  ,JDIM(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_M(*), Z(*), LT_M(*)  ,V(*) 
 C-----------------------------------------------
@@ -305,7 +305,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL  ,NNZ   ,IADM(*)  ,JDIM(*),IPREC
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_M(*), Z(*), LT_M(*)  ,V(*) 
 C-----------------------------------------------
@@ -365,7 +365,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL  ,NNZ   ,IADM(*)  ,JDIM(*),IPREC
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_M(*), Z(*), LT_M(*)  ,V(*) 
 C-----------------------------------------------
@@ -426,7 +426,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL  ,NNZ   ,IADM(*)  ,JDIM(*),F_DDL ,L_DDL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_M(*), Z(*), LT_M(*)  ,V(*) 
 C-----------------------------------------------
@@ -504,7 +504,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL  ,NNZ   ,IADM(*)  ,JDIM(*),F_DDL ,L_DDL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_M(*), Z(*), LT_M(*)  ,V(*) 
 C-----------------------------------------------
@@ -570,7 +570,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  F_DDL ,L_DDL  
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_M(*), Z(*) ,V(*) 
 C-----------------------------------------------
@@ -632,7 +632,7 @@ C-----------------------------------------------
      .        ITAB(*), IPRINT, 
      .        INSOLV, IT, IPIV_K(*), NK, CDDLP(*), ISOLV, IDSC,
      .        IDDL(*), IKC(*), INLOC(*), NDOF(*),F_DDL  ,L_DDL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_M(*), Z(*), LT_M(*)  ,V(*) 
       my_real
@@ -744,7 +744,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL  ,IADM(*)  ,JDIM(*),IPREC, ITASK,
      .         F_DDL  ,L_DDL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_M(*), Z(*), LT_M(*)  ,V(*) 
 C-----------------------------------------------

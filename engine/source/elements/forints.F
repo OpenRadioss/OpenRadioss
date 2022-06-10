@@ -81,7 +81,7 @@ C-----------------------------------------------
      .   NPC(*), IPARG(NPARG,*),IADS(8,*),NELTST,ITYPTST,
      .   KXX(NIXX,*),I XX(*), ITAB(*), LSENSOR(NSENSI,*),
      .   IPARTX(*), ISKY(*),GRTH(*),IGRTH(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*)    ,V(3,*)   ,VR(3,*),
      .   MS(*)   ,IN(*)   ,PM(NPROPM,*),SKEW(LSKEW,*),GEO(NPROPG,*),

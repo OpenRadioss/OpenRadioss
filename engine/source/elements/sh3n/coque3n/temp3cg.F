@@ -42,7 +42,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,MAT(*),IXTG(NIXTG,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TEMP(*), PM(NPROPM,*),TEMPEL(*)
 C-----------------------------------------------
@@ -52,7 +52,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8  
+C     REAL  
 C --- calcul de la tempurature au CG 
         DO I=JFT,JLT
           TEMPEL(I) = THIRD * ( TEMP(IXTG(2,I)) + TEMP(IXTG(3,I)) + 

@@ -67,7 +67,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, II,L,W,IX1,IX2,IX3,IX4,NN
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   S, T, SP ,SM  , TP, TM ,H1,H2,H3,H4,AX1,AY1,AZ1,AX2,AY2,AZ2,AX,AY,AZ,
      .   PHI1,PHI2,PHI3,PHI4,AREAM,AREAC,TEMPS,TEMPM,PHI,CONDINT

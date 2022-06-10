@@ -36,17 +36,17 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NI, NJ
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AA(NI,NJ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I1, I2, I3
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A1, A2, A3
 C-----------------------------------------------

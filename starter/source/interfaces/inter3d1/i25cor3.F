@@ -64,12 +64,12 @@ C-----------------------------------------------
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ), 
      .        NSVG(MVSIZ), ADMSR(4,*),
      .        MVOISIN(4,*), MVOISN(MVSIZ,4), LBOUND(*), IBOUND(4,MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), GAP_S(*), GAPS(MVSIZ), GAP_M(*), GAPM(*),
      .   GAP_NM(4,*), GAPNM(4,*), GAP_S_L(*), GAP_M_L(*),
      .   GAPMXL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), 
      .   X1(MVSIZ),Y1(MVSIZ),Z1(MVSIZ),

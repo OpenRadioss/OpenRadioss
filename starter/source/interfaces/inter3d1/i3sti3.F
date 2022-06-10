@@ -69,7 +69,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NRT, NINT, NSN, NTY, NOINT, IR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SLSFAC, GAP
       INTEGER IRECT(4,*), IXS(NIXS,*), IXC(NIXC,*),
@@ -77,7 +77,7 @@ C     REAL ou REAL*8
      .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*), 
      .   NOD2ELTG(*),IXS10(*), IXS16(*), IXS20(*),
      .   IGEO(NPROPGI,*),IWORKSH(3,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), STF(*), PM(NPROPM,*), GEO(NPROPG,*), STFN(*),THK(*),
      .   GAPN(*),STF8(*) ,FMAX, DEPTH, FILLSOL(*),Pm_STACk(20,*)
@@ -91,7 +91,7 @@ C-----------------------------------------------
       INTEGER NDX, I, J, INRT, NELS, MT, JJ, JJJ, NELC,
      .   MG, NUM, NPT, LL, L, NELTG,IGTYP,IPGMAT,IGMAT,
      .   ISUBSTACK, IG, IL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DXM, AREA, VOL, DX, GAPTMP,SLOPE,STFMIN
 C-----------------------------------------------

@@ -69,7 +69,7 @@ C-----------------------------------------------
      .        NOD2ELTG(*),NINT,IGNORE,
      .        IXS16(*), IXS20(*),IPARTTG(*),IGEO(NPROPGI,*),
      .        IWORKSH(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GAP, X(3,*), STF(*), STFN(*), GAPV(*), GAP_S(*), GAP_M(*),
      .   GEO(NPROPG,*),THK(*),THK_PART(*),PM(*),DSEARCH,PM_STACK(*)
@@ -91,7 +91,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IL, L, NN, IG,NODE1,NODE2,NODE3,NODE4,II,IAD,JJ,JJJ,
      .        IEL,MG,IP,NELS,NELC,NELTG
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     THKSECND,THKMAIN,DD,DX1,DY1,DZ1,DX3,DY3,DZ3,VOL,AREA
 C-----------------------------------------------

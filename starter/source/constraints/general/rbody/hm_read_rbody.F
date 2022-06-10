@@ -99,7 +99,7 @@ C-----------------------------------------------
      .        ISKN(LISKN,*),NUMSL,
      .        KNOD2ELS(*),KNOD2ELC(*),KNOD2ELTG(*),KNOD2EL1D(*),KNOD2ELQ(*),
      .        ITAGND(*),ICDNS10(*), ICFIELD(SIZFIELD,*), LCFIELD(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RBY(NRBY,*)
       INTEGER NOM_OPT(LNOPT1,*)
@@ -161,9 +161,9 @@ C   27: FT : Shear force at failure (Ifail=1)
 C   28: EXPN (Ifail=1)
 C   29: EXPT (Ifail=1)
 C   30: CRIT (computed at each cycle in RD Engine) 
-C===============================================
+C=======================================================================
       DATA MESS/'RIGID BODY DEFINITION                   '/
-C=====================================================================
+C=======================================================================
       IF (NUMSL > 0) THEN
         MY_ALLOCATE2D(TABSL,2,NUMSL)
         TABSL=0

@@ -59,12 +59,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NRT, NINT, NSN, NOINT, NTY, NSNS, IPM(NPROPMI,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SLSFAC
       INTEGER IRECT(4,*), IXQ(7,*), NSEG(*), LNSV(*), NSV(*),
      .        KNOD2ELQ(*),NOD2ELQ(*), NSVS(*), SEGQUADFR(2,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), STF(*), PM(NPROPM,*), STFN(*),AREAS(*)
       INTEGER ID
@@ -77,7 +77,7 @@ C-----------------------------------------------
      .   N1 ,N2 ,STAT, ILINE, LIN, L, N, K
       INTEGER LINES(2,4)
       INTEGER, DIMENSION(:),ALLOCATABLE ::INRTIE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AREA, XL2, YM1, YM2, ZM1, ZM2,YE(4) ,ZE(4),
      .   Y1 ,Y2 ,Z1 ,Z2

@@ -46,7 +46,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LSENSOR(NSENSI,*),IGEO(NPROPGI,*),MGN(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG,*), OFF(*),SENSOR(NSENSR,*)
 C-----------------------------------------------
@@ -97,7 +97,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LSENSOR(NSENSI,*),IGEO(NPROPGI,*),MGN(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG,*), OFF(*),SENSOR(NSENSR,*),DX(*),X0(*)
 C-----------------------------------------------
@@ -182,7 +182,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LSENSOR(NSENSI,*),IGEO(NPROPGI,*),MGN(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG,*), OFF(*),SENSOR(NSENSR,*),
      .   DX(*),DY(*),DZ(*),X0(*),Y0(*),Z0(*),RX(*),RY(*),RZ(*)
@@ -277,7 +277,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LSENSOR(NSENSI,*),IGEO(NPROPGI,*),PID(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG,*), OFF(*),SENSOR(NSENSR,*),
      .   DX(*),DY(*),DZ(*),X0(*),Y0(*),Z0(*),RX(*),RY(*),RZ(*)

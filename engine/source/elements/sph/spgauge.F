@@ -67,7 +67,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LGAUGE(3,*), KXSP(NISP,*), IXSP(KVOISPH,*),
      .        IPARG(NPARG,*), ISPSYM(NSPCOND,*), NOD2SP(*), ITASK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GAUGE(LLGAUGE,*), SPBUF(NSPBUF,*), X(3,*),XSPSYM(3,*),
      .   WA(KWASPH,*), WASIGSM(6,*), WAR(10,*)
@@ -278,7 +278,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER N
-C     REAL ou REAL*8
+C     REAL
       my_real
      . P(N),P0(N,2),P1(N,2),P2(N,2),FF
 C-----------------------------------------------

@@ -45,7 +45,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(*),NDOF(*), WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(*),MS(*),IN(*),D(3,*),DR(3,*)
 
@@ -119,7 +119,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, NMN,NDOF(*),
      .   IRECT(4,*), MSR(*), NSV(*), IRTL(*),WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    CRST(2,*), D(3,*),MS(*),DR(3,*),X(3,*)
 C-----------------------------------------------
@@ -131,7 +131,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NIR, I, J, J1, J2, J3, J4, K, JD, II, L, JJ,
      .        I1,ID,NL,NJ,ND
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   H(4), SS, TT, SP,SM,TP,TM,DR1(3),XS,YS,ZS,XS0,YS0,ZS0,NUN,
      .   DS(3), LSM(3)
@@ -245,7 +245,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, NMN,NDOF(*),
      .   IRECT(4,*), MSR(*), NSV(*), IRTL(*),WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    DPARA(7,*), D(3,*),MS(*),DR(3,*),X(3,*)
 C-----------------------------------------------
@@ -256,7 +256,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J,  K,  II, L, NIR(NSN),NJ
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RJ(3,3,4,NSN),RJT(3,3,4,NSN)
 C------------------------------------
@@ -313,7 +313,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, NMN,NDOF(*),
      .   IRECT(4,*), MSR(*), NSV(*), IRTL(*),WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    DPARA(7,*), D(3,*),MS(*),DR(3,*),X(3,*)
 C-----------------------------------------------
@@ -324,7 +324,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J,  K,  II, L, NIR(NSN),NJ,NIRI
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RJ(3,3,4,NSN),RJT(3,3,4,NSN),FACM,X0,Y0,Z0,
      .   LSM(3),DR2(3),DS(3),XM(4),YM(4),ZM(4),DT(3)
@@ -412,7 +412,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER 
      .   IRECT(4,*), NSV(*), IRTL(*),II
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   D(3,*),X(3,*),DPARA(7,*)
 C-----------------------------------------------
@@ -423,7 +423,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, J1,J2,J3,J4,  L, JJ
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VMX, VMY, VMZ,MGX,MGY,MGZ,VRX,VRY,VRZ,
      .   X0,X1,X2,X3,X4,XS,Y0,Y1,Y2,Y3,Y4,YS,Z0,Z1,
@@ -511,7 +511,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER 
      .   IRECT(4,*), NSV(*), IRTL(*), II,NDOF(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),D(3,*),DR(3,*), CRST(2,*)
 C-----------------------------------------------
@@ -523,7 +523,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NIR, I, J, J1, J2, J3, J4, K, JD,  L, JJ,
      .        I1,ID,NL,NJ,ND
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   H(4), SS, TT, SP,SM,TP,TM,DR1(3),XS,YS,ZS,XS0,YS0,ZS0
 C-----------------------------------------------

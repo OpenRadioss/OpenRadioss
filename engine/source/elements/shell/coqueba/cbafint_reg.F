@@ -102,7 +102,7 @@ C-----------------------------------------------
 c-----------------------------------------------------------------------
 c     VAR_REG :  variable a regulariser (local cumulated plastic strain)
 c     NTVAR  =  NT * VAR_REG
-c=======================================================================
+C=======================================================================
       ! Recovering non-local parameters
       L2     = NLOC_DMG%LEN(IMAT)**2 ! Non-local internal length ** 2
       XI     = NLOC_DMG%DAMP(IMAT)   ! Non-local damping parameter

@@ -48,14 +48,14 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, ITIED, MSR, NIMPACT, NSMS
       INTEGER NSW(*), WEIGHT(*), IMPACT(*), NRWL_SMS(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(*), A(*), V(*), RWL(*), MS(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N, N3, N2, N1, K, J, M1, M2, M3
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RA2, XWL, YWL, ZWL, VXW, VYW, VZW,
      .   TFXT, VX, VY, VZ, UX, UY, UZ, XC, YC, ZC, DP,
@@ -145,7 +145,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, ITIED, MSR, NIMPACT, NSMS
       INTEGER NSW(*), WEIGHT(*), IMPACT(*), NRWL_SMS(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(*), A(*), V(*), RWL(*), MS(*), FSAV(*), 
      .   FOPT(*), RES(*), FREA(*), R(*)
@@ -154,7 +154,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N, N3, N2, N1, J, K, M1, M2, M3
 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XWL, YWL, ZWL, VXW, VYW, VZW,
      .   XWL0, YWL0, ZWL0, 
@@ -282,7 +282,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, ITIED, MSR, NIMPACT, NSMS
       INTEGER NSW(*), WEIGHT(*), IMPACT(*), NRWL_SMS(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(*), A(*), V(*), RWL(*), MS(*)
 C-----------------------------------------------
@@ -290,7 +290,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N, N3, N2, N1, J, K, M1, M2, M3
 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XWL, YWL, ZWL, VXW, VYW, VZW,
      .   XWL0, YWL0, ZWL0, 
@@ -427,7 +427,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, ITIED, MSR, NIMPACT, NSMS
       INTEGER NSW(*), WEIGHT(*), IMPACT(*), NRWL_SMS(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(*), A(*), V(*), RWL(*), MS(*)
 C-----------------------------------------------
@@ -435,7 +435,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N, N3, N2, N1, J, M1, M2, M3
 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XWL, YWL, ZWL, VXW, VYW, VZW,
      .   XWL0, YWL0, ZWL0, 
@@ -569,7 +569,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, ITIED, MSR, NIMPACT, NSMS
       INTEGER NSW(*), WEIGHT(*), IMPACT(*), NRWL_SMS(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(*), V(*), RWL(*), MS(*), FSAV(*), FREA(3,*),
      .   FOPT(*), A(*)
@@ -580,7 +580,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N, N3, N2, N1, J, K, M1, M2, M3
 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VXW, VYW, VZW, VX, VY, VZ, XWL0, YWL0, ZWL0,
      .   XC, YC, ZC, XX, XN, YN, ZN,

@@ -72,7 +72,7 @@ C-----------------------------------------------
       INTEGER IPARI(NPARI,NINTER),ITASK, NIN, ITAB(*), KINET(*),
      .        COUNT_REMSLV(*), NB_CANDT, I_OPT_STOK
       INTEGER :: COUNT_REMSLVE(*)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .   X(*), V(3,*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
@@ -81,7 +81,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NSNR, IGAP, I_STOK_GLO, SIZOPT, IEDGE, NEDGE, IGAP0, I_STOK, L_STOK
       INTEGER N, NSNF, NSNL, NSNRF, NSNRL ,IFQ
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, STOPT, DRAD
 C-----------------------------------------------------------

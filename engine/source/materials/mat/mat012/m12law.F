@@ -81,7 +81,7 @@ C-----------------------------------------------
       INTEGER KD1(MVSIZ), KD2(MVSIZ), KD3(MVSIZ), 
      .   KD4(MVSIZ),ICC(MVSIZ),
      .   I, IDAM, KDX, MX, NINDX, INDEX(MVSIZ), J, ICC_1
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AX(MVSIZ), AY(MVSIZ), AZ(MVSIZ), BX(MVSIZ), BY(MVSIZ), 
      .   BZ(MVSIZ), CX(MVSIZ), CY(MVSIZ),CZ(MVSIZ),

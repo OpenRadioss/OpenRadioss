@@ -35,11 +35,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),D(3,*),XNORM(3,*),CDG(*)
       INTEGER II(*),INVERT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X0(4),Y0(4),Z0(4),NX,NY,NZ,XC,YC,ZC,S
       INTEGER I,I1,I2,I3,I4
@@ -116,11 +116,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),XNORM(3,*)
       INTEGER II(*),INVERT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X0(4),Y0(4),Z0(4),NX,NY,NZ
       INTEGER I

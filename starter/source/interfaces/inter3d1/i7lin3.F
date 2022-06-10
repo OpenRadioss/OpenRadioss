@@ -34,13 +34,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    XI,YI,ZI,XA,YA,ZA,XB,YB,ZB,NX,NY,NZ,P,ALP
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    XAB,YAB,ZAB,
      .    XP,YP,ZP,NORM

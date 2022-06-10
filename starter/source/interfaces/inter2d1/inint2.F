@@ -75,7 +75,7 @@ C-----------------------------------------------
       INTEGER INSCR(*), IXQ(*), IPARI(*), ITAB(*),
      .        ITABM1(*), IKINE(*), MWA(*),IPM(NPROPMI,*),
      .        KNOD2ELQ(*),NOD2ELQ(*),SEGQUADFR(2,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(*), PM(*), GEO(*)
       INTEGER ID

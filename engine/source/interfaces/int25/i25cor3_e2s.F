@@ -85,7 +85,7 @@ C-----------------------------------------------
      .        M1(4,MVSIZ), M2(4,MVSIZ), 
      .        NODNX_SMS(*), NSMS(4,MVSIZ), 
      .        TYPEDGS(MVSIZ),IAS(MVSIZ),JAS(MVSIZ),IBS(MVSIZ),JBS(MVSIZ),IAM(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        X(3,*), STFM(*), STFE(*), MS(*), V(3,*),
      .        XXS1(4,MVSIZ), XXS2(4,MVSIZ), XYS1(4,MVSIZ), XYS2(4,MVSIZ),

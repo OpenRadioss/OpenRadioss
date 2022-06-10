@@ -78,7 +78,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, M, FLAG
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VXA(MVSIZ), VYA(MVSIZ) , VZA(MVSIZ), 
      .   VA2(MVSIZ), XMAS(MVSIZ), 

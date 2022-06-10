@@ -54,12 +54,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN,IWPENE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GAP
       INTEGER IRECT(4,*), MSR(*), NSV(*), ILOC(*), IRTL(*), IRTL0(*),
      .   ITAB(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), CST(2,*)
       INTEGER ID
@@ -69,7 +69,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER II, I, J, K, L, JJ, NN, IER
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   N1, N2, N3, PEN, ALP
 C-----------------------------------------------
@@ -153,12 +153,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN,INACTI
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GAP
       INTEGER IRECT(4,*), MSR(*), NSV(*), ILOC(*), IRTL(*), IRTL0(*),
      .   ITAB(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), CST(2,*)
 C-----------------------------------------------
@@ -173,7 +173,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER II, I, J, K, L, JJ, NN, IER
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   N1, N2, N3, PEN, ALP
 C-----------------------------------------------

@@ -72,7 +72,7 @@ C-----------------------------------------------
       INTEGER CAND_E(*),CAND_N(*),MSR(*),MWAG(*),RENUM(*),IFPEN(*)
       INTEGER NCONTACT,ESHIFT,ILD,NB_N_B, I_MEM,IGAP,ICURV,NCONT,
      .        WEIGHT(*),II_STOK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GAP,TZINF,MAXBOX,MINBOX,
      .   GAPMIN, GAPMAX, BMINMA(6),CURV_MAX(NRTM), BGAPSMX,
@@ -93,7 +93,7 @@ C
       INTEGER I, J, I_ADD, IP0, IP1, MAXSIZ,
      .        ADD(2,I_ADD_MAX), LOC_PROC, N, ISZNSNR,
      .        NSNFIOLD(NSPMD)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        XYZM(6,I_ADD_MAX-1), MARGE, AAA
 C-----------------------------------------------

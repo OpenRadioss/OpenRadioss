@@ -75,7 +75,7 @@ C-----------------------------------------------
      .        IPART(LIPART1,*),IPARTSP(*),CEPSP(*),IXSP(KVOISPH,NUMSPH),
      .        IPM(NPROPMI,*), IGEO(NPROPGI,*),
      .        SPH2SOL(*), SOL2SPH(2,*), IRST(3,*), NOD2SP(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        PM(NPROPM,*), SPBUF(NSPBUF,NUMSPH)
 C-----------------------------------------------
@@ -87,7 +87,7 @@ C-----------------------------------------------
      .        WORK(70000),INUM(13,NUMSPH),INDEX(2*NUMSPH),
      .        NGP(NSPMD+1),K,J,II, MX, NUMBER_FAILURE, IR, IP, STAT,
      .        IPARTR2R, NOD
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        RNUM(NSPBUF,NUMSPH)
       INTEGER ID

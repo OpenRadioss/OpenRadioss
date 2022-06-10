@@ -59,7 +59,7 @@ C-----------------------------------------------
       INTEGER ITAB(*),WEIGHT(*),IXR(NIXR,*),
      .   IPART(LIPART1,*),IPARTR(*),IGEO(NPROPGI,*),NPBY(NNPBY,*),
      .   IPARG(NPARG,*)
-C     REAL ou REAL*8
+C     REAL
       my_real STIFN(*), STIFR(*),MS(*) ,IN(*),X(3,*),
      .   DMAS,DINER,GEO(NPROPG,*)      
 C

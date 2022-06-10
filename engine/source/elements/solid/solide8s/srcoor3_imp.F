@@ -71,7 +71,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),V(3,*),W(3,*), VIS(*),
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
@@ -123,7 +123,7 @@ C-----------------------------------------------
      .   V1(MVSIZ,9), V2(MVSIZ,9), V3(MVSIZ,9), V4(MVSIZ,9),
      .   V5(MVSIZ,9), V6(MVSIZ,9), V7(MVSIZ,9), V8(MVSIZ,9)
     
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DT05     
       my_real
@@ -659,7 +659,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFFG(*)
       
@@ -730,7 +730,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
 !      my_real
 !     .   OFFG(*)
       
@@ -945,7 +945,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
 !      my_real
 !     .   OFFG(*)
       
@@ -1079,7 +1079,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
 !      my_real
 !     .   OFFG(*)
       
@@ -1305,7 +1305,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
 !      my_real
 !     .   OFFG(*)
       
@@ -2401,7 +2401,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFFG(*)
       

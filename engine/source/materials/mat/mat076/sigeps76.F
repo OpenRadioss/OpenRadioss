@@ -74,7 +74,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IFORM,NUMTABL
       TYPE(TTABLE), DIMENSION(:) , POINTER :: TABLE
-c=======================================================================
+C=======================================================================
 c
       IFORM = NINT(UPARAM(13)) ! Flag for plasticity 
                                ! = 0 associated (with quadratic yield criterion only)

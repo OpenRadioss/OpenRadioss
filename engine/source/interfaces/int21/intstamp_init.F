@@ -50,13 +50,13 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICODR(*)
-C     REAL ou REAL*8
+C     REAL
       TYPE(INTSTAMP_DATA) INTSTAMP(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER J, NN, MSR, IROT, K
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VI(3)
 C-----------------------------------------------

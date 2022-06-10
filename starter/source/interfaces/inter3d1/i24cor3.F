@@ -43,7 +43,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IGAP, IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .       GAP, X(3,*), STF(*), STFN(*), GAPV(*), GAP_S(*), GAP_M(*)
 C-----------------------------------------------

@@ -38,9 +38,9 @@ Chd|====================================================================
      2                  IXP   ,IXR  ,IWA  ,ITAB   ,PM     ,
      3                  NPBY  ,IXTG ,IRFE ,IXUR   ,LACCELM,
      4                  IPARI ,IPART,ITHGRP ,ITHBUF,CHRUN_OLD)
-C====================================
+C=======================================================================
 C   OLD TH V3 RADIOSS INPUT V3 or V4
-C====================================
+C=======================================================================
       USE INOUTFILE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -73,7 +73,7 @@ C-----------------------------------------------
      .   IXUR(NIXUR,*), IXTG(NIXTG,*), IWA(*), ITAB(*),
      .   IPARI(NPARI,*),LACCELM(3,*),IPART(LIPART1,*), NPBY(NNPBY,*),
      .   ITHGRP(NITHGR,*), ITHBUF(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*)
       CHARACTER CHRUN_OLD*2
@@ -83,7 +83,7 @@ C-----------------------------------------------
       INTEGER ITITLE(80), IFILNAM(2148), ICODE, I, NJOINV, NRBAGV,
      .   NG, II, N, IH, ITY, NEL, NFT, K, MTN, NACCELV,NINTERS,
      .   IRUNR,NN,IAD,J,ITYP
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TITLE(20)
       CHARACTER EOR*8, CH8*8, CARD*80, FILNAM*100, BLA*7

@@ -57,7 +57,7 @@ C-----------------------------------------------
      .        LONFSPH(*),KXSP(NISP,*),
      .        NSX(0:*),ISX(*),NSY(0:*),ISY(*),NSZ(0:*),ISZ(*),
      .        NPX(0:*),IPX(*),NPY(0:*),IPY(*),NPZ(0:*),IPZ(*),ITYPE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),DPS(*),WNORMAL(3,*),DT_OLD,MASS_CUM,V(3,*),SPBUF(NSPBUF,*)
 C-----------------------------------------------

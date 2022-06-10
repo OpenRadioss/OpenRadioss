@@ -107,7 +107,7 @@ C-----------------------------------------------
      .        ISENDTO(NINTER+1,*),IRCVFROM(NINTER+1,*),
      .        WEIGHT(*), IAD_ELEM(2,*) ,FR_ELEM(*),
      .        RENUM(*), NSNFIOLD(NSPMD), NODNX_SMS(*), IXS(NIXS, *)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .   X(*), V(*), MS(*),TEMP(*)
 

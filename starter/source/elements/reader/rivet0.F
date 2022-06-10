@@ -50,7 +50,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXRI(4,*), ITAB(*), IKINE(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   V(3,*), VR(3,*), MS(*), IN(*), RIVET(NRIVF,*),
      .   GEO(NPROPG,*)
@@ -58,7 +58,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, IGL, IG, IROT, K1, K2, IGTYP, IKINE1(3*NUMNOD)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XM, XIN
 C

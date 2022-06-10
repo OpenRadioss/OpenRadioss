@@ -44,14 +44,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPART(LIPART1,*),IPARTSP(*),NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*), ANG(NEL,6), SF(NEL,3), VK0(*), ROB(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IPRT, MX, IG, ISK
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
       DO 20 I=LFT,LLT
       ANG(I,1)=ONE

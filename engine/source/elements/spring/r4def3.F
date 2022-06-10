@@ -78,7 +78,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPF(*),IGEO(NPROPGI,*),NEL,NGL(*),MGN(*),NUVAR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SKEW(LSKEW,*), GEO(NPROPG,*), FX(*), FY(*), FZ(*), E(*), DX(*),
      .   DY(*), DZ(*), TF(*), OFF(*), DPX(*), DPY(*), DPZ(*), FXEP(*),
@@ -108,7 +108,7 @@ C-----------------------------------------------
      .        IECROU(MVSIZ), IFUNC(MVSIZ), IFV(MVSIZ), IFUNC2(MVSIZ),
      .        I, ILENG, J, KK, IFAIL(MVSIZ),IFAIL2(MVSIZ),
      .        NINDX,ISRATE, IFUNC3(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     XK(MVSIZ), YK(MVSIZ),
      .     ZK(MVSIZ),XC(MVSIZ), YC(MVSIZ), ZC(MVSIZ),XH(MVSIZ),

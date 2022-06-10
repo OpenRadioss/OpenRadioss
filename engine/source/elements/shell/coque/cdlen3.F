@@ -57,7 +57,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MAT(MVSIZ),JFT, JLT,PID(*),
      .                  IHBE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*), OFF(*), GEO(NPROPG,*)
       my_real
@@ -68,7 +68,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I, MX,IPID
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     AL1(MVSIZ), AL2(MVSIZ), AL3(MVSIZ),
      .     AL4(MVSIZ), AL5(MVSIZ), AL6(MVSIZ),

@@ -44,14 +44,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER KXX(NIXX),IXX(*),NX
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   V(3,*),VR(3,*),VUSR(3,NX),VRUSR(3,NX)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER K,I1,IADNOD
-C     REAL ou REAL*8
+C     REAL
 C--------------------------------------------
 C     VITESSES REPERE GLOBAL.
 C--------------------------------------------

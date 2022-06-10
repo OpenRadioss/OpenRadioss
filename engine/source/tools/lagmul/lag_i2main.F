@@ -62,7 +62,7 @@ C-----------------------------------------------
       INTEGER N_MULT,ISKIP,NCF_S
       INTEGER IPARI(NPARI,NINTER), IADLL(*),
      .        LLL(*), JLL(*), SLL(*),COMNTAG(*),ICFTAG(*),JCFTAG(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   LTSM(*),XLL(*),MS(*),IN(*),X(3,*),V(3,*),VR(3,*),
      .   A(3,*), AR(3,*)
@@ -130,7 +130,7 @@ C-----------------------------------------------
       INTEGER NSN, NINT, NC, ISKIP, NCF_S
       INTEGER LLL(*), JLL(*), SLL(*), IADLL(*),
      .        IRECT(4,*),NSV(*),IRTL(*),COMNTAG(*),ICFTAG(*),JCFTAG(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   LTSM(*),XLL(*),X(3,*),MS(*),IN(*),V(3,*),VR(3,*),
      .   A(3,*),AR(3,*)
@@ -139,7 +139,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER INOD(5), I,J,K,L,IC,JC,II,JJ,IK,ISK,IAD,NIR,NDL, 
      .   NC_INI,NCL,COMFLAG
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RX(4),RY(4),RZ(4),HLOC(6,6),LLOC(6),
      .   B1,B2,B3,C1,C2,C3,DET,S,HIJ,

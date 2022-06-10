@@ -229,7 +229,7 @@ C-----------------------------------------------
       INTEGER  IPARI(NPARI,NINTER),TAGNCONT(NLOADP_HYD_INTER,NUMNOD),
      .        KLOADPINTER(NINTER+1),LOADPINTER((NINTER+1)*NLOADP_HYD),
      .        LOADP_HYD_INTER(NLOADP_HYD)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SENSOR(NSENSR,*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
@@ -250,7 +250,7 @@ C-----------------------------------------------
       LOGICAL ITEST
 
       INTEGER,DIMENSION(:), ALLOCATABLE :: RBUFS, RBUFR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT,STOPT,DIST,TS
 C------------------------------------------------------------------------

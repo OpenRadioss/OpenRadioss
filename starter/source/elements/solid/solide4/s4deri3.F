@@ -76,7 +76,7 @@ C-----------------------------------------------
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ), 
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),VOLDP(*) 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VOL(*), VEUL(LVEUL,*),GEO(NPROPG,*), PM(NPROPM,*),
      .   RX(*), RY(*), RZ(*), SX(*), SY(*), SZ(*), TX(*), TY(*), TZ(*), DET(*),

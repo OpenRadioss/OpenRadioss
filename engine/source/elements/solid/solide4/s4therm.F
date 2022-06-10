@@ -48,7 +48,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MAT(*),NC1(*),NC2(*),NC3(*),NC4(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    VOL(*), PX1(*), PX2(*), PX3(*), PX4(*), 
      .    PY1(*), PY2(*), PY3(*), PY4(*),
@@ -62,7 +62,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J,MX
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  CA, CB, KC, PHIX, PHIY, PHIZ, A
 C

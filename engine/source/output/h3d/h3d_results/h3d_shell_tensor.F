@@ -75,7 +75,7 @@ C-----------------------------------------------
      .   IXTG(NIXTG,*),IPM(NPROPMI,*),ID_ELEM(*),ITY_ELEM(*),
      .   INFO1,INFO2,IS_WRITTEN_SHELL(*),IPARTC(*),IPARTTG(*),H3D_PART(*),
      .   LAYER_INPUT ,IPT_INPUT,GAUSS_INPUT,PLY_INPUT,IUVAR_INPUT,ID
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TENS(3,*),EPSDOT(6,*),X(3,*),SHELL_TENSOR(3,*),D(3,*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
@@ -84,7 +84,7 @@ C     REAL ou REAL*8
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A1,A2,A3,THK
       my_real
@@ -2284,7 +2284,7 @@ C YL4     |    NEL  | R | W | Local Y-coordinate of N4 (relative to N1)
 C AREA    |    NEL  | R | W | AREA of quad
 C---------+---------+---+---+--------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XN(4,*) , YN(4,*) , ZN(4,*), 
      .   XL2(NEL),XL3(NEL),XL4(NEL),YL2(NEL),
@@ -2296,7 +2296,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RX(NEL),RY(NEL),RZ(NEL),SX(NEL),SY(NEL),SZ(NEL),
      .   VQ(3,3,NEL), LXYZ0(3),DETA1(NEL),XX,YY,ZZ
@@ -2363,7 +2363,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RX(*) , RY(*) , RZ(*), 
      .   SX(*) , SY(*) , SZ(*),
@@ -2388,7 +2388,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   E1X(NEL), E1Y(NEL), E1Z(NEL),
      .   E2X(NEL), E2Y(NEL), E2Z(NEL),
@@ -2574,7 +2574,7 @@ C YL3     |    NEL  | R | W | Local Y-coordinate of N3 (relative to N1)
 C AREA    |    NEL  | R | W | AREA of tria
 C---------+---------+---+---+--------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XN(3,*) , YN(3,*) , ZN(3,*), 
      .   XL2(NEL),XL3(NEL),YL2(NEL),YL3(NEL),AREA(NEL)
@@ -2585,7 +2585,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RX(NEL),RY(NEL),RZ(NEL),SX(NEL),SY(NEL),SZ(NEL),
      .   VQ(3,3,NEL), DETA1(NEL),XX,YY,ZZ
@@ -2640,14 +2640,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   F(2,2,NEL), STRAIN(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       DOUBLE PRECISION 
      .         FMAT(2,2),UM(2,2),IC,I2C,I3C,IU,I2U,I3U,
      .         C11,C21,C31,C12,C22,C32,C13,C23,C33,DETJ0,DETM1,

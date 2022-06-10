@@ -75,7 +75,7 @@ C-----------------------------------------------
      .        II_STOK, LL_STOK, ITAB(*),MBINFLG(*), EBINFLG(*), LEDGE(NLEDGE,*), ADMSR(*),
      .        MSEGTYP(*),
      .        FLAGREMNODE, KREMNOD(*), REMNOD(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GAP,VMAXDT,DRAD,
      .   BMINMA(6),BGAPEMX, MARGE
@@ -91,7 +91,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, SOL_EDGE, SH_EDGE, 
      .        N, L, E, IE, I1, I2, N1, N2 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        XYZM(6), AAA, TZINF, 
      .        XMIN, YMIN, ZMIN, XMAX, YMAX, ZMAX

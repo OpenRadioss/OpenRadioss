@@ -37,14 +37,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NR, NT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RR(NR), TT(NT), QQ(NR,NT)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I1, MAT, I, J, K, L
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   B1, B2
       READ(31,*)I1,MAT

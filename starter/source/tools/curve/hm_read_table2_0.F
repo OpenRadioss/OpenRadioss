@@ -57,7 +57,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NTABLE0,NFUNCT,L
-C     REAL ou REAL*8
+C     REAL
       TYPE(TTABLE) TABLE(*)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
       my_real, INTENT(IN) :: UNITAB(LUNIT, NUNITS)
@@ -79,7 +79,7 @@ C-----------------------------------------------
       INTEGER,DIMENSION(:),ALLOCATABLE :: JPERM1,JPERM2
       INTEGER,DIMENSION(:,:),ALLOCATABLE :: ITAG
       INTEGER IERROR, NF  
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   BID, XK, XX, X1, X2, X234(3), YY, Y1, Y2, R, XMIN, XMAX,
      .    TIME, FUNCT,SCALEY

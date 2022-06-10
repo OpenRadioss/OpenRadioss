@@ -75,7 +75,7 @@ C-----------------------------------------------
       INTEGER CAND_M(*),CAND_S(*)
       INTEGER NCONTACT,  ITAB(*),MSR(*),NSV(*),
      .        II_STOK,MULTIMP,FLAGREMNODE,KREMNODE(*),REMNODE(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   BUMULT,MAXGAP,GAPMIN,TZINF,MAXBOX,MINBOX,DRAD
       my_real
@@ -429,7 +429,7 @@ C-----------------------------------------------
       INTEGER IRECTS(2,*),IRECTM(2,*),MWA(*)
       INTEGER CAND_M(*),CAND_S(*),MSR(*),NSV(*),ADDCM(*),CHAINE(2,*),
      *        II_STOK, IDDLEVEL, IT19
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),XYZM(6,*),DIST,
      .   BUMULT,GAP,TZINF,MAXBOX,MINBOX,DRAD
@@ -447,7 +447,7 @@ C
       INTEGER I_ADD, ADESTK, NB_NC, NB_EC, ADNSTK,ISTOP, IBID 
       INTEGER IP1, IP2, IP21, IP22, IP31,J_STOK,I_BID,NB_N_B,
      .        ADD(2,0:I_ADD_MAX)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DX1,DY1,DZ1,
      .   DX3,DY3,DZ3,

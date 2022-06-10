@@ -59,7 +59,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,NLAY,IREP,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RX(*),RY(*),RZ(*),SX(*),SY(*),SZ(*),
      .   DIR_A(*),DIR_B(*),E1X(*),E1Y(*),E1Z(*),E2X(*),E2Y(*),E2Z(*)
@@ -69,7 +69,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,N,ILAW
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .   V1,V2,V3,VR,VS,AA,BB,SUMA
       my_real, 

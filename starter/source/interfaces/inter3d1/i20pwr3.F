@@ -45,7 +45,7 @@ C-----------------------------------------------
       INTEGER ITAB(*),CAND_M(*),CAND_S(*),INACTI,IGAP  ,
      4        N1(*) ,N2(*) ,M1(*) ,M2(*)        
       INTEGER NSV(*),IWPENE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FPENMAX
       my_real
@@ -62,7 +62,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IS, IM
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     PENE(MVSIZ), 
      .     PENEOLD, S2, D, PPLUS,PS2, PENMAX
@@ -188,7 +188,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITAB(*),CAND_E(*),CAND_N(*),CAND_EN(*),CAND_NN(*)
       INTEGER NSV(*),TAG(*),IWPENE,INACTI,NOINT,NTY,ITIED,IWRN
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FPENMAX
       my_real
@@ -216,7 +216,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IS,IM
-C     REAL ou REAL*8
+C     REAL
       my_real ::PENEOLD,PPLUS,PS2,PENMAX
       my_real
      .  DN
@@ -442,7 +442,7 @@ C-----------------------------------------------
       INTEGER ITAB(*),CAND_E(*),CAND_N(*),CAND_EN(*),CAND_NN(*)
       INTEGER NSV(*),TAG(*),IWPENE,INACTI,NOINT,NTY,ITIED,IWRN,
      .        IGAP
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STF(*),STFN(*),X(3,*),GAPV(*),PENIS(2,*) ,PENIM(2,*),GAP_S(*)
       INTEGER ID
@@ -454,7 +454,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IS,IM,JWARN
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PENEOLD,PPLUS,AAA
       my_real
@@ -588,7 +588,7 @@ C-----------------------------------------------
       INTEGER ITAB(*),CAND_M(*),CAND_S(*),INACTI,IGAP  ,
      4        N1(*) ,N2(*) ,M1(*) ,M2(*)        
       INTEGER NSV(*),IWPENE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STFS(*),STFM(*),X(3,*),GAP_S(*) ,GAP_M(*),PENIS(2,*) , 
      .   PENIM(2,*),NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ),GAPV(*)
@@ -603,7 +603,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IS, IM,JWARN
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     PENE(MVSIZ), 
      .     PENEOLD, S2, D, PPLUS

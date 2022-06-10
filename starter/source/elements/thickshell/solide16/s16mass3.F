@@ -61,7 +61,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IP,N1,N2, IPERM1(16),IPERM2(16),N
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AXX,AYY,AZZ,AXY,AYZ,AZX,AM,BM,FAC,MASSCP
 C

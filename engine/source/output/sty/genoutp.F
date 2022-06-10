@@ -118,7 +118,7 @@ C-----------------------------------------------
      .   IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),ITAB(*),
      .   WEIGHT(*), DD_IAD(*),IPM(*),IGEO(*),KXSP(NISP,*),
      .   LENG,NODGLOB(*), NOM_OPT(*), NPBY(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(*), D(*), V(*), VR(*), A(*), 
      .   PM(NPROPM,*), MS(*),ANIN(*),

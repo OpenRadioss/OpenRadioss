@@ -50,7 +50,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FSAV(NTHVKI,*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
@@ -60,7 +60,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  NTY, N, NRTM, KSURF, NRTS
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DE
 C-----------------------------------------------

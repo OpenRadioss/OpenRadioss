@@ -86,7 +86,7 @@ C-----------------------------------------------
      .   NTHGRP2, LONG,
      .   NPARTH,IPARTH(NPARTH,*),NVPARTH,NVSUBTH,
      .   ITTYP,ITHFLAG
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*),GEO(NPROPG,*)
       CHARACTER FILNAM*100
@@ -99,7 +99,7 @@ C-----------------------------------------------
      .   NG, II, N, IH, ITY, NEL, NFT, K, MTN, NACCELV,
      .   IRUNR,NVAR,MID,PID,IAD1,IAD2,J,IAD,LTITL,NRECORD,
      .   SEEK_LOC,IPART1,IPART2    
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TITLE(20),TIT40(10),TIT80(20),TIT100(25)
       CHARACTER EOR*8, CH8*8, CARD*80, BLA*7, CH8M*8, CH8L*8, CH8T*8 

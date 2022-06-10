@@ -406,7 +406,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MSR, PMAIN
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RWL(*), FSAV(*),FOPT(6)
       DOUBLE PRECISION
@@ -414,7 +414,7 @@ C     REAL ou REAL*8
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FXN, FYN, FZN, FXT, FYT, FZT, XMT, DT15, DT25
 C-----------------------------------------------

@@ -65,7 +65,7 @@ C-----------------------------------------------
       INTEGER JFT, JLT,NPT,MTN,NSG,IR,IS,NLAY,
      .     MAT(MVSIZ),NEL,MATLY(*),IPM(NPROPMI,*),IGTYP,
      .     NPF(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FOR(NEL,5), FORTH(NEL,2), EINT(JLT,2), EINTTH(*),
      .   OFF(*),EINTT(MVSIZ),DIR(NEL,2),THK(*), PM(NPROPM,*),
@@ -80,7 +80,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I, MX, J,IORTH,IPT,ILAY,II(5),NPTT,IT,
      .         IORTH_LAY,IFUNC_ALPHA,J1,J2,J3,JJ,IPT_ALL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DTINV, AMU, FACT, VISC,M12,ANU12,ANU21,S1,S2,
      .   FSCAL_ALPHA,ALPHA,DEINTTH,DF,WMC,AA,THKLAY,KXX,KYY

@@ -55,7 +55,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,MTN,ITHK,NPT,ISMSTR,ISUBSTACK
       INTEGER MAT(MVSIZ), PID(MVSIZ), IGEO(NPROPGI,NUMGEO)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG,NUMGEO), PM(NPROPM,*), OFF(*), AREA(*),
      .   STI(*),STIR(*),SHF(*),THK0(*),THK02(*),THK(*),
@@ -66,7 +66,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,ISH,MX,IPID,J,IGTYP,IGMAT,IPGMAT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FAC1,FSH,VISCDEF      
 C-----------------------------------------------

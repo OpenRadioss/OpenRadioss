@@ -171,7 +171,7 @@ C     Global buffer of the current group
                GBUF%SIG(1 + 1 * NEL : 2 * NEL) = GBUF%SIG(1 + 0 * NEL : 1 * NEL)
                GBUF%SIG(1 + 2 * NEL : 3 * NEL) = GBUF%SIG(1 + 0 * NEL : 1 * NEL)
             ELSE
-C========================
+C=======================================================================
 C     Count number of mat present in cell
 C========================               
                NBMAT_INCELL(1:NEL) = 0
@@ -197,9 +197,9 @@ C     For cells containing only one material, set eint to global eint
                      ENDIF
                   ENDDO
                ENDDO
-C========================
+C=======================================================================
 C     PRESSURE RELAXATION
-C========================
+C=======================================================================
 C     As temporary variables, in order not to lose values in case of convergence failure
                DO IMAT = 1, NBMAT
                   DO II = 1, NEL

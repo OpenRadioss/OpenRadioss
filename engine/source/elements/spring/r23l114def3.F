@@ -92,7 +92,7 @@ C-----------------------------------------------
      .     IPM(NPROPMI,*),NC1(*),NC2(*),NC3(*),ADD_NODE1(*),ADD_NODE2(*),
      .     SLIPRING_ID(*),UPDATE_FLAG(*),RETRACTOR_ID(*),SLIPRING_STRAND(*),
      .     FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE,FR_ID(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SKEW(LSKEW,*), GEO(NPROPG,*), FX(*), FY(*), FZ(*), E(*), DX(*),
      .   DY(*), DZ(*), TF(*), OFF(*), DPX(*), DPY(*), DPZ(*), FXEP(*),
@@ -127,7 +127,7 @@ C-----------------------------------------------
      .        NINDX,ISRATE, IFUNC3(MVSIZ),I1,I2,I3,I4,I5,I6,I7,I8,
      .        I9,I10,I11,I12,I13,I14,IF1,IF2,IF3,IF4,IADBUF,NUPAR,NN1,NN2,RET,
      .        FLAG_RETRACTOR_UPDATE_OLD
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     XK(MVSIZ), YK(MVSIZ),
      .     ZK(MVSIZ),XC(MVSIZ), YC(MVSIZ), ZC(MVSIZ),XH(MVSIZ),

@@ -66,7 +66,7 @@ C
 C
       my_real
      .  CORELV(MVSIZ,2,4),DIZ(MVSIZ,3),VMZ(MVSIZ,4)
-c=======================================================================
+C=======================================================================
 c FUNCTION: Projection for internal forces and translate from local sys to Global
 c
 c Note:

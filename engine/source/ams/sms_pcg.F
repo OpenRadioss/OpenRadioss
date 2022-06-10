@@ -142,7 +142,7 @@ C----------resol [M]{X}={F}---------
      .         FR_RBY6(*),IAD_RBY(*), TAGSLV_RBY_SMS(*),R3SIZE,
      .         NODFT2_SMS,NODLT2_SMS,INDX2_SMS(*),NODII_SMS(*),
      .         IBCSCYC(*) ,LBCSCYC(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_SMS(*), LT_K(*) ,R(3,*),
      .  X_SMS(3,*), P_SMS(3,*), Y_SMS(3,*), Z_SMS(3,*), PREC_SMS(*),
@@ -1713,7 +1713,7 @@ C-----------------------------------------------
      .         JADI_SMS(*),JDII_SMS(*),
      .         ISKYI_SMS(LSKYI_SMS,*),FR_SMS(NSPMD+1),FR_RMS(NSPMD+1),
      .         LIST_SMS(*), LIST_RMS(*), IMV(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_K(*), W(*), LT_K(*)  ,V(*), LTI_SMS(*), MSKYI_SMS(*),
      .  MSKYI_FI_SMS(*), VFI(*), MV(*)
@@ -2305,7 +2305,7 @@ C-----------------------------------------------
      .         JADI_SMS(*),JDII_SMS(*),
      .         ISKYI_SMS(LSKYI_SMS,*),FR_SMS(NSPMD+1),FR_RMS(NSPMD+1),
      .         LIST_SMS(*), LIST_RMS(*), IMV(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_K(*), W(*), LT_K(*)  ,V(*), LTI_SMS(*), MSKYI_SMS(*),
      .  MSKYI_FI_SMS(*), VFI(*), MV(*)
@@ -2536,7 +2536,7 @@ C-----------------------------------------------
      .         JADI_SMS(*),JDII_SMS(*),
      .         ISKYI_SMS(LSKYI_SMS,*),FR_SMS(NSPMD+1),FR_RMS(NSPMD+1),
      .         LIST_SMS(*), LIST_RMS(*), IMV(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_K(*), W(*), LT_K(*)  ,V(*), LTI_SMS(*), MSKYI_SMS(*),
      .  MSKYI_FI_SMS(*), VFI(*), MV(*)

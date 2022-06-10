@@ -54,7 +54,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,IMAT,IPLA,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*), OFF(*), DIR(NEL,2), EPSEQ(*),
      .   EZZ(*),DT1C(*),DPLA1(*),EPSPD(*),HARDM(*),
@@ -67,7 +67,7 @@ C-----------------------------------------------
       INTEGER ICC
       INTEGER I,NMAX,J, NINDX, INDEX(MVSIZ),NGL(MVSIZ),
      .        INDX(MVSIZ),N
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   E,CA, CE, CN, NU,
      .   YMAX,CM,EPDR,EPCHK(MVSIZ),

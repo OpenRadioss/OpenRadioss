@@ -113,7 +113,7 @@ C-----------------------------------------------
      .  IPARG(*),NSHNOD(*), PTSH3N(*),NPF(*),
      .  SH3TREE(*),ITAGE(*),ITAGN(*),IXFEM,IAD0,SH3TRIM(*),
      .  IGEO_STACK(*),PERTURB(NPERTURB)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(*),X(3,*),GEO(NPROPG,*),XMAS(*),XREFTG(3,3,*),
      .   IN(*),DTELEM(*),THK(*),SIGSH(NSIGSH,*),

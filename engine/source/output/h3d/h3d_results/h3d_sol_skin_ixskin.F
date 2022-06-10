@@ -61,7 +61,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER IPARG(NPARG,*),IXS(NIXS,*),IPARTS(*),IXSKIN(NIXQ,*),
      .        IXS10(6,*) ,TAG_SKINS6(*) ,NSKIN  
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB

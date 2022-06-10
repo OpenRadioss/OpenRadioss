@@ -56,10 +56,10 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,NEL
       INTEGER IMAT,IPM(NPROPMI,*),LSENSOR(NSENSI,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DIR(*),SHF(*),ET(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   E11(MVSIZ), E22(MVSIZ), AN12(MVSIZ), AN21(MVSIZ), 
      .   G12(MVSIZ), G23(MVSIZ), G31(MVSIZ),DE(MVSIZ),  

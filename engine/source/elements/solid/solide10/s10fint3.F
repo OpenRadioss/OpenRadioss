@@ -43,7 +43,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER G_PLA,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  PX(MVSIZ,10),PY(MVSIZ,10),PZ(MVSIZ,10),
      .  FX(MVSIZ,10), FY(MVSIZ,10), FZ(MVSIZ,10),
@@ -63,7 +63,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   S1(MVSIZ), S2(MVSIZ), S3(MVSIZ),
      .   S4(MVSIZ), S5(MVSIZ), S6(MVSIZ),

@@ -252,7 +252,7 @@ C                   ENDIF
                 IF(INTFRIC > 0) THEN
                    IPARTFRIC_FIE(NIN)%P(NN) = IREM_EDGE(E_IPARTFRIC_E,I+IDEB)      
                 ENDIF
-C==========================
+C=======================================================================
 
                 DEBUG_E2E(LEDGE_FIE(NIN)%P(E_GLOBAL_ID,NN)==D_ES,NN)
 

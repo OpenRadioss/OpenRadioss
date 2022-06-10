@@ -66,7 +66,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NGL(*), NC(MVSIZ,10), NEL
-C     REAL ou REAL*8
+C     REAL
       DOUBLE PRECISION
      .   XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10),SAV(NEL,30),VOLDP(MVSIZ,5)
       my_real
@@ -417,7 +417,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER NEL
       DOUBLE PRECISION
      .   XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10),VOLDP(MVSIZ,5)
@@ -588,7 +588,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       DOUBLE PRECISION
      .   XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10)
       my_real

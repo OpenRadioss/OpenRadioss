@@ -60,7 +60,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,*), NELTST, ITYPTST, NODNX_SMS(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DT2T, DIAG_SMS(*), MS(*), V(3,*), STIFN(*), STIFR(*)
       TYPE(INTSTAMP_DATA) INTSTAMP(*)
@@ -68,7 +68,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER KDIR, NN, K, IROT, MAIN, INTDAMP
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MASS, STF, INM, STR, ALPHA, VIS, 
      .   C, CVIS(NINTSTAMP), CVISR(NINTSTAMP)

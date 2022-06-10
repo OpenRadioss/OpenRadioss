@@ -57,7 +57,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NGL(*),NC1(*),NC2(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RLOC(3,*),V(3,*),
      .   EXX2(MVSIZ), EYX2(MVSIZ), EZX2(MVSIZ),
@@ -77,7 +77,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     THETAPHI, R1PHI, R2PHI, SINT(MVSIZ),
      .     SUM(MVSIZ) ,SUM2(MVSIZ), SUM3(MVSIZ) ,THETA(MVSIZ),

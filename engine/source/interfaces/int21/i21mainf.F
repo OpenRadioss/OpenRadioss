@@ -104,7 +104,7 @@ C-----------------------------------------------
      .        LINDMAX, NCONT,NISKYFI
       INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*),IND_IMP(*), WEIGHT(*), 
      .        ISENSINT(*),DIMFB
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .   X(*), A(3,*), FSAV(*), V(3,*),
      .   MS(*),STIFN(*),FSKYI(LSKYI,4), FCONT(3,*),
@@ -129,13 +129,13 @@ C-----------------------------------------------
      .        NSVG(MVSIZ),
      .        CAND_N_N(MVSIZ), CAND_E_N(MVSIZ), INDEX2(LINDMAX),
      .        NSMS(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, FRIC, GAP, STOPT,
      .   VISC,STIGLO,GAPMIN,
      .   KMIN, KMAX, GAPMAX, KTHE, XTHE, TINT, RHOH, DTI ,PMAXSKID
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   LB(MVSIZ), LC(MVSIZ),
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),

@@ -59,7 +59,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MAT(MVSIZ),NC(8,MVSIZ),NGL(MVSIZ),PID(MVSIZ)
       INTEGER NEL,NELTST,ITYPTST
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  PM(NPROPM,*), OFF(MVSIZ) ,SIG(NEL,6), EINT(NEL),
      .  RHO(NEL), QOLD(NEL), VOL(NEL) , STIFN(*)   ,
@@ -75,7 +75,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I,J,IPT,MX,JJ(6)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SOLD1(MVSIZ), SOLD2(MVSIZ), SOLD3(MVSIZ),
      .   SOLD4(MVSIZ), SOLD5(MVSIZ), SOLD6(MVSIZ),

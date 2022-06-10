@@ -59,7 +59,7 @@ C-----------------------------------------------
       INTEGER JFT,JLT,IPLA,NEL,IOFC,JTHE,IPT,NPTT,IMAT,ISRATE
       INTEGER NGL(MVSIZ),IOFF_DUCT(*),INLOC
 !---
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*),EINT(NEL,2),
      .   OFF(*),SIGY(*),DT1C(*),VOL0(*),GS(*),THK(*),
@@ -80,7 +80,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ICC,IRTY,I,J,NPIF
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   EPMX,CA,CB,CN,YMAX(MVSIZ),CP,CC,EPDR(MVSIZ),YLD(MVSIZ),
      .   T(MVSIZ),Z3,Z4,FISOKIN,EPIF,YOUNG,TI,TM,G,A11,A12,NU

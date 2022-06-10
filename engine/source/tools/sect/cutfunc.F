@@ -40,12 +40,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FUNC(*), AL(*)
       INTEGER IVOIS(2,*),NODCUT,I 
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       REAL R4
 C-----------------------------------------------
       DO I=1,NODCUT
@@ -87,7 +87,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*)
       INTEGER IPARG(NPARG,*),NC(5,*),IXS(NIXS,*)
@@ -95,7 +95,7 @@ C     REAL ou REAL*8
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
 C-----------------------------------------------
       INTEGER I,J,N,IC,IL,IL_OLD,NG,NEL,MLW,JTURB,MT,G_PLA,II(6)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF,  P, VONM2, VONM, S1, S2, S12, S3, VALUE     
       REAL R4

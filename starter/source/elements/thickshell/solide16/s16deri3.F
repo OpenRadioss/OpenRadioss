@@ -46,7 +46,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NGL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   R,S,T,W,
      .   DNIDR(16),DNIDS(16),DNIDT(16),DXDR(*),DYDR(*),DZDR(*),

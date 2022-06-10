@@ -59,7 +59,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER IPARG(NPARG,*),EL2FA(*),NBF,IOFF(*),
      .        IADD(*),NBF_L,NBPART, IADG(NSPMD,*),NODGLOB(*),
      .        IPART(LIPART1,*), IPARTC(*), IPARTTG(*)
@@ -67,7 +67,7 @@ C     REAL ou REAL*8
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER I, NG, NEL, NFT, IAD, ITY, LFT, NPT,
      .        N, J, LLT, MLW, NBX, IP, 
      .        NN, K1, K2,MT,JALE, IMID, 

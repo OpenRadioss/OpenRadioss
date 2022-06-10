@@ -61,7 +61,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT ,IREP,NPT,ISMSTR,NLAY,NEL
       INTEGER IXTG(NIXTG,*),PID(*),MAT(*),NGL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),OFFG(*),AREA(*),
      .   GEO(NPROPG,*),XL2(*),XL3(*),YL3(*),
@@ -81,7 +81,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NC1, NC2, NC3,I,II(3),J,K, MAT_1
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     X1(MVSIZ), Y1(MVSIZ), Z1(MVSIZ),DETA1(MVSIZ),
      .     X2(MVSIZ), Y2(MVSIZ), Z2(MVSIZ),

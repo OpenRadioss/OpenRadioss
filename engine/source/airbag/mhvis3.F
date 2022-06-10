@@ -72,14 +72,14 @@ C-----------------------------------------------
       INTEGER IXC(NIXC,*),IPARTC(*), JFT, JLT,PID(*),
      .        IHBE  ,NFT ,ISMSTR,IGEO(NPROPGI, *),NEL
       INTEGER MAT(MVSIZ) 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*), GEO(NPROPG,*), THK(*), HOUR(NEL,5), OFF(*),
      .   PX1(*), PX2(*), PY1(*), PY2(*),DT1C(*),EANI(*),
      .   SSP(MVSIZ), RHO(MVSIZ),STI(MVSIZ),STIR(*),
      .   H1(MVSIZ), H2(MVSIZ),
      .   THK0(MVSIZ),VISCMX(MVSIZ), ALPE(MVSIZ),PARTSAV(NPSAV,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   B11(MVSIZ), B12(MVSIZ), B13(MVSIZ), B14(MVSIZ), B21(MVSIZ),
      .   B22(MVSIZ), B23(MVSIZ), B24(MVSIZ), H11(MVSIZ), H12(MVSIZ),
@@ -95,7 +95,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX,IPID,IGTYP,IGMAT,IPGMAT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   BB(MVSIZ),
      .   H1L(MVSIZ), H2L(MVSIZ), H1Q(MVSIZ), H2Q(MVSIZ), HG1(MVSIZ),

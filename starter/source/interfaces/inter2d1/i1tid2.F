@@ -51,7 +51,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN
       INTEGER IRECT(4,*), MSR(*), NSV(*), ILOC(*), IRTL(*), ITAB(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), CRST(2,*)
       INTEGER ID
@@ -61,7 +61,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IER1, II, I, J, K, L, M, JJ, IER2
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   N2, N3, YS, ZS, T2, T3, XL, SS,YM1,YM2,ZM1,ZM2
 C

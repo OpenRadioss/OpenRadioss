@@ -75,7 +75,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,J,N,ILAW
-C     REAL ou REAL*8
+C     REAL
       my_real X32(MVSIZ), Y32(MVSIZ), Z32(MVSIZ),SUM(MVSIZ),
      .     E11(MVSIZ),E12(MVSIZ),E13(MVSIZ),
      .     E21(MVSIZ),E22(MVSIZ),E23(MVSIZ)
@@ -363,7 +363,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, II
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   THETA
 C=======================================================================
@@ -399,7 +399,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   EXX(MVSIZ), EYY(MVSIZ), EXY(MVSIZ), EXZ(MVSIZ), EYZ(MVSIZ),
      .   KXX(MVSIZ), KYY(MVSIZ), KXY(MVSIZ),ECOS(MVSIZ),ESIN(MVSIZ)
@@ -407,7 +407,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  M2(MVSIZ),N2(MVSIZ),MN(MVSIZ),CM(4),MN2(MVSIZ),T1,TXY,TYX
 C-----------------------------------------------
@@ -469,14 +469,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,ISMSTR,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GSTR(NEL,8), F_DEF(MVSIZ,8),ECOS(MVSIZ),ESIN(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  M2(MVSIZ),N2(MVSIZ),MN(MVSIZ),CM(4),MN2(MVSIZ),T1,T2,T3
 C-----------------------------------------------
@@ -538,7 +538,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,IFRAM_OLD,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FOR(NEL,5), MOM(NEL,3),NFOR(NEL,5), NMOM(NEL,3),
      .   ECOS(MVSIZ),ESIN(MVSIZ)
@@ -546,7 +546,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  M2(MVSIZ),N2(MVSIZ),MN(MVSIZ),CM(5),MN2(MVSIZ),T1,T2,T3
 C-----------------------------------------------

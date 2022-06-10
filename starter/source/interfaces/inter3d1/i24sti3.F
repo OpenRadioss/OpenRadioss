@@ -94,10 +94,10 @@ C-----------------------------------------------
      .   ITAB(*), IXS10(6,*),MSEGTYP(*), IXS16(8,*), IXS20(12,*),MVOISN(4,*),
      .   IWORKSH(3,*),TAGPRT_FRIC(*),IPARTFRICS(*),IPARTFRICM(*),
      .   IRECTS(4,*),IELNRTS(*),ADRECTS(4,*),FACNRTS(*),MSR(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STFAC, GAP,GAPMIN,GAPINF, GAPMAX_S,BGAPSMX ,GAPMAX_M
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), STF(*), PM(NPROPM,*), GEO(NPROPG,*), STFN(*),
      .   MS(*),WA(*),GAP_S(*),GAP_M(*),GAP_N(12,*),
@@ -119,7 +119,7 @@ C-----------------------------------------------
      .   IPFLMAX,NM,NEL,FC,PERM,NSHIFF,N,IPG
      
       INTEGER JPERM(4) ,FACES(4,6),TAB1(4),TAB2(4),FACES10(3,16),FACES20(4,24)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DXM, GAPMX, GAPMN, AREA, VOL, DX,GAPS1,GAPS2, GAPM, DDX, 
      .   GAPTMP, GAPSCALE,SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,
@@ -956,12 +956,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NINT, NEL, I, NOINT,NNOD
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AREA
       INTEGER IRECT(4,*), IXS(NIXS,*), KNOD2ELS(*), NOD2ELS(*), 
      .        IXS10(6,*), IXS16(8,*), IXS20(12,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*)
 C-----------------------------------------------
@@ -969,7 +969,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IY(4), N, JJ, II, K, NN, KK, IC, IAD,
      .        NUSER, NUSERM
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   N1, N2, N3, DDS
 C-----------------------------------------------
@@ -1134,10 +1134,10 @@ C-----------------------------------------------
      .   ITAB(*), IXS10(6,*),MSEGTYP(*), IXS16(*), IXS20(*),NSHIFT,
      .   IGEO(NPROPGI,*),NRTT,IWORKSH(3,*),TAGPRT_FRIC(*),IPARTFRICS(*),
      .   IPARTFRICM(*),IPARTS(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STFAC, GAP,BGAPSMX,GAPS1 ,GAPS2,GAPMX ,GAPMN ,GAPSCALE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), STF(*), PM(NPROPM,*), GEO(NPROPG,*), STFN(*),
      .   MS(*),GAP_M(*),GAP_N(12,*),
@@ -1155,7 +1155,7 @@ C-----------------------------------------------
      .   MG, NUM, NPT, LL, L, NN, NELTG,N1,N2,N3,N4,IE,
      .   IP, NLEV, MYLEV, K, P, R, T,IAD,NREV,IGTYP,IPGMAT,IGMAT,
      .   ISUBSTACK,IPL,IPG
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AREA, VOL, DX, GAPM, DDX, 
      .   GAPTMP, SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,
@@ -1843,14 +1843,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NRT,IRECT(4,*),NSN,NSV(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),PEN_OLD(5,NSN)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J,NN(4),NJ,ITAG(NUMNOD),NS
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   NORM(3,NUMNOD),R(3),S(3),T(3),DET
 C=======================================================================
@@ -1938,7 +1938,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   R(3) , S(3) , T(3)
 C-----------------------------------------------
@@ -2007,7 +2007,7 @@ C-----------------------------------------------
      .   NSV(*), IXTG(NIXTG,*), IXT(NIXT,*), IXP(NIXP,*),
      .   IXR(NIXR,*) ,IPART(LIPART1,*), IPARTC(*), IPARTTG(*),
      .   ITAB(*), IXS10(6,*), IXS16(8,*), IXS20(12,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), PM(NPROPM,*), GEO(NPROPG,*), WA(*),
      .   THK(*),THK_PART(*),LL_S(*),LL_M(*)
@@ -2017,7 +2017,7 @@ C-----------------------------------------------
       INTEGER I, J, N, MT, JJ, JJJ, NELC,
      .   MG, NUM, NPT, LL, L, NN, NELTG,N1,N2,N3,N4,IE,
      .   IP, NLEV, MYLEV, K, P, R, T,IAD
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AREA, VOL, DX, GAPM, DDX
 C----------------------
@@ -2150,11 +2150,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NREV, NEL, I, NOINT,IR,SURF_ELTYP(*),SURF_ELEM(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AREA
       INTEGER IRECT(4,*), IXS(NIXS,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*)
 C-----------------------------------------------
@@ -2162,7 +2162,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IY(4), N, JJ, II, K, NN, KK, IC, IAD,
      .        NUSER, NUSERM
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   N1, N2, N3, DDS
 C-----------------------------------------------
@@ -2247,16 +2247,16 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER S_TYPE  ,S_EL,NS,INS,NOINT,IPART_E,IPART_NS,IPEN0
-C     REAL ou REAL*8
+C     REAL
       INTEGER IXS(NIXS,*), IXS10(6,*), IXS16(8,*), IXS20(12,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),GAP
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,N,NC4(4),NC8(8)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XI,YI,ZI,XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX
 C-----------------------------------------------

@@ -52,7 +52,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXR(NIXR,*),IPART(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG,*), MS(*), XIN(*),X(3,*),V(3,*),PARTSAV(20,*),
      .   XL(*),MSR(3,*),INR(3,*),MSRT(*)
@@ -60,7 +60,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IP,I1,I2,I3
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XX,YY,ZZ,XY,YZ,ZX
       my_real

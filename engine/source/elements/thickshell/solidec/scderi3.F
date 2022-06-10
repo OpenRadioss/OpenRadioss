@@ -68,7 +68,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       DOUBLE PRECISION
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
      .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),  
@@ -91,7 +91,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NGL(*), I, J,NNEGA,INDEX(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
 C                                                                     12
       my_real
      .   DETT ,  AJ7(MVSIZ), AJ8(MVSIZ) ,AJ9(MVSIZ), 

@@ -54,7 +54,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NFUNCT, NTABLE
       INTEGER NPC(*),FUNCRYPT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PLD(*)
       TYPE(TTABLE) TABLE(*)

@@ -66,12 +66,12 @@ C-----------------------------------------------
      .        JLT, NOINT, IGAP , NSN, NIN, IGSTI
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ), NSMS(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), STF(*), STFN(*), GAP_S(*), GAP_M(*),
      .   MS(*), V(3,*),
      .   GAP, KMIN, KMAX, GAPMAX, GAPMIN
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),

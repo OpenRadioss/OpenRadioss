@@ -62,7 +62,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,ISMSTR,IREP,NLAY,NEL
       INTEGER IXTG(NIXTG,*),MAT(*),PID(*),NGL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),V(3,*),R(3,*), OFFG(*), OFF(*),
      .   R11(*),R12(*),R13(*),R21(*),R22(*),R23(*),
@@ -81,7 +81,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NC1, NC2, NC3,I, J,I1, I2, I3, N, NLYMAX,II(4),IBID,MAT_1
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VX2(MVSIZ), VX3(MVSIZ),VY2(MVSIZ), VY3(MVSIZ), 
      .   VZ2(MVSIZ), VZ3(MVSIZ),
@@ -321,7 +321,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,IREP
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RX(*) , RY(*) , RZ(*), 
      .   SX(*) , SY(*) , SZ(*),
@@ -335,7 +335,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       MY_REAL
      .   C1,C2,CC,C1C1,C2C2,C1_1(MVSIZ),C2_1(MVSIZ)
       my_real :: OFF_LOC

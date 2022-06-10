@@ -114,7 +114,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,MX,IPID,J,J2,J3,JJ,MATLY(MVSIZ*100),NEL,L,IGMAT,IPGMAT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SHF(MVSIZ),NU(MVSIZ),G(MVSIZ),YM(MVSIZ),A11(MVSIZ),A12(MVSIZ),
      .   E11,E22,NU12,G31,G23,A22,WMC,FACG,COEF,WM
@@ -392,14 +392,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DIR(NEL,2),HM(MVSIZ,4),HC(MVSIZ,2),HMOR(MVSIZ,2)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  M2(MVSIZ),N2(MVSIZ),MN(MVSIZ),M4(MVSIZ),N4(MVSIZ),
      .  MN2(MVSIZ),CM(6),CC(2),T1,T2,T3
@@ -464,14 +464,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,MAT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   HM(MVSIZ,4),HC(MVSIZ,2), PM(NPROPM,*), SHF(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,MX
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   G,A11,A12,E11,E22,NU12,G31,G23,A22
 C-----------------------------------------------
@@ -528,14 +528,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT ,IR,IS,IT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   G_IMP(*),SIGNOR(MVSIZ,5)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,MX,J,K
-C     REAL ou REAL*8
+C     REAL
 
       TYPE(L_KTBUFEP_)    , POINTER :: SKBUF
 C-----------------------------------------------
@@ -592,7 +592,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT  ,MTN  , NPT,IORTH,IPG
       INTEGER MAT(*), PID(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*),HM(MVSIZ,4),HF(MVSIZ,4),HMOR(MVSIZ,2),HFOR(MVSIZ,2),HMFOR(MVSIZ,6)
 C-----------------------------------------------
@@ -621,7 +621,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,MX,IPID,J,J2,J3,JJ,L,IR,IS,IT,IPLAS,IR4(4),IS4(4),NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   NU,G,YM,A11,A12,BETA,
      .   THETA1,THETA2,HK(MVSIZ),HH(MVSIZ),DHK(MVSIZ),DHH(MVSIZ),
@@ -833,7 +833,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT  ,MTN
       INTEGER MAT(*), PID(*),IGEO(NPROPGI,*),IDRIL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG,*), PM(NPROPM,*), HM(MVSIZ,4),HF(MVSIZ,4),HZ(*)
 C-----------------------------------------------
@@ -859,7 +859,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,MX,IPID,J,J2,J3,JJ,NEL,L,IGMAT,IPGMAT,IGTYP
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   NU(MVSIZ),G(MVSIZ),YM(MVSIZ),A11(MVSIZ),A12(MVSIZ),
      .   E11,E22,NU12,G31,G23,A22,WMC,FACG,COEF,WM
@@ -967,7 +967,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,M,EP
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   C1,C2,FAC
 C-----------------------------------------------

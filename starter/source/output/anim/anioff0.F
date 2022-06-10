@@ -54,7 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------                        
 C   L o c a l   V a r i a b l e s                                       
 C-----------------------------------------------                        
-C     REAL ou REAL*8                                                    
+C     REAL                                                    
       INTEGER I, NG, NEL, NFT, ITY, LFT,                           
      .        N, NN1, LLT, MLW, IOFFBUF(NBF),RBUF,IOFF_LOC(SIOFF)                                         
       TYPE(G_BUFEL_) ,POINTER :: GBUF

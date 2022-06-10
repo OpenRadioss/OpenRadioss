@@ -49,7 +49,7 @@ C-----------------------------------------------
       INTEGER JFT,JLT,NG,IXC(NIXC,*),NDDL,NEL
       INTEGER, INTENT(INOUT) :: 
      .   NC1(*), NC2(*), NC3(*), NC4(*)
-C     REAL ou REAL*8,
+C     REAL,
       MY_REAL, INTENT(INOUT) ::
      .   VARNL(NEL,NDDL)
       TYPE(NLOCAL_STR_), TARGET :: NLOC_DMG

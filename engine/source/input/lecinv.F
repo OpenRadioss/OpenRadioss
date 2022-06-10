@@ -58,7 +58,7 @@ C-----------------------------------------------
       INTEGER NINIV,ITAB(*),IFRAME(LISKN,*)
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD) :: IGRNOD
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),V(3,*), VR(3,*), XFRAME(NXFRAME,*)
 C-----------------------------------------------
@@ -66,7 +66,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,JJ,K,N,N1,N2,K1,K2,K3,NGR2USR,II
       INTEGER IDIR,CPT0,CPT1,IFM,IFRA,IGN,CPT20,CPT21
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VV  ,VTX ,VTY ,VTZ , NIXJ(6),
      .   VX  ,VY  ,VZ

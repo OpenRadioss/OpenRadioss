@@ -89,7 +89,7 @@ C     REAL OU REAL*8
      .   KE14(6,6,MVSIZ),KE23(6,6,MVSIZ),
      .   KE24(6,6,MVSIZ),KE34(6,6,MVSIZ)
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
-c=======================================================================
+C=======================================================================
 c FUNCTION: [K] stiffness Matrix of QEPH element
 c
 c Note:

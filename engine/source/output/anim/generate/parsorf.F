@@ -60,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(*),D(*),CDG(*)
       INTEGER IADD(*),IPARG(NPARG,*),
@@ -76,7 +76,7 @@ C     REAL ou REAL*8
 C
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF
       INTEGER II(4),IE,NG, ITY, LFT, LLT, KPT, N, I, J, 

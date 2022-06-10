@@ -68,7 +68,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SKIN_TENSOR(3,*),PM(NPROPM,*), X(3,*)
       INTEGER IPARG(NPARG,*), 
@@ -487,7 +487,7 @@ C-----------------------------------------------
       INTEGER 
      .   IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),IX5(MVSIZ),
      .   IX6(MVSIZ),IX7(MVSIZ),IX8(MVSIZ)        
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ), 
      .   X5(MVSIZ), X6(MVSIZ), X7(MVSIZ), X8(MVSIZ),
@@ -634,7 +634,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SIG(3,MVSIZ), DIR(MVSIZ,2)
 C-----------------------------------------------
@@ -644,7 +644,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X2,Y2,XY,XYS2,SIGN(3)
 C-----------------------------------------------
@@ -696,7 +696,7 @@ C-----------------------------------------------
       INTEGER I, J, N , K
       INTEGER 
      .   IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ), 
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
@@ -773,7 +773,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SIG3D(6,*),SIG2D(3,*), G1X(*),G1Y(*),G1Z(*),
      .   G2X(*),G2Y(*),G2Z(*),G3X(*),G3Y(*),G3Z(*)
@@ -784,7 +784,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SX,SY,SZ
 C-----------------------------------------------

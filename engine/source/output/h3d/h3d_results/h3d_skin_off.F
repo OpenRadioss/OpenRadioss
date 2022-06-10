@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER, DIMENSION(NPARG,NGROUP),INTENT(IN):: IPARG
       INTEGER, DIMENSION(NIXS,NUMELS),INTENT(IN):: IXS
       INTEGER, DIMENSION(6,NUMELS10),INTENT(IN):: IXS10

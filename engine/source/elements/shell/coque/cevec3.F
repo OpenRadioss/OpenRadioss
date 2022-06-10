@@ -59,7 +59,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X31(MVSIZ), Y31(MVSIZ), Z31(MVSIZ), X42(MVSIZ), Y42(MVSIZ),
      .   Z42(MVSIZ), X21(MVSIZ), Y21(MVSIZ), Z21(MVSIZ),

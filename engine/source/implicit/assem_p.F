@@ -55,7 +55,7 @@ C-----------------------------------------------
       INTEGER 
      .       IXP(NIXP,*), NEL   ,IDDL(*)   ,NDOF(*)   ,
      .       IADK(*)  ,JDIK(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   K_DIAG(*) ,K_LT(*)   ,
      .   KC11(ND,ND,*),KC12(ND,ND,*),KC22(ND,ND,*),OFF(*)

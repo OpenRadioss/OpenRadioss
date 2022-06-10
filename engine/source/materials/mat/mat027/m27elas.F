@@ -45,7 +45,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,IMAT,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      . PM(NPROPM,*),DAMT(NEL,2),CRAK(NEL,2),SHF(*),
      . DEPSXX(MVSIZ),DEPSYY(MVSIZ),DEPSXY(MVSIZ),DEPSYZ(MVSIZ),
@@ -55,7 +55,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      . E(MVSIZ),NU(MVSIZ),G(MVSIZ),DE1(MVSIZ),DE2(MVSIZ),
      . EEL1(MVSIZ),EEL2(MVSIZ),EEL3(MVSIZ),EEL4(MVSIZ),EEL5(MVSIZ),

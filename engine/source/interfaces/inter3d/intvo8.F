@@ -86,7 +86,7 @@ C-----------------------------------------------
      .   TAGNCONT(NLOADP_HYD_INTER,NUMNOD),
      .   KLOADPINTER(NINTER+1),LOADPINTER((NINTER+1)*NLOADP_HYD),
      .   LOADP_HYD_INTER(NLOADP_HYD)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(*), A(3,*), FSAV(*), V(3,*), MS(*),
      .   FSKYI(LSKYI,NFSKYI),FCONT(3,*), FNCONT(3,*), FTCONT(3,*),
@@ -108,7 +108,7 @@ C-----------------------------------------------
      .   NSV_A, !NSV reduced only to active secnd on the proc
      .   NSV2,  !Numbering from NSV_A to NSV
      .   IRTL_A !IRTL reduced only to active secnd on the proc
-C     REAL ou REAL*8
+C     REAL
       my_real, DIMENSION(:), ALLOCATABLE :: TAB_RMAX
       my_real, DIMENSION(:), ALLOCATABLE :: DISTANCE,DIST
       my_real, DIMENSION(:), ALLOCATABLE :: X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3
@@ -130,7 +130,7 @@ C     REAL ou REAL*8
       my_real, DIMENSION(:), ALLOCATABLE :: THK,AREA,ALP
       INTEGER IBC, NCIMP, NRTM4, NOINT,IGIMP,NINSKID
       INTEGER MFROT,IBAG,IADM,IFORM,IFT0
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, FRIC, GAP,  STOPT,  
      .   VISC,VISCF,FNOR,DEPTH

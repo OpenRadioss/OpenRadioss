@@ -70,7 +70,7 @@ C-----------------------------------------------
       INTEGER CAND_E(*),CAND_N(*),RENUM(*)
       INTEGER ILD,NB_N_B,ESHIFT,NCONTACT,NCONT,I_MEM,II_STOK
      .        
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GAP,TZINF,MAXBOX,MINBOX,GAPMIN, GAPMAX, BMINMA(6)
       my_real
@@ -83,7 +83,7 @@ C-----------------------------------------------
       INTEGER I, J,I_ADD, IP0, IP1, MAXSIZ,
      .        ADD(2,I_ADD_MAX), LOC_PROC, N,
      .        NSNFIOLD(NSPMD)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        XYZM(6,I_ADD_MAX-1),MARGE
 C-----------------------------------------------

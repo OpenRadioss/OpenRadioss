@@ -20,7 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-C
 Chd|====================================================================
 Chd|  IPARTI                        src/init1/iparti.F            
 Chd|-- called by -----------
@@ -38,7 +37,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER I, J, N2
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TAB(*)
 C-----------------------------------------------
@@ -49,7 +48,6 @@ C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER ICOMPC
-C...Translated by Pacific-Sierra Research VAST-2  3.04F8  17:16:26  11/15/91   -
       IPARTI=I
       IF(J.GT.I) THEN
           MILIEU=(I+J)/2

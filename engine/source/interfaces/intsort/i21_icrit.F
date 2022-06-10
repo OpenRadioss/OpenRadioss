@@ -68,7 +68,7 @@ C-----------------------------------------------
       INTEGER IPARI(NPARI,*), 
      .        NELTST, ITYPTST,NBINTC21,
      .        INTLIST21(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        DT2T,
      .        XSLV(18,*), XMSR(12,*), VSLV(6,*), VMSR(6,*),

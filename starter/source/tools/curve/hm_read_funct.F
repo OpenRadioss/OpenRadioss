@@ -60,7 +60,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NFUNCT, NPTS_ALLOC
       INTEGER NPC(*),FUNCRYPT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PLD(NPTS_ALLOC)
       TYPE(TTABLE) TABLE(*)
@@ -80,7 +80,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,L,FUNC_ID,NPTS,STAT,N,II,ISMOOTH
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TIME, FUNCT, BID, F5(5)
       my_real

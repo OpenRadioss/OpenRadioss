@@ -132,7 +132,7 @@ C-----------------------------------------------
      .        IPARTS(*),IXS10(6,*),IADS10(6,*),IPM(*),ITASK,GRTH(*),
      .        IGRTH(*),IGEO(*),LSENSOR(NSENSI,*),IOUTPRT
       INTEGER NELTST,ITYPTST,OFFSET,NEL,NG,ISTRAIN,ISOLNOD,IEXPAN,ITAGDN(*)      
-C     REAL ou REAL*8
+C     REAL
 
       DOUBLE PRECISION 
      .   XDP(3,*)
@@ -651,7 +651,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER NEL,NPT
       DOUBLE PRECISION
      .   XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10)
@@ -808,7 +808,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,NB,INDEX(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PX(MVSIZ,10),PY(MVSIZ,10),PZ(MVSIZ,10),
      .   PIJ(NEL,3,10),SIG(NEL,6),SIGL(NEL,6)

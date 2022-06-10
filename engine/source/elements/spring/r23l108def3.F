@@ -78,7 +78,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPF(*), IGEO(NPROPGI,*),NEL,NGL(*),NC1(*),NC2(*),NUVAR,
      .   IPM(NPROPMI,*),MID(*),PID(*),IEQUIL(*),SKEW_ID(*)     
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SKEW(LSKEW,*), GEO(NPROPG,*), FX(*), FY(*), FZ(*), E(*), DX(*),
      .   DY(*), DZ(*), TF(*), OFF(*), DPX(*), DPY(*), DPZ(*), FXEP(*),
@@ -108,7 +108,7 @@ C-----------------------------------------------
      .        I,J,ISK, KK,NINDX,IFAIL(MVSIZ),IFAIL2(MVSIZ),ISRATE,
      .        I1,I2,I3,I4,I5,I6,I7,I8,I9,I10,I11,I12,I13,I14,
      .        NUPAR,IADBUF,IF1,IF2,IF3,IF4
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     XK(MVSIZ), YK(MVSIZ), ZK(MVSIZ),
      .     XC(MVSIZ), YC(MVSIZ), ZC(MVSIZ),

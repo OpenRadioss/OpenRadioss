@@ -103,7 +103,7 @@ C-----------------------------------------------
      .   IXS16(8,*),IXTG1(4,*),IRBE3(*),LRBE3(*),
      .   SH4TREE(*), SH3TREE(*),
      .   IRBE2(*),LRBE2(*),IBFV(*),NUM_IMP1(*),NUM_IMPL(NINTER,NTHREAD)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG,*),SENSOR(NSENSR,*),ELBUF(*),VEL(*),X(*),DMCP(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
@@ -534,7 +534,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER 
      .   IGEO(NPROPGI,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG,*),X(*),DMCP(*),V(*),VR(*)
       TYPE (IMPBUF_STRUCT_) :: IMPBUF_TAB

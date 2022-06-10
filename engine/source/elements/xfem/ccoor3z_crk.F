@@ -59,7 +59,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,NFT,IEL_CRK(*),IADC_CRK(4,*),ILEV
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VL1(MVSIZ,3),VL2(MVSIZ,3),VL3(MVSIZ,3),VL4(MVSIZ,3),
      .   VRL1(MVSIZ,3),VRL2(MVSIZ,3),VRL3(MVSIZ,3),VRL4(MVSIZ,3),

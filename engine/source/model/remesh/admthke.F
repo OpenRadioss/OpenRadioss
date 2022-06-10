@@ -61,7 +61,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER  
      .   IXC(NIXC,*), IXTG(NIXTG,*), IPARG(NPARG,*),
      .   IPART(LIPART1,*), IPARTC(*), IPARTTG(*),
@@ -78,7 +78,7 @@ C-----------------------------------------------
       INTEGER N1,N2,N3,N4,
      .        I,N,NG,NEL,LENR,
      .        NN,LEVEL,MY_LEVEL,M,SON,LL,M1,M2,M3,M4,MC
-C     REAL ou REAL*8
+C     REAL
        my_real
      .     AREA, A, AT, THK, 
      .     X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,X4,Y4,Z4,

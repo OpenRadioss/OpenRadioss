@@ -75,7 +75,7 @@ C-----------------------------------------------
       INTEGER NODFT, NODLT,NELTST,ITYPTST,ITAB(*),
      .        WEIGHT(*),IMSCH,
      .        ISMSCH, NODNX_SMS(*), NPBY(NNPBY,*), TAGMSR_RBY_SMS(*)
-C     REAL ou REAL*8
+C     REAL
       my_real DT2T, DMAST, DINERT, 
      .   MS(*) ,IN(*) ,STIFN(*), STIFR(*),ADT(*) ,ADM(*) ,
      .   A(3,*) ,AR(3,*) ,ADI(*) ,RBYM(NFRBYM,*),ARBY(3,*),

@@ -84,7 +84,7 @@ C-----------------------------------------------
       INTEGER NIN,ITASK ,NC,N_MUL_MX ,NKMAX , NME, NMES  
       INTEGER IPARI(NPARI,NINTER),
      .        IXS(NIXS,*)  ,IXS16(8,*)  ,IXS20(12,*)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .        X(3,*), EMINX(6,*), SIZE_T(*),
      .        XSLV_L(*), XMSR_L(*)
@@ -97,7 +97,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NAD,EAD,LWAT,
      .        IGN,IGE,MULTIMP,NOINT,I,MX_CAND 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        STARTT, STOPT,XX,XY,XZ,TZINF,MINBOX,
      .        AZERO(3,NUMNOD)
@@ -222,7 +222,7 @@ C-----------------------------------------------
      .        IXS(NIXS,*)  ,IXS16(8,*)  ,IXS20(12,*),WEIGHT(*),
      .        ISENDTO(*),IRECVFROM(*),IAD_ELEM(*),FR_ELEM(*),
      .        ITAB(*)   
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .    X(3,*), V(3,*), EMINX(6,*)
 
@@ -234,7 +234,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NAD,EAD,LWAT,RESULT,
      .        IGN,IGE,MULTIMP,NOINT,I,MX_CAND, NB_N_B
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, STOPT,XX,XY,XZ,TZINF,MINBOX,DIST,
      .   XMAXL, YMAXL, ZMAXL, XMINL, YMINL, ZMINL,
@@ -434,7 +434,7 @@ C-----------------------------------------------
       INTEGER NIN,ITASK,NISKYFI   
       INTEGER IPARI(NPARI,NINTER),
      .        IXS(NIXS,*)  ,IXS16(8,*)  ,IXS20(12,*) ,ISKY(*)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .   X(3,*), V(3,*), A(3,*), MS(*),EMINX(6,*),STIFN(*),
      .   FSKYI(*), FSAV(*),FCONT(3,*)   
@@ -448,7 +448,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NME,NAD,EAD,
      .        IGN,IGE,MULTIMP,NOINT,I,MX_CAND,NMES,LSKYI17
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        STARTT, STOPT
 C-----------------------------------------------
@@ -523,7 +523,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITASK,NME,NSE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        FROTM(7,*),FROTS(7,*)
 C-----------------------------------------------

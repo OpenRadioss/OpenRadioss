@@ -65,7 +65,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N,ID,KRESERV
-C     REAL ou REAL*8
+C     REAL
       CHARACTER MESS*40,TITR*40,KEY*ncharkey
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------

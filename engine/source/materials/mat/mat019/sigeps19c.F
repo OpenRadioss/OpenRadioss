@@ -58,7 +58,7 @@ C-----------------------------------------------
       INTEGER JFT,JLT,JHBE,ISMSTR,NEL,IMAT,NPTTOT
       INTEGER IPM(NPROPMI,*),LSENSOR(NSENSI,*)
       LOGICAL :: FLAG_ZCFAC
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*),THK(*),DIR(NEL,2), GSTR(NEL,8),SHF(*)
       my_real

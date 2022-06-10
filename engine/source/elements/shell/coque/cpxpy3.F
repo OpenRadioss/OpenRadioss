@@ -48,7 +48,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MAT(MVSIZ), IXC(NIXC,*), JFT, JLT,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*), STI(*), STIR(*),SMSTR(*),
      .   PX1(*), PX2(*), PY1(*), PY2(*),
@@ -58,7 +58,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, II(4), MX
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     YOUNG , 
      .     AX, AN, PXX2, PYY2, PXN, PXX, AAA, AL2

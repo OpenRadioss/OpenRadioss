@@ -45,7 +45,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NDT(*),
      . JFT, JLT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   F11(*), F12(*), F13(*), F14(*),
      .   F21(*), F22(*), F23(*), F24(*),

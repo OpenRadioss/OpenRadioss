@@ -114,7 +114,7 @@ C     IBOX(I)%Y2       : coord.Y for N2
 C     IBOX(I)%Z2       : coord.Z for N2
 C     IBOX(I)%IBOXBOX(NBOXBOX)  : LIST OF BOXES (in /box/box)
 C     IBOX(I)%ENTITY(NENTITY)   : LIST OF ENTITIES (NODES,ELEMS,LINES,SURF)
-c=======================================================================
+C=======================================================================
 c
       CALL HM_OPTION_COUNT('/BOX/RECTA' ,NBOX_RECT  )
       CALL HM_OPTION_COUNT('/BOX/CYLIN' ,NBOX_CYL   )

@@ -122,7 +122,7 @@ C-----------------------------------------------
      .   ISUBSTACK,NELIG3D, COIN_IGE(8), IPID, PX, PY, PZ, IAD ,IPFMAX,IPL,
      .   IPFLMAX,IPG
       INTEGER JPERM(4)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DXM, GAPMX, GAPMN, AREA, VOL, DX, GAPM, DDX, 
      .   GAPTMP, GAPSCALE,SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,

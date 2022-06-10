@@ -61,7 +61,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IARETE(2,12),NEWL,NUMNEW,I,J,K,L,I1,I2,N1,N2,N3,KK,
      .        NODEL,NVC(2,24),NAC(24),NCA(24),NCB(24),LMIN,KB
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   UNM,DISTMIN,DISTMAX,DIST0,TOL,DIST(8),
      .   XC(24),YC(24),ZC(24),ALC(24),TET(24),DIS,XM,YM,ZM,

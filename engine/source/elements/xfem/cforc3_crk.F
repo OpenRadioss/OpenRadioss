@@ -126,7 +126,7 @@ C-----------------------------------------------
      .   GRTH(*),IGRTH(*),IPARG(*),IXFEM,INOD_CRK(*),IEL_CRK(*),
      .   IADC_CRK(4,*),ELCUTC(2,*),LSENSOR(NSENSI,*),
      .   ISUBSTACK,NODEDGE(2,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   F11(MVSIZ), F12(MVSIZ), F13(MVSIZ), F14(MVSIZ),
      .   F21(MVSIZ), F22(MVSIZ), F23(MVSIZ), F24(MVSIZ),

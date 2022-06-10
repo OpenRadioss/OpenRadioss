@@ -48,7 +48,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ILEV
       INTEGER IPARI(*),WEIGHT(*),IGEO(NPROPGI,*),NPF(*),ITAB(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MS(*),IN(*), X(*), V(*), A(*),STIFN(*),FSAV(*),TF(*),
      .   FNCONT(*),PDAMA2(*), FNCONTP(*)  ,FTCONTP(* )         
@@ -137,7 +137,7 @@ C-----------------------------------------------
       INTEGER NSN, NMN,NUVAR,PID,IGTYP,ISYM
       INTEGER IRECT(4,*),MSR(*),NSV(*),IRTL(*),IRUPT(*),IPARI(*),
      .   WEIGHT(*),NPF(*),ITAB(*),PDAMA2(*),INORM(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),V(3,*),A(3,*),XSM0(3,*),DSM(3,*),FSM(3,*),PROP(*),
      .   AREA(*),STIFN(*),SINER(*),SMASS(*),FNCONT(3,*),
@@ -163,7 +163,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NIR,I,J,II,JJ,L,N1,N2,N3,N4,RFLAG,W,IONE,
      .        IMOD,IFILTR,IFUNS,IFUNN,IFUNT,NOINT,IDBG
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   S,T,SP,SM,TP,TM,AA,INS,MXI,MYI,MZI,XSM,YSM,ZSM,XC,YC,ZC,
      .   X0,X1,X2,X3,X4,Y0,Y1,Y2,Y3,Y4,Z0,Z1,Z2,Z3,Z4,SUM,DX,DY,DZ,

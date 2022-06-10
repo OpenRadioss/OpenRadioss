@@ -66,7 +66,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXC(NIXC,*),MAT(MVSIZ), JFT, JLT,IFLA,IEXPAN,
      .   IPARTC(*),NFT1,GRTH(*),IGRTH(*),IXFEM,ITASK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*), V(3,*), THK(*), EINT(JLT,2),
      .   PARTSAV(NPSAV,*), AREA(*),X(3,*),VR(3,*) ,VOL0(*),VOL00(*),
@@ -83,7 +83,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX, II, J, IC, JST(MVSIZ+1),FLAG,
      .        IXCTMP2,IXCTMP3,IXCTMP4,IXCTMP5,NEL,IJK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   IN25,XX,YY,ZZ,XY,YZ,ZX,VA2, INEL,
      .   VXA(MVSIZ), VYA(MVSIZ), VZA(MVSIZ), 

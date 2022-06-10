@@ -58,7 +58,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ISG, NEL, NINT, NOINT
       INTEGER IRECT(4,*), ICO(7,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), YM1, YM2, ZM1, ZM2,YE(4) ,ZE(4)
       INTEGER ID

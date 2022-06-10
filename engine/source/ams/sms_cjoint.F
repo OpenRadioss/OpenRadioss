@@ -114,7 +114,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LJOINT(*), FR_CJ(*), IADCJ(NSPMD+1,*), IDOWN, 
      .        TAG_LNK_SMS(*), ITASK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*), MS(*), CJWORK(18,*)
 C-----------------------------------------------
@@ -185,7 +185,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LJOINT(*), FR_CJ(*), IADCJ(NSPMD+1,*),
      .        TAG_LNK_SMS(*), ITASK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*), AR(3,*), V(3,*), VR(3,*), X(3,*), 
      .   MS(*), IN(*), CJWORK(18,*)
@@ -253,7 +253,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NOD(0:*), IFLAG
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*), AR(3,*), V(3,*), VR(3,*), X(3,*), FS(*), MS(*),
      .   IN(*), CJWORK(*), DIAG_SMS(*)
@@ -267,7 +267,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NSN, NA, NB, I, N
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MASSE, INER, N1, N2, N3, S, AX, AY, AZ, AXX, AYY, AZZ, VX,
      .   VY, VZ, VXX, VYY, VZZ, XCDG, YCDG, ZCDG, XX, YY, ZZ, RR, A0,
@@ -498,7 +498,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NOD(0:*), IDOWN
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*), DMS(*), CJWORK(*)
 CMasParINCLUDE 'telesc.intmap.inc'
@@ -509,7 +509,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NSN, NA, NB, I, N
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AX, AY, AZ, A0, N1, N2, N3, DMASSE
 C-----------------------------------------------
@@ -608,7 +608,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NOD(0:*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*), AR(3,*), V(3,*), VR(3,*), X(3,*), MS(*),
      .   IN(*), CJWORK(*)
@@ -622,7 +622,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NSN, NA, NB, I, N
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   N1, N2, N3, AX, AY, AZ, AXX, AYY, AZZ, 
      .   XCDG, YCDG, ZCDG, XX, YY, ZZ, RR, A0, 

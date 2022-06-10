@@ -44,7 +44,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPE
       INTEGER IPERM1(NPE),IPERM2(NPE),NC(MVSIZ,NPE)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFFG(*),A(3,*),STIFN(*),STIG(MVSIZ,NPE),
      .   FX(MVSIZ,NPE), FY(MVSIZ,NPE), FZ(MVSIZ,NPE),
@@ -268,7 +268,7 @@ C-----------------------------------------------
       INTEGER NPE
       INTEGER IADS(8,*),IADSP(NPE-8,*),NC(MVSIZ,NPE),
      .        IPERM1(NPE),IPERM2(NPE)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFFG(*),FSKYV(LSKY,8),FSKY(8,LSKY),STIG(MVSIZ,NPE),
      .   FX(MVSIZ,NPE), FY(MVSIZ,NPE), FZ(MVSIZ,NPE),THEM(MVSIZ,NPE),

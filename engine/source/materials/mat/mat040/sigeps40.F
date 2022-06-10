@@ -159,11 +159,11 @@ c jbm037
      .  BBXX,BBYY,BBZZ,BBXY,BBYZ,BBZX,
      .  CCXX,CCYY,CCZZ,CCXY,CCYZ,CCZX,
      .  EVSDXX,EVSDYY,EVSDZZ,EVSDXY,EVSDYZ,EVSDZX
-C======================================
+C=======================================================================
 C
 C     VISCO-ELASTIC LAW 
 C
-C======================================
+C=======================================================================
         AK = UPARAM(1)
         G0   =  TWO*UPARAM(2)
         G(1) =  TWO*UPARAM(3)

@@ -40,13 +40,13 @@ Cgw_clean#include      "scr07_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AREA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FS2, FS3, FT2, FT3, E, F, G,YE(4) ,ZE(4)
 C

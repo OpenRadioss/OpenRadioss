@@ -109,7 +109,7 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NEL) :: INDX
       my_real :: S1,S2,SS,S12,DYDX1,DYDX2,S2DYDX1,SIGSR,SIG3D
       my_real ,DIMENSION(NEL)  :: SIG1,SIG2,LAMBDANXT
-c=======================================================================
+C=======================================================================
       DO I=1,NEL
         SIG1(I) = ZERO    ! 1st principal normalized stress
         SIG2(I) = ZERO    ! 2d principal normalized stress

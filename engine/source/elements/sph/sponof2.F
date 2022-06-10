@@ -81,7 +81,7 @@ C-----------------------------------------------
      .        IPARG(NPARG,*),ISPHIO(NISPHIO,*),IPART(LIPART1,*),
      .        LPRTSPH(2,0:NPART),LONFSPH(*),
      .        IWA(*),MWA(*),IBUFSSG_IO(SIBUFSSG_IO),IPARTSP(*),OFF_SPH_R2R(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*) ,V(3,*) ,D(3,*) ,MS(*) ,SPBUF(NSPBUF,*) ,
      .   PLD(*) ,VSPHIO(*) ,PM(NPROPM,*),WA(*),
@@ -106,7 +106,7 @@ C-----------------------------------------------
      .        IPPV,M,JNOD,KNOD,JK,NVOIS1,NVOIS2,NVOISS1,NVOISS2,
      .        IMPOSE,IUN,KK,I1,IAD2,
      .        NSEGB,IMPOSE2,INOD0,NN,OFF,TFLAG,NP2SORT_OLD,KOFF,IJ
-C     REAL ou REAL*8
+C     REAL
       my_real
      .       TFEXTT,VOLO,
      .       X1,X2,X3,X4,XP,Y1,Y2,Y3,Y4,YP,Z1,Z2,Z3,Z4,ZP,

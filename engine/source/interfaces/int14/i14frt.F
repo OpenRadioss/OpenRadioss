@@ -69,7 +69,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSC,NSP, KSURF, KSI(*), IMPACT(*),
      .        NFRIC, NPC(*),ISKY(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  AF(*), X(3,*), V(3,*) , BUFSF(*), KSP(*),
      .  KSC(*), FRIC, CIMP(3,*),NIMP(3,*), MS(*),

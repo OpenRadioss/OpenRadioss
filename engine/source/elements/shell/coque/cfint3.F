@@ -50,7 +50,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,NPT,IHBE,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FOR(NEL,5), MOM(NEL,3), THK0(*), THK02(*),
      .   AREA(*),   PX1(*), PX2(*), PY1(*), PY2(*), Z2(*),
@@ -79,7 +79,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     M4(MVSIZ), M5(MVSIZ), F1(MVSIZ), F2(MVSIZ), F3(MVSIZ), 
      .     F4(MVSIZ), F5(MVSIZ), M1(MVSIZ), M2(MVSIZ), M3(MVSIZ),
@@ -89,7 +89,7 @@ C     REAL ou REAL*8
      .     F1A,F2A,F3A,F4A,F5A, G11TA, G21TA, G12TA, G22TA, 
      .     G13TA, G23TA, G14TA, G24TA, G31TA, G32TA, G33TA, G34TA,
      .     M1A,M2A,M3A,TEMP1,TEMP2,TEMP3
-c=======================================================================
+C=======================================================================
 C               POUR ISIGI = 5 OU -5
 C     CHANGEMENT DE REPERE DE FZERO POUR TT=DT1
 C          REPERE GLOBAL ---> REPERE LOCAL

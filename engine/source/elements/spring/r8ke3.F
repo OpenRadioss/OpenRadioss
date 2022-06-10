@@ -63,7 +63,7 @@ C-----------------------------------------------
       INTEGER IGEO(*),
      .        ETAG(*),IDDL(*)  ,NDOF(*)  ,IADK(*) ,JDIK(*)
 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG,*),X(*),TF(*),SKEW(LSKEW,*),
      .   FR_WAVE(*),PM(*),KE11(36,MVSIZ),KE12(36,MVSIZ),KE22(36,MVSIZ),
@@ -73,7 +73,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     KX(MVSIZ)  ,KY(MVSIZ) ,KZ(MVSIZ),
      .     MX(MVSIZ)  ,MY(MVSIZ)     ,MZ(MVSIZ),
@@ -105,9 +105,9 @@ c      NB1 =NB1  + OFFSET
 c      NEL3 = 3 * NEL
 c      NEL4 = 4 * NEL
 C
-C=========================================================
+C=======================================================================
 C      IF(IGTYP.EQ.8)THEN
-C=========================================================
+C=======================================================================
 c       NB3 =NB2  + NEL3
 c       NB4 =NB3  + NEL
 c       NB5 =NB4  + NEL3
@@ -240,7 +240,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT
       INTEGER NGL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    AL(3,*),OFF(*),
      .    KX(*),KY(*),KZ(*),
@@ -252,7 +252,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SCAL,ALX,ALY,ALZ,SX,SY,SZ,S1,S2
 C-----------------------------------------------

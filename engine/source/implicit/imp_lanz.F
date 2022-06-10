@@ -80,7 +80,7 @@ C----------resol [K]{X}={F}---------
       INTEGER  NDOF(*),NE_IMP(*),NSREM ,NSL,INTP_C,
      .         IPARI(*) ,NUM_IMP(*),NS_IMP(*),IND_IMP(*) 
       INTEGER NMONV,IMONV(*),MONVOL(*),FR_MV(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_K(*), LT_K(*) ,DIAG_M(*),LT_M(*) ,X(*), RTOL,
      .  V(*) ,W(*)  ,R(*)  ,Y(*),SHIFT,KCOND,LT_I(*),FLM,F_X

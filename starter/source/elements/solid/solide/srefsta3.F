@@ -80,7 +80,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*), IPARG(*),IPARTS(*), IGEO(*),
      .    IPM(NPROPMI,*),IPART(LIPART1,*), NEL, NPF(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*), X(3,*), XREFS(8,3,*), GEO(NPROPG,*),
      .   SKEW(LSKEW,*), BUFMAT(*), TF(*)
@@ -878,7 +878,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IGEO(NPROPGI,*),NGL(*),NGEO(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VOL(*), VEUL(LVEUL,*),GEO(NPROPG,*),
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*),
@@ -900,7 +900,7 @@ C-----------------------------------------------
      .   Y5_COPY(MVSIZ), Y6_COPY(MVSIZ), Y7_COPY(MVSIZ), Y8_COPY(MVSIZ),
      .   Z1_COPY(MVSIZ), Z2_COPY(MVSIZ), Z3_COPY(MVSIZ), Z4_COPY(MVSIZ),
      .   Z5_COPY(MVSIZ), Z6_COPY(MVSIZ), Z7_COPY(MVSIZ), Z8_COPY(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   JJ7(MVSIZ), JJ8(MVSIZ) , JJ9(MVSIZ),
      .   A17(MVSIZ) , A28(MVSIZ) ,

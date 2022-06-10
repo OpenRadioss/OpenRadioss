@@ -59,7 +59,7 @@ C-----------------------------------------------
       INTEGER  NSN, I0,I2SIZE,PENFLAG,IROT, NOINT,NELTST,ITYPTST
       INTEGER  IRECT(4,*),NSV(*),IRTL(*),WEIGHT(*),IADI2(4,*),
      .         NODNX_SMS(*),IVISC
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VISC,DT2T
       my_real
@@ -87,7 +87,7 @@ C-----------------------------------------------
       INTEGER NIR,I,J,II,JJ,L,W,NN,KK,K,LLT,
      .        IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   S,T,SP,SM,TP,TM,ECONTT,ECONVT,E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,
      .   FNORM,FLX,FLY,FLZ,FSX,FSY,FSZ,DDX,DDY,DDZ,XSM,YSM,ZSM,XM,YM,ZM,

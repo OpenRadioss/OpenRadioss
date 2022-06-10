@@ -65,7 +65,7 @@ C-----------------------------------------------
       INTEGER NPBY(NNPBY,*),LPBY(*),NRBYAC,IRBYAC(*),
      .        NINT2,IINT2(*),IPARI(NPARI,*),IRBE3(NRBE3L,*),
      .        IRBE2(NRBE2L,*),LRBE2(*)
-C     REAL ou REAL*8
+C     REAL
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
@@ -226,7 +226,7 @@ C-----------------------------------------------
       INTEGER
      .   INLOC(*),LNS  ,LNS2,IRBE3(NRBE3L,*) ,LNS3,
      .   IRBE2(NRBE2L,*),LRBE2(*),LNS4
-C     REAL ou REAL*8
+C     REAL
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -339,7 +339,7 @@ C-----------------------------------------------
      .   INLOC(*),NRB_MV,NI2_MV,IRB_MV(2,*),II2_MV(2,*),
      .   IRBE3(NRBE3L,*),NRBE3_MV  ,IRBE3_MV(*),
      .   IRBE2(NRBE2L,*),LRBE2(*),NRBE2_MV  ,IRBE2_MV(2,*)
-C     REAL ou REAL*8
+C     REAL
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
 C-----------------------------------------------
@@ -588,7 +588,7 @@ C-----------------------------------------------
      .        IPARI(*), NDOF(*),IDDL(*),IKC(*),
      .        INLOC(*),IPREC,IBFV(*),LJ(*),ISKEW(*),ICODT(*),
      .        IRBE3(*),LRBE3(*),IRBE2(*),LRBE2(*),NSURF
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),A_MV(3,*),AR_MV(3,*), VOLMON(*) ,
      .   SKEW(*) ,XFRAME(*),FRBE3(*)
@@ -650,7 +650,7 @@ C-----------------------------------------------
      .        IPARI(NPARI,*), NDOF(*),IDDL(*),IKC(*),
      .        INLOC(*),IPREC,IBFV(*),IRBE3(NRBE3L,*),LRBE3(*),
      .        IRBE2(NRBE2L,*),LRBE2(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),A_MV(3,*),AR_MV(3,*), VOLMON(*) ,
      .   SKEW(*) ,XFRAME(*),FRBE3(*)
@@ -814,7 +814,7 @@ C-----------------------------------------------
       INTEGER IPARI(NPARI,*), NDOF(*),IDDL(*),IKC(*),
      .        INLOC(*),IRBE3(NRBE3L,*),LRBE3(*),
      .        IRBE2(NRBE2L,*),LRBE2(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),SKEW(*) ,FRBE3(*)
 
@@ -990,7 +990,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NMONV,IMONV(*),MONVOL(*),
      .        NNMAX_MV
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), VOLMON(*)  ,K_DIAG(3,*)
       TYPE(SURF_)   ,DIMENSION(NSURF)   :: IGRSURF
@@ -1107,7 +1107,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER N1,N2,N3,N4
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XX,YY,ZZ,X12,Y12,Z12,X13,Y13,Z13,X24,Y24,Z24,VOL,
      .   DVD1(*),DVD2(*),N(3),GAMAV2,K_DIAG(3,*)
@@ -1206,7 +1206,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER N1,N2,N3,N4,M1,M2,M3,M4
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VOL,DVD1(*),DVD2(*),N(3),NJ(3),GAMAV2,K_DIAG(3,*)
 C-----------------------------------------------
@@ -1623,7 +1623,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,*), NDOF(*),IFLAG,
      .        IRBE3(NRBE3L,*),LRBE3(*),IRBE2(NRBE2L,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DIAG_K(*)
 
@@ -2289,14 +2289,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IVOLU(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RVOLU(*),DPRES
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IDEF,IV
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VOL,VINC,GAMA,PRES,PMAX,VEPS,POLD,VOLD,PEXT,
      .   DV,ENERGY,ENERG_OLD,DEOUT,FAC

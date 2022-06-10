@@ -59,7 +59,7 @@ C-----------------------------------------------
       INTEGER
      .   NODFT,NODLT,DIM,ITASK,
      .   WEIGHT(*),ICONTACT(*),I_DAMP_RDOF_TAB(*),NODXI_SMS(*), TAGSLV_RBY(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   V(3,*), VR(3,*), A(3,*), AR(3,*) ,MS(*), IN(*),
      .   DAMPR(NRDAMP,*), DAMP(DIM,*), SKEW(LSKEW,*)
@@ -71,7 +71,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,N,ND,IGR,ISK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AA,DA,DW,BETASDT,OMEGA,FACTB,DAMPT,D_TSTART,D_TSTOP
 C-----------------------------------------------
@@ -695,7 +695,7 @@ C-----------------------------------------------
       INTEGER
      .   NODFT,NODLT,DIM,ITASK,
      .   WEIGHT(*),TAGSLV_RBY(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   V(3,*), VR(3,*), A(3,*), AR(3,*) ,MS(*), IN(*),
      .   DAMPR(4,*), DAMP(DIM,*)
@@ -705,7 +705,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,N,ND,IGR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   BETASDT,AA,DA,DW,OMEGA
 C-----------------------------------------------
@@ -796,7 +796,7 @@ C-----------------------------------------------
       INTEGER
      .   NODFT,NODLT,DIM,ITASK,
      .   WEIGHT(*),TAGSLV_RBY(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   V(3,*) ,VR(3,*),A(3,*) ,AR(3,*) ,DAMP(DIM,*),MS(*),IN(*)
 C-----------------------------------------------
@@ -805,7 +805,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,N
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   BETASDT,AA,DA,DW,OMEGA
 C-----------------------------------------------

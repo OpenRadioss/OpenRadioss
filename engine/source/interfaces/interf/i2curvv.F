@@ -49,7 +49,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN,NMN,
      .   IRECT(4,*), MSR(*), NSV(*), IRTL(*),WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*),V(3,*),AR(3,*),VR(3,*),X(3,*),MS(*),CRST(2,*)
 C-----------------------------------------------
@@ -57,7 +57,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NIR,I,J,L,II,JJ,IS
       INTEGER INOD(4)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   LS1,LS2,LT1,LT2,LS,LT,S,T
       my_real

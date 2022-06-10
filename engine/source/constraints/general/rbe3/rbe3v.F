@@ -52,7 +52,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBE3(NRBE3L,*),LRBE3(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), A(3,*), AR(3,*), FRBE3(*),SKEW(*),
      .   V(3,*), VR(3,*)
@@ -61,7 +61,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, M, NS ,NML, IAD,JJ,IROT,IADS,MAX_M,IROTG,
      .        JT(3,NRBE3),JR(3,NRBE3),NM,NN,K
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .        VS(3),VRS(3),AS(3),ARS(3)
       my_real, 
@@ -160,7 +160,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRBE3(NRBE3L,*),LRBE3(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), D(3,*), DR(3,*),  FRBE3(*),SKEW(*)
 C-----------------------------------------------
@@ -168,7 +168,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, M, NS ,NML, IAD,JJ,IROT,IADS,MAX_M,IROTG,
      .        JT(3,NRBE3),JR(3,NRBE3),NM,NN,K
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .        VS(3),VRS(3)
       my_real, 
@@ -252,14 +252,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NML,IML(*),NS,IROT,JT(*),JR(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   D(3,*), DR(3,*),  FDSTNB(3,6,*) ,MDSTNB(3,6,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, M, IAD,JJ,NM,NN,K
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .        VS(3),VRS(3)
 

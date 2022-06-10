@@ -56,7 +56,7 @@ C-----------------------------------------------
       INTEGER IPARI(*), ICODE(*), ISKEW(*) ,IXS(NIXS,*),
      .        IXQ(NIXQ,*),IPARG(NPARG,*),
      .        NALE(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(*), X(*), V(*), VG(*), SKEW(LSKEW,*),PM(NPROPM,*)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB

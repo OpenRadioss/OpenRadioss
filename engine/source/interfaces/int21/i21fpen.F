@@ -50,14 +50,14 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER I_STOK,NSN,INACTI
       INTEGER CAND_N(*), CAND_E(*), IFPEN(*), CAND_TAG(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FTXSAV(*), FTYSAV(*), FTZSAV(*), PENI(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N
-C=============================================
+C=======================================================================
 C
       DO N=1,NSN
         CAND_TAG(N) = 0

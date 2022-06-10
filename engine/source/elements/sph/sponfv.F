@@ -70,7 +70,7 @@ C-----------------------------------------------
       INTEGER KXSP(NISP,*),IXSP(KVOISPH,*),NOD2SP(*),ITAB(*),NPC(*),
      .        ISPHIO(NISPHIO,*),IPART(LIPART1,*),IPARTSP(*),
      .        WASPACT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*) ,V(3,*) ,A(3,*) ,D(3,*) ,MS(*) ,SPBUF(NSPBUF,*) ,
      .   PLD(*) ,VSPHIO(*), WA(*), VNORMAL(3,*)
@@ -82,7 +82,7 @@ C-----------------------------------------------
      .        NS,N,INOD,IACTIVE,
      .        IPPV,J,M,JNOD,IMPOSE,JMPOSE,
      .        NVOIS,IJ,NP,K,JMPOSE2,NN
-C     REAL ou REAL*8
+C     REAL
       my_real
      .       TFEXTT,T05,
      .       PENTV,VX,VY,VZ,VN,VT,UX,UY,UZ,UN1,NX,NY,NZ,

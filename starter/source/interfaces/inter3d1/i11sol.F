@@ -45,12 +45,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NINT, NEL, I, NOINT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AREA
       INTEGER IRECT(2,*), IXS(NIXS,*), KNOD2ELS(*), NOD2ELS(*),
      .        IXS10(6,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*)
 C-----------------------------------------------

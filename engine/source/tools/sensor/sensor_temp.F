@@ -78,7 +78,7 @@ c            = 0   : inactive, criterion not met
 c            = 1   : criterium reached, testing duration time Tmin 
 c            = 2   : ready to activate after Tdelay
 c            = 3   : activated at Time = TSTART
-c=======================================================================
+C=======================================================================
       IF (SENSOR%STATUS == 3) RETURN   ! already activated
 c
       IF (TT == ZERO) SENSOR%VAR(2) = EP20   ! initialize Temp min

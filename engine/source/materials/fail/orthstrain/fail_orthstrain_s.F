@@ -124,7 +124,7 @@ C-----------------------------------------------
      .    ET1M,ET2M,ET12M,EC1M,EC2M,EC12M,ET3M,EC3M,EC23M,ET23M,EC31M,ET31M,
      .    DI,DAMXX,DAMYY,DAMXY,DAMZZ,DAMYZ,DAMZX, 
      .    ODAMXX,ODAMYY,ODAMXY,ODAMZZ,ODAMYZ,ODAMZX,FSCALE_SIZ,REF_SIZ
-c=======================================================================
+C=======================================================================
       ALPHA  = UPARAM(16)
       EPSPREF= UPARAM(17)
       FSCALE_SIZ = UPARAM(26)

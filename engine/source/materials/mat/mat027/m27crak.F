@@ -50,7 +50,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,ILAYER,NEL
       INTEGER NGL(MVSIZ),IMAT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*),DAMT(NEL,2),DIR(NEL,2),OFF(*),
      .   STRN1(MVSIZ),STRN2(MVSIZ),STRN3(MVSIZ)
@@ -59,7 +59,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NINDX,IDIR
       INTEGER INDX(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   CC,BB,CR,NORM,
      .   EPST1(MVSIZ),EPST2(MVSIZ),EPSM1(MVSIZ),EPSM2(MVSIZ),

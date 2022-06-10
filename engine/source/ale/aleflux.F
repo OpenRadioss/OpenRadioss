@@ -64,7 +64,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  IXS(NIXS,*),NC1(*), NC2(*), NC3(*), 
      .   NC4(*), NC5(*), NC6(*),NC7(*),NC8(*),NGL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    PM(NPROPM,*), V(3,*), W(3,*), FLUX(MVSIZ,6), FLU1(*),
      .    X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
@@ -78,12 +78,12 @@ C     REAL ou REAL*8
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   UDT
 C-----------------------------------------------
       INTEGER MAT(MVSIZ),  I,J,II,NF1,ISOLNOD,NG,ICLOS,IAD2
-C     REAL ou REAL*8
+C     REAL
       my_real 
      . N1X(MVSIZ), N2X(MVSIZ), N3X(MVSIZ), N4X(MVSIZ), N5X(MVSIZ), 
      . N6X(MVSIZ), N1Y(MVSIZ), N2Y(MVSIZ), N3Y(MVSIZ), N4Y(MVSIZ), 

@@ -790,13 +790,13 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER I, N
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X0, X1, X2, X3, Y0, Y1, Y2, Y3, X, Y, YP
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   Q, D, R, S, SP, C2, DM, SM, C1, C6, C4, C3, C3D, C5,
      .   A1, A0, A2, T, Y11
@@ -895,7 +895,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL0,JJ(NEL0),N
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X0(NEL0), X1(NEL0), X2(NEL0), X3(NEL0), 
      .   Y0(NEL0), Y1(NEL0), Y2(NEL0), Y3(NEL0), 
@@ -904,7 +904,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   Q(NEL0), D(NEL0), R(NEL0), S(NEL0), SP(NEL0), 
      .   C2(NEL0), DM(NEL0), SM(NEL0), C1(NEL0), C6(NEL0), 

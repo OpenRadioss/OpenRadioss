@@ -43,7 +43,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRECT(4,*),MSR(*),NSV(*), IRTL(*), IRTLO(*), LOLD(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   V(3,*),CST(2,*),VNI(*),VNT(*)
       my_real, DIMENSION(MVSIZ), INTENT(IN) ::  N1,N2,N3,SSC,TTC,XFACE
@@ -57,7 +57,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,L,IL,IG,NN
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VPX(LLT),VPY(LLT),VPZ(LLT),VIX(LLT),VIY(LLT),VIZ(LLT),
      .   VX1(LLT),VY1(LLT),VZ1(LLT),VX2(LLT),VY2(LLT),VZ2(LLT),

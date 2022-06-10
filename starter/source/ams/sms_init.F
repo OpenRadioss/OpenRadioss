@@ -80,7 +80,7 @@ C-----------------------------------------------
      .   IPART(LIPART1,*), IGEO(NPROPGI,*), IPM(NPROPMI,*), NATIV_SMS(*),
      .   NPBY(NNPBY,*), LPBY(*), TAGMSR_RBY_SMS(*), TAGSLV_RBY_SMS(*)
       INTEGER NOM_OPT(LNOPT1,*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -425,7 +425,7 @@ C-----------------------------------------------
      .   IRBE2(NRBE2L,*), IRBE3(NRBE3L,*), LRBE2(*), LRBE3(*),
      .   NPRW(*), LPRW(*),
      .   IPART(LIPART1,*), IGEO(NPROPGI,*), NATIV_SMS(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MS(*), MS0(*)
 C-----------------------------------------------

@@ -79,7 +79,7 @@ C-----------------------------------------------
      .         IFAIL,ILENG,IFAIL2,FLGCHK,ILAW,
      .         I1,I2,I3,I4,I5,I6,I7,I8,I9,I10,I11,I12,I13,I14,
      .         IF1,IF2,IF3,IF4
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A, B, D, E, F, XK, XC, DN, DX, FWV, LSCALE,
      .   PUN,VT0, VR0, CC(6), CN(6), XA(6), XB(6),ASRATE,GF3,

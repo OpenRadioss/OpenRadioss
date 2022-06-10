@@ -78,7 +78,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IOFF,NGL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VTOT(*), PHI(*), FLUX(MVSIZ,6), FLU1(*),PHIV(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT

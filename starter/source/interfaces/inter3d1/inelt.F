@@ -54,11 +54,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NINT, NEL, I, NOINT,IR,SURF_ELTYP(*),SURF_ELEM(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AREA
       INTEGER IRECT(4,*), IXS(NIXS,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*)
 C-----------------------------------------------
@@ -66,7 +66,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IY(4), N, JJ, II, K, NN, KK, IC, IAD,
      .        NUSER, NUSERM
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   N1, N2, N3, DDS
 C-----------------------------------------------
@@ -204,11 +204,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NINT, NEL, I, NOINT,IR,SURF_ELTYP(*),SURF_ELEM(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AREA
       INTEGER IRECT(4), IXS(NIXS,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*)
 C-----------------------------------------------
@@ -216,7 +216,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IY(4), N, JJ, II, K, NN, KK, IC, IAD,
      .        NUSER, NUSERM
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   N1, N2, N3, DDS
 C-----------------------------------------------
@@ -308,13 +308,13 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NINT, NELIG3D, I, NOINT,IR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AREA
       INTEGER IRECT(4,*), IXS(NIXS,*),SURF_ELTYP_IGE(*),
      .        SURF_ELEM_IGE(*),KXIG3D(NIXIG3D,*),IGEO(NPROPGI,*),
      .        IXIG3D(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XE(3,*)
 C-----------------------------------------------
@@ -322,7 +322,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IY(4), N, JJ, II, K, NN, KK, IC, IAD,
      .        NUSER, NUSERM, COIN_IGE(8), PX, PY, PZ, IPID
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   N1, N2, N3, DDS
 C-----------------------------------------------

@@ -54,7 +54,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITAB(*),WEIGHT(*),NODGLOB(*),SIZP0,NODNX_SMS(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      . DIAG_SMS(*)
 C-----------------------------------------------

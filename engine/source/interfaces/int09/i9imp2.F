@@ -38,7 +38,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN
       INTEGER IRECT(4,*), MSR(*), NSV(*), ILOC(*), IRTL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), V(3,*), A(3,*), CST(2,*),FRIGAP(*), NOR(3,*)
 C-----------------------------------------------
@@ -49,7 +49,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IX(2), II, I, J, K, L, M, IMP, I3, I2, JJ, J3, J2, LOLD
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   H(2), N2, N3, GAP, YM1, ZM1, YM2, ZM2, YS, ZS, T2, T3,
      .   XL, ANS, SS, STIF, FNI, FYI, FZI, SS0, FTI, DS, ANST

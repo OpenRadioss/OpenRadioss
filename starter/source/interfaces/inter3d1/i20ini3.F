@@ -110,7 +110,7 @@ C-----------------------------------------------
      .   IXS16(*), IXS20(*),KXX(*),IXX(*), IGEO(NPROPGI,*),
      .   NOD2EL1D(*), KNOD2EL1D(*),IWORKSH(3,*)
       INTEGER IKINE1(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(*), PM(*), GEO(*), MS(*),RWA(6,*),
      .   THK(*),THK_PART(*),LELX(*),PM_STACK(3,*)
@@ -136,7 +136,7 @@ C-----------------------------------------------
       INTEGER
      .   N1(MVSIZ),N2(MVSIZ),M1(MVSIZ),M2(MVSIZ)
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAG
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MAXBOX,MINBOX,GAP0,BID,TZINF,GAPINF,GAP_TRI,GAPSHMAX,GAPMAX0,
      .   GAPINFS,GAPINFM,GAPE,GAPINPUT,FPENMAX,DRAD

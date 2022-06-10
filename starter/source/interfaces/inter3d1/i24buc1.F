@@ -95,7 +95,7 @@ C-----------------------------------------------
       INTEGER CAND_E(*),CAND_N(*),MSR(*),MAXSIZ,IDDLEVEL
       INTEGER ITAB(*),NBINFLG(*),MBINFLG(*),ILEV,MSEGTYP(*)
       INTEGER IXS(*), IXS10(6,*), IXS16(8,*), IXS20(12,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STF(*),STFN(*),X(3,*),XYZM(6,*),GAP_S(*),GAP_M(*),
      .   DIST,BUMULT,GAP,TZINF,MAXBOX,MINBOX,GAPMIN,GAPMAX,
@@ -125,7 +125,7 @@ C-----------------------------------------------
       INTEGER I_ADD, ADESTK, NB_NC, NB_EC, ADNSTK, IBID
       INTEGER IP1, IP2, IP21, IP22, IP31,J_STOK,I_BID,NB_N_B,
      +         NPT_E,NSN0,LWORK,NUMNODT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DX1,DY1,DZ1,
      .   DX3,DY3,DZ3,
@@ -598,7 +598,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER PROV_N(*),PROV_E(*),NBINFLG(*),MBINFLG(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PENE(MVSIZ)
 C-----------------------------------------------
@@ -609,7 +609,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N,NE,IMS1,IMS2,ISS1,ISS2
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C
 !      EQUIVALENCE (PENE,BV(1,22))

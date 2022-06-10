@@ -92,7 +92,7 @@ C-----------------------------------------------
      .        IKINE(*), IMERGE(*),ITAGND(*),IKINE1(3*NUMNOD),
      .        IXS(NIXS,*),IXQ(NIXQ,*),NPC(*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RWL(NRWLP,*), MS(*), V(3,*), X(3,*),
      .   RTRANS(NTRANSF,*)

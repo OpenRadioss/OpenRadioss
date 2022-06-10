@@ -51,7 +51,7 @@ C-----------------------------------------------
       INTEGER WEIGHT(*),IRBE2(NRBE2L,*),LRBE2(*),
      .        IADK(*),JDIK(*),NDOF(*),ITAB(*),
      .        IDDL(*),IKC(*),ISB2(*),NSRB2(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), SKEW(LSKEW,*),DIAG_K(*),LT_K(*),B(*)
 C-----------------------------------------------
@@ -59,7 +59,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, M, NS ,NML, IAD,JJ,IROT,IADS,MAX_M,
      .        JT(3,NRBE2),JR(3,NRBE2),NM,NN,NSJ,IADJ,NSN,ISK,IC,IRAD
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
       CALL PRERBE2(IRBE2 ,JT  ,JR   )
       IADJ=1
@@ -118,7 +118,7 @@ C-----------------------------------------------
       INTEGER WEIGHT(*),IRBE2(NRBE2L,*),LRBE2(*),
      .        IADK(*),JDIK(*),NDOF(*),ITAB(*),
      .        IDDL(*),IKC(*),NSB2(*),ISB2(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), SKEW(LSKEW,*), DIAG_K(*),LT_K(*),B(*)
 C-----------------------------------------------
@@ -126,7 +126,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, M, NS ,NML, IAD,JJ,IROT,IADS,IC,
      .        JT(3,NRBE2),JR(3,NRBE2),NM,NN,NSN,IADJ,ISK,IRAD
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
       CALL PRERBE2(IRBE2 ,JT  ,JR   )
       IADJ=1
@@ -194,7 +194,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER M, NSN,ISL(*),NSJ(*),ISJ(*) ,JT(3),JR(3),IRAD
       INTEGER IADK(*),JDIK(*),NDOF(*),IDDL(*),IKC(*),ITAB(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),DIAG_K(*),LT_K(*),B(*)
 C-----------------------------------------------
@@ -207,7 +207,7 @@ C-----------------------------------------------
       INTEGER NIR, I, J, J1, J2, J3, J4, K, JD, II, L, JJ,
      .        I1,ID,NL,NI,NJ,NIDOF,ND,NDI,NDJ,NDM,NM,L1,NM1,
      .        NIR1,IR,IP,ISTIF,IMD,N,NTDOF
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   KDD(6,6),BD(6),XS,YS,ZS,TMP
 C------------------------------------
@@ -338,7 +338,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER M, NSN,ISL(*),NSJ(*),ISJ(*) ,JT(3),JR(3),IRAD
       INTEGER IADK(*),JDIK(*),NDOF(*),IDDL(*),IKC(*),ITAB(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),DIAG_K(*),LT_K(*),B(*),SKEW(*)
 C-----------------------------------------------
@@ -351,7 +351,7 @@ C-----------------------------------------------
       INTEGER NIR, I, J, J1, J2, J3, J4, K, JD, II, L, JJ,
      .        I1,ID,NL,NI,NJ,NIDOF,ND,NDI,NDJ,NDM,NM,L1,NM1,
      .        NIR1,IR,IP,ISTIF,IMD,N,NT,NR,IC,JT1(3),JR1(3)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   KDD(6,6),BD(6),XS,YS,ZS,TMP,CDT(3,3),CDTR(3,3),CDR(3,3)
 C------------------------------------
@@ -489,7 +489,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER WEIGHT(*),IRBE2(NRBE2L,*),LRBE2(*),
      .        NDOF(*),IDDL(*),IRAD
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), SKEW(LSKEW,*), B(*)
 C-----------------------------------------------
@@ -497,7 +497,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N, M, NS ,NML, IAD,JJ,IROT,IADS,
      .        JT(3,NRBE2),JR(3,NRBE2),NSN,NSJ,ISK
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
       CALL PRERBE2(IRBE2 ,JT  ,JR   )
       DO N=1,NRBE2
@@ -535,7 +535,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER M, NSN,ISL(*),JT(3),JR(3),NDOF(*),IDDL(*),IRAD
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),B(*)
 C-----------------------------------------------
@@ -546,7 +546,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ISK, I, N, J,NI,NJ,J1,K,L,ID,JD,ND,IMD,NIDOF
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XS,YS,ZS,BD(6)
 C------------------------------------
@@ -620,7 +620,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER M, NSN,ISL(*),JT(3),JR(3),NDOF(*),IDDL(*),IRAD
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),B(*),SKEW(*)
 C-----------------------------------------------
@@ -632,7 +632,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ISK, I, N, J,NI,NJ,J1,K,L,ID,JD,ND,IMD,NDS,
      .        IT,IR,IC,JT1(3),JR1(3)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XS,YS,ZS,LXS,LYS,LZS,BD(6),BDL(6),BB(3),BM(3),
      .   CDT(3,3),CDTR(3,3),CDR(3,3)
@@ -712,7 +712,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ND
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    KDD(ND,ND)
 C-----------------------------------------------
@@ -747,7 +747,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JT(3),JR(3),JT1(3),JR1(3),IRAD
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    XS,YS,ZS,SKEW(*),KT(3,3),KR(3,3),KTR(3,3)
 C-----------------------------------------------
@@ -780,14 +780,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NI,NJ
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    XS,YS,ZS, KDD(6,6),CDT(3,3),CDR(3,3),CDTR(3,3)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J,L
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   K(6,6)
 C------------------------------------
@@ -839,14 +839,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ND
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    KDD(6,6),CDT(3,3),CDR(3,3),CDTR(3,3)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J,L
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   K(6,6)
 C------------------------------------
@@ -1674,7 +1674,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER M, NS,JT(3),JR(3),IRAD,NDOF(*),ISK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),DIAG_KM(6),DIAG_KN(6),KDD(6,6),SKEW0(9)
 C-----------------------------------------------
@@ -1688,7 +1688,7 @@ C-----------------------------------------------
       INTEGER NIR, I, J, J1, J2, J3, J4, K, JD, II, L, JJ,
      .        I1,ID,NL,NI,NJ,NIDOF,ND,NDI,NDJ,NDM,NM,L1,NM1,
      .        NIR1,IR,IP,ISTIF,IMD,N,NT,NR,IC,JT1(3),JR1(3)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XS,YS,ZS,TMP,CDT(3,3),CDTR(3,3),CDR(3,3),SKEW(LSKEW),
      .   KII(6,6)
@@ -1770,7 +1770,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IADK(*),JDIK(*),NDOF(*),IDDL(*),IRAD,
      .        M, NS,IDLM ,ISS,ISM,ISK,JT(3),JR(3)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),DIAG_K(*),LT_K(*),B(*),A(3,*),
      .   KSS(6),KSM(3,3),KNM(3,3),KRM(3,3),SKEW0(*)
@@ -1785,7 +1785,7 @@ C-----------------------------------------------
       INTEGER I, J, J1, J2, J3, J4, K, JD, II, L, JJ,
      .        ND,NDI,NDJ,NDM,NM,L1,NM1,
      .        IMD,N,NT,NR,IC,JT1(3),JR1(3),NDOFI
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XS,YS,ZS,CDT(3,3),CDTR(3,3),CDR(3,3),SKEW(LSKEW),
      .   KDD(6,6)

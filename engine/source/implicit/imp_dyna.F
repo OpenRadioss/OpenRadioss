@@ -53,7 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER NODFT,NODLT
       my_real
      .   D_AL,NM_A  ,NM_B,V(3,*),VR(3,*)
@@ -162,7 +162,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER NODFT,NODLT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -210,7 +210,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NODFT,NODLT,NDT
-C     REAL ou REAL*8
+C     REAL
       my_real
      . D(3,*),DR(3,*),V(3,*),VR(3,*)
 C-----------------------------------------------
@@ -328,7 +328,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NODFT,NODLT,IDDL(*) ,NDOF(*),WEIGHT(*),IADK(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      . DIAG_K(*),MS(*),IN(*),D_AL,LT_K(*)
 C-----------------------------------------------
@@ -421,7 +421,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      . DY_AC(3,*),DY_ACR(3,*),MS(*),IN(*),FINT(3,*),MINT(3,*),
      . V(3,*),VR(3,*)
@@ -492,7 +492,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NDDL,IFLAG
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  LB(*)
 C-----------------------------------------------
@@ -540,7 +540,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER NDDL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -580,7 +580,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C      INTEGER JFT, JLT  ,NPT,IGTYP,NNOD
 C      INTEGER MAT(*), PID(*),IGEO(NPROPGI,*),IXC(NIXC,*),IXTG(NIXTG,*)
-C     REAL ou REAL*8
+C     REAL
 C      my_real
 C     .   GEO(NPROPG,*), PM(NPROPM,*), AREA(*),
 C     .   VOLG(*),THK02(*),VQ(3,3,*)
@@ -588,7 +588,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C      INTEGER I,MX,J,J2,JJ,N1,N2,N3,N4,MATLY(MVSIZ*100)
-C     REAL ou REAL*8
+C     REAL
 C      my_real
 C     .   RHO(MVSIZ),INE(MVSIZ),FAC,EMS,INZ(MVSIZ),
 C     .   IN_X,IN_Y,IN_Z
@@ -723,7 +723,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NDDL,INLOC(*)  ,IDDL(*) ,NDOF(*),IKC(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      . MS(*),IN(*)
 C-----------------------------------------------
@@ -824,7 +824,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NDDL
-C     REAL ou REAL*8
+C     REAL
       my_real
      . F(*),U(*)
 C-----------------------------------------------
@@ -865,7 +865,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NDDL
-C     REAL ou REAL*8
+C     REAL
       my_real
      . U(*)
 C-----------------------------------------------
@@ -935,7 +935,7 @@ C-----------------------------------------------
      .        LSENSOR(NSENSI,*),IGRV(*),WEIGHT(*),LGRAV(*),IDIV,
      .        CPTREAC,NODREAC(*)
       INTEGER FR_ELEM(*),IAD_ELEM(2,*),NRBYAC,IRBYAC(*),NDDL ,NNZK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*)    ,V(3,*)   ,VR(3,*),MS(*)   ,AGRV(*),
      .   SKEW(LSKEW,*),TF(*) ,FORC(*)  ,RBY(NRBY,*),IN(*),
@@ -1170,7 +1170,7 @@ C-----------------------------------------------
      .        IFRAME(LISKN,*),IBFV(*),IKC(*) ,IDDL(*),NDOF(*),
      .        CPTREAC,NODREAC(*)
       INTEGER NRBYAC,IRBYAC(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*)    ,V(3,*)   ,VR(3,*),MS(*)   ,AGRV(*),
      .   SKEW(LSKEW,*),TF(*) ,FORC(*)  ,RBY(NRBY,*),IN(*),
@@ -1274,7 +1274,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NODFT,NODLT,IDDL(*) ,NDOF(*),WEIGHT(*),INLOC(*),
      .        IKC(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      . DIAG_K(*),MS(*),IN(*)
 C-----------------------------------------------
@@ -1367,7 +1367,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER NBY(*), WEIGHT(*),ICODR(*),ISKEW(*)
       my_real
      . AM(3,*),IN(*),VR(3,*),RBY0(*),SKEW(LSKEW,*)
@@ -1683,7 +1683,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER NODFT,NODLT,IDIV
       my_real
      .   D(3,*),DR(3,*),MS(*) ,IN(*)
@@ -1786,7 +1786,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER NODFT,NODLT,WEIGHT(*),ITASK
       my_real
      .   MS(*)  ,IN(*),EFAC,EN_I
@@ -1864,7 +1864,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER NDDL  ,NNZK  ,IADK(*)  ,JDIK(*)
       my_real
      .   DIAG_K(*)  ,LT_K(*)
@@ -1935,7 +1935,7 @@ C-----------------------------------------------
       INTEGER NINT2 ,IINT2(*),LPBY(*),NPBY(NNPBY,*),
      .        IPARI(NPARI,*), NRBYAC,IRBYAC(*)
       INTEGER WEIGHT(*),IRBE3(*),LRBE3(*),IRBE2(*),LRBE2(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      . DIAG_K(*),V(3,*),VR(3,*),LT_K(*),FRBE3(*),
      . RBY(NRBY,*) ,X(3,*) ,SKEW(*),MS(*),IN(*)
@@ -2080,7 +2080,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER NODFT,NODLT
       my_real
      .   A(3,*)
@@ -2150,7 +2150,7 @@ C-----------------------------------------------
       INTEGER NINT2 ,IINT2(*),LPBY(*),NPBY(NNPBY,*),
      .        IPARI(NPARI,*), NRBYAC,IRBYAC(*)
       INTEGER WEIGHT(*),IRBE3(*),LRBE3(*),IRBE2(*),LRBE2(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      . DIAG_K(*),V(3,*),VR(3,*),LT_K(*),FRBE3(*),
      . RBY(NRBY,*) ,X(3,*) ,SKEW(*),MS(*),IN(*)
@@ -2289,7 +2289,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NDDL0   ,NDDL,IKC(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  LB(*)
 C-----------------------------------------------

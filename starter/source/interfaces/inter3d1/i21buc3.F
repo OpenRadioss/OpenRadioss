@@ -85,7 +85,7 @@ C-----------------------------------------------
       INTEGER IRECT(4,*),IRECTS(4,*),NSV(*),MSR(*),NSEG(*),MWA(*)
       INTEGER CAND_E(*),CAND_N(*),MAXSIZ
       INTEGER ITAB(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STF(*),X(3,*),XYZM(6,*),GAP_S(*), XM0(3,*),
      .   DIST,BUMULT,GAP,TZINF,MAXBOX,MINBOX,GAPMIN,GAPMAX, DEPTH, 
@@ -114,7 +114,7 @@ C-----------------------------------------------
       INTEGER I, J, L, N1, N2, N3, N4, I_AMAX
       INTEGER I_ADD, ADESTK, NB_NC, NB_EC, ADNSTK, IBID
       INTEGER IP1, IP2, IP21, IP22, IP31,J_STOK,I_BID,NB_N_B
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DX1,DY1,DZ1,
      .   DX3,DY3,DZ3,

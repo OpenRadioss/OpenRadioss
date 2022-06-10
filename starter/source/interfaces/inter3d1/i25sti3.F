@@ -94,11 +94,11 @@ C-----------------------------------------------
      .   ITAB(*), IXS10(6,*),MSEGTYP(*), IXS16(*), IXS20(*),
      .   IWORKSH(3,*), KNOD2EL1D(*),NOD2EL1D(*),TAGPRT_FRIC(*),
      .   IPARTFRICS(*),IPARTFRICM(*),IPARTSM(*),IELES(*),IELEM(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STFAC,   GAP, GAPSCALE, GAPMIN,GAPINF, GAPMAX_S,BGAPSMX ,GAPMAX_M,
      .   PERCENT_SIZE, GAPM_MX, GAPS_MX, GAPS_L_MX, GAPM_L_MX,DRAD
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), STF(*), PM(NPROPM,*), GEO(NPROPG,*), STFN(*),
      .   MS(*),WA(*),GAP_S(*),GAP_M(*),GAP_N(4,*),
@@ -117,7 +117,7 @@ C-----------------------------------------------
      .   TAGB(NUMNOD),NS,IGTYP,NRTT,NNOD,ISUBSTACK,IPFMAX,IPL,
      .   IPFLMAX,IPG,NELEM,STAT
       INTEGER JPERM(4)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DXM, GAPMX, GAPMN, AREA, VOL, DX, GAPM, DDX, 
      .   GAPTMP, SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,
@@ -747,10 +747,10 @@ C-----------------------------------------------
      .   ITAB(*), IXS10(6,*),MSEGTYP(*), IXS16(*), IXS20(*),
      .   IGEO(NPROPGI,*),NRTT,IWORKSH(3,*),TAGPRT_FRIC(*),IPARTFRICS(*),
      .   IPARTFRICM(*) ,IPARTSM(*),INRTIE(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STFAC, GAP,BGAPSMX,GAPS1 ,GAPS2,GAPMX ,GAPMN ,GAPSCALE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), STF(*), PM(NPROPM,*), GEO(NPROPG,*), STFN(*),
      .   MS(*),GAP_M(*),GAP_N(4,*),
@@ -767,7 +767,7 @@ C-----------------------------------------------
      .   MG, NUM, NPT, LL, L, NN, NELTG,N1,N2,N3,N4,IE,
      .   IP, NLEV, MYLEV, K, P, R, T,IAD,NREV,IGTYP,IPGMAT,IGMAT,
      .   ISUBSTACK,IPL,IPG
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AREA, VOL, DX, GAPM, DDX, 
      .   GAPTMP, SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,

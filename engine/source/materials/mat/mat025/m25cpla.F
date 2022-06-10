@@ -56,7 +56,7 @@ C-----------------------------------------------
       INTEGER NGL(MVSIZ),MATLY(*),IPG
       INTEGER JFT, JLT, 
      .   NFIS1(*),NFIS2(*),NFIS3(*),ILAY,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*), OFF(*),  WPLA(*),
      .   DAMT(NEL,2), CRAK(NEL,2),EPSP(*),EPST(NEL,6),
@@ -72,7 +72,7 @@ C-----------------------------------------------
       INTEGER ICC(MVSIZ),IFLAG(MVSIZ),FAIL_OLD(MVSIZ),IYEILD(MVSIZ)
       INTEGER NINDX,INDEX(MVSIZ),J,ICAS(MVSIZ),JWPLA,IWPLA(MVSIZ)
       INTEGER IOFF(MVSIZ),ID,ISOFT(MVSIZ),IMODWP(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DP1(MVSIZ), DP2(MVSIZ), DP3(MVSIZ),CB(MVSIZ),CN(MVSIZ),
      .   E11(MVSIZ), E22(MVSIZ), NU12(MVSIZ), NU21(MVSIZ),

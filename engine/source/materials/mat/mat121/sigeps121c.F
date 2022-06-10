@@ -90,7 +90,7 @@ C-----------------------------------------------
      .        IPOS(NEL),IAD(NEL),ILEN(NEL),IR,IS,IT
       my_real DTMIN,Xscale_FAIL,Yscale_FAIL,S1,S2,Q,S11(NEL),
      .        S22(NEL),R_INTER,DFDEPSD(NEL),FAIL(NEL),SEQ(NEL)
-c=======================================================================
+C=======================================================================
 c  
       IRES        = NINT(UPARAM(11)) ! Plastic projection method
                                      !  = 1 => Nice method

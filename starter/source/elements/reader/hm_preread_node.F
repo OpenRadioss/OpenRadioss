@@ -76,7 +76,7 @@ C-----------------------------------------------
       INTEGER N,I,J,IERROR, STAT
       INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,IFLAGUNIT, UID, ID
       INTEGER OFF_NOD(NSUBMOD), OFF_DEF(NSUBMOD)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    FAC_L
       INTEGER, DIMENSION(:), ALLOCATABLE :: SUB_NOD,UID_NOD

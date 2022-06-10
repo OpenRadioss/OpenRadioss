@@ -103,7 +103,7 @@ C-----------------------------------------------
      .   IXP(NIXP,*),IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),
      .   NPC(*), IPARG(NPARG,*),LSENSOR(NSENSI,*),
      .   IXS10(6,*),IXS20(12,*),IXS16(8,*),IXTG1(4,*), ETAG(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*),GEO(NPROPG,*),BUFMAT(*) ,TF(*) ,
      .   FR_WAVE(*) ,ELBUF(*) ,THKE(*),RBY(*),SKEW(LSKEW,*),
@@ -603,7 +603,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ND
       INTEGER NI,IDDL(*)  ,IADK(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   K_DIAG(*) ,K_LT(*) ,KII(6,6)
 C-----------------------------------------------
@@ -670,7 +670,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ND
       INTEGER NI,IDDL(*)  ,IADK(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   K_DIAG(*) ,K_LT(*)   ,KII(6,6)
 C-----------------------------------------------
@@ -735,7 +735,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NK,NL  , IERR
       INTEGER NI,NJ,IDDL(*)  ,IADK(*),JDIK(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   K_LT(*)   ,KIJ(6,6)
 C-----------------------------------------------
@@ -837,7 +837,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NK,NL   ,IERR
       INTEGER NI,NJ,IDDL(*)  ,IADK(*),JDIK(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   K_LT(*)   ,KIJ(6,6)
 C-----------------------------------------------
@@ -923,7 +923,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NI ,NJ ,IFLAG
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1002,7 +1002,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ND
       INTEGER NI(*),NEL   ,IDDL(*)  , IADK(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   K_DIAG(*) ,K_LT(*)   ,KII(ND,ND,*),OFF(*)
 C-----------------------------------------------
@@ -1085,7 +1085,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ND
       INTEGER NI(*),NJ(*),NEL   ,IDDL(*)  ,IADK(*),JDIK(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   K_DIAG(*),K_LT(*)   ,KIJ(ND,ND,*),OFF(*)
 C-----------------------------------------------
@@ -1230,7 +1230,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ND
       INTEGER ID,IADK(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   K_DIAG(*) ,K_LT(*)   ,KII(6,6)
 C-----------------------------------------------
@@ -1287,7 +1287,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NK,NL   ,IERR
       INTEGER INI,INJ,IADK(*),JDIK(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   K_LT(*)   ,KIJ(6,6)
 C-----------------------------------------------
@@ -1364,7 +1364,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*),NFT,NEL,IUGEO
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   K11(3,3,*),K12(3,3,*),K13(3,3,*) ,K14(3,3,*) ,K15(3,3,*),
      .   K16(3,3,*),K17(3,3,*),K18(3,3,*) ,K22(3,3,*) ,K23(3,3,*),
@@ -1378,9 +1378,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,N,NT,IG(MVSIZ)
-C====================================================
+C=======================================================================
 C     SOLID
-C====================================================
+C=======================================================================
        DO N= 1,NEL
         NT=N+NFT
         IG(N)=IXS(NIXS,NT)
@@ -1441,7 +1441,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IG(*),NFT,NEL,IN
       CHARACTER CH*3
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   KIJ(3,3,*)
 C-----------------------------------------------
@@ -1486,7 +1486,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXC(NIXC,*),NFT,NEL,IUGEO
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   KE11(6,6,*),KE22(6,6,*),KE33(6,6,*),KE44(6,6,*),
      .   KE12(6,6,*),KE13(6,6,*),KE14(6,6,*),KE23(6,6,*),
@@ -1495,9 +1495,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,N,NT,IG(MVSIZ)
-C====================================================
+C=======================================================================
 C     SHELL
-C====================================================
+C=======================================================================
        DO N= 1,NEL
         NT=N+NFT
         IG(N)=IXC(NIXC,NT)
@@ -1532,7 +1532,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IG(*),NFT,NEL,IN
       CHARACTER CH*3
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   KIJ(6,6,*)
 C-----------------------------------------------
@@ -1575,16 +1575,16 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NIXP
       INTEGER IXP(NIXP,*),NEL,IUGEO,NFT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   KE11(6,6,*),KE22(6,6,*),KE12(6,6,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,N,NT,IG(MVSIZ)
-C====================================================
+C=======================================================================
 C     SHELL
-C====================================================
+C=======================================================================
        DO N= 1,NEL
         IG(N)=IXP(NIXP,N)
        ENDDO
@@ -1611,7 +1611,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IG(*),NFT,NEL,IN
       CHARACTER CH*3
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   KIJ(6,6,*)
 C-----------------------------------------------
@@ -1654,16 +1654,16 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NIXP
       INTEGER IXP(NIXP,*),NEL,IUGEO,NFT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   KE11(3,3,*),KE22(3,3,*),KE12(3,3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,N,NT,IG(MVSIZ)
-C====================================================
+C=======================================================================
 C     SHELL
-C====================================================
+C=======================================================================
        DO N= 1,NEL
         IG(N)=IXP(NIXP,N)
        ENDDO
@@ -1690,7 +1690,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IG(*),NFT,NEL,IN
       CHARACTER CH*3
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   KIJ(6,6,*)
 C-----------------------------------------------
@@ -1734,7 +1734,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NIXC
       INTEGER IXC(NIXC,*),NFT,NEL,IUGEO
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   KE11(6,6,*),KE22(6,6,*),KE33(6,6,*),KE44(6,6,*),
      .   KE12(6,6,*),KE13(6,6,*),KE14(6,6,*),KE23(6,6,*),
@@ -2050,7 +2050,7 @@ C-----------------------------------------------
       INTEGER NPC(*),IB(NIBCLD,*),LSENSOR(NSENSI,*)
       INTEGER WEIGHT(*), IADC(4,*)
       INTEGER IDDL(*)  ,NDOF(*)  ,IADK(*) ,JDIK(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FAC(LFACCLD,*), TF(*), X(3,*), SKEW(LSKEW,*), SENSOR(NSENSR,*),
      .   K_DIAG(*) ,K_LT(*)
@@ -2059,7 +2059,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NL, N1, ISK, N2, N3, N4, N5, K1, K2, K3, ISENS,K,LL,
      .        ICODE,IAD,N_OLD,IPRES4,IERR,ND,I,J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AXI, AA, A0, VV, FX, FY, FZ, AX, DYDX, TS,
      .   SIXTH,X_OLD, F1, F2,XSENS,FCX,FCY,SCALN
@@ -2442,7 +2442,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RX , RY , RZ,SX , SY, SZ, DET
 C-----------------------------------------------
@@ -2452,7 +2452,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
 C                                                                     12
       MY_REAL
      .   E3X,E3Y,E3Z
@@ -2672,7 +2672,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ND
       INTEGER NI(*),NEL   ,IDDL(*)  , IADK(*),NDOF(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   K_DIAG(*) ,K_LT(*)   ,KII(ND,ND,*),OFF(*)
 C-----------------------------------------------
@@ -2749,7 +2749,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ND
       INTEGER NI(*),NJ(*),NEL   ,IDDL(*)  ,IADK(*),JDIK(*) ,NDOF(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   K_DIAG(*),K_LT(*)   ,KIJ(ND,ND,*),OFF(*)
 C-----------------------------------------------
@@ -2982,7 +2982,7 @@ C-----------------------------------------------
      .   IXP(NIXP,*),IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),
      .   NPC(*), IPARG(NPARG,*),LSENSOR(NSENSI,*),
      .   IXS10(6,*),IXS20(12,*),IXS16(8,*),IXTG1(4,*), ETAG(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*),GEO(NPROPG,*),BUFMAT(*) ,TF(*) ,
      .   FR_WAVE(*) ,ELBUF(*) ,THKE(*),RBY(*),SKEW(LSKEW,*),
@@ -3202,7 +3202,7 @@ C-----------------------------------------------
      .   NPC(*), IPARG(NPARG,*),LSENSOR(NSENSI,*),
      .   IXS10(6,*),IXS20(12,*),IXS16(8,*),IXTG1(4,*), ETAG(*),
      .   IPRMES_EL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*),GEO(NPROPG,*),BUFMAT(*) ,TF(*) ,
      .   FR_WAVE(*) ,ELBUF(*) ,THKE(*),RBY(*),SKEW(LSKEW,*),

@@ -46,7 +46,7 @@ C-----------------------------------------------
      4        N1(*) ,N2(*) ,M1(*) ,M2(*)        
       INTEGER NSV(*),IWPENE
       LOGICAL PRINT_WARNING
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STFS(*),STFM(*),X(3,*),GAP_S(*) ,GAP_M(*),PENIS(2,*) , 
      .   PENIM(2,*),NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ),GAPV(*)
@@ -61,7 +61,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IS, IM,JWARN
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     PENE(MVSIZ), 
      .     PENEOLD, S2, D, PPLUS

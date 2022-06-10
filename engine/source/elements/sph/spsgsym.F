@@ -52,7 +52,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ISPCOND(NISPCOND,*), ISPSYM(NSPCOND,*), WASPACT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XFRAME(NXFRAME,*) ,XSPSYM(3,*) ,VSPSYM(3,*), WA(KWASPH,*), 
      .   WASIGSM(6,*), WAR(10,*) 

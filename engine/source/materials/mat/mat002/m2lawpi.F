@@ -61,7 +61,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,NPT,NEL
       INTEGER MAT(MVSIZ),PID(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   EXX(MVSIZ), EXY(MVSIZ), EXZ(MVSIZ), 
      .   KXX(MVSIZ), KYY(MVSIZ), KZZ(MVSIZ),
@@ -75,7 +75,7 @@ C-----------------------------------------------
       INTEGER ICC(MVSIZ),IRTY(MVSIZ),INDX(MVSIZ)
       INTEGER I, J, J1, J2, NPIF, MX, IPT, IPY,IPZ,IPA,NINDX,
      .        IR,IS,ILAYER,II(3)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   EPMX(MVSIZ), DEGMB(MVSIZ), DEGFX(MVSIZ),
      .   CA(MVSIZ), CB(MVSIZ), CN(MVSIZ), YMAX(MVSIZ),CP(MVSIZ),

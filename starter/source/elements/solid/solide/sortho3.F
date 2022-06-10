@@ -42,7 +42,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RX(*), RY(*), RZ(*),
      .   SX(*), SY(*), SZ(*), 
@@ -58,7 +58,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N,NITER
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   ux(MVSIZ),uy(MVSIZ),uz(MVSIZ),
      .   vx(MVSIZ),vy(MVSIZ),vz(MVSIZ),

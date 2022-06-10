@@ -62,7 +62,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JLT, IELECI(MVSIZ),NPC(*),IELESI(MVSIZ),
      .        IFUNCTK,INTTH,IFORM
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TINT,FRAD,DRAD,DYDX,XTHE,
      .   PM(NPROPM,*),TF(*),TEMPI1(MVSIZ),TEMPI2(MVSIZ),TEMPM1(MVSIZ),
@@ -77,7 +77,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, II,L,NB3M, I3N,LS,J,IE,MAT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TS1, TS2, TM1 ,TM2, DIST, CONDS1 ,CONDS2 ,TSTIFM1 ,
      .   TSTIFM ,TSTIFT,TM,P,RSTIFF,TS,CONDM1,CONDM2,CONDS,CONDM,

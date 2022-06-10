@@ -55,7 +55,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IE, IV1, IV2, IV3, IV4, IAD2
-C     REAL ou REAL*8
+C     REAL
       my_real VOLN
 C-----------------------------------------------
       IF(JMULT.EQ.0)THEN
@@ -167,7 +167,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IE, IV1, IV2, IV3, IV4, IAD2
-C     REAL ou REAL*8
+C     REAL
       my_real VOLN
 C-----------------------------------------------
       IF(JMULT.EQ.0)THEN

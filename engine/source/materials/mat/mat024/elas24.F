@@ -62,7 +62,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(NEL) ::  DAMAI,DAMA0I
       my_real, DIMENSION(NEL) ::  DE4,DE5,DE6
       my_real  YOUNG,NU,G,A11,A12,DSUP,QQ,DEN,DEPSF,HH1,HH2,HH3
-c=======================================================================
+C=======================================================================
 c     DEi = (1 - DAMi)       coefficients d endommagement de la matrice Hook
 c-----------------------------------------------------------------------
       YOUNG = PM(20)

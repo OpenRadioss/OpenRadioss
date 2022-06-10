@@ -98,7 +98,7 @@ C-----------------------------------------------
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: P1,P2,P3,P4
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: LB1,LB2,LB3,LB4
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: LC1,LC2,LC3,LC4
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),XYZM(6,*),TZINF,DBUC,
      .   MAXBOX,MINBOX, XMAX, YMAX, ZMAX,
@@ -112,7 +112,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NB_NCN,NB_ECN,ADDNN,ADDNE,IPOS,I,IP,J
       INTEGER INF,SUP,DIR,N1,N2,N3,N4,NN,NE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   BID,DX,DY,DZ,DSUP,SEUIL,XMX,XMN,GAPSMAX,
      .   GAPV(MVSIZ)
@@ -167,7 +167,7 @@ C     NOINT        NUMERO USER DE L'INTERFACE
 C     TZINF        TAILLE ZONE INFLUENCE
 C     MAXBOX       TAILLE MAX BUCKET
 C     MINBOX       TAILLE MIN BUCKET
-C================================================
+C=======================================================================
 C
 C
 C    1- TEST ARRET = BOITE VIDE

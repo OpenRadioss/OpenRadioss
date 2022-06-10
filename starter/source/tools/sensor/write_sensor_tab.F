@@ -50,7 +50,7 @@ C-----------------------------------------------
       INTEGER I,ISEN,LEN,IAD,NFIX,NPARI,NPARR,NVAR,NS
       my_real, DIMENSION(:), ALLOCATABLE :: RBUF
       TYPE (SENSOR_STR_) ,POINTER :: SENSOR
-c=======================================================================
+C=======================================================================
       NFIX = 11
 c
       DO ISEN=1,NSENSOR

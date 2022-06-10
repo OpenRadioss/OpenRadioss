@@ -77,7 +77,7 @@ C----------------------------------------------
      .        NODFT, NODLT, ITASK, PARTFT, PARTLT,GREFT,GRELT,
      .        ADDCNE_PXFEM(*),INOD_PXFEM(*), ITAB(*),ICNDS10(3,*),NODFT_2  ,NODLT_2
 
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .   A(3,*)  ,AR(3,*),STIFN(*),STIFR(*),FSKYV(LSKY,8),FSKY(8,LSKY),
      .   MS(*), FSKYM(*), MSNF(*), VISCN(*), FSKYI(LSKYI,NFSKYI),
@@ -4774,7 +4774,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER I2SIZE, ADDCNI2(*),INDSKY(*)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .        A(3,*)  ,AR(3,*), STIFN(*), STIFR(*), MS(*), IN(*),
      .        FSKYI2(I2SIZE,*),FTHESKYI2(*),FTHE(*),CONDNSKYI2(*),CONDN(*)

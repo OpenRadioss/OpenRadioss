@@ -30,7 +30,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE ECHANG(I,J,TAB)
 C
-C     ECHANGE LES VALEURS I ET J DU TABLEAU TAB
+C     SWITCH I and J in TAB
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -40,16 +40,15 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER I, J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TAB(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TEMPO
-C...Translated by Pacific-Sierra Research VAST-2  3.04F8  17:16:14  11/15/91   -
       TEMPO=TAB(I)
       TAB(I)=TAB(J)
       TAB(J)=TEMPO

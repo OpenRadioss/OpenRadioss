@@ -79,7 +79,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NUMNUSR
-C     REAL ou REAL*8
+C     REAL
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -99,7 +99,7 @@ C-----------------------------------------------
      .        NKNOT1,NKNOT2,NKNOT3,ITGEO,PX,PY,PZ,PID,IPID,MAXNUMGEO,
      .        NBRAFX,NBRAFY,NBRAFZ,NBIG3D_PATCH
       INTEGER OFF_NOD(NSUBMOD), OFF_DEF(NSUBMOD)
-C     REAL ou REAL*8
+C     REAL
       CHARACTER MESS*40,TITR*nchartitle,KEY*ncharkey,IDTITL*nchartitle
       my_real R5(5),RBID
 C-----------------------------------------------

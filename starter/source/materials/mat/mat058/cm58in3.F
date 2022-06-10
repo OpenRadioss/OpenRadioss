@@ -49,7 +49,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,NUVAR,IPM(NPROPMI,*),IREP,IMAT
-C     REAL ou REAL*8
+C     REAL
       my_real UPARAM(*),UVAR(NEL,*),ALDT(NEL),TAN_PHI(NEL),DIR1(NEL,2),DIR2(NEL,2)
       my_real, DIMENSION(NEL), INTENT(IN) :: E1X,E2X,E3X,E1Y,E2Y,E3Y,E1Z,E2Z,E3Z,
      .                                       X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4

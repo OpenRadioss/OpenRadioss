@@ -61,7 +61,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*),MXT(*),NGL(*),PID(*),
      .   IX1(*),IX2(*),IX3(*),IX4(*),IX5(*),IX6(*),IX7(*),IX8(*)        
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),GEO(*),VOLU(*),
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
@@ -72,7 +72,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,IREP
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XL,YL,ZL,SUM
       my_real 

@@ -57,7 +57,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       DOUBLE PRECISION
      .  XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10),SAV(NEL,30)
 
@@ -72,7 +72,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IPERM1(10),IPERM2(10),N,N1,N2,NN,IUN
-C     REAL ou REAL*8
+C     REAL
       DATA IPERM1/0,0,0,0,1,2,3,1,2,3/
       DATA IPERM2/0,0,0,0,2,3,1,4,4,4/
 C-----------------------------------------------
@@ -246,7 +246,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       DOUBLE PRECISION
      .  XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10)
 
@@ -261,7 +261,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IPERM1(10),IPERM2(10),N,N1,N2,NN,IUN
-C     REAL ou REAL*8
+C     REAL
       DATA IPERM1/0,0,0,0,1,2,3,1,2,3/
       DATA IPERM2/0,0,0,0,2,3,1,4,4,4/
 C-----------------------------------------------

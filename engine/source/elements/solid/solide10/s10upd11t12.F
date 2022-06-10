@@ -54,7 +54,7 @@ C-----------------------------------------------
       DOUBLE PRECISION
      .  XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10)
      
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  OFFG(*),OFFG0(*)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_TAB
@@ -62,7 +62,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I ,NCH,INDEX(MVSIZ),J ,N   ,IP
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PX(MVSIZ,10,5),PY(MVSIZ,10,5),PZ(MVSIZ,10,5)
       TYPE(L_BUFEL_) ,POINTER :: LBUF     

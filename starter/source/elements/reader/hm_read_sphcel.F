@@ -112,7 +112,7 @@ C-----------------------------------------------
      .        SPH2SOL(*), SOL2SPH(2,*), IRST(3,NSPHSOL),SOL2SPH_TYP(*),
      .        OFF_DEF(NSUBMOD),OFF_NOD(NSUBMOD),OFF_EL(NSUBMOD),
      .        OFF_PART(NSUBMOD)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        X(3,*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
@@ -124,7 +124,7 @@ C-----------------------------------------------
      .        NSPHCEL,NCELL,IDNOD,INOD,IDMAX,KSPHRES,
      .        NBP,ITAG(NUMNOD),IT,NT,NP,NN,ITOPO,STAT,
      .        INDEX_PART,UID,IFLAGUNIT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .       BID
       CHARACTER MESS*40,KEY*ncharkey

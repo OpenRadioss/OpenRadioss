@@ -51,7 +51,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NC1(*),NC2(*),NC3(*),NC4(*),MAT(*),NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFFG(*),VOL0(*),AMU0(*),
      .   DXX(*),DYY(*),DZZ(*),VARNOD(*),VOLN(*),
@@ -70,7 +70,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, K,MX
-C     REAL ou REAL*8
+C     REAL
 
       my_real
      .   AMU(MVSIZ), SUM,DTR,DTREP_R,DIVDE(MVSIZ),JAC_M(MVSIZ),

@@ -48,7 +48,7 @@ C-----------------------------------------------
 C-----------------------------------------------                        
 C   D u m m y   A r g u m e n t s                                       
 C-----------------------------------------------                        
-C     REAL ou REAL*8                                                    
+C     REAL                                                    
       my_real                                                           
      .   MAS(*) ,PM(NPROPM,*),GEO(NPROPG,*),X(3,*),            
      .   D(3,*)                                                         
@@ -58,7 +58,7 @@ C     REAL ou REAL*8
 C-----------------------------------------------                        
 C   L o c a l   V a r i a b l e s                                       
 C-----------------------------------------------                        
-C     REAL ou REAL*8                                                    
+C     REAL                                                    
       my_real                                                           
      .   OFF,A0,THK0,RHO0,XX1,XX2,XX3,YY1,YY2,YY3,ZZ1,ZZ2,ZZ3,VALUE                       
       INTEGER I, NG, NEL, NFT, ITY, LFT, IALEL,MT,LLT, 

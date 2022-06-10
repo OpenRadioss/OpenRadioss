@@ -46,7 +46,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,NUVAR,NC1(*),NC2(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   F(3,*), FORX(*), FORY(*), FORZ(*), XM(3,*), XMOM(*),
      .   YMOM(*), ZMOM(*), STI(3,*),STIR(3,*),STIFN(*),STIFR(*),
@@ -58,14 +58,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     F11(MVSIZ), F21(MVSIZ), F31(MVSIZ), 
      .     M11(MVSIZ), M21(MVSIZ), M31(MVSIZ),
      .     M12(MVSIZ), M22(MVSIZ), M32(MVSIZ),
      .     XMOM1, XMOM2, YMOM1, YMOM2, ZMOM1, ZMOM2, M1,M2,M3,
      .     EX(9), XX
-C============================================================
+C=======================================================================
 C-------------------------
 C     FORCES
 C-------------------------
@@ -178,7 +178,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,IADR(3,*),NUVAR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FORX(*), FORY(*), FORZ(*), XMOM(*), YMOM(*), ZMOM(*), 
      .   STI(3,*),STIR(3,*),FSKY(8,LSKY),FSKYV(LSKY,8), 
@@ -189,14 +189,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, II, N,J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     F11(MVSIZ), F21(MVSIZ), F31(MVSIZ), 
      .     M11(MVSIZ), M21(MVSIZ), M31(MVSIZ),
      .     M12(MVSIZ), M22(MVSIZ), M32(MVSIZ),
      .     XMOM1, XMOM2, YMOM1, YMOM2, ZMOM1, ZMOM2, M1,M2,M3,
      .     EX(9), XX
-C============================================================
+C=======================================================================
 C-------------------------
 C     FORCES
 C-------------------------

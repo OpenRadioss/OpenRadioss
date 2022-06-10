@@ -66,7 +66,7 @@ C-----------------------------------------------
      .        ELTG(*), IPARG(NPARG,*), IPM(NPROPMI,*),
      .        MATTG(*), IGROUPC(*),  IGROUPTG(*)
 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AOUTOT, 
      .   ELSOUT(*), ELAREA(*), ELSINI(*), RVOLU(*), SVENT(NVENT),
@@ -83,7 +83,7 @@ C-----------------------------------------------
      .   ILEAKAGE,IBLOCKAGE
       INTEGER JEL, NFT, NELG
 C
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PEXT,  AVENT, BVENT, AOUT,   AOUT1, 
      .   FPORT, FPORP, FPORA, FPORT1, FPORP1, FPORA1, DERI, 

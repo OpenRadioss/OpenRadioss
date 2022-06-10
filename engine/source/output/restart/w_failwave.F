@@ -51,7 +51,7 @@ C-----------------------------------------------
       INTEGER I,J,K,IAD,IWAVE,NDDL,SIZE,NNOD,LEN
       INTEGER, DIMENSION(4)  :: HEAD
       INTEGER, DIMENSION(:), ALLOCATABLE :: RBUF
-c=======================================================================
+C=======================================================================
       IWAVE = FAILWAVE%WAVE_MOD
       NDDL  = FAILWAVE%NDDL
       SIZE  = FAILWAVE%SIZE

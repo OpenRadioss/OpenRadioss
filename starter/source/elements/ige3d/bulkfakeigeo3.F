@@ -53,7 +53,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARG(NPARG,NGROUP),
      .        KXIG3D(NIXIG3D,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*),STIFINT(*)
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
@@ -63,7 +63,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, N, NG, IEL, ITEL, NUMFAKECP,
      .        OFFSET_IGBUFSSG, OFFSET_NUMFAKENOD, ITSURF
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AV1,CV1, VOL(NUMELIG3D), 
      .   VNIGE(NUMFAKENODIGEO), BNIGE(NUMFAKENODIGEO)

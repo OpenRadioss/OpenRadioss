@@ -91,7 +91,7 @@ C-----------------------------------------------
       INTEGER IXS(*),  IPARG(NPARG,*), NPF(*),IADS(8,*),
      .        IPARTS(*),IPM(*),OFFSET,NEL, NELTST, ITYPTST,ITASK,
      .        GRTH(*),IGRTH(*) ,IOUTPRT, NG
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(*), GEO(*), X(*), A(*), V(*), MS(*),
      .   VEUL(*), FV(*),TF(*), BUFMAT(*),

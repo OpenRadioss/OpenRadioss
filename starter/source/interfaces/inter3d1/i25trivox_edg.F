@@ -92,7 +92,7 @@ C-----------------------------------------------
      .        MBINFLG(*),EBINFLG(*),ILEV,CAND_A(*),LEDGE(NLEDGE,*),ADMSR(4,*),MSEGTYP(*),
      .        CANDM_E2S(*),CANDS_E2S(*),CAND_B(*),
      .        FLAGREMNODE,KREMNODE(*),REMNODE(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),XYZM(6),STF(*),GAP_M(*),GAP_M_L(*),GAPE(*),GAP_E_L(*),CAND_P(*), CAND_PS(*),
      .   MARGE,BGAPEMX,VMAXDT,DRAD
@@ -104,7 +104,7 @@ C-----------------------------------------------
      .        N1,N2,NN,NE,K,L,J_STOK,II,JJ,NA,NB,
      .        PROV_S(MVSIZ),PROV_M(MVSIZ),
      .        M,NS1,NS2,NSE,NS,SIZE,Z_FIRST,Z_LAST
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DX,DY,DZ,XS,YS,ZS,XX,SX,SY,SZ,S2,
      .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, TZ, GAPSMX, GAPL,
@@ -180,9 +180,9 @@ c     dev future: xminb plus grand que xmin...
       YMAXB = YMAX
       ZMAXB = ZMAX
 
-C================================================================
+C=======================================================================
 C 1   mise des edges dans les boites
-C================================================================
+C=======================================================================
       IF(ITASK == 0)THEN
 
        IIXYZ(1:4,1:NEDGE)=0
@@ -413,16 +413,16 @@ C       		   +------------+-----------+
       TAGEDG(1:NEDGE)=0
 C Barrier to wait task0 treatment
 C     CALL MY_BARRIER
-C================================================================
+C=======================================================================
 C     Sorting vs main shell edges
-C================================================================
+C=======================================================================
       IF(SH_EDGE==0) GOTO 300
-C================================================================
+C=======================================================================
 C 3   A partir des voxels occupes par une edge main, on est en
 C     mesure de connaitre toutes les edges escalves dans ce voisinage.
 C     Ce qui permet de creer des couples cancidats pour le contact
 C     Si la penetration est positive.
-C================================================================
+C=======================================================================
 
       J_STOK = 0
 
@@ -632,16 +632,16 @@ C-------------------------------------------------------------------------
      6                 CAND_P)
  
  300  CONTINUE
-C================================================================
+C=======================================================================
 C     Sorting vs main solid edges
-C================================================================
+C=======================================================================
       IF(SOL_EDGE==0) GOTO 400
-C================================================================
+C=======================================================================
 C 3bis A partir des voxels occupes par une edge main, on est en
 C     mesure de connaitre toutes les edges escalves dans ce voisinage.
 C     Ce qui permet de creer des couples cancidats pour le contact
 C     Si la penetration est positive.
-C================================================================
+C=======================================================================
 
       J_STOK = 0
 
@@ -819,9 +819,9 @@ C-------------------------------------------------------------------------
      5                 GAP_M ,GAP_M_L,GAPE  ,GAP_E_L,ADMSR  ,
      6                 EDG_BISECTOR,VTX_BISECTOR ,CAND_PS)
  
-C================================================================
+C=======================================================================
 C 4   remise a zero des noeuds dans les boites
-C================================================================
+C=======================================================================
  400  CONTINUE
 
 C Barrier to avoid reinitialization before end of sorting
@@ -850,7 +850,7 @@ C     CALL MY_BARRIER
         DEALLOCATE(LCHAIN_LAST)    
         IF(FLAGREMNODE==2) DEALLOCATE(TAGREMLINE)           
       ENDIF
-C================================================================
+C=======================================================================
 
       RETURN
       END

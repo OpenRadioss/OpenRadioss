@@ -425,7 +425,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT, ISMSTR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     PX2(*),  PY2(*),  PX3(*),PY3(*),
      .     PX2G(*), PY2G(*), PX3G(*),PY3G(*),
@@ -508,7 +508,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VL(3,3,*),GSTR(NEL,8),PX2(*),PY2(*),PX3(*),PY3(*)
       my_real

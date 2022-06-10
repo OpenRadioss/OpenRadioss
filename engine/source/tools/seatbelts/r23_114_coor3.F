@@ -46,7 +46,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXR(NIXR,*),NC3(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),V(3,*),VX3(*),VY3(*),VZ3(*)
       DOUBLE PRECISION XDP(3,*),X3DP(3,*)

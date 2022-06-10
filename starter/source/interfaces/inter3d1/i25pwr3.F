@@ -54,7 +54,7 @@ C-----------------------------------------------
       INTEGER ITAB(*),CAND_E(*),CAND_N(*), IRECT(4,*), IRTLM(4,*),
      .        MSEGLO(*)
       INTEGER I_STOK,NSV(*),MSR(*),IWPENE,INACTI,NOINT,NTY,NSN
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STFN(*),X(3,*),PENE_OLD(5,*)
       INTEGER ID
@@ -65,7 +65,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, L
       INTEGER IX1, IX2, IX3, IX4, NSVG
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
        DO 100 I=1,I_STOK
          J=CAND_N(I)
@@ -160,13 +160,13 @@ C-----------------------------------------------
 C-----------------------------------------------
       INTEGER CAND_E(*),CAND_N(*),NSN,IRTLM(4,*),II_STOK,
      *                   NRTM,MSEGTYP(*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER E, I,ISH
      .        
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------

@@ -66,7 +66,7 @@ C-----------------------------------------------
      .   MSR(*), IRECTS(4,*), LMSR(*), NSEG(*),IXQ(NIXQ,*),
      .   IPARG(NPARG,*), IELES(*), IELEM(*),NALE(*) ,
      .   INTTH, IEULT, ISIZES, ISIZEM
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   UPW, TSTIF,TTT, STENS,
      .   X(3,*), V(3,*), W(3,*), A(3,*), CRST(2,*), SKEW(LSKEW,*),
@@ -82,7 +82,7 @@ C-----------------------------------------------
      .   TAGS(ISIZES),TAGM(ISIZEM), LISTS(ISIZES),LISTM(ISIZEM),
      .   ICOMERR(ISIZEM+ISIZES),ICOMNGR(ISIZEM+ISIZES),
      .   ICOMNEL(ISIZEM+ISIZES)
-C     REAL ou REAL*8
+C     REAL
       my_real H(2),
      .   VMX, VMY, VMZ, VX, VY, VZ, VV, NX, NY, NZ, VT,
      .   NNX, NNY, NNZ, FAC, P, X1, Y1, Z1,X2, Y2, Z2, TX, TY, TZ,

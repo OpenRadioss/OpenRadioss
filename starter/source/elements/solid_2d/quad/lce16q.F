@@ -58,7 +58,7 @@ C-----------------------------------------------
       INTEGER IXQ(NIXQ,*), ISEL(*), IPOINT(2,*), ITAB(*),
      .    ITABM1(*), ICODE(*),IPARTQ(*),
      .    IPM(NPROPMI,*),IGEO(NPROPGI,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*)
 C-----------------------------------------------

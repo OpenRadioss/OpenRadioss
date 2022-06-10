@@ -224,7 +224,7 @@ c
         dedv = uvar(i,5)
         etap = uvar(i,6)
         etar = uvar(i,7)
-c==============================================================
+C=======================================================================
 c        calcul de pres et cson
 c
 c  initialisations
@@ -265,7 +265,7 @@ c  vitesse du son et controle du pas de temps
      .            max(wr+ONE,wp+ONE)*abs(pres)/max(em30,RHO(I)))
       chydro = sqrt(chydro2)
 c
-c==============================================================
+C=======================================================================
         soundsp(i) = max(chydro,cburn)
         viscmax(i) = ZERO
 c        contraintes
@@ -512,7 +512,7 @@ c
       if (beta.eq.ONE) beta = fc1
 c
 c   debut iterations
-c=========================================================
+C=======================================================================
       do iter=1,15
         etar = fc1 * etac/beta
         call react(ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
@@ -534,7 +534,7 @@ c       mais pb si beta=fc1 redonne un beta > 1 ...
         if (beta.le.ZERO) beta = - beta
         if (beta.ge.ONE) beta = ONE/beta
       enddo
-c=========================================================
+C=======================================================================
       iter = 2
       beta=guess - EM01
       if(beta.lt.EM5) beta=EM5
@@ -568,7 +568,7 @@ cc        write(*,*)'  delta (beta=0.9999999) > 0.'
 cc        write(*,*)'  il faut augmenter check...'
         goto 900
       endif
-c=========================================================
+C=======================================================================
       do iter = 4,itrmax+1
        beta=beta - FIVEEM2
        beta=max(beta,em6)
@@ -583,7 +583,7 @@ c=========================================================
        tu=tl
       enddo
       goto 900
-c=========================================================
+C=======================================================================
  300  i1 = iter+1 
       do iter=i1,itrmax+1
        beta=HALF*(tl+tu)
@@ -598,11 +598,11 @@ c=========================================================
        if(c.eq.a) tu=beta
       enddo
       go to 900
-c=========================================================
+C=======================================================================
 c
 c   fin iterations
 c
-c=========================================================
+C=======================================================================
 c   pression
  800  pres = (preac+pprod)*HALF
 c
@@ -646,7 +646,7 @@ c    dpdmu = dp/d(eta) a E et fc ctes
       dpdmu = bth + dpdt*dedv/cv/etac**2
       return
 c
-c=========================================================
+C=======================================================================
  900  write(*,*) '** WARNING** : MIX NOT CONVERGING'
 cc      write(*,*) '    etar, etap, delta = ',etar,etap,delta
       return

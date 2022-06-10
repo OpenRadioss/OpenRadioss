@@ -66,7 +66,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TENS(6,*),EPSDOT(6,*),PM(NPROPM,*),X(3,*)
       INTEGER IPARG(NPARG,*),ITENS, 
@@ -78,7 +78,7 @@ C     REAL ou REAL*8
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   EVAR(6,MVSIZ),OFF, FAC, A1, A2, A3, THK, GAMA(6),EVAR_TMP(6)
       REAL R4(18)
@@ -3590,7 +3590,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FUNC1(3,*),FUNC2(3,*),GEO(NPROPG,*),X(3,*)
       INTEGER IPARG(NPARG,*),
@@ -3601,7 +3601,7 @@ C     REAL ou REAL*8
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   EVAR(6,MVSIZ),GAMA(6),
      .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,
@@ -3838,7 +3838,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FUNC1(3,*),FUNC2(3,*),GEO(NPROPG,*),X(3,*),VGPS(*)
       INTEGER IPARG(NPARG,*),
@@ -3849,7 +3849,7 @@ C     REAL ou REAL*8
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   EVAR(6,MVSIZ),GAMA(6),VOL(MVSIZ),THK0,
      .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,
@@ -4096,7 +4096,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FUNC1(3,*),FUNC2(3,*),GEO(NPROPG,*),X(3,*),
      .   PM(NPROPM,*)
@@ -4108,7 +4108,7 @@ C     REAL ou REAL*8
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   EVAR(6,NUMNOD),GAMA(6),
      .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,
@@ -4911,7 +4911,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FUNC1(3,*),FUNC2(3,*),X(3,*),
      .   PM(NPROPM,*)
@@ -4921,7 +4921,7 @@ C     REAL ou REAL*8
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   EVAR(6,NUMNOD),GAMA(6),
      .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,

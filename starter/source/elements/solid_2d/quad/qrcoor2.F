@@ -50,7 +50,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXQ(NIXQ,*), NGL(*), MXT(*), PID(*)
       INTEGER IX1(*), IX2(*), IX3(*), IX4(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),E1Y(*),E1Z(*),E2Y(*),E2Z(*)
       my_real
@@ -60,7 +60,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SY(MVSIZ) ,SZ(MVSIZ) ,
      .   TY(MVSIZ) ,TZ(MVSIZ), SUMA,CS,CT

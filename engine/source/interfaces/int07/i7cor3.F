@@ -77,7 +77,7 @@ C-----------------------------------------------
      .        NSVG(MVSIZ),IELEC(*),IELECI(MVSIZ),  NSMS(MVSIZ), 
      .        NODNX_SMS(*),IPARTFRICS(*),IPARTFRICSI(MVSIZ),IPARTFRICM(*),
      .        IPARTFRICMI(MVSIZ),IREP_FRICM(*),IREP_FRICMI(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GAP, X(3,*), STF(*), STFN(*),GAP_S(*),GAP_M(*),
      .   MS(*), V(3,*), RCURV(*),ANGLM(*),TEMP(*),AREAS(*),PHI(*),

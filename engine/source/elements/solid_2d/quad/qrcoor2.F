@@ -47,7 +47,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NC1(*), NC2(*), NC3(*), NC4(*), MAT(*), NGL(*), NGEO(*),
      .        NCP(7,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),Y1(*),Y2(*),Y3(*),Y4(*),Z1(*),Z2(*),Z3(*),Z4(*),VD2(*),
      .   R11(*),R12(*),R13(*),

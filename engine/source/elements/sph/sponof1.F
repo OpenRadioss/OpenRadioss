@@ -81,7 +81,7 @@ C-----------------------------------------------
      .        IPARG(NPARG,*),ISPHIO(NISPHIO,*),IPART(LIPART1,*),
      .        LPRTSPH(2,0:NPART),LONFSPH(*),
      .        MWA(*), IBUFSSG_IO(SIBUFSSG_IO),IPARTSP(*),OFF_SPH_R2R(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*) ,V(3,*) ,D(3,*) ,MS(*) ,SPBUF(NSPBUF,*) ,
      .   PLD(*) ,VSPHIO(*) ,PM(NPROPM,*) ,WA(*),
@@ -103,7 +103,7 @@ C-----------------------------------------------
      .        KNSX,KISX,KNSY,KISY,KNSZ,KISZ,
      .        KNPX,KIPX,KNPY,KIPY,KNPZ,KIPZ,KVNORM,KXPROJ,KF,
      .        IUN,IAD2,NSEGB
-C     REAL ou REAL*8
+C     REAL
       my_real
      .       PENTV,VT,VN,VV,
      .       PENTR,RHON,RHO0,PENTP,PN,PSHFT,PENTE,EN,EI,

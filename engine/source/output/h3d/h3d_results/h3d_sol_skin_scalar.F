@@ -68,7 +68,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SKIN_SCALAR(*),PM(NPROPM,*), X(3,*),TF(*)  ,BUFMAT(*)
       INTEGER IPARG(NPARG,*), 
@@ -206,7 +206,7 @@ C-----------------------------------------------
       my_real :: RANI,R1,R2,S1,S2,SS,Q,DYDX,E12,FACT_MARGIN,FACT_LOOSEMETAL
       my_real ,ALLOCATABLE, DIMENSION(:) :: XF  
       my_real ,DIMENSION(NEL) :: EMAJ,EMIN,EM
-c=======================================================================
+C=======================================================================
       IENG     = INT(UPARAM(6))
       RANI     = UPARAM(7)
       IMARGIN  = NINT(UPARAM(2))
@@ -355,7 +355,7 @@ C-----------------------------------------------
       my_real :: RANI,R1,R2,S1,S2,SS,Q,DYDX,E12,FACT_MARGIN,FACT_LOOSEMETAL
       my_real ,ALLOCATABLE, DIMENSION(:) :: XF  
       my_real ,DIMENSION(NEL) :: EMAJ,EMIN,EM
-c=======================================================================
+C=======================================================================
       IENG     = INT(UPARAM(6))
 c-----------------------------
 C

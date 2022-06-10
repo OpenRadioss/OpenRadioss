@@ -90,7 +90,7 @@ C-----------------------------------------------
       INTEGER, TARGET, INTENT(in) :: ITHBUFA(*),ITHBUFB(*),ITHBUFC(*),ITHBUFD(*),
      .                       ITHBUFE(*),ITHBUFF(*),ITHBUFG(*),ITHBUFH(*),ITHBUFI(*)
       INTEGER, DIMENSION(NUMNOD), INTENT(in) :: WEIGHT
-C     REAL ou REAL*8
+C     REAL
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

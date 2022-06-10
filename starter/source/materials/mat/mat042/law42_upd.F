@@ -63,7 +63,7 @@ c
       my_real , DIMENSION(:), ALLOCATABLE :: STRESS,STRETCH
       INTEGER , DIMENSION(:), ALLOCATABLE :: ITAB_ON_A,INDEX
 
-C====================================================================
+C=======================================================================
 !       CHECK the material stability (Drucker proguer conditions)
 !====================================================================
        NDATA = 10000  ! La=0.1,10, EM3!!

@@ -52,7 +52,7 @@ C-----------------------------------------------
 C-----------------------------------------------                        
 C   L o c a l   V a r i a b l e s                                       
 C-----------------------------------------------                        
-C     REAL ou REAL*8                                                    
+C     REAL                                                    
       INTEGER I, NG, NEL, NFT, ITY, LFT,LLT, MLW,                      
      .   N1,N2,N3,N4,NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,N_FA                          
       REAL R4                                                           

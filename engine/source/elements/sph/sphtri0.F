@@ -65,7 +65,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER KXSP(NISP,*), WSP2SORT(*),NSP2SORTF,NSP2SORTL,ITASK,NMN
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        X(3,*),SPBUF(NSPBUF,*), BMINMA(12),  DMAX, DBUC
 C-----------------------------------------------

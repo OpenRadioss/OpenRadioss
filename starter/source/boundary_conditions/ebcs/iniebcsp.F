@@ -59,7 +59,7 @@ C-----------------------------------------------
       my_real                                         
      .  ORIENT, FAC, X13,Y13,Z13,X24,Y24,Z24, NX,NY,NZ,S,VN,P,DPDV                             
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-c=======================================================================
+C=======================================================================
       GBUF => ELBUF_STR%GBUF
 Cow Initialisation de la surface nodale
           DO I=1,NOD

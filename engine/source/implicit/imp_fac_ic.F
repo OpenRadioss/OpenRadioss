@@ -47,7 +47,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL  ,NNZ  ,IADK(*) ,JDIK(*),NNZM ,IADM(*),JDIM(*),
      .         NNE,ISKY(*),MAX_L
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_K(*), DIAG_M(*), LT_K(*)  ,LT_M(*) ,PSI ,LI(*)
 C-----------------------------------------------
@@ -165,7 +165,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  J0, J1,ISKY(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_M(*), LI(*)  ,AII
 C-----------------------------------------------

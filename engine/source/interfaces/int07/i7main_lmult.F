@@ -91,7 +91,7 @@ C-----------------------------------------------
       INTEGER IPARI(NPARI,NINTER), KINET(*),
      .        IADLL(*) ,LLL(*) ,JLL(*) ,SLL(*) ,ICONTACT(*),
      .        ITAB(*), INDEX2(*), ITAG(*), COMNTAG(*)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .   X(3,*), V(3,*), A(3,*), MS(*),
      .   XLL(*), XTAG(*)
@@ -107,7 +107,7 @@ C-----------------------------------------------
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ), CN_LOC(MVSIZ),CE_LOC(MVSIZ),
      .        CAND_N_N(MVSIZ),CAND_E_N(MVSIZ),KINI(MVSIZ),IBID
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, STOPT,GAP,GAPMIN,MAXBOX,MINBOX,BID,
      .   KMIN, KMAX, GAPMAX

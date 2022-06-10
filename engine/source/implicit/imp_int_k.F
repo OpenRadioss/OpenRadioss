@@ -98,7 +98,7 @@ C-----------------------------------------------
       INTEGER I,J,N, IAD,NTY,I_INT7,NUM_IMP0,
      .        LREM(NINTER), ISENS
       my_real TS
-C     REAL ou REAL*8
+C     REAL
 C
       IF (NT_IMP1.GT.0) THEN
        IAD=1
@@ -423,7 +423,7 @@ C-----------------------------------------------
       INTEGER N, KK,LL, RETRI, NBLIST, IFQ,
      .        INACTI, NSNROLD, IAD17, IGN, IGE, NME, NMES,
      .        NELTST ,ITYPTST ,I,NTY, ISENS, INTERACT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        XSLV_L(18,NINTER),XMSR_L(12,NINTER),
      .        VSLV_L(6,NINTER),VMSR_L(6,NINTER),
@@ -582,7 +582,7 @@ C-----------------------------------------------
       INTEGER IPARI(NPARI,*), NEWFRONT(*), ITAB(*),
      .        ISENDTO(NINTER+1,*) ,IRCVFROM(NINTER+1,*),N,
      .        NBINTC,INTLIST(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DT2T,XSLV_L(6,*), XMSR_L(6,*), VSLV_L(6,*), 
      .VMSR_L(6,*), SIZE_T(*),SENSOR(NSENSR,*),MAXDGAP(NINTER)
@@ -782,7 +782,7 @@ C-----------------------------------------------
      .        NB ,ILIST(1) ,I,NTY,KD(50), KFI,IAD,NSN,NMN,
      .        JFI,JD(50),IDNS,IDNM,IDSTIF,NTHR_CP,ISENS ,
      .        INTERACT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        DTK(NINTER),V(3,NUMNOD),VR(3,NUMNOD),
      .        X_TMP(3,NUMNOD),DTI,FAC,FAC1,DT_MIN,DX,DY,DZ,
@@ -920,7 +920,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        DX,DY,DZ
 C------------------------------------
@@ -1006,7 +1006,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        DX,DY,DZ
 C------------------------------------
@@ -1156,7 +1156,7 @@ C-----------------------------------------------
      .        I,L1,L2,L3,JTASK,LINDMAX,IBID ,IBIDLEN,NRTM_T,
      .        ESHIFT,RENUM(NUMNOD), NSNFIOLD(NSPMD), ISENS
       INTEGER INT24E2EUSE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        DTI, TS
       my_real
@@ -1632,7 +1632,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N,I,J,ID,NTHR_CP
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        DTK(NINTER),DTI,DT_MIN
 C-------------before inttri------
@@ -1729,7 +1729,7 @@ C-----------------------------------------------
      .        NINT2,IINT2(*),IDDL(*),IKC(*),NDOF(*),INLOC(*),
      .        IBFV(*),LJ(*),ISKEW(*),ICODT(*),IRBE3(NRBE3L,*),LRBE3(*),
      .        IRBE2(NRBE2L,*),LRBE2(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        X(*),SKEW(*),FRBE3(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
@@ -1896,7 +1896,7 @@ C-----------------------------------------------
       INTEGER IBFV(NIFV,*),LJ(*),ISKEW(*) ,ICODT(*),LSPCL
       INTEGER INLOC(*),LNS  ,LNS2,LBCL ,LFXL ,LRW,IRBE3(NRBE3L,*),LNS3,
      .        IRBE2(NRBE2L,*),LRBE2(*),LNS4
-C     REAL ou REAL*8
+C     REAL
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
 C-----------------------------------------------
@@ -2044,7 +2044,7 @@ C-----------------------------------------------
      .   INLOC(*),NRB_MV,NI2_MV,IRB_MV(2,*),II2_MV(2,*),
      .   NBC_MV,IBC_MV(3,*) ,NFX_MV,IFX_MV(2,*),NRW_MV,IRW_MV(*),
      .   NRBE3_MV,IRBE3_MV(*),NSPC_MV,ISPC_MV(*),NRBE2_MV,IRBE2_MV(*)
-C     REAL ou REAL*8
+C     REAL
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
 C-----------------------------------------------
@@ -2700,7 +2700,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER 
      .        NDDLI,IADI(*),JDII(*),ITOK(*),IMCONV
       my_real

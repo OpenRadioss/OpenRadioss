@@ -59,7 +59,7 @@ C-----------------------------------------------
       INTEGER FR_RBM(*),IAD_RBY(*),
      .        ICODRBY(2,*),WEIGHT(*),LNRBY(*),IRBY(NIRBYM,*),
      .        KIND(NRBYM)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RBY(NFRBYM,*) ,A(3,*) ,AR(3,*) ,X(3,*) ,VR(3,*),
      .   IN(*) ,STIFN(*),STIFR(*),MS(*),V(3,*) , 

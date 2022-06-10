@@ -68,7 +68,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SUMA,S1,S2,X21,X32,X34,X41,Y21,Y32,Y34,Y41,Z21,Z32,Z34,Z41
       my_real, DIMENSION(MVSIZ) :: 

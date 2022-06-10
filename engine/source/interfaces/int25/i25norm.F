@@ -73,7 +73,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IEDGE,NEDGE
       INTEGER :: LEDGE(NLEDGE,NEDGE)
       INTEGER :: FREE_IRECT_ID(NRTM),NRTM_FREE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        STFNS(*)
 C-----------------------------------------------
@@ -465,7 +465,7 @@ C-----------------------------------------------
      .        LEDGE(NLEDGE,*), LBOUND(*), ADMSR(4,*), IAD_FRNOR(NINTER25,*), FR_NOR(*),
      .        IADNOR(4,*),ADDCSRECT(*), PROCNOR(*)
       INTEGER :: FREE_IRECT_ID(NRTM),NRTM_FREE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,NUMNOD), STIFM(*),STFE(NEDGE)
       REAL*4 NOD_NORMAL(3,4,NRTM), WNOD_NORMAL(3,4,NRTM), VTX_BISECTOR(3,2,NADMSR)
@@ -1134,7 +1134,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JTASK, NADMSR, 
      .        ADMSR(4,*), ADSKYT(NADMSR+1), IADNOR(4,*), ACTNOR(*)
-C     REAL ou REAL*8
+C     REAL
        REAL*4
      .   NOD_NORMAL(3,NADMSR)
       REAL*4 FSKYT(3,*)

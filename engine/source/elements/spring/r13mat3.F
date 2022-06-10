@@ -53,7 +53,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT    ,JLT, MGN(*),NPF(*),IGEO(NPROPGI,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG,*), KX(*), KY(*), KZ(*), MX(*), MY(*), MZ(*),
      .   FX(*),FY(*),FZ(*),DX(*),DY(*),DZ(*),XMOM(*),YMOM(*),ZMOM(*),
@@ -64,7 +64,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,ILEN,ILENG
       INTEGER IECROU(MVSIZ), IFUNC(MVSIZ),IFUNC2(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   ALI,A(MVSIZ)
 C-----------------------------------------------

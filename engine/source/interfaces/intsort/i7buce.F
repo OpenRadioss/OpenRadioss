@@ -71,7 +71,7 @@ C-----------------------------------------------
       INTEGER CAND_E(*),CAND_N(*),IFPEN(*),KREMNOD(*),REMNOD(*),ITAB(*)
       INTEGER NCONTACT,ESHIFT,ILD,NB_N_B, IGAP, NCONT,INTTH,I_MEM,
      *        II_STOK, FLAGREMNODE, ITIED
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GAP,TZINF,MAXBOX,MINBOX,CURV_MAX_MAX,
      .   GAPMIN, GAPMAX, BMINMA(12),CURV_MAX(NRTM),BGAPSMX,DRAD
@@ -93,7 +93,7 @@ C-----------------------------------------------
       INTEGER I, J, IP0, IP1,
      .        LOC_PROC, N, ISZNSNR,
      .        NSNFIOLD(NSPMD)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        XYZM(6,I_ADD_MAX-1), MARGE, AAA
 C-----------------------------------------------
@@ -233,7 +233,7 @@ C-----------------------------------------------
       INTEGER CAND_E(*),CAND_N(*),IFPEN(*),KREMNOD(*),REMNOD(*),ITAB(*)
       INTEGER NCONTACT,ESHIFT,ILD,NB_N_B, IGAP, NCONT,INTTH,I_MEM,
      *        II_STOK, FLAGREMNODE, ITIED
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GAP,TZINF,MAXBOX,MINBOX,CURV_MAX_MAX,
      .   GAPMIN, GAPMAX, BMINMA(12),CURV_MAX(NRTM),BGAPSMX,DRAD
@@ -251,7 +251,7 @@ C-----------------------------------------------
       INTEGER I, J, IP0, IP1,
      .        LOC_PROC, N, ISZNSNR,
      .        NSNFIOLD(NSPMD)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        XYZM(6,2), MARGE, AAA
 C-----------------------------------------------

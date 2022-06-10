@@ -69,13 +69,13 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXC(NIXC,*),IPARTC(*), JFT, JLT,
      .              IHBE   ,NFT     ,ISMSTR,IGTYP,IGMAT,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   THK(*), HOUR(NEL,5), OFF(*),EANI(*),PARTSAV(NPSAV,*),
      .   PX1(*), PX2(*), PY1(*), PY2(*), SIGY(*),DT1C(*),STIR(*),
      .   SSP(MVSIZ), RHO(MVSIZ),STI(MVSIZ),Z2(MVSIZ), SHF(MVSIZ),
      .   THK0(MVSIZ),VISCMX(MVSIZ), ALPE(MVSIZ), A11R(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   B11(MVSIZ), B12(MVSIZ), B13(MVSIZ), B14(MVSIZ),
      .   B21(MVSIZ), B22(MVSIZ), B23(MVSIZ), B24(MVSIZ),
@@ -94,7 +94,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX, J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GAMA1(MVSIZ), GAMA2(MVSIZ), GAMA3(MVSIZ), GAMA4(MVSIZ),
      .   H3L(MVSIZ), H3Q(MVSIZ),

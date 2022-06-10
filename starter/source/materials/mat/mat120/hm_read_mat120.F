@@ -96,7 +96,7 @@ C-----------------------------------------------
       my_real :: RHO0,RHOR,E,NU,Y0,Q,B,H,G,BULK,C11,C12,EPSPMIN,EPSPMAX,SSP,
      .           FCUT,A1F,A2F,A1H,A2H,AS,CC,D1C,D2C,D1F,D2F,D_TRX,D_JC,EXP_N,
      .           XSCALE,YSCALE,YSCALE_UNIT,XSCALE_UNIT
-c=======================================================================
+C=======================================================================
       ILAW = 120
       IS_CRYPTED   = .FALSE.
       IS_AVAILABLE = .FALSE.

@@ -70,7 +70,7 @@ c---
       DATA NDL/1,2,3/
 c-----------------------------------------------
 c set failure flag to elements using nodal frontwave information from neighbors
-c=======================================================================
+C=======================================================================
 c
 c---------------
       SELECT CASE (FAILWAVE%WAVE_MOD)

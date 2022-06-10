@@ -49,17 +49,17 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,NEL
       INTEGER MAT(MVSIZ),NGL(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*), DAMDL(*), GSTR(NEL,8)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,MX  
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SHEAR, DAM1, DAM2
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SHRDAM_1,SHRMAX_1,SHRDMAX_1
 C--------------------------------------------------

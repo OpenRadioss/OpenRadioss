@@ -68,7 +68,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER  IGEO(NPROPGI),IG,IGTYP,FLAG_FMT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG)
       CHARACTER IDTITL*nchartitle
@@ -78,7 +78,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
        INTEGER I,J,NFUNC,NFUND,IFUN,IAD,ISENS,IFL,ILENG,IRTYP
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MASS,KMAX,DMAX,XFAC,YFAC,RATE,ALPHA,
      .   PUN,YFAC_DIM,RATE_DIM,XFAC_DIM,DMAX_DIM

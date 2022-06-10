@@ -51,7 +51,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(11,*),IPARG(*),IOUTPRT,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFFG(NEL),OFF(MVSIZ),X(3,*),V(3,*),
      .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
@@ -68,7 +68,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NC(8,MVSIZ), MXT(MVSIZ), PID(MVSIZ), NGL(MVSIZ), I
-C     REAL ou REAL*8
+C     REAL
 C
       my_real
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),

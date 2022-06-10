@@ -48,7 +48,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8 
+C     REAL 
       INTEGER NEL,MXT(MVSIZ),IINT
       my_real
      .   VOL(MVSIZ,5),DELTAX(*),DELTAX2(*),

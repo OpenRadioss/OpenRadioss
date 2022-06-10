@@ -64,7 +64,7 @@ C-----------------------------------------------
       INTEGER IVOLU(*),ICBAG(NICBAG,*),NJET,IBAGJET(NIBJET,*),
      .        NVENT,IBAGHOL(NIBHOL,*),
      .        NN,IVOLUV(NIMV,*),FR_MV(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RVOLU(*), RVOLUV(NRVOLU,*),RCBAG(NRCBAG,*),PORO(*),
      .   RBAGJET(NRBJET,*),RBAGHOL(NRBHOL,*),FSAV(*),N(3,*),RBAGVJET(*)
@@ -76,7 +76,7 @@ C-----------------------------------------------
      .   IPORT,IPORP,IPORA,IPORT1,IPORP1,IPORA1,IVDP,
      .   IJ ,IV, RADVOIS,PMAIN,
      .   IN1,IN2,IN3,IN4,ITTF,IDTPDEF
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GAMA, CV, CP, PEXT, PDEF, DTPDEFI, DTPDEFC, TVENT, TSTOPE,
      .   APVENT, AVENT, BVENT, 

@@ -66,7 +66,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NGL(MVSIZ),IMAT,ILAYER,IPT,ISRATE,NPTTOT,
      .   JFT,JLT,IPLA,NEL,INLOC
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*),THK(*),OFF(*),GSTR(NEL,8),
      .   DT1C(*),SHF(*),EPSP(*),SIGY(*),ZCFAC(MVSIZ,2),DPLA(*),
@@ -81,7 +81,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SIG(NEL,5),NU,STRN1(MVSIZ),STRN2(MVSIZ),STRN3(MVSIZ),YLD(MVSIZ),
      .   ETSE(MVSIZ),ZT,EZZ(MVSIZ),YOUNG

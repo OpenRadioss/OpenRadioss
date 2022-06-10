@@ -48,7 +48,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        X(*),D(*),XNORM(3,*),CDG(*),BUFEL(*)
       INTEGER IADD(*),IPARG(NPARG,*), 
@@ -56,7 +56,7 @@ C     REAL ou REAL*8
      .        IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),
      .        INVERT(*),KXSP(NISP,*), IXSP(KVOISPH,*)
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF
       INTEGER II(4),IE,NG, ITY, LFT, LLT, KPT, N, I, J, N1, N2,

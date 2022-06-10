@@ -85,7 +85,7 @@ C----------------------------------------------------------------
      .   DEPSM,EPSPM,EM,DEPSVXX,DEPSVYY,DEPSVZZ,DEPSVXY,DEPSVYZ,DEPSVZX,
      .   DEXX,DEYY,DEZZ,DEXY,DEYZ,DEZX,DEPSDXX,DEPSDYY,DEPSDZZ,
      .   DEPSDXY,DEPSDYZ,DEPSDZX,DDEXX,DDEYY,DDEZZ,DDEXY,DDEYZ,DDEZX
-c=======================================================================
+C=======================================================================
       BULK  = UPARAM(1)     
       G_INS = UPARAM(2)        ! instant shear modulus
       G_INF = UPARAM(3)        ! long term shear modulus

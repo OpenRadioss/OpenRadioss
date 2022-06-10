@@ -74,7 +74,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER J,MANIM0, MREST0, MSTOP0, MFILR, MCYCLE, LK2, IKEY,
      .   WMCHECK0, MSG_R2R, R2R_MSTOP_LOC,ICTLSTOP0, MH3D0
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TMPMAN(50)
       my_real
@@ -87,7 +87,7 @@ C     REAL ou REAL*8
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
       SAVE MANIM0,MREST0,MSTOP0,MFILR,KEY0,ICTLSTOP0,MH3D0
       DATA MFILR/0/

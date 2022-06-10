@@ -78,7 +78,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, IDEB
-C     REAL ou REAL*8
+C     REAL
       my_real :: AN
       my_real, DIMENSION(MVSIZ) :: XX1,YY1,ZZ1
       my_real, DIMENSION(MVSIZ) :: XX2,YY2,ZZ2

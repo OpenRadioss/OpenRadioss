@@ -58,7 +58,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MAT(MVSIZ),NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*),OFF(MVSIZ) ,SIG(NEL,6),EPXE(MVSIZ),
      .   THETA(MVSIZ),EPD(MVSIZ) ,CXX(MVSIZ)  ,DF(MVSIZ)  , D1(MVSIZ)  ,
@@ -70,7 +70,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX,ITB, K, J, IFRAC(MVSIZ),IQUAD(MVSIZ), 
      .       IQUADI, IFLAGR(MVSIZ), NBE
-C     REAL ou REAL*8
+C     REAL
       my_real
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
      .   G(MVSIZ)  ,G0   ,G1(MVSIZ)    ,G2(MVSIZ)   ,SIG0,   

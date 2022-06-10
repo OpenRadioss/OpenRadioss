@@ -65,11 +65,11 @@ C-----------------------------------------------
      .    JLT,IDT, NOINT,IGAP , IGSTI,NIN,ITY,NSN
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GAP, X(3,*), STF(*), STFN(*),GAP_S(*),GAP_M(*),
      .   MS(*), V(3,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
@@ -401,8 +401,8 @@ C-----------------------------------------------
      .         JLT,JLT_NEW,NIN,NSN,LREM
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ)
-C     REAL ou REAL*8
-C     REAL ou REAL*8
+C     REAL
+C     REAL
       my_real
      .   VXI(MVSIZ), VYI(MVSIZ), VZI(MVSIZ), MSI(MVSIZ),
      .   X(3,*), STIF(*),N1(MVSIZ), N2(MVSIZ), N3(MVSIZ),
@@ -486,8 +486,8 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER 
      .         JLT,NIN,IUPD,NSVG(MVSIZ)
-C     REAL ou REAL*8
-C     REAL ou REAL*8
+C     REAL
+C     REAL
       my_real
      .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), 
      .   DXI(MVSIZ),DYI(MVSIZ),DZI(MVSIZ),D(3,*)

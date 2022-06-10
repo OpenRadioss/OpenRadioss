@@ -82,7 +82,7 @@ C-----------------------------------------------
      .        IROT, MSTR, IFPEN(*), ILEV, IFORM,INVN
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ), ITRIA(MVSIZ), NSMS(MVSIZ),ITAB(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), STF(*), STFN(*),GAP_S(*),
      .   XM0(3,*), CSTS(2,*), MS(*), V(3,*), NOD_NORMAL(3,*),
@@ -92,7 +92,7 @@ C     REAL ou REAL*8
      .   FXT(MVSIZ), FYT(MVSIZ), FZT(MVSIZ),
      .   GAP_S0(*), AREA_S0(*), GAP0(*), AREA0(*), TEMP(*), TEMPI(*),
      .   XG(3), ROT(9), AS(*), BS(*), PENI(*), DRAD, TINT, TEMPM(*),DEPTH
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),

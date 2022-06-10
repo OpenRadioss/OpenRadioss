@@ -56,7 +56,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER WEIGHT(*),LPBY(*),NPBY(NNPBY,*),ISKEW(*),ITAB(*),
      .        KIND(NRBYKIN),IRBKIN_L(*),NRBYKIN_L,NODREAC(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RBY(NRBY,*) ,X(3,*) ,V(3,*) ,VR(3,*),SKEW(*),
      .   FSAV(NTHVKI,*) ,A(3,*),AR(3,*),IN(*),MS(*),FTHREAC(*),FREAC(*)
@@ -68,7 +68,7 @@ C-----------------------------------------------
      .       FN, FT,EXPN,EXPT
       my_real, DIMENSION(:), ALLOCATABLE ::  
      .       CRIT
-C     REAL ou REAL*8
+C     REAL
       SAVE CRIT
 C-----------------------------------------------
 !$OMP SINGLE

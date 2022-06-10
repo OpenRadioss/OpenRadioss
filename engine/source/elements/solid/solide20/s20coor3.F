@@ -53,7 +53,7 @@ C-----------------------------------------------
       INTEGER NPE,G_PLA,G_EPSD,NEL,
      .        NC(MVSIZ,NPE), MXT(*), NGL(*),NGEO(*),
      .        IXS(NIXS,*),IXSP(NPE-8,*), IPERM1(NPE),IPERM2(NPE)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  X(3,*),V(3,*),W(3,*), VIS(*),
      .  XX(MVSIZ,NPE), YY(MVSIZ,NPE), ZZ(MVSIZ,NPE),

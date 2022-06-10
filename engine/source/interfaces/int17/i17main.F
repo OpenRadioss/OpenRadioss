@@ -92,7 +92,7 @@ C-----------------------------------------------
       INTEGER IPARI(NPARI,NINTER),
      .        IADLL(*) ,LLL(*) ,JLL(*) ,SLL(*) , COMNTAG(*),
      .        IXS(NIXS,*)  ,IXS16(8,*)  ,IXS20(12,*)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .   X(3,*), V(3,*), A(3,*), MS(*),EMINX(6,*),
      .   XLL(*)
@@ -105,7 +105,7 @@ C-----------------------------------------------
       INTEGER NME,NAD,EAD,LWAT,
      .        NME_T,ESH_T,IGN,IGE,MULTIMP,NOINT,I,MX_CAND,NMES,
      .        IDUM1, IDUM2, IDUM3, NMESR 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, STOPT,XX,XY,XZ,TZINF,MINBOX,XMSR(6),SIZE_T
 C-----------------------------------------------

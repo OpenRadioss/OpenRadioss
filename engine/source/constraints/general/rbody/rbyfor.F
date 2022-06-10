@@ -70,7 +70,7 @@ C-----------------------------------------------
      .        KIND(NRBYKIN),FR_RBY6(*),IAD_RBY(*),IRBKIN_L(*),
      .        NRBYKIN_L, NATIV_SMS(*),DIMFB,STABSEN,TABSENSOR(*),
      .        NODREAC(*),CPTREAC
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RBY(NRBY,*) ,A(3,*) ,AR(3,*) ,X(3,*) ,VR(3,*),FSAV(NTHVKI,*),
      .   IN(*) ,STIFN(*),STIFR(*),FANI(3,*),MS(*),V(3,*) ,

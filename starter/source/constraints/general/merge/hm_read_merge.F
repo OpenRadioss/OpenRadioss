@@ -117,7 +117,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MGRBY(NMGRBY,*),NPBY(NNPBY,*),LPBY(*),
      .        SLRBODY,SMGRBY,ITABM1(*),ITAB(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RBY(NRBY,*)
       INTEGER NOM_OPT(LNOPT1,*),PTR_NOPT_RBMERGE
@@ -741,7 +741,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPBY(NNPBY,*),LPBY(*),SLRBODY,ITAB(*)
       TYPE (RBMERGE_)   , DIMENSION(NRBYKIN)   :: RBMERGE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RBY(NRBY,*)
       INTEGER NOM_OPT(LNOPT1,*)
@@ -754,7 +754,7 @@ C-----------------------------------------------
      .        INDEX(NRBYKIN),LPBY_TMP(SLRBODY),
      .        NOM_OPT_TMP(LNOPT1,NRBYKIN),INODE, IKREM,ISPHER,
      .        ICDG,CNT,NN,IAD
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RBY_TMP(NRBY,NRBYKIN)
       my_real
@@ -1066,7 +1066,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPBY(NNPBY,*),LPBY(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RBY(NRBY,*)
       INTEGER NOM_OPT(LNOPT1,*)
@@ -1078,7 +1078,7 @@ C-----------------------------------------------
      .        INDEX(NRBYKIN+NRBYLAG),
      .        NOM_OPT_TMP(LNOPT1,NRBYKIN+NRBYLAG),
      .        NEW_SIZE,CPT_RBY,CPT_RBY_SECONDARY
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RBY_TMP(NRBY,NRBYKIN+NRBYLAG)
 C-----------------------------------------------

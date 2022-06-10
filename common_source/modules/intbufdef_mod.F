@@ -485,7 +485,7 @@ C-----------------------------------------------
 
 #include "my_real.inc"      
 c
-C=================================================
+C=======================================================================
       TYPE INTBUF_STRUCT_
 C=================================================  
 c define typeINTBUF_STRUCT_ for new interface buffer INTBUF_TAB
@@ -495,9 +495,9 @@ c   - define float arrays sizes
 c   - define integer arrays
 c   - define float arrays
 
-C=================================================
+C=======================================================================
 c DEFINE SIZES (integers arrays)
-C=================================================
+C=======================================================================
         integer ::   S_IRECTS     !  4*NRTS     :IRECTS:CONNECTIVITES FACES SECONDS     :1,2,3,4
         integer ::   S_IRECTM     !  4*NRTM_FE+4*9*NRTM_IGE :IRECTM:CONNECTIVITES FACES MAIN  :1,2,3,4,5,6,7,8,20,24
         integer ::   S_NSV        !  NSN        :NSV   :NOEUDS SECONDS                  :1,2,3,4,  7 
@@ -636,9 +636,9 @@ C----Nitsche Method
         integer ::   S_ADRECTS!  4*NRTS    :ADRECTS : Adress of each secnd node of the segment in IXS/IXS10/IXS20/IXS16 
         integer ::   S_FACNRTS!  NRTS      :FACNRTS : Corresponding facet in element IELNRTS 
         integer ::   S_E2S_ACTNOR!
-C=================================================
+C=======================================================================
 c DEFINE SIZES (float arrays)
-C=================================================
+C=======================================================================
         integer ::   S_STFAC        !  1          :STFAC :FACTEUR DE RIGIDITE D'INTERFACE(MANAGER)
         integer ::   S_VARIABLES    !   +1, ...
         integer ::   S_CSTS         !  2*NSN      :CSTS  :S ET T DES NOEUDS SECONDS       :   ,3,4,    
@@ -789,9 +789,9 @@ C---------to be cleaned later
 C       Orthotropic friction 
         integer ::   S_DIR_FRICM !  2*NRTM         : orhotropic directions for friction 
 
-C=================================================
+C=======================================================================
 c DEFINE ARRAYS (integers arrays)
-C=================================================
+C=======================================================================
         integer, DIMENSION(:) , POINTER ::  IRECTS    
         integer, DIMENSION(:) , POINTER ::  IRECTM    
         integer, DIMENSION(:) , POINTER ::  NSV       
@@ -926,9 +926,9 @@ C----Nitsche Method
 
         integer, DIMENSION(:) , POINTER ::  E2S_ACTNOR
 
-C=================================================
+C=======================================================================
 c DEFINE ARRAYS (float arrays)
-C=================================================
+C=======================================================================
         my_real, DIMENSION(:) , POINTER ::   STFAC        
         my_real, DIMENSION(:) , POINTER ::   VARIABLES    
         my_real, DIMENSION(:) , POINTER ::   CSTS         
@@ -1089,9 +1089,9 @@ C
         TYPE(INT8_STRUCT_)             ::   T8
         TYPE(METRIC_STRUCT_)           ::   METRIC
 
-C=================================================
+C=======================================================================
       END TYPE INTBUF_STRUCT_
-C=================================================
+C=======================================================================
 
 c INTBUF_SIZE array maximum length defined as parameter
 c (maximum number of different arrays composing INTBUF_TAB structure)

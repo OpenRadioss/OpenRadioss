@@ -192,7 +192,7 @@ C     MACHINE.INC CONTIENT LES SPECIFS MACHINES
 C     (MALLOC,IGFORM,TYPE MACHINE...)
 C------------------------------------------------
 #include      "machine.inc"
-C============================================================
+C=======================================================================
 #include      "archloops.inc"
 C -------------------------------------------------
 C First task check the exec arguments (fill common)
@@ -203,18 +203,18 @@ C     Constants
     
 C     timers initialisation
       CALL INITIME()
-C============================================================
+C=======================================================================
       IS_AVAILABLE = .FALSE.
-C====================================================
+C=======================================================================
 C while waiting IOUT to be initialized set to stdout 
 C Needs to be done in the early beginning
 C ===================================================    
       IOUT=6 
       ISTDO=6
-C============================================================
+C=======================================================================
       CALL  RADIOSS_TITLE(ISTDO,CPUNAM,ARCHTITLE,
      *                      FILNAM,ROOTLEN,CHRUN,IRESP,1)
-C============================================================
+C=======================================================================
 C-------------------------------------------------------------------
 C     NUMERO DE VERSION
 C      A MODIFIER CHAQUE FOIS QUE LA STRUCTURE DU FICHIER DE REPRISE

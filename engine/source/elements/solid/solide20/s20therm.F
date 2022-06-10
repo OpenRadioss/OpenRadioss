@@ -46,7 +46,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MAT(*),NPE,NC(MVSIZ,NPE)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    VOL(*), PX(MVSIZ,NPE), PY(MVSIZ,NPE),PZ(MVSIZ,NPE),
      .    NI(NPE),TEMPNC(*), FPHI(MVSIZ,NPE), PM(NPROPM,*),DIE(*),
@@ -55,7 +55,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX, N
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  CA, CB, KC, PHIX(MVSIZ), PHIY(MVSIZ), PHIZ(MVSIZ)
 C------------------------------------------------ 

@@ -1801,7 +1801,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,NINTER),RETRI(*),ITAB(*),
      .        NBINTC21 ,INTLIST21(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SENSOR(NSENSR,*),TEMP(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
@@ -1823,7 +1823,7 @@ C-----------------------------------------------
       DATA MSGOFF3/1015/
       INTEGER,DIMENSION(:), ALLOCATABLE :: IBUFS, IBUFR
       my_real,DIMENSION(:), ALLOCATABLE :: RBUFS, RBUFR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT,STOPT,DIST,TS
 C-----------------------------------------------
@@ -2192,7 +2192,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  IPARI(NPARI,NINTER)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SENSOR(NSENSR,*),TEMP(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
@@ -2210,7 +2210,7 @@ C-----------------------------------------------
       DATA MSGOFF/2016/
 
       my_real,DIMENSION(:), ALLOCATABLE :: RBUFS, RBUFR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT,STOPT,DIST,TS
 C------------------------------------------------------------------------
@@ -2396,7 +2396,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  IPARI(NPARI,NINTER), ISKY(*), NISKYFI(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SENSOR(NSENSR,*),FTHE(*),FTHESKYI(*),FSKYI(LSKYI,*),CONDNSKYI(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
@@ -2420,7 +2420,7 @@ C-----------------------------------------------
       my_real,DIMENSION(:), ALLOCATABLE :: RBUFS, RBUFR
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX
       my_real, DIMENSION(:), ALLOCATABLE :: TEMPO
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT,STOPT,DIST,TS
 C------------------------------------------------------------------------

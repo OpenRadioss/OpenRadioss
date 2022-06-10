@@ -45,14 +45,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPC(*),IVOLU(*), PMAIN
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TF(*),RVOLU(*),FSAV(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ITFUN,ITYPFUN
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VOL,P0,V0,DYDX,AREA,VEPS,VINC,POLD,VOLP,PEXT,VOLD,PRES,
      .   Q,QOLD,DV,SCALE,XFUN

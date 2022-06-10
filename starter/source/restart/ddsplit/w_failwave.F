@@ -55,7 +55,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(NUMNOD_L) :: INDX_LOC,IDXI_LOC
       INTEGER, DIMENSION(4)  :: HEAD
       INTEGER, DIMENSION(:), ALLOCATABLE :: RBUF
-c=======================================================================
+C=======================================================================
       IWAVE = FAILWAVE%WAVE_MOD
       NNOD  = FAILWAVE%NNOD
       NDDL  = FAILWAVE%NDDL

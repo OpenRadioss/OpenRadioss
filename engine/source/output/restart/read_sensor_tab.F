@@ -48,7 +48,7 @@ C-----------------------------------------------
       INTEGER I,ISEN,LEN,IAD,NFIX,NPARI,NPARR,NVAR
       my_real, DIMENSION(:), ALLOCATABLE :: HEAD,RBUF
       TYPE (SENSOR_STR_) ,POINTER :: SENSOR
-c=======================================================================
+C=======================================================================
       NFIX = 11
       ALLOCATE (HEAD(NFIX) )
 c

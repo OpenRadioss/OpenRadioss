@@ -53,7 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER  
      .   IXS(NIXS,*), IXC(NIXC,*), IXTG(NIXTG,*), FASOLFR(2,*),
      .   IAD_ELEM(2,*), FR_ELEM(*), WEIGHT(*),IXQ(7,*),SEGQUADFR(2,*),
@@ -74,7 +74,7 @@ C-----------------------------------------------
      .     FS2, FS3, FT2, FT3, E, F, G, RAYON,AY1,AY2,AY3,AY4
       INTEGER FACES(4,6),LINES(2,4),FACES10(3,24)
        my_real, DIMENSION(:), ALLOCATABLE ::  NODAREA
-C     REAL ou REAL*8
+C     REAL
       DATA FACES/1,2,3,4,
      .           2,1,5,6,
      .           1,5,8,4,
@@ -474,7 +474,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER  
      .   IXS(NIXS,*), IXC(NIXC,*), IXTG(NIXTG,*), FASOLFR(2,*),
      .   IAD_ELEM(2,*), FR_ELEM(*), WEIGHT(*), NODGLOB(*)
@@ -495,7 +495,7 @@ C-----------------------------------------------
      .     TMP
       INTEGER FACES(4,6)
       my_real, DIMENSION(:), ALLOCATABLE ::  NODAREA,NODAREAG
-C     REAL ou REAL*8
+C     REAL
       DATA FACES/1,2,3,4,
      .           2,1,5,6,
      .           1,5,8,4,

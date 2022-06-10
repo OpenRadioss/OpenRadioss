@@ -513,7 +513,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PX1(*), PX2(*), PX3(*), PX4(*),  
      .   PY1(*), PY2(*), PY3(*), PY4(*),  
@@ -533,7 +533,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FXX(MVSIZ),FYY(MVSIZ),FZZ(MVSIZ),FXY(MVSIZ),FXZ(MVSIZ),
      .   FYZ(MVSIZ),HIJ(MVSIZ)
@@ -690,7 +690,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LFT,LLT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PXI(*), PXJ(*),PYI(*), PYJ(*), PZI(*), PZJ(*),  
      .   FXX(*),FYY(*),FZZ(*),FXY(*),FXZ(*),FYZ(*),HIJ(*)
@@ -701,7 +701,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
       DO I=LFT,LLT
         HIJ(I)=FXX(I)*PXI(I)*PXJ(I)+FYY(I)*PYI(I)*PYJ(I)+
@@ -748,7 +748,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PX1(*), PX2(*), PX3(*), PX4(*),  
      .   PY1(*), PY2(*), PY3(*), PY4(*),  
@@ -771,7 +771,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FXX(MVSIZ),FYY(MVSIZ),FZZ(MVSIZ),FXY(MVSIZ),FXZ(MVSIZ),
      .   FYZ(MVSIZ)
@@ -929,7 +929,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LFT,LLT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PXI(*), PXJ(*),PYI(*), PYJ(*), PZI(*), PZJ(*),  
      .   FXX(*),FYY(*),FZZ(*),FXY(*),FXZ(*),FYZ(*),KIJ(3,3,*)
@@ -940,7 +940,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   HIJ(MVSIZ)
 C-----------------------------------------------
@@ -986,14 +986,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICP,IPREDU
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   HH(2,*),HH1(2,*),FAC(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IFP
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
        IPREDU=0
        IF (ICP.EQ.1.OR.(ICP.EQ.2.AND.JHBE.EQ.17)) IPREDU=1
@@ -1057,7 +1057,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICP
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PX1(*), PX2(*), PX3(*), PX4(*),  
      .   PY1(*), PY2(*), PY3(*), PY4(*),  
@@ -1077,7 +1077,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J,IS
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TT,TV,DD(3,3,MVSIZ),
      .   PX5(MVSIZ), PX6(MVSIZ), PX7(MVSIZ), PX8(MVSIZ),  

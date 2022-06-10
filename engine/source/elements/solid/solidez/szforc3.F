@@ -909,7 +909,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C----------------------------------------------- 
       INTEGER JFT, JLT ,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   G1X(*),G1Y(*),G1Z(*),
      .   G2X(*),G2Y(*),G2Z(*),G3X(*),G3Y(*),G3Z(*),GAMA(NEL,6)
@@ -974,7 +974,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DXX(*),DYY(*),DZZ(*),D4(*),D5(*),D6(*), G1X(*),G1Y(*),G1Z(*),
      .   G2X(*),G2Y(*),G2Z(*),G3X(*),G3Y(*),G3Z(*)
@@ -985,7 +985,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DEF(MVSIZ,6),DEFN(MVSIZ,6)
 C=======================================================================
@@ -1032,7 +1032,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SIG(NEL,6),SIGN(NEL,6), G1X(*),G1Y(*),G1Z(*),
      .   G2X(*),G2Y(*),G2Z(*),G3X(*),G3Y(*),G3Z(*)
@@ -1043,7 +1043,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SX,SY,SZ
 C-----------------------------------------------
@@ -1092,7 +1092,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SIG(MVSIZ,6),SIGN(MVSIZ,6), G1X(*),G1Y(*),G1Z(*),
      .   G2X(*),G2Y(*),G2Z(*),G3X(*),G3Y(*),G3Z(*)
@@ -1103,7 +1103,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SX,SY,SZ
 C-----------------------------------------------
@@ -1152,7 +1152,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MXX(*), MXY(*), MXZ(*),MYX(*), MYY(*), MYZ(*),  
      .   MZX(*), MZY(*), MZZ(*),G1X(*),G1Y(*),G1Z(*),
@@ -1164,7 +1164,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SX,SY,SZ,FXX,FXY,FXZ,FYX,FYY,FYZ,FZX,FZY,FZZ
 C-----------------------------------------------
@@ -1225,7 +1225,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  IXS(NIXS,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DELTAX(*),VOLG(*),
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
@@ -1241,14 +1241,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I, J, IPT, IDEGE(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AJ11, AJ12, AJ13, AJ21,
      .   AJ22, AJ23, AJ31, AJ32,
      .   AJ33, AI11, AI12, AI13,
      .   AI21, AI22, AI23, AI31,
      .   AI32, AI33
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X12(MVSIZ), X34(MVSIZ), X56(MVSIZ),
      .   X78(MVSIZ), Y12(MVSIZ), Y34(MVSIZ), Y56(MVSIZ), Y78(MVSIZ),
@@ -1418,7 +1418,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  IXS(NIXS,*), IPARTS(*), TAGPRT_SMS(*), TAGELEM_SMS(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DELTAX(*),VOLG(*),
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
@@ -1436,14 +1436,14 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I, J, IT, IPT, IDEGE(MVSIZ), NINDX, NJNDX, 
      .         INDEX(MVSIZ), JNDEX(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AJ11, AJ12, AJ13, AJ21,
      .   AJ22, AJ23, AJ31, AJ32,
      .   AJ33, AI11, AI12, AI13,
      .   AI21, AI22, AI23, AI31,
      .   AI32, AI33
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X12(MVSIZ), X34(MVSIZ), X56(MVSIZ),
      .   X78(MVSIZ), Y12(MVSIZ), Y34(MVSIZ), Y56(MVSIZ), Y78(MVSIZ),
@@ -1732,7 +1732,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
      .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),  
@@ -1799,7 +1799,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C----------------------------------------------- 
       INTEGER JFT, JLT,ISORTH,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   E1X(*),E1Y(*),E1Z(*),
      .   E2X(*),E2Y(*),E2Z(*),E3X(*),E3Y(*),E3Z(*),
@@ -1877,7 +1877,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MXX(*), MXY(*), MXZ(*),MYX(*), MYY(*), MYZ(*),  
      .   MZX(*), MZY(*), MZZ(*),G1X(*),G1Y(*),G1Z(*),
@@ -1889,7 +1889,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SX,SY,SZ,FXX,FXY,FXZ,FYX,FYY,FYZ,FZX,FZY,FZZ
 C-----------------------------------------------
@@ -1946,7 +1946,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SIG(MVSIZ,6), G1X(*),G1Y(*),G1Z(*),
      .   G2X(*),G2Y(*),G2Z(*),G3X(*),G3Y(*),G3Z(*),OFF(*)
@@ -1957,7 +1957,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SX,SY,SZ,SIGN(MVSIZ,6)
 C-----------------------------------------------
@@ -2012,7 +2012,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DXX(*),DYY(*),DZZ(*),D4(*),D5(*),D6(*), G1X(*),G1Y(*),G1Z(*),
      .   G2X(*),G2Y(*),G2Z(*),G3X(*),G3Y(*),G3Z(*),OFF(*)
@@ -2023,7 +2023,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DEF(MVSIZ,6)
 C=======================================================================
@@ -2073,7 +2073,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SIG(NEL,6), G1X(*),G1Y(*),G1Z(*),
      .   G2X(*),G2Y(*),G2Z(*),G3X(*),G3Y(*),G3Z(*),OFF(*)
@@ -2084,7 +2084,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SX,SY,SZ,SIGN(NEL,6)
 C-----------------------------------------------
@@ -2135,7 +2135,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STRAIN(NEL,6), G1X(*),G1Y(*),G1Z(*),
      .   G2X(*),G2Y(*),G2Z(*),G3X(*),G3Y(*),G3Z(*)
@@ -2146,7 +2146,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DEF(MVSIZ,6),DEFN(MVSIZ,6)
 C=======================================================================

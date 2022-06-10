@@ -141,7 +141,7 @@ C-------------------------------------
         LIST_INICRACK(J) = INICRACK(J)%ID
       ENDDO
       CALL UDOUBLE_IGR(LIST_INICRACK,NINICRACK,MESS,0,BID)
-C===============================
+C=======================================================================
 c-----------
       RETURN
  999  CALL FREERR(1)

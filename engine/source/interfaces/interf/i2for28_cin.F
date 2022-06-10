@@ -47,7 +47,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, NMN,
      .   IRECT(4,*), MSR(*), NSV(*), IRTL(*), WEIGHT(*), IDEL2, INDXC(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),V(3,*),A(3,*),AR(3,*), MMASS(*), CRST(2,*),
      .   DPARA(7,*), MS(*), IN(*),STIFN(*),STIFR(*),DMAST,ADM(*),
@@ -68,7 +68,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NIR, I, J, K, J1,J2,J3,J4, II, L, JJ
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   H(4),XM(4),YM(4),ZM(4),
      .   XMSJ, SS, ST, XMSI, FXS, FYS, FZS,SP,SM,TP,TM,FACM,

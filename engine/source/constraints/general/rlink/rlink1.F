@@ -46,7 +46,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, IC, ICR, IFLAG
       INTEGER NOD(*),WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MS(*), IN(*), A(3,*), AR(3,*)
       DOUBLE PRECISION FRL6(15,6)
@@ -54,7 +54,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N, K
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MASS, INER, AX, AY, AZ,
      .   F1(NSN), F2(NSN), F3(NSN), F4(NSN)

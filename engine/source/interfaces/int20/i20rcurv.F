@@ -45,7 +45,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NRTM,NUMNOD,IRECT(4,NRTM),NMN,MSR(*),NLN,NLG(NLN)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,NUMNOD), NOD_NORMAL(3,NUMNOD)
 C-----------------------------------------------
@@ -152,7 +152,7 @@ C-----------------------------------------------
       INTEGER NRTM,NUMNOD,NMN,MAXCC,LENT,
      .        IRECT(4,NRTM),MSR(*),NLN,NLG(NLN),
      .        IAD_ELEM(2,*),FR_ELEM(*),ISDSIZ(*),IRCSIZ(*),ITAG(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,NUMNOD), NOD_NORMAL(3,NUMNOD)
 C-----------------------------------------------
@@ -283,7 +283,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NMNFT, NMNLT, MSR(*),NLN,NLG(NLN)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   NOD_NORMAL(3,*)
 C-----------------------------------------------
@@ -339,7 +339,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NRTMFT, NRTMLT , IRECT(4,*), NRADM,NLN,NLG(NLN)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    X(3,*), NOD_NORMAL(3,*), RCURV(*), ANGLM(*), ANGLT
 C-----------------------------------------------

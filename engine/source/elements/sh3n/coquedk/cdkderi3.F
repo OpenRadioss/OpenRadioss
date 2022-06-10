@@ -53,7 +53,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     AREAI(MVSIZ),
      .     AL1, AL2, AL3, ALMAX,ALMIN,FAC
@@ -140,7 +140,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J
-C     REAL ou REAL*8
+C     REAL
       MY_REAL
      .   XR1,XR2,XR3,YR1,YR2,YR3,XS1,XS2,XS3,YS1,YS2,YS3,
      .   X2Y,Y2X,X6,Y6,XY6,RXY1(3),RXY2(3)

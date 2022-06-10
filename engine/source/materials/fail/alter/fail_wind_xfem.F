@@ -117,7 +117,7 @@ c      UVAR(11) = reduction factor flag
 c      UVAR(12) = DADV
 c      UVAR(13) = SIG_DTF1
 c      UVAR(14) = SIG_DTF2
-c=======================================================================
+C=======================================================================
       XCHAR  = ' '      
       IF (IXEL > 0) THEN  ! testing phantom elements
         IF (IXEL == 1) THEN

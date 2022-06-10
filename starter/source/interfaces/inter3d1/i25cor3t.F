@@ -65,11 +65,11 @@ C-----------------------------------------------
      .    JLT,IDT, NOINT, NSN , NRTM,ITYP, IGAP, MSEGTYP(*), ICODE(*), ISKEW(*)
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        ETYP(MVSIZ), IBC(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), GAPV(*), GAP_S(*), GAP_M(*), MARGE,DRAD,
      .   GAP_S_L(*), GAP_M_L(*), EDGE_L2(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),

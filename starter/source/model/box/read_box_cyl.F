@@ -109,7 +109,7 @@ C     IBOX(I)%Z1       : coord.Z for N1
 C     IBOX(I)%X2       : coord.X for N2
 C     IBOX(I)%Y2       : coord.Y for N2
 C     IBOX(I)%Z2       : coord.Z for N2
-c=======================================================================
+C=======================================================================
 c
       CALL HM_OPTION_START('/BOX/CYL')
 c

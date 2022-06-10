@@ -44,7 +44,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(*), WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(*), V(*), A(*), 
      .   MS(*),IN(*),AR(*),VR(*),STIFN(*),STIFR(*),
@@ -115,7 +115,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(*), WEIGHT(*), TAGNOD(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(*), V(*), A(*), 
      .   MS(*),IN(*),AR(*),VR(*),STIFN(*),STIFR(*)
@@ -166,7 +166,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NMN,ILEV,
      .        MSR(*), WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*) ,AR(3,*) ,MMASS(*) , 
      .   MS(*)  ,IN(*)   ,STIFN(*) ,STIFR(*),
@@ -372,7 +372,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NMN,ILEV,
      .        MSR(*), WEIGHT(*), TAGNOD(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*),AR(3,*), MMASS(*), 
      .   MS(*), IN(*),STIFN(*),STIFR(*)

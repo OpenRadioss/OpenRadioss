@@ -73,5 +73,5 @@ c      INTEGER MSGID,ANMODE,MSGTYPE,PRMOD,IOPTION,IOPTION_TYPE
 c     .                 PRMOD,IOPTION,IOPTION_TYPE
       END SUBROUTINE
       END INTERFACE
-C===============================================
+C=======================================================================
       END MODULE 

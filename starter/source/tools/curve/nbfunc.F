@@ -62,7 +62,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IT,ID,NPARAM,NPT,NFUNCT0,IBID,NTABLE0,NTABLE1,NTABLETOT
-C     REAL ou REAL*8
+C     REAL
       CHARACTER TITR*nchartitle,KEY*ncharfield,MESS*40
       DATA MESS/' FUNCTION COUNTING                      '/
       INTEGER :: IFUN,N1

@@ -82,7 +82,7 @@ C-----------------------------------------------
      .         ITASK, ITAB(*), IAD_ELEM(2,*), FR_ELEM(*),
      .         FR_SMS(NSPMD+1), FR_RMS(NSPMD+1), 
      .         LIST_SMS(*), LIST_RMS(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_K(*), LT_K(*), LT_I(*)
 C-----------------------------------------------
@@ -367,7 +367,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NNZM , IADM(*), JDIM(*),
      .         NNDFT0 ,NNDFT1,ITASK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_M(*), LT_M(*), DIAG_INV(*)   
 C-----------------------------------------------
@@ -458,7 +458,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  IADM(*), JDIM(*), IADA(*), JDIA(*)
       INTEGER  NC    , JM(*), NNDFT0, NNDFT1
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  LT_A(*),DIAG_A(*),
      .  DIAG_M(*) ,LT_M(*)
@@ -522,7 +522,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C----------resol [K]{X}={F}, K stored as diagonal + lt ---------
       INTEGER  NDDL  ,IADK(*)  ,JDIK(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DIAG_K(*), LT_K(*) , R(*)
 C-----------------------------------------------

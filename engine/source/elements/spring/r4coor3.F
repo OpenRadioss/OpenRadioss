@@ -47,7 +47,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXR(NIXR,*),NGL(*),MGN(*),NC1(*),NC2(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),VR(3,*),RLOC(6,*),X1(*),X2(*),Y1(*),Y2(*),
      .   Z1(*),Z2(*),RX1(MVSIZ),RX2(MVSIZ),

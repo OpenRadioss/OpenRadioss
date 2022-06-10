@@ -60,7 +60,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,IPLA,NEL,IMAT,IPT,INLOC
       INTEGER NGL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*),THK(*),OFF(*),DIR(NEL,2),DT1C(*),
      .   GS(*),DPLA(*),EPSD(*),HARDM(*)

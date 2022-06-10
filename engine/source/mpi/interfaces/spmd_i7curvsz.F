@@ -56,7 +56,7 @@ C-----------------------------------------------
       INTEGER NRTM,NUMNOD,LENR,LENT,MAXCC,
      .        IRECT(4,NRTM),ITAG(*),
      .        IAD_ELEM(2,*), FR_ELEM(*), ISDSIZ(*), IRCSIZ(*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

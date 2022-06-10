@@ -54,7 +54,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(*), ISKEW(*), LCOD(*), ITAB(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(*), V(*), A(*), SKEW(*), FN(*), MSMN(*),
      .   FT(*), MSMT(*), MS(*), FSAV(NTHVKI,*)

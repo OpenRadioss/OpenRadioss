@@ -56,7 +56,7 @@ C-----------------------------------------------
       INTEGER
      .     IDDL(*),IADK(*),JDIK(*),NDOF(*),
      .     NBK(*),IAB(NFXVEL,*) ,NDDL ,IFIX(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  UD(3,*), DIAG_K(*),LT_K(*),BK(NFXVEL,*),RD(3,*)
 C-----------------------------------------------
@@ -66,7 +66,7 @@ C-----------------------------------------------
      .        NFV,NF,NT,JD
       my_real
      .  U(NFXVEL)
-C     REAL ou REAL*8
+C     REAL
 C--------extraire kij associe avec Ud (update {b} due to {ud})-----
       NFV=0
       DO I = 1,NUMNOD
@@ -172,14 +172,14 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER
      .        NBK(*),IAB(NFXVEL,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  BK(NFXVEL,*), B(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, I, J, K,I1,J1,K1,ND,ID
-C     REAL ou REAL*8
+C     REAL
 C----------------only imposed global displacement is available---------------
 C--------update {b} due to {ud}-----
       DO I = 1,NFXVEL
@@ -232,7 +232,7 @@ C-----------------------------------------------
       INTEGER NPC(*),IBFV(NIFV,*),LSENSOR(NSENSI,*),
      .        IFIX(*),IDDL(*),IFRAME(LISKN,*),LJ(*),NDDL,
      .        NDOF(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  TF(*), VEL(LFXVELR,*), UD(3,*), SENSOR(NSENSR,*),
      .  SKEW(LSKEW,*),RD(3,*),V(3,*),VR(3,*),
@@ -245,7 +245,7 @@ C-----------------------------------------------
      .        ILENC(MVSIZ), IPOSC(MVSIZ), IADC(MVSIZ),
      .        LC(MVSIZ), INDEX(MVSIZ),I1,J1,ND,ID,J2,J3,
      .        N1,N2,N3,NVL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FAC, STARTT, STOPT, TS,DYDX,
      .   YC(MVSIZ), TSC(MVSIZ), DYDXC(MVSIZ),
@@ -452,14 +452,14 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER
      .        IDDL(*),IFIX(*),IADK(*),JDIK(*),NDOF(*),NDDL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  UD(3,*), DIAG_K(*),LT_K(*),B(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, I, J, K,I1,J1,K1,ND,ID,NF,NT
-C     REAL ou REAL*8
+C     REAL
 C--------update {b} due to {ud}-----
       DO I = 1,NUMNOD
       IF (NDOF(I).GT.0) THEN
@@ -516,14 +516,14 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER
      .        IDDL(*),IKC(*),NDOF(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  UD(3,*), V(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, I, J, K,I1,J1,K1,ND,ID
-C     REAL ou REAL*8
+C     REAL
       DO I = 1,NUMNOD
        ND = IDDL(I)
        K = MIN(3,NDOF(I))
@@ -559,14 +559,14 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER
      .        IDDL(*),IFIX(*),IADK(*),JDIK(*),NDOF(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  UD(3,*), DIAG_K(*),LT_K(*),B(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, I, J, K,I1,J1,K1,ND,ID
-C     REAL ou REAL*8
+C     REAL
       DO I = 1,NUMNOD
        ND = IDDL(I)
        K = MIN(3,NDOF(I))
@@ -614,13 +614,13 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER
      .        IDDL(*),IKC(*),NDOF(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  DD(3,*), D(3,*),DDR(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
       INTEGER N, I, J, K,I1,J1,K1,ND,ID
-C     REAL ou REAL*8
+C     REAL
       DO I = 1,NUMNOD
        ND = IDDL(I)
        K = MIN(3,NDOF(I))
@@ -812,7 +812,7 @@ C-----------------------------------------------
       INTEGER IBFV(NIFV,*),LJ(*)
       INTEGER
      .     IDDL(*),IADK(*),JDIK(*),NDOF(*),IFIX(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  UD(*),RD(*), DIAG_K(*),LT_K(*),SKEW(LSKEW,*),LB(*),
      .  XFRAME(NXFRAME,*)
@@ -950,7 +950,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IBFV(NIFV,*),LJ(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  UD(3,*),RD(3,*),SKEW(LSKEW,*),XFRAME(NXFRAME,*)
 C-----------------------------------------------
@@ -959,7 +959,7 @@ C-----------------------------------------------
       INTEGER N, I, ISK, J, L, K1, K2, K3, ISENS,K,
      .        II, NN, NR, NSK, NFK, IFM,
      .        I1,J1,ND,ID,ITAG(NFXVEL),N2,J2,N1,NL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   EJ(3),EJ1(3),S,S1,S2
 C---------------------------------------------------------------
@@ -1114,7 +1114,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NVL,IBFV(NIFV,*),IFIX(*),IDDL(*),LJ(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  UD(3,*), SKEW(LSKEW,*),RD(3,*),VL(*),XFRAME(NXFRAME,*)
 C-----------------------------------------------
@@ -1585,7 +1585,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IBFV(NIFV,*),LJ(*),IDDL(*),NDOF(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  SKEW(LSKEW,*),LB(*),XFRAME(NXFRAME,*)
 C-----------------------------------------------
@@ -1666,7 +1666,7 @@ C-----------------------------------------------
       INTEGER N,IBFV(NIFV,*),J1,IDLM  ,IFSS  ,IFSM
       INTEGER
      .     IDDL(*),IDDLM(*),IADK(*),JDIK(*),IKC(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  UD(3,*),DIAG_K(*),LT_K(*),SKEW(LSKEW,*),LB(*),
      .  XFRAME(NXFRAME,*),A(3,*),KSS(6),KSM(9)
@@ -1732,7 +1732,7 @@ C-----------------------------------------------
       INTEGER N,J1,IDLM    ,IFSS  ,IFSM
       INTEGER
      .     IDDL(*),IDDLM(*),IADK(*),JDIK(*),IKC(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  UD(3,*),DIAG_K(*),LT_K(*),LB(*),EJ(3),
      .  A(3,*),KSS(6),KSM(9)
@@ -1800,7 +1800,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPC(*),IBFV(NIFV,*),LSENSOR(NSENSI,*),
      .        IFIX(*),IDDL(*),IFRAME(LISKN,*),NDOF(*),WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  TF(*), VEL(LFXVELR,*), UD(3,*), SENSOR(NSENSR,*),
      .  SKEW(LSKEW,*),RD(3,*),A(3,*),AR(3,*),IN(*),
@@ -1812,7 +1812,7 @@ C-----------------------------------------------
      .        II, IC, NN, IDEB, NR, NSK, NFK, IFM, N0,
      .        INDEX(MVSIZ),I1,J1,ND,ID,J2,J3,
      .        N1,N2,N3,NVL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FAC, STARTT, STOPT, TS,
      .   RX,RY,RZ,VF,VFX,VFY,VFZ,
@@ -2187,7 +2187,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPC(*),IBFV(NIFV,*),LSENSOR(NSENSI,*),
      .        IFIX(*),IDDL(*),IFRAME(LISKN,*),NDOF(*),WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  TF(*), VEL(LFXVELR,*), UD(3,*), SENSOR(NSENSR,*),
      .  SKEW(LSKEW,*),RD(3,*),A(3,*),AR(3,*),IN(*),
@@ -2199,7 +2199,7 @@ C-----------------------------------------------
      .        II, IC, NN, IDEB, NR, NSK, NFK, IFM, N0,
      .        INDEX(MVSIZ),I1,J1,ND,ID,J2,J3,
      .        N1,N2,N3,NVL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FAC, STARTT, STOPT, TS,
      .   RX,RY,RZ,VF,VFX,VFY,VFZ,
@@ -2343,7 +2343,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IBFV(NIFV,*),LJ(*),ISKEW(*),ICODT(*),ICODR(*),NFVBCL,
      .        NBKUD,NDDL   ,IADK(*)  ,JDIK(*),IDDL(*),IFIX(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SKEW(LSKEW,*)
 C-----------------------------------------------
@@ -2511,7 +2511,7 @@ C-----------------------------------------------
       INTEGER
      .     IDDL(*),IADK(*),JDIK(*),NDOF(*),IFIX(*),
      .     ICODT(*),ICODR(*),ICODT1(*),ICODR1(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  UD(3,*),RD(3,*), DIAG_K(*),LT_K(*),SKEW(LSKEW,*),LB(*),
      .  XFRAME(NXFRAME,*),BKUD(*)
@@ -2718,7 +2718,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ISK,IFM,J,J1,N
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  UD(*),UDL(*), SKEW(LSKEW,*),XFRAME(NXFRAME,*)
 C-----------------------------------------------
@@ -2780,7 +2780,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  UDL(3),UDG(3), SKEW(3,3)
 C-----------------------------------------------
@@ -2860,12 +2860,12 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER
      .     ID,IADK(*),JDIK(*),NDDL,IFIX(*) ,NB
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, I, J, K,I1,J1,ND,NFV,NF,NT,JD
-C     REAL ou REAL*8
+C     REAL
 C------------Ligne ID-------
        DO J1 = IADK(ID),IADK(ID+1)-1
         JD = JDIK(J1)
@@ -2911,14 +2911,14 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER
      .     ID,IADK(*),JDIK(*),NDDL,IFIX(*) ,NB  ,IB(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  UD,LT_K(*),KB(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, I, J, K,I1,J1,ND,NFV,NF,NT,JD
-C     REAL ou REAL*8
+C     REAL
 C------------Ligne ID-------
        DO J1 = IADK(ID),IADK(ID+1)-1
         JD = JDIK(J1)
@@ -3214,7 +3214,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER FVJ,ICT,K
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  UDL(3),UDG(3), SKEW(3,3)
 C-----------------------------------------------
@@ -3284,7 +3284,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER K
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -3328,7 +3328,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER K
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -3384,7 +3384,7 @@ C-----------------------------------------------
       INTEGER IBFV(NIFV,*),LJ(*)
       INTEGER
      .     IDDL(*),NDOF(*),IFIX(*),ICODT(*),ICODR(*),ISKEW(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  UD(3,*),RD(3,*), SKEW(LSKEW,*), XFRAME(NXFRAME,*)
 C-----------------------------------------------
@@ -3563,7 +3563,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER K
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  EI(3),EJ(3)
 C-----------------------------------------------
@@ -3610,7 +3610,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER FVJ,K,ICT,ICT1
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  SKEW(3,3)
 C-----------------------------------------------
@@ -3683,7 +3683,7 @@ C-----------------------------------------------
       INTEGER
      .     NDOF(*),ICODT(*),ICODR(*),ISKEW(*),
      .     ICODT1(*),ICODR1(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  UD(3,*),RD(3,*), SKEW(LSKEW,*), XFRAME(NXFRAME,*)
 C-----------------------------------------------
@@ -3920,7 +3920,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER FVJ    ,ICT   ,J1   ,J1_1   ,ND
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  SKEW(3,3),UD(3),DIAG_K(*),LB(*)
 C-----------------------------------------------

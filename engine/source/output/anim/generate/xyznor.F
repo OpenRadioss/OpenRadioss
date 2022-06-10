@@ -46,10 +46,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NODGLOB(*),WEIGHT(NUMNOD)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XNORM(3,*) 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   S3000,S
       INTEGER I,INORM(3),K,P,IXNN

@@ -50,11 +50,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NRT, NINT, NSN, NOINT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SLSFAC
       INTEGER IRECT(4,*), IXQ(7,*), NSEG(*), LNSV(*), NSV(*), IELE(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), STF(*), PM(NPROPM,*), STFN(*)
       INTEGER ID

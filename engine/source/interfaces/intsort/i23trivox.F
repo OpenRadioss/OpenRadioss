@@ -109,7 +109,7 @@ C-----------------------------------------------
      .        MULNSN,NOINT,INACTI,NSNR,IGAP,NBX,NBY,NBZ,
      .        NSV(*),CAND_N(*),CAND_E(*),CAND_A(*),IFPEN(*),RENUM(*),
      .        IRECT(4,*), VOXEL(NBX+2,NBY+2,NBZ+2), MSR(*),II_STOK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),XYZM(6),CAND_P(*),STF(*),STFN(*),GAP_S(*),GAP_M(*),
      .   TZINF,MARGE,GAP,GAPMIN,GAPMAX,BGAPSMX,
@@ -121,7 +121,7 @@ C-----------------------------------------------
      .        N1,N2,N3,N4,NN,NE,K,L,NCAND_PROV,J_STOK,II,JJ,
      .        PROV_N(MVSIZ),PROV_E(MVSIZ),
      .        OLDNUM(ISZNSNR), NSNF, NSNL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DX,DY,DZ,XS,YS,ZS,XX,SX,SY,SZ,S2,
      .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, TZ, GAPSMX, GAPL,
@@ -169,9 +169,9 @@ C En SPMD, retrouve ancienne numerotation des candidats non locaux
         CALL SPMD_OLDNUMCD(RENUM,OLDNUM,ISZNSNR,NSNROLD)
       END IF 
 
-C================================================================
+C=======================================================================
 C 1   mise des noeuds dans les boites
-C================================================================
+C=======================================================================
       IF(ITASK == 0)THEN
 cc       BGAPSMX = ZERO
        DO I=1,NSN
@@ -218,10 +218,10 @@ c         on saute directement au dernier
           NEXT_NOD(I)     = 0 ! pas de next apres I
         ENDIF
        ENDDO
-C================================================================
+C=======================================================================
 C 2   mise des noeuds dans les boites
 C     candidats non locaux en SPMD
-C================================================================
+C=======================================================================
        DO J = 1, NSNR
         IIX(NSN+J)=INT(NBX*(XREM(1,J)-XMINB)/(XMAXB-XMINB))
         IIY(NSN+J)=INT(NBY*(XREM(2,J)-YMINB)/(YMAXB-YMINB))
@@ -257,10 +257,10 @@ cc       BGAPSMXG=BGAPSMX
 C Barrier to wait task0 treatment
       CALL MY_BARRIER
 cc      BGAPSMX=BGAPSMXG
-C================================================================
+C=======================================================================
 C 3   recherche des boites concernant chaque facette
 C     et creation des candidats
-C================================================================
+C=======================================================================
       J_STOK = 0
 
       DO NE=1,NRTM
@@ -443,9 +443,9 @@ c      IF(J_STOK.NE.0)CALL I7STOVOX(
      5      GAPMAX ,CURV_MAX ,MSR      ,NSN     ,OLDNUM ,
      6      NSNROLD,CAND_A   ,IFPEN    ,CAND_P  )
 
-C================================================================
+C=======================================================================
 C 4   remise a zero des noeuds dans les boites
-C================================================================
+C=======================================================================
  100  CONTINUE
 
 C Barrier to avoid reinitialization before end of sorting
@@ -458,10 +458,10 @@ C Barrier to avoid reinitialization before end of sorting
           VOXEL(IIX(I),IIY(I),IIZ(I))=0
         ENDIF
       ENDDO
-C================================================================
+C=======================================================================
 C 5   remise a zero des noeuds dans les boites
 C     candidats non locaux en SPMD
-C================================================================
+C=======================================================================
       NSNF = 1 + ITASK*NSNR / NTHREAD
       NSNL = (ITASK+1)*NSNR / NTHREAD
       DO J = NSNF, NSNL

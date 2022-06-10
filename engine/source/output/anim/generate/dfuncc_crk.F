@@ -72,7 +72,7 @@ C-----------------------------------------------
       INTEGER IPARG(NPARG,*),IXC(NIXC,*),IXTG(NIXTG,*),EL2FA(*),
      .        IADP(*),IADG(NSPMD,*),IPM(NPROPMI,*),INDX_CRK(*),
      .        IGEO(NPROPGI,*),EL2FA0(*),IEL_CRK(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MASS(*),GEO(NPROPG,*),
      .   EHOUR(*),ANIM(*),PM(NPROPM,*),THKE(*),
@@ -84,7 +84,7 @@ C     REAL ou REAL*8
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   EVAR(MVSIZ),FUNC(LEN), 
      .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,

@@ -56,7 +56,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,MTN,ITHK,NPT,IHBE,ISUBSTACK
       INTEGER MAT(*), PID(*), IGEO(NPROPGI,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG,*), PM(NPROPM,*), AREA(*),
      .   SHF(*),THK0(*),THK02(*),THK(*),THKE(*),
@@ -69,7 +69,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,ISH,MX,IPID,IGTYP,IPGMAT,IGMAT
-C     REAL ou REAL*8
+C     REAL
       my_real FSH,VISCDEF,FAC1TMP,KFAC,DN,K58(3),
      .        RFAC,RFAT,R1,R2,R3,S1,S2,S3,T1,T2,T3,RS1,RS2,RS3,
      .        R12,S12,R22,S22,R3R3,S3S3,E11,E22,EMIN,K58I
@@ -294,7 +294,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,MTN,ITHK,NPT,IHBE,ISUBSTACK 
       INTEGER MAT(*), PID(*), IGEO(NPROPGI,*)
-C     REAL ou REAL*8
+C     REAL
       my_real GEO(NPROPG,*), PM(NPROPM,*), OFF(*), AREA(*),
      .   SHF(*),THK0(*),THK02(*),THK(*),THKE(*),
      .   NU(*),G(*),YM(*),A11(*),A12(*),AMU(*),
@@ -304,7 +304,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,ISH,MX,IPID,J,IGTYP,IPGMAT,IGMAT
-C     REAL ou REAL*8
+C     REAL
       my_real FSH,VISCDEF,FAC1TMP,KFAC,DN      
 C-----------------------------------------------
       IF(ITHK.GT.0.AND.ISMDISP.EQ.0)THEN
@@ -438,14 +438,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   G(*),KRZ(*),AREA(*),THK(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real KFAC ,LMAX
 C-----------------------------------------------
       IF(IMPL_S.GT.0)THEN
@@ -512,7 +512,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT  ,MTN  , NPT,IORTH,NLAY,NEL,NFT
       INTEGER MAT(*), PID(*) ,IGEO(NPROPGI,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG,*), PM(NPROPM,*), DIR(*),
      .   HM(MVSIZ,6),HF(MVSIZ,6),HC(MVSIZ,2),HMFOR(MVSIZ,6),THK(*)
@@ -547,7 +547,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,MX,IPID,J,J1,J2,J3,JJ,MATLY(MVSIZ*100),L,IGTYP,
      .        ISUBSTACK,IGMAT,IPOS,IPT_ALL,ILAY,IPT,IT,NPTT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   WMC,FACG,COEF,WM
       my_real

@@ -56,7 +56,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: TABN,NDIM_YLD
       my_real :: YLD0,EPSPMIN,EPSPMAX
-c=======================================================================
+C=======================================================================
 c     find initial yield value in static yld function
 c          and min/max strain rate in table abscissa if available
 c

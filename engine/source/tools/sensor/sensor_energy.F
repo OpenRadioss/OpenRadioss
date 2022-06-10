@@ -87,7 +87,7 @@ c    SENSOR%VAR(7)   = Stdev EI
 c    SENSOR%VAR(8)   = NK
 c    SENSOR%VAR(9)   = Mean  EK
 c    SENSOR%VAR(10)  = Stdev EK
-c=======================================================================
+C=======================================================================
       IF (SENSOR%STATUS == 3) RETURN   ! already activated
 c
       IPART  = SENSOR%IPARAM(1)    ! LSENS1(4)

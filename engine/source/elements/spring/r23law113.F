@@ -102,7 +102,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NGL(MVSIZ),PID(MVSIZ),NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),
      .        MID(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .   STI(3,MVSIZ),STIR(3,MVSIZ),VISI(MVSIZ),VISIR(MVSIZ),
      .   USTI(MVSIZ),USTIR(MVSIZ),DF(MVSIZ),AL(MVSIZ),UNUSED(MVSIZ),
@@ -155,8 +155,8 @@ C
       BID = ZERO
 C
       FR_W_E(1:NEL) = ZERO
-C=========================================================
-C=========================================================
+C=======================================================================
+C=======================================================================
        CALL R23COOR3(X   ,VR  ,IXR  ,XDP  ,X1DP,
      2              X2DP,NGL ,X1   ,Y1   ,Z1  ,
      3              X2  ,Y2  ,Z2   ,PID  ,MID ,

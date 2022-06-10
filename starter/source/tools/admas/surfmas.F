@@ -47,7 +47,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IBUFN(*),ITY,ID,ADMID
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   MS(*),AMASU,X(3,*),ADDMAS
       CHARACTER TITR*nchartitle
@@ -55,7 +55,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER K
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
      .   X21,Y21,Z21,X31,Y31,Z31,X42,Y42,Z42,

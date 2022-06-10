@@ -54,7 +54,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LAS(*), IPARG(NPARG,*), IXQ(7,*), NPF(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XLAS(*), MS(*), X(3,*), V(3,*), W(3,*), WA(3,*),
      .   TF(*), PM(NPROPM,*)

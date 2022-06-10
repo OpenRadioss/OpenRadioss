@@ -50,7 +50,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NOD(*), NBY(*), WEIGHT(*), ICOD(2,*), 
      .        NSL,  IFLAG
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AF(3,*), AM(3,*), X(3,*),  RBY(*), 
      .   STIFN(*),STIFR(*),
@@ -60,7 +60,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER M, I, N, LCOD, ISK, K
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  VI(3),XG,YG,ZG,II1,II2,II3,II4,II5,II6,II7,II8,
      .   II9,WA1,WA2,WA3,DET,IN,MSRBY,RX,RY,RZ,RB(12),

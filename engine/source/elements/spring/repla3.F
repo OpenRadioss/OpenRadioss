@@ -51,14 +51,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPF(*),IECROU(MVSIZ),IFV(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XK(*), DPX(*), TF(*),EPLA(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IFUNC(MVSIZ), I, NPOINT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    XKI, FP
 C-----------------------------------------------

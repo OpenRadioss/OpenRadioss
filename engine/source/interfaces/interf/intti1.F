@@ -86,7 +86,7 @@ C-----------------------------------------------
      .        FR_NBCCI2(2,*),NPF(*),IAD_ELEM(2,*),FR_ELEM(*),
      .        NODNX_SMS(*),NB_FRI2M,FR_LOCI2M(*)
       INTEGER I2MSCH,ILAGM,I2SIZE,NELTST,ITYPTST
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), V(3,*), A(3,*), WA(*), MS(*),IN(*),
      .   AR(3,*),VR(3,*),STIFN(*),STIFR(*),DMAST,ADM(*),SKEW(*),
@@ -104,7 +104,7 @@ C-----------------------------------------------
      .        LCOMI2M, I0, NIR, SIZE, LENS, LENR, I, J, ILEV,
      .        TAGNOD(NUMNOD), K10, K11, K12, NSN, KSN,I25PENA,
      .        I2SIZETH,INTTH2, SIZE_MINER_POFF,II
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FSKYI2(I2SIZE,LCNI2),FTHESKYI2(LCNI2),CONDNSKYI2(LCNI2)
       my_real,

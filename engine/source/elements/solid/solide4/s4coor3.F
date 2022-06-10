@@ -57,7 +57,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),V(3,*),W(3,*), VIS(*),
      .   X1(*), X2(*), X3(*), X4(*), 
@@ -89,7 +89,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MXT_1
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C
       MXT_1 = IXS(1,LFT)
@@ -339,7 +339,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFFG(*)
       DOUBLE PRECISION 
@@ -351,7 +351,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C
        DO I=LFT,LLT
@@ -398,7 +398,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NC1(*), NC2(*), NC3(*), NC4(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF(*),X(3,*),D(3,*),
      .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
@@ -416,7 +416,7 @@ C-----------------------------------------------
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ), 
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ)
     
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RX(MVSIZ) , RY(MVSIZ) , RZ(MVSIZ) ,
      .   SX(MVSIZ) , SY(MVSIZ) , SZ(MVSIZ) ,
@@ -531,7 +531,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real, DIMENSION(MVSIZ), INTENT(IN)  ::
      .   RX, RY, RZ, SX, SY, SZ, TX, TY, TZ,OFF
       my_real, DIMENSION(MVSIZ), INTENT(OUT) ::
@@ -544,7 +544,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N,NITER
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   aa,bb
       my_real, DIMENSION(MVSIZ) ::
@@ -658,7 +658,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   R11(*), R12(*), R13(*),
      .   R21(*), R22(*), R23(*),
@@ -674,7 +674,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X,Y,Z
 C-----------------------------------------------
@@ -735,7 +735,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFFG(*),OFFG0(*)
       DOUBLE PRECISION 
@@ -747,7 +747,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C
        DO I=LFT,LLT

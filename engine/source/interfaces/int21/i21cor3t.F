@@ -58,11 +58,11 @@ C-----------------------------------------------
       INTEGER IRECT(4,*), CAND_E(*), CAND_N(*),
      .    JLT,IDT, NOINT, NSN, IGAP ,ITYP
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XLOC(3,*), GAPV(*), GAP_S(*),CURV_MAX(*),
      .   GAP, GAPMAX, GAPMIN, DEPTH, XM0(3,*), DRAD
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),

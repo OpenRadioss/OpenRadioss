@@ -46,18 +46,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER KXSP(NISP,*), IXSP(KVOISPH,*), NOD2SP(*),
      .        JVOIS(*), JSTOR(*), JPERM(*), IREDUCE, MA(NSPHACT),
      .        KREDUCE(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        X(3,*),SPBUF(NSPBUF,*),DVOIS(*), BMINMA(6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NSPHACTF, NSPHACTL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        AAA
       INTEGER NBX,NBY,NBZ
@@ -158,7 +158,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER KXSP(NISP,*), IXSP(KVOISPH,*), NOD2SP(*),
      .   JVOIS(*),JSTOR(*), JPERM(*), IREDUCE, KREDUCE(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DVOIS(*)
 C-----------------------------------------------
@@ -167,7 +167,7 @@ C-----------------------------------------------
       INTEGER J, KB, JB, NSBT, IB, IL, MM1, MM2, KM, MM, MG,
      .   JJL, NFT, LLT, JL, JG, JLO, LL1, LL2, LL, LG, N, NN,
      .   NVOIS, KL, K, JK, L, NVOIS1, NVOIS2, IERROR , ig
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   CMS2(MVSIZ),XJJ, YJJ, ZJJ,DK, DL   
 

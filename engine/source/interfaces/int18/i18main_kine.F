@@ -70,7 +70,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,*), ISKEW(*), LCOD(*), ITAB(*),
      .   KINET(*),INT18ADD(*),JTASK,IAD_ELEM(2,*),FR_ELEM(*),TAGPENE(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(*), V(*), A(3,*), SKEW(*), WA(*), MS(*),
      .   MTF(14,*),CAND_SAV(*),STIFN(*)
@@ -86,9 +86,9 @@ C-----------------------------------------------
       my_real
      .    STARTT,STOPT,BID
       SAVE NB_JLT,NB_JLT_NEW,NB_STOK_N
-C=================================================================
+C=======================================================================
 C     initialisation MTF(1:14,1:NUMNOD)
-C=================================================================
+C=======================================================================
 C
 c
 c     a reecrire sur mains uniquement
@@ -185,12 +185,12 @@ C statistique interface
         NB_JLT_NEW(JTASK) = 0
         NB_STOK_N(JTASK) = 0
       ENDIF
-C=================================================================
+C=======================================================================
 C     calcul des penetrations cumulees ...
 C     MTF(10,i) pene cumulee
 C     MTF(11,i) dist min relative
 C     MTF(12:14,i) normales cumulee
-C=================================================================
+C=======================================================================
       DO N=1,NINTER
        NTY   =IPARI(7,N)
        INACTI =IPARI(22,N)
@@ -207,7 +207,7 @@ C LINDMAX = NCONT*MULTIMP
      5 KINET    )
        ENDIF
       ENDDO
-C=================================================================
+C=======================================================================
 !$OMP SINGLE
 
 C     COMM SPMD : MTF(10,*)=somme des PENE
@@ -230,10 +230,10 @@ c     calculs suivants.
      *                MTF,A,ITAB,TAGPENE)
       ENDIF
 !$OMP END SINGLE
-C=================================================================
+C=======================================================================
 C     calcul des forces et des masses a transmettre aux mains
 c     ponderation en pene/somme(pene)
-C=================================================================
+C=======================================================================
 C -------------------
       CALL MY_BARRIER
 C -------------------
@@ -248,7 +248,7 @@ C -------------------
      4 NB_STOK_N(JTASK))
        ENDIF
       ENDDO
-C=================================================================
+C=======================================================================
 C     COMM SPMD : MTF(1:9,*)= masses et forces des mains
 C     comm sur les noeuds frontieres main int 18
 !$OMP SINGLE
@@ -256,9 +256,9 @@ C     comm sur les noeuds frontieres main int 18
         CALL SPMD_I18KINE_MSF_COM_POFF(MTF,IAD_ELEM,FR_ELEM,ITAB)
       ENDIF
 !$OMP END SINGLE
-C=================================================================
+C=======================================================================
 C     calcul des nouvelles accelerations des mains
-C=================================================================
+C=======================================================================
 C -------------------
       CALL MY_BARRIER
 C -------------------
@@ -276,7 +276,7 @@ C -------------------
          ENDIF
        ENDIF
       ENDDO
-C=================================================================
+C=======================================================================
 c     si MTF(1,*) /= 0 le noeuds est main int 18 sur ce proc
 c     et peut etre utilise comme flag
 
@@ -287,7 +287,7 @@ c     => ecraser A(local) par A(recu)
       IF(NSPMD > 1) CALL SPMD_I18KINE_MACC_COM_POFF(MTF,A,
      *                                       IAD_ELEM,FR_ELEM,ITAB)
 !$OMP END SINGLE
-C=================================================================
+C=======================================================================
 
       RETURN
 C
@@ -339,7 +339,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,*), ISKEW(*), LCOD(*), ITAB(*),
      .   KINET(*),INT18ADD(*),JTASK,IAD_ELEM(2,*),FR_ELEM(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(*), V(*), A(3,*), SKEW(*), WA(*), MS(*),
      .   FSAV(NTHVKI,*),MTF(14,*),CAND_SAV(*),STIFN(*),
@@ -357,9 +357,9 @@ C-----------------------------------------------
      .    STARTT,STOPT
       SAVE NB_JLT,NB_JLT_NEW,NB_STOK_N
       INTEGER, DIMENSION(:), ALLOCATABLE ::  SLVNDTAG
-C=================================================================
+C=======================================================================
 C     initialisation MTF(1:14,1:NUMNOD)
-C=================================================================
+C=======================================================================
 C Pbme en hybride SLVNDTAG commun    un proc SPMD
 C
       IF (NSPMD > 1)THEN
@@ -369,10 +369,10 @@ C
          ALLOCATE(SLVNDTAG(1))
          SLVNDTAG = 0
       ENDIF
-C=================================================================
+C=======================================================================
 C     calcul des vitesses a imposer aux second
 c     ponderation en pene/somme(pene)
-C=================================================================
+C=======================================================================
 C -------------------
       CALL MY_BARRIER
 C -------------------
@@ -432,7 +432,7 @@ C -------------------
      4    NB_JLT(JTASK),NB_JLT_NEW(JTASK),NB_STOK_N(JTASK))
        ENDIF
       ENDDO
-C=================================================================
+C=======================================================================
 
 C     a faire:
 C     COMM SPMD : MTF(1:6,*)= vitesses des seconds
@@ -450,11 +450,11 @@ C qui n ont pas le noeud secnd et qui l'ont en candidat
       ENDIF
 !$OMP END SINGLE
 
-C=================================================================
-C=================================================================
+C=======================================================================
+C=======================================================================
 C     on impose les vitesses mains aux seconds
 C     (en fait on impose l'acceleration correspondante)
-C=================================================================
+C=======================================================================
 C -------------------
       CALL MY_BARRIER
 C -------------------
@@ -470,7 +470,7 @@ C -------------------
      5    LCOD       ,SLVNDTAG   ,H3D_DATA )
        ENDIF
       ENDDO
-C=================================================================
+C=======================================================================
 !$OMP SINGLE
 C     COMM SPMD : A(1:3,*)= acceleration des seconds
 
@@ -481,7 +481,7 @@ c   1: envoie sur le proc qui possede le noeud qui ecrase l'acceleration
      .                      H3D_DATA)
       ENDIF
 
-C=================================================================
+C=======================================================================
 
       DEALLOCATE(SLVNDTAG)
 !$OMP END SINGLE
@@ -558,7 +558,7 @@ C-----------------------------------------------
      .        NB_JLT,NB_JLT_NEW,NB_STOK_N,NRTMDIM
       INTEGER IPARI(NPARI), KINET(*),STIFN(*),
      .        ITAB(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), V(3,*), A(3,*), MS(*),
      .   MTF(14,*),CAND_SAV(8,*)
@@ -573,7 +573,7 @@ C-----------------------------------------------
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ), CN_LOC(MVSIZ),CE_LOC(MVSIZ),INDEX2(LINDMAX),
      .        CAND_N_N(MVSIZ),CAND_E_N(MVSIZ),KINI(MVSIZ),IBID
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, STOPT,GAP,GAPMIN,MAXBOX,MINBOX,BID,
      .   KMIN, KMAX, GAPMAX,SURF(3,NRTMDIM)
@@ -624,10 +624,10 @@ cC -------------------
 c      CALL MY_BARRIER
 cC -------------------
 
-C=================================================================
+C=======================================================================
 C     calcul des pene,normale,Hi...
 C     et calcul de la pene cumulee pour chaque second. MTF(10,i)
-C=================================================================
+C=======================================================================
       NBID=0
       BID=ZERO
       IBID = 0
@@ -809,7 +809,7 @@ C-----------------------------------------------
      .        NB_JLT,NB_JLT_NEW,NB_STOK_N
       INTEGER IPARI(NPARI), STIFN(*),
      .        ITAB(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), V(3,*), A(3,*), MS(*),
      .   MTF(14,*),CAND_SAV(8,*)
@@ -821,7 +821,7 @@ C-----------------------------------------------
      .        NME_T,ESH_T,IGN,IGE,MULTIMP,NOINT,I,MX_CAND,NTY,IVIS2,
      .        IGAP,INACTI,IBAG,I_STOK, I_STOK_LOC, JLT_NEW,
      .        JLT, NFT,DEBUT,NB_LOC, I3N,IGSTI,ICURV,IADM
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, STOPT,GAP,GAPMIN,MAXBOX,MINBOX,
      .   KMIN, KMAX, GAPMAX
@@ -849,10 +849,10 @@ C-----------------------------------------------
       INACTI=IPARI(22)
       IF(INACTI/=7.or.IPARI(34)==0)RETURN
 C
-C=================================================================
+C=======================================================================
 C     calcul des pene,normale,Hi...
 C     et calcul de la pene cumulee pour chaque second. MTF(10,i)
-C=================================================================
+C=======================================================================
       NSN   =IPARI(5)
       NTY   =IPARI(7)
       IVIS2 =IPARI(14)
@@ -885,10 +885,10 @@ C     decoupage statique
           I_STOK_LOC = NB_LOC
       ENDIF
       DEBUT = NB_LOC*(JTASK-1)
-C=================================================================
+C=======================================================================
 C     calcul des forces et des masses a transmettre aux mains
 c     ponderation en pene/somme(pene)
-C=================================================================
+C=======================================================================
 c      DO NFT = DEBUT , DEBUT + I_STOK_LOC - 1 , NVSIZ
 c          JLT = MIN( NVSIZ, I_STOK_LOC - NFT )
       if(JTASK/=1)return
@@ -1061,7 +1061,7 @@ C-----------------------------------------------
      .        NB_JLT,NB_JLT_NEW,NB_STOK_N
       INTEGER IPARI(NPARI), STIFN(*),
      .        ITAB(*), ISKEW(*), LCOD(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), V(3,*), A(3,*), MS(*),
      .   MTF(14,*),CAND_SAV(8,*), SKEW(*)
@@ -1073,7 +1073,7 @@ C-----------------------------------------------
      .        NME_T,ESH_T,IGN,IGE,MULTIMP,NOINT,I,MX_CAND,NTY,IVIS2,
      .        IGAP,INACTI,IBAG,I_STOK, I_STOK_LOC, JLT_NEW,DEBUT,
      .        JLT, NFT,NBID,NB_LOC, I3N,IADM
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, STOPT,GAP,GAPMIN,MAXBOX,MINBOX,
      .   KMIN, KMAX, GAPMAX
@@ -1131,10 +1131,10 @@ C     decoupage statique
           I_STOK_LOC = NB_LOC
       ENDIF
       DEBUT = NB_LOC*(JTASK-1)
-C=================================================================
+C=======================================================================
 C     calcul des vitesses a imposer aux second
 c     ponderation en pene/somme(pene)
-C=================================================================
+C=======================================================================
 c      DO NFT = DEBUT , DEBUT + I_STOK_LOC - 1 , NVSIZ
 c          JLT = MIN( NVSIZ, I_STOK_LOC - NFT )
       if(JTASK/=1)return
@@ -1219,7 +1219,7 @@ C-----------------------------------------------
      .        NB_JLT,NB_JLT_NEW,NB_STOK_N
       INTEGER IPARI(NPARI), STIFN(*),
      .        ITAB(*), ISKEW(*), LCOD(*) ,SLVNDTAG(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), V(3,*), A(3,*), MS(*),
      .   MTF(14,*),CAND_SAV(8,*), FSAV(*),FCONT(3,*), SKEW(*)
@@ -1232,7 +1232,7 @@ C-----------------------------------------------
      .        NME_T,ESH_T,IGN,IGE,MULTIMP,NOINT,I,MX_CAND,NTY,IVIS2,
      .        IGAP,INACTI,IBAG,I_STOK, I_STOK_LOC, JLT_NEW,DEBUT,
      .        JLT, NFT,NBID,NB_LOC, I3N,IADM
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, STOPT,GAP,GAPMIN,MAXBOX,MINBOX,BID,
      .   KMIN, KMAX, GAPMAX
@@ -1293,11 +1293,11 @@ C     decoupage statique
           I_STOK_LOC = NB_LOC
       ENDIF
       DEBUT = NB_LOC*(JTASK-1)
-C=================================================================
+C=======================================================================
 C     on impose les vitesses mains aux seconds
 C     (en fait on impose l'acceleration correspondante)
 C     et calcul des forces mains et seconds
-C=================================================================
+C=======================================================================
 c      DO NFT = DEBUT , DEBUT + I_STOK_LOC - 1 , NVSIZ
 c          JLT = MIN( NVSIZ, I_STOK_LOC - NFT )
       if(JTASK/=1)return
@@ -2404,11 +2404,11 @@ c     *              TWO*MTFI_PENEMIN(NIN)%P(NN)**2+ONE)
 c          VSX = DVSX + VXI(I)
 c          VSY = DVSY + VYI(I)
 c          VSZ = DVSZ + VZI(I)
-c=============================================
+C=======================================================================
 c           ce calcul est fait plusieurs fois
 c           en cas d'impact multiple
 c           mais le resultat est identique
-c=============================================
+C=======================================================================
           IF(IG.GT.0)THEN
             A(1,IG)  = DVSX*DT12INV
             A(2,IG)  = DVSY*DT12INV

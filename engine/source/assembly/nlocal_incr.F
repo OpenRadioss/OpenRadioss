@@ -53,7 +53,7 @@ C-----------------------------------------------
      .   DNL,UNL,VNL
 C-----------------------------------------------
 c     calcul increment et nouvelle valeur de la variable non locale
-c=======================================================================
+C=======================================================================
       ! Recovering increments, cumulated and velocities
       DNL => NLOC_DMG%DNL(1:NLOC_DMG%L_NLOC)
       UNL => NLOC_DMG%UNL(1:NLOC_DMG%L_NLOC)

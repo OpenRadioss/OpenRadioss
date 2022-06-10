@@ -43,14 +43,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NN,SURF_NODES(NN,4)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), AREA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,NOD1,NOD2,NOD3,NOD4
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X13, Y13, Z13, X24, Y24, Z24,
      .   N1, N2, N3

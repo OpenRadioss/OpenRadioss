@@ -70,7 +70,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER ITAB(*), ITABM1(*),INITIDS(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TEMP(*)
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
@@ -81,7 +81,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,N,NNOD,NOSYS,ITYPE,ID,ISK,IGR,IGRS,NBTEMP,BID,
      .        FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,UID,TYP,NOD,NODSYS,NB_LINE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  TEMP0
       CHARACTER MESS*40,LLINE*ncharline,TITR*nchartitle,KEY*ncharkey

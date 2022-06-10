@@ -49,7 +49,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICP,NEL,I_SH,IDEGE(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SIG(NEL,6),
      .   DN_X(MVSIZ,8),DN_Y(MVSIZ,8),DN_Z(MVSIZ,8),
@@ -65,7 +65,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J,IB
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   S1(MVSIZ), S2(MVSIZ), S3(MVSIZ),
      .   S4(MVSIZ), S5(MVSIZ), S6(MVSIZ),

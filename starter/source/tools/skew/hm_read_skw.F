@@ -79,7 +79,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER ISKN(LISKN,*), ITAB(*), ITABM1(*), NSN(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SKEW(LSKEW,*), X(3,*),
      .   RTRANS(NTRANSF,*)
@@ -92,7 +92,7 @@ C-----------------------------------------------
      .        IUN, SUB_ID,
      .        IDSUB,ITY,L,READPT,J1,J2,NUMSPH_TMP,SUB_LEVEL,CUR_SUBMOD,
      .        IDIR,IFLAGUNIT,ID,UID,CPT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   P(12), PNOR1, PNOR2, PNORM1, DET1, DET2, DET3, DET, PP,BID,
      .   X0(3),ROT(9)

@@ -61,7 +61,7 @@ C-----------------------------------------------
       INTEGER IXR(NIXR,*), ITAB(*),
      .        IGEO(NPROPGI,*),IPM(NPROPMI,*),IPART(LIPART1,*),IPARTR(*),
      .        NPBY(NNPBY,*),LPBY(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG,*),PM(NPROPM,*),UPARAM(*),MSR(*),INR(*),MS(*),IN(*)
 C-----------------------------------------------
@@ -71,7 +71,7 @@ C-----------------------------------------------
      .        K1,K11,K12,K13,K14,IERR2,N,M,NSL,IAD,NS,NERR
       INTEGER WORK(70000)
       INTEGER, ALLOCATABLE, DIMENSION(:) :: INDEX,ITRI,TAGSLV
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XKM, XCM, XKR, XCR
       CHARACTER  TITL*nchartitle

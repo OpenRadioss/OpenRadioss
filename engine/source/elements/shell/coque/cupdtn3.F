@@ -56,7 +56,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT, NVC,JTHE
       INTEGER IXC(NIXC,MVSIZ),MAT(MVSIZ),IPARTC(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   F(3,*), M(3,*), OFFG(*), OFF(*), STI(*), STIR(*), 
      .   STIFN(*), STIFR(*),PM(NPROPM,*),
@@ -529,7 +529,7 @@ C ds 41i 001 13/16/00 +1
 C     INTEGER JFT, JLT, IADC(4,*)
       INTEGER JFT, JLT, IADC(4,*), JTHE
       INTEGER IXC(NIXC,MVSIZ),MAT(MVSIZ),IPARTC(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFFG(*), OFF(*), STI(*), STIR(*),PM(NPROPM,*), 
      .   FSKYV(LSKY,8), FSKY(8,LSKY)

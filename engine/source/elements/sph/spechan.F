@@ -67,7 +67,7 @@ C-----------------------------------------------
       INTEGER KXSP(NISP,*),IXSP(KVOISPH,*),NOD2SP(*),ITAB(*),
      .        ISPCOND(NISPCOND,*), ISORTSP, IPARG(NPARG,*),
      .        WSP2SORT(*), NP2SORTF, NP2SORTL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), V(3,*), MS(*), SPBUF(NSPBUF,*),XFRAME(NXFRAME,*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION (NGROUP) :: ELBUF_TAB

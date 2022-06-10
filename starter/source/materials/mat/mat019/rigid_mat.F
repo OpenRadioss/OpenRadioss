@@ -34,7 +34,7 @@ Chd|====================================================================
      .                   STIFR, X, V     ,MS    ,IN   ,
      .                    RBYM, IRBYM ,LCRBM,NOM_OPT)
       USE MESSAGE_MOD
-C===============================================
+C=======================================================================
 C    RBY    EN SORTIE DE INIRBY
 C a voir 
 C     1 -> 9 :  MATRICE ROTATION 
@@ -59,7 +59,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NRB,GNSL
       INTEGER LSN(*), NSLNRM(*),IRBYM(NIRBYM,NRB) ,LCRBM(GNSL)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RBYM(NFRBYM,*), MS(*), IN(*), X(3,*),V(3,*), STIFN(*),
      .   STIFR(*)
@@ -75,7 +75,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER J, NOSKEW, I, N, NONOD,ICDG,KK,NR,NSL,IR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XG(3), XM0(3), XMG, XX, XY, XZ, YY, YZ, ZZ, XIIN, INMIN,
      .   MASRB,DD,TOL, II1,II2,II3,II4,II5,II6,II7,II8,II9,

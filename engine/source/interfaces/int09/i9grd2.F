@@ -54,7 +54,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER II, IGROU, IELN, IERR, IX(4), IXQ(NIXQ),IPARG(NPARG,*) 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DIST, AREA, TSTIF, T, VOL, X(3,*), PM(NPROPM,*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB

@@ -47,14 +47,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IDDL(*),IKC(*),NDOF(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  UD(3,*), V(3,*), A(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, I, J, K,I1,J1,K1,ND,ID,NL,IERR1,IERR2
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
       N_RWL = 0
       DO I = 1,NUMNOD
@@ -116,14 +116,14 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER 
      .        IDDL(*),IFIX(*),IADK(*),JDIK(*),NDOF(*)   
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  UD(3,*), DIAG_K(*),LT_K(*),B(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, I, J, K,IR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   EJ(3)
 C----------------sliding RW ->FXVEL local---------------
@@ -164,14 +164,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  UD(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, I, J 
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   EJ(3)
 C---------------------------------------------------------------
@@ -213,14 +213,14 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER 
      .        IDDL(*)  
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  B(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, I, J, K,IR,ID
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   EJ(3)
 C----------------sliding RW ->FXVEL local- RHS seulement--------------

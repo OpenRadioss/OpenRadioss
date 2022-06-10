@@ -59,7 +59,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPT,NEL
       INTEGER MAT(MVSIZ),PID(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*), GEO(NPROPG,*),FOR(NEL,3), EINT(NEL,2),
      .   OFF(*), AL(*),ETH(NEL)
@@ -71,7 +71,7 @@ C-----------------------------------------------
       INTEGER ICC(MVSIZ),IRTY(MVSIZ),INDX(MVSIZ)
       INTEGER I, J, J1, J2, NPIF, MX, IPT, IPY,IPZ,IPA,NINDX,
      .        IR,IS,ILAYER,II(3)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  E, SIGNXX,DFXX,APT
 C
@@ -152,7 +152,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,MAT(MVSIZ),PID(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*), FOR(NEL,3),  EINT(NEL,2), GEO(NPROPG,*),
      .   OFF(*),AL(MVSIZ),ETH(NEL)
@@ -160,7 +160,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   YM,A1
 C-----------------------------------------------

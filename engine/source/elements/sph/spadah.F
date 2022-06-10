@@ -59,7 +59,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER KXSP(NISP,*),IXSP(KVOISPH,*),NOD2SP(*),ITAB(*),
      .        WASPACT(*),ITASK,IPARTSP(*),IPART(LIPART1,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*) ,V(3,*) ,MS(*) ,SPBUF(NSPBUF,*) ,WA(KWASPH,*)
 C-----------------------------------------------

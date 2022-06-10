@@ -134,7 +134,7 @@ C
                 ATHK   = AREA(I) * THK0(I)
                 STI(I) = ATHK * A1(I) / ALDT(I)**2
                 FAC = A11R(I)*AREA(I)/ ALDT(I)**2 
-                STIR(I) = FAC * (ONE_OVER_12*THK0(I)**3+
+                STIR(I) = FAC * (ONE_OVER_12*THK0(I)**3
      .                 + HALF * THK0(I)*SHF(I) * AREA(I) * G(I)/A1(I))
               ENDIF
            END DO 

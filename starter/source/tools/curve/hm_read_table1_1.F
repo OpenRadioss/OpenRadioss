@@ -57,7 +57,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NTABLE, NTABLE1,L,NFUNCT,NPC(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    PLD(*)
       TYPE(TTABLE) TABLE(*)
@@ -81,7 +81,7 @@ C-----------------------------------------------
       INTEGER I, J, K, II, N, NDIM, NX(4), NY,
      .        JREC, NPTS, STAT, LL,NPT,IPT
       INTEGER IERROR, NF, IDFUNC, NP
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   BID, F5(5), TIME, FUNCT
       CHARACTER TITR*nchartitle, MESS*40, KEY*ncharfield,

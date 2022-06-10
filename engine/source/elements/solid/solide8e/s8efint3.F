@@ -69,7 +69,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICP,NEL,I_SH,IDEGE(*),ISEL_V
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SIG(NEL,6),
      .   PX1(*), PX2(*), PX3(*), PX4(*),  
@@ -120,7 +120,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J,IB
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   S1(MVSIZ), S2(MVSIZ), S3(MVSIZ),
      .   S4(MVSIZ), S5(MVSIZ), S6(MVSIZ),
@@ -396,7 +396,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICP,G_PLA,G_EPSD,IEXPAN,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SIGOR(NEL,6),
      .   VOL(*),QVIS(*),PP(*),
@@ -411,7 +411,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   P,FAC(MVSIZ)
 C-----------------------------------------------
@@ -494,7 +494,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SIG(NEL,6),
      .   PX1(*), PX2(*), PX3(*), PX4(*),  
@@ -512,7 +512,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   S4(MVSIZ), S5(MVSIZ), S6(MVSIZ),FINT,FVOL
 C-----------------------------------------------

@@ -48,7 +48,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real, INTENT(IN),  DIMENSION(MVSIZ) ::
      .   RX, RY, RZ, SX, SY, SZ, TX, TY, TZ
       my_real, INTENT(OUT),  DIMENSION(MVSIZ) ::
@@ -61,7 +61,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  SUMA
 C=======================================================================

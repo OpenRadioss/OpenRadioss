@@ -269,7 +269,7 @@ C--------------------
 C-----------------------------------------------
 
        IF (EFLAG > ZERO)THEN
-C==============================================================
+C=======================================================================
        RSAS = YLD_ASS *(SQDT+ALPHA)-CAS*TSAS
        RFAS = YLD_ASF *(SQDT+ALPHA)-CAS*TFAS
        RSSA = YLD_SAS *(SQDT+ALPHA)-CSA*TSSA
@@ -419,7 +419,7 @@ c
         UVAR(I,10) = EPSXX(I)
         UVAR(I,11) = temp(I)
       ENDDO  
-C==============================================================
+C=======================================================================
       ELSE !EFLAG = 0
        RSAS = YLD_ASS *(SQDT+ALPHA)-CAS*TSAS
        RFAS = YLD_ASF *(SQDT+ALPHA)-CAS*TFAS

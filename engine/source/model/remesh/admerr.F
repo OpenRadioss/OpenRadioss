@@ -79,7 +79,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER  
      .   IXC(NIXC,*), IXTG(NIXTG,*),IPARG(NPARG,*),
      .   IAD_ELEM(2,*), FR_ELEM(*), WEIGHT(*), 
@@ -92,7 +92,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IERROR
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
       ALLOCATE(
      .   AREA_SH4(NUMELC), AREA_SH3(NUMELTG), AREA_NOD(NUMNOD),

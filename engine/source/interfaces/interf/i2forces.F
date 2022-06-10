@@ -53,7 +53,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSL,IRECT(4),NIR,WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*),V(3,*),A(3,*),MS(*),H(4),FSAV(*),FNCONT(3,*),FNCONTP(3,*),FTCONTP(3,*)
       TYPE (H3D_DATABASE) :: H3D_DATA
@@ -69,7 +69,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N1,N2,N3,N4,J,JJ
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XC0,YC0,ZC0,XC,YC,ZC,X0,X1,X2,X3,X4,Y0,Y1,Y2,Y3,Y4,
      .   Z0,Z1,Z2,Z3,Z4,SX,SY,SZ,TX,TY,TZ,XCDG,YCDG,ZCDG,MCDG,

@@ -78,12 +78,12 @@ C-----------------------------------------------
        INTEGER TYPE_MAX,F_FLAG,STRDEF
        my_real C_MIN , C_MAX,EMA,BUTTER
        LOGICAL :: IS_AVAILABLE,IS_CRYPTED
-C======================================
+C=======================================================================
 C
 C      Only visualization by damage of stress or strain is between to limited values
 C            (no element deletion)
 C
-C======================================
+C=======================================================================
       IS_CRYPTED   = .FALSE.
       IS_AVAILABLE = .FALSE.
 

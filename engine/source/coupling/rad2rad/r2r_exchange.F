@@ -80,7 +80,7 @@ C-----------------------------------------------
      .        WEIGHT(*), DD_R2R(NSPMD+1,*), IAD_ELEM(2,*), FR_ELEM(*),
      .        DD_R2R_ELEM(*),SDD_R2R_ELEM,OFF_SPH_R2R(*),NUMSPH_GLO_R2R     
       INTEGER R2R_ON,NGLOB,NB
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .   V(3,*), VR(3,*),  A(3,*)  , AR(3,*), DX(3,*),     
      .   MS(*) , IN(*)  ,  STX(*)  , STR(*), RBY(*), X(3,*)
@@ -93,7 +93,7 @@ C-----------------------------------------------
       INTEGER I,IEX,IDP,IDG,NNG,OLD_ACTIV,BID,LENR,SIZE,NTOP
 C
       INTEGER, DIMENSION(:), POINTER :: GRNOD
-C=================================================================
+C=======================================================================
 
 C------------------------------------------------------
 C------------ Stock force and stifness for exch -------
@@ -311,7 +311,7 @@ C-----------------------------------------------
       INTEGER IDP, NNG, NGLOB,i,TYP,
      .        GRNOD(*),FLAG_ROT, FLAG_RBY,
      .        WEIGHT(*), DD_R2R(*), IEX
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        A(3,*), AR(3,*), STX(*), STR(*), V(3,*), VR(3,*),
      .        MS(*), IN(*), RBY(*)
@@ -395,7 +395,7 @@ C-----------------------------------------------
       INTEGER IDP, NNG, NGLOB, GRNOD(*),IEX,TYP,
      .        WEIGHT(*), DD_R2R(*), IAD_ELEM(2,*), FR_ELEM(*),NB,
      .        FLAG_ROT     
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        MS(*), IN(*), STX(*), STR(*)
 C-----------------------------------------------
@@ -459,7 +459,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N,TAGEL_SIZE_OLD
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAGEL_TEMP
-C=================================================================
+C=======================================================================
 
       N = 3*NTAGEL_R2R_SEND
       NTAGEL_R2R_SEND = NTAGEL_R2R_SEND + 1
@@ -525,7 +525,7 @@ C-----------------------------------------------
       INTEGER I, IEX, IDP, IDG, NNG,NMOD_R2R, OFF
 C
       INTEGER, DIMENSION(:), POINTER :: GRNOD
-C=================================================================
+C=======================================================================
 
        OFF = 0
 

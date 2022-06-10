@@ -70,14 +70,14 @@ C-----------------------------------------------
       INTEGER IB(NICONV,*), ITAB(*), IXS(NIXS,*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real FAC(LFACTHER,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER K, M, I1, I2, I3, I4, IFU, I, ISENS,NPR0,NN,ISU,IS,
      .        ID,J,UID,IFLAGUNIT,ITY
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FCX,FCY,TEMP,H, TSTART,TSTOP,FCX_DIM,FCY_DIM,TSTOP_DIM
       CHARACTER MESS*40,TITR*nchartitle

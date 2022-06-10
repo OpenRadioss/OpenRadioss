@@ -51,7 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER IADD(*),IPARG(NPARG,*),
      .        MATER(*),EL2FA(*),
      .        IADG(NSPMD,*),
@@ -59,7 +59,7 @@ C     REAL ou REAL*8
      .        KXSP(NISP,*),IPARTSP(*),
      .        NODGLOB(*)
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   OFF
       INTEGER II, IE, NG, ITY, LFT, LLT, KPT, N, I,

@@ -40,16 +40,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   DT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VR(3), RBY(9)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RX, RY, RZ, RX2, RY2, RZ2, R2, R, C, CM1, S, SZ, CZ, E11,
      .   E22, E12, E21, E13, E23, BL11, BL21, BL31, BL12, BL22, BL32,

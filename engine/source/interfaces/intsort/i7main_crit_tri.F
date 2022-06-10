@@ -61,7 +61,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NIN,ITASK,
      .        IPARI(NPARI,NINTER)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .   X(3,*), V(3,*),
      .   XSLV_L(*), XMSR_L(*), VSLV_L(*), VMSR_L(*)
@@ -70,7 +70,7 @@ C     REAL ou REAL*8
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, STOPT
 C-----------------------------------------------

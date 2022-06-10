@@ -20,11 +20,11 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-C===========================================
+C=======================================================================
 C
 C     UNIV.FOR
 C
-C===========================================
+C=======================================================================
 C-------------------------------------------
 C
 C     ROUTINES DE CODAGE ET DECODAGE
@@ -50,7 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   Y
 C-----------------------------------------------
@@ -62,7 +62,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IEXP, ISE, ISM, MANT, MANT1, MANT2, MANT3, IS, MANT11,
      .   MANT12, MANT21, MANT22, MANT31, MANT32
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X, A, XMAN, P99
 C

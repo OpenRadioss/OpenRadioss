@@ -69,7 +69,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER IGEO(NPROPGI),ISKN(LISKN,*),IGTYP,IG
-C     REAL ou REAL*8
+C     REAL
       my_real GEO(NPROPG)
       my_real FAC_M, FAC_L, FAC_T
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
@@ -80,14 +80,14 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
        INTEGER J, IFUNC, IFUNC2,IFUNC3, IECROU, IFV, ISK,
      .         ISENS,IFL,IFAIL,ILENG,IFAIL2,ISRATE,K
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A, B, D, E, F,  XM, XIN, XK, XC, DN, DX, FWV, LSCALE,
      .   PUN,VT0, VR0, CC(6), CN(6), XA(6), XB(6),ASRATE,GF3,
      .   A_UNIT,B_UNIT,D_UNIT,E_UNIT,F_UNIT,
      .   LSCALE_UNIT,GF3_UNIT,VT0_UNIT,VR0_UNIT,ASR_UNIT,CRIT_SCALE(6)
       LOGICAL IS_AVAILABLE, IS_CRYPTED
-C=================================================================
+C=======================================================================
       DATA PUN/0.1/
 C=======================================================================
 C

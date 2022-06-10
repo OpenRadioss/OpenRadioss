@@ -59,7 +59,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,NPT,NEL,IMAT,IPT
       INTEGER NGL(MVSIZ),IOFF_DUCT(MVSIZ),ISRATE
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   THK0(MVSIZ),PM(NPROPM,*),
      .   OFF(*),DIR(*),SHF(*),EPSPL(*),SIGY(*),ZCFAC(MVSIZ,2),
@@ -71,7 +71,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ICC(MVSIZ),I,ILAYER,ICC_1
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   YLD(MVSIZ),ETSE(MVSIZ),DEGMB(MVSIZ),CB(MVSIZ),CN(MVSIZ),
      .   E11(MVSIZ),E22(MVSIZ),NU12(MVSIZ),NU21(MVSIZ),G12(MVSIZ),

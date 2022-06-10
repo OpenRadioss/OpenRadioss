@@ -56,7 +56,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NGL(*), NC(MVSIZ,10), NEL, MXT(MVSIZ), TAGELEM_SMS(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VOL(MVSIZ,5),DELTAX(*),DELTAX2(*),VOLG(*),
      .   RX(*),RY(*),RZ(*), SX(*),SY(*),SZ(*), TX(*),TY(*),TZ(*),

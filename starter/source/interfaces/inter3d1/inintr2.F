@@ -78,7 +78,7 @@ C-----------------------------------------------
      .    IXC(*), INTC(*), ITAB(*), NPBY(*), LPBY(*), MWA(*),
      .    IKINE(*), I2NSNT,INOD_PXFEM(*),ITAGND(*),ICNDS10(3,*),
      .    NSTRF(*),ITAGCYC(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  X(*), PM(*), GEO(*), MS(*), IN(*), STIFN(*),STIFINT(*),
      .  MS_PLY(*),STIFINTR(*),MS_B(*),IN_B(*)

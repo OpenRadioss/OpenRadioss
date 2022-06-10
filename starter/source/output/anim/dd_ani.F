@@ -61,7 +61,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(*)
       INTEGER IXS(*),IXQ(*),IXC(*),KXSP(NISP,*),IXSP(KVOISPH,*),
@@ -80,7 +80,7 @@ C-----------------------------------------------
       INTEGER I, NBF, NBPART, MAGIC, J, FILEN,NNSLAG,
      .        IANIM, NBCSPH, N1, N2,
      .        CTEXT(81),IB,PROC
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        CDG(3), S3000, SCALE,BUFEL(1)
       REAL R4

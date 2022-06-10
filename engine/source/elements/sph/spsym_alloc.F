@@ -66,7 +66,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER KXSP(NISP,*),ISPSYM(NSPCOND,*),WSP2SORT(*), ITASK,
      .   ISPCOND(NISPCOND,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*) ,XFRAME(NXFRAME,*) ,DMAX,MYSPATRUE,SPBUF(NSPBUF,*)
       TYPE (SPSYM_STRUCT) :: XSPSYM,VSPSYM,WSMCOMP

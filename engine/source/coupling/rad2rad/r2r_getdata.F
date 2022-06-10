@@ -71,7 +71,7 @@ C-----------------------------------------------
       INTEGER IEXLNK(NR2R,NR2RLNK),
      .        WEIGHT(*), DD_R2R(NSPMD+1,*), IAD_ELEM(2,*), FR_ELEM(*),
      .        DD_R2R_ELEM(*),SDD_R2R_ELEM
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .   X(3,*),V(3,*),VR(3,*),A(3,*),AR(3,*),MS(*),IN(*),
      .   STIFN(*),STIFR(*),DX(3,*)
@@ -88,7 +88,7 @@ C-----------------------------------------------
      .        WF, WM, WF2, WM2, WFB, WMB, WF2B, WM2B  
 C
       INTEGER, DIMENSION(:), POINTER :: GRNOD  
-C=================================================================
+C=======================================================================
       WF = ZERO
       WM = ZERO
       WF2= ZERO
@@ -221,7 +221,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IDP, NNG, NGLOB, GRNOD(*),IEX,NB,TYP,FLAG_ROT,
      .        WEIGHT(*), DD_R2R(*), IAD_ELEM(2,*), FR_ELEM(*),NBD
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        V(3,*),VR(3,*),A(3,*),AR(3,*),MS(*),IN(*),
      .        WF, WM, WF2, WM2
@@ -308,7 +308,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IDP, NNG, NGLOB,IEX,GRNOD(*),
      .        WEIGHT(*), DD_R2R(*), IAD_ELEM(2,*), FR_ELEM(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .        X(3,*)
 C-----------------------------------------------
@@ -377,7 +377,7 @@ C-----------------------------------------------
       INTEGER I, IEX, IDP, IDG, NNG, OFF
 C
       INTEGER, DIMENSION(:), POINTER :: GRNOD
-C=================================================================
+C=======================================================================
 
        FLAG_KINE = 0
        OFF = 0

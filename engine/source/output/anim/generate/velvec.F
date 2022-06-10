@@ -255,7 +255,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  AL(*),FOPT(6,*),V_TEMP(3,*)
 
@@ -510,10 +510,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NODGLOB(*),WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   V(3,*),AL(*),V_TEMP(3,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   S3000,S
       REAL R4, VG(3,NUMNODG)
@@ -661,10 +661,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NODGLOB(*),WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   V(3,*),AL(*),VG21(3,*),V_TEMP(3,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   S3000,S
       REAL R4
@@ -943,10 +943,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NODGLOB(*),WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   V(3,*),VALE(3,*),AL(*),V_TEMP(3,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   S3000,S
       REAL R4

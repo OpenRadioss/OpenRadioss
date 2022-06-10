@@ -74,7 +74,7 @@ C-----------------------------------------------
       INTEGER NFT,NEL,KXX(NIXX,*),IXX(*), NPC(*),ISKY(*),
      .        LSENSOR(NSENSI,*),IPARTX(*),NELTST ,ITYPTST,
      .        ITAB(*),GRTH(*),IGRTH(*)
-C     REAL ou REAL*8
+C     REAL
       my_real DT2T ,
      .   GEO(NPROPG,*), PM(*), X(3,*),VR(3,*), V(3,*), F(3,*), AR(3,*),
      .   EV(*),PLD(*),SKEW(LSKEW,*),FSKYI(*),
@@ -86,7 +86,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     DT1U,
      .     DTE, DTC, XKM, XCM, XKR, XCR, XM, XINE, EUSR

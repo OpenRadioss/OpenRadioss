@@ -39,7 +39,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, NMN,
      .   IRECT(4,*), MSR(*), NSV(*), IRTL(*),WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(*), CRST(2,*), V(*),MS(*), MMASS(*)
 C-----------------------------------------------
@@ -51,7 +51,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NIR, I, J, I3, J3, I2, J2, I1, J1, ISK, ICOD, II, L, JJ,
      .   NN
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   H(4), SS, TT, AMX, AMY, AMZ, VMX, VMY, VMZ,SP,SM,TP,TM,MAS
 C-----------------------------------------------
@@ -127,7 +127,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, NMN,
      .   IRECT(4,*), MSR(*), NSV(*), IRTL(*),WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(*), CRST(2,*), V(*),MS(*), MMASS(*)
 C-----------------------------------------------
@@ -139,7 +139,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NIR, I, J, I3, J3, I2, J2, I1, J1, ISK, ICOD, II, L, JJ,
      .   NN
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   H(4), SS, TT, AMX, AMY, AMZ, VMX, VMY, VMZ,SP,SM,TP,TM,MAS
 C-----------------------------------------------
@@ -222,7 +222,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, NMN,
      .   IRECT(4,*), MSR(*), NSV(*), IRTL(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AR(3,*), CRST(2,*), VR(3,*),
      .   IN(*), A(3,*),  V(3,*), X(3,*)
@@ -306,7 +306,7 @@ C
  70   CONTINUE
       RETURN
       END
-C===================================================
+C=======================================================================
 Chd|====================================================================
 Chd|  I2VIROT3                      source/interfaces/interf/i2vit3.F
 Chd|-- called by -----------
@@ -326,7 +326,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, NMN,
      .   IRECT(4,*), MSR(*), NSV(*), IRTL(*),WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    A(3,*), DPARA(7,*), V(3,*),
      .    MS(*),VR(3,*),AR(3,*),X(3,*)
@@ -339,7 +339,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NIR, I, J, J1, J2, J3, J4, ISK, ICOD, II, L, JJ,
      .   NN,I1
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   H(4), SS, TT, AMX, AMY, AMZ, VMX, VMY, VMZ,SP,SM,TP,TM,MAS,
      .   MRX,MRY,MRZ,MGX,MGY,MGZ,DET,ARX,ARY,ARZ,
@@ -537,7 +537,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, NMN,
      .   IRECT(4,*), MSR(*), NSV(*), IRTL(*),MSEGTYP2(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AR(3,*), CRST(2,*), VR(3,*),
      .   IN(*), A(3,*),  V(3,*), X(3,*), SINER(*),DPARA(7,*)
@@ -749,7 +749,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, NMN,
      .   IRECT(4,*), MSR(*), NSV(*), IRTL(*),WEIGHT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(*), CRST(2,*), V(*),MS(*), MMASS(*)
 C-----------------------------------------------
@@ -761,7 +761,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NIR, I, J, I3, J3, I2, J2, I1, J1, ISK, ICOD, II, L, JJ,
      .   NN
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   H(4), SS, TT, AMX, AMY, AMZ, VMX, VMY, VMZ,SP,SM,TP,TM,MAS
 C-----------------------------------------------

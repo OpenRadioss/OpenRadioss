@@ -150,7 +150,7 @@ C-----------------------------------------------
       INTEGER JFT,JLT
       my_real AREA(*), X2(MVSIZ), X3(MVSIZ), Y3(MVSIZ),
      .   BM0RZ(MVSIZ,3,2),B0RZ(MVSIZ,3),BKRZ(MVSIZ,2),BERZ(MVSIZ,2)
-c=======================================================================
+C=======================================================================
 c FUNCTION: [B] Matrix :derivation of Alman shape function for Tria
 c
 c Note:
@@ -170,7 +170,7 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I
       my_real Y2(MVSIZ)
-c=======================================================================
+C=======================================================================
       Y2(JFT:JLT)=ZERO
       CALL C3DERIRZ(JFT  ,JLT  ,AREA ,X2   ,X3     ,
      .              Y2   ,Y3   ,BM0RZ,B0RZ ,BKRZ   ,
@@ -203,7 +203,7 @@ C-----------------------------------------------
      .   E3X(MVSIZ), E3Y(MVSIZ),E3Z(MVSIZ), EXX(*),EYY(*),EXY(*), 
      .   BM0RZ(MVSIZ,3,2),B0RZ(MVSIZ,3),BKRZ(MVSIZ,2),BERZ(MVSIZ,2),WXY(*),
      .   PX1(*),PY1(*),PY2(*)
-c=======================================================================
+C=======================================================================
 c FUNCTION: strains relative to the drilling dof for Tria
 c
 c Note:
@@ -279,7 +279,7 @@ C-----------------------------------------------
      .   X2(MVSIZ),X3(MVSIZ),Y2(MVSIZ),Y3(MVSIZ),AREA(*)
       my_real
      .   BMRZ(MVSIZ,3,2),B0RZ(MVSIZ,3),BKRZ(MVSIZ,2),BERZ(MVSIZ,2)
-c=======================================================================
+C=======================================================================
 c FUNCTION: derivation of Alman shape function for Tria
 c
 c Note:
@@ -476,7 +476,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NC1, NC2, NC3, I, J
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PX2(MVSIZ), PY2(MVSIZ), PX3(MVSIZ), PY3(MVSIZ) ,AREAI
 C-----------------------------------------------

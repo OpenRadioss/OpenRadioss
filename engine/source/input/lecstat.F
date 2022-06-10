@@ -57,7 +57,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPART(LIPART1,*),IPART_STATE(*),IPARTS(*),IPARTC(*),IPARTG(*)
       INTEGER,INTENT(INOUT) :: IPM(NPROPMI,NUMMAT),IPARG(NPARG,*)
-C     REAL ou REAL*8
+C     REAL
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

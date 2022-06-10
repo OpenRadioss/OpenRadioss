@@ -71,7 +71,7 @@ C-----------------------------------------------
       INTEGER KSURF,
      .        KSI(4,*),IACTIV(4,*),NPC(*),KTC(*),
      .        NOINT,NELTST,ITYPTST
-C     REAL ou REAL*8
+C     REAL
       my_real STFAC, BUFSF(*),X(3,*) ,  IOLD(3,*),
      .  HOLD(3,*) , NOLD(3,*) ,DOLD(3,*),MS(*)  ,  V(3,*),
      .  DE, PLD(*), XTK(*)    ,YTK(*)   ,ZTK(*) ,

@@ -61,7 +61,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JHBE,IREP,NSIGI,NSIGS,NEL,ISOLNOD
       INTEGER PID(*),IGEO(NPROPGI,*),IXS(NIXS,*),PT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG,*),SKEW(LSKEW,*),GAMA(NEL,6),
      .   RX(*) ,RY(*) ,RZ(*) ,SX(*) ,SY(*) ,SZ(*) ,TX(*) ,TY(*) ,TZ(*),
@@ -72,7 +72,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,ISK,IPNUM,IG,IIS,II,J,JJ,N,IFLAGINI,N1,N2,N4,NNOD,INIORTH(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   XL,YL,ZL,SUM,HX,HY,HZ,KX,KY,KZ,LX,LY,LZ,PHI,CP,SP,VX,VY,VZ,VN,
      .   F3X,F3Y,F3Z,

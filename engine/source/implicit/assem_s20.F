@@ -69,7 +69,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*),IXS20(12,*),NEL   ,IDDL(*)  ,NDOF(*)  ,
      .         IADK(*)  ,JDIK(*)   
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   K_DIAG(*) ,K_LT(*)   ,OFF(*)
       my_real

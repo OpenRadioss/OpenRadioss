@@ -319,7 +319,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPE,NEL,IFT,ILT,ISMSTR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X0(MVSIZ,*), Y0(MVSIZ,*), Z0(MVSIZ,*)
       DOUBLE PRECISION 
@@ -328,7 +328,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,NPE1,N,N2,N3
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C
       NPE1=NPE-1

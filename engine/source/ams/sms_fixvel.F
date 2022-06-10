@@ -62,7 +62,7 @@ C-----------------------------------------------
       INTEGER NPC(*),CPTREAC,NODREAC(*)
       INTEGER IBFV(NIFV,*),LSENSOR(NSENSI,*),WEIGHT(*),IFRAME(LISKN,*),
      .        IT,NODNX_SMS(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*), V(3,*), TF(*), VEL(LFXVELR,*), MS(*), X(3,*), D(3,*),
      .   SKEW(LSKEW,*), SENSOR(NSENSR,*), XFRAME(NXFRAME,*),
@@ -75,7 +75,7 @@ C-----------------------------------------------
      .        II, IC, NN, IDEB, NR, NSK, NFK, IFM, N0,
      .        ILENC(MVSIZ), IPOSC(MVSIZ), IADC(MVSIZ),
      .        LC(MVSIZ), INDEX(MVSIZ), ICOOR
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AX, AXI, AOLD, VV, A0, AA, FAC,FACX,STARTT, STOPT, TS,
      .   DYDX,DW,DW2,DD,RX,RY,RZ,VF,VFX,VFY,VFZ,AFX,AFY,AFZ,

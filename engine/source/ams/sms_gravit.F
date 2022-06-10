@@ -51,7 +51,7 @@ C-----------------------------------------------
       INTEGER NPC(*),NDDIM,NVDIM
       INTEGER IGRV(NIGRV,*),IB(*),LSENSOR(NSENSI,*)
       INTEGER WEIGHT(*), ITASK, TAGSLV_RBY_SMS(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AGRV(LFACGRV,*), TF(*), A(3,*), V(3,*), MS(*),
      .   X(3,*), SKEW(LSKEW,*), SENSOR(NSENSR,*)
@@ -60,7 +60,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NL, N1, ISK, N2, IFUNC, K1, K2, K3, ISENS,K,NN,
      .    IAD,J, IADF, IADL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   NX, NY, NZ, AXI, A0, AA, VV, FX, FY, FZ, AX, DYDX, TS,
      .   GAMA, TFEXTT,FCX,FCY

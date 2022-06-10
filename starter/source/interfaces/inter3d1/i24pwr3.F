@@ -65,7 +65,7 @@ C-----------------------------------------------
       INTEGER ITAB(*),CAND_E(*),CAND_N(*), IRECT(4,*), IRTLM(2,*),
      .        ICONT_I(*)
       INTEGER I_STOK,NSV(*),MSR(*),IWPENE,INACTI,NOINT,NTY,NSN,IWPENE0
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PMIN(*),PENMIN,PENE_OLD(5,*)
       INTEGER ID

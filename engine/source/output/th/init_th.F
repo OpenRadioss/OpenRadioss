@@ -90,7 +90,7 @@ C-----------------------------------------------
       INTEGER IPARG(NPARG,*),IGEO(NPROPGI,*),
      .   ITHGRP(NITHGR,*),ITHBUF(SITHBUF),IXR(NIXR,*),WEIGHT(NUMNOD)
       INTEGER, INTENT(in) :: ID
-C     REAL ou REAL*8
+C     REAL
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

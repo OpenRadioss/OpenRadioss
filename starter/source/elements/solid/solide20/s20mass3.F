@@ -59,7 +59,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IP,N1,N2, IPERM1(20),IPERM2(20),N
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AXX,AYY,AZZ,AXY,AYZ,AZX,AM,BM,FAC,MASSCP
 C
@@ -294,7 +294,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   RHO(*), MASS(*),VOLU(*),DTELEM(*),STI(*),
      .   SIG(NEL,6),EINT(*),OFF(*),
@@ -369,7 +369,7 @@ C-----------------------------------------------
       INTEGER NIX,N,JPS,JHBE,IGTYP,NSIGI,NUVAR,NEL,IUSER,NSIGS,
      .   IDEF,L_PLA,L_SIGB
       INTEGER IX(NIX,*),STRSGLOB(*),STRAGLOB(*),MAT(NEL),PT(*),SIGB(NEL*L_SIGB)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SIG(NEL,6)   , EINT(*), RHO(*), SIGSP(NSIGI,*),
      .   PM(NPROPM,*), VOL(*), UVAR(*), SIGI(NSIGS,*),

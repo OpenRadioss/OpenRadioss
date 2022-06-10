@@ -43,7 +43,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JHBE,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GAMA(NEL,6),
      .   R11(*), R12(*), R13(*),
@@ -62,7 +62,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   G11(MVSIZ),G12(MVSIZ),G13(MVSIZ),
      .   G21(MVSIZ),G22(MVSIZ),G23(MVSIZ),

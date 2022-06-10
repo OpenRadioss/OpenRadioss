@@ -70,7 +70,7 @@ C-----------------------------------------------
       INTEGER IPARI(*)
       INTEGER NUM_IMP,CAND_N(*),CAND_E(*),NIN,IDDL(*),
      .        IADK(*) ,JDIK(*),LREM,ITAB(*)
-C     REAL ou REAL*8
+C     REAL
       my_real DT2T,
      .   X(*), A(3,*), V(3,*),MS(*),
      .   K_DIAG(*),K_LT(*),GAP_IMP
@@ -82,11 +82,11 @@ C-----------------------------------------------
       INTEGER NOINT,I, I_STOK, NSEG,JLT , NFT, JLT_NEW, IGAP, 
      .        I_STOK_LOC,DEBUT,IDESAC, IGSTI, IBID
       INTEGER N1(MVSIZ), N2(MVSIZ), M1(MVSIZ), M2(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, FRIC, GAP, STOPT,STIGLO, GAPMIN, KMIN, KMAX
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     NX(MVSIZ),NY(MVSIZ),NZ(MVSIZ),
      .     HS1(MVSIZ), HS2(MVSIZ), HM1(MVSIZ), HM2(MVSIZ),
@@ -225,7 +225,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(*)
       INTEGER NUM_IMP,CAND_N(*),CAND_E(*),NIN
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .  A(3,*), MS(*), V(3,*),D(3,*),X(*) 
 
@@ -236,7 +236,7 @@ C-----------------------------------------------
       INTEGER I, I_STOK, JLT_NEW, JLT , NFT, 
      .        INACTI, NRTS,NTY,L
       INTEGER N1(MVSIZ), N2(MVSIZ), M1(MVSIZ), M2(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, FRIC, STOPT
       my_real
@@ -249,7 +249,7 @@ C     REAL ou REAL*8
      .   DXS2(MVSIZ),DYS2(MVSIZ),DZS2(MVSIZ),DXM1(MVSIZ),DYM1(MVSIZ),
      .   DZM1(MVSIZ),DXM2(MVSIZ),DYM2(MVSIZ),DZM2(MVSIZ)
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
 C----------------------------------------------
       IF(NUM_IMP.EQ.0) RETURN
 C
@@ -342,7 +342,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(*), NIN,JTASK,LINDMAX
       INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*),ITAB(*)
-C     REAL ou REAL*8
+C     REAL
       my_real 
      .  MS(*), V(3,*),X(*)
 
@@ -354,11 +354,11 @@ C-----------------------------------------------
      .        I_STOK_LOC,DEBUT,LREM,IDESAC,NB_LOC, IGSTI, IBID
       INTEGER N1(MVSIZ), N2(MVSIZ), M1(MVSIZ), M2(MVSIZ),
      .        CS_LOC(MVSIZ),CM_LOC(MVSIZ),INDEX2(LINDMAX)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, FRIC, GAP, STOPT,STIGLO, GAPMIN, KMIN, KMAX
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     NX(MVSIZ),NY(MVSIZ),NZ(MVSIZ),
      .     HS1(MVSIZ), HS2(MVSIZ), HM1(MVSIZ), HM2(MVSIZ),
@@ -508,7 +508,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(*)
       INTEGER NUM_IMP,CAND_N(*),CAND_E(*),NIN,IUPD
-C     REAL ou REAL*8
+C     REAL
       my_real DT2T,
      .   X(*), A(3,*),V(3,*),D(3,*),MS(*)
 
@@ -519,11 +519,11 @@ C-----------------------------------------------
       INTEGER I, I_STOK, NSEG,JLT , NFT, JLT_NEW, IGAP, 
      .        I_STOK_LOC,DEBUT,LREM,IDESAC, IGSTI, IBID
       INTEGER N1(MVSIZ), N2(MVSIZ), M1(MVSIZ), M2(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, FRIC, GAP, STOPT,STIGLO, GAPMIN, KMIN, KMAX
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     NX(MVSIZ),NY(MVSIZ),NZ(MVSIZ),
      .     HS1(MVSIZ), HS2(MVSIZ), HM1(MVSIZ), HM2(MVSIZ),

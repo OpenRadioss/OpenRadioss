@@ -78,7 +78,7 @@ C-----------------------------------------------
      .        ISKY(*), NPC(*),
      .        NELTST, ITYPTST,
      .        ITAB(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   BUFSF(*) ,A(3,*) ,X(3,*) ,V(3,*) ,
      .   FSAV(NTHVKI) ,WA(*)  ,IN(*) ,STIFN(*) ,FCONT(3,*) ,
@@ -95,7 +95,7 @@ C-----------------------------------------------
       INTEGER I,NDEB,NREST, NSC, NTC, NNC, MAXFCT
       INTEGER KSC, KTC, KNC, KMARQND, KWNF, KWTF, KWNS, KWLENG
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  STFAC, FRIC, STF,
      .  XP1(3,MVSIZ) ,XP2(3,MVSIZ) ,XP3(3,MVSIZ) , XP4(3,MVSIZ),

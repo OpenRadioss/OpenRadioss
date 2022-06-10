@@ -54,7 +54,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPF(*),IECROU(MVSIZ),IFUNC(MVSIZ),IFUNC2(MVSIZ),IANI,
      .        INDEXA(*),LLT_LOC,FLAG
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FX(*), XK(*), DX(*), FXEP(*), DXOLD(*), DPX(*), TF(*),
      .   OFF(*),E(*),XL0(*),LSCALE(*),YIELD(*),AK(MVSIZ),XX_OLD(*),

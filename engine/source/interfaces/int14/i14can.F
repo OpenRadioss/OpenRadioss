@@ -55,7 +55,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSI, NSC, NSP, KSURF,
      .        KSI(*), IMPACT(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .       X(3,*), BUFSF(*), G, KSC(*), KSP(*),
      .       CIMP(3,*),NIMP(3,*),EW(*)

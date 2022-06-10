@@ -61,7 +61,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARTP(*),GRTH(*),IGRTH(*),NEL,NC1(MVSIZ),NC2(MVSIZ),
      .   NC3(MVSIZ),MAT(MVSIZ),PID(MVSIZ),ITASK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*), V(3,*), EINT(NEL,2), GEO(NPROPG,*),
      .   PARTSAV(NPSAV,*),TANI(15,*),FOR(NEL,3),MOM(NEL,3),GRESAV(*),
@@ -75,7 +75,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, M, FLAG
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   VXA(MVSIZ), VYA(MVSIZ),VZA(MVSIZ), VA2(MVSIZ), XMAS(MVSIZ), 
      .   EI(MVSIZ), EK(MVSIZ), XM(MVSIZ),

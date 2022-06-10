@@ -59,7 +59,7 @@ C-----------------------------------------------
      .   IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
      .   IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),IXS10(6,*),IXS20(12,*),
      .   IXS16(8,*),IXTG1(4,*),NDOF(*),NROW(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   ELBUF(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
@@ -358,7 +358,7 @@ C-----------------------------------------------
      .   IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
      .   IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),IXS10(6,*),IXS20(12,*),
      .   IXS16(8,*),IXTG1(4,*),NROW(*),ICOK(NKMAX,*),INLOC(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   ELBUF(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
@@ -658,7 +658,7 @@ C-----------------------------------------------
      .   IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),IXS10(6,*),IXS20(12,*),
      .   IXS16(8,*),IXTG1(4,*),
      .    NROW(*),ICOK(NNMAX,*),ICOKM(NKMAX,*),INLOC(*),INK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   ELBUF(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
@@ -998,7 +998,7 @@ C-----------------------------------------------
      .   IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),IXS10(6,*),IXS20(12,*),
      .   IXS16(8,*),IXTG1(4,*),
      .    NROW(*),ICOK(NNMAX,*),ICOKM(NKMAX,*),INLOC(*),INK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   ELBUF(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
@@ -1348,7 +1348,7 @@ C-----------------------------------------------
      .   IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
      .   IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),IXS10(6,*),IXS20(12,*),
      .   IXS16(8,*),IXTG1(4,*),NROW(*),ICOK(NKMAX,*),INLOC(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   ELBUF(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
@@ -1655,7 +1655,7 @@ C-----------------------------------------------
      .   IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),IXS10(6,*),IXS20(12,*),
      .   IXS16(8,*),IXTG1(4,*),NDOF(*),NROW(*),INLOC(*),
      .   NNMAX,L_MAX,C_MAX
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   ELBUF(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
@@ -1730,7 +1730,7 @@ C-----------------------------------------------
       INTEGER NINT2,IINT2(*),IPARI(NPARI,*),NSI2,NSRB,
      .        NDOF(*),NKINE,INLOC(*),IGEO(*),IRBE3(NRBE3L,*),
      .        IRBE2(NRBE2L,*),LRBE2(*),NKINM
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SENSOR(NSENSR,*)
 
@@ -1855,7 +1855,7 @@ C-----------------------------------------------
       INTEGER NINT2,IINT2(*),IPARI(NPARI,*),NSI2
       INTEGER NSRB,NDOF(*),NPRW(*),IRBE3(NRBE3L,*),IRBE2(NRBE2L,*),
      .        NSRB2,FR_ELEM(*),IAD_ELEM(2,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SENSOR(NSENSR,*)
 
@@ -1969,7 +1969,7 @@ C-----------------------------------------------
       INTEGER NINT2,IINT2(*),IPARI(NPARI,*),NDOF(*),
      .        NRBE3 ,IRBE3(NRBE3L,*),LRBE3(*),NRBE2,IRBE2(NRBE2L,*),
      .        LRBE2(*)
-C     REAL ou REAL*8
+C     REAL
 
       TYPE (INTBUF_STRUCT_) INTBUF_TAB(*)
 C-----------------------------------------------
@@ -2087,7 +2087,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPBY(NNPBY,*),LPBY(*),NRBYAC,IRBYAC(*)
       INTEGER NDOF(*),IAD_RBY(*),FR_RBY(*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2171,7 +2171,7 @@ C-----------------------------------------------
       INTEGER NROW(*),NROWI(*),ICOK(NNMAX,*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   External function
 C-----------------------------------------------
@@ -2492,7 +2492,7 @@ C-----------------------------------------------
      .        IRBE2(NRBE2L,*),LRBE2(*),NSB2
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   External function
 C-----------------------------------------------
@@ -2860,7 +2860,7 @@ C   External function
 C-----------------------------------------------
       LOGICAL INTAB
       EXTERNAL INTAB
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -3278,7 +3278,7 @@ C-----------------------------------------------
      .   IXS16(8,*),IXTG1(4,*),NDOF(*),NROW(*),NNMAX,NKINE,
      .   INLOC(*),NKMAX,NSS,NSIJ,NMIJ,NSS2,NSIJ2,NMIJ2,NSS3,
      .   IRBE2(*),LRBE2(*),NSB2
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SENSOR(NSENSR,*),ELBUF(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
@@ -3478,7 +3478,7 @@ C-----------------------------------------------
      .   IXS16(8,*),IXTG1(4,*),IDDL(*),NDOF(*),IRBE3(*),LRBE3(*),
      .   NDDL ,NNZK,INLOC(*),LSIZE(*),SH4TREE(*), SH3TREE(*),
      .   IRBE2(*),LRBE2(*),IBFV(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG,*),SENSOR(NSENSR,*),ELBUF(*),VEL(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
@@ -3853,7 +3853,7 @@ C-----------------------------------------------
      .   ELBUF(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
-C===========================================================
+C=======================================================================
 C     stockage M.C.R.S (Modified Compressed Row Stockage)
 C     stockage creux : diagonale + trangle en lignes: IKPAT=0:triang_sup IKPAT=1: inf
 C        [K](id,jd)     -> DIAG(ND)+LT(IK)(exclue diag)
@@ -4656,7 +4656,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,*),NINTER,NNMAX
-C     REAL ou REAL*8
+C     REAL
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -4780,7 +4780,7 @@ C-----------------------------------------------
      .   NDDL,IDDL(*) ,NNZK,N_IMPN,N_IMPM,NNMAX  ,NKMAX
       INTEGER IRBE3(NRBE3L,*),LRBE3(*),LNSS3,IRBE2(NRBE2L,*),LRBE2(*),
      .        LNSB2,LNSRB2,IND_SUBT(*)
-C     REAL ou REAL*8
+C     REAL
 
       TYPE (INTBUF_STRUCT_) INTBUF_TAB(*)
 C-----------------------------------------------
@@ -4967,10 +4967,10 @@ C-----------------------------------------------
      .   ILOCI(*),NDDLI ,NNZI,NNMAX,N_IMPN,N_IMPM,NKMAX
       INTEGER IRBE3(NRBE3L,*),LRBE3(*),NSS3(*),ISS3(*),
      .        IRBE2(NRBE2L,*),LRBE2(*),NSB2(*),ISB2(*)
-C     REAL ou REAL*8
+C     REAL
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
-C===========================================================
+C=======================================================================
 C     stockage M.C.R.S (Modified Compressed Row Stockage)
 C     [K] pour interfaces : diagonale + trangle sup en lignes:
 C        [K](id,jd)     -> DIAG(NDDL)+LT(IK)(exclue diag)
@@ -5151,7 +5151,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NDDL ,IDDL(*)  ,ILOC(*) ,NLOC,NDOF(*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -5199,7 +5199,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JLT,NS_IMP(*),NE_IMP(*),IRECT(4,*),NSV(*),NROW(*),
      .        ILOC(*),NDOFI,N_IMPN,NSN,NSREM
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -5269,7 +5269,7 @@ C-----------------------------------------------
       INTEGER NNMAX
       INTEGER JLT,NS_IMP(*),NE_IMP(*),IRECT(4,*),NSV(*),NROW(*),
      .        ILOC(*),ICOL(NNMAX,*),N_IMPN,NSN
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -5329,7 +5329,7 @@ C-----------------------------------------------
       INTEGER NNMAX,NKMAX
       INTEGER JLT,NS_IMP(*),NE_IMP(*),IRECT(4,*),NSV(*),NROW(*),
      .        ILOC(*),ICOL(NNMAX,*),ICOK(NKMAX,*),N_IMPN,NSN
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -5422,7 +5422,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JLT,NS_IMP(*),NE_IMP(*),IRECT(4,*),NSV(*),NROW(*),
      .        MSR(*),ILOC(*),NDOFI,N_IMPN,NSN,NSREM
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -5488,7 +5488,7 @@ C-----------------------------------------------
       INTEGER NNMAX
       INTEGER JLT,NS_IMP(*),NE_IMP(*),IRECT(4,*),NSV(*),NROW(*),
      .        ILOC(*),ICOL(NNMAX,*),N_IMPN,NSN,MSR(*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -5546,7 +5546,7 @@ C-----------------------------------------------
       INTEGER NNMAX,NKMAX
       INTEGER JLT,NS_IMP(*),NE_IMP(*),IRECT(4,*),NSV(*),NROW(*),
      .        ILOC(*),ICOL(NNMAX,*),ICOK(NKMAX,*),N_IMPN,NSN,MSR(*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -5638,7 +5638,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JLT,NS_IMP(*),NE_IMP(*),IRECT(4,*),NSV(*),NROW(*),
      .        ILOC(*),NDOFI,N_IMPN,NSN,NSREM,SUBTRIA(*),NVOISIN(8,*)     
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -5717,7 +5717,7 @@ C-----------------------------------------------
       INTEGER NNMAX
       INTEGER JLT,NS_IMP(*),NE_IMP(*),IRECT(4,*),NSV(*),NROW(*),
      .        ILOC(*),ICOL(NNMAX,*),N_IMPN,NSN,SUBTRIA(*),NVOISIN(8,*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -5785,7 +5785,7 @@ C-----------------------------------------------
       INTEGER JLT,NS_IMP(*),NE_IMP(*),IRECT(4,*),NSV(*),NROW(*),
      .        ILOC(*),ICOL(NNMAX,*),ICOK(NKMAX,*),N_IMPN,NSN,
      .        SUBTRIA(*),NVOISIN(8,*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -5912,7 +5912,7 @@ C-----------------------------------------------
      .        LRBE2(*),LNSB2,LNSRB2,IND_SUBT(*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   External function
 C-----------------------------------------------
@@ -6376,7 +6376,7 @@ C   External function
 C-----------------------------------------------
       LOGICAL INTAB
       EXTERNAL INTAB
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -6623,7 +6623,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JLT,NS_IMP(*),NE_IMP(*),IRECTS(2,*),IRECTM(2,*),NROW(*),
      .        ILOC(*),NDOFI,N_IMPN,NSN,NSREM
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -6693,7 +6693,7 @@ C-----------------------------------------------
       INTEGER NNMAX
       INTEGER JLT,NS_IMP(*),NE_IMP(*),IRECTS(2,*),IRECTM(2,*),
      .        NROW(*),ILOC(*),ICOL(NNMAX,*),N_IMPN,NSN
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -6754,7 +6754,7 @@ C-----------------------------------------------
       INTEGER NNMAX,NKMAX
       INTEGER JLT,NS_IMP(*),NE_IMP(*),IRECTS(2,*),IRECTM(2,*),NROW(*),
      .        ILOC(*),ICOL(NNMAX,*),ICOK(NKMAX,*),N_IMPN,NSN
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -6861,7 +6861,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,*),NUM_IMP(*),IND_IMP(*),
      .        NS_IMP(*),NE_IMP(*),NDOF(*),NT_IMP
-C     REAL ou REAL*8
+C     REAL
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
 C-----------------------------------------------
@@ -6977,7 +6977,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JLT,NS_IMP(*),NE_IMP(*),IRECT(4,*),NSV(*),
      .        IDEL_INT(*),NDOF(*),NSN
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -7028,7 +7028,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JLT,NS_IMP(*),NE_IMP(*),IRECTS(2,*),IRECTM(2,*),
      .        IDEL_INT(*),NDOF(*),NSN
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -7077,7 +7077,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JLT,NS_IMP(*),NE_IMP(*),IRECT(4,*),NSV(*),
      .        IDEL_INT(*),NDOF(*),NSN,MSR(*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -7165,7 +7165,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL,IADK(*),JDIK(*),IADM(*),JDIM(*),L_MAX
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -7459,7 +7459,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL,IADK(*),JDIK(*),IADM(*),JDIM(*),L_MAX,NN,NDF,NDMAX
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -7693,7 +7693,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL,NPBY(NNPBY,*),IDDL(*),NRBYAC,IRBYAC(*),NDOF(*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -7741,7 +7741,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL,NPBY(NNPBY,*),IDDL(*),NRBYAC,IRBYAC(*),
      +         IKC(*),NDOF(*),INLOC(*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -8150,7 +8150,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IBFV(NIFV,*),NDOF(*),IFRAME(LISKN,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  VEL(LFXVELR,*)
 C-----------------------------------------------
@@ -8158,7 +8158,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, I, ISK, J, L, K1, K2, K3, ISENS,K,
      .        II, IC, NN, IDEB, NR, NSK, NFK, IFM,INDEX(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FAC, STARTT, STOPT, TS
 C IBFV(7,N):1 V;2 D ;0 A ;

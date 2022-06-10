@@ -64,7 +64,7 @@ C-----------------------------------------------
       INTEGER IGEO(*),
      .        ETAG(*),IDDL(*)  ,NDOF(*)  ,IADK(*) ,JDIK(*)
 
-C     REAL ou REAL*8
+C     REAL
       my_real DT2T ,
      .   GEO(NPROPG,*),X(*),TF(*),SKEW(LSKEW,*),
      .   FR_WAVE(*),PM(*),KE11(9,MVSIZ),KE12(9,MVSIZ),KE22(9,MVSIZ),
@@ -74,7 +74,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     AL(MVSIZ),KX(MVSIZ),EX(MVSIZ),EY(MVSIZ),EZ(MVSIZ)
       INTEGER  PID(MVSIZ),NGL(MVSIZ)
@@ -93,7 +93,7 @@ c      NB1 =NB1  + OFFSET
 c      NEL3 = 3 * NEL
 c      NEL4 = 4 * NEL
 C
-C=========================================================
+C=======================================================================
 c       NB3 =NB2  + NEL
 c       NB4 =NB3  + NEL
 c       NB5 =NB4  + NEL

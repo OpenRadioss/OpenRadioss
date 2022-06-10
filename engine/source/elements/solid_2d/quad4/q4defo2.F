@@ -55,7 +55,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICP
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    PY1(*),PY2(*),PY3(*),PY4(*),
      .    PZ1(*),PZ2(*),PZ3(*),PZ4(*),
@@ -88,7 +88,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    DYZ(MVSIZ),DZY(MVSIZ),
      .    DVC(MVSIZ),DV1,TOL,

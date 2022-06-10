@@ -59,7 +59,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PXC1(*), PXC2(*), PXC3(*), PXC4(*),  
      .   PYC1(*), PYC2(*), PYC3(*), PYC4(*),  
@@ -84,7 +84,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J,IS
-C     REAL ou REAL*8
+C     REAL
       my_real
      .  PX1(MVSIZ),PX2(MVSIZ),PX3(MVSIZ),
      .  PX4(MVSIZ),PX5(MVSIZ),PX6(MVSIZ),
@@ -381,7 +381,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LFT,LLT,IS
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PXYI(*), PYXI(*) ,PXZI(*),PZXI(*) ,PYZI(*),PZYI(*),
      .   PXYJ(*), PYXJ(*) ,PXZJ(*),PZXJ(*) ,PYZJ(*),PZYJ(*), 
@@ -393,7 +393,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C | PXY PYX  0 |
 C | P21 PYZ PZY|

@@ -62,7 +62,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER I_STOK,MFROT,NSN4,JLT,NFT ,NIN,NRTS
       INTEGER CAND_N(*),CAND_E(*),ADDCM(*),CHAINE(2,*),IFPEN(*),ITAB(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   CAND_FX(*),CAND_FY(*),CAND_FZ(*),STFS(*)
 C-----------------------------------------------
@@ -70,7 +70,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N,K,IADFIN,IAD,IAD0,J,II,SLVE,NN
 C-----------------------------------------------
-C=============================================
+C=======================================================================
 C
 C Remove deleted Candidates from impacting list.
 C

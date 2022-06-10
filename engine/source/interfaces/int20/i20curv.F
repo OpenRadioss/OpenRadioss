@@ -48,7 +48,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NRTM,NUMNOD,IRECT(4,NRTM),NMN,MSR(*),NLN,NLG(NLN)
       INTEGER IAD_ELEM(2,*),FR_ELEM(*),NOD_NORMAL(3,NUMNOD),NSV(*),NSN
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,NUMNOD), GAP_SH(*)
 C-----------------------------------------------
@@ -201,7 +201,7 @@ C-----------------------------------------------
       INTEGER NRTM,NUMNOD,NMN,MAXCC,LENT,
      .        IRECT(4,NRTM),MSR(*),NLN,NLG(NLN),
      .        IAD_ELEM(2,*),FR_ELEM(*),ISDSIZ(*),IRCSIZ(*),ITAG(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,NUMNOD), NOD_NORMAL(3,NUMNOD),GAP_SH(*)
 C-----------------------------------------------
@@ -419,7 +419,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NRTM,NUMNOD,IRECT(4,NRTM),NMN,MSR(*),NLN,NLG(NLN)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,NUMNOD), NOD_NORMAL(3,NUMNOD)
 C-----------------------------------------------
@@ -526,7 +526,7 @@ C-----------------------------------------------
       INTEGER NRTM,NUMNOD,NMN,MAXCC,LENT,
      .        IRECT(4,NRTM),MSR(*),NLN,NLG(NLN),
      .        IAD_ELEM(2,*),FR_ELEM(*),ISDSIZ(*),IRCSIZ(*),ITAG(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,NUMNOD), NOD_NORMAL(3,NUMNOD)
 C-----------------------------------------------
@@ -677,7 +677,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JLT ,IRECT(4,*),CAND_E(*),NLN,NLG(NLN)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .    NNX1(MVSIZ), NNX2(MVSIZ), NNX3(MVSIZ), NNX4(MVSIZ),
      .    NNY1(MVSIZ), NNY2(MVSIZ), NNY3(MVSIZ), NNY4(MVSIZ),
@@ -831,7 +831,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NRTM,NUMNOD,LENT,MAXCC,NLN,NLG(NLN),
      .        IRECT(4,NRTM),ITAG(*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

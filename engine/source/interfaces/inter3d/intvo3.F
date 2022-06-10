@@ -78,7 +78,7 @@ C-----------------------------------------------
       INTEGER IPARI(*), ICODT(*), MWA(*), ISKY(*),
      .        ICONTACT(*)
       INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*),ITAB(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(*), A(3,*), FSAV(*), V(3,*), MS(*),
      .   FSKYI(LSKYI,NFSKYI),FCONT(3,*), FNCONT(3,*), FTCONT(3,*),
@@ -91,7 +91,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),I
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
@@ -119,7 +119,7 @@ C     REAL ou REAL*8
       my_real, DIMENSION(MVSIZ) :: ZN1,ZN2,ZN3,ZN4
       my_real, DIMENSION(MVSIZ) :: XP,YP,ZP
       my_real, DIMENSION(MVSIZ) :: H1,H2,H3,H4
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, FRIC, GAP, MAXBOX, MINBOX, STOPT, FB_CAM, FB_IMM,
      .   VISC,VISCF,FNOR,DEPTH

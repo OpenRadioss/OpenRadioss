@@ -57,7 +57,7 @@ C-----------------------------------------------
       INTEGER NPC(*),CPTREAC,NODREAC(*)
       INTEGER IBFV(NIFV,*),LSENSOR(NSENSI,*),WEIGHT(*),
      .        NODNX_SMS(*),ITABM1(*),ITAB(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(3,*), V(3,*), TF(*), VEL(LFXVELR,*), MS(*), X(3,*), D(3,*),
      .   SENSOR(NSENSR,*), FTHREAC(6,*)
@@ -66,7 +66,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, I, J, K, L, I1, N1, N2, ISENS,
      .        ILENC, IPOSC, IADC, ICOOR, ISMOOTH
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   AX, AXI, VV, A0, AA, FAC, FACX, STARTT, STOPT, TS,
      .   DYDX, DW, DW2, DD,

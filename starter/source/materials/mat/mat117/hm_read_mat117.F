@@ -92,7 +92,7 @@ C-----------------------------------------------
      .   FG1,FG2,SIGA1,SIGA2,SIGB1,SIGB2,RATE1,RATE2,UNIT_L,E_ELAS_N,E_ELAS_S,TMAX_N,TMAX_S,
      .                   GIC,GIIC,EXP_G,EXP_BK,DISP_0N,DISP_0S,DELTA0N,DELTA0S,UND,UTD,GAMA
       LOGICAL :: IS_AVAILABLE,IS_CRYPTED
-c=======================================================================
+C=======================================================================
       ILAW = 117
 !
       IS_CRYPTED   = .FALSE.

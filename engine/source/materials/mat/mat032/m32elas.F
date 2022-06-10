@@ -47,7 +47,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IMAT,JFT,JLT,NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      . PM(NPROPM,*),GS(*),
      . SIGOXX(NEL),SIGOYY(NEL),SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL),
@@ -58,7 +58,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       my_real
      . A11,A21,G11
 C-----------------------------------------------

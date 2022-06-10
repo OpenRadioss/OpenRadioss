@@ -55,7 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8 
+C     REAL 
       DOUBLE PRECISION
      .   XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10)
       my_real
@@ -277,7 +277,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       DOUBLE PRECISION
      .   X1B(MVSIZ),X2B(MVSIZ),X3B(MVSIZ),X4A(MVSIZ),X5B(MVSIZ),
      .   X6B(MVSIZ),X7B(MVSIZ),X8B(MVSIZ),X9B(MVSIZ),X10B(MVSIZ),
@@ -307,7 +307,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL ou REAL*8
+C     REAL
       DOUBLE PRECISION
      .   A4M1,B4M1,AA
 c      my_real
@@ -491,7 +491,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PX(MVSIZ,10),PY(MVSIZ,10),PZ(MVSIZ,10),
      .   PIJ(NEL,3,10)

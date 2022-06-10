@@ -49,7 +49,7 @@ C----------------------------------------------------------
       my_real :: ABX,ABY,ABZ,ACX,ACY,ACZ,BCX,BCY,BCZ,VECX,VECY,VECZ,NX,NY,NZ,
      .   UX,UY,UZ,VX,VY,VZ,WX,WY,WZ,QX,QY,QZ,QA_X,QA_Y,QA_Z,QB_X,QB_Y,QB_Z,
      .   QC_X,QC_Y,QC_Z,AREA,A1,A2,SX,SY,SZ,ALPHA,ALPHA2,D1,D2,D3,LEN,NORM
-c=======================================================================
+C=======================================================================
 c     vect AB = P1-P2
 c     vect AC = P1-P3
       ABX = BX - AX

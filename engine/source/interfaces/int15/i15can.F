@@ -53,7 +53,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSI, NSC, NTC, KSURF, KSI(4,*),
      .        IACTIV(*),KSC(*), KTC(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .       X(3,*), BUFSF(*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF

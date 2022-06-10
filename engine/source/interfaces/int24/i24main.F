@@ -68,7 +68,7 @@ Chd|====================================================================
      H                   DIMFB    ,H3D_DATA ,INTBUF_FRIC_TAB, T2MAIN_SMS,
      I                   FORNEQS  ,T2FAC_SMS,NPC    ,TF       ,TAGNCONT,
      J                   KLOADPINTER,LOADPINTER,LOADP_HYD_INTER)
-C===============================================================
+C=======================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -125,7 +125,7 @@ C-----------------------------------------------
      .        ISKYI_SMS(*), NODNX_SMS(*), ISENSINT(*),DIMFB,T2MAIN_SMS(6,*)
       my_real 
      .        EMINX(*)
-C     REAL ou REAL*8
+C     REAL
       my_real DT2T,
      .   X(*), A(3,*), FSAV(*), V(3,*),FSAVBAG(*),
      .   MS(*),STIFN(*),FSKYI(LSKYI,4),FCONT(3,*),MS0(*),
@@ -161,13 +161,13 @@ c     .        INDEX2(LINDMAX),SUBTRIA_OLD(MVSIZ),
      .        IPARTFRICSI(MVSIZ),IPARTFRICMI(MVSIZ),INDEXISOT(MVSIZ),
      .        INDEXORTH(MVSIZ),IREP_FRICMI(MVSIZ),IXX3(MVSIZ),IXX4(MVSIZ)
       INTEGER, ALLOCATABLE, DIMENSION(:) :: INDEX2
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, FRIC, GAP, STOPT,PMAX_GAP,
      .   VISC,VISCF,STIGLO,GAPMIN,
      .   KMIN, KMAX, GAPMAX,RSTIF,FHEAT,TINT,RHOH,EPS,IFRIC
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     NX1(MVSIZ), NX2(MVSIZ), NX3(MVSIZ), NX4(MVSIZ),
      .     NY1(MVSIZ), NY2(MVSIZ), NY3(MVSIZ), NY4(MVSIZ),
@@ -660,7 +660,7 @@ C-----------------------------------------------
       INTEGER JLT,JLT_NEW,NSV(*),SUBTRIA_OLD(*),NSN,NIN,NRTM
       INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*),IND_IMP(*),
      .        CAND_E(*),CAND_N(*),SUBTRIA(*),IRTLM(2,*),MSEGLO(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STIF(*), PENE(*)
 C-----------------------------------------------
@@ -720,7 +720,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JLT,NSN,NIN
       INTEGER CAND_N(*),SUBTRIA_OLD(*),IRTLM(2,*)
-C     REAL ou REAL*8
+C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -821,7 +821,7 @@ C-----------------------------------------------
       INTEGER JLT,II_STOK,NIN   ,NSN
       INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*),IND_IMP(*),
      .        CAND_E(*),CAND_N(*),SUBTRIA(*),IRTLM(2,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STIF(*), PENE(*),N1(*),N2(*),N3(*),H1(*),H2(*),H3(*),
      .   H4(*),STIF_IMP(*), NJ_IMP(3,*),HJ_IMP(4,*)

@@ -83,7 +83,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NRT, NINTR, NTY, NOINT,IGAP,INTTH,INTFRIC,IREM_GAP
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   SLSFAC, GAPMAX,GAPMIN,GAP0,PERCENT_SIZE,DRAD,BGAPSMX
       INTEGER IRECT(2,*), IXS(NIXS,*), IXC(NIXC,*),
@@ -94,7 +94,7 @@ C     REAL ou REAL*8
      .    NOD2ELS(*), NOD2ELC(*), NOD2ELTG(*),IELEC(*),IWORKSH(3,*),
      .    TAGPRT_FRIC(*),IPARTFRIC(*),IPARTS(*),
      .    IPARTT(*) ,IPARTP(*) ,IPARTX(*) ,IPARTR(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   X(3,*), STF(*), PM(NPROPM,*), GEO(NPROPG,*),
      .   MS(*),GAP_SM(*),XL2, GAPINF,THK(*),THK_PART(*),

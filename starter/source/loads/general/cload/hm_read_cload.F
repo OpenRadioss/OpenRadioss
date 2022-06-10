@@ -76,7 +76,7 @@ C-----------------------------------------------
       INTEGER NUM
       INTEGER IBCL(NIBCLD,*), ITAB(*), ITABM1(*),NWORK(*),
      .        ISKN(LISKN,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FORC(LFACCLD,*)
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)

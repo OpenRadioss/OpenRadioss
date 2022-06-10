@@ -76,7 +76,7 @@ C-----------------------------------------------
       INTEGER CAND_M(*),CAND_S(*),IFPEN(*),FLAGREMNODE,KREMNODE(*),REMNODE(*)
       INTEGER ESHIFT,ILD,NB_N_B, NCONTACT, NCONT, ITAB(*),
      .        IFORM,II_STOK
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TZINF,MAXBOX,MINBOX,BMINMA(6),DRAD,BGAPSMX
       my_real
@@ -350,7 +350,7 @@ C --- --- ---       INTEGER IRECTS(2,*),IRECTM(2,*),ADDCM(*),CHAINE(2,*)
 C --- --- ---       INTEGER CAND_M(*),CAND_S(*),IFPEN(*)
 C --- --- ---       INTEGER ESHIFT,ILD,NB_N_B, NCONTACT, NCONT, ITAB(*),
 C --- --- ---      .        IFORM,II_STOK
-C --- --- --- C     REAL ou REAL*8
+C --- --- --- C     REAL
 C --- --- ---       my_real
 C --- --- ---      .   GAP,TZINF,MAXBOX,MINBOX,BMINMA(6),DRAD
 C --- --- ---       my_real

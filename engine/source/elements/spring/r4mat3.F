@@ -49,7 +49,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT    ,JLT, MGN(*),NPF(*),IGEO(NPROPGI,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   GEO(NPROPG,*), KX(*),AL0(*),FX(*),DX(*),TF(*),POS(*)
 C-----------------------------------------------
@@ -57,7 +57,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,ILEN,ILENG
       INTEGER IECROU(MVSIZ), IFUNC(MVSIZ),IFUNC2(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   A(MVSIZ)
 C-----------------------------------------------
@@ -124,7 +124,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,NPF(*),IECROU(*), IFUNC(*),IFUNC2(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   FX(*), KX(*), DX(*), TF(*), POS(4,*),A(*)
 C-----------------------------------------------
@@ -219,7 +219,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPF(*),IFUNCT
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   TF(*),E_S
 C-----------------------------------------------

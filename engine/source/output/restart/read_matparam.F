@@ -53,7 +53,7 @@ C-----------------------------------------------
       my_real :: HEAD
       my_real, DIMENSION(:), ALLOCATABLE :: RBUF
       TYPE (MATPARAM_STRUCT_) , POINTER  :: MATPARAM
-c=======================================================================
+C=======================================================================
 c     read MATPARAM data
 c
       CALL READ_DB(HEAD, 1)

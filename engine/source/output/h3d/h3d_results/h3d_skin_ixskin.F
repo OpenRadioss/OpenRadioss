@@ -63,7 +63,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER IPARG(NPARG,*),IXS(NIXS,*),IPARTS(*),ITAB(*),IXSKIN(NIXQ,*),
      .        IXS10(6,*) ,TAG_SKINS6(*),IBCL(*),ILOADP(*),LLOADP(*),
      .        NODAL_IPART(*)  
@@ -287,7 +287,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER NUMSKIN, NUMSKING ,IPARG(*),TAG_SKINS6(*),
      .        IBCL(*),ILOADP(*),LLOADP(*),NUMSKINP,IFLAG	  
 C-----------------------------------------------
@@ -346,7 +346,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER IPARG(NPARG,*),NUMSKIN, TAG_SKINS6(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -406,7 +406,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER IPARG(NPARG,*),NUMSKIN, TAG_SKINS6(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -721,7 +721,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       INTEGER IPARG(NPARG,*),IXS(NIXS,*),IPARTS(*),
      .        IXC(NIXC,*),IXTG(NIXTG,*),IXS10(6,*),IXS16(8,*) ,
      .        IXS20(12,*),IPARTC(*),IPARTTG(*),NODAL_IPART(*)  

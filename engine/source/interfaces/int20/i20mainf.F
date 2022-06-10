@@ -73,7 +73,7 @@ Chd|====================================================================
      G       ISLEN20E  ,MSKYI_SMS ,ISKYI_SMS ,NODNX_SMS ,NPC       ,
      H       TF        ,INTBUF_TAB,FBSAV6    ,ISENSINT  ,DIMFB     ,
      I       H3D_DATA  )
-C===============================================================
+C=======================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -124,7 +124,7 @@ C-----------------------------------------------
      .        ISKYI_SMS(*), NODNX_SMS(*),NPC(*), ISENSINT(*)
       my_real 
      .        EMINX(*)
-C     REAL ou REAL*8
+C     REAL
       my_real DT2T,
      .   X(*), A(3,*), FSAV(*), V(3,*),FSAVBAG(*),
      .   MS(*),STIFN(*),FSKYI(LSKYI,4),FCONT(3,*),
@@ -138,9 +138,9 @@ C     REAL ou REAL*8
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
       TYPE(H3D_DATABASE) :: H3D_DATA
-C========================
+C=======================================================================
 C     ALLOCATABLE
-C========================
+C=======================================================================
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -157,14 +157,14 @@ C-----------------------------------------------
      .        INDEX2(LINDMAX),
      .        ISDSIZ(NSPMD+1),IRCSIZ(NSPMD+1),ITAG(NUMNOD),
      .        IELECI(MVSIZ)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   STARTT, FRIC, GAP, STOPT,
      .   VISC,VISCF,STIGLO,GAPMIN,
      .   KMIN, KMAX, GAPMAX,RSTIF,FHEAT,TINT,RHOH,FRAD,DRAD,
      .   XTHE,FHEATM,FHEATS
 C-----------------------------------------------
-C     REAL ou REAL*8
+C     REAL
       my_real
      .     NX1(MVSIZ), NX2(MVSIZ), NX3(MVSIZ), NX4(MVSIZ),
      .     NY1(MVSIZ), NY2(MVSIZ), NY3(MVSIZ), NY4(MVSIZ),

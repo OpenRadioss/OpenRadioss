@@ -117,11 +117,11 @@ C-----------------------------------------------
       ILAW    = 95
       CALL HM_GET_FLOATV('MAT_RHO'  ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho',RHOR     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-C======================================
+C=======================================================================
 C
 C     BERGSTROM BOYCE LAW
 C
-C======================================
+C=======================================================================
       C10    = ZERO
       C01    = ZERO
       C20    = ZERO

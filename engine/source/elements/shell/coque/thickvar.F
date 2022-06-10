@@ -55,7 +55,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARG(NPARG,*), IXC(NIXC,*), IXTG(NIXTG,*),
      .        SH4TREE(KSH4TREE,*), SH3TREE(KSH3TREE,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   THKSH4_VAR(*), THKSH3_VAR(*), THKNOD(*),
      .   THKE(*)

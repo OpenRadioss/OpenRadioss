@@ -564,7 +564,7 @@ C-----------------------------------------------
      .   ICODE(*),IPARTS(*),ISOLNOD(*),
      .   IXS10(6,*),IPART(LIPART1,*),IXS20(12,*),IXS16(8,*),
      .   KNOD2ELS(*),NOD2ELS(*),SPH2SOL(*),SOL2SPH(2,*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*),GEO(NPROPG,*)
 C-----------------------------------------------
@@ -846,7 +846,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*), ICODE(*)
-C     REAL ou REAL*8
+C     REAL
       my_real
      .   PM(NPROPM,*)
 C-----------------------------------------------
@@ -918,7 +918,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPART(LIPART1,*), IGEO(NPROPGI,*), IXS(NIXS,*), NSPHSOL
-C     REAL ou REAL*8
+C     REAL
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
       INTEGER,INTENT(IN)::IS_DYNA
 C-----------------------------------------------
