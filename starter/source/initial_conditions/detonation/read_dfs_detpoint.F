@@ -131,7 +131,7 @@ C-----------------------------------------------
                                                                                              
       IF(IS_NODE_DEFINED)THEN                                                                
         NODE_ID1=USR2SYS(uID1,ITABM1,MESS,DET_ID)                                                
-        IF(NODE_ID1.GT.0)THEN                                                                
+        IF(NODE_ID1 > 0)THEN                                                                
           XC = X(1,NODE_ID1)                                                                 
           YC = X(2,NODE_ID1)                                                                 
           ZC = X(3,NODE_ID1)                                                                 
@@ -150,10 +150,10 @@ C-----------------------------------------------
       !      +INTERNAL ID               !                                                    
       !---------------------------------!                                                    
       MDET=MAT !bak                                                                          
-      IF (ALT.GT.INFINITY) ALT=INFINITY 
+      IF (ALT > INFINITY) ALT=INFINITY 
       UNUSED=0                                                     
-      IF(MAT.GT.0)UNUSED=UNUSED_MAT_DETONATOR(MAT,NUMMAT,IPM)                                
-      IF (MAT.LT.0) THEN                                                                     
+      IF(MAT > 0)UNUSED=UNUSED_MAT_DETONATOR(MAT,NUMMAT,IPM)                                
+      IF (MAT < 0) THEN                                                                     
         CALL REMOVE_DET(KEY(1:7),I1,I2,I3,I4,I5,DETONATORS)      
         CALL ANCMSG(MSGID=102,                                                               
      .              MSGTYPE=MSGERROR,                                                        

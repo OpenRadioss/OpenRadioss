@@ -59,8 +59,8 @@ C-----------------------------------------------
 C   P r e - C o n d i t i o n
 C-----------------------------------------------
       NDETCORD = DETONATORS%NDETCORD
-      IF(NDETCORD.EQ.0)RETURN
-      IF(IOPT.EQ.0)    RETURN
+      IF(NDETCORD == 0)RETURN
+      IF(IOPT == 0)    RETURN
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -72,7 +72,7 @@ C-----------------------------------------------
         I = N2+J-1
         DETONATORS%DCORD(I)= ALT
 
-       IF(IOPT.EQ.1)THEN
+       IF(IOPT == 1)THEN
         DO J=1,NPE2-1 
           !first point
           I        = N2+J-1   

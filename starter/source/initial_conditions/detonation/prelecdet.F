@@ -90,11 +90,11 @@ C-----------------------------------------------
       CALL HM_OPTION_START('/DFS')
       DO K=1,DETONATORS%NDET
         CALL HM_OPTION_READ_KEY(LSUBMODEL,OPTION_ID=ID,KEYWORD2= KEY)
-        IF(KEY(1:7).EQ.'WAV_SHA')THEN
+        IF(KEY(1:7) == 'WAV_SHA')THEN
           CALL HM_GET_INTV('entityid', IGU, IS_AVAILABLE, LSUBMODEL)        
           IGS          = NGR2USRN(IGU,IGRNOD,NGRNOD,NN)
           SIZ_ECRAN    = MAX0(SIZ_ECRAN,NN)
-        ELSEIF(KEY(1:7).EQ.'DETCORD')THEN
+        ELSEIF(KEY(1:7) == 'DETCORD')THEN
           CALL HM_GET_INTV('entityid', IGU, IS_AVAILABLE, LSUBMODEL)                 
           IGS          = NGR2USRN(IGU,IGRNOD,NGRNOD,NN)
           SIZ_DETCORD  = SIZ_DETCORD + NN               !IGS:internal_grnod_id    IGU:user_grnod_id     NN:Number of Nodes

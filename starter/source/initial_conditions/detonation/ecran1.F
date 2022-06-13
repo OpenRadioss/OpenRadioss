@@ -89,9 +89,9 @@ C---------------------------------------
         II=IECR(I)
         YL=X(2,II)
         ZL=X(3,II)
-        IF(IOMBR(DETONATORS,X,IECR,DDMX).EQ.0)THEN
+        IF(IOMBR(DETONATORS,X,IECR,DDMX) == 0)THEN
           DTIME(I)=DTO !DT0 is lightening time from function IOMBR
-          IF(DTIME(I).LE.DTOMIN)THEN
+          IF(DTIME(I) <= DTOMIN)THEN
             IORDR(1)=I
             DTOMIN=DTIME(I)
           ENDIF
@@ -100,7 +100,7 @@ C---------------------------------------
         ENDIF
       END DO !I=1,NPE
       
-      IF(IORDR(1).EQ.0)THEN
+      IF(IORDR(1) == 0)THEN
         CALL ANCMSG(MSGID=422,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO)
@@ -120,19 +120,19 @@ C-----------------------------------------
         DTOMIN=EP20
         DO I=1,NPE
           ! check if I can be lightened from J (I from 1,2,...,N ; first node is the farthest one from detonation origin)
-          IF(IFLG(I).EQ.1)CYCLE !I
+          IF(IFLG(I) == 1)CYCLE !I
           DDMX  =EP20
           II=IECR(I)
           YL=X(2,II)
           ZL=X(3,II)
-          IF(IABS(I-JJ).EQ.1)THEN
+          IF(IABS(I-JJ) == 1)THEN
             D2 =(YD-YL)**2+(ZD-ZL)**2
             DTO=DTO0+SQRT(D2)/VDTO
             DTIME(I)= MIN(DTIME(I),DTO)
-          ELSEIF(IOMBR(DETONATORS,X,IECR,DDMX).EQ.0)THEN
+          ELSEIF(IOMBR(DETONATORS,X,IECR,DDMX) == 0)THEN
             DTIME(I)= MIN(DTIME(I),DTO)
           ENDIF
-          IF(DTIME(I).LE.DTOMIN)THEN
+          IF(DTIME(I) <= DTOMIN)THEN
             IORDR(J+1)=I
             DTOMIN=DTIME(I)
           ENDIF

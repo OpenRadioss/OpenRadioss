@@ -126,7 +126,7 @@ C-----------------------------------------------
       !      +INTERNAL ID               !                                                             
       !---------------------------------!                                                             
       MDET=MAT !bak                                                                                   
-      IF (ALT.GT.INFINITY) ALT=INFINITY                                                               
+      IF (ALT > INFINITY) ALT=INFINITY                                                               
       NPE2 = NODGRNR5(IGU ,IGS,DETONATORS%ICORD(N2),IGRNOD ,ITABM1 ,MESS)   
       DETONATORS%NPE2 = NPE2                                     
       IF(IGRNOD(IGS)%SORTED /= 1)THEN                                                                 
@@ -138,8 +138,8 @@ C-----------------------------------------------
      .                C2      = 'ORDERED GROUP OF NODES IS REQUIRED')                                 
       ENDIF   
       UNUSED = 0                                                                                        
-      IF(MAT.GT.0)UNUSED=UNUSED_MAT_DETONATOR(MAT,NUMMAT,IPM)                                         
-      IF (MAT.LT.0) THEN                                                                              
+      IF(MAT > 0)UNUSED=UNUSED_MAT_DETONATOR(MAT,NUMMAT,IPM)                                         
+      IF (MAT < 0) THEN                                                                              
         CALL REMOVE_DET(KEY(1:7),I1,I2,I3,I4,I5,DETONATORS)               
         CALL ANCMSG(MSGID=102,                                                                        
      .              MSGTYPE=MSGERROR,                                                                 
@@ -166,7 +166,7 @@ C-----------------------------------------------
      .              C1='DETONATOR MUST REFER TO A JWL MATERIAL LAW (LAWS 5 OR 51)',                   
      .              C2='/DFS/DETCORD',                                                                
      .              I2=MDET)                                                                          
-      ELSEIF (NPE2.EQ.0) THEN                                                                         
+      ELSEIF (NPE2 == 0) THEN                                                                         
         CALL REMOVE_DET(KEY(1:7),I1,I2,I3,I4,I5,DETONATORS)               
       ELSE                                                                                            
         !---------------------------------!                                                           
@@ -192,7 +192,7 @@ C-----------------------------------------------
         DO I=N2,N2+NPE2-1                                                                             
           CALL IFRONTPLUS(DETONATORS%ICORD(I),1)                                                                 
         END DO                                                                                        
-        IF(IOPT==1 .AND. VCJ.LE.ZERO)IOPT=2                                                           
+        IF(IOPT==1 .AND. VCJ <= ZERO)IOPT=2                                                           
         CALL DETCORD0(DETONATORS,ITAB,N2,ALT,X,VCJ,IOPT)                                                         
         if(IOPT/=3 .AND. .NOT.IS_ENCRYPTED)WRITE(IOUT,FMT='(100F30.16)') ((DETONATORS%DCORD(I)),I=N2,N2+NPE2-1)                          
         !---------------------------------!                                                           

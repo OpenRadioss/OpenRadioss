@@ -39,7 +39,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real  X(3,*)
+      my_real  X(3,NUMNOD)
       TYPE(DETONATOR_STRUCT_),TARGET ::DETONATORS
       INTEGER,INTENT(IN) :: N1,NP1
 C-----------------------------------------------
@@ -47,6 +47,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
 #include      "scr11_c.inc"
+#include      "com04_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -66,15 +67,15 @@ C-----------------------------------------------
       DTIME => DETONATORS%DECRAN(1:)   
             
 C---------------------------------------
-C     CALCUL DU TEMPS DE DETO D'1 ELEMENT
+C     COMPUTING DETONATION:TIME FOR ONE ELEMENT (CENTROID)
 C---------------------------------------
-C     1) PAR RAPPORT AU DETONATEUR
+C     1) DETONATION ORIGIN: USER DETONATION POINT
 C---------------------------------------
       DDMX=EP20
-      IF(IOMBR(DETONATORS,X,IECR,DDMX).EQ.0)RETURN
+      IF(IOMBR(DETONATORS,X,IECR,DDMX) == 0)RETURN
 
 C-----------------------------------------
-C     2) PAR RAPPORT AUX POINTS DE L'ECRAN
+C     2) DETONATION ORIGIN:EACH POINT OF THE SCREEN PATH
 C-----------------------------------------
       DTOS=EP20
       
@@ -85,8 +86,8 @@ C-----------------------------------------
         YD=X(2,II)
         ZD=X(3,II)
         DTO0=DTIME(I)
-        IF(IOMBR(DETONATORS,X,IECR,DDMX).EQ.0)THEN
-          DTOS= MIN(DTOS,DTO)
+        IF(IOMBR(DETONATORS,X,IECR,DDMX) == 0)THEN
+          DTOS= MIN(DTOS,DTO) !keep minimum value (first arrival time)
         ENDIF
       END DO !J=1,NPE
       
