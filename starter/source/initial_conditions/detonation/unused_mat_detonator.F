@@ -43,18 +43,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 	  UNUSED_MAT_DETONATOR=0
 	  JJ=0
-	  IF (MDET.NE.0) THEN
+	  IF (MDET /= 0) THEN
   	    DO I=1,NUMMAT
 	      MID= LISTMAT(1,I)
               MLN= LISTMAT(2,I)
-	      IF (MDET.EQ.MID) THEN !MDET refer to an used material       
-                IF(MLN.NE.5 .AND. MLN.NE.51 .AND. MLN.NE.97)THEN
+	      IF (MDET == MID) THEN !MDET refer to an used material       
+                IF(MLN /= 5 .AND. MLN /= 51 .AND. MLN /= 97)THEN
                  UNUSED_MAT_DETONATOR=2
                  RETURN
                 ENDIF   
 		MDET=I !Internal ID                                       
 		EXIT
-	      ELSEIF(MID.EQ.0)THEN  !end of list reached
+	      ELSEIF(MID == 0)THEN  !end of list reached
 		JJ=JJ+1
 		EXIT
 	      ELSE                  !MDET does not correspond to this current material

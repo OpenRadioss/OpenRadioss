@@ -88,7 +88,7 @@ C-----------------------------------------------
 C   P r e - C o n d i t i o n
 C-----------------------------------------------
       NDETCORD = DETONATORS%NDETCORD
-      IF(NDETCORD.EQ.0)RETURN
+      IF(NDETCORD == 0)RETURN
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -96,7 +96,7 @@ C-----------------------------------------------
       NPE2 = NP2      
       DTOS = EP30
 
-      IF(IOPT==2)THEN
+      IF(IOPT == 2)THEN
       !INSTANTANEOUS IGNITION OF THE WHOLE CORD
         DO J=1,NPE2-1 
           !first node
@@ -124,7 +124,7 @@ C-----------------------------------------------
             ZL2   = (ZC(I)-ZLP2)                                         
             PS1   = XL1*XL0+YL1*YL0+ZL1*ZL0                               
             PS2   = XL2*XL0+YL2*YL0+ZL2*ZL0                               
-            IF(PS1*PS2.GT.ZERO)THEN   
+            IF(PS1*PS2 > ZERO)THEN   
               !projection point not on the segment [P1,P2]                                  
               DL1 = SQRT(XL1**2+YL1**2+ZL1**2)                            
               DL2 = SQRT(XL2**2+YL2**2+ZL2**2)                            
@@ -137,7 +137,7 @@ C-----------------------------------------------
               DL(I)=SQRT((S1**2+S2**2+S3**2)/(XL0**2+YL0**2+ZL0**2))     
             ENDIF                                                        
             BT(I) =ALT+DL(I)/VDET                                        
-            IF(BT(I).LT.ABS(TB(I))) TB(I)=-BT(I)                       
+            IF(BT(I) < ABS(TB(I))) TB(I)=-BT(I)                       
           END DO !next I                                              
         END DO !J=1,NPE      
       
@@ -177,7 +177,7 @@ C-----------------------------------------------
             TC1       = TP1 + DL1  /VDET                                                    
             TC2       = TP2 + DL2  /VDET   
             TC        = MIN(TC1,TC2) 
-            IF(PS1*PS2.LE.ZERO)THEN            
+            IF(PS1*PS2 <= ZERO)THEN            
               S1        = YL1*ZL0 - ZL1*YL0                                                    
               S2        = ZL1*XL0 - XL1*ZL0                                                    
               S3        = XL1*YL0 - YL1*XL0                                                    
@@ -195,7 +195,7 @@ C-----------------------------------------------
               TC        = MIN(TC,TC0) 
             ENDIF                                                         
             BT(I)     = TC                                                                   
-            IF(BT(I).LT.ABS(TB(I))) TB(I)=-BT(I) 
+            IF(BT(I) < ABS(TB(I))) TB(I)=-BT(I) 
           END DO !next I                                              
         END DO !J=1,NPE
 
@@ -207,7 +207,7 @@ C-----------------------------------------------
         ! ALPHA = 1.0 : chordal
         ALPHA = HALF
 
-        IF(VDET2.EQ.ZERO)VDET2=VDET
+        IF(VDET2 == ZERO)VDET2=VDET
 
         !initialize burning times by following the neutral fiber.        
         NPTS = NPE2                                                      
@@ -319,7 +319,7 @@ C-----------------------------------------------
          !!CALL CR_SPLINE_LENGTH(LOCAL_PT,ALPHA,T,LEN)
          IF(K>1)LEN=LEN+USER_SPLINE_PATH%cumulative_length(K-1)
          BT(J)     = DETONATORS%DCORD(N2) + LEN/VDET2                                                                  
-         IF(BT(J).LT.ABS(TB(J))) TB(J)=-BT(J) 
+         IF(BT(J) < ABS(TB(J))) TB(J)=-BT(J) 
        ENDDO
 
       ENDIF
@@ -502,10 +502,10 @@ C-----------------------------------------------
           CALL CR_SPLINE_INTERPOL(LOCAL_PT,KNOTS,T,C,C_D,C_DD)
           F   = DOT_PRODUCT(C(1:3)-Z(1:3), C_D(1:3))
           F_D = DOT_PRODUCT(C_D(1:3), C_D(1:3)) + DOT_PRODUCT(C(1:3)-Z(1:3), C_DD(1:3))
-          IF(F_D.NE.0.)THEN
+          IF(F_D /= 0.)THEN
             T=T-F/F_D
           ELSE
-            IF(F.EQ.0.)EXIT
+            IF(F == 0.)EXIT
             print *, "/DFS/DETCORD : error, convergence issue"
             stop 220022
           ENDIF

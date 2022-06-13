@@ -142,7 +142,7 @@ C-----------------------------------------------
             EXIT                                
           ENDIF                                 
         ENDDO                                              
-        IF (UID.NE.0.AND.IFLAGUNIT == 0) THEN
+        IF (UID /= 0 .AND. IFLAGUNIT == 0) THEN
           CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I2=UID,
      .                I1=DET_ID,

@@ -91,7 +91,7 @@ C
       NDETPL = DETONATORS%NDETPL
       NDETCORD = DETONATORS%NDETCORD                        
                                                          !------------------------------------! 
-      IF(NDETPS+NDETSG+NECRAN+NDETPL+NDETCORD.EQ.0) THEN !-> TDET=0 IF NO DETONATOR DEFINED   !
+      IF(NDETPS+NDETSG+NECRAN+NDETPL+NDETCORD == 0) THEN !-> TDET=0 IF NO DETONATOR DEFINED   !
                                                          !------------------------------------!
          DO I=LFT,LLT
            TB(I)=ZERO
@@ -132,11 +132,11 @@ C     Getting rid of equivalences
         !---------------------------------!
         ! LIGHTING TIME FOR /DFS/DETPOIN  !
         !---------------------------------!      
-        IF(NDETPS.NE.0) THEN     
+        IF(NDETPS /= 0) THEN     
           DO I=LFT,LLT
             DO N=1,NDETPS
               MTL=DETONATORS%BURN(2,N)
-              IF(MTL.EQ.0.OR.MTL.EQ.MAT(I)) THEN
+              IF(MTL == 0.OR.MTL == MAT(I)) THEN
                 ALT=DETONATORS%BURN(1,N)
                 XLP=DETONATORS%BURN(3,N)
                 YLP=DETONATORS%BURN(4,N)
@@ -144,7 +144,7 @@ C     Getting rid of equivalences
                 DL(I) =(XC(I)-XLP)**2+(YC(I)-YLP)**2+(ZC(I)-ZLP)**2
                 DL(I)=SQRT(DL(I))
                 BT(I) =ALT+DL(I)/PM(38,MAT(I))
-                IF(BT(I).LT.ABS(TB(I))) TB(I)=-BT(I)
+                IF(BT(I) < ABS(TB(I))) TB(I)=-BT(I)
                   JJ(I)=JJ(I)-1
                 END IF   
             END DO
@@ -154,7 +154,7 @@ C     Getting rid of equivalences
         !---------------------------------! 
         ! LIGHTING TIME FOR /DFS/DETLINE  !
         !---------------------------------!
-        IF(NDETSG.NE.0) THEN
+        IF(NDETSG /= 0) THEN
           DO N=NDETPS+1,NDETPS+NDETSG
           ALT=DETONATORS%BURN(1,N)
           MTL=DETONATORS%BURN(2,N)
@@ -165,7 +165,7 @@ C     Getting rid of equivalences
           YLP2=DETONATORS%BURN(7,N)
           ZLP2=DETONATORS%BURN(8,N)
           DO I=LFT,LLT
-            IF(MTL.EQ.0.OR.MTL.EQ.MAT(I)) THEN
+            IF(MTL == 0.OR.MTL == MAT(I)) THEN
               XL0 =(XLP1-XLP2)
               YL0 =(YLP1-YLP2)
               ZL0 =(ZLP1-ZLP2)
@@ -177,7 +177,7 @@ C     Getting rid of equivalences
               ZL2 =(ZC(I)-ZLP2)
               PS1 =XL1*XL0+YL1*YL0+ZL1*ZL0
               PS2 =XL2*XL0+YL2*YL0+ZL2*ZL0
-              IF(PS1*PS2.GT.ZERO)THEN
+              IF(PS1*PS2 > ZERO)THEN
                 DL1 =SQRT(XL1**2+YL1**2+ZL1**2)
                 DL2 =SQRT(XL2**2+YL2**2+ZL2**2)
                 DL(I)=MIN(DL1,DL2)
@@ -188,7 +188,7 @@ C     Getting rid of equivalences
                 DL(I)=SQRT((S1**2+S2**2+S3**2)/(XL0**2+YL0**2+ZL0**2))
               ENDIF
               BT(I) =ALT+DL(I)/PM(38,MAT(I))
-              IF(BT(I).LT.ABS(TB(I))) TB(I)=-BT(I)
+              IF(BT(I) < ABS(TB(I))) TB(I)=-BT(I)
                 JJ(I)=JJ(I)-1
               END IF
            END DO
@@ -198,7 +198,7 @@ C     Getting rid of equivalences
         !---------------------------------! 
         ! LIGHTING TIME FOR /DFS/WAV_SHA  !
         !---------------------------------!
-        IF(NECRAN.NE.0) THEN
+        IF(NECRAN /= 0) THEN
           N1=1
           DO N=NDETPS+NDETSG+1,NDETPS+NDETSG+NECRAN
             ALT=DETONATORS%BURN(1,N)
@@ -209,13 +209,13 @@ C     Getting rid of equivalences
             NP1=NINT(DETONATORS%BURN(7,N))
             DTO0=ALT
             MT  =MTL
-            IF(MT.EQ.0)MT=MAT(1)
+            IF(MT == 0)MT=MAT(1)
             VDTO=PM(38,MT)
             !---detonation time for screen points
             CALL ECRAN1(DETONATORS,N1,NP1,X)
             !---detonation times for elements
             DO I=LFT,LLT
-            IF(MTL.NE.MAT(I).AND.MTL.NE.0) CYCLE
+            IF(MTL /= MAT(I).AND.MTL /= 0) CYCLE
               YD =DETONATORS%BURN(4,N)
               ZD =DETONATORS%BURN(5,N)
               DTO0=ALT
@@ -223,7 +223,7 @@ C     Getting rid of equivalences
               ZL=ZC(I)
               CALL ECRAN2(DETONATORS,N1,NP1,X)
               BT(I) =DTO
-              IF(BT(I).LT.ABS(TB(I))) TB(I)=-BT(I)
+              IF(BT(I) < ABS(TB(I))) TB(I)=-BT(I)
               JJ(I)=JJ(I)-1
             END DO
             N1=N1+NPE
@@ -233,7 +233,7 @@ C     Getting rid of equivalences
         !---------------------------------! 
         ! LIGHTING TIME FOR /DFS/DETPLAN  !
         !---------------------------------!
-        IF(NDETPL.NE.0) THEN
+        IF(NDETPL /= 0) THEN
           DO N=NDETPS+NDETSG+NECRAN+1,NDETPS+NDETSG+NECRAN+NDETPL
             ALT=DETONATORS%BURN(1,N)
             MTL=NINT(DETONATORS%BURN(2,N))
@@ -248,7 +248,7 @@ C     Getting rid of equivalences
             DL1=XLP*NX + YLP*NY + ZLP*NZ
             DL1 = DL1/NN 
             DO I=LFT,LLT
-              IF(MTL.EQ.0.OR.MTL.EQ.MAT(I)) THEN
+              IF(MTL == 0.OR.MTL == MAT(I)) THEN
                 ! DL = (OC.ON) / ||ON||
              ! C: centroid
              ! P: detonation base
@@ -258,7 +258,7 @@ C     Getting rid of equivalences
                 DL(I) = ABS(DL(I))
                 DL(I) = DL(I)/NN
                 BT(I) =ALT+DL(I)/PM(38,MAT(I))
-                IF(BT(I).LT.ABS(TB(I))) TB(I)=-BT(I)
+                IF(BT(I) < ABS(TB(I))) TB(I)=-BT(I)
                   JJ(I)=JJ(I)-1
                 END IF
             END DO
@@ -268,7 +268,7 @@ C     Getting rid of equivalences
         !---------------------------------! 
         ! LIGHTING TIME FOR /DFS/DETCORD  !
         !---------------------------------!
-        IF(NDETCORD.NE.0) THEN
+        IF(NDETCORD /= 0) THEN
           N2        = 1
           DO N=NDETPS+NDETSG+NECRAN+NDETPL+1,NDETPS+NDETSG+NECRAN+NDETPL+NDETCORD
             ALT     = DETONATORS%BURN(1,N)
@@ -279,9 +279,9 @@ C     Getting rid of equivalences
             NP2     = NINT(DETONATORS%BURN(7,N))
             DTO0    = ALT
             MT      = MTL
-            IF(MT.EQ.0)MT=MAT(1)
+            IF(MT == 0)MT=MAT(1)
             VDTO    = PM(38,MT)
-            IF(MTL.NE.MAT(1).AND.MTL.NE.0) CYCLE
+            IF(MTL /= MAT(1).AND.MTL /= 0) CYCLE
             DTO0    = ALT
             CALL DETCORD(DETONATORS,N2,NPE2,X, MTL, XC,YC,ZC,VDTO,VDET2,ALT,BT,TB,JJ,IOPT,IX,NIX)            
             N2      = N2+NPE2
@@ -304,15 +304,15 @@ C     Getting rid of equivalences
       !---------------------------------! 
       !            PRINTOUT             !
       !---------------------------------!  
-      IF(IPRI.GE.3)THEN
+      IF(IPRI >= 3)THEN
         MPR =0
         DO I=LFT,LLT
           MPR =MPR+1
           NEL =NGL(I)
-          IF(MPR.EQ.1) WRITE(IOUT,500)
+          IF(MPR == 1) WRITE(IOUT,500)
           DETO=-(TB(I))
           WRITE(IOUT,510) NEL,DETO
-          IF(MPR.EQ.50) MPR=0
+          IF(MPR == 50) MPR=0
         END DO
       ENDIF
 C-----------------------------------------------

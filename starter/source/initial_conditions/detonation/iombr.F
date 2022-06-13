@@ -39,12 +39,13 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real DDMX
       INTEGER IECR(*)
-      my_real X(3,*)
+      my_real X(3,NUMNOD)
       TYPE(DETONATOR_STRUCT_) :: DETONATORS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr11_c.inc"
+#include      "com04_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -90,8 +91,8 @@ C-----------------------------------------------
         Z2=X(3,II)
         CROSS_PROD_2=YLD*(Z2-ZD)-ZLD*(Y2-YD)
         D2=(Y2-YD)*YLD+(Z2-ZD)*ZLD
-        IF(CROSS_PROD_1*CROSS_PROD_2.LE.EPS)THEN 
-		!Pi-1 and Pi in different half planes of boundary (DL)
+        IF(CROSS_PROD_1*CROSS_PROD_2 <= EPS)THEN 
+           !Pi-1 and Pi in different half planes of boundary (DL)
          IF(D2 > DD_UP .AND. D1 > DD_UP)THEN
            !Pi-1 and Pi after L
            IOMBR=0
@@ -115,10 +116,10 @@ C-----------------------------------------------
                !intersection inside
                IOMBR=1
                GOTO 999
-             ELSEIF(ABS(D3).LE.EPS)THEN
+             ELSEIF(ABS(D3) <= EPS)THEN
                !intersection in extremity D
                IF(A3 > EPS)JOMBR=1
-             ELSEIF(ABS(D3-DD).LE.EPS)THEN               
+             ELSEIF(ABS(D3-DD) <= EPS)THEN               
                !intersection in extremity L
                IF(A3 < -EPS)KOMBR=1
              ELSE
@@ -134,7 +135,7 @@ C-----------------------------------------------
         ENDIF !(CROSS_PROD_1*CROSS_PROD_2.LE.EPS)
       END DO !I=2,NPE
 
-      IF(JOMBR+KOMBR.EQ.2)THEN
+      IF(JOMBR+KOMBR == 2)THEN
         IOMBR=1
       ELSE
         DTO=DTO0+SQRT(DD)/VDTO
