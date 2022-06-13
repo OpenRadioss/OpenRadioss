@@ -144,7 +144,7 @@ C
       NZ_SL = 0
 C 
       IHELAS=0     
-      IF (IKT > 0) CALL KTBUF_INI(ELBUF_TAB,IPARG ,IPM ,IGEO)
+      IF (IKT > 0 .OR.ISPRB==1) CALL KTBUF_INI(ELBUF_TAB,IPARG ,IPM ,IGEO)
 C
       IDTFIX=0     
       IF (NITOL.EQ.123) THEN
@@ -293,7 +293,9 @@ C-------for the case when DKT18 was available for implicit
              CALL ARRET(2)
         ENDIF
 C  create a int table law type-----
-         IF (MLW==2.OR.MLW==36) THEN
+         IF (MLW==78) THEN
+          L_ETFAC=1
+         ELSEIF (MLW==2.OR.MLW==36) THEN
 C------resulting model is not available
           L_ETFAC=1
           L_SIGE   = 5  ! (4 : HK, 5: HH)
@@ -381,7 +383,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-       IF (IKT == 0) THEN
+       IF (IKT == 0 .AND. MTN /=78 ) THEN
         IKTMAT = 0
        ELSE
         IKTMAT = IHELAS+KTBUF_STR(NG_IMP)%MLAW_TAG(MTN)%L_ETFAC
@@ -453,7 +455,7 @@ c----------------------------------------------------
         ENDIF   ! el type
 C---- shell 3n,4n
        ELSEIF(ITY.EQ.3.OR.ITY.EQ.7) THEN
-        IF (MLW==2.OR.MLW==36) L_ETFAC=1
+        IF (MLW==2.OR.MLW==36.OR.MLW==78) L_ETFAC=1
        ENDIF   ! el type
 c -------------------------------------------------
 c       allocation des sub-structures de l'element buffer

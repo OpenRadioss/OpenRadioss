@@ -36,7 +36,7 @@ Chd|====================================================================
      6     SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      7     SOUNDSP ,UVAR    ,SIGA    ,SIGB    ,SIGC    ,
      8     RHO     ,OFF     ,PLA     ,DEP     ,VARTMP  ,
-     9     INLOC   ,DPLANL  )
+     9     INLOC   ,DPLANL  ,ETIMP   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -80,7 +80,7 @@ C-----------------------------------------------
      . PLA,THK
       my_real ,DIMENSION(NEL)       ,INTENT(OUT)   :: 
      .   SOUNDSP,DEP,ETSE,SIGY,
-     .   SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX
+     .   SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX,ETIMP
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION
 C-----------------------------------------------
@@ -194,6 +194,7 @@ C
         DEPLYY(I)   = ZERO
         DEPLXY(I)   = ZERO
         DEPLZZ(I)   = ZERO
+        ETIMP(I)    = YOUNG(I)/EINI        ! For implicit
       ENDDO
 c      
       !========================================================================

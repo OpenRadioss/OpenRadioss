@@ -601,7 +601,7 @@ C     REAL
 C-----------------------------------------------
       CALL IKTMAT_INI(MTN,IKTMAT)
       IF (IMCONV < 0.OR.IKTMAT==0) RETURN
-       IF (MTN==2.OR.MTN==36) THEN
+       IF (MTN==2.OR.MTN==36.OR.MTN==78) THEN
         DO I = 1,NEL
          ETF=KTBUF_STR(NG_IMP)%ETFAC(I)
          KTBUF_STR(NG_IMP)%ETFAC(I) = MIN(ETF,ET(I))

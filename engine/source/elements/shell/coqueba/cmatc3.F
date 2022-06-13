@@ -120,7 +120,7 @@ C     REAL
      .   E11,E22,NU12,G31,G23,A22,WMC,FACG,COEF,WM
       my_real
      .   THKLY(MVSIZ*100),POSLY(MVSIZ,100),FAC(MVSIZ),THK_LY(JLT-JFT+1,NPT),
-     .   HMLY(MVSIZ,4),HCLY(MVSIZ,2), HMORLY(MVSIZ,2)
+     .   HMLY(MVSIZ,4),HCLY(MVSIZ,2), HMORLY(MVSIZ,2),SFAC(MVSIZ)
 C-----------------------------------------------
       COEF =EM01
       NEL = JLT-JFT+1
@@ -161,6 +161,15 @@ C
           A11(I) =PM(24,MX)
           A12(I) =PM(25,MX)
         ENDDO
+        IF (MTN==78)THEN
+          CALL GET_ETFAC_S(NEL,SFAC,MTN)
+          DO I=JFT,JLT
+            YM(I) =SFAC(I)*YM(I)
+            G(I)  =SFAC(I)*G(I)
+            A11(I)=SFAC(I)*A11(I)
+            A12(I)=SFAC(I)*A12(I)
+          ENDDO
+        END IF
       END IF
       IF(NPT.EQ.1) THEN
         DO I=JFT,JLT
