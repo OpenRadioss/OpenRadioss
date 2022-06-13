@@ -141,7 +141,7 @@ Chd|====================================================================
      G       IXEL     ,ITHK     ,F_DEF    ,ISHPLYXFEM,
      H       ITASK    ,PM_STACK , ISUBSTACK,STACK    ,TSTAR    ,ALPE     ,
      I       PLY_EXX  ,PLY_EYY  ,PLY_EXY  ,PLY_EXZ   ,PLY_EYZ  ,PLY_F    ,
-     J       VARNL    )
+     J       VARNL    ,ETIMP    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -199,7 +199,7 @@ C-----------------------------------------------
      .   SENSOR(NSENSR,*),DIR1_CRK(*),DIR2_CRK(*),TENSX(NEL,5),
      .   F_DEF(MVSIZ,8),PM_STACK(20,*),TSTAR(MVSIZ),ALPE(MVSIZ),
      .   PLY_EXX(MVSIZ,*),PLY_EYY(MVSIZ,*),PLY_EXY(MVSIZ,*), 
-     .   PLY_EXZ(MVSIZ,*),PLY_EYZ(MVSIZ,*),PLY_F(MVSIZ,5,*)
+     .   PLY_EXZ(MVSIZ,*),PLY_EYZ(MVSIZ,*),PLY_F(MVSIZ,5,*),ETIMP(MVSIZ)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TARGET :: ALDT, IPM
       TYPE (STACK_PLY) :: STACK
@@ -233,7 +233,7 @@ c
      .   SIGNZX,SIGVXX,SIGVYY,SIGVXY,SIGVYZ,SIGVZX,
      .   WMC, EPSPL, YLD,DPLA,VOL0, COEF,HARDM,LA0,G_IMP,VISC,WPLAR,DMAXT,
      .   EPSP_LOC,SIGNXX_FAIL,SIGNYY_FAIL,SIGNXY_FAIL,SIGNYZ_FAIL,
-     .   SIGNZX_FAIL,AREAMIN,DAREAMIN,DMG_GLOB_SCALE,DMG_LOC_SCALE
+     .   SIGNZX_FAIL,AREAMIN,DAREAMIN,DMG_GLOB_SCALE,DMG_LOC_SCALE,ET_IMP
 c
       my_real :: ZT,DTINV, VOL2,FCUT,ASRATE,EPS_M2,EPS_K2,
      .   R1,R2,R3,S1,S2,S3,R12A,R22A,S12B,S22B,RS1,RS2,RS3,
@@ -261,7 +261,7 @@ c----
       TYPE(MATPARAM_STRUCT_) , POINTER :: MATPARAM
 c----
       LOGICAL :: LOGICAL_USERL_AVAIL
-      LOGICAL :: FLAG_EPS,FLAG_EPSP,FLAG_ZCFAC
+      LOGICAL :: FLAG_EPS,FLAG_EPSP,FLAG_ZCFAC,FLAG_ETIMP
       LOGICAL :: FLAG_LAW1,FLAG_LAW2,FLAG_LAW25,FLAG_LAW22
 !
       CHARACTER OPTION*256
@@ -317,6 +317,8 @@ C
 !     ZCFAC computation is only usefull for CZFORC3 and CZFORC3_CRK routines
       FLAG_ZCFAC=.FALSE.
       IF( (JHBE>=21.AND.JHBE<=29).OR.(IMPL_S>0)) FLAG_ZCFAC=.TRUE.
+      FLAG_ETIMP=.FALSE.
+      IF(IMPL_S>0 .AND. MTN==78) FLAG_ETIMP=.TRUE.
       SCALE1(1:NEL) = ONE
       IFLAG(1) = IPLA
       BIDON1 = ZERO
@@ -367,6 +369,7 @@ c
       IF(FLAG_ZCFAC .AND. MTN /= 22) ZCFAC(JFT:JLT,1)= ZERO
       IF(FLAG_ZCFAC) ZCFAC(JFT:JLT,2)= ONE
       ETSE(JFT:JLT)   = ONE
+      IF(FLAG_ETIMP) ETIMP(JFT:JLT)= ZERO
       COEF(JFT:JLT)   = ONE 
       IF(FLAG_LAW25)THEN
           WPLAR(JFT:JLT)=ZERO
@@ -1441,7 +1444,7 @@ c
      6         SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      7         SSP      ,UVAR     ,LBUF%SIGA,LBUF%SIGB,LBUF%SIGC,
      8         RHO      ,OFF      ,LBUF%PLA ,DPLA     ,VARTMP   ,
-     9         INLOC    ,VARNL(1,IT))   
+     9         INLOC    ,VARNL(1,IT),ET_IMP )   
           ELSEIF (ILAW == 80) THEN  
             IF (ISRATE == 0) THEN
               DO I=JFT,JLT
@@ -2341,6 +2344,7 @@ C-----------------------------------------------
                 ZCFAC(JFT:JLT,2) = MIN(ETSE(JFT:JLT),ZCFAC(JFT:JLT,2))  
             ENDIF
             YLD(JFT:JLT) = YLD(JFT:JLT) + SIGY(JFT:JLT)*THLY(JFT:JLT)
+            IF(FLAG_ETIMP) ETIMP(JFT:JLT) = ETIMP(JFT:JLT) + ET_IMP(JFT:JLT)*THLY(JFT:JLT)
           ELSEIF ( ILAW == 2 ) THEN
 c------------------------------------            
             SELECT CASE (IGTYP)

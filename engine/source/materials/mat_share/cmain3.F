@@ -287,7 +287,7 @@ c
      G       IXEL    ,ITHK    ,F_DEF   ,ISHPLYXFEM,
      H       ITASK   ,STACK%PM ,ISUBSTACK,STACK ,TSTAR   ,ALPE    ,
      I       PLY_EXX ,PLY_EYY ,PLY_EXY ,PLY_EXZ ,PLY_EYZ ,PLY_F   ,
-     J       VARNL   )
+     J       VARNL   ,ETIMP  )
       ENDIF ! IF (NPT == 0) 
 C----------------------------------------------------------------------
       IF (IEXPAN > 0 .AND. JTHE > 0. AND.IDT_THERM==0) THEN
@@ -340,9 +340,7 @@ c----------
       ENDIF ! PLYXFEM 
 C---------------------------------------------------------             
       IF (IMPL_S > 0) THEN
-        DO I=JFT,JLT
-          ETIMP(I) = ZCFAC(I,1)
-        ENDDO
+        IF (MTN /=78)  ETIMP(JFT:JLT) = ZCFAC(JFT:JLT,1)
         CALL PUT_ETFAC(NEL ,ETIMP ,MTN)
       END IF
 c-----------
