@@ -202,16 +202,10 @@ C------------------------------------------------------------
             ISU2=NGR2USR(ISU2,INGR2USR,NSURF) 
             MSGTITL='SURFACE CANNOT BE FOUND (SURF_ID)' 
             !IF(ISU2 == 0 .AND. IDDLEVEL==1)CALL ANCMSG(MSGID=1115, MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL) 
-             IF(ISU1 == 0)THEN
-               MSGTITL='GROUP OF NODES CANNOT BE FOUND (GRNOD_ID)'
-               CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)
-             ELSEIF(MULTI_FVM%IS_USED)THEN            
-               MSGTITL='GRBRIC_id (COLUMN 3) MUST BE PROVIDED INSTEAD OF GRNOD_id (COLUMN 1)' 
-               CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)
-             ENDIF            
-       ENDIF       
-!===CHECK ALE CELLS:ISU1=GRNOD_ID (old format) otherwise use Group of solids (GRBRIC_ID,GRQUAD_ID,GRTRIA_ID                           
-          
+            IF(ISU2 == 0)CALL ANCMSG(MSGID=1115, MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)                        
+       ENDIF 
+
+!===CHECK ALE CELLS:ISU1=GRNOD_ID (old format) otherwise use Group of solids (GRBRIC_ID,GRQUAD_ID,GRTRIA_ID                                    
        IF(ISU1 /= 0 .AND. GRBRIC_ID /= 0)GRBRIC_ID=0 ! Possible Istf flag defined in input (was removed from manuabecause Istf is always 1) 
 c          IF(ISU1 /= 0 .AND. GRBRIC_ID /= 0)THEN                                                                          
 c             MSGTITL='YOU CANNOT DEFINE BOTH GRNOD_ID and GRBRIC_ID'                                                                       
@@ -226,9 +220,14 @@ c          ENDIF
             INGR2USR => IGRNOD(1:NGRNOD)%ID                                
             ISU1=NGR2USR(ISU1,INGR2USR,NGRNOD)                             
             IS1 =2  
-             MSGTITL='GROUP OF NODES CANNOT BE FOUND (GRNOD_ID)' 
              !IF(ISU1 == 0 .AND. IDDLEVEL==1)CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)
-             IF(ISU1 == 0)CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)             
+             IF(ISU1 == 0)THEN
+               MSGTITL='GROUP OF NODES CANNOT BE FOUND (GRNOD_ID)'              
+               CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)  
+             ELSEIF(MULTI_FVM%IS_USED)THEN            
+               MSGTITL='GRBRIC_id (COLUMN 3) MUST BE PROVIDED INSTEAD OF GRNOD_id (COLUMN 1)' 
+               CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)
+             ENDIF 
         ELSE                                                               
             !GRBRIC_ID,GRQUAD_ID,GRTRIA_ID                                 
             IF(GRBRIC_ID /= 0)THEN                                         
