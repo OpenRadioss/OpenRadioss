@@ -247,9 +247,6 @@ C=======================================================================
       MULTI_FVM%IS_USED = .FALSE.
       DISCRETE_FILL     = .FALSE.  ! BIMAT : PARTIAL FILL ENABLED BY DEFAULT
 c     
-      MULTI_FVM%IS_USED = .FALSE.
-      DISCRETE_FILL     = .FALSE.  ! BIMAT : PARTIAL FILL ENABLED BY DEFAULT
-c
 C--------------------------------------------------
 C START BROWSING MODEL MATERIALS
 C--------------------------------------------------
