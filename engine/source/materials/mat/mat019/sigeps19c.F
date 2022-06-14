@@ -24,16 +24,14 @@ Chd|====================================================================
 Chd|  SIGEPS19C                     source/materials/mat/mat019/sigeps19c.F
 Chd|-- called by -----------
 Chd|        MULAWC                        source/materials/mat_share/mulawc.F
-Chd|-- calls ---------------
-Chd|        M19CPLR                       source/materials/mat/mat019/m19cplr.F
 Chd|====================================================================
       SUBROUTINE SIGEPS19C(
-     1            JFT    ,JLT    ,PM     ,THK    ,FLAG_ZCFAC,
-     2            GSTR   ,DIR    ,SHF    ,EXY    ,JHBE      ,
-     3            IPM    ,LSENSOR,SENSOR ,ZCFAC  ,NEL       ,
-     4            SIGOXX ,SIGOYY ,SIGOXY ,SIGOYZ ,SIGOZX    ,
-     5            SIGNXX ,SIGNYY ,SIGNXY ,SIGNYZ ,SIGNZX    ,
-     6            IMAT   ,NPTTOT ,ZZ     ,SIGI   )
+     .            NEL    ,NUPARAM,FLAG_ZCFAC,ZCFAC  ,SHF    ,
+     .            UPARAM ,NPTTOT ,
+     .            EPSXX  ,EPSYY  ,EPSXY  ,EPSYZ  ,EPSZX     ,
+     .            SIGOXX ,SIGOYY ,SIGOXY ,SIGOYZ ,SIGOZX    ,
+     .            SIGNXX ,SIGNYY ,SIGNXY ,SIGNYZ ,SIGNZX    ,
+     .            SIGI   ,LSENSOR,SENSOR )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,106 +43,129 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc"
-#include      "scr06_c.inc"
 #include      "param_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com08_c.inc"
-#include      "com20_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT,JLT,JHBE,ISMSTR,NEL,IMAT,NPTTOT
-      INTEGER IPM(NPROPMI,*),LSENSOR(NSENSI,*)
-      LOGICAL :: FLAG_ZCFAC
-C     REAL
-      my_real
-     .   PM(NPROPM,*),THK(*),DIR(NEL,2), GSTR(NEL,8),SHF(*)
-      my_real
-     .   EXY(MVSIZ),SENSOR(NSENSR,*),ZCFAC(MVSIZ,2),
-     .   SIGOXX(NEL),SIGOYY(NEL),SIGOXY(NEL),SIGOYZ(NEL),
-     .   SIGOZX(NEL),SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),
-     .   SIGNYZ(NEL),SIGNZX(NEL),ZZ(MVSIZ),SIGI(NEL,3)
+      INTEGER ,INTENT(IN) :: NEL,NPTTOT,NUPARAM
+      INTEGER ,DIMENSION(NSENSI,NSENSOR) ,INTENT(IN) :: LSENSOR
+      LOGICAL ,INTENT(IN) :: FLAG_ZCFAC
+      my_real ,DIMENSION(MVSIZ,2) ,INTENT(OUT) :: ZCFAC
+      my_real ,DIMENSION(NUPARAM) ,INTENT(IN)  :: UPARAM
+      my_real ,DIMENSION(NEL) ,INTENT(IN) ::  SHF,
+     .   EPSXX,EPSYY,EPSXY,EPSYZ,EPSZX,SIGOXX,SIGOYY,SIGOXY,SIGOYZ,SIGOZX
+      my_real ,DIMENSION(NEL) ,INTENT(OUT) ::
+     .   SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX
+      my_real ,DIMENSION(NEL,3) ,INTENT(INOUT) :: SIGI
+      INTEGER ,DIMENSION(NSENSR,NSENSOR) ,INTENT(IN) :: SENSOR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,II(5),I1,ISENS(MVSIZ),ILAYER
-      my_real
-     .   FAC(MVSIZ),Z(MVSIZ,5),EPS(MVSIZ,5),DEGMB(MVSIZ),DEGFX(MVSIZ), 
-     .   CA(MVSIZ),CB(MVSIZ),CN(MVSIZ),CC(MVSIZ),EPDR(MVSIZ),
-     .   VISC(MVSIZ),VISG(MVSIZ),E11(MVSIZ),E22(MVSIZ), 
-     .   ANU12(MVSIZ),ANU21(MVSIZ),G12(MVSIZ),G23(MVSIZ),G31(MVSIZ),
-     .   DE(MVSIZ),EPST(MVSIZ,5),ET(MVSIZ),ZT
-      my_real
-     .   R1,FF,AA,VV,E11_1,E22_1,ANU12_1,ANU21_1,
-     .   G12_1,G23_1,G31_1,DE_1,CA_1,CB_1,CN_1,CC_1
+      INTEGER :: I,II,ISENS
+      my_real :: E11,E22,NU12,NU21,G12,G23,G31,A11,A12,A22,RCOMP,
+     .           S,D,T,P1,P2,R,BETA,ZEROSTRESS,TSTART,DSIG
+      my_real ,DIMENSION(NEL) :: ET
 C=======================================================================
-      E11_1   = PM(33,IMAT)
-      E22_1   = PM(34,IMAT)
-      ANU12_1 = PM(35,IMAT)
-      ANU21_1 = PM(36,IMAT)
-      G12_1   = PM(37,IMAT)
-      G23_1   = PM(38,IMAT)
-      G31_1   = PM(39,IMAT)
-      DE_1    = PM(44,IMAT)
-      CA_1    = PM(45,IMAT)
-      CB_1    = PM(46,IMAT)
-      CN_1    = PM(47,IMAT)
-      CC_1    = PM(50,IMAT)
-!
-      DO I=JFT,JLT
-        E11(I)   = E11_1
-        E22(I)   = E22_1
-        ANU12(I) = ANU12_1
-        ANU21(I) = ANU21_1
-        G12(I)   = G12_1
-        G23(I)   = G23_1
-        G31(I)   = G31_1
-        DE(I)	 = DE_1
-        CA(I)	 = CA_1
-        CB(I)	 = CB_1
-        CN(I)	 = CN_1
-        CC(I)	 = CC_1
+      E11   = UPARAM(1)
+      E22   = UPARAM(2)
+      NU12  = UPARAM(3)
+      NU21  = UPARAM(4)
+      G12   = UPARAM(5)
+      G23   = UPARAM(6)
+      G31   = UPARAM(7)
+      RCOMP = UPARAM(8)
+      ISENS = NINT(UPARAM(13))
+      ZEROSTRESS = UPARAM(14)
+c
+      A12   =(ONE-NU12*NU21)
+      A11   = E11/A12
+      A22   = E22/A12
+      A12   = NU21*A11
+c-------------------------
+      DO I=1,NEL
+        SIGNXX(I) = A11*EPSXX(I) + A12*EPSYY(I)
+        SIGNYY(I) = A12*EPSXX(I) + A22*EPSYY(I)
+        SIGNXY(I) = G12*EPSXY(I)
+        SIGNYZ(I) = G23*EPSYZ(I)*SHF(I)
+        SIGNZX(I) = G31*EPSZX(I)*SHF(I)
       ENDDO
-C-----------------------------------------------------------
-C     ROTATION DU 1/2 CISAILLEMENT
-C-----------------------------------------------------------
-      IF (ISHFRAM==1 .AND. JHBE>=2) THEN
-        DO I=JFT,JLT
-          R1 = DIR(I,2)*EXY(I)*HALF
-          DIR(I,2)=DIR(I,2)-DIR(I,1)*EXY(I)*HALF
-          DIR(I,1)=DIR(I,1)+R1
-          R1 = SQRT(DIR(I,1)*DIR(I,1)+DIR(I,2)*DIR(I,2))
-          DIR(I,1)=DIR(I,1)/R1
-          DIR(I,2)=DIR(I,2)/R1
+C-----------------------------
+C     CONTRAINTES reduites en compression
+C-----------------------------
+      DO  I=1,NEL
+       S  = HALF*(SIGNXX(I) + SIGNYY(I))
+       D  = HALF*(SIGNXX(I) - SIGNYY(I))
+       R  = SQRT(SIGNXY(I)**2 + D*D)
+       P1 = S - R 
+       ET(I) = ONE       
+       IF (P1 < ZERO) THEN
+         P2 = S + R 
+         IF (P2 > ZERO) THEN
+           BETA = HALF*((ONE-RCOMP)*S/R + ONE+RCOMP) 
+           SIGNXX(I) = BETA*(SIGNXX(I)-P2) + P2 
+           SIGNYY(I) = BETA*(SIGNYY(I)-P2) + P2 
+           SIGNXY(I) = BETA*SIGNXY(I)
+         ELSE
+           BETA = RCOMP
+           SIGNXX(I) = BETA*SIGNXX(I)
+           SIGNYY(I) = BETA*SIGNYY(I)
+           SIGNXY(I) = BETA*SIGNXY(I)
+         ENDIF
+         ET(I) = BETA
+       ENDIF
+      ENDDO
+c-----------------------------------------------------------
+c     REF-STATE ZEROSTRESS OPTION
+c-----------------------------------------------------------
+      IF (ZEROSTRESS /= ZERO)THEN
+        TSTART = ZERO
+        DO II=1,NSENSOR
+          IF (ISENS == LSENSOR(1,II)) THEN
+            TSTART  = SENSOR(2,II)
+            EXIT
+          ENDIF
+        ENDDO
+c          
+        DO I=1,NEL
+          IF (TT <= TSTART) THEN
+            SIGI(I,1) = SIGNXX(I)
+            SIGI(I,2) = SIGNYY(I)
+            SIGI(I,3) = SIGNXY(I)
+            SIGNXX(I) = ZERO
+            SIGNYY(I) = ZERO
+            SIGNXY(I) = ZERO
+          ELSE
+            DSIG = SIGNXX(I) - SIGOXX(I) - SIGI(I,1)
+            IF (SIGI(I,1) > ZERO .AND. DSIG < ZERO) THEN
+              SIGI(I,1) = MAX(ZERO,SIGI(I,1)+ZEROSTRESS*DSIG)
+            ELSEIF (SIGI(I,1) < ZERO .AND. DSIG > ZERO) THEN
+              SIGI(I,1) = MIN(ZERO,SIGI(I,1)+ZEROSTRESS*DSIG)
+            ENDIF
+            DSIG = SIGNYY(I) - SIGOYY(I) - SIGI(I,2)
+            IF (SIGI(I,2) > ZERO .AND. DSIG < ZERO) THEN
+              SIGI(I,2) = MAX(ZERO,SIGI(I,2)+ZEROSTRESS*DSIG)
+            ELSEIF (SIGI(I,2) < ZERO .AND. DSIG > ZERO) THEN
+              SIGI(I,2) = MIN(ZERO,SIGI(I,2)+ZEROSTRESS*DSIG)
+            ENDIF
+            DSIG = SIGNXY(I) - SIGOXY(I) - SIGI(I,3)
+            IF (SIGI(I,3) > ZERO .AND. DSIG < ZERO) THEN
+              SIGI(I,3) = MAX(ZERO,SIGI(I,3)+ZEROSTRESS*DSIG)
+            ELSEIF (SIGI(I,3) < ZERO .AND. DSIG > ZERO) THEN
+              SIGI(I,3) = MIN(ZERO,SIGI(I,3)+ZEROSTRESS*DSIG)
+            ENDIF
+            SIGNXX(I) = SIGNXX(I) - SIGI(I,1)
+            SIGNYY(I) = SIGNYY(I) - SIGI(I,2)
+            SIGNXY(I) = SIGNXY(I) - SIGI(I,3)
+          ENDIF
         ENDDO
       ENDIF
-C-----------------------------------------------------------
-C
-C      DEFORMATIONS TOTALES FA 09/92
-C
-       DO  I=JFT,JLT
-         ZT = ZZ(I)*THK(I)
-         EPST(I,1)= GSTR(I,1)+ZT*GSTR(I,6)
-         EPST(I,2)= GSTR(I,2)+ZT*GSTR(I,7)
-         EPST(I,3)=(GSTR(I,3)+ZT*GSTR(I,8))*HALF
-         EPST(I,4)= GSTR(I,4)*HALF
-         EPST(I,5)= GSTR(I,5)*HALF
-       ENDDO
-C-----------------------------------------------------------
-c      CONTRAINTES
-       CALL M19CPLR(
-     2              JFT    ,JLT    ,DIR     ,SHF    ,NEL    ,
-     3              E11    ,E22    ,ANU12   ,ANU21  ,G12    ,
-     4              G23    ,G31    ,DE      ,EPST   ,PM     ,
-     5              IMAT   ,SIGI   ,LSENSOR ,SENSOR ,IPM    ,
-     6              SIGOXX ,SIGOYY ,SIGOXY  ,SIGOYZ ,SIGOZX ,
-     7              SIGNXX ,SIGNYY ,SIGNXY  ,SIGNYZ ,SIGNZX ,
-     8              ET     )
+c
 C------for QEPH-------       
        IF (FLAG_ZCFAC) THEN
-         DO I=JFT,JLT
+         DO I=1,NEL
            ZCFAC(I,1) = ZCFAC(I,1) + ET(I) / NPTTOT
            ZCFAC(I,2) = MIN(ET(I),ZCFAC(I,2))
          ENDDO

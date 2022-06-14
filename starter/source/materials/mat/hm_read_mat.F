@@ -457,8 +457,9 @@ c-------
           CASE ('LAW19','FABRI')
             ILAW = 19 
             CALL HM_READ_MAT19(
-     .           IPM(1,I) , PM(1,I) ,UNITAB, MAT_ID, TITR, 
-     .           LSUBMODEL, MTAG    ,ISRATE)
+     .           MTAG     ,UPARAM   ,MAXUPARAM,NUPARAM  ,PM(1,I)  ,
+     .           MATPARAM ,PARMAT   ,NUVAR    ,MAT_ID   ,TITR     ,
+     .           UNITAB   ,LSUBMODEL,ISRATE   )
 c-------
           CASE ('LAW20','BIMAT')
             ILAW  = 20 
@@ -1227,7 +1228,8 @@ c
 c--------------------------------------------      
 c       for user type laws (lecmuser)
 c---------------------------------------------------------
-        IF (ILAW > 27 .and. ILAW /= 32 .and. ILAW /= 49 .and. ILAW /= 151 .AND. ILAW /= 999) THEN
+        IF (ILAW > 27 .and. ILAW /= 32 .and. ILAW /= 49 .and. ILAW /= 151 .AND. 
+     .      ILAW /= 999) THEN
           MTAG%L_STRA = 6        ! all user type laws calculate total strain
 c
           C1    = PARMAT(1)
@@ -1273,7 +1275,18 @@ c---------------------------------------------------------
           ENDDO
           IADBUF = IADBUF + NUPARAM
           BUFLEN = BUFLEN + NUPARAM
-           
+c
+        ELSE IF (ILAW == 19) THEN
+          MTAG%L_STRA = 6
+          IPM(7,I) = IADBUF   
+          IPM(8,I) = NUVAR    
+          IPM(9,I) = NUPARAM  
+          DO J=1,NUPARAM
+            BUFMAT(IADBUF+J-1) = UPARAM(J)
+          ENDDO
+          IADBUF = IADBUF + NUPARAM
+          BUFLEN = BUFLEN + NUPARAM
+c            
         ENDIF ! ILAW.GE.28 
 c
         IPM(1,I)   = MAT_ID

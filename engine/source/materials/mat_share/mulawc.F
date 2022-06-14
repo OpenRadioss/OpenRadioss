@@ -984,13 +984,15 @@ C------------------------------------------
      6                 SIGNXX   ,SIGNYY  ,SIGNXY   ,SIGNYZ     ,SIGNZX     ,
      7                 LBUF%DSUM)
           ELSEIF (ILAW == 19) THEN
+
             CALL SIGEPS19C(
-     1            JFT    ,JLT        ,PM     ,THKN     ,FLAG_ZCFAC,
-     2            GSTR   ,DIR_A(JDIR),SHF    ,EXY      ,JHBE      ,
-     3            IPM    ,LSENSOR    ,SENSOR ,ZCFAC    ,NEL       ,
-     4        LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
-     5            SIGNXX ,SIGNYY     ,SIGNXY ,SIGNYZ   ,SIGNZX    ,
-     6            IMAT   ,NPTTOT     ,ZZ     ,GBUF%SIGI)
+     .            NEL      ,NUPARAM     ,FLAG_ZCFAC,ZCFAC    ,SHF    ,
+     .            UPARAM ,NPTTOT     ,
+     .            EPSXX   ,EPSYY  ,EPSXY   ,EPSYZ     ,EPSZX     ,
+     .        LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
+     .            SIGNXX ,SIGNYY     ,SIGNXY ,SIGNYZ   ,SIGNZX    ,
+     .            GBUF%SIGI,LSENSOR  ,SENSOR )
+
           ELSEIF (ILAW == 22) THEN
             CALL SIGEPS22C(
      1                   JFT      ,JLT    ,PM       ,THKN   ,OFF     ,
@@ -2209,14 +2211,12 @@ c------------------------------------------------
                 S1 = DIR_A(II+NEL)
                 R2 = DIR_B(II)
                 S2 = DIR_B(II+NEL)
-                                           
                 RS1= R1*S1                                                         
                 RS2= R2*S2                                                         
                 R12A = R1*R1                                                       
                 R22A = R2*R2                                                       
                 S12B = S1*S1                                                       
                 S22B = S2*S2                                                       
-
                 RS3 = S1*S2-R1*R2                                                  
                 R3R3= ONE+S1*R2+R1*S2                                               
                 R3R3= HALF*R3R3                                                  
@@ -2262,7 +2262,7 @@ c
                 TENS(I,5) = SIGNZX(I)                                              
               ENDDO                                                                
             ELSE                                                             
-              IF (ILAW /= 1 .and. ILAW /= 2 .and. ILAW /= 19 .and. ILAW /= 27 .and. ILAW /= 32)
+              IF (ILAW /= 1 .and. ILAW /= 2 .and. ILAW /= 27 .and. ILAW /= 32)
      .          CALL UROTOV(JFT,JLT,TENS,DIR_A(JDIR),NEL)
             ENDIF                                                                  
 C----------------------
