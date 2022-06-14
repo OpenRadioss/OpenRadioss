@@ -958,6 +958,8 @@ C--------------------------------------
       ALLOCATE(IEBCS_LISTDP0_L(0))
       EBCS_TAB_LOC%nebcs_fvm = 0
       IF (NEBCS .GT. 0) THEN
+! Workaround for isses with Polymorphic types with some compilers
+!$OMP CRITICAL
          NEBCS_FVM = 0
          DO II = 1, NEBCS
             IF (EBCS_TAB%tab(II)%poly%is_multifluid) THEN
@@ -1038,6 +1040,7 @@ C        FILL IEBCS_LISTELEM_L and LISTFAC_L
 
             ENDIF
          ENDDO
+!$OMP END CRITICAL
       ENDIF
 
 
