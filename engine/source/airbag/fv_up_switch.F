@@ -103,71 +103,66 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER I, II, IINJ, ISU, IEL, N1, N2, N3, JEL,
-     .        NN1, NN2, NN3, J, JJ, K, KK, IMASS, IFLU, ISENS, IVEL,
-     .        ITEMP, ITAGP(NPOLH), NV, ILVOUT, IPRI,
-     .        IVENT, IDEF, IPORT, IPORP, IPORA, IPORT1, IPORP1, IPORA1,
-     .        ITVENT, PHDT, I1, I2, NNSA, ICONT(NNT),IVDP,ITTF, IDPDEF,
-     .        IDTPDEF,PMAIN,N21,N22,TAGSURF(2,NELT+1),ITYPL,
-     .        PREPARE_ANIM,IVENTYP,
-     .        NTRIA,IEL1,IEL2,NPOLYG
+      INTEGER I, II, IINJ, IEL, N1, N2, N3, JEL,
+     .        NN1, NN2, NN3, J, JJ, K, KK, ISENS, IVEL,
+     .        ITAGP(NPOLH), NV, ILVOUT, IPRI,
+     .        IVENT, IDEF, IPORP, 
+     .        ITVENT, PHDT, I1, I2, ICONT(NNT),IVDP,ITTF, IDPDEF,
+     .        IDTPDEF,ITYPL,
+     .        PREPARE_ANIM,IVENTYP
       INTEGER TITREVENT(20)
-      INTEGER, DIMENSION(:,:), ALLOCATABLE :: SURF_INT,SURF_EXT
 
       MY_REAL
      .        NODAREA(NNT), X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3,
      .        X12, Y12, Z12, X13, Y13, Z13, NRX, NRY, NRZ, AREA2,
-     .        ELAREA(NELT), NORM(3,NELT), KSI, ETA, PNOD(3,NNS),
-     .        PAREA(NNTR), PNORM(3,NNTR), PVOLU(NPOLH), AREA, NX, NY,
+     .        ELAREA(NELT), NORM(3,NELT), KSI, ETA, 
+     .        PNORM(3,NNTR), PVOLU(NPOLH), AREA, NX, NY,
      .        NZ, GAMAI, CPAI, CPBI, CPCI, RMWI, TI,
      .        CPDI, CPEI, CPFI,
-     .        RHOI, DATAINJ(6,NJET), SCALT, FMASS, GMASS_OLD,
-     .        GMTOT_OLD, FVEL, TSTART, TSG, GMASS, DGMASS, INJVEL,
-     .        DYDX, GMTOT, RMWG, CPA, CPB, CPC, FTEMP, EFAC, CPG,
-     .        CVG, PU(3,NPOLH), GAMA, FEL(NELT), DM(NPOLH),
-     .        DQ(3,NPOLH), DE(NPOLH), DMI, DQI(3), DEI, RHO1, RE1, UX1,
-     .        UY1, UZ1, RHO2, RE2, UX2, UY2, UZ2, VFX, VFY, VFZ, SS,
+     .        RHOI, DATAINJ(6,NJET), SCALT,
+     .        FVEL, TSTART, TSG, INJVEL,
+     .        DYDX, CPA, CPB, CPC, EFAC,
+     .        PU(3,NPOLH), GAMA, FEL(NELT), DM(NPOLH),
+     .        DQ(3,NPOLH), DE(NPOLH), DMI, RHO1, RE1, UX1,
+     .        UY1, UZ1, RHO2, RE2, UX2, UY2, UZ2, VFX, VFY, VFZ, VREL(NELT), SS(NELT), SS_,
      .        ALPHA, RHOM, REM, RUXM, RUYM, RUZM, P1, P2,
      .        UEL(3,NELT), AREA1, AREA3, FF, TEMP, PEXT, VOLG, VOLPH,
-     .        AREAP, AREAEL, XX, YY, ZZ, QA, QB, DTX, AL, DD, AD, SSP,
+     .        AREAP, AREAEL, QA, QB, DTX, AL, DD, AD, SSP,
      .        QX, VV, DMINI(NPOLH), DMCPA(NPOLH), DMCPB(NPOLH),
      .        DMCPC(NPOLH), DMRMW(NPOLH), MSINI,
      .        RMW, CP, CV, RHOEL(NELT), TKEL(NELT), SSPEL(NELT), GAMA1, GAMA2,
      .        QVISC(NPOLH), AMTOT, PMEAN, PMEAN2, ELSOUT(NELT),TMP(NEL),
-     .        AREA_VENT(NVENT), PM_VENT(NVENT), SCALP, SCALS, EXTEN,
-     .        AVENT, BVENT, AINI, FPORT, FPORP, FPORA, FPORT1, FPORP1,
-     .        FPORA1, AOUT, AOUT1, DERI, PDEF, PVOLTMP,
-     .        DTPDEFI, DTPDEFC, TVENT, PORO(NELT), VOLA(NNA), HMIN(NNTR),
-     .        X23, Y23, Z23, X31, Y31, Z31,  L12, L23, L31, H1, H2, H3,
-     .        FAC1, FAC2, FAC3, HM1, AREA_OLD, PP, DLS(NPOLH), VMAX, UU,
-     .        PCRIT, RHOINJ, PINJ, VX1, VY1, VZ1, VX2, VY2, VZ2,
-     .        VX3, VY3, VZ3, VVX, VVY, VVZ, VEL(NELT), FAC, VNOD(3,NNS),
-     .        VGRID(3,NNTR), AOUTOT, SVENT(NVENT), SVENTOT, XXX(3,NNT),
+     .        AREA_VENT(NVENT), PM_VENT(NVENT), SCALP, SCALS, 
+     .        AOUT, DERI, PDEF, PVOLTMP,
+     .        DTPDEFI, DTPDEFC, TVENT, PORO(NELT), VOLA(NNA), 
+     .        X23, Y23, Z23, X31, Y31, Z31,  L12, L23, L31, H1,
+     .        FAC1, FAC2, FAC3, AREA_OLD, PP, DLS(NPOLH), VMAX, UU,
+     .        PCRIT, VX1, VY1, VZ1, VX2, VY2, VZ2,
+     .        VX3, VY3, VZ3, VVX, VVY, VVZ, VEL(NELT), FAC, 
+     .        AOUTOT, SVENT(NVENT), SVENTOT, XXX(3,NNT),
      .        VVV(3,NNT),  FVDP, RBID, TTF,
      .        DMCPD(NPOLH), DMCPE(NPOLH), DMCPF(NPOLH),
-     .        CPD, CPE, CPF, TEMP0, TT1, PEL(NELT), PSTAG, VOLNO,TSTOPE,
+     .        CPD, CPE, CPF, TEMP0, PEL(NELT), PSTAG, VOLNO,TSTOPE,
      .        ENINT, MASSFLOW, TFEXT0, ELDMASS(NEL), ELDEHPY(NEL), DMOUT, DHOUT,
      .        XX1, XX2, XX3, YY1, YY2, YY3, ZZ1, ZZ2, ZZ3, NNX, NNY, NNZ,
-     .        AREA_MAX(NPOLH), PW(3,NPOLH),WSURF(3),TMP_VEC(3),SSP1,SSP2,SSPT,VMAT(3),
-     .        Denom, Denom_max,NTRIA_TOT
+     .        AREAMAX
 
 
-      LOGICAL :: BOOLTAGEL,EXIT_NEG_VOL,INJECTION_STARTED
-      LOGICAL :: UP_SWITCH, FOUND
+      LOGICAL :: EXIT_NEG_VOL,INJECTION_STARTED
+      LOGICAL :: UP_SWITCH
 C
       MY_REAL
      .         FINTER, GET_U_FUNC
       EXTERNAL FINTER, GET_U_FUNC
       CHARACTER*20 VENTTITLE
-      INTEGER :: NODE_ID(5), INODE, ITHREAD
+      INTEGER :: NODE_ID(5), INODE
       MY_REAL :: TAB_PVOL(NELT), DOT_PROD
       MY_REAL :: MOMENTUM_FLUX_X(NELT), MOMENTUM_FLUX_Y(NELT), MOMENTUM_FLUX_Z(NELT),
      .     MASS_FLUX(NELT), ENERGY_FLUX(NELT),
      .     CPA_FLUX(NELT), CPB_FLUX(NELT), CPC_FLUX(NELT), CPD_FLUX(NELT),
      .     CPE_FLUX(NELT), CPF_FLUX(NELT), RGAS_FLUX(NELT)
-      INTEGER, DIMENSION(:), ALLOCATABLE :: FLAG_NODE, FLAG_ELEM
       INTEGER(8) :: VEC_PTR_PLUS, VEC_PTR_MINUS
-      INTEGER :: COUNT
+      INTEGER :: COUNT, IDT_FVMBAG
       MY_REAL :: CPAM, CPBM, CPCM, RGASM, CPDM, CPEM, CPFM
 
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
@@ -463,22 +458,17 @@ C
          ENDDO
       ENDDO
 !$OMP END DO
-
 !$OMP END PARALLEL
 
 
 C---------------------------------------------------
 C VERIFICATIONS
 C---------------------------------------------------
-      AREAP=ZERO
-      DO I=1,NNTR
-         IEL=IFVTRI(4,I)
-         IF (IEL.GT.0) AREAP=AREAP+PAREA(I)
-      ENDDO
       AREAEL=ZERO
       DO IEL=1,NEL
          AREAEL=AREAEL+ELAREA(IEL)
       ENDDO
+      AREAP=AREAEL
       RVOLU(18)=AREAEL
       ILVOUT=IVOLU(44)
       VOLPH=ZERO
@@ -638,7 +628,7 @@ C---------------------------------------------------
 !$OMP+ PRIVATE(P1,RHO1,RE1,GAMA1,UX1,UY1,UZ1,UU,RHO2,VV,ETA,KSI,PSTAG)
 !$OMP+ PRIVATE(PCRIT,P2,VMAX,IVDP,FVDP,GAMAI,RHOI,DMOUT,DHOUT,CPAI,CPBI,CPCI)
 !$OMP+ PRIVATE(RMWI,CPDI,CPEI,CPFI,VX1,VY1,VZ1,VX2,VY2,VZ2,VX3,VY3,VZ3,VVX,VVY,VVZ,I1,I2,GAMA2)
-!$OMP+ PRIVATE(VFX,VFY,VFZ,SS,ALPHA,RHOM,RUXM,RUYM,RUZM,REM,MASSFLOW,CPAM,CPBM,CPCM,RGASM,CPDM,CPEM,CPFM)
+!$OMP+ PRIVATE(VFX,VFY,VFZ,SS_,ALPHA,RHOM,RUXM,RUYM,RUZM,REM,MASSFLOW,CPAM,CPBM,CPCM,RGASM,CPDM,CPEM,CPFM)
 !$OMP SECTIONS
 !$OMP SECTION
          FEL(1:NELT) = ZERO
@@ -702,6 +692,8 @@ C----------------------
             VEL(IEL) = ZERO
 !     SURFACE
             AREA = ELAREA(IEL)
+            SS(IEL) = ZERO
+            VREL(IEL) = ZERO
 !     NORMAL VECTOR
             NX = NORM(1, IEL)
             NY = NORM(2, IEL)
@@ -892,12 +884,15 @@ C
                      VY3=VVVA(2,N3)
                      VZ3=VVVA(3,N3)
                   ENDIF
+                  !grid velocity
                   VVX=THIRD*(VX1+VX2+VX3)
                   VVY=THIRD*(VY1+VY2+VY3)
                   VVZ=THIRD*(VZ1+VZ2+VZ3)
+                  !normal vector
                   NX=NORM(1,IEL)
                   NY=NORM(2,IEL)
                   NZ=NORM(3,IEL)
+                  !normal velocity
                   VEL(IEL)=NX*VVX+NY*VVY+NZ*VVZ
                   I1 = FVDATA(IFV)%TRI_TO_ELEM(1, IEL)
                   I2 = FVDATA(IFV)%TRI_TO_ELEM(2, IEL)
@@ -920,8 +915,10 @@ C
                   VFX = HALF * (UX1 + UX2)                 
                   VFY = HALF * (UY1 + UY2)
                   VFZ = HALF * (UZ1 + UZ2)
-                  SS = NX * (VFX - VVX) + NY * (VFY - VVY) + NZ * (VFZ - VVZ)
-                  IF (SS <= ZERO) THEN
+                  VREL(IEL) = (VFX - VVX)*(VFX - VVX) + (VFY - VVY)*(VFY - VVY) +  (VFZ - VVZ)*(VFZ - VVZ)
+                  SS_= NX * (VFX - VVX) + NY * (VFY - VVY) + NZ * (VFZ - VVZ)
+                  SS(IEL) = ELAREA(IEL)*ABS(SS_)
+                  IF (SS_ <= ZERO) THEN
                      ALPHA = ZERO
                   ELSE
                      ALPHA = ONE
@@ -932,15 +929,15 @@ C
                   RUZM = ALPHA * RHO1 * UZ1 + (ONE - ALPHA) * RHO2 * UZ2
                   REM = ALPHA * GAMA1 * RE1 + (ONE - ALPHA) * GAMA2 * RE2
 
-                  MASSFLOW = RHOM * SS * AREA
+                  MASSFLOW = RHOM * SS_ * AREA
                   MASS_FLUX(IEL) = -MASSFLOW
-                  MOMENTUM_FLUX_X(IEL) = -RUXM * SS * AREA
-                  MOMENTUM_FLUX_Y(IEL) = -RUYM * SS * AREA
-                  MOMENTUM_FLUX_Z(IEL) = -RUZM * SS * AREA
-                  ENERGY_FLUX(IEL) = -REM * SS * AREA
+                  MOMENTUM_FLUX_X(IEL) = -RUXM * SS_ * AREA
+                  MOMENTUM_FLUX_Y(IEL) = -RUYM * SS_ * AREA
+                  MOMENTUM_FLUX_Z(IEL) = -RUZM * SS_ * AREA
+                  ENERGY_FLUX(IEL) = -REM * SS_ * AREA
 
                   ELFMASS(IEL) = ELFMASS(IEL) + MASSFLOW * DT1
-                  ELFVEL(IEL) = ELFVEL(IEL) + SS * AREA
+                  ELFVEL(IEL) = ELFVEL(IEL) + SS_ * AREA
 
                   CPAM = ALPHA * CPAPOLH(I1) + (ONE - ALPHA) * CPAPOLH(I2)
                   CPBM = ALPHA * CPBPOLH(I1) + (ONE - ALPHA) * CPBPOLH(I2)
@@ -967,7 +964,7 @@ C
 
 !$OMP PARALLEL PRIVATE(I,MSINI,CPA,CPB,CPC,CPD,CPE,CPF,EFAC,TEMP0)
 !$OMP+ PRIVATE(TEMP,CP,CV,RMW)
-!$OMP+ PRIVATE(AL,DD,AD,GAMA,SSP,QX,VV)
+!$OMP+ PRIVATE(AL,DD,AD,GAMA,SSP,QX,VV,SS_,AREAMAX,AREA)
 !$OMP+ PRIVATE(ITYPL,J,IEL)
 
 !$OMP DO SCHEDULE(GUIDED,1)
@@ -1079,12 +1076,21 @@ C---------------------------------------------------
       !             2       /DT/FVMBAG/2       face by face
       !             3       /DT/FVMBAG/3       characteristic length calculated (more restrictive)
       !-----------!--------!---------------!------------------------------------------------------
-      SELECT CASE (IDTMIN(52))
+      
+      IDT_FVMBAG = IDTMIN(52)  ! /DT/FVMBAG/[IDT_FVMBAG]
 
-        CASE(0,1) ! lc=Vol**1/3
+      QA=RVOLU(46)
+      QB=RVOLU(47)
+      DTX=EP30
+      PHDT=0
+!$OMP END SINGLE
+      SELECT CASE (IDT_FVMBAG)
 
+        CASE(0,1)
+
+!$OMP DO SCHEDULE(GUIDED,1)
           DO I=1,NPOLH
-             IF (IBPOLH(I)==0.AND.IDTMIN(52) < 2) THEN
+            IF (IBPOLH(I)==0.AND.IDTMIN(52) < 2) THEN
                 !POLYEDRA
                 !CONSTANT CHARACTERISTIC LENGTH COMPUTED IN THE STARTER
                 DLS(I)=DLH
@@ -1093,102 +1099,64 @@ C---------------------------------------------------
                 DLS(I)=PVOLU(I)**THIRD
              ENDIF
           ENDDO
-
-        CASE(2) !characteristic length not used
-          DO I=1,NPOLH
-                DLS(I)=PVOLU(I)
-          ENDDO
-
-        CASE(3)
-          DO I=1,NPOLH ! lc=Vol/Surf_max
-             !IF (IBPOLH(I)==0.AND.IDTMIN(52) < 2) THEN
-             !   DLS(I)=DLH ! constant length from starter
-             !ELSE
-                DLS(I)=PVOLU(I)/ AREA_MAX(I)
-             !ENDIF
-          ENDDO
-      END SELECT
-
-      QA=RVOLU(46)
-      QB=RVOLU(47)
-      DTX=EP30
-      PHDT=0
-!$OMP END SINGLE
-      SELECT CASE (IDTMIN(52))
-
-        CASE(0,1)
-!$OMP DO SCHEDULE(GUIDED,1)
-      DO I=1,NPOLH
-         IF(MPOLH(I).LE.ZERO.OR.EPOLH(I).LE.ZERO.OR.GPOLH(I).LE.ONE) THEN
-            DTPOLH(I)=EP30
-            QVISC(I) =ZERO
-         ELSE 
-C
-         AL=PVOLU(I)**THIRD
-         DD=DM(I)/MPOLH(I)
-         AD=MAX(ZERO,DD)
-         GAMA=GPOLH(I)
-         SSP=SQRT((GAMA-ONE)*GAMA*EPOLH(I)/MPOLH(I))
-         QVISC(I)=RPOLH(I)*AD*AL*(QA*QA*AL*AD+QB*SSP)
-C
-               QX=QB*SSP+AL*QA*QA*AD
-               SSP=QX+SQRT(QX*QX+SSP*SSP)
-               VV=SQRT(PU(1,I)**2+PU(2,I)**2+PU(3,I)**2)
-               DTPOLH(I)=CFL_COEF*DLS(I)/(SSP+VV)
-             ENDIF
-          ENDDO
 !$OMP END DO
-
-        CASE(2) ! check all faces and compute normal relative velocities
-
+                       
 !$OMP DO SCHEDULE(GUIDED,1)
           DO I=1,NPOLH
-             IF(MPOLH(I) <= ZERO.OR.EPOLH(I) <= ZERO.OR.GPOLH(I) <= ONE) THEN
-                DTPOLH(I)=EP30
-                QVISC(I) =ZERO
-             ELSE
-               GAMA=GPOLH(I)
-               ! 1.calculating Grid Velocity for each polyedron
-               PW(1:3,I)=ZERO
-               Denom_max = ZERO
-               DO J=IFVPADR(I),IFVPADR(I+1)-1
-                  JJ=IFVPOLH(J)
-                  NTRIA = IFVTADR(JJ+1) - IFVTADR(JJ)
-                  WSURF(1:3)=ZERO
-                  DO K=IFVTADR(JJ),IFVTADR(JJ+1)-1
-                     KK  =IFVPOLY(K)
-                     AREA=PAREA(KK)
-                     IEL1=IFVTRI(5, KK)
-                     IEL2=IFVTRI(6, KK)
-                     IF(IEL2==0)IEL2=I !bounday surface
-                     IF(IEL1==0)IEL1=I
-                     VMAT(1) = HALF*(PU(1,IEL1)+PU(1,IEL2))
-                     VMAT(2) = HALF*(PU(2,IEL1)+PU(2,IEL2))
-                     VMAT(3) = HALF*(PU(3,IEL1)+PU(3,IEL2))
-                     SSP1= SQRT((GAMA-ONE)*GAMA*EPOLH(IEL1)/MPOLH(IEL1))
-                     SSP2= SQRT((GAMA-ONE)*GAMA*EPOLH(IEL2)/MPOLH(IEL2))
-                     SSPt = HALF*(SSP1+SSP2)
-                     TMP_VEC(1) = (VMAT(1)-VGRID(1,KK))*PNORM(1,KK)
-                     TMP_VEC(2) = (VMAT(2)-VGRID(2,KK))*PNORM(2,KK)
-                     TMP_VEC(3) = (VMAT(3)-VGRID(3,KK))*PNORM(3,KK)
-                     Denom = AREA*(SQRT(TMP_VEC(1)*TMP_VEC(1)+TMP_VEC(2)*TMP_VEC(2)+TMP_VEC(3)*TMP_VEC(3)) + SSPt)
-                     Denom_max = MAX(Denom, Denom_max)
-                  ENDDO! next K (triangle)
-               ENDDO! next J (polygon)
-               ! 2.artificial viscosity
+             IF(MPOLH(I).LE.ZERO.OR.EPOLH(I).LE.ZERO.OR.GPOLH(I).LE.ONE) THEN
+               DTPOLH(I)=EP30
+               QVISC(I) =ZERO
+             ELSE 
+C
                AL=PVOLU(I)**THIRD
                DD=DM(I)/MPOLH(I)
                AD=MAX(ZERO,DD)
                GAMA=GPOLH(I)
                SSP=SQRT((GAMA-ONE)*GAMA*EPOLH(I)/MPOLH(I))
                QVISC(I)=RPOLH(I)*AD*AL*(QA*QA*AL*AD+QB*SSP)
-               QX=QB*SSP+AL*QA*QA*AD
-               SSP=QX+SQRT(QX*QX+SSP*SSP)
-               ! 3.time step
-               DTPOLH(I)=CFL_COEF*DLS(I)/(denom_max)
+C
+               QX=QB*SSP+AL*QA*QA*AD                        
+               SSP=QX+SQRT(QX*QX+SSP*SSP)                   
+               VV=SQRT(PU(1,I)**2+PU(2,I)**2+PU(3,I)**2)    
+               DTPOLH(I)=CFL_COEF*DLS(I)/(SSP+VV)           
              ENDIF
           ENDDO
 !$OMP END DO
+
+        CASE(2) ! check all faces and compute normal relative velocities
+
+
+!$OMP DO SCHEDULE(GUIDED,1)
+          DO I = 1, NPOLH
+             SS_=ZERO
+             DO J = 1, FVDATA(IFV)%ELEM_TO_TRI(I)%MINUS_SIZE
+                IEL = FVDATA(IFV)%ELEM_TO_TRI(I)%MINUS(J)
+!         FINITE VOLUME I IS ON THE LEFT SIDE OF ELEMENT IEL, HENCE A + SIGN
+                SS_=MAX(SS_,SS(IEL)) ! <|u-w|,n>
+             ENDDO
+             DO J = 1, FVDATA(IFV)%ELEM_TO_TRI(I)%PLUS_SIZE
+                IEL = FVDATA(IFV)%ELEM_TO_TRI(I)%PLUS(J)
+!         FINITE VOLUME I IS ON THE RIGHT SIDE OF ELEMENT IEL, HENCE A - SIGN
+                SS_=MAX(SS_,SS(IEL)) ! <|u-w|,n>
+             ENDDO
+             
+             AL=PVOLU(I)**THIRD                                                          
+             DD=DM(I)/MPOLH(I)                                                           
+             AD=MAX(ZERO,DD)                                                             
+             GAMA=GPOLH(I)                                                               
+             SSP=SQRT((GAMA-ONE)*GAMA*EPOLH(I)/MPOLH(I))                                 
+             QVISC(I)=RPOLH(I)*AD*AL*(QA*QA*AL*AD+QB*SSP)                                
+             QX=QB*SSP+AL*QA*QA*AD                                                       
+             SSP=QX+SQRT(QX*QX+SSP*SSP)                                                  
+             ! 3.relative velocty (PU:material velocity : PW:grid velocity)              
+             !    SS_ <- max( area*(u-w).n )
+             !    u-w = 0 unless in case of porosity
+             ! 4.time step       
+             DLS(I)=PVOLU(I)                                                        
+             DTPOLH(I)=CFL_COEF*DLS(I)/(SSP+SS_)                                  
+          ENDDO
+!$OMP END DO
+
 
 
         CASE(3) !time step computed from a characteristic length
@@ -1200,31 +1168,26 @@ C
                 QVISC(I) =ZERO
              ELSE
                ! 1.calculating Grid Velocity for each polyedron
-               PW(1:3,I)=ZERO
-               NPOLYG = IFVPADR(I+1) - IFVPADR(I)
-               NTRIA_TOT = ZERO
+               AREAMAX = ZERO
+               COUNT = 0
+               VV = ZERO
                !loop over polygons
-               DO J=IFVPADR(I),IFVPADR(I+1)-1
-                  JJ=IFVPOLH(J)
-                  NTRIA = IFVTADR(JJ+1) - IFVTADR(JJ)
-                  WSURF(1:3)=ZERO
-                  NTRIA_TOT = NTRIA_TOT + NTRIA
-                  !loop over triangles
-                  DO K=IFVTADR(JJ),IFVTADR(JJ+1)-1
-                     KK  =IFVPOLY(K)
-                     WSURF(1)=WSURF(1)+VGRID(1,KK)
-                     WSURF(2)=WSURF(2)+VGRID(2,KK)
-                     WSURF(3)=WSURF(3)+VGRID(3,KK)
-                  ENDDO! next K (triangle)
-                  PW(1,I)=PW(1,I)+WSURF(1)
-                  PW(2,I)=PW(2,I)+WSURF(2)
-                  PW(3,I)=PW(3,I)+WSURF(3)
-               ENDDO! next J (polygon)
-               !PW:polyhedron mean value over all triangles
-               PW(1,I)=PW(1,I)/NTRIA_TOT
-               PW(2,I)=PW(2,I)/NTRIA_TOT
-               PW(3,I)=PW(3,I)/NTRIA_TOT
-               ! 2.artificial viscosity
+               DO J = 1, FVDATA(IFV)%ELEM_TO_TRI(I)%MINUS_SIZE
+                  IEL = FVDATA(IFV)%ELEM_TO_TRI(I)%MINUS(J)
+                  AREA = ELAREA(IEL)          
+!                  FINITE VOLUME I IS ON THE LEFT SIDE OF ELEMENT IEL, HENCE A + SIGN
+                  AREAMAX=MAX(AREAMAX,AREA)
+                  VV = VV+SQRT(VREL(IEL))
+                  COUNT=COUNT+1
+               ENDDO
+               DO J = 1, FVDATA(IFV)%ELEM_TO_TRI(I)%PLUS_SIZE
+                  IEL = FVDATA(IFV)%ELEM_TO_TRI(I)%PLUS(J)
+                  AREA = ELAREA(IEL)          
+!                 FINITE VOLUME I IS ON THE RIGHT SIDE OF ELEMENT IEL, HENCE A - SIGN
+                  AREAMAX=MAX(AREAMAX,AREA)
+                  VV = VV+SQRT(VREL(IEL))                  
+                  COUNT=COUNT+1
+               ENDDO
                AL=PVOLU(I)**THIRD
                DD=DM(I)/MPOLH(I)
                AD=MAX(ZERO,DD)
@@ -1234,12 +1197,12 @@ C
                QX=QB*SSP+AL*QA*QA*AD
                SSP=QX+SQRT(QX*QX+SSP*SSP)
                ! 3.relative velocty (PU:material velocity : PW:grid velocity)
-               TMP_VEC(1)=PU(1,I)-PW(1,I)
-               TMP_VEC(2)=PU(2,I)-PW(2,I)
-               TMP_VEC(3)=PU(3,I)-PW(3,I)
-               VV=SQRT(TMP_VEC(1)*TMP_VEC(1)+TMP_VEC(2)*TMP_VEC(2)+TMP_VEC(3)*TMP_VEC(3))
+               IF(COUNT > 0)THEN
+                 VV = VV / FLOAT(COUNT) 
+               ENDIF               
                ! 4.time step
-               DTPOLH(I)=CFL_COEF*DLS(I)/(SSP+VV)
+                DLS(I)=PVOLU(I)               
+               DTPOLH(I)=CFL_COEF*DLS(I)/AREAMAX/(SSP+VV)
              ENDIF
           ENDDO
 !$OMP END DO
@@ -1274,7 +1237,7 @@ C PRESSURE FORCES AND WORK COMPUTATION
 C---------------------------------------------------
 !$OMP PARALLEL PRIVATE(N1,N2,N3,IEL,NX,NY,NZ)
 !$OMP+ PRIVATE(VX1,VX2,VX3,VY1,VY2,VY3,VZ1,VZ2,VZ3)
-!$OMP+ PRIVATE(VVX,VVY,VVZ,I1,I2,AREA,IVENT,IDEF,IVENTYP,AOUT,PP,P1,P2,PMEAN,AREA_OLD,AREA1,SS)
+!$OMP+ PRIVATE(VVX,VVY,VVZ,I1,I2,AREA,IVENT,IDEF,IVENTYP,AOUT,PP,P1,P2,PMEAN,AREA_OLD,AREA1,SS_)
 !$OMP DO SCHEDULE(GUIDED,1)
       DO IEL=1,NELT
          N1=ELEM(1,IEL)
@@ -1337,20 +1300,20 @@ C---------------------------------------------------
             AREA_OLD = AREA
             AREA = AREA * POROSITY(IEL - NEL)
             AREA1 = AREA_OLD - AREA
-            SS = NX * VVX + NY * VVY + NZ * VVZ
+            SS_ = NX * VVX + NY * VVY + NZ * VVZ
             IF (ITAGEL(IEL) > 0) THEN
 !     INJECTOR
                FEL(IEL) = (P1 - P2) * AREA1
                MOMENTUM_FLUX_X(IEL) = -PMEAN * NX * AREA
                MOMENTUM_FLUX_Y(IEL) = -PMEAN * NY * AREA
                MOMENTUM_FLUX_Z(IEL) = -PMEAN * NZ * AREA
-               ENERGY_FLUX(IEL) = -PMEAN * SS * AREA
+               ENERGY_FLUX(IEL) = -PMEAN * SS_ * AREA
             ELSE
                FEL(IEL) = (P1 - P2) * AREA1
                MOMENTUM_FLUX_X(IEL) = -PMEAN * NX * AREA
                MOMENTUM_FLUX_Y(IEL) = -PMEAN * NY * AREA
                MOMENTUM_FLUX_Z(IEL) = -PMEAN * NZ * AREA
-               ENERGY_FLUX(IEL) = -PMEAN * SS * AREA
+               ENERGY_FLUX(IEL) = -PMEAN * SS_ * AREA
             ENDIF
          ENDIF
       ENDDO
@@ -1362,7 +1325,7 @@ C NEW QUANTITIES IN POLYEDRA
 C---------------------------------------------------
 !$OMP PARALLEL PRIVATE(I, J, IEL)
 !$OMP+ PRIVATE(NX, NY, NZ, N1, N2, N3, VX1, VX2, VX3, VY1, VY2, VY3, VZ1, VZ2, VZ3)
-!$OMP+ PRIVATE(VVX, VVY, VVZ, I1, I2, PP, AREA_OLD, AREA, AREA1, SS)
+!$OMP+ PRIVATE(VVX, VVY, VVZ, I1, I2, PP, AREA_OLD, AREA, AREA1, SS_)
 !$OMP DO SCHEDULE(GUIDED,1)
       DO I = 1, NPOLH
          DO J = 1, FVDATA(IFV)%ELEM_TO_TRI(I)%MINUS_SIZE
@@ -1400,7 +1363,7 @@ C---------------------------------------------------
                AREA1 = ZERO
             ENDIF
 
-            SS = NX * VVX + NY * VVY + NZ * VVZ
+            SS_ = NX * VVX + NY * VVY + NZ * VVZ
 
 !     FINITE VOLUME I IS ON THE LEFT SIDE OF ELEMENT IEL, HENCE A + SIGN
             QPOLH(1, I) = QPOLH(1, I) + (MOMENTUM_FLUX_X(IEL) - PP * NX * AREA1) * DT1
@@ -1409,7 +1372,7 @@ C---------------------------------------------------
             IF (ITAGEL(IEL) > 0) THEN
                EPOLH(I) = EPOLH(I) + (ENERGY_FLUX(IEL) + PP * VEL(IEL) * AREA1) * DT1
             ELSE
-               EPOLH(I) = EPOLH(I) + (ENERGY_FLUX(IEL) - PP * SS * AREA1) * DT1
+               EPOLH(I) = EPOLH(I) + (ENERGY_FLUX(IEL) - PP * SS_ * AREA1) * DT1
             ENDIF
          ENDDO
          DO J = 1, FVDATA(IFV)%ELEM_TO_TRI(I)%PLUS_SIZE
@@ -1447,7 +1410,7 @@ C---------------------------------------------------
                AREA1 = ZERO
             ENDIF
 
-            SS = NX * VVX + NY * VVY + NZ * VVZ
+            SS_ = NX * VVX + NY * VVY + NZ * VVZ
 
 
 !     FINITE VOLUME I IS ON THE RIGHT SIDE OF ELEMENT IEL, HENCE A - SIGN
@@ -1457,7 +1420,7 @@ C---------------------------------------------------
             IF (ITAGEL(IEL) > 0) THEN
                EPOLH(I) = EPOLH(I) - (ENERGY_FLUX(IEL) - PP * VEL(IEL) * AREA1) * DT1
             ELSE
-               EPOLH(I) = EPOLH(I) - (ENERGY_FLUX(IEL) - PP * SS * AREA1) * DT1
+               EPOLH(I) = EPOLH(I) - (ENERGY_FLUX(IEL) - PP * SS_ * AREA1) * DT1
             ENDIF
          ENDDO
       ENDDO

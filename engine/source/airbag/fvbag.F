@@ -408,7 +408,7 @@ C-----------------------------------------------
      .        IVENT, IDEF, IPORT, IPORP, IPORA, IPORT1, IPORP1, IPORA1,
      .        ITVENT, PHDT, I1, I2, NNSA, ICONT(NNT),IVDP,ITTF, IDPDEF,
      .        IDTPDEF,PMAIN,N21,N22,TAGSURF(2,NELT+1),ITYPL,
-     .        PREPARE_ANIM,IVENTYP,IMETHOD_LC, IEL1, IEL2
+     .        PREPARE_ANIM,IVENTYP,IMETHOD_LC, IEL1, IEL2, IDT_FVMBAG
       INTEGER TITREVENT(20)
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: SURF_INT,SURF_EXT
 
@@ -1463,7 +1463,10 @@ C---------------------------------------------------
       !-----------------------------------
       ! CHARACTERISTIC LENGTH
       !-----------------------------------
-      SELECT CASE (IDTMIN(52))
+      
+      IDT_FVMBAG = IDTMIN(52)  ! /DT/FVMBAG/[IDT_FVMBAG]
+      
+      SELECT CASE (IDT_FVMBAG)
 
         CASE(0,1) ! lc=Vol**1/3
           DO I=1,NPOLH
@@ -1496,7 +1499,7 @@ C---------------------------------------------------
         !FAC_W = ZERO !ignore grid velocity for time step (previous formulation)
         FAC_W = ONE  !use grid velocity
 
-      SELECT CASE (IDTMIN(52))
+      SELECT CASE (IDT_FVMBAG)
 
         CASE(0,1)
 !$OMP DO SCHEDULE(GUIDED,1)
