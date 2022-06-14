@@ -95,7 +95,7 @@ C-----------------------------------------------
       INTEGER :: I,ILAW,YTAB_ID,ISRATE,IFORM,ITRX,IDAM,NDIM_YLD
       my_real :: RHO0,RHOR,E,NU,Y0,Q,B,H,G,BULK,C11,C12,EPSPMIN,EPSPMAX,SSP,
      .           FCUT,A1F,A2F,A1H,A2H,AS,CC,D1C,D2C,D1F,D2F,D_TRX,D_JC,EXP_N,
-     .           XSCALE,YSCALE,YSCALE_UNIT,XSCALE_UNIT
+     .           XSCALE,YSCALE,YSCALE_UNIT,UNIT_L,XSCALE_UNIT,THICK
 C=======================================================================
       ILAW = 120
       IS_CRYPTED   = .FALSE.
@@ -114,6 +114,7 @@ card2 Elasticity parameters and formulation flags
       CALL HM_GET_INTV  ('MAT_IFORM' ,IFORM    ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV  ('MAT_ITRX'  ,ITRX     ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV  ('MAT_IDAM'  ,IDAM     ,IS_AVAILABLE, LSUBMODEL)
+      CALL HM_GET_FLOATV('MAT_THICK' ,THICK    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 card3 yield hardening function table
       CALL HM_GET_INTV  ('MAT_TAB_ID',YTAB_ID  ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV('MAT_Xscale',XSCALE   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -169,6 +170,10 @@ c-------------------
         CALL HM_GET_FLOATV_DIM('MAT_Yscale' ,YSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         YSCALE = ONE * YSCALE_UNIT
       ENDIF
+      IF (THICK == ZERO) THEN
+        CALL HM_GET_FLOATV_DIM('MAT_THICK' ,UNIT_L ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        THICK = ONE * UNIT_L
+      ENDIF
 c-----------------
 c     Johnson/Cookss fracture strain parameters check
       D1F = MAX(D1C, D1F)
@@ -177,7 +182,7 @@ c-----------------
       NUMTABL  = 1
       NUVAR    = 5
       NVARTMP  = 1
-      NUPARAM  = 33
+      NUPARAM  = 34
       IF (YTAB_ID > 0) THEN ! analytical yld parameters are not used with tabulated input
         Y0 = ZERO
         Q  = ZERO
@@ -225,6 +230,7 @@ c
       UPARAM(32) = C11            
       UPARAM(33) = C12            
 c
+      UPARAM(34) = THICK ! For connect element  (type43)
       ITABLE(1) = YTAB_ID     ! Yield function table = f(epsp,epsdot,temp)
 c------------------
       PM(1)  = RHOR
@@ -257,7 +263,7 @@ c-----------------
       IF (IS_CRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-        WRITE(IOUT,1200) RHO0,E,NU,IFORM
+        WRITE(IOUT,1200) RHO0,E,NU,THICK,IFORM
         IF (YTAB_ID > 0) THEN
           WRITE(IOUT,1300) YTAB_ID,XSCALE,YSCALE
         ELSE
@@ -278,6 +284,7 @@ c-----------------------------------------------------------------------
      & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/  
      & 5X,'YOUNG MODULUS . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'POISSON RATIO . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'REFERENCE THICKNESS . . . . . . . . . .=',1PG20.13/    
      & 5X,'YIELD CRITERION FLAG  . . . . . . . . .=',I3)
  1300 FORMAT(
      & 5X,'YIELD FUNCTON TABLE IDENTIFIER. . . . .=',I10/

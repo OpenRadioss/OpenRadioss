@@ -62,10 +62,11 @@ Chd|====================================================================
      G FZ1      ,FZ2   ,FZ3    ,FZ4    ,FZ5    ,FZ6    ,FZ7    ,FZ8    ,
      H STIFM    ,STIFR ,VISCM  ,VISCR  ,PARTSAV,IPARTS ,BUFMAT ,IOUTPRT,
      L IFAILURE ,NPF   ,TF     ,IPM    ,IGEO   ,NPG    ,NEL    ,JSMS   ,
-     M DMELS    ,PM    ,GEO    ,ITASK)
+     M DMELS    ,PM    ,GEO    ,ITASK  ,JTHE   ,TABLE )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
+      USE TABLE_MOD
       USE ELBUFDEF_MOD            
       USE LAW_USERSO
 C-------------------------------------------------------------------------
@@ -137,6 +138,7 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "param_c.inc"
 #include      "com01_c.inc"
+#include      "com04_c.inc"
 #include      "scr19_c.inc"
 #include      "task_c.inc"
 #include      "usrplas_c.inc"
@@ -145,9 +147,10 @@ C-----------------------------------------------
 C----------------------------------------------------------
 C   D u m m y   A r g u m e n t s  
 C----------------------------------------------------------
-      INTEGER NEL,IOUT,IPROP,IMAT,IOUTPRT,IFAILURE,NPG, JSMS
+      INTEGER NEL,IOUT,IPROP,IMAT,IOUTPRT,IFAILURE,NPG, JSMS,JTHE
       INTEGER NGL(NEL),IPARTS(*),NPF(*),IPM(NPROPMI,*),
      .  IGEO(NPROPGI,*),ITASK
+      TARGET  :: IPM
       my_real
      .  TIME,TIMESTEP,PARTSAV(NPSAV,*),DMELS(*),PM(NPROPM,*),
      .  STIFM(*) ,STIFR(*) , VISCM(*) ,VISCR(*) ,FR_WAVE(*),TF(*),             
@@ -171,7 +174,7 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I,I1,I2,II,JJ(6),J,J1,J2,IC,IR,IP,IPG,JPT,IUV,IEL,ISRATE,
      .  NPAR,NPARF,NVARF,NFUNC,NFUNCR,NFAILS,ISMSTR,ILAW_USER,IPTR,IPTS,IPTT,
-     .  IADBUF,IADBUFR,IFAIL,NUVAR,MTN,NDAMF,ISOLID,ISOLIDF
+     .  IADBUF,IADBUFR,IFAIL,NUVAR,MTN,NDAMF,ISOLID,ISOLIDF,NUMTABL,NVARTMP
       INTEGER IFUNC(MAXFUNC),IFUNCR(MAXFUNC)
       my_real :: A,B,C,ALPHA,EPSP,ASRATE,TTHICK,OFF_EL
       my_real 
@@ -202,7 +205,9 @@ C-----------------------------------------------
       TARGET :: AREAP   
       TYPE(BUF_FAIL_), POINTER  :: FBUF
       TYPE(ULAWINTBUF) :: USERBUF
-      my_real, DIMENSION(:),POINTER :: EPLASN,EPLAST,EPSD,UPARAM,UVAR,AREA,AREAN,OFFI
+      TYPE (TTABLE)  , DIMENSION(NTABLE) ::  TABLE
+      INTEGER, DIMENSION(:) ,POINTER   :: ITABLE
+      my_real, DIMENSION(:),POINTER :: EPLASN,EPLAST,EPSD,UPARAM,UVAR,VARTMP,AREA,AREAN,OFFI
 C=======================================================================
       GBUF  => ELBUF_STR%GBUF
       
@@ -211,11 +216,16 @@ C=======================================================================
       IADBUF = IPM(7,IMAT) 
       NUVAR  = IPM(8,IMAT)
       NPAR   = IPM(9,IMAT)
-      NFUNC  = IPM(10,IMAT)   
+      NFUNC  = IPM(10,IMAT) 
+      NUMTABL= IPM(226,IMAT)                 
+
       MTN = IPM(2,IMAT)   
       DO I=1,NFUNC               
         IFUNC(I)=IPM(10+I,IMAT)  
-      ENDDO                      
+      ENDDO 
+
+      ITABLE => IPM(226+1:226+NUMTABL,IMAT)
+                     
       ISRATE = IPM(3,IMAT)
       ALPHA  = PM(9,IMAT)
       
@@ -328,6 +338,10 @@ c--------------------------------------------------
       DO IPG = 1,NPG
         LBUF => ELBUF_STR%BUFLY(1)%LBUF(IPG,1,1)
         UVAR => ELBUF_STR%BUFLY(1)%MAT(IPG,1,1)%VAR
+
+        NVARTMP = ELBUF_STR%BUFLY(1)%NVARTMP
+        VARTMP => ELBUF_STR%BUFLY(1)%MAT(IPG,1,1)%VARTMP
+
         EPSD(1:NEL) => LBUF%EPSD(1:NEL)
 c
         AREAN(1:NEL) => AREAP(1:NEL,IPG)
@@ -419,7 +433,19 @@ c
      4        SIGNZZ   ,SIGNYZ   ,SIGNZX   ,STIFM    ,DMELS    ,LBUF%DMG ,
      5        IPG      ,ISOLIDF  ,NGL      ,NFUNC    ,IFUNC    ,NPF      ,TF)
 
- 
+          CASE (120) ! TAPO model
+            CALL SIGEPS120_CONNECT_MAIN(
+     1         NEL      ,NGL      ,TIME     ,TIMESTEP ,UPARAM   ,GBUF%OFF     ,  
+     2         LBUF%EPSD,STIFM    ,JTHE     ,      
+     3         AREA     ,DEPSZZ   ,DEPSYZ   ,DEPSZX   ,EPSZZ    ,NPAR     ,
+     4         SIG0ZZ   ,SIG0YZ   ,SIG0ZX   ,SIGNZZ   ,SIGNYZ   ,SIGNZX  ,  
+     5         LBUF%PLA ,JSMS     ,DMELS    ,UVAR     ,NUVAR    ,
+     6         NUMTABL  ,ITABLE   ,TABLE    ,NVARTMP  ,VARTMP   ,LBUF%TEMP    )                                           
+c           mean Gauss point values for element output                                                     
+            DO IEL=1,NEL
+              GBUF%PLA(IEL)  = GBUF%PLA(IEL)  + FOURTH*LBUF%PLA(IEL)
+              GBUF%EPSD(IEL) = GBUF%EPSD(IEL) + FOURTH*LBUF%EPSD(IEL)
+            ENDDO 
 C-----------------------------------------------
 
 
