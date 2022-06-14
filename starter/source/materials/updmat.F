@@ -316,9 +316,7 @@ c------------------
      .                     PM(1,IMAT))
 c------------------
           CASE (120)    ! TAPO material for adhesives
-            CALL LAW120_UPD(NUPARAM ,NUMTABL ,ITABLE ,TABLE ,UPARAM)
-           
-           
+            CALL LAW120_UPD(NUPARAM ,NUMTABL ,ITABLE ,TABLE ,UPARAM)          
         END SELECT ! (ILAW)  
 c------------------
       ENDDO        ! IMAT=1,NUMMAT

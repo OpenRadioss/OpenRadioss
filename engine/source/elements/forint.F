@@ -925,7 +925,7 @@ C-------------------------
      6           FSKY    ,FR_WAVE ,IADS    ,EANI    ,STIFN    ,
      7           STIFR   ,FX      ,FY      ,FZ      ,IFAILURE ,
      8           MTN     ,IGTYP   ,NPT     ,JSMS    ,MSSA(NF1),
-     9           DMELS(NF1),ITASK ,IPRI    )
+     9           DMELS(NF1),ITASK ,IPRI    ,JTHE    ,TABLE )
 C--------------------------
           ELSEIF (NPT == 1)THEN
 C--------------------------
