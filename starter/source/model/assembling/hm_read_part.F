@@ -41,7 +41,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_PART(IPART,PM,GEO,IPM,IGEO,IWA,THK_PART,
-     .           UNITAB,LSUBMODEL)
+     .           UNITAB,LSUBMODEL,MULTI_FVM)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -61,12 +61,14 @@ C     THK_PART        VIRTUAL THICKNESS FOR PART ( USE BY CONTACT INTERFACES )
 C     UNITAB          UNITS ARRAY
 C     LSUBMODEL       SUBMODEL STRUCTURE    
 C============================================================================
+C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD           
       USE SUBMODEL_MOD           
       USE HM_OPTION_READ_MOD
+      USE MULTI_FVM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -87,53 +89,45 @@ C-----------------------------------------------
 #include      "submod_c.inc"
 #include      "sysunit.inc"
 C-----------------------------------------------
-      LOGICAL LOI_FLUID
-      EXTERNAL LOI_FLUID
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      my_real,
-     .  INTENT(IN)::GEO(NPROPG,*)
+      my_real,INTENT(IN)::GEO(NPROPG,NUMGEO)
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
 C OUTPUT ARGUMENTS
       INTEGER,INTENT(OUT)::IPART(LIPART1,*)
       INTEGER,INTENT(OUT)::IWA(*)
-      my_real,
-     .  INTENT(OUT)::THK_PART(*)
+      my_real,INTENT(OUT)::THK_PART(*)
 C MODIFIED ARGUMENT
-      INTEGER,INTENT(INOUT)::IGEO(NPROPGI,*)
-      INTEGER,INTENT(INOUT)::IPM(NPROPMI,*)
-      my_real,
-     .  INTENT(INOUT)::PM(NPROPM,*)
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
+      INTEGER,INTENT(INOUT)::IGEO(NPROPGI,NUMGEO)
+      INTEGER,INTENT(INOUT)::IPM(NPROPMI,NUMMAT)
+      my_real,INTENT(INOUT)::PM(NPROPM,NUMMAT)
+      TYPE(MULTI_FVM_STRUCT),INTENT(INOUT)::MULTI_FVM     
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
+      CHARACTER MESS*40
+      CHARACTER*nchartitle,TITR,TITR1,TITR2,LINE1
+      LOGICAL IS_AVAILABLE, USER_LAW, IS_ASSOCIATED_LAW51
       INTEGER PID,MID,SID,ID,ID1,ID2,I,IMID,IPID,ISID,K,ITH, IGTYP,XFEMFLG,
      .        IXFEM,IHBE,ILAW,UID,IFLAGUNIT,J,FLG_SPH_THERM_UPDT,IDMAT_PLY,
-     .        ILAW_PLY,IPMAT,NPT,IDPARTSPH,SUB_INDEX,SIZE
-      CHARACTER MESS*40
-      my_real
-     .   BID, THICK,FAC_L,MP,VOL,DIAM
-      INTEGER IDS, CNT, IFIX_TMP, IGFLU, JALE,
-     .   JTHE
-      CHARACTER*nchartitle,
-     .   TITR,TITR1,TITR2,LINE1
-      LOGICAL USER_LAW
-      my_real
-     .         GET_U_GEO
-      EXTERNAL GET_U_GEO
-      LOGICAL IS_AVAILABLE
+     .        ILAW_PLY,IPMAT,NPT,IDPARTSPH,SUB_INDEX,SIZE, IDS, CNT, 
+     .        IFIX_TMP, IGFLU, JALE,JTHE,STAT
+      my_real BID, THICK,FAC_L,MP,VOL,DIAM
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
+      LOGICAL LOI_FLUID
+      EXTERNAL LOI_FLUID
+      my_real GET_U_GEO
+      EXTERNAL GET_U_GEO
       INTEGER NINTRI
       DATA MESS/' PART DEFINITION                        '/
-C=======================================================================
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
+      IS_ASSOCIATED_LAW51 = .FALSE.
       IS_AVAILABLE = .FALSE.
       SUB_INDEX = 0
       UID = 0
@@ -143,7 +137,7 @@ C=======================================================================
 
       WRITE(IOUT,'(//A)')'       PARTS' 
       WRITE(IOUT,'(A//)')'       -----' 
-C
+
       FLG_SPH_THERM_UPDT = 0
       DO I=1,NUMGEO
          IWA(I) = 0
@@ -181,7 +175,7 @@ C--------------------------------------------------
 C--------------------------------------------------
         WRITE(IOUT,'(/A,I10,2A)')'PART:',ID,',',TRIM(TITR)
         WRITE(IOUT,'(A)')       '----'
-C
+
         CALL FRETITL(TITR,IPART(LIPART1-LTITR+1,I),LTITR)
 
         THK_PART(I) = THICK
@@ -198,9 +192,9 @@ C
         ELSE
             CALL FRETITL2(TITR1,IGEO(NPROPGI-LTITR+1,IPID),LTITR)
         ENDIF
-C
+
         WRITE(IOUT,'(A,I10,2A)')'     PROPERTY:',PID,',',TRIM(TITR1)
-C
+
         IGTYP=NINT(GEO(12,IPID))
         IF(IGTYP == 17 .OR. IGTYP == 51) IPART_STACK = 1
         IF(IGTYP ==  52) IPART_PCOMPP = 1
@@ -220,8 +214,9 @@ C
      .                     I2=MID)
             ENDIF          
         ENDIF
+        !--- check material identifier
         IF(MID == 0) THEN
-C        MAT FICTIF RESSORT
+         !fictious material law for spring elements
          IMID=NUMMAT
          ILAW=IPM(2,IMID)
         ELSE
@@ -239,6 +234,9 @@ C        MAT FICTIF RESSORT
            IXFEM = IPM(236,IMID)
            CALL FRETITL2(TITR2,IPM(NPROPMI-LTITR+1,IMID),LTITR)
          ENDIF
+         !check if law151 is used
+         IF(ILAW == 151)IS_ASSOCIATED_LAW51=.TRUE.
+         !--- check property identifier
          IGTYP=0
          IF(IPID > 0) IGTYP=IGEO(11,IPID)
          IF (IXFEM > 0 .and. (IGTYP==1  .or. IGTYP==9 .or. IGTYP==10 .or. 
@@ -320,7 +318,7 @@ C compatibility of global material and ply material for type11
              ENDIF
            ENDDO
         ENDIF        
-C
+
         IF(IGTYP == 23) THEN
            IMID = NINTRI(MID,IPM,NPROPMI,NUMMAT,1)
            ILAW=IPM(2,IMID)
@@ -332,7 +330,7 @@ C
      .                  C1=TITR)
            ENDIF
         ENDIF
-C
+
         IF(ILAW == 70 .AND. IGEO(31,IPID) == 1) WRITE(IOUT,2000)
 
         !################################################################!   !(14)'SOLID'     
@@ -369,10 +367,10 @@ C     Allow SHELL3N for 2D law 151
               ENDIF
            ENDIF
         ENDIF
-C        
+       
         WRITE(IOUT,'(A,I10,2A)')'     SUBSET  :',SID
         WRITE(IOUT,'(A,1PG20.13,2A)')' VIRT. THICKN:',THK_PART(I)
-C
+
 C       SPH : special treatments
         IF (IGEO(11,IPID) == 34) THEN
           DIAM =GET_U_GEO(6,IPID)
@@ -387,7 +385,7 @@ C         SPH : printout of the smoothing length
 C         SPH : update of thermal flags
           IF (JTHE > 0) FLG_SPH_THERM_UPDT = 1
         ENDIF
-C
+
         IPART(1,I)=IMID
         IPART(2,I)=IPID
         ISID=0
@@ -415,7 +413,7 @@ C
        IF(IMID > 0)ILAW =IPM(2,IMID)
        IF(IPID > 0)IGFLU=IGEO(36,IPID)
        !IGTYP = IGEO(11,I)
-       !### CAA without fluid material
+       !### CAA without fluid material (CAA is obsolete)
        IF(ICAA.NE.0)THEN
          IF(JALE==1 .OR. JALE==2)THEN !ALE or EULER
            IF(loi_fluid(ilaw).eqv..false.) THEN
@@ -451,20 +449,35 @@ C
 
       ENDDO ! NPART
       
+      MULTI_FVM%IS_USED = IS_ASSOCIATED_LAW51
+      
+      IMULTI_FVM = 0
+      IF (MULTI_FVM%IS_USED) THEN
+         IMULTI_FVM = 1     
+         IF (N2D == 0) THEN
+            ALLOCATE(MULTI_FVM%VEL(3, NUMELS), STAT=stat)
+         ELSE
+            ALLOCATE(MULTI_FVM%VEL(3, NUMELQ + NUMELTG), STAT=stat)
+         ENDIF
+         IF (STAT /= 0) CALL ANCMSG(MSGID   = 268,
+     .        ANMODE  = ANINFO,
+     .        MSGTYPE = MSGERROR,
+     .        C1      = 'MULTI_FVM%VEL')
+         MULTI_FVM%VEL(: ,:) = ZERO
+      ENDIF      
+      
       IF (XFEMFLG == 0) ICRACK3D = 0
 
       DO I=1,NPART
          IWA(IPART(2,I)) = 1
          IWA(NUMGEO+IPART(1,I)) = 1
       ENDDO
-C
+
       CNT = 0
       DO I=1,NUMGEO
          IF (IWA(I) ==  0) CNT = CNT+1
       ENDDO
       IDS = 52
-c      CALL ANCHECK(52)
-C
       CNT = 0
       DO I=1,NUMMAT
          IF (IWA(NUMGEO+I) ==  0) CNT = CNT+1
@@ -495,7 +508,7 @@ C-------------------------------------
 C Recherche des ID doubles
 C-------------------------------------
       CALL UDOUBLE(IPART(4,1),LIPART1,NPART,MESS,0,BID)
-C
+
       RETURN
  999  CALL FREERR(1)
       RETURN
@@ -569,23 +582,22 @@ C=======================================================================
 C--------------------------------------------------
       DO I=1,NPART
         TITR = ''
-c        CALL HM_OPTION_READ(ID,UID,SUB_INDEX,TITR,LSUBMODEL)
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                       OPTION_ID = ID,
      .                       UNIT_ID = UID,
      .                       SUBMODEL_INDEX = SUB_INDEX,
      .                       OPTION_TITR = TITR)
-C
+
         CALL HM_GET_INTV('propertyid',PID,IS_AVAILABLE,LSUBMODEL)
         IPID = NINTRI(PID,IGEO,NPROPGI,NUMGEO,1)
-C
+
         IPART(2,I)=IPID
         IPART(4,I)=ID
         IPART(9,I)=SUB_INDEX
       ENDDO
-C
+
       RETURN
  999  CALL FREERR(1)
       RETURN
-C
+
       END

@@ -469,7 +469,7 @@ c-------------------------------------------------------------------
             CODREZO=1
          ENDIF
          
-        !---ALEFVM---! 
+        !---ALEFVM (obsolete)---! 
         IF(JALE > 0 .AND. IALEFVM == 1)THEN
           !Momentum Convection : %MOM(1:3,:)
           CODCONV=CODCONV+011100000 
@@ -498,6 +498,8 @@ c-------------------------------------------------------------------
         PM(11,I)=CODREZO+PUN        
 
       ENDDO
+
+      !ALE CONVECTION INDEXES
       NVCONV=0
       DO I=1,LCONV
          IF(CODV(I) == 1)THEN
@@ -505,6 +507,14 @@ c-------------------------------------------------------------------
             CODV(I)=NVCONV
          ENDIF
       ENDDO
+      
+      !SPECIFIC TREATMENTS FOR LAW151 MATERIAL LAWS RELATED TO PSH PAREMETERS & EOS
+      IF (MULTI_FVM%IS_USED) THEN
+         !Check pressure shift consistency between submaterials
+         !They must be equal one to another, otherwise, throw an error
+         CALL MULTI_CHECK_PSH(MULTI_FVM, NUMMAT, NPROPMI, NPROPM, IPM, PM)
+         CALL MULTI_CHECK_EOS(MULTI_FVM, NUMMAT, NPROPMI, NPROPM, IPM, PM)
+      ENDIF      
 
 C------------------------------
       RETURN

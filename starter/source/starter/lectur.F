@@ -2003,23 +2003,12 @@ c------------------------------------
       MLAW_TAG(1:NUMMAT) => MTAG_INI(1:NUMMAT)
       NLOC_DMG%IMOD = 0
 c---------------------------------------------------------------
-c
       CALL READ_MATERIAL_MODELS(
      .     MATPARAM_TAB,MLAW_TAG ,FAIL_TAG ,VISC_TAG ,EOS_TAG   ,
      .     RWORK       ,SBUFMAT  ,IPM      ,PM       ,UNITAB    ,
      .     MULTI_FVM   ,MAXEOS   ,FAILWAVE ,NLOC_DMG ,LSUBMODEL ,
      .     TABLE       ,NPC)
-c
 c---------------------------------------------------------------
-      IMULTI_FVM = 0
-      IF (MULTI_FVM%IS_USED) THEN
-         IMULTI_FVM = 1
-C        Check pressure shift consistency between submaterials
-C        They must be equal one to another, otherwise, throw an error
-         CALL MULTI_CHECK_PSH(MULTI_FVM, NUMMAT, NPROPMI, NPROPM, IPM, PM)
-         CALL MULTI_CHECK_EOS(MULTI_FVM, NUMMAT, NPROPMI, NPROPM, IPM, PM)
-      ENDIF
-C
       ALLOCATE (BUFMAT(SBUFMAT)    ,STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
@@ -2070,19 +2059,6 @@ C---
       IF(IALEFVM > 0)THEN
         ALLOCATE (FCELL(6,NUMELS)   ,STAT=stat)
         FCELL(:,:) = ZERO
-      ENDIF
-
-      IF (MULTI_FVM%IS_USED) THEN
-         IF (N2D == 0) THEN
-            ALLOCATE(MULTI_FVM%VEL(3, NUMELS), STAT=stat)
-         ELSE
-            ALLOCATE(MULTI_FVM%VEL(3, NUMELQ + NUMELTG), STAT=stat)
-         ENDIF
-         IF (STAT /= 0) CALL ANCMSG(MSGID   = 268,
-     .        ANMODE  = ANINFO,
-     .        MSGTYPE = MSGERROR,
-     .        C1      = 'MULTI_FVM%VEL')
-         MULTI_FVM%VEL(: ,:) = ZERO
       ENDIF
 
 C----------------------------------
@@ -2304,9 +2280,10 @@ C-----------------------------------------------------
       ALLOCATE (THK_PART(NPART)    ,STAT=stat)
 C
       CALL HM_READ_PART(IPART  ,PM     ,GEO    ,IPM,IGEO,IWORK , THK_PART,
-     .             UNITAB,LSUBMODEL)
+     .             UNITAB,LSUBMODEL,MULTI_FVM)
 
       CALL TRACE_OUT1()
+      
 C--------------------------------------------
 C     MULTIDOMAINS
 C--------------------------------------------
