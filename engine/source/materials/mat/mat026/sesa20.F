@@ -65,7 +65,9 @@ C-----------------------------------------------
       DATA NA /6.0225E+23/
 C---------------------------------
       DO I=LFT,LLT
-        MX      = MAT(I)
+        ZL = ZERO
+        DXDR = ZERO
+        MX = MAT(I)
         DPDM(I) = FOUR_OVER_3 * PM(22,MX)
         E01(I) =EINT(I)-(POLD(I)+QOLD(I))*DV2(I)
         E01(I) = MAX(ZERO,E01(I))
@@ -76,13 +78,11 @@ C---------------------------------
         IDT = IDR + NR
         IDP = IDT + NT
         IDE = IDP + NR * NT
-C
-        CALL MINTP_RE(SESAME(IDR),NR,
-     +       SESAME(IDT),NT,SESAME(IDE),RHO(I),TEMP(I),ESPE(I),DTDE)
+
+        CALL MINTP_RE(SESAME(IDR),NR,SESAME(IDT),NT,SESAME(IDE),RHO(I),TEMP(I),ESPE(I),DTDE)
         DTDE = MAX (ZERO,DTDE)
-        CALL MINTP_RT(SESAME(IDR),NR,
-     +       SESAME(IDT),NT,SESAME(IDP),RHO(I),TEMP(I),P01(I),DPDR)
-C
+        CALL MINTP_RT(SESAME(IDR),NR,SESAME(IDT),NT,SESAME(IDP),RHO(I),TEMP(I),P01(I),DPDR)
+
         DPDM(I)=DPDM(I)+RHO0(I)*DPDR
         SPH = RHO(I)/MAX(EM15,DTDE)
         !------------------------------------
@@ -95,14 +95,21 @@ C
         IDQ = IDT + NT
         RL = LOG10(RHO(I))
         TL = LOG10(TEMP(I))
-        CALL MINTP_RT(SESAME(IDR),NR,
-     +     SESAME(IDT),NT,SESAME(IDQ),RL,TL,ZL,DXDR)
-        Z(I) = TEN**ZL
-c
+        CALL MINTP_RT(SESAME(IDR),NR,SESAME(IDT),NT,SESAME(IDQ),RL,TL,ZL,DXDR)
+        IF(ZL <= -20)THEN
+          !machine epsilon
+          Z(I)=EM20
+        ELSEIF(ZL >= 20)THEN
+          !machine infinity
+          Z(I)=EP20
+        ELSE
+          Z(I)=EXP(ZL*LOG(TEN)) !TEN**ZL
+        ENDIF  
+
         !(CONDUNCTIVITE MAX POUR CALCUL DE DT)
         ZZ = MAX(EM10,Z(I))
         DELTAT= THREEP44 * ZEP26 * LOG(ZZ) / ZZ
-        IF(DELTAT.GT.ZERO)THEN
+        IF(DELTAT > ZERO)THEN
           DELTAT= ONE / ( ONE +  DELTAT)
         ELSE
           DELTAT= ZERO
@@ -113,9 +120,8 @@ c
         XLAMB = MAX(ONE,XLAMB)
         XLAMB = MAX(EM10, LOG(XLAMB))
         XK(I) = ZEP4*DELTAT*PM(35,MX) * TEMP(I)**TWOP5 / (ZZ*XLAMB)
-c        XK = MAX(XK,ONE)
         STEFAN = PM(51,MX)
-        IF(STEFAN.GT.ZERO.AND.TEMP(I).GE.EP04)THEN
+        IF(STEFAN > ZERO.AND.TEMP(I) >= EP04)THEN
           NR     = NINT(PM(48,MX))
           NT     = NINT(PM(49,MX))
           IDR    = NINT(PM(50,MX))
@@ -123,8 +129,7 @@ c        XK = MAX(XK,ONE)
           IDQ = IDT + NT
           RL = LOG10(RHO(I))
           TL = LOG10(TEMP(I))
-          CALL MINTP_RT(SESAME(IDR),NR,
-     +       SESAME(IDT),NT,SESAME(IDQ),RL,TL,OPAC,DXDR)
+          CALL MINTP_RT(SESAME(IDR),NR,SESAME(IDT),NT,SESAME(IDQ),RL,TL,OPAC,DXDR)
           OPAC = TEN**OPAC
           ROSSEL = ONE / ( RHO(I) * OPAC)
           XKR = SIXTEEN * STEFAN * TEMP(I)**3 * ROSSEL * THIRD
