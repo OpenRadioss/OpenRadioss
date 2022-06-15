@@ -776,19 +776,21 @@ C---------------------------------
            ENDDO
            !---REACTION FORCE ON THE FLUID SIDE                                         
            !   /H3D/ELEM/VECT/CONT WITH LAW151 (COLOCATED SCHEME)                       
-           IF (MULTI_FVM%IS_USED) THEN                                                  
-             IDX=NUMELS*(ANIM_SE(10)+ANIM_SE(4960)+ANIM_SE(4961)) !skip vorticity data  
-             ILEN=NUMELS+NUMELQ                                                         
-             DO I=1,JLT                                                                 
-               IPOS=NSVG(I)
-               IF(IPOS>0) THEN ! local cell
-                    IPOS=IPOS-NUMNOD                                                           
-                    IPOS = IDX+3*(IPOS-1)                                                    
-                    FANI_CELL(IPOS+1)=FANI_CELL(IPOS+1)-FXI(I)                               
-                    FANI_CELL(IPOS+2)=FANI_CELL(IPOS+2)-FYI(I)                               
-                    FANI_CELL(IPOS+3)=FANI_CELL(IPOS+3)-FZI(I)                               
-                ENDIF
-             ENDDO                                                                      
+           IF (MULTI_FVM%IS_USED) THEN 
+             IF(H3D_DATA%N_VECT_CONT  > 0)THEN                                                 
+               IDX=NUMELS*(ANIM_SE(10)+ANIM_SE(4960)+ANIM_SE(4961)) !skip vorticity data  
+               ILEN=NUMELS+NUMELQ                                                         
+               DO I=1,JLT                                                                 
+                 IPOS=NSVG(I)
+                 IF(IPOS>0) THEN ! local cell
+                      IPOS=IPOS-NUMNOD                                                         
+                      IPOS = IDX+3*(IPOS-1)                                                    
+                      FANI_CELL(IPOS+1)=FANI_CELL(IPOS+1)-FXI(I)                               
+                      FANI_CELL(IPOS+2)=FANI_CELL(IPOS+2)-FYI(I)                               
+                      FANI_CELL(IPOS+3)=FANI_CELL(IPOS+3)-FZI(I)                               
+                  ENDIF
+               ENDDO     
+             ENDIF                                                                 
            ELSE                                                                         
            !/H3D/NODA/CONT  (STAGGERED SCHEME)                                          
              DO I=1,JLT                                                               
@@ -803,7 +805,7 @@ C---------------------------------
            ENDIF                                                                        
 #include "lockoff.inc"
       ENDIF
-      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT > 0.AND.
+      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT > 0 .AND.
      .    (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D .OR.
      .    (MANIM.GE.4.AND.MANIM.LE.15).OR.H3D_DATA%MH3D /= 0))THEN
 #include "lockon.inc"
