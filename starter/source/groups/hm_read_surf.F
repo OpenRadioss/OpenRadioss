@@ -277,6 +277,7 @@ C=======================================================================
               IGRSURF(IGS)%ID = 0
               IGRSURF(IGS)%NSEG = 0
               IGRSURF(IGS)%NSEG_IGE = 0
+              IGRSURF(IGS)%IAD_IGE = 0
               IGRSURF(IGS)%TYPE = 0
               IGRSURF(IGS)%ID_MADYMO = 0
               IGRSURF(IGS)%IAD_BUFR = 0
