@@ -566,7 +566,7 @@ c
       ! Case of under-integrated solids
       IF (NPG == 1) THEN 
         DO I = 1,NEL
-          IF ((UVAR(I,5) == ZERO).AND.(OFF(I) /= 0)) THEN 
+          IF ((UVAR(I,5) == ZERO).AND.(OFF(I) /= ZERO)) THEN 
             NINDX2        = NINDX2 + 1
             INDX2(NINDX2) = I
             DFMAX(I)      = ONE 
@@ -730,9 +730,9 @@ c------------------------
         END DO
       END IF     
 c------------------------
- 1000 FORMAT(1X,'>> FOR SOLID ELEMENT NUMBER (GENE1) el#',I10,', GAUSS POINT #',I3,
+ 1000 FORMAT(1X,'>> FOR SOLID ELEMENT NUMBER (GENE1) el#',I10,', GAUSS POINT # ',I5,
      .          ', FAILURE START AT TIME: ',1PE12.4,', ',I3,' CRITERION HAS BEEN REACHED:')     
- 1001 FORMAT(1X,'>> FOR SOLID ELEMENT NUMBER (GENE1) el#',I10,', GAUSS POINT #',I3,
+ 1001 FORMAT(1X,'>> FOR SOLID ELEMENT NUMBER (GENE1) el#',I10,', GAUSS POINT # ',I5,
      .          ', FAILURE START AT TIME: ',1PE12.4,', ',I3,' CRITERIA HAVE BEEN REACHED:')
  1002 FORMAT(1X,'HYDROSTATIC PRESSURE VALUE:  ',1PE12.4,' > CRITICAL VALUE: ',1PE12.4) 
  1003 FORMAT(1X,'HYDROSTATIC PRESSURE VALUE:  ',1PE12.4,' < CRITICAL VALUE: ',1PE12.4) 
