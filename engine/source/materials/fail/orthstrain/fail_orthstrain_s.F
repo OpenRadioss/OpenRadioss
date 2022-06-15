@@ -727,9 +727,9 @@ c------------------------
         END DO
       END IF              
 c-----------------------------------------------------------------------
- 1000 FORMAT(1X,'FAILURE (ORTHSTR) OF SOLID ELEMENT ',I10,1X,',GAUSS PT',I2,
+ 1000 FORMAT(1X,'FAILURE (ORTHSTR) OF SOLID ELEMENT ',I10,1X,',GAUSS PT ',I5,
      .       1X,'MODE',1X,I2)
- 2000 FORMAT(1X,'FAILURE (ORTHSTR) OF SOLID ELEMENT ',I10,1X,',GAUSS PT',I2,
+ 2000 FORMAT(1X,'FAILURE (ORTHSTR) OF SOLID ELEMENT ',I10,1X,',GAUSS PT ',I5,
      .       1X,'MODE',1X,I2,1X,'STRAIN RATE',1PE12.4)
  3000 FORMAT(1X,'RUPTURE OF ELEMENT #',I10,1X,'AT TIME # ',1PE12.4)    
 c-----------------------------------------------------------------------
