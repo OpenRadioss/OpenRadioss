@@ -2120,15 +2120,17 @@ C---- approximated by S8
                   FAC = ONE/NLAY
                   EZZ(1:NEL) = ZERO
                   IF (JHBE==15 ) THEN
+                    FAC = ONE/NLAY
                     DO ILAY=1,NLAY
                       LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)
                       DO I=1,NEL
                         EZZ(I) = EZZ(I)+FAC*LBUF%STRA(JJ(3)+I)  
                       ENDDO 
                     END DO    
-                    VALUE(1:NEL) = HUNDRED*EZZ(1:NEL)
+                    VALUE(1:NEL) = -HUNDRED*(EXP(EZZ(1:NEL))-ONE)
                     IS_WRITTEN_VALUE(1:NEL) = 1                       
                   ELSEIF (JHBE==14 ) THEN
+                    FAC = ONE/(NLAY*NPTR*NPTS)
                     DO IR=1,NPTR
                      DO IS=1,NPTS
                       DO ILAY=1,NLAY
@@ -2139,9 +2141,10 @@ C---- approximated by S8
                       ENDDO  ! IL=1,NLAY
                      ENDDO   ! IS=1,NPTS
                     ENDDO    ! IR=1,NPTR
-                    VALUE(1:NEL) = HUNDRED*EZZ(1:NEL)
+                    VALUE(1:NEL) = -HUNDRED*(EXP(EZZ(1:NEL))-ONE)
                     IS_WRITTEN_VALUE(1:NEL) = 1                       
                   ELSEIF (JHBE==16 ) THEN
+                    FAC = ONE/(NLAY*NPTR*NPTT)
                     DO IT=1,NPTT
                       DO IR=1,NPTR
                         DO ILAY=1,NLAY
