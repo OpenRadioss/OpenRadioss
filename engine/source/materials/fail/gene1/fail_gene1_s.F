@@ -543,7 +543,8 @@ c
           ENDIF
 c
           !  -> Checking failure
-          DFMAX(I) = MIN(REAL(NCRIT(I))/REAL(NCS),ONE)
+          DFMAX(I) = REAL(NCRIT(I)/NCS,KIND(DFMAX(I)))
+          DFMAX(I) = MIN(DFMAX(I),ONE)
           IF (NCRIT(I) >= NCS) THEN 
             UVAR(I,5)   = UVAR(I,5) - ONE/NSTEP
             SIGNXX(I)   = SIGNXX(I)*UVAR(I,5)
