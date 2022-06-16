@@ -57,6 +57,7 @@ C-----------------------------------------------
         USE MULTI_FVM_MOD
         USE GROUPDEF_MOD
         USE ELBUFDEF_MOD 
+        USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,6 +68,7 @@ C-----------------------------------------------
 #include      "task_c.inc" 
 #include      "com01_c.inc"
 #include      "parit_c.inc"
+#include      "my_allocate.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -98,6 +100,7 @@ C-----------------------------------------------
         INTEGER :: N,NN,II,JJ,MY_SIZE
         INTEGER :: NFT,GROUP_ID,ILOC
         INTEGER :: ISU1,NSN,NTY,INACTI,NODE_ID,IBRIC
+        LOGICAL, DIMENSION(:), ALLOCATABLE :: TAG
 C-----------------------------------------------
         !   X/V/MASS extended 
         !   1:NUMNOD --> classical x/v/mass
@@ -105,6 +108,8 @@ C-----------------------------------------------
         !                              the ALE elements)
         !   INT18_GLOBAL_LIST --> true if /INT18 + LAW151 for the NIN interface
         MULTI_FVM%INT18_GLOBAL_LIST(1:NINTER) = .FALSE.
+        MY_ALLOCATE(TAG,NUMELS)
+        TAG(1:NUMELS)=.FALSE.
         IF( MULTI_FVM%IS_INT18_LAW151 ) THEN
             DO N=1,MULTI_FVM%NUMBER_INT18
                 NN = MULTI_FVM%INT18_LIST(N)
@@ -132,25 +137,29 @@ C-----------------------------------------------
                 NSN = IPARI(5,N)    ! number of secondary nodes 
                 DO II = 1,NSN
                     IBRIC = IGRBRIC(ISU1)%ENTITY(II) ! id of the phantom element
-                    GROUP_ID = IGROUPS(IBRIC)       ! id of the element group
-                    NFT = IPARG(3,GROUP_ID)
-                    ILOC =  IBRIC - NFT
-                    !   mass
-                    MASS_APPEND(NUMNOD + IBRIC) = ELBUF_TAB(GROUP_ID)%GBUF%RHO(ILOC) * ELBUF_TAB(GROUP_ID)%GBUF%VOL(ILOC)
-                    !   position
-                    DO JJ = 2, 9
+                    IF(.NOT. TAG(IBRIC)) THEN ! otherwise already done with a previous interface
+                      GROUP_ID = IGROUPS(IBRIC)       ! id of the element group
+                      NFT = IPARG(3,GROUP_ID)
+                      ILOC =  IBRIC - NFT
+                      !   mass
+                      MASS_APPEND(NUMNOD + IBRIC) = ELBUF_TAB(GROUP_ID)%GBUF%RHO(ILOC) * ELBUF_TAB(GROUP_ID)%GBUF%VOL(ILOC)
+                      !   position
+                      DO JJ = 2, 9
                         NODE_ID = IXS(JJ, IBRIC) ! id of node of the phantom element
                         X_APPEND(1, NUMNOD + IBRIC) = X_APPEND(1, NUMNOD + IBRIC) + ONE_OVER_8 * X(1, NODE_ID)
                         X_APPEND(2, NUMNOD + IBRIC) = X_APPEND(2, NUMNOD + IBRIC) + ONE_OVER_8 * X(2, NODE_ID) 
                         X_APPEND(3, NUMNOD + IBRIC) = X_APPEND(3, NUMNOD + IBRIC) + ONE_OVER_8 * X(3, NODE_ID)         
-                    ENDDO
-                    !   velocity
-                    V_APPEND(1, NUMNOD + IBRIC) = MULTI_FVM%VEL(1, IBRIC)
-                    V_APPEND(2, NUMNOD + IBRIC) = MULTI_FVM%VEL(2, IBRIC)
-                    V_APPEND(3, NUMNOD + IBRIC) = MULTI_FVM%VEL(3, IBRIC)
+                      ENDDO
+                      !   velocity
+                      V_APPEND(1, NUMNOD + IBRIC) = MULTI_FVM%VEL(1, IBRIC)
+                      V_APPEND(2, NUMNOD + IBRIC) = MULTI_FVM%VEL(2, IBRIC)
+                      V_APPEND(3, NUMNOD + IBRIC) = MULTI_FVM%VEL(3, IBRIC)
+                      TAG(IBRIC)=.TRUE.
+                    ENDIF
                 ENDDO
             ENDDO
         ENDIF
+        IF(ALLOCATED(TAG))DEALLOCATE(TAG)
 
         RETURN
         END SUBROUTINE INT18_LAW151_INIT
