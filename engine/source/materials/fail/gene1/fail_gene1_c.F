@@ -441,8 +441,8 @@ c
           IF (fct_IDg12 > 0) THEN 
             LAMBDA  = ALDT(I)/El_ref
             SH12(I) = FINTER(KFUNC(IG12),LAMBDA,NPF,TF,DF) 
-            DENOM   = SIGN(MAX(ABS(E22(I)),EM20),E22(I))   
-            IF (((E11(I)/DENOM)<=-HALF).AND.((E11(I)/DENOM)>=-TWO)) THEN
+            DENOM   = SIGN(MAX(ABS(E11(I)),EM20),E11(I))   
+            IF (((E22(I)/DENOM)<=-HALF).AND.((E22(I)/DENOM)>=-TWO)) THEN
               IF ((E11(I) - E22(I))/TWO >= SH12(I)) THEN 
                 NCRIT(I)  = NCRIT(I) + 1
                 IMIX12(I) = 1
@@ -452,8 +452,8 @@ c
           IF (fct_IDe1c > 0) THEN 
             LAMBDA = ALDT(I)/El_ref
             E1C(I) = FINTER(KFUNC(IE1C),LAMBDA,NPF,TF,DF) 
-            DENOM  = SIGN(MAX(ABS(E22(I)),EM20),E22(I))
-            IF (((E11(I)/DENOM)<=ONE).AND.((E11(I)/DENOM)>=-HALF)) THEN
+            DENOM  = SIGN(MAX(ABS(E11(I)),EM20),E11(I))
+            IF (((E22(I)/DENOM)<=ONE).AND.((E22(I)/DENOM)>=-HALF)) THEN
               IF (E11(I) >= E1C(I)) THEN 
                 NCRIT(I)  = NCRIT(I) + 1
                 IMXE1C(I) = 1

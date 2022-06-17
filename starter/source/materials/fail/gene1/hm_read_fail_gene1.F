@@ -326,6 +326,7 @@ C===============================================================================
       ENDIF 
       IF (MAXTEMP == ZERO) MAXTEMP = INFINITY
       ! Card 7 
+      IF (Fscale_el == ZERO) Fscale_el = ONE
       IF (((fct_IDel > 0).OR.(fct_IDg12 > 0).OR.(fct_IDg13 > 0).OR.(fct_IDe1c > 0)
      .    .OR.(tab_IDfld > 0.AND.Itab == 2)).AND.(El_ref == ZERO)) THEN
         CALL HM_GET_FLOATV_DIM('El_ref' ,LENGTH_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
