@@ -142,7 +142,7 @@ Chd|====================================================================
      3  IGRBRIC ,IGRQUAD  ,IGRSH4N  ,IGRSH3N  ,IGRTRUSS   ,
      4  IGRBEAM ,IGRSPRING,IGRPART  ,FORNEQS  ,INT7ITIED ,
      5  FXVEL_FGEO,FAILWAVE,NLOC_DMG,PINCH_DATA,SLLOADP  ,
-     6  TAGSLV_RBY,NFNCA2 ,NFTCA2  ,IN0  )
+     6  TAGSLV_RBY,NFNCA2 ,NFTCA2  ,IN0  ,SORT_COMM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -158,6 +158,7 @@ C-----------------------------------------------
       USE PINCHTYPE_MOD
       USE PBLAST_MOD
       USE DTDC_MOD  
+      USE INTER_SORTING_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -307,6 +308,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE 
       TYPE (NLOCAL_STR_)   ,TARGET :: NLOC_DMG
+      TYPE(sorting_comm_type), DIMENSION(NINTER), INTENT(inout) :: SORT_COMM   ! structure for interface sorting comm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -408,7 +410,8 @@ C
      5       LINDIDEL,LBUFIDEL,IRLEN20 ,ISLEN20 ,IRLEN20T,
      6       ISLEN20T,NBINT20 ,IRLEN20E,ISLEN20E,FR_RBY  ,
      7       FR_RBY6 ,NPBY    ,IRBKIN_L,
-     8       NRBYKIN_L,KINDRBY,SENSOR  ,LBUFIDEL24, INTBUF_TAB)
+     8       NRBYKIN_L,KINDRBY,SENSOR  ,LBUFIDEL24, INTBUF_TAB,
+     9       SORT_COMM)
 C
         IF(IDEL7NG.GT.0.OR.IRAD2R.GT.0.OR.IALEMUSCL.GT.0.OR.PDEL.GT.0) THEN
            CALL CHKINIT(

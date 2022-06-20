@@ -108,6 +108,8 @@ C-----------------------------------------------
      .        IDEBUT2(NINTER), ISENS,INTERACT,
      .        IEDGE
       INTEGER :: SIZ,IDEB_EDGE,NB_SUBINT
+      INTEGER :: INDEX_PROC
+      LOGICAL :: ONLY_INTER_7
       DATA MSGOFF/1009/
       DATA MSGOFF2/1010/
       DATA MSGOFF3/1011/
@@ -157,6 +159,7 @@ C
         ALLOCATE(SIZBUF_S(NSPMD))
         ALLOCATE(MSGBUF_R(NSPMD))
         ALLOCATE(MSGBUF_S(NSPMD))
+        ALLOCATE(ICOMM2_SEND(NSPMD),ICOMM2_RCV(NSPMD))
 c       ALLOCATE(MSGBUF_S_LEN(NSPMD))
 c       MSGBUF_S_LEN(1:NSPMD) = 0
 c       ALLOCATE(MSGBUF_R_LEN(NSPMD))
@@ -268,18 +271,28 @@ C Verification de la fin du tri (i7buce)
 C
       DO P = 1, NSPMD
        ICOMM2(P) = 0
+       ICOMM2_SEND(P) = 0
+       ICOMM2_RCV(P) = 0
+       ONLY_INTER_7 = .TRUE.
        IF (P.NE.LOC_PROC) THEN
         DO II = 1, NBINTC
           NIN = INTLIST(II)
+          ITY=IPARI(7,NIN)
           IF(NEWFRONT(NIN).EQ.2) THEN
-            IF(ISENDTO(NIN,P).NE.0.OR.
-     .         IRCVFROM(NIN,P).NE.0) THEN
+            IF(ISENDTO(NIN,P).NE.0.OR.IRCVFROM(NIN,P).NE.0) THEN
               ICOMM2(P) = 1
+              IF(ITY/=7.AND.ITY/=11) ONLY_INTER_7 = .FALSE.
             ENDIF
+            IF(ISENDTO(NIN,P)/=0.AND.IRCVFROM(NIN,LOC_PROC)/=0) ICOMM2_SEND(P) = 1    !   nsn > 0 on p & nmn > 0 on ispmd
+            IF(IRCVFROM(NIN,P)/=0.AND.ISENDTO(NIN,LOC_PROC)/=0) ICOMM2_RCV(P) = 1    !   nmn > 0 on p & nsn > 0 on ispmd
           ENDIF
         ENDDO
+        IF(.NOT.ONLY_INTER_7) THEN
+            ICOMM2_RCV(P) = ICOMM2(P)  
+            ICOMM2_SEND(P) = ICOMM2(P)
+        ENDIF
        END IF
-        IF (ICOMM2(P).EQ.1)THEN
+        IF (ICOMM2_SEND(P).EQ.1)THEN
           MSGTYP = MSGOFF
           L  = 2*NBINTC
           CALL MPI_ISEND(
@@ -292,7 +305,7 @@ C
       NB_TO_RECV = 0
       DO P = 1, NSPMD
         IRCOM(P) = 0
-        IF(ICOMM2(P).EQ.1)THEN
+        IF(ICOMM2_RCV(P).EQ.1)THEN
           MSGTYP = MSGOFF
           NB_TO_RECV = NB_TO_RECV + 1
           PROC_LIST(NB_TO_RECV) = P
@@ -372,12 +385,12 @@ C ==========================================
 
 C ==========================================================================
 C RECEPTION OF sizes
-      CALL MPI_WAITALL(NB_TO_RECV,REQ_RECV_SIZ(1:NB_TO_RECV),MPI_STATUSES_IGNORE,IERROR)
+!      CALL MPI_WAITALL(NB_TO_RECV,REQ_RECV_SIZ(1:NB_TO_RECV),MPI_STATUSES_IGNORE,IERROR)
 
       DO I = 1, NB_TO_RECV
-c       CALL MPI_WAITANY(NB_TO_RECV,REQ_RECV_SIZ(1:NB_TO_RECV),P,STATUS,IERROR)
-c       P = PROC_LIST(P)
-        P = PROC_LIST(I)
+        CALL MPI_WAITANY(NB_TO_RECV,REQ_RECV_SIZ,INDEX_PROC,STATUS,IERROR)
+        P = PROC_LIST(INDEX_PROC)
+!        P = PROC_LIST(I)
 
         IRCOM(P) = 0
         DO II = 1, NBINTC
@@ -421,7 +434,7 @@ C RECEPTION of messages
         CALL MPI_WAIT(REQ_RECV_MSG(P),STATUS,IERROR)
       ENDDO
       DO P = 1, NSPMD
-        IF (ICOMM2(P).EQ.1) THEN
+        IF (ICOMM2_SEND(P).EQ.1) THEN
           CALL MPI_WAIT(REQ_SEND_SIZ(P),STATUS,IERROR)
         ENDIF
       ENDDO

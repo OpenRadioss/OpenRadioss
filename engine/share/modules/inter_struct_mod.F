@@ -21,24 +21,37 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  IFRONT_MOD                    share/modules/ifront_mod.F    
+Chd|  INTER_STRUCT_MOD    share/modules/inter_struct_mod.F
 Chd|-- called by -----------
-Chd|        SPMD_I25_SLIDE_GAT            source/mpi/interfaces/spmd_i25slide.F
-Chd|        SPMD_IFRONT                   source/mpi/interfaces/spmd_ifront.F
 Chd|-- calls ---------------
-Chd|        POINTERDEF                    share/modules/pointerdef_mod.F
 Chd|====================================================================
-      MODULE IFRONT_MOD 
-      
-      USE POINTERDEF
-        TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: MSGBUF_S, MSGBUF_R
-        TYPE(int_pointer), DIMENSION(:), ALLOCATABLE  :: SIZBUF_S, SIZBUF_R
-        INTEGER ::  NB_TO_RECV, ICOMM, NISUBG
-        INTEGER, DIMENSION(:), ALLOCATABLE ::  PROC_LIST
-        INTEGER, DIMENSION(:), ALLOCATABLE ::  ICOMM2
-        INTEGER, DIMENSION(:), ALLOCATABLE ::  ICOMM2_SEND,ICOMM2_RCV
-        INTEGER, DIMENSION(:), ALLOCATABLE ::  REQ_RECV_SIZ, REQ_RECV_MSG
-        INTEGER, DIMENSION(:), ALLOCATABLE ::  REQ_SEND_SIZ, REQ_SEND_MSG
-        INTEGER, DIMENSION(:), ALLOCATABLE ::  IRCOM, ISCOM, ISCOMS
-      END MODULE IFRONT_MOD              
+        MODULE INTER_STRUCT_MOD
+#include      "my_real.inc"    
+!$COMMENT
+!       INTER_STRUCT_MOD :
+!              create the inter_struct_type
+!                NMN_G : integer ; total number of main node of the interface  
+!                I_SK_OLD : integer ; 
+!                INACTI,INACTII : integer ; inacti option
+!                CURV_MAX_MAX : float ; max value of CURV_MAX
+!                CURV_MAX : float array ; 
+!                SIZE_CAND_A : integer ; size of cand_a array
+!                CAND_A : integer array ;  
+!                NSNFIOLD : integer array ; old value of NSNFI
+!                BOX_LIMIT_MAIN : float array ; min&max position of main nodes
+!$ENDCOMMENT
+            TYPE inter_struct_type
+                INTEGER :: NMN_G     
+                INTEGER :: I_SK_OLD    
+                INTEGER :: INACTI,INACTII
+                my_real :: CURV_MAX_MAX
+                my_real, DIMENSION(:), ALLOCATABLE :: CURV_MAX     
+                INTEGER :: SIZE_CAND_A      !   size of cand_a array
+                INTEGER, DIMENSION(:), ALLOCATABLE :: CAND_A  
+                INTEGER, DIMENSION(:), ALLOCATABLE :: NSNFIOLD
+                my_real, DIMENSION(12) :: BOX_LIMIT_MAIN
+            END TYPE inter_struct_type  
+        END MODULE INTER_STRUCT_MOD
+
+
 
