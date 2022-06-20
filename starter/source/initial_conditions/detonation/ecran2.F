@@ -29,7 +29,7 @@ Chd|-- calls ---------------
 Chd|        IOMBR                         source/initial_conditions/detonation/iombr.F
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|====================================================================
-      SUBROUTINE ECRAN2(DETONATORS,N1,NP1,X)
+      SUBROUTINE ECRAN2(DETONATORS,N1,NP1,X,VDET)
 C-----------------------------------------------
       USE DETONATORS_MOD
 C-----------------------------------------------
@@ -40,6 +40,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real  X(3,NUMNOD)
+      my_real,INTENT(IN)::VDET
       TYPE(DETONATOR_STRUCT_),TARGET ::DETONATORS
       INTEGER,INTENT(IN) :: N1,NP1
 C-----------------------------------------------
@@ -70,9 +71,12 @@ C---------------------------------------
 C     COMPUTING DETONATION:TIME FOR ONE ELEMENT (CENTROID)
 C---------------------------------------
 C     1) DETONATION ORIGIN: USER DETONATION POINT
+C         check if the target can be directly lightened from detonation origin.
+C            yes if no crossing with the screen (IOMBR returns 0)
+C             no otherwise (IOMBR return 1)
 C---------------------------------------
       DDMX=EP20
-      IF(IOMBR(DETONATORS,X,IECR,DDMX) == 0)RETURN
+      IF(IOMBR(DETONATORS,X,IECR,DDMX,VDET) == 0)RETURN   !Vdet is optionnal velocity from origin (default is material velocity VDTO)
 
 C-----------------------------------------
 C     2) DETONATION ORIGIN:EACH POINT OF THE SCREEN PATH
@@ -86,7 +90,7 @@ C-----------------------------------------
         YD=X(2,II)
         ZD=X(3,II)
         DTO0=DTIME(I)
-        IF(IOMBR(DETONATORS,X,IECR,DDMX) == 0)THEN
+        IF(IOMBR(DETONATORS,X,IECR,DDMX,VDTO) == 0)THEN
           DTOS= MIN(DTOS,DTO) !keep minimum value (first arrival time)
         ENDIF
       END DO !J=1,NPE

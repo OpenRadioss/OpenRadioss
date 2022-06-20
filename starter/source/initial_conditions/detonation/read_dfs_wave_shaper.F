@@ -88,7 +88,7 @@ C-----------------------------------------------
       INTEGER              :: IBID,  NODE_ID1, NODE_ID2,uID1,uID2, IOPT, IUNIT, UID
       INTEGER              :: FLAG_FMT,IMAT,IFLAGUNIT,UNUSED
       INTEGER              :: STAT,NPE
-      my_real              :: XC, YC, ZC, ALT, XC1, YC1, ZC1, XC2, YC2, ZC2, NX, NY, NZ, BID, VCJ
+      my_real              :: XC, YC, ZC, ALT, XC1, YC1, ZC1, XC2, YC2, ZC2, NX, NY, NZ, BID, VCJ, VDET
       CHARACTER*40         :: MESS
       CHARACTER*64         :: chain1,chain2
       CHARACTER*nchartitle :: TITR
@@ -120,7 +120,7 @@ C-----------------------------------------------
       !---------------------------------!                                                    
       !             READING             !                                                    
       !---------------------------------!                                                    
-      CALL HM_GET_FLOATV('rad_det_locationA_X', XC1, IS_AVAILABLE, LSUBMODEL, UNITAB)       
+      CALL HM_GET_FLOATV('rad_det_locationA_X', VDET, IS_AVAILABLE, LSUBMODEL, UNITAB)       
       CALL HM_GET_FLOATV('rad_det_locationA_Y', YC1, IS_AVAILABLE, LSUBMODEL, UNITAB)       
       CALL HM_GET_FLOATV('rad_det_locationA_Z', ZC1, IS_AVAILABLE, LSUBMODEL, UNITAB)       
       CALL HM_GET_FLOATV('rad_det_time', ALT, IS_AVAILABLE, LSUBMODEL,UNITAB)              
@@ -158,7 +158,7 @@ C-----------------------------------------------
      .              MSGTYPE=MSGERROR,                                                        
      .              ANMODE=ANINFO,                                                           
      .              I1=DET_ID,                                                                   
-     .              C1='DETONATOR MUST REFER TO A JWL MATERIAL LAW (LAWS 5 OR 51)',          
+     .              C1='DETONATOR MUST REFER TO A JWL MATERIAL LAW (LAWS 5, 51, 97, 151)',          
      .              C2='/DFS/WAV_SHAPER',                                                    
      .              I2=MDET)                                                                 
       ELSE                                                                                   
@@ -170,7 +170,7 @@ C-----------------------------------------------
               !Nodes in group are ordered from 1 to NPE. last point is the nearest from the detonation origin. Points are composing the screen lines (guard lines). Screen lines is the boundary of the obstacle (shadow area)
         DETONATORS%NPE=NPE   
         IF(IS_ENCRYPTED) WRITE(IOUT,1001)                    
-        IF(.NOT.IS_ENCRYPTED)WRITE(IOUT,1550) DET_ID,XC1,YC1,ZC1,ALT,MDET,IGU,NPE                                     
+        IF(.NOT.IS_ENCRYPTED)WRITE(IOUT,1550) DET_ID,VDET,YC1,ZC1,ALT,MDET,IGU,NPE                                     
         NPEM=MAX0(NPE,NPEM)                                                                  
         IF(.NOT.IS_ENCRYPTED)WRITE(IOUT,FMT=FMW_10I) (ITAB(IECRAN(I)),I=N1,N1+NPE-1)                              
         DO I=N1,N1+NPE-1                                                                     
@@ -178,7 +178,7 @@ C-----------------------------------------------
         END DO                                                                               
         DETONATORS%BURN(1,I3) = ALT                                                                        
         DETONATORS%BURN(2,I3) = MAT                                                                        
-        DETONATORS%BURN(3,I3) = XC1                                                                        
+        DETONATORS%BURN(3,I3) = VDET                                                                        
         DETONATORS%BURN(4,I3) = YC1                                                                        
         DETONATORS%BURN(5,I3) = ZC1                                                                        
         DETONATORS%BURN(6,I3) = NPE                                                                        
@@ -195,7 +195,7 @@ C-----------------------------------------------
      &          'CONFIDENTIAL DATA')    
  1550 FORMAT(///'SHADOW LINE DETONATION    =',I10,/5X,
      &          '----------------------     ',/5X,
-     &          'X-COORDINATE              =',1PG20.13,/5X,
+     &          'OPTIONAL VELOCITY         =',1PG20.13,/5X,
      &          'Y-COORDINATE              =',1PG20.13,/5X,
      &          'Z-COORDINATE              =',1PG20.13,/5X,
      &          'LIGHTING TIME             =',1PG20.13,/5X,
