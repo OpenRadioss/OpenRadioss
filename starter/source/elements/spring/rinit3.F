@@ -472,13 +472,10 @@ C-            inertia of element is automaically computed acording to moment of 
               GBUF%MASS(I) = GEO(1,I0)*RHO
             ENDIF
 C
-          IF (ILENG > 0) THEN
-            XM=GBUF%MASS(I)*XL(I)
-            XINE=GEO(2,I0)*XL(I)
-          ELSE
-            XM=GBUF%MASS(I)
-            XINE=GEO(2,I0)
-          ENDIF           
+
+          XM = GBUF%MASS(I)
+          XINE = GEO(2,I0)
+
 C
           RATIO = XM * LENGTH * LENGTH
           IF( MTN == 113) THEN

@@ -204,7 +204,7 @@ C----------------------------------------------
 C     MASSE ELEMENT /2
 C----------------------------------------------
        DO I=LFT,LLT
-         EMS(I)=HALF*MASS(I)*XL(I)
+         EMS(I)=HALF*MASS(I)
        ENDDO
 C
       IF(IREST_MSELT/=0)THEN
