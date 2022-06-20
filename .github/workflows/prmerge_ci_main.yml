@@ -8,7 +8,6 @@ on:
 
 env:
   CLOSE_BRANCH: 0
-  SERVBOT_PAT: ${{ secrets.SERVBOT_PAT }}
   TEAM_RESTRICTIVE_CLOSED_BRANCH: ${{ secrets.TEAM_RESTRICTIVE_CLOSED_BRANCH }}
   FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
   TO_EMAIL: ${{ secrets.TO_EMAIL }}
@@ -32,6 +31,7 @@ jobs:
     env:
       BUILD_NB_THREAD: 2
       STATUS_BUILD: 0
+      SERVBOT_PAT: ${{ secrets.SERVBOT_PAT }}
 
     strategy:
       # If one job fails othere are canceled
@@ -348,7 +348,6 @@ jobs:
 
         if: ${{ always() && env.CLOSE_BRANCH == 1 && steps.close_branch_qa.outputs.status != 200 }} 
 
-
   # Call the sync CI if build and qa are OK 
   # Secrets variables must be passed
   call-workflow-sync-git2perforce:
@@ -366,3 +365,84 @@ jobs:
       TEAM_RESTRICTIVE_CLOSED_BRANCH: ${{ secrets.TEAM_RESTRICTIVE_CLOSED_BRANCH }}      
       FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
       TO_EMAIL: ${{ secrets.TO_EMAIL }} 
+
+
+  delivery:
+    needs: qa
+    runs-on: delivery
+    container: 
+      image: fr-qafactorydev.europe.altair.com/common-linux64
+      credentials: 
+        username: ${{secrets.DOCKER_REGISTRY_USER}}
+        password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
+      volumes: 
+         - /etc/localtime:/etc/localtime:ro
+
+    env:
+      SERVBOT_USER: ${{ secrets.SERVBOT_USER }}
+      SERVBOT_PAT: ${{ secrets.SERVBOT_PAT }}
+      DELIVERY_NB_RELEASES_TO_KEEP: ${{ secrets.DELIVERY_NB_RELEASES_TO_KEEP || 6 }}
+      DELIVERY_TAG_PREFIX: ${{ secrets.DELIVERY_TAG_PREFIX || 'latest-' }}
+
+    steps:
+
+    - name: Set the release name
+      run: |
+        echo "DATEOFTHEDAY=`date +'%Y%m%d'`" >> $GITHUB_ENV
+
+    - name: Clean old checkout
+      run: |
+        cd ..
+        rm -rf ${{ github.event.repository.name }}/.[!.]* ${{ github.event.repository.name }}/*
+
+    # Action to checkout main files and not all, useful when just need to have git env to run git command without needing files
+    - uses: snow-actions/sparse-checkout@v1.1.0
+
+    - name: Create github release/tag if it does not exist
+      run: |
+          manage_github_release.py \
+            --git_api_url ${{ github.api_url }} \
+            --git_repo ${{ github.repository }} \
+            --git_user $SERVBOT_USER \
+            --git_token $SERVBOT_PAT \
+            --action create \
+            --tag ${{ env.DELIVERY_TAG_PREFIX }}${{ env.DATEOFTHEDAY }}     
+
+    # Download ALL artifacts
+    - uses: actions/download-artifact@v3
+      with:
+        path: exec_tmp
+
+    - name: Copy all artifact complex structure into flat files in exec
+      run: |
+        mkdir -p exec
+        for file in `find exec_tmp -type f`
+        do
+          cp -p $file exec/
+        done
+        
+    - name: Release the new binaries
+      uses: mini-bomba/create-github-release@v1.0.0
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        tag: "latest-${{ env.DATEOFTHEDAY }}"
+        name: "Last build on ${{ env.DATEOFTHEDAY }}"  
+        body: |
+          This automatic release is built from commit ${{ github.sha }} and was triggered by @${{ github.actor }}
+          [Github Actions workflow run that built this release](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+
+          Commit message:
+          ${{ github.event.commits[0].message }}
+        files: |
+          exec/*
+        clear_attachments: true     
+
+    - name: Clean old github release/tag if needed
+      run: |
+          manage_github_release.py \
+            --git_api_url ${{ github.api_url }} \
+            --git_repo ${{ github.repository }} \
+            --git_user $SERVBOT_USER \
+            --git_token $SERVBOT_PAT \
+            --action clean \
+            --nb_releases_to_keep ${{ env.DELIVERY_NB_RELEASES_TO_KEEP }} \
