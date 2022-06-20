@@ -28,7 +28,7 @@ Chd|        ECRAN2                        source/initial_conditions/detonation/e
 Chd|-- calls ---------------
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|====================================================================
-      INTEGER FUNCTION IOMBR(DETONATORS,X,IECR,DDMX)
+      INTEGER FUNCTION IOMBR(DETONATORS,X,IECR,DDMX,VDET_ARG)
       USE DETONATORS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -40,6 +40,7 @@ C-----------------------------------------------
       my_real DDMX
       INTEGER IECR(*)
       my_real X(3,NUMNOD)
+      my_real VDET_ARG
       TYPE(DETONATOR_STRUCT_) :: DETONATORS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -138,7 +139,7 @@ C-----------------------------------------------
       IF(JOMBR+KOMBR == 2)THEN
         IOMBR=1
       ELSE
-        DTO=DTO0+SQRT(DD)/VDTO
+        DTO=DTO0+SQRT(DD)/VDET_ARG
       ENDIF
 
  999  CONTINUE

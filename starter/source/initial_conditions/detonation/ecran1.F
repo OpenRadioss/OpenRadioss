@@ -31,7 +31,7 @@ Chd|        IOMBR                         source/initial_conditions/detonation/i
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE ECRAN1(DETONATORS,N1,NP1,X)
+      SUBROUTINE ECRAN1(DETONATORS,N1,NP1,X,VDET)
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE DETONATORS_MOD
@@ -43,6 +43,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real X(3,NUMNOD)
+      my_real,INTENT(IN)::VDET
       TYPE(DETONATOR_STRUCT_),TARGET ::DETONATORS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -89,7 +90,7 @@ C---------------------------------------
         II=IECR(I)
         YL=X(2,II)
         ZL=X(3,II)
-        IF(IOMBR(DETONATORS,X,IECR,DDMX) == 0)THEN
+        IF(IOMBR(DETONATORS,X,IECR,DDMX,VDET) == 0)THEN   !Vdet is optionnal velocity from origin (default is material velocity VDTO)
           DTIME(I)=DTO !DT0 is lightening time from function IOMBR
           IF(DTIME(I) <= DTOMIN)THEN
             IORDR(1)=I
@@ -129,7 +130,7 @@ C-----------------------------------------
             D2 =(YD-YL)**2+(ZD-ZL)**2
             DTO=DTO0+SQRT(D2)/VDTO
             DTIME(I)= MIN(DTIME(I),DTO)
-          ELSEIF(IOMBR(DETONATORS,X,IECR,DDMX) == 0)THEN
+          ELSEIF(IOMBR(DETONATORS,X,IECR,DDMX,VDTO) == 0)THEN
             DTIME(I)= MIN(DTIME(I),DTO)
           ENDIF
           IF(DTIME(I) <= DTOMIN)THEN

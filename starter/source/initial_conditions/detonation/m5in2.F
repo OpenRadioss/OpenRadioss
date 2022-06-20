@@ -203,6 +203,7 @@ C     Getting rid of equivalences
           DO N=NDETPS+NDETSG+1,NDETPS+NDETSG+NECRAN
             ALT=DETONATORS%BURN(1,N)
             MTL=NINT(DETONATORS%BURN(2,N))
+            VDET =DETONATORS%BURN(3,N)
             YD =DETONATORS%BURN(4,N)
             ZD =DETONATORS%BURN(5,N)
             NPE=NINT(DETONATORS%BURN(6,N))
@@ -210,18 +211,20 @@ C     Getting rid of equivalences
             DTO0=ALT
             MT  =MTL
             IF(MT == 0)MT=MAT(1)
-            VDTO=PM(38,MT)
+            VDTO=PM(38,MT) 
+            IF(VDET == ZERO)VDET=PM(38,MT) !optional detonation velocity
             !---detonation time for screen points
-            CALL ECRAN1(DETONATORS,N1,NP1,X)
+            CALL ECRAN1(DETONATORS,N1,NP1,X,VDET)
             !---detonation times for elements
             DO I=LFT,LLT
             IF(MTL /= MAT(I).AND.MTL /= 0) CYCLE
+              VDET = DETONATORS%BURN(3,N)
               YD =DETONATORS%BURN(4,N)
-              ZD =DETONATORS%BURN(5,N)
+              ZD =DETONATORS%BURN(5,N)            
               DTO0=ALT
               YL=YC(I)
               ZL=ZC(I)
-              CALL ECRAN2(DETONATORS,N1,NP1,X)
+              CALL ECRAN2(DETONATORS,N1,NP1,X,VDET)
               BT(I) =DTO
               IF(BT(I) < ABS(TB(I))) TB(I)=-BT(I)
               JJ(I)=JJ(I)-1
