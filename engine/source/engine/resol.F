@@ -632,6 +632,8 @@ C-----------------------------------------------
       USE SEGVAR_MOD
       USE DTDC_MOD  
       USE IMPBUFDEF_MOD
+      USE INTER_STRUCT_MOD
+        USE INTER_SORTING_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -889,6 +891,8 @@ c
       TYPE(t_ebcs_tab), INTENT(INOUT) :: EBCS_TAB
       TYPE(T_DIFFUSION), INTENT(INOUT) :: DIFFUSION
       TYPE(t_segvar) :: SEGVAR
+      TYPE(inter_struct_type), DIMENSION(:), ALLOCATABLE :: INTER_STRUCT   !   struture for interface
+      TYPE(sorting_comm_type), DIMENSION(:), ALLOCATABLE :: SORT_COMM   ! structure for interface sorting comm
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1194,6 +1198,8 @@ C-------------------------------------------------------------------------------
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
         INTEGER :: STATE_H3D, STATE_ANIM
         LOGICAL :: BOOL_RESTART
+
+        INTEGER :: NATIV_SMS_SIZ ! size of NATIV_SMS array
       DATA IUN/1/
 C-----------------------------------------------------------------------------------       
 C Uncomment for Debug - ITAB is copied in Debug Module.
@@ -1873,6 +1879,11 @@ c  Equivalent nodal force
 
        CALL NEWSKW_INIT(ISKWP,NUMSKW_L,NSKWP,NUMSKW_L_SEND,ISKWP_L_SEND,RECVCOUNT)
        PARTSAV2(1:2,1:NPART) = ZERO
+
+       ! Initialization of INTER_STRUCT structure + allocation
+       ALLOCATE( INTER_STRUCT(NINTER) )
+       ALLOCATE( SORT_COMM(NINTER) )
+       CALL INTER_STRUCT_INIT(INTER_STRUCT,SORT_COMM)
 C========================================================================================
 C                                     SECTION PARALLELE SMP
 C========================================================================================
@@ -1952,7 +1963,7 @@ C
      3   IGRBRIC ,IGRQUAD  ,IGRSH4N  ,IGRSH3N  ,IGRTRUSS   ,
      4   IGRBEAM ,IGRSPRING,IGRPART  ,FORNEQS  ,INT7ITIED,
      5   FXVEL_FGEO,FAILWAVE,NLOC_DMG,PINCH_DATA ,SLLOADP,
-     6   TAGSLV_RBY,NFNCA2  ,NFTCA2  ,IN0 )
+     6   TAGSLV_RBY,NFNCA2  ,NFTCA2  ,IN0 ,SORT_COMM)
 
 
 !$OMP END PARALLEL
@@ -1986,6 +1997,7 @@ C
      4  MULTI_FVM%FORCE_INT_PON)
        ! allocation & initialization for /FAIL/ALTER
        CALL FAIL_WIND_FRWAVE_INIT(NGROUP)
+
 C     Fin Initialisations //
        IF(NADMESH.NE.0.AND.IDEL7NG.GE.1) IDEL7NOK = 0
 C     THERMAL TIME STEP : we don't check imcompatible kinematic conditions anymore
@@ -3296,6 +3308,12 @@ C===============================================================================
         LSKYI_COUNT = 0
         LSKYI_SMS_NEW = 0
 
+        IF(IDTMINS/=0) THEN
+            NATIV_SMS_SIZ = NUMNOD
+        ELSE
+            NATIV_SMS_SIZ = 0
+        ENDIF
+
 
 !$OMP PARALLEL PRIVATE(ITSK,DT2TT,NELTSTT,ITYPTSTT)
 
@@ -3326,7 +3344,8 @@ C===============================================================================
      K     IAD_FREDG,FR_EDG,MAIN_PROC,NATIV_SMS,I_OPT_STOK ,
      L     MULTI_FVM,IPARG  ,ELBUF_TAB, H3D_DATA, T2MAIN_SMS,
      M     LSKYI_SMS_NEW    ,FORNEQS  ,INT7ITIED,IDEL7NOK_SAV,MAXDGAP,
-     N     T2FAC_SMS,ICODT,ISKEW ,FSKYN25  ,ADDCSRECT,PROCNOR)
+     N     T2FAC_SMS,ICODT,ISKEW ,FSKYN25  ,ADDCSRECT,PROCNOR,
+     O     INTER_STRUCT,SORT_COMM,RENUM_SIZ,NATIV_SMS_SIZ)
 C
 #include "lockon.inc"
         IF(DT2TT.LT.DT2T)THEN

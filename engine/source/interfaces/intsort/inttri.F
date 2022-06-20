@@ -109,7 +109,8 @@ Chd|====================================================================
      K       IAD_FREDG,FR_EDG,MAIN_PROC,NATIV_SMS,I_OPT_STOK ,
      L       MULTI_FVM,IPARG  ,ELBUF_TAB, H3D_DATA ,T2MAIN_SMS,
      M       LSKYI_SMS_NEW,FORNEQS,INT7ITIED,IDEL7NOK_SAV,MAXDGAP,
-     N       T2FAC_SMS,ICODT,ISKEW,FSKYN25,ADDCSRECT,PROCNOR)
+     N       T2FAC_SMS,ICODT,ISKEW,FSKYN25,ADDCSRECT,PROCNOR,
+     O       INTER_STRUCT,SORT_COMM,RENUM_SIZ,NODNX_SMS_SIZ)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -126,6 +127,8 @@ C-----------------------------------------------
       USE METRIC_MOD
       USE GROUPDEF_MOD
       USE ALE_CONNECTIVITY_MOD
+      USE INTER_STRUCT_MOD
+      USE INTER_SORTING_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -158,6 +161,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(in) :: NODNX_SMS_SIZ
       INTEGER IPARI(NPARI,*), IXS(*), IXS16(*), IXS20(*),
      .        ITAB(*),
      .        NEWFRONT(*),NBINTC,INTLIST(*),
@@ -168,7 +172,7 @@ C-----------------------------------------------
      .        IRLEN7T ,ISLEN7T,IRLEN20,ISLEN20,IRLEN20T,ISLEN20T,
      .        IRLEN20E, ISLEN20E,
      .        IND_IMP(*),NUM_IMP(*),RENUM(*), NSNFIOLD(NSPMD),
-     .        NODNX_SMS(*),IKINE(NUMNOD),I_MEM,COUNT_REMSLV(*),
+     .        NODNX_SMS(NODNX_SMS_SIZ),IKINE(NUMNOD),I_MEM,COUNT_REMSLV(*),
      .        COUNT_REMSLVE(*), IXTG(NIXTG,*),DELTA_PMAX_GAP_NODE(*),
      .        IAD_FRNOR(*), FR_NOR(*), IAD_FREDG(*), FR_EDG(*), 
      .        NB25_CANDT(PARASIZ), NB25_IMPCT(PARASIZ), 
@@ -201,6 +205,9 @@ C-----------------------------------------------
       TYPE(ELBUF_STRUCT_) ,DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE(H3D_DATABASE) :: H3D_DATA
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
+      INTEGER, INTENT(in) :: RENUM_SIZ
+      TYPE(inter_struct_type), DIMENSION(NINTER), INTENT(inout) :: INTER_STRUCT   !   struture for interface
+      TYPE(sorting_comm_type), DIMENSION(NINTER), INTENT(inout) :: SORT_COMM   ! structure for interface sorting comm
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE (GROUP_)  , DIMENSION(NGRSH3N) :: IGRSH3N
@@ -217,14 +224,19 @@ C-----------------------------------------------
      .        INTLIST21(NINTSTAMP)
       SAVE NB_STOK_N,NB_JLT,NSNE_MAX,NNOD3
       my_real, DIMENSION(:),ALLOCATABLE, TARGET :: XE,VE
+      my_real, DIMENSION(:),ALLOCATABLE, TARGET :: X_IGE,V_IGE
       my_real, DIMENSION(:),POINTER :: PTR_X,PTR_V,PTR_MS
       INTEGER, DIMENSION(:),POINTER :: PTR_KINET
       my_real :: BID
       INTEGER :: IBRIC, NBRIC, II, INOD, NODEID, ISU1, IAD, INACTI
       LOGICAL :: M151_ALLOC, TYPE18
       SAVE XE,VE,M151_ALLOC
+      SAVE X_IGE,V_IGE,MAX_IGE,SIZE_X_IGE
+      INTEGER :: MAX_IGE,SIZE_X_IGE
+      INTEGER :: NB_INTER_SORTED        !   number of interfaces that need to be sorted
+      INTEGER, DIMENSION(NBINTC) :: LIST_INTER_SORTED   !   list of interfaces that need to be sorted
 C-----------------------------------------------
-C Partie non parallele
+C Single region
       I_MEM = 0
 !$OMP SINGLE
       DELTA_PMAX_GAP_NODE(1:NINTER)=0
@@ -319,7 +331,8 @@ C Partie non parallele
         VMSR(6,N)= EP30
       END DO
 C-----int24 edge pourait etre optimis  e apres
-      NSNE_MAX=0      
+      NSNE_MAX=0    
+      MAX_IGE = 0  
       DO KK=1,NBINTC
 C
         N = INTLIST(KK)
@@ -339,7 +352,10 @@ C--
 ccc         NFIC = 3   
 ccc         CALL I24XVFIC_UPD(IPARI(1,N),INTBUF_TAB(N),X   ,V ,NFIC  ,ITAB)
         END IF
-C
+
+        IF(INTBUF_TAB(N)%S_NIGE.NE.0) THEN
+            MAX_IGE = MAX(MAX_IGE,INTBUF_TAB(N)%S_NIGE)
+        ENDIF
       END DO
       IF (NSNE_MAX>0 ) THEN
        L_FIC=3*(NSNE_MAX+NUMNOD)
@@ -348,7 +364,20 @@ C
        XE(1:NNOD3) = X(1:NNOD3)
        VE(1:NNOD3) = V(1:NNOD3)
       END IF
-C Fin Partie non parallele
+
+      IF(MAX_IGE>0) THEN
+        ALLOCATE( X_IGE(3*(NUMNOD+MAX_IGE)) )
+        ALLOCATE( V_IGE(3*(NUMNOD+MAX_IGE)) )
+        X_IGE(1:3*NUMNOD) = X(1:3*NUMNOD)
+        V_IGE(1:3*NUMNOD) = V(1:3*NUMNOD)
+        SIZE_X_IGE = 3*(NUMNOD+MAX_IGE)
+      ELSE
+        ALLOCATE( X_IGE(0) )
+        ALLOCATE( V_IGE(0) )
+        SIZE_X_IGE = 0
+      ENDIF
+
+C end of single region
 !$OMP END SINGLE
 
       ! If law151+int18 : shift NSV array
@@ -396,14 +425,10 @@ C-----------------------------------------------
           I7KGLO = 1
           !IF(INTER18_AUTOPARAM == 1)I7KGLO = 0
           IF(INTBUF_TAB(N)%S_NIGE.NE.0) THEN
-            ALLOCATE(XE(3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)))
-            XE(1:3*NUMNOD) = X(1:3*NUMNOD)
-            XE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)) = INTBUF_TAB(N)%XIGE(1:3*INTBUF_TAB(N)%S_NIGE)
-            PTR_X => XE
-            ALLOCATE(VE(3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)))
-            VE(1:3*NUMNOD) = V(1:3*NUMNOD)
-            VE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)) = INTBUF_TAB(N)%VIGE(1:3*INTBUF_TAB(N)%S_NIGE)
-            PTR_V => VE
+            X_IGE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)) = INTBUF_TAB(N)%XIGE(1:3*INTBUF_TAB(N)%S_NIGE)
+            PTR_X => X_IGE
+            V_IGE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)) = INTBUF_TAB(N)%VIGE(1:3*INTBUF_TAB(N)%S_NIGE)
+            PTR_V => V_IGE
          ELSEIF (MULTI_FVM%IS_USED .AND. TYPE18) THEN
             PTR_X => MULTI_FVM%X_APPEND
             PTR_V => MULTI_FVM%V_APPEND
@@ -525,9 +550,6 @@ C         IPARI(4,N) = NRTM ; IPARI(5,N)=NSN
 C-----------------------------------------------
         ENDIF
 C-----------------------------------------------
-        IF(INTBUF_TAB(N)%S_NIGE.NE.0) THEN
-          DEALLOCATE(XE,VE)
-        ENDIF
         IF(IMONM > 0 ) THEN
          IF(ITASK == 0) CALL INT_STOPTIME(INTBUF_TAB(N)%METRIC,I_MAIN_CRIT_TRI)  
         ENDIF
@@ -610,10 +632,65 @@ C Fin Partie non parallele smt
 !$OMP END SINGLE
 
       IF(ITASK==0)CALL STOPTIME(120,1) 
+
+
+      RETRI = 0
+      ! ------------------------
+      ! new sorting algorythm     
+      IF(ITASK==0) NEED_TO_SORT = 0
+      ! find the list of interface (for the moment : type7) that needs to be sorted
+      CALL INTER_CHECK_SORT( ITASK,NEED_TO_SORT,NBINTC,INTLIST,IPARI,
+     .                           INTBUF_TAB,SENSOR,NB_INTER_SORTED,LIST_INTER_SORTED,INTER_STRUCT)
+      ! globalize NEED_TO_SORT : 1= one or several interface(s) must be sorted 
+      IF(NSPMD>1.AND.ITASK==0) CALL SPMD_ALLGLOB_ISUM9(NEED_TO_SORT,1)
+      CALL MY_BARRIER()
+      ! ------------------------
+
+      ! ------------------------
+      ! explicit part
+      IF(IMPL_S.NE.1)THEN
+            ! -----------
+!$OMP SINGLE
+            CALL INTER_TRC_7( ITASK,NIN,IPARI,IND_IMP,
+     1                          INTBUF_TAB,NB_INTER_SORTED,LIST_INTER_SORTED,INTER_STRUCT)
+!$OMP END SINGLE
+            ! -----------
+            ! inacti exchange for all interfaces
+            IF(NEED_TO_SORT>0.AND.NEED_COMM_INACTI.AND.NB_INTER_7_INACTI>0) THEN
+                IF(ITASK==0) THEN
+                    IF(NSPMD>1) THEN
+                        CALL SPMD_GET_INACTI_GLOBAL(IPARI,NB_INTER_SORTED,LIST_INTER_SORTED,INTER_STRUCT)
+                    ELSE
+                        DO KK=1,NB_INTER_SORTED
+                            N = LIST_INTER_SORTED(KK)
+                            IPARI(22,N) = INTER_STRUCT(N)%INACTI
+                        ENDDO
+                    ENDIF   
+                ENDIF
+                CALL MY_BARRIER()
+            ENDIF
+            ! -----------
+            ! prepare the sort 
+            CALL INTER_PREPARE_SORT( ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,ISENDTO,IRECVFROM,
+     .                               IPARI,IAD_ELEM,FR_ELEM,X,V,
+     .                               MS,TEMP,KINET,NODNX_SMS,ITAB,
+     .                               WEIGHT,INTBUF_TAB,INTER_STRUCT,SORT_COMM,NODNX_SMS_SIZ )
+            ! -----------
+            ! sorting computation
+            CALL INTER_SORT( ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,RETRI,IPARI,
+     1                       ISENDTO,IRECVFROM,INTBUF_TAB,X,ITAB,
+     2                       RENUM,NSNFIOLD,MULTI_FVM,H3D_DATA,SENSOR,
+     3                       INTER_STRUCT,SORT_COMM ,RENUM_SIZ)
+      ENDIF
+      ! end : new sorting algorythm
+      ! ------------------------  
+
+
+      ! ------------------------
+      ! old sorting algorythm   
 C=======================================================================
 C     non implicit options-------
 C=======================================================================
-      RETRI = 0
 C
       IF(IMPL_S.NE.1)THEN
        IDUM = 0
@@ -642,20 +719,16 @@ C
            TS = TT
         ENDIF
 c-----------------------------------------------------------------------
-        IF((NTY == 7.AND.TT.GE.TS).OR.NTY == 18)THEN
+        IF(TYPE18.OR.(NTY==18)) THEN
 c-----------------------------------------------------------------------
           NRTM_T = IPARI(4,N)/NTHREAD
           ESHIFT = ITASK*NRTM_T
           IF(ITASK.EQ.NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
           IF(INTBUF_TAB(N)%S_NIGE.NE.0) THEN
-            ALLOCATE(XE(3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)))
-            XE(1:3*NUMNOD) = X(1:3*NUMNOD)
-            XE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)) = INTBUF_TAB(N)%XIGE(1:3*INTBUF_TAB(N)%S_NIGE)
-            PTR_X => XE
-            ALLOCATE(VE(3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)))
-            VE(1:3*NUMNOD) = V(1:3*NUMNOD)
-            VE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)) = INTBUF_TAB(N)%VIGE(1:3*INTBUF_TAB(N)%S_NIGE)
-            PTR_V => VE
+            X_IGE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)) = INTBUF_TAB(N)%XIGE(1:3*INTBUF_TAB(N)%S_NIGE)
+            PTR_X => X_IGE
+            V_IGE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)) = INTBUF_TAB(N)%VIGE(1:3*INTBUF_TAB(N)%S_NIGE)
+            PTR_V => V_IGE
             PTR_MS => MS(1:NUMNOD)  
             PTR_KINET => KINET(1:NUMNOD)      
           ELSEIF (MULTI_FVM%IS_USED .AND. TYPE18) THEN
@@ -867,9 +940,6 @@ C-----------------------------------------------------------------------
         ENDIF
 
 C-----------------------------------------------------------------------
-        IF(INTBUF_TAB(N)%S_NIGE.NE.0) THEN
-          DEALLOCATE(XE,VE)
-        ENDIF
        ENDDO
 C
        DO KK=1,NINTSTAMP
@@ -916,14 +986,10 @@ C-----------------------------------------------------------------------
           ESHIFT = ITASK*NRTM_T
           IF(ITASK.EQ.NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
           IF(INTBUF_TAB(N)%S_NIGE.NE.0) THEN
-            ALLOCATE(XE(3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)))
-            XE(1:3*NUMNOD) = X(1:3*NUMNOD)
-            XE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)) = INTBUF_TAB(N)%XIGE(1:3*INTBUF_TAB(N)%S_NIGE)
-            PTR_X => XE
-            ALLOCATE(VE(3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)))
-            VE(1:3*NUMNOD) = V(1:3*NUMNOD)
-            VE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)) = INTBUF_TAB(N)%VIGE(1:3*INTBUF_TAB(N)%S_NIGE)
-            PTR_V => VE
+            X_IGE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)) = INTBUF_TAB(N)%XIGE(1:3*INTBUF_TAB(N)%S_NIGE)
+            PTR_X => X_IGE
+            V_IGE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)) = INTBUF_TAB(N)%VIGE(1:3*INTBUF_TAB(N)%S_NIGE)
+            PTR_V => V_IGE
             PTR_MS => MS(1:NUMNOD)
             PTR_KINET => KINET(1:NUMNOD)
           ELSEIF (MULTI_FVM%IS_USED .AND. TYPE18) THEN
@@ -1064,9 +1130,6 @@ C-----------------------------------------------------------------------
 C-----------------------------------------------------------------------
         ENDIF
 C-----------------------------------------------------------------------
-        IF(INTBUF_TAB(N)%S_NIGE.NE.0) THEN
-          DEALLOCATE(XE,VE)
-        ENDIF
       ENDDO
       ENDIF
 C=======================================================================
@@ -1207,6 +1270,17 @@ C
         END IF
 C
       END IF
+      ! end : old sorting algorythm 
+      ! ------------------------
+
+      ! ------------------------------
+      ! new sorting algorythm 
+      ! deallocation & wait
+      CALL MY_BARRIER()
+      CALL INTER_DEALLOCATE_WAIT( ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,IPARI,ISENDTO,
+     1                            IRECVFROM,INTBUF_TAB,SENSOR,INTER_STRUCT,SORT_COMM )
+      ! end : new sorting algorythm 
+      ! ------------------------------
 C=======================================================================
 C
 C Partie non parallele
@@ -1277,14 +1351,10 @@ C-----------------------------------------------------------------------
 C-----------------------------------------------------------------------
 
           IF(INTBUF_TAB(N)%S_NIGE.NE.0) THEN
-            ALLOCATE(XE(3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)))
-            XE(1:3*NUMNOD) = X(1:3*NUMNOD)
-            XE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)) = INTBUF_TAB(N)%XIGE(1:3*INTBUF_TAB(N)%S_NIGE)
-            PTR_X => XE
-            ALLOCATE(VE(3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)))
-            VE(1:3*NUMNOD) = V(1:3*NUMNOD)
-            VE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)) = INTBUF_TAB(N)%VIGE(1:3*INTBUF_TAB(N)%S_NIGE)
-            PTR_V => VE
+            X_IGE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)) = INTBUF_TAB(N)%XIGE(1:3*INTBUF_TAB(N)%S_NIGE)
+            PTR_X => X_IGE
+            V_IGE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)) = INTBUF_TAB(N)%VIGE(1:3*INTBUF_TAB(N)%S_NIGE)
+            PTR_V => V_IGE
           ELSEIF (MULTI_FVM%IS_USED .AND. TYPE18) THEN
             PTR_X => MULTI_FVM%X_APPEND
             PTR_V => MULTI_FVM%V_APPEND
@@ -1296,9 +1366,6 @@ C-----------------------------------------------------------------------
           CALL I7MAIN_OPT_TRI(
      1       IPARI     ,PTR_X        ,PTR_V,
      2       N         ,ITASK        ,COUNT_REMSLV ,INTBUF_TAB(N))
-          IF(INTBUF_TAB(N)%S_NIGE.NE.0) THEN
-            DEALLOCATE(XE,VE)
-          ENDIF
           
 C-----------------------------------------------------------------------
         ELSEIF(NTY == 10)THEN
@@ -1484,6 +1551,8 @@ C Fin Partie non parallele
         IF (IMONM > 0) CALL STOPTIME(18,1)
 
       ENDIF
+
+      DEALLOCATE(X_IGE,V_IGE)
 !$OMP END SINGLE
 
       RETURN

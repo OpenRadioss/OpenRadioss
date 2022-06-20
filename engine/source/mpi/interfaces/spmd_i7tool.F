@@ -3022,7 +3022,8 @@ Chd|====================================================================
      5   LINDIDEL,LBUFIDEL,IRLEN20 ,ISLEN20 ,IRLEN20T,
      6   ISLEN20T,NBINT20 ,IRLEN20E,ISLEN20E,FR_RBY  ,
      7   FR_RBY6 ,NPBY    ,IRBKIN_L,
-     8   NRBYKIN_L,KINDRBY,SENSOR,LBUFIDEL24,INTBUF_TAB)
+     8   NRBYKIN_L,KINDRBY,SENSOR,LBUFIDEL24,INTBUF_TAB,
+     9   SORT_COMM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -3032,6 +3033,7 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE GROUPDEF_MOD
       USE INTERFACE_MODIFICATION_MOD
+      USE INTER_SORTING_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3070,6 +3072,7 @@ C-----------------------------------------------
      .        SENSOR(NSENSR,*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
+      TYPE(sorting_comm_type), DIMENSION(NINTER), INTENT(inout) :: SORT_COMM   ! structure for interface sorting comm
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
 C-----------------------------------------------
@@ -3503,7 +3506,7 @@ C
       CALL SPMD_SPLIT_COMM(
      .  IRCVFROM(NINTER+1,ISPMD+1)+ISENDTO(NINTER+1,ISPMD+1),COMM_CONT)
 
-      IF(NINTER/=0) CALL SPMD_SPLIT_COMM_INTER( NBINTC,INTLIST,IPARI,ISENDTO,IRCVFROM )
+      IF(NINTER/=0) CALL SPMD_SPLIT_COMM_INTER( NBINTC,INTLIST,IPARI,ISENDTO,IRCVFROM,SORT_COMM )
 
 !     Create CJOINT communicator
       CALL SPMD_SPLIT_COMM_JOINT()
