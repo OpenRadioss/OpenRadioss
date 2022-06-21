@@ -39,7 +39,7 @@ Chd|====================================================================
      4                   IGEO     ,IXTG  ,IPM   ,STACK,ID_ELEM   ,ITY_ELEM  ,INFO1,
      5                   INFO2    ,IS_WRITTEN_SHELL,IPARTC ,IPARTTG     ,LAYER_INPUT ,IPT_INPUT  ,
      6                   PLY_INPUT,GAUSS_INPUT,IUVAR_INPUT,H3D_PART, KEYWORD,D    ,
-     7                   ID       )
+     7                   ID       ,BUFMAT   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -66,6 +66,7 @@ C-----------------------------------------------
 #include      "scr25_c.inc"
 #include      "spmd_c.inc"
 #include      "task_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -75,6 +76,7 @@ C-----------------------------------------------
      .   IXTG(NIXTG,*),IPM(NPROPMI,*),ID_ELEM(*),ITY_ELEM(*),
      .   INFO1,INFO2,IS_WRITTEN_SHELL(*),IPARTC(*),IPARTTG(*),H3D_PART(*),
      .   LAYER_INPUT ,IPT_INPUT,GAUSS_INPUT,PLY_INPUT,IUVAR_INPUT,ID
+      my_real, INTENT(IN),TARGET :: BUFMAT(SBUFMAT)
 C     REAL
       my_real
      .   TENS(3,*),EPSDOT(6,*),X(3,*),SHELL_TENSOR(3,*),D(3,*)
@@ -86,15 +88,15 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
       my_real
-     .   A1,A2,A3,THK
+     .   A1,A2,A3,THK,CHARD
       my_real
      .   SIGE(MVSIZ,5)
       my_real
      .   VALUE(5)
       REAL R4(18)
-      INTEGER I,NG,NEL,NFT,ITY,LFT,NPT,MPT,IPT,
+      INTEGER I,NG,NEL,NFT,ITY,LFT,NPT,MPT,IPT,NBFUNCT,NCHARD,
      .        N,J,LLT,MLW,ISTRAIN,IL,IR,IS,IT,NPTR,NPTS,NLAY,
-     .        IPID,I1,I2,NS1,NS2,ISTRE,
+     .        IPID,I1,I2,NS1,NS2,ISTRE,IADBUF,NUPARAM,IMAT,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,NNI,N0,
      .        IHBE,IREP,BUF,NPG,K,ISROT,NUVARV,IVISC,
      .        IPMAT,IGTYP,MATLY,ISUBSTACK,IIGEO,IADI,IPMAT_IPLY,
@@ -108,6 +110,7 @@ C
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF
+      my_real, DIMENSION(:) ,POINTER  :: UPARAM
 C
       my_real,
      .   DIMENSION(:), POINTER :: DIR_A
@@ -1250,9 +1253,26 @@ C--------------------------------------------------
 C--------------------------------------------------
             ELSEIF (KEYWORD == 'TENS/BSTRESS') THEN
 C--------------------------------------------------
+              IF (MLW == 87) THEN
+               IMAT = IXC(1,NFT+1)                    
+               IADBUF = IPM(7,IMAT)                       
+               NUPARAM= IPM(9,IMAT)                       
+               UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
+               NBFUNCT = UPARAM(25) 
+               NCHARD = 34 + 2*NBFUNCT +  22
+               CHARD  = UPARAM (NCHARD)
+              ELSEIF (MLW == 36) THEN
+               IMAT = IXC(1,NFT+1)                        
+               IADBUF = IPM(7,IMAT)                       
+               NUPARAM= IPM(9,IMAT)                       
+               UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
+               NBFUNCT = UPARAM(1) 
+               NCHARD = 2*NBFUNCT + 14
+               CHARD  = UPARAM (NCHARD)
+              ENDIF
               IF ( ILAY == -1 .AND. IPT == -1 .AND. IPLY == -1) THEN  !global value = mean on gauss points IPs and layers
                 IF(ID == -1) THEN ! somme of all backstresses
-                  IF(MLW == 36) THEN
+                  IF(MLW == 36 .AND. CHARD > ZERO) THEN
                     DO I=1,NEL  
                       DO J=1,NLAY
                         BUFLY => ELBUF_TAB(NG)%BUFLY(J)
@@ -1288,7 +1308,7 @@ C--------------------------------------------------
                       ENDDO !Jlay  
                       CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE )                                  
                     ENDDO !I              
-                  ELSEIF(MLW == 87) THEN
+                  ELSEIF(MLW == 87 .AND. CHARD > ZERO) THEN
                    !SIGBXX(I) = SIGB(I,1) + SIGB(I,4) + SIGB(I,7) + SIGB(I,10)
                    !SIGBYY(I) = SIGB(I,2) + SIGB(I,5) + SIGB(I,8) + SIGB(I,11)
                    !SIGBXY(I) = SIGB(I,3) + SIGB(I,6) + SIGB(I,9) + SIGB(I,12)
@@ -1314,7 +1334,7 @@ C--------------------------------------------------
                     ENDDO !I              
                   ENDIF ! MLW==
                 ELSEIF(ID >0  ) THEN !!
-                  IF(MLW == 36) THEN ! forcement ID=1 y a qu une BS
+                  IF(MLW == 36.AND. CHARD > ZERO) THEN ! forcement ID=1 y a qu une BS
                     DO I=1,NEL  
                       DO J=1,NLAY
                         BUFLY => ELBUF_TAB(NG)%BUFLY(J)
@@ -1388,7 +1408,7 @@ C--------------------------------------------------
                         CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE )                                   
                       ENDDO !I  
                     ENDIF !ID ==             
-                  ELSEIF(MLW == 87) THEN
+                  ELSEIF(MLW == 87.AND. CHARD > ZERO) THEN
                     IF(ID == 1) THEN
                       DO I=1,NEL  
                         DO J=1,NLAY
@@ -1480,7 +1500,7 @@ C--------------------------------------------------
                     !--------
                     !  LAW36
                     !--------
-                    IF (MLW == 36 .AND.( ID == -1 .OR. ID == 1)) THEN
+                    IF (MLW == 36 .AND.( ID == -1 .OR. ID == 1).AND. CHARD > ZERO) THEN
                        DO I=1,NEL  
                          DO IR=1,NPTR                
                            DO IS=1,NPTS 
@@ -1549,7 +1569,7 @@ C--------------------------------------------------
                       !--------
                       !  LAW87
                       !--------
-                    ELSEIF( MLW == 87) THEN
+                    ELSEIF( MLW == 87 .AND. CHARD > ZERO) THEN
                       IF(ID == -1) THEN ! somme of all backstresses
                         DO I=1,NEL                                                         
                           DO IR=1,NPTR                                                        
@@ -1628,7 +1648,7 @@ C--------------------------------------------------
                !--------                                                                                              
                !  LAW36                                                                                               
                !--------                                                                                              
-               IF (MLW == 36.AND. (ID==-1 . OR .ID==1)) THEN                                                          
+               IF (MLW == 36.AND. (ID==-1 . OR .ID==1).AND. CHARD > ZERO) THEN                                                          
                  DO I=1,NEL                                                                                             
                    DO IR=1,NPTR                                                                                            
                      DO IS=1,NPTS                                                                                      
@@ -1696,7 +1716,7 @@ C--------------------------------------------------
                  !--------   
                  !  LAW87    
                  !--------   
-               ELSEIF( MLW == 87) THEN
+               ELSEIF( MLW == 87 .AND. CHARD > ZERO) THEN
                  IF(ID == -1) THEN ! somme of all backstresses
                     DO I=1,NEL  
                       DO IR=1,NPTR                
@@ -1776,7 +1796,7 @@ C--------------------------------------------------
                   !--------                                                        
                   !  LAW36                                                         
                   !--------                                                        
-                  IF (MLW == 36.AND. (ID==-1 .OR. ID==1)) THEN ! only one Bstress  
+                  IF (MLW == 36.AND. (ID==-1 .OR. ID==1) .AND. CHARD > ZERO) THEN ! only one Bstress  
                     DO I=1,NEL                                                       
                        DO IR=1,NPTR
                           DO IS=1,NPTS
@@ -1855,7 +1875,7 @@ C--------------------------------------------------
                     !--------
                     !  LAW87
                     !--------
-                  ELSEIF( MLW == 87) THEN
+                  ELSEIF( MLW == 87 .AND. CHARD > ZERO) THEN
                     IF(ID == -1) THEN ! somme of all backstresses
                        DO I=1,NEL  
                           DO IR=1,NPTR            
@@ -1944,7 +1964,7 @@ C---------------------------------------------------------------------------
                     !--------
                     !  LAW36
                     !--------
-                    IF (MLW == 36.AND. (ID==-1 .OR. ID==1)) THEN
+                    IF (MLW == 36.AND. (ID==-1 .OR. ID==1) .AND. CHARD > ZERO) THEN
                        DO I=1,NEL  
                          DO IR=1,NPTR                
                            DO IS=1,NPTS 
@@ -2012,7 +2032,7 @@ C---------------------------------------------------------------------------
                       !--------
                       !  LAW87
                       !--------
-                    ELSEIF( MLW == 87) THEN
+                    ELSEIF( MLW == 87 .AND. CHARD > ZERO) THEN
                       IF(ID == -1) THEN ! somme of all backstresses
                          DO I=1,NEL  
                            DO IR=1,NPTR                
