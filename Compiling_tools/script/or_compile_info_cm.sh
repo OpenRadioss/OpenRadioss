@@ -2,7 +2,7 @@
 
 cd ..
 
-echo "       CHARACTER VERS*32, BDATE*32, BTIME*32,BTAG*2, MSGO*68,BNAME*32"
+echo "       CHARACTER VERS*32, BDATE*32, BTIME*32,BTAG*80, MSGO*68,BNAME*32"
 echo "       CHARACTER YEARSTRING*10"
 echo "       INTEGER LEN_VERS, LEN_BDATE, LEN_BTIME, PMSG,LEN_MSG,LENYS"
 echo "       INTEGER LENBNAM"
@@ -20,7 +20,12 @@ echo "       DATA BNAME/\"$5\"/"
 echo " "
 
 #Build Tag
-echo "       DATA BTAG/\"  \"/ "
+if [ -z "$GITHUB_SHA" ]
+then
+  echo "       DATA BTAG/\"  \"/ "
+else
+  echo "       DATA BTAG/'CommitID: $GITHUB_SHA'/ "
+fi
 
 if [ $2 = 1 ]; then
 echo "       PARAMETER (PMSG=1)"

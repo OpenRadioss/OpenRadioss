@@ -21,7 +21,7 @@
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the 
 //Copyright>    commercial version may interest you: https://www.altair.com/radioss/.    
 #include "hardware.inc"
-#include "btag.inc"
+
 
 #if CPP_mach == CPP_w95 || CPP_mach == CPP_win64_spmd || CPP_mach == CPP_p4win64_spmd || CPP_mach == CPP_wnt || CPP_mach == CPP_wmr || CPP_mach == CPP_p4win64  || CPP_mach == CPP_p4win32
 

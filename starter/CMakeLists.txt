@@ -200,9 +200,6 @@ add_custom_command(
          OUTPUT 
             ${Build_includes_directory}/__foo.inc 
             ${Build_includes_directory}/build_info.inc
-            ${Build_includes_directory}/btag.inc
-         COMMAND 
-            bash ../../Compiling_tools/script/or_compile_info2_cm.sh linux64 0 s 0 linux64  > ${Build_includes_directory}/btag.inc
          COMMAND
             bash ../../Compiling_tools/script/or_compile_info_cm.sh  linux64 0 s 0 linux64  > ${Build_includes_directory}/build_info.inc
          COMMAND
@@ -217,8 +214,6 @@ add_custom_command(
             ${Build_includes_directory}/build_info.inc
             ${Build_includes_directory}/btag.inc
          COMMAND 
-            bash ../../Compiling_tools/script/compile_info2_cm.sh linux64 0 s 0 linux64  > ${Build_includes_directory}/btag.inc
-         COMMAND
             bash ../../Compiling_tools/script/compile_info_cm.sh  linux64 0 s 0 linux64  > ${Build_includes_directory}/build_info.inc
          COMMAND
            ls  ${Build_includes_directory}
@@ -240,7 +235,7 @@ endif (NOT CMAKE_BUILD_TYPE)
 
 
 
-add_executable (${EXEC_NAME} ${source_files} ${sfullstarter_message_description.txtource_files_common} ${c_source_files} ${cpp_source_files} ${Build_includes_directory}/starter_message_description.inc ${Build_includes_directory}/btag.inc  ${Build_includes_directory}/build_info.inc)
+add_executable (${EXEC_NAME} ${source_files} ${sfullstarter_message_description.txtource_files_common} ${c_source_files} ${cpp_source_files} ${Build_includes_directory}/starter_message_description.inc   ${Build_includes_directory}/build_info.inc)
 
 target_include_directories(${EXEC_NAME} PRIVATE ${include_dir_list}  )
 target_link_libraries(${EXEC_NAME} ${LINK} )
