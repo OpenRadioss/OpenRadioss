@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  HM_READ_MAT19                 source/materials/mat/mat019/hm_read_mat19.F
+Chd|  HM_READ_MAT119                 source/materials/mat/mat119/hm_read_mat119.F
 Chd|-- called by -----------
 Chd|        HM_READ_MAT                   source/materials/mat/hm_read_mat.F
 Chd|-- calls ---------------
@@ -37,7 +37,8 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT119(MTAG     ,UPARAM   ,MAXUPARAM,NUPARAM  ,PM       ,
      .                          MATPARAM ,PARMAT   ,NUVAR    ,MAT_ID   ,TITR     ,
-     .                          UNITAB   ,LSUBMODEL,ISRATE   ,IPM)
+     .                          MAXTABL  ,NUMTABL  ,ITABLE   ,UNITAB   ,LSUBMODEL,
+     .                          ISRATE   )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C   =====================
@@ -78,21 +79,22 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(OUT)  :: NUPARAM,NUVAR,ISRATE
-      INTEGER ,INTENT(IN)   :: MAT_ID,MAXUPARAM
-      INTEGER ,INTENT(INOUT)  :: IPM(NPROPMI)
+      INTEGER ,INTENT(OUT)  :: NUPARAM,NUVAR,NUMTABL,ISRATE
+      INTEGER ,INTENT(IN)   :: MAT_ID,MAXUPARAM,MAXTABL
+      INTEGER, DIMENSION(MAXTABL) ,INTENT(INOUT) :: ITABLE
       CHARACTER*nchartitle,INTENT(IN)::TITR
       my_real ,INTENT(INOUT):: PM(NPROPM),PARMAT(100),UPARAM(MAXUPARAM)
       TYPE (UNIT_TYPE_)      ,INTENT(IN)    :: UNITAB 
-      TYPE(SUBMODEL_DATA)    ,INTENT(IN)    :: LSUBMODEL((NSUBMOD))
+      TYPE(SUBMODEL_DATA)    ,INTENT(IN)    :: LSUBMODEL(*)
       TYPE(MLAW_TAG_)        ,INTENT(OUT)   :: MTAG
       TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real :: N12,N21,E11,E22,G12,G23,G31,RCOMP,DETC,AMU,C1,SSP,
-     .   A11,A22,A12,ZEROSTRESS,POROSITY,AREAMIN1,AREAMIN2,RHOR,RHO0
-      INTEGER ISENS
+      INTEGER FUNC1,FUNC2,IRELOAD
+      my_real :: NU,N12,N21,E11,E22,G12,G23,G31,RCOMP,DET,C1,SSP,
+     .   A11,A22,A12,A1C,A2C,GC,RHO0,LMIN,DAMP,FSCALE1,FSCALE2,FSCALET,
+     .   ECOAT,NUCOAT,TCOAT
       LOGICAL IS_AVAILABLE,IS_CRYPTED
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -101,167 +103,181 @@ c=======================================================================
       IS_AVAILABLE = .FALSE.
 
       CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
-C
-      CALL HM_GET_FLOATV('MAT_RHO',  RHO0  ,IS_AVAILABLE,LSUBMODEL,UNITAB)      
-      CALL HM_GET_FLOATV('STIFF1',   E11   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV('RE',       RCOMP ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV('E22',      E22   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV('NU12',     N12   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV('G12',      G12   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-C
-C--   Default values computed in create_seatbelt when section is available
-      IF (E11 == ZERO) E11 = EM20
-      IF (E22 == ZERO) E22 = EM20
-      IF (N12 == ZERO) N12 = 0.19
-      IF (G12 == ZERO) G12 = EM20
-C
-C      RHO0 = RHO0 / 300.000
-C      E11 = EM02*E11 / 300.000
-C      E22 = TEN*E11
-C      G12 = E11/(TWO*(ONE+N12))
-C   
-      G23 = G12
-      G31 = G12
-      ZEROSTRESS = 0
-      POROSITY = ZERO
-      ISENS = 0
-      RHOR = ZERO
-C
+card1
+      CALL HM_GET_FLOATV('MAT_RHO'  ,RHO0     ,IS_AVAILABLE,LSUBMODEL,UNITAB)     
+      CALL HM_GET_FLOATV('LMIN'     ,LMIN     ,IS_AVAILABLE,LSUBMODEL,UNITAB)     
+card2
+      CALL HM_GET_FLOATV('STIFF1'   ,E11      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('DAMP1'    ,DAMP     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('RE'       ,RCOMP    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+card3
+      CALL HM_GET_INTV  ('FUN_L'    ,FUNC1    ,IS_AVAILABLE, LSUBMODEL)
+      CALL HM_GET_INTV  ('FUN_UL'   ,FUNC2    ,IS_AVAILABLE, LSUBMODEL)
+      CALL HM_GET_FLOATV('Fcoeft1'  ,FSCALE1  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('Fcoeft2'  ,FSCALE2  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_INTV  ('Ireload'  ,IRELOAD  ,IS_AVAILABLE, LSUBMODEL)
+card4
+      CALL HM_GET_FLOATV('E22'      ,E22      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('NU12'     ,N12      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('G12'      ,G12      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('Fcoeft22' ,FSCALET ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+card5
+      CALL HM_GET_FLOATV('ECOAT'    ,ECOAT     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('NUCOAT'   ,NUCOAT    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('TCOAT'    ,TCOAT     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+c-----------------------------------------------------
+      PM(1) = RHO0
+      PM(89)= RHO0
+c
       ISRATE = -1
-      N21    = N12*E22/E11
-      DETC   = ONE - N12*N21
-      A11 = E11 / DETC
-      A22 = E22 / DETC
-      A12 = A11 * N21
-      C1  = MAX(E11,E22) / DETC
-      SSP = SQRT(C1/RHO0)
+      IF (N12 == ZERO) N12 = 0.3
+      IF (E22 == ZERO) E22 = EM01*E11
+      IF (G12 == ZERO) G12 = EM02*E11/(TWO*(ONE + N12))
+      IF (FSCALE1 == ZERO) FSCALE1 = ONE
+      IF (FSCALE2 == ZERO) FSCALE2 = ONE
+      IF (FSCALET == ZERO) FSCALET = EM01
+      N21 = ZERO
 C-----------------------------------------------------
-      IF(E11 == ZERO.OR. E22 == ZERO .OR. G12 == ZERO .OR. G23 == ZERO .OR. G31 == ZERO) THEN
+      IF (FUNC1 == 0 .and. E11 == ZERO) THEN
          CALL ANCMSG(MSGID=306, MSGTYPE=MSGERROR, ANMODE=ANINFO,
-     .               I1=19,
+     .               I1=119,
      .               I2=MAT_ID,
      .               C1=TITR,
-     .               C2='E11, E22, G12, G23, or G31')
+     .               C2='E11')
       ENDIF
-C--------------------------------------------------------
-      IF (DETC <= ZERO) THEN
-         CALL ANCMSG(MSGID=307, MSGTYPE=MSGERROR, ANMODE=ANINFO,
-     .               I1=MAT_ID,
-     .               C1=TITR)
+C-----------------------------------------------------
+      IF (G12 == ZERO) THEN
+         CALL ANCMSG(MSGID=306, MSGTYPE=MSGERROR, ANMODE=ANINFO,
+     .               I1=119,
+     .               I2=MAT_ID,
+     .               C1=TITR,
+     .               C2='G12')
       ENDIF
 C-----------------------------------------
-      IF (RCOMP == ZERO) RCOMP=ONE
-        IF (RCOMP < EM03) THEN
+      IF (RCOMP == ZERO) RCOMP = ONE
+      IF (RCOMP < EM03) THEN
           CALL ANCMSG(MSGID=1572, MSGTYPE=MSGWARNING, ANMODE=ANINFO,
      .                I1=MAT_ID,
      .                C1=TITR)
          RCOMP = EM03
-       ENDIF
-C-------------------------------------
-      IF (POROSITY < ZERO .OR. POROSITY > ONE) THEN
-         CALL ANCMSG(MSGID=775, MSGTYPE=MSGERROR, ANMODE=ANINFO,
-     .               I1=MAT_ID,
-     .               C1=TITR)
       ENDIF
-C-----------------------------------------
-      IF (RHOR == ZERO ) RHOR=RHO0
-      PM(1) = RHOR
-      PM(89)= RHO0
-      AMU = PM(17)
-      IF (AMU == ZERO) AMU = FOURTH
-
-      PM(17) = AMU
-      PM(20) = MAX(E11,E22)/DETC
-      PM(21) = SQRT(N12*N21)
-      PM(22) = MAX(G12,G23,G31)    
-      PM(24) = PM(20)
-      PM(25) = PM(21)*PM(24)
-      PM(26) = FIVE_OVER_6
-      PM(27) = SSP
-      PM(32) = C1
-      PM(33) = E11*EM02
-      PM(34) = E22
-      PM(35) = N12
-      PM(36) = N21
-      PM(37) = G12
-      PM(38) = G23
-      PM(39) = G31
-      PM(44) = RCOMP
-c
-      AREAMIN1 = ZERO
-      PM(53)   = AREAMIN1
-      AREAMIN2 = ONE + HALF*(AREAMIN1-ONE)
-      IF (AREAMIN2 > AREAMIN1) THEN
-        PM(54) = ONE / (AREAMIN2-AREAMIN1)
-      ELSE
-        PM(54) = ZERO
-      ENDIF
-      PM(56) = POROSITY 
-C      PM(52)=ONEP414*PM(17)*PM(1)*PM(27)
+c-----------------------------------------
+c     
+      IF (FUNC1 == 0) N21 = N12*E22 / E11
+      NU  = SQRT(N12*N21)
+      DET = ONE / (ONE - N12*N21)
+      A11 = E11 * DET
+      A22 = E22 * DET
+      A12 = A11 * N21
+      C1  = MAX(E11,E22) * DET
+      SSP = SQRT(C1/RHO0)
+      A1C = ECOAT /  (ONE - NUCOAT**2)
+      A2C = A1C * NUCOAT
+      GC  = ECOAT * HALF / (ONE + NUCOAT)
 c-----------------------------------------
       UPARAM(1)  = E11
       UPARAM(2)  = E22
       UPARAM(3)  = N12
       UPARAM(4)  = N21
-      UPARAM(5)  = G12
-      UPARAM(6)  = G23
-      UPARAM(7)  = G31
-      UPARAM(8)  = RCOMP
-      UPARAM(9)  = SSP
-      UPARAM(10) = A11                         
-      UPARAM(11) = A22                         
-      UPARAM(12) = A12
-      UPARAM(13) = ISENS
-      UPARAM(14) = ZEROSTRESS
-      UPARAM(15) = POROSITY
+      UPARAM(5)  = NU
+      UPARAM(6)  = G12
+      UPARAM(7)  = A11 
+      UPARAM(8)  = A22 
+      UPARAM(9)  = A12     
+      UPARAM(10) = RCOMP                          
+      UPARAM(11) = FSCALE1                           
+      UPARAM(12) = FSCALE2  
+      UPARAM(13) = FSCALET
+      UPARAM(14) = A1C
+      UPARAM(15) = A2C
+      UPARAM(16) = TCOAT
+      UPARAM(17) = SSP
+      UPARAM(18) = ZERO  ! Xint
+      UPARAM(19) = ZERO  ! Yint
+      UPARAM(20) = GC
+      UPARAM(21) = IRELOAD
 c
-      NUPARAM = 15
-      NUVAR   = 0
-c                
+      NUPARAM = 21
+      NUVAR   = 6
+      NUMTABL = 2
+c
+      ITABLE(1) = FUNC1                
+      ITABLE(2) = FUNC2                
 c --------------------------
       PARMAT(1)  = C1
-      PARMAT(2)  = MAX(E11,E22)/DETC
+      PARMAT(2)  = MAX(E11,E22)
       PARMAT(3)  = SQRT(N12*N21)
       PARMAT(4)  = ISRATE
       PARMAT(5)  = ZERO ! FCUT
 c
-      CALL INIT_MAT_KEYWORD(MATPARAM,"TOTAL")
-C
-C     flag for seatbelts
-      IPM(6) = 1
-C        
-C     Definition of internal variables 
-C
-      MTAG%G_SIGI = 3
-      MTAG%G_INTVAR = 6
+c---- Definition of internal variables variables for seatbelts
+c
+      MTAG%G_INTVAR = 13
       MTAG%G_SLIPRING_ID = 1
       MTAG%G_SLIPRING_FRAM_ID = 2
       MTAG%G_UPDATE = 1
       MTAG%G_ADD_NODE = 4
-      MTAG%G_POSX = 2
-C 
-C--------------------------------------
-      WRITE(IOUT,1000)
-      WRITE(IOUT,1001) TRIM(TITR),MAT_ID,119
-      IF(IS_CRYPTED)THEN
+c
+c     flag for seatbelts
+c     IPM(6) = 1
+c
+c--------------------- 
+      CALL INIT_MAT_KEYWORD(MATPARAM,"COMPRESSIBLE")
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SMALL_STRAIN") 
+      CALL INIT_MAT_KEYWORD(MATPARAM,"INCREMENTAL")
+c----------------------------------------
+      WRITE(IOUT,1000) TRIM(TITR),MAT_ID,119
+      WRITE(IOUT,1100)
+      IF (IS_CRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-        WRITE(IOUT,1100)RHO0,E11,E22,N12,G12
+        WRITE(IOUT,1200) RHO0
+        IF (FUNC1 == 0) THEN
+          WRITE(IOUT,1300) E11,E22,N12,N21,G12,RCOMP,LMIN,DAMP
+        ELSE
+          WRITE(IOUT,1400) N12,G12,RCOMP,LMIN,DAMP,FUNC1,FUNC2,
+     .    FSCALE1,FSCALE2,IRELOAD,FSCALET
+        END IF
+        IF (ECOAT > ZERO) THEN
+          WRITE(IOUT,1500) ECOAT,NUCOAT,TCOAT
+        END IF
       ENDIF
-C----------------------------------------
+c--------------------------------------
  1000 FORMAT(
-     & 5X,'ORTHOTROPIC MATERIAL FOR 2D SEATBELT'/,
-     & 5X,'------------------------------------'/)
- 1001 FORMAT(
      & 5X,A,/,
-     & 5X,'MATERIAL NUMBER . . . . . . . . . . . .=',I10/,
-     & 5X,'MATERIAL LAW. . . . . . . . . . . . . .=',I10/) 
- 1100 FORMAT(
-     & 5X,'MASS PER UNIT LENGTH . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'STIFFNESS PER UNIT LENGTH. . . . . . . . .=',1PG20.13/,
-     & 5X,'YOUNG MODULUS E22  . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'POISSON RATIO N12. . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'SHEAR MODULUS   G12. . . . . . . . . . . .=',1PG20.13/)
+     & 5X,'MATERIAL NUMBER. . . . . . . . . . . . . . . . . =',I10/,
+     & 5X,'MATERIAL LAW . . . . . . . . . . . . . . . . . . =',I10/)
+ 1100 FORMAT
+     &(5X,'ORTHOTROPIC MATERIAL FOR SEATBELTS (LAW119)       ',/,
+     & 5X,'-------------------------------------------       ',/)
+ 1200 FORMAT(
+     & 5X,'INITIAL DENSITY . . . .  .  . . . . . . . . . . .=',1PG20.13/)  
+ 1300 FORMAT(
+     & 5X,'YOUNG MODULUS E11 (TENSION) . . . . . . . . . . .=',1PG20.13/
+     & 5X,'YOUNG MODULUS E22 (TENSION) . . . . . . . . . . .=',1PG20.13/
+     & 5X,'POISSON RATIO NU12. . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'POISSON RATIO NU21. . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'SHEAR MODULUS G12 . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'COMPRESSION REDUCTION FACTOR. . . . . . . . . . . ',/
+     & 5X,'     RCOMP=E11C/E11= E22C/E22 . . . . . . . . . .=',1PG20.13/
+     & 5X,'MINIMUM LENGHT LMIN. . . . . . . . .. . . . . . .=',1PG20.13/
+     & 5X,'DAMPING COEFFICIENT. . . . . . . . .. . . . . . .=',1PG20.13/)
+ 1400 FORMAT(
+     & 5X,'POISSON RATIO NU12. . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'SHEAR MODULUS G12 . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'COMPRESSION REDUCTION FACTOR. . . . . . . . . . . ',1PG20.13/
+     & 5X,'MINIMUM LENGHT LMIN. . . . . . . . .. . . . . . .=',1PG20.13/
+     & 5X,'DAMPING COEFFICIENT. . . . . . . . .. . . . . . .=',1PG20.13/
+     & 5X,'LOADING CURVE ID. . . . . . . . . . . . . . . . .=',1I10/
+     & 5X,'UNLOADING CURVE ID. . . . . . . . . . . . . . . .=',1I10/
+     & 5X,'LOADING CURVE SCALE FACTOR. . . . . . . . . . . .=',1PG20.13/
+     & 5X,'UNLOADING CURVE SCALE FACTOR. . . . . . . . . . .=',1PG20.13/
+     & 5X,'RELOADING FLAG. . . . . . . . . . . . . . . . . .=',1I10/
+     & 5X,'TRANSVERSE STIFFNESS SCALE FACTOR . . . . . . . .=',1PG20.13/)
+ 1500 FORMAT(
+     & 5X,'YOUNG MODULUS OF COATING LAYER. . . . . . . . . .=',1PG20.13/
+     & 5X,'POISSON RATIO OF COATING LAYER. . . . . . . . . .=',1PG20.13/
+     & 5X,'THICKNESS OF COATING LAYER. . . . . . . . . . . .=',1PG20.13/)
 C-----------
       RETURN
       END

@@ -29,7 +29,8 @@ Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_
 Chd|====================================================================
       SUBROUTINE SET_ELGROUP_PARAM(
      .           GROUP_PARAM_TAB,IPARG    ,NGROUP   ,N2D      ,
-     .           IPM            ,IGEO     ,PM       ,GEO      )
+     .           IPM            ,IGEO     ,PM       ,GEO      ,
+     .           BUFMAT         )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -42,23 +43,31 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
+#include      "com04_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NGROUP,N2D
-      INTEGER IPM(NPROPMI,*),IGEO(NPROPGI,*),IPARG(NPARG,*)
-      my_real PM(NPROPM,*),GEO(NPROPG,*)
-      TYPE(GRP_PARAM_STRUCT_) , DIMENSION(NGROUP) :: GROUP_PARAM_TAB
+      INTEGER ,DIMENSION(NPARG,NGROUP)   :: IPARG
+      INTEGER ,DIMENSION(NPROPMI,NUMMAT) :: IPM
+      INTEGER ,DIMENSION(NPROPGI,NUMMAT) :: IGEO
+      my_real ,DIMENSION(NPROPM,NUMMAT)  :: PM
+      my_real ,DIMENSION(NPROPG,NUMMAT)  :: GEO
+      my_real ,DIMENSION(SBUFMAT)        :: BUFMAT
+      TYPE(GRP_PARAM_STRUCT_) ,DIMENSION(NGROUP) :: GROUP_PARAM_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NG,ITY,IGTYP,IDEF,IGMAT,IHBE,ISH3N,IEL,PID,ILAW
+      INTEGER NG,ITY,IGTYP,IDEF,IGMAT,IHBE,ISH3N,IEL,PID,IMAT,ILAW,IADD,
+     .        NIP,ISMSTR,ICOAT
       my_real DM
 C=======================================================================
       DO NG=1,NGROUP
         ITY   = IPARG(5,NG)
         IF (N2D == 0 .and. (ITY == 3 .or. ITY == 7)) THEN
           ILAW  = IPARG(1,NG)
+          IMAT  = IPARG(18,NG)
           PID   = IPARG(62,NG)
           IEL   = IPARG(3,NG)+1
           IGTYP = IPARG(38,NG)
@@ -74,7 +83,7 @@ c
           IF (DM == ZERO) THEN
             IF (ILAW == 65 ) THEN
               DM = FIVEEM2
-            ELSEIF (ILAW == 19) THEN
+            ELSEIF (ILAW == 19 .or. ILAW == 119) THEN
               IF (ITY == 3 .and. IHBE == 23) THEN
                 DM = ZEP015
               ELSE
@@ -109,6 +118,22 @@ c
 c          
           GROUP_PARAM_TAB(NG)%VISC_DM = DM  
 c
+c------   special settings for law119
+c          
+          IF (ILAW == 119) THEN
+            IADD = MAX(1,IPM(7,IMAT))-1
+            ICOAT = NINT(BUFMAT(IADD+14))
+            ISMSTR = 11   ! force small strain formulation for law 119 regardless of input
+            IF (ICOAT > ZERO) THEN 
+              NIP = 3
+            ELSE
+              NIP = 1
+            END IF
+            IPARG(6,NG) = NIP
+            IPARG(9,NG) = ISMSTR
+          END IF
+           
+
         ELSE
 c
           GROUP_PARAM_TAB(NG)%VISC_DM = ZERO  

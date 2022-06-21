@@ -1070,11 +1070,13 @@ c-------
      .           UNITAB   ,MAT_ID   ,TITR     ,LSUBMODEL)
 c-------
           CASE ('LAW119','SH_SEATBELT')
-            ILAW = 19 
+            ILAW = 119 
             CALL HM_READ_MAT119(
      .           MTAG     ,UPARAM   ,MAXUPARAM,NUPARAM  ,PM(1,I)  ,
      .           MATPARAM ,PARMAT   ,NUVAR    ,MAT_ID   ,TITR     ,
-     .           UNITAB   ,LSUBMODEL,ISRATE   ,IPM(1,I))
+     .           MAXTABL  ,NUMTABL  ,ITABLE   ,UNITAB   ,LSUBMODEL,
+     .           ISRATE   )
+         
 c-------     
           CASE ('LAW120','TAPO')
             ILAW  = 120
@@ -1287,7 +1289,7 @@ c
           ENDDO
           IADBUF = IADBUF + NUPARAM
           BUFLEN = BUFLEN + NUPARAM
-c            
+c           
         ENDIF ! ILAW.GE.28 
 c
         IPM(1,I)   = MAT_ID
@@ -1397,4 +1399,3 @@ c------------------------------
      & 5X,'USER MATERIAL LAW . . . . . . . . . . .=',I10/)
 c------------------------------
       END
-

@@ -371,3 +371,101 @@ C=======================================================================
 c-----------
       RETURN
       END
+Chd|====================================================================
+Chd|  TABLE_INTERS                   source/tools/curve/func_inters.F
+Chd|-- called by -----------
+Chd|        LAW119_UPD                    
+Chd|-- calls ---------------
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        TABLE_MOD                     share/modules1/table_mod.F    
+Chd|====================================================================
+      SUBROUTINE TABLE_INTERS(TABLE,FUNC1,FUNC2,FAC1,FAC2,XINT,YINT)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE TABLE_MOD
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "com04_c.inc"
+#include      "scr17_c.inc"
+#include      "tabsiz_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER  :: FUNC1,FUNC2
+      my_real  :: XINT,YINT,FAC1,FAC2
+      TYPE(TTABLE), DIMENSION(NTABLE) ::  TABLE
+C-----------------------------------------------
+      INTENT(IN)    :: FUNC1,FUNC2,FAC1,FAC2
+      INTENT(INOUT) :: XINT,YINT 
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER :: J,K,NP1,NP2,NDIM,FOUND
+      my_real :: S1,S2,T1,T2,X1,X2,Y1,Y2,AX,BX,AY,BY,CX,CY,DM,ALPHA,BETA
+C=======================================================================
+c     Check common points between 2 curves => intersection
+      NDIM   = TABLE(FUNC1)%NDIM
+      NP1    = SIZE(TABLE(FUNC1)%X(1)%VALUES)
+      NP2    = SIZE(TABLE(FUNC2)%X(1)%VALUES)
+      XINT  = ZERO
+      YINT  = ZERO
+      FOUND = 0
+      DO J=2,NP1
+        S1 = TABLE(FUNC1)%X(1)%VALUES(J)
+        T1 = TABLE(FUNC1)%Y%VALUES(J)
+        DO K=2,NP2
+          X1 = TABLE(FUNC2)%X(1)%VALUES(K)
+          Y1 = TABLE(FUNC2)%Y%VALUES(K)
+          IF (S1 > ZERO .and. X1 == S1 .and. Y1 == T1) THEN
+            XINT  = X1
+            YINT  = Y1
+            FOUND = 1
+            EXIT
+          ENDIF
+        ENDDO
+        IF (FOUND == 1) EXIT
+      ENDDO
+c     Check intersection of curve segments
+      IF (FOUND == 0) THEN
+        DO J=3,NP1
+          S1 = TABLE(FUNC1)%X(1)%VALUES(J-1)
+          S2 = TABLE(FUNC1)%X(1)%VALUES(J)
+          T1 = TABLE(FUNC1)%Y%VALUES(J-1)
+          T2 = TABLE(FUNC1)%Y%VALUES(J)
+          DO K=3,NP2
+            X1 = TABLE(FUNC2)%X(1)%VALUES(K-1)
+            X2 = TABLE(FUNC2)%X(1)%VALUES(K)
+            Y1 = TABLE(FUNC2)%Y%VALUES(K-1)
+            Y2 = TABLE(FUNC2)%Y%VALUES(K)
+            IF (X2 < S1 .or. S2 < X1) CYCLE
+            AX = X2 - X1
+            AY = Y2 - Y1
+            BX = S1 - S2
+            BY = T1 - T2
+            DM = AY*BX - AX*BY
+            IF (DM /= ZERO) THEN  ! check if segments are not parallel
+              CX = S1 - X1
+              CY = T1 - Y1
+              ALPHA = (BX * CY - BY * CX) / DM
+              BETA  = (AX * CY - AY * CX) / DM
+              IF (ALPHA > ZERO .and. ALPHA < ONE .and.
+     .            BETA  < ZERO .and. BETA  >-ONE) THEN
+                XINT = X1 + ALPHA * AX
+                YINT = Y1 + ALPHA * AY
+                FOUND = 1
+                EXIT
+              ENDIF
+            ENDIF
+          ENDDO
+          IF (FOUND == 1) EXIT
+        ENDDO
+      END IF
+c-----------
+      RETURN
+      END

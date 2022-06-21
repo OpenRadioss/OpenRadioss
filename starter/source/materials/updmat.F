@@ -93,6 +93,7 @@ C-----------------------------------------------
       INTEGER II,IMAT,ILAW,IRUP,MAT_ID,IADD,IFC,FLAG_HE,NFUNC,NFUNCL,NUMTABL,
      .        NUPARAM,NUPARF,NUM_FAIL,IR,FLAG_FIT,IFAILG,NORDRE,IALGO
       INTEGER, DIMENSION(NUMMAT)     :: MULLINS,GURSON
+      INTEGER, DIMENSION(NTABLE)     :: TABLE_ID
       INTEGER, DIMENSION(:), POINTER :: IFUNC,ITABLE
       my_real, DIMENSION(:), POINTER :: UPARAM,UPARF
       TYPE(MLAW_TAG_), POINTER :: MTAG
@@ -166,7 +167,8 @@ C
           CALL MATFUN_USR2SYS(TITR,MAT_ID,NFUNC,IFUNC,FUNC_ID  )
         ENDIF
         IF (ILAW /= 73 .and. ILAW /= 74 .and. ILAW /= 80) THEN
-          IF (NUMTABL > 0 ) THEN 
+          IF (NUMTABL > 0 ) THEN
+            TABLE_ID(1:NUMTABL) = IPM(226+1:226+NUMTABL,IMAT)
             CALL MATTAB_USR2SYS(TITR,MAT_ID,TABLE,NUMTABL,ITABLE)
           ENDIF 
         ENDIF 
@@ -314,6 +316,10 @@ c------------------
             CALL LAW114_UPD(IOUT,TITR,UPARAM,NPC,PLD,
      .                     NFUNC,IFUNC,MAT_ID,FUNC_ID,
      .                     PM(1,IMAT))
+c------------------
+          CASE (119)    ! fabric material for seatbelts
+            CALL LAW119_UPD(NUPARAM ,NUMTABL ,ITABLE ,TABLE ,TABLE_ID,
+     .                      UPARAM,PM(1,IMAT),TITR    ,MAT_ID )          
 c------------------
           CASE (120)    ! TAPO material for adhesives
             CALL LAW120_UPD(NUPARAM ,NUMTABL ,ITABLE ,TABLE ,UPARAM)          

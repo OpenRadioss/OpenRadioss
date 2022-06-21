@@ -983,15 +983,8 @@ C------------------------------------------
      5        LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
      6                 SIGNXX   ,SIGNYY  ,SIGNXY   ,SIGNYZ     ,SIGNZX     ,
      7                 LBUF%DSUM)
-          ELSEIF ((ILAW == 19).AND.(IPM(6,IMAT)==1)) THEN
-            CALL SIGEPS119C(
-     .            NEL       ,NUPARAM   ,FLAG_ZCFAC,ZCFAC     ,SHF       ,
-     .            UPARAM    ,NPTTOT    ,SSP       ,
-     .            EPSXX     ,EPSYY     ,EPSXY     ,EPSYZ     ,EPSZX     ,
-     .            LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
-     .            SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,
-     .            GBUF%SIGI ,LSENSOR   ,SENSOR    ,GBUF%INTVAR)
           ELSEIF (ILAW == 19) THEN
+
             CALL SIGEPS19C(
      .            NEL       ,NUPARAM   ,FLAG_ZCFAC,ZCFAC     ,SHF       ,
      .            UPARAM    ,NPTTOT    ,SSP       ,
@@ -999,6 +992,7 @@ C------------------------------------------
      .            LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
      .            SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,
      .            GBUF%SIGI ,LSENSOR   ,SENSOR    )
+
           ELSEIF (ILAW == 22) THEN
             CALL SIGEPS22C(
      1                   JFT      ,JLT    ,PM       ,THKN   ,OFF     ,
@@ -1618,6 +1612,17 @@ c
      6         SIGY    ,SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      7         ETSE    ,NUMTABL  ,ITABLE  ,TABLE   ,NVARTMP ,VARTMP   )
 !          
+          ELSEIF (ILAW == 119 )THEN
+
+            CALL SIGEPS119C(
+     .           NEL      ,IPT      ,NPT      ,NUPARAM  ,NUVAR    ,
+     .           NUMTABL  ,ITABLE   ,TABLE    ,UVAR     ,UPARAM   ,
+     .           THKN     ,THKLYL   ,SHF      ,SSP      ,OFF      ,
+     .           FLAG_ZCFAC,ZCFAC   ,DEPSXX   ,DEPSYY   ,DEPSXY   ,
+     .           EPSXX    ,EPSYY    ,EPSXY    ,EPSYZ    ,EPSZX    ,
+     .           LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
+     .           SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ) 
+!          
           ELSEIF (ILAW == 121 )THEN
             CALL SIGEPS121C(
      1         JLT     ,NGL     ,NUPARAM ,NUVAR   ,NFUNC   ,IFUNC   ,NPF     ,
@@ -2174,121 +2179,7 @@ c-----------------------------------
           ENDDO                                                      
 C
 c------------------------------------------------
-          IF (IGTYP /= 1) THEN                                                     
-            SELECT CASE (DMG_FLAG)                                            
-            CASE (0)                                                           
-              IF (ILAW == 58 .OR. IPRONY == 1) THEN
-                        TENS(JFT:JLT,1) = SIGNXX(JFT:JLT)+SIGVXX(JFT:JLT)
-                        TENS(JFT:JLT,2) = SIGNYY(JFT:JLT)+SIGVYY(JFT:JLT)
-                        TENS(JFT:JLT,3) = SIGNXY(JFT:JLT)+SIGVXY(JFT:JLT)
-                        TENS(JFT:JLT,4) = SIGNYZ(JFT:JLT)+SIGVYZ(JFT:JLT)
-                        TENS(JFT:JLT,5) = SIGNZX(JFT:JLT)+SIGVZX(JFT:JLT)
-              ELSE
-                        TENS(JFT:JLT,1) = SIGNXX(JFT:JLT)                     
-                        TENS(JFT:JLT,2) = SIGNYY(JFT:JLT)
-                        TENS(JFT:JLT,3) = SIGNXY(JFT:JLT)
-                        TENS(JFT:JLT,4) = SIGNYZ(JFT:JLT)
-                        TENS(JFT:JLT,5) = SIGNZX(JFT:JLT)
-              ENDIF                                                                
-            CASE (1)                                                           
-              IF (ILAW == 58 .OR. IPRONY == 1) THEN
-                        TENS(JFT:JLT,1) = (SIGNXX(JFT:JLT)+SIGVXX(JFT:JLT))*DMG_LOC_SCALE(JFT:JLT)                               
-                        TENS(JFT:JLT,2) = (SIGNYY(JFT:JLT)+SIGVYY(JFT:JLT))*DMG_LOC_SCALE(JFT:JLT)                               
-                        TENS(JFT:JLT,3) = (SIGNXY(JFT:JLT)+SIGVXY(JFT:JLT))*DMG_LOC_SCALE(JFT:JLT)                               
-                        TENS(JFT:JLT,4) = (SIGNYZ(JFT:JLT)+SIGVYZ(JFT:JLT))*DMG_LOC_SCALE(JFT:JLT)                               
-                        TENS(JFT:JLT,5) = (SIGNZX(JFT:JLT)+SIGVZX(JFT:JLT))*DMG_LOC_SCALE(JFT:JLT)                               
-              ELSE
-                        TENS(JFT:JLT,1) = SIGNXX(JFT:JLT)*DMG_LOC_SCALE(JFT:JLT)                               
-                        TENS(JFT:JLT,2) = SIGNYY(JFT:JLT)*DMG_LOC_SCALE(JFT:JLT)                               
-                        TENS(JFT:JLT,3) = SIGNXY(JFT:JLT)*DMG_LOC_SCALE(JFT:JLT)                               
-                        TENS(JFT:JLT,4) = SIGNYZ(JFT:JLT)*DMG_LOC_SCALE(JFT:JLT)                               
-                        TENS(JFT:JLT,5) = SIGNZX(JFT:JLT)*DMG_LOC_SCALE(JFT:JLT)                 
-              ENDIF       
-            CASE (2)  ! internal dammage model within law15         
-              TENS(JFT:JLT,1) = SIGDMG(JFT:JLT,1)
-              TENS(JFT:JLT,2) = SIGDMG(JFT:JLT,2)   
-              TENS(JFT:JLT,3) = SIGDMG(JFT:JLT,3)  
-              TENS(JFT:JLT,4) = SIGDMG(JFT:JLT,4)  
-              TENS(JFT:JLT,5) = SIGDMG(JFT:JLT,5)  
-            END SELECT
-c------------------------------------------------
-            IF (IGTYP == 16) THEN                                                  
-              DO I=JFT,JLT                                                         
-                II = JDIR + I-1
-                R1 = DIR_A(II)
-                S1 = DIR_A(II+NEL)
-                R2 = DIR_B(II)
-                S2 = DIR_B(II+NEL)
-                RS1= R1*S1                                                         
-                RS2= R2*S2                                                         
-                R12A = R1*R1                                                       
-                R22A = R2*R2                                                       
-                S12B = S1*S1                                                       
-                S22B = S2*S2                                                       
-                RS3 = S1*S2-R1*R2                                                  
-                R3R3= ONE+S1*R2+R1*S2                                               
-                R3R3= HALF*R3R3                                                  
-                S3S3= ONE-S1*R2-R1*S2                                               
-                S3S3= HALF*S3S3                                                  
-                T1 = TENS(I,1)                                                     
-                T2 = TENS(I,2)                                                     
-                T3 = TENS(I,3)                                                     
-                TENS(I,1) = R12A*T1 + R22A*T2 - RS3*T3                             
-                TENS(I,2) = S12B*T1 + S22B*T2 + RS3*T3                             
-                TENS(I,3) = RS1*T1  + RS2*T2 + (R3R3 - S3S3)*T3                    
-                TENS(I,4) = SIGNYZ(I)                                              
-                TENS(I,5) = SIGNZX(I)                                              
-              ENDDO                                                                
-c
-            ELSEIF ((IGTYP == 51 .OR. IGTYP == 52) .AND. ILAW == 58) THEN           
-              DO I=JFT,JLT                                                         
-                II = JDIR + I-1
-                R1 = DIR_A(II)
-                S1 = DIR_A(II+NEL)
-                R2 = DIR_B(II)
-                S2 = DIR_B(II+NEL)
-c
-                RS1= R1*S1                                                         
-                RS2= R2*S2                                                         
-                R12A = R1*R1                                                       
-                R22A = R2*R2                                                       
-                S12B = S1*S1                                                       
-                S22B = S2*S2                                                       
-                RS3 = S1*S2-R1*R2                                                  
-                R3R3= ONE+S1*R2+R1*S2                                               
-                R3R3= HALF*R3R3                                                  
-                S3S3= ONE-S1*R2-R1*S2                                               
-                S3S3= HALF*S3S3                                                  
-                T1 = TENS(I,1)                                                     
-                T2 = TENS(I,2)                                                     
-                T3 = TENS(I,3)                                                     
-c
-                TENS(I,1) = R12A*T1 + R22A*T2 - RS3*T3                             
-                TENS(I,2) = S12B*T1 + S22B*T2 + RS3*T3                             
-                TENS(I,3) = RS1*T1  + RS2*T2  + (R3R3 - S3S3)*T3                   
-                TENS(I,4) = SIGNYZ(I)                                              
-                TENS(I,5) = SIGNZX(I)                                              
-              ENDDO                                                                
-            ELSE                                                             
-              IF (ILAW /= 1 .and. ILAW /= 2 .and. ILAW /= 27 .and. ILAW /= 32)
-     .          CALL UROTOV(JFT,JLT,TENS,DIR_A(JDIR),NEL)
-            ENDIF                                                                  
-C----------------------
-C           FORCES AND MOMENTS WHEN IGTYP /= 1                                            
-C----------------------
-#include "vectorize.inc"
-            DO I=JFT,JLT                                                       
-              FOR(I,1) = FOR(I,1) + THLY(I)*TENS(I,1)                          
-              FOR(I,2) = FOR(I,2) + THLY(I)*TENS(I,2)                          
-              FOR(I,3) = FOR(I,3) + THLY(I)*TENS(I,3)                          
-              FOR(I,4) = FOR(I,4) + THLY(I)*TENS(I,4)                          
-              FOR(I,5) = FOR(I,5) + THLY(I)*TENS(I,5)                          
-              MOM(I,1) = MOM(I,1) + WMC(I) *TENS(I,1)                          
-              MOM(I,2) = MOM(I,2) + WMC(I) *TENS(I,2)                          
-              MOM(I,3) = MOM(I,3) + WMC(I) *TENS(I,3)                          
-            ENDDO                                                              
-c
-          ELSE    ! IGTYP = 1                                                  
+          IF (IGTYP == 1) THEN                                            
             SELECT CASE (DMG_FLAG)                                               
             CASE (0)     
               IF (ILAW==58 .OR. IPRONY == 1) THEN
@@ -2340,6 +2231,92 @@ c
               MOM(1:NEL,2) = MOM(1:NEL,2) + WMC(1:NEL) *SIGDMG(1:NEL,2) 
               MOM(1:NEL,3) = MOM(1:NEL,3) + WMC(1:NEL) *SIGDMG(1:NEL,3) 
             END SELECT                                                             
+c
+          ELSE   ! IGTYP /= 1)                                              
+c
+            SELECT CASE (DMG_FLAG)                                            
+            CASE (0)                                                           
+              IF (ILAW == 58 .OR. IPRONY == 1) THEN
+                        TENS(JFT:JLT,1) = SIGNXX(JFT:JLT)+SIGVXX(JFT:JLT)
+                        TENS(JFT:JLT,2) = SIGNYY(JFT:JLT)+SIGVYY(JFT:JLT)
+                        TENS(JFT:JLT,3) = SIGNXY(JFT:JLT)+SIGVXY(JFT:JLT)
+                        TENS(JFT:JLT,4) = SIGNYZ(JFT:JLT)+SIGVYZ(JFT:JLT)
+                        TENS(JFT:JLT,5) = SIGNZX(JFT:JLT)+SIGVZX(JFT:JLT)
+              ELSE
+                        TENS(JFT:JLT,1) = SIGNXX(JFT:JLT)                     
+                        TENS(JFT:JLT,2) = SIGNYY(JFT:JLT)
+                        TENS(JFT:JLT,3) = SIGNXY(JFT:JLT)
+                        TENS(JFT:JLT,4) = SIGNYZ(JFT:JLT)
+                        TENS(JFT:JLT,5) = SIGNZX(JFT:JLT)
+              ENDIF                                                                
+            CASE (1)                                                           
+              IF (ILAW == 58 .OR. IPRONY == 1) THEN
+                        TENS(JFT:JLT,1) = (SIGNXX(JFT:JLT)+SIGVXX(JFT:JLT))*DMG_LOC_SCALE(JFT:JLT)                               
+                        TENS(JFT:JLT,2) = (SIGNYY(JFT:JLT)+SIGVYY(JFT:JLT))*DMG_LOC_SCALE(JFT:JLT)                               
+                        TENS(JFT:JLT,3) = (SIGNXY(JFT:JLT)+SIGVXY(JFT:JLT))*DMG_LOC_SCALE(JFT:JLT)                               
+                        TENS(JFT:JLT,4) = (SIGNYZ(JFT:JLT)+SIGVYZ(JFT:JLT))*DMG_LOC_SCALE(JFT:JLT)                               
+                        TENS(JFT:JLT,5) = (SIGNZX(JFT:JLT)+SIGVZX(JFT:JLT))*DMG_LOC_SCALE(JFT:JLT)                               
+              ELSE
+                        TENS(JFT:JLT,1) = SIGNXX(JFT:JLT)*DMG_LOC_SCALE(JFT:JLT)                               
+                        TENS(JFT:JLT,2) = SIGNYY(JFT:JLT)*DMG_LOC_SCALE(JFT:JLT)                               
+                        TENS(JFT:JLT,3) = SIGNXY(JFT:JLT)*DMG_LOC_SCALE(JFT:JLT)                               
+                        TENS(JFT:JLT,4) = SIGNYZ(JFT:JLT)*DMG_LOC_SCALE(JFT:JLT)                               
+                        TENS(JFT:JLT,5) = SIGNZX(JFT:JLT)*DMG_LOC_SCALE(JFT:JLT)                 
+              ENDIF       
+            CASE (2)  ! internal dammage model within law15         
+              TENS(JFT:JLT,1) = SIGDMG(JFT:JLT,1)
+              TENS(JFT:JLT,2) = SIGDMG(JFT:JLT,2)   
+              TENS(JFT:JLT,3) = SIGDMG(JFT:JLT,3)  
+              TENS(JFT:JLT,4) = SIGDMG(JFT:JLT,4)  
+              TENS(JFT:JLT,5) = SIGDMG(JFT:JLT,5)  
+            END SELECT
+c
+            IF (ILAW == 58) THEN                                                  
+              DO I=JFT,JLT                                                         
+                II = JDIR + I-1
+                R1 = DIR_A(II)
+                S1 = DIR_A(II+NEL)
+                R2 = DIR_B(II)
+                S2 = DIR_B(II+NEL)
+                RS1= R1*S1                                                         
+                RS2= R2*S2                                                         
+                R12A = R1*R1                                                       
+                R22A = R2*R2                                                       
+                S12B = S1*S1                                                       
+                S22B = S2*S2                                                       
+                RS3 = S1*S2-R1*R2                                                  
+                R3R3= ONE+S1*R2+R1*S2                                               
+                R3R3= HALF*R3R3                                                  
+                S3S3= ONE-S1*R2-R1*S2                                               
+                S3S3= HALF*S3S3                                                  
+                T1 = TENS(I,1)                                                     
+                T2 = TENS(I,2)                                                     
+                T3 = TENS(I,3)                                                     
+                TENS(I,1) = R12A*T1 + R22A*T2 - RS3*T3                             
+                TENS(I,2) = S12B*T1 + S22B*T2 + RS3*T3                             
+                TENS(I,3) = RS1*T1  + RS2*T2 + (R3R3 - S3S3)*T3                    
+                TENS(I,4) = SIGNYZ(I)                                              
+                TENS(I,5) = SIGNZX(I)                                              
+              ENDDO                                                                
+c
+            ELSE     ! IGTYP = 9,10,11,51,52                                                        
+              IF (ILAW /= 1 .and. ILAW /= 2 .and. ILAW /= 27 .and. ILAW /= 32)
+     .          CALL UROTOV(JFT,JLT,TENS,DIR_A(JDIR),NEL)
+            ENDIF                                                                  
+C----------------------
+C           FORCES AND MOMENTS WHEN IGTYP /= 1                                            
+C----------------------
+#include "vectorize.inc"
+            DO I=JFT,JLT                                                       
+              FOR(I,1) = FOR(I,1) + THLY(I)*TENS(I,1)                          
+              FOR(I,2) = FOR(I,2) + THLY(I)*TENS(I,2)                          
+              FOR(I,3) = FOR(I,3) + THLY(I)*TENS(I,3)                          
+              FOR(I,4) = FOR(I,4) + THLY(I)*TENS(I,4)                          
+              FOR(I,5) = FOR(I,5) + THLY(I)*TENS(I,5)                          
+              MOM(I,1) = MOM(I,1) + WMC(I) *TENS(I,1)                          
+              MOM(I,2) = MOM(I,2) + WMC(I) *TENS(I,2)                          
+              MOM(I,3) = MOM(I,3) + WMC(I) *TENS(I,3)                          
+            ENDDO                                                              
 c
           ENDIF   ! IGTYP                                                          
 C-----------------------------------------------
