@@ -6471,7 +6471,7 @@ c-----------------------------------------------------------------------
       ALLOCATE (GROUP_PARAM_TAB(NGROUP)   ,STAT=stat)
 c
       CALL SET_ELGROUP_PARAM(GROUP_PARAM_TAB  ,IPARG    ,NGROUP   ,N2D       ,
-     .                       IPM     ,IGEO    ,PM       ,GEO      )
+     .                       IPM     ,IGEO    ,PM       ,GEO      ,BUFMAT    )
 C-------------------------------------------------
       CALL TRACE_OUT1()
 C--------------------------------------------
