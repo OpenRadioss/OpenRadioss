@@ -509,7 +509,8 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|        TABLE_GLOB_MOD                share/modules1/table_glob_mod.F
 Chd|        XFEM2DEF_MOD                  ../common_source/modules/xfem2def_mod.F
 Chd|====================================================================
-      SUBROUTINE LECTUR(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,EBCS_TAB)
+      SUBROUTINE LECTUR(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,EBCS_TAB,SEATBELT_CONVERTED_ELEMENTS,
+     .                  NB_SEATBELT_SHELLS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -591,6 +592,8 @@ C-----------------------------------------------
       INTEGER,INTENT(IN)::IS_DYNA
       TYPE(DETONATOR_STRUCT_),TARGET :: DETONATORS
       TYPE(T_EBCS_TAB), INTENT(INOUT) :: EBCS_TAB
+      INTEGER,INTENT(IN)::NB_SEATBELT_SHELLS
+      INTEGER,INTENT(INOUT)::SEATBELT_CONVERTED_ELEMENTS(3,NB_SEATBELT_SHELLS)
 C-----------------------------------------------
 C   A n a l y s e   M o d u l e
 C-----------------------------------------------
@@ -668,6 +671,8 @@ C   F u n c t i o n
 C-----------------------------------------------
       INTEGER  NLOCAL
       EXTERNAL NLOCAL
+      INTEGER  SET_USRTOS
+      EXTERNAL SET_USRTOS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -955,6 +960,7 @@ C PINCHING
       INTEGER SPINCH
 C For /H3D/STRESS/TENS/OUTER
       INTEGER, ALLOCATABLE, DIMENSION(:) :: TAG_SKINS6
+      INTEGER, ALLOCATABLE, DIMENSION(:,:) :: SEATBELT_SHELL_TO_SPRING
 C======================================================================|
 C   Allocations AM (Reels)
 C======================================================================|
@@ -8949,6 +8955,42 @@ C
 c      CALL ANCHECK(81)
       CALL TRACE_OUT1()
 C----------------------------------
+C     SEATBELT 2D->1D for SECTIONS
+C----------------------------------
+        IF(NB_SEATBELT_SHELLS /= 0)THEN
+          MY_ALLOCATE2D(SEATBELT_SHELL_TO_SPRING,NUMELC,2)
+          DO I=1,NB_SEATBELT_SHELLS
+
+            L0 = 0
+            IF(SEATBELT_CONVERTED_ELEMENTS(2,I) /= 0) THEN
+              J = SET_USRTOS(SEATBELT_CONVERTED_ELEMENTS(1,I),MAP_TABLES%ISH4NM,NUMELC)
+              L0 = MAP_TABLES%ISH4NM(J,2)
+            ENDIF
+
+            L1 = 0
+            IF(SEATBELT_CONVERTED_ELEMENTS(2,I) /= 0) THEN
+              J = SET_USRTOS(SEATBELT_CONVERTED_ELEMENTS(2,I),MAP_TABLES%ISPRINGM,NUMELR)
+              L1 = MAP_TABLES%ISPRINGM(J,2)
+            ENDIF
+
+            L2 = 0
+            IF(SEATBELT_CONVERTED_ELEMENTS(3,I) /= 0) THEN
+              J = SET_USRTOS(SEATBELT_CONVERTED_ELEMENTS(3,I),MAP_TABLES%ISPRINGM,NUMELR)
+              L2 = MAP_TABLES%ISPRINGM(J,2)
+            ENDIF
+
+            IF(L0 /= 0) THEN
+              SEATBELT_SHELL_TO_SPRING(L0,1) = L1
+              SEATBELT_SHELL_TO_SPRING(L0,2) = L2
+            ENDIF
+            
+          ENDDO
+        ELSE
+          MY_ALLOCATE2D(SEATBELT_SHELL_TO_SPRING,1,2)
+          SEATBELT_SHELL_TO_SPRING(1,1) = 0
+          SEATBELT_SHELL_TO_SPRING(1,2) = 0
+        ENDIF
+C----------------------------------
 C     LECTURE DES SECTIONS
 C----------------------------------
       ERR_MSG='SECTIONS'
@@ -8959,7 +9001,8 @@ C----------------------------------
         CALL PRELECSEC(
      1      SNSTRF  ,SSECBUF   ,ITABM1  ,0       ,NOM_OPT(LNOPT1*INOM_OPT(8)+1),
      2      IGRBRIC ,IGRQUAD   ,IGRSH4N ,IGRSH3N ,IGRTRUSS ,
-     3      IGRBEAM ,IGRSPRING ,IGRNOD  ,LSUBMODEL )
+     3      IGRBEAM ,IGRSPRING ,IGRNOD  ,LSUBMODEL, SEATBELT_SHELL_TO_SPRING,
+     4      NB_SEATBELT_SHELLS)
         ALLOCATE (NSTRF(SNSTRF)    ,STAT=stat)
         ALLOCATE (SECBUF(SSECBUF)  ,STAT=stat)
         NSTRF  = 0
@@ -8970,14 +9013,15 @@ C----------------------------------
      4                IPARI  ,IXS10  ,IXS20  ,IXS16  ,UNITAB ,
      5                ISKWN  ,XFRAME ,ISOLNOD,NOM_SECT,RTRANS,
      6                LSUBMODEL,NOM_OPT(LNOPT1*INOM_OPT(8)+1),IGRBRIC,IGRQUAD,IGRSH4N,
-     7                IGRTRUSS ,IGRBEAM,IGRSPRING,IGRSH3N)
+     7                IGRTRUSS ,IGRBEAM,IGRSPRING,IGRSH3N,SEATBELT_SHELL_TO_SPRING,
+     8                NB_SEATBELT_SHELLS)
       ELSE
         SNSTRF  = 0
         SSECBUF = 0
         ALLOCATE (NSTRF(SNSTRF)    ,STAT=stat)
         ALLOCATE (SECBUF(SSECBUF)  ,STAT=stat)
       ENDIF
-c      CALL ANCHECK(82)
+      IF(ALLOCATED(SEATBELT_SHELL_TO_SPRING)) DEALLOCATE(SEATBELT_SHELL_TO_SPRING)
       CALL TRACE_OUT1()
 C--------------------------------------------
 C     INIT DES SENSORS (REMPLACEMENT DES NOS EXTERNES PAR LES NOS SYSTEMES)
