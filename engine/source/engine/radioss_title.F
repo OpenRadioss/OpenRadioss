@@ -48,7 +48,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER LEN,LEN_RAD,LENBT,LENCPUNAM,LENARCHTIT,CT,LBT,
      *        LENGPU
-      CHARACTER RADVERS*68,BUILDTAG*256,COPYRIGHTLINE*68,
+      CHARACTER RADVERS*68,COPYRIGHTLINE*68,
      *          ARCH_TIT*66,GPUTITLE*66
 C-----------------------------------------------
        LENARCHTIT=LEN_TRIM(ARCHTITLE)
@@ -66,8 +66,7 @@ C-----------------------------------------------
           LEN = LEN_TRIM(RADVERS)
        ENDIF
 
-       WRITE(BUILDTAG,'(A,A,A,I2)') 'Build tag: ',BTAG(1:LBT)
-       LENBT = LEN_TRIM(BTAG)+12
+       LENBT = LEN_TRIM(BTAG)
        LENCPUNAM=LEN_TRIM(CPUNAM)
        LENARCHTIT=LEN_TRIM(ARCH_TIT)
 
@@ -97,7 +96,7 @@ C-----------------------------------------------
         CALL PRINTCENTER(" ",0,IOUT,0)
        ENDIF
        CALL PRINTCENTER(" ",0,IOUT,0)
-       CALL PRINTCENTER(" ",0,IOUT,0)
+       CALL PRINTCENTER(BTAG,LENBT,IOUT,3)
        CALL PRINTCENTER(" ",0,IOUT,1)
        CALL PRINTCENTER("OpenRadioss Software",20,IOUT,3)
        CALL PRINTCENTER(COPYRIGHTLINE,64,IOUT,3)
