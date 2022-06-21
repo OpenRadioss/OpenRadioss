@@ -59,7 +59,8 @@ Chd|====================================================================
      4                    IPARI ,IXS10 ,IXS20  ,IXS16  ,UNITAB ,
      5                    ISKN  ,XFRAME,ISOLNOD,NOM_SECT,RTRANS,
      6                    LSUBMODEL,NOM_OPT,IGRBRIC,IGRQUAD,IGRSH4N,
-     7                    IGRTRUSS,IGRBEAM,IGRSPRING,IGRSH3N)
+     7                    IGRTRUSS,IGRBEAM,IGRSPRING,IGRSH3N,SEATBELT_SHELL_TO_SPRING,
+     8                    NB_SEATBELT_SHELLS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -107,6 +108,8 @@ C-----------------------------------------------
       my_real
      .   X0(3,*),SECBUF(*),XFRAME(NXFRAME,*),
      .   RTRANS(NTRANSF,*)
+      INTEGER,INTENT(IN):: NB_SEATBELT_SHELLS
+      INTEGER,INTENT(IN)::SEATBELT_SHELL_TO_SPRING(NUMELC,2)
 C-----------------------------------------------
       TYPE (GROUP_)  ,DIMENSION(NGRNOD)   :: IGRNOD
       TYPE (GROUP_)  ,DIMENSION(NGRBRIC)  :: IGRBRIC
@@ -139,17 +142,18 @@ C-----------------------------------------------
      .   BID, XM, YM, ZM, X1, Y1, Z1, X2, Y2, Z2, NORM,
      .   X3, Y3, Z3, N3, PNOR1, PNOR2, PNORM1, DET, DET1, DET2, DET3
       LOGICAL :: IS_AVAILABLE
-      INTEGER :: NUMSECT
+      INTEGER :: NUMSECT,SNSTRF1
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS,NODGRNR5,ELEGROR
-      EXTERNAL USR2SYS,NODGRNR5,ELEGROR
+      INTEGER USR2SYS,NODGRNR5,ELEGROR,ELEGROR_SEATBELT
+      EXTERNAL USR2SYS,NODGRNR5,ELEGROR,ELEGROR_SEATBELT
 C
 C
       DATA MESS/'SECTION DEFINITION                      '/
       DATA IUN/1/
 C=======================================================================
+      SNSTRF1 = 0
       NOPRINT = 0
       NFRAM = 0
       NODTAG = 0
@@ -526,7 +530,16 @@ C
        NSEGR=ELEGROR(IGUR,IGRSPRING,NGRSPRI,'SPRI',                    
      .               NSTRF(K8),2,MESS,NFRAM,TAGELEMS(1+NUMELS          
      .              +NUMELQ+NUMELC+NUMELT+NUMELP),ISTYP,               
-     .               ID,TITR)                                          
+     .               ID,TITR)                                               
+       
+       IF (NB_SEATBELT_SHELLS .NE.0) THEN
+         SNSTRF1 = (SNSTRF-K8)/2
+         NSEGR=NSEGR+ELEGROR_SEATBELT(IGUC,IGRSH4N,NGRSHEL,                    
+     .               NSTRF(K8),2,SNSTRF1,NFRAM,TAGELEMS(1+NUMELS          
+     .              +NUMELQ),ISTYP,               
+     .               SEATBELT_SHELL_TO_SPRING)   
+       ENDIF
+                                        
        K9=K8+2*NSEGR                                                   
        NSEGTG=ELEGROR(IGUTG,IGRSH3N,NGRSH3N,'SH3N',                    
      .                NSTRF(K9),2,MESS,NFRAM,TAGELEMS(1+NUMELS         

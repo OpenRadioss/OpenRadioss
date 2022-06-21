@@ -47,7 +47,8 @@ Chd|====================================================================
       SUBROUTINE PRELECSEC(
      1     SNSTRF  ,SSECBUF   ,ITABM1  ,FLAG_R2R ,NOM_OPT ,
      2     IGRBRIC ,IGRQUAD   ,IGRSH4N ,IGRSH3N  ,IGRTRUSS,
-     3     IGRBEAM ,IGRSPRING ,IGRNOD, LSUBMODEL  )
+     3     IGRBEAM ,IGRSPRING ,IGRNOD, LSUBMODEL , SEATBELT_SHELL_TO_SPRING,
+     4     NB_SEATBELT_SHELLS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -80,6 +81,8 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN)    :: ITABM1(*)
       INTEGER NOM_OPT(LNOPT1,*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
+      INTEGER ,INTENT(IN)    :: NB_SEATBELT_SHELLS
+      INTEGER ,INTENT(IN)    :: SEATBELT_SHELL_TO_SPRING(NUMELC,2)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -103,8 +106,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER  GRSIZEN,USR2SYS,GRSIZE_R2R,GRSIZE_ELE
-      EXTERNAL GRSIZEN,USR2SYS,GRSIZE_R2R,GRSIZE_ELE
+      INTEGER  GRSIZEN,USR2SYS,GRSIZE_R2R,GRSIZE_ELE,GRSIZE_ELE_TRANS
+      EXTERNAL GRSIZEN,USR2SYS,GRSIZE_R2R,GRSIZE_ELE,GRSIZE_ELE_TRANS
 C=======================================================================
       NFRAM = 0
       SNSTRF  = 30
@@ -228,8 +231,10 @@ C---
         NSEGQ = GRSIZE_ELE(IGUQ,IGRQUAD,NGRQUAD)        
         NSEGC = GRSIZE_ELE(IGUC,IGRSH4N,NGRSHEL)        
         NSEGT = GRSIZE_ELE(IGUT,IGRTRUSS,NGRTRUS)        
-        NSEGP = GRSIZE_ELE(IGUP,IGRBEAM,NGRBEAM)        
-        NSEGR = GRSIZE_ELE(IGUR,IGRSPRING,NGRSPRI)        
+        NSEGP = GRSIZE_ELE(IGUP,IGRBEAM,NGRBEAM) 
+        NSEGR = GRSIZE_ELE(IGUR,IGRSPRING,NGRSPRI)
+        IF (NB_SEATBELT_SHELLS .NE.0)
+     .    NSEGR = NSEGR + GRSIZE_ELE_TRANS(IGUC,IGRSH4N,NGRSHEL,SEATBELT_SHELL_TO_SPRING)
         NSEGTG = GRSIZE_ELE(IGUTG,IGRSH3N,NGRSH3N)      
 C---    
         SNSTRF = SNSTRF +30 + NBINTER + NNOD + 2*(NSEGS+NSEGQ+NSEGC+NSEGT+NSEGP+NSEGR+NSEGTG)

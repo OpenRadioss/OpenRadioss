@@ -560,6 +560,57 @@ C-----------
       RETURN
       END
 Chd|====================================================================
+Chd|  GRSIZE_ELE_TRANS            source/system/nintrr.F        
+Chd|-- called by -----------
+Chd|        PRELECSEC                     source/tools/sect/prelecsec.F
+Chd|-- calls ---------------
+Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
+Chd|====================================================================
+      INTEGER FUNCTION GRSIZE_ELE_TRANS(IGU,IGRELEM,NGRELEM,SEATBELT_SHELL_TO_SPRING)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE GROUPDEF_MOD
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "param_c.inc"
+#include      "com04_c.inc"
+#include      "scr17_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER,INTENT(IN)::IGU,NGRELEM
+C-----------------------------------------------
+      TYPE (GROUP_)  , DIMENSION(NGRELEM)  , INTENT(IN) :: IGRELEM
+      INTEGER,INTENT(IN)::SEATBELT_SHELL_TO_SPRING(NUMELC,2)
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER I,J,IE
+C-----------------------------------------------
+      GRSIZE_ELE_TRANS = 0
+      IF (IGU > 0) THEN
+        DO I=1,NGRELEM
+          IF (IGU == IGRELEM(I)%ID) THEN
+            DO J=1,IGRELEM(I)%NENTITY
+              IE=IGRELEM(I)%ENTITY(J)
+              IF(SEATBELT_SHELL_TO_SPRING(IE,1) /= 0)
+     .                  GRSIZE_ELE_TRANS = GRSIZE_ELE_TRANS + 1
+              IF(SEATBELT_SHELL_TO_SPRING(IE,2) /= 0)
+     .                  GRSIZE_ELE_TRANS = GRSIZE_ELE_TRANS + 1
+            ENDDO
+          ENDIF
+        ENDDO
+      ENDIF
+C-----------
+      RETURN
+      END
+Chd|====================================================================
 Chd|  SORTGROUP                     source/system/nintrr.F        
 Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
