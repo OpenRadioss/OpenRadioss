@@ -2358,7 +2358,7 @@ c         IF(ISPMD == 0)   print *,'H3D_DATA%OUTPUT_LIST(I)%PART',H3D_DATA%OUTPU
      .                  IGEO     ,IXTG  ,IPM   ,STACK ,SHELL_ID   ,SHELL_ITY    ,INFO1,
      .                  INFO2    ,IS_WRITEN_SHELL ,IPARTC ,IPARTTG     ,LAYER        ,IPT        ,
      .                  ID_PLY     ,GAUSS     ,IUVAR ,H3D_DATA%OUTPUT_LIST(I)%PART ,KEYWORD,D    ,
-     .                  OBJECT_ID  )
+     .                  OBJECT_ID  ,BUFMAT    )
 
 c
           IF (NSPMD > 1 ) THEN
