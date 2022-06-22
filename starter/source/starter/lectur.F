@@ -1053,6 +1053,7 @@ C
 !                 tag array=0 --> the SKEW is not used by a SPRING
 !                 tag array=1 --> the SKEW is used by one SPRING
 !                 tag array>1 --> the SKEW is used by several SPRING
+!                 tag array <0 --> the SKEW is used by serveral options (has to be duplicated to all domains that have the nodes)
 !       MULTIPLE_SKEW : SKEW_TYPE ; dimension=NUMSKW+1
 !                       MULTIPLE_SKEW(I)%PLIST(:) is a list of processor
 !                       where the SKEW is stuck

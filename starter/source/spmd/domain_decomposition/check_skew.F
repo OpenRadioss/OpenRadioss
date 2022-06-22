@@ -44,6 +44,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#include      "tabsiz_c.inc"
 #include      "scr17_c.inc"
 #include      "scr03_c.inc"
 #include      "com01_c.inc"
@@ -55,14 +56,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        INTEGER, DIMENSION(*), INTENT(INOUT) :: NSKWP,R_SKEW
+        INTEGER, INTENT(INOUT) :: NSKWP(NSPMD),R_SKEW(NUMELR)
         INTEGER, DIMENSION(NUMSKW+NSUBMOD+1), INTENT(INOUT) :: TAG_SKN
-        INTEGER, DIMENSION(*), INTENT(IN) :: CEP
+        INTEGER, DIMENSION(SCEP), INTENT(IN) :: CEP
         INTEGER, DIMENSION(NUMSKW+1), INTENT(INOUT) :: ISKWP
-        INTEGER, DIMENSION(NIXR,*), INTENT(IN) :: IXR
-        INTEGER, DIMENSION(NPROPGI,*), INTENT(IN) :: IGEO
-        INTEGER, DIMENSION(LISKN,*), INTENT(IN) :: ISKN
-        INTEGER, DIMENSION(NPROPMI,*), INTENT(IN) :: IPM
+        INTEGER, DIMENSION(NIXR,NUMELR), INTENT(IN) :: IXR
+        INTEGER, DIMENSION(NPROPGI,NUMGEO), INTENT(IN) :: IGEO
+        INTEGER, DIMENSION(LISKN,SISKWN/LISKN), INTENT(IN) :: ISKN
+        INTEGER, DIMENSION(NPROPMI,NUMMAT), INTENT(IN) :: IPM
         TYPE(SKEW_TYPE), DIMENSION(NUMSKW+1), INTENT(INOUT) :: MULTIPLE_SKEW
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
 !       NSKWP : integer ; dimension = NSPMD
@@ -72,6 +73,7 @@ C-----------------------------------------------
 !                 tag array=0 --> the SKEW is not used by a SPRING
 !                 tag array=1 --> the SKEW is used by one SPRING      
 !                 tag array>1 --> the SKEW is used by several SPRING
+!                 tag array <0 --> the SKEW is used by serveral options (has to be duplicated to all domains that have the nodes)
 !       CEP : integer ; dimension=NUMNOD
 !             gives the ID processor of the current i node
 !       ISKWP : integer ; dimension=NUMSKW+1
@@ -97,6 +99,7 @@ C-----------------------------------------------
         INTEGER :: I,J,II,NN
         INTEGER :: NUMBER_SKEW_SP,SPRING_TYPE
         INTEGER :: N1,N2,N3,IMAIN,SUM_NI,SIZE_SKEW,MAT_TYPE
+        INTEGER :: NL, ISKEW, NB
         INTEGER, DIMENSION(:), ALLOCATABLE :: SKEW_PER_SP,LOCAL_P,P_SKEW
         INTEGER, DIMENSION(NSPMD) :: PROC_SKEW
 C-----------------------------------------------
@@ -123,17 +126,31 @@ C=======================================================================
 C
 !       compute adhoc size for local arrays
         NUMBER_SKEW_SP = 0
+        TAG_SKN(1:NUMSKW+NSUBMOD+1) = -1
+        NB = 0
+        DO I = 1,NUMSKW
+            ! The optimization of restricting a skew to the domains having the corresponding spring nodes
+            ! works only for skew referenced by only one options
+            !CALL HM_ENTITY_REFERENCE_NUMBER("/SKEW",ISKEW(4,I+1),NB)
+            IF(NB == 1) TAG_SKN(I+1) = 0
+        ENDDO
+
+
         DO I=1,NUMELR
           SPRING_TYPE = IGEO( 11,IXR(1,I) )
           MAT_TYPE   = 0
           IF (IXR(5,I) > 0) MAT_TYPE = IPM(2,IXR(5,I))
 C
           IF (R_SKEW(I) > 1) THEN
-            IF(SPRING_TYPE==8 .OR. (SPRING_TYPE== 23 .AND. MAT_TYPE == 108)) NUMBER_SKEW_SP = NUMBER_SKEW_SP + 1
+            IF( TAG_SKN(R_SKEW(I)) >= 0 ) THEN
+              IF(SPRING_TYPE==8 .OR. (SPRING_TYPE== 23 .AND. MAT_TYPE == 108)) NUMBER_SKEW_SP = NUMBER_SKEW_SP + 1
+            ENDIF
           ENDIF
 C
-          IF (IGEO( 2,IXR(1,I) )>1) THEN
+          IF (IGEO(2,IXR(1,I) )>1) THEN
+            IF(  TAG_SKN( IGEO(2,IXR(1,I))) >= 0  ) THEN
             IF(SPRING_TYPE==8 .OR. SPRING_TYPE==13 .OR. SPRING_TYPE== 23) NUMBER_SKEW_SP = NUMBER_SKEW_SP + 1     
+            ENDIF
           ENDIF
         ENDDO
 
@@ -141,9 +158,11 @@ C
         ALLOCATE(SKEW_PER_SP(NUMBER_SKEW_SP))
         ALLOCATE(LOCAL_P(NUMBER_SKEW_SP))
 
+
+
+
         SKEW_PER_SP(1:NUMBER_SKEW_SP) = 0
         LOCAL_P(1:NUMBER_SKEW_SP) = 0
-        TAG_SKN(1:NUMSKW+NSUBMOD+1) = 0
         NUMBER_SKEW_SP = 0
 
 !       link between SPRING and SKEW (only for SPRING type =8,13 or 23)
@@ -153,23 +172,28 @@ C
                 IF (IXR(5,I) > 0) MAT_TYPE = IPM(2,IXR(5,I))
 C
                 IF (R_SKEW(I) > 1) THEN
+                    IF( TAG_SKN(R_SKEW(I)) >= 0) THEN    
                         IF(SPRING_TYPE==8 .OR. (SPRING_TYPE== 23 .AND. MAT_TYPE == 108)) THEN
                                 NUMBER_SKEW_SP = NUMBER_SKEW_SP + 1
                                 SKEW_PER_SP( NUMBER_SKEW_SP ) = R_SKEW(I)   
                                 LOCAL_P(NUMBER_SKEW_SP) = CEP(I)+1
                                 TAG_SKN( R_SKEW(I) ) = TAG_SKN( R_SKEW(I) ) + 1
                         ENDIF
+                     ENDIF
                 ENDIF
 C
                 IF (IGEO( 2,IXR(1,I) )>1) THEN
+                    IF(  TAG_SKN(IGEO(2,IXR(1,I))) >=0 ) THEN
                         IF(SPRING_TYPE==8 .OR. SPRING_TYPE==13 .OR. SPRING_TYPE== 23) THEN
                                 NUMBER_SKEW_SP = NUMBER_SKEW_SP + 1
                                 SKEW_PER_SP( NUMBER_SKEW_SP ) = IGEO( 2,IXR(1,I) )    
                                 LOCAL_P(NUMBER_SKEW_SP) = CEP(I)+1
                                 TAG_SKN( IGEO(2,IXR(1,I)) ) = TAG_SKN( IGEO(2,IXR(1,I)) ) + 1
                         ENDIF     
+                    ENDIF
                 ENDIF
         ENDDO
+
 !       allocation of MULTIPLE_SKEW
         DO I=1,NUMSKW+1
                 SIZE_SKEW = TAG_SKN(I)
