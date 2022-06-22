@@ -226,7 +226,7 @@ C skew global fixe
 
 
         DO I=1,NUMSKW
-          IF(TAG_SKN(I+1)/=0) CYCLE     !       tag/=0 --> already done in CHECK_SKEW
+          IF(TAG_SKN(I+1) > 0) CYCLE     !       tag/=0 --> already done in CHECK_SKEW
           N1=ISKN(1,I+1)
           N2=ISKN(2,I+1)
           N3=ISKN(3,I+1)
