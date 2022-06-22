@@ -334,26 +334,26 @@ C--------------------------------------------------
               A2  = ZERO
 c ILAYER=NULL NPT=NULL
               IF(MPT == 0 .AND. IPT == 1 ) THEN
-                  DO I=1,NEL
-                    VALUE(1) =  GBUF%FOR(JJ(1)+I) - SIX*GBUF%MOM(JJ(1)+I) 
-                    VALUE(2) =  GBUF%FOR(JJ(2)+I) - SIX*GBUF%MOM(JJ(2)+I) 
-                    VALUE(3) =  GBUF%FOR(JJ(3)+I) - SIX*GBUF%MOM(JJ(3)+I)
-                    CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                                       VALUE)    
-                  ENDDO  
+                DO I=1,NEL
+                  VALUE(1) =  GBUF%FOR(JJ(1)+I) - SIX*GBUF%MOM(JJ(1)+I) 
+                  VALUE(2) =  GBUF%FOR(JJ(2)+I) - SIX*GBUF%MOM(JJ(2)+I) 
+                  VALUE(3) =  GBUF%FOR(JJ(3)+I) - SIX*GBUF%MOM(JJ(3)+I)
+                  CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
+     .                                     VALUE)    
+                ENDDO  
               ELSEIF(MPT == 0 .AND. IPT_INPUT == -3 ) THEN
-                  DO I=1,NEL
-                    VALUE(1) =  GBUF%FOR(JJ(1)+I) + SIX*GBUF%MOM(JJ(1)+I) 
-                    VALUE(2) =  GBUF%FOR(JJ(2)+I) + SIX*GBUF%MOM(JJ(2)+I) 
-                    VALUE(3) =  GBUF%FOR(JJ(3)+I) + SIX*GBUF%MOM(JJ(3)+I)
-                    CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                                       VALUE)    
-                  ENDDO  
+                DO I=1,NEL
+                  VALUE(1) =  GBUF%FOR(JJ(1)+I) + SIX*GBUF%MOM(JJ(1)+I) 
+                  VALUE(2) =  GBUF%FOR(JJ(2)+I) + SIX*GBUF%MOM(JJ(2)+I) 
+                  VALUE(3) =  GBUF%FOR(JJ(3)+I) + SIX*GBUF%MOM(JJ(3)+I)
+                  CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
+     .                                     VALUE)    
+                ENDDO  
               
               ELSEIF ( ILAY == -1 .AND. IPT == -1 .AND. IPLY == -1) THEN  
-                  DO I=1,NEL 
-c                    VALUE(I) =
-                  ENDDO  
+                DO I=1,NEL 
+c                 VALUE(I) =
+                ENDDO  
 c PLY=IPLY NPT=IPT             
               ELSEIF ( IPLY > 0 .AND. IPT <= MPT .AND. IPT > 0 ) THEN 
 c
@@ -500,200 +500,200 @@ c
 c PLY=NULL ILAYER=IL NPT=NULL
               ELSEIF (IPLY == -1 .AND.  ILAY <= NLAY .AND. ILAY > 0 .AND. IPT == -1 ) THEN
                 IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16 .OR. IGTYP == 17) THEN               
-               IF (MLW == 1)THEN      
-                 DO I=1,NEL     
-                   DO J=1,5          
-                     VALUE(J) = GBUF%FOR(JJ(J) + I)
-                   ENDDO
-                    CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                         VALUE)             
-                 ENDDO
-                  ELSE             
-                 IF ( (MLW == 25.OR.MLW == 15.OR.MLW>=28) .AND. IREP == 1)THEN
-                      CALL SIGROTA(1  ,NEL ,NFT  ,ILAY     ,NEL    ,
-     2                       NS1  ,X   ,IXC  ,ELBUF_TAB(NG),
-     3                       SIGE ,ITY ,IXTG ,IHBE     ,ISTRAIN,
-     4                       IVISC)
-                    DO I=1,NEL
-                      VALUE(1) = A1 * SIGE(I,1)
-                      VALUE(2) = A1 * SIGE(I,2)
-                      VALUE(3) = A1 * SIGE(I,3)
+                  IF (MLW == 1)THEN      
+                    DO I=1,NEL     
+                      DO J=1,5          
+                        VALUE(J) = GBUF%FOR(JJ(J) + I)
+                      ENDDO
                       CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                       VALUE)
-                    ENDDO      
-            
-                 ELSE IF ( (MLW == 25.OR.MLW == 15.OR.MLW>=28) .AND. IREP == 0)THEN
-c
-                   IF (IHBE == 11) THEN  ! Batoz shell
-                DO I=1,NEL
-                  DO J=1,5
-                    SIGE(I,J) = ZERO
-                  ENDDO
-                ENDDO
-C
-                DO I=1,NEL
-                  DO IR=1,NPTR
-                    DO IS=1,NPTS
-                      IF (NLAY > 1) THEN
-                  LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,1)
-                      ELSE
-                  LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,1)
-                      ENDIF
-                      DO J=1,5
-                  SIGE(I,J) = SIGE(I,J) + LBUF%SIG(JJ(J) + I)/NPG
-                      ENDDO
+     .                            VALUE)             
                     ENDDO
-                  ENDDO
-                ENDDO
-C
-C               viscous stress added for animation
-C 
-                IF (IVISC > 0) THEN
-                  DO I=1,NEL
-                    DO IR=1,NPTR
-                      DO IS=1,NPTS
-                  IF (NLAY > 1) THEN
-                    LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,1)
-                  ELSE
-                    LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,1)
-                  ENDIF
-                  DO J=1,5             
-                    SIGE(I,J) = SIGE(I,J) + LBUF%VISC(JJ(J) + I)/NPG 
-                  ENDDO            
-                      ENDDO
-                    ENDDO  
-                  ENDDO  
-                ENDIF  !  IF (IVISC > 0)
-                   ELSE  ! not Batoz shell
-                DO I=1,NEL
-                  IF (NLAY > 1) THEN             
-                    LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)   
-                  ELSE                 
-                    LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)   
-                  ENDIF       
-                  DO J=1,5
-                    SIGE(I,J) = LBUF%SIG(JJ(J) + I)
-                  ENDDO
-                ENDDO
-
-                IF (IVISC > 0) THEN  
-                  IF (NLAY > 1) THEN             
-                    LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)   
-                  ELSE                 
-                    LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)   
-                  ENDIF                
-                  DO I=1,NEL    
-                    DO J=1,5              
-                      SIGE(I,J) = SIGE(I,J) +  LBUF%VISC(JJ(J) + I)
-                    ENDDO           
-                  ENDDO           
-                ENDIF  !  IF (IVISC > 0)               
-                   ENDIF  !  IF (IHBE == 11)
-C
-                   IF (IHBE == 11) THEN
-                IF (IGTYP == 9) THEN
-                  DIR_A => ELBUF_TAB(NG)%BUFLY(1)%DIRA  
-                  CALL UROTOV(1,NEL,SIGE,DIR_A,NEL)
-                ELSE
-                  IF (NLAY > 1) THEN          
-                    DIR_A => ELBUF_TAB(NG)%BUFLY(ILAY)%DIRA
-                  ELSE              
-                    DIR_A => ELBUF_TAB(NG)%BUFLY(1)%DIRA
-                  ENDIF
-                  CALL UROTOV(1,NEL,SIGE,DIR_A,NEL)
-                ENDIF
-                   ELSE
-                IF (NLAY > 1) THEN        
-                  DIR_A => ELBUF_TAB(NG)%BUFLY(ILAY)%DIRA
-                ELSE            
-                  DIR_A => ELBUF_TAB(NG)%BUFLY(1)%DIRA
-                ENDIF                 
-                CALL UROTOV(1,NEL,SIGE,DIR_A,NEL)
-                   ENDIF  !  IF (IHBE == 11)
+                  ELSE             
+                    IF ( (MLW == 25.OR.MLW == 15.OR.MLW>=28) .AND. IREP == 1)THEN
+                         CALL SIGROTA(1  ,NEL ,NFT  ,ILAY     ,NEL    ,
+     2                          NS1  ,X   ,IXC  ,ELBUF_TAB(NG),
+     3                          SIGE ,ITY ,IXTG ,IHBE     ,ISTRAIN,
+     4                          IVISC)
+                       DO I=1,NEL
+                         VALUE(1) = A1 * SIGE(I,1)
+                         VALUE(2) = A1 * SIGE(I,2)
+                         VALUE(3) = A1 * SIGE(I,3)
+                         CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
+     .                          VALUE)
+                       ENDDO      
+            
+                    ELSE IF ( (MLW == 25.OR.MLW == 15.OR.MLW>=28) .AND. IREP == 0)THEN
 c
-                   DO I=1,NEL
-                VALUE(1) = A1 * SIGE(I,1)
-                VALUE(2) = A1 * SIGE(I,2)
-                VALUE(3) = A1 * SIGE(I,3)
-                CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                 VALUE)
-                   ENDDO
+                      IF (IHBE == 11) THEN  ! Batoz shell
+                        DO I=1,NEL
+                          DO J=1,5
+                            SIGE(I,J) = ZERO
+                          ENDDO
+                        ENDDO
+C
+                        DO I=1,NEL
+                          DO IR=1,NPTR
+                            DO IS=1,NPTS
+                              IF (NLAY > 1) THEN
+                          LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,1)
+                              ELSE
+                          LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,1)
+                              ENDIF
+                              DO J=1,5
+                          SIGE(I,J) = SIGE(I,J) + LBUF%SIG(JJ(J) + I)/NPG
+                              ENDDO
+                            ENDDO
+                          ENDDO
+                        ENDDO
+C
+C                  viscous stress added for animation
+C 
+                        IF (IVISC > 0) THEN
+                          DO I=1,NEL
+                            DO IR=1,NPTR
+                              DO IS=1,NPTS
+                          IF (NLAY > 1) THEN
+                            LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,1)
+                          ELSE
+                            LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,1)
+                          ENDIF
+                          DO J=1,5             
+                            SIGE(I,J) = SIGE(I,J) + LBUF%VISC(JJ(J) + I)/NPG 
+                          ENDDO            
+                              ENDDO
+                            ENDDO  
+                          ENDDO  
+                        ENDIF  !  IF (IVISC > 0)
+                      ELSE  ! not Batoz shell
+                        DO I=1,NEL
+                          IF (NLAY > 1) THEN             
+                            LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)   
+                          ELSE                 
+                            LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)   
+                          ENDIF       
+                          DO J=1,5
+                            SIGE(I,J) = LBUF%SIG(JJ(J) + I)
+                          ENDDO
+                        ENDDO
+
+                        IF (IVISC > 0) THEN  
+                          IF (NLAY > 1) THEN             
+                            LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)   
+                          ELSE                 
+                            LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)   
+                          ENDIF                
+                          DO I=1,NEL    
+                            DO J=1,5              
+                              SIGE(I,J) = SIGE(I,J) +  LBUF%VISC(JJ(J) + I)
+                            ENDDO           
+                          ENDDO           
+                        ENDIF  !  IF (IVISC > 0)               
+                      ENDIF  !  IF (IHBE == 11)
+C
+                      IF (IHBE == 11) THEN
+                        IF (IGTYP == 9) THEN
+                          DIR_A => ELBUF_TAB(NG)%BUFLY(1)%DIRA  
+                          CALL UROTOV(1,NEL,SIGE,DIR_A,NEL)
+                        ELSE
+                          IF (NLAY > 1) THEN          
+                            DIR_A => ELBUF_TAB(NG)%BUFLY(ILAY)%DIRA
+                          ELSE              
+                            DIR_A => ELBUF_TAB(NG)%BUFLY(1)%DIRA
+                          ENDIF
+                          CALL UROTOV(1,NEL,SIGE,DIR_A,NEL)
+                        ENDIF
+                      ELSE
+                        IF (NLAY > 1) THEN        
+                          DIR_A => ELBUF_TAB(NG)%BUFLY(ILAY)%DIRA
+                        ELSE            
+                          DIR_A => ELBUF_TAB(NG)%BUFLY(1)%DIRA
+                        ENDIF                 
+                        CALL UROTOV(1,NEL,SIGE,DIR_A,NEL)
+                      ENDIF  !  IF (IHBE == 11)
+c
+                      DO I=1,NEL
+                        VALUE(1) = A1 * SIGE(I,1)
+                        VALUE(2) = A1 * SIGE(I,2)
+                        VALUE(3) = A1 * SIGE(I,3)
+                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
+     .                           VALUE)
+                      ENDDO
                     ELSE
                       IF(ILAY <= NLAY)THEN
-                  IF (IHBE == 11) THEN             
-                    DO I=1,NEL   
-                      DO IR=1,NPTR            
-                        DO IS=1,NPTS            
-                    LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,1)  
-                    DO J=1,5            
-                      VALUE(J) = VALUE(J) + LBUF%SIG(JJ(J) + I)/NPG
-                    ENDDO
-                        ENDDO              
-                      ENDDO
-                      CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                     VALUE)    
-                    ENDDO               
-                  ELSE !ihbe           
-                    LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1) 
-                    DO I=1,NEL   
-                      DO J=1,5              
-                        VALUE(J) = LBUF%SIG(JJ(J) + I)
-                      ENDDO  
-                      CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                     VALUE)               
-                    ENDDO
-                  ENDIF !IHBE
-                   ENDIF !ILAY
+                        IF (IHBE == 11) THEN             
+                          DO I=1,NEL   
+                            DO IR=1,NPTR            
+                              DO IS=1,NPTS            
+                                LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,1)  
+                                DO J=1,5            
+                                  VALUE(J) = VALUE(J) + LBUF%SIG(JJ(J) + I)/NPG
+                                ENDDO
+                              ENDDO              
+                            ENDDO
+                            CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
+     .                                               VALUE)    
+                          ENDDO               
+                        ELSE !ihbe           
+                          LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1) 
+                          DO I=1,NEL   
+                            DO J=1,5              
+                              VALUE(J) = LBUF%SIG(JJ(J) + I)
+                            ENDDO  
+                            CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
+     .                                             VALUE)               
+                          ENDDO
+                        ENDIF !IHBE
+                      ENDIF !ILAY
                     ENDIF !MLAW
                   ENDIF!MLAW 1
 
                 ELSEIF (IGTYP == 51 .OR. IGTYP == 52) THEN              
-               IF (MLW == 1)THEN      
-                 DO I=1,NEL     
-                   DO J=1,5          
-                     VALUE(J) = GBUF%FOR(JJ(J) + I)
-                   ENDDO
-                    CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                         VALUE)             
-                 ENDDO
-                   ELSE
-                  IF (IHBE == 11) THEN
-                    BUFLY => ELBUF_TAB(NG)%BUFLY(ILAY)
-                    DO I=1,NEL          
-                      I1 = (I-1)*5    
-                      DO J=1,5             
-                        VALUE(J) = BUFLY%SIGPT(I1+J)
+                  IF (MLW == 1)THEN      
+                    DO I=1,NEL     
+                      DO J=1,5          
+                        VALUE(J) = GBUF%FOR(JJ(J) + I)
                       ENDDO
-                      CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                             VALUE)
+                       CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
+     .                            VALUE)             
                     ENDDO
-                  ELSE ! no batoz
-                    BUFLY => ELBUF_TAB(NG)%BUFLY(ILAY)
-                    NPTT = BUFLY%NPTT
-                    DO J=1,5
-                    DO I=1,NEL
-                      DO IT=1,NPTT
-                        VALUE(J) = VALUE(J) + BUFLY%LBUF(1,1,IPT)%SIG(JJ(J) + I)/NPTT
+                  ELSE
+                    IF (IHBE == 11) THEN
+                      BUFLY => ELBUF_TAB(NG)%BUFLY(ILAY)
+                      DO I=1,NEL          
+                        I1 = (I-1)*5    
+                        DO J=1,5             
+                          VALUE(J) = BUFLY%SIGPT(I1+J)
+                        ENDDO
+                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
+     .                               VALUE)
                       ENDDO
-                      CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                   VALUE)
-                    ENDDO
-                    ENDDO
+                    ELSE ! no batoz
+                      BUFLY => ELBUF_TAB(NG)%BUFLY(ILAY)
+                      NPTT = BUFLY%NPTT
+                      DO J=1,5
+                        DO I=1,NEL
+                          DO IT=1,NPTT
+                            VALUE(J) = VALUE(J) + BUFLY%LBUF(1,1,IT)%SIG(JJ(J) + I)/NPTT
+                          ENDDO
+                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
+     .                       VALUE)
+                        ENDDO
+                      ENDDO
+                    ENDIF
                   ENDIF
-                ENDIF
                 ENDIF
 c PLY=NULL ILAYER=NULL NPT=IPT
               ELSEIF ( IPT <= MPT .AND. IPT > 0) THEN
 
                 IF (IGTYP == 1 .OR. IGTYP == 9) THEN              
-               IF (MLW == 1)THEN      
-                 DO I=1,NEL     
-                   DO J=1,5          
-                     VALUE(J) = GBUF%FOR(JJ(J) + I)
-                   ENDDO
-                    CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
+                  IF (MLW == 1)THEN      
+                    DO I=1,NEL     
+                      DO J=1,5          
+                        VALUE(J) = GBUF%FOR(JJ(J) + I)
+                      ENDDO
+                      CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
      .                         VALUE)             
-                 ENDDO
+                    ENDDO
                   ELSE !(MLW == 1)
 c
                     IF(IGTYP == 9 .AND. (MLW == 25.OR.MLW == 15.OR.MLW>=28) .AND. IREP == 1)THEN
@@ -701,137 +701,137 @@ c
      2                       NS1  ,X   ,IXC  ,ELBUF_TAB(NG),
      3                       SIGE ,ITY ,IXTG ,IHBE     ,ISTRAIN,
      4                       IVISC)
-                    DO I=1,NEL
-                      VALUE(1) = A1 * SIGE(I,1)
-                      VALUE(2) = A1 * SIGE(I,2)
-                      VALUE(3) = A1 * SIGE(I,3)
-                      CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                       VALUE)
-                    ENDDO
+                      DO I=1,NEL
+                        VALUE(1) = A1 * SIGE(I,1)
+                        VALUE(2) = A1 * SIGE(I,2)
+                        VALUE(3) = A1 * SIGE(I,3)
+                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
+     .                                           VALUE)
+                      ENDDO
 
                     ELSE IF(IGTYP == 9 .AND. (MLW == 25.OR.MLW == 15.OR.MLW>=28) .AND. IREP == 0)THEN
 c
-                   IF (IHBE == 11) THEN  ! Batoz shell
-                DO I=1,NEL
-                  DO J=1,5
-                    SIGE(I,J) = ZERO
-                  ENDDO
-                ENDDO
+                      IF (IHBE == 11) THEN  ! Batoz shell
+                        DO I=1,NEL
+                          DO J=1,5
+                            SIGE(I,J) = ZERO
+                          ENDDO
+                        ENDDO
 C
-                DO I=1,NEL
-                  DO IR=1,NPTR
-                    DO IS=1,NPTS
-                      IF (NLAY > 1) THEN
-                  LBUF => ELBUF_TAB(NG)%BUFLY(IPT)%LBUF(IR,IS,1)
-                      ELSE
-                  LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IPT)
-                      ENDIF
-                      DO J=1,5
-                  SIGE(I,J) = SIGE(I,J) + LBUF%SIG(JJ(J) + I)/NPG
-                      ENDDO
-                    ENDDO
-                  ENDDO
-                ENDDO
+                        DO I=1,NEL
+                          DO IR=1,NPTR
+                            DO IS=1,NPTS
+                              IF (NLAY > 1) THEN
+                          LBUF => ELBUF_TAB(NG)%BUFLY(IPT)%LBUF(IR,IS,1)
+                              ELSE
+                          LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IPT)
+                              ENDIF
+                              DO J=1,5
+                          SIGE(I,J) = SIGE(I,J) + LBUF%SIG(JJ(J) + I)/NPG
+                              ENDDO
+                            ENDDO
+                          ENDDO
+                        ENDDO
 C
 C               viscous stress added for animation
 C 
-                IF (IVISC > 0) THEN
-                  DO I=1,NEL
-                    DO IR=1,NPTR
-                      DO IS=1,NPTS
-                  IF (NLAY > 1) THEN
-                    LBUF => ELBUF_TAB(NG)%BUFLY(IPT)%LBUF(IR,IS,1)
-                  ELSE
-                    LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IPT)
-                  ENDIF
-                  DO J=1,5             
-                    SIGE(I,J) = SIGE(I,J) + LBUF%VISC(JJ(J) + I)/NPG 
-                  ENDDO            
-                      ENDDO
-                    ENDDO  
-                  ENDDO  
-                ENDIF  !  IF (IVISC > 0)
-                   ELSE  ! not Batoz shell
-                DO I=1,NEL
-                  IF (NLAY > 1) THEN             
-                    LBUF => ELBUF_TAB(NG)%BUFLY(IPT)%LBUF(1,1,1)   
-                  ELSE                 
-                    LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,IPT)   
-                  ENDIF       
-                  DO J=1,5
-                    SIGE(I,J) = LBUF%SIG(JJ(J) + I)
-                  ENDDO
-                ENDDO
+                        IF (IVISC > 0) THEN
+                          DO I=1,NEL
+                            DO IR=1,NPTR
+                              DO IS=1,NPTS
+                          IF (NLAY > 1) THEN
+                            LBUF => ELBUF_TAB(NG)%BUFLY(IPT)%LBUF(IR,IS,1)
+                          ELSE
+                            LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IPT)
+                          ENDIF
+                          DO J=1,5             
+                            SIGE(I,J) = SIGE(I,J) + LBUF%VISC(JJ(J) + I)/NPG 
+                          ENDDO            
+                              ENDDO
+                            ENDDO  
+                          ENDDO  
+                        ENDIF  !  IF (IVISC > 0)
+                      ELSE  ! not Batoz shell
+                        DO I=1,NEL
+                          IF (NLAY > 1) THEN             
+                            LBUF => ELBUF_TAB(NG)%BUFLY(IPT)%LBUF(1,1,1)   
+                          ELSE                 
+                            LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,IPT)   
+                          ENDIF       
+                          DO J=1,5
+                            SIGE(I,J) = LBUF%SIG(JJ(J) + I)
+                          ENDDO
+                        ENDDO
 
-                IF (IVISC > 0) THEN  
-                  IF (NLAY > 1) THEN             
-                    LBUF => ELBUF_TAB(NG)%BUFLY(IPT)%LBUF(1,1,1)   
-                  ELSE                 
-                    LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,IPT)   
-                  ENDIF                
-                  DO I=1,NEL    
-                    DO J=1,5              
-                      SIGE(I,J) = SIGE(I,J) +  LBUF%VISC(JJ(J) + I)
-                    ENDDO           
-                  ENDDO           
-                ENDIF  !  IF (IVISC > 0)               
-                   ENDIF  !  IF (IHBE == 11)
+                        IF (IVISC > 0) THEN  
+                          IF (NLAY > 1) THEN             
+                            LBUF => ELBUF_TAB(NG)%BUFLY(IPT)%LBUF(1,1,1)   
+                          ELSE                 
+                            LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,IPT)   
+                          ENDIF                
+                          DO I=1,NEL    
+                            DO J=1,5              
+                              SIGE(I,J) = SIGE(I,J) +  LBUF%VISC(JJ(J) + I)
+                            ENDDO           
+                          ENDDO           
+                        ENDIF  !  IF (IVISC > 0)               
+                      ENDIF  !  IF (IHBE == 11)
 C
-                   IF (IHBE == 11) THEN
-                IF (IGTYP == 9) THEN
-                  DIR_A => ELBUF_TAB(NG)%BUFLY(1)%DIRA  
-                  CALL UROTOV(1,NEL,SIGE,DIR_A,NEL)
-                ELSE
-                  IF (NLAY > 1) THEN          
-                    DIR_A => ELBUF_TAB(NG)%BUFLY(IPT)%DIRA
-                  ELSE              
-                    DIR_A => ELBUF_TAB(NG)%BUFLY(1)%DIRA
-                  ENDIF
-                  CALL UROTOV(1,NEL,SIGE,DIR_A,NEL)
-                ENDIF
-                   ELSE
-                IF (NLAY > 1) THEN        
-                  DIR_A => ELBUF_TAB(NG)%BUFLY(IPT)%DIRA
-                ELSE            
-                  DIR_A => ELBUF_TAB(NG)%BUFLY(1)%DIRA
-                ENDIF                 
-                CALL UROTOV(1,NEL,SIGE,DIR_A,NEL)
-                   ENDIF  !  IF (IHBE == 11)
+                      IF (IHBE == 11) THEN
+                        IF (IGTYP == 9) THEN
+                          DIR_A => ELBUF_TAB(NG)%BUFLY(1)%DIRA  
+                          CALL UROTOV(1,NEL,SIGE,DIR_A,NEL)
+                        ELSE
+                          IF (NLAY > 1) THEN          
+                            DIR_A => ELBUF_TAB(NG)%BUFLY(IPT)%DIRA
+                          ELSE              
+                            DIR_A => ELBUF_TAB(NG)%BUFLY(1)%DIRA
+                          ENDIF
+                          CALL UROTOV(1,NEL,SIGE,DIR_A,NEL)
+                        ENDIF
+                      ELSE
+                        IF (NLAY > 1) THEN        
+                          DIR_A => ELBUF_TAB(NG)%BUFLY(IPT)%DIRA
+                        ELSE            
+                          DIR_A => ELBUF_TAB(NG)%BUFLY(1)%DIRA
+                        ENDIF                 
+                        CALL UROTOV(1,NEL,SIGE,DIR_A,NEL)
+                      ENDIF  !  IF (IHBE == 11)
 c
-                   DO I=1,NEL
-                VALUE(1) = A1 * SIGE(I,1)
-                VALUE(2) = A1 * SIGE(I,2)
-                VALUE(3) = A1 * SIGE(I,3)
-                CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                 VALUE)
-                   ENDDO
+                      DO I=1,NEL
+                        VALUE(1) = A1 * SIGE(I,1)
+                        VALUE(2) = A1 * SIGE(I,2)
+                        VALUE(3) = A1 * SIGE(I,3)
+                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
+     .                                           VALUE)
+                      ENDDO
 
                     ELSE
                       IF(IPT <= MPT)THEN
-                     IF (IHBE == 11) THEN             
-                       DO I=1,NEL   
-                         DO IR=1,NPTR            
-                           DO IS=1,NPTS            
-                       LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IPT)  
-                       DO J=1,5            
-                         VALUE(J) = VALUE(J) + LBUF%SIG(JJ(J) + I)/NPG
-                       ENDDO
-                           ENDDO              
-                         ENDDO
-                         CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                        VALUE)    
-                       ENDDO               
-                     ELSE           
-                       LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,IPT)
-                       DO I=1,NEL   
-                         DO J=1,5              
-                           VALUE(J) = LBUF%SIG(JJ(J) + I)
-                         ENDDO  
-                         CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                        VALUE)               
-                       ENDDO
-                     ENDIF
-                   ENDIF
+                        IF (IHBE == 11) THEN             
+                          DO I=1,NEL   
+                            DO IR=1,NPTR            
+                              DO IS=1,NPTS            
+                                LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IPT)  
+                                DO J=1,5            
+                                  VALUE(J) = VALUE(J) + LBUF%SIG(JJ(J) + I)/NPG
+                                ENDDO
+                              ENDDO              
+                            ENDDO
+                            CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
+     .                                                VALUE)    
+                          ENDDO               
+                        ELSE           
+                          LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,IPT)
+                          DO I=1,NEL   
+                            DO J=1,5              
+                              VALUE(J) = LBUF%SIG(JJ(J) + I)
+                            ENDDO  
+                            CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
+     .                                               VALUE)               
+                          ENDDO
+                        ENDIF
+                      ENDIF
                     ENDIF
                   ENDIF
                 ENDIF
