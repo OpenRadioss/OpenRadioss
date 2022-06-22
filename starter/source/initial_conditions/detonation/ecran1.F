@@ -52,16 +52,13 @@ C-----------------------------------------------
 #include      "scr11_c.inc"
 #include      "com04_c.inc"
 C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER,POINTER,DIMENSION(:) :: IECR, IORDR, IFLG
-      my_real,POINTER,DIMENSION(:) :: DTIME
-      INTEGER,INTENT(IN) :: N1,NP1
-C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, II, J, JJ, JJJ,NPE
       my_real DTOMIN, DDMX, D2
+      INTEGER,POINTER,DIMENSION(:) :: IECR, IORDR, IFLG
+      my_real,POINTER,DIMENSION(:) :: DTIME
+      INTEGER,INTENT(IN) :: N1,NP1      
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
