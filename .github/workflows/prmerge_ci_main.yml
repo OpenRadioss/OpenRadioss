@@ -381,32 +381,23 @@ jobs:
     env:
       SERVBOT_USER: ${{ secrets.SERVBOT_USER }}
       SERVBOT_PAT: ${{ secrets.SERVBOT_PAT }}
-      DELIVERY_NB_RELEASES_TO_KEEP: ${{ secrets.DELIVERY_NB_RELEASES_TO_KEEP || 6 }}
-      DELIVERY_TAG_PREFIX: ${{ secrets.DELIVERY_TAG_PREFIX || 'latest-' }}
+      # DELIVERY_NB_RELEASES_TO_KEEP: 6
+      DELIVERY_NB_RELEASES_TO_KEEP: 2
+      # DELIVERY_TAG_PREFIX: 'latest-'
+      DELIVERY_TAG_PREFIX: 'dev-'
 
     steps:
 
-    - name: Set the release name
+    - name: Set the release name & clean previous exec
       run: |
         echo "DATEOFTHEDAY=`date +'%Y%m%d'`" >> $GITHUB_ENV
+        rm -rf exec todeliver
 
-    - name: Clean old checkout
-      run: |
-        cd ..
-        rm -rf ${{ github.event.repository.name }}/.[!.]* ${{ github.event.repository.name }}/*
-
-    # Action to checkout main files and not all, useful when just need to have git env to run git command without needing files
-    - uses: snow-actions/sparse-checkout@v1.1.0
-
-    - name: Create github release/tag if it does not exist
-      run: |
-          manage_github_release.py \
-            --git_api_url ${{ github.api_url }} \
-            --git_repo ${{ github.repository }} \
-            --git_user $SERVBOT_USER \
-            --git_token $SERVBOT_PAT \
-            --action create \
-            --tag ${{ env.DELIVERY_TAG_PREFIX }}${{ env.DATEOFTHEDAY }}     
+    # Get last git modifications, don't clean before (way to go faster)
+    - uses: actions/checkout@v2
+      with:
+        clean: 'false'
+        lfs: 'true'
 
     # Download ALL artifacts
     - uses: actions/download-artifact@v3
@@ -421,11 +412,24 @@ jobs:
           cp -p $file exec/
         done
         
+    - name: Provide ALL binaries
+      run: |
+        mkdir todeliver
+        cd exec
+        tar -zcvf ../todeliver/binaries_linux64.tar.gz * ../extlib 
+        tar -zcvf ../todeliver/hm_cfg_files.tar.gz ../hm_cfg_files
+        ls -l ../todeliver
+
+        # Removed lfs hook (not supported in next action, not neeeded)
+        cd ..
+        rm -f .git/hooks/pre-push
+
     - name: Release the new binaries
-      uses: mini-bomba/create-github-release@v1.0.0
+      uses: docker://ghcr.io/mini-bomba/create-github-release:v1.1.2
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        tag: "latest-${{ env.DATEOFTHEDAY }}"
+        release: "${{ env.DELIVERY_TAG_PREFIX }}${{ env.DATEOFTHEDAY }}"
+        tag: "${{ env.DELIVERY_TAG_PREFIX }}${{ env.DATEOFTHEDAY }}"
         name: "Last build on ${{ env.DATEOFTHEDAY }}"  
         body: |
           This automatic release is built from commit ${{ github.sha }} and was triggered by @${{ github.actor }}
@@ -434,15 +438,15 @@ jobs:
           Commit message:
           ${{ github.event.commits[0].message }}
         files: |
-          exec/*
+          todeliver/*
         clear_attachments: true     
 
     - name: Clean old github release/tag if needed
       run: |
-          manage_github_release.py \
+          clean_github_release.py \
             --git_api_url ${{ github.api_url }} \
             --git_repo ${{ github.repository }} \
             --git_user $SERVBOT_USER \
             --git_token $SERVBOT_PAT \
-            --action clean \
             --nb_releases_to_keep ${{ env.DELIVERY_NB_RELEASES_TO_KEEP }} \
+            --tag_prefix ${{ env.DELIVERY_TAG_PREFIX }}
