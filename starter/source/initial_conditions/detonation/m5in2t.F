@@ -209,7 +209,6 @@ C     Getting rid of equivalences
             !---detonation times for elements
             DO I=LFT,LLT
             IF(MTL /= MAT(I).AND.MTL /= 0) CYCLE
-              VDET = DETONATORS%BURN(3,N)
               YD =DETONATORS%BURN(4,N)
               ZD =DETONATORS%BURN(5,N)            
               DTO0=ALT
