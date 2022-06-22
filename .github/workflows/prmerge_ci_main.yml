@@ -381,10 +381,8 @@ jobs:
     env:
       SERVBOT_USER: ${{ secrets.SERVBOT_USER }}
       SERVBOT_PAT: ${{ secrets.SERVBOT_PAT }}
-      # DELIVERY_NB_RELEASES_TO_KEEP: 6
-      DELIVERY_NB_RELEASES_TO_KEEP: 2
-      # DELIVERY_TAG_PREFIX: 'latest-'
-      DELIVERY_TAG_PREFIX: 'dev-'
+      DELIVERY_NB_RELEASES_TO_KEEP: 6
+      DELIVERY_TAG_PREFIX: 'latest-'
 
     steps:
 
@@ -416,7 +414,7 @@ jobs:
       run: |
         mkdir todeliver
         cd exec
-        tar -zcvf ../todeliver/binaries_linux64.tar.gz * ../extlib 
+        tar -zcvf ../todeliver/binaries_linux64.tar.gz * ../extlib/h3d/lib/linux64/libh3dwriter.so ../extlib/hm_reader/linux64/libhm_reader_linux64.so
         tar -zcvf ../todeliver/hm_cfg_files.tar.gz ../hm_cfg_files
         ls -l ../todeliver
 
