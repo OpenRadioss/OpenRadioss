@@ -65,9 +65,9 @@ C-----------------------------------------------
       !---------------------------------!
       NPH = 1
       IF(N2D==0)THEN
-        CALL M5IN3 (PM,MAT,DETONATORS,TB,NGL,IPARG,X,IX,NIX)
+        CALL M5IN3 (PM,MAT,0,DETONATORS,TB,NGL,IPARG,X,IX,NIX)
       ELSE
-        CALL M5IN2 (PM,MAT,DETONATORS,TB,NGL,X,IX,NIX)
+        CALL M5IN2 (PM,MAT,0,DETONATORS,TB,NGL,X,IX,NIX)
       ENDIF
 
 C-----------------------------------------------

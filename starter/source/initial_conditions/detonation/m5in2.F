@@ -35,7 +35,7 @@ Chd|        ECRAN2                        source/initial_conditions/detonation/e
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE M5IN2(PM,MAT,DETONATORS,TB,NGL,X,IX,NIX)
+      SUBROUTINE M5IN2(PM,MAT,M151_ID,DETONATORS,TB,NGL,X,IX,NIX)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -62,6 +62,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NGL(*),MAT(*),NIX,IX(NIX,*)
+      INTEGER,INTENT(IN) :: M151_ID
       my_real
      .   PM(NPROPM,*), TB(*),X(3,*),VDET2
       TYPE(DETONATOR_STRUCT_)::DETONATORS
@@ -122,7 +123,7 @@ C     Getting rid of equivalences
         ! INITIALIZATION BEFORE LIGHTING TIME COMPUTATION  !
         !--------------------------------------------------!
          DO I=LFT,LLT
-          TB(I)=EP37
+          TB(I)=EP20
           JJ(I)=NDET2D ! will be removed -1 for each detonator associated to this elem  
           XC(I)=ZERO
           YC(I)=FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
@@ -136,7 +137,7 @@ C     Getting rid of equivalences
           DO I=LFT,LLT
             DO N=1,NDETPS
               MTL=DETONATORS%BURN(2,N)
-              IF(MTL == 0.OR.MTL == MAT(I)) THEN
+              IF(MTL == 0 .OR. MTL == MAT(I) .OR. MTL == M151_ID) THEN
                 ALT=DETONATORS%BURN(1,N)
                 XLP=DETONATORS%BURN(3,N)
                 YLP=DETONATORS%BURN(4,N)
@@ -165,7 +166,7 @@ C     Getting rid of equivalences
           YLP2=DETONATORS%BURN(7,N)
           ZLP2=DETONATORS%BURN(8,N)
           DO I=LFT,LLT
-            IF(MTL == 0.OR.MTL == MAT(I)) THEN
+            IF(MTL == 0 .OR. MTL == MAT(I) .OR. MTL == M151_ID) THEN
               XL0 =(XLP1-XLP2)
               YL0 =(YLP1-YLP2)
               ZL0 =(ZLP1-ZLP2)
@@ -209,15 +210,13 @@ C     Getting rid of equivalences
             NPE=NINT(DETONATORS%BURN(6,N))
             NP1=NINT(DETONATORS%BURN(7,N))
             DTO0=ALT
-            MT  =MTL
-            IF(MT == 0)MT=MAT(1)
-            VDTO=PM(38,MT) 
-            IF(VDET == ZERO)VDET=PM(38,MT) !optional detonation velocity
+            VDTO=PM(38,MAT(1)) 
+            IF(VDET == ZERO)VDET=PM(38,MAT(1)) !optional detonation velocity
             !---detonation time for screen points
             CALL ECRAN1(DETONATORS,N1,NP1,X,VDET)
             !---detonation times for elements
             DO I=LFT,LLT
-            IF(MTL /= MAT(I).AND.MTL /= 0) CYCLE
+            IF(MTL /= MAT(I).AND.MTL /= 0 .AND. MTL /= M151_ID) CYCLE
               YD =DETONATORS%BURN(4,N)
               ZD =DETONATORS%BURN(5,N)            
               DTO0=ALT
@@ -250,7 +249,7 @@ C     Getting rid of equivalences
             DL1=XLP*NX + YLP*NY + ZLP*NZ
             DL1 = DL1/NN 
             DO I=LFT,LLT
-              IF(MTL == 0.OR.MTL == MAT(I)) THEN
+              IF(MTL == 0 .OR. MTL == MAT(I) .OR. MTL == M151_ID) THEN
                 ! DL = (OC.ON) / ||ON||
              ! C: centroid
              ! P: detonation base
@@ -283,7 +282,7 @@ C     Getting rid of equivalences
             MT      = MTL
             IF(MT == 0)MT=MAT(1)
             VDTO    = PM(38,MT)
-            IF(MTL /= MAT(1).AND.MTL /= 0) CYCLE
+            IF(MTL /= MAT(1).AND.MTL /= 0 .AND. MTL /= M151_ID) CYCLE
             DTO0    = ALT
             CALL DETCORD(DETONATORS,N2,NPE2,X, MTL, XC,YC,ZC,VDTO,VDET2,ALT,BT,TB,JJ,IOPT,IX,NIX)            
             N2      = N2+NPE2
