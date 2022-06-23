@@ -152,7 +152,7 @@ C     Material initialization
      
          MATLAW = IPM(2, MAT(1))
          IF (MATLAW .EQ. 5) THEN
-!     JWL MAT
+!     JWL MAT - layer detonation times
             IF (.NOT. ERROR_THROWN) THEN
                IF (PM(44, MAT(1)) .EQ. ZERO) THEN
                   CALL ANCMSG(MSGID = 1623, MSGTYPE = MSGERROR, ANMODE = ANINFO, 
@@ -160,22 +160,11 @@ C     Material initialization
                ENDIF
                ERROR_THROWN = .TRUE.
             ENDIF
-            CALL M5IN2(PM, MAT, DETONATORS, LBUF%TB, NGL, X, IXQ, NIXQ)
+            CALL M5IN2(PM, MAT, IPM(1, IXQ(1,LFT+NFT)), DETONATORS, LBUF%TB, NGL, X, IXQ, NIXQ)
          ENDIF
       ENDDO
+
       IF (NLAY .GT. 1) THEN
-         IF (GBUF%G_TB .GT. 0) THEN
-            GBUF%TB(LFT:LLT) = -EP30
-         ENDIF
-         DO ILAY = 1, NLAY
-            MATLAW = IPM(2, IPM(20 + ILAY, IXQ(1, 1 +  NFT)))
-            IF (MATLAW .EQ. 5) THEN
-               LBUF => ELBUF_STR%BUFLY(ILAY)%LBUF(1,1,1)
-               DO II = LFT, LLT
-                  GBUF%TB(II) = MAX(GBUF%TB(II), LBUF%TB(II))
-               ENDDO
-            ENDIF
-         ENDDO
          
 C      Mass globalization
          GBUF%RHO(LFT:LLT)=ZERO                 
@@ -194,6 +183,7 @@ C      Temperature globalization. We must solve later T such as e+p/rho=integral
                GBUF%TEMP(II) = GBUF%TEMP(II) + LBUF%TEMP(II) * PM(20 + ILAY, IXQ(1, II + NFT))*LBUF%RHO(II)/GBUF%RHO(II)   !volfrac*densfrac=massfrac
             ENDDO
          ENDDO    
-                  
+     
       ENDIF
+                        
       END SUBROUTINE MULTIFLUID_INIT2

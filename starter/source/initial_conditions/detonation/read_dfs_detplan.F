@@ -193,7 +193,7 @@ C-----------------------------------------------
      .              MSGTYPE=MSGERROR,                                                                    
      .              ANMODE=ANINFO,                                                                       
      .              I1=DET_ID,                                                                               
-     .              C1='DETONATOR MUST REFER TO A JWL MATERIAL LAW (LAWS 5 OR 51)',                      
+     .              C1='DETONATOR MUST REFER TO A JWL MATERIAL LAW (LAWS 5, 51, 97, 151)',                      
      .              C2='/DFS/DETPLAN',                                                                   
      .              I2=MDET)                                                                             
       ELSEIF((NX == ZERO).AND.(NY == ZERO).AND.(NZ == ZERO))THEN                                         

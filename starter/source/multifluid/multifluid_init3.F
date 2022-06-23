@@ -309,7 +309,7 @@ C     Fill partial volumes
                ENDIF
                ERROR_THROWN = .TRUE.
             ENDIF
-            CALL M5IN3(PM, MAT, DETONATORS, LBUF%TB, NGL, IPARG, X, IXS, NIXS)
+            CALL M5IN3(PM, MAT,  IPM(1, IXS(1,LFT+NFT)), DETONATORS, LBUF%TB, NGL, IPARG, X, IXS, NIXS)
          ENDIF
          IF (MATLAW == 6) THEN
             IF (PM(24, MAT(1)) > ZERO) THEN
@@ -318,19 +318,8 @@ C     Fill partial volumes
          ENDIF
 
       ENDDO                     ! ILAY = 1, NLAY
+
       IF (NLAY .GT. 1) THEN
-         IF (GBUF%G_TB .GT. 0) THEN
-            GBUF%TB(LFT:LLT) = -EP30
-         ENDIF
-         DO ILAY = 1, NLAY
-            MATLAW = IPM(2, IPM(20 + ILAY, IXS(1, 1 +  NFT)))
-            IF (MATLAW .EQ. 5) THEN
-               LBUF => ELBUF_STR%BUFLY(ILAY)%LBUF(1,1,1)
-               DO II = LFT, LLT
-                  GBUF%TB(II) = MAX(GBUF%TB(II), LBUF%TB(II))
-               ENDDO
-            ENDIF
-         ENDDO
 
 C      Mass globalization                 
          DO ILAY = 1, NLAY

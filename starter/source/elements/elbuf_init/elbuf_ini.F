@@ -462,6 +462,32 @@ c---
               ENDDO                                                         
             ENDDO                      
 c---
+          ELSEIF (MLW == 151) THEN   !  multiphase 151                                    
+            DO IL = 1,NLAY
+              IMAT(IL) = IPM(20+IL,IMID)   ! submaterial MID                         
+              ILAW(IL) = IPM(2,IMAT(IL))  ! submaterial law type
+              LAW_VIS  = IPM(222,IMID)
+              NUVAR   = MLAW_TAG(IMID)%NUVAR                                
+              NVARTMP = MLAW_TAG(IMID)%NVARTMP                                
+              NFAIL    = IPM(220,IMAT(IL))
+              ELBUF_TAB(NG)%BUFLY(IL)%ILAW = ILAW(IL)
+              ELBUF_TAB(NG)%BUFLY(IL)%IMAT = IMAT(IL)       
+              ELBUF_TAB(NG)%BUFLY(IL)%IEOS = IPM(4,IMAT(IL)) ! submaterial eos type       
+              ELBUF_TAB(NG)%BUFLY(IL)%IVISC= LAW_VIS        
+              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT= NUVAR
+              ELBUF_TAB(NG)%BUFLY(IL)%NVARTMP = NVARTMP
+              ELBUF_TAB(NG)%BUFLY(IL)%NVAR_VISC=VISC_TAG(LAW_VIS)%NUVAR
+              ELBUF_TAB(NG)%BUFLY(IL)%IPORO= 0  
+              ELBUF_TAB(NG)%BUFLY(IL)%NFAIL = NFAIL                          
+              DO J = 1,NFAIL                                              
+                IRUPT = IPM(111 + (J-1)*15, IMAT(IL))   ! modele de rupture 
+                TFAIL(IL,J) = IRUPT       
+              ENDDO                                                         
+              IF (MLAW_TAG(IMAT(IL))%L_PLA == 0 .and. IPARG(10,NG) == 2) THEN
+                IPARG(10,NG) = 0  ! ICPRE
+              ENDIF                                   
+            ENDDO 
+c---
           ELSEIF (NLAY > 1) THEN   ! thick shells,  multiphase                                     
             DO IL = 1,NLAY
               IMAT(IL) = IMID   ! global MID in all pts                          
@@ -618,7 +644,7 @@ C----- thickshell will be checked later----
           ENDIF
           IF (JTHE      /= 0) GBUF%G_TEMP = 1 
           IF (JTHE      /= 0 .AND. NPG > 1) GBUF%G_TEMPG = NPG 
-          IF (JEUL+JALE /= 0 .AND. ISNOD.GE.4) GBUF%G_MOM = 3
+          IF (JEUL+JALE /= 0 .AND. ISNOD >= 4) GBUF%G_MOM = 3
           IF (JHBE == 15 .OR. JHBE == 24) GBUF%G_HOURG = 12
 C------------- for strain output, to 3*6	  
           IF (JHBE == 24) GBUF%G_STRHG = 3*6
@@ -655,7 +681,7 @@ C---- only useful with the law where P=Bulk*AMU(rho,rho0) but not do the distinc
           ENDDO
 C
 C         Orthotropic SPH properties
-          IF ((ISORTH == 1).AND.(IGTYP.EQ.34)) THEN
+          IF ((ISORTH == 1).AND.(IGTYP == 34)) THEN
             GBUF%G_GAMA = 6
             BUFLY%L_SIGL = 6
           ENDIF
@@ -944,7 +970,7 @@ C
             NPTT = MAX(1,NPT)    ! attention to global integration 
           ENDIF
           IF (IGTYP == 17 .and. ISHPLYXFEM == 1) NINTLAY = NLAY-1
-          IF (ITY == 7 .AND. MLW .EQ. 151) THEN
+          IF (ITY == 7 .AND. MLW == 151) THEN
              NLAY = IPARG(20, NG)
           ENDIF
 c
@@ -1281,7 +1307,7 @@ c----------------------------------------------------
           IF (JTHE /= 0     ) GBUF%G_TEMP = 1
           IF (JTHE      /= 0 .AND. NPG > 1) GBUF%G_TEMPG = NPG
           IF (ISMS_SELEC >= 1) GBUF%G_ISMS  = 1
-          IF (JEUL+JALE /= 0 .AND. ISNOD.GE.4) GBUF%G_MOM  = 3
+          IF (JEUL+JALE /= 0 .AND. ISNOD >= 4) GBUF%G_MOM  = 3
           IF (ITY == 3) THEN
             IF (JHBE <= 4) THEN
               GBUF%G_HOURG = 5
@@ -1613,7 +1639,7 @@ c
             LLOC = LLOC + BUFLY%L_BFRAC
             LLOC = LLOC + BUFLY%L_EINT   
             LLOC = LLOC + BUFLY%L_EINS 
-            IF (MLW .NE. 151) THEN
+            IF (MLW /= 151) THEN
                BUFLY%L_RHO = 0
             ENDIF
             LLOC = LLOC + BUFLY%L_RHO         

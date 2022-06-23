@@ -48,7 +48,7 @@ C-----------------------------------------------
 	      MID= LISTMAT(1,I)
               MLN= LISTMAT(2,I)
 	      IF (MDET == MID) THEN !MDET refer to an used material       
-                IF(MLN /= 5 .AND. MLN /= 51 .AND. MLN /= 97)THEN
+                IF(MLN /= 5 .AND. MLN /= 51 .AND. MLN /= 97 .AND. MLN /= 151)THEN
                  UNUSED_MAT_DETONATOR=2
                  RETURN
                 ENDIF   

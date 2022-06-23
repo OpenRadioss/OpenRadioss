@@ -1854,6 +1854,11 @@ C---------------------------------
       ENDIF
 
 C---------------------------------
+C  INIT GLOBAL DEOTNATION TIMES LAW151
+C---------------------------------
+      CALL MULTIFLUID_GLOBAL_TDET(IPARG,ELBUF_TAB,MULTI_FVM,IPM)
+
+C---------------------------------
 C  INITIALIZATION ON 1D CURVES
 C---------------------------------
       IF (NINIMAP1D .GT. 0) THEN

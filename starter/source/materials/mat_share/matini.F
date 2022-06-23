@@ -202,9 +202,9 @@ C---------------------------
       ELSEIF (MTN == 5) THEN
         IPARG(16)=1   !  FLAG REZONE EPS PLAST. (BURNING TIME)
         IF(N2D == 0)THEN
-          CALL M5IN3 (PM,MAT,DETONATORS,TB,NGL,IPARG,X,IX,NIX)
+          CALL M5IN3 (PM,MAT,0,DETONATORS,TB,NGL,IPARG,X,IX,NIX)
         ELSE
-          CALL M5IN2 (PM,MAT,DETONATORS,TB,NGL,X,IX,NIX)
+          CALL M5IN2 (PM,MAT,0,DETONATORS,TB,NGL,X,IX,NIX)
         ENDIF
         IPARG(63)=1 !Loi fluide
       ELSEIF (MTN == 6) THEN
