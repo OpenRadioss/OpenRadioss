@@ -3349,7 +3349,7 @@ C===============================================================================
      L     MULTI_FVM,IPARG  ,ELBUF_TAB, H3D_DATA, T2MAIN_SMS,
      M     LSKYI_SMS_NEW    ,FORNEQS  ,INT7ITIED,IDEL7NOK_SAV,MAXDGAP,
      N     T2FAC_SMS,ICODT,ISKEW ,FSKYN25  ,ADDCSRECT,PROCNOR,
-     O     INTER_STRUCT,SORT_COMM,RENUM_SIZ,NATIV_SMS_SIZ)
+     O     INTER_STRUCT,SORT_COMM,RNUM_SIZ,NATIV_SMS_SIZ)
 C
 #include "lockon.inc"
         IF(DT2TT.LT.DT2T)THEN
