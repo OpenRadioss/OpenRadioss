@@ -64,8 +64,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER               :: I, ID
-      INTEGER               :: ISU, IS, J ,NINTERP,NN
+      INTEGER               :: I, ID, NINTERS, IDINT
+      INTEGER               :: ISU, IS, J ,NINTERP,NN, NIP
       CHARACTER             :: TITR*nchartitle
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
@@ -90,6 +90,18 @@ C--------------------------------------------------
        CALL HM_GET_INTV  ('surf_ID',ISU,IS_AVAILABLE,LSUBMODEL)
 C EXTRACT DATAS (INTEGER VALUES) : Number of interfaces
        CALL HM_GET_INTV('N_inter_P',NINTERP,IS_AVAILABLE,LSUBMODEL)
+       NINTERS = 0
+       IF(NINTERP > 0) THEN
+         DO NIP=1,NINTERP
+
+C EXTRACT DATAS (INTEGER VALUES) 
+
+           CALL HM_GET_INT_ARRAY_INDEX('Inter_IDs',IDINT,NIP,IS_AVAILABLE,LSUBMODEL)
+
+           IF(IDINT > 0 ) NINTERS = NINTERS + 1
+          ENDDO
+       ENDIF
+
 C-------
         IS = 0                                              
         DO J=1,NSURF
@@ -105,7 +117,7 @@ C-------
         ENDIF   
 C-----------                                      
         NUMLOADP = NUMLOADP + 4*IGRSURF(IS)%NSEG
-        NINTLOADP = NINTLOADP + NINTERP
+        NINTLOADP = NINTLOADP + NINTERS
       ENDDO
 C-----------------------------------------------
       RETURN
