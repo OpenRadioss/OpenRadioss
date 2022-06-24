@@ -83,10 +83,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         INTEGER, INTENT(in) :: RENUM_SIZ    ! size of RENUM
-        INTEGER, INTENT(inout) :: NIN ,ITASK, RETRI, NRTM_T,ESHIFT
+        INTEGER, INTENT(in) :: NIN ,ITASK,NRTM_T,ESHIFT
+        INTEGER, INTENT(inout) :: RETRI
         INTEGER, DIMENSION(NUMNOD), INTENT(inout) :: ITAB
         INTEGER, DIMENSION(NPARI,NINTER),INTENT(inout) :: IPARI
-        INTEGER, DIMENSION(NINTER+1,NSPMD),INTENT(inout) :: ISENDTO,IRCVFROM
+        INTEGER, DIMENSION(NINTER+1,NSPMD+1),INTENT(inout) :: ISENDTO,IRCVFROM
         INTEGER, DIMENSION(RENUM_SIZ), INTENT(inout) :: RENUM
         INTEGER, DIMENSION(NSPMD), INTENT(inout) :: NSNFIOLD
         my_real, DIMENSION(3*NUMNOD), INTENT(in) :: X   ! position

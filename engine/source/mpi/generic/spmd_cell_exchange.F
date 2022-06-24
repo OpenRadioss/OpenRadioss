@@ -74,7 +74,7 @@ C-----------------------------------------------
         INTEGER NIN, IFQ, INACTI, IGAP,INTTH,NSNR,
      .        ITIED,
      .        NSNFIOLD(NSPMD),
-     .        ISENDTO(NINTER+1,NSPMD), IRCVFROM(NINTER+1,NSPMD),
+     .        ISENDTO(NINTER+1,NSPMD+1), IRCVFROM(NINTER+1,NSPMD+1),
      .        ITYP
         INTEGER :: NMN
         TYPE(inter_struct_type), DIMENSION(NINTER), INTENT(inout) :: INTER_STRUCT   !   struture for interface
