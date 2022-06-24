@@ -17,11 +17,14 @@ function my_help()
        cat CMake_Compilers_c/platforms.txt 
   fi
   echo " -prec=[dp|sp]                        : set precision - dp (default) |sp "
+  echo " -static-link                         : Fortran, C & C++ runtime are linked in binary"
   echo " -debug=[0|1]                         : debug version 0 no debug flags (default), 1 usual debug flag )"
   echo " -addflag=\"list of additionnal flags\" : add compiler flags to usual set"
   echo " " 
   echo " Execution control "
   echo " -nt=[threads]      : number of threads for build "
+  echo " -verbose           : Verbose build"
+  echo " -clean             : clean build directory"
   echo " " 
   echo " " 
 }
@@ -46,7 +49,10 @@ qd=""
 ADF=""
 debug=0
 ddebug=""
+static_link=0
 number_of_arguments=$#
+clean=0
+verbose=""
 st_vers="starter"
 
 
@@ -78,9 +84,8 @@ else
 
        if [ "$arg" == "-addflag" ]
        then
-         ad=`echo $var|awk -F '=' '{print $2}'`
-         DAD="-DADF=${ad}"
-         echo $DAD
+         ad=`echo $var|awk -F '-addflag=' '{ print $2}'`
+         export ADFL=${ad}
        fi
 
        if [ "$arg" == "-debug" ]
@@ -97,12 +102,27 @@ else
          threads=`echo $var|awk -F '=' '{print $2}'`
        fi
 
+       if [ "$arg" == "-static-link" ]
+       then
+         static_link=1
+       fi
+
        if [ "$arg" == "-c" ]
        then
          dc="-DCOM=1"
          cf="_c"
          vers=`cat CMake_Compilers_c/cmake_st_version.txt | awk -F '\"' '{print $2}' `
          st_vers="s_${vers}"
+       fi
+
+       if [ "$arg" == "-verbose" ]
+       then
+         verbose="VERBOSE=1"
+       fi
+
+       if [ "$arg" == "-clean" ]
+       then
+         clean=1
        fi
 
    done
@@ -125,9 +145,10 @@ else
    echo " arch =                 : " $arch
    echo " precision =            : " $prec
    echo " debug =                : " $debug
+   echo " static_link =          : " $static_link
    if [[ -v ad ]]  
    then
-      echo " Addflag               : \""$ad "\" "
+      echo " Addflag                : \""$ad "\" "
    fi
    echo " "
    echo " #threads for Makefile : " $threads
@@ -138,6 +159,20 @@ fi
 
 
 build_directory=cbuild_${arch}${suffix}${cf}${ddebug}
+
+if [ $clean = 1 ]
+then
+   if [ -d ${build_directory} ]
+   then
+     echo "Clean ${build_directory} directory"
+     rm -rf ./${build_directory}
+   else
+     echo "Clean ${build_directory} directory requested but not found"
+   fi
+   echo " " 
+   exit 0
+fi
+
 
 # create build directory
 if [ ! -d ../exec ] 
@@ -175,13 +210,14 @@ cd ${build_directory}
 # Apply cmake
 if [ ${arch} = "win64" ]
 then
-  cmake.exe -G "Unix Makefiles" -Darch=${arch} -Dprecision=${prec} ${DAD} -Ddebug=${debug} ${dc} -DCMAKE_BUILD_TYPE=Release  .. 
+  cmake.exe -G "Unix Makefiles" -Darch=${arch} -Dprecision=${prec} ${DAD} -Ddebug=${debug} ${dc}  -Dstatic_link=$static_link -DCMAKE_BUILD_TYPE=Release  .. 
 else
-  cmake -Darch=${arch} -Dprecision=${prec} ${DAD} -Ddebug=${debug} ${dc}   .. 
+  echo "cmake -Darch=${arch} -Dprecision=${prec} -Ddebug=${debug}  -Dstatic_link=$static_link ${dc}   .. "
+  cmake -Darch=${arch} -Dprecision=${prec} ${DAD} -Ddebug=${debug}  -Dstatic_link=$static_link ${dc}   .. 
 fi
 
 
-make -j ${threads} 
+make -j ${threads}  ${verbose}
 
 
 echo " "

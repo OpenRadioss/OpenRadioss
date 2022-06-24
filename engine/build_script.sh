@@ -16,6 +16,8 @@ function my_help()
   then
        cat CMake_Compilers_c/platforms.txt 
   fi
+  echo " "
+  echo " MPI libraries"
   echo " -mpi=[mpi]"
   echo "         not set   : SMP (default)"
   echo "         -mpi=ompi : OpenMPI"
@@ -23,12 +25,25 @@ function my_help()
   then
        cat CMake_Compilers_c/mpi.txt 
   fi
+  echo " " 
+  echo "         Controling MPI Libraries - if need choose one of the 3 Option Set"
+  echo "                                    If no options set, recommended OpenMPI directories are uses (default)"
+  echo "           1. -mpi-os                             : link with default MPI version installed on system"
+  echo "                                                    libraries are in default installation "
+  echo "           2. -mpi-root=[directory]               : set rootname to link with specific MPI installation"
+  echo "           3. -mpi-include=[directory]            : set include directory where to find mpif.h and mpi.h"
+  echo "              -mpi-libdir=[directory]             : set library directory where to find mpi libraries"  
+  echo " " 
+  echo " Other control"
   echo " -prec=[dp|sp]                        : set precision - dp (default) |sp "
+  echo " -static-link                         : Fortran, C & C++ runtime are linked in binary"
   echo " -debug=[0|1]                         : debug version 0 no debug flags (default), 1 usual debug flag )"
   echo " -addflag=\"list of additionnal flags\" : add compiler flags to usual set"
   echo " " 
-  echo " Execution control "
+  echo " Build control "
   echo " -nt=[threads]      : number of threads for build "
+  echo " -verbose           : Verbose build"
+  echo " -clean             : clean build directory"
   echo " " 
   echo " " 
 }
@@ -54,9 +69,15 @@ ADF=""
 MPI="-DMPI=smp"
 pmpi="SMP Only"
 debug=0
+clean=0
+mpi_os=0
+mpi_root=""
+mpi_libdir=""
+mpi_incdir=""
 ddebug=""
 number_of_arguments=$#
 eng_vers="engine"
+verbose=""
 
 if [ $number_of_arguments = 0 ]
 then
@@ -82,6 +103,30 @@ else
          MPI=-DMPI=${pmpi}
        fi
 
+       if [ "$arg" == "-mpi-os" ]
+       then
+         mpi_os=1
+       fi
+
+       if [ "$arg" == "-mpi-root" ]
+       then
+        mpir=`echo $var|awk -F '=' '{print $2}'`
+        mpi_root="-Dmpi_root=${mpir}"
+       fi
+
+       if [ "$arg" == "-mpi-include" ]
+       then
+        mpii=`echo $var|awk -F '=' '{print $2}'`
+        mpi_incdir="-Dmpi_incdir=${mpii}"
+       fi
+
+       if [ "$arg" == "-mpi-libdir" ]
+       then
+        mpil=`echo $var|awk -F '=' '{print $2}'`
+        mpi_libdir="-Dmpi_libdir=${mpil}"
+       fi
+
+
        if [ "$arg" == "-prec" ]
        then
          prec=`echo $var|awk -F '=' '{print $2}'`
@@ -93,10 +138,10 @@ else
 
        if [ "$arg" == "-addflag" ]
        then
-         ad=`echo $var|awk -F '=' '{print $2}'`
-         DAD="-DADF=\" ${ad} \" "
-         echo $DAD
+         ad=`echo $var|awk -F '-addflag=' '{ print $2}'`
+         export ADFL=${ad}
        fi
+
 
        if [ "$arg" == "-debug" ]
        then
@@ -110,6 +155,21 @@ else
        if [ "$arg" == "-nt" ]
        then
          threads=`echo $var|awk -F '=' '{print $2}'`
+       fi
+
+       if [ "$arg" == "-static-link" ]
+       then
+         static_link=1
+       fi
+
+       if [ "$arg" == "-verbose" ]
+       then
+         verbose="VERBOSE=1"
+       fi
+
+       if [ "$arg" == "-clean" ]
+       then
+         clean=1
        fi
 
        if [ "$arg" == "-c" ]
@@ -128,7 +188,7 @@ else
      echo " --- Error "
      echo " No architecture flag set ! "
      echo " -arch=[architecture]" 
-     echo "       Available archh:"
+     echo "       Available arch:"
      my_help
      exit 1
    fi
@@ -140,8 +200,10 @@ else
    echo " Build Arguments :"
    echo " arch =                 : " $arch
    echo " mpi =                  : " $pmpi
+   echo " mpi_os =               : " $mpi_os
    echo " precision =            : " $prec
    echo " debug =                : " $debug
+   echo " static_link =          : " $static_link
    if [[ -v ad ]]  
    then
       echo " Addflag               : \""$ad "\" "
@@ -152,9 +214,20 @@ else
 fi
 
 
-
-
 build_directory=cbuild_${arch}${dmpi}${suffix}${cf}${ddebug}
+
+if [ $clean = 1 ]
+then
+   if [ -d ${build_directory} ]
+   then
+     echo "Clean ${build_directory} directory"
+     rm -rf ./${build_directory}
+   else
+     echo "Clean ${build_directory} directory requested but not found"
+   fi
+   echo " " 
+   exit 0
+fi
 
 # create build directory
 if [ ! -d ../exec ] 
@@ -188,8 +261,8 @@ echo " "
 cd ${build_directory}
 
 # Apply cmake
-cmake -Darch=${arch} -Dprecision=${prec} ${MPI} ${AD} -Ddebug=${debug} ${dc} .. 
-make -j ${threads} 
+cmake -Darch=${arch} -Dprecision=${prec} ${MPI} -Ddebug=${debug} -Dstatic_link=$static_link -Dmpi_os=${mpi_os} ${mpi_root} ${mpi_libdir} ${mpi_incdir} ${dc} .. 
+make -j ${threads} ${verbose}
 
 echo " "
 if [ -f ${engine_exec} ]

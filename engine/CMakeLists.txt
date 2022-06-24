@@ -134,6 +134,13 @@ list(REMOVE_ITEM include_dir_list ${precision_include_remove})
 # using "arch" Variable 
 # ----------------------------------------------------------
 
+#
+# additional build flags from command line
+# -----------------------------------------
+if (DEFINED  ENV{ADFL})
+  set ( ADF "$ENV{ADFL}"  )
+endif()
+
 if (NOT DEFINED arch)
    set (arch "linux64_gf")
 endif ()
@@ -174,8 +181,15 @@ message (STATUS "C Compiler: ${CMAKE_C_COMPILER}")
 message (STATUS "CPP Compiler: ${CMAKE_CPP_COMPILER}")
 message (STATUS "Exec name: ${EXEC_NAME} ")
 message (STATUS "MPI: ${mpiver} ")
+if ( mpi_os STREQUAL "1")
+   message (STATUS "MPI in default OS installation : ${mpi_os} ")
+endif()
+message (STATUS "MPI libraries : ${mpi_lib} ")
+message (STATUS "MPI include directory : ${mpi_inc} ")
+
 message (STATUS "Flags release: ${CMAKE_Fortran_FLAGS_RELEASE} ")
 message (STATUS "Precision: ${precision} ")
+message (STATUS "Runtime Static link : ${static_link} ")
 message (STATUS "debug: ${debug} ")
 if ( DEFINED ADF )
    message (STATUS "Addflag : ${ADF} ")

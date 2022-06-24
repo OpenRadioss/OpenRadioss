@@ -20,9 +20,34 @@ if ( DEFINED MPI )
   if ( mpiver STREQUAL "smp")
      set (mpi_suf "" )
   elseif ( mpiver STREQUAL "ompi")
-     set (mpi_suf "_${mpiver}" )
-    set (mpi_flag "-DMPI -I/opt/openmpi-4.1.1/include/ ")
-    set (mpi_lib "-L/opt/openmpi-4.1.1/lib -lmpi -lmpi_mpifh" )
+
+      set (mpi_inc "-I/opt/openmpi/include/")
+      set (mpi_lib "-L/opt/openmpi/lib -lmpi -lmpi_mpifh" )
+
+    if (mpi_os STREQUAL "1")
+      
+      set (mpi_inc " ")
+      set (mpi_lib "-lmpi -lmpi_mpifh" )
+    else()
+      if ( DEFINED mpi_root )
+        set (mpi_inc "-I${mpi_root}/include/")
+        set (mpi_lib "-L${mpi_root}/lib -lmpi -lmpi_mpifh" )        
+      else()
+        set (mpi_inc "-I/opt/openmpi/include/")
+        set (mpi_lib "-L/opt/openmpi/lib -lmpi -lmpi_mpifh" )
+
+        if ( DEFINED mpi_includes )
+            set (mpi_inc "-I${mpi_includes}")
+        endif()
+        if ( DEFINED mpi_libdir )
+            set (mpi_lib "-I${mpi_libdir} -lmpi -lmpi_mpifh")
+        endif()
+
+      endif()
+    endif()
+
+    set (mpi_suf "_${mpiver}" )
+    set (mpi_flag "-DMPI ${mpi_inc}")
   else()
     message( FATAL_ERROR "\n ERROR : -mpi=${mpiver} not available for this platform\n\n" )
   endif()
@@ -99,8 +124,11 @@ endif()
 set (CMAKE_EXE_LINKER_FLAGS " ${mpi_lib} -fopenmp  -ldl -lrt -lstdc++ " )
 
 #Libraries
-set (LINK "rt  -ldl -static-libgfortran -static-libstdc++ -static-libgcc -Wunused-function"  )
-
+if ( static_link STREQUAL "1" )
+  set (LINK "rt  -ldl -static-libgfortran -static-libstdc++ -static-libgcc -Wunused-function"  )
+else()
+  set (LINK "rt  -ldl -Wunused-function"  )
+endif()
 
 # -------------------------------------------------------------------------------------------------------------------------------------------
 # Specific set of compilation flag

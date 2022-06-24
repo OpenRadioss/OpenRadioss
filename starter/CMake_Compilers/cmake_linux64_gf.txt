@@ -83,8 +83,11 @@ endif()
 set (CMAKE_EXE_LINKER_FLAGS " -rdynamic -no-pie -O2 -fopenmp " )
 
 #Libraries
+if ( static_link STREQUAL "1" )
 set (LINK "dl  ${flexpipe_lib} ${metis_lib} ${reader_lib}  ${lapack_lib} -ldl -static-libgfortran -static-libstdc++ -static-libgcc -Wunused-function"  )
-
+else()
+set (LINK "dl  ${flexpipe_lib} ${metis_lib} ${reader_lib}  ${lapack_lib} -ldl -Wunused-function"  )
+endif()
 
 # -------------------------------------------------------------------------------------------------------------------------------------------
 # Specific set of compilation flag
