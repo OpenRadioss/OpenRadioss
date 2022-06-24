@@ -1089,8 +1089,9 @@ C TEMPI I24
       my_real
      .        DELTA_PMAX_GAP(NINTER)
       INTEGER DELTA_PMAX_GAP_NODE(NINTER)
+      INTEGER S_LOADPINTER, NPRESLOAD
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: TAGNCONT
-      INTEGER, DIMENSION(:), ALLOCATABLE :: LOADP_HYD_INTER
+      INTEGER, DIMENSION(:), ALLOCATABLE :: LOADP_HYD_INTER, LOADP_TAGDEL
 C-----------------------------------------------------------------------------------
 C Debug CAND INTERFACE TYPE25
       INTEGER NB25_CANDT(PARASIZ),NB25_IMPCT(PARASIZ),
@@ -1145,7 +1146,7 @@ C---Nitsche Method----
       REAL(kind=8) :: SECS
       REAL(kind=8) :: TT_DOUBLE
       my_real
-     .         DTNOD_NLOCAL, S_LOADPINTER
+     .         DTNOD_NLOCAL
       INTEGER, DIMENSION(:),ALLOCATABLE ::IBUFPDEL, NINDEXPDEL
 C----------------------------------------------------------------------------------
 C IMPVEL/FGEO
@@ -1324,7 +1325,7 @@ C
         ALLOCATE(ISENDP_CRK(MIN(LISENDP_CRK,1):LISENDP_CRK))
         ALLOCATE(IRECVP_CRK(MIN(LIRECVP_CRK,1):LIRECVP_CRK))
         ALLOCATE(FR_NBCC1  (2,NSPMD+1))
-
+C
         NLOADP_HYD_INTER = 0  
         IERROR = 0
         IF(NINTLOADP > 0 ) THEN
@@ -1350,9 +1351,20 @@ C
         ELSE
              ALLOCATE(TAGNCONT(0,0))
         ENDIF
-
+C
         S_LOADPINTER = NINTER*NLOADP_HYD
-
+C
+        NPRESLOAD = 0 
+        IF(NLOADP_HYD > 0 ) THEN
+           DO  K=1,NLOADP_HYD
+              NPRESLOAD = NPRESLOAD + ILOADP(SIZLOADP*(K-1)+1)/4 
+           ENDDO
+           ALLOCATE(LOADP_TAGDEL(NPRESLOAD),STAT=IERROR2)  
+           LOADP_TAGDEL(1:NPRESLOAD) =0
+        ELSE
+           ALLOCATE(LOADP_TAGDEL(0))       
+        ENDIF
+C
           IF((IDEL7NG.GT.0).OR.(IRAD2R.NE.0).OR.(IALEMUSCL.GT.0).OR.(PDEL.GT.0))THEN
 C Allocation of inverse connectivity array
             IERROR = 0
@@ -2145,8 +2157,8 @@ C       ALLOCATION Flying Nodes if IDEL
       END IF
 
       IF(NSPMD > 1.AND.PDEL > 0)  THEN
-        ALLOCATE(IBUFPDEL(4*NCONLD),STAT=IERR) 
-        ALLOCATE(NINDEXPDEL(NCONLD),STAT=IERR)
+        ALLOCATE(IBUFPDEL(4*NCONLD+4*NPRESLOAD),STAT=IERR) 
+        ALLOCATE(NINDEXPDEL(NCONLD+NPRESLOAD),STAT=IERR)
       ENDIF
 
 
@@ -4580,7 +4592,8 @@ C
             CALL LOAD_PRESSURE (ILOADP    ,LOADP     ,LLOADP  ,NPC    ,TF       ,
      2                          A         ,V         ,X       ,SKEW   ,SENSOR   ,
      3                          LSENSOR   ,IADS(I87M),FSKY    ,FANI(1,1+NFEA),TAGNCONT ,
-     4                          KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,H3D_DATA     )
+     4                          KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,H3D_DATA ,
+     5                          NPRESLOAD ,LOADP_TAGDEL )
           IF (IMONM > 0) CALL STOPTIME(41,1)
            IF (IMON.GT.0) CALL STOPTIME(4,1)
           CALL TRACE_OUT(10)
@@ -5116,7 +5129,7 @@ C IDEL7NOK = 1 : need all interface such as IPARI(17)= 1 | 2
       ELSEIF(IDEL7NG.GE.1.OR.PDEL.GT.0) THEN
 C        IF (NCYCLE.EQ.97) IDEL7NOK = 1
 C        IF (NCYCLE.EQ.98) IDEL7NOK = 1
-        IF (NSPMD.GT.1.AND.IDEL7NG.GE.1) THEN
+        IF (NSPMD.GT.1.AND.(IDEL7NG.GE.1.OR.PDEL.GT.0)) THEN
 C recuperation IDEL7NOK global
           IF (IMONM > 0 ) CALL STARTIME(76,1)
           CALL SPMD_ALLGLOB_ISUM9(IDEL7NOK,1)
@@ -5124,13 +5137,13 @@ C recuperation IDEL7NOK global
           IDEL7NOK = MIN(1,IDEL7NOK)
         ENDIF
         IDEL7NOK_SAV = IDEL7NOK
-        IF (R2R_SIU.EQ.1.AND.IDEL7NG.GE.1) THEN
+        IF (R2R_SIU.EQ.1.AND.(IDEL7NG.GE.1.OR.PDEL.GT.0)) THEN
            CALL GET_SHMBUF_C(IDEL7NOK_R2R,2)
            IDEL7NOK = IDEL7NOK+IDEL7NOK_R2R
            IDEL7NOK = MIN(1,IDEL7NOK)
         ENDIF
 C Attention WA utilise sur 2*NUMNOD (NUMNOD + NUMNOD SPECIFIQUE SPMD)
-        IF ((IDEL7NG.GE.1.AND.IDEL7NOK.EQ.1).OR.PDEL.GT.0) THEN
+        IF ((IDEL7NG.GE.1.AND.IDEL7NOK.EQ.1).OR.(PDEL.GT.0.AND.IDEL7NOK.EQ.1)) THEN
           L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
           L2 = L1+6*NUMELS10
           L3 = L2+12*NUMELS20
@@ -5156,7 +5169,7 @@ C Init var parallel SMP
 C WA global : utilise de NUMNOD+1 a 3*NUMNOD
 C WA local  : utilise de 1 a NUMNOD
 
-        IF ((IDEL7NG.GE.1.AND.IDEL7NOK.EQ.1).OR.PDEL.GT.0) THEN
+        IF ((IDEL7NG.GE.1.AND.IDEL7NOK.EQ.1).OR.(PDEL.GT.0.AND.IDEL7NOK.EQ.1)) THEN
           CALL TAGOFF3N(
      1       GEO        ,IXS       ,IXS(L1)   ,IXS(L1)   ,IXS(L3)  ,IXQ    ,
      2       IXC         ,IXT      ,IXP       ,IXR       ,IXTG     ,IXUR   ,
@@ -5178,12 +5191,13 @@ C WA local  : utilise de 1 a NUMNOD
 
         ENDIF
    
-        IF (PDEL.GT.0) THEN
+        IF (PDEL.GT.0.AND.IDEL7NOK.EQ.1) THEN
           CALL CHKLOAD(
      1       IBCL    ,IXS     ,IXQ         ,IXC    ,IXT        ,IXP     ,
      2       IXR     ,IXTG    ,WA(NUMNOD+1),ITSK   ,WA(NWAFTSK),ITAB    ,
      3       ITABM1  ,ADDCNEL ,CNEL        ,TAGEL  ,IPARG      ,GEO     ,
-     4       IBUFPDEL,NINDEXPDEL,NINDEXP)
+     4       IBUFPDEL,NINDEXPDEL,NINDEXP   ,NPRESLOAD,LOADP_TAGDEL      ,
+     5       ILOADP  ,LLOADP  )
 
         ENDIF
 

@@ -2056,7 +2056,6 @@ C--------------------------------------------
          LEN_IA = LEN_IA + NINTER + 1
          CALL WRITE_I_C(LOADPINTER,S_LOADPINTER )
          LEN_IA = LEN_IA + S_LOADPINTER 
-         write(*,*) 'Sizes', NINTER+1,S_LOADPINTER
       ENDIF
 C--------------------------------------
 C IBFV

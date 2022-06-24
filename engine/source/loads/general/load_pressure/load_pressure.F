@@ -31,7 +31,8 @@ Chd|====================================================================
       SUBROUTINE LOAD_PRESSURE (ILOADP    ,LOADP     ,LLOADP ,NPC     ,TF      ,
      2                          A         ,V         ,X      ,SKEW    ,SENSOR  ,
      3                          LSENSOR   ,IADC     ,FSKY    ,FEXT    ,TAGNCONT,
-     4                          KLOADPINTER,LOADPINTER ,LOADP_HYD_INTER, H3D_DATA)
+     4                          KLOADPINTER,LOADPINTER ,LOADP_HYD_INTER, H3D_DATA,
+     5                          NPRESLOAD ,LOADP_TAGDEL)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -70,6 +71,7 @@ C-----------------------------------------------
 C-----------------------------------------------,
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NPRESLOAD
       INTEGER NPC(*),LLOADP(SLLOADP)
       INTEGER ILOADP(SIZLOADP,*),LSENSOR(NSENSI,*),
      .        TAGNCONT(NLOADP_HYD_INTER,NUMNOD),
@@ -81,12 +83,14 @@ C-----------------------------------------------
      .   X(3,*), SKEW(LSKEW,*), SENSOR(NSENSR,*),
      .   FSKY(8,LSKY), FEXT(3,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
+      INTEGER, INTENT(IN) :: LOADP_TAGDEL(NPRESLOAD)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NL, N1, ISK, N2, N3, N4, N5, NG1, NG2, NG3, NG4, ISENS,K,LL,IERR,
      .        IAD ,NP ,IFUNC ,NPRES ,NINTERP ,IDIR ,INORM ,NPL ,IANIM,IFLOAD,
-     .        SEGCONT ,N ,IADN , IJK ,UP_BOUND,TAGN1,TAGN2,TAGN3,TAGN4
+     .        SEGCONT ,N ,IADN , IJK ,UP_BOUND,TAGN1,TAGN2,TAGN3,TAGN4,NUMPRESLOAD,
+     .        IDEL
       my_real
      .   NX, NY, NZ, AXI, AA, A0, VV, FX, FY, FZ, AX, DYDX, TS,
      .   SIXTH,TFEXTT,X_OLD, F1, F2,FCX,FCY,NORM 
@@ -98,6 +102,7 @@ C=======================================================================
       IANIM  = ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT+
      .         ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT
 C
+      NUMPRESLOAD = 0
       IF(IPARIT.EQ.0) THEN
 C code SPMD Parith/OFF or SMP 
        DO  NP=1,NLOADP_HYD
@@ -131,6 +136,11 @@ C
               N2 = LLOADP(IAD+4*(N-1)+1)
               N3 = LLOADP(IAD+4*(N-1)+2)
               N4 = LLOADP(IAD+4*(N-1)+3)
+              NUMPRESLOAD = NUMPRESLOAD + 1
+
+              IDEL = LOADP_TAGDEL(NUMPRESLOAD)
+
+              IF(IDEL > 0 ) CYCLE  ! SEGMENT DELETED
 
 C----------------
 C       Check if segment is in contact 
@@ -468,6 +478,12 @@ C
               N2 = LLOADP(IAD+4*(N-1)+1)
               N3 = LLOADP(IAD+4*(N-1)+2)
               N4 = LLOADP(IAD+4*(N-1)+3)
+
+              NUMPRESLOAD = NUMPRESLOAD + 1
+
+              IDEL = LOADP_TAGDEL(NUMPRESLOAD)
+
+              IF(IDEL > 0 ) CYCLE  ! SEGMENT DELETED
 
 C----------------
 C       Check if segment is in contact 

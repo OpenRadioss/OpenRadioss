@@ -98,7 +98,7 @@ C-----------------------------------------------
      .        SUB_INDEX, SUB_ID, UID, ID, IFLAGUNIT,NIP,
      .        NN,IAD,TSENS,ISENS,IS,ISU,NOSKEW,IDIR,IFUNC,NINTERP,INORM,
      .        H, CAPT,TINTER,IDINT,NIK,NBINTER,NB,NOINT,NL,STAT,IFUNCL,
-     .        IDSENS,IDSKEW,ILOAD
+     .        IDSENS,IDSKEW,ILOAD,NINTERS
       INTEGER, DIMENSION(:), ALLOCATABLE :: ID_INTER,INTER_TYP
       my_real
      .        FCX,FCY,FAC_FCX,FAC_FCY,GAP_I
@@ -220,6 +220,8 @@ C-----------
 C-----------        
         IAD      = NUMLOADP + 1
 
+        PDEL = 1   ! Idel option is default optioon
+
         DIR = ''
         NINTERP = 0
         IDSENS = 0
@@ -335,6 +337,7 @@ C EXTRACT DATAS (INTEGER VALUES) : Interfaces reading
 C--------------------------------------------------
         CALL HM_GET_INTV('N_inter_P',NINTERP,IS_AVAILABLE,LSUBMODEL)
          
+        NINTERS = 0
         IF(NINTERP > 0) THEN
          DO NIP=1,NINTERP
 
@@ -343,7 +346,8 @@ C EXTRACT DATAS (INTEGER VALUES)
            CALL HM_GET_INT_ARRAY_INDEX('Inter_IDs',IDINT,NIP,IS_AVAILABLE,LSUBMODEL)
            CALL HM_GET_FLOAT_ARRAY_INDEX('Gap_shift_i',GAP_I,NIP,IS_AVAILABLE,LSUBMODEL,UNITAB)
            TINTER = 0
-           DO NI=1,NBINTER
+           IF(IDINT > 0 ) THEN
+             DO NI=1,NBINTER
                IF(ID_INTER(NI) == IDINT)THEN
 	          INTERLOADP(NINTLOADP+NIP)= NI  
                   IF(INTER_TYP(NI) == 21) NINTLOADP21 = NINTLOADP21 + 1
@@ -351,15 +355,17 @@ C EXTRACT DATAS (INTEGER VALUES)
                   DGAPINT(NI)=MAX(DGAPINT(NI),GAP_I)
 	          INTGAPLOADP(NINTLOADP+NIP)= GAP_I  
                END IF
-            END DO
-	    IF((TINTER.EQ.0).AND.(IDINT.NE.0))THEN
+              END DO
+	      IF(TINTER.EQ.0)THEN
                 CALL ANCMSG(MSGID=2021,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO,
      .                      I1=ID,
      .                      C1=TITR,
      .                      I2=IDINT)
-            ENDIF    
+               ENDIF  
+               NINTERS = NINTERS + 1
+             ENDIF  
            ENDDO
          ENDIF
 C--------------
@@ -368,7 +374,7 @@ C--------------
          IF(IS.NE.0)THEN    
            ILOADP  ( 3,K) = IFUNCL        
            ILOADP  ( 4,K) = IAD
-           ILOADP  ( 5,K) = NINTERP 
+           ILOADP  ( 5,K) = NINTERS 
 	   ILOADP  ( 6,K) = IDIR   
            ILOADP  ( 7,K) = ISENS  
            ILOADP  ( 8,K) = NOSKEW    
@@ -384,21 +390,21 @@ C--------------
          WRITE (IOUT,2002)
          WRITE (IOUT,'(I10,2X,I10,2X,I10,2X,I10,9X,A1,2X,I10,2X,
      .                1PG20.13,2X,1PG20.13)')ISU,IFUNC,IDSENS,INORM,DIR(1:1),IDSKEW,FCX,FCY
-         IF(NINTERP > 0) THEN
+         IF(NINTERS > 0) THEN
          WRITE (IOUT,2003)
          J = 0
-         DO I=1,(NINTERP/10)
+         DO I=1,(NINTERS/10)
             WRITE (IOUT,'(10(10X,I10))')ID_INTER(INTERLOADP(NINTLOADP+1:NINTLOADP+10)) 
             WRITE (IOUT,'(1P10G20.13)')DGAPLOADINT(NINTLOADP+1:NINTLOADP+10) 
             J = J +10
          ENDDO
-         IF(MODULO(NINTERP,10) > 0) THEN
+         IF(MODULO(NINTERS,10) > 0) THEN
             WRITE (IOUT,'(10(10X,I10))')ID_INTER(INTERLOADP(NINTLOADP+J+1:NINTLOADP+NINTERP)) 
-            WRITE (IOUT,'(1P10G20.13)')DGAPLOADINT(NINTLOADP+J+1:NINTLOADP+NINTERP)
+            WRITE (IOUT,'(1P10G20.13)')DGAPLOADINT(NINTLOADP+J+1:NINTLOADP+NINTERS)
          ENDIF
          ENDIF
          NUMLOADP = NUMLOADP + 4*NN
-         NINTLOADP = NINTLOADP + NINTERP
+         NINTLOADP = NINTLOADP + NINTERS
 
       ENDDO ! next K (next /LOAD/PRESSURE)
       
