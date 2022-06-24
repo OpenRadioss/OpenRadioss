@@ -3081,7 +3081,7 @@ ctmp+1 mic only
 #include "mic_lockon.inc"
         DO I = 1,JLT
           NN = NSVG(I)
-          IF(NN.LT.0 .AND. (H1(I)+H2(I)+H3(I)+H4(I).NE.0.OR.TAGIP(I)==0))THEN
+          IF(NN.LT.0 .AND. (H1(I)+H2(I)+H3(I)+H4(I).NE.0.OR.TAGIP(I)==1))THEN
 C tag temporaire de NSVFI a -
             NSVFI(NIN)%P(-NN) = -ABS(NSVFI(NIN)%P(-NN))
           ENDIF

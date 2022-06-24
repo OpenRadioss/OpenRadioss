@@ -282,7 +282,7 @@ C cand_n et cand_e remplace par cand_n_n et cand_e_n
      I        IBID  ,IBID  ,CMAJ   ,DRAD2  ,
      J        IBID   ,IBID     ,
      K        IBID  ,IBID  ,IBID   ,INTBUF_TAB(NIN)%CAND_F,
-     L        IBID  ,IBID  ,BID    )
+     L        IBID  ,IBID  ,BID    ,BID    )
 
 
           JLT = JLT_NEW
