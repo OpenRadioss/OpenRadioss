@@ -986,12 +986,12 @@ C------------------------------------------
           ELSEIF (ILAW == 19) THEN
 
             CALL SIGEPS19C(
-     .            NEL      ,NUPARAM     ,FLAG_ZCFAC,ZCFAC    ,SHF    ,
-     .            UPARAM ,NPTTOT     ,
-     .            EPSXX   ,EPSYY  ,EPSXY   ,EPSYZ     ,EPSZX     ,
-     .        LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
-     .            SIGNXX ,SIGNYY     ,SIGNXY ,SIGNYZ   ,SIGNZX    ,
-     .            GBUF%SIGI,LSENSOR  ,SENSOR )
+     .            NEL       ,NUPARAM   ,FLAG_ZCFAC,ZCFAC     ,SHF       ,
+     .            UPARAM    ,NPTTOT    ,SSP       ,
+     .            EPSXX     ,EPSYY     ,EPSXY     ,EPSYZ     ,EPSZX     ,
+     .         LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
+     .            SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,
+     .            GBUF%SIGI ,LSENSOR   ,SENSOR    )
 
           ELSEIF (ILAW == 22) THEN
             CALL SIGEPS22C(

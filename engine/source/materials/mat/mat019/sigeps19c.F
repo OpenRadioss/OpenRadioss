@@ -27,7 +27,7 @@ Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|====================================================================
       SUBROUTINE SIGEPS19C(
      .            NEL    ,NUPARAM,FLAG_ZCFAC,ZCFAC  ,SHF    ,
-     .            UPARAM ,NPTTOT ,
+     .            UPARAM ,NPTTOT ,SSP    ,
      .            EPSXX  ,EPSYY  ,EPSXY  ,EPSYZ  ,EPSZX     ,
      .            SIGOXX ,SIGOYY ,SIGOXY ,SIGOYZ ,SIGOZX    ,
      .            SIGNXX ,SIGNYY ,SIGNXY ,SIGNYZ ,SIGNZX    ,
@@ -57,7 +57,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(NUPARAM) ,INTENT(IN)  :: UPARAM
       my_real ,DIMENSION(NEL) ,INTENT(IN) ::  SHF,
      .   EPSXX,EPSYY,EPSXY,EPSYZ,EPSZX,SIGOXX,SIGOYY,SIGOXY,SIGOYZ,SIGOZX
-      my_real ,DIMENSION(NEL) ,INTENT(OUT) ::
+      my_real ,DIMENSION(NEL) ,INTENT(OUT) :: SSP,
      .   SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX
       my_real ,DIMENSION(NEL,3) ,INTENT(INOUT) :: SIGI
       INTEGER ,DIMENSION(NSENSR,NSENSOR) ,INTENT(IN) :: SENSOR
@@ -77,13 +77,12 @@ C=======================================================================
       G23   = UPARAM(6)
       G31   = UPARAM(7)
       RCOMP = UPARAM(8)
+      A11   = UPARAM(10)
+      A22   = UPARAM(11)
+      A12   = UPARAM(12)
       ISENS = NINT(UPARAM(13))
       ZEROSTRESS = UPARAM(14)
-c
-      A12   =(ONE-NU12*NU21)
-      A11   = E11/A12
-      A22   = E22/A12
-      A12   = NU21*A11
+      SSP(1:NEL) = UPARAM(9)
 c-------------------------
       DO I=1,NEL
         SIGNXX(I) = A11*EPSXX(I) + A12*EPSYY(I)

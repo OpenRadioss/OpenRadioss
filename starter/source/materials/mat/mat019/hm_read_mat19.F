@@ -121,6 +121,11 @@ c
       ISRATE = -1
       N21    = N12*E22/E11
       DETC   = ONE - N12*N21
+      A11 = E11 / DETC
+      A22 = E22 / DETC
+      A12 = A11 * N21
+      C1  = MAX(E11,E22) / DETC
+      SSP = SQRT(C1/RHO0)
 C-----------------------------------------------------
       IF(E11 == ZERO.OR. E22 == ZERO .OR. G12 == ZERO .OR. G23 == ZERO .OR. G31 == ZERO) THEN
          CALL ANCMSG(MSGID=306, MSGTYPE=MSGERROR, ANMODE=ANINFO,
@@ -155,8 +160,6 @@ C-----------------------------------------
       PM(89)= RHO0
       AMU = PM(17)
       IF (AMU == ZERO) AMU = FOURTH
-      C1  = MAX(E11,E22)/DETC
-      SSP = SQRT(C1/PM(1))
 
       PM(17) = AMU
       PM(20) = MAX(E11,E22)/DETC
