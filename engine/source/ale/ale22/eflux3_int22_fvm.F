@@ -336,7 +336,7 @@ C-----------------------------------------------
                   LAMBDA                    = PS / MAX(EM20,ZZadj_)                                   
                   IF(lambda.LT.ZERO .OR. lambda .GT.ONE)then                          
                     print *, "labmda=", lambda                                       
-                    pause                                                            
+c                   pause                                                            
                   endif                                                              
                   LAMBDA                    = MIN(MAX(ZERO,LAMBDA) , ONE)                             
                   LAMBDA                    = SIN(HALF*3.14159265358979D00*LAMBDA)                 

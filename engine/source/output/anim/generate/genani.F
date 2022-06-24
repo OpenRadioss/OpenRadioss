@@ -5567,7 +5567,7 @@ C----------------
             CTEXT(J)=ICHAR(STR(J:J))
           ENDDO
           IB = 10
-          TITL(1:LTITL) = SUBSET(I)%TITLE
+          TITL(1:LTITL) = SUBSET(I)%TITLE(1:LTITL)
           DO J=1,LTITL
             IF(TITL(J:J).NE.' ') IB = J+10
             CTEXT(J+10)=ICHAR(TITL(J:J))
@@ -5880,7 +5880,7 @@ C--------------
             CTEXT(J)=ICHAR(STR(J:J))
           ENDDO
           IB = 10
-          TITL(1:LTITL) = SUBSET(I)%TITLE
+          TITL(1:LTITL) = SUBSET(I)%TITLE(1:LTITL)
           DO J=1,LTITL
             IF(TITL(J:J).NE.' ') IB = J+10
             CTEXT(J+10)=ICHAR(TITL(J:J))
