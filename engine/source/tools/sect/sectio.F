@@ -3516,7 +3516,7 @@ c ncharline of starter =500
 
           IF(.NOT.FEXIST) THEN
               LEN_TMP_NAME = LROOTLEN + 4      
-              TMP_NAME=FILNAM(1:LROOTLEN+4)
+              TMP_NAME(1:LEN_TMP_NAME)=FILNAM(1:LROOTLEN+4)
               INQUIRE(FILE=TMP_NAME(1:LEN_TRIM(TMP_NAME)),EXIST=FEXIST)
           ENDIF
 
@@ -3545,7 +3545,7 @@ c ncharline of starter =500
 
           IF(.NOT.FEXIST) THEN
               LEN_TMP_NAME = LROOTLEN + 4     
-              TMP_NAME=FILNAM(1:LROOTLEN+4)
+              TMP_NAME(1:LEN_TMP_NAME)=FILNAM(1:LROOTLEN+4)
               INQUIRE(FILE=TMP_NAME(1:LEN_TRIM(TMP_NAME)),EXIST=FEXIST)
           ENDIF
 
@@ -3575,7 +3575,7 @@ c ncharline of starter =500
 
           IF(.NOT.FEXIST) THEN
               LEN_TMP_NAME = LEN_TRIM(FILNAM)    
-              TMP_NAME=FILNAM(1:LEN_TRIM(FILNAM))
+              TMP_NAME(1:LEN_TMP_NAME)=FILNAM(1:LEN_TRIM(FILNAM))
               INQUIRE(FILE=TMP_NAME(1:LEN_TRIM(TMP_NAME)),EXIST=FEXIST)
           ENDIF
 
@@ -3606,7 +3606,7 @@ c ncharline of starter =500
 
           IF(.NOT.FEXIST) THEN
               LEN_TMP_NAME =  LEN_TRIM(FILNAM)   
-              TMP_NAME=FILNAM(1:LEN_TRIM(FILNAM))
+              TMP_NAME(1:LEN_TMP_NAME)=FILNAM(1:LEN_TMP_NAME)
               INQUIRE(FILE=TMP_NAME(1:LEN_TRIM(TMP_NAME)),EXIST=FEXIST)
           ENDIF
 
@@ -4685,7 +4685,7 @@ C test EOF-------------------------------------------------------------------
 
               IF(.NOT.FEXIST) THEN
                 LEN_TMP_NAME =  LEN_TRIM(FILNAM)   
-                TMP_NAME=FILNAM(1:LEN_TRIM(FILNAM))
+                TMP_NAME(1:LEN_TMP_NAME)=FILNAM(1:LEN_TMP_NAME)
                 INQUIRE(FILE=TMP_NAME(1:LEN_TRIM(TMP_NAME)),EXIST=FEXIST)
               ENDIF            
 
@@ -4710,12 +4710,12 @@ C test EOF-------------------------------------------------------------------
             WRITE(LCHRUN,'(I2.2)')IR1
             FILNAM=FILNAM(1:LROOTLEN)//'SC'//LCHRUN
             LEN_TMP_NAME = OUTFILE_NAME_LEN + LEN_TRIM(FILNAM) 
-            TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))
+            TMP_NAME(1:LEN_TMP_NAME)=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))
             INQUIRE(FILE=TMP_NAME(1:LEN_TMP_NAME),EXIST=FEXIST)
 
             IF(.NOT.FEXIST) THEN
                 LEN_TMP_NAME =  LEN_TRIM(FILNAM)   
-                TMP_NAME=FILNAM(1:LEN_TRIM(FILNAM))
+                TMP_NAME(1:LEN_TMP_NAME)=FILNAM(1:LEN_TMP_NAME)
                 INQUIRE(FILE=TMP_NAME(1:LEN_TRIM(TMP_NAME)),EXIST=FEXIST)
             ENDIF 
 
@@ -4982,7 +4982,7 @@ C test EOF-------------------------------------------------------------------
 
               IF(.NOT.FEXIST) THEN
                 LEN_TMP_NAME =  OUTFILE_NAME_LEN +LEN_TRIM(FILNAM)   
-                TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LROOTLEN+4)
+                TMP_NAME(1:LEN_TMP_NAME)=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LROOTLEN+4)
                 INQUIRE(FILE=TMP_NAME(1:LEN_TRIM(TMP_NAME)),EXIST=FEXIST)
               ENDIF 
 
@@ -5013,7 +5013,7 @@ C test EOF-------------------------------------------------------------------
 
             IF(.NOT.FEXIST) THEN
                 LEN_TMP_NAME =  LEN_TRIM(FILNAM)   
-                TMP_NAME=FILNAM(1:LEN_TRIM(FILNAM))
+                TMP_NAME(1:LEN_TMP_NAME)=FILNAM(1:LEN_TMP_NAME)
                 INQUIRE(FILE=TMP_NAME(1:LEN_TRIM(TMP_NAME)),EXIST=FEXIST)
             ENDIF 
 

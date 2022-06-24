@@ -671,10 +671,10 @@ C=======================================================================
      .               VX1       ,VX2  ,VY1  ,VY2  ,VZ1,
      .               VZ2       ,NC1  ,NC2  )
         CALL R5DEF3(
-     1 AL                   ,GBUF%V_REPCVT(II(1)) ,GBUF%V_REPCVT(II(2)),GBUF%V_REPCVT(II(3)),GBUF%VR_REPCVT(II(1)),
-     2 GBUF%VR_REPCVT(II(2)),GBUF%VR_REPCVT(II(3)),FR_WAVE             ,FR_W_E              ,
-     3 GBUF%EINT            ,GBUF%FOR(II(1))      ,GBUF%MOM(II(1))     ,GBUF%MOM(II(2))     ,GBUF%MOM(II(3))      ,
-     4 GBUF%FOR(II(2))      ,GBUF%FOR(II(3))      ,PARTSAV             ,IPARTR              ,EXX                  ,
+     1 AL                   ,GBUF%V_REPCVT(II(1):) ,GBUF%V_REPCVT(II(2):),GBUF%V_REPCVT(II(3):),GBUF%VR_REPCVT(II(1):),
+     2 GBUF%VR_REPCVT(II(2):),GBUF%VR_REPCVT(II(3):),FR_WAVE             ,FR_W_E              ,
+     3 GBUF%EINT            ,GBUF%FOR(II(1):)      ,GBUF%MOM(II(1):)     ,GBUF%MOM(II(2):)     ,GBUF%MOM(II(3):)      ,
+     4 GBUF%FOR(II(2):)      ,GBUF%FOR(II(3):)      ,PARTSAV             ,IPARTR              ,EXX                  ,
      5 EYX                  ,EZX                  ,EXY                 ,EYY                 ,EZY                  ,
      6 EXZ                  ,EYZ                  ,EZZ                 ,RX1                 ,RY1                  ,
      7 RZ1                  ,RX2                  ,RY2                 ,RZ2                 ,VX1                  ,
