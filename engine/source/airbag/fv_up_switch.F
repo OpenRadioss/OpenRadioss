@@ -145,7 +145,7 @@ C-----------------------------------------------
      .        CPD, CPE, CPF, TEMP0, PEL(NELT), PSTAG, VOLNO,TSTOPE,
      .        ENINT, MASSFLOW, TFEXT0, ELDMASS(NEL), ELDEHPY(NEL), DMOUT, DHOUT,
      .        XX1, XX2, XX3, YY1, YY2, YY3, ZZ1, ZZ2, ZZ3, NNX, NNY, NNZ,
-     .        AREAMAX
+     .        AREAMAX, PRES_AV, CP_AV, CV_AV, RGAS_AV, RHO_AV
 
 
       LOGICAL :: EXIT_NEG_VOL,INJECTION_STARTED
@@ -1497,12 +1497,22 @@ C     PRESSURE DISPERSION
 C
       FSAV(1)=AMTOT
       FSAV(2)=VOLPH
-      FSAV(3)=PMEAN/VOLPH
+      PRES_AV = PMEAN / VOLPH
+      FSAV(3) = PRES_AV
       FSAV(4)=AREAP
-      FSAV(5)=FSAV(5)/AMTOT
       FSAV(7)=ZERO
       DMOUT  =ZERO
       DHOUT  =ZERO
+      CP_AV = FSAV(10) / AMTOT
+      FSAV(10) = CP_AV
+      CV_AV = FSAV(11) / AMTOT
+      FSAV(11) = CV_AV
+      FSAV(12) = CP_AV / CV_AV
+      FSAV(14) = NPOLH
+      RGAS_AV = CP_AV - CV_AV
+      RHO_AV = AMTOT / VOLPH
+      FSAV(5) = PRES_AV / (RHO_AV * RGAS_AV)
+
       IF(IVOLU(39) == 0) THEN
         FSAV(6) =ZERO
         FSAV(13)=ZERO
@@ -1559,10 +1569,7 @@ C     AUTOMATIC SWITCH TO UNIFORM PRESSURE WHEN DISPERSION OF PRESSURE IS LOW
 
       ENDIF
 
-      FSAV(10)=FSAV(10)/AMTOT
-      FSAV(11)=FSAV(11)/AMTOT
-      FSAV(12)=FSAV(12)/AMTOT
-      FSAV(14)=NPOLH
+     
       DO IEL=1,NELT
          IF (ITAGEL(IEL) > 0) THEN
             FSAV(15)=FSAV(15)+ELFMASS(IEL)
