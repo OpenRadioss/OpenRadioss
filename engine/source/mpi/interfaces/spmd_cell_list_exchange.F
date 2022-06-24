@@ -88,7 +88,7 @@ C-----------------------------------------------
         INTEGER, INTENT(in) :: NIN
         INTEGER, INTENT(in) :: MODE
         INTEGER, INTENT(in) :: NODNX_SMS_SIZ ! size of NODNX_SMS
-        INTEGER, DIMENSION(NINTER+1,NSPMD), INTENT(in) :: ISENDTO,IRCVFROM
+        INTEGER, DIMENSION(NINTER+1,NSPMD+1), INTENT(in) :: ISENDTO,IRCVFROM
         INTEGER, DIMENSION(NPARI,NINTER), INTENT(in) ::  IPARI
         INTEGER, DIMENSION(NUMNOD), INTENT(inout) :: WEIGHT
         INTEGER, DIMENSION(2,NSPMD+1), INTENT(in) :: IAD_ELEM ! connectivity array iad(P+1)-iad(P) = nb of frontier node

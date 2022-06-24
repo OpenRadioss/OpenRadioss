@@ -71,7 +71,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         INTEGER, INTENT(in) :: NIN
-        INTEGER, DIMENSION(NINTER+1,NSPMD), INTENT(in) :: ISENDTO,IRCVFROM
+        INTEGER, DIMENSION(NINTER+1,NSPMD+1), INTENT(in) :: ISENDTO,IRCVFROM
         TYPE(sorting_comm_type), DIMENSION(NINTER), INTENT(inout) :: SORT_COMM   ! structure for interface sorting comm
 
 #ifdef MPI        

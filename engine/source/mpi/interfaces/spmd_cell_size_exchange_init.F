@@ -71,7 +71,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         INTEGER, INTENT(in) :: NIN
         INTEGER, DIMENSION(NPARI,NINTER), INTENT(in) ::  IPARI
-        INTEGER, DIMENSION(NINTER+1,NSPMD), INTENT(in) :: ISENDTO,IRCVFROM
+        INTEGER, DIMENSION(NINTER+1,NSPMD+1), INTENT(in) :: ISENDTO,IRCVFROM
         TYPE(inter_struct_type), DIMENSION(NINTER), INTENT(inout) :: INTER_STRUCT   !   struture for interface
         TYPE(sorting_comm_type), DIMENSION(NINTER), INTENT(inout) :: SORT_COMM   ! structure for interface sorting comm
 C-----------------------------------------------

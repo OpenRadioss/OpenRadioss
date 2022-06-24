@@ -80,7 +80,7 @@ C-----------------------------------------------
             INTER_STRUCT(KK)%NMN_G = 0                
         ENDDO
         DO KK=1,NB_INTER_7_INACTI
-            NIN = LIST_INTER_7_INACTI(NIN)
+            NIN = LIST_INTER_7_INACTI(KK)
             ALLOCATE( INTER_STRUCT(NIN)%NSNFIOLD(NSPMD) )
             INTER_STRUCT(NIN)%NSNFIOLD(1:NSPMD) = 0
         ENDDO

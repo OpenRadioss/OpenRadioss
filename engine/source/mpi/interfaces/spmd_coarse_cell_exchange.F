@@ -77,7 +77,7 @@ C-----------------------------------------------
         INTEGER, INTENT(in) :: NB_INTER_SORTED        !   number of interfaces that need to be sorted
         INTEGER, DIMENSION(NB_INTER_SORTED), INTENT(in) :: LIST_INTER_SORTED   !   list of interfaces that need to be sorted
         INTEGER, INTENT(in) :: MODE ! mode : 1 --> end/rcv / 2 --> wait + computation
-        INTEGER, DIMENSION(NINTER+1,NSPMD), INTENT(in) :: ISENDTO,IRECVFROM ! array for S and R : isendto = nsn ; IRECVFROM = nmn
+        INTEGER, DIMENSION(NINTER+1,NSPMD+1), INTENT(in) :: ISENDTO,IRECVFROM ! array for S and R : isendto = nsn ; IRECVFROM = nmn
         INTEGER, DIMENSION(NPARI,NINTER), INTENT(in) ::  IPARI !   interface data
         TYPE(sorting_comm_type), DIMENSION(NINTER), INTENT(inout) :: SORT_COMM   ! structure for interface sorting comm
         INTEGER, INTENT(inout) :: NB_REQUEST_COARSE_CELL ! number of request

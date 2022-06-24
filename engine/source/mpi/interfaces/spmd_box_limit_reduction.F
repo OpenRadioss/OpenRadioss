@@ -81,6 +81,7 @@ C-----------------------------------------------
 #ifdef MPI        
         INTEGER :: ierror
         INTEGER :: STATUS_(MPI_STATUS_SIZE)
+        CHARACTER(len=4) :: MY_OPERATION
 C-----------------------------------------------
         !   ------------------  
         !   globalization of min/max position      
@@ -89,7 +90,10 @@ C-----------------------------------------------
             BUFFER_S(3+I) = -ONE * BOX_LIMIT(3+I)   ! min values
         ENDDO
         !   ------------------
-        CALL SPMD_ALLREDUCE_DB(BUFFER_S,BUFFER_R,6,"MAX")
+        MY_OPERATION(1:4) = ''
+        MY_OPERATION(1:3) = "MAX"
+        
+        CALL SPMD_ALLREDUCE_DB(BUFFER_S,BUFFER_R,6,MY_OPERATION)
         !   ------------------
         IF(NB_INTER_SORTED>0) THEN
             DO I=1,3

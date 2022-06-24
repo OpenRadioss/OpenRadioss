@@ -83,7 +83,7 @@ C-----------------------------------------------
         INTEGER, INTENT(in) :: NB_INTER_SORTED        !   number of interfaces that need to be sorted
         INTEGER, INTENT(in) :: NODNX_SMS_SIZ
         INTEGER, DIMENSION(NB_INTER_SORTED), INTENT(in) :: LIST_INTER_SORTED   !   list of interfaces that need to be sorted
-        INTEGER, DIMENSION(NINTER+1,NSPMD), INTENT(in) :: ISENDTO,IRECVFROM ! array for S and R : isendto = nsn ; ircvfrom = nmn
+        INTEGER, DIMENSION(NINTER+1,NSPMD+1), INTENT(in) :: ISENDTO,IRECVFROM ! array for S and R : isendto = nsn ; ircvfrom = nmn
         INTEGER,DIMENSION(NPARI,NINTER), INTENT(inout) :: IPARI
         my_real, DIMENSION(3*NUMNOD), INTENT(in) :: X   !   position
         my_real, DIMENSION(3*NUMNOD), INTENT(in) :: V   !   velocity
@@ -96,7 +96,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(SFR_ELEM), INTENT(in) :: FR_ELEM          ! frontier node ID
 
 
-        TYPE(INTBUF_STRUCT_), DIMENSION(NINTER), INTENT(in) :: INTBUF_TAB   ! interface data
+        TYPE(INTBUF_STRUCT_), DIMENSION(NINTER), INTENT(inout) :: INTBUF_TAB   ! interface data
         TYPE(inter_struct_type), DIMENSION(NINTER), INTENT(inout) :: INTER_STRUCT   !   struture for interface
         TYPE(sorting_comm_type), DIMENSION(NINTER), INTENT(inout) :: SORT_COMM   ! structure for interface sorting comm
 C-----------------------------------------------
