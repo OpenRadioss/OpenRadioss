@@ -198,13 +198,14 @@ C--------------------------------------------------
         IGTYP=NINT(GEO(12,IPID))
         IF(IGTYP == 17 .OR. IGTYP == 51) IPART_STACK = 1
         IF(IGTYP ==  52) IPART_PCOMPP = 1
-        IF((IGTYP == 1).OR.(IGTYP == 2).OR.(IGTYP == 3).OR.
+        IF( (IGTYP == 0).OR.
+     .      (IGTYP == 1).OR.(IGTYP == 2).OR.(IGTYP == 3).OR.
      .      (IGTYP == 6).OR.(IGTYP == 9).OR.(IGTYP == 10).OR.
      .      (IGTYP == 11).OR.(IGTYP == 14).OR.(IGTYP == 16).OR.
      .      (IGTYP == 18).OR.(IGTYP == 20).OR.(IGTYP == 21).OR.
      .      (IGTYP == 22).OR.(IGTYP == 34).OR.(IGTYP == 11).OR.
      .      (IGTYP == 17).OR.(IGTYP == 51).OR.(IGTYP == 52).OR. 
-     .      (IGTYP == 23) ) THEN
+     .      (IGTYP == 23).OR.(IGTYP == 43)) THEN
             IF(MID == 0) THEN
                CALL ANCMSG(MSGID=179,
      .                     MSGTYPE=MSGERROR,
