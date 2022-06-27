@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        SPMD_COARSE_CELL_EXCHANGE                   source/mpi/interfaces/spmd_coarse_cell_exchange.F
 Chd|-- calls ---------------
 Chd|====================================================================
-        SUBROUTINE CHECK_COARSE_GRID(NIN,MAIN_COARSE_GRID,SORT_COMM)
+        SUBROUTINE CHECK_COARSE_GRID(NIN,MAIN_COARSE_GRID,SORT_COMM,ITIED)
 !$COMMENT
 !       CHECK_COARSE_GRID description :
 !       for a given interface, check if the currect processor needs to communicate with a remote processor
@@ -69,6 +69,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         INTEGER, INTENT(in) :: NIN
+        INTEGER, INTENT(in) :: ITIED
         INTEGER, DIMENSION(NB_BOX_COARSE_GRID**3), INTENT(in) :: MAIN_COARSE_GRID
         TYPE(sorting_comm_type), DIMENSION(NINTER), INTENT(inout) :: SORT_COMM   ! structure for interface sorting comm
 C-----------------------------------------------
@@ -107,7 +108,7 @@ C-----------------------------------------------
                     IF(MAIN_COARSE_GRID(IJK)==1) KEEP_THIS_PROC = .TRUE.
                 ENDDO
             ENDIF
-
+            IF(ITIED/=0) KEEP_THIS_PROC=.TRUE.
             IF(KEEP_THIS_PROC) SORT_COMM(NIN)%KEEP_PROC(I) = .TRUE.
         ENDDO
         !   ------------------

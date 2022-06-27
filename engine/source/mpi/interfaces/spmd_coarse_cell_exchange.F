@@ -96,6 +96,7 @@ C-----------------------------------------------
         INTEGER :: SIZE_CELL_LIST,TOTAL_RCV_SIZE,TOTAL_SEND_SIZE
         INTEGER :: LOC_PROC,ID_PROC
         INTEGER :: COUNT_COMM_SIZE_CELL,ID_COMM
+        INTEGER :: ITIED
 !   ----------------------------------------
         LOC_PROC = ISPMD + 1
         !   -------------------------
@@ -175,7 +176,8 @@ C-----------------------------------------------
             DO KK=1,NB_REQUEST_COARSE_CELL
                 CALL MPI_WAIT(ARRAY_REQUEST_COARSE_CELL(KK),STATUS,IERROR)  
                 NIN = LIST_INTER_COARSE_CELL(KK)
-                CALL CHECK_COARSE_GRID(NIN,SORT_COMM(NIN)%MAIN_COARSE_GRID,SORT_COMM)
+                ITIED = IPARI(85,NIN)
+                CALL CHECK_COARSE_GRID(NIN,SORT_COMM(NIN)%MAIN_COARSE_GRID,SORT_COMM,ITIED)
 
                 DEALLOCATE( SORT_COMM(NIN)%GLOBAL_COARSE_CELL )
                 DEALLOCATE( SORT_COMM(NIN)%COARSE_GRID )
