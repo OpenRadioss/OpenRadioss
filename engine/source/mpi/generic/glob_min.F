@@ -27,7 +27,7 @@ Chd|  GLOB_MIN                      source/mpi/generic/glob_min.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|====================================================================
-      INTEGER FUNCTION GLOB_MIN(RIN,RINOUT,LEN,TYPE)
+      SUBROUTINE GLOB_MIN(RIN,RINOUT,LEN,TYPE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,7 +77,6 @@ C          RINOUT(L+(I-1)*VLEN) = MAX(RINOUT(L+(I-1)*VLEN),RIN(L+(I-1)*VLEN))
 C        END DO
       ENDDO
       
-      GLOB_MIN = 0
 C
 #endif
       RETURN
