@@ -110,7 +110,7 @@ Chd|====================================================================
      L       MULTI_FVM,IPARG  ,ELBUF_TAB, H3D_DATA ,T2MAIN_SMS,
      M       LSKYI_SMS_NEW,FORNEQS,INT7ITIED,IDEL7NOK_SAV,MAXDGAP,
      N       T2FAC_SMS,ICODT,ISKEW,FSKYN25,ADDCSRECT,PROCNOR,
-     O       INTER_STRUCT,SORT_COMM,RENUM_SIZ,NODNX_SMS_SIZ)
+     O       INTER_STRUCT,SORT_COMM,RENUM_SIZ,NODNX_SMS_SIZ,TEMP_SIZ)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -187,10 +187,11 @@ C-----------------------------------------------
 !                 INT7ITIED = 1 type 7 + ITIED/=0 used
       INTEGER, INTENT(IN) :: INT7ITIED
       INTEGER, DIMENSION(*), TARGET :: KINET
+      INTEGER, INTENT(in) :: TEMP_SIZ
       TYPE(INTSTAMP_DATA) INTSTAMP(*)
       my_real 
      .   WAG(*),
-     .   VR(3,*),IN(*),DT2T,DIST, DRETRI(*), TEMP(*), EMINX(*),
+     .   VR(3,*),IN(*),DT2T,DIST, DRETRI(*), TEMP(TEMP_SIZ), EMINX(*),
      .        THKNOD(*),DELTA_PMAX_GAP(NINTER),
      .        XSLV(18,NINTER),XMSR(12,NINTER),X21MSR(3,NINTSTAMP),
      .        VSLV(6,NINTER),VMSR(6,NINTER),V21MSR(3,NINTSTAMP),
@@ -674,7 +675,8 @@ C Fin Partie non parallele smt
             CALL INTER_PREPARE_SORT( ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,ISENDTO,IRECVFROM,
      .                               IPARI,IAD_ELEM,FR_ELEM,X,V,
      .                               MS,TEMP,KINET,NODNX_SMS,ITAB,
-     .                               WEIGHT,INTBUF_TAB,INTER_STRUCT,SORT_COMM,NODNX_SMS_SIZ )
+     .                               WEIGHT,INTBUF_TAB,INTER_STRUCT,SORT_COMM,NODNX_SMS_SIZ,
+     .                               TEMP_SIZ )
             ! -----------
             ! sorting computation
             CALL INTER_SORT( ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,RETRI,IPARI,

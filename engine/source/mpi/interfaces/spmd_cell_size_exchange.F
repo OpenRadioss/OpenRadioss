@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
         SUBROUTINE SPMD_CELL_SIZE_EXCHANGE(IRCVFROM,ISENDTO,WEIGHT,
      .                    IAD_ELEM,FR_ELEM,X,V,MS,TEMP,KINET,NODNX_SMS,ITAB,INTBUF_TAB,IPARI,NIN,REMOTE_PROC_ID,
-     .                    ALREADY_SEND,INDEX_ALREADY_SEND,SORT_COMM,NODNX_SMS_SIZ)
+     .                    ALREADY_SEND,INDEX_ALREADY_SEND,SORT_COMM,NODNX_SMS_SIZ,TEMP_SIZE)
 !$COMMENT
 !       SPMD_CELL_SIZE_EXCHANGE description :
 !       check if the remote processor need some secondary nodes
@@ -85,13 +85,15 @@ C-----------------------------------------------
         INTEGER, INTENT(in) :: NIN
         INTEGER,INTENT(in) :: REMOTE_PROC_ID
         INTEGER, INTENT(in) :: NODNX_SMS_SIZ ! size of NODNX_SMS
+        INTEGER, INTENT(in) :: TEMP_SIZE     ! size of TEMP
         INTEGER, DIMENSION(NPARI,NINTER), INTENT(in) ::  IPARI
         INTEGER, DIMENSION(NINTER+1,NSPMD+1), INTENT(in) :: ISENDTO,IRCVFROM
         INTEGER, DIMENSION(NUMNOD), INTENT(inout) :: WEIGHT
         INTEGER, DIMENSION(2,NSPMD+1), INTENT(in) :: IAD_ELEM
         INTEGER, DIMENSION(SFR_ELEM), INTENT(in) :: FR_ELEM
         my_real, DIMENSION(3,NUMNOD), INTENT(in) :: X,V
-        my_real, DIMENSION(NUMNOD), INTENT(in) :: MS,TEMP
+        my_real, DIMENSION(NUMNOD), INTENT(in) :: MS
+        my_real, DIMENSION(TEMP_SIZE), INTENT(in) :: TEMP
         INTEGER, DIMENSION(NUMNOD), INTENT(in) :: ITAB
         INTEGER, DIMENSION(NUMNOD), INTENT(in) :: KINET ! k energy 
         INTEGER, DIMENSION(NODNX_SMS_SIZ), INTENT(in) :: NODNX_SMS ! SMS array

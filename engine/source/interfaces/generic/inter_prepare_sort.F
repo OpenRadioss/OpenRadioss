@@ -29,7 +29,8 @@ Chd|====================================================================
         SUBROUTINE INTER_PREPARE_SORT( ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,ISENDTO,IRECVFROM,
      .                                 IPARI,IAD_ELEM,FR_ELEM,X,V,
      .                                 MS,TEMP,KINET,NODNX_SMS,ITAB,
-     .                                 WEIGHT,INTBUF_TAB,INTER_STRUCT,SORT_COMM,NODNX_SMS_SIZ )
+     .                                 WEIGHT,INTBUF_TAB,INTER_STRUCT,SORT_COMM,NODNX_SMS_SIZ,
+     .                                 TEMP_SIZ )
 
 !$COMMENT
 !       INTER_PREPARE_SORT description
@@ -81,13 +82,15 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         INTEGER, INTENT(in) :: ITASK    !   omp thread ID
         INTEGER, INTENT(in) :: NB_INTER_SORTED        !   number of interfaces that need to be sorted
-        INTEGER, INTENT(in) :: NODNX_SMS_SIZ
+        INTEGER, INTENT(in) :: NODNX_SMS_SIZ! size of NODNX_SMS
+        INTEGER, INTENT(in) :: TEMP_SIZ     ! size of TEMP
         INTEGER, DIMENSION(NB_INTER_SORTED), INTENT(in) :: LIST_INTER_SORTED   !   list of interfaces that need to be sorted
         INTEGER, DIMENSION(NINTER+1,NSPMD+1), INTENT(in) :: ISENDTO,IRECVFROM ! array for S and R : isendto = nsn ; ircvfrom = nmn
         INTEGER,DIMENSION(NPARI,NINTER), INTENT(inout) :: IPARI
         my_real, DIMENSION(3*NUMNOD), INTENT(in) :: X   !   position
         my_real, DIMENSION(3*NUMNOD), INTENT(in) :: V   !   velocity
-        my_real, DIMENSION(NUMNOD), INTENT(in) :: MS,TEMP   !   mass & temperature
+        my_real, DIMENSION(NUMNOD), INTENT(in) :: MS    !   mass
+        my_real, DIMENSION(TEMP_SIZ), INTENT(in) :: TEMP   !   temperature
         INTEGER, DIMENSION(NUMNOD), INTENT(in) :: WEIGHT ! weight : 1 if current proc computes the node
         INTEGER, DIMENSION(NUMNOD), INTENT(in) :: ITAB   ! global node ID
         INTEGER, DIMENSION(NUMNOD), INTENT(in) :: KINET  ! k energy & 
@@ -210,7 +213,7 @@ C-----------------------------------------------
                     CALL SPMD_CELL_LIST_EXCHANGE(IRECVFROM,ISENDTO,1,WEIGHT,IAD_ELEM,
      .                 FR_ELEM,X,V,MS,TEMP,
      .                 KINET,NODNX_SMS,ITAB,INTBUF_TAB,IPARI,
-     .                 N,INTER_STRUCT,SORT_COMM,NODNX_SMS_SIZ)   !   size of cell list
+     .                 N,INTER_STRUCT,SORT_COMM,NODNX_SMS_SIZ,TEMP_SIZ)   !   size of cell list
                 ENDIF
                 CALL MY_BARRIER()
             ENDIF
@@ -225,7 +228,7 @@ C-----------------------------------------------
                     CALL SPMD_CELL_LIST_EXCHANGE(IRECVFROM,ISENDTO,2,WEIGHT,IAD_ELEM,
      .                 FR_ELEM,X,V,MS,TEMP,
      .                 KINET,NODNX_SMS,ITAB,INTBUF_TAB,IPARI,
-     .                 N,INTER_STRUCT,SORT_COMM,NODNX_SMS_SIZ) !   mpi wait size of cell list
+     .                 N,INTER_STRUCT,SORT_COMM,NODNX_SMS_SIZ,TEMP_SIZ) !   mpi wait size of cell list
 
                 ENDIF
                 CALL MY_BARRIER()
@@ -243,7 +246,7 @@ C-----------------------------------------------
                     CALL SPMD_CELL_LIST_EXCHANGE(IRECVFROM,ISENDTO,3,WEIGHT,IAD_ELEM,
      .                 FR_ELEM,X,V,MS,TEMP,
      .                 KINET,NODNX_SMS,ITAB,INTBUF_TAB,IPARI,
-     .                 N,INTER_STRUCT,SORT_COMM,NODNX_SMS_SIZ)
+     .                 N,INTER_STRUCT,SORT_COMM,NODNX_SMS_SIZ,TEMP_SIZ)
 
                 ENDIF
                 CALL MY_BARRIER()
@@ -263,7 +266,7 @@ C-----------------------------------------------
                     CALL SPMD_CELL_LIST_EXCHANGE(IRECVFROM,ISENDTO,4,WEIGHT,IAD_ELEM,
      .                 FR_ELEM,X,V,MS,TEMP,
      .                 KINET,NODNX_SMS,ITAB,INTBUF_TAB,IPARI,
-     .                 N,INTER_STRUCT,SORT_COMM,NODNX_SMS_SIZ)
+     .                 N,INTER_STRUCT,SORT_COMM,NODNX_SMS_SIZ,TEMP_SIZ)
                     ! wait "number of secondary nodes needed by remote proc"
                     CALL SPMD_WAIT_NB(IRECVFROM,ISENDTO,N,SORT_COMM)    
                 ENDIF
