@@ -4,9 +4,9 @@
  If you have any questions about OpenRadioss please feel free to contact <webmaster@openradioss.org>. 
 # How to Use OpenRadioss
 
-## How to build OpenRadioss
+## [How to build OpenRadioss](HOWTO.md)
 
-## How to Run OpenRadioss
+## [How to Run OpenRadioss](INSTALL.md)
 
 
 # Community and Ways to Participate
