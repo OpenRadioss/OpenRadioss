@@ -1279,8 +1279,12 @@ C
       ! new sorting algorythm 
       ! deallocation & wait
       CALL MY_BARRIER()
-      CALL INTER_DEALLOCATE_WAIT( ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,IPARI,ISENDTO,
-     1                            IRECVFROM,INTBUF_TAB,SENSOR,INTER_STRUCT,SORT_COMM )
+      ! ------------------------
+      ! explicit part
+      IF(IMPL_S.NE.1)THEN
+        CALL INTER_DEALLOCATE_WAIT( ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,IPARI,ISENDTO,
+     1                                IRECVFROM,INTBUF_TAB,SENSOR,INTER_STRUCT,SORT_COMM )
+      ENDIF
       ! end : new sorting algorythm 
       ! ------------------------------
 C=======================================================================

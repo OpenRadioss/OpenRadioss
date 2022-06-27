@@ -113,6 +113,7 @@ C-----------------------------------------------
         INTEGER :: SIZE_,OLD_POINTER
         INTEGER :: ADRESS,SHIFT_
         INTEGER :: INDEX_S,INDEX_R
+        INTEGER :: ITIED
 
         INTEGER IERROR1,STATUS(MPI_STATUS_SIZE),IERROR
         INTEGER :: TOTAL_RCV_SIZE,TOTAL_SEND_SIZE
@@ -270,11 +271,14 @@ C-----------------------------------------------
 
             IF(ALLOCATED(SORT_COMM(NIN)%CELL) ) DEALLOCATE(SORT_COMM(NIN)%CELL)
             ALLOCATE( SORT_COMM(NIN)%CELL(TOTAL_RCV_SIZE) )
+
+            ITIED = IPARI(85,NIN)
+
             !   ----------------------
             !   rcv of remote cell 
             DO I=1,SORT_COMM(NIN)%PROC_NUMBER
                 ID_PROC = SORT_COMM(NIN)%PROC_LIST(I)
-                IF(SORT_COMM(NIN)%RCV_SIZE_CELL(I)>0.AND.ID_PROC/=LOC_PROC) THEN   
+                IF((ITIED/=0.OR.SORT_COMM(NIN)%RCV_SIZE_CELL(I)>0).AND.ID_PROC/=LOC_PROC) THEN   
                     MSGTYP = MSGOFF    
                     SORT_COMM(NIN)%NB_REQUEST_CELL_RCV = SORT_COMM(NIN)%NB_REQUEST_CELL_RCV + 1  
                     SORT_COMM(NIN)%INDEX_RCV(SORT_COMM(NIN)%NB_REQUEST_CELL_RCV) = I  
@@ -289,7 +293,7 @@ C-----------------------------------------------
             !   send of cell 
             DO I=1,SORT_COMM(NIN)%PROC_NUMBER
                 ID_PROC = SORT_COMM(NIN)%PROC_LIST(I)
-                IF(SORT_COMM(NIN)%SEND_SIZE_CELL(I)>0.AND.ID_PROC/=LOC_PROC) THEN   
+                IF((ITIED/=0.OR.SORT_COMM(NIN)%SEND_SIZE_CELL(I)>0).AND.ID_PROC/=LOC_PROC) THEN   
                     MSGTYP = MSGOFF   
                     SORT_COMM(NIN)%NB_REQUEST_CELL_SEND = 
      .                  SORT_COMM(NIN)%NB_REQUEST_CELL_SEND + 1  
@@ -313,8 +317,9 @@ C-----------------------------------------------
             IF(IRCVFROM(NIN,LOC_PROC).EQ.0.AND.ISENDTO(NIN,LOC_PROC).EQ.0) RETURN
 
             CALL SPMD_CELL_SIZE_EXCHANGE_INIT(IRCVFROM,ISENDTO,IPARI,NIN,INTER_STRUCT,SORT_COMM)  
-            IF(SORT_COMM(NIN)%SIZE_CELL_LIST(1)>0) THEN !   need to prepare the reception only if there are still some NMN on the current proc
-                CALL SPMD_CELL_SIZE_POST_RCV(IRCVFROM,ISENDTO,NIN,SORT_COMM)  
+            ITIED = IPARI(85,NIN)
+            IF(SORT_COMM(NIN)%SIZE_CELL_LIST(1)>0.OR.ITIED/=0) THEN !   need to prepare the reception only if there are still some NMN on the current proc
+                CALL SPMD_CELL_SIZE_POST_RCV(IRCVFROM,ISENDTO,NIN,SORT_COMM,ITIED)  
             ENDIF
             ALLOCATE( ALREADY_SEND(NB_CELL_X,NB_CELL_Y,NB_CELL_Z) )
             IF(ISENDTO(NIN,LOC_PROC)/=0) ALREADY_SEND(1:NB_CELL_X,1:NB_CELL_Y,1:NB_CELL_Z) = .FALSE.
@@ -329,7 +334,8 @@ C-----------------------------------------------
                 IS_EXCHANGE_NEEDED = .TRUE.
 
                 IF(SORT_COMM(NIN)%PROC_LIST(REMOTE_PROC)==ISPMD+1) IS_EXCHANGE_NEEDED = .FALSE.
-                IF(IS_EXCHANGE_NEEDED.AND.SORT_COMM(NIN)%NB_CELL_PROC(REMOTE_PROC)==0) IS_EXCHANGE_NEEDED = .FALSE. !   proc without any main node cell    
+                IF(IS_EXCHANGE_NEEDED.AND.SORT_COMM(NIN)%NB_CELL_PROC(REMOTE_PROC)==0) IS_EXCHANGE_NEEDED = .FALSE. !   proc without any main node cell
+                IF(ITIED/=0)  IS_EXCHANGE_NEEDED = .TRUE.   ! itied option : force the exchange    
                 !   -------------------------
                 IF(IS_EXCHANGE_NEEDED) THEN
                     !   send/rcv the number of secondary nodes

@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        SPMD_CELL_LIST_EXCHANGE                    source/mpi/interfaces/spmd_cell_list_exchange.F
 Chd|-- calls ---------------
 Chd|====================================================================
-        SUBROUTINE SPMD_CELL_SIZE_POST_RCV(IRCVFROM,ISENDTO,NIN,SORT_COMM)
+        SUBROUTINE SPMD_CELL_SIZE_POST_RCV(IRCVFROM,ISENDTO,NIN,SORT_COMM,ITIED)
 !$COMMENT
 !       SPMD_CELL_SIZE_POST_RCV description :
 !       prepare the reception of number of remote secondary nodes
@@ -70,6 +70,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         INTEGER, INTENT(in) :: NIN
+        INTEGER, INTENT(in) :: ITIED
         INTEGER, DIMENSION(NINTER+1,NSPMD+1), INTENT(in) :: ISENDTO,IRCVFROM
         TYPE(sorting_comm_type), DIMENSION(NINTER), INTENT(inout) :: SORT_COMM   ! structure for interface sorting comm
 C-----------------------------------------------
@@ -108,7 +109,7 @@ C-----------------------------------------------
                                 NEED_TO_RCV = .FALSE.
                             ENDIF
                         ENDIF
-            
+                        IF(ITIED/=0) NEED_TO_RCV = .TRUE.    ! itied option : force the exchnage
                         IF(NEED_TO_RCV) THEN
                             MSGTYP = MSGOFF3 
                             SORT_COMM(NIN)%NBRECV_NB=SORT_COMM(NIN)%NBRECV_NB+1

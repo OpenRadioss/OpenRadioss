@@ -129,7 +129,7 @@ C-----------------------------------------------
         INTEGER :: DISPL
         LOGICAL :: NEED_TO_RCV
 
-        INTEGER :: NB_INDEX_ALREADY_SEND,VALUE
+        INTEGER :: NB_INDEX_ALREADY_SEND,VALUE,NB_SAVE
 !   --------------------------------------------------------------------  
         DATA MSGOFF/6021/
         DATA MSGOFF2/6022/
@@ -170,52 +170,54 @@ C-----------------------------------------------
                 NB = 0
                 !   --------------------------
                 IF(ITIED/=0.AND.ITYP==7) THEN
-                    !   itied/=0 --> need to send all nodes
+                    !   itied/=0 --> need to send all nodes 
                     DO I=1,NSN
-                        IF(CANDF_SI(NIN)%P(I)/=0) THEN
-                            NB = NB + 1
-                            INDEX(NB) = I
-                        ENDIF   
-                    ENDDO
-                ELSE
-                    !   --------------------------
-                    !   loop over the cell of proc REMOTE_PROC_ID
-                    DISPL = SORT_COMM(NIN)%RCV_DISPLS_CELL(REMOTE_PROC_ID)
-                    SHIFT_ = SORT_COMM(NIN)%NB_CELL_PROC(REMOTE_PROC_ID)
-                    IJK = 0
-                    DO KJI=1,SORT_COMM(NIN)%NB_CELL_PROC(REMOTE_PROC_ID)
-                        !   ----------------------
-                        !   get the cell ID 
-                        IJK = IJK + 1
-                        VALUE = SORT_COMM(NIN)%CELL( DISPL + IJK )
-                        CELL_Z_ID = ( VALUE - MOD(VALUE,1000000) ) / 1000000
-                        VALUE = VALUE - CELL_Z_ID * 1000000
-                        CELL_Y_ID = ( VALUE - MOD(VALUE,1000) ) / 1000
-                        VALUE = VALUE - CELL_Y_ID * 1000
-                        CELL_X_ID = VALUE
-
-                        IF(.NOT.ALREADY_SEND(CELL_X_ID,CELL_Y_ID,CELL_Z_ID)) THEN
-                            NB_INDEX_ALREADY_SEND = NB_INDEX_ALREADY_SEND + 1
-                            INDEX_ALREADY_SEND(NB_INDEX_ALREADY_SEND) = CELL_X_ID+CELL_Y_ID*1000+CELL_Z_ID*1000000
-                            ALREADY_SEND(CELL_X_ID,CELL_Y_ID,CELL_Z_ID) = .TRUE.
-
-                            !   ----------------------
-                            !   loop over the secondary nodes of cell ID (CELL_X_ID,CELL_Y_ID,CELL_Z_ID)
-                            I = SORT_COMM(NIN)%VOXEL(CELL_X_ID,CELL_Y_ID,CELL_Z_ID)                    
-                            DO WHILE(I/=0)                       
-                                NOD = INTBUF_TAB(NIN)%NSV(I)
-                                IF(WEIGHT(NOD).EQ.1)THEN
-                                    IF(INTBUF_TAB(NIN)%STFNS(I).GT.ZERO)THEN
-                                        NB = NB + 1
-                                        INDEX(NB) = I
-                                    ENDIF
-                                ENDIF
-                                I = SORT_COMM(NIN)%NEXT_NOD(I)
-                            ENDDO ! WHILE(I/=0)
-                            !   ----------------------
+                        NOD = INTBUF_TAB(NIN)%NSV(I)
+                        IF(WEIGHT(NOD).EQ.1)THEN
+                            IF(CANDF_SI(NIN)%P(I)/=0.AND.INTBUF_TAB(NIN)%STFNS(I).GT.ZERO)THEN
+                                NB = NB + 1
+                                INDEX(NB) = I
+                            ENDIF
                         ENDIF
                     ENDDO
                 ENDIF
+                !   --------------------------
+                !   loop over the cell of proc REMOTE_PROC_ID
+                DISPL = SORT_COMM(NIN)%RCV_DISPLS_CELL(REMOTE_PROC_ID)
+                SHIFT_ = SORT_COMM(NIN)%NB_CELL_PROC(REMOTE_PROC_ID)
+                IJK = 0
+                DO KJI=1,SORT_COMM(NIN)%NB_CELL_PROC(REMOTE_PROC_ID)
+                    !   ----------------------
+                    !   get the cell ID 
+                    IJK = IJK + 1
+                    VALUE = SORT_COMM(NIN)%CELL( DISPL + IJK )
+                    CELL_Z_ID = ( VALUE - MOD(VALUE,1000000) ) / 1000000
+                    VALUE = VALUE - CELL_Z_ID * 1000000
+                    CELL_Y_ID = ( VALUE - MOD(VALUE,1000) ) / 1000
+                    VALUE = VALUE - CELL_Y_ID * 1000
+                    CELL_X_ID = VALUE
+
+                    IF(.NOT.ALREADY_SEND(CELL_X_ID,CELL_Y_ID,CELL_Z_ID)) THEN
+                        NB_INDEX_ALREADY_SEND = NB_INDEX_ALREADY_SEND + 1
+                        INDEX_ALREADY_SEND(NB_INDEX_ALREADY_SEND) = CELL_X_ID+CELL_Y_ID*1000+CELL_Z_ID*1000000
+                        ALREADY_SEND(CELL_X_ID,CELL_Y_ID,CELL_Z_ID) = .TRUE.
+
+                        !   ----------------------
+                        !   loop over the secondary nodes of cell ID (CELL_X_ID,CELL_Y_ID,CELL_Z_ID)
+                        I = SORT_COMM(NIN)%VOXEL(CELL_X_ID,CELL_Y_ID,CELL_Z_ID)                    
+                        DO WHILE(I/=0)                       
+                            NOD = INTBUF_TAB(NIN)%NSV(I)
+                            IF(WEIGHT(NOD).EQ.1)THEN
+                                IF(INTBUF_TAB(NIN)%STFNS(I).GT.ZERO)THEN
+                                    NB = NB + 1
+                                    INDEX(NB) = I
+                                ENDIF
+                            ENDIF
+                            I = SORT_COMM(NIN)%NEXT_NOD(I)
+                        ENDDO ! WHILE(I/=0)
+                        !   ----------------------
+                    ENDIF
+                ENDDO
                 !   --------------------------
                 !   flush ALREADY_SEND to FALSE
                 DO I=1,NB_INDEX_ALREADY_SEND      
@@ -228,31 +230,45 @@ C-----------------------------------------------
                     ALREADY_SEND(CELL_X_ID,CELL_Y_ID,CELL_Z_ID) = .FALSE.
                 ENDDO
                 !   --------------------------
-                !   save the number of secondary nodes (only for itied==0)
-                SORT_COMM(NIN)%NB(P) = NB
-                IF(ITIED==0.OR.ITYP/=7) THEN
-                    !   need to sort the secondary nodes
-                    IF(NB>1600) THEN
-                       ALLOCATE( WORK(70000) )
-                       ALLOCATE( ITRI(NB) )
-                       ALLOCATE( INDEX_2(2*NB) )
-                       DO I=1,NB
-                            ITRI(I) = INDEX(I)
-                            INDEX_2(I) = I
-                       ENDDO
-                       CALL MY_ORDERS(0,WORK,ITRI,INDEX_2,NB,1)
-                       DO I=1,NB
-                            INDEX(I) = ITRI(INDEX_2(I))
-                       ENDDO
-                       DEALLOCATE( WORK )
-                       DEALLOCATE( ITRI )
-                       DEALLOCATE( INDEX_2 )
-                    ELSE
-                       ALLOCATE( INDEX_2(NB) )
-                       CALL MYQSORT_INT(NB, INDEX, INDEX_2, ERROR_SORT)
-                       DEALLOCATE( INDEX_2 )
-                    ENDIF
+                !   need to sort the secondary nodes
+                NB_SAVE = NB
+                IF(NB_SAVE>1600) THEN
+                    ALLOCATE( WORK(70000) )
+                    ALLOCATE( ITRI(NB_SAVE) )
+                    ALLOCATE( INDEX_2(2*NB_SAVE) )
+                    DO I=1,NB_SAVE
+                       ITRI(I) = INDEX(I)
+                       INDEX_2(I) = I
+                    ENDDO
+                    CALL MY_ORDERS(0,WORK,ITRI,INDEX_2,NB_SAVE,1)
+                    NB = 1
+                    INDEX(NB) = ITRI(INDEX_2(1))
+                    DO I=2,NB_SAVE
+                       IF(ITRI(INDEX_2(I-1))/=ITRI(INDEX_2(I))) THEN
+                            NB = NB + 1
+                            INDEX(NB) = ITRI(INDEX_2(I))
+                        ENDIF
+                    ENDDO
+                    DEALLOCATE( WORK )
+                    DEALLOCATE( ITRI )
+                    DEALLOCATE( INDEX_2 )
+                ELSEIF(NB_SAVE>0) THEN
+                    ALLOCATE( INDEX_2(NB_SAVE) )
+                    CALL MYQSORT_INT(NB_SAVE, INDEX, INDEX_2, ERROR_SORT)
+                    INDEX_2(1:NB_SAVE) = INDEX(1:NB_SAVE)
+                    NB = 1
+                    DO I=2,NB_SAVE
+                        IF(INDEX(I)/=INDEX(I-1)) THEN
+                            NB = NB + 1
+                            INDEX_2(NB) = INDEX(I)
+                        ENDIF
+                    ENDDO
+                    INDEX(1:NB) = INDEX_2(1:NB)
+                    DEALLOCATE( INDEX_2 )
                 ENDIF
+
+                !   save the number of secondary nodes
+                SORT_COMM(NIN)%NB(P) = NB
                 !   --------------------------
 
                 !   --------------------------
