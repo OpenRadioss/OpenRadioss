@@ -26,7 +26,7 @@ Chd|  REDUCE_MMX                    source/mpi/interfaces/reduce_mmx.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|====================================================================
-      INTEGER FUNCTION REDUCE_MMX(RIN,RINOUT,LEN,TYPE)
+      SUBROUTINE REDUCE_MMX(RIN,RINOUT,LEN,TYPE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -127,8 +127,6 @@ C T25 main gap changes with thickness change
         RINOUT(L) = MAX(RINOUT(L),RIN(L))              
         L = L + 1
       END DO
-C
-      REDUCE_MMX = 0
 C
 #endif
       RETURN

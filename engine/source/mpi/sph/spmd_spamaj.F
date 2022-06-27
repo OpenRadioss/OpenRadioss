@@ -65,10 +65,9 @@ C-----------------------------------------------
      .        STATUS(MPI_STATUS_SIZE),MSGOFF
       INTEGER :: type_reduc,myop,I_LEN
 
-      INTEGER REDUCE_IMAX_MIN
-      EXTERNAL REDUCE_IMAX_MIN
        my_real, DIMENSION(2) :: SBUF,RBUF
        DATA MSGOFF/2007/
+       EXTERNAL REDUCE_IMAX_MIN
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -114,7 +113,7 @@ Chd|  REDUCE_IMAX_MIN               source/mpi/sph/spmd_spamaj.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|====================================================================
-      INTEGER FUNCTION REDUCE_IMAX_MIN(RIN,RINOUT)
+      SUBROUTINE REDUCE_IMAX_MIN(RIN,RINOUT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -145,8 +144,6 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       RINOUT(1)   = MAX( NINT(RINOUT(1)), NINT(RIN(1)) )
       RINOUT(2)   = MIN(RINOUT(2),RIN(2))
-C
-      REDUCE_IMAX_MIN = 0
 C
 #endif
       RETURN

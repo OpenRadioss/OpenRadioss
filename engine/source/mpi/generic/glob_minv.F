@@ -26,7 +26,7 @@ Chd|  GLOB_MINV                     source/mpi/generic/glob_minv.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|====================================================================
-      INTEGER FUNCTION GLOB_MINV(RIN,RINOUT,LEN,TYPE)
+      SUBROUTINE GLOB_MINV(RIN,RINOUT,LEN,TYPE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,7 +68,6 @@ C-----------------------------------------------
           RINOUT(L+(I-1)*VLEN) = RINOUT(L+(I-1)*VLEN)+RIN(L+(I-1)*VLEN)
         END DO
       ENDDO
-      GLOB_MINV = 0
 C
 #endif
       RETURN

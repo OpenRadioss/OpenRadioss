@@ -451,7 +451,7 @@ C           CALL FLUSH(6)
               CALL MPI_IRECV(
      .          BUFFERS(NI25)%RECV_BUF(L),
      .          RECV_SIZE,
-     .          MPI_FLOAT,
+     .          MPI_REAL4,
      .          IT_SPMD(P),
      .          MSGTYP,
      .          MPI_COMM_WORLD,
@@ -725,7 +725,7 @@ C           CALL FLUSH(6)
               CALL MPI_ISEND(
      .          BUFFERS(NI25)%SEND_BUF(L),
      .          SEND_SIZE,
-     .          MPI_FLOAT,
+     .          MPI_REAL4,
      .          IT_SPMD(P),
      .          MSGTYP,
      .          MPI_COMM_WORLD,

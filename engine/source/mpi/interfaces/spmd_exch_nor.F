@@ -125,7 +125,7 @@ c                  print *,'recoit siz',ispmd+1,i,siz
               NBIRECV = NBIRECV + 1
               IRINDEX(NBIRECV) = I
               CALL MPI_IRECV(
-     S          RBUF(L0),SIZ,MPI_FLOAT,IT_SPMD(I),MSGTYP,
+     S          RBUF(L0),SIZ,MPI_REAL4,IT_SPMD(I),MSGTYP,
      G          MPI_COMM_WORLD,REQ_R(NBIRECV),IERROR)
             ENDIF
           ENDIF
@@ -194,7 +194,7 @@ c                  print *,'envoi siz',ispmd+1,i,siz
               NBISEND = NBISEND + 1
               ISINDEX(NBISEND)=I
               CALL MPI_ISEND(
-     S        SBUF(L0),SIZ,MPI_FLOAT,IT_SPMD(I),MSGTYP,
+     S        SBUF(L0),SIZ,MPI_REAL4,IT_SPMD(I),MSGTYP,
      G        MPI_COMM_WORLD,REQ_S(I),IERROR)
             ENDIF
           END IF
