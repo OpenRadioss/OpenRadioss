@@ -32,7 +32,7 @@ Chd|====================================================================
         SUBROUTINE SPMD_CELL_LIST_EXCHANGE(IRCVFROM,ISENDTO,MODE,WEIGHT,IAD_ELEM,
      .             FR_ELEM,X,V,MS,TEMP,
      .             KINET,NODNX_SMS,ITAB,INTBUF_TAB,IPARI,
-     .             NIN,INTER_STRUCT,SORT_COMM,NODNX_SMS_SIZ)
+     .             NIN,INTER_STRUCT,SORT_COMM,NODNX_SMS_SIZ,TEMP_SIZE)
 !$COMMENT
 !       SPMD_CELL_LIST_EXCHANGE description :
 !       exchange of remote cell and preparation of comm "send/rcv the data of remote nodes"
@@ -88,13 +88,15 @@ C-----------------------------------------------
         INTEGER, INTENT(in) :: NIN
         INTEGER, INTENT(in) :: MODE
         INTEGER, INTENT(in) :: NODNX_SMS_SIZ ! size of NODNX_SMS
+        INTEGER, INTENT(in) :: TEMP_SIZE     ! size of TEMP
         INTEGER, DIMENSION(NINTER+1,NSPMD+1), INTENT(in) :: ISENDTO,IRCVFROM
         INTEGER, DIMENSION(NPARI,NINTER), INTENT(in) ::  IPARI
         INTEGER, DIMENSION(NUMNOD), INTENT(inout) :: WEIGHT
         INTEGER, DIMENSION(2,NSPMD+1), INTENT(in) :: IAD_ELEM ! connectivity array iad(P+1)-iad(P) = nb of frontier node
         INTEGER, DIMENSION(SFR_ELEM), INTENT(in) :: FR_ELEM ! frontier node ID
         my_real, DIMENSION(3,NUMNOD), INTENT(in) :: X,V !   position & velocity
-        my_real, DIMENSION(NUMNOD), INTENT(in) :: MS,TEMP !   mass & temperature
+        my_real, DIMENSION(NUMNOD), INTENT(in) :: MS   !   mass 
+        my_real, DIMENSION(TEMP_SIZE), INTENT(in) :: TEMP !   temperature
         INTEGER, DIMENSION(NUMNOD), INTENT(in) :: ITAB ! global node ID
         INTEGER, DIMENSION(NUMNOD), INTENT(in) :: KINET ! k energy 
         INTEGER, DIMENSION(NODNX_SMS_SIZ), INTENT(in) :: NODNX_SMS ! SMS array
@@ -334,7 +336,7 @@ C-----------------------------------------------
                     !   prepare the S buffer of secondary nodes (x, v, temp ...)
                     CALL SPMD_CELL_SIZE_EXCHANGE(IRCVFROM,ISENDTO,WEIGHT,
      .                IAD_ELEM,FR_ELEM,X,V,MS,TEMP,KINET,NODNX_SMS,ITAB,INTBUF_TAB,IPARI,NIN,REMOTE_PROC,
-     .                ALREADY_SEND,INDEX_ALREADY_SEND,SORT_COMM,NODNX_SMS_SIZ)
+     .                ALREADY_SEND,INDEX_ALREADY_SEND,SORT_COMM,NODNX_SMS_SIZ,TEMP_SIZE)
                 ENDIF
                 !   ------------------------- 
             ENDDO

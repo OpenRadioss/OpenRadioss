@@ -1201,6 +1201,7 @@ C-------------------------------------------------------------------------------
         LOGICAL :: BOOL_RESTART
 
         INTEGER :: NATIV_SMS_SIZ ! size of NATIV_SMS array
+        INTEGER :: TEMP_SIZ      ! size of TEMP
       DATA IUN/1/
 C-----------------------------------------------------------------------------------       
 C Uncomment for Debug - ITAB is copied in Debug Module.
@@ -1230,6 +1231,12 @@ C-------------------------------------------------------------------------------
       NELTST  = 0
       ITYPTST = 0
       DT2T    = 0
+
+      IF(ITHERM_FE>0) THEN
+        TEMP_SIZ = NUMNOD
+      ELSE
+        TEMP_SIZ = 0
+      ENDIF
 
 C initialize int24 presence flag
       INT24USE = 0
@@ -3349,7 +3356,7 @@ C===============================================================================
      L     MULTI_FVM,IPARG  ,ELBUF_TAB, H3D_DATA, T2MAIN_SMS,
      M     LSKYI_SMS_NEW    ,FORNEQS  ,INT7ITIED,IDEL7NOK_SAV,MAXDGAP,
      N     T2FAC_SMS,ICODT,ISKEW ,FSKYN25  ,ADDCSRECT,PROCNOR,
-     O     INTER_STRUCT,SORT_COMM,RNUM_SIZ,NATIV_SMS_SIZ)
+     O     INTER_STRUCT,SORT_COMM,RNUM_SIZ,NATIV_SMS_SIZ,TEMP_SIZ)
 C
 #include "lockon.inc"
         IF(DT2TT.LT.DT2T)THEN
