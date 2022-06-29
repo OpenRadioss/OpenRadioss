@@ -66,7 +66,8 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NB_INTER_7_INACTI) :: S_BUFFER
         INTEGER, DIMENSION(NB_INTER_7_INACTI) :: R_BUFFER
         CHARACTER(len=4) :: MY_OPERATION
-        INTEGER :: STATUT,CODE
+        INTEGER :: CODE
+        INTEGER :: STATUT(MPI_STATUS_SIZE)
 C-----------------------------------------------
         IF(NB_INTER_7_INACTI>0) THEN
             S_BUFFER(1:NB_INTER_7_INACTI) = 1
