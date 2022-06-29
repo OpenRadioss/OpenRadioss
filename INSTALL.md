@@ -13,9 +13,9 @@ Usually there is a Starter and Engine input deck.
 
 #### Environment variable setting for Radioss
 
-        export OpenRadioss_path=[OpenRadioss Root directory]
-        export RAD_CFG_PATH=$OpenRadioss_path/hm_cfg_files
-        export LD_LIBRARY_PATH=$OpenRadioss_path/extlib/hm_reader/linux64/:$OpenRadioss_path/extlib/h3d/lib/linux64/:$LD_LIBRARY_PATH
+        export OPENRADIOSS_PATH=[OpenRadioss Root directory]
+        export RAD_CFG_PATH=$OPENRADIOSS_PATH/hm_cfg_files
+        export LD_LIBRARY_PATH=$OPENRADIOSS_PATH/extlib/hm_reader/linux64/:$OPENRADIOSS_PATH/extlib/h3d/lib/linux64/:$LD_LIBRARY_PATH
         export OMP_STACKSIZE=400m
 
 #### Running Radioss from OpenRadioss directories in Radioss SMP
@@ -26,8 +26,8 @@ Usually there is a Starter and Engine input deck.
 
 * Execute Radioss Starter and Engine
 
-        $OpenRadioss_path/exec/starter_linux64_gf -i [Starter input file] -np 1       
-        $OpenRadioss_path/exec/engine_linux64_gf -i [Engine input file]
+        $OPENRADIOSS_PATH/exec/starter_linux64_gf -i [Starter input file] -np 1       
+        $OPENRADIOSS_PATH/exec/engine_linux64_gf -i [Engine input file]
  
 #### Running Radioss from OpenRadioss directories in Radioss Hybrid SMP / SPMD
 
@@ -39,18 +39,18 @@ Usually there is a Starter and Engine input deck.
 * Execute Radioss with P MPI process and N threads per domain 
 
         export OMP_NUM_THREADS=N
-        $OpenRadioss_path/exec/starter_linux64_gf -i [Starter input file] -np P        
-        mpiexec -n P $OpenRadioss_path/exec/engine_linux64_gf_ompi -i [Engine input file]
+        $OPENRADIOSS_PATH/exec/starter_linux64_gf -i [Starter input file] -np P        
+        mpiexec -n P $OPENRADIOSS_PATH/exec/engine_linux64_gf_ompi -i [Engine input file]
 
 
 ## Running OpenRadioss download from GIT releases
 
 #### Environment variable setting for Radioss
 
-        export OpenRadioss_path=[OpenRadioss directory]
-        export RAD_CFG_PATH=$OpenRadioss_path/hm_cfg_files
-        export LD_LIBRARY_PATH=$OpenRadioss_path/lib/:$LD_LIBRARY_PATH
-        export LD_LIBRARY_PATH=$OpenRadioss_path/bin:$PATH
+        export OPENRADIOSS_PATH=[OpenRadioss directory]
+        export RAD_CFG_PATH=$OPENRADIOSS_PATH/hm_cfg_files
+        export LD_LIBRARY_PATH=$OPENRADIOSS_PATH/lib/:$LD_LIBRARY_PATH
+        export PATH=$OPENRADIOSS_PATH/bin:$PATH
         export OMP_STACKSIZE=400m
 
 #### Launching OpenRadioss SMP executable
@@ -75,13 +75,14 @@ Usually there is a Starter and Engine input deck.
 
 * Set OpenRadioss Environment variables
 
-        export OpenRadioss_path=[OpenRadioss Root directory]
-        export RAD_CFG_PATH=$OpenRadioss_path/hm_cfg_files
-        export LD_LIBRARY_PATH=$OpenRadioss_path/extlib/hm_reader/linux64/:$OpenRadioss_path/extlib/h3d/lib/linux64/:$LD_LIBRARY_PATH
+        export OPENRADIOSS_SOURCE_PATH=[OpenRadioss Root directory]
+        export RAD_CFG_PATH=$OPENRADIOSS_SOURCE_PATH/hm_cfg_files
+        export LD_LIBRARY_PATH=$OPENRADIOSS_SOURCE_PATH/extlib/hm_reader/linux64/:$OPENRADIOSS_SOURCE_PATH/extlib/h3d/lib/linux64/:$LD_LIBRARY_PATH
         export OMP_STACKSIZE=400m
 
 * Enter qa_test/scripts directory
-        cd $OpenRadioss_path/qa-tests/scripts
+
+        cd $OPENRADIOSS_SOURCE_PATH/qa-tests/scripts
 
 #### Running with SMP binary
 
@@ -95,7 +96,9 @@ Usually there is a Starter and Engine input deck.
         export LD_LIBRARY_PATH=/opt/openmpi/lib:$LD_LIBRARY_PATH
         export PATH=/opt/openmpi/bin:$PATH
 
-* Executing the QA with P MPI domains
+* Executing the QA with P MPI domains and N threads per domain
+
+        export OMP_NUM_THREADS=N
         perl ./or_qa_script ../../exec/engine_linux64_gf_ompi --exec_script_args="mpiexec -np P"  1.0
 
 
