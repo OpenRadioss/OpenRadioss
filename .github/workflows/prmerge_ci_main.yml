@@ -383,6 +383,13 @@ jobs:
       SERVBOT_PAT: ${{ secrets.SERVBOT_PAT }}
       DELIVERY_NB_RELEASES_TO_KEEP: 6
       DELIVERY_TAG_PREFIX: 'latest-'
+      OPENRADIOSS_MAINDIR_NAME: 'OpenRadioss'
+
+    strategy:
+      # If one job fails othere continue
+      fail-fast: false
+      matrix:
+        os: [linux64]
 
     steps:
 
@@ -412,14 +419,19 @@ jobs:
         
     - name: Provide ALL binaries
       run: |
-        mkdir todeliver
-        cd exec
-        tar -zcvf ../todeliver/binaries_linux64.tar.gz * ../extlib/h3d/lib/linux64/libh3dwriter.so ../extlib/hm_reader/linux64/libhm_reader_linux64.so
-        tar -zcvf ../todeliver/hm_cfg_files.tar.gz ../hm_cfg_files
-        ls -l ../todeliver
+        # Prepare tree architecture
+        mkdir -p todeliver/${{ env.OPENRADIOSS_MAINDIR_NAME }}/lib todeliver/${{ env.OPENRADIOSS_MAINDIR_NAME }}/notices
+        cp -a extlib/h3d/lib/linux64/libh3dwriter.so extlib/hm_reader/linux64/libhm_reader_linux64.so todeliver/${{ env.OPENRADIOSS_MAINDIR_NAME }}/lib/
+        cp -a hm_cfg_files todeliver/${{ env.OPENRADIOSS_MAINDIR_NAME }}/cfg
+        cp -a exec todeliver/${{ env.OPENRADIOSS_MAINDIR_NAME }}/bin
+
+        export OPENRADIOSS_BIN_ARCHIVE="${{ env.OPENRADIOSS_MAINDIR_NAME }}_${{ matrix.os }}.zip"
+        echo "OPENRADIOSS_BIN_ARCHIVE=$OPENRADIOSS_BIN_ARCHIVE" >> $GITHUB_ENV
+        cd todeliver
+        zip -r $OPENRADIOSS_BIN_ARCHIVE ${{ env.OPENRADIOSS_MAINDIR_NAME }}
+        cd ..
 
         # Removed lfs hook (not supported in next action, not neeeded)
-        cd ..
         rm -f .git/hooks/pre-push
 
     - uses: octokit/request-action@v2.x
@@ -444,7 +456,7 @@ jobs:
           Commit message:
           ${{ github.event.commits[0].message }}
         files: |
-          todeliver/*
+          todeliver/${{ env.OPENRADIOSS_BIN_ARCHIVE }}
         clear_attachments: true     
 
     - name: Clean old github release/tag if needed
