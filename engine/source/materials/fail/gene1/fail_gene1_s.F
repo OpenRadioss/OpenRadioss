@@ -224,6 +224,7 @@ c
         ELSE
           UVAR(1:NEL,1) = ONE
         ENDIF
+        UVAR(1:NEL,8) = ALDT(1:NEL)
       ENDIF
 c
       ! Checking element failure and recovering user variable
@@ -295,8 +296,8 @@ c
           E22(I)  = R_INTER
         ENDIF
         !  -> computation of volumetric strain
-        VOL_STRAIN(I) = E11(I) + E22(I) + E33(I) + E11(I)*E22(I) +
-     .                  E11(I)*E33(I) + E22(I)*E33(I) + E11(I)*E22(I)*E33(I) 
+        VOL_STRAIN(I) = E11(I) + E22(I) + E33(I)
+c       
         !  -> computation of effective strain
         DAV = (EPSXX(I)+EPSYY(I)+EPSZZ(I))*THIRD
         E1D = EPSXX(I) - DAV
@@ -485,7 +486,7 @@ c
           ENDIF 
           !  -> mixed mode 
           IF (fct_IDg12 > 0) THEN 
-            LAMBDA  = ALDT(I)/El_ref
+            LAMBDA  = UVAR(I,8)/El_ref
             SH12(I) = FINTER(KFUNC(IG12),LAMBDA,NPF,TF,DF) 
             DENOM   = SIGN(MAX(ABS(E11(I)),EM20),E11(I))  
             IF (((E22(I)/DENOM)<=-HALF).AND.((E22(I)/DENOM)>=-TWO)) THEN
@@ -496,7 +497,7 @@ c
             ENDIF
           ENDIF
           IF (fct_IDg13 > 0) THEN 
-            LAMBDA  = ALDT(I)/El_ref
+            LAMBDA  = UVAR(I,8)/El_ref
             SH13(I) = FINTER(KFUNC(IG13),LAMBDA,NPF,TF,DF)
             DENOM   = SIGN(MAX(ABS(E11(I)),EM20),E11(I))  
             IF (((E22(I)/DENOM)<=ONE).AND.((E22(I)/DENOM)>=-HALF)) THEN
@@ -507,7 +508,7 @@ c
             ENDIF
           ENDIF
           IF (fct_IDe1c > 0) THEN 
-            LAMBDA = ALDT(I)/El_ref
+            LAMBDA = UVAR(I,8)/El_ref
             E1C(I) = FINTER(KFUNC(IE1C),LAMBDA,NPF,TF,DF) 
             DENOM  = SIGN(MAX(ABS(E11(I)),EM20),E11(I))  
             IF (((E22(I)/DENOM)<=ONE).AND.((E22(I)/DENOM)>=-HALF)) THEN
