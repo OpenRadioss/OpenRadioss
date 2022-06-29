@@ -368,7 +368,7 @@ C===============================================================================
         CALL MATTAB_USR2SYS(TITR,MAT_ID,TABLE,1,int_tab_IDfld)
       ENDIF
       ! -> Number of user variables
-      NUVAR = 7 
+      NUVAR = 8 
 ! c-----------------------------------------------------    
       UPARAM(1)  = MINPRES
       UPARAM(2)  = MAXPRES
