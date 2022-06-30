@@ -45,7 +45,7 @@ It is not recommended to push commits directly into your `main` branch. This bra
     * `git commit -m “<message>” `  with a [good](https://openpbs.atlassian.net/wiki/spaces/DG/pages/6193155/How+To+Write+a+Good+Git+Commit+Message) message.
 * Review your history: squash your commits, write a meaningful commit message  
     * `git rebase -i main` provided that your current branch is derived from the `main` branch. 
-    *  To squash all commits into the first one, replace `pick` by `squash` on for all your commits except the first one. 
+    *  To squash all your commits into your first one: replace `pick` by `squash` on for all your commits except your first one. Do not squash your commits into someone else's commit. Do not embed someone else's commit into your squashed commit. 
 * Rebase your work on the latest version of OpenRadioss (you can also follow [this](https://openpbs.atlassian.net/wiki/spaces/DG/pages/1183744006/Rebasing+Your+Dev+Branch))
     * `git pull --rebase upstream main`  
     * Solve conflicts, loop over:  
