@@ -412,11 +412,11 @@ C--------------------------------------------------
           NM = NM+1                     
           IMERGE(NMERGE_TOT+NM) = USRTOSC(IMERGETMP(I),ITABM1)
           IMERGE(NM)         = USRTOSC(ITABC(I) ,ITABM1)
-        ELSE IF (IMERGETMP(I) == 0 .AND. IMERGE0(I) == 0) THEN
-          CALL ANCMSG(MSGID=1587,
-     .                MSGTYPE=MSGWARNING,
-     .                ANMODE=ANINFO_BLIND_1,
-     .                I1=ITABC(I))
+!        ELSE IF (IMERGETMP(I) == 0 .AND. IMERGE0(I) == 0) THEN
+!          CALL ANCMSG(MSGID=1587,
+!     .                MSGTYPE=MSGWARNING,
+!     .                ANMODE=ANINFO_BLIND_1,
+!     .                I1=ITABC(I))
         ENDIF                                 
       ENDDO                                   
       NMERGED = NM
@@ -459,6 +459,17 @@ C--------------------------------------------------
      .          ITAB(IMERGE(I)),ITAB(IMERGE(NMERGE_TOT+I))
         ENDDO                                                       
       ENDDO    
+      !
+      ! print out the list of all CNODE, not merged, but finally transformed
+      ! into NODE
+!
+      WRITE(IOUT,'(//A/A//A/)')TITRE(209),TITRE(115),TITRE(210)
+!
+      DO I= 1,NUMCNOD 
+        IF (IMERGETMP(I) == 0 .AND. IMERGE0(I) == 0) THEN
+          WRITE(IOUT,'(5X,I10)') ITABC(I)
+        ENDIF
+      ENDDO
 C--------
        DEALLOCATE(NPX   ,NPY   ,NPZ   ,IPX   ,IPY   ,IPZ  ,
      .            NPCX  ,NPCY  ,NPCZ  ,IPCX  ,IPCY  ,IPCZ ,
