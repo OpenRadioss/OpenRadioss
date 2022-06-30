@@ -832,7 +832,7 @@ C  |
 C  |     Ni(r,s,t) =  
 C  |     dNi/dr    =  
 C  |     ...         _ 
-C  |                \      
+C  |                \
 C  |     dx/dr    = /_ (xi * dNi/dr)
 C  |     ...        
 C  | 
@@ -842,7 +842,7 @@ C  |            [dx/dt dy/dt dz/dt]
 C  | 
 C  | +--> jter                                 
 C  | |                  _ 
-C  | |                 \      
+C  | |                 \
 C  | |      x(r,s,t) = /_ (xi * Ni(r,s,t))
 C  | |      ...        
 C  | |

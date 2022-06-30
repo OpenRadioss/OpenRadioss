@@ -539,7 +539,7 @@ c      if (ncycle==0) ipr=1
 c       if (ipr==1)   write(6,*),'NSN,NSNE=',NSN,NSNE
        DO I=NSN0+1,NSN
        NS=NSV(I)-NUMNOD
-       IF (NS<=0) write(iout,*),'!!!!error, NSV(I),I=',NSV(I),I
+C      IF (NS<=0) write(iout,*) '!!!!error, NSV(I),I=',NSV(I),I
        IP = IS2PT(NS)
 c       if (ipr==1)   write(6,*),'IP,NS,I=',IP,NS,I
        CALL I24FIC_GETN(NS      ,IRTSE   ,IS2SE   ,IE    ,NS1     ,

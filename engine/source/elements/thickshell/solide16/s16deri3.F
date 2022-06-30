@@ -170,27 +170,27 @@ C*/
 C-----------------------------------------------
 C
 C         _ 
-C        \      
+C        \
 C    f = /_ (fi * Ni)
 C             _ 
-C            \      
+C            \
 C    df/dx = /_ (fi * dNi/dx)
 C
 C    dNi/dx =  dNi/dr dr/dx + dNi/ds ds/dx + dNi/dt dt/dx
 C
 C-----------------------------------------------
 C                _ 
-C               \      
+C               \
 C    x(r,s,t) = /_ (xi * Ni(r,s,t))
 C                _ 
-C               \      
+C               \
 C    y(r,s,t) = /_ (yi * Ni(r,s,t))
 C                _ 
-C               \      
+C               \
 C    z(r,s,t) = /_ zi * Ni(r,s,t))
 C        
 C                _ 
-C               \      
+C               \
 C    dx/dr    = /_ (xi * dNi/dr)
 C    ...        
 C

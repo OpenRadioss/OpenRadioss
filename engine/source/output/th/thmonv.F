@@ -67,7 +67,7 @@ c
               I=ITHBUF(J)
               CALL FRETITL2(TITR1,ITHBUF(IAD2),40)
               ID_TITR1(1:2) = TITR1(21:22)
-              READ(ID_TITR1,FMT='(I2)',ERR=100),ID_VENT
+              READ(ID_TITR1,FMT='(I2)',ERR=100) ID_VENT
 100           CONTINUE
 c
               DO L=L1,L2

@@ -68,7 +68,6 @@ C           /   t
 C     F = _/ [B]  sig dvol
 C
 C                   NEL
-C         /--------------------\           
 C   [B] = [dNi/dx  dNk/dx  ..  ] \  3
 C         [dNi/dy  dNk/dy  ..  ] |  *
 C         [dNi/dz  dNk/dz  ..  ] |  N

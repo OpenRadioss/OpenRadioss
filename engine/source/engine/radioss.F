@@ -20,14 +20,9 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-! 
-!  ______     ______     _____     __     ______     ______     ______    
-! /\  == \   /\  __ \   /\  __-.  /\ \   /\  __ \   /\  ___\   /\  ___\   
-! \ \  __<   \ \  __ \  \ \ \/\ \ \ \ \  \ \ \/\ \  \ \___  \  \ \___  \  
-!  \ \_\ \_\  \ \_\ \_\  \ \____-  \ \_\  \ \_____\  \/\_____\  \/\_____\ 
-!   \/_/ /_/   \/_/\/_/   \/____/   \/_/   \/_____/   \/_____/   \/_____/ 
+!_______________________________________________________________________
 !
-!                                                        ____E_N_G_I_N_E
+! OpenRadioss                                            ____E_N_G_I_N_E
 !_______________________________________________________________________
 
       PROGRAM RADIOSS

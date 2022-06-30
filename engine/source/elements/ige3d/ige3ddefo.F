@@ -83,10 +83,9 @@ C=======================================================================
         DZY(I)=ZERO
         WXX(I)=ZERO
         WYY(I)=ZERO
-        WZZ(I)=ZERO 	
+        WZZ(I)=ZERO     
       ENDDO
 C                   NEL
-C         /--------------------\           
 C   [B] = [dNi/dx  dNk/dx  ..  ] \  3
 C         [dNi/dy  dNk/dy  ..  ] |  *
 C         [dNi/dz  dNk/dz  ..  ] |  N
