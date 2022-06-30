@@ -89,12 +89,13 @@ if ( NOT DEFINED WITH_LINEAR_ALGEBRA)
 set ( wo_linalg "-DWITHOUT_LINALG" )
 endif()
 
+set ( opt_flag "  ${wo_linalg} -DCOMP_GFORTRAN=1 -ffp-contract=off -frounding-math -fopenmp" )
 
 if ( debug STREQUAL "1" )
  
 # Fortran
-set ( opt_flag "  ${wo_linalg} -DCOMP_GFORTRAN=1 -fdec-math  -ffp-contract=off -frounding-math -fopenmp" )
-set_source_files_properties(${source_files}  PROPERTIES COMPILE_FLAGS " -O0 -g -fbacktrace -Wunused-dummy-argument -Wdo-subscript -Wunused ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF}  " )
+
+set_source_files_properties(${source_files}  PROPERTIES COMPILE_FLAGS " -O0 -g -fdec-math -fbacktrace -Wunused-dummy-argument -Wdo-subscript -Wunused ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF}  " )
 #set_source_files_properties(${source_files}  PROPERTIES COMPILE_FLAGS " -O0 -g -fbacktrace ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF}  " )
 
 
@@ -108,9 +109,8 @@ else ()
 
 # Fortran
 
-set ( opt_flag "  ${wo_linalg} -DCOMP_GFORTRAN=1 -fdec-math  -ffp-contract=off -frounding-math -fopenmp" )
 
-set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " -O3 ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF} " )
+set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " -O3 -fdec-math ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF} " )
 
 # C source files
 set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " -O2 ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} " )

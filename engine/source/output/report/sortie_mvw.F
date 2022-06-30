@@ -305,7 +305,7 @@ c
        WRITE(IOUTMVW,'(A)')'                *Min(0)'
 c       WRITE(IOUTMVW,'(A)')'                *Max(22.5)'
                   FMW  = "(A21,1PG15.6,A)"
-       WRITE(IOUTMVW,FMT=FMW) ,'                *Max(',TT,')'
+       WRITE(IOUTMVW,FMT=FMW) '                *Max(',TT,')'
 C
        WRITE(IOUTMVW,'(A)')'                *Format(Auto)'
        WRITE(IOUTMVW,'(A)')'                *Precision(5)'
@@ -1369,7 +1369,7 @@ c
        WRITE(IOUTMVW,'(A)')'                *Min(0)'
 c       WRITE(IOUTMVW,'(A)')'                *Max(22.5)'
                   FMW  = "(A21,1PG15.6,A)"
-       WRITE(IOUTMVW,FMT=FMW) ,'                *Max(',TT,')'
+       WRITE(IOUTMVW,FMT=FMW) '                *Max(',TT,')'
 C
        WRITE(IOUTMVW,'(A)')'                *Format(Auto)'
        WRITE(IOUTMVW,'(A)')'                *Precision(5)'
@@ -1538,7 +1538,7 @@ c
        WRITE(IOUTMVW,'(A)')'                *Min(0)'
 c       WRITE(IOUTMVW,'(A)')'                *Max(22.5)'
                   FMW  = "(A21,1PG15.6,A)"
-       WRITE(IOUTMVW,FMT=FMW) ,'                *Max(',TT,')'
+       WRITE(IOUTMVW,FMT=FMW) '                *Max(',TT,')'
 C
        WRITE(IOUTMVW,'(A)')'                *Format(Auto)'
        WRITE(IOUTMVW,'(A)')'                *Precision(5)'
@@ -1845,7 +1845,7 @@ c
        WRITE(IOUTMVW,'(A)')'                *Min(0)'
 c       WRITE(IOUTMVW,'(A)')'                *Max(22.5)'
                   FMW  = "(A21,1PG15.6,A)"
-       WRITE(IOUTMVW,FMT=FMW) ,'                *Max(',TT,')'
+       WRITE(IOUTMVW,FMT=FMW) '                *Max(',TT,')'
 C
        WRITE(IOUTMVW,'(A)')'                *Format(Auto)'
        WRITE(IOUTMVW,'(A)')'                *Precision(5)'

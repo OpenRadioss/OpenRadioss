@@ -70,7 +70,7 @@ C
 C       i,j,k,...., NCTRL
 C
 C               NEL                               NEL
-C          /-----------\                /--------------------\           
+C          /-----------\                /--------------------\    ! 
 C    [N] = [Ni  Nk  .. ] \  N     [B] = [dNi/dx  dNk/dx  ..  ] \  3
 C          [Ni  Nl  .. ] |  C           [dNi/dy  dNk/dy  ..  ] |  *
 C          [Nk  Nm  .. ] |  T           [dNi/dz  dNk/dz  ..  ] |  N

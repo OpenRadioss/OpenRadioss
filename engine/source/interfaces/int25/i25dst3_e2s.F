@@ -276,9 +276,9 @@ C                                  /     S
 C                                /     x 
 C                            M /           
 C                      <------x        Sector with Zero force
-C                      n(M)    \     
+C                      n(M)    \
 C                                \
-C                                  \      
+C                                  \
 C         P2=ZERO
 C         IF(IBS(I)==0)
 C    .      P2=  NX(I)*FX(I)+NY(I)*FY(I)+NZ(I)*FZ(I)  ! (n(S),MS) > 45 degrees
