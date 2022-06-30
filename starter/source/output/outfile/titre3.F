@@ -145,5 +145,7 @@ C
       TITRE(119)='     --------------------------------------'
       TITRE(207)='               MERGE CNODES              '
       TITRE(208)='    CNODES              MERGED TO CNODES '
+      TITRE(209)='               CNODES TRANSFORMED TO NODES'
+      TITRE(210)='    CNODES'
       RETURN
       END

@@ -388,11 +388,11 @@ C--------------------------------------------------
           NM = NM+1                          
           IMERGE(NMERGE_TOT+NM) = USRTOSC(IMERGE0(I),ITABM1)
           IMERGE(NM)         = USRTOSC(ITABC(I) ,ITABM1)
-        ELSE
-          CALL ANCMSG(MSGID=739,
-     .                MSGTYPE=MSGWARNING,
-     .                ANMODE=ANINFO_BLIND_1,
-     .                I1=ITABC(I))
+!        ELSE
+!          CALL ANCMSG(MSGID=739,
+!     .                MSGTYPE=MSGWARNING,
+!     .                ANMODE=ANINFO_BLIND_1,
+!     .                I1=ITABC(I))
         ENDIF                                 
       ENDDO                                   
       NMERGED = NM                           
