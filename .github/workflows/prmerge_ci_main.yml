@@ -60,6 +60,16 @@ jobs:
             binary: engine
             mpi: ompi
 
+          - build: engine_linux64_gf
+            precision: dp
+            os: linux64
+            binary: engine
+
+          - build: engine_linux64_gf_sp
+            precision: sp
+            os: linux64 
+            binary: engine
+
     steps:
 
       # Set the working dir suffixed with branch name
