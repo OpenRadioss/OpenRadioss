@@ -182,7 +182,7 @@ C-----------------------------------------------
      .   JJ19,NPE,ICNOD,NFT1,ISUBS,ISENS_ENERGY,
      .   L1,L2,L3,L4,L5,L6,L7,L8,L9,L10,L11,L12,L13,L14,L15,L16,
      .   L17,L18,L19,L20,L21,L22,L23,L24,L25,L26,L27,L28,L29,L30,
-     .   ICP,ICS,IEXPAN, IG,ITG1,ITG2,ITG3,NLEVXF,NRBDIM
+     .   ICP,ICS,IEXPAN, IG,ITG1,ITG2,ITG3,NLEVXF,NRBDIM,ISEATBELT
       INTEGER MTN1,MTN2,IPARSENS,ISECT
       INTEGER ISH3N,ISHPLYXFEM,IXFEM,ITSK,OMP_GET_THREAD_NUM
       INTEGER IXEL,ACTIFXFEM,ISUBSTACK,DIM6,DIM_EXCH
@@ -281,6 +281,7 @@ C---
             NLEVXF  = IPARG(65,NG)
             ACTIFXFEM=IPARG(70,NG)
             ISUBSTACK=IPARG(71,NG)
+            ISEATBELT=IPARG(91,NG)
             LFT   = 1
             LLT   = MIN(NVSIZ,NEL)
             MTN   = MLW
@@ -291,6 +292,11 @@ C---
 C----6---------------------------------------------------------------7---------8
         IF(ITY.EQ.3)THEN
           IOFC = 0
+C
+C--      Reduction factor computation for seatbelts in sliprings
+         IF ((NSLIPRING > 0).AND.(MLW == 19).AND.(ISEATBELT==1)) THEN
+           CALL SEATBELT_REDUCTION_FACTOR(ELBUF_TAB(NG),JFT,JLT,IXC,NEL,X,NFT)
+         ENDIF
 C
          IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
      .    CALL SENSOR_ENERGY_PART(LSENSOR ,IPARTC(NF1) ,SUBSET ,IPRI)

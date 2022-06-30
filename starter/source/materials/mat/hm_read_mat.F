@@ -1072,8 +1072,9 @@ c-------
           CASE ('LAW119','SH_SEATBELT')
             ILAW = 19 
             CALL HM_READ_MAT119(
-     .           IPM(1,I) , PM(1,I) ,UNITAB, MAT_ID, TITR, 
-     .           LSUBMODEL, MTAG    ,ISRATE)
+     .           MTAG     ,UPARAM   ,MAXUPARAM,NUPARAM  ,PM(1,I)  ,
+     .           MATPARAM ,PARMAT   ,NUVAR    ,MAT_ID   ,TITR     ,
+     .           UNITAB   ,LSUBMODEL,ISRATE   ,IPM(1,I))
 c-------     
           CASE ('LAW120','TAPO')
             ILAW  = 120

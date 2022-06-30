@@ -122,9 +122,9 @@ C--         IF NFRAM > 1 - RINGLSIP and BETA are average of the 1d sliprings - F
             SBUF(K+3) = SBUF(K+3) + SLIPRING(N)%FRAM(L)%SLIP_FORCE(1)
             SBUF(K+4) = SBUF(K+4) + SLIPRING(N)%FRAM(L)%SLIP_FORCE(2)
             SBUF(K+5) = SBUF(K+5) + FAC*SLIPRING(N)%FRAM(L)%BETA
-            SBUF(K+6) = SBUF(K+6) + FAC*SLIPRING(N)%FRAM(L)%GAMMA
-            K = K + 6
+            SBUF(K+6) = SBUF(K+6) + FAC*SLIPRING(N)%FRAM(L)%ORIENTATION_ANGLE
           END DO
+          K = K + 6
         END DO
 C
         DO N = 1, NRETRACTOR

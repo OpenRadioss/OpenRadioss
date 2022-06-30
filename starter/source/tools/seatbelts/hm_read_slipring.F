@@ -46,7 +46,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_SLIPRING(LSUBMODEL,ITABM1,IXR,ITAB,UNITAB,
      .                            X,FUNC_ID,NOM_OPT,ALEA,IGRNOD,
-     .                            IGRSH4N,IXC)
+     .                            IGRSH4N,IXC,IPM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -70,11 +70,15 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "submod_c.inc"
 #include      "random_c.inc"
+#include      "tabsiz_c.inc"
+#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ITABM1(*),IXR(NIXR,*),IXC(NIXC,*),ITAB(*),FUNC_ID(*),NOM_OPT(LNOPT1,*)
-      my_real               :: X(3,*),ALEA(*)
+      INTEGER, INTENT(IN) ::  ITABM1(NUMNOD),IXR(NIXR,NUMELR),IXC(NIXC,NUMELC),ITAB(NUMNOD),FUNC_ID(NFUNCT),IPM(NPROPMI,NUMMAT)
+      INTEGER, INTENT(INOUT) :: NOM_OPT(LNOPT1,SNOM_OPT1)
+      my_real, INTENT(IN) ::  ALEA(NRAND)
+      my_real, INTENT(INOUT) ::  X(3,NUMNOD)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
@@ -83,10 +87,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ,DIMENSION(NSLIPRING) :: SLIP_ID
-      INTEGER               :: I,J,K,L,ID, IGU, IGS, UID, NODE_ID, EL1, EL2, IERR1, NODE_ID2
+      INTEGER               :: I,J,K,L,ID, UID, NODE_ID, EL1, EL2, IERR1, NODE_ID2
       INTEGER               :: NODE1,NODE2,NODE3,NODE4,EL1_LOC,EL2_LOC,BID,ISENS,FLOW_FLAG
       INTEGER               :: IFUNC(4),IFUNC_LOC(4),NFRAM,ISHELL,GR_NOD,GR_SHEL1,GR_SHEL2,GRN_LOC,GRS1_LOC,GRS2_LOC
-      INTEGER               :: N_FIRST,N_LAST,NJ,NODE,IPOS,COMPT,IERROR,NJ_NEXT
+      INTEGER               :: N_FIRST,N_LAST,NJ,NODE,IPOS,IERROR,NJ_NEXT,MID,MTYP
       INTEGER , DIMENSION(:), ALLOCATABLE:: TAGNO,ELEM1_NOD,ELEM2_NOD,CORES1,CORES2,IPOS1_NOD,IPOS2_NOD,JPERM
       my_real               :: DISTN,DIST1,DIST2,DIST3,A,ED_FACTOR,FRICD,XSCALE1,YSCALE2,XSCALE2,FRICS,XSCALE3,YSCALE4,XSCALE4
       my_real               :: XSCALE1_UNIT,XSCALE2_UNIT,NN(3),NORM,N1(3),N2(3),N3(3),SCAL,ALEA_MAX,TOLE_2,NORMJ
@@ -111,7 +115,7 @@ C
 C
         WRITE(IOUT,1000)
 C
-        ALLOCATE (SLIPRING(NSLIPRING),STAT=IERR1);
+        MY_ALLOCATE (SLIPRING,NSLIPRING)
         DO I=1,NSLIPRING
           SLIPRING(I)%ID = 0
           SLIPRING(I)%IDG = 0
@@ -236,20 +240,42 @@ C
 C
             EL1_LOC=NINTRI(EL1,IXR,NIXR,NUMELR,NIXR)
             EL2_LOC=NINTRI(EL2,IXR,NIXR,NUMELR,NIXR)
-            IF(EL1_LOC == 0) CALL ANCMSG(MSGID=2002,
-     .                            MSGTYPE=MSGERROR,
-     .                            ANMODE=ANINFO_BLIND_1,
-     .                            C1='SPRING ELEMENT',I1=ID,I2=EL1)
-            IF(EL2_LOC == 0) CALL ANCMSG(MSGID=2002,
-     .                            MSGTYPE=MSGERROR,
-     .                            ANMODE=ANINFO_BLIND_1,
-     .                            C1='SPRING ELEMENT',I1=ID,I2=EL2)  
+C
+            IF(EL1_LOC == 0) THEN
+              CALL ANCMSG(MSGID=2002,
+     .                    MSGTYPE=MSGERROR,
+     .                    ANMODE=ANINFO_BLIND_1,
+     .                    C1='SPRING ELEMENT',I1=ID,I2=EL1)
+            ELSE
+              MTYP = 0
+              MID = IXR(5,EL1_LOC)
+              IF (MID > 0) MTYP = IPM(2,MID)
+              IF (MTYP /= 114) CALL ANCMSG(MSGID=2032,
+     .                                     MSGTYPE=MSGERROR,
+     .                                     ANMODE=ANINFO,
+     .                                     I1=ID,I2=EL1) 
+            ENDIF
+C
+            IF(EL2_LOC == 0) THEN
+              CALL ANCMSG(MSGID=2002,
+     .                    MSGTYPE=MSGERROR,
+     .                    ANMODE=ANINFO_BLIND_1,
+     .                    C1='SPRING ELEMENT',I1=ID,I2=EL2)
+            ELSE
+              MTYP = 0
+              MID = IXR(5,EL1_LOC)
+              IF (MID > 0) MTYP = IPM(2,MID)
+              IF (MTYP /= 114) CALL ANCMSG(MSGID=2032,
+     .                                     MSGTYPE=MSGERROR,
+     .                                     ANMODE=ANINFO,
+     .                                     I1=ID,I2=EL2) 
+            ENDIF
 C
 C--------   Initialisaton of fram structure
 C
             NFRAM = 1
             SLIPRING(I)%NFRAM = 1
-            ALLOCATE (SLIPRING(I)%FRAM(NFRAM),STAT=IERR1);  
+            MY_ALLOCATE (SLIPRING(I)%FRAM,NFRAM)
 C
             DO J=1,NFRAM
               SLIPRING(I)%FRAM(J)%UPDATE = 0
@@ -257,6 +283,7 @@ C
               SLIPRING(I)%FRAM(J)%ORIENTATION_NODE = 0
               SLIPRING(I)%FRAM(J)%NODE = 0
               SLIPRING(I)%FRAM(J)%NODE_NEXT = 0
+              SLIPRING(I)%FRAM(J)%NODE2_PREV = 0
               SLIPRING(I)%FRAM(J)%N_REMOTE_PROC = 0
               SLIPRING(I)%FRAM(J)%STRAND_DIRECTION = 1
               SLIPRING(I)%FRAM(J)%LOCKED = 0
@@ -269,6 +296,9 @@ C
               SLIPRING(I)%FRAM(J)%BETA = ZERO
               SLIPRING(I)%FRAM(J)%GAMMA = ZERO
               SLIPRING(I)%FRAM(J)%SLIP_FORCE = ZERO
+              SLIPRING(I)%FRAM(J)%PREV_REF_LENGTH = ZERO
+              SLIPRING(I)%FRAM(J)%INTVAR_STR1 = ZERO
+              SLIPRING(I)%FRAM(J)%INTVAR_STR2 = ZERO
             ENDDO
 C
 C---------- Fill of fram structure
@@ -420,7 +450,7 @@ C
 C--------   Initialisaton of fram structure
 C
             SLIPRING(I)%NFRAM = NFRAM
-            ALLOCATE (SLIPRING(I)%FRAM(NFRAM),STAT=IERR1)
+            MY_ALLOCATE (SLIPRING(I)%FRAM,NFRAM)
             DO J=1,NFRAM
               SLIPRING(I)%FRAM(J)%UPDATE = 0
               SLIPRING(I)%FRAM(J)%ANCHOR_NODE = 0
@@ -441,10 +471,13 @@ C
               SLIPRING(I)%FRAM(J)%GAMMA = ZERO
               SLIPRING(I)%FRAM(J)%SLIP_FORCE = ZERO
               SLIPRING(I)%FRAM(J)%PREV_REF_LENGTH = ZERO
+              SLIPRING(I)%FRAM(J)%INTVAR_STR1 = ZERO
+              SLIPRING(I)%FRAM(J)%INTVAR_STR2 = ZERO
             ENDDO
 C
 C--------   CHeck of alignement of anchorage nodes
-            ALLOCATE(DIST(NFRAM),JPERM(NFRAM))
+            MY_ALLOCATE(DIST,NFRAM)
+            MY_ALLOCATE(JPERM,NFRAM)
             JPERM(1:NFRAM) = 0
             N_FIRST = IGRNOD(GRN_LOC)%ENTITY(1)
             N_LAST = IGRNOD(GRN_LOC)%ENTITY(IGRNOD(GRN_LOC)%NENTITY)
@@ -461,8 +494,8 @@ C--------   CHeck of alignement of anchorage nodes
               VECTJ(1) = (X(1,N_FIRST)-X(1,NJ))/NORMJ
               VECTJ(2) = (X(2,N_FIRST)-X(2,NJ))/NORMJ
               VECTJ(3) = (X(3,N_FIRST)-X(3,NJ))/NORMJ 
-              SCAL =  ONE - VECT(1)*VECTJ(1) - VECT(2)*VECTJ(2) - VECT(3)*VECTJ(3)           
-              IF ( ABS(SCAL) > EM20) THEN
+              SCAL =  ONE - ABS(VECT(1)*VECTJ(1)+VECT(2)*VECTJ(2)+VECT(3)*VECTJ(3))
+              IF (ABS(SCAL) > EM08) THEN
                 CALL ANCMSG(MSGID=2051,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO_BLIND_1,
@@ -486,7 +519,13 @@ C--------   CHeck of distance between anchorage nodes (sorting by distance to fi
 C
 C--------   Identification of node 2 for each frame
 C
-            ALLOCATE(ELEM1_NOD(NFRAM),ELEM2_NOD(NFRAM),IPOS1_NOD(NFRAM),IPOS2_NOD(NFRAM),CORES1(NFRAM),CORES2(NFRAM),TAGNO(NUMNOD))  
+            MY_ALLOCATE(ELEM1_NOD,NFRAM)
+            MY_ALLOCATE(ELEM2_NOD,NFRAM)
+            MY_ALLOCATE(IPOS1_NOD,NFRAM)
+            MY_ALLOCATE(IPOS2_NOD,NFRAM)
+            MY_ALLOCATE(CORES1,NFRAM)
+            MY_ALLOCATE(CORES2,NFRAM)
+            MY_ALLOCATE(TAGNO,NUMNOD)
             CORES1(1:NFRAM) = 0
             CORES1(1:NFRAM) = 0
             IPOS1_NOD(1:NFRAM) = 0
@@ -500,8 +539,8 @@ C
 C--           Search for closest node on element set 1 for each anchorage node 
               DIST_MIN = EP30
               DO K=1,IGRSH4N(GRS1_LOC)%NENTITY
+                ISHELL = IGRSH4N(GRS1_LOC)%ENTITY(K)
                 DO L = 1,4
-                  ISHELL = IGRSH4N(GRS1_LOC)%ENTITY(K)
                   NODE = IXC(1+L,ISHELL)
                   DISTN = (X(1,NODE)-X(1,NJ))**2+(X(2,NODE)-X(2,NJ))**2+(X(3,NODE)-X(3,NJ))**2
                   IF (DISTN < DIST_MIN) THEN
@@ -510,14 +549,22 @@ C--           Search for closest node on element set 1 for each anchorage node
                     ELEM1_NOD(J) = ISHELL
                     IPOS1_NOD(J) = L  
                   ENDIF
-                ENDDO              
+                ENDDO
+                MID = IXC(1,ISHELL)
+                IF ((IPM(2,MID)/=19).OR.(IPM(6,MID)/=1)) THEN
+                  CALL ANCMSG(MSGID=2074,
+     .                        MSGTYPE=MSGERROR,
+     .                        ANMODE=ANINFO_BLIND_1,
+     .                        I1=IXC(NIXC,ISHELL),
+     .                        PRMOD=MSG_CUMU)  
+                ENDIF             
               ENDDO
               IF (CORES1(J) > 0) TAGNO(CORES1(J)) = 1   
 C--           Search for closest node on element set 2 for each anchorage node 
               DIST_MIN = EP30
               DO K=1,IGRSH4N(GRS2_LOC)%NENTITY
+                ISHELL = IGRSH4N(GRS2_LOC)%ENTITY(K)
                 DO L = 1,4
-                  ISHELL = IGRSH4N(GRS2_LOC)%ENTITY(K)
                   NODE = IXC(1+L,ISHELL)
                   DISTN = (X(1,NODE)-X(1,NJ))**2+(X(2,NODE)-X(2,NJ))**2+(X(3,NODE)-X(3,NJ))**2
                   IF (DISTN < DIST_MIN) THEN
@@ -526,7 +573,15 @@ C--           Search for closest node on element set 2 for each anchorage node
                     ELEM2_NOD(J) = ISHELL
                     IPOS2_NOD(J) = L 
                   ENDIF
-                ENDDO             
+                ENDDO
+                MID = IXC(1,ISHELL)
+                IF ((IPM(2,MID)/=19).OR.(IPM(6,MID)/=1)) THEN
+                  CALL ANCMSG(MSGID=2074,
+     .                      MSGTYPE=MSGERROR,
+     .                      ANMODE=ANINFO_BLIND_1,
+     .                      I1=IXC(NIXC,ISHELL),
+     .                      PRMOD=MSG_CUMU)      
+                ENDIF        
               ENDDO
               IF (CORES2(J) > 0) TAGNO(CORES2(J)) = 1  
 C--
@@ -537,7 +592,13 @@ C--
      .                      I1=ID,I2=GR_SHEL1,I3=GR_SHEL2,I4=ITAB(NJ))
               ENDIF
 C                    
-            ENDDO    
+            ENDDO
+C        
+            CALL ANCMSG(MSGID=2074,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1=ID,
+     .                  PRMOD=MSG_PRINT)     
 C
 C---------- Fill of fram structure
 C

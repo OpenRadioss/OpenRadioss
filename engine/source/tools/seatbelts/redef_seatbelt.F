@@ -32,7 +32,8 @@ Chd|====================================================================
      .                          E       ,ANIM   ,IANI   ,POS    ,XL0   ,
      .                          DMN     ,DMX    ,LSCALE ,YIELD  ,AK    ,  
      .                          IECROU  ,IFUNC  ,IFUNC2 ,XX_OLD ,FX_MAX,
-     .                          XKC     ,LLT_LOC,INDEXA ,FLAG,XK_TAN)
+     .                          XKC     ,LLT_LOC,INDEXA ,FLAG   ,XK_TAN,
+     .                          EPS_OLD ,FRAM_FACTOR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,11 +60,13 @@ C     REAL
      .   FX(*), XK(*), DX(*), FXEP(*), DXOLD(*), DPX(*), TF(*),
      .   OFF(*),E(*),XL0(*),LSCALE(*),YIELD(*),AK(MVSIZ),XX_OLD(*),
      .   FX_MAX(*),XKC(*),ANIM(*),DMN(*),DMX(*),POS(*),XC(*),XK_TAN(*)
+      my_real, INTENT(IN) :: FRAM_FACTOR(MVSIZ)
+      my_real, INTENT(INOUT) :: EPS_OLD(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER
-     . I, K, NP2, FUND, K1, II, JECROU(11), INTERP, JPOS(MVSIZ), JFUNC,
+     . I, K, NP2, FUND, K1, II, JECROU(3), INTERP, JPOS(MVSIZ), JFUNC,
      . JLEN(MVSIZ),JAD(MVSIZ),J
       my_real
      . X1,X2,Y1,Y2,DT11,AN3Y0(MVSIZ),XN3FY0(MVSIZ),DXELA(MVSIZ),XI1,XI2,YI1,YI2,DDXT,DDXC,
@@ -88,8 +91,10 @@ C
         E(I)=E(I)/XL0(I)
 C
         FOLD(J)=FX(I)
-        DDX(J)= (DX(I)-DXOLD(I))
-        DVX(J)= DDX(J)/ DT11
+        DDX(J)= (DX(I)-EPS_OLD(I))
+        DVX(J)= (DX(I)-DXOLD(I))/ DT11
+        EPS_OLD(I) = DX(I)
+C
       ENDDO
 C
       IF ((IANI.NE.0).AND.(FLAG==1))THEN
@@ -106,16 +111,18 @@ C-------------------------------------
 C        VECTOR INTERPOLATION (ADRESS)
 C-------------------------------------
 C
-      JECROU(1:11) = 0
+      JECROU(1:3) = 0
       INTERP = 0
 C
       DO J=LFT,LLT_LOC
        I = INDEXA(J)
-       IF(IECROU(I) == 11)THEN
-         JECROU(11) = JECROU(11) + 1
+       IF(IECROU(I) == 0)THEN
+         JECROU(1) = JECROU(1) + 1
        ELSEIF(IECROU(I) == 10)THEN
-         JECROU(10) = JECROU(10) + 1
+         JECROU(2) = JECROU(2) + 1
          INTERP = 1
+       ELSEIF(IECROU(I) == 11)THEN
+         JECROU(3) = JECROU(3) + 1
        ENDIF
       ENDDO
 C
@@ -128,12 +135,31 @@ C
           JLEN(J)  = NPF(JFUNC+1) / 2  - JAD(J)  - JPOS(J)
           XX(J) =ZERO
         ENDDO
+      ENDIF
+C
+C-------------------------------------
+C        LINEAR ELASTIC
+C-------------------------------------
+      IF(JECROU(1).EQ.LLT_LOC)THEN
+        DO J=LFT,LLT_LOC
+          I = INDEXA(J) 
+          FX(I)=XK(I)*DX(I)
+          XK_TAN(I) = XK(I)
+        ENDDO
+      ELSEIF(JECROU(1).GT.0)THEN
+        DO J=LFT,LLT
+          I = INDEXA(J) 
+          IF(IFUNC(I).EQ.0)THEN
+            FX(I)=XK(I)*DX(I)
+            XK_TAN(I) = XK(I)
+          ENDIF
+        ENDDO
       ENDIF            
 C
 C-------------------------------------
-C        ELASTO PLASTIQUE (ECOUISSAGE ISOTROPE) - PERFECLTY PLASTIC IN COMPRESSION
+C        ELASTO PLASTIC (Isotropic hardening) - PERFECLTY PLASTIC IN COMPRESSION
 C-------------------------------------
-      IF(JECROU(10)==LLT_LOC)THEN
+      IF(JECROU(2)==LLT_LOC)THEN
         DO J=LFT,LLT_LOC
           I = INDEXA(J)                                          
           FUND = IFUNC2(I)     ! courbe N3 de unload                                                             
@@ -155,7 +181,7 @@ C--- Tension - load curve is used
               ENDIF 
             ENDDO
 C
-            IF (AN3Y0(J)== ZERO)THEN ! extrapolation (exterieur aux points de l input)
+            IF (AN3Y0(J)== ZERO)THEN ! extrapolation (outside of input curve points)
               X1=TF(NPF(FUND)+(NP2-2)*2)                                       
               X2=TF(NPF(FUND)+(NP2-2)*2+2)                                     
               Y1=TF(NPF(FUND)+(NP2-2)*2+1)                                     
@@ -168,6 +194,7 @@ C
               IF(FXEP(I)>Y2)AN3Y0(J)=(Y2-Y1)/ (X2-X1) 
               IF(FXEP(I)<YI1)AN3Y0(J)=(YI2-YI1)/ (XI2-XI1)
             ENDIF
+C
 C----       Crossing of compresion/tension line - mix stiffness computed
             IF ((DXELA(J) < ZERO).AND.(ABS(DDX(J)) > ZERO)) THEN
               DDXT = -FXEP(I)/AN3Y0(J)
@@ -175,18 +202,18 @@ C----       Crossing of compresion/tension line - mix stiffness computed
               AN3Y0(J) = (DDXT/DDX(J))*AN3Y0(J) + (DDXC/DDX(J))*XKC(I)
             ENDIF
 C
-            IF (DXELA(J) >= ZERO) XX(J)=XX_OLD(I)+DDX(J)
+            XX(J)=XX_OLD(I)+DDX(J)
           ELSE
 C--- Compression - perfectly plastic behavior
             AN3Y0(J)= XKC(I)
           ENDIF
           FX(I)=FXEP(I)+AN3Y0(J)*DDX(J)
         ENDDO
-      ELSEIF(JECROU(10)>0)THEN
+      ELSEIF(JECROU(2)>0)THEN
         DO J=LFT,LLT_LOC
          I = INDEXA(J)
          IF(IFUNC(I).NE.0.AND.IECROU(I)== 10)THEN
-          FUND = IFUNC2(I)     ! courbe N3 de unload                                                             
+          FUND = IFUNC2(I)     ! N3 curve for unloading                                                             
           NP2  = (NPF(FUND+1)-NPF(FUND))*HALF                       
           AN3Y0(J)= ZERO
           DXELA(J)=DX(I)-DPX(I)
@@ -200,12 +227,12 @@ C--- Tension - load curve is used
               Y2=TF(NPF(FUND)+K1+3) 
               IF((FXEP(I)< Y2.AND.FXEP(I)>=Y1))THEN  
                 AN3Y0(J)=(Y2-Y1)/ (X2-X1)                     
-                XN3FY0(I)=(FXEP(I)-Y1)/AN3Y0(J) + X1   !ABS DE N3  
+                XN3FY0(I)=(FXEP(I)-Y1)/AN3Y0(J) + X1   !ABS OF N3  
                 EXIT     
               ENDIF 
             ENDDO
 C
-            IF (AN3Y0(J)== ZERO)THEN ! extrapolation (exterieur aux points de l input)
+            IF (AN3Y0(J)== ZERO)THEN ! extrapolation (outside of input curve points)
               X1=TF(NPF(FUND)+(NP2-2)*2)                                       
               X2=TF(NPF(FUND)+(NP2-2)*2+2)                                     
               Y1=TF(NPF(FUND)+(NP2-2)*2+1)                                     
@@ -225,7 +252,7 @@ C----       Crossing of compresion/tension line - mix stiffness computed
               AN3Y0(J) = (DDXT/DDX(J))*AN3Y0(J) + (DDXC/DDX(J))*XKC(I)
             ENDIF
 C
-            IF (DXELA(J) >= ZERO) XX(J)=XX_OLD(I)+DDX(J)
+            XX(J)=XX_OLD(I)+DDX(J)
           ELSE
 C--- Compression - perfectly plastic behavior
             AN3Y0(J)= XKC(I)
@@ -237,7 +264,7 @@ C--- Compression - perfectly plastic behavior
 C-------------------------------------
 C        LINEAR ELASTIC in tension - perfleclty palstic in compression (same as 10 without curve)
 C-------------------------------------
-      IF(JECROU(11)==LLT_LOC)THEN
+      IF(JECROU(3)==LLT_LOC)THEN
         DO J=LFT,LLT_LOC  
           I = INDEXA(J)                                                            
           AN3Y0(J)= ZERO
@@ -255,7 +282,7 @@ C----       Crossing of compresion/tension line - mix stiffness computed
           ENDIF                                                          
           FX(I)=FXEP(I)+AN3Y0(J)*DDX(J)
         ENDDO
-      ELSEIF(JECROU(11)>0)THEN
+      ELSEIF(JECROU(3)>0)THEN
         DO J=LFT,LLT_LOC
           I = INDEXA(J)
           IF(IECROU(I)== 11) THEN                      
@@ -286,46 +313,52 @@ C-------------------------------------
 C-------------------------------------
 C     SEATBELT - ELASTO PLASTIQUE (ECOUISSAGE ISOTROPE) in tension - perfleclty plastic in compression
 C-------------------------------------
-      IF(JECROU(10).EQ.LLT_LOC)THEN
+      IF(JECROU(2).EQ.LLT_LOC)THEN
         CALL VINTER2(TF,JAD ,JPOS ,JLEN ,LLT_LOC,XX ,DYDX ,YY )
         DO J=LFT,LLT_LOC
            I = INDEXA(J)
-           XK_TAN(I) = DYDX(J)
            IF(FX(I)> ZERO.AND.FX(I)>YIELD(I))THEN
-               POS(I) = JPOS(J)
+             POS(I) = JPOS(J)
 C-- COMPUTE PLASTIC AND ELASTIC DEFORMATION (TOTAL)    
-               DPX(I)=DPX(I)+(FX(I)-YY(J))/AN3Y0(J)
-               FX(I)=YY(J)
-               YIELD(I)=FX(I)
+             DPX(I)=DPX(I)+(FX(I)-YY(J))/MAX(EM20,AN3Y0(J))
+             FX(I)=YY(J)
+             YIELD(I)=FX(I)
 C-- ECR variable for hardening/softening - always incremented with positive value
-               XX_OLD(I) = XX_OLD(I) + ABS(DDX(J))
+             XX_OLD(I) = XX_OLD(I) + ABS(DDX(J))
+             XK_TAN(I) = DYDX(J)
           ELSEIF(FX(I)<= -FX_MAX(I))THEN
-               YY(J) = -FX_MAX(I)
+             YY(J) = -FX_MAX(I)
 C-- COMPUTE PLASTIC DEFORMATION (TOTAL)  
-               DPX(I)=DPX(I)+(-YY(J)+FX(I))/AN3Y0(J)
-               FX(I)=YY(J)
+             IF (XKC(I) > ZERO) DPX(I)=DPX(I)+(-YY(J)+FX(I))/MAX(EM20,AN3Y0(J))
+             FX(I)=YY(J)
+             XK_TAN(I) = XK(I)
+          ELSE
+            XK_TAN(I) = AN3Y0(J)
           ENDIF
           FXEP(I)=FX(I)
         ENDDO
-      ELSEIF(JECROU(10).GT.0)THEN
+      ELSEIF(JECROU(2).GT.0)THEN
         CALL VINTER2(TF,JAD ,JPOS ,JLEN ,LLT_LOC,XX ,DYDX ,YY )
         DO J=LFT,LLT_LOC
          I = INDEXA(J)
          IF(IFUNC(I)/= 0.AND.IECROU(I)== 10)THEN
-           XK_TAN(I) = DYDX(J)
            IF(FX(I)> ZERO.AND.FX(I)>YIELD(I))THEN
-               POS(I) = JPOS(J)
+             POS(I) = JPOS(J)
 C-- COMPUTE PLASTIC AND ELASTIC DEFORMATION (TOTAL)    
-               DPX(I)=DPX(I)+(FX(I)-YY(J))/AN3Y0(J)
-               FX(I)=YY(J)
-               YIELD(I)=FX(I)
+             DPX(I)=DPX(I)+(FX(I)-YY(J))/MAX(EM20,AN3Y0(J))
+             FX(I)=YY(J)
+             YIELD(I)=FX(I)
 C-- ECR variable for hardening/softening - always incremented with positive value
-               XX_OLD(I) = XX_OLD(I) + ABS(DDX(J))
+             XX_OLD(I) = XX_OLD(I) + ABS(DDX(J))
+             XK_TAN(I) = DYDX(J)
           ELSEIF(FX(I)<= -FX_MAX(I))THEN
-               YY(J) = -FX_MAX(I)
+             YY(J) = -FX_MAX(I)
 C-- COMPUTE PLASTIC DEFORMATION (TOTAL)  
-               DPX(I)=DPX(I)+(-YY(J)+FX(I))/AN3Y0(J)
-               FX(I)=YY(J)
+             IF (XKC(I) > ZERO) DPX(I)=DPX(I)+(-YY(J)+FX(I))/MAX(EM20,AN3Y0(J))
+             FX(I)=YY(J)
+             XK_TAN(I) = XK(I)
+          ELSE
+            XK_TAN(I) = AN3Y0(J)
           ENDIF
           FXEP(I)=FX(I)
          ENDIF
@@ -334,28 +367,32 @@ C-- COMPUTE PLASTIC DEFORMATION (TOTAL)
 C-------------------------------------
 C     SEATBELT - LINEAR ELASTIC in tension - perfleclty plastic in compression
 C-------------------------------------
-      IF(JECROU(11).EQ.LLT_LOC)THEN
+      IF(JECROU(3).EQ.LLT_LOC)THEN
         DO J=LFT,LLT_LOC
           I = INDEXA(J)
-           XK_TAN(I) = DYDX(J)
           IF(FX(I)<= -FX_MAX(I))THEN
             YY(J) = -FX_MAX(I)
 C-- COMPUTE PLASTIC DEFORMATION (TOTAL)  
-            DPX(I)=DPX(I)+(-YY(J)+FX(I))/AN3Y0(J)
+            IF (XKC(I) > ZERO) DPX(I)=DPX(I)+(-YY(J)+FX(I))/MAX(EM20,AN3Y0(J))
             FX(I)=YY(J)
+            XK_TAN(I) = XK(I)
+          ELSE
+            XK_TAN(I) = AN3Y0(J)
           ENDIF
           FXEP(I)=FX(I)
         ENDDO
-      ELSEIF(JECROU(11).GT.0)THEN
+      ELSEIF(JECROU(3).GT.0)THEN
         DO J=LFT,LLT_LOC
           I = INDEXA(J)
           IF(IECROU(I)== 11)THEN
-            XK_TAN(I) = DYDX(J)
             IF(FX(I)<= -FX_MAX(I))THEN
               YY(J) = -FX_MAX(I)
 C-- COMPUTE PLASTIC DEFORMATION (TOTAL)  
-              DPX(I)=DPX(I)+(-YY(J)+FX(I))/AN3Y0(J)
+              IF (XKC(I) > ZERO) DPX(I)=DPX(I)+(-YY(J)+FX(I))/MAX(EM20,AN3Y0(J))
               FX(I)=YY(J)
+              XK_TAN(I) = XK(I)
+            ELSE
+              XK_TAN(I) = AN3Y0(J)
             ENDIF
             FXEP(I)=FX(I)
           ENDIF
@@ -384,6 +421,7 @@ c-------------------------
         DXOLD(I)=DXOLD(I)*XL0(I)
         DPX(I)=DPX(I)*XL0(I)
         E(I)=E(I)*XL0(I)
+        XK_TAN(I) = XK_TAN(I)*FRAM_FACTOR(I)
       ENDDO
 C
 C----

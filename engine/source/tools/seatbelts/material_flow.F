@@ -40,7 +40,9 @@ Chd|====================================================================
      5                         FLAG_SLIPRING_UPDATE,ADD_NODE1,ADD_NODE2,VX1,VY1,
      6                         VZ1,VX2,VY2,VZ2,VX3,
      7                         VY3,VZ3,XC,RETRACTOR_ID,FLAG_RETRACTOR_UPDATE,
-     8                         SENSOR,AL0DP,FR_ID)
+     8                         SENSOR,AL0DP,FR_ID,DDF,FX,FX2,
+     9                         ALDP2,AL0DP2,EX2DP,EY2DP,EZ2DP,
+     A                         XL02,XK2)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -73,66 +75,27 @@ C-----------------------------------------------
      .        XK(*),VX1(*),VY1(*),VZ1(*),VX2(*),VY2(*),VZ2(*),VX3(*),VY3(*),VZ3(*),XC(*),
      .        OFF(*),SENSOR(NSENSR,*)
       DOUBLE PRECISION ALDP(*),X1DP(3,*),X2DP(3,*),X3DP(3,*),AL0DP(*)
+      my_real, INTENT(IN) :: FX(MVSIZ),FX2(MVSIZ),XK2(MVSIZ)
+      my_real, INTENT(OUT) :: DDF(MVSIZ),XL02(MVSIZ)
+      DOUBLE PRECISION, INTENT(IN) :: ALDP2(MVSIZ),EX2DP(MVSIZ),EY2DP(MVSIZ),EZ2DP(MVSIZ)
+      DOUBLE PRECISION, INTENT(INOUT) :: AL0DP2(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,NODE1,NODE2,NODE3,ANCHOR_NODE,NEW_NODE2,FUNC,STRD,DIR,ISENS,FLAG_SENSOR_LOCK,FLAG_NO_COUNT_PULL,FL_IMPOSED_FORCE
+      INTEGER I,NODE1,NODE2,NODE3,ANCHOR_NODE,NEW_NODE2,FUNC,ISENS,FLAG_SENSOR_LOCK,FLAG_NO_COUNT_PULL,FL_IMPOSED_FORCE
       INTEGER FLAG
-      my_real DDFS,BETA,HH,XL0_OLD,FRIC,DELTAF,DDV,DT11,FB,F1,F2,DF
+      my_real DDFS,BETA,HH,HH2,FRIC,DELTAF,DDV,DT11,FB,F1,F2,DF
       my_real TENS,XSCAL,NORM,PRES,VREL,ALPHA,ALPHA2,VEC1(3),VEC2(3)
       my_real FRICD,FRICS,XX,DXDY,YY,GET_U_FUNC,GET_U_FUNC_INV,FB2,ANGLE,DDPULL,DD_PRETENS
-      my_real DDX,DDX2,EX2DP(MVSIZ),EY2DP(MVSIZ),EZ2DP(MVSIZ),F_LOCK,F_UNLOCK,PRETENS,XX1,XX2,COS_BETA
-      DOUBLE PRECISION DELTA_LO,ALDP2(MVSIZ),AL0DP2(MVSIZ)
+      my_real DDX,DDX2,F_LOCK,F_UNLOCK,PRETENS,XX1,XX2,COS_BETA
+      my_real OMEGA,EPS1,EPS2,EPSN,FACT
+      DOUBLE PRECISION DELTA_LO
 C
       EXTERNAL GET_U_FUNC,GET_U_FUNC_INV
 C---------------------------------------------------------
 C
       DT11 = DT1
       IF(DT11.EQ.ZERO) DT11 = EP30
-C
-C----------------------------------------------------------
-C-    COMPUTATION OF 2ND STRAND FOR SLIPRING
-C----------------------------------------------------------
-C
-      DO I=LFT,LLT
-C
-        IF (SLIPRING_STRAND(I) > 0) THEN
-C
-          STRD = SLIPRING_STRAND(I)   
-          DIR = SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%STRAND_DIRECTION(STRD)
-C
-C---      Depending on the orientation of the spring the 2nd strand is defined by IXR(2)/IXR(3) or IXR(1)/IXR(3)
-C         
-          IF (((STRD==1).AND.(DIR ==1)).OR.((STRD==2).AND.(DIR==-1))) THEN
-            EX2DP(I)=X2DP(1,I)-X3DP(1,I)
-            EY2DP(I)=X2DP(2,I)-X3DP(2,I)
-            EZ2DP(I)=X2DP(3,I)-X3DP(3,I)
-          ELSE
-            EX2DP(I)=X3DP(1,I)-X1DP(1,I)
-            EY2DP(I)=X3DP(2,I)-X1DP(2,I)
-            EZ2DP(I)=X3DP(3,I)-X1DP(3,I)
-          ENDIF
-C
-          NORM=SQRT(EX2DP(I)*EX2DP(I)+EY2DP(I)*EY2DP(I)+EZ2DP(I)*EZ2DP(I))
-          NORM = MAX(EM15,NORM)
-          EX2DP(I)= EX2DP(I)/NORM
-          EY2DP(I)= EY2DP(I)/NORM
-          EZ2DP(I)= EZ2DP(I)/NORM
-C
-          ALDP2(I)= NORM
-C
-        ENDIF
-      ENDDO
-C
-      IF (TT == ZERO) THEN
-        DO I=LFT,LLT
-          AL02(I)= ALDP2(I)
-        ENDDO
-      ENDIF
-C
-      DO I=LFT,LLT
-        AL0DP2(I)= AL02(I)                     ! cast double vers My_real
-      ENDDO
 C
 C----------------------------------------------------------
 C-    MATERIAL FLOW COMPUTATION FOR SLIPRING AND RETRACTOR
@@ -197,8 +160,11 @@ C--       bisectrice computation
           VEC1(2) = VEC1(2)/NORM
           VEC1(3) = VEC1(3)/NORM
 C
-          FB = XK(I)*(ALDP(I)-AL0DP(I))/MAX(LMIN(I),AL0(I))
-          FB2 = XK(I)*(ALDP2(I)-AL0DP2(I))/MAX(LMIN(I),AL02(I))
+          EPS1 = (ALDP(I)-AL0DP(I))/MAX(LMIN(I),AL0(I))
+          EPS2 = (ALDP2(I)-AL0DP2(I))/MAX(LMIN(I),AL02(I))
+C
+          FB = FX(I)
+          FB2 = FX2(I)
           PRES = FB*(EXDP(I)*VEC1(1)+EYDP(I)*VEC1(2)+EZDP(I)*VEC1(3))
           PRES = PRES + FB2*(EX2DP(I)*VEC1(1)+EY2DP(I)*VEC1(2)+EZ2DP(I)*VEC1(3))
 C
@@ -229,7 +195,7 @@ C
 C----------------------------------------------------------------------------------
 C
           DFS_OLD(I) =  DFS(I)
-          DDFS = DDX*DT1*XK(I)/AL0(I) + DDX2*DT1*XK(I)/AL02(I)
+          DDFS = DDX*DT1*XK(I)/AL0(I) + DDX2*DT1*XK2(I)/AL02(I)
 C
           COS_BETA = EXDP(I)*EX2DP(I)+EYDP(I)*EY2DP(I)+ EZDP(I)*EZ2DP(I)
           COS_BETA = SIGN(MIN(ONE,ABS(COS_BETA)),COS_BETA)
@@ -242,22 +208,24 @@ C
           ENDIF 
 C
           FLAG = 0
-          CALL SOLVE_DELTA_L0(FLAG,DELTA_LO,HH,ALDP(I),ALDP2(I),AL0DP(I),AL0DP2(I),LMIN(I))
+          OMEGA = (HH*FB2-FB+XK(I)*EPS1-HH*XK2(I)*EPS2)/XK(I)
+          HH2 = HH*(XK2(I)/XK(I))
+          CALL SOLVE_DELTA_L0(FLAG,DELTA_LO,HH2,ALDP(I),ALDP2(I),AL0DP(I),AL0DP2(I),LMIN(I),OMEGA)
 C
-          FB = XK(I)*(ALDP(I)-AL0DP(I)-DELTA_LO)/(AL0DP(I)+DELTA_LO)
+          FB = FX(I) + XK(I)*(ALDP(I)-AL0DP(I)-DELTA_LO)/(AL0DP(I)+DELTA_LO) - XK(I)*EPS1
 C
           IF (AL0DP2(I) - DELTA_LO < LMIN(I)) THEN
             LMIN(I) = MAX(LMIN(I),AL02(I))
             FLAG = 1
-            CALL SOLVE_DELTA_L0(FLAG,DELTA_LO,HH,ALDP(I),ALDP2(I),AL0DP(I),AL0DP2(I),LMIN(I))
+            CALL SOLVE_DELTA_L0(FLAG,DELTA_LO,HH2,ALDP(I),ALDP2(I),AL0DP(I),AL0DP2(I),LMIN(I),OMEGA)
             DDFS = DDX*DT1*XK(I)/AL0DP(I) + DDX2*DT1*XK(I)/LMIN(I)
-            FB = XK(I)*(ALDP(I)-AL0DP(I)-DELTA_LO)/(AL0DP(I)+DELTA_LO)
+            FB = FX(I) + XK(I)*(ALDP(I)-AL0DP(I)-DELTA_LO)/(AL0DP(I)+DELTA_LO) - XK(I)*EPS1
           ELSEIF (AL0DP(I) + DELTA_LO < LMIN(I)) THEN
             LMIN(I) = MAX(LMIN(I),AL0(I))
             FLAG = 2
-            CALL SOLVE_DELTA_L0(FLAG,DELTA_LO,HH,ALDP(I),ALDP2(I),AL0DP(I),AL0DP2(I),LMIN(I))
+            CALL SOLVE_DELTA_L0(FLAG,DELTA_LO,HH2,ALDP(I),ALDP2(I),AL0DP(I),AL0DP2(I),LMIN(I),OMEGA)
             DDFS = DDX*DT1*XK(I)/LMIN(I) + DDX2*DT1*XK(I)/AL0DP2(I)
-            FB = XK(I)*(ALDP(I)-AL0DP(I)-DELTA_LO)/LMIN(I)
+            FB = FX(I) + XK(I)*(ALDP(I)-AL0DP(I)-DELTA_LO)/LMIN(I) - XK(I)*EPS1
           ENDIF
 C
           DFS(I) = DFS(I) + DDFS
@@ -275,22 +243,18 @@ C--         adherence or 1 direction flow imposed by fl_flag or blocked because 
             DFS(I) = DELTAF
           ENDIF
 C
+C--       update of variables
           AL0DP(I) = AL0DP(I) + DELTA_LO
           AL0DP2(I) = AL0DP2(I) - DELTA_LO
           AL0(I) = AL0DP(I)
           AL02(I) = AL0DP2(I)
-C 
-          XL0_OLD = XL0(I)
-          XL0(I) = MAX(AL0(I),LMIN(I))
-          DL(I) = ALDP(I) - AL0DP(I)
 C
-          IF ((TT > ZERO).AND.(UPDATE_FLAG(I) == 0)) THEN
-            DDV = DL(I) - DLOLD(I)*XL0(I)/XL0_OLD
-	    DLOLD(I)= DL(I)-DDV
-          ELSE
-	    DLOLD(I)= DL(I)
-            UPDATE_FLAG(I) = 0
-          ENDIF
+          EPSN = (ALDP(I)-AL0DP(I))/MAX(AL0(I),LMIN(I))
+          DDF(I) = XK(I)*(EPSN-EPS1)
+          IF (ADHER(I) == 1) DDF(I) = DDF(I) + DFS(I) - DFS_OLD(I) 
+          XL0(I) = MAX(AL0(I),LMIN(I))
+          XL02(I)= MAX(AL02(I),LMIN(I))
+          UPDATE_FLAG(I) = 0
 C
           SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%VECTOR(1) = EXDP(I)*SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%STRAND_DIRECTION(1)
           SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%VECTOR(2) = EYDP(I)*SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%STRAND_DIRECTION(1)
@@ -305,7 +269,13 @@ C--       TH variables stored only for strand1
 C
 C-------- Detection of slipring update
 C
-           IF (ALDP(I) + 1.3*DDX*DT11 < ZERO) THEN
+           IF (SLIPRING(SLIPRING_ID(I))%NFRAM > 1) THEN
+             FACT = 6.0
+           ELSE
+             FACT = 1.3
+           ENDIF
+C
+           IF (ALDP(I) + FACT*DDX*DT11 < ZERO) THEN
              IF (NC1(I)==SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%NODE(1)) THEN
                IF (ADD_NODE1(I) > 0) THEN
                  SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%NODE_NEXT(1) = ADD_NODE1(I)
@@ -386,8 +356,11 @@ C--       bisectrice computation
           VEC1(2) = VEC1(2)/NORM
           VEC1(3) = VEC1(3)/NORM
 C
-          FB = XK(I)*(ALDP(I)-AL0DP(I))/MAX(LMIN(I),AL0(I))
-          FB2 = XK(I)*(ALDP2(I)-AL0DP2(I))/MAX(LMIN(I),AL02(I))
+          EPS1 = (ALDP(I)-AL0DP(I))/MAX(LMIN(I),AL0(I))
+          EPS2 = (ALDP2(I)-AL0DP2(I))/MAX(LMIN(I),AL02(I))
+C
+          FB = FX(I)
+          FB2 = FX2(I)
           PRES = FB*(EXDP(I)*VEC1(1)+EYDP(I)*VEC1(2)+EZDP(I)*VEC1(3))
           PRES = PRES + FB2*(EX2DP(I)*VEC1(1)+EY2DP(I)*VEC1(2)+EZ2DP(I)*VEC1(3))
 C
@@ -418,7 +391,7 @@ C
 C----------------------------------------------------------------------------------
 C
           DFS_OLD(I) =  DFS(I)
-          DDFS = DDX*DT1*XK(I)/AL0(I) + DDX2*DT1*XK(I)/AL02(I)
+          DDFS = DDX*DT1*XK(I)/AL0(I) + DDX2*DT1*XK2(I)/AL02(I)
 C
           COS_BETA = EXDP(I)*EX2DP(I)+EYDP(I)*EY2DP(I)+ EZDP(I)*EZ2DP(I)
           COS_BETA = SIGN(MIN(ONE,ABS(COS_BETA)),COS_BETA)
@@ -431,22 +404,24 @@ C
           ENDIF
 C
           FLAG = 0
-          CALL SOLVE_DELTA_L0(FLAG,DELTA_LO,HH,ALDP2(I),ALDP(I),AL0DP2(I),AL0DP(I),LMIN(I))
+          OMEGA = (HH*FB-FB2+XK2(I)*EPS2-HH*XK(I)*EPS1)/XK2(I)
+          HH2 = HH*(XK(I)/XK2(I))
+          CALL SOLVE_DELTA_L0(FLAG,DELTA_LO,HH2,ALDP2(I),ALDP(I),AL0DP2(I),AL0DP(I),LMIN(I),OMEGA)
 C
-          FB = XK(I)*(ALDP(I)-AL0DP(I)+DELTA_LO)/(AL0DP(I)-DELTA_LO)
+          FB = FX(I) + XK(I)*(ALDP(I)-AL0DP(I)+DELTA_LO)/(AL0DP(I)-DELTA_LO) - XK(I)*EPS1
 C
           IF (AL0DP(I) - DELTA_LO < LMIN(I)) THEN
             LMIN(I) = MAX(LMIN(I),AL0(I))
             FLAG = 1
-            CALL SOLVE_DELTA_L0(FLAG,DELTA_LO,HH,ALDP2(I),ALDP(I),AL0DP2(I),AL0DP(I),LMIN(I))
+            CALL SOLVE_DELTA_L0(FLAG,DELTA_LO,HH2,ALDP2(I),ALDP(I),AL0DP2(I),AL0DP(I),LMIN(I),OMEGA)
             DDFS = DDX*DT1*XK(I)/LMIN(I) + DDX2*DT1*XK(I)/AL0DP2(I)
-            FB = XK(I)*(ALDP(I)-AL0DP(I)+DELTA_LO)/LMIN(I)
+            FB = FX(I) + XK(I)*(ALDP(I)-AL0DP(I)+DELTA_LO)/LMIN(I) - XK(I)*EPS1
           ELSEIF (AL0DP2(I) + DELTA_LO < LMIN(I)) THEN
             LMIN(I) = MAX(LMIN(I),AL02(I))
             FLAG = 2
-            CALL SOLVE_DELTA_L0(FLAG,DELTA_LO,HH,ALDP2(I),ALDP(I),AL0DP2(I),AL0DP(I),LMIN(I))
+            CALL SOLVE_DELTA_L0(FLAG,DELTA_LO,HH2,ALDP2(I),ALDP(I),AL0DP2(I),AL0DP(I),LMIN(I),OMEGA)
             DDFS = DDX*DT1*XK(I)/AL0(I) + DDX2*DT1*XK(I)/LMIN(I)
-            FB = XK(I)*(ALDP(I)-AL0DP(I)+DELTA_LO)/(AL0DP(I)-DELTA_LO)
+            FB = FX(I) + XK(I)*(ALDP(I)-AL0DP(I)+DELTA_LO)/(AL0DP(I)-DELTA_LO) - XK(I)*EPS1
           ENDIF
 C
           DFS(I) = DFS(I) + DDFS
@@ -469,17 +444,12 @@ C
           AL02(I) = AL0DP2(I)
           AL0(I) = AL0DP(I)
 C
-          XL0_OLD = XL0(I)
+          EPSN = (ALDP(I)-AL0DP(I))/MAX(AL0(I),LMIN(I))
+          DDF(I) = XK(I)*(EPSN-EPS1)
+          IF (ADHER(I) == 1) DDF(I) = DDF(I) - DFS(I) + DFS_OLD(I)
           XL0(I) = MAX(AL0(I),LMIN(I))
-          DL(I) = ALDP(I) - AL0DP(I)
-C
-          IF ((TT > ZERO).AND.(UPDATE_FLAG(I) == 0)) THEN
-            DDV = DL(I) - DLOLD(I)*XL0(I)/XL0_OLD
-	    DLOLD(I)= DL(I) - DDV
-          ELSE
-	    DLOLD(I)= DL(I)
-            UPDATE_FLAG(I) = 0
-          ENDIF
+          XL02(I)= MAX(AL02(I),LMIN(I))
+          UPDATE_FLAG(I) = 0
 C
           RING_SLIP(I) = 0
           SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%VECTOR(4) = EXDP(I)*SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%STRAND_DIRECTION(2)
@@ -488,7 +458,13 @@ C
 C
 C-------- Detection of slipring update
 C
-          IF (ALDP(I) - 1.3*DDX*DT1 < ZERO) THEN
+           IF (SLIPRING(SLIPRING_ID(I))%NFRAM > 1) THEN
+             FACT = 6.0
+           ELSE
+             FACT = 1.3
+           ENDIF
+C
+          IF (ALDP(I) - FACT*DDX*DT1 < ZERO) THEN
             IF (NC1(I)==SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%NODE(2)) THEN
               IF (ADD_NODE2(I) > 0) THEN
                 SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%NODE_NEXT(1) = NC1(I)
@@ -519,7 +495,8 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C                                  RETRACTOR
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C
-            FB = XK(I)*(ALDP(I)-AL0DP(I))/MAX(LMIN(I),AL0(I))
+            EPS1 = (ALDP(I)-AL0DP(I))/MAX(EM20,MAX(AL0(I),LMIN(I)))
+            FB = FX(I)
             F_LOCK = FB
             F_UNLOCK = RETRACTOR(RETRACTOR_ID(I))%UNLOCK_FORCE
 C
@@ -534,6 +511,7 @@ C--------------------Pretensionning -------------------------------------
 C
             FL_IMPOSED_FORCE = 0
             DD_PRETENS = ZERO
+            PRETENS = ZERO
             IF (RETRACTOR(RETRACTOR_ID(I))%PRETENS_ACTIV == 1) THEN
               XX = (TT - RETRACTOR(RETRACTOR_ID(I))%PRETENS_TIME) / RETRACTOR(RETRACTOR_ID(I))%FAC(4)
               PRETENS = RETRACTOR(RETRACTOR_ID(I))%FAC(3)*GET_U_FUNC(RETRACTOR(RETRACTOR_ID(I))%IFUNC(3),XX,DXDY)
@@ -556,7 +534,8 @@ C--             Pretensioning with force -> F = MAX(F_retractor,F_pretens)
                   YY = F_LOCK/RETRACTOR(RETRACTOR_ID(I))%FAC(1)        
                   XX = GET_U_FUNC_INV(RETRACTOR(RETRACTOR_ID(I))%IFUNC(1),YY)*RETRACTOR(RETRACTOR_ID(I))%FAC(2)
                   DELTA_LO = XX - RETRACTOR(RETRACTOR_ID(I))%LOCK_PULL
-                  F_UNLOCK = MAX(XK(I)*(ALDP(I)-AL0DP(I)-DELTA_LO)/MAX(LMIN(I),AL0DP(I)+DELTA_LO),PRETENS)
+                  EPSN = (ALDP(I)-AL0DP(I)-DELTA_LO)/MAX(LMIN(I),AL0DP(I)+DELTA_LO)
+                  F_UNLOCK = MAX(FX(I) + XK(I)*(EPSN-EPS1),PRETENS)
                   FL_IMPOSED_FORCE = 1
                 ELSE
                   F_UNLOCK = MAX(RETRACTOR(RETRACTOR_ID(I))%UNLOCK_FORCE,PRETENS)
@@ -575,7 +554,8 @@ C--               Pretensioning deactivated when pullout is reached
                   YY = F_LOCK/RETRACTOR(RETRACTOR_ID(I))%FAC(1)        
                   XX = GET_U_FUNC_INV(RETRACTOR(RETRACTOR_ID(I))%IFUNC(1),YY)*RETRACTOR(RETRACTOR_ID(I))%FAC(2)
                   DELTA_LO = XX - RETRACTOR(RETRACTOR_ID(I))%LOCK_PULL
-                  F_UNLOCK = MAX(XK(I)*(ALDP(I)-AL0DP(I)-DELTA_LO)/MAX(LMIN(I),AL0DP(I)+DELTA_LO),PRETENS)
+                  EPSN = (ALDP(I)-AL0DP(I)-DELTA_LO)/MAX(LMIN(I),AL0DP(I)+DELTA_LO)
+                  F_UNLOCK = MAX(FX(I) + XK(I)*(EPSN-EPS1),PRETENS)
                   FL_IMPOSED_FORCE = 1
                 ELSE
                   F_UNLOCK = MAX(RETRACTOR(RETRACTOR_ID(I))%UNLOCK_FORCE,PRETENS)
@@ -605,7 +585,7 @@ C--               Pretensioning deactivated when force is reached
 C
 C--------------------Retractor is Locked ---------------------------------
             FLAG_NO_COUNT_PULL = 0
-            IF (RETRACTOR(RETRACTOR_ID(I))%LOCKED == 1) THEN
+            IF ((RETRACTOR(RETRACTOR_ID(I))%LOCKED == 1).AND.(FL_IMPOSED_FORCE /= 1)) THEN
               IF (F_LOCK <= RETRACTOR(RETRACTOR_ID(I))%UNLOCK_FORCE) THEN
                 RETRACTOR(RETRACTOR_ID(I))%LOCK_YIELD_FORCE = ZERO
                 FLAG_NO_COUNT_PULL = 1
@@ -616,7 +596,8 @@ C--             Loading --
                 DXDY = DXDY * (RETRACTOR(RETRACTOR_ID(I))%FAC(2) / RETRACTOR(RETRACTOR_ID(I))%FAC(1))
                 YY = YY + PRETENS
                 CALL SOLVE_DELTA_L02(DELTA_LO,DXDY,YY,XK(I),ALDP(I),AL0DP(I),LMIN(I))
-                FB = XK(I)*(ALDP(I)-AL0DP(I)-DELTA_LO)/MAX(AL0DP(I)+DELTA_LO,LMIN(I))
+                EPSN = (ALDP(I)-AL0DP(I)-DELTA_LO)/MAX(LMIN(I),AL0DP(I)+DELTA_LO)
+                FB = FX(I) + XK(I)*(EPSN-EPS1)
                 RETRACTOR(RETRACTOR_ID(I))%LOCK_YIELD_FORCE = FB
                 RETRACTOR(RETRACTOR_ID(I))%LOCK_OFFSET = ZERO
               ELSE
@@ -632,7 +613,8 @@ C--             Unloading --
                 DXDY = DXDY * (RETRACTOR(RETRACTOR_ID(I))%FAC(2) / RETRACTOR(RETRACTOR_ID(I))%FAC(1))
                 YY = YY + PRETENS
                 CALL SOLVE_DELTA_L02(DELTA_LO,DXDY,YY,XK(I),ALDP(I),AL0DP(I),LMIN(I))
-                FB = XK(I)*(ALDP(I)-AL0DP(I)-DELTA_LO)/MAX(AL0DP(I)+DELTA_LO,LMIN(I)) 
+                EPSN = (ALDP(I)-AL0DP(I)-DELTA_LO)/MAX(LMIN(I),AL0DP(I)+DELTA_LO)
+                FB = FX(I) + XK(I)*(EPSN-EPS1)
               ENDIF
             ENDIF
 C
@@ -640,12 +622,11 @@ C--------------------Retractor is Unlocked ---------------------------------
             IF ((RETRACTOR(RETRACTOR_ID(I))%LOCKED == 0).OR.
      .          (F_LOCK <= RETRACTOR(RETRACTOR_ID(I))%UNLOCK_FORCE).OR.
      .          (FL_IMPOSED_FORCE == 1)) THEN
-              TENS = F_UNLOCK / XK(I)
-              IF (TT > ZERO) THEN
                  DELTA_LO = (ALDP(I)-AL0DP(I)*(TENS + ONE))/(TENS + ONE)
-              ELSE
                  DELTA_LO = (ALDP(I)-AL0DP(I)*(TENS + ONE))/(TENS + ONE)
-              ENDIF
+C
+              TENS = (F_UNLOCK - FB) / XK(I) + EPS1
+              DELTA_LO = (ALDP(I)-AL0DP(I)*(TENS + ONE))/(TENS + ONE)
 C
               IF (AL0DP(I) +  DELTA_LO < LMIN(I)) THEN
                 LMIN(I) = MAX(LMIN(I),AL0(I))
@@ -716,17 +697,13 @@ C
               AL0DP(I) = AL0DP(I) +  DELTA_LO
               AL0(I) = AL0DP(I)
               XL0(I)=MAX(LMIN(I),AL0(I))
-              DL(I)=ALDP(I)-AL0DP(I)
 C
               DDX =  EXDP(I) * (VX2(I) - VX1(I))
      .             + EYDP(I) * (VY2(I) - VY1(I))
      .             + EZDP(I) * (VZ2(I) - VZ1(I))
 C
-              IF (TT > ZERO) THEN
-		DLOLD(I)= DL(I)-DDX*DT1
-              ELSE
-		DLOLD(I)= DL(I)
-              ENDIF
+              EPSN = (ALDP(I)-AL0DP(I))/MAX(AL0(I),LMIN(I))
+              DDF(I) = XK(I)*(EPSN-EPS1)
 
 C---          if XSCAL < 0.9 N2 has crossed AC -> update of retractor
               XSCAL = -EXDP(I)*RETRACTOR(RETRACTOR_ID(I))%VECTOR(1)*RETRACTOR(RETRACTOR_ID(I))%STRAND_DIRECTION
@@ -792,12 +769,12 @@ C
       END
 
 Chd|====================================================================
-Chd|  SOLVE_DELTA_L0                source/tools/seatbelts/material_flow.F
+Chd|  SOLVE_DELTA_L0                src/seatbelts/material_flow.F 
 Chd|-- called by -----------
-Chd|        MATERIAL_FLOW                 source/tools/seatbelts/material_flow.F
+Chd|        MATERIAL_FLOW                 src/seatbelts/material_flow.F 
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SOLVE_DELTA_L0(FLAG,DELTA_LO,HH,L1,L2,L01,L02,LMIN)
+      SUBROUTINE SOLVE_DELTA_L0(FLAG,DELTA_LO,HH,L1,L2,L01,L02,LMIN,OMEGA)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -812,7 +789,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER FLAG
       my_real
-     .        HH,LMIN
+     .        HH,LMIN,OMEGA
       DOUBLE PRECISION DELTA_LO,L1,L2,L01,L02
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -822,18 +799,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C
 C      Computation of Dl0 for the slipring
-C       
+C
 C      DELTA_LO = -(HH*(ALDP2(I)-AL0DP2(I))*AL0DP(I)-(ALDP(I)-AL0DP(I))*AL0DP2(I))
 C     .              /(HH*(ALDP2(I)-AL0DP2(I)+AL0DP(I))+ALDP(I)-AL0DP(I)+AL0DP2(I))
 C
       IF ((HH == ONE).AND.(FLAG == 0)) THEN
 C--   equation 1 -> no friction and l2 > lmin - order 1
-        DELTA_LO = (L1*L02-L2*L01)/MAX(EM15,L1+L2)
+        BB = -L1+L01-L02-HH*(L2-L02+L01) + OMEGA*(L01-L02)
+        CC = (L1-L01)*L02-HH*(L2-L02)*L01 - OMEGA*(L02*L01) 
+        DELTA_LO = -CC/BB
       ELSEIF (FLAG == 0) THEN
 C--   equation 2 -> friction and l2 and l1 > lmin - order 2
-        AA = ONE -HH
-        BB = -L1+L01-L02-HH*(L2-L02+L01)
-        CC = (L1-L01)*L02-HH*(L2-L02)*L01
+        AA = ONE -HH + OMEGA
+        BB = -L1+L01-L02-HH*(L2-L02+L01) + OMEGA*(L01-L02)
+        CC = (L1-L01)*L02-HH*(L2-L02)*L01 - OMEGA*(L02*L01)
         DD = BB*BB-4*AA*CC
         SOL1 = (-BB+SQRT(DD))/(2*AA)
         SOL2 = (-BB-SQRT(DD))/(2*AA)
@@ -841,17 +820,17 @@ C--   equation 2 -> friction and l2 and l1 > lmin - order 2
       ELSEIF (FLAG == 1) THEN
 C--   equation 3 -> friction and l2 = lmin - order 2
         AA = -HH
-        BB = -LMIN -HH*(L2-L02+L01)
-        CC = (L1-L01)*LMIN-HH*(L2-L02)*L01
+        BB = -LMIN -HH*(L2-L02+L01) - OMEGA*LMIN
+        CC = (L1-L01)*LMIN-HH*(L2-L02)*L01 - OMEGA*LMIN*L01
         DD = BB*BB-4*AA*CC
         SOL1 = (-BB+SQRT(DD))/(2*AA)
         SOL2 = (-BB-SQRT(DD))/(2*AA)
         DELTA_LO = SOL2
       ELSEIF (FLAG == 2) THEN
 C--   equation 4 -> friction and l1 = lmin - order 2
-        AA = HH
-        BB = L01-L02-L1-HH*LMIN
-        CC = L1*L02-L01*L02-HH*LMIN*(L2-L02)
+        AA = ONE
+        BB = L01-L02-L1-HH*LMIN + OMEGA*LMIN
+        CC = L1*L02-L01*L02-HH*LMIN*(L2-L02) - OMEGA*LMIN*L02
         DD = BB*BB-4*AA*CC
         SOL1 = (-BB+SQRT(DD))/(2*AA)
         SOL2 = (-BB-SQRT(DD))/(2*AA)

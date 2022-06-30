@@ -578,6 +578,7 @@ C-----------------------------------------------
       USE EBCS_MOD
       USE JOINT_MOD
       USE HM_OPTION_READ_MOD
+      USE SEATBELT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1106,7 +1107,10 @@ C MERGE NODES
       INTEGER NMERGE_NODE_CAND,NMERGE_NODE_DEST,NMERGE_TOT,ALE_EULER
       INTEGER, DIMENSION(:), ALLOCATABLE :: MERGE_NODE_TAB
       my_real,DIMENSION(:),ALLOCATABLE :: MERGE_NODE_TOL
+C
       my_real,DIMENSION(:),ALLOCATABLE :: DGAPINT, INTGAPLOADP ,DGAPLOADINT
+C SEATBELTS
+      INTEGER NB_MAT_SEATBELT,NB_MAT
 C
 C======================================================================|
 c   BEGINNING
@@ -3944,14 +3948,25 @@ C--------------------------------------------
       ERR_MSG='SEATBELTS'
       ERR_CATEGORY='SEATBELTS'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
+C
+      NB_MAT_SEATBELT = 0
+      CALL HM_OPTION_COUNT('/MAT/LAW114',NB_MAT)
+      NB_MAT_SEATBELT = NB_MAT_SEATBELT + NB_MAT
+      CALL HM_OPTION_COUNT('/MAT/SPR_SEATBELT',NB_MAT)
+      NB_MAT_SEATBELT = NB_MAT_SEATBELT + NB_MAT
+      CALL HM_OPTION_COUNT('/MAT/LAW119',NB_MAT)
+      NB_MAT_SEATBELT = NB_MAT_SEATBELT + NB_MAT
+      CALL HM_OPTION_COUNT('/MAT/SH_SEATBELT',NB_MAT)
+      NB_MAT_SEATBELT = NB_MAT_SEATBELT + NB_MAT
+C
       IF (NSLIPRING + NRETRACTOR > 0) WRITE(ISTDO,'(A)')' .. SLIPRING/RETRACTOR'
       IF (NSLIPRING > 0) CALL HM_READ_SLIPRING(
      1                                          LSUBMODEL,ITABM1,IXR,ITAB,UNITAB,
      2                                          X,NPC1,NOM_OPT(LNOPT1*INOM_OPT(31)+1),ALEA,IGRNOD,
-     2                                          IGRSH4N,IXC)
+     2                                          IGRSH4N,IXC,IPM)
       IF (NRETRACTOR > 0) CALL HM_READ_RETRACTOR(
      1                                           LSUBMODEL,ITABM1,IXR,ITAB,UNITAB,
-     2                                           X,NPC1,NOM_OPT(LNOPT1*INOM_OPT(32)+1),ALEA)
+     2                                           X,NPC1,NOM_OPT(LNOPT1*INOM_OPT(32)+1),ALEA,IPM)
       CALL TRACE_OUT1()
 C--------------------------------------------
 C     LECTURE DES CONDITIONS LIMITES
@@ -5351,14 +5366,14 @@ c     Create seatbelt entites + domdec
 c-----------------------------------------------------------------------
 C
       N_SEATBELT = 0
-      IF (NSLIPRING + NRETRACTOR > 0) THEN
+      IF (NB_MAT_SEATBELT > 0) THEN
         ERR_MSG='SEATBELTS'
         ERR_CATEGORY='SEATBELTS'
         CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
         WRITE(ISTDO,'(A)')' .. SEATBELT INITIALIZATION'
         CALL CREATE_SEATBELT(IXR,ITAB,KNOD2EL1D,NOD2EL1D,IPM,
      .                       X,LSENSOR,BUFMAT,PM,GEO,
-     .                       IDDLEVEL,KNOD2ELC,NOD2ELC,IXC)
+     .                       IDDLEVEL,KNOD2ELC,NOD2ELC,IXC,IGEO)
         CALL TRACE_OUT1()
       ENDIF
 C
@@ -10795,7 +10810,28 @@ C
           DEALLOCATE(IBCSCYC,LBCSCYC)
           IF(NBCSCYC>0) DEALLOCATE(ITAGCYC)
           IF (ALLOCATED(FVM_INIVEL)) DEALLOCATE(FVM_INIVEL)
-
+C
+C--       Seatblet stuctures deallocation
+          IF (N_SEATBELT > 0) THEN
+            DO I=1,N_SEATBELT
+              DEALLOCATE(SEATBELT_TAB(I)%SPRING)
+            ENDDO
+            DEALLOCATE(SEATBELT_TAB)
+          ENDIF
+C
+          IF (NSLIPRING > 0) THEN
+            DO I=1,NSLIPRING
+              DEALLOCATE(SLIPRING(I)%FRAM)
+            ENDDO
+            DEALLOCATE(SLIPRING)
+          ENDIF
+C
+          IF (NRETRACTOR > 0) THEN
+            DO I=1,NRETRACTOR
+              DEALLOCATE(RETRACTOR(I)%INACTI_NODE)
+            ENDDO
+            DEALLOCATE(RETRACTOR)
+          ENDIF
 C --------------------------------------
 C Starter Memory Printout
 C --------------------------------------

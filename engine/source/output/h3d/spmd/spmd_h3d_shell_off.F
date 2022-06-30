@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER OFFSET,ITY,MLW,NEL,NFT,ISOLNOD,NG,I,ILEV
+      INTEGER OFFSET,ITY,MLW,NEL,NFT,ISOLNOD,NG,I,ILEV,ISEATBELT
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C-----------------------------------------------
 
@@ -68,7 +68,8 @@ C-----------------------------------------------
         NFT   =IPARG(3,NG)
         ISOLNOD = IPARG(28,NG)
         ILEV  =IPARG(45,NG)
-
+        ISEATBELT = IPARG(91,NG)
+C
         IF (ITY == 3) OFFSET = 0
         IF (ITY == 7) OFFSET = NUMELC
 c
@@ -85,7 +86,7 @@ c
         ENDIF
 
         IF(ITY == 3 )THEN
-          IF(MLW == 0 .OR. MLW == 13)THEN
+          IF(MLW == 0 .OR. MLW == 13 .OR . ISEATBELT == 1)THEN
             DO I=1,NEL
               SHELL_SCALAR(OFFSET+NFT+I) = ONE
             ENDDO

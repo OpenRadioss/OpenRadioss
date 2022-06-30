@@ -3121,7 +3121,6 @@ C
 C-------------------------------------------------------------------
 C       LOAD PFLUID
 C-------------------------------------------------------------------
-
         IF(NLOADP_F.NE.0.AND.IMPL_S.NE.1) THEN
           CALL TRACE_IN(10,0,ZERO)
         IF (IMON.GT.0) CALL STARTIME(4,1)
@@ -4149,6 +4148,12 @@ C
       IF(ISHSUB.EQ.0)THEN
           T1SH=TT
       ENDIF
+C
+C-----------------------------------------------------
+C     UPDATE OF SLIPRING
+C-----------------------------------------------------
+      IF (NSLIPRING > 0) CALL UPDATE_SLIPRING(IXR,IXC,IPARG,ELBUF_TAB,FLAG_SLIPRING_UPDATE,X)
+C
 C---- // GROUPS ----------------
 C     FORCES INTERNES DES COQUES, COQUES 3 NOEUDS
 C-------------------------------
@@ -4275,12 +4280,7 @@ C-------------------------------
       LL1 = 1+8*NUMELS
       LL2 = LL1+6*NUMELS10
       LL3 = LL2+12*NUMELS20
-
-C-----------------------------------------------------
-C     UPDATE OF SLIPRING AND RETRACTOR
-C-----------------------------------------------------
-      IF (FLAG_SLIPRING_UPDATE > 0) CALL UPDATE_SLIPRING(IXR,IPARG,ELBUF_TAB)
-
+C
 C========================================================================================
 C                                     SECTION PARALLELE SMP
 C========================================================================================
@@ -7649,7 +7649,7 @@ C-----------------------------------------------------
 C         KINEMATIC CONDITIONS FOR SEATBELTS
 C-----------------------------------------------------
 
-        IF (NSLIPRING + NRETRACTOR > 0) CALL KINE_SEATBELT_VEL(A,V,X)
+        IF (NSLIPRING + NRETRACTOR > 0) CALL KINE_SEATBELT_VEL(A,V,X,XDP)
 C
 C-----------------------------------------------------
      
@@ -9524,6 +9524,20 @@ C
         IF(ALLOCATED(FINT_CELL))        DEALLOCATE (FINT_CELL)
         IF(ALLOCATED(VERTEX))           DEALLOCATE (VERTEX)
         IF(ALLOCATED(F_FACE))           DEALLOCATE (F_FACE)
+
+C--     Seatblet stuctures deallocation
+        IF (NSLIPRING > 0) THEN
+          DO I=1,NSLIPRING
+            DEALLOCATE(SLIPRING(I)%FRAM)
+          ENDDO
+          DEALLOCATE(SLIPRING)
+        ENDIF
+        IF (NRETRACTOR > 0) THEN
+          DO I=1,NRETRACTOR
+            DEALLOCATE(RETRACTOR(I)%INACTI_NODE)
+          ENDDO
+          DEALLOCATE(RETRACTOR)
+        ENDIF
 
         !ALEMUSCL
         CALL ALEMUSCL_DEALLOCATE()
