@@ -73,7 +73,7 @@ C     REAL
      .        NN, K1, K2,MT,JALE, IMID, 
      .        N1,N2,N3,N4,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
-     .        N_FA, IHBE, SH_IH, ISTRAIN, IEXPAN
+     .        N_FA, IHBE, SH_IH, ISTRAIN, IEXPAN, ISEATBELT
       INTEGER IOFFBUF(NBF_L),RBUF,ISROT
       REAL R4
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
@@ -96,6 +96,7 @@ C
         ITY   =IPARG(5,NG)
         NFT   =IPARG(3,NG)
         IAD   =IPARG(4,NG)
+        ISEATBELT = IPARG(91,NG)
         LFT=1
         LLT=NEL
         NBX = IAD - 1
@@ -132,7 +133,7 @@ C-----------------------------------------------
         ENDIF
 C-----------------------------------------------
         IF  (ITY /= 0) THEN
-         IF (MLW == 0 .OR. MLW == 13)THEN
+         IF (MLW == 0 .OR. MLW == 13 .OR. ISEATBELT == 1)THEN
 C-----------------------------------------------
 C         DUMMY ELEMENTS
 C-----------------------------------------------

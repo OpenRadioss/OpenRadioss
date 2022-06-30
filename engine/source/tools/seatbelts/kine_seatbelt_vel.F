@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
 Chd|====================================================================
-      SUBROUTINE KINE_SEATBELT_VEL(A,V,X)
+      SUBROUTINE KINE_SEATBELT_VEL(A,V,X,XDP)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -47,11 +47,13 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
+#include      "scr05_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real A(3,*),V(3,*),X(3,*)
+      my_real, INTENT(INOUT) ::   A(3,NUMNOD),V(3,NUMNOD),X(3,NUMNOD)
+      DOUBLE PRECISION, INTENT(INOUT) :: XDP(3,NUMNOD)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -127,8 +129,14 @@ C
 C
              X(1,NODE3)=X(1,ANCHOR_NODE)
              X(2,NODE3)=X(2,ANCHOR_NODE)
-             X(3,NODE3)=X(3,ANCHOR_NODE)      
-
+             X(3,NODE3)=X(3,ANCHOR_NODE)
+C
+             IF (IRESP == 1) THEN
+               XDP(1,NODE3)=XDP(1,ANCHOR_NODE)
+               XDP(2,NODE3)=XDP(2,ANCHOR_NODE)
+               XDP(3,NODE3)=XDP(3,ANCHOR_NODE)  
+             ENDIF    
+C
          ELSEIF(SLIPRING(I)%FRAM(J)%UPDATE > ZERO) THEN
 
              V(1,NODE2)=V(1,ANCHOR_NODE)-SLIPRING(I)%FRAM(J)%MATERIAL_FLOW*SLIPRING(I)%FRAM(J)%VECTOR(4)
@@ -146,7 +154,13 @@ C
              X(1,NODE1)=X(1,ANCHOR_NODE)
              X(2,NODE1)=X(2,ANCHOR_NODE)
              X(3,NODE1)=X(3,ANCHOR_NODE)
-
+C
+             IF (IRESP == 1) THEN
+               XDP(1,NODE1)=XDP(1,ANCHOR_NODE)
+               XDP(2,NODE1)=XDP(2,ANCHOR_NODE)
+               XDP(3,NODE1)=XDP(3,ANCHOR_NODE)  
+             ENDIF
+C
            ELSE
 
              V(1,NODE2)=V(1,ANCHOR_NODE)
@@ -212,6 +226,12 @@ C
            X(1,NODE1)=X(1,ANCHOR_NODE)
            X(2,NODE1)=X(2,ANCHOR_NODE)
            X(3,NODE1)=X(3,ANCHOR_NODE)
+C
+           IF (IRESP == 1) THEN
+             XDP(1,NODE1)=XDP(1,ANCHOR_NODE)
+             XDP(2,NODE1)=XDP(2,ANCHOR_NODE)
+             XDP(3,NODE1)=XDP(3,ANCHOR_NODE)  
+           ENDIF
 C
            INDEX = RETRACTOR(I)%INACTI_NNOD
            RETRACTOR(I)%INACTI_NODE(INDEX+1) = NODE2

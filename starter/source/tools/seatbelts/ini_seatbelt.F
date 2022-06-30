@@ -56,6 +56,7 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "random_c.inc"
+#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -72,8 +73,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,L,M,NG,NEL,ITY,IAD,LFT,LLT,NFT,MTN,NODE,NODE_NEXT,
-     .        ELEM_NEXT,N1,N2,NTOOL,KK,NOT_USED,FLAG,ELEM_CUR,NN,ID,NNOD,OFFSET,
-     .        MID,MTYP,P,NB_SHELL,ID_SEATBELT,NFRAM,N3,N4,M_FLAG,MS,NODES
+     .        ELEM_NEXT,N1,N2,NTOOL,KK,NOT_USED,FLAG,ELEM_CUR,NN,ID,NNOD,
+     .        MID,MTYP,P,NB_SHELL,NFRAM,N3,N4,M_FLAG,MS,NODES,ISEATBELT
 C
       my_real DIST1,DIST2,ALEA_MAX,TOLE_2
 C
@@ -85,7 +86,7 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
 C
 C-----Reset of TAG_RES from SEATBELT_TAB structure----------------------------------
-      ALLOCATE(TAG_RES(NUMELR))
+      MY_ALLOCATE(TAG_RES,NUMELR)
       DO I=1,N_SEATBELT
         DO J=1,SEATBELT_TAB(I)%NSPRING
           TAG_RES(SEATBELT_TAB(I)%SPRING(J)) = I
@@ -102,8 +103,10 @@ C
             N2 = SLIPRING(I)%FRAM(J)%NODE(2)
             DO P=1,NSPMD
               IF ((NLOCAL(N2,P)==1).AND.(NLOCAL(SLIPRING(I)%FRAM(J)%ANCHOR_NODE,P)==0)) THEN
-C--             Anchor node must be stick on the proc of the slipring
+C--             Anchor node and orientation node must be stick on the proc of the slipring
                 CALL IFRONTPLUS(SLIPRING(I)%FRAM(J)%ANCHOR_NODE,P)
+                IF (SLIPRING(I)%FRAM(J)%ORIENTATION_NODE > 0)
+     .             CALL IFRONTPLUS(SLIPRING(I)%FRAM(J)%ORIENTATION_NODE,P)
               ENDIF
             ENDDO
           ENDDO
@@ -123,7 +126,8 @@ C
 
 C-----------------------------------------------------------------------------------
 
-      ALLOCATE(TAG_RETRACTOR(NUMELR),TAGN_RETRACTOR(NUMNOD))
+      MY_ALLOCATE(TAG_RETRACTOR,NUMELR)
+      MY_ALLOCATE(TAGN_RETRACTOR,NUMNOD)
       TAG_RETRACTOR(1:NUMELR) = 0
       TAGN_RETRACTOR(1:NUMNOD) = 0
       FLAG = 1
@@ -167,6 +171,7 @@ C
         ITY = IPARG(5,NG)
         NFT = IPARG(3,NG)
         IAD = IPARG(4,NG)
+        ISEATBELT = IPARG(91,NG)
         LFT = 1
         LLT = NEL
 C
@@ -364,7 +369,7 @@ C
               ELEM_CUR = NOD2ELC(K)
               MID = IXC(1,ELEM_CUR)
               MTYP = IPM(2,MID)
-              IF (MTYP == 19) NB_SHELL = NB_SHELL + 1                
+              IF ((MTYP == 19).AND.(IPM(6,MID)==1)) NB_SHELL = NB_SHELL + 1                
             ENDDO
 C
             NFRAM = SEATBELT_TAB(TAG_RES(J))%NFRAM
@@ -378,10 +383,13 @@ C--           spring is inside the 2D belt
 C--           1D seatbelt
               GBUF%FRAM_FACTOR(I) = ONE
             ENDIF
+C--         element mass and inertia scaled by frame factor for elementary time step
+            GBUF%MASS(I) = GBUF%MASS(I)*GBUF%FRAM_FACTOR(I)
+            GBUF%INTVAR(I) = GBUF%INTVAR(I)*GBUF%FRAM_FACTOR(I)
 C
           ENDDO  
 C
-        ELSEIF ((ITY==3).AND.(MTN==19)) THEN
+        ELSEIF ((ITY==3).AND.(MTN==19).AND.(ISEATBELT==1)) THEN
 C
 C---      2D seatbelts shells
 C
@@ -399,6 +407,9 @@ C
               N2 = IXC(3,J)
               N3 = IXC(4,J)
               N4 = IXC(5,J)
+C
+C--           Scale factor on stress intialised 
+              GBUF%INTVAR(I) = ONE
 C
               DO M=2,5
 CCC-          Find node after node i
@@ -443,6 +454,8 @@ C
         ENDIF
 C
       ENDDO         
+C
+      DEALLOCATE(TAG_RES,TAG_RETRACTOR,TAGN_RETRACTOR)
 C
       END SUBROUTINE INI_SEATBELT
 

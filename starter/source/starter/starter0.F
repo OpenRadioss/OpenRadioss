@@ -502,7 +502,7 @@ C     IUSC2=9 ou 10
 C new composite shell pid max nbs 200
       NPROPG =1000
       NPROPM =250
-      NPARG  = 90
+      NPARG  = 91
       NPARI  = 100
       NPARIR=46
       LFXVELR = 9

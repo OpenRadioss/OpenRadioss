@@ -58,7 +58,8 @@ Chd|====================================================================
      Q        ADD_NODE2,NC1,NC2,NC3,X1DP,
      R        X2DP,X3DP,VX3,VY3,VZ3,
      S        FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE,SENSOR,UINER,FR_ID,
-     T        FRAM_FACTOR)
+     T        FRAM_FACTOR,EPS_OLD,FX_B2,DPX_B2,YIELDX_B2,
+     U        XX_OLD_B2,FXEP_B2,POSX_B2,EPS_OLD_B2)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -116,6 +117,8 @@ C     REAL
      .   DX0(*),DY0(*),DZ0(*),RX0(*),RY0(*),RZ0(*),LMIN(*),DFS(*),
      .   RING_SLIP(*),X02(*),VX3(MVSIZ),VY3(MVSIZ),VZ3(MVSIZ),SENSOR(NSENSR,*),
      .   UINER(*),FRAM_FACTOR(*)
+      my_real ,INTENT(INOUT) :: EPS_OLD(MVSIZ),FX_B2(MVSIZ),DPX_B2(MVSIZ),YIELDX_B2(MVSIZ),
+     .   XX_OLD_B2(MVSIZ),FXEP_B2(MVSIZ),POSX_B2(MVSIZ),EPS_OLD_B2(MVSIZ)
       TARGET :: UVAR
       DOUBLE PRECISION ALDP(MVSIZ),AL2DP(MVSIZ),X1DP(3,*),X2DP(3,*),X3DP(3,*)
 C-----------------------------------------------
@@ -126,7 +129,8 @@ C-----------------------------------------------
      .        I,K,ILENG, J, KK, IFAIL(MVSIZ),IFAIL2(MVSIZ),ADHER(MVSIZ),
      .        NINDX,ISRATE, IFUNC3(MVSIZ),I1,I2,I3,I4,I5,I6,I7,I8,
      .        I9,I10,I11,I12,I13,I14,IF1,IF2,IF3,IF4,IADBUF,NUPAR,NN1,NN2,RET,
-     .        FLAG_RETRACTOR_UPDATE_OLD
+     .        FLAG_RETRACTOR_UPDATE_OLD,FLAG,INDEX1(MVSIZ),INDEX2(MVSIZ),COMPT,
+     .        DIR,STRD
 C     REAL
       my_real
      .     XK(MVSIZ), YK(MVSIZ),
@@ -137,15 +141,18 @@ C     REAL
      .     DMN(MVSIZ),DMX(MVSIZ),XL0(MVSIZ),CRIT(MVSIZ),
      .     XN(MVSIZ),FF(MVSIZ),LSCALE(MVSIZ),EE(MVSIZ),GF3(MVSIZ),
      .     HX(MVSIZ), HY(MVSIZ), HZ(MVSIZ),FX_MAX(MVSIZ),E_OFFSET(MVSIZ),
-     .     XK_COMP(MVSIZ),MX_MAX(MVSIZ),DFS_OLD(MVSIZ),NOT_USED,XL02(MVSIZ)
+     .     XK_COMP(MVSIZ),MX_MAX(MVSIZ),DFS_OLD(MVSIZ),NOT_USED,XL02(MVSIZ),
+     .     XKP(MVSIZ),DFX(MVSIZ)
       my_real
      .     AT,DT05,XKA,YKA,ZKA,CC,CN,XA,XB,DLIM,VFAIL,
      .     X21, Y21, Z21, EPXY, EPXZ,
      .     VX21, VY21, VZ21, RYAVP, RZAVP,EYZP,EXZP,
      .     RYAV, RZAV,DEN, C, CP, EXYP,
      .     X21PHI, Y21PHI, Z21PHI, VX21PHI, VY21PHI, VZ21PHI,
-     .     RYAV1, RZAV1, RYAV1P, RZAV1P,ASRATE,NORM,GAP
-      DOUBLE PRECISION X0DP(MVSIZ)
+     .     RYAV1, RZAV1, RYAV1P, RZAV1P,ASRATE,NORM,GAP,LMIN_B2(MVSIZ),
+     .     EB(MVSIZ),DXOLDB(MVSIZ),XKP_B2(MVSIZ),DX_B2(MVSIZ)
+      DOUBLE PRECISION X0DP(MVSIZ),X0DP_B2(MVSIZ),EX2DP(MVSIZ),EY2DP(MVSIZ),EZ2DP(MVSIZ),
+     .                 ALDP_B2(MVSIZ)
       my_real ,DIMENSION(:), POINTER :: COORD_OLD
 C-----------------------------------------------
 C
@@ -175,6 +182,8 @@ C
       I14 = I13 + 6
       NUPAR = NUPAR +  84    
       DO I=LFT,LLT
+C
+       INDEX1(I) = I
        IADBUF= IPM(7,MID(I)) - 1
        EPLA(I)=ZERO
        XM(I)=MASS(I)
@@ -186,9 +195,6 @@ C
        XC(I)=UPARAM(IADBUF + I12 + 1) * FRAM_FACTOR(I)
        YC(I)=UPARAM(IADBUF + I12 + 2) * FRAM_FACTOR(I)
        ZC(I)=UPARAM(IADBUF + I12 + 3) * FRAM_FACTOR(I)
-C
-C       YC(I)=0.1*XC(I)
-C       ZC(I)=0.1*XC(I)
 C
        XK_COMP(I) = UPARAM(IADBUF + 117)*GEO(1,PID(I))
 C
@@ -386,8 +392,17 @@ C
               IF (SLIPRING_STRAND(I) == 1) THEN
 C
                 FLAG_SLIPRING_UPDATE = FLAG_SLIPRING_UPDATE - 1
-                X02(I) = SLIPRING(J)%FRAM(K)%RESIDUAL_LENGTH(2)
                 LMIN(I) = UPARAM(IADBUF + 119)
+                XL0(I)=MAX(X0DP(I),LMIN(I))
+C--             Loading of internal variables for computation of brin 2 
+                X02(I) = SLIPRING(J)%FRAM(K)%RESIDUAL_LENGTH(2)
+                FX_B2(I) = SLIPRING(J)%FRAM(K)%INTVAR_STR2(1)
+                DPX_B2(I) = SLIPRING(J)%FRAM(K)%INTVAR_STR2(2)
+                YIELDX_B2(I) = SLIPRING(J)%FRAM(K)%INTVAR_STR2(3)
+                XX_OLD_B2(I) = SLIPRING(J)%FRAM(K)%INTVAR_STR2(4)
+                FXEP_B2(I) = SLIPRING(J)%FRAM(K)%INTVAR_STR2(5)
+                POSX_B2(I) = SLIPRING(J)%FRAM(K)%INTVAR_STR2(6)
+                EPS_OLD_B2(I) = SLIPRING(J)%FRAM(K)%INTVAR_STR2(7)
                 IF (SLIPRING(J)%FRAM(K)%UPDATE > 0) THEN
                   DFS(I) = SLIPRING(J)%FRAM(K)%DFS
                   SLIPRING(J)%FRAM(K)%UPDATE = SLIPRING(J)%FRAM(K)%UPDATE -1
@@ -399,8 +414,17 @@ C
               ELSEIF (SLIPRING_STRAND(I) == 2) THEN
 C              
                 FLAG_SLIPRING_UPDATE = FLAG_SLIPRING_UPDATE - 1
-                X02(I) = SLIPRING(J)%FRAM(K)%RESIDUAL_LENGTH(1)
                 LMIN(I) = UPARAM(IADBUF + 119)
+                XL0(I)=MAX(X0DP(I),LMIN(I))
+C--             Loading of internal variables for computation of brin 2 
+                X02(I) = SLIPRING(J)%FRAM(K)%RESIDUAL_LENGTH(1)
+                FX_B2(I) = SLIPRING(J)%FRAM(K)%INTVAR_STR1(1)
+                DPX_B2(I) = SLIPRING(J)%FRAM(K)%INTVAR_STR1(2)
+                YIELDX_B2(I) = SLIPRING(J)%FRAM(K)%INTVAR_STR1(3)
+                XX_OLD_B2(I) = SLIPRING(J)%FRAM(K)%INTVAR_STR1(4)
+                FXEP_B2(I) = SLIPRING(J)%FRAM(K)%INTVAR_STR1(5)
+                POSX_B2(I) = SLIPRING(J)%FRAM(K)%INTVAR_STR1(6)
+                EPS_OLD_B2(I) = SLIPRING(J)%FRAM(K)%INTVAR_STR1(7)
                 IF (SLIPRING(J)%FRAM(K)%UPDATE < 0) THEN
                   DFS(I) = SLIPRING(J)%FRAM(K)%DFS
                   SLIPRING(J)%FRAM(K)%UPDATE = SLIPRING(J)%FRAM(K)%UPDATE +1
@@ -473,23 +497,100 @@ C
 C
       ENDIF
 C
+        COMPT = 0
+        DO I=LFT,LLT
+          ADHER(I) = 0
+          IF (SLIPRING_STRAND(I) > 0) THEN
+            COMPT = COMPT + 1
+            INDEX2(COMPT) = I
+C-          No damping in slipring
+            XC(I) = ZERO
+            YC(I) = ZERO
+            ZC(I) = ZERO
+            XCM(I)= MAX(XC(I),YC(I),ZC(I))+XH(I)
+            XK_COMP(I) = XK(I)
+            FX_MAX(I) = EP20
+          ELSEIF (SLIPRING_STRAND(I) < 0) THEN
+C-          No damping in retractor
+            XC(I) = ZERO
+            YC(I) = ZERO
+            ZC(I) = ZERO
+            XCM(I)= MAX(XC(I),YC(I),ZC(I))+XH(I)
+            XK_COMP(I) = XK(I)
+            FX_MAX(I) = EP20
+          ENDIF
+        ENDDO
 C
+      ENDIF
+C
+      IF (NUVAR >=1) COORD_OLD => UVAR(1,1:NEL)
+C
+      FLAG = 1
+      CALL REDEF_SEATBELT(FX      ,XK     ,DX     ,FXEP   ,DXOLD ,
+     .                    DPX     ,TF     ,NPF    ,XC     ,OFF   ,
+     .                    E6(1,1) ,ANIM   ,ANIM_FE(11),POSX(1)  ,XL0,
+     .                    DMN     ,DMX    ,LSCALE ,YIELDX ,AK    ,  
+     .                    IECROU  ,IFUNC  ,IFUNC2 ,COORD_OLD,FX_MAX,
+     .                    XK_COMP ,LLT    ,INDEX1 ,FLAG     ,XKP   ,
+     .                    EPS_OLD,FRAM_FACTOR)
+C
+
+C
+      IF (NSLIPRING + NRETRACTOR > 0) THEN
 C---------------------
 C       MATERIAL FLOW COMPUTATION FOR SLIPRING/RETRACTOR
 C---------------------
 C
-        DO I=LFT,LLT
-          ADHER(I) = 0
-          IFUNC(I) =0
-          IECROU(I)=0
-          IF (SLIPRING_STRAND(I) /= 0) THEN
-C-          No damping in slipring / retractor
-            XC(I) = ZERO
-            XCM(I)= MAX(XC(I),YC(I),ZC(I))+XH(I)
+C-      Computation of lenght of 2nd strand 
+        DO J=1,COMPT
+          I = INDEX2(J)
+          STRD = SLIPRING_STRAND(I)   
+          DIR = SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%STRAND_DIRECTION(STRD)
+C---      Depending on the orientation of the spring the 2nd strand is defined by IXR(2)/IXR(3) or IXR(1)/IXR(3)       
+          IF (((STRD==1).AND.(DIR ==1)).OR.((STRD==2).AND.(DIR==-1))) THEN
+            EX2DP(I)=X2DP(1,I)-X3DP(1,I)
+            EY2DP(I)=X2DP(2,I)-X3DP(2,I)
+            EZ2DP(I)=X2DP(3,I)-X3DP(3,I)
+          ELSE
+            EX2DP(I)=X3DP(1,I)-X1DP(1,I)
+            EY2DP(I)=X3DP(2,I)-X1DP(2,I)
+            EZ2DP(I)=X3DP(3,I)-X1DP(3,I)
           ENDIF
+          NORM= MAX(EM15,SQRT(EX2DP(I)*EX2DP(I)+EY2DP(I)*EY2DP(I)+EZ2DP(I)*EZ2DP(I)))
+          EX2DP(I)= EX2DP(I)/NORM
+          EY2DP(I)= EY2DP(I)/NORM
+          EZ2DP(I)= EZ2DP(I)/NORM
+          ALDP_B2(I)= NORM
         ENDDO
 C
-        CALL MATERIAL_FLOW(DFS,DFS_OLD,ALDP,SLIPRING_STRAND,XK,
+        IF (TT == ZERO) THEN
+          DO J=1,COMPT
+            I = INDEX2(J)
+            X02(I)= ALDP_B2(I)
+          ENDDO
+        ENDIF
+C
+        DO J=1,COMPT
+          I = INDEX2(J)
+          X0DP_B2(I)= X02(I)                     ! cast double vers My_real
+          XL02(I)=MAX(X0DP_B2(I),LMIN(I))
+          DX_B2(I) = ALDP_B2(I) - X0DP_B2(I)
+        ENDDO
+C
+C--     Computation of stress of 2nd strand for sliprings
+        FLAG = 2
+        EB(1:MVSIZ) = ZERO
+        DXOLDB(1:MVSIZ) = ZERO
+        CALL REDEF_SEATBELT(FX_B2   ,XK     ,DX_B2  ,FXEP_B2,DXOLDB ,
+     .                      DPX_B2  ,TF     ,NPF    ,XC     ,OFF   ,
+     .                      EB      ,ANIM   ,ANIM_FE(11),POSX_B2,XL02,
+     .                      DMN     ,DMX    ,LSCALE ,YIELDX_B2,AK    ,  
+     .                      IECROU  ,IFUNC  ,IFUNC2 ,XX_OLD_B2,FX_MAX ,
+     .                      XK_COMP ,COMPT  ,INDEX2 ,FLAG    ,XKP_B2 ,  
+     .                      EPS_OLD_B2,FRAM_FACTOR)
+
+C--     Computation of material flow for slipring and retractor
+        CALL MATERIAL_FLOW(DFS,DFS_OLD,ALDP,SLIPRING_STRAND,XKP,
      1                     OFF,X0,X02,LMIN,UPDATE_FLAG,
      2                     RING_SLIP,SLIPRING_ID,XL0,DX,DXOLD,
      3                     EXX,EYX,EZX,X1DP,X2DP,
@@ -497,37 +598,21 @@ C
      5                     FLAG_SLIPRING_UPDATE,ADD_NODE1,ADD_NODE2,VX1,VY1,
      6                     VZ1,VX2,VY2,VZ2,VX3,
      7                     VY3,VZ3,XC,RETRACTOR_ID,FLAG_RETRACTOR_UPDATE,
-     8                     SENSOR,X0DP,FR_ID)
-      ENDIF
-C
-      IF (NUVAR >=1) COORD_OLD => UVAR(1,1:NEL)
-C
-      CALL REDEF3(FX      ,XK      ,DX      ,FXEP       ,DXOLD   ,
-     .            DPX     ,TF      ,NPF     ,XC         ,OFF     ,
-     .            E6(1,1) ,DPX2    ,ANIM    ,ANIM_FE(11),POSX    ,
-     .            FR_WAVE ,XL0     ,DMN     ,DMX        ,DV      ,
-     .            FF      ,LSCALE  ,EE      ,GF3        ,IFUNC3  ,
-     .            YIELDX  ,ALDP    ,AK      ,B          ,D       ,
-     .            IECROU  ,IFUNC   ,IFV     ,IFUNC2     ,EPLA    ,
-     .            COORD_OLD,FX_MAX ,E_OFFSET,XK_COMP)
-C
-      IF (NSLIPRING + NRETRACTOR > 0) THEN
-C---------------------
-C       MATERIAL FLOW COMPUTATION FOR SLIPRING/RETRACTOR
-C---------------------
+     8                     SENSOR,X0DP,FR_ID,DFX,FX,FX_B2,
+     9                     ALDP_B2,X0DP_B2,EX2DP,EY2DP,EZ2DP,XL02,
+     A                     XKP_B2)
 C
         DO I=LFT,LLT
-          IF (SLIPRING_STRAND(I) == 1) THEN      
-            IF (ADHER(I) == 1) FX(I) = FX(I) + DFS(I) - DFS_OLD(I)
-            XL02(I)=MAX(X02(I),LMIN(I))
+          IF (SLIPRING_STRAND(I) > 0) THEN   
+            FX(I) = FX(I) + DFX(I)
+            E6(I,1) = E6(I,1) + (DX(I)-DXOLD(I))*DFX(I)*HALF
+            DX(I) = ALDP(I)-X0DP(I)
             XKM(I) = MAX(XKM(I),FRAM_FACTOR(I)*XK(I)*(ONE + XL0(I)/XL02(I)))
-            SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%SLIP_FORCE(1) = FX(I)
-          ELSEIF (SLIPRING_STRAND(I) == 2) THEN
-            IF (ADHER(I) == 1) FX(I) = FX(I) - DFS(I) + DFS_OLD(I)
-            XL02(I)=MAX(X02(I),LMIN(I))
-            XKM(I) = MAX(XKM(I),FRAM_FACTOR(I)*XK(I)*(ONE + XL0(I)/XL02(I)))
-            SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%SLIP_FORCE(2) = FX(I)
-          ELSEIF (SLIPRING_STRAND(I) < 0) THEN
+            SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%SLIP_FORCE(SLIPRING_STRAND(I)) = FX(I)
+          ELSEIF (SLIPRING_STRAND(I) < 0) THEN 
+            FX(I) = FX(I) + DFX(I)
+            E6(I,1) = E6(I,1) + (DX(I)-DXOLD(I))*DFX(I)*HALF
+            DX(I) = ALDP(I)-X0DP(I)
             RETRACTOR(RETRACTOR_ID(I))%RET_FORCE = FX(I)
           ENDIF
         END DO

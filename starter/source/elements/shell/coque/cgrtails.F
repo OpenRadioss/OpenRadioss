@@ -143,7 +143,7 @@ C-----------------------------------------------
      .   IMATLY, IPT,MLNLY, ILEV,MPT, IE, NUVARR,IPIDL,
      .   NGP(NSPMD+1),N1,IRUP,NVARV,IVISC,IFWV,IXFEM,IPTUN,IMID,IREP,
      .   INUM_R2R(1+R2R_SIU*NUMELC),ISUBSTACK,IIGEO,IADI,IPMAT, IPPID,
-     .   IPARTR2R,NB_LAW58,IPERT,STAT,IGMAT,IPINCH,ISM0
+     .   IPARTR2R,NB_LAW58,IPERT,STAT,IGMAT,IPINCH,ISM0,ISEATBELT
       my_real
      .  ANGLE(NUMELC)
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEXS2
@@ -805,6 +805,11 @@ C         flag for group of dupplicated elements in multidomains
           IPARG(44,NGROUP) = ISTRAIN
           IPARG(62,NGROUP) = PID
           IPARG(90,NGROUP) = IPINCH
+C
+          ISEATBELT = 0
+          IF(MLN == 19.AND.IPM(6,MID)==1) ISEATBELT = 1
+          IPARG(91,NGROUP) = ISEATBELT
+C
           NSG = 1
           KFTS= 0
           DO 210 J = 2,NE1

@@ -983,16 +983,22 @@ C------------------------------------------
      5        LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
      6                 SIGNXX   ,SIGNYY  ,SIGNXY   ,SIGNYZ     ,SIGNZX     ,
      7                 LBUF%DSUM)
+          ELSEIF ((ILAW == 19).AND.(IPM(6,IMAT)==1)) THEN
+            CALL SIGEPS119C(
+     .            NEL       ,NUPARAM   ,FLAG_ZCFAC,ZCFAC     ,SHF       ,
+     .            UPARAM    ,NPTTOT    ,SSP       ,
+     .            EPSXX     ,EPSYY     ,EPSXY     ,EPSYZ     ,EPSZX     ,
+     .            LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
+     .            SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,
+     .            GBUF%SIGI ,LSENSOR   ,SENSOR    ,GBUF%INTVAR)
           ELSEIF (ILAW == 19) THEN
-
             CALL SIGEPS19C(
      .            NEL       ,NUPARAM   ,FLAG_ZCFAC,ZCFAC     ,SHF       ,
      .            UPARAM    ,NPTTOT    ,SSP       ,
      .            EPSXX     ,EPSYY     ,EPSXY     ,EPSYZ     ,EPSZX     ,
-     .         LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
+     .            LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
      .            SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,
      .            GBUF%SIGI ,LSENSOR   ,SENSOR    )
-
           ELSEIF (ILAW == 22) THEN
             CALL SIGEPS22C(
      1                   JFT      ,JLT    ,PM       ,THKN   ,OFF     ,

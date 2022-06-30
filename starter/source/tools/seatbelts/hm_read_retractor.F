@@ -44,7 +44,7 @@ Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_RETRACTOR(LSUBMODEL,ITABM1,IXR,ITAB,UNITAB,
-     .                             X,FUNC_ID,NOM_OPT,ALEA)
+     .                             X,FUNC_ID,NOM_OPT,ALEA,IPM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -68,23 +68,26 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "submod_c.inc"
 #include      "random_c.inc"
+#include      "tabsiz_c.inc"
+#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ITABM1(*),IXR(NIXR,*),ITAB(*),FUNC_ID(*),NOM_OPT(LNOPT1,*)
-      my_real               :: X(3,*),ALEA(*)
+      INTEGER, INTENT(IN) ::  ITABM1(NUMNOD),IXR(NIXR,NUMELR),ITAB(NUMNOD),FUNC_ID(NFUNCT),IPM(NPROPMI,NUMMAT)
+      INTEGER, INTENT(INOUT) :: NOM_OPT(LNOPT1,SNOM_OPT1)
+      my_real, INTENT(IN) ::  ALEA(NRAND)
+      my_real, INTENT(INOUT) ::  X(3,NUMNOD)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ,DIMENSION(NRETRACTOR) :: RET_ID
-      INTEGER               :: I,J,K,ID, IGU, IGS, NN, UID, NODE_ID, EL_ID, IERR1
-      INTEGER               :: NODE1,NODE2,EL_LOC,BID,ISENS(2),IFUNC(3),IFUNC_LOC(3),TENS_TYP
+      INTEGER               :: I,J,K,ID, UID, NODE_ID, EL_ID, IERR1
+      INTEGER               :: NODE1,NODE2,EL_LOC,BID,ISENS(2),IFUNC(3),IFUNC_LOC(3),TENS_TYP,MID,MTYP
       my_real               :: FORCE,ELEM_SIZE,DIST1,DIST2,DIST3,PULL,YSCALE1,XSCALE1,XSCALE1_UNIT,YSCALE1_UNIT
       my_real               :: YSCALE2,XSCALE2,XSCALE2_UNIT,YSCALE2_UNIT,XX,DXDY,GET_U_FUNC,ALEA_MAX,TOLE_2
       CHARACTER             :: TITR*nchartitle, KEY2*ncharkey,MESS*40
-!
       LOGICAL :: IS_AVAILABLE
       EXTERNAL GET_U_FUNC
 C-----------------------------------------------
@@ -102,7 +105,7 @@ C
 C
         WRITE(IOUT,1000)
 C
-        ALLOCATE (RETRACTOR(NRETRACTOR),STAT=IERR1); 
+        MY_ALLOCATE (RETRACTOR,NRETRACTOR)
         DO I=1,NRETRACTOR
           RETRACTOR(I)%ID = 0
           RETRACTOR(I)%IDG = 0
@@ -192,10 +195,21 @@ C
 C
           NODE_ID = USR2SYS(NODE_ID,ITABM1,MESS,RETRACTOR(I)%ID)
           EL_LOC=NINTRI(EL_ID,IXR,NIXR,NUMELR,NIXR)
-          IF(EL_LOC == 0) CALL ANCMSG(MSGID=2008,
-     .                          MSGTYPE=MSGERROR,
-     .                          ANMODE=ANINFO_BLIND_1,
-     .                          I1=ID,I2=EL_ID)
+C
+          IF(EL_LOC == 0) THEN
+            CALL ANCMSG(MSGID=2008,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1=ID,I2=EL_ID)
+          ELSE
+            MTYP = 0
+            MID = IXR(5,EL_LOC)
+            IF (MID > 0) MTYP = IPM(2,MID)
+            IF (MTYP /= 114) CALL ANCMSG(MSGID=2033,
+     .                                   MSGTYPE=MSGERROR,
+     .                                   ANMODE=ANINFO,
+     .                                   I1=ID,I2=EL_ID) 
+          ENDIF
 C
 C---------CHeck of sensors is done in creat_seatblet as sensors are not yet avaialble
 C

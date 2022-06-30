@@ -2145,9 +2145,9 @@ C--------------------------------------------
 C     INITIALISATION OF SEATBELTS :
 C--------------------------------------------
 C
-      IF (NSLIPRING+NRETRACTOR > 0) CALL INI_SEATBELT(IPARG,ELBUF_TAB,KNOD2EL1D,NOD2EL1D,IXR,
-     .                                                X,ITAB,IPM,ALEA,KNOD2ELC,
-     .                                                NOD2ELC,IXC)
+      IF (N_SEATBELT > 0) CALL INI_SEATBELT(IPARG,ELBUF_TAB,KNOD2EL1D,NOD2EL1D,IXR,
+     .                                      X,ITAB,IPM,ALEA,KNOD2ELC,
+     .                                      NOD2ELC,IXC)
 C
 C----------------------------------------------------------------
       IF(IPRI.GE.2) THEN

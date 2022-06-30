@@ -304,6 +304,8 @@ C
         IF (GBUF%G_INTVAR    == 0) GBUF%G_INTVAR     = MTAG%G_INTVAR
         IF (GBUF%G_ADD_NODE    == 0) GBUF%G_ADD_NODE     = MTAG%G_ADD_NODE
         IF (GBUF%G_UPDATE    == 0) GBUF%G_UPDATE     = MTAG%G_UPDATE
+        IF (GBUF%G_POSX    == 0) GBUF%G_POSX     = MTAG%G_POSX
+        IF (GBUF%G_POSY    == 0) GBUF%G_POSY     = MTAG%G_POSY
       ENDIF
 C
       IF(ISNOD == 10 .AND. IDT1TET10 > 1)THEN

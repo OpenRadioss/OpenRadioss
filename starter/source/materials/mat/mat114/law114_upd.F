@@ -58,15 +58,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K,FUNC,NUPAR,NPT, J,J1,NUPARAM,
-     . IF1,IF2,IF3,IF4,IC1,IC2,II,JJ,LOAD,UNLOAD,
-     . NP1,NP2,ILENG2,I7,I11,I13,I5,I4,K1,
-     . K2,I14,IFUN,FLAG_NEGATIVE,FUNC_UL,NPT_UL,J1_UL,J_UL,NEXT
+      INTEGER FUNC,NPT, J,J1,IF3,I7,I11,I13,FLAG_NEGATIVE,FUNC_UL,
+     .        NPT_UL,J1_UL,J_UL,NEXT
       my_real
-     .   XK,  HARD,X1,X2,Y1,Y2,LSCALE,XK_INI,YFAC,
-     .   X0,EMAX,DX,DY,Y0,DERI,H,XSCALE,ALPHA1,ALPHA2,
-     .   S1,S2,T1,T2,TY,SX,XX1,YY1,DYDX,DTDS,E_OFFSET,XKC,
-     .   X1_UL,X2_UL,Y1_UL,Y2_UL,DERI_UL,Y,Y_UL,EPS,Y_EPS
+     .        XK,HARD,X1,X2,Y1,Y2,LSCALE,XK_INI,DERI,H,E_OFFSET,
+     .        X1_UL,X2_UL,Y1_UL,Y2_UL,DERI_UL,Y,Y_UL,EPS,Y_EPS
       CHARACTER*nchartitle  :: TITR1
 C=======================================================================
 c     Transform FUNC_ID ->  Function number , leakmat only
@@ -147,7 +143,7 @@ C
       ENDIF
 C
       IF (IFUNC(1) > 0) THEN
-        IF(XK_INI.LT.XK)THEN
+        IF ((XK_INI.LT.XK).AND.(XK_INI > ZERO)) THEN
           CALL ANCMSG(MSGID=1640, ! 
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_1,

@@ -133,7 +133,7 @@ C     REAL
       my_real 
      .     LENGTH, RATIO, LMIN
       my_real 
-     .     MINL, MAXL, RFAC, IXX, IYY
+     .     MINL, MAXL, RFAC, IXX, IYY, INE2
       INTEGER IDS, CNT1, CNT2, NSPRG, NSPRG4, NSPRG8, NSPRG12, 
      .     NSPRG13, NSPRG25, NSPRG26, NSPRGU, IUN,NSPRG23,NSPRG27
       DATA NSPRG /0/, NSPRG4 /0/, NSPRG8 /0/, NSPRG12 /0/, 
@@ -325,7 +325,7 @@ c      CALL ANCNTS(IDS, CNT2)
            IF(MTN == 108) IMASS = 2
            IF(MTN == 114) THEN
              IMASS = 1
-             LMIN = MAX(UPARAM(IADBUF + 119),UPARAM(IADBUF + 125))
+             LMIN = MAX(UPARAM(IADBUF + 119),UPARAM(IADBUF + 126))
            ENDIF
         ELSE IF (IGTYP == 25) THEN
            NSPRG25 = NSPRG25 + 1
@@ -448,16 +448,21 @@ C---- For mat law108 skew of property 23 is used if no skew per element
             ELSEIF (MTN == 114) THEN
 C---- For mat law114 lmin is used for mass setting of element with null length
               IMASS = 1
-              LMIN = MAX(UPARAM(IADBUF + 119),UPARAM(IADBUF + 125))
+              LMIN = MAX(UPARAM(IADBUF + 119),UPARAM(IADBUF + 126))
               RFAC = UPARAM(IADBUF + 124)
               IXX = UPARAM(IADBUF + 122)
               IYY = UPARAM(IADBUF + 123)
               LENGTH = MAX(LENGTH,LMIN)
+              IF (UPARAM(IADBUF + 127) > ZERO) THEN
+C-              1D material of 2D seatbelt - no need for inertia - mass and inertia given by shell
+                RFAC = ZERO
+              ENDIF
 C-            inertia of element is automaically computed acording to moment of inertia area if Young modulus > 0
               UINER(I) = MAX(EM20,RFAC*MAX((RHO*GEO(1,I0)*LENGTH*LENGTH*LENGTH)/TWELVE + RHO*IYY*LENGTH,RHO*IXX*LENGTH))     
             ENDIF
             IF(IMASS == 1) THEN
              GBUF%MASS(I) = GEO(1,I0)*LENGTH*RHO
+C
              IF (LENGTH == ZERO .AND. RHO /= ZERO) THEN
                IPID = IXR(1,I)
                CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,I0),LTITR)
@@ -1382,6 +1387,8 @@ C
               DTC=XINE/MAX(EM15,SQRT(XCR*XCR+XINE*XKR)+XCR)
               DTELEM(NDEPAR+I)=MIN(DT,DTC)
               GEO(4,I0)= MIN(GEO(4,I0),DT,DTC)  ! to be fixed also put it in buffer material
+              MAS2 = TWO*MSR(1,J)
+              INE2 = TWO*INR(1,J)
           ELSEIF (MTN==113) THEN           
               EX=X(1,I2)-X(1,I1)
               EY=X(2,I2)-X(2,I1)
@@ -1413,6 +1420,8 @@ C
               DT = MIN(DT,DTC)
               GEO(4,I0)= MIN(GEO(4,I0),DT)
               DTELEM(NDEPAR+I)= DT
+              MAS2 = TWO*MSR(1,J)
+              INE2 = TWO*INR(1,J)
           ELSEIF (MTN==114) THEN           
               EX=X(1,I2)-X(1,I1)
               EY=X(2,I2)-X(2,I1)
@@ -1436,10 +1445,23 @@ C
      .                   UPARAM(IADBUF + K11 + 6)*UPARAM(IADBUF + K1 + 6)))/XL(I)
               XCR= (XCR+MAX(UPARAM(IAD + K12 + 1),UPARAM(IADBUF + K12 + 2),UPARAM(IADBUF + K12 + 3))
      .            +     MAX(UPARAM(IAD + K14 + 4),UPARAM(IADBUF + K14 + 5),UPARAM(IADBUF + K14 + 6)) )/XL(I)
-C
-              XM  =GBUF%MASS(I)
-              XINE=UINER(I)
-              GBUF%INTVAR(I) = XINE
+C-
+              IF (UPARAM(IADBUF + 127) > ZERO) THEN
+C-              1D material of 2D seatbelt - element mass and inertia recomputed for elementary time step
+                RHO = UPARAM(IADBUF+128)
+                XM = RHO*XL(I)*GEO(1,I0)
+                XINE=MAX(EM20,MAX((RHO*GEO(1,I0)*LENGTH*LENGTH*LENGTH)/TWELVE+ RHO*IYY*LENGTH,RHO*IXX*LENGTH))
+                GBUF%MASS(I) = XM
+                GBUF%INTVAR(I) = XINE
+                MAS2 = XM
+                INE2 = XINE
+              ELSE
+                XM  =GBUF%MASS(I)
+                XINE=UINER(I)
+                GBUF%INTVAR(I) = XINE
+                MAS2 = TWO*MSR(1,J)
+                INE2 = TWO*INR(1,J)
+              ENDIF
               GBUF%FRAM_FACTOR(I) = ONE
 C
               IF (XCM+XKM.LT.EM15) XM  =ONE
@@ -1452,7 +1474,6 @@ C
               GEO(4,I0)= MIN(GEO(4,I0),DT)
               DTELEM(NDEPAR+I)= DT
            ENDIF   
-           MAS2 = TWO*MSR(1,J)
            IF (MAS2>ZERO) THEN
             STI = (SQRT(XCM**2+XKM*MAS2)+XCM)**2/MAS2
            ELSE
@@ -1460,9 +1481,8 @@ C
            END IF
            STIFN(I1)=STIFN(I1)+STI
            STIFN(I2)=STIFN(I2)+STI
-           MAS2 = TWO *INR(1,J)
-           IF (MAS2>ZERO) THEN
-            STI = (SQRT(XCR**2+XKR*MAS2)+XCR)**2/MAS2
+           IF (INE2>ZERO) THEN
+            STI = (SQRT(XCR**2+XKR*INE2)+XCR)**2/INE2
            ELSE
             STI = XKR
            END IF

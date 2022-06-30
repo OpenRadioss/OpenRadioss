@@ -170,13 +170,13 @@ C
 C
       UPARAM(119) = LMIN
 
-      IF (F_MAX == ZERO) F_MAX = INFINITY
-      IF (M_MAX == ZERO) M_MAX = INFINITY
+C      IF (F_MAX == ZERO) F_MAX = INFINITY
+C      IF (M_MAX == ZERO) M_MAX = INFINITY
       UPARAM(120) = F_MAX
       UPARAM(121) = M_MAX
 C
 C --- Computation of inertia / length only if E > 0
-      IF ((RFAC == ZERO).AND.(YOUNG > ZERO)) RFAC = ONE
+      IF (RFAC == ZERO) RFAC = ONE
       UPARAM(122) = IBEND 
       UPARAM(123) = ITORS
       UPARAM(124) = RFAC           
@@ -456,7 +456,7 @@ C
       NFUNC = NFUNC  + 4
 C-----------------------------
 C      
-      NUPARAM = 126
+      NUPARAM = 128
 C   
 C------------------------
 C------------------------
@@ -489,7 +489,7 @@ C
       MTAG%G_DFS = 1
       MTAG%G_FRAM_FACTOR = 1
 C-- INTVAR used to comput force in 2nd strand when elemet is in slipring
-      MTAG%G_INTVAR = 1
+      MTAG%G_INTVAR = 10
 C------------------------
 C------------------------
       RETURN

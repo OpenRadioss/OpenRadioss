@@ -32,7 +32,7 @@ Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.
 Chd|====================================================================
       SUBROUTINE CREATE_SEATBELT(IXR,ITAB,KNOD2EL1D,NOD2EL1D,IPM,
      .                           X,LSENSOR,BUFMAT,PM,GEO,
-     .                           IDDLEVEL,KNOD2ELC,NOD2ELC,IXC)
+     .                           IDDLEVEL,KNOD2ELC,NOD2ELC,IXC,IGEO)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -51,26 +51,27 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "com04_c.inc"
 #include      "com01_c.inc"
-C     NSUBMOD
-#include      "submod_c.inc"
+#include      "my_allocate.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXR(NIXR,*),ITAB(*),KNOD2EL1D(*),NOD2EL1D(*),IPM(NPROPMI,*),LSENSOR(NSENSI,*),IDDLEVEL,
      .        KNOD2ELC(*),NOD2ELC(*),IXC(NIXC,*)
+      INTEGER, INTENT(INOUT) :: IGEO(NPROPGI,NUMGEO)
       my_real X(3,*),BUFMAT(*),PM(NPROPM,*),GEO(NPROPG,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,EL_START,NOD_START,NOD_MID,SEATBELT_ID,COMPT,ELEM_CUR,
-     .        N1,FLAG,NNOD,OFFSET,MTYP,MID,NDIR,
-     .        I1,I2,IADBUF,TAG_PRINT,ISENS_LOC(2),IPID,NUM_SEATBELT,OFFC,OFFR,NB_ELEM,NODE,
-     .        NB_2D_SEATBELT,TAG_SLIPRING_SEATBELT(NSLIPRING),
-     .        TAG_RETRACTOR_SEATBELT(NRETRACTOR),NNOD_SLIPRING_SEATBELT(NSLIPRING),NNOD_RETRACTOR_SEATBELT(NRETRACTOR)
-      my_real DIST2,LMIN,RHO,XK,XC,AREA
+      INTEGER I,J,K,L,NOD_START,SEATBELT_ID,COMPT,ELEM_CUR,
+     .        FLAG,NNOD,MTYP,MID,NDIR,
+     .        I1,I2,IADBUF,TAG_PRINT,ISENS_LOC(2),IPID,OFFC,OFFR,NB_ELEM,NODE,
+     .        NB_2D_SEATBELT,COMPT_BELT_END,COMPT_FRAM,NEXT_NODE,NODE_CUR,COMPT_2D,MID_2D,NODE_LONGI
+      my_real DIST2,LMIN,RHO,XK,XC,AREA,LONGI_DIRECTION(3),EDGE_DIRECTION(3),SCAL,E11,G12,DETC,C1
 C
-      INTEGER , DIMENSION(:), ALLOCATABLE:: TAG_RES,TAG_SHELL,TAG_NOD,CC_ELEM,CPT_MAT,TAG_MAT_2D
-      my_real , DIMENSION(:), ALLOCATABLE:: AV_LEN_MAT,AV_AREA_MAT,ELEMSIZE_MAT
+      INTEGER , DIMENSION(:), ALLOCATABLE:: TAG_RES,TAG_SHELL,TAG_NOD,CC_ELEM,CPT_MAT,TAG_MAT_2D,
+     .                                      TAG_NOD_SHELL,TAG_NOD_SPRING,FRAM_TAB,TAG_FRAM_SEATBELT,
+     .                                      NNOD_FRAM_SEATBELT,BELT_END_NFRAM,BELT_END_ADDR,TAG_PROP_2D
+      my_real , DIMENSION(:), ALLOCATABLE:: AV_LEN_MAT,AV_AREA_MAT,ELEMSIZE_MAT,BELT_END_SECTION,SECTION_MAT
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -125,42 +126,235 @@ C
 C--   Loop to find elements of the seatbelt from starting node for each slipiring/retractor
 C--   Need to check bifurcation in seatbelt and to tag elements on same cpu for domdec
 C
+C-----------------------------------------------
 C
-      ALLOCATE(TAG_RES(NUMELR),TAG_NOD(NUMNOD))
-      TAG_RES(1:NUMELR) = 0
+      MY_ALLOCATE(TAG_NOD_SHELL,NUMNOD)
+      MY_ALLOCATE(TAG_PROP_2D,NUMGEO)
+      TAG_NOD_SHELL(1:NUMNOD) = 0
+      TAG_PROP_2D(1:NUMGEO) = 0
+      DO I=1,NUMELC
+        MID = IXC(1,I)
+        MTYP = IPM(2,MID)
+        IPID = IXC(6,I)
+        IF ((MTYP == 19).AND.(IPM(6,MID)==1)) THEN
+          DO J=2,5
+            TAG_NOD_SHELL(IXC(J,I)) = TAG_NOD_SHELL(IXC(J,I)) + 1
+          ENDDO
+C-        tag of prop type 9 to 1 to set IP=20 or -2 if conflict with non seatbelt elements
+          IF (TAG_PROP_2D(IPID)==0) TAG_PROP_2D(IPID) = 1
+          IF (TAG_PROP_2D(IPID)==-1) TAG_PROP_2D(IPID) = -2
+        ELSEIF (IGEO(11,IPID)==9) THEN
+C-        tag of prop type 9 to -2 for error message if conflict with non seatbelt elements
+          IF (TAG_PROP_2D(IPID)==0) TAG_PROP_2D(IPID) = -1
+          IF (TAG_PROP_2D(IPID)==1) TAG_PROP_2D(IPID) = -2
+        ENDIF
+      ENDDO
+C
+      MY_ALLOCATE(TAG_NOD_SPRING,NUMNOD)
+      TAG_NOD_SPRING(1:NUMNOD) = 0
+      DO I=1,NUMELR
+        MID = IXR(5,I)
+        IF (MID > 0) THEN
+          MTYP = IPM(2,MID)
+          IF (MTYP == 114) THEN
+            DO J=2,3
+              TAG_NOD_SPRING(IXR(J,I)) = TAG_NOD_SPRING(IXR(J,I)) + 1
+            ENDDO
+          ENDIF
+        ENDIF
+      ENDDO
+C
+C--   Set of IP=20 for /PROP/TYPE9 for orthotropy directions computation
+      DO I=1,NUMGEO
+        IF (IGEO(14,I) /= 20) THEN
+          IF (TAG_PROP_2D(I) == 1) THEN
+            IGEO(14,I) = 20
+             CALL ANCMSG(MSGID=2076,
+     .                   MSGTYPE=MSGWARNING,
+     .                   ANMODE=ANINFO_BLIND_1,
+     .                   I1=IGEO(1,I)) 
+          ELSEIF (TAG_PROP_2D(I) == -2) THEN
+             CALL ANCMSG(MSGID=2077,
+     .                   MSGTYPE=MSGERROR,
+     .                   ANMODE=ANINFO_BLIND_1,
+     .                   I1=IGEO(1,I)) 
+          ENDIF
+        ENDIF
+      ENDDO
+C
+      DEALLOCATE(TAG_PROP_2D)
+C
+C----------------------------------------------------------------------------
+C---  Loop on elements on edges of seatbelt
+C----------------------------------------------------------------------------
+C
+C--   if nshell = 1 and nspring = 1 -> node in corner of 2D belt
+C--   if nshell = 2 and nspring = 1 -> node on edge of 2D belt
+C--   if nshell = 0 and nspring = 1 -> node at end of 1D belt
+C
+      MY_ALLOCATE(TAG_NOD,NUMNOD)
       TAG_NOD(1:NUMNOD) = 0
+      COMPT_BELT_END = 0
+      COMPT_FRAM = 0
+      DO I=1,NUMNOD
+        IF ((TAG_NOD_SHELL(I) < 2).AND.(TAG_NOD_SPRING(I)==1).AND.(TAG_NOD(I)==0)) THEN
+          COMPT_BELT_END = COMPT_BELT_END + 1
+          COMPT_FRAM = COMPT_FRAM + 1
+          TAG_NOD(I) = 1
+          IF (TAG_NOD_SHELL(I) == 1) THEN
+            NEXT_NODE = I
+            DO WHILE(NEXT_NODE > 0)
+              NODE_CUR = NEXT_NODE
+              NEXT_NODE = 0
+              DO K=KNOD2ELC(NODE_CUR)+1,KNOD2ELC(NODE_CUR+1)
+                ELEM_CUR = NOD2ELC(K)
+                MID = IXC(1,ELEM_CUR)
+                MTYP = IPM(2,MID)
+                IF ((MTYP==19).AND.(IPM(6,MID)==1)) THEN
+                  DO J=2,5
+                    IF ((TAG_NOD_SPRING(IXC(J,ELEM_CUR))==1).AND.(TAG_NOD(IXC(J,ELEM_CUR))==0)) THEN
+C--                   next node on transverse edge of seatbelt
+                      NEXT_NODE = IXC(J,ELEM_CUR)
+                      TAG_NOD(NEXT_NODE) = 1
+                      COMPT_FRAM = COMPT_FRAM + 1
+                    ENDIF
+                  ENDDO
+                ENDIF
+              ENDDO       
+            ENDDO     
+          ENDIF
+        ENDIF
+      ENDDO
+C
+      TAG_NOD(1:NUMNOD) = 0
+      MY_ALLOCATE(BELT_END_NFRAM,COMPT_BELT_END)
+      MY_ALLOCATE(BELT_END_ADDR,COMPT_BELT_END)
+      MY_ALLOCATE(FRAM_TAB,COMPT_FRAM)
+      MY_ALLOCATE(BELT_END_SECTION,COMPT_BELT_END)
+      BELT_END_NFRAM(1:COMPT_BELT_END) = 0
+      BELT_END_ADDR(1:COMPT_BELT_END) = 0
+      BELT_END_SECTION(1:COMPT_BELT_END) = ZERO
+      FRAM_TAB(1:COMPT_FRAM) = 0
+      COMPT_BELT_END = 0
+      COMPT_FRAM = 0
+      DO I=1,NUMNOD
+        IF ((TAG_NOD_SHELL(I) < 2).AND.(TAG_NOD_SPRING(I)==1).AND.(TAG_NOD(I)==0)) THEN
+          COMPT_BELT_END = COMPT_BELT_END + 1
+          COMPT_FRAM = COMPT_FRAM + 1
+          TAG_NOD(I) = 1
+          BELT_END_NFRAM(COMPT_BELT_END) = 1
+          BELT_END_ADDR(COMPT_BELT_END) = COMPT_FRAM
+          FRAM_TAB(COMPT_FRAM) = I
+          IF (TAG_NOD_SHELL(I) == 1) THEN
+C
+C--         determination of longitudinal direction using spring connected to corner of seatblet  
+            DO K=KNOD2EL1D(I)+1,KNOD2EL1D(I+1)
+              IF (NOD2EL1D(K) > NUMELT+NUMELP) THEN
+                ELEM_CUR = NOD2EL1D(K)-NUMELT-NUMELP
+                MID = IXR(5,ELEM_CUR)
+                IF (MID > 0) THEN
+                  MTYP = IPM(2,MID)
+                  IF ((MTYP == 114).AND.(IXR(2,ELEM_CUR)/= I)) THEN 
+                    NODE_LONGI = IXR(2,ELEM_CUR)
+                  ELSEIF (MTYP == 114) THEN
+                    NODE_LONGI = IXR(3,ELEM_CUR)
+                  ENDIF
+                ENDIF
+              ENDIF
+            ENDDO
+            DIST2 = (X(1,I)-X(1,NODE_LONGI))**2+(X(2,I)-X(2,NODE_LONGI))**2+(X(3,I)-X(3,NODE_LONGI))**2                  
+            LONGI_DIRECTION(1) = (X(1,I)-X(1,NODE_LONGI))/SQRT(MAX(EM20,DIST2))
+            LONGI_DIRECTION(2) = (X(2,I)-X(2,NODE_LONGI))/SQRT(MAX(EM20,DIST2))
+            LONGI_DIRECTION(3) = (X(3,I)-X(3,NODE_LONGI))/SQRT(MAX(EM20,DIST2))
+C
+            NEXT_NODE = I
+            DO WHILE(NEXT_NODE > 0)
+              NODE_CUR = NEXT_NODE
+              NEXT_NODE = 0
+              DO K=KNOD2ELC(NODE_CUR)+1,KNOD2ELC(NODE_CUR+1)
+                ELEM_CUR = NOD2ELC(K)
+                MID = IXC(1,ELEM_CUR)
+                MTYP = IPM(2,MID)
+                IF ((MTYP==19).AND.(IPM(6,MID)==1)) THEN
+                  DO J=2,5
+                    IF ((TAG_NOD_SPRING(IXC(J,ELEM_CUR))==1).AND.(TAG_NOD(IXC(J,ELEM_CUR))==0)) THEN
+C--                   next node on transverse edge of seatbelt
+                      NEXT_NODE = IXC(J,ELEM_CUR)
+                      TAG_NOD(NEXT_NODE) = 1
+                      COMPT_FRAM = COMPT_FRAM + 1
+                      FRAM_TAB(COMPT_FRAM) = NEXT_NODE
+                    ENDIF
+                  ENDDO
+                ENDIF
+              ENDDO
+              IF (NEXT_NODE > 0) THEN
+C--             seatbelt section is incremented
+                DIST2 = (X(1,NODE_CUR)-X(1,NEXT_NODE))**2+(X(2,NODE_CUR)-X(2,NEXT_NODE))**2
+     .                 +(X(3,NODE_CUR)-X(3,NEXT_NODE))**2
+                EDGE_DIRECTION(1) = (X(1,NODE_CUR)-X(1,NEXT_NODE))/SQRT(MAX(EM20,DIST2))
+                EDGE_DIRECTION(2) = (X(2,NODE_CUR)-X(2,NEXT_NODE))/SQRT(MAX(EM20,DIST2))
+                EDGE_DIRECTION(3) = (X(3,NODE_CUR)-X(3,NEXT_NODE))/SQRT(MAX(EM20,DIST2))
+                SCAL = LONGI_DIRECTION(1)*EDGE_DIRECTION(1)+LONGI_DIRECTION(2)*EDGE_DIRECTION(2)
+     .                +LONGI_DIRECTION(3)*EDGE_DIRECTION(3)
+                DIST2 = DIST2*(ONE-SCAL*SCAL)
+                IPID = IXC(6,ELEM_CUR)
+                BELT_END_SECTION(COMPT_BELT_END) = BELT_END_SECTION(COMPT_BELT_END) + SQRT(MAX(EM20,DIST2))*GEO(1,IPID)
+              ENDIF       
+            ENDDO
+            BELT_END_NFRAM(COMPT_BELT_END) = COMPT_FRAM - BELT_END_ADDR(COMPT_BELT_END) + 1  
+          ENDIF
+        ENDIF
+      ENDDO
+C
+C      DO I=1,COMPT_BELT_END
+C        DO J=1,BELT_END_NFRAM(I)
+C          print *,"-->",I,ITAB(FRAM_TAB(BELT_END_ADDR(I)+J-1))
+C        ENDDO
+C        print *,"SECTION",BELT_END_SECTION(I)
+C      ENDDO
+C
+      DEALLOCATE(TAG_NOD_SPRING,TAG_NOD_SHELL)
+C
+      MY_ALLOCATE(TAG_RES,NUMELR)
+      MY_ALLOCATE(TAG_FRAM_SEATBELT,COMPT_BELT_END)
+      MY_ALLOCATE(NNOD_FRAM_SEATBELT,COMPT_BELT_END)
+      TAG_NOD(1:NUMNOD) = 0
+      TAG_RES(1:NUMELR) = 0
       SEATBELT_ID = 0
       FLAG = 0
       NB_2D_SEATBELT = 0
-      NNOD_SLIPRING_SEATBELT(1:NSLIPRING) = 0
-      NNOD_RETRACTOR_SEATBELT(1:NRETRACTOR) = 0
+      TAG_FRAM_SEATBELT(1:COMPT_BELT_END) = 0
+      NNOD_FRAM_SEATBELT(1:COMPT_BELT_END) = 0
 C
-C-----Loop on sliprings --
+C----------------------------------------------------------------------------
+C---  Loop on seatblet elements in longitudinal direction
+C----------------------------------------------------------------------------
 C
-      DO I=1,NSLIPRING
+      DO I=1,COMPT_BELT_END
 C
 C--     Check of nodes
 C
-        IF (TAG_NOD(SLIPRING(I)%FRAM(1)%NODE(2))==0) THEN
+        IF (TAG_NOD(FRAM_TAB(BELT_END_ADDR(I)))==0) THEN
           SEATBELT_ID = SEATBELT_ID + 1
           NNOD = 0
 C
-          IF (SLIPRING(I)%NFRAM > 1) NB_2D_SEATBELT = NB_2D_SEATBELT + 1
+          IF (BELT_END_NFRAM(I) > 1) NB_2D_SEATBELT = NB_2D_SEATBELT + 1
 C
-          DO J=1,SLIPRING(I)%NFRAM
+          DO J=1,BELT_END_NFRAM(I)
 C
-            NOD_MID = SLIPRING(I)%FRAM(J)%NODE(2)
+            NNOD = NNOD + 1
+            NOD_START = FRAM_TAB(BELT_END_ADDR(I)+J-1)
             NDIR = 0
 C
-            DO K=KNOD2EL1D(NOD_MID)+1,KNOD2EL1D(NOD_MID+1)
+            DO K=KNOD2EL1D(NOD_START)+1,KNOD2EL1D(NOD_START+1)
               IF (NOD2EL1D(K) > NUMELT+NUMELP) THEN
                 ELEM_CUR = NOD2EL1D(K)-NUMELT-NUMELP
                 MID = IXR(5,ELEM_CUR)
                 IF (MID > 0) THEN
                   MTYP = IPM(2,MID)
                   IF (MTYP == 114) THEN
-C--               Loop on belt in one direction
-                    CALL NEW_SEATBELT(IXR,ITAB,KNOD2EL1D,NOD2EL1D,NOD_MID,
+C--                 Loop on belt elements
+                    CALL NEW_SEATBELT(IXR,ITAB,KNOD2EL1D,NOD2EL1D,NOD_START,
      .                                ELEM_CUR,TAG_RES,TAG_NOD,SEATBELT_ID,FLAG,
      .                                NNOD,IPM)
 C 
@@ -168,87 +362,29 @@ C
                     IF(NDIR > 2) CALL ANCMSG(MSGID=2005,
      .                                       MSGTYPE=MSGERROR,
      .                                       ANMODE=ANINFO,
-     .                                       I1=ITAB(NOD_MID))
-                  ELSE
-                    CALL ANCMSG(MSGID=2032,
-     .                          MSGTYPE=MSGERROR,
-     .                          ANMODE=ANINFO,
-     .                          I1=SLIPRING(I)%ID,I2=IXR(NIXR,ELEM_CUR))
+     .                                       I1=ITAB(NOD_START))
                   ENDIF
                 ENDIF
               ENDIF
-C
             ENDDO
 C
           ENDDO
 C
-          TAG_SLIPRING_SEATBELT(I) = SEATBELT_ID
-          NNOD_SLIPRING_SEATBELT(I) = NNOD
+          TAG_FRAM_SEATBELT(I) = SEATBELT_ID
+          NNOD_FRAM_SEATBELT(I) = NNOD
 C
-        ELSEIF(SLIPRING(I)%NFRAM > 1) THEN
+        ELSEIF(BELT_END_NFRAM(I) > 1) THEN
 C--       check of frames (2D sliprings)
           COMPT = 0
-          DO J=1,SLIPRING(I)%NFRAM
-            IF (TAG_NOD(SLIPRING(I)%FRAM(J)%NODE(2)) /= 0) COMPT = COMPT + 1
+          DO J=1,BELT_END_NFRAM(I)
+            IF (TAG_NOD(FRAM_TAB(BELT_END_ADDR(I))) /= 0) COMPT = COMPT + 1
           ENDDO
-          IF (COMPT /= SLIPRING(I)%NFRAM) THEN
-            CALL ANCMSG(MSGID=2053,
+          IF (COMPT /= BELT_END_NFRAM(I)) THEN
+            CALL ANCMSG(MSGID=2073,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_1,
      .                  I1=SLIPRING(I)%ID)
           ENDIF
-C
-        ENDIF
-C
-      ENDDO
-C
-C----- Loop on retractors --
-C
-      DO I=1,NRETRACTOR
-C
-C--     Check of nodes if needed
-C
-        N1 = RETRACTOR(I)%NODE(1)
-        IF(ALLOCATED(RETRACTOR(I)%INACTI_NODE)) DEALLOCATE(RETRACTOR(I)%INACTI_NODE)
-C
-        IF (TAG_NOD(N1)==0) THEN
-          SEATBELT_ID = SEATBELT_ID + 1
-          NNOD = 0
-          NDIR = 0
-C
-          DO K=KNOD2EL1D(N1)+1,KNOD2EL1D(N1+1)
-            IF (NOD2EL1D(K) > NUMELT+NUMELP) THEN
-              ELEM_CUR = NOD2EL1D(K)-NUMELT-NUMELP
-              MID = IXR(5,ELEM_CUR)
-              IF (MID > 0) THEN
-                MTYP = IPM(2,MID)
-                IF (MTYP == 114) THEN
-C--               Loop on belt in one direction
-                  CALL NEW_SEATBELT(IXR,ITAB,KNOD2EL1D,NOD2EL1D,N1,
-     .                              ELEM_CUR,TAG_RES,TAG_NOD,SEATBELT_ID,FLAG,
-     .                              NNOD,IPM)
-C 
-                  NDIR = NDIR + 1
-                  IF(NDIR > 2) CALL ANCMSG(MSGID=2005,
-     .                                     MSGTYPE=MSGERROR,
-     .                                     ANMODE=ANINFO,
-     .                                     I1=ITAB(NOD_MID))
-                ELSE
-                  CALL ANCMSG(MSGID=2033,
-     .                        MSGTYPE=MSGERROR,
-     .                        ANMODE=ANINFO,
-     .                        I1=RETRACTOR(I)%ID,I2=IXR(NIXR,ELEM_CUR))
-                ENDIF
-              ENDIF
-            ENDIF
-          ENDDO
-C
-          NNOD_RETRACTOR_SEATBELT(I) = NNOD
-          TAG_RETRACTOR_SEATBELT(I) = SEATBELT_ID
-C
-        ELSE
-C
-          TAG_RETRACTOR_SEATBELT(I) = SEATBELT_ID
 C
         ENDIF
 C
@@ -259,43 +395,83 @@ C---  Filling of seatbelt structure
 C----------------------------------------------------------------------------
 C
       N_SEATBELT = SEATBELT_ID
-      ALLOCATE(SEATBELT_TAB(N_SEATBELT))
+      IF (IDDLEVEL == 0) MY_ALLOCATE(SEATBELT_TAB,N_SEATBELT)
+      MY_ALLOCATE(TAG_MAT_2D,NUMMAT)
+      TAG_MAT_2D(1:NUMMAT) = 0
+      IF (NB_2D_SEATBELT > 0) THEN
+        MY_ALLOCATE(TAG_SHELL,NUMELC)
+        MY_ALLOCATE(SECTION_MAT,NUMMAT)
+        TAG_SHELL(1:NUMELC) = 0
+        SECTION_MAT(1:NUMMAT) = ZERO
+      ENDIF
+C
       DO I=1,N_SEATBELT
         COMPT = 0
+        COMPT_2D = 0
+        SEATBELT_TAB(I)%NFRAM = 1
+        SEATBELT_TAB(I)%NNOD = 0
+        SEATBELT_TAB(I)%ELEM_SIZE = ZERO
+        DO J=1,COMPT_BELT_END
+          IF (TAG_FRAM_SEATBELT(J)==I) THEN
+            SEATBELT_TAB(I)%NNOD = SEATBELT_TAB(I)%NNOD + NNOD_FRAM_SEATBELT(J)
+            SEATBELT_TAB(I)%NFRAM = BELT_END_NFRAM(J)
+            SEATBELT_TAB(I)%SECTION = BELT_END_SECTION(J)
+          ENDIF
+        ENDDO  
         DO J=1,NUMELR
-          IF (TAG_RES(J) == I) COMPT = COMPT + 1
+          IF (TAG_RES(J) == I) THEN
+C--         count of 1d elements of the seatbelt
+            COMPT = COMPT + 1
+            MID = IXR(5,J)
+            IF (TAG_MAT_2D(MID)==0) TAG_MAT_2D(MID) = -MID
+C--         count and tag of 2d elements of the seatbelt
+            DO K=2,3
+              NODE = IXR(K,J)
+              DO L=KNOD2ELC(NODE)+1,KNOD2ELC(NODE+1)
+                ELEM_CUR = NOD2ELC(L)
+                MID_2D = IXC(1,ELEM_CUR)
+                MTYP = IPM(2,MID_2D)
+                IF ((MTYP==19).AND.(IPM(6,MID_2D)==1)) THEN
+                  IF (TAG_SHELL(ELEM_CUR)==0) THEN
+                    TAG_SHELL(ELEM_CUR) = I
+                    COMPT_2D = COMPT_2D + 1
+                    TAG_MAT_2D(MID) = MID_2D
+                    IF (SECTION_MAT(MID_2D) == ZERO) THEN
+                      SECTION_MAT(MID_2D) = SEATBELT_TAB(I)%SECTION
+                    ELSEIF (ABS(SEATBELT_TAB(I)%SECTION-SECTION_MAT(MID_2D)) > EM05) THEN
+                      CALL ANCMSG(MSGID=2075,
+     .                          MSGTYPE=MSGERROR,
+     .                          ANMODE=ANINFO_BLIND_1,
+     .                          I1=IPM(1,MID_2D))
+                    ENDIF
+                  ENDIF
+                ENDIF
+              ENDDO
+            ENDDO 
+          ENDIF
         ENDDO 
         SEATBELT_TAB(I)%NSPRING = COMPT
-        ALLOCATE(SEATBELT_TAB(I)%SPRING(COMPT))
+        SEATBELT_TAB(I)%NSHELL = COMPT_2D
+        IF (IDDLEVEL == 0) MY_ALLOCATE(SEATBELT_TAB(I)%SPRING,COMPT)
         COMPT = 0
         DO J=1,NUMELR
           IF (TAG_RES(J) == I) THEN
             COMPT = COMPT + 1
             SEATBELT_TAB(I)%SPRING(COMPT) = J
           ENDIF
-        ENDDO
-        SEATBELT_TAB(I)%NNOD = 0
-        SEATBELT_TAB(I)%ELEM_SIZE = ZERO
-        DO J=1,NSLIPRING
-          IF (TAG_SLIPRING_SEATBELT(J)==I) THEN
-            SEATBELT_TAB(I)%NNOD = SEATBELT_TAB(I)%NNOD + NNOD_SLIPRING_SEATBELT(J)
-            SEATBELT_TAB(I)%NFRAM = SLIPRING(J)%NFRAM
-          ENDIF
-        ENDDO
-        DO J=1,NRETRACTOR
-          IF (TAG_RETRACTOR_SEATBELT(J)==I) SEATBELT_TAB(I)%NNOD = SEATBELT_TAB(I)%NNOD + NNOD_RETRACTOR_SEATBELT(J)
-        ENDDO         
+        ENDDO    
       ENDDO
+C
+      DEALLOCATE(BELT_END_NFRAM,BELT_END_SECTION,BELT_END_ADDR,FRAM_TAB,TAG_RES,TAG_FRAM_SEATBELT,NNOD_FRAM_SEATBELT)
 C
 C----------------------------------------------------------------------------
 C---  Computation of elem_size from retractor
 C----------------------------------------------------------------------------
 C
       DO I=1,NRETRACTOR
-        SEATBELT_ID = TAG_RETRACTOR_SEATBELT(I)
-C--     Node N1 must be counter
-        RETRACTOR(I)%INACTI_NNOD_MAX = SEATBELT_TAB(SEATBELT_ID)%NNOD + 1
-        ALLOCATE(RETRACTOR(I)%INACTI_NODE(SEATBELT_TAB(SEATBELT_ID)%NNOD + 1))
+        SEATBELT_ID = TAG_NOD(RETRACTOR(I)%NODE(1))
+        RETRACTOR(I)%INACTI_NNOD_MAX = SEATBELT_TAB(SEATBELT_ID)%NNOD
+        IF (IDDLEVEL == 0) MY_ALLOCATE(RETRACTOR(I)%INACTI_NODE,SEATBELT_TAB(SEATBELT_ID)%NNOD)
         SEATBELT_TAB(SEATBELT_ID)%ELEM_SIZE =  MAX(SEATBELT_TAB(SEATBELT_ID)%ELEM_SIZE,RETRACTOR(I)%ELEMENT_SIZE)        
       ENDDO
 C
@@ -303,14 +479,16 @@ C----------------------------------------------------------------------------
 C---  Computation of default lmin and default critical damping
 C----------------------------------------------------------------------------
 C
-      ALLOCATE(CPT_MAT(NUMMAT),AV_LEN_MAT(NUMMAT),AV_AREA_MAT(NUMMAT),ELEMSIZE_MAT(NUMMAT),TAG_MAT_2D(NUMMAT))
+      MY_ALLOCATE(CPT_MAT,NUMMAT)
+      MY_ALLOCATE(AV_LEN_MAT,NUMMAT)
+      MY_ALLOCATE(AV_AREA_MAT,NUMMAT)
+      MY_ALLOCATE(ELEMSIZE_MAT,NUMMAT)
       COMPT = 0
       CPT_MAT(1:NUMMAT) = 0
       AV_LEN_MAT(1:NUMMAT) = ZERO
       AV_AREA_MAT(1:NUMMAT) = ZERO
       ELEMSIZE_MAT(1:NUMMAT) = ZERO
-      TAG_MAT_2D(1:NUMMAT) = 0
-
+C
       DO I=1,N_SEATBELT
         DO J=1,SEATBELT_TAB(I)%NSPRING
           ELEM_CUR = SEATBELT_TAB(I)%SPRING(J)
@@ -325,7 +503,6 @@ C
             AV_AREA_MAT(MID) = AV_AREA_MAT(MID) + GEO(1,IPID)
             CPT_MAT(MID) = CPT_MAT(MID) + 1
           ENDIF
-          IF (SEATBELT_TAB(I)%NFRAM > 1) TAG_MAT_2D(MID) = 1
         ENDDO
       ENDDO
 C
@@ -339,10 +516,10 @@ C--         default lmin = 1% of average length
             BUFMAT(IADBUF+119-1) = EM02 * (AV_LEN_MAT(MID) / CPT_MAT(MID))
             IF (TAG_PRINT == 0) WRITE(IOUT,1000)
             TAG_PRINT = 1
-            WRITE(IOUT,'(5X,I10,8X,G16.9)') IPM(1,MID),BUFMAT(IADBUF+119-1)
+            WRITE(IOUT,'(5X,I10,8X,G16.9)') IPM(1,ABS(TAG_MAT_2D(MID))),BUFMAT(IADBUF+119-1)
           ENDIF
 C--       storage of retrator eleme size
-          BUFMAT(IADBUF+125-1) = ELEMSIZE_MAT(MID)
+          BUFMAT(IADBUF+126-1) = ELEMSIZE_MAT(MID)
         ENDIF       
       ENDDO
 C
@@ -351,30 +528,108 @@ C
         IADBUF   = IPM(7,MID)
         XC = BUFMAT(IADBUF+70)
         IF (CPT_MAT(MID) > 0) THEN
+          XK = BUFMAT(IADBUF+64)
           IF (XC == ZERO) THEN
 C--         default damping is 30% of critical damping
             RHO = PM(1,MID)
             AREA = AV_AREA_MAT(MID) / CPT_MAT(MID)
-            XK = BUFMAT(IADBUF+64)
-            BUFMAT(IADBUF+70) = ZEP3 * SQRT(RHO*AREA*XK) * (AV_LEN_MAT(MID) / CPT_MAT(MID))
+            XC = ZEP3 * SQRT(RHO*AREA*XK) * (AV_LEN_MAT(MID) / CPT_MAT(MID))
+            BUFMAT(IADBUF+70) = XC
             IF (TAG_PRINT == 0) WRITE(IOUT,1100)
             TAG_PRINT = 1
-            WRITE(IOUT,'(5X,I10,8X,G16.9)') IPM(1,MID),BUFMAT(IADBUF+70) 
+            WRITE(IOUT,'(5X,I10,8X,G16.9)') IPM(1,ABS(TAG_MAT_2D(MID))),BUFMAT(IADBUF+70) 
           ENDIF
-C--       for 2D_seatbelt mass is apllied on shell
-          IF (TAG_MAT_2D(MID) == 1) PM(1,MID) = EM20       
+          BUFMAT(IADBUF+71) = 0.1*XC  
+          BUFMAT(IADBUF+72) = 0.1*XC         
+C--       for 2D_seatbelt mass is apllied on shell - rho set to 0 - rho is stored int UPARAM(128) for elementary time step
+          IF ((TAG_MAT_2D(MID) > 0).AND.(IDDLEVEL==0)) THEN
+            BUFMAT(IADBUF+127-1) = ONE
+            BUFMAT(IADBUF+128-1) = 0.9*PM(1,MID)
+            PM(1,MID) = EM20
+            BUFMAT(IADBUF+71) = 0.3*XC  
+            BUFMAT(IADBUF+72) = 0.3*XC  
+C--         if for mat119 K_PUL is not defined value is read from mat114
+            MID_2D = TAG_MAT_2D(MID)
+            IF (PM(33,MID_2D) <= EM20) PM(33,MID_2D) = EM02*XK
+          ENDIF       
         ENDIF       
       ENDDO
 C
-      DEALLOCATE(CPT_MAT,AV_LEN_MAT,AV_AREA_MAT,ELEMSIZE_MAT)
+      DEALLOCATE(CPT_MAT,AV_LEN_MAT,AV_AREA_MAT,ELEMSIZE_MAT,TAG_MAT_2D)
+C
+C----------------------------------------------------------------------------
+C---  Update of mat119 variables after section computation
+C----------------------------------------------------------------------------
+C
+      IF ((NB_2D_SEATBELT > 0).AND.(IDDLEVEL==0)) THEN
+        TAG_PRINT = 0
+        DO MID=1,NUMMAT
+          MTYP = IPM(2,MID)
+          IADBUF = IPM(7,MID)
+          IF ((MTYP == 19).AND.(IPM(6,MID)==1)) THEN
+C--         RHO = MPUL/S
+            PM(1,MID)=PM(1,MID)/SECTION_MAT(MID)
+            PM(89,MID)=PM(89,MID)/SECTION_MAT(MID)
+C--         E11 = K/S
+            E11 = PM(33,MID)/SECTION_MAT(MID)
+            PM(33,MID) = E11
+            IF (PM(34,MID) == EM20) PM(34,MID) = TEN*E11
+            PM(36,MID) = PM(35,MID)*PM(34,MID)/E11
+            DETC=ONE -PM(35,MID)*PM(36,MID)
+            IF(DETC.LE.ZERO) THEN
+              CALL ANCMSG(MSGID=307,
+     .                    MSGTYPE=MSGERROR,
+     .                    ANMODE=ANINFO,
+     .                    I1=IPM(1,MID),
+     .                    C1='SEATBELT MATERIAL')
+            ENDIF
+            IF (PM(37,MID) == EM20) THEN
+              G12 = E11/(TWO*(ONE+PM(35,MID)))
+              PM(37,MID)=G12
+              PM(38,MID)=G12
+              PM(39,MID)=G12
+            ENDIF
+            PM(22,MID)=MAX(PM(37,MID),PM(38,MID),PM(39,MID))    
+            C1=MAX(E11,PM(34,MID))/DETC
+            PM(20,MID)=C1
+            PM(24,MID)=C1
+            PM(32,MID)=C1
+            PM(21,MID)=SQRT(PM(35,MID)*PM(36,MID))
+            PM(25,MID)=PM(21,MID)*PM(24,MID)
+            PM(27,MID)=SQRT(C1/PM(1,MID))
+            PM(52,MID)=ONEP414*PM(17,MID)*PM(1,MID)*PM(27,MID)
+            PM(100,MID)=PM(32,MID)
+            PM(190,MID)= SQRT(MAX(ZERO,PM(21,MID)))
+            PM(12,MID)=SQRT(MAX(ZERO, PM(22,MID))) 
+            PM(13,MID)=SQRT(MAX(ZERO, PM(24,MID))) 
+            PM(14,MID)=SQRT(MAX(ZERO, PM(25,MID)))
+C--         update of UPARAM
+            BUFMAT(IADBUF) = PM(33,MID)
+            BUFMAT(IADBUF+1) = PM(34,MID)
+            BUFMAT(IADBUF+3) = PM(36,MID)
+            BUFMAT(IADBUF+4) = PM(37,MID)
+            BUFMAT(IADBUF+5) = PM(38,MID)
+            BUFMAT(IADBUF+6) = PM(39,MID)
+            BUFMAT(IADBUF+8) = PM(27,MID)
+            BUFMAT(IADBUF+9) = PM(33,MID)/DETC
+            BUFMAT(IADBUF+10) = PM(34,MID)/DETC
+            BUFMAT(IADBUF+11) = PM(36,MID)*PM(33,MID)/DETC
+C--         printout
+            IF (TAG_PRINT == 0) WRITE(IOUT,1200)
+            TAG_PRINT = 1
+            WRITE(IOUT,'(5X,I10,8X,G16.9,G16.9,G16.9,G16.9)') IPM(1,MID),SECTION_MAT(MID),E11,
+     .                                                        PM(34,MID),PM(37,MID)
+          ENDIF       
+        ENDDO
+      ENDIF
+C
+      IF (NB_2D_SEATBELT > 0) DEALLOCATE(SECTION_MAT)
 C
       IF (NSPMD > 1) THEN
 C
 C----------------------------------------------------------------------------
 C---    DOMDEC - all elements of 1 seatbelt on the same proc
 C----------------------------------------------------------------------------
-C
-        IF (NB_2D_SEATBELT > 0) ALLOCATE(TAG_SHELL(NUMELC))
 C
         OFFC = NUMELS + NUMELQ    
         OFFR = NUMELS + NUMELQ + NUMELC + NUMELP + NUMELT
@@ -383,33 +638,19 @@ C
 C
           IF (SEATBELT_TAB(I)%NFRAM == 1) THEN
 C--         1D SEATBELT
-            ALLOCATE(CC_ELEM(SEATBELT_TAB(I)%NSPRING))
+            MY_ALLOCATE(CC_ELEM,SEATBELT_TAB(I)%NSPRING)
             CC_ELEM(1:SEATBELT_TAB(I)%NSPRING) = 0
             COMPT = 0
             DO J=1,SEATBELT_TAB(I)%NSPRING
               COMPT = COMPT + 1
               CC_ELEM(COMPT) = OFFR + SEATBELT_TAB(I)%SPRING(J)
             ENDDO
+            NB_ELEM = COMPT
 C
           ELSEIF (SEATBELT_TAB(I)%NFRAM > 1) THEN
 C--         2D SEATBELT
-            TAG_SHELL(1:NUMELC) = 0
-C-- -       all shells connected to seatbelt are stick on same CPU (not only seatblet shells)
-            NB_ELEM = SEATBELT_TAB(I)%NSPRING
-            DO J=1,SEATBELT_TAB(I)%NSPRING
-              DO K=2,3
-                NODE = IXR(K,SEATBELT_TAB(I)%SPRING(J))
-                DO L=KNOD2ELC(NODE)+1,KNOD2ELC(NODE+1)
-                  ELEM_CUR = NOD2ELC(L)
-                  IF (TAG_SHELL(ELEM_CUR) == 0) THEN
-                    TAG_SHELL(ELEM_CUR) = 1
-                    NB_ELEM = NB_ELEM + 1
-                  ENDIF
-                ENDDO
-              ENDDO
-            ENDDO
-C
-            ALLOCATE(CC_ELEM(NB_ELEM))
+            NB_ELEM = SEATBELT_TAB(I)%NSPRING + SEATBELT_TAB(I)%NSHELL
+            MY_ALLOCATE(CC_ELEM,NB_ELEM)
             CC_ELEM(1:NB_ELEM) = 0
             COMPT = 0
             DO J=1,SEATBELT_TAB(I)%NSPRING
@@ -417,7 +658,7 @@ C
               CC_ELEM(COMPT) = OFFR + SEATBELT_TAB(I)%SPRING(J)
             ENDDO
             DO J=1,NUMELC
-              IF (TAG_SHELL(J) == 1) THEN
+              IF (TAG_SHELL(J) == I) THEN
                 COMPT = COMPT + 1
                 CC_ELEM(COMPT) = OFFC + J
               ENDIF
@@ -426,7 +667,7 @@ C
           ENDIF
 C
           CALL C_PREVENT_DECOMPOSITION(NB_ELEM,CC_ELEM)
-          DEALLOCATE(CC_ELEM)
+          DEALLOCATE(CC_ELEM,TAG_SHELL)
 C
         ENDDO
 C
@@ -437,12 +678,17 @@ C
 1000  FORMAT(/
      . '      SEATBELTS DEFAULT LMIN COMPUTATION '/
      . '      ---------------------------------- '/
-     . '         MAT ID     DEFAULT LMIN '/)
+     . '         MAT ID   DEFAULT LMIN '/)
 C
 1100  FORMAT(/
      . '      SEATBELTS DEFAULT DAMPING COMPUTATION '/
      . '      ---------------------------------- '/
-     . '         MAT ID     DEFAULT DAMPING '/)
+     . '         MAT ID   DEFAULT DAMPING '/)
+C
+1200  FORMAT(/
+     . '      2D SEATBELTS SECTION COMPUTATION '/
+     . '      ---------------------------------- '/
+     . '         MAT ID   SEATBELT SECTION      E11              E22              G12'/)
 C
       END SUBROUTINE CREATE_SEATBELT
 

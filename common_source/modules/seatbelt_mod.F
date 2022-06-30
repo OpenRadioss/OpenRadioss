@@ -77,6 +77,8 @@ c
         my_real  GAMMA
         my_real  SLIP_FORCE(3)
         my_real  PREV_REF_LENGTH
+        my_real  INTVAR_STR1(8)
+        my_real  INTVAR_STR2(8)
       END TYPE SLIPRING_FRAM_STRUCT
 C
       TYPE SLIPRING_STRUCT
@@ -145,6 +147,7 @@ c
       TYPE SEATBELT_STRUCT
         INTEGER  NFRAM
         INTEGER  NSPRING
+        INTEGER  NSHELL
         INTEGER  NNOD
         INTEGER, DIMENSION(:)   , ALLOCATABLE :: SPRING
         my_real  SECTION

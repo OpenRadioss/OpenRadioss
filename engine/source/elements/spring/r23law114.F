@@ -79,6 +79,7 @@ C-----------------------------------------------
 #include      "scr03_c.inc"
 #include      "chara_c.inc"
 #include      "userlib.inc"
+#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -133,7 +134,7 @@ C     REAL
      .   ELX(3,MVSIZ),AL2DP(MVSIZ),ALDP(MVSIZ)
 C-----------------------------------------------
       TYPE(G_BUFEL_),POINTER :: GBUF
-      INTEGER II(6)
+      INTEGER II(9)
 C=======================================================================
       GBUF => ELBUF_STR%GBUF      
 !
@@ -150,7 +151,7 @@ C=======================================================================
       MZ1(1:MVSIZ) = ZERO
       MZ2(1:MVSIZ) = ZERO
 !
-      DO I=1,6
+      DO I=1,9
         II(I) = (I-1)*NEL + 1
       ENDDO
 C
@@ -231,7 +232,8 @@ C
      Q GBUF%ADD_NODE(NEL+1)   ,NC1                     ,NC2                    ,NC3                   ,X1DP                   ,
      R X2DP                   ,X3DP                    ,VX3                    ,VY3                   ,VZ3                    ,
      S FLAG_SLIPRING_UPDATE   ,FLAG_RETRACTOR_UPDATE   ,SENSOR                 ,GBUF%INTVAR(II(1))    ,GBUF%SLIPRING_FRAM_ID  ,
-     T GBUF%FRAM_FACTOR)
+     T GBUF%FRAM_FACTOR       ,GBUF%INTVAR(II(2))      ,GBUF%INTVAR(II(3))     ,GBUF%INTVAR(II(4))    ,GBUF%INTVAR(II(5))     ,
+     U GBUF%INTVAR(II(6))     ,GBUF%INTVAR(II(7))      ,GBUF%INTVAR(II(8))     ,GBUF%INTVAR(II(9)))
 C
         DO I=JFT,JLT
           IF (GBUF%UPDATE(I) == -1) THEN
