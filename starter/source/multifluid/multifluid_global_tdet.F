@@ -77,12 +77,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
+      LOGICAL IS_JWL
       INTEGER :: NEL,IG,OFFSET,NG,SUBMATLAW,ILAY,NLAY,II
+      my_real :: VFRAC
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(G_BUFEL_) ,POINTER :: GBUF  
       TYPE(BUF_MAT_) ,POINTER :: MBUF
-      my_real :: VFRAC
-      LOGICAL IS_JWL
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -105,7 +105,8 @@ C-----------------------------------------------
                   LFT      = 1                                             
                   LLT      = MIN(NVSIZ,NEL-OFFSET)                                                                 
                   NFT      = IPARG(3,NG) + OFFSET  
-                  
+                  IS_JWL = .FALSE.
+
                   !Number of layers ( = number of material in law 151)
                   IF (NLAY > 1) THEN
                      IF (GBUF%G_TB > ZERO) THEN
