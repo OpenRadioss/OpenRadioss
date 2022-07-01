@@ -1932,7 +1932,6 @@ C
       FSAV(14) = NPOLH
       RGAS_AV = CP_AV - CV_AV
       RHO_AV = AMTOT / VOLPH
-      FSAV(5) = PRES_AV / (RHO_AV * RGAS_AV)
 
       IF(IVOLU(39) == 0) THEN
         FSAV(6) =ZERO
