@@ -42,8 +42,8 @@ Chd|====================================================================
      9     SIGVXX ,SIGVYY ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
      A     SOUNDSP,VISCMAX,THK     ,PLA     ,UVAR   ,
      B     OFF    ,NGL    ,SHF     ,ETSE    ,SIGY   ,
-     C     HARDM  ,SEQ_OUTPUT,ISEQ ,ISRATE  ,EPSP   ,
-     D     INLOC  ,DPLANL )
+     C     HARDM  ,SEQ_OUTPUT,ISRATE,EPSP   ,INLOC  ,
+     D     DPLANL )
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -110,7 +110,7 @@ C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL, NUVAR, NPT, IPT,IFLAG(1),
-     .   NGL(NEL), NUPARAM,ISEQ,ISRATE,INLOC
+     .   NGL(NEL), NUPARAM,ISRATE,INLOC
       my_real TIME,TIMESTEP
       my_real UPARAM(NUPARAM),
      .   AREA(NEL),RHO0(NEL),EINT(NEL,2),
@@ -463,7 +463,7 @@ C------NBMAX=3----
      5     MC     ,MD     ,DG     ,NINC    )
       ENDDO 
 C------------------------------------------
-C     CONTRAINTES PLASTIQUEMENT ADMISSIBLES
+C     PLASTIC RETURN MAPPING
 C------------------------------------------
        NORM1 =EM03*UPARAM(2)
 C----to optimize with HK=0--
@@ -533,27 +533,19 @@ C
           THK(I)     = THK(I) + DEZZ*THKLY(I)*OFF(I)   
         ENDDO  
       ENDIF
-!!-------------------------
-!!     EQUIVALENT STRESS FOR OUTPUT - BARLAT -
-!!-------------------------
-!!      IF (ISEQ > 0) THEN
-!!        B_1(1:NEL)=HALF*(SIGNXX(1:NEL)-A03*SIGNYY(1:NEL))
-!!        B_2(1:NEL)=A12*SIGNXY(1:NEL)
-!!        B_3(1:NEL)=SQRT(B_1(1:NEL)*B_1(1:NEL)+B_2(1:NEL)*B_2(1:NEL))
-!!
-!!        DO  I=1,NEL
-!!          A =HALF*(SIGNXX(I)+A03*SIGNYY(I))
-!!          B_1(I)=A-B_3(I)
-!!          B_2(I)=A+B_3(I)
-!!        ENDDO
-!!        A02(1:NEL) = UPARAM(8)
-!!        A02(1:NEL) = A02(1:NEL)*TWO**M
-!!        SVM(1:NEL) = A01*(ABS(B_1(1:NEL)**M)+ABS(B_2(1:NEL)**M))
-!!     .             + A02(1:NEL)*B_3(1:NEL)**M
-!!        SVM(1:NEL) = (HALF*SVM(1:NEL))**(ONE/M)
-!!
-!!        SEQ_OUTPUT(1:NEL) = SVM(1:NEL)
-!!      ENDIF
+!-------------------------
+!     EQUIVALENT STRESS FOR OUTPUT - BARLAT -
+!-------------------------
+      DO I = 1,NEL
+        K1 = (SIGNXX(I) + A03*SIGNYY(I))/TWO
+        K2 = SQRT(((SIGNXX(I) - A03*SIGNYY(I))/TWO)**TWO + (A12*SIGNXY(I))**TWO)
+        SEQ_OUTPUT(I) = A01*ABS(K1+K2)**M + A01*ABS(K1-K2)**M + A02*ABS(TWO*K2)**M
+        IF (SEQ_OUTPUT(I) > ZERO) THEN 
+          SEQ_OUTPUT(I) = (HALF*SEQ_OUTPUT(I))**(ONE/M)
+        ELSE
+          SEQ_OUTPUT(I) = ZERO
+        ENDIF
+      ENDDO
 !---
       RETURN
       END

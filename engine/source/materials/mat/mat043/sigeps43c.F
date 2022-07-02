@@ -39,7 +39,8 @@ Chd|====================================================================
      8     SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      9     SOUNDSP  ,THK      ,PLA      ,UVAR     ,OFF      ,
      A     NGL      ,ETSE     ,HARDM    ,SIGY     ,GS       , 
-     B     DPLA1    ,EPSP     ,SHF      ,INLOC    ,DPLANL   )
+     B     DPLA1    ,EPSP     ,SHF      ,INLOC    ,DPLANL   ,
+     C     SEQ      )
 C=======================================================================
 C   Tabulated Hill material model
 C=======================================================================
@@ -67,7 +68,7 @@ C-----------------------------------------------
      .   EPSXY(NEL) ,EPSYZ(NEL) ,EPSZX(NEL) ,
      .   SIGOXX(NEL),SIGOYY(NEL),
      .   SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL),SIGY(NEL),HARDM(NEL),
-     .   DPLANL(NEL)
+     .   DPLANL(NEL),SEQ(NEL)
 C-----------------------------------------------
 C   O U T P U T   A R G U M E N T S
 C-----------------------------------------------
@@ -408,35 +409,23 @@ C--------------------------------
       DO I=1,NEL
         HARDM(I) = H(I)
       ENDDO
-C--------------------------------
-C     NON-LOCAL THICKNESS VARIATION
-C--------------------------------
-      IF (INLOC > 0) THEN 
-        DO I = 1,NEL
-          S1      = A01*SIGNXX(I)*SIGNXX(I)
-          S2      = A02*SIGNYY(I)*SIGNYY(I)
-          S3      = A03*SIGNXX(I)*SIGNYY(I)
-          AXY(I)  = A12*SIGNXY(I)*SIGNXY(I)
-          SVM(I)  = SQRT(S1+S2-S3+AXY(I))  
-          NORMXX  = (TWO*A01*SIGNXX(I) - A03*SIGNYY(I))/(MAX(TWO*SVM(I),EM20))
-          NORMYY  = (TWO*A02*SIGNYY(I) - A03*SIGNXX(I))/(MAX(TWO*SVM(I),EM20))
+C---------------------------------------------------------------
+C     EQUIVALENT STRESS OUTPUT AND NON-LOCAL THICKNESS VARIATION
+C---------------------------------------------------------------
+      DO I = 1,NEL 
+        S1      = A01*SIGNXX(I)*SIGNXX(I)
+        S2      = A02*SIGNYY(I)*SIGNYY(I)
+        S3      = A03*SIGNXX(I)*SIGNYY(I)
+        AXY(I)  = A12*SIGNXY(I)*SIGNXY(I)
+        SEQ(I)  = SQRT(S1+S2-S3+AXY(I)) 
+        IF (INLOC > 0) THEN 
+          NORMXX  = (TWO*A01*SIGNXX(I) - A03*SIGNYY(I))/(MAX(TWO*SEQ(I),EM20))
+          NORMYY  = (TWO*A02*SIGNYY(I) - A03*SIGNXX(I))/(MAX(TWO*SEQ(I),EM20))
           DEZZ    = MAX(DPLANL(I),ZERO)*(NORMXX + NORMYY)
           DEZZ    = -NU*((SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/E(I)) - DEZZ
           THK(I)  = THK(I) + DEZZ*THKLY(I)*OFF(I)          
-        ENDDO
-      ENDIF
-!!-------------------------
-!!     EQUIVALENT STRESS FOR OUTPUT - HILL CRITERION -
-!!-------------------------
-!!      IF (ISEQ > 0) THEN
-!!        DO I=1,NEL
-!!          S1 = A01*SIGNXX(I)*SIGNXX(I)
-!!          S2 = A02*SIGNYY(I)*SIGNYY(I)
-!!          S3 = A03*SIGNXX(I)*SIGNYY(I)
-!!          AXY(I) = A12*SIGNXY(I)*SIGNXY(I)
-!!          SEQ_OUTPUT(I) = SQRT(S1+S2-S3+AXY(I))
-!!        ENDDO
-!!      ENDIF 
+        ENDIF
+      ENDDO
 !-----------
       RETURN
       END

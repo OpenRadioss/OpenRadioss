@@ -35,7 +35,8 @@ Chd|====================================================================
      4                     DEPSXX ,DEPSYY ,DEPSXY ,DEPSYZ ,DEPSZX ,
      5                     SIGOXX ,SIGOYY ,SIGOXY ,SIGOYZ ,SIGOZX ,
      6                     SIGNXX ,SIGNYY ,SIGNXY ,SIGNYZ ,SIGNZX ,
-     7                     PLA    ,NGL    ,HARDM  ,INLOC  ,DPLANL )
+     7                     PLA    ,NGL    ,HARDM  ,INLOC  ,DPLANL ,
+     8                     SEQH   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -68,7 +69,8 @@ C     REAL
      .   DEPSXX(MVSIZ),DEPSYY(MVSIZ),DEPSXY(MVSIZ),DEPSYZ(MVSIZ),
      .   DEPSZX(MVSIZ),SIGOXX(NEL),SIGOYY(NEL),SIGOXY(NEL),
      .   SIGOYZ(NEL),SIGOZX(NEL),SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),
-     .   SIGNYZ(NEL),SIGNZX(NEL),PLA(NEL),THKLYL(NEL),DPLANL(NEL)
+     .   SIGNYZ(NEL),SIGNZX(NEL),PLA(NEL),THKLYL(NEL),DPLANL(NEL),
+     .   SEQH(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -99,7 +101,7 @@ C-----------------------------------------------
 !
       EZZ(1:MVSIZ) = ZERO
 C----------------------------
-C     CONTRAINTES ELASTIQUES
+C     ELASTIC STRESSES
 C----------------------------
         CALL M32ELAS(JFT    ,JLT    ,PM     ,IMAT   ,GS     ,
      .               SIGOXX ,SIGOYY ,SIGOXY ,SIGOYZ ,SIGOZX ,
@@ -107,37 +109,35 @@ C----------------------------
      .               DEPSXX ,DEPSYY ,DEPSXY ,DEPSYZ ,DEPSZX ,
      .               NEL    )
 C------------------------------------------
-C     CONTRAINTES PLASTIQUEMENT ADMISSIBLES
+C     PLASTIC RETURN MAPPING
 C------------------------------------------
         CALL M32PLAS(JFT    ,JLT    ,PM     ,OFF    ,PLA    ,
      .               IMAT   ,DIR    ,EZZ    ,IPLA   ,DT1C   ,
      .               DPLA   ,EPSD   ,NEL    ,NGL    ,HARDM  ,
      .               SIGNXX ,SIGNYY ,SIGNXY ,SIGNYZ ,SIGNZX ,
      .               DEPSXX ,DEPSYY ,DEPSXY ,DEPSYZ ,DEPSZX )
-!---------------------------                                              
-!     thickness update:
-
-C--------------------------------
-C     THICKNESS VARIATION
-C--------------------------------
-      ! Non-local
-      IF (INLOC > 0) THEN 
-        DO I = 1,NEL
-          D11    = DIR(I,1)*DIR(I,1)
-          D22    = DIR(I,2)*DIR(I,2)
-          D12    = DIR(I,1)*DIR(I,2)
-          SXX    = D11*SIGNXX(I) + D22*SIGNYY(I) + TWO*D12*SIGNXY(I)
-          SYY    = D22*SIGNXX(I) + D11*SIGNYY(I) - TWO*D12*SIGNXY(I)
-          SXY    = D12*(SIGNYY(I) - SIGNXX(I)) + ( D11 - D22 )*SIGNXY(I)
-          P      = -(SXX+SYY) * THIRD
-          Q      = (ONE - (NU/(ONE - NU)))*P
-          S11    = SXX+Q
-          S22    = SYY+Q
-          S12    = SXY
-          A      = A01*S11*S11 + A02*S22*S22 - A03*S11*S22 + A12*S12*S12
-          B      = -Q*(A01*S11 + A02*S22 - HALF*A03*(S11+S22))
-          C      = (A01+A02-A03)*Q*Q
-          SEQ    = MAX(SQRT(A+B+B+C),EM20)
+C----------------------------------------------------------
+C     HILL EQUIVALENT STRESS OUTPUT AND THICKNESS VARIATION
+C----------------------------------------------------------
+      DO I = JFT,JLT
+        D11     = DIR(I,1)*DIR(I,1)
+        D22     = DIR(I,2)*DIR(I,2)
+        D12     = DIR(I,1)*DIR(I,2)
+        SXX     = D11*SIGNXX(I) + D22*SIGNYY(I) + TWO*D12*SIGNXY(I)
+        SYY     = D22*SIGNXX(I) + D11*SIGNYY(I) - TWO*D12*SIGNXY(I)
+        SXY     = D12*(SIGNYY(I) - SIGNXX(I)) + ( D11 - D22 )*SIGNXY(I)
+        P       = -(SXX+SYY) * THIRD
+        Q       = (ONE - (NU/(ONE - NU)))*P
+        S11     = SXX+Q
+        S22     = SYY+Q
+        S12     = SXY
+        A       = A01*S11*S11 + A02*S22*S22 - A03*S11*S22 + A12*S12*S12
+        B       = -Q*(A01*S11 + A02*S22 - HALF*A03*(S11+S22))
+        C       = (A01+A02-A03)*Q*Q
+        SEQH(I) = SQRT(A+B+B+C)
+        ! Non-local
+        IF (INLOC > 0) THEN 
+          SEQ     = MAX(SQRT(A+B+B+C),EM20)
           DSEQ_DA = ONE/(TWO*SEQ)
           DSEQ_DB = ONE/(SEQ)
           DSEQ_DC = ONE/(TWO*SEQ)
@@ -183,14 +183,12 @@ C--------------------------------
           EZZ(I) = MAX(DPLANL(I),ZERO)*(NORMXX + NORMYY)
           EZZ(I) = -NU*((SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG) - EZZ(I)
           THK(I) = THK(I) + EZZ(I)*THKLYL(I)*OFF(I)          
-        ENDDO
-      ! Local
-      ELSE
-        DO I=JFT,JLT
+        ! Local
+        ELSE
           EZZ(I) = -(DEPSXX(I)+DEPSYY(I))*(NU/(ONE-NU)) + EZZ(I)
           THK(I) = THK(I) + EZZ(I)*THKLYL(I)*OFF(I)
-        ENDDO
-      ENDIF
+        ENDIF
+      ENDDO
 !-----------
       RETURN
 !-----------
