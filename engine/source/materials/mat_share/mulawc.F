@@ -1024,7 +1024,8 @@ C------------------------------------------
      4                     DEPSXX     ,DEPSYY ,DEPSXY  ,DEPSYZ ,DEPSZX ,
      5        LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
      6                     SIGNXX     ,SIGNYY ,SIGNXY  ,SIGNYZ ,SIGNZX ,
-     7                     LBUF%PLA   ,NGL    ,HARDM   ,INLOC  ,VARNL(1,IT))
+     7                     LBUF%PLA   ,NGL    ,HARDM   ,INLOC  ,VARNL(1,IT),
+     8                     LBUF%SEQ   )
                EPSPL(JFT:JLT) = EPSP(JFT:JLT)
           ELSEIF (ILAW == 25) THEN
            IF (IGTYP /= 1 .and. IGTYP /= 9) THEN
@@ -1127,7 +1128,8 @@ C
      8        SIGNXX ,SIGNYY ,SIGNXY  ,SIGNYZ   ,SIGNZX ,
      9        SSP    ,THKN   ,LBUF%PLA ,UVAR    ,OFF    ,
      A        NGL    ,ETSE   ,HARDM    ,SIGY    ,GS     ,
-     B        DPLA   ,EPSP   ,SHF      ,INLOC   ,VARNL(1,IT))
+     B        DPLA   ,EPSP   ,SHF      ,INLOC   ,VARNL(1,IT),
+     C        LBUF%SEQ)
            EPSPL(JFT:JLT) = EPSP(JFT:JLT)
           ELSEIF (ILAW == 44) THEN
            CALL SIGEPS44C(
@@ -1234,8 +1236,8 @@ C
      9        SIGVXX ,SIGVYY ,SIGVXY  ,SIGVYZ   ,SIGVZX ,
      A        SSP    ,VISCMX ,THKN    ,LBUF%PLA ,UVAR   ,
      B        OFF    ,NGL    ,SHF     ,ETSE     ,SIGY   ,
-     C        HARDM  ,LBUF%SEQ,ISEQ   ,ISRATE   ,EPSP   ,
-     D        INLOC  ,VARNL(1,IT))
+     C        HARDM  ,LBUF%SEQ,ISRATE ,EPSP     ,INLOC  ,
+     D        VARNL(1,IT))
           ELSEIF (ILAW == 58) THEN
            CALL SIGEPS58C(
      1        JLT     ,NUPARAM ,NUVAR   ,NFUNC    ,IFUNC  , 
@@ -1419,7 +1421,7 @@ C
      C         GS     ,SIGY   ,DPLA    ,EPSPL    ,TABLE  ,
      D         VOL0   ,TEMPEL ,DIE     ,COEF     ,NPF     ,
      E         NFUNC  ,IFUNC  ,TF      ,SHF      ,HARDM  ,
-     F         LBUF%SEQ,ISEQ  ,INLOC   ,VARNL(1,IT))
+     F         LBUF%SEQ,INLOC ,VARNL(1,IT))
 c
           ELSEIF (ILAW == 76) THEN
 
@@ -1446,7 +1448,7 @@ c
      6         SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      7         SSP      ,UVAR     ,LBUF%SIGA,LBUF%SIGB,LBUF%SIGC,
      8         RHO      ,OFF      ,LBUF%PLA ,DPLA     ,VARTMP   ,
-     9         INLOC    ,VARNL(1,IT),ET_IMP )   
+     9         INLOC    ,VARNL(1,IT),ET_IMP ,LBUF%SEQ )   
           ELSEIF (ILAW == 80) THEN  
             IF (ISRATE == 0) THEN
               DO I=JFT,JLT
@@ -1530,7 +1532,7 @@ c
      8        SIGNXX ,SIGNYY   ,SIGNXY  ,SIGNYZ     ,SIGNZX ,
      9        SSP    ,LBUF%PLA ,DPLA    ,EPSPL      ,SIGY   ,
      A        ETSE   ,GS       ,ISRATE  ,ASRATE     ,YLDFAC ,
-     B        TEMPEL,LBUF%SIGB ,INLOC   ,VARNL(1,IT))
+     B        TEMPEL,LBUF%SIGB ,INLOC   ,VARNL(1,IT),LBUF%SEQ)
           
           ELSEIF (ILAW == 93) THEN     
             CALL SIGEPS93C(

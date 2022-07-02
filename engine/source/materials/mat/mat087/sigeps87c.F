@@ -40,7 +40,7 @@ Chd|====================================================================
      8     SIGNXX ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX   ,
      9     SOUNDSP,PLA     ,DPLA    ,EPSP    ,YLD      ,
      B     ETSE   ,GS      ,ISRATE  ,ASRATE  ,FACYLDI  ,
-     C     TEMPEL ,SIGB    ,INLOC   ,DPLANL  )
+     C     TEMPEL ,SIGB    ,INLOC   ,DPLANL  ,SEQ      )
 C=======================================================================
 C   BARLAT YLD2000 material model
 C=======================================================================
@@ -112,7 +112,7 @@ C-----------------------------------------------
       my_real
      .    SIGNXX(NEL),SIGNYY(NEL),
      .    SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),
-     .    SOUNDSP(NEL),ETSE(NEL)
+     .    SOUNDSP(NEL),ETSE(NEL),SEQ(NEL)
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
@@ -207,7 +207,7 @@ c
      .         SIGNXX ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX   ,
      .         SOUNDSP,PLA     ,DPLA    ,EPSP    ,YLD      ,
      .         ETSE   ,GS      ,ISRATE  ,ASRATE  ,OFF      ,
-     .         SIGB   ,INLOC   ,DPLANL  )    
+     .         SIGB   ,INLOC   ,DPLANL  ,SEQ     )    
          CASE(2) !hansel
             CALL MAT87C_HANSEL(
      .         NEL    ,NUPARAM ,NUVAR   ,TIME    ,TIMESTEP ,
@@ -218,7 +218,7 @@ c
      .         SIGNXX ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX   ,
      .         SOUNDSP,PLA     ,DPLA    ,EPSP    ,YLD      ,
      .         ETSE   ,GS      ,ISRATE  ,ASRATE  ,UPARAM   ,
-     .         TEMPEL ,SIGB    ,INLOC   ,DPLANL  )
+     .         TEMPEL ,SIGB    ,INLOC   ,DPLANL  ,SEQ      )
           CASE(3)
             CALL  MAT87C_TABULATED_PLAS_SR(
      .         NEL    ,NUPARAM ,NUVAR   ,NFUNC   ,IFUNC    ,
@@ -230,7 +230,7 @@ c
      .         SIGNXX ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX   ,
      .         SOUNDSP,PLA     ,DPLA    ,EPSP    ,YLD      ,
      .         ETSE   ,GS      ,ISRATE  ,ASRATE  ,FACYLDI  ,
-     .         SIGB   ,INLOC   ,DPLANL  )
+     .         SIGB   ,INLOC   ,DPLANL  ,SEQ     )
           CASE(4)
             CALL   MAT87C_TABULATED_TOTALSR(
      .         NEL    ,NUPARAM ,NUVAR   ,NFUNC   ,IFUNC    ,
@@ -242,7 +242,7 @@ c
      .         SIGNXX ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX   ,
      .         SOUNDSP,PLA     ,DPLA    ,EPSP    ,YLD      ,
      .         ETSE   ,GS      ,ISRATE  ,ASRATE  ,FACYLDI  ,
-     .         SIGB   ,INLOC   ,DPLANL  )
+     .         SIGB   ,INLOC   ,DPLANL  ,SEQ     )
         END SELECT
 c-----------------------------------------------
 c     COMPUTATION OF STRAIN-RATE

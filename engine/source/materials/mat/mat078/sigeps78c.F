@@ -36,7 +36,7 @@ Chd|====================================================================
      6     SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      7     SOUNDSP ,UVAR    ,SIGA    ,SIGB    ,SIGC    ,
      8     RHO     ,OFF     ,PLA     ,DEP     ,VARTMP  ,
-     9     INLOC   ,DPLANL  ,ETIMP   )
+     9     INLOC   ,DPLANL  ,ETIMP   ,SEQ     )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -79,7 +79,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL)       ,INTENT(INOUT) :: 
      . PLA,THK
       my_real ,DIMENSION(NEL)       ,INTENT(OUT)   :: 
-     .   SOUNDSP,DEP,ETSE,SIGY,
+     .   SOUNDSP,DEP,ETSE,SIGY,SEQ,
      .   SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX,ETIMP
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION
@@ -510,13 +510,25 @@ C
         UVAR(I,6) = MAX_ASTA(I)
         ETSE(I)   = H(I) / (H(I)+YOUNG(I))
       END DO         
-      ! Thickness update and soundspeed
+      ! Equivalent stress output, thickness update and soundspeed
       DO I=1,NEL
-        DEELZZ(I)  =-NU*(SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG(I)
+         ! New equivalent stress
+        AXX(I) = SIGNXX(I) - SIGA(I,1) - SIGB(I,1)
+        AYY(I) = SIGNYY(I) - SIGA(I,2) - SIGB(I,2)
+        AXY(I) = SIGNXY(I) - SIGA(I,3) - SIGB(I,3)
+        !   -> Hill 1948
+        IF (IPLAS == 1) THEN 
+          SEFF(I) = SQRT(AXX(I)**2 - TWO*P2*AXX(I)*AYY(I) + P1*AYY(I)**2 + P3*AXY(I)**2)
+        !   -> Barlat 1989
+        ELSEIF (IPLAS == 2) THEN
+          K1(I)   = (AXX(I) + P3*AYY(I))/TWO
+          K2(I)   = SQRT(((AXX(I) - P3*AYY(I))/TWO)**TWO + (P4*AXY(I))**TWO)
+          SEFF(I) = P1*ABS(K1(I)+K2(I))**N3 + P1*ABS(K1(I)-K2(I))**N3 + P2*ABS(TWO*K2(I))**N3
+          SEFF(I) = (HALF*SEFF(I))**(ONE/N3)
+        ENDIF   
+        SEQ(I)    = SEFF(I)
+        DEELZZ(I) = -NU*(SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG(I)
         IF (INLOC > 0) THEN 
-          AXX(I) = SIGNXX(I) - SIGA(I,1) - SIGB(I,1)
-          AYY(I) = SIGNYY(I) - SIGA(I,2) - SIGB(I,2)
-          AXY(I) = SIGNXY(I) - SIGA(I,3) - SIGB(I,3)
           !   -> Hill 1948
           IF (IPLAS == 1) THEN 
             SEFF(I) = SQRT(AXX(I)**2 - TWO*P2*AXX(I)*AYY(I) + P1*AYY(I)**2 + P3*AXY(I)**2)

@@ -44,7 +44,7 @@ Chd|====================================================================
      C     GS     ,SIGY   ,DPLA1   ,EPSP    ,TABLE  ,
      D     VOL    ,TEMPEL ,DIE     ,COEF    ,NPF    ,
      E     NFUNC  ,IFUNC  ,TF     ,SHF      ,HARDM  ,
-     F     SEQ_OUTPUT,ISEQ,INLOC  ,DPLANL   )
+     F     SEQ_OUTPUT,INLOC,DPLANL   )
 C-----------------------------------------------
       USE TABLE_MOD
       USE INTERFACE_TABLE_MOD
@@ -63,7 +63,7 @@ C-----------------------------------------------
 C   I N P U T   A R G U M E N T S
 C-----------------------------------------------
       INTEGER NEL, NUPARAM, NUVAR, NGL(NEL),ITABLE(*),
-     .   ISEQ,INLOC
+     .   INLOC
       my_real 
      .   TIME,TIMESTEP,UPARAM(NUPARAM),
      .   AREA(NEL),RHO0(NEL),EINT(NEL,2),
@@ -722,35 +722,24 @@ C--------------------------------
        DO I=1,NEL
            HARDM(I) = H(I)
        ENDDO
-C--------------------------------
-C     NON-LOCAL THICKNESS VARIATION
-C--------------------------------
-      IF (INLOC > 0) THEN 
-        DO I = 1,NEL
-          S1      = A01*SIGNXX(I)*SIGNXX(I)
-          S2      = A02*SIGNYY(I)*SIGNYY(I)
-          S3      = A03*SIGNXX(I)*SIGNYY(I)
-          AXY(I)  = A12*SIGNXY(I)*SIGNXY(I)
-          SVM(I)  = SQRT(S1+S2-S3+AXY(I))  
+C------------------------------------------------------------------
+C     EQUIVALENT STRESS FOR OUTPUT - NON-LOCAL THICKNESS VARIATION
+C------------------------------------------------------------------
+      DO I = 1,NEL
+        S1      = A01*SIGNXX(I)*SIGNXX(I)
+        S2      = A02*SIGNYY(I)*SIGNYY(I)
+        S3      = A03*SIGNXX(I)*SIGNYY(I)
+        AXY(I)  = A12*SIGNXY(I)*SIGNXY(I)
+        SVM(I)  = SQRT(S1+S2-S3+AXY(I))
+        SEQ_OUTPUT(I) = SVM(I) 
+        IF (INLOC > 0) THEN 
           NORMXX  = (TWO*A01*SIGNXX(I) - A03*SIGNYY(I))/(MAX(TWO*SVM(I),EM20))
           NORMYY  = (TWO*A02*SIGNYY(I) - A03*SIGNXX(I))/(MAX(TWO*SVM(I),EM20))
           DEZZ    = MAX(DPLANL(I),ZERO)*(NORMXX + NORMYY)
           DEZZ    = -NU*((SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/E) - DEZZ
           THK(I)  = THK(I) + DEZZ*THKLY(I)*OFF(I)          
-        ENDDO
-      ENDIF
-!!-------------------------
-!!     EQUIVALENT STRESS FOR OUTPUT - THERMAL HILL ORTHOTROPIC CRITERION -
-!!-------------------------
-!!      IF (ISEQ > 0) THEN
-!!        DO I=1,NEL
-!!          S1=A01*SIGNXX(I)*SIGNXX(I)
-!!          S2=A02*SIGNYY(I)*SIGNYY(I)
-!!          S3=A03*SIGNXX(I)*SIGNYY(I)
-!!          AXY(I)=A12*SIGNXY(I)*SIGNXY(I)
-!!          SEQ_OUTPUT(I)=SQRT(S1+S2-S3+AXY(I))
-!!        ENDDO
-!!      ENDIF
-!-----------
+        ENDIF
+      ENDDO
+!-------------------------
       RETURN
       END

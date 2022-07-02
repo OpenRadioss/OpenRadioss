@@ -107,6 +107,7 @@ C-----------------------------------------------
       IS_AVAILABLE = .FALSE.
       MTAG%G_PLA  = 1
       MTAG%G_SEQ  = 1
+      MTAG%L_SEQ  = 1
       MTAG%L_PLA  = 1
       ISRATE=0
       IMATVIS=0

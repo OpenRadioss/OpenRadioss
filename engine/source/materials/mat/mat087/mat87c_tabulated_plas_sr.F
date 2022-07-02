@@ -37,7 +37,7 @@ Chd|====================================================================
      8     SIGNXX ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX   ,
      9     SOUNDSP,PLA     ,DPLA    ,EPSP    ,YLD      ,
      B     ETSE   ,GS      ,ISRATE  ,ASRATE  ,FACYLDI  ,
-     C     SIGB   ,INLOC   ,DPLANL  )
+     C     SIGB   ,INLOC   ,DPLANL  ,SEQ     )
 C=======================================================================
 C   BARLAT YLD2000 material model
 C=======================================================================
@@ -115,7 +115,7 @@ C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       my_real ,DIMENSION(NEL,12) ,INTENT(INOUT) :: SIGB
       my_real 
-     .   UVAR(NEL,NUVAR),OFF(NEL),THK(NEL),
+     .   UVAR(NEL,NUVAR),OFF(NEL),THK(NEL),SEQ(NEL),
      .   YLD(NEL),DPLA(NEL),EPSP(NEL)
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
@@ -650,6 +650,7 @@ C-------------------------------------------------------------------------
 c
       DO I=1,NEL
         UVAR(I,2)  = YLD(I)
+        SEQ(I)     = SIG(I)
         DEELZZ(I ) = -NU*(SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/E
         IF (INLOC > 0) THEN
           NORMSIG = SIGNXX(I)*SIGNXX(I) + SIGNYY(I)*SIGNYY(I) 

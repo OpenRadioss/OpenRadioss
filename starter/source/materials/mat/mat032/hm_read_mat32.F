@@ -244,6 +244,9 @@ c
 c
       MTAG%L_PLA   = 1
       MTAG%L_EPSD  = 1
+c
+      MTAG%G_SEQ   = 1
+      MTAG%L_SEQ   = 1
 c-------------------
       RETURN
 c-------------------

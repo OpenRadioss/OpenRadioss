@@ -232,6 +232,8 @@ c------------------------------
       MTAG%L_SIGA = 6
       MTAG%L_SIGB = 6
       MTAG%L_SIGC = 6
+      MTAG%G_SEQ  = 1
+      MTAG%L_SEQ  = 1
 c------------------------------             
       IF(IS_CRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'

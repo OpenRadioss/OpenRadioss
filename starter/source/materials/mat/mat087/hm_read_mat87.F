@@ -465,6 +465,7 @@ CC     Formulation for solid elements time step computation.
 c-------------------------------------------------------------
       MTAG%G_PLA  = 1
       MTAG%L_PLA  = 1
+      MTAG%L_SEQ  = 1
       MTAG%G_SEQ  = 1
       IF ( FISOKIN/= ZERO) THEN
          MTAG%L_SIGB = 12
