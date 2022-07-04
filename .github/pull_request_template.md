@@ -10,6 +10,6 @@
 
 #### Description of the changes
 <!--- Say how you fixed the problem.  Please describe your code changes in detail for reviewer -->
-<!--- If there is a design document, link to it here ->
+<!--- If there is a design document, link to it here -->
 
 
