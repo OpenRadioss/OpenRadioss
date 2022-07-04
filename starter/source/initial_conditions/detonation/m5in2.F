@@ -123,7 +123,7 @@ C     Getting rid of equivalences
         ! INITIALIZATION BEFORE LIGHTING TIME COMPUTATION  !
         !--------------------------------------------------!
          DO I=LFT,LLT
-          TB(I)=EP20
+          TB(I)=EP37
           JJ(I)=NDET2D ! will be removed -1 for each detonator associated to this elem  
           XC(I)=ZERO
           YC(I)=FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
