@@ -85,5 +85,5 @@ FORMAT(radioss2021)
     CARD("%10d%10s%10d%10d%10d",NODE1,_BLANK_,NODE2,NODE3,NODE4);
     
     COMMENT("# Dmin                Dmax                                        Tmin");
-    CARD("%20g%20lg                                        %20lg",Dmin,Dmax,Tmin);
+    CARD("%20lg%20lg                                        %20lg",Dmin,Dmax,Tmin);
 }
