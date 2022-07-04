@@ -39,7 +39,7 @@ C
 C This subroutine is computing detonation times in global buffer from detonation times of layers (submaterials
 C Global detonation time is relevant when there are several explosive submaterial laws.
 C
-C GBUF%TB : global burning time
+C GBUF%TB : global burning time (may not be allocated in case of JWL is not used, check GBUF%G_TB > 0)
 C LBUF%TB : local burning time of current layer
 C If iniital volume fraction is 0.0 then detonation time of current layer is not taken into account to calculate global detonation time.
 C
@@ -94,62 +94,54 @@ C-----------------------------------------------
               NEL     = IPARG(2,NG)
               NFT     = IPARG(3,NG)
               ITY     = IPARG(5,NG)
-              
-              IF (MTN == 151) THEN
-
-                GBUF => ELBUF_TAB(NG)%GBUF
-                NLAY = ELBUF_TAB(NG)%NLAY
-
-                DO IG=1,NEL,NVSIZ                                                                               
-                  OFFSET   = IG - 1                                                                                
-                  LFT      = 1                                             
-                  LLT      = MIN(NVSIZ,NEL-OFFSET)                                                                 
-                  NFT      = IPARG(3,NG) + OFFSET  
-                  IS_JWL = .FALSE.
-
-                  !Number of layers ( = number of material in law 151)
-                  IF (NLAY > 1) THEN
-                     IF (GBUF%G_TB > ZERO) THEN
-                        GBUF%TB(LFT:LLT) = -EP20
-                     ENDIF     
-
-                     DO ILAY = 1, NLAY
-                        !SUBMATLAW = IPM(2, IPM(20 + ILAY, MTN))
-                        SUBMATLAW = ELBUF_TAB(NG)%BUFLY(ILAY)%ILAW  
-                         
-                        IF (SUBMATLAW == 5) THEN
-                           LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)
-                           DO II = LFT, LLT
-                              VFRAC = LBUF%VOL(II)/GBUF%VOL(II) 
-                              IF(VFRAC > ZERO)THEN
-                                GBUF%TB(II) = MAX(GBUF%TB(II), LBUF%TB(II))  !must be done only in case of initial volume fraction
-                              ENDIF
-                           ENDDO
-                           IS_JWL = .TRUE.
-                        ENDIF
-                     ENDDO
-                     
-                     IF(.NOT.IS_JWL)THEN
-                       DO II = LFT, LLT
-                         GBUF%TB(II) = ZERO
-                       ENDDO   
-                     ELSE
-                       DO II = LFT, LLT
-                         IF(GBUF%TB(II) == -EP20)THEN
+              GBUF => ELBUF_TAB(NG)%GBUF
+              !---skip if Burn Fraction is not allocated
+              IF(GBUF%G_TB > 0)THEN                
+                !---skip if material law is not #151
+                IF (MTN == 151) THEN
+                  NLAY = ELBUF_TAB(NG)%NLAY
+                  DO IG=1,NEL,NVSIZ                                                                               
+                    OFFSET   = IG - 1                                                                                
+                    LFT      = 1                                             
+                    LLT      = MIN(NVSIZ,NEL-OFFSET)                                                                 
+                    NFT      = IPARG(3,NG) + OFFSET  
+                    IS_JWL = .FALSE.
+                    !Number of layers ( = number of material in law 151)
+                    IF (NLAY > 1) THEN
+                       IF (GBUF%G_TB > ZERO) THEN
+                          GBUF%TB(LFT:LLT) = -EP20
+                       ENDIF     
+                       DO ILAY = 1, NLAY
+                          !SUBMATLAW = IPM(2, IPM(20 + ILAY, MTN))
+                          SUBMATLAW = ELBUF_TAB(NG)%BUFLY(ILAY)%ILAW  
+                          IF (SUBMATLAW == 5) THEN
+                             LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)
+                             DO II = LFT, LLT
+                                VFRAC = LBUF%VOL(II)/GBUF%VOL(II) 
+                                IF(VFRAC > ZERO)THEN
+                                  GBUF%TB(II) = MAX(GBUF%TB(II), LBUF%TB(II))  !must be done only in case of initial volume fraction
+                                ENDIF
+                             ENDDO
+                             IS_JWL = .TRUE.
+                          ENDIF
+                       ENDDO
+                       IF(.NOT.IS_JWL)THEN
+                         DO II = LFT, LLT
                            GBUF%TB(II) = ZERO
-                         ENDIF
-                       ENDDO                                        
-                     ENDIF
-                     
-                   ENDIF                                        
-
-                ENDDO ! next IG    
-                
-              ENDIF
-                                                                                                
-
+                         ENDDO   
+                       ELSE
+                         DO II = LFT, LLT
+                           IF(GBUF%TB(II) == -EP20)THEN
+                             GBUF%TB(II) = ZERO
+                           ENDIF
+                         ENDDO                                        
+                       ENDIF
+                     ENDIF  ! IF(NLAY > 1)
+                  ENDDO ! next IG                          
+                ENDIF ! IF(MTN == 151)                                      
+              ENDIF ! IF(GBUF%G_TB > 0)
          ENDDO ! next NG                                 
 
-      ENDIF    
+      ENDIF ! IF(MULTI_FVM%IS_USED)THEN  
           
       END SUBROUTINE  
