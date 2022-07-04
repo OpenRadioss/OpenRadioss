@@ -5020,7 +5020,7 @@ C-----------------------------------------------
 C   TORSEUR TEXT
 C-----------------------------------------------
       IF (ISPMD.EQ.0) THEN
-        IF(ANIM_FT(1).EQ.1) CALL ANI_TXT('Force & Moment ',17)
+        IF(ANIM_FT(1).EQ.1) CALL ANI_TXT('Force & Moment ',15)
       ENDIF
 C-----------------------------------------------
 C   TORSEUR

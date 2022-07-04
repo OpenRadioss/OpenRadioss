@@ -76,6 +76,7 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "sysunit.inc"
 #include      "rad2r_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -347,7 +348,11 @@ C-------PART DESCRIPTION------------
         II=0
         DO I=IAD,IAD+NVAR-1
           II=II+1
-          IWA(II)=ITHBUF(I)
+          IF(I <= SITHBUF) THEN
+            IWA(II)=ITHBUF(I)
+          ELSE
+            IWA(II) = 0 
+          ENDIF
         ENDDO
         IF(NVAR.NE.0)CALL WRTDES(IWA,IWA,NVAR,ITTYP,0)       
       ENDDO

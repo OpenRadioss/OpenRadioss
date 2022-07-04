@@ -51,6 +51,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N,COMPT,K
+      INTEGER :: CPT
       my_real SUMK,SUMK_OLD,SUMM,SUMM_OLD,PER_ADM,TARGET_DT,SEUIL,CHUNK
 C=======================================================================
 C
@@ -91,9 +92,8 @@ C
 C-- If thresold are not crossed target dt values must be computed for the last node
         IF (I==NNOD) THEN
           DO K=COMPT,NVAL
-            TARGET_DT_TAB(COMPT) = DTSCA*SQRT(TWO*(TOTMAS*SEUIL+SUMM)/MAX(EM20,SUMK))
-            COMPT = COMPT+1
-            SEUIL = PER_ADM_TAB(COMPT)
+            TARGET_DT_TAB(K) = DTSCA*SQRT(TWO*(TOTMAS*SEUIL+SUMM)/MAX(EM20,SUMK))
+            IF(K+1 <= NVAL) SEUIL = PER_ADM_TAB(K+1)
           ENDDO
         ENDIF
       ENDDO
