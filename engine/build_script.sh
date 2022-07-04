@@ -59,6 +59,7 @@ prec=dp
 threads=1
 got_arch=0
 debug=0
+sanitize=0
 jenkins_release=0
 no_rr_clean=0
 changelist=00000
@@ -146,6 +147,11 @@ else
        if [ "$arg" == "-debug" ]
        then
          debug=`echo $var|awk -F '=' '{print $2}'`
+         if [ $debug == 2 ]
+         then
+           debug=1
+           sanitize=1
+         fi 
          if [ $debug == 1 ]
          then
            ddebug="_db"
@@ -261,7 +267,7 @@ echo " "
 cd ${build_directory}
 
 # Apply cmake
-cmake -Darch=${arch} -Dprecision=${prec} ${MPI} -Ddebug=${debug} -Dstatic_link=$static_link -Dmpi_os=${mpi_os} ${mpi_root} ${mpi_libdir} ${mpi_incdir} ${dc} .. 
+cmake -Darch=${arch} -Dprecision=${prec} ${MPI} -Ddebug=${debug} -Dstatic_link=$static_link -Dmpi_os=${mpi_os} -Dsanitize=${sanitize} ${mpi_root} ${mpi_libdir} ${mpi_incdir} ${dc} .. 
 make -j ${threads} ${verbose}
 
 echo " "

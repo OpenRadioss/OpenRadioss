@@ -172,8 +172,10 @@ C----------------
          IF(ISK.LE.1)THEN
           A(N2,N1)=A(N2,N1)+AA
 !
-          IF (CPTREAC > 0 . and. NODREAC(N1).NE.0) THEN
-            FTHREAC(N2,NODREAC(N1)) = FTHREAC(N2,NODREAC(N1)) + AA*DT1
+          IF (CPTREAC > 0)  THEN
+            IF(NODREAC(N1).NE.0) THEN
+              FTHREAC(N2,NODREAC(N1)) = FTHREAC(N2,NODREAC(N1)) + AA*DT1
+            ENDIF
           ENDIF
 !
           IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
@@ -195,10 +197,12 @@ C----------------
           ENDIF
 !
 !
-          IF (CPTREAC > 0 . and. NODREAC(N1).NE.0) THEN
-            FTHREAC(1,NODREAC(N1)) = FTHREAC(1,NODREAC(N1)) + SKEW(K1,ISK)*AA*DT1
-            FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + SKEW(K2,ISK)*AA*DT1
-            FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + SKEW(K3,ISK)*AA*DT1
+          IF (CPTREAC > 0 ) THEN
+            IF(NODREAC(N1).NE.0) THEN
+              FTHREAC(1,NODREAC(N1)) = FTHREAC(1,NODREAC(N1)) + SKEW(K1,ISK)*AA*DT1
+              FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + SKEW(K2,ISK)*AA*DT1
+              FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + SKEW(K3,ISK)*AA*DT1
+            ENDIF
           ENDIF!
 !
          ENDIF
@@ -208,8 +212,10 @@ C----------------
           AR(N2,N1)=AR(N2,N1)+AA
           TFEXC=TFEXC+HALF*(A0+AA)*VR(N2,N1)
 !
-          IF (CPTREAC > 0 . and. NODREAC(N1).NE.0) THEN
-            FTHREAC(N2+3,NODREAC(N1)) = FTHREAC(N2+3,NODREAC(N1)) + AA*DT1
+          IF (CPTREAC > 0) THEN
+            IF(NODREAC(N1).NE.0) THEN
+              FTHREAC(N2+3,NODREAC(N1)) = FTHREAC(N2+3,NODREAC(N1)) + AA*DT1
+            ENDIF
           ENDIF!
 !
          ELSE
@@ -221,10 +227,12 @@ C----------------
           AR(2,N1) = AR(2,N1)+SKEW(K2,ISK)*AA
           AR(3,N1) = AR(3,N1)+SKEW(K3,ISK)*AA
 !
-          IF (CPTREAC > 0 . and. NODREAC(N1).NE.0) THEN
-            FTHREAC(4,NODREAC(N1)) = FTHREAC(4,NODREAC(N1)) + SKEW(K1,ISK)*AA*DT1
-            FTHREAC(5,NODREAC(N1)) = FTHREAC(5,NODREAC(N1)) + SKEW(K2,ISK)*AA*DT1
-            FTHREAC(6,NODREAC(N1)) = FTHREAC(6,NODREAC(N1)) + SKEW(K3,ISK)*AA*DT1
+          IF (CPTREAC > 0) THEN 
+            IF(NODREAC(N1).NE.0) THEN
+              FTHREAC(4,NODREAC(N1)) = FTHREAC(4,NODREAC(N1)) + SKEW(K1,ISK)*AA*DT1
+              FTHREAC(5,NODREAC(N1)) = FTHREAC(5,NODREAC(N1)) + SKEW(K2,ISK)*AA*DT1
+              FTHREAC(6,NODREAC(N1)) = FTHREAC(6,NODREAC(N1)) + SKEW(K3,ISK)*AA*DT1
+            ENDIF
           ENDIF
 !
           TFEXC    = TFEXC+HALF*(A0+AA)*VV
@@ -271,11 +279,13 @@ C
              FEXT(3,N1) = FEXT(3,N1)+FZ
            ENDIF
 !
-          IF (CPTREAC > 0 . and. NODREAC(N1).NE.0) THEN
-            FTHREAC(1,NODREAC(N1)) = FTHREAC(1,NODREAC(N1)) + FX*DT1
-            FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + FY*DT1
-            FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + FZ*DT1
-          ENDIF!
+          IF (CPTREAC > 0) THEN
+            IF(NODREAC(N1).NE.0) THEN
+              FTHREAC(1,NODREAC(N1)) = FTHREAC(1,NODREAC(N1)) + FX*DT1
+              FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + FY*DT1
+              FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + FZ*DT1
+            ENDIF
+          ENDIF
 !
 C
            A(1,N2)=A(1,N2)+FX
@@ -287,10 +297,12 @@ C
              FEXT(3,N2) = FEXT(3,N2)+FZ
            ENDIF
 !
-          IF (CPTREAC > 0 . and. NODREAC(N2).NE.0) THEN
-            FTHREAC(1,NODREAC(N2)) = FTHREAC(1,NODREAC(N2)) + FX*DT1
-            FTHREAC(2,NODREAC(N2)) = FTHREAC(2,NODREAC(N2)) + FY*DT1
-            FTHREAC(3,NODREAC(N2)) = FTHREAC(3,NODREAC(N2)) + FZ*DT1
+          IF (CPTREAC > 0) THEN
+            IF(NODREAC(N2).NE.0) THEN
+              FTHREAC(1,NODREAC(N2)) = FTHREAC(1,NODREAC(N2)) + FX*DT1
+              FTHREAC(2,NODREAC(N2)) = FTHREAC(2,NODREAC(N2)) + FY*DT1
+              FTHREAC(3,NODREAC(N2)) = FTHREAC(3,NODREAC(N2)) + FZ*DT1
+            ENDIF
           ENDIF
 !
 C
@@ -303,10 +315,12 @@ C
              FEXT(3,N3) = FEXT(3,N3)+FZ
            ENDIF
 !
-          IF (CPTREAC > 0 . and. NODREAC(N3).NE.0) THEN
-            FTHREAC(1,NODREAC(N3)) = FTHREAC(1,NODREAC(N3)) + FX*DT1
-            FTHREAC(2,NODREAC(N3)) = FTHREAC(2,NODREAC(N3)) + FY*DT1
-            FTHREAC(3,NODREAC(N3)) = FTHREAC(3,NODREAC(N3)) + FZ*DT1
+          IF (CPTREAC > 0) THEN
+            IF(NODREAC(N3).NE.0) THEN
+              FTHREAC(1,NODREAC(N3)) = FTHREAC(1,NODREAC(N3)) + FX*DT1
+              FTHREAC(2,NODREAC(N3)) = FTHREAC(2,NODREAC(N3)) + FY*DT1
+              FTHREAC(3,NODREAC(N3)) = FTHREAC(3,NODREAC(N3)) + FZ*DT1
+            ENDIF
           ENDIF!
 !
 C
@@ -319,11 +333,14 @@ C
              FEXT(3,N4) = FEXT(3,N4)+FZ
            ENDIF
 !
-          IF (CPTREAC > 0 . and. NODREAC(N4).NE.0) THEN
-            FTHREAC(1,NODREAC(N4)) = FTHREAC(1,NODREAC(N4)) + FX*DT1
-            FTHREAC(2,NODREAC(N4)) = FTHREAC(2,NODREAC(N4)) + FY*DT1
-            FTHREAC(3,NODREAC(N4)) = FTHREAC(3,NODREAC(N4)) + FZ*DT1
+          IF (CPTREAC > 0) THEN
+            IF (NODREAC(N4).NE.0) THEN
+              FTHREAC(1,NODREAC(N4)) = FTHREAC(1,NODREAC(N4)) + FX*DT1
+              FTHREAC(2,NODREAC(N4)) = FTHREAC(2,NODREAC(N4)) + FY*DT1
+              FTHREAC(3,NODREAC(N4)) = FTHREAC(3,NODREAC(N4)) + FZ*DT1
+            ENDIF
           ENDIF
+         
 !
 C
            TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
@@ -348,11 +365,13 @@ C
             FEXT(3,N1) = FEXT(3,N1)+FZ
           ENDIF
 !
-          IF (CPTREAC > 0 . and. NODREAC(N1).NE.0) THEN
-            FTHREAC(1,NODREAC(N1)) = FTHREAC(1,NODREAC(N1)) + FX*DT1
-            FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + FY*DT1
-            FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + FZ*DT1
-          ENDIF!
+          IF (CPTREAC > 0) THEN
+            IF (NODREAC(N1).NE.0) THEN
+              FTHREAC(1,NODREAC(N1)) = FTHREAC(1,NODREAC(N1)) + FX*DT1
+              FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + FY*DT1
+              FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + FZ*DT1
+            ENDIF
+          ENDIF
 !
 C
           A(1,N2) = A(1,N2)+FX
@@ -364,10 +383,12 @@ C
             FEXT(3,N2) = FEXT(3,N2)+FZ
           ENDIF
 !
-          IF (CPTREAC > 0 . and. NODREAC(N2).NE.0) THEN
-            FTHREAC(1,NODREAC(N2)) = FTHREAC(1,NODREAC(N2)) + FX*DT1
-            FTHREAC(2,NODREAC(N2)) = FTHREAC(2,NODREAC(N2)) + FY*DT1
-            FTHREAC(3,NODREAC(N2)) = FTHREAC(3,NODREAC(N2)) + FZ*DT1
+          IF (CPTREAC > 0) THEN 
+             IF(NODREAC(N2).NE.0) THEN
+               FTHREAC(1,NODREAC(N2)) = FTHREAC(1,NODREAC(N2)) + FX*DT1
+               FTHREAC(2,NODREAC(N2)) = FTHREAC(2,NODREAC(N2)) + FY*DT1
+               FTHREAC(3,NODREAC(N2)) = FTHREAC(3,NODREAC(N2)) + FZ*DT1
+            ENDIF
           ENDIF
 !
 C
@@ -380,10 +401,12 @@ C
             FEXT(3,N3) = FEXT(3,N3)+FZ
           ENDIF
 !
-          IF (CPTREAC > 0 . and. NODREAC(N3).NE.0) THEN
-            FTHREAC(1,NODREAC(N3)) = FTHREAC(1,NODREAC(N3)) + FX*DT1
-            FTHREAC(2,NODREAC(N3)) = FTHREAC(2,NODREAC(N3)) + FY*DT1
-            FTHREAC(3,NODREAC(N3)) = FTHREAC(3,NODREAC(N3)) + FZ*DT1
+          IF (CPTREAC > 0 ) THEN
+            IF (NODREAC(N3).NE.0) THEN
+              FTHREAC(1,NODREAC(N3)) = FTHREAC(1,NODREAC(N3)) + FX*DT1
+              FTHREAC(2,NODREAC(N3)) = FTHREAC(2,NODREAC(N3)) + FY*DT1
+              FTHREAC(3,NODREAC(N3)) = FTHREAC(3,NODREAC(N3)) + FZ*DT1
+            ENDIF
           ENDIF
 !
 C
@@ -411,14 +434,16 @@ c
             FEXT(3,N2) = FEXT(3,N2)+FZ
          ENDIF
 !
-          IF (CPTREAC > 0 . and. NODREAC(N1).NE.0) THEN
-            FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + FY*DT1
-            FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + FZ*DT1
-          ENDIF!
-          IF (CPTREAC > 0 . and. NODREAC(N2).NE.0) THEN
-            FTHREAC(2,NODREAC(N2)) = FTHREAC(2,NODREAC(N2)) + FY*DT1
-            FTHREAC(3,NODREAC(N2)) = FTHREAC(3,NODREAC(N2)) + FZ*DT1
-          ENDIF!
+          IF (CPTREAC > 0) THEN
+            IF(NODREAC(N1).NE.0) THEN
+              FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + FY*DT1
+              FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + FZ*DT1
+            ENDIF
+            IF (NODREAC(N2).NE.0) THEN
+              FTHREAC(2,NODREAC(N2)) = FTHREAC(2,NODREAC(N2)) + FY*DT1
+              FTHREAC(3,NODREAC(N2)) = FTHREAC(3,NODREAC(N2)) + FZ*DT1
+            ENDIF
+          ENDIF
 !
 C
          IF(N2D.EQ.1)THEN
@@ -518,9 +543,11 @@ C-------------------------
                  FEXT(N2,N1)=FEXT(N2,N1)+AA
                ENDIF
 !
-               IF (CPTREAC > 0 . and. NODREAC(N1).NE.0) THEN
-                 FTHREAC(N2,NODREAC(N1)) = FTHREAC(N2,NODREAC(N1)) + AA*DT1
-               ENDIF!
+               IF (CPTREAC > 0) THEN
+                 IF(NODREAC(N1).NE.0) THEN
+                   FTHREAC(N2,NODREAC(N1)) = FTHREAC(N2,NODREAC(N1)) + AA*DT1
+                ENDIF
+               ENDIF
 !
                TFEXC = TFEXC+HALF*(A0+AA)*V(N2,N1)*AXI
              ELSE
@@ -538,10 +565,12 @@ C-------------------------
                  FEXT(3,N1) = FEXT(3,N1)+SKEW(K3,ISK)*AA
                ENDIF
 !
-               IF (CPTREAC > 0 . and. NODREAC(N1).NE.0) THEN
-                 FTHREAC(1,NODREAC(N1)) = FTHREAC(1,NODREAC(N1)) + SKEW(K1,ISK)*AA*DT1
-                 FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + SKEW(K2,ISK)*AA*DT1
-                 FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + SKEW(K3,ISK)*AA*DT1
+               IF (CPTREAC > 0) THEN
+                 IF(NODREAC(N1).NE.0) THEN
+                   FTHREAC(1,NODREAC(N1)) = FTHREAC(1,NODREAC(N1)) + SKEW(K1,ISK)*AA*DT1
+                   FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + SKEW(K2,ISK)*AA*DT1
+                   FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + SKEW(K3,ISK)*AA*DT1
+                 ENDIF
                ENDIF
 !
                TFEXC = TFEXC+HALF*(A0+AA)*VV*AXI
@@ -551,8 +580,10 @@ C-------------------------
              IF(ISK.LE.1)THEN
                FSKY(3+N2,IADC(1,NL)) = AA
 !
-               IF (CPTREAC > 0 . and. NODREAC(N1).NE.0) THEN
-                 FTHREAC(N2+3,NODREAC(N1)) = FTHREAC(N2+3,NODREAC(N1)) + AA*DT1
+               IF (CPTREAC > 0) THEN 
+                 IF(NODREAC(N1).NE.0) THEN
+                   FTHREAC(N2+3,NODREAC(N1)) = FTHREAC(N2+3,NODREAC(N1)) + AA*DT1
+                 ENDIF
                ENDIF
 !
                TFEXC=TFEXC+HALF*(A0+AA)*VR(N2,N1)
@@ -566,10 +597,12 @@ C-------------------------
                FSKY(5,IAD) = SKEW(K2,ISK)*AA
                FSKY(6,IAD) = SKEW(K3,ISK)*AA
 !
-               IF (CPTREAC > 0 . and. NODREAC(N1).NE.0) THEN
+               IF (CPTREAC > 0) THEN 
+                IF(NODREAC(N1).NE.0) THEN
                  FTHREAC(4,NODREAC(N1)) = FTHREAC(4,NODREAC(N1)) + SKEW(K1,ISK)*AA*DT1
                  FTHREAC(5,NODREAC(N1)) = FTHREAC(5,NODREAC(N1)) + SKEW(K2,ISK)*AA*DT1
                  FTHREAC(6,NODREAC(N1)) = FTHREAC(6,NODREAC(N1)) + SKEW(K3,ISK)*AA*DT1
+                ENDIF
                ENDIF
 !
                TFEXC=TFEXC+HALF*(A0+AA)*VV
@@ -617,10 +650,12 @@ C
                  FEXT(3,N1) = FEXT(3,N1)+FZ
                ENDIF
 !
-               IF (CPTREAC > 0 . and. NODREAC(N1).NE.0) THEN
-                 FTHREAC(1,NODREAC(N1)) = FTHREAC(1,NODREAC(N1)) + FX*DT1
-                 FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + FY*DT1
-                 FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + FZ*DT1
+               IF (CPTREAC > 0) THEN 
+                 IF(NODREAC(N1).NE.0) THEN
+                   FTHREAC(1,NODREAC(N1)) = FTHREAC(1,NODREAC(N1)) + FX*DT1
+                   FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + FY*DT1
+                   FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + FZ*DT1
+                 ENDIF
                ENDIF
 !
 C
@@ -634,10 +669,12 @@ C
                  FEXT(3,N2) = FEXT(3,N2)+FZ
                ENDIF
 !
-               IF (CPTREAC > 0 . and. NODREAC(N2).NE.0) THEN
-                 FTHREAC(1,NODREAC(N2)) = FTHREAC(1,NODREAC(N2)) + FX*DT1
-                 FTHREAC(2,NODREAC(N2)) = FTHREAC(2,NODREAC(N2)) + FY*DT1
-                 FTHREAC(3,NODREAC(N2)) = FTHREAC(3,NODREAC(N2)) + FZ*DT1
+               IF (CPTREAC > 0) THEN 
+                 IF(NODREAC(N2).NE.0) THEN
+                   FTHREAC(1,NODREAC(N2)) = FTHREAC(1,NODREAC(N2)) + FX*DT1
+                   FTHREAC(2,NODREAC(N2)) = FTHREAC(2,NODREAC(N2)) + FY*DT1
+                   FTHREAC(3,NODREAC(N2)) = FTHREAC(3,NODREAC(N2)) + FZ*DT1
+                 ENDIF
                ENDIF
 !
 C
@@ -651,10 +688,12 @@ C
                  FEXT(3,N3) = FEXT(3,N3)+FZ
                ENDIF
 !
-               IF (CPTREAC > 0 . and. NODREAC(N3).NE.0) THEN
-                 FTHREAC(1,NODREAC(N3)) = FTHREAC(1,NODREAC(N3)) + FX*DT1
-                 FTHREAC(2,NODREAC(N3)) = FTHREAC(2,NODREAC(N3)) + FY*DT1
-                 FTHREAC(3,NODREAC(N3)) = FTHREAC(3,NODREAC(N3)) + FZ*DT1
+               IF (CPTREAC > 0) THEN
+                 IF(NODREAC(N3).NE.0) THEN
+                   FTHREAC(1,NODREAC(N3)) = FTHREAC(1,NODREAC(N3)) + FX*DT1
+                   FTHREAC(2,NODREAC(N3)) = FTHREAC(2,NODREAC(N3)) + FY*DT1
+                   FTHREAC(3,NODREAC(N3)) = FTHREAC(3,NODREAC(N3)) + FZ*DT1
+                 ENDIF
                ENDIF
 !
 C
@@ -668,10 +707,12 @@ C
                  FEXT(3,N4) = FEXT(3,N4)+FZ
                ENDIF
 !
-               IF (CPTREAC > 0 . and. NODREAC(N4).NE.0) THEN
-                 FTHREAC(1,NODREAC(N4)) = FTHREAC(1,NODREAC(N4)) + FX*DT1
-                 FTHREAC(2,NODREAC(N4)) = FTHREAC(2,NODREAC(N4)) + FY*DT1
-                 FTHREAC(3,NODREAC(N4)) = FTHREAC(3,NODREAC(N4)) + FZ*DT1
+               IF (CPTREAC > 0) THEN
+                 IF(NODREAC(N4).NE.0) THEN
+                   FTHREAC(1,NODREAC(N4)) = FTHREAC(1,NODREAC(N4)) + FX*DT1
+                   FTHREAC(2,NODREAC(N4)) = FTHREAC(2,NODREAC(N4)) + FY*DT1
+                   FTHREAC(3,NODREAC(N4)) = FTHREAC(3,NODREAC(N4)) + FZ*DT1
+                 ENDIF
                ENDIF
 !
 C
@@ -698,10 +739,12 @@ C
                  FEXT(3,N1) = FEXT(3,N1)+FZ
                ENDIF
 !
-               IF (CPTREAC > 0 . and. NODREAC(N1).NE.0) THEN
-                 FTHREAC(1,NODREAC(N1)) = FTHREAC(1,NODREAC(N1)) + FX*DT1
-                 FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + FY*DT1
-                 FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + FZ*DT1
+               IF (CPTREAC > 0) THEN
+                 IF(NODREAC(N1).NE.0) THEN
+                   FTHREAC(1,NODREAC(N1)) = FTHREAC(1,NODREAC(N1)) + FX*DT1
+                   FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + FY*DT1
+                   FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + FZ*DT1
+                 ENDIF
                ENDIF
 !
 C
@@ -715,10 +758,12 @@ C
                  FEXT(3,N2) = FEXT(3,N2)+FZ
                ENDIF
 !
-               IF (CPTREAC > 0 . and. NODREAC(N2).NE.0) THEN
-                 FTHREAC(1,NODREAC(N2)) = FTHREAC(1,NODREAC(N2)) + FX*DT1
-                 FTHREAC(2,NODREAC(N2)) = FTHREAC(2,NODREAC(N2)) + FY*DT1
-                 FTHREAC(3,NODREAC(N2)) = FTHREAC(3,NODREAC(N2)) + FZ*DT1
+               IF (CPTREAC > 0) THEN
+                 IF(NODREAC(N2).NE.0) THEN
+                   FTHREAC(1,NODREAC(N2)) = FTHREAC(1,NODREAC(N2)) + FX*DT1
+                   FTHREAC(2,NODREAC(N2)) = FTHREAC(2,NODREAC(N2)) + FY*DT1
+                   FTHREAC(3,NODREAC(N2)) = FTHREAC(3,NODREAC(N2)) + FZ*DT1
+                 ENDIF
                ENDIF
 !
 C
@@ -732,10 +777,12 @@ C
                  FEXT(3,N3) = FEXT(3,N3)+FZ
                ENDIF
 !
-               IF (CPTREAC > 0 . and. NODREAC(N3).NE.0) THEN
-                 FTHREAC(1,NODREAC(N3)) = FTHREAC(1,NODREAC(N3)) + FX*DT1
-                 FTHREAC(2,NODREAC(N3)) = FTHREAC(2,NODREAC(N3)) + FY*DT1
-                 FTHREAC(3,NODREAC(N3)) = FTHREAC(3,NODREAC(N3)) + FZ*DT1
+               IF (CPTREAC > 0) THEN 
+                 IF(NODREAC(N3).NE.0) THEN
+                   FTHREAC(1,NODREAC(N3)) = FTHREAC(1,NODREAC(N3)) + FX*DT1
+                   FTHREAC(2,NODREAC(N3)) = FTHREAC(2,NODREAC(N3)) + FY*DT1
+                   FTHREAC(3,NODREAC(N3)) = FTHREAC(3,NODREAC(N3)) + FZ*DT1
+                 ENDIF
                ENDIF
 !
 C
@@ -765,13 +812,15 @@ c
                FEXT(3,N2) = FEXT(3,N2)+FZ
              ENDIF
 !
-             IF (CPTREAC > 0 . and. NODREAC(N1).NE.0) THEN
-               FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + FY*DT1
-               FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + FZ*DT1
-             ENDIF
-             IF (CPTREAC > 0 . and. NODREAC(N2).NE.0) THEN
-               FTHREAC(2,NODREAC(N2)) = FTHREAC(2,NODREAC(N2)) + FY*DT1
-               FTHREAC(3,NODREAC(N2)) = FTHREAC(3,NODREAC(N2)) + FZ*DT1
+             IF (CPTREAC > 0) THEN
+               IF(NODREAC(N1).NE.0) THEN
+                 FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + FY*DT1
+                 FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + FZ*DT1
+               ENDIF
+               IF (NODREAC(N2).NE.0) THEN
+                 FTHREAC(2,NODREAC(N2)) = FTHREAC(2,NODREAC(N2)) + FY*DT1
+                 FTHREAC(3,NODREAC(N2)) = FTHREAC(3,NODREAC(N2)) + FZ*DT1
+               ENDIF
              ENDIF
 !
 C
@@ -843,8 +892,10 @@ C---------------------
                  FEXT(N2,N1)=FEXT(N2,N1)+AA
                ENDIF
 !
-               IF (CPTREAC > 0 . and. NODREAC(N1).NE.0) THEN
-                 FTHREAC(N2,NODREAC(N1)) = FTHREAC(N2,NODREAC(N1)) + AA*DT1
+               IF (CPTREAC > 0) THEN 
+                 IF(NODREAC(N1).NE.0) THEN
+                   FTHREAC(N2,NODREAC(N1)) = FTHREAC(N2,NODREAC(N1)) + AA*DT1
+                 ENDIF
                ENDIF
 !
                TFEXC = TFEXC+HALF*(A0+AA)*V(N2,N1)*AXI
@@ -863,10 +914,12 @@ C---------------------
                  FEXT(3,N1) = FEXT(3,N1)+SKEW(K3,ISK)*AA
                ENDIF
 !
-               IF (CPTREAC > 0 . and. NODREAC(N1).NE.0) THEN
-                 FTHREAC(1,NODREAC(N1)) = FTHREAC(1,NODREAC(N1)) + SKEW(K1,ISK)*AA*DT1
-                 FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + SKEW(K2,ISK)*AA*DT1
-                 FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + SKEW(K3,ISK)*AA*DT1
+               IF (CPTREAC > 0) THEN
+                 IF(NODREAC(N1).NE.0) THEN
+                   FTHREAC(1,NODREAC(N1)) = FTHREAC(1,NODREAC(N1)) + SKEW(K1,ISK)*AA*DT1
+                   FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + SKEW(K2,ISK)*AA*DT1
+                   FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + SKEW(K3,ISK)*AA*DT1
+                 ENDIF
                ENDIF
 !
                TFEXC = TFEXC+HALF*(A0+AA)*VV*AXI
@@ -876,8 +929,10 @@ C---------------------
              IF(ISK.LE.1)THEN
                FSKYV(IADC(1,NL),3+N2) = AA
 !
-               IF (CPTREAC > 0 . and. NODREAC(N1).NE.0) THEN
-                 FTHREAC(N2+3,NODREAC(N1)) = FTHREAC(N2+3,NODREAC(N1)) + AA*DT1
+               IF (CPTREAC > 0 ) THEN
+                 IF( NODREAC(N1).NE.0) THEN
+                   FTHREAC(N2+3,NODREAC(N1)) = FTHREAC(N2+3,NODREAC(N1)) + AA*DT1
+                 ENDIF
                ENDIF
 !
                TFEXC=TFEXC+HALF*(A0+AA)*VR(N2,N1)
@@ -891,10 +946,12 @@ C---------------------
                FSKYV(IAD,5) = SKEW(K2,ISK)*AA
                FSKYV(IAD,6) = SKEW(K3,ISK)*AA
 !
-               IF (CPTREAC > 0 . and. NODREAC(N1).NE.0) THEN
-                 FTHREAC(4,NODREAC(N1)) = FTHREAC(4,NODREAC(N1)) + SKEW(K1,ISK)*AA*DT1
-                 FTHREAC(5,NODREAC(N1)) = FTHREAC(5,NODREAC(N1)) + SKEW(K2,ISK)*AA*DT1
-                 FTHREAC(6,NODREAC(N1)) = FTHREAC(6,NODREAC(N1)) + SKEW(K3,ISK)*AA*DT1
+               IF (CPTREAC > 0) THEN
+                 IF(NODREAC(N1).NE.0) THEN
+                   FTHREAC(4,NODREAC(N1)) = FTHREAC(4,NODREAC(N1)) + SKEW(K1,ISK)*AA*DT1
+                   FTHREAC(5,NODREAC(N1)) = FTHREAC(5,NODREAC(N1)) + SKEW(K2,ISK)*AA*DT1
+                   FTHREAC(6,NODREAC(N1)) = FTHREAC(6,NODREAC(N1)) + SKEW(K3,ISK)*AA*DT1
+                 ENDIF
                ENDIF
 !
                TFEXC=TFEXC+HALF*(A0+AA)*VV
@@ -941,10 +998,12 @@ C
                  FEXT(3,N1) = FEXT(3,N1)+FZ
                ENDIF
 !
-               IF (CPTREAC > 0 . and. NODREAC(N1).NE.0) THEN
-                 FTHREAC(1,NODREAC(N1)) = FTHREAC(1,NODREAC(N1)) + FX*DT1
-                 FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + FY*DT1
-                 FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + FZ*DT1
+               IF (CPTREAC > 0) THEN
+                 IF(NODREAC(N1).NE.0) THEN
+                   FTHREAC(1,NODREAC(N1)) = FTHREAC(1,NODREAC(N1)) + FX*DT1
+                   FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + FY*DT1
+                   FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + FZ*DT1
+                 ENDIF
                ENDIF
 !
 C
@@ -958,10 +1017,12 @@ C
                  FEXT(3,N2) = FEXT(3,N2)+FZ
                ENDIF
 !
-               IF (CPTREAC > 0 . and. NODREAC(N2).NE.0) THEN
-                 FTHREAC(1,NODREAC(N2)) = FTHREAC(1,NODREAC(N2)) + FX*DT1
-                 FTHREAC(2,NODREAC(N2)) = FTHREAC(2,NODREAC(N2)) + FY*DT1
-                 FTHREAC(3,NODREAC(N2)) = FTHREAC(3,NODREAC(N2)) + FZ*DT1
+               IF (CPTREAC > 0) THEN
+                 IF(NODREAC(N2).NE.0) THEN
+                   FTHREAC(1,NODREAC(N2)) = FTHREAC(1,NODREAC(N2)) + FX*DT1
+                   FTHREAC(2,NODREAC(N2)) = FTHREAC(2,NODREAC(N2)) + FY*DT1
+                   FTHREAC(3,NODREAC(N2)) = FTHREAC(3,NODREAC(N2)) + FZ*DT1
+                 ENDIF
                ENDIF
 !
 C
@@ -975,10 +1036,12 @@ C
                  FEXT(3,N3) = FEXT(3,N3)+FZ
                ENDIF
 !
-               IF (CPTREAC > 0 . and. NODREAC(N3).NE.0) THEN
-                 FTHREAC(1,NODREAC(N3)) = FTHREAC(1,NODREAC(N3)) + FX*DT1
-                 FTHREAC(2,NODREAC(N3)) = FTHREAC(2,NODREAC(N3)) + FY*DT1
-                 FTHREAC(3,NODREAC(N3)) = FTHREAC(3,NODREAC(N3)) + FZ*DT1
+               IF (CPTREAC > 0) THEN
+                 IF(NODREAC(N3).NE.0) THEN
+                   FTHREAC(1,NODREAC(N3)) = FTHREAC(1,NODREAC(N3)) + FX*DT1
+                   FTHREAC(2,NODREAC(N3)) = FTHREAC(2,NODREAC(N3)) + FY*DT1
+                   FTHREAC(3,NODREAC(N3)) = FTHREAC(3,NODREAC(N3)) + FZ*DT1
+                 ENDIF
                ENDIF
 !
 C
@@ -992,10 +1055,12 @@ C
                  FEXT(3,N4) = FEXT(3,N4)+FZ
                ENDIF
 !
-               IF (CPTREAC > 0 . and. NODREAC(N4).NE.0) THEN
-                 FTHREAC(1,NODREAC(N4)) = FTHREAC(1,NODREAC(N4)) + FX*DT1
-                 FTHREAC(2,NODREAC(N4)) = FTHREAC(2,NODREAC(N4)) + FY*DT1
-                 FTHREAC(3,NODREAC(N4)) = FTHREAC(3,NODREAC(N4)) + FZ*DT1
+               IF (CPTREAC > 0) THEN
+                 IF(NODREAC(N4).NE.0) THEN
+                   FTHREAC(1,NODREAC(N4)) = FTHREAC(1,NODREAC(N4)) + FX*DT1
+                   FTHREAC(2,NODREAC(N4)) = FTHREAC(2,NODREAC(N4)) + FY*DT1
+                   FTHREAC(3,NODREAC(N4)) = FTHREAC(3,NODREAC(N4)) + FZ*DT1
+                 ENDIF
                ENDIF
 !
 C
@@ -1022,10 +1087,12 @@ C
                  FEXT(3,N1) = FEXT(3,N1)+FZ
                ENDIF
 !
-               IF (CPTREAC > 0 . and. NODREAC(N1).NE.0) THEN
-                 FTHREAC(1,NODREAC(N1)) = FTHREAC(1,NODREAC(N1)) + FX*DT1
-                 FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + FY*DT1
-                 FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + FZ*DT1
+               IF (CPTREAC > 0) THEN
+                 IF(NODREAC(N1).NE.0) THEN
+                   FTHREAC(1,NODREAC(N1)) = FTHREAC(1,NODREAC(N1)) + FX*DT1
+                   FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + FY*DT1
+                   FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + FZ*DT1
+                 ENDIF
                ENDIF
 !
 C
@@ -1039,10 +1106,12 @@ C
                  FEXT(3,N2) = FEXT(3,N2)+FZ
                ENDIF
 !
-               IF (CPTREAC > 0 . and. NODREAC(N2).NE.0) THEN
-                 FTHREAC(1,NODREAC(N2)) = FTHREAC(1,NODREAC(N2)) + FX*DT1
-                 FTHREAC(2,NODREAC(N2)) = FTHREAC(2,NODREAC(N2)) + FY*DT1
-                 FTHREAC(3,NODREAC(N2)) = FTHREAC(3,NODREAC(N2)) + FZ*DT1
+               IF (CPTREAC > 0) THEN
+                 IF(NODREAC(N2).NE.0) THEN
+                   FTHREAC(1,NODREAC(N2)) = FTHREAC(1,NODREAC(N2)) + FX*DT1
+                   FTHREAC(2,NODREAC(N2)) = FTHREAC(2,NODREAC(N2)) + FY*DT1
+                   FTHREAC(3,NODREAC(N2)) = FTHREAC(3,NODREAC(N2)) + FZ*DT1
+                 ENDIF
                ENDIF
 !
 C
@@ -1056,10 +1125,12 @@ C
                  FEXT(3,N3) = FEXT(3,N3)+FZ
                ENDIF
 !
-               IF (CPTREAC > 0 . and. NODREAC(N3).NE.0) THEN
-                 FTHREAC(1,NODREAC(N3)) = FTHREAC(1,NODREAC(N3)) + FX*DT1
-                 FTHREAC(2,NODREAC(N3)) = FTHREAC(2,NODREAC(N3)) + FY*DT1
-                 FTHREAC(3,NODREAC(N3)) = FTHREAC(3,NODREAC(N3)) + FZ*DT1
+               IF (CPTREAC > 0) THEN
+                 IF(NODREAC(N3).NE.0) THEN
+                   FTHREAC(1,NODREAC(N3)) = FTHREAC(1,NODREAC(N3)) + FX*DT1
+                   FTHREAC(2,NODREAC(N3)) = FTHREAC(2,NODREAC(N3)) + FY*DT1
+                   FTHREAC(3,NODREAC(N3)) = FTHREAC(3,NODREAC(N3)) + FZ*DT1
+                 ENDIF
                ENDIF
 !
 C
@@ -1089,13 +1160,15 @@ c
                FEXT(3,N2) = FEXT(3,N2)+FZ
              ENDIF
 !
-             IF (CPTREAC > 0 . and. NODREAC(N1).NE.0) THEN
-               FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + FY*DT1
-               FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + FZ*DT1
-             ENDIF
-             IF (CPTREAC > 0 . and. NODREAC(N2).NE.0) THEN
-               FTHREAC(2,NODREAC(N2)) = FTHREAC(2,NODREAC(N2)) + FY*DT1
-               FTHREAC(3,NODREAC(N2)) = FTHREAC(3,NODREAC(N2)) + FZ*DT1
+             IF (CPTREAC > 0) THEN 
+               IF(NODREAC(N1).NE.0) THEN
+                 FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + FY*DT1
+                 FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + FZ*DT1
+               ENDIF
+               IF (NODREAC(N2).NE.0) THEN
+                 FTHREAC(2,NODREAC(N2)) = FTHREAC(2,NODREAC(N2)) + FY*DT1
+                 FTHREAC(3,NODREAC(N2)) = FTHREAC(3,NODREAC(N2)) + FZ*DT1
+               ENDIF
              ENDIF
 !
 C

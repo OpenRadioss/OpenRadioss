@@ -210,11 +210,13 @@ C         POINT SECND TIED
           V(N1)=VXW
           V(N2)=VYW
           V(N3)=VZW
-          IF (IMP_S.EQ.1.AND.NDOF(N).GT.0) THEN
-            JJ=IDDL(N)+1
-            IF (IKC(JJ).EQ.0)IKC(JJ)=3
-            IF (IKC(JJ+1).EQ.0)IKC(JJ+1)=3
-            IF (IKC(JJ+2).EQ.0)IKC(JJ+2)=3
+          IF (IMP_S.EQ.1) THEN
+            IF(NDOF(N).GT.0) THEN
+              JJ=IDDL(N)+1
+              IF (IKC(JJ).EQ.0)IKC(JJ)=3
+              IF (IKC(JJ+1).EQ.0)IKC(JJ+1)=3
+              IF (IKC(JJ+2).EQ.0)IKC(JJ+2)=3
+            ENDIF
           ENDIF
         ELSE
 C         POINT SECND SLIDING
@@ -228,13 +230,15 @@ C         POINT SECND SLIDING
           V(N1)=V(N1)-DV*XN
           V(N2)=V(N2)-DV*YN
           V(N3)=V(N3)-DV*ZN
-          IF (IMP_S.EQ.1.AND.NDOF(N).GT.0) THEN
-            V(N1)=-DV
-            A(N1)=XN
-            A(N2)=YN
-            A(N3)=ZN    
-            JJ=IDDL(N)+1
-            IF (IKC(JJ).EQ.0)IKC(JJ)=10
+          IF (IMP_S.EQ.1) THEN
+            IF(NDOF(N).GT.0) THEN
+              V(N1)=-DV
+              A(N1)=XN
+              A(N2)=YN
+              A(N3)=ZN    
+              JJ=IDDL(N)+1
+              IF (IKC(JJ).EQ.0)IKC(JJ)=10
+            ENDIF
           ENDIF
           TFXT=TFXT-
      .        ((V(N1)-VXW)*FNXT+(V(N2)-VYW)*FNYT+(V(N3)-VZW)*FNZT)
@@ -257,13 +261,15 @@ C         POINT SECND SLIDING
         V(N1)=V(N1)-DV*XN
         V(N2)=V(N2)-DV*YN
         V(N3)=V(N3)-DV*ZN
-        IF(IMP_S.EQ.1.AND.NDOF(N).GT.0) THEN
+        IF(IMP_S.EQ.1) THEN
+          IF(NDOF(N).GT.0) THEN
            V(N1) = -DV
            A(N1)=XN
            A(N2)=YN
            A(N3)=ZN    
            JJ=IDDL(N)+1
            IF (IKC(JJ).EQ.0)IKC(JJ)=10
+         ENDIF
         ENDIF
        ENDIF
       ENDDO 

@@ -125,6 +125,7 @@ C-----------------------------------------------
 #include      "impl1_c.inc"
 #include      "rad2r_c.inc"
 #include      "thermal_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -320,7 +321,11 @@ C---------------------------------------
               ENDIF  ! NPSAV.GE.22
               DO N=IAD,IAD+NVAR-1
                 II=II+1
-                K=ITHBUF(N)
+                IF(N <= SITHBUF) THEN
+                  K=ITHBUF(N)
+                ELSE
+                  K=0 
+                ENDIF
                 IF(K==1)THEN
                   WA(II)=PARTSAV(1,I)+PARTSAV(24,I)+PARTSAV(26,I)
                 ELSEIF(K==2)THEN

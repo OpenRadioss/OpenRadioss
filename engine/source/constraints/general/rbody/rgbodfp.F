@@ -256,10 +256,12 @@ CGW      IF(NBY(3).EQ.1)THEN
        !---
        ! reaction forces/moments in "main node" of RBODY for TH/NODE
        !---
-       IF (CPTREAC > 0 . and. NODREAC(M) > 0) THEN
-         FTHREAC(4,NODREAC(M)) = FTHREAC(4,NODREAC(M)) - AM(1,M)*DT1*WEIGHT(M)
-         FTHREAC(5,NODREAC(M)) = FTHREAC(5,NODREAC(M)) - AM(2,M)*DT1*WEIGHT(M)
-         FTHREAC(6,NODREAC(M)) = FTHREAC(6,NODREAC(M)) - AM(3,M)*DT1*WEIGHT(M)
+       IF (CPTREAC > 0) THEN
+         IF(NODREAC(M) > 0) THEN
+           FTHREAC(4,NODREAC(M)) = FTHREAC(4,NODREAC(M)) - AM(1,M)*DT1*WEIGHT(M)
+           FTHREAC(5,NODREAC(M)) = FTHREAC(5,NODREAC(M)) - AM(2,M)*DT1*WEIGHT(M)
+           FTHREAC(6,NODREAC(M)) = FTHREAC(6,NODREAC(M)) - AM(3,M)*DT1*WEIGHT(M)
+         ENDIF
        ENDIF ! IF (CPTREAC . and. NODREAC(M) > 0)
       ENDIF
 CGW      ENDIF

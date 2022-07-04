@@ -312,6 +312,7 @@ void dyn_userlib_init_(char * libname, int *size, int * userlib_avail, int * use
      char libname_c[256];
      char * rad_userlib_libpath;
      int err;
+     struct stat buffer;
      err=0;
      *userlib_avail=0;
      *userlib_ver=0;
@@ -375,30 +376,42 @@ void dyn_userlib_init_(char * libname, int *size, int * userlib_avail, int * use
 
      userlibhandle = NULL;
      if (has_path==1){
-        userlibhandle = dlopen(libn,RTLD_LAZY|RTLD_GLOBAL|RTLD_DEEPBIND);
+             if(stat(libn,&buffer) == 0)
+             { 
+                     userlibhandle = dlopen(libn,RTLD_LAZY|RTLD_GLOBAL|RTLD_DEEPBIND);
+             }
      }else{
 
-       /* first trial find Environment variable RAD_USERLIB_LIBPATH */
-       rad_userlib_libpath=getenv("RAD_USERLIB_LIBPATH");
-       if (rad_userlib_libpath){
-         strcpy(load_libname,rad_userlib_libpath);
-         strcat(load_libname,"/");
-         strcat(load_libname,libn);
-         userlibhandle = dlopen(load_libname,RTLD_LAZY|RTLD_GLOBAL|RTLD_DEEPBIND);
-       }
+             /* first trial find Environment variable RAD_USERLIB_LIBPATH */
+             rad_userlib_libpath=getenv("RAD_USERLIB_LIBPATH");
+             if (rad_userlib_libpath){
+                     strcpy(load_libname,rad_userlib_libpath);
+                     strcat(load_libname,"/");
+                     strcat(load_libname,libn);
+                     if(stat(libn,&buffer) == 0)
+                     {
+                             userlibhandle = dlopen(load_libname,RTLD_LAZY|RTLD_GLOBAL|RTLD_DEEPBIND);
+                     }
+             }
 
-       if(userlibhandle==NULL){
-         /* second trial search lib in Current Working directory */
-         getcwd(load_libname,15000);
-         strcat(load_libname,"/");
-         strcat(load_libname,libn);
-         userlibhandle = dlopen(load_libname,RTLD_LAZY|RTLD_GLOBAL|RTLD_DEEPBIND);
-       }
+             if(userlibhandle==NULL){
+                     /* second trial search lib in Current Working directory */
+                     getcwd(load_libname,15000);
+                     strcat(load_libname,"/");
+                     strcat(load_libname,libn);
+                     if(stat(libn,&buffer) == 0)
+                     {
+                             userlibhandle = dlopen(load_libname,RTLD_LAZY|RTLD_GLOBAL|RTLD_DEEPBIND);
+                     }
+             }
 
-       if(userlibhandle==NULL){
-         /* Third Trial : Default - LD_LRARY_PATH */
-         userlibhandle = dlopen(libn,RTLD_LAZY|RTLD_GLOBAL|RTLD_DEEPBIND);
-       }
+             if(userlibhandle==NULL){
+                     /* Third Trial : Default - LD_LRARY_PATH */
+                     if(stat(libn,&buffer) == 0)
+                     {
+                             userlibhandle = dlopen(libn,RTLD_LAZY|RTLD_GLOBAL|RTLD_DEEPBIND);
+                     }
+             }
 
      }
 

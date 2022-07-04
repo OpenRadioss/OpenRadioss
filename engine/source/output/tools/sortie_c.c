@@ -829,6 +829,7 @@ void filelen_sys_(char * ffilnam,int *len,int * size)
   }else{
     *size = 0;
   }
+  free(filnam);
   
 }
 #endif

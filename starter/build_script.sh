@@ -48,6 +48,7 @@ dc=""
 qd=""
 ADF=""
 debug=0
+sanitize=0
 ddebug=""
 static_link=0
 number_of_arguments=$#
@@ -91,6 +92,11 @@ else
        if [ "$arg" == "-debug" ]
        then
          debug=`echo $var|awk -F '=' '{print $2}'`
+         if [ $debug == 2 ]
+         then
+           debug=1
+           sanitize=1
+         fi 
          if [ $debug == 1 ]
          then
            ddebug="_db"
@@ -213,7 +219,7 @@ then
   cmake.exe -G "Unix Makefiles" -Darch=${arch} -Dprecision=${prec} ${DAD} -Ddebug=${debug} ${dc}  -Dstatic_link=$static_link -DCMAKE_BUILD_TYPE=Release  .. 
 else
   echo "cmake -Darch=${arch} -Dprecision=${prec} -Ddebug=${debug}  -Dstatic_link=$static_link ${dc}   .. "
-  cmake -Darch=${arch} -Dprecision=${prec} ${DAD} -Ddebug=${debug}  -Dstatic_link=$static_link ${dc}   .. 
+  cmake -Darch=${arch} -Dprecision=${prec} ${DAD} -Ddebug=${debug}  -Dstatic_link=$static_link ${dc} -Dsanitize=${sanitize}  .. 
 fi
 
 
