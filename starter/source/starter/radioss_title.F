@@ -62,6 +62,8 @@ C-----------------------------------------------
        LBT=LEN_TRIM(BTAG)
        LENCPUNAM=LEN_TRIM(CPUNAM)
        LENARCHTIT=LEN_TRIM(ARCHTITLE)
+       YEARSTRING(1:4)=BDATE(8:11)
+       LENYS=LEN_TRIM(YEARSTRING)
 
        WRITE(COPYRIGHTLINE,'(A,A,A)') 'COPYRIGHT (C) 1986-',
      *                 YEARSTRING(1:LENYS),
