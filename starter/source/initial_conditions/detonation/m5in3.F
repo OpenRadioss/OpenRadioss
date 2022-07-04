@@ -180,7 +180,7 @@ C     Getting rid of the equivalences
         ! INITIALIZATION BEFORE LIGHTING TIME COMPUTATION  !
         !--------------------------------------------------!      
         DO I=LFT,LLT
-              TB(I)=EP20
+              TB(I)=EP37
               JJ(I)=NDET3D ! will be removed -1 for each detonator associated to this elem
           IF(JSPH == 0)THEN
             IF(IPARG(28) == 4) THEN

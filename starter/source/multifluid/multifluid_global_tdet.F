@@ -108,9 +108,7 @@ C-----------------------------------------------
                     IS_JWL = .FALSE.
                     !Number of layers ( = number of material in law 151)
                     IF (NLAY > 1) THEN
-                       IF (GBUF%G_TB > ZERO) THEN
-                          GBUF%TB(LFT:LLT) = -EP20
-                       ENDIF     
+                       GBUF%TB(LFT:LLT) = -EP37
                        DO ILAY = 1, NLAY
                           !SUBMATLAW = IPM(2, IPM(20 + ILAY, MTN))
                           SUBMATLAW = ELBUF_TAB(NG)%BUFLY(ILAY)%ILAW  
@@ -131,7 +129,7 @@ C-----------------------------------------------
                          ENDDO   
                        ELSE
                          DO II = LFT, LLT
-                           IF(GBUF%TB(II) == -EP20)THEN
+                           IF(GBUF%TB(II) == -EP37)THEN
                              GBUF%TB(II) = ZERO
                            ENDIF
                          ENDDO                                        
