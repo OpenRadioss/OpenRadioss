@@ -70,8 +70,9 @@ C-----------------------------------------------
        LENCPUNAM=LEN_TRIM(CPUNAM)
        LENARCHTIT=LEN_TRIM(ARCH_TIT)
 
+       CALL DATE_AND_TIME(DATE=YEARSTRING)
        WRITE(COPYRIGHTLINE,'(A,A,A)') 'COPYRIGHT (C) 1986-',
-     *                 YEARSTRING(1:LENYS),
+     *                 YEARSTRING(1:4),
      *          " Altair Engineering, Inc.                "
 
        CALL PRINTCENTER(" ",0,IOUT,1)
