@@ -91,7 +91,7 @@ C-----------------------------------------------
       CHARACTER (LEN=4) :: CLAW
       CHARACTER(LEN=nchartitle) :: TITLE
       LOGICAL :: IS_AVAILABLE
-      INTEGER NLINES,J,MAT_ID,LENGTH
+      INTEGER NLINES,J,LENGTH
       INTEGER SCR_FILE_NAME_LEN,OPEN_RESULT,LEN_FILNAM
       CHARACTER*256 MDS_FILES(3)
       CHARACTER(len=4096) :: TMP_NAME
@@ -130,7 +130,7 @@ C-----------------------------------------------
         IF ( .NOT. ALLOCATED(MDS_LABEL) ) ALLOCATE(MDS_LABEL(1024))
         IF ( .NOT. ALLOCATED(MDS_LABEL_SIZES) ) ALLOCATE(MDS_LABEL_SIZES(1024))
                
-        CALL RAD_UMAT_INPUT_OPEN(TMP_NAME,LEN_FILNAM,OPEN_RESULT)
+        CALL RAD_UMAT_INPUT_OPEN(SCR_FILE_NAME,SCR_FILE_NAME_LEN,OPEN_RESULT)
 
         CALL ST_READ_MDS(  UPARAM ,MAXUPARAM,NUPARAM,
      .                     NUVAR  ,IFUNC ,MAXFUNC,NFUNC   ,
@@ -149,7 +149,7 @@ C-----------------------------------------------
           MDS_LABEL_SIZES(J)=LEN_TRIM(MDS_LABEL(J))
         ENDDO
 
-        CALL ADD_MDS_MATERIAL ( MAT_ID,
+        CALL ADD_MDS_MATERIAL ( MATID,
      *                          MDS_FILES(1), LF1,
      *                          MDS_FILES(2), LF2,
      *                          MDS_FILES(3), LF3,
