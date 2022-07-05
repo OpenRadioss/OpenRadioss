@@ -3,12 +3,6 @@ name: Developer CI
 on:
   
   pull_request:
-    paths:    
-      - '.github/workflows/*.yml'
-
-  pull_request_target:
-    paths-ignore:    
-      - '.github/workflows/*.yml'
       
 env:
   QA_TIMEOUT_PER_TEST: 150
