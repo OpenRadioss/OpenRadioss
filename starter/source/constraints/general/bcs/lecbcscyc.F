@@ -212,7 +212,7 @@ C-------/IMPDIS,IMPVEL,IMPACC
         ITAGIMP(1:NUMNOD)=0
         DO J=1,NFXVEL
           N1 =IABS(IBFV(1,J))
-          ISK = IBFV(2,J)/2
+          ISK = IBFV(2,J)/10
           ICOOR = IBFV(10,J)
           IF (ITAGIMP(N1)==0) THEN
             IF (ICOOR==1) THEN
