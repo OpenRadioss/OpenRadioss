@@ -60,7 +60,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(NEL) ,INTENT(OUT) :: SSP,
      .   SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX
       my_real ,DIMENSION(NEL,3) ,INTENT(INOUT) :: SIGI
-      INTEGER ,DIMENSION(NSENSR,NSENSOR) ,INTENT(IN) :: SENSOR
+      my_real ,DIMENSION(NSENSR,NSENSOR) ,INTENT(IN) :: SENSOR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -83,6 +83,7 @@ C=======================================================================
       ISENS = NINT(UPARAM(13))
       ZEROSTRESS = UPARAM(14)
       SSP(1:NEL) = UPARAM(9)
+      TSTART = ZERO
 c-------------------------
       DO I=1,NEL
         SIGNXX(I) = A11*EPSXX(I) + A12*EPSYY(I)
@@ -119,56 +120,52 @@ C-----------------------------
 c-----------------------------------------------------------
 c     REF-STATE ZEROSTRESS OPTION
 c-----------------------------------------------------------
-      IF (ZEROSTRESS /= ZERO)THEN
-        TSTART = ZERO
-        DO II=1,NSENSOR
-          IF (ISENS == LSENSOR(1,II)) THEN
-            TSTART  = SENSOR(2,II)
-            EXIT
-          ENDIF
-        ENDDO
-c          
-        DO I=1,NEL
-          IF (TT <= TSTART) THEN
+      IF (ZEROSTRESS /= ZERO) THEN
+        IF (ISENS > 0) TSTART = SENSOR(2,ISENS)
+c        
+        IF (TT <= TSTART) THEN
+          DO I=1,NEL
             SIGI(I,1) = SIGNXX(I)
             SIGI(I,2) = SIGNYY(I)
             SIGI(I,3) = SIGNXY(I)
             SIGNXX(I) = ZERO
             SIGNYY(I) = ZERO
             SIGNXY(I) = ZERO
-          ELSE
+          END DO
+        ELSE
+          DO I=1,NEL
             DSIG = SIGNXX(I) - SIGOXX(I) - SIGI(I,1)
             IF (SIGI(I,1) > ZERO .AND. DSIG < ZERO) THEN
-              SIGI(I,1) = MAX(ZERO,SIGI(I,1)+ZEROSTRESS*DSIG)
+              SIGI(I,1) = MAX(ZERO,SIGI(I,1) + ZEROSTRESS*DSIG)
             ELSEIF (SIGI(I,1) < ZERO .AND. DSIG > ZERO) THEN
-              SIGI(I,1) = MIN(ZERO,SIGI(I,1)+ZEROSTRESS*DSIG)
+              SIGI(I,1) = MIN(ZERO,SIGI(I,1) + ZEROSTRESS*DSIG)
             ENDIF
             DSIG = SIGNYY(I) - SIGOYY(I) - SIGI(I,2)
             IF (SIGI(I,2) > ZERO .AND. DSIG < ZERO) THEN
-              SIGI(I,2) = MAX(ZERO,SIGI(I,2)+ZEROSTRESS*DSIG)
+              SIGI(I,2) = MAX(ZERO,SIGI(I,2) + ZEROSTRESS*DSIG)
             ELSEIF (SIGI(I,2) < ZERO .AND. DSIG > ZERO) THEN
-              SIGI(I,2) = MIN(ZERO,SIGI(I,2)+ZEROSTRESS*DSIG)
+              SIGI(I,2) = MIN(ZERO,SIGI(I,2) + ZEROSTRESS*DSIG)
             ENDIF
             DSIG = SIGNXY(I) - SIGOXY(I) - SIGI(I,3)
             IF (SIGI(I,3) > ZERO .AND. DSIG < ZERO) THEN
               SIGI(I,3) = MAX(ZERO,SIGI(I,3)+ZEROSTRESS*DSIG)
             ELSEIF (SIGI(I,3) < ZERO .AND. DSIG > ZERO) THEN
-              SIGI(I,3) = MIN(ZERO,SIGI(I,3)+ZEROSTRESS*DSIG)
+              SIGI(I,3) = MIN(ZERO,SIGI(I,3) + ZEROSTRESS*DSIG)
             ENDIF
             SIGNXX(I) = SIGNXX(I) - SIGI(I,1)
             SIGNYY(I) = SIGNYY(I) - SIGI(I,2)
             SIGNXY(I) = SIGNXY(I) - SIGI(I,3)
-          ENDIF
-        ENDDO
+          ENDDO
+        ENDIF
       ENDIF
 c
 C------for QEPH-------       
-       IF (FLAG_ZCFAC) THEN
-         DO I=1,NEL
-           ZCFAC(I,1) = ZCFAC(I,1) + ET(I) / NPTTOT
-           ZCFAC(I,2) = MIN(ET(I),ZCFAC(I,2))
-         ENDDO
-       ENDIF
+      IF (FLAG_ZCFAC) THEN
+        DO I=1,NEL
+          ZCFAC(I,1) = ZCFAC(I,1) + ET(I) / NPTTOT
+          ZCFAC(I,2) = MIN(ET(I),ZCFAC(I,2))
+        ENDDO
+      ENDIF
 c--------------------------------------------------------
       RETURN
       END

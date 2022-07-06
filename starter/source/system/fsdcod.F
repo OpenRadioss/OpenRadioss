@@ -1890,23 +1890,28 @@ C----------------------------
 C     MATERIAL LAWS
 C----------------------------
 C
-       DO I=1,NUMMAT
-        ILAW=NINT(PM(19,I))
-        IF(ILAW == 19) THEN
-          ID=IPM(1,I)
+      DO I=1,NUMMAT
+        ILAW = NINT(PM(19,I))
+        IF (ILAW == 19) THEN
+          ID = IPM(1,I)
           CALL FRETITL2(TITR,IPM(NPROPMI-LTITR+1,I),LTITR)
-          ISENS = IPM(5,I)
+          IADD  = IPM(7,I) - 1
+          ISENS = BUFMAT(IADD+13)
           IOK = 0
-          IF(ISENS.NE.0) THEN
+          IF (ISENS > 0) THEN
             DO J=1,NSENSOR
-              IF(ISENS.EQ.LSENSOR(1,J)) IOK = 1
+              IF (ISENS == LSENSOR(1,J)) THEN
+                BUFMAT(IADD+13) = J
+                IOK = 1
+                EXIT
+              END IF
             ENDDO
-            IF(IOK == 0)  
+            IF (IOK == 0)  
      .        CALL ANCMSG(MSGID=1240,ANMODE=ANINFO,MSGTYPE=MSGWARNING,
      .                    I1=ID,C1=TITR,I2=ISENS) 
           ENDIF
         ENDIF
-       ENDDO
+      ENDDO
 C-------------------------
 C  CONVECTIVE HEAT FLUX
 C-------------------------
