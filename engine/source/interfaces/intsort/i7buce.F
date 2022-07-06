@@ -425,7 +425,7 @@ C     I_MEM = 3 ==> TROP NIVEAUX PILE
 C taille de boite non diminuee
 C        MINBOX= THREE_OVER_4*MINBOX
 C        MAXBOX= THREE_OVER_4*MAXBOX
-        IF( TZINF.LE.MAX(GAP,DRAD)  ) THEN
+        IF( TZINF.LE.MAX(GAP+DGAPLOAD,DRAD)  ) THEN
           CALL ANCMSG(MSGID=98,ANMODE=ANINFO,
      .            I1=NOINT,C1='(I7BUCE)')
           CALL ARRET(2)

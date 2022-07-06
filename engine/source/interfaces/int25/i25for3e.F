@@ -1429,6 +1429,30 @@ C
         ENDDO
        ENDIF
       ENDIF
+C------------For /LOAD/PRESSURE tag nodes in contact-------------
+      TAGIP(1:JLT) = 0
+      IF(NINLOADP > 0) THEN
+         DO K = KLOADPINTER(NIN)+1, KLOADPINTER(NIN+1) 
+            PP = LOADPINTER(K)
+            PPL = LOADP_HYD_INTER(PP)
+            DGAPLOAD = DGAPLOADINT(K)
+            DO I=1,JLT
+               GAPP= GAPVE(I) + DGAPLOAD
+               IF(PENE(I) > ZERO .OR.DIST(I) <= GAPP) THEN
+                 TAGIP(I) = 1
+                 TAGNCONT(PPL,M1(I)) = 1
+                 TAGNCONT(PPL,M2(I)) = 1
+                 IF(CS_LOC(I).LE.NEDGE) THEN
+C  SPMD : do same after reception of forces for remote nodes 
+                  TAGNCONT(PPL,N1(I)) = 1
+                  TAGNCONT(PPL,N2(I)) = 1
+                ENDIF
+              ENDIF
+            ENDDO
+         ENDDO
+
+      ENDIF
+C
 C=======================================================================
 C     FORCES sur noeuds maites et second
 C=======================================================================
@@ -1458,7 +1482,7 @@ C=======================================================================
      4                FZ2   ,FX3    ,FY3   ,FZ3   ,FX4     ,
      5                FY4   ,FZ4    ,FSKYI ,ISKY  ,NISKYFIE,
      6                STIF  ,NEDGE  ,NIN   ,NOINT ,PENE    ,
-     7                IBM   ,EDGE_ID)
+     7                IBM   ,EDGE_ID,TAGIP )
        ELSE
          CALL I25ASSE25(JLT  ,CS_LOC ,N1    ,N2      ,M1    ,
      2                 M2   ,HS1    ,HS2   ,HM1     ,HM2   ,
@@ -1467,7 +1491,7 @@ C=======================================================================
      5                 FY4  ,FZ4    ,ISKY  ,NISKYFIE,NEDGE ,
      6                 K1   ,K2     ,K3    ,K4      ,C1    ,
      7                 C2   ,C3     ,C4    ,NIN     , NOINT,
-     8                 PENE ,IBM    )
+     8                 PENE ,IBM    ,TAGIP )
        END IF
       END IF            
 C
@@ -1492,31 +1516,6 @@ C
 C
 C---------------------------------
 
-C------------For /LOAD/PRESSURE tag nodes in contact-------------
-      TAGIP(1:JLT) = 0
-      IF(NINLOADP > 0) THEN
-         DO K = KLOADPINTER(NIN)+1, KLOADPINTER(NIN+1) 
-            PP = LOADPINTER(K)
-            PPL = LOADP_HYD_INTER(PP)
-            DGAPLOAD = DGAPLOADINT(K)
-            DO I=1,JLT
-               GAPP= GAPVE(I) + DGAPLOAD
-               IF(PENE(I) > ZERO .OR.DIST(I) <= GAPP) THEN
-                 TAGIP(I) = 1
-                 TAGNCONT(PPL,M1(I)) = 1
-                 TAGNCONT(PPL,M2(I)) = 1
-                 IF(CS_LOC(I).LE.NEDGE) THEN
-C  SPMD : do same after reception of forces for remote nodes 
-                  TAGNCONT(PPL,N1(I)) = 1
-                  TAGNCONT(PPL,N2(I)) = 1
-                ENDIF
-              ENDIF
-            ENDDO
-         ENDDO
-
-      ENDIF
-
-C
       IF (NSPMD.GT.1) THEN
 Ctmp+1 mic only
 #include "mic_lockon.inc"

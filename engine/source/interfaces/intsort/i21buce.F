@@ -267,7 +267,7 @@ C
 C       SEPARER B ET N EN TWO
 C
 C     MARGE plus importante que dans le critere de tri.
-      MARGE = TZINF - MAX(DEPTH + DGAPLOAD,DRAD)
+      MARGE = TZINF - MAX(DEPTH,GAP + DGAPLOAD,DRAD)
       CALL I21TRI(
      1   ADD      ,NSN      ,IRECT   ,XLOC      ,STF_L    ,
      2   STFN     ,XYZM     ,I_ADD   ,MAXSIZ    ,II_STOK  ,
@@ -309,7 +309,7 @@ C     I_MEM = 3 ==> TROP NIVEAUX PILE
         TZINF = THREE_OVER_4*TZINF
         MINBOX= THREE_OVER_4*MINBOX
         MAXBOX= THREE_OVER_4*MAXBOX
-        IF( TZINF.LE.MAX(DEPTH+ DGAPLOAD,DRAD) ) THEN
+        IF( TZINF.LE.MAX(DEPTH,GAP+ DGAPLOAD,DRAD) ) THEN
           IF (ISTAMPING == 1)THEN
             CALL ANCMSG(MSGID=101,ANMODE=ANINFO,
      .                  I1=NOINT,I2=NOINT)

@@ -302,7 +302,7 @@ Chd|====================================================================
      4                   FZ2   ,FX3    ,FY3   ,FZ3   ,FX4     ,
      5                   FY4   ,FZ4    ,FSKYI ,ISKY  ,NISKYFIE,
      6                   STIF  ,NEDGE   ,NIN   ,NOINT ,PENE    ,
-     7                   IBM   ,EDGE_ID)
+     7                   IBM   ,EDGE_ID,TAGIP)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -340,6 +340,7 @@ C-----------------------------------------------
      .        FX4(*),FY4(*),FZ4(*),
      .        FSKYI(LSKYI,NFSKYI), STIF(*), PENE(*)
       INTEGER :: EDGE_ID(2,MVSIZ)
+      INTEGER , INTENT(IN) :: TAGIP(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -348,18 +349,18 @@ C     WRITE(6,*) __FILE__,"[IN] I25ASS2"
 C
       NISKYL1 = 0
       DO I = 1, JLT
-        IF(PENE(I)==ZERO) CYCLE
-        IF (HM1(I).NE.ZERO) NISKYL1 = NISKYL1 + 1
-        IF (HM2(I).NE.ZERO) NISKYL1 = NISKYL1 + 1
-        IF (HM1(I).NE.ZERO.AND.IBM(I)>=0) NISKYL1 = NISKYL1 + 1
-        IF (HM2(I).NE.ZERO.AND.IBM(I)>=0) NISKYL1 = NISKYL1 + 1
+        IF (PENE(I)==ZERO.OR.TAGIP(I)==0) CYCLE
+        IF (HM1(I).NE.ZERO.OR.TAGIP(I)==1) NISKYL1 = NISKYL1 + 1
+        IF (HM2(I).NE.ZERO.OR.TAGIP(I)==1) NISKYL1 = NISKYL1 + 1
+        IF ((HM1(I).NE.ZERO.OR.TAGIP(I)==1).AND.IBM(I)>=0) NISKYL1 = NISKYL1 + 1
+        IF ((HM2(I).NE.ZERO.OR.TAGIP(I)==1).AND.IBM(I)>=0) NISKYL1 = NISKYL1 + 1
       ENDDO
 
       IGP = 0
       IGM = 0
 
       DO I=1,JLT
-        IF(PENE(I)==ZERO) CYCLE
+        IF(PENE(I)==ZERO.OR.TAGIP(I)==0) CYCLE
         IF(CS_LOC(I).LE.NEDGE) THEN
            IGP = IGP+2
            IF(IBM(I)>=0) IGP=IGP+2
@@ -391,7 +392,7 @@ C
       DO I=1,JLT
 
 
-        IF(PENE(I)==ZERO) CYCLE
+        IF(PENE(I)==ZERO.OR.TAGIP(I)==0) CYCLE
 C
 
         IF(CS_LOC(I).LE.NEDGE) THEN
@@ -468,9 +469,9 @@ C     WRITE(6,*) __FILE__,"[OUT] I25ASS2",NISKYFIEL
 
 C
       DO I=1,JLT
-       IF(PENE(I)==ZERO) CYCLE
+       IF(PENE(I)==ZERO.OR.TAGIP(I)==0) CYCLE
 C
-       IF (HM1(I).NE.ZERO) THEN
+       IF (HM1(I).NE.ZERO.OR.TAGIP(I)==1) THEN
         NISKYL = NISKYL + 1
         FSKYI(NISKYL,1)=FX3(I)
         FSKYI(NISKYL,2)=FY3(I)
@@ -479,7 +480,7 @@ C
         ISKY(NISKYL) = M1(I)
        ENDIF
 C
-       IF (HM1(I).NE.ZERO.AND.IBM(I)>=0) THEN
+       IF ((HM1(I).NE.ZERO.OR.TAGIP(I)==1).AND.IBM(I)>=0) THEN
         NISKYL = NISKYL + 1
         FSKYI(NISKYL,1)=FX3(I)
         FSKYI(NISKYL,2)=FY3(I)
@@ -489,9 +490,9 @@ C
        ENDIF
       ENDDO
       DO I=1,JLT
-       IF(PENE(I)==ZERO) CYCLE
+       IF(PENE(I)==ZERO.OR.TAGIP(I)==0) CYCLE
 C
-       IF (HM2(I).NE.ZERO) THEN
+       IF (HM2(I).NE.ZERO.OR.TAGIP(I)==1) THEN
         NISKYL = NISKYL + 1
         FSKYI(NISKYL,1)=FX4(I)
         FSKYI(NISKYL,2)=FY4(I)
@@ -500,7 +501,7 @@ C
         ISKY(NISKYL) = M2(I)
        ENDIF
 C
-       IF (HM2(I).NE.ZERO.AND.IBM(I)>=0) THEN
+       IF ((HM2(I).NE.ZERO.OR.TAGIP(I)==1).AND.IBM(I)>=0) THEN
         NISKYL = NISKYL + 1
         FSKYI(NISKYL,1)=FX4(I)
         FSKYI(NISKYL,2)=FY4(I)
@@ -532,7 +533,7 @@ Chd|====================================================================
      5                    FY4   ,FZ4    ,ISKY  ,NISKYFIE,NEDGE  ,
      6                    K1    ,K2     ,K3    ,K4      ,C1    ,
      7                    C2    ,C3     ,C4    ,NIN     ,NOINT ,
-     8                    PENE  ,IBM    )
+     8                    PENE  ,IBM    ,TAGIP )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -560,6 +561,7 @@ C-----------------------------------------------
       INTEGER JLT, NEDGE,NISKYFIE,NIN,NOINT,
      +        CS_LOC(*),ISKY(*),
      +        N1(*),N2(*),M1(*),M2(*),IBM(*)
+      INTEGER , INTENT(IN) :: TAGIP(MVSIZ)
       my_real
      .        HS1(*),HS2(*),HM1(*),HM2(*),
      .        FX1(*),FY1(*),FZ1(*),
@@ -576,11 +578,11 @@ C-----------------------------------------------
 C
       NISKYL1 = 0
       DO I = 1, JLT
-        IF(PENE(I)==ZERO) CYCLE
-        IF (HM1(I).NE.ZERO) NISKYL1 = NISKYL1 + 1
-        IF (HM2(I).NE.ZERO) NISKYL1 = NISKYL1 + 1
-        IF (HM1(I).NE.ZERO.AND.IBM(I)>=0) NISKYL1 = NISKYL1 + 1
-        IF (HM2(I).NE.ZERO.AND.IBM(I)>=0) NISKYL1 = NISKYL1 + 1
+        IF(PENE(I)==ZERO.OR.TAGIP(I)==0) CYCLE
+        IF (HM1(I).NE.ZERO.OR.TAGIP(I)==1) NISKYL1 = NISKYL1 + 1
+        IF (HM2(I).NE.ZERO.OR.TAGIP(I)==1) NISKYL1 = NISKYL1 + 1
+        IF ((HM1(I).NE.ZERO.OR.TAGIP(I)==1).AND.IBM(I)>=0) NISKYL1 = NISKYL1 + 1
+        IF ((HM2(I).NE.ZERO.OR.TAGIP(I)==1).AND.IBM(I)>=0) NISKYL1 = NISKYL1 + 1
       ENDDO
 
       IGP = 0
@@ -610,7 +612,7 @@ C
       ENDIF
 C
       DO I=1,JLT
-        IF(PENE(I)==ZERO) CYCLE
+        IF(PENE(I)==ZERO.OR.TAGIP(I)==0) CYCLE
 C
         IF(CS_LOC(I).LE.NEDGE) THEN
           NISKYL = NISKYL + 1
@@ -681,9 +683,9 @@ C           WRITE(6,*) "ISKYFIE(",NISKYFIEL,")=",ISKYFIE(NIN)%P(NISKYFIEL),LOC(I
       END DO
 C
       DO I=1,JLT
-        IF(PENE(I)==ZERO) CYCLE
+        IF(PENE(I)==ZERO.OR.TAGIP(I)==0) CYCLE
 C
-        IF (HM1(I).NE.ZERO) THEN
+        IF (HM1(I).NE.ZERO.OR.TAGIP(I)==1) THEN
          NISKYL = NISKYL + 1
          FSKYI(NISKYL,1)=FX3(I)
          FSKYI(NISKYL,2)=FY3(I)
@@ -693,7 +695,7 @@ C
          ISKY(NISKYL) = M1(I)
         ENDIF
 C
-        IF (HM1(I).NE.ZERO.AND.IBM(I)>=0) THEN
+        IF ((HM1(I).NE.ZERO.OR.TAGIP(I)==1).AND.IBM(I)>=0) THEN
          NISKYL = NISKYL + 1
          FSKYI(NISKYL,1)=FX3(I)
          FSKYI(NISKYL,2)=FY3(I)
@@ -704,9 +706,9 @@ C
         ENDIF
       ENDDO
       DO I=1,JLT
-        IF(PENE(I)==ZERO) CYCLE
+        IF(PENE(I)==ZERO.OR.TAGIP(I)==0) CYCLE
 C
-        IF (HM2(I).NE.ZERO) THEN
+        IF (HM2(I).NE.ZERO.OR.TAGIP(I)==1) THEN
          NISKYL = NISKYL + 1
          FSKYI(NISKYL,1)=FX4(I)
          FSKYI(NISKYL,2)=FY4(I)
@@ -716,7 +718,7 @@ C
          ISKY(NISKYL) = M2(I)
         ENDIF
 C
-        IF (HM2(I).NE.ZERO.AND.IBM(I)>=0) THEN
+        IF ((HM2(I).NE.ZERO.OR.TAGIP(I)==1).AND.IBM(I)>=0) THEN
          NISKYL = NISKYL + 1
          FSKYI(NISKYL,1)=FX4(I)
          FSKYI(NISKYL,2)=FY4(I)

@@ -522,7 +522,7 @@ C
                  TZ = MAX(DRAD,DGAPLOAD+MAX(MIN(GAP_S_L(JJ)+GAP_M_L(NE),GAPMAX),GAPMIN)
      .           +MARGE+CURV_MAX(NE))
                ELSE
-                 TZ=MAX(DRAD,MAX(MIN(GAP_S(JJ)+GAP_M(NE),GAPMAX),GAPMIN)
+                 TZ=MAX(DRAD,DGAPLOAD+MAX(MIN(GAP_S(JJ)+GAP_M(NE),GAPMAX),GAPMIN)
      +           +MARGE+CURV_MAX(NE))
                ENDIF
              ELSE

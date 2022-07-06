@@ -40,7 +40,8 @@ Chd|====================================================================
      C   GAPVE  ,EX    ,EY    ,EZ    ,FX    ,
      D   FY     ,FZ    ,LEDGE ,IRECT ,CAND_P ,
      E   IAM    ,JAM    ,IBM    ,JBM    ,IAS    ,
-     F   JAS    ,IBS    ,JBS    ,ITAB   ,EDGE_ID)
+     F   JAS    ,IBS    ,JBS    ,ITAB   ,EDGE_ID,
+     G   DGAPLOADPMAX)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -75,6 +76,7 @@ C-----------------------------------------------
      .     MS1(*) ,MS2(*) ,MM1(*) ,MM2(*),
      .     GAPVE(*), EX(*), EY(*), EZ(*), FX(*), FY(*), FZ(*), 
      .     CAND_P(*)
+      my_real  , INTENT(IN) :: DGAPLOADPMAX
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -186,7 +188,7 @@ C!!!!!!!!!!!!!!!!!!!!!!!!
      .       - H1M(I)*XZM1(I) - H2M(I)*XZM2(I)
        NN(I)= NX(I)*NX(I) + NY(I)*NY(I) + NZ(I)*NZ(I)
 
-       GAP2 = GAPVE(I)*GAPVE(I)
+       GAP2 = (GAPVE(I)+DGAPLOADPMAX)*(GAPVE(I)+DGAPLOADPMAX)
        PENE2(I) = GAP2 - NN(I)
        PENE2(I) = MAX(ZERO,PENE2(I)) 
 

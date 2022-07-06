@@ -272,11 +272,31 @@ C
       IF(INTPLY == 0) THEN
        DO I=1,JLT
         IF(PENE(I) == ZERO)THEN
-        H1(I) = ZERO
-        H2(I) = ZERO
-        H3(I) = ZERO
-        H4(I) = ZERO
-        FNI(I)= ZERO 
+          H1(I) = ZERO
+          H2(I) = ZERO
+          H3(I) = ZERO
+          H4(I) = ZERO
+          FNI(I)= ZERO 
+C
+          FXI(I)=ZERO
+          FYI(I)=ZERO
+          FZI(I)=ZERO
+C
+          FX1(I)=ZERO
+          FY1(I)=ZERO
+          FZ1(I)=ZERO
+C
+          FX2(I)=ZERO
+          FY2(I)=ZERO
+          FZ2(I)=ZERO
+C
+          FX3(I)=ZERO
+          FY3(I)=ZERO
+          FZ3(I)=ZERO
+C
+          FX4(I)=ZERO
+          FY4(I)=ZERO
+          FZ4(I)=ZERO
        ELSE
         VX(I) = VXI(I) - H1(I)*V(1,IX1(I)) - H2(I)*V(1,IX2(I))
      .                 - H3(I)*V(1,IX3(I)) - H4(I)*V(1,IX4(I))
@@ -296,6 +316,26 @@ C
           H3(I) = ZERO
           H4(I) = ZERO
           FNI(I)= ZERO 
+C
+          FXI(I)=ZERO
+          FYI(I)=ZERO
+          FZI(I)=ZERO
+C
+          FX1(I)=ZERO
+          FY1(I)=ZERO
+          FZ1(I)=ZERO
+C
+          FX2(I)=ZERO
+          FY2(I)=ZERO
+          FZ2(I)=ZERO
+C
+          FX3(I)=ZERO
+          FY3(I)=ZERO
+          FZ3(I)=ZERO
+C
+          FX4(I)=ZERO
+          FY4(I)=ZERO
+          FZ4(I)=ZERO
          ELSE
           JJ = IPLY(1,I)
           NN1 =INOD_PXFEM(IX1(I))
@@ -1336,46 +1376,6 @@ C
          END DO
         END IF 
       END IF
-
-C------------For /LOAD/PRESSURE tag nodes in contact-------------
-      TAGIP(1:JLT) = 0
-      IF(NINLOADP > 0) THEN
-         DO K = KLOADPINTER(NIN)+1, KLOADPINTER(NIN+1) 
-            PP = LOADPINTER(K)
-            PPL = LOADP_HYD_INTER(PP)
-            DGAPLOAD = DGAPLOADINT(K)
-            DO I=1,JLT
-               GAPP= GAPV(I) + DGAPLOAD
-               IF(DIST(I) <= GAPP.AND.DIST(I) >= ZERO) THEN
-                  TAGIP(I) = 1
-                  TAGNCONT(PPL,IXX(I,1)) = 1
-                  TAGNCONT(PPL,IXX(I,2)) = 1
-                  TAGNCONT(PPL,IXX(I,3)) = 1
-                  TAGNCONT(PPL,IXX(I,4)) = 1
-                  JG = NSVG(I)
-                  IF(JG.GT.0) THEN
-C  SPMD : do same after reception of forces for remote nodes
-                    IF (JG <= NUMNOD) THEN 
-                      TAGNCONT(PPL,JG) = 1
-                    ELSE
-                      IG = JG - NUMNOD
-                      IF (IG > 0) THEN
-                         IF (IS2SE(1,IG) > 0) THEN
-                            IE = IS2SE(1,IG)
-                         ELSEIF(IS2SE(2,IG) > 0) THEN
-                            IE = IS2SE(2,IG)
-                         END IF
-                         DO J =1,4
-                            TAGNCONT(PPL,IRTSE(J,IE)) = 1
-                         END DO
-                      ENDIF
-                    ENDIF
-                  ENDIF
-               ENDIF
-            ENDDO
-         ENDDO
-
-      ENDIF
 
 C---------------------------------
 C       NEW FRICTION MODELS
@@ -3234,6 +3234,52 @@ C
       IF(IDTMINS_INT/=0)THEN
         STIF(1:JLT)=ZERO
       END IF
+C------------For /LOAD/PRESSURE tag nodes in contact-------------
+      TAGIP(1:JLT) = 0
+      IF(NINLOADP > 0) THEN
+         DO K = KLOADPINTER(NIN)+1, KLOADPINTER(NIN+1) 
+            PP = LOADPINTER(K)
+            PPL = LOADP_HYD_INTER(PP)
+            DGAPLOAD = DGAPLOADINT(K)
+            DO I=1,JLT
+               GAPP= GAPV(I) + DGAPLOAD
+               IF((PENE(I).NE.ZERO).OR.(DIST(I) <= GAPP.AND.DIST(I) >= ZERO)) THEN
+                  TAGIP(I) = 1
+                  IF(PENE(I)==ZERO) THEN
+                     IX1(I) = IXX(I,1)
+                     IX2(I) = IXX(I,2)
+                     IX3(I) = IXX(I,3)
+                     IX4(I) = IXX(I,4)
+                  ENDIF
+                  TAGNCONT(PPL,IXX(I,1)) = 1
+                  TAGNCONT(PPL,IXX(I,2)) = 1
+                  TAGNCONT(PPL,IXX(I,3)) = 1
+                  TAGNCONT(PPL,IXX(I,4)) = 1
+                  JG = NSVG(I)
+                  IF(JG.GT.0) THEN
+C  SPMD : do same after reception of forces for remote nodes
+                    IF (JG <= NUMNOD) THEN 
+                      TAGNCONT(PPL,JG) = 1
+                    ELSE
+                      IG = JG - NUMNOD
+                      IF (IG > 0) THEN
+                         IF (IS2SE(1,IG) > 0) THEN
+                            IE = IS2SE(1,IG)
+                         ELSEIF(IS2SE(2,IG) > 0) THEN
+                            IE = IS2SE(2,IG)
+                         END IF
+                         DO J =1,4
+                            TAGNCONT(PPL,IRTSE(J,IE)) = 1
+                         END DO
+                      ENDIF
+                    ENDIF
+                  ENDIF
+               ENDIF
+            ENDDO
+         ENDDO
+
+      ENDIF
+
 C
       IF(IPARIT.EQ.3)THEN
          stop 789
@@ -3255,7 +3301,7 @@ C
      5                FXI   ,FYI   ,FZI  ,FSKYI,ISKY ,NISKYFI,
      6                NIN   ,NOINT ,INTTH,PHI  ,FTHESKYI ,PHI1,
      7                PHI2  ,PHI3 , PHI4 ,ITAB ,INTPLY,IPLY   ,
-     8                INOD_PXFEM  ,IRTSE ,NSNE   ,IS2SE  ,IS2PT)
+     8                INOD_PXFEM,IRTSE,NSNE,IS2SE,IS2PT,TAGIP )
       ENDIF
 C
       IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT.GT.0)THEN
@@ -3452,7 +3498,7 @@ Chd|====================================================================
      5                  FXI   ,FYI   ,FZI  ,FSKYI,ISKY  ,NISKYFI,
      6                  NIN   ,NOINT ,INTTH,PHI  ,FTHESKYI,PHI1,
      7                  PHI2  ,PHI3 , PHI4 ,ITAB,INTPLY ,IPLY  ,
-     8                  INOD  ,IRTSE ,NSNE  ,IS2SE  ,IS2PT)     
+     8                  INOD  ,IRTSE ,NSNE  ,IS2SE  ,IS2PT,TAGIP)     
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -3488,6 +3534,7 @@ C-----------------------------------------------
      .        IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),NSVG(MVSIZ),
      .        INTPLY,IPLY(4,*),INOD(*),
      .        IRTSE(5,*),NSNE ,IS2SE(2,*),IS2PT(*)
+      INTEGER , INTENT(INOUT) :: TAGIP(MVSIZ)
       my_real
      .    H1(MVSIZ),H2(MVSIZ),H3(MVSIZ),H4(MVSIZ),STIF(MVSIZ),
      .    FX1(MVSIZ),FY1(MVSIZ),FZ1(MVSIZ),
@@ -3507,22 +3554,22 @@ C-----------------------------------------------
       INTEGER se
 C
       NISKYL1 = 0
+      TAGIP(1:JLT) = 0
       DO I = 1, JLT
        HH(I)=H1(I)+H2(I)+H3(I)+H4(I)
-       IF(HH(I)==ZERO)CYCLE
-        IF (H1(I).NE.ZERO) NISKYL1 = NISKYL1 + 1
-        IF (H2(I).NE.ZERO) NISKYL1 = NISKYL1 + 1
-        IF (H3(I).NE.ZERO) NISKYL1 = NISKYL1 + 1
-        IF (H4(I).NE.ZERO) NISKYL1 = NISKYL1 + 1
-        
-      ENDDO
+       IF(HH(I)==ZERO.OR.TAGIP(I)==0)CYCLE
+        IF (H1(I).NE.ZERO.OR.TAGIP(I)==1) NISKYL1 = NISKYL1 + 1
+        IF (H2(I).NE.ZERO.OR.TAGIP(I)==1) NISKYL1 = NISKYL1 + 1
+        IF (H3(I).NE.ZERO.OR.TAGIP(I)==1) NISKYL1 = NISKYL1 + 1
+        IF (H4(I).NE.ZERO.OR.TAGIP(I)==1) NISKYL1 = NISKYL1 + 1
+      ENDDO   
 C
 C Precalcul impact locaux / remote
 C
       IGP = 0
       IGM = 0
       DO I=1,JLT
-       IF(HH(I)==ZERO)CYCLE
+       IF(HH(I)==ZERO.OR.TAGIP(I)==0)CYCLE
         IG =NSVG(I)
         IF(IG.GT.0) THEN
           IGP = IGP+1
@@ -3552,7 +3599,7 @@ C
       IF(INTTH == 0 ) THEN
        IF(INTPLY == 0 )THEN
         DO I=1,JLT
-          IF (H1(I).NE.0.) THEN
+          IF (H1(I).NE.ZERO.OR.TAGIP(I)==1) THEN
             NISKYL = NISKYL + 1
             FSKYI(NISKYL,1)=FX1(I)
             FSKYI(NISKYL,2)=FY1(I)
@@ -3562,7 +3609,7 @@ C
           ENDIF
         ENDDO
         DO I=1,JLT
-          IF (H2(I).NE.ZERO) THEN
+          IF (H2(I).NE.ZERO.OR.TAGIP(I)==1) THEN
             NISKYL = NISKYL + 1
             FSKYI(NISKYL,1)=FX2(I)
             FSKYI(NISKYL,2)=FY2(I)
@@ -3572,7 +3619,7 @@ C
           ENDIF
         ENDDO
         DO I=1,JLT
-          IF (H3(I).NE.ZERO) THEN
+          IF (H3(I).NE.ZERO.OR.TAGIP(I)==1) THEN
             NISKYL = NISKYL + 1
             FSKYI(NISKYL,1)=FX3(I)
             FSKYI(NISKYL,2)=FY3(I)
@@ -3582,7 +3629,7 @@ C
           ENDIF
         ENDDO
         DO I=1,JLT
-          IF (H4(I).NE.ZERO) THEN
+          IF (H4(I).NE.ZERO.OR.TAGIP(I)==1) THEN
             NISKYL = NISKYL + 1
             FSKYI(NISKYL,1)=FX4(I)
             FSKYI(NISKYL,2)=FY4(I)
@@ -3593,7 +3640,7 @@ C
         ENDDO
 C
         DO I=1,JLT
-         IF(HH(I)==ZERO)CYCLE
+         IF(HH(I)==ZERO.OR.TAGIP(I)==0)CYCLE
           IG =NSVG(I)
           IF(IG.GT.0) THEN
             IF (IG >NUMNOD) THEN
@@ -3662,7 +3709,7 @@ C
        ELSE
 C with plyxfem formulation  s
           DO I=1,JLT
-            IF (H1(I).NE.0.) THEN
+            IF (H1(I).NE.ZERO.OR.TAGIP(I)==1) THEN
               NISKYL = NISKYL + 1
               FSKYI(NISKYL,1)=FX1(I)
               FSKYI(NISKYL,2)=FY1(I)
@@ -3678,7 +3725,7 @@ C
             ENDIF
           ENDDO
           DO I=1,JLT
-            IF (H2(I).NE.ZERO) THEN
+            IF (H2(I).NE.ZERO.OR.TAGIP(I)==1) THEN
               NISKYL = NISKYL + 1
               FSKYI(NISKYL,1)=FX2(I)
               FSKYI(NISKYL,2)=FY2(I)
@@ -3694,7 +3741,7 @@ C
             ENDIF
           ENDDO
           DO I=1,JLT
-            IF (H3(I).NE.ZERO) THEN
+            IF (H3(I).NE.ZERO.OR.TAGIP(I)==1) THEN
               NISKYL = NISKYL + 1
               FSKYI(NISKYL,1)=FX3(I)
               FSKYI(NISKYL,2)=FY3(I)
@@ -3710,7 +3757,7 @@ C
             ENDIF
           ENDDO
           DO I=1,JLT
-            IF (H4(I).NE.ZERO) THEN
+            IF (H4(I).NE.ZERO.OR.TAGIP(I)==1) THEN
               NISKYL = NISKYL + 1
               FSKYI(NISKYL,1)=FX4(I)
               FSKYI(NISKYL,2)=FY4(I)
@@ -3727,7 +3774,7 @@ C
           ENDDO
 C          
           DO I=1,JLT
-           IF(HH(I)==ZERO)CYCLE
+           IF(HH(I)==ZERO.OR.TAGIP(I)==0)CYCLE
             IG =NSVG(I)
             IF(IG.GT.0) THEN
              IF (IG >NUMNOD) THEN

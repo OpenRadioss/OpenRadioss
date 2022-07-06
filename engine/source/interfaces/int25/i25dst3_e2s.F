@@ -43,7 +43,7 @@ Chd|====================================================================
      E   CAND_P ,TYPEDGS,IAS  ,JAS   ,IBS   ,
      F   JBS    ,IAM    ,ITAB ,INDX1 ,INDX2 ,
      G   CS_LOC4,CM_LOC4, EDGE_ID, NEDGE, NIN,
-     H   E2S_NOD_NORMAL,ADMSR)
+     H   E2S_NOD_NORMAL ,ADMSR   ,DGAPLOADPMAX)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -86,6 +86,7 @@ C-----------------------------------------------
      .     EX(4,MVSIZ), EY(4,MVSIZ), EZ(4,MVSIZ),
      .     FX(MVSIZ), FY(MVSIZ) , FZ(MVSIZ)
       REAL*4 E2S_NOD_NORMAL(3,*)
+      my_real  , INTENT(IN) :: DGAPLOADPMAX
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -257,7 +258,7 @@ C!!!!!!!!!!!!!!!!!!!!!!!!!!!
           NY(EJ,I)    = -NY(EJ,I)
           NZ(EJ,I)    = -NZ(EJ,I)
 
-          PENE2(EJ,I) = NN(EJ,I)
+          PENE2(EJ,I) =  DGAPLOADPMAX*DGAPLOADPMAX - NN(EJ,I)
           DEBUG_E2E(EDGE_ID(1,I)==D_EM .AND. EDGE_ID(2,I) ==  D_ES,PENE2(EJ,I))
 
         ENDDO
