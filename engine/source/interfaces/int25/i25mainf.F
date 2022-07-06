@@ -243,7 +243,7 @@ C     REAL
      .    XFILTR_FRIC,FRIC_COEFS(MVSIZ,10),VISCFFRIC(MVSIZ),FRICC(MVSIZ),
      .    FRIC_COEFS2(MVSIZ,10),VISCFFRIC2(MVSIZ),FRICC2(MVSIZ),
      .    DIR1(MVSIZ,3),DIR2(MVSIZ,3),DIR_FRICMI(MVSIZ,2),FRICC_E(4*MVSIZ),
-     .    VISCFFRIC_E(4*MVSIZ),TNCY,T_PFIT,FINC
+     .    VISCFFRIC_E(4*MVSIZ),TNCY,T_PFIT,FINC,DGAPLOADPMAX
 
       INTEGER, DIMENSION(:) ,POINTER  :: TABCOUPLEPARTS_FRIC
       INTEGER, DIMENSION(:) ,POINTER  :: TABPARTS_FRIC 
@@ -364,6 +364,7 @@ c         IFQ      =   INTBUF_FRIC_TAB(INTFRIC)%IFFILTER
       EFRICT = ZERO
 C
       NINLOADP = IPARI(95,NIN) ! load pressure related to inter
+      DGAPLOADPMAX = INTBUF_TAB%VARIABLES(46)
 C
 c----------------------------------------------------
 c   Rayon de courbure : calcul des normales nodales (normees)
@@ -635,7 +636,7 @@ C          IF(PENE(I)/=ZERO.AND.STIF(I)/=ZERO)THEN
            END IF
           ENDDO
 C
-          IF(INTTH==0.AND.JLT_NEW == 0.AND.NINLOADP == 0)CYCLE
+          IF(INTTH==0.AND.JLT_NEW == 0.AND.(NINLOADP == 0.OR.DGAPLOADPMAX==ZERO))CYCLE
           IPARI(29,NIN) = 1
 C
           IF (DEBUG(3).GE.1) NB_IMPCT = NB_IMPCT + JLT_NEW
@@ -706,7 +707,7 @@ C-------------------------------------------------------------------------------
      C  INTTH       ,DRAD       ,FHEATS       ,FHEATM     ,QFRICINT(NIN),
      D  EFRICT      ,TAGNCONT   ,KLOADPINTER  ,LOADPINTER ,LOADP_HYD_INTER,
      E  INTBUF_TAB%TYPSUB,IPARI(40,NIN),NINLOADP,DGAPLOADINT,S_LOADPINTER,
-     F  DIST       )
+     F  DIST        ,DGAPLOADPMAX  )
 C
           IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(20,1)
 
@@ -878,7 +879,9 @@ C         preparation candidats retenus
      D      FY     ,FZ    ,INTBUF_TAB%LEDGE,INTBUF_TAB%IRECTM,
      .                                      INTBUF_TAB%CAND_P,
      E      IAM   ,JAM    ,IBM    ,JBM   ,IAS   ,
-     F      JAS   ,IBS    ,JBS    ,ITAB  ,EDGE_ID)
+     F      JAS   ,IBS    ,JBS    ,ITAB  ,EDGE_ID,
+     G      DGAPLOADPMAX)
+
 C
           IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(20,1)
 
@@ -1054,7 +1057,7 @@ C         preparation candidats retenus
      E      INTBUF_TAB%CAND_PS,TYPEDGS ,IAS ,JAS ,IBS ,
      F      JBS    ,IAM   ,ITAB   ,INDX1,INDX2,
      G      CS_LOC4,CM_LOC4,EDGE_ID, NEDGE, NIN,
-     H      INTBUF_TAB%E2S_NOD_NORMAL,INTBUF_TAB%ADMSR)
+     H      INTBUF_TAB%E2S_NOD_NORMAL,INTBUF_TAB%ADMSR,DGAPLOADPMAX)
 C
           ASSERT(4*JLT>=JLT_NEW)
 

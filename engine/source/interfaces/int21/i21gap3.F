@@ -77,7 +77,7 @@ C
 C Calcul du gap reel a utiliser lors du critere de retri
 C
       IF (IGAP.EQ.0) THEN
-        CRITER =MAX(GAP+DGAPLOAD,EM01*MAX(DEPTH,DRAD))
+        CRITER =MAX(GAP,EM01*MAX(DEPTH,DRAD,GAP+DGAPLOAD))
         DIST   =TZINF-MAX(GAP+DGAPLOAD,DEPTH,DRAD)
       ELSE
         CRITERL=EP30
@@ -89,7 +89,7 @@ C gap_s/=0 <=> node is still connected through non deleted shells
             GAPSUPL = MAX(GAPSUPL,GAP_S(I))
           END IF
         ENDDO
-        CRITERL=MAX(MAX(GAPMIN,CRITERL)+DGAPLOAD,EM01*MAX(DEPTH,DRAD))
+        CRITERL=MAX(MAX(GAPMIN,CRITERL),EM01*MAX(DEPTH,DRAD,GAPSUPL+DGAPLOAD))
         GAPSUPL=MIN(GAPMAX,GAPSUPL)
 #include "lockon.inc"
         CRITER=MIN(CRITER,CRITERL)

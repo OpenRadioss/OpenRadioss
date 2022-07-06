@@ -214,14 +214,16 @@ C
 C Calcul du gap reel a utiliser lors du critere de retri
 C
       IF (IGAP.EQ.0) THEN
-        CRITER=GAP + DGAPLOAD
+        CRITER=GAP 
       ELSE
         CRITER=EP30
         DO I = 1, NSN
-          CRITER = MIN(CRITER,GAP_S(I) + DGAPLOAD)
+          CRITER = MIN(CRITER,GAP_S(I))
         ENDDO
         CRITER=MAX(CRITER,GAPMIN)
       ENDIF
+C
+       IF(DGAPLOAD > ZERO) CRITER=MAX(CRITER,EM01*(GAP + DGAPLOAD))
 C
       IF(DEPTH.EQ.ZERO)THEN
 C Valeur par defaut de Depth = max( sup des gaps , largeur des elts )

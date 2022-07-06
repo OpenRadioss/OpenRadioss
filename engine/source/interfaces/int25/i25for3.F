@@ -66,7 +66,7 @@ Chd|====================================================================
      C    INTTH       ,DRAD     ,FHEATS    ,FHEATM     ,QFRIC     ,
      D    EFRICT      ,TAGNCONT ,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,
      E    TYPSUB      ,NCFIT    ,NINLOADP  ,DGAPLOADINT,S_LOADPINTER,
-     F    DIST       )
+     F    DIST        ,DGAPLOADPMAX)
 
 C-----------------------------------------------
 C   M o d u l e s
@@ -156,12 +156,13 @@ C-----------------------------------------------
      .     FSAVPARIT(NISUB+1,11,*),FRIC_COEFS(MVSIZ,10), FRICC(MVSIZ),
      .     VISCFFRIC(MVSIZ), GAPV(MVSIZ), AREAS(MVSIZ), BASE_ADH(MVSIZ),
      .     FRIC_COEFS2(MVSIZ,10),FRICC2(MVSIZ),VISCFFRIC2(MVSIZ), DIR1(MVSIZ,3),
-     .     DIR2(MVSIZ,3),
-     .     DRAD, FHEATS, FHEATM, QFRIC, EFRICT(MVSIZ)   
+     .     DIR2(MVSIZ,3), EFRICT(MVSIZ) ,
+     .     DRAD, FHEATS, FHEATM, QFRIC  
       my_real
      .     RCURVI(*), RCONTACT(*), ACONTACT(*),
      .     PCONTACT(*),PADM, ANGLMI(*),RSTIF,
      .     PENE_OLD(5,NSN),STIF_OLD(2,NSN)
+      my_real  , INTENT(IN) :: DGAPLOADPMAX
       my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
       my_real  , INTENT(INOUT) :: DIST(MVSIZ)
       TYPE(H3D_DATABASE) :: H3D_DATA
@@ -170,8 +171,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J1, IG, J, JG , K0,NBINTER,K1S,K,IL,IE, NN, NI,
      .        NA1,NA2,N,ITAG,NN1,NN2,NN3,NN4,
-     .        IGRN,ISS1,ISS2,IMS1,IMS2,PP,PPL,ITYPSUB,
-     .        TAGIP(MVSIZ)
+     .        IGRN,ISS1,ISS2,IMS1,IMS2,PP,PPL,ITYPSUB
       my_real
      .   FXR(MVSIZ), FYR(MVSIZ), FZR(MVSIZ)
       my_real
@@ -243,11 +243,12 @@ C     PENE Offset removed to i24dst3.F
 C-------------------------------------------
 C           
       DO I=1,JLT
-        IF(PENE(I) == ZERO.AND.INTTH == 0)THEN
+        IF(PENE(I) == ZERO.AND.INTTH == 0.AND.(NINLOADP==0.OR.DGAPLOADPMAX==ZERO))THEN
            H1(I) = ZERO
            H2(I) = ZERO
            H3(I) = ZERO
            H4(I) = ZERO
+           FNI(I)= ZERO 
         ELSEIF(PENE(I) == ZERO)THEN
             FNI(I)= ZERO 
 C
@@ -1193,7 +1194,6 @@ C
       END IF
 
 C------------For /LOAD/PRESSURE tag nodes in contact-------------
-      TAGIP(1:JLT) = 0
       IF(NINLOADP > 0) THEN
          DO K = KLOADPINTER(NIN)+1, KLOADPINTER(NIN+1) 
             PP = LOADPINTER(K)
@@ -1202,7 +1202,6 @@ C------------For /LOAD/PRESSURE tag nodes in contact-------------
             DO I=1,JLT
                GAPP= GAPV(I) + DGAPLOAD
                IF(PENE(I) > ZERO .OR.(DIST(I) <= GAPP)) THEN
-                  TAGIP(I) = 1
                   TAGNCONT(PPL,IX1(I)) = 1
                   TAGNCONT(PPL,IX2(I)) = 1
                   TAGNCONT(PPL,IX3(I)) = 1
@@ -3081,7 +3080,7 @@ ctmp+1 mic only
 #include "mic_lockon.inc"
         DO I = 1,JLT
           NN = NSVG(I)
-          IF(NN.LT.0 .AND. (H1(I)+H2(I)+H3(I)+H4(I).NE.0.OR.TAGIP(I)==1))THEN
+          IF(NN.LT.0 .AND. H1(I)+H2(I)+H3(I)+H4(I).NE.0)THEN
 C tag temporaire de NSVFI a -
             NSVFI(NIN)%P(-NN) = -ABS(NSVFI(NIN)%P(-NN))
           ENDIF
