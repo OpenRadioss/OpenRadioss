@@ -513,9 +513,10 @@ C--------------------------------------------------
         ENDIF
         USERL_AVAIL=0
         DLIB_ARRAY(1:NBR_DLIB) = 0
-
+#ifndef SANITIZE 
         CALL DYN_USERLIB_INIT(DLIBFILE,DLIBFILE_SIZE,USERL_AVAIL,DLIBTKVERS,IRESP,GOT_USERL_ALTNAME,
      1                        DLIB_ARRAY)
+#endif
         DYN_LIB_MODE = 1
         CALL INIT_DYN_LIB_STRUC(DYN_LIB_MODE)
 
@@ -530,7 +531,9 @@ C Linux Issue call dummy routines to avoid loader removing object files
 C--------------------------------------------------
 C Radioss MDS initialization
 C--------------------------------------------------
+#ifndef SANITIZE
         CALL MDS_USERLIB_INIT(IRESP,MDS_AVAIL,MDS_VER,MDS_PATH,MDS_PATH_LEN)
+#endif
 C--------------------------------------------------
 C Initialisation des messages d'erreur
 C--------------------------------------------------

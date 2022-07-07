@@ -346,6 +346,7 @@ C Dynamical Libaries initialization
           DLIBFILE_SIZE=LEN_TRIM(DLIBFILE)
         ENDIF
         USERL_AVAIL=0
+#ifndef SANITIZE 
         CALL DYN_USERLIB_INIT(DLIBFILE,DLIBFILE_SIZE,USERL_AVAIL,
      *                        DLIBTKVERS,IRESP,GOT_USERL_ALTNAME)
 C------------------------------------------------
@@ -356,6 +357,7 @@ C------------------------------------------------
      .                        MDS_VER,
      .                        MDS_PATH,
      .                        MDS_PATH_LEN)
+#endif
 C-----------------------------------------------------
 C Avoid linking issue with dynamical libraries
         IERR=0
