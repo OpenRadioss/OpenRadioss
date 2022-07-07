@@ -107,7 +107,7 @@ C en spmd il faut envoyer l'info meme qd on a 0 elem local
       IF (NUMELP + NUMELT + NUMELR /= 0 .OR. NSPMD > 1) THEN
         DO IPRT=1,NPART
           IF (MATER(IPRT) /= 3) CYCLE
-Clm      test scinde car NFACPTX(1,IPRT) peut etre "out of core".
+C        test scinde car NFACPTX(1,IPRT) peut etre "out of core".
           IF (NUMELXG > 0 . AND. IGEO(11,IPART(2,IPRT)) == 28) CYCLE
 C
           NPAR = NPAR + 1

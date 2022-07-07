@@ -65,8 +65,8 @@ C-----------------------------------------------
            CALL WRITE_R_C(R4,1)
         END DO
       ELSE
-Cow le proc 0 a besoin d un tableau de taille numnodg pour reconstruire 
-Cow le tableau global des X. LEs autres non. Cela evite une allocation dynamique
+C   le proc 0 a besoin d un tableau de taille numnodg pour reconstruire 
+C   le tableau global des X. LEs autres non. Cela evite une allocation dynamique
 
          IF (ISPMD.EQ.0) THEN
            CALL SPMD_WRT_XYZNOD(X,WEIGHT,NODGLOB,NUMNODG)

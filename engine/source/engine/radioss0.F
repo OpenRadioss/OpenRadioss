@@ -66,7 +66,7 @@ C-----------------------------------------------
       INTEGER :: DYN_LIB_MODE
 C-----------------------------------------------
 C attention IBM/MPI ne supporte pas de REWIND sur STDIN !
-Clm   La lecture du fichier D01 pour detection de l'option /MADYMO/ON
+C     La lecture du fichier D01 pour detection de l'option /MADYMO/ON
 C     n'est pas autorisee en SPMD.
 C     => A modifier si cette option doit etre supportee en SPMD ../..
       INTEGER ISTDI

@@ -193,7 +193,7 @@ C
           PSH(I)=PM(88,MT)
           PNEW(I)=ZERO
 C
-Clm warns : Stability vs artificial viscosity should use
+C   warns : Stability vs artificial viscosity should use
 C           RHO(I)*AL(I)*(QAA*AL(I)+QB*SSP(I)) / MAX(EM20,RHOREF(I)*DELTAX(I))
 C           Same for VIS(I) since SOUNDSPEED is generally computed wrt RHO0, not RHO ../..
           QAA = QA*QA*AD(I)
@@ -371,7 +371,7 @@ C         dt2 remplace par dt2t
                TRHO = RHO(I) * TIDT
                TVOL = VOL(I) * TIDT
                STI(I) = TRHO * TVOL
-Clm            STI will be changed to 2*STI/NNE in SxCUMU  
+C              STI will be changed to 2*STI/NNE in SxCUMU  
 C              [ STI(I) = FOURTH * TRHO * TVOL for 8node bricks ]
              ELSE
                TIDT = ONE/DTX(I)
@@ -528,7 +528,7 @@ C 1st compute stiffness
               TVOL = VOL(I) * TIDT
             END IF
             STI(I) = TRHO * TVOL
-Clm         STI will be changed to 2*STI/NNE in SxCUMU  
+C           STI will be changed to 2*STI/NNE in SxCUMU  
 C           [ STI(I) = FOURTH * TRHO * TVOL for 8node bricks ]
           ELSE
             TIDT = ONE/DTY(I)
@@ -556,7 +556,7 @@ C 1st compute stiffness
             TRHO = RHO(I) * TIDT
             TVOL = VOL(I) * TIDT
             STI(I) = TRHO * TVOL
-Clm         STI will be changed to 2*STI/NNE in SxCUMU  
+C           STI will be changed to 2*STI/NNE in SxCUMU  
 C           [ STI(I) = FOURTH * TRHO * TVOL for 8node bricks ]
           ELSE
             TIDT = ONE/DTY(I)

@@ -153,7 +153,7 @@ C------ renforce positive  ----------
           END IF
          ENDDO
         ENDIF
-Cqztmp+1
+C  tmp+1
        RETURN
 C---------flexion---------
         DO EP=JFT,JLT

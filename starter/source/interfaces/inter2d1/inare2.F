@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-Cgw_clean      SUBROUTINE INARE2(AREA)
+C  _clean      SUBROUTINE INARE2(AREA)
 Chd|====================================================================
 Chd|  INARE2                        source/interfaces/inter2d1/inare2.F
 Chd|-- called by -----------
@@ -36,7 +36,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-Cgw_clean#include      "scr07_c.inc"
+C  _clean#include      "scr07_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------

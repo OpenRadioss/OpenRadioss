@@ -20,13 +20,13 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-Cgw |============================================================
-Cgw |  CBALYVIT                          /coqueba/cbalyvit.F
-Cgw |------------------------------------------------------------
-Cgw |-- appele -----------
-Cgw |-- appelee par -----------
-Cgw |         CBAFORC3                         /coqueba/cbaforc3.F
-Cgw |============================================================
+C   |============================================================
+C   |  CBALYVIT                          /coqueba/cbalyvit.F
+C   |------------------------------------------------------------
+C   |-- appele -----------
+C   |-- appelee par -----------
+C   |         CBAFORC3                         /coqueba/cbaforc3.F
+C   |============================================================
 	SUBROUTINE CBAVIT_PLY(JFT,JLT,IXC,OFFG,OFF,NPLAT,IPLAT,NPT,
      1                        VCORE,DI,ZL,VQ , VXYZ,X13_T  ,X24_T ,
      2                        Y13_T,Y24_T,AREA,INOD,DEL_PLY,

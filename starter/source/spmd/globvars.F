@@ -61,10 +61,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,P,NNOD,NSEGC,NSEGTG,NSEGS,K0
 
-Cow Variable Globale NUMNODG nombre global des noeuds
+C   Variable Globale NUMNODG nombre global des noeuds
       NUMNODG = NUMNOD
 
-Cow Variable globale NUMELTGG,NUMELCG, nombre global de triangles
+C   Variable globale NUMELTGG,NUMELCG, nombre global de triangles
       NUMELQG = NUMELQ
       NUMELCG = NUMELC
       NUMELTGG = NUMELTG
@@ -78,7 +78,7 @@ Cow Variable globale NUMELTGG,NUMELCG, nombre global de triangles
       NUMELS20G = NUMELS20
       NUMSPHG = NUMSPH
       NUMELXG = NUMELX
-Cow Variable globales NUMNODM (MAX des NUMNOD_L)
+C   Variable globales NUMNODM (MAX des NUMNOD_L)
       NUMNODM = 0
 C Nombre global des RBE2
       NRBE2G = NRBE2
@@ -95,7 +95,7 @@ C Nombre global des RBE3
        NUMNODM = MAX(NUMNODM,NNOD)
        ENDDO
 C
-Cow calcul nu nombre Elts 1D pour animations.
+C   calcul nu nombre Elts 1D pour animations.
 
         NB1DG = NUMELT + NUMELR + NUMELP
         NSKEWAG = NUMELP + NUMELT + NUMSKW
@@ -119,8 +119,8 @@ Cow calcul nu nombre Elts 1D pour animations.
           ENDIF
 
         ENDDO    
-Cow pour les sections et pour le proc0 on calcule le max
-Cow des nombres d'elements coques pour toutes les sections
+C   pour les sections et pour le proc0 on calcule le max
+C   des nombres d'elements coques pour toutes les sections
 cow
       SECTIOM = 0
       IF (NSECT.GT.0) THEN
@@ -128,7 +128,7 @@ cow
 
         DO I=1,NSECT
 
-Cow
+C  
           NSEGC = NSTRF(K0+9)
           NSEGTG = NSTRF(K0+13)
           NSEGS=NSTRF(K0+7)

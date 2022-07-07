@@ -46,7 +46,7 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "scr03_c.inc"
 #include      "scr17_c.inc"
-Cgw_clean#include      "scr07_c.inc"
+C  _clean#include      "scr07_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -144,7 +144,7 @@ C
       IF(IPRI.GE.1)THEN
 Cst013       WRITE(IOUT,'(I5,2I9,2I5)')ITAB(I),ITAB(K),L,
 C     .       ITAB(MSR(IRECT(1,L))),ITAB(MSR(IRECT(2,L)))
-Cgw121       WRITE(IOUT,'(I8,2I9,2I8)')ITAB(I),ITAB(K),L,
+C  121       WRITE(IOUT,'(I8,2I9,2I8)')ITAB(I),ITAB(K),L,
        WRITE(IOUT,FMT=FMW_5I)ITAB(I),ITAB(K),L,
      .       ITAB(MSR(IRECT(1,L))),ITAB(MSR(IRECT(2,L)))
       ENDIF

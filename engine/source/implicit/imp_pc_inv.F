@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-Cqz------approximate inverse (minimisation:least squares by colonne)------ 
+C  ------approximate inverse (minimisation:least squares by colonne)------ 
 Chd|====================================================================
 Chd|  IMP_PC_INV                    source/implicit/imp_pc_inv.F  
 Chd|-- called by -----------

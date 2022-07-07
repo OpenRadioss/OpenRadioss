@@ -1246,7 +1246,7 @@ C         composite-------------
             NPG = NPT
 	           NLY = NPT
           ENDIF  
-Cqz -----for mix hardening------------          
+C   -----for mix hardening------------          
           IF (IGT==22) THEN
            IF (JHBE==14 ) THEN
             SELECT CASE (ICSTR)

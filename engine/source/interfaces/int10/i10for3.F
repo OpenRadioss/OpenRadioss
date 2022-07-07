@@ -362,7 +362,7 @@ C
         FT1(I) = FT1(I) + VT1(I) * VIS
         FT2(I) = FT2(I) + VT2(I) * VIS
         STIF(I) = STIF(I) + TWO * VIS * DT1INV
-Clm     no second order correction :
+C       no second order correction :
         ECONTDT = ECONTDT 
      .          + VIS * (VX(I)*VX(I)+VY(I)*VY(I)+VZ(I)*VZ(I)) * DT1
  120   CONTINUE
@@ -372,9 +372,9 @@ Clm     no second order correction :
         FNI(I) = FNI(I) + VN(I)  * VIS
         FT1(I) = FT1(I) + VT1(I) * VIS
         FT2(I) = FT2(I) + VT2(I) * VIS
-Clm 2*C dans modsti
+C   2*C dans modsti
         C(I) = VIS
-Clm     no second order correction :
+C       no second order correction :
         ECONTDT = ECONTDT 
      .          + VIS * (VX(I)*VX(I)+VY(I)*VY(I)+VZ(I)*VZ(I)) * DT1
        ENDDO
@@ -498,7 +498,7 @@ C---------------------------------
                  IMPX=FXN(I)*DT12
                  IMPY=FYN(I)*DT12
                  IMPZ=FZN(I)*DT12
-Clm              main side :
+C                main side :
                  FSAVSUB1(1,JSUB)=FSAVSUB1(1,JSUB)+IMPX
                  FSAVSUB1(2,JSUB)=FSAVSUB1(2,JSUB)+IMPY
                  FSAVSUB1(3,JSUB)=FSAVSUB1(3,JSUB)+IMPZ
@@ -517,7 +517,7 @@ C
                  IMPX=FXT(I)*DT12
                  IMPY=FYT(I)*DT12
                  IMPZ=FZT(I)*DT12
-Clm              main side :
+C                main side :
                  FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)+IMPX
                  FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)+IMPY
                  FSAVSUB1(6,JSUB)=FSAVSUB1(6,JSUB)+IMPZ
@@ -572,7 +572,7 @@ C boucle separee sinon bug PGI en SMP
                  IMPX=FXN(I)*DT12
                  IMPY=FYN(I)*DT12
                  IMPZ=FZN(I)*DT12
-Clm              main side :
+C                main side :
                  FSAVSUB1(1,JSUB)=FSAVSUB1(1,JSUB)+IMPX
                  FSAVSUB1(2,JSUB)=FSAVSUB1(2,JSUB)+IMPY
                  FSAVSUB1(3,JSUB)=FSAVSUB1(3,JSUB)+IMPZ
@@ -585,7 +585,7 @@ C
                  IMPX=FXT(I)*DT12
                  IMPY=FYT(I)*DT12
                  IMPZ=FZT(I)*DT12
-Clm              main side :
+C                main side :
                  FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)+IMPX
                  FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)+IMPY
                  FSAVSUB1(6,JSUB)=FSAVSUB1(6,JSUB)+IMPZ
@@ -810,8 +810,8 @@ C---------------------------------
               IF(ISECUT.NE.0)THEN
 #include "lockon.inc"
                 DO K=1,JLT
-Cgw attention aux signes pour le cumul des efforts
-Cgw a rendre conforme avec CFORC3
+C   attention aux signes pour le cumul des efforts
+C   a rendre conforme avec CFORC3
                  IF(SECFCUM(4,IX1(K),I).EQ.1.)THEN
                   SECFCUM(1,IX1(K),I)=SECFCUM(1,IX1(K),I)-FX1(K)
                   SECFCUM(2,IX1(K),I)=SECFCUM(2,IX1(K),I)-FY1(K)

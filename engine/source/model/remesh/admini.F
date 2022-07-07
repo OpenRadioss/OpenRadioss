@@ -360,7 +360,7 @@ C               wake up the son
                 NSH4ACT=NSH4ACT+1
                 LSH4ACT(NSH4ACT)=M
 C	    
-Clm             1/4 of the element mass has been stored
+C               1/4 of the element mass has been stored
                 IF(ISTATCND==0)THEN          
                   MS(N1)=MS(N1)+MSC(M)
                   MS(N2)=MS(N2)+MSC(M)
@@ -509,7 +509,7 @@ C           wake up the son
             NSH4ACT=NSH4ACT+1
             LSH4ACT(NSH4ACT)=M
 C	  
-Clm         1/4 of the element mass has been stored
+C           1/4 of the element mass has been stored
             IF(ISTATCND==0)THEN          
               MS(N1)=MS(N1)+MSC(M)
               MS(N2)=MS(N2)+MSC(M)
@@ -678,7 +678,7 @@ C               wake up the son
                 NSH3ACT=NSH3ACT+1
                 LSH3ACT(NSH3ACT)=M
 C	    
-Clm           1/4 of the element mass has been stored
+C             1/4 of the element mass has been stored
                 IF(ISTATCND==0)THEN          
                   MS(N1)=MS(N1)+MSTG(M)*PTG(1,M)
                   MS(N2)=MS(N2)+MSTG(M)*PTG(2,M)
@@ -808,7 +808,7 @@ C           wake up the son
             NSH3ACT=NSH3ACT+1
             LSH3ACT(NSH3ACT)=M
 C	  
-Clm         1/4 of the element mass has been stored
+C           1/4 of the element mass has been stored
             IF(ISTATCND==0)THEN          
               MS(N1)=MS(N1)+MSTG(M)*PTG(1,M)
               MS(N2)=MS(N2)+MSTG(M)*PTG(2,M)

@@ -131,7 +131,7 @@ C       ELEMENT CHECK
 C--------------------------------------
         DO I=1,NEL
           IF(XL(I).EQ.ZERO)THEN
-Cqz  change I to global indice
+C    change I to global indice
             WRITE(IOUT,*)' **ERROR ZERO LENGTH SPRING :',I
           ENDIF
         ENDDO

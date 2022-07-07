@@ -22,8 +22,8 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 
 
-Cgw          DXYZSECT                /anim/dxyzsect.F
-Cgw          DXWALL                  /anim/dxwall.F
+C            DXYZSECT                /anim/dxyzsect.F
+C            DXWALL                  /anim/dxwall.F
 Chd|====================================================================
 Chd|  SPMD_AGETMSR                  source/mpi/anim/spmd_agetmsr.F
 Chd|-- called by -----------

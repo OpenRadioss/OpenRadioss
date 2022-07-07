@@ -85,7 +85,7 @@ C-----------------------------------------------
         ITY = IGEO(11,PID)
          POIDS = WTYPE(3)
         IF(GEO(5,PID).NE.ZERO) ISSN=1
-Cow test elem delete
+C   test elem delete
         IF (WD(I+OFF).EQ.0.)
      .    WD(I+OFF) = POIDS
       ENDDO

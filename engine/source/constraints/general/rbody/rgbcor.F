@@ -91,7 +91,6 @@ C optimisation spmd
 C------------------------------------------------------------
 C      CORRECTION DE L'ENERGIE CINETIQUE time = t
 C------------------------------------------------------------
-Cqz
       IF(IMPL_S.GT.0.AND.IDYNA.EQ.0)THEN
        IF(ISENS.EQ.0)THEN
         VG(1)=VR(1,M)
@@ -268,10 +267,8 @@ C
 C
        ENDIF
       ELSE
-Cqz
       IF(ISENS.EQ.0)THEN
         DT05 = HALF*DT1
-Cqz
         IF(IDYNA.GT.0) DT05=(DY_G-ONE)*DT1
         VG(1)=VR(1,M)+AR(1,M)*DT05
         VG(2)=VR(2,M)+AR(2,M)*DT05
@@ -432,7 +429,6 @@ C
       ELSE
 C       RBY AVEC SENSOR : PAS DE MASSES OU INERTIE AJOUTEE
         DT05 = HALF*DT1
-Cqz
         IF(IDYNA.GT.0) DT05=(DY_G-ONE)*DT1
         VG(1)=VR(1,M)+AR(1,M)*DT05
         VG(2)=VR(2,M)+AR(2,M)*DT05

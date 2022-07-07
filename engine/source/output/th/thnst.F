@@ -94,7 +94,7 @@ C-------------------------
                 DO NG=1,NGROUP
                     ITY=IPARG(5,NG)
                     IF (ITY == 100) THEN
-Clm     multi-purpose elements are nstrands elements only (to be modified).
+C       multi-purpose elements are nstrands elements only (to be modified).
                         NEL=IPARG(2,NG)
                         NFT=IPARG(3,NG)
                         GBUF => ELBUF_TAB(NG)%GBUF
@@ -130,8 +130,8 @@ C                               strands internal energy UVARN(MB5:MB5+NX-1)
                                 II = (IH - IAD)*NVAR
                                 DO J=1,NN
 
-Clm                                 loop over strands into the ONE NSTRAND TH group.
-Clm                                 strand to save:
+C                                   loop over strands into the ONE NSTRAND TH group.
+C                                   strand to save:
                                     IST=ITHBUF(IH+3*NN)               
                                     WWA(1) = GBUF%OFF(I)
 C                                   force into strand :
@@ -213,16 +213,16 @@ C       previous force       UVAR(NB3:NB3)
 C       initial nodes masses UVARN(MB1:MB1+NX-1)
       MB1=1
 C       forces into strands UVARN(MB2:MB2+NX-1)
-Clm     using UVARN(MB2:MB2+NX-2) only.
+C       using UVARN(MB2:MB2+NX-2) only.
       MB2=MB1+NX
 C       strands initial lenght UVARN(MB3:MB3+NX-1)
-Clm     using UVARN(MB3:MB3+NX-2) only.
+C       using UVARN(MB3:MB3+NX-2) only.
       MB3=MB2+NX
 C       strands elongations UVARN(MB4:MB4+NX-1)
-Clm     using UVARN(MB4:MB4+NX-2) only.
+C       using UVARN(MB4:MB4+NX-2) only.
       MB4=MB3+NX
 C       strands internal energy UVARN(MB5:MB5+NX-1)
-Clm     using UVARN(MB5:MB5+NX-2) only.
+C       using UVARN(MB5:MB5+NX-2) only.
       MB5=MB4+NX
 C-----------------------------------------------
       IF (II == 2) THEN ! force into strand

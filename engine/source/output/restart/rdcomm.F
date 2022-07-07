@@ -157,7 +157,7 @@ C-----
         IF (IR4R8.EQ.2) ITESTV = -ITESTV
 C       ITESTV = IABS(ITESTV)
 C-----
-Cow -------- Tailles des tableaux entiers --------
+C   -------- Tailles des tableaux entiers --------
       SICODE    = TABVINT(37)
       SLSHSUB   = TABVINT(38)
       SISKEW    = TABVINT(39)
@@ -285,7 +285,7 @@ Cow -------- Tailles des tableaux entiers --------
       SNPORGEO  = TABVINT(160)
       SLNODPOR  = TABVINT(161)
 C-----
-Cow tailles des tableau flottant
+C   tailles des tableau flottant
 C
       SX        = TABVINT(162)
       SD        = TABVINT(163)
@@ -519,12 +519,12 @@ C test pour compatibilite avec anciens restarts
       NDAMP   =TABVINT(451)
 C-----
       NICBAG=TABVINT(452)
-Clm   versions 4.4X, X <= D :
+C     versions 4.4X, X <= D :
       IF(NICBAG.EQ.0)NICBAG=3
       NRCBAG=TABVINT(453)
-Clm   versions 4.4X, X <= D :
+C     versions 4.4X, X <= D :
       IF(NRCBAG.EQ.0)NRCBAG=3
-Clm   not available for version <= 4.4D :
+C     not available for version <= 4.4D :
       LICBAG  =TABVINT(454)
       LRCBAG  =TABVINT(455)
       NIBJET  =TABVINT(456)
@@ -1912,14 +1912,14 @@ C THERMAL ANALYSIS
       HEAT_RADIA  = TABVREA(RVARINT)
       RVARINT = RVARINT + 1
       HEAT_FFLUX  = TABVREA(RVARINT)
-Cow TABLEAU SOL1TNL
+C   TABLEAU SOL1TNL
       DO I=0, MAXLAW
         RVARINT = RVARINT + 1
         SOL1TNL(I,1) = TABVREA(RVARINT)
         RVARINT = RVARINT + 1
         SOL1TNL(I,2) = TABVREA(RVARINT)
       ENDDO
-Cow TABLEAU SOL8TNL
+C   TABLEAU SOL8TNL
       DO I=0, MAXLAW
         RVARINT = RVARINT + 1
         SOL8TNL(I,1) = TABVREA(RVARINT)
@@ -1927,18 +1927,18 @@ Cow TABLEAU SOL8TNL
         SOL8TNL(I,2) = TABVREA(RVARINT)
       ENDDO
 
-Cow TABLEAU TET4TNL
+C   TABLEAU TET4TNL
       DO I=0, MAXLAW
         RVARINT = RVARINT + 1
         TET4TNL(I,1) = TABVREA(RVARINT)
       ENDDO
-Cow TABLEAU TET10TNL
+C   TABLEAU TET10TNL
       DO I=0, MAXLAW
         RVARINT = RVARINT + 1
         TET10TNL(I,1) = TABVREA(RVARINT)
       ENDDO
 
-Cow TABLEAU SHTNL
+C   TABLEAU SHTNL
       DO I=0, MAXLAW
         DO J=0,3
           RVARINT = RVARINT + 1
@@ -1949,7 +1949,7 @@ Cow TABLEAU SHTNL
           SHTNL(I,J,3) = TABVREA(RVARINT)
         ENDDO
       ENDDO
-Cow TABLEAU TRITNL
+C   TABLEAU TRITNL
       DO I=0, MAXLAW
         DO J=0,3
           RVARINT = RVARINT + 1
@@ -1960,7 +1960,7 @@ Cow TABLEAU TRITNL
           TRITNL(I,J,3) = TABVREA(RVARINT)
         ENDDO
       ENDDO
-Cow TABLEAU SOLTELT
+C   TABLEAU SOLTELT
       DO I=1,8
         RVARINT = RVARINT + 1
         SOLTELT(I) = TABVREA(RVARINT)
@@ -1971,12 +1971,12 @@ Cow TABLEAU SOLTELT
       RVARINT = RVARINT + 1
       TET10TELT(1) = TABVREA(RVARINT)
 
-Cow TABLEAU SHTELT
+C   TABLEAU SHTELT
       DO I=1,10
         RVARINT = RVARINT + 1
         SHTELT(I) = TABVREA(RVARINT)
       ENDDO
-Cow TABLEAU TRITELT
+C   TABLEAU TRITELT
       DO I=1,10
         RVARINT = RVARINT + 1
         TRITELT(I) = TABVREA(RVARINT)

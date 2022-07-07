@@ -357,7 +357,7 @@ C---------------------------
        THK(I) = THK(I) * (ONE + DEZZ*OFF(I))
       ENDDO
       ELSEIF(CODVERS.LT.44)THEN
-Clm   IF(CODVERS.LT.44.AND.IPLA.EQ.1) THEN
+C     IF(CODVERS.LT.44.AND.IPLA.EQ.1) THEN
 C-------------------------
 C     CRITERE DE VON MISES
 C-------------------------
@@ -555,7 +555,7 @@ C            WRITE(12,'(A,3E12.4)') 'VONM',NVM(I),MVM(I),NMVM(I)
 C           ENDIF
       ENDDO
       ELSE
-Clm   IF(CODVERS.GE.44.AND.IPLA.EQ.1) THEN
+C     IF(CODVERS.GE.44.AND.IPLA.EQ.1) THEN
 C-------------------------
 C     ITERATIVE
 C-------------------------

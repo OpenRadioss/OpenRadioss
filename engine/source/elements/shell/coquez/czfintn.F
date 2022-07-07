@@ -153,7 +153,7 @@ c       if (mod(ncycle,10)==0) print *,'FAC58(I,1-2)=',FAC58(nel,1),FAC58(nel,2)
           C1M=C2*FAC58(I,1)
           C2M=C2*FAC58(I,2)
           C12 = EM02*MIN(C1M,C2M)
-Cqz    -----------for energy calculation-Mean_value--------
+C      -----------for energy calculation-Mean_value--------
           C6(I)=C1(I)*FBEND
           SS1= MY34(I)*VGLAS(I,1) +MY23(I)*VGLAS(I,7)
           SS2= MX23(I)*VGLAS(I,8) +MX34(I)*VGLAS(I,2)
@@ -199,7 +199,7 @@ Cqz    -----------for energy calculation-Mean_value--------
         BYY_K=HYY_K*DHG(I,4)
         C1M=A11(I)*FAC1(I)
         C2M=A12(I)*FAC1(I)
-Cqz    -----------for energy calculation-Mean_value--------
+C      -----------for energy calculation-Mean_value--------
         C6(I)=C1(I)*FBEND
         SS1= MY34(I)*VGLAS(I,1) +MY23(I)*VGLAS(I,7)
         SS2= MX23(I)*VGLAS(I,8) +MX34(I)*VGLAS(I,2)
@@ -231,7 +231,7 @@ Cqz    -----------for energy calculation-Mean_value--------
       
       IF(MTN==58 .AND.NPT==1) THEN
        DO I=JFT,JLT
-Cqz    -----------for energy calculation-Mean_value--------
+C      -----------for energy calculation-Mean_value--------
         C8 = C7*OFF(I)
         SS1= (MY34(I)*DGLAS(I,1) +MY23(I)*DGLAS(I,7))*C8
         SS2= (MX23(I)*DGLAS(I,8) +MX34(I)*DGLAS(I,2))*C8
@@ -272,16 +272,16 @@ C
         C2=Z1(I)*HSURA
         VF(I,3,1)=VF(I,3,1)+C2*(SS1*Y24(I)-SS2*X24(I))
         VF(I,3,2)=VF(I,3,2)+C2*(-SS1*Y13(I)+SS2*X13(I))
-Cqz    -----------for energy calculation-Mean_value--------
+C      -----------for energy calculation-Mean_value--------
         ESY= ((SS1-SS1_V)*DHG(I,1)+(SS2-SS2_V)*DHG(I,2))*THK(I)
         ETMP(I,1) = ESY
         ETMP(I,2) = ZERO
-Cqz     ----viscous energy is removed to hourglass energy----
+C       ----viscous energy is removed to hourglass energy----
         TESY(I)= (SS1_V*DHG(I,1)+SS2_V*DHG(I,2))*THK(I)
        ENDDO
 	  ELSE
       DO I=JFT,JLT
-Cqz    ---------elstic increament----------
+C      ---------elstic increament----------
         VGLAS(I,1) =VGLAS(I,1) +DGLAS(I,1)
         VGLAS(I,2) =VGLAS(I,2) +DGLAS(I,2)
         VGLAS(I,3) =VGLAS(I,3) +DGLAS(I,3)
@@ -290,7 +290,7 @@ Cqz    ---------elstic increament----------
         VGLAS(I,8) =VGLAS(I,8) +DGLAS(I,8)
         VGLAS(I,9) =VGLAS(I,9) +DGLAS(I,9)
         VGLAS(I,10)=VGLAS(I,10)+DGLAS(I,10)
-Cqz-----------/4 par rapport formulation-------	  
+C  -----------/4 par rapport formulation-------	  
         VGLAS(I,5) =VGLAS(I,5) +DGLAS(I,5)
         VGLAS(I,6) =VGLAS(I,6) +DGLAS(I,6)
         VGLAS(I,11)=VGLAS(I,11)+DGLAS(I,11)
@@ -353,7 +353,7 @@ C-------------FLEXION------------------------
       END DO
 
       DO I=JFT,JLT
-Cqz    -----------for energy calculation-Mean_value--------
+C      -----------for energy calculation-Mean_value--------
         C8 = C7*OFF(I)
         SS1= (MY34(I)*VGLAS(I,1) +MY23(I)*VGLAS(I,7))*C8
         SS2= (MX23(I)*VGLAS(I,8) +MX34(I)*VGLAS(I,2))*C8
@@ -435,13 +435,13 @@ C
         VF(I,3,1)=VF(I,3,1)+C2*(SS1*Y24(I)-SS2*X24(I))
         VF(I,3,2)=VF(I,3,2)+C2*(-SS1*Y13(I)+SS2*X13(I))
 C
-Cqz    -----------for energy calculation-Mean_value--------
+C      -----------for energy calculation-Mean_value--------
         ESY= ((SS1-SS1_V)*DHG(I,1)+(SS2-SS2_V)*DHG(I,2))*THK(I)+
      .         FOURTH*((SC5-SC5_V)*DHG(I,5)+(SC6-SC6_V)*DHG(I,6))
         ETMP(I,1) = HALF*ESY
         EMY= (SF1-SF1_V)*DHG(I,3)-(SF2-SF2_V)*DHG(I,4)
         ETMP(I,2) = HALF*C6(I)*EMY*THK(I)
-Cqz     ----viscous energy is removed to hourglass energy----
+C       ----viscous energy is removed to hourglass energy----
         TESY(I)= (SS1_V*DHG(I,1)+SS2_V*DHG(I,2))*THK(I)+
      .         (SF1_V*DHG(I,3)-SF2_V*DHG(I,4))*THK(I)*C6(I)+
      .         FOURTH*(SC5_V*DHG(I,5)+SC6_V*DHG(I,6))
@@ -498,7 +498,7 @@ C
       RETURN
       END
 
-Cqz -------nouvelle routine----------------------
+C   -------nouvelle routine----------------------
 Chd|====================================================================
 Chd|  CZFINTNM                      source/elements/shell/coquez/czfintn.F
 Chd|-- called by -----------
@@ -689,7 +689,7 @@ C
          C2M=A12(I)*FAC1(I)
          C3M=G(I)*FAC1(I)
          CRZ=HALF*KRZ(I)*FAC1(I)
-Cqz    -----------for energy calculation-Mean_value--------
+C      -----------for energy calculation-Mean_value--------
          C6(I)=C1(I)*FBEND
          SS1= MY34(I)*VGLAS(I,1) +MY23(I)*VGLAS(I,7)
          SS2= MX23(I)*VGLAS(I,8) +MX34(I)*VGLAS(I,2)
@@ -732,18 +732,18 @@ C
          DGLAS(I,6) =C2*HYY*DHG(I,5)
          DGLAS(I,11)=C2*HXX_K*DHG(I,6)
          DGLAS(I,12)=C2*HYY_K*DHG(I,6)
-Cqz    --------add shear due to rz dof--no sign change like 2,4,7,9-------
+C      --------add shear due to rz dof--no sign change like 2,4,7,9-------
          DGLAS(I,13)=C3M*(HXX*DHG(I,2)-HYY*DHG(I,1)+DHGZE(I,3))
          DGLAS(I,14)=C3M*(HXX*DHG(I,4)-HYY*DHG(I,3))
          DGLAS(I,15)=C3M*(-HXX_K*DHG(I,2)+HYY_K*DHG(I,1)+DHGZK(I,3))
          DGLAS(I,16)=C3M*(-HXX_K*DHG(I,4)+HYY_K*DHG(I,3))
-Cqz    --------add  srz dof--------
+C      --------add  srz dof--------
          DGLAS(I,17)=CRZ*DHGZE(I,5)
          DGLAS(I,18)=CRZ*DHGZK(I,5)
       END DO
 C
       DO I=JFT,JLT
-Cqz    ---------elstic increament----------
+C      ---------elstic increament----------
         VGLAS(I,1) =VGLAS(I,1) +DGLAS(I,1)
         VGLAS(I,2) =VGLAS(I,2) +DGLAS(I,2)
         VGLAS(I,3) =VGLAS(I,3) +DGLAS(I,3)
@@ -762,7 +762,7 @@ Cqz    ---------elstic increament----------
         VGLAS(I,16)=VGLAS(I,16)+DGLAS(I,16)
         VGLAS(I,17)=VGLAS(I,17)+DGLAS(I,17)
         VGLAS(I,18)=VGLAS(I,18)+DGLAS(I,18)
-Cqz    ---------enint----------
+C      ---------enint----------
         EINT(I,1) = EINT(I,1)+ETMP(I,1)
         EINT(I,2) = EINT(I,2)+ETMP(I,2)
       END DO
@@ -829,7 +829,7 @@ C-------------FLEXION------------------------
         ENDIF
       END DO
       DO I=JFT,JLT          
-Cqz    -----------for energy calculation-Mean_value--------
+C      -----------for energy calculation-Mean_value--------
         C8 = C7*OFF(I)
         SS1= (MY34(I)*VGLAS(I,1) +MY23(I)*VGLAS(I,7))*C8
         SS2= (MX23(I)*VGLAS(I,8) +MX34(I)*VGLAS(I,2))*C8
@@ -957,13 +957,13 @@ C
      .        VGLAS(I,13)*DHGZE(I,3)+VGLAS(I,15)*DHGZK(I,3)+
      .        HALF*(VGLAS(I,17)*DHGZE(I,4)+VGLAS(I,18)*DHGZK(I,4))
         C3 = THIRD*AREA(I)
-Cqz    -----------for energy calculation-Mean_value--------
+C      -----------for energy calculation-Mean_value--------
         ESY= ((SS1-SS1_V)*DHG(I,1)+(SS2-SS2_V)*DHG(I,2)+C3*ERZ)*THK(I)+
      .        FOURTH*((SC5-SC5_V)*DHG(I,5)+(SC6-SC6_V)*DHG(I,6))
         ETMP(I,1) = HALF*ESY*OFF(I)
         EMY= (SF1-SF1_V)*DHG(I,3)-(SF2-SF2_V)*DHG(I,4)
         ETMP(I,2) = HALF*C6(I)*EMY*THK(I)*OFF(I)
-Cqz     ----viscous energy is removed to hourglass energy----
+C       ----viscous energy is removed to hourglass energy----
         TESY(I)= (SS1_V*DHG(I,1)+SS2_V*DHG(I,2))*THK(I)+
      .           (SF1_V*DHG(I,3)-SF2_V*DHG(I,4))*THK(I)*C6(I)+
      .            SC5_V*DHG(I,5)+SC6_V*DHG(I,6)
@@ -1131,7 +1131,7 @@ C    -----------for energy calculation-Mean_value--------
      .           FOURTH*(SC5(I)*VHG(I,5)+SC6(I)*VHG(I,6))
          EMX(I)= (SF1(I)*VHG(I,3)-SF2(I)*VHG(I,4))*C6(I)
        END DO 
-Cqz    -----------for energy calculation-Mean_value--VGLAS(t)------
+C      -----------for energy calculation-Mean_value--VGLAS(t)------
       DO I=JFT,JLT
          EINT(I,1) = EINT(I,1)+C5(I)*ESX(I)
          EINT(I,2) = EINT(I,2)+C5(I)*EMX(I)
@@ -1599,7 +1599,7 @@ C--------
      +          SS1(I)*VHG(I,1)+SS2(I)*VHG(I,2)+ERZ*AREA(I)*FOURTH
          EMX(I)=EMX(I)+(SF1(I)*VHG(I,3)-SF2(I)*VHG(I,4))*C6(I)
        END DO 
-Cqz    -----------for energy calculation-Mean_value--VGLAS(t)------
+C      -----------for energy calculation-Mean_value--VGLAS(t)------
       DO I=JFT,JLT
          EINT(I,1) = EINT(I,1)+C5(I)*ESX(I)
          EINT(I,2) = EINT(I,2)+C5(I)*EMX(I)
@@ -1772,13 +1772,13 @@ C------------
 C
          C3M=G(I)*FAC1(I)*DT1
          CRZ=HALF*KRZ(I)*FAC1(I)*DT1
-Cqz    --------add shear due to rz dof--no sign change like 2,4,7,9-------
+C      --------add shear due to rz dof--no sign change like 2,4,7,9-------
           DGLAS(I,13)=C3M*(HXX(I)*VHG(I,2)-HYY(I)*VHG(I,1)+VHGZE(I,3))
           DGLAS(I,14)=C3M*(HXX(I)*VHG(I,4)-HYY(I)*VHG(I,3))
           DGLAS(I,15)=C3M*(-HXX_K(I)*VHG(I,2)+HYY_K(I)*VHG(I,1)+
      +                    VHGZK(I,3))
           DGLAS(I,16)=C3M*(-HXX_K(I)*VHG(I,4)+HYY_K(I)*VHG(I,3))
-Cqz    --------add  srz dof--------
+C      --------add  srz dof--------
           DGLAS(I,17)=CRZ*VHGZE(I,5)
           DGLAS(I,18)=CRZ*VHGZK(I,5)
        END DO

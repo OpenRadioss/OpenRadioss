@@ -359,7 +359,7 @@ C--------------free shear locking
         END IF !(I_SH>1) THEN
        END IF !(ICP==11) THEN
       END IF! (I_SH==0) THEN
-Cqz ---------------
+C   ---------------
       RETURN
       END
 Chd|====================================================================
@@ -415,7 +415,7 @@ C     REAL
       my_real
      .   P,FAC(MVSIZ)
 C-----------------------------------------------
-Cqz - post-traitement-valeur moyenne au sens a'=(_/  a dv ) /v
+C   - post-traitement-valeur moyenne au sens a'=(_/  a dv ) /v
       DO I=LFT,LLT
          FAC(I) = OFF(I)*VOL(I)/VOLG(I)
          SIGM(I,1) = SIGM(I,1) + FAC(I) * SIGOR(I,1)

@@ -84,7 +84,7 @@ C       stockage temporaire, JUSQU'A L'ASSEMBLAGE DES FORCES SHELLS
            A(1,N)=ZERO
            A(2,N)=ZERO
            A(3,N)=ZERO
-Clm        STSAVE inutile dans le fichier restart
+C          STSAVE inutile dans le fichier restart
            STSAVE(N)=STIFN(N)
            STIFN(N) =EM20
            ARSAVE(1,N)=AR(1,N)
@@ -93,7 +93,7 @@ Clm        STSAVE inutile dans le fichier restart
            AR(1,N)=ZERO
            AR(2,N)=ZERO
            AR(3,N)=ZERO
-Clm        STRSAVE inutile dans le fichier restart
+C          STRSAVE inutile dans le fichier restart
            STRSAVE(N)=STIFR(N)
            STIFR(N)  =EM20
         ENDDO

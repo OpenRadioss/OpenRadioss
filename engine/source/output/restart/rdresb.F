@@ -853,7 +853,7 @@ C----------------------------------
 C----------------------------------
 C     LECTURE DES VARIABLES REELLES
 C--------------------------------------
-Clm    warning to radioss developpers :
+C      warning to radioss developpers :
 C      IF(LVARREA.GT.LMXVREA)THEN
 C        WRITE(*,*) ' ** RADIOSS INTERNAL ERROR'
 C        CALL ARRET(7)
@@ -1062,7 +1062,7 @@ c      IF(NNOISE.GT.0.AND.IRUNN.GT.1)THEN
               CALL READ_DPDB(DDP,3*NUMNOD)
          ELSE
            CALL FILLXDP(X,XDP,D,DDP)
-Cow_tmp    Au prochain restart, XDP se trouvera sur la tete de restart !
+C  _tmp    Au prochain restart, XDP se trouvera sur la tete de restart !
            IRXDP=1
          ENDIF
 C Cas double precision

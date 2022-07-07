@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-Cqz| nouvelle routine base sur SRROTA3-->par vector
+C  | nouvelle routine base sur SRROTA3-->par vector
 Chd|====================================================================
 Chd|  VRROTA3                       source/elements/thickshell/solide6c/vrrota3.F
 Chd|-- called by -----------
@@ -64,7 +64,7 @@ C     REAL
       my_real
      .   X,Y,Z
 C-----------------------------------------------
-Clm   X=RX' <=> X'=t(R)X chgt de base.
+C     X=RX' <=> X'=t(R)X chgt de base.
       DO 10 I=LFT,LLT
        X=R11(I)*X1(I)+R21(I)*Y1(I)+R31(I)*Z1(I)
        Y=R12(I)*X1(I)+R22(I)*Y1(I)+R32(I)*Z1(I)

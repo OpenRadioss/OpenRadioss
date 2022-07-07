@@ -89,7 +89,7 @@ C
       L2=L1+LREC-1
       GOTO 1
       END
-Cow          WRREST43                        /comm/wrrest43.F
+C            WRREST43                        /comm/wrrest43.F
 Chd|====================================================================
 Chd|  WRTSQRDP                      source/output/tools/wrtsqr.F  
 Chd|-- called by -----------

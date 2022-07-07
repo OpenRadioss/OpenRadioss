@@ -27,7 +27,7 @@ Chd|        I8MSR3                        source/interfaces/inter3d/i8msr3.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE I8_NEAREST_SEG(X, IS, M1, M2, M3, BMIN)
-Cfa
+C  
 C  COMPUTE BARYCENTRIC COORDINATES OF PROJECTION OF NODE IS ON TRIANGLE M1 M2 M3
 C  WOLFGANG HEIDRICH, 2005
 C-----------------------------------------------

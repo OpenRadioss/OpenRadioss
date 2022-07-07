@@ -31,7 +31,7 @@ Chd|====================================================================
      2                  X2 ,X3  ,X4  ,Y2 ,Y3  ,  
      3                  Y4 ,ALDT,MAT,GEO ,PID ,
      4                  IHBE)
-Cgw_clean     3                  Y4 ,ALDT,MAT,GEO ,PID)
+C  _clean     3                  Y4 ,ALDT,MAT,GEO ,PID)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -43,7 +43,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-Cgw_clean#include      "vect04_c.inc"
+C  _clean#include      "vect04_c.inc"
 #include      "param_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"

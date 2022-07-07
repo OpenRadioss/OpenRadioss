@@ -383,7 +383,7 @@ C
         L13(I)=X13_2(I)+Y13_2(I)
 C-------------------------------
         L24(I)=X24_2(I)+Y24_2(I)
-Cqz---------Facteur pour longueur caracteristique---
+C  ---------Facteur pour longueur caracteristique---
         C1 =CORELV(I,1,2)*CORELV(I,2,4)-CORELV(I,2,2)*
      .      CORELV(I,1,4)
         C2 =CORELV(I,1,1)*CORELV(I,2,3)-CORELV(I,2,1)*CORELV(I,1,3)
@@ -426,7 +426,7 @@ C-
         L13(I)=X13_2(I)+Y13_2(I)
 C-------------------------------
         L24(I)=X24_2(I)+Y24_2(I)
-Cqz---------Facteur pour longueur caracteristique---
+C  ---------Facteur pour longueur caracteristique---
         C1 =COREL(I,1,2)*COREL(I,2,4)-COREL(I,2,2)*COREL(I,1,4)
         C2 =COREL(I,1,1)*COREL(I,2,3)-COREL(I,2,1)*COREL(I,1,3)
         HS(I) =MAX(ABS(C1),ABS(C2))*AREA_I(I)

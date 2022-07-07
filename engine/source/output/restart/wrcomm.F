@@ -165,7 +165,7 @@ C-----
 C-----
        TABVINT(5)  =NGROUP
        TABVINT(9)  =LBUFEL
-Cow -------- Tailles des tableaux entiers --------
+C   -------- Tailles des tableaux entiers --------
       TABVINT(36)  = 0
       TABVINT(37)  = SICODE
       TABVINT(38)  = SLSHSUB
@@ -294,7 +294,7 @@ Cow -------- Tailles des tableaux entiers --------
       TABVINT(160) = SNPORGEO
       TABVINT(161) = SLNODPOR
 C-----
-Cow tailles des tableau flottant
+C   tailles des tableau flottant
 C
       TABVINT(162) = SX
       TABVINT(163) = SD
@@ -1817,7 +1817,7 @@ C-----
       TABVREA(37)=VGY
       TABVREA(38)=VGZ
 C-----
-Clm    SPAOLD is not written into Rfile.
+C      SPAOLD is not written into Rfile.
       TABVREA(39)=SPASORT
       TABVREA(40)=SPATRUE
       DO I=1,9
@@ -1874,14 +1874,14 @@ C THERMAL ANALYSIS
       TABVREA(RVARINT) = HEAT_RADIA
       RVARINT = RVARINT + 1
       TABVREA(RVARINT) = HEAT_FFLUX
-Cow TABLEAU SOL1TNL
+C   TABLEAU SOL1TNL
       DO I=0, MAXLAW
         RVARINT = RVARINT + 1
         TABVREA(RVARINT) = SOL1TNL(I,1)
         RVARINT = RVARINT + 1
         TABVREA(RVARINT) = SOL1TNL(I,2)
       ENDDO
-Cow TABLEAU SOL8TNL
+C   TABLEAU SOL8TNL
       DO I=0, MAXLAW
         RVARINT = RVARINT + 1
         TABVREA(RVARINT) = SOL8TNL(I,1)
@@ -1896,7 +1896,7 @@ Cow TABLEAU SOL8TNL
         RVARINT = RVARINT + 1
         TABVREA(RVARINT) = TET10TNL(I,1)
       ENDDO
-Cow TABLEAU SHTNL
+C   TABLEAU SHTNL
       DO I=0, MAXLAW
         DO J=0,3
           RVARINT = RVARINT + 1
@@ -1907,7 +1907,7 @@ Cow TABLEAU SHTNL
           TABVREA(RVARINT) = SHTNL(I,J,3)
         ENDDO
       ENDDO
-Cow TABLEAU TRITNL
+C   TABLEAU TRITNL
       DO I=0, MAXLAW
         DO J=0,3
           RVARINT = RVARINT + 1
@@ -1918,7 +1918,7 @@ Cow TABLEAU TRITNL
           TABVREA(RVARINT) = TRITNL(I,J,3)
         ENDDO
       ENDDO
-Cow TABLEAU SOLTELT
+C   TABLEAU SOLTELT
       DO I=1,8
         RVARINT = RVARINT + 1
         TABVREA(RVARINT) = SOLTELT(I)
@@ -1927,12 +1927,12 @@ Cow TABLEAU SOLTELT
         TABVREA(RVARINT) = TET4TELT(1)
         RVARINT = RVARINT + 1
         TABVREA(RVARINT) = TET10TELT(1)
-Cow TABLEAU SHTELT
+C   TABLEAU SHTELT
       DO I=1,10
         RVARINT = RVARINT + 1
         TABVREA(RVARINT) = SHTELT(I)
       ENDDO
-Cow TABLEAU TRITELT
+C   TABLEAU TRITELT
       DO I=1,10
         RVARINT = RVARINT + 1
         TABVREA(RVARINT) = TRITELT(I)

@@ -171,7 +171,7 @@ C
           DO I=1,NNPBY
             IF(NPBY(I,MY_RBODY) /=0)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'NPBY_',I      
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NPBY(I,MY_RBODY),0.0_8)
             END IF
@@ -179,7 +179,7 @@ C             VARNAME sert de nom de la varable dans le ref.extract (sans blank 
 C
           DO I=NPBY(11,MY_RBODY)+1,NPBY(11,MY_RBODY)+NPBY(2,MY_RBODY)
 C
-C           VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C           VARNAME: variable name in ref.extract (without blanks)
             WRITE(VARNAME,'(A,I0)') 'LPBY_',I      
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),LPBY(I),0.0_8)
           END DO
@@ -187,7 +187,7 @@ C
           DO I=1,NRBY
             IF(RBY(I,MY_RBODY)/=ZERO)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'RBY_',I
               TEMP_DOUBLE = RBY(I,MY_RBODY)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -210,7 +210,7 @@ C
           DO I=1,NNPBY
             IF(NPBYL(I,MY_RBODY) /=0)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'NPBYL_',I      
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NPBYL(I,MY_RBODY),0.0_8)
             END IF
@@ -218,7 +218,7 @@ C             VARNAME sert de nom de la varable dans le ref.extract (sans blank 
 C
           DO I=1,NPBYL(2,MY_RBODY)-1
 C
-C           VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C           VARNAME: variable name in ref.extract (without blanks)
             WRITE(VARNAME,'(A,I0)') 'LPBYL_',I      
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ITAB(LPBYL(TNSL+I)),0.0_8)
           END DO
@@ -226,7 +226,7 @@ C
           DO I=1,NRBY
             IF(RBYL(I,MY_RBODY)/=ZERO)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'RBYL_',I
               TEMP_DOUBLE = RBYL(I,MY_RBODY)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -246,14 +246,14 @@ C
 C
           IF(ICODE(MY_NODE)/=0)THEN
 C
-C           VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C           VARNAME: variable name in ref.extract (without blanks)
             WRITE(VARNAME,'(A,I0,I0)') 'ICODE_',MY_ID
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ICODE(MY_NODE),0.0_8)
           END IF
 C
           IF(ISKEW(MY_NODE)/=0)THEN
 C
-C           VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C           VARNAME: variable name in ref.extract (without blanks)
             WRITE(VARNAME,'(A,I0,I0)') 'ISKEW_',MY_ID
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ISKEW(MY_NODE),0.0_8)
           END IF
@@ -278,7 +278,7 @@ C
           DO I=1,NIFT
             IF(IBFTEMP(I,MY_CONSTRAINT) /=0)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'IBFTEMP_',I      ! IBFTEMP(11) => 'IBFTEMP_11'
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IBFTEMP(I,MY_CONSTRAINT),0.0_8)
             END IF
@@ -287,7 +287,7 @@ C
           DO I=1,LFACTHER
             IF(FBFTEMP(I,MY_CONSTRAINT)/=ZERO)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'FBFTEMP_',I
               TEMP_DOUBLE = FBFTEMP(I,MY_CONSTRAINT)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -312,7 +312,7 @@ C
           DO I=1,NIFV
             IF (IBFVEL(I,MY_CONSTRAINT) /=0) THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'IBFVEL_',I
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IBFVEL(I,MY_CONSTRAINT),0.0_8)
             END IF
@@ -321,7 +321,7 @@ C
           DO I=1,LFXVELR
             IF(FBFVEL(I,MY_CONSTRAINT)/=ZERO)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'FBFVEL_',I
               TEMP_DOUBLE = FBFVEL(I,MY_CONSTRAINT)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -346,7 +346,7 @@ C
           DO I=1,NIFV
             IF (IBFVEL(I,MY_CONSTRAINT) /=0) THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'IBFVEL_',I
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IBFVEL(I,MY_CONSTRAINT),0.0_8)
             END IF
@@ -355,7 +355,7 @@ C
           DO I=1,LFXVELR
             IF(FBFVEL(I,MY_CONSTRAINT)/=ZERO)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'FBFVEL_',I
               TEMP_DOUBLE = FBFVEL(I,MY_CONSTRAINT)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -382,7 +382,7 @@ C
           DO I=1,NIFV
             IF (IBFVEL(I,MY_CONSTRAINT) /=0) THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'IBFVEL_',I
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IBFVEL(I,MY_CONSTRAINT),0.0_8)
             END IF
@@ -391,7 +391,7 @@ C
           DO I=1,LFXVELR
             IF(FBFVEL(I,MY_CONSTRAINT)/=ZERO)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'FBFVEL_',I
               TEMP_DOUBLE = FBFVEL(I,MY_CONSTRAINT)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -418,7 +418,7 @@ C
           DO I=1,NITFLUX
             IF(IBFFLUX(I,MY_CONSTRAINT) /=0)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'IBFFLUX_',I      ! IBFFLUX(11) => 'IBFFLUX_11'
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IBFFLUX(I,MY_CONSTRAINT),0.0_8)
             END IF
@@ -427,7 +427,7 @@ C
           DO I=1,LFACTHER
             IF(FBFFLUX(I,MY_CONSTRAINT)/=ZERO)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'FBFFLUX_',I
               TEMP_DOUBLE = FBFFLUX(I,MY_CONSTRAINT)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -454,7 +454,7 @@ C
 C
             IF(IBCSLAG(I,MY_CONSTRAINT)/=0)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0,I0)') 'IBCSLAG_',I      ! IBCSLAG(11) => 'IBCSLAG_11'
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IBCSLAG(I,MY_CONSTRAINT),0.0_8)
             END IF
@@ -481,7 +481,7 @@ C
 C
             IF(IBCSCYC(I,MY_CONSTRAINT)/=0)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0,I0)') 'IBCSCYC_',I      
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IBCSCYC(I,MY_CONSTRAINT),0.0_8)
             END IF
@@ -521,7 +521,7 @@ C
             DO I = 1,NNPRW
               IF (NPRW(MY_RWALL,I) /= 0) THEN
 C
-C               VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C               VARNAME: variable name in ref.extract (without blanks)
                 WRITE(VARNAME,'(A,I0)') 'NPRW_',I
                 CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NPRW(MY_RWALL,I),0.0_8)
               END IF
@@ -530,7 +530,7 @@ C
             DO I = 1,NRWLP        
               IF (RWBUF(I,MY_RWALL) /= ZERO) THEN
 C
-C               VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C               VARNAME: variable name in ref.extract (without blanks)
                 WRITE(VARNAME,'(A,I0)') 'RWBUF_',I
                 TEMP_DOUBLE = RWBUF(I,MY_RWALL)
                 CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -540,7 +540,7 @@ C
             DO I = POSI(MY_RWALL),POSI(MY_RWALL+1)-1
               IF (LPRW(I) /= 0) THEN
 C
-C           VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C           VARNAME: variable name in ref.extract (without blanks)
                 WRITE(VARNAME,'(A,I0)') 'LPRW_',I-POSI(MY_RWALL)+1
                 CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),LPRW(I),0.0_8)
               END IF
@@ -568,7 +568,7 @@ C
           DO I=1,NRBE3L
             IF(IRBE3(I,MY_CONSTRAINT) /=0)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'IRBE3_',I      
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IRBE3(I,MY_CONSTRAINT),0.0_8)
             END IF
@@ -576,14 +576,14 @@ C             VARNAME sert de nom de la varable dans le ref.extract (sans blank 
 C
           DO I=IRBE3(1,MY_CONSTRAINT)+1,IRBE3(1,MY_CONSTRAINT)+IRBE3(5,MY_CONSTRAINT)
 C
-C           VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C           VARNAME: variable name in ref.extract (without blanks)
             WRITE(VARNAME,'(A,I0)') 'LRBE3_',I      
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),LRBE3(I),0.0_8)
           END DO
 C          
           DO I=IRBE3(1,MY_CONSTRAINT)+1,IRBE3(1,MY_CONSTRAINT)+IRBE3(5,MY_CONSTRAINT)
 C
-C           VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C           VARNAME: variable name in ref.extract (without blanks)
             WRITE(VARNAME,'(A,I0)') 'LRBE3s_',I      
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),LRBE3(I+IADS),0.0_8)
           END DO
@@ -623,7 +623,7 @@ C
             ENDIF
             DO I=1,NMGRBY
               IF(MGRBY(I,MY_MERGE) /=0)THEN
-C               VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C               VARNAME: variable name in ref.extract (without blanks)
                 WRITE(VARNAME,'(A,I0)') 'MGRBY_',I      
                 CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),MGRBY(I,MY_MERGE),0.0_8)
               END IF
@@ -648,7 +648,7 @@ CC
 C
           DO I=1,NISPCOND
             IF(ISPCOND(I,MY_CONSTRAINT)/=0)THEN
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0,I0)') 'ISPCOND_',I      
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ISPCOND(I,MY_CONSTRAINT),0.0_8)
             END IF
@@ -674,7 +674,7 @@ C
           DO I=1,NRBE2L
             IF(IRBE2(I,MY_CONSTRAINT) /=0)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'IRBE2_',I      
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IRBE2(I,MY_CONSTRAINT),0.0_8)
             END IF
@@ -682,7 +682,7 @@ C             VARNAME sert de nom de la varable dans le ref.extract (sans blank 
 C
           DO I=IRBE2(1,MY_CONSTRAINT)+1,IRBE2(1,MY_CONSTRAINT)+IRBE2(5,MY_CONSTRAINT)
 C
-C           VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C           VARNAME: variable name in ref.extract (without blanks)
             WRITE(VARNAME,'(A,I0)') 'LRBE2_',I  
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),LRBE2(I),0.0_8)
           END DO
@@ -708,19 +708,19 @@ C
           DO I=1,IBMPC(MY_CONSTRAINT)
 
             IF(IBMPC2(II+I) /=0)THEN
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'NOD_',I      
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IBMPC2(II+I),0.0_8)
             END IF
 
             IF(IBMPC3(II+I) /=0)THEN
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'IDOF_',I      
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IBMPC3(II+I),0.0_8)
             END IF
 
             IF(IBMPC4(II+I) /=0)THEN
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'ISKEW_',I      
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IBMPC4(II+I),0.0_8)
             END IF

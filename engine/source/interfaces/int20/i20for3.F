@@ -1069,7 +1069,7 @@ C---------------------------------
                  IMPX=FXI(I)*DT12
                  IMPY=FYI(I)*DT12
                  IMPZ=FZI(I)*DT12
-Clm              MAIN side :
+C                MAIN side :
                  FSAVSUB1(1,JSUB)=FSAVSUB1(1,JSUB)+IMPX
                  FSAVSUB1(2,JSUB)=FSAVSUB1(2,JSUB)+IMPY
                  FSAVSUB1(3,JSUB)=FSAVSUB1(3,JSUB)+IMPZ
@@ -1110,7 +1110,7 @@ C boucle separee sinon bug PGI en SMP
                  IMPX=FXI(I)*DT12
                  IMPY=FYI(I)*DT12
                  IMPZ=FZI(I)*DT12
-Clm              MAIN side :
+C                MAIN side :
                  FSAVSUB1(1,JSUB)=FSAVSUB1(1,JSUB)+IMPX
                  FSAVSUB1(2,JSUB)=FSAVSUB1(2,JSUB)+IMPY
                  FSAVSUB1(3,JSUB)=FSAVSUB1(3,JSUB)+IMPZ
@@ -1429,7 +1429,7 @@ C---------------------------------
                  IMPX=FXT(I)*DT12
                  IMPY=FYT(I)*DT12
                  IMPZ=FZT(I)*DT12
-Clm              MAIN side :
+C                MAIN side :
                  FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)+IMPX
                  FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)+IMPY
                  FSAVSUB1(6,JSUB)=FSAVSUB1(6,JSUB)+IMPZ
@@ -1475,7 +1475,7 @@ C
                  IMPX=FXT(I)*DT12
                  IMPY=FYT(I)*DT12
                  IMPZ=FZT(I)*DT12
-Clm              MAIN side :
+C                MAIN side :
                  FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)+IMPX
                  FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)+IMPY
                  FSAVSUB1(6,JSUB)=FSAVSUB1(6,JSUB)+IMPZ

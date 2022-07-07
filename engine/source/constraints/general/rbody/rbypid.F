@@ -622,12 +622,12 @@ C-----------------------
          IF(NALL /= 0)THEN
            IF(ONFELT == 1)THEN
              IF (OFFG(I) /= -TEN)
-Clm             spring is active
+C               spring is active
      .          OFFG(I)= ABS(OFFG(I))
              WRITE(IOUT,*)' SPRING ACTIVATION:',IXR(NIXR,II)
            ELSEIF(ONFELT == 0)THEN
              IF (OFFG(I) /= -TEN)
-Clm             spring is active
+C               spring is active
      .          OFFG(I) = -ABS(OFFG(I))
              WRITE(IOUT,*)' SPRING DEACTIVATION:',IXR(NIXR,II)
            ENDIF

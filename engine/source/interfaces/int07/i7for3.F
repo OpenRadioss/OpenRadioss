@@ -873,7 +873,7 @@ C Force to DEL
       ENDIF ! IF(ITIED == 0)THEN
 C-------------------------------------------
 C
-Cqz 2:const,1:linear,0:nonlinear
+C   2:const,1:linear,0:nonlinear
       IF(IMPL_S.GT.0)THEN
        IF(IMP_INT7.EQ.2)THEN
         DO I=1,JLT
@@ -1563,7 +1563,7 @@ C                if type7 sym of type19 opposite sign for normal force -> forc_s
                     IMPX=FORC_SIGN*FXI(I)*DT12
                     IMPY=FORC_SIGN*FYI(I)*DT12
                     IMPZ=FORC_SIGN*FZI(I)*DT12
-Clm              MAIN side :
+C                MAIN side :
                     FSAVSUB1(1,JSUB)=FSAVSUB1(1,JSUB)+IMPX
                     FSAVSUB1(2,JSUB)=FSAVSUB1(2,JSUB)+IMPY
                     FSAVSUB1(3,JSUB)=FSAVSUB1(3,JSUB)+IMPZ
@@ -1728,7 +1728,7 @@ C                if type7 sym of type19 opposite sign for normal force -> forc_s
                    IMPX=FORC_SIGN*FXI(I)*DT12
                    IMPY=FORC_SIGN*FYI(I)*DT12
                    IMPZ=FORC_SIGN*FZI(I)*DT12
-Clm              MAIN side :
+C                MAIN side :
                    FSAVSUB1(1,JSUB)=FSAVSUB1(1,JSUB)+IMPX
                    FSAVSUB1(2,JSUB)=FSAVSUB1(2,JSUB)+IMPY
                    FSAVSUB1(3,JSUB)=FSAVSUB1(3,JSUB)+IMPZ
@@ -3080,7 +3080,7 @@ C                if type7 sym of type19 opposite sign for normal force -> forc_s
                    IMPX=FORC_SIGN*FXT(I)*DT12
                    IMPY=FORC_SIGN*FYT(I)*DT12
                    IMPZ=FORC_SIGN*FZT(I)*DT12
-Clm              MAIN side :
+C                MAIN side :
                    FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)+IMPX
                    FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)+IMPY
                    FSAVSUB1(6,JSUB)=FSAVSUB1(6,JSUB)+IMPZ
@@ -3173,7 +3173,7 @@ C            Find if node is on Surface S1 -> S2  or S2 ->S1
                      IMPY=FORC_SIGN*FYT(I)*DT12
                      IMPZ=FORC_SIGN*FZT(I)*DT12
                      IF(IMS2 > 0) THEN
-Clm              main side :
+C                main side :
                         FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)-IMPX
                         FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)-IMPY
                         FSAVSUB1(6,JSUB)=FSAVSUB1(6,JSUB)-IMPZ
@@ -3233,7 +3233,7 @@ C
                 IMPX=-FORC_SIGN*FXT(I)*DT12
                 IMPY=-FORC_SIGN*FYT(I)*DT12
                 IMPZ=-FORC_SIGN*FZT(I)*DT12
-Clm              main side :
+C                main side :
                 FSAVSUB1(4,KSUB)=FSAVSUB1(4,KSUB)+IMPX
                 FSAVSUB1(5,KSUB)=FSAVSUB1(5,KSUB)+IMPY
                 FSAVSUB1(6,KSUB)=FSAVSUB1(6,KSUB)+IMPZ
@@ -3286,7 +3286,7 @@ C                if type7 sym of type19 opposite sign for normal force -> forc_s
                     IMPX=FORC_SIGN*FXT(I)*DT12
                     IMPY=FORC_SIGN*FYT(I)*DT12
                     IMPZ=FORC_SIGN*FZT(I)*DT12
-Clm              MAIN side :
+C                MAIN side :
                     FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)+IMPX
                     FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)+IMPY
                     FSAVSUB1(6,JSUB)=FSAVSUB1(6,JSUB)+IMPZ
@@ -3376,7 +3376,7 @@ C
                    IMPY=FORC_SIGN*FYT(I)*DT12
                    IMPZ=FORC_SIGN*FZT(I)*DT12
                    IF(IMS2 > 0) THEN
-Clm              main side :
+C                main side :
                       FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)-IMPX
                       FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)-IMPY
                       FSAVSUB1(6,JSUB)=FSAVSUB1(6,JSUB)-IMPZ

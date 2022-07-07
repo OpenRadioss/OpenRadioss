@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-Cqz ------- only BC dans system global sont traites---------
+C   ------- only BC dans system global sont traites---------
 Chd|====================================================================
 Chd|  BC_IMP0                       source/constraints/general/bcs/bc_imp0.F
 Chd|-- called by -----------

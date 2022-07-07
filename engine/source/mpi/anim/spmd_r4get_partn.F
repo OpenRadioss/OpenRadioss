@@ -85,7 +85,7 @@ C-----------------------------------------------
      .                MPI_COMM_WORLD,ierror)
 
       ELSE
-Cow
+C  
         DO K=1,NBF_L
           WAR(K) = WAL(K)
         END DO

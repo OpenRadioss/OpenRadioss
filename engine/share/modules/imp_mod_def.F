@@ -109,4 +109,4 @@ C tableau de travail interface traverse detection
       INTEGER, DIMENSION(:),ALLOCATABLE :: NE_IMP1,IND_IMP1
 C      
       END MODULE IMP_INTTD
-Cqz52f4 ---
+C  52f4 ---

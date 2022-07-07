@@ -613,7 +613,7 @@ C      IF (NIC1.GT.NIC2) THEN
        ENDDO 
       RETURN
       END
-Cqz------factorized sparse approximate inverse version spmd------- 
+C  ------factorized sparse approximate inverse version spmd------- 
 Chd|====================================================================
 Chd|  IMP_FSA_INVP                  source/implicit/imp_fsa_inv.F 
 Chd|-- called by -----------
@@ -1408,7 +1408,7 @@ C
 C--------------------------------------------
       RETURN
       END
-Cqz------factorized sparse approximate inverse version hybrid------- 
+C  ------factorized sparse approximate inverse version hybrid------- 
 Chd|====================================================================
 Chd|  IMP_FSA_INVH                  source/implicit/imp_fsa_inv.F 
 Chd|-- called by -----------
@@ -1805,7 +1805,7 @@ C
        DEALLOCATE(LT_A,JDIA)
       RETURN
       END
-Cqz------factorized sparse approximate inverse version hybrid SMP inside
+C  ------factorized sparse approximate inverse version hybrid SMP inside
 Chd|====================================================================
 Chd|  IMP_FSA_INVHP                 source/implicit/imp_fsa_inv.F 
 Chd|-- called by -----------

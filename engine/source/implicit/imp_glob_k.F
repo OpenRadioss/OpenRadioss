@@ -1424,7 +1424,7 @@ C=======================================================================
 C
       RETURN
       END
-Cqz|----nouvell routine -----
+C  |----nouvell routine -----
 Chd|====================================================================
 Chd|  WRITEKS                       source/implicit/imp_glob_k.F  
 Chd|-- called by -----------
@@ -1465,7 +1465,7 @@ C-----------------------------------------------
       RETURN
       END
 C
-Cqz|----nouvell routine -----
+C  |----nouvell routine -----
 Chd|====================================================================
 Chd|  IMPKCOUT                      source/implicit/imp_glob_k.F  
 Chd|-- called by -----------
@@ -1515,7 +1515,7 @@ C=======================================================================
 C
       RETURN
       END
-Cqz|----nouvell routine -----
+C  |----nouvell routine -----
 Chd|====================================================================
 Chd|  WRITEKC                       source/implicit/imp_glob_k.F  
 Chd|-- called by -----------
@@ -1556,7 +1556,7 @@ C-----------------------------------------------
       RETURN
       END
 C
-Cqz|----nouvell routine -----
+C  |----nouvell routine -----
 Chd|====================================================================
 Chd|  IMPKPOUT                      source/implicit/imp_glob_k.F  
 Chd|-- called by -----------
@@ -1594,7 +1594,7 @@ C=======================================================================
 C
       RETURN
       END
-Cqz|----nouvell routine -----
+C  |----nouvell routine -----
 Chd|====================================================================
 Chd|  WRITEKP                       source/implicit/imp_glob_k.F  
 Chd|-- called by -----------
@@ -1635,7 +1635,7 @@ C-----------------------------------------------
       RETURN
       END
 C
-Cqz|----nouvell routine -----
+C  |----nouvell routine -----
 Chd|====================================================================
 Chd|  IMPKIOUT                      source/implicit/imp_glob_k.F  
 Chd|-- called by -----------
@@ -1673,7 +1673,7 @@ C=======================================================================
 C
       RETURN
       END
-Cqz|----nouvell routine -----
+C  |----nouvell routine -----
 Chd|====================================================================
 Chd|  WRITEKI                       source/implicit/imp_glob_k.F  
 Chd|-- called by -----------
@@ -1714,7 +1714,7 @@ C-----------------------------------------------
       RETURN
       END
 C
-Cqz|----nouvell routine -----
+C  |----nouvell routine -----
 Chd|====================================================================
 Chd|  KELAMDA                       source/implicit/imp_glob_k.F  
 Chd|-- called by -----------
@@ -2109,7 +2109,7 @@ C        ANALYSE 3D
           IPRES4=2
           GOTO 100
          ELSE
-Clm       true triangles.
+C         true triangles.
           IPRES4=1
          ENDIF
         ENDIF

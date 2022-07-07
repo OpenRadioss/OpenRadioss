@@ -295,7 +295,7 @@ c       IF(M1 > 0) THEN
 c         IF(STF(M1) == ZERO) CYCLE
 c       ENDIF
 
-Clm     BGAPEMX already counted in BMINMAL
+C       BGAPEMX already counted in BMINMAL
         AAA=ZERO + DGAPLOAD
 C       IF(IGAP0==0)THEN
 C         AAA = MARGE+BGAPEMX+GAPE(IE)

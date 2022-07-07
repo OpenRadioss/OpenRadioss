@@ -137,7 +137,7 @@ C
 C
         CALL FFIZERO(NUM_IMP    ,NIN   ,NSN     ,CAND_N     )
         I_STOK = NUM_IMP
-Cqz90c1        LREM=0
+C  90c1        LREM=0
 C
         DO NFT = 0 , I_STOK - 1 , NVSIZ
           JLT = MIN( NVSIZ, I_STOK - NFT )
@@ -684,7 +684,7 @@ C     REAL
      .   GAPV(MVSIZ),VXI(MVSIZ),VYI(MVSIZ),VZI(MVSIZ),
      .    DXI(MVSIZ),DYI(MVSIZ),DZI(MVSIZ),
      .    MSI(MVSIZ)
-Cqz ---- A(3,I) input:D(3,I); output:Fint(3,I)----- 
+C   ---- A(3,I) input:D(3,I); output:Fint(3,I)----- 
       IF(NUM_IMP.EQ.0) RETURN
 C
       NSN   =IPARI(5,NIN)

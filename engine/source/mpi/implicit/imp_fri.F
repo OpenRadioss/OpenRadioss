@@ -381,7 +381,7 @@ C-----couplage avec cond. kine ------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Cqz------retouve ISL en num global(par chaque proc)---
+C  ------retouve ISL en num global(par chaque proc)---
 Chd|====================================================================
 Chd|  IMP_FRSN                      source/mpi/implicit/imp_fri.F 
 Chd|-- called by -----------
@@ -784,7 +784,7 @@ C
 C
       RETURN
       END
-Cqz --------- ----
+C   --------- ----
 Chd|====================================================================
 Chd|  TAG_INTM                      source/mpi/implicit/imp_fri.F 
 Chd|-- called by -----------
@@ -839,7 +839,7 @@ C--------secnd node-----
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Cqz --------- ----
+C   --------- ----
 Chd|====================================================================
 Chd|  TAG_INTS                      source/mpi/implicit/imp_fri.F 
 Chd|-- called by -----------
@@ -1231,7 +1231,7 @@ C------RBE2-------
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Cqz --------- ----
+C   --------- ----
 Chd|====================================================================
 Chd|  INI_INTM                      source/mpi/implicit/imp_fri.F 
 Chd|-- called by -----------
@@ -2219,7 +2219,7 @@ C----6-----IC est deja en ordre croissante---------------------------7---------8
 C
       RETURN
       END
-Cqz --------- ----
+C   --------- ----
 Chd|====================================================================
 Chd|  IMP_DIAGS                     source/mpi/implicit/imp_fri.F 
 Chd|-- called by -----------
@@ -2337,7 +2337,7 @@ C
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Cqz --------- ----
+C   --------- ----
 Chd|====================================================================
 Chd|  IMP_DIAGSN                    source/mpi/implicit/imp_fri.F 
 Chd|-- called by -----------
@@ -3027,7 +3027,7 @@ C
 C
       RETURN
       END
-Cqz ----  nouvelle routine---------
+C   ----  nouvelle routine---------
 Chd|====================================================================
 Chd|  FR_A2B                        source/mpi/implicit/imp_fri.F 
 Chd|-- called by -----------
@@ -3077,7 +3077,7 @@ C---------
 C
       RETURN
       END
-Cqz ----  nouvelle routine---------
+C   ----  nouvelle routine---------
 Chd|====================================================================
 Chd|  FR_A2BD                       source/mpi/implicit/imp_fri.F 
 Chd|-- called by -----------
@@ -3195,7 +3195,7 @@ C------RBE2-------
 C
       RETURN
       END
-Cqz ----  nouvelle routine---------
+C   ----  nouvelle routine---------
 Chd|====================================================================
 Chd|  DIM_NRMAX                     source/mpi/implicit/imp_fri.F 
 Chd|-- called by -----------
@@ -3352,7 +3352,7 @@ C
 C
       RETURN
       END
-Cqz ----  nouvelle routine---------
+C   ----  nouvelle routine---------
 Chd|====================================================================
 Chd|  IND_NRMAX                     source/mpi/implicit/imp_fri.F 
 Chd|-- called by -----------
@@ -3467,7 +3467,7 @@ C-----------------------------------------------
       INTEGER I,J,N,NK,ICOL(NNMAX,N_FR),NROW(N_FR),IP,JLT,NFT,
      .        FR_NROW(N_FR),L,IAD_S(NSPMD+1),IAD_R(NSPMD+1),NF1,
      .        IERROR1,IERROR2,IERROR3,LS,LR,SSIZE,RSIZE,J0,NN,NR,NL,NRN
-Cqz ----  creer NROW,ICOL aux front.---------
+C   ----  creer NROW,ICOL aux front.---------
       IF (N_FR <=0 .OR. NNMAX <=0 ) THEN
        NDDLFR=0
        NDDLFRB=0
@@ -3660,7 +3660,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,N,NK,ICOL(NNMAX,N_FR),NROW(N_FR),IP,JLT,NFT,
      .        IERROR1,IERROR2,IERROR3,LS,LR,SSIZE,RSIZE,J0,L,NF1
-Cqz ----  creer NROW,ICOL aux front.---------
+C   ----  creer NROW,ICOL aux front.---------
       IF (N_FR.GT.0) THEN
       DO N =1,NUMNOD
        INLOC(N)=0
@@ -4026,7 +4026,7 @@ C-----------------------------------------------
      .        FR_NROW(N_FR),L,IAD_S(NSPMD+1),IAD_R(NSPMD+1),
      .        IERROR1,IERROR2,IERROR3,LS,LR,SSIZE,RSIZE,J0,NN,NR,NL,NRN,
      .        NR2,NF1
-Cqz ----  suite pb avec elem delete.---------
+C   ----  suite pb avec elem delete.---------
 C     IF (N_FR <=0 .OR. NNMAX <=0) RETURN
       DO N =1,NUMNOD
        INLOC(N)=0

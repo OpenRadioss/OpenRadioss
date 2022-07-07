@@ -148,7 +148,7 @@ C--------------------------------------------------------
            IB4 = BITGET(NBINFLG(IRECT(4,M)),7)
 
            IF(IB1+IB2+IB3+IB4 == 0)THEN
-c norme des normales elementaires
+C elementary normals
              SX0=(Y3(I)-Y1(I))*(Z4(I)-Z2(I))-(Z3(I)-Z1(I))*(Y4(I)-Y2(I))
              SY0=(Z3(I)-Z1(I))*(X4(I)-X2(I))-(X3(I)-X1(I))*(Z4(I)-Z2(I))
              SZ0=(X3(I)-X1(I))*(Y4(I)-Y2(I))-(Y3(I)-Y1(I))*(X4(I)-X2(I))
@@ -156,16 +156,14 @@ c norme des normales elementaires
              SX0=SX0*AAA
              SY0=SY0*AAA
              SZ0=SZ0*AAA
-c normale second: 
-c  la normale second. est enleve de la normale main 
-c  ce qui est equivalent a distribuer le shift 
-c  sur l'esclace et les mains
+c second normal substracted from main normal
+c equiv to distribute shift over main and secondary
              IF(IG > 0) THEN
                SXI = SOLIDN_NORMAL(1,IG)
                SYI = SOLIDN_NORMAL(2,IG)
                SZI = SOLIDN_NORMAL(3,IG)
              ELSE
-C noeuds remote en SPMD
+C remote nodes
                IG = -IG
                SXI = SOLIDN_NORMAL_F(1,IG)
                SYI = SOLIDN_NORMAL_F(2,IG)
@@ -177,7 +175,6 @@ C noeuds remote en SPMD
                SYI = ZERO
                SZI = ZERO
              ENDIF
-c norme des normales nodales
              SX1 = SOLIDN_NORMAL(1,I1)-SXI
              SY1 = SOLIDN_NORMAL(2,I1)-SYI
              SZ1 = SOLIDN_NORMAL(3,I1)-SZI

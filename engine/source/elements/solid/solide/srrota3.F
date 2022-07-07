@@ -73,7 +73,7 @@ C     REAL
       my_real
      .   X,Y,Z
 C-----------------------------------------------
-Clm   X=RX' <=> X'=t(R)X chgt de base.
+C     X=RX' <=> X'=t(R)X chgt de base.
       DO 10 I=LFT,LLT
        X=R11(I)*X1(I)+R21(I)*Y1(I)+R31(I)*Z1(I)
        Y=R12(I)*X1(I)+R22(I)*Y1(I)+R32(I)*Z1(I)
@@ -176,7 +176,7 @@ C     REAL
       my_real
      .   X,Y,Z
 C-----------------------------------------------
-Clm   X=RX' <=> X'=t(R)X chgt de base.
+C     X=RX' <=> X'=t(R)X chgt de base.
       DO 10 I=LFT,LLT
        X=R11(I)*X1(I)+R21(I)*Y1(I)+R31(I)*Z1(I)
        Y=R12(I)*X1(I)+R22(I)*Y1(I)+R32(I)*Z1(I)

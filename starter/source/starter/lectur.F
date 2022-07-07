@@ -7894,7 +7894,7 @@ C
       ERR_CATEGORY='INTERNAL'
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
 C
-Clm   tab masse
+C     tab masse
       IF (IDDLEVEL == 0) THEN
         ALLOCATE (MSC(NUMELC)   ,STAT=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,

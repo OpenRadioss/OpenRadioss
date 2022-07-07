@@ -2820,7 +2820,7 @@ c       ELSEIF(IX3(I) == IX4(I))THEN impossible
           H3(I) = H0 + LB(I)
           H4(I) = H0 + LC(I) 
         ENDIF
-Cqz        IF (INCONV /= 1) CYCLE
+C          IF (INCONV /= 1) CYCLE
 
         N=CAND_N(I)
 
@@ -3253,7 +3253,7 @@ C=======================================================================
 c  6 Reset IRTLM (only for old contact: IRTLM(1,N)>0)
 c       and define PENE_OLD(3,N) = PENE-GAP or dist form SECONDARY to surf
 C=======================================================================
-Cqz      IF (INCONV==1) THEN
+C        IF (INCONV==1) THEN
       DO I=1,JLT
        CE_LOC(I) =  CAND_E(I)
        CN_LOC(I) =  CAND_N(I)
@@ -3326,7 +3326,7 @@ C -------Calculate Nz,Area,Z1 IF Z1*Z1/AREA > f(angle 45) CYCLE
        ENDIF
       ENDDO
 #include "lockoff.inc"
-Cqz      END IF !(INCONV==1) THEN
+C        END IF !(INCONV==1) THEN
 C-----Correction due to difference between starter/engine 
       IF (INACTI==5) THEN
        IF (TT==ZERO) THEN

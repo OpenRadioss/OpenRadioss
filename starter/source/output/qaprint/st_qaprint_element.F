@@ -114,7 +114,7 @@ C
             DO J=1,4
               IF(IXS(ITETRA4(J),NS)/=0)THEN
 C
-C               VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C               VARNAME: variable name in ref.extract (without blanks)
 C
                 MY_NOD = ITAB(IXS(ITETRA4(J),NS))
                 WRITE(VARNAME,'(A,I0)') 'NODE_',J
@@ -125,7 +125,7 @@ C
             DO J=1,6
               IF(IXS(IPENTA6(J),NS)/=0)THEN
 C
-C               VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C               VARNAME: variable name in ref.extract (without blanks)
 C
                 MY_NOD = ITAB(IXS(IPENTA6(J),NS))
                 WRITE(VARNAME,'(A,I0)') 'NODE_',J
@@ -136,7 +136,7 @@ C
             DO J=2,9
               IF(IXS(J,NS)/=0)THEN
 C
-C               VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C               VARNAME: variable name in ref.extract (without blanks)
 C
                 MY_NOD = ITAB(IXS(J,NS))
                 WRITE(VARNAME,'(A,I0)') 'NODE_',J-1
@@ -170,7 +170,7 @@ C
           DO J=1,4
             IF(IXS(ITETRA4(J),NUMELS8+NS)/=0)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
 C
               MY_NOD = ITAB(IXS(ITETRA4(J),NUMELS8+NS))
               WRITE(VARNAME,'(A,I0)') 'NODE_',J
@@ -181,7 +181,7 @@ C
           DO J=1,6
             IF(IXS10(J,NS)/=0)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
 C
               MY_NOD = ITAB(IXS10(J,NS))
               WRITE(VARNAME,'(A,I0)') 'NODE_',J+4
@@ -213,7 +213,7 @@ C
           DO J=2,9
             IF(IXS(J,NUMELS8+NUMELS10+NUMELS20+NS)/=0)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
 C
               MY_NOD = ITAB(IXS(J,NUMELS8+NUMELS10+NUMELS20+NS))
               WRITE(VARNAME,'(A,I0)') 'NODE_',J
@@ -224,7 +224,7 @@ C
           DO J=1,8
             IF(IXS16(J,NS)/=0)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
 C
               MY_NOD = ITAB(IXS16(J,NS))
               WRITE(VARNAME,'(A,I0)') 'NODE_',J+8

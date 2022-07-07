@@ -564,7 +564,7 @@ C      LTITR   = 40
       NSENSI  = 15 + LTITR
       NPROPGI = 750 + LTITR
       NPROPMI = 300 + LTITR
-Cgw   npsav non utilise dans le starter
+C     npsav non utilise dans le starter
       NPSAV  = 0
       NR2R = 2
       NISP    = 8

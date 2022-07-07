@@ -245,7 +245,7 @@ C
       PMAXSKID=INTBUF_TAB%VARIABLES(35)
 C
 c----------------------------------------------------
-Clm IADM!=0 + Icurv!=0 non available (starter error).
+C   IADM!=0 + Icurv!=0 non available (starter error).
 c----------------------------------------------------
         I_STOK = INTBUF_TAB%I_STOK(1)
 

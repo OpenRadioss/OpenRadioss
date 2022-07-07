@@ -190,7 +190,7 @@ C
          IF(NI.LE.NSN)THEN
            IG = NSV(NI)
            NSVG(I) = IG
-Cqz           KINI(I) = KINET(IG)
+C             KINI(I) = KINET(IG)
            XI(I) = X(1,IG)
            YI(I) = X(2,IG)
            ZI(I) = X(3,IG)

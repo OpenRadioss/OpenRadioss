@@ -188,7 +188,7 @@ C----
        DO I=LFT,LLT
         EINT(I)=EINT(I)+HALF*OFF(I)*DVOL(I)*(-QOLD(I)-QVIS(I))
         QOLD(I)=QVIS(I)
-Clm     STI will be changed to 2*STI/NNE in SxCUMU  
+C       STI will be changed to 2*STI/NNE in SxCUMU  
 C       [ STI(I) = FOURTH * OFF(I) * RHO(I) * VOL(I) / DTX(I)**2 for 8node bricks ]
         STI(I) = OFF(I) * RHO(I) * VOL(I) / DTX(I)**2
         DTX(I)= DTFAC1(ITY)*DTX(I)
@@ -257,7 +257,7 @@ C----
        DO I=LFT,LLT
         EINT(I)=EINT(I)+HALF*OFF(I)*DVOL(I)*(-QOLD(I)-QVIS(I))
         QOLD(I)=QVIS(I)
-Clm     STI will be changed to 2*STI/NNE in SxCUMU  
+C       STI will be changed to 2*STI/NNE in SxCUMU  
 C       [ STI(I) = FOURTH * OFF(I) * RHO(I) * VOL(I) / DTX(I)**2 for 8node bricks ]
         STI(I) = OFF(I) * RHO(I) * VOL(I) / DTX(I)**2
 c

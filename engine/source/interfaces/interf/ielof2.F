@@ -66,7 +66,7 @@ C
       NTY   =IPARI(7)
       NST   =IPARI(8)
       MST   =IPARI(9)
-Cgw091 +1
+C  091 +1
       IGAP  =IPARI(21)
 C
 C

@@ -177,7 +177,7 @@ C
         IF (X >= XLIM1) THEN
           FR_WAVE(I)=ONE
           IF (UVAR(3,I) >= ONE .AND. OFF(I) == ONE) THEN
-Cqz  change I to global indice
+C    change I to global indice
             WRITE(iout,*)'SPRING',I, 'REACHES LIMIT IN X : ',X
             OFF(I)=ZERO
           ENDIF

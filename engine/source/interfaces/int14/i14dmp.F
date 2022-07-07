@@ -102,7 +102,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     Noeud main dans le repere de l'ellipsoide :
 C     pour calcul de l'amortissement.
-Clm   la position (el les vitesses) du noeud main sont transmises 
+C     la position (el les vitesses) du noeud main sont transmises 
 C     par l'objet qui utilise la surface (Rigid Body)
 C     - dans le Starter au Temps TT=0.
 C-----------------------------------------------

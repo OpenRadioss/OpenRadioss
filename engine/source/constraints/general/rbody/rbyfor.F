@@ -118,11 +118,11 @@ C-------------------------------------
           IF(NPBY(7,N).GT.0) THEN
            N2 = NINTER+NRWALL+N
 C          Cumul des Forces / Moments sur la surface :
-Clm        A chaque instant (et a TT=0. dans le Starter),
+C          A chaque instant (et a TT=0. dans le Starter),
 C          le Rigid Body transmet la position du noeud main
 C          a la surface
 C          ET
-Clm        Dans l'Interface TYPE 14, Les forces, moments (et rigidites)
+C          Dans l'Interface TYPE 14, Les forces, moments (et rigidites)
 C          sont calcules en ce point !!!
            ISU=NPBY(8,N)
            IF(ISPMD.EQ.0.AND.ISU.NE.0) THEN
@@ -190,11 +190,11 @@ C-------------------------------------
           IF(NPBY(7,N).GT.0) THEN
            N2 = NINTER+NRWALL+N
 C          Cumul des Forces / Moments sur la surface :
-Clm        A chaque instant (et a TT=0. dans le Starter),
+C          A chaque instant (et a TT=0. dans le Starter),
 C          le Rigid Body transmet la position du noeud main
 C          a la surface
 C          ET
-Clm        Dans l'Interface TYPE 14, Les forces, moments (et rigidites)
+C          Dans l'Interface TYPE 14, Les forces, moments (et rigidites)
 C          sont calcules en ce point !!!
            ISU=NPBY(8,N)
            IF(ISPMD.EQ.0.AND.ISU.NE.0) THEN

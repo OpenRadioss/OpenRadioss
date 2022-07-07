@@ -158,7 +158,7 @@ C
           DO I=1,SIZFIELD
             IF(ICFIELD(I,MY_LOAD) /=0)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'ICFIELD_',I      ! ICFIELD(11) => 'ICFIELD_11'
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ICFIELD(I,MY_LOAD),0.0_8)
             END IF
@@ -166,7 +166,7 @@ C             VARNAME sert de nom de la varable dans le ref.extract (sans blank 
 C
           DO I=ICFIELD(4,MY_LOAD),ICFIELD(4,MY_LOAD)+ICFIELD(1,MY_LOAD)-1
 C
-C           VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C           VARNAME: variable name in ref.extract (without blanks)
             WRITE(VARNAME,'(A,I0)') 'LCFIELD_',I      ! LCFIELD(11) => 'LCFIELD_11'
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),LCFIELD(I),0.0_8)
           END DO
@@ -174,7 +174,7 @@ C
           DO I=1,LFACLOAD
             IF(CFIELD(I,MY_LOAD)/=ZERO)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'CFIELD_',I
               TEMP_DOUBLE = CFIELD(I,MY_LOAD)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -201,7 +201,7 @@ C
           DO I=1,SIZLOADP
             IF(ILOADP(I,MY_LOAD) /=0)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'ILOADP_',I      ! ILOADP(11) => 'ILOADP_11'
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ILOADP(I,MY_LOAD),0.0_8)
             END IF
@@ -209,7 +209,7 @@ C             VARNAME sert de nom de la varable dans le ref.extract (sans blank 
 C
           DO I=ILOADP(4,MY_LOAD),ILOADP(4,MY_LOAD)+ILOADP(1,MY_LOAD)-1
 C
-C           VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C           VARNAME: variable name in ref.extract (without blanks)
             WRITE(VARNAME,'(A,I0)') 'LLOADP_',I      ! LLOADP(11) => 'LLOADP_11'
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),LLOADP(I),0.0_8)
           END DO
@@ -217,7 +217,7 @@ C
           DO I=1,LFACLOAD
             IF(LOADP(I,MY_LOAD)/=ZERO)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'LOADP_',I
               TEMP_DOUBLE = LOADP(I,MY_LOAD)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -243,7 +243,7 @@ C
           DO I=1,SIZLOADP
             IF(ILOADP(I,MY_LOAD) /=0)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'ILOADP_',I      ! ILOADP(11) => 'ILOADP_11'
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ILOADP(I,MY_LOAD),0.0_8)
             END IF
@@ -251,7 +251,7 @@ C             VARNAME sert de nom de la varable dans le ref.extract (sans blank 
 C
           DO I=ILOADP(4,MY_LOAD),ILOADP(4,MY_LOAD)+ILOADP(1,MY_LOAD)-1
 C
-C           VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C           VARNAME: variable name in ref.extract (without blanks)
             WRITE(VARNAME,'(A,I0)') 'LLOADP_',I      ! LLOADP(11) => 'LLOADP_11'
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),LLOADP(I),0.0_8)
           END DO
@@ -259,7 +259,7 @@ C
           DO I=1,LFACLOAD
             IF(LOADP(I,MY_LOAD)/=ZERO)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'LOADP_',I
               TEMP_DOUBLE = LOADP(I,MY_LOAD)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -286,7 +286,7 @@ C
           DO I=1,NIBCLD
             IF(IBCL(I,MY_LOAD) /=0)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'IBCL_',I      ! IBCL(11) => 'IBCL_11'
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IBCL(I,MY_LOAD),0.0_8)
             END IF
@@ -295,7 +295,7 @@ C
           DO I=1,LFACCLD
             IF(FORC(I,MY_LOAD)/=ZERO)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'FORC_',I
               TEMP_DOUBLE = FORC(I,MY_LOAD)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -322,7 +322,7 @@ C
           DO I=1,NIBCLD
             IF(IPRES(I,MY_LOAD) /=0)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'IPRES_',I      ! IPRES(11) => 'IPRES_11'
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IPRES(I,MY_LOAD),0.0_8)
             END IF
@@ -331,7 +331,7 @@ C
           DO I=1,LFACCLD
             IF(PRES(I,MY_LOAD)/=ZERO)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'PRES_',I
               TEMP_DOUBLE = PRES(I,MY_LOAD)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -358,7 +358,7 @@ C
           DO I=1,NIRADIA
             IF(IBCR(I,MY_LOAD) /=0)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'IBCR_',I      ! IBCR(11) => 'IBCR_11'
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IBCR(I,MY_LOAD),0.0_8)
             END IF
@@ -367,7 +367,7 @@ C
           DO I=1,LFACTHER
             IF(FRADIA(I,MY_LOAD)/=ZERO)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'FRADIA_',I
               TEMP_DOUBLE = FRADIA(I,MY_LOAD)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -394,7 +394,7 @@ C
           DO I=1,NICONV
             IF(IBCV(I,MY_LOAD) /=0)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'IBCV_',I      ! IBCV(11) => 'IBCV_11'
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IBCV(I,MY_LOAD),0.0_8)
             END IF
@@ -403,7 +403,7 @@ C
           DO I=1,LFACTHER
             IF(FCONV(I,MY_LOAD)/=ZERO)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'FCONV_',I
               TEMP_DOUBLE = FCONV(I,MY_LOAD)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -430,7 +430,7 @@ C
           DO I=1,NIGRV
             IF(IGRV(I,MY_LOAD) /=0)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'IGRV_',I      ! IGRV(11) => 'IGRV_11'
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IGRV(I,MY_LOAD),0.0_8)
             END IF
@@ -438,7 +438,7 @@ C             VARNAME sert de nom de la varable dans le ref.extract (sans blank 
 C
           DO I=IGRV(4,MY_LOAD),IGRV(4,MY_LOAD)+IGRV(1,MY_LOAD)-1
 C
-C           VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C           VARNAME: variable name in ref.extract (without blanks)
             WRITE(VARNAME,'(A,I0)') 'LGRV_',I      
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),LGRV(I),0.0_8)
           END DO
@@ -446,7 +446,7 @@ C
           DO I=1,LFACGRV
             IF(AGRV(I,MY_LOAD)/=ZERO)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'AGRV_',I
               TEMP_DOUBLE = AGRV(I,MY_LOAD)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)

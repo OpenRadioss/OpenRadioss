@@ -64,7 +64,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C      ACTUAL FRAME POSITION & ORIENTATION WRT GLOBAL SYSTEM
 C-----------------
-Clm    Frame position at time T (O == position of node N1).
+C      Frame position at time T (O == position of node N1).
        O(1)=XFRAME(10)
        O(2)=XFRAME(11)
        O(3)=XFRAME(12)

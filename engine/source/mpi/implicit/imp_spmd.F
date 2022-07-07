@@ -3176,7 +3176,7 @@ C
             DEALLOCATE(TDDLC, CDDLPC)
          ENDDO
          NDDLG=NDDLGL
-Cqz+4    
+C  +4    
          DO I = 2, NSPMD
           IRQTAG=MSGOFF2 
           CALL MPI_SEND(NDDLG,1,MPI_INTEGER,IT_SPMD(I),
@@ -3194,7 +3194,7 @@ C
 C
 
          CALL MPI_WAITALL(2, REQ, STAT, IERR)
-Cqz+3    
+C  +3    
          IRQTAG = MSGOFF2 
          CALL MPI_RECV(NDDLG,1,MPI_INTEGER,IT_SPMD(1),IRQTAG,
      .                MPI_COMM_WORLD,STAT,IERR )

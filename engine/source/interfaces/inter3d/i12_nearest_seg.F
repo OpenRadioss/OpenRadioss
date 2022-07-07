@@ -27,7 +27,7 @@ Chd|        I12MSR3                       source/interfaces/inter3d/i12msr3.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE I12_NEAREST_SEG(XS, XM, IS, M1, M2, M3, LSEG, LSEG_NEW, BMIN, BMAX)
-Cfa
+C  
 C  COMPUTE BARYCENTRIC COORDINATES OF PROJECTION OF NODE IS ON TRIANGLE M1 M2 M3
 C  WOLFGANG HEIDRICH, 2005
 C-----------------------------------------------

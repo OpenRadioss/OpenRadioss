@@ -972,7 +972,7 @@ C---------------------------------
                     IMPX=FXT(I)*DT12
                     IMPY=FYT(I)*DT12
                     IMPZ=FZT(I)*DT12
-Clm               main side :
+C                 main side :
                     FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)+IMPX
                     FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)+IMPY
                     FSAVSUB1(6,JSUB)=FSAVSUB1(6,JSUB)+IMPZ
@@ -1006,7 +1006,7 @@ C
                 IMPX=FXT(I)*DT12
                 IMPY=FYT(I)*DT12
                 IMPZ=FZT(I)*DT12
-Clm             main side :
+C               main side :
                 FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)+IMPX
                 FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)+IMPY
                 FSAVSUB1(6,JSUB)=FSAVSUB1(6,JSUB)+IMPZ
@@ -1055,7 +1055,7 @@ c     .                              +XP(I)*IMPY-YP(I)*IMPX
                       FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)-IMPY
                       FSAVSUB1(6,JSUB)=FSAVSUB1(6,JSUB)-IMPZ
                     ELSE
-Clm               main side :
+C                 main side :
                       FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)+IMPX
                       FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)+IMPY
                       FSAVSUB1(6,JSUB)=FSAVSUB1(6,JSUB)+IMPZ
@@ -1104,7 +1104,7 @@ c     .                              +XP(I)*IMPY-YP(I)*IMPX
                 IMPX=-FXT(I)*DT12
                 IMPY=-FYT(I)*DT12
                 IMPZ=-FZT(I)*DT12
-Clm             main side :
+C               main side :
                 FSAVSUB1(4,KSUB)=FSAVSUB1(4,KSUB)+IMPX
                 FSAVSUB1(5,KSUB)=FSAVSUB1(5,KSUB)+IMPY
                 FSAVSUB1(6,KSUB)=FSAVSUB1(6,KSUB)+IMPZ
@@ -1164,7 +1164,7 @@ c     .                              +XP(I)*IMPY-YP(I)*IMPX
                     IMPX=FXT(I)*DT12
                     IMPY=FYT(I)*DT12
                     IMPZ=FZT(I)*DT12
-Clm               main side :
+C                 main side :
                     FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)+IMPX
                     FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)+IMPY
                     FSAVSUB1(6,JSUB)=FSAVSUB1(6,JSUB)+IMPZ
@@ -1199,7 +1199,7 @@ C
                 IMPX=FXT(I)*DT12
                 IMPY=FYT(I)*DT12
                 IMPZ=FZT(I)*DT12
-Clm             main side :
+C               main side :
                 FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)+IMPX
                 FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)+IMPY
                 FSAVSUB1(6,JSUB)=FSAVSUB1(6,JSUB)+IMPZ
@@ -1243,12 +1243,12 @@ c     .                              +XP(I)*IMPY-YP(I)*IMPX
                     IMPY=FYT(I)*DT12
                     IMPZ=FZT(I)*DT12
                     IF(IMS2 > 0 ) THEN
-Clm               main side :
+C                 main side :
                       FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)-IMPX
                       FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)-IMPY
                       FSAVSUB1(6,JSUB)=FSAVSUB1(6,JSUB)-IMPZ
                     ELSE
-Clm               main side :
+C                 main side :
                       FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)+IMPX
                       FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)+IMPY
                       FSAVSUB1(6,JSUB)=FSAVSUB1(6,JSUB)+IMPZ

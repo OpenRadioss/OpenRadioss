@@ -229,9 +229,9 @@ C
 C
       ELSEIF(IPLA.EQ.1)THEN
        DO I=LFT,LLT
-Clm    plastic strain increment.
+C      plastic strain increment.
        DPLA(I)=(ONE -SCALE(I))*AJ2(I)/(THREE*G(I)+QH(I))
-Clm    actual yeld stress.
+C      actual yeld stress.
        AK(I)=AK(I)+DPLA(I)*QH(I)
        SCALE(I)= MIN(ONE,AK(I)/ MAX(AJ2(I),EM15))
        SIG(I,1)=SCALE(I)*SIG(I,1)

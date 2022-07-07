@@ -62,7 +62,7 @@ C-----------------------------------------------
       DATA MSGOFF/7030/
       DATA MSGOFF2/7031/
        
-Cow Tableau utilise par proc 0
+C   Tableau utilise par proc 0
        my_real
      . S3000,S,XN1,XN2,XN3,IXNN
 C-----------------------------------------------
@@ -99,9 +99,9 @@ C-----------------------------------------------
            END IF
          END DO
 
-Cow a cause de la version simple precision, on ne peux pas metre l'entier
-Cow dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
-Cow de noeuds au max
+C   a cause de la version simple precision, on ne peux pas metre l'entier
+C   dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
+C   de noeuds au max
 
         MSGTYP = MSGOFF2 
         CALL MPI_SEND(IBUF,4*SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,

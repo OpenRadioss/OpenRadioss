@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-Cgw_clean      SUBROUTINE M27CRAK(JFT,JLT,PM,DAMT,DIR,MATLY,ILAYER,OFF)
+C  _clean      SUBROUTINE M27CRAK(JFT,JLT,PM,DAMT,DIR,MATLY,ILAYER,OFF)
 Chd|====================================================================
 Chd|  M27CRAK                       source/materials/mat/mat027/m27crak.F
 Chd|-- called by -----------

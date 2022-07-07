@@ -264,15 +264,15 @@ C-------------------
 C     STRAIN RATE
 C-------------------
       DO I=1,NEL
-Cgw087        DAV = (EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))/3.
-Cgw087        E1 = EPSPXX(I) - DAV
-Cgw087        E2 = EPSPYY(I) - DAV
-Cgw087        E3 = EPSPZZ(I) - DAV
-Cgw087        E4 = 0.5*EPSPXY(I)
-Cgw087        E5 = 0.5*EPSPYZ(I)
-Cgw087        E6 = 0.5*EPSPZX(I)
-Cgw087        EPSP(I) =.5*(E1**2+E2**2+E3**2) +E4**2+E5**2+E6**2
-Cgw087        EPSP(I) = SQRT(3.*EPSP(I))/1.5
+C  087        DAV = (EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))/3.
+C  087        E1 = EPSPXX(I) - DAV
+C  087        E2 = EPSPYY(I) - DAV
+C  087        E3 = EPSPZZ(I) - DAV
+C  087        E4 = 0.5*EPSPXY(I)
+C  087        E5 = 0.5*EPSPYZ(I)
+C  087        E6 = 0.5*EPSPZX(I)
+C  087        EPSP(I) =.5*(E1**2+E2**2+E3**2) +E4**2+E5**2+E6**2
+C  087        EPSP(I) = SQRT(3.*EPSP(I))/1.5
 C-------------------
 C     STRAIN principal 1, 4 newton iterations 
 C-------------------
@@ -361,11 +361,11 @@ C
       DO I=1,NEL
         J1 = JJ(I)
         J2 = J1+1
-Cgw037        IPOS1(I) = NINT(UVAR(I,J1))
+C  037        IPOS1(I) = NINT(UVAR(I,J1))
         IPOS1(I) = NINT(UVAR(I,J1+2))
         IAD1(I)  = NPF(IFUNC(J1)) / 2 + 1
         ILEN1(I) = NPF(IFUNC(J1)+1) / 2 - IAD1(I) - IPOS1(I)
-Cgw037        IPOS2(I) = NINT(UVAR(I,J2))
+C  037        IPOS2(I) = NINT(UVAR(I,J2))
         IPOS2(I) = NINT(UVAR(I,J2+2))
         IAD2(I)  = NPF(IFUNC(J2)) / 2 + 1
         ILEN2(I) = NPF(IFUNC(J2)+1) / 2 - IAD2(I) - IPOS2(I)
@@ -413,8 +413,8 @@ C        in a case of homogenuous element groups (to do if needed)
         H(I) = H(I) * MAX(ZERO, PFAC(I))
         YLD(I) = YLD(I) * MAX(ZERO, PFAC(I))
 
-Cgw037        UVAR(I,J1) = IPOS1(I)
-Cgw037        UVAR(I,J2) = IPOS2(I)
+C  037        UVAR(I,J1) = IPOS1(I)
+C  037        UVAR(I,J2) = IPOS2(I)
         UVAR(I,J1+2) = IPOS1(I)
         UVAR(I,J2+2) = IPOS2(I)
       ENDDO
@@ -463,9 +463,9 @@ c        P = C1 * (RHO(I)/RHO0(I)-ONE)
      1          +SIGNXY(I)**2+SIGNYZ(I)**2+SIGNZX(I)**2
         VM =SQRT(THREE*VM)
         R = MIN(ONE,YLD(I)/ MAX(VM,EM20))
-Clm     plastic strain increment.
+C       plastic strain increment.
         DPLA(I)=(ONE - R)*VM/MAX(G3+H(I),EM20)
-Clm     actual yeld stress.
+C       actual yeld stress.
         YLD(I)=MAX(YLD(I)+DPLA(I)*H(I),ZERO)
         R = MIN(ONE,YLD(I)/ MAX(VM,EM20))
 C

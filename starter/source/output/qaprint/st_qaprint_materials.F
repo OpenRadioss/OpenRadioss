@@ -78,7 +78,7 @@ C         2 MATs peuvent avoir le meme titre
           DO I=1,NPROPMI-LTITR ! si on ne peut pas tester une chaine de caracteres, do i=1,npropmi
             IF(IPM(I,MY_MAT) /=0)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'IPM_',I      ! IPM(11) => 'IPM_11'
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IPM(I,MY_MAT),0.0_8)
             END IF
@@ -86,7 +86,7 @@ C             VARNAME sert de nom de la varable dans le ref.extract (sans blank 
           DO I=1,NPROPM
             IF(PM(I,MY_MAT)/=ZERO)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'PM_',I
               TEMP_DOUBLE = PM(I,MY_MAT)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -97,7 +97,7 @@ C             VARNAME sert de nom de la varable dans le ref.extract (sans blank 
           DO I=1,NUPARAM
             IF(BUFMAT(IADBUF+I-1)/=ZERO)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'BUFMAT_',I
               TEMP_DOUBLE = BUFMAT(IADBUF+I-1)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)

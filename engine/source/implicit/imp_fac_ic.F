@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-Cqz------incomplete cholesky using jennings diagnal modif----
+C  ------incomplete cholesky using jennings diagnal modif----
 Chd|====================================================================
 Chd|  IMP_FAC_ICJ                   source/implicit/imp_fac_ic.F  
 Chd|-- called by -----------

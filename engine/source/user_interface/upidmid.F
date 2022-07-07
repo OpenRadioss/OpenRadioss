@@ -89,7 +89,7 @@ C       GET_U_MAT = BUFMAT(IADBUF-1+IVAR)
 C
       RETURN
       END
-Cgw029
+C  029
 Chd|====================================================================
 Chd|  GET_U_GEO                     source/user_interface/upidmid.F
 Chd|-- called by -----------
@@ -161,7 +161,7 @@ C       GET_U_GEO = BUFGEO(NINT(GEO(27,IP))-1+IVAR)
 C
       RETURN
       END
-Cgw029
+C  029
 Chd|====================================================================
 Chd|  GET_U_PNU                     source/user_interface/upidmid.F
 Chd|-- called by -----------
@@ -265,7 +265,7 @@ C
 C
       RETURN
       END
-Cgw029
+C  029
 Chd|====================================================================
 Chd|  GET_U_PID                     source/user_interface/upidmid.F
 Chd|-- called by -----------

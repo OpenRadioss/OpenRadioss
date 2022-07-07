@@ -103,7 +103,7 @@ C=======================================================================
        S6(I)=(SIG(I,6)+SVIS(I,6))*VOL(I)
       ENDDO
 C                                                                     12
-Cqz-------constant part---------
+C  -------constant part---------
        DO I=LFT,LLT
         FINT=S1(I)*PX1(I)+S4(I)*PY1(I)
         FXC = JI33(I)*S6(I)
@@ -146,7 +146,7 @@ C
         F33(I)=F33(I)-FINT+FINTZ
         F36(I)=F36(I)-FINT-FINTZ
        ENDDO
-Cqz --- non constante part------------
+C   --- non constante part------------
 C                                                                     12
       DO I=LFT,LLT
        S1(I) = ZI*S1(I)
@@ -218,7 +218,7 @@ C
         F36(I)=F36(I)-FINT-FINTZ
        ENDDO
 C----------------------------------------------    /
-Cqz - post-traitement-valeur moyenne au sens a'=(_/  a dv ) /v
+C   - post-traitement-valeur moyenne au sens a'=(_/  a dv ) /v
       DO I=LFT,LLT
          FAC(I) = OFF(I)*VOL(I)/VOLG(I)
          SIGM(I,1) = SIGM(I,1) + FAC(I) * SIG(I,1)

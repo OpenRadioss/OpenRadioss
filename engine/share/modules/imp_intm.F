@@ -20,7 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-Cqz50d1+++
 Chd|====================================================================
 Chd|  IMP_INTM                      share/modules/imp_intm.F      
 Chd|-- called by -----------
@@ -133,18 +132,17 @@ C indiquant liste noeuds remote a recevoir du "proc main"
       INTEGER, DIMENSION(:), ALLOCATABLE :: FR_SREM
 C tableau de pointeurs IND_INT de taille NINTER :index de structure interface a FR_SREM
       TYPE(int_pointer2), DIMENSION(:), ALLOCATABLE :: IND_INT
-Cow51d1      TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: IND_INT
+C  51d1      TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: IND_INT
 C tableau de int SHF_INT de taille NINTER :nb de SREM des precedent interfaces
       INTEGER, DIMENSION(:), ALLOCATABLE :: SHF_INT
 C tableau de int de taille NSL :noeuds secnds locales  (apres upd)
       INTEGER, DIMENSION(:), ALLOCATABLE :: ISL
-Cqz51f4+1 =ISL sauf mis a zero des noeuds doubles
+C =ISL sauf mis a zero des noeuds doubles
       INTEGER, DIMENSION(:), ALLOCATABLE :: ISLM
 C tableau de int de taille NML :noeuds mains locales (apres upd)
       INTEGER, DIMENSION(:), ALLOCATABLE :: IML
 C tableau de int de taille (NBINTC,NSPMD) :nb noeuds secnds locales (tempo)
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: INBSL
-Cqz51f4      INTEGER, DIMENSION(:), ALLOCATABLE :: INBSL
       INTEGER, DIMENSION(:), ALLOCATABLE :: IAD_SREM,IAD_SL
       my_real, DIMENSION(:),ALLOCATABLE :: STIFS
 C tableau de divers reels de taille (,NSREM),H_E(4,):fonction de form, 
@@ -166,13 +164,13 @@ C tableau de K_DIAG reels de taille (6,IFRSRS)
       my_real, DIMENSION(:,:),ALLOCATABLE :: DIAG_MR,DIAG_MR2
 C tableau de K_DIAG reels de taille (6,4,NI2_FRS) 
       my_real, DIMENSION(:,:,:),ALLOCATABLE :: DIAG_M2,DIAG_M3
-Cqz51f9,11 de taille (3,NBC_FR),(2,NFX_FR):imposed velocity
+C de taille (3,NBC_FR),(2,NFX_FR):imposed velocity
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: IBC_FR,IFX_FR
       INTEGER, DIMENSION(:), ALLOCATABLE :: ISPC_FR
-Cqz51f12 int de taille (NRW_FR)
+C int de taille (NRW_FR)
       INTEGER NRW_FR
       INTEGER, DIMENSION(:), ALLOCATABLE :: IRW_FR
-Cqz52c1+++ quand INTP_D>0 la matrice de rigidite M.C.R.S.-----
+C quand INTP_D>0 la matrice de rigidite M.C.R.S.-----
       INTEGER INTP_D,NDDL_SI,NDDL_SL,NZ_SI,NZ_SL
       INTEGER, DIMENSION(:), ALLOCATABLE :: IAD_SI,JDI_SI,IKC_SI
       INTEGER, DIMENSION(:), ALLOCATABLE :: IAD_SS,JDI_SL,IKC_SL
@@ -182,7 +180,6 @@ Cqz52c1+++ quand INTP_D>0 la matrice de rigidite M.C.R.S.-----
       my_real, DIMENSION(:), ALLOCATABLE :: DIAG_SL,LT_SI,LT_SL
       my_real, DIMENSION(:), ALLOCATABLE :: USI,FSI
       my_real, DIMENSION(:), ALLOCATABLE :: FRCDI,MRCDI
-Cqz52c1--- 
 C      
       END MODULE IMP_INTM
 C

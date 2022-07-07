@@ -94,7 +94,7 @@ C-----------------------------------------------
 
           DO I=2,NSPMD
 
-Cow Reception du buffer entier des adresses NODGLOB
+C   Reception du buffer entier des adresses NODGLOB
             MSGTYP = MSGOFF
 
             CALL MPI_PROBE(IT_SPMD(I),MSGTYP,

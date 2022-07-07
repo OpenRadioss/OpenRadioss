@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 
-Cgw          dxyzsph                  /anim/dxyzsph.F
+C            dxyzsph                  /anim/dxyzsph.F
 Chd|====================================================================
 Chd|  SPMD_GATHER_SPH               source/mpi/anim/spmd_gather_sph.F
 Chd|-- called by -----------
@@ -61,7 +61,7 @@ C-----------------------------------------------
 
       DATA MSGOFF/7034/
 
-Cow Tableau utilise par proc 0
+C   Tableau utilise par proc 0
        REAL, DIMENSION(:),ALLOCATABLE :: XGLOB
 C-----------------------------------------------
        ALLOCATE(XGLOB(NUM))
@@ -77,7 +77,7 @@ C-----------------------------------------------
 
           DO I=2,NSPMD
 
-Cow Reception du buffer entier des adresses NODGLOB
+C   Reception du buffer entier des adresses NODGLOB
             MSGTYP = MSGOFF
 
             CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
@@ -87,7 +87,7 @@ Cow Reception du buffer entier des adresses NODGLOB
             CALL MPI_RECV(XGLOB,SIZ,MPI_REAL,IT_SPMD(I),MSGTYP,
      .                  MPI_COMM_WORLD,STATUS,ierror)
 
-Cow
+C  
            
             CALL WRITE_R_C(XGLOB,SIZ)
           ENDDO

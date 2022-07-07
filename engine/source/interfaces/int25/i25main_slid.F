@@ -518,7 +518,7 @@ C :       - Retirer ces NS de XREM et IREM lors de la copie des [IR]BUFR vers [I
 
           END IF
 C
-Clm       add new candidates wrt sliding to CAND_OPT_N, CAND_OPT_E 
+C         add new candidates wrt sliding to CAND_OPT_N, CAND_OPT_E 
  50       CONTINUE
 
           SIZOPT     = INTBUF_TAB(NIN)%S_CAND_OPT_N

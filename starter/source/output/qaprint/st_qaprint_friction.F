@@ -167,7 +167,7 @@ C default values
              ENDIF  
       
             DO I=1,NSET
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               IORTH = INTBUF_FRIC_TAB(MY_FRIC)%IFRICORTH(I)
               IF(IORTH == 0 ) THEN
                  WRITE(VARNAME,'(A,I0)') 'mu_',I

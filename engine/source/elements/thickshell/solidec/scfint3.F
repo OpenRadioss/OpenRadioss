@@ -144,7 +144,7 @@ C
         F34(I)=F34(I)-FINT
         F36(I)=F36(I)+FINT
       ENDDO
-Cqz +++ non constante part------------
+C   +++ non constante part------------
       DO I=LFT,LLT
         RY1(I)= ZI*RY0(I)
         RX1(I)= ZI*RX0(I)
@@ -154,7 +154,7 @@ Cqz +++ non constante part------------
       ENDDO
 C---- asymetric part of gama------------
       DO I=LFT,LLT
-Cqz ---- I =1--------------
+C   ---- I =1--------------
         XH1I =-RY1(I)*PX1H1(I)
         XH2I = SY1(I)*PX1H2(I)
         YH1I = RX1(I)*PX1H1(I)
@@ -170,7 +170,7 @@ Cqz ---- I =1--------------
         FINT= S6(I)*XH1I+S5(I)*YH2I
         F31(I)=F31(I)+FINT
         F37(I)=F37(I)-FINT
-Cqz ---- I =2--------------
+C   ---- I =2--------------
         XH1I =-RY1(I)*PX2H1(I)
         XH2I = SY1(I)*PX2H2(I)
         YH1I = RX1(I)*PX2H1(I)
@@ -186,7 +186,7 @@ Cqz ---- I =2--------------
         FINT= S6(I)*XH1I+S5(I)*YH2I
         F32(I)=F32(I)+FINT
         F38(I)=F38(I)-FINT
-Cqz ---- I =3--------------
+C   ---- I =3--------------
         XH1I =-RY1(I)*PX3H1(I)
         XH2I = SY1(I)*PX3H2(I)
         YH1I = RX1(I)*PX3H1(I)
@@ -202,7 +202,7 @@ Cqz ---- I =3--------------
         FINT= S6(I)*XH1I+S5(I)*YH2I
         F33(I)=F33(I)+FINT
         F35(I)=F35(I)-FINT
-Cqz ---- I =4--------------
+C   ---- I =4--------------
         XH1I =-RY1(I)*PX4H1(I)
         XH2I = SY1(I)*PX4H2(I)
         YH1I = RX1(I)*PX4H1(I)
@@ -227,7 +227,7 @@ C 1 -1 -1 1 -1 1 1 -1
         XH2I = ONE_OVER_8*SY1(I)
         YH1I = ONE_OVER_8*RX1(I)
         YH2I =-ONE_OVER_8*SX1(I)	
-Cqz ---- ---------------
+C   ---- ---------------
         FINT1=(S1(I)-NU(I)*S2(I)-NU(I)*S3(I))*XH1I+S4(I)*YH1I
         FINT2=(S1(I)-NU1(I)*S3(I))*XH2I+S4(I)*YH2I
 C
@@ -264,9 +264,9 @@ C
         F37(I)=F37(I)-FINT1-FINT2
         F38(I)=F38(I)-FINT1+FINT2
       ENDDO
-Cqz --- non constante part------------
+C   --- non constante part------------
 C------------------------------------------------   -
-Cqz - for hourglass yield critiron-----
+C   - for hourglass yield critiron-----
       DO I=LFT,LLT
         SS1 =SIG(I,1)-SIG(I,2)
         SS2 =SIG(I,2)-SIG(I,3)
@@ -277,7 +277,7 @@ Cqz - for hourglass yield critiron-----
         MM(I,2) = MIN(SVM0,MM(I,2))
       ENDDO
 C----------------------------------------------    /
-Cqz - post-traitement-valeur moyenne au sens a'=(_/  a dv ) /v
+C   - post-traitement-valeur moyenne au sens a'=(_/  a dv ) /v
       DO I=LFT,LLT
          FAC(I) = OFF(I)*VOL(I)/VOLG(I)
          SIGM(I,1) = SIGM(I,1) + FAC(I) * SIG(I,1)
@@ -301,6 +301,6 @@ c
           EPSDM(I) = EPSDM(I) + FAC(I) * EPSD(I)
         ENDDO
       ENDIF
-Cqz ---------------
+C   ---------------
       RETURN
       END

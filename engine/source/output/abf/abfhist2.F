@@ -507,7 +507,7 @@ Cel spmd FSAVMAX local
        ENDIF
 C
        IF(NINTER+NINTSUB.NE.0.AND.ISPMD==0)THEN
-Clm      compact FSAV(..,NINTER + ??? +NINTSUB)
+C        compact FSAV(..,NINTER + ??? +NINTSUB)
          DO J=1,NTHVKI
            DO N=1,NINTER
              FSAVINT(J,N)=FSAV(J,N)
@@ -914,7 +914,7 @@ C-----------------------------
                 I=ITHBUF(J)
                 N1 = IFRAME(1,I)
                 IF(N1==0)THEN
-Clm              fixed frame
+C                fixed frame
                  DO L=IADV,IADV+NVAR-1
                   K=ITHBUF(L)
                   II=II+1
@@ -969,7 +969,7 @@ Clm              fixed frame
                   ENDIF
                 ENDDO
                ELSE
-Clm             moving frame
+C               moving frame
                 IF(NXFRAME.LT.36)THEN
                  DO L=IADV,IADV+NVAR-1
                   K=ITHBUF(L)
@@ -1017,13 +1017,13 @@ Clm             moving frame
                   ELSEIF(K==21)THEN
                    WA(II)=A(3,N1)
                   ELSEIF(K==22)THEN
-Clm                version >= 4.4 only
+C                  version >= 4.4 only
                    WA(II)=XFRAME(16,I)
                   ELSEIF(K==23)THEN
-Clm                version >= 4.4 only
+C                  version >= 4.4 only
                    WA(II)=XFRAME(17,I)
                   ELSEIF(K==24)THEN
-Clm                version >= 4.4 only
+C                  version >= 4.4 only
                    WA(II)=XFRAME(18,I)
                   ENDIF
                  ENDDO

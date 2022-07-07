@@ -129,38 +129,6 @@ C-----------------------------------------------------------------------
 C-----------------------------------------------------------------------
       CALL MY_BARRIER
 C-----------------------------------------------------------------------
-c      NMEF = 1 + ITASK*NME / NTHREAD
-c      NMEL = (ITASK+1)*NME / NTHREAD
-C-----------------------------------------------
-C     frottement (ancienne contrainte de frottement) => deplace dans i17main_pena/i17maindb/i17frot pour eviter w++ en spmd
-C-----------------------------------------------
-c      DO I=NMEF,NMEL
-c        AA = ONE/MAX(EM20,FROTM(4,I))
-c        FROTM(5,I)=AA*FROTM(1,I)
-c        FROTM(6,I)=AA*FROTM(2,I)
-c        FROTM(7,I)=AA*FROTM(3,I)
-c
-c        FROTM(1,I)=ZERO
-c        FROTM(2,I)=ZERO
-c        FROTM(3,I)=ZERO
-c        FROTM(4,I)=ZERO
-c      ENDDO
-c      NSEF = 1 + ITASK*NSE / NTHREAD
-c      NSEL = (ITASK+1)*NSE / NTHREAD
-c      DO I=NSEF,NSEL
-c        AA = ONE/MAX(EM20,FROTS(4,I))
-c        FROTS(5,I)=AA*FROTS(1,I)
-c        FROTS(6,I)=AA*FROTS(2,I)
-c        FROTS(7,I)=AA*FROTS(3,I)
-c
-c        FROTS(1,I)=ZERO
-c        FROTS(2,I)=ZERO
-c        FROTS(3,I)=ZERO
-c        FROTS(4,I)=ZERO
-c      ENDDO
-C-----------------------------------------------------------------------
-c      CALL MY_BARRIER
-C-----------------------------------------------------------------------
       FIRST = 1 + I_STOK * ITASK / NTHREAD
       LAST = I_STOK*(ITASK+1) / NTHREAD
       LLT = 0
@@ -267,7 +235,7 @@ C-----------------------------------------------------------------------
       ENDDO
 C-----------------------------------------------------------------------
 C     calcul de  F pour dernier paquet   
-C-----------------------------------------------------------------------	
+C-----------------------------------------------------------------------        
       IF(LLT.NE.0) CALL I17LLL_PENA(
      1       LLT     ,V         ,STIFN     ,XX        ,FRIC    ,
      2       YY      ,ZZ        ,III       ,FSKYI     ,ISKY    ,
@@ -502,29 +470,6 @@ C         face 5 6 7 8
           III(I,8) = III(I,16)
         ENDIF
       ENDDO
-C-----------------------------------------------------------------------
-C     calcul des vitesses de penetration
-C-----------------------------------------------------------------------
-c      DO I=1,LLT
-cCgw        VIT(I) = EM20
-c        VIT(I) = EP20
-c      ENDDO
-c      CALL I17VIT4(LLT       ,NINT   ,V      ,A      ,III    ,IIIS   ,
-c     2             NI_M      ,NI_S   ,NX     ,NY     ,NZ     ,VIT    ,
-c     3             ICONT(1,1),R_1M   ,T_1M   ,R_1S   ,T_CS   ,S_CS   ,
-c     4             R_CM      ,T_CM   ,R_S    ,T_S    ,ICONT(1,1))
-c      CALL I17VIT4(LLT       ,NINT   ,V      ,A      ,III    ,IIIS   ,
-c     2             NI_M      ,NI_S   ,NX     ,NY     ,NZ     ,VIT    ,
-c     3             ICONT(1,2),R_2M   ,T_2M   ,R_2S   ,T_CS   ,S_CS   ,
-c     4             R_CM      ,T_CM   ,R_S    ,T_S    ,ICONT(1,1))
-c      CALL I17VIT4(LLT       ,NINT   ,V      ,A      ,III    ,IIIS   ,
-c     2             NI_M      ,NI_S   ,NX     ,NY     ,NZ     ,VIT    ,
-c     3             ICONT(1,3),R_3M   ,T_3M   ,R_CS   ,T_1S   ,S_CS   ,
-c     4             R_CM      ,T_CM   ,R_S    ,T_S    ,ICONT(1,1))
-c      CALL I17VIT4(LLT       ,NINT   ,V      ,A      ,III    ,IIIS   ,
-c     2             NI_M      ,NI_S   ,NX     ,NY     ,NZ     ,VIT    ,
-c     3             ICONT(1,4),R_4M   ,T_4M   ,R_CS   ,T_2S   ,S_CS   ,
-c     4             R_CM      ,T_CM   ,R_S    ,T_S    ,ICONT(1,1))
       CALL I17VIT_PENA(
      1             LLT       ,NINT   ,V      ,A      ,III    ,IIIS   ,
      2             NI_M      ,NI_S   ,NX     ,NY     ,NZ     ,VIT    ,
@@ -533,7 +478,6 @@ c     4             R_CM      ,T_CM   ,R_S    ,T_S    ,ICONT(1,1))
 C-----------------------------------------------------------------------
 C     calcul du contact
 C-----------------------------------------------------------------------
-c        PENE = 1. - ABS(S_CM(I))
       CALL I17LLL4_PENA(
      1      LLT       ,ITIED     ,NINT    ,V       ,A       ,FRIC    ,
      3      III       ,IIIS      ,NI_M    ,NI_S    ,S_CM    ,S_CS    ,
@@ -732,7 +676,7 @@ C                             \                 / \
 C                              \               /   \
 C      :::: Area                \             /     v  
 C      :::: commune              \           /      ts
-C      :::: main Esclase        \         /    
+C      :::: main   Sec            \         /    
 C                                  \second/
 C                                   \     /
 C                                    \   /
@@ -991,22 +935,6 @@ C          calcul de Ni(r,s,t); dNi/dr; dNi/dt; normale second(-n)
 C-----------------------------------------------
       CALL I17NORM(LLT  ,R_CS  ,S_CS  ,T_CS  ,
      2             NX   ,NY    ,NZ    ,XXS   ,YYS   ,ZZS   )
-C-----------------------------------------------
-C          calcul de la surface commune main-second
-C-----------------------------------------------
-c      CALL I17SURF(LLT   ,R_1M  ,R_2M  ,R_3M  ,R_4M  ,
-c     2             T_1M  ,T_2M  ,T_3M  ,T_4M  ,AREA  ,
-c     3             XX    ,YY    ,ZZ    ,S_CM)
-c-----------------------------------------------------------------------
-cgw+++
-c      DO I=1,LLT
-c        IF(S_CM(I) > -ONE.and.S_CM(I) < ONE.and.
-c     +     AREA(I) > EM3*AREA_EL(I))THEN
-c          ICONT(I,1)=1
-c        ENDIF
-c      ENDDO
-cgw---
-c  
 c-----------------------------------------------------------------------
       RETURN
       END
@@ -1223,7 +1151,7 @@ C
           ENDIF
         ELSEIF(D.LT.ZERO)THEN
             R1(I) = -ONE
-            R2(I) =  ONE	    
+            R2(I) =  ONE            
         ELSE
             D = SQRT( D )
             R1(I) = (-B(I) - D) / (TWO*A(I))
@@ -1233,11 +1161,6 @@ C
 c-----------------------------------------------------------------------
 c      borne r (ou t) a +-1 sur l'second
 c-----------------------------------------------------------------------
-c      DO I=1,LLT
-c          R1(I) = MAX(-ONE,MIN(ONE,R1(I)))
-c          R2(I) = MAX(-ONE,MIN(ONE,R2(I)))
-c      ENDDO
-c
       RETURN
       END
 Chd|====================================================================
@@ -1312,7 +1235,7 @@ C
         Z2 = ZERO
 C------------------------------------
         IF(SM(I) == ZERO)THEN
-c         esclace 1234 ou 5678
+c         secondary 1234 ou 5678
           DO K=1,8
             X1 = X1-NI(K)*XX(I,K)
             Y1 = Y1-NI(K)*YY(I,K)
@@ -1358,7 +1281,7 @@ C
         NI(7) = B * U_P_R
 C------------------------------------
         IF(SM(I) == ZERO)THEN
-c         esclace 1234 ou 5678
+c         secondary 1234 ou 5678
           DO K=1,8
             X1 = X1+NI(K)*XX(I,K)
             Y1 = Y1+NI(K)*YY(I,K)
@@ -1404,7 +1327,7 @@ C
         NI(7) = B * U_P_R
 C------------------------------------
         IF(SM(I) == ZERO)THEN
-c         esclace 1234 ou 5678
+c         secondary 1234 ou 5678
           DO K=1,8
             X2 = X2-NI(K)*XX(I,K)
             Y2 = Y2-NI(K)*YY(I,K)
@@ -1450,7 +1373,7 @@ C
         NI(7) = B * U_P_R
 C------------------------------------
         IF(SM(I) == ZERO)THEN
-c         esclace 1234 ou 5678
+c         secondary 1234 ou 5678
           DO K=1,8
             X2 = X2+NI(K)*XX(I,K)
             Y2 = Y2+NI(K)*YY(I,K)
@@ -1545,10 +1468,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       test si contact
 C-----------------------------------------------
-Cgw        ICONT(I,1)=1
-Cgw        IF(ABS(SM(I)) > ONE) ICONT(I,1)=0
         IF(ICONT(I,1) /= 0)THEN
-C
           VX = ZERO
           VY = ZERO
           VZ = ZERO
@@ -1576,23 +1496,6 @@ C
 C
           VN = NX(I)*VX + NY(I)*VY + NZ(I)*VZ
           VIT(I)=SM(I)*VN
-C-----------------------------------------------
-C         test si vitesse entrante en s
-C-----------------------------------------------
-c          IF(SM(I)*VN.LE.VIT(I))THEN
-c
-c
-c            VIT(I)=SM(I)*VN
-c            R_S(I)=RS(I)
-c            R_M(I)=RM(I)
-c            T_S(I)=TS(I)
-c            T_M(I)=TM(I)
-c            DO IK=1,8
-c              NI_M(I,IK)=NI_ML(I,IK)
-c              NI_S(I,IK)=NI_SL(I,IK)
-c            ENDDO
-c            ICONTN(I)=1 
-c          ENDIF
         ENDIF
       ENDDO
 C
@@ -1728,8 +1631,6 @@ C-----------------------------------------------
       ECONTT = ZERO
       DO I=1,LLT
         LEM = LE(I)
-Cgw        IF(ICONT(I)/=0 .and. ABS(S_CM(I))<ONE. and.
-Cgw     +     AREA(I) > EM3*AREA_EL(I))THEN
         IF(ICONT(I)/=0 )THEN
 c---------------------------------------------
 c       contact de Hertz
@@ -1961,9 +1862,6 @@ c puis de la contrainte elastique (si necessaire)
           FROTM(2,LEM) = FROTM(2,LEM) + FFY
           FROTM(3,LEM) = FROTM(3,LEM) + FFZ
           FROTM(4,LEM) = FROTM(4,LEM) + AREA(I)
-c!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-c    Pb potentiel de parith/ON en SPMD et SMP
-c!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
           IF(LES(I).GT.0)THEN
             IF(IPARIT == 0)THEN
               FROTS(1,LES(I)) = FROTS(1,LES(I)) + FFX

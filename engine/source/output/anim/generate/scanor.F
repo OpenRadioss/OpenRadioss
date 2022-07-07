@@ -91,7 +91,7 @@ c      END IF
       CDG(2) = HALF * (YMAX + YMIN)
       CDG(3) = HALF * (ZMAX + ZMIN)      
 C
-Cow
+C  
       DX = XMAX - XMIN      
       DY = YMAX - YMIN      
       DZ = ZMAX - ZMIN

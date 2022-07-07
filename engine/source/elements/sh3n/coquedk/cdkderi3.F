@@ -66,8 +66,8 @@ C-----------------------------------------------
        PY2(I)=-X3(I)*AREAI(I)
        PX3(I)=-Y2(I)*AREAI(I)
        PY3(I)=X2(I)*AREAI(I)
-Cqz       PX1(I)=-PX3(I)-PX2(I)
-Cqz       PY1(I)=-PY2(I)-PY3(I)
+C         PX1(I)=-PX3(I)-PX2(I)
+C         PY1(I)=-PY2(I)-PY3(I)
        X32(I) =X3(I)-X2(I)
        Y32(I) =Y3(I)-Y2(I)
       ENDDO

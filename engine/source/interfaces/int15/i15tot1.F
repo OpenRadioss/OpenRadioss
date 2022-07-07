@@ -470,7 +470,7 @@ C-----
            YTK(1,I)=YTK2(I)
            ZTK(1,I)=ZTK2(I)
         ENDIF
-Clm     one more iteration.
+C       one more iteration.
         XKN1 =XM(I)**(IDG-1)
         SGNXKN=-ONE
         IF (XKN1*XM(I).GE.ZERO) SGNXKN=ONE        
@@ -522,7 +522,7 @@ C-----
 C-----
       IF (IACTIV(1,IL).LE.0) GOTO 200
 C-----
-Clm    projection radiale de M.
+C      projection radiale de M.
         XKN1 =XM(I)**(IDG-1)
         SGNXKN=-ONE
         IF (XKN1*XM(I).GE.ZERO) SGNXKN=ONE        
@@ -540,7 +540,7 @@ C------
         XM(I)=XM(I)/MAX(EM20,EM**(ONE/DGR))
         YM(I)=YM(I)/MAX(EM20,EM**(ONE/DGR))
         ZM(I)=ZM(I)/MAX(EM20,EM**(ONE/DGR))        
-Clm    normale a l'ellipsoide en M.
+C      normale a l'ellipsoide en M.
         XKN1 =XM(I)**(IDG-1)
         SGNXKN=-ONE
         IF (XKN1*XM(I).GE.ZERO) SGNXKN=ONE        
@@ -917,7 +917,7 @@ C-----
            YTK(2,I)=YTK2(I)
            ZTK(2,I)=ZTK2(I)
         ENDIF
-Clm     one more iteration.
+C       one more iteration.
         XKN1 =XM(I)**(IDG-1)
         SGNXKN=-ONE
         IF (XKN1*XM(I).GE.ZERO) SGNXKN=ONE
@@ -968,7 +968,7 @@ C-----
 C-----
       IF (IACTIV(2,IL).LE.0) GOTO 325
 C-----
-Clm    projection radiale de M.
+C      projection radiale de M.
         XKN1 =XM(I)**(IDG-1)
         SGNXKN=-ONE
         IF (XKN1*XM(I).GE.ZERO) SGNXKN=ONE        
@@ -987,7 +987,7 @@ C------
         YM(I)=YM(I)/MAX(EM20,EM**(ONE/DGR))
         ZM(I)=ZM(I)/MAX(EM20,EM**(ONE/DGR))        
 C------
-Clm    normale a l'ellipsoide en M.
+C      normale a l'ellipsoide en M.
         XKN1 =XM(I)**(IDG-1)
         SGNXKN=-ONE
         IF (XKN1*XM(I).GE.ZERO) SGNXKN=ONE        
@@ -1364,7 +1364,7 @@ C-----
            YTK(3,I)=YTK2(I)
            ZTK(3,I)=ZTK2(I)
         ENDIF
-Clm     one more iteration.
+C       one more iteration.
         XKN1 =XM(I)**(IDG-1)
         SGNXKN=-ONE
         IF (XKN1*XM(I).GE.ZERO) SGNXKN=ONE        
@@ -1416,7 +1416,7 @@ C-----
 C-----
       IF (IACTIV(3,IL).LE.0) GOTO 450
 C-----
-Clm    projection radiale de M.
+C      projection radiale de M.
         XKN1 =XM(I)**(IDG-1)
         SGNXKN=-ONE
         IF (XKN1*XM(I).GE.ZERO) SGNXKN=ONE        
@@ -1435,7 +1435,7 @@ C------
         YM(I)=YM(I)/MAX(EM20,EM**(ONE/DGR))
         ZM(I)=ZM(I)/MAX(EM20,EM**(ONE/DGR))        
 C------
-Clm    normale a l'ellipsoide en M.
+C      normale a l'ellipsoide en M.
         XKN1 =XM(I)**(IDG-1)
         SGNXKN=-ONE
         IF (XKN1*XM(I).GE.ZERO) SGNXKN=ONE        
@@ -1812,7 +1812,7 @@ C-----
            YTK(4,I)=YTK2(I)
            ZTK(4,I)=ZTK2(I)
         ENDIF
-Clm     one more iteration.
+C       one more iteration.
         XKN1 =XM(I)**(IDG-1)
         SGNXKN=-ONE
         IF (XKN1*XM(I).GE.ZERO) SGNXKN=ONE
@@ -1864,7 +1864,7 @@ C-----
 C-----
       IF (IACTIV(4,IL).LE.0) GOTO 575
 C-----
-Clm    projection radiale de M.
+C      projection radiale de M.
         XKN1 =XM(I)**(IDG-1)
         SGNXKN=-ONE
         IF (XKN1*XM(I).GE.ZERO) SGNXKN=ONE
@@ -1883,7 +1883,7 @@ C------
         YM(I)=YM(I)/MAX(EM20,EM**(ONE/DGR))
         ZM(I)=ZM(I)/MAX(EM20,EM**(ONE/DGR))
 C------
-Clm    normale a l'ellipsoide en M.
+C      normale a l'ellipsoide en M.
         XKN1 =XM(I)**(IDG-1)
         SGNXKN=-ONE
         IF (XKN1*XM(I).GE.ZERO) SGNXKN=ONE

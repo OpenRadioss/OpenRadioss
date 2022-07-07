@@ -55,7 +55,7 @@ C-----------------------------------------------
       INTEGER I,N
 C     REAL
 C-----------------------------------------------
-Clm   overloads D in WA.
+C     overloads D in WA.
       DO I=LFT,LLT
        N=NFT+I
        WA(1,N)=SIG(I,1)
@@ -66,7 +66,7 @@ Clm   overloads D in WA.
        WA(6,N)=SIG(I,6)
        WA(7,N)=STI(I)
        WA(8,N)=SSP(I)
-Clm    SSP_EQ comes back from MDTSPH and is the equivalent material sound speed
+C      SSP_EQ comes back from MDTSPH and is the equivalent material sound speed
 C      (including material viscosity)
        WA(9,N)=SSP_EQ(I)
 C      Thermique

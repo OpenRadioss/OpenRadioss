@@ -125,7 +125,7 @@ C-----------------------------------------------
       INTEGER I, J,IS
 C     REAL
 C-----------------------------------------------
-Cqz-------symm(diag)------
+C  -------symm(diag)------
       IS =1
 C                                                                     12
        CALL S8ZKED3(LFT,LLT,
@@ -272,7 +272,7 @@ C
      .      GG,K2020,IS)
      
       ENDIF 
-Cqz-------non symm------
+C  -------non symm------
       IS =0
        CALL S8ZKED3(LFT,LLT,
      .              PX(1,1),PY(1,1),PZ(1,1),PX(1,2),PY(1,2),PZ(1,2),

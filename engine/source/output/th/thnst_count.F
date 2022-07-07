@@ -90,7 +90,7 @@ C-------------------------
                 DO NG=1,NGROUP
                     ITY=IPARG(5,NG)
                     IF (ITY == 100) THEN
-Clm     multi-purpose elements are nstrands elements only (to be modified).
+C       multi-purpose elements are nstrands elements only (to be modified).
                         NEL=IPARG(2,NG)
                         NFT=IPARG(3,NG)
 
@@ -99,8 +99,8 @@ Clm     multi-purpose elements are nstrands elements only (to be modified).
                             K  =ITHBUF(IH)
                             IF (K == N) THEN
                                 DO J=1,NN
-Clm                                 loop over strands into the ONE NSTRAND TH group.
-Clm                                 strand to save:              
+C                                   loop over strands into the ONE NSTRAND TH group.
+C                                   strand to save:              
                                     WA_SIZE = WA_SIZE + NVAR
                                     IH=IH+1
                                 ENDDO ! DO J=1,NN

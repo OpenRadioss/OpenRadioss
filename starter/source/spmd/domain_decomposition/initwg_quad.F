@@ -89,7 +89,7 @@ c        IF(MID.LT.0)THEN
 c          IF(MLN.EQ.6.AND.JPOR.NE.2)MLN=17
 c          IF(MLN.EQ.46)MLN=47
 c        ENDIF
-Cow test elem delete
+C   test elem delete
         IF (WD(I+OFF).EQ.0.)
      .    WD(I+OFF) = WTYPE(2)
       ENDDO

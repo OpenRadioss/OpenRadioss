@@ -106,7 +106,7 @@ C-----------------------------------------------
      4      NDAMP2     ,GAPMIN     ,NPC        ,PLD   ,MS     ,
      5      WA(2*NUMNOD+1) ,WA(3*NUMNOD+1) ,STF )
 C-----------------------------------------------
-Clm   Frottement calcule apres amortissement.
+C     Frottement calcule apres amortissement.
       CALL I14FRT(A	,X     ,V     ,INTBUF_TAB%KSURF ,IGRSURF  ,
      2      BUFSF ,NSC  ,WA(1) ,NSP   ,WA(NUMNOD+1) ,
      3      INTBUF_TAB%NSV,INTBUF_TAB%IMPACT,INTBUF_TAB%CIMP,INTBUF_TAB%NIMP,

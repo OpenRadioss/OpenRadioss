@@ -189,16 +189,16 @@ C       previous force average UVAR(NB3:NB3)
 C       initial nodes masses UVARN(MB1:MB1+NX-1)
         MB1=1
 C       forces into strands UVARN(MB2:MB2+NX-1)
-Clm     using UVARN(MB2:MB2+NX-2) only.
+C       using UVARN(MB2:MB2+NX-2) only.
         MB2=MB1+NX
 C       strands initial lenght UVARN(MB3:MB3+NX-1)
-Clm     using UVARN(MB3:MB3+NX-2) only.
+C       using UVARN(MB3:MB3+NX-2) only.
         MB3=MB2+NX
 C       strands elongations UVARN(MB4:MB4+NX-1)
-Clm     using UVARN(MB4:MB4+NX-2) only.
+C       using UVARN(MB4:MB4+NX-2) only.
         MB4=MB3+NX
 C       strands internal energy UVARN(MB5:MB5+NX-1)
-Clm     using UVARN(MB5:MB5+NX-2) only.
+C       using UVARN(MB5:MB5+NX-2) only.
         MB5=MB4+NX
 C-----------------------------------------------
 C       already broken only returns mass & null stiffness.
@@ -223,7 +223,7 @@ C-------
         FFAC=GET_U_GEO(12,IPROP)
         XFAC=GET_U_GEO(13,IPROP)
 C-------
-Clm     STIF (tangent stiffness) is considered for friction ..
+C       STIF (tangent stiffness) is considered for friction ..
         IF (IFUNCT.EQ.0.AND.IFV.EQ.0) THEN
 C------------------------------------------
 C        LINEAR ELASTIC
@@ -283,7 +283,7 @@ C-----------------------------------------------
 C       FRICTION PULLEYS.
 C       STRAND STIFFNESS == K*/l0 is assumed to be K*/l * L/L0
 C-----------------------------------------------
-Clm     TORQ is used for temporary storage (computation optimization).
+C       TORQ is used for temporary storage (computation optimization).
         DO K=1,NX-1
          VNEXT(1)=XEL(1,K+1)-XEL(1,K)
          VNEXT(2)=XEL(2,K+1)-XEL(2,K)
@@ -297,13 +297,13 @@ Clm     TORQ is used for temporary storage (computation optimization).
          TORQ(3,K)=VNEXT(3)
         ENDDO
 C-------
-Clm     temporary storage for internal energy computation.
+C       temporary storage for internal energy computation.
         DO K=1,NX-1
          VISCR(K)=UVARN(MB2+K-1)
          XINER(K)=UVARN(MB4+K-1)
         ENDDO
 C-------------------------------------
-Clm     rupture criteria is based upon average of total deformation
+C       rupture criteria is based upon average of total deformation
 C       into nstrand element.
         EPSMIN=GET_U_GEO(8,IPROP)
         EPSMAX=GET_U_GEO(9,IPROP)
@@ -318,7 +318,7 @@ C       into nstrand element.
 C-------
         MU1    = GET_U_GEO(10,IPROP)
         MU2    = GET_U_GEO(11,IPROP)
-Clm     also available at time 0.
+C       also available at time 0.
         EPSMOY=(DX-DXOLD)/MAX(EM15,L)
 C-------
         XN=NX
@@ -341,7 +341,7 @@ C
           ECHANGE=0
           NIT=NIT+1
           DO K=1,NX-1
-Clm         stifr utilise de maniere temporaire.
+C           stifr utilise de maniere temporaire.
             STIFR(K)=UVARN(MB2+K-1)
           END DO
           DO K=2,NX-1

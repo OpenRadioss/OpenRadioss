@@ -105,7 +105,7 @@ C-----------------------------------------------
 C     LECTURE DE L'ENTETE
 C-----------------------------------------------
         CALL READ_I_C(LHEADER,1)
-Clm     warning to radioss developpers :
+C       warning to radioss developpers :
 C       IF(LHEADER.GT.LMXHEAD)THEN
 C         WRITE(*,*) ' ** RADIOSS INTERNAL ERROR'
 C         CALL ARRET(7)
@@ -157,7 +157,7 @@ C ------------------------------------------
 C-----------------------------------------------
 C     LECTURE DES VARIABLES ENTIERES.
 C-----------------------------------------------
-Clm    warning to radioss developpers :
+C      warning to radioss developpers :
 C      IF(LVARINT.GT.LMXVINT)THEN
 C        WRITE(*,*) ' ** RADIOSS INTERNAL ERROR'
 C        CALL ARRET(7)
@@ -318,7 +318,7 @@ C
         SA  = 3*NUMNOD+9*NUMNOD*NTHREAD
         SAR = 3*NUMNOD+9*NUMNOD*NTHREAD
         SSTIFN = NUMNOD+3*NUMNOD*NTHREAD
-Cow j ai un doute sur SVISCN - et du flag KDTINT
+C   j ai un doute sur SVISCN - et du flag KDTINT
         SVISCN = NUMNOD+3*NUMNOD*NTHREAD
         SSTIFR = NUMNOD*IRODDL+3*NUMNOD*NTHREAD*IRODDL
 C non supported option w/IPARIT=3
@@ -356,7 +356,7 @@ C non supported option w/IPARIT=3
         SA  = 3*NUMNOD
         SAR = 3*NUMNOD
         SSTIFN = NUMNOD
-Cow j ai un doute sur SVISCN - et du flag KDTINT
+C   j ai un doute sur SVISCN - et du flag KDTINT
         SVISCN = NUMNOD
         SSTIFR = NUMNOD
         IF(SOL2SPH_FLAG/=0) THEN
@@ -447,7 +447,7 @@ C
         ELSE
           SDMSPH = 0
         END IF
-Cow j ai un doute sur SVISCN - et du flag KDTINT
+C   j ai un doute sur SVISCN - et du flag KDTINT
         SVISCN = NUMNOD*NTHREAD 
         SSTIFR = NUMNOD*IRODDL*NTHREAD
         SPARTSAV = NPSAV*(NPART+NTHPART)*NTHREAD
@@ -559,7 +559,7 @@ C---------------------------------------------------------
      .          + 15*(NUMELT+NUMELP+NUMELR)*(MAX(ANIM_FT(1),H3D_DATA%UND_FORC))
 C
       SSECFCUM = 7*NUMNOD*NSECT*ISECUT
-Clm   Work Array private to sph : WAPSH(LWASPH)
+C     Work Array private to sph : WAPSH(LWASPH)
       SWASPH = LWASPH
 C
       M16STAK = 0

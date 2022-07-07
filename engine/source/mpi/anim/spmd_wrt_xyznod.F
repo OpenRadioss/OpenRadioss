@@ -83,15 +83,15 @@ C-----------------------------------------------
            END IF
          END DO
 
-Cow a cause de la version simple precision, on ne peux pas metre l'entier
-Cow dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
-Cow de noeuds au max
+C   a cause de la version simple precision, on ne peux pas metre l'entier
+C   dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
+C   de noeuds au max
 
          MSGTYP = MSGOFF2 
          CALL MPI_SEND(IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
      .     MPI_COMM_WORLD,ierror)
 
-Cow
+C  
          MSGTYP = MSGOFF
          CALL MPI_SEND(BUFSR,3*SIZ,MPI_REAL4,IT_SPMD(1),MSGTYP,
      .     MPI_COMM_WORLD,ierror)
@@ -111,7 +111,7 @@ Cow
 
           DO I=2,NSPMD
 
-Cow Reception du buffer entier des adresses NODGLOB
+C   Reception du buffer entier des adresses NODGLOB
             MSGTYP = MSGOFF2
 
             CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
@@ -121,7 +121,7 @@ Cow Reception du buffer entier des adresses NODGLOB
             CALL MPI_RECV(IBUF,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      .                  MPI_COMM_WORLD,STATUS,ierror)
 
-Cow Reception du buffer flottant des adresses NODGLOB
+C   Reception du buffer flottant des adresses NODGLOB
 
             MSGTYP2 = MSGOFF 
 
@@ -138,8 +138,8 @@ Cow Reception du buffer flottant des adresses NODGLOB
               XGLOB(3,NG) = BUFSR(3,K)
             ENDDO
           ENDDO
-Cow
-Cow 
+C  
+C   
           DO I=1,NUMNODG
            CALL WRITE_R_C(XGLOB(1,I),1)
            CALL WRITE_R_C(XGLOB(2,I),1)

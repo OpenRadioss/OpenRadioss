@@ -59,7 +59,7 @@ C-----------------------------------------------
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF
       INTEGER SIZ,MSGTYP,I,K,NG,NREC,STEP
 
-Cow Tableau utilise par proc 0
+C   Tableau utilise par proc 0
        INTEGER, DIMENSION(:,:),ALLOCATABLE :: IBUF
        INTEGER, DIMENSION(:),ALLOCATABLE :: XGLOB
 C-----------------------------------------------
@@ -92,7 +92,7 @@ cc          CALL WRITE_I_C(XGLOB(NG),1)
         ENDDO
 C all the rest procs
         DO I=2,NSPMD
-Cow Reception du buffer entier des adresses NODGLOB
+C   Reception du buffer entier des adresses NODGLOB
           MSGTYP = MSGOFF 
           CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
      .                   MPI_COMM_WORLD,STATUS,ierror)

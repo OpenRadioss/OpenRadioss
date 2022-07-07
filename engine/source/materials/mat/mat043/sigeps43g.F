@@ -166,7 +166,7 @@ c--------------------
         A2(I)  = UPARAM(IADBUF+4)
         G(I)   = UPARAM(IADBUF+5)
         G3(I)  = THREE*G(I)
-Cgw011        C1=THK(I)*DOUZ
+C  011        C1=THK(I)*DOUZ
         C1=THK0(I)*ONE_OVER_12
         AM1(I)  = A1(I)*C1
         AM2(I)  = A2(I)*C1

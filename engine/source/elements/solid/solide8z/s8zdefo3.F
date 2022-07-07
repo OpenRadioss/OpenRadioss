@@ -163,7 +163,7 @@ C-----------------------------------------------
      +        +PZY5(LFT:LLT)*VZ5(LFT:LLT)+PZY6(LFT:LLT)*VZ6(LFT:LLT)
      +        +PZY7(LFT:LLT)*VZ7(LFT:LLT)+PZY8(LFT:LLT)*VZ8(LFT:LLT)
         DVC(LFT:LLT) =(DXX(LFT:LLT)+DYY(LFT:LLT)+DZZ(LFT:LLT))*DT1
-Cqz
+C  
       IF (ICP .EQ.1) THEN
         DVCA(LFT:LLT)=PXC1(LFT:LLT)*(VX1(LFT:LLT)-VX7(LFT:LLT))+PXC2(LFT:LLT)*(VX2(LFT:LLT)-VX8(LFT:LLT))
      .        +PXC3(LFT:LLT)*(VX3(LFT:LLT)-VX5(LFT:LLT))+PXC4(LFT:LLT)*(VX4(LFT:LLT)-VX6(LFT:LLT))
@@ -438,7 +438,7 @@ C-----------------------------------------------
      +        +PZY3(LFT:LLT)*VZ3(LFT:LLT)+PZY4(LFT:LLT)*VZ4(LFT:LLT)
      +        +PZY5(LFT:LLT)*VZ5(LFT:LLT)+PZY6(LFT:LLT)*VZ6(LFT:LLT)
      +        +PZY7(LFT:LLT)*VZ7(LFT:LLT)+PZY8(LFT:LLT)*VZ8(LFT:LLT)
-Cqz
+C  
       IF (ICP==1) THEN
        CALL JACOB_J33(DET,
      .                DXX, DXY, DXZ,

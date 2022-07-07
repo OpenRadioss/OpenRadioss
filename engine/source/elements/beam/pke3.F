@@ -20,18 +20,18 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-Cgw |============================================================
-Cgw |   PKE3                                   /poutre/pke3.F
-Cgw |------------------------------------------------------------
-Cgw |-- appelee par -----------
-Cgw |         IMP_GLOB_K                         /implicit/imp_glob_k.F
-Cgw |-- appelle ---------------
-Cgw |         PCOORK3                          /poutre/pcoork3.F
-Cgw |         PMAT3                            /poutre/pmat3.F
-Cgw |         PSUMG3                           /poutre/psumg3.F
-Cgw |         TKEG3                            /truss/tke3.F
-Cgw |         ASSEM_P                          /implicit/assem_p.F
-Cgw |============================================================
+C   |============================================================
+C   |   PKE3                                   /poutre/pke3.F
+C   |------------------------------------------------------------
+C   |-- appelee par -----------
+C   |         IMP_GLOB_K                         /implicit/imp_glob_k.F
+C   |-- appelle ---------------
+C   |         PCOORK3                          /poutre/pcoork3.F
+C   |         PMAT3                            /poutre/pmat3.F
+C   |         PSUMG3                           /poutre/psumg3.F
+C   |         TKEG3                            /truss/tke3.F
+C   |         ASSEM_P                          /implicit/assem_p.F
+C   |============================================================
 Chd|====================================================================
 Chd|  PKE3                          source/elements/beam/pke3.F   
 Chd|-- called by -----------

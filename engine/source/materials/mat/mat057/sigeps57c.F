@@ -266,14 +266,14 @@ C
         ENDIF
       ENDIF
 C
-Cqz------ecroui cine---
+C  ------ecroui cine---
 #include "vectorize.inc"
        DO I=1,NEL
 !           SIGOXX(I) = SIGOXX(I) - UVAR(I,2)
 !           SIGOYY(I) = SIGOYY(I) - UVAR(I,3)
 !           SIGOXY(I) = SIGOXY(I) - UVAR(I,4)
        ENDDO
-Cqz ---
+C   ---
 #include "vectorize.inc"
       DO I=1,NEL
         SIGNXX(I)=SIGOXX(I) - UVAR(I,2) +A1(I)*DEPSXX(I)+A2(I)*DEPSYY(I)

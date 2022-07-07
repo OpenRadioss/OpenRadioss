@@ -248,9 +248,9 @@ C=======================================================================
       DO I=LFT,LLT
         VOLDP(I)=HALF*WI*(VOLG(I)+VZL(I)*ZI)
         VOL(I)=VOLDP(I)
-Cqz------due to the assumed strain terms----
+C  ------due to the assumed strain terms----
         DV = DDHV(I)*DT1*ZI
-Cqz------due to the sigzz traitement----
+C  ------due to the sigzz traitement----
         DVZ = -(SIG(I,3)-SIGZM(I)/MAX(EM20,VOLM(I)))*USB(I)
         OFF(I)=OFFG(I)
         DDV = (DV+DVZ)*OFF(I)
@@ -271,7 +271,7 @@ C
 C	
         IF(ISMDISP.GT.0.OR.OFFS(I).EQ.TWO) DVC(I) = DVZ
       ENDDO
-Cqz +++ -----partie non constante------
+C   +++ -----partie non constante------
       DO I=LFT,LLT
         DXX(I)=DCXX(I)+ZI*DHXX(I)
         DYY(I)=DCYY(I)+ZI*DHYY(I)

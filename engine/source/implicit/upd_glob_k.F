@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-Cqz ----  nouvelle routine---------
+C   ----  nouvelle routine---------
 Chd|====================================================================
 Chd|  UPD_GLOB_K                    source/implicit/upd_glob_k.F  
 Chd|-- called by -----------
@@ -210,7 +210,7 @@ C -----update---condense-IKC>=1------------------------------------
 C
       RETURN
       END
-Cqz ----  nouvelle routine---------
+C   ----  nouvelle routine---------
 Chd|====================================================================
 Chd|  CONDENS_K                     source/implicit/upd_glob_k.F  
 Chd|-- called by -----------
@@ -264,7 +264,7 @@ C
 C
       RETURN
       END
-Cqz ----  nouvelle routine---------
+C   ----  nouvelle routine---------
 Chd|====================================================================
 Chd|  CONDENS_K0                    source/implicit/upd_glob_k.F  
 Chd|-- called by -----------
@@ -391,7 +391,7 @@ C
 C
       RETURN
       END
-Cqz ----  nouvelle routine---NDDL n'est pas modifie------
+C   ----  nouvelle routine---NDDL n'est pas modifie------
 Chd|====================================================================
 Chd|  CONDENS_B                     source/implicit/upd_glob_k.F  
 Chd|-- called by -----------
@@ -447,7 +447,7 @@ C
 C
       RETURN
       END
-Cqz ----  nouvelle routine---------
+C   ----  nouvelle routine---------
 Chd|====================================================================
 Chd|  UPD_INT_K                     source/implicit/upd_glob_k.F  
 Chd|-- called by -----------
@@ -1172,7 +1172,7 @@ C
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Cqz --------- ----
+C   --------- ----
 Chd|====================================================================
 Chd|  UD_INT7                       source/implicit/upd_glob_k.F  
 Chd|-- called by -----------
@@ -1571,7 +1571,7 @@ C
 C
       RETURN
       END
-Cqz --------- ----
+C   --------- ----
 Chd|====================================================================
 Chd|  UD_INT5                       source/implicit/upd_glob_k.F  
 Chd|-- called by -----------
@@ -1692,7 +1692,7 @@ C-------NSN defined in scr04_c.inc--
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
-Cqz --------- ----
+C   --------- ----
 Chd|====================================================================
 Chd|  UD_INTG5                      source/implicit/upd_glob_k.F  
 Chd|-- called by -----------

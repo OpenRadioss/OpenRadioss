@@ -101,7 +101,7 @@ C
           DO I=1,NRDAMP
             IF(DAMPR(I,MY_DAMP)/=ZERO)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'DAMPR_',I
               TEMP_DOUBLE = DAMPR(I,MY_DAMP)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -127,7 +127,7 @@ C
           DO I=1,NRDAMP
             IF(DAMPR(I,MY_DAMP)/=ZERO)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'DAMPR_',I
               TEMP_DOUBLE = DAMPR(I,MY_DAMP)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -250,14 +250,14 @@ C
           CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)
 C
           IF(ALEA(MY_RAND)/=ZERO)THEN
-C           VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C           VARNAME: variable name in ref.extract (without blanks)
             WRITE(VARNAME,'(A,I0)') 'ALEA_',MY_RAND
             TEMP_DOUBLE = ALEA(MY_RAND)
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
           END IF
 C
           IF(XSEED(MY_RAND)/=ZERO)THEN
-C           VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C           VARNAME: variable name in ref.extract (without blanks)
             WRITE(VARNAME,'(A,I0)') 'XSEED_',MY_RAND
             TEMP_DOUBLE = XSEED(MY_RAND)
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -334,7 +334,7 @@ C
         CALL QAPRINT('SPHGLO',0,0.0_8)
 
         IF(SPASORT/=ZERO)THEN
-C         VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C         VARNAME: variable name in ref.extract (without blanks)
           WRITE(VARNAME,'(A,I0)') 'SPASORT'
           TEMP_DOUBLE = SPASORT
           CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -425,7 +425,7 @@ C
         CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)
 C
         IF(DT_SMS_SWITCH/=ZERO)THEN
-C         VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C         VARNAME: variable name in ref.extract (without blanks)
           WRITE(VARNAME,'(A,I0)') 'DT_SMS_SWITCH'
           TEMP_DOUBLE = DT_SMS_SWITCH
           CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -448,21 +448,21 @@ C
           END IF
 C
           IF(UNITAB%FAC_M(MY_UNIT)/=ZERO)THEN
-C           VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C           VARNAME: variable name in ref.extract (without blanks)
             WRITE(VARNAME,'(A,I0)') 'FAC_M_',MY_UNIT
             TEMP_DOUBLE = UNITAB%FAC_M(MY_UNIT)
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
           END IF
 C
           IF(UNITAB%FAC_L(MY_UNIT)/=ZERO)THEN
-C           VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C           VARNAME: variable name in ref.extract (without blanks)
             WRITE(VARNAME,'(A,I0)') 'FAC_L_',MY_UNIT
             TEMP_DOUBLE = UNITAB%FAC_L(MY_UNIT)
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
           END IF
 
           IF(UNITAB%FAC_T(MY_UNIT)/=ZERO)THEN
-C           VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C           VARNAME: variable name in ref.extract (without blanks)
             WRITE(VARNAME,'(A,I0)') 'FAC_T_',MY_UNIT
             TEMP_DOUBLE = UNITAB%FAC_T(MY_UNIT)
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -621,7 +621,7 @@ C
 C          
           DO I=1,NEIPM
             IF(EIGIPM(I,MY_EIG) /=0)THEN
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'EIGIPM_',I      
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),EIGIPM(I,MY_EIG),0.0_8)
             END IF

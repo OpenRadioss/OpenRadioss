@@ -318,9 +318,9 @@ C
         DO I=LFT,LLT
          II=I+JPT
          SCALE= MIN(ONE,AK(I)/ MAX(AJ2(I),EM15))
-Clm      plastic strain increment.
+C        plastic strain increment.
          DPLA(II)=(ONE -SCALE)*AJ2(I)/MAX(THREE*G(I)+QH(I),EM15)
-Clm      actual yeld stress.
+C        actual yeld stress.
          AK(I)=AK(I)+DPLA(II)*QH(I)
          SCALE= MIN(ONE,AK(I)/ MAX(AJ2(I),EM15))
          SIGP(JJ(1)+I)=SCALE*SIGP(JJ(1)+I)

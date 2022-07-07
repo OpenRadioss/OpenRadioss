@@ -121,7 +121,7 @@ C-----------------------------------------------
       INTEGER I, J,IS
 C     REAL
 C-----------------------------------------------
-Cqz-------symm(diag)------
+C  -------symm(diag)------
       IS =1
       IF (ICP.EQ.1) THEN
        CALL S8ZKED3(LFT,LLT,PX1, PY1 ,PZ1 ,PX1, PY1, PZ1, DD, K11,IS)
@@ -176,7 +176,7 @@ Cqz-------symm(diag)------
        CALL S8ZKEG3(LFT,LLT,PXY8, PYX8 ,PXZ8,PZX8 ,PYZ8,PZY8,
      .                      PXY8, PYX8 ,PXZ8,PZX8 ,PYZ8,PZY8,GG,K88,IS) 
       ENDIF 
-Cqz-------non symm------
+C  -------non symm------
       IS =0
       IF (ICP.EQ.1) THEN
        CALL S8ZKED3(LFT,LLT,PX1, PY1 ,PZ1 ,PX2, PY2, PZ2, DD, K12,IS)
@@ -550,7 +550,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
      .                      BXY8, BYX8 ,BXZ8,BZX8 ,BYZ8,BZY8, 
      .                      PXY7, PYX7 ,PXZ7,PZX7 ,PYZ7,PZY7,
      .                   PXY8, PYX8 ,PXZ8,PZX8 ,PYZ8,PZY8,DG,K78,IS,ICP) 
-Cqz-------symm(diag)------
+C  -------symm(diag)------
       IS =1
 c       IS =0!..DG is non-symmetric
        CALL S8ZKEBG3(LFT,LLT,PX1, PY1 ,PZ1 ,PX1, PY1, PZ1,
@@ -610,7 +610,7 @@ c       IS =0!..DG is non-symmetric
        CALL S8ZKEG33(LFT,LLT,PXY8, PYX8 ,PXZ8,PZX8 ,PYZ8,PZY8,
      .                      PXY8, PYX8 ,PXZ8,PZX8 ,PYZ8,PZY8,G33,K88,IS)
       ENDIF 
-Cqz ---------------
+C   ---------------
       RETURN
       END
 Chd|====================================================================

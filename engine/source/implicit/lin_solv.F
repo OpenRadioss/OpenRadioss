@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 #ifdef MUMPS5
-Cqz|---- version non //------------
+C  |---- version non //------------
 Chd|====================================================================
 Chd|  LIN_SOLV                      source/implicit/lin_solv.F    
 Chd|-- called by -----------
@@ -425,7 +425,7 @@ C---------------------
       RETURN
       END
 
-Cqz|---- solveurs directs smp------------
+C  |---- solveurs directs smp------------
 Chd|====================================================================
 Chd|  LIN_SOLV2                     source/implicit/lin_solv.F    
 Chd|-- called by -----------
@@ -838,7 +838,7 @@ C
 C       IF (IMON.GT.0) CALL STOPTIME(33,1)
       RETURN
       END
-Cqz|---- version Hybrid------------
+C  |---- version Hybrid------------
 Chd|====================================================================
 Chd|  LIN_SOLVH1                    source/implicit/lin_solv.F    
 Chd|-- called by -----------

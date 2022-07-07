@@ -62,7 +62,7 @@ C-----------------------------------------------
       ICOM = IAD_M(NSPMD+1)-IAD_M(1)
 c      IF (NSPMD.GT.1)CALL SPMD_MAX_II(IROTG,IAD_M,ICOM)
 C----- 
-Clm   when a secnd node belongs to a domain, all main nodes also belong to the domain !!!
+C     when a secnd node belongs to a domain, all main nodes also belong to the domain !!!
 C----- 
       FINFIN=0
       DO WHILE(FINFIN==0)

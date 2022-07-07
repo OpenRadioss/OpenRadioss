@@ -59,7 +59,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N,I
 C-----------------------------------------------
-Clm   on stocke dans ASAVE meme en Parith/ON
+C     on stocke dans ASAVE meme en Parith/ON
       IF(IPARIT.EQ.0)THEN
         DO N=NODFT,NODLT
           A(1,N) =A(1,N)+ASAVE(1,N)

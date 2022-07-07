@@ -479,7 +479,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C call a rendre specifique machine en cas de pb de compilation
 #if CPP_mach == CPP_pwr4 || CPP_mach == CPP_pwr4_spmd
-Cow pas de routine FLUSH sur AIX
+C   pas de routine FLUSH sur AIX
 #elif 1
       CALL FLUSH(IUNIT)
 #endif
