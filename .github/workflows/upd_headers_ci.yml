@@ -20,7 +20,7 @@ jobs:
     # DEV ONLY # runs-on: ["dev_update_headers"]
     runs-on: ["update_headers"]
     container: 
-      image: fr-qafactorydev.europe.altair.com/common-linux64
+      image: fr-qafactorydev.europe.altair.com/common_adminqa-linux64
       credentials: 
         username: ${{secrets.DOCKER_REGISTRY_USER}}
         password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
