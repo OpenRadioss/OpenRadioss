@@ -84,6 +84,11 @@ C-----------------------------------------------
       INTEGER :: NB_IDS, NB_NEG_IDS
       INTEGER, DIMENSION(:), ALLOCATABLE :: IDS
       LOGICAL :: IS_AVAILABLE
+      INTEGER :: NN(4),NF,IMIN,NMIN,INOD(4),NPERM(4,4),ISIGN_NOD(4),IORD
+      DATA NPERM/1,2,3,4,
+     .           2,3,4,1,
+     .           3,4,1,2,
+     .           4,1,2,3/
 C-----------------------------------------------
 !   IGRSURF(IGS)%ID   :: SURFACE identifier
 !   IGRSURF(IGS)%TITLE   :: SURF title
@@ -397,7 +402,87 @@ C-----------
                     NSEG=NSEG+NSEGV
                  ENDIF
               ENDDO
-
+! --------------
+! pretreatement of surface node permutation
+! --------------
+              DO  L=1,NSEG
+               IF (BUFTMP((L-1)*NISX+1) .NE. 0) THEN
+                 ! nodes of surface segment
+                 INOD(1) = IABS(BUFTMP((L-1)*NISX+1))
+                 INOD(2) = IABS(BUFTMP((L-1)*NISX+2))
+                 INOD(3) = IABS(BUFTMP((L-1)*NISX+3))
+                 INOD(4) = IABS(BUFTMP((L-1)*NISX+4))
+                 ! sign of nodes
+                 ISIGN_NOD(1) = ISIGN(1,BUFTMP((L-1)*NISX+1))
+                 ISIGN_NOD(2) = ISIGN(1,BUFTMP((L-1)*NISX+2))
+                 ISIGN_NOD(3) = ISIGN(1,BUFTMP((L-1)*NISX+3))
+                 ISIGN_NOD(4) = ISIGN(1,BUFTMP((L-1)*NISX+4))
+                 ! check valid nodes
+                 NF=0
+                 DO J=1,4
+                   K=INOD(J)
+                   IF (K /= 0) THEN
+                     NF=NF+1
+                     INOD(NF)=K
+                   ENDIF
+                 ENDDO
+                 ! check for min node ID
+                 IMIN = 1
+                 NMIN = INOD(IMIN)
+                 DO J=2,NF
+                   IF (NMIN > INOD(J)) IMIN = J
+                   NMIN = MIN(NMIN,INOD(J))
+                 ENDDO
+                 ! start node pemutation
+                 NN(1) = INOD(NPERM(IMIN,1))
+                 NN(2) = INOD(NPERM(IMIN,2))
+                 NN(3) = INOD(NPERM(IMIN,3))
+                 NN(4) = INOD(NPERM(IMIN,4))
+                 ! permuted nodes temporary storage for futher treatements (sorting, double removing)
+                 BUFTMP((L-1)*NISX+1) = NN(1)*ISIGN_NOD(1)
+                 BUFTMP((L-1)*NISX+2) = NN(2)*ISIGN_NOD(2)
+                 BUFTMP((L-1)*NISX+3) = NN(3)*ISIGN_NOD(3)
+                 BUFTMP((L-1)*NISX+4) = NN(4)*ISIGN_NOD(4)
+               ENDIF ! IF (BUFTMP((L-1)*NISX+1) .NE. 0)
+             ENDDO
+C-------
+             !---------
+             !  3 node element surface rearangement ( N4 = N3 ) after permutation
+             !---------
+             DO L=1,NSEG
+               INOD(1) = BUFTMP((L-1)*NISX+1)
+               INOD(2) = BUFTMP((L-1)*NISX+2)
+               INOD(3) = BUFTMP((L-1)*NISX+3)
+               INOD(4) = BUFTMP((L-1)*NISX+4)
+!
+               IORD = 0
+!
+               IF ( INOD(1) /= 0 .OR. INOD(2) /= 0 .OR.
+     .              INOD(3) /= 0 .OR. INOD(4) /= 0 ) THEN
+!
+                 IF (INOD(4) == 0) INOD(4)=INOD(3)
+!
+                 IF (INOD(1) == INOD(4)) THEN
+                   INOD(4)=INOD(3)
+                   IORD = IORD + 1
+                 ELSEIF (INOD(2) == INOD(3)) THEN
+                   INOD(3)=INOD(4)
+                   IORD = IORD + 1
+                 ELSEIF(INOD(1) == INOD(2)) THEN
+                   INOD(2)=INOD(3)
+                   INOD(3)=INOD(4)
+                   IORD = IORD + 1
+                 ENDIF
+               ENDIF
+!
+               IF (IORD > 0) THEN
+                 BUFTMP((L-1)*NISX+1) = INOD(1)
+                 BUFTMP((L-1)*NISX+2) = INOD(2)
+                 BUFTMP((L-1)*NISX+3) = INOD(3)
+                 BUFTMP((L-1)*NISX+4) = INOD(4)
+               ENDIF ! IF (IORD > 0)
+             ENDDO ! DO L=1,NSEG
+C-------
 C------------------------------ 
 C  sorting  
 C------------------------------ 
