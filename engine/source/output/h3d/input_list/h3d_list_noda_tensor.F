@@ -85,6 +85,30 @@ c-----------------------------------------------
       H3D_KEYWORD_NODAL_TENSOR(I)%COMMENT  = 
      .'mean strain of elements connected to node(computed using element shape fcts)'
 c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_NODAL_TENSOR(I)%KEY3  = 'GPS/TMAX'
+      H3D_KEYWORD_NODAL_TENSOR(I)%TEXT1  = 'Max_Grid Point Stress'
+      H3D_KEYWORD_NODAL_TENSOR(I)%COMMENT  = 
+     .'Maximum (P1) Grid Point Stress tensor over time'
+c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_NODAL_TENSOR(I)%KEY3  = 'GPS/TMIN'
+      H3D_KEYWORD_NODAL_TENSOR(I)%TEXT1  = 'Min_Grid Point Stress'
+      H3D_KEYWORD_NODAL_TENSOR(I)%COMMENT  = 
+     .'Minimum (P3) Grid Point Stress tensor over time'
+c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_NODAL_TENSOR(I)%KEY3  = 'GPSTRAIN/TMAX'
+      H3D_KEYWORD_NODAL_TENSOR(I)%TEXT1  = 'Max_Grid Point Strain'
+      H3D_KEYWORD_NODAL_TENSOR(I)%COMMENT  = 
+     .'Maximum (P1) Grid Point Strain tensor over time'
+c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_NODAL_TENSOR(I)%KEY3  = 'GPSTRAIN/TMIN'
+      H3D_KEYWORD_NODAL_TENSOR(I)%TEXT1  = 'Min_Grid Point Strain'
+      H3D_KEYWORD_NODAL_TENSOR(I)%COMMENT  = 
+     .'Minimum (P3) Grid Point Strain tensor over time'
+c-----------------------------------------------
 
       NKEY=I
       END

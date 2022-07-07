@@ -397,6 +397,7 @@ c
 c-------------------------------------------------
           CALL ZEROVARS_AUTO(ELBUF_TAB(NG))
 c-------------------------------------------------
+          CALL INI_OUTMAX_AUTO(ELBUF_TAB(NG),ITY,NG) 
 c
 c---  User Mat Buffer, Fail buffer - structure parameters
 c
@@ -822,8 +823,15 @@ C
           LGLOB = LGLOB + GBUF%G_IDT_TSH
 C
           LGLOB = LGLOB + GBUF%G_FILL
-C
-          BUFLEN = BUFLEN + GBUF%NVAR_GLOB + 1 + LGLOB*NEL
+C ---add H3D/TMAX in BUFLEN         
+          LGLOB = LGLOB + GBUF%G_TM_YIELD
+          LGLOB = LGLOB + GBUF%G_TM_SEQ  
+          LGLOB = LGLOB + GBUF%G_TM_EINT 
+          LGLOB = LGLOB + GBUF%G_TM_DMG  
+          LGLOB = LGLOB + 2*GBUF%G_TM_SIG  
+          LGLOB = LGLOB + 2*GBUF%G_TM_STRA 
+C          
+          BUFLEN = BUFLEN + GBUF%NVAR_GLOB + 1 + LGLOB*NEL 
 c
 c---------   layer variables       
           LLAY = 0
@@ -1104,6 +1112,7 @@ C---
 c-------------------------------------------------
           CALL ZEROVARS_AUTO(ELBUF_TAB(NG))
 c-------------------------------------------------
+          CALL INI_OUTMAX_AUTO(ELBUF_TAB(NG),ITY,NG) 
 c
 c---  User Mat Buffer, Fail buffer - structure parameters
 c
@@ -1558,8 +1567,15 @@ C
           LGLOB = LGLOB + GBUF%G_UPDATE
 C
           LGLOB = LGLOB + GBUF%G_FILL
-C
           LGLOB = LGLOB + GBUF%G_BETAORTH            
+C ---add H3D/TMAX in BUFLEN         
+          LGLOB = LGLOB + GBUF%G_TM_YIELD
+          LGLOB = LGLOB + GBUF%G_TM_SEQ  
+          LGLOB = LGLOB + GBUF%G_TM_EINT 
+          LGLOB = LGLOB + GBUF%G_TM_DMG  
+          LGLOB = LGLOB + 2*GBUF%G_TM_SIG  
+          LGLOB = LGLOB + 2*GBUF%G_TM_STRA 
+C
 c
           BUFLEN = BUFLEN + GBUF%NVAR_GLOB + 1 + LGLOB*NEL
 c

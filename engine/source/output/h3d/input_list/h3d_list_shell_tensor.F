@@ -147,6 +147,30 @@ c-----------------------------------------------
       H3D_KEYWORD_SHELL_TENSOR(I)%TEXT1  = 'BackStress'
       H3D_KEYWORD_SHELL_TENSOR(I)%COMMENT  = '  '
 c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SHELL_TENSOR(I)%KEY3  = 'TENS/STRESS/TMAX'
+      H3D_KEYWORD_SHELL_TENSOR(I)%TEXT1  = 'Max_Stress'
+      H3D_KEYWORD_SHELL_TENSOR(I)%COMMENT  = 
+     .'Maximum (P1) Stress tensor over time&ipt'
+c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SHELL_TENSOR(I)%KEY3  = 'TENS/STRAIN/TMAX'
+      H3D_KEYWORD_SHELL_TENSOR(I)%TEXT1  = 'Max_Strain'
+      H3D_KEYWORD_SHELL_TENSOR(I)%COMMENT  = 
+     .'Maximum (P1) Strain tensor over time&ipt'
+c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SHELL_TENSOR(I)%KEY3  = 'TENS/STRESS/TMIN'
+      H3D_KEYWORD_SHELL_TENSOR(I)%TEXT1  = 'Min_Stress'
+      H3D_KEYWORD_SHELL_TENSOR(I)%COMMENT  = 
+     .'Minimum (P3) Stress tensor over time&ipt'
+c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SHELL_TENSOR(I)%KEY3  = 'TENS/STRAIN/TMIN'
+      H3D_KEYWORD_SHELL_TENSOR(I)%TEXT1  = 'Min_Strain'
+      H3D_KEYWORD_SHELL_TENSOR(I)%COMMENT  = 
+     .'Minimum (P3) Strain tensor over time&ipt'
+c-----------------------------------------------
 
       NKEY=I
       END

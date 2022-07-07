@@ -37,6 +37,7 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD 
       USE H3D_MOD 
       USE PINCHTYPE_MOD
+      USE OUTMAX_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1736,6 +1737,15 @@ C
 C---- Number of RBODY before merge
       NEXT       = NEXT + 1
       NRBODY0    = TABVINT(NEXT)
+C---- MAX (/H3D) 
+      NEXT       = NEXT + 1
+      LMAX_DIS   = TABVINT(NEXT)
+      NEXT       = NEXT + 1
+      LMAX_VEL   = TABVINT(NEXT)
+      NEXT       = NEXT + 1
+      LMAX_NSIG  = TABVINT(NEXT)
+      NEXT       = NEXT + 1
+      LMAX_NSTRA = TABVINT(NEXT)
 
 C--------------------------------------
       RETURN

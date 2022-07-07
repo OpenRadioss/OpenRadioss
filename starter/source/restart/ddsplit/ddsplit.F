@@ -390,6 +390,7 @@ C-----------------------------------------------
       USE EBCS_MOD
       USE JOINT_MOD
       USE SEATBELT_MOD
+      USE OUTMAX_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3212,6 +3213,12 @@ C--------------------------------------------
         CALL W_SEATBELTS(LEN_IA,LEN_AM,P,NODLOCAL,N_ANCHOR_REMOTE_L,
      .       N_ANCHOR_REMOTE_SEND_L,ANCHOR_REMOTE_L,ANCHOR_REMOTE_SEND_L)
       ENDIF
+C--------------------------------------------
+C /H3D/?/TMAX part noda
+C--------------------------------------------
+      IF (LMAX_DIS>0)CALL W_R3NLOC(D,NODGLOB,NUMNOD_L,LEN_AM)
+      IF (LMAX_VEL>0)CALL W_R3NLOC(V,NODGLOB,NUMNOD_L,LEN_AM)
+      CALL W_OUTMAXN(NUMNOD_L,LEN_AM)
 C-----------------------------------------------
 C DSOLVE
 C-----------------------------------------------

@@ -49,6 +49,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD 
+      USE OUTMAX_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -275,6 +276,22 @@ C-----------------------------------------------
              IF (ITAGPS(N).GT.0) VALUE(J,N)=AFLU(J-3,N)/ITAGPS(N)
            ENDDO
          ENDDO
+C-----------------------------------------------
+      ELSEIF(KEYWORD == 'GPS/TMAX') THEN
+C-----------------------------------------------
+         CALL GET_TM_GPS(VALUE,TM_NSIG1,NUMNOD)
+C-----------------------------------------------
+      ELSEIF(KEYWORD == 'GPS/TMIN') THEN
+C-----------------------------------------------
+         CALL GET_TM_GPS(VALUE,TM_NSIG3,NUMNOD)
+C-----------------------------------------------
+      ELSEIF(KEYWORD == 'GPSTRAIN/TMAX') THEN
+C-----------------------------------------------
+         CALL GET_TM_GPS(VALUE,TM_NSTRA1,NUMNOD)
+C-----------------------------------------------
+      ELSEIF(KEYWORD == 'GPSTRAIN/TMIN') THEN
+C-----------------------------------------------
+         CALL GET_TM_GPS(VALUE,TM_NSTRA3,NUMNOD)
 C
 C-----------------------------------------------
 C
@@ -290,5 +307,39 @@ C
       DEALLOCATE(VGPS)
       DEALLOCATE(ITAGPS)
 
+      RETURN
+      END
+Chd|====================================================================
+Chd|  GET_TM_GPS                           source/output/outmax.F     
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|====================================================================
+      SUBROUTINE GET_TM_GPS(VALUE,TM_NSIG,NNOD)
+C-----------------------------------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER  NNOD
+      my_real, DIMENSION(6,NNOD) ,INTENT(OUT):: VALUE
+      my_real, DIMENSION(NNOD,6) ,INTENT(INOUT):: TM_NSIG
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER  I,J
+      my_real
+     .   S(3),NORM2
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------     
+      DO  I=1,NNOD 
+        VALUE(1:6,I) = TM_NSIG(I,1:6)
+      ENDDO
+C      
       RETURN
       END

@@ -795,6 +795,13 @@ c---
         integer  G_DT_PITER
 c---
         integer  G_IDT_TSH
+c-------  max_historic variables     
+        integer  G_TM_YIELD
+        integer  G_TM_SEQ
+        integer  G_TM_EINT
+        integer  G_TM_DMG
+        integer  G_TM_SIG  ! max(p1)&min(p3) 3 for 2D, 6 for 3D
+        integer  G_TM_STRA ! max(p1)&min(p3)
 c---
         integer, DIMENSION(:) , POINTER ::   NOFF  
         integer, DIMENSION(:) , POINTER ::   IERR  
@@ -910,6 +917,18 @@ C    -  for seatbelt elements
 c---
         my_real, DIMENSION(:) , POINTER ::   DT_PITER ! Tetra10 Iterative Power for Time Step Computation
         integer, DIMENSION(:) , POINTER ::   IDT_TSH  
+c-------  max_historic variables     
+        my_real, DIMENSION(:) , POINTER ::   TM_YIELD   
+        my_real, DIMENSION(:) , POINTER ::   TM_SEQ   
+        my_real, DIMENSION(:) , POINTER ::   TM_EINT   
+        my_real, DIMENSION(:) , POINTER ::   TM_DMG   
+        my_real, DIMENSION(:) , POINTER ::   TM_SIG1
+        my_real, DIMENSION(:) , POINTER ::   TM_STRA1
+        my_real, DIMENSION(:) , POINTER ::   TM_SIG3
+        my_real, DIMENSION(:) , POINTER ::   TM_STRA3
+c---  work array
+        my_real, DIMENSION(:) , POINTER ::   TM_PSIG
+        my_real, DIMENSION(:) , POINTER ::   TM_PSTRA
 c---
       END TYPE G_BUFEL_
 
