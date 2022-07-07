@@ -1,0 +1,65 @@
+name: Update Headers CI
+
+on:
+  # push:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+env:
+  GIT_SERVBOT_USER: ${{ secrets.GIT_SERVBOT_USER }}
+  GIT_SERVBOT_EMAIL: ${{ secrets.GIT_SERVBOT_EMAIL }}
+  GIT_PUSH_SERVBOT_PAT: ${{ secrets.GIT_PUSH_SERVBOT_PAT }}
+  GO_PUSH: 0
+
+jobs:
+
+  upd_headers:
+    if: ${{ github.repository_owner == 'OpenRadioss' }}
+
+    # DEV ONLY # runs-on: ["dev_update_headers"]
+    runs-on: ["update_headers"]
+    container: 
+      image: fr-qafactorydev.europe.altair.com/common-linux64
+      credentials: 
+        username: ${{secrets.DOCKER_REGISTRY_USER}}
+        password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
+      volumes: 
+        - /etc/localtime:/etc/localtime:ro
+
+    steps:
+
+      # Get last git modifications, WS is not persistent here
+      - uses: actions/checkout@v2
+        with:
+          lfs: 'true'
+          # Use a PAT else the push won't trigger the next workflow
+          token: ${{ env.GIT_PUSH_SERVBOT_PAT }}
+
+      - name: Running the update header script
+        run: |
+          Compiling_tools/script/or_header_mod_auto.pl update_headers
+          # Clean temporary files (if any) 
+          git clean -f
+
+      - name: Submiting files if any
+        run: |
+          # Check if new files
+          if [[ -n $(git status --porcelain) ]]
+          then
+              # Commit
+              export THEDATE=`date`
+              git config --global user.name "$GIT_SERVBOT_USER"
+              git config --global user.email "$GIT_SERVBOT_EMAIL"
+              git commit -m "Update Headers at $THEDATE"  
+              echo "GO_PUSH=1" >> $GITHUB_ENV
+          else
+            echo "No files to submit"
+          fi
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        if: ${{ env.GO_PUSH == 1 }} 
+        with:
+          github_token: ${{ env.GIT_PUSH_SERVBOT_PAT }}
+          branch: ${{ github.ref }}      
