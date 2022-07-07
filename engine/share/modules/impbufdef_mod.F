@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        DEALLOC_IMPBUF                source/implicit/imp_solv.F    
 Chd|        IMP_BUCK                      source/implicit/imp_buck.F    
 Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
-Chd|        IMP_EIGSOL                    com/eig/imp_eigsol.F          
 Chd|        IMP_FOUT                      source/implicit/imp_solv.F    
 Chd|        IMP_RESTARCP                  source/implicit/imp_sol_init.F
 Chd|        IMP_SOLV                      source/implicit/imp_solv.F    

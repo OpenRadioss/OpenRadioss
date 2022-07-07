@@ -26,9 +26,9 @@ Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        I20STIFN                      source/interfaces/inter3d1/i20stifn.F
-Chd|        I24STSECND                     source/interfaces/inter3d1/i24stslav.F
-Chd|        I25STSECND                     source/interfaces/inter3d1/i25stslav.F
-Chd|        I7STSECND                      source/interfaces/inter3d1/i7stslav.F
+Chd|        I24STSECND                    source/interfaces/inter3d1/i24stslav.F
+Chd|        I25STSECND                    source/interfaces/inter3d1/i25stslav.F
+Chd|        I7STSECND                     source/interfaces/inter3d1/i7stslav.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE ININTR1(IPARI   ,STIFINT, INTBUF_TAB ,STFAC)

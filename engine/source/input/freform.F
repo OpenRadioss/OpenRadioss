@@ -21,52 +21,52 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  FREFORM                       source/input/freform.F
+Chd|  FREFORM                       source/input/freform.F        
 Chd|-- called by -----------
-Chd|        LECINP                        source/input/lecinp.F
+Chd|        LECINP                        source/input/lecinp.F         
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F
+Chd|        ARRET                         source/system/arret.F         
 Chd|        CONNECTION_SOCK_INIT_C        source/coupling/rad2rad/rad2rad_c.c
-Chd|        ERRMSG                        source/input/errmsg.F
-Chd|        FRALEONOFF                    source/input/fraleonoff.F
-Chd|        FRALNK                        source/input/fralnk.F
-Chd|        FRALNK2                       source/input/fralnk.F
-Chd|        FREABF                        source/input/freabf.F
+Chd|        ERRMSG                        source/input/errmsg.F         
+Chd|        FRALEONOFF                    source/input/fraleonoff.F     
+Chd|        FRALNK                        source/input/fralnk.F         
+Chd|        FRALNK2                       source/input/fralnk.F         
+Chd|        FREABF                        source/input/freabf.F         
 Chd|        FREANIM                       source/output/anim/reader/freanim.F
-Chd|        FREBCS                        source/input/frebcs.F
-Chd|        FRECPL                        source/input/frecpl.F
-Chd|        FREDAMP                       source/input/fredamp.F
-Chd|        FREDEBUG                      source/input/fredebug.F
-Chd|        FREDLI                        source/input/fredli.F
-Chd|        FREDLI7                       source/input/fredli7.F
-Chd|        FREDYNAIN                     source/input/fredynain.F
-Chd|        FREEIG                        source/input/freeig.F
-Chd|        FREFLW                        source/input/freflw.F
-Chd|        FREFUNC                       source/input/frefunc.F
-Chd|        FREFVBAG                      source/input/frefvbag.F
-Chd|        FREFXINP                      source/input/frefxinp.F
-Chd|        FREIMPL                       source/input/freimpl.F
-Chd|        FREINIV                       source/input/freiniv.F
-Chd|        FREINT                        source/input/freint.F
-Chd|        FRELNK                        source/input/frelnk.F
-Chd|        FRENOIS                       source/input/frenois.F
-Chd|        FREOUTP                       source/input/freoutp.F
-Chd|        FRERBO                        source/input/frerbo.F
-Chd|        FRESTAT                       source/input/frestat.F
+Chd|        FREBCS                        source/input/frebcs.F         
+Chd|        FRECPL                        source/input/frecpl.F         
+Chd|        FREDAMP                       source/input/fredamp.F        
+Chd|        FREDEBUG                      source/input/fredebug.F       
+Chd|        FREDLI                        source/input/fredli.F         
+Chd|        FREDLI7                       source/input/fredli7.F        
+Chd|        FREDYNAIN                     source/input/fredynain.F      
+Chd|        FREEIG                        source/input/freeig.F         
+Chd|        FREFLW                        source/input/freflw.F         
+Chd|        FREFUNC                       source/input/frefunc.F        
+Chd|        FREFVBAG                      source/input/frefvbag.F       
+Chd|        FREFXINP                      source/input/frefxinp.F       
+Chd|        FREIMPL                       source/input/freimpl.F        
+Chd|        FREINIV                       source/input/freiniv.F        
+Chd|        FREINT                        source/input/freint.F         
+Chd|        FRELNK                        source/input/frelnk.F         
+Chd|        FRENOIS                       source/input/frenois.F        
+Chd|        FREOUTP                       source/input/freoutp.F        
+Chd|        FRERBO                        source/input/frerbo.F         
+Chd|        FRESTAT                       source/input/frestat.F        
 Chd|        FRETHERMAL                    source/constraints/thermic/frethermal.F
-Chd|        FREUPWIND                     source/input/freupwind.F
-Chd|        FREUPWM                       source/input/freupwm.F
+Chd|        FREUPWIND                     source/input/freupwind.F      
+Chd|        FREUPWM                       source/input/freupwm.F        
 Chd|        H3D_INI                       source/output/h3d/h3d_build_fortran/h3d_ini.F
 Chd|        H3D_READ                      source/output/h3d/h3d_build_fortran/h3d_read.F
-Chd|        RDELE                         source/input/rdele.F
-Chd|        REDKEY0                       source/input/redkey0.F
-Chd|        REDKEY1                       source/input/redkey1.F
-Chd|        REDKEY1_H3D                   source/input/redkey1_h3d.F
-Chd|        WRIUSC2                       source/input/wriusc2.F
-Chd|        NVAR                          source/input/nvar.F
+Chd|        RDELE                         source/input/rdele.F          
+Chd|        REDKEY0                       source/input/redkey0.F        
+Chd|        REDKEY1                       source/input/redkey1.F        
+Chd|        REDKEY1_H3D                   source/input/redkey1_h3d.F    
+Chd|        WRIUSC2                       source/input/wriusc2.F        
+Chd|        NVAR                          source/input/nvar.F           
 Chd|        CHECK_MOD                     ../common_source/modules/check_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F
+Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        METRIC_MOD                    ../common_source/modules/metric_mod.F
 Chd|====================================================================
@@ -2552,13 +2552,13 @@ C
       CALL ARRET(0)
       END
 Chd|====================================================================
-Chd|  NGR2USR                       source/input/freform.F
+Chd|  NGR2USR                       source/input/freform.F        
 Chd|-- called by -----------
-Chd|        LECDAMP                       source/input/lecdamp.F
-Chd|        LECINV                        source/input/lecinv.F
-Chd|        LECTUR                        source/input/lectur.F
+Chd|        LECDAMP                       source/input/lecdamp.F        
+Chd|        LECINV                        source/input/lecinv.F         
+Chd|        LECTUR                        source/input/lectur.F         
 Chd|        S10CNISTAT                    source/elements/solid/solide10/s10cndf.F
-Chd|        SMS_MASS_SCALE_2              source/ams/sms_mass_scale_2.F
+Chd|        SMS_MASS_SCALE_2              source/ams/sms_mass_scale_2.F 
 Chd|        STATIC                        source/general_controls/damping/static.F
 Chd|-- calls ---------------
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
@@ -2610,7 +2610,7 @@ C-----------------------------------------------
       END
 C
 Chd|====================================================================
-Chd|  FRETITL                       source/input/freform.F
+Chd|  FRETITL                       source/input/freform.F        
 Chd|-- called by -----------
 Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
 Chd|        W_GR_ENTITY                   source/output/restart/w_gr_entity.F
@@ -2646,17 +2646,17 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  FRETITL2                      source/input/freform.F
+Chd|  FRETITL2                      source/input/freform.F        
 Chd|-- called by -----------
-Chd|        ABFHIST1                      source/output/abf/abfhist1.F
+Chd|        ABFHIST1                      source/output/abf/abfhist1.F  
 Chd|        ALLOC_GROUP_STR               source/groups/alloc_group_str.F
 Chd|        ALLOC_LINE_STR                source/groups/alloc_line_str.F
 Chd|        ALLOC_SUBSET_STR              source/groups/alloc_subset_str.F
 Chd|        ALLOC_SURF_STR                source/groups/alloc_surf_str.F
 Chd|        GENANI                        source/output/anim/generate/genani.F
-Chd|        HIST1                         source/output/th/hist1.F
-Chd|        OUTP_MT                       source/output/sty/outp_mt.F
-Chd|        THMONV                        source/output/th/thmonv.F
+Chd|        HIST1                         source/output/th/hist1.F      
+Chd|        OUTP_MT                       source/output/sty/outp_mt.F   
+Chd|        THMONV                        source/output/th/thmonv.F     
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE FRETITL2(TITR,IASC,L)
@@ -2685,7 +2685,7 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  FRETITLR                      source/input/freform.F
+Chd|  FRETITLR                      source/input/freform.F        
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|====================================================================
@@ -2718,7 +2718,7 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  FRETITL2R                     source/input/freform.F
+Chd|  FRETITL2R                     source/input/freform.F        
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|====================================================================

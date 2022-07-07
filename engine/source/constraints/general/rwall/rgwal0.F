@@ -23,9 +23,9 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  RGWAL0                        source/constraints/general/rwall/rgwal0.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F
+Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
-Chd|        MY_BARRIER                    source/system/machine.F
+Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        RGWALC                        source/constraints/general/rwall/rgwalc.F
 Chd|        RGWALL                        source/constraints/general/rwall/rgwall.F
 Chd|        RGWALP                        source/constraints/general/rwall/rgwalp.F
@@ -192,19 +192,19 @@ C
 Chd|====================================================================
 Chd|  RGWAL0_IMP                    source/constraints/general/rwall/rgwal0.F
 Chd|-- called by -----------
-Chd|        IMP_BUCK                      source/implicit/imp_buck.F
-Chd|        IMP_CHKM                      source/implicit/imp_solv.F
-Chd|        IMP_SOLV                      source/implicit/imp_solv.F
+Chd|        IMP_BUCK                      source/implicit/imp_buck.F    
+Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
+Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
 Chd|-- calls ---------------
 Chd|        FV_RWL                        source/constraints/general/rwall/srw_imp.F
-Chd|        GETDYNA_A                     source/implicit/imp_dyna.F
+Chd|        GETDYNA_A                     source/implicit/imp_dyna.F    
 Chd|        RGWALC                        source/constraints/general/rwall/rgwalc.F
 Chd|        RGWALL                        source/constraints/general/rwall/rgwall.F
 Chd|        RGWALP                        source/constraints/general/rwall/rgwalp.F
 Chd|        RGWALS                        source/constraints/general/rwall/rgwals.F
 Chd|        RGWALT                        source/constraints/general/rwall/rgwal0.F
 Chd|        SPMD_EXCH_FR6                 source/mpi/kinematic_conditions/spmd_exch_fr6.F
-Chd|        ZEROR                         source/system/zero.F
+Chd|        ZEROR                         source/system/zero.F          
 Chd|====================================================================
       SUBROUTINE RGWAL0_IMP(X      ,D      ,V      ,RWBUF   ,LPRW   ,
      1                  NPRW   ,MS     ,FSAV   ,FR_WALL ,FOPT   ,
@@ -378,7 +378,7 @@ C
 Chd|====================================================================
 Chd|  RGWALF                        source/constraints/general/rwall/rgwal0.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F
+Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE RGWALF(A      ,RWBUF   ,NPRW   ,MS    )

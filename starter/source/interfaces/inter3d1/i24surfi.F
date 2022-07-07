@@ -1742,7 +1742,7 @@ C-----------
 Chd|====================================================================
 Chd|  I24FICS_INI                   source/interfaces/inter3d1/i24surfi.F
 Chd|-- called by -----------
-Chd|        I24STSECND                     source/interfaces/inter3d1/i24stslav.F
+Chd|        I24STSECND                    source/interfaces/inter3d1/i24stslav.F
 Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
 Chd|-- calls ---------------
 Chd|====================================================================

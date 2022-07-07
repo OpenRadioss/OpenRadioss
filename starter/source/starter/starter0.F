@@ -34,9 +34,10 @@ Chd|        DYN_USERLIB_INIT              source/user_interface/dyn_userlib.c
 Chd|        EXECARGCHECK                  source/starter/execargcheck.F 
 Chd|        FREFORM                       source/starter/freform.F      
 Chd|        GET_FILE_NAME_INFO            source/system/get_file_name_info.F
-Chd|        HM_CONVERT_2D_ELEMENT_SEATBELTsource/devtools/hm_reader/hm_convert_2d_element_seatbelt.F
+Chd|        HM_CONVERT_2D_ELEMENTS_SEATBELTsource/devtools/hm_reader/hm_convert_2d_elements_seatbelt.F
 Chd|        HM_CONVERT_FAIL_TAB           source/devtools/hm_reader/hm_convert_fail_tab.F
 Chd|        HM_CONVERT_INTER_TYPE19       source/devtools/hm_reader/hm_convert_inter_type19.F
+Chd|        HM_COUNT_2D_ELEMENT_SEATBELT  source/devtools/hm_reader/hm_count_2d_element_seatbelt.F
 Chd|        HM_GET_MAX_ID                 source/devtools/hm_reader/hm_get_max_id.F
 Chd|        HM_MESSAGES                   source/devtools/hm_reader/hm_messages.F
 Chd|        HM_READ_SUBMODEL              source/model/assembling/hm_read_submodel.F
@@ -54,7 +55,6 @@ Chd|        PRINTIME                      source/system/timer.F
 Chd|        R2R_FORK                      source/coupling/rad2rad/r2r_fork.F
 Chd|        RADIOSS_SET_ENV_VARIABLE      ../common_source/comm/radioss_set_env_variable.c
 Chd|        RADIOSS_TITLE                 source/starter/radioss_title.F
-Chd|        RADIOSS_TITLE_C               com/starter/radioss_title_c.F 
 Chd|        SETIGNORECORE                 source/system/traceback_handler.c
 Chd|        STARTIME                      source/system/timer.F         
 Chd|        STOPTIME                      source/system/timer.F         

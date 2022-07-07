@@ -38,6 +38,7 @@ Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_st
 Chd|        LEC_INISTATE_D00_BRICK_CHECK  source/elements/initia/lec_inistate_d00_brick-check.F
 Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
 Chd|        SUBROTTENS                    source/model/submodel/subrot.F
+Chd|        SUBROTVECT                    source/model/submodel/subrot.F
 Chd|        UEL2SYS                       source/initial_conditions/inista/yctrl.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F

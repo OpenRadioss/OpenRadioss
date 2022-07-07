@@ -160,7 +160,6 @@ Chd|        I22BUCE                       engine/source/interfaces/intsort/i22bu
 Chd|        I22MAIN_TRI                   engine/source/interfaces/intsort/i22main_tri.F
 Chd|        IG3DUFORC3                    engine/source/elements/ige3d/ig3duforc3.F
 Chd|        IMP_BUCK                      engine/source/implicit/imp_buck.F
-Chd|        IMP_EIGSOL                    engine/com/eig/imp_eigsol.F   
 Chd|        INTTRI                        engine/source/interfaces/intsort/inttri.F
 Chd|        M11LAW                        engine/source/materials/mat/mat011/m11law.F
 Chd|        M11VS2                        engine/source/materials/mat/mat011/m11vs2.F

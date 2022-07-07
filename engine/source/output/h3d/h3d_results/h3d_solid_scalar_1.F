@@ -28,6 +28,8 @@ Chd|        H3D_WRITE_SCALAR              source/output/h3d/h3d_results/h3d_writ
 Chd|        INITBUF                       share/resol/initbuf.F         
 Chd|        SCHLIEREN                     source/output/anim/generate/schlieren.F
 Chd|        SROTORTH                      source/elements/solid/srotorth.F
+Chd|        THS_MAREA                     source/output/h3d/h3d_results/h3d_solid_scalar_1.F
+Chd|        THS_VOL                       source/output/h3d/h3d_results/h3d_solid_scalar_1.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
@@ -2230,8 +2232,9 @@ C-----------------------------------------------
       RETURN
       END
 Chd|====================================================================
-Chd|  THS_MAREA                        
+Chd|  THS_MAREA                     source/output/h3d/h3d_results/h3d_solid_scalar_1.F
 Chd|-- called by -----------
+Chd|        H3D_SOLID_SCALAR_1            source/output/h3d/h3d_results/h3d_solid_scalar_1.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE THS_MAREA(RX, RY, RZ, SX, SY, SZ, DET,NEL)
@@ -2273,8 +2276,9 @@ c-----------
       RETURN
       END
 Chd|====================================================================
-Chd|  THS_VOL                        
+Chd|  THS_VOL                       source/output/h3d/h3d_results/h3d_solid_scalar_1.F
 Chd|-- called by -----------
+Chd|        H3D_SOLID_SCALAR_1            source/output/h3d/h3d_results/h3d_solid_scalar_1.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE THS_VOL(RX, RY, RZ, SX, SY, SZ, TX, TY, TZ,DET,NEL)

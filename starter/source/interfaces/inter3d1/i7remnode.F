@@ -1428,6 +1428,7 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FRETITL2                      source/starter/freform.F      
 Chd|        PRE_I2                        source/interfaces/inter3d1/i7remnode.F
+Chd|        REMN_I2OP_EDG25               source/interfaces/int25/i25remlin.F
 Chd|        UPGRADE_REMNODE2              source/interfaces/interf1/upgrade_remnode.F
 Chd|        ZERONM_TAGD                   source/interfaces/inter3d1/i7remnode.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F

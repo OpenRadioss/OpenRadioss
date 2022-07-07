@@ -44,6 +44,8 @@ Chd|        HM_READ_VISC                  source/materials/visc/hm_read_visc.F
 Chd|        INI_EOS_VARS                  source/elements/elbuf_init/ini_eos_vars.F
 Chd|        INI_MATPARAM                  source/materials/mat/ini_matparam.F
 Chd|        INI_MLAW_VARS                 source/elements/elbuf_init/ini_mlaw_vars.F
+Chd|        MULTI_CHECK_EOS               source/multifluid/multi_check_eos.F
+Chd|        MULTI_CHECK_PSH               source/multifluid/multi_check_psh.F
 Chd|        NINTRI                        source/system/nintrr.F        
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F

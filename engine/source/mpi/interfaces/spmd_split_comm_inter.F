@@ -26,6 +26,9 @@ Chd|-- called by -----------
 Chd|        MPP_INIT                      source/mpi/interfaces/spmd_i7tool.F
 Chd|-- calls ---------------
 Chd|        COMM_TRI7VOX_MOD              share/modules/comm_tri7vox_mod.F
+Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
+Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
 Chd|====================================================================
       SUBROUTINE SPMD_SPLIT_COMM_INTER( NBINTC,INTLIST,IPARI,ISENDTO,IRCVFROM,SORT_COMM )
 !$COMMENT

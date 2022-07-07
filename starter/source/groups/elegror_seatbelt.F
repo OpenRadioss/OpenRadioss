@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  ELEGROR_SEATBELT                 source/groups/elegror_seatbelt.F       
+Chd|  ELEGROR_SEATBELT              source/groups/elegror_seatbelt.F
 Chd|-- called by -----------
 Chd|        LECSEC42                      source/tools/sect/hm_read_sect.F
 Chd|-- calls ---------------

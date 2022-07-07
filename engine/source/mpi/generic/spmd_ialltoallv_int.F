@@ -24,6 +24,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SPMD_IALLTOALLV_INT           source/mpi/generic/spmd_ialltoallv_int.F
 Chd|-- called by -----------
+Chd|        SPMD_CELL_LIST_EXCHANGE       source/mpi/interfaces/spmd_cell_list_exchange.F
+Chd|        SPMD_COARSE_CELL_EXCHANGE     source/mpi/interfaces/spmd_coarse_cell_exchange.F
 Chd|        SPMD_SPHGAT                   source/mpi/sph/spmd_sphgat.F  
 Chd|        SPMD_SPHGETV                  source/mpi/sph/spmd_sphgetv.F 
 Chd|-- calls ---------------

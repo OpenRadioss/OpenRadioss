@@ -32,7 +32,6 @@ Chd|        GENANI                        source/output/anim/generate/genani.F
 Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
 Chd|        HIST2                         source/output/th/hist2.F      
 Chd|        IMP_BUCK                      source/implicit/imp_buck.F    
-Chd|        IMP_EIGSOL                    com/eig/imp_eigsol.F          
 Chd|        INIT_TH                       source/output/th/init_th.F    
 Chd|        INIT_TH0                      source/output/th/init_th0.F   
 Chd|        RDRESB                        source/output/restart/rdresb.F

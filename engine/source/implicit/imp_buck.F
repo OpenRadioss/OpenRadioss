@@ -38,7 +38,6 @@ Chd|        DSRENUM                       source/implicit/dsolve/dsrenum.F
 Chd|        DSRENUM0                      source/implicit/dsolve/dsrenum.F
 Chd|        DSRESOLP_BUCK                 source/implicit/dsolve/dsresolp.F
 Chd|        DSRESOL_BUCK                  source/implicit/dsolve/dsresol.F
-Chd|        EIGBUCKP                      com/eig/eigbuckp.F            
 Chd|        FV_IMP                        source/constraints/general/impvel/fv_imp0.F
 Chd|        FV_RW                         source/constraints/general/impvel/fv_imp0.F
 Chd|        GENANI                        source/output/anim/generate/genani.F

@@ -97,8 +97,6 @@ Chd|        CUMULTIME_MP                  source/system/timer.F
 Chd|        DAMPING                       source/assembly/damping.F     
 Chd|        DAMPING44                     source/assembly/damping.F     
 Chd|        DAMPING51                     source/assembly/damping.F     
-Chd|        DATA_RECV_MADCPL              com/madymo/rad_madcpl.F       
-Chd|        DATA_SEND_MADCPL              com/madymo/rad_madcpl.F       
 Chd|        DEALLOCATE_JOINT              source/constraints/general/cyl_joint/deallocate_joint.F
 Chd|        DEALLOCM_IMP                  source/implicit/imp_solv.F    
 Chd|        DEALLOC_IMPBUF                source/implicit/imp_solv.F    
@@ -111,7 +109,6 @@ Chd|        DSWREST                       source/output/restart/wrrest.F
 Chd|        DTNODA                        source/time_step/dtnoda.F     
 Chd|        DTNODAMP                      source/time_step/dtnodamp.F   
 Chd|        DTNODAMS                      source/time_step/dtnodams.F   
-Chd|        DUMMY_CYCLE_MADCPL            com/madymo/rad_madcpl.F       
 Chd|        EBCCLAP                       source/boundary_conditions/ebcs/ebcclap.F
 Chd|        EBCS_EXTRAPOL                 source/boundary_conditions/ebcs/ebcs_extrapol.F
 Chd|        ELAPSTIME                     source/system/timer.F         
@@ -177,7 +174,6 @@ Chd|        IMPWREST                      source/output/restart/wrrest.F
 Chd|        IMP_BUCK                      source/implicit/imp_buck.F    
 Chd|        IMP_CHKM                      source/implicit/imp_solv.F    
 Chd|        IMP_DT2                       source/implicit/imp_dt.F      
-Chd|        IMP_EIGSOL                    com/eig/imp_eigsol.F          
 Chd|        IMP_FANIE                     source/implicit/imp_solv.F    
 Chd|        IMP_FANII                     source/implicit/imp_solv.F    
 Chd|        IMP_FOUT                      source/implicit/imp_solv.F    
@@ -185,7 +181,6 @@ Chd|        IMP_RESTARCP                  source/implicit/imp_sol_init.F
 Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
 Chd|        IMP_SOL_INIT                  source/implicit/imp_sol_init.F
 Chd|        IMP_TRANS                     source/output/restart/wrrest.F
-Chd|        INITIAL_DATA_EXCH_MADCPL      com/madymo/rad_madcpl.F       
 Chd|        INIT_INTERF_SORTING_STRATEGY  source/interfaces/init_interf_sorting_strategy.F
 Chd|        INIT_TRIM                     source/interfaces/intsort/init_trim.F
 Chd|        INIXFEM                       source/elements/xfem/inixfem.F
@@ -194,6 +189,7 @@ Chd|        INT18_LAW151_INIT             source/interfaces/int18/int18_law151_i
 Chd|        INT18_LAW151_OMP_ACCUMULATION source/interfaces/int18/int18_law151_omp_accumulation.F
 Chd|        INT18_LAW151_UPDATE           source/interfaces/int18/int18_law151_update.F
 Chd|        INTAL1                        source/ale/intal1.F           
+Chd|        INTER_STRUCT_INIT             source/interfaces/generic/inter_struct_init.F
 Chd|        INTFOP1                       source/interfaces/interf/intfop1.F
 Chd|        INTFOP2                       source/interfaces/interf/intfop2.F
 Chd|        INTFOP8                       source/interfaces/interf/intfop8.F
@@ -211,7 +207,6 @@ Chd|        KINE_SEATBELT_VEL             source/tools/seatbelts/kine_seatbelt_v
 Chd|        LAG_MULT                      source/tools/lagmul/lag_mult.F
 Chd|        LAG_MULTP                     source/tools/lagmul/lag_mult.F
 Chd|        LOAD_PRESSURE                 source/loads/general/load_pressure/load_pressure.F
-Chd|        MAD_ELFAIL                    com/madymo/mad_deleted.F      
 Chd|        MANCTR                        source/input/manctr.F         
 Chd|        MODSTI                        source/time_step/modsti.F     
 Chd|        MONVOL0                       source/airbag/monvol0.F       
@@ -380,7 +375,6 @@ Chd|        SPMD_NLIST_SMS                source/mpi/ams/spmd_sms.F
 Chd|        SPMD_RBCAST                   source/mpi/generic/spmd_rbcast.F
 Chd|        SPMD_SD_XV                    source/mpi/nodes/spmd_sd_xv.F 
 Chd|        SPMD_SORT_SMS                 source/mpi/ams/spmd_sms.F     
-Chd|        SPMD_TAGNCONT_STAMP           source/mpi/forces/spmd_exch_tagncont.F
 Chd|        SPMD_WIOUT                    source/mpi/generic/spmd_wiout.F
 Chd|        SPONFV                        source/elements/sph/sponfv.F  
 Chd|        SPWFVIS                       source/elements/sph/spwfvis.F 
@@ -402,7 +396,6 @@ Chd|        THICKVAR                      source/elements/shell/coque/thickvar.F
 Chd|        TIMFUN                        source/tools/curve/timfun.F   
 Chd|        TRACE_IN                      source/system/trace_back.F    
 Chd|        TRACE_OUT                     source/system/trace_back.F    
-Chd|        TSTP_EXCH_MADCPL              com/madymo/rad_madcpl.F       
 Chd|        UPDATE_FAILWAVE               source/materials/fail/failwave/update_failwave.F
 Chd|        UPDATE_SLIPRING               source/tools/seatbelts/update_slipring.F
 Chd|        UPENR_CRK                     source/elements/xfem/upenr_crk.F
@@ -410,7 +403,6 @@ Chd|        UPGRADE_REM_2RY               source/mpi/interfaces/spmd_i7tool.F
 Chd|        UPXFEM1                       source/elements/xfem/upxfem1.F
 Chd|        UPXFEM2                       source/elements/xfem/upxfem2.F
 Chd|        UPXFEM_TAGXP                  source/elements/xfem/upxfem_tagxp.F
-Chd|        VERIF_FFLEXPIPE               com/licensing/iniani.F        
 Chd|        VITESSE                       source/assembly/vitesse.F     
 Chd|        VITESSEPINCH                  source/assembly/vitessepinch.F
 Chd|        WRITE_DB                      source/output/tools/write_db.F
@@ -452,6 +444,8 @@ Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod
 Chd|        INTBUFMOD                     share/modules/restart_mod.F   
 Chd|        INTBUF_FRIC_MOD               share/modules/intbuf_fric_mod.F
 Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
+Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
+Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
 Chd|        INTSTAMP_GLOB_MOD             share/modules/intstamp_glob_mod.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|        MDS_RESTART_MOD               ../common_source/modules/mds_rest.mod.F

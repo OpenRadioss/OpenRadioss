@@ -71,7 +71,6 @@ Chd|        FORINTC                       source/elements/forintc.F
 Chd|        GENANI                        source/output/anim/generate/genani.F
 Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
 Chd|        IMP_BUCK                      source/implicit/imp_buck.F    
-Chd|        IMP_EIGSOL                    com/eig/imp_eigsol.F          
 Chd|        INIXFEM                       source/elements/xfem/inixfem.F
 Chd|        PARSOR_CRK                    source/output/anim/generate/parsor_crk.F
 Chd|        PRECRKLAY                     source/elements/xfem/precrklay.F

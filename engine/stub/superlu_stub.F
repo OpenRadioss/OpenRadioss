@@ -23,8 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  C_FORTRAN_DGSSV               stub/superlu_stub.F           
 Chd|-- called by -----------
-Chd|        EIGSOL                        com/eig/eigsol.F              
-Chd|        MSTATIC                       com/eig/mstatic.F             
 Chd|-- calls ---------------
 Chd|        ARRET                         source/system/arret.F         
 Chd|====================================================================
@@ -51,7 +49,6 @@ C-----------------------------------------------
 Chd|====================================================================
 Chd|  C_FREEMEM                     stub/superlu_stub.F           
 Chd|-- called by -----------
-Chd|        MSTATIC                       com/eig/mstatic.F             
 Chd|-- calls ---------------
 Chd|        ARRET                         source/system/arret.F         
 Chd|====================================================================

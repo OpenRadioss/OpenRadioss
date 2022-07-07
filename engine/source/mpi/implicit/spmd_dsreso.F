@@ -29,9 +29,6 @@ Chd|        DSPGRID                       source/implicit/dsolve/dspgrid.F
 Chd|        DSRESOL                       source/implicit/dsolve/dsresol.F
 Chd|        DSRESOL_BUCK                  source/implicit/dsolve/dsresol.F
 Chd|        DSRESOL_ITER                  source/implicit/dsolve/dsresol.F
-Chd|        MDKP                          com/eig/wrfxfilp.F            
-Chd|        WRFXFILP                      com/eig/wrfxfilp.F            
-Chd|        PRSCALP                       com/eig/wrfxfilp.F            
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SPMD_DS_ISEND(BUF, SIZE, ITAG, IDEST)
@@ -74,11 +71,6 @@ Chd|        DSRESOL                       source/implicit/dsolve/dsresol.F
 Chd|        DSRESOL_BUCK                  source/implicit/dsolve/dsresol.F
 Chd|        DSRESOL_ITER                  source/implicit/dsolve/dsresol.F
 Chd|        IMP_BUCK                      source/implicit/imp_buck.F    
-Chd|        LOCORIGP                      com/eig/locorig.F             
-Chd|        MDKP                          com/eig/wrfxfilp.F            
-Chd|        WRFXFILP                      com/eig/wrfxfilp.F            
-Chd|        PRSCALP                       com/eig/wrfxfilp.F            
-Chd|        PSCALP                        com/eig/wrfxfilp.F            
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SPMD_DS_RSEND(BUF, SIZE, ITAG, IDEST)
@@ -123,9 +115,6 @@ Chd|        DSPGRID                       source/implicit/dsolve/dspgrid.F
 Chd|        DSRESOL                       source/implicit/dsolve/dsresol.F
 Chd|        DSRESOL_BUCK                  source/implicit/dsolve/dsresol.F
 Chd|        DSRESOL_ITER                  source/implicit/dsolve/dsresol.F
-Chd|        MDKP                          com/eig/wrfxfilp.F            
-Chd|        WRFXFILP                      com/eig/wrfxfilp.F            
-Chd|        PRSCALP                       com/eig/wrfxfilp.F            
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SPMD_DS_IRECV(BUF, SIZE, ITAG, IPROV)
@@ -168,11 +157,6 @@ Chd|        DSRESOL                       source/implicit/dsolve/dsresol.F
 Chd|        DSRESOL_BUCK                  source/implicit/dsolve/dsresol.F
 Chd|        DSRESOL_ITER                  source/implicit/dsolve/dsresol.F
 Chd|        IMP_BUCK                      source/implicit/imp_buck.F    
-Chd|        LOCORIGP                      com/eig/locorig.F             
-Chd|        MDKP                          com/eig/wrfxfilp.F            
-Chd|        WRFXFILP                      com/eig/wrfxfilp.F            
-Chd|        PRSCALP                       com/eig/wrfxfilp.F            
-Chd|        PSCALP                        com/eig/wrfxfilp.F            
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SPMD_DS_RRECV(BUF, SIZE, ITAG, IPROV)

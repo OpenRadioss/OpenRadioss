@@ -21,10 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  INTER_STRUCT_INIT                    source/interfaces/intsort/generic/inter_struct_init.F
+Chd|  INTER_STRUCT_INIT             source/interfaces/generic/inter_struct_init.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
+Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
+Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
 Chd|====================================================================
         SUBROUTINE INTER_STRUCT_INIT(INTER_STRUCT,SORT_COMM)
 !$COMMENT

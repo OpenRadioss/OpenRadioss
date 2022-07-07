@@ -48,6 +48,7 @@ Chd|        H3D_ONED_SCALAR               source/output/h3d/h3d_results/h3d_oned
 Chd|        H3D_ONED_TENSOR               source/output/h3d/h3d_results/h3d_oned_tensor.F
 Chd|        H3D_ONED_TORSOR               source/output/h3d/h3d_results/h3d_oned_torsor.F
 Chd|        H3D_ONED_VECTOR               source/output/h3d/h3d_results/h3d_oned_vector.F
+Chd|        H3D_QUAD_OFF                  source/output/h3d/spmd/spmd_h3d_quad_off.F
 Chd|        H3D_QUAD_SCALAR               source/output/h3d/h3d_results/h3d_quad_scalar.F
 Chd|        H3D_QUAD_TENSOR               source/output/h3d/h3d_results/h3d_quad_tensor.F
 Chd|        H3D_QUAD_VECTOR               source/output/h3d/h3d_results/h3d_quad_vector.F
@@ -56,6 +57,7 @@ Chd|        H3D_SHELL_SCALAR              source/output/h3d/h3d_results/h3d_shel
 Chd|        H3D_SHELL_TENSOR              source/output/h3d/h3d_results/h3d_shell_tensor.F
 Chd|        H3D_SHELL_VECTOR              source/output/h3d/h3d_results/h3d_shell_vector.F
 Chd|        H3D_SKIN_IXSKIN               source/output/h3d/h3d_results/h3d_skin_ixskin.F
+Chd|        H3D_SKIN_OFF                  source/output/h3d/h3d_results/h3d_skin_off.F
 Chd|        H3D_SKIN_SCALAR               source/output/h3d/h3d_results/h3d_skin_scalar.F
 Chd|        H3D_SKIN_TENSOR               source/output/h3d/h3d_results/h3d_skin_tensor.F
 Chd|        H3D_SKIN_VECTOR               source/output/h3d/h3d_results/h3d_skin_vector.F

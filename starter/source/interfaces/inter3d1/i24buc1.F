@@ -24,7 +24,6 @@ Chd|====================================================================
 Chd|  I24BUC1                       source/interfaces/inter3d1/i24buc1.F
 Chd|-- called by -----------
 Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
-Chd|        INT24                         hypermesh/int24/int24.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        I24S1S2                       source/interfaces/inter3d1/i24buc1.F

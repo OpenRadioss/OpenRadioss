@@ -25,6 +25,7 @@ Chd|  I7TRC                         source/interfaces/intsort/i7trc.F
 Chd|-- called by -----------
 Chd|        I20MAIN_TRI                   source/interfaces/intsort/i20main_tri.F
 Chd|        I7MAIN_TRI                    source/interfaces/intsort/i7main_tri.F
+Chd|        INTER_TRC_7                   source/interfaces/int07/inter_trc_7.F
 Chd|-- calls ---------------
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================

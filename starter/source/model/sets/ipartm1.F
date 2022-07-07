@@ -129,6 +129,7 @@ Chd|        CREATE_SUBM_LIST              source/model/sets/create_subm_clause.F
 Chd|        CREATE_SUBS_LIST              source/model/sets/create_subs_clause.F
 Chd|        HM_READ_THGRNE                source/output/th/hm_read_thgrne.F
 Chd|        HM_TAGPART2                   source/groups/hm_tagpart2.F   
+Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       INTEGER FUNCTION SET_USRTOS(IU,IPARTM1,NPART)

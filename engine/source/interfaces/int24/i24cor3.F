@@ -925,6 +925,7 @@ Chd|====================================================================
 Chd|  I_CORPFIT3                    source/interfaces/int24/i24cor3.F
 Chd|-- called by -----------
 Chd|        I24MAINF                      source/interfaces/int24/i24main.F
+Chd|        I25MAINF                      source/interfaces/int25/i25mainf.F
 Chd|-- calls ---------------
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
@@ -994,10 +995,11 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  I_COR_EPFIT3                       source/interfaces/int24/i24cor3.F
+Chd|  I_COR_EPFIT3                  source/interfaces/int24/i24cor3.F
 Chd|-- called by -----------
-Chd|        I25MAINF                      source/interfaces/int25/i25main.F
+Chd|        I25MAINF                      source/interfaces/int25/i25mainf.F
 Chd|-- calls ---------------
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I_COR_EPFIT3(
      1               JLT      ,STFE    ,STIF    ,CAND_S ,CAND_M ,

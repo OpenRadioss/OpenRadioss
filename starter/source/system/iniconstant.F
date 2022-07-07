@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  INICONSTANT                   source/system/iniconstant.F   
 Chd|-- called by -----------
-Chd|        INT24                         hypermesh/int24/int24.F       
 Chd|        STARTER0                      source/starter/starter0.F     
 Chd|-- calls ---------------
 Chd|====================================================================

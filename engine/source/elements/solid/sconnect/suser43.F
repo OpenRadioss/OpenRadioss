@@ -37,6 +37,7 @@ Chd|        SDEF43                        source/elements/solid/sconnect/sdef43.
 Chd|        SFINT43                       source/elements/solid/sconnect/sfint43.F
 Chd|        SIGEPS116                     source/materials/mat/mat116/sigeps116.F
 Chd|        SIGEPS117                     source/materials/mat/mat117/sigeps117.F
+Chd|        SIGEPS120_CONNECT_MAIN        source/materials/mat/mat120/sigeps120_connect_main.F
 Chd|        SIGEPS59                      source/materials/mat/mat059/sigeps59.F
 Chd|        SIGEPS83                      source/materials/mat/mat083/sigeps83.F
 Chd|        SMOM43                        source/elements/solid/sconnect/smom43.F
@@ -45,6 +46,7 @@ Chd|        STARTIME                      source/system/timer.F
 Chd|        STOPTIME                      source/system/timer.F         
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        LAW_USERSO                    source/user_interface/law_userso.F
+Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE SUSER43(
      1 ELBUF_STR,IOUT  ,IPROP  ,IMAT   ,NGL    ,TIME  ,TIMESTEP,FR_WAVE,

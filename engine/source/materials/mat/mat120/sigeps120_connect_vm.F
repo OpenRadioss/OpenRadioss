@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  SIGEPS120_VM                  source/materials/mat/mat120/sigeps120_vm.F
+Chd|  SIGEPS120_CONNECT_VM          source/materials/mat/mat120/sigeps120_connect_vm.F
 Chd|-- called by -----------
-Chd|        SIGEPS120                     source/materials/mat/mat120/sigeps120.F
+Chd|        SIGEPS120_CONNECT_MAIN        source/materials/mat/mat120/sigeps120_connect_main.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SIGEPS120_CONNECT_VM(

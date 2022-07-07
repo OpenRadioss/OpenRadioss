@@ -21,10 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.  
 Chd|====================================================================
-Chd|  SPMD_CELL_EXCHANGE                     source/mpi/interfaces/spmd_cell_exchange.F
+Chd|  SPMD_CELL_EXCHANGE            source/mpi/generic/spmd_cell_exchange.F
 Chd|-- called by -----------
-Chd|    INTER_SORT_07                  source/interfaces/intsort/int07/inter_sort_07.F
+Chd|        INTER_SORT_07                 source/interfaces/int07/inter_sort_07.F
 Chd|-- calls ---------------
+Chd|        ANCMSG                        source/output/message/message.F
+Chd|        ARRET                         source/system/arret.F         
+Chd|        STARTIME                      source/system/timer.F         
+Chd|        STOPTIME                      source/system/timer.F         
+Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
+Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE SPMD_CELL_EXCHANGE( NIN,ISENDTO,IRCVFROM,NSNR,IGAP,
      1                               IFQ,INACTI,NSNFIOLD,INTTH,ITYP,

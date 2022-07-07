@@ -157,6 +157,13 @@ Chd|        IMP_PRO_P                     source/implicit/imp_pcg.F
 Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
 Chd|        IMP_UPDST                     source/implicit/imp_pcg.F     
 Chd|        INT18_LAW151_UPDATE           source/interfaces/int18/int18_law151_update.F
+Chd|        INTER_COLOR_COARSE_VOXEL      source/interfaces/generic/inter_color_coarse_voxel.F
+Chd|        INTER_COLOR_VOXEL             source/interfaces/generic/inter_color_voxel.F
+Chd|        INTER_COUNT_NODE_CURV         source/interfaces/generic/inter_count_node_curv.F
+Chd|        INTER_DEALLOCATE_WAIT         source/interfaces/generic/inter_deallocate_wait.F
+Chd|        INTER_MINMAX_NODE             source/interfaces/generic/inter_minmax_node.F
+Chd|        INTER_PREPARE_SORT            source/interfaces/generic/inter_prepare_sort.F
+Chd|        INTER_SORT_07                 source/interfaces/int07/inter_sort_07.F
 Chd|        INTFOP2                       source/interfaces/interf/intfop2.F
 Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|        LAG_MULT                      source/tools/lagmul/lag_mult.F
@@ -417,7 +424,6 @@ Chd|-- called by -----------
 Chd|        DSCOND                        source/implicit/dsolve/dscond.F
 Chd|        DSKCOND                       source/implicit/dsolve/dscond.F
 Chd|        DSMCOND                       source/implicit/dsolve/dscond.F
-Chd|        SECOND                        com/arpack/second.F           
 Chd|        STARTIME                      source/system/timer.F         
 Chd|        STARTIMEG                     source/system/timer.F         
 Chd|        STOPTIME                      source/system/timer.F         
@@ -453,7 +459,6 @@ Chd|  MY_FLUSH                      source/system/machine.F
 Chd|-- called by -----------
 Chd|        ECRIT                         source/output/ecrit.F         
 Chd|        IMP_STOP                      source/implicit/imp_solv.F    
-Chd|        XTIME0                        com/licensing/xtime0.F        
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE MY_FLUSH(IUNIT)

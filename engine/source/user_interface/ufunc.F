@@ -155,8 +155,8 @@ Chd|-- called by -----------
 Chd|        AIRBAGB                       source/airbag/airbag2.F       
 Chd|        AIRBAGB1                      source/airbag/airbagb1.F      
 Chd|        FVBAG1                        source/airbag/fvbag.F         
-Chd|        FVBAG3                        source/airbag/fvbag.F         
 Chd|        FVVENT0                       source/airbag/fvvent0.F       
+Chd|        FV_UP_SWITCH                  source/airbag/fv_up_switch.F  
 Chd|        MATERIAL_FLOW                 source/tools/seatbelts/material_flow.F
 Chd|        PORFOR4                       source/airbag/porfor4.F       
 Chd|        PORFORM4                      source/airbag/porfor4.F       

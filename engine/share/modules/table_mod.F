@@ -101,6 +101,9 @@ Chd|        SIGEPS110C_NICE               source/materials/mat/mat110/sigeps110c
 Chd|        SIGEPS112                     source/materials/mat/mat112/sigeps112.F
 Chd|        SIGEPS112C                    source/materials/mat/mat112/sigeps112c.F
 Chd|        SIGEPS120                     source/materials/mat/mat120/sigeps120.F
+Chd|        SIGEPS120_CONNECT_MAIN        source/materials/mat/mat120/sigeps120_connect_main.F
+Chd|        SIGEPS120_CONNECT_TAB_DP      source/materials/mat/mat120/sigeps120_connect_tab_dp.F
+Chd|        SIGEPS120_CONNECT_TAB_VM      source/materials/mat/mat120/sigeps120_connect_tab_vm.F
 Chd|        SIGEPS120_TAB_DP              source/materials/mat/mat120/sigeps120_tab_dp.F
 Chd|        SIGEPS120_TAB_VM              source/materials/mat/mat120/sigeps120_tab_vm.F
 Chd|        SIGEPS52                      source/materials/mat/mat052/sigeps52.F
@@ -113,6 +116,8 @@ Chd|        SIGEPS76C                     source/materials/mat/mat076/sigeps76c.
 Chd|        SIGEPS80                      source/materials/mat/mat080/sigeps80.F
 Chd|        SIGEPS80C                     source/materials/mat/mat080/sigeps80c.F
 Chd|        SPSTRES                       source/elements/sph/spstres.F 
+Chd|        SUFORC3                       source/user_interface/suforc3.F
+Chd|        SUSER43                       source/elements/solid/sconnect/suser43.F
 Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
 Chd|        TABLE2D_VINTERP_LOG           source/tools/curve/table2d_vinterp_log.F
 Chd|        TABLE_INTERP                  source/tools/curve/table_tools.F
@@ -193,6 +198,9 @@ Chd|        SIGEPS110C_NICE               source/materials/mat/mat110/sigeps110c
 Chd|        SIGEPS112                     source/materials/mat/mat112/sigeps112.F
 Chd|        SIGEPS112C                    source/materials/mat/mat112/sigeps112c.F
 Chd|        SIGEPS120                     source/materials/mat/mat120/sigeps120.F
+Chd|        SIGEPS120_CONNECT_MAIN        source/materials/mat/mat120/sigeps120_connect_main.F
+Chd|        SIGEPS120_CONNECT_TAB_DP      source/materials/mat/mat120/sigeps120_connect_tab_dp.F
+Chd|        SIGEPS120_CONNECT_TAB_VM      source/materials/mat/mat120/sigeps120_connect_tab_vm.F
 Chd|        SIGEPS120_TAB_DP              source/materials/mat/mat120/sigeps120_tab_dp.F
 Chd|        SIGEPS120_TAB_VM              source/materials/mat/mat120/sigeps120_tab_vm.F
 Chd|        SIGEPS52                      source/materials/mat/mat052/sigeps52.F

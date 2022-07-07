@@ -31,6 +31,7 @@ Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.
 Chd|        HM_GET_STRING_INDEX           source/devtools/hm_reader/hm_get_string_index.F
 Chd|        ST_USERLIB_LECGUSER           source/user_interface/dyn_userlib.c
 Chd|        USER_OUTPUT                   source/user_interface/user_output.F
+Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================

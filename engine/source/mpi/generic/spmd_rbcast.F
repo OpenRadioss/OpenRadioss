@@ -37,9 +37,7 @@ Chd|        I9WAL2                        source/interfaces/int09/i9wal2.F
 Chd|        I9WAL3                        source/interfaces/int09/i9wal3.F
 Chd|        IMP_BUCK                      source/implicit/imp_buck.F    
 Chd|        INTSTAMP_ASS                  source/interfaces/int21/intstamp_ass.F
-Chd|        LOCORIGP                      com/eig/locorig.F             
 Chd|        MANCTR                        source/input/manctr.F         
-Chd|        MDKP                          com/eig/wrfxfilp.F            
 Chd|        MOVFRA1                       source/tools/skew/movfram.F   
 Chd|        MOVFRA2                       source/tools/skew/movfram.F   
 Chd|        MOVFRA_IMP                    source/tools/skew/movfram.F   
@@ -56,8 +54,6 @@ Chd|        GET_U_NOD_A                   source/user_interface/uaccess.F
 Chd|        GET_U_NOD_D                   source/user_interface/uaccess.F
 Chd|        GET_U_NOD_V                   source/user_interface/uaccess.F
 Chd|        GET_U_NOD_X                   source/user_interface/uaccess.F
-Chd|        PRSCALP                       com/eig/wrfxfilp.F            
-Chd|        PSCALP                        com/eig/wrfxfilp.F            
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SPMD_RBCAST(TABI,TABR,N1,N2,FROM,ADD)

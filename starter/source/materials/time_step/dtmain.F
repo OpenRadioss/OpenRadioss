@@ -54,6 +54,7 @@ Chd|        DT34LAW                       source/materials/time_step/dt34law.F
 Chd|        DT37LAW                       source/materials/time_step/dt37law.F
 Chd|        DT38LAW                       source/materials/time_step/dt138aw.F
 Chd|        DT3LAW                        source/materials/time_step/dt3law.F
+Chd|        DT42LAW                       source/materials/time_step/dt42law.F
 Chd|        DT51LAW                       source/materials/time_step/dt51law.F
 Chd|        DT5LAW                        source/materials/time_step/dt5law.F
 Chd|        DT6LAW                        source/materials/time_step/dt6law.F

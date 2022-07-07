@@ -35,6 +35,7 @@ Chd|        SUCUMU3P                      source/user_interface/suforc3.F
 Chd|        SUSER43                       source/elements/solid/sconnect/suser43.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE SUFORC3(ELBUF_STR,
      1           LFT      ,LLT      ,NFT     ,NEL     ,IXS     ,       

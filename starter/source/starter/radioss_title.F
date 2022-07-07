@@ -104,7 +104,6 @@ Chd|  PRINTCENTER                   source/starter/radioss_title.F
 Chd|-- called by -----------
 Chd|        R2R_GROUP                     source/coupling/rad2rad/r2r_group.F
 Chd|        RADIOSS_TITLE                 source/starter/radioss_title.F
-Chd|        RADIOSS_TITLE_C               com/starter/radioss_title_c.F 
 Chd|        STARTER0                      source/starter/starter0.F     
 Chd|-- calls ---------------
 Chd|====================================================================

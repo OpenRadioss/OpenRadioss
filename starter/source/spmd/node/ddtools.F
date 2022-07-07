@@ -323,7 +323,7 @@ Chd|        W_ISKN                        source/restart/ddsplit/w_iskn.F
 Chd|        W_JOINT_SMS                   source/constraints/general/cyl_joint/write_count_joint_sms.F
 Chd|        W_LLINK                       source/restart/ddsplit/w_llink.F
 Chd|        W_MAD                         source/restart/ddsplit/w_mad.F
-Chd|        W_MAIN_PROC_WEIGHT          source/restart/ddsplit/w_main_proc_weight.F
+Chd|        W_MAIN_PROC_WEIGHT            source/restart/ddsplit/w_master_proc_weight.F
 Chd|        W_PON                         source/restart/ddsplit/w_pon.F
 Chd|        W_PORO                        source/restart/ddsplit/w_poro.F
 Chd|        W_RBYK                        source/restart/ddsplit/w_rbyk.F

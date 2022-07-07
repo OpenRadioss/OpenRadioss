@@ -27,6 +27,7 @@ Chd|-- called by -----------
 Chd|        FVSTATS                       source/airbag/fvstats.F       
 Chd|        H3D_SKIN_DIM                  source/output/h3d/h3d_results/h3d_skin_ixskin.F
 Chd|        IMP_STIF24                    source/implicit/imp_solv.F    
+Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|        R2R_INIT                      source/coupling/rad2rad/r2r_init.F
 Chd|        RESOL                         source/engine/resol.F         
 Chd|        SMS_BUILD_DIAG                source/ams/sms_build_diag.F   

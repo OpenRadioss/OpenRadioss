@@ -321,14 +321,14 @@ C
 
 
 Chd|====================================================================
-Chd|  REMN_I2OP_EDG25                  source/interfaces/int25/i25remlin.F
+Chd|  REMN_I2OP_EDG25               source/interfaces/int25/i25remlin.F
 Chd|-- called by -----------
 Chd|        REMN_I2OP                     source/interfaces/inter3d1/i7remnode.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FRETITL2                      source/starter/freform.F      
+Chd|        UPGRADE_REMNODE_E2S           source/interfaces/interf1/upgrade_remnode.F
 Chd|        UPGRADE_REMNODE_EDG2          source/interfaces/interf1/upgrade_remnode.F
-Chd|        UPGRADE_REMNODE_E2S          source/interfaces/interf1/upgrade_remnode.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================

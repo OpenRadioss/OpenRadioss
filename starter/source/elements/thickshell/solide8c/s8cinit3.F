@@ -37,6 +37,7 @@ Chd|        SBULK3                        source/elements/solid/solide/sbulk3.F
 Chd|        SCMORTH3                      source/elements/thickshell/solidec/scmorth3.F
 Chd|        SCOOR3                        source/elements/solid/solide/scoor3.F
 Chd|        SCZERO3                       source/elements/thickshell/solidec/scinit3.F
+Chd|        SDLENSH                       source/elements/thickshell/solidec/scinit3.F
 Chd|        SIGIN20B                      source/elements/solid/solide20/s20mass3.F
 Chd|        SMASS3                        source/elements/solid/solide/smass3.F
 Chd|        SRCOOR3                       source/elements/solid/solide/srcoor3.F

@@ -53,7 +53,6 @@ Chd|        GENDYNAIN                     source/output/dynain/gendynain.F
 Chd|        GENOUTP                       source/output/sty/genoutp.F   
 Chd|        GENSTAT                       source/output/sta/genstat.F   
 Chd|        IMP_BUCK                      source/implicit/imp_buck.F    
-Chd|        IMP_EIGSOL                    com/eig/imp_eigsol.F          
 Chd|        IMP_GLOB_K                    source/implicit/imp_glob_k.F  
 Chd|        IMP_GLOB_K0                   source/implicit/imp_glob_k.F  
 Chd|        IMP_GLOB_KHP                  source/implicit/imp_glob_k.F  

@@ -21,17 +21,17 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  FVBAG0                        source/airbag/fvbag.F
+Chd|  FVBAG0                        source/airbag/fvbag.F         
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F
+Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
-Chd|        FVBAG1                        source/airbag/fvbag.F
-Chd|        FVBAG2                        source/airbag/fvbag2.F
-Chd|        FVBAG3                        source/airbag/fvbag.F
+Chd|        FVBAG1                        source/airbag/fvbag.F         
+Chd|        FVBAG2                        source/airbag/fvbag2.F        
+Chd|        FV_UP_SWITCH                  source/airbag/fv_up_switch.F  
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
-Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F
+Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
 Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/fvmbag_meshcontrol_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F
+Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
       SUBROUTINE FVBAG0(MONVOL,   VOLMON , X        , SENSOR , V      ,
      .                  A     ,   NPC    , TF       ,
@@ -300,23 +300,23 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  FVBAG1                        source/airbag/fvbag.F
+Chd|  FVBAG1                        source/airbag/fvbag.F         
 Chd|-- called by -----------
-Chd|        FVBAG0                        source/airbag/fvbag.F
+Chd|        FVBAG0                        source/airbag/fvbag.F         
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F
-Chd|        FVINJT6                       source/airbag/fvinjt6.F
-Chd|        FVINJT8                       source/airbag/fvinjt8.F
-Chd|        FVINJT8_1                     source/airbag/fvinjt8_1.F
-Chd|        FVTEMP                        source/airbag/fvbag.F
-Chd|        FVVENT0                       source/airbag/fvvent0.F
+Chd|        ARRET                         source/system/arret.F         
+Chd|        FVINJT6                       source/airbag/fvinjt6.F       
+Chd|        FVINJT8                       source/airbag/fvinjt8.F       
+Chd|        FVINJT8_1                     source/airbag/fvinjt8_1.F     
+Chd|        FVTEMP                        source/airbag/fvbag.F         
+Chd|        FVVENT0                       source/airbag/fvvent0.F       
 Chd|        SPMD_FVB_GATH                 source/mpi/airbags/spmd_fvb_gath.F
 Chd|        SPMD_FVB_IGATH                source/mpi/airbags/spmd_fvb_igath.F
-Chd|        FINTER                        source/tools/curve/finter.F
-Chd|        GET_U_FUNC                    source/user_interface/ufunc.F
+Chd|        FINTER                        source/tools/curve/finter.F   
+Chd|        GET_U_FUNC                    source/user_interface/ufunc.F 
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
-Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F
+Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
 Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/fvmbag_meshcontrol_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
@@ -2447,11 +2447,11 @@ C les noeuds du FVMBAG, sinon on risque d en perdre en SPMD
       RETURN
       END
 Chd|====================================================================
-Chd|  FVTEMP                        source/airbag/fvbag.F
+Chd|  FVTEMP                        source/airbag/fvbag.F         
 Chd|-- called by -----------
-Chd|        FVBAG1                        source/airbag/fvbag.F
-Chd|        FVBAG3                        source/airbag/fvbag.F
-Chd|        FVUPD1                        source/airbag/fvupd.F
+Chd|        FVBAG1                        source/airbag/fvbag.F         
+Chd|        FVUPD1                        source/airbag/fvupd.F         
+Chd|        FV_UP_SWITCH                  source/airbag/fv_up_switch.F  
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE FVTEMP(ITYP  , EFAC , CPA  , CPB  , CPC  ,

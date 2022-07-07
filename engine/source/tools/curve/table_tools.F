@@ -647,6 +647,8 @@ Chd|        SIGEPS110C_LITE_NEWTON        source/materials/mat/mat110/sigeps110c
 Chd|        SIGEPS110C_LITE_NICE          source/materials/mat/mat110/sigeps110c_lite_nice.F
 Chd|        SIGEPS110C_NEWTON             source/materials/mat/mat110/sigeps110c_newton.F
 Chd|        SIGEPS110C_NICE               source/materials/mat/mat110/sigeps110c_nice.F
+Chd|        SIGEPS120_CONNECT_TAB_DP      source/materials/mat/mat120/sigeps120_connect_tab_dp.F
+Chd|        SIGEPS120_CONNECT_TAB_VM      source/materials/mat/mat120/sigeps120_connect_tab_vm.F
 Chd|        SIGEPS120_TAB_DP              source/materials/mat/mat120/sigeps120_tab_dp.F
 Chd|        SIGEPS120_TAB_VM              source/materials/mat/mat120/sigeps120_tab_vm.F
 Chd|        SIGEPS73C                     source/materials/mat/mat073/sigeps73c.F

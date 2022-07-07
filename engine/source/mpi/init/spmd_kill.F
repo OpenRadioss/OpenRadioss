@@ -26,7 +26,6 @@ Chd|====================================================================
 Chd|  SPMD_KILL                     source/mpi/init/spmd_kill.F   
 Chd|-- called by -----------
 Chd|        ARRET                         source/system/arret.F         
-Chd|        XTIME0                        com/licensing/xtime0.F        
 Chd|-- calls ---------------
 Chd|        MY_EXIT                       source/system/my_exit.c       
 Chd|====================================================================
@@ -71,7 +70,6 @@ Chd|====================================================================
 Chd|  SPMD_KILL                     source/mpi/init/spmd_kill.F   
 Chd|-- called by -----------
 Chd|        ARRET                         source/system/arret.F         
-Chd|        XTIME0                        com/licensing/xtime0.F        
 Chd|-- calls ---------------
 Chd|        MY_EXIT                       source/system/my_exit.c       
 Chd|====================================================================

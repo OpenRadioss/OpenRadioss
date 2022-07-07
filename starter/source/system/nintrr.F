@@ -560,9 +560,9 @@ C-----------
       RETURN
       END
 Chd|====================================================================
-Chd|  GRSIZE_ELE_TRANS            source/system/nintrr.F        
+Chd|  GRSIZE_ELE_TRANS              source/system/nintrr.F        
 Chd|-- called by -----------
-Chd|        PRELECSEC                     source/tools/sect/prelecsec.F
+Chd|        PRELECSEC                     source/tools/sect/prelecsec.F 
 Chd|-- calls ---------------
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================

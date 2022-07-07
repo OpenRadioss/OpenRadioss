@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  DT42LAW                        source/materials/time_step/dt42law.F          
+Chd|  DT42LAW                       source/materials/time_step/dt42law.F
 Chd|-- called by -----------
-Chd|        DTMAIN                   source/materials/time_step//dtmain.F          
+Chd|        DTMAIN                        source/materials/time_step/dtmain.F
 Chd|-- calls ---------------
-Chd|        DTEL                     source/materials/time_step//dtel.F            
-Chd|        DTSPH                    source/materials/time_step//dtsph.F           
+Chd|        DTEL                          source/materials/time_step/dtel.F
+Chd|        DTSPH                         source/materials/time_step/dtsph.F
 Chd|====================================================================
       SUBROUTINE DT42LAW(PM,GEO,PID, MAT, DELTAX, AIRE, VOL, DTX, NEL)
 C

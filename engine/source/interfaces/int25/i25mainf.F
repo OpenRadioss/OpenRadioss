@@ -43,6 +43,8 @@ Chd|        I25FOR3E                      source/interfaces/int25/i25for3e.F
 Chd|        I25FOR3_E2S                   source/interfaces/int25/i25for3_e2s.F
 Chd|        I25KEEPF                      source/interfaces/int25/i25slid.F
 Chd|        I25THERM                      source/interfaces/int25/i25therm.F
+Chd|        I_CORPFIT3                    source/interfaces/int24/i24cor3.F
+Chd|        I_COR_EPFIT3                  source/interfaces/int24/i24cor3.F
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        STARTIME                      source/system/timer.F         
 Chd|        STOPTIME                      source/system/timer.F         

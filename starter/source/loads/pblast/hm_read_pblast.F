@@ -33,6 +33,7 @@ Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.
 Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
 Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
 Chd|        PBLAST_INIT_TABLES            ../common_source/modules/pblast_mod.F
+Chd|        SUBROTPOINT                   source/model/submodel/subrot.F
 Chd|        NGR2USR                       source/system/nintrr.F        
 Chd|        USR2SYS                       source/system/sysfus.F        
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F

@@ -37,6 +37,7 @@ Chd|        S6MASS3                       source/elements/thickshell/solide6c/s6
 Chd|        SBULK3                        source/elements/solid/solide/sbulk3.F
 Chd|        SCMORTH3                      source/elements/thickshell/solidec/scmorth3.F
 Chd|        SCZERO3                       source/elements/thickshell/solidec/scinit3.F
+Chd|        SDLENSH3N                     source/elements/thickshell/solide6c/s6cinit3.F
 Chd|        SIGIN20B                      source/elements/solid/solide20/s20mass3.F
 Chd|        SVALUE0                       source/elements/thickshell/solidec/scinit3.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
@@ -443,8 +444,9 @@ C-----------
       RETURN
       END
 Chd|====================================================================
-Chd|  SDLENSH3N                     source/elements/thickshell/solidec/scdtdc3.F
+Chd|  SDLENSH3N                     source/elements/thickshell/solide6c/s6cinit3.F
 Chd|-- called by -----------
+Chd|        S6CINIT3                      source/elements/thickshell/solide6c/s6cinit3.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SDLENSH3N(NEL,VOLN,LLSH3N,

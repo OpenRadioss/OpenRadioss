@@ -3733,6 +3733,7 @@ Chd|-- called by -----------
 Chd|        I22MAIN_TRI                   source/interfaces/intsort/i22main_tri.F
 Chd|        I23MAIN_TRI                   source/interfaces/intsort/i23main_tri.F
 Chd|        I7MAIN_TRI                    source/interfaces/intsort/i7main_tri.F
+Chd|        INTER_SORT_07                 source/interfaces/int07/inter_sort_07.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         

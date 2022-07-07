@@ -21,11 +21,19 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  INTER_SORT                    source/interfaces/intsort/generic/inter_sort.F
+Chd|  INTER_SORT                    source/interfaces/generic/inter_sort.F
 Chd|-- called by -----------
-Chd|        INTTRI                         source/interfaces/intsort/inttri.F       
+Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|-- calls ---------------
-Chd|  INTER_SORT_07                  source/interfaces/intsort/int07/inter_sort_07.F
+Chd|        INTER_SORT_07                 source/interfaces/int07/inter_sort_07.F
+Chd|        INT_STARTIME                  source/system/timer_interf.F  
+Chd|        INT_STOPTIME                  source/system/timer_interf.F  
+Chd|        H3D_MOD                       share/modules/h3d_mod.F       
+Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
+Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
+Chd|        METRIC_MOD                    ../common_source/modules/metric_mod.F
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|====================================================================
         SUBROUTINE INTER_SORT( ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,RETRI,IPARI,
      1                         ISENDTO,IRECVFROM,INTBUF_TAB,X,ITAB,

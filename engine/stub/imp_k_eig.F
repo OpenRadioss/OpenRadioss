@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  IMP_K_EIG                     stub/imp_k_eig.F              
 Chd|-- called by -----------
-Chd|        IMP_EIGSOL                    com/eig/imp_eigsol.F          
 Chd|-- calls ---------------
 Chd|        IMP_GLOB_K                    source/implicit/imp_glob_k.F  
 Chd|        MY_BARRIER                    source/system/machine.F       

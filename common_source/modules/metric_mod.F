@@ -30,6 +30,8 @@ Chd|        INTBUFDEF_MOD                 common_source/modules/intbufdef_mod.F
 Chd|        CLOSE_INTERF_TIME             engine/source/system/timer_interf.F
 Chd|        FREFORM                       engine/source/input/freform.F 
 Chd|        INIT_INTERF_SORTING_STRATEGY  engine/source/interfaces/init_interf_sorting_strategy.F
+Chd|        INTER_DEALLOCATE_WAIT         engine/source/interfaces/generic/inter_deallocate_wait.F
+Chd|        INTER_SORT                    engine/source/interfaces/generic/inter_sort.F
 Chd|        INTFOP2                       engine/source/interfaces/interf/intfop2.F
 Chd|        INTTRI                        engine/source/interfaces/intsort/inttri.F
 Chd|        INT_STARTIME                  engine/source/system/timer_interf.F

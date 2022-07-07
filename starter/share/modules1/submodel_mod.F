@@ -64,9 +64,11 @@ Chd|        GROUPS_GET_NENTITY            source/groups/groups_get_nentity.F
 Chd|        HM_ADMLCNT                    source/groups/hm_admlistcnt.F 
 Chd|        HM_ADMLIST                    source/groups/hm_admlist.F    
 Chd|        HM_BIGSBOX                    source/groups/hm_bigsbox.F    
+Chd|        HM_CONVERT_2D_ELEMENTS_SEATBELTsource/devtools/hm_reader/hm_convert_2d_elements_seatbelt.F
 Chd|        HM_CONVERT_2D_ELEMENT_SEATBELTsource/devtools/hm_reader/hm_convert_2d_element_seatbelt.F
 Chd|        HM_CONVERT_FAIL_TAB           source/devtools/hm_reader/hm_convert_fail_tab.F
 Chd|        HM_CONVERT_INTER_TYPE19       source/devtools/hm_reader/hm_convert_inter_type19.F
+Chd|        HM_COUNT_2D_ELEMENT_SEATBELT  source/devtools/hm_reader/hm_count_2d_element_seatbelt.F
 Chd|        HM_DEBUG_PRINT_OPTION         source/devtools/hm_reader/hm_debug_print_option.F
 Chd|        HM_ELEM_COUNT                 source/devtools/hm_reader/hm_elem_count.F
 Chd|        HM_ELNGR                      source/groups/hm_elngr.F      
@@ -286,7 +288,6 @@ Chd|        HM_READ_LINES                 source/groups/hm_read_lines.F
 Chd|        HM_READ_LINK                  source/constraints/rigidlink/hm_read_rlink.F
 Chd|        HM_READ_LOAD_CENTRI           source/loads/general/load_centri/hm_read_load_centri.F
 Chd|        HM_READ_LOAD_PRESSURE         source/loads/general/load_pressure/hm_read_load_pressure.F
-Chd|        HM_READ_MADYMO_EXFEM          com/madymo/hm_read_madymo_exfem.F
 Chd|        HM_READ_MAT                   source/materials/mat/hm_read_mat.F
 Chd|        HM_READ_MAT00                 source/materials/mat/mat000/hm_read_mat00.F
 Chd|        HM_READ_MAT01                 source/materials/mat/mat001/hm_read_mat01.F
@@ -536,8 +537,11 @@ Chd|        HM_READ_VISC_PRONY            source/materials/visc/hm_read_visc_pro
 Chd|        HM_READ_WINDOW_USER           source/tools/userwi/hm_read_window_user.F
 Chd|        HM_READ_XELEM                 source/elements/reader/hm_read_xelem.F
 Chd|        HM_READ_XREF                  source/loads/reference_state/xref/hm_read_xref.F
+Chd|        HM_SELECT_OPTION_BY_NAME      source/devtools/hm_reader/hm_select_option_by_name.F
 Chd|        HM_SET                        source/model/sets/hm_set.F    
 Chd|        HM_SETFXRBYON                 source/constraints/fxbody/hm_setfxrbyon.F
+Chd|        HM_SET_FLOATV                 source/devtools/hm_reader/hm_set_floatv.F
+Chd|        HM_SET_INTV                   source/devtools/hm_reader/hm_set_intv.F
 Chd|        HM_SUBMODGRE                  source/groups/hm_submodgr.F   
 Chd|        HM_SUBMODGRN                  source/groups/hm_submodgr.F   
 Chd|        HM_SUBMODPART                 source/groups/hm_submodpart.F 

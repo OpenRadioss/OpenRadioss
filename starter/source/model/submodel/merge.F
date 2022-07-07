@@ -25,7 +25,6 @@ Chd|  MERGE                         source/model/submodel/merge.F
 Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
-Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MERGE_CNOD_CNOD               source/model/submodel/merge_cnod_cnod.F
 Chd|        USRTOS                        source/system/sysfus.F        
 Chd|        USRTOSC                       source/model/submodel/merge.F 

@@ -27,7 +27,6 @@ Chd|-- called by -----------
 Chd|        CONVWREST                     source/restart/ddsplit/wrrest.F
 Chd|        DSWREST                       source/restart/ddsplit/wrrest.F
 Chd|        EIGWREST                      source/restart/ddsplit/wrrest.F
-Chd|        FXBWREST                      source/restart/ddsplit/wrrest.F
 Chd|        FXBWRESTP                     source/restart/ddsplit/wrrest.F
 Chd|        FXTEMPWREST                   source/restart/ddsplit/wrrest.F
 Chd|        NFWREST                       source/restart/ddsplit/wrrest.F

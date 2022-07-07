@@ -115,7 +115,6 @@ Chd|  PRINTCENTER                   source/engine/radioss_title.F
 Chd|-- called by -----------
 Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|        RADIOSS_TITLE                 source/engine/radioss_title.F 
-Chd|        RADIOSS_TITLE_C               com/engine/radioss_title_c.F  
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE PRINTCENTER(ARRAY,ARRLEN,LINOUT,FLAG)

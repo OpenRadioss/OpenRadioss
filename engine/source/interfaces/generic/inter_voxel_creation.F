@@ -21,10 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.  
 Chd|====================================================================
-Chd|  INTER_VOXEL_CREATION                     source/interfaces/generic/inter_voxel_creation.F
+Chd|  INTER_VOXEL_CREATION          source/interfaces/generic/inter_voxel_creation.F
 Chd|-- called by -----------
-Chd|        INTER_PREPARE_SORT                    source/interfaces/intsort/generic/inter_prepare_sort.F
+Chd|        INTER_PREPARE_SORT            source/interfaces/generic/inter_prepare_sort.F
 Chd|-- calls ---------------
+Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
 Chd|====================================================================
         SUBROUTINE INTER_VOXEL_CREATION(ITASK,IPARI,INTBUF_TAB,X,NIN,SORT_COMM)
 !$COMMENT

@@ -77,7 +77,6 @@ Chd|        HM_READ_INJECT2               source/properties/injector/hm_read_inj
 Chd|        HM_READ_INTSUB                source/output/subinterface/hm_read_intsub.F
 Chd|        HM_READ_LINES                 source/groups/hm_read_lines.F 
 Chd|        HM_READ_LOAD_PRESSURE         source/loads/general/load_pressure/hm_read_load_pressure.F
-Chd|        HM_READ_MADYMO_EXFEM          com/madymo/hm_read_madymo_exfem.F
 Chd|        HM_READ_MAT100                source/materials/mat/mat100/hm_read_mat100.F
 Chd|        HM_READ_MAT151                source/materials/mat/mat151/hm_read_mat151.F
 Chd|        HM_READ_MAT36                 source/materials/mat/mat036/hm_read_mat36.F

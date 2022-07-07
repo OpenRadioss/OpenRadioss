@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  HM_SET_INTV                   source/devtools/hm_reader/hm_set_intv.F
 Chd|-- called by -----------
-Chd|--      HSTP                          starter/com/hstp/hstp.F 
 Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 

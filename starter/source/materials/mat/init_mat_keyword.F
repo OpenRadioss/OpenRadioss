@@ -42,6 +42,7 @@ Chd|        HM_READ_MAT13                 source/materials/mat/mat013/hm_read_ma
 Chd|        HM_READ_MAT14                 source/materials/mat/mat014/hm_read_mat14.F
 Chd|        HM_READ_MAT15                 source/materials/mat/mat015/hm_read_mat15.F
 Chd|        HM_READ_MAT16                 source/materials/mat/mat016/hm_read_mat16.F
+Chd|        HM_READ_MAT19                 source/materials/mat/mat019/hm_read_mat19.F
 Chd|        HM_READ_MAT25                 source/materials/mat/mat025/hm_read_mat25.F
 Chd|        HM_READ_MAT28                 source/materials/mat/mat028/hm_read_mat28.F
 Chd|        HM_READ_MAT33                 source/materials/mat/mat033/hm_read_mat33.F

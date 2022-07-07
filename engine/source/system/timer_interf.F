@@ -74,6 +74,7 @@ C-----------------------------------------------
 Chd|====================================================================
 Chd|  INT_STARTIME                  source/system/timer_interf.F  
 Chd|-- called by -----------
+Chd|        INTER_SORT                    source/interfaces/generic/inter_sort.F
 Chd|        INTFOP2                       source/interfaces/interf/intfop2.F
 Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|-- calls ---------------
@@ -116,6 +117,7 @@ C-----------------------------------------------
 Chd|====================================================================
 Chd|  INT_STOPTIME                  source/system/timer_interf.F  
 Chd|-- called by -----------
+Chd|        INTER_SORT                    source/interfaces/generic/inter_sort.F
 Chd|        INTFOP2                       source/interfaces/interf/intfop2.F
 Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|-- calls ---------------

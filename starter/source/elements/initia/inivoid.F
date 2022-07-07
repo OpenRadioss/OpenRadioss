@@ -34,9 +34,9 @@ Chd|        CCOORI                        source/elements/shell/coque/ccoori.F
 Chd|        CEVECI                        source/elements/shell/coque/ceveci.F
 Chd|        CINMAS                        source/elements/shell/coque/cinmas.F
 Chd|        CVEOK3                        source/elements/shell/coque/cveok3.F
-Chd|        FRETITL2                      source/starter/freform.F
-Chd|        PCOORI                        source/elements/beam/pcoori.F
-Chd|        PMASS                         source/elements/beam/pmass.F
+Chd|        FRETITL2                      source/starter/freform.F      
+Chd|        PCOORI                        source/elements/beam/pcoori.F 
+Chd|        PMASS                         source/elements/beam/pmass.F  
 Chd|        R23MASS                       source/elements/spring/rmass.F
 Chd|        S4COOR3                       source/elements/solid/solide4/s4coor3.F
 Chd|        S4DERI3                       source/elements/solid/solide4/s4deri3.F
@@ -47,10 +47,10 @@ Chd|        SDERI3                        source/elements/solid/solide/sderi3.F
 Chd|        SDLEN3                        source/elements/solid/solide/sdlen3.F
 Chd|        SMASS3                        source/elements/solid/solide/smass3.F
 Chd|        TCOORI                        source/elements/truss/tcoori.F
-Chd|        TMASS                         source/elements/truss/tmass.F
+Chd|        TMASS                         source/elements/truss/tmass.F 
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        STACK_MOD                     share/modules1/stack_mod.F
+Chd|        STACK_MOD                     share/modules1/stack_mod.F    
 Chd|====================================================================
       SUBROUTINE INIVOID(ELBUF_STR   ,
      +                   IXC    ,IXS    ,IXTG   ,X      ,V      ,

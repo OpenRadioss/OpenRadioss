@@ -63,8 +63,10 @@ Chd|        GROUPS_GET_NENTITY            source/groups/groups_get_nentity.F
 Chd|        HM_ADMLCNT                    source/groups/hm_admlistcnt.F 
 Chd|        HM_ADMLIST                    source/groups/hm_admlist.F    
 Chd|        HM_BIGSBOX                    source/groups/hm_bigsbox.F    
+Chd|        HM_CONVERT_2D_ELEMENTS_SEATBELTsource/devtools/hm_reader/hm_convert_2d_elements_seatbelt.F
 Chd|        HM_CONVERT_2D_ELEMENT_SEATBELTsource/devtools/hm_reader/hm_convert_2d_element_seatbelt.F
 Chd|        HM_CONVERT_FAIL_TAB           source/devtools/hm_reader/hm_convert_fail_tab.F
+Chd|        HM_COUNT_2D_ELEMENT_SEATBELT  source/devtools/hm_reader/hm_count_2d_element_seatbelt.F
 Chd|        HM_ELNGR                      source/groups/hm_elngr.F      
 Chd|        HM_ELNGRR                     source/groups/hm_elngrr.F     
 Chd|        HM_ELNGRS                     source/groups/hm_elngr.F      
@@ -197,7 +199,6 @@ Chd|        HM_READ_LINES                 source/groups/hm_read_lines.F
 Chd|        HM_READ_LINK                  source/constraints/rigidlink/hm_read_rlink.F
 Chd|        HM_READ_LOAD_CENTRI           source/loads/general/load_centri/hm_read_load_centri.F
 Chd|        HM_READ_LOAD_PRESSURE         source/loads/general/load_pressure/hm_read_load_pressure.F
-Chd|        HM_READ_MADYMO_EXFEM          com/madymo/hm_read_madymo_exfem.F
 Chd|        HM_READ_MAT                   source/materials/mat/hm_read_mat.F
 Chd|        HM_READ_MAT100                source/materials/mat/mat100/hm_read_mat100.F
 Chd|        HM_READ_MAT109                source/materials/mat/mat109/hm_read_mat109.F

@@ -56,15 +56,12 @@ Chd|        GET_FILE_NAME_INFO            source/system/get_file_name_info.F
 Chd|        HIST1                         source/output/th/hist1.F      
 Chd|        HIST13                        source/output/th/hist13.F     
 Chd|        IMPRREST                      source/output/restart/rdresb.F
-Chd|        INIANI                        com/licensing/iniani.F        
-Chd|        INIANI0                       com/licensing/iniani.F        
 Chd|        INICOD                        source/tools/univ/inicod.F    
 Chd|        INICONSTANT                   source/system/iniconstant.F   
 Chd|        INIPAR                        source/mpi/init/inipar.F      
 Chd|        INIRESA                       source/output/restart/rdresa.F
 Chd|        INITIME                       source/system/timer.F         
 Chd|        INIT_DYN_LIB_STRUC            share/modules/dynlib_mod.F    
-Chd|        INIT_MADCPL                   com/madymo/rad_madcpl.F       
 Chd|        INIT_TH0                      source/output/th/init_th0.F   
 Chd|        INI_MSG                       source/output/message/ini_msg.F
 Chd|        INTSTAMP_ZERO                 share/modules/intstamp_mod.F  
@@ -88,8 +85,6 @@ Chd|        PRINTCPU                      source/system/timer.F
 Chd|        R2R_INPUT_INIT                source/coupling/rad2rad/r2r_input_init.F
 Chd|        RADIARREST                    source/output/restart/rdresb.F
 Chd|        RADIOSS_TITLE                 source/engine/radioss_title.F 
-Chd|        RADIOSS_TITLE_C               com/engine/radioss_title_c.F  
-Chd|        RAD_INIT_MADCPL               com/madymo/rad_madcpl.F       
 Chd|        RDRESA                        source/output/restart/rdresa.F
 Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|        READ_C_C                      source/output/tools/sortie_c.c
@@ -108,7 +103,6 @@ Chd|        SPMD_RST_CHECK                source/mpi/init/spmd_rst_check.F
 Chd|        STACK_RREST                   source/output/restart/rdresb.F
 Chd|        SWITCH_TO_DTNODA              source/time_step/switch_to_dtnoda.F
 Chd|        TABLE_ZERO                    source/tools/curve/table_tools.F
-Chd|        TERMINATE_MADCPL              com/madymo/rad_madcpl.F       
 Chd|        THCRREST                      source/output/restart/rdresb.F
 Chd|        TRACE_IN                      source/system/trace_back.F    
 Chd|        TRACE_OUT                     source/system/trace_back.F    
@@ -120,7 +114,6 @@ Chd|        USRPLAS_DUM                   source/user_interface/usrplas.F
 Chd|        UTABLE_DUM                    source/user_interface/utable.F
 Chd|        WIGEREST                      source/output/restart/rdresb.F
 Chd|        WRITE_TPL_FILE                source/implicit/imp_solv.F    
-Chd|        XTIME0                        com/licensing/xtime0.F        
 Chd|        ALEFVM_MOD                    ../common_source/modules/alefvm_mod.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|        CHECK_MOD                     ../common_source/modules/check_mod.F

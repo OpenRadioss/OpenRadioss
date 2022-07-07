@@ -24,7 +24,8 @@ Chd|====================================================================
 Chd|  WRITE_DB                      source/restart/ddsplit/wrrest.F
 Chd|-- called by -----------
 Chd|        COMPRESS_R_NNZ                ../common_source/comm/compress_nnz.F
-Chd|        PBLAST_WRITE                  ../common_source/modules/pblast_mod.F
+Chd|        PBLAST_WRITE_ENGINE           ../common_source/modules/pblast_mod.F
+Chd|        PBLAST_WRITE_STARTER          ../common_source/modules/pblast_mod.F
 Chd|        WRITE_UNITS                   ../common_source/comm/write_units.F
 Chd|        CONVWREST                     source/restart/ddsplit/wrrest.F
 Chd|        COPY_RVAL                     source/restart/ddsplit/inter_tools.F
@@ -34,7 +35,6 @@ Chd|        DSWRESTP                      source/restart/ddsplit/wrrest.F
 Chd|        EIGWREST                      source/restart/ddsplit/wrrest.F
 Chd|        EIGWRESTP                     source/restart/ddsplit/wrrest.F
 Chd|        FVWRESTP                      source/restart/ddsplit/fvwrestp.F
-Chd|        FXBWREST                      source/restart/ddsplit/wrrest.F
 Chd|        FXBWRESTP                     source/restart/ddsplit/wrrest.F
 Chd|        FXTEMPWREST                   source/restart/ddsplit/wrrest.F
 Chd|        INTFRIC_WRESTR                source/interfaces/intbuf/intbufFric_ini_starter.F
@@ -356,6 +356,7 @@ Chd|  FXBWRESTP                     source/restart/ddsplit/wrrest.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
+Chd|        DELETE_USER_FILE              source/user_interface/dyn_userlib.c
 Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|        WRTSQI                        source/output/tools/wrtsqi.F  

@@ -41,6 +41,7 @@ Chd|        HM_READ_INIVEL                source/initial_conditions/general/iniv
 Chd|        HM_READ_INIVOL                source/initial_conditions/inivol/hm_read_inivol.F
 Chd|        HM_READ_INJECT1               source/properties/injector/hm_read_inject1.F
 Chd|        HM_READ_INJECT2               source/properties/injector/hm_read_inject2.F
+Chd|        HM_READ_LOAD_PRESSURE         source/loads/general/load_pressure/hm_read_load_pressure.F
 Chd|        HM_READ_MAT100                source/materials/mat/mat100/hm_read_mat100.F
 Chd|        HM_READ_MAT110                source/materials/mat/mat110/hm_read_mat110.F
 Chd|        HM_READ_MAT151                source/materials/mat/mat151/hm_read_mat151.F

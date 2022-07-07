@@ -83,7 +83,7 @@ Chd|        I25STI3                       source/interfaces/inter3d1/i25sti3.F
 Chd|        I25STI_EDG                    source/interfaces/inter3d1/i25sti_edg.F
 Chd|        I2BUC1                        source/interfaces/inter3d1/i2buc1.F
 Chd|        I2CHK3                        source/interfaces/inter3d1/i2chk3.F
-Chd|        I2MAIN                      source/interfaces/interf1/i2main.F
+Chd|        I2MAIN                        source/interfaces/interf1/i2master.F
 Chd|        I2NINTDD                      source/spmd/domain_decomposition/grid2mat.F
 Chd|        I2SURFS                       source/interfaces/inter3d1/i2surfs.F
 Chd|        I2TID3                        source/interfaces/inter3d1/i2tid3.F

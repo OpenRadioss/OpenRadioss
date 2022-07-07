@@ -21,10 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.  
 Chd|====================================================================
-Chd|  INTER_CELL_COLOR                    source/interfaces/intsort/generic/inter_cell_color.F
+Chd|  INTER_CELL_COLOR              source/interfaces/generic/inter_cell_color.F
 Chd|-- called by -----------
-Chd|        INTER_COLOR_VOXELL                    source/interfaces/intsort/generic/inter_color_voxel.F
+Chd|        INTER_COLOR_VOXEL             source/interfaces/generic/inter_color_voxel.F
 Chd|-- calls ---------------
+Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
+Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
 Chd|====================================================================
         SUBROUTINE INTER_CELL_COLOR(X,IGAP   ,NRTM  ,STF   ,
      2              TZINF  ,CURV_MAX,

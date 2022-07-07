@@ -167,6 +167,7 @@ Chd|        HM_READ_PROP46                source/properties/spring/hm_read_prop4
 Chd|        HM_READ_PROP51                source/properties/shell/hm_read_prop51.F
 Chd|        HM_READ_PROPERTIES            source/properties/hm_read_properties.F
 Chd|        HM_READ_PROP_GENERIC          source/properties/hm_read_prop_generic.F
+Chd|        HM_READ_PROP_USER             source/properties/user_spring_solid/hm_read_prop_user.F
 Chd|        HM_READ_STACK                 source/stack/hm_read_stack.F  
 Chd|        HM_READ_THERM_STRESS          source/materials/therm/hm_read_therm_stress.F
 Chd|        HM_READ_VISC                  source/materials/visc/hm_read_visc.F

@@ -46,6 +46,7 @@ Chd|        PREPARE_SPLIT_I25             source/restart/ddsplit/inter_tools.F
 Chd|        PREPARE_SPLIT_I7              source/restart/ddsplit/inter_tools.F
 Chd|        PREPARE_SPLIT_I8              source/restart/ddsplit/inter_tools.F
 Chd|        PREPARE_SPLIT_I9              source/restart/ddsplit/inter_tools.F
+Chd|        SPLIT_2RY_CAND_IVAL_I21       source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_ADSKYN_25               source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_CAND_I11                source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_CAND_I20                source/restart/ddsplit/inter_tools.F
@@ -72,6 +73,7 @@ Chd|        SPLIT_NODE_RVAL               source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_REMNODE_I11             source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_REMNODE_I24             source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_REMNODE_I25             source/restart/ddsplit/inter_tools.F
+Chd|        SPLIT_REMNODE_I25_E2S         source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_REMNODE_I25_EDGE        source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_REMNODE_I7              source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_SEGEDGE_NODLOC_I24      source/restart/ddsplit/inter_tools.F
@@ -83,7 +85,6 @@ Chd|        SPLIT_SEG_NODLOC              source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_SEG_NODLOC_I24          source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_SEG_RVAL_I20            source/restart/ddsplit/inter_tools.F
 Chd|        SPLIT_SEG_SEGLOC              source/restart/ddsplit/inter_tools.F
-Chd|        SPLIT_2RY_CAND_IVAL_I21       source/restart/ddsplit/inter_tools.F
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|        W_INTBUF_SIZE                 source/restart/ddsplit/inter_tools.F
 Chd|        W_TYPE8                       source/restart/ddsplit/split_interfaces.F

@@ -415,10 +415,12 @@ Chd|        XGRHEAD                       starter/source/elements/xelem/xgrhead.
 Chd|        XGRTAILS                      starter/source/elements/xelem/xgrtails.F
 Chd|        YCTRL                         starter/source/initial_conditions/inista/yctrl.F
 Chd|        ELEGROR                       starter/source/groups/elegror.F
+Chd|        ELEGROR_SEATBELT              starter/source/groups/elegror_seatbelt.F
 Chd|        GRFIND                        starter/source/starter/freform.F
 Chd|        GRSIZE                        starter/source/system/nintrr.F
 Chd|        GRSIZEN                       starter/source/system/nintrr.F
 Chd|        GRSIZE_ELE                    starter/source/system/nintrr.F
+Chd|        GRSIZE_ELE_TRANS              starter/source/system/nintrr.F
 Chd|        GRSIZE_R2R                    starter/source/coupling/rad2rad/routines_r2r.F
 Chd|        NGR2USRN                      starter/source/system/nintrr.F
 Chd|        NINTRIGR                      starter/source/system/nintrr.F
@@ -488,7 +490,6 @@ Chd|        I22MAIN_TRI                   engine/source/interfaces/intsort/i22ma
 Chd|        I22SUBVOL                     engine/source/interfaces/int22/i22subvol.F
 Chd|        I7MAINF                       engine/source/interfaces/int07/i7mainf.F
 Chd|        IMP_BUCK                      engine/source/implicit/imp_buck.F
-Chd|        IMP_EIGSOL                    engine/com/eig/imp_eigsol.F   
 Chd|        IMP_INISI                     engine/source/implicit/imp_pcg.F
 Chd|        IMP_INIST                     engine/source/implicit/imp_pcg.F
 Chd|        IMP_INTTD0                    engine/source/implicit/imp_int_k.F

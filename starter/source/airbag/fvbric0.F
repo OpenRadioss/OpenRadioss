@@ -27,7 +27,6 @@ Chd|        INIT_MONVOL                   source/airbag/init_monvol.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
-Chd|        PROGALE_C                     source/airbag/progale_c.c     
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================

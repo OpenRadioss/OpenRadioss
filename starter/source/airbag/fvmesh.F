@@ -37,7 +37,6 @@ Chd|        ITRIBOX                       source/airbag/itribox.F
 Chd|        MY_EXIT                       source/output/analyse/analyse.c
 Chd|        POLYHEDR                      source/airbag/polyhedr.F      
 Chd|        POLYHEDR1                     source/airbag/polyhedr1.F     
-Chd|        PROGALE_C                     source/airbag/progale_c.c     
 Chd|        TRIBOX3                       stub/fvmbags_stub.F           
 Chd|        TRITRI3                       stub/fvmbags_stub.F           
 Chd|        FVBAG_MOD                     share/modules1/fvbag_mod.F    

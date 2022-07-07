@@ -22,7 +22,7 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 C
 Chd|====================================================================
-Chd|  I2MAIN                      source/interfaces/interf1/i2main.F
+Chd|  I2MAIN                        source/interfaces/interf1/i2master.F
 Chd|-- called by -----------
 Chd|        ININT2                        source/interfaces/inter2d1/inint2.F
 Chd|        ININT3                        source/interfaces/inter3d1/inint3.F

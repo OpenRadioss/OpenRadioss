@@ -21,10 +21,24 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  INTER_PREPARE_SORT                    source/interfaces/intsort/generic/inter_prepare_sort.F
+Chd|  INTER_PREPARE_SORT            source/interfaces/generic/inter_prepare_sort.F
 Chd|-- called by -----------
-Chd|        INTTRI                         source/interfaces/intsort/inttri.F         
+Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|-- calls ---------------
+Chd|        INTER_BOX_CREATION            source/interfaces/generic/inter_box_creation.F
+Chd|        INTER_COLOR_COARSE_VOXEL      source/interfaces/generic/inter_color_coarse_voxel.F
+Chd|        INTER_COLOR_VOXEL             source/interfaces/generic/inter_color_voxel.F
+Chd|        INTER_COUNT_NODE_CURV         source/interfaces/generic/inter_count_node_curv.F
+Chd|        INTER_MINMAX_NODE             source/interfaces/generic/inter_minmax_node.F
+Chd|        INTER_VOXEL_CREATION          source/interfaces/generic/inter_voxel_creation.F
+Chd|        MY_BARRIER                    source/system/machine.F       
+Chd|        SPMD_BOX_LIMIT_REDUCTION      source/mpi/interfaces/spmd_box_limit_reduction.F
+Chd|        SPMD_CELL_LIST_EXCHANGE       source/mpi/interfaces/spmd_cell_list_exchange.F
+Chd|        SPMD_COARSE_CELL_EXCHANGE     source/mpi/interfaces/spmd_coarse_cell_exchange.F
+Chd|        SPMD_WAIT_NB                  source/mpi/interfaces/spmd_wait_nb.F
+Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
+Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
 Chd|====================================================================
         SUBROUTINE INTER_PREPARE_SORT( ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,ISENDTO,IRECVFROM,
      .                                 IPARI,IAD_ELEM,FR_ELEM,X,V,

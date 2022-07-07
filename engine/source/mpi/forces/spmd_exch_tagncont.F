@@ -180,7 +180,6 @@ C
 Chd|====================================================================
 Chd|  SPMD_TAGNCONT_STAMP           source/mpi/forces/spmd_exch_tagncont.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         

@@ -36,6 +36,7 @@ Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_st
 Chd|        HM_SZ_R2R                     source/coupling/rad2rad/routines_r2r.F
 Chd|        GRSIZEN                       source/system/nintrr.F        
 Chd|        GRSIZE_ELE                    source/system/nintrr.F        
+Chd|        GRSIZE_ELE_TRANS              source/system/nintrr.F        
 Chd|        GRSIZE_R2R                    source/coupling/rad2rad/routines_r2r.F
 Chd|        USR2SYS                       source/system/sysfus.F        
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F

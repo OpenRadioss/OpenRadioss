@@ -38,10 +38,10 @@ Chd|        ALEVFLU                       engine/source/output/anim/generate/gen
 Chd|        FVBAG0                        engine/source/airbag/fvbag.F  
 Chd|        FVBAG1                        engine/source/airbag/fvbag.F  
 Chd|        FVBAG2                        engine/source/airbag/fvbag2.F 
-Chd|        FVBAG3                        engine/source/airbag/fvbag.F  
 Chd|        FVRREST                       engine/source/output/restart/rdresb.F
 Chd|        FVUPD1                        engine/source/airbag/fvupd.F  
 Chd|        FVWREST                       engine/source/output/restart/wrrest.F
+Chd|        FV_UP_SWITCH                  engine/source/airbag/fv_up_switch.F
 Chd|        SORTIE_MAIN                   engine/source/output/sortie_main.F
 Chd|-- calls ---------------
 Chd|====================================================================

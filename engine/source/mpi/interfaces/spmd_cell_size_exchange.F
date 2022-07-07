@@ -21,10 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.  
 Chd|====================================================================
-Chd|  SPMD_CELL_SIZE_EXCHANGE                     source/mpi/interfaces/spmd_cell_size_exchange.F
+Chd|  SPMD_CELL_SIZE_EXCHANGE       source/mpi/interfaces/spmd_cell_size_exchange.F
 Chd|-- called by -----------
-Chd|        SPMD_CELL_LIST_EXCHANGE                    source/mpi/interfaces/spmd_cell_list_exchange.F
+Chd|        SPMD_CELL_LIST_EXCHANGE       source/mpi/interfaces/spmd_cell_list_exchange.F
 Chd|-- calls ---------------
+Chd|        ANCMSG                        source/output/message/message.F
+Chd|        ARRET                         source/system/arret.F         
+Chd|        MYQSORT_INT                   ../common_source/tools/sort/myqsort_int.F
+Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
+Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
         SUBROUTINE SPMD_CELL_SIZE_EXCHANGE(IRCVFROM,ISENDTO,WEIGHT,
      .                    IAD_ELEM,FR_ELEM,X,V,MS,TEMP,KINET,NODNX_SMS,ITAB,INTBUF_TAB,IPARI,NIN,REMOTE_PROC_ID,

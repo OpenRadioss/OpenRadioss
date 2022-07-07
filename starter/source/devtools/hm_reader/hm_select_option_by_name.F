@@ -21,9 +21,8 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  HM_SELECT_OPTION_BY_NAME               source/devtools/hm_reader/hm_select_option_by_name.F
+Chd|  HM_SELECT_OPTION_BY_NAME      source/devtools/hm_reader/hm_select_option_by_name.F
 Chd|-- called by -----------
-Chd|--      HSTP                          starter/com/hstp/hstp.F 
 Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 

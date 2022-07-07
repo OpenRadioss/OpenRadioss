@@ -21,8 +21,35 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  INTER_SORTING_MOD    share/modules/inter_sorting_mod.F
+Chd|  INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
 Chd|-- called by -----------
+Chd|        CHECK_COARSE_GRID             source/interfaces/generic/check_coarse_grid.F
+Chd|        INTER_BOX_CREATION            source/interfaces/generic/inter_box_creation.F
+Chd|        INTER_CELL_COLOR              source/interfaces/generic/inter_cell_color.F
+Chd|        INTER_COLOR_COARSE_VOXEL      source/interfaces/generic/inter_color_coarse_voxel.F
+Chd|        INTER_COLOR_VOXEL             source/interfaces/generic/inter_color_voxel.F
+Chd|        INTER_COUNT_NODE_CURV         source/interfaces/generic/inter_count_node_curv.F
+Chd|        INTER_DEALLOCATE_WAIT         source/interfaces/generic/inter_deallocate_wait.F
+Chd|        INTER_MINMAX_NODE             source/interfaces/generic/inter_minmax_node.F
+Chd|        INTER_PREPARE_SORT            source/interfaces/generic/inter_prepare_sort.F
+Chd|        INTER_SORT                    source/interfaces/generic/inter_sort.F
+Chd|        INTER_SORT_07                 source/interfaces/int07/inter_sort_07.F
+Chd|        INTER_STRUCT_INIT             source/interfaces/generic/inter_struct_init.F
+Chd|        INTER_VOXEL_CREATION          source/interfaces/generic/inter_voxel_creation.F
+Chd|        INTTRI                        source/interfaces/intsort/inttri.F
+Chd|        MPP_INIT                      source/mpi/interfaces/spmd_i7tool.F
+Chd|        RESOL                         source/engine/resol.F         
+Chd|        RESOL_INIT                    source/engine/resol_init.F    
+Chd|        SPMD_BOX_LIMIT_REDUCTION      source/mpi/interfaces/spmd_box_limit_reduction.F
+Chd|        SPMD_CELL_EXCHANGE            source/mpi/generic/spmd_cell_exchange.F
+Chd|        SPMD_CELL_LIST_EXCHANGE       source/mpi/interfaces/spmd_cell_list_exchange.F
+Chd|        SPMD_CELL_SIZE_EXCHANGE       source/mpi/interfaces/spmd_cell_size_exchange.F
+Chd|        SPMD_CELL_SIZE_EXCHANGE_INIT  source/mpi/interfaces/spmd_cell_size_exchange_init.F
+Chd|        SPMD_CELL_SIZE_POST_RCV       source/mpi/interfaces/spmd_cell_size_post_rcv.F
+Chd|        SPMD_COARSE_CELL_EXCHANGE     source/mpi/interfaces/spmd_coarse_cell_exchange.F
+Chd|        SPMD_GET_INACTI_GLOBAL        source/mpi/interfaces/spmd_get_inacti_global.F
+Chd|        SPMD_SPLIT_COMM_INTER         source/mpi/interfaces/spmd_split_comm_inter.F
+Chd|        SPMD_WAIT_NB                  source/mpi/interfaces/spmd_wait_nb.F
 Chd|-- calls ---------------
 Chd|====================================================================
         MODULE INTER_SORTING_MOD

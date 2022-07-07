@@ -61,10 +61,17 @@ Chd|        I7MAIN_OPT_TRI                source/interfaces/intsort/i7main_opt_t
 Chd|        I7MAIN_TRI                    source/interfaces/intsort/i7main_tri.F
 Chd|        INT18_LAW151_NSV_SHIFT        source/interfaces/int18/int18_law151_nsv_shift.F
 Chd|        INTCRIT                       source/interfaces/intsort/intcrit.F
+Chd|        INTER_CHECK_SORT              source/interfaces/generic/inter_check_sort.F
+Chd|        INTER_DEALLOCATE_WAIT         source/interfaces/generic/inter_deallocate_wait.F
+Chd|        INTER_PREPARE_SORT            source/interfaces/generic/inter_prepare_sort.F
+Chd|        INTER_SORT                    source/interfaces/generic/inter_sort.F
+Chd|        INTER_TRC_7                   source/interfaces/int07/inter_trc_7.F
 Chd|        INT_STARTIME                  source/system/timer_interf.F  
 Chd|        INT_STOPTIME                  source/system/timer_interf.F  
 Chd|        MY_BARRIER                    source/system/machine.F       
+Chd|        SPMD_ALLGLOB_ISUM9            source/mpi/generic/spmd_allglob_isum9.F
 Chd|        SPMD_BARRIER                  source/mpi/generic/spmd_barrier.F
+Chd|        SPMD_GET_INACTI_GLOBAL        source/mpi/interfaces/spmd_get_inacti_global.F
 Chd|        SPMD_GET_STIF25_EDG           source/mpi/interfaces/spmd_getstif25_edg.F
 Chd|        SPMD_I25FRONT_NOR             source/mpi/interfaces/spmd_i25front.F
 Chd|        SPMD_I7ITIED_CAND             source/mpi/interfaces/spmd_i7itied_cand.F
@@ -80,6 +87,8 @@ Chd|        I22BUFBRIC_MOD                ../common_source/modules/cut-cell-sear
 Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-search_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTBUFMOD                     share/modules/restart_mod.F   
+Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
+Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
 Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F  
 Chd|        METRIC_MOD                    ../common_source/modules/metric_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F

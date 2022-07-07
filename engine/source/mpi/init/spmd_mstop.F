@@ -23,8 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  SPMD_MSTOP                    source/mpi/init/spmd_mstop.F  
 Chd|-- called by -----------
-Chd|        EIGBUCKP                      com/eig/eigbuckp.F            
-Chd|        EIGSOLP                       com/eig/eigsolp.F             
 Chd|        IMP_SOL_INIT                  source/implicit/imp_sol_init.F
 Chd|-- calls ---------------
 Chd|        MY_EXIT                       source/system/my_exit.c       

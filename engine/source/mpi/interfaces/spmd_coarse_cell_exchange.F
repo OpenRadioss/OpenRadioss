@@ -21,11 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.  
 Chd|====================================================================
-Chd|  SPMD_COARSE_CELL_EXCHANGE                   source/mpi/interfaces/spmd_coarse_cell_exchange.F
+Chd|  SPMD_COARSE_CELL_EXCHANGE     source/mpi/interfaces/spmd_coarse_cell_exchange.F
 Chd|-- called by -----------
-Chd|        INTER_PREPARE_SORT                    source/interfaces/intsort/generic/inter_prepare_sort.F
+Chd|        INTER_PREPARE_SORT            source/interfaces/generic/inter_prepare_sort.F
 Chd|-- calls ---------------
-Chd|        CHECK_COARSE_GRID                     source/interfaces/intsort/generic/check_coarse_grid.F
+Chd|        CHECK_COARSE_GRID             source/interfaces/generic/check_coarse_grid.F
+Chd|        SPMD_IALLTOALLV_INT           source/mpi/generic/spmd_ialltoallv_int.F
+Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
 Chd|====================================================================
         SUBROUTINE SPMD_COARSE_CELL_EXCHANGE(NB_INTER_SORTED,LIST_INTER_SORTED,IRECVFROM,ISENDTO,MODE,
      .              IPARI,SORT_COMM,NB_REQUEST_COARSE_CELL,ARRAY_REQUEST_COARSE_CELL,LIST_INTER_COARSE_CELL)

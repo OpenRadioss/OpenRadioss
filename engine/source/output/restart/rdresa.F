@@ -29,7 +29,6 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
 Chd|        CUR_FIL_C                     source/output/tools/sortie_c.c
 Chd|        RDCOMI                        source/output/restart/rdcomm.F
-Chd|        RDSAFLIC                      com/licensing/rdsalic.F       
 Chd|        READ_I_C                      source/output/tools/sortie_c.c
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

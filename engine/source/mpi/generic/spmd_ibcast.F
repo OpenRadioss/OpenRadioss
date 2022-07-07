@@ -53,8 +53,6 @@ Chd|        SMS_INI_KIN_2                 source/ams/sms_init.F
 Chd|        SPMD_INIT_EBCS                source/mpi/fluid/spmd_cfd.F   
 Chd|        SZ_PRINT                      source/output/restart/arralloc.F
 Chd|        TAGOFF3N                      source/interfaces/interf/chkstfn3.F
-Chd|        VERIF_FFLEXPIPE               com/licensing/iniani.F        
-Chd|        WRFXFILP                      com/eig/wrfxfilp.F            
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SPMD_IBCAST(TABI,TABR,N1,N2,FROM,ADD)

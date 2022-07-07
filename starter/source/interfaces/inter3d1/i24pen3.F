@@ -25,7 +25,6 @@ Chd|====================================================================
 Chd|  I24PEN3                       source/interfaces/inter3d1/i24pen3.F
 Chd|-- called by -----------
 Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
-Chd|        INT24                         hypermesh/int24/int24.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        I24FIC_GETN                   source/interfaces/inter3d1/i24surfi.F

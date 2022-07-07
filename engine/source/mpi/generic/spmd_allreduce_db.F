@@ -27,6 +27,7 @@ Chd|        RADIOSS2                      source/engine/radioss2.F
 Chd|        SENSOR0                       source/tools/sensor/sensor0.F 
 Chd|        SENSOR_DIST_SURF0             source/tools/sensor/sensor_dist_surf0.F
 Chd|        SENSOR_TEMP0                  source/tools/sensor/sensor_temp0.F
+Chd|        SPMD_BOX_LIMIT_REDUCTION      source/mpi/interfaces/spmd_box_limit_reduction.F
 Chd|-- calls ---------------
 Chd|====================================================================
         SUBROUTINE SPMD_ALLREDUCE_DB(VALUE,RESULT,MY_SIZE,MY_OPERATION)

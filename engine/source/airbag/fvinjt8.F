@@ -24,7 +24,7 @@ Chd|====================================================================
 Chd|  FVINJT8                       source/airbag/fvinjt8.F       
 Chd|-- called by -----------
 Chd|        FVBAG1                        source/airbag/fvbag.F         
-Chd|        FVBAG3                        source/airbag/fvbag.F         
+Chd|        FV_UP_SWITCH                  source/airbag/fv_up_switch.F  
 Chd|-- calls ---------------
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|====================================================================

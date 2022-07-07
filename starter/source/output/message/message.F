@@ -64,6 +64,7 @@ Chd|        CHECK_SURF                    source/groups/check_surf.F
 Chd|        CHEKMP2                       source/elements/initia/initia.F
 Chd|        CHKFUNCT                      source/tools/curve/lecfun.F   
 Chd|        CHKTYP2                       source/interfaces/interf1/chktyp2.F
+Chd|        CHK_DTTSH                     source/elements/thickshell/solidec/scdtchk3.F
 Chd|        CINIT3                        source/elements/shell/coque/cinit3.F
 Chd|        CINMAS                        source/elements/shell/coque/cinmas.F
 Chd|        CM27IN3                       source/materials/mat/mat027/cm27in3.F
@@ -255,7 +256,6 @@ Chd|        HM_READ_LINES                 source/groups/hm_read_lines.F
 Chd|        HM_READ_LINK                  source/constraints/rigidlink/hm_read_rlink.F
 Chd|        HM_READ_LOAD_CENTRI           source/loads/general/load_centri/hm_read_load_centri.F
 Chd|        HM_READ_LOAD_PRESSURE         source/loads/general/load_pressure/hm_read_load_pressure.F
-Chd|        HM_READ_MADYMO_EXFEM          com/madymo/hm_read_madymo_exfem.F
 Chd|        HM_READ_MAT                   source/materials/mat/hm_read_mat.F
 Chd|        HM_READ_MAT01                 source/materials/mat/mat001/hm_read_mat01.F
 Chd|        HM_READ_MAT02                 source/materials/mat/mat002/hm_read_mat02.F
@@ -642,9 +642,8 @@ Chd|        MASS_FLUID_TG                 source/fluid/mass-fluid_tg.F
 Chd|        MATFUN_USR2SYS                source/materials/tools/matfun_usr2sys.F
 Chd|        MATINI                        source/materials/mat_share/matini.F
 Chd|        MATTAB_USR2SYS                source/materials/tools/mattab_usr2sys.F
-Chd|        MERGE                         source/model/submodel/merge.F 
-Chd|        MERGE_CNOD_CNOD               source/model/submodel/merge_cnod_cnod.F
 Chd|        MERGE_NODE                    source/elements/nodes/merge_node.F
+Chd|        MONVOL_CHECK_DELETE_DUPLICATEDsource/airbag/monvol_check_delete_duplicated.F
 Chd|        MONVOL_CHECK_SURFCLOSE        share/modules1/monvol_struct_mod.F
 Chd|        MONVOL_CHECK_VENTHOLE_SURF    share/modules1/monvol_struct_mod.F
 Chd|        MONVOL_ORIENT_SURF            share/modules1/monvol_struct_mod.F
@@ -726,6 +725,7 @@ Chd|        REALLOC_IDDCONNECT            source/spmd/node/ddtools.F
 Chd|        REALLOC_IFRONT                source/spmd/node/ddtools.F    
 Chd|        REMN_I2                       source/interfaces/inter3d1/i7remnode.F
 Chd|        REMN_I2OP                     source/interfaces/inter3d1/i7remnode.F
+Chd|        REMN_I2OP_EDG25               source/interfaces/int25/i25remlin.F
 Chd|        RIGID_MAT                     source/materials/mat/mat019/rigid_mat.F
 Chd|        RIGMODIF_ND                   source/elements/solid/solide10/dim_s10edg.F
 Chd|        RINI32                        source/properties/spring/hm_read_prop32.F

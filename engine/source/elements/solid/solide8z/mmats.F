@@ -618,6 +618,7 @@ C
 Chd|====================================================================
 Chd|  GET_ETFAC_S                   source/elements/solid/solide8z/mmats.F
 Chd|-- called by -----------
+Chd|        CMATC3                        source/elements/shell/coqueba/cmatc3.F
 Chd|        CMATIP3                       source/elements/shell/coqueba/cmatc3.F
 Chd|        MMATS                         source/elements/solid/solide8z/mmats.F
 Chd|-- calls ---------------

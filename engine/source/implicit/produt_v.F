@@ -26,8 +26,6 @@ Chd|  PRODUT_V                      source/implicit/produt_v.F
 Chd|-- called by -----------
 Chd|        IMP_QRF                       source/implicit/imp_pc_inv.F  
 Chd|        MAV_QT                        source/implicit/imp_pc_inv.F  
-Chd|        NORMVECT                      com/eig/eigvect.F             
-Chd|        NORMVECTP                     com/eig/eigvect.F             
 Chd|-- calls ---------------
 Chd|        SPMD_SUM_S                    source/mpi/implicit/imp_spmd.F
 Chd|====================================================================

@@ -31,7 +31,6 @@ Chd|        FCT_FIBER                     source/materials/mat/mat098/lossfun_98
 Chd|        FCT_FIBER_2                   source/materials/mat/mat098/lossfun_98.F
 Chd|        FSDCOD                        source/system/fsdcod.F        
 Chd|        FUNC_COMP                     source/materials/mat/mat076/law76_upd.F
-Chd|        FUNC_INTERS                   source/tools/curve/func_inters.F
 Chd|        FUNC_INTERS_C                 source/tools/curve/func_inters.F
 Chd|        FUNC_INTERS_SHEAR             source/tools/curve/func_inters.F
 Chd|        FUNC_MAXY                     source/tools/curve/func_maxy.F

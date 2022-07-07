@@ -41,6 +41,7 @@ Chd|        FVVENTHOLE                    source/airbag/fvventhole.F
 Chd|        HYPERMESH_TETRA               stub/fvmbags_stub.F           
 Chd|        LOAD_MESHGEMS_LIBRARY         stub/fvmbags_stub.F           
 Chd|        MESHGEMS_TETRA                stub/fvmbags_stub.F           
+Chd|        MONVOL_CHECK_DELETE_DUPLICATEDsource/airbag/monvol_check_delete_duplicated.F
 Chd|        MONVOL_TRIANGULATE_SURFACE    source/airbag/monvol_triangulate_surface.F
 Chd|        WRITEMESH                     source/airbag/writeMesh.F     
 Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/fvmbag_meshcontrol_mod.F

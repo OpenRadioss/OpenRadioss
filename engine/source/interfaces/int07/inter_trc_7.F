@@ -21,10 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  INTER_TRC_7                    source/interfaces/intsort/int07/inter_trs_7.F
+Chd|  INTER_TRC_7                   source/interfaces/int07/inter_trc_7.F
 Chd|-- called by -----------
-Chd|        INTTRI                         source/interfaces/intsort/inttri.F      
+Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|-- calls ---------------
+Chd|        I7TRC                         source/interfaces/intsort/i7trc.F
+Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
 Chd|====================================================================
         SUBROUTINE INTER_TRC_7( ITASK,NIN,IPARI,IND_IMP,
      1                          INTBUF_TAB,NB_INTER_SORTED,LIST_INTER_SORTED,INTER_STRUCT)

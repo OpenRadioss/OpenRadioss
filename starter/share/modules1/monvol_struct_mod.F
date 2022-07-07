@@ -56,6 +56,7 @@ Chd|        INIT_MONVOL                   source/airbag/init_monvol.F
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        MESHGEMS_TETRA                stub/fvmbags_stub.F           
 Chd|        MONVOL_BUILD_EDGES            share/modules1/monvol_struct_mod.F
+Chd|        MONVOL_CHECK_DELETE_DUPLICATEDsource/airbag/monvol_check_delete_duplicated.F
 Chd|        MONVOL_ORIENT_SURF            share/modules1/monvol_struct_mod.F
 Chd|        MONVOL_REVERSE_NORMALS        share/modules1/monvol_struct_mod.F
 Chd|        MONVOL_TRIANGULATE_SURFACE    source/airbag/monvol_triangulate_surface.F

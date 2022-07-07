@@ -24,7 +24,7 @@ Chd|====================================================================
 Chd|  FVVENT0                       source/airbag/fvvent0.F       
 Chd|-- called by -----------
 Chd|        FVBAG1                        source/airbag/fvbag.F         
-Chd|        FVBAG3                        source/airbag/fvbag.F         
+Chd|        FV_UP_SWITCH                  source/airbag/fv_up_switch.F  
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         

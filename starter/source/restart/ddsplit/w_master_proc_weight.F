@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  W_MAIN_PROC_WEIGHT          source/restart/ddsplit/w_main_proc_weight.F
+Chd|  W_MAIN_PROC_WEIGHT            source/restart/ddsplit/w_master_proc_weight.F
 Chd|-- called by -----------
 Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------

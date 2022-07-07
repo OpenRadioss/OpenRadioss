@@ -27,7 +27,6 @@ Chd|-- called by -----------
 Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|-- calls ---------------
 Chd|        ARRET                         source/system/arret.F         
-Chd|        RELEASE_FFLEXPIPE             com/licensing/iniani.F        
 Chd|====================================================================
       SUBROUTINE INIPAR(ITID,ICAS,NNODES,INPUT,GOT_INPUT,NBTASK)
 C-----------------------------------------------------------------
@@ -338,7 +337,6 @@ Chd|-- called by -----------
 Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|-- calls ---------------
 Chd|        ARRET                         source/system/arret.F         
-Chd|        RELEASE_FFLEXPIPE             com/licensing/iniani.F        
 Chd|====================================================================
       SUBROUTINE INIPAR(ITID,ICAS,NNODES,INPUT,GOT_INPUT,NBTASK)
 C-----------------------------------------------------------------

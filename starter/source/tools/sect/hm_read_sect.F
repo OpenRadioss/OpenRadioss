@@ -45,6 +45,7 @@ Chd|        SUBROTVECT                    source/model/submodel/subrot.F
 Chd|        UDOUBLE                       source/system/sysfus.F        
 Chd|        ZERORE                        source/system/zerore.F        
 Chd|        ELEGROR                       source/groups/elegror.F       
+Chd|        ELEGROR_SEATBELT              source/groups/elegror_seatbelt.F
 Chd|        NODGRNR5                      source/starter/freform.F      
 Chd|        USR2SYS                       source/system/sysfus.F        
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F

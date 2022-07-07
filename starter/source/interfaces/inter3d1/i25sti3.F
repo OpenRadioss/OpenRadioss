@@ -27,6 +27,7 @@ Chd|        ININT3                        source/interfaces/inter3d1/inint3.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FRICTION_PARTS_SEARCH         source/interfaces/inter3d1/i7sti3.F
+Chd|        I24NORMNS                     source/interfaces/inter3d1/i24sti3.F
 Chd|        I25BORD                       source/interfaces/inter3d1/i25sti3.F
 Chd|        I25GAPM                       source/interfaces/inter3d1/i25sti3.F
 Chd|        INSOL3ET                      source/interfaces/inter3d1/i24sti3.F

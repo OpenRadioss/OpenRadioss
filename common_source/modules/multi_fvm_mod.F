@@ -49,8 +49,11 @@ Chd|        HM_READ_INIMAP1D              starter/source/initial_conditions/inim
 Chd|        HM_READ_INIVEL                starter/source/initial_conditions/general/inivel/hm_read_inivel.F
 Chd|        HM_READ_INIVOL                starter/source/initial_conditions/inivol/hm_read_inivol.F
 Chd|        HM_READ_INTERFACES            starter/source/interfaces/reader/hm_read_interfaces.F
+Chd|        HM_READ_INTER_FSI             starter/source/interfaces/reader/hm_read_inter_fsi.F
+Chd|        HM_READ_INTER_TYPE18          starter/source/interfaces/int18/hm_read_inter_type18.F
 Chd|        HM_READ_MAT                   starter/source/materials/mat/hm_read_mat.F
 Chd|        HM_READ_MAT151                starter/source/materials/mat/mat151/hm_read_mat151.F
+Chd|        HM_READ_PART                  starter/source/model/assembling/hm_read_part.F
 Chd|        HM_READ_PROP01                starter/source/properties/shell/hm_read_prop01.F
 Chd|        HM_READ_PROP06                starter/source/properties/solid/hm_read_prop06.F
 Chd|        HM_READ_PROP14                starter/source/properties/solid/hm_read_prop14.F
@@ -72,6 +75,7 @@ Chd|        LECINS                        starter/source/interfaces/interf1/leci
 Chd|        LECINT                        starter/source/interfaces/interf1/lecint.F
 Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        LEC_INIMAP1D_FILE             starter/source/initial_conditions/inimap/lec_inimap1d_file.F
+Chd|        MULTIFLUID_GLOBAL_TDET        starter/source/multifluid/multifluid_global_tdet.F
 Chd|        MULTIFLUID_INIT2T             starter/source/multifluid/multifluid_init2t.F
 Chd|        MULTIFLUID_INIT3              starter/source/multifluid/multifluid_init3.F
 Chd|        MULTI_CHECK_EOS               starter/source/multifluid/multi_check_eos.F
@@ -127,7 +131,6 @@ Chd|        I23MAIN_TRI                   engine/source/interfaces/intsort/i23ma
 Chd|        I7MAINF                       engine/source/interfaces/int07/i7mainf.F
 Chd|        I7MAIN_TRI                    engine/source/interfaces/intsort/i7main_tri.F
 Chd|        IMP_BUCK                      engine/source/implicit/imp_buck.F
-Chd|        IMP_EIGSOL                    engine/com/eig/imp_eigsol.F   
 Chd|        IMP_INTTD0                    engine/source/implicit/imp_int_k.F
 Chd|        IMP_SOLV                      engine/source/implicit/imp_solv.F
 Chd|        IMP_TRIPI                     engine/source/implicit/imp_int_k.F
@@ -136,6 +139,10 @@ Chd|        INT18_LAW151_INIT             engine/source/interfaces/int18/int18_l
 Chd|        INT18_LAW151_NSV_SHIFT        engine/source/interfaces/int18/int18_law151_nsv_shift.F
 Chd|        INT18_LAW151_OMP_ACCUMULATION engine/source/interfaces/int18/int18_law151_omp_accumulation.F
 Chd|        INT18_LAW151_UPDATE           engine/source/interfaces/int18/int18_law151_update.F
+Chd|        INTER_COLOR_VOXEL             engine/source/interfaces/generic/inter_color_voxel.F
+Chd|        INTER_DEALLOCATE_WAIT         engine/source/interfaces/generic/inter_deallocate_wait.F
+Chd|        INTER_SORT                    engine/source/interfaces/generic/inter_sort.F
+Chd|        INTER_SORT_07                 engine/source/interfaces/int07/inter_sort_07.F
 Chd|        INTFOP2                       engine/source/interfaces/interf/intfop2.F
 Chd|        INTTRI                        engine/source/interfaces/intsort/inttri.F
 Chd|        LECH3D                        engine/source/output/h3d/h3d_build_fortran/lech3d.F
@@ -171,6 +178,7 @@ Chd|        RESOL                         engine/source/engine/resol.F
 Chd|        RESOL_HEAD                    engine/source/engine/resol_head.F
 Chd|        RESTALLOC                     engine/source/output/restart/arralloc.F
 Chd|        SORTIE_MAIN                   engine/source/output/sortie_main.F
+Chd|        SPMD_CELL_EXCHANGE            engine/source/mpi/generic/spmd_cell_exchange.F
 Chd|        SPMD_COLLECT_MULTI_FVM        engine/source/mpi/output/spmd_collect_multi_fvm.F
 Chd|        SPMD_FIADD25E_POFF            engine/source/mpi/interfaces/spmd_fiadd25e_poff.F
 Chd|        SPMD_FIADD_POFF               engine/source/mpi/interfaces/spmd_i7tool.F

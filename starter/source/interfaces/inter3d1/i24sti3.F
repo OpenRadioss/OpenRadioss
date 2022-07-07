@@ -1821,6 +1821,7 @@ Chd|====================================================================
 Chd|  I24NORMNS                     source/interfaces/inter3d1/i24sti3.F
 Chd|-- called by -----------
 Chd|        I24STI3                       source/interfaces/inter3d1/i24sti3.F
+Chd|        I25STI3                       source/interfaces/inter3d1/i25sti3.F
 Chd|-- calls ---------------
 Chd|        NORMV3                        source/interfaces/inter3d1/i24tools.F
 Chd|        NORMVEC                       source/interfaces/inter3d1/i24sti3.F

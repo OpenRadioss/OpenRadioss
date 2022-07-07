@@ -28,7 +28,6 @@ Chd|        EIG1                          stub/eig1.F
 Chd|        EIGCOND                       stub/eigcond.F                
 Chd|        EIGP                          stub/eigp.F                   
 Chd|        IMP_BUCK                      source/implicit/imp_buck.F    
-Chd|        IMP_EIGSOL                    com/eig/imp_eigsol.F          
 Chd|        SORTIE_MAIN                   source/output/sortie_main.F   
 Chd|-- calls ---------------
 Chd|====================================================================

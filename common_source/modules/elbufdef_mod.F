@@ -48,6 +48,7 @@ Chd|        CEPSINI                       starter/source/elements/shell/coque/ce
 Chd|        CFAILINI                      starter/source/elements/shell/coque/cfailini.F
 Chd|        CFAILINI4                     starter/source/elements/shell/coque/cfailini.F
 Chd|        CFINT_REG_INI                 starter/source/elements/shell/coque/cfint_reg_ini.F
+Chd|        CHK_DTTSH                     starter/source/elements/thickshell/solidec/scdtchk3.F
 Chd|        CINIT3                        starter/source/elements/shell/coque/cinit3.F
 Chd|        CINMAS                        starter/source/elements/shell/coque/cinmas.F
 Chd|        CM27IN3                       starter/source/materials/mat/mat027/cm27in3.F
@@ -113,6 +114,7 @@ Chd|        M37INIT                       starter/source/materials/mat/mat037/m3
 Chd|        M51INIT                       starter/source/materials/mat/mat051/m51init.F
 Chd|        MATINI                        starter/source/materials/mat_share/matini.F
 Chd|        MMAIN                         starter/source/materials/mat_share/mmain.F
+Chd|        MULTIFLUID_GLOBAL_TDET        starter/source/multifluid/multifluid_global_tdet.F
 Chd|        MULTIFLUID_INIT2              starter/source/multifluid/multifluid_init2.F
 Chd|        MULTIFLUID_INIT2T             starter/source/multifluid/multifluid_init2t.F
 Chd|        MULTIFLUID_INIT3              starter/source/multifluid/multifluid_init3.F
@@ -274,6 +276,7 @@ Chd|        DIM_ELEMSP                    engine/source/implicit/ind_glob_k.F
 Chd|        DIM_FR_K                      engine/source/mpi/implicit/imp_fri.F
 Chd|        DIM_GLOB_K                    engine/source/implicit/ind_glob_k.F
 Chd|        DIM_KINMAX                    engine/source/implicit/ind_glob_k.F
+Chd|        DIM_TSHEDG                    engine/source/elements/thickshell/solidec/scdtdc3.F
 Chd|        DMASANI0                      engine/source/output/anim/generate/dmasani0.F
 Chd|        DMASANIC                      engine/source/output/anim/generate/dmasanic.F
 Chd|        DMASANIF                      engine/source/output/anim/generate/dmasanif.F
@@ -309,8 +312,8 @@ Chd|        FORINTS                       engine/source/elements/forints.F
 Chd|        FVBAG0                        engine/source/airbag/fvbag.F  
 Chd|        FVBAG1                        engine/source/airbag/fvbag.F  
 Chd|        FVBAG2                        engine/source/airbag/fvbag2.F 
-Chd|        FVBAG3                        engine/source/airbag/fvbag.F  
 Chd|        FVVENT0                       engine/source/airbag/fvvent0.F
+Chd|        FV_UP_SWITCH                  engine/source/airbag/fv_up_switch.F
 Chd|        FXBODFP1                      engine/source/constraints/fxbody/fxbodfp.F
 Chd|        FXBSGMAJ                      engine/source/constraints/fxbody/fxbsgmaj.F
 Chd|        FXBYFOR                       engine/source/constraints/fxbody/fxbyfor.F
@@ -331,6 +334,7 @@ Chd|        H3D_ONED_OFF                  engine/source/output/h3d/spmd/spmd_h3d
 Chd|        H3D_ONED_SCALAR               engine/source/output/h3d/h3d_results/h3d_oned_scalar.F
 Chd|        H3D_ONED_TENSOR               engine/source/output/h3d/h3d_results/h3d_oned_tensor.F
 Chd|        H3D_ONED_VECTOR               engine/source/output/h3d/h3d_results/h3d_oned_vector.F
+Chd|        H3D_QUAD_OFF                  engine/source/output/h3d/spmd/spmd_h3d_quad_off.F
 Chd|        H3D_QUAD_SCALAR               engine/source/output/h3d/h3d_results/h3d_quad_scalar.F
 Chd|        H3D_QUAD_TENSOR               engine/source/output/h3d/h3d_results/h3d_quad_tensor.F
 Chd|        H3D_QUAD_VECTOR               engine/source/output/h3d/h3d_results/h3d_quad_vector.F
@@ -341,6 +345,7 @@ Chd|        H3D_SHELL_TENSOR              engine/source/output/h3d/h3d_results/h
 Chd|        H3D_SHELL_VECTOR              engine/source/output/h3d/h3d_results/h3d_shell_vector.F
 Chd|        H3D_SHELL_VECTOR_1            engine/source/output/h3d/h3d_results/h3d_shell_vector_1.F
 Chd|        H3D_SKIN_IXSKIN               engine/source/output/h3d/h3d_results/h3d_skin_ixskin.F
+Chd|        H3D_SKIN_OFF                  engine/source/output/h3d/h3d_results/h3d_skin_off.F
 Chd|        H3D_SKIN_SCALAR               engine/source/output/h3d/h3d_results/h3d_skin_scalar.F
 Chd|        H3D_SKIN_TENSOR               engine/source/output/h3d/h3d_results/h3d_skin_tensor.F
 Chd|        H3D_SOLID_OFF                 engine/source/output/h3d/spmd/spmd_h3d_solid_off.F
@@ -372,7 +377,6 @@ Chd|        I9WALE                        engine/source/interfaces/int09/i9wale.
 Chd|        IG3DUFORC3                    engine/source/elements/ige3d/ig3duforc3.F
 Chd|        IMP_BUCK                      engine/source/implicit/imp_buck.F
 Chd|        IMP_CHKM                      engine/source/implicit/imp_solv.F
-Chd|        IMP_EIGSOL                    engine/com/eig/imp_eigsol.F   
 Chd|        IMP_GLOB_K                    engine/source/implicit/imp_glob_k.F
 Chd|        IMP_GLOB_K0                   engine/source/implicit/imp_glob_k.F
 Chd|        IMP_GLOB_KHP                  engine/source/implicit/imp_glob_k.F
@@ -382,6 +386,7 @@ Chd|        IMP_SOLV                      engine/source/implicit/imp_solv.F
 Chd|        IMP_SOL_INIT                  engine/source/implicit/imp_sol_init.F
 Chd|        IND_FR_K                      engine/source/mpi/implicit/imp_fri.F
 Chd|        IND_GLOB_K                    engine/source/implicit/ind_glob_k.F
+Chd|        IND_TSHEDG                    engine/source/elements/thickshell/solidec/scdtdc3.F
 Chd|        INIT_TH                       engine/source/output/th/init_th.F
 Chd|        INIT_TH0                      engine/source/output/th/init_th0.F
 Chd|        INIXFEM                       engine/source/elements/xfem/inixfem.F
@@ -413,7 +418,6 @@ Chd|        M2LAWPI                       engine/source/materials/mat/mat002/m2l
 Chd|        M3LAW8                        engine/source/materials/mat/mat003/m3law8.F
 Chd|        M51VOIS2                      engine/source/materials/mat/mat051/m51vois2.F
 Chd|        M51VOIS3                      engine/source/materials/mat/mat051/m51vois3.F
-Chd|        MAD_ELFAIL                    engine/com/madymo/mad_deleted.F
 Chd|        MATERIAL_FLOW                 engine/source/tools/seatbelts/material_flow.F
 Chd|        MDAMA24                       engine/source/elements/solid/solidez/mdama24.F
 Chd|        MEOS8                         engine/source/materials/mat_share/meos8.F

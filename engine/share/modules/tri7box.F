@@ -220,8 +220,10 @@ Chd|        IMP_STIF24                    source/implicit/imp_solv.F
 Chd|        INIT_TRIM                     source/interfaces/intsort/init_trim.F
 Chd|        INT18_LAW151_OMP_ACCUMULATION source/interfaces/int18/int18_law151_omp_accumulation.F
 Chd|        INTCRIT                       source/interfaces/intsort/intcrit.F
+Chd|        INTER_SORT_07                 source/interfaces/int07/inter_sort_07.F
 Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|        I_CORPFIT3                    source/interfaces/int24/i24cor3.F
+Chd|        I_COR_EPFIT3                  source/interfaces/int24/i24cor3.F
 Chd|        MPP_INIT                      source/mpi/interfaces/spmd_i7tool.F
 Chd|        MULTI_I18_FORCE_POFF          source/interfaces/int18/multi_i18_force_poff.F
 Chd|        MULTI_I18_FORCE_PON           source/interfaces/int18/multi_i18_force_pon.F
@@ -230,6 +232,10 @@ Chd|        REALLOCATE_FI1                source/mpi/interfaces/spmd_i25slide.F
 Chd|        REALLOCATE_FI2                source/mpi/interfaces/spmd_i25slide.F
 Chd|        SPBUC3                        source/elements/sph/spbuc3.F  
 Chd|        SPHTRI0                       source/elements/sph/sphtri0.F 
+Chd|        SPMD_CELL_EXCHANGE            source/mpi/generic/spmd_cell_exchange.F
+Chd|        SPMD_CELL_SIZE_EXCHANGE       source/mpi/interfaces/spmd_cell_size_exchange.F
+Chd|        SPMD_CELL_SIZE_EXCHANGE_INIT  source/mpi/interfaces/spmd_cell_size_exchange_init.F
+Chd|        SPMD_CELL_SIZE_POST_RCV       source/mpi/interfaces/spmd_cell_size_post_rcv.F
 Chd|        SPMD_CHECK_TAG                source/mpi/ams/spmd_check_tag.F
 Chd|        SPMD_EXCH_I24                 source/mpi/interfaces/spmd_exch_i24.F
 Chd|        SPMD_EXCH_I25                 source/mpi/interfaces/spmd_exch_i25.F
@@ -309,6 +315,7 @@ Chd|        SPMD_TRI7GAT                  source/mpi/interfaces/spmd_int.F
 Chd|        SPMD_TRI7VOX                  source/mpi/interfaces/spmd_int.F
 Chd|        SPMD_TRI7VOX0                 source/mpi/interfaces/spmd_int.F
 Chd|        SPMD_TRI7VOX_OPTIMIZED        source/mpi/interfaces/spmd_tri7vox_optimized.F
+Chd|        SPMD_WAIT_NB                  source/mpi/interfaces/spmd_wait_nb.F
 Chd|        SPTRIVOX                      source/elements/sph/sptrivox.F
 Chd|        UPDATE_STRUCT_INT21           source/interfaces/int21/update_struct_int21.F
 Chd|        UPGRADE_REM_2RY               source/mpi/interfaces/spmd_i7tool.F

@@ -34,6 +34,7 @@ Chd|        I23MAIN_TRI                   engine/source/interfaces/intsort/i23ma
 Chd|        I24MAIN_TRI                   engine/source/interfaces/intsort/i24main_tri.F
 Chd|        I25MAIN_TRI                   engine/source/interfaces/intsort/i25main_tri.F
 Chd|        I7MAIN_TRI                    engine/source/interfaces/intsort/i7main_tri.F
+Chd|        INTER_SORT_07                 engine/source/interfaces/int07/inter_sort_07.F
 Chd|-- calls ---------------
 Chd|        ARRET                         starter/source/system/arret.F 
 Chd|        ARRET                         engine/source/system/arret.F  

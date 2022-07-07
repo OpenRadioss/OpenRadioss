@@ -35,7 +35,7 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        I1CHK2                        source/interfaces/inter2d1/i1chk2.F
 Chd|        I1TID2                        source/interfaces/inter2d1/i1tid2.F
-Chd|        I2MAIN                      source/interfaces/interf1/i2main.F
+Chd|        I2MAIN                        source/interfaces/interf1/i2master.F
 Chd|        I3PEN2                        source/interfaces/inter2d1/i3pen2.F
 Chd|        I3STI2                        source/interfaces/inter2d1/i3sti2.F
 Chd|        I9STI2                        source/interfaces/int09/i9sti2.F

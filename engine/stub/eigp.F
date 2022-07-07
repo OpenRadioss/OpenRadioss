@@ -24,7 +24,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  EIGP                          stub/eigp.F                   
 Chd|-- called by -----------
-Chd|        IMP_EIGSOL                    com/eig/imp_eigsol.F          
 Chd|-- calls ---------------
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|        CLUSTER_MOD                   share/modules/cluster_mod.F   

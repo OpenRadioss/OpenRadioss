@@ -592,8 +592,6 @@ C
 Chd|====================================================================
 Chd|  SPMD_MUMPS_RHS                source/mpi/implicit/imp_spmd.F
 Chd|-- called by -----------
-Chd|        EIGBUCKP                      com/eig/eigbuckp.F            
-Chd|        EIGSOLP                       com/eig/eigsolp.F             
 Chd|        IMP_MUMPS2                    source/implicit/imp_mumps.F   
 Chd|-- calls ---------------
 Chd|====================================================================
@@ -706,8 +704,6 @@ C
 Chd|====================================================================
 Chd|  SPMD_MUMPS_EXEC               source/mpi/implicit/imp_spmd.F
 Chd|-- called by -----------
-Chd|        EIGBUCKP                      com/eig/eigbuckp.F            
-Chd|        EIGSOLP                       com/eig/eigsolp.F             
 Chd|        IMP_MUMPS2                    source/implicit/imp_mumps.F   
 Chd|        LAG_MULT_SDP                  source/tools/lagmul/lag_mult_solv.F
 Chd|-- calls ---------------
@@ -993,7 +989,6 @@ Chd|        IMP_PCGH                      source/implicit/imp_pcg.F
 Chd|        IND_FR_K0                     source/mpi/implicit/imp_fri.F 
 Chd|        LIN_SOLVIH2                   source/implicit/lin_solv.F    
 Chd|        NDDLI_FRB                     source/mpi/implicit/imp_fri.F 
-Chd|        NORMVECTP                     com/eig/eigvect.F             
 Chd|        PRODUT_H                      source/implicit/produt_v.F    
 Chd|        PRODUT_HP                     source/implicit/produt_v.F    
 Chd|        PRODUT_U0                     source/implicit/produt_v.F    
@@ -1162,7 +1157,6 @@ Chd|  SPMD_MAX_S                    source/mpi/implicit/imp_spmd.F
 Chd|-- called by -----------
 Chd|        GET_MAX                       source/implicit/nl_solv.F     
 Chd|        LECIMPL                       source/input/lectur.F         
-Chd|        NORMVECTP                     com/eig/eigvect.F             
 Chd|        SMS_CHECK                     source/ams/sms_fsa_inv.F      
 Chd|-- calls ---------------
 Chd|====================================================================
@@ -3211,8 +3205,6 @@ C
 Chd|====================================================================
 Chd|  SPMD_VCHGRID                  source/mpi/implicit/imp_spmd.F
 Chd|-- called by -----------
-Chd|        EIGBUCKP                      com/eig/eigbuckp.F            
-Chd|        EIGSOLP                       com/eig/eigsolp.F             
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SPMD_VCHGRID(V    , IV  , NV, VG    , NVG ,

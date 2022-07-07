@@ -21,31 +21,30 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
 Chd|====================================================================
-Chd|  LECTUR                        source/input/lectur.F
+Chd|  LECTUR                        source/input/lectur.F         
 Chd|-- called by -----------
-Chd|        RADIOSS2                      source/engine/radioss2.F
+Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ANIM_BUILD_INDEX_ALL          source/output/anim/reader/anim_build_index_all.F
-Chd|        ARRET                         source/system/arret.F
+Chd|        ARRET                         source/system/arret.F         
 Chd|        CHKIPARI                      source/interfaces/interf/chkstfn3.F
 Chd|        FR_RLALE                      source/mpi/kinematic_conditions/fr_rlink1.F
 Chd|        FR_RLINK1                     source/mpi/kinematic_conditions/fr_rlink1.F
 Chd|        LCBCSF                        source/constraints/general/bcs/lcbcsf.F
-Chd|        LECCPL                        com/madymo/leccpl.F
-Chd|        LECCUT                        source/tools/sect/leccut.F
-Chd|        LECDAMP                       source/input/lecdamp.F
-Chd|        LECEIG                        source/input/leceig.F
-Chd|        LECFLSW                       source/fluid/lecflsw.F
-Chd|        LECFUN                        source/tools/curve/lecfun.F
-Chd|        LECFVBAG                      source/input/lecfvbag.F
-Chd|        LECFVBAG1                     source/input/lecfvbag1.F
-Chd|        LECFXINP                      source/input/lecfxinp.F
+Chd|        LECCUT                        source/tools/sect/leccut.F    
+Chd|        LECDAMP                       source/input/lecdamp.F        
+Chd|        LECEIG                        source/input/leceig.F         
+Chd|        LECFLSW                       source/fluid/lecflsw.F        
+Chd|        LECFUN                        source/tools/curve/lecfun.F   
+Chd|        LECFVBAG                      source/input/lecfvbag.F       
+Chd|        LECFVBAG1                     source/input/lecfvbag1.F      
+Chd|        LECFXINP                      source/input/lecfxinp.F       
 Chd|        LECH3D                        source/output/h3d/h3d_build_fortran/lech3d.F
-Chd|        LECIMPL                       source/input/lectur.F
-Chd|        LECINV                        source/input/lecinv.F
+Chd|        LECIMPL                       source/input/lectur.F         
+Chd|        LECINV                        source/input/lecinv.F         
 Chd|        LECNOISE                      source/general_controls/computation/lecnoise.F
-Chd|        LECSTAT                       source/input/lecstat.F
+Chd|        LECSTAT                       source/input/lecstat.F        
 Chd|        RBYONF                        source/constraints/general/rbody/rbyonf.F
 Chd|        READ_DYNAIN                   source/output/dynain/read_dynain.F
 Chd|        RLINK0                        source/constraints/general/rlink/rlink0.F
@@ -53,18 +52,18 @@ Chd|        SPMD_CHKW                     source/mpi/generic/spmd_chkw.F
 Chd|        SPMD_GLOB_ISUM9               source/mpi/interfaces/spmd_th.F
 Chd|        SPMD_IBCAST                   source/mpi/generic/spmd_ibcast.F
 Chd|        SPMD_WIOUT                    source/mpi/generic/spmd_wiout.F
-Chd|        NGR2USR                       source/input/freform.F
+Chd|        NGR2USR                       source/input/freform.F        
 Chd|        CHECK_MOD                     ../common_source/modules/check_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
-Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F
+Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F
+Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTSTAMP_GLOB_MOD             share/modules/intstamp_glob_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
-Chd|        STACK_MOD                     share/modules/stack_mod.F
-Chd|        TABLE_MOD                     share/modules/table_mod.F
+Chd|        STACK_MOD                     share/modules/stack_mod.F     
+Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE LECTUR(ICODE   ,ISKEW ,ISKWN  ,IXTG   ,IXS   ,
      2                  IXQ     ,IXC   ,IXT    ,IXP    ,IXR   ,
@@ -3134,11 +3133,11 @@ C
 
       END
 Chd|====================================================================
-Chd|  PROUT_BUCK                    source/input/lectur.F
+Chd|  PROUT_BUCK                    source/input/lectur.F         
 Chd|-- called by -----------
-Chd|        LECIMPL                       source/input/lectur.F
+Chd|        LECIMPL                       source/input/lectur.F         
 Chd|-- calls ---------------
-Chd|        IMP_KBCS                      share/modules/impbufdef_mod.F
+Chd|        IMP_KBCS                      share/modules/impbufdef_mod.F 
 Chd|====================================================================
       SUBROUTINE PROUT_BUCK(IP,NBUCK,IBUCK)
 C-----------------------------------------------
@@ -3185,18 +3184,18 @@ C-----------------------------------------------
      .  ' LINEAR SOLVER : . . . . . . . . . . . . . ',2X,A/)
       END
 Chd|====================================================================
-Chd|  LECIMPL                       source/input/lectur.F
+Chd|  LECIMPL                       source/input/lectur.F         
 Chd|-- called by -----------
-Chd|        LECTUR                        source/input/lectur.F
+Chd|        LECTUR                        source/input/lectur.F         
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F
+Chd|        ARRET                         source/system/arret.F         
 Chd|        FLOATMIN                      ../common_source/tools/math/precision.c
-Chd|        PROUT_BUCK                    source/input/lectur.F
+Chd|        PROUT_BUCK                    source/input/lectur.F         
 Chd|        SPMD_MAX_S                    source/mpi/implicit/imp_spmd.F
-Chd|        IMP_KBCS                      share/modules/impbufdef_mod.F
-Chd|        IMP_PCG_PROJ                  share/modules/impbufdef_mod.F
-Chd|        IMP_SPBRM                     share/modules/impbufdef_mod.F
+Chd|        IMP_KBCS                      share/modules/impbufdef_mod.F 
+Chd|        IMP_PCG_PROJ                  share/modules/impbufdef_mod.F 
+Chd|        IMP_SPBRM                     share/modules/impbufdef_mod.F 
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE LECIMPL

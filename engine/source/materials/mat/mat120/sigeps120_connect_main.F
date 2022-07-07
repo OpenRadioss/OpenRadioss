@@ -21,11 +21,16 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  SIGEPS120_CONNECT_MAIN              source/materials/mat/mat083/sigeps120_connect_main.F
+Chd|  SIGEPS120_CONNECT_MAIN        source/materials/mat/mat120/sigeps120_connect_main.F
 Chd|-- called by -----------
 Chd|        SUSER43                       source/elements/solid/sconnect/suser43.F
 Chd|-- calls ---------------
-Chd|        FINTER                        source/tools/curve/finter.F   
+Chd|        SIGEPS120_CONNECT_DP          source/materials/mat/mat120/sigeps120_connect_dp.F
+Chd|        SIGEPS120_CONNECT_TAB_DP      source/materials/mat/mat120/sigeps120_connect_tab_dp.F
+Chd|        SIGEPS120_CONNECT_TAB_VM      source/materials/mat/mat120/sigeps120_connect_tab_vm.F
+Chd|        SIGEPS120_CONNECT_VM          source/materials/mat/mat120/sigeps120_connect_vm.F
+Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
+Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE SIGEPS120_CONNECT_MAIN(
      1     NEL     ,NGL     ,TIME    ,TIMESTEP,UPARAM  ,OFF     ,

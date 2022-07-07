@@ -7671,7 +7671,7 @@ C
       END
 
 Chd|====================================================================
-Chd|  SPLIT_REMNODE_I25_EDGE        source/restart/ddsplit/inter_tools.F
+Chd|  SPLIT_REMNODE_I25_E2S         source/restart/ddsplit/inter_tools.F
 Chd|-- called by -----------
 Chd|        SPLIT_INTERFACES              source/restart/ddsplit/split_interfaces.F
 Chd|-- calls ---------------

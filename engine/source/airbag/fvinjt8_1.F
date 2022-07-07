@@ -24,7 +24,7 @@ Chd|====================================================================
 Chd|  FVINJT8_1                     source/airbag/fvinjt8_1.F     
 Chd|-- called by -----------
 Chd|        FVBAG1                        source/airbag/fvbag.F         
-Chd|        FVBAG3                        source/airbag/fvbag.F         
+Chd|        FV_UP_SWITCH                  source/airbag/fv_up_switch.F  
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE FVINJT8_1(NJET   , IBAGJET , RBAGJET ,

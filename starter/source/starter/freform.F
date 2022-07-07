@@ -1640,7 +1640,6 @@ Chd|        HM_READ_MAT14                 source/materials/mat/mat014/hm_read_ma
 Chd|        HM_READ_MAT15                 source/materials/mat/mat015/hm_read_mat15.F
 Chd|        HM_READ_MAT151                source/materials/mat/mat151/hm_read_mat151.F
 Chd|        HM_READ_MAT16                 source/materials/mat/mat016/hm_read_mat16.F
-Chd|        HM_READ_MAT19                 source/materials/mat/mat019/hm_read_mat19.F
 Chd|        HM_READ_MAT20                 source/materials/mat/mat020/hm_read_mat20.F
 Chd|        HM_READ_MAT22                 source/materials/mat/mat022/hm_read_mat22.F
 Chd|        HM_READ_MAT23                 source/materials/mat/mat023/hm_read_mat23.F
@@ -2044,6 +2043,7 @@ Chd|        QMORTH2                       source/elements/solid_2d/quad/qmorth2.
 Chd|        RCHECKMASS                    source/elements/spring/rcheckmass.F
 Chd|        REMN_I2                       source/interfaces/inter3d1/i7remnode.F
 Chd|        REMN_I2OP                     source/interfaces/inter3d1/i7remnode.F
+Chd|        REMN_I2OP_EDG25               source/interfaces/int25/i25remlin.F
 Chd|        RI2_INT24P_INI                source/interfaces/inter3d1/i7remnode.F
 Chd|        RIGID_MAT                     source/materials/mat/mat019/rigid_mat.F
 Chd|        RINI33_RB                     source/elements/joint/rjoint/rini33_rb.F

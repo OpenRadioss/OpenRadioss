@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  INTER_CURV_COMPUTATION                    source/interfaces/intsort/generic/inter_curv_sort.F
+Chd|  INTER_CURV_COMPUTATION        source/interfaces/generic/inter_curv_computation.F
 Chd|-- called by -----------
-Chd|        INTER_COUNT_NODE_CURV                    source/interfaces/intsort/generic/inter_count_node_curv_sort.F
+Chd|        INTER_COUNT_NODE_CURV         source/interfaces/generic/inter_count_node_curv.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE INTER_CURV_COMPUTATION(ICURV,NRTM_T,IRECT,C_MAX_LOCAL,CURV_MAX,X)

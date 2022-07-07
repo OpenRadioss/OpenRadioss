@@ -23,11 +23,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  FUNC_INTERS                   source/tools/curve/func_inters.F
 Chd|-- called by -----------
+Chd|        LAW36_UPD                     source/materials/mat/mat036/law36_upd.F
 Chd|        LAW58_UPD                     source/materials/mat/mat058/law58_upd.F
 Chd|        LAW88_UPD                     source/materials/mat/mat088/law88_upd.F
 Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
       SUBROUTINE FUNC_INTERS(TITR,MAT_ID,FUNC1,FUNC2,FAC1,FAC2,NPC,PLD,XINT,YINT)
 C-----------------------------------------------

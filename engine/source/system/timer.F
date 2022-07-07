@@ -700,6 +700,7 @@ Chd|        IMP_K_EIG                     stub/imp_k_eig.F
 Chd|        IMP_PCGH                      source/implicit/imp_pcg.F     
 Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
 Chd|        INTCRIT                       source/interfaces/intsort/intcrit.F
+Chd|        INTER_SORT_07                 source/interfaces/int07/inter_sort_07.F
 Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|        LIN_SOLV                      source/implicit/lin_solv.F    
 Chd|        LIN_SOLVH1                    source/implicit/lin_solv.F    
@@ -737,6 +738,7 @@ Chd|        SMS_PCG                       source/ams/sms_pcg.F
 Chd|        SMS_PRO_P                     source/ams/sms_proj.F         
 Chd|        SPHPREP                       source/elements/sph/sphprep.F 
 Chd|        SPHTRI0                       source/elements/sph/sphtri0.F 
+Chd|        SPMD_CELL_EXCHANGE            source/mpi/generic/spmd_cell_exchange.F
 Chd|        SPMD_E1VOIS                   source/mpi/fluid/spmd_cfd.F   
 Chd|        SPMD_E4VOIS                   source/mpi/fluid/spmd_cfd.F   
 Chd|        SPMD_E6VOIS                   source/mpi/fluid/spmd_cfd.F   
@@ -850,6 +852,7 @@ Chd|        IMP_K_EIG                     stub/imp_k_eig.F
 Chd|        IMP_PCGH                      source/implicit/imp_pcg.F     
 Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
 Chd|        INTCRIT                       source/interfaces/intsort/intcrit.F
+Chd|        INTER_SORT_07                 source/interfaces/int07/inter_sort_07.F
 Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|        LIN_SOLV                      source/implicit/lin_solv.F    
 Chd|        LIN_SOLVH1                    source/implicit/lin_solv.F    
@@ -885,6 +888,7 @@ Chd|        SMS_PCG                       source/ams/sms_pcg.F
 Chd|        SMS_PRO_P                     source/ams/sms_proj.F         
 Chd|        SPHPREP                       source/elements/sph/sphprep.F 
 Chd|        SPHTRI0                       source/elements/sph/sphtri0.F 
+Chd|        SPMD_CELL_EXCHANGE            source/mpi/generic/spmd_cell_exchange.F
 Chd|        SPMD_E1VOIS                   source/mpi/fluid/spmd_cfd.F   
 Chd|        SPMD_E4VOIS                   source/mpi/fluid/spmd_cfd.F   
 Chd|        SPMD_E6VOIS                   source/mpi/fluid/spmd_cfd.F   

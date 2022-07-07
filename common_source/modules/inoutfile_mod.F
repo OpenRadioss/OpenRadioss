@@ -91,8 +91,6 @@ Chd|        SPMD_COLLECT_MULTI_FVM        engine/source/mpi/output/spmd_collect_
 Chd|        SPMD_COLLECT_NLOCAL           engine/source/mpi/output/spmd_collect_nlocal.F
 Chd|        STAT_INIMAP1D_FILE_SPMD       engine/source/output/sta/stat_inimap1d_file_spmd.F
 Chd|        STAT_INIMAP2D_FILE_SPMD       engine/source/output/sta/stat_inimap2d_file_spmd.F
-Chd|        WRFXFIL                       engine/com/eig/wrfxfil.F      
-Chd|        WRFXFILP                      engine/com/eig/wrfxfilp.F     
 Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
 Chd|-- calls ---------------
 Chd|====================================================================

@@ -137,7 +137,6 @@ C
 Chd|====================================================================
 Chd|  UROTO_SIG                     source/airbag/uroto.F         
 Chd|-- called by -----------
-Chd|        M19CPLR                       source/materials/mat/mat019/m19cplr.F
 Chd|        SIGEPS27C                     source/materials/mat/mat027/sigeps27c.F
 Chd|-- calls ---------------
 Chd|====================================================================

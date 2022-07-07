@@ -23,7 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  INICONSTANT                   source/system/iniconstant.F   
 Chd|-- called by -----------
-Chd|        INIANI0                       com/licensing/iniani.F        
 Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|-- calls ---------------
 Chd|====================================================================

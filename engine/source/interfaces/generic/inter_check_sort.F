@@ -21,10 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  INTER_CHECK_SORT                    source/interfaces/intsort/generic/inter_check_sort.F
+Chd|  INTER_CHECK_SORT              source/interfaces/generic/inter_check_sort.F
 Chd|-- called by -----------
-Chd|        INTTRI                         source/interfaces/intsort/inttri.F         
+Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|-- calls ---------------
+Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
+Chd|        INTER_STRUCT_MOD              share/modules/inter_struct_mod.F
 Chd|====================================================================
         SUBROUTINE INTER_CHECK_SORT( ITASK,NEED_TO_SORT,NBINTC,INTLIST,IPARI,
      .                               INTBUF_TAB,SENSOR,NB_INTER_SORTED,LIST_INTER_SORTED,INTER_STRUCT)

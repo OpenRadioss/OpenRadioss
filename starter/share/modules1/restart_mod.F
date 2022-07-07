@@ -224,7 +224,9 @@ Chd|        ININTR                        source/interfaces/interf1/inintr.F
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        UPGRADE_REMNODE               source/interfaces/interf1/upgrade_remnode.F
 Chd|        UPGRADE_REMNODE2              source/interfaces/interf1/upgrade_remnode.F
+Chd|        UPGRADE_REMNODE_E2S           source/interfaces/interf1/upgrade_remnode.F
 Chd|        UPGRADE_REMNODE_EDG           source/interfaces/interf1/upgrade_remnode.F
+Chd|        UPGRADE_REMNODE_EDG2          source/interfaces/interf1/upgrade_remnode.F
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE INTBUFMOD

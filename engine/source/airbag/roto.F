@@ -78,7 +78,6 @@ C
 Chd|====================================================================
 Chd|  ROTOV                         source/airbag/roto.F          
 Chd|-- called by -----------
-Chd|        M19CPLR                       source/materials/mat/mat019/m19cplr.F
 Chd|        M25CPLRC                      source/materials/mat/mat025/m25cplrc.F
 Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|        USERMAT_SHELL                 source/materials/mat_share/usermat_shell.F
@@ -135,7 +134,6 @@ C
 Chd|====================================================================
 Chd|  ROTO_SIG                      source/airbag/roto.F          
 Chd|-- called by -----------
-Chd|        M19CPLR                       source/materials/mat/mat019/m19cplr.F
 Chd|        PRONY25C                      source/materials/mat/mat025/prony25c.F
 Chd|        SIGEPS27C                     source/materials/mat/mat027/sigeps27c.F
 Chd|-- calls ---------------

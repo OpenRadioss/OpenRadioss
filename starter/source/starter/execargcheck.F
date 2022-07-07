@@ -1060,7 +1060,6 @@ Chd|  PREXECINFO                    source/starter/execargcheck.F
 Chd|-- called by -----------
 Chd|        PEXECINFO                     source/starter/execargcheck.F 
 Chd|-- calls ---------------
-Chd|        ABOUT_BOX                     source/system/mon_c.c         
 Chd|====================================================================
         SUBROUTINE PREXECINFO(IDUM)
 C-----------------------------------------------
