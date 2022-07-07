@@ -230,7 +230,7 @@ C-----------
          ENDDO
        ENDIF
       ENDIF
-Cqz-----------
+C  -----------
       DO I=LFT,LLT
         XL=ONE_OVER_6*(X1(I)+X2(I)+X3(I)+X4(I)+X5(I)+X6(I))
         YL=ONE_OVER_6*(Y1(I)+Y2(I)+Y3(I)+Y4(I)+Y5(I)+Y6(I))
@@ -338,19 +338,19 @@ C   X=RX' <=> X'=t(R)X chgt de base.
         Z3(I)=ZL
         XL=R11(I)*X4(I)+R21(I)*Y4(I)+R31(I)*Z4(I)
         YL=R12(I)*X4(I)+R22(I)*Y4(I)+R32(I)*Z4(I)
-Cqz        ZL=R13(I)*X4(I)+R23(I)*Y4(I)+R33(I)*Z4(I)
+C          ZL=R13(I)*X4(I)+R23(I)*Y4(I)+R33(I)*Z4(I)
         X4(I)=XL
         Y4(I)=YL
         Z4(I)=-Z1(I)
         XL=R11(I)*X5(I)+R21(I)*Y5(I)+R31(I)*Z5(I)
         YL=R12(I)*X5(I)+R22(I)*Y5(I)+R32(I)*Z5(I)
-Cqz        ZL=R13(I)*X5(I)+R23(I)*Y5(I)+R33(I)*Z5(I)
+C          ZL=R13(I)*X5(I)+R23(I)*Y5(I)+R33(I)*Z5(I)
         X5(I)=XL
         Y5(I)=YL
         Z5(I)=-Z2(I)
         XL=R11(I)*X6(I)+R21(I)*Y6(I)+R31(I)*Z6(I)
         YL=R12(I)*X6(I)+R22(I)*Y6(I)+R32(I)*Z6(I)
-Cqz        ZL=R13(I)*X6(I)+R23(I)*Y6(I)+R33(I)*Z6(I)
+C          ZL=R13(I)*X6(I)+R23(I)*Y6(I)+R33(I)*Z6(I)
         X6(I)=XL
         Y6(I)=YL
         Z6(I)=-Z3(I)
@@ -387,19 +387,19 @@ C
        DO I=LFT,LLT
         XL=R11(I)*X4(I)+R21(I)*Y4(I)+R31(I)*Z4(I)
         YL=R12(I)*X4(I)+R22(I)*Y4(I)+R32(I)*Z4(I)
-Cqz        ZL=R13(I)*X4(I)+R23(I)*Y4(I)+R33(I)*Z4(I)
+C          ZL=R13(I)*X4(I)+R23(I)*Y4(I)+R33(I)*Z4(I)
         X4(I)=XL
         Y4(I)=YL
         Z4(I)=-Z1(I)
         XL=R11(I)*X5(I)+R21(I)*Y5(I)+R31(I)*Z5(I)
         YL=R12(I)*X5(I)+R22(I)*Y5(I)+R32(I)*Z5(I)
-Cqz        ZL=R13(I)*X5(I)+R23(I)*Y5(I)+R33(I)*Z5(I)
+C          ZL=R13(I)*X5(I)+R23(I)*Y5(I)+R33(I)*Z5(I)
         X5(I)=XL
         Y5(I)=YL
         Z5(I)=-Z2(I)
         XL=R11(I)*X6(I)+R21(I)*Y6(I)+R31(I)*Z6(I)
         YL=R12(I)*X6(I)+R22(I)*Y6(I)+R32(I)*Z6(I)
-Cqz        ZL=R13(I)*X6(I)+R23(I)*Y6(I)+R33(I)*Z6(I)
+C          ZL=R13(I)*X6(I)+R23(I)*Y6(I)+R33(I)*Z6(I)
         X6(I)=XL
         Y6(I)=YL
         Z6(I)=-Z3(I)
@@ -480,7 +480,7 @@ C
      .   DI)
       RETURN
       END
-Cqz|---- nouvelle routine---
+C  |---- nouvelle routine---
 Chd|====================================================================
 Chd|  S6PROJ3                       source/elements/thickshell/solide6c/s6rcoor3.F
 Chd|-- called by -----------

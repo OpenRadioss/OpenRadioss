@@ -107,13 +107,13 @@ C-----------------------------------------------
      .   C11,C22,E,CC,SIGY2,S1,S2,S3,SVM0,SR1,SR2,SR3,SR4,
      .   SR5,RX1,RXY1,SY1,SYX1,VOL_3,VMM0,SVMM,SVM1,SVM2,
      .   SVMR,SVM,SVMRST,FAC,FAC1,FAC2,F_Z,COEF,COEFH,SE,SK
-Cqz       coef= (3*0.8)^2 , FZ=0.5*0.95^2
+C         coef= (3*0.8)^2 , FZ=0.5*0.95^2
       my_real
      .   A1(MVSIZ), A2(MVSIZ), A3(MVSIZ),FACP
       DATA F_Z/.45/,COEF/5.76/,COEFH/0.5/
 C-----------------------------------------------
-Cqz      OPEN(UNIT=12,FILE='DEBHC.TMP',STATUS='UNKNOWN',FORM='FORMATTED')
-Cqz----: r->ksi; s->eta; t->zeta------------
+C        OPEN(UNIT=12,FILE='DEBHC.TMP',STATUS='UNKNOWN',FORM='FORMATTED')
+C  ----: r->ksi; s->eta; t->zeta------------
 !      IF(MTN.EQ.11 .OR. MTN.EQ.17 .OR. MTN.EQ.6
 !     .   .OR.MTN.EQ.46.OR.MTN.EQ.47.OR.MTN.EQ.37.OR.MTN.EQ.51) RETURN !TS: a tester au Starter.
 C
@@ -139,7 +139,7 @@ C
        ENDDO
 C
       DO I=LFT,LLT
-Cqz alpha =1 
+C   alpha =1 
 C 1 1 -1 -1 -1 -1 1 1
         G11(I)= ONE_OVER_8-PX1H1(I)
         G21(I)= ONE_OVER_8-PX2H1(I)
@@ -151,7 +151,7 @@ C 1 1 -1 -1 -1 -1 1 1
         G81(I)= ONE_OVER_8+PX2H1(I)	
       ENDDO
       DO I=LFT,LLT
-Cqz alpha =2 
+C   alpha =2 
 C 1 -1 -1 1 -1 1 1 -1
         G12(I)= ONE_OVER_8-PX1H2(I)
         G22(I)=-ONE_OVER_8-PX2H2(I)
@@ -163,7 +163,7 @@ C 1 -1 -1 1 -1 1 1 -1
         G82(I)=-ONE_OVER_8+PX2H2(I)	
       ENDDO
       DO I=LFT,LLT
-Cqz alpha =3 
+C   alpha =3 
 C 1 -1 1 -1 1 -1 1 -1
         G13(I)= ONE_OVER_8 -PX1H3(I)
         G23(I)=-ONE_OVER_8 -PX2H3(I)
@@ -185,7 +185,7 @@ C 1 -1 1 -1 1 -1 1 -1
       ENDDO
 C
 C 1 -1 1 -1 -1 1 -1 1
-Cqz alpha =4 
+C   alpha =4 
 C -1 1 -1 1 1 -1 1 -1
       DO I=LFT,LLT
         G14(I)=-ONE_OVER_8-PX1H4(I)
@@ -249,7 +249,7 @@ C -1 1 -1 1 1 -1 1 -1
        DH_ZK3 =  G_3DT(I)*RX0(I)*HGZ3(I)
        DH_ZE3 =  G_3DT(I)*SY0(I)*HGZ3(I)
 C
-Cqz -----------FHOUR(1-11,I):XE1,ZE1,YK2,ZK2,XE3,YK3,ZK3,ZE3,XE4,YK4,Z4-------
+C   -----------FHOUR(1-11,I):XE1,ZE1,YK2,ZK2,XE3,YK3,ZK3,ZE3,XE4,YK4,Z4-------
        FHOUR(I,1) =  OFF(I)*FHOUR(I,1)  +  DH_XE1
        FHOUR(I,2) =  OFF(I)*FHOUR(I,2)  +  DH_ZE1
        FHOUR(I,3) =  OFF(I)*FHOUR(I,3)  +  DH_YK2
@@ -517,14 +517,14 @@ C-----------------------------------------------
      .   C11,C22,E,CC,SIGY2,S1,S2,S3,SVM0,SR1,SR2,SR3,SR4,
      .   SR5,RX1,RXY1,SY1,SYX1,VOL_3,VMM0,SVMM,SVM1,SVM2,
      .   SVMR,SVM,SVMRST,FAC,FACM,FACB,F_Z,COEF,COEFH,SE,SK,DP
-Cqz       coef= (3*0.8)^2 , FZ=0.5*0.95^2
+C         coef= (3*0.8)^2 , FZ=0.5*0.95^2
       my_real
      .   A1(MVSIZ), A2(MVSIZ), A3(MVSIZ),FACP,F_MAX,
      .   SS1,SS2,SS3,FACZM
       DATA F_Z/.45/,COEF/5.76/,COEFH/0.5/,F_MAX/0.998/
 C-----------------------------------------------
-Cqz      OPEN(UNIT=12,FILE='DEBHC.TMP',STATUS='UNKNOWN',FORM='FORMATTED')
-Cqz----: r->ksi; s->eta; t->zeta------------
+C        OPEN(UNIT=12,FILE='DEBHC.TMP',STATUS='UNKNOWN',FORM='FORMATTED')
+C  ----: r->ksi; s->eta; t->zeta------------
 !      IF(MTN.EQ.11 .OR. MTN.EQ.17 .OR. MTN.EQ.6
 !     .   .OR.MTN.EQ.46.OR.MTN.EQ.47.OR.MTN.EQ.37.OR.MTN.EQ.51) RETURN !TS: a tester au Starter.
 C
@@ -550,7 +550,7 @@ C
        ENDDO
 C
       DO I=LFT,LLT
-Cqz alpha =1 
+C   alpha =1 
 C 1 1 -1 -1 -1 -1 1 1
         G11(I)= ONE_OVER_8-PX1H1(I)
         G21(I)= ONE_OVER_8-PX2H1(I)
@@ -562,7 +562,7 @@ C 1 1 -1 -1 -1 -1 1 1
         G81(I)= ONE_OVER_8+PX2H1(I)	
       ENDDO
       DO I=LFT,LLT
-Cqz alpha =2 
+C   alpha =2 
 C 1 -1 -1 1 -1 1 1 -1
         G12(I)= ONE_OVER_8-PX1H2(I)
         G22(I)=-ONE_OVER_8-PX2H2(I)
@@ -574,7 +574,7 @@ C 1 -1 -1 1 -1 1 1 -1
         G82(I)=-ONE_OVER_8+PX2H2(I)	
       ENDDO
       DO I=LFT,LLT
-Cqz alpha =3 
+C   alpha =3 
 C 1 -1 1 -1 1 -1 1 -1
         G13(I)= ONE_OVER_8 -PX1H3(I)
         G23(I)=-ONE_OVER_8 -PX2H3(I)
@@ -596,7 +596,7 @@ C 1 -1 1 -1 1 -1 1 -1
       ENDDO
 C
 C 1 -1 1 -1 -1 1 -1 1
-Cqz alpha =4 
+C   alpha =4 
 C -1 1 -1 1 1 -1 1 -1
       DO I=LFT,LLT
         G14(I)=-ONE_OVER_8-PX1H4(I)
@@ -666,7 +666,7 @@ c       DH_Z4  =  EM01*CC*HGZ4(I)
        DH_ZK3 =  G_3DT(I)*RX0(I)*HGZ3(I)
        DH_ZE3 =  G_3DT(I)*SY0(I)*HGZ3(I)
 C
-Cqz -----------FHOUR(1-11,I):XE1,ZE1,YK2,ZK2,XE3,YK3,ZK3,ZE3,XE4,YK4,Z4-------
+C   -----------FHOUR(1-11,I):XE1,ZE1,YK2,ZK2,XE3,YK3,ZK3,ZE3,XE4,YK4,Z4-------
        FHOUR(I,1) =  OFF(I)*FHOUR(I,1)  +  DH_XE1
        FHOUR(I,2) =  OFF(I)*FHOUR(I,2)  +  DH_ZE1
        FHOUR(I,3) =  OFF(I)*FHOUR(I,3)  +  DH_YK2

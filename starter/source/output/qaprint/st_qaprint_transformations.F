@@ -111,7 +111,7 @@ C
 C
             IF(RTRANS(MY_TRANS,I)/=ZERO)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'RTRANS_',I
               TEMP_DOUBLE = RTRANS(MY_TRANS,I)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)

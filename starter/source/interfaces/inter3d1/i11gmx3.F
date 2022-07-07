@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 C
-Cgw119      SUBROUTINE I11GMX3(X,IRECT,I,GAPMAX)
+C  119      SUBROUTINE I11GMX3(X,IRECT,I,GAPMAX)
 Chd|====================================================================
 Chd|  I11GMX3                       source/interfaces/inter3d1/i11gmx3.F
 Chd|-- called by -----------

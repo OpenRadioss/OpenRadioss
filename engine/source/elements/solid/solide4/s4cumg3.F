@@ -72,7 +72,7 @@ C     REAL
       my_real
      .   TT,TV
 C-----------------------------------------------
-Cqz-------symm(diag)------
+C  -------symm(diag)------
       IS =1
        CALL S8ZKED3(LFT,LLT,PX1, PY1 ,PZ1 ,PX1, PY1, PZ1, DD, K11,IS)
        CALL S8ZKED3(LFT,LLT,PX2, PY2 ,PZ2 ,PX2, PY2, PZ2, DD, K22,IS)
@@ -89,7 +89,7 @@ C
        CALL S8ZKEG3(LFT,LLT,PY4, PX4 ,PZ4,PX4 ,PZ4,PY4,
      .                      PY4, PX4 ,PZ4,PX4 ,PZ4,PY4,GG,K44,IS) 
       ENDIF 
-Cqz-------non symm------
+C  -------non symm------
       IS =0
        CALL S8ZKED3(LFT,LLT,PX1, PY1 ,PZ1 ,PX2, PY2, PZ2, DD, K12,IS)
        CALL S8ZKED3(LFT,LLT,PX1, PY1 ,PZ1 ,PX3, PY3, PZ3, DD, K13,IS)

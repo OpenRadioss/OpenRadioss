@@ -197,7 +197,7 @@ C-------sauf thick shells --------------
 C-----------
 C     PASSAGE AU REPERE CONVECTE.
 C-----------
-Clm   X=RX' <=> X'=t(R)X chgt de base.
+C     X=RX' <=> X'=t(R)X chgt de base.
       IF((ISMSTR.EQ.1.OR.ISMSTR.EQ.3).OR.
      .   (ISMSTR.EQ.2.AND.IDTMIN(1).EQ.3))THEN
        IF (JHBE.EQ.14.OR.JHBE.EQ.24.OR.JHBE.EQ.15.OR.JHBE.EQ.222) THEN

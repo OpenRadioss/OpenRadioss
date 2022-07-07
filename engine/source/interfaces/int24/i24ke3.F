@@ -193,7 +193,7 @@ c----------------------------------------------------
       ENDIF!(ICURV==3)
 c----------------------------------------------------
 c   Rayon de courbure : calcul des normales nodales (normees)
-Clm IADM!=0 + Icurv!=0 non available (starter error).
+C   IADM!=0 + Icurv!=0 non available (starter error).
 c----------------------------------------------------
 c      IF(IADM.NE.0)THEN
 c      END IF!(IADM.NE.0)

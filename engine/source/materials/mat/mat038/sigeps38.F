@@ -246,7 +246,7 @@ C     .               MFZY(I)*MFYY(I)+MFZZ(I)*MFYZ(I))
 C      ENDDO
 C        IF(IDTMIN(1)==3)THEN
 C         DO I=1,NEL
-C	  IF (OFFG(I) <=ONE) CYCLE
+C         IF (OFFG(I) <=ONE) CYCLE
 C           EPSXX(I)=MFXX(I)
 C           EPSYY(I)=MFYY(I)
 C           EPSZZ(I)=MFZZ(I)
@@ -254,7 +254,7 @@ C           EPSXY(I)=MFXY(I)+MFYX(I)
 C           EPSZX(I)=MFXZ(I)+MFZX(I)
 C           EPSYZ(I)=MFZY(I)+MFYZ(I)
 C         ENDDO
-C	END IF
+C       END IF
 C      TOTAL=.TRUE.
 C      ENDIF
        
@@ -350,7 +350,7 @@ C PRINCIPAL STRAINS FORMULATION
             AV(I,3)=DEPSZZ(I)
             AV(I,4)=DEPSXY(I)*HALF
             AV(I,5)=DEPSYZ(I)*HALF
-            AV(I,6)=DEPSZX(I)*HALF	    
+            AV(I,6)=DEPSZX(I)*HALF          
           ENDIF
         ENDDO
         IF(JACOBI) THEN
@@ -365,7 +365,7 @@ C PRINCIPAL STRAINS FORMULATION
             EARV(I,1)=EARJ(1)
             EARV(I,2)=EARJ(2)
             EARV(I,3)=EARJ(3)
- 	    DO N=1,3
+            DO N=1,3
               DO J=1,3
                 DIRPRV(I,N,J)=DPRA(N,J)
               ENDDO
@@ -390,7 +390,7 @@ C SET OLD PRINCIPAL DIRECTIONS
             ENDDO
           ENDDO
           M=0
- 	  DO N=1,3
+          DO N=1,3
             DO J=1,3
               M=M+1
               DPRA(N,J)=DIRPRV(I,N,J)
@@ -536,9 +536,9 @@ C E_DOT_NOMINAL=EDOT_RADIOSS*EXP(E_RADIOSS)=EDOT_RADIOSS*LAMDA
         ELSEIF(ISMSTR==10.OR.ISMSTR==12) THEN
          IF (OFFG(I) <=ONE) THEN
           EL(I,J)=SQRT(EAR(I,J)+ONE)
-	 ELSE
+         ELSE
           EL(I,J)=EAR(I,J)+ONE
-	 END IF
+         END IF
           EBN(I,J)=EBR(I,J)
           ECN(I,J)=ECR(I,J)
         ELSE
@@ -665,7 +665,7 @@ C AND THE FIRST CURVE (LOWER LIMIT)- STATIC- )
      &      ABS((PSN(I,J)-PSN1(I,J))/(EDOTU(I,J)-EDOTS(I,J)))
 
             VISC(I,J)=MIN(VISC(I,J),VISCOSITY)
-   	    PSN(I,J)=PSN1(I,J)-VISC(I,J)*(EDOTU(I,J)-EDOTS(I,J))
+            PSN(I,J)=PSN1(I,J)-VISC(I,J)*(EDOTU(I,J)-EDOTS(I,J))
            ENDIF 
 
           ELSE
@@ -733,12 +733,12 @@ C FIRST LOADING (STATIC) CURVE
      &        ABS((PSN(I,J)-PSN1(I,J))/(EDOT0(I,J)-EDOTS(I,J)))
 
               VISC(I,J)=MIN(VISC(I,J),VISCOSITY)
-   	      PSN(I,J)=PSN1(I,J)-VISC(I,J)*(EDOT0(I,J)-EDOTS(I,J))
+              PSN(I,J)=PSN1(I,J)-VISC(I,J)*(EDOT0(I,J)-EDOTS(I,J))
             ENDIF
           ENDIF
 
         ENDDO
-	
+        
 C......................................................................
 
 C UNLOADING
@@ -757,8 +757,8 @@ C RECOVERY ON UNLOADING - DOWN INCREMENT STRAIN
               DECAY = MIN(ONE,HYSTER*(ONE-EXP(-BETA*UVAR(I,J+25))))    
             ENDIF          
           ENDIF  
-C----loi70 Iflag=4 :	  
-	 IF (KRECOVER==2) DECAY = EFAC(I)
+C----loi70 Iflag=4 :      
+         IF (KRECOVER==2) DECAY = EFAC(I)
 C DECAY ON LOADING AND UNLOADING
           IF(KDECAY.EQ.0)
      &    PSN(I,J)=PSN(I,J)*(ONE-DECAY)
@@ -775,7 +775,6 @@ C......................................................................
 C SECANT MODULE
             TMP1 = EYN(I,J)
           ELSE
-Cqz --- je ne touche pas total=false sauf bug------
            IF(ABS(ECN(I,J)).GT.TINY)THEN
               EYN(I,J)=ABS(DSIGMA(I,J)/ECN(I,J))
             ELSE
@@ -785,10 +784,10 @@ Cqz --- je ne touche pas total=false sauf bug------
         ENDDO
 
         IF(.NOT.TOTAL) THEN
- 	DO I=1,NEL
+        DO I=1,NEL
           IF(SIGN(ONE,(EBN(I,J)/(UVAR(I,J+6)+TINY))).NE.ONE) 
      &    EYN(I,J)=UVAR(I,J+9)
- 	ENDDO
+        ENDDO
 
         DO I=1,NEL
           EYN(I,J)=EYN(I,J)*THETA+UVAR(I,J+9)*(ONE-THETA)
@@ -799,7 +798,7 @@ Cqz --- je ne touche pas total=false sauf bug------
         IF(ITOTAL.EQ.0.OR.ITOTAL.EQ.2) THEN
 C LINEAR IN TENSION
           DO I=1,NEL
-  	    IF(EAN(I,J).GE.ZERO) THEN
+            IF(EAN(I,J).GE.ZERO) THEN
               UVAR(I,J+28)=ZERO
               TMP1=exp(-lamda*(VOLUMER(I)-1.+EPSFIN))
               EI(I)=EFINAL+(E0-EFINAL)*(1-TMP1)
@@ -813,11 +812,11 @@ C LINEAR IN TENSION
               UVAR(I,J+12)=VT/EI(I)
             ENDIF
           ENDDO
-C----loi70 Iflag=4 :	  
-	 IF (KRECOVER==2) THEN
+C----loi70 Iflag=4 :      
+         IF (KRECOVER==2) THEN
           DO I=1,NEL
-  	   IF(EAN(I,J).GE.ZERO) THEN
-	    DECAY = EFAC(I)
+           IF(EAN(I,J).GE.ZERO) THEN
+            DECAY = EFAC(I)
 C DECAY ON LOADING AND UNLOADING
             IF(KDECAY.EQ.0) PSN(I,J)=PSN(I,J)*(ONE-DECAY)
 C DECAY ON LOADING ONLY
@@ -826,14 +825,13 @@ C DECAY ON LOADING ONLY
 C DECAY ON UNLOADING ONLY
             IF(KDECAY.EQ.2.AND.ECN(I,J).GT.ZERO)
      &                PSN(I,J)=PSN(I,J)*(ONE-DECAY)
-  	   END IF!(EAN(I,J).GE.ZERO) THEN
+           END IF!(EAN(I,J).GE.ZERO) THEN
           END DO 
-	 END IF !(KRECOVER==2) THEN
-Cqz option cachee +++
+         END IF !(KRECOVER==2) THEN
         ELSEIF(ITOTAL.EQ.-1) THEN
 C MODULE MAXMAL IN TENSION ONE CYCLE LATER (TOTAL)
           DO I=1,NEL
-  	    IF(EAN(I,J).GT.0.) THEN
+            IF(EAN(I,J).GT.0.) THEN
               UVAR(I,J+28)=ZERO
               EI(I)=MAX(UVAR(I,10),UVAR(I,11),UVAR(I,12))
               EYN(I,J)=EI(I)
@@ -844,7 +842,7 @@ C MODULE MAXMAL IN TENSION ONE CYCLE LATER (TOTAL)
         ELSEIF(ITOTAL.EQ.-2) THEN
 C MODULE MAXMAL IN TENSION ONE CYCLE LATER (INCR)
           DO I=1,NEL
-  	    IF(EAN(I,J).GT.ZERO) THEN
+            IF(EAN(I,J).GT.ZERO) THEN
               UVAR(I,J+28)=ZERO
               EI(I)=MAX(UVAR(I,10),UVAR(I,11),UVAR(I,12))
               EYN(I,J)=EI(I)
@@ -852,7 +850,6 @@ C MODULE MAXMAL IN TENSION ONE CYCLE LATER (INCR)
               UVAR(I,J+12)=VT/EI(I)
             ENDIF
           ENDDO
-Cqz option cachee ---
         ENDIF
 
 C END OF LOOP ON MDIR
@@ -882,9 +879,9 @@ C
           TMP0=MAX(EYN(I,J),UVAR(I,J+9))
           IF (OFFG(I) <=ONE) THEN
            UVAR(I,J  )=SQRT(EAR(I,J)+ONE)
-	  ELSE
+          ELSE
            UVAR(I,J  )=EAR(I,J)
-	  END IF
+          END IF
           UVAR(I,J+3)=PSN(I,J)
           UVAR(I,J+6)=EBN(I,J)
           UVAR(I,J+9)=EYN(I,J)
@@ -1109,7 +1106,6 @@ C SOUNDSPEED
        ENDDO
       ENDIF
 
-Cqz option cachee +++ 
       IF (IMSTA.EQ.2) THEN
        DO I=1,NEL
         EPSXY(I) = DIRPRV(I,1,1)*DIRPRV(I,2,1)*EAN(I,1)
@@ -1141,7 +1137,6 @@ Cqz option cachee +++
          ENDIF 
        ENDDO
       ENDIF 
-Cqz option cachee ---
       DO I=1,NEL
         KKK=EMAX(I)/(THREE*(ONE-TWO*MAX(VC,VT)))
         GGG=EMAX(I)/(TWO*(ONE+MAX(VC,VT)))

@@ -43,7 +43,7 @@ Chd|====================================================================
      .   JI33,B1X,B1Y,B2Y,B2X,B1122,B1221,B2212,B1121,
      .   B1XH,B1YH,B2XH,B2YH,B1122H,B1221H,B2212H,B1121H,
      .   DDHV,NU) 
-Cqz ---
+C   ---
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -73,7 +73,7 @@ C     REAL
      .   DYX(*), DYY(*), DYZ(*),
      .   DZX(*), DZY(*), DZZ(*), D4(*), D5(*), D6(*),
      .   WXX(*), WYY(*), WZZ(*),
-Cqz +++
+C   +++
      .   PX1H(*), PX2H(*), PX3H(*), 
      .   PY1H(*), PY2H(*), PY3H(*), 
      .   PZ1H(*), PZ2H(*), PZ3H(*), 
@@ -133,7 +133,7 @@ C
        VY2514N(I)=VY25N(I)-VY14N(I)
       ENDDO
 C                                                                     12
-Cqz ----------constant part--------------------------------------
+C   ----------constant part--------------------------------------
       DO I=LFT,LLT
         DXX(I)=PX1(I)*VX14(I)+PX2(I)*VX25(I)+
      .         PX3(I)*VX36(I)+PX4(I)*VXHI(I)
@@ -145,7 +145,7 @@ Cqz ----------constant part--------------------------------------
      .         PY3(I)*VX36(I)+PY4(I)*VXHI(I)
         DYX(I)=PX1(I)*VY14(I)+PX2(I)*VY25(I)+
      .         PX3(I)*VY36(I)+PX4(I)*VYHI(I)
-Cqz --------shear traitement-------
+C   --------shear traitement-------
         DXZ(I)=JI33(I)*TWO*VXHI(I)
      .         -B1122(I)*VX36N(I)+B1221(I)*VX25N(I)
      .         +B2212(I)*(VY25N(I)-VY36N(I))  
@@ -170,7 +170,7 @@ C
         WYY(I)=ZERO
         WZZ(I)=ZERO
       ENDDO
-Cqz ----------non-constant part--------------------------------------
+C   ----------non-constant part--------------------------------------
       DO I=LFT,LLT
         NU1 = NU(I)/(ONE - NU(I))
         PXAVX = PX1(I)*VX14N(I)+PX2(I)*VX25N(I)+PX3(I)*VX36N(I)
@@ -196,7 +196,7 @@ Cqz ----------non-constant part--------------------------------------
      .          PX3(I)*VY36N(I)+
      .          PX1H(I)*VY14(I)+PX2H(I)*VY25(I)+
      .          PX3H(I)*VY36(I)
-Cqz --------shear traitement-------
+C   --------shear traitement-------
         DHXZ(I)=-B1122H(I)*VX36N(I)+B1221H(I)*VX25N(I)
      .          +B2212H(I)*(VY25N(I)-VY36N(I))  
         DHXZ(I)= DHXZ(I)

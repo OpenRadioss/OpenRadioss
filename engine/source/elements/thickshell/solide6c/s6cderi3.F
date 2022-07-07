@@ -133,16 +133,16 @@ C
    10 Z64(I)=Z6(I)-Z4(I)
 C
       DO 20 I=LFT,LLT
-Cqz-------ri.xi---->ksi--------
+C  -------ri.xi---->ksi--------
       AJ1(I)=X21(I)+X54(I)
       AJ2(I)=Y21(I)+Y54(I)
    20 AJ3(I)=Z21(I)+Z54(I)
       DO 30 I=LFT,LLT
-Cqz-------si.xi--->eta--------
+C  -------si.xi--->eta--------
       AJ4(I)=X31(I)+X64(I)
       AJ5(I)=Y31(I)+Y64(I)
       AJ6(I)=Z31(I)+Z64(I)
-Cqz-------ti.xi----zeta-------
+C  -------ti.xi----zeta-------
       AJ7(I)=THIRD*(X41(I)+X5(I)-X2(I)+X6(I)-X3(I))
       AJ8(I)=THIRD*(Y41(I)+Y5(I)-Y2(I)+Y6(I)-Y3(I))
    30 AJ9(I)=THIRD*(Z41(I)+Z5(I)-Z2(I)+Z6(I)-Z3(I))
@@ -382,7 +382,7 @@ C ----------for shear traitement----------
        B1122(I)=FAC*AJ1(I)*AJ5(I)
        B1221(I)=FAC*AJ2(I)*AJ4(I)
        B2212(I)=FAC*AJ5(I)*AJ2(I)
-Cqz       B1121(I)=FAC*AJ1(I)*AJ4(I)
+C         B1121(I)=FAC*AJ1(I)*AJ4(I)
        B1121(I)=B2212(I)
 C
        B1XH(I,1)=-FAC*(X54(I)*Y54(I)-X21(I)*Y21(I))
@@ -397,10 +397,10 @@ C
        B1122H(I)=FAC*(X54(I)*Y64(I)-X21(I)*Y31(I))
        B1221H(I)=FAC*(X64(I)*Y54(I)-X31(I)*Y21(I))
        B2212H(I)=FAC*(Y54(I)*Y64(I)-Y21(I)*Y31(I))
-Cqz       B1121H(I)=FAC*(X64(I)*Y54(I)-X31(I)*Y21(I))
+C         B1121H(I)=FAC*(X64(I)*Y54(I)-X31(I)*Y21(I))
        B1121H(I)=B2212H(I)
       ENDDO
-Cqz--------non constante part--------
+C  --------non constante part--------
       DO I=LFT,LLT
        AJ1(I)=-X21(I)+X54(I)
        AJ2(I)=-Y21(I)+Y54(I)

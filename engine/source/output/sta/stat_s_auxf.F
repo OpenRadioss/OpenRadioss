@@ -167,7 +167,7 @@ C           pointeur de fin de zone dans WA
  200  CONTINUE
 c------------------------------------------------------------
       IF(NSPMD == 1)THEN
-Clm     recopies inutiles pour simplification du code.
+C       recopies inutiles pour simplification du code.
         PTWA_P0(0)=0
         DO N=1,STAT_NUMELS
           PTWA_P0(N)=PTWA(N)

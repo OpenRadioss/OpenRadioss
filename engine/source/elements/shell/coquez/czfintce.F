@@ -136,7 +136,7 @@ C-----------------------------------------------
         my_real
      .     S1, C2, A05,ERZ,OFF05
 C
-Cqz    --------const sig_rz added here---------
+C      --------const sig_rz added here---------
        DO I=JFT,JLT
         ERZ= VRLZ(I)*DT1C
         OFF05=HALF*OFF(I)*VOL(I)

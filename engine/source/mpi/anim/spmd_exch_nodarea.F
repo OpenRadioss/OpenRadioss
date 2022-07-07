@@ -81,7 +81,7 @@ C-----------------------------------------------
       L = 1
       IAD_RECV(1)=1
 
-Cow Mise en place des buffers de reception
+C   Mise en place des buffers de reception
       DO I=1,NSPMD
          SIZ = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
          IF(SIZ.NE.0) THEN
@@ -94,7 +94,7 @@ Cow Mise en place des buffers de reception
          IAD_RECV(I+1) = L
       END DO
 
-Cow Remplissage des buffers d'envoi et envoi des donnees
+C   Remplissage des buffers d'envoi et envoi des donnees
 C
       L=1
       IAD_SEND(1)=1
@@ -121,7 +121,7 @@ C
      G      MPI_COMM_WORLD,REQ_S(I),IERROR)
        ENDIF                
       END DO
-Cow Reception et traitement
+C   Reception et traitement
       DO I = 1, NSPMD
 C
         NB_NOD = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)

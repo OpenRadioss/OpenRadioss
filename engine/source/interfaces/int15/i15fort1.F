@@ -144,7 +144,7 @@ C-----------------------------------------------
       VRZ=ROT(7)*V1+ROT(8)*V2+ROT(9)*V3
 C----------------------------------------------------------
 C     PASSAGE DES VITESSES EN LOCAL.
-Clm   non optimise (plusieurs fois / noeud).
+C     non optimise (plusieurs fois / noeud).
 C----------------------------------------------------------
       DO 100 NLS=NDEB+1,MIN(NDEB+MVSIZ,NTC)
       IL =KTC(NLS)
@@ -378,7 +378,7 @@ C-----
 C------------------------------------------------------------
 C     MISE EN MEMOIRE (VECTEURS DE TRAVAIL -> ASSEMBLAGE).
 C------------------------------------------------------------
-Clm   non vectoriel.
+C     non vectoriel.
       DO 600 NLS=NDEB+1,MIN(NDEB+MVSIZ,NTC)
       IL =KTC(NLS)
       IF (IACTIV(1,IL).LE.0) GOTO 600
@@ -394,7 +394,7 @@ C-----
 C-----
  600  CONTINUE
 C------------------------------------------------------------
-Clm   non vectoriel.
+C     non vectoriel.
       DO 800 NLS=NDEB+1,MIN(NDEB+MVSIZ,NTC)
       IL =KTC(NLS)
       IF (IACTIV(1,IL).LE.0) GOTO 800
@@ -433,7 +433,7 @@ C-----
 C-----
  800  CONTINUE
 C------------------------------------------------------------
-Clm   non vectoriel.
+C     non vectoriel.
       DO 825 NLS=NDEB+1,MIN(NDEB+MVSIZ,NTC)
       IL =KTC(NLS)
       IF (iactiv(1,IL).LE.0) GOTO 825

@@ -687,7 +687,6 @@ C LINEAR IN TENSION
               UVAR(I,J+12)=VT/EI(I)
             ENDIF
           ENDDO
-Cqz option cachee +++
         ELSEIF(ITOTAL.EQ.-1) THEN
 C MODULE MAXMAL IN TENSION ONE CYCLE LATER (TOTAL)
           DO I=1,NEL
@@ -710,7 +709,6 @@ C MODULE MAXMAL IN TENSION ONE CYCLE LATER (INCR)
               UVAR(I,J+12)=VT/EI(I)
             ENDIF
           ENDDO
-Cqz option cachee ---
         ENDIF
 
 C END OF LOOP ON MDIR
@@ -940,7 +938,6 @@ C SOUNDSPEED
        ENDDO
       ENDIF
 
-Cqz option cachee +++ 
       IF (IMSTA.EQ.2) THEN
        DO I=1,NEL
         EPSXY(I) = DIRPRV(1,1,I)*DIRPRV(2,1,I)*EAN(I,1)
@@ -972,7 +969,6 @@ Cqz option cachee +++
          ENDIF 
        ENDDO
       ENDIF 
-Cqz option cachee ---
       DO I=1,NEL
         KKK=EMAX(I)/(THREE*(ONE-TWO*MAX(VC,VT)))
         GGG=EMAX(I)/(TWO*(ONE+MAX(VC,VT)))

@@ -545,33 +545,33 @@ C--------------------------------------------------
            IF (MLW.EQ.1) THEN
             XM = ONE/GEO(1,IXR(1,1+NFT))
             DO  I=1,NEL
-Clm           XM cannot be zero (was checked in starter).
+C             XM cannot be zero (was checked in starter).
               VALUE(I) = GBUF%EINT(I)*XM
               IS_WRITTEN_VALUE(I) = 1
             ENDDO
            ELSEIF (MLW.EQ.2) THEN
             XM = ONE/GEO(1,IXR(1,1+NFT))
             DO  I=1,NEL
-Clm           XM cannot be zero (was checked in starter).
+C             XM cannot be zero (was checked in starter).
               VALUE(I) = GBUF%EINT(I)*XM
               IS_WRITTEN_VALUE(I) = 1
             ENDDO
            ELSEIF (MLW.EQ.3) THEN
             XM = ONE/GEO(1,IXR(1,1+NFT))
             DO  I=1,NEL
-Clm           XM cannot be zero (was checked in starter).
+C             XM cannot be zero (was checked in starter).
               VALUE(I) = GBUF%EINT(I)*XM
               IS_WRITTEN_VALUE(I) = 1
             ENDDO
            ELSEIF (MLW.EQ.4) THEN
             XM = ONE/GEO(1,IXR(1,1+NFT))
             DO  I=1,NEL
-Clm           XM cannot be zero (was checked in starter).
+C             XM cannot be zero (was checked in starter).
               VALUE(I) = GBUF%EINT(I)*XM
               IS_WRITTEN_VALUE(I) = 1
             ENDDO
            ELSEIF (MLW.EQ.5) THEN
-Clm         user springs.
+C           user springs.
             DO  I=1,NEL
               VALUE(I) = GBUF%EINT(I)/MAX(EM30,GBUF%MASS(I))
               IS_WRITTEN_VALUE(I) = 1
@@ -580,7 +580,7 @@ Cmw51e4+++  Spring axi
            ELSEIF (MLW.EQ.6) THEN
             XM = ONE/GEO(1,IXR(1,1+NFT))
             DO  I=1,NEL
-Clm           XM cannot be zero (was checked in starter).
+C             XM cannot be zero (was checked in starter).
               VALUE(I) = GBUF%EINT(I)*XM
               IS_WRITTEN_VALUE(I) = 1
             ENDDO

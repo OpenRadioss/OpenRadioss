@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-Cgw_clean      SUBROUTINE INORI2(X,IRECT,ISG,NEL,NINT,NOINT)
+C  _clean      SUBROUTINE INORI2(X,IRECT,ISG,NEL,NINT,NOINT)
 Chd|====================================================================
 Chd|  INORI2                        source/interfaces/inter2d1/inori2.F
 Chd|-- called by -----------
@@ -43,7 +43,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "units_c.inc"
-Cgw_clean#include      "scr07_c.inc"
+C  _clean#include      "scr07_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -75,10 +75,10 @@ C-----------------------------------------------
        IF(NINT.GT.0)   WRITE (IOUT,1100) ISG, NOINT
        IF(NINT.LT.0)   WRITE (IOUT,1200) ISG, NOINT
       RETURN
-Cgw121 1100 FORMAT(' NODE NUMBERING OF SECONDARY  SEGMENT',I5,' OF INTERFACE',I5,
-Cgw121     .       ' REVERSED')
-Cgw121 1200 FORMAT(' NODE NUMBERING OF MAIN SEGMENT',I5,' OF INTERFACE',I5,
-Cgw121     .       ' REVERSED')
+C  121 1100 FORMAT(' NODE NUMBERING OF SECONDARY  SEGMENT',I5,' OF INTERFACE',I5,
+C  121     .       ' REVERSED')
+C  121 1200 FORMAT(' NODE NUMBERING OF MAIN SEGMENT',I5,' OF INTERFACE',I5,
+C  121     .       ' REVERSED')
  1100 FORMAT(' NODE NUMBERING OF SECONDARY SEGMENT',I5,' OF INTERFACE',I10,
      .       ' REVERSED')
  1200 FORMAT(' NODE NUMBERING OF MAIN SEGMENT',I5,' OF INTERFACE',I10,

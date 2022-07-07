@@ -169,7 +169,7 @@ C
       ENDIF
 C
       IF(NSMAT.NE.0.AND.INVSTR.LT.40) THEN
-Cgw009        DO N=1,NPART
+C  009        DO N=1,NPART
         DO N=1,NUMMAT-1
            IWA(N)=0
         ENDDO
@@ -245,7 +245,7 @@ C      IWA(32)=NSELUR
 C
       IF(NSMAT.NE.0) THEN
         IF(INVSTR.LT.40) THEN
-Cgw009          DO N=1,NPART
+C  009          DO N=1,NPART
           DO N=1,NUMMAT-1
            IWA(N)=0
           ENDDO
@@ -257,7 +257,7 @@ Cgw009          DO N=1,NPART
            ENDIF
           ENDDO
           NSMAT=0
-Cgw009          DO N=1,NPART
+C  009          DO N=1,NPART
           DO N=1,NUMMAT-1
            IF(IWA(N).NE.0)THEN
              NSMAT=NSMAT+1

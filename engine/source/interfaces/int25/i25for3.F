@@ -2417,7 +2417,7 @@ C            Find if node is on Surface S1 S2 ou GRNOD
                     IMPX=FXT(I)*DT12
                     IMPY=FYT(I)*DT12
                     IMPZ=FZT(I)*DT12
-Clm              main side :
+C                main side :
                     FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)+IMPX
                     FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)+IMPY
                     FSAVSUB1(6,JSUB)=FSAVSUB1(6,JSUB)+IMPZ
@@ -2454,7 +2454,7 @@ C
                 IMPX=FXT(I)*DT12
                 IMPY=FYT(I)*DT12
                 IMPZ=FZT(I)*DT12
-Clm              main side :
+C                main side :
                 FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)+IMPX
                 FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)+IMPY
                 FSAVSUB1(6,JSUB)=FSAVSUB1(6,JSUB)+IMPZ
@@ -2507,7 +2507,7 @@ C            Find if node is on Surface S1 S2 ou GRNOD
                      IMPZ=FZT(I)*DT12
 
                      IF(IMS2 > 0)THEN
-Clm              main side :
+C                main side :
                        FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)-IMPX
                        FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)-IMPY
                        FSAVSUB1(6,JSUB)=FSAVSUB1(6,JSUB)-IMPZ
@@ -2569,7 +2569,7 @@ C
                 IMPX=-FXT(I)*DT12
                 IMPY=-FYT(I)*DT12
                 IMPZ=-FZT(I)*DT12
-Clm              main side :
+C                main side :
                 FSAVSUB1(4,KSUB)=FSAVSUB1(4,KSUB)+IMPX
                 FSAVSUB1(5,KSUB)=FSAVSUB1(5,KSUB)+IMPY
                 FSAVSUB1(6,KSUB)=FSAVSUB1(6,KSUB)+IMPZ
@@ -2641,7 +2641,7 @@ C boucle separee sinon bug PGI en SMP
                    IMPX=FXT(I)*DT12
                    IMPY=FYT(I)*DT12
                    IMPZ=FZT(I)*DT12
-Clm              main side :
+C                main side :
                    FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)+IMPX
                    FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)+IMPY
                    FSAVSUB1(6,JSUB)=FSAVSUB1(6,JSUB)+IMPZ
@@ -2678,7 +2678,7 @@ C
                 IMPX=FXT(I)*DT12
                 IMPY=FYT(I)*DT12
                 IMPZ=FZT(I)*DT12
-Clm              main side :
+C                main side :
                 FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)+IMPX
                 FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)+IMPY
                 FSAVSUB1(6,JSUB)=FSAVSUB1(6,JSUB)+IMPZ
@@ -2728,7 +2728,7 @@ C
                    IMPY=FYT(I)*DT12
                    IMPZ=FZT(I)*DT12
                    IF(IMS2 > 0)THEN
-Clm              main side :
+C                main side :
                        FSAVSUB1(4,JSUB)=FSAVSUB1(4,JSUB)-IMPX
                        FSAVSUB1(5,JSUB)=FSAVSUB1(5,JSUB)-IMPY
                        FSAVSUB1(6,JSUB)=FSAVSUB1(6,JSUB)-IMPZ

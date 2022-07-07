@@ -1754,7 +1754,7 @@ C
         VZ28=VZ2(I)-VZ8(I)
         VZ35=VZ3(I)-VZ5(I)
         VZ46=VZ4(I)-VZ6(I)
-Cqz alpha =1 ->eta zeta   
+C   alpha =1 ->eta zeta   
 C 1 1 -1 -1 -1 -1 1 1
         HGX1(I)= HGX1(I)
      &          -(PX1H1(I)*VX17+PX2H1(I)*VX28
@@ -1766,7 +1766,7 @@ C 1 1 -1 -1 -1 -1 1 1
      &          -(PX1H1(I)*VZ17+PX2H1(I)*VZ28
      &            +PX3H1(I)*VZ35+PX4H1(I)*VZ46)
 C
-Cqz alpha =2 ->zeta ksi   
+C   alpha =2 ->zeta ksi   
 C 1 -1 -1 1 -1 1 1 -1
         HGX2(I)= HGX2(I)
      &          -(PX1H2(I)*VX17+PX2H2(I)*VX28
@@ -1777,7 +1777,7 @@ C 1 -1 -1 1 -1 1 1 -1
         HGZ2(I)= HGZ2(I)
      &          -(PX1H2(I)*VZ17+PX2H2(I)*VZ28
      &            +PX3H2(I)*VZ35+PX4H2(I)*VZ46)
-Cqz alpha =3 ->ksi eta    
+C   alpha =3 ->ksi eta    
 C 1 -1 1 -1 1 -1 1 -1
         HGX3(I)= HGX3(I)
      &          -(PX1H3(I)*VX17+PX2H3(I)*VX28
@@ -1789,7 +1789,7 @@ C 1 -1 1 -1 1 -1 1 -1
      &          -(PX1H3(I)*VZ17+PX2H3(I)*VZ28
      &            +PX3H3(I)*VZ35+PX4H3(I)*VZ46)
 C
-Cqz alpha =4 ->ksi eta zeta
+C   alpha =4 ->ksi eta zeta
 C -1 1 -1 1 1 -1 1 -1
         HGX4(I)= HGX4(I)
      &          -(PX1H4(I)*VX17+PX2H4(I)*VX28
@@ -1802,7 +1802,7 @@ C -1 1 -1 1 1 -1 1 -1
      &            +PX3H4(I)*VZ35+PX4H4(I)*VZ46)
       ENDDO
 !
-Cqz -------viscous ----
+C   -------viscous ----
       DO I=LFT,LLT
         FHOURT(1,1) = FCL(I)*HGX1(I)
         FHOURT(1,2) = FCL(I)*HGX2(I)

@@ -226,7 +226,7 @@ C
            FAC  = VEL(1,N)
         ENDIF
         VEL(6,N) = YC
-Clm
+C  
 C IF sms on the degree of freedom,
 C dw was already counted in TFEXT, in sms_fixvel...
         DW      = VEL(4,N)
@@ -250,7 +250,7 @@ C
 C
         DW = FOURTH*MS(I)*(YC*DT12+TWO*VV)*AA*AXI*WEIGHT(I)
         TFEXT = TFEXT + DT1*DW
-Clm
+C  
 C dt2*dw into memory ; if sms on the degree of freedom,
 C part of dt2*dw was already computed and stored in sms_fixvel...
         VEL(4,N) = VEL(4,N)+DT2*DW

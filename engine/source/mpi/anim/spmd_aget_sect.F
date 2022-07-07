@@ -21,8 +21,8 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 
-Cgw          DXYZSECT                /anim/dxyzsect.F
-Cgw          DXWALL                  /anim/dxwall.F
+C            DXYZSECT                /anim/dxyzsect.F
+C            DXWALL                  /anim/dxwall.F
 Chd|====================================================================
 Chd|  SPMD_AGET_SECT                source/mpi/anim/spmd_aget_sect.F
 Chd|-- called by -----------
@@ -127,15 +127,15 @@ C-----------------------------------------------
      .                  MPI_COMM_WORLD,IERROR)
 
 
-Cow
-Cow         IF (ISPMD.EQ.0) THEN
-Cow           DO I=1,NSECT
-Cow             print*,I,'XSEC N1= ',XSEC(1,1,I),XSEC(1,2,I),XSEC(1,3,I)
-Cow             print*,I,'XSEC N2= ',XSEC(2,1,I),XSEC(2,2,I),XSEC(2,3,I)
-Cow             print*,I,'XSEC N2= ',XSEC(3,1,I),XSEC(3,2,I),XSEC(3,3,I)
-Cow             print*,' ' 
-Cow           ENDDO
-Cow         ENDIF
+C  
+C           IF (ISPMD.EQ.0) THEN
+C             DO I=1,NSECT
+C               print*,I,'XSEC N1= ',XSEC(1,1,I),XSEC(1,2,I),XSEC(1,3,I)
+C               print*,I,'XSEC N2= ',XSEC(2,1,I),XSEC(2,2,I),XSEC(2,3,I)
+C               print*,I,'XSEC N2= ',XSEC(3,1,I),XSEC(3,2,I),XSEC(3,3,I)
+C               print*,' ' 
+C             ENDDO
+C           ENDIF
 #endif
        RETURN
        END

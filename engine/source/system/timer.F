@@ -2101,15 +2101,15 @@ C
       TPSTHTOT = 0.
       BATOZMULT = 4
       TIMMAT = 0.
-Cow ouverture du fichier DDW
+C   ouverture du fichier DDW
       WRITE(PROCNAM,'(I4.4)')ISPMD+1
       FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_'//PROCNAM//'.ddw2'
       OPEN(UNIT=66,FILE=FILNAM,ACCESS='SEQUENTIAL',
      .                  FORM='FORMATTED',STATUS='UNKNOWN')
       FILEN=ROOTLEN+14 
-Cow
-Cow preparation de la ponderation
-Cow
+C  
+C   preparation de la ponderation
+C  
       IF (TPSENG.EQ.ZERO) THEN
          TPPOND = ONE
       ELSE
@@ -2125,7 +2125,7 @@ Cow
 c      WRITE(66,1100) NCYCLE
 
 
-Cow Comptage des groupes
+C   Comptage des groupes
       NUMSOLG = 0
       NUMSHG = 0
       NUMTRIG = 0
@@ -2150,7 +2150,7 @@ Cow Comptage des groupes
         ENDIF
       ENDDO
 
-Cow Calcul du temps theorique de chaque groupe
+C   Calcul du temps theorique de chaque groupe
       DO NG=1,NGROUP
          ITY = IPARG(5,NG)
          MTN = IPARG(1,NG)
@@ -2161,12 +2161,12 @@ Cow Calcul du temps theorique de chaque groupe
          IHBE = IPARG(23,NG)
 
          THEOGP(NG)=0.
-Cow SOLIDES
+C   SOLIDES
          IF (ITY.EQ.1) THEN
           ISOLNOD=IPARG(28,NG)
           IF (ISOLNOD.EQ.4) THEN
            TELT = TET4TNL(MTN,1) + TET4TELT(1)
-Cow TETRA10
+C   TETRA10
           ELSEIF (ISOLNOD.EQ.10) THEN
 	   MMA = IXS(1,NFT)
 	   NFUNC = MAX(IPM(10,MMA) - 3,1)
@@ -2179,22 +2179,22 @@ Cow TETRA10
 	   ENDIF
           ELSE
            IF (IHBE.LE.1.OR.IHBE.EQ.101) THEN
-Cow Solides ISOLD1
+C   Solides ISOLD1
             TELT = SOL1TNL(MTN,1) + SOLTELT(1)
            ELSEIF (IHBE.EQ.2.OR.IHBE.EQ.102) THEN
-Cow Solides ISOLD2
+C   Solides ISOLD2
             TELT = SOL1TNL(MTN,1) + SOLTELT(2)
 C
            ELSEIF (IHBE.EQ.24.OR.IHBE.EQ.104) THEN
-Cow Solides ISOLD24  - HEPH
+C   Solides ISOLD24  - HEPH
             TELT = SOL1TNL(MTN,1) + SOLTELT(3)
 C
            ELSEIF (IHBE.EQ.12.OR.IHBE.EQ.112) THEN
-Cow Solides ISOLD12 - std 8 node integ point
+C   Solides ISOLD12 - std 8 node integ point
             TELT = SOL8TNL(MTN,1) + SOLTELT(4)
 C
            ELSEIF (IHBE.EQ.14.OR.IHBE.GE.222) THEN
-Cow Solides HA8
+C   Solides HA8
             MPT = ABS (NPT)
             NPTS = MPT/100
             NPTT = MOD(MPT/10,10)
@@ -2211,13 +2211,13 @@ C
           ENDIF
 C
            THEOGP(NG)= TELT*NELEM*NCYCLE*TPPOND
-Cow COQUES
+C   COQUES
          ELSEIF (ITY.EQ.3) THEN
 
           DO J=NFT,NFT+NELEM-1
            MMA = IXC(1,J)
            IF (NPT.GT.0) THEN
-Cow traitement a part pour zero points d integration
+C   traitement a part pour zero points d integration
              IF (MTN.EQ.2.OR.MTN.EQ.3) THEN
                CC = PM(43,MMA)
                IF (CC.NE.0.0 )THEN
@@ -2261,7 +2261,7 @@ Cow traitement a part pour zero points d integration
              CALL INTERLAGRAN(TABMAT,TABX,3,NPTR,TIMMAT)
 
             ELSE
-Cow Cas Zero points d integration
+C   Cas Zero points d integration
              IF (MTN.EQ.2.OR.MTN.EQ.3) THEN
                CC = PM(43,MMA)
                IF (CC.NE.0.0 )THEN
@@ -2283,10 +2283,10 @@ Cow Cas Zero points d integration
                  TIMMAT = SHTNL(MTN,0,1)
              ENDIF
                
-Cow fin cas zero point d integrations
+C   fin cas zero point d integrations
             ENDIF 
 
-Cow temps elementaire
+C   temps elementaire
             IF (IHBE.GE.11.AND.IHBE.LE.19) THEN
               TELT = SHTELT(3)+BATOZMULT*TIMMAT
             ELSEIF (IHBE.GE.21.AND.IHBE.LE.29) THEN
@@ -2294,16 +2294,16 @@ Cow temps elementaire
             ELSE
               TELT = SHTELT(1)  + TIMMAT
             ENDIF
-Cow fin temps elementaire
+C   fin temps elementaire
               THEOGP(NG)= THEOGP(NG)+TELT*NCYCLE*TPPOND
           ENDDO
-Cow TRIANGLES
+C   TRIANGLES
          ELSEIF (ITY.EQ.7) THEN
 
           DO J=NFT,NFT+NELEM-1
            MMA = IXTG(1,J)
            IF (NPT.GT.0) THEN
-Cow traitement a part pour zero points d integration
+C   traitement a part pour zero points d integration
              IF (MTN.EQ.2.OR.MTN.EQ.3) THEN
                CC = PM(43,MMA)
                IF (CC.NE.0.0 )THEN
@@ -2346,7 +2346,7 @@ Cow traitement a part pour zero points d integration
              CALL INTERLAGRAN(TABMAT,TABX,3,NPTR,TIMMAT)
 
             ELSE
-Cow Cas Zero points d integration
+C   Cas Zero points d integration
              IF (MTN.EQ.2.OR.MTN.EQ.3) THEN
                CC = PM(43,MMA)
                IF (CC.NE.0.0 )THEN
@@ -2368,10 +2368,10 @@ Cow Cas Zero points d integration
                  TIMMAT = TRITNL(MTN,0,1)
              ENDIF
                
-Cow fin cas zero point d integrations
+C   fin cas zero point d integrations
             ENDIF 
 
-Cow temps elementaire
+C   temps elementaire
             IF (IHBE.GE.11.AND.IHBE.LE.19) THEN
               TELT = TRITELT(3)+BATOZMULT*TIMMAT
             ELSEIF (IHBE.GE.21.AND.IHBE.LE.29) THEN
@@ -2379,7 +2379,7 @@ Cow temps elementaire
             ELSE
               TELT = TRITELT(1)  + TIMMAT
             ENDIF
-Cow fin temps elementaire
+C   fin temps elementaire
               THEOGP(NG)= THEOGP(NG)+TELT*NCYCLE*TPPOND
            ENDDO
 
@@ -2389,8 +2389,8 @@ Cow fin temps elementaire
       ENDDO
 
 
-Cow Maintenant qu on a tous les temps theoriques des groupes on
-Cow peux passer au traitement et a l affichage.
+C   Maintenant qu on a tous les temps theoriques des groupes on
+C   peux passer au traitement et a l affichage.
 
        NUMOTHER = NGROUP - NUMSHG - NUMTRIG - NUMSOLG
        WRITE(66,'(A)') ' ' 
@@ -3056,7 +3056,7 @@ Chd|====================================================================
       ENDDO
       END
 
-Cow mon tri flottant
+C   mon tri flottant
 Chd|====================================================================
 Chd|  MY_FSORT                      source/system/timer.F         
 Chd|-- called by -----------

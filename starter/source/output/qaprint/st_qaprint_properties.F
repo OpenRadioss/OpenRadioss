@@ -77,7 +77,7 @@ C         2 PIDs peuvent avoir le meme titre
           DO I=1,NPROPGI-LTITR ! si on ne peut pas tester une chaine de caracteres, do i=1,npropgi
             IF(IGEO(I,MY_PID)/=0)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'IGEO_',I      ! IGEO(11) => 'IGEO_11'
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IGEO(I,MY_PID),0.0_8)
             END IF
@@ -85,7 +85,7 @@ C             VARNAME sert de nom de la varable dans le ref.extract (sans blank 
           DO I=1,NPROPG
             IF(GEO(I,MY_PID)/=ZERO)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'GEO_',I
               TEMP_DOUBLE = GEO(I,MY_PID)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -101,7 +101,7 @@ C---------------------------------------------------
           DO I=1,NUPARAM
             IF(BUFGEO(IADBUF+I-1)/=ZERO)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'BUFGEO_IADBUF_',I
               TEMP_DOUBLE = BUFGEO(IADBUF+I-1)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -112,7 +112,7 @@ C             VARNAME sert de nom de la varable dans le ref.extract (sans blank 
           DO I=1,NJFUN
             IF(BUFGEO(IADFUN+I-1)/=ZERO)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'BUFGEO_IADFUN_',I
               TEMP_DOUBLE = BUFGEO(IADFUN+I-1)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -123,7 +123,7 @@ C             VARNAME sert de nom de la varable dans le ref.extract (sans blank 
           DO I=1,NJMAT
             IF(BUFGEO(IADMAT+I-1)/=ZERO)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'BUFGEO_IADMAT_',I
               TEMP_DOUBLE = BUFGEO(IADMAT+I-1)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -134,7 +134,7 @@ C             VARNAME sert de nom de la varable dans le ref.extract (sans blank 
           DO I=1,NJPID
             IF(BUFGEO(IADPID+I-1)/=ZERO)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'BUFGEO_IADPID_',I
               TEMP_DOUBLE = BUFGEO(IADPID+I-1)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -145,7 +145,7 @@ C             VARNAME sert de nom de la varable dans le ref.extract (sans blank 
           DO I=1,NJTAB
             IF(BUFGEO(IADTAB+I-1)/=ZERO)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'BUFGEO_IADTAB_',I
               TEMP_DOUBLE = BUFGEO(IADTAB+I-1)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)

@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 
-Cgw          XYZ16                  /anim/genani.F
+C            XYZ16                  /anim/genani.F
 Chd|====================================================================
 Chd|  SPMD_GATHER_XYZ16             source/mpi/anim/spmd_gather_xyz16.F
 Chd|-- called by -----------
@@ -61,7 +61,7 @@ C-----------------------------------------------
 
       DATA MSGOFF/7033/
 
-Cow Tableau utilise par proc 0
+C   Tableau utilise par proc 0
        REAL
      .   XGLOB(3,NUM)
          
@@ -76,7 +76,7 @@ Cow Tableau utilise par proc 0
 
           DO I=2,NSPMD
 
-Cow Reception du buffer entier des adresses NODGLOB
+C   Reception du buffer entier des adresses NODGLOB
             MSGTYP = MSGOFF 
 
             CALL MPI_PROBE(IT_SPMD(I),MSGTYP,

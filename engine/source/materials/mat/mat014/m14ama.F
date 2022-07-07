@@ -121,7 +121,7 @@ C
        BY(I)= A(I,4)*RY(I)+A(I,5)*SY(I)+A(I,6)*TY(I)
        BZ(I)= A(I,4)*RZ(I)+A(I,5)*SZ(I)+A(I,6)*TZ(I)
 C
-Clm 22/06/98
+C   22/06/98
 C       CX(I)= A(7,I)*RX(I)+A(8,I)*SX(I)+A(9,I)*TX(I)
 C       CY(I)= A(7,I)*RY(I)+A(8,I)*SY(I)+A(9,I)*TY(I)
 C       CZ(I)= A(7,I)*RZ(I)+A(8,I)*SZ(I)+A(9,I)*TZ(I)

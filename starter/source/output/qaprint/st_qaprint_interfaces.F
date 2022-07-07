@@ -86,7 +86,7 @@ C
           DO I=1,NPARI
             IF(IPARI(I,MY_INTER)/=0)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'IPARI_',I
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IPARI(I,MY_INTER),0.0_8)
             END IF
@@ -94,7 +94,7 @@ C             VARNAME sert de nom de la varable dans le ref.extract (sans blank 
 C
           IF(INTBUF_TAB(MY_INTER)%STFAC(1)/=ZERO)THEN
 C
-C           VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C           VARNAME: variable name in ref.extract (without blanks)
             WRITE(VARNAME,'(A,I0)') 'STFAC_',I
             TEMP_DOUBLE = INTBUF_TAB(MY_INTER)%STFAC(1)
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -103,7 +103,7 @@ C
           DO I=1,NPARIR
             IF(INTBUF_TAB(MY_INTER)%VARIABLES(I)/=ZERO)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'FRIGAP_',I
               TEMP_DOUBLE = INTBUF_TAB(MY_INTER)%VARIABLES(I)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -160,7 +160,7 @@ C
           IF(IPARI(7,MY_INTER)==2)THEN
 C
             IF (AREASL(MY_INTER) /= 0) THEN
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A)') 'AREASL_'
               TEMP_DOUBLE = AREASL(MY_INTER)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -168,7 +168,7 @@ C             VARNAME sert de nom de la varable dans le ref.extract (sans blank 
 C
             DO I=1,6
               IF(I2RUPT(I,MY_INTER)/=0) THEN
-C               VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C               VARNAME: variable name in ref.extract (without blanks)
                 WRITE(VARNAME,'(A,I0)') 'I2RUPT_',I
                 TEMP_DOUBLE = I2RUPT(I,MY_INTER)
                 CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -178,7 +178,7 @@ C
             DO I=1,IPARI(5,MY_INTER)
               IF(INTBUF_TAB(MY_INTER)%S_IRUPT>0) THEN
                 IF(INTBUF_TAB(MY_INTER)%IRUPT(I)/=0) THEN
-C                   VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C                   VARNAME: variable name in ref.extract (without blanks)
                     WRITE(VARNAME,'(A,I0)') 'PENALTY_NODE_',I
                     TEMP_DOUBLE = INTBUF_TAB(MY_INTER)%IRUPT(I)
                     CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -208,7 +208,7 @@ C
 C
           DO I=2,6
             IF(NOM_OPT(I,INOM_OPT(4)+MY_INTER)/=0)THEN
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'NOM_OPT_', I
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NOM_OPT(I,INOM_OPT(4)+MY_INTER),0.0_8)
             END IF

@@ -146,7 +146,7 @@ C
           DO I=1,3
             IF(V(I,MY_NODE)/=ZERO)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0,A,I0)') 'V_',MY_ID,'_',I ! Specific format for THIS option !
               TEMP_DOUBLE = V(I,MY_NODE)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -157,7 +157,7 @@ C
             DO I=1,3
               IF(VR(3*(MY_NODE-1)+I)/=ZERO)THEN
 C
-C               VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C               VARNAME: variable name in ref.extract (without blanks)
                 WRITE(VARNAME,'(A,I0,A,I0)') 'VR_',MY_ID,'_',I ! Specific format for THIS option !
                 TEMP_DOUBLE = VR(3*(MY_NODE-1)+I)
                 CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -197,7 +197,7 @@ C
           DO I=1,3
             IF(W(3*(MY_NODE-1)+I)/=ZERO)THEN
 C
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0,A,I0)') 'W_',MY_ID,'_',I ! Specific format for THIS option !
               TEMP_DOUBLE = W(3*(MY_NODE-1)+I)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -216,7 +216,7 @@ C
 C
           IF(TEMP(MY_NODE)/=ZERO)THEN
 C
-C           VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C           VARNAME: variable name in ref.extract (without blanks)
             WRITE(VARNAME,'(A,I0)') 'TEMP_',MY_ID ! Specific format for THIS option !
             TEMP_DOUBLE = TEMP(MY_NODE)
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)

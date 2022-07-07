@@ -215,7 +215,7 @@ c
 c      -- computes the yield stress --
 c
        DO I=1,NEL
-Cqz2Andrzej--------!!!IPOS is not initialized-----       
+C  2Andrzej--------!!!IPOS is not initialized-----       
           IPOS = 0
           YLD(I) = FINTER2( TF, IAD1(I), IPOS, ILEN1(I),
      $                         PLAM(I),DYDX1(I) )

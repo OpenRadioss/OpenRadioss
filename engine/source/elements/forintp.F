@@ -239,7 +239,7 @@ C-----------------------------------------------
      9 0.650000000000000,0.750000000000000,0.850000000000000/
 C-----------------------------------------------
 C       calcul des densites et taux de deformations.
-Clm     charge WA(1:14*NUMSPH), qui ne doit pas etre ecrase 
+C       charge WA(1:14*NUMSPH), qui ne doit pas etre ecrase 
 C       avt SPSTRES (pour redescente vers les buffers d'elements).
 C
 C         DIVV=WA(13,1:NUMSPH) et ROTV=WA(14,1:NUMSPH) ne doivent pas etre
@@ -623,7 +623,7 @@ C--------
             IF(ITY.EQ.51) THEN
              JSPH=1
              JCVT=0
-Clm          full plasticity correction (radial return) by default.
+C            full plasticity correction (radial return) by default.
              JPLASOL=1
              ISTRA  = IPARG(44,NG) 
              ISPH2SOL=IPARG(69,NG)
@@ -757,7 +757,7 @@ C      /---------------/
 C       initialisation sur task i
         DO NS=ITASK+1,NSPHACT,NTHREAD
           N	  =WASPACT(NS)
-Clm       (re)used for storage of FX, FY, FZ, STIF :
+C         (re)used for storage of FX, FY, FZ, STIF :
           MYADRN  =KWASPH*(N-1)
           WA(MYADRN+10)=ZERO
           WA(MYADRN+11)=ZERO

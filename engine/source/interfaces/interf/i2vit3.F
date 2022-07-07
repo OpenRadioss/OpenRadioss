@@ -173,7 +173,7 @@ C
 Cel   XMSI=MS(I)*WEIGHT(I)
 C
         DO JJ=1,NIR
-Cgw        J3=3*MSR(IRECT(JJ,L))
+C          J3=3*MSR(IRECT(JJ,L))
           J=IRECT(JJ,L)
           J3=3*J
           J2=J3-1
@@ -257,11 +257,11 @@ C
         H(2)=TM*SP
         H(3)=TP*SP
         H(4)=TP*SM
-Cgw
+C  
         XC0 = X(1,I)
         YC0 = X(2,I)
         ZC0 = X(3,I)
-Cgw
+C  
         AMX=ZERO	
         AMY=ZERO
         AMZ=ZERO
@@ -270,7 +270,7 @@ Cgw
         VMZ=ZERO     
 C
         DO JJ=1,4
-Cgw        J=MSR(IRECT(JJ,L))
+C          J=MSR(IRECT(JJ,L))
           J=IRECT(JJ,L)
           AMX=AMX+AR(1,J)*H(JJ)
           AMY=AMY+AR(2,J)*H(JJ)
@@ -379,10 +379,10 @@ C------------------------------------
        I=NSV(II)
        IF(I.GT.0)THEN
         L=IRTL(II)
-Cgw        J1=MSR(IRECT(1,L))
-Cgw        J2=MSR(IRECT(2,L))
-Cgw        J3=MSR(IRECT(3,L))
-Cgw        J4=MSR(IRECT(4,L))
+C          J1=MSR(IRECT(1,L))
+C          J2=MSR(IRECT(2,L))
+C          J3=MSR(IRECT(3,L))
+C          J4=MSR(IRECT(4,L))
         J1=IRECT(1,L)
         J2=IRECT(2,L)
         J3=IRECT(3,L)

@@ -356,7 +356,7 @@ C
 C
           DO I=1,LISKN
             IF(ISKWN(I,IAD)/=0)THEN
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'ISKWN_',I      
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ISKWN(I,IAD),0.0_8)
             END IF
@@ -364,7 +364,7 @@ C             VARNAME sert de nom de la varable dans le ref.extract (sans blank 
 C
           DO I=1,LSKEW
             IF(SKEW(I,IAD)/=ZERO)THEN
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'SKEW_',I
               TEMP_DOUBLE = SKEW(I,IAD)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -379,7 +379,7 @@ C
 C
           DO I=1,LISKN
             IF(ISKWN(I,IAD)/=0)THEN
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'ISKWN_',I      
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ISKWN(I,IAD),0.0_8)
             END IF
@@ -387,7 +387,7 @@ C             VARNAME sert de nom de la varable dans le ref.extract (sans blank 
 C
           DO I=1,LSKEW
             IF(SKEW(I,IAD)/=ZERO)THEN
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'SKEW_',I
               TEMP_DOUBLE = SKEW(I,IAD)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -402,7 +402,7 @@ C
 C
           DO I=1,LISKN
             IF(ISKWN(I,IAD)/=0)THEN
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'ISKWN_',I      
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ISKWN(I,IAD),0.0_8)
             END IF
@@ -410,7 +410,7 @@ C             VARNAME sert de nom de la varable dans le ref.extract (sans blank 
 C
           DO I=1,LSKEW
             IF(SKEW(I,IAD)/=ZERO)THEN
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'SKEW_',I
               TEMP_DOUBLE = SKEW(I,IAD)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -443,7 +443,7 @@ C
 C
           DO I=1,LISKN
             IF(ISKWN(I,NUMSKW+1+MIN(1,NSPCOND)*NUMSPH+NSUBMOD+IAD)/=0)THEN
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'ISKWN_',I      
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ISKWN(I,NUMSKW+1+MIN(1,NSPCOND)*NUMSPH+NSUBMOD+IAD),0.0_8)
             END IF
@@ -451,7 +451,7 @@ C             VARNAME sert de nom de la varable dans le ref.extract (sans blank 
 C
           DO I=1,NXFRAME
             IF(XFRAME(I,IAD)/=ZERO)THEN
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'XFRAME_',I
               TEMP_DOUBLE = XFRAME(I,IAD)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
@@ -591,7 +591,7 @@ C
 
           DO I=1,LACTIV
             IF(IACTIV(I,IAD)/=0)THEN
-C             VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C             VARNAME: variable name in ref.extract (without blanks)
               WRITE(VARNAME,'(A,I0)') 'IACTIV_',I      
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IACTIV(I,IAD),0.0_8)
             END IF
@@ -630,7 +630,7 @@ c
             DO I=3,NSENSI
               INTVAL = LSENSOR(I,IAD)
               IF (INTVAL /= 0) THEN
-C               VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C               VARNAME: variable name in ref.extract (without blanks)
                 WRITE(VARNAME,'(A,I0)') 'LSENSOR_',I      
                 CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),INTVAL,0.0_8)
               END IF
@@ -639,7 +639,7 @@ c
             DO I=1,NSENSR
               FVAL = SENSOR(I,IAD)
               IF (FVAL /= ZERO) THEN
-C               VARNAME sert de nom de la varable dans le ref.extract (sans blank character)
+C               VARNAME: variable name in ref.extract (without blanks)
                 WRITE(VARNAME,'(A,I0)') 'RSENSOR_',I      
                 CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,FVAL)
               END IF

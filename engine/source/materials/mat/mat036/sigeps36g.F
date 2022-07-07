@@ -555,7 +555,7 @@ C------------------------------------------
       ENDDO
 C---
       ELSE
-Clm   IF(CODVERS.GE.44.AND.IPLA.EQ.1) THEN
+C     IF(CODVERS.GE.44.AND.IPLA.EQ.1) THEN
 C-------------------------
 C     ITERATIVE
 C-------------------------

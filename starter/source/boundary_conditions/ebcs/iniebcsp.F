@@ -61,7 +61,7 @@ C-----------------------------------------------
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C=======================================================================
       GBUF => ELBUF_STR%GBUF
-Cow Initialisation de la surface nodale
+C   Initialisation de la surface nodale
           DO I=1,NOD
             LA(1,I)=ZERO
             LA(2,I)=ZERO
@@ -85,7 +85,7 @@ C
             ELSE
               FAC=ONE_OVER_8*ORIENT
             ENDIF
-Cow 
+C   
             NG1=LISTE(N1)
             NG2=LISTE(N2)
             NG3=LISTE(N3)

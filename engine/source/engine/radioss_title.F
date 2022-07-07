@@ -140,17 +140,17 @@ C Initialisation
        PRINTOUT(71)='*'
        PRINTOUT(72)='*'
 
-Cow Flag = 0 ligne blanche
+C   Flag = 0 ligne blanche
 
        IF (FLAG.EQ.1)THEN
-Cow Flag = 1 que des * dans la ligne
+C   Flag = 1 que des * dans la ligne
          PRINTOUT(1:72)='*'
  
 
        ELSEIF (FLAG.EQ.2) THEN
-Cow du texte center
+C   du texte center
 
-Cow Test si sortie n'excede pas 68 cararct  res
+C   Test si sortie n'excede pas 68 cararct  res
          IF (ARRLEN.GT.68) THEN
            WRITE(LINOUT,'(A)') "ERROR PRINTOUT FORMAT"
            RETURN
@@ -163,7 +163,7 @@ Cow Test si sortie n'excede pas 68 cararct  res
           ENDDO
 
        ELSEIF (FLAG.EQ.3) THEN
-Cow print left
+C   print left
          POS = 4
          DO I=1,ARRLEN
            PRINTOUT(POS+I-1)=ARRAY(I)

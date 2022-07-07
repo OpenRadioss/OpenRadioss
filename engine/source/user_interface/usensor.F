@@ -188,7 +188,7 @@ C-----------------------------------------------
       my_real 
      .      VAR
 
-Cow remonte les common blocs avant la declaration
+C   remonte les common blocs avant la declaration
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -253,7 +253,7 @@ C-----------------------------------------------
       INTEGER K,L, SHIFT,NSENS, ITYP, IVAR
       my_real 
      .      VAR
-Cow remonte les common block avant les declarations
+C   remonte les common block avant les declarations
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------

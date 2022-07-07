@@ -185,20 +185,20 @@ C-----------------------------------------------
      . VDX(MVSIZ) , VDY(MVSIZ) , VDZ(MVSIZ),SSP_EQ(MVSIZ),AIRE(MVSIZ),
      . E0(MVSIZ),C1,FAC(MVSIZ) ,PR(8,8),PS(8,8),PT(8,8)
 C-----
-Clm Variables utilisees en argument par les materiaux.
+C   Variables utilisees en argument par les materiaux.
       my_real
      .   STI(MVSIZ),STIN(MVSIZ),GAMA(MVSIZ,6),
      .   WXX(MVSIZ) , WYY(MVSIZ) , WZZ(MVSIZ),
      .   WXX0(MVSIZ) , WYY0(MVSIZ) , WZZ0(MVSIZ),
      .   CONDE(MVSIZ), CONDEN(MVSIZ),DIVDE(MVSIZ)
-Clm Variables utilisees en argument par les materiaux si SPH uniquement.
+C   Variables utilisees en argument par les materiaux si SPH uniquement.
       my_real
      .   MUVOID(MVSIZ)
       INTEGER IOFFS, N,ITET
       my_real
      .   OFFS(MVSIZ),DSV(MVSIZ),SDV(MVSIZ)
 C-----
-Clm Variables utilisees dans les routines solides uniquement (en arguments).
+C   Variables utilisees dans les routines solides uniquement (en arguments).
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
      .        NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ),
      .        MAT(MVSIZ)

@@ -20,8 +20,8 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-Cgw          SPMD_AGETMSR                    /spe/spmd_anim.F
-Cgw          SSPMD_AGET_SECT                 /spe/spmd_anim.F
+C            SPMD_AGETMSR                    /spe/spmd_anim.F
+C            SSPMD_AGET_SECT                 /spe/spmd_anim.F
 Chd|====================================================================
 Chd|  DXYZSECT                      source/output/anim/generate/dxyzsect.F
 Chd|-- called by -----------
@@ -129,7 +129,7 @@ C
              XX3 = XSEC(3,1,I)
              YY3 = XSEC(3,2,I)
              ZZ3 = XSEC(3,3,I)
-Cow
+C  
              XX4=XX2-XX1
              YY4=YY2-YY1
              ZZ4=ZZ2-ZZ1

@@ -124,7 +124,7 @@ C
             V3X2=VG(3)*(X(2,N)-X(2,M))
             V3X1=VG(3)*(X(1,N)-X(1,M))
             V1X3=VG(1)*(X(3,N)-X(3,M))
-Clm
+C  
             VX1=V2X3-V3X2
             VX2=V3X1-V1X3
             VX3=V1X2-V2X1
@@ -150,7 +150,7 @@ C
             V3X2=VG(3)*(X(2,N)-X(2,M))
             V3X1=VG(3)*(X(1,N)-X(1,M))
             V1X3=VG(1)*(X(3,N)-X(3,M))
-Clm
+C  
             VX1=V2X3-V3X2
             VX2=V3X1-V1X3
             VX3=V1X2-V2X1
@@ -180,7 +180,7 @@ Cel sinon attention aux differences en mode vectoriel !
            AR(1,N)= ZERO
            AR(2,N)= ZERO
            AR(3,N)= (VG(3)-VR(3,N)) * USDT
-Clm
+C  
            VX1= VG(3)*(X(1,N)-X(1,M))
            VY1=-VG(3)*(X(2,N)-X(2,M))
 
@@ -195,7 +195,7 @@ Clm
            AR(1,N)= ZERO
            AR(2,N)= ZERO
            AR(3,N)= (VG(3)-VR(3,N)) * USDT
-Clm
+C  
            VX1= VG(3)*(X(1,N)-X(1,M))
            VY1=-VG(3)*(X(2,N)-X(2,M))
 
@@ -222,7 +222,7 @@ Cel sinon attention aux differences en mode vectoriel !
            AR(1,N)= (VG(1)-VR(1,N)) * USDT
            AR(2,N)= ZERO
            AR(3,N)= ZERO
-Clm
+C  
            VX1=ZERO
            VX2=-VG(1)*(X(3,N)-X(3,M))
            VX3=VG(1)*(X(2,N)-X(2,M))
@@ -243,7 +243,7 @@ Clm
            AR(1,N)= (VG(1)-VR(1,N)) * USDT
            AR(2,N)= ZERO
            AR(3,N)= ZERO
-Clm
+C  
            VX1=ZERO
            VX2=-VG(1)*(X(3,N)-X(3,M))
            VX3=VG(1)*(X(2,N)-X(2,M))
@@ -270,7 +270,7 @@ C
       DO I=1,NSN
         N = NOD(I)
 C
-Clm     Reaction force is also valid with zero mass or inertia
+C       Reaction force is also valid with zero mass or inertia
         R(1,I)  =  MS(N)*A(1,N)  - FREAC(1,N)
         R(2,I)  =  MS(N)*A(2,N)  - FREAC(2,N)
         R(3,I)  =  MS(N)*A(3,N)  - FREAC(3,N)

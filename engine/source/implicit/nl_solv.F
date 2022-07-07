@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 #ifdef MUMPS5
-Cqz|---- version non //------------
+C  |---- version non //------------
 Chd|====================================================================
 Chd|  NL_SOLV                       source/implicit/nl_solv.F     
 Chd|-- called by -----------

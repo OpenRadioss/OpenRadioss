@@ -162,7 +162,7 @@ C
           SXZ0(I) = G*(DEL_PLY(I,1,JSUP) - DEL_PLY(I,1,JINF))           
           SYZ0(I) = G*(DEL_PLY(I,2,JSUP) - DEL_PLY(I,2,JINF))           
 C
-Clm warns G*GSTR <=> G shell or G interply ? ::
+C   warns G*GSTR <=> G shell or G interply ? ::
           SIG(I,2,IPLY)=  G*(DEL_PLY(I,1,JSUP) - DEL_PLY(I,1,JINF))
      .                  + G0*GSTR(I,5)  
           SIG(I,1,IPLY)=  G*(DEL_PLY(I,2,JSUP) - DEL_PLY(I,2,JINF))

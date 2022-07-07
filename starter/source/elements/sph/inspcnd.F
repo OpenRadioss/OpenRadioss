@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 C
-Clm093 + conditions aux limites SPH, modifie les masses.
+C  093 + conditions aux limites SPH, modifie les masses.
 Chd|====================================================================
 Chd|  INSPCND                       source/elements/sph/inspcnd.F 
 Chd|-- called by -----------

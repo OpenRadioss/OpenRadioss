@@ -324,14 +324,14 @@ C---------------------------
        I=INDEX(J)
        DPLA_J(I)=(SVM(I)-YLD(I))/(G31(I)+H(I)) !!!
        ETSE(I)= H(I)/(H(I)+E1(I))  !!!
-Cqz +++cette partie peut etre neglige quand FHK est tres petit
+C   +++cette partie peut etre neglige quand FHK est tres petit
        HK(I) = H(I)*FISOKIN
        FHK = FOUR_OVER_3*HK(I)/A11(I)  !!
        FA01 =A01*FHK
        FA02 =A02*FHK
        FA03 =A03*FHK
        NU1  =NU+HALF*FHK
-Cqz ---
+C   ---
        NU2 = 1.-NU1*NU1+FHK*FHK
        NU3 = NU1*HALF
        NU4 = HALF*(ONE-NU)
@@ -599,14 +599,14 @@ C---------------------------
        I=INDEX(J)
        DPLA_J(I)=(SVM(I)-YLD(I))/(G3+H(I))
        ETSE(I)= H(I)/(H(I)+E)
-Cqz +++cette partie peut etre neglige quand FHK est tres petit
+C   +++cette partie peut etre neglige quand FHK est tres petit
        HK(I) = H(I)*FISOKIN
        FHK = FOUR_OVER_3*HK(I)/A1
        FA01 =A01*FHK
        FA02 =A02*FHK
        FA03 =A03*FHK
        NU1  =NU+HALF*FHK
-Cqz ---
+C   ---
        NU2 = 1.-NU1*NU1+FHK*FHK
        NU3 = NU1*HALF
        NU4 = HALF*(ONE-NU)

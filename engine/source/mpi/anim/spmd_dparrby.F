@@ -66,7 +66,7 @@ C-----------------------------------------------
         INTEGER PMAIN,JENVOIE,I,J,K,L,S,B,M,P,N,
      .          RECOISDE(NSPMD),
      .          II(2),PTRPO(NSPMD+1),PTRPOO(NSPMD+1)
-Cow
+C  
         INTEGER BUFSEND(NSPMD+1),BUFRECP(NSPMD+1),
      .          NBNOD,SIZ,LPO,NSN,PTR,NOD,NN,NR,
      .          SRBY
@@ -74,7 +74,7 @@ Cow
 
         INTEGER MAINND(NRBYKIN)
 
-Cow MPI variables 
+C   MPI variables 
       INTEGER LOC_PROC
       INTEGER MSGOFF,MSGOFF2,MSGTYP,INFO,ATID,ATAG,ALEN
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR,ISD(NSPMD)
@@ -100,12 +100,12 @@ C SEND main NODES TO PROC 0
       ENDDO   
 
       CALL SPMD_GLOB_ISUM9(MAINND,NRBYKIN)
-Cow init
+C   init
        DO I=1,SBUFRECVM
            BUFRECVM(I)=0
        ENDDO
-Cow Remplissage du buffer d envoi proc ayant des noeuds secnds
-Cow vers proc ayant Noeud Main
+C   Remplissage du buffer d envoi proc ayant des noeuds secnds
+C   vers proc ayant Noeud Main
 
         L = 1
 
@@ -139,7 +139,7 @@ C
         ENDDO
         BUFSEND(NSPMD+1)=L
 
-Cow Envoi du buffer BUFSPM vers les differents procs
+C   Envoi du buffer BUFSPM vers les differents procs
         DO I=1,NSPMD
   
           IF (IAD_RBY2(1,I).GT.0) THEN
@@ -153,8 +153,8 @@ Cow Envoi du buffer BUFSPM vers les differents procs
           ENDIF
         ENDDO
 
-Cow Procs qui contient des Noeuds Main... Reception des noeuds secnds des
-Cow differents processeurs
+C   Procs qui contient des Noeuds Main... Reception des noeuds secnds des
+C   differents processeurs
 
         L=1
         DO I = 1, NSPMD
@@ -182,8 +182,8 @@ Cow differents processeurs
           ENDIF
         ENDDO
         BUFRECP(NSPMD+1)=L
-Cow Maintenant que les procs mains ont tout
-Cow Il faut tout compacter dans le tableau d'envoi vers proc0
+C   Maintenant que les procs mains ont tout
+C   Il faut tout compacter dans le tableau d'envoi vers proc0
 
         L = 0
         K = 1
@@ -193,16 +193,16 @@ Cow Il faut tout compacter dans le tableau d'envoi vers proc0
 
           IF (ABS(PMAIN).EQ.LOC_PROC) THEN
 
-Cow on recopie du proc main les noeuds secnds
+C   on recopie du proc main les noeuds secnds
                NBNOD = FR_RBY2(1,I)
-Cow sauvegarde du ptr pour mettre la taille du RB
+C   sauvegarde du ptr pour mettre la taille du RB
                NN = L+1
                L = L+2
                NR = 1
 
                DO J = 1,NPBY(2,I)
-Cow des RBY qui on un PMAIN n  gatif n'ont pas forcement tous leur noeuds
-Cow avec weight(I)=1
+C   des RBY qui on un PMAIN n  gatif n'ont pas forcement tous leur noeuds
+C   avec weight(I)=1
                  IF (PMAIN.LE.0) THEN
                     BUFSPO(L+NR)=NODGLOB(LPBY(K+J-1))-1
                     NR = NR+1
@@ -218,20 +218,20 @@ Cow avec weight(I)=1
 
                SRBY = NR-1
 
-Cow le rb n'est pas local, on parcours les procs pour savoir s'il n a
-Cow pas des bouts de RB.
+C   le rb n'est pas local, on parcours les procs pour savoir s'il n a
+C   pas des bouts de RB.
              IF (PMAIN.GT.0) THEN
                DO P=1,NSPMD
 
                 IF (IAD_RBY2(2,P).GT.0) THEN
-Cow pointeur courrant de la pile du proc 
+C   pointeur courrant de la pile du proc 
                   M = BUFRECP(P)
-Cow numero du RB
+C   numero du RB
                   IF (BUFRECVM(M).EQ.I) THEN
 
                     NBNOD=BUFRECVM(M+1)
                     BUFRECP(P)=BUFRECP(P)+2
-Cow recopie
+C   recopie
                     NR = 1
                     DO J=BUFRECP(P),BUFRECP(P)+NBNOD-1
                       BUFSPO(L+NR)=BUFRECVM(J)
@@ -239,7 +239,7 @@ Cow recopie
                     ENDDO
                     L = L+NR-1
                     SRBY = SRBY + NR-1
-Cow mise a jour du pointeur pour le RB suivant
+C   mise a jour du pointeur pour le RB suivant
                     BUFRECP(P)=BUFRECP(P)+NBNOD
                   ENDIF
                 ENDIF
@@ -251,7 +251,7 @@ Cow mise a jour du pointeur pour le RB suivant
           K =K+NPBY(2,I)
 
         ENDDO
-Cow envoi tableau vers proc 0
+C   envoi tableau vers proc 0
         IF (ISPMD.NE.0 .AND .L.GT.0) THEN
 
           MSGTYP = MSGOFF2
@@ -260,7 +260,7 @@ Cow envoi tableau vers proc 0
         ENDIF
 
 
-Cow je recois des messages des procs qui ont un noeud main de RB
+C   je recois des messages des procs qui ont un noeud main de RB
         IF (ISPMD.EQ.0) THEN
           DO I=1,NSPMD
             RECOISDE(I)=0
@@ -271,7 +271,7 @@ Cow je recois des messages des procs qui ont un noeud main de RB
 
           LPO=1
           PTRPO(1)=LPO
-Cow Je remplis ma file pour PO
+C   Je remplis ma file pour PO
           DO I=1,L
             PORBY(I)=BUFSPO(I)
           ENDDO
@@ -295,7 +295,7 @@ ccc
             ENDIF
           ENDDO                
           PTRPO(NSPMD+1)=LPO
-Cow ecriture sur disque
+C   ecriture sur disque
            PTRPOO=PTRPO
 
            DO I=1,NRBYKIN

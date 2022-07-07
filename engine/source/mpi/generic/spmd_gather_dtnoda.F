@@ -73,9 +73,9 @@ C
            END IF
          END DO 
 
-Cow a cause de la version simple precision, on ne peux pas metre l'entier
-Cow dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
-Cow de noeuds au max
+C   a cause de la version simple precision, on ne peux pas metre l'entier
+C   dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
+C   de noeuds au max
 
          MS_LTYP = MS_LOFF 
          CALL MPI_SEND(BUFSR,SIZ,REAL,IT_SPMD(1),MS_LTYP,

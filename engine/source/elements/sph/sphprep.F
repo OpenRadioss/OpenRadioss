@@ -671,7 +671,7 @@ C       Wake up particles from solids (wake up groups)
 C
       ELSE
         NSPHACT=NSP2SORT
-Clm     WASPACT == WSP2SORT !!!
+C       WASPACT == WSP2SORT !!!
       END IF
 
 C    /---------------/

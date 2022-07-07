@@ -219,7 +219,7 @@ C         wake up the son
           LSH4ACT(NSH4ACT)=M
 #include "lockoff.inc"
 C
-Clm       1/4 of the element mass has been stored
+C         1/4 of the element mass has been stored
           IF(IPARIT==0)THEN
            IF(ISTATCND==0)THEN
 #include "lockon.inc"
@@ -351,7 +351,7 @@ C         wake up the son
           LSH3ACT(NSH3ACT)=M
 #include "lockoff.inc"
 C
-Clm       1/4 of the element mass has been stored
+C         1/4 of the element mass has been stored
           IF(IPARIT==0)THEN
            IF(ISTATCND==0)THEN
 #include "lockon.inc"

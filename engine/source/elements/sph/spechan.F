@@ -156,7 +156,7 @@ C          Echange les positions et les vitesses
            V(1,INOD)=VXS
            V(2,INOD)=VYS
            V(3,INOD)=VZS
-Clm        looses extra forces
+C          looses extra forces
 C          A(1,INOD)=0.
 C          A(2,INOD)=0.
 C          A(3,INOD)=0.

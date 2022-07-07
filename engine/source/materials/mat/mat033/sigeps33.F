@@ -246,7 +246,7 @@ C sino    n
               SIGV(I,5) = SIGSYZ(I)
               SIGV(I,6) = SIGSZX(I)
             ENDDO
-Cow for a simple precision executing
+C   for a simple precision executing
             IF (IRESP.EQ.1) THEN
               CALL VALPVECDP_V(SIGV,SIGPRV,DIRPRV,NEL)
             ELSE
@@ -516,7 +516,7 @@ C COMPUTE TRIAL STRESSES
             SIGV(I,5) = SIGSYZ(I)
             SIGV(I,6) = SIGSZX(I)
         ENDDO
-Cow         for a simple precision executing
+C           for a simple precision executing
           IF (IRESP.EQ.1) THEN
             CALL VALPVECDP_V(SIGV,SIGPRV,DIRPRV,NEL)
           ELSE

@@ -1128,7 +1128,7 @@ C
          PY8(I)=-PY2(I)
          PZ8(I)=-PZ2(I)
        ENDDO
-Cqz-------symm(diag)------
+C  -------symm(diag)------
       IS =1
 C      
        CALL S8ZKED3(LFT,LLT,PX1, PY1 ,PZ1 ,PX1, PY1, PZ1, DD, K11,IS)
@@ -1139,7 +1139,7 @@ C
        CALL S8ZKED3(LFT,LLT,PX6, PY6 ,PZ6 ,PX6, PY6, PZ6, DD, K66,IS)
        CALL S8ZKED3(LFT,LLT,PX7, PY7 ,PZ7 ,PX7, PY7, PZ7, DD, K77,IS)
        CALL S8ZKED3(LFT,LLT,PX8, PY8 ,PZ8 ,PX8, PY8, PZ8, DD, K88,IS)
-Cqz-------non symm------
+C  -------non symm------
       IS =0
 C      
        CALL S8ZKED3(LFT,LLT,PX1, PY1 ,PZ1 ,PX2, PY2, PZ2, DD, K12,IS)
@@ -1171,6 +1171,6 @@ C
        CALL S8ZKED3(LFT,LLT,PX6, PY6 ,PZ6 ,PX8, PY8, PZ8, DD, K68,IS)
        CALL S8ZKED3(LFT,LLT,PX7, PY7 ,PZ7 ,PX8, PY8, PZ8, DD, K78,IS)
 C
-Cqz ---------------
+C   ---------------
       RETURN
       END

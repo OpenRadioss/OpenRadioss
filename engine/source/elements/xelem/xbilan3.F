@@ -68,7 +68,7 @@ C--------------------------------------------
         EMS=UMASS(K)
         XI =UINER(K)
 C       ENERGY has not been provided by user routine.
-Clm     Integration en rectangle ..
+C       Integration en rectangle ..
         EINT = EINT
      .   -DT1*(V(1,I1)*FORC(1,K)+V(2,I1)*FORC(2,K)+V(3,I1)*FORC(3,K)
      .     +VR(1,I1)*TORQ(1,K)+VR(2,I1)*TORQ(2,K)+VR(3,I1)*TORQ(3,K))

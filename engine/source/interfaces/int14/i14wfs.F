@@ -73,7 +73,7 @@ C        J11+8 : Sauve DE pour calcul Travail des Forces Secnds.
          FSAV(7,N)=FSAV(7,N)+DE*DT2*HALF
 C
          NRTM=IPARI(4,N)
-Clm      Warning : DE doit etre stocke Surface / Surface, dans l'Interface
+C        Warning : DE doit etre stocke Surface / Surface, dans l'Interface
 C                  actuellement, NRTM == 1.
          KSURF=INTBUF_TAB(N)%KSURF(1)
          IF (IGRSURF(KSURF)%TYPE.EQ.100) THEN

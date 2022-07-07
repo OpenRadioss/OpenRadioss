@@ -66,7 +66,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C      ACTUAL FRAME POSITION & ORIENTATION WRT GLOBAL SYSTEM
 C-----------------
-Clm    Frame position at time T (O == position of node N1).
+C      Frame position at time T (O == position of node N1).
        O(1)=XFRAME(10)
        O(2)=XFRAME(11)
        O(3)=XFRAME(12)
@@ -75,7 +75,7 @@ C      Frame orientation at time T.
         ROT(K)=XFRAME(K)
        ENDDO
 C-----------
-Clm    LINEAR VELOCITY at time T-1/2 and acceleration at time T
+C      LINEAR VELOCITY at time T-1/2 and acceleration at time T
 C      are read from node N1.
 C-----------
 C-----------
@@ -141,7 +141,7 @@ C       VL(1)=ROT(1)*VREL(1)+ROT(2)*VREL(2)+ROT(3)*VREL(3)
 C       VL(2)=ROT(4)*VREL(1)+ROT(5)*VREL(2)+ROT(6)*VREL(3)
 C       VL(3)=ROT(7)*VREL(1)+ROT(8)*VREL(2)+ROT(9)*VREL(3)
 C-------
-Clm    fully consistant VL would use rotation at time T-1/2 :
+C      fully consistant VL would use rotation at time T-1/2 :
        OMEGAX=W(1)*DT05
        OMEGAY=W(2)*DT05
        OMEGAZ=W(3)*DT05
@@ -217,7 +217,7 @@ C
        VL(1)=ROTT05(1)*VREL(1)+ROTT05(2)*VREL(2)+ROTT05(3)*VREL(3)
        VL(2)=ROTT05(4)*VREL(1)+ROTT05(5)*VREL(2)+ROTT05(6)*VREL(3)
        VL(3)=ROTT05(7)*VREL(1)+ROTT05(8)*VREL(2)+ROTT05(9)*VREL(3)
-Clm    end fully consistant VL.
+C      end fully consistant VL.
 C-----------
 C      relative angular velocity at time T-1/2.
 C-----------

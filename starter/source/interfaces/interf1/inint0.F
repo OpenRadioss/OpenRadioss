@@ -51,7 +51,7 @@ C-----------------------------------------------
       my_real CMS, DMS
 C
       IF(NRT.EQ.0) RETURN
-Cfa
+C  
 C   Compute ILOC nearest secnd node from main node
       DO II=1,NMN
          I=MSR(II)
@@ -64,7 +64,7 @@ C   Compute ILOC nearest secnd node from main node
             ILOC(II)= JJ
          ENDDO
       ENDDO
-Cfa
+C  
 C   Compute NOD2SEG : List of Connected Segments to secnd nodes
       DO I=1,NRT
          DO J=1,4

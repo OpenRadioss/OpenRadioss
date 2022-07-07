@@ -321,32 +321,32 @@ C-----------------------------------------------
             XM = ONE/GEO(1,IXR(1,1+NFT))
             DO  I=LFT,LLT
               N = I + NFT
-Clm           XM cannot be zero (was checked in starter).
+C             XM cannot be zero (was checked in starter).
               FUNC(EL2FA(NN8+N)) = GBUF%EINT(I)*XM
             ENDDO
            ELSEIF (MLW.EQ.2) THEN
             XM = ONE/GEO(1,IXR(1,1+NFT))
             DO  I=LFT,LLT
               N = I + NFT
-Clm           XM cannot be zero (was checked in starter).
+C             XM cannot be zero (was checked in starter).
               FUNC(EL2FA(NN8+N)) = GBUF%EINT(I)*XM
             ENDDO
            ELSEIF (MLW.EQ.3) THEN
             XM = ONE/GEO(1,IXR(1,1+NFT))
             DO  I=LFT,LLT
               N = I + NFT
-Clm           XM cannot be zero (was checked in starter).
+C             XM cannot be zero (was checked in starter).
               FUNC(EL2FA(NN8+N)) = GBUF%EINT(I)*XM
             ENDDO
            ELSEIF (MLW.EQ.4) THEN
             XM = ONE/GEO(1,IXR(1,1+NFT))
             DO  I=LFT,LLT
               N = I + NFT
-Clm           XM cannot be zero (was checked in starter).
+C             XM cannot be zero (was checked in starter).
               FUNC(EL2FA(NN8+N)) = GBUF%EINT(I)*XM
             ENDDO
            ELSEIF (MLW.EQ.5) THEN
-Clm         user springs.
+C           user springs.
             DO  I=LFT,LLT
               N = I + NFT
               FUNC(EL2FA(NN8+N)) = GBUF%EINT(I)/MAX(EM30,GBUF%MASS(I))
@@ -355,7 +355,7 @@ Clm         user springs.
             XM = ONE/GEO(1,IXR(1,1+NFT))
             DO  I=LFT,LLT
               N = I + NFT
-Clm           XM cannot be zero (was checked in starter).
+C             XM cannot be zero (was checked in starter).
               FUNC(EL2FA(NN8+N)) = GBUF%EINT(I)*XM
             ENDDO
            ELSEIF (MLW.EQ.7) THEN

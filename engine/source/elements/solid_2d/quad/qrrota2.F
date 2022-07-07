@@ -57,7 +57,7 @@ C     REAL
       my_real
      .   Y,Z
 C-----------------------------------------------
-Clm   X=RX' <=> X'=t(R)X chgt de base.
+C     X=RX' <=> X'=t(R)X chgt de base.
       DO I=LFT,LLT
         Y=R22(I)*F11(I)+R32(I)*F21(I)
         Z=R23(I)*F11(I)+R33(I)*F21(I)

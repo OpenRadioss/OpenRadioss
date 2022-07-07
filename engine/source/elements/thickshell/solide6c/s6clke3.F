@@ -242,7 +242,7 @@ C
        PZY5(I)= HALF*(PYC2(I) + ZI*PY2H(I)) 
        PZY6(I)= HALF*(PYC3(I) + ZI*PY3H(I)) 
       ENDDO
-Cqz-------symm(diag)------
+C  -------symm(diag)------
       IS =1
        CALL S8ZKEB3(LFT,LLT,PX1, PY1 ,PZ1 ,PX1, PY1, PZ1,
      .                      BXY1, BYX1 ,BXZ1,BZX1 ,BYZ1,BZY1,
@@ -275,7 +275,7 @@ C
      .              PY5,PX5,PXY5, PYX5 ,PXZ5,PZX5 ,PYZ5,PZY5,GG,K55,IS) 
        CALL S6CKEG3(LFT,LLT,PY6, PX6 ,PXY6, PYX6 ,PXZ6,PZX6 ,PYZ6,PZY6,
      .              PY6,PX6,PXY6, PYX6 ,PXZ6,PZX6 ,PYZ6,PZY6,GG,K66,IS) 
-Cqz-------non symm------
+C  -------non symm------
       IS =0
        CALL S8ZKEB3(LFT,LLT,PX1, PY1 ,PZ1 ,PX2, PY2, PZ2,
      .                      BXY1, BYX1 ,BXZ1,BZX1 ,BYZ1,BZY1,

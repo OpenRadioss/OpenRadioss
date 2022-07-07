@@ -77,7 +77,7 @@ c
                 IF(K.LE.NTHVKI)THEN
                   WA(II)=FSAV(K,I)
                 ELSEIF(K.GE.100)THEN
-Clm               variables additionnelles AOUTi,BOUTi,UOUTi,MOUTi,HOUTi
+C                 variables additionnelles AOUTi,BOUTi,UOUTi,MOUTi,HOUTi
                   KV=MOD(K-101,5)+1
                   IV=ID_VENT
                   IADVENT=IVOLU(16,I)

@@ -80,7 +80,7 @@ C
         NRBOD=IGRSURF(ISU)%NB_MADYMO
         IF ( NRBOD.NE.0 ) THEN
 C         ISURF(9,ISU)==1 (RIGID BODIES) !
-Clm       A chaque instant (et a TT=0. dans le Starter), 
+C         A chaque instant (et a TT=0. dans le Starter), 
 C         le Rigid Body transmet la position et les vitesses du noeud main 
 C         a la surface.
           IM=NPBY(1,NRBOD)
@@ -101,7 +101,7 @@ C         a la surface.
           BUFSF(ADRSRF+23)=VRM(2)
           BUFSF(ADRSRF+24)=VRM(3)
 C         Translation et Rotation de la surface.
-Clm deplacer apres SORTIES :
+C   deplacer apres SORTIES :
           BUFSF(ADRSRF+4)=BUFSF(ADRSRF+4)+VM(1)*DT2
           BUFSF(ADRSRF+5)=BUFSF(ADRSRF+5)+VM(2)*DT2
           BUFSF(ADRSRF+6)=BUFSF(ADRSRF+6)+VM(3)*DT2

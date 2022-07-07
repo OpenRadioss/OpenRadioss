@@ -212,7 +212,7 @@ c---------
 c---------
 C 
             DO  I=LFT,LLT
-Clm           for law25, plastic work is negative 
+C             for law25, plastic work is negative 
 C                     if the layer has reached failure-p
               N = I + NFT 
               ILAYER = PLYELEMS(N)

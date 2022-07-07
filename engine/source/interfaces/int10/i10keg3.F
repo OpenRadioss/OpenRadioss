@@ -162,12 +162,12 @@ C
         ENDIF
        ENDDO
 C
-Cqz      DO I=1,JLT
-Cqz         S2 = ONE/MAX(EM30,SQRT(N1(I)**2 + N2(I)**2 + N3(I)**2))
-Cqz         N1(I) = N1(I)*S2
-Cqz         N2(I) = N2(I)*S2
-Cqz         N3(I) = N3(I)*S2
-Cqz      ENDDO
+C        DO I=1,JLT
+C           S2 = ONE/MAX(EM30,SQRT(N1(I)**2 + N2(I)**2 + N3(I)**2))
+C           N1(I) = N1(I)*S2
+C           N2(I) = N2(I)*S2
+C           N3(I) = N3(I)*S2
+C        ENDDO
 C
       DO I=1,JLT
 C       correction hourglass
@@ -188,9 +188,9 @@ C-------------------------------------------
 C------------------------------------
 C       1ER IMPACT ou PAS d'IMPACT
 C------------------------------------
-Cqz c'est fait dans i10for3.F        CAND_F(4,II) = H1(I)
-Cqz        CAND_F(5,II) = H2(I)
-Cqz        CAND_F(6,II) = H3(I)
+C   c'est fait dans i10for3.F        CAND_F(4,II) = H1(I)
+C          CAND_F(5,II) = H2(I)
+C          CAND_F(6,II) = H3(I)
        ELSE
 C------------------------------------
 C       IMPACTS SUIVANTS 

@@ -157,16 +157,16 @@ C       previous force       UVAR(NB3:NB3)
 C       initial nodes masses UVARN(MB1:MB1+NX-1)
         MB1=1
 C       forces into strands UVARN(MB2:MB2+NX-1)
-Clm     using UVARN(MB2:MB2+NX-2) only.
+C       using UVARN(MB2:MB2+NX-2) only.
         MB2=MB1+NX
 C       strands initial lenght UVARN(MB3:MB3+NX-1)
-Clm     using UVARN(MB3:MB3+NX-2) only.
+C       using UVARN(MB3:MB3+NX-2) only.
         MB3=MB2+NX
 C       strands elongations UVARN(MB4:MB4+NX-1)
-Clm     using UVARN(MB4:MB4+NX-2) only.
+C       using UVARN(MB4:MB4+NX-2) only.
         MB4=MB3+NX
 C       strands internal energy UVARN(MB5:MB5+NX-1)
-Clm     using UVARN(MB5:MB5+NX-2) only.
+C       using UVARN(MB5:MB5+NX-2) only.
         MB5=MB4+NX
 C-----------------------------------------------
       NEDGE =NX-1

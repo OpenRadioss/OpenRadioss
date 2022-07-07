@@ -424,9 +424,9 @@ C
       IF (IMPL_S.EQ.0) THEN
        DO I=LFT,LLT
        SCALE= MIN(ONE,AK(I)/ MAX(AJ2(I),EM15))
-Clm    plastic strain increment.
+C      plastic strain increment.
        DPLA=(ONE-SCALE)*AJ2(I)/MAX(THREE*G(I)+QH(I),EM15)
-Clm    actual yield stress.
+C      actual yield stress.
        AK(I)=AK(I)+(ONE - FISOKIN)*DPLA*QH(I)
        SCALE= MIN(ONE,AK(I)/ MAX(AJ2(I),EM15))
        SIG(I,1)=SCALE*SIG(I,1)
@@ -719,7 +719,7 @@ C
 CCC       IF(I.EQ.1)WRITE(*,*)'D_LAMBDA =',XSI
 C
 C     .. ENFORCING SOME CUT-OFFS, LEFT UNCHANGED
-Cqz----!!!cette partie devrait etre   interieure de boucle ---  tester
+C  ----!!!cette partie devrait etre   interieure de boucle ---  tester
        AK(I)=AK(I)*EPD(I)
        IF(SIGMX(I).LT.AK(I))THEN
         AK(I)=SIGMX(I)

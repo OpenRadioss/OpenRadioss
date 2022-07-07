@@ -131,7 +131,7 @@ C cumul de l'energie des elements deletes AU moment du delete
          ENDIF
         ENDDO
       ENDIF
-Cgw140---
+C  140---
 C
       NVC1= NVC/8
       NVC2=(NVC-NVC1*8)/4

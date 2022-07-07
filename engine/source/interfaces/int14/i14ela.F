@@ -148,7 +148,7 @@ C     Hyper-Ellipsoide ::
      .      / MAX(EXP((DGR-1)*LOG(EM20)/DGR),N)
 C-------------------------------
 C     projection du point impacte :
-Clm   projection sur tangente / hors ellips.
+C     projection sur tangente / hors ellips.
 C-------------------------------
       IF (GAPMIN.LT.ANS) THEN
         IMPACT(IL)=0

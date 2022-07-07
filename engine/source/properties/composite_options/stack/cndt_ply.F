@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-Cqz|--nouvelle routine commune des elements coques---------
+C  |--nouvelle routine commune des elements coques---------
 Chd|====================================================================
 Chd|  CNDT_PLY                      source/properties/composite_options/stack/cndt_ply.F
 Chd|-- called by -----------

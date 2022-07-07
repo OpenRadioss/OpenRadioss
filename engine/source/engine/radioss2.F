@@ -382,7 +382,7 @@ C------------------------------------------------
 C
       CALL INITIME()
 C------------------------------------------------
-Cow VERSIO(2) utilise pour sortie Time History
+C   VERSIO(2) utilise pour sortie Time History
 c      DATA VERSIO(2)/'VERSION 5.2main,                    '/
       LENV=LEN_TRIM(VERS)
       WRITE(VERSIO(2),'(A)') '                                    '
@@ -425,7 +425,7 @@ C         2 digits = release year
 C         2 digits = release month
 C         2 digits = release day
 C------------------------------------------------------------------
-Cow D    place dans machine.inc      RDFLEXCOMP = 50060828
+C   D    place dans machine.inc      RDFLEXCOMP = 50060828
 C------------------------------------------------------------------
       INERI=0
       IPLAST=1
@@ -1663,7 +1663,7 @@ C------------------------------------------------
      4    IPM   ,IPART   ,LIPART1    ,8     ,
      5    12	 ,ITFORM,ITHFLAG)
           WA(1:SWA) = ZERO
-Cow NULTIPLE TH
+C   NULTIPLE TH
             IF(NTHGRP01(1).NE.0)THEN
               WRITE(CHR_OLD,'(I2.2)')IRUNN
               FILTH  = CHR_OLD

@@ -292,7 +292,7 @@ C
         VZ28=VZ2(I)-VZ8(I)
         VZ35=VZ3(I)-VZ5(I)
         VZ46=VZ4(I)-VZ6(I)
-Cqz alpha =1 ->eta zeta   
+C   alpha =1 ->eta zeta   
 C 1 1 -1 -1 -1 -1 1 1
         HGX1(I)= HGX1(I)
      &          -(PX1H1(I)*VX17+PX2H1(I)*VX28
@@ -304,7 +304,7 @@ C 1 1 -1 -1 -1 -1 1 1
      &          -(PX1H1(I)*VZ17+PX2H1(I)*VZ28
      &            +PX3H1(I)*VZ35+PX4H1(I)*VZ46)
 C
-Cqz alpha =2 ->zeta ksi   
+C   alpha =2 ->zeta ksi   
 C 1 -1 -1 1 -1 1 1 -1
         HGX2(I)= HGX2(I)
      &          -(PX1H2(I)*VX17+PX2H2(I)*VX28
@@ -315,7 +315,7 @@ C 1 -1 -1 1 -1 1 1 -1
         HGZ2(I)= HGZ2(I)
      &          -(PX1H2(I)*VZ17+PX2H2(I)*VZ28
      &            +PX3H2(I)*VZ35+PX4H2(I)*VZ46)
-Cqz alpha =3 ->ksi eta    
+C   alpha =3 ->ksi eta    
 C 1 -1 1 -1 1 -1 1 -1
         HGX3(I)= HGX3(I)
      &          -(PX1H3(I)*VX17+PX2H3(I)*VX28
@@ -327,7 +327,7 @@ C 1 -1 1 -1 1 -1 1 -1
      &          -(PX1H3(I)*VZ17+PX2H3(I)*VZ28
      &            +PX3H3(I)*VZ35+PX4H3(I)*VZ46)
 C
-Cqz alpha =4 ->ksi eta zeta
+C   alpha =4 ->ksi eta zeta
 C -1 1 -1 1 1 -1 1 -1
         HGX4(I)= HGX4(I)
      &          -(PX1H4(I)*VX17+PX2H4(I)*VX28
@@ -350,7 +350,7 @@ C -1 1 -1 1 1 -1 1 -1
        H12(I) = JT0(I)
        H13(I) = JS0(I)
        H23(I) = JR0(I)
-Cqz       SIGY(I) = 1.0E+30
+C         SIGY(I) = 1.0E+30
       ENDDO
        DO I=LFT,LLT
         FHOUR(I,1,1) = FHOUR(I,1,1)*OFF(I)
@@ -430,7 +430,7 @@ c        FAC1=ONE - MAX(ZERO,MIN(ONE,D_MAX(I)))        !in [0 1]
         ENDDO
        ENDDO
       END IF !(IET > 1) THEN
-Cqz -------elstic increament----
+C   -------elstic increament----
       DO I=LFT,LLT
        E_R =G_3DT(I)*JR_1(I)
        E_S =G_3DT(I)*JS_1(I)
@@ -661,7 +661,7 @@ C-----------------------------------------------
      .   SS1,SS2,SS3,SS4,ST1,ST2,ST3,ST4,SVMR,SVMS,SVMT,
      .   SVM,SVMRST,COEF,COEF1, JR_1,JS_1,JT_1,NU1,NU2,
      .   RS,ST,RT,VT1(4),VT2(4),MAX1,MIN1,MAX2,MIN2,MAX0,MIN0    
-Cqz       coef= (3*8*0.75)^2 coef1 =1/0.75
+C         coef= (3*8*0.75)^2 coef1 =1/0.75
           COEF= THREEHUNDRED24
           COEF1= ONEP333
 C-----------------------------------------------
@@ -1215,7 +1215,7 @@ C
         VZ28=VZ2(I)-VZ8(I)
         VZ35=VZ3(I)-VZ5(I)
         VZ46=VZ4(I)-VZ6(I)
-Cqz alpha =1 ->eta zeta   
+C   alpha =1 ->eta zeta   
 C 1 1 -1 -1 -1 -1 1 1
         HGX1(I)= HGX1(I)
      &          -(PX1H1(I)*VX17+PX2H1(I)*VX28
@@ -1227,7 +1227,7 @@ C 1 1 -1 -1 -1 -1 1 1
      &          -(PX1H1(I)*VZ17+PX2H1(I)*VZ28
      &            +PX3H1(I)*VZ35+PX4H1(I)*VZ46)
 C
-Cqz alpha =2 ->zeta ksi   
+C   alpha =2 ->zeta ksi   
 C 1 -1 -1 1 -1 1 1 -1
         HGX2(I)= HGX2(I)
      &          -(PX1H2(I)*VX17+PX2H2(I)*VX28
@@ -1238,7 +1238,7 @@ C 1 -1 -1 1 -1 1 1 -1
         HGZ2(I)= HGZ2(I)
      &          -(PX1H2(I)*VZ17+PX2H2(I)*VZ28
      &            +PX3H2(I)*VZ35+PX4H2(I)*VZ46)
-Cqz alpha =3 ->ksi eta    
+C   alpha =3 ->ksi eta    
 C 1 -1 1 -1 1 -1 1 -1
         HGX3(I)= HGX3(I)
      &          -(PX1H3(I)*VX17+PX2H3(I)*VX28
@@ -1250,7 +1250,7 @@ C 1 -1 1 -1 1 -1 1 -1
      &          -(PX1H3(I)*VZ17+PX2H3(I)*VZ28
      &            +PX3H3(I)*VZ35+PX4H3(I)*VZ46)
 C
-Cqz alpha =4 ->ksi eta zeta
+C   alpha =4 ->ksi eta zeta
 C -1 1 -1 1 1 -1 1 -1
         HGX4(I)= HGX4(I)
      &          -(PX1H4(I)*VX17+PX2H4(I)*VX28
@@ -1273,7 +1273,7 @@ C -1 1 -1 1 1 -1 1 -1
        H12(I) = JT0(I)
        H13(I) = JS0(I)
        H23(I) = JR0(I)
-Cqz       SIGY(I) = 1.0E+30
+C         SIGY(I) = 1.0E+30
       ENDDO
        DO I=LFT,LLT
         FHOUR(I,1,1) = FHOUR(I,1,1)*OFF(I)
@@ -1324,7 +1324,7 @@ C
         ENDDO
        ENDDO
       END IF !(IET > 1) THEN
-Cqz -------elstic increament----
+C   -------elstic increament----
       DO I=LFT,LLT
        E_R =G_3DT(I)*JR_1(I)
        E_S =G_3DT(I)*JS_1(I)
@@ -2133,7 +2133,7 @@ C-----------------------------------------------
      .   RS,ST,RT,VT1(4),VT2(4),MAX1,MIN1,MAX2,MIN2,MAX0,MIN0, 
      .   SR5,SR6,SS5,SS6, ST5,ST6
 C-----------------------------------------------
-Cqz       coef= (3*8*0.75)^2 coef1 =1/0.75
+C         coef= (3*8*0.75)^2 coef1 =1/0.75
           COEF= THREEHUNDRED24
           COEF1= ONEP333
       IKT = IINT

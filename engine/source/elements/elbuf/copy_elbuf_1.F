@@ -387,7 +387,7 @@ cc     .           => BUFLY%LBUF(1,1,IT)%SIG(1:NEL*L_SIG)
 cc              ENDDO  ! IT = 1,NPT                                                                                              
             ENDIF
 C
-Clm         SIGPLY (PLYXFEM) not available w/implicit                                                 
+C           SIGPLY (PLYXFEM) not available w/implicit                                                 
           ENDIF                                                   
 c
 c-----    Material buffer - per integration point                                                                  

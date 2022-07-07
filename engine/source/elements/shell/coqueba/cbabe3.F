@@ -20,12 +20,12 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-Cgw |============================================================
-Cgw |  CBABE3                          /coqueba/cbabe3.F
-Cgw |------------------------------------------------------------
-Cgw |-- appelee par -----------
-Cgw |         CBAKE3                         /coqueba/cbake3.F
-Cgw |============================================================
+C   |============================================================
+C   |  CBABE3                          /coqueba/cbabe3.F
+C   |------------------------------------------------------------
+C   |-- appelee par -----------
+C   |         CBAKE3                         /coqueba/cbake3.F
+C   |============================================================
 Chd|====================================================================
 Chd|  CBABE3                        source/elements/shell/coqueba/cbabe3.F
 Chd|-- called by -----------
@@ -633,7 +633,7 @@ C--------pour rigidite en rzz-------
        END IF !(ISROT.EQ.0) THEN
        RETURN
        END
-Cgw ----nouvelle routine ---
+C   ----nouvelle routine ---
 Chd|====================================================================
 Chd|  CBABEC3                       source/elements/shell/coqueba/cbabe3.F
 Chd|-- called by -----------

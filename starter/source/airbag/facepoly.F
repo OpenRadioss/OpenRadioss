@@ -1252,13 +1252,13 @@ C
            IF(ABS(ALPHA) < HALF*PI) THEN
               IADR(1)=1
               IADR(2)=2
-Cfa            IADR(1)=2
-Cfa            IADR(2)=1
+C              IADR(1)=2
+C              IADR(2)=1
            ELSE
               IADR(1)=2
               IADR(2)=1
-Cfa            IADR(1)=1
-Cfa            IADR(2)=2
+C              IADR(1)=1
+C              IADR(2)=2
            ENDIF
 C
            DO M=1,2

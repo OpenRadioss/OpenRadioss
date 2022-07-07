@@ -188,7 +188,7 @@ C----------------------------------------------------------
       IN=KSI(IL)
 C---------------------------------
 C     CALCUL DES MOMENTS MS ^ F (REP. GLOBAL).
-Clm   les forces sont transmises au (meme) point 
+C     les forces sont transmises au (meme) point 
 C     que l'on a recu !!!
 C---------------------------------
       X1=X(1,IN)-BUFSF(ADRBUF+16)
@@ -342,7 +342,7 @@ C-------------------------------
       ENDDO
 C----------------------------------------------------------
 C     Coefficient de Frottement :
-Clm   MU=F(FORCE NORMALE LOCALE).
+C     MU=F(FORCE NORMALE LOCALE).
 C----------------------------------------------------------
       IF (NFRIC.EQ.0) THEN
        DO I=1,MIN(MVSIZ,NREST)
@@ -458,7 +458,7 @@ C     memorisation des composantes de la normale.
       NIMP(3,IL)=N3
 C-------------------------------
 C     rabattre F // PI apres glissement
-Clm   ROMPT LA RELATION FTOT=F(PENETRATION MAX.)
+C     ROMPT LA RELATION FTOT=F(PENETRATION MAX.)
 C-------------------------------
       FX=FV(1,I)
       FY=FV(2,I)
@@ -528,7 +528,7 @@ C----------------------------------------------------------
       IN=KSI(IL)
 C---------------------------------
 C     CALCUL DES MOMENTS MS ^ F (REP. GLOBAL).
-Clm   les forces sont transmises au (meme) point 
+C     les forces sont transmises au (meme) point 
 C     que l'on a recu !!!
 C---------------------------------
       X1=X(1,IN)-BUFSF(ADRBUF+16)

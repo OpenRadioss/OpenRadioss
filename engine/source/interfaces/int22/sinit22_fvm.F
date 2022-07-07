@@ -3082,11 +3082,11 @@ c        print *, "check switch in brickID=", ixs(11,brick_list(nin,ib)%id)
           IDLOCv   =  BRICK_LIST(NIN,IBv)%IDLOC
           IV       =  BRICK_LIST(NIN,IBv)%ID
           ITASKv   =  BRICK_LIST(NIN,IBv)%ITASK
-          !boucle sur les noeuds de la cellule escalve adjacente.
+          ! loop over the nodes of the adjacent secondary cell
           NNODES   = BRICK_LIST(NIN,IBv)%POLY(ICELLV)%NumNOD
           J1       = 0
           J2       = 0 
-          DO K1=1,NNODES !noeuds de la cellule esclabe attachee a IB
+          DO K1=1,NNODES !Nodes attached to IB
             INOD   = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%ListNodID(K1)
             FV_old = BRICK_LIST(NIN,IBv)%NODE(INOD)%WhereWasMain !FACE
             IF (FV_old .EQ. 0)CYCLE !the node was wet by main cell : MERGE PROCESS APLLIES (see related chapter)

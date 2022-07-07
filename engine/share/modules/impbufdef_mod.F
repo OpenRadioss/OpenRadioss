@@ -761,8 +761,8 @@ Chd|====================================================================
 C
       INTEGER NRMAX,N_FRNN,NDDLFR,NZKFR,NDFRMAX,LEN_V,LEN_K
 C     NDDLFRB :nb de noeuds fr. partages par au moins 3 proc,----
-Cqz50d1m     DDLP0 :dernier ddl de noeuds fr.avec procs precedents ----
-Cqz50d1m     DDLP1 :premier ddl de noeuds fr.avec procs suivants ----
+C  50d1m     DDLP0 :dernier ddl de noeuds fr.avec procs precedents ----
+C  50d1m     DDLP1 :premier ddl de noeuds fr.avec procs suivants ----
       INTEGER NDDLFRB,NDDLFRB1,DDLP0,DDLP1
 C
 C tableau de int de : connectivite des noeuds FR. locaux----

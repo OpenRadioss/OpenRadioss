@@ -340,7 +340,7 @@ C il s agit de la barriere matchant celle de i20norm sur tache1
       ENDIF
 c----------------------------------------------------
 c   Rayon de courbure : calcul des normales nodales (normees)
-Clm IADM!=0 + Icurv!=0 non available (starter error).
+C   IADM!=0 + Icurv!=0 non available (starter error).
 c----------------------------------------------------
       IF(IADM.NE.0)THEN
          CALL MY_BARRIER()

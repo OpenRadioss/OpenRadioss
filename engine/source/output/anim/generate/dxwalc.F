@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-Cgw          SPMD_AGETMSR                    /spe/mach_spmd.F
+C            SPMD_AGETMSR                    /spe/mach_spmd.F
 Chd|====================================================================
 Chd|  DXWALC                        source/output/anim/generate/dxwalc.F
 Chd|-- called by -----------

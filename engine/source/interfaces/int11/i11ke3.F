@@ -126,7 +126,7 @@ C------pour evider la desactivation des noeuds secnds------
       IDESAC = 0
 C
         I_STOK = NUM_IMP
-Cqz90c1        LREM=0
+C  90c1        LREM=0
 C
         DO NFT = 0 , I_STOK - 1 , NVSIZ
           JLT = MIN( NVSIZ, I_STOK - NFT )

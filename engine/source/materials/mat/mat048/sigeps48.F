@@ -311,9 +311,9 @@ C-------------------
      1          +SIGNXY(I)**2+SIGNYZ(I)**2+SIGNZX(I)**2
         VM =SQRT(THREE*VM)
         R = MIN(ONE,YLD(I)/ MAX(VM,EM20))
-Clm     plastic strain increment.
+C       plastic strain increment.
         DPLA=(ONE -R)*VM/MAX(G3(I)+H(I),EM20)
-Clm     actual yeld stress.
+C       actual yeld stress.
         YLD(I)=YLD(I)+DPLA*H(I)
         IF(PLA(I).GT.EPMAX(I)) YLD(I)=ZERO
         R = MIN(ONE,YLD(I)/ MAX(VM,EM20))

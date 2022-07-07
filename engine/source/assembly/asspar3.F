@@ -451,7 +451,7 @@ C + la thermique
  800  CONTINUE
 C-----------------------------------------------
 C
-Cgw003      NUM7 = 7*NPART
+C  003      NUM7 = 7*NPART
       NUM7 = NPSAV*NPART
 C
       KM = 0

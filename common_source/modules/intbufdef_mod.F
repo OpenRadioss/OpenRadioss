@@ -568,8 +568,8 @@ C=======================================================================
 !type3
         integer ::   S_IRTLS      !  NMN        :IRTLS :FACE SECOND. LA PLUS PROCHE      :    3,4
         integer ::   S_ILOCM      !  NMN        :ILOCM :NOEUD SECOND. LE PLUS PROCHE     :    3,4
-        integer ::   S_IRTLOM     !  NSN        :IRTLOM:ANC. FACE MAITR. LA PLUS PROCHE  :    3,4
-        integer ::   S_IRTLOS     !  NMN        :IRTLOS:ANC. FACE ESCLA. LA PLUS PROCHE  :    3,4
+        integer ::   S_IRTLOM     !  NSN        :IRTLOM:ANC. FACE MAIN. LA PLUS PROCHE  :    3,4
+        integer ::   S_IRTLOS     !  NMN        :IRTLOS:ANC. FACE SECND. LA PLUS PROCHE  :    3,4
         integer ::   S_NSEGS      !  1+NSN      :NSEGS :ADRESSE DU VECTEUR LNSV (SECOND):    3,4,5
         integer ::   S_LNSV       !  NRT        :LMSR  :FACES CONNECTEES AU NOEUD MAIN :1, ,3,4,5
         integer ::   S_LMSR       !  NRT        :LMSR  :FACES CONNECTEES AU NOEUD MAIN :1, ,3,4,5

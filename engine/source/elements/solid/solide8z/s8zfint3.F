@@ -195,7 +195,7 @@ C------due to degratation of rubber test, will definitively fix w/ real Kt
         F28(I)=F28(I)-(S2(I)*PY8(I)+S4(I)*PYX8(I)+S5(I)*PYZ8(I))
         F38(I)=F38(I)-(S3(I)*PZ8(I)+S6(I)*PZX8(I)+S5(I)*PZY8(I))
        ENDDO
-Cqz
+C  
        IF (ICP.NE.1) THEN
         DO I=LFT,LLT
          F11(I)=F11(I)-(S2(I)*BXY1(I)+S3(I)*BXZ1(I))
@@ -225,7 +225,7 @@ Cqz
         ENDDO
        ENDIF
 C----------------------------------------------    /
-Cqz - post-traitement-valeur moyenne au sens a'=(_/  a dv ) /v
+C   - post-traitement-valeur moyenne au sens a'=(_/  a dv ) /v
       DO I=LFT,LLT
          FAC(I) = OFF(I)*VOL(I)/VOLG(I)
          SIGM(I,1) = SIGM(I,1) + FAC(I) * SIGOR(I,1)

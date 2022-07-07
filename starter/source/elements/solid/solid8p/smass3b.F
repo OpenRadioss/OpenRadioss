@@ -423,7 +423,7 @@ C
         PARTSAV(8,IP) =PARTSAV(8,IP)  - DMASGP(8,I) * XY
         PARTSAV(9,IP) =PARTSAV(9,IP)  - DMASGP(8,I) * YZ
         PARTSAV(10,IP)=PARTSAV(10,IP) - DMASGP(8,I) * ZX
-Clm les quantites suivantes sont calculees en tenant compte
+C   les quantites suivantes sont calculees en tenant compte
 C   de M_element/8. et non pas des masses associees aux noeuds.
         PARTSAV(11,IP)=PARTSAV(11,IP) + MASS(I)*
      .       (V(1,I1)+V(1,I2)+V(1,I3)+V(1,I4)

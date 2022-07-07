@@ -142,11 +142,11 @@ C
               IACTI=NPBY(7,N)
               IF(ISENS.NE.0)THEN
                IF(IACTI.GT.1)THEN
-Clm             body waiting for deactivation, override sensor request.
+C               body waiting for deactivation, override sensor request.
                 IACTI=1
                 NPBY(7,N)=IACTI
                ELSEIF(IACTI.LT.0)THEN
-Clm             body waiting for activation, override sensor request.
+C               body waiting for activation, override sensor request.
                 IACTI=0
                 NPBY(7,N)=IACTI
                ENDIF

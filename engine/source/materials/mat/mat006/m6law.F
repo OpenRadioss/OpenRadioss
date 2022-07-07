@@ -141,8 +141,8 @@ C-----------------------------------------------
        SIG(I,5)=VIS(I) *D5(I)
        SIG(I,6)=VIS(I) *D6(I)
 
-Cfa       DF(I)  =RHO0(I)/RHO(I)
-Cfa       AMU(I) =ONE/DF(I)-ONE
+C         DF(I)  =RHO0(I)/RHO(I)
+C         AMU(I) =ONE/DF(I)-ONE
        AMU2(I)= MAX(ZERO,AMU(I))**2
        ESPE(I)=DF(I)*EINT(I) / MAX(EM15,VNEW(I))
        RK2T = TWO*RK(I) / MAX(EM15,THREE*VNEW(I))

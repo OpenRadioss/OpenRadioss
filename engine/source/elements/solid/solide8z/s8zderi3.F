@@ -309,7 +309,7 @@ C
        PZY1(I)=YS-YAS
        PZY7(I)=YS+YAS
       ENDDO
-Cqz
+C  
       IF (ICP /= 1 .AND. ICP /= 11) THEN
        DO I=LFT,LLT
        CAS =-NU(I)*(D4X(I)+XG1(I)+XG4(I))
@@ -474,7 +474,7 @@ C
        PZY3(I)=YS-YAS
        PZY5(I)=YS+YAS
       ENDDO
-Cqz
+C  
       IF (ICP /= 1 .AND. ICP /= 11) THEN
       DO I=LFT,LLT
        CAS =-NU(I)*(D4X(I)+XG1(I)+XG4(I))
@@ -1869,7 +1869,7 @@ C
        PZY1(I)=YS-YAS
        PZY7(I)=YS+YAS
       ENDDO
-Cqz
+C  
       IF (ICP /= 1 .AND. ICP /= 11) THEN
        DO I=LFT,LLT
        CAS =-NU(I)*(D4X(I)+XG1(I)+XG4(I))
@@ -2032,7 +2032,7 @@ C
        PZY3(I)=YS-YAS
        PZY5(I)=YS+YAS
       ENDDO
-Cqz
+C  
       IF (ICP /= 1 .AND. ICP /= 11) THEN
       DO I=LFT,LLT
        CAS =-NU(I)*(D4X(I)+XG1(I)+XG4(I))
@@ -3120,7 +3120,7 @@ C
        PZY1(I)=YS-YAS
        PZY7(I)=YS+YAS
       ENDDO
-Cqz
+C  
       IF (ICP /= 1 .AND. ICP /= 11) THEN
        DO I=LFT,LLT
        CAS =-NU(I)*(D4X(I)+XG1(I)+XG4(I))
@@ -3283,7 +3283,7 @@ C
        PZY3(I)=YS-YAS
        PZY5(I)=YS+YAS
       ENDDO
-Cqz
+C  
       IF (ICP /= 1 .AND. ICP /= 11) THEN
       DO I=LFT,LLT
        CAS =-NU(I)*(D4X(I)+XG1(I)+XG4(I))
@@ -4203,7 +4203,7 @@ C
        PZY1(I)=YS-YAS
        PZY7(I)=YS+YAS
       ENDDO
-Cqz
+C  
       IF (ICP /= 1 .AND. ICP /= 11) THEN
        DO I=LFT,LLT
        CAS =-NU(I)*(D4X(I)+XG1(I)+XG4(I))
@@ -4367,7 +4367,7 @@ C
        PZY3(I)=YS-YAS
        PZY5(I)=YS+YAS
       ENDDO
-Cqz
+C  
       IF (ICP /= 1 .AND. ICP /= 11) THEN
       DO I=LFT,LLT
        CAS =-NU(I)*(D4X(I)+XG1(I)+XG4(I))

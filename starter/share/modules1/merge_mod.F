@@ -100,7 +100,7 @@ C tableaux d equivalence num elem local, num elem Global par proc
 C Buffers locaux
 C Nodglob
       TYPE(ptrmergint), DIMENSION(:), ALLOCATABLE :: WEIGHT_LS
-Cow Weight
+C   Weight
       TYPE(ptrmergint), DIMENSION(:), ALLOCATABLE :: NODGLOB_LS
 C ISKEWSP - SPH Skew
       TYPE(ptrmergint), DIMENSION(:), ALLOCATABLE :: ISKSPH_LS

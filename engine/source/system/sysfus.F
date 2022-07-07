@@ -59,7 +59,7 @@ C-----------------------------------------------
 C
       JINF=1
       JSUP=NUMNOD
-Cgw045      J=NUMNOD/2
+C  045      J=NUMNOD/2
       J=MIN(1,NUMNOD/2)
    10 IF(JSUP.LE.JINF.AND.(IU-ITABM1(J)).NE.0) THEN
         CALL ANCMSG(MSGID=187,ANMODE=ANINFO,

@@ -370,7 +370,7 @@ C
 C
 c----------------------------------------------------
 c   Rayon de courbure : calcul des normales nodales (normees)
-Clm IADM!=0 + Icurv!=0 non available (starter error).
+C   IADM!=0 + Icurv!=0 non available (starter error).
 c----------------------------------------------------
       IF(IADM.NE.0)THEN
       END IF!(IADM.NE.0)
@@ -622,7 +622,7 @@ C
 C
           DO I = 1 ,JLT
 C
-Clm     Needs to compute STIF_OLD even if PENE ==0 (cf INACTI=5)
+C       Needs to compute STIF_OLD even if PENE ==0 (cf INACTI=5)
 C          IF(PENE(I)/=ZERO.AND.STIF(I)/=ZERO)THEN
            IF(STIF(I)/=ZERO)THEN
              IF(PENE(I)==ZERO)THEN

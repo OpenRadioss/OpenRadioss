@@ -75,7 +75,7 @@ C-----------------------------------------------
       L = 1
       IAD_RECV(1)=1
 
-Cow Mise en place des buffers de reception
+C   Mise en place des buffers de reception
       DO I=1,NSPMD
          SIZ = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
          IF(SIZ.NE.0) THEN

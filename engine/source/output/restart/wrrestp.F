@@ -1147,7 +1147,7 @@ C--------------------------------------
 C     ECRITURES FACULTATIVES
 C--------------------------------------
       IF (IRESMD.EQ.0.AND.NPSAV.GE.25) THEN
-Cow on ramene PARTSAV sur le proc et on met a zero les autres
+C   on ramene PARTSAV sur le proc et on met a zero les autres
           IF(NSPMD > 1)
      .      CALL SPMD_GLOB_DSUM9(PARTSAV,NPSAV*NPART)
           IF (ISPMD.NE.0)THEN

@@ -65,7 +65,7 @@ C-----------------------------------------------
 C
       INTEGER,DIMENSION(:,:),ALLOCATABLE ::  RNGLOB,IBUF
  
-Cow Tableau utilise par proc 0
+C   Tableau utilise par proc 0
       my_real
      .   S3000,S,XN1,XN2,XN3,IXNN
 C-----------------------------------------------         
@@ -104,9 +104,9 @@ c               XN3 = XNORM(3,I) * S
            IBUF(4,SIZ) = XN3
         END DO
 C
-Cow a cause de la version simple precision, on ne peux pas metre l'entier
-Cow dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
-Cow de noeuds au max
+C   a cause de la version simple precision, on ne peux pas metre l'entier
+C   dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
+C   de noeuds au max
 
          MSGTYP = MSGOFF2
          CALL MPI_SEND(IBUF,4*SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,

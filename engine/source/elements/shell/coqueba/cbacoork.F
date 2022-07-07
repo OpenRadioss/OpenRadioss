@@ -273,7 +273,7 @@ c
         ENDIF 
        ENDDO
       ENDIF 
-Cqz-------vectoriser--un jour-faire index jft,nplat,jlt pour tous--
+C  -------vectoriser--un jour-faire index jft,nplat,jlt pour tous--
       NPLAT=JFT-1
       SPLAT= 0
       DO EP=JFT,JLT

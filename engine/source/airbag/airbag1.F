@@ -180,7 +180,7 @@ C
             VEPS     =MAX(ZERO,VMIN-VOL)
             RVOLU(17)=VEPS
 C
-Clm         equilibre initial.
+C           equilibre initial.
             RMWI     = RVOLU(10)
             GMI      = PEXT*(VOL+VEPS)/(RMWI*TBAG_OLD)
             RVOLU(11)= GMI
@@ -385,7 +385,7 @@ C------
          RBAGJET(10,IJ)=ZERO
        ENDDO
 C------
-Clm    DP/DRO GAZ PARFAIT+ADIABATIQUE=GAMA*R/MW*TBAG
+C      DP/DRO GAZ PARFAIT+ADIABATIQUE=GAMA*R/MW*TBAG
        CX = SQRT(2.*GAMA*P*VOL/(GAMA-1.)/(AMTOT+AREA*ROT))
        QX = AMU*CX
        DT = DTFAC1(9)*VOL/AREA/MAX(EM20,QX+SQRT(QX*QX+CX*CX))

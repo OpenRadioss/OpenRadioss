@@ -838,25 +838,23 @@ C--------------------------------------------
 C--------------------------------------------
 C Tableaux numeration nodale
 C--------------------------------------------
-!      CALL C_NODLOC(NUMNOD,P,NUMNOD_L)
       IF(NUMNOD_L.GT.0) ALLOCATE(NODGLOB(NUMNOD_L))
       CALL F_NODLOC2(NUMNOD,P  ,NODGLOB,NODLOCAL,IGEO ,
      2               IPARG,IXS   ,IXQ,IXC    ,IXTG    ,
      3               IXT  ,IXP   ,IXR,GEO    ,NUMNOD_L)
 
 C--------------------------------------
-C Denombrement NGROUP Local
+C count local NGROUP 
 C--------------------------------------
       CALL C_NGROUP(IPARG,P-1,NUMLOCGROUP,NGROUP_L)
-
 C--------------------------------------
-C Denombrement LSHSUB
+C count LSHSUB
 C--------------------------------------
       NSHFRONT_L=0
       IF (MSHSUB.GT.0)
      .  CALL C_ISHSUB(LSHSUB,NSHFRONT_L,P-1)
 C--------------------------------------------
-C Denombrement Elements locaux
+c count local elements 
 C--------------------------------------------
       OFF = 0
       CALL C_ELTLOC(CEP(OFF+1),P-1,NUMELS8,NUMELS8_L)
@@ -899,8 +897,6 @@ C
         NUM16SHIFT_L = PM1SHF
         PM1SHF =  PM1SHF + 2*NUMELS16_L
       ENDIF
-
-C
 C--------------------------------------------
 C Counting local cluster
 C--------------------------------------------
@@ -908,9 +904,8 @@ C--------------------------------------------
       IF(NCLUSTER > 0) THEN
         CALL C_CLUSTER(CLUSTERS,P-1,CEP,NCLUSTER_L,NUMLOCCLUSTER)
       ENDIF
-C
 C--------------------------------------------
-C Denombrement Elements voisins CFD/ALE
+C count neighbo elements CFD/ALE
 C--------------------------------------------
       NSVOIS   = 0
       NQVOIS   = 0
@@ -952,7 +947,7 @@ C--------------------------------------------
         ENDIF
 C
 C--------------------------------------
-C     Denombrement ebcs pour la loi multifluide
+C     count ebcs (multifluid)
 C--------------------------------------
       IEBCSLGTH = 0
       ALLOCATE(IEBCS_LISTELEM_L(0))
@@ -1059,7 +1054,7 @@ C--------------------------------------
          ENDIF
       ENDIF
 C--------------------------------------
-C Denombrement Buffer SUBSET, GROUPES, SURFACES, LIGNES
+c count buffer subset, groups, surfaces, lines
 C--------------------------------------
       LENIGRNOD_L = 0
       LENIGRBRIC_L = 0
@@ -1081,7 +1076,7 @@ C--------------------------------------
      .                 NODLOCAL,LENISURF_L)
       CALL C_ISLIN_STR(IGRSLIN ,P-1, LENISLIN_L)
 C--------------------------------------------
-C Denombrement Buffer interface : entier et reel
+C count Buffer interface
 C--------------------------------------------
       IMAXIMP_L= 0
       NBDDI2M  = 0
@@ -1110,7 +1105,7 @@ c      stop CPU timer for IPARI_L_INI
       ENDIF
 
 C--------------------------------------------
-C Denombrement Noeuds RW
+C count nodes RW
 C--------------------------------------------
       NSLAW_L  = 0
       NESLAW_L = 0
@@ -1121,7 +1116,7 @@ C--------------------------------------------
      2               CEP    ,P-1     ,NSLAW_L ,NESLAW_L,
      3               LWSAV_L,NSKYRW_L)
 C--------------------------------------------
-C Denombrement Stockage Madymo
+C count Stockage Madymo
 C--------------------------------------------
       NMADSH4_L = 0
       NMADSH3_L = 0
@@ -1133,27 +1128,21 @@ C--------------------------------------------
      +  CALL C_MAD(IEXMAD,NMADSH4_L,NMADSH3_L,NMADSOL_L,NMADNOD_L,
      +             MADCL_NMADNOD_L,CEP      ,P-1      )
 C--------------------------------------------
-C Denombrement Noeuds RBY
+C count Nodes RBY
 C--------------------------------------------
       NSLARB_L = 0
       NSKYRBK_L = 0
       IF(NRBYKIN.GT.0)
      +  CALL C_RBYK(NPBY,LPBY,P-1,NSLARB_L,NSKYRBK_L)
 C--------------------------------------------
-C Denombrement Noeuds Rigid material
+C count Rigid material nodes
 C--------------------------------------------
       NSLARBM_L = 0
       NSKYRBMK_L = 0
       IF(NRBYM > 0)
      +  CALL C_RBYMK(IRBYM,LCRBYM,P-1,NSLARBM_L,NSKYRBMK_L)
 C--------------------------------------------
-C Denombrement Rivets
-C--------------------------------------------
-c      NRIVET_L = 0
-c      IF(NRIVET.GT.0)
-c     +  CALL C_RIVET(IXRI,FRONT,P-1,NRIVET_L)
-C--------------------------------------------
-C Denombrement Sections
+C count Sections
 C--------------------------------------------
       NSTRF_L = 0
       LSECBUF_L = 0
@@ -1163,7 +1152,7 @@ C--------------------------------------------
      +  CALL C_SECTIO(NSTRF    ,CEP    ,P-1,NSTRF_L,
      +                LSECBUF_L,NNODT_L,NNODL_L)
 C--------------------------------------------
-C Denombrement Joints Cylindriques : already done
+C count Joints Cylindriques : already done
 C--------------------------------------------
       LJOINT_L = 0
       IF(JOINT_SMS) THEN
@@ -1177,28 +1166,27 @@ C--------------------------------------------
         CALL C_PORO(PORNOD,P-1,NUMPOR_L,GEO)
       ENDIF
 C--------------------------------------------
-C Denombrement Buffer Element
+C count Buffer Element
 C--------------------------------------------
       CALL C_BUFEL(IPARG,P-1,LBUFEL_L)
 C--------------------------------------------
-C Denombrement Airbags
+C count Airbags
 C--------------------------------------------
       INTBAG_L = 0
       IF(NVOLU.GT.0)THEN
-C        LENVOLU = NIMV*NVOLU+LICBAG+LIBAGJET+LIBAGHOL+LIBAGALE
         IF(INTBAG.NE.0)
      +    INTBAG_L = LENVOLU
       ELSEIF(INTBAG > 0 .AND. IALELAG > 0 ) THEN
         INTBAG_L = INTBAG
       ENDIF
 C--------------------------------------
-C Denombrements  Elem multi-brins
+C counts  Elem multi-brins
 C--------------------------------------
       ISUMNX_L = 0
       IF (NUMELX_L.GT.0)
      .  CALL C_ELMX(KXX,CEP,P-1,ISUMNX_L)
 C--------------------------------------
-C Denombrement SPH Cells
+C count SPH Cells
 C--------------------------------------
       NUMSPH_L = 0
       LWASPH_L = 0
@@ -1225,45 +1213,39 @@ C
         PM1SPH =  PM1SPH + 4*NUMSPH_L
       ENDIF
 C--------------------------------------
-C Denombrements IBCL
+C counts IBCL
 C--------------------------------------
       NCONLD_L = 0
       IF (NCONLD.GT.0)
      .  CALL C_IBCL(IBCL,CEP,P-1,NCONLD_L)
 C--------------------------------------
-C Denombrements Fixvel
+C counts Fixvel
 C--------------------------------------
       NFXVEL_L = 0
       IF (NFXVEL.GT.0)
      .  CALL C_IBFV(IBFV,NFXVEL,NFXVEL_L,P-1,DD_LAGF)
 C--------------------------------------
-C Denombrements LLINK
+C counts LLINK
 C--------------------------------------
       NLLINK_L=0
       NSKYLL_L=0
       IF (NLINK.GT.0)
      .  CALL C_LLINK(NNLINK,LLLINK,P-1,NLLINK_L,NSKYLL_L)
 C--------------------------------------
-C Denombrements LLGRAV
+C counts LLGRAV
 C--------------------------------------
       LLGRAV_L=0
       IF (NGRAV.GT.0)
      .  CALL C_IGRAV(IGRAV,LGRAV,LLGRAV_L,P-1,NODLOCAL,NUMNOD_L)
 C--------------------------------------
-C Denombrements laisons RAD2RAD
-C--------------------------------------
-C      LR2RNOD_L=0
-C      IF (NR2RLNK.GT.0)
-C     .  CALL C_R2R(IEXLNK,LR2RNOD_L,IGRN,IBUFSSG,FRONT,P-1)
-C--------------------------------------
-C Denombrements IBVEL
+C counts IBVEL
 C--------------------------------------
       LLBVEL_L=0
       NSKYRBM_L = 0
       IF (NIBVEL.GT.0)
      .  CALL C_IBVEL(IBVEL,LBVEL,LLBVEL_L,NSKYRBM_L,P-1)
 C--------------------------------------
-C Denombrements RBE2
+C counts RBE2
 C--------------------------------------
       NRBE2_L=0
       LLRBE2_L=0
@@ -1272,7 +1254,7 @@ C--------------------------------------
      .   CALL C_IRBE2(IRBE2,LRBE2,P-1   ,NRBE2_L,
      .                LLRBE2_L ,NBDDRBE2)
 C--------------------------------------
-C Denombrements RBE3
+C counts RBE3
 C--------------------------------------
       NRBE3_L=0
       LLRBE3_L=0
@@ -1282,7 +1264,7 @@ C--------------------------------------
      .   CALL C_IRBE3(IRBE3,LRBE3,NSKYRBE3_L,P-1,
      .                NRBE3_L,LLRBE3_L ,NBDDRBE3M)
 C--------------------------------------
-C Denombrements MPC
+C counts MPC
 C--------------------------------------
       IF (NUMMPC.GT.0.AND.P.EQ.1)THEN
         INUM = NUMMPC+1
@@ -1291,17 +1273,17 @@ C--------------------------------------
         CALL C_IBMPC(IBMPC,IBMPC(INUM),IBMPC(IDDL),IBMPC(ISKW),DD_LAGF)
       END IF
 C--------------------------------------
-C Denombrements nb elts locaux total
+C counts nb of local elts 
 C--------------------------------------
       NUMEL_L = NUMELS_L + NUMELQ_L + NUMELC_L + NUMELT_L + NUMELP_L
      +        + NUMELR_L + NUMELUR_L+ NUMELTG_L+ NUMELX_L + NUMSPH_L
      +        + NUMELIG3D_L
 C--------------------------------------------
-C Denombrements buffer TH
+C counts buffer TH
 C--------------------------------------------
       LENTHGT = NITHGR*(NTHGRP0+NBR_TH_MONVOL)
 C--------------------------------------
-C Denombrements Frontieres SPMD
+C counts boundary (SPMD)
 C--------------------------------------
       NLAGF_L = 0
       CALL C_FRONT(P        ,NBDDACC,NBDDKIN,NBDDNRB,
@@ -1314,7 +1296,7 @@ C--------------------------------------
      8             NUMNOD_L)
       NBDDNOD = NBDDACC+NBDDKIN
 C--------------------------------------
-C Denombrements Parith/ON SPMD
+C counts Parith/ON SPMD
 C--------------------------------------
       IF (IPARI0.NE.0) THEN
         CALL C_PON(ADDCNE ,NUMNOD_L,NODGLOB ,LCNE_L ,I2NSNT ,
@@ -1341,10 +1323,10 @@ C--------------------------------------
         LCNCND_L = 0
       ENDIF
 C--------------------------------------------
-C Denombrements et split FLEXIBLE BODY
+C counts and split FLEXIBLE BODY
 C--------------------------------------------
       IF (NFXBODY.GT.0) THEN
-C Split des tableaux des modes, des contraintes, de la gravite (entiers)
+C Split arrays 
          CALL C_FXBODY1(
      .     FXBIPM,    FXBNOD,   NODLOCAL, IPARG,    FXBELM,
      .     LENNOD_L,  LENMOD_L, LENELM_L, LENSIG_L, P-1,
@@ -1359,7 +1341,7 @@ C
      .     FXBNOD_L,  FXBMOD_L, FXBELM_L, FXBSIG_L, P-1   ,
      .     FXBMOD,    FXBSIG,   FXBIPM_L, FXBGRVI,
      .     FXBGRVI_L, LENNOD_L, ITASK)
-C Tableaux restants attribues au PMAIN
+C arrays pined to PMAIN
          CALL C_FXBODY3(
      .     LENGLM_L, LENCP_L,   LENLM_L,  LENFLS_L, LENDLS_L,
      .     LENMCD_L, LENGRVR_L, FXBIPM_L, P-1     )
@@ -1389,14 +1371,14 @@ C
         LENGRVR_L=0
       ENDIF
 C--------------------------------------------
-C Denombrements Eig
+C counts Eig
 C--------------------------------------------
       LEIBUF_L = 0
       IF (NEIG.GT.0)
      .   CALL C_EIG(EIGIPM   , EIGIBUF , EIGRPM, NODLOCAL, EIGIPM_L,
      .              EIGIBUF_L, LEIBUF_L)
 C--------------------------------------------
-C Denombrement slipring et retractor
+C count slipring and retractor
 C--------------------------------------------
       N_SEATBELT_L = 0
       N_SEATBELT_2D_L = 0
@@ -1412,11 +1394,9 @@ C
      .                   N_SEATBELT_L,N_SEATBELT_2D_L,CEP,OFF)
       ENDIF
 C--------------------------------------------
-C Modifications tableaux FLOW
-C--------------------------------------------
       IF (NFLOW.GT.0) CALL M_FLOW(IFLOW, IFLOW_L, NODLOCAL, P, MEMFLOW)
 C--------------------------------------------
-C Split des airbags ALE
+C Split airbags ALE
 C--------------------------------------------
       IF (NFVBAG.GT.0) THEN
          IF (TETRAMESHER_USED) THEN
@@ -1440,7 +1420,7 @@ C--------------------------------------------
          ENDIF
       ENDIF
 C--------------------------------------------
-C Denombrement "faces externes de solides"
+C count external solids faces 
 C--------------------------------------------
       NFASOLFR_L= 0
       IF(NFASOLFR.NE.0 .AND. NUMELS_L.NE.0)THEN
@@ -1454,37 +1434,37 @@ C--------------------------------------------
         CALL C_SEGQUADFR(SEGQUADFR, CEP, P-1, CEL, NSEGQUADFR_L)
       ENDIF
 C--------------------------------------
-C Denombrements flux convec
+C counts flux convec
 C--------------------------------------
       NCONV_L = 0
       IF (NUMCONV.GT.0)
      .    CALL C_ICONV(IBCV,CEP,P-1,NCONV_L)
 C--------------------------------------
-C Denombrements flux radiatifs
+C counts radiative fluxes              
 C--------------------------------------
       NRADIA_L = 0
       IF (NUMRADIA.GT.0)
      .    CALL C_IRADIA(IBCR,CEP,P-1,NRADIA_L)
 C--------------------------------------
-C Denombrements flux imposes
+C counts imposed fluxes 
 C--------------------------------------
       NFXFLUX_L = 0
       IF (NFXFLUX.GT.0)
      .    CALL C_ITHFLUX(IBFFLUX,CEP,P-1,NFXFLUX_L)
 C--------------------------------------
-c Denombrements Fixtemp
+c counts Fixtemp
 C--------------------------------------
       NFXTEMP_L = 0
       IF (NFXTEMP.GT.0)
      .  CALL C_IBFT(IBFT,NFXTEMP,NFXTEMP_L,P-1,DD_LAGF)
 C--------------------------------------
-C Denombrement Options muiltiplicateurs lagranges
+C count Lagrange multiplier
 C--------------------------------------
       LAG_SEC=0
       IF(LAG_NCF+LAG_NCL > 0)
      .  CALL C_LAG(IPARI,NPRW,LAG_SEC)
 C--------------------------------------------
-C Denombrement Elements locaux PLY X-FEM type SHEL 4-NOEUD
+C count Elements PLY X-FEM type SHEL 4-N
 C--------------------------------------------
        NUMELCPXFE_L = 0
        NUMNODPXFE_L = 0
@@ -1494,10 +1474,9 @@ C plyxfem
          CALL C_PXFEM(CEP(OFF+1),P-1 ,NODGLOB  ,IEL_PXFEM  ,INOD_PXFEM,
      .                 IEPXFEM_L,INPXFEM_L, NUMELC , NUMNOD_L ,NUMELC_L,
      .                 NUMELCPXFE_L,NUMNODPXFE_L,INDEX_PXFEM)
-cc     .                 NUMELCPXFE_L,NUMNODPXFE_L,CEL_PXFEM,INDEX_PXFEM)
        ENDIF
 C--------------------------------------------
-C Denombrement Elements locaux CRACK X-FEM type SHELL 4-NOEUD (layered shell)
+C count Elements (local) CRACK X-FEM type SHELL 4-NODE (layered shell)
 C--------------------------------------------
        NUMELCRKXFE_L = 0
        NUMELCCRKXFE_L = 0
@@ -1508,7 +1487,6 @@ C--------------------------------------------
        INCRKXFEM_L=0
        IELXFEMC_L=0
        IELXFEMTG_L=0
-cc       INDEX_CRKXFEM=0
        NOD_XFE_L = 0
        IF(ICRACK3D > 0)THEN
          ALLOCATE(TAGEDGE(NUMEDGES))
@@ -1575,16 +1553,13 @@ C
          ALLOCATE(INDEX_CRKXFEM(0))
          ALLOCATE(NODLEVXF_L(0))
        ENDIF
-C--------------------------------------------
-C Autres denombrements a finaliser
-C--------------------------------------------
       CALL SETLENWA(
      1      LENWA_L ,NTHWA    ,NAIRWA    ,NUMELS_L ,NUMELQ_L,
      2      NUMELC_L,NUMELTG_L,NUMELT_L  ,NUMELP_L ,NUMELR_L,
      3      NUMNOD_L,NMNT     ,L_MUL_LAG1,L_MUL_LAG,MAXNX   ,
      4      LWASPH_L,NUMSPH_L  ,LWASPIO, NRCVVOIS )
 C--------------------------------------
-C Denombrements LLCFIELD
+C counts LLCFIELD
 C--------------------------------------
       LLCFIELD_L=0
       LLLOADP_L=0
@@ -1595,13 +1570,13 @@ C--------------------------------------
         NISKY0_L=NISKY0_L+4*LLLOADP_L
       ENDIF
 C--------------------------------------
-C     Denombrements ELEMENTS ISO GEOMETRIQUES
+C     counts ELEMENTS ISO GEOMETRIQUES
 C--------------------------------------
       ISUMNIG3D_L = 0
       IF (NUMELIG3D.GT.0)
      .  CALL C_ELIG3D(KXIG3D,P-1,ISUMNIG3D_L)
 C--------------------------------------
-C     Denombrements ICNDS10 Itet=2 of S10
+C     counts ICNDS10 Itet=2 of S10
 C--------------------------------------
       NS10E_L = 0
       NBDDCNDM = 0
@@ -1609,7 +1584,7 @@ C--------------------------------------
       IF (NS10E.GT.0)
      .  CALL C_ICNDS10(ICNDS10,ITAGND,P-1,NS10E_L,NBDDCNDM,MS,MSNDP(P))
 C--------------------------------------
-C     Denombrements /BCS/CYCLIC
+C     counts /BCS/CYCLIC
 C--------------------------------------
       NBCSCYC_L = 0
       LLBCSCYC_L = 0
@@ -1632,11 +1607,6 @@ C--------------------------------------------
       IR_ = P
       WRITE(CHRUN,'(I4.4)')IRUN
       WRITE(PROCNAM,'(I4.4)')P
-c      DO I = 1, 4
-c        IM = MOD(IR_,10)
-c        IR_ = IR_ / 10
-c        PROCNAM(4-I) = IM
-c      ENDDO
       FILNAM = ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_'//PROCNAM//'.rst'
       TMP_NAME = OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))
       LEN_TMP_NAME = OUTFILE_NAME_LEN+ROOTLEN+14
@@ -1658,12 +1628,7 @@ C fichier de restart au format binaire ieee 64 bits
       CALL WRITE_C_C(IFILNAM2,ROOTLEN+14)
       LEN_IA = LEN_IA + ROOTLEN+14
 C--------------------------------------------
-C WRITE FILE PARTIE A MODIFIER
-C--------------------------------------------
-C La variable Skippon_l sert a Modif Files SPMD.
-C Les structures Parith/On ne sont pas necessaires a modif SPMD
-C pour reconstruire les structires dans le Starter.
-C Dans ce cas, elles sont sautes.
+C  Skippon_l for obsolide "modif" option.
       SKIPPON_L = NUMNOD_L+1 + LCNE_L + LCNI2_L +
      .  8*NUMELS_L + 6*NUMELS10_L + 8*NUMELS16_L + 12*NUMELS20_L +
      .  4*NUMELQ_L + 4*NUMELC_L   + 2*NUMELT_L + 2*NUMELP_L +
@@ -1678,8 +1643,8 @@ C Dans ce cas, elles sont sautes.
        ENDIF
 
 C--------------------------------------------
-C     PREPARATION SPMD DES VARIABLES ENTIERES ET REELLES.PAR PROC
-C--------------------------------------
+C     SPMD: variables preparation 
+C--------------------------------------------
 
       CALL WRCOMIP(
      1   LMXVINT   ,LVARINT   ,TABVINT   ,NGROUP_L  ,LBUFEL_L ,
@@ -1724,12 +1689,12 @@ C--------------------------------------
 
       CALL WRCOMR(LMXVREA,LVARREA,TABVREA,MSNDP(P),P)
 C--------------------------------------
-C     ECRITURE DU TEXTE
+C     write TEXT
 C--------------------------------------
       CALL WRITE_I_C(TEXT,LCOM05)
       LEN_IA = LEN_IA + LCOM05
 C--------------------------------------
-C     ECRITURE DU HEADER.
+C     Write HEADER.
 C--------------------------------------
 C     RADIOSS FILE R/W
       TABHEAD(1) =IRADIOS
@@ -1776,8 +1741,6 @@ C
       CALL WRITE_I_C(TABHEAD, LHEADER)
       LEN_IA = LEN_IA + LHEADER + 1
 C--------------------------------------
-C     ECRITURE DES VARIABLES ENTIERES
-C--------------------------------------
       CALL WRITE_I_C(TABVINT,LVARINT)
       LEN_IA = LEN_IA + LVARINT
 C--------------------------------------
@@ -1785,20 +1748,10 @@ C     NODGLOB Deplacee
 C--------------------------------------
       CALL WRITE_I_C(NODGLOB,NUMNOD_L)
       LEN_IA = LEN_IA + NUMNOD_L
-C--------------------------------------
-C     ECRITURE DE WEIGHT Deplacee
-C--------------------------------------
       CALL W_MAIN_PROC_WEIGHT(NODGLOB,NUMNOD_L,NSPMD,P)
       LEN_IA = LEN_IA + 2*NUMNOD_L
-!      CALL WRMAIN_PROC(NODGLOB,NUMNOD_L,NSPMD)
-!      LEN_IA = LEN_IA + NUMNOD_L
 C--------------------------------------
-C     ECRITURE DE WEIGHT Deplacee
-C--------------------------------------
-!      CALL WRWEIGHT(NODGLOB,NUMNOD_L,P)
-!      LEN_IA = LEN_IA + NUMNOD_L
-C--------------------------------------
-C     ECRITURE DES ENTIERS
+C     Integers 
 C--------------------------------------
       LEN_G = NPROPGI*NUMGEO
       LEN_M = NPROPMI*NUMMAT
@@ -1852,7 +1805,6 @@ C      OFF = OFF + NUMELUR
 c      OFF = OFF + NUMSPH
       CALL W_IELOC(IPARTIG3D,CEP(OFF+1),P-1,NUMELIG3D,NUMELIG3D_L,LEN_IA)
 C
-C
       IF(P.EQ.1)THEN
         CALL WRITE_I_C(NOM_OPT,LNOM_OPT)
         LEN_IA = LEN_IA + LNOM_OPT
@@ -1861,21 +1813,19 @@ C
       CALL WRITE_I_C(NPC,3*NFUNCT+1)
         LEN_IA = LEN_IA + 3*NFUNCT+1
 C--------------------------------------------
-C Connectivites Elements RNUR
+C contectivity for RNUR
 C--------------------------------------------
       OFF = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG
       CALL W_IXLOC(IXUR,NIXUR,4,CEP(OFF+1),P-1,
      +             NUMELUR,NUMELUR_L,NODLOCAL,LEN_IA)
-C      OFF = OFF+NUMELUR
 C--------------------------------------------
-C Connectivites Elements Triangles
+C Connectivity for Triangles
 C--------------------------------------------
       OFF = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR
       CALL W_IXLOC(IXTG,NIXTG,3,CEP(OFF+1),P-1,
      +             NUMELTG,NUMELTG_L,NODLOCAL,LEN_IA)
 C--------------------------------------------
-C Elts frontiere CFD/ALE
-C tableaux additionnels cfd (partie frontiere elts + preparation ielevs)
+C boundary Elts CFD/ALE
 C--------------------------------------------
       IF(IALE+IEULER+ITHERM+IALELAG.NE.0) THEN
         IF(NUMELS_L+NUMELQ_L+NUMELTG_L.GT.0) THEN
@@ -1913,14 +1863,14 @@ C--------------------------------------------
         ENDIF
       ENDIF
 C--------------------------------------------
-C tableaux Additionnels de Triangles
+C Triangles
 C--------------------------------------------
       OFF = OFF+NUMELTG3
       CALL W_IXBLOC(IXTG6,3,4,CEP(OFF+1),P-1,
      +              NUMELTG6,NUMELTG6_L,NODLOCAL,LEN_IA)
 C      OFF = OFF+NUMELTG6
 C--------------------------------------------
-C Connectivites Elements Solides
+C Solid: elements connectivity
 C--------------------------------------------
       OFF = 0
       CALL W_IXLOC(IXS,NIXS,8,CEP(OFF+1),P-1,
@@ -1933,7 +1883,7 @@ C
      +        DEALLOCATE(IXSF)
       ENDIF
 C--------------------------------------------
-C tableaux Additionnels de solides
+C Solids                                
 C--------------------------------------------
       OFF = OFF+NUMELS8
       CALL W_IXALOC(IXS10,6,CEP(OFF+1),P-1,
@@ -1949,7 +1899,7 @@ C--------------------------------------------
      +             NUMELQ,NUMELQ_L,NODLOCAL,LEN_IA)
       OFF = OFF+NUMELQ
 C--------------------------------------------
-C Elts frontiere CFD/ALE
+C Boundary Elts CFD/ALE
 C--------------------------------------------
       IF(IALE+IEULER+ITHERM+IALELAG.NE.0) THEN
         CALL WRITE_I_C(IXQF,NIXQ*NQVOIS)
@@ -1964,7 +1914,6 @@ C--------------------------------------------
       CALL W_IXLOC(IXT,NIXT,2,CEP(OFF+1),P-1,
      +             NUMELT,NUMELT_L,NODLOCAL,LEN_IA)
       OFF = OFF+NUMELT
-C      CALL W_IXLOC(IXP,NIXP,2,CEP(OFF+1),P-1,
       CALL W_IXLOC(IXP,NIXP,3,CEP(OFF+1),P-1,
      +             NUMELP,NUMELP_L,NODLOCAL,LEN_IA)
       OFF = OFF+NUMELP
@@ -1975,16 +1924,12 @@ C--------------------------------------
 C ITAB
 C--------------------------------------
       CALL W_INLOC(ITAB,NODGLOB,NUMNOD_L,LEN_IA)
-C ITABM1 : passe 1 : no user ordre croissant
-C retris ITABM1 et ITABM2 suivant num user croissant suite a optimisation numerotation nodale
-C et ecriture en une seule phase des 2 parties de ITABM1
       CALL W_ITABM1(ITABM1,ITABM1(NUMNOD+1),NODGLOB,NODLOCAL,NUMNOD_L,
      .              ITAB,LEN_IA)
 C--------------------------------------
 C GJBUFI
 C--------------------------------------
       IF(NGJOINT.NE.0 .AND. P == 1) THEN
-c        CALL W_GJOINT(GJBUFI,NGJOINT,LKJNR,NODLOCAL,LEN_IA)
         CALL W_GJOINT(GJBUFI,NGJOINT,LKJNI,NODLOCAL,LEN_IA)
       END IF
 C--------------------------------------
@@ -2061,7 +2006,7 @@ C     ----------------------    C
          LEN_IA = LEN_IA + NUMELS_L + NSVOIS + NUMELQ_L + NQVOIS + NUMELTG_L + NTGVOIS
       ENDIF
 C
-C Ajout multi mat 2D en mono SPMD
+C multi mat 2D mono SPMD
 C
       IF(NMULT > 0) THEN
         CALL WRITE_I_C(IFILL,SIFILL)
@@ -2113,7 +2058,6 @@ C--------------------------------------------
          LEN_IA = LEN_IA + S_LOADPINTER 
          write(*,*) 'Sizes', NINTER+1,S_LOADPINTER
       ENDIF
-C------------
 C--------------------------------------
 C IBFV
 C--------------------------------------
@@ -2161,12 +2105,6 @@ C--------------------------------------
          ENDDO
       ENDIF
 
-C--------------------------------------
-C IEBCS for multifluid law
-C--------------------------------------
-c$$$      IF(NEBCS .GT. 0) THEN
-c$$$         CALL W_MULTI_IEBCS(IEBCS, CEP, NUMELS, NUMELS_LOC, P-1)
-c$$$      ENDIF
 C--------------------------------------
 C LACCELEM (renumerote directement)
 C--------------------------------------
@@ -2263,11 +2201,11 @@ C--------------------------------------
         CALL W_IBMPC(IBMPC,NUMMPC,LMPC,NODLOCAL,LAG_SEC,LEN_IA)
       END IF
 C--------------------------------------
-C KINET : Attention ds Engine aux noeuds frontieres
+C KINET                                            
 C--------------------------------------
       CALL W_INLOC(KINET,NODGLOB,NUMNOD_L,LEN_IA)
 C--------------------------------------------
-C FASOLFR : "faces externes de solides"
+C FASOLFR : "external segments for solids"                           
 C--------------------------------------------
       IF(NFASOLFR_L.NE.0)THEN
         CALL W_FASOLFR(FASOLFR ,CEP ,P-1 ,CEL, NFASOLFR_L,
@@ -2306,10 +2244,6 @@ c       start CPU timer for INTBUF_INI
         CALL INTBUF_INI_STARTER(INTBUF_TAB_L, IPARI_L, NUMNOD_L,
      .                          I11FLAG, FLAG_ALLOCATE, P-1,INTBUF_FRIC_TAB)
 
-C       WRITE(6,*) "PS",INTBUF_TAB_L%S_CAND_PS,INTBUF_TAB_L%S_CAND_PS
-C       WRITE(6,*) "P",INTBUF_TAB_L%S_CAND_P,INTBUF_TAB_L%S_CAND_P
-
-
         !write local IPARI_L
         CALL WRITE_I_C(IPARI_L,NPARI*NINTER)
 c       stop CPU timer for INTBUF_INI
@@ -2336,7 +2270,6 @@ c       stop CPU timer for SPLIT_INTERFACES
       ELSE
        ALLOCATE(ITABI2M(1))
       ENDIF
-      ! IF(NSPMD > 1) CALL W_TYPE8(IPARI,P-1,T8)
 
 C--------------------------------------
 C RW et RW ALE
@@ -2373,7 +2306,7 @@ C--------------------------------------------
         LEN_IA = LEN_IA + SNOM_SECT
       ENDIF
 C--------------------------------------------
-C Joints Cylindrique
+C cylindrical joints
 C--------------------------------------------
       IF(NJOINT.GT.0) THEN
         CALL WRITE_JOINT(LJOINT,CEP,CEL,P-1,
@@ -2416,7 +2349,7 @@ C--------------------------------------
        ALLOCATE(ITABCNDM(1))
       ENDIF
 C--------------------------------------------
-C TH Groupes
+C TH Groups
 C--------------------------------------------
       CALL W_TH(ITHGRP ,ITHBUF ,LENTHG,NODLOCAL,CEL   ,
      2          NTHGRP0,NTHGRP ,P       ,LEN_IA,
@@ -2510,7 +2443,6 @@ C--------------------------------------
      L   NUMNOR_L ,NBDDEDGT_L,NBDDEDG_MAX_L,INTERCEP ,NBDDCNDM,
      M   ITABCNDM,MULTI_FVM,IGRSURF,ISKWP_L,ALE_ELM,
      N   SIZE_ALE_ELM  )
-c      IF(NBDDI2M.GT.0) DEALLOCATE(ITABI2M)
       DEALLOCATE(ITABI2M)
       DEALLOCATE(ITABRBE3M)
       DEALLOCATE(ITABRBE2M)
@@ -2548,16 +2480,13 @@ C--------------------------------------
      P      CNCND     ,NS10E_L   ,ICNDS10 ,LCNCND_L ,ITAGND ,IGRSURF,
      Q      IGRSURF_PROC )
 
-C--------------------------------------
-C Autres nouveautes ...
-C--------------------------------------
 
       CALL COMPRESS_I_NNZ(IGEO,LEN_G)
       LEN_IA = LEN_IA + LEN_G
       CALL COMPRESS_I_NNZ(IPM,LEN_M)
       LEN_IA = LEN_IA + LEN_M
 C--------------------------------------
-C KCONTACT : Attention ds Engine aux noeuds frontieres
+C KCONTACT                                        
 C--------------------------------------
       IF(KCONTACT.NE.0)THEN
         CALL W_INLOC(ICONTACT,NODGLOB,NUMNOD_L,LEN_IA)
@@ -2567,7 +2496,7 @@ C--------------------------------------
       CALL WRITE_I_C(IPART_STATE ,LEN_S)
       LEN_IA = LEN_IA + LEN_S
 C--------------------------------------
-C Ecriture Adaptive meshing (entiers)
+C Adaptive meshing (integers)
 C--------------------------------------
       IF(NADMESH /= 0)THEN
         CALL WRITE_I_C(SH4TREE,KSH4TREE*NUMELC)
@@ -2584,9 +2513,8 @@ C--------------------------------------
         LEN_IA = LEN_IA + LEN_ADM
       END IF
 C--------------------------------------
-C ecriture des strutures d' interfaces (stockage dynamique engine)
+C Interfaces 
 C--------------------------------------
-c       start CPU timer for W_FI
         CALL STARTIME(8,1)
 
         CALL W_FI(IPARI,P-1,LEN_IA,
@@ -2607,7 +2535,7 @@ C--------------------------------------
         LEN_IA=LEN_IA+LINTSTAMP
       END IF
 C--------------------------------------
-C FRICTION INTERFACE (INTEGERS)
+C interface friction (integers)
 C--------------------------------------
        IF(NINTERFRIC > 0) THEN
           CALL INTFRIC_WRESTI(INTBUF_FRIC_TAB, LINTFRIC)
@@ -2654,14 +2582,14 @@ C
         CALL WRITE_I_C(IEDGE_L,NUMEDGES_L)
         LEN_IA = LEN_IA + NUMEDGES_L
 C--------------------------------------
-C     ECRITURE DE NODGLOB nodxfem
+C       NODGLOB nodxfem
 C--------------------------------------
         CALL WRITE_I_C(NODGLOBXFE,NOD_XFE_L)
         LEN_IA = LEN_IA + NOD_XFE_L
         IF(ALLOCATED(NODGLOBXFE))DEALLOCATE(NODGLOBXFE)
       END IF
 C--------------------------------------
-C     ECRITURE DES ELEMENTS ISO GEOMETRIQUES
+C     Isogeo                                      
 C--------------------------------------
       IF (NUMELIG3D.GT.0)
      .  CALL W_ELIG3D(KXIG3D,NUMELIG3D,ISUMNIG3D_L,IXIG3D,
@@ -2671,13 +2599,13 @@ C TAG_SKINS6 : used for /H3D/STRESS/TENS/OUTER
 C--------------------------------------
       CALL W_IELOC(TAG_SKINS6,CEP,P-1,NUMELS,NUMELS_L,LEN_IA)
 C--------------------------------------
-C     ECRITURE /BCS/CYCLIC
+C     /BCS/CYCLIC
 C--------------------------------------
       IF (NBCSCYC_L > 0)
      .    CALL W_IBCSCYC(IBCSCYC,LBCSCYC,NODLOCAL ,P-1,LLBCSCYC_L,
      .                   NBCSCYC_L,LEN_IA )
 C--------------------------------------
-C     ECRITURE DES VARIABLES REELLES
+C     Write REAL variable                               
 C--------------------------------------
       LEN_AM = 0
       CALL WRITE_DB(TABVREA, LVARREA)
@@ -2725,7 +2653,7 @@ C--------------------------------------------
         ENDIF
       ENDIF
 C--------------------------------------------
-C Masse et Inertie
+C Mass et Inertia
 C--------------------------------------------
       CALL W_RNLOC(MS,NODGLOB,NUMNOD_L,LEN_AM)
 
@@ -2737,7 +2665,7 @@ C------Mass in 2D : MS_2D table is written here (MS_2D = MS in starter)-----
       IF(IRODDL.GT.0)
      .  CALL W_RNLOC(IN,NODGLOB,NUMNOD_L,LEN_AM)
 C--------------------------------------------
-C Fonctions
+C Functions
 C--------------------------------------------
       IF(NFUNCT.NE.0)THEN
         CALL WRITE_DB(TF,NPTS)
@@ -2858,7 +2786,7 @@ C--------------------------------------------
          ENDIF
       ENDIF
 C
-C Ajout multi mat 2D en mono SPMD
+C multi mat 2D: mono SPMD
 C
       IF(NMULT > 0) THEN
         CALL W_RFILLOC(FILL,NODGLOB,NUMNOD,NUMNOD_L,NMULT,LEN_AM)
@@ -2931,8 +2859,6 @@ C--------------------------------------------
        CALL WRITE_I_C(TAB_UMP,TAILLE*7)
 C
        CALL WRITE_I_C(POIN_UMP,NUMMAT)
-C
-c       CALL WRITE_DB(TAB_MAT_PROP,NUMMAT*NUMGEO*TABMP_L)
 c
        CALL W_TABMAT_PROP(IPARG,IXC,IXTG,IXS,P-1,NGROUP_L,
      .                         POIN_PART_SHELL,POIN_PART_TRI,POIN_PART_SOL,
@@ -3031,13 +2957,13 @@ C--------------------------------------------
       CALL WRITE_DB(PARTS0,NPART)
       LEN_AM = LEN_AM + NPART
 C--------------------------------------
-C USERWINDOW Partie flotante
+C USERWINDOW (float)
 C--------------------------------------
       IF(P.EQ.1.AND.IUSERWI/=0)THEN
         CALL  WRITE_DB(USERW,SUSERW_L)
       ENDIF
 C--------------------------------------------
-C Buffer Element
+C Element Buffer
 C--------------------------------------------
       CALL W_BUFEL(IPARG,P-1,LBUFEL_L,ELBUF,LEN_AM)   ! old buffer
 c------------------
@@ -3080,8 +3006,6 @@ C--------------------------------------------
 C--------------------------------------------
 C SECBUF
 C--------------------------------------------
-c      CALL WRITE_DB(SECBUF,LSECBUF)
-c      LEN_AM = LEN_AM + LSECBUF
       IF(NSECT.GT.0)
      +  CALL W_SECBUF(SECBUF,LSECBUF_L,NSTRF,P-1,LEN_AM)
 C--------------------------------------------
@@ -3101,6 +3025,7 @@ C--------------------------------------------
       END IF
 C--------------------------------------------
 C RCONX
+C--------------------------------------------
       IF(NCONX.GT.0.AND.P.EQ.1)THEN
         CALL WRITE_DB(RCONX,NCONX*NRCNX)
         LEN_AM = LEN_AM + NCONX*NRCNX
@@ -3127,7 +3052,7 @@ C--------------------------------------
         ENDIF
       ENDIF
 C--------------------------------------
-C     Longueur zone des infos pour chk point restart
+C     Lengths for checkpoint restart
 C--------------------------------------
       MY_ILEN = 0
       MY_RLEN = 0
@@ -3135,7 +3060,7 @@ C--------------------------------------
       CALL WRITE_I_C(MY_RLEN,1)
       LEN_IA=LEN_IA+2
 C--------------------------------------
-C     Masses elementaires
+C     Elem Masses 
 C--------------------------------------
       IF(NADMESH /= 0 .OR. IREST_MSELT /= 0)THEN
         OFF  = NUMELS + NUMELQ
@@ -3167,7 +3092,7 @@ C--------------------------------------
      .                LEN_AM )
        END IF
 C--------------------------------------
-C Ecriture Adaptive meshing (reels)
+C Adaptive meshing (float)
 C--------------------------------------
       IF(NADMESH /= 0)THEN
         CALL WRITE_DB(PADMESH,KPADMESH*NPART)
@@ -3184,7 +3109,6 @@ C--------------------------------------------
 C CBAPINCHING
 C--------------------------------------------
       IF(NPINCH > 0 ) THEN
-C [PM] write sspecific subroutines later
         CALL WRITE_DB(PINCH_DATA%VPINCH,3*NUMNOD_L)
         LEN_AM = LEN_AM + 3*NUMNOD_L
         DEALLOCATE(PINCH_DATA%VPINCH)
@@ -3222,7 +3146,6 @@ C--------------------------------------
        ENDIF
 C-----------------------------------------------
       CALL W_RNLOC(MS0,NODGLOB,NUMNOD_L,LEN_AM)
-C------ Now MS0,IN0 are in restart (always)
       IF(SIN > 0) CALL W_RNLOC(IN,NODGLOB,NUMNOD_L,LEN_AM)
 C--------------------------------------
 C Advanced Mass Scaling
@@ -3246,9 +3169,8 @@ C--------------------------------------
         CALL W_INLOC(NATIV_SMS,NODGLOB,NUMNOD_L,LEN_IA)
       ENDIF
 C--------------------------------------
-C structure tables (partie reelle)
+C TABLE (float)                                
 C--------------------------------------
-
       IF(NTABLE /= 0)THEN
         CALL TABLE_WRESTR(TABLE, LTABLE)
         LEN_AM=LEN_AM+LTABLE
@@ -3303,7 +3225,7 @@ C FLOW
 C-----------------------------------------------
       IF (NFLOW.GT.0) CALL NFWRESTP(IFLOW_L,RFLOW,LEN_IA,LEN_AM)
 C-----------------------------------------------
-C ALEBAG (inactif pour l'instant en SPMD)
+C ALEBAG                                 
 C-----------------------------------------------
       CALL FVWRESTP(P)
 C-----------------------------------------------
@@ -3323,7 +3245,6 @@ C-----------------------------------------------
         LEN_AM = LEN_AM + 3*NUMNOD_L
         DEALLOCATE(FORNEQS)
       ENDIF
-C
 C ----------------------------------------------
 C Units
 C-----------------------------------------------
@@ -3338,9 +3259,6 @@ C float
 c integer
         CALL W_RBYMK(IRBYM,LCRBYM,FRONT_RM,NODLOCAL,P-1,
      .                   NSLARBM_L,LEN_IA)
-C--------------------------------------
-C     ECRITURE DE WEIGHT Deplacee
-C--------------------------------------
        CALL WRWEIGHT_RM(FRONT_RM,NRBYM,P)
       ENDIF
 C--------------------------------------
@@ -3383,10 +3301,6 @@ C fixtemp integer
          CALL W_IBFT(IBFT,NFXTEMP,NODLOCAL,LEN_IA,
      .          NFXTEMP_L,P-1)
        ENDIF
-c      IF(NTABLE /= 0)THEN
-c        CALL TABLE_WRESTR(TABLE, LTABLE)
-c        LEN_AM=LEN_AM+LTABLE
-c      END IF
 C
 C  ply xfem
 C
@@ -3405,7 +3319,7 @@ C PlyXfem Anim
          OFF = NUMELS + NUMELQ
          CALL W_ANIM_PLY(IXC,      NUMELC_L,   NODLOCAL,
      *                   NUMNOD_L, CEL(OFF+1), CEP(OFF+1), P-1)
-C plyxfem vitesse, dplacement
+C plyxfem velocity, displacement
          CALL W_AVUPLY(NUMNODPXFE_L,LEN_AM)
        ENDIF
 C--------------------------------------------
@@ -3492,7 +3406,6 @@ C--------------------------------------
        IF(IALEFVM > 0)CALL WRITE_DB(FCELL ,6*NUMELS)
 C--------------------------------------------
 C  for foam+air
-C
        IF(IALELAG > 0) THEN
           CALL W_ALELAG(DFLOW,VFLOW,WFLOW,NODGLOB,NUMNOD_L,LEN_AM)
        ENDIF
@@ -3514,11 +3427,9 @@ C--------------------------------------------
 C--------------------------------------------
 C WIGE (ISO-GEOM ELEMENTS)
 C--------------------------------------------
-c       IF(NUMELIG3D > 0) CALL WRITE_DB(WIGE,NUMNOD)
-C
        IF(NUMELIG3D > 0) CALL W_RNLOC(WIGE,NODGLOB,NUMNOD,LEN_AM)
 C--------------------------------------------
-C STACK proprietes
+C STACK proprerties
 C--------------------------------------------
        IF(IPART_STACK > 0 .OR. IPART_PCOMPP > 0 ) THEN
           LEN_IG  = (3*NPT_STACK + 2)*NS_STACK
@@ -3560,13 +3471,9 @@ C             which is the file size before close
 #ifdef DEBUG_RST
       IF(FLUSH_RST_TO_TXT) CLOSE(777+ITASK)
 #endif
-C--------------------------------------------
-C Desallocation Tableaux F90
-C--------------------------------------------
       IF(NUMNOD_L.GT.0) DEALLOCATE(NODGLOB)
 C Deallocate
       DEALLOCATE(MONVOL_L)
-c      IF(NUMNOD.GT.0) DEALLOCATE(NODLOCAL)
 C--------------------------------------------
 C Array Deallocation
       DEALLOCATE(NODLOCAL)
@@ -3579,7 +3486,7 @@ C Array Deallocation
       DEALLOCATE(NUMLOCCLUSTER)
 
 C--------------------------------------------
-C Statistiques Domain Decomp
+C Stats Domain Decomp
 C--------------------------------------------
 C DDSTAT
 C 1 : NUMNOD Local
@@ -3593,20 +3500,20 @@ C 8 : NUMELR_L
 C 9 : NUMELUR_L
 C 10: NUMELTG_L
 C 11: NUMELX_L
-C 12: NBDDPROC :  nb de proc frontiere
-C 13: NBDDBOUN :  nb de noeud frontiere
-C 14: NBDDNOD :   taille des comm en nb de noeuds
-C 15: NBDDNRB :   taille des comm en nb de noeuds main de rby
-C 16: NRBYKIN_L : nombre de rigid body main locaux
-C 17: NUMSPH_L : nombre de particules SPH locales
-C 18: MEMI : taille memoire locale entier MA
-C 19: MEMR : taille memoire locale reel AM
-C 20: NSNT_L : nombre de noeuds secnds d'interface de contact (7,10,11)
-C 21: NMNT_L : nombre de noeuds main d'interface de contact (7,10,11)
-C 22: NSNT2_L : nombre de noeuds secnds d'interface type2
-C 23: NMNT2_L : nombre de noeuds main d'interface type2
-C 24: RESTSIZE : Taille du restart en KB
-C 24: NSLARB_L : nombre de noeuds secnd rigid body
+C 12: NBDDPROC :  nb of boundary proc 
+C 13: NBDDBOUN :  nb of boundary node 
+C 14: NBDDNOD :   size of comm:nb de nodes
+C 15: NBDDNRB :   size of comm: nb de nodes main de rby
+C 16: NRBYKIN_L : number of local rigid body main
+C 17: NUMSPH_L : number of particles SPH (local) 
+C 18: MEMI : size memory local int MA
+C 19: MEMR : size memory local float AM
+C 20: NSNT_L : number of nodes secnds (interface de contact 7,10,11)
+C 21: NMNT_L : number of nodes main (interface de contact 7,10,11)
+C 22: NSNT2_L : number of nodes secnds (interface type2)
+C 23: NMNT2_L : number of nodes main (interface type2)
+C 24: RESTSIZE : restart size in KB
+C 24: NSLARB_L : number of nodes secnd rigid body
       DDSTAT(1) = NUMNOD_L
       DDSTAT(2) = NUMEL_L
       DDSTAT(3) = NUMELS_L
@@ -3630,7 +3537,7 @@ C 24: NSLARB_L : nombre de noeuds secnd rigid body
       DDSTAT(23)= NMNT2_L
       DDSTAT(24)= NSLARB_L
 C
-C Evaluation memoire avec prise en compte des alloc engine suivant iparit
+C Estimating memory usage
 C
       IF(IPARI0.NE.0)THEN
         NISKY0_L=NISKY0_L+4*NCONV_L+4*NRADIA_L+4*NFXFLUX_L

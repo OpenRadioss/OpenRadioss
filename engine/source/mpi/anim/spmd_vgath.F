@@ -63,7 +63,7 @@ C-----------------------------------------------
       DATA MSGOFF2/7004/
       REAL, DIMENSION(:,:) , ALLOCATABLE :: BUFSR
       INTEGER, DIMENSION(:), ALLOCATABLE :: IBUF
-Cow Tableau utilise par proc 0
+C   Tableau utilise par proc 0
        REAL, DIMENSION(:,:), ALLOCATABLE :: XGLOB
 C=======================================================================
        ALLOCATE(BUFSR(3,NUMNODM), IBUF(NUMNODM))
@@ -82,9 +82,9 @@ C=======================================================================
            END IF
          END DO
 
-Cow a cause de la version simple precision, on ne peux pas metre l'entier
-Cow dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
-Cow de noeuds au max
+C   a cause de la version simple precision, on ne peux pas metre l'entier
+C   dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
+C   de noeuds au max
 
          MSGTYP = MSGOFF2 
          CALL MPI_SEND(IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
@@ -106,7 +106,7 @@ Cow de noeuds au max
 
           DO I=2,NSPMD
 
-Cow Reception du buffer entier des adresses NODGLOB
+C   Reception du buffer entier des adresses NODGLOB
             MSGTYP = MSGOFF2
 
             CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
@@ -116,7 +116,7 @@ Cow Reception du buffer entier des adresses NODGLOB
             CALL MPI_RECV(IBUF,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      .                  MPI_COMM_WORLD,STATUS,ierror)
 
-Cow Reception du buffer flottant des adresses NODGLOB
+C   Reception du buffer flottant des adresses NODGLOB
 
             MSGTYP = MSGOFF
             CALL MPI_RECV(BUFSR,3*SIZ,MPI_REAL,IT_SPMD(I),MSGTYP,

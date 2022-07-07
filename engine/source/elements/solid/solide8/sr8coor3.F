@@ -161,7 +161,7 @@ C-----------
         OFF(I) = MIN(ONE,ABS(OFFG(I)))
         OFF_L  = MIN(OFF_L,OFFG(I))
       ENDDO
-Clm
+C  
 C     Prepare les sorties par PART.
 C-----------
       IF(IOUTPRT.NE.0)THEN
@@ -196,7 +196,7 @@ C-----------
          ENDDO
        ENDIF
       ENDIF
-Clm
+C  
 C-----------
 C     REPERE CONVECTE (ITERATIONS).
 C-----------
@@ -211,7 +211,7 @@ C-----------
 C-----------
 C     PASSAGE AU REPERE CONVECTE.
 C-----------
-Clm   X=RX' <=> X'=t(R)X chgt de base.
+C     X=RX' <=> X'=t(R)X chgt de base.
        DO I=LFT,LLT
         XL=R11(I)*X1(I)+R21(I)*Y1(I)+R31(I)*Z1(I)
         YL=R12(I)*X1(I)+R22(I)*Y1(I)+R32(I)*Z1(I)

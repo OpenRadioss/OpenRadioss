@@ -243,7 +243,7 @@ C
        INGAPB(1:JLT,1:4) = 0
 C
        DO I=1,JLT
-Clm attention triangles 
+C   attention triangles 
   
          XI5 = XX(I,5) - XI(I)
          YI5 = YY(I,5) - YI(I)

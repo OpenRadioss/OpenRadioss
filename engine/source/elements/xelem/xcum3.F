@@ -148,7 +148,7 @@ C       XK= 0.5 *XC**2/(2.*MS(I1))
        USTIFM(K)=XK
       ENDDO
 C-----
-Clm   vecteur skyline necessaire pour rotations.
+C     vecteur skyline necessaire pour rotations.
       DO K=1,NX
        I1=IXX(IADNOD+K-1)
        NISKYL=NISKYL+1
@@ -162,14 +162,14 @@ Clm   vecteur skyline necessaire pour rotations.
 C-----
 C     total of stiffnesses and viscosities applied to each node
 C          were returned by user routine.
-Clm   vecteur skyline necessaire pour rotations.
+C     vecteur skyline necessaire pour rotations.
       DO K=1,NX
        I1=IXX(IADNOD+K-1)
        NISKYL=NISKYL+1
        FSKYI(NISKYL,1)=UFORC(1,K)
        FSKYI(NISKYL,2)=UFORC(2,K)
        FSKYI(NISKYL,3)=UFORC(3,K)
-Clm    A = XC/SQRT(2.*XK*XM), XK= XK/(SQRT(A**2+1)-A)**2  
+C      A = XC/SQRT(2.*XK*XM), XK= XK/(SQRT(A**2+1)-A)**2  
 C                          ou XK= 0.5*XC**2/MS(I1)
        FSKYI(NISKYL,4)=USTIFM(K)
        FSKYI(NISKYL,5)=TWO*UVISCM(K)

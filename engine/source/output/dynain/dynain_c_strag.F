@@ -363,7 +363,7 @@ c-----------------------------------------------------------------------
 c     4N SHELLS - WRITE
 c-----------------------------------------------------------------------
       IF (NSPMD == 1) THEN
-Clm     recopying for code simplification
+C       recopying for code simplification
         PTWA_P0(0)=0
         DO N=1,DYNAIN_NUMELC
           PTWA_P0(N)=PTWA(N)
@@ -671,7 +671,7 @@ C        pointer for last position for element IE
 C
 c-----------------------------------------------------------------------
       IF (NSPMD == 1) THEN
-Clm     recopying for code simplification
+C       recopying for code simplification
         LEN=JJ
         DO J=1,LEN
           WAP0(J)=WA(J)

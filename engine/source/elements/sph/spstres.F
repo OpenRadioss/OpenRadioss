@@ -169,8 +169,8 @@ C DOWNLOAD RHOO, RHON, DELTAX and D FROM WA.
      2        DYY, DYZ, DZX, DZY, DZZ,
      3        MUMAX)
 C-----------
-Clm   LAGRANGIAN ONLY.
-Clm do not enter spvol3 case thermal only material.
+C     LAGRANGIAN ONLY.
+C   do not enter spvol3 case thermal only material.
 C  (actually only Lagrangian case is available , not Ale neither Euler)
       IF(JLAG+JALE+JEUL.NE.0)THEN
         CALL SPVOL3(OFF,PM,GBUF%VOL,GBUF%EINT,RHOO,
@@ -181,7 +181,7 @@ C-----------
      .   DXX, DXY, DXZ, DYX, DYY, DYZ, DZX, DZY, DZZ,
      .   D4, D5, D6,WXX, WYY, WZZ)
 C-----------
-Clm   when particle is sleeping, stresses (global system) do not rotate.
+C     when particle is sleeping, stresses (global system) do not rotate.
       CALL SROTA3(GBUF%SIG,S1   ,S2   ,S3   ,S4   ,
      .            S5      ,S6   ,WXX  ,WYY  ,WZZ  ,
      .            NEL     )
@@ -194,7 +194,7 @@ Cbm   compute temperature in element
 C------------------------------------------------------
 C     CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES
 C------------------------------------------------------
-Clm   LAW 11 uses IELVS=IBIDON and IXS=IBIDON should not be used.
+C     LAW 11 uses IELVS=IBIDON and IXS=IBIDON should not be used.
       IBIDON(1)=0
       OFFSET=0
       CALL MMAIN(ELBUF_TAB,NG    ,PM     ,GEO    ,FV     ,ALE_CONNECT,

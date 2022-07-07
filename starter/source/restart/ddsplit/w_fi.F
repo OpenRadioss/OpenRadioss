@@ -359,10 +359,10 @@ Cel Void writing for IPARTFRICSFI
                LEN_IA = LEN_IA + NODFI
             ENDIF
             IF(ITYP.EQ.24)THEN
-Cow write dummy irtlm_fi = 2xnodfi 
+C   write dummy irtlm_fi = 2xnodfi 
               CALL WRITE_I_C(IRTLMFI,NODFI*2)
               LEN_IA = LEN_IA + NODFI*2
-Cow Write dummy ICONT_I_FI
+C   Write dummy ICONT_I_FI
               CALL WRITE_I_C(NSVFI,NODFI)
               LEN_IA = LEN_IA + NODFI
 C Write Dummy ISEDGE_FI

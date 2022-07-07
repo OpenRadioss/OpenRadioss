@@ -127,7 +127,7 @@ C
    10 Z46(I)=Z6(I)-Z4(I)
 C
       DO I=LFT,LLT
-Cqz-------ri.xi-----------
+C  -------ri.xi-----------
         AJ3(I)=X17(I)+X28(I)-X35(I)-X46(I)
         AJ1(I)=Y17(I)+Y28(I)-Y35(I)-Y46(I)
         AJ2(I)=Z17(I)+Z28(I)-Z35(I)-Z46(I)
@@ -138,11 +138,11 @@ C-------
         B28=Y28(I)+Y35(I)
         C17=Z17(I)+Z46(I)
         C28=Z28(I)+Z35(I)
-Cqz-------si.xi-----------
+C  -------si.xi-----------
         AJ6(I)=A17+A28
         AJ4(I)=B17+B28
         AJ5(I)=C17+C28
-Cqz-------ti.xi-----------
+C  -------ti.xi-----------
         AJ9(I)=A17-A28
         AJ7(I)=B17-B28
         AJ8(I)=C17-C28
@@ -367,7 +367,7 @@ C
       ENDDO
 C
        DO 200 I=LFT,LLT
-Cqz h3
+C   h3
 C 1 -1 1 -1 1 -1 1 -1
          HX=ONE_OVER_8*(X1(I)-X2(I)+X3(I)-X4(I)+X5(I)-X6(I)+X7(I)-X8(I))
          HY=ONE_OVER_8*(Y1(I)-Y2(I)+Y3(I)-Y4(I)+Y5(I)-Y6(I)+Y7(I)-Y8(I))
@@ -377,7 +377,7 @@ C 1 -1 1 -1 1 -1 1 -1
          PX3H3(I)=PX3(I)*HX+ PY3(I)*HY+PZ3(I)*HZ
          PX4H3(I)=PX4(I)*HX+ PY4(I)*HY+PZ4(I)*HZ
   200  CONTINUE
-Cqz h1
+C   h1
 C 1 1 -1 -1 -1 -1 1 1
        DO 201 I=LFT,LLT
          H1X(I)=X1(I)+X2(I)-X3(I)-X4(I)-X5(I)-X6(I)+X7(I)+X8(I)
@@ -391,7 +391,7 @@ C 1 1 -1 -1 -1 -1 1 1
          PX3H1(I)=PX3(I)*HX+ PY3(I)*HY+PZ3(I)*HZ
          PX4H1(I)=PX4(I)*HX+ PY4(I)*HY+PZ4(I)*HZ
   201  CONTINUE
-Cqz h2
+C   h2
 C 1 -1 -1 1 -1 1 1 -1
        DO 202 I=LFT,LLT
          H2X(I)=X1(I)-X2(I)-X3(I)+X4(I)-X5(I)+X6(I)+X7(I)-X8(I)
@@ -405,7 +405,7 @@ C 1 -1 -1 1 -1 1 1 -1
          PX3H2(I)=PX3(I)*HX+ PY3(I)*HY+PZ3(I)*HZ
          PX4H2(I)=PX4(I)*HX+ PY4(I)*HY+PZ4(I)*HZ
   202  CONTINUE
-Cqz h4
+C   h4
 C -1 1 -1 1 1 -1 1 -1
        DO 203 I=LFT,LLT
          HX=ONE_OVER_8*(-X1(I)+X2(I)-X3(I)+X4(I)+X5(I)-X6(I)+X7(I)-X8(I))
