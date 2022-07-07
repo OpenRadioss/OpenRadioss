@@ -3559,6 +3559,34 @@ C--------------------------------------------------
                   IS_WRITTEN_VALUE(I) = 1  
                 ENDDO  
                 
+C--------------------------------------------------  
+              ELSEIF(KEYWORD == 'VONM/TMAX') THEN  
+C--------------------------------------------------                 
+                  DO I=1,NEL         
+                    VALUE(I) = GBUF%TM_YIELD(I) 
+                    IS_WRITTEN_VALUE(I) = 1
+                  ENDDO   
+C--------------------------------------------------  
+              ELSEIF(KEYWORD == 'SIGEQ/TMAX') THEN  
+C--------------------------------------------------                 
+                  DO I=1,NEL         
+                    VALUE(I) = GBUF%TM_SEQ(I) 
+                    IS_WRITTEN_VALUE(I) = 1
+                  ENDDO   
+C--------------------------------------------------  
+              ELSEIF(KEYWORD == 'ENER/TMAX') THEN  
+C--------------------------------------------------                 
+                  DO I=1,NEL         
+                    VALUE(I) = GBUF%TM_EINT(I) 
+                    IS_WRITTEN_VALUE(I) = 1
+                  ENDDO   
+C--------------------------------------------------  
+              ELSEIF(KEYWORD == 'DAMA/TMAX') THEN  
+C--------------------------------------------------                 
+                  DO I=1,NEL         
+                    VALUE(I) = GBUF%TM_DMG(I) 
+                    IS_WRITTEN_VALUE(I) = 1
+                  ENDDO   
 C--------------------------------------------------                                   
            ENDIF  ! KEYWORD
 C-------------------------------------------------- 

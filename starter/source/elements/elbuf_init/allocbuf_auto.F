@@ -624,6 +624,25 @@ c---
       ALLOCATE (GBUF%INTVAR(NEL*GBUF%G_INTVAR)                       ,STAT=Stat)
         GBUF%INTVAR = ZERO          
 c---
+C ---H3D/TMAX in BUFLEN         
+c---
+      ALLOCATE (GBUF%TM_YIELD(NEL*GBUF%G_TM_YIELD)           ,STAT=Stat)
+                GBUF%TM_YIELD = ZERO
+      ALLOCATE (GBUF%TM_SEQ(NEL*GBUF%G_TM_SEQ)               ,STAT=Stat)
+                GBUF%TM_SEQ = ZERO
+      ALLOCATE (GBUF%TM_EINT(NEL*GBUF%G_TM_EINT)             ,STAT=Stat)
+                GBUF%TM_EINT = ZERO
+      ALLOCATE (GBUF%TM_DMG(NEL*GBUF%G_TM_DMG)               ,STAT=Stat)
+                GBUF%TM_DMG = ZERO
+      ALLOCATE (GBUF%TM_SIG1(NEL*GBUF%G_TM_SIG)               ,STAT=Stat)
+                GBUF%TM_SIG1 = ZERO  
+      ALLOCATE (GBUF%TM_STRA1(NEL*GBUF%G_TM_STRA)             ,STAT=Stat)
+                GBUF%TM_STRA1 = ZERO
+      ALLOCATE (GBUF%TM_SIG3(NEL*GBUF%G_TM_SIG)               ,STAT=Stat)
+                GBUF%TM_SIG3 = ZERO  
+      ALLOCATE (GBUF%TM_STRA3(NEL*GBUF%G_TM_STRA)             ,STAT=Stat)
+                GBUF%TM_STRA3 = ZERO
+                
       IF (STAT /= 0) THEN                         
             CALL ANCMSG(MSGID=727,MSGTYPE=MSGERROR,
      .                  ANMODE=ANSTOP,C1='ELEMENT BUFFER')              

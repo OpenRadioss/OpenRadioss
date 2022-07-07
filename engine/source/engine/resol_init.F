@@ -143,7 +143,7 @@ Chd|====================================================================
      3  IGRBRIC ,IGRQUAD  ,IGRSH4N  ,IGRSH3N  ,IGRTRUSS   ,
      4  IGRBEAM ,IGRSPRING,IGRPART  ,FORNEQS  ,INT7ITIED ,
      5  FXVEL_FGEO,FAILWAVE,NLOC_DMG,PINCH_DATA,SLLOADP  ,
-     6  TAGSLV_RBY,NFNCA2 ,NFTCA2  ,IN0  ,SORT_COMM)
+     6  TAGSLV_RBY,NFNCA2 ,NFTCA2  ,IN0  ,SORT_COMM,STACK)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -160,6 +160,8 @@ C-----------------------------------------------
       USE PBLAST_MOD
       USE DTDC_MOD  
       USE INTER_SORTING_MOD
+      USE STACK_MOD
+      USE OUTMAX_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -310,6 +312,7 @@ C-----------------------------------------------
       TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE 
       TYPE (NLOCAL_STR_)   ,TARGET :: NLOC_DMG
       TYPE(sorting_comm_type), DIMENSION(NINTER), INTENT(inout) :: SORT_COMM   ! structure for interface sorting comm
+      TYPE (STACK_PLY) :: STACK
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1124,6 +1127,14 @@ C-----------------------
         END IF
         CALL MY_BARRIER()
       ENDIF
+C-----------------------
+C TMAX OF H3D
+C-----------------------
+       CALL INI_TMAX(ELBUF_TAB,IPARG   ,GEO     ,PM   ,
+     .  	       IXS	,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
+     .  	       IXC	,IXTG	 ,IXT	  ,IXP     ,IXR     ,
+     .  	       X	,D       ,V       ,IAD_ELEM,FR_ELEM ,
+     .             WEIGHT ,IPM   ,IGEO    ,STACK   ,ITASK   )
 !$OMP SINGLE
        IF (FAILWAVE%WAVE_MOD > 0) THEN
          CALL SPMD_FAILWAVE_BOUNDARIES(FAILWAVE,IAD_ELEM,FR_ELEM)

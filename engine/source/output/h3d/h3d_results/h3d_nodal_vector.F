@@ -50,6 +50,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE GROUPDEF_MOD
+      USE OUTMAX_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -492,6 +493,28 @@ C--------------------------------------------------
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'ZFINT') THEN
         CALL H3D_VELVECC22(ELBUF_TAB,IPARG,3,IXS,IXQ,ITAB,IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR)
+C--------------------------------------------------
+      ELSEIF(KEYWORD == 'VEL/TMAX') THEN
+C--------------------------------------------------
+        DO I=1,NUMNOD
+          J = 3*(I-1)+1
+          VALUE(1) = TM_VEL(J)
+          VALUE(2) = TM_VEL(J+1)
+          VALUE(3) = TM_VEL(J+2)
+          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
+     .                                    VALUE)
+        ENDDO
+C--------------------------------------------------
+      ELSEIF(KEYWORD == 'DIS/TMAX') THEN
+C--------------------------------------------------
+        DO I=1,NUMNOD
+          J = 3*(I-1)+1
+          VALUE(1) = TM_DIS(J)
+          VALUE(2) = TM_DIS(J+1)
+          VALUE(3) = TM_DIS(J+2)
+          CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
+     .                                    VALUE)
+        ENDDO
 C--------------------------------------------------
 
 

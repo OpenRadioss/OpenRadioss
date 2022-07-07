@@ -121,6 +121,7 @@ C-----------------------------------------------
       USE EBCS_MOD
       USE SEATBELT_MOD
       USE PBLAST_MOD
+      USE OUTMAX_MOD
 C ecriture restart pour version spmd
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1415,6 +1416,15 @@ C
         ENDIF
       ENDIF
 C
+C--------------------------------------------
+C /H3D/?/TMAX part noda
+C--------------------------------------------
+      CALL WRITE_DB(TM_DIS,LMAX_DIS*NUMNOD)
+      CALL WRITE_DB(TM_VEL,LMAX_VEL*NUMNOD)
+      CALL WRITE_DB(TM_NSIG1,LMAX_NSIG*NUMNOD)
+      CALL WRITE_DB(TM_NSIG3,LMAX_NSIG*NUMNOD)
+      CALL WRITE_DB(TM_NSTRA1,LMAX_NSTRA*NUMNOD)
+      CALL WRITE_DB(TM_NSTRA3,LMAX_NSTRA*NUMNOD)
 C--------------------------------------
       IF(ISPMD.EQ.0)THEN
         WRITE (IOUT,1000)  FILNAMG(1:LENG)

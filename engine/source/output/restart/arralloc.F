@@ -85,6 +85,7 @@ C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
       USE SEATBELT_MOD    
       USE SEGVAR_MOD 
+      USE OUTMAX_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2248,6 +2249,39 @@ C
           ALLOCATE (ANCHOR_REMOTE_SEND%NODE(N_ANCHOR_REMOTE_SEND),STAT=IERR)
           IF (IERR.NE.0) GOTO 1000
         ENDIF
+C-------TMAX(H3D) -----
+         ALLOCATE (TM_DIS(LMAX_DIS*NUMNOD),STAT=IERR)
+          IF (IERR.NE.0) GOTO 1000 
+         ALLOCATE (TM_VEL(LMAX_VEL*NUMNOD),STAT=IERR)
+          IF (IERR.NE.0) GOTO 1000 
+         ALLOCATE (TM_NSIG1(LMAX_NSIG*NUMNOD),STAT=IERR)
+          IF (IERR.NE.0) GOTO 1000 
+         ALLOCATE (TM_NSTRA1(LMAX_NSTRA*NUMNOD),STAT=IERR)
+          IF (IERR.NE.0) GOTO 1000 
+         ALLOCATE (TM_NSIG3(LMAX_NSIG*NUMNOD),STAT=IERR)
+          IF (IERR.NE.0) GOTO 1000 
+         ALLOCATE (TM_NSTRA3(LMAX_NSTRA*NUMNOD),STAT=IERR)
+          IF (IERR.NE.0) GOTO 1000 
+         IF (LMAX_DIS > 0) THEN
+           ALLOCATE (TM_PDIS(NUMNOD),STAT=IERR)
+           IF (IERR.NE.0) GOTO 1000 
+         ENDIF
+         IF (LMAX_VEL > 0) THEN
+           ALLOCATE (TM_PVEL(NUMNOD),STAT=IERR)
+           IF (IERR.NE.0) GOTO 1000 
+         ENDIF
+         IF (LMAX_NSIG > 0) THEN
+           ALLOCATE (TM_PNSIG(2*NUMNOD),STAT=IERR)
+           IF (IERR.NE.0) GOTO 1000 
+         ENDIF
+         IF (LMAX_NSTRA > 0) THEN
+           ALLOCATE (TM_PNSTRA(2*NUMNOD),STAT=IERR)
+           IF (IERR.NE.0) GOTO 1000 
+         ENDIF
+         IF ((LMAX_NSIG+LMAX_NSTRA)>0) THEN
+           ALLOCATE(GPSTMP(6*NUMNOD),P2TMP(2*NUMNOD),STAT=IERR)
+           IF (IERR.NE.0) GOTO 1000 
+         END IF
 C
 C  DEBUG MEMORY ALLOCATIONS
 C

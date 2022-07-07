@@ -71,7 +71,9 @@ C-----------------------------------------------
      .   G_COR_XR,G_DEFINI,G_FORINI,G_IDT_TSH,
      .   G_FORPGPINCH,G_MOMPGPINCH,G_EPGPINCHXZ,G_EPGPINCHYZ,G_EPGPINCHZZ,
      .   G_SKEW_ID,G_GAMA_R,G_SLIPRING_ID,G_SLIPRING_STRAND,G_RETRACTOR_ID,G_RINGSLIP,
-     .   G_ADD_NODE,G_UPDATE,G_INTVAR,G_BETAORTH,G_AMU,G_SLIPRING_FRAM_ID,G_FRAM_FACTOR
+     .   G_ADD_NODE,G_UPDATE,G_INTVAR,G_BETAORTH,G_AMU,G_SLIPRING_FRAM_ID,G_FRAM_FACTOR,
+     .   G_TM_YIELD,G_TM_SEQ,G_TM_EINT,G_TM_DMG,G_TM_SIG,G_TM_STRA 
+
       INTEGER  ! layer variables
      .   LY_DMG,LY_GAMA,LY_DIRA,LY_DIRB,LY_CRKDIR,LY_PLAPT,LY_SIGPT,LY_SMSTR,
      .   LY_HOURG,LY_UELR,LY_UELR1,Ly_OFFPG,LY_OFF,LEN_PLAPT,LEN_SIGPT
@@ -1073,6 +1075,13 @@ c---
           G_INTVAR      = GBUF%G_INTVAR
 C
           G_BETAORTH   = GBUF%G_BETAORTH   
+C ---H3D/TMAX in BUFLEN         
+          G_TM_YIELD = GBUF%G_TM_YIELD
+          G_TM_SEQ   = GBUF%G_TM_SEQ  
+          G_TM_EINT  = GBUF%G_TM_EINT 
+          G_TM_DMG   = GBUF%G_TM_DMG  
+          G_TM_SIG   = GBUF%G_TM_SIG  
+          G_TM_STRA  = GBUF%G_TM_STRA 
 c
 c--------------------
           sum = l_rel
@@ -1305,6 +1314,21 @@ c---
            RBUF_L(L_REL+1) =  G_INTVAR
              L_REL = L_REL + 1
            RBUF_L(L_REL+1) =  G_IDT_TSH
+             L_REL = L_REL + 1
+c---
+c H3D/MAX
+c---
+           RBUF_L(L_REL+1) =  G_TM_YIELD
+             L_REL = L_REL + 1
+           RBUF_L(L_REL+1) =  G_TM_SEQ
+             L_REL = L_REL + 1
+           RBUF_L(L_REL+1) =  G_TM_EINT
+             L_REL = L_REL + 1
+           RBUF_L(L_REL+1) =  G_TM_DMG
+             L_REL = L_REL + 1
+           RBUF_L(L_REL+1) =  G_TM_SIG
+             L_REL = L_REL + 1
+           RBUF_L(L_REL+1) =  G_TM_STRA
              L_REL = L_REL + 1
 c---------------------------------
          IF (DEBUG_PRINT == 1) THEN
@@ -1563,8 +1587,26 @@ C----
           IF (NPG > 1) THEN            
             RBUF_L(L_REL+1:L_REL + NEL*GBUF%G_TEMPG)= GBUF%TEMPG(1:NEL*GBUF%G_TEMPG) 
             L_REL = L_REL + NEL*GBUF%G_TEMPG
-         ENDIF   
-
+          ENDIF   
+c---
+c TMAX(H3D)
+c---
+          RBUF_L(L_REL+1:L_REL+NEL*G_TM_YIELD) = GBUF%TM_YIELD(1:NEL*G_TM_YIELD)
+            L_REL = L_REL +NEL*G_TM_YIELD
+          RBUF_L(L_REL+1:L_REL+NEL*G_TM_SEQ) = GBUF%TM_SEQ(1:NEL*G_TM_SEQ)
+            L_REL = L_REL +NEL*G_TM_SEQ
+          RBUF_L(L_REL+1:L_REL+NEL*G_TM_EINT) = GBUF%TM_EINT(1:NEL*G_TM_EINT)
+            L_REL = L_REL +NEL*G_TM_EINT
+          RBUF_L(L_REL+1:L_REL+NEL*G_TM_DMG) = GBUF%TM_DMG(1:NEL*G_TM_DMG)
+            L_REL = L_REL +NEL*G_TM_DMG
+          RBUF_L(L_REL+1:L_REL+NEL*G_TM_SIG) = GBUF%TM_SIG1(1:NEL*G_TM_SIG)
+            L_REL = L_REL +NEL*G_TM_SIG
+          RBUF_L(L_REL+1:L_REL+NEL*G_TM_SIG) = GBUF%TM_SIG3(1:NEL*G_TM_SIG)
+            L_REL = L_REL +NEL*G_TM_SIG
+          RBUF_L(L_REL+1:L_REL+NEL*G_TM_STRA) = GBUF%TM_STRA1(1:NEL*G_TM_STRA)
+            L_REL = L_REL +NEL*G_TM_STRA
+          RBUF_L(L_REL+1:L_REL+NEL*G_TM_STRA) = GBUF%TM_STRA3(1:NEL*G_TM_STRA)
+            L_REL = L_REL +NEL*G_TM_STRA
 c---------------------------------------------------
               IF (DEBUG_PRINT == 1) THEN
                  print*,'      TOTAL GLOB VARS =', L_REL-SUM

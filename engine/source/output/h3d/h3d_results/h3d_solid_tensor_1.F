@@ -4437,6 +4437,34 @@ c-----------
               ENDIF!((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15)  
             END IF
 c ........
+C-----------------------------------------------
+          ELSEIF (KEYWORD == 'TENS/STRESS/TMAX') THEN
+C-----------------------------------------------
+             DO I=1,NEL
+               EVAR(1:6,I) = GBUF%TM_SIG1(JJ(1:6) + I)
+               IS_WRITTEN_TENSOR(I) = 1
+             ENDDO
+C-----------------------------------------------
+          ELSEIF (KEYWORD == 'TENS/STRESS/TMIN') THEN
+C-----------------------------------------------
+             DO I=1,NEL
+               EVAR(1:6,I) = GBUF%TM_SIG3(JJ(1:6) + I)
+               IS_WRITTEN_TENSOR(I) = 1
+             ENDDO
+C-----------------------------------------------
+          ELSEIF (KEYWORD == 'TENS/STRAIN/TMAX') THEN
+C-----------------------------------------------
+             DO I=1,NEL
+               EVAR(1:6,I) = GBUF%TM_STRA1(JJ(1:6) + I)
+               IS_WRITTEN_TENSOR(I) = 1
+             ENDDO
+C-----------------------------------------------
+          ELSEIF (KEYWORD == 'TENS/STRAIN/TMIN') THEN
+C-----------------------------------------------
+             DO I=1,NEL
+               EVAR(1:6,I) = GBUF%TM_STRA3(JJ(1:6) + I)
+               IS_WRITTEN_TENSOR(I) = 1
+             ENDDO
           ELSE
 C-----------------------------------------------
 C          

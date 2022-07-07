@@ -1977,7 +1977,7 @@ C
      3   IGRBRIC ,IGRQUAD  ,IGRSH4N  ,IGRSH3N  ,IGRTRUSS   ,
      4   IGRBEAM ,IGRSPRING,IGRPART  ,FORNEQS  ,INT7ITIED,
      5   FXVEL_FGEO,FAILWAVE,NLOC_DMG,PINCH_DATA ,SLLOADP,
-     6   TAGSLV_RBY,NFNCA2  ,NFTCA2  ,IN0 ,SORT_COMM)
+     6   TAGSLV_RBY,NFNCA2  ,NFTCA2  ,IN0 ,SORT_COMM,STACK )
 
 
 !$OMP END PARALLEL
@@ -8096,6 +8096,28 @@ C--------------------------------------------------
       END IF
 
       IF (IMON.GT.0) CALL STOPTIME(7,1)
+C========================================================================================
+C                                     SECTION PARALLELE SMP
+C========================================================================================
+      IF(NCYCLE > 0) THEN
+
+        L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
+        L2 = L1+6*NUMELS10
+        L3 = L2+12*NUMELS20
+!$OMP PARALLEL PRIVATE(ITSK,NODFTSK,NODLTSK)
+c
+        ITSK = OMP_GET_THREAD_NUM()
+C--------------------------------------------------
+C       /H3D/TMAX    
+C--------------------------------------------------
+        CALL UPD_TMAX(ELBUF_TAB,IPARG   ,GEO     ,PM   ,
+     .  	       IXS	,IXS(L1) ,IXS(L3) ,IXS(L2) ,IXQ     ,
+     .  	       IXC	,IXTG	 ,IXT	  ,IXP     ,IXR     ,
+     .  	       X	,D       ,V       ,IAD_ELEM,FR_ELEM ,
+     .             WEIGHT ,IPM   ,IGEO    ,STACK   ,ITSK    )  
+
+!$OMP END PARALLEL
+      END IF
 C========================================================================================
 C                                     SECTION NON PARALLELE SMP  (synchro implicite)
 C========================================================================================

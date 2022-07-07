@@ -555,6 +555,30 @@ c-----------------------------------------------
       H3D_KEYWORD_SOLID_SCALAR(I)%KEY3  = 'THIN'
       H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'Thinning(percentage) -TSH'
 c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SOLID_SCALAR(I)%KEY3  = 'ENER/TMAX'
+      H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'Max of Internal Energy per unit mass'
+      H3D_KEYWORD_SOLID_SCALAR(I)%COMMENT  = 
+     .'Max of Internal Energy per unit mass over time'
+c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SOLID_SCALAR(I)%KEY3  = 'VONM/TMAX'
+      H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'Max of Von Mises'
+      H3D_KEYWORD_SOLID_SCALAR(I)%COMMENT  = 
+     .'Max of Von Mises stress over time'
+c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SOLID_SCALAR(I)%KEY3  = 'SIGEQ/TMAX'
+      H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'Max of Equiv stress'
+      H3D_KEYWORD_SOLID_SCALAR(I)%COMMENT  = 
+     .'Max of Equivalent stress over time&ipt'
+c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SOLID_SCALAR(I)%KEY3  = 'DAMA/TMAX'
+      H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'MAX of DAMAGE'
+      H3D_KEYWORD_SOLID_SCALAR(I)%COMMENT  = 
+     .'maximum of damage over time&ipt'
+c-----------------------------------------------
 
 
 c-----------------------------------------------

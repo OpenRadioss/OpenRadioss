@@ -1817,3 +1817,318 @@ C
 C------------------------------------------- 
       RETURN
       END
+Chd|====================================================================
+Chd|  INI_H3DTMAX_ENGINE          source/starter/contrl.F       
+Chd|-- called by -----------
+Chd|====================================================================
+      SUBROUTINE INI_H3DTMAX_ENGINE(IPARG,IPART,IPARTS,IPARTC,IPARTG,IDDLEVEL)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MESSAGE_MOD
+      USE INOUTFILE_MOD
+      USE OUTMAX_MOD
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "com01_c.inc"
+#include      "com04_c.inc"
+#include      "scr15_c.inc"
+#include      "scr17_c.inc"
+#include      "param_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER ,INTENT(IN) :: IDDLEVEL
+      INTEGER, DIMENSION(NPARG,NGROUP) ,INTENT(IN):: IPARG
+      INTEGER ,DIMENSION(LIPART1,NPART),INTENT(IN):: IPART
+      INTEGER ,DIMENSION(NUMELS),INTENT(IN):: IPARTS
+      INTEGER ,DIMENSION(NUMELC),INTENT(IN):: IPARTC
+      INTEGER ,DIMENSION(NUMELTG),INTENT(IN):: IPARTG
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER I, J, K, N ,NELC , NELTG , IP , NPRT , IPRT
+      INTEGER IH3D,NG,ITY,NFT,IKEY,K_LEN
+
+      INTEGER :: TMAX_IPART(NPART),NKPART(NPART,NKEYMAX+1)
+      CHARACTER CARTE*ncharline
+C-----------------------------------------------
+      IF (IDDLEVEL==0) ALLOCATE(IKEYMAX(NKEYMAX),IPART_OK(NGROUP,NKEYMAX))
+      IKEYMAX =0
+      IPART_OK = 0
+      LMAX_DIS = 0
+      LMAX_VEL = 0
+      LMAX_NSIG = 0
+      LMAX_NSTRA = 0
+      NKPART(1:NPART,1:NKEYMAX+1) = 0
+C-----------------------------------------------
+C     Lecture des donnees dans le fichier engine
+C-----------------------------------------------
+      IH3D=1
+      K_LEN = 19 
+      CARTE(1:K_LEN) = '/H3D/ELEM/VONM/TMAX'    
+      CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
+      IF (IKEY >0) THEN
+        IKEYMAX(IH3D) = 1
+      ELSE
+        K_LEN = 20 
+        CARTE(1:K_LEN) = '/H3D/SOLID/VONM/TMAX'    
+        CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
+        IF (IKEY >0) IKEYMAX(IH3D) = 1
+        CARTE(1:K_LEN) = '/H3D/SHELL/VONM/TMAX'    
+        CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
+        IF (IKEY >0) IKEYMAX(IH3D) = 1
+      END IF
+      IH3D=2
+      K_LEN = 20 
+      CARTE(1:K_LEN) = '/H3D/ELEM/SIGEQ/TMAX'    
+      CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
+      IF (IKEY >0) THEN
+        IKEYMAX(IH3D) = 1
+      ELSE
+        K_LEN = 21 
+        CARTE(1:K_LEN) = '/H3D/SOLID/SIGEQ/TMAX'    
+        CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
+        IF (IKEY >0) IKEYMAX(IH3D) = 1
+        CARTE(1:K_LEN) = '/H3D/SHELL/SIGEQ/TMAX'    
+        CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
+        IF (IKEY >0) IKEYMAX(IH3D) = 1
+      END IF
+      IH3D=3
+      K_LEN = 19 
+      CARTE(1:K_LEN) = '/H3D/ELEM/ENER/TMAX'    
+      CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
+      IF (IKEY >0) THEN
+        IKEYMAX(IH3D) = 1
+      ELSE
+        K_LEN = 20 
+        CARTE(1:K_LEN) = '/H3D/SOLID/ENER/TMAX'    
+        CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
+        IF (IKEY >0) IKEYMAX(IH3D) = 1
+        CARTE(1:K_LEN) = '/H3D/SHELL/ENER/TMAX'    
+        CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
+        IF (IKEY >0) IKEYMAX(IH3D) = 1
+      END IF
+      IH3D=4
+      K_LEN = 19 
+      CARTE(1:K_LEN) = '/H3D/ELEM/DAMA/TMAX'    
+      CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
+      IF (IKEY >0) THEN
+        IKEYMAX(IH3D) = 1
+      ELSE
+        K_LEN = 20 
+        CARTE(1:K_LEN) = '/H3D/SOLID/DAMA/TMAX'    
+        CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
+        IF (IKEY >0) IKEYMAX(IH3D) = 1
+        CARTE(1:K_LEN) = '/H3D/SHELL/DAMA/TMAX'    
+        CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
+        IF (IKEY >0) IKEYMAX(IH3D) = 1
+      END IF
+      IH3D=5
+      K_LEN = 26 
+      CARTE(1:K_LEN) = '/H3D/ELEM/TENS/STRESS/TMAX'    
+      CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
+      IF (IKEY >0) THEN
+        IKEYMAX(IH3D) = 1
+      ELSE
+        K_LEN = 27 
+        CARTE(1:K_LEN) = '/H3D/SOLID/TENS/STRESS/TMAX'    
+        CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
+        IF (IKEY >0) IKEYMAX(IH3D) = 1
+        CARTE(1:K_LEN) = '/H3D/SHELL/TENS/STRESS/TMAX'    
+        CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
+        IF (IKEY >0) IKEYMAX(IH3D) = 1
+      END IF
+      IH3D=6
+      K_LEN = 26 
+      CARTE(1:K_LEN) = '/H3D/ELEM/TENS/STRAIN/TMAX'    
+      CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
+      IF (IKEY >0) THEN
+        IKEYMAX(IH3D) = 1
+      ELSE
+        K_LEN = 27 
+        CARTE(1:K_LEN) = '/H3D/SOLID/TENS/STRAIN/TMAX'    
+        CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
+        IF (IKEY >0) IKEYMAX(IH3D) = 1
+        CARTE(1:K_LEN) = '/H3D/SHELL/TENS/STRAIN/TMAX'    
+        CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
+        IF (IKEY >0) IKEYMAX(IH3D) = 1
+      END IF
+      IH3D=7 ! NKEYMAX+1
+      K_LEN = 9 
+      CARTE(1:K_LEN) = '/H3D/PART'    
+      CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
+      IF (IKEY == 0 ) NKPART(1:NPART,IH3D)=1
+      IH3D=8 
+      K_LEN =18 
+      CARTE(1:K_LEN) = '/H3D/NODA/DIS/TMAX'    
+      CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,TMAX_IPART,IPART)
+      IF (IKEY > 0 ) LMAX_DIS = 3
+      IH3D=9 
+      K_LEN =18 
+      CARTE(1:K_LEN) = '/H3D/NODA/VEL/TMAX'    
+      CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,TMAX_IPART,IPART)
+      IF (IKEY > 0 ) LMAX_VEL = 3
+      IH3D=10 
+      K_LEN =18 
+      CARTE(1:K_LEN) = '/H3D/NODA/GPS/TMAX'    
+      CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,TMAX_IPART,IPART)
+      IF (IKEY > 0 ) LMAX_NSIG = 6
+      IH3D=11 
+      K_LEN =23 
+      CARTE(1:K_LEN) = '/H3D/NODA/GPSTRAIN/TMAX'    
+      CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,TMAX_IPART,IPART)
+      IF (IKEY > 0 ) LMAX_NSTRA = 6
+C
+        IH3D = 0
+        DO I=1,NKEYMAX
+          IH3D = IH3D + IKEYMAX(I)
+        END DO
+        IF (IH3D>0) THEN
+          DO I=1,NKEYMAX
+           NKPART(1:NPART,I)=NKPART(1:NPART,NKEYMAX+1)*NKPART(1:NPART,I)
+          END DO
+C
+          DO NG=1,NGROUP
+            NFT=IPARG(3,NG)+1
+            ITY=IPARG(5,NG)
+C          
+            IPRT = 0
+            SELECT CASE (ITY)
+              CASE(1)
+                IPRT = IPARTS(NFT)
+              CASE(3)
+                IPRT = IPARTC(NFT)
+              CASE(7)
+                IPRT = IPARTG(NFT)
+            END SELECT
+            IF(IPRT>0) IPART_OK(NG,1:NKEYMAX) = NKPART(IPRT,1:NKEYMAX)
+          END DO
+        END IF
+C------------------------------------------- 
+      RETURN
+      END
+Chd|====================================================================
+Chd|    READ_H3DTMAX_KEY          source/starter/contrl.F       
+Chd|-- called by -----------
+Chd|====================================================================
+      SUBROUTINE READ_H3DTMAX_KEY(KEY_TM,KEY_LEN,IFUND,NTM_PART,IPART)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MESSAGE_MOD
+      USE INOUTFILE_MOD
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "com01_c.inc"
+#include      "com04_c.inc"
+#include      "scr15_c.inc"
+#include      "scr17_c.inc"
+#include      "param_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER, INTENT(IN):: KEY_LEN
+      CHARACTER(len=KEY_LEN) :: KEY_TM
+      INTEGER ,DIMENSION(LIPART1,NPART),INTENT(IN):: IPART
+      INTEGER, INTENT(OUT):: IFUND
+      INTEGER ,DIMENSION(NPART),INTENT(INOUT):: NTM_PART
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER I, J, K, N ,NELC , NELTG , IP , NPRT , IPRT
+      INTEGER IH3D,NG,ITY,NFT,IO_ERR1,LEN_C,IC
+      CHARACTER FILNAM*109, KEYA*80, KEYA2*80,CARTE*ncharline
+
+      INTEGER :: LEN_TMP_NAME,TMAX_IPART(NPART)
+      CHARACTER(len=4096) :: TMP_NAME
+C-----------------------------------------------
+      IFUND=0
+      IO_ERR1 = 0
+C-----------------------------------------------
+C     Lecture des donnees dans le fichier engine
+C-----------------------------------------------   
+      FILNAM=ROOTNAM(1:ROOTLEN)//'_0001.rad'
+
+      TMP_NAME=INFILE_NAME(1:INFILE_NAME_LEN)//FILNAM(1:ROOTLEN+9)
+      LEN_TMP_NAME = INFILE_NAME_LEN+ROOTLEN+9
+      OPEN(UNIT=71,FILE=TMP_NAME(1:LEN_TMP_NAME),
+     .        ACCESS='SEQUENTIAL',STATUS='OLD',IOSTAT=IO_ERR1)
+
+      DO WHILE (IO_ERR1 == 0 .AND. IFUND==0)
+C
+        READ(71,FMT='(A)',END=20) KEYA
+        IF(KEYA(1:KEY_LEN) == KEY_TM ) THEN
+C---- read ipart_id if there are 
+           IFUND = 1
+           IC = 1
+           NPRT = NPART
+           DO WHILE(IC == 1) 
+             READ(71,FMT='(A)',ERR=20) CARTE
+             IF(CARTE(1:1) == '#' .OR. CARTE(1:1) == '$') CYCLE
+             IC = 0
+             LEN_C = LEN_TRIM(CARTE)
+             IF (CARTE(1:1) == '/' .OR. LEN_C==0) THEN
+             ELSE
+               J=1
+               NPRT = 0
+               DO WHILE(CARTE(1:1) /= '/' .AND. LEN_C /= 0) 
+                 DO WHILE (J <= LEN_C)
+                  IF(CARTE(J:J) /= ' ') THEN
+                    K=J
+                    DO WHILE(CARTE(K:K) /= ' ' .AND. K <= LEN_C)
+                      K=K+1
+                    ENDDO
+                    NPRT = NPRT + 1
+                    READ(CARTE(J:K),'(I10)') IPRT
+                    TMAX_IPART(NPRT) = IPRT
+                    J = K
+                  ENDIF
+                  J = J +1
+                 END DO
+                 READ(71,FMT='(A)',ERR=20) CARTE
+                 LEN_C = LEN_TRIM(CARTE)
+               END DO
+     	       IF (NPRT==0) THEN
+                 NPRT = NPART
+                 NTM_PART(1:NPRT) = 1
+               END IF
+             END IF
+           END DO !(IC == 1) remove comments
+        END IF        
+C
+      END DO
+C
+ 20     CONTINUE
+
+        CLOSE(71)
+C        
+        IF (IFUND>0 .AND. (NPRT == NPART .OR.NPRT ==0)) THEN   
+          NTM_PART(1:NPRT) = 1
+        ELSEIF (IFUND>0) THEN   
+    	  DO I=1,NPRT
+             IP=0
+             IPRT = TMAX_IPART(I)
+     	     DO J=1,NPART
+     	        IF(IPART(4,J)==IPRT)IP=J
+     	     END DO
+     	     IF (IP > 0) NTM_PART(IP)=1
+             IP = 0
+     	     DO J=1,NPART
+     	       IP = IP +NTM_PART(J)
+     	     END DO
+             IF (IP==0) NTM_PART(1:NPART) = 1 
+          ENDDO
+        END IF 
+C------------------------------------------- 
+      RETURN
+      END

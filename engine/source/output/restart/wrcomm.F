@@ -37,6 +37,7 @@ C-----------------------------------------------
       USE MULTI_FVM_MOD 
       USE H3D_MOD 
       USE PINCHTYPE_MOD
+      USE OUTMAX_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1700,6 +1701,15 @@ C
 C---- Number of RBODY before merge
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NRBODY0
+C---- MAX (/H3D) 
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT)=LMAX_DIS
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT)=LMAX_VEL
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT)=LMAX_NSIG
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT)=LMAX_NSTRA
 C----------------------------------------------------------------
 C    warning to radioss developpers : Check LVARINT < LMXVINT
 C----------------------------------------------------------------

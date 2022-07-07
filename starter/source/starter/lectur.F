@@ -6800,6 +6800,10 @@ C-------------------------------------------
       DYNAIN_CHECK = 0
       CALL CHECK_DYNAIN(IPART,IPARTC,IPARTG,IXC,IXTG)
 
+C---------------------------------------------
+C    CHECK ENGINE FILE /H3D/?/TMAX initialization
+C-------------------------------------------
+      CALL INI_H3DTMAX_ENGINE(IPARG,IPART,IPARTS,IPARTC,IPARTG,IDDLEVEL)
 C--------------------------------------------
 C     LECTURE DES ELEMENTS DESACTIVABLES
 C--------------------------------------------

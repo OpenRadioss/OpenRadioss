@@ -1250,6 +1250,38 @@ C--------------------------------------------------
                 ENDDO
               END IF
 C--------------------------------------------------
+C-----------------------------------------------
+           ELSEIF (KEYWORD == 'TENS/STRESS/TMAX') THEN
+C-----------------------------------------------
+             DO I=1,NEL
+               VALUE(1:3) = GBUF%TM_SIG1(JJ(1:3) + I)
+               CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
+     .                 VALUE)    
+             ENDDO
+C-----------------------------------------------
+           ELSEIF (KEYWORD == 'TENS/STRESS/TMIN') THEN
+C-----------------------------------------------
+             DO I=1,NEL
+               VALUE(1:3) = GBUF%TM_SIG3(JJ(1:3) + I)
+               CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
+     .                 VALUE)    
+             ENDDO
+C-----------------------------------------------
+           ELSEIF (KEYWORD == 'TENS/STRAIN/TMAX') THEN
+C-----------------------------------------------
+             DO I=1,NEL
+               VALUE(1:3) = GBUF%TM_STRA1(JJ(1:3) + I)
+               CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
+     .                 VALUE)    
+             ENDDO
+C-----------------------------------------------
+           ELSEIF (KEYWORD == 'TENS/STRAIN/TMIN') THEN
+C-----------------------------------------------
+             DO I=1,NEL
+               VALUE(1:3) = GBUF%TM_STRA3(JJ(1:3) + I)
+               CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
+     .                 VALUE)    
+             ENDDO
 C--------------------------------------------------
             ELSEIF (KEYWORD == 'TENS/BSTRESS') THEN
 C--------------------------------------------------
