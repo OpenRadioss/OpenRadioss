@@ -56,7 +56,7 @@ message (STATUS "modules: ${CMAKE_Fortran_MODULE_DIRECTORY}")
 ###########################
 
 if ( sanitize STREQUAL "1" )
-set( FSANITIZE "-fsanitize=address") 
+set( FSANITIZE "-fsanitize=address -DSANITIZE") 
 endif()
 
 if ( debug STREQUAL "1" )

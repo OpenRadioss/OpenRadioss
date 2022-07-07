@@ -92,7 +92,7 @@ endif()
 set ( opt_flag "  ${wo_linalg} -DCOMP_GFORTRAN=1 -ffp-contract=off -frounding-math -fopenmp" )
 
 if ( sanitize STREQUAL "1" )
-set( FSANITIZE "-fsanitize=address") 
+set( FSANITIZE "-fsanitize=address -DSANITIZE") 
 endif()
 
 
