@@ -147,7 +147,7 @@ C-----------------------------------------------
         IDX(I) = NEL*(I-1)
       ENDDO
 
-      IF (NBMAT .GT. 1) THEN
+      IF (NBMAT  >  1) THEN
 !DIR$ NOVECTOR
          DO IMAT = 1, NBMAT
             LBUFS(IMAT)%LBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1, 1, 1)
@@ -171,7 +171,7 @@ C     3D
             GLOBAL_ID_CURRENT_ELM(II) = IXS(NIXS,I)
          ENDDO
       CASE (1, 2)
-         IF (ITY .EQ. 2) THEN
+         IF (ITY  ==  2) THEN
 C     QUADS
             NB_FACE = 4
             NUMEL_SPMD = NUMELQ
@@ -182,7 +182,7 @@ C     QUADS
                 I = II + NFT
                 GLOBAL_ID_CURRENT_ELM(II) = IXQ(NIXQ,I)
             ENDDO
-         ELSEIF (ITY .EQ. 7) THEN
+         ELSEIF (ITY  ==  7) THEN
 C     TRIANGLES
             NB_FACE = 3
             NUMEL_SPMD = NUMELTG
@@ -220,7 +220,7 @@ C     Face normal
             ID_GLOBAL_VOIS_2 = ID_GLOBAL_VOIS( NB_FACE * (I_OLD - 1) + KFACE3 )
             KFACE_OLD = KFACE3
             IF( J_OLD>0 ) THEN
-                IF (J_OLD .LE. NUMEL_SPMD) THEN
+                IF (J_OLD  <=  NUMEL_SPMD) THEN
                     KFACE2_OLD = MULTI_FVM%FVM_CONNECTIVITY%KVOIS(NB_FACE * (I_OLD - 1) + KFACE3)
                 ELSE
                     KFACE2_OLD = FACE_VOIS( NB_FACE * (I_OLD - 1) + KFACE3 )
@@ -228,7 +228,7 @@ C     Face normal
             ENDIF
             
 !   -----------------------------------------------
-            IF (J_OLD .GT. 0 .AND. I_OLD .LT. J_OLD) THEN
+            IF (J_OLD  >  0 .AND. I_OLD  <  J_OLD) THEN
                ! ----------------------
 
                IF(ID_GLOBAL_VOIS_1<ID_GLOBAL_VOIS_2) THEN
@@ -266,7 +266,7 @@ C     Reconstructed velocity current element
                VYII = MULTI_FVM%VEL(2, I)
                VZII = MULTI_FVM%VEL(3, I)
 
-               IF (MULTI_FVM%MUSCL .EQ. 1) THEN
+               IF (MULTI_FVM%MUSCL  ==  1) THEN
                   VXII = VXII + MULTI_FVM%GRAD_U(1, I) * (XF(1) - XK(1))
      .                 + MULTI_FVM%GRAD_U(2, I) * (XF(2) - XK(2))
      .                 + MULTI_FVM%GRAD_U(3, I) * (XF(3) - XK(3))
@@ -283,12 +283,12 @@ C     Squared velocity
 C     Normal velocity current element
                NORMAL_VELII = VXII * NX + VYII * NY + VZII * NZ               
 C     Reconstructed internal energy current element
-               IF (MULTI_FVM%NBMAT .EQ. 1) THEN
+               IF (MULTI_FVM%NBMAT  ==  1) THEN
 C     Reconstructed density current element
                   RHOII = MULTI_FVM%RHO(I)
                   EINTII = MULTI_FVM%EINT(I) 
 
-                  IF (MULTI_FVM%MUSCL .EQ. 1) THEN
+                  IF (MULTI_FVM%MUSCL  ==  1) THEN
                      RHOII = RHOII + MULTI_FVM%GRAD_RHO(1, I) * (XF(1) - XK(1))
      .                    + MULTI_FVM%GRAD_RHO(2, I) * (XF(2) - XK(2))
      .                    + MULTI_FVM%GRAD_RHO(3, I) * (XF(3) - XK(3))       
@@ -323,7 +323,7 @@ C     Reconstructed density current element
                      PHASE_ALPHAII(IMAT) = PHASE_ALPHAII(IMAT) / CUMUL_ALPHA
                      PHASE_RHOII(IMAT) = MULTI_FVM%PHASE_RHO(IMAT, I)
                      PHASE_EINTII(IMAT) = MULTI_FVM%PHASE_EINT(IMAT, I)
-                     IF (MULTI_FVM%MUSCL .EQ. 1) THEN
+                     IF (MULTI_FVM%MUSCL  ==  1) THEN
                         PHASE_RHOII(IMAT) = PHASE_RHOII(IMAT) 
      .                       + MULTI_FVM%PHASE_GRAD_RHO(1, IMAT, I) * (XF(1) - XK(1))
      .                       + MULTI_FVM%PHASE_GRAD_RHO(2, IMAT, I) * (XF(2) - XK(2))
@@ -336,7 +336,7 @@ C     Reconstructed density current element
 C     Global reconstructed density
                      RHOII = RHOII + PHASE_ALPHAII(IMAT) * PHASE_RHOII(IMAT)
                      MATLAW(IMAT) = IPM(2, LOCAL_MATID(IMAT))
-                     IF (PHASE_ALPHAII(IMAT) .GT. ZERO) THEN
+                     IF (PHASE_ALPHAII(IMAT)  >  ZERO) THEN
                         
                         CALL COMPUTE_PRESSURE(MATLAW(IMAT), LOCAL_MATID(IMAT), PM, IPM, NPROPM, NPROPMI, 
      .                       PHASE_EINTII(IMAT), PHASE_RHOII(IMAT), PHASE_PRESII(IMAT), PHASE_SSPII(IMAT),
@@ -349,7 +349,7 @@ C     Global reconstructed pressure
      .                       MAX(EM20, PHASE_SSPII(IMAT))
                      ENDIF
                   ENDDO
-                  IF (SSPII / RHOII .GT. ZERO) THEN
+                  IF (SSPII / RHOII  >  ZERO) THEN
                      SSPII = SQRT(SSPII / RHOII)
                   ELSE
                      SSPII = MULTI_FVM%SOUND_SPEED(I)
@@ -360,7 +360,7 @@ C     Reconstructed velocity adjacent element
                VXJJ = MULTI_FVM%VEL(1, J)  
                VYJJ = MULTI_FVM%VEL(2, J)
                VZJJ = MULTI_FVM%VEL(3, J) 
-               IF (MULTI_FVM%MUSCL .EQ. 1) THEN
+               IF (MULTI_FVM%MUSCL  ==  1) THEN
                   VXJJ = VXJJ
      .                 + MULTI_FVM%GRAD_U(1, J) * (XF(1) - XL(1))
      .                 + MULTI_FVM%GRAD_U(2, J) * (XF(2) - XL(2))
@@ -379,11 +379,11 @@ C     Normal velocity adjacent element
                VELJJ2 = VXJJ * VXJJ + VYJJ * VYJJ + VZJJ * VZJJ                
                     
 C     Reconstructed internal energy adjacent element
-               IF (MULTI_FVM%NBMAT .EQ. 1) THEN
+               IF (MULTI_FVM%NBMAT  ==  1) THEN
 C     Reconstructed density adjacent element
                   RHOJJ = MULTI_FVM%RHO(J)
                   EINTJJ = MULTI_FVM%EINT(J) 
-                  IF (MULTI_FVM%MUSCL .EQ. 1) THEN
+                  IF (MULTI_FVM%MUSCL  ==  1) THEN
                      RHOJJ = RHOJJ
      .                    + MULTI_FVM%GRAD_RHO(1, J) * (XF(1) - XL(1))
      .                    + MULTI_FVM%GRAD_RHO(2, J) * (XF(2) - XL(2))
@@ -418,7 +418,7 @@ C     Reconstructed density adjacent element
                      PHASE_ALPHAJJ(IMAT) = PHASE_ALPHAJJ(IMAT) / CUMUL_ALPHA
                      PHASE_RHOJJ(IMAT) = MULTI_FVM%PHASE_RHO(IMAT, J)
                      PHASE_EINTJJ(IMAT) = MULTI_FVM%PHASE_EINT(IMAT, J)
-                     IF (MULTI_FVM%MUSCL .EQ. 1) THEN
+                     IF (MULTI_FVM%MUSCL  ==  1) THEN
                         PHASE_RHOJJ(IMAT) = PHASE_RHOJJ(IMAT)
      .                       + MULTI_FVM%PHASE_GRAD_RHO(1, IMAT, J) * (XF(1) - XL(1))
      .                       + MULTI_FVM%PHASE_GRAD_RHO(2, IMAT, J) * (XF(2) - XL(2))
@@ -431,7 +431,7 @@ C     Reconstructed density adjacent element
 C     Global reconstructed density
                      RHOJJ = RHOJJ + PHASE_ALPHAJJ(IMAT) * PHASE_RHOJJ(IMAT)
                      MATLAW(IMAT) = IPM(2, LOCAL_MATID(IMAT))
-                     IF (PHASE_ALPHAJJ(IMAT) .GT. ZERO) THEN
+                     IF (PHASE_ALPHAJJ(IMAT)  >  ZERO) THEN
                         
                         CALL COMPUTE_PRESSURE(MATLAW(IMAT), LOCAL_MATID(IMAT), PM, IPM, NPROPM, NPROPMI, 
      .                       PHASE_EINTJJ(IMAT), PHASE_RHOJJ(IMAT), PHASE_PRESJJ(IMAT), PHASE_SSPJJ(IMAT),
@@ -444,7 +444,7 @@ C     Global reconstructed pressure
      .                       MAX(EM20, PHASE_SSPJJ(IMAT))
                      ENDIF
                   ENDDO
-                  IF (SSPJJ / RHOJJ .GT. ZERO) THEN
+                  IF (SSPJJ / RHOJJ  >  ZERO) THEN
                      SSPJJ = SQRT(SSPJJ / RHOJJ)
                   ELSE
                      SSPJJ = MULTI_FVM%SOUND_SPEED(J)
@@ -466,7 +466,7 @@ C     Intermediate wave speed
 C     Specific for Low Mach number corrections
 C     Intermediate pressure
                PSTAR2 = PII + RHOII * (SSTAR - NORMAL_VELII) * (SL - NORMAL_VELII)
-               IF (MIN(MACHII, MACHJJ) .LT. EM01) THEN
+               IF (MIN(MACHII, MACHJJ)  <  EM01) THEN
                   THETA = MIN(MACHII, MACHJJ)
                ELSE
                   THETA = ONE
@@ -486,7 +486,7 @@ C     Intermediate pressure
                   PP(5) = SSTAR * (PSTAR2 + PSHIFT)
                ENDIF
 
-               IF (SL .GT. NORMALW) THEN
+               IF (SL  >  NORMALW) THEN
                   VII(1) = RHOII
                   VII(2) = RHOII * VXII
                   VII(3) = RHOII * VYII
@@ -505,7 +505,7 @@ C     Global fluxes
                   MULTI_FVM%FLUXES(6, KFACE_OLD, I_OLD) = DIRECTION *  NORMAL_VELII * SURF
 C     ===
 C     Submaterial fluxes
-                  IF (NBMAT .GT. 1) THEN
+                  IF (NBMAT  >  1) THEN
                      DO IMAT = 1, NBMAT
                         ALPHAII = PHASE_ALPHAII(IMAT)
                         SUB_RHOII = PHASE_RHOII(IMAT) ! ALPHA_RHO
@@ -523,7 +523,7 @@ C     Submaterial fluxes
                      ENDDO
                   ENDIF
 C     
-               ELSEIF (SL .LE. NORMALW .AND. NORMALW .LE. SSTAR) THEN
+               ELSEIF (SL  <=  NORMALW .AND. NORMALW  <=  SSTAR) THEN
                   VII(1) = RHOII
                   VII(2) = RHOII * VXII
                   VII(3) = RHOII * VYII
@@ -546,19 +546,19 @@ C     Global fluxes
                   MULTI_FVM%FLUXES(6, KFACE_OLD, I_OLD) = DIRECTION * SSTAR * SURF
 C     ===
 C     Submaterial fluxes
-                  IF (NBMAT .GT. 1) THEN
+                  IF (NBMAT  >  1) THEN
                      DO IMAT = 1, NBMAT
                         MATLAW(IMAT) = IPM(2, LOCAL_MATID(IMAT))
                         ALPHASTAR = PHASE_ALPHAII(IMAT)
                         SUB_RHOSTAR = PHASE_RHOII(IMAT) * (NORMAL_VELII - SL) / (SSTAR - SL)
-                        IF (ALPHASTAR .GT. ZERO) THEN
+                        IF (ALPHASTAR  >  ZERO) THEN
                            SUB_RHOII = PHASE_RHOII(IMAT)
                            SUB_RHOEINTII = PHASE_EINTII(IMAT)
                            SUB_PII = PHASE_PRESII(IMAT)
                            SUB_ESTAR = PHASE_EINTII(IMAT) / PHASE_RHOII(IMAT) - 
      .                          PHASE_PRESII(IMAT) * (ONE / SUB_RHOSTAR - ONE / PHASE_RHOII(IMAT)) 
 
-                           IF (SUB_ESTAR .LT. ZERO) THEN
+                           IF (SUB_ESTAR  <  ZERO) THEN
                               SUB_ESTAR = ZERO
                            ENDIF
                         ELSE
@@ -578,7 +578,7 @@ C     Submaterial fluxes
                      ENDDO
                   ENDIF
                 
-               ELSE IF (SSTAR .LT. NORMALW .AND. NORMALW .LE. SR) THEN
+               ELSE IF (SSTAR  <  NORMALW .AND. NORMALW  <=  SR) THEN
                   VII(1) = RHOJJ
                   VII(2) = RHOJJ * VXJJ
                   VII(3) = RHOJJ * VYJJ
@@ -601,18 +601,18 @@ C     Global fluxes
                   MULTI_FVM%FLUXES(6, KFACE_OLD, I_OLD) = DIRECTION * SSTAR * SURF
 C     ===
 C     Submaterial fluxes
-                  IF (NBMAT .GT. 1) THEN
+                  IF (NBMAT  >  1) THEN
                      DO IMAT = 1, NBMAT
                         MATLAW(IMAT) = IPM(2, LOCAL_MATID(IMAT))
                         ALPHASTAR = PHASE_ALPHAJJ(IMAT)
                         SUB_RHOSTAR = PHASE_RHOJJ(IMAT) * (NORMAL_VELJJ - SR) / (SSTAR - SR)
-                        IF (ALPHASTAR .GT. ZERO) THEN
+                        IF (ALPHASTAR  >  ZERO) THEN
                            SUB_RHOII = PHASE_RHOJJ(IMAT)
                            SUB_RHOEINTII = PHASE_EINTJJ(IMAT)
                            SUB_PII = PHASE_PRESJJ(IMAT)
                            SUB_ESTAR = PHASE_EINTJJ(IMAT) / PHASE_RHOJJ(IMAT) - 
      .                          PHASE_PRESJJ(IMAT) * (ONE / SUB_RHOSTAR - ONE / PHASE_RHOJJ(IMAT)) 
-                           IF (SUB_ESTAR .LT. ZERO) THEN
+                           IF (SUB_ESTAR  <  ZERO) THEN
                               SUB_ESTAR = ZERO
                            ENDIF
                         ELSE
@@ -631,7 +631,7 @@ C     Submaterial fluxes
      .                       (SUB_FIISTAR(3) - NORMALW * SUB_VIISTAR(3)) * SURF
                      ENDDO
                   ENDIF
-               ELSE IF (SR .LT. NORMALW) THEN
+               ELSE IF (SR  <  NORMALW) THEN
                   VII(1) = RHOJJ
                   VII(2) = RHOJJ * VXJJ
                   VII(3) = RHOJJ * VYJJ
@@ -650,7 +650,7 @@ C     Global fluxes
                   MULTI_FVM%FLUXES(6, KFACE_OLD, I_OLD) = DIRECTION * NORMAL_VELJJ * SURF
 C     ===
 C     Submaterial fluxes
-                  IF (NBMAT .GT. 1) THEN
+                  IF (NBMAT  >  1) THEN
                      DO IMAT = 1, NBMAT
                         ALPHAII = PHASE_ALPHAJJ(IMAT)
                         SUB_RHOII = PHASE_RHOJJ(IMAT) ! ALPHA_RHO
@@ -675,10 +675,10 @@ C     Submaterial fluxes
 C
                ENDIF
 
-               IF (J_OLD .LE. NUMEL_SPMD) THEN
+               IF (J_OLD  <=  NUMEL_SPMD) THEN
 !                  KFACE2_OLD = MULTI_FVM%FVM_CONNECTIVITY%KVOIS(NB_FACE * (I_OLD - 1) + KFACE3)
                   MULTI_FVM%FLUXES(1:6, KFACE2_OLD, J_OLD) = -MULTI_FVM%FLUXES(1:6, KFACE_OLD, I_OLD)
-                  IF (NBMAT .GT. 1) THEN
+                  IF (NBMAT  >  1) THEN
                      DO IMAT = 1, NBMAT
                         MULTI_FVM%SUBVOL_FLUXES(IMAT, KFACE2_OLD, J_OLD) = -MULTI_FVM%SUBVOL_FLUXES(IMAT, KFACE_OLD, I_OLD)
                         MULTI_FVM%SUBMASS_FLUXES(IMAT, KFACE2_OLD, J_OLD) = -MULTI_FVM%SUBMASS_FLUXES(IMAT, KFACE_OLD, I_OLD)
@@ -687,7 +687,7 @@ C
                   ENDIF
                ENDIF
 !   -----------------------------------------------
-            ELSE IF (J_OLD .LE. 0) THEN
+            ELSE IF (J_OLD  <=  0) THEN
                ELEMID = I_OLD
                VX = MULTI_FVM%VEL(1, ELEMID)
                VY = MULTI_FVM%VEL(2, ELEMID)
@@ -715,7 +715,7 @@ C     Intermediate wave speed
                MULTI_FVM%FLUXES(6, KFACE3, ELEMID) = SURF * NORMALW
 C     ===
 C     Submaterial fluxes
-               IF (NBMAT .GT. 1) THEN
+               IF (NBMAT  >  1) THEN
                   DO IMAT = 1, NBMAT
                      MULTI_FVM%SUBVOL_FLUXES(IMAT, KFACE3, I_OLD) = ZERO
                      MULTI_FVM%SUBMASS_FLUXES(IMAT, KFACE3, I_OLD) = ZERO
@@ -778,5 +778,5 @@ C     Initialization
       CONT = .TRUE.
       CALL MULTI_SUBMATLAW(0, MATLAW, LOCAL_MATID, 1, EINT, PRES, RHO, SSP, VOL, GRUN, 
      .     PM, IPM, NPROPM, NPROPMI, BUFMAT, OFF, TEMP, 
-     .     BURNFRAC, BURNTIME, DELTAX, CURRENT_TIME,SIG(1:6))
+     .     BURNFRAC, BURNTIME, DELTAX, CURRENT_TIME,SIG(1:6),NPF,TF)
       END SUBROUTINE COMPUTE_PRESSURE

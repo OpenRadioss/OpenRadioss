@@ -85,15 +85,15 @@ C-----------------------------------------------
 C     Inlet, outlet boundary condition
               CALL MULTI_INLET_EBCS(ITASK, I, MULTI_FVM, NELEM,
      .           twf%ielem, twf%iface, twf%fvm_inlet_data,
-     .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE)
+     .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,NPF,TF)
             TYPE IS(t_ebcs_fluxout)
               CALL MULTI_INLET_EBCS(ITASK, I, MULTI_FVM, NELEM,
      .           twf%ielem, twf%iface, twf%fvm_inlet_data,
-     .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE)
+     .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,NPF,TF)
             TYPE IS(t_ebcs_nrf)
               CALL MULTI_NRF_EBCS(ITASK, I, MULTI_FVM, NELEM,
      .           twf%ielem, twf%iface, twf%fvm_inlet_data,
-     .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,twf)
+     .           IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,twf,NPF,TF)
             CLASS DEFAULT
          END SELECT
       ENDDO
