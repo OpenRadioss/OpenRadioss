@@ -349,7 +349,7 @@ C     WRITE(6,*) __FILE__,"[IN] I25ASS2"
 C
       NISKYL1 = 0
       DO I = 1, JLT
-        IF (PENE(I)==ZERO.OR.TAGIP(I)==0) CYCLE
+        IF (PENE(I)==ZERO.AND.TAGIP(I)==0) CYCLE
         IF (HM1(I).NE.ZERO.OR.TAGIP(I)==1) NISKYL1 = NISKYL1 + 1
         IF (HM2(I).NE.ZERO.OR.TAGIP(I)==1) NISKYL1 = NISKYL1 + 1
         IF ((HM1(I).NE.ZERO.OR.TAGIP(I)==1).AND.IBM(I)>=0) NISKYL1 = NISKYL1 + 1
@@ -360,7 +360,7 @@ C
       IGM = 0
 
       DO I=1,JLT
-        IF(PENE(I)==ZERO.OR.TAGIP(I)==0) CYCLE
+        IF(PENE(I)==ZERO.AND.TAGIP(I)==0) CYCLE
         IF(CS_LOC(I).LE.NEDGE) THEN
            IGP = IGP+2
            IF(IBM(I)>=0) IGP=IGP+2
@@ -392,7 +392,7 @@ C
       DO I=1,JLT
 
 
-        IF(PENE(I)==ZERO.OR.TAGIP(I)==0) CYCLE
+        IF(PENE(I)==ZERO.AND.TAGIP(I)==0) CYCLE
 C
 
         IF(CS_LOC(I).LE.NEDGE) THEN
@@ -469,7 +469,7 @@ C     WRITE(6,*) __FILE__,"[OUT] I25ASS2",NISKYFIEL
 
 C
       DO I=1,JLT
-       IF(PENE(I)==ZERO.OR.TAGIP(I)==0) CYCLE
+       IF(PENE(I)==ZERO.AND.TAGIP(I)==0) CYCLE
 C
        IF (HM1(I).NE.ZERO.OR.TAGIP(I)==1) THEN
         NISKYL = NISKYL + 1
@@ -578,7 +578,7 @@ C-----------------------------------------------
 C
       NISKYL1 = 0
       DO I = 1, JLT
-        IF(PENE(I)==ZERO.OR.TAGIP(I)==0) CYCLE
+        IF(PENE(I)==ZERO.AND.TAGIP(I)==0) CYCLE
         IF (HM1(I).NE.ZERO.OR.TAGIP(I)==1) NISKYL1 = NISKYL1 + 1
         IF (HM2(I).NE.ZERO.OR.TAGIP(I)==1) NISKYL1 = NISKYL1 + 1
         IF ((HM1(I).NE.ZERO.OR.TAGIP(I)==1).AND.IBM(I)>=0) NISKYL1 = NISKYL1 + 1
@@ -683,7 +683,7 @@ C           WRITE(6,*) "ISKYFIE(",NISKYFIEL,")=",ISKYFIE(NIN)%P(NISKYFIEL),LOC(I
       END DO
 C
       DO I=1,JLT
-        IF(PENE(I)==ZERO.OR.TAGIP(I)==0) CYCLE
+        IF(PENE(I)==ZERO.AND.TAGIP(I)==0) CYCLE
 C
         IF (HM1(I).NE.ZERO.OR.TAGIP(I)==1) THEN
          NISKYL = NISKYL + 1
@@ -706,7 +706,7 @@ C
         ENDIF
       ENDDO
       DO I=1,JLT
-        IF(PENE(I)==ZERO.OR.TAGIP(I)==0) CYCLE
+        IF(PENE(I)==ZERO.AND.TAGIP(I)==0) CYCLE
 C
         IF (HM2(I).NE.ZERO.OR.TAGIP(I)==1) THEN
          NISKYL = NISKYL + 1
