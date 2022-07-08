@@ -57,18 +57,28 @@ C-----------------------------------------------
       CLASS(t_ebcs), POINTER :: EBCS
 
       DO I=1,NEBCS
-         EBCS => EBCS_TAB%tab(i)%poly
-         TYP = EBCS%type
-         NOD = EBCS%nb_node
+         TYP = EBCS_TAB%tab(i)%poly%type
+         NOD = EBCS_TAB%tab(i)%poly%nb_node
+         
          IF(TYP == 2 .OR. TYP == 3)THEN
+            EBCS => EBCS_TAB%tab(i)%poly
             IF(TYP == 2) CALL EBCCLAP1(V, A, EBCS%node_list, NOD, EBCS%la, -ONE)
             IF(TYP == 3) CALL EBCCLAP1(V, A, EBCS%node_list, NOD, EBCS%la, ONE)
          ELSE IF(TYP == 4)THEN
-            CALL EBCVIT4(V, A, EBCS%node_list, NOD, FV, EBCS%reso, EBCS%la, EBCS)
+            select type (twf => EBCS_TAB%tab(i)%poly)
+            type is(t_ebcs_vel)
+            CALL EBCVIT4(V, A, twf%node_list, NOD, FV, twf%reso,twf%la, twf)
+            end select
          ELSE IF (TYP == 5)THEN
-            CALL EBCVIT5(V, A, EBCS%node_list, NOD, FV, EBCS%reso, EBCS%la, EBCS)
+            select type (twf => EBCS_TAB%tab(i)%poly)
+            type is(t_ebcs_normv)
+            CALL EBCVIT5(V, A, twf%node_list, NOD, FV, twf%reso, twf%la, twf )
+            end select
          ELSE IF (TYP == 7)THEN
-            CALL EBCVIT7(V, A, EBCS%node_list, NOD, EBCS%v0, EBCS%reso, EBCS)
+            select type (twf => EBCS_TAB%tab(i)%poly)
+            type is(t_ebcs_iniv)
+            CALL EBCVIT7(V, A, twf%node_list, NOD, twf%v0, twf%reso,twf)
+            end select
          ENDIF
 C
       ENDDO

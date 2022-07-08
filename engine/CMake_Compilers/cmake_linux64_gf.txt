@@ -89,7 +89,11 @@ if ( NOT DEFINED WITH_LINEAR_ALGEBRA)
 set ( wo_linalg "-DWITHOUT_LINALG" )
 endif()
 
-set ( opt_flag "  ${wo_linalg} -DCOMP_GFORTRAN=1 -ffp-contract=off -frounding-math -fopenmp" )
+if ( CMAKE_C_COMPILER_VERSION VERSION_GREATER 10) 
+set( portability " -fallow-argument-mismatch -g  -fallow-invalid-boz -std=legacy")
+endif()
+
+set ( opt_flag "  ${wo_linalg} -DCOMP_GFORTRAN=1 -ffp-contract=off -frounding-math -fopenmp ${portability}" )
 
 if ( sanitize STREQUAL "1" )
 set( FSANITIZE "-fsanitize=address -DSANITIZE") 

@@ -88,40 +88,58 @@ C-----------------------------------------------
          NSEG = EBCS%nb_elem
          NOD = EBCS%nb_node
          IF (TYP == 0) THEN
+            select type (twf => EBCS_TAB%tab(i)%poly)
+            type is (t_ebcs_gradp0) 
             CALL EBCS0(NSEG, EBCS%iseg, SEGVAR,
      .           A, V, X, 
      .           EBCS%node_list, NOD, EBCS%elem_list,EBCS%ielem,
      .           EBCS%vold, EBCS%pold, EBCS%p0,
-     .           EBCS%la, FV, MS, STIFN, IPARG, ELBUF_TAB, EBCS)
+     .           EBCS%la, FV, MS, STIFN, IPARG, ELBUF_TAB, twf)
+            end select
          ELSE IF (TYP <= 3)THEN
+C           select type (twf => EBCS_TAB%tab(i)%poly)
+C           type is (t_ebcs_tab) 
             CALL EBCS1(NSEG,EBCS%iseg,SEGVAR,
      .           A,V,X,
      .           EBCS%node_list,NOD,EBCS%elem_list,
      .           EBCS%vold,EBCS%pold,EBCS%la,
      .           FV,MS,STIFN,TYP,EBCS_TAB, I)
+C           end select
          ELSE IF (TYP == 4) THEN
+            select type (twf => EBCS_TAB%tab(i)%poly)
+            type is (t_ebcs_vel) 
             CALL EBCS4(NSEG,EBCS%iseg,SEGVAR,
      .           A,V,X,
      .           EBCS%node_list,NOD,EBCS%elem_list,
-     .           EBCS%la,FV,MS,STIFN,EBCS)     
+     .           EBCS%la,FV,MS,STIFN,twf)     
+            end select
          ELSE IF (TYP == 5) THEN
+            select type (twf => EBCS_TAB%tab(i)%poly)
+            type is (t_ebcs_normv) 
             CALL EBCS5(NSEG,EBCS%iseg,SEGVAR,
      .           A,V,X,
      .           EBCS%node_list,NOD,EBCS%elem_list,
-     .           EBCS%la,FV,MS,STIFN,EBCS)     
+     .           EBCS%la,FV,MS,STIFN,twf)     
+            end select
          ELSE IF (TYP == 6) THEN
+            select type (twf => EBCS_TAB%tab(i)%poly)
+            type is (t_ebcs_inip) 
             CALL EBCS6(NSEG,EBCS%iseg,SEGVAR,
      .           A,V,X,
      .           EBCS%node_list,NOD,EBCS%elem_list,
      .           EBCS%ro0,EBCS%en0,EBCS%p0,
      .           EBCS%vold,EBCS%pold,EBCS%la,
-     .           MS,STIFN,IPARG,EBCS)
+     .           MS,STIFN,IPARG,twf)
+            end select
          ELSE IF (TYP == 7) THEN
+            select type (twf => EBCS_TAB%tab(i)%poly)
+            type is (t_ebcs_iniv) 
             CALL EBCS7(NSEG,EBCS%iseg,SEGVAR,
      .           A,V,X,
      .           EBCS%node_list,NOD,EBCS%elem_list,
      .           EBCS%ro0,EBCS%en0,EBCS%v0,
-     .           EBCS%la,MS,STIFN,EBCS)     
+     .           EBCS%la,MS,STIFN,twf)     
+             end select
          ELSE IF (TYP == 10) THEN
             select type (twf => EBCS)
              type is (t_ebcs_nrf)

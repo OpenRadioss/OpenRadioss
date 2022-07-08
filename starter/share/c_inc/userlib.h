@@ -120,7 +120,7 @@ char * mds_userlib_name;
 
 void *mds_userlibhandle;
 
-void (*st_get_userbuf_variable)(int * id, char * title); 
+//void (*st_get_userbuf_variable)(int * id, char * title); 
 
 void  (*mds_userlib_id)(int * info);
 
