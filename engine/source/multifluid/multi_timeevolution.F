@@ -54,7 +54,7 @@ Chd|====================================================================
      .     NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, 
      .     ITAB, ITABM1, CURRENT_TIME,
      .     STIFN, FSKY, IADS, FSKYM, 
-     .     CONDN, CONDNSKY, BUFMAT, FUNC_VALUE, PRED,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB)
+     .     CONDN, CONDNSKY, BUFMAT, FUNC_VALUE, PRED,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPF,TF)
 C-----------------------------------------------
 C     D e s c r i p t i o n
 C-----------------------------------------------
@@ -88,6 +88,8 @@ C-----------------------------------------------
 #include      "scr18_c.inc" 
 !     SMPD
 #include "spmd_c.inc"
+!     SNPC,STF
+#include "tabsiz_c.inc"
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -116,6 +118,8 @@ C-----------------------------------------------
       my_real, INTENT(IN) :: FUNC_VALUE(*)
       TYPE(t_ebcs_tab), INTENT(IN) :: EBCS_TAB
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
+      INTEGER, INTENT(IN) :: NPF(SNPC)
+      my_real, INTENT(IN) :: TF(STF)
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -286,12 +290,12 @@ C     SUBMAT gradients
                CALL MULTI_MUSCL_FLUXES_COMPUTATION(NG, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
      .              PM, IPM, MULTI_FVM, ALE_CONNECTIVITY, WGRID, XGRID, ITAB, 
      .              MULTI_FVM%NBMAT, CURRENT_TIME, BUFMAT,
-     .              ID_GLOBAL_VOIS,FACE_VOIS)
+     .              ID_GLOBAL_VOIS,FACE_VOIS,NPF,TF)
             ELSE
                CALL MULTI_FLUXES_COMPUTATION(NG, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
      .              PM, IPM, MULTI_FVM, ALE_CONNECTIVITY, WGRID, XGRID, ITAB, 
      .              MULTI_FVM%NBMAT, CURRENT_TIME, BUFMAT,
-     .              ID_GLOBAL_VOIS) 
+     .              ID_GLOBAL_VOIS,NPF,TF) 
             ENDIF
          ENDIF
       ENDDO                     ! DO NG = ITASK + 1, NGROUP, NTHREAD
@@ -302,7 +306,7 @@ C---------------------
       IF (EBCS_TAB%nebcs_fvm > 0) THEN
          CALL MY_BARRIER
          CALL MULTI_EBCS(ITASK, MULTI_FVM, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE, 
-     .        EBCS_TAB)
+     .        EBCS_TAB,NPF,TF)
          CALL MY_BARRIER
       ENDIF
 C     ------------------------- 

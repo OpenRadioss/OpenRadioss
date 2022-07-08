@@ -93,25 +93,28 @@ C-----------------------------------------------
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 c--------------------------------------------------
 c     Routine reading EOS models :
-           !------------------------------------!           
-           !  IEOS     !    EOS                 !
-           !-----------!------------------------!           
-           !   0       !     LINEAR             !               
-           !   1       !     POLYNOMIAL         !
-           !   2       !     GRUNEISEN          !
-           !   3       !     TILLOTSON          !
-           !   4       !     PUFF               !
-           !   5       !     SESAME             !
-           !   6       !     NOBLE-ABEL         ! 2017.0
-           !   7       !     IDEAL GAS          ! 2018.0  
-           !   8       !     MUNAGHAN           ! 2018.0
-           !   9       !     OSBORNE            ! 2018.0
-           !  10       !     STIFFENED GAS      ! 2018.0
-           !  11       !     LSZK               ! 2018.0
-           !  12       !     POWDER-BURN        ! 2019.1
-           !  13       !     COMPACTION         ! 2019.1
-           !  14       !     NASG               ! 2020.0 
-           !   7       !     IDEAL GAS VT       ! 2022.0                       
+      !------------------------------------!                
+      !  IEOS     !    EOS                 !             
+      !-----------!------------------------!  
+      !   0       !     LINEAR             !                 
+      !   1       !     POLYNOMIAL         !             
+      !   2       !     GRUNEISEN          !             
+      !   3       !     TILLOTSON          !             
+      !   4       !     PUFF               !             
+      !   5       !     SESAME             !             
+      !   6       !     NOBLE-ABEL         ! 2017.0            
+      !   7       !     IDEAL GAS          ! 2018.0            
+      !   8       !     MUNAGHAN           ! 2018.0      
+      !   9       !     OSBORNE            ! 2018.0      
+      !  10       !     STIFFENED GAS      ! 2018.0      
+      !  11       !     LSZK               ! 2018.0  
+      !  12       !     POWDER-BURN        ! 2019.1
+      !  13       !     COMPACTION         ! 2019.1 
+      !  14       !     NASG               ! 2020.0   
+      !  15       !     JWL                ! internal use : INIMAP   
+      !  16       !     IDEALGAS_VT        ! 2022.0
+      !  17       !     TABULATED          ! 2022.2
+      !------------------------------------!                      
 c======================================================================-       
 c     COUNT EOS MODELS USING CFG FILES
 c--------------------------------------------------
@@ -256,6 +259,10 @@ c---
           CASE ('IDEAL-GAS-VT')
             IEOS = 16     
             CALL HM_READ_EOS_IDEAL_GAS_VT(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)                                
+c---
+          CASE ('TABULATED')
+            IEOS = 17     
+            CALL HM_READ_EOS_TABULATED(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)                                
                                                
 c---
           CASE DEFAULT

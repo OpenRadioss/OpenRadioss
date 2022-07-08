@@ -22,4 +22,4 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
             INTEGER MAXEOS
             SAVE MAXEOS
-            DATA MAXEOS /16/
+            DATA MAXEOS /17/

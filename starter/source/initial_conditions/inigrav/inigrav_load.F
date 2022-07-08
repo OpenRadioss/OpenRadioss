@@ -42,7 +42,8 @@ Chd|====================================================================
       SUBROUTINE INIGRAV_LOAD(ELBUF_TAB ,IPART  ,IGRPART ,IPARG  ,IPARTTG  ,
      1                        IPARTS    ,IPARTQ ,X       ,IXS    ,IXQ      ,
      2                        IXTG      ,PM     ,IPM     ,BUFMAT ,MULTI_FVM,
-     3                        ALE_CONNECTIVITY ,NV46   ,IGRSURF ,ITAB   ,EBCS_TAB)
+     3                        ALE_CONNECTIVITY ,NV46   ,IGRSURF ,ITAB   ,EBCS_TAB,
+     4                        NPF       ,TF)
 C-----------------------------------------------
 C   Description
 C-----------------------------------------------
@@ -91,6 +92,7 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "scr17_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -107,6 +109,8 @@ C-----------------------------------------------
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRPART)  :: IGRPART
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
+      INTEGER,INTENT(IN)::NPF(SNPC)
+      my_real,INTENT(IN)::TF(STF)      
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -420,7 +424,7 @@ C-----------------------------------------------
            CASE (3, 4, 6, 10, 49)      !Material law defined with Equations Of States 
               RHO0 = PM(1,MATID)                  
               CALL INIGRAV_EOS(NEL,NEL2, NG, MATID, IPM, GRAV0, RHO0, DEPTH, PM, BUFMAT(IADBUF), 
-     .                         ELBUF_TAB, PSURF, LIST , PGRAV, 0 ,MLW)
+     .                         ELBUF_TAB, PSURF, LIST , PGRAV, 0 ,MLW, NPF, TF)
           !=======================================!
           !     MM-ALE 37                         !
           !=======================================! 
@@ -475,7 +479,7 @@ C-----------------------------------------------
                 MATID  = IPM(20 + IMAT, IX(1, 1))  
                 MATLAW = IPM(2, MATID)            
                 CALL INIGRAV_EOS(NEL,   NEL2 , NG   , MATID, IPM, GRAV0, RHO0, DEPTH, PM, BUFMAT(IADBUF), ELBUF_TAB, 
-     .                           PSURF, LIST , PGRAV, IMAT , MLW)
+     .                           PSURF, LIST , PGRAV, IMAT , MLW, NPF, TF)
               ENDDO
               ! GLOBAL STATE
               DO KK=1,NEL2

@@ -52,7 +52,8 @@ Chd|====================================================================
      2                   RHO   ,RHO0  ,MU     ,MU2   ,ESPE  ,
      3                   DVOL  ,DF    ,VNEW   ,MAT   ,PSH   ,
      4                   PNEW  ,DPDM  ,DPDE   ,THETA ,ECOLD ,
-     5                   BUFMAT,SIG   ,MU_OLD ,MLW   ,POLD)
+     5                   BUFMAT,SIG   ,MU_OLD ,MLW   ,POLD  ,
+     6                   NPF   ,TF)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -77,10 +78,12 @@ C depending on EOSTYP(INTEGER) value.
       !  13       !     COMPACTION         ! 2019.1 
       !  14       !     NASG               ! 2020.0   
       !  15       !     JWL                ! internal use : INIMAP   
+      !  16       !     IDEALGAS_VT        ! 2022.0
+      !  17       !     TABULATED          ! 2022.2
       !------------------------------------!  
 !
 !  input   EINT(:) :  rho.e   (law151    , unit J/m**3)
-!                  rho.e.V (other laws, unit J)
+!                     rho.e.V (other laws, unit J)
 !
 ! output   EPSE(:) :  rho0.e (=E)   (all laws, used such as P_eos:=P(mu,E) )
 !     
@@ -94,24 +97,28 @@ C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER MAT(*),IFLAG, EOSTYP, NEL, MLW
-      my_real
-     .   PM(NPROPM,*),BUFMAT(*)   ,OFF(*)  , 
-     .   EINT(*) ,RHO(*)  ,RHO0(*) , 
-     .   MU(*)   ,MU2(*)  ,ESPE(*) ,DVOL(*), 
-     .   DF(*)   ,VNEW(*) ,PSH(*)  ,PNEW(*),
-     .   DPDM(*) ,DPDE(*) ,THETA(*),ECOLD(*),
-     .   SIG(NEL,6), MU_OLD(NEL),POLD(NEL)
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc" 
+#include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "vect01_c.inc"
 #include      "scr06_c.inc"
+#include      "tabsiz_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER MAT(*),IFLAG, EOSTYP, NEL, MLW
+      my_real
+     .   PM(NPROPM,NUMMAT),BUFMAT(NEL)   ,OFF(NEL)  , 
+     .   EINT(NEL) ,RHO(NEL)  ,RHO0(NEL) , 
+     .   MU(NEL)   ,MU2(NEL)  ,ESPE(NEL) ,DVOL(NEL), 
+     .   DF(NEL)   ,VNEW(NEL) ,PSH(NEL)  ,PNEW(NEL),
+     .   DPDM(NEL) ,DPDE(NEL) ,THETA(NEL),ECOLD(NEL),
+     .   SIG(NEL,6), MU_OLD(NEL),POLD(NEL)
+      INTEGER,INTENT(IN)::NPF(SNPC)
+      my_real,INTENT(IN)::TF(STF)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -271,7 +278,7 @@ C-----------------------------------------------
 
         CASE(13)
          !--------------------------------------------------!
-         !         STIFFENED GAS EOS                        !
+         !         COMPACTION EOS                           !
          !--------------------------------------------------!          
           CALL COMPACTION(
      1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT  ,MU  ,MU2, 
@@ -280,7 +287,7 @@ C-----------------------------------------------
 
         CASE(14)
          !--------------------------------------------------!
-         !         STIFFENED GAS EOS                        !
+         !         NASG EOS                                 !
          !--------------------------------------------------!          
           CALL NASG(
      1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2, 
@@ -288,7 +295,7 @@ C-----------------------------------------------
      3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD)    
         CASE(15)
          !--------------------------------------------------!
-         !         STIFFENED GAS EOS                        !
+         !         JWL EOS (inernal use, no /EOS/JWL so far)!
          !--------------------------------------------------!          
           CALL JWL(
      1                  IFLAG ,NEL  ,PM   ,OFF  , EINT ,MU  ,MU2, 
@@ -302,7 +309,16 @@ C-----------------------------------------------
           CALL IDEALGAS_VT(
      1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2, 
      2                  ESPE  ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
-     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD,POLD)                
+     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD,POLD) 
+        CASE(17)
+         !--------------------------------------------------!
+         !         TABULATED EOS                            !
+         !--------------------------------------------------!          
+          CALL TABULATED(
+     1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2, 
+     2                  ESPE  ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
+     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD, 
+     4                  NPF   ,TF)                     
        END SELECT
       
       

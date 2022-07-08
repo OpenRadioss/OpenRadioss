@@ -35,7 +35,7 @@ Chd|====================================================================
       SUBROUTINE MULTI_MUSCL_FLUXES_COMPUTATION(NG, ELBUF_TAB, IPARG, ITASK, 
      .     IXS, IXQ, IXTG,
      .     PM, IPM, MULTI_FVM, ALE_CONNECTIVITY, WGRID, XGRID, ITAB, NBMAT, CURRENT_TIME, BUFMAT,
-     .     ID_GLOBAL_VOIS,FACE_VOIS)
+     .     ID_GLOBAL_VOIS,FACE_VOIS,NPF,TF)
 !$COMMENT
 !       MULTI_MUSCL_FLUXES_COMPUTATION description :
 !           computation of fluxes with 2nd order algorithm
@@ -74,6 +74,10 @@ C-----------------------------------------------
 #include      "mvsiz_p.inc"
 !     DTFAC1
 #include      "scr18_c.inc" 
+!     SNPC, STF
+!#include      "tabsiz_c.inc" 
+      COMMON /TABLESIZF/ STF,SNPC
+      INTEGER STF,SNPC
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -91,6 +95,8 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: ITAB(*), NBMAT
       my_real, INTENT(INOUT) :: BUFMAT(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
+      INTEGER, INTENT(IN) :: NPF(SNPC)
+      my_real, INTENT(IN) :: TF(STF)
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -294,7 +300,7 @@ C     Reconstructed density current element
                   CALL COMPUTE_PRESSURE(MATLAW(1), LOCAL_MATID(1), PM, IPM, NPROPM, NPROPMI, 
      .                 EINTII, RHOII, PII, SSPII,
      .                 MULTI_FVM%BFRAC(1, I), GBUF%TB(II), GBUF%DELTAX(II), CURRENT_TIME,
-     .                 BUFMAT, GBUF%OFF(II), GBUF%SIG(II+IDX(1):II+IDX(6)))
+     .                 BUFMAT, GBUF%OFF(II), GBUF%SIG(II+IDX(1):II+IDX(6)), NPF, TF)
                   SSPII = SQRT(SSPII)
                  
                ELSE
@@ -335,7 +341,7 @@ C     Global reconstructed density
                         CALL COMPUTE_PRESSURE(MATLAW(IMAT), LOCAL_MATID(IMAT), PM, IPM, NPROPM, NPROPMI, 
      .                       PHASE_EINTII(IMAT), PHASE_RHOII(IMAT), PHASE_PRESII(IMAT), PHASE_SSPII(IMAT),
      .                       MULTI_FVM%BFRAC(IMAT, I), GBUF%TB(II), GBUF%DELTAX(II), CURRENT_TIME,
-     .                       BUFMAT, LBUFS(IMAT)%LBUF%OFF(II),LBUFS(IMAT)%LBUF%SIG(II+IDX(1):II+IDX(6)))
+     .                       BUFMAT, LBUFS(IMAT)%LBUF%OFF(II),LBUFS(IMAT)%LBUF%SIG(II+IDX(1):II+IDX(6)), NPF,TF)
 C     Global reconstructed pressure
                         PII = PII + PHASE_ALPHAII(IMAT) * PHASE_PRESII(IMAT)
                         EINTII = EINTII + PHASE_ALPHAII(IMAT) * PHASE_EINTII(IMAT)
@@ -391,7 +397,7 @@ C     Reconstructed density adjacent element
                   CALL COMPUTE_PRESSURE(MATLAW(1), LOCAL_MATID(1), PM, IPM, NPROPM, NPROPMI, 
      .                 EINTJJ, RHOJJ, PJJ, SSPJJ,
      .                 MULTI_FVM%BFRAC(1, J), GBUF%TB(II), GBUF%DELTAX(II), CURRENT_TIME,
-     .                 BUFMAT, GBUF%OFF(II),GBUF%SIG(II+IDX(1):II+IDX(6)))
+     .                 BUFMAT, GBUF%OFF(II),GBUF%SIG(II+IDX(1):II+IDX(6)), NPF,TF)
                   SSPJJ = SQRT(SSPJJ)
                ELSE
                   RHOJJ = ZERO
@@ -430,7 +436,7 @@ C     Global reconstructed density
                         CALL COMPUTE_PRESSURE(MATLAW(IMAT), LOCAL_MATID(IMAT), PM, IPM, NPROPM, NPROPMI, 
      .                       PHASE_EINTJJ(IMAT), PHASE_RHOJJ(IMAT), PHASE_PRESJJ(IMAT), PHASE_SSPJJ(IMAT),
      .                       MULTI_FVM%BFRAC(IMAT, J), GBUF%TB(II), GBUF%DELTAX(II), CURRENT_TIME,
-     .                       BUFMAT, LBUFS(IMAT)%LBUF%OFF(II),LBUFS(IMAT)%LBUF%SIG(II+IDX(1):II+IDX(6)))
+     .                       BUFMAT, LBUFS(IMAT)%LBUF%OFF(II),LBUFS(IMAT)%LBUF%SIG(II+IDX(1):II+IDX(6)),NPF,TF)
 C     Global reconstructed pressure
                         PJJ = PJJ + PHASE_ALPHAJJ(IMAT) * PHASE_PRESJJ(IMAT)
                         EINTJJ = EINTJJ + PHASE_ALPHAJJ(IMAT) * PHASE_EINTJJ(IMAT)
@@ -737,11 +743,12 @@ Chd|====================================================================
       SUBROUTINE COMPUTE_PRESSURE(MATLAW, LOCAL_MATID, PM, IPM, NPROPM, NPROPMI, 
      .     EINT, RHO, PRES, SSP, 
      .     BURNFRAC, BURNTIME, DELTAX, CURRENT_TIME,
-     .     BUFMAT, OFF, SIG)
+     .     BUFMAT, OFF, SIG, NPF, TF)
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
+#include      "tabsiz_c.inc"
       INTEGER, INTENT(IN) :: MATLAW, LOCAL_MATID, NPROPM, NPROPMI
       my_real, INTENT(IN) :: PM(NPROPM, *), CURRENT_TIME
       INTEGER, INTENT(IN) :: IPM(NPROPMI, *)
@@ -750,6 +757,9 @@ C-----------------------------------------------
       my_real, INTENT(INOUT) :: BURNFRAC, BURNTIME, DELTAX, BUFMAT(*)
       my_real, INTENT(OUT) :: OFF
       my_real, INTENT(INOUT) :: EINT, RHO
+      INTEGER,INTENT(IN)::NPF(SNPC)
+      my_real,INTENT(IN)::TF(STF)
+
       INTEGER :: ITER, MAX_ITER
       my_real :: TOL, ERROR
       my_real :: FUNC, DFUNC, PSTAR, GRUN, VOL, INCR, TEMP

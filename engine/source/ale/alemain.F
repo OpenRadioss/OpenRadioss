@@ -461,7 +461,7 @@ C     -------------------------
 C     Multifluid pressure equilibration
 C     -------------------------
                CALL MULTI_PRESSURE_EQUILIBRIUM(DT1, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
-     .              PM, IPM, MULTI_FVM, TT, BUFMAT)
+     .              PM, IPM, MULTI_FVM, TT, BUFMAT,NPC,TF)
 C     ------------------------
 C     Build FVM connectivities
 C     ------------------------
@@ -522,7 +522,7 @@ C     -------------------------
 C     Multifluid pressure equilibration
 C     -------------------------
                CALL MULTI_PRESSURE_EQUILIBRIUM(DT1, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
-     .              PM, IPM, MULTI_FVM, TT, BUFMAT)
+     .              PM, IPM, MULTI_FVM, TT, BUFMAT,NPC,TF)
 C     ------------------------
 C     Build FVM connectivities
 C     ------------------------
@@ -565,14 +565,14 @@ C     --------------------------------------------------
      .                 NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, 
      .                 ITAB, ITABM1, TT - DT1, 
      .                 STIFN, FSKY, IADS, FSKYM, 
-     .                 CONDN, CONDNSKY, BUFMAT, FV, PRED,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB)
+     .                 CONDN, CONDNSKY, BUFMAT, FV, PRED,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPC,TF)
 
                   CALL MY_BARRIER
 C     -------------------------
 C     Multifluid pressure computation
 C     -------------------------
                   CALL MULTI_PRESSURE_EQUILIBRIUM(DT1, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
-     .                 PM, IPM, MULTI_FVM, TT - DT1, BUFMAT) 
+     .                 PM, IPM, MULTI_FVM, TT - DT1, BUFMAT,NPC,TF) 
                   CALL MY_BARRIER  
 C     --------------------------------------------------
 C     Multifluid law time evolution --> Correction phase
@@ -586,14 +586,14 @@ C     --------------------------------------------------
      .                 NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, 
      .                 ITAB, ITABM1, TT - DT1, 
      .                 STIFN, FSKY, IADS, FSKYM, 
-     .                 CONDN, CONDNSKY, BUFMAT, FV, PRED,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB)
+     .                 CONDN, CONDNSKY, BUFMAT, FV, PRED,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPC,TF)
 
                   CALL MY_BARRIER
 C     -------------------------
 C     Multifluid pressure equilibration
 C     -------------------------
                   CALL MULTI_PRESSURE_EQUILIBRIUM(DT1, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
-     .                 PM, IPM, MULTI_FVM, TT, BUFMAT) 
+     .                 PM, IPM, MULTI_FVM, TT, BUFMAT,NPC,TF) 
                   CALL MY_BARRIER                    
                ELSE
 C     -------------------------
@@ -605,7 +605,7 @@ C     -------------------------
      .                 NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, 
      .                 ITAB, ITABM1, TT - DT1, 
      .                 STIFN, FSKY, IADS, FSKYM, 
-     .                 CONDN, CONDNSKY, BUFMAT, FV, .FALSE.,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB)
+     .                 CONDN, CONDNSKY, BUFMAT, FV, .FALSE.,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPC,TF)
                   CALL MY_BARRIER
 
                   IF (MULTI_FVM%NS_DIFF) THEN
@@ -619,7 +619,7 @@ C     -------------------------
 C     Multifluid pressure equilibration
 C     -------------------------
                   CALL MULTI_PRESSURE_EQUILIBRIUM(DT1, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
-     .                 PM, IPM, MULTI_FVM, TT, BUFMAT) 
+     .                 PM, IPM, MULTI_FVM, TT, BUFMAT,NPC,TF) 
                   CALL MY_BARRIER   
                ENDIF
 

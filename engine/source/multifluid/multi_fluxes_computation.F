@@ -33,7 +33,7 @@ Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod
 Chd|====================================================================
       SUBROUTINE MULTI_FLUXES_COMPUTATION(NG, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
      .     PM, IPM, MULTI_FVM, ALE_CONNECTIVITY, WGRID, XGRID, ITAB, NBMAT, CURRENT_TIME, BUFMAT,
-     .     ID_GLOBAL_VOIS)
+     .     ID_GLOBAL_VOIS,NPF,TF)
 !$COMMENT
 !       MULTI_FLUXES_COMPUTATION description :
 !           computation of fluxes with 1rst order algorithm
@@ -72,6 +72,8 @@ C-----------------------------------------------
 #include      "mvsiz_p.inc"
 !     DTFAC1
 #include      "scr18_c.inc" 
+      COMMON /TABLESIZF/ STF,SNPC
+      INTEGER STF,SNPC
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -89,6 +91,8 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: ITAB(*), NBMAT
       my_real, INTENT(INOUT) :: BUFMAT(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
+      INTEGER, INTENT(IN) :: NPF(SNPC)
+      my_real, INTENT(IN) :: TF(STF)
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -570,17 +574,20 @@ Chd|====================================================================
       SUBROUTINE ENERGY_JUMP(MATLAW, LOCAL_MATID, PM, IPM, NPROPM, NPROPMI, 
      .     EINT, RHOSTAR, PRES, ALPHA, 
      .     BURNFRAC, BURNTIME, DELTAX, CURRENT_TIME,
-     .     ESTAR, BUFMAT,SIG)
+     .     ESTAR, BUFMAT,SIG,NPF,TF)
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
+#include      "tabsiz_c.inc"
       INTEGER, INTENT(IN) :: MATLAW, LOCAL_MATID, NPROPM, NPROPMI
       my_real, INTENT(IN) :: PM(NPROPM, *)
       INTEGER, INTENT(IN) :: IPM(NPROPMI, *)
       my_real, INTENT(IN) :: EINT, PRES, ALPHA,SIG(6)
       my_real, INTENT(INOUT) :: BURNFRAC, BURNTIME, DELTAX, CURRENT_TIME, BUFMAT(*), RHOSTAR
       my_real, INTENT(OUT) :: ESTAR
+      INTEGER, INTENT(IN) :: NPF(SNPC)
+      my_real, INTENT(IN) :: TF(STF)
 
       INTEGER :: ITER, MAX_ITER
       my_real :: TOL, ERROR
@@ -604,7 +611,7 @@ C     Initialization
          ITER = ITER + 1
          CALL MULTI_SUBMATLAW(0, MATLAW, LOCAL_MATID, 1, RHOSTAR * ESTAR, PSTAR, RHOSTAR, SSP, VOL, GRUN, 
      .        PM, IPM, NPROPM, NPROPMI, BUFMAT, OFF, TEMP, 
-     .        BURNFRAC, BURNTIME, DELTAX, CURRENT_TIME,SIG(1:6))
+     .        BURNFRAC, BURNTIME, DELTAX, CURRENT_TIME,SIG(1:6),NPF,TF)
 
          IF (GRUN .EQ. ZERO) THEN
             ERROR = ZERO

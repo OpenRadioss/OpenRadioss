@@ -494,8 +494,9 @@ C-----------------------------------
         CALL EOSMAIN(0       ,NEL      ,EOSTYP  ,PM        ,OFF      ,LBUF%EINT,
      2               LBUF%RHO,RHO0     ,AMU     ,AMU2      ,ESPE     ,
      3               DVOL    ,DF       ,VOLN    ,MAT       ,PSH      ,
-     4               PNEW    ,DPDM     ,DPDE    ,LBUF%TEMP ,ECOLD,
-     5               BUFMAT  ,LBUF%SIG ,LBUF%MU ,MTN       ,POLD)
+     4               PNEW    ,DPDM     ,DPDE    ,LBUF%TEMP ,ECOLD    ,
+     5               BUFMAT  ,LBUF%SIG ,LBUF%MU ,MTN       ,POLD     ,
+     6               NPF     ,TF)
       ENDIF
 C-----------------------------------
 C     STRESSES DEVIATORIC/TOTAL
@@ -764,7 +765,7 @@ C       TSAI 3D Complet
      8            DEFP     ,NGL      ,LBUF%SEQ,NEL      ,EOSTYP  ,	 
      9            RHO0     ,AMU      ,AMU2    ,ESPE     ,DF      ,
      A            PSH      ,PNEW     ,DPDM    ,DPDE     ,LBUF%RHO,
-     B            LBUF%TEMP,ECOLD    ,BUFMAT  )
+     B            LBUF%TEMP,ECOLD    ,BUFMAT  ,NPF      ,TF)
         IF (JSPH == 0) THEN
           CALL MQVISCB(PM,OFF    ,LBUF%RHO ,LBUF%RK ,LBUF%TEMP ,CXX       ,
      2         LBUF%RE  ,STIFN   ,DT2T     ,NELTST  ,ITYPTST   ,AIRE      ,
@@ -1145,7 +1146,8 @@ C-----------------------------------
      2               LBUF%RHO,RHO0     ,AMU     ,AMU2     ,ESPE     ,
      3               DVOL    ,DF       ,VOLN    ,MAT      ,PSH      ,
      4               PNEW    ,DPDM     ,DPDE    ,LBUF%TEMP,ECOLD    ,
-     5               BUFMAT  ,LBUF%SIG ,LBUF%MU ,MTN      ,POLD)
+     5               BUFMAT  ,LBUF%SIG ,LBUF%MU ,MTN      ,POLD     ,
+     6               NPF     ,TF)
         CALL EOSUPDA(OFF  ,LBUF%SIG ,LBUF%EINT, LBUF%VOL ,PNEW,NEL)
       ELSEIF(l_MULAW_CALLED)THEN
         IF(l_MULAW_CALLED)THEN

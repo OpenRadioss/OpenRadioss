@@ -31,7 +31,7 @@ Chd|        INITBUF_MOD                   share/resol/initbuf.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE MULTI_PRESSURE_EQUILIBRIUM(TIMESTEP, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG, 
-     .     PM, IPM, MULTI_FVM, CURRENT_TIME, BUFMAT)
+     .     PM, IPM, MULTI_FVM, CURRENT_TIME, BUFMAT, NPF, TF)
 C-----------------------------------------------
 C     D e s c r i p t i o n
 C-----------------------------------------------
@@ -53,6 +53,7 @@ C-----------------------------------------------
 #include      "task_c.inc"
 #include      "mvsiz_p.inc"
 #include      "vect01_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -65,6 +66,8 @@ C-----------------------------------------------
       TYPE(MULTI_FVM_STRUCT), INTENT(INOUT), TARGET :: MULTI_FVM
       my_real, INTENT(IN) :: CURRENT_TIME, TIMESTEP
       my_real, INTENT(INOUT) :: BUFMAT(*)
+      INTEGER,INTENT(IN)::NPF(SNPC)
+      my_real,INTENT(IN)::TF(STF)
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -153,7 +156,7 @@ C     Global buffer of the current group
                CALL MULTI_SUBMATLAW(1, MATLAW, LOCAL_MATID, NEL, EINT, 
      .              PRES, RHO, SSP, VOL, 
      .              GRUN(1:NEL, 1), PM, IPM, NPROPM, NPROPMI, BUFMAT, GBUF%OFF, GBUF%TEMP, 
-     .              LBUF%BFRAC, GBUF%TB, GBUF%DELTAX, CURRENT_TIME, SIGOLD)
+     .              LBUF%BFRAC, GBUF%TB, GBUF%DELTAX, CURRENT_TIME, SIGOLD,NPF,TF)
                DO II = 1, NEL
                   IF (MULTI_FVM%SOUND_SPEED(II + NFT) .GT. ZERO) THEN
                      MULTI_FVM%SOUND_SPEED(II + NFT) = SQRT(MULTI_FVM%SOUND_SPEED(II + NFT))
@@ -263,7 +266,7 @@ C     Loop over the fluid layers
 C     Compute EOS
                   CALL MULTI_SUBMATLAW(1, MATLAW, LOCAL_MATID, NEL, EINT, PRES, RHO, SSP, VOL, 
      .                 GRUN(1:NEL, IMAT), PM, IPM, NPROPM, NPROPMI, BUFMAT, LBUF%OFF, LBUF%TEMP,
-     .                 LBUF%BFRAC, GBUF%TB, GBUF%DELTAX, CURRENT_TIME, SIGOLD)
+     .                 LBUF%BFRAC, GBUF%TB, GBUF%DELTAX, CURRENT_TIME, SIGOLD,NPF,TF)
 C     Relaxed pressure initialization
                   DO II = 1, NEL
                      P0(II) = P0(II) + ALPHAWT(II, IMAT) * PRES(II)
@@ -425,7 +428,7 @@ C     Equation of state call
 C     Compute EOS
                      CALL MULTI_SUBMATLAW(0, MATLAW, LOCAL_MATID, NEL, EINT, PRES, RHO, SSP, VOL, 
      .                    GRUN(1:NEL, IMAT), PM, IPM, NPROPM, NPROPMI, BUFMAT, LBUF%OFF,LBUF%TEMP,
-     .                    LBUF%BFRAC, GBUF%TB, GBUF%DELTAX, CURRENT_TIME, SIGOLD)
+     .                    LBUF%BFRAC, GBUF%TB, GBUF%DELTAX, CURRENT_TIME, SIGOLD, NPF, TF)
                   ENDDO         ! IMAT = 1, NBMAT 
                   
                ENDDO            !ITER = 1, MAX_ITER
@@ -474,7 +477,7 @@ C     Loop over the fluid layers
 C     Compute EOS
                   CALL MULTI_SUBMATLAW(0, MATLAW, LOCAL_MATID, NEL, EINT, PRES, RHO, SSP, VOL, 
      .                 GRUN(1:NEL, IMAT), PM, IPM, NPROPM, NPROPMI, BUFMAT, LBUF%OFF,LBUF%TEMP,
-     .                 LBUF%BFRAC, GBUF%TB, GBUF%DELTAX, CURRENT_TIME, SIGOLD)
+     .                 LBUF%BFRAC, GBUF%TB, GBUF%DELTAX, CURRENT_TIME, SIGOLD, NPF, TF)
                ENDDO            ! IMAT = 1, NBMAT                             
                
 C     Equilibrium densities have been found,
@@ -591,7 +594,7 @@ C     Call equation of state for the submaterial
                      LBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1, 1, 1)
                      CALL MULTI_SUBMATLAW(0, MATLAW, LOCAL_MATID, NEL, EINT, PRES, RHO, SSP, VOL, 
      .                    GRUN(1:NEL, IMAT), PM, IPM, NPROPM, NPROPMI, BUFMAT, LBUF%OFF,LBUF%TEMP,
-     .                    LBUF%BFRAC, GBUF%TB, GBUF%DELTAX, CURRENT_TIME, SIGOLD)
+     .                    LBUF%BFRAC, GBUF%TB, GBUF%DELTAX, CURRENT_TIME, SIGOLD, NPF, TF)
                   ENDDO  ! IMAT = 1, NBMAT
                   DO II = 1, NEL
                      IF (CV_INDICATOR(II) .NE. 1) THEN

@@ -94,7 +94,10 @@ C-----------------------------------------------
      .  ISK,IFC,IFD,IC1,IC2,ID1,ID2,NMUAL,NOGD,NC,IFLAG,ITENS,
      .  ICHK, IFLAG0, NI,EFUNC,IE,IE2,IFE,NRATE,ERRF,H,NP1,NP2,J1,K1,
      .  LOAD,UNLOAD, NTY, IRUP,IDN,IDT,PN1,PN2,PT1,PT2,KK,
-     .  IFRIC1,IFRIC2,IDAMP1,IDAMP2,LOAD0,UNLOAD0,NF2,FUNC,FUND,IOK,ISENS
+     .  IFRIC1,IFRIC2,IDAMP1,IDAMP2,LOAD0,UNLOAD0,NF2,FUNC,FUND,IOK,ISENS,IMAT,IEOS,
+     .  A_FUNC, B_FUNC
+     
+      LOGICAL IS_FOUND
 
       INTEGER NINTRI
 
@@ -845,6 +848,50 @@ C------------
 C------------
 C     fin boucle sur mats :
  300  CONTINUE
+ 
+ 
+      !---EOS INPUT BASED ON FUNCTION (TABULATED EoS : IEOS=17 ---!
+      DO IMAT=1,NUMMAT
+        IEOS = IPM(4,IMAT)
+
+        IF(IEOS == 17)THEN
+
+          ID=IPM(1,IMAT)
+          CALL FRETITL2(TITR,IPM(NPROPMI-LTITR+1,IMAT),LTITR)
+          ILAW=NINT(PM(19,I))
+
+          A_FUNC = PM(35,IMAT) 
+          IF(A_FUNC /= 0)THEN                                                                                                
+            IS_FOUND = .FALSE.                                                                                       
+            DO J=1,NFUNCT                                                                                            
+              IF(A_FUNC == NPC1(J))  THEN                                                                              
+                PM(35,IMAT)=J                                                                                        
+                IS_FOUND = .TRUE.                                                                                    
+                EXIT                                                                                                 
+              ENDIF                                                                                                  
+            ENDDO                                                                                                    
+            IF(.NOT.IS_FOUND)CALL ANCMSG(MSGID=125,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1, I1=ID, C1=TITR, I2=A_FUNC)
+          ENDIF  
+
+          B_FUNC = PM(36,IMAT)
+          IF(B_FUNC /= 0)THEN                                                                                     
+            IS_FOUND = .FALSE.                                                                                       
+            DO J=1,NFUNCT                                                                                            
+              IF(B_FUNC == NPC1(J))  THEN                                                                                
+                PM(36,IMAT)=J                                                                                        
+                IS_FOUND = .TRUE.                                                                                    
+                EXIT                                                                                                 
+              ENDIF                                                                                                  
+            ENDDO                                                                                                    
+            IF(.NOT.IS_FOUND)CALL ANCMSG(MSGID=125,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1, I1=ID, C1=TITR, I2=B_FUNC)    
+           ENDIF
+             
+         ENDIF
+
+      ENDDO
+ 
+ 
+ 
 C
 C     3) PID SPRING/AIRBAG/GENERAL SPRING
 C
