@@ -262,12 +262,14 @@ C--------------
      .             RHOS   ,RHOS0  ,MUS     ,MU2S   ,ESPES  ,
      .             DVOLS  ,DFS    ,VNEWS   ,MATS   ,PSH    ,
      .             PNEW   ,DPDM   ,DPDE    ,THETA  ,ECOLD  ,
-     .             BUFMAT ,SIGOLD ,MUOLD   ,75     ,POLD)
+     .             BUFMAT ,SIGOLD ,MUOLD   ,75     ,POLD   ,
+     .             NPF    ,TF)
       CALL EOSMAIN(1      ,NEL    ,EOSTYP  ,PM     ,OFF    ,EINTN ,
      .             RHOS   ,RHOS0  ,MUS     ,MU2S   ,ESPES  ,
      .             DVOLS  ,DFS    ,VNEWS   ,MATS   ,PSH    ,
      .             PNEW   ,DPDM   ,DPDE    ,THETA  ,ECOLD  ,
-     .             BUFMAT ,SIGOLD ,MUOLD   ,75     ,POLD)
+     .             BUFMAT ,SIGOLD ,MUOLD   ,75     ,POLD   ,
+     .             NPF    ,TF)
       IF(IFLAG1 == 2) THEN
         DO I=1,NEL
            PNEW(I)=PNEW(I)/ALPHA(I)
@@ -364,12 +366,14 @@ C--------------
      .             RHOS  ,RHOS0 ,MUS    ,MU2S  ,ESPES ,
      .             DVOLS ,DFS   ,VNEWS  ,MATS  ,PSH   ,
      .             PNEW  ,DPDM  ,DPDE   ,THETA ,ECOLD ,
-     .             BUFMAT,SIGOLD,MUOLD  ,75    ,POLD)
+     .             BUFMAT,SIGOLD,MUOLD  ,75    ,POLD  ,
+     .             NPF   ,TF)
       CALL EOSMAIN(1     ,NEL   ,EOSTYP ,PM    ,OFF   ,EINTN ,
      .             RHOS  ,RHOS0 ,MUS    ,MU2S  ,ESPES ,
      .             DVOLS ,DFS   ,VNEWS  ,MATS  ,PSH   ,
      .             PNEW  ,DPDM  ,DPDE   ,THETA ,ECOLD ,
-     .             BUFMAT,SIGOLD,MUOLD  ,75    ,POLD)
+     .             BUFMAT,SIGOLD,MUOLD  ,75    ,POLD  ,
+     .             NPF   ,TF)
       IF(IFLAG1 == 2) THEN
         DO I=1,NEL
            PNEW(I)=PNEW(I)/ALPHA(I)

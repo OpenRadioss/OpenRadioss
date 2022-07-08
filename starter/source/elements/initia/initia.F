@@ -131,7 +131,7 @@ Chd|====================================================================
      1                  X          ,IXS          ,IXQ          ,IXC          ,IXT     , 
      2                  IXP        ,IXR          ,DETONATORS   ,GEO          ,PM      , 
      3                  RBY        ,NPBY         ,LPBY         ,NPC          ,NPTS    ,	        
-     4                  PLD        ,VEUL         ,ALE_CONNECTIVITY ,SKEW         ,FILL    , 
+     4                  PLD        ,VEUL         ,ALE_CONNECTIVITY ,SKEW     ,FILL    , 
      5                  IPART      ,ITAB         ,IXUR         , 
      6                  IXTG       ,THK          ,NLOC_DMG     ,GROUP_PARAM_TAB,
      7                  IGRNOD     ,IGRSURF      ,BUFSF        ,VR           , 
@@ -1850,7 +1850,8 @@ C---------------------------------
      1                    ELBUF_TAB  , IPART      ,   IGRPART,   IPARG  ,   IPART(I15H),
      2                    IPART(I15A), IPART(I15B),   X      ,   IXS    ,   IXQ,
      3                    IXTG,        PM         ,   IPM    ,   BUFMAT ,   MULTI_FVM,
-     4                    ALE_CONNECTIVITY, NV46       ,   IGRSURF,   ITAB   ,   EBCS_TAB
+     4                    ALE_CONNECTIVITY, NV46       ,   IGRSURF,   ITAB   ,   EBCS_TAB,
+     5                    NPC        , PLD
      .                    )
       ENDIF
 

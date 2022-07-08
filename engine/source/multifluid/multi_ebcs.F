@@ -31,7 +31,7 @@ Chd|        EBCS_MOD                      ../common_source/modules/ebcs_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE MULTI_EBCS(ITASK, MULTI_FVM, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, 
-     .     FUNC_VALUE, EBCS_TAB)
+     .     FUNC_VALUE, EBCS_TAB,NPF,TF)
 C-----------------------------------------------
 C     D e s c r i p t i o n
 C-----------------------------------------------
@@ -53,6 +53,8 @@ C-----------------------------------------------
 #include      "param_c.inc"
 ! LISURF1
 #include      "scr17_c.inc"
+! SNPC,STF
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -63,6 +65,8 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IPM(NPROPMI, *)
       my_real, INTENT(IN) :: PM(NPROPM, *), FUNC_VALUE(*)
       TYPE(t_ebcs_tab), TARGET, INTENT(IN) :: EBCS_TAB
+      INTEGER, INTENT(IN) :: NPF(SNPC)
+      my_real, INTENT(IN) :: TF(STF)
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------

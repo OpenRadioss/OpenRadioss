@@ -28,7 +28,8 @@ Chd|-- calls ---------------
 Chd|        EOSMAIN                       ../common_source/eos/eosmain.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE INIGRAV_EOS(NELG, NEL, NG, MATID, IPM, GRAV0, RHO0, DEPTH, PM, BUFMAT, ELBUF_TAB,PSURF,LIST,PRES,IMAT,MLW)
+      SUBROUTINE INIGRAV_EOS(NELG, NEL, NG, MATID, IPM, GRAV0, RHO0, DEPTH, PM, BUFMAT,
+     .                       ELBUF_TAB,PSURF,LIST,PRES,IMAT,MLW,NPF,TF)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -46,6 +47,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"  
 #include      "com01_c.inc"  
+#include      "tabsiz_c.inc"  
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -53,7 +55,9 @@ C-----------------------------------------------
       my_real, INTENT(IN)    :: GRAV0, DEPTH(*), PM(NPROPM, *), BUFMAT(*),PSURF
       my_real, INTENT(INOUT) :: PRES(NEL)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET, INTENT(IN) :: ELBUF_TAB
-      my_real, INTENT(IN) :: RHO0      
+      my_real, INTENT(IN) :: RHO0     
+      INTEGER,INTENT(IN)::NPF(SNPC)
+      my_real,INTENT(IN)::TF(STF)       
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -145,7 +149,8 @@ C IMAT : relevant for multifluid eos. imat=0 => monomaterial law
      .                RHO   , RHOZERO, MU     , MU2  , ESPE , 
      .                DVOL  , DF     , VOL    , MAT  , PSH  , 
      .                PRES  , DPDM   , DPDE   , THETA, ECOLD, 
-     .                BUFMAT, SIG    , MU     , MLW  , POLD)
+     .                BUFMAT, SIG    , MU     , MLW  , POLD ,
+     .                NPF   , TF)
           DO K=1,NEL
             EINT(K)=EINT(K)*DF(K) ! set back to Eint/V
           ENDDO

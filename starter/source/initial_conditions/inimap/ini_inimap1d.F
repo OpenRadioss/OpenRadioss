@@ -845,7 +845,7 @@ C     Compute EINT from pressure
                   ENDIF
                   SUBMAT(1)%TEMP(1:NEL) => ELBUF_TAB(NG)%GBUF%TEMP(1:NEL)
                   CALL SOLVE_EINT(MATID, NFT, NEL, PRES(:, 1), GBUF%EINT, GBUF%RHO, IFIRST, ILAST, ELEM_LIST, 
-     .                 IPM, PM, BUFMAT, MLW,NG,0,SUBMAT(1)%TEMP)
+     .                 IPM, PM, BUFMAT, MLW,NG,0,SUBMAT(1)%TEMP,NPC,PLD)
                ELSE IF (MLW == 151) THEN
                   DO IMAT = 1, NBMAT
                      IF (ITY .EQ. 1) THEN
@@ -858,7 +858,7 @@ C     Compute EINT from pressure
                      SUBMAT(IMAT)%TEMP(1:NEL) => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%TEMP(1:NEL)
                      CALL SOLVE_EINT(MATID, NFT, NEL, PRES(:, IMAT), ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%EINT, 
      .                    ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%RHO, IFIRST, ILAST, ELEM_LIST, 
-     .                    IPM, PM, BUFMAT, MLW, NG,IMAT,SUBMAT(IMAT)%TEMP)
+     .                    IPM, PM, BUFMAT, MLW, NG,IMAT,SUBMAT(IMAT)%TEMP,NPC,PLD)
                   ENDDO
                ELSE
                   DO IMAT = 1, NBMAT
@@ -874,7 +874,7 @@ C     Compute EINT from pressure
                      CALL SOLVE_EINT(MATID, NFT, NEL, PRES(:, IMAT), EINT(:, IMAT), 
      .                    ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(1 + NEL * (9 + KPHASE - 1):NEL + NEL * (9 + KPHASE - 1)), 
      .                    IFIRST, ILAST, ELEM_LIST, 
-     .                    IPM, PM, BUFMAT, MLW, NG,IMAT,SUBMAT(IMAT)%TEMP)
+     .                    IPM, PM, BUFMAT, MLW, NG,IMAT,SUBMAT(IMAT)%TEMP,NPC,PLD)
                      DO II = IFIRST, ILAST
                         ELEMID = ELEM_LIST(II)
                         RES = EINT(ELEMID - NFT, IMAT)
@@ -925,7 +925,8 @@ Chd|        INI_INIMAP1D                  source/initial_conditions/inimap/ini_i
 Chd|-- calls ---------------
 Chd|        EOSMAIN                       ../common_source/eos/eosmain.F
 Chd|====================================================================
-      SUBROUTINE SOLVE_EINT(MATID, NFT, NEL, PRESIN, EINT, RHO, IFIRST, ILAST, ELEM_LIST, IPM, PM, BUFMAT, MLW, NG, IMAT,THETA)
+      SUBROUTINE SOLVE_EINT(MATID, NFT,    NEL, PRESIN, EINT, RHO,   IFIRST, ILAST, ELEM_LIST, IPM, 
+     .                      PM   , BUFMAT, MLW, NG,     IMAT, THETA, NPC,    TF)
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -937,6 +938,7 @@ C-----------------------------------------------
 !     MVSIZ
 #include      "mvsiz_p.inc"
 #include      "com04_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -945,6 +947,8 @@ C-----------------------------------------------
       my_real, INTENT(OUT) :: EINT(NEL)
       my_real, INTENT(INOUT) :: THETA(NEL)
       INTEGER,INTENT(IN) :: IMAT !debug purpose
+      INTEGER,INTENT(IN)::NPC(SNPC)
+      my_real,INTENT(IN)::TF(STF)
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------

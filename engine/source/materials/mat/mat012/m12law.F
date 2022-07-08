@@ -40,7 +40,7 @@ Chd|====================================================================
      8                   DEFP ,NGL  ,SEQ_OUTPUT  ,NEL  ,EOSTYP,
      9                   RHO0 ,AMU  ,AMU2  ,ESPE ,DF   ,
      A                   PSH  ,PNEW ,DPDM  ,DPDE ,RHO  ,
-     B                   TEMP ,ECOLD,BUFMAT)
+     B                   TEMP ,ECOLD,BUFMAT,NPC  ,TF)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,6 +59,8 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "scr17_c.inc"
 #include      "units_c.inc"
+      COMMON /TABLESIZF/ STF,SNPC
+      INTEGER STF,SNPC
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -75,6 +77,8 @@ C-----------------------------------------------
      .   RHO0(NEL), AMU(NEL)  , AMU2(NEL), ESPE(NEL), DF(NEL) ,
      .   PSH(NEL) , PNEW(NEL) , DPDM(NEL), DPDE(NEL), RHO(NEL),
      .   TEMP(NEL), ECOLD(NEL), BUFMAT(*),MUOLD(NEL)
+      INTEGER,INTENT(IN)::NPC(SNPC)
+      my_real,INTENT(IN)::TF(STF)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -350,12 +354,14 @@ C
      2               RHO     ,RHO0    ,AMU    ,AMU2  ,ESPE ,
      3               DVOL    ,DF      ,VNEW   ,MAT   ,PSH  ,
      4               PNEW    ,DPDM    ,DPDE   ,TEMP  ,ECOLD,
-     5               BUFMAT  ,SIG     ,MUOLD  ,12    ,POLD)
+     5               BUFMAT  ,SIG     ,MUOLD  ,12    ,POLD,
+     6               NPC     ,TF)
         CALL EOSMAIN(1       ,NEL     ,EOSTYP ,PM    ,OFF  , ENER ,
      2               RHO     ,RHO0    ,AMU    ,AMU2  ,ESPE ,
      3               DVOL    ,DF      ,VNEW   ,MAT   ,PSH  ,
      4               PNEW    ,DPDM    ,DPDE   ,TEMP  ,ECOLD,
-     5               BUFMAT  ,SIG     ,MUOLD  ,12    ,POLD)
+     5               BUFMAT  ,SIG     ,MUOLD  ,12    ,POLD,
+     6               NPC     ,TF)
         DO  I=LFT,LLT
           T1(I)=T1(I)-PNEW(I)
           T2(I)=T2(I)-PNEW(I)

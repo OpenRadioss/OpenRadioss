@@ -31,7 +31,7 @@ Chd|        SOLVE_EINT                    source/multifluid/multi_inlet_ebcs.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE MULTI_INLET_EBCS(ITASK, EBCS_ID, MULTI_FVM, NELEM, ELEM_LIST, FACE_LIST, 
-     .     FVM_INLET_DATA, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE)
+     .     FVM_INLET_DATA, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE, NPF,TF)
 C-----------------------------------------------
 C     D e s c r i p t i o n
 C-----------------------------------------------
@@ -54,6 +54,9 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 ! NUMELS, NUMELQ, NUMELTG
 #include      "com04_c.inc"
+! SNPC,STF
+      COMMON /TABLESIZF/ STF,SNPC
+      INTEGER STF,SNPC
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -62,9 +65,11 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: ITASK, NELEM, ELEM_LIST(NELEM), FACE_LIST(NELEM)
       INTEGER, INTENT(IN) :: IXS(NIXS, *), IXQ(NIXQ, *), IXTG(NIXTG, *)
       my_real, INTENT(IN) :: XGRID(3, *), WGRID(3, *)
-      INTEGER, INTENT(IN) :: IPM(NPROPMI, *)
-      my_real, INTENT(IN) :: PM(NPROPM, *), FUNC_VALUE(*)
+      INTEGER, INTENT(IN) :: IPM(NPROPMI, NUMMAT)
+      my_real, INTENT(IN) :: PM(NPROPM, NUMMAT), FUNC_VALUE(*)
       TYPE(FVM_INLET_DATA_STRUCT), INTENT(IN) :: FVM_INLET_DATA
+      INTEGER, INTENT(IN) :: NPF(SNPC)
+      my_real, INTENT(IN) :: TF(STF)
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -181,7 +186,7 @@ C     VE formulation
                   CALL MULTI_SUBMATLAW(0, MATLAW(IMAT), LOCAL_MATID(IMAT), 1, PHASE_EINTJJ(IMAT), 
      .                 PHASE_PRESJJ(IMAT), PHASE_RHOJJ(IMAT), PHASE_SSPJJ(IMAT), ONE, DUMMY, 
      .                 PM, IPM, NPROPM, NPROPMI, DUMMY, ONE, DUMMY, 
-     .                 MULTI_FVM%BFRAC(IMAT, ELEMID), MULTI_FVM%TBURN(ELEMID), DUMMY, DUMMY, DUMMY)
+     .                 MULTI_FVM%BFRAC(IMAT, ELEMID), MULTI_FVM%TBURN(ELEMID), DUMMY, DUMMY, DUMMY,NPF,TF)
                   SSPJJ = SSPJJ + PHASE_ALPHAJJ(IMAT) * PHASE_RHOJJ(IMAT) * 
      .                 MAX(EM20, PHASE_SSPJJ(IMAT)) 
                   PJJ = PJJ + PHASE_PRESJJ(IMAT) * PHASE_ALPHAJJ(IMAT)
@@ -478,11 +483,12 @@ Chd|====================================================================
       SUBROUTINE SOLVE_EINT(MATLAW, LOCAL_MATID, PM, IPM, NPROPM, NPROPMI, 
      .     EINT, RHO, PRES, SSP, 
      .     BURNFRAC, BURNTIME, DELTAX, CURRENT_TIME,
-     .     BUFMAT, OFF)
+     .     BUFMAT, OFF,NPF,TF)
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
+#include      "tabsiz_c.inc"
       INTEGER, INTENT(IN) :: MATLAW, LOCAL_MATID, NPROPM, NPROPMI
       my_real, INTENT(IN) :: PM(NPROPM, *)
       INTEGER, INTENT(IN) :: IPM(NPROPMI, *)
@@ -490,6 +496,8 @@ C-----------------------------------------------
       my_real, INTENT(INOUT) :: SSP, PRES, EINT
       my_real, INTENT(INOUT) :: BURNFRAC, BURNTIME, DELTAX, CURRENT_TIME, BUFMAT(*)
       my_real, INTENT(OUT) :: OFF
+      INTEGER, INTENT(IN) :: NPF(SNPC)
+      my_real, INTENT(IN) :: TF(STF)
 
       INTEGER :: ITER, MAX_ITER
       my_real :: TOL, ERROR
@@ -512,7 +520,7 @@ C     Initialization
          ITER = ITER + 1
          CALL MULTI_SUBMATLAW(0, MATLAW, LOCAL_MATID, 1, EINT, PRESK, RHO, SSP, VOL, GRUN, 
      .        PM, IPM, NPROPM, NPROPMI, BUFMAT, OFF, TEMP, 
-     .        BURNFRAC, BURNTIME, DELTAX, CURRENT_TIME, DUMMY)
+     .        BURNFRAC, BURNTIME, DELTAX, CURRENT_TIME, DUMMY, NPF, TF)
          FUNC = PRESK - PRES
          ERROR  = ABS(FUNC)
          IF (ERROR .LT. TOL * (ABS(PRES) + ONE)) THEN
