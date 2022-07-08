@@ -108,7 +108,7 @@ c
  320     CONTINUE
 !
          IF (H3D_DATA%DTH3D0 <= ZERO) THEN
-           CALL ANCMSG(MSGID=293,ANMODE=ANINFO)            
+           CALL ANCMSG(MSGID=293,ANMODE=ANINFO,c1='H3D',c2='H3D')
            CALL ARRET(0)
          ENDIF
 !
