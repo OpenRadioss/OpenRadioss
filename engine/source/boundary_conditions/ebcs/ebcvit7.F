@@ -52,12 +52,12 @@ C-----------------------------------------------
      .     VN,LCAR,ALP,ALPDT,AX,AY,AZ,C
 C
       IF(TT.EQ.ZERO)THEN
-     	  DO I=1,NOD
-	    N=LISTE(I)
-	    RESO(1,I)=A(1,N)
-	    RESO(2,I)=A(2,N)
-	    RESO(3,I)=A(3,N)
-     	  ENDDO
+          DO I=1,NOD
+            N=LISTE(I)
+            RESO(1,I)=A(1,N)
+            RESO(2,I)=A(2,N)
+            RESO(3,I)=A(3,N)
+          ENDDO
       ENDIF
 C
       C=EBCS%c
