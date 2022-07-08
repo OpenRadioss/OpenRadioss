@@ -111,7 +111,7 @@ C----------------------------
  320       CONTINUE
 !
            IF (DTANIM0 <= ZERO) THEN
-             CALL ANCMSG(MSGID=293,ANMODE=ANINFO)            
+             CALL ANCMSG(MSGID=293,ANMODE=ANINFO,c1='ANIM',c2='ANIM')
              CALL ARRET(0)
            ENDIF
 !
