@@ -3186,35 +3186,7 @@ C
             PHI3(I) = ZERO
             PHI4(I) = ZERO 
       ENDDO
-C
-C spmd : identification des noeuds interf. utiles a envoyer
-      IF (NSPMD.GT.1) THEN
-ctmp+1 mic only
-#include "mic_lockon.inc"
-        DO I = 1,JLT
-          NN = NSVG(I)
-          IF(NN.LT.0)THEN
-C tag temporaire de NSVFI a -
-            HH = H1(I)+H2(I)+H3(I)+H4(I)
-            IF(HH /= ZERO.OR.TAGIP(I)==1)THEN
-              IF(ISEDGE_FI(NIN)%P(-NN)==0)THEN
-                NSVFI(NIN)%P(-NN) = -ABS(NSVFI(NIN)%P(-NN))
-              ELSE
-                 J1=IRTSE_FI(NIN)%P(1,-NN)
-                 NSVFI(NIN)%P(J1) = -ABS(NSVFI(NIN)%P(J1))
-                 J1=IRTSE_FI(NIN)%P(2,-NN)
-                 NSVFI(NIN)%P(J1) = -ABS(NSVFI(NIN)%P(J1))
-                 J1=IRTSE_FI(NIN)%P(3,-NN)
-                 NSVFI(NIN)%P(J1) = -ABS(NSVFI(NIN)%P(J1))
-                 J1=IRTSE_FI(NIN)%P(4,-NN)
-                 NSVFI(NIN)%P(J1) = -ABS(NSVFI(NIN)%P(J1))
-              ENDIF
-            ENDIF
-          ENDIF
-        ENDDO
-ctmp+1 mic only
-#include "mic_lockoff.inc"
-      ENDIF
+
 
       IF(IDTMINS==2.OR.IDTMINS_INT/=0)THEN
         DTI=DT2T
@@ -3278,6 +3250,36 @@ C  SPMD : do same after reception of forces for remote nodes
             ENDDO
          ENDDO
 
+      ENDIF
+C
+C
+C spmd : identification des noeuds interf. utiles a envoyer
+      IF (NSPMD.GT.1) THEN
+ctmp+1 mic only
+#include "mic_lockon.inc"
+        DO I = 1,JLT
+          NN = NSVG(I)
+          IF(NN.LT.0)THEN
+C tag temporaire de NSVFI a -
+            HH = H1(I)+H2(I)+H3(I)+H4(I)
+            IF(HH /= ZERO.OR.TAGIP(I)==1)THEN
+              IF(ISEDGE_FI(NIN)%P(-NN)==0)THEN
+                NSVFI(NIN)%P(-NN) = -ABS(NSVFI(NIN)%P(-NN))
+              ELSE
+                 J1=IRTSE_FI(NIN)%P(1,-NN)
+                 NSVFI(NIN)%P(J1) = -ABS(NSVFI(NIN)%P(J1))
+                 J1=IRTSE_FI(NIN)%P(2,-NN)
+                 NSVFI(NIN)%P(J1) = -ABS(NSVFI(NIN)%P(J1))
+                 J1=IRTSE_FI(NIN)%P(3,-NN)
+                 NSVFI(NIN)%P(J1) = -ABS(NSVFI(NIN)%P(J1))
+                 J1=IRTSE_FI(NIN)%P(4,-NN)
+                 NSVFI(NIN)%P(J1) = -ABS(NSVFI(NIN)%P(J1))
+              ENDIF
+            ENDIF
+          ENDIF
+        ENDDO
+ctmp+1 mic only
+#include "mic_lockoff.inc"
       ENDIF
 
 C
@@ -3557,7 +3559,7 @@ C
       TAGIP(1:JLT) = 0
       DO I = 1, JLT
        HH(I)=H1(I)+H2(I)+H3(I)+H4(I)
-       IF(HH(I)==ZERO.OR.TAGIP(I)==0)CYCLE
+       IF(HH(I)==ZERO.AND.TAGIP(I)==0)CYCLE
         IF (H1(I).NE.ZERO.OR.TAGIP(I)==1) NISKYL1 = NISKYL1 + 1
         IF (H2(I).NE.ZERO.OR.TAGIP(I)==1) NISKYL1 = NISKYL1 + 1
         IF (H3(I).NE.ZERO.OR.TAGIP(I)==1) NISKYL1 = NISKYL1 + 1
@@ -3569,7 +3571,7 @@ C
       IGP = 0
       IGM = 0
       DO I=1,JLT
-       IF(HH(I)==ZERO.OR.TAGIP(I)==0)CYCLE
+       IF(HH(I)==ZERO.AND.TAGIP(I)==0)CYCLE
         IG =NSVG(I)
         IF(IG.GT.0) THEN
           IGP = IGP+1
@@ -3640,7 +3642,7 @@ C
         ENDDO
 C
         DO I=1,JLT
-         IF(HH(I)==ZERO.OR.TAGIP(I)==0)CYCLE
+         IF(HH(I)==ZERO.AND.TAGIP(I)==0)CYCLE
           IG =NSVG(I)
           IF(IG.GT.0) THEN
             IF (IG >NUMNOD) THEN
@@ -3774,7 +3776,7 @@ C
           ENDDO
 C          
           DO I=1,JLT
-           IF(HH(I)==ZERO.OR.TAGIP(I)==0)CYCLE
+           IF(HH(I)==ZERO.AND.TAGIP(I)==0)CYCLE
             IG =NSVG(I)
             IF(IG.GT.0) THEN
              IF (IG >NUMNOD) THEN
