@@ -46,6 +46,7 @@ Chd|        POWDER_BURN                   eos/powder_burn.F
 Chd|        PUFF                          eos/puff.F                    
 Chd|        SESAME                        eos/sesame.F                  
 Chd|        STIFFGAS                      eos/stiffgas.F                
+Chd|        TABULATED                     eos/tabulated.F               
 Chd|        TILLOTSON                     eos/tillotson.F               
 Chd|====================================================================
       SUBROUTINE EOSMAIN(IFLAG ,NEL   ,EOSTYP ,PM    ,OFF   ,EINT  ,

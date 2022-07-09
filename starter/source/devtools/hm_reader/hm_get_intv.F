@@ -104,6 +104,7 @@ Chd|        HM_READ_EBCS_VALVIN           source/boundary_conditions/ebcs/hm_rea
 Chd|        HM_READ_EBCS_VALVOUT          source/boundary_conditions/ebcs/hm_read_ebcs_valvout.F
 Chd|        HM_READ_EBCS_VEL              source/boundary_conditions/ebcs/hm_read_ebcs_vel.F
 Chd|        HM_READ_EIG                   source/general_controls/computation/hm_read_eig.F
+Chd|        HM_READ_EOS_TABULATED         source/materials/eos/hm_read_eos_tabulated.F
 Chd|        HM_READ_EREF                  source/loads/reference_state/eref/hm_read_eref.F
 Chd|        HM_READ_FAIL                  source/materials/fail/hm_read_fail.F
 Chd|        HM_READ_FAIL_ALTER            source/materials/fail/windshield_alter/hm_read_fail_alter.F

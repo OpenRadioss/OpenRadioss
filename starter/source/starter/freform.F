@@ -1573,6 +1573,7 @@ Chd|        HM_READ_EOS_OSBORNE           source/materials/eos/hm_read_eos_osbor
 Chd|        HM_READ_EOS_POLYNOMIAL        source/materials/eos/hm_read_eos_polynomial.F
 Chd|        HM_READ_EOS_PUFF              source/materials/eos/hm_read_eos_puff.F
 Chd|        HM_READ_EOS_STIFFENED_GAS     source/materials/eos/hm_read_eos_stiffened_gas.F
+Chd|        HM_READ_EOS_TABULATED         source/materials/eos/hm_read_eos_tabulated.F
 Chd|        HM_READ_EOS_TILLOTSON         source/materials/eos/hm_read_eos_tillotson.F
 Chd|        HM_READ_EREF                  source/loads/reference_state/eref/hm_read_eref.F
 Chd|        HM_READ_FAIL_EMC              source/materials/fail/emc/hm_read_fail_emc.F

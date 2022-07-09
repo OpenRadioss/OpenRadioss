@@ -191,6 +191,7 @@ Chd|        HM_READ_EOS_NASG              source/materials/eos/hm_read_eos_nasg.
 Chd|        HM_READ_EOS_OSBORNE           source/materials/eos/hm_read_eos_osborne.F
 Chd|        HM_READ_EOS_SESAME            source/materials/eos/hm_read_eos_sesame.F
 Chd|        HM_READ_EOS_STIFFENED_GAS     source/materials/eos/hm_read_eos_stiffened_gas.F
+Chd|        HM_READ_EOS_TABULATED         source/materials/eos/hm_read_eos_tabulated.F
 Chd|        HM_READ_EREF                  source/loads/reference_state/eref/hm_read_eref.F
 Chd|        HM_READ_FAIL                  source/materials/fail/hm_read_fail.F
 Chd|        HM_READ_FAIL_ENERGY           source/materials/fail/energy/hm_read_fail_energy.F
