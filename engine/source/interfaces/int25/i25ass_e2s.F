@@ -469,7 +469,7 @@ C
       IGP = 0
       IGM = 0
       DO I=1,JLT
-        IF(PENE(I) == ZERO.OR.TAGIP(I)==0) CYCLE
+        IF(PENE(I) == ZERO.AND.TAGIP(I)==0) CYCLE
         IF(CS_LOC(I).LE.NEDGE) THEN
            IGP = IGP+2
         ELSE
