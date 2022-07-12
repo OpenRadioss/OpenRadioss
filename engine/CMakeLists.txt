@@ -10,6 +10,8 @@ project (Radioss_Engine)
 # set (CMAKE_VERBOSE_MAKEFILE on)
 
 
+
+
 # Languace settings & Compiler Settings
 # -------------------------------------
 enable_language (Fortran)
@@ -17,7 +19,8 @@ enable_language (C)
 enable_language (CXX)
 
 
-
+# Load Compiler flags
+# --------------------
 if ( NOT DEFINED COM) 
 set (cdir "" )
 else()
@@ -124,6 +127,7 @@ else ()
   set (exec_deb "")
 endif ()
 
+
 list(REMOVE_ITEM include_dir_list ${precision_include_remove})
 
 
@@ -156,21 +160,15 @@ if ( NOT (arch STREQUAL "none") )
    include (${CMAKE_CURRENT_SOURCE_DIR}/CMake_Compilers${cdir}/cmake_${arch}.txt)
 
 else ()
-   if (WIN32)
-     message(FATAL_ERROR "Windows not done yet") 
-   endif (WIN32)
-
    if(UNIX)
      include (CMake_Compilers${cdir}/cmake_configure_linux.txt)
    endif (UNIX)
 endif ()
 
-
 #
 # executable name
 # ---------------------------------
 set ( EXEC_NAME "${ex_version}_${RELNAME}${exec_prec}${exec_deb}"  )
-
 
 #
 # Print some configuration messages
@@ -195,7 +193,7 @@ if ( DEFINED ADF )
    message (STATUS "Addflag : ${ADF} ")
 endif()
 
-if ( NOT DEFINED com )
+if ( NOT DEFINED COM )
    message (STATUS "Build_type : o")
 else()
    message (STATUS "Build_type : c")
@@ -217,7 +215,7 @@ list(APPEND include_dir_list ${Build_includes_directory} )
 message (" dir : ${Build_includes_directory} added")
 
 
-
+if ( NOT DEFINED COM )
 #include generated with a text files
 add_custom_command(    
          OUTPUT 
@@ -236,6 +234,31 @@ add_custom_command(
          COMMAND 
             sh ../../Compiling_tools/script/or_compile_info_cm.sh linux64 0 e 0 linux64  > ${Build_includes_directory}/build_info.inc
          )
+else()
+#include generated with a text files
+add_custom_command(    
+         OUTPUT 
+            ${Build_includes_directory}/engine_message_description.inc
+         COMMAND 
+            perl ../../Compiling_tools/script/build_message.pl ${source_directory}/source/output/message/engine_message_description.txt > ${Build_includes_directory}/engine_message_description.inc
+         DEPENDS 
+              ${source_directory}/source/output/message/engine_message_description.txt
+         )
+
+#include always rebuild 
+add_custom_command(    
+         OUTPUT 
+            ${Build_includes_directory}/__foo.inc 
+            ${Build_includes_directory}/build_info.inc
+            ${Build_includes_directory}/btag.inc
+         COMMAND 
+            bash ../../Compiling_tools/script/compile_info_cm.sh linux64 0 e 0 linux64  > ${Build_includes_directory}/build_info.inc
+         )
+endif()
+
+
+add_custom_target( always_execute ALL DEPENDS ${Build_includes_directory}/__foo.inc )
+
 
 
 # make sure that the default is a RELEASE
@@ -244,9 +267,6 @@ if (NOT CMAKE_BUILD_TYPE)
       "Choose the type of build, options are: None Debug Release."
       FORCE)
 endif (NOT CMAKE_BUILD_TYPE)
-
-
-add_custom_target( alway_execute ALL DEPENDS ${Build_includes_directory}/__foo.inc )
 
 
 add_executable (${EXEC_NAME} ${source_files} ${source_files_common} ${c_source_files} ${cpp_source_files} ${Build_includes_directory}/engine_message_description.inc ${Build_includes_directory}/build_info.inc)
