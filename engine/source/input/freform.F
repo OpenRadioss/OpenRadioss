@@ -78,6 +78,7 @@ C-----------------------------------------------
       USE H3D_MOD
       USE METRIC_MOD
       USE CHECK_MOD
+      USE FVBAG_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1155,9 +1156,11 @@ C           si /DT/AMS lu + tard ce qui suit sera ecrase
          DTFAC1(52) = DTFACA
          DTMIN1(52) = DTMINA
          IDTMIN(52) = 0
+         FVMBAG_LAMBDA = PERCENT_ADDMASS
          IF(KEY3(1:1)=='1')IDTMIN(52) = 1
          IF(KEY3(1:1)=='2')IDTMIN(52) = 2
          IF(KEY3(1:1)=='3')IDTMIN(52) = 3
+         FVMBAG_LAMBDA = MAX(ZERO, FVMBAG_LAMBDA)
         ELSEIF(KEY2(1:3).EQ.'AMS')THEN
           DT_CTRL_COMPATIBILITY(2) = 1
           DTFACS = DTFACA

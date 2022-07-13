@@ -85,6 +85,10 @@ C-----------------------------------------------
       INTEGER :: MINUS_SIZE, PLUS_SIZE
       INTEGER, DIMENSION(:), ALLOCATABLE :: MINUS, PLUS
       END TYPE T_ELEM_TO_TRI
+
+      my_real FVMBAG_LAMBDA ! /DT/FVMBAG/2 Engine keyword (3rd parameter)
+      my_real FVMBAG_DTOLD  ! FVMBAG time step from previous cycle
+      
       TYPE FVBAG_DATA
 C-------------------------------
 C     Courant number (DT scale factor) 

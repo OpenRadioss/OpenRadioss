@@ -185,6 +185,7 @@ C
       INTEGER(8) :: VEC_PTR_PLUS, VEC_PTR_MINUS
       INTEGER :: COUNT, IDT_FVMBAG
       MY_REAL :: CPAM, CPBM, CPCM, RGASM, CPDM, CPEM, CPFM
+      MY_REAL :: DTOLD, LAMBDA
 
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       VOLPH = ZERO
@@ -1239,6 +1240,16 @@ C
             PHDT=I
          ENDIF
       ENDDO
+      
+      !optionnal time step growth limitor (/DT/FVMBAG/2, 3rd parameter)
+      IF(NCYCLE > 0)THEN
+        LAMBDA = FVMBAG_LAMBDA
+        IF(LAMBDA > ZERO)THEN
+          DTOLD = FVMBAG_DTOLD        
+          DTX = MIN(  DTX,(DTOLD)*(ONE+LAMBDA))
+        ENDIF
+      ENDIF
+      FVMBAG_DTOLD = DTX      
 
 
       IF (ILVOUT >= 1.AND.IPRI.EQ.0) THEN
