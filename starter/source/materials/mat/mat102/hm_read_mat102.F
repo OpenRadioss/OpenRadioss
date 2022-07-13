@@ -38,7 +38,7 @@ Chd|====================================================================
       SUBROUTINE HM_READ_MAT102(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
      .                          NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
      .                          UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
-     .                          PM     )
+     .                          PM     ,MATPARAM )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -93,6 +93,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN)              :: MAT_ID
       CHARACTER*nchartitle,INTENT(IN) :: TITR
       TYPE(SUBMODEL_DATA),INTENT(IN)  :: LSUBMODEL(*)
+      TYPE(MATPARAM_STRUCT_) ,INTENT(OUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -237,13 +238,17 @@ C-----------------------------------------------
       UPARAM(9) = IFORM
       UPARAM(10)= E
       UPARAM(11)= NU
-      NUVAR     = 1 
+      NUVAR     = 0 
       NFUNC     = 0 
       STIFINT   = E
       PARMAT(1) = STIFINT/THREE !
       PARMAT(2) = STIFINT
       PARMAT(3) = NU
-
+c---------------------------   
+      MTAG%G_PLA  = 1
+      MTAG%L_PLA  = 1
+c
+      CALL INIT_MAT_KEYWORD(MATPARAM ,"ELASTO_PLASTIC")
 C------------------------------------------------- 
 C     LISTING OUTPUT 
 C------------------------------------------------- 
