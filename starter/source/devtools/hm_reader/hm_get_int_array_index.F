@@ -54,6 +54,7 @@ Chd|        HM_LECGRN                     source/groups/hm_lecgrn.F
 Chd|        HM_LINENGR                    source/groups/hm_linengr.F    
 Chd|        HM_LINES_OF_LINES             source/groups/hm_lines_of_lines.F
 Chd|        HM_PRELECGRNS                 source/groups/hm_prelecgrns.F 
+Chd|        HM_PREREAD_LOAD_PRESSURE      source/loads/general/load_pressure/hm_preread_load_pressure.F
 Chd|        HM_PREREAD_MERGE              source/constraints/general/merge/hm_preread_merge.F
 Chd|        HM_PREREAD_PROPERTIES         source/properties/hm_preread_properties.F
 Chd|        HM_PREREAD_RBE3               source/constraints/general/rbe3/hm_preread_rbe3.F
