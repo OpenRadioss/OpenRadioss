@@ -959,7 +959,7 @@ c-------
      .           UPARAM   ,MAXUPARAM,NUPARAM  ,ISRATE  ,IMATVIS  ,
      .           NUVAR    ,IFUNC    ,MAXFUNC  ,NFUNC   ,PARMAT   ,
      .           UNITAB   ,MAT_ID   ,TITR     ,MTAG    ,LSUBMODEL,
-     .           PM(1,I)  )
+     .           PM(1,I)  ,MATPARAM )
 c-------     
           CASE ('LAW103','HENSEL-SPI', 'FLAW103')
             ILAW  = 103  

@@ -27,20 +27,12 @@ Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|-- calls ---------------
 Chd|====================================================================
        SUBROUTINE SIGEPS102(
-     1      NEL    , NUPARAM, NUVAR  , NFUNC   , IFUNC   , 
-     2      NPF    , TF     , TIME   , TIMESTEP, UPARAM  , 
-     3      RHO0   , RHO    , VOLUME , EINT    , NGL     , 
-     5      DEPSXX , DEPSYY , DEPSZZ , DEPSXY  , DEPSYZ  , DEPSZX,
-     6      EPSXX  , EPSYY  , EPSZZ  , EPSXY   , EPSYZ   , EPSZX ,
-     7      SIGOXX , SIGOYY , SIGOZZ , SIGOXY  , SIGOYZ  , SIGOZX,
-     8      SIGNXX , SIGNYY , SIGNZZ , SIGNXY  , SIGNYZ  , SIGNZX,
-     9      SIGVXX , SIGVYY , SIGVZZ , SIGVXY  , SIGVYZ  , SIGVZX,
-     C      SOUNDSP, VISCMAX, UVAR   , OFF     , ISMSTR  , ET    ,
-     D      IHET   , OFFG   , EPSTH  , IEXPAN  , TEMPEL  , PSH   ,
-     1      FPSXX  , FPSXY  , FPSXZ  , FPSYX   , PNEW    , DPDM  , 
-     2      FPSYY  , FPSYZ  , FPSZX  , FPSZY   , FPSZZ   ,  
-     3      UPSXX  , UPSYY  , UPSZZ  , UPSXY   , UPSYZ   ,
-     4      UPSXZ  , SSP    , NV46   , NIX     , DPLA    )   
+     1      NEL    , NUPARAM, NUVAR  , UPARAM  , RHO0    , RHO    , 
+     2      DEPSXX , DEPSYY , DEPSZZ , DEPSXY  , DEPSYZ  , DEPSZX ,
+     3      SIGOXX , SIGOYY , SIGOZZ , SIGOXY  , SIGOYZ  , SIGOZX ,
+     4      SIGNXX , SIGNYY , SIGNZZ , SIGNXY  , SIGNYZ  , SIGNZX ,
+     5      SOUNDSP, UVAR   , OFF    , ET      ,
+     6      PSH    , PNEW   , DPDM   , SSP     , PLA     )   
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -52,52 +44,31 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C O M M O N 
 C-----------------------------------------------
-#include "scr05_c.inc"
-#include "impl1_c.inc"
 #include "units_c.inc"
 #include "com01_c.inc"
 #include "com08_c.inc"
 C----------------------------------------------------------------
 C  I N P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      INTEGER       NEL,  NVARF,   NUPARAM, NUVAR,ISMSTR,NGL(*),IHET,IEXPAN,NIX,NV46
-      my_real
-     .   TIME       , TIMESTEP   , UPARAM(NUPARAM),UPARAMF(NUPARAM),
-     .   RHO   (NEL), RHO0  (NEL), VOLUME(NEL), EINT(NEL),
-     .   DEPSXX(NEL), DEPSYY(NEL), DEPSZZ(NEL),
-     .   DEPSXY(NEL), DEPSYZ(NEL), DEPSZX(NEL),
-     .   EPSXX (NEL), EPSYY (NEL), EPSZZ (NEL),
-     .   EPSXY (NEL), EPSYZ (NEL), EPSZX (NEL),
-     .   SIGOXX(NEL), SIGOYY(NEL), SIGOZZ(NEL),
-     .   SIGOXY(NEL), SIGOYZ(NEL), SIGOZX(NEL),OFFG(NEL),
-     .   EPSTH(NEL) , TEMPEL(NEL),
-     .   FPSXX(NEL) , FPSYY(NEL) , FPSZZ(NEL),
-     .   FPSXY(NEL) , FPSYX(NEL) , FPSXZ(NEL),
-     .   FPSZX(NEL) , FPSYZ(NEL) , FPSZY(NEL),
-     .   UPSXX(NEL) , UPSYY(NEL) , UPSZZ(NEL),
-     .   UPSXY(NEL) , UPSYZ(NEL) , UPSXZ(NEL),
-     .   SSP(NEL)   , DPDM(NEL)  , PNEW(NEL),
-     .   PSH(NEL)   , DPLA(NEL)
+      INTEGER NEL,NVARF,NUPARAM,NUVAR
+      my_real :: TIME,TIMESTEP   
+      my_real :: UPARAM(NUPARAM)
+      my_real ,DIMENSION(NEL) :: RHO, RHO0,
+     .   DEPSXX, DEPSYY, DEPSZZ, DEPSXY, DEPSYZ, DEPSZX,
+     .   SIGOXX, SIGOYY, SIGOZZ, SIGOXY, SIGOYZ, SIGOZX,
+     .   SSP   , DPDM  , PNEW, PSH, PLA
 C----------------------------------------------------------------
 C  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
       my_real
      .      SIGNXX (NEL), SIGNYY (NEL), SIGNZZ(NEL),
      .      SIGNXY (NEL), SIGNYZ (NEL), SIGNZX(NEL),
-     .      SIGVXX (NEL), SIGVYY (NEL), SIGVZZ(NEL),
-     .      SIGVXY (NEL), SIGVYZ (NEL), SIGVZX(NEL),
-     .      SOUNDSP(NEL), VISCMAX(NEL), ET(NEL)
+     .      SOUNDSP(NEL), ET(NEL)
 C----------------------------------------------------------------
 C  I N P U T  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
       my_real
      .      UVAR(NEL,NUVAR), OFF(NEL) ,MU(NEL),MU2(NEL)
-C----------------------------------------------------------------
-C  VARIABLES FOR FUNCTION INTERPOLATION 
-C----------------------------------------------------------------
-      INTEGER NPF(*), NFUNC, IFUNC(NFUNC),I
-      my_real FINTER,FINTTE,TF(*),FINT2V
-      EXTERNAL FINTER,FINTTE
 C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
@@ -105,9 +76,9 @@ C----------------------------------------------------------------
       my_real :: DAV,POLD(NEL)
       my_real :: T1(NEL),T2(NEL),T3(NEL),T4(NEL),T5(NEL),T6(NEL)
       my_real :: PTOT,G0(NEL),RATIO(NEL),YIELD2(NEL)
-      my_real :: PSTAR,G,GG,SCRT(NEL),AJ2(NEL)
+      my_real :: PSTAR,G,GG,SCRT(NEL),AJ2(NEL),DPLA(NEL)
       my_real :: I3(NEL),COS3T(NEL),SQRT_J2,THETA,C,PHI,K
-      integer :: IFORM
+      integer :: I,IFORM
 C----------------------------------------------------------------
 C  S o u r c e   L i n e s
 C----------------------------------------------------------------
@@ -125,8 +96,8 @@ C----------------------------------------------------------------
       !  STATE INIT.                                                   !
       !----------------------------------------------------------------!        
       DO I=1,NEL
-        POLD(I) = -(SIGOXX(I)+SIGOYY(I)+SIGOZZ(I))*THIRD           !POLD(I)=-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
-        SCRT(I) =  (DEPSXX(I)+DEPSYY(I)+DEPSZZ(I))*THIRD           !SVRT(I)= THIRD*(D1(I)+D2(I)+D3(I))
+        POLD(I) = -(SIGOXX(I)+SIGOYY(I)+SIGOZZ(I))*THIRD 
+        SCRT(I) =  (DEPSXX(I)+DEPSYY(I)+DEPSZZ(I))*THIRD 
         MU(I)   = RHO(I)/RHO0(I) - ONE
         MU2(I)  = MU(I) * MAX(ZERO,MU(I))
       ENDDO !next I    
@@ -159,13 +130,13 @@ C----------------------------------------------------------------
         K = ONE/SQRT(THREE)
         DO I=1,NEL
           I3(I)    = T2(I)*T3(I)*T1(I)-T2(I)*T6(I)*T6(I)-T3(I)*T4(I)*T4(I)-T5(I)*T5(I)*T1(I)+2*T5(I)*T4(I)*T6(I)
-          SQRT_J2  = SQRT(MAX(ZERO,AJ2(I)))
+          SQRT_J2  = SQRT(AJ2(I))
           COS3T(I) = NINE*I3(I)/TWO/SQRT(THREE)/SQRT_J2/SQRT_J2/SQRT_J2
           THETA    = ACOS(MAX(ZERO,MIN(ONE,COS3T(I))))
           PTOT     = PNEW(I)+PSH(I)
           G0(I)    = -PTOT*SIN(PHI)+SQRT_J2*(COS(THETA)-K*SIN(THETA)*SIN(PHI))-C*COS(PHI)
           G0(I)    = MAX(ZERO,G0(I))
-          YIELD2(I)=AJ2(I)-G0(I)
+          YIELD2(I)= AJ2(I)-G0(I)
         ENDDO
       !----SUBCASE --- FITTED DRUCKER PRAGER FROM MOHR COULOMB PARAMETERS (A0,A1,A2 CALCULATED DURING STARTER)
       ELSE
@@ -200,12 +171,9 @@ C----------------------------------------------------------------
         SIGNXY(I)=RATIO(I)*T4(I)*OFF(I)
         SIGNYZ(I)=RATIO(I)*T5(I)*OFF(I)
         SIGNZX(I)=RATIO(I)*T6(I)*OFF(I)
-        DPLA(I)  =(ONE -RATIO(I))*SQRT(ABS(AJ2(I)))*DT1 / MAX(EM20,THREE*G)
+        DPLA(I)  =(ONE -RATIO(I))*SQRT(AJ2(I)) / MAX(EM20,THREE*G)
       ENDDO !next I     
-      !----------------------------------------------------------------!
-      !  RECORD                                                        !
-      !----------------------------------------------------------------!      
-       !!!UVAR(I,1) = UVAR(I,1)+DPLA(I)
-         
+      PLA(1:NEL) = PLA(1:NEL) + DPLA(1:NEL)
+c-----------         
       RETURN
       END

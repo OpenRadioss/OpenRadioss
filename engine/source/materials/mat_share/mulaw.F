@@ -1495,29 +1495,13 @@ C
      4                  UPSXZ  )   
 
       ELSEIF (MTN == 102) THEN 
-        IF (N2D == 0) THEN
-          N48 = 8
-          NIX = NIXS
-          NV46=6
-        ELSE
-          N48 = 4
-          NIX = NIXQ
-          NV46=4
-        ENDIF
-        CALL SIGEPS102(LLT     ,NPAR     ,NUVAR  ,NFUNC  , IFUNC         ,
-     2                  NPF    ,TF       ,TT     ,DT1    , UPARAM,
-     3                  RHO0   ,RHO      ,VOLN   ,EINT   , NGL           ,
-     5                  DE1    ,DE2      ,DE3    ,DE4    , DE5           ,DE6  ,
-     6                  ES1    ,ES2      ,ES3    ,ES4    , ES5           ,ES6  ,
-     7                  SO1    ,SO2      ,SO3    ,SO4    , SO5           ,SO6  ,
-     8                  S1     ,S2       ,S3     ,S4     , S5            ,S6   ,
-     9                  SV1    ,SV2      ,SV3    ,SV4    , SV5           ,SV6  ,
-     C                  SSP    ,VIS      ,UVAR   ,OFF    , ISMSTR        ,ET   ,
-     D                  IHET   ,GBUF%OFF ,EPSTH  ,IEXPAN , TEMPEL        ,PSH  ,
-     1                  FPSXX  ,FPSXY    ,FPSXZ  ,FPSYX  , PNEW          ,DPDM ,
-     2                  FPSYY  ,FPSYZ    ,FPSZX  ,FPSZY  , FPSZZ         ,
-     3                  UPSXX  ,UPSYY    ,UPSZZ  ,UPSXY  , UPSYZ         ,
-     4                  UPSXZ  ,SSP      ,NV46   ,NIX    , DPLA)   
+
+        CALL SIGEPS102(LLT    ,NPAR    ,NUVAR  ,UPARAM , RHO0     ,RHO    ,
+     2                 DE1    ,DE2     ,DE3    ,DE4    , DE5      ,DE6    ,
+     3                 SO1    ,SO2     ,SO3    ,SO4    , SO5      ,SO6    ,
+     4                 S1     ,S2      ,S3     ,S4     , S5       ,S6     ,
+     5                 SSP    ,UVAR    ,OFF    ,ET     ,
+     6                 PSH    ,PNEW    ,DPDM   ,SSP    , LBUF%PLA ) 
 c
 C
       ELSEIF (MTN == 103) THEN 
