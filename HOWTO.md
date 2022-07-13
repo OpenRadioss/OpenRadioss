@@ -1,12 +1,12 @@
-# How to build OpenRadioss 
+# How to Build OpenRadioss 
 
-## system and compiler installation
+## System and compiler installation
 
 ### Linux
 Linux system with glibc version 2.17 or higher : 
 * CentOS/RHEL 7, CentOS Stream 8, RHEL 8
 * Ubuntu 20.0.4 or higher
-* Works with WSL and Ubuntu 20.04 LTS, Ubuntu 22.x
+* Works with WSL/WSL2 Ubuntu 20.04 LTS, WSL2 Ubuntu 22.x
 
 ### Compiler and development tools
 
@@ -15,7 +15,7 @@ cmake version 2.8 or higher and make are need
 
 Install as sudo or root
 
-* RHEL 7 :
+* RHEL 7
 
             yum install devtoolset-8
             yum install make
@@ -65,12 +65,11 @@ OpenMPI is need to build OpenRadioss with OpenMPI support, compilers
 
     cd OpenRadioss/starter
 
-* Launch 'build_script' to proceed to the compilation
+* Launch `build_script.sh` to proceed to the compilation
 
-  Usual build is make with :
+  Usual build is make with:
 
-
-  ./build -arch=linux64_gf 
+            ./build_script.sh -arch=linux64_gf
 
 
 * OpenRadioss Starter : **starter_linux64_gf** binary will be copied in **OpenRadioss/exec** directory
@@ -97,32 +96,32 @@ OpenMPI is need to build OpenRadioss with OpenMPI support, compilers
          -clean             : clean build directory
  
 
-- -arch : you will find the list of possible architectures
-- -prec : controls the OpenRadioss Floating Point Precision : dp : double Precision - Floats in 64 bits (default),  sp activates the Extended Single Precision Version (32bit)
-- -static-link : Runtime librairies are statically linked in Executable (easier when executable is used on different computers).
-- -debug=1 : activates debug build (-O0 + usual debug flags).
-- -addflag="list of additionnal flags" : add compiler flags to usual set for all files 
+- `-arch`: you will find the list of possible architectures
+- `-prec`: controls the OpenRadioss Floating Point Precision : dp : double Precision - Floats in 64 bits (default),  sp activates the Extended Single Precision Version (32bit)
+- `-static-link`: Runtime librairies are statically linked in Executable (easier when executable is used on different computers).
+- `-debug=1`: activates debug build (-O0 + usual debug flags).
+- `-addflag="list of additionnal flags"`: add compiler flags to usual set for all files 
 
 Execution Control
 
-- -nt=N use N threads to fasten build
-- -verbose : compilation process is in Verbose mode
-- -clean : deletes compilation files and execution.
+- `-nt=N` use N threads to fasten build
+- `-verbose`: compilation process is in Verbose mode
+- `-clean`: deletes compilation files and execution.
 
 
 ### Building OpenRadioss Engine
  
 * Enter the OpenRadioss/engine directory
 
-* Launch 'build_script' to proceed to the compilation
+* Launch `build_script.sh` to proceed to the compilation
   To build OpenRadioss Engine with OpenMPI support
-
-  ./build -arch=linux64_gf -mpi=ompi
+            
+            ./build_script.sh -arch=linux64_gf -mpi=ompi
   
 
   To build OpenRadioss without OpenMPI support (SMP parallelism) :
 
-  ./build -arch=linux64_gf 
+            ./build_script.sh -arch=linux64_gf 
 
 
 * OpenRadioss Engine : **engine_linux64_gf** or **engine_linux64_gf_ompi** binary will be copied in **OpenRadioss/exec** directory
@@ -167,30 +166,32 @@ Execution Control
          -clean             : clean build directory
 
 
-- -arch : you will find the list of possible architectures
+- `-arch`: you will find the list of possible architectures
 
 MPI libraries
 
-- -mpi controls the MPI flawor 
+- `-mpi` controls the MPI flavor 
 
 More Flags to control the MPI installation. Per default OpenMPI is installed in /opt/openmpi. 
 3 additionnal ways are possible : 
- 1. -mpi-os : mpif.h is found in default system installation, as well as the libraries
- 2. -mpi-root : set this flag to set a new root directory where OpenMPI can be found.
- 3. -mpi-include : set the directory where OpenMPI can be found
-    -mpi-libdir : set the Directory where OpenMPI can be found
+ 1. `-mpi-os`: `mpif.h` is found in default system installation, as well as the libraries
+ 2. `-mpi-root`: set this flag to set a new root directory where OpenMPI can be found.
+ 3. `-mpi-include`: set the directory where OpenMPI can be found
+    `-mpi-libdir`: set the Directory where OpenMPI can be found
 
 Other controls
 
-- -prec : controls the OpenRadioss Floating Point Precision : dp : double Precision - Floats in 64 bits (default),  sp activates the Extended Single Precision Version (32bit)
-- -static-link : Runtime librairies are statically linked in Executable (easier when executable is used on different computers).
-- -debug=1 : activates debug build (-O0 + usual debug flags).
-- -addflag="list of additionnal flags" : add compiler flags to usual set for all files 
+- `-prec=[dp|sp]`: controls the OpenRadioss Floating Point Precision 
+            - `dp`: double Precision - Floats in 64 bits (default)
+            - `sp`: activates the Extended Single Precision Version (32bit)
+- `-static-link`: Runtime librairies are statically linked in Executable (easier when executable is used on different computers).
+- `-debug=1`: activates debug build (-O0 + usual debug flags).
+- `-addflag="list of additionnal flags"`: add compiler flags to usual set for all files 
 
 Execution Control
 
-- -nt=N use N threads to fasten build
-- -verbose : compilation process is in Verbose mode
-- -clean : deletes compilation files and execution.
+- `-nt=N` use N threads to fasten build
+- `-verbose`: compilation process is in Verbose mode
+- `-clean`: deletes compilation files and execution.
 
 
