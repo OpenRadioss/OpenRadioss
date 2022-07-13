@@ -455,6 +455,7 @@ C
      .         FINTER, GET_U_FUNC
       EXTERNAL FINTER, GET_U_FUNC
       CHARACTER*20 VENTTITLE
+      MY_REAL :: DTOLD, LAMBDA
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       VOLPH = ZERO
 
@@ -1646,6 +1647,16 @@ C
             PHDT=I
          ENDIF
       ENDDO
+      
+      !optionnal time step growth limitor (/DT/FVMBAG/2, 3rd parameter)
+      IF(NCYCLE > 0)THEN
+        LAMBDA = FVMBAG_LAMBDA
+        IF(FVMBAG_LAMBDA > ZERO)THEN
+          DTOLD = FVMBAG_DTOLD        
+          DTX = MIN(  DTX,DTOLD*(ONE+LAMBDA))
+        ENDIF
+      ENDIF
+      FVMBAG_DTOLD = DTX
 
 
       IF (ILVOUT >= 1.AND.IPRI == 0) THEN
