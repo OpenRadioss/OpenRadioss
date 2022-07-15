@@ -140,7 +140,9 @@ C-----------------------------------------------
       END DO
       IF(IGAP==3) THEN
         DO I=1,JLT
+           GAPE_M(I)=MIN(GAPE_M(I),GAP_E_L(CAND_M(I)))
 	   IF(CAND_S(I).LE.NEDGE) THEN
+              GAPE_S(I)=MIN(GAPE_S(I),GAP_E_L(CAND_S(I)))
               GAPVE(I)=MIN(GAP_E_L(CAND_M(I))+GAP_E_L(CAND_S(I)),GAPVE(I))
            ENDIF
         ENDDO

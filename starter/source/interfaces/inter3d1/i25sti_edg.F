@@ -31,7 +31,7 @@ Chd|====================================================================
      1 NEDGE ,LEDGE  ,STFE  ,STFM  ,IGAP   ,
      2 GAPE  ,GAP_E_L,GAP_M ,GAP_M_L,GAP_S_L,
      3 BGAPEMX,INTFRIC,IPARTFRIC_E,IPARTFRICM,
-     4 IPARTSM,BGAPEMX_L)
+     4 IPARTSM,BGAPEMX_L,NSN ,NSV)
 C-----------------------------------------------
       USE INTBUF_FRIC_MOD  
 C-----------------------------------------------
@@ -45,11 +45,14 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
+#include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEDGE,IGAP,INTFRIC,
      .   LEDGE(NLEDGE,*),IPARTFRIC_E(*) ,IPARTFRICM(*), IPARTSM(*)
+      INTEGER , INTENT(IN) ::  NSN
+      INTEGER , INTENT(IN) ::  NSV(NSN)
 C     REAL
       my_real
      .   STFE(*), GAPE(*), GAP_E_L(*), STFM(*), GAP_M(*), GAP_M_L(*), GAP_S_L(*), BGAPEMX,
@@ -60,6 +63,7 @@ C-----------------------------------------------
       INTEGER I, A, B, N1, N2, IPRTA, IPRTB, IPRTGA, IPRTGB
       my_real
      .   STFA,STFB,GAPA,GAPB
+      INTEGER, DIMENSION(:),ALLOCATABLE :: TAGSLAV
 C-----------------------------------------------
       DO I=1,NEDGE
 
@@ -95,14 +99,20 @@ C
 
       BGAPEMX_L=ZERO        
       IF(IGAP==3)THEN
+        ALLOCATE(TAGSLAV(NUMNOD))
+        TAGSLAV (1:NUMNOD)   = 0
+        DO I=1,NSN
+           TAGSLAV(NSV(I)) = I
+        ENDDO
         DO I=1,NEDGE
           N1=LEDGE(5,I)
           N2=LEDGE(6,I)                             !      4-node segment
-          GAP_E_L(I)=MIN(GAP_S_L(N1),GAP_S_L(N2))   !    O-----------------O
+          GAP_E_L(I)=MIN(GAP_S_L(TAGSLAV(N1)),GAP_S_L(TAGSLAV(N2)))   !    O-----------------O
                                                     !   Edge1             Edge2
 
           BGAPEMX_L   = MAX(BGAPEMX_L,GAP_E_L(I)) ! BGAPEMX_L overall the model 
         END DO
+        DEALLOCATE(TAGSLAV)
       END IF
 
       IF(INTFRIC > 0) THEN
