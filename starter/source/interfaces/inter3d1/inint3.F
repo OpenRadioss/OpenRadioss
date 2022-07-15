@@ -1992,7 +1992,7 @@ C
      2                   INTBUF_TAB%GAPE,INTBUF_TAB%GAP_E_L,INTBUF_TAB%GAP_M,INTBUF_TAB%GAP_ML,
      .                                                                       INTBUF_TAB%GAP_SL,
      3                   INTBUF_TAB%VARIABLES(40),IPARI(72)  ,INTBUF_TAB%IPARTFRIC_E,
-     J                   INTBUF_TAB%IPARTFRICM  ,IPARTSM     ,BGAPEMX_L)
+     J                   INTBUF_TAB%IPARTFRICM  ,IPARTSM     ,BGAPEMX_L  ,NSN,INTBUF_TAB%NSV)
 
          INTBUF_TAB%I_STOK_E(1:2)=0
          CAND_E_OLD(1:2) = INTBUF_TAB%I_STOK_E(1:2)
