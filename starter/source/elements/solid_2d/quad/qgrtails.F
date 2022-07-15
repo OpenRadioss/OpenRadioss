@@ -402,7 +402,7 @@ c          IPARG(4,NGROUP) = LBUFEL+1
           IPARG(12,NGROUP)= JTUR
           IPARG(13,NGROUP)= JTHE
           IPARG(14,NGROUP)= JLAG
-          IPARG(18,NGROUP)= 0   ! obsolete  (nvaux)
+          IPARG(18,NGROUP)= MID
           IPARG(20,NGROUP)= JMULT
           ! Multifluid law, setting NLAY
           IF (MLN .EQ. 151) IPARG(20, NGROUP) = IPM(20, MID)
@@ -477,7 +477,7 @@ C
      +'       VAR    POROUS   PLASTI.   FAILURE      IEOS   '/
      +'         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS',
      +'      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG',
-     +'       AUX    MEDIUM      FLAG      FLAG      TYPE   '/)
+     +'       MID    MEDIUM      FLAG      FLAG      TYPE   '/)
  1001 FORMAT(17(I10))
  1002 FORMAT(' BUFFER LENGTH : ',I10 )
 C

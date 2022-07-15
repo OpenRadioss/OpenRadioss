@@ -68,7 +68,7 @@ C     REAL
      .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE                    
       INTEGER I, NG, NEL,N, J, MLW,NN, JTURB,MT, IALEL,                    
      .        NN1,NN2,NN3,OFFSET,II(6),INOD, ISOLNOD,                                
-     .        JHBE, JIVF, NVAUX, JCLOSE, JPLASOL, IREP, IGTYP,          
+     .        JHBE, JIVF, JCLOSE, JPLASOL, IREP, IGTYP,          
      .        ICSEN, ISORTHG, IFAILURE, IINT                                                      
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       REAL R4                                                           
@@ -84,7 +84,7 @@ C
      2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,           
      3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,           
      4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,           
-     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,           
+     5          JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,           
      6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,           
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE)                    
         DO OFFSET = 0,NEL-1,NVSIZ                                       

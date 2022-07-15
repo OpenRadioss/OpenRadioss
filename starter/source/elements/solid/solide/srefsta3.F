@@ -88,7 +88,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NF1, I,II(6), N, JHBE, IREP, IGTYP, NVAUX, ITRS, IBID,
+      INTEGER NF1, I,II(6), N, JHBE, IREP, IGTYP, ITRS, IBID,
      .        NITSAV,J,I1,I2,ID,MAT_ID
       INTEGER MAT(MVSIZ), PID(MVSIZ), NGL(MVSIZ),
      .   IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),
@@ -142,7 +142,6 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C=======================================================================
       GBUF  => ELBUF_STR%GBUF
-      NVAUX = IPARG(18)
       JHBE  = IPARG(23)
       IREP  = IPARG(35)
       JCVT  = IPARG(37)
