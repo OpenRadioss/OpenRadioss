@@ -250,7 +250,6 @@ C---
             JTHE    = IPARG(13,NG)
             JLAG    = IPARG(14,NG)
             ISTRA   = IPARG(44,NG)
-            NVAUX   = IPARG(18,NG)
             NVC     = IPARG(19,NG)
             JMULT   = IPARG(20,NG)
             JHBE    = IPARG(23,NG)

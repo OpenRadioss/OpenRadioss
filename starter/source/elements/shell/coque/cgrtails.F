@@ -824,6 +824,7 @@ C
   210     CONTINUE
 C
           IPARG(10,NGROUP)= NSG
+          IPARG(18,NGROUP)= MID
           IPARG(30,NGROUP)= KFTS
           IPARG(35,NGROUP)= IREP
           IPARG(38,NGROUP)= IGTYP

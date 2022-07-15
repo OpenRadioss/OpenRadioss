@@ -148,7 +148,6 @@ c
         IRS     = IPARG(15,NG)                                      
         IRE     = IPARG(16,NG)                                      
         ICSTR   = IPARG(17,NG)                                      
-c       nvaux   = IPARG(18,NG)                                      
         NVC     = IPARG(19,NG)                                      
         JMULT   = IPARG(20,NG)                                      
         IADM1   = IPARG(21,NG)                                      

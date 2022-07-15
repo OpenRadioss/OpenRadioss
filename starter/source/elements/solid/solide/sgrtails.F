@@ -1352,7 +1352,7 @@ c                                        other groups using old buffer
           IPARG(10,NGROUP)= ICPRE  
           IPARG(17,NGROUP)= ICSTR  
           IPARG(6,NGROUP) = NPT
-          IPARG(18,NGROUP)= 0  ! obsolete
+          IPARG(18,NGROUP)= MID 
           IPARG(20,NGROUP) = 0
           IF (MLN .EQ. 151) IPARG(20,NGROUP) = IPM(20, MID)
           IPARG(23,NGROUP)= JHBE
@@ -1559,7 +1559,7 @@ c------------------------------------------------------------
      +'     IEOS',/     
      +'         #       LAW    NUMBER     ELEM.   ADDRESS    POINTS',
      +'      FLAG      FLAG      FLAG      FLAG     GLASS      FLAG',
-     +'       AUX    MEDIUM      FLAG      FLAG              FLAG',
+     +'       MID    MEDIUM      FLAG      FLAG              FLAG',
      +'      TYPE' )
  1011 FORMAT(19(I10))
  1002 FORMAT(' BUFFER LENGTH : ',I10 )

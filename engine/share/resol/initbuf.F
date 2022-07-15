@@ -249,7 +249,7 @@ Chd|====================================================================
      2   MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,
      3   NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
      4   JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
-     5   NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLA    ,
+     5   MID     ,JPOR    ,JCVT    ,JCLOSE  ,JPLA    ,
      6   IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7   ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
 C-----------------------------------------------
@@ -265,7 +265,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT (IN)  :: IPARG(NPARG,*),NG
       INTEGER, INTENT (OUT) :: MTN,LLT,NFT,IAD,ITY,NPT,JALE,ISMSTR,
-     .   JEUL,JTUR,JTHE,JLAG,NVAUX,JMULT,JHBE,JIVF,JPOR,JPLA,JCLOSE,
+     .   JEUL,JTUR,JTHE,JLAG,MID,JMULT,JHBE,JIVF,JPOR,JPLA,JCLOSE,
      .   IREP,IINT,IGTYP,JCVT,ISROT,ISRAT,ISORTH,ISORTHG,ICSEN,IFAILURE,
      .   JSMS
 C-----------------------------------------------
@@ -297,19 +297,13 @@ C=======================================================================
       JTUR    = IPARG(12,NG)    
       JTHE    = IPARG(13,NG)    
       JLAG    = IPARG(14,NG)
-      NVAUX   = IPARG(18,NG)    
-
+      MID     = IPARG(18,NG)    
       JMULT   = IPARG(20,NG)    
-
       JHBE    = IPARG(23,NG)    
-      JIVF    = IPARG(24,NG) 
-         
-      JPOR    = IPARG(27,NG) 
-         
-      JPLA    = IPARG(29,NG)
-      
-      JCLOSE  = IPARG(33,NG)
-      
+      JIVF    = IPARG(24,NG)          
+      JPOR    = IPARG(27,NG)          
+      JPLA    = IPARG(29,NG)      
+      JCLOSE  = IPARG(33,NG)      
       IREP    = IPARG(35,NG)      
       IINT    = IPARG(36,NG)    
       JCVT    = IPARG(37,NG)

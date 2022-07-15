@@ -801,6 +801,7 @@ C     Multifluid law, setting NLAY
   210     CONTINUE
 C
           IPARG(10,NGROUP)= NSG
+          IPARG(18,NGROUP)= MID
           IPARG(32,NGROUP)= P-1
 
           NUVARR = 0

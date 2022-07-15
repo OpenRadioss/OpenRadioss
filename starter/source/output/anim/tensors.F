@@ -69,7 +69,7 @@ C     REAL
       INTEGER I, II,NG, NEL, IPT,MT1,NLAY,IL,                                      
      .   N, J, MLW,IALEL,NN1,NN2,NN3,IPRT, KCVT,ISOLNOD,                                       
      .   NPTR, NPTS, NPTT,NPTG, IS, IR, IT,                                  
-     .   JHBE, JIVF, NVAUX, JCLOSE, JPLASOL, IREP, IGTYP,          
+     .   JHBE, JIVF, JCLOSE, JPLASOL, IREP, IGTYP,          
      .   ICSEN, ISORTHG, IFAILURE, IINT,JJ(6)
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF     
@@ -87,7 +87,7 @@ C
      2        MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,             
      3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,             
      4        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,             
-     5        NVAUX   ,JPOR    ,KCVT    ,JCLOSE  ,JPLASOL ,             
+     5        JPOR    ,KCVT    ,JCLOSE  ,JPLASOL ,             
      6        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,             
      7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE)                      
         LFT=1                                                           
