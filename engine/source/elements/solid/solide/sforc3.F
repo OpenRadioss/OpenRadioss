@@ -130,7 +130,8 @@ Chd|====================================================================
      M                  POR      ,ICONTACT ,IFOAM    ,VOLN    ,CONDN   ,
      N                  CONDNSKY ,AGRAV    ,IGRV     ,LGRAV   ,SENSOR  ,
      O                  LSENSOR  ,SKEW     ,
-     P                  NALE     ,D        ,IOUTPRT  ,NLOC_DMG,MATPARAM_TAB)     
+     P                  NALE     ,D        ,IOUTPRT  ,NLOC_DMG,MATPARAM_TAB,
+     Q                  H3D_STRAIN)     
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -177,7 +178,7 @@ C-----------------------------------------------
      .        IGEO(NPROPGI,*),GRTH(*),IGRTH(*),IPARG1(*),IFOAM(*),
      .        ICONTACT(*),ISKY(*),ITAB(*)
       INTEGER NELTST,ITYPTST,OFFSET,NVC,ITASK,
-     .        ISTRAIN, IEXPAN, NV46,IOUTPRT
+     .        ISTRAIN, IEXPAN, NV46,IOUTPRT,H3D_STRAIN
 
       DOUBLE PRECISION 
      .        XDP(3,*)
@@ -866,7 +867,7 @@ c
      G     ISTRAIN  ,TEMPEL  ,DIE     ,IEXPAN  ,ILAY    ,MSSA     ,
      H     DMELS    ,IPTR    ,IPTS    ,IPTT    ,TABLE   ,FVD2     ,
      I     FDELTAX  ,FCXX    ,FQVIS   ,IPARG1  ,IGEO    ,CONDE    ,
-     J     ITASK    ,NLOC_DMG,VAR_REG ,MATPARAM_TAB) 
+     J     ITASK    ,NLOC_DMG,VAR_REG ,MATPARAM_TAB,H3D_STRAIN) 
 C----------
        IF (ISMSTR == 12.AND.IDTMIN(1)==3) THEN
         IF (ISM12_11==0.AND.JCVT==0) THEN

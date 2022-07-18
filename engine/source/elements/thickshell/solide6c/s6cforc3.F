@@ -72,7 +72,7 @@ Chd|====================================================================
      B                   ICP      ,ICSIG   ,NLOC_DMG,
      C                   IPM      ,ISTRAIN ,IGEO    ,GRESAV ,GRTH   ,
      D                   IGRTH    ,TABLE   ,MSSA    ,DMELS  ,VOLN   ,
-     E                   ITASK    ,IOUTPRT ,MATPARAM_TAB)
+     E                   ITASK    ,IOUTPRT ,MATPARAM_TAB,H3D_STRAIN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -109,7 +109,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*),IPARG(NPARG,NGROUP),NPF(*),IADS(8,*),GRTH(*),
      .  IPARTS(*),IPM(NPROPMI,*),IGEO(NPROPGI,*),IGRTH(*), ITASK,IOUTPRT
-      INTEGER NELTST,ITYPTST,OFFSET,NG,NEL,ICP,ICSIG,ISTRAIN
+      INTEGER NELTST,ITYPTST,OFFSET,NG,NEL,ICP,ICSIG,ISTRAIN,H3D_STRAIN
       my_real
      .   DT2T
       my_real
@@ -538,7 +538,7 @@ C------------------------------------------------------
      G           ISTRAIN  ,BID    ,BID    ,IBID       ,ILAY	  ,MSSA    ,
      H           DMELS    ,IR     ,IS     ,IT         ,TABLE	  ,BID     ,
      I           BID      ,BID    ,BID    ,IPARG(1,NG),IGEO    ,BID      ,
-     J           ITASK    ,NLOC_DMG,VARNL ,MATPARAM_TAB)
+     J           ITASK    ,NLOC_DMG,VARNL ,MATPARAM_TAB,H3D_STRAIN)
 C
         DO I=LFT,LLT
           STIN(I) = STIN(I)+STI(I)

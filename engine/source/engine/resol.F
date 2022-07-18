@@ -3594,7 +3594,7 @@ C
      K          INTBUF_TAB ,IXT      ,IGRV       ,AGRV         ,SENSOR         ,LSENSOR   ,
      L          LGRAV      ,CONDNSKY ,CONDN      ,MS_2D        ,MULTI_FVM      ,IGRTRUSS,
      M          IGRBRIC    ,NLOC_DMG ,ID_GLOBAL_VOIS,FACE_VOIS , EBCS_TAB, ALE_CONNECTIVITY, DIFFUSION,
-     N          MATPARAM_TAB)
+     N          MATPARAM_TAB,H3D_DATA)
 
            IF(INT22 /=0)  call my_barrier !INTER22in input files  - get also IDT_INT22
 #include "lockon.inc"

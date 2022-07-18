@@ -69,7 +69,7 @@ Chd|====================================================================
      9                  IPM      ,BUFVOIS ,QMV     ,
      A                  GRESAV   ,GRTH    ,IGRTH   ,TABLE    ,IGEO    ,
      B                  VOLN     ,ITASK   ,MS_2D   ,FSKYM    ,IOUTPRT ,
-     C                  MATPARAM_TAB)
+     C                  MATPARAM_TAB,H3D_STRAIN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -94,7 +94,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IC(*), IPARG(NPARG,*), NPF(*),IPARTQ(*),
      .        IPM(*), GRTH(*),IGRTH(*),IGEO(*), IADQ(4,*), ITASK
-      INTEGER OFFSET,NEL,NG,NELTST,ITYPTST,IOUTPRT
+      INTEGER OFFSET,NEL,NG,NELTST,ITYPTST,IOUTPRT,H3D_STRAIN
       my_real
      .   DT2T
       my_real
@@ -361,7 +361,7 @@ c
      G   ISTRAIN  ,BID    ,BID    ,IBIDON(1) ,ILAY   ,MBID   ,
      H   MBID     ,IPTR   ,IPTS   ,IPTT      ,TABLE   ,BID    ,
      I   BID      ,BID    ,BID    ,IBIDON(1) ,IGEO    ,BID      ,
-     J   ITASK    ,NLOC_DMG,VARNL ,MATPARAM_TAB)
+     J   ITASK    ,NLOC_DMG,VARNL ,MATPARAM_TAB,H3D_STRAIN)
 C--------------------------
 C       BILANS PAR MATERIAU thermique
 C--------------------------

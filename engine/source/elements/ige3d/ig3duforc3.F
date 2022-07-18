@@ -65,7 +65,7 @@ Chd|====================================================================
      B           ITYPTST  ,OFFSET   ,TABLE   ,IEXPAN  ,ALE_CONNECT   ,
      C           FV       ,ITASK    ,IOUTPRT ,
      D           PX       ,PY       ,PZ      ,KNOTLOCPC,KNOTLOCEL,
-     E           GRESAV   ,GRTH     ,IGRTH   ,MATPARAM_TAB)
+     E           GRESAV   ,GRTH     ,IGRTH   ,MATPARAM_TAB,H3D_STRAIN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -109,7 +109,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LFT,LLT,NEL,NFT,MTN,IGTYP,IFAILURE,NPT,JSMS,
-     .        NCTRL,NG,NELTST,ITYPTST,OFFSET,IEXPAN,ITASK
+     .        NCTRL,NG,NELTST,ITYPTST,OFFSET,IEXPAN,ITASK,H3D_STRAIN
       INTEGER IXS(NIXS,*), IPARG(NPARG,*), NPF(*),IADS(8,*),
      .        IPARTS(*), IGEO(NPROPGI,*), IPM(NPROPMI,*),
      .        KXIG3D(NIXIG3D,*),IXIG3D(*),FLUX(6,*),FLU1(*),
@@ -503,7 +503,7 @@ C------------------------------------------------------
      G       ISTRAIN  ,TEMPEL  ,DIE     ,IEXPAN        ,ILAY	      ,MSSA	,
      H       DMELS    ,I       ,J       ,K             ,TABLE	      ,BID	,
      I       BID      ,BID     ,BID     ,IPARG(1,NG)   ,IGEO     ,BID      ,
-     J       ITASK    ,NLOC_DMG,VARNL   ,MATPARAM_TAB  )
+     J       ITASK    ,NLOC_DMG,VARNL   ,MATPARAM_TAB  ,H3D_STRAIN)
 
        CALL SSTRA3(DXX      ,DYY   ,DZZ   ,D4   ,D5   ,D6   , 
      .             LBUF%STRA,WXX   ,WYY   ,WZZ  ,OFF  ,NEL  )

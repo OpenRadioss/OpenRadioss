@@ -279,6 +279,16 @@ C=======================================================================
         ENDDO
         NVARABF = NVARABF + NVAR
 C=======================================================================
+        !---
+        ! STRAIN global flag for QUADS - compute STRAIN TENSOR for /TH/QUAD only
+        !---
+        IF (ITYP == 2) THEN
+          DO J=IAD0,IAD0+NVAR-1
+            IF ( VARE(ITHBUF(J))(1:3) == 'EPS' .OR. 
+     .           VARE(ITHBUF(J))(1:4) == 'LEPS' ) TH_STRAIN = 1
+          ENDDO
+        ENDIF ! IF (ITYP == 2)
+C=======================================================================
 C PRINTOUT
 C=======================================================================
       IF (IPRI < 1) RETURN

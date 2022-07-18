@@ -1924,6 +1924,9 @@ C---- MAX (/H3D)
       TABVINT(LVARINT)=LMAX_NSIG
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=LMAX_NSTRA
+C---- Time history strain flag
+      LVARINT=LVARINT+1
+      TABVINT(LVARINT)=TH_STRAIN
 C----------------------------------------------------------------
 C    warning to radioss developpers : Check LVARINT < LMXVINT
 C----------------------------------------------------------------

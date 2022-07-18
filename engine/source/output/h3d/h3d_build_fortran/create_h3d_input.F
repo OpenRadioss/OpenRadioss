@@ -226,6 +226,12 @@ c
       IF(KEY2 == 'SPRING' .OR. KEY2 == 'BEAM' .OR. KEY2 == 'TRUSS' ) THEN
         IF (KEY3_GLOB == 'FORC') H3D_DATA%UND_FORC = 1
       ENDIF
+c
+      ! Just for STRAIN
+      IF (KEY2 == 'QUAD') THEN
+c tensor
+        IF (KEY3_GLOB == 'TENS/STRAIN') H3D_DATA%STRAIN = 1
+      ENDIF
 C-------------------------------------------------- 
 
 c
