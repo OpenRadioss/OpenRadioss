@@ -667,11 +667,13 @@ C
           ENDIF
 C
           CALL C_PREVENT_DECOMPOSITION(NB_ELEM,CC_ELEM)
-          DEALLOCATE(CC_ELEM,TAG_SHELL)
+          DEALLOCATE(CC_ELEM)
 C
         ENDDO
 C
       ENDIF
+C
+      IF (NB_2D_SEATBELT > 0) DEALLOCATE(TAG_SHELL)
 C             
       RETURN
 C
