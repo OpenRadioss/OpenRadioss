@@ -165,7 +165,7 @@ Chd|====================================================================
      G           ISTRAIN  ,TEMPEL  ,DIE     ,IEXPAN  ,ILAY    ,MSSA    ,
      H           DMELS    ,IPTR    ,IPTS    ,IPTT    ,TABLE   ,FVD2    ,
      I           FDELTAX  ,FSSP    ,FQVIS   ,IPARG1  ,IGEO   , CONDE   ,
-     J           ITASK    ,NLOC_DMG,VARNL   ,MATPARAM_TAB)
+     J           ITASK    ,NLOC_DMG,VARNL   ,MATPARAM_TAB,H3D_STRAIN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -215,7 +215,7 @@ C-----------------------------------------------
      .        MAT(*)  ,NGL(*), IPM(NPROPMI,*),IPARG1(*),IGEO(NPROPGI,*)
       INTEGER NELTST, ITYPTST, OFFSET, NEL, ISTRAIN, 
      .        IEXPAN,NG,ILAY,IPTR,IPTS,IPTT,IBIDON1,IBIDON2,IBIDON3 ,
-     .        IBIDON4, IADBUF, ITASK     
+     .        IBIDON4, IADBUF, ITASK,H3D_STRAIN
 C
       my_real
      .   DT2T
@@ -279,6 +279,8 @@ C-----------------------------------------------
      .   P01(MVSIZ), P02(MVSIZ), E01(MVSIZ), E02(MVSIZ),
      .   ER1V(MVSIZ), ER2V(MVSIZ), WDR1V(MVSIZ), WDR2V(MVSIZ),W1(MVSIZ),
      .   HEAT_MECA_L
+      my_real
+     .   Q1,Q2,Q3,STR1,STR2,STR3,STR4,STR5,STR6,WXXF,WYYF,WZZF
       my_real, DIMENSION(:) ,POINTER :: STRD1,STRD2
      .  
        LOGICAL :: LOGICAL_USERL_AVAIL, l_MULAW_CALLED
@@ -579,7 +581,110 @@ C
      C             EPSP   ,TSTAR   ,ET      ,MSSA       ,DMELS   ,
      D             TEMPEL ,LBUF%SIGB,AL_IMP ,SIGNOR     ,CONDE   ,
      E             GBUF%DT,GBUF%G_DT ,NEL   ,IPM        ,RHOREF  ,
-     F             RHOSP   ) 
+     F             RHOSP   )
+!----------------
+       IF (ISTRAIN > 0 .AND.
+     .    (H3D_STRAIN == 1 .OR. TH_STRAIN == 1 )) THEN
+!
+        ! strain rate
+        DO I=LFT,LLT
+          EP1(I) = DXX(I)*OFF(I)
+          EP2(I) = DYY(I)*OFF(I)
+          EP3(I) = DZZ(I)*OFF(I)
+          EP4(I) = D4(I) *OFF(I)
+          EP5(I) = D5(I) *OFF(I)
+          EP6(I) = D6(I) *OFF(I)
+        ENDDO
+        ! strain
+        IF (JCVT > 0) THEN
+          DO I=LFT,LLT
+            ES1(I) = EP1(I)*DT1
+            ES2(I) = EP2(I)*DT1
+            ES3(I) = EP3(I)*DT1
+            ES4(I) = EP4(I)*DT1
+            ES5(I) = EP5(I)*DT1
+            ES6(I) = EP6(I)*DT1
+          ENDDO
+        ELSEIF (ISORTH /= 0) THEN
+C---------------------------
+C       ORTHOTROPE GLOBAL
+C---------------------------
+          CALL MREPLOC(GAMA,R11,R12,R13,R21,R22,
+     .                 R23 ,R31,R32,R33,
+     .                 RX  ,RY ,RZ ,SX ,SY ,SZ,
+     .                 TX  ,TY ,TZ )
+          DO I=LFT,LLT
+            EP4(I) = HALF*EP4(I)
+            EP5(I) = HALF*EP5(I)
+            EP6(I) = HALF*EP6(I)
+          ENDDO
+          CALL MROTENS(LFT,LLT,EP1,EP2,EP3,EP4,EP5,EP6,
+     .         R11,R21,R31,R12,R22,R32,R13,R23,R33)
+          DO I=LFT,LLT
+            EP4(I) = TWO*EP4(I)
+            EP5(I) = TWO*EP5(I)
+            EP6(I) = TWO*EP6(I)
+          ENDDO
+          DO I=LFT,LLT
+            ES1(I) = EP1(I)*DT1
+            ES2(I) = EP2(I)*DT1
+            ES3(I) = EP3(I)*DT1
+            ES4(I) = EP4(I)*DT1
+            ES5(I) = EP5(I)*DT1
+            ES6(I) = EP6(I)*DT1
+          ENDDO
+        ELSE
+C---------------------------
+C       ISOTROPE GLOBAL
+C---------------------------
+#include "vectorize.inc"
+          DO I=LFT,LLT
+            ES1(I) = EP1(I)*DT1
+            ES2(I) = EP2(I)*DT1
+            ES3(I) = EP3(I)*DT1
+            ES4(I) = EP4(I)*DT1
+            ES5(I) = EP5(I)*DT1
+            ES6(I) = EP6(I)*DT1
+          ENDDO
+#include "vectorize.inc"
+          DO I=LFT,LLT
+            WXXF = WXX(I)*OFF(I)
+            WYYF = WYY(I)*OFF(I)
+            WZZF = WZZ(I)*OFF(I)
+            Q1 = LBUF%STRA(II(4) + I)*WZZF
+            Q2 = LBUF%STRA(II(6) + I)*WYYF
+            Q3 = LBUF%STRA(II(5) + I)*WXXF
+            STR1 = LBUF%STRA(II(1) + I)-Q1+Q2
+            STR2 = LBUF%STRA(II(2) + I)+Q1-Q3
+            STR3 = LBUF%STRA(II(3) + I)-Q2+Q3
+            STR4 = LBUF%STRA(II(4) + I)+
+     .             TWO*WZZF*(LBUF%STRA(II(1) + I)-LBUF%STRA(II(2) + I))+
+     .             WYYF*LBUF%STRA(II(5) + I)-WXXF*LBUF%STRA(II(6) + I)
+            STR5 = LBUF%STRA(II(5) + I)+
+     .             TWO*WXXF*(LBUF%STRA(II(2) + I)-LBUF%STRA(II(3) + I))+
+     .             WZZF*LBUF%STRA(II(6) + I)-WYYF*LBUF%STRA(II(4) + I)
+            STR6 = LBUF%STRA(II(6) + I)+
+     .             TWO*WYYF*(LBUF%STRA(II(3) + I)-LBUF%STRA(II(1) + I))+
+     .             WXXF*LBUF%STRA(II(4) + I)-WZZF*LBUF%STRA(II(5) + I)
+            LBUF%STRA(II(1) + I) = STR1
+            LBUF%STRA(II(2) + I) = STR2
+            LBUF%STRA(II(3) + I) = STR3
+            LBUF%STRA(II(4) + I) = STR4
+            LBUF%STRA(II(5) + I) = STR5
+            LBUF%STRA(II(6) + I) = STR6
+          ENDDO
+        ENDIF ! IF (JCVT > 0)
+        ! strain update
+        DO I=LFT,LLT
+          LBUF%STRA(II(1) + I) = LBUF%STRA(II(1) + I) + ES1(I)
+          LBUF%STRA(II(2) + I) = LBUF%STRA(II(2) + I) + ES2(I)
+          LBUF%STRA(II(3) + I) = LBUF%STRA(II(3) + I) + ES3(I)
+          LBUF%STRA(II(4) + I) = LBUF%STRA(II(4) + I) + ES4(I)
+          LBUF%STRA(II(5) + I) = LBUF%STRA(II(5) + I) + ES5(I)
+          LBUF%STRA(II(6) + I) = LBUF%STRA(II(6) + I) + ES6(I)
+        ENDDO
+       ENDIF ! IF (ISTRAIN > 0
+!----------------
       ELSEIF (MTN == 3) THEN
         CALL M3LAW(PM       ,OFF      ,LBUF%SIG ,LBUF%PLA,MAT     ,
      2             NGL      ,CXX      ,DXX      ,DYY     ,DZZ     ,
@@ -634,6 +739,109 @@ C
      3            DXX    ,DYY      ,DZZ      ,D4        ,D5     ,D6     , 
      4            PSH    ,DVOL     ,DF       ,QVIS      ,PNEW   ,VIS    ,
      5            TMU    ,EINC     ,MTN      ,VOL_AVG   ,NEL  )
+!----------------
+       IF (ISTRAIN > 0 .AND.
+     .    (H3D_STRAIN == 1 .OR. TH_STRAIN == 1)) THEN
+!
+        ! strain rate
+        DO I=LFT,LLT
+          EP1(I) = DXX(I)*OFF(I)
+          EP2(I) = DYY(I)*OFF(I)
+          EP3(I) = DZZ(I)*OFF(I)
+          EP4(I) = D4(I) *OFF(I)
+          EP5(I) = D5(I) *OFF(I)
+          EP6(I) = D6(I) *OFF(I)
+        ENDDO
+        ! strain
+        IF (JCVT > 0) THEN
+          DO I=LFT,LLT
+            ES1(I) = EP1(I)*DT1
+            ES2(I) = EP2(I)*DT1
+            ES3(I) = EP3(I)*DT1
+            ES4(I) = EP4(I)*DT1
+            ES5(I) = EP5(I)*DT1
+            ES6(I) = EP6(I)*DT1
+          ENDDO
+        ELSEIF (ISORTH /= 0) THEN
+C---------------------------
+C       ORTHOTROPE GLOBAL
+C---------------------------
+          CALL MREPLOC(GAMA,R11,R12,R13,R21,R22,
+     .                 R23 ,R31,R32,R33,
+     .                 RX  ,RY ,RZ ,SX ,SY ,SZ,
+     .                 TX  ,TY ,TZ )
+          DO I=LFT,LLT
+            EP4(I) = HALF*EP4(I)
+            EP5(I) = HALF*EP5(I)
+            EP6(I) = HALF*EP6(I)
+          ENDDO
+          CALL MROTENS(LFT,LLT,EP1,EP2,EP3,EP4,EP5,EP6,
+     .         R11,R21,R31,R12,R22,R32,R13,R23,R33)
+          DO I=LFT,LLT
+            EP4(I) = TWO*EP4(I)
+            EP5(I) = TWO*EP5(I)
+            EP6(I) = TWO*EP6(I)
+          ENDDO
+          DO I=LFT,LLT
+            ES1(I) = EP1(I)*DT1
+            ES2(I) = EP2(I)*DT1
+            ES3(I) = EP3(I)*DT1
+            ES4(I) = EP4(I)*DT1
+            ES5(I) = EP5(I)*DT1
+            ES6(I) = EP6(I)*DT1
+          ENDDO
+        ELSE
+C---------------------------
+C       ISOTROPE GLOBAL
+C---------------------------
+#include "vectorize.inc"
+          DO I=LFT,LLT
+            ES1(I) = EP1(I)*DT1
+            ES2(I) = EP2(I)*DT1
+            ES3(I) = EP3(I)*DT1
+            ES4(I) = EP4(I)*DT1
+            ES5(I) = EP5(I)*DT1
+            ES6(I) = EP6(I)*DT1
+          ENDDO
+#include "vectorize.inc"
+          DO I=LFT,LLT
+            WXXF = WXX(I)*OFF(I)
+            WYYF = WYY(I)*OFF(I)
+            WZZF = WZZ(I)*OFF(I)
+            Q1 = LBUF%STRA(II(4) + I)*WZZF
+            Q2 = LBUF%STRA(II(6) + I)*WYYF
+            Q3 = LBUF%STRA(II(5) + I)*WXXF
+            STR1 = LBUF%STRA(II(1) + I)-Q1+Q2
+            STR2 = LBUF%STRA(II(2) + I)+Q1-Q3
+            STR3 = LBUF%STRA(II(3) + I)-Q2+Q3
+            STR4 = LBUF%STRA(II(4) + I)+
+     .             TWO*WZZF*(LBUF%STRA(II(1) + I)-LBUF%STRA(II(2) + I))+
+     .             WYYF*LBUF%STRA(II(5) + I)-WXXF*LBUF%STRA(II(6) + I)
+            STR5 = LBUF%STRA(II(5) + I)+
+     .             TWO*WXXF*(LBUF%STRA(II(2) + I)-LBUF%STRA(II(3) + I))+
+     .             WZZF*LBUF%STRA(II(6) + I)-WYYF*LBUF%STRA(II(4) + I)
+            STR6 = LBUF%STRA(II(6) + I)+
+     .             TWO*WYYF*(LBUF%STRA(II(3) + I)-LBUF%STRA(II(1) + I))+
+     .             WXXF*LBUF%STRA(II(4) + I)-WZZF*LBUF%STRA(II(5) + I)
+            LBUF%STRA(II(1) + I) = STR1
+            LBUF%STRA(II(2) + I) = STR2
+            LBUF%STRA(II(3) + I) = STR3
+            LBUF%STRA(II(4) + I) = STR4
+            LBUF%STRA(II(5) + I) = STR5
+            LBUF%STRA(II(6) + I) = STR6
+          ENDDO
+        ENDIF ! IF (JCVT > 0)
+        ! strain update
+        DO I=LFT,LLT
+          LBUF%STRA(II(1) + I) = LBUF%STRA(II(1) + I) + ES1(I)
+          LBUF%STRA(II(2) + I) = LBUF%STRA(II(2) + I) + ES2(I)
+          LBUF%STRA(II(3) + I) = LBUF%STRA(II(3) + I) + ES3(I)
+          LBUF%STRA(II(4) + I) = LBUF%STRA(II(4) + I) + ES4(I)
+          LBUF%STRA(II(5) + I) = LBUF%STRA(II(5) + I) + ES5(I)
+          LBUF%STRA(II(6) + I) = LBUF%STRA(II(6) + I) + ES6(I)
+        ENDDO
+       ENDIF ! IF (ISTRAIN > 0
+!----------------
 C
       ELSEIF (MTN == 5) THEN
         CALL M5LAW(PM   ,LBUF%SIG ,LBUF%EINT  ,LBUF%RHO ,PSH       ,       

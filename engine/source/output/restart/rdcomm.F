@@ -1746,7 +1746,9 @@ C---- MAX (/H3D)
       LMAX_NSIG  = TABVINT(NEXT)
       NEXT       = NEXT + 1
       LMAX_NSTRA = TABVINT(NEXT)
-
+C---- Time history strain flag
+      NEXT       = NEXT + 1
+      TH_STRAIN  = TABVINT(NEXT)
 C--------------------------------------
       RETURN
       END

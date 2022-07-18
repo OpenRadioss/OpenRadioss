@@ -2549,6 +2549,7 @@ C          frame numbers user -> internal
       !-------------------------------------------
       ! /TH/QUAD
       !-------------------------------------------
+      TH_STRAIN = 0 ! Time history strain flag for QUADS -> TH output STRAIN TENSOR
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/QUAD' ,HM_NTHQUAD  )     
       IF (HM_NTHQUAD > 0) THEN 
         CALL HM_OPTION_START(TRIM(THFILE)//'/QUAD')

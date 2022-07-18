@@ -89,7 +89,7 @@ Chd|====================================================================
      J                    FTHESKY  ,IEXPAN ,IGEO   ,NNPT   ,GRESAV  ,
      K                    GRTH     ,IGRTH  ,MSSA   ,DMELS  ,TABLE   ,
      L                    XDP      ,VOLN   ,CONDN  ,CONDNSKY,SENSOR ,
-     M                    LSENSOR  ,IOUTPRT,MATPARAM_TAB)
+     M                    LSENSOR  ,IOUTPRT,MATPARAM_TAB,H3D_STRAIN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -130,7 +130,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*), IPARG(NPARG,NGROUP),NPF(*),
      .        IPARTS(*), IPM(NPROPMI,*),IGEO(NPROPGI,*),GRTH(*),
-     .        IGRTH(*),IADS(8,*),LSENSOR(NSENSI,*),IOUTPRT
+     .        IGRTH(*),IADS(8,*),LSENSOR(NSENSI,*),IOUTPRT,H3D_STRAIN
 C
       INTEGER NELTST,ITYPTST,OFFSET,NEL,ICP, 
      .        ICSIG, NVC,ITASK, ISTRAIN, IEXPAN ,NNPT,NG
@@ -1010,7 +1010,7 @@ c
      G           ISTRAIN,TEMPEL ,DIE    ,IEXPAN     ,IL         ,MSSA    ,
      H           DMELS  ,IR     ,IS     ,IT         ,TABLE      ,BID     ,
      I           BID    ,BID    ,BID    ,IPARG(1,NG),IGEO    ,CONDE  ,
-     J           ITASK  ,NLOC_DMG,VARNL ,MATPARAM_TAB)
+     J           ITASK  ,NLOC_DMG,VARNL ,MATPARAM_TAB,H3D_STRAIN)
 C    
         IF (ISTRAIN == 1) THEN 
           CALL SSTRA3(DXX,DYY,DZZ,D4,D5,

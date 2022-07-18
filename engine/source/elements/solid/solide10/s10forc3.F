@@ -84,7 +84,7 @@ Chd|====================================================================
      C                   TABLE    ,MSSA    ,DMELS   ,IGEO    ,XDP     ,
      D                   VOLN     ,CONDN   ,CONDNSKY,
      E                   ITAGDN  ,SENSOR  ,LSENSOR ,IOUTPRT ,
-     F                   MATPARAM_TAB)
+     F                   MATPARAM_TAB,H3D_STRAIN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -130,7 +130,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*),IPARG(NPARG,NGROUP),NPF(*),IADS(8,*),
      .        IPARTS(*),IXS10(6,*),IADS10(6,*),IPM(*),ITASK,GRTH(*),
-     .        IGRTH(*),IGEO(*),LSENSOR(NSENSI,*),IOUTPRT
+     .        IGRTH(*),IGEO(*),LSENSOR(NSENSI,*),IOUTPRT,H3D_STRAIN
       INTEGER NELTST,ITYPTST,OFFSET,NEL,NG,ISTRAIN,ISOLNOD,IEXPAN,ITAGDN(*)      
 C     REAL
 
@@ -491,7 +491,7 @@ C
      G             ISTRAIN  ,TEMPEL, DIE    ,IEXPAN  ,ILAY    ,MSSA   ,
      H             DMELS    ,IPTR   ,IPTS   ,IPTT    ,TABLE   ,BID    ,
      I             BID      ,BID    ,BID    ,IPARG(1,NG),IGEO  ,CONDE    ,
-     J             ITASK    ,NLOC_DMG,VARNL ,MATPARAM_TAB)
+     J             ITASK    ,NLOC_DMG,VARNL ,MATPARAM_TAB,H3D_STRAIN)
 C
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)
 C-----------  return to global system    

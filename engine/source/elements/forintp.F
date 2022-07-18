@@ -169,7 +169,7 @@ C-----------------------------------------------
      .   INOD,MX,NS,KSMCOMP,KVNORM,MYADRN,ADRN, NISKY_L,
      .   IPRTSPH, NSOL, NSKI, N1, N2, N3, N4, N5, N6, N7, N8,
      .   K1, K2, K3, K4, K5, K6, K7, K8, IR, IS, IT, NSPHDIR, STAT,
-     .   IEXPAN
+     .   IEXPAN,IBID
       my_real
      .   OFF,DTX,DT05,RHOI,VI,
      .   PHI1,PHI2,PHI3,PHI4,PHI5,PHI6,PHI7,PHI8,
@@ -248,6 +248,7 @@ C
 C         DIVV=WA(13,1:NUMSPH) ne doit pas etre ecrase avt SPADAH 
 C         (adaptation du diametre des particules).
 C-----------------------------------------------
+        IBID = 0
 C
 C Allocation SPMD a faire en memoire partagee
 C
@@ -643,7 +644,7 @@ C-----------------------------------------------
      6    IPARTSP   ,FV        ,NEL       ,IPM       ,GRESAV    ,
      7    GRTH      ,IGRTH     ,TABLE     ,ISTRA     ,VOLN      ,
      8    IGEO      ,IEXPAN    ,TEMP      ,ITASK     ,SPH2SOL   ,
-     9    MATPARAM_TAB)
+     9    MATPARAM_TAB,IBID)
             ENDIF
             IF (IDDW.GT.0) CALL STOPTIMEG(NG)
           END DO

@@ -67,7 +67,7 @@ Chd|====================================================================
      7                   ICP   ,NG     ,
      8                   IPM   ,BUFVOIS,QMV    ,GRESAV,GRTH   ,
      9                   IGRTH ,TABLE  ,IGEO   ,ITASK ,IEXPAN ,
-     A                   MS_2D ,FSKYM  ,IOUTPRT,MATPARAM_TAB)
+     A                   MS_2D ,FSKYM  ,IOUTPRT,MATPARAM_TAB,H3D_STRAIN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -106,7 +106,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IC(*), IPARG(NPARG,*), NPF(*), IPARTQ(*), 
      +  IPM(*), GRTH(*), IGRTH(*), IGEO(*), IADQ(4,*),ITASK,IOUTPRT
-      INTEGER OFFSET, NEL, NELTST, ITYPTST, ICP, NG, IEXPAN
+      INTEGER OFFSET, NEL, NELTST, ITYPTST, ICP, NG, IEXPAN,H3D_STRAIN
       my_real
      +  DT2T
       my_real
@@ -511,7 +511,7 @@ C       UPDATE STRESS
      G     ISTRAIN  ,BID    ,BID    ,IBIDON(1)  ,1	    ,MBID   ,
      H     MBID     ,IR     ,IS     ,1          ,TABLE      ,BID    ,
      I     BID      ,BID    ,BID    ,IPARG(1,NG),IGEO   ,BID      ,
-     J     ITASK    ,NLOC_DMG,VARNL ,MATPARAM_TAB)
+     J     ITASK    ,NLOC_DMG,VARNL ,MATPARAM_TAB,H3D_STRAIN)
 C
 C       COMPUTE NODAL INTERNAL FORCE
         CALL Q4FINT2(LBUF%SIG,AY,FAY,FAZ,

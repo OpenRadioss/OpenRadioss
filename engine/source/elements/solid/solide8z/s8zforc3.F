@@ -107,7 +107,7 @@ Chd|====================================================================
      K                    GRTH     ,IGRTH  ,MSSA   ,DMELS   ,TABLE   ,
      L                    XDP      ,VOLN   ,CONDN  ,CONDNSKY  ,
      M                    D      ,SENSOR  ,LSENSOR ,
-     N                    IOUTPRT  ,MATPARAM_TAB)
+     N                    IOUTPRT  ,MATPARAM_TAB,H3D_STRAIN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -153,7 +153,7 @@ C-----------------------------------------------
      .        IGRTH(*),IADS(8,*),LSENSOR(NSENSI,*),IOUTPRT
 C
       INTEGER NELTST,ITYPTST,OFFSET,NEL,ICP,NG, 
-     .        ICSIG, NVC, ITASK, ISTRAIN, IEXPAN ,NNPT
+     .        ICSIG, NVC, ITASK, ISTRAIN, IEXPAN ,NNPT,H3D_STRAIN
      
       DOUBLE PRECISION
      .        XDP(3,*)
@@ -1024,7 +1024,7 @@ C
      G           ISTRAIN ,TEMPEL ,DIE    ,IEXPAN       ,ILAY	       ,MSSA	,
      H           DMELS   ,IR     ,IS     ,IT           ,TABLE	       ,BID	,
      I           BID     ,BID    ,BID  ,IPARG(1,NG)  ,IGEO ,CONDE    ,
-     J           ITASK   ,NLOC_DMG,VAR_REG(1,IP),MATPARAM_TAB)
+     J           ITASK   ,NLOC_DMG,VAR_REG(1,IP),MATPARAM_TAB,H3D_STRAIN)
 C    
         IF (ISTRAIN == 1) THEN 
           CALL SSTRA3(DXX,DYY,DZZ,D4,D5,

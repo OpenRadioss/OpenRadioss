@@ -122,7 +122,7 @@ Chd|====================================================================
      E                    GRTH     ,IGRTH  ,MSSA    ,DMELS   ,TABLE   ,
      F                    IGEO     ,XDP    ,VOLN    ,CONDN   ,CONDNSKY,
      G                    D       ,SENSOR  ,
-     H                    LSENSOR  ,IOUTPRT,MATPARAM_TAB)
+     H                    LSENSOR  ,IOUTPRT,MATPARAM_TAB,H3D_STRAIN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -168,7 +168,7 @@ C-----------------------------------------------
      .    LSENSOR(NSENSI,*),IOUTPRT
 C          
       INTEGER NELTST,ITYPTST,OFFSET,NEL,ICP, 
-     .        ICSIG, NVC   ,ITASK, ISTRAIN,  IEXPAN,NG
+     .        ICSIG, NVC   ,ITASK, ISTRAIN,  IEXPAN,NG,H3D_STRAIN
 
       DOUBLE PRECISION
      .        XDP(3,*)
@@ -1293,7 +1293,7 @@ c
      G           ISTRAIN,TEMPEL ,DIE    ,IEXPAN     ,ILAY       ,MSSA   ,
      H           DMELS  ,IR     ,IS     ,IT         ,TABLE      ,BID    ,
      I           BID    ,BID    ,BID    ,IPARG(1,NG),IGEO   ,CONDE  ,
-     J           ITASK  ,NLOC_DMG,VAR_REG(1,IP),MATPARAM_TAB)
+     J           ITASK  ,NLOC_DMG,VAR_REG(1,IP),MATPARAM_TAB,H3D_STRAIN)
 C
        IF (ISMSTR == 12.AND.IDTMIN(1)==3) THEN
         IF (ISM12_11==0.AND.JCVT==0) THEN

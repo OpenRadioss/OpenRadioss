@@ -67,7 +67,7 @@ Chd|====================================================================
      H                    TEMP     ,FTHE   ,FTHESKY,IEXPAN ,GRESAV ,
      I                    GRTH     ,IGRTH  ,TABLE  ,IGEO   ,VOLN   ,
      J                    CONDN    ,CONDNSKY,
-     K                    ITASK    ,IOUTPRT ,MATPARAM_TAB)
+     K                    ITASK    ,IOUTPRT ,MATPARAM_TAB,H3D_STRAIN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -112,7 +112,7 @@ C-----------------------------------------------
      .        IADS(8,*),IPARTS(*),IXS20(12,*),IADS20(12,*),IPM(*),
      .        GRTH(*),IGRTH(*),IGEO(*),ITASK,IOUTPRT
       INTEGER NELTST,ITYPTST,OFFSET,NEL,ISTRAIN,
-     .        IEXPAN,NG     
+     .        IEXPAN,NG,H3D_STRAIN
       my_real
      .   DT2T
       my_real
@@ -375,7 +375,7 @@ C------------------------------------------------------
      G    ISTRAIN  ,TEMPEL   ,DIE      ,IEXPAN   ,ILAY     ,MBID     ,
      H    MBID     ,IR       ,IS       ,IT       ,TABLE    ,BID      ,
      I    BID      ,BID      ,BID      ,IPARG(1,NG)   ,IGEO     ,CONDE    ,
-     J    ITASK    ,NLOC_DMG ,VARNL    ,MATPARAM_TAB  )
+     J    ITASK    ,NLOC_DMG ,VARNL    ,MATPARAM_TAB  ,H3D_STRAIN)
 c     
           IF (ISTRAIN == 1) THEN 
             CALL SSTRA3(DXX,DYY,DZZ,D4,D5, 

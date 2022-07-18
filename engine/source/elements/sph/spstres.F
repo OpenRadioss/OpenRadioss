@@ -53,7 +53,7 @@ Chd|====================================================================
      6    IPARTSP   ,FV        ,NEL       ,IPM       ,GRESAV    ,
      7    GRTH      ,IGRTH     ,TABLE     ,ISTRAIN   ,VOLN      ,
      8    IGEO      ,IEXPAN    ,TEMP      ,ITASK     ,SPH2SOL   ,
-     9    MATPARAM_TAB)
+     9    MATPARAM_TAB,H3D_STRAIN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -94,7 +94,7 @@ C-----------------------------------------------
       INTEGER KXSP(NISP,*),IXSP(KVOISPH,*),NOD2SP(*),ITAB(*),
      .   IPART(LIPART1,*) ,IPARTSP(*), NPC(*), IPARG(NPARG,*),NG,
      .   NELTST,ITYPTST,NEL,GRTH(*),IGRTH(*) , ISTRAIN,
-     .   IPM(NPROPMI,*),IGEO(*),IEXPAN,ITASK,SPH2SOL(*)
+     .   IPM(NPROPMI,*),IGEO(*),IEXPAN,ITASK,SPH2SOL(*),H3D_STRAIN
       my_real
      .   X(3,*)    ,V(3,*)   ,MS(*)   ,
      .   PM(NPROPM,*),GEO(NPROPG,*),BUFMAT(*) ,BUFGEO(*) ,W(3,*)  ,
@@ -214,7 +214,7 @@ C     LAW 11 uses IELVS=IBIDON and IXS=IBIDON should not be used.
      G           ISTRAIN,TEMPEL ,DIE    ,IEXPAN     ,1    ,BID     ,
      H           BID    ,1      ,1      ,1          ,TABLE   ,BID  ,
      I           BID    ,BID    ,BID    ,IPARG(1,NG),IGEO    ,BID  ,
-     J           ITASK  ,NLOC_DMG,VARNL ,MATPARAM_TAB)
+     J           ITASK  ,NLOC_DMG,VARNL ,MATPARAM_TAB,H3D_STRAIN)
 C-----------------------------
       IF(ISTRAIN.EQ.1)THEN 
         CALL SSTRA3(DXX,DYY      ,DZZ ,D4  ,D5  ,

@@ -88,7 +88,7 @@ Chd|====================================================================
      C            GRTH     ,IGRTH   ,MSSA    ,DMELS    ,TABLE    ,
      D            XDP      ,VARNOD  ,VOLN    ,CONDN    ,CONDNSKY ,
      E            D        ,
-     F            SENSOR   ,LSENSOR ,IOUTPRT ,MATPARAM_TAB)
+     F            SENSOR   ,LSENSOR ,IOUTPRT ,MATPARAM_TAB,H3D_STRAIN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -132,7 +132,7 @@ C-----------------------------------------------
      .        GRTH(*),IGRTH(*),LSENSOR(NSENSI,*),IOUTPRT
 C
       INTEGER NELTST,ITYPTST,OFFSET,NEL,NG, ISTRAIN,
-     .        IEXPAN  
+     .        IEXPAN,H3D_STRAIN
      
       DOUBLE PRECISION
      .        XDP(3,*)
@@ -508,7 +508,7 @@ Cpour le fluide en SPMD : BUFVOIS LOI11
      G   ISTRAIN  ,TEMPEL  ,DIE    ,IEXPAN  ,ILAY    ,MSSA     ,
      H   DMELS    ,IPTR    ,IPTS   ,IPTT    ,TABLE   ,BID      ,
      I   BID      ,BID     ,BID    ,IPARG(1,NG),IGEO     ,CONDE    ,
-     J   ITASK    ,NLOC_DMG,VAR_REG,MATPARAM_TAB)
+     J   ITASK    ,NLOC_DMG,VAR_REG,MATPARAM_TAB,H3D_STRAIN)
 c
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)
 C-----------  return to global system    

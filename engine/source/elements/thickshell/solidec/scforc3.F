@@ -74,7 +74,8 @@ Chd|====================================================================
      D                   IPM      ,ISTRAIN ,TEMP     ,FTHE    ,FTHESKY  ,
      E                   IEXPAN   ,IGEO    ,GRESAV   ,GRTH    ,IGRTH    ,
      F                   MSSA     ,DMELS   ,TABLE    ,XDP     ,VOLN     ,
-     G                   CONDN    ,CONDNSKY,ITASK    ,IOUTPRT ,MATPARAM_TAB)
+     G                   CONDN    ,CONDNSKY,ITASK    ,IOUTPRT ,MATPARAM_TAB,
+     H                   H3D_STRAIN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -114,7 +115,7 @@ C-----------------------------------------------
       INTEGER IXS(NIXS,*),IPARG(NPARG,NGROUP),NPF(*),IADS(8,*),
      .        IPARTS(*), IPM(NPROPMI,*),IGEO(NPROPGI,*),GRTH(*),
      .        IGRTH(*),ITASK,IOUTPRT
-      INTEGER NELTST,ITYPTST,OFFSET,ICP,ICSIG,NVC,NEL,ISTRAIN,IEXPAN,NG
+      INTEGER NELTST,ITYPTST,OFFSET,ICP,ICSIG,NVC,NEL,ISTRAIN,IEXPAN,NG,H3D_STRAIN
       DOUBLE PRECISION 
      .        XDP(3,*)
       my_real
@@ -648,7 +649,7 @@ C------------------------------------------------------
      G             ISTRAIN  ,TEMPEL ,DIE    ,IEXPAN        ,ILAY	  ,MSSA    ,
      H             DMELS    ,IR     ,IS     ,IT            ,TABLE	  ,BID     ,
      I             BID      ,BID    ,BID    ,IPARG(1,NG)   ,IGEO    ,CONDE    ,
-     J             ITASK    ,NLOC_DMG,VARNL ,MATPARAM_TAB  )
+     J             ITASK    ,NLOC_DMG,VARNL ,MATPARAM_TAB  ,H3D_STRAIN)
 C
         DO I=LFT,LLT
           SIGYM(I) = MIN(SIGYM(I),SIGY(I))

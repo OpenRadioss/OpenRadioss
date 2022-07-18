@@ -454,6 +454,7 @@ C-----------------------------------------------
 
         INTEGER SH_IEPSDOT              !ANIM_C(...)
         INTEGER UND_FORC                !ANIM_FT(1)
+        INTEGER STRAIN                  !ANIM STRAIN TENSOR
 
         INTEGER IS_CORNER_DATA
         INTEGER RBODY_SINGLE

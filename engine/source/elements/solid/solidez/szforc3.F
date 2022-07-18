@@ -100,7 +100,7 @@ Chd|====================================================================
      F                   MSSA     ,DMELS   ,TABLE   ,IGEO   ,XDP    ,
      G                   CONDN    ,CONDNSKY  ,
      H                   D        ,TAGPRT_SMS,SENSOR  ,LSENSOR  ,IOUTPRT  ,
-     I                   NALE     ,NLOC_DMG  ,MATPARAM_TAB)
+     I                   NALE     ,NLOC_DMG  ,MATPARAM_TAB,H3D_STRAIN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -144,7 +144,7 @@ C-----------------------------------------------
      .        IPARTS(*),IPM(NPROPMI,*),ITASK,IMATVIS,GRTH(*),IGRTH(*),
      .        IGEO(*), TAGPRT_SMS(*),LSENSOR(NSENSI,*)            
       INTEGER NELTST,ITYPTST,OFFSET,NEL ,ICP, NDDIM,
-     .        NVC,ISTRAIN,IEXPAN,NG,NPTS,IOUTPRT,NALE(*)
+     .        NVC,ISTRAIN,IEXPAN,NG,NPTS,IOUTPRT,NALE(*),H3D_STRAIN
 
       DOUBLE PRECISION 
      .        XDP(3,*)
@@ -589,7 +589,7 @@ c
      G           ISTRAIN  ,TEMPEL ,DIE    ,IEXPAN  ,ILAY    ,MSSA   ,
      H           DMELS    ,IPTR   ,IPTS   ,IPTT    ,TABLE   ,BID    ,
      I           BID       ,BID     ,BID      ,IPARG(1,NG) ,IGEO      ,CONDE    ,
-     J           ITASK     ,NLOC_DMG,VAR_REG  ,MATPARAM_TAB)
+     J           ITASK     ,NLOC_DMG,VAR_REG  ,MATPARAM_TAB,H3D_STRAIN)
       IF (ISTRAIN == 1)THEN 
         CALL SSTRA3(DXX      ,DYY      ,DZZ   ,D4   ,D5   ,
      .              D6       ,LBUF%STRA,WXX   ,WYY  ,WZZ  ,

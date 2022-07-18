@@ -72,7 +72,8 @@ Chd|====================================================================
      7                   EANI   ,IPARTQ ,NEL    ,IADQ   ,FSKY    ,
      8                   IPM    ,BUFVOIS,
      9                   GRESAV ,GRTH   ,IGRTH  ,TABLE  ,IGEO    ,
-     O                   VOLN   ,ITASK  ,MS_2D  ,FSKYM  ,MATPARAM_TAB)
+     O                   VOLN   ,ITASK  ,MS_2D  ,FSKYM  ,MATPARAM_TAB,
+     B                   H3D_STRAIN)
 C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
@@ -112,7 +113,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IFILL,OFFSET,NEL,NG
       INTEGER IC(*), IPARG(NPARG,*), JPARG(*), IMS(*), 
-     .        NPF(*),IPARTQ(*),IPM(*),IGEO(*),ITASK
+     .        NPF(*),IPARTQ(*),IPM(*),IGEO(*),ITASK,H3D_STRAIN
       INTEGER NELTST,ITYPTST, IADQ(4,*),GRTH(*),IGRTH(*)
       my_real
      .   DT2T
@@ -330,7 +331,7 @@ C pour le fluide en SPMD : BUFVOIS LOI11
      G   IBID   ,BID    ,BID    ,IBID          ,JMULT	      ,MBID   ,
      H   MBID   ,1      ,1      ,1             ,TABLE	      ,BID    ,
      I   BID    ,BID    ,BID    ,IPARG(1,NG)   ,IGEO   ,BID    ,
-     J   ITASK  ,NLOC_DMG,VARNL ,MATPARAM_TAB  )
+     J   ITASK  ,NLOC_DMG,VARNL ,MATPARAM_TAB  ,H3D_STRAIN)
 C----------------------------------
 C     PETROV-GALERKIN PSEUDO MASSES ET MASSES ALE
 C----------------------------------
@@ -506,7 +507,7 @@ C-----------------------------------------------------
      G           IBID   ,BID    ,BID    ,IBID    ,JMULT   ,MBID   ,
      H           MBID   ,1      ,1      ,1       ,TABLE   ,BID    ,
      I           BID    ,BID    ,BID    ,IBIDV   ,IGEO   ,BID    ,
-     J           ITASK  ,NLOC_DMG,VARNL ,MATPARAM_TAB)
+     J           ITASK  ,NLOC_DMG,VARNL ,MATPARAM_TAB,TH_STRAIN)
 C----------------------------------
 C     PETROV-GALERKIN PSEUDO MASSES ET MASSES ALE
 C----------------------------------

@@ -94,7 +94,7 @@ Chd|====================================================================
      K         INTBUF_TAB, IXT       ,IGRV      ,AGRAV    ,SENSOR   ,LSENSOR ,
      L         LGRAV     , CONDNSKY  ,CONDN     ,MS_2D    ,MULTI_FVM,IGRTRUSS,
      M         IGRBRIC   , NLOC_DMG  ,ID_GLOBAL_VOIS,FACE_VOIS, EBCS_TAB, ALE_CONNECTIVITY, DIFFUSION,
-     N         MATPARAM_TAB)
+     N         MATPARAM_TAB,H3D_DATA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -112,6 +112,7 @@ C-----------------------------------------------
       USE DIFFUSION_MOD
       USE SEGVAR_MOD
       USE MATPARAM_DEF_MOD
+      USE H3D_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -197,6 +198,7 @@ C-----------------------------------------------
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
       TYPE(T_DIFFUSION), INTENT(INOUT) :: DIFFUSION
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE (H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -767,7 +769,7 @@ C
      C            GRTH      ,IGRTH     ,MSSA    ,DMELS      ,TABLE    ,
      D            XDP       ,VARNOD    ,VOLN    ,BID        ,BID      ,
      E            D        ,
-     F            SENSOR    ,LSENSOR   ,IOUTPRT ,MATPARAM_TAB)
+     F            SENSOR    ,LSENSOR   ,IOUTPRT ,MATPARAM_TAB,IBID)
 C
                  ELSEIF (ITY == 1 .AND. ISOLNOD /= 4) THEN
                   NULLIFY(pQMV); 
@@ -800,7 +802,7 @@ C
      N            CONDNSKY     ,AGRAV        ,IGRV         ,LGRAV        ,SENSOR  ,
      O            LSENSOR      ,SKEW          ,
      P            ALE_CONNECTIVITY%NALE      ,D            ,IOUTPRT      ,NLOC_DMG,
-     Q            MATPARAM_TAB )
+     Q            MATPARAM_TAB ,IBID)
 C
                  ELSEIF (ITY == 2 .AND. JMULT == 0) THEN
                   NULLIFY(pQMV); 
@@ -819,7 +821,8 @@ C
      6              EANI         ,IPARTQ(1+NFT),NEL         ,IADQ      ,FSKY     ,  
      9              IPM          ,BUFVOIS      ,pQMV        ,
      A              GRESAV       ,GRTH         ,IGRTH       ,TABLE     ,IGEO     ,
-     B              VOLN         ,ITASK        ,MS_2D       ,FSKYM     ,IOUTPRT  ,MATPARAM_TAB)  
+     B              VOLN         ,ITASK        ,MS_2D       ,FSKYM     ,IOUTPRT  ,MATPARAM_TAB,
+     C              H3D_DATA%STRAIN) 
 c
                  ELSEIF (ITY == 2 .AND. JMULT /= 0) THEN
                   CALL BFORC2(ELBUF_TAB,NG      ,
@@ -832,7 +835,8 @@ c
      7              EANI        ,IPARTQ(1+NFT),NEL,IADQ   ,FSKY        ,
      8              IPM ,BUFVOIS,
      9              GRESAV,GRTH ,IGRTH ,TABLE  ,IGEO,
-     O              VOLN  ,ITASK,MS_2D ,FSKYM  ,MATPARAM_TAB)
+     O              VOLN  ,ITASK,MS_2D ,FSKYM  ,MATPARAM_TAB,
+     B              IBID)
                  ENDIF
                 ENDIF
               ENDIF
@@ -923,7 +927,7 @@ C     ALE ON / OFF
      C            GRTH      ,IGRTH     ,MSSA    ,DMELS      ,TABLE    ,
      D            XDP       ,BID       ,VOLN    ,BID        ,BID      ,
      E            D        ,
-     F            SENSOR    ,LSENSOR   ,IOUTPRT ,MATPARAM_TAB )
+     F            SENSOR    ,LSENSOR   ,IOUTPRT ,MATPARAM_TAB ,IBID)
 
                  ELSEIF(ITY == 1 .AND. ISOLNOD /= 4)THEN
                   NULLIFY(pQMV); 
@@ -956,7 +960,7 @@ C     ALE ON / OFF
      N            CONDNSKY     ,AGRAV       ,IGRV      ,LGRAV        ,SENSOR  ,
      O            LSENSOR      ,SKEW        ,
      P            ALE_CONNECTIVITY%NALE         ,D           ,IOUTPRT   ,NLOC_DMG     ,
-     Q            MATPARAM_TAB )
+     Q            MATPARAM_TAB ,IBID)
                
                  ELSEIF (ITY == 2 .AND. JMULT == 0) THEN
                   NULLIFY(pQMV); 
@@ -975,7 +979,8 @@ C     ALE ON / OFF
      6              EANI         ,IPARTQ(1+NFT),NEL         ,IADQ     ,FSKY      ,
      9              IPM          ,BUFVOIS      ,pQMV        ,
      A              GRESAV       ,GRTH         ,IGRTH       ,TABLE    ,IGEO      ,
-     B              VOLN         ,ITASK        ,MS_2D       ,FSKYM    ,IOUTPRT   ,MATPARAM_TAB )
+     B              VOLN         ,ITASK        ,MS_2D       ,FSKYM    ,IOUTPRT   ,MATPARAM_TAB ,
+     C              H3D_DATA%STRAIN)
 c
                       ELSEIF(ITY == 2 .AND. JMULT /= 0)THEN
                   CALL BFORC2(ELBUF_TAB,NG      ,
@@ -988,7 +993,8 @@ c
      6            EANI       ,IPARTQ(1+NFT),NEL  ,IADQ      ,FSKY      ,       
      7            IPM        ,BUFVOIS   ,
      8            GRESAV     ,GRTH      ,IGRTH   ,TABLE     ,IGEO      ,
-     9            VOLN       ,ITASK     ,MS_2D   ,FSKYM     ,MATPARAM_TAB)
+     9            VOLN       ,ITASK     ,MS_2D   ,FSKYM     ,MATPARAM_TAB,
+     B            IBID)
 
                  ENDIF
                 ENDIF
