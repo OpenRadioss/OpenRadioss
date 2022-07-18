@@ -147,11 +147,6 @@ C
       INTEGER IVARRIV(18,NVARRIVG)
       CHARACTER*10 VARRIV(NVARRIV),VARRIVG(NVARRIVG)
 C-----------------------------------------------
-c ---NVARC = 183 + 5*99 (IP =1,94) +  20*94 + 40*99
-c ---NVARC = 6518 + 99*4*60 + 100*5 + 4*199*(3+3) + 5*199 + 199*6
-C-----------------------------------------------
-C   VARN = 19 + 3*200 (200 couches)
-C   temporairement 19 + 10*3
       PARAMETER (NVARN = 637,NVARS =239551 ,NVARC = 37854,NVART = 6)
       PARAMETER (NVARP = 8,NVARR = 64,NVARUR = 12)
       PARAMETER (NVARNS = 4,NVARSPH = 41)
@@ -185,8 +180,6 @@ C   temporairement 19 + 10*3
       INTEGER NVARABG,NVARMG4,NVARMVG,NVARPAG,NVARFXG,NVARFXMG
       INTEGER NVARF1G,NVARFRG,NVARGAUG,NVARFLOWG,NVARMVENTG,NVARSURFG
       INTEGER NVARSLIPG,NVARRETG
-C    NVARG = 7 + 200 (number of ply) a faire
-c      PARAMETER (NVARNG = 207,NVARSG = 202,NVARCG = 674,NVARTG = 1)
       PARAMETER (NVARNG = 8,NVARSG = 39767,NVARCG = 675,NVARTG = 1)
       PARAMETER (NVARPG = 1,NVARRG = 1,NVARURG = 1)
       PARAMETER (NVARNSG = 1,NVARSPG = 2)
@@ -270,7 +263,7 @@ C   nodes
      .          'APINCHX ','APINCHY ','APINCHZ ',
      .          'VPINCHX ','VPINCHY ','VPINCHZ ',
      .          'DPINCHX ','DPINCHY ','DPINCHZ '/
-C   solides
+C   solids
       DATA VARS1/
      .'OFF     ','SX      ','SY      ','SZ      ','SXY     ',
      .'SYZ     ','SXZ     ','IE      ','DENS    ','BULK    ',
@@ -306,7 +299,7 @@ C   solides
      .'USR43   ','USR44   ','USR45   ','USR46   ','USR47   ','USR48   ',
      .'USR49   ','USR50   ','USR51   ','USR52   ','USR53   ','USR54   ',
      .'USR55   ','USR56   ','USR57   ','USR58   ','USR59   ','USR60   '/
-C12345678901234567890123456789012345678901234567890123456789012345678901
+C
       DATA VARS2/
      .'SX111   ','SY111   ','SZ111   ','SXY111  ','SYZ111  ','SXZ111  ',
      .'EP111   ','SX211   ','SY211   ','SZ211   ','SXY211  ','SYZ211  ',
@@ -555,7 +548,7 @@ C12345678901234567890123456789012345678901234567890123456789012345678901
      .'IE_MAT1 ','DEN_MAT1','VOL_MAT1','PLA_MAT1','TEM_MAT1',
      .'SX_MAT2 ','SY_MAT2 ','SZ_MAT2 ','SXY_MAT2','SYZ_MAT2','SXZ_MAT2',
      .'IE_MAT2 ','DEN_MAT2','VOL_MAT2','PLA_MAT2','TEM_MAT2'/
-Csv Definition of VARS6 : strain for /PROP/TYPE22
+C Definition of VARS6 : strain for /PROP/TYPE22
 C=======================================================================
       DO J=1,200
         IF (J .LE. 9) THEN
@@ -577,12 +570,12 @@ C=======================================================================
               IF (L==5) VARTMP(1:5)='E23_'//CHI
               IF (L==6) VARTMP(1:5)='E33_'//CHI
               VARTMP=VARTMP(1:5)//CHK//'_'//CHJ
-              VARS6((J-1)*99*6+((I-1)*9+K-1)*6+L)=VARTMP
+              VARS6((J-1)*9*9*6+((I-1)*9+K-1)*6+L)=VARTMP
             ENDDO
           ENDDO
         ENDDO
       ENDDO
-Csv Definition of VARS7 : stress for /PROP/TYPE22
+C Definition of VARS7 : stress for /PROP/TYPE22
       DO J=1,200
         IF (J .LE. 9) THEN
           WRITE(CHJ,'(I1.1)')J
@@ -608,7 +601,7 @@ Csv Definition of VARS7 : stress for /PROP/TYPE22
           ENDDO
         ENDDO
       ENDDO
-Csv Definition of VARS8 : strain matrix output
+C Definition of VARS8 : strain matrix output
 
       VARS8(1) = 'LEPSX  '
       VARS8(2) = 'LEPSY    '
@@ -667,9 +660,8 @@ Csv Definition of VARS8 : strain matrix output
       DATA VARS9/
      . 'VX      ','VY      ','VZ      ','SSP     ','MACH    '/
 
-C   coques
-C Desormais pour rajouter une variables il faut la mettre dans VARC2 et remplir VARC apres
-ccc  VARC = VARC1 + VARC2
+C   shells
+c  VARC = VARC1 + VARC2 + VARC3
       DATA VARC1/
      . 'F1      ','F2      ','F12     ','Q1      ','Q2      ',
      . 'M1      ','M2      ','M12     ','IEM     ','IEB     ',
@@ -892,15 +884,15 @@ ccc  VARC = VARC1 + VARC2
       DATA VARCPINCH/
      .'EPINCHXZ','EPINCHYZ','EPINCHZZ','FPINCH  ','MPINCHXZ','MPINCHYZ',
      .'THK     '/
-C   tiges
+C   trusses
       DATA VART/
      . 'OFF     ','F       ','IE      ','A       ','L       ',
      . 'PLAS    '/
-C   poutres
+C   beams
       DATA VARP/
      . 'OFF     ','F1      ','F2      ','F3      ','M1      ',
      . 'M2      ','M3      ','IE      '/
-C   ressorts
+C   springs
       DATA VARR/
      . 'OFF     ','FX      ','FY      ','FZ      ','MX      ',
      . 'MY      ','MZ      ','LX      ','LY      ','LZ      ',
@@ -1116,7 +1108,7 @@ C-----------------------------------------------
      .'STRAIN  ','DEF_MAT1','DEF_MAT2'/
 C
 c      DATA VARSG2
-Csv Definition of VARSG2 : strain for /PROP/TYPE22
+C Definition of VARSG2 : strain for /PROP/TYPE22
       DO J=1,200
         IF (J .LE. 9) THEN
           WRITE(CHJ,'(I1.1)')J
@@ -1136,7 +1128,7 @@ Csv Definition of VARSG2 : strain for /PROP/TYPE22
         ENDDO
       ENDDO
 c      DATA VARSG3
-Csv Definition of VARSG3 : stress for /PROP/TYPE22
+C Definition of VARSG3 : stress for /PROP/TYPE22
       DO J=1,200
         IF (J .LE. 9) THEN
           WRITE(CHJ,'(I1.1)')J
@@ -1156,13 +1148,12 @@ Csv Definition of VARSG3 : stress for /PROP/TYPE22
         ENDDO
       ENDDO
 c      DATA VARSG4
-Csv Definition of VARSG4 
+C Definition of VARSG4 
 C
       DATA VARSG4/
      .'LOCSTRN '/
 
-C  les nouveaux variables generalises doivent etre rajouter dans varcg2 et remplir le tableau varcg
-c plus tard  VARCG = VARCG1 + VARCG2
+c VARCG = VARCG1 + VARCG2+ VARCG3
       DATA VARCG1/
      .           'DEF     ','STRESS  ','STRAIN  ','PLAS    ','USERA   ',
      .           'USERB   ','USERC   ','USERD   ','USER1   ','USER2   ',
@@ -1632,7 +1623,7 @@ c
         IVARSG(I,J)=0
        ENDDO
       ENDDO
-C  Option de 1
+C  Option 1
       DO J=1,9
        IVARSG(J,1)=J
       ENDDO
@@ -1645,40 +1636,40 @@ C Option 2+3
        IVARSG(J,3)= IVSG + J
       ENDDO
       IVSG = IVSG + 6
-C Option de 4-->15      IVSG = 40
+C Option 4-->15      IVSG = 40
       DO I=4,15
        DO J=1,8
        IVARSG(J,I)= IVSG + J
        ENDDO
        IVSG = IVSG + 8
       ENDDO
-C Option de 16--->19  IVSG =  136
+C Option 16--->19  IVSG =  136
       DO I=16,18
        DO J=1,18
         IVARSG(J,I)=  IVSG + J
        ENDDO
        IVSG= IVSG  + 18
       ENDDO
-C   Option de 19 IVSG = 190
+C   Option 19 IVSG = 190
       DO J=1,6
        IVARSG(J,19)=  IVSG + J
       ENDDO
        IVSG = IVSG + 6
-C   options rajoutees 20--->100  IVSG=196
+C   options 20--->100  IVSG=196
       DO I=20,100
        DO J=1,7
         IVARSG(J,I)= IVSG + J
        ENDDO
        IVSG = IVSG + 7
       ENDDO
-C  Options rajoutees 101--->118 IVSG= 763
+C  Options  101--->118 IVSG= 763
       DO I=101,118
        DO J=1,7
         IVARSG(J,I)= IVSG + J
        ENDDO
        IVSG = IVSG + 7
       ENDDO
-C  Options rajoutees 118--->199 IVSG= 889
+C  Options  118--->199 IVSG= 889
       DO I=119,199
        DO J=1,9
         IVARSG(J,I)= IVSG + J
@@ -1689,21 +1680,21 @@ C  Options rajoutees 118--->199 IVSG= 889
         IVARSG(J,200)= IVSG + J
        ENDDO
          IVSG = IVSG + 6
-C  Options rajoutees 201--->202 IVSG= 1624
+C  Options 201--->202 IVSG= 1624
       DO I=201,202
        DO J=1,11
         IVARSG(J,I)= IVSG + J
        ENDDO
        IVSG = IVSG + 11
       ENDDO
-C  Options rajoutees 203--->19984    IVSG= 1646
+C  Options 203--->19984    IVSG= 1646
       DO I=203,19984
        DO J=1,6
         IVARSG(J,I)= IVSG + J
        ENDDO
        IVSG = IVSG + 6
       ENDDO
-C  Options rajoutees 203--->19984    IVSG= 120338
+C  Options 203--->19984    IVSG= 120338
       DO I=19985,39766
        DO J=1,6
         IVARSG(J,I)= IVSG + J
@@ -1721,7 +1712,7 @@ C
        DO I=1,470
         VARC(208 + I) = VARC2(I)
        ENDDO
-Ccc mots cles de types (USRII_KK, II=1,20, KK=6,99)
+Ccc USRII_KK (II=1,20, KK=6,99
        DO II=1,20
         WRITE(CHII,'(I2.2)')II
         DO KK= 6,99
@@ -1744,7 +1735,7 @@ Ccc mots cles de types (USRII_KK, II=1,20, KK=6,99)
          VARC(678 + (II -1)*94 + KK - 5) = VAR
         ENDDO
        ENDDO
-Ccc mots cles de types (USRII_KK, II=21,60, KK=1,99)
+Ccc USRII_KK(II=21,60, KK=1,99)
        DO II=21,60
         WRITE(CHII,'(I2.2)')II
         DO KK= 1,99
@@ -1767,7 +1758,7 @@ Ccc mots cles de types (USRII_KK, II=21,60, KK=1,99)
          VARC(2558 + (II - 21)*99 + KK ) = VAR
         ENDDO
        ENDDO
-C  les mots cles USII_jKK (II=01, 60, j=1,4, KK=01,99)
+C  USII_jKK (II=01, 60, j=1,4, KK=01,99)
        DO KK = 1, 99
         WRITE(CHKK,'(I2.2)')KK
         DO J = 1,4
@@ -1785,28 +1776,28 @@ C  les mots cles USII_jKK (II=01, 60, j=1,4, KK=01,99)
        ENDDO
 C
 C viscous stress for shell 5*100
-CC  les mots cles USII_jKK (II=01, 60, j=1,4, KK=01,99)
+CC  USII_jKK (II=01, 60, j=1,4, KK=01,99)
        DO I = 1,500
           VARC(30382 + I ) = VARC3(I)
        ENDDO 
 C   NVC_old = 30882
 C  stress, strain, damage for interply      
-C  les mots cles SZILYjKK (j=1,4, KK=001,200)
-C  les mots cles SYZILYjKK (j=1,4, KK=001,200)
-C  les mots cles SXZILYjKK (j=1,4, KK=001,200)
-C  les mots cles EZILYjKK (j=1,4, KK=001,200)
-C  les mots cles EYZILYjKK (j=1,4, KK=001,200)
-C  les mots cles EXZILYjKK (j=1,4, KK=001,200)
-C  les mots cles SZILY_KK (KK=001,200)
-C  les mots cles SYZILY_KK ( KK=001,200)
-C  les mots cles SXZILY_KK ( KK=001,200)
-C  les mots cles EZILY_KK (KK=001,200)
-C  les mots cles EYZILY_KK ( KK=001,200)
-C  les mots cles EXZILY_KK ( KK=001,200)
-C  les mots cles DAM1ILYKK ( KK=001,200)
-C  les mots cles DAM2ILYKK (KK=001,200)
-C  les mots cles DAM3ILYKK ( KK=001,200)
-C  les mots cles DAM4ILYKK ( KK=001,200)
+C  SZILYjKK (j=1,4, KK=001,200)
+C  SYZILYjKK (j=1,4, KK=001,200)
+C  SXZILYjKK (j=1,4, KK=001,200)
+C  EZILYjKK (j=1,4, KK=001,200)
+C  EYZILYjKK (j=1,4, KK=001,200)
+C  EXZILYjKK (j=1,4, KK=001,200)
+C  SZILY_KK (KK=001,200)
+C  SYZILY_KK ( KK=001,200)
+C  SXZILY_KK ( KK=001,200)
+C  EZILY_KK (KK=001,200)
+C  EYZILY_KK ( KK=001,200)
+C  EXZILY_KK ( KK=001,200)
+C  DAM1ILYKK ( KK=001,200)
+C  DAM2ILYKK (KK=001,200)
+C  DAM3ILYKK ( KK=001,200)
+C  DAM4ILYKK ( KK=001,200)
 C  EINTILKK
         DO KK = 1, 199
 C  3 stresss + 3 strain  + 3 average stress + 3 average strain + 4 max damage 
@@ -1856,11 +1847,13 @@ C---pinching
        ENDDO
 C
 C  NVC =   30882 + 199*34 = 37847     
-Cccc la dimension du tableau vRAc est = 
-C      dimenion_ varc =83 + 99*60 + 5*99 + 4*99*60 + 104 + 500 !  30882
+Cccc array dimension of VARC  = 
+C      dimension_varc =83 + 99*60 + 5*99 + 4*99*60 + 104 + 500 !  30882
 C                                                  + (4*6 + 11)*199 =  37847 
-C identifiants des  variables generalisees
-C mots cles generalises
+C                                                  + (4*6 + 11)*199 =  37847 
+C-----------------------------------------------------
+C GENERALIZED KEYWORDS                          
+C-----------------------------------------------------
        DO I =1,167
         VARCG(I)= VARCG1(I)
        ENDDO
@@ -1877,7 +1870,7 @@ C
          IVARCG(I,J)=0
         ENDDO
        ENDDO
-C mot cle 1
+C keyword 1
        DO I=1,3
         IVARCG(I,1) = I
         IVARCG(I+3,1) = 5 + I
@@ -1885,26 +1878,26 @@ C mot cle 1
        ENDDO
        IVARCG(10,1) = 13
        IVARCG(11,1) = 14
-C mot cle 2 + 3
+C keyword 2 + 3
        DO  I = 1,8
          IVARCG(I,2) = I
          IVARCG(I,3) = 14 + I
        ENDDO
-C mots cles  4
+C keyword  4
        IVARCG(1,4) = 13
        IVARCG(2,4) = 14
-C mots cles 5,6,7
+C keyword 5,6,7
        DO I =1,18
         IVARCG(I,5)=  23 + I
         IVARCG(I,6)=  41 + I
         IVARCG(I,7)=  59 + I
        ENDDO
-C mot cle generalise  8
+C keyword  8
        DO I =1,6
         IVARCG(I,8)= 77 + I
        ENDDO
        IVCG = 83
-C mots cles generalises de 9 -----> 28
+C keyword 9 -----> 28
        II = 678
        DO J = 9, 28
         DO I = 1,5
@@ -1916,7 +1909,7 @@ C mots cles generalises de 9 -----> 28
         ENDDO
          II = II + 94
        ENDDO
-C mots cles de 29 -----> 127
+C keyword 29 -----> 127
         DO J = 29, 127
          DO I = 1,5
            IVARCG(I,J)= IVCG + I
@@ -1925,38 +1918,38 @@ C mots cles de 29 -----> 127
         ENDDO
 C c ivcg = 183 + 5*99 + 20*94
         IVCG = IVCG + 20*94
-C mots cles de 128 - 167
+C keyword 128 - 167
         DO J=128,167
          DO I=1,18
           IVARCG(I,J) = IVCG + I
          ENDDO
          IVCG = IVCG + 99
         ENDDO
-C mots cles de 167 -----> 563
+C keyword 167 -----> 563
         DO J = 168, 563
          DO I = 1,18
            IVARCG(I,J)= IVCG + I
          ENDDO
           IVCG = IVCG + 60
         ENDDO
-C mot cle  564
+C keyword  564
         DO I = 1,5
           IVARCG(I,564)= IVCG + I
         ENDDO
        IVCG = IVCG + 5
-c mots cles  565 -----> 573
+c keyword  565 -----> 573
         DO J = 565,573
          DO I = 1,10
 	  IVARCG(I,J)= IVCG + 1
 	  IVCG = IVCG + 1
 	 ENDDO
 	ENDDO
-c mots cles  574
+c keyword  574
         DO I = 1,9
 	 IVARCG(I,574)= IVCG + 1
 	 IVCG = IVCG + 1
 	ENDDO
-C mots clees de 575 -----> 674
+C keyword de 575 -----> 674
         DO J = 575, 674
          DO I = 1,5
            IVARCG(I,J)= IVCG + I
@@ -2383,7 +2376,7 @@ C         decode les numeros de skews.
              GO TO 210                                                  
             ENDIF                                                       
  200       CONTINUE                                                     
-C          decode les numeros de frames.                                
+C          frame numbers user -> internal                               
            DO 201 J=(NUMSKW+1)+MIN(IUN,NSPCOND)*NUMSPH+1+NSUBMOD,       
      .              (NUMSKW+1)+MIN(IUN,NSPCOND)*NUMSPH+NSUBMOD+         
      .               (NUMFRAM+1)                                        
@@ -2425,8 +2418,8 @@ C          decode les numeros de frames.
      3      NIXTG ,IAD   ,IFI   ,ITHGRP(1,IGS),ITHBUF ,    
      4      NVARC ,VARC  ,NUMELTG,VARCG ,NVARCG ,          
      5      IVARCG,NSELTG,NVALL,IMERGE,ITHVAR   ,          
-     6      FLAGABF,NVARABF,RFI,LSUBMODEL,MAP_TABLES%ISH3NM, NUMELTG)
-C         decode les numeros de skews.                                         
+     6      FLAGABF,NVARABF,RFI,LSUBMODEL,MAP_TABLES%ISH3NM, NUMELTG)                              
+C          skew numbers user -> internal          
           NNE =ITHGRP(4,IGS)                                                   
           IAD2=ITHGRP(5,IGS)+3*NNE                                             
           DO K=1,NNE                                                           
@@ -2436,8 +2429,8 @@ C         decode les numeros de skews.
              ITHBUF(IAD2)=J-1                                                  
              GO TO 310                                                         
             ENDIF                                                              
- 300       CONTINUE                                                            
-C          decode les numeros de frames.                                       
+ 300       CONTINUE                                                    
+C          frame numbers user -> internal                                       
            DO 301 J=(NUMSKW+1)+MIN(IUN,NSPCOND)*NUMSPH+1+NSUBMOD,              
      .              (NUMSKW+1)+MIN(IUN,NSPCOND)*NUMSPH+NSUBMOD+                
      .               (NUMFRAM+1)                                               
