@@ -33,7 +33,7 @@ Install as sudo or root
 
 * Ubuntu
 
-           apt-update
+           apt-get update
            apt-get install build-essential
            apt-get install gfortran
            apt-get install cmake
@@ -100,7 +100,7 @@ OpenMPI is need to build OpenRadioss with OpenMPI support, compilers
 - `-prec`: controls the OpenRadioss Floating Point Precision : dp : double Precision - Floats in 64 bits (default),  sp activates the Extended Single Precision Version (32bit)
 - `-static-link`: Runtime librairies are statically linked in Executable (easier when executable is used on different computers).
 - `-debug=1`: activates debug build (-O0 + usual debug flags).
-- `-addflag="list of additionnal flags"`: add compiler flags to usual set for all files 
+- `-addflag="list of additional flags"`: add compiler flags to usual set for all files 
 
 Execution Control
 
