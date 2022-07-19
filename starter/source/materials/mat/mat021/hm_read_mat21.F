@@ -158,7 +158,7 @@ C
      .                C3=chain)   
       ENDIF     
       IF(A2 < ZERO)THEN
-        chain='UNTIPYCAL YIELD SURFACE. CHECK A2 SIGN.                         '
+        chain='UNTYPICAL YIELD SURFACE. CHECK A2 SIGN.                         '
         CALL ANCMSG(MSGID=829,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO,
