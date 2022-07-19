@@ -638,6 +638,7 @@ Chd|        FAIL_GENE1_S                  source/materials/fail/gene1/fail_gene1
 Chd|        FAIL_TAB_C                    source/materials/fail/tabulated/fail_tab_c.F
 Chd|        GET_U_VTABLE                  source/user_interface/utable.F
 Chd|        GET_VTABLE_VALUE              source/user_interface/utable.F
+Chd|        LAW119_MEMBRANE               source/materials/mat/mat119/law119_membrane.F
 Chd|        NO_ASSO_LPLAS76C              source/materials/mat/mat076/no_asso_lplas76c.F
 Chd|        NO_ASSO_PLAS76                source/materials/mat/mat076/no_asso_plas76.F
 Chd|        NO_ASSO_QPLAS76C              source/materials/mat/mat076/no_asso_qplas76c.F

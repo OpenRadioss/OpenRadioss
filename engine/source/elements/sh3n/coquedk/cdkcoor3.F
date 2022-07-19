@@ -300,6 +300,7 @@ Chd|        GET_T3L                       source/output/sta/stat_c_strafg.F
 Chd|        GET_T3LSYS                    source/output/sta/sta_c_get_t3lsys.F
 Chd|        SCOOR43                       source/elements/solid/sconnect/scoor43.F
 Chd|        SHELL_LOCAL_FRAME             source/output/dynain/shell_rota.F
+Chd|        SHELL_LOC_COR                 source/tools/seatbelts/shell_loc_cor.F
 Chd|        SHLROTG                       source/output/anim/generate/tensor6.F
 Chd|        TENS3DTO2D                    source/output/h3d/h3d_results/h3d_skin_tensor.F
 Chd|-- calls ---------------

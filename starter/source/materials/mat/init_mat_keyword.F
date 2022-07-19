@@ -28,6 +28,7 @@ Chd|        HM_READ_MAT01                 source/materials/mat/mat001/hm_read_ma
 Chd|        HM_READ_MAT02                 source/materials/mat/mat002/hm_read_mat02.F
 Chd|        HM_READ_MAT100                source/materials/mat/mat100/hm_read_mat100.F
 Chd|        HM_READ_MAT101                source/materials/mat/mat101/hm_read_mat101.F
+Chd|        HM_READ_MAT102                source/materials/mat/mat102/hm_read_mat102.F
 Chd|        HM_READ_MAT104                source/materials/mat/mat104/hm_read_mat104.F
 Chd|        HM_READ_MAT107                source/materials/mat/mat107/hm_read_mat107.F
 Chd|        HM_READ_MAT109                source/materials/mat/mat109/hm_read_mat109.F
@@ -35,6 +36,7 @@ Chd|        HM_READ_MAT110                source/materials/mat/mat110/hm_read_ma
 Chd|        HM_READ_MAT111                source/materials/mat/mat111/hm_read_mat111.F
 Chd|        HM_READ_MAT112                source/materials/mat/mat112/hm_read_mat112.F
 Chd|        HM_READ_MAT115                source/materials/mat/mat115/hm_read_mat115.F
+Chd|        HM_READ_MAT119                source/materials/mat/mat119/hm_read_mat119.F
 Chd|        HM_READ_MAT12                 source/materials/mat/mat012/hm_read_mat12.F
 Chd|        HM_READ_MAT120                source/materials/mat/mat120/hm_read_mat120.F
 Chd|        HM_READ_MAT121                source/materials/mat/mat121/hm_read_mat121.F

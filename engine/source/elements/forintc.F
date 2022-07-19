@@ -34,6 +34,7 @@ Chd|        CFORC3                        source/elements/shell/coque/cforc3.F
 Chd|        CFORC3_CRK                    source/elements/xfem/cforc3_crk.F
 Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
 Chd|        CZFORC3_CRK                   source/elements/xfem/czforc3_crk.F
+Chd|        SEATBELT_REDUCTION_FACTOR     source/tools/seatbelts/seatbelt_reduction_factor.F
 Chd|        SECTIO3N                      source/tools/sect/sectio.F    
 Chd|        SECTIOC                       source/tools/sect/sectio.F    
 Chd|        SENSOR_ENERGY_PART            source/tools/sensor/sensor_energy_part.F

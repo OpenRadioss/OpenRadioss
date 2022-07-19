@@ -27,6 +27,7 @@ Chd|        R23LAW114                     source/elements/spring/r23law114.F
 Chd|-- calls ---------------
 Chd|        MATERIAL_FLOW                 source/tools/seatbelts/material_flow.F
 Chd|        REDEF3                        source/elements/spring/redef3.F
+Chd|        REDEF_SEATBELT                source/tools/seatbelts/redef_seatbelt.F
 Chd|        REPLA3                        source/elements/spring/repla3.F
 Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
 Chd|====================================================================

@@ -59,6 +59,7 @@ Chd|        LAW111_UPD                    source/materials/mat/mat111/law111_upd
 Chd|        LAW112_UPD                    source/materials/mat/mat112/law112_upd.F
 Chd|        LAW113_UPD                    source/materials/mat/mat113/law113_upd.F
 Chd|        LAW114_UPD                    source/materials/mat/mat114/law114_upd.F
+Chd|        LAW119_UPD                    source/materials/mat/mat119/law119_upd.F
 Chd|        LAW120_UPD                    source/materials/mat/mat120/law120_upd.F
 Chd|        LAW36_UPD                     source/materials/mat/mat036/law36_upd.F
 Chd|        LAW42_UPD                     source/materials/mat/mat042/law42_upd.F
@@ -79,6 +80,7 @@ Chd|        READ_MATERIAL_MODELS          source/materials/read_material_models.
 Chd|        ST_QAPRINT_DRIVER             source/output/qaprint/st_qaprint_driver.F
 Chd|        ST_QAPRINT_MODEL_TOOLS        source/output/qaprint/st_qaprint_model_tools.F
 Chd|        TABLE_INTERP                  source/tools/curve/table_tools.F
+Chd|        TABLE_INTERS                  source/tools/curve/func_inters.F
 Chd|        TABLE_VINTERP                 source/tools/curve/table_tools.F
 Chd|        TABLE_WRESTI                  source/tools/curve/table_tools.F
 Chd|        TABLE_WRESTI_MAT              source/tools/curve/table_tools.F

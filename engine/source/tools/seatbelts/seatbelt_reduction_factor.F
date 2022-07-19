@@ -21,12 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  UPDATE_SLIPRING               source/tools/seatbelts/update_slipring.F
+Chd|  SEATBELT_REDUCTION_FACTOR     source/tools/seatbelts/seatbelt_reduction_factor.F
 Chd|-- called by -----------
-Chd|        RESOL                         source/engine/resol.F         
+Chd|        FORINTC                       source/elements/forintc.F     
 Chd|-- calls ---------------
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
-Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
 Chd|====================================================================
       SUBROUTINE SEATBELT_REDUCTION_FACTOR(ELBUF_STR,JFT,JLT,IXC,NEL,X,NFT)
 C-----------------------------------------------

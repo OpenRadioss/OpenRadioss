@@ -530,6 +530,7 @@ Chd|        S8_IS17JAC_I                  engine/source/elements/solid/solide8e/
 Chd|        SCFORC3                       engine/source/elements/thickshell/solidec/scforc3.F
 Chd|        SCHLIEREN                     engine/source/output/anim/generate/schlieren.F
 Chd|        SCONNECT_OFF                  engine/source/elements/solid/sconnect/sconnect_off.F
+Chd|        SEATBELT_REDUCTION_FACTOR     engine/source/tools/seatbelts/seatbelt_reduction_factor.F
 Chd|        SEGGETV                       engine/source/interfaces/interf/seggetv.F
 Chd|        SFORC3                        engine/source/elements/solid/solide/sforc3.F
 Chd|        SHELL_LOCAL_FRAME             engine/source/output/dynain/shell_rota.F

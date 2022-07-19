@@ -48,6 +48,7 @@ Chd|        FORINT                        source/elements/forint.F
 Chd|        FORINTC                       source/elements/forintc.F     
 Chd|        FORINTP                       source/elements/forintp.F     
 Chd|        IG3DUFORC3                    source/elements/ige3d/ig3duforc3.F
+Chd|        LAW119_MEMBRANE               source/materials/mat/mat119/law119_membrane.F
 Chd|        LECFUN                        source/tools/curve/lecfun.F   
 Chd|        LECTUR                        source/input/lectur.F         
 Chd|        MAT107C_NEWTON                source/materials/mat/mat107/mat107c_newton.F
@@ -100,6 +101,7 @@ Chd|        SIGEPS110C_NEWTON             source/materials/mat/mat110/sigeps110c
 Chd|        SIGEPS110C_NICE               source/materials/mat/mat110/sigeps110c_nice.F
 Chd|        SIGEPS112                     source/materials/mat/mat112/sigeps112.F
 Chd|        SIGEPS112C                    source/materials/mat/mat112/sigeps112c.F
+Chd|        SIGEPS119C                    source/materials/mat/mat119/sigeps119c.F
 Chd|        SIGEPS120                     source/materials/mat/mat120/sigeps120.F
 Chd|        SIGEPS120_CONNECT_MAIN        source/materials/mat/mat120/sigeps120_connect_main.F
 Chd|        SIGEPS120_CONNECT_TAB_DP      source/materials/mat/mat120/sigeps120_connect_tab_dp.F
@@ -173,6 +175,7 @@ Chd|        GET_TABLE_VALUE               source/user_interface/utable.F
 Chd|        GET_U_TABLE                   source/user_interface/utable.F
 Chd|        GET_U_VTABLE                  source/user_interface/utable.F
 Chd|        GET_VTABLE_VALUE              source/user_interface/utable.F
+Chd|        LAW119_MEMBRANE               source/materials/mat/mat119/law119_membrane.F
 Chd|        MAT107C_NEWTON                source/materials/mat/mat107/mat107c_newton.F
 Chd|        MAT107C_NICE                  source/materials/mat/mat107/mat107c_nice.F
 Chd|        MAT107_NEWTON                 source/materials/mat/mat107/mat107_newton.F
@@ -197,6 +200,7 @@ Chd|        SIGEPS110C_NEWTON             source/materials/mat/mat110/sigeps110c
 Chd|        SIGEPS110C_NICE               source/materials/mat/mat110/sigeps110c_nice.F
 Chd|        SIGEPS112                     source/materials/mat/mat112/sigeps112.F
 Chd|        SIGEPS112C                    source/materials/mat/mat112/sigeps112c.F
+Chd|        SIGEPS119C                    source/materials/mat/mat119/sigeps119c.F
 Chd|        SIGEPS120                     source/materials/mat/mat120/sigeps120.F
 Chd|        SIGEPS120_CONNECT_MAIN        source/materials/mat/mat120/sigeps120_connect_main.F
 Chd|        SIGEPS120_CONNECT_TAB_DP      source/materials/mat/mat120/sigeps120_connect_tab_dp.F

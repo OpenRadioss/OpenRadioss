@@ -70,6 +70,7 @@ Chd|        SIGEPS107C                    source/materials/mat/mat107/sigeps107c
 Chd|        SIGEPS109C                    source/materials/mat/mat109/sigeps109c.F
 Chd|        SIGEPS110C                    source/materials/mat/mat110/sigeps110c.F
 Chd|        SIGEPS112C                    source/materials/mat/mat112/sigeps112c.F
+Chd|        SIGEPS119C                    source/materials/mat/mat119/sigeps119c.F
 Chd|        SIGEPS121C                    source/materials/mat/mat121/sigeps121c.F
 Chd|        SIGEPS15C                     source/materials/mat/mat015/sigeps15c.F
 Chd|        SIGEPS19C                     source/materials/mat/mat019/sigeps19c.F

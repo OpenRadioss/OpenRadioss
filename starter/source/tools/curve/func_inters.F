@@ -372,11 +372,10 @@ c-----------
       RETURN
       END
 Chd|====================================================================
-Chd|  TABLE_INTERS                   source/tools/curve/func_inters.F
+Chd|  TABLE_INTERS                  source/tools/curve/func_inters.F
 Chd|-- called by -----------
-Chd|        LAW119_UPD                    
+Chd|        LAW119_UPD                    source/materials/mat/mat119/law119_upd.F
 Chd|-- calls ---------------
-Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
       SUBROUTINE TABLE_INTERS(TABLE,FUNC1,FUNC2,FAC1,FAC2,XINT,YINT)

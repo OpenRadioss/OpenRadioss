@@ -275,6 +275,7 @@ Chd|        LAG_MULTP                     source/tools/lagmul/lag_mult.F
 Chd|        LAG_MULT_H                    source/tools/lagmul/lag_mult_h.F
 Chd|        LAG_MULT_HP                   source/tools/lagmul/lag_mult_h.F
 Chd|        LAG_RWALL                     source/tools/lagmul/lag_rwall.F
+Chd|        LAW119_MEMBRANE               source/materials/mat/mat119/law119_membrane.F
 Chd|        LCBCSF                        source/constraints/general/bcs/lcbcsf.F
 Chd|        LECDAMP                       source/input/lecdamp.F        
 Chd|        LECFLSW                       source/fluid/lecflsw.F        
@@ -476,6 +477,7 @@ Chd|        TABLE_RRESTI                  source/tools/curve/table_tools.F
 Chd|        TABLE_RRESTI_MAT              source/tools/curve/table_tools.F
 Chd|        TABLE_VINTERP                 source/tools/curve/table_tools.F
 Chd|        TRACE_PRINT                   source/system/trace_back.F    
+Chd|        UPDATE_SLIPRING               source/tools/seatbelts/update_slipring.F
 Chd|        UPDATE_STRUCT_INT21           source/interfaces/int21/update_struct_int21.F
 Chd|        UPD_ASPC0                     source/constraints/general/bcs/bc_imp0.F
 Chd|        UPGRADE_REM_2RY               source/mpi/interfaces/spmd_i7tool.F
