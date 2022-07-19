@@ -34,7 +34,8 @@ Chd|====================================================================
      2    IXQ   ,IPARG ,ITAGL  ,ITABM1 ,TAGEL  ,
      3    IRSIZE,IRECV ,CNEL   ,ADDCNEL,OFC    ,
      4    OFT   ,OFTG  ,OFUR   ,OFR    ,OFP    ,
-     5    LINDEX,IXP   ,IXR    ,IXT    ,GEO    )
+     5    OFQ   ,LINDEX,IXP    ,IXR    ,IXT    ,
+     6    GEO   )
 
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -62,7 +63,8 @@ C-----------------------------------------------
      .        IXR(NIXR,*), IXT(NIXT,*), TAGEL(*),
      .        IXTG(NIXTG,*), IPARG(NPARG,*), ITABM1(*),
      .        BUFS(*),ITAGL(*), IRECV(*), CNEL(0:*), ADDCNEL(0:*),
-     .        IRSIZE, LBUFS, OFC, OFT, OFTG, OFUR, OFR, OFP, LINDEX
+     .        IRSIZE, LBUFS, OFC, OFT, OFTG, OFUR, OFR, OFP, LINDEX,
+     .        OFQ
       my_real
      .        GEO(NPROPG,*)
 C-----------------------------------------------
@@ -153,6 +155,12 @@ C
                       DO K = 2, 9
                        IX = IXS(K,II)
                        ITAGL(IX) = 1
+                      END DO
+                    ELSEIF(II.GT.OFQ.AND.II.LE.OFC) THEN ! Quad actif
+                      II = II - OFQ
+                      DO K=2,5
+                        IX = IXQ(K,II)
+                        ITAGL(IX)=1
                       END DO
                     ELSEIF(II.GT.OFC.AND.II.LE.OFT) THEN ! shell actif
                       II = II - OFC
