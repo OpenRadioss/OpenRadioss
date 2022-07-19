@@ -106,6 +106,7 @@ C--------------------------------------------------------
             N2  = IB(2,NL)
             N3  = IB(3,NL)
             N4  = IB(4,NL)
+            IF(N3 == 0) N3 = N2
             IF(N4 == 0) N4 = N3
             IF(ITAG(N1) == 0.OR.ITAG(N2) == 0.OR.
      +         ITAG(N3) == 0.OR.ITAG(N4) == 0) THEN ! IF ALL SURROUNDED ELEMENTS ARE OFF
@@ -135,17 +136,18 @@ C
               N4 = LLOADP(IAD+4*(N-1)+3)
               NUMPRESLOAD = NUMPRESLOAD + 1
 
-            IF(N4 == 0) N4 = N3
-            IF(ITAG(N1) == 0.OR.ITAG(N2) == 0.OR.
-     +         ITAG(N3) == 0.OR.ITAG(N4) == 0) THEN ! IF ALL SURROUNDED ELEMENTS ARE OFF
-               LOADP_TAGDEL(NUMPRESLOAD) = 1
-            ELSEIF(ITAG(NUMNOD+N1).GE.1.AND.ITAG(NUMNOD+N2).GE.1.AND.
+              IF(N3 == 0) N3 = N2
+              IF(N4 == 0) N4 = N3
+              IF(ITAG(N1) == 0.OR.ITAG(N2) == 0.OR.
+     +           ITAG(N3) == 0.OR.ITAG(N4) == 0) THEN ! IF ALL SURROUNDED ELEMENTS ARE OFF
+                 LOADP_TAGDEL(NUMPRESLOAD) = 1
+              ELSEIF(ITAG(NUMNOD+N1).GE.1.AND.ITAG(NUMNOD+N2).GE.1.AND.
      +             ITAG(NUMNOD+N3).GE.1.AND.ITAG(NUMNOD+N4).GE.1) THEN ! IF ALL NODES BELONGING TO 1 ACTIF ELEMENT
-               NIND = NIND + 1
-               NINDL(1,NIND) = IAD+4*(N-1)
-               NINDL(2,NIND) = NUMPRESLOAD
-            ENDIF
-          ENDDO
+                 NIND = NIND + 1
+                 NINDL(1,NIND) = IAD+4*(N-1)
+                 NINDL(2,NIND) = NUMPRESLOAD
+              ENDIF
+           ENDDO
        ENDDO
 C--------------------------------------------------------
 C     SEARCH IF SEGMENT ELEMENT IS DELETED 
@@ -164,6 +166,7 @@ C
            N3 = LLOADP(I+2)
            N4 = LLOADP(I+3)
         ENDIF
+        IF(N3 == 0) N3 = N2
         IF(N4 == 0) N4 = N3
 
         DO J = ADDCNEL(N1),ADDCNEL(N1+1)-1
@@ -279,7 +282,8 @@ C
      2         IXQ    ,IPARG     ,ITAGL  ,ITABM1 ,TAGEL  ,
      3         IRSIZE ,IRECV     ,CNEL   ,ADDCNEL,OFC    ,
      4         OFT    ,OFTG      ,OFUR   ,OFR    ,OFP    ,
-     5         NINDG  ,IXP       ,IXR    ,IXT    ,GEO    )
+     5         OFQ    ,NINDG     ,IXP    ,IXR    ,IXT    ,
+     6         GEO    )
 
 C
 C If no element actif after spmd comm
