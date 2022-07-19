@@ -51,9 +51,9 @@ C-----------------------------------------------
       INTEGER NGROUP,N2D
       INTEGER ,DIMENSION(NPARG,NGROUP)   :: IPARG
       INTEGER ,DIMENSION(NPROPMI,NUMMAT) :: IPM
-      INTEGER ,DIMENSION(NPROPGI,NUMMAT) :: IGEO
+      INTEGER ,DIMENSION(NPROPGI,NUMGEO) :: IGEO
       my_real ,DIMENSION(NPROPM,NUMMAT)  :: PM
-      my_real ,DIMENSION(NPROPG,NUMMAT)  :: GEO
+      my_real ,DIMENSION(NPROPG,NUMGEO)  :: GEO
       my_real ,DIMENSION(SBUFMAT)        :: BUFMAT
       TYPE(GRP_PARAM_STRUCT_) ,DIMENSION(NGROUP) :: GROUP_PARAM_TAB
 C-----------------------------------------------
