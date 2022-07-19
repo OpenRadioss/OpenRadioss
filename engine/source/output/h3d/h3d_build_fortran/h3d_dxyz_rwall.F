@@ -109,24 +109,35 @@ C
           XN =RWBUF(1,N)
           YN =RWBUF(2,N)
           ZN =RWBUF(3,N)
-
           IF (ISPMD.EQ.0) THEN
             DX = XMAX - XMIN
             DY = YMAX - YMIN
             DZ = ZMAX - ZMIN
 C
             R = ZEP707*MAX(DX,DY,DZ)
-            V1 = ZERO
-            V2 = ZEP707
-            V3 = ZEP707
+            IF (XN == ZERO .AND. YN == ZERO .AND. ZN .NE. ZERO ) THEN
+              V1 = ZEP707
+              V2 = ZEP707
+              V3 = ZERO
+            ELSE
+              V1 = ZERO
+              V2 = ZEP707
+              V3 = ZEP707
+            ENDIF
             VV1 = V2 * ZN - V3 * YN
             VV2 = V3 * XN - V1 * ZN
             VV3 = V1 * YN - V2 * XN
             VV = SQRT(VV1*VV1 + VV2*VV2 + VV3*VV3)
             IF(VV.LE.HALF)THEN
-              V1 = ZERO
-              V2 = -ZEP707
-              V3 = ZEP707        
+              IF (XN == ZERO .AND. YN == ZERO .AND. ZN .NE. ZERO ) THEN
+                V1 = -ZEP707
+                V2 = ZEP707
+                V3 = ZERO        
+              ELSE 
+                V1 = ZERO
+                V2 = -ZEP707
+                V3 = ZEP707 
+              ENDIF      
               VV1 = V2 * ZN - V3 * YN
               VV2 = V3 * XN - V1 * ZN
               VV3 = V1 * YN - V2 * XN
