@@ -792,13 +792,21 @@ C
 C
           DO I=1,4
             WRITE(VARNAME,'(A,I0)') 'MASS_',I
-            TEMP_DOUBLE = MS(GJBUFI(2+I,MY_CONSTRAINT))
+            IF (GJBUFI(2+I,MY_CONSTRAINT) > 0) THEN
+              TEMP_DOUBLE = MS(GJBUFI(2+I,MY_CONSTRAINT))
+            ELSE
+              TEMP_DOUBLE = ZERO             
+            ENDIF
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
           ENDDO
 C
           DO I=1,4
             WRITE(VARNAME,'(A,I0)') 'INER_',I
-            TEMP_DOUBLE = IN(GJBUFI(2+I,MY_CONSTRAINT))
+            IF (GJBUFI(2+I,MY_CONSTRAINT) > 0) THEN
+              TEMP_DOUBLE = IN(GJBUFI(2+I,MY_CONSTRAINT))
+            ELSE
+              TEMP_DOUBLE = ZERO             
+            ENDIF
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
           ENDDO
 C
