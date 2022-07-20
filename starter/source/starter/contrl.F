@@ -1864,7 +1864,9 @@ C-----------------------------------------------
       INTEGER :: TMAX_IPART(NPART),NKPART(NPART,NKEYMAX+1)
       CHARACTER CARTE*ncharline
 C-----------------------------------------------
-      IF (IDDLEVEL==0) ALLOCATE(IKEYMAX(NKEYMAX),IPART_OK(NGROUP,NKEYMAX))
+      IF (ALLOCATED(IKEYMAX)) DEALLOCATE(IKEYMAX)
+      IF (ALLOCATED(IPART_OK)) DEALLOCATE(IPART_OK)
+      ALLOCATE(IKEYMAX(NKEYMAX),IPART_OK(NGROUP,NKEYMAX))
       IKEYMAX =0
       IPART_OK = 0
       LMAX_DIS = 0
