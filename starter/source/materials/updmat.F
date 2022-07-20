@@ -75,6 +75,7 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "param_c.inc"
 #include      "scr17_c.inc"
+#include      "scr19_c.inc"
 #include      "com04_c.inc"
 #include      "tabsiz_c.inc"
 #include      "tablen_c.inc"
@@ -92,9 +93,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER II,IMAT,ILAW,IRUP,MAT_ID,IADD,IFC,FLAG_HE,NFUNC,NFUNCL,NUMTABL,
-     .        NUPARAM,NUPARF,NUM_FAIL,IR,FLAG_FIT,IFAILG,NORDRE,IALGO
+     .        NPARAM,NUPARF,NUM_FAIL,IR,FLAG_FIT,IFAILG,NORDRE,IALGO
       INTEGER, DIMENSION(NUMMAT)     :: MULLINS,GURSON
-      INTEGER, DIMENSION(NTABLE)     :: TABLE_ID
+      INTEGER, DIMENSION(MAXTAB)     :: TABLE_ID
       INTEGER, DIMENSION(:), POINTER :: IFUNC,ITABLE
       my_real, DIMENSION(:), POINTER :: UPARAM,UPARF
       TYPE(MLAW_TAG_), POINTER :: MTAG
@@ -151,8 +152,8 @@ c
         CALL FRETITL2(TITR,IPM(NPROPMI-LTITR+1,IMAT),LTITR)
 c
         IADD     = MAX(1,IPM(7,IMAT))
-        NUPARAM  = MIN(IPM(9,IMAT),SBUFMAT)
-        UPARAM   => BUFMAT(IADD:IADD+NUPARAM-1) 
+        NPARAM  = MIN(IPM(9,IMAT),SBUFMAT)
+        UPARAM   => BUFMAT(IADD:IADD+NPARAM-1) 
         MATPARAM => MATPARAM_TAB(IMAT)
 c
 c-----------------------------------------------------------------------
@@ -161,14 +162,14 @@ c-----------------------------------------------------------------------
 c
         NFUNC   =  IPM(10 ,IMAT)
         NUMTABL =  IPM(226,IMAT)
-        IFUNC   => IPM(10+1:10+NFUNC,IMAT)
-        ITABLE  => IPM(226+1:226+NUMTABL,IMAT)
 C        
         IF (NFUNC > 0 ) THEN 
+          IFUNC   => IPM(10+1:10+NFUNC,IMAT)
           CALL MATFUN_USR2SYS(TITR,MAT_ID,NFUNC,IFUNC,FUNC_ID  )
         ENDIF
         IF (ILAW /= 73 .and. ILAW /= 74 .and. ILAW /= 80) THEN
           IF (NUMTABL > 0 ) THEN
+            ITABLE  => IPM(226+1:226+NUMTABL,IMAT)
             TABLE_ID(1:NUMTABL) = IPM(226+1:226+NUMTABL,IMAT)
             CALL MATTAB_USR2SYS(TITR,MAT_ID,TABLE,NUMTABL,ITABLE)
           ENDIF 
@@ -179,7 +180,7 @@ c-----------------------------------------------------------------------
 c-------------------------
           CASE (36) 
 c------------------
-            CALL LAW36_UPD(IOUT   ,TITR   ,MAT_ID ,NUPARAM,UPARAM ,
+            CALL LAW36_UPD(IOUT   ,TITR   ,MAT_ID ,NPARAM,UPARAM ,
      .                     NFUNC  ,IFUNC  ,FUNC_ID,NPC    ,PLD    )        
 c-------------------------
           CASE (42) 
@@ -193,7 +194,7 @@ c
             IFUNC  => IPM(10+1:10+NFUNC+NFUNCL,IMAT)
             CALL LAW58_UPD(IOUT,TITR,UPARAM,NPC,PLD,
      .                     NFUNC,NFUNCL,IFUNC,MAT_ID,FUNC_ID,
-     .                     PM(1,IMAT),NUPARAM,LSENSOR)
+     .                     PM(1,IMAT),NPARAM,LSENSOR)
 c------------------
           CASE (69) 
 c------------------
@@ -204,7 +205,7 @@ c
 c------------------
           CASE (76) 
 c------------------
-            CALL LAW76_UPD(IOUT   ,TITR    ,MAT_ID   ,NUPARAM ,MATPARAM ,
+            CALL LAW76_UPD(IOUT   ,TITR    ,MAT_ID   ,NPARAM ,MATPARAM ,
      .                     UPARAM ,NUMTABL ,ITABLE   ,TABLE   ,NFUNC    ,
      .                     IFUNC  ,NPC     ,PLD      )       
 c
@@ -278,7 +279,7 @@ c
               IADD   = IPM(II,IMAT)
               UPARF => BUFMAT(IADD:IADD+NUPARF-1) 
 c
-              CALL LAW104_UPD(IFAILG  ,NUPARAM,NUPARF,UPARAM,UPARF   ,
+              CALL LAW104_UPD(IFAILG  ,NPARAM,NUPARF,UPARAM,UPARF   ,
      .                        NLOC_DMG,IMAT   ,MLAW_TAG(IMAT),IPM    ,
      .                        MATPARAM)
             ENDIF 
@@ -319,11 +320,11 @@ c------------------
      .                     PM(1,IMAT))
 c------------------
           CASE (119)    ! fabric material for seatbelts
-            CALL LAW119_UPD(NUPARAM ,NUMTABL ,ITABLE ,TABLE ,TABLE_ID,
+            CALL LAW119_UPD(NPARAM ,NUMTABL ,ITABLE ,TABLE ,TABLE_ID,
      .                      UPARAM,PM(1,IMAT),TITR    ,MAT_ID )          
 c------------------
           CASE (120)    ! TAPO material for adhesives
-            CALL LAW120_UPD(NUPARAM ,NUMTABL ,ITABLE ,TABLE ,UPARAM)          
+            CALL LAW120_UPD(NPARAM ,NUMTABL ,ITABLE ,TABLE ,UPARAM)          
         END SELECT ! (ILAW)  
 c------------------
       ENDDO        ! IMAT=1,NUMMAT
