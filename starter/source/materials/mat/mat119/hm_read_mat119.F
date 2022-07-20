@@ -145,14 +145,6 @@ C-----------------------------------------------------
      .               C1=TITR,
      .               C2='E11')
       ENDIF
-C-----------------------------------------------------
-      IF (G12 == ZERO) THEN
-         CALL ANCMSG(MSGID=306, MSGTYPE=MSGERROR, ANMODE=ANINFO,
-     .               I1=119,
-     .               I2=MAT_ID,
-     .               C1=TITR,
-     .               C2='G12')
-      ENDIF
 C-----------------------------------------
       IF (RCOMP == ZERO) RCOMP = ONE
       IF (RCOMP < EM03) THEN
@@ -166,6 +158,12 @@ c
       IF (FUNC1 == 0) N21 = N12*E22 / E11
       NU  = SQRT(N12*N21)
       DET = ONE / (ONE - N12*N21)
+      IF (DET <= ZERO) THEN
+         CALL ANCMSG(MSGID=307, MSGTYPE=MSGERROR, ANMODE=ANINFO,
+     .               I1=MAT_ID,
+     .               C1=TITR)
+      ENDIF
+C--------------------------------------------------------
       A11 = E11 * DET
       A22 = E22 * DET
       A12 = A11 * N21
