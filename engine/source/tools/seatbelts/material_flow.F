@@ -622,8 +622,6 @@ C--------------------Retractor is Unlocked ---------------------------------
             IF ((RETRACTOR(RETRACTOR_ID(I))%LOCKED == 0).OR.
      .          (F_LOCK <= RETRACTOR(RETRACTOR_ID(I))%UNLOCK_FORCE).OR.
      .          (FL_IMPOSED_FORCE == 1)) THEN
-                 DELTA_LO = (ALDP(I)-AL0DP(I)*(TENS + ONE))/(TENS + ONE)
-                 DELTA_LO = (ALDP(I)-AL0DP(I)*(TENS + ONE))/(TENS + ONE)
 C
               TENS = (F_UNLOCK - FB) / XK(I) + EPS1
               DELTA_LO = (ALDP(I)-AL0DP(I)*(TENS + ONE))/(TENS + ONE)

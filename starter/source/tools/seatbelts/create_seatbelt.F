@@ -509,8 +509,8 @@ C
       TAG_PRINT = 0
       DO MID=1,NUMMAT
         IADBUF   = IPM(7,MID)
-        LMIN = BUFMAT(IADBUF+119-1)
         IF (CPT_MAT(MID) > 0) THEN
+          LMIN = BUFMAT(IADBUF+119-1)
           IF (LMIN == ZERO) THEN
 C--         default lmin = 1% of average length
             BUFMAT(IADBUF+119-1) = EM02 * (AV_LEN_MAT(MID) / CPT_MAT(MID))
@@ -526,8 +526,8 @@ C
       TAG_PRINT = 0
       DO MID=1,NUMMAT
         IADBUF   = IPM(7,MID)
-        XC = BUFMAT(IADBUF+70)
         IF (CPT_MAT(MID) > 0) THEN
+          XC = BUFMAT(IADBUF+70)
           XK = BUFMAT(IADBUF+64)
           IF (XC == ZERO) THEN
 C--         default damping is 30% of critical damping
