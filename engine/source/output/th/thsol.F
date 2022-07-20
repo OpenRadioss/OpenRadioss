@@ -535,37 +535,53 @@ c
      .            Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
      .            R12, R13, R11, R22, R23, R21, R32, R33, R31)
                  IF (KCVT == 2) THEN
-                   IF (ISORTH > 0 .AND. KHBE/=14) THEN
-C                    KHBE=14 :valeurs moyennes est dans rep. corota
-                     G11=GBUF%GAMA(KK(1)+I)
-                     G21=GBUF%GAMA(KK(2)+I)
-                     G31=GBUF%GAMA(KK(3)+I)
-                     G12=GBUF%GAMA(KK(4)+I)
-                     G22=GBUF%GAMA(KK(5)+I)
-                     G32=GBUF%GAMA(KK(6)+I)
-                     G13=G21*G32-G31*G22
-                     G23=G31*G12-G11*G32
-                     G33=G11*G22-G21*G12
-C                    MATRICE DE PASSAGE GLOBAL -> ORTHOTROPE.
-                     T11=R11*G11+R12*G21+R13*G31
-                     T12=R11*G12+R12*G22+R13*G32
-                     T13=R11*G13+R12*G23+R13*G33
-                     T21=R21*G11+R22*G21+R23*G31
-                     T22=R21*G12+R22*G22+R23*G32
-                     T23=R21*G13+R22*G23+R23*G33
-                     T31=R31*G11+R32*G21+R33*G31
-                     T32=R31*G12+R32*G22+R33*G32
-                     T33=R31*G13+R32*G23+R33*G33
-                     R11=T11
-                     R12=T12
-                     R13=T13
-                     R21=T21
-                     R22=T22
-                     R23=T23
-                     R31=T31
-                     R32=T32
-                     R33=T33
-                   END IF
+                   G11=GBUF%GAMA(KK(1)+I)
+                   G21=GBUF%GAMA(KK(2)+I)
+                   G31=GBUF%GAMA(KK(3)+I)
+                   G12=GBUF%GAMA(KK(4)+I)
+                   G22=GBUF%GAMA(KK(5)+I)
+                   G32=GBUF%GAMA(KK(6)+I)
+                   G13=G21*G32-G31*G22
+                   G23=G31*G12-G11*G32
+                   G33=G11*G22-G21*G12
+C                  KHBE=14 : mean values are in local co-rot reference axis
+                   ! transfer from local to orthotropic axis
+                   IF (KHBE == 14) THEN 
+                     L11=S11*G11+S12*G12+S13*G13 
+                     L12=S11*G21+S12*G22+S13*G23 
+                     L13=S11*G31+S12*G32+S13*G33
+                     L21=S12*G11+S22*G12+S23*G13
+                     L22=S12*G21+S22*G22+S23*G23
+                     L23=S12*G31+S22*G32+S23*G33 
+                     L31=S13*G11+S23*G12+S33*G13
+                     L32=S13*G21+S23*G22+S33*G23
+                     L33=S13*G31+S23*G32+S33*G33
+                     S11=G11*L11+G12*L21+G13*L31
+                     S22=G21*L12+G22*L22+G23*L32
+                     S33=G31*L13+G32*L23+G33*L33
+                     S12=G11*L12+G12*L22+G13*L32
+                     S23=G21*L13+G22*L23+G23*L33
+                     S13=G11*L13+G12*L23+G13*L33
+                   ENDIF
+C                  TRANSFORMATION MATRIX GLOBAL -> ORTHOTROPIC.
+                   T11=R11*G11+R12*G21+R13*G31
+                   T12=R11*G12+R12*G22+R13*G32
+                   T13=R11*G13+R12*G23+R13*G33
+                   T21=R21*G11+R22*G21+R23*G31
+                   T22=R21*G12+R22*G22+R23*G32
+                   T23=R21*G13+R22*G23+R23*G33
+                   T31=R31*G11+R32*G21+R33*G31
+                   T32=R31*G12+R32*G22+R33*G32
+                   T33=R31*G13+R32*G23+R33*G33
+                   R11=T11
+                   R12=T12
+                   R13=T13
+                   R21=T21
+                   R22=T22
+                   R23=T23
+                   R31=T31
+                   R32=T32
+                   R33=T33
                  END IF
 c
                  IF( NFILSOL .NE. 0 .AND. GBUF%G_FILL .NE. 0 ) THEN
@@ -1837,39 +1853,21 @@ C                   just 60 average user variable
                     ENDDO
                   ENDIF
 C-----------------in local ref : L_EPSX............-----------
-					   
-                  DO J = 1, 6                    
-                     WWA(239030 + J) = STRAIN(J)
-                  ENDDO
-
                   IF (KHBE == 17) THEN
-                    IF (MTE == 12 .OR. MTE == 14 .OR. MTE == 24 .OR.  
-     .                MTE == 25 .OR.(MTE >= 28 .AND.MTE /= 49)) THEN 
-                      IF (ISORTH > 0) KCVT = 2
+                    IF (KCVT==-1)THEN
+                      GAMA(1)=GBUF%GAMA(KK(1) + I)
+                      GAMA(2)=GBUF%GAMA(KK(2) + I)
+                      GAMA(3)=GBUF%GAMA(KK(3) + I)
+                      GAMA(4)=GBUF%GAMA(KK(4) + I)
+                      GAMA(5)=GBUF%GAMA(KK(5) + I)
+                      GAMA(6)=GBUF%GAMA(KK(6) + I)
+                      CALL SROTA6(X,IXS(1,N),2,
+     .                            STRAIN,GAMA,KHBE,IGTYP)  
                     ENDIF
- 
-                    IF (KCVT /= 0) THEN 
-                      IF (KCVT==2)THEN
-                        GAMA(1)=GBUF%GAMA(KK(1) + I)
-                        GAMA(2)=GBUF%GAMA(KK(2) + I)
-                        GAMA(3)=GBUF%GAMA(KK(3) + I)
-                        GAMA(4)=GBUF%GAMA(KK(4) + I)
-                        GAMA(5)=GBUF%GAMA(KK(5) + I)
-                        GAMA(6)=GBUF%GAMA(KK(6) + I)
-                      ELSE
-                        GAMA(1)=ONE
-                        GAMA(2)=ZERO
-                        GAMA(3)=ZERO
-                        GAMA(4)=ZERO
-                        GAMA(5)=ONE
-                        GAMA(6)=ZERO
-                      ENDIF
-
-                      CALL SROTA6(X,IXS(1,N),KCVT,
-     .                            STRAIN,GAMA,KHBE,IGTYP)   
-                    ENDIF
-                  ENDIF
-
+                  ENDIF 
+                  DO J = 1, 6                    
+                    WWA(239030 + J) = STRAIN(J)
+                  ENDDO
 C-----------------in Global ref : EPSX............-----------
                   DO J = 1, 3                    
                      WWA(1618 + J) = STRAIN(J)
@@ -2165,36 +2163,19 @@ c
                   ENDIF   ! NPT 
 
 C-----------------in local ref : L_EPSX............-----------
+                  IF (KCVT==-1) THEN
+                    GAMA(1)=GBUF%GAMA(KK(1) + I)
+                    GAMA(2)=GBUF%GAMA(KK(2) + I)
+                    GAMA(3)=GBUF%GAMA(KK(3) + I)
+                    GAMA(4)=GBUF%GAMA(KK(4) + I)
+                    GAMA(5)=GBUF%GAMA(KK(5) + I)
+                    GAMA(6)=GBUF%GAMA(KK(6) + I)
+                    CALL SROTA6(X,IXS(1,N),2,
+     .                          STRAIN,GAMA,KHBE,IGTYP)
+                  ENDIF
                   DO J = 1, 6                    
-                     WWA(239030 + J) = STRAIN(J)
+                    WWA(239030 + J) = STRAIN(J)
                   ENDDO
-
-                  IF (MTE == 12 .OR. MTE == 14 .OR. MTE == 24 .OR.  
-     .                MTE == 25 .OR.(MTE >= 28 .AND.MTE /= 49)) THEN 
-                    IF (ISORTH > 0) KCVT = 2
-                  ENDIF
- 
-                  IF (KCVT /= 0) THEN 
-                    IF (KCVT==2)THEN
-                      GAMA(1)=GBUF%GAMA(KK(1) + I)
-                      GAMA(2)=GBUF%GAMA(KK(2) + I)
-                      GAMA(3)=GBUF%GAMA(KK(3) + I)
-                      GAMA(4)=GBUF%GAMA(KK(4) + I)
-                      GAMA(5)=GBUF%GAMA(KK(5) + I)
-                      GAMA(6)=GBUF%GAMA(KK(6) + I)
-                    ELSE
-                      GAMA(1)=ONE
-                      GAMA(2)=ZERO
-                      GAMA(3)=ZERO
-                      GAMA(4)=ZERO
-                      GAMA(5)=ONE
-                      GAMA(6)=ZERO
-                    END IF
-
-                    CALL SROTA6(X,IXS(1,N),KCVT,
-     .                          STRAIN,GAMA,KHBE,IGTYP)   
-                  ENDIF
-
 C-----------------in Global ref : EPSX............-----------
                   DO J = 1, 3                    
                      WWA(1618 + J) = STRAIN(J)
@@ -2203,7 +2184,6 @@ C Problem of order of output EPSZX before EPSYZ (see THGROU)
                   WWA(1618 + 4) = STRAIN(4)
                   WWA(1618 + 5) = STRAIN(6)
                   WWA(1618 + 6) = STRAIN(5)
-
   
                 ENDIF     ! ISOLNOD
 C---
