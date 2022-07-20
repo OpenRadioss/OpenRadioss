@@ -268,6 +268,7 @@ Chd|        INIT_RANDOM                   source/general_controls/computation/in
 Chd|        INIVCHK                       source/constraints/general/kinchk.F
 Chd|        INIVEL                        source/initial_conditions/general/inivel/inivel.F
 Chd|        INI_BCSCYC                    source/constraints/general/bcs/lecbcscyc.F
+Chd|        INI_H3DTMAX_ENGINE            source/starter/contrl.F       
 Chd|        INI_IFRONT                    source/spmd/node/ddtools.F    
 Chd|        INT8_INI                      source/interfaces/intbuf/intbuf_ini_starter.F
 Chd|        INTBUF_FRIC_COPY              source/interfaces/interf1/intbuf_fric_copy.F

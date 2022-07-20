@@ -45,6 +45,7 @@ Chd|        INITIMEG                      source/system/timer.F
 Chd|        INIT_KYNE                     source/engine/resol_init.F    
 Chd|        INIT_REAC_NOD                 source/output/th/init_reac_nod.F
 Chd|        INIT_TH_GROUP                 source/output/th/init_th_group.F
+Chd|        INI_TMAX                      source/output/ini_outmax.F    
 Chd|        KININI                        source/constraints/general/kinini.F
 Chd|        MPP_INIT                      source/mpi/interfaces/spmd_i7tool.F
 Chd|        MY_BARRIER                    source/system/machine.F       
@@ -73,9 +74,11 @@ Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        INTER_SORTING_MOD             share/modules/inter_sorting_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
+Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
 Chd|        PBLAST_MOD                    ../common_source/modules/pblast_mod.F
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|        PLYXFEM_MOD                   share/modules/plyxfem_mod.F   
+Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================
       SUBROUTINE RESOL_INIT(
      1  ITASK   ,IADS10   ,IADS20  ,IADS16    ,FR_NBCC   ,

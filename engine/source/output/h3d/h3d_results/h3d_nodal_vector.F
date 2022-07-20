@@ -30,6 +30,7 @@ Chd|        H3D_VELVECZ22                 source/output/h3d/h3d_results/h3d_velv
 Chd|        H3D_WRITE_VECTOR              source/output/h3d/h3d_results/h3d_write_vector.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
+Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
 Chd|====================================================================
       SUBROUTINE H3D_NODAL_VECTOR(
      .                  ELBUF_TAB, NODAL_VECTOR, IFUNC          , IPARG      , GEO      ,

@@ -94,6 +94,7 @@ Chd|        IMP_K_EIG                     stub/imp_k_eig.F
 Chd|        IMP_SOLV                      source/implicit/imp_solv.F    
 Chd|        INIT_TH                       source/output/th/init_th.F    
 Chd|        INIT_TH0                      source/output/th/init_th0.F   
+Chd|        INI_TMAX                      source/output/ini_outmax.F    
 Chd|        LAYINI                        source/elements/shell/coque/layini.F
 Chd|        LECH3D                        source/output/h3d/h3d_build_fortran/lech3d.F
 Chd|        LECTUR                        source/input/lectur.F         
@@ -102,6 +103,7 @@ Chd|        OUTP_C_TF                     source/output/sty/outp_c_t.F
 Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|        RESOL                         source/engine/resol.F         
 Chd|        RESOL_HEAD                    source/engine/resol_head.F    
+Chd|        RESOL_INIT                    source/engine/resol_init.F    
 Chd|        RESTALLOC                     source/output/restart/arralloc.F
 Chd|        SORTIE_MAIN                   source/output/sortie_main.F   
 Chd|        STAT_C_STRAFG                 source/output/sta/stat_c_strafg.F
@@ -109,6 +111,7 @@ Chd|        STAT_C_STRSFG                 source/output/sta/stat_c_strsfg.F
 Chd|        TENSORC                       source/output/anim/generate/tensorc.F
 Chd|        TENSORC_PLY                   source/output/anim/generate/tensorc_ply.F
 Chd|        THCOQ                         source/output/th/thcoq.F      
+Chd|        UPD_TMAX                      source/output/upd_outmax.F    
 Chd|        USERMAT_SHELL                 source/materials/mat_share/usermat_shell.F
 Chd|-- calls ---------------
 Chd|====================================================================

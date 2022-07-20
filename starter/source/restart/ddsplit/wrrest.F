@@ -72,6 +72,7 @@ Chd|        W_FRADIA                      source/restart/ddsplit/w_fradia.F
 Chd|        W_FRBE3                       source/restart/ddsplit/w_frbe3.F
 Chd|        W_FTHFLUX                     source/restart/ddsplit/w_fthflux.F
 Chd|        W_KNOTLOC                     source/restart/ddsplit/w_knotloc.F
+Chd|        W_OUTMAXN                     source/restart/ddsplit/w_outmaxn.F
 Chd|        W_PXFEM                       source/restart/ddsplit/w_pxfem.F
 Chd|        W_R3NLOC                      source/restart/ddsplit/w_r3nloc.F
 Chd|        W_RELOC                       source/restart/ddsplit/w_reloc.F

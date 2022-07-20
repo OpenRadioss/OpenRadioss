@@ -104,6 +104,7 @@ Chd|        INIVOID                       starter/source/elements/initia/inivoid
 Chd|        INIVOL_SET                    starter/source/initial_conditions/inivol/inivol_set.F
 Chd|        INI_INIMAP1D                  starter/source/initial_conditions/inimap/ini_inimap1d.F
 Chd|        INI_INIMAP2D                  starter/stub/ini_inimap2d.F   
+Chd|        INI_OUTMAX_AUTO               starter/source/elements/elbuf_init/ini_outmax_auto.F
 Chd|        INI_SEATBELT                  starter/source/tools/seatbelts/ini_seatbelt.F
 Chd|        LAYINI1                       starter/source/elements/shell/coqueba/layini1.F
 Chd|        LAYINI_XFE                    starter/source/elements/xfem/cbufxfe.F
@@ -327,6 +328,8 @@ Chd|        GET_NODAL_IPART               engine/source/output/h3d/h3d_results/h
 Chd|        GET_Q4LSYS                    engine/source/output/sta/sta_c_get_q4lsys.F
 Chd|        GET_T3LSYS                    engine/source/output/sta/sta_c_get_t3lsys.F
 Chd|        GPSSTRAIN_SKIN                engine/source/output/anim/generate/tensgpstrain.F
+Chd|        GPSTRA_SOLID                  engine/source/output/outmaxsubr.F
+Chd|        GPS_SOLID                     engine/source/output/outmaxsubr.F
 Chd|        H3D_NODAL_SCALAR              engine/source/output/h3d/h3d_results/h3d_nodal_scalar.F
 Chd|        H3D_NODAL_TENSOR              engine/source/output/h3d/h3d_results/h3d_nodal_tensor.F
 Chd|        H3D_NODAL_VECTOR              engine/source/output/h3d/h3d_results/h3d_nodal_vector.F
@@ -391,6 +394,7 @@ Chd|        INIT_TH                       engine/source/output/th/init_th.F
 Chd|        INIT_TH0                      engine/source/output/th/init_th0.F
 Chd|        INIXFEM                       engine/source/elements/xfem/inixfem.F
 Chd|        INI_FR_K                      engine/source/mpi/implicit/imp_fri.F
+Chd|        INI_TMAX                      engine/source/output/ini_outmax.F
 Chd|        INT18_LAW151_INIT             engine/source/interfaces/int18/int18_law151_init.F
 Chd|        INT18_LAW151_UPDATE           engine/source/interfaces/int18/int18_law151_update.F
 Chd|        INTAL3                        engine/source/ale/intal3.F    
@@ -647,7 +651,17 @@ Chd|        THSOL                         engine/source/output/th/thsol.F
 Chd|        THSPH                         engine/source/output/th/thsph.F
 Chd|        THTRUS                        engine/source/output/th/thtrus.F
 Chd|        TKE3                          engine/source/elements/truss/tke3.F
+Chd|        TM_DMGL25_SHELL               engine/source/output/outmaxsubr.F
+Chd|        TM_DMG_SHELLS                 engine/source/output/outmaxsubr.F
+Chd|        TM_DMG_SOLID                  engine/source/output/outmaxsubr.F
+Chd|        TM_SEQ_SHELL                  engine/source/output/outmaxsubr.F
+Chd|        TM_SEQ_SOLID                  engine/source/output/outmaxsubr.F
+Chd|        TM_SIG_SHELL                  engine/source/output/outmaxsubr.F
+Chd|        TM_SIG_SOLID                  engine/source/output/outmaxsubr.F
+Chd|        TM_STRA_SHELL                 engine/source/output/outmaxsubr.F
+Chd|        TM_STRA_SOLID                 engine/source/output/outmaxsubr.F
 Chd|        UPDATE_SLIPRING               engine/source/tools/seatbelts/update_slipring.F
+Chd|        UPD_TMAX                      engine/source/output/upd_outmax.F
 Chd|        UPENRIC3_N3                   engine/source/elements/xfem/upenric3_nx.F
 Chd|        UPENRIC3_N4                   engine/source/elements/xfem/upenric3_nx.F
 Chd|        UPOFFC                        engine/source/elements/xfem/upoffc.F

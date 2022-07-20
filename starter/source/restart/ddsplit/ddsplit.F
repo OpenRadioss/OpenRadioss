@@ -194,6 +194,7 @@ Chd|        W_LSENS                       source/restart/ddsplit/w_lsens.F
 Chd|        W_MAD                         source/restart/ddsplit/w_mad.F
 Chd|        W_MAIN_PROC_WEIGHT            source/restart/ddsplit/w_master_proc_weight.F
 Chd|        W_MONVOL                      source/restart/ddsplit/w_monvol.F
+Chd|        W_OUTMAXN                     source/restart/ddsplit/w_outmaxn.F
 Chd|        W_PLY_INFO                    source/restart/ddsplit/w_ply_info.F
 Chd|        W_PON                         source/restart/ddsplit/w_pon.F
 Chd|        W_PORO                        source/restart/ddsplit/w_poro.F
@@ -244,6 +245,7 @@ Chd|        MID_PID_MOD                   share/modules1/mid_pid_mod.F
 Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
+Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
 Chd|        PBLAST_MOD                    ../common_source/modules/pblast_mod.F
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F

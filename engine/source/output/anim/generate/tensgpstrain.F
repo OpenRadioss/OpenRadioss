@@ -24,6 +24,7 @@ Chd|====================================================================
 Chd|  TENSGPSTRAIN                  source/output/anim/generate/tensgpstrain.F
 Chd|-- called by -----------
 Chd|        GENANI                        source/output/anim/generate/genani.F
+Chd|        GPSTRA_SOLID                  source/output/outmaxsubr.F    
 Chd|        H3D_NODAL_TENSOR              source/output/h3d/h3d_results/h3d_nodal_tensor.F
 Chd|-- calls ---------------
 Chd|        INITBUF                       share/resol/initbuf.F         

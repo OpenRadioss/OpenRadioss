@@ -21,9 +21,18 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  INI_TMAX                           source/output/outmax.F     
+Chd|  INI_TMAX                      source/output/ini_outmax.F    
 Chd|-- called by -----------
+Chd|        RESOL_INIT                    source/engine/resol_init.F    
 Chd|-- calls ---------------
+Chd|        INI_TMNORM2                   source/output/outmaxsubr.F    
+Chd|        MY_BARRIER                    source/system/machine.F       
+Chd|        SIG2D2PIN                     source/output/outmaxsubr.F    
+Chd|        SIG3D2PIN                     source/output/outmaxsubr.F    
+Chd|        UPD_TMAX                      source/output/upd_outmax.F    
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
+Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================
       SUBROUTINE INI_TMAX(ELBUF_TAB,IPARG   ,GEO     ,PM   ,
      .  	       IXS	,IXS10   ,IXS16   ,IXS20   ,IXQ     ,

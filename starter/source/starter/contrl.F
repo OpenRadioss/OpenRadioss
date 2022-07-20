@@ -1818,8 +1818,14 @@ C-------------------------------------------
       RETURN
       END
 Chd|====================================================================
-Chd|  INI_H3DTMAX_ENGINE          source/starter/contrl.F       
+Chd|  INI_H3DTMAX_ENGINE            source/starter/contrl.F       
 Chd|-- called by -----------
+Chd|        LECTUR                        source/starter/lectur.F       
+Chd|-- calls ---------------
+Chd|        READ_H3DTMAX_KEY              source/starter/contrl.F       
+Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
 Chd|====================================================================
       SUBROUTINE INI_H3DTMAX_ENGINE(IPARG,IPART,IPARTS,IPARTC,IPARTG,IDDLEVEL)
 C-----------------------------------------------
@@ -2014,8 +2020,12 @@ C-------------------------------------------
       RETURN
       END
 Chd|====================================================================
-Chd|    READ_H3DTMAX_KEY          source/starter/contrl.F       
+Chd|  READ_H3DTMAX_KEY              source/starter/contrl.F       
 Chd|-- called by -----------
+Chd|        INI_H3DTMAX_ENGINE            source/starter/contrl.F       
+Chd|-- calls ---------------
+Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
+Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE READ_H3DTMAX_KEY(KEY_TM,KEY_LEN,IFUND,NTM_PART,IPART)
 C-----------------------------------------------

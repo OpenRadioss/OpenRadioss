@@ -28,6 +28,7 @@ Chd|-- calls ---------------
 Chd|        READ_ARRAY                    ../common_source/comm/read_array.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
+Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
 Chd|        PINCHTYPE_MOD                 ../common_source/modules/pinchtype_mod.F
 Chd|====================================================================
       SUBROUTINE RDCOMI(LMXVINT,LVARINT,TABVINT,MULTI_FVM,H3D_DATA)

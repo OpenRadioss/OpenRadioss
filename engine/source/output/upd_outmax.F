@@ -21,9 +21,31 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  UPD_TMAX                           source/output/outmax.F     
+Chd|  UPD_TMAX                      source/output/upd_outmax.F    
 Chd|-- called by -----------
+Chd|        INI_TMAX                      source/output/ini_outmax.F    
+Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
+Chd|        GPSTRA_SOLID                  source/output/outmaxsubr.F    
+Chd|        GPS_SOLID                     source/output/outmaxsubr.F    
+Chd|        MY_BARRIER                    source/system/machine.F       
+Chd|        SIG3DPIN2H                    source/output/outmaxsubr.F    
+Chd|        TM_DMGL25_SHELL               source/output/outmaxsubr.F    
+Chd|        TM_DMG_SHELLS                 source/output/outmaxsubr.F    
+Chd|        TM_DMG_SOLID                  source/output/outmaxsubr.F    
+Chd|        TM_SEQ_SHELL                  source/output/outmaxsubr.F    
+Chd|        TM_SEQ_SOLID                  source/output/outmaxsubr.F    
+Chd|        TM_SIG_SHELL                  source/output/outmaxsubr.F    
+Chd|        TM_SIG_SOLID                  source/output/outmaxsubr.F    
+Chd|        TM_STRA_SHELL                 source/output/outmaxsubr.F    
+Chd|        TM_STRA_SOLID                 source/output/outmaxsubr.F    
+Chd|        TM_VONM_SHELL                 source/output/outmaxsubr.F    
+Chd|        TM_VONM_SOLID                 source/output/outmaxsubr.F    
+Chd|        UPD_TMNORM2                   source/output/outmaxsubr.F    
+Chd|        UPD_TMTENS                    source/output/outmaxsubr.F    
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
+Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================
       SUBROUTINE UPD_TMAX(ELBUF_TAB,IPARG   ,GEO     ,PM   ,
      .  	       IXS	,IXS10   ,IXS16   ,IXS20   ,IXQ     ,

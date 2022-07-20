@@ -21,8 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  GPS_SOLID              
+Chd|  GPS_SOLID                     source/output/outmaxsubr.F    
 Chd|-- called by -----------
+Chd|        UPD_TMAX                      source/output/upd_outmax.F    
+Chd|-- calls ---------------
+Chd|        SPMD_EXCH_N                   source/mpi/generic/spmd_exch_n.F
+Chd|        SPMD_EXCH_NODAREAI            source/mpi/anim/spmd_exch_nodareai.F
+Chd|        TENSGPS3                      source/output/anim/generate/tensor6.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE GPS_SOLID(ELBUF_TAB,IPARG   ,GEO     ,PM   ,
      .  	       IXS	,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
@@ -116,8 +122,14 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  GPSTRA_SOLID              
+Chd|  GPSTRA_SOLID                  source/output/outmaxsubr.F    
 Chd|-- called by -----------
+Chd|        UPD_TMAX                      source/output/upd_outmax.F    
+Chd|-- calls ---------------
+Chd|        SPMD_EXCH_N                   source/mpi/generic/spmd_exch_n.F
+Chd|        SPMD_EXCH_NODAREAI            source/mpi/anim/spmd_exch_nodareai.F
+Chd|        TENSGPSTRAIN                  source/output/anim/generate/tensgpstrain.F
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE GPSTRA_SOLID(ELBUF_TAB,IPARG   ,GEO     ,PM   ,
      .  	       IXS	,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
@@ -211,8 +223,11 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  SIG2DPIN2                           source/output/outmax.F     
+Chd|  SIG2DPIN2                     source/output/outmaxsubr.F    
 Chd|-- called by -----------
+Chd|        SIG2D2PIN                     source/output/outmaxsubr.F    
+Chd|        TM_SIG_SHELL                  source/output/outmaxsubr.F    
+Chd|        TM_STRA_SHELL                 source/output/outmaxsubr.F    
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SIG2DPIN2(SIG,PIN,NEL)
@@ -249,8 +264,11 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  SIG3DPIN2                           source/output/outmax.F     
+Chd|  SIG3DPIN2                     source/output/outmaxsubr.F    
 Chd|-- called by -----------
+Chd|        SIG3D2PIN                     source/output/outmaxsubr.F    
+Chd|        TM_SIG_SOLID                  source/output/outmaxsubr.F    
+Chd|        TM_STRA_SOLID                 source/output/outmaxsubr.F    
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SIG3DPIN2(SIG,PIN,NEL)
@@ -306,9 +324,11 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  SIG3D2PIN                           source/output/outmax.F     
+Chd|  SIG3D2PIN                     source/output/outmaxsubr.F    
 Chd|-- called by -----------
+Chd|        INI_TMAX                      source/output/ini_outmax.F    
 Chd|-- calls ---------------
+Chd|        SIG3DPIN2                     source/output/outmaxsubr.F    
 Chd|====================================================================
       SUBROUTINE SIG3D2PIN(SIG1,SIG3,PIN,NEL)
 C-----------------------------------------------------------------------
@@ -340,9 +360,11 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  SIG2D2PIN                           source/output/outmax.F     
+Chd|  SIG2D2PIN                     source/output/outmaxsubr.F    
 Chd|-- called by -----------
+Chd|        INI_TMAX                      source/output/ini_outmax.F    
 Chd|-- calls ---------------
+Chd|        SIG2DPIN2                     source/output/outmaxsubr.F    
 Chd|====================================================================
       SUBROUTINE SIG2D2PIN(SIG1,SIG3,PIN,NEL)
 C-----------------------------------------------------------------------
@@ -374,8 +396,9 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  INI_TMNORM2                           source/output/outmax.F     
+Chd|  INI_TMNORM2                   source/output/outmaxsubr.F    
 Chd|-- called by -----------
+Chd|        INI_TMAX                      source/output/ini_outmax.F    
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE INI_TMNORM2(TM_D,TM_NORM2,NNOD)
@@ -409,8 +432,10 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  TM_VONM_SOLID                           source/output/outmax.F     
+Chd|  TM_VONM_SOLID                 source/output/outmaxsubr.F    
 Chd|-- called by -----------
+Chd|        TM_SEQ_SOLID                  source/output/outmaxsubr.F    
+Chd|        UPD_TMAX                      source/output/upd_outmax.F    
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE TM_VONM_SOLID(IVISC,SIG,VISC,VALUE,NEL)
@@ -452,9 +477,12 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  TM_SEQ_SOLID                           source/output/outmax.F     
+Chd|  TM_SEQ_SOLID                  source/output/outmaxsubr.F    
 Chd|-- called by -----------
+Chd|        UPD_TMAX                      source/output/upd_outmax.F    
 Chd|-- calls ---------------
+Chd|        TM_VONM_SOLID                 source/output/outmaxsubr.F    
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE TM_SEQ_SOLID(ELBUF_TAB,NLAY,NPTR,NPTS,NPTT,IVISC,VALUE,NEL)
 C-----------------------------------------------
@@ -506,9 +534,11 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  TM_DMG_SOLID                           source/output/outmax.F     
+Chd|  TM_DMG_SOLID                  source/output/outmaxsubr.F    
 Chd|-- called by -----------
+Chd|        UPD_TMAX                      source/output/upd_outmax.F    
 Chd|-- calls ---------------
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE TM_DMG_SOLID(ELBUF_TAB,NLAY,NPTR,NPTS,NPTT,VALUE,NEL)
 C-----------------------------------------------
@@ -557,9 +587,12 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  TM_SIG_SOLID                           source/output/outmax.F     
+Chd|  TM_SIG_SOLID                  source/output/outmaxsubr.F    
 Chd|-- called by -----------
+Chd|        UPD_TMAX                      source/output/upd_outmax.F    
 Chd|-- calls ---------------
+Chd|        SIG3DPIN2                     source/output/outmaxsubr.F    
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE TM_SIG_SOLID(ELBUF_TAB,NLAY,NPTR,NPTS,NPTT,IVISC,
      .                        TEN1,TEN3,P2,NEL)
@@ -626,9 +659,12 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  TM_STRA_SOLID                           source/output/outmax.F     
+Chd|  TM_STRA_SOLID                 source/output/outmaxsubr.F    
 Chd|-- called by -----------
+Chd|        UPD_TMAX                      source/output/upd_outmax.F    
 Chd|-- calls ---------------
+Chd|        SIG3DPIN2                     source/output/outmaxsubr.F    
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE TM_STRA_SOLID(ELBUF_TAB,NLAY,NPTR,NPTS,NPTT,
      .                         TEN1,TEN3,P2,NEL) 
@@ -693,8 +729,10 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  TM_VONM_SHELL                           source/output/outmax.F     
+Chd|  TM_VONM_SHELL                 source/output/outmaxsubr.F    
 Chd|-- called by -----------
+Chd|        TM_SEQ_SHELL                  source/output/outmaxsubr.F    
+Chd|        UPD_TMAX                      source/output/upd_outmax.F    
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE TM_VONM_SHELL(FOR,VALUE,NEL)
@@ -732,9 +770,12 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  TM_SEQ_SHELL                           source/output/outmax.F     
+Chd|  TM_SEQ_SHELL                  source/output/outmaxsubr.F    
 Chd|-- called by -----------
+Chd|        UPD_TMAX                      source/output/upd_outmax.F    
 Chd|-- calls ---------------
+Chd|        TM_VONM_SHELL                 source/output/outmaxsubr.F    
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE TM_SEQ_SHELL(ELBUF_TAB,NLAY,NPTR,NPTS,VALUE,NEL)
 C-----------------------------------------------
@@ -786,9 +827,12 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  TM_SIG_SHELL                           source/output/outmax.F     
+Chd|  TM_SIG_SHELL                  source/output/outmaxsubr.F    
 Chd|-- called by -----------
+Chd|        UPD_TMAX                      source/output/upd_outmax.F    
 Chd|-- calls ---------------
+Chd|        SIG2DPIN2                     source/output/outmaxsubr.F    
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE TM_SIG_SHELL(ELBUF_TAB,NLAY,NPTR,NPTS,TEN1,TEN3,P2,NEL)
 C-----------------------------------------------
@@ -851,9 +895,12 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  TM_STRA_SHELL                           source/output/outmax.F     
+Chd|  TM_STRA_SHELL                 source/output/outmaxsubr.F    
 Chd|-- called by -----------
+Chd|        UPD_TMAX                      source/output/upd_outmax.F    
 Chd|-- calls ---------------
+Chd|        SIG2DPIN2                     source/output/outmaxsubr.F    
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE TM_STRA_SHELL(ELBUF_TAB,NPTR,NPTS,TEN1,TEN3,P2,NEL)
 C-----------------------------------------------
@@ -931,9 +978,11 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  TM_DMG_SHELLS                           source/output/outmax.F     
+Chd|  TM_DMG_SHELLS                 source/output/outmaxsubr.F    
 Chd|-- called by -----------
+Chd|        UPD_TMAX                      source/output/upd_outmax.F    
 Chd|-- calls ---------------
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE TM_DMG_SHELLS(ELBUF_TAB,NLAY,NPTR,NPTS,VALUE,NEL)
 C-----------------------------------------------
@@ -983,9 +1032,11 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  TM_DMGL25_SHELL                           source/output/outmax.F     
+Chd|  TM_DMGL25_SHELL               source/output/outmaxsubr.F    
 Chd|-- called by -----------
+Chd|        UPD_TMAX                      source/output/upd_outmax.F    
 Chd|-- calls ---------------
+Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE TM_DMGL25_SHELL(ELBUF_TAB,NLAY,NPTR,NPTS,IGTYP,
      .                           PM,MATLY,VALUE,NEL)
@@ -1091,8 +1142,9 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  UPD_TMNORM2                           source/output/outmax.F     
+Chd|  UPD_TMNORM2                   source/output/outmaxsubr.F    
 Chd|-- called by -----------
+Chd|        UPD_TMAX                      source/output/upd_outmax.F    
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE UPD_TMNORM2(D,TM_D,TM_NORM2,NFT,NLT)
@@ -1132,8 +1184,9 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  UPD_TMTENS                           source/output/outmax.F     
+Chd|  UPD_TMTENS                    source/output/outmaxsubr.F    
 Chd|-- called by -----------
+Chd|        UPD_TMAX                      source/output/upd_outmax.F    
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE UPD_TMTENS(NSIG,PNSIG,TM_NSIG1,TM_NSIG3,TM_PNSIG,NFT,NLT)
@@ -1176,8 +1229,9 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  SIG3DPIN2H                           source/output/outmax.F     
+Chd|  SIG3DPIN2H                    source/output/outmaxsubr.F    
 Chd|-- called by -----------
+Chd|        UPD_TMAX                      source/output/upd_outmax.F    
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SIG3DPIN2H(SIG,PIN,NFT,NLT)

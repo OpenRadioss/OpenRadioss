@@ -398,6 +398,7 @@ Chd|        TRACE_IN                      source/system/trace_back.F
 Chd|        TRACE_OUT                     source/system/trace_back.F    
 Chd|        UPDATE_FAILWAVE               source/materials/fail/failwave/update_failwave.F
 Chd|        UPDATE_SLIPRING               source/tools/seatbelts/update_slipring.F
+Chd|        UPD_TMAX                      source/output/upd_outmax.F    
 Chd|        UPENR_CRK                     source/elements/xfem/upenr_crk.F
 Chd|        UPGRADE_REM_2RY               source/mpi/interfaces/spmd_i7tool.F
 Chd|        UPXFEM1                       source/elements/xfem/upxfem1.F

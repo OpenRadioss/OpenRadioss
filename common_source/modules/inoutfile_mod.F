@@ -45,6 +45,7 @@ Chd|        HM_SETFXRBYON                 starter/source/constraints/fxbody/hm_s
 Chd|        ININTR                        starter/source/interfaces/interf1/inintr.F
 Chd|        ININTR_THKVAR                 starter/source/interfaces/interf1/inintr_thkvar.F
 Chd|        INI_FXBODY                    starter/source/constraints/fxbody/ini_fxbody.F
+Chd|        INI_H3DTMAX_ENGINE            starter/source/starter/contrl.F
 Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        LEC_INIMAP1D_FILE             starter/source/initial_conditions/inimap/lec_inimap1d_file.F
 Chd|        LEC_INIMAP2D_FILE             starter/source/initial_conditions/inimap/lec_inimap2d_file.F
@@ -54,6 +55,7 @@ Chd|        R2R_FORK                      starter/source/coupling/rad2rad/r2r_fo
 Chd|        R2R_GROUP                     starter/source/coupling/rad2rad/r2r_group.F
 Chd|        R2R_INPUT                     starter/source/coupling/rad2rad/r2r_input.F
 Chd|        READ_FLAG_ALE                 starter/source/coupling/rad2rad/r2r_fork.F
+Chd|        READ_H3DTMAX_KEY              starter/source/starter/contrl.F
 Chd|        READ_PCH_FILE                 starter/source/constraints/fxbody/read_pch_file.F
 Chd|        STARTER0                      starter/source/starter/starter0.F
 Chd|        USER_OUTPUT                   starter/source/user_interface/user_output.F

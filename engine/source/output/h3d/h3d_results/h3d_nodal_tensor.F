@@ -25,6 +25,7 @@ Chd|  H3D_NODAL_TENSOR              source/output/h3d/h3d_results/h3d_nodal_tens
 Chd|-- called by -----------
 Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
 Chd|-- calls ---------------
+Chd|        GET_TM_GPS                    source/output/h3d/h3d_results/h3d_nodal_tensor.F
 Chd|        H3D_WRITE_TENSOR              source/output/h3d/h3d_results/h3d_write_tensor.F
 Chd|        SPMD_EXCH_NODAREA2            source/mpi/anim/spmd_exch_nodarea2.F
 Chd|        SPMD_EXCH_NODAREAI            source/mpi/anim/spmd_exch_nodareai.F
@@ -33,6 +34,7 @@ Chd|        TENSGPS2                      source/output/anim/generate/tensor6.F
 Chd|        TENSGPS3                      source/output/anim/generate/tensor6.F
 Chd|        TENSGPSTRAIN                  source/output/anim/generate/tensgpstrain.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
+Chd|        OUTMAX_MOD                    ../common_source/modules/outmax_mod.F
 Chd|====================================================================
       SUBROUTINE H3D_NODAL_TENSOR(
      .                  ELBUF_TAB, NODAL_TENSOR, IFUNC          , IPARG      , GEO      ,
@@ -310,8 +312,9 @@ C
       RETURN
       END
 Chd|====================================================================
-Chd|  GET_TM_GPS                           source/output/outmax.F     
+Chd|  GET_TM_GPS                    source/output/h3d/h3d_results/h3d_nodal_tensor.F
 Chd|-- called by -----------
+Chd|        H3D_NODAL_TENSOR              source/output/h3d/h3d_results/h3d_nodal_tensor.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE GET_TM_GPS(VALUE,TM_NSIG,NNOD)

@@ -24,6 +24,8 @@ Chd|====================================================================
 Chd|  SPMD_EXCH_NODAREAI            source/mpi/anim/spmd_exch_nodareai.F
 Chd|-- called by -----------
 Chd|        GENANI                        source/output/anim/generate/genani.F
+Chd|        GPSTRA_SOLID                  source/output/outmaxsubr.F    
+Chd|        GPS_SOLID                     source/output/outmaxsubr.F    
 Chd|        H3D_NODAL_TENSOR              source/output/h3d/h3d_results/h3d_nodal_tensor.F
 Chd|        H3D_SOL_SKIN_SCALAR           source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
 Chd|        H3D_SOL_SKIN_TENSOR           source/output/h3d/h3d_results/h3d_sol_skin_tensor.F

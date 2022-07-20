@@ -799,6 +799,7 @@ Chd|        INI_BCSCYC                    source/constraints/general/bcs/lecbcsc
 Chd|        INI_DIFF                      source/tools/lagmul/ini_diff.F
 Chd|        INI_FXBODY                    source/constraints/fxbody/ini_fxbody.F
 Chd|        INI_GEAR                      source/tools/lagmul/ini_gear.F
+Chd|        INI_H3DTMAX_ENGINE            source/starter/contrl.F       
 Chd|        INI_INIMAP1D                  source/initial_conditions/inimap/ini_inimap1d.F
 Chd|        INI_INIMAP2D                  stub/ini_inimap2d.F           
 Chd|        INI_MSG                       source/output/message/inimsg.F
@@ -969,6 +970,7 @@ Chd|        READ_DFS_DETPOINT             source/initial_conditions/detonation/r
 Chd|        READ_DFS_WAVE_SHAPER          source/initial_conditions/detonation/read_dfs_wave_shaper.F
 Chd|        READ_EBCS                     source/boundary_conditions/ebcs/read_ebcs.F
 Chd|        READ_ENGINE_DRIVER            source/general_controls/engine/read_engine_driver.F
+Chd|        READ_H3DTMAX_KEY              source/starter/contrl.F       
 Chd|        READ_IMPDISP                  source/constraints/general/impvel/read_impdisp.F
 Chd|        READ_IMPDISP_FGEO             source/constraints/general/impvel/read_impdisp_fgeo.F
 Chd|        READ_IMPVEL                   source/constraints/general/impvel/read_impvel.F
