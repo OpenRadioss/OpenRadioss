@@ -153,7 +153,6 @@ C-----------------------------------------------
       IF(RHOR==ZERO)RHOR=RHO0
       PM(01)=RHOR
       PM(89)=RHO0
-
       ICASE = ABS(KEN)+1
       SELECT CASE (ICASE) 
 C-------------
@@ -168,6 +167,7 @@ C-------------
           CALL HM_GET_FLOATV('MAT_A2'             ,C            ,IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('MAT_SIGT_CUTOFF'    ,SIGT_COFF    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 !!
+          IF(SIGT_COFF == ZERO) SIGT_COFF = EP20
           UPARAM(1)=KEN    
           UPARAM(2)=E
           UPARAM(3)=A
@@ -183,6 +183,17 @@ C-------------
           IFUNC(1)=IFN1
           IFUNC(2)=IFN2
           NFUNC=2
+!      
+           WRITE(IOUT,1001) TRIM(TITR),MAT_ID,33
+           WRITE(IOUT,1000)
+
+           IF(IS_CRYPTED)THEN
+             WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
+           ELSE
+             WRITE(IOUT,1002) RHO0           
+             WRITE(IOUT,1200) E,KEN,IFN1,FAC,IFN2,FAC1,
+     &             A,B,C,SIGT_COFF,P0,PHI,GAMA0
+          ENDIF 
 C-------------
        CASE(2)
 C-------------
@@ -225,41 +236,24 @@ C-------------
           IFUNC(1)=IFN1
           IFUNC(2)=IFN2
           NFUNC=2
-      END SELECT 
 C-------------
 C
 C     Formulation for solid elements time step computation.
-      PARMAT(16) = 2
-      PARMAT(17) =  ONE 
+         PARMAT(16) = 2
+         PARMAT(17) =  ONE 
 c-----------------
-      CALL INIT_MAT_KEYWORD(MATPARAM,"COMPRESSIBLE")
+         CALL INIT_MAT_KEYWORD(MATPARAM,"COMPRESSIBLE")
 c-----------------
-      WRITE(IOUT,1001) TRIM(TITR),MAT_ID,33
-      WRITE(IOUT,1000)
-      IF(IS_CRYPTED)THEN
-        WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
-      ELSE
-        WRITE(IOUT,1100) E,KEN,IFN1,FAC,IFN2,FAC1,
-     &                 C1,C2,ET,VMU,VMU0,
-     &                 A,B,C,P0,PHI,GAMA0
-      ENDIF 
-       
-      RETURN
-   11 CONTINUE
-
-
-      
-      WRITE(IOUT,1001) TRIM(TITR),MAT_ID,33
-      WRITE(IOUT,1000)
-
-      IF(IS_CRYPTED)THEN
-        WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
-      ELSE
-        WRITE(IOUT,1002) RHO0           
-        WRITE(IOUT,1200) E,KEN,IFN1,FAC,IFN2,FAC1,
-     &             A,B,C,SIGT_COFF,P0,PHI,GAMA0
-      ENDIF 
-      
+          WRITE(IOUT,1001) TRIM(TITR),MAT_ID,33        
+          WRITE(IOUT,1000)                             
+          IF(IS_CRYPTED)THEN                           
+            WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA' 
+          ELSE                                         
+            WRITE(IOUT,1100) E,KEN,IFN1,FAC,IFN2,FAC1, 
+     &                 C1,C2,ET,VMU,VMU0,          
+     &                 A,B,C,P0,PHI,GAMA0          
+          ENDIF                                       
+      END SELECT 
       RETURN
 C              12345678901234567890123456789012345678901
  1000 FORMAT
