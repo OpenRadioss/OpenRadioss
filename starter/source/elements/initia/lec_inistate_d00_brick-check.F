@@ -64,9 +64,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----A----+----B----+----C----+----D--
 C-----------------------------------------
-C     CONTRAINTES INITIALES FICHIER D00
+C     INITIALE STRESS FILE D00
 C     CHECK INPUT CONSISTENCY BETWEEN /INIBRI AND D00
-C     Erreur si difference dans les donnees ( D00 & INIBRI)
+C     Erreur if difference in data ( D00 & INIBRI)
 C-----------------------------------------		   
       IPIDD00  = IXS(10,IE)
       JJHBED00 = IGEO(10,IPIDD00)
@@ -146,7 +146,6 @@ C
      .                I2=IGEO(1,IPIDD00),
      .                C3=KEYWORD)
        ENDIF
-       RETURN
 C
 C	   
       ELSEIF (JJHBED00 == 14 .OR.ISOLNOD==16 .OR.ISOLNOD==20 ) THEN
@@ -163,6 +162,8 @@ C
           NPTD00 = 1
       ELSEIF(ISOLNOD == 4 )THEN
           NPTD00 = 4
+      ELSEIF(JJHBED00 == 15)THEN
+          NPTD00 = IGEO(4,IPIDD00)
       ENDIF
 
       IF(KEYWORD =='/INIBRI/ORTHO  '.OR.KEYWORD=='/INIBRI/EREF ')RETURN
