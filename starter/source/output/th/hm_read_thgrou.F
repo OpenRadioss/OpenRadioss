@@ -147,7 +147,7 @@ C
       INTEGER IVARRIV(18,NVARRIVG)
       CHARACTER*10 VARRIV(NVARRIV),VARRIVG(NVARRIVG)
 C-----------------------------------------------
-      PARAMETER (NVARN = 637,NVARS =239551 ,NVARC = 37854,NVART = 6)
+      PARAMETER (NVARN = 637,NVARS =239552 ,NVARC = 37854,NVART = 6)
       PARAMETER (NVARP = 8,NVARR = 64,NVARUR = 12)
       PARAMETER (NVARNS = 4,NVARSPH = 41)
       PARAMETER (NVARIN = 28,NVARRW = 6,NVARRB =15,NVARFX =4)
@@ -164,7 +164,7 @@ C-----------------------------------------------
      .             VARN2(9),
      .             VARNPINCH(9),
      .             VARSG1(202),VARSG2(19782),VARSG3(19782),VARSG4(1),
-     .             VARS8(516),VARS9(5)
+     .             VARS8(516),VARS9(6)
       CHARACTER*10 VARNS(NVARNS),VARSPH(NVARSPH)
       CHARACTER*10 VARIN(NVARIN),VARRW(NVARRW),VARRB(NVARRB)
       CHARACTER*10 VARAC(NVARAC),VARSE(NVARSE),VARJO(NVARJO)
@@ -658,7 +658,8 @@ C Definition of VARS8 : strain matrix output
       ENDDO
 
       DATA VARS9/
-     . 'VX      ','VY      ','VZ      ','SSP     ','MACH    '/
+     . 'VX      ','VY      ','VZ      ','SSP     ','MACH    ',
+     . 'VK      '/
 
 C   shells
 c  VARC = VARC1 + VARC2 + VARC3
@@ -1598,7 +1599,7 @@ C
       DO I=1,516
        VARS(239030 + I) = VARS8(I)
       ENDDO
-      DO I=1,5
+      DO I=1,6
        VARS(239546 + I) = VARS9(I)
       ENDDO
 C   (VARSG1, VARSG2, VARSG3 )----> VARSG

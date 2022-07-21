@@ -700,7 +700,7 @@ C-----------------------------------------------------
                 WWA(23)=LBUF%CRAK(KK(1)+I)+LBUF%CRAK(KK(2)+I)+LBUF%CRAK(KK(3)+I)
                 WWA(24)=LBUF%ROB(I)
                 WWA(25)=LBUF%VK(I)
-                WWA(26)=LBUF%RK(I)
+                WWA(239552)=LBUF%RK(I)
                 WWA(12)=LBUF%PLA(I)
                 WWA(30)=GBUF%PLA(I)                                 
               ELSEIF (MTE == 26) THEN
