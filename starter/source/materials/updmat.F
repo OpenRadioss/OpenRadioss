@@ -162,14 +162,14 @@ c-----------------------------------------------------------------------
 c
         NFUNC   =  IPM(10 ,IMAT)
         NUMTABL =  IPM(226,IMAT)
-C        
+        IFUNC   => IPM(10+1:10+NFUNC,IMAT)
+        ITABLE  => IPM(226+1:226+NUMTABL,IMAT)
+c        
         IF (NFUNC > 0 ) THEN 
-          IFUNC   => IPM(10+1:10+NFUNC,IMAT)
           CALL MATFUN_USR2SYS(TITR,MAT_ID,NFUNC,IFUNC,FUNC_ID  )
         ENDIF
         IF (ILAW /= 73 .and. ILAW /= 74 .and. ILAW /= 80) THEN
           IF (NUMTABL > 0 ) THEN
-            ITABLE  => IPM(226+1:226+NUMTABL,IMAT)
             TABLE_ID(1:NUMTABL) = IPM(226+1:226+NUMTABL,IMAT)
             CALL MATTAB_USR2SYS(TITR,MAT_ID,TABLE,NUMTABL,ITABLE)
           ENDIF 
