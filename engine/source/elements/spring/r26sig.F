@@ -27,7 +27,7 @@ Chd|        R26DEF3                       source/elements/spring/r26def3.F
 Chd|-- calls ---------------
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|====================================================================
-      SUBROUTINE R26SIG(FX     ,XK     ,DX     ,DXOLD  ,DMAX   ,
+      SUBROUTINE R26SIG(FX     ,XK     ,DX     ,DXOLD  ,
      .                  E      ,OFF    ,XL0    ,TF     ,NPF    , 
      .                  ANIM   ,IANI   ,FR_WAVE,DMN    ,DMX    , 
      .                  IGEO   ,GEO    ,PID    ,DV0    ,ALPHA  )                 
@@ -48,7 +48,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   GEO(NPROPG,*),FX(*),XK(*),DX(*),DXOLD(*),TF(*),XL0(*),E(*),
-     .   OFF(*), DMN(*), DMX(*), ANIM(*),FR_WAVE(*),DMAX(*),DV0(*),
+     .   OFF(*), DMN(*), DMX(*), ANIM(*),FR_WAVE(*),DV0(*),
      .   ALPHA(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -81,7 +81,6 @@ C=======================================================================
         E(I)    =E(I)/XL0(I)
         DX(I)   =DX(I)/XL0(I)
         DXOLD(I)=DXOLD(I)/XL0(I)
-        DMAX(I) =DMAX(I)/XL0(I)
       ENDDO
 C
       DO I=LFT,LLT
@@ -175,14 +174,12 @@ c          FMIN(I) = -MAX(Y2 + FAC*(Y1-Y2), EM20)
             FMIN(I) =  -YFAC1(I)*FINTER(FUNC1(I),DL(I)/XFAC(I),NPF,TF,DF1)  
           ENDIF                                                    
 C--------------
-          IF (DX(I) < ZERO) THEN        
-            IF (DL(I) < DMAX(I)) THEN      
-              IF (FX(I) > FMIN(I)) THEN    
-                FX(I) = FMIN(I)            
-              ELSEIF (FX(I) < FMAX(I) )THEN
-                FX(I) = FMAX(I)            
-              ENDIF                        
-            ENDIF                          
+          IF (DX(I) < ZERO) THEN             
+            IF (FX(I) > FMIN(I)) THEN    
+              FX(I) = FMIN(I)            
+            ELSEIF (FX(I) < FMAX(I) )THEN
+              FX(I) = FMAX(I)            
+            ENDIF                                                
           ENDIF                            
         ELSE
           FX(I) = ZERO
