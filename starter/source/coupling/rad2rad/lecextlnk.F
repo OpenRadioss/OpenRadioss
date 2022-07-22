@@ -88,29 +88,29 @@ C
       WRITE(IOUT,1000)
       IF (NR2RLNK.GT.0) WRITE(IOUT,1200)
 C      
-C      IEXTER(1,M) ............... Id du GRNOD du Link
-C      IEXTER(2,M) ............... User Id du Link
-C      IEXTER(3,M) ............... Id du 1er domaine
-C      IEXTER(4,M) ............... Id du 2e domaine
+C      IEXTER(1,M) ............... Id of GRNOD of the Link
+C      IEXTER(2,M) ............... Link ser Id
+C      IEXTER(3,M) ............... Id of 1st domain
+C      IEXTER(4,M) ............... Id of 2nd domain
 C      IEXTER(5,M) ............... Type du Link (4 ou 5)
 C        -> pour fulldomain IEXTER(4,M) = 0
 C        -> pour link classique IEXTER(4,M) = IEXTER(4,M) = -1
 C        
 C
-C      ISUBDOM(1,N) .............. Id du subdomaine
-C      ISUBDOM(2,N) .............. Nb de parts du subdomaine
-C      ISUBDOM(3,N) .............. Adresse des parts du subdomaine dans ISUBDOM_PART
-C      ISUBDOM(4,N) .............. Id du link principal du subdomaine
-C      ISUBDOM(5,N) .............. Nb de noeuds du subdomaine
-C      ISUBDOM(6,N) .............. Nb d'elements du subdomaine
+C      ISUBDOM(1,N) .............. Id of subdomain
+C      ISUBDOM(2,N) .............. Nb of parts of the subdomain
+C      ISUBDOM(3,N) .............. Adress of the parts of the subdomain in ISUBDOM_PART
+C      ISUBDOM(4,N) .............. Id of principal link of subdomain
+C      ISUBDOM(5,N) .............. Nb of nodes of subdomain
+C      ISUBDOM(6,N) .............. Nb of elements of subdomain
 C      ISUBDOM(7,N) .............. ROOTLEN
 C
-C      ISUBDOM_PART() ............ Liste des parts du subdomaine  
+C      ISUBDOM_PART() ............ List of parts of the subdomain  
 C-----------------------------------------------      
 C
       IF (NR2RLNK > 0) THEN
 C------------------------------------------------------------------
-C------------------------LECTURE DES LINKS------------------------- 
+C------------------------READING OF LINKS-------------------------- 
 C------------------------------------------------------------------
 C
         IS_AVAILABLE = .FALSE.
@@ -130,7 +130,7 @@ C         IF (IGRS.EQ.0) IERR=IERR+1
           IEXTER(2,I) = NUSER
 	  IEXTER(3,I) = -1
 	  IEXTER(4,I) = -1
-C-----    IMPRESSIONS
+C-----    PRINTOUT
           WRITE(IOUT,1100) NUSER,IGR	  
         ENDDO
       
@@ -138,7 +138,7 @@ C-----    IMPRESSIONS
       
       IF (NSUBDOM.GT.0) THEN      
 C------------------------------------------------------------------
-C---------------------LECTURE DES SUBDOMAINES---------------------- 
+C------------------------READING OF SUBDOMAINS---------------------
 C------------------------------------------------------------------
 C
         IS_AVAILABLE = .FALSE.
@@ -191,7 +191,7 @@ C----- CHECK PART ID
      .                    I2=ID)
 	    ENDIF
 	  END DO
-C----- STOCKAGE DES INFOS DU SUBDOMAINE
+C----- STORAGE OF DATA FOR SUBDOMAINS
           ISUBDOM(1,I) = COMPT
           ISUBDOM(2,I) = NUSER
 C

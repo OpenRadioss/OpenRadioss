@@ -69,21 +69,21 @@ C-----------------------------------------------
       INTEGER N_SURFP2,N_SURFT2,I1,I2,N_GRBP,N_GRBT
       INTEGER N_LINP,N_LINT,N_LINP2,N_LINT2      
 C=======================================================================
-C-->  Cote main : domaine dans lequel on traite les contacts interdomaines - recupere les elts void
-C-->  Cote second. : domaine dans lequel on ne traite pas les contacts interdomaines
+C-->  Main domain : domain in which contact between domains is treated - where void elts are generated
+C-->  Second. domain : domain in which contact between domains is not treated 
 C=======================================================================
-C-->  TAG = -1 : interf. externe au domaine courant
-C-->  TAG =  0 : interf. interne au domaine courant
-C-->  TAG =  1 : interf. concernant les 2 domaines - cas general
-C-->  TAG =  2 : interf. concernant les 2 domaines - le cote main n'est que main dans l'interface
-C-->  TAG =  3 : interf. concernant les 2 domaines - le cote main n'est que second. dans l'interface
-C-->  TAG =  4 : interf. type2 connectant les 2 domainese
+C-->  TAG = -1 : external interface for current domain
+C-->  TAG =  0 : internal interface for current domain
+C-->  TAG =  1 : interf. between 2 domains - general case
+C-->  TAG =  2 : interf. between 2 domains - main side is only main side of contact interface
+C-->  TAG =  3 : interf. between 2 domains - main side is only second. side of contact interface
+C-->  TAG =  4 : interf. type2 between 2 domains
 C=======================================================================      
-C-->  N_np = nb noeud propes au domaine main
-C-->  N_nt = N_np + nb de noeuds communs aux 2 domaines
-C-->  N_ns = nb de noeuds vu cot    second
-C-->  N_surfp = nb de segments prope au domaine main
-C-->  N_surft = Nb_surfp + nb de segments communs aux 2 domaines	
+C-->  N_np = nb of nodes only in the main domain
+C-->  N_nt = N_np + nb of common nodes between domains
+C-->  N_ns = nb of nodes in second. domain
+C-->  N_surfp = nb of segments only in main domain
+C-->  N_surft = Nb_surfp + nb of common segments between domains	
 C=======================================================================
               
       G1 = 0
@@ -91,13 +91,13 @@ C=======================================================================
       TAG = 1
       TAG2 = 1 
        
-C--------------------------------------------------------------------C			
-C------------FLAG = 0 --> cas des interfaces surface / nodes---------C
+C--------------------------------------------------------------------C
+C------------FLAG = 0 --> surface / nodes interfaces ----------------C
 C--------------------------------------------------------------------C
 
       IF (FLAG.EQ.0) THEN
-      
-C-->  determination du groupe de noeuds seconds et elements mains <--- 
+       
+C-->  determination of group of secondary nodes and surface of main elements <---
       DO J=1,NGRNOD	  
 	IF (IGRNOD(J)%ID.EQ.GRS) G1 = J
       END DO
@@ -105,14 +105,14 @@ C-->  determination du groupe de noeuds seconds et elements mains <---
 	IF (IGRSURF(J)%ID.EQ.GRM) G2 = J
       END DO
       
-C-->  cas d'erreurs     garder pour y traiter dans lecture des interfaces <--- 	      
+C-->  error - error message will be printed in the reading of the interfaces <--- 	      
       IF ((G1.EQ.0).OR.(G2.EQ.0)) GOTO 149
       	         
       IF (IGRNOD(G1)%R2R_ALL.EQ.0) TAG2 = 0
       IF ((ISURF_R2R(1,G2)+ISURF_R2R(2,G2)).EQ.0) TAG2 = 0
 
       IF (IDDOM.NE.0) THEN
-C-->  traitement cote main   <---	     
+C-->  treatment of the main side   <---	     
 	VAL = 1
 	W = 1
         N_NP = IGRNOD(G1)%NENTITY-IGRNOD(G1)%R2R_SHARE+IGRPP_R2R(1,G1)
@@ -121,7 +121,7 @@ C-->  traitement cote main   <---
         N_SURFP = ISURF_R2R(2,G2)+ISURF_R2R(4,G2) 
         N_SURFT = ISURF_R2R(1,G2)-ISURF_R2R(5,G2)  		    		   	   
       ELSE
-C-->  traitement cote second.   <---	     
+C-->  treatment of the second. side   <---	     
 	VAL = 0
 	W=0
 	N_NP = IGRNOD(G1)%NENTITY-IGRNOD(G1)%R2R_ALL+IGRPP_R2R(2,G1)
@@ -131,7 +131,7 @@ C-->  traitement cote second.   <---
         N_SURFT = IGRSURF(G2)%NSEG-ISURF_R2R(2,G2)-ISURF_R2R(4,G2)
       ENDIF
             
-C-->  determination du tag   <--- 
+C-->  determination of the tag   <--- 
       IF (TYPE2.EQ.1) N_NP = N_NT	       	      	   	   
       IF ((N_NP.EQ.0).AND.(N_SURFP.GT.0)) TAG=2
       IF ((N_NP.NE.0).AND.(N_SURFP.EQ.0)) TAG=3
@@ -140,7 +140,7 @@ C-->  determination du tag   <---
         IF ((N_NT.EQ.IGRNOD(G1)%NENTITY).AND.(N_SURFT.EQ.IGRSURF(G2)%NSEG)) TAG=W-1
       ENDIF
       
-C--> cas des interfaces TYPE2  <---      
+C-->  Interfaces TYPE2  <---      
       IF (TYPE2.EQ.1) THEN      
         IF (((N_NT.GT.0).AND.(N_NS.GT.0)).OR.(TAG.GT.0)) THEN
            TAG = 4	        
@@ -148,7 +148,7 @@ C--> cas des interfaces TYPE2  <---
 	ENDIF  
       ENDIF
       
-C-->  detection des interfaces splittes pour affichage des warnings <--- 
+C-->  detection of splitted interfaces for printout of warnings <--- 
       IF ((TAG.GT.0).AND.(TAG2.GT.0).AND.(TAG.LT.4)) THEN
         W = ISURF_R2R(1,G2)+ISURF_R2R(2,G2)-ISURF_R2R(5,G2)
         IF (((IGRNOD(G1)%R2R_ALL-IGRPP_R2R(2,G1)).NE.IGRNOD(G1)%NENTITY)
@@ -158,8 +158,8 @@ C-->  detection des interfaces splittes pour affichage des warnings <---
 	ENDIF 
       ENDIF
       
-C--------------------------------------------------------------------C			
-C------------FLAG = 1 --> cas des interfaces surface / surface ------C
+C--------------------------------------------------------------------C
+C------------FLAG = 1 --> surface / surface interfaces --------------C
 C--------------------------------------------------------------------C
       
       ELSEIF (FLAG.EQ.1) THEN
@@ -171,7 +171,7 @@ C--------------------------------------------------------------------C
 	IF (IGRSURF(J)%ID.EQ.GRM) G2 = J
       END DO
       
-C-->  cas d'erreurs     traiter dans lecture des interfaces <--- 	      
+C-->  error - error message will be printed in the reading of the interfaces <---  	      
       IF ((G1.EQ.0).OR.(G2.EQ.0)) GOTO 149
       
       I1 = IGRSURF(G1)%NSEG
@@ -182,7 +182,7 @@ C-->  cas d'erreurs     traiter dans lecture des interfaces <---
       IF ((ISURF_R2R(1,G2)).EQ.0) TAG2=0
       
       IF (IDDOM.NE.0) THEN      
-C-->  traitement cote main   <---
+C-->  treatment of the main side   <---
         W = 1 
         VAL = 1                
         N_SURFP=ISURF_R2R(2,G1)+ISURF_R2R(4,G1) 
@@ -190,7 +190,7 @@ C-->  traitement cote main   <---
         N_SURFT=ISURF_R2R(1,G1)-ISURF_R2R(5,G1) 
         N_SURFT2=ISURF_R2R(1,G2)-ISURF_R2R(5,G2)            
       ELSE
-C-->  traitement cote second.  <---
+C-->  treatment of the second. side   <---
         W = 0
         VAL = 0                 
         N_SURFP=IGRSURF(G1)%NSEG-ISURF_R2R(1,G1)+ISURF_R2R(5,G1)
@@ -199,7 +199,7 @@ C-->  traitement cote second.  <---
         N_SURFT2=IGRSURF(G2)%NSEG-ISURF_R2R(2,G2)-ISURF_R2R(4,G2)
       ENDIF
       
-C-->  determination du tag   <---	       	      	   	   
+C-->  determination of the tag   <---	       	      	   	   
       IF ((N_SURFP.EQ.0).AND.(N_SURFP2.GT.0)) TAG=2
       IF ((N_SURFP.GT.0).AND.(N_SURFP2.EQ.0)) TAG=3
       IF ((N_SURFP.EQ.0).AND.(N_SURFP2.EQ.0)) TAG=-W
@@ -207,7 +207,7 @@ C-->  determination du tag   <---
         IF ((N_SURFT.EQ.I1).AND.(N_SURFT2.EQ.I2)) TAG=W-1
       ENDIF
       
-C-->  detection des interfaces splittes pour affichage des warnings <---
+C-->  detection of splitted interfaces for printout of warnings <--- 
       IF ((TAG.GT.0).AND.(TAG2.GT.0)) THEN
         IF ((N_SURFT.NE.I1).OR.(N_SURFT2.NE.I2)) THEN
            TAGINT_WARN(1)=TAGINT_WARN(1)+1
@@ -215,8 +215,8 @@ C-->  detection des interfaces splittes pour affichage des warnings <---
 	ENDIF 
       ENDIF
                  
-C--------------------------------------------------------------------C			
-C------------FLAG = 2 --> cas des interfaces lignes / lignes --------C
+C--------------------------------------------------------------------C
+C------------FLAG = 2 --> line / line interfaces --------------------C
 C--------------------------------------------------------------------C
       
       ELSEIF (FLAG.EQ.2) THEN
@@ -228,7 +228,7 @@ C--------------------------------------------------------------------C
 	IF (IGRSLIN(J)%ID.EQ.GRM) G2 = J
       END DO
       
-C-->  cas d'erreurs     traiter dans lecture des interfaces <--- 	      
+C-->  error - error message will be printed in the reading of the interfaces <--- 	      
       IF ((G1.EQ.0).OR.(G2.EQ.0)) GOTO 149
       
       I1 = IGRSLIN(G1)%NSEG
@@ -239,7 +239,7 @@ C-->  cas d'erreurs     traiter dans lecture des interfaces <---
       IF ((ISLIN_R2R(1,G2)).EQ.0) TAG2=0
 
       IF (IDDOM.NE.0) THEN      
-C-->  traitement cote main   <---
+C-->  treatment of the main side   <---
         W = 1 
         VAL = 1                
         N_LINP=ISLIN_R2R(2,G1)
@@ -247,7 +247,7 @@ C-->  traitement cote main   <---
         N_LINT=ISLIN_R2R(1,G1)
         N_LINT2=ISLIN_R2R(1,G2)            
       ELSE
-C-->  traitement cote second.  <---
+C-->  treatment of the second. side   <---
         W = 0
         VAL = 0                 
         N_LINP=IGRSLIN(G1)%NSEG-ISLIN_R2R(1,G1)
@@ -256,7 +256,7 @@ C-->  traitement cote second.  <---
         N_LINT2=IGRSLIN(G2)%NSEG-ISLIN_R2R(2,G2)
       ENDIF
       
-C-->  determination du tag   <---	       	      	   	   
+C-->  determination of the tag   <---	       	      	   	   
       IF ((N_LINP.EQ.0).AND.(N_LINP2.GT.0)) TAG=2
       IF ((N_LINP.GT.0).AND.(N_LINP2.EQ.0)) TAG=3
       IF ((N_LINP.EQ.0).AND.(N_LINP2.EQ.0)) TAG=-W
@@ -264,7 +264,7 @@ C-->  determination du tag   <---
         IF ((N_LINT.EQ.I1).AND.(N_LINT2.EQ.I2)) TAG=W-1
       ENDIF
       
-C-->  detection des interfaces splittes pour affichage des warnings <---
+C-->  detection of splitted interfaces for printout of warnings <---
       IF ((TAG.GT.0).AND.(TAG2.GT.0)) THEN
         IF ((N_LINT.NE.I1).OR.(N_LINT2.NE.I2)) THEN
            TAGINT_WARN(1)=TAGINT_WARN(1)+1
@@ -273,7 +273,7 @@ C-->  detection des interfaces splittes pour affichage des warnings <---
       ENDIF
 
 C--------------------------------------------------------------------C			
-C------------FLAG = 3 --> cas des interfaces TYPE18 avec GR_BRIC ----C
+C------------FLAG = 3 --> TYPE18 contact with GR_BRIC ---------------C
 C--------------------------------------------------------------------C
 
       ELSEIF (FLAG.EQ.3) THEN
@@ -285,7 +285,7 @@ C--------------------------------------------------------------------C
 	IF (IGRSURF(J)%ID.EQ.GRM) G2 = J
       END DO
       
-C-->  cas d'erreurs     traiter dans lecture des interfaces <--- 	      
+C-->  error - error message will be printed in the reading of the interfaces <-- 	      
       IF ((G1.EQ.0).OR.(G2.EQ.0)) GOTO 149
       
       I1 = IGRBRIC(G1)%NENTITY
@@ -296,7 +296,7 @@ C-->  cas d'erreurs     traiter dans lecture des interfaces <---
       IF ((ISURF_R2R(1,G2)).EQ.0) TAG2=0
       
       IF (IDDOM.NE.0) THEN      
-C-->  traitement cote main   <---
+C-->  treatment of the main side   <---
         W = 1 
         VAL = 1                
         N_GRBP=IGRBRIC_R2R(2,G1)+IGRBRIC_R2R(4,G1) 
@@ -304,7 +304,7 @@ C-->  traitement cote main   <---
         N_GRBT=IGRBRIC_R2R(1,G1)-IGRBRIC_R2R(5,G1) 
         N_SURFT2=ISURF_R2R(1,G2)-ISURF_R2R(5,G2)            
       ELSE
-C-->  traitement cote second.  <---
+C-->  treatment of the second. side   <---
         W = 0
         VAL = 0                 
         N_GRBP=IGRBRIC(G1)%NENTITY-IGRBRIC_R2R(1,G1)+IGRBRIC_R2R(5,G1)
@@ -313,7 +313,7 @@ C-->  traitement cote second.  <---
         N_SURFT2=IGRSURF(G2)%NSEG-ISURF_R2R(2,G2)-ISURF_R2R(4,G2)
       ENDIF
       
-C-->  determination du tag   <---	       	      	   	   
+C-->  determination of the tag   <---	       	      	   	   
       IF ((N_GRBP.EQ.0).AND.(N_SURFP2.GT.0)) TAG=2
       IF ((N_GRBP.GT.0).AND.(N_SURFP2.EQ.0)) TAG=3
       IF ((N_GRBP.EQ.0).AND.(N_SURFP2.EQ.0)) TAG=-W
@@ -321,7 +321,7 @@ C-->  determination du tag   <---
         IF ((N_GRBT.EQ.I1).AND.(N_SURFT2.EQ.I2)) TAG=W-1
       ENDIF
       
-C-->  detection des interfaces splittes pour affichage des warnings <---
+C-->  detection of splitted interfaces for printout of warnings <---
       IF ((TAG.GT.0).AND.(TAG2.GT.0)) THEN
         IF ((N_GRBT.NE.I1).OR.(N_SURFT2.NE.I2)) THEN
            TAGINT_WARN(1)=TAGINT_WARN(1)+1
@@ -332,15 +332,15 @@ C-->  detection des interfaces splittes pour affichage des warnings <---
       ENDIF
       
 C--------------------------------------------------------------------C			
-C--------TAG DES INTERFACES DE CONTACT DANS TAGINT POUR SPLIT--------C
+C--------TAG OF CONTACT INTERFACES IN TAGINT FOR SPLIT---------------C
 C--------------------------------------------------------------------C
       
-C-->  si il ne reste plus rien d'un cote on ne garde pas   <---
+C-->  if one side is empty interface is not kept   <---
       IF ((TAG2.GT.0).AND.(TAG.GT.-1)) GOTO 149
       	
       GOTO 150
       
-C-->  on tag et compte les interfaces de contact     garder  <---      
+C-->  tag and couting for contact interfaces that will be kept  <---      
 149   TAGINT(I) = ID_INTER
       COMPT = COMPT+1
       

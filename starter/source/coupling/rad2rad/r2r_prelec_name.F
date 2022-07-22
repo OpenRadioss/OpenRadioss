@@ -82,7 +82,7 @@ C
 C
       IF (IPID.EQ.0) THEN
 C--------------------------------------------------------------------C
-C------Pr   lecture des noms des domaines --> Cas Fils ----------------C
+C------Prereading of domain names --> Child process -----------------C
 C--------------------------------------------------------------------C
       	     
         FLAG_FMT = 0
@@ -97,14 +97,14 @@ C---
           IF(N == KDOM)THEN
             DOM_NAME = ''//TRIM(TITR)
 	  ENDIF
-C-----    CALCUL DU NB TOTAL DE PARTS
+C-----    Computation of total number of parts
           CALL HM_GET_INTV('idsmax',NEL,IS_AVAILABLE,LSUBMODEL)
           NB_PART_SUB = NB_PART_SUB + NEL
         END DO
       
       ELSE
 C--------------------------------------------------------------------C
-C------Pr   lecture des noms des domaines --> Cas P   re ----------------C
+C------Prereading of domain names --> father process ----------------C
 C--------------------------------------------------------------------C
       	     
         N = 0
@@ -125,13 +125,13 @@ C
 	  ISUBDOM(7,N)=RLEN
 	  ISUBDOM(8,N)=DEB
 	  DEB=DEB+RLEN	    	    
-C-----    CALCUL DU NB TOTAL DE PARTS
+C-----    Computation of total number of parts
           CALL HM_GET_INTV('idsmax',NEL,IS_AVAILABLE,LSUBMODEL)
           NB_PART_SUB = NB_PART_SUB + NEL
 C 
         END DO	  
 
-C------Check des noms de domaines ----------------C
+C------Check of domain names ----------------C
        
         DO N=1,NSUBDOM
           DO K=N+1,NSUBDOM

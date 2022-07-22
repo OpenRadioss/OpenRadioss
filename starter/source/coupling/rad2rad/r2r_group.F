@@ -133,7 +133,7 @@ C-----------------------------------------------
       TMP_PART(:)= 0
       MODIF = 1
       INNOD = 0
-C----- Stockage de IGRN dans IGRN Temp---------------------------C
+C----- Storage of IGRN in IGRN Temp------------------------------C
       LENGRN = 9
       IF (FLAG == 1) THEN
         ALLOCATE(IGROUP_TEMP2(10,NGROU+10*NSUBDOM))
@@ -166,7 +166,7 @@ C----- Stockage de IGRN dans IGRN Temp---------------------------C
         ENDDO
       ENDIF
 C--------------------------------------------------------------------C
-C------Creation des groupes de noeuds d'interface des subdomaines----C
+C------Creation of groups of nodes of multidomains interface---------C
 C--------------------------------------------------------------------C
 !
       NGRNOD2  = NGRNOD
@@ -189,15 +189,15 @@ C--------------------------------------------------------------------C
       IF (IPID.EQ.0) NSUBDOM = 1
       NSUBDOM_LOC = NSUBDOM
       DO P=1,NSUBDOM_LOC
-C-----On fait 2 passes : passe 1 - noeuds de contact / passe 2 - noeuds de connection
+C-----2 pass : pass 1 - contact nodes / passe 2 - connection nodes
         N = P
         IF (IPID.EQ.0) N = IDDOM
         COMPT = 0
 C--------------------------------------------------------------------C			
-C---------------FLAG = 0 --> tag des noeuds et comptage--------------C
+C---------------FLAG = 0 --> tag of nodes and couting ---------------C
 C--------------------------------------------------------------------C
         IF (FLAG==0) THEN
-C---------------On remet a zero le fichier out + ajout de l'entete---C
+C---------------Reset of out file + printout of new heading ---------C
         IPID_L = IPID
         IF (FLG_SWALE.EQ.1) THEN
           IF (IPID.EQ.0) IPID_L = 1
@@ -219,7 +219,7 @@ C---------------On remet a zero le fichier out + ajout de l'entete---C
           CALL PRINTCENTER(" ",0,IOUT,2)  
           CALL PRINTCENTER(" ",0,IOUT,1)             
         ENDIF
-C---------------Allocation des tableaux tag d'elements---------------C
+C---------------Allocation of arrays for tag of elements--------------C
         ALLOCATE(TAG_ELC(NUMELC+NPART),TAG_ELS(NUMELS+NPART))
         ALLOCATE(TAG_ELG(NUMELTG+NPART),TAG_ELSP(NUMSPH+NPART))
         ALLOCATE(TAG_ELR(NUMELR+NPART),TAG_ELT(NUMELT+NPART))     
@@ -232,10 +232,10 @@ C---------------Allocation des tableaux tag d'elements---------------C
         TAG_ELR(:)=0
         TAG_ELQ(:)=0
         TAG_ELSP(:)=0
-C---------------Tag des Parts----------------------------------------C
+C---------------Tag of Parts-------------------------------------------C
         DO K=1,NPART
           TAGNO(K)=0
-C          ---> TAGNO(K)=-1 => PART K appartenant a un domaine deja traite---	       	 
+C          ---> TAGNO(K)=-1 => PART K belongs to an already treated subdomain---	       	 
           IF(TMP_PART(K)==-1) TAGNO(K)=-1  
         ENDDO
         ADD = ISUBDOM(3,N)
@@ -247,7 +247,7 @@ C          ---> TAGNO(K)=-1 => PART K appartenant a un domaine deja traite---
             ENDIF
           ENDDO	
         END DO
-C----------------Full domain inversion de la selection des parts-----C
+C----------------Full domain - inversion of part selection-------------C
         IF (IDDOM == 0) THEN
           DO K=1,NPART
             IF(TAGNO(K)==1) THEN
@@ -257,19 +257,19 @@ C----------------Full domain inversion de la selection des parts-----C
             ENDIF  
           ENDDO
         ENDIF
-C---------------> TAG DES PARTS : --------------------------------	  	  
-C---------------> TAGNO(K) = -1 -> Part d'un subdomain deja traite
-C---------------> TAGNO(K) = 0 -> Part interne au subdomain
-C---------------> TAGNO(K) = 1 -> Part externe au subdomain
+C---------------> TAG OF PARTS : ----------------------------------	  	  
+C---------------> TAGNO(K) = -1 -> Part of already treated subdmain
+C---------------> TAGNO(K) = 0 -> Internal part of subdomain
+C---------------> TAGNO(K) = 1 -> External part of subdomain
 
-C---------------> TAG DES NOEUDS : --------------------------------	  	  
-C---------------> TAGNO(K) = -1 -> Noeud externe au domaine
-C---------------> TAGNO(K) = 0 -> Noeud free
-C---------------> TAGNO(K) = 1 -> Noeud interne au domaine
-C---------------> TAGNO(K) = 2 -> Noeud couple
-C---------------> TAGNO(K) = 3 -> Noeud couple -> main node de RBODY
-C---------------> TAGNO(K) = 4 -> Noeud couple pour contact
-C---------------Detag des Noeuds deja traites------------------------C
+C---------------> TAG OF NODES : ----------------------------------	  	  
+C---------------> TAGNO(K) = -1 -> external node
+C---------------> TAGNO(K) = 0 -> free node (not attached to any domain)
+C---------------> TAGNO(K) = 1 -> internal node
+C---------------> TAGNO(K) = 2 -> coupled node
+C---------------> TAGNO(K) = 3 -> coupled node -> main node of RBODY
+C---------------> TAGNO(K) = 4 -> coupled node for contacts
+C---------------Detag of already treated nodes----------------------C
         CALL TAGNODS_R2R(IXS,IXS10,IXS20,IXS16,IPARTS,TAGNO,-1,N)       
         CALL TAGNOD_R2R(IXQ,NIXQ,2,5,NUMELQ,IPARTQ,TAGNO,NPART,-1,N)
         CALL TAGNOD_R2R(IXC,NIXC,2,5,NUMELC,IPARTC,TAGNO,NPART,-1,N)
@@ -278,7 +278,7 @@ C---------------Detag des Noeuds deja traites------------------------C
         CALL TAGNOD_R2R(IXR,NIXR,2,3,NUMELR,IPARTR,TAGNO,NPART,-1,N)
         CALL TAGNOD_R2R(IXTG,NIXTG,2,4,NUMELTG,IPARTG,TAGNO,NPART,-1,N)
         CALL TAGNOD_R2R(KXSP,NISP,3,3,NUMSPH,IPARTSP,TAGNO,NPART,-1,N)
-C---------------Tag des Noeuds -> passe 1----------------------------C
+C---------------Tag of nodes -> pass 1------------------------------C
         CALL TAGNODS_R2R(IXS,IXS10,IXS20,IXS16,IPARTS,TAGNO,0,N)
         CALL TAGNOD_R2R(IXQ,NIXQ,2,5,NUMELQ,IPARTQ,TAGNO,NPART,0,N)
         CALL TAGNOD_R2R(IXC,NIXC,2,5,NUMELC,IPARTC,TAGNO,NPART,0,N)
@@ -287,7 +287,7 @@ C---------------Tag des Noeuds -> passe 1----------------------------C
         CALL TAGNOD_R2R(IXR,NIXR,2,3,NUMELR,IPARTR,TAGNO,NPART,0,N)
         CALL TAGNOD_R2R(IXTG,NIXTG,2,4,NUMELTG,IPARTG,TAGNO,NPART,0,N)
         CALL TAGNOD_R2R(KXSP,NISP,3,3,NUMSPH,IPARTSP,TAGNO,NPART,0,N)
-C---------------Tag des Noeuds -> passe 2----------------------------C
+C---------------Tag of nodes -> pass 2-------------------------------C
         CALL TAGNODS_R2R(IXS,IXS10,IXS20,IXS16,IPARTS,TAGNO,1,N)
         CALL TAGNOD_R2R(IXQ,NIXQ,2,5,NUMELQ,IPARTQ,TAGNO,NPART,1,N)
         CALL TAGNOD_R2R(IXC,NIXC,2,5,NUMELC,IPARTC,TAGNO,NPART,1,N)
@@ -296,14 +296,14 @@ C---------------Tag des Noeuds -> passe 2----------------------------C
         CALL TAGNOD_R2R(IXR,NIXR,2,3,NUMELR,IPARTR,TAGNO,NPART,1,N)
         CALL TAGNOD_R2R(IXTG,NIXTG,2,4,NUMELTG,IPARTG,TAGNO,NPART,1,N)
         CALL TAGNOD_R2R(KXSP,NISP,3,3,NUMSPH,IPARTSP,TAGNO,NPART,1,N)
-C---------------Tag des 3e Noeuds des beams/springs -> passe 3-------C
+C---------------Tag of 3rd nodes of beams/springs -> pass 3----------C
         CALL TAGNOD_R2R(IXP,NIXP,4,4,NUMELP,IPARTP,TAGNO,NPART,3,N)
         CALL TAGNOD_R2R(IXR,NIXR,4,4,NUMELR,IPARTR,TAGNO,NPART,3,N)
-C---------------Tag des Noeuds additionels des kjoints --------------C        
+C---------------Tag of additionals nodes for kjoints-- --------------C        
         CALL TAGNOD_R2R(IXR_KJ,5,1,3,NUMELR,IPARTR,TAGNO,NPART,4,N)        
-C---------------Tag des Noeuds speciaux -> Skew,Frames---------------C 
+C---------------Tag of specific nodes -> Skew,Frames-----------------C 
         IF (P.EQ.NSUBDOM_LOC) CALL TAGNOD_R2R_S(TAGNO)
-C---------------Stockage du tag initial des noeuds ------------------C 
+C---------------Storage of initial tag of nodes----------------------C 
         DO I=1,NUMNOD
           TAGNO(NPART+NUMNOD+I) = TAGNO(NPART+I)
         END DO     
@@ -312,7 +312,7 @@ C////////////////////////////////////////////////////////////////////C
 C--------------------------------------------------------------------C
         DO WHILE ((MODIF.GT.0).AND.(COMPT.LT.80))
         MODIF = 0
-C---------------Prelecture des options pour tag de noeuds------------C 
+C---------------Prereading of options for tag of nodes---------------C
         IF (P.EQ.NSUBDOM_LOC) THEN
           CALL R2R_PRELEC(IPARTS,
      2           IPARTC,IPARTG,IPARTT,IPARTP,IPARTR,IPARTSP,COMPT_T2,
@@ -322,7 +322,7 @@ C---------------Prelecture des options pour tag de noeuds------------C
      6           IGRBEAM  ,IGRSPRING ,NEW_NSLASH_INT,LSUBMODEL,NEW_HM_NINTER,
      7           NEW_NINTSUB,NEW_NINIVOL,IXS10,IXS20,IXS16)
         ENDIF
-C---------------Tag des Noeuds des elements pretages ( pour TYPE2) --C
+C---------------Tag of nodes of pretaged elements ( for TYPE2)-------C
         IF (COMPT_T2.GT.0) THEN
         CALL TAGNODS_R2R(IXS,IXS10,IXS20,IXS16,TAG_ELS,TAGNO,2,1)
         CALL TAGNOD_R2R(IXC,NIXC,2,5,NUMELC,TAG_ELC,TAGNO,NPART,2,1)
@@ -332,11 +332,11 @@ C---------------Tag des Noeuds des elements pretages ( pour TYPE2) --C
         ENDIF
         COMPT = COMPT+1
         END DO ! DO WHILE
-C---------------Tag des noeuds ALE/lagrange -------------------------C
+C---------------Tag of nodes ALE/lagrange ---------------------------C
         IF (IALE.GT.0) THEN
           CALL ALE_CHECK_LAG(NALE_R2R,IXS,IXQ,IXC,IXT,IXTG,PM,ITAB,NALE_R2R,0)
         ENDIF
-C---------------Check FLG_FSI ---------------------------------------C
+C---------------Check of FLG_FSI ------------------------------------C
         IF (IALE+IEULER.GT.0) THEN
           CALL CHK_FLG_FSI(IXS,PM,IPARTS,ALE_EULER)
         ENDIF
@@ -349,7 +349,7 @@ C---------------Error message infinite loop -------------------------C
 C--------------------------------------------------------------------C
 C////////////////////////////////////////////////////////////////////C
 C--------------------------------------------------------------------C
-C---------------Modification du nb des options restantes-------------C
+C---------------Update of number of remaining options----------------C
           NRBODY  = NEW_NRBY
           NRBYKIN = NEW_NRBYKIN
           NJOINT  = NEW_NJOINT
@@ -367,17 +367,17 @@ C
           NUMMPC = NEW_NUMMPC
           NSPCOND = NSPCONDN
           NSPHIO = NSPHION
-C---------------Determination du flag sph sur interface--------------C
+C---------------Determination of flag for coupled sph particles------C
           FLG_SPH = 0
           DO J=1,NUMSPH
             IF (TAGNO(KXSP(NISP*(J-1)+3)+NPART).GT.1) FLG_SPH = 1
           END DO   
-C---------------Comptage des noeuds restants-------------------------C
+C---------------Couting of remaining nodes---------------------------C
           COMPT = 0
           DO J=1,NUMNOD
             IF (TAGNO(J+NPART).GT.1) INNOD = INNOD+1	        
           ENDDO
-C---------------Warnings sur la taille des interfaces ---------------C
+C---------------Warnings for size of interfaces ---------------------C
           IF (INNOD.EQ.0) THEN
             CALL ANCMSG(MSGID=839,
      .                MSGTYPE=MSGERROR,
@@ -386,7 +386,7 @@ C---------------Warnings sur la taille des interfaces ---------------C
      .                   C2="FOR DOMAIN",
      .                   I1=ISUBDOM(1,P))
           ELSE
-C--         Pour SPH on autorise les grosses interfaces multidomaines -> pas d'erreur juste un warning 
+C--         For SPH big multidomains interfaces are alloxed -> no error message only a warning
             IF ((FLG_SPH.EQ.1).OR.(FLG_FSI.EQ.1)) R2R_FLAG_ERR_OFF = 1
 C              
             FAC = (100*INNOD) / NUMNOD
@@ -405,7 +405,7 @@ C
      .                    I2=FAC)
             ENDIF
           ENDIF
-C---------------Warnings sur les interfaces de contact splittees-----C
+C---------------Warnings for splitted contact interfaces ------------C
           IF (TAGINT_WARN(1).GT.0) THEN
             CALL ANCMSG(MSGID=842,
      .                  MSGTYPE=MSGWARNING,
@@ -416,13 +416,13 @@ C---------------Warnings sur les interfaces de contact splittees-----C
 C--------------------------------------------------------------------C
         ELSE
 C--------------------------------------------------------------------C			
-C---------------FLAG = 1 --> Creation des groupes et links-----------C
+C---------------FLAG = 1 --> Creation of groups and links------------C
 C--------------------------------------------------------------------C
           INNOD = 0
           DO K=1,4
             COMPT = 0
             IAD_TMP = IAD
-C---------------Stockage dans le buffer------------------------------C	
+C---------------Storage inside buffer--------------------------------C	
             DO J=1,NUMNOD
               IF (TAGNO(J+NPART).EQ.(K+N)) THEN 
                 BUF_NOD(IAD)=J
@@ -432,7 +432,7 @@ C---------------Stockage dans le buffer------------------------------C
             ENDDO
             INNOD = INNOD + COMPT   
             IF (COMPT.GT.0) THEN
-C---------------Creation d'un nouveau GRNOD + LINK ------------------C
+C---------------Creation of new GRNOD + LINK ------------------------C
               IF (K == 1) THEN
                 TITR="MULTIDOMAINS INTERFACE TYPE CONNECTION "
               ELSEIF (K == 2) THEN
@@ -449,9 +449,9 @@ C---------------Creation d'un nouveau GRNOD + LINK ------------------C
               IGROUP_TEMP2(10,IGS)= -1  ! temporary tag new group
               NEW_TITLE(IGS) = TITR
 !---
-C---------------Creation d'un nouveau LINK---------------------------C
+C---------------Creation of new LINK---------------------------------C
                CALL NEW_LINK(NUM,N,K)              
-C---------------Incrementation des Variables pour futur GRNOD--------C
+C---------------Incrementation of Variables for future GRNOD---------C
                NUM = NUM+1
                IGS = IGS+1
                IF (COMPT.GT.0) N_LNK_C = N_LNK_C+1   
@@ -470,10 +470,10 @@ C---------------Incrementation des Variables pour futur GRNOD--------C
       ENDIF
       END DO
 C--------------------------------------------------------------------C
-C----- Recopiage des autres groupes  dans IGROUP_TEMP----------------C
+C----- Recopy of other groups in IGROUP_TEMP-------------------------C
 C--------------------------------------------------------------------C
 C--------------------------------------------------------------------C
-C----- Transfert de Igroup_temp vers IGRN--------------------------C
+C----- Transfer of Igroup_temp in IGRN-------------------------------C
 C--------------------------------------------------------------------C
       IF (FLAG == 1) THEN
         DO I=1,NGRNOD
@@ -513,7 +513,7 @@ C--------------------------------------------------------------------C
         END DO ! DO I=1,NGRNOD
       ENDIF ! IF (FLAG == 1)
 C--------------------------------------------------------------------C
-C----- Creation du fichier "_0000.r2r"-------------------------------C
+C----- Creation of file "_0000.r2r"----------------------------------C
 C--------------------------------------------------------------------C
       IF (FLAG == 1) THEN
         IF (IPID.NE.0) THEN

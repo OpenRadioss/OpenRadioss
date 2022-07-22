@@ -215,7 +215,7 @@ char messtop[512];
 	*fdr = fidr;
 	if (*ispmd == 0) printf(" MULTIDOMAINS COUPLING-  \n");
       
-        /********************ouverture semaphore**********************/
+        /********************opening of semaphore**********************/
 #if CPP_mach == CPP_w95 || CPP_mach == CPP_win64_spmd || CPP_mach == CPP_p4win64_spmd || CPP_mach == CPP_wnt || CPP_mach == CPP_wmr || CPP_mach == CPP_p4win64 || CPP_mach == CPP_p4win32
         sem_int = CreateSemaphore(NULL,0,128,NULL);
 	if (sem_int == NULL) {printf("error creation semahpore %d\n",GetLastError());}
@@ -257,7 +257,7 @@ char messtop[512];
      val = 0;
      sprintf(semaphore_int,"Sema_int_%d_%s_%d", val, root, *ppid);
      
-        /********************ouverture semaphore**********************/
+        /********************opening of semaphore**********************/
 #if CPP_mach == CPP_w95 || CPP_mach == CPP_win64_spmd || CPP_mach == CPP_p4win64_spmd || CPP_mach == CPP_wnt || CPP_mach == CPP_wmr || CPP_mach == CPP_p4win64 || CPP_mach == CPP_p4win32
         sem_int = CreateSemaphore(NULL,0,128,semaphore_int);
 	if (sem_int == NULL) {printf("error creation semahpore %d\n",GetLastError());}		
@@ -313,7 +313,7 @@ void syserr();
          sprintf(add_shmi,"Adress_shmi_%d_%d",ispmd_glob,r2r_id);
          sprintf(add_shmv,"Adress_shmv_%d_%d_%d",proc_id,ispmd_glob,r2r_id);
 	 
-        /***********************shared memeory**************************/
+        /***********************shared memory**************************/
 #if CPP_mach == CPP_w95 || CPP_mach == CPP_win64_spmd || CPP_mach == CPP_p4win64_spmd || CPP_mach == CPP_wnt || CPP_mach == CPP_wmr || CPP_mach == CPP_p4win64 || CPP_mach == CPP_p4win32
          shmid = CreateFileMapping (INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, global_len*sizeof(my_real_c), add_shm);
          shm = MapViewOfFile(shmid, FILE_MAP_READ | FILE_MAP_WRITE, 0, 0, 0);
@@ -467,7 +467,7 @@ my_real_c *crd;
 
 	if (*typ > 3)
 	{
-        /************************Cas des interfaces 4, 5 et 6*************************/
+        /************************coupling type 4, 5 and 6*****************************/
 	/*****************************************************************************/		
 	  for (i = 0; i < *nng; i++)
 	  {
@@ -496,7 +496,7 @@ my_real_c *crd;
 	}
 	else
 	{
-	/************************Cas des interfaces 1 et 2****************************/
+	/************************coupling type 1 and 2********************************/
 	/*****************************************************************************/
 	nbelem  = (int *) malloc(lbuf1);
 	cnelem  = (int *) malloc(sizeof(int));
@@ -505,7 +505,7 @@ my_real_c *crd;
 	tabl = (int **) malloc(sizeof(int*));		
 	listel2nbn  = (int *) malloc(sizeof(int));		
  	 	 
-	/********Cr??ation des buffers************/
+	/********Creation of buffers************/
 		
 	for (i = 0; i < *nng; i++)
 	{
@@ -553,7 +553,7 @@ my_real_c *crd;
 		dimno = dimno + nbelem[i];		 				
 	}
 			
-	/********Triage du buffer d'??lements************/
+	/********Sorting of element buffer************/
 	g = 0;
 	w = 0;	
 	listel  = (int *) (malloc(sizeof(int)));
@@ -578,9 +578,9 @@ my_real_c *crd;
 	  }	
 	}
 	
-	/*********filtrage du buffer de noeuds**************/
-	/*----(on supprime du buffer certains elements:
-	         - type 1,2 : les elements qui n'on qu'un seul noeud sur l'interface----*/
+	/*********filtering of buffer of nodes**************/
+	/*----(some elements are removed from buffer:
+	         - type 1,2 : elements with only one node on the interface----*/
 	t = 0;
 	k = 0;
 	m = 0;
@@ -604,7 +604,7 @@ my_real_c *crd;
 	  
 	  dimno = t;
 	  
-        /********envoi des buffers ?? Rad2rad**************/	
+        /********send of buffers to Rad2rad**************/	
 	
 	id = *igd;
 							
@@ -628,7 +628,7 @@ my_real_c *crd;
 	writer(fidw, (void *) listelnbn, lbufel);
 	writer(fidw, (void *) listelno, lbufb);
 	
-	/*********Desallcoation****************************/
+	/*********Deallocation****************************/
 	free(nbelem);	
 	free(cnelem);
 	free(tabl);
@@ -685,7 +685,7 @@ my_real_c *crd;
 	tabl = (int **) malloc(sizeof(int*));		
 	listel2nbn  = (int *) malloc(sizeof(int));
 
-	/********Cr??ation des buffers************/
+	/********Creation of buffers************/
 		
 	for (i = 0; i < *nng; i++)
 	{
@@ -732,7 +732,7 @@ my_real_c *crd;
 		dimno = dimno + nbelem[i];		 				
 	}
 			
-	/********triage du buffer d'elements************/
+	/********sorting of element buffer************/
 	
 	g = 0;
 	w = 0;
@@ -763,9 +763,9 @@ my_real_c *crd;
 	*tlel = w;
 	*tleln = g;
 	
-	/*********filtrage du buffer de noeuds**************/
-	/*----(on supprime du buffer certains elements:
-	         - type 1,2 : les elements qui n'on qu'un seul noeud sur l'interface--*/
+	/*********filtering of buffer of nodes**************/
+	/*----(some elements are removed from buffer:
+	         - type 1,2 : elements with only one node on the interface----*/
 	t = 0;
 	k = 0;
 	m = 0;
@@ -800,7 +800,7 @@ my_real_c *crd;
 	*tcnel = zz;
 	*tcneldb =zz2;
 	
-	/*********Desallcoation****************************/
+	/*********Deallocation****************************/
 	free(cnelem);
 	free(tabl);
 	free(nodid);
@@ -861,7 +861,7 @@ int i,j,lbuf, lbuf1,lbufb,lbufp,init_buf[8],lbufa,lbufel,lbufdimel,lbufc,offset,
 	lbufel  = *nbel*sizeof(int);
 	lbufdimel  = *dimel*sizeof(int);
         
-        /*************determination de la position des master pour les db nodes*************/
+        /*************determination of the master for db nodes******************************/
         if (*iex == 1) {masterdb = malloc(*nlnk*sizeof(int*));}
             
         offset = 0;
@@ -888,7 +888,7 @@ int i,j,lbuf, lbuf1,lbufb,lbufp,init_buf[8],lbufa,lbufel,lbufdimel,lbufc,offset,
 	writer(fidw, (void *) dbnbuf, lbufp);
 	writer(fidw, (void *) ddbuf, lbufp);
 	
-	/****infos sur les elements (envoy??s uniquement pour les interfaces type 1 et 2)***/
+	/****infos on elements (sent only for coupling type 1 and 2)*********************/
         if(*typ < 4) 
 	{writer(fidw, (void *) ibufnb, lbuf1);	
 	 writer(fidw, (void *) ibufcnel, lbufa);
@@ -1514,7 +1514,7 @@ int i, j, k, nn, nm, offset;
 				if((*typ < 4)||(*npas == 0)) 
 		    	           for (j = 0; j < 3; j++) com->vr_buf[k+j] =  vr[nn+j];
 			}
-			/************ changement d'état activa0 ou desactiva0 SPH - on transmet les coord au lieu des forces**************/
+			/************ change of state - activation or deactivation of SPH - coordinates are transmitted instead of forces**************/
 			if (flg_sphinout == 1)
 			  {com->iactv[i] = 0;
 			   if (*numsph_glo > 0)
@@ -1744,7 +1744,7 @@ my_real_c df, dm, wfl,wf2l,wml,wm2l;
             if ((*typ == 5)&&(*kin ==1)) in[nm] = com->iner_buf[i]; 
             for (j = 0; j < 3; j++)   {
                if (*typ < 4) v[nn+j] = com->vx_buf[k+j];
-	       /************ Gestion activation/desactivation des particules SPH ***********/
+	       /************ Activation/deactivation of SPH particles ***********/
 	       if (flg_sphinout==1)
                  if (com->iactv[i] == 1)
 	           {/* activation of particle */
@@ -1996,7 +1996,7 @@ void close_r2r_pipe_c_()
 void close_r2r_pipe_c__()
 {close_r2r_pipe_c();}
 
-/***************Routines de communications par sockets***********************/
+/***************Routines for socket communication***********************/
 
 void connection_sock_init_c(sd)
 int *sd;
@@ -2032,7 +2032,7 @@ int *sd;
     capt = -1;
     finished = 0;
     
- /********************Iteration sur les ports pour trouver un port libre ***************/
+ /********************Iteration on ports to find a free one***************/
  
     while (finished == 0) 
     {
@@ -2180,7 +2180,7 @@ char *addr;
     compt = 0;
     capt = -1;
                  
-/********************Iteration sur les ports pour trouver un port libre ***************/
+/********************Iteration on ports to find a free one***************/
      
     while ((capt == -1) && compt < 3)		      
     {port2 = SERV_TCP_PORT1-compt;
@@ -2655,9 +2655,9 @@ int i;
 	
         for (i = 0; i < (*ntagel)*3; i++)
           {
-			if (*flag == 0) /* *emission* */
+			if (*flag == 0) /* *send* */
 		  	  {com->tagels[com->buf[2]+i] = tagel[i];}
-			else if (*flag == 1) /* *reception* */
+			else if (*flag == 1) /* *receive* */
 			  {tagel[i] = com->tagelr[i];}
 	   }
 
@@ -3372,7 +3372,7 @@ void close_r2r_pipe_c_(pid)
 void close_r2r_pipe_c__(pid)
 {close_r2r_pipe_c();}
 
-/***************Routines de communications par sockets***********************/
+/***************Routines for socket communication***********************/
 
 void connection_sock_init_c(iroot,len,ispmd,sd,maxproc)
 int *iroot,*len,*ispmd,*sd,*maxproc;

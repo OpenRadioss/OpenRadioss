@@ -192,7 +192,7 @@ C
         ELSE
             ROOTNAM = DOM_NAME
             ROOTLEN = LEN_TRIM(ROOTNAM)         
-c-----------Initialisations pour les starters des subdomaines----
+c-----------Initialisations for the starter processes of the subdomains----
             FILNAM  =ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'.out'
             R2R_FILNAM = FILNAM
             TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//R2R_FILNAM(1:LEN_TRIM(R2R_FILNAM))    
@@ -200,7 +200,7 @@ c-----------Initialisations pour les starters des subdomaines----
             OPEN(UNIT=IOUT,FILE=TMP_NAME(1:LEN_TMP_NAME),
      .         ACCESS='SEQUENTIAL',
      .         FORM='FORMATTED',STATUS='UNKNOWN')
-c-----------On repointe les fichiers temporaires des messages d'erreur
+C-----------Repointing of temporary files for error messages
             RES_MES = 123458
             RES_TMP = 123459
             OPEN (UNIT=RES_MES,STATUS='SCRATCH',FORM='FORMATTED')
@@ -293,7 +293,7 @@ C-----------------------------------------------
 
       CALL GET_COMMAND(COMMAND,LEN,STATUS)
       
-C-------Incompatibilit    provisoire avec "<" remplac    par "-i" ----------------      
+C-------Incompatibility of "<" remplaced by "-i" ----------------      
       IF (LEN_TRIM(INPUT).EQ.0) THEN
         CALL ANCMSG(MSGID=840,
      .              MSGTYPE=MSGERROR,

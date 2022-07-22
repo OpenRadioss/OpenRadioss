@@ -95,7 +95,7 @@ C-----------------------------------------------
         NAM = TRIM(DOM_NAME)//'_'//CHRUN//'.domdec'
         DOMLEN = LEN_TRIM(DOM_NAME)+12
       ELSE
-C-----------1 seul subdomaine      
+C-----------only 1 subdomain   
         NAM=DOM_NAME(ISUBDOM(8,1):ISUBDOM(8,1)+
      .               ISUBDOM(7,1)-1)//'_'//CHRUN//'.domdec'
         DOMLEN = ISUBDOM(7,1)+12        
@@ -110,9 +110,9 @@ C-----------1 seul subdomaine
 C------------------------------------- 
         ALLOCATE(PLIST(NSPMD)) 
         PLIST(1:NSPMD) = -1
-C------ Informations pour FSI
+C------ Information for FSI
         WRITE(REF,1303,IOSTAT=ERR) FLG_FSI
-C------ Informations pour calcul de speedup
+C------ Information for speedup computation
         DO I=1,4
           WRITE(REF,1304,IOSTAT=ERR) DT_R2R(I,1)
         END DO
@@ -146,9 +146,9 @@ C
         DEALLOCATE(PLIST)
                 
       ELSEIF (FLAG == 0) THEN  
-C------ Informations pour FSI
+C------ Information for FSI
         READ(REF,1303,IOSTAT=ERR) FLG_FSI
-C------ Informations pour calcul de speedup
+C------ Information for speedup computation
         DO I=1,4
           READ(REF,1304,IOSTAT=ERR) DT_R2R(I,1)
         END DO

@@ -64,7 +64,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: IEX_TEMP        
 C-----------------------------------------------     
 
-C----- Stockage de IEXLNK dans IEX_TEMP---------------------------C
+C----- Storage of IEXLNK in IEX_TEMP---------------------------C
 
        ALLOCATE(IEX_TEMP(5,NR2RLNK+1))
 
@@ -74,7 +74,7 @@ C----- Stockage de IEXLNK dans IEX_TEMP---------------------------C
          END DO
        END DO       
        
-C----- Stockage des infos du nouveau link
+C----- Storage of new link information
 
        IEX_TEMP(1,NR2RLNK+1) = NUM 
        IEX_TEMP(3,NR2RLNK+1) = 0
@@ -83,7 +83,7 @@ C----- Stockage des infos du nouveau link
        IF (K == 2) IEX_TEMP(5,NR2RLNK+1) = 40
        IF ((K == 3).OR.(K == 4)) THEN
          IF (FLG_SWALE.EQ.0) THEN
-C--> cas contact avec elts voids cote subdomain - on inverse l'ordre de domaines      
+C--> contact with void elements in subdomain - order of domains is inverted
            IEX_TEMP(3,NR2RLNK+1) = N
            IEX_TEMP(4,NR2RLNK+1) = 0       
            IEX_TEMP(5,NR2RLNK+1) = 5
@@ -93,7 +93,7 @@ C--> cas contact avec elts voids cote subdomain - on inverse l'ordre de domaines
          ENDIF
        ENDIF
                 
-C----- Generation d'un numero de link
+C----- Generation of a new link
 
        NUM_LINK = 1
        DO I=1,NR2RLNK
@@ -102,7 +102,7 @@ C----- Generation d'un numero de link
 
        IEX_TEMP(2,NR2RLNK+1) = NUM_LINK 
        
-C----- Stockage de IEX_TEMP dans IEXLNK---------------------------C
+C----- Storage of IEX_TEMP in IEXLNK---------------------------C
        DEALLOCATE(IEXLNK)
        ALLOCATE(IEXLNK(5*(NR2RLNK+1)))
        NR2RLNK = NR2RLNK+1
