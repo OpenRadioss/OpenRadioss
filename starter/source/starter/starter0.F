@@ -186,11 +186,11 @@ C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER  ANEND      
 C--------------------------------------------------------
-C     LAM LONGUEUR MAX DU TABLEAU POUR LES REELS
-C     LMA LONGUEUR MAX DU TABLEAU POUR LES ENTIERS
+C     LAM MAX LENGTH REAL ARRAY
+C     LMA MAX LENGTH INTEGER ARRAY
 C
 C------------------------------------------------
-C     MACHINE.INC CONTIENT LES SPECIFS MACHINES
+C     MACHINE.INC CONTAINT MACHINES SPECIFICATIONS
 C     (MALLOC,IGFORM,TYPE MACHINE...)
 C------------------------------------------------
 #include      "machine.inc"
@@ -219,9 +219,8 @@ C=======================================================================
 C=======================================================================
 
 C-------------------------------------------------------------------
-C     NUMERO DE VERSION
-C      A MODIFIER CHAQUE FOIS QUE LA STRUCTURE DU FICHIER DE REPRISE
-C      EST MODIFIEE
+C     VERSION NUMBER
+C      TO BE MODIFIED WHEN STRUCTURE OF RST FILE IS MODIFIED
 C-------------------------------------------------------------------
 C
 C CODVERS : VERSION CODE        = 2019 IF RELEASE 2019
@@ -284,7 +283,7 @@ C-------------------------------------------------------------------
       IOUTP   = 0
       IOUTPUT = 0
 C-------------------------------------------------------------------
-C     MULTIDOMAINS -> LECTURE VARIABLE ENVIRONEMENT (WINDOWS)
+C     MULTIDOMAINS -> ENVIRONMENT VARIABLE READING(WINDOWS)
 C-------------------------------------------------------------------
       IPID = 1
       IDDOM = 0
@@ -302,8 +301,7 @@ C---------> IPID = 0 --> Multidomains switch ALE----------------
 
 C-------------------------------------------------------------------
 C     DATE
-C      A MODIFIER CHAQUE FOIS QUE LA STRUCTURE DU FICHIER DE REPRISE
-C      EST MODIFIEE
+C      TO BE MODIFIED WHEN STRUCTURE OF RST FILE IS MODIFIED
 C-------------------------------------------------------------------
 C ITESTV Format   [Version][YY][MM][DD]
       ITESTV           = 210290720
@@ -331,7 +329,7 @@ C No Decay for Starter
       CHECKSUM         = '0'
       UNITMAX          = 0
 C---
-C mise a 0 variable ecriture position double precision (XDP)
+C init to 0 variable position writing double precision (XDP)
       IRXDP            = 0
 C
       IF(IR4R8.EQ.2) ITESTV=-ITESTV
@@ -564,7 +562,7 @@ C      LTITR   = 40
       NSENSI  = 15 + LTITR
       NPROPGI = 750 + LTITR
       NPROPMI = 300 + LTITR
-C     npsav non utilise dans le starter
+C     npsav not used by starter
       NPSAV  = 0
       NR2R = 2
       NISP    = 8
@@ -870,7 +868,7 @@ c     (freeform)
 
       IF(IRUN.EQ.0)THEN
 C--------------------------------------------------
-C      RUN INITIAL
+C      INITIAL RUN 
 C--------------------------------------------------
         IRESMD=0
 C
@@ -897,7 +895,7 @@ c       stop CPU timer for lectur
 
       ELSE
 C--------------------------------------------------
-C     RUN DE MODIFICATIONS
+C     MODIFICATION RUN
 C--------------------------------------------------
 C ---------------------------------
 C MODIF FILES OPTIONS IS DEPRECATED
