@@ -80,7 +80,7 @@ C-----------------------------------------------
      	  NSN   =IPARI2(5,NI)
      	  NRTS  =IPARI2(3,NI)
      	  NRTM  =IPARI2(4,NI)
-C------------------------>   check des noeuds seconds  <-----------C
+C------------------------>   check of secondary nodes  <----------C
           DO J=1,NSN   
 	    CUR_ID = INTBUF_TAB(NI)%NSV(J)
             IF ((TAGNO(CUR_ID+NPART).EQ.2).AND.(TAGNO(CUR_ID+NPART+NUMNOD).EQ.-1)) THEN
@@ -88,7 +88,7 @@ C------------------------>   check des noeuds seconds  <-----------C
             ENDIF 		   		       	
           ENDDO
 
-C------------------------>   check des elements mains <-----------C
+C------------------------>   check of main elements <--------------C
           DO J=1,NRTM
             FACE(1) = INTBUF_TAB(NI)%IRECTM(4*(J-1)+1)
             FACE(2) = INTBUF_TAB(NI)%IRECTM(4*(J-1)+2)

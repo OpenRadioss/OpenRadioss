@@ -72,7 +72,7 @@ C-----------------------------------------------
       REF = 1981
       TAB_TMP(:)=0
 
-C-----Creation du tableau des Links---
+C-----Creation of arrays for Links---
 
       COMPT = 1
  
@@ -105,7 +105,7 @@ C-------------------------------------
       WRITE(REF,1000)'--------------------------------------------' 
       WRITE(REF,1400)'$         '
                                
-C-----Generation carte domains--------
+C-----Generation of domains input cards--------
 
       WRITE(REF,1000)'--------------------------------------------' 
       WRITE(REF,1000)' 1. DOMAINS                                 ' 
@@ -121,7 +121,7 @@ C-----Generation carte domains--------
 	WRITE(REF,1500) (TAB_TMP(J+ADDRESS(I)-1),J=1,NB(I))
       END DO
          
-C-----Generation carte interfaces-----
+C-----Generation of interfaces input cards -----
 
       WRITE(REF,1000)'--------------------------------------------'  
       WRITE(REF,1000)' 2. INTERFACES                              ' 
@@ -129,7 +129,7 @@ C-----Generation carte interfaces-----
        
       DO I=START,NR2RLNK          
         IF (IEXTER(5,I).EQ.40) THEN
-C--->  type = 40 -> interface des noeuds main de RBODY -----	 
+C--->  type = 40 -> interface for main nodes of RBODY -----	 
           WRITE(REF,1310) IEXTER(5,I)/10
         ELSEIF (IEXTER(5,I).EQ.50) THEN
 C--->  type = 50 -> interface type KINE----------------- -----	 
@@ -164,7 +164,7 @@ C--------
 C--------	
       END DO
   
-C-----Generation carte options--------
+C-----Generation of options input cards--------
 			       
       WRITE(REF,1000)'--------------------------------------------'  
       WRITE(REF,1000)' 3. OPTIONS                                 ' 

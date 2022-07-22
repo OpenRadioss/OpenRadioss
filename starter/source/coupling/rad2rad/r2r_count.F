@@ -78,13 +78,13 @@ C-----------------------------------------------
       INTEGER CCPL_T4_EXPO,CCPL_T4_IMPO,OFF,TAG10,TAG20    
       my_real AREA                
 C=======================================================================
-C---Pre-comptage des noeud/elements/surfaces/lignes gardes apres split--
+C---Pre-counting of nodes/elements/surfaces/lines kept after split------
 C=======================================================================
 
         OFF = NPART + NUMNOD
 
 C--------------------------------------------------------------------C
-C------Precomptage des nb de noeuds tages des GRNOD------------------C
+C------Precounting of nb of taged nodes of GRNOD---------------------C
 C--------------------------------------------------------------------C
         DO I=1,NGRNOD
 
@@ -107,7 +107,7 @@ C--------------------------------------------------------------------C
 	ENDDO
 
 C--------------------------------------------------------------------C
-C------Precomptage des surfaces internes et externes au domaine------C
+C------Precounting of internal and external surfaces of the domain---C
 C--------------------------------------------------------------------C
 
         IF (PASSE.EQ.0) THEN
@@ -116,7 +116,7 @@ C--------------------------------------------------------------------C
 	    COMPT = 0   	
             DO J=1,IGRSURF(I)%NSEG
               IF (IGRSURF(I)%ELTYP(J) == 0) THEN
-C    -> cas des surfaces definies par segments -> on determine les elements attaches aux segments <--
+C    -> case of surfaces defined by segments -> identification of elements attached to segments <--
 		 DO L=1,4		       
 		   IRECT(L,1)=IGRSURF(I)%NODES(J,L)
 		 END DO		     		       		       		       				       
@@ -127,7 +127,7 @@ C    -> cas des surfaces definies par segments -> on determine les elements atta
      .                ID_ELTG,1,GEO,PM,KNOD2ELC ,
      .                KNOD2ELTG,NOD2ELC,NOD2ELTG,THKE,2,IGEO,
      .                PM_STACK , IWORKSH)     
-C    -> on stocke provisoirement le type de l'element trouve dans le type de segment <--		    
+C    -> temporary storage if element found type in segment type <--		    
                  IF (ID_ELS.NE.0) THEN
                    IGRSURF(I)%ELTYP(J) = 11
                    IGRSURF(I)%ELEM(J)  = ID_ELS
@@ -141,7 +141,7 @@ C    -> on stocke provisoirement le type de l'element trouve dans le type de seg
                    IGRSURF(I)%ELEM(J)  = ID_ELTG
 		 ENDIF		      	   	   
 	      ENDIF
-C    -> comptage des segments initialement internes au domaine <--
+C    -> counting of segments intially in the domain <--
               CUR_ID  = IGRSURF(I)%ELEM(J)
 	      CUR_TYP = IGRSURF(I)%ELTYP(J)
               IP = 0
@@ -159,7 +159,7 @@ C    -> comptage des segments initialement internes au domaine <--
           END DO
 	ENDIF
 	
-C-------on compte     chaque passe les segments rajoutes----------------C
+C-------At each pass - number of added segments is counted--------------C
 
         DO I=1,NSURF
 	    COMPT = 0
@@ -197,14 +197,14 @@ C-------on compte     chaque passe les segments rajoutes----------------C
         END DO
 
 C--------------------------------------------------------------------C
-C------Precomptage des lignes internes et externes au domaine--------C
+C------Precounting of internal and external lines of the domain------C
 C--------------------------------------------------------------------C
 
         IF (PASSE.EQ.0) THEN
 	  ALLOCATE(ISLIN_R2R(2,NSLIN))
 	ENDIF
 	
-C-------on compte a chaque passe les lignes rajoutees---------------C
+C-------At each pass - number of added lined is counted--------------C
 
         DO I=1,NSLIN
 	    COMPT = 0  	    
@@ -226,7 +226,7 @@ C-------on compte a chaque passe les lignes rajoutees---------------C
          END DO
 
 C--------------------------------------------------------------------C
-C------Precomptage des grbric internes et externes au domaine--------C
+C------Precounting of grbric and external lines of the domain--------C
 C--------------------------------------------------------------------C
 
         IF (PASSE.EQ.0) THEN
@@ -234,7 +234,7 @@ C--------------------------------------------------------------------C
           DO I=1,NGRBRIC
 	    COMPT = 0   	
             DO J=1,IGRBRIC(I)%NENTITY
-C    -> comptage des selements initialement internes au domaine <--
+C    -> counting of elements initially in the domain  <--
               CUR_ID  = IGRBRIC(I)%ENTITY(J)		      					  			  
               IF (TAGNO(IPARTS(CUR_ID)).EQ.1) COMPT=COMPT+1
 	    END DO
@@ -244,7 +244,7 @@ C    -> comptage des selements initialement internes au domaine <--
           END DO
 	ENDIF
 	
-C-------on compte     chaque passe les elements rajoutes----------------C
+C-------At each pass - number of added elements is counted------------C
 
         DO I=1,NGRBRIC
 	  COMPT = 0

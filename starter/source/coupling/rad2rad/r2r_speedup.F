@@ -212,7 +212,7 @@ C
      .      +NUMELX+NUMSPH+NUMELIG3D
   
 C-----------------------------------------------
-C     Calcul des index dans dtelem pour chaque type d'element
+C     Computation of index in dtelem for each type of elements
 C-----------------------------------------------
       NUME(1) = NUMELS
       NUME(2) = NUMELQ
@@ -231,7 +231,7 @@ C-----------------------------------------------
       END DO
 
 C-----------------------------------------------
-C     Prise en compte des elements off et retri si necessaire
+C     Off elements must be taken into account and sorting if necessart
 C-----------------------------------------------  
       DO I = 1, NUMELS
         IF (ISOLOFF(I).NE.0) THEN
@@ -287,14 +287,14 @@ C
       END DO
 
 C-----------------------------------------------
-C     Calcul du pas de temps min par type d'element
+C     Compuation of min time step for each type of element 
 C----------------------------------------------- 
       DO I=1,11
         DT_MIN_ELEM(I) = DTELEM(1+DT_INDEX(I))
       END DO
 
 C-----------------------------------------------
-C     Lecture des donnes dans le fichier engine
+C     Prereading of data in engine input file
 C-----------------------------------------------   
       FILNAM=ROOTNAM(1:ROOTLEN)//'_0001.rad'
       TMP_NAME=INFILE_NAME(1:INFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))    
@@ -322,7 +322,7 @@ C--
           ENDIF
         ENDIF
 C
-C--     pas de temps nodal --
+C--     nodal time step--
         IF(KEYA(1:8).EQ.'/DT/NODA') THEN
           READ(71,*,END=20) DTSCA,DTMINI 
           DTNODA = DTSCA*DTNODA
@@ -330,7 +330,7 @@ C--     pas de temps nodal --
             FLG_CTL = 1 
             DTNODA = MAX(DTNODA,DTMINI)
           ENDIF
-C--     pas de temps solide --
+C--     solid element time step --
         ELSEIF(KEYA(1:9).EQ.'/DT/BRICK') THEN
           READ(71,*,END=20) DTSCA,DTMINI
           DTFAC1(1) = DTSCA 
@@ -342,7 +342,7 @@ C--     pas de temps solide --
               ENDIF
             END DO
           ENDIF
-C--     pas de temps quad --
+C--     quad element time step --
         ELSEIF(KEYA(1:9).EQ.'/DT/QUAD') THEN
           READ(71,*,END=20) DTSCA,DTMINI
           DTFAC1(2) = DTSCA 
@@ -354,7 +354,7 @@ C--     pas de temps quad --
               ENDIF
             END DO
           ENDIF
-C--     pas de temps coque --
+C--     shell element time step --
         ELSEIF(KEYA(1:9).EQ.'/DT/SHELL') THEN
           READ(71,*,END=20) DTSCA,DTMINI
           DTFAC1(3) = DTSCA
@@ -366,7 +366,7 @@ C--     pas de temps coque --
               ENDIF
             END DO
           ENDIF
-C--     pas de temps des elts beam-
+C--     beam element time step --
         ELSEIF (KEYA(1:8).EQ.'/DT/BEAM') THEN
           READ(71,*,END=20) DTSCA,DTMINI
           DTFAC1(4) = DTSCA
@@ -378,7 +378,7 @@ C--     pas de temps des elts beam-
               ENDIF
             END DO
           ENDIF
-C--     pas de temps des elts truss-
+C--     truss element time step --
         ELSEIF (KEYA(1:9).EQ.'/DT/TRUSS') THEN
           READ(71,*,END=20) DTSCA,DTMINI
           DTFAC1(5) = DTSCA 
@@ -390,7 +390,7 @@ C--     pas de temps des elts truss-
               ENDIF
             END DO
           ENDIF 
-C--     pas de temps des elts spring-
+C--     spring element time step --
         ELSEIF (KEYA(1:10).EQ.'/DT/SPRING') THEN
           READ(71,*,END=20) DTSCA,DTMINI
           DTFAC1(6) = DTSCA 
@@ -402,7 +402,7 @@ C--     pas de temps des elts spring-
               ENDIF
             END DO
           ENDIF
-C--     pas de temps des elts sh3n --
+C--     sh3n element time step --
         ELSEIF(KEYA(1:9).EQ.'/DT/SH_3N') THEN
           READ(71,*,END=20) DTSCA,DTMINI
           DTFAC1(7) = DTSCA
@@ -414,7 +414,7 @@ C--     pas de temps des elts sh3n --
               ENDIF
             END DO
           ENDIF
-C--     pas de temps des elts sph-
+C--     sph particle time step --
         ELSEIF (KEYA(1:10).EQ.'/DT/SPHCEL') THEN
           READ(71,*,END=20) DTSCA,DTMINI
           DTFAC1(10) = DTSCA 
@@ -426,14 +426,14 @@ C--     pas de temps des elts sph-
               ENDIF
             END DO
           ENDIF       
-C--     pas de temps par defaut --
+C--     default time step --
         ELSEIF(KEYA(1:4).EQ.'/DT ') THEN
           FLG_CTL = 1
           READ(71,*,END=20) DTSCA,DTMINI
           DO I=1,11
             DTFAC1(I) = DTSCA
           END DO
-C--     pas de temps max --
+C--     max time step--
         ELSEIF(KEYA(1:5).EQ.'/DTIX') THEN
           FLG_CTL = 1
           READ(71,*,END=20) DTINI,DTMAX      
@@ -447,7 +447,7 @@ C
       ENDIF
 
 C-----------------------------------------------
-C     Prediction finale du pas de temps
+C     Prediction of final time step
 C----------------------------------------------- 
       DT = EP30
       DO I=1,11

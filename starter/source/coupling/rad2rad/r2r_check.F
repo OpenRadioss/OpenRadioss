@@ -77,7 +77,7 @@ C-----------------------------------------------
 C
       DATA MESS/' ** ERROR EXTERNAL COUPLING DEFINITION '/      	
 
-C----- Check Id des Subdomaines--------------------------------------C
+C----- Check if Id of subdomains-----------------------------------C
 
         IF (NSUBDOM.GT.0) THEN
          DO N=1,NSUBDOM-1
@@ -94,7 +94,7 @@ C----- Check Id des Subdomaines--------------------------------------C
          END DO
         ENDIF
 
-C----- Check des parts des subdomaines-------------------------------C
+C----- Check of parts of subdomains-------------------------------C
 
         ALLOCATE(TAGPART(NPART))
         TAGPART = 0
@@ -117,7 +117,7 @@ C----- Check des parts des subdomaines-------------------------------C
 	  END DO
 	END DO
 
-C----- Check noeuds communs entre interfaces-------------------------C
+C----- Check of common nodes between interfaces---------------------C
 
 !        DO N=1,NR2RLNK-1
 !	   DO I=N+1,NR2RLNK
@@ -129,7 +129,7 @@ C		 IERR=IERR+1
 !	   END DO  
 !	END DO
 
-C----- Check multidomaines node groupes------------------------------C
+C----- Check of multidomains node groups-----------------------------C
 
         DO N=1,NR2RLNK
            IGR = IEXTER(1,N)

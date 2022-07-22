@@ -46,7 +46,7 @@ C-----------------------------------------------
       INTEGER J,L,NUM_KJ,RES
 C=======================================================================
 
-c-----si FLAG = -1 : on detag les noeuds du subdomaine courant------
+c-----FLAG = -1 : reset of tag for nodes of the current subdomain------
 
       IF (FLAG==-1) THEN
 
@@ -60,7 +60,7 @@ c-----si FLAG = -1 : on detag les noeuds du subdomaine courant------
 	  ENDIF
         ENDDO
 
-c-----si FLAG = 0 : on tag tous les noeuds du domaine------
+c-----FLAG = 0 : tag of the nodes of the domain------
 
       ELSEIF (FLAG==0) THEN
 
@@ -76,7 +76,7 @@ c-----si FLAG = 0 : on tag tous les noeuds du domaine------
 
       ELSEIF (FLAG==1) THEN
 
-c-----si FLAG = 1 : un noeud deja tage sur une part non tagee est un noeud d'intersection------
+c-----FLAG = 1 : a tagged node on of an untagged part is a node on the multidomains interface------
 
         DO J=1,NUMEL
           IF (TAGBUF(IPARTE(J)).EQ.0) THEN
@@ -85,7 +85,7 @@ c-----si FLAG = 1 : un noeud deja tage sur une part non tagee est un noeud d'int
 	        TAGBUF(IX(L,J)+NPART)=1+IDOM
 	      ELSEIF (TAGBUF(IX(L,J)+NPART)>1) THEN
 	        IF (TAGBUF(IX(L,J)+NPART).NE.(1+IDOM)) THEN
-C-------------Erreur noeuds communs entre subdomaines----------------
+C-------------Error -  common nodes between domains ----------------
                CALL ANCMSG(MSGID=838,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO,
@@ -94,7 +94,7 @@ C-------------Erreur noeuds communs entre subdomaines----------------
      .                     C1="NODES")
 		ENDIF
 	      ELSE
-C-------------Tag des noeuds externes avec l'id de leur domaine------
+C-------------Tag of external nodes with the id of their domain------
 	        TAGBUF(IX(L,J)+NPART)=-IDOM
               ENDIF
             ENDDO
@@ -103,10 +103,10 @@ C-------------Tag des noeuds externes avec l'id de leur domaine------
 
       ELSEIF (FLAG==2) THEN
 
-C-----si FLAG = 2 : tag des noeuds des elements pretages pour les contacts---------
+C-----FLAG = 2 : tag of nodes of elements tagged for the contacts between domains---------
 
         DO J=1,NUMEL
-C----------> on passe le TAG_EL dans IPARTE-------------
+C----------> TAG_EL is transfered to IPARTE-------------
           TAG_EL=IPARTE(J+NPART)
           IF (TAG_EL.GT.0) THEN
             DO L=NIX1,NIX2
@@ -125,7 +125,7 @@ C----------> on passe le TAG_EL dans IPARTE-------------
 
       ELSEIF (FLAG==3) THEN
 
-C-----si FLAG = 3 : tag des noeuds additionnels des springs---------
+C-----FLAG = 3 : tag of additional nodes of springs---------
       
         DO J=1,NUMEL
           IF (TAGBUF(IPARTE(J)).EQ.1) THEN
@@ -153,7 +153,7 @@ C-----si FLAG = 3 : tag des noeuds additionnels des springs---------
 
       ELSEIF ((FLAG==4).AND.(NUMEL.GT.0)) THEN
       
-C-----si FLAG = 4 : tag des noeuds additionnels des kjoints---------
+C-----FLAG = 4 : tag of additional nodes of kjoints----------
       
         NUM_KJ = IX(1,NUMEL+1)
         
@@ -221,7 +221,7 @@ C-----------------------------------------------
       INTEGER I,J,K,OFF
 C=======================================================================
 
-c-----on tag les noeuds des skews ------
+c-----tag of the nodes of the skews ------
 
         DO J=1,NUMSKW
 	  DO K=1,3
@@ -233,7 +233,7 @@ c-----on tag les noeuds des skews ------
 	  END DO
         ENDDO
 
-c-----on tag les noeuds des frames ------
+c-----tag of the nodes of the frames ------
 
         OFF = LISKN*(NUMSKW+1)
         DO J=1,NUMFRAM
@@ -287,7 +287,7 @@ C=======================================================================
       NP = NPART
 
 C-----------------------------------------------------------------------------------------------
-c-----si FLAG = -1 : on detag les noeuds du subdomaine courant ---------------------------------
+c-----FLAG = -1 : reset of tag for nodes of the current subdomain-------------------------------
 C-----------------------------------------------------------------------------------------------
 
       IF (FLAG==-1) THEN
@@ -343,7 +343,7 @@ C-----------
       ENDDO
 
 C-----------------------------------------------------------------------------------------------
-c-----si FLAG = 0 : on tag tous les noeuds -----------------------------------------------------
+c-----FLAG = 0 : tag of all nodes --------------------------------------------------------------
 C-----------------------------------------------------------------------------------------------
 
       ELSEIF (FLAG==0) THEN
@@ -399,7 +399,7 @@ C-----------
       ENDDO
 
 C-----------------------------------------------------------------------------------------------
-C-----si FLAG = 1 : un noeud deja tage sur une parte non tagee est un noeud d'intersection------
+c-----FLAG = 1 : a tagged node on of an untagged part is a node on the multidomains interface---
 C-----------------------------------------------------------------------------------------------
 
       ELSEIF (FLAG==1) THEN
@@ -410,7 +410,7 @@ C-------------------------------------------------------------------------------
 	    IF (TAGBUF(IXS(L,J)+NP)==1) TAGBUF(IXS(L,J)+NP)=1+IDOM
 	    IF (TAGBUF(IXS(L,J)+NP)>1) THEN
 	      IF (TAGBUF(IXS(L,J)+NP).NE.(1+IDOM)) THEN
-C-------------Erreur noeuds communs entre subdomaines----------------
+C-------------Error -  common nodes between domains -----------------
                CALL ANCMSG(MSGID=838,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO,
@@ -433,7 +433,7 @@ C-------------------------------------------------------------------------------
 	    IF (TAGBUF(IXS(L,J)+NP)==1) TAGBUF(IXS(L,J)+NP)=1+IDOM
 	    IF (TAGBUF(IXS(L,J)+NP)>1) THEN
 	      IF (TAGBUF(IXS(L,J)+NP).NE.(1+IDOM)) THEN
-C-------------Erreur noeuds communs entre subdomaines----------------
+C-------------Error -  common nodes between domains ----------------
                CALL ANCMSG(MSGID=838,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO,
@@ -449,7 +449,7 @@ C-------------Erreur noeuds communs entre subdomaines----------------
 	    IF (TAGBUF(IXS10(L,I)+NP)==1) TAGBUF(IXS10(L,I)+NP)=1+IDOM
 	    IF (TAGBUF(IXS10(L,I)+NP)>1) THEN
 	      IF (TAGBUF(IXS10(L,I)+NP).NE.(1+IDOM)) THEN
-C-------------Erreur noeuds communs entre subdomaines----------------
+C-------------Error -  common nodes between domains -----------------
                CALL ANCMSG(MSGID=838,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO,
@@ -473,7 +473,7 @@ C-------------------------------------------------------------------------------
 	    IF (TAGBUF(IXS(L,J)+NP)==1) TAGBUF(IXS(L,J)+NP)=1+IDOM
 	    IF (TAGBUF(IXS(L,J)+NP)>1) THEN
 	      IF (TAGBUF(IXS(L,J)+NP).NE.(1+IDOM)) THEN
-C-------------Erreur noeuds communs entre subdomaines----------------
+C-------------Error -  common nodes between domains -----------------
                CALL ANCMSG(MSGID=838,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO,
@@ -489,7 +489,7 @@ C-------------Erreur noeuds communs entre subdomaines----------------
 	    IF (TAGBUF(IXS20(L,I)+NP)==1) TAGBUF(IXS20(L,I)+NP)=1+IDOM
 	    IF (TAGBUF(IXS20(L,I)+NP)>1) THEN
 	      IF (TAGBUF(IXS20(L,I)+NP).NE.(1+IDOM)) THEN
-C-------------Erreur noeuds communs entre subdomaines----------------
+C-------------Error -  common nodes between domains ----------------
                CALL ANCMSG(MSGID=838,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO,
@@ -513,7 +513,7 @@ C-------------------------------------------------------------------------------
 	    IF (TAGBUF(IXS(L,J)+NP)==1) TAGBUF(IXS(L,J)+NP)=1+IDOM
 	    IF (TAGBUF(IXS(L,J)+NP)>1) THEN
 	      IF (TAGBUF(IXS(L,J)+NP).NE.(1+IDOM)) THEN
-C-------------Erreur noeuds communs entre subdomaines----------------
+C-------------Error -  common nodes between domains -----------------
                CALL ANCMSG(MSGID=838,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO,
@@ -529,7 +529,7 @@ C-------------Erreur noeuds communs entre subdomaines----------------
 	    IF (TAGBUF(IXS16(L,I)+NP)==1) TAGBUF(IXS16(L,I)+NP)=1+IDOM
 	    IF (TAGBUF(IXS16(L,I)+NP)>1) THEN
 	      IF (TAGBUF(IXS16(L,I)+NP).NE.(1+IDOM)) THEN
-C-------------Erreur noeuds communs entre subdomaines----------------
+C-------------Error -  common nodes between domains -----------------
                CALL ANCMSG(MSGID=838,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO,
@@ -546,7 +546,7 @@ C-------------Erreur noeuds communs entre subdomaines----------------
 
 
 C-----------------------------------------------------------------------------------------------
-c-----si FLAG = 2 : tag des noeuds des elements pretages ( traitement interfaces TYPE2) --------
+c-----si FLAG = 2 : tag of nodes of tagged elements ( treatement for interfaces TYPE2) ---------
 C-----------------------------------------------------------------------------------------------
 
       ELSEIF (FLAG==2) THEN

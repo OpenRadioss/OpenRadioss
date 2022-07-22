@@ -98,7 +98,7 @@ C=======================================================================
       IF (FLAG.EQ.0) THEN
       
 C--------------------------------------------------------------------C			
-C---------------FLAG = 0 --> tag des elements de la surface----------C
+C---------------FLAG = 0 --> tag of the elements of the surface------C
 C--------------------------------------------------------------------C
       		      
         DO J=1,NB
@@ -110,7 +110,7 @@ C--------------------------------------------------------------------C
           NI = FACE(1)
           ELTAG = 0  		  
 
-C------------------------>   cas des faces de solides  <-------------C      
+C------------------------>   faces of solids  <----------------------C      
           DO L = KNOD2ELS(NI)+1,KNOD2ELS(NI+1)
             CUR_ID = NOD2ELS(L)                     
             DO K = 1,4
@@ -146,7 +146,7 @@ C------------------------>   cas des faces de solides  <-------------C
 	    ENDIF
 	  END DO
 
-C------------------------>   cas des coques  <-----------------------C		    
+C------------------------>  shells  <--------------------------------C		    
           DO L = KNOD2ELC(NI)+1,KNOD2ELC(NI+1)
             CUR_ID = NOD2ELC(L)
             DO K = 1,4
@@ -162,7 +162,7 @@ C------------------------>   cas des coques  <-----------------------C
 		    CALL MODIF_TAG(TAG_ELC(CUR_ID+NPART),1+CONT+F2,MODIF)
 	    ENDIF
 	  END DO
-C------------------------>   cas des coques triangles  <-------------C
+C------------------------>   sh3n  <---------------------------------C
           DO L = KNOD2ELTG(NI)+1,KNOD2ELTG(NI+1)
             CUR_ID = NOD2ELTG(L)
             DO K = 1,4
@@ -179,7 +179,7 @@ C------------------------>   cas des coques triangles  <-------------C
 	    ENDIF		      
 	  END DO
 
-C------------------------>   cas des segments sans elements  <-------------C
+C------------------------>   segments without elements  <------------C
           IF (ELTAG.EQ.0) THEN
             DO K = 1,4
               IF (TAGNO(FACE(K)+NPART).EQ.-1) THEN
@@ -192,13 +192,13 @@ C
 	      
       ELSE
 
-C--------------------------------------------------------------------C			
-C---------------FLAG = 1 --> tag des elts des noeuds de la surface---C
+C--------------------------------------------------------------------C
+C---------------FLAG = 1 --> tag of the nodes of the surface---------C
 C--------------------------------------------------------------------C
       
         DO J=1,NB
           NI = IGRNOD(GR_ID)%ENTITY(J)
-C------------------------>   cas des faces de solides  <-------------C		    
+C------------------------>   faces of solids  <----------------------C 		    
           DO L = KNOD2ELS(NI)+1,KNOD2ELS(NI+1)
             CUR_ID = NOD2ELS(L)
             IF ((TAG_ELS(CUR_ID+NPART).LT.(1+CONT)).AND.
@@ -206,7 +206,7 @@ C------------------------>   cas des faces de solides  <-------------C
 		    CALL MODIF_TAG(TAG_ELS(CUR_ID+NPART),1+CONT,MODIF)
 	    ENDIF
 	  END DO
-C------------------------>   cas des coques  <-----------------------C		    
+C------------------------>   shells  <-------------------------------C		    
           DO L = KNOD2ELC(NI)+1,KNOD2ELC(NI+1)
             CUR_ID = NOD2ELC(L)
             IF ((TAG_ELC(CUR_ID+NPART).LT.(1+CONT)).AND.
@@ -214,7 +214,7 @@ C------------------------>   cas des coques  <-----------------------C
 		    CALL MODIF_TAG(TAG_ELC(CUR_ID+NPART),1+CONT,MODIF)
 	    ENDIF
 	  END DO
-C------------------------>   cas des coques triangles  <-------------C
+C------------------------>  sh3n  <----------------------------------C
           DO L = KNOD2ELTG(NI)+1,KNOD2ELTG(NI+1)
             CUR_ID = NOD2ELTG(L)
             IF ((TAG_ELG(CUR_ID+NPART).LT.(1+CONT)).AND.
@@ -222,7 +222,7 @@ C------------------------>   cas des coques triangles  <-------------C
 		      CALL MODIF_TAG(TAG_ELG(CUR_ID+NPART),1+CONT,MODIF)
 	    ENDIF		      
 	  END DO
-C------------------------>   cas des particules SPH  <---------------C
+C------------------------>  SPH particles <--------------------------C
           IF (NUMSPH.GT.0) THEN
             CUR_ID = NOD2SP(NI)
             IF ((TAG_ELSP(CUR_ID+NPART).LT.(1+CONT)).AND.
@@ -281,13 +281,13 @@ C-----------------------------------------------
 C======================================================================= 
 
 C--------------------------------------------------------------------C			
-C---------------------tag des elements de la ligne-------------------C
+C---------------------tag of elements of the line--------------------C
 C--------------------------------------------------------------------C
       		      
       DO J=1,NB	
           NI1 = IGRSLIN%NODES(J,1)
           NI2 = IGRSLIN%NODES(J,2)
-C------------------------>   cas des coques  <-----------------------C		    
+C------------------------>   shells  <-------------------------------C		    
           DO L = KNOD2ELC(NI1)+1,KNOD2ELC(NI1+1)
             CUR_ID = NOD2ELC(L)
 	    FLAG = 0 	    
@@ -300,7 +300,7 @@ C------------------------>   cas des coques  <-----------------------C
 	    IF (FLAG == 1) 
      .        CALL MODIF_TAG(TAG_ELC(CUR_ID+NPART),1+CONT,MODIF)	    
 	  END DO
-C------------------------>   cas des coques triangles  <-------------C
+C------------------------>  sh3n  <----------------------------------C
           DO L = KNOD2ELTG(NI1)+1,KNOD2ELTG(NI1+1)
             CUR_ID = NOD2ELTG(L)
 	    FLAG = 0	    
@@ -313,12 +313,12 @@ C------------------------>   cas des coques triangles  <-------------C
 	    IF (FLAG == 1)
      .        CALL MODIF_TAG(TAG_ELG(CUR_ID+NPART),1+CONT,MODIF)	    	    		      
           END DO
-C------------------------>   cas des TRUSS / BEAM / SPRINGS <-------------C
+C------------------------> TRUSS / BEAM / SPRINGS <-----------------C
           DO L = KNOD2EL1D(NI1)+1,KNOD2EL1D(NI1+1)
             CUR_ID = NOD2EL1D(L)
 	    FLAG = 0
 	    IF (CUR_ID.LE.NUMELT) THEN
-C---------->               cas des TRUSS 	    	    
+C---------->               TRUSS 	    	    
                IF ((TAG_ELT(CUR_ID+NPART).LT.(1+CONT)).AND.
      .         (TAGNO(IPARTT(CUR_ID)).NE.VAL)) THEN
                   DO K=2,3
@@ -329,7 +329,7 @@ C---------->               cas des TRUSS
 	      IF (FLAG == 1)
      .          CALL MODIF_TAG(TAG_ELT(CUR_ID+NPART),1+CONT,MODIF)	       
 	    ELSEIF (CUR_ID.LE.(NUMELT+NUMELP)) THEN
-C---------->               cas des BEAM
+C---------->               BEAM
                CUR_P = CUR_ID-NUMELT 
                IF ((TAG_ELP(CUR_P+NPART).LT.(1+CONT)).AND.
      .         (TAGNO(IPARTP(CUR_P)).NE.VAL)) THEN
@@ -341,7 +341,7 @@ C---------->               cas des BEAM
 	      IF (FLAG == 1)
      .          CALL MODIF_TAG(TAG_ELP(CUR_P+NPART),1+CONT,MODIF)
 	    ELSE
-C---------->               cas des ressorts ( incompatible pour l'instant )
+C---------->               SPRINGS (not yet compatible)
                CUR_P = CUR_ID-NUMELT-NUMELP 
                IF ((TAG_ELR(CUR_P+NPART).LT.(1+CONT)).AND.
      .         (TAGNO(IPARTR(CUR_P)).NE.VAL)) THEN
@@ -352,7 +352,7 @@ C---------->               cas des ressorts ( incompatible pour l'instant )
 	       IF (FLAG == 1) WARN = 1	           	    
 	    ENDIF	    	    	    		      
           END DO	  	  
-C------------------------>   cas des faces de solides  <-------------C		    
+C------------------------>   faces of solids  <---------------------C		    
           DO L = KNOD2ELS(NI1)+1,KNOD2ELS(NI1+1)
             CUR_ID = NOD2ELS(L)
 	    FLAG = 0	    

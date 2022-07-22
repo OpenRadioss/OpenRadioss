@@ -106,7 +106,7 @@ C------------------------------------------------------
           NNG  = IGRNOD(IDG)%NENTITY
           GRNOD => IGRNOD(IDG)%ENTITY
 	  IF (IRESP.EQ.1) THEN
-C----------simple precision : on remplace DX par XDP--------------	                                    
+C----------simple precision : DX is replaced by XDP--------------	                                    
              CALL SEND_DATA_C(
      .        IDP    ,NNG    ,GRNOD  ,A      ,AR     ,     
      .        STX    ,STR    ,V      ,VR     ,MS     ,IN     ,     
@@ -130,7 +130,7 @@ C---------double precision---------------------------------------
           NNG  = IGRNOD(IDG)%NENTITY                                    
           GRNOD => IGRNOD(IDG)%ENTITY
 	  IF (IRESP.EQ.1) THEN
-C----------simple precision : on remplace DX par XDP-------------	  	                                      
+C----------simple precision : DX is replaced by XDP--------------	  	                                      
              CALL SEND_DATA_SPMD(
      .           IDP,NNG,GRNOD        ,A                    ,AR     ,     
      .           STX,STR,V            ,VR                   ,MS     ,     
@@ -179,7 +179,7 @@ C------------------------------------------------------
 C------------------------------------------------------
         IF (R2R_ACTIV == 1) THEN
            CALL GET_IBUF_C(R2R_ON,1)
-C---------infos pour th--------------------------------        
+C---------infos for th---------------------------------        
            IF (R2R_SIU.EQ.1) THEN            
              CALL SEND_IBUF_C(R2R_TH_FLAG,10)
              IF (IDDOM.EQ.0) CALL SEND_IBUF_C(R2R_TH_MAIN,10)         
@@ -530,7 +530,7 @@ C=======================================================================
        OFF = 0
 
        IF (R2R_SIU.EQ.1) THEN      
-C----------Echange itag ( 0 reception / 1 emission) --------------
+C----------Echange of itag ( 0 reception / 1 emission) --------------
          DO IEX = 1, NR2RLNK
            IDP  = IEXLNK(2,IEX)
            IDG  = IEXLNK(1,IEX)

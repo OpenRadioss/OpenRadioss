@@ -136,7 +136,7 @@ C------SPH+Multidomains--------------------->
             FLG_SPHINOUT_R2R = MIN(1,FLG_SPHINOUT_R2R)
           ENDIF
        ENDIF
-C------Elimination des interfaces TYPE2 sans secnds nodes---------------->   
+C------Elimination of TYPE2 interfaces without second. nodes---------------->   
        IF (R2R_SIU.EQ.1) THEN
          DO I=1,NINTER
            NSN_GLOB = IPARI(5,I)
@@ -151,7 +151,7 @@ C------Cas SMP initialization---------------c
        DO I = 1, ROOTLEN
            IROOT(I) = ICHAR(ROOTNAM(I:I))
        END DO	
-C----- Connection premiere socket-----------c
+C----- Connection of first socket-----------c
        IF (ISPMD.EQ.0) THEN
          SOCKET(1)=SOCK0 
          CALL SEND_SOCK_INIT_C(IROOT,ROOTLEN,ISPMD,
@@ -159,7 +159,7 @@ C----- Connection premiere socket-----------c
        ENDIF
 C----- Synchronisation of the process - transfer of hostname     
        IF (NSPMD.GT.1) CALL SPMD_R2R_SYNC(ADDR)       
-C----- Connection socket des threads--------c
+C----- Connection of socket of threads--------c
        IF(ISPMD.EQ.0) THEN     	      
          DO ITSK=2,NTHREAD
            CALL GET_NAME_C(ADDR)
@@ -222,14 +222,14 @@ C------	determination of the type of the interface
 	   SIZE_TAG_RBY = SIZE_TAG_RBY + NNG
 	ENDIF
 
-C--------------Mise a zero de weight2 pour les noeuds dupliqus--------        
+C--------------Reset of weight2 for dupplicated nodes--------        
         IF ((TYPLNK(IEX).EQ.5).AND.(MAIN_SIDE.EQ.1)) THEN
            DO NN=1,NNG
              N = IGRNOD(IDG)%ENTITY(NN)
              WEIGHT_MD(N) = 0
            END DO
         ENDIF        
-C--------------Initialisation des tableaux pour rlinks/cyljoints------         
+C--------------Initialisation of arrays for rlinks/cyljoints------         
         IF ((TYPLNK(IEX).EQ.5).AND.(KINLNK(IEX).EQ.1)) THEN        
            ALLOCATE(R2R_KINE(3,NNG))
            R2R_KINE(:,:)=0                      
@@ -320,7 +320,7 @@ C
    
        ELSE
             	                                 
-C------Allocation des Tableaux Communs
+C------Allocation of common arrays
        ALLOCATE(TYPLNK(NR2RLNK),ROTLNK(NR2RLNK))          
        ALLOCATE(DBN(NR2RLNK,NSPMD),NBEL(NR2RLNK,NSPMD))
        ALLOCATE(TBCNEL(NR2RLNK,NSPMD),TBCNELDB(NR2RLNK,NSPMD))
@@ -397,7 +397,7 @@ c------
           CALL SPMD_IBCAST(RBYLNK(IEX),RBYLNK(IEX),1,1,0,2)
           CALL SPMD_IBCAST(KINLNK(IEX),KINLNK(IEX),1,1,0,2)            
 	ENDIF
-C--------------Mise a zero de weight2 pour les noeuds dupliqus--------        
+C--------------Reset of weight2 for duplicated nodes--------        
         IF ((TYPLNK(IEX).EQ.5).AND.(MAIN_SIDE.EQ.1)) THEN
           DO NN=1,NNG
             N = IGRNOD(IDG)%ENTITY(NN)
@@ -541,15 +541,15 @@ C-----------------------------------------------
 C
 C-----------------------------------------------
 C*******************************************************************************************************************************************************C
-C-  Tableau: (pour chaque proc )                                                    concatn sur le proc 0 en :           de longueur :
-C......... BCS : infos sur les boundary conditions des noeuds d'interface -----------------------------------> IBUFBCS                 NNG 
-C......... CNELEM : liste des lements attachs aux noeuds d'interface --------------------------------------> IBUFCNEL                TCNELT(IEX) 
-C......... NBELEM : nombre d'lements attachs  chaque noeud d'interface -----------------------------------> IBUFNONBEL              NNG
-C......... CNELEMDB : liste des lements attachs aux noeuds d'interface sur plusieurs procs ----------------> IBUFCNELDB              TCNELTDB(IEX)
-C......... NBELEMDB : nombre d'lements attachs  chaque noeud d'interfacec sur plusieurs procs ------------> DBIBUFNONBEL            DBNO(IEX)
-C..........LEL : Liste des id ( numerotation locale + offset) des elements intervenant dans les interfaces---> IBUFEL                  NBELT_R2R(IEX)
-C..........LELNBNOD : nombre de noeuds d'interface attach  chaque element de l'interface ------------------> IBUFELNBNOD             NBELT_R2R(IEX)
-C..........LELNOD : Liste des noeuds d'interface attachs aux elements de LEL -------------------------------> IBUFELNOD               NBELTN_R2R(IEX)
+C-  Array: (for each spmd domain)                                                            concatenation on proc 0 :         length :
+C......... BCS : boundary conditions on interface nodes -----------------------------------------------------> IBUFBCS                 NNG 
+C......... CNELEM : list of elements attached to interface nodes --------------------------------------------> IBUFCNEL                TCNELT(IEX) 
+C......... NBELEM : nb of elements attached to interface nodes ----------------------------------------------> IBUFNONBEL              NNG
+C......... CNELEMDB : list of elements attached to interface nodes that are on severla SPMD domains ---------> IBUFCNELDB              TCNELTDB(IEX)
+C......... NBELEMDB : nb of elements attached to interface nodes that are on severla SPMD domains -----------> DBIBUFNONBEL            DBNO(IEX)
+C..........LEL : List of id ( local numerotation + offset) of elements connected to the interface------------> IBUFEL                  NBELT_R2R(IEX)
+C..........LELNBNOD : nb of interface nodes attached to each elements connected to the interface ------------> IBUFELNBNOD             NBELT_R2R(IEX)
+C..........LELNOD : List of interface nodes attached to elements of LEL -------------------------------------> IBUFELNOD               NBELTN_R2R(IEX)
 C*******************************************************************************************************************************************************C
 
       NNGDB = 0
@@ -572,7 +572,7 @@ C	 ENDIF
 C       END DO 
 C      END DO
             	 
-C--------------------Recherche des connectivits noeuds/elements ( interfaces type 1,2)---C       
+C--------------------Search of noeuds/elements connectivities ( coupling type 1,2)-----C       
       IF (TYP.LT.4) THEN
       ALLOCATE(CNELEMDB(9*NNGDB))
       CALL INIT_BUF_SPMD_C(IDP,NNG,ITAB,GRNOD,X,ADDCNEL,CNEL,IXC,
@@ -588,7 +588,7 @@ C-------------------------------------------------------------------------------
       CALL SPMD_R2R_RGET3(DX,NNG,GRNOD,DD_R2R,WEIGHT,BUFR)
       CALL SPMD_R2R_IGET(ITAB,NNG,GRNOD,DD_R2R,WEIGHT,IBUF,1)
             
-C--------------------Calcul des coordones initiales dans le cas d'un rerun--------------C
+C--------------------Computation of initial coordinates in case of rerun------------------C
  
       DO I=1,NGLOB
        DO J=1,3
@@ -596,14 +596,14 @@ C--------------------Calcul des coordones initiales dans le cas d'un rerun------
        END DO
       END DO                   
      
-C--------------------Allocation des buffers-----------------------------------------------C      
+C--------------------Allocation of buffers------------------------------------------------C      
       IF (ISPMD.GT.0) THEN
        ALLOCATE(DBIBUF(NNGDB))
       ELSE
        ALLOCATE(DBIBUF(DBNO(IEX)))    
       ENDIF
   
-C--------------------Allocation des buffers d'lements ( interfaces type 1,2)-------------C
+C--------------------Allocation of element buffers ( coupling type 1,2)-------------------C
       
       IF (TYP.LT.4) THEN
       IF (ISPMD.GT.0) THEN
@@ -618,7 +618,7 @@ C--------------------Allocation des buffers d'lements ( interfaces type 1,2)----
       ENDIF
       ENDIF
 
-C--------------------Cration des buffers par concatenation des tableaux------------------C
+C--------------------Creation of buffers by concatenation of arrays------------------------C
        CALL SPMD_R2R_IGET4(ITAB,NNG,GRNOD,DD_R2R,WEIGHT,DBIBUF,IEX,
      .  DBNBUF,DDBUF,1)
        CALL SPMD_R2R_IGET(BCS,NNG,GRNOD,DD_R2R,WEIGHT,IBUFBCS,0)
@@ -634,7 +634,7 @@ C--------------------Cration des buffers par concatenation des tableaux---------
      .  DBIBUFNONBEL,IEX,DBNBUF,DDBUF,0)
        ENDIF  
 
-C--------------------Envoi  Rad2rad------------------------------------------------------C     
+C--------------------Send  Rad2rad-------------------------------------------------------C     
      
       IF(ISPMD.EQ.0)     
      .  CALL INIT_LINK_SPMD_C(IDP,NGLOB,DBNO(IEX),NSPMD,IBUF,DBIBUF,
@@ -917,7 +917,7 @@ C-----------------------------------------------
      .        RBY_X(3,NRBODY)     
 C-----------------------------------------------
 
-C--------------> Calcul de RBY sur le proc 0----------------------------
+C--------------> Computation of RBY on proc 0---------------------------
   
 C-----------------------------------------------------------------------            
       DO I=1,NNG
@@ -948,7 +948,7 @@ C-----------------------------------------------------------------------
      .        	XDP,NSPMD,WEIGHT)		 	   
       ENDIF
       
-C--------------> Echange RBY entre les procs-----------------------------
+C--------------> Exchange of RBY between SPMD domains---------------------------
 
       DO I = 1, NGLOB
          IF(ISPMD.EQ.0) N = IBUF(I)   		    	 
@@ -957,7 +957,7 @@ C--------------> Echange RBY entre les procs-----------------------------
          CALL SPMD_RBCAST(RBY(1,N),RBY(1,N),NRBY,1,0,2)  		    	    	    			
       END DO
       
-C--------> Affectation de X,M et I sur chaque proc qui voie le noeud main-------
+C--------> Affectation of X,M and I for each SPMD domain -------
 
       DO I = 1,NNG
          N = GRNOD(I)
@@ -968,7 +968,7 @@ C--------> Affectation de X,M et I sur chaque proc qui voie le noeud main-------
 	 X(2,N) = RBY_X(2,ID_RB)
 	 X(3,N) = RBY_X(3,ID_RB)
 	 IF (IRESP.EQ.1) THEN
-C-------Simple precision -> on met  jour XDP-----
+C-------Simple precision -> XDP is updated-----
 	   XDP(1,N)=X(1,N)
 	   XDP(2,N)=X(2,N)
 	   XDP(3,N)=X(3,N)
@@ -1042,9 +1042,9 @@ C******************************************************************************C
 	DO J=1,9
 	  RBYL(J)=RBY(16+J,ID)
 	END DO
-C---------Calcul des inerties principales-------------------------	
+C---------Computation of principal inertias-----------------------	
 	CALL INEPRI(RBYL(10),RBYL)
-C---------Cas de l'inertie spherique------------------------------	
+C---------spherical inertia---------------------------------------	
 	IF (NPBY(NNPBY*(ID-1)+5).EQ.1) THEN
 	  XIIN = (RBYL(10)+RBYL(11)+RBYL(12))* THIRD
 	  RBYL(10)=XIIN
@@ -1060,21 +1060,21 @@ C-----------------------------------------------------------------
 	TAG(ID)=N
       END DO
 
-C---------Impression des nouvelles donnees des RBODY----------------  
+C---------Printout for Rigid bodies------------------------------  
       DO ID=1,NRBODY
         N = TAG(ID)
 	IF (N.NE.0) THEN 	
         IF (WEIGHT(N).EQ.1) WRITE(IOUT,1000)
 	NOD = ITAB(N)
 	IF ((IRESP.EQ.1).AND.(NPROC.EQ.1)) THEN
-C-------Simple precision + monoproc -> on met  jour XDP----------	
+C-------Simple precision + nproc=1 -> update of XDP--------------	
 	  XDP(1,N)=X(3*(N-1)+1)
 	  XDP(2,N)=X(3*(N-1)+2)
 	  XDP(3,N)=X(3*(N-1)+3)
 	ENDIF        
         IF (WEIGHT(N).EQ.1) THEN
 	IF (NPBY(NNPBY*(ID-1)+5).EQ.1) THEN
-C-------Inertie spherique -> on affiche pas la matrice globale-----
+C-------Spherical inertia -> global matrix is not printed-----
         WRITE(IOUT,1100) ID,NOD,X(3*(N-1)+1),X(3*(N-1)+2),X(3*(N-1)+3),
      .       2*MS(N)	
 	ELSE
