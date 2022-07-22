@@ -80,8 +80,8 @@ C-----------------------------------------------
        INTEGER I,J,NFUNC,NFUND,IFUN,IAD,ISENS,IFL,ILENG,IRTYP
 C     REAL
       my_real
-     .   MASS,KMAX,DMAX,XFAC,YFAC,RATE,ALPHA,
-     .   PUN,YFAC_DIM,RATE_DIM,XFAC_DIM,DMAX_DIM
+     .   MASS,KMAX,DMAX,XFAC,YFAC,RATE,ALPHA,DMIN,
+     .   PUN,YFAC_DIM,XFAC_DIM
       CHARACTER*nchartitle,
      .   TITR
       LOGICAL IS_AVAILABLE, IS_CRYPTED
@@ -108,6 +108,7 @@ C--------------------------------------------------
 
       CALL HM_GET_INTV('NFUNC',NFUNC,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('NRATEN',NFUND,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_FLOATV('DMIN',DMIN,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
@@ -116,21 +117,18 @@ C--------------------------------------------------
       CALL HM_GET_FLOATV_DIM('SCALE',XFAC_DIM,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('STIFF0',KMAX,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('DMAX',DMAX,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV_DIM('DMAX',DMAX_DIM,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('ALPHA1',ALPHA,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C----
       IRTYP = 7                                                       
       CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1),LTITR)
 c
-      IF (ALPHA == ZERO)  ALPHA = ONE                                   
-      IF (XFAC == ZERO) XFAC = ONE * XFAC_DIM
-      IF (ILENG == 0) THEN
-        DMAX = DMAX * XFAC / DMAX_DIM  
-      ELSE
-        DMAX = DMAX * XFAC 
-        XFAC = ONE              
-      ENDIF                     
-      IF (DMAX == ZERO) DMAX = EP20 * DMAX_DIM
+      IF (ALPHA == ZERO) ALPHA = ONE                                   
+      IF (XFAC == ZERO)  XFAC  = ONE * XFAC_DIM    
+      DMIN = -ABS(DMIN)
+      DMAX = ABS(DMAX)
+      IF (DMIN == ZERO)  DMIN  = -INFINITY              
+      IF (DMAX == ZERO)  DMAX  =  INFINITY
+      IF (ILENG == 1)    XFAC  = ONE
 c
 C---  courbes de charge                                                  
       IAD = 100                                                       
@@ -139,7 +137,6 @@ C---  courbes de charge
         CALL HM_GET_FLOAT_ARRAY_INDEX('SCALE_LOAD',YFAC,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
         CALL HM_GET_FLOAT_ARRAY_INDEX('STRAINRATE_LOAD',RATE,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
         CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('SCALE_LOAD',YFAC_DIM,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
-        CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('STRAINRATE_LOAD',RATE_DIM,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
         IF (IFUN <= 0) THEN
           CALL ANCMSG(MSGID=862,
@@ -170,7 +167,6 @@ C---  courbes de decharge
         CALL HM_GET_FLOAT_ARRAY_INDEX('SCALE_UNLOAD',YFAC,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
         CALL HM_GET_FLOAT_ARRAY_INDEX('STRAINRATE_UNLOAD',RATE,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
         CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('SCALE_UNLOAD',YFAC_DIM,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
-        CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('STRAINRATE_UNLOAD',RATE_DIM,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
         IF (IFUN <= 0) THEN
           CALL ANCMSG(MSGID=862,
@@ -197,12 +193,13 @@ C
 C
       IGEO(20) = NFUNC                                             
       IGEO(21) = NFUND
-      GEO(1) = MASS                                                   
-      GEO(2) = KMAX                                                   
-      GEO(3) = DMAX                                                   
-      GEO(4) = ALPHA   
-      GEO(5) = XFAC                                               
-      GEO(8) = IRTYP + EM20                                           
+      GEO(1)   = MASS                                                   
+      GEO(2)   = KMAX                                                   
+      GEO(4)   = ALPHA   
+      GEO(5)   = XFAC                                               
+      GEO(8)   = IRTYP + EM20   
+      GEO(15)  = DMIN                          
+      GEO(16)  = DMAX                                        
 C
       IF (MASS < EM15)THEN                                            
          CALL ANCMSG(MSGID=229,
@@ -224,7 +221,7 @@ C
       IF(IS_CRYPTED)THEN
         WRITE(IOUT,1000)IG
       ELSE
-        WRITE(IOUT,1500)IG,MASS,KMAX,NFUNC,NFUND,DMAX,ALPHA,XFAC,ILENG
+        WRITE(IOUT,1500)IG,MASS,KMAX,NFUNC,NFUND,DMIN,DMAX,ALPHA,XFAC,ILENG
         IAD = 100                                                       
         DO I=1,NFUNC
           WRITE(IOUT,1700) IGEO(IAD+I),GEO(IAD+200+I),GEO(IAD+100+I)
@@ -261,7 +258,8 @@ C-----------
      & 5X,'MAXIMUM STIFFNESS . . . . . . . . . . .=',1PG20.13/,
      & 5X,'NUMBER OF LOADING CURVES  . . . . . . .=',I10/,
      & 5X,'NUMBER OF UNLOADING CURVES. . . . . . .=',I10/,
-     & 5X,'FAILURE DISPLACEMENT          . . . . .=',1PG20.13/,
+     & 5X,'FAILURE DISPLACEMENT IN COMPRESSION . .=',1PG20.13/,
+     & 5X,'FAILURE DISPLACEMENT IN TENSION . . . .=',1PG20.13/,
      & 5X,'STRAIN RATE FILTERING FACTOR  . . . . .=',1PG20.13/,
      & 5X,'ABSCISSA SCALE FACTOR         . . . . .=',1PG20.13/,
      & 5X,'UNIT LENGTH FLAG. . . . . . . . . . . .=',I10/,
