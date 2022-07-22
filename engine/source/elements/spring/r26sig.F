@@ -113,77 +113,80 @@ C
       ENDIF
 C-------------------------------------
       DO I=LFT,LLT
-        IF (DX(I) >= ZERO) THEN
-          FX(I) = XK(I)*DX(I)
-        ELSE
-          FX(I) = FOLD(I) + XK(I)*DDX(I)
-        ENDIF
-        IAD = 100
+        IF (OFF(I) == ONE) THEN 
+          IF (DX(I) >= ZERO) THEN
+            FX(I) = XK(I)*DX(I)
+          ELSE
+            FX(I) = FOLD(I) + XK(I)*DDX(I)
+          ENDIF
+          IAD = 100
 C calcul du y_max
-        NFUNC(I) = IGEO(20,PID(I))  
-        XFAC(I) = GEO(5,PID(I))
-c        IGEO(IAD+I)     = IFUN                                  
-c        GEO(IAD+100+I) = VEL                                    
-c        GEO(IAD+200+I) = YSCALE                                 
+          NFUNC(I) = IGEO(20,PID(I))  
+          XFAC(I) = GEO(5,PID(I))
+c          IGEO(IAD+I)     = IFUN                                  
+c          GEO(IAD+100+I) = VEL                                    
+c          GEO(IAD+200+I) = YSCALE                                 
 
-        J1 = 1                                                   
-        DO J=2,NFUNC(I)-1                                        
-          VEL = GEO(IAD+100+J,PID(I))                            
-          IF (DV(I) >= VEL) J1 = J                               
-        ENDDO                                                    
-        FUNC1(I) = IGEO(IAD+J1,PID(I))                           
-        RATE1(I) = GEO(IAD+100+J1,PID(I))                        
-        YFAC1(I) = GEO(IAD+200+J1,PID(I))                        
-        IF (NFUNC(I) > 1)THEN                                    
-          J2 = J1+1                                              
-          FUNC2(I) = IGEO(IAD+J2,PID(I))                         
-          RATE2(I) = GEO(IAD+100+J2,PID(I))                      
-          YFAC2(I) = GEO(IAD+200+J2,PID(I))                      
+          J1 = 1                                                   
+          DO J=2,NFUNC(I)-1                                        
+            VEL = GEO(IAD+100+J,PID(I))                            
+            IF (DV(I) >= VEL) J1 = J                               
+          ENDDO                                                    
+          FUNC1(I) = IGEO(IAD+J1,PID(I))                           
+          RATE1(I) = GEO(IAD+100+J1,PID(I))                        
+          YFAC1(I) = GEO(IAD+200+J1,PID(I))                        
+          IF (NFUNC(I) > 1)THEN                                    
+            J2 = J1+1                                              
+            FUNC2(I) = IGEO(IAD+J2,PID(I))                         
+            RATE2(I) = GEO(IAD+100+J2,PID(I))                      
+            YFAC2(I) = GEO(IAD+200+J2,PID(I))                      
 C
-          Y1 = YFAC1(I)*FINTER(FUNC1(I),DL(I)/XFAC(I),NPF,TF,DF1)        
-          Y2 = YFAC2(I)*FINTER(FUNC2(I),DL(I)/XFAC(I),NPF,TF,DF2)         
+            Y1 = YFAC1(I)*FINTER(FUNC1(I),DL(I)/XFAC(I),NPF,TF,DF1)        
+            Y2 = YFAC2(I)*FINTER(FUNC2(I),DL(I)/XFAC(I),NPF,TF,DF2)         
 C                                                                
-          FAC     = (DV(I) - RATE1(I))/(RATE2(I) - RATE1(I))     
-          FMAX(I) =  -MAX(Y1 + FAC*(Y2 - Y1), EM20)               
-        ELSE                                                     
-          FMAX(I) =  -YFAC1(I)*FINTER(FUNC1(I),DL(I)/XFAC(I),NPF,TF,DF1)  
-        ENDIF                                                    
+            FAC     = (DV(I) - RATE1(I))/(RATE2(I) - RATE1(I))     
+            FMAX(I) =  -MAX(Y1 + FAC*(Y2 - Y1), EM20)               
+          ELSE                                                     
+            FMAX(I) =  -YFAC1(I)*FINTER(FUNC1(I),DL(I)/XFAC(I),NPF,TF,DF1)  
+          ENDIF                                                    
 C calcul du y_min  
-        J1 = NFUNC(I) + 1                                        
-        NFUND(I) = IGEO(21,PID(I))                               
-        DO J=2,NFUND(I)-1                                        
-          VEL = GEO(IAD+100+J,PID(I))                            
-          IF (DV(I) >= VEL) J1 = NFUNC(I) + J                    
-        ENDDO                                                    
-        FUNC1(I) = IGEO(IAD+J1,PID(I))                           
-        RATE1(I) = GEO(IAD+100+J1,PID(I))                        
-        YFAC1(I) = GEO(IAD+200+J1,PID(I))                        
+          J1 = NFUNC(I) + 1                                        
+          NFUND(I) = IGEO(21,PID(I))                               
+          DO J=2,NFUND(I)-1                                        
+            VEL = GEO(IAD+100+J,PID(I))                            
+            IF (DV(I) >= VEL) J1 = NFUNC(I) + J                    
+          ENDDO                                                    
+          FUNC1(I) = IGEO(IAD+J1,PID(I))                           
+          RATE1(I) = GEO(IAD+100+J1,PID(I))                        
+          YFAC1(I) = GEO(IAD+200+J1,PID(I))                        
 C                                                                
-        IF (NFUND(I) > 1) THEN                                   
-          J2 = J1+1                                              
-          FUNC2(I) = IGEO(IAD+J2,PID(I))                         
-          RATE2(I) = GEO(IAD+100+J2,PID(I))                      
-          YFAC2(I) = GEO(IAD+200+J2,PID(I))                      
+          IF (NFUND(I) > 1) THEN                                   
+            J2 = J1+1                                              
+            FUNC2(I) = IGEO(IAD+J2,PID(I))                         
+            RATE2(I) = GEO(IAD+100+J2,PID(I))                      
+            YFAC2(I) = GEO(IAD+200+J2,PID(I))                      
 C
-          Y1 = YFAC1(I)*FINTER(FUNC1(I),DL(I)/XFAC(I),NPF,TF,DF1)        
-          Y2 = YFAC2(I)*FINTER(FUNC2(I),DL(I)/XFAC(I),NPF,TF,DF2)         
-          FAC = (DV(I) - RATE1(I))/(RATE2(I) - RATE1(I))         
+            Y1 = YFAC1(I)*FINTER(FUNC1(I),DL(I)/XFAC(I),NPF,TF,DF1)        
+            Y2 = YFAC2(I)*FINTER(FUNC2(I),DL(I)/XFAC(I),NPF,TF,DF2)         
+            FAC = (DV(I) - RATE1(I))/(RATE2(I) - RATE1(I))         
 c          FMIN(I) = -MAX(Y2 + FAC*(Y1-Y2), EM20)                
-          FMIN(I) =  -MAX(Y1 + FAC*(Y2 - Y1), EM20)               
-        ELSE                                                     
-          FMIN(I) =  -YFAC1(I)*FINTER(FUNC1(I),DL(I)/XFAC(I),NPF,TF,DF1)  
-        ENDIF                                                    
+            FMIN(I) =  -MAX(Y1 + FAC*(Y2 - Y1), EM20)               
+          ELSE                                                     
+            FMIN(I) =  -YFAC1(I)*FINTER(FUNC1(I),DL(I)/XFAC(I),NPF,TF,DF1)  
+          ENDIF                                                    
 C--------------
-        IF (DX(I) < ZERO) THEN        
-          IF (DL(I) < DMAX(I)) THEN      
-            IF (FX(I) > FMIN(I)) THEN    
-              FX(I) = FMIN(I)            
-            ELSEIF (FX(I) < FMAX(I) )THEN
-              FX(I) = FMAX(I)            
-            ENDIF                        
-          ENDIF                          
-        ENDIF                            
-
+          IF (DX(I) < ZERO) THEN        
+            IF (DL(I) < DMAX(I)) THEN      
+              IF (FX(I) > FMIN(I)) THEN    
+                FX(I) = FMIN(I)            
+              ELSEIF (FX(I) < FMAX(I) )THEN
+                FX(I) = FMAX(I)            
+              ENDIF                        
+            ENDIF                          
+          ENDIF                            
+        ELSE
+          FX(I) = ZERO
+        ENDIF
       ENDDO
 C--------------
       DO I=LFT,LLT
