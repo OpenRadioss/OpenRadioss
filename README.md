@@ -2,6 +2,7 @@
 # What is OpenRadioss?
 
  If you have any questions about OpenRadioss please feel free to contact <webmaster@openradioss.org>. 
+ 
 # How to Use OpenRadioss
 
 ## [How to Build OpenRadioss](HOWTO.md)
@@ -13,6 +14,12 @@
 
 * [How to contribute](CONTRIBUTING.md)
 * [Code of conduct](CODE_OF_CONDUCT.md)
+
+
+Community Manager   
+Marian Bulla   
+<communitymanager@openradioss.com>  
+
 
 # Ressources
 
