@@ -492,7 +492,7 @@ c
         FLAG_EPSP=.TRUE.
         IF(ILAW==1.OR.ILAW==2.OR.ILAW==25.OR.ILAW==32.OR.ILAW==42.OR.ILAW==58.OR.ILAW==62.OR.
      .       ILAW==63.OR.ILAW==64.OR.ILAW==69.OR.ILAW==71.OR.ILAW==72.OR.
-     .       ILAW==76.OR.ILAW==78.OR.ILAW==80.OR.ILAW==82.OR.ILAW==85.OR.ILAW==96) FLAG_EPSP=.FALSE.
+     .       ILAW==76.OR.ILAW==78.OR.ILAW==80.OR.ILAW==82.OR.ILAW==85.OR.ILAW == 88 .OR. ILAW==96) FLAG_EPSP=.FALSE.
 !       check if EPS arraies are used or not
 !       EPS is not used for law : 2/25/63/64/65/66/72/76/78/93 --> FLAG_EPS=.FALSE.     
 !       EPS is used for the other laws 
@@ -598,7 +598,7 @@ C-------------------------------
         !       ismstr=10 + foam laws
         !       -----------
            IF (ISMSTR==10 .AND. (MTN == 1 .OR. MTN == 42 .OR.
-     .                           MTN == 69.OR. MTN == 71)) THEN
+     .                           MTN == 69.OR. MTN == 71 .OR. MTN == 88)) THEN
             DO I=JFT,JLT 
               ZT=ZZ(I)*THK0(I)
               DEPSXX(I)=EXX(I)+ZT*KXX(I)
@@ -873,7 +873,7 @@ C
            ENDIF
 !
             IF (ISMSTR==10 .AND. (MTN == 1 .OR. MTN == 42 .OR.
-     .                            MTN == 69.OR. MTN == 71)) THEN
+     .                            MTN == 69.OR. MTN == 71 .OR. MTN == 88)) THEN
               DO I=JFT,JLT 
                 ZT=ZZ(I)*GBUF%THK_I(I)
 C
@@ -1534,7 +1534,18 @@ c
      9        SSP    ,LBUF%PLA ,DPLA    ,EPSPL      ,SIGY   ,
      A        ETSE   ,GS       ,ISRATE  ,ASRATE     ,YLDFAC ,
      B        TEMPEL,LBUF%SIGB ,INLOC   ,VARNL(1,IT),LBUF%SEQ)
-          
+         ELSEIF (ILAW == 88) THEN
+           CALL SIGEPS88C(
+     1         JLT    , NUPARAM, NUVAR   , NFUNC , IFUNC , NPF   ,
+     2         NPT    , IPT     ,NGL     , OFF    , ISMSTR   , GS ,   
+     2         TF     , TT     , DT1C    , BUFMAT(IADBUF), RHO   ,  
+     3         AREA   , EINT   , THKLYL  ,
+     4         EPSPXX , EPSPYY , EPSPXY  , EPSPYZ, EPSPZX, 
+     5         DEPSXX , DEPSYY , DEPSXY  , DEPSYZ, DEPSZX,
+     6         EPSXX  , EPSYY  , EPSXY   , EPSYZ , EPSZX ,
+     7         LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
+     8         SIGNXX , SIGNYY , SIGNXY  , SIGNYZ, SIGNZX,
+     A         SSP    , VISCMX , THKN    , UVAR )          
           ELSEIF (ILAW == 93) THEN     
             CALL SIGEPS93C(
      1         JLT      ,NUPARAM  ,NUVAR    ,NFUNC    ,IFUNC    ,
