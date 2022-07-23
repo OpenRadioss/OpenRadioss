@@ -659,7 +659,7 @@ C     shells
       COQMAT(85) = 1
       COQMAT(86) = 1
       COQMAT(87) = 1
-      COQMAT(88) = 0  ! is not available
+      COQMAT(88) = 1
       COQMAT(91) = 1
       COQMAT(92) = 0  ! is not available
       COQMAT(93) = 1
