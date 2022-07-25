@@ -597,7 +597,7 @@ C-------------------------------------------------------
         !   initialization of local array
         WA_SPRING(ID_HIST)%WA_REAL( 1:WA_SPRING_SIZE(ID_HIST) ) = ZERO
         CALL THRES(IPARG,ITHBUF,ELBUF_TAB,WA_SPRING(ID_HIST)%WA_REAL,IGEO,
-     .                  IXR,NTHGRP2,ITHGRP)
+     .                  IXR,NTHGRP2,ITHGRP,X)
         IF(NSPMD>1) THEN
             !   send WA_SPRING to PROC0
             CALL SPMD_GATHERV(WA_SPRING(ID_HIST)%WA_REAL,WA_SPRING_P0(ID_HIST)%WA_REAL,0,
