@@ -34,6 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
        USE QA_OUT_MOD
 
+       CALL EXECUTE_COMMAND_LINE("./fouine.sh",wait=.false.)
        CALL QAOPEN('starter')
        CALL QAPRINT('Start',0,0.0_8)
 
