@@ -148,7 +148,7 @@ C
       CHARACTER*10 VARRIV(NVARRIV),VARRIVG(NVARRIVG)
 C-----------------------------------------------
       PARAMETER (NVARN = 637,NVARS =239552 ,NVARC = 37854,NVART = 6)
-      PARAMETER (NVARP = 8,NVARR = 64,NVARUR = 12)
+      PARAMETER (NVARP = 8,NVARR = 65,NVARUR = 12)
       PARAMETER (NVARNS = 4,NVARSPH = 41)
       PARAMETER (NVARIN = 28,NVARRW = 6,NVARRB =15,NVARFX =4)
       PARAMETER (NVARFXM = 3)
@@ -907,7 +907,7 @@ C   springs
      . 'D2G_Z   ','D1L_X   ','D1L_Y   ','D1L_Z   ','D2L_X   ',
      . 'D2L_Y   ','D2L_Z   ','R1G_X   ','R1G_Y   ','R1G_Z   ',
      . 'R2G_X   ','R2G_Y   ','R2G_Z   ','R1L_X   ','R1L_Y   ',
-     . 'G1L_Z   ','G2L_X   ','G2L_Y   ','G2L_Z   '/
+     . 'G1L_Z   ','G2L_X   ','G2L_Y   ','G2L_Z   ','LENGTH  '/
 
       DATA VARNS/
      . 'OFF     ','FX      ','LX      ','IE      '/
@@ -1305,7 +1305,7 @@ c VARCG = VARCG1 + VARCG2+ VARCG3
      .         / 1, 2, 3, 4, 5, 6, 7, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0/
       DATA VARRG/'DEF     '/
       DATA IVARRG
-     .         / 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14, 0, 0, 0, 0/
+     .         / 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,65, 0, 0, 0/
       DATA VARURG/'DEF     '/
       DATA IVARURG
      .         / 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12, 0, 0, 0, 0, 0, 0/

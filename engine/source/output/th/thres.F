@@ -29,7 +29,7 @@ Chd|-- calls ---------------
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE THRES(IPARG,ITHBUF,ELBUF_TAB,WA,IGEO,
-     .                      IXR,NTHGRP2,ITHGRP)
+     .                      IXR,NTHGRP2,ITHGRP,X)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -55,7 +55,7 @@ C-----------------------------------------------
       INTEGER IPARG(NPARG,*),ITHBUF(*),IXR(NIXR,*),
      .   IGEO(NPROPGI,*)
       my_real
-     .   WA(*)
+     .   WA(*),X(3,NUMNOD)
 C
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
@@ -67,7 +67,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: II,I,N,IH,NG,ITY,MTE,K,IP,L
       INTEGER :: IJK,LWA,NEL,NFT,IPROP,IGTYP,J,JJ(6)
-      INTEGER :: NITER,IAD,NN,IADV,NVAR,ITYP
+      INTEGER :: NITER,IAD,NN,IADV,NVAR,ITYP,NODE1,NODE2,NODE3
       my_real
      . WWA(100)
       my_real
@@ -127,6 +127,8 @@ C
                             N=I+NFT
                             K=ITHBUF(IH)
                             IP=ITHBUF(IH+NN)
+                            NODE1 = IXR(2,N)
+                            NODE2 = IXR(3,N)
 C
                             IF (K == N) THEN
                                 IH=IH+1
@@ -160,6 +162,10 @@ C
                                 DO L=17,64
                                     WWA(L)= ZERO
                                 ENDDO
+                                ! Absolute spring length
+                                WWA(65)= SQRT((X(1,NODE2)-X(1,NODE1))**2 +
+     .                                        (X(2,NODE2)-X(2,NODE1))**2 + 
+     .                                        (X(3,NODE2)-X(3,NODE1))**2)   
                                 DO L=IADV,IADV+NVAR-1
                                     K=ITHBUF(L)
                                     IJK=IJK+1
@@ -174,6 +180,8 @@ C
                             N=I+NFT
                             K=ITHBUF(IH)
                             IP=ITHBUF(IH+NN)
+                            NODE1 = IXR(2,N)
+                            NODE2 = IXR(3,N)
 C
                             IF (K == N) THEN
                                 IH=IH+1
@@ -206,6 +214,10 @@ C
                                 DO L=17,64
                                     WWA(L)= ZERO
                                 ENDDO
+                                ! Absolute spring length
+                                WWA(65)= SQRT((X(1,NODE2)-X(1,NODE1))**2 +
+     .                                        (X(2,NODE2)-X(2,NODE1))**2 + 
+     .                                        (X(3,NODE2)-X(3,NODE1))**2)   
                                 DO L=IADV,IADV+NVAR-1
                                     K=ITHBUF(L)
                                     IJK=IJK+1
@@ -220,6 +232,8 @@ C
                             N=I+NFT
                             K=ITHBUF(IH)
                             IP=ITHBUF(IH+NN)
+                            NODE1 = IXR(2,N)
+                            NODE2 = IXR(3,N)
 C
                             IF (K == N) THEN
                                 IH=IH+1
@@ -252,6 +266,10 @@ C
                                 DO L=17,64
                                     WWA(L)= ZERO
                                 ENDDO
+                                ! Absolute spring length
+                                WWA(65)= SQRT((X(1,NODE2)-X(1,NODE1))**2 +
+     .                                        (X(2,NODE2)-X(2,NODE1))**2 + 
+     .                                        (X(3,NODE2)-X(3,NODE1))**2)   
                                 DO L=IADV,IADV+NVAR-1
                                     K=ITHBUF(L)
                                     IJK=IJK+1
@@ -266,6 +284,9 @@ C
                             N=I+NFT
                             K=ITHBUF(IH)
                             IP=ITHBUF(IH+NN)
+                            NODE1 = IXR(2,N)
+                            NODE2 = IXR(3,N)
+                            NODE3 = IXR(4,N)
 C
                             IF (K == N) THEN
                                 IH=IH+1
@@ -297,6 +318,13 @@ C
                                 DO L=17,64
                                     WWA(L)= ZERO
                                 ENDDO
+                                ! Absolute spring length
+                                WWA(65)= SQRT((X(1,NODE2)-X(1,NODE1))**2 +
+     .                                        (X(2,NODE2)-X(2,NODE1))**2 + 
+     .                                        (X(3,NODE2)-X(3,NODE1))**2) 
+     .                                 + SQRT((X(1,NODE3)-X(1,NODE2))**2 +
+     .                                        (X(2,NODE3)-X(2,NODE2))**2 + 
+     .                                        (X(3,NODE3)-X(3,NODE2))**2) 
                                 DO L=IADV,IADV+NVAR-1
                                     K=ITHBUF(L)
                                     IJK=IJK+1
@@ -312,6 +340,8 @@ C
                             N=I+NFT
                             K=ITHBUF(IH)
                             IP=ITHBUF(IH+NN)
+                            NODE1 = IXR(2,N)
+                            NODE2 = IXR(3,N)
 C
                             IF (K == N) THEN
                                 IH=IH+1
@@ -345,6 +375,10 @@ C
                                 DO L=17,64
                                     WWA(L)= ZERO 
                                 ENDDO
+                                ! Absolute spring length
+                                WWA(65)= SQRT((X(1,NODE2)-X(1,NODE1))**2 +
+     .                                        (X(2,NODE2)-X(2,NODE1))**2 + 
+     .                                        (X(3,NODE2)-X(3,NODE1))**2)   
                                 DO L=IADV,IADV+NVAR-1
                                     K=ITHBUF(L)
                                     IJK=IJK+1
@@ -361,6 +395,8 @@ C
                                     N=I+NFT
                                     K=ITHBUF(IH)
                                     IP=ITHBUF(IH+NN)
+                                    NODE1 = IXR(2,N)
+                                    NODE2 = IXR(3,N)
 C
                                     IF (K == N) THEN
                                         IH=IH+1
@@ -471,7 +507,11 @@ C---            rotation locale Noeud2
 C---            rotation globale Noeud2                    
                                         WWA(56)=-V1*E1X+V2*E1Y+V3*E1Z              
                                         WWA(57)=-V1*E2X+V2*E2Y+V3*E2Z              
-                                        WWA(58)=-V1*E3X+V2*E3Y+V3*E3Z              
+                                        WWA(58)=-V1*E3X+V2*E3Y+V3*E3Z  
+C---            absolute spring length
+                                        WWA(65)= SQRT((X(1,NODE2)-X(1,NODE1))**2 +
+     .                                                (X(2,NODE2)-X(2,NODE1))**2 + 
+     .                                                (X(3,NODE2)-X(3,NODE1))**2)            
 c
                                         DO L=IADV,IADV+NVAR-1
                                             K=ITHBUF(L)
@@ -487,6 +527,8 @@ c
                                     N=I+NFT
                                     K=ITHBUF(IH)
                                     IP=ITHBUF(IH+NN)
+                                    NODE1 = IXR(2,N)
+                                    NODE2 = IXR(3,N)
 C
                                     IF (K == N) THEN
                                         IH=IH+1
@@ -520,6 +562,10 @@ C
                                         DO L=17,64
                                             WWA(L)= ZERO
                                         ENDDO
+                                        ! Absolute spring length
+                                        WWA(65)= SQRT((X(1,NODE2)-X(1,NODE1))**2 +
+     .                                                (X(2,NODE2)-X(2,NODE1))**2 + 
+     .                                                (X(3,NODE2)-X(3,NODE1))**2)   
                                         DO L=IADV,IADV+NVAR-1
                                             K=ITHBUF(L)
                                             IJK=IJK+1
@@ -534,6 +580,8 @@ C
                                     N=I+NFT
                                     K=ITHBUF(IH)
                                     IP=ITHBUF(IH+NN)
+                                    NODE1 = IXR(2,N)
+                                    NODE2 = IXR(3,N)
 C
                                     IF (K == N) THEN
                                         IH=IH+1
@@ -567,6 +615,10 @@ C
                                         DO L=17,64
                                             WWA(L)= ZERO
                                         ENDDO
+                                        ! Absolute spring length
+                                        WWA(65)= SQRT((X(1,NODE2)-X(1,NODE1))**2 +
+     .                                                (X(2,NODE2)-X(2,NODE1))**2 + 
+     .                                                (X(3,NODE2)-X(3,NODE1))**2)   
                                         DO L=IADV,IADV+NVAR-1
                                             K=ITHBUF(L)
                                             IJK=IJK+1
