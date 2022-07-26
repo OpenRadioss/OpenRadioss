@@ -170,16 +170,26 @@ C     Strain definition
         F2(I) = EV(I,2)*YFAC(1)*FINTER(IFUNC(1),EE(I,2),NPF,TF,DF2)      
         !!                                                               
         Gmax(I) = MAX(Gmax(I),    YFAC(1)*DF1, YFAC(1)*DF2 )             
-        FAC = ONE                                                        
-        DO NN=1,20                                                       
+        FAC = -HALF   
+        DD1 = EV(I,1)**FAC - ONE 
+        NN = 1                                                
+        DO WHILE (ABS(DD1) >= EM03 .AND. NN <= 20)                                       
+         F1(I) = F1(I) +  
+     .         (DD1 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD1,NPF,TF,DF)
          FAC = FAC*(-HALF)                                               
-         DD1 = EV(I,1)**FAC - ONE                                        
-         DD2 = EV(I,2)**FAC - ONE                                        
-         F1(I) = F1(I) +                                                 
-     .         (DD1 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD1,NPF,TF,DF)        
-         F2(I) = F2(I) +                                                 
+         DD1 = EV(I,1)**FAC - ONE  
+         NN  = NN  + 1
+        ENDDO
+        FAC = -HALF   
+        DD2 = EV(I,2)**FAC - ONE
+        NN = 1                                                     
+        DO WHILE (ABS(DD2) >= EM03 .AND. NN <= 20 )                                     
+         F2(I) = F2(I) +  
      .         (DD2 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD2,NPF,TF,DF)        
-       ENDDO                                                             
+         FAC = FAC*(-HALF)                                               
+         DD2 = EV(I,2)**FAC - ONE  
+         NN = NN + 1
+        ENDDO                                                            
       ENDDO                                                              
 ! 
 C--------------------------------------
@@ -192,17 +202,20 @@ C--------------------------------------
                 Y3  = YFAC(1)*FINTER(IFUNC(1),EE(I,3),NPF,TF,DF3)
                 F3(I) = EV(I,3)*Y3
                 Gmax(I) = MAX(Gmax(I),    YFAC(1)*DF3 ) 
-                FAC = ONE
                 DFLAM3 = ZERO
-                DO NN=1,20 
+                FAC = -HALF   
+                SCALE = EV(I,3)**FAC 
+                DD3 = SCALE - ONE 
+                NN = 1                             
+                DO WHILE (ABS(DD3) >= EM03 .AND. NN <= 20 ) 
+                 Y33 = YFAC(1)*FINTER(IFUNC(1),DD3,NPF,TF,DF)
+                 F3(I) = F3(I) +  SCALE*Y33
+                 DFLAM3 = DFLAM3 + Y33*FAC * SCALE/EV(I,3) + YFAC(1)*FAC*SCALE**2*DF/EV(I,3)
                  FAC = FAC*(-HALF) 
                  SCALE = EV(I,3)**FAC
                  DD3 = SCALE - ONE
-                 Y33 = YFAC(1)*FINTER(IFUNC(1),DD3,NPF,TF,DF)
-                 F3(I) = F3(I) +  (DD3 + ONE)*Y33
-                  DD3  = DD3  + ONE
-                   DFLAM3 = DFLAM3 + Y33*FAC * SCALE/DD3  + YFAC(1)*FAC*SCALE**2*DF/DD3
-               ENDDO
+                 NN = NN + 1
+                END DO
               
                INVR = ONE/MAX(EM20,RV(I))
                P = INVR*RBULK*(RV(I) - ONE)
