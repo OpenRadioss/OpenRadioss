@@ -152,11 +152,9 @@ C-----------------------------------------------
         ENDIF
         IF(YFAC(I) .EQ. ZERO) YFAC(I) = YFAC_DIM(I) * ONE
       ENDDO
-
-      IF (NFUNC > 0  .AND. HYS == ZERO) IFLAG = 1     
-      IF (NFUNC > 0  .AND. HYS > ZERO)  IFLAG  = 2   ! strain rate dependency in unloading 
-      IF (NFUNC > 0  .AND. HYS < ZERO)  IFLAG  = -2  ! unloading is quasi-static
       HYS = ABS(HYS)
+      IF (NFUNC > 0  .AND. HYS == ZERO) IFLAG = 1     
+      IF (NFUNC > 0  .AND. HYS > ZERO)  IFLAG  = 2    ! unloading is quasi-static
       IF (SHAPE == ZERO) SHAPE = ONE
       IF (HYS  == ZERO) HYS = ONE
       IF (RHOR.EQ.ZERO) RHOR=RHO0

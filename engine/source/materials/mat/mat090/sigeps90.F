@@ -376,7 +376,7 @@ C case with unloading stress-strain curve
          ENDIF
        ENDIF 
 C unloadind with damage based on the energy.
-      IF(IFLAG == 2 .OR. IFLAG == -2) THEN
+      IF(IFLAG == 2 ) THEN
              IF(NFUNC == 1) THEN
                YFAC = UPARAM(NFUNC + 11)
                DO I=1,NEL
@@ -398,61 +398,7 @@ C computecurent energy
                    E_MIN(I) =EMIN
                    YLD(I) = SQRT(S(I,1)**2 + S(I,2)**2 + S(I,3)**2)
                ENDDO 
-            ELSEIF(NFUNC > 1) THEN    
-                 IF(IFLAG == 2) THEN 
-C
-C loading + unlaoding (strainrate dependency )
-C
-                    YFAC = UPARAM(NFUNC + 11)
-                    DO I=1,NEL                                                    
-                     ECURENT (I)= ZERO                                            
-                     Emax=ZERO                                                    
-                     EMIN=EP20                                                    
-                                                                                  
-                     DO K=1,3                                                     
-                       EPSE = STRAIN(I,K)                                         
-                       SQSTAT(I,K) = YFAC*FINTER(IFUNC(1),EPSE,NPF,TF,DF(K))      
-                       Emax = MAX(Emax,YFAC*DF(K))                                
-                       EMIN = MIN(EMIN,YFAC*DF(K))                                
-C                                                                                 
-                      IF(STRAINRATE(I,K) < UPARAM(11)) THEN                       
-                          S(I,K) = SQSTAT(I,K)                                    
-                      ELSE                                                        
-                          J1 = 1                                                  
-                          DO J= 2,NFUNC - 1                                       
-                             IF(STRAINRATE(I,K) >= UPARAM(10 + J ))J1 = J         
-                          ENDDO                                                   
-                          J2 = J1 + 1                                             
-                       !!                                                         
-                         RATEJ1= UPARAM(10 + J1 )                                 
-                         RATEJ2= UPARAM(10 + J2 )                                 
-                         YFACJ1= UPARAM(10 + NFUNC + J1 )                         
-                         YFACJ2= UPARAM(10 + NFUNC + J2 )                         
-                         SJ1 =  YFACJ1*FINTER(IFUNC(J1),EPSE,NPF,TF,DF(K))        
-                         Emax = MAX(Emax, YFACJ1*DF(K))                           
-                         EMIN = MIN(EMIN, YFACJ1*DF(K))                           
-                         !! E1 = YFACJ1*DF(K)                                     
-                         SJ2 =  YFACJ2*FINTER(IFUNC(J2),EPSE,NPF,TF,DF(K))        
-                         Emax = MAX(Emax,YFACJ2*DF(K))                            
-                         EMIN = MIN(EMIN,YFACJ2*DF(K))                            
-                         !! E2 = YFACJ2*DF(K)                                     
-                         FAC    = (STRAINRATE(I,K) - RATEJ1)/(RATEJ2 - RATEJ1)    
-                         S(I,K) = SJ1 + FAC*(SJ2 - SJ1)                           
-                         !! EMIN = MIN(EMIN,E1 + FAC*(E2 - E1))                   
-C computecurent     nergy                                                        e
-!!                       ECURENT(I)= ECURENT(I) + HALF*STRAIN(I,K)*SQSTAT(I,K)  
-!!                       ECURENT(I)= ECURENT(I) + HALF*STRAIN(I,K)*S(I,K)       
-!!                       ECURENT(I)= ECURENT(I) + HALF*EV(I,K)*ABS(SQSTAT(I,K)) 
-                         ENDIF ! strainrate                                       
-                     ENDDO  ! K                                                   
-!!                      UVAR(I,2) = MAX(UVAR(I,2),ECURENT(I))                     
-                      E(I) = MAX(E0,Emax)                                         
-                      E(I) = Emax                                                 
-                      E_MIN(I) = EMIN                                             
-                      ET(I)    = EMIN/E0 ! not used                               
-                      YLD(I) = SQRT(S(I,1)**2 + S(I,2)**2 + S(I,3)**2)            
-                     ENDDO 
-                  ELSEIF(IFLAG == -2) THEN
+            ELSEIF(NFUNC > 1) THEN 
 C
 C  unlaoding (quasi-static dependency )
 C   
@@ -523,8 +469,7 @@ C
                       E_MIN(I) = EMIN                                             
                       ET(I)    = EMIN/E0 ! not used                               
                       YLD(I) = SQRT(S(I,1)**2 + S(I,2)**2 + S(I,3)**2)            
-                     ENDDO          
-                  ENDIF  ! iflag   
+                     ENDDO 
               ENDIF ! NFUNC 
               
               DO I=1,NEL
@@ -566,7 +511,7 @@ C damage by direction to be  tested for
                   ENDIF
                 ENDDO ! nel
                ENDIF ! IDAM   
-          ENDIF ! iflag=2 .or iflag= -2
+          ENDIF ! iflag=2 
 C                
 C =====================================================
          DO I = 1,NEL
