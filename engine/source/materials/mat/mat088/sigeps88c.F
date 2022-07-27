@@ -25,6 +25,7 @@ Chd|  SIGEPS88C                     source/materials/mat/mat088/sigeps88c.F
 Chd|-- called by -----------
 Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|-- calls ---------------
+Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|====================================================================
               SUBROUTINE SIGEPS88C(
      1      NEL    , NUPARAM, NUVAR   , NFUNC , IFUNC , NPF   ,

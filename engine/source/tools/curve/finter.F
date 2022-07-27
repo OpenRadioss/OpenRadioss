@@ -145,6 +145,7 @@ Chd|        SIGEPS80C                     source/materials/mat/mat080/sigeps80c.
 Chd|        SIGEPS81                      source/materials/mat/mat081/sigeps81.F
 Chd|        SIGEPS83                      source/materials/mat/mat083/sigeps83.F
 Chd|        SIGEPS88                      source/materials/mat/mat088/sigeps88.F
+Chd|        SIGEPS88C                     source/materials/mat/mat088/sigeps88c.F
 Chd|        SIGEPS90                      source/materials/mat/mat090/sigeps90.F
 Chd|        SMS_GRAVIT                    source/ams/sms_gravit.F       
 Chd|        THERMEXPC                     source/materials/mat_share/thermexpc.F

@@ -109,6 +109,7 @@ Chd|        SIGEPS82C                     source/materials/mat/mat082/sigeps82c.
 Chd|        SIGEPS85C_VOID                source/materials/mat/mat085/sigeps85c_void.F
 Chd|        SIGEPS86C                     source/materials/mat/mat086/sigeps86c.F
 Chd|        SIGEPS87C                     source/materials/mat/mat087/sigeps87c.F
+Chd|        SIGEPS88C                     source/materials/mat/mat088/sigeps88c.F
 Chd|        SIGEPS93C                     source/materials/mat/mat093/sigeps93c.F
 Chd|        SIGEPS96C                     source/materials/mat/mat096/sigeps96c.F
 Chd|        STARTIME                      source/system/timer.F         
