@@ -141,46 +141,35 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,IFIX1,INEW,INEW5, STAT,INPT,OUTT,INP,OUT,IEND
-      INTEGER IFILNAM(2148),PROCN,LENV,LEN,IERR1,SROOTN,IDMAX_INTER,
+      INTEGER I,J,K, STAT,INP,OUT
+      INTEGER IFILNAM(2148),LEN,IDMAX_INTER,
      .        IDMAX_GRNOD,IDMAX_LINE,IDMAX_TABLE,IDMAX_FAIL,IDMAX_FUNCT,
      .        IDMAX_PART,IDMAX_PROP,IDMAX_MAT,IDMAX_ELEM,IDMAX_TH,
-     .        NB_SEATBELT_SHELLS
-      CHARACTER CART*ncharline, HEADER*ncharline, FILNAM*100, CHRUN*4,
-     .   CHRUN0*4,VERSIO(6)*36,CPUNAM*20,CRADIOS*8,CVERSIO*8,ROOT8*80,
-     .   ROOTN*80,NEWD00*120,CHRUNR*4,PROCNUM*4,ARCHTITLE*66
-      CHARACTER*20 KEY1,KEY2,KEY3,KEY_MASS,KEY_LENGTH,KEY_TIME
-      INTEGER RADFLEXV,RDFLEXCOMP,RADIOSSV,IFL
-      INTEGER REQ(100),SUBMODEL_FLAG
-      INTEGER LENR,RUNN,FVERS,IO_ERR,
-     *        TAGLEN,CHECKSUMLEN,IS_DYNA
-      INTEGER IREELMI,IREELMW,IREELLI,IREELLW,IREELTI,IREELTW
+     .        NB_SEATBELT_SHELLS,RADIOSSV,IFL
+      INTEGER LENR,RUNN,FVERS,IO_ERR,TAGLEN,CHECKSUMLEN,IS_DYNA
+      INTEGER LFNAME,LEN_ENV,STATUS,ISUB_HIERARCHY,TRALL_MAXVAL(7),EDI_RES,
+     .        LOAD_ERROR,IBID
+      INTEGER :: LEN_TMP_NAME
+      INTEGER :: ANERROR
+C
+      INTEGER, DIMENSION(:,:), ALLOCATABLE :: SEATBELT_CONVERTED_ELEMENTS
+C
+      CHARACTER FILNAM*100, CHRUN*4,CPUNAM*20,ROOTN*80,CHRUNR*4,ARCHTITLE*66
       CHARACTER ALTDOCTAG*256,CHECKSUM*256
       CHARACTER*2048 FNAME,VAL
-      INTEGER LFNAME,LEN_ENV,STATUS,ISTDI_R,LENCPUNAM,
-     .        SPARAMETERS,SPARAMETERSL,NB_PSET,SKEY,CUR_SUBMOD,
-     .        ISUB_HIERARCHY,TRALL_MAXVAL(7),ISUBSKEW,EDI_RES,
-     .        PART_TRANS,ISTDI_TMP,LOAD_ERROR,IS_BEGIN,SCHAR,IBID
-      INTEGER :: ANERROR
-      CHARACTER*ncharline ERR_MSG   
+C
+      CHARACTER*ncharline ERR_MSG  
+      CHARACTER(len=8)  :: STARTDATE
+      CHARACTER(len=10) :: STARTTIME
+      CHARACTER(len=2048) :: TMP_NAME 
 C
       my_real
      .   UNITE, RTITR
+C
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE(SUBMODEL_DATA) , DIMENSION(:), ALLOCATABLE :: LSUBMODEL
-      INTEGER, DIMENSION(:), ALLOCATABLE :: NOSUBMOD,IFATHER,LEVEL
-      INTEGER, DIMENSION(:,:), ALLOCATABLE :: OFFSETS
-      INTEGER, DIMENSION(:,:), ALLOCATABLE :: SEATBELT_CONVERTED_ELEMENTS
-      CHARACTER(len=8)  :: STARTDATE
-      CHARACTER(len=10) :: STARTTIME
-
-      INTEGER :: LEN_TMP_NAME,LEN_TMP_NAME2,BOOL_C
-      CHARACTER(len=2048) :: TMP_NAME,TMP_NAME2
       TYPE(DETONATOR_STRUCT_),TARGET :: DETONATORS
-      LOGICAL IS_AVAILABLE
       TYPE(t_ebcs_tab) :: EBCS_TAB
-      CHARACTER*2048, DIMENSION(:), ALLOCATABLE :: ZIPPED_STR_FILES
-      INTEGER :: RADFLEX_PROCESS_PID
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -188,7 +177,6 @@ C-----------------------------------------------
 C--------------------------------------------------------
 C     LAM MAX LENGTH REAL ARRAY
 C     LMA MAX LENGTH INTEGER ARRAY
-C
 C------------------------------------------------
 C     MACHINE.INC CONTAINT MACHINES SPECIFICATIONS
 C     (MALLOC,IGFORM,TYPE MACHINE...)
@@ -203,10 +191,8 @@ C -------------------------------------------------
 C     Constants
       CALL INICONSTANT
     
-C     timers initialisation
+C     timers initialization
       CALL INITIME()
-C=======================================================================
-      IS_AVAILABLE = .FALSE.
 C=======================================================================
 C while waiting IOUT to be initialized set to stdout 
 C Needs to be done in the early beginning
@@ -219,8 +205,8 @@ C=======================================================================
 C=======================================================================
 
 C-------------------------------------------------------------------
-C     VERSION NUMBER
-C      TO BE MODIFIED WHEN STRUCTURE OF RST FILE IS MODIFIED
+C     Version number
+C      To be modified when structure of rst file is modified
 C-------------------------------------------------------------------
 C
 C CODVERS : VERSION CODE        = 2019 IF RELEASE 2019
@@ -263,8 +249,6 @@ c
       RES_MES = 123456
       RES_TMP = 123457
       RES_CHECK = 123499
-      CRADIOS='#'
-      CVERSIO=' '
       OPEN (UNIT=RES_MES,STATUS='SCRATCH',FORM='FORMATTED')
       OPEN (UNIT=RES_CHECK,STATUS='SCRATCH',FORM='FORMATTED')
 C
@@ -274,7 +258,7 @@ C
       CALL BUILD_MSG()
       CALL CHECK_MESSAGE_DEFINITION() 
 C-------------------------------------------------------------------
-C     Initialisation for Analyse Module
+C     initialization for Analyse Module
 C-------------------------------------------------------------------
       IERR    = 0
       CALL ANINIT(AN_STARTER, AN_LIVE)
@@ -283,7 +267,7 @@ C-------------------------------------------------------------------
       IOUTP   = 0
       IOUTPUT = 0
 C-------------------------------------------------------------------
-C     MULTIDOMAINS -> ENVIRONMENT VARIABLE READING(WINDOWS)
+C     Multidomains -> environment variable reading(windows)
 C-------------------------------------------------------------------
       IPID = 1
       IDDOM = 0
@@ -300,8 +284,8 @@ C---------> IPID = 0 --> Multidomains switch ALE----------------
 #endif
 
 C-------------------------------------------------------------------
-C     DATE
-C      TO BE MODIFIED WHEN STRUCTURE OF RST FILE IS MODIFIED
+C     Date
+C      To be modified when structure of rst file is modified
 C-------------------------------------------------------------------
 C ITESTV Format   [Version][YY][MM][DD]
       ITESTV           = 210290720
@@ -317,10 +301,8 @@ C MUSCL compression coefficient, default value set to 1.
       I_BETA           = TWO
       RATIO22          = ONE + TEN/HUNDRED
       RADIOSSV         = 100090402
-      RADFLEXV         = 0
       IFLEXPIPE        = 1
       LEN              = ncharfield*2
-      IERR1            = 1
 C
 C No Decay for Starter
       TAGLEN           = 0
@@ -348,7 +330,7 @@ C Dynamical Libaries initialization
         CALL DYN_USERLIB_INIT(DLIBFILE,DLIBFILE_SIZE,USERL_AVAIL,
      *                        DLIBTKVERS,IRESP,GOT_USERL_ALTNAME)
 C------------------------------------------------
-C MDS LIB INITIALIZATION
+C Mds lib initialization
 C------------------------------------------------
        CALL MDS_USERLIB_INIT (IRESP,
      .                        MDS_AVAIL, 
@@ -362,7 +344,7 @@ C Avoid linking issue with dynamical libraries
         CALL ST_UACCESS_DUM(IERR)      
         CALL ST_UTABLE_DUM(IERR)
 C-----------------------------------------------------
-C     INITIALISATIONS
+C     initializations
 C-----------------------------------------------------
       IS_DYNA = 0
       IF (GOT_INPUT == 1)THEN
@@ -401,7 +383,7 @@ C       SEARCH RUN NUMBER
         ISTDI = 5
       ENDIF
 C------------------------------------------------
-C READ DYNA MODEL & CONVERT DYNA -> RAD NEUTRAL OBJECTS 
+C Read DYNA model & convert DYNA -> Radioss objects
 C------------------------------------------------
       CALL STARTIME(15,1)
 
@@ -410,7 +392,7 @@ C------------------------------------------------
       ENDIF
       CALL STOPTIME(15,1)
 C----------------------------------------------------------------------
-C       Open starter output file as soon as possible
+C Open starter output file as soon as possible
 C----------------------------------------------------------------------
       ERR_MSG='OPEN OUTPUT FILE'
       ERR_CATEGORY='OPEN OUTPUT FILE'
@@ -654,19 +636,11 @@ C
       LLGAUGE  = 37
 C    
       I_DT_NODA_ALE_ON = 0 ! by default DT NODA * options are no longer available for ALE grid points.
-C-------------------------------------------------------------------
-C---  Find Global unit system
-C-------------------------------------------------------------------
+C
       INP = ISTDI
-      IEND   = 0
-      KEY_MASS(1:20) = '                    '
       FLAG_KEY_M = 0
-      KEY_LENGTH(1:20) = '                    '
       FLAG_KEY_L = 0
-      KEY_TIME(1:20) = '                    '
       FLAG_KEY_T = 0
-C------------------------------------------------------------------
-C     IGNORE CORE
 C------------------------------------------------------------------
       IF( GOT_INSPIRE_ALM == 1)THEN
         ERR_MSG='SOLVER'
@@ -679,19 +653,15 @@ C------------------------------------------------------------------
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
 C-------------------------------------------------
       CALL TRACE_OUT1()
-
+C-------------------------------------------------
       CALL INICOD
-C
-C-------------------------------------------------------------------
-c      IF(CART(1:1).EQ.'#')THEN
-C-------------------------------------------------------------------
 C-------------------------------------------------------------------
 C Runnumber is taken from input name or previous treatments
       IRUN = RUNN
       CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
       CALL FREFORM(MULTI_FVM,LSUBMODEL,ISUB_HIERARCHY,TRALL_MAXVAL,DETONATORS)
 C------------------------------------------------
-C BUILD MODEL IN MEMORY 
+C Build model in memory (Radioss format)
 C------------------------------------------------
       IF (GOT_INPUT == 1 .AND. IS_DYNA == 0)THEN
         CALL STARTIME(16,1)
@@ -699,7 +669,7 @@ C------------------------------------------------
         CALL STOPTIME(16,1)
       ENDIF
 C------------------------------------------------
-C WRITE PARAMETERS & LIST OF REPLACED PARAMETERS 
+C Write list of replaced parameters
 C------------------------------------------------
       IF(IPID .NE. 0 .AND. GOT_HSTP_READ == 0) THEN
         CLOSE(IOUT)
@@ -708,7 +678,7 @@ C------------------------------------------------
      .    ACCESS='SEQUENTIAL',FORM='FORMATTED',STATUS='UNKNOWN',POSITION="APPEND") 
       ENDIF 
 C-------------------------------------------------------------------
-C     KEYWORD MAPPING TO RADIOSS PROCESS
+C     Keyword mapping header output ( DYNA to RADIOSS)
 C-------------------------------------------------------------------
         IF (IS_DYNA == 1) THEN
           DYNA_MESSAGE=1
@@ -722,13 +692,12 @@ C-------------------------------------------------------------------
           WRITE(IOUT,'(A)')'* RADIOSS STARTER PROCESS'
           WRITE(IOUT,'(A)')'************************************************************************'
         ENDIF
-        
 C------------------------------------------------
-C OUTPUT ERROR/WARNING MESSAGES
+C Output errors/warning message (input reading phase)
 C------------------------------------------------
       IF (GOT_INPUT == 1) CALL HM_MESSAGES(IS_DYNA)
 C------------------------------------------------
-C COUNT SUBMODEL & DIM LSUBMODEL STRUCTURE
+C count submodels & dimension LSUBMODEL structure 
 C------------------------------------------------
       IF(ALLOCATED(LSUBMODEL)) DEALLOCATE(LSUBMODEL)
       NSUBMOD = 0
@@ -740,7 +709,7 @@ C------------------------------------------------
      .                             MSGTYPE=MSGERROR,
      .                         C1='LSUBMODEL')
 C------------------------------------------------
-C BUILD SUBMODEL HIERARCHY
+C Build submodel hierarchy
 C------------------------------------------------
         LSUBMODEL(1:NSUBMOD)%SKEW = 0
         CALL HM_READ_SUBMODEL(LSUBMODEL)
@@ -751,31 +720,31 @@ C------------------------------------------------
      .                         C1='LSUBMODEL')
       ENDIF
 C-------------------------------------------------------------------
-C CONVERT /INTER/TYPE19 IN MEMORY TO /INTER/TYPE7 & /INTER/TYPE11
+C Convert /INTER/TYPE19 in memory to /INTER/TYPE7 & /INTER/TYPE11
 C-------------------------------------------------------------------
       CALL HM_GET_MAX_ID('/INTER',IDMAX_INTER,LSUBMODEL)
       CALL HM_GET_MAX_ID('/GRNOD',IDMAX_GRNOD,LSUBMODEL)
       CALL HM_GET_MAX_ID('/LINE',IDMAX_LINE,LSUBMODEL)
       CALL HM_CONVERT_INTER_TYPE19(IDMAX_INTER,IDMAX_GRNOD,IDMAX_LINE,LSUBMODEL)
 C-------------------------------------------------------------------
-C CONVERT /FAIL/TAB IN MEMORY TO /FAIL/TAB1 & /TABLE
+C Convert /FAIL/TAB in memory to /FAIL/TAB1 & /TABLE
 C-------------------------------------------------------------------
       CALL HM_GET_MAX_ID('/TABLE',IDMAX_TABLE,LSUBMODEL)
       CALL HM_GET_MAX_ID('/FUNCT',IDMAX_FUNCT,LSUBMODEL)
       CALL HM_GET_MAX_ID('/FAIL',IDMAX_FAIL,LSUBMODEL)
       IF (IS_DYNA == 0) CALL HM_CONVERT_FAIL_TAB(MAX(IDMAX_FUNCT,IDMAX_TABLE),IDMAX_FAIL,LSUBMODEL)
 C-------------------------------------------------------------------
-C CONVERT /SHELL & /MAT/LAW119 TO /SPRING /PART /PROP/TYPE23 & /MAT/LAW114 
-C CONVERT /TH & /SECT REFERING TO SPRINGs TRANSLATED FROM SHELLs
+C Convert /SHELL & /MAT/LAW119 to /SPRING /PART /PROP/TYPE23 & /MAT/LAW114 
+C Convert /TH & /SECT making reference to springs translated from shells
 C-------------------------------------------------------------------
-c COUNT NUMBER OF TRANSLATED SHELL ELEMENTS
+c Count number of translated shell elements
       NB_SEATBELT_SHELLS = 0
       CALL HM_COUNT_2D_ELEMENT_SEATBELT(NB_SEATBELT_SHELLS,LSUBMODEL)
       IF(NB_SEATBELT_SHELLS > 0)  ALLOCATE (SEATBELT_CONVERTED_ELEMENTS(3,NB_SEATBELT_SHELLS),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
      .                         C1='SEATBELT_CONVERTED_ELEMENTS')
-c GET MAX IDs IN THE INPUT DECK
+c Get max ids in the input deck
       IDMAX_PART = 0
       IDMAX_PROP = 0
       IDMAX_MAT = 0
@@ -786,26 +755,25 @@ c GET MAX IDs IN THE INPUT DECK
       CALL HM_GET_MAX_ID('/MAT',IDMAX_MAT,LSUBMODEL)
       CALL HM_GET_MAX_ID('/SPRING',IDMAX_ELEM,LSUBMODEL)
       CALL HM_GET_MAX_ID('/TH',IDMAX_TH,LSUBMODEL)
-c TRANSLATION
+c 2d seatbelt translation
       IF (NB_SEATBELT_SHELLS > 0) 
      .  CALL HM_CONVERT_2D_ELEMENTS_SEATBELT(IDMAX_PART,IDMAX_PROP,IDMAX_MAT,IDMAX_ELEM,IDMAX_TH,
      .                                           SEATBELT_CONVERTED_ELEMENTS,NB_SEATBELT_SHELLS,LSUBMODEL)
 C-------------------------------------------------------------------
-C     CONTROL VARIABLES
+C     Control variables (count options)
 C-------------------------------------------------------------------
       CALL CONTRL(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS)
 C-------------------------------------------------------------------
-C     PARAMETERS MODIFICATION AND PARAMETERS WRITE (-HSTP_READ -HSTP_WRITE ARGUMENTS)
+C     Parameters modification and parameters write (-HSTP_READ -HSTP_WRITE ARGUMENTS)
 C-------------------------------------------------------------------
 #ifdef DNC
       IF (GOT_HSTP_READ == 1 .OR. GOT_HSTP_WRITE == 1) THEN
         CALL HSTP(ROOTN,ROOTLEN,LSUBMODEL,STARTDATE,STARTTIME,FILNAM,OUTFILE_NAME_LEN)
       ENDIF
 #endif
-C -----------------------------------------------------
+C-----------------------------------------------------
       CALL TRACE_OUT1()
-C -----------------------------------------------------
-C
+C-----------------------------------------------------
       IF(IMACH.NE.3) THEN
        FILNAM = ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_0000.rst'
        LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + 14
@@ -826,7 +794,7 @@ C
      .     FORM='FORMATTED',STATUS='UNKNOWN')
          WRITE(IUREE,'(A)') FILNAM(1:ROOTLEN+14)
        ELSEIF (IRFORM/5.EQ.2) THEN
-C fichier de restart au format binaire ieee 64 bits
+C restart file with binary format ieee 64 bits
         DO I=1,OUTFILE_NAME_LEN
             IFILNAM(I)=ICHAR(OUTFILE_NAME(I:I))     
         ENDDO
@@ -837,7 +805,7 @@ C fichier de restart au format binaire ieee 64 bits
         CALL OPEN_C(IFILNAM,OUTFILE_NAME_LEN+ROOTLEN+14,0)
         CALL WRITE_C_C(IFILNAM,ROOTLEN+14)
        ELSEIF (IRFORM/5.EQ.3) THEN
-C fichier de restart au format binaire ieee 64 bits .Z
+C restart file with binary format ieee 64 bits .Z
         DO I=1,OUTFILE_NAME_LEN
             IFILNAM(I)=ICHAR(OUTFILE_NAME(I:I))     
         ENDDO
@@ -848,7 +816,7 @@ C fichier de restart au format binaire ieee 64 bits .Z
         CALL OPEN_C(IFILNAM,OUTFILE_NAME_LEN+ROOTLEN+14,3)
         CALL WRITE_C_C(IFILNAM,ROOTLEN+14)
        ELSEIF (IRFORM/5.EQ.4) THEN
-C fichier de restart au format binaire ieee 64 bits .gz
+C restart writen file with binary format ieee 64 bits .gz
         DO I=1,OUTFILE_NAME_LEN
             IFILNAM(I)=ICHAR(OUTFILE_NAME(I:I))     
         ENDDO
@@ -868,7 +836,7 @@ c     (freeform)
 
       IF(IRUN.EQ.0)THEN
 C--------------------------------------------------
-C      INITIAL RUN 
+C      Initial run
 C--------------------------------------------------
         IRESMD=0
 C
@@ -877,14 +845,16 @@ C
         ERR_CATEGORY='DECK READING'
         CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
 
-c-----------Creation des process fils pour le multidomaines-----
+c----------- Child process creation for multidomains-----
         IF (NSUBDOM.GT.0) THEN
             CALL R2R_FORK(CHRUN,FILNAM,LSUBMODEL)
         ENDIF
 
 c       start CPU timer for lectur
         CALL STARTIME(2,1)
-
+C--------------------------------------------------
+C      Main reading routine
+C--------------------------------------------------
         CALL LECTUR(MULTI_FVM,LSUBMODEL,IS_DYNA,DETONATORS,EBCS_TAB,SEATBELT_CONVERTED_ELEMENTS,NB_SEATBELT_SHELLS)
 
 c       stop CPU timer for lectur
@@ -895,11 +865,8 @@ c       stop CPU timer for lectur
 
       ELSE
 C--------------------------------------------------
-C     MODIFICATION RUN
-C--------------------------------------------------
-C ---------------------------------
-C MODIF FILES OPTIONS IS DEPRECATED
-C ---------------------------------
+C     Modification run (deprecated)
+C --------------------------------------------------
 
         CALL ANCMSG(MSGID=1621,
      .            MSGTYPE=MSGERROR,
@@ -946,29 +913,11 @@ C
         ENDIF
 
         CALL CPP_DELETE_MODEL()
-c
-c
       ENDIF
 C
       CALL TRACE_OUT1()
       ANERROR=ANEND()
 C---  
       RETURN
-
- 9000 CALL ANCMSG(MSGID=261,
-     .            MSGTYPE=MSGERROR,
-     .            ANMODE=ANINFO,I1=9000)
-      RETURN
- 9010 CALL ANCMSG(MSGID=968,
-     .            MSGTYPE=MSGERROR,
-     .            ANMODE=ANINFO)
-      RETURN
- 9020 CALL ANCMSG(MSGID=1604,
-     .            MSGTYPE=MSGERROR,
-     .            ANMODE=ANINFO,
-     .            C1='/BEGIN',
-     .            C2=CART)
-      RETURN
-
-
+C---  
       END
