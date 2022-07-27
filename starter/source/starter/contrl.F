@@ -2084,8 +2084,8 @@ C---- read ipart_id if there are
            IFUND = 1
            IC = 1
            NPRT = NPART
-           DO WHILE(IC == 1) 
-             READ(71,FMT='(A)',ERR=20) CARTE
+           DO WHILE(IC == 1)           
+             READ(71,FMT='(A)',ERR=20,END=20) CARTE
              IF(CARTE(1:1) == '#' .OR. CARTE(1:1) == '$') CYCLE
              IC = 0
              LEN_C = LEN_TRIM(CARTE)
@@ -2107,7 +2107,7 @@ C---- read ipart_id if there are
                   ENDIF
                   J = J +1
                  END DO
-                 READ(71,FMT='(A)',ERR=20) CARTE
+                 READ(71,FMT='(A)',ERR=20,END=20) CARTE
                  LEN_C = LEN_TRIM(CARTE)
                END DO
      	       IF (NPRT==0) THEN
