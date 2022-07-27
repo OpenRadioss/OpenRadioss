@@ -274,7 +274,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-c reste dans machine.inc
+c in machine.inc
 c     POINTER (IADI,IA(1))
 c     POINTER (IADR,A(1))
 c     INTEGER IA
@@ -360,10 +360,10 @@ C MDS Table
       TYPE(T_DIFFUSION) :: DIFFUSION
       TYPE(t_segvar) :: SEGVAR
 C------------------------------------------------------------------
-C POUR GENERER  UNE VERSION IBM PARALLELE
-C DANS LE STARTER DEFINIR LE PARAMETRE D'INSTALLATION NSPMD
-C DECOMMENTER
-C     DANS CUPDT3(COQUE) : @PROCESS DIRECTIVE ...
+C to build a IBM PARALLEL version
+C In starter : define install parameter nspmd 
+C uncomment:
+C     In CUPDT3(COQUE) : @PROCESS DIRECTIVE ...
 C------------------------------------------------------------------
 C------------------------------------------------------------------
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
@@ -372,7 +372,7 @@ C------------------------------------------------------------------
 #include      "machine.inc"
 C=======================================================================
 C------------------------------------------------
-C     Init Timer (remonte au debut de radioss2 pour timer la lecture => init inconditionnel)
+C     Init Timer (from begining of radioss2 (reading timer)
 C------------------------------------------------
       ISTDO=6
       CALL INI_MSG()
@@ -382,12 +382,12 @@ C------------------------------------------------
 C
       CALL INITIME()
 C------------------------------------------------
-C   VERSIO(2) utilise pour sortie Time History
+C   VERSIO(2) used for Time History output
 c      DATA VERSIO(2)/'VERSION 5.2main,                    '/
       LENV=LEN_TRIM(VERS)
       WRITE(VERSIO(2),'(A)') '                                    '
       WRITE(VERSIO(2),'(A,A,A)') 'VERSION ',VERS(1:LENV),','
-CRVERS Pour version dans MADCL
+CRVERS for version in MADCL
       RVERS(1:LENV)=VERS(1:LENV)
 C------------------------------------------------------------------
 C Constant initialization
@@ -409,23 +409,22 @@ C------------------------------------------------------------------
 C-------------------------------------------------------------------
 #include      "machine2.inc"
 C-------------------------------------------------------------------
-C     NUMERO DE VERSION ET DATE
-C      A MODIFIER CHAQUE FOIS QUE LA STRUCTURE DU FICHIER DE REPRISE
-C      EST MODIFIEE
-C      CE NUMERO DOIT ETRE IDENTIQUE A ITESTV DANS LE STARTER
+C     Version number & date
+C      To be modified when structure of rst file is modified
+C      should be identical to ITESTV in starter
 C      ITESTV Format [Version][YY][MM][DD]
 C-------------------------------------------------------------------
       ITSTV1=210290720
 C
       IF(IR4R8.EQ.2) ITSTV1 = -ITSTV1
 C------------------------------------------------------------------
-C     NUMERO DE RADFLEX COMPATIBLE
-C         2 digits = version radioss equivalente
+C     Compatible radflex number
+C         2 digits = equivalent radioss version
 C         2 digits = release year
 C         2 digits = release month
 C         2 digits = release day
 C------------------------------------------------------------------
-C   D    place dans machine.inc      RDFLEXCOMP = 50060828
+C   D    place in machine.inc      RDFLEXCOMP = 50060828
 C------------------------------------------------------------------
       INERI=0
       IPLAST=1
@@ -535,10 +534,10 @@ C--------------------------------------------------
         CALL MDS_USERLIB_INIT(IRESP,MDS_AVAIL,MDS_VER,MDS_PATH,MDS_PATH_LEN)
 #endif
 C--------------------------------------------------
-C Initialisation des messages d'erreur
+C Error messages initialization
 C--------------------------------------------------
 C--------------------------------------------------
-C Initialisation du common pour les tailles des fichiers
+C Common initialization for arrays size
       TOTALFILECOUNT = 0
       ANIMTOTALSIZE = 0
       THFILESIZE = 0
@@ -551,13 +550,13 @@ C Initialisation du common pour les tailles des fichiers
       H3DTOTALSIZE = 0
 C--------------------------------------------------
       IF (GOT_INPUT == 1) THEN
-C On cherche a connaitre le numero de l input et du run
+C Get input numer & run number
 
         CALL GET_FILE_NAME_INFO(INPUT,LENINPUT,
      *                          ROOTN,LENROOTN,
      *                          RUNN,FVERS)
 
-C On ouvre le fichier input en lecture
+C Open input file for reading
          ISTDI = 80
          INPUTNAM(1:LENINPUT)=INPUT(1:LENINPUT)
          IF (GOT_PATH==1)THEN
@@ -596,16 +595,16 @@ c
       ENDIF
 
 C--------------------------------------------------
-C initialisation des var. booleennes pour terminaison smp
+C initialization bool variables for smp termination
       PARALLEL_END = 0
       PARALLEL_SECTION = 0
 C--------------------------------------------------
       CALL INICOD
       CALL COQINI
 C--------------------------------------------------
-C RECUPERATION DES CARACTERISTIQUES HARDWARE AVANT INIT // (system incompatible avec infiniband)
+C Get Hardware characteristics before init // (system incompatible with infiniband)
       CALL PRINTCPU(1)
-C INITIALISE INFORMATIQUEMENT LES NTHREAD(=NPROC)   TACHES
+C Init NTHREAD(=NPROC) tasks
       CALL INIPAR(ITID,1,NNODES,INPUTNAM,GOT_INPUT,NBTASK)
 C Hardcode KMP_STACKSIZE Environment variable
       CALL SET_STACK_VALUES()
@@ -618,7 +617,7 @@ C--------------------------------------------------
 
       IF ( GOT_INPUT == 0)THEN
        IF (ISPMD.NE.0) THEN
-C redirection de IOUT vers fichier temporaire dans le cas du SPMD sur pi <> 0
+C redirect IOUT to tmp file  fichier temporaire when SPMD on pi <> 0
          IOUT = IUSC4
          OPEN(UNIT=IOUT,ACCESS='SEQUENTIAL',
      .       FORM='FORMATTED',STATUS='SCRATCH')
@@ -641,7 +640,7 @@ C redirection de IOUT vers fichier temporaire dans le cas du SPMD sur pi <> 0
        ENDIF
       ENDIF
 C------------------------------------------------
-C     LECTURE STANDARD INPUT
+C     Standard input reading
 C------------------------------------------------
       CALL LECINP(IRUNN,IRFL,IRFE,H3D_DATA,FLAG_CST_AMS)
       NFSKYI=5
@@ -656,16 +655,11 @@ C --------------------------------
       RAD_INPUTNAME=ROOTNAM(1:ROOTLEN)//'D'//CHRUN
       LEN_RAD_INPUTNAME=LEN_TRIM(RAD_INPUTNAME)
       ENDIF
-
 C------------------------------------------------
-C     Init Timer (remonte au debut de radioss2)
-C------------------------------------------------
-C      IF(IMON.GT.0) CALL INITIME()
-C------------------------------------------------
-C seule lecture ecriture ieee valide pour toutes les versions
+C only reading/writing ieee validated for all versions
       IRFORM = 12
 C------------------------------------------------
-C     RESTART
+C     Restart
 C------------------------------------------------
       IF(ISPMD.EQ.ZERO) THEN
 C       Create info, hist, monitor, progress and tpl files for writing implicit nonlinear solver information
@@ -760,7 +754,6 @@ C       Create info, hist, monitor, progress and tpl files for writing implicit 
             TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:ROOTLEN+9)
             INPUTNAM='CHECK_DATA'
             OPEN(UNIT=IOUT,FILE=TMP_NAME(1:LEN_TMP_NAME),
-C il marche sur SGI    .       ACCESS='APPEND',
      .       ACCESS='SEQUENTIAL',
      .       FORM='FORMATTED',STATUS='UNKNOWN')
 
@@ -803,7 +796,7 @@ C
          WRITE(PROCNAM,'(I4.4)')ISPMD
          FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRU_M1//'_'//PROCNAM
          LEN = ROOTLEN+10
-C redefinition temporaire suivant modif starter/ddsplit
+C
          WRITE(CHRU_M1,'(I4.4)')IRUNN-1
          WRITE(PROCNAM,'(I4.4)')ISPMD+1
           FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRU_M1//'_'//PROCNAM
@@ -823,7 +816,7 @@ C redefinition temporaire suivant modif starter/ddsplit
        TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN)
        !    ---------------------------------
 C
-C fichiers de restart ecrits au format binaire ieee
+C restart file writen with binary format ieee
 C
       DO I=1,LEN_TMP_NAME
         IFILNAM(I)=ICHAR(TMP_NAME(I:I))
@@ -849,13 +842,13 @@ C------------------------------------------------------------------
       CALL TRACE_IN(1,0,ZERO)
       CALL TRACE_IN(17,1,ZERO)
 C------------------------------------------------
-C     LECTURE RESTART 1
+C     .rst file reading 1
 C------------------------------------------------
       CALL RDRESA(ITSTV1 ,LHEADER ,LVARINT ,LVARREA ,PRADIOS ,
      .            PRESFIL, MULTI_FVM, H3D_DATA,
      .            PINCH_DATA)
 C------------------------------------------------
-C     TEST DE COMPATIBILITE DU FICHIER DE REPRISE
+C     Test of .rst file compatibility
 C------------------------------------------------
       IF(ISPMD.EQ.0) THEN
         IF(PRADIOS.NE.IRADIOS.OR.PRESFIL.NE.IRESFIL)THEN
@@ -879,16 +872,9 @@ C      IF(ISPMD.EQ.0) CALL XTIME0(NNODES)
 C      CALL TRACE_OUT(19)
 
       CALL TRACE_IN(17,1,ZERO)
-C fin init rdresa apres call xtime0
+C end init rdresa after call xtime0
       CALL INIRESA(H3D_DATA,PINCH_DATA)
       CALL TRACE_OUT(17)
-
-C test a revoir en 11 :supprimed
-C      IF(NTHREAD.GT.1.AND.IMPL_S.GT.0) THEN
-C        WRITE(IOUT, 1001)
-C        WRITE(ISTDO,1001)
-C        NTHREAD = 1
-C      ENDIF
 
       CALL INIPAR(ITID,3,NNODES,INPUTNAM,GOT_INPUT,NBTASK)
       IF(ISPMD.EQ.0) THEN
@@ -924,7 +910,6 @@ C
      .        ANMODE=ANINFO)
       ENDIF
 
-C appel a fopen peut bloquer avec Intel MPI et kernel linux < 2.6.18
       CALL PRINTCPU(2)
 
       IF(ISPMD.EQ.0)
@@ -970,7 +955,7 @@ C
       CALL ALE_CONNECTIVITY%ALE_CONNECTIVITY_INIT()
 
 C------------------------------------------------
-C     LECTURE RESTART 2
+C     .rst file reading 2
 C------------------------------------------------
       CALL TRACE_IN(17,2,ZERO)
       CALL RESTALLOC(MULTI_FVM,H3D_DATA,PINCH_DATA,ALE_CONNECTIVITY,SEGVAR)
@@ -1402,13 +1387,6 @@ C     Close restart file
         ENDIF
       ENDIF
 C--------------------------------------------
-C MOVED AFTER LECTUR
-C      CALL TRACE_IN(19,0,ZERO)
-C      CALL XTIME0(NNODES,SOCK0)
-C      CALL TRACE_OUT(19)
-
-C--------------------------------------------
-C
 C     Automatic element selection for AMS - AMS deactivated if no element selected
       IF(ISMS_SELEC==0.AND.FLAG_CST_AMS==1)THEN
         IDTMINS = 0
@@ -1490,21 +1468,8 @@ C--------------------------------------------
       IF(.NOT.ALLOCATED(DIAG_SMS))ALLOCATE(DIAG_SMS(0))
       IF(.NOT.ALLOCATED(DMINT2))ALLOCATE(DMINT2(0))
 C--------------------------------------------
-C--------------------------------------------
       CALL TRACE_OUT(17)
       IRUN=IRUNN
-C
-ccc      IF(INTPLYXFEM > 0)NFSKYI=5
-C------------------------------------------------
-C     TEST DE COMPATIBILITE DU FICHIER DE REPRISE
-C------------------------------------------------
-C        IF(IRUN.NE.IRUNN)THEN
-C         WRITE(IOUT,*)'RESTART FILE NOT COMPATIBLE WITH RESTART NUMBER'
-C     .                ,IRUNN
-C         WRITE(ISTDO,*)'RESTART FILE NOT COMPATIBLE WITH RESTART NUMBER'
-C     .                ,IRUNN
-C         IF(DEBUG(2).LT.1)CALL ARRET(2)
-C        ENDIF
 C------------------------------------------------
 C     Restart indicator for multimat law 151 + symmetry
 C------------------------------------------------
@@ -1526,7 +1491,7 @@ C-----------------------------------------------------
      .                    BUFMAT   ,IPART    ,IGRNOD   ,IGRPART)
       END IF
 C------------------------------------------------
-C     INITIALIZATIONS MDS
+C     initializations MDS
 C------------------------------------------------
       IF(MDS_AVAIL==1) THEN
         NSPMD_USER = NSPMD
@@ -1543,7 +1508,7 @@ C------------------------------------------------
      *                                  MDS_NMAT,MDS_MATID,MDS_FILES,MDS_LABEL,MDS_NDEPSVAR,MAX_DEPVAR,MDS_OUTPUT_TABLE)
       ENDIF
 C------------------------------------------------
-C     LECTURE DES DONNEES
+C     engine file reading
 C------------------------------------------------
       CALL TRACE_IN(16,2,ZERO)
       CALL LECTUR(  ICODE ,  ISKEW ,  ISKWN ,  IXTG  ,   IXS ,
@@ -1567,7 +1532,6 @@ C------------------------------------------------
       CALL TRACE_OUT(16)
 C------------------------------------------------
       CALL TRACE_IN(19,0,ZERO)
-C needs to be after lectur
       CALL TRACE_OUT(19)
 C------------------------------------------------
       IF ((IRAD2R.EQ.1).AND.(R2R_SIU.EQ.1))THEN
@@ -1598,7 +1562,7 @@ C------------------------------------------------
      2                  X ,SKEW)
       ENDIF
 C
-C bcs rigdi material
+C bcs rigid material
 C
       IF(IRIGID_MAT > 0)
      .   CALL CONDRMAT(ICODT,ICODR, IRBYM, LNRBYM,ICODRBYM)
@@ -1607,7 +1571,7 @@ C
       CALL TRACE_IN(18,0,ZERO)
 
 C------------------------------------------------
-C     ABF FILE CHECK EXTERNAL PROGRAM + INIT PIPES
+C     ABF file check if external abf program available & initpipes 
 C------------------------------------------------
 C
 C number of writen abf_files .abf, _a.abf .....
@@ -1645,6 +1609,8 @@ C---
       ENDIF
       ENDIF
 C------------------------------------------------
+C Write th file structure
+C------------------------------------------------
       IF (ISPMD.EQ.0) THEN
         IF(TH_VERS.GE.40)THEN
          WRITE(CHR_OLD,'(I2.2)')IRUNN
@@ -1663,7 +1629,7 @@ C------------------------------------------------
      4    IPM   ,IPART   ,LIPART1    ,8     ,
      5    12	 ,ITFORM,ITHFLAG)
           WA(1:SWA) = ZERO
-C   NULTIPLE TH
+C   Multiple th files
             IF(NTHGRP01(1).NE.0)THEN
               WRITE(CHR_OLD,'(I2.2)')IRUNN
               FILTH  = CHR_OLD
@@ -2156,7 +2122,7 @@ c
       CALL TRACE_OUT(18)
 C---------------------------------------------------------------------
 #ifdef DNC
-C Nouveau Couplage Madymo
+C New MADYMO coupling
       IF (IMADCPL==1)THEN
         CALL INIT_MADCPL()
 
@@ -2182,7 +2148,6 @@ C Send Data / Fem Structures
       END IF
 #endif
 C---------------------------------------------------------------------
-C directive de parallelisation smp deplacee dans resol
          ITASK=0
          IRUNN_BIS = IRUNN
          CALL RESOL_HEAD(ITASK,AF,IAF,IDATA,RDATA,XDP,
@@ -2198,13 +2163,13 @@ C---------------------------------------------------------------------
       CURRENT_RUN = GLOBAL_COMP_TIME%RUN_NBR
       CALL SPMD_REDUCE_DB(GLOBAL_COMP_TIME%ENGINE_TIME(CURRENT_RUN),RESULT,1,0,"MAX ")
 #ifdef DNC
-C Nouveau Couplage Madymo
+C New MADYMO coupling
       IF (IMADCPL==1)THEN
         CALL TERMINATE_MADCPL(N)
       ENDIF
 #endif
 C----------------------------------------------------------------------X
-C TERMINE INFORMATIQUEMENT LES  TACHES
+C End tasks
       CALL INIPAR(ITID,2,NNODES,INPUTNAM,GOT_INPUT,NBTASK)
 C---------------------------------------------------------------------
       IF(MSTOP.EQ.1) THEN
