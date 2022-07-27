@@ -107,7 +107,7 @@ C--------------------------------------------------
       CALL HM_GET_INTV('Ileng',ILENG,IS_AVAILABLE,LSUBMODEL)
 
       CALL HM_GET_INTV('NFUNC',NFUNC,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_INTV('NRATEN',NFUND,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV('NRATEN',NFUND,IS_AVAILABLE,LSUBMODEL)   
       CALL HM_GET_FLOATV('DMIN',DMIN,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
@@ -122,6 +122,15 @@ C----
       IRTYP = 7                                                       
       CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1),LTITR)
 c
+      ! Check if at least one loading curve is defined
+      IF (NFUNC <= 0) THEN
+        CALL ANCMSG(MSGID=2078,
+     .              MSGTYPE=MSGERROR,
+     .              ANMODE=ANINFO_BLIND_1,
+     .              I1=IG,
+     .              C1=TITR)
+      ENDIF
+c
       IF (ALPHA == ZERO) ALPHA = ONE                                   
       IF (XFAC == ZERO)  XFAC  = ONE * XFAC_DIM    
       DMIN = -ABS(DMIN)
@@ -130,7 +139,7 @@ c
       IF (DMAX == ZERO)  DMAX  =  INFINITY
       IF (ILENG == 1)    XFAC  = ONE
 c
-C---  courbes de charge                                                  
+C---  Loading curves                                                 
       IAD = 100                                                       
       DO I = 1, NFUNC                                              
         CALL HM_GET_INT_ARRAY_INDEX('FUN_LOAD',IFUN,I,IS_AVAILABLE,LSUBMODEL)
@@ -160,36 +169,52 @@ C
         GEO (IAD+100+I) = RATE                                         
         GEO (IAD+200+I) = YFAC                                     
       ENDDO                                                           
-C---  courbes de decharge                                                
-      IAD = 100+NFUNC                                              
-      DO I = 1, NFUND                                              
-        CALL HM_GET_INT_ARRAY_INDEX('FUN_UNLOAD',IFUN,I,IS_AVAILABLE,LSUBMODEL)
-        CALL HM_GET_FLOAT_ARRAY_INDEX('SCALE_UNLOAD',YFAC,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
-        CALL HM_GET_FLOAT_ARRAY_INDEX('STRAINRATE_UNLOAD',RATE,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
-        CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('SCALE_UNLOAD',YFAC_DIM,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
+C---  Unloading curves                                              
+      IAD = 100+NFUNC
+      ! -> defined by user
+      IF (NFUND > 0) THEN                                            
+        DO I = 1, NFUND                                              
+          CALL HM_GET_INT_ARRAY_INDEX('FUN_UNLOAD',IFUN,I,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_FLOAT_ARRAY_INDEX('SCALE_UNLOAD',YFAC,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOAT_ARRAY_INDEX('STRAINRATE_UNLOAD',RATE,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('SCALE_UNLOAD',YFAC_DIM,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
-        IF (IFUN <= 0) THEN
-          CALL ANCMSG(MSGID=862,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO_BLIND_1,
-     .                I1=IG,
-     .                C1=TITR)
-          EXIT
-        ENDIF
-        IF(I > 1 .AND. RATE < GEO (IAD+100+I-1)) THEN
-          CALL ANCMSG(MSGID=861,
-     .                MSGTYPE=MSGERROR,
-     .                ANMODE=ANINFO_BLIND_1,
-     .                I1=IG,
-     .                C1=TITR)
-          EXIT
-        ENDIF
-        IF (YFAC == ZERO) YFAC = ONE * YFAC_DIM
+          IF (IFUN <= 0) THEN
+            CALL ANCMSG(MSGID=862,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1=IG,
+     .                  C1=TITR)
+            EXIT
+          ENDIF
+          IF(I > 1 .AND. RATE < GEO (IAD+100+I-1)) THEN
+            CALL ANCMSG(MSGID=861,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1=IG,
+     .                  C1=TITR)
+            EXIT
+          ENDIF
+          IF (YFAC == ZERO) YFAC = ONE * YFAC_DIM
 C
-        IGEO(IAD+I)     = IFUN                                        
-        GEO (IAD+100+I) = RATE                                         
-        GEO (IAD+200+I) = YFAC                                       
-      ENDDO                                                           
+          IGEO(IAD+I)     = IFUN                                        
+          GEO (IAD+100+I) = RATE                                         
+          GEO (IAD+200+I) = YFAC                                       
+        ENDDO
+      ! -> defined by default 
+      ELSE
+        CALL ANCMSG(MSGID=2079,
+     .              MSGTYPE=MSGWARNING,
+     .              ANMODE=ANINFO_BLIND_1,
+     .              I1=IG,
+     .              C1=TITR)
+        NFUND = NFUNC
+        DO I = 1,NFUND
+          IGEO(IAD+I)     = IGEO(100+I)                                      
+          GEO (IAD+100+I) = GEO (200+I)                                       
+          GEO (IAD+200+I) = GEO (300+I)       
+        ENDDO
+      ENDIF                                                          
 C
       IGEO(20) = NFUNC                                             
       IGEO(21) = NFUND
