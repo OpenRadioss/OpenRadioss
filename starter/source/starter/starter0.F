@@ -151,6 +151,7 @@ C-----------------------------------------------
      .        LOAD_ERROR,IBID
       INTEGER :: LEN_TMP_NAME
       INTEGER :: ANERROR
+      INTEGER :: RADFLEX_PROCESS_PID
 C
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: SEATBELT_CONVERTED_ELEMENTS
 C
