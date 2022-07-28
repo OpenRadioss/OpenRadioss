@@ -155,7 +155,7 @@ C
          MY23=VCORE(I,2,3)
          MY34=VCORE(I,1,4)
          C2 =ONE_OVER_12*G(I)*RHO(I)*AREA(I)
-         HVL = DEUX1000*AMU(I)*SQRT(C2)*OFF(I)
+         HVL = TWO1000*AMU(I)*SQRT(C2)*OFF(I)
          CXZ_V=(MY34*MY34+MX34*MX34)*HVL
          CYZ_V=(MY23*MY23+MX23*MX23)*HVL
          HSURA=THK(I)/AREA(I)

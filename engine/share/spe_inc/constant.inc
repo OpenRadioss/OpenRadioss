@@ -20,12 +20,10 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
+
       COMMON /CONST/
 C--------------------------------------
-C      Entiers
-C--------------------------------------
-C--------------------------------------
-C      Entiers
+C      Integers
 C--------------------------------------
      . ZERO,ONE ,TWO, THREE,FOUR,FIVE,SIX ,SEVEN, EIGHT,NINE,TEN,
      . ELEVEN,TWELVE ,FOURTEEN,FIFTEEN,SIXTEEN,TWENTY, TWENTY4,TWENTY5,
@@ -33,7 +31,7 @@ C--------------------------------------
      . FIVEUANTE, SIXTY4,EIGHTY,EIGHTY16,EIGHTY19,
      . HUNDRED,HUNDRED28,HUNDRED50,HUNDRED80,THREE100,TWOHUNDRED25,TWOHUNDRED95,
      . TWOHUNDRED98,TWOHUNDRED93, THREEHUNDRED24,FIVEHUNDRED12,THREE1000,
-     . DEUX1000,DIXHUIT,CINQUANTE4,
+     . TWO1000,DIXHUIT,CINQUANTE4,
 C--------------------------------------
 C      10^n
 C--------------------------------------          
@@ -102,24 +100,19 @@ C--------------------------------------
      . FIVEP5,FIVEP56,FIVEP76,SIP2832,NINEP24,NINEP38,NINEP793,ELEVENP5,
      . TWELVEP6,FOURTEENP2,SIXTEENP5,O88P9844,ONZEP225,
      . NINEP637EM5,ZEP999EP31,
-C--------------------------------------
-C       Constantes ???????????
-C--------------------------------------
-Csm50c3     . ZEP54,ZEP1381966,ZEP34697828,ZEP39894228,ZEP5854102,
-Csm50c3     . ZEP65302172,UNP745329252EM2,ONEP001EM32,ONEP3EM5, 
      . ZEP54,ZEP1381966,ZEP5854102,ONEP001EM32,ONEP3EM5,EIGHTP314EM5,     
 C--------------------------------------
-C      Decimaux -> fractions
+C      fractions
 C--------------------------------------
      . ZEP426667,ZEP222,ZEP00666666667,ZEP01666666667 ,ZEP444,ONEP222,
      . ONEP8333,TWOP444,TWOP6666666667,TWOP6667,FIVEP333, 
 C-------------------------------------- 
 C--------------------------------------
-C       Constantes physiques
+C      Physics 
 C--------------------------------------
      . R_IGC,
 C--------------------------------------
-C       Constantes mathematiques
+C      Maths 
 C--------------------------------------
      . SQR2,SQR3,SQR5,SQR6,SQR7,SQR3_2,SQR4_3,SQR16_3,PI,INVPI,            
 C--------------------------------------
@@ -127,8 +120,6 @@ C      alias
 C--------------------------------------          
      . EM3,EM4,EM5,EM6,EM7,EM8,EM9,EP9,
      . FIVEEM2,TWOEM2,NINEEM2,ZEP80,UNP20,UNP30,UNP70,UNP90,   
-Csm50c3     . DEUXP309401076759,UNP154700538379,
-c
      . VAR1,VAR2 , VAR3, VAR4 , VAR5, VAR6, VAR7, VAR8, VAR9,VAR10, 
      . VAR11,VAR12,VAR13, VAR14,VAR15,VAR16,VAR17,VAR18,VAR19,VAR20,     
      . VAR22,VAR23,VAR24,VAR25,VAR26,VAR27,VAR28, VAR29,     
@@ -139,10 +130,7 @@ c
 C real
        my_real
 C--------------------------------------
-C      Entiers
-C--------------------------------------
-C--------------------------------------
-C      Entiers
+C      Integers
 C--------------------------------------
      . ZERO,ONE ,TWO, THREE,FOUR,FIVE,SIX ,SEVEN, EIGHT,NINE,TEN,
      . ELEVEN,TWELVE ,FOURTEEN,FIFTEEN,SIXTEEN,TWENTY, TWENTY4,TWENTY5,
@@ -150,7 +138,7 @@ C--------------------------------------
      . FIVEUANTE, SIXTY4,EIGHTY,EIGHTY16,EIGHTY19,
      . HUNDRED,HUNDRED28,HUNDRED50,HUNDRED80,THREE100,TWOHUNDRED25,TWOHUNDRED95,
      . TWOHUNDRED98,TWOHUNDRED93, THREEHUNDRED24,FIVEHUNDRED12,THREE1000,
-     . DEUX1000,DIXHUIT,CINQUANTE4,
+     . TWO1000,DIXHUIT,CINQUANTE4,
 C--------------------------------------
 C      10^n
 C--------------------------------------          
@@ -172,7 +160,7 @@ C--------------------------------------
      . SEVENEM4,EIGHTEM4,NINEEM4,TWOEM5,THREEEM5,FOUREM5,
      . FIVEEM5,SIXEM5,SEVENEM5,EIGHTEM5,NINEEM5,TWOEM6, 
      . THREEEM6,FOUREM6,FIVEEM6,SIXEM6,SEVENEM6,EIGHTEM6 , 
-     . NINEEM6,           
+     . NINEEM6, 
 C--------------------------------------
 C      m10^n
 C--------------------------------------
@@ -219,25 +207,18 @@ C--------------------------------------
      . FIVEP5,FIVEP56,FIVEP76,SIP2832,NINEP24,NINEP38,NINEP793,ELEVENP5,
      . TWELVEP6,FOURTEENP2,SIXTEENP5,O88P9844,ONZEP225,
      . NINEP637EM5,ZEP999EP31,DEUXPP24,
-C--------------------------------------
-C       Constantes ???????????
-C--------------------------------------
-Csm50c3     . ZEP54,ZEP1381966,ZEP34697828,ZEP39894228,ZEP5854102,
-Csm50c3     . ZEP65302172,UNP745329252EM2,ONEP001EM32,ONEP3EM5, 
-Csm50c3     . EIGHTP314EM5,UNP953125EM3, UNP56250EM2, 
      . ZEP54,ZEP1381966,ZEP5854102,ONEP001EM32,ONEP3EM5,EIGHTP314EM5,       
 C--------------------------------------
-C      Decimaux -> fractions
+C      Fractions
 C--------------------------------------
      . ZEP426667,ZEP222,ZEP00666666667,ZEP01666666667 ,ZEP444,ONEP222,
      . ONEP8333,TWOP444,TWOP6666666667,TWOP6667,FIVEP333, 
-C-------------------------------------- 
 C--------------------------------------
-C       Constantes physiques
+C      Physics 
 C--------------------------------------
      . R_IGC,
 C--------------------------------------
-C       Constantes mathematiques
+C      Math                        
 C--------------------------------------
      . SQR2,SQR3,SQR5,SQR6,SQR7,SQR3_2,SQR4_3,SQR16_3,PI,INVPI,             
 C--------------------------------------
@@ -245,8 +226,6 @@ C      alias
 C--------------------------------------          
      . EM3,EM4,EM5,EM6,EM7,EM8,EM9,EP9,
      . FIVEEM2,TWOEM2,NINEEM2,ZEP80,UNP20,UNP30,UNP70,UNP90,   
-Csm50c3     . DEUXP309401076759,UNP154700538379,
-c
      . VAR1,VAR2 , VAR3, VAR4 , VAR5, VAR6, VAR7, VAR8, VAR9,VAR10, 
      . VAR11,VAR12,VAR13, VAR14,VAR15,VAR16,VAR17,VAR18,VAR19,VAR20,     
      . VAR22,VAR23,VAR24,VAR25,VAR26,VAR27,VAR28, VAR29,     
@@ -254,3 +233,7 @@ c
      . VAR40,VAR41,VAR42,VAR43, VAR44,VAR45,VAR46,VAR47,VAR48,VAR49,
      . VAR50,VAR51,VAR52,VAR53, VAR54,VAR56,VAR57,VAR58,VAR59,VAR60,
      . VAR61,VAR62,VAR63,VAR64, VAR65,VAR66,VAR67  
+
+
+
+

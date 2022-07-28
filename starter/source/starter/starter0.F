@@ -501,15 +501,7 @@ C new composite shell pid max nbs 200
       NRBJET=420
       NRBHOL=22
       NIBHOL=19+15
-      NIXS   = 11
       NIXIG3D= 15
-      NIXQ   = 7
-      NIXC   = 7
-      NIXT   = 5
-      NIXP   = 6
-      NIXR   = 6
-      NIXTG  = 6
-      NIXUR  = 6
       NIXX   = 5
       NIXFR1 = 0
       NIXFR2 = 0

@@ -20,9 +20,10 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
+
       COMMON /CONST/
 C--------------------------------------
-C      Entiers
+C      Integers
 C--------------------------------------
      . INFINITY,ZERO,ONE ,TWO, THREE,FOUR,FIVE,SIX ,SEVEN, EIGHT,NINE,TEN,
      . ELEVEN,TWELVE ,FOURTEEN,FIFTEEN,SIXTEEN,TWENTY, TWENTY4,TWENTY5,
@@ -62,7 +63,7 @@ C      Fractions
 C--------------------------------------
      . HALF,THIRD,FOURTH,ONE_FIFTH,ONE_OVER_6,ONE_OVER_8,ONE_OVER_9,ONE_OVER_12,  
      . ONE_OVER_16,ONE_OVER_64,ONE_OVER_512,TWO_THIRD,THREE_HALF,THREE_OVER_4,TRHEE_OVER_14,
-     . FOUR_OVER_3,FOUR_OVER_5 ,FIVE_OVER_3,FIVE_OVER_4,FIVE_OVER_6 ,SIX_OVER_5,SEVEN_HALF,   
+     . FOUR_OVER_3,FOUR_OVER_5,FIVE_OVER_3,FIVE_OVER_4,FIVE_OVER_6 ,SIX_OVER_5,SEVEN_HALF,   
      . SEVEN_OVER_5,SEVEN_OVER_9,NINE_OVER_2,NINE_OVER_20,
 C--------------------------------------
 C      0.xxxx
@@ -100,17 +101,17 @@ C--------------------------------------
      . FOURTEENP2,SIXTEENP5,O88P9844,ONEP3EM5,ONEP001EM32,NINEP637EM5,
      . EIGHTP314EM5,ONEP1EP30,ONEP2EP30,ZEP999EP31,
 C--------------------------------------
-C      Decimaux -> fractions
+C      fractions
 C--------------------------------------     
      . ZEP426667,ZEP222,ZEP00666666667,ZEP01666666667,ZEP444,ONEP222,
      . ONEP8333,TWOP444,TWOP6666666667,TWOP6667,FIVEP333,
      . ZEP54,ZEP1381966,ZEP5854102,
 C--------------------------------------
-C       Constantes physiques
+C      Physics 
 C--------------------------------------
      . R_IGC, STEFBOLTZ,
 C--------------------------------------
-C       Constantes mathematiques
+C      Maths 
 C--------------------------------------            
      . SQR2,SQR3,SQR5,SQR6,SQR7,SQR3_2,SQR4_3,SQR16_3,PI,INVPI,
 C--------------------------------------
@@ -128,10 +129,9 @@ C--------------------------------------
      . VAR50,VAR51,VAR52,VAR53, VAR54,VAR56,VAR57,VAR58,VAR59,VAR60,
      . VAR61,VAR62,VAR63,VAR64, VAR65,VAR66,VAR67      
 C------------------------------------------------------------------------
-C------------------------------------------------------------------------
        my_real
 C--------------------------------------
-C      Entiers
+C      Integers
 C--------------------------------------
      . INFINITY,ZERO,ONE ,TWO, THREE,FOUR,FIVE,SIX ,SEVEN, EIGHT,NINE,TEN,
      . ELEVEN,TWELVE ,FOURTEEN,FIFTEEN,SIXTEEN,TWENTY, TWENTY4,TWENTY5,
@@ -209,20 +209,17 @@ C--------------------------------------
      . FOURTEENP2,SIXTEENP5,O88P9844,ONEP3EM5,ONEP001EM32,NINEP637EM5,
      . EIGHTP314EM5,ONEP1EP30,ONEP2EP30,ZEP999EP31,
 C--------------------------------------
-C      Decimaux -> fractions
+C      Fractions
 C--------------------------------------     
      . ZEP426667,ZEP222,ZEP00666666667,ZEP01666666667,ZEP444,ONEP222,
      . ONEP8333,TWOP444,TWOP6666666667,TWOP6667,FIVEP333,DIXPP32,
-C--------------------------------------
-C       Constantes ???????????
-C--------------------------------------
      . ZEP54,ZEP1381966,ZEP5854102,
 C--------------------------------------
-C       Constantes physiques
+C       Physics
 C--------------------------------------
      . R_IGC, STEFBOLTZ,
 C--------------------------------------
-C       Constantes mathematiques
+C      Math 
 C--------------------------------------            
      . SQR2,SQR3,SQR5,SQR6,SQR7,SQR3_2,SQR4_3,SQR16_3,PI,INVPI,
 C--------------------------------------

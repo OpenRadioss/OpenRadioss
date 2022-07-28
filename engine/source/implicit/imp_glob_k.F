@@ -438,7 +438,7 @@ C----6---------------------------------------------------------------7---------8
 
 
 c         OPEN(UNIT=16,FILE='KE_P.TMP',STATUS='UNKNOWN',FORM='FORMATTED')
-c              CALL IMPKPOUT(NIXP,IXP,NFT,NEL,16,KC11   ,KC12 ,  KC22 )
+c              CALL IMPKPOUT(NIXPL,IXP,NFT,NEL,16,KC11   ,KC12 ,  KC22 )
 C----6---------------------------------------------------------------7---------8
             ELSEIF(ITY.EQ.6)THEN
              IGTYP = NINT(GEO(12,IXR(1,NF1)))
@@ -1563,7 +1563,7 @@ Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|        WRITEKP                       source/implicit/imp_glob_k.F  
 Chd|====================================================================
-      SUBROUTINE IMPKPOUT( NIXP,IXP,NFT,NEL,IUGEO,KE11,KE12,KE22 )
+      SUBROUTINE IMPKPOUT( NIXPL,IXP,NFT,NEL,IUGEO,KE11,KE12,KE22 )
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1573,8 +1573,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NIXP
-      INTEGER IXP(NIXP,*),NEL,IUGEO,NFT
+      INTEGER NIXPL
+      INTEGER IXP(NIXPL,*),NEL,IUGEO,NFT
 C     REAL
       my_real
      .   KE11(6,6,*),KE22(6,6,*),KE12(6,6,*)
@@ -1586,7 +1586,7 @@ C=======================================================================
 C     SHELL
 C=======================================================================
        DO N= 1,NEL
-        IG(N)=IXP(NIXP,N)
+        IG(N)=IXP(NIXPL,N)
        ENDDO
       CALL WRITEKP(IUGEO,NFT,NEL,IG,'K11',KE11)
       CALL WRITEKP(IUGEO,NFT,NEL,IG,'K12',KE12)
@@ -1642,7 +1642,7 @@ Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|        WRITEKI                       source/implicit/imp_glob_k.F  
 Chd|====================================================================
-      SUBROUTINE IMPKIOUT( NIXP,IXP,NFT,NEL,IUGEO,KE11,KE12,KE22 )
+      SUBROUTINE IMPKIOUT( NIXPL,IXP,NFT,NEL,IUGEO,KE11,KE12,KE22 )
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1652,8 +1652,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NIXP
-      INTEGER IXP(NIXP,*),NEL,IUGEO,NFT
+      INTEGER NIXPL
+      INTEGER IXP(NIXPL,*),NEL,IUGEO,NFT
 C     REAL
       my_real
      .   KE11(3,3,*),KE22(3,3,*),KE12(3,3,*)
@@ -1665,7 +1665,7 @@ C=======================================================================
 C     SHELL
 C=======================================================================
        DO N= 1,NEL
-        IG(N)=IXP(NIXP,N)
+        IG(N)=IXP(NIXPL,N)
        ENDDO
       CALL WRITEKI(IUGEO,NFT,NEL,IG,'K11',KE11)
       CALL WRITEKI(IUGEO,NFT,NEL,IG,'K12',KE12)
@@ -1721,7 +1721,7 @@ Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|        JACOBIEN                      source/implicit/imp_glob_k.F  
 Chd|====================================================================
-      SUBROUTINE KELAMDA( IXC,NIXC,NFT,NEL,IUGEO,
+      SUBROUTINE KELAMDA( IXC,NIXCL,NFT,NEL,IUGEO,
      1                    KE11   ,KE12   ,KE13   ,KE14   ,KE22 ,
      2                    KE23   ,KE24   ,KE33   ,KE34   ,KE44 )
 C-----------------------------------------------
@@ -1732,8 +1732,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NIXC
-      INTEGER IXC(NIXC,*),NFT,NEL,IUGEO
+      INTEGER NIXCL
+      INTEGER IXC(NIXCL,*),NFT,NEL,IUGEO
 C     REAL
       my_real
      .   KE11(6,6,*),KE22(6,6,*),KE33(6,6,*),KE44(6,6,*),
@@ -1750,7 +1750,7 @@ C
       TOL=EM5
        DO N= 1,NEL
         NT=N+NFT
-        IG(N)=IXC(NIXC,NT)
+        IG(N)=IXC(NIXCL,NT)
        ENDDO
       DO I=1,6
        I2=I+6
@@ -3490,7 +3490,7 @@ C----6---------------------------------------------------------------7---------8
 
 
 c         OPEN(UNIT=16,FILE='KE_P.TMP',STATUS='UNKNOWN',FORM='FORMATTED')
-c              CALL IMPKPOUT(NIXP,IXP,NFT,NEL,16,KC11   ,KC12 ,  KC22 )
+c              CALL IMPKPOUT(NIXPL,IXP,NFT,NEL,16,KC11   ,KC12 ,  KC22 )
 C----6---------------------------------------------------------------7---------8
             ELSEIF(ITY.EQ.6)THEN
              IGTYP = NINT(GEO(12,IXR(1,NF1)))

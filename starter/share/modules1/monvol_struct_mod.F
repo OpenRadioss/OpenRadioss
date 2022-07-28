@@ -1128,12 +1128,12 @@ C   -----------------------------
 C
 C  10    9    8                    RUN THGROUGH ELEM              SORTING 1st COLUMN                       SORTING 2nd COLUMN FOR EACH BLOCK (siz > 2)
 C   +----+----+                  node1 node2 elem_id             node1 node2 elem_id
-C   |    |    |                      1     2      17                1     10      17  \ BLOCK 
-C   | 17 | 11 |                      2     9      17                1      2      17  /   
+C   |    |    |                      1     2      17                1     10      17  } BLOCK 
+C   | 17 | 11 |                      2     9      17                1      2      17  }   
 C   |    |    |                      9    10      17    SORT.1      ----------------                       ----------------
-C   +----+----+                      1    10      17    ----->      2      9      17  \         SORT.2     2      3      11  \     
+C   +----+----+                      1    10      17    ----->      2      9      17  }         SORT.2     2      3      11  }     
 C   1    2    3                      2     3      11                2      3      11   BLOCK    ----->     2      9      17   ONE COMMON EDGE IN BLOCK  : 2,3 
-C                                    3     8      11                2      9      11  /                    2      9      11  /                          => elem 17 & 11 are adjacent
+C                                    3     8      11                2      9      11  }                    2      9      11  }                          => elem 17 & 11 are adjacent
 C                                    8     9      11                ----------------                       ----------------             
 C                                    9    10      11                3      8      11
 C                                    ^     ^       ^                ----------------

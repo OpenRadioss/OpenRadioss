@@ -827,7 +827,7 @@ C element type T3
                       ELSE
 C  message d'erreur
                         IPID_1=IGEO_STACK(1,ICSH_STACK(IDSHEL))
-                        NGL =IXTG(NIXC,IDSHEL)
+                        NGL =IXTG(NIXTG,IDSHEL)
                         CALL ANCMSG(MSGID=1152,
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO_BLIND_1,
@@ -923,7 +923,7 @@ C element type T3
                       ELSE
 C  message d'erreur
                         IPID_1=IGEO_STACK(1,ICSH_STACK(IDSHEL))
-                        NGL =IXTG(NIXC,IDSHEL)
+                        NGL =IXTG(NIXTG,IDSHEL)
                         CALL ANCMSG(MSGID=1152,
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO_BLIND_1,

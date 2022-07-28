@@ -90,7 +90,7 @@ Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/fvmbag_meshco
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
 Chd|====================================================================
-      SUBROUTINE MESHGEMS_TETRA(T_MONVOLN, NIXS, N, KM, 
+      SUBROUTINE MESHGEMS_TETRA(T_MONVOLN, NIXSL, N, KM, 
      .     NB_EXTRA_VERTICES, NB_TETRA, NB_VERTICES)
 C-----------------------------------------------
 C     M o d u l e s
@@ -105,7 +105,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NIXS
+      INTEGER, INTENT(IN) :: NIXSL
       INTEGER, INTENT(IN) :: N, KM
       INTEGER, INTENT(OUT) :: NB_EXTRA_VERTICES, NB_TETRA, NB_VERTICES
       TYPE(MONVOL_STRUCT_), INTENT(INOUT) :: T_MONVOLN
@@ -121,7 +121,7 @@ Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/fvmbag_meshco
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
 Chd|====================================================================
-      SUBROUTINE HYPERMESH_TETRA(T_MONVOLN, NIXS, N, KM, 
+      SUBROUTINE HYPERMESH_TETRA(T_MONVOLN, NIXSL, N, KM, 
      .     NB_EXTRA_VERTICES, NB_TETRA, NB_VERTICES)
 C-----------------------------------------------
 C     M o d u l e s
@@ -136,7 +136,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NIXS
+      INTEGER, INTENT(IN) :: NIXSL
       INTEGER, INTENT(IN) :: N, KM
       INTEGER, INTENT(INOUT) :: NB_EXTRA_VERTICES, NB_TETRA, NB_VERTICES
       TYPE(MONVOL_STRUCT_), INTENT(IN) :: T_MONVOLN

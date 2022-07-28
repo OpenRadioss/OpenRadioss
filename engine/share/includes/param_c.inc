@@ -22,8 +22,7 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 C.../PARAM/
       COMMON /PARAM/ NPROPM, NVSIZ, NPROPG, NPARG,  LVEUL,
-     .               NIXS,   NIXQ,  NIXC,   NIXT,   NIXP,
-     .               NIXR,   NIXTG, NIXUR,  NIXFR1 ,NIXFR2,
+     .               NIXFR1 ,NIXFR2,
      .               NPARI,  LWAMP, LWANMP, NISX,   NIGR,
      .               NISU,   NIMV,  NNPBY,  NRBY   ,NIFV,
      .               NTHVKI, NPSAV, NRCNX,  NR2R   ,NRWLP,
@@ -43,8 +42,7 @@ C.../PARAM/
      .               N_SEATBELT_2D
 
       INTEGER        NPROPM, NVSIZ, NPROPG, NPARG,  LVEUL,
-     .               NIXS,   NIXQ,  NIXC,   NIXT,   NIXP,
-     .               NIXR,   NIXTG, NIXUR,  NIXFR1 ,NIXFR2,
+     .               NIXFR1 ,NIXFR2,
      .               NPARI,  LWAMP, LWANMP, NISX,   NIGR,
      .               NISU,   NIMV,  NNPBY,  NRBY   ,NIFV,
      .               NTHVKI, NPSAV, NRCNX,  NR2R   ,NRWLP,
@@ -62,3 +60,5 @@ C.../PARAM/
      .               NIGRV, LFACGRV, NSLIPRING, NRETRACTOR,N_ANCHOR_REMOTE,
      .               N_ANCHOR_REMOTE_SEND,NSLIPRING_G,NRETRACTOR_G,N_SEATBELT,
      .               N_SEATBELT_2D
+
+

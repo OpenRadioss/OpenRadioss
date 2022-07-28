@@ -30,7 +30,7 @@ Chd|        PLIST_IFRONT                  source/spmd/node/ddtools.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|        SPLIT_CFD_MOD                 share/modules1/split_cfd_mod.F
 Chd|====================================================================
-        SUBROUTINE SPLIT_CFD_SOLIDE(NUMELS,NIXS,ALE_CONNECTIVITY,IXS,ALE_ELM,SIZE_ALE_ELM)
+        SUBROUTINE SPLIT_CFD_SOLIDE(NUMELS,ALE_CONNECTIVITY,IXS,ALE_ELM,SIZE_ALE_ELM)
 !$COMMENT
 !       SPLIT_CFD_SOLIDE description :
 !              SPLIT_CFD_SOLIDE retains all the useful solid elements
@@ -60,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        INTEGER, INTENT(IN) :: NUMELS,NIXS
+        INTEGER, INTENT(IN) :: NUMELS
         INTEGER, DIMENSION(NIXS,*), INTENT(IN) :: IXS    
         INTEGER, DIMENSION(NSPMD) :: SIZE_ALE_ELM  
         TYPE(split_cfd_type), DIMENSION(NSPMD), INTENT(INOUT) :: ALE_ELM
