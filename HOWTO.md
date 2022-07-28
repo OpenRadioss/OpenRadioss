@@ -10,8 +10,8 @@ Linux system with glibc version 2.17 or higher :
 
 ### Compiler and development tools
 
-Compiler is gcc/gfortran version 8 or higher
-cmake version 2.8 or higher and make are need
+You will need GCC/Gfortran version 8 or higher,
+[Cmake](https://cmake.org/) version 2.8 or higher, and GNU make.
 
 Install as sudo or root
 
@@ -72,10 +72,10 @@ OpenMPI is need to build OpenRadioss with OpenMPI support, compilers
             ./build_script.sh -arch=linux64_gf
 
 
-* OpenRadioss Starter : **starter_linux64_gf** binary will be copied in **OpenRadioss/exec** directory
+* OpenRadioss Starter: **starter_linux64_gf** binary will be copied in **OpenRadioss/exec** directory
 
 
-* Advanced script flags can be used to build OpenRadioss  : launch ./build_script without arguments :
+* Advanced script flags can be used to build OpenRadioss: run `./build_script.sh` without arguments :
 
         []$ ./build_script.sh
 
