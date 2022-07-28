@@ -33,7 +33,7 @@ Chd|-- calls ---------------
 Chd|        ASSEM_KII                     source/implicit/imp_glob_k.F  
 Chd|        ASSEM_KIJ                     source/implicit/imp_glob_k.F  
 Chd|====================================================================
-      SUBROUTINE ASSEM_P(NIXP,ND  ,
+      SUBROUTINE ASSEM_P(NIXPL,ND  ,
      1         IXP      ,NEL       ,IDDL      ,NDOF      ,K_DIAG    ,
      2         K_LT     ,IADK      ,JDIK      ,KC11      ,KC12      ,
      3         KC22     ,OFF       )
@@ -51,9 +51,9 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NIXP,ND
+      INTEGER NIXPL,ND
       INTEGER 
-     .       IXP(NIXP,*), NEL   ,IDDL(*)   ,NDOF(*)   ,
+     .       IXP(NIXPL,*), NEL   ,IDDL(*)   ,NDOF(*)   ,
      .       IADK(*)  ,JDIK(*)
 C     REAL
       my_real

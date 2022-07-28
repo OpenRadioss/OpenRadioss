@@ -31,7 +31,7 @@ Chd|        RUSER32KE3                    source/elements/spring/ruser32ke3.F
 Chd|        TKE3                          source/elements/truss/tke3.F  
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE PEOFF(NIXP, JFT , JLT , IXP, ETAG,
+      SUBROUTINE PEOFF(NIXPL, JFT , JLT , IXP, ETAG,
      .                 OFF )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -43,7 +43,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NIXP, JFT, JLT, IXP(NIXP,*), ETAG(*)
+      INTEGER NIXPL, JFT, JLT, IXP(NIXPL,*), ETAG(*)
       my_real
      .        OFF(*)
 C-----------------------------------------------

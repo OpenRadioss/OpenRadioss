@@ -27,15 +27,9 @@ Chd|        RADIOSS2                      source/engine/radioss2.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE INICONSTANT
-C Cgw50b6 reecriture pour unicite des resultats
-C      
 #include "implicit_f.inc"   
-c-------------------------------------------------------------  
-c++++ les constantes suivantes ne sont pas dans le common
-c     mais peuvent y etre ajoutees si necessaire
-c-------------------------------------------------------------       
 C--------------------------------------
-C      Entiers
+C      INTEGERS
 C--------------------------------------
        ZERO          = 0.
        ONE            = 1.
@@ -81,7 +75,7 @@ C--------------------------------------
        TWOHUNDRED93    = 293.
        THREEHUNDRED24   = 324.
        FIVEHUNDRED12    = 512.
-       DEUX1000      = 2000. 
+       TWO1000      = 2000. 
        THREE1000     = 3000.  
 C--------------------------------------
 C      10^n
@@ -136,7 +130,6 @@ C--------------------------------------
        EM20 = ONE / EP20 
        EM30 = ONE / EP30
        EM35 = ONE / EP35 
-C------------------------------------
 C--------------------------------------
 C      m10^-n
 C--------------------------------------
@@ -159,7 +152,7 @@ C
        ZEP07     = ZEP1 - ZEP03
        ZEP08     = ZEP1 - ZEP02
        ZEP09     = ZEP1 - ZEP01   
-C C
+C
        TWOEM3   = TWO   / EP03
        THREEEM3  = THREE  / EP03
        FOUREM3 = FOUR / EP03
@@ -236,7 +229,6 @@ C--------------------------------------
        NINE_OVER_2  = NINE/TWO       
        NSEIZE    = NINE/SIXTEEN
        NINE_OVER_20    = NINE/TWENTY      
-C-------------------------------------
 C--------------------------------------
 C      0.xxxx
 C--------------------------------------
@@ -478,19 +470,14 @@ C
        O88P9844   = 88. + ZEP9 + ZEP08 + FOUREM3 + FOUREM4
 C
        ONEP3EM5     = ONEP3 * EM05
-C      ONEP001EM32  = 1.001E-32
        ONEP001EM32  = 1001. * EM35
-C      NINEP637EM5 = 9.637E-05
        NINEP637EM5 = 9637. * EM08
-C      EIGHTP314EM5 = 8.314E-05        
        EIGHTP314EM5 = 8314. * EM08        
 C
        ONEP1EP30 = ONEP1 * EP30
        ONEP2EP30 = ONEP2 * EP30 
 C
        ZEP999EP31 = ZEP999 * EP31
-C---------------------------------------
-C--------------------------------------
 C--------------------------------------
        ZEP54     = ONE   - ZEP46    
        ZEP1381966= ZEP13 + EIGHTEM3 + EM04 + NINEEM5 + SIXEM6 
@@ -504,33 +491,25 @@ C--------------------------------------
         EIGHTP314EM5 = 8314.* EM08
         NINEEM2 = ZEP09        
 C--------------------------------------
-C      Decimaux -> fractions
+C      Fractions
 C--------------------------------------
        ZEP426667 = HUNDRED28 / THREE100
-C      ZEP222= 0.222222222
        ZEP222    = TEN / FOURTY5
        ZEP00666666667 = TWO / THREE100
        ZEP01666666667 = FIVE / THREE100
-C      ZEP444 = 0.444444444444
        ZEP444    = HUNDRED / TWOHUNDRED25
-C      ONEP222 = 1.2222222222
        ONEP222    = ONE + ZEP222
        ONEP8333   = ONE + TWENTY5 / THIRTY
-C      TWOP444  =   2.444444444444    	       
        TWOP444  = TWO + ZEP444                  
-C       TWOP6666666667= 2.6666666667 
        TWOP6666666667= EIGHT / THREE 
-C      TWOP6667      = 2.666666667
        TWOP6667 = TWOP6666666667
-C      FIVEP333 = 5.333333333333    
        FIVEP333 = SIXTEEN / THREE    
-C-------------------------------------- 
 C--------------------------------------
-C       Constantes physiques
+C      Physics 
 C--------------------------------------
        R_IGC    = 8.314472
 C--------------------------------------
-C       Constantes mathematiques
+C      Math 
 C--------------------------------------
        SQR2    = SQRT(TWO)
        SQR3    = SQRT(THREE)

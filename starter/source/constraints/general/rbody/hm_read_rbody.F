@@ -897,7 +897,7 @@ C-----------------------
              IF(IQUAOFF(II).NE.0)THEN
                GBUF%OFF(I)= -ABS(GBUF%OFF(I))
                IF(IPRI.GE.5) WRITE(IOUT,*)' QUAD DEACTIVATION:',
-     .         IXQ(11,II)
+     .         IXQ(NIXQ,II)
                IOK = 1
              ENDIF
            ENDDO

@@ -26,6 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 
 #include "my_real.inc" 
 #include "constant.inc"
+#include "elements.inc"
 
 #ifdef DEBUG_RST
 #define WRITE_I_C(a,b) WRITE_I_C_DEBUG(a,b,#a)

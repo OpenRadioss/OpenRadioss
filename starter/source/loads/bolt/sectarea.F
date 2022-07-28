@@ -117,7 +117,7 @@ C=======================================================================
             NODE(J)=IXS(I+2,II)
            ENDIF
           ENDDO
-          DO I=8,15
+          DO I=8,13
            IF(BTEST(IBUF(2,IE),I)) THEN
             J=J+1
             NODE(J)=IXS10(I-7,I10)
