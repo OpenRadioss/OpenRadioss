@@ -6,6 +6,7 @@ This code of conduct is a guide for members of the OpenRadioss community. We are
 
 Guidelines for code of conduct:
 
+
 * **Be friendly and patient.**
 * **Be welcoming:** We strive to be a community that welcomes and supports people of all backgrounds and identities.
 * **Be considerate:** Your work will be used by other people, and you in turn will depend on the work of others. Decisions you make affect everyone in the community, so please be mindful of your actions and always choose a non-confrontational approach. Remember: this is a global community and English is not everyone's primary language.
