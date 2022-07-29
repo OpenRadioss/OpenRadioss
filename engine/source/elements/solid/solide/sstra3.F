@@ -64,22 +64,23 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
       my_real WXXF, WYYF, WZZF, Q1, Q2, Q3, SS1, SS2, SS3, 
-     .        SS4, SS5, SS6
+     .        SS4, SS5, SS6, DTOFF(NEL)
 C-      
       WXXF = ZERO
       WYYF = ZERO
       WZZF = ZERO
       Q1 = ZERO
       Q2= ZERO
-      Q3=0 
+      Q3=0
+      DTOFF(1:NEL) = DT1*OFF(1:NEL)
       IF(JCVT.GT.0)THEN 
         DO I=LFT,LLT
-          STRAIN(I,1)=STRAIN(I,1)+DXX(I)*DT1
-          STRAIN(I,2)=STRAIN(I,2)+DYY(I)*DT1
-          STRAIN(I,3)=STRAIN(I,3)+DZZ(I)*DT1
-          STRAIN(I,4)=STRAIN(I,4)+D4(I)*DT1
-          STRAIN(I,5)=STRAIN(I,5)+D5(I)*DT1
-          STRAIN(I,6)=STRAIN(I,6)+D6(I)*DT1
+          STRAIN(I,1)=STRAIN(I,1)+DXX(I)*DTOFF(I)
+          STRAIN(I,2)=STRAIN(I,2)+DYY(I)*DTOFF(I)
+          STRAIN(I,3)=STRAIN(I,3)+DZZ(I)*DTOFF(I)
+          STRAIN(I,4)=STRAIN(I,4)+D4(I)*DTOFF(I)
+          STRAIN(I,5)=STRAIN(I,5)+D5(I)*DTOFF(I)
+          STRAIN(I,6)=STRAIN(I,6)+D6(I)*DTOFF(I)
         ENDDO
       ELSE    
         DO I=LFT,LLT
@@ -100,12 +101,12 @@ C
      .         WZZF*STRAIN(I,6)-WYYF*STRAIN(I,4)
            SS6=STRAIN(I,6)+2.*WYYF*(STRAIN(I,3)-STRAIN(I,1))+
      .         WXXF*STRAIN(I,4)-WZZF*STRAIN(I,5)
-           STRAIN(I,1)= SS1 + DXX(I)*DT1
-           STRAIN(I,2)= SS2 + DYY(I)*DT1
-           STRAIN(I,3)= SS3 + DZZ(I)*DT1
-           STRAIN(I,4)= SS4 + D4(I)*DT1
-           STRAIN(I,5)= SS5 + D5(I)*DT1
-           STRAIN(I,6)= SS6 + D6(I)*DT1
+           STRAIN(I,1)= SS1 + DXX(I)*DTOFF(I)
+           STRAIN(I,2)= SS2 + DYY(I)*DTOFF(I)
+           STRAIN(I,3)= SS3 + DZZ(I)*DTOFF(I)
+           STRAIN(I,4)= SS4 + D4(I)*DTOFF(I)
+           STRAIN(I,5)= SS5 + D5(I)*DTOFF(I)
+           STRAIN(I,6)= SS6 + D6(I)*DTOFF(I)
          ENDDO
        ENDIF
 c------------
