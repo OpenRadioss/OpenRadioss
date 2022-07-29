@@ -77,7 +77,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-     INTEGER I, J, NNEGA, INDEX(MVSIZ)
+      INTEGER I, J, NNEGA, INDEX(MVSIZ)
 C
       my_real
      .   DETT ,  JAC7(MVSIZ), JAC8(MVSIZ) , JAC9(MVSIZ),
