@@ -1331,18 +1331,18 @@ c-----------
               DO I=LFT,LLT                                        
                 DO IPT= 1,NPTR
                   LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IPT,1,1)
-                  EVAR(3,I) = EVAR(3,I) + LBUF%SIG(JJ(3) + I)
-                  EVAR(2,I) = EVAR(2,I) + LBUF%SIG(JJ(5) + I)
-                  EVAR(1,I) = EVAR(1,I) + LBUF%SIG(JJ(6) + I)
+                  EVAR(3,I) = EVAR(3,I) + LBUF%SIG(JJ(3) + I)/NPTR
+                  EVAR(2,I) = EVAR(2,I) + LBUF%SIG(JJ(5) + I)/NPTR
+                  EVAR(1,I) = EVAR(1,I) + LBUF%SIG(JJ(6) + I)/NPTR
                 ENDDO                                              
               ENDDO  
              ELSE
               DO I=LFT,LLT                                      
                 DO IPT= 1,NPTR
                  LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IPT,1,1) 
-                 EVAR(3,I)= EVAR(3,I)+ LBUF%SIG(JJ(3) + I)+ LBUF%VISC(JJ(3) + I) 
-                 EVAR(2,I)= EVAR(2,I)+ LBUF%SIG(JJ(5) + I)+ LBUF%VISC(JJ(5) + I)
-                 EVAR(1,I)= EVAR(1,I)+ LBUF%SIG(JJ(6) + I)+ LBUF%VISC(JJ(6) + I)
+                 EVAR(3,I)= EVAR(3,I)+ LBUF%SIG(JJ(3) + I)/NPTR+ LBUF%VISC(JJ(3) + I)/NPTR
+                 EVAR(2,I)= EVAR(2,I)+ LBUF%SIG(JJ(5) + I)/NPTR+ LBUF%VISC(JJ(5) + I)/NPTR
+                 EVAR(1,I)= EVAR(1,I)+ LBUF%SIG(JJ(6) + I)/NPTR+ LBUF%VISC(JJ(6) + I)/NPTR
                 ENDDO                                          
               ENDDO 
              ENDIF                                                  
