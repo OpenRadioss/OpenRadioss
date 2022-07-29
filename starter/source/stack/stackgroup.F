@@ -1218,10 +1218,10 @@ C============================================================================
 C---
             IPPID = 2
             DO ILAY=1,NPT
-                  PIDS =  STACK%IGEO(IPPID+J       ,IIS)
+                  PIDS =  STACK%IGEO(IPPID + ILAY      ,IIS)
                   NPTT  = IGEO_STACK(4,PIDS)
                   IGEO(4,PID) = MAX(IGEO(4,PID),NPTT)
-            ENDDO          
+            ENDDO   
         ENDDO ! DO IS = 1,NS
 C---
          DEALLOCATE(ICSH,INDX,ITRI,IDSTACK, ICSH_STACK)
