@@ -318,9 +318,10 @@ C-----------------------------------------------
         IF(MODE==3) THEN
             !   -------------------------
             !   wait the previous comm
+            CALL SPMD_CELL_SIZE_EXCHANGE_INIT(IRCVFROM,ISENDTO,IPARI,NIN,INTER_STRUCT,SORT_COMM)  
+
             IF(IRCVFROM(NIN,LOC_PROC).EQ.0.AND.ISENDTO(NIN,LOC_PROC).EQ.0) RETURN
 
-            CALL SPMD_CELL_SIZE_EXCHANGE_INIT(IRCVFROM,ISENDTO,IPARI,NIN,INTER_STRUCT,SORT_COMM)  
             ITIED = IPARI(85,NIN)
             IF(SORT_COMM(NIN)%SIZE_CELL_LIST(1)>0.OR.ITIED/=0) THEN !   need to prepare the reception only if there are still some NMN on the current proc
                 CALL SPMD_CELL_SIZE_POST_RCV(IRCVFROM,ISENDTO,NIN,SORT_COMM,ITIED)  
