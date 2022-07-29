@@ -890,6 +890,8 @@ C
                       IR_MAX = 1
                     ENDIF
                   ENDIF
+                ELSEIF(IGEO(11,K) == 43)THEN
+                  IR_MAX = MAX(IR_MAX,4)
                 ENDIF
               ENDDO
             ENDIF
@@ -917,7 +919,9 @@ C-------------    thick-shell Isolid=15
                       IS_MAX = 1
                     ENDIF
                   ENDIF
-                ENDIF
+               ELSEIF(IGEO(11,K) == 43)THEN
+                  IS_MAX = MAX(IS_MAX,1)
+               ENDIF
               ENDDO
             ENDIF
 
@@ -934,8 +938,10 @@ C-------------    thick-shell Isolid=15
                     NPTT=MAX(2,MOD(IGEO(4,K),10))
                     IT_MAX = MAX(IT_MAX,NPTT)
                   ENDIF
-                ENDIF
-                IF(N2D.NE.0) THEN
+               ELSEIF(IGEO(11,K) == 43)THEN
+                  IT_MAX = MAX(IT_MAX,1)
+               ENDIF
+               IF(N2D.NE.0) THEN
                   IT_MAX = 1
                ENDIF
               ENDDO
