@@ -1097,7 +1097,7 @@ C
                 ENDDO
               ELSE
                 IF ((R2R_SIU == 1).AND.(TAGEL(IE) > -1)) THEN
-                  CALL R2R_TAGEL(NTAGEL_R2R_SEND,IXUR(7,NFT+I),ITAB(IXUR(2,NFT+I)),ITY,
+                  CALL R2R_TAGEL(NTAGEL_R2R_SEND,IXUR(NIXUR,NFT+I),ITAB(IXUR(2,NFT+I)),ITY,
      .                           OFUR,TAGEL_SIZE)
                 ENDIF
                 TAGEL(IE)=-1
@@ -1223,7 +1223,7 @@ C
                 ELSEIF ((ITY == 7).AND.((IE > OFTG).AND.(IE.LE.OFUR))) THEN
                   R2R_NUMEL = IXTG(6,IE-OFTG)
                 ELSEIF ((ITY == 8).AND.((IE > OFUR).AND.(IE.LE.OFUR+NUMELUR))) THEN
-                  R2R_NUMEL = IXUR(7,IE-OFUR)
+                  R2R_NUMEL = IXUR(NIXUR,IE-OFUR)
                 ENDIF
 C
                 IF (R2R_NUMEL == TAGEL_R2R_RECV((I-1)*3+1)) THEN
