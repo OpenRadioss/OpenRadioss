@@ -190,7 +190,7 @@ c
           IF (STRFLAG == 1 .or. STRFLAG == 4) THEN
             DO I=1,NEL          
               EPST_A = HALF*(EPSXX(I)+EPSYY(I))
-              EPST_B = SQRT( (HALF*(EPSXX(I)-EPSYY(I)))**2 + (EPSXY(I)**2) )
+              EPST_B = SQRT( (HALF*(EPSXX(I)-EPSYY(I)))**2 + (HALF*EPSXY(I))**2)
               EPST1(I)  = EPST_A + EPST_B
               EPST2(I)  = EPST_A - EPST_B
             ENDDO
@@ -205,7 +205,7 @@ c
         CASE (3)      ! max tensile principal strain criterion
           DO I=1,NEL          
             EPST_A = HALF*(EPSXX(I)+EPSYY(I))
-            EPST_B = SQRT( (HALF*(EPSXX(I)-EPSYY(I)))**2 + (EPSXY(I)**2) )
+            EPST_B = SQRT((HALF*(EPSXX(I)-EPSYY(I)))**2 + (HALF*EPSXY(I))**2)
             EPST1(I)  = EPST_A + EPST_B
             EPST2(I)  = EPST_A - EPST_B
             IF (EPST1(I) > -EPST2(I)) THEN
