@@ -509,7 +509,7 @@ c
             DO IFL = 1, NFAIL      ! loop over fail models in current layer
               IRUPT  =  FBUF%FLOC(IFL)%ILAWF
               IF(IRUPT== 4.OR.IRUPT== 5.OR.IRUPT== 6.OR.IRUPT==7.OR.
-     .           IRUPT==10.OR.IRUPT==24) FLAG_EPS=.TRUE.
+     .           IRUPT==10.OR.IRUPT==24.OR.IRUPT==34) FLAG_EPS=.TRUE.
 
               IF(IRUPT== 4.OR.IRUPT== 5.OR.IRUPT== 6.OR.
      .           IRUPT==14.OR.IRUPT==24) FLAG_EPSP=.TRUE.
