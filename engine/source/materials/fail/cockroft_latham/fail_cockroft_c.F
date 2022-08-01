@@ -110,8 +110,8 @@ C L o c a l V a r i a b l e s
 C-----------------------------------------------
        INTEGER I,J,NINDX,LEN
        INTEGER, DIMENSION(NEL) :: INDX
-       my_real   E_HYD,E_11,E_22,E_33,EEQ,D_EEQ,
-     .           SIG_11,SIG_A,SIG_B
+       my_real   E_HYD,E_11,E_22,E_33,E_12,E_23,E_13,
+     .           EEQ,D_EEQ,SIG_11,SIG_A,SIG_B
 C-----------------------------------------------
 C Ex : ELEMENT IS OFF iF COLA > C0
 C-----------------------------------------------
@@ -138,9 +138,12 @@ c! equivalent strain calculation (negative = total strain ; positive = plastic s
             E_11  = EPSXX(I) - E_HYD
             E_22  = EPSYY(I) - E_HYD
             E_33  =  -E_HYD
+            E_12  = HALF*EPSXY(I)
+            E_23  = HALF*EPSYZ(I)
+            E_13  = HALF*EPSZX(I)
             
             EEQ   = E_11**2 + E_22**2 + E_33**2
-            EEQ   = EEQ + TWO * EPSXY(I)**2 + TWO * EPSYZ(I)**2 + TWO * EPSZX(I)**2
+            EEQ   = EEQ + TWO * (E_12**2) + TWO * (E_23**2) + TWO * (E_13**2)
             EEQ   = 0.8164965809 * SQRT(EEQ) ! sqrt (2/3)*sqrt(...)
             
             D_EEQ = EEQ - UVAR(I,1)
