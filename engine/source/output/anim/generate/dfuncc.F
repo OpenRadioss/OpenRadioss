@@ -492,12 +492,32 @@ c----           USER VARIABLES from 6 to 60
                ENDIF                                                                          
 !---
             ELSEIF (IFUNC == 10677) THEN  !  /ANIM/ELEM/SIGEQ
-            !  equivalent stress - other then VON MISES
+            !  equivalent stress - other than VON MISES
               IF (GBUF%G_SEQ > 0) THEN
+C------------------
+                ! Total number of integration points
+                NPGT = 0
+                DO IL=1,NLAY
+                  BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
+                  NPGT = NPGT + BUFLY%NPTT*NPTR*NPTS
+                ENDDO
+                ! Average equivalent stress on integration points
                 DO I=LFT,LLT
-                  FUNC(EL2FA(NN3+NFT+I)) = GBUF%SEQ(I)
-                ENDDO ! DO I=LFT,LLT
-!---
+                  EVAR_TMP = ZERO
+                  DO IL=1,NLAY
+                    BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
+                    DO IT=1,BUFLY%NPTT
+                      DO IR=1,NPTR
+                        DO IS=1,NPTS
+                          LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)        
+                          EVAR_TMP = EVAR_TMP + LBUF%SEQ(I)/NPGT
+                        ENDDO
+                      ENDDO
+                    ENDDO
+                  ENDDO
+                  FUNC(EL2FA(NN3+NFT+I)) = EVAR_TMP
+                ENDDO
+C------------------
               ELSE  ! VON MISES
                 DO I=LFT,LLT
                   P = - (GBUF%SIG(JJ(1) + I)
@@ -2403,14 +2423,33 @@ C-------------------------------------
               ENDDO  
 C-------------------------------------
             ELSEIF (IFUNC == 10677) THEN  !  /ANIM/SHELL/SIGEQ
-            !  equivalent stress - other then VON MISES
+            !  equivalent stress - other than VON MISES
 C-------------------------------------
               IF (GBUF%G_SEQ > 0) THEN
-!!!!!!
-                DO I = LFT, LLT
-                  EVAR(I) = GBUF%SEQ(I)
+C------------------
+                ! Total number of integration points
+                NPGT = 0
+                DO IL=1,NLAY
+                  BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
+                  NPGT = NPGT + BUFLY%NPTT*NPTR*NPTS
                 ENDDO
-!!!!!!
+                ! Average equivalent stress on integration points
+                DO I=LFT,LLT
+                  EVAR_TMP = ZERO
+                  DO IL=1,NLAY
+                    BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
+                    DO IT=1,BUFLY%NPTT
+                      DO IR=1,NPTR
+                        DO IS=1,NPTS
+                          LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)        
+                          EVAR_TMP = EVAR_TMP + LBUF%SEQ(I)/NPGT
+                        ENDDO
+                      ENDDO
+                    ENDDO
+                  ENDDO
+                  EVAR(I) = EVAR_TMP
+                ENDDO
+C------------------
               ELSE  !  VON MISES
                 DO I=LFT,LLT
                   S1 = GBUF%FOR(JJ(1)+I)
