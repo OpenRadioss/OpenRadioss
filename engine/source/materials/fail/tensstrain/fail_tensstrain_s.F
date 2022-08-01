@@ -194,8 +194,8 @@ c           transform total grad def strain to engineering
               EPS22(I)  = MFYY(I)
               EPS33(I)  = MFZZ(I)
               EPS12(I)  = MFXY(I) + MFYX(I)
-              EPS23(I)  = MFXZ(I) + MFZX(I)
-              EPS31(I)  = MFZY(I) + MFYZ(I)
+              EPS23(I)  = MFZY(I) + MFYZ(I)
+              EPS31(I)  = MFXZ(I) + MFZX(I)
             END DO          
           ELSE IF (STRFLAG == 2) THEN     
 c           transform engineering strain to true
@@ -232,7 +232,7 @@ c           transform total grad def strain to true
             EPS22(1:NEL)  = EPSYY(1:NEL)
             EPS33(1:NEL)  = EPSZZ(1:NEL)
             EPS12(1:NEL)  = EPSXY(1:NEL)
-            EPS23(1:NEL)  = EPSXY(1:NEL)
+            EPS23(1:NEL)  = EPSYZ(1:NEL)
             EPS31(1:NEL)  = EPSZX(1:NEL)
           END IF
 c         calculate max strain
