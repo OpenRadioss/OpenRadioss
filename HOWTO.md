@@ -21,6 +21,8 @@ Install as sudo or root
             yum install make
             yum install cmake
             yum install perl
+            
+  To enable the devtoolset-8, you can run `scl enable devtoolset-8 bash`
 
 * RHEL 8, CentOS Stream 8
 
