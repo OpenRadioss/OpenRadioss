@@ -2976,14 +2976,32 @@ C--------------------------------------------------
               ENDDO   
 C--------------------------------------------------
             ELSEIF (KEYWORD == 'SIGEQ') THEN  ! equiv stress (mid layer : npt/2 + 1)
-C  equivalent stress - other then VON MISES
+C  equivalent stress - other than VON MISES
 C--------------------------------------------------
               IF (GBUF%G_SEQ > 0) THEN
 C------------------
-                DO I=1,NEL
-                  VALUE(I) = GBUF%SEQ(I)
-                  IS_WRITTEN_VALUE(I) = 1   
-                ENDDO ! DO I=1,NEL  
+                ! Total number of integration points
+                NPGT = 0
+                DO IL=1,NLAY
+                  BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
+                  NPGT = NPGT + BUFLY%NPTT*NPTR*NPTS
+                ENDDO
+                ! Average equivalent stress on integration points
+                VALUE(1:NEL) = ZERO
+                DO IL=1,NLAY
+                  BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
+                  DO IT=1,BUFLY%NPTT
+                    DO IR=1,NPTR
+                      DO IS=1,NPTS
+                        LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)     
+                        DO I=1,NEL   
+                          VALUE(I) = VALUE(I) + LBUF%SEQ(I)/NPGT
+                          IS_WRITTEN_VALUE(I) = 1  
+                        ENDDO
+                      ENDDO
+                    ENDDO 
+                  ENDDO 
+                ENDDO 
 C------------------
               ELSE  !  VON MISES
                 DO I=1,NEL
