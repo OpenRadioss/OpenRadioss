@@ -226,16 +226,21 @@ c ILAYER=NULL IR=NULL IS=NULL IT=NULL
                IS_WRITTEN_TENSOR(I) = 1
              ENDDO
              IF(IVISC > 0) THEN
-           	LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1) 
-           	DO I=1,NEL
-           	  II = 6*(I-1)
-           	  EVAR(1,I) =EVAR(1,I)+ LBUF%VISC(JJ(1) + I)
-           	  EVAR(2,I) =EVAR(2,I)+ LBUF%VISC(JJ(2) + I)
-           	  EVAR(3,I) =EVAR(3,I)+ LBUF%VISC(JJ(3) + I)
-           	  EVAR(4,I) =EVAR(4,I)+ LBUF%VISC(JJ(4) + I)
-           	  EVAR(5,I) =EVAR(5,I)+ LBUF%VISC(JJ(5) + I)
-           	  EVAR(6,I) =EVAR(6,I)+ LBUF%VISC(JJ(6) + I)
-           	ENDDO
+              DO I=1,NEL
+                DO IR=1,NPTR  			    	      
+                  DO IS=1,NPTS        	  
+                    DO IT=1,NPTT	     	  
+                      LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)
+                      EVAR(1,I) =EVAR(1,I)+ LBUF%VISC(JJ(1) + I)/NPTG
+                      EVAR(2,I) =EVAR(2,I)+ LBUF%VISC(JJ(2) + I)/NPTG
+                      EVAR(3,I) =EVAR(3,I)+ LBUF%VISC(JJ(3) + I)/NPTG
+                      EVAR(4,I) =EVAR(4,I)+ LBUF%VISC(JJ(4) + I)/NPTG
+                      EVAR(5,I) =EVAR(5,I)+ LBUF%VISC(JJ(5) + I)/NPTG
+                      EVAR(6,I) =EVAR(6,I)+ LBUF%VISC(JJ(6) + I)/NPTG
+                     ENDDO !IT					         	
+                  ENDDO !IS                	
+                ENDDO !IR              	
+              ENDDO
              ENDIF
 c
              IF( NFILSOL .NE. 0 .AND. GBUF%G_FILL .NE. 0 ) THEN
