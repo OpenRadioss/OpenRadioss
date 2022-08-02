@@ -102,7 +102,7 @@ C-----------------------------------------------
         IF(.NOT.FILE_EXIST) THEN
           inquire( file=trim(FILENAME)//".gz", exist=FILE_EXIST )
           IF(.NOT.FILE_EXIST) THEN
-            CALL ANCMSG(MSGID = 1884, ANMODE = ANINFO, MSGTYPE = MSGERROR, I1 = ID, C1=TITLE)
+            CALL ANCMSG(MSGID = 1885, ANMODE = ANINFO, MSGTYPE = MSGERROR, I1 = ID, C1=TITLE)
             INIMAP2D%CORRECTLY_READ = .FALSE.
             return
            ENDIF
