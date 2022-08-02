@@ -56,6 +56,7 @@ C-----------------------------------------------
         USE INTBUFDEF_MOD  
         USE INTER_SORTING_MOD
         USE INTER_STRUCT_MOD
+        USE TRI7BOX
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -138,6 +139,7 @@ C-----------------------------------------------
         !   mode = 1
         !   send & rcv the number of cell & prepare the array for the next comm
         IF(MODE==1) THEN
+            NSNFI(NIN)%P(1:NSPMD) = 0
             IF(IRCVFROM(NIN,LOC_PROC).EQ.0.AND.ISENDTO(NIN,LOC_PROC).EQ.0) RETURN !CYCLE
             IF(.NOT.ALLOCATED(SORT_COMM(NIN)%NB_CELL_PROC)) THEN
                 SIZE_ = SORT_COMM(NIN)%PROC_NUMBER
