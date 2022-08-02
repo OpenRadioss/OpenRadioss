@@ -375,7 +375,7 @@ jobs:
       TEAM_RESTRICTIVE_CLOSED_BRANCH: ${{ secrets.TEAM_RESTRICTIVE_CLOSED_BRANCH }}      
       FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
       TO_EMAIL: ${{ secrets.TO_EMAIL }} 
-
+      DATE_MIN_CHECK_COMMITS: "${{ secrets.DATE_MIN_CHECK_COMMITS }}"
 
   delivery:
     needs: qa

@@ -32,7 +32,9 @@ on:
         required: true
       TO_EMAIL:
         required: true
-
+      DATE_MIN_CHECK_COMMITS:
+        required: true
+        
 # When pushing in main or merging pull request in main
 #  ${{github.base_ref}} : <empty>
 #  ${{github.ref_name}} : main 
@@ -203,7 +205,7 @@ jobs:
           while read LINE
           do
             IFS='||'; arrIN=($LINE); unset IFS;
-            message="[ GIT INTEG ] ${arrIN[0]} - ${arrIN[2]}"
+            message="[ GIT INTEG ] ${arrIN[0]} - ${arrIN[2]} - ${arrIN[4]}"
             echo "---------------------------------"
             echo "-- ${arrIN[0]} --"
             echo "---------------------------------"
@@ -268,7 +270,7 @@ jobs:
             p4 integrate $P4REPOSYNCPERFORCE/... $P4REPOPERFORCE/...
             export LINE=$(tail -n 1 ${{ env.COMMIT_LIST_FILE }})
             IFS='||'; arrIN=($LINE); unset IFS;
-            message="[ GIT INTEG ] ${arrIN[0]} - ${arrIN[2]}"
+            message="[ GIT INTEG ] ${arrIN[0]} - ${arrIN[2]} - ${arrIN[4]}"
 
             opened_files_nb=$(p4 opened -c default | wc -l)
             if [ ${opened_files_nb} -gt 0 ]
