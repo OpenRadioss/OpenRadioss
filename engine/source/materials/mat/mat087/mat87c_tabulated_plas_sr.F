@@ -650,7 +650,7 @@ C-------------------------------------------------------------------------
 c
       DO I=1,NEL
         UVAR(I,2)  = YLD(I)
-        SEQ(I)     = SIG(I)
+        SEQ(I)     = SIG(I)/NORM_SP
         DEELZZ(I ) = -NU*(SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/E
         IF (INLOC > 0) THEN
           NORMSIG = SIGNXX(I)*SIGNXX(I) + SIGNYY(I)*SIGNYY(I) 
