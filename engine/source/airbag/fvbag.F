@@ -1486,11 +1486,7 @@ C---------------------------------------------------
 
         CASE(3)
           DO I=1,NPOLH ! lc=Vol/Surf_max
-             !IF (IBPOLH(I)==0.AND.IDTMIN(52) < 2) THEN
-             !   DLS(I)=DLH ! constant length from starter
-             !ELSE
-                DLS(I)=PVOLU(I)/ AREA_MAX(I)
-             !ENDIF
+                DLS(I) = PVOLU(I)**THIRD  
           ENDDO
 
       END SELECT

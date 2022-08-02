@@ -1190,7 +1190,6 @@ C
                 QVISC(I) =ZERO
              ELSE
                ! 1.calculating Grid Velocity for each polyedron
-               AREAMAX = ZERO
                COUNT = 0
                VV = ZERO
                !loop over polygons
@@ -1203,10 +1202,8 @@ C
                   COUNT=COUNT+1
                ENDDO
                DO J = 1, FVDATA(IFV)%ELEM_TO_TRI(I)%PLUS_SIZE
-                  IEL = FVDATA(IFV)%ELEM_TO_TRI(I)%PLUS(J)
-                  AREA = ELAREA(IEL)          
+                  IEL = FVDATA(IFV)%ELEM_TO_TRI(I)%PLUS(J)    
 !                 FINITE VOLUME I IS ON THE RIGHT SIDE OF ELEMENT IEL, HENCE A - SIGN
-                  AREAMAX=MAX(AREAMAX,AREA)
                   VV = VV+SQRT(VREL(IEL))                  
                   COUNT=COUNT+1
                ENDDO
@@ -1223,8 +1220,8 @@ C
                  VV = VV / FLOAT(COUNT) 
                ENDIF               
                ! 4.time step
-                DLS(I)=PVOLU(I)               
-               DTPOLH(I)=CFL_COEF*DLS(I)/AREAMAX/(SSP+VV)
+               DLS(I) = PVOLU(I)**THIRD             
+               DTPOLH(I)=CFL_COEF*DLS(I)/(SSP+VV)
              ENDIF
           ENDDO
 !$OMP END DO
