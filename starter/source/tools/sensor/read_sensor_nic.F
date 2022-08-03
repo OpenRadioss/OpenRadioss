@@ -163,8 +163,8 @@ c--------------------------------------------------
 c--------------------------------------------------
 c     sensor data structure
 c--------------------------------------------------
-      NPARIS = 7   ! int  value parameters
-      NPARRS = 13  ! real value parameters
+      NPARIS = 8   ! int  value parameters
+      NPARRS = 12  ! real value parameters
       NVAR   = 3   ! internal variables
 c
       ALLOCATE (SENSOR_PTR%IPARAM(NPARIS))
@@ -191,6 +191,7 @@ c
       SENSOR_PTR%IPARAM(5) = IDIR1
       SENSOR_PTR%IPARAM(6) = IDIR2
       SENSOR_PTR%IPARAM(7) = NTIME
+      SENSOR_PTR%RPARAM(8) = CFC       
 c
       SENSOR_PTR%RPARAM(1) = NIJMAX
       SENSOR_PTR%RPARAM(2) = FTENS
@@ -203,8 +204,7 @@ c
       SENSOR_PTR%RPARAM(9) = B1
       SENSOR_PTR%RPARAM(10)= B2
       SENSOR_PTR%RPARAM(11)= DTIME
-      SENSOR_PTR%RPARAM(12)= CFC       
-      SENSOR_PTR%RPARAM(13)= ALPHA  
+      SENSOR_PTR%RPARAM(12)= ALPHA  
       
 c---------------------------
 c     old sensor data tables                                           
