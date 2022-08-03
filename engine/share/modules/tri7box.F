@@ -233,6 +233,7 @@ Chd|        REALLOCATE_FI2                source/mpi/interfaces/spmd_i25slide.F
 Chd|        SPBUC3                        source/elements/sph/spbuc3.F  
 Chd|        SPHTRI0                       source/elements/sph/sphtri0.F 
 Chd|        SPMD_CELL_EXCHANGE            source/mpi/generic/spmd_cell_exchange.F
+Chd|        SPMD_CELL_LIST_EXCHANGE       source/mpi/interfaces/spmd_cell_list_exchange.F
 Chd|        SPMD_CELL_SIZE_EXCHANGE       source/mpi/interfaces/spmd_cell_size_exchange.F
 Chd|        SPMD_CELL_SIZE_EXCHANGE_INIT  source/mpi/interfaces/spmd_cell_size_exchange_init.F
 Chd|        SPMD_CELL_SIZE_POST_RCV       source/mpi/interfaces/spmd_cell_size_post_rcv.F
