@@ -72,24 +72,25 @@ C-----------------------------------------------
       my_real :: X6(MVSIZ), Y6(MVSIZ), Z6(MVSIZ)
       my_real :: X7(MVSIZ), Y7(MVSIZ), Z7(MVSIZ)
       my_real :: X8(MVSIZ), Y8(MVSIZ), Z8(MVSIZ)
-      my_real :: JAC1(MVSIZ), JAC2(MVSIZ), JAC3(MVSIZ) 
-      my_real :: JAC4(MVSIZ), JAC5(MVSIZ), JAC6(MVSIZ) 
-      my_real :: B1, B2, B3, B4
-      my_real :: C1, C2, C3, C4
-      my_real :: D1, D2, D3, D4
-      my_real :: X43, X41, X42, Y43, Y41, Y42, Z43, Z41, Z42
+      my_real :: AJ1(MVSIZ), AJ2(MVSIZ), AJ3(MVSIZ), 
+     .     AJ4(MVSIZ),AJ5(MVSIZ),AJ6(MVSIZ), 
+     .     B1, B2, B3, B4, 
+     .     C1, C2, C3, C4, 
+     .     D1, D2, D3, D4, 
+     .     X43, X41, X42, Y43, Y41, Y42, Z43, Z41, Z42
       my_real :: DUMMY(MVSIZ)
-      INTEGER, DIMENSION(:,:), POINTER :: IX
-      DOUBLE PRECISION :: VOLDP(MVSIZ)
-C-----------------------------------------------------------     
+      INTEGER, DIMENSION(:, :), POINTER :: IX
+      DOUBLE PRECISION
+     .   VOLDP(MVSIZ)
+      
       GBUF => ELBUF_TAB(NG)%GBUF
       JEUL = IPARG(11, NG)
       ISOLNOD = IPARG(28, NG)
       NFT = IPARG(3, NG)
       ITY = IPARG(5, NG)
-      JHBE = IPARG(23,NG)
-      ISMSTR = IPARG(9,NG)
-C
+C     Only for SDERI3 where LFT, LLT are needed 
+      LFT = 1
+      LLT = NEL
       IF (JEUL .NE. 0) THEN
 C     Euler : volume does not change
          DO II = 1, NEL
@@ -149,9 +150,8 @@ C     Node 8
      .              DUMMY, DUMMY, DUMMY, 
      .              DUMMY, DUMMY, DUMMY, 
      .              DUMMY, DUMMY, DUMMY, 
-     .              JAC1, JAC2, JAC3, 
-     .              JAC4, JAC5, JAC6, 
-     .              GBUF%SMSTR, GBUF%OFF, NEL, VOLDP, JHBE, ISMSTR)
+     .              AJ1, AJ2, AJ3, 
+     .              AJ4, AJ5, AJ6, GBUF%SMSTR, GBUF%OFF, NEL,VOLDP)
             ELSE
                DO II = 1, NEL
 C     Node 1
