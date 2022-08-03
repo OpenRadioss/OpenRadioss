@@ -413,13 +413,13 @@ c
            DFS(I) = ZERO
            IF (DFMAS /= ZERO) DFS(I)     = ABS(FS(I)-CAS*TEMP(I) - FS0)
            IF (DFMSA /= ZERO) DFS(I)     = ABS(FS(I)-CSA*TEMP(I) - FS0)
-!           IF (DFS(I)   /= ZERO .AND. EPSL /= ZERO .AND. DFM(I)/= ZERO) THEN
-!             H       = DFS(I)/EPSL/DFM(I)
-!             ETSE(I) = H /( (E + UVAR(I,1)*(EMART-E))  + H)
-!           ELSE
-!             ETSE(I) = ONE
-!           ENDIF
-
+           IF (DFS(I)   /= ZERO .AND. EPSL /= ZERO .AND. DFM(I)/= ZERO) THEN
+             H       = DFS(I)/EPSL/DFM(I)
+             !ETSE(I) = H / (H+YOUNG) for shells
+             ETSE(I) = H /( (E + UVAR(I,1)*(EMART-E))  + H)
+           ELSE
+             ETSE(I) = ONE
+           ENDIF
          ENDDO
          ! ----------------
 #include "vectorize.inc"
@@ -436,7 +436,7 @@ c
            SIGZZ(I)= SIGZZ(I) *INVE
          ENDDO
         !==============================================================
-        ELSE ! dependency martensite fraction
+        ELSE ! no  dependency martensite fraction
         !==============================================================
 #include "vectorize.inc"
          DO II =1,NINDX_LOOP
@@ -498,14 +498,12 @@ c
            DFS(I) = ZERO
            IF (DFMAS /= ZERO) DFS(I)     = ABS(FS(I)-CAS*TEMP(I) - FS0)
            IF (DFMSA /= ZERO) DFS(I)     = ABS(FS(I)-CSA*TEMP(I) - FS0)
-!           IF (DFS(I) /= ZERO .AND. EPSL /= ZERO.AND.DFM(I)/= ZERO) THEN
-!               H       = DFS(I)/EPSL/DFM(I)
-!               ETSE(I) = H /(E + H)
-!               !print*, 'ETSE(I) H/G2/EPSL', ETSE(I), H/G2/EPSL
-!           ELSE
-!               ETSE(I) = ONE
-!           ENDIF
-
+           IF (DFS(I) /= ZERO .AND. EPSL /= ZERO.AND.DFM(I)/= ZERO) THEN
+               H       = DFS(I)/EPSL/DFM(I)
+               ETSE(I) = H /(E + H)
+           ELSE
+               ETSE(I) = ONE
+           ENDIF
          ENDDO
          ! ----------------
 #include "vectorize.inc"
