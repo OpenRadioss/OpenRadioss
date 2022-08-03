@@ -245,18 +245,18 @@ C-----------  R4_FREE is replaced by R3_AMU (no more free)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IC,IPG,NUVAR,NUVARR,NPARAM,NFUNC,IFLAG,IFUNC_ALPHA,ILAW,
+      INTEGER I,IPG,NUVAR,NPARAM,NFUNC,IFUNC_ALPHA,ILAW,
      .   NVARF,NFAIL,IR,IP,IRUPT,IVISC,EOSTYP,NPTS,NPTT,NPTR,NPG,ISVIS,
-     .   MX,NVARTMP,NLAY,INLOC,IDEV
+     .   MX,NVARTMP,NLAY,INLOC
       INTEGER IFUNC(MAXFUNC),II(6),ISELECT,IBPRELD
       my_real
-     .   FACQ0,E1,E2,E3,E4,E5,E6,ALPHA, CT, REDUC,T0,TM
+     .   FACQ0,E1,E2,E3,E4,E5,E6,ALPHA,T0,TM
       my_real
-     .   EPSD(MVSIZ),PNEW(MVSIZ),PSH(MVSIZ), P0(MVSIZ), OFFOLD(MVSIZ),
+     .   PNEW(MVSIZ),PSH(MVSIZ), P0(MVSIZ), OFFOLD(MVSIZ),
      .   AMU(MVSIZ), AMU2(MVSIZ), C1(MVSIZ), C2(MVSIZ), 
      .   C3(MVSIZ), C4(MVSIZ), C5(MVSIZ),C6(MVSIZ),
      .   EINC(MVSIZ), RHO0(MVSIZ),VOL_AVG(MVSIZ),
-     .   SPH(MVSIZ), DF(MVSIZ), PC(MVSIZ),ESPE(MVSIZ),TMU(MVSIZ),
+     .   DF(MVSIZ), PC(MVSIZ),ESPE(MVSIZ),TMU(MVSIZ),
      .   TX(MVSIZ)    ,TY(MVSIZ)    ,TZ(MVSIZ),
      .   SS1(MVSIZ),SS2(MVSIZ), SS3(MVSIZ),SS4(MVSIZ),SS5(MVSIZ),
      .   SS6(MVSIZ),DPLA(MVSIZ),TSTAR(MVSIZ),EPSP(MVSIZ),XK(MVSIZ),
@@ -270,8 +270,8 @@ C-----------------------------------------------
      .   EP4(MVSIZ),EP5(MVSIZ),EP6(MVSIZ),
      .   SV1(MVSIZ),SV2(MVSIZ),SV3(MVSIZ),
      .   SV4(MVSIZ),SV5(MVSIZ),SV6(MVSIZ),
-     .   BIDON1,BIDON2,BIDON3,BIDON4,BIDON5,
-     .   BID1(MVSIZ), BID2(MVSIZ),ETH(MVSIZ),C11(MVSIZ),
+     .   BIDON1,BIDON4,BIDON5,
+     .   BID1(MVSIZ), BID2(MVSIZ),ETH(MVSIZ),
      .   STOR1, STOR2, STOR3, STOR4, STOR5, STOR6,
      .   SIGKK(MVSIZ), EPSTH(MVSIZ), RHOREF(MVSIZ), RHOSP(MVSIZ),USER_UELR(MVSIZ)
       my_real
@@ -1309,7 +1309,7 @@ C---
         NVARTMP = ELBUF_TAB(NG)%BUFLY(ILAY)%NVARTMP
         l_MULAW_CALLED =.TRUE.
 c
-        CALL MULAW(LFT  ,LLT        ,NFT         ,MTN       ,JCVT     ,
+        CALL MULAW(NFT         ,MTN       ,JCVT     ,
      2      PM          ,OFF        ,LBUF%SIG    ,LBUF%EINT ,LBUF%RHO ,
      3      LBUF%QVIS   ,LBUF%VOL   ,LBUF%STRA   ,LBUF%SIGL ,GAMA     ,
      4      MBUF%VAR    ,BUFMAT     ,TF          ,NPF       ,STIFN    ,
@@ -1328,17 +1328,17 @@ c
      I      MFYZ        ,MFZX       ,MFZY        ,MFZZ      ,IPM      ,
      J      ISORTH      ,FBUF       ,NFAIL       ,NPG       ,LBUF%SIGD,
      K      DXY         ,DYX        ,DYZ         ,DZY       ,DZX      ,
-     L      DXZ         ,FR_WAV     ,ISROT       ,V         ,VARNL    ,
+     L      DXZ         ,FR_WAV     ,V         ,VARNL    ,
      M      W           ,IX         ,X           ,JTHE      ,ET       ,
      N      MSSA        ,DMELS      ,IPTR        ,IPTS      ,IPTT     ,
      O      TABLE       ,FVD2       ,FDELTAX     ,FSSP      ,FQVIS    ,
-     P      TEMPEL      ,IPARG1      ,IGEO       ,LBUF%SIGV ,
+     P      TEMPEL      ,IGEO       ,LBUF%SIGV ,
      Q      AL_IMP      ,SIGNOR     ,ISTRAIN     ,NG        ,ELBUF_TAB,
      R      VBUF        ,ILAY       ,LBUF%VK     ,ALE_CONNECT     ,IPARG    ,
      S      BUFVOIS     ,VDX        ,VDY         ,VDZ       ,IHET     ,
      T      CONDE       ,ITASK      ,IEXPAN      ,VOL_AVG   ,AMU      ,
      U      EPSTH       ,LBUF%FORTH ,LBUF%VISC   ,NEL       ,GBUF%ETOTSH,
-     V      ISELECT     ,TSTAR      ,LBUF%MU     ,AMU2      ,DPDM     ,
+     V      ISELECT     ,TSTAR      ,LBUF%MU     ,DPDM     ,
      W      RHOREF      ,RHOSP      ,NVARTMP     ,MBUF%VARTMP,LBUF%EINTTH,
      X      MATPARAM_TAB)
 
