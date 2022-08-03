@@ -59,9 +59,9 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|        SURF_MOD                      share/modules1/surf_mod.F     
 Chd|====================================================================
       SUBROUTINE HM_READ_SENSORS(
-     .           SENSOR_TAB,LSENSOR ,SENSOR  ,LACCELM  ,ITABM1    ,
-     .           IPART     ,LGAUGE  ,SUBSET  ,NSETS    ,IGRSURF   ,
-     .           IGRNOD    ,BUFSF     ,SKEW    ,ISKWN   ,UNITAB   ,
+     .           SENSOR_TAB,LSENSOR   ,SENSOR    ,LACCELM   ,ITABM1    ,
+     .           IPART     ,LGAUGE    ,SUBSET    ,NSETS     ,IGRSURF   ,
+     .           IGRNOD    ,BUFSF     ,SKEW      ,ISKWN     ,UNITAB   ,
      .           LSUBMODEL ,HM_NSENS  )
 C-----------------------------------------------
 C   M o d u l e s
@@ -125,8 +125,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ISEN,IUNIT,IFLAGUNIT,NS,TYP,UNIT_ID,SENS_ID,SURF_ID,
-     .   SKEW_ID,INT_ID,RWAL_ID,PART_ID,SUB_ID,ACC_ID,SECT_ID,RBOD_ID
+      INTEGER I,ISEN,IUNIT,IFLAGUNIT,NS,TYP,UNIT_ID,SENS_ID
       my_real :: BID
       CHARACTER TITR*nchartitle,KEY*40,MESS*40
       INTEGER ,DIMENSION(NSENSOR)    :: SID
@@ -262,6 +261,12 @@ c
           CASE ('TEMP')
             CALL READ_SENSOR_TEMP(SENSOR_PTR  ,SENS_ID     ,TITR     , 
      .           IGRNOD   ,LSENS_PTR ,RSENS_PTR  ,UNITAB   ,LSUBMODEL)   
+c
+          CASE ('NIC_NIJ')
+            CALL READ_SENSOR_NIC(
+     .           SENSOR_PTR  ,SENS_ID    ,TITR     , 
+     .           LSENS_PTR   ,RSENS_PTR  ,ISKWN    ,UNITAB   ,LSUBMODEL)   
+c
           CASE ('USER1' ,'USER2','USER3')
             CALL READ_SENSOR_USER(LSENSOR   ,SENSOR    ,HM_NSENS,ISEN    ,TITR,
      .           UNITAB    ,LSUBMODEL       ,KEY       ,UNIT_ID ,SENS_ID )
