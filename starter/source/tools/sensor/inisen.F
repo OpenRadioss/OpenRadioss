@@ -28,10 +28,14 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE INISEN(LSENSOR,IPARI ,NOM_OPT,PTR_NOPT_RWALL,
-     .                  PTR_NOPT_SECT,NBR_SENS,IPARSENS,PTR_NOPT_INTER)
+      SUBROUTINE INISEN(SENSOR_TAB, LSENSOR,IPARI ,NOM_OPT,PTR_NOPT_RWALL,
+     .                  PTR_NOPT_SECT,NBR_SENS,IPARSENS,PTR_NOPT_INTER,
+     .                  IXR    ,R_SKEW   )
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------  
       USE MESSAGE_MOD
-C
+      USE SENSOR_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,16 +53,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LSENSOR(NSENSI,*),IPARI(NPARI,NINTER)
+      INTEGER LSENSOR(NSENSI,NSENSOR),IPARI(NPARI,NINTER)
       INTEGER NOM_OPT(LNOPT1,*),PTR_NOPT_RWALL,PTR_NOPT_SECT,
      .        PTR_NOPT_INTER
+      INTEGER ,DIMENSION(NUMELR)      :: R_SKEW
+      INTEGER ,DIMENSION(NIXR,NUMELR) :: IXR
       INTEGER NBR_SENS,IPARSENS,JSUB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IN,K,IS1,IS2,TYP,ID
+      INTEGER I,J,K,IN,IS1,IS2,TYP,ID,SPRING_ID
       CHARACTER TITR*nchartitle
-C---------------------------------------------
+c=======================================================================
 C     INIT DES PARAMETRES DE SENSOR
 C---------------------------------------------
       DO K=1,NSENSOR
@@ -69,7 +76,7 @@ C---------------------------------------------
 c        CALL FRETITL2(TITR,LSENSOR(NSENSI-LTITR+1,K),LTITR)
          TITR = 'SENSOR '     
 
-        TYP    = LSENSOR(2,K)
+        TYP = LSENSOR(2,K)
         IF (TYP == 3)THEN
 C-------------------------------------
 C         SENSOR de SENSOR
@@ -245,6 +252,19 @@ c
      .                  C1=TITR,
      .                  I2=LSENSOR(10,K),C2='ID in SENSOR WORK')
           ENDIF
+c
+        ELSEIF (TYP == 19)THEN
+C-------------------------------------
+C         NIC_NIJ
+C-------------------------------------
+          SPRING_ID = SENSOR_TAB(K)%IPARAM(1)
+          DO I=1,NUMELR
+            IF (IXR(5,I) == SPRING_ID) THEN
+              SENSOR_TAB(K)%IPARAM(2) = I
+              SENSOR_TAB(K)%IPARAM(4) = R_SKEW(I)
+              EXIT
+            END IF
+          ENDDO
 c---
         ENDIF ! SENSOR TYPE
       ENDDO

@@ -4815,14 +4815,14 @@ c
         CALL HM_READ_SENSORS(
      .       SENSOR_TAB,LSENSOR  ,SENSOR   ,LACCELM  ,ITABM1    ,
      .       IPART     ,LGAUGE   ,SUBSETS  ,NSETS    ,IGRSURF   ,
-     .       IGRNOD    ,BUFSF     ,SKEW     ,ISKWN    ,UNITAB   ,
+     .       IGRNOD    ,BUFSF    ,SKEW     ,ISKWN    ,UNITAB   ,
      .       LSUBMODEL ,HM_NSENSOR)
         ! -----------------
         ! check if a user sensor is used with a list of node
         ! convert the list of User node ID into Local node ID
 
-        IF(SENSOR_USER_STRUCT%IS_USED) THEN
-            IF(SENSOR_USER_STRUCT%POINTER_NODE>0) THEN
+        IF (SENSOR_USER_STRUCT%IS_USED) THEN
+            IF (SENSOR_USER_STRUCT%POINTER_NODE > 0) THEN
                 CALL SENSOR_USER_CONVERT_LOCAL_ID(
      .           ITABM1,SENSOR_USER_STRUCT%POINTER_NODE,SENSOR_USER_STRUCT%NUMBER_NODE,
      .           SENSOR_USER_STRUCT%NODE_LIST,1,IPART)
@@ -9047,21 +9047,22 @@ C--------------------------------------------
 C     INIT DES SENSORS (REMPLACEMENT DES NOS EXTERNES PAR LES NOS SYSTEMES)
 C--------------------------------------------
       IF (NSENSOR > 0) THEN
-       CALL INISEN(LSENSOR,IPARI,NOM_OPT,INOM_OPT(5),
-     .              INOM_OPT(8),SFSAV6,IPARSENS,INOM_OPT(4))
-       IF(IPARSENS/=0) THEN
-        STABSEN=NSECT+NINTER+NINTSUB+NRWALL+NRBODY+1
-        ALLOCATE(TABSENSOR(STABSEN)  , STAT=stat)
-        ALLOCATE(FBSAV6(12,6,SFSAV6)  , STAT=stat)
-        CALL INIPARSEN(SFSAV6,STABSEN,LSENSOR,TABSENSOR,FBSAV6)
-       ELSE
-        SFSAV6=0
-        STABSEN=0
-        ALLOCATE(TABSENSOR(STABSEN)   , STAT=stat)
-        ALLOCATE(FBSAV6(12,6,SFSAV6)  , STAT=stat)
-        TABSENSOR=0
-        FBSAV6=0
-       ENDIF
+        CALL INISEN(SENSOR_TAB ,LSENSOR,IPARI,NOM_OPT,INOM_OPT(5),
+     .              INOM_OPT(8),SFSAV6,IPARSENS,INOM_OPT(4),
+     .              IXR        ,R_SKEW     )
+        IF(IPARSENS/=0) THEN
+          STABSEN=NSECT+NINTER+NINTSUB+NRWALL+NRBODY+1
+          ALLOCATE(TABSENSOR(STABSEN)  , STAT=stat)
+          ALLOCATE(FBSAV6(12,6,SFSAV6)  , STAT=stat)
+          CALL INIPARSEN(SFSAV6,STABSEN,LSENSOR,TABSENSOR,FBSAV6)
+        ELSE
+          SFSAV6=0
+          STABSEN=0
+          ALLOCATE(TABSENSOR(STABSEN)   , STAT=stat)
+          ALLOCATE(FBSAV6(12,6,SFSAV6)  , STAT=stat)
+          TABSENSOR=0
+          FBSAV6=0
+        ENDIF
       ELSE
         SFSAV6=0
         STABSEN=0
