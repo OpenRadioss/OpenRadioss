@@ -52,6 +52,7 @@ C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "scr05_c.inc"
 #include      "scr18_c.inc"
+#include      "com04_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -59,26 +60,26 @@ C-----------------------------------------------
       INTEGER NEL
 C     REAL
       my_real
-     .   X(3,*),V(3,*),W(3,*), VIS(*),
-     .   X1(*), X2(*), X3(*), X4(*), 
-     .   Y1(*), Y2(*), Y3(*), Y4(*), 
-     .   Z1(*), Z2(*), Z3(*), Z4(*), 
-     .  VX1(*), VX2(*), VX3(*), VX4(*), 
-     .  VY1(*), VY2(*), VY3(*), VY4(*), 
-     .  VZ1(*), VZ2(*), VZ3(*), VZ4(*), 
-     .  VDX1(*),VDX2(*),VDX3(*),VDX4(*),
-     .  VDY1(*),VDY2(*),VDY3(*),VDY4(*),
-     .  VDZ1(*),VDZ2(*),VDZ3(*),VDZ4(*),
-     .  VDX(*), VDY(*), VDZ(*),VD2(*),OFFG(*),OFF(*),RHO(*),
-     .   F11(*),F21(*),F31(*),F12(*),F22(*),F32(*),
-     .   F13(*),F23(*),F33(*),F14(*),F24(*),F34(*),
-     .  RHOO(*)
-      INTEGER NC1(*), NC2(*), NC3(*), NC4(*),
-     .        MXT(*), NGL(*),NGEO(*)
+     .   X(3,NUMNOD),V(3,NUMNOD),W(3,NUMNOD), VIS(NEL),
+     .   X1(NEL), X2(NEL), X3(NEL), X4(NEL), 
+     .   Y1(NEL), Y2(NEL), Y3(NEL), Y4(NEL), 
+     .   Z1(NEL), Z2(NEL), Z3(NEL), Z4(NEL), 
+     .  VX1(NEL), VX2(NEL), VX3(NEL), VX4(NEL), 
+     .  VY1(NEL), VY2(NEL), VY3(NEL), VY4(NEL), 
+     .  VZ1(NEL), VZ2(NEL), VZ3(NEL), VZ4(NEL), 
+     .  VDX1(NEL),VDX2(NEL),VDX3(NEL),VDX4(NEL),
+     .  VDY1(NEL),VDY2(NEL),VDY3(NEL),VDY4(NEL),
+     .  VDZ1(NEL),VDZ2(NEL),VDZ3(NEL),VDZ4(NEL),
+     .  VDX(NEL), VDY(NEL), VDZ(NEL),VD2(NEL),OFFG(NEL),OFF(NEL),RHO(NEL),
+     .   F11(NEL),F21(NEL),F31(NEL),F12(NEL),F22(NEL),F32(NEL),
+     .   F13(NEL),F23(NEL),F33(NEL),F14(NEL),F24(NEL),F34(NEL),
+     .  RHOO(NEL)
+      INTEGER NC1(NEL), NC2(NEL), NC3(NEL), NC4(NEL),
+     .        MXT(NEL), NGL(NEL),NGEO(NEL)
       INTEGER IXS(NIXS,*)
       
       DOUBLE PRECISION 
-     .   XDP(3,*), SAV(NEL,9),
+     .   XDP(3,NUMNOD), SAV(NEL,9),
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
      .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ)
@@ -88,91 +89,105 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MXT_1
-C     REAL
+      INTEGER I
 C-----------------------------------------------
-C
-      MXT_1 = IXS(1,LFT)
-      DO I=LFT,LLT
-      VIS(I)=ZERO
-      NGEO(I)=IXS(10,I)
-      NGL(I)=IXS(11,I)
-      MXT(I)=IXS(1,I)
-      NC1(I)=IXS(2,I)
-      NC2(I)=IXS(4,I)
-      NC3(I)=IXS(7,I)
-      NC4(I)=IXS(6,I)
-      RHOO(I)=RHO(I)
+      DO I=1,NEL
+        VIS(I)=ZERO
+        NGEO(I)=IXS(10,I)
+        NGL(I)=IXS(11,I)
+        MXT(I)=IXS(1,I)
+        NC1(I)=IXS(2,I)
+        NC2(I)=IXS(4,I)
+        NC3(I)=IXS(7,I)
+        NC4(I)=IXS(6,I)
+        RHOO(I)=RHO(I)
       ENDDO
+      DO I=1,NEL
+        X1(I) =X(1,NC1(I))
+        Y1(I) =X(2,NC1(I))
+        Z1(I) =X(3,NC1(I))
+        X2(I) =X(1,NC2(I))
+        Y2(I) =X(2,NC2(I))
+        Z2(I) =X(3,NC2(I))
+        X3(I) =X(1,NC3(I))
+        Y3(I) =X(2,NC3(I))
+        Z3(I) =X(3,NC3(I))
+        X4(I) =X(1,NC4(I))
+        Y4(I) =X(2,NC4(I))
+        Z4(I) =X(3,NC4(I))
+        VX1(I)=V(1,NC1(I))
+        VY1(I)=V(2,NC1(I))
+        VZ1(I)=V(3,NC1(I))
+        VX2(I)=V(1,NC2(I))
+        VY2(I)=V(2,NC2(I))
+        VZ2(I)=V(3,NC2(I))
+        VX3(I)=V(1,NC3(I))
+        VY3(I)=V(2,NC3(I))
+        VZ3(I)=V(3,NC3(I))
+        VX4(I)=V(1,NC4(I))
+        VY4(I)=V(2,NC4(I))
+        VZ4(I)=V(3,NC4(I))
+      ENDDO
+
       OFF_L  = ZERO
 C----------------------------
 C     NODAL COORDINATES     |
 C----------------------------
       IF((ISMSTR<=4.AND.JLAG>0).OR.(ISMSTR==12.AND.IDTMIN(1)==3)) THEN
 C
-       DO I=LFT,LLT
-       IF(ABS(OFFG(I)).GT.ONE)THEN
-        XD1(I)=SAV(I,1)
-        YD1(I)=SAV(I,2)
-        ZD1(I)=SAV(I,3)
-        XD2(I)=SAV(I,4)
-        YD2(I)=SAV(I,5)
-        ZD2(I)=SAV(I,6)
-        XD3(I)=SAV(I,7)
-        YD3(I)=SAV(I,8)
-        ZD3(I)=SAV(I,9)
-        XD4(I)=ZERO
-        YD4(I)=ZERO
-        ZD4(I)=ZERO
-        OFF(I) = ABS(OFFG(I))-ONE
-        OFF_L  = MIN(OFF_L,OFFG(I))
-       ELSE
-        IF(IRESP==1)THEN
-          XD1(I)=XDP(1,NC1(I))
-          YD1(I)=XDP(2,NC1(I))
-          ZD1(I)=XDP(3,NC1(I))
-          XD2(I)=XDP(1,NC2(I))
-          YD2(I)=XDP(2,NC2(I))
-          ZD2(I)=XDP(3,NC2(I))
-          XD3(I)=XDP(1,NC3(I))
-          YD3(I)=XDP(2,NC3(I))
-          ZD3(I)=XDP(3,NC3(I))
-          XD4(I)=XDP(1,NC4(I))
-          YD4(I)=XDP(2,NC4(I))
-          ZD4(I)=XDP(3,NC4(I))
-	ELSE
-          XD1(I)=X(1,NC1(I))
-          YD1(I)=X(2,NC1(I))
-          ZD1(I)=X(3,NC1(I))
-          XD2(I)=X(1,NC2(I))
-          YD2(I)=X(2,NC2(I))
-          ZD2(I)=X(3,NC2(I))
-          XD3(I)=X(1,NC3(I))
-          YD3(I)=X(2,NC3(I))
-          ZD3(I)=X(3,NC3(I))
-          XD4(I)=X(1,NC4(I))
-          YD4(I)=X(2,NC4(I))
-          ZD4(I)=X(3,NC4(I))
-        ENDIF	
-C--------to do it after vol compute	
-C        SAV(I,1)=XD1(I)-XD4(I)
-C        SAV(I,2)=YD1(I)-YD4(I)
-C        SAV(I,3)=ZD1(I)-ZD4(I)
-C        SAV(I,4)=XD2(I)-XD4(I)
-C        SAV(I,5)=YD2(I)-YD4(I)
-C        SAV(I,6)=ZD2(I)-ZD4(I)
-C        SAV(I,7)=XD3(I)-XD4(I)
-C        SAV(I,8)=YD3(I)-YD4(I)
-C        SAV(I,9)=ZD3(I)-ZD4(I)
-        OFF(I) = ABS(OFFG(I))
-        OFF_L  = MIN(OFF_L,OFFG(I))
-       ENDIF
+        DO I=1,NEL
+          IF(ABS(OFFG(I)).GT.ONE)THEN
+            XD1(I)=SAV(I,1)
+            YD1(I)=SAV(I,2)
+            ZD1(I)=SAV(I,3)
+            XD2(I)=SAV(I,4)
+            YD2(I)=SAV(I,5)
+            ZD2(I)=SAV(I,6)
+            XD3(I)=SAV(I,7)
+            YD3(I)=SAV(I,8)
+            ZD3(I)=SAV(I,9)
+            XD4(I)=ZERO
+            YD4(I)=ZERO
+            ZD4(I)=ZERO
+            OFF(I) = ABS(OFFG(I))-ONE
+            OFF_L  = MIN(OFF_L,OFFG(I))
+          ELSE
+           IF(IRESP==1)THEN
+             XD1(I)=XDP(1,NC1(I))
+             YD1(I)=XDP(2,NC1(I))
+             ZD1(I)=XDP(3,NC1(I))
+             XD2(I)=XDP(1,NC2(I))
+             YD2(I)=XDP(2,NC2(I))
+             ZD2(I)=XDP(3,NC2(I))
+             XD3(I)=XDP(1,NC3(I))
+             YD3(I)=XDP(2,NC3(I))
+             ZD3(I)=XDP(3,NC3(I))
+             XD4(I)=XDP(1,NC4(I))
+             YD4(I)=XDP(2,NC4(I))
+             ZD4(I)=XDP(3,NC4(I))
+            ELSE
+             XD1(I)=X1(I)
+             YD1(I)=Y1(I)
+             ZD1(I)=Z1(I)
+             XD2(I)=X2(I)
+             YD2(I)=Y2(I)
+             ZD2(I)=Z2(I)
+             XD3(I)=X3(I)
+             YD3(I)=Y3(I)
+             ZD3(I)=Z3(I)
+             XD4(I)=X4(I)
+             YD4(I)=Y4(I)
+             ZD4(I)=Z4(I)
+           ENDIF   
+           OFF(I) = ABS(OFFG(I))
+           OFF_L  = MIN(OFF_L,OFFG(I))
+         ENDIF
        ENDDO
 C
       ELSE
 C
       IF(IRESP==1)THEN 
-        DO I=LFT,LLT
+        DO I=1,NEL
           XD1(I)=XDP(1,NC1(I))  
           YD1(I)=XDP(2,NC1(I))  
           ZD1(I)=XDP(3,NC1(I))  
@@ -186,57 +201,31 @@ C
           YD4(I)=XDP(2,NC4(I))  
           ZD4(I)=XDP(3,NC4(I))  
           OFF(I) = ABS(OFFG(I))
-          OFF_L  = MIN(OFF_L,OFFG(I))	   	  	  	  
+          OFF_L  = MIN(OFF_L,OFFG(I))                 
         ENDDO
-      ELSE	
-        DO I=LFT,LLT
-          XD1(I)=X(1,NC1(I))  
-          YD1(I)=X(2,NC1(I))  
-          ZD1(I)=X(3,NC1(I))  
-          XD2(I)=X(1,NC2(I))  
-          YD2(I)=X(2,NC2(I))  
-          ZD2(I)=X(3,NC2(I))  
-          XD3(I)=X(1,NC3(I))  
-          YD3(I)=X(2,NC3(I))  
-          ZD3(I)=X(3,NC3(I))  
-          XD4(I)=X(1,NC4(I))  
-          YD4(I)=X(2,NC4(I))  
-          ZD4(I)=X(3,NC4(I))    
+      ELSE  
+        DO I=1,NEL
+          XD1(I)=X1(I) 
+          YD1(I)=Y1(I) 
+          ZD1(I)=Z1(I) 
+          XD2(I)=X2(I) 
+          YD2(I)=Y2(I) 
+          ZD2(I)=Z2(I) 
+          XD3(I)=X3(I) 
+          YD3(I)=Y3(I) 
+          ZD3(I)=Z3(I) 
+          XD4(I)=X4(I) 
+          YD4(I)=Y4(I) 
+          ZD4(I)=Z4(I)   
           OFF(I) = ABS(OFFG(I))
-          OFF_L  = MIN(OFF_L,OFFG(I))	  
+          OFF_L  = MIN(OFF_L,OFFG(I))     
         ENDDO      
       ENDIF     
 C
       ENDIF
 C
-      DO I=LFT,LLT
-       X1(I) =X(1,NC1(I))
-       Y1(I) =X(2,NC1(I))
-       Z1(I) =X(3,NC1(I))
-       X2(I) =X(1,NC2(I))
-       Y2(I) =X(2,NC2(I))
-       Z2(I) =X(3,NC2(I))
-       X3(I) =X(1,NC3(I))
-       Y3(I) =X(2,NC3(I))
-       Z3(I) =X(3,NC3(I))
-       X4(I) =X(1,NC4(I))
-       Y4(I) =X(2,NC4(I))
-       Z4(I) =X(3,NC4(I))
-       VX1(I)=V(1,NC1(I))
-       VY1(I)=V(2,NC1(I))
-       VZ1(I)=V(3,NC1(I))
-       VX2(I)=V(1,NC2(I))
-       VY2(I)=V(2,NC2(I))
-       VZ2(I)=V(3,NC2(I))
-       VX3(I)=V(1,NC3(I))
-       VY3(I)=V(2,NC3(I))
-       VZ3(I)=V(3,NC3(I))
-       VX4(I)=V(1,NC4(I))
-       VY4(I)=V(2,NC4(I))
-       VZ4(I)=V(3,NC4(I))
-      ENDDO
       IF(OFF_L.LT.ZERO)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF(OFFG(I).LT.ZERO)THEN
             VX1(I)=ZERO
             VY1(I)=ZERO
@@ -254,7 +243,7 @@ C
         ENDDO
       ENDIF
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         VD2(I)=ZERO
         F11(I)=ZERO
         F21(I)=ZERO
@@ -274,42 +263,42 @@ C
        RETURN
 C
       ELSEIF(JALE.NE.0)THEN
-       DO I=LFT,LLT
-        VDX1(I)=VX1(I)-W(1,NC1(I))
-        VDY1(I)=VY1(I)-W(2,NC1(I))
-        VDZ1(I)=VZ1(I)-W(3,NC1(I))
-        VDX2(I)=VX2(I)-W(1,NC2(I))
-        VDY2(I)=VY2(I)-W(2,NC2(I))
-        VDZ2(I)=VZ2(I)-W(3,NC2(I))
-        VDX3(I)=VX3(I)-W(1,NC3(I))
-        VDY3(I)=VY3(I)-W(2,NC3(I))
-        VDZ3(I)=VZ3(I)-W(3,NC3(I))
-        VDX4(I)=VX4(I)-W(1,NC4(I))
-        VDY4(I)=VY4(I)-W(2,NC4(I))
-        VDZ4(I)=VZ4(I)-W(3,NC4(I))
-       ENDDO
+        DO I=1,NEL
+          VDX1(I)=VX1(I)-W(1,NC1(I))
+          VDY1(I)=VY1(I)-W(2,NC1(I))
+          VDZ1(I)=VZ1(I)-W(3,NC1(I))
+          VDX2(I)=VX2(I)-W(1,NC2(I))
+          VDY2(I)=VY2(I)-W(2,NC2(I))
+          VDZ2(I)=VZ2(I)-W(3,NC2(I))
+          VDX3(I)=VX3(I)-W(1,NC3(I))
+          VDY3(I)=VY3(I)-W(2,NC3(I))
+          VDZ3(I)=VZ3(I)-W(3,NC3(I))
+          VDX4(I)=VX4(I)-W(1,NC4(I))
+          VDY4(I)=VY4(I)-W(2,NC4(I))
+          VDZ4(I)=VZ4(I)-W(3,NC4(I))
+        ENDDO
       ELSEIF(JEUL.NE.0)THEN
-       DO I=LFT,LLT
-        VDX1(I)=VX1(I)
-        VDY1(I)=VY1(I)
-        VDZ1(I)=VZ1(I)
-        VDX2(I)=VX2(I)
-        VDY2(I)=VY2(I)
-        VDZ2(I)=VZ2(I)
-        VDX3(I)=VX3(I)
-        VDY3(I)=VY3(I)
-        VDZ3(I)=VZ3(I)
-        VDX4(I)=VX4(I)
-        VDY4(I)=VY4(I)
-        VDZ4(I)=VZ4(I)
-       ENDDO
+        DO I=1,NEL
+          VDX1(I)=VX1(I)
+          VDY1(I)=VY1(I)
+          VDZ1(I)=VZ1(I)
+          VDX2(I)=VX2(I)
+          VDY2(I)=VY2(I)
+          VDZ2(I)=VZ2(I)
+          VDX3(I)=VX3(I)
+          VDY3(I)=VY3(I)
+          VDZ3(I)=VZ3(I)
+          VDX4(I)=VX4(I)
+          VDY4(I)=VY4(I)
+          VDZ4(I)=VZ4(I)
+        ENDDO
       ENDIF
 C
-      DO I=LFT,LLT
-       VDX(I)=FOURTH*(VDX1(I)+VDX2(I)+VDX3(I)+VDX4(I))
-       VDY(I)=FOURTH*(VDY1(I)+VDY2(I)+VDY3(I)+VDY4(I))
-       VDZ(I)=FOURTH*(VDZ1(I)+VDZ2(I)+VDZ3(I)+VDZ4(I))
-       VD2(I)=NINE*(VDX(I)**2+VDY(I)**2+VDZ(I)**2)
+      DO I=1,NEL
+        VDX(I)=FOURTH*(VDX1(I)+VDX2(I)+VDX3(I)+VDX4(I))
+        VDY(I)=FOURTH*(VDY1(I)+VDY2(I)+VDY3(I)+VDY4(I))
+        VDZ(I)=FOURTH*(VDZ1(I)+VDZ2(I)+VDZ3(I)+VDZ4(I))
+        VD2(I)=NINE*(VDX(I)**2+VDY(I)**2+VDZ(I)**2)
       ENDDO
 C
       RETURN
@@ -339,9 +328,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL
       my_real
-     .   OFFG(*)
+     .   OFFG(NEL)
       DOUBLE PRECISION 
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
      .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
@@ -352,22 +340,20 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
 C     REAL
-C-----------------------------------------------
-C
-       DO I=LFT,LLT
-       IF(ABS(OFFG(I)) <= ONE)THEN
-        SAV(I,1)=XD1(I)-XD4(I)
-        SAV(I,2)=YD1(I)-YD4(I)
-        SAV(I,3)=ZD1(I)-ZD4(I)
-        SAV(I,4)=XD2(I)-XD4(I)
-        SAV(I,5)=YD2(I)-YD4(I)
-        SAV(I,6)=ZD2(I)-ZD4(I)
-        SAV(I,7)=XD3(I)-XD4(I)
-        SAV(I,8)=YD3(I)-YD4(I)
-        SAV(I,9)=ZD3(I)-ZD4(I)
-       ENDIF
-       ENDDO
-C
+C--------------------------------------------
+      DO I=1,NEL
+        IF(ABS(OFFG(I)) <= ONE) THEN
+          SAV(I,1)=XD1(I)-XD4(I)
+          SAV(I,2)=YD1(I)-YD4(I)
+          SAV(I,3)=ZD1(I)-ZD4(I)
+          SAV(I,4)=XD2(I)-XD4(I)
+          SAV(I,5)=YD2(I)-YD4(I)
+          SAV(I,6)=ZD2(I)-ZD4(I)
+          SAV(I,7)=XD3(I)-XD4(I)
+          SAV(I,8)=YD3(I)-YD4(I)
+          SAV(I,9)=ZD3(I)-ZD4(I)
+        ENDIF
+      ENDDO
       RETURN
       END
 Chd|====================================================================
@@ -446,7 +432,7 @@ C ---------local system compute----------
           Y4(I)=XDP(2,NC4(I))  
           Z4(I)=XDP(3,NC4(I))  
         ENDDO
-      ELSE	
+      ELSE  
         DO I=LFT,LLT
          IF (OFF(I) <= ONE ) CYCLE 
           X1(I)=X(1,NC1(I))  
@@ -506,7 +492,7 @@ C     .   R11, R12, R13, R21, R22, R23, R31, R32, R33,
 C     .   VX0(I,1), VX0(I,2), VX0(I,3), VX0(I,4), 
 C     .   VY0(I,1), VY0(I,2), VY0(I,3), VY0(I,4), 
 C     .   VZ0(I,1), VZ0(I,2), VZ0(I,3), VZ0(I,4))
-C	 
+C    
 C-----------
       RETURN
       END
