@@ -140,7 +140,6 @@ C-----------------------------------------------
         !   mode = 1
         !   send & rcv the number of cell & prepare the array for the next comm
         IF(MODE==1) THEN
-            NSNFI(NIN)%P(1:NSPMD) = 0
             IF(IRCVFROM(NIN,LOC_PROC).EQ.0.AND.ISENDTO(NIN,LOC_PROC).EQ.0) RETURN !CYCLE
             IF(.NOT.ALLOCATED(SORT_COMM(NIN)%NB_CELL_PROC)) THEN
                 SIZE_ = SORT_COMM(NIN)%PROC_NUMBER
@@ -322,7 +321,7 @@ C-----------------------------------------------
             !   -------------------------
             !   wait the previous comm
             CALL SPMD_CELL_SIZE_EXCHANGE_INIT(IRCVFROM,ISENDTO,IPARI,NIN,INTER_STRUCT,SORT_COMM)  
-
+            NSNFI(NIN)%P(1:NSPMD) = 0
             IF(IRCVFROM(NIN,LOC_PROC).EQ.0.AND.ISENDTO(NIN,LOC_PROC).EQ.0) RETURN
 
             ITIED = IPARI(85,NIN)
