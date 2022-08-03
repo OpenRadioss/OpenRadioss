@@ -179,10 +179,12 @@ C-----------------------------------------------
      .        ICONTACT(*),ISKY(*),ITAB(*)
       INTEGER NELTST,ITYPTST,OFFSET,NVC,ITASK,
      .        ISTRAIN, IEXPAN, NV46,IOUTPRT,H3D_STRAIN
-C
-      DOUBLE PRECISION :: XDP(3,*)
-C          
-      my_real :: DT2T
+
+      DOUBLE PRECISION 
+     .        XDP(3,*)
+          
+      my_real
+     .   DT2T
       my_real
      .   PM(NPROPM,*), GEO(*), X(*), A(*), V(*), MS(*), W(*), 
      .   FLUX(6,*), FSKYM(*),
@@ -200,16 +202,18 @@ C
      .   PHI1(*),PHI2(*),VF(3,*) ,D(3,*),
      .   AF(3,*), FFSKY(3,*),DF(3,*),WF(3,*),MSF(*),AFGLOB(3,*),
      .   POR(*),VOLN(MVSIZ), CONDN(*),CONDNSKY(*)
-C
-      my_real :: BUFVOIS(6,*) ! Neighbourg element numbers (ALE/CFD)
-      my_real :: MSNF(*),AR(*),VR(3,*),IN(*),FR_WAVE(*),DR(3,*),QMV(12,*)
+      my_real
+C tableau SPMD voisin ALE/CFD
+     .   BUFVOIS(6,*),MSNF(*),AR(*),VR(3,*),IN(*),FR_WAVE(*),DR(3,*),
+     .   QMV(12,*)
       TYPE (TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB 
-C
-      my_real :: P(MVSIZ),FSKYI(LSKYI,NFSKYI)
-C
+      
+      my_real
+     .   P(MVSIZ),FSKYI(LSKYI,NFSKYI)
+     
       INTEGER :: IGRV(*), LSENSOR(NSENSI,*),LGRAV(*)
       my_real :: AGRAV(*), SENSOR(NSENSR,*), SKEW(LSKEW,*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
@@ -219,7 +223,7 @@ C-----------------------------------------------
       INTEGER I,LCO,NF1,IFLAG,NUVAR,IBID,IPTR,IPTS,IPTT,
      .        ILAY,ITET,IFVM_SKIP,NNOD
       INTEGER NBF1,NBF2,NBF3, IALEFVM_MAT,II(6)
-C
+C     transmises en argument a mmain.
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ),INOD(8)
       my_real
      . VD2(MVSIZ) , DVOL(MVSIZ),DELTAX(MVSIZ),
@@ -230,19 +234,27 @@ C
      . B4(MVSIZ)  , B5(MVSIZ)  , B6(MVSIZ)  ,
      . DXX(MVSIZ) , DYY(MVSIZ) , DZZ(MVSIZ) ,
      . D4(MVSIZ)  , D5(MVSIZ)  , D6(MVSIZ)  , 
-     . JAC1(MVSIZ), JAC2(MVSIZ), JAC3(MVSIZ),
-     . JAC4(MVSIZ), JAC5(MVSIZ), JAC6(MVSIZ),
+     . AJ1(MVSIZ) , AJ2(MVSIZ) , AJ3(MVSIZ) ,
+     . AJ4(MVSIZ) , AJ5(MVSIZ) , AJ6(MVSIZ) ,
      . VDX(MVSIZ) , VDY(MVSIZ) , VDZ(MVSIZ),SSP_EQ(MVSIZ),
      . AIRE(MVSIZ),FQVIS(MVSIZ), FCXX(MVSIZ)
-C
-      my_real :: STI(MVSIZ), WXX(MVSIZ) , WYY(MVSIZ) , WZZ(MVSIZ)
-      my_real :: MUVOID(MVSIZ)  ! used in case of SPH 
-      my_real :: SIGY(MVSIZ),ET(MVSIZ),R3_FREE(MVSIZ),R4_FREE(MVSIZ)
-C
-C Connectivities
+C-----
+C     Variables utilisees en argument par les materiaux.
+      my_real
+     .   STI(MVSIZ),
+     .   WXX(MVSIZ) , WYY(MVSIZ) , WZZ(MVSIZ)
+C     Variables utilisees en argument par les materiaux si SPH uniquement.
+      my_real
+     .   MUVOID(MVSIZ)
+C-----
+C     Variables void MMAIN 
+      my_real
+     . SIGY(MVSIZ),ET(MVSIZ),
+     . R3_FREE(MVSIZ),R4_FREE(MVSIZ)
+C     Variables utilisees dans les routines solides uniquement (en arguments).
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
      .        NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ)
-C
+     
       DOUBLE PRECISION 
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
      .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ),
@@ -251,7 +263,7 @@ C
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ),
      .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ),
      .   X0(MVSIZ,8),Y0(MVSIZ,8),Z0(MVSIZ,8),VOLDP(MVSIZ)
-C
+               
       my_real
      .   OFF(MVSIZ) , RHOO(MVSIZ),
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
@@ -298,12 +310,11 @@ C
      .  XGXA(MVSIZ),XGYA(MVSIZ),XGZA(MVSIZ),
      .  XGXYA(MVSIZ),XGYZA(MVSIZ),XGZXA(MVSIZ),
      .  XGXA2(MVSIZ),XGYA2(MVSIZ),XGZA2(MVSIZ)
-C
+C     
       my_real
      . VXR(MVSIZ),VYR(MVSIZ),VZR(MVSIZ),FR_WAV(MVSIZ),
      . SXY(MVSIZ),SYX(MVSIZ),SYZ(MVSIZ),SZY(MVSIZ),SZX(MVSIZ),
      . SXZ(MVSIZ),TEMPEL(MVSIZ),THEM(MVSIZ,8),DIE(MVSIZ)
-C
       my_real
      .  MX1(MVSIZ),MY1(MVSIZ),MZ1(MVSIZ),
      .  MX2(MVSIZ),MY2(MVSIZ),MZ2(MVSIZ),
@@ -313,7 +324,7 @@ C
      .  MX6(MVSIZ),MY6(MVSIZ),MZ6(MVSIZ),
      .  MX7(MVSIZ),MY7(MVSIZ),MZ7(MVSIZ),
      .  MX8(MVSIZ),MY8(MVSIZ),MZ8(MVSIZ)
-C
+C-----
       my_real
      .   N1X(MVSIZ), N2X(MVSIZ), N3X(MVSIZ),
      .   N1Y(MVSIZ), N2Y(MVSIZ), N3Y(MVSIZ),
@@ -321,7 +332,7 @@ C
      .   N4X(MVSIZ), N5X(MVSIZ), N6X(MVSIZ),
      .   N4Y(MVSIZ), N5Y(MVSIZ), N6Y(MVSIZ),
      .   N4Z(MVSIZ), N5Z(MVSIZ), N6Z(MVSIZ)
-C
+     
       my_real
      .  FVX1(MVSIZ),FVX2(MVSIZ),FVX3(MVSIZ),FVX4(MVSIZ),
      .  FVX5(MVSIZ),FVX6(MVSIZ),FVX7(MVSIZ),FVX8(MVSIZ),
@@ -341,8 +352,7 @@ C
      .  FWXX(MVSIZ) ,FWYY(MVSIZ) ,FWZZ(MVSIZ)  ,FVXR(MVSIZ),
      .  FVYR(MVSIZ) ,FVZR(MVSIZ) ,FDVOL(MVSIZ),FVOLN(MVSIZ),
      .  FVD2(MVSIZ)
-C
-      my_real
+       my_real
      .   FF11(MVSIZ),FF21(MVSIZ),FF31(MVSIZ),
      .   FF12(MVSIZ),FF22(MVSIZ),FF32(MVSIZ),
      .   FF13(MVSIZ),FF23(MVSIZ),FF33(MVSIZ),
@@ -369,24 +379,29 @@ C
      .   FY5(MVSIZ), FY6(MVSIZ), FY7(MVSIZ), FY8(MVSIZ),
      .   FZ1(MVSIZ), FZ2(MVSIZ), FZ3(MVSIZ), FZ4(MVSIZ),
      .   FZ5(MVSIZ), FZ6(MVSIZ), FZ7(MVSIZ), FZ8(MVSIZ)
-C
-      my_real
+       my_real
      .  FPX1(MVSIZ),FPX2(MVSIZ),FPX3(MVSIZ),FPX4(MVSIZ),
      .  FPY1(MVSIZ),FPY2(MVSIZ),FPY3(MVSIZ),FPY4(MVSIZ),
      .  FPZ1(MVSIZ),FPZ2(MVSIZ),FPZ3(MVSIZ),FPZ4(MVSIZ),
      .  FDELTAX(MVSIZ) ,FLUX0(MVSIZ,6),FLU01(MVSIZ)
-      my_real, DIMENSION(:), ALLOCATABLE :: VAR_REG
-      my_real :: DT2T_lay(2)
-      my_real :: CONDE(MVSIZ),AMU(MVSIZ),DIVDE(MVSIZ)
-      my_real, DIMENSION(:), POINTER :: EINT
-C
+      my_real,
+     .  DIMENSION(:), ALLOCATABLE :: VAR_REG
+      my_real
+     .   DT2T_lay(2)
+       my_real
+     .  CONDE(MVSIZ),AMU(MVSIZ),DIVDE(MVSIZ)
+      my_real, 
+     .  DIMENSION(:), POINTER :: EINT
+C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
       TYPE(BUF_MAT_) ,POINTER :: MBUF  
-C
+C-----
+     
       INTEGER IALEFVM_FLG, IFVM22, IMAT, INLOC, L_NLOC, J, IPOS(8)
-C
-      INTEGER IBOLTP,NBPRELD,ISM12_11  ! IBOLTP Flag Bolt Preloading
+C----- 
+c     Flag Bolt Preloading
+      INTEGER IBOLTP,NBPRELD,ISM12_11
       my_real, DIMENSION(:), POINTER :: BPRELD
       my_real, DIMENSION(:), POINTER :: DNL
 C-----------------------------------------------
@@ -402,34 +417,35 @@ C
       IBOLTP = IPARG1(72) !IPARG(72,NG)
       NBPRELD = GBUF%G_BPRELD
       BPRELD =>GBUF%BPRELD(1:NBPRELD*NEL)
-C
+C-----
       IBID  = 0
       NF1=NFT+1
-C
+C--------------------------
+C-----------
       IF (JCVT == 0) THEN
-C Gather nodal variables (coordinates, velocities) updated lagrangian formulation
+       ! GATHER NODAL VARIABLES
        IALEFVM_MAT = IPM(251,IXS(1,NF1))
        IF(IALEFVM_MAT.LE.1)THEN
-C FEM velocity
-         CALL SCOOR3(X,IXS(1,NF1),V,W,GBUF%GAMA,GAMA,
-     .     X1, X2, X3, X4, X5, X6, X7, X8,
-     .     Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
-     .     Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
-     .     VX1, VX2, VX3, VX4, VX5, VX6, VX7, VX8,
-     .     VY1, VY2, VY3, VY4, VY5, VY6, VY7, VY8,
-     .     VZ1, VZ2, VZ3, VZ4, VZ5, VZ6, VZ7, VZ8,
-     .     VDX1, VDX2, VDX3, VDX4, VDX5, VDX6, VDX7, VDX8,
-     .     VDY1, VDY2, VDY3, VDY4, VDY5, VDY6, VDY7, VDY8,
-     .     VDZ1, VDZ2, VDZ3, VDZ4, VDZ5, VDZ6, VDZ7, VDZ8,
-     .     VDX,VDY,VDZ,VD2,VIS,GBUF%OFF,OFF,GBUF%SMSTR,GBUF%RHO,
-     .     RHOO,NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,NGL,MXT,NGEO,
-     .     VR,VXR,VYR,VZR,FR_WAVE,FR_WAV,
-     .     XD1, XD2, XD3, XD4, XD5, XD6, XD7, XD8,
-     .     YD1, YD2, YD3, YD4, YD5, YD6, YD7, YD8,
-     .     ZD1, ZD2, ZD3, ZD4, ZD5, ZD6, ZD7, ZD8,
+         !FEM velocity
+       CALL SCOOR3(X,IXS(1,NF1),V,W,GBUF%GAMA,GAMA,
+     .   X1, X2, X3, X4, X5, X6, X7, X8,
+     .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
+     .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
+     .   VX1, VX2, VX3, VX4, VX5, VX6, VX7, VX8,
+     .   VY1, VY2, VY3, VY4, VY5, VY6, VY7, VY8,
+     .   VZ1, VZ2, VZ3, VZ4, VZ5, VZ6, VZ7, VZ8,
+     .   VDX1, VDX2, VDX3, VDX4, VDX5, VDX6, VDX7, VDX8,
+     .   VDY1, VDY2, VDY3, VDY4, VDY5, VDY6, VDY7, VDY8,
+     .   VDZ1, VDZ2, VDZ3, VDZ4, VDZ5, VDZ6, VDZ7, VDZ8,
+     .   VDX,VDY,VDZ,VD2,VIS,GBUF%OFF,OFF,GBUF%SMSTR,GBUF%RHO,
+     .   RHOO,NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,NGL,MXT,NGEO,
+     .   VR,VXR,VYR,VZR,FR_WAVE,FR_WAV,
+     .   XD1, XD2, XD3, XD4, XD5, XD6, XD7, XD8,
+     .   YD1, YD2, YD3, YD4, YD5, YD6, YD7, YD8,
+     .   ZD1, ZD2, ZD3, ZD4, ZD5, ZD6, ZD7, ZD8,
      .     XDP,IPARG, NG , NEL)
        ELSE
-C FVM velocity
+         !FVM velocity
          CALL SCOOR3_FVM(X,IXS(1,NF1),V,W,GBUF%GAMA,GAMA,
      .     X1, X2, X3, X4, X5, X6, X7, X8,
      .     Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
@@ -443,13 +459,13 @@ C FVM velocity
      .     VDX,VDY,VDZ,VD2,VIS,GBUF%OFF,OFF,GBUF%SMSTR,GBUF%RHO,
      .     RHOO,NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,NGL,MXT,NGEO,
      .     VR,VXR,VYR,VZR,FR_WAVE,FR_WAV,
-     .     XD1, XD2 , XD3, XD4, XD5, XD6, XD7, XD8,
-     .     YD1, YD2 , YD3, YD4, YD5, YD6, YD7, YD8,
-     .     ZD1, ZD2 , ZD3, ZD4, ZD5, ZD6, ZD7, ZD8,
+     .     XD1, XD2  , XD3, XD4, XD5     , XD6      , XD7, XD8,
+     .     YD1, YD2  , YD3, YD4, YD5     , YD6      , YD7, YD8,
+     .     ZD1, ZD2  , ZD3, ZD4, ZD5     , ZD6      , ZD7, ZD8,
      .     XDP, IPARG, NG , NEL, GBUF%MOM,GBUF%TAG22,GBUF%VOL)
        ENDIF
       ELSE
-C Gather nodal variables Belytschko co-rotational formulation
+C GATHER NODAL VARIABLES AND COMPUTE INTRINSIC ROTATION.
        CALL SRCOOR3(X,IXS(1,NF1),V,W,GBUF%GAMA,GAMA,
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
@@ -467,14 +483,15 @@ C Gather nodal variables Belytschko co-rotational formulation
      .   XDP, X0 , Y0 , Z0 , NEL, XGXA, XGYA, XGZA,
      .   XGXA2,XGYA2  ,XGZA2 ,XGXYA ,XGYZA ,XGZXA,IPARG1,
      .   GBUF%GAMA_R) 
-      ENDIF  ! JCVT == 0
-C
+      ENDIF    
+C-----------
+C GATHER NODAL VARIABLES FOR TOTAL STRAIN CASE.
+C-----------
       IF ((ISMSTR >= 10.AND.ISMSTR <= 12).AND.JLAG > 0) THEN
-C Gather initial coordinates total strain formulation
         CALL SGCOOR3(TT,8,X,IXS(1,NF1),
      1               X0, Y0, Z0, VX0, VY0, VZ0, 
      2               GBUF%SMSTR,D ,GBUF%OFF,OFFG0,NEL ,XDP )
-C
+C-------Ismstr=10 Pij is calculated in global system using JAC_I   
        IF (ISMSTR == 11) THEN
         IF (JCVT /= 0) THEN
           CALL SRROTADP(
@@ -494,7 +511,6 @@ C
      .     VZ0(1,1), VZ0(1,2), VZ0(1,3), VZ0(1,4), 
      .     VZ0(1,5), VZ0(1,6), VZ0(1,7), VZ0(1,8) )
         ENDIF
-C Compute shape functions partial derivatives Pij total strain formulation
         CALL SDERIT3(OFF,VOLN,NGL,
      .   X0(1,1), X0(1,2), X0(1,3), X0(1,4), 
      .   X0(1,5), X0(1,6), X0(1,7), X0(1,8),
@@ -509,25 +525,22 @@ C Compute shape functions partial derivatives Pij total strain formulation
      .   PX2H1, PX2H2, PX2H3,
      .   PX3H1, PX3H2, PX3H3,
      .   PX4H1, PX4H2, PX4H3,
-     .   JAC1,JAC2,JAC3,
-     .   JAC4,JAC5,JAC6,
-     .   NEL,JHBE)
+     .   AJ1,AJ2,AJ3,
+     .   AJ4,AJ5,AJ6)
        ELSE
         IF (IDTMIN(1)==3.AND.ISMSTR == 12.AND.JCVT == 0.AND.ISM12_11==0) THEN
-C Compute Rij local reference frame for ISMSTR=12 (OFFG>1)
+C!!!!!!calcul local rep for ISMSTR 10 to 11 (offg>un) 
           CALL SRCOOR12(GBUF%OFF,X   ,XDP   ,
      .               NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,
      .               R11, R12, R13, R21, R22, R23, R31, R32, R33 ) 
         END IF 
-C Compute Pij in global system using inverse Jacobian matrix JAC_I for ISMSTR=10 
-        CALL SDERITO3(OFF,VOLN,
+         CALL SDERITO3(OFF,VOLN,
      .    PX1, PX2, PX3, PX4,
      .    PY1, PY2, PY3, PY4,
      .    PZ1, PZ2, PZ3, PZ4,
-     .    GBUF%JAC_I,NEL)
+     .    GBUF%JAC_I)
        END IF
-C Compute strain rates MFij total strain formulation
-       CALL SDEFOT3(
+        CALL SDEFOT3(
      .   PX1, PX2, PX3, PX4,
      .   PY1, PY2, PY3, PY4,
      .   PZ1, PZ2, PZ3, PZ4,
@@ -538,39 +551,33 @@ C Compute strain rates MFij total strain formulation
      .   VZ0(1,1), VZ0(1,2), VZ0(1,3), VZ0(1,4), 
      .   VZ0(1,5), VZ0(1,6), VZ0(1,7), VZ0(1,8),
      .   MFXX, MFXY, MFXZ, MFYX, MFYY, MFYZ, MFZX, MFZY, MFZZ) 
-C
-       IF (JCVT /= 0 .AND.(ISMSTR == 10 .OR.ISMSTR == 12)) THEN
+         IF (JCVT /= 0 .AND.(ISMSTR == 10 .OR.ISMSTR == 12)) THEN
           CALL SORDEFT3(LFT,LLT,MFXX, MFXY, MFXZ, MFYX, MFYY, MFYZ,
      .         MFZX, MFZY, MFZZ,
      .         R11, R21, R31, R12, R22, R32, R13, R23, R33)
-       ELSEIF (IDTMIN(1)==3.AND.ISMSTR == 12.AND.JCVT==0.AND.ISM12_11==0) THEN
+         ELSEIF (IDTMIN(1)==3.AND.ISMSTR == 12.AND.JCVT==0.AND.ISM12_11==0) THEN
           CALL SORDEFT12(LFT,LLT,MFXX, MFXY, MFXZ,
      .         MFYX, MFYY, MFYZ,
      .         MFZX, MFZY, MFZZ,
      .         R11, R21, R31, R12, R22, R32, R13, R23, R33,OFFG0)
-       END IF
-      ENDIF ! End total strain formulation
-C
+         END IF !(JCVT /= 0) THEN
+      ENDIF
+C-----------
       IF(JALE+JLAG /= 0)THEN
-C Lagrangian or Arbitrary Euler Lagrange simulation
-       IF(JCLOSE /= 0) THEN
-C ALE option /ALE/CLOSE
-         CALL MOD_CLOSE(GEO,NGEO,
+       IF(JCLOSE /= 0) CALL MOD_CLOSE(GEO,NGEO,
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,HH,
      .   XD1, XD2, XD3, XD4, XD5, XD6, XD7, XD8,
      .   YD1, YD2, YD3, YD4, YD5, YD6, YD7, YD8,
      .   ZD1, ZD2, ZD3, ZD4, ZD5, ZD6, ZD7, ZD8)
-       ENDIF
-C
-       IF (ISMSTR==11) THEN   
+       IF (ISMSTR==11) THEN
+C------      
         CALL SCOOR_CP2SP(X0,Y0,Z0,
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8)
        ELSE
-C Compute shape functions partial derivatives Pij
         CALL SDERI3(OFF,VOLN,NGL,
      .   XD1, XD2, XD3, XD4, XD5, XD6, XD7, XD8,
      .   YD1, YD2, YD3, YD4, YD5, YD6, YD7, YD8,
@@ -582,11 +589,9 @@ C Compute shape functions partial derivatives Pij
      .   PX2H1, PX2H2, PX2H3,
      .   PX3H1, PX3H2, PX3H3,
      .   PX4H1, PX4H2, PX4H3,
-     .   JAC1,JAC2,JAC3,
-     .   JAC4,JAC5,JAC6,
-     .   GBUF%SMSTR,GBUF%OFF,NEL,VOLDP,JHBE,ISMSTR)
-       END IF
-C Compute characteristic length
+     .   AJ1,AJ2,AJ3,
+     .   AJ4,AJ5,AJ6,GBUF%SMSTR,GBUF%OFF ,NEL,VOLDP)
+       END IF !(ISMSTR==11) THEN
         CALL SDLEN3(VOLN,DELTAX,
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
@@ -594,9 +599,7 @@ C Compute characteristic length
      .   N1X, N2X, N3X, N4X, N5X, N6X,
      .   N1Y, N2Y, N3Y, N4Y, N5Y, N6Y,
      .   N1Z, N2Z, N3Z, N4Z, N5Z, N6Z)
-C
       ELSEIF(JEUL /= 0)THEN
-C Eulerian simulation
        CALL EPXLE3(GBUF%VOL,VEUL,
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
@@ -615,26 +618,26 @@ C Eulerian simulation
      .   N1X, N2X, N3X, N4X, N5X, N6X,
      .   N1Y, N2Y, N3Y, N4Y, N5Y, N6Y,
      .   N1Z, N2Z, N3Z, N4Z, N5Z, N6Z)
-C
-C SuperCell characteristic length for interface type 22   
-       CALL DELTAX22(GBUF%VOL,  VEUL,  VOLN,  DELTAX, GBUF%TAG22,IXS)      
+     
+       !SuperCell Characteristic length    
+       CALL DELTAX22(GBUF%VOL,  VEUL,  VOLN,  DELTAX, GBUF%TAG22,
+     .               IXS)     
+         
       ENDIF
-C
+      
       IF(INT22>0)THEN
-C SDERI3 is updating GBUF%VOL with uncut brick volume 
-C One must have polyhedra maincell volume for interface type 22
+        !sderi3 is updating GBUF%VOL with uncut brick volume. We must have polyedra maincell volume for inter22
         IF(I22_ALEUL == 1)THEN
           CALL VOLN22(VOLN,GBUF%TAG22,IXS)
         ENDIF
       ENDIF
-C
-      IF(JALE+JEUL > 0 .AND. IPARG1(64).EQ.1)THEN
-C Compute strain rates Dij (silent boundary element)
+            
+      IF(JALE+JEUL > 0 .AND. IPARG1(64).EQ.1)THEN      !silent boundary
         CALL S11DEFO3(PM,V,VEUL,X,IXS,ALE_CONNECT,
      .   DXX, DXY, DXZ, DYX, DYY, DYZ, DZX, DZY, DZZ, D4, D5, D6,
-     .   WXX, WYY, WZZ, BUFMAT)
-      ELSE
-C Compute strain rates Dij
+     .   WXX, WYY, WZZ,BUFMAT)
+       ELSE
+          
         CALL SDEFO3(
      .   PX1, PX2, PX3, PX4,
      .   PY1, PY2, PY3, PY4,
@@ -647,72 +650,78 @@ C Compute strain rates Dij
      .   VZ1, VZ2, VZ3, VZ4, VZ5, VZ6, VZ7, VZ8,
      .   DXX, DXY, DXZ, DYX, DYY, DYZ, DZX, DZY, DZZ, D4, D5, D6,
      .   WXX, WYY, WZZ, VXR,VYR,VZR,IXS)
-C
-        IF (IDTMIN(1)==3.AND.ISMSTR == 12.AND.ISM12_11==0.AND.JCVT==0) THEN
+         IF (IDTMIN(1)==3.AND.ISMSTR == 12.AND.ISM12_11==0.AND.JCVT==0) THEN
           CALL SORDEF12(LFT,LLT,DXX, DYY, DZZ,
      .         D4, D5, D6,
      .         R11, R21, R31, R12, R22, R32, R13, R23, R33,GBUF%OFF)
-        ENDIF    
+         ENDIF
+     
       ENDIF 
-C
+
       CALL S11FX3(PM,FLUX(1,NF1),ALE_CONNECT,IXS,IPM,BUFMAT)
-C
+
       DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))  
-C Compute new density
       CALL SRHO3(PM         , GBUF%VOL  , GBUF%RHO,  GBUF%EINT, DIVDE,
      .           FLUX(1,NF1), FLU1(NF1) , VOLN    ,  DVOL     , NGL, MXT, OFF, 
      .           IPARG1(64) , GBUF%TAG22 , VOLDP,LBUF%VOL0DP  ,AMU ,GBUF%OFF )
-C
-      IF (ISMSTR == 12.AND.IDTMIN(1)==3.AND.ISM12_11==0.AND.JCVT==0) THEN
+
+       IF (ISMSTR == 12.AND.IDTMIN(1)==3.AND.ISM12_11==0.AND.JCVT==0) THEN
          CALL SROTO12_SIG(LFT,LLT,LBUF%SIG,NEL,
      .           R11, R21, R31, R12, R22, R32, R13, R23, R33,OFFG0)
-      ENDIF
-C
+!! temporary replaced by (the same) SROTO12_SIG() in order to do not affect
+!! the other multidimensional buffer ARRAYS which are still not modified
+!!         CALL SROTO12(LFT,LLT,LBUF%SIG,
+!!     .           R11, R21, R31, R12, R22, R32, R13, R23, R33,GBUF%OFF)
+       ENDIF ! (ISMSTR == 10.AND.IDTMIN(1)==3)
       IF (JCVT == 0) THEN
-C Jaumann objective stress tensor
         CALL SROTA3(GBUF%SIG,S1   ,S2   ,S3   ,S4   ,
      .              S5      ,S6   ,WXX  ,WYY  ,WZZ  ,
      .              NEL     )
-C Small Strain formulation
-        CALL SMALLA3(GBUF%SMSTR,GBUF%OFF,OFF,WXX,WYY,WZZ,NEL)
+c      small strain
+       CALL SMALLA3(GBUF%SMSTR,GBUF%OFF,OFF,WXX,WYY,
+     .              WZZ,NEL)
       ELSE  
-C Stress tensor co-rotational formulation
+C-----------------------------
+C       EXTRACT STRESSES + SMALL STRAIN
+C-----------------------------
         CALL SRMALLA3(GBUF%SIG,S1,S2,S3,S4,S5,S6,
      .                GBUF%OFF,OFF,NEL)
-C Small strain formulation
         CALL SRMALLA11(GBUF%SMSTR,GBUF%OFF,WXX,WYY,WZZ,
      .     R11, R12, R13, R21, R22, R23, R31, R32, R33,NEL)
       ENDIF
-C
+C --------------------------
+C  --- UPDATE REF CONFIGURATION (possible future change to small strain option)
+C  --- ! Total strain option doesn't change the Ref CONF.
+C --------------------------
       IF (ISMSTR <= 3.OR.(ISMSTR==4.AND.JLAG>0)) THEN
-C Update the reference configuration (possible future change to small strain option)
-C Total strain option doesn't change the reference configuration
        IF (JCVT /= 0.AND.ISORTH/=0 ) THEN
-         CALL S8SAVSR3(GBUF%OFF,GBUF%SMSTR ,X0   ,Y0   ,Z0,NEL) 
+       CALL S8SAVSR3(GBUF%OFF,GBUF%SMSTR ,X0   ,Y0   ,Z0,NEL) 
        ELSE
-         CALL S8SAV3(GBUF%OFF,GBUF%SMSTR,
-     .               XD1, XD2, XD3, XD4, XD5, XD6, XD7, XD8,
-     .               YD1, YD2, YD3, YD4, YD5, YD6, YD7, YD8,
-     .               ZD1, ZD2, ZD3, ZD4, ZD5, ZD6, ZD7, ZD8,
-     .               NEL)
-       ENDIF
-      END IF
-C
+       CALL S8SAV3(GBUF%OFF,GBUF%SMSTR,
+     .             XD1, XD2, XD3, XD4, XD5, XD6, XD7, XD8,
+     .             YD1, YD2, YD3, YD4, YD5, YD6, YD7, YD8,
+     .             ZD1, ZD2, ZD3, ZD4, ZD5, ZD6, ZD7, ZD8,
+     .             NEL)
+      ENDIF
+      END IF !(ISMSTR <= 3) THEN
+C-------------------------------------------
+C    COMPUTE TEMPERATURE IN ELEMENT
+C-------------------------------------------
       IF(JTHE < 0) THEN 
-C Element Temperature
-        DO I=1,NEL
+         DO I=LFT,LLT
            TEMPEL(I) = ONE_OVER_8 *(  TEMP(NC1(I)) + TEMP(NC2(I))  
-     .                              + TEMP(NC3(I)) + TEMP(NC4(I)) 
-     .                              + TEMP(NC5(I)) + TEMP(NC6(I)) 
-     .                              + TEMP(NC7(I)) + TEMP(NC8(I)))       
+     .                          + TEMP(NC3(I)) + TEMP(NC4(I)) 
+     .                          + TEMP(NC5(I)) + TEMP(NC6(I)) 
+     .                          + TEMP(NC7(I)) + TEMP(NC8(I)))       
         ENDDO
       ENDIF
-C
+c-------------------------------------------
+c    COMPUTE Regularized non local variable in Gauss point
+c-------------------------------------------
       IF (INLOC > 0) THEN
-C Compute Regularized non local variable in Gauss point
         L_NLOC = NLOC_DMG%L_NLOC
         DNL  => NLOC_DMG%DNL(1:L_NLOC) ! DNL = non local variable increment
-        DO I=1,NEL
+        DO I=LFT,LLT
           INOD(1) = NLOC_DMG%IDXI(NC1(I))
           INOD(2) = NLOC_DMG%IDXI(NC2(I))
           INOD(3) = NLOC_DMG%IDXI(NC3(I))
@@ -729,14 +738,16 @@ C Compute Regularized non local variable in Gauss point
           VAR_REG(I) = VAR_REG(I)*ONE_OVER_8
         ENDDO
       ENDIF
-C
+c-------------------------------------------
       IF (JALE == 3 .AND. JLAG > 0) THEN
-C Law 77 internal gas flow of open cell solved with ALE formulation
-C AFGLOB ----> ZERO is not activated
+C------------------------------------------------------------------
+C       ALE FLUID active with the law (open cell foam material law - mat 77)
+C------------------------------------------------------------------  
+C AFGLOB ----> ZERO is not activated.
         CALL ALEFLOW (
      .     PM     ,IPM   ,MXT    ,X      ,IPARG ,
      .     MBUF   ,NEL   ,NPF    ,TF     ,MBUF%VAR      ,
-     .     DF     ,IXS   ,ALE_CONNECT    ,VF     ,AFGLOB,              
+     .     DF     ,IXS   ,ALE_CONNECT  ,VF     ,AFGLOB        ,              
      .     WF     ,DFE   ,FRHO0  ,ALPHA  ,                  
      .     NC1    ,NC2   ,NC3    ,NC4    ,NC5    ,NC6   ,              
      .     NC7    ,NC8   ,FX1    ,FX2    ,FX3    ,FX4   ,              
@@ -770,7 +781,7 @@ C
      .      FPX2H1, FPX2H2, FPX2H3,
      .      FPX3H1, FPX3H2, FPX3H3,
      .      FPX4H1, FPX4H2, FPX4H3)
-C
+C     
         CALL FDLEN3(FVOLN,FDELTAX,
      .      FX1, FX2, FX3, FX4, FX5, FX6, FX7, FX8,
      .      FY1, FY2, FY3, FY4, FY5, FY6, FY7, FY8,
@@ -779,7 +790,8 @@ C
      .      FN1Y, FN2Y, FN3Y, FN4Y, FN5Y, FN6Y,
      .      FN1Z, FN2Z, FN3Z, FN4Z, FN5Z, FN6Z)  
 C
-C Strain flow    
+C strain flow
+C     
         CALL FDEFO3(
      .      FPX1 ,FPX2  ,FPX3  ,FPX4  ,FPY1  ,FPY2  ,FPY3  ,FPY4,
      .      FPZ1 ,FPZ2  ,FPZ3  ,FPZ4  ,
@@ -789,21 +801,26 @@ C Strain flow
      .      FDXX ,FDXY  ,FDXZ  ,FDYX  ,FDYY  ,FDYZ  ,FDZX  ,FDZY,
      .      FDZZ ,FD4   ,FD5   ,FD6   ,FWXX  ,FWYY  ,FWZZ  ,FVXR,
      .      FVYR ,FVZR  ,FQVIS)
-C
-        DO I=1,NEL                                   
+        DO I=LFT,LLT                                   
            FVOLN(I) = ALPHA(I)*FVOLN(I)                
            DFE(I,1) = DFE(I,1)*FVOLN(I)                
            DFE(I,2) = DFE(I,2)*FVOLN(I)                
-           DFE(I,3) = DFE(I,3)*FVOLN(I)                                                                      
-        ENDDO 
-C
+           DFE(I,3) = DFE(I,3)*FVOLN(I)                
+                                                       
+        ENDDO                                          
         CALL FRHO3(MBUF%VAR,FRHO0,FDXX, FDYY, FDZZ,    
      .             FLUX0,FLU01,FVOLN,NGL,MXT,OFF ,NEL) 
       ENDIF    ! JALE == 3 .AND. JLAG > 0
-C
+      
+      
+C----------------------------
+C            ALEFVM 
+C----------------------------
       IALEFVM_MAT = IPM(251,IXS(1,NF1))
       IF (IALEFVM_MAT  .GT. 1) THEN
-C ALEFVM strain rates
+          !-----------------!
+          ! INTERNAL FORCES !
+          !-----------------!
           CALL ALEFVM_EPSDOT (
      1                          IXS,  NV46, GBUF%SIG,  QVIS, VOLN,
      2                          N1X,  N2X,  N3X     ,  N4X,  N5X  ,  N6X ,
@@ -811,14 +828,19 @@ C ALEFVM strain rates
      4                          N1Z,  N2Z,  N3Z     ,  N4Z,  N5Z  ,  N6Z ,
      5                          DXX,  DYY,  DZZ     ,  X  ,  IPM  ,  NEL )
       ENDIF
-C
+
+      
+C------------------------------------------------------
+C     CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES
+C------------------------------------------------------
       IF ((IMON_MAT==1).AND. ITASK == 0) CALL STARTIME(35,1)
-C
+C     pour le fluide en SPMD : BUFVOIS LOI11
+c
       ILAY = 1                                                
       IPTR = 1                                                
       IPTS = 1                                                
       IPTT = 1   
-C
+c
       IF(IBOLTP /= 0) THEN
         IF(JCVT==0)
      .          CALL SROTA3(BPRELD(3*NEL+1),B1   ,B2   ,B3   ,B4 ,
@@ -826,11 +848,9 @@ C
      .            NEL     )
         CALL BOLTST(IBOLTP,IPTR,BPRELD,LBUF%SIG,TT,NEL,SENSOR,LSENSOR)
       END IF
-C
-C Stress computation according to material laws 
-C
+
       CALL MMAIN(                                             
-     1     ELBUF_TAB,NG      ,PM      ,GEO     ,FV      ,ALE_CONNECT,
+     1     ELBUF_TAB,NG      ,PM      ,GEO     ,FV      ,ALE_CONNECT    ,
      2     IXS      ,IPARG    ,V      ,TF      ,NPF     ,BUFMAT   ,
      3     STI      ,X       ,DT2T    ,NELTST  ,ITYPTST ,OFFSET   ,
      4     NEL      ,W       ,OFF     ,NGEO    ,  
@@ -838,7 +858,7 @@ C
      7     VIS      ,QVIS    ,CXX     ,S1      ,S2      ,S3       ,
      8     S4       ,S5      ,S6      ,DXX     ,DYY     ,DZZ      ,
      9     D4       ,D5      ,D6      ,WXX     ,WYY     ,WZZ      ,
-     A     JAC1     ,JAC2    ,JAC3    ,JAC4    ,JAC5    ,JAC6     ,
+     A     AJ1      ,AJ2     ,AJ3     ,AJ4     ,AJ5     ,AJ6      ,
      B     VDX      ,VDY     ,VDZ     ,MUVOID  ,SSP_EQ  ,AIRE     ,
      C     SIGY     ,ET      ,BUFVOIS ,LBUF%PLA,R3_FREE ,AMU      ,
      D     MFXX     ,MFXY    ,MFXZ    ,MFYX    ,MFYY    ,MFYZ     ,
@@ -848,29 +868,31 @@ C
      H     DMELS    ,IPTR    ,IPTS    ,IPTT    ,TABLE   ,FVD2     ,
      I     FDELTAX  ,FCXX    ,FQVIS   ,IPARG1  ,IGEO    ,CONDE    ,
      J     ITASK    ,NLOC_DMG,VAR_REG ,MATPARAM_TAB,H3D_STRAIN) 
-C
-      IF (ISMSTR == 12.AND.IDTMIN(1)==3) THEN
+C----------
+       IF (ISMSTR == 12.AND.IDTMIN(1)==3) THEN
         IF (ISM12_11==0.AND.JCVT==0) THEN
-          CALL SROTO12_SIG(LFT,LLT,LBUF%SIG,NEL,
+         CALL SROTO12_SIG(LFT,LLT,LBUF%SIG,NEL,
      .           R11, R12, R13, R21, R22, R23, R31, R32, R33,OFFG0)
-C
-          IF (ISTRAIN == 1) THEN 
-            CALL SORDEF12(LFT,LLT,DXX, DXY, DXZ,
+!! temporary replaced by (the same) SROTO12_SIG() in order to do not affect
+!! the other multidimensional buffer ARRAYS which are still not modified
+!!         CALL SROTO12(LFT,LLT,LBUF%SIG,
+!!     .           R11, R12, R13, R21, R22, R23, R31, R32, R33,GBUF%OFF)
+      IF (ISTRAIN == 1) THEN 
+          CALL SORDEF12(LFT,LLT,DXX, DXY, DXZ,
      .         D4, D5, D6,
      .         R11, R12, R13, R21, R22, R23, R31, R32, R33,OFFG0)
-          ENDIF
+      ENDIF
         END IF 
-      ENDIF ! ISMSTR == 12.AND.IDTMIN(1)==3
-C
+       ENDIF ! (ISMSTR == 10.AND.IDTMIN(1)==3)
       IF (ISTRAIN == 1) THEN 
-C Compute Strains for output
         CALL SSTRA3(DXX    ,DYY      ,DZZ    ,D4   ,D5   ,
      .              D6     ,LBUF%STRA,WXX    ,WYY  ,WZZ  ,
      .              OFF    ,NEL      )
       ENDIF
       IF ((IMON_MAT==1).AND. ITASK == 0) CALL STOPTIME(35,1)
-C
-C Small Strain
+C-----------------------------
+C     SMALL STRAIN 
+C-----------------------------
       CALL SMALLB3(GBUF%OFF,OFF)
       ITET = 0
       CALL SMALLGEO3(NGL, GBUF%OFF ,VOLN ,DELTAX, GBUF%VOL ,ITET )
@@ -885,19 +907,22 @@ C Small Strain
       ENDIF
 C
       IF (JLAG+JALE+JEUL == 0) THEN
-C Energy balance thermal material
+C--------------------------
+C       BILANS PAR MATERIAU thermique
+C--------------------------
+c        IFLAG=MOD(NCYCLE,NCPRI)
         IF (IOUTPRT>0)THEN
           IF (IPARG1(64) == 1) THEN                                    
             EINT => ELBUF_TAB(NG)%GBUF%EINS(1:NEL)                   
           ELSE                                                   
             EINT => ELBUF_TAB(NG)%GBUF%EINT(1:NEL)                   
           ENDIF                                                  
-C
+c
           IF (JCVT == 0) THEN  
-            IFVM22      = 0
-            IMAT        = IXS(1,LFT+NFT)
-            IALEFVM_FLG = IPM(251,IMAT)
-            IF(IALEFVM_FLG.GE.2)IFVM22 = 1
+          IFVM22      = 0
+          IMAT        = IXS(1,LFT+NFT)
+          IALEFVM_FLG = IPM(251,IMAT)
+          IF(IALEFVM_FLG.GE.2)IFVM22 = 1
             CALL SBILAN(PARTSAV,EINT,GBUF%RHO,GBUF%RK,GBUF%VOL,  
      .                  VX1, VX2, VX3, VX4, VX5, VX6, VX7, VX8,
      .                  VY1, VY2, VY3, VY4, VY5, VY6, VY7, VY8,
@@ -908,20 +933,28 @@ C
      .                  Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .                  Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
      .                  ITASK,IPARG1)
-          ELSE
+           ELSE
             CALL SRBILAN(PARTSAV,EINT,GBUF%RHO,GBUF%RK,GBUF%VOL, 
      .                   VGXA, VGYA, VGZA, VGA2, VOLN,IPARTS,
      .                   GRESAV,GRTH,IGRTH,GBUF%OFF,IEXPAN,GBUF%EINTTH,
      .                   GBUF%FILL,XGXA, XGYA, XGZA,
      .                   XGXA2,XGYA2,XGZA2,XGXYA,XGYZA,XGZXA,ITASK,IPARG1)
           ENDIF
+
         ENDIF
-        RETURN
+c
+        RETURN   !!!!!!
+c
       ENDIF
-C
-C Mass update
-      IF (JALE == 3 .AND. JLAG == 1 .AND. INCOMP == 0) THEN  ! law 77 
-       IF(IPARIT == 0)THEN         
+c
+C--------------------------
+C     UPDATE DES MASSES
+C     TRANSPORT FORCES
+C----------------------------  
+      IF (JALE == 3 .AND. JLAG == 1 .AND. INCOMP == 0) THEN  ! loi 77 
+C a voir le tranport des masses en cas d'incompressible
+       IF(IPARIT == 0)THEN
+          
           CALL AMASS3F(MSF,MBUF%VAR,
      .                FVOLN,NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,
      .                MSNF,NVC,OFF)
@@ -937,12 +970,13 @@ C Mass update
           CALL AMASS3P(FSKYM,GBUF%RHO,VEUL(LVEUL*NFT+44),GBUF%TAG22,VOLN,IADS,OFF,IXS)          
         ENDIF
       ENDIF
-C
+
+C-----------------------------
+C     ANTI-HOURGLASS FORCES
+C----------------------------- 
       IALEFVM_MAT = IPM(251,IXS(1,NF1))
       IFVM_SKIP=0
       IF(IALEFVM_MAT .GT. 1)IFVM_SKIP=1
-C
-C Anti hourglass forces
       CALL SHVIS3(PM,GBUF%RHO,OFF,
      .   VX1, VX2, VX3, VX4, VX5, VX6, VX7, VX8,
      .   VY1, VY2, VY3, VY4, VY5, VY6, VY7, VY8,
@@ -953,8 +987,8 @@ C Anti hourglass forces
      .   PX3H1, PX3H2, PX3H3, PX4H1, PX4H2, PX4H3,
      .   VOLN,MXT,CXX,VIS,VD2,DELTAX,EANI,NGEO,GEO,PARTSAV,IPARTS,
      .   GBUF%OFF,GBUF%VOL, IPARG1, IFVM_SKIP) 
-C
-      IF (JALE == 3) THEN   ! law 77
+     
+      IF (JALE == 3) THEN   ! loi 77
         CALL FHVIS3(PM,MBUF%VAR,OFF,
      .   FVX1, FVX2, FVX3, FVX4, FVX5, FVX6, FVX7, FVX8,
      .   FVY1, FVY2, FVY3, FVY4, FVY5, FVY6, FVY7, FVY8,
@@ -964,10 +998,10 @@ C
      .   FPX1H1, FPX1H2, FPX1H3, FPX2H1, FPX2H2, FPX2H3,
      .   FPX3H1, FPX3H2, FPX3H3, FPX4H1, FPX4H2, FPX4H3,
      .   FVOLN,MXT,FCXX,VIS,FVD2,FDELTAX,EANI,NGEO,GEO,PARTSAV,IPARTS) 
-C
+C 
       ENDIF 
-C
-      IF (JCLOSE /= 0) 
+C      
+      IF (JCLOSE /= 0)
      .  CALL FE_CLOSE(HH,GBUF%RHO,VOLN,
      .   VX1, VX2, VX3, VX4, VX5, VX6, VX7, VX8,
      .   VY1, VY2, VY3, VY4, VY5, VY6, VY7, VY8,
@@ -977,8 +1011,7 @@ C
 C
       IALEFVM_MAT = IPM(251,IXS(1,NF1))
       IF(IALEFVM_MAT .LE. 1)THEN
-       IF (JALE == 1 .OR. (JEUL == 1.AND.INTEG8 == 0)) THEN
-C ALE & Euler momentum transport forces 
+      IF (JALE == 1 .OR. (JEUL == 1.AND.INTEG8 == 0)) THEN
         CALL AMOMT3(PM,GBUF%RHO,VOLN,
      .   X1,X2,X3,X4,X5,X6,X7,X8,
      .   Y1,Y2,Y3,Y4,Y5,Y6,Y7,Y8,
@@ -997,11 +1030,10 @@ C ALE & Euler momentum transport forces
      .   VDZ1,VDZ2,VDZ3,VDZ4,VDZ5,VDZ6,VDZ7,VDZ8,
      .   VDX,VDY,VDZ,
      .   DELTAX,VIS,
-     .   MXT,QMV,BUFMAT,IPARG1,IXS,GBUF%TAG22, 
-     .   NC1, NC2, NC3, NC4, NC5, NC6, NC7, NC8, NALE) 
-C
-       ELSEIF (JEUL == 1 .AND. INTEG8 == 1) THEN
-C SUPG and TG UPWIND not included 
+     .     MXT,QMV,BUFMAT,IPARG1,IXS,GBUF%TAG22, 
+     .     NC1, NC2, NC3, NC4, NC5, NC6, NC7, NC8, NALE) 
+      ELSEIF (JEUL == 1 .AND. INTEG8 == 1) THEN
+C       POUR LE MOMENT N'INCLUE PAS UPWIND SUPG ET TG
         CALL EMOMT3B(PM,GBUF%RHO,VEUL(LVEUL*NFT+44),
      .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
      .   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,
@@ -1016,19 +1048,20 @@ C SUPG and TG UPWIND not included
      .   MXT,QMV,BUFMAT,
      .   VX1,VX2,VX3,VX4,VX5,VX6,VX7,VX8,
      .   VY1,VY2,VY3,VY4,VY5,VY6,VY7,VY8,
-     .   VZ1,VZ2,VZ3,VZ4,VZ5,VZ6,VZ7,VZ8,
-     .   IPARG1)
-       ENDIF
-C
+     .     VZ1,VZ2,VZ3,VZ4,VZ5,VZ6,VZ7,VZ8,
+     .     IPARG1)
+      ENDIF
+
         IF(JEUL+JALE/=0) CALL CHECK_OFF_ALE(F11,F21,F31,F12,F22,
      1                           F32,F13,F23,F33,F14,
      2                           F24,F34,F15,F25,F35,
      3                           F16,F26,F36,F17,F27,
      4                           F37,F18,F28,F38,GBUF%OFF,
      5                           LFT,LLT,NEL)
-C
-       IF (JALE  == 3 )THEN       
-         CALL AMOMT3(PM,MBUF%VAR,FVOLN,
+c       
+      IF (JALE  == 3 )THEN
+C       
+       CALL AMOMT3(PM,MBUF%VAR,FVOLN,
      .   FX1,FX2,FX3,FX4,FX5,FX6,FX7,FX8,
      .   FY1,FY2,FY3,FY4,FY5,FY6,FY7,FY8,
      .   FZ1,FZ2,FZ3,FZ4,FZ5,FZ6,FZ7,FZ8,
@@ -1046,14 +1079,16 @@ C
      .   FVDZ1,FVDZ2,FVDZ3,FVDZ4,FVDZ5,FVDZ6,FVDZ7,FVDZ8,
      .   FVDX,FVDY,FVDZ,
      .   FDELTAX,VIS,
-     .   MXT,QMV,BUFMAT,IPARG1,IXS,GBUF%TAG22, 
-     .   NC1, NC2, NC3, NC4, NC5, NC6, NC7, NC8, NALE)   
-       ENDIF     
-      ENDIF !  IALEFVM_MAT .LE. 1
-C
+     .     MXT,QMV,BUFMAT,IPARG1,IXS,GBUF%TAG22, 
+     .     NC1, NC2, NC3, NC4, NC5, NC6, NC7, NC8, NALE)   
+      ENDIF     
+      ENDIF ! IF(IALEFVM_MAT .LE. 1)THEN
+C--------------------------
+C       BILANS PAR MATERIAU
+C--------------------------
+c      IFLAG=MOD(NCYCLE,NCPRI)
       IF (IOUTPRT>0)THEN
-C Energy, momentum, mass balance by part in case of print-out
-           EINT => ELBUF_TAB(NG)%GBUF%EINT(1:NEL)
+             EINT => ELBUF_TAB(NG)%GBUF%EINT(1:NEL)
            IF (JCVT == 0) THEN
             IFVM22      = 0
             IMAT        = IXS(1,LFT+NFT)
@@ -1077,8 +1112,15 @@ C Energy, momentum, mass balance by part in case of print-out
      .                   XGXA2,XGYA2,XGZA2,XGXYA,XGYZA,XGZXA,ITASK,IPARG1)
            ENDIF
       ENDIF
-C
-C Compute nodal internal forces
+C-------------------------
+C     ASSEMBLE
+C-------------------------
+      !----------------------------                                      
+      !     INTERNAL FORCES                                              
+      !----------------------------
+      !!We need forces to make interaction between FEM and FVM
+      !!IALEFVM_MAT = IPM(251,IXS(1,NF1))
+      !!IF(IALEFVM_MAT.LE.1)THEN                                      
       IF (ISROT == 0)THEN
         CALL SFINT3(GBUF%SIG,
      .   PX1, PX2, PX3, PX4,
@@ -1093,7 +1135,7 @@ C Compute nodal internal forces
      .   N1X, N2X, N3X, N4X, N5X, N6X,
      .   N1Y, N2Y, N3Y, N4Y, N5Y, N6Y,
      .   N1Z, N2Z, N3Z, N4Z, N5Z, N6Z,
-     .   DFE, P, IXS, NEL)                                                    
+     .   DFE, P, IXS,NEL)                                                    
       ELSE
        IISROT = 1
         CALL SFINT3B(GBUF%SIG,LBUF%SIGD,X,
@@ -1106,17 +1148,19 @@ C Compute nodal internal forces
      .   PZ5, PZ6, PZ7, PZ8,
      .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
      .   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,
-     .   VOLN,QVIS,DR,GBUF%RHO,CXX,
+     .    VOLN,QVIS,DR,GBUF%RHO,CXX,
      .   MX1,MY1,MZ1,MX2,MY2,MZ2,MX3,MY3,MZ3,MX4,MY4,MZ4,
      .   MX5,MY5,MZ5,MX6,MY6,MZ6,MX7,MY7,MZ7,MX8,MY8,MZ8,IXS,NEL)            
       ENDIF
-C
+      !!ENDIF                                                             
+      !----------------------------                                      
+      !     FLOW INTERNAL FORCES                                         
+      !----------------------------                                      
       IF (JALE  == 3) THEN
-C Flow internal forces
           NBF1 = NEL*4
           NBF2 = NEL + NBF1
           NBF3 = NEL + NBF2
-          DO I=1,NEL
+          DO I=LFT,LLT
              SIGF(I,1) = MBUF%VAR(NBF1 + I)                              
              SIGF(I,2) = MBUF%VAR(NBF2 + I)                              
              SIGF(I,3) = MBUF%VAR(NBF3 + I)                              
@@ -1135,11 +1179,14 @@ C Flow internal forces
      .     FN1Y, FN2Y, FN3Y, FN4Y, FN5Y, FN6Y,
      .     FN1Z, FN2Z, FN3Z, FN4Z, FN5Z, FN6Z)
       ENDIF
-C
+C----------------------------
+C            ALEFVM 
+C----------------------------
       IALEFVM_MAT = IPM(251,IXS(1,NF1))
       IF (IALEFVM_MAT .GT. 1) THEN
-C ALEFVM forces
-C External forces work
+          !-----------------!
+          ! EXT. FORCE WORK !
+          !-----------------!          
           CALL ALEFVM_TFEXT (
      1                        IXS,  NV46, GBUF%SIG,  QVIS, ALE_CONNECT,  VOLN,
      2                        N1X,  N2X , N3X     ,  N4X , N5X  ,  N6X ,
@@ -1147,43 +1194,54 @@ C External forces work
      4                        N1Z,  N2Z , N3Z     ,  N4Z , N5Z  ,  N6Z ,
      5                        DXX,  DYY , DZZ     ,  X   , IPM  ,  NALE,
      6                        W  ,  P   , VEUL    ,  NEL )  
-C
-C Initial forces
+          !-----------------!
+          ! FORCES INIT.    !
+          !-----------------!
           CALL ALEFVM_FRESET(ITASK,GBUF%TAG22)
-C
-C Gravity forces
-          CALL ALEFVM_GRAVITY (
+          !-----------------!
+          ! GRAVITY FORCES  !
+          !-----------------!
+          CALL ALEFVM_GRAVITY
+     .                       (
      1                        AGRAV, IGRV    , LGRAV, SENSOR, LSENSOR,
      2                        GBUF%VOL , IXS     , ITASK, NPF   , TF     ,
-     3                        SKEW , GBUF%RHO )
+     3                        SKEW , GBUF%RHO 
+     .                       )
           IF(INT22/=0)THEN
-            CALL ALEFVM_GRAVITY_INT22 (
+            CALL ALEFVM_GRAVITY_INT22
+     .                       (
      1                        AGRAV    , IGRV    , LGRAV,     SENSOR, LSENSOR,
      2                        GBUF%VOL , IXS     , ITASK,     NPF   , TF     ,
-     3                        SKEW     , GBUF%RHO, GBUF%TAG22)
+     3                        SKEW     , GBUF%RHO, GBUF%TAG22
+     .                       )
           ENDIF
-C
-C Internal forces
-          CALL ALEFVM_STRESS (
+          !-----------------!
+          ! INTERNAL FORCES !
+          !-----------------!
+          CALL ALEFVM_STRESS 
+     .                       (
      1                        IXS,       NV46,    GBUF%SIG ,  QVIS    , 
-     2                        N1X,       N2X,     N3X      ,  N4X     ,  N5X  ,  N6X       ,
-     3                        N1Y,       N2Y,     N3Y      ,  N4Y     ,  N5Y  ,  N6Y       ,
-     4                        N1Z,       N2Z,     N3Z      ,  N4Z     ,  N5Z  ,  N6Z       ,
-     5                        X  ,       IPM,     GBUF%RHO ,  GBUF%VOL,  A    ,  GBUF%TAG22,
+     2                          N1X,  N2X,  N3X     ,  N4X,  N5X  ,  N6X,
+     3                          N1Y,  N2Y,  N3Y     ,  N4Y,  N5Y  ,  N6Y,
+     4                        N1Z,       N2Z,     N3Z      ,  N4Z     , N5Z  ,  N6Z       ,
+     5                        X  ,       IPM,     GBUF%RHO ,  GBUF%VOL, A    ,  GBUF%TAG22,
      .                        NEL,       GBUF%MOM,LBUF%SSP )
           IF(INT22/=0)THEN
-            CALL ALEFVM_STRESS_INT22 (
+            CALL ALEFVM_STRESS_INT22 
+     .                       (
      1                        IXS,       NV46,    GBUF%SIG ,  QVIS    , 
      2                        N1X,       N2X,     N3X      ,  N4X     , N5X  ,  N6X       ,
      3                        N1Y,       N2Y,     N3Y      ,  N4Y     , N5Y  ,  N6Y       ,
      4                        N1Z,       N2Z,     N3Z      ,  N4Z     , N5Z  ,  N6Z       ,
      5                        X  ,       IPM,     GBUF%RHO ,  GBUF%VOL, A    ,  GBUF%TAG22,
-     6                        ELBUF_TAB, NEL,     GBUF%MOM ,  LBUF%SSP, ITASK)
-          ENDIF    
-      ENDIF ! IALEFVM_MAT .GT. 1 
-C
+     6                        ELBUF_TAB, NEL,     GBUF%MOM ,  LBUF%SSP, ITASK
+     .                       )
+      ENDIF    
+      ENDIF !(IALEFVM_MAT .GT. 1)     
+c-------------------------
+c     Virtual internal forces of regularized non local ddl 
+c--------------------------
       IF (INLOC > 0) THEN    
-C Virtual internal forces of regularized non local dof
         CALL SFINT_REG(NLOC_DMG ,VAR_REG  ,    
      .       NEL      ,OFF      ,VOLN     ,NC1      ,
      .       NC2      ,NC3      ,NC4      ,NC5      ,
@@ -1192,10 +1250,11 @@ C Virtual internal forces of regularized non local dof
      .       PY2      ,PY3      ,PY4      ,PZ1      ,
      .       PZ2      ,PZ3      ,PZ4      ,MXT(LFT) ,
      .       ITASK    ,DT2T     )
-      ENDIF 
-C
-      IF (JTHE < 0) THEN
-C Finite element heat transfert forces
+      ENDIF         
+C-------------------------
+c    finite element heat transfert  
+C--------------------------
+       IF (JTHE < 0) THEN
         CALL STHERM( PM     ,MXT    ,VOLN,
      .               NC1,  NC2, NC3,NC4,
      .               NC5,  NC6, NC7,NC8, 
@@ -1205,10 +1264,12 @@ C Finite element heat transfert forces
      .               DT1 ,TEMP,TEMPEL,DIE,
      .               THEM,GBUF%OFF,LBUF%OFF,
      .               PARTSAV,IPARTS,GBUF%VOL) 
-      ENDIF
-C
+       ENDIF      
+C----------------------------
+C     CONVECTE --> GLOBAL.
+C----------------------------
+
       IF (JCVT /= 0) THEN
-C Transform forces from convected frame to global frame
        CALL SRROTA3(
      .   R11, R21, R31, R12, R22, R32, R13, R23, R33,
      .   F11, F12, F13, F14, F15, F16, F17, F18,
@@ -1222,12 +1283,11 @@ C Transform forces from convected frame to global frame
      .      FF31, FF32, FF33, FF34, FF35, FF36, FF37, FF38)
         ENDIF 
       ENDIF
-C
+C----------------------------
       IF(NFILSOL/=0) CALL SFILLOPT(GBUF%FILL,STI,
      1   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     2   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38)
-C
-C Assemble internal forces
+     2   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38)    
+C----------------------------
       IF(IPARIT == 0)THEN
           CALL SCUMU3(GBUF%OFF,A,NC1, NC2, NC3, NC4,
      2                NC5, NC6, NC7, NC8,STIFN,STI,
@@ -1264,7 +1324,7 @@ C
      4   NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8)   
        ENDIF   
       ENDIF
-C
+C-----------
       IF (ALLOCATED(VAR_REG)) DEALLOCATE(VAR_REG)
       RETURN
       END SUBROUTINE SFORC3
@@ -1290,19 +1350,25 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#include      "vect01_c.inc"
 #include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER :: NEL
-      INTEGER :: NC1(*),NC2(*),NC3(*),NC4(*),NC5(*),NC6(*),NC7(*),NC8(*)
-      my_real :: OFFG(*),OFFG0(*),X(3,*),JAC_1(10,NEL),SIG(NEL,6),SIGL(NEL,6)
-      DOUBLE PRECISION :: XDP(3,*)
+      INTEGER NEL
+C     REAL
+      INTEGER 
+     .      NC1(*),NC2(*),NC3(*),NC4(*),NC5(*),NC6(*),NC7(*),NC8(*)
+      my_real
+     .   OFFG(*),OFFG0(*),X(3,*),JAC_1(10,NEL),SIG(NEL,6),SIGL(NEL,6)
+      DOUBLE PRECISION 
+     .   XDP(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I ,NCH,INDEX(MVSIZ),J    
-      my_real :: JAC_I(10,MVSIZ)
+      INTEGER I ,NCH,INDEX(MVSIZ),J    
+      my_real
+     .   JAC_I(10,MVSIZ)
       DOUBLE PRECISION 
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
      .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ),
@@ -1311,16 +1377,16 @@ C-----------------------------------------------
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ),
      .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ)
 C=======================================================================
-C Ismstr=12 :always in global system and fixed then (not like Ismstr=11)
-      NCH=0
-      DO I=1,NEL
+C-----Always in global system and fixed then (not like Ismstr=11
+        NCH=0
+        DO I=LFT,LLT
          IF(OFFG(I)/=OFFG0(I).AND.ABS(OFFG(I)) > ONE ) THEN
            NCH = NCH +1
            INDEX(NCH) = I
          END IF
-      END DO
-      IF (NCH==0) RETURN
-C
+	END DO
+	IF (NCH==0) RETURN
+C	
       IF(IRESP==1)THEN 
 #include "vectorize.inc"
         DO J=1,NCH
@@ -1380,22 +1446,20 @@ C
           ZD8(J)=X(3,NC8(I))  
         ENDDO      
       ENDIF
-C
       CALL S8JAC_I(
      .              XD1   ,XD2   ,XD3   ,XD4   ,XD5   ,XD6   ,XD7   ,XD8   ,
      .              YD1   ,YD2   ,YD3   ,YD4   ,YD5   ,YD6   ,YD7   ,YD8   ,
      .              ZD1   ,ZD2   ,ZD3   ,ZD4   ,ZD5   ,ZD6   ,ZD7   ,ZD8   ,
      .              JAC_I ,NCH  )
-C
 #include "vectorize.inc"
         DO J=1,NCH
           I = INDEX(J)
           JAC_1(1:10,I) = JAC_I(1:10,J)
           SIGL(I,1:6) = SIG(I,1:6)
         ENDDO      
-C
+C-----------
       RETURN
-      END SUBROUTINE S8UPD11T12
+      END
 Chd|====================================================================
 Chd|  S8JAC_I                       source/elements/solid/solide/sforc3.F
 Chd|-- called by -----------
@@ -1430,87 +1494,113 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER :: NEL
-      my_real :: JAC_I(10,*)
+C     REAL
+      INTEGER NEL
+      my_real
+     .   JAC_I(10,*)
       DOUBLE PRECISION
-     .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
-     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),
-     .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*)
+     .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*),
+     .   X7(*), X8(*), Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*),
+     .   Y8(*), Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J     
-C
+      INTEGER I,J
+      
+C     REAL
       my_real
-     .   JAC1(MVSIZ), JAC2(MVSIZ), JAC3(MVSIZ), 
-     .   JAC4(MVSIZ), JAC5(MVSIZ), JAC6(MVSIZ),
-     .   JAC7(MVSIZ), JAC8(MVSIZ), JAC9(MVSIZ)
+     .   AJ1(MVSIZ), AJ2(MVSIZ), AJ3(MVSIZ), 
+     .   AJ4(MVSIZ), AJ5(MVSIZ), AJ6(MVSIZ),
+     .   AJ7(MVSIZ), AJ8(MVSIZ) , AJ9(MVSIZ),
+     .   A17(MVSIZ) , A28(MVSIZ) ,
+     .   B17(MVSIZ) , B28(MVSIZ) ,
+     .   C17(MVSIZ) , C28(MVSIZ) 
       my_real
      .   DET(MVSIZ), DETT(MVSIZ), 
+     .   AJI1(MVSIZ), AJI2(MVSIZ), AJI3(MVSIZ), 
+     .   AJI4(MVSIZ), AJI5(MVSIZ), AJI6(MVSIZ),
+     .   AJI7(MVSIZ), AJI8(MVSIZ), AJI9(MVSIZ),
      .   X17(MVSIZ), X28(MVSIZ), X35(MVSIZ), X46(MVSIZ),
      .   Y17(MVSIZ), Y28(MVSIZ), Y35(MVSIZ), Y46(MVSIZ),
      .   Z17(MVSIZ), Z28(MVSIZ), Z35(MVSIZ), Z46(MVSIZ),
-     .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ)
+     .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ),
+     .   AJ12(MVSIZ),   AJ45(MVSIZ),   AJ78(MVSIZ)
 C=======================================================================
       DO I=1,NEL
         X17(I)=X7(I)-X1(I)
         X28(I)=X8(I)-X2(I)
         X35(I)=X5(I)-X3(I)
         X46(I)=X6(I)-X4(I)
-C
         Y17(I)=Y7(I)-Y1(I)
         Y28(I)=Y8(I)-Y2(I)
         Y35(I)=Y5(I)-Y3(I)
         Y46(I)=Y6(I)-Y4(I)
-C
         Z17(I)=Z7(I)-Z1(I)
         Z28(I)=Z8(I)-Z2(I)
         Z35(I)=Z5(I)-Z3(I)
         Z46(I)=Z6(I)-Z4(I)
       ENDDO
 C
-C Jacobian Matrix
       DO I=1,NEL
-        JAC1(I)=X17(I)+X28(I)-X35(I)-X46(I)
-        JAC2(I)=Y17(I)+Y28(I)-Y35(I)-Y46(I)
-        JAC3(I)=Z17(I)+Z28(I)-Z35(I)-Z46(I)
+        AJ1(I)=X17(I)+X28(I)-X35(I)-X46(I)
+        AJ2(I)=Y17(I)+Y28(I)-Y35(I)-Y46(I)
+        AJ3(I)=Z17(I)+Z28(I)-Z35(I)-Z46(I)
+        A17(I)=X17(I)+X46(I)
+        A28(I)=X28(I)+X35(I)
+        B17(I)=Y17(I)+Y46(I)
+        B28(I)=Y28(I)+Y35(I)
+        C17(I)=Z17(I)+Z46(I)
+        C28(I)=Z28(I)+Z35(I)
+      ENDDO
+         
+      DO I=1,NEL
+        AJ4(I)=A17(I)+A28(I)
+        AJ5(I)=B17(I)+B28(I)
+        AJ6(I)=C17(I)+C28(I)
+        AJ7(I)=A17(I)-A28(I)
+        AJ8(I)=B17(I)-B28(I)
+        AJ9(I)=C17(I)-C28(I)
+      ENDDO
 C
-        JAC4(I)=X17(I)+X46(I)+X28(I)+X35(I)
-        JAC5(I)=Y17(I)+Y46(I)+Y28(I)+Y35(I)
-        JAC6(I)=Z17(I)+Z46(I)+Z28(I)+Z35(I)
+C     JACOBIAN
 C
-        JAC7(I)=X17(I)+X46(I)-X28(I)-X35(I)
-        JAC8(I)=Y17(I)+Y46(I)-Y28(I)-Y35(I)
-        JAC9(I)=Z17(I)+Z46(I)-Z28(I)-Z35(I)     
+      DO I=1,NEL
+        JAC_59_68(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
+        JAC_67_49(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
+        JAC_48_57(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
       ENDDO
 C
       DO I=1,NEL
-        JAC_59_68(I)=JAC5(I)*JAC9(I)-JAC6(I)*JAC8(I)
-        JAC_67_49(I)=JAC6(I)*JAC7(I)-JAC4(I)*JAC9(I)
-        JAC_48_57(I)=JAC4(I)*JAC8(I)-JAC5(I)*JAC7(I)
-      ENDDO
-C
-      DO I=1,NEL
-       DET(I) =ONE_OVER_64*(JAC1(I)*JAC_59_68(I)+JAC2(I)*JAC_67_49(I)+JAC3(I)*JAC_48_57(I))
+       DET(I) =ONE_OVER_64*(AJ1(I)*JAC_59_68(I)+AJ2(I)*JAC_67_49(I)+AJ3(I)*JAC_48_57(I))
        DETT(I)=ONE_OVER_64/MAX(DET(I),EM20)
       ENDDO     
 C
-C Inverse Jacobian Matrix
+C     INVERSE DE LA MATRICE JACOBIENNE
+C
       DO I=1,NEL
-        JAC_I(1,I)=DETT(I)*JAC_59_68(I)
-        JAC_I(4,I)=DETT(I)*JAC_67_49(I)
-        JAC_I(7,I)=DETT(I)*JAC_48_57(I)
-        JAC_I(2,I)=DETT(I)*(-JAC2(I)*JAC9(I)+JAC3(I)*JAC8(I))
-        JAC_I(5,I)=DETT(I)*( JAC1(I)*JAC9(I)-JAC3(I)*JAC7(I))
-        JAC_I(8,I)=DETT(I)*(-JAC1(I)*JAC8(I)+JAC2(I)*JAC7(I))
-        JAC_I(3,I)=DETT(I)*( JAC2(I)*JAC6(I)-JAC3(I)*JAC5(I))
-        JAC_I(6,I)=DETT(I)*(-JAC1(I)*JAC6(I)+JAC3(I)*JAC4(I))
-        JAC_I(9,I)=DETT(I)*( JAC1(I)*JAC5(I)-JAC2(I)*JAC4(I))
+        AJI1(I)=DETT(I)*JAC_59_68(I)
+        AJI4(I)=DETT(I)*JAC_67_49(I)
+        AJI7(I)=DETT(I)*JAC_48_57(I)
+        AJI2(I)=DETT(I)*(-AJ2(I)*AJ9(I)+AJ3(I)*AJ8(I))
+        AJI5(I)=DETT(I)*( AJ1(I)*AJ9(I)-AJ3(I)*AJ7(I))
+        AJI8(I)=DETT(I)*(-AJ1(I)*AJ8(I)+AJ2(I)*AJ7(I))
+        AJI3(I)=DETT(I)*( AJ2(I)*AJ6(I)-AJ3(I)*AJ5(I))
+        AJI6(I)=DETT(I)*(-AJ1(I)*AJ6(I)+AJ3(I)*AJ4(I))
+        AJI9(I)=DETT(I)*( AJ1(I)*AJ5(I)-AJ2(I)*AJ4(I))
       ENDDO
 C
       DO I=1,NEL
+        JAC_I(1,I)  = AJI1(I)
+        JAC_I(4,I)  = AJI4(I)
+        JAC_I(7,I)  = AJI7(I)
+        JAC_I(2,I)  = AJI2(I)
+        JAC_I(5,I)  = AJI5(I)
+        JAC_I(8,I)  = AJI8(I)
+        JAC_I(3,I)  = AJI3(I)
+        JAC_I(6,I)  = AJI6(I)
+        JAC_I(9,I)  = AJI9(I)
         JAC_I(10,I) = DET(I)
-      ENDDO
-C
+       ENDDO
+C-----------
       RETURN
-      END SUBROUTINE S8JAC_I
+      END
