@@ -109,7 +109,7 @@ C-------  DEBUG(12) is free, can be used---
         ELSEIF(KEY2(1:5).EQ.'ADYRE')THEN 
           DEBUG(MACRO_DEBUG_ADYRE)= 1 
         ELSEIF(KEY2(1:5).EQ.'CHKSM')THEN 
-          DEBUG(MACRO_DEBUG_CHKSM)= 1 
+          DEBUG(MACRO_DEBUG_CHKSM)= NN 
         ELSEIF(KEY2(1:3).EQ.'NAN') THEN
           DEBUG(MACRO_DEBUG_NAN) = 1
         ENDIF 
