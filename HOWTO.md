@@ -3,10 +3,10 @@
 ## System and compiler installation
 
 ### Linux
-Linux system with glibc version 2.17 or higher : 
+Linux system with glibc version 2.17 or higher: 
 * CentOS/RHEL 7, CentOS Stream 8, RHEL 8
 * Ubuntu 20.0.4 or higher
-* Works with WSL/WSL2 Ubuntu 20.04 LTS, WSL2 Ubuntu 22.x
+* [Windows Subsystem for Linux](https://docs.microsoft.com/en-us/windows/wsl/install): OpenRadioss works with WSL/WSL2 Ubuntu 20.04 LTS, WSL2 Ubuntu 22.x 
 
 ### Compiler and development tools
 
@@ -21,6 +21,7 @@ Install as sudo or root
             yum install make
             yum install cmake
             yum install perl
+            yum install git-lfs
             
   To enable the devtoolset-8, you can run `scl enable devtoolset-8 bash`
 
@@ -32,6 +33,8 @@ Install as sudo or root
            dnf install make
            dnf install cmake
            dnf install perl
+           dnf install git-lfs
+
 
 * Ubuntu
 
@@ -40,19 +43,28 @@ Install as sudo or root
            apt-get install gfortran
            apt-get install cmake
            apt-get install perl
+           apt-get install git-lfs
+
+
 
 ### OpenMPI
 
 OpenMPI is need to build OpenRadioss with OpenMPI support, compilers 
 
 1. Download OpenMPI tarball from  [www.openmpi.org](https://www.open-mpi.org/software/ompi/v4.1)
-   prefered version is OpenMPI v4.1.2
+   prefered version is [OpenMPI v4.1.2](https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.2.tar.gz)
 
-2. untar file in Home directory & enter the directory
+            wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.2.tar.gz
 
-3. use configure, make & make install
 
-   CARE : to install **you need root or sudo rights on your computer**.
+2. Decompress and enter the folder: 
+
+            tar -xvzf openmpi-4.1.2.tar.gz
+            cd openmpi-4.1.2
+
+
+3. Build and install OpenMPI                                    
+**you need root or sudo rights on your computer**.
 
         ./configure --prefix=/opt/openmpi
         make
@@ -60,12 +72,17 @@ OpenMPI is need to build OpenRadioss with OpenMPI support, compilers
 
 
 ## How to build OpenRadioss
+### Get the source
+* Activate LFS: `git lfs install`
+* Run `git clone git@github.com:OpenRadioss/OpenRadioss.git`. 
+
+See [here](./CONTRIBUTING.md) if you want to contribute to OpenRadioss.
 
 ### Building OpenRadioss Starter
 
 * Enter the OpenRadioss/starter directory
 
-    cd OpenRadioss/starter
+            cd OpenRadioss/starter
 
 * Launch `build_script.sh` to proceed to the compilation
 
@@ -77,7 +94,7 @@ OpenMPI is need to build OpenRadioss with OpenMPI support, compilers
 * OpenRadioss Starter: **starter_linux64_gf** binary will be copied in **OpenRadioss/exec** directory
 
 
-* Advanced script flags can be used to build OpenRadioss: run `./build_script.sh` without arguments :
+* Advanced script flags can be used to build OpenRadioss: run `./build_script.sh` without arguments:
 
         []$ ./build_script.sh
 
@@ -121,15 +138,15 @@ Execution Control
             ./build_script.sh -arch=linux64_gf -mpi=ompi
   
 
-  To build OpenRadioss without OpenMPI support (SMP parallelism) :
+  To build OpenRadioss without OpenMPI support (SMP parallelism):
 
             ./build_script.sh -arch=linux64_gf 
 
 
-* OpenRadioss Engine : **engine_linux64_gf** or **engine_linux64_gf_ompi** binary will be copied in **OpenRadioss/exec** directory
+* OpenRadioss Engine: **engine_linux64_gf** or **engine_linux64_gf_ompi** binary will be copied in **OpenRadioss/exec** directory
 
 
-* Advanced script flags can be used to build OpenRadioss Engine : launch ./build_script without arguments :
+* Advanced script flags can be used to build OpenRadioss Engine: launch `./build_script` without arguments:
 
 
         []$ ./build_script.sh 
@@ -175,7 +192,7 @@ MPI libraries
 - `-mpi` controls the MPI flavor 
 
 More Flags to control the MPI installation. Per default OpenMPI is installed in /opt/openmpi. 
-3 additionnal ways are possible : 
+3 additionnal ways are possible: 
  1. `-mpi-os`: `mpif.h` is found in default system installation, as well as the libraries
  2. `-mpi-root`: set this flag to set a new root directory where OpenMPI can be found.
  3. `-mpi-include`: set the directory where OpenMPI can be found
