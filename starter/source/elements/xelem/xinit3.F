@@ -42,7 +42,7 @@ Chd|====================================================================
      4                  PARTSAV  ,IPARTX ,GEO    ,
      5                  ITAB     ,UIX    ,XUSR   ,VUSR   ,
      6                  VRUSR    ,UMASS  ,UINER  ,USTIFM ,USTIFR ,
-     7                  UVISM    ,UVISR  ,IGEO   )
+     7                  UVISM    ,UVISR  ,IGEO   ,NFT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -57,7 +57,6 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com04_c.inc"
-#include      "vect01_c.inc"
 #include      "units_c.inc"
 #include      "warn_c.inc"
 #include      "scr03_c.inc"
@@ -67,11 +66,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER KXX(NIXX,*), IXX(*), IPARTX(*),ITAB(*),
-     .        NEL, UIX(*),IGEO(NPROPGI,*)
+     .        NEL, UIX(*),IGEO(NPROPGI,*), NFT
 C
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
 C
-C     REAL
       my_real
      .   X(3,*), V(*), VR(*), XMAS(*), XIN(*),
      .   SKEW(LSKEW,*), DTELEM(*),STIFN(*),STIFR(*),PARTSAV(20,*),
@@ -80,8 +78,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, IGTYP, NDEPAR,
-     .   NB1, NB2, NB3, NB4, NB5, NBFI, I1,
+      INTEGER I, J, IGTYP, NDEPAR, I1,
      .   NUVAR, NUVARN, NUPARAM, IADBUF, NFUNC, IADFUN,
      .   NMAT,IADMAT,NJPID,IADPID,
      .   IADNOD, IMAT, IPROP, NX, K, UID,
@@ -89,7 +86,7 @@ C-----------------------------------------------
       INTEGER ID
       CHARACTER*nchartitle,
      .   TITR
-C     REAL
+C
       my_real
      .   DT, DTC, XK, XC, XKR, XCR, XM, XINE, A,
      .   DTE, MASSELE
@@ -104,7 +101,7 @@ C-------
       IPID1=KXX(2,NFT+1)
       ID=IGEO(1,IPID1)
       CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,IPID1),LTITR)
-      DO I=LFT,LLT
+      DO I=1,NEL
         J=I+NFT
 C
         IMAT =KXX(1,J)
@@ -114,13 +111,6 @@ C
         IGTYP =  NINT(GEO(12,IPROP))
         NUVAR =  NINT(GEO(25,IPROP))
         NUVARN=  NINT(GEO(35,IPROP))
-C
-cc        NB1 =(I-1)*(3+NUVAR+NUVARN*NX)+1
-cc        NB2 =NB1 +1
-cc        NB3 =NB2 +1
-cc        NB4 =NB3 +1
-cc        NB5 =NB4 +NUVAR
-cc        NBFI=NB5 +NUVARN*NX
 C
         KVAR  = NUVAR*(I-1)+1
         KVARN = NUVARN*NX*(I-1)+1
@@ -207,7 +197,7 @@ C
      .                I3=IGTYP)
         ENDIF
 C-------
-C     MASS ELEMENT = SUM OF NODAL MASS.
+C Total mass of elements
         MASSELE=ZERO
         DO K=1,NX
          MASSELE=MASSELE+UMASS(K)
@@ -218,10 +208,10 @@ C
         NANIM2D=NANIM2D+NAX2D
         NANIM3D=NANIM3D+NAX3D
 C-------
-C       CALCUL DE DT ELEMENTAIRE.
+C Element time step
         DTELEM(NDEPAR+I)= DTE
 C-------
-C       NODAL TIME STEP IS ESTIMATED BASED UPON STIFFNESS ONLY (NO DAMPING).
+C Nodal time step is estimated based upon stiffness only, damping not taken into account
         IADNOD=KXX(4,J)
         DO K=1,NX
          I1=IXX(IADNOD+K-1)
@@ -229,10 +219,10 @@ C       NODAL TIME STEP IS ESTIMATED BASED UPON STIFFNESS ONLY (NO DAMPING).
          STIFR(I1)=STIFR(I1)+USTIFR(K)
         ENDDO
 C-------
-C       UPDATE DES MASSES NODALES & VARIABLES GLOBALES TH.
+C Update nodal masses and global variables for TH
         CALL XINI2U(KXX(1,J),IXX,UMASS,UINER,XMAS,
      .               XIN,PARTSAV,X,V,IPARTX(J))
-      ENDDO ! DO I=LFT,LLT
+      ENDDO ! DO I=1,NEL
 C------------------------------------------
       RETURN
       END
@@ -253,26 +243,23 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 #include      "scr23_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER KXX(NIXX),IXX(*),NX,ITAB(*),UIX(NX),UID
-C     REAL
+C
       my_real
      .   X(3,*),V(3,*),VR(3,*),OFF,
      .   XUSR(3,NX),VUSR(3,NX),VRUSR(3,NX)
-C     REAL
+C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, K, I1, IADNOD
-C     REAL
 C-----------------------------------------------
       OFF=ONE
 C
-C     NX    =KXX(3)
       IADNOD=KXX(4)
       DO K=1,NX
          I1=IXX(IADNOD+K-1)
@@ -300,8 +287,6 @@ Chd|====================================================================
       SUBROUTINE XINI2U(KXX,IXX,UMASS,UINER,MS,
      .                  XIN,PARTSAV,X,V,IPART)
 C----------------------------------------------
-C     UPDATE DES MASSES NODALES
-C----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -309,14 +294,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc"
-#include      "vect01_c.inc"
 #include      "scr23_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER KXX(NIXX),IXX(*),IPART
-C     REAL
+C
       my_real
      .   UMASS(*), UINER(*), MS(*), XIN(*),X(3,*),V(3,*),
      .   PARTSAV(20,*)
@@ -324,7 +307,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, K, IP, I1, NX, IADNOD
-C     REAL
+C
       my_real
      .   XX,YY,ZZ,XY,YZ,ZX
       my_real
@@ -333,6 +316,7 @@ C----------------------------------------------
       NX    =KXX(3)
       IADNOD=KXX(4)
 C----------------------------------------------
+C Update nodal masses and part global variables
       DO K=1,NX
         I1 = IXX(IADNOD+K-1)
 C

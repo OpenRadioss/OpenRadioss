@@ -394,13 +394,6 @@ C   D e r i v e d   T y p e   D e f i n i t i o n s
 C-----------------------------------------------
       TYPE(G_BUFEL_) ,POINTER :: GBUF   
       TYPE(BUF_MAT_) ,POINTER :: MBUF  
-C-------------------------------
-C Donnees briques intersectantes
-C-------------------------------
-cc           INTEGER,
-cc     .            DIMENSION(:), POINTER :: NODE
-cc        END TYPE LAYER_DATA
-cc      TYPE(CONNEC), DIMENSION(:), ALLOCATABLE :: ADJ
 C-----------------------------------------------
       EXTERNAL UEL2SYS
       INTEGER  UEL2SYS
@@ -819,87 +812,87 @@ C---
         ALLOCATE(PART_AREA(0),ELE_AREA(0))
       END IF
 C---
-C
       WRITE(IOUT,'(//)')
       DT2S=1.E6
       CPT_ELTENS = 0
-      DO 800 NG=1,NGROUP
-      MTN=IPARG(1,NG)
-      NEL=IPARG(2,NG)
-      NFT=IPARG(3,NG)
-      IAD=IPARG(4,NG)
-      ITY=IPARG(5,NG)
-      NPT=IPARG(6,NG)
-      JALE=IPARG(7,NG)
-      ISMSTR=IPARG(9,NG)
-      JEUL  =IPARG(11,NG)
-      JTUR  =IPARG(12,NG)
-      JTHE  =IPARG(13,NG)
-      JLAG  =IPARG(14,NG)
-      ISH3N =IPARG(23,NG)
-      JMULT =IPARG(20,NG)
-      JPOR  =IPARG(27,NG)
-      ISOLNOD = IPARG(28,NG)
-      USER_GRP_DOMAIN = IPARG(32,NG)+1
-      IGTYP  = IPARG(38,NG)
-      ISRAT  = IPARG(40,NG)
-      ISORTH = IPARG(42,NG)
-      ISROT  = IPARG(41,NG)
-      IF(ISOLNOD == 10) ISROT  = IPARG(74,NG)
-      IEXPAN = IPARG(49,NG)
-      ISHXFEM_PLY  = IPARG(50,NG)
-      IF (ICRACK3D == 0) THEN
-        IPARG(54,NG) = 0
-      END IF
-      IXFEM = IPARG(54,NG)
-      ISUBSTACK  = IPARG(71,NG)
-      IBOLTP  = IPARG(72,NG)
-      IFORMDT = IPARG(73,NG)
-      JCLOS=0
-      ISTOT = 0
-      IF (ITY==1.AND.(ISMSTR>=10.AND.ISMSTR<=12)) ISTOT = 1 
-C initialisation des flags de vectorisation a zero pour les coques 3N et 4N
-      IF (ITY == 3.OR.ITY == 7) THEN
-        NC1_OLD = 0
-        NC2_OLD = 0
-        NC3_OLD = 0
-        NC4_OLD = 0
-      ELSEIF (ITY == 1) THEN
-        NC1_OLD = 0
-        NC2_OLD = 0
-        NC3_OLD = 0
-        NC4_OLD = 0
-        NC5_OLD = 0
-        NC6_OLD = 0
-        NC7_OLD = 0
-        NC8_OLD = 0
-        IF((ISOLNOD == 4 .AND.ISROT==2).OR.
-     .     (ISOLNOD == 10.AND.ISROT==1).OR.
-     .     (ISOLNOD == 10.AND.ISROT==3))THEN
-          ISROT = 0
-          IPARG(41,NG) = 0
+C
+      DO  NG=1,NGROUP
+        MTN=IPARG(1,NG)
+        NEL=IPARG(2,NG)
+        NFT=IPARG(3,NG)
+        IAD=IPARG(4,NG)
+        ITY=IPARG(5,NG)
+        NPT=IPARG(6,NG)
+        JALE=IPARG(7,NG)
+        ISMSTR=IPARG(9,NG)
+        JEUL  =IPARG(11,NG)
+        JTUR  =IPARG(12,NG)
+        JTHE  =IPARG(13,NG)
+        JLAG  =IPARG(14,NG)
+        ISH3N =IPARG(23,NG)
+        JMULT =IPARG(20,NG)
+        JPOR  =IPARG(27,NG)
+        ISOLNOD = IPARG(28,NG)
+        USER_GRP_DOMAIN = IPARG(32,NG)+1
+        IGTYP  = IPARG(38,NG)
+        ISRAT  = IPARG(40,NG)
+        ISORTH = IPARG(42,NG)
+        ISROT  = IPARG(41,NG)
+        IF(ISOLNOD == 10) ISROT  = IPARG(74,NG)
+        IEXPAN = IPARG(49,NG)
+        ISHXFEM_PLY  = IPARG(50,NG)
+        IF (ICRACK3D == 0) THEN
+          IPARG(54,NG) = 0
+        END IF
+        IXFEM = IPARG(54,NG)
+        ISUBSTACK  = IPARG(71,NG)
+        IBOLTP  = IPARG(72,NG)
+        IFORMDT = IPARG(73,NG)
+        JCLOS=0
+        ISTOT = 0
+        IF (ITY==1.AND.(ISMSTR>=10.AND.ISMSTR<=12)) ISTOT = 1 
+        IF (ITY == 3.OR.ITY == 7) THEN
+C Initialize vectorization flags to zero for 3 and 4 nodes shell
+          NC1_OLD = 0
+          NC2_OLD = 0
+          NC3_OLD = 0
+          NC4_OLD = 0
+        ELSEIF (ITY == 1) THEN
+C Initialize vectorization flags to zero for solid elements
+          NC1_OLD = 0
+          NC2_OLD = 0
+          NC3_OLD = 0
+          NC4_OLD = 0
+          NC5_OLD = 0
+          NC6_OLD = 0
+          NC7_OLD = 0
+          NC8_OLD = 0
+          IF((ISOLNOD == 4 .AND.ISROT==2).OR.
+     .       (ISOLNOD == 10.AND.ISROT==1).OR.
+     .       (ISOLNOD == 10.AND.ISROT==3))THEN
+            ISROT = 0
+            IPARG(41,NG) = 0
+          ENDIF
         ENDIF
-      ENDIF
-      IF((NUMELS.NE.0).AND.(N2D.NE.0))THEN
+        IF((NUMELS.NE.0).AND.(N2D.NE.0))THEN
          CALL ANCMSG(MSGID=603,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_2)
-      END IF
-C attention pour nouveau type element :
-C penser au calcul de la masse et inertie en arithmetique parallele
-C calculee dans SPMD_MSIN
+        END IF
+C------------------------------------------------------------------------------
+C Warning : for a new element type perform the computation of mass and inertia 
+C           in parallel arithmetic in subroutine SPMD_MSIN
+C------------------------------------------------------------------------------
 C
-      IF ((MTN == 0 .AND. IGTYP /= 52 .AND. IGTYP /= 51)  .or. 
-     .   (IGTYP == 0 .and. (ITY == 1 .or. ITY == 3 .or. ITY == 7)) ) THEN
-        DO IG= 1,NEL,NVSIZ
-          OFFSET = IG - 1
+       IF ((MTN == 0 .AND. IGTYP /= 52 .AND. IGTYP /= 51)  .or. 
+     .     (IGTYP == 0 .and. (ITY == 1 .or. ITY == 3 .or. ITY == 7)) ) THEN
           LFT=1
-          LLT=MIN(NVSIZ,NEL-OFFSET)
-          NFT = IPARG(3,NG) + OFFSET
+          LLT=NEL
+          NFT = IPARG(3,NG)
           IHBE=IPARG(23,NG)
           ISOLNOD = IPARG(28,NG)
           ILEV=IPARG(45,NG)
-          
+C
           CALL INIVOID(ELBUF_TAB(NG),
      1        IXC        ,IXS        ,IXTG       ,X         ,V        ,
      2        PM         ,GEO        ,MS         ,IN        ,PTG      ,
@@ -917,17 +910,16 @@ C
      E        STRP       ,INP        ,STIFINT    ,MCPP      ,INR       ,
      F        MSR        ,MSRT       ,STR        ,IPART(I15F),ITAB     ,
      G        IXR       , IMERGE2    ,IADMERGE2  ,NEL)
-        ENDDO
-c
-      ELSEIF( MTN == 13) THEN
-         DO IG= 1,NEL,NVSIZ
-           OFFSET = IG - 1
+C
+       ELSEIF( MTN == 13) THEN
+C Rigid material
            LFT=1
-           LLT=MIN(NVSIZ,NEL-OFFSET)
-           NFT = IPARG(3,NG) + OFFSET
+           LLT=NEL
+           NFT = IPARG(3,NG)
            IHBE=IPARG(23,NG)
            ISOLNOD = IPARG(28,NG)
            ILEV=IPARG(45,NG)
+C
           CALL INIRIG_MAT(
      1        IXC    ,IXS        ,IXTG       ,IXS10     ,X   ,
      2        V      ,PM         ,GEO        ,MS        ,IN  ,
@@ -943,18 +935,16 @@ c
      C        SH3TRIM    ,ISUBSTACK  ,BUFMAT     ,IPM       ,STACK    ,
      D        RNOISE     ,STRC       ,STRTG      ,PERTURB   ,NEL      ,
      E        GROUP_PARAM_TAB(NG))
-        ENDDO
-      ELSE
-c
-      DO IG= 1,NEL,NVSIZ
-        OFFSET = IG - 1
+C
+       ELSE
+C Element types
         LFT=1
-        LLT=MIN(NVSIZ,NEL-OFFSET)
-        NFT = IPARG(3,NG) + OFFSET
+        LLT=NEL
+        OFFSET=0
+        NFT = IPARG(3,NG)
         JSPH=0
         JCVT=0
         NF1 = NFT + 1
-
         !----------------------------------------!
         !   ITY == 1                   3D-SOLIDS !
         !----------------------------------------!
@@ -995,7 +985,7 @@ c
      2                 IPM        ,IGEO       ,SKEW       ,X        ,XREFS      ,
      3                 NEL          ,IPART(I15A),IPART    ,BUFMAT     ,
      4                 NPC          ,PLD        )
-C-----Case total strain
+C Case total strain
                   IF (ISTOT == 1) THEN
                      CALL SGSAVREF(ISOLNOD,XREFS(1,1,NFT+1),GBUF%SMSTR,NEL)
                   END IF
@@ -1189,8 +1179,9 @@ C-----Case total strain
      1        ELBUF_TAB(NG),IXS        ,PM         ,GEO      ,IPARG(1,NG),  
      2        IPM        ,IGEO       ,SKEW       ,X        ,XREFS     ,
      3        NEL          ,IPART(I15A),IPART      ,BUFMAT   ,              
-     6        NPC          ,PLD        )                                    
-C-----Case total strain: conf_ref <- XREF
+     6        NPC          ,PLD        )
+C
+C Case total strain: conf_ref <- XREF
             IF (NXREF > 0 .AND. (NPT == 1 .AND. ISTOT == 1) ) THEN
              CALL SGSAVREF(ISOLNOD,XREFS(1,1,NFT+1),GBUF%SMSTR,NEL)
             END IF
@@ -1252,7 +1243,7 @@ C-----Case total strain: conf_ref <- XREF
      .                NSIGS        ,WMA       ,PTQUAD     ,NPC         ,PLD ,
      .                IPARG        ,ILOADP    ,FACLOAD    ,PARTSAV     ,V   )
               ELSE IF (MTN .EQ. 151) THEN
-C     2D multifluid law
+C 2D multifluid law
                  CALL MULTIFLUID_INIT2(NEL, NSIGS, 
      .                IPARG, IXQ, IPM, ALE_CONNECTIVITY, IGEO, IPART, IPART(I15B), NPC, 
      .                PTQUAD, ILOADP, X, PM, 
@@ -1325,7 +1316,7 @@ C     2D multifluid law
         ELSEIF (ITY == 4) THEN
           CALL TINIT3(ELBUF_TAB(NG),
      1                IXT    ,PM         ,X        ,GEO    ,MS     ,
-     2                DTELEM ,OFFSET     ,NEL      ,STIFN  ,PARTSAV,
+     2                DTELEM ,NFT        ,NEL      ,STIFN  ,PARTSAV,
      3                V      ,IPART(I15D),MST      ,STIFINT,STT    ,
      4                IGEO   ,NSIGTRUSS  ,SIGTRUSS ,PTTRUSS)
         !----------------------------------------!
@@ -1334,7 +1325,7 @@ C     2D multifluid law
         ELSEIF (ITY == 5) THEN
           CALL PINIT3(ELBUF_TAB(NG),
      1                STP        ,IXP      ,PM      ,X       ,GEO	 ,
-     2                MS         ,IN       ,DTELEM  ,OFFSET  ,NEL	 ,
+     2                MS         ,IN       ,DTELEM  ,NFT     ,NEL  ,
      3                STIFN      ,STIFR    ,PARTSAV ,V       ,IPART(I15E),
      4                MSP        ,INP      ,IGEO    ,STIFINT ,STRP       ,
      5                NSIGBEAM   ,SIGBEAM  ,PTBEAM  ,IUSER   ,MCP        ,
@@ -1414,7 +1405,7 @@ C     2D multifluid law
         !   ITY == 51                        SPH !
         !----------------------------------------!
         ELSEIF(ITY == 51)THEN
-C         sph cells
+C         SPH cells
           JSPH=1
           ISPH2SOL=IPARG(69,NG)
           CALL SPINIT3(ITY   ,SPBUF    ,KXSP     ,X     ,GEO    ,
@@ -1427,9 +1418,9 @@ C         sph cells
      8                 IPM     ,NSIGSPH    ,PTSPH      ,NPC   ,
      9                 PLD     ,ELBUF_TAB(NG),MCP,TEMP ,ILOADP,
      A                 FACLOAD)
-        !----------------------------------------!
-        !   ITY == 100                   ITY_100 !
-        !----------------------------------------!
+        !----------------------------------------------------------!
+        !   ITY == 100   Pulley PID28 + User elements PID 29-30-31 !
+        !----------------------------------------------------------!
         ELSEIF(ITY == 100)THEN
           IADUIX=1
           IADUX =IADUIX+MAXNX
@@ -1448,12 +1439,12 @@ C         sph cells
      5             ITAB ,XELEMWA(IADUIX) ,XELEMWA(IADUX) ,XELEMWA(IADUV) ,
      6             XELEMWA(IADUVR) ,XELEMWA(IADUMS) ,XELEMWA(IADUIN) ,
      7             XELEMWA(IADUSM) ,XELEMWA(IADUSR) ,XELEMWA(IADUMV) ,
-     8             XELEMWA(IADURV) ,IGEO)
+     8             XELEMWA(IADURV) ,IGEO, NFT)
 c
         !----------------------------------------!
         !   ITY == 101                     IGE3D !
         !----------------------------------------!
-          ELSEIF (ITY == 101) THEN
+        ELSEIF (ITY == 101) THEN
             NCTRL = IPARG(75,NG)
             PX = IGEO(41,IPARG(62,NG))
             PY = IGEO(42,IPARG(62,NG))
@@ -1469,24 +1460,23 @@ c
      .             MSIG3D ,KNOT    ,NCTRLMAX,WIGE ,PX,PY,PZ,
      .             KNOTLOCPC,KNOTLOCEL)
         ENDIF          
-      ENDDO 
 C
-      IF (ITY == 3) THEN
-        WRITE(IOUT,'(A,I10,A,I5)')' SHELL GROUP',NG, ' VECTORIZATION CODE =',IPARG(19,NG)
-      ELSEIF (ITY == 7) THEN
-        WRITE(IOUT,'(A,I10,A,I5)')' TRIANGULAR SHELL GROUP',NG, ' VECTORIZATION CODE =',IPARG(19,NG)
-      ELSEIF (ITY == 1) THEN
-        WRITE(IOUT,'(A,I10,A,I5)')' BRICK GROUP',NG,' VECTORIZATION CODE =',IPARG(19,NG)
-
-      ENDIF
-      ENDIF
-  800 CONTINUE
+        IF (ITY == 3) THEN
+          WRITE(IOUT,'(A,I10,A,I5)')' SHELL GROUP',NG, ' VECTORIZATION CODE =',IPARG(19,NG)
+        ELSEIF (ITY == 7) THEN
+          WRITE(IOUT,'(A,I10,A,I5)')' TRIANGULAR SHELL GROUP',NG, ' VECTORIZATION CODE =',IPARG(19,NG)
+        ELSEIF (ITY == 1) THEN
+          WRITE(IOUT,'(A,I10,A,I5)')' BRICK GROUP',NG,' VECTORIZATION CODE =',IPARG(19,NG)
+        ENDIF
+C
+       ENDIF
+      END DO ! End loop on element group NG
 C-----------
       !loop over material initialisation done.
       !IF NRF outlet, print its automatic characteristic
        IF(M51_IFLG6.EQ.1 .AND. lSET_51_IFLG6.EQ.1)THEN
          !first initialization of group whose MAT=51 + iform=6
-         write (IOUT,1001)LC0MAX,SSP0MAX,TCP_REF
+         WRITE (IOUT,1001)LC0MAX,SSP0MAX,TCP_REF
        ENDIF
 
  1001 FORMAT(
@@ -1498,17 +1488,17 @@ C-----------
      & 5X,'REFERENCE SOUND SPEED. . . . . . . . .  =',E12.4/
      & 5X,'CHARACTERISTIC TIME. . . . . . . . . . .=',E12.4//)
 
-C-----Add error message when y < zero and N2D=1----------------------
+C Add error message when y < zero and N2D=1
       CALL ANCMSG(MSGID=1228,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
      .                PRMOD=MSG_PRINT )
 
       USER_GRP_DOMAIN = 0
-C-------------------------------------
-C     TETRA4 : SMOOTH FINITE ELEMENT FORMULATIONS
-C              Option ITETRA==3 - set general Flag
-C-------------------------------------
+C-------------------------------------------------
+C Tetrahedron : Smooth finite element formulations
+C Option ITETRA==3 - set general Flag
+C-------------------------------------------------
       ISFEM=0
       DO NG = 1, NGROUP
         ITY   =IPARG(5,NG)
@@ -1526,9 +1516,9 @@ C--------------------------------------------
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=CPT_ELTENS)
       ENDIF
-C--------------------------------------------
-C     ADDITIONAL NODAL MASS FROM ADDED PART MASS (/ADMAS option)
-C--------------------------------------------
+C---------------------------------------------------------------
+C Additional nodal mass from added part mass : /ADMAS option
+C---------------------------------------------------------------
       ADDEDMS(1:NPART) = ZERO
       IF(IMASADD > 0)THEN
         CALL SPMD_PARTSAV_PON(
@@ -1554,10 +1544,9 @@ C--------------------------------------------
      9    IPART      ,THK        ,PM         ,PART_AREA  ,
      A    ADDEDMS    ,ITAB       ,PARTSAV1_PON,ELE_AREA  )
       END IF
-C--------------------------------------------
-C     Init mass et inertie nodale
-C     en arithmetique parallele
-C--------------------------------------------
+C---------------------------------------------------------------
+C Parallel arithmetic : initialisation of nodal mass and inertia
+C---------------------------------------------------------------
         KK1=1+NUMELS*NIXS
         KK2=KK1+NUMELS10*6
         KK3=KK2+NUMELS20*12
@@ -1582,14 +1571,14 @@ C--------------------------------------------
      .  CALL ASSTIFI(VOLNOD,BVOLNOD,ETNOD,NSHNOD,STIFINT)
 C
 C--------------------------------------------
-C     IMPACT LASER
+C Laser impact
 C--------------------------------------------
       IF(NLASER.NE.0)THEN
          CALL LASER10(LAS ,XLAS ,X   ,IXQ,IPARG)
       ENDIF
 C-----------------------------------------------------
-C     ELEMENTS POREUX
-C     MODIFICATION DES VOLUMES ET NORMALES FACETTES
+C Porous elements
+C Modification of volumes and normals
 C-----------------------------------------------------
       DO NG=1,NGROUP
         MTN=IPARG(1,NG)
@@ -1607,17 +1596,14 @@ C-----------------------------------------------------
         JMULT =IPARG(20,NG)
         JPOR  =IPARG(27,NG)
         IF(ITY == 1.AND.JEUL * (1 - IMULTI_FVM).NE.0)THEN
-          DO IG= 1,NEL,NVSIZ
-            OFFSET = IG - 1
             LFT=1
-            LLT=MIN(NVSIZ,NEL-OFFSET)
-            NFT = IPARG(3,NG) + OFFSET
-            CALL EPORIN3(IXS,VEUL,ALE_CONNECTIVITY,GEO,OFFSET,NEL)
-          ENDDO
+            LLT=NEL
+            NFT = IPARG(3,NG)
+            CALL EPORIN3(IXS,VEUL,ALE_CONNECTIVITY,GEO,NFT,NEL)
         ENDIF
-      ENDDO
+      ENDDO ! next element group NG
 C-----------------------------------------------------
-C     /INIVOL
+C Option /INIVOL
 C-----------------------------------------------------
       IF (NINIVOL > 0) THEN
         DO II=1,NINIVOL
@@ -1628,13 +1614,13 @@ C-----------------------------------------------------
           NUMEL_TOT= MAX(NUMELTG,MAX(NUMELS,NUMELQ))
           SIPHASE = (NBSUBMAT+1)*NUMEL_TOT
           INIVOL(II)%SIPHASE = SIPHASE
-          ALLOCATE(IPHASE(INIVOL(II)%SIPHASE)         ,STAT=stat)
+          ALLOCATE(IPHASE(INIVOL(II)%SIPHASE)  ,STAT=stat)
           IPHASE = 0
           ALLOCATE(NBIP(NBSUBMAT,NUMEL_TOT)    ,STAT=stat)
           NBIP = 0
           ALLOCATE(ITAGNSOL(NUMNOD)         ,STAT=stat)
           ITAGNSOL = 0
-          ALLOCATE (KNOD2SURF(NUMNOD+1)      ,STAT=stat)
+          ALLOCATE (KNOD2SURF(NUMNOD+1)     ,STAT=stat)
           KNOD2SURF = 0
           ALLOCATE(PART_FILL(NPART)         ,STAT=stat)
           PART_FILL = 0
@@ -1671,27 +1657,24 @@ C-----------------------------------------------------
             ENDIF
             INVOL   = IPARG(53,NG)
             IF (MTN /= 51 .AND. MTN /= 151) CYCLE
-              DO IG=1,NEL,NVSIZ
-                OFFSET = IG - 1
                 LFT    = 1
-                LLT    = MIN(NVSIZ,NEL-OFFSET)
-                NFT    = IPARG(3,NG) + OFFSET
+                LLT    = NEL
+                NFT    = IPARG(3,NG)
                 CALL INIFILL(IXS       ,IPM    ,NEL       ,IPART(I15_),IPHASE  ,
      .                       IDP       ,KVOL   ,BUFMAT    ,ITAGNSOL   ,ISOLNOD ,
      .                       NBIP      ,NTRACE ,PART_FILL ,NBSUBMAT   ,MTN     ,
      .                       ELBUF_TAB ,NG     ,MULTI_FVM ,IXQ        ,IXTG    ,
      .                       ITY       ,IMAT   ,SIPHASE   ,NUMEL_TOT)
-              ENDDO ! DO IG=1,NEL,NVSIZ
-          ENDDO ! next NG                                                                                        
-         !C                                                                                                     
-         !C surface containers :                                                                                
-         !C                                                                                                     
+C
+          ENDDO ! next element group NG                                                                                        
+C------------------------------------
+C surface containers :                                                                                
+C------------------------------------
 !---
           NNOD2SURF = 0
           KNOD2SURF(1:NUMNOD+1) = 0
           NSEG_USED = 0
 !---
-          
           DO IDC=1,NBCONTY
             IDSURF   = INIVOL(II)%SURFCONTY(IDC)
             NSEGSURF = IGRSURF(IDSURF)%NSEG
@@ -1717,12 +1700,10 @@ C-----------------------------------------------------
           NSOLTOSF = 0
           ALLOCATE(INOD2SURF(NNOD2SURF*NUMNOD) ,STAT=stat)
           INOD2SURF = 0
-          ALLOCATE(DIS(NSURF_INVOL,NUMNOD)         ,STAT=stat)
+          ALLOCATE(DIS(NSURF_INVOL,NUMNOD)      ,STAT=stat)
           !ALLOCATE(DIS(NBCONTY,NUMNOD)         ,STAT=stat)
           DIS = ZERO
-          
-          
-          
+                   
           ALLOCATE(NOD_NORM(3*NUMNOD)          ,STAT=stat)
           NOD_NORM(1:3*NUMNOD) = ZERO
           ALLOCATE(SEGTOSURF(NSEG_USED)        ,STAT=stat)
@@ -1781,12 +1762,10 @@ C-----------------------------------------------------
                 FILL_RATIO = FILL_RATIO/EP9
                 ICUMU      = INIVOL(II)%CONTY(IDC)%ICUMU
                 NSEGSURF   = IGRSURF(IDSURF)%NSEG
-!
-                DO IG=1,NEL,NVSIZ                                                                               
-                  OFFSET   = IG - 1                                                                              
+C                                                                          
                   LFT      = 1 
-                  LLT      = MIN(NVSIZ,NEL-OFFSET)                                                               
-                  NFT      = IPARG(3,NG) + OFFSET  
+                  LLT      = NEL
+                  NFT      = IPARG(3,NG)
                   IF(ITY == 1)THEN
                     I15_=I15A
                   ELSEIF(N2D>0)THEN
@@ -1817,11 +1796,10 @@ C-----------------------------------------------------
      2                              ELBUF_TAB,NG,NBSUBMAT,MULTI_FVM, 
      3                              IXS,IXQ,IXTG,IDP,IPART(I15_)
      .                           )
-                ENDDO ! next IG                                                                                    
 !
               ENDDO ! DO IDC=1,NBCONTY
               DEALLOCATE(INPHASE)
-          ENDDO ! next NG                                                                                       
+          ENDDO ! next element group NG                                                                                       
 !---
           IF(ALLOCATED(IPHASE))   DEALLOCATE(IPHASE)
           IF(ALLOCATED(NBIP))     DEALLOCATE(NBIP)
@@ -1842,7 +1820,7 @@ C-----------------------------------------------------
      .           SWIFTSURF(0),NSOLTOSF(0,0),INOD2SURF(0),DIS(0,0),NOD_NORM(0),SEGTOSURF(0))
       ENDIF ! IF (NINIVOL > 0) 
 C---------------------------------
-C  INITIAL GRAVITY (AFTER INIVOL)
+C  Gravity (after INIVOL)
 C---------------------------------
       IF (NINIGRAV.GT.0)THEN
         NV46=4
@@ -1856,13 +1834,13 @@ C---------------------------------
      .                    )
       ENDIF
 
-C---------------------------------
-C  INIT GLOBAL DEOTNATION TIMES LAW151
-C---------------------------------
+C---------------------------------------------------
+C Initialization of global detonation times (Law151)
+C---------------------------------------------------
       CALL MULTIFLUID_GLOBAL_TDET(IPARG,ELBUF_TAB,MULTI_FVM,IPM)
 
 C---------------------------------
-C  INITIALIZATION ON 1D CURVES
+C Initialization on 1D curves
 C---------------------------------
       IF (NINIMAP1D .GT. 0) THEN
          WRITE(ISTDO, '(A)') TITRE(53)
@@ -1873,7 +1851,7 @@ C---------------------------------
      .                     NPTS)
       ENDIF
 C---------------------------------
-C  INITIALIZATION ON 2D FUNCTIONS
+C Initialization on 2D functions
 C---------------------------------
       IF (NINIMAP2D .GT. 0) THEN
          WRITE(ISTDO, '(A)') TITRE(53)
@@ -1882,15 +1860,15 @@ C---------------------------------
      .                     IXTG        ,PM        ,IPM     ,BUFMAT  ,MULTI_FVM  ,
      .                     FUNC2D      ,IGRBRIC   ,IGRQUAD ,IGRSH3N )
       ENDIF
-C--------------------------------
-C  INITIALIZATION OF FVM VELOCITIES
-C--------------------------------
+C---------------------------------
+C Initialization of FVM velocities
+C---------------------------------
       IF (MULTI_FVM%IS_USED .AND. NINVEL .GT. 0) THEN
          CALL INI_FVMINIVEL(FVM_INIVEL ,MULTI_FVM ,IGRBRIC ,IGRQUAD ,IGRSH3N)
       ENDIF
-C---------------------------------
-C  SMS INITIALIZATION GBUF%ISMS (and AUTOMATIC ELEMENT SELECTION)
-C---------------------------------
+C------------------------------------------------------------------
+C SMS : Initialization of GBUF%ISMS and automatic element selection
+C------------------------------------------------------------------
       IF (ISMS_SELEC >= 1) THEN
         CALL SMS_AUTO_DT(DTELEM,NATIV_SMS,
      .       IXS     ,IXQ      ,IXC     ,IXT     ,IXP       ,
@@ -1905,7 +1883,7 @@ C
         RETURN
       ENDIF
 C-------------------------------------
-C     INERTIE TOTALE
+C Initialization of rigid bodies
 C-------------------------------------
       B1=ZERO
       B2=ZERO
@@ -1917,9 +1895,7 @@ C-------------------------------------
       XG=ZERO
       YG=ZERO
       ZG=ZERO
-C-------------------------------------
-C     INITIALISATION DES CORPS RIGIDES
-C-------------------------------------
+C
       IF(NRBYKIN.GT.0)THEN
        RBYID=0
        DO I=1,NUMNOD
@@ -1946,9 +1922,9 @@ C-------------------------------------
          ENDIF
        ENDDO
 C       
-C-------------------------------------
-C     INITIALISATION DES CORPS RIGIDES avec sensor
-C-------------------------------------
+C-------------------------------------------
+C Initialization of rigid bodies with sensor
+C-------------------------------------------
        DO N=1,NRBYKIN
          M=NPBY(1,N)
          NSL=NPBY(2,N)
@@ -1968,42 +1944,39 @@ C-------------------------------------
          ENDIF
        ENDDO
       ENDIF
-C-------------------------------------
-C     INITIALISATION DES CORPS RIGIDES TYPE LAGRANGE
-C-------------------------------------
+C----------------------------------------------------------
+C Initialization of rigid bodies using Lagrange multipliers
+C----------------------------------------------------------
       IF(NRBYLAG.NE.0)
      .  CALL LGMINI_RBY(NPBYL  ,LPBYL  ,RBYL   ,MS     ,IN     ,
      .                  X      ,V      ,VR     ,ITAB   ,NOM_OPT)
 C-------------------------------------
-C     RE-TRI DES STRUCTURES DES CORPS RIGIDES
+C Sorting of rigid bodies structures
 C-------------------------------------
       IF (NRBMERGE > 0) THEN
         CALL RETRIRBY(NPBY  ,LPBY   ,
      .                RBY   ,NOM_OPT)
       ENDIF
 C-------------------------------------
-C     INITIALISATION DES MATERIAUX RIGIDES
+C Initialization of rigid materials
 C-------------------------------------
       IF(IRIGID_MAT  > 0)THEN
         CALL ININODE_RM(CONNEC  ,IRIG_NODE, SLNRBM , NSLNRBM ,NRBYM ,
      .                  NGSLNRBYM,STIFN ,STIFR,RMSTIFN, RMSTIFR ,
      .                  NELEMR,NINDX )
        ENDIF
-C--------------------------------------------
-C     VERIFICATION DES MOUVEMENTS IMPOSES AUX SURFACES
-C     PAR LES RIGID BODIES
-C     .../... a modifier et-ou deplacer si d'autres classes
-C             definissent le mouvement des Surfaces.
-C--------------------------------------------
+C-----------------------------------------------------------
+C Verification of imposed motion to surfaces by rigid bodies
+C-----------------------------------------------------------
       CALL INISRF(X,V,VR,NPBY,RBY,IGRSURF,BUFSF)
 C-----------------------------------------------------
-C     Check for springs with stiffness but no nodal mass
+C Check for springs with stiffness but no nodal mass
 C-----------------------------------------------------
       CALL RCHECKMASS(IXR      ,GEO      ,PM       ,MSR      ,INR    ,
      .                MS       ,IN       ,ITAB     ,IGEO     ,IPM    ,
      .                BUFMAT   ,IPART    ,IPART(I15F),NPBY   ,LPBY    )
 C-------------------------------------
-C     INITIALISATION DES CORPS FLEXIBLES
+C Initialization of flexible bodies
 C-------------------------------------
       IF (NFXBODY.GT.0) THEN
 C
@@ -2057,7 +2030,8 @@ C
             ADRRPM=FXBIPM(14,I)
             FXBRPM(ADRRPM+10)=ZERO
             FXBRPM(ADRRPM+11)=ZERO
-C           Sortie anim des contraintes modales locales
+C
+C Animation output of flexible body local modes
             IF (FXBIPM(36,I) == 1) THEN
                FXBID=FXBIPM(1,I)
                ANOD=FXBIPM(6,I)
@@ -2103,18 +2077,18 @@ C
          ENDDO
 C
          DEALLOCATE(MBUFEL_TMP, MDEPL_TMP)
-      ENDIF
-C--------------------------------------------
-C     INI & CHECK RBE2 :
-C--------------------------------------------
+      ENDIF ! end flexible bodies
+C-----------------------------------------------------
+C Initialization and check of rigid bodies type /RBE2 :
+C-----------------------------------------------------
       CALL INIRBE2(IRBE2  ,LRBE2  ,ITAB  ,X    ,MS   ,
      .             IN     ,STIFN  ,STIFR ,TOTMAS,XG  ,
      .             YG     ,ZG     ,B1    ,B2   ,B3    ,
      .             B5     ,B6     ,B9    ,     
      .             NOM_OPT(1,PTR_NOPT_RBE2+1),ITAGND)
-C--------------------------------------------
-C  INITIALISATION DES RESSORTS TYPE JOINT (RIGIDITE ROTATIONNELLE)
-C--------------------------------------------
+C------------------------------------------------------
+C Initialization of joint type spring (PID33 and PID45)
+C------------------------------------------------------
       FLAG_KJ = 0
       DO NG=1,NGROUP
         NEL = IPARG(2,NG)
@@ -2143,9 +2117,8 @@ C--------------------------------------------
         ENDIF
       ENDDO
 C--------------------------------------------
-C     INITIALISATION OF SEATBELTS :
+C Seat belts initialization :
 C--------------------------------------------
-C
       IF (N_SEATBELT > 0) CALL INI_SEATBELT(IPARG,ELBUF_TAB,KNOD2EL1D,NOD2EL1D,IXR,
      .                                      X,ITAB,IPM,ALEA,KNOD2ELC,
      .                                      NOD2ELC,IXC)
@@ -2162,7 +2135,7 @@ C----------------------------------------------------------------
         ENDIF
       ENDIF
 C-------------------------------------
-C     MASSE + INERTIE / PARTS
+C Mass and Inertia by parts
 C-------------------------------------
       CALL OUTPART(PARTSAV,IPART,NPART)
 C-------------------------------------
@@ -2170,7 +2143,7 @@ C     INFO supp in PROP&MAT / PARTS
 C-------------------------------------
       CALL OUTPART5(GROUP_PARAM_TAB,IPART,IPARG,IGEO,GEO ,PM )
 C-------------------------------------
-C     MASSE + INERTIE IPARITH = 4
+C Mass and inertia parallel arithmetic
 C-------------------------------------
       IF(IPARI0 == 3)THEN
         DO N=1,NUMNOD
@@ -2187,7 +2160,7 @@ C-------------------------------------
         ENDIF
       ENDIF
 C-------------------------------------
-C     MASSE + INERTIE TOTALE
+C Total mass and total inertia
 C-------------------------------------
       IF (NS10E >0) THEN
       DO N=1,NUMNOD
@@ -2254,7 +2227,6 @@ C-----  substraction of middle node S10+Itet=2
       WRITE(IOUT,1100)
       WRITE(IOUT,'(5X,1PG20.13,3(1X,G20.13))')
      . TOTMAS,XG,YG,ZG
-c      CALL ANCHECK(100)
 C
       XX=XG**2
       YY=YG**2
@@ -2272,19 +2244,16 @@ C
       WRITE(IOUT,1200)
       WRITE(IOUT,'(4X,3(1X,1PG20.13),3(1X,G20.13))')
      . B1,B5,B9,B2,B6,B3
-c      CALL ANCHECK(101)
 C
-C print out the total additional nonstructural nodal mass
+C Print out the total additional nonstructural nodal mass
 C
       WRITE(IOUT,'(//)')
       WRITE(IOUT,1300)
       WRITE(IOUT,1400) TOTADDMAS
-c      CALL ANCHECK(75)
 C
-
-c-----------------------------------------------------------------------------------
-c     Initialization of non-local variable regularization structure for damage models
-c
+C-----------------------------------------------------------------------------------
+C     Initialization of non-local variable regularization structure for damage models
+C-----------------------------------------------------------------------------------
       CALL NLOC_DMG_INIT(ELBUF_TAB,NLOC_DMG ,IPARG    ,IXC      ,
      .                   IXS      ,IXTG     ,ELE_AREA ,DTELEM   ,
      .                   NUMEL    ,IPM      ,X        ,XREFS    ,
@@ -2292,7 +2261,7 @@ c
 c
 c-----------------------------------------------------------------------------------
 
-       IF(ITHERM_FE > 0 ) THEN
+      IF(ITHERM_FE > 0 ) THEN
         DEALLOCATE(MCPS,MCPP)
         IF(NUMELS10 > 0.OR.NUMELS16 > 0 .OR.NUMELS20 > 0)
      .    DEALLOCATE(MCPSX)
@@ -2391,7 +2360,7 @@ C
         IPRT=IPARTEL(I)
         IG  =IPART(2,IPRT)
         IF(IG.LE.0)THEN
-C         IERR = IERR + 1
+C
 C         WRITE(IOUT,*)' **ERROR INVALID PROPERTY NUMBER',IG
 C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
            CALL ANCMSG(MSGID=59,
@@ -2402,7 +2371,6 @@ C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
      .                 I2=IX(NE,I),
      .                 PRMOD=MSG_CUMU)
         ELSEIF(EPID(IGEO(11,IG)) == 0)THEN
-C         IERR = IERR + 1
 C         WRITE(IOUT,*)' **ERROR INVALID PROPERTY TYPE',IGEO(11,IG)
 C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
            CALL FRETITL2(TITR2,IGEO(NPROPGI-LTITR+1,IG),LTITR)
@@ -2433,7 +2401,6 @@ C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
         MT  =IPART(1,IPRT)
         IG  =IPART(2,IPRT)
         IF(MT.LE.0)THEN
-C         IERR = IERR + 1
 C         WRITE(IOUT,*)' **ERROR INVALID MATERIAL NUMBER',MT
 C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
            CALL ANCMSG(MSGID=61,
@@ -2444,11 +2411,10 @@ C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
      .                 I2=IX(NE,I),
      .                 PRMOD=MSG_CUMU)
         ELSEIF(EMAT(IPM(2,MT)) == 0)THEN
-C         IERR = IERR + 1
 C         WRITE(IOUT,*)' **ERROR INVALID MATERIAL LAW',NINT(PM(19,MT))
 C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
-           CALL FRETITL2(TITR2,IPM(NPROPMI-LTITR+1,MT),LTITR)
-	   CALL ANCMSG(MSGID=62,
+         CALL FRETITL2(TITR2,IPM(NPROPMI-LTITR+1,MT),LTITR)
+         CALL ANCMSG(MSGID=62,
      .  	       MSGTYPE=MSGERROR,
      .  	       ANMODE=ANINFO_BLIND_2,
      .  	       I1=IPM(1,MT),
@@ -2456,15 +2422,6 @@ C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
      .  	       I2=IPM(2,MT),
      .  	       C2=ELEM,
      .  	       I3=IX(NE,I))
-c           CALL ANCMSG(MSGID=1106,
-c     .                 MSGTYPE=MSGERROR,
-c     .                 ANMODE=ANINFO_BLIND,
-c     .                 PRMOD=MSG_CUMU,
-c     .                 I1=IPM(1,MT),
-c     .                 C1=TITR2,
-c     .                 I2=IPM(2,MT),
-c     .                 C2=ELEM,
-c     .                 I3=IX(NE,I))
         ENDIF
         IF (IG.LE.0) THEN
            CALL ANCMSG(MSGID=59,
@@ -2501,13 +2458,7 @@ c     .                 I3=IX(NE,I))
      .                 ANMODE=ANINFO_BLIND_2,
      .                 C1=ELEM,
      .                 PRMOD=MSG_PRINT)
-c       CALL ANCMSG(MSGID=1106,
-c     .           MSGTYPE=MSGERROR,
-c     .           ANMODE=ANINFO_BLIND,
-c     .           PRMOD=MSG_PRINT,
-c     .           I1=IPM(1,MT),
-c     .           C1=TITR2,
-c     .           I2=IPM(2,MT))
+C
       ELSEIF(ELEM == 'SPHCEL')THEN
        DO I=1,NUMEL
         IPRT=IPARTEL(I)
@@ -2569,7 +2520,7 @@ C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
             MT  =IPART(1,IPRT)
             IG  =IPART(2,IPRT)
             IF(MT.LE.0)THEN
-C         IERR = IERR + 1
+C
 C         WRITE(IOUT,*)' **ERROR INVALID MATERIAL NUMBER',MT
 C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
                CALL ANCMSG(MSGID=61,
@@ -2580,7 +2531,7 @@ C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
      .                     I2=IX(NE,I),
      .                     PRMOD=MSG_CUMU)
             ELSEIF(EMAT(IPM(2,MT)) == 0)THEN
-C         IERR = IERR + 1
+C
 C         WRITE(IOUT,*)' **ERROR INVALID MATERIAL LAW',NINT(PM(19,MT))
 C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
                CALL FRETITL2(TITR2,IPM(NPROPMI-LTITR+1,MT),LTITR)
@@ -2594,7 +2545,7 @@ C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
      .                     I3=IX(NE,I))
             ENDIF
             IF(IG.LE.0)THEN
-C         IERR = IERR + 1
+C
 C         WRITE(IOUT,*)' **ERROR INVALID PROPERTY NUMBER',IG
 C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
              CALL ANCMSG(MSGID=59,
@@ -2605,7 +2556,7 @@ C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
      .                 I2=IX(NE,I),
      .                 PRMOD=MSG_CUMU)
             ELSEIF(EPID(IGEO(11,IG)) == 0)THEN
-C         IERR = IERR + 1
+C
 C         WRITE(IOUT,*)' **ERROR INVALID PROPERTY TYPE',IGEO(11,IG)
 C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
                CALL FRETITL2(TITR2,IGEO(NPROPGI-LTITR+1,IG),LTITR)
@@ -3137,18 +3088,18 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPE,NEL,STRAGLOB(*),PTSOL(*),NSIGI
-C     REAL
+C
 C-------!!!!! uniforme SAV between Ismstr>=10 and Ismstr=1
       DOUBLE PRECISION
      .  SAV(NEL,3*(NPE-1))
-C     REAL
+C
       my_real
      .   SIGSP(NSIGI,*),OFFG(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,NPE1,N,JJ,IIS,IIS0,N2
-C     REAL
+C
       DOUBLE PRECISION
      .   XL(NPE),YL(NPE),ZL(NPE)
 C-----------------------------------------------
@@ -3319,20 +3270,20 @@ c        IPART(5,I)=MID id user
 c        IPART(6,I)=PID id user
 c        IPART(7,I)=SID
 c        IPART(8,I)=ITH
-C      RD-6336
+C
        ETYE =27
        I2GEO(1:NUMGEO) = 0
        I2GEO1(1:NUMGEO) = 0
        I2GEO2(1:NUMGEO) = 0
-C------up to 3 different elements using same PID (tetra4,tetra10,hexa) 
-C-----only solid&shell have initialized surely IPARG(62,NG)  
+C Up to 3 different elements using same PID (tetra4,tetra10,hexa) 
+C Only solid and shell have initialized surely IPARG(62,NG)  
       DO NG=1,NGROUP
        IF (IPARG(8,NG)==1.OR.IPARG(62,NG)==0) CYCLE
        IPID=IPARG(62,NG)
        IF (I2GEO(IPID)==0) THEN
         I2GEO(IPID) = NG
        ELSE
-C---- voir si ITY, ISOLNOD are the same  
+C---- check if ITY, ISOLNOD are the same  
         NG0 = I2GEO(IPID)
         IF (NG0>2*NGROUP) CYCLE
         IF (NG0>NGROUP) NG0 =-I2GEO1(IPID)

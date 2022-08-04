@@ -38,11 +38,11 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE PINIT3(ELBUF_STR,
      1                  STP      ,IC      ,PM      ,X       ,GEO   ,
-     2                  XMAS     ,TINER   ,DTELEM  ,OFFSET  ,NEL   ,
+     2                  XMAS     ,TINER   ,DTELEM  ,NFT     ,NEL   ,
      3                  STIFN    ,STIFR   ,PARTSAV ,V       ,IPART ,
      4                  MSP      ,INP     ,IGEO    ,STIFINT ,STRP  ,
      5                  NSIGBEAM ,SIGBEAM ,PTBEAM  ,IUSER   ,MCP   ,
-     6                  MCPP    ,TEMP )
+     6                  MCPP     ,TEMP )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -63,18 +63,16 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "vect01_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "units_c.inc"
 #include      "scr03_c.inc"
 #include      "scry_c.inc"
 #include      "warn_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER OFFSET,NEL,NSIGBEAM,IUSER
-      INTEGER IC(NIXP,*),IPART(*),IGEO(NPROPGI,*),PTBEAM(*)
+      INTEGER :: NEL,NSIGBEAM,IUSER,NFT
+      INTEGER :: IC(NIXP,*),IPART(*),IGEO(NPROPGI,*),PTBEAM(*)
       my_real
      .   PM(*),X(*),GEO(NPROPG,*),XMAS(*),TINER(*),
      .   DTELEM(*),STIFN(*),STIFR(*),PARTSAV(20,*),V(*),MSP(*),INP(*),
@@ -97,8 +95,7 @@ C-----------------------------------------------
      .   E3X(MVSIZ),E3Y(MVSIZ),E3Z(MVSIZ),DELTAX(MVSIZ),DTX(MVSIZ) 
       INTEGER IDMIN,IDMAX
       DATA IDMIN /-1/,IDMAX /-1/
-      my_real
-     .     LGTHMIN,LGTHMAX
+      my_real :: LGTHMIN,LGTHMAX
       DATA LGTHMIN /-1/,LGTHMAX /-1/
 C
       TYPE(G_BUFEL_),POINTER :: GBUF
@@ -118,11 +115,11 @@ c
      .           MCPP(NFT+1) , TEMP )
       CALL PIBUF3(GEO,GBUF%OFF,GBUF%LENGTH,DELTAX,MXG,IREL)
 C------------------------------------------
-C     /INIBEAM
+C Beam initialization
 C------------------------------------------
        IPID = IC(5,1+NFT)
        IGTYP = IGEO(11,IPID)
-!
+C
         IF (ISIGI /= 0)
      .    CALL BSIGINI(ELBUF_STR,
      .                 IGTYP      ,NEL    ,NSIGBEAM  ,SIGBEAM   ,PTBEAM,
@@ -132,9 +129,9 @@ C------------------------------------------
      .                  IC(1,NFT+1),SIGBEAM  ,NSIGBEAM ,PTBEAM ,IGEO  ,
      .                  NEL        )
 C------------------------------------------
-C     CALCUL DES DT ELEMENTAIRES
+C Compute beam element time step
 C------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF (IGTYP /= 3 .AND. IGTYP /= 18) THEN
           CALL ANCMSG(MSGID=225,
      .                MSGTYPE=MSGERROR,
@@ -154,7 +151,7 @@ C-----------
       CALL DT1LAWP(PM,GEO,MXT,MXG,DELTAX,DTX)
       NDEPAR=NUMELS+NUMELC+NUMELT+NFT
 C-----------
-      DO I=LFT,LLT
+      DO I=1,NEL
         DTELEM(NDEPAR+I)=DTX(I)
       ENDDO
 C-----------
