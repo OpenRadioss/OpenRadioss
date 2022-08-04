@@ -37,7 +37,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE TINIT3(ELBUF_STR,
      1                  IC     ,PM         ,X        ,GEO    ,XMAS   ,
-     2                  DTELEM ,OFFSET     ,NEL      ,STIFN  ,PARTSAV,
+     2                  DTELEM ,NFT        ,NEL      ,STIFN  ,PARTSAV,
      3                  V      ,IPART      ,MST      ,STIFINT,STT    ,
      4                  IGEO   ,NSIGTRUSS  ,SIGTRUSS ,PTTRUSS)
 C-----------------------------------------------
@@ -57,10 +57,8 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "vect01_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "units_c.inc"
 #include      "scr03_c.inc"
 #include      "scr17_c.inc"
 #include      "warn_c.inc"
@@ -68,7 +66,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IC(NIXT,*),IPART(*),IGEO(NPROPGI,*),PTTRUSS(*)
-      INTEGER OFFSET,NEL,NSIGTRUSS
+      INTEGER NFT,NEL,NSIGTRUSS
       my_real
      .   PM(*),X(*), GEO(NPROPG,*),XMAS(*),DTELEM(*),
      .   STIFN(*),PARTSAV(20,*),V(*),MST(*),STIFINT(*),STT(*),
@@ -109,7 +107,7 @@ C-----------------------------
 C     Check here (change TCOORI for called by /MAT/VOID)
 C-----------------------------
       CALL TIBUF3(GBUF%OFF,GBUF%AREA,GEO, MXG)
-      DO I=LFT,LLT
+      DO I=1,NEL
         XNOR=(X1(I)-X2(I))**2+(Y1(I)-Y2(I))**2+(Z1(I)-Z2(I))**2
         IF (XNOR <= 1.E-20) THEN
            CALL ANCMSG(MSGID=269,
@@ -122,7 +120,7 @@ C-----------------------------
         GBUF%LENGTH(I) = SQRT(XNOR)
       END DO
 !------------------------------------------
-!     /INITRUSS
+! Truss initialization
 !------------------------------------------
       IF (ISIGI /= 0)
      .  CALL TSIGINI(NSIGTRUSS  ,SIGTRUSS  ,PTTRUSS   , GBUF%EINT ,GBUF%FOR,
@@ -133,9 +131,9 @@ C-----------------------------
      .     X1, X2, Y1, Y2, Z1, Z2)
 !------------------------------------------
 C------------------------------------------
-C    22/4/90   CALCUL DES DT ELEMENTAIRES
+C Compute truss time step 22/4/90 
 C------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
         IGTYP=GEO(12,IC(4,I+NFT))
         IF (IGTYP /= 2 .AND. INVERS > 14) THEN
           CALL ANCMSG(MSGID=270,
@@ -157,11 +155,11 @@ C------------------------------------------
           LGTHMAX = DELTAX(I)
           IDMAX = IC(5,I+NFT)
         ENDIF         
-      ENDDO ! I=LFT,LLT
+      ENDDO ! I=1,NEL
 C
       CALL DT1LAWT(PM, DELTAX, MAT, MXG, DTX)
       NDEPAR=NUMELS+NUMELC+NFT
-      DO I=LFT,LLT
+      DO I=1,NEL
         DTELEM(NDEPAR + I) = DTX(I)
       ENDDO
 C---
