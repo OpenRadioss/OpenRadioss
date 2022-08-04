@@ -2952,9 +2952,9 @@ C
          WRITE(IOUT,*)
        END IF
        
-       DO P=1,NSPMD
-        WRITE(IOUT,*)
+       WRITE(IOUT,*)
      .  'PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS'
+       DO P=1,NSPMD
         WRITE(IOUT,1000) P,DDSTAT(2,P),DDSTAT(13,P),DDSTAT(12,P)
        ENDDO
 C
