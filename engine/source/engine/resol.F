@@ -8161,9 +8161,11 @@ C Regular animation
           LASTH3DCYCLE=NCYCLE
         END IF
         
-        IF(DEBUG(MACRO_DEBUG_CHKSM) == 1) THEN
+        IF(DEBUG(MACRO_DEBUG_CHKSM) >0) THEN
+          IF(MOD(NCYCLE,DEBUG(MACRO_DEBUG_CHKSM)) == 0  ) THEN
         ! Print checksum
-          CALL SPMD_FLUSH_ACCEL(A,ITAB,WEIGHT,NODGLOB,NUMNODG)
+            CALL SPMD_FLUSH_ACCEL(A,ITAB,WEIGHT,NODGLOB,NUMNODG)
+          ENDIF
         ENDIF
 
 
