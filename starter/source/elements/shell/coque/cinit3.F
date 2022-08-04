@@ -136,7 +136,6 @@ C-----------------------------------------------
      .   IGMAT,JJ(9),NPT_ALL,MPT,LAYNPT_MAX,LAY_MAX
       INTEGER, DIMENSION(MVSIZ) :: IX1,IX2,IX3,IX4,IORTHLOC,MAT,PID,NGL
       my_real :: BID
-      my_real, DIMENSION(NPT,MVSIZ) :: PHI1,PHI2,COOR1,COOR2,COOR3,COOR4
       my_real, DIMENSION(MVSIZ) :: PX1G,PX2G,PY1G,PY2G,AREA,ALDT,
      .                             DT,VX,VY,VZ,
      .                             X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
@@ -145,6 +144,7 @@ C-----------------------------------------------
      .                             X2L,X3L,X4L,Y2L,Y3L,Y4L
       my_real, DIMENSION(:) ,POINTER :: UVAR,DIR1,DIR2
       my_real, ALLOCATABLE, DIMENSION(:) :: DIR_A,DIR_B
+      my_real, DIMENSION(:), ALLOCATABLE :: PHI1,PHI2,COOR1,COOR2,COOR3,COOR4
       PARAMETER (LAYNPT_MAX = 10)
       PARAMETER (LAY_MAX = 100)
       INTEGER MATLY(MVSIZ*LAY_MAX)
@@ -167,12 +167,6 @@ c
       VX   = ZERO
       VY   = ZERO
       VZ   = ZERO
-      PHI1 = ZERO
-      PHI2 = ZERO
-      COOR1 = ZERO
-      COOR2 = ZERO
-      COOR3 = ZERO
-      COOR4 = ZERO
       IORTHLOC = 0
       BID    = ZERO
 C
@@ -182,6 +176,19 @@ C
       NLAY = ELBUF_STR%NLAY
       NXEL = ELBUF_STR%NXEL
       NPTT = ELBUF_STR%NPTT
+C----- NPT=0 for some cases      
+      ALLOCATE(PHI1(NLAY*MVSIZ))
+      PHI1 = ZERO
+      ALLOCATE(PHI2(NLAY*MVSIZ))
+      PHI2 = ZERO
+      ALLOCATE(COOR1(NLAY*MVSIZ))
+      COOR1 = ZERO
+      ALLOCATE(COOR2(NLAY*MVSIZ))
+      COOR2 = ZERO
+      ALLOCATE(COOR3(NLAY*MVSIZ))
+      COOR3 = ZERO
+      ALLOCATE(COOR4(NLAY*MVSIZ))
+      COOR4 = ZERO
       ALLOCATE(DIR_A(NLAY*NEL*2))
       ALLOCATE(DIR_B(NLAY*NEL*2))
       DIR_A = ZERO
@@ -271,7 +278,7 @@ C-----------------------------------------------
         ENDDO
       ENDIF
 C-----------------------------------------------------------------------
-c     PHI, COOR used only with dimension(NLAY,MVSIZ)
+c     PHI, COOR used only with dimension(NLAY,MVSIZ); !! now corrected
       CALL CORTHINI(
      .   LFT        ,LLT       ,NFT       ,NLAY       ,NUMELC     ,
      .   NSIGSH     ,NIXC      ,IXC(1,NFT+1),IGEO     ,GEO        ,
@@ -280,8 +287,8 @@ c     PHI, COOR used only with dimension(NLAY,MVSIZ)
      .   COOR3      ,COOR4     ,IORTHLOC  ,ISUBSTACK  ,STACK      ,
      .   IREP       ,ELBUF_STR ,DRAPE     ,SH4ANG(NFT+1),X        ,
      .   GEO_STACK  ,IGEO_STACK,E3X       ,E3Y        ,E3Z        ,
-     .   GBUF%BETAORTH,X1      ,X2        ,Y1         ,Y2        ,
-     .   Z1         ,Z2        )
+     .   GBUF%BETAORTH,X1       ,X2        ,Y1         ,Y2        ,
+     .   Z1         ,Z2        ) 
 c---     
 C-----
       IF(IGTYP == 51 .OR. IGTYP == 52 .AND. IGMAT > 0) THEN
@@ -496,6 +503,7 @@ C---
 C---
       IF (ALLOCATED(DIR_B))    DEALLOCATE(DIR_B)                                                          
       IF (ALLOCATED(DIR_A))    DEALLOCATE(DIR_A)  
+      DEALLOCATE(PHI1,PHI2,COOR1,COOR2,COOR3,COOR4)  
 C-----------------------------
       RETURN
       END SUBROUTINE CINIT3      
