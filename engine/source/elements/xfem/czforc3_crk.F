@@ -78,7 +78,7 @@ Chd|====================================================================
      M            IADC_CRK,ELCUTC,CRKSKY,
      N            LSENSOR,SENSOR ,IXEL    ,
      K            ISUBSTACK,UXINT_MEAN,UYINT_MEAN,UZINT_MEAN,NLEVXF,
-     L            NODEDGE,CRKEDGE, STACK ,DRAPE_Q4)
+     L            NODEDGE,CRKEDGE, STACK ,DRAPE_Q4,NLOC_DMG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -88,7 +88,8 @@ C-----------------------------------------------
       USE STACK_MOD
       USE FAILWAVE_MOD
       USE MATPARAM_DEF_MOD  
-      USE DRAPE_MOD          
+      USE DRAPE_MOD 
+      USE NLOCAL_REG_MOD         
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -147,6 +148,7 @@ C     REAL OU REAL*8
       TYPE (GRP_PARAM_STRUCT_) :: GROUP_PARAM
       TYPE (DRAPE_) :: DRAPE_Q4
       TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE (NLOCAL_STR_) :: NLOC_DMG 
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C   L O C A L   V A R I A B L E S
 C--------------------------------
@@ -465,7 +467,7 @@ C-----------------------------
      M       DIR1_CRK  ,DIR2_CRK  ,LL        ,
      N       ISMSTR    ,IR        ,IS        ,NLAYER    ,NPTT    ,
      O       IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,
-     R       BID       ,ITASK     ,DRAPE_Q4  ,VARNL     )
+     R       BID       ,ITASK     ,DRAPE_Q4  ,VARNL     ,NLOC_DMG)
 C-----------------------------
         IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)
 C--------------------------

@@ -337,9 +337,9 @@ C----------------------------------------------------------------------------
      K   R32       ,R33       ,NG        ,TABLE     ,IBID       ,
      L   BID       ,LSENSOR   ,SENSOR    ,BID       ,IBID       ,
      M   BID       ,BID       ,ALDT      ,
-     N   ISMSTR    ,IR        ,IS        ,NLAY      ,NPT       ,
+     N   ISMSTR    ,IR        ,IS        ,NLAY      ,NPT        ,
      O   IBID      ,IBID      ,ISUBSTACK ,STACK     ,
-     R   BID       ,ITASK     ,DRAPE_T3  ,VAR_REG   )
+     R   BID       ,ITASK     ,DRAPE_T3  ,VAR_REG   ,NLOC_DMG   )
 C----------------------------------------------------------------------------
 C     FORCES VISCOCITE 
 C----------------------------

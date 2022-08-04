@@ -487,7 +487,7 @@ C-----------------------------
      M  DIR1_CRK    ,DIR2_CRK    ,ALDT        ,
      N  ISMSTR      ,IR          ,IS          ,NLAY       ,NPT        ,
      O  IXLAY       ,IXEL        ,ISUBSTACK   ,STACK      ,
-     P  F_DEF       ,ITASK       ,DRAPE_Q4    ,VAR_REG    )
+     P  F_DEF       ,ITASK       ,DRAPE_Q4    ,VAR_REG    ,NLOC_DMG   )
 C-----------------------------
       IF ((IMON_MAT==1).AND. ITASK == 0)CALL STOPTIME(35,1)
 C-----------------------------

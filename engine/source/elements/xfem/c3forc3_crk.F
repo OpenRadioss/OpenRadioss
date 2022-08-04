@@ -78,7 +78,8 @@ Chd|====================================================================
      H            PTG    ,IXFEM  ,INOD_CRK,IEL_CRK,IADTG_CRK,
      I            ELCUTC ,IXEL   ,STACK  ,ISUBSTACK ,
      R            UXINT_MEAN,UYINT_MEAN  ,UZINT_MEAN,NLEVXF  ,
-     S            NODEDGE,CRKEDGE ,DRAPE_T3   ,IPRI      )
+     S            NODEDGE,CRKEDGE ,DRAPE_T3   ,IPRI          ,
+     T            NLOC_DMG)
 C-----------------------------------------------
       USE TABLE_MOD
       USE CRACKXFEM_MOD
@@ -86,7 +87,8 @@ C-----------------------------------------------
       USE STACK_MOD
       USE FAILWAVE_MOD
       USE MATPARAM_DEF_MOD  
-      USE DRAPE_MOD           
+      USE DRAPE_MOD 
+      USE NLOCAL_REG_MOD          
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -146,6 +148,7 @@ C-----------------------------------------------
       TYPE (GRP_PARAM_STRUCT_) :: GROUP_PARAM 
       TYPE(DRAPE_) :: DRAPE_T3
       TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE (NLOCAL_STR_) :: NLOC_DMG 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -435,7 +438,7 @@ C--------------------------
      M   DIR1_CRK  ,DIR2_CRK  ,ALDT      ,
      P   ISMSTR    ,IR        ,IS        ,NLAYER    ,NPTT      ,
      Q   IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,
-     R   BID    ,ITASK        ,DRAPE_T3  ,VARNL     )
+     R   BID    ,ITASK        ,DRAPE_T3  ,VARNL     ,NLOC_DMG  )
 
 C--------------------------
         IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)

@@ -73,9 +73,9 @@ Chd|====================================================================
      K           E3Y       ,E3Z       ,NG        ,TABLE     ,IXFEM      ,
      L           OFFI      ,LSENSOR   ,SENSOR    ,A11_IPLY  ,ELCRKINI   ,
      M           DIR1_CRK  ,DIR2_CRK  ,ALDT      ,
-     N           ISMSTR    ,IR        ,IS        ,NLAY      ,NPT       ,
+     N           ISMSTR    ,IR        ,IS        ,NLAY      ,NPT        ,
      O           IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,
-     P           F_DEF     ,ITASK     ,DRAPE     ,VARNL     )
+     P           F_DEF     ,ITASK     ,DRAPE     ,VARNL     ,NLOC_DMG   )
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -85,6 +85,7 @@ C-----------------------------------------------
       USE FAILWAVE_MOD
       USE MATPARAM_DEF_MOD
       USE DRAPE_MOD 
+      USE NLOCAL_REG_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -139,6 +140,7 @@ C-----------------------------------------------
       TYPE (GRP_PARAM_STRUCT_) :: GROUP_PARAM
       TYPE (DRAPE_) :: DRAPE
       TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
+      TYPE (NLOCAL_STR_) :: NLOC_DMG 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -255,7 +257,7 @@ c
      G       IXEL    ,ITHK    ,F_DEF   ,ISHPLYXFEM,
      H       ITASK   ,STACK%PM ,ISUBSTACK,STACK ,TSTAR   ,ALPE    ,
      I       PLY_EXX ,PLY_EYY ,PLY_EXY ,PLY_EXZ ,PLY_EYZ ,PLY_F   ,
-     J       VARNL   )
+     J       VARNL   ,NLOC_DMG)
 cc----------------------------
       ELSE   ! User-type Radioss laws , NPT > 0
 c----------------------------
@@ -287,7 +289,7 @@ c
      G       IXEL    ,ITHK    ,F_DEF   ,ISHPLYXFEM,
      H       ITASK   ,STACK%PM ,ISUBSTACK,STACK ,TSTAR   ,ALPE    ,
      I       PLY_EXX ,PLY_EYY ,PLY_EXY ,PLY_EXZ ,PLY_EYZ ,PLY_F   ,
-     J       VARNL   ,ETIMP  )
+     J       VARNL   ,ETIMP   ,NLOC_DMG)
       ENDIF ! IF (NPT == 0) 
 C----------------------------------------------------------------------
       IF (IEXPAN > 0 .AND. JTHE > 0. AND.IDT_THERM==0) THEN

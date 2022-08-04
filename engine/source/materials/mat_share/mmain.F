@@ -239,7 +239,7 @@ C-----------  R4_FREE is replaced by R3_AMU (no more free)
      .   FQVIS(*),FVD2(*),FSSP(*),FDELTAX(*),CONDE(*)
       TYPE(TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
-      TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
+      TYPE (NLOCAL_STR_) :: NLOC_DMG 
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
 C-----------------------------------------------
@@ -281,13 +281,15 @@ C-----------------------------------------------
      .   HEAT_MECA_L
       my_real
      .   Q1,Q2,Q3,STR1,STR2,STR3,STR4,STR5,STR6,WXXF,WYYF,WZZF
-      my_real, DIMENSION(:) ,POINTER :: STRD1,STRD2
+      my_real, DIMENSION(NEL), TARGET :: LE_MAX
+      my_real, DIMENSION(:) ,POINTER :: STRD1,STRD2,EL_LEN
      .  
        LOGICAL :: LOGICAL_USERL_AVAIL, l_MULAW_CALLED
 !
       CHARACTER OPTION*256
       INTEGER SIZE
       CHARACTER IUSER_KEY*ncharline
+      TARGET   :: DELTAX
 C--------------------------------------------    
        my_real
      .  FINTER 
@@ -1301,7 +1303,7 @@ c
      T      CONDE       ,ITASK      ,IEXPAN      ,VOL_AVG   ,AMU      ,
      U      EPSTH       ,LBUF%FORTH ,LBUF%VISC   ,NEL       ,GBUF%ETOTSH,
      V      ISELECT     ,TSTAR      ,LBUF%MU     ,AMU2      ,DPDM     ,
-     W      RHOREF      ,RHOSP      )
+     W      RHOREF      ,RHOSP      ,NLOC_DMG    )
 c
       ELSE   ! 'user type' Radioss material laws 
 C---
@@ -1340,7 +1342,7 @@ c
      U      EPSTH       ,LBUF%FORTH ,LBUF%VISC   ,NEL       ,GBUF%ETOTSH,
      V      ISELECT     ,TSTAR      ,LBUF%MU     ,DPDM     ,
      W      RHOREF      ,RHOSP      ,NVARTMP     ,MBUF%VARTMP,LBUF%EINTTH,
-     X      MATPARAM_TAB)
+     X      MATPARAM_TAB,NLOC_DMG   )
 
       ENDIF 
 C-----------------------------------
@@ -1535,12 +1537,19 @@ C------------------------------------------------------------
 C     Recovering non-local variable
 C------------------------------------------------------------
         INLOC = IPARG(78,NG)
-        IF (INLOC > 0) THEN 
+        IF (INLOC > 0) THEN
+          ! -> Length used for failure criterion parameters scaling is LE_MAX
+          LE_MAX(1:NEL) = NLOC_DMG%LE_MAX(IPM(1,MAT(1)))
+          EL_LEN => LE_MAX(1:NEL) 
+          ! -> Copying the non-local plastic strain increment
           IF (ELBUF_TAB(NG)%BUFLY(ILAY)%L_PLA > 0) THEN 
             DO I = LFT,LLT
               DPLA(I) = MAX(VARNL(I),ZERO)
             ENDDO
           ENDIF
+        ELSE
+          ! -> Length used for failure criterion parameters scaling is the element length
+          EL_LEN => DELTAX(1:NEL)
         ENDIF
 c---
         DO IR = 1,NFAIL 
@@ -1827,8 +1836,8 @@ c --- ladeveze delamination damage model
 c ---   tabulated failure model
               CALL FAIL_TAB_S(
      1        LLT      ,NVARF    ,NPF      ,TF       ,TT       ,         
-     2        BUFMAT(IADBUF)     ,NGL      ,IPM      ,MAT      ,DELTAX   ,         
-     3        SS1      ,SS2      ,SS3      ,SS4      ,SS5      ,SS6  ,    
+     2        BUFMAT(IADBUF)     ,NGL      ,IPM      ,MAT      ,EL_LEN  ,         
+     3        SS1      ,SS2      ,SS3      ,SS4      ,SS5      ,SS6     ,    
      4        DEFP     ,DPLA     ,EPSP     ,TSTAR    ,UVARF    ,           
      5        OFF      ,IP       ,TABLE    ,DFMAX    ,TDEL     ,
      6        NFUNC    ,IFUNC )                                       
@@ -1867,7 +1876,7 @@ C  --- Biquadratic failure model
      3        NGL     ,IPM       ,MAT      ,                   
      4        SS1     ,SS2       ,SS3      ,SS4      ,SS5      ,SS6 ,
      5        DPLA    ,EPSP      ,TSTAR    ,UVARF    ,OFF      ,IP  ,
-     6        DFMAX   ,TDEL      ,DELTAX)                     
+     6        DFMAX   ,TDEL      ,EL_LEN   )                     
           ELSEIF (IRUPT == 34) THEN                                      
 C  --- Cockroft-Latham failure model             
               CALL FAIL_COCKROFT_S(LLT ,NPARAM,NVARF,
@@ -1877,7 +1886,7 @@ C  --- Cockroft-Latham failure model
      5        ES1     ,ES2       ,ES3      ,ES4      ,ES5           ,ES6 ,
      6        SS1     ,SS2       ,SS3      ,SS4      ,SS5           ,SS6 ,    
      7        DEFP    ,DPLA      ,EPSP     ,UVARF    ,OFF           ,
-     8        DELTAX  ,VOLN      ,DFMAX    ,TDEL) 
+     8        DFMAX   ,TDEL) 
           ELSEIF (IRUPT == 36) THEN                                      
 C  --- VISUAL failure model             
               CALL FAIL_VISUAL_S(
@@ -1890,8 +1899,8 @@ c
 c ---       tabulated failure model (old, obsolete version)
               CALL FAIL_TAB_OLD_S(
      1        LLT      ,NVARF    ,NPF      ,TF       ,TT       ,         
-     2        BUFMAT(IADBUF)     ,NGL      ,IPM      ,MAT      ,DELTAX   ,         
-     3        SS1      ,SS2      ,SS3      ,SS4      ,SS5      ,SS6  ,    
+     2        BUFMAT(IADBUF)     ,NGL      ,IPM      ,MAT      ,EL_LEN   ,         
+     3        SS1      ,SS2      ,SS3      ,SS4      ,SS5      ,SS6      ,    
      4        DEFP     ,DPLA     ,EPSP     ,TSTAR    ,UVARF    ,           
      5        OFF      ,IP       ,DFMAX    ,TDEL     ,
      6        NFUNC    ,IFUNC )   
@@ -1903,7 +1912,7 @@ C  --- Orthotropic biquadratic failure model
      2          NPF      ,TF       ,TT       ,DT1      ,BUFMAT(IADBUF),
      3          NGL      ,DPLA     ,EPSP     ,UVARF    ,OFF      ,                   
      4          SS1      ,SS2      ,SS3      ,SS4      ,SS5      ,SS6      ,
-     5          DFMAX    ,TDEL     ,DELTAX) 
+     5          DFMAX    ,TDEL     ,EL_LEN   ) 
 c
           ELSEIF (IRUPT == 39) THEN                                      
 c  --- GENE1 failure model                                  

@@ -34,7 +34,7 @@ Chd|====================================================================
      4     SIGNXX ,SIGNYY ,SIGNXY ,
      5     EPSXX  ,EPSYY  ,EPSXY  ,EPSYZ  ,EPSZX  ,
      6     DPLA   ,UVAR   ,UEL    ,FOFF   ,
-     7     OFF    ,LENGTH ,AREA   ,DFMAX  ,TDEL)
+     7     OFF    ,DFMAX  ,TDEL   )
 C--------------------------------------------------------------------
 C   /FAIL/COCKROFT - Cockroft-Latham failure criteria for shells and solids
 C--------------------------------------------------------------------
@@ -94,7 +94,7 @@ C-----------------------------------------------
        my_real TIME,TIMESTEP(NEL),UPARAM(*),DPLA(NEL),
      .   EPSXX(NEL) ,EPSYY(NEL) ,EPSXY(NEL),
      .   EPSYZ(NEL) ,EPSZX(NEL),
-     .   LENGTH,AREA,DFMAX(NEL),TDEL(NEL)
+     .   DFMAX(NEL) ,TDEL(NEL)
 
 C
 C-----------------------------------------------
