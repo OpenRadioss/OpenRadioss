@@ -101,7 +101,7 @@ Chd|====================================================================
      G       IXEL     ,ITHK     ,F_DEF    ,ISHPLYXFEM,
      H       ITASK    ,PM_STACK , ISUBSTACK,STACK    ,TSTAR    ,ALPE     ,
      I       PLY_EXX  ,PLY_EYY  ,PLY_EXY  ,PLY_EXZ   ,PLY_EYZ  ,PLY_F    ,
-     J       VARNL    )
+     J       VARNL    ,NLOC_DMG )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -111,6 +111,7 @@ C-----------------------------------------------
       USE STACK_MOD
       USE FAILWAVE_MOD
       USE MESSAGE_MOD
+      USE NLOCAL_REG_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -163,6 +164,7 @@ C-----------------------------------------------
       TARGET :: ALDT, IPM
       TYPE (STACK_PLY) :: STACK
       TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE 
+      TYPE (NLOCAL_STR_) :: NLOC_DMG 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -210,8 +212,9 @@ c
       my_real COPY_PLA(MVSIZ)
       my_real, DIMENSION(MVSIZ) :: DT_INV
       my_real  SCALE1(NEL)
+      my_real ,DIMENSION(NEL), TARGET :: LE_MAX
       my_real TT_LOCAL
-      my_real, DIMENSION(:) ,POINTER  :: EL_TEMP,YLDFAC,CRKLEN,CRKDIR,DADV,TFAIL
+      my_real, DIMENSION(:) ,POINTER  :: EL_TEMP,YLDFAC,CRKLEN,CRKDIR,DADV,TFAIL,EL_LEN
       my_real, DIMENSION(NLAY,10)  :: PTHKF
       TARGET :: TEMPEL,BUFMAT,EPSXX,EPSYY,DEPSXX,DEPSYY,SCALE1,POSLY,THKLY
 C
@@ -485,6 +488,13 @@ c
           UVARV => BUFLY%VISC(IR,IS,IT)%VAR
           VARTMP=> BUFLY%MAT(IR,IS,IT)%VARTMP
           DIRDMG => LBUF%DMG(1:L_DMG*NEL)
+c
+          ! -> Make sure the non-local increment is positive
+          IF (INLOC > 0) THEN 
+            DO I = JFT,JLT
+              VARNL(I,IT) = MAX(VARNL(I,IT),ZERO)
+            ENDDO 
+          ENDIF
 c
           IF (JTHE == 0 .and. BUFLY%L_TEMP > 0) THEN        
              EL_TEMP => LBUF%TEMP(1:NEL)
@@ -1192,7 +1202,18 @@ C
             DMG_LOC_SCALE(1:NEL) = ONE
 c                                        
             MPT  = NPTTOT * MAX(1,NPG)
-            FBUF => BUFLY%FAIL(IR,IS,IT)                   
+            FBUF => BUFLY%FAIL(IR,IS,IT)   
+c
+            ! Length used for regularization (failure criterion parameters scaling)
+            !  -> If non-local, criterion parameters are scaled with LE_MAX parameter
+            IF (INLOC > 0) THEN 
+              LE_MAX(1:NEL) = NLOC_DMG%LE_MAX(IPM(1,MAT(1)))
+              EL_LEN => LE_MAX(1:NEL)
+            !  -> If not, criterion parameters are scaled with the element characteristic length
+            ELSE
+              EL_LEN => ALDT(1:NEL)
+            ENDIF
+c            
 C           plastic strain increment for all plastic laws                   
             IF (BUFLY%L_PLA > 0) THEN
               ! Non-local material
@@ -1493,7 +1514,7 @@ c
      2                NFUNC1    ,IFUNC1    ,TABLE     ,NPF       ,TF        ,
      3                TT        ,NGL       ,IPG       ,ILAYER    ,IT        , 
      4                SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,      
-     5                DPLA      ,EPSPL     ,THKN      ,ALDT      ,TSTAR     ,
+     5                DPLA      ,EPSPL     ,THKN      ,EL_LEN    ,TSTAR     ,
      6                PTHKF(ILAYER,IFL),DMG_FLAG,DMG_LOC_SCALE ,OFF  ,FOFF      ,
      7                DFMAX     ,TDEL      ,IGTYP     )
                 ELSE
@@ -1566,7 +1587,7 @@ c
      3          SIGNXX   ,SIGNYY  ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      4          DPLA     ,EPSPL   ,UVARF    ,GBUF%NOFF,UELR1    ,
      5          OFF      ,OFFL    ,DFMAX    ,TDEL     ,NFUNC1   ,
-     6          IFUNC1   ,NPF     ,TF       ,ALDT     ,FOFF     , IGTYP)
+     6          IFUNC1   ,NPF     ,TF       ,EL_LEN   ,FOFF     , IGTYP)
 c
               CASE (31)     !    Anisotropic fabric failure model
 c
@@ -1606,7 +1627,7 @@ c
      4           SIGNXX   ,SIGNYY   ,SIGNXY   ,
      5           EPSXX    ,EPSYY    ,EPSXY    ,EPSYZ    ,EPSZX     ,
      6           DPLA     ,UVARF    ,UELR1    ,FOFF     ,
-     7           OFF      ,ALDT     ,AREA     ,DFMAX    ,TDEL   )
+     7           OFF      ,DFMAX    ,TDEL   )
 c
               CASE (36)     !    Visual failure model
                 CALL FAIL_VISUAL_C(                                           
@@ -1621,7 +1642,7 @@ c
      2                NFUNC1    ,IFUNC1    ,NPF       ,TF        ,
      3                TT        ,NGL       ,IPG       ,ILAYER    ,IT        , 
      4                SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,      
-     5                DPLA      ,EPSPL     ,THKN      ,ALDT      ,TSTAR     ,
+     5                DPLA      ,EPSPL     ,THKN      ,EL_LEN    ,TSTAR     ,
      6                PTHKF(ILAYER,IFL)    ,OFF       ,FOFF      ,
      7                DFMAX     ,TDEL      ,IGTYP     )
                 ELSE
@@ -1643,7 +1664,7 @@ c
      3            SIGNXX   ,SIGNYY  ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      4            DPLA     ,EPSPL   ,UVARF    ,GBUF%NOFF,UELR1    ,
      5            OFF      ,OFFL    ,DFMAX    ,TDEL     ,NFUNC1   ,
-     6            IFUNC1   ,NPF     ,TF       ,ALDT     ,FOFF     , 
+     6            IFUNC1   ,NPF     ,TF       ,EL_LEN   ,FOFF     , 
      7            IGTYP    )
 c
               CASE (39)     !    GENE1

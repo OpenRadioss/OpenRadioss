@@ -379,7 +379,7 @@ C
      M          IADC_CRK   ,ELCUTC(1,NF1),CRKSKY ,
      N          LSENSOR    ,SENSOR     ,IXEL     ,
      O          ISUBSTACK  ,UXINT_MEAN ,UYINT_MEAN,UZINT_MEAN,NLEVXF      ,
-     P          NODEDGE    ,CRKEDGE    ,STACK    ,DRAPE_Q4  )
+     P          NODEDGE    ,CRKEDGE    ,STACK    ,DRAPE_Q4  ,NLOC_DMG    )
           ENDDO
             ENDIF
 c
@@ -435,7 +435,7 @@ c
      M ELCUTC(1,NF1),
      N LSENSOR     ,SENSOR      ,IXEL      ,STACK       ,
      O ISUBSTACK   ,UXINT_MEAN  ,UYINT_MEAN  ,UZINT_MEAN,NLEVXF      ,
-     P NODEDGE     ,CRKEDGE     ,DRAPE_Q4   ,IPRI  )
+     P NODEDGE     ,CRKEDGE     ,DRAPE_Q4   ,IPRI       ,NLOC_DMG    )
           ENDDO
             END IF
           ENDIF
@@ -571,7 +571,8 @@ C----6---------------------------------------------------------------7--
      H     LSENSOR     ,SENSOR      ,PTG(1,NF1)  ,IXFEM       ,INOD_CRK    ,
      I     IEL_CRK(ITG3),IADC_CRK(ITG1),ELCUTC(1,NF1+ITG3-1)  ,IXEL        ,
      J     STACK       ,ISUBSTACK   ,UXINT_MEAN  ,UYINT_MEAN  ,UZINT_MEAN  ,
-     K     NLEVXF      ,NODEDGE     ,CRKEDGE     ,DRAPE_T3    ,IPRI        )
+     K     NLEVXF      ,NODEDGE     ,CRKEDGE     ,DRAPE_T3    ,IPRI        ,
+     L     NLOC_DMG    )
         ENDDO
         ENDIF
        ENDIF

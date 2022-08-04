@@ -36,7 +36,7 @@ Chd|====================================================================
      5     EPSXX ,EPSYY ,EPSZZ ,EPSXY ,EPSYZ ,EPSZX ,
      6     SIGNXX ,SIGNYY ,SIGNZZ ,SIGNXY ,SIGNYZ ,SIGNZX ,
      7     PLA ,DPLA ,EPSP ,UVAR ,OFF ,
-     8     DELTAX,VOLN,DFMAX,TDELE )
+     8     DFMAX,TDELE )
 
 C--------------------------------------------------------------------
 C   /FAIL/COCKROFT - Cockroft-Latham failure criteria for solids
@@ -98,8 +98,7 @@ C
      .   EPSPXY(NEL),EPSPYZ(NEL),EPSPZX(NEL),
      .   EPSXX(NEL) ,EPSYY(NEL) ,EPSZZ(NEL) ,
      .   EPSXY(NEL) ,EPSYZ(NEL) ,EPSZX(NEL) ,
-     .   DELTAX(NEL),VOLN(NEL),TDELE(NEL),
-     .   DFMAX(NEL)     
+     .   TDELE(NEL) ,DFMAX(NEL)     
 C-----------------------------------------------
 C I N P U T O U T P U T A r g u m e n t s
 C-----------------------------------------------

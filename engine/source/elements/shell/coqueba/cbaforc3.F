@@ -746,7 +746,7 @@ C-----------------
      M    DIR1_CRK  ,DIR2_CRK  ,LC        ,
      N    ISMSTR    ,IR        ,IS        ,NLAY      ,NPT       ,
      O    IBID      ,IBID      ,ISUBSTACK ,STACK     ,
-     P    F_DEF(1,1,NG),ITASK  ,DRAPE_Q4     ,VAR_REG(1,1))        
+     P    F_DEF(1,1,NG),ITASK  ,DRAPE_Q4     ,VAR_REG(1,1),NLOC_DMG)        
         ENDIF
 
 C-----------------

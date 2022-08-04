@@ -101,7 +101,7 @@ Chd|====================================================================
      T                  CONDE   ,ITASK   ,IEXPAN   ,VOL_AVG ,AMU      ,
      U                  EPSTH3  ,EPSTH   ,SVISC    ,NEL     ,ETOTSH   ,
      V                  ISELECT ,TSTAR   ,MUOLD    ,AMU2    ,DPDM     ,
-     W                  RHOREF  ,RHOSP   )
+     W                  RHOREF  ,RHOSP   ,NLOC_DMG )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -109,6 +109,7 @@ C-----------------------------------------------
       USE TABLE_MOD
       USE ELBUFDEF_MOD            
       USE MESSAGE_MOD
+      USE NLOCAL_REG_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -166,13 +167,14 @@ C
      .   AL_IMP(MVSIZ),SIGNOR(MVSIZ,6),VDX(*),VDY(*),VDZ(*),
      .   SVISC(NEL,6),AMU(MVSIZ),AMU2(MVSIZ),DPDM(MVSIZ),VOL_AVG(MVSIZ),EPSTH(NEL),EPSTH3(MVSIZ),
      .   ETOTSH(NEL,6),TSTAR(MVSIZ),MUOLD(NEL),CONDE(*), RHOREF(*), RHOSP(*)
-      TARGET :: BUFMAT
+      TARGET :: BUFMAT,DELTAX
       my_real, TARGET, DIMENSION(NUVAR*LLT):: UVAR
       my_real, TARGET, DIMENSION(LLT):: UVARF1,LTEMP,TEMPEL,SCALE1,INITVARF
       TYPE (BUF_FAIL_), TARGET  :: FBUF
       TYPE (BUF_VISC_)  :: VBUF
       TYPE (TTABLE), DIMENSION(NTABLE) ::  TABLE
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
+      TYPE (NLOCAL_STR_) :: NLOC_DMG 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -208,9 +210,10 @@ C-----------------------------------------------
       my_real 
      .   RHO0(MVSIZ),BIDON1,BIDON2,BIDON3,BIDON4,BIDON5,POLD
       my_real TT_LOCAL
+      my_real, DIMENSION(NEL), TARGET  :: LE_MAX
 C----
       my_real, DIMENSION(:), POINTER  :: UPARAM,UPARAMF,UVARF,DFMAX,TDEL,EL_TEMP, 
-     .                                   YLDFAC,DAM
+     .                                   YLDFAC,DAM,EL_LEN
       TYPE(ULAWINTBUF)                :: USERBUF
       TYPE(L_BUFEL_)  ,POINTER        :: LBUF, LBUF1, LBUF2    
       TYPE(G_BUFEL_)  ,POINTER        :: GBUF      
@@ -239,6 +242,12 @@ C=======================================================================
       ENDIF
       ISEQ   = ELBUF_TAB(NG)%BUFLY(ILAY)%L_SEQ
       INLOC  = IPARG(78,NG)
+      ! Make sure that the non-local variable increment is positive
+      IF (INLOC > 0) THEN 
+        DO I = LFT,LLT
+          VARNL(I) = MAX(VARNL(I),ZERO)
+        ENDDO
+      ENDIF
       ! needed in mqviscb
       FACQ0  = ONE                          
       MX     = MAT(1)                      
@@ -1141,6 +1150,17 @@ C                  FAILURE MODEL
 C=======================================================================
       IF ((ITASK==0).AND.(IMON_MAT==1))CALL STARTIME(121,1)
       IF (NFAIL > 0) THEN
+c
+        ! Failure criterion parameters scaling
+        IF (INLOC > 0) THEN
+          ! -> Length used for failure criterion parameters scaling is LE_MAX
+          LE_MAX(1:NEL) = NLOC_DMG%LE_MAX(IPM(1,MAT(1)))
+          EL_LEN => LE_MAX(1:NEL) 
+        ELSE
+          ! -> Length used for failure criterion parameters scaling is LE_MAX
+          EL_LEN => DELTAX(1:NEL) 
+        ENDIF
+c
         IF (ELBUF_TAB(NG)%BUFLY(ILAY)%L_PLA > 0) THEN
 C for non-local plastic law
           IF (INLOC > 0) THEN 
@@ -1371,7 +1391,7 @@ C---- energy failure
 C---- tabulated failure model
                CALL FAIL_TAB_S(
      1         LLT      ,NVARF    ,NPF      ,TF       ,TT       ,        
-     2         UPARAMF     ,NGL      ,IPM      ,MAT      ,DELTAX   ,        
+     2         UPARAMF  ,NGL      ,IPM      ,MAT      ,EL_LEN   ,        
      3         S1       ,S2       ,S3       ,S4       ,S5       ,S6,    
      4         DEFP     ,DPLA     ,EPSP1    ,TSTAR    ,UVARF ,             
      5         OFF      ,IP       ,TABLE    ,DFMAX    ,TDEL  ,
@@ -1411,7 +1431,7 @@ c  --- Biquadratic failure model
      3        NGL      ,IPM      ,MAT      ,                   
      4        S1       ,S2       ,S3       ,S4       ,S5       ,S6 ,
      5        DPLA     ,EPSP1    ,TSTAR    ,UVARF    ,OFF,IP   ,
-     6        DFMAX    ,TDEL     ,DELTAX)    
+     6        DFMAX    ,TDEL     ,EL_LEN   )    
           ELSEIF (IRUPT == 33) THEN                                
 c  --- Mullins Ogden-Roxburgh dammage model                                  
               CALL FAIL_MULLINS_OR_S(
@@ -1429,7 +1449,7 @@ C  --- Cockroft-Latham failure model
      4        ES1     ,ES2       ,ES3      ,ES4      ,ES5           ,ES6 ,
      5        S1      ,S2        ,S3       ,S4       ,S5            ,S6  ,
      6        DEFP    ,DPLA      ,EPSP     ,UVARF    ,OFF           ,
-     7        DELTAX  ,VOLN      ,DFMAX    ,TDEL) 
+     7        DFMAX   ,TDEL      ) 
           ELSEIF (IRUPT == 36) THEN                                           
 C  --- VISUAL failure model             
               CALL FAIL_VISUAL_S(
@@ -1442,7 +1462,7 @@ c
 c ---       tabulated failure model (old, obsolete version)
               CALL FAIL_TAB_OLD_S(
      1         LLT      ,NVARF    ,NPF      ,TF       ,TT       ,        
-     2         UPARAMF     ,NGL      ,IPM      ,MAT      ,DELTAX   ,        
+     2         UPARAMF  ,NGL      ,IPM      ,MAT      ,EL_LEN   ,        
      3         S1       ,S2       ,S3       ,S4       ,S5       ,S6,    
      4         DEFP     ,DPLA     ,EPSP1    ,TSTAR    ,UVARF ,             
      5         OFF      ,IP       ,DFMAX    ,TDEL     ,
@@ -1455,7 +1475,7 @@ c  --- Orthotropic biquadratic failure model
      2          NPF      ,TF       ,TT       ,DT1      ,UPARAMF  ,
      3          NGL      ,DPLA     ,EPSP1    ,UVARF    ,OFF      ,              
      4          S1       ,S2       ,S3       ,S4       ,S5       ,S6       ,
-     5          DFMAX    ,TDEL     ,DELTAX   )  
+     5          DFMAX    ,TDEL     ,EL_LEN   )  
 c
           ELSEIF (IRUPT == 39) THEN                                      
 c  --- GENE1 failure model                                  

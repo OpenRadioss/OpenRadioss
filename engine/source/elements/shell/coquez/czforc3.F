@@ -518,9 +518,9 @@ C-----------------------------------------------
      K      R32       ,R33       ,NG        ,TABLE     ,IXFEM      ,
      L      BID       ,LSENSOR   ,SENSOR    ,BID       ,ELCRKINI   ,
      M      DIR1_CRK  ,DIR2_CRK  ,LL        ,
-     N      ISMSTR    ,IR        ,IS        ,NLAY      ,NPT       ,
+     N      ISMSTR    ,IR        ,IS        ,NLAY      ,NPT        ,
      O      IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,
-     P      F_DEF     ,ITASK     ,DRAPE_Q4  ,VAR_REG   )
+     P      F_DEF     ,ITASK     ,DRAPE_Q4  ,VAR_REG   ,NLOC_DMG   )
 C-----------------------------------------------
 c        
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)
