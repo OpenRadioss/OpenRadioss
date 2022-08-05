@@ -73,40 +73,40 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE FORINT(
-     1    PM        ,GEO       ,X         ,A         ,AR        ,
-     2    V         ,VR        ,MS        ,IN        ,W         ,
-     3    ELBUF     ,WA        ,VAL2      ,VEUL      ,FV        ,
-     4    STIFN     ,STIFR     ,FSKY      ,TF        ,BUFMAT    ,
-     5    PARTSAV   ,D         ,DR        ,EANI      ,ELBUF_TAB ,
-     6    TANI      ,FANI      ,FSAV      ,SENSOR    ,NLOC_DMG  ,
-     7    SKEW      ,ANIN      ,DT2T      ,BUFGEO    ,ITAB      ,
-     8    IADS      ,IADQ      ,IADT      ,IADP      ,MATPARAM_TAB,
-     9    IADR      ,IPARG     ,ALE_CONNECT     ,NPC       ,
-     A    IXS       ,IXQ       ,IXT       ,IXP       ,
-     B    IXR       ,NELTST    ,IPARI     ,
-     C    LSENSOR   ,ITYPTST   ,NSTRF     ,IPART     ,
-     D    IPARTS    ,IPARTQ    ,IPARTT    ,IPARTP    ,
-     E    IPARTR    ,IPARTUR   ,FR_WAVE   ,IXUR      ,
-     F    IADUR     ,SECFCUM   ,AGRAV     ,IGRV      ,LGRAV     ,
+     1    PM        ,GEO       ,X          ,A         ,AR        ,
+     2    V         ,VR        ,MS         ,IN        ,W         ,
+     3    ELBUF     ,WA        ,VAL2       ,VEUL      ,FV        ,
+     4    STIFN     ,STIFR     ,FSKY       ,TF        ,BUFMAT    ,
+     5    PARTSAV   ,D         ,DR         ,EANI      ,ELBUF_TAB ,
+     6    TANI      ,FANI      ,FSAV       ,SENSOR    ,NLOC_DMG  ,
+     7    SKEW      ,ANIN      ,DT2T       ,BUFGEO    ,ITAB      ,
+     8    IADS      ,IADQ      ,IADT       ,IADP      ,MATPARAM_TAB,
+     9    IADR      ,IPARG     ,ALE_CONNECT,NPC       ,SENSOR_TAB,
+     A    IXS       ,IXQ       ,IXT        ,IXP       ,
+     B    IXR       ,NELTST    ,IPARI      ,
+     C    LSENSOR   ,ITYPTST   ,NSTRF      ,IPART     ,
+     D    IPARTS    ,IPARTQ    ,IPARTT     ,IPARTP    ,
+     E    IPARTR    ,IPARTUR   ,FR_WAVE    ,IXUR      ,
+     F    IADUR     ,SECFCUM   ,AGRAV      ,IGRV      ,LGRAV     ,
      G    RBY       ,
      H    IXS10     ,
-     I    IXS20     ,IADS10    ,IADS20    ,IXS16     ,IADS16    ,
-     J    W16       ,FSKYM     ,MSNF      ,IGEO      ,IPM       ,
+     I    IXS20     ,IADS10    ,IADS20     ,IXS16     ,IADS16    ,
+     J    W16       ,FSKYM     ,MSNF       ,IGEO      ,IPM       ,
      K    XSEC      ,ITASK     ,
-     M                                                TEMP      ,
-     N    FTHE      ,FTHESKY              ,IGROUNC   ,NGROUNC   ,
-     O    GRESAV    ,GRTH      ,IGRTH     ,XDP       ,MSSA      ,
-     P    DMELS     ,MSTR      ,DMELTR    ,MSP       ,DMELP     ,
-     Q    MSRT      ,DMELRT    ,TABLE     ,VF        ,AF        ,
-     R    DF        ,WF        ,FFSKY     ,AFGLOB    ,NBSDVOIS  ,
-     S    NERCVOIS  ,NESDVOIS  ,LERCVOIS  ,LESDVOIS  ,PHI1      ,
-     T    PHI2      ,MSF       ,NODFT     ,NODLT     ,
-     U    FLG_KJ2   ,POR       ,ICONTACT  ,IFOAM     ,VARNOD    ,
-     V    KXIG3D    ,IXIG3D    ,KNOT      ,WIGE      ,CONDN     ,
-     W    CONDNSKY  ,DIMFB     , FBSAV6   ,STABSEN   ,TABSENSOR ,
-     Y    TAGPRT_SMS,ITAGND    ,MS_2D     ,NALE      ,STRESSMEAN,
-     Z    KNOTLOCPC ,KNOTLOCEL ,SUBSET    ,FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE,
-     1    H3D_DATA)    
+     M                                                 TEMP      ,
+     N    FTHE      ,FTHESKY               ,IGROUNC   ,NGROUNC   ,
+     O    GRESAV    ,GRTH      ,IGRTH      ,XDP       ,MSSA      ,
+     P    DMELS     ,MSTR      ,DMELTR     ,MSP       ,DMELP     ,
+     Q    MSRT      ,DMELRT    ,TABLE      ,VF        ,AF        ,
+     R    DF        ,WF        ,FFSKY      ,AFGLOB    ,NBSDVOIS  ,
+     S    NERCVOIS  ,NESDVOIS  ,LERCVOIS   ,LESDVOIS  ,PHI1      ,
+     T    PHI2      ,MSF       ,NODFT      ,NODLT     ,
+     U    FLG_KJ2   ,POR       ,ICONTACT   ,IFOAM     ,VARNOD    ,
+     V    KXIG3D    ,IXIG3D    ,KNOT       ,WIGE      ,CONDN     ,
+     W    CONDNSKY  ,DIMFB     , FBSAV6    ,STABSEN   ,TABSENSOR ,
+     Y    TAGPRT_SMS,ITAGND    ,MS_2D      ,NALE      ,STRESSMEAN,
+     Z    KNOTLOCPC ,KNOTLOCEL ,SUBSET     ,FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE,
+     1    H3D_DATA) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -196,6 +196,7 @@ C-----------------------------------------------
       DOUBLE PRECISION,TARGET :: FBSAV6(12,6,DIMFB)
       TYPE (SUBSET_) , DIMENSION(NSUBS) :: SUBSET
       TYPE(H3D_DATABASE) :: H3D_DATA
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1227,7 +1228,7 @@ c
      9      FX(1,2)     ,FY(1,1)     ,FY(1,2)     ,FZ(1,1)  ,FZ(1,2)    ,
      A      MX(1,1)    ,MX(1,2)     ,MY(1,1)      ,MY(1,2)  ,MZ(1,1)   ,
      B      MZ(1,2)    ,GRESAV      ,GRTH ,IGRTH(OFF_IGRTH+NF1),MSRT(NF1) ,
-     C      DMELRT(NF1), ITASK       ,H3D_DATA     )
+     C      DMELRT(NF1), ITASK       ,H3D_DATA    ,SENSOR_TAB)
              
          ENDIF
 C
