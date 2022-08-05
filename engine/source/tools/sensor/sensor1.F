@@ -972,6 +972,13 @@ c
         CALL SENSOR_TEMP(SENSOR_TAB ,ISENS ,IGRNOD   ,TEMP     )
 c
 c--------------------------------
+      ELSEIF (TYP == 19) THEN
+c--------------------------------
+c       SENSOR NIC-Nij
+c
+        CALL SENSOR_NIC(SENSOR_TAB )
+c
+c--------------------------------
       ELSEIF(TYP > 28 .AND. TYP < 38)THEN
 c--------------------------------
 c       USER SENSORS

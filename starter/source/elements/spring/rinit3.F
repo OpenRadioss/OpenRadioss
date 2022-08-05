@@ -414,6 +414,7 @@ C---- For prop type8 - skew per element is used if available
           ELSEIF (IGTYP == 8) THEN
 C---- For prop type8 - skew of property is used if no skew per element
             GBUF%SKEW_ID(I) = IGEO(2,I0)
+            R_SKEW(I+NFT)   = IGEO(2,I0)
           ENDIF
 C
           RATIO = XM * LENGTH * LENGTH

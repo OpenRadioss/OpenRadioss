@@ -78,7 +78,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,SENS_TYPE,SPRING_ID,SKEW_ID,ISK,NTIME,CFC,IDIR1,IDIR2,
-     .   NPARIS,NPARRS,NVAR
+     .   NPARIS,NPARRS,NVAR,NPT
       my_real :: TDEL,TMIN,NIJMAX,FTENS,FCOMP,MFLEX,MEXT,ALPHA,DTIME,
      .           BETA,WD,WA,WA2,WA3,A0,A1,A2,B1,B2,FAC_FORC,FAC_MOM
       CHARACTER F_DIR*ncharfield, M_DIR*ncharfield
@@ -159,13 +159,14 @@ c--------------------------------------------------
       A1   = A0 * TWO
       A2   = A0
       B1   = -TWO*(WA2 - ONE) / WA3
-      B2   = (-ONE + SQR2*WA -WA2) / WA3
+      B2   = (-ONE + SQR2*WA - WA2) / WA3
 c--------------------------------------------------
 c     sensor data structure
 c--------------------------------------------------
       NPARIS = 8   ! int  value parameters
       NPARRS = 12  ! real value parameters
-      NVAR   = 3   ! internal variables
+        NPT = 11
+      NVAR   = 5 + NPT*2   ! internal variables
 c
       ALLOCATE (SENSOR_PTR%IPARAM(NPARIS))
       ALLOCATE (SENSOR_PTR%RPARAM(NPARRS))
@@ -185,13 +186,13 @@ c
       SENSOR_PTR%VALUE   = ZERO
 c
       SENSOR_PTR%IPARAM(1) = SPRING_ID
-      SENSOR_PTR%IPARAM(2) = 0          ! SPRING_N
+      SENSOR_PTR%IPARAM(2) = 0        ! spring number - initialized in inisens()
       SENSOR_PTR%IPARAM(3) = ISK
-      SENSOR_PTR%IPARAM(4) = 0          ! SPRING skew N
+      SENSOR_PTR%IPARAM(4) = 0        ! spring skew number - initialized in inisens()
       SENSOR_PTR%IPARAM(5) = IDIR1
       SENSOR_PTR%IPARAM(6) = IDIR2
       SENSOR_PTR%IPARAM(7) = NTIME
-      SENSOR_PTR%RPARAM(8) = CFC       
+      SENSOR_PTR%IPARAM(8) = CFC       
 c
       SENSOR_PTR%RPARAM(1) = NIJMAX
       SENSOR_PTR%RPARAM(2) = FTENS

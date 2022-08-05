@@ -57,17 +57,19 @@ C-----------------------------------------------
 C----------------------------------------------------------
 C Local Variables
 C----------------------------------------------------------
-      INTEGER I,J,IPOINT,IDIR,IACC,ISENSOR_TYPE,NPOINT,NPH,NVAR,
+      INTEGER I,J,IDIR,ISENSOR_TYPE,NPOINT,NPH,NVAR,CFC,
      .        SKEW_SENS,SKEW_SPRING,IDIR1,IDIR2
 c
-      my_real :: TIME_UNIT,TIME,xINDX, INTEGRAL,INCREMENT
-      my_real :: NIC_PERIOD,NIJMAX,NIC,NIC_PREC,NIC_TMP,DTIME
+      my_real :: TIME_UNIT,TIME,DT
+      my_real :: NIC_PERIOD,NIJMAX,NIC,NIC_NF,DTIME
       my_real :: TIME_PREC,TEST_TIME,DELTA_T
       my_real :: PERIOD_TMP,OPT_PERIOD,
-     .           FTENS,FCOMP,MFLEX,MEXT,CFC,ALPHA,BETA
+     .           FTENS,FCOMP,MFLEX,MEXT,ALPHA,BETA
       my_real :: NIJ,FOR,MOM
       my_real ,DIMENSION(:) ,ALLOCATABLE :: FX,FY,FZ,MX,MY,MZ
-      my_real ,DIMENSION(:) ,POINTER :: VALUE_TABLE
+      my_real ,DIMENSION(3) :: CA
+      my_real ,DIMENSION(2) :: CB
+      my_real ,DIMENSION(:) ,POINTER :: TABLE_F,TABLE_M
 c
       DATA NVAR/4/
 c-----------------------------------------------------------------------
@@ -85,22 +87,26 @@ c
       SKEW_SPRING  = SENSOR%IPARAM(4)
       IDIR1        = SENSOR%IPARAM(5)
       IDIR2        = SENSOR%IPARAM(6)
-      NPOINT       = SENSOR%IPARAM(7)
+      NPH          = SENSOR%IPARAM(7)
+      CFC          = SENSOR%IPARAM(8)
 c
       NIJMAX = SENSOR%RPARAM(1)
       FTENS  = SENSOR%RPARAM(2)
       FCOMP  = SENSOR%RPARAM(3)
       MFLEX  = SENSOR%RPARAM(4)
       MEXT   = SENSOR%RPARAM(5)
-      CFC    = SENSOR%RPARAM(6)
-      ALPHA  = SENSOR%RPARAM(7)
-      DTIME  = SENSOR%RPARAM(8)
+      CA(1)  = SENSOR%RPARAM(6)
+      CA(2)  = SENSOR%RPARAM(7)
+      CA(3)  = SENSOR%RPARAM(8)
+      CB(1)  = SENSOR%RPARAM(9)
+      CB(2)  = SENSOR%RPARAM(10)
+      DTIME  = SENSOR%RPARAM(11)
+      ALPHA  = SENSOR%RPARAM(12)
       
-!      ALLOCATE(FZ(NPOINT))
-!      ALLOCATE(MY(NPOINT))
 c     actual normalized spring force and moment
       FOR = SENSOR%VAR(1)
-      MOM = SENSOR%VAR(2)
+
+!      MOM = SENSOR%VAR(2)
       TIME_PREC = SENSOR%VAR(3)  ! bidon
       
       
@@ -110,93 +116,55 @@ c     actual normalized spring force and moment
 !        tension-compression-flex-ext combinations : N11,N12,N21,N22
 !     4) test crit value over Tmin and deactivate sensor
 !
-
-      NIJ = FOR + MOM
-
-
-
-!      
+ 
+!      NPOINT = 2*NPH + 1
+      NPOINT = 7
+      DT = DT2
 c
       TIME = TT
-!      VALUE_TABLE(1:NPOINT) => SENSOR%VAR(NVAR+1:NVAR+NPOINT)
-c      
-c
-c
-c...  Get last sensor state variables
+      NVAR = 5
+c      TABLE_F(1:NPOINT) => SENSOR%VAR(NVAR+1:NVAR+NPOINT)
+c      TABLE_M(1:NPOINT) => SENSOR%VAR(NVAR+NPOINT+1:NVAR+NPOINT*2)
+c     shift data to make place for new time interval when NIC_PERIOD is reached
+      DO I = 1,NPOINT-1
+        TABLE_F(I) = TABLE_F(I+1)   
+      END DO                                
+      TABLE_F(1:NPOINT) = FOR
+      DO I = 1,NPOINT-1
+        TABLE_M(I) = TABLE_M(I+1)   
+      END DO                                
+      TABLE_M(1:NPOINT) = MOM
+      
 
-c
-      TEST_TIME = TIME_PREC + DTIME
-c
-c.... Calculate new NIC value (only at the start of new time interval) 
-c
-!      IF (TIME > TEST_TIME) THEN
-!        DELTA_T = TIME - TIME_PREC
-!        ! average Nij from previous time interval
-!!!        CURRENT_VALUE = ??
-!c
-!        IF (INDX == NPOINT) THEN               
-!c         shift data to make place for new time interval when NIC_PERIOD is reached
-!          DO I = 1,NPOINT-1
-!            VALUE_TABLE(I) = VALUE_TABLE(I+1)   
-!          END DO                                
-!        ELSE          ! advance data index for next time interval                          
-!          INDX = INDX + 1                       
-!        ENDIF
-!        VALUE_TABLE(INDX) = CURRENT_VALUE       
-!c
-!c       Calculation of NIC
-!c       Searching for the period (lower or equal to NIC_PERIOD) maximizing NIC
-!c
-!        OPT_PERIOD = ZERO
-!        NIC  = ZERO
-!        DO I = 1,INDX
-!          INTEGRAL = ZERO
-!          DO J = I,INDX
-!            INTEGRAL = INTEGRAL + VALUE_TABLE(J)*DELTA_T
-!          END DO
-!          INCREMENT = INDX + 1 - I
-!          PERIOD_TMP = DELTA_T * INCREMENT
-!          NIC_TMP = PERIOD_TMP * ((INTEGRAL/PERIOD_TMP)**BETA)
-!          NIC_TMP = NIC_TMP * TIME_UNIT          ! convert to seconds ???
-!          IF (NIC_TMP > NIC) THEN
-!            NIC = NIC_TMP
-!            OPT_PERIOD = PERIOD_TMP            
-!            T1 = MAX(TIME - OPT_PERIOD, ZERO)  
-!            T2 = TIME                          
-!          ENDIF
-!        END DO
-!c
-!c       Save sensor status, for next step
-!        SENSOR%VAR(1) = TIME
-!        SENSOR%VAR(2) = ZERO       ! reinitialize integral for next time interval
-!        SENSOR%VAR(3) = INDX
-!        IF (NIC > NIC_PREC) THEN
-!          SENSOR%VAR(4) = NIC
-!        ENDIF 
-!c
-!c.......Check Sensor State
-!        IF (NIC >= NIJMAX) THEN
-!          IF (SENSOR%STATUS == 0) THEN
-!            SENSOR%STATUS = 1
-!            SENSOR%TCRIT  = TIME + SENSOR%TMIN
-!          END IF
-!          IF (SENSOR%TCRIT <= TIME) THEN
-!            SENSOR%STATUS = 2
-!          END IF
-!          IF (SENSOR%STATUS == 2 .and. 
-!     .        SENSOR%TCRIT + SENSOR%TDELAY <= TIME) THEN
-!            SENSOR%STATUS = 3   ! activate
-!            SENSOR%TSTART = TIME
-!          END IF
-!        ENDIF ! Fin test NIC
-!c
-!      ELSE    ! TIME < TEST_TIME
-!c       Calculate acceleration integral within current time interval 
-!!        SENSOR%VAR(2) = SENSOR%VAR(2) + ACCG*DT12
-!      ENDIF  ! Fin of TIME test
-!c
-!!      DEALLOCATE(FZ)
-!!      DEALLOCATE(MY)
+c      CALL FILTER_SAE211(NPOINT    ,SENSOR%VAR   ,CA    ,CB   )
+
+c      CALL FILTER_SAE211(TABLE_M   ,DT   ,NPOINT    ,CA    ,CB   )
+
+      NIC = FOR + MOM
+c      SENSOR%VAR(5) = NIC
+c      SENSOR%VAR(3) = TABLE_F(NPH+1)
+c      SENSOR%VAR(4) = TABLE_M(NPH+1)
+      
+c      NIC = SENSOR%VAR(3) + SENSOR%VAR(4)
+      SENSOR%VALUE = NIC
+      
+c-----------------------------------------
+c     Check Sensor State
+c-----------------------------------------
+      IF (NIC >= NIJMAX) THEN
+        IF (SENSOR%STATUS == 0) THEN
+          SENSOR%STATUS = 1
+          SENSOR%TCRIT  = TIME + SENSOR%TMIN
+        END IF
+        IF (SENSOR%TCRIT <= TIME) THEN
+          SENSOR%STATUS = 2
+        END IF
+        IF (SENSOR%STATUS == 2 .and. 
+     .      SENSOR%TCRIT + SENSOR%TDELAY <= TIME) THEN
+          SENSOR%STATUS = 3   ! activate
+          SENSOR%TSTART = TIME
+        END IF
+      ENDIF ! Fin test NIC
 c-----------------------------------------------------------------------      
       IF (SENSOR%STATUS == 3 .and. ISPMD == 0) THEN
 #include "lockon.inc"
