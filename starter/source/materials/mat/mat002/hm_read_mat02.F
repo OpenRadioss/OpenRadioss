@@ -234,42 +234,44 @@ C-----------------------------------------------
       ENDIF
 
       IF(MFLAG == 0) THEN
-          IF(IFLAG == 0) THEN
-            IF(CN == ZERO)   CN    = ONE
-           ELSE
-            CB0= CB
-            RM = CB *(ONE+CN)
-            AG = LOG(ONE+CN)
-            CN0= CN
-            CN = RM*AG / (RM-CA)
-            CB = RM/(CN*AG**(CN-ONE))
-            IF (CN .GT. ONE) THEN
-              CN = ONE
-              CB = (CB0*(ONE+CN0)-CA)/(LOG(1+CN0)-CB0*(1+CN0)/YOUNG-CA/YOUNG)
-              CALL ANCMSG(MSGID=277,
-     .                    MSGTYPE=MSGWARNING,
-     .                    ANMODE=ANINFO_BLIND_1,
-     .                    I1=ID, 
-     .                    C1=TITR)
-            ENDIF
-            IF (CN .LT. ZERO .AND. CB .LT. ZERO) THEN
-              CN = ZERO
-              CB = ZERO          
-              CALL ANCMSG(MSGID=278,
-     .                    MSGTYPE=MSGWARNING,
-     .                    ANMODE=ANINFO_BLIND_1,
-     .                    I1=ID, 
-     .                    C1=TITR)
-            ENDIF
+        ! Exponent must be set to one if equals to zero in the input
+        ! in any case (Iflag=0 or Iflag=1)
+        IF (CN == ZERO) CN = ONE
+        ! If Iflag == 1, parameters B and n must be recomputed
+        IF (IFLAG == 1) THEN
+          CB0 = CB
+          RM  = CB *(ONE+CN)
+          AG  = LOG(ONE+CN)
+          CN0 = CN
+          CN  = RM*AG / (RM-CA)
+          CB  = RM/(CN*AG**(CN-ONE))
+          IF (CN .GT. ONE) THEN
+            CN = ONE
+            CB = (CB0*(ONE+CN0)-CA)/(LOG(1+CN0)-CB0*(1+CN0)/YOUNG-CA/YOUNG)
+            CALL ANCMSG(MSGID=277,
+     .                  MSGTYPE=MSGWARNING,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1=ID, 
+     .                  C1=TITR)
           ENDIF
-        ELSE      ! small material database, materials as in /FAIL/BiQUAD
-          IF     (MFLAG >= 1) THEN ! Mild Seel unit = Ton, sec, mm
-            FAC_M = FAC_M_WORK                        
-            FAC_L = FAC_L_WORK
-            FAC_T = FAC_T_WORK
-            FAC_PRES = FAC_M/ (FAC_L*FAC_T*FAC_T)                      
-            FAC_DENS = FAC_M/ (FAC_L*FAC_L*FAC_L)
-            SELECT CASE (MFLAG)
+          IF (CN .LT. ZERO .AND. CB .LT. ZERO) THEN
+            CN = ZERO
+            CB = ZERO          
+            CALL ANCMSG(MSGID=278,
+     .                  MSGTYPE=MSGWARNING,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1=ID, 
+     .                  C1=TITR)
+          ENDIF
+        ENDIF
+      ELSE      ! small material database, materials as in /FAIL/BiQUAD
+        IF (MFLAG >= 1) THEN ! Mild Seel unit = Ton, sec, mm
+          FAC_M = FAC_M_WORK                        
+          FAC_L = FAC_L_WORK
+          FAC_T = FAC_T_WORK
+          FAC_PRES = FAC_M/ (FAC_L*FAC_T*FAC_T)                      
+          FAC_DENS = FAC_M/ (FAC_L*FAC_L*FAC_L)
+          SELECT CASE (MFLAG)
             CASE(1)                                ! Mild steel
 c!            RHO0  = 7.85d-9          * FAC_DENS
               RHO0  = 7850d0           / FAC_DENS
@@ -344,8 +346,8 @@ c!            YOUNG = 210000.0d0       * FAC_PRES
               CA    = 160000000.0d0    / FAC_PRES
               CB    = 513330169.33870d0/ FAC_PRES      
               CN    = 0.3257084899598d0
-            END SELECT
-          ENDIF
+          END SELECT
+        ENDIF
       ENDIF       
 C-----
       IF(CC > ZERO .AND. EPS0 > ZERO  .AND. FCUT == ZERO) THEN
