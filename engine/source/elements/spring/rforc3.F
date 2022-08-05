@@ -78,23 +78,24 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE RFORC3(ELBUF_STR,
-     1                  JFT      ,JLT     ,NEL    ,MTN     ,IGEO   ,
-     2                  GEO      ,IXR     ,X      ,TABLE   ,XDP    ,
-     3                  F        ,NPF     ,TF     ,SKEW    ,FLG_KJ2,
-     4                  VR       ,AR      ,V      ,DT2T    ,NELTST ,
-     5                  ITYPTST  ,STIFN   ,STIFR  ,MS      ,IN     ,
-     6                  FSKY     ,IADR    ,SENSOR ,LSENSOR ,OFFSET ,
-     7                  ANIM     ,PARTSAV ,IPARTR ,TANI    ,FR_WAVE,
-     8                  BUFMAT   ,BUFGEO  ,PM     ,RBY     ,FX1    ,
-     9                  FX2      ,FY1     ,FY2    ,FZ1     ,FZ2    ,
-     A                  MX1      ,MX2     ,MY1    ,MY2     ,MZ1    ,
-     B                  MZ2      ,GRESAV  ,GRTH   ,IGRTH   ,MSRT   ,
-     C                  DMELRT   ,ITASK   ,H3D_DATA)
+     1                  JFT      ,JLT     ,NEL     ,MTN       ,IGEO     ,
+     2                  GEO      ,IXR     ,X       ,TABLE     ,XDP      ,
+     3                  F        ,NPF     ,TF      ,SKEW      ,FLG_KJ2  ,
+     4                  VR       ,AR      ,V       ,DT2T      ,NELTST   ,
+     5                  ITYPTST  ,STIFN   ,STIFR   ,MS        ,IN       ,
+     6                  FSKY     ,IADR    ,SENSOR  ,LSENSOR   ,OFFSET   ,
+     7                  ANIM     ,PARTSAV ,IPARTR  ,TANI      ,FR_WAVE  ,
+     8                  BUFMAT   ,BUFGEO  ,PM      ,RBY       ,FX1      ,
+     9                  FX2      ,FY1     ,FY2     ,FZ1       ,FZ2      ,
+     A                  MX1      ,MX2     ,MY1     ,MY2       ,MZ1      ,
+     B                  MZ2      ,GRESAV  ,GRTH    ,IGRTH     ,MSRT     ,
+     C                  DMELRT   ,ITASK   ,H3D_DATA,SENSOR_TAB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE TABLE_MOD
+      USE SENSOR_MOD
       USE H3D_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
@@ -132,13 +133,12 @@ C-----------------------------------------------
      .   MX1(MVSIZ),MY1(MVSIZ),MZ1(MVSIZ),
      .   MX2(MVSIZ),MY2(MVSIZ),MZ2(MVSIZ),GRESAV(*),
      .   MSRT(*), DMELRT(*)
-
-
       DOUBLE PRECISION XDP(3,*)
       TYPE(TTABLE) TABLE(*)
 C
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE(H3D_DATABASE) :: H3D_DATA
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -399,6 +399,8 @@ C
         DO I=JFT,JLT
           IF (GBUF%OFF(I) /= -TEN .AND. OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
         ENDDO
+        
+        CALL RSENS_NIC(NEL   ,IXR    ,GBUF%FOR,GBUF%MOM,SKEW  ,SENSOR_TAB)
 C
         CALL R2LEN3(JFT     ,JLT    ,GBUF%OFF  ,DT2T   ,NELTST ,
      2              ITYPTST ,STI    ,STIR      ,MS     ,IN     ,
