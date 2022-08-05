@@ -259,7 +259,7 @@ C         NIC_NIJ
 C-------------------------------------
           SPRING_ID = SENSOR_TAB(K)%IPARAM(1)
           DO I=1,NUMELR
-            IF (IXR(5,I) == SPRING_ID) THEN
+            IF (IXR(6,I) == SPRING_ID) THEN
               SENSOR_TAB(K)%IPARAM(2) = I
               SENSOR_TAB(K)%IPARAM(4) = R_SKEW(I)
               EXIT

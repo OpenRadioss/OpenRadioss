@@ -27,14 +27,14 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN) :: NEL
       INTEGER ,DIMENSION(NIXR,NUMELR) ,INTENT(IN) :: IXR
       my_real ,DIMENSION(NEL) ,INTENT(IN)  :: FOR,MOM
-      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(OUT) :: SENSOR_TAB
+      TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR) ,INTENT(INOUT) :: SENSOR_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,SPRING_ID,ISENS,ISKW_SPRING,ISKW_SENS,IDIR_F,IDIR_M
-      my_real :: FX,FY,FZ,MX,MY,MZ, FTENS,FCOMP,MFLEX,MEXT
+      INTEGER :: I,J,SPRING_ID,ISENS,SPR_SKW,SEN_SKW,IDIR_F,IDIR_M
+      my_real :: FZ,MY,FTENS,FCOMP,MFLEX,MEXT,FGX,FGY,FGZ,MGX,MGY,MGZ
       my_real ,DIMENSION(3) :: FF,MM
-      my_real ,DIMENSION(LSKEW,*) :: SKEW
+      my_real ,DIMENSION(LSKEW,NUMSKW) :: SKEW
 c-----------------------------------------------------------------------
 c     send current normalized forces and moments in the spring to sensor for processing
 c=======================================================================
@@ -42,8 +42,8 @@ c=======================================================================
       DO J = 1,NSENSOR
         IF (SENSOR_TAB(J)%TYPE == 19) THEN  ! sensor NIC_Nij
           ISENS = J
-          ISKW_SENS   = SENSOR_TAB(ISENS)%IPARAM(3)
-          ISKW_SPRING = SENSOR_TAB(ISENS)%IPARAM(4)
+          SEN_SKW   = SENSOR_TAB(ISENS)%IPARAM(3)
+          SPR_SKW = SENSOR_TAB(ISENS)%IPARAM(4)
           IDIR_F = SENSOR_TAB(ISENS)%IPARAM(5) 
           IDIR_M = SENSOR_TAB(ISENS)%IPARAM(6) 
 c
@@ -57,7 +57,7 @@ c
 c     we assume theres only one NIC-Nij sensor in the model
       IF (ISENS > 0) THEN   
         DO I = 1,NEL
-          SPRING_ID = IXR(5,I)
+          SPRING_ID = IXR(6,I)
           IF (SENSOR_TAB(ISENS)%IPARAM(1) == SPRING_ID) THEN
             FF(1) = FOR(I)
             FF(2) = FOR(I+NEL)
@@ -65,13 +65,26 @@ c     we assume theres only one NIC-Nij sensor in the model
             MM(1) = MOM(I)
             MM(2) = MOM(I+NEL)
             MM(3) = MOM(I+NEL*2)
-c           rotate with sensor and spring skew if necessary
-
-
-
+c           rotate to sensor skew if necessary
+            IF (SEN_SKW > 1) THEN
+              IF (SEN_SKW /= SPR_SKW) THEN
+                FGX   = SKEW(1,SPR_SKW)*FF(1)+SKEW(4,SPR_SKW)*FF(2)+SKEW(7,SPR_SKW)*FF(3)
+                FGY   = SKEW(2,SPR_SKW)*FF(1)+SKEW(5,SPR_SKW)*FF(2)+SKEW(8,SPR_SKW)*FF(3)
+                FGZ   = SKEW(3,SPR_SKW)*FF(1)+SKEW(6,SPR_SKW)*FF(2)+SKEW(9,SPR_SKW)*FF(3)
+                FF(1) = SKEW(1,SEN_SKW)*FGX+SKEW(2,SEN_SKW)*FGY+SKEW(3,SEN_SKW)*FGZ
+                FF(2) = SKEW(4,SEN_SKW)*FGX+SKEW(5,SEN_SKW)*FGY+SKEW(6,SEN_SKW)*FGZ
+                FF(3) = SKEW(7,SEN_SKW)*FGX+SKEW(8,SEN_SKW)*FGY+SKEW(9,SEN_SKW)*FGZ
+                MGX   = SKEW(1,SPR_SKW)*MM(1)+SKEW(4,SPR_SKW)*MM(2)+SKEW(7,SPR_SKW)*MM(3)
+                MGY   = SKEW(2,SPR_SKW)*MM(1)+SKEW(5,SPR_SKW)*MM(2)+SKEW(8,SPR_SKW)*MM(3)
+                MGZ   = SKEW(3,SPR_SKW)*MM(1)+SKEW(6,SPR_SKW)*MM(2)+SKEW(9,SPR_SKW)*MM(3)
+                MM(1) = SKEW(1,SEN_SKW)*MGX+SKEW(2,SEN_SKW)*MGY+SKEW(3,SEN_SKW)*MGZ
+                MM(2) = SKEW(4,SEN_SKW)*MGX+SKEW(5,SEN_SKW)*MGY+SKEW(6,SEN_SKW)*MGZ
+                MM(3) = SKEW(7,SEN_SKW)*MGX+SKEW(8,SEN_SKW)*MGY+SKEW(9,SEN_SKW)*MGZ
+              END IF
+              FZ = FF(IDIR_F)
+              MY = MM(IDIR_M)
+            END IF
 c           save normalized FZ and My values
-            FZ = FF(IDIR_F)
-            MY = MM(IDIR_M)
             IF (FZ >= ZERO) THEN
               FZ = FZ / FTENS
             ELSE 
