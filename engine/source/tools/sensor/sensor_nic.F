@@ -57,13 +57,14 @@ C-----------------------------------------------
 C----------------------------------------------------------
 C Local Variables
 C----------------------------------------------------------
-      INTEGER I,J,IPOINT,IDIR,IACC,ISENSOR_TYPE,NPOINT,INDX,NVAR,IDIR1,IDIR2
+      INTEGER I,J,IPOINT,IDIR,IACC,ISENSOR_TYPE,NPOINT,NPH,NVAR,
+     .        SKEW_SENS,SKEW_SPRING,IDIR1,IDIR2
 c
-      my_real :: TIME_UNIT,TIME,xINDX, INTEGRAL,INCREMENT,TIME_INTERVAL
-      my_real :: HIC_PERIOD,HIC_CRIT,HIC,HIC_PREC,HIC_TMP
-      my_real :: TIME_PREC,TEST_TIME,DELTA_T,BETA
-      my_real :: PERIOD_TMP,OPT_PERIOD,T1,T2,
-     .           FTENS,FCOMP,MFLEX,MEXT,NIJMAX,CFC,ALPHA,DTIME
+      my_real :: TIME_UNIT,TIME,xINDX, INTEGRAL,INCREMENT
+      my_real :: NIC_PERIOD,NIJMAX,NIC,NIC_PREC,NIC_TMP,DTIME
+      my_real :: TIME_PREC,TEST_TIME,DELTA_T
+      my_real :: PERIOD_TMP,OPT_PERIOD,
+     .           FTENS,FCOMP,MFLEX,MEXT,CFC,ALPHA,BETA
       my_real :: NIJ,FOR,MOM
       my_real ,DIMENSION(:) ,ALLOCATABLE :: FX,FY,FZ,MX,MY,MZ
       my_real ,DIMENSION(:) ,POINTER :: VALUE_TABLE
@@ -74,7 +75,7 @@ c     Sensor state variables
 c        SENSOR%VAR(1) :  TIME_PREC   = beginning of current time interval
 c        SENSOR%VAR(2) :  Integral of acceleration over time within current time interval
 c        SENSOR%VAR(3) :  Index of current time interval in data table
-c        SENSOR%VAR(4) :  Previous HIC value
+c        SENSOR%VAR(4) :  Previous NIC value
 c        SENSOR%VAR(5...5+NPOINT)  : average acceleration data table by time intervals
 C=======================================================================
       IF (SENSOR%STATUS == 3) RETURN   ! already activated
@@ -95,15 +96,12 @@ c
       ALPHA  = SENSOR%RPARAM(7)
       DTIME  = SENSOR%RPARAM(8)
       
-      ALLOCATE(FX(NPOINT))
-      ALLOCATE(FY(NPOINT))
-      ALLOCATE(FZ(NPOINT))
-      ALLOCATE(MX(NPOINT))
-      ALLOCATE(MY(NPOINT))
-      ALLOCATE(MZ(NPOINT))
+!      ALLOCATE(FZ(NPOINT))
+!      ALLOCATE(MY(NPOINT))
 c     actual normalized spring force and moment
       FOR = SENSOR%VAR(1)
       MOM = SENSOR%VAR(2)
+      TIME_PREC = SENSOR%VAR(3)  ! bidon
       
       
 !     1) fill Force and moment tables from previous time steps  
@@ -112,7 +110,11 @@ c     actual normalized spring force and moment
 !        tension-compression-flex-ext combinations : N11,N12,N21,N22
 !     4) test crit value over Tmin and deactivate sensor
 !
-!
+
+      NIJ = FOR + MOM
+
+
+
 !      
 c
       TIME = TT
@@ -123,96 +125,88 @@ c
 c...  Get last sensor state variables
 
 c
-      TIME_INTERVAL = HIC_PERIOD / NPOINT
-      TEST_TIME = TIME_PREC + TIME_INTERVAL
+      TEST_TIME = TIME_PREC + DTIME
 c
-c.... Calculate new HIC value (only at the start of new time interval) 
+c.... Calculate new NIC value (only at the start of new time interval) 
 c
-      IF (TIME > TEST_TIME) THEN
-        DELTA_T = TIME - TIME_PREC
-        ! average acceleration from previous time interval
-!!        CURRENT_VALUE = (FPREC + ACCG*DT12) / DELTA_T
-c
-        IF (INDX == NPOINT) THEN               
-c         shift data to make place for new time interval when HIC_PERIOD is reached
-          DO I = 1,NPOINT-1
-            VALUE_TABLE(I) = VALUE_TABLE(I+1)   
-          END DO                                
-        ELSE          ! advance data index for next time interval                          
-          INDX = INDX + 1                       
-        ENDIF
-        VALUE_TABLE(INDX) = CURRENT_VALUE       
-c
-c       Calculation of HIC
-c       Searching for the period (lower or equal to HIC_PERIOD) maximizing HIC
-c
-        OPT_PERIOD = ZERO
-        HIC  = ZERO
-        DO I = 1,INDX
-          INTEGRAL = ZERO
-          DO J = I,INDX
-            INTEGRAL = INTEGRAL + VALUE_TABLE(J)*DELTA_T
-          END DO
-          INCREMENT = INDX + 1 - I
-          PERIOD_TMP = DELTA_T * INCREMENT
-          HIC_TMP = PERIOD_TMP * ((INTEGRAL/PERIOD_TMP)**BETA)
-          HIC_TMP = HIC_TMP * TIME_UNIT          ! convert to seconds ???
-          IF (HIC_TMP > HIC) THEN
-            HIC = HIC_TMP
-            OPT_PERIOD = PERIOD_TMP            
-            T1 = MAX(TIME - OPT_PERIOD, ZERO)  
-            T2 = TIME                          
-          ENDIF
-        END DO
-c
-c       Save sensor status, for next step
-        SENSOR%VAR(1) = TIME
-        SENSOR%VAR(2) = ZERO       ! reinitialize integral for next time interval
-        SENSOR%VAR(3) = INDX
-        IF (HIC > HIC_PREC) THEN
-          SENSOR%VAR(4) = HIC
-        ENDIF 
-c
-c.......Check Sensor State
-        IF (HIC >= HIC_CRIT) THEN
-          IF (SENSOR%STATUS == 0) THEN
-            SENSOR%STATUS = 1
-            SENSOR%TCRIT  = TIME + SENSOR%TMIN
-          END IF
-          IF (SENSOR%TCRIT <= TIME) THEN
-            SENSOR%STATUS = 2
-          END IF
-          IF (SENSOR%STATUS == 2 .and. 
-     .        SENSOR%TCRIT + SENSOR%TDELAY <= TIME) THEN
-            SENSOR%STATUS = 3   ! activate
-            SENSOR%TSTART = TIME
-          END IF
-        ENDIF ! Fin test HIC
-c
-      ELSE    ! TIME < TEST_TIME
-c       Calculate acceleration integral within current time interval 
-        SENSOR%VAR(2) = SENSOR%VAR(2) + ACCG*DT12
-      ENDIF  ! Fin of TIME test
-c
-      DEALLOCATE(FX)
-      DEALLOCATE(FY)
-      DEALLOCATE(FZ)
-      DEALLOCATE(MX)
-      DEALLOCATE(MY)
-      DEALLOCATE(MZ)
+!      IF (TIME > TEST_TIME) THEN
+!        DELTA_T = TIME - TIME_PREC
+!        ! average Nij from previous time interval
+!!!        CURRENT_VALUE = ??
+!c
+!        IF (INDX == NPOINT) THEN               
+!c         shift data to make place for new time interval when NIC_PERIOD is reached
+!          DO I = 1,NPOINT-1
+!            VALUE_TABLE(I) = VALUE_TABLE(I+1)   
+!          END DO                                
+!        ELSE          ! advance data index for next time interval                          
+!          INDX = INDX + 1                       
+!        ENDIF
+!        VALUE_TABLE(INDX) = CURRENT_VALUE       
+!c
+!c       Calculation of NIC
+!c       Searching for the period (lower or equal to NIC_PERIOD) maximizing NIC
+!c
+!        OPT_PERIOD = ZERO
+!        NIC  = ZERO
+!        DO I = 1,INDX
+!          INTEGRAL = ZERO
+!          DO J = I,INDX
+!            INTEGRAL = INTEGRAL + VALUE_TABLE(J)*DELTA_T
+!          END DO
+!          INCREMENT = INDX + 1 - I
+!          PERIOD_TMP = DELTA_T * INCREMENT
+!          NIC_TMP = PERIOD_TMP * ((INTEGRAL/PERIOD_TMP)**BETA)
+!          NIC_TMP = NIC_TMP * TIME_UNIT          ! convert to seconds ???
+!          IF (NIC_TMP > NIC) THEN
+!            NIC = NIC_TMP
+!            OPT_PERIOD = PERIOD_TMP            
+!            T1 = MAX(TIME - OPT_PERIOD, ZERO)  
+!            T2 = TIME                          
+!          ENDIF
+!        END DO
+!c
+!c       Save sensor status, for next step
+!        SENSOR%VAR(1) = TIME
+!        SENSOR%VAR(2) = ZERO       ! reinitialize integral for next time interval
+!        SENSOR%VAR(3) = INDX
+!        IF (NIC > NIC_PREC) THEN
+!          SENSOR%VAR(4) = NIC
+!        ENDIF 
+!c
+!c.......Check Sensor State
+!        IF (NIC >= NIJMAX) THEN
+!          IF (SENSOR%STATUS == 0) THEN
+!            SENSOR%STATUS = 1
+!            SENSOR%TCRIT  = TIME + SENSOR%TMIN
+!          END IF
+!          IF (SENSOR%TCRIT <= TIME) THEN
+!            SENSOR%STATUS = 2
+!          END IF
+!          IF (SENSOR%STATUS == 2 .and. 
+!     .        SENSOR%TCRIT + SENSOR%TDELAY <= TIME) THEN
+!            SENSOR%STATUS = 3   ! activate
+!            SENSOR%TSTART = TIME
+!          END IF
+!        ENDIF ! Fin test NIC
+!c
+!      ELSE    ! TIME < TEST_TIME
+!c       Calculate acceleration integral within current time interval 
+!!        SENSOR%VAR(2) = SENSOR%VAR(2) + ACCG*DT12
+!      ENDIF  ! Fin of TIME test
+!c
+!!      DEALLOCATE(FZ)
+!!      DEALLOCATE(MY)
 c-----------------------------------------------------------------------      
       IF (SENSOR%STATUS == 3 .and. ISPMD == 0) THEN
 #include "lockon.inc"
         WRITE (ISTDO,1100 ) SENSOR%SENS_ID,SENSOR%TSTART
         WRITE (IOUT ,1100 ) SENSOR%SENS_ID,SENSOR%TSTART
-        WRITE (IOUT ,1200)  HIC, HIC_PERIOD
-        WRITE (IOUT ,1300)  T1, T2
 #include "lockoff.inc"
       ENDIF
 c-----------------------------------------------------------------------      
-1100  FORMAT(' SENSOR NUMBER ',I10,' ,ACTIVATED AT TIME ',1PE12.5)
-1200  FORMAT('      HIC     = ',1PE12.5,'  ,HIC PERIOD  = ',1PE12.5)           
-1300  FORMAT('      TIME T1 = ' 1PE12.5,'  ,TIME T2 = ',1PE12.5)
+1100  FORMAT(' SENSOR NUMBER ',I10,' ,ACTIVATED AT TIME ',1PE12.5,
+     .       '      NIC VALUE  = ',1PE12.5)           
 c-----------------------------------------------------------------------      
       RETURN
       END SUBROUTINE
