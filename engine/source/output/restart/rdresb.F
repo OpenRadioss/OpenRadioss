@@ -2104,6 +2104,8 @@ C--------------------------------------
          ENDIF
 C
       ENDDO
+      
+      CALL READ_DB(FVMBAG_DTOLD,1)      
 C
       RETURN
       END

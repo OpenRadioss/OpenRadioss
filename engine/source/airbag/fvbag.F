@@ -528,6 +528,11 @@ C---------------------------------------------------
 !$OMP END DO
 !$OMP DO SCHEDULE(GUIDED,1)
       DO IEL=1,NELT
+        FEL(IEL)=ZERO
+      ENDDO
+!$OMP END DO
+!$OMP DO SCHEDULE(GUIDED,1)
+      DO IEL=1,NELT
          N1=ELEM(1,IEL)
          N2=ELEM(2,IEL)
          N3=ELEM(3,IEL)
@@ -1595,9 +1600,11 @@ C
                   !loop over triangles
                   DO K=IFVTADR(JJ),IFVTADR(JJ+1)-1
                      KK  =IFVPOLY(K)
-                     WSURF(1)=WSURF(1)+VGRID(1,KK)
-                     WSURF(2)=WSURF(2)+VGRID(2,KK)
-                     WSURF(3)=WSURF(3)+VGRID(3,KK)
+                     IF(KK>0)THEN
+                       WSURF(1)=WSURF(1)+VGRID(1,KK)
+                       WSURF(2)=WSURF(2)+VGRID(2,KK)
+                       WSURF(3)=WSURF(3)+VGRID(3,KK)
+                     ENDIF
                   ENDDO! next K (triangle)
                   PW(1,I)=PW(1,I)+WSURF(1)
                   PW(2,I)=PW(2,I)+WSURF(2)

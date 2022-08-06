@@ -193,6 +193,10 @@ C
          ENDIF
 C
       ENDDO
+      
+      FVMBAG_DTOLD = EP20
+      CALL WRITE_DB(FVMBAG_DTOLD,1)
+      
       IF (ALLOCATED(FVSPMD)) DEALLOCATE(FVSPMD)
 C
       RETURN
