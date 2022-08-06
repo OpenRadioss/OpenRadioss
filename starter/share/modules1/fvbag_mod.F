@@ -126,6 +126,7 @@ C-----------------------------------------------
       TYPE(FVBAG_DATA), DIMENSION(:), ALLOCATABLE :: FVDATA
       TYPE(FVBAG_SPMD), DIMENSION(:), ALLOCATABLE :: FVSPMD
       INTEGER, DIMENSION(:), ALLOCATABLE :: FVID
+      my_real :: FVMBAG_DTOLD
 
 c after bug detected on fvmbags qa after starter paralellization
 !$OMP THREADPRIVATE(FVSPMD) 
