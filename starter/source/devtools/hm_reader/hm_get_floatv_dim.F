@@ -28,6 +28,7 @@ Chd|        HM_READ_CLOAD                 source/loads/general/cload/hm_read_clo
 Chd|        HM_READ_CONVEC                source/loads/thermic/hm_read_convec.F
 Chd|        HM_READ_EIG                   source/general_controls/computation/hm_read_eig.F
 Chd|        HM_READ_FAIL_ALTER            source/materials/fail/windshield_alter/hm_read_fail_alter.F
+Chd|        HM_READ_FAIL_BIQUAD           source/materials/fail/biquad/hm_read_fail_biquad.F
 Chd|        HM_READ_FAIL_ENERGY           source/materials/fail/energy/hm_read_fail_energy.F
 Chd|        HM_READ_FAIL_GENE1            source/materials/fail/gene1/hm_read_fail_gene1.F
 Chd|        HM_READ_FAIL_ORTHBIQUAD       source/materials/fail/orthbiquad/hm_read_fail_orthbiquad.F

@@ -27,6 +27,7 @@ Chd|        HM_READ_FAIL                  source/materials/fail/hm_read_fail.F
 Chd|-- calls ---------------
 Chd|        BIQUAD_COEFFICIENTS           source/materials/fail/biquad/biquad_coefficients.F
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
+Chd|        HM_GET_FLOATV_DIM             source/devtools/hm_reader/hm_get_floatv_dim.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
 Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F

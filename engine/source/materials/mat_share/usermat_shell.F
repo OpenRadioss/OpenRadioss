@@ -79,6 +79,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        FAILWAVE_MOD                  ../common_source/modules/failwave_mod.F
 Chd|        LAW_USERSH                    source/user_interface/law_usersh.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================

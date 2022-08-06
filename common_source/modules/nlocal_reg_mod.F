@@ -47,6 +47,7 @@ Chd|        ALEMAIN                       engine/source/ale/alemain.F
 Chd|        BFORC2                        engine/source/ale/bimat/bforc2.F
 Chd|        C3FINT_REG                    engine/source/elements/sh3n/coque3n/c3fint_reg.F
 Chd|        C3FORC3                       engine/source/elements/sh3n/coque3n/c3forc3.F
+Chd|        C3FORC3_CRK                   engine/source/elements/xfem/c3forc3_crk.F
 Chd|        CBAFINT_REG                   engine/source/elements/shell/coqueba/cbafint_reg.F
 Chd|        CBAFORC3                      engine/source/elements/shell/coqueba/cbaforc3.F
 Chd|        CBAVARNL                      engine/source/elements/shell/coqueba/cbavarnl.F
@@ -56,7 +57,10 @@ Chd|        CDKFINT_REG                   engine/source/elements/sh3n/coquedk/cd
 Chd|        CDKFORC3                      engine/source/elements/sh3n/coquedk/cdkforc3.F
 Chd|        CFINT_REG                     engine/source/elements/shell/coque/cfint_reg.F
 Chd|        CFORC3                        engine/source/elements/shell/coque/cforc3.F
+Chd|        CFORC3_CRK                    engine/source/elements/xfem/cforc3_crk.F
+Chd|        CMAIN3                        engine/source/materials/mat_share/cmain3.F
 Chd|        CZFORC3                       engine/source/elements/shell/coquez/czforc3.F
+Chd|        CZFORC3_CRK                   engine/source/elements/xfem/czforc3_crk.F
 Chd|        DTCBA_REG                     engine/source/elements/shell/coqueba/dtcba_reg.F
 Chd|        DTCDK_REG                     engine/source/elements/sh3n/coquedk/dtcdk_reg.F
 Chd|        FORINT                        engine/source/elements/forint.F
@@ -64,6 +68,8 @@ Chd|        FORINTC                       engine/source/elements/forintc.F
 Chd|        FORINTP                       engine/source/elements/forintp.F
 Chd|        IG3DUFORC3                    engine/source/elements/ige3d/ig3duforc3.F
 Chd|        MMAIN                         engine/source/materials/mat_share/mmain.F
+Chd|        MULAW                         engine/source/materials/mat_share/mulaw.F
+Chd|        MULAWC                        engine/source/materials/mat_share/mulawc.F
 Chd|        NLOCAL_ACC                    engine/source/assembly/nlocal_acc.F
 Chd|        NLOCAL_DTNODA                 engine/source/time_step/nlocal_dtnoda.F
 Chd|        NLOCAL_INCR                   engine/source/assembly/nlocal_incr.F
@@ -94,6 +100,8 @@ Chd|        SPMD_EXCH_SUB_PON             engine/source/mpi/spmd_exch_sub.F
 Chd|        SPMD_SUB_BOUNDARIES           engine/source/mpi/spmd_exch_sub.F
 Chd|        SPSTRES                       engine/source/elements/sph/spstres.F
 Chd|        SZFORC3                       engine/source/elements/solid/solidez/szforc3.F
+Chd|        USERMAT_SHELL                 engine/source/materials/mat_share/usermat_shell.F
+Chd|        USERMAT_SOLID                 engine/source/materials/mat_share/usermat_solid.F
 Chd|        WRITE_NLOC_STRUCT             engine/source/output/restart/write_nloc_struct.F
 Chd|        RESTMOD                       engine/share/modules/restart_mod.F
 Chd|-- calls ---------------
