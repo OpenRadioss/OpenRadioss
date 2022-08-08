@@ -20,12 +20,15 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
+      my_real, PARAMETER ::  ZERO = 0.
+      my_real, PARAMETER ::  ONE = 1.
+
 
       COMMON /CONST/
 C--------------------------------------
 C      Integers
 C--------------------------------------
-     . ZERO,ONE ,TWO, THREE,FOUR,FIVE,SIX ,SEVEN, EIGHT,NINE,TEN,
+     . TWO, THREE,FOUR,FIVE,SIX ,SEVEN, EIGHT,NINE,TEN,
      . ELEVEN,TWELVE ,FOURTEEN,FIFTEEN,SIXTEEN,TWENTY, TWENTY4,TWENTY5,
      . TWENTY7,THIRTY ,THIRTY2,THIRTY6,FOURTY,FOURTY5,FOURTY8,
      . FIVEUANTE, SIXTY4,EIGHTY,EIGHTY16,EIGHTY19,
@@ -132,7 +135,7 @@ C real
 C--------------------------------------
 C      Integers
 C--------------------------------------
-     . ZERO,ONE ,TWO, THREE,FOUR,FIVE,SIX ,SEVEN, EIGHT,NINE,TEN,
+     . TWO, THREE,FOUR,FIVE,SIX ,SEVEN, EIGHT,NINE,TEN,
      . ELEVEN,TWELVE ,FOURTEEN,FIFTEEN,SIXTEEN,TWENTY, TWENTY4,TWENTY5,
      . TWENTY7,THIRTY ,THIRTY2,THIRTY6,FOURTY,FOURTY5,FOURTY8,
      . FIVEUANTE, SIXTY4,EIGHTY,EIGHTY16,EIGHTY19,
