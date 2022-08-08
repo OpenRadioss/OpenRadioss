@@ -666,6 +666,10 @@ C=======================================================================
         IRS    = 0
         IRM    = 0
         IEDGE   = IPARI(58,NI)
+        TYPE18=.FALSE.
+        IF(NTYP==7 .AND. INACTI==7 )TYPE18=.TRUE.        
+        GRBRIC_ID  = ISU1
+        IF(TYPE18)GRBRIC_ID  = IPARI(83,NI)         
 C-- deactivated interfaces
         IF (NTYP.EQ.0) CYCLE
 C-----Isogeometric elements
@@ -1189,5 +1193,3 @@ C-----
      .    '    COMPUTED GAP VALUE. . . . . . . . . . . . . ',1PG20.13)
           
       END
-
-
