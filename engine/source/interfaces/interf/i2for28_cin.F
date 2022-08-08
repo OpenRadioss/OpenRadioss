@@ -105,8 +105,6 @@ C     TRANSMISES AUX NOEUDS MAINS SOUS
 C     FORME DE MASSES 
 C------------------------------
 C
-      ZERO = 0
-C
       IF(IMPL_S.GT.0) THEN
       DO II=1,NSN
        K = INDXC(II)

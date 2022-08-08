@@ -89,7 +89,6 @@ C-----------------------------------------------
 C     Forces de transports calcul es par volume fini
 C-----------------------------------------------
 C   DMi = 0.5*DT1*QMV(i,I)  masse entrant par la face i
-      ZERO = 0.
       IF(MTN.EQ.51 .AND. UPWM.NE.3)THEN
         IADBUF = NINT(PM(27,MAT(1)))
 c        IFLG = NINT(UPARAM(31))
