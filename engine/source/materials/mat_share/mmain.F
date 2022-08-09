@@ -287,9 +287,8 @@ C-----------------------------------------------
        LOGICAL :: LOGICAL_USERL_AVAIL, l_MULAW_CALLED
 !
       CHARACTER OPTION*256
-      INTEGER SIZE
-      CHARACTER IUSER_KEY*ncharline
-      TARGET   :: DELTAX
+      INTEGER LENGTH
+      TARGET :: DELTAX
 C--------------------------------------------    
        my_real
      .  FINTER 
@@ -480,7 +479,7 @@ C --------------------------------------------------------
         DO I=LFT,LLT
            EPSTH(I)= ZERO
         ENDDO
-      ENDIF 	
+      ENDIF     
 c-----Tstar computation for Jonhson Cook failure : T* = (T-T0)/(TM-T0)----
       IF (JTHE < 0) THEN
          MX = MAT(1)
@@ -972,7 +971,7 @@ C       TSAI 3D Complet
      5            DVOL     ,CXX      ,DXX     ,DYY      ,DZZ     , 
      6            D4       ,D5       ,D6      ,S1       ,S2      ,
      7            S3       ,S4       ,S5      ,S6       ,SIGY    ,
-     8            DEFP     ,NGL      ,LBUF%SEQ,NEL      ,EOSTYP  ,	 
+     8            DEFP     ,NGL      ,LBUF%SEQ,NEL      ,EOSTYP  ,   
      9            RHO0     ,AMU      ,AMU2    ,ESPE     ,DF      ,
      A            PSH      ,PNEW     ,DPDM    ,DPDE     ,LBUF%RHO,
      B            LBUF%TEMP,ECOLD    ,BUFMAT  ,NPF      ,TF)
@@ -1469,12 +1468,12 @@ c
         ENDDO           
 c              Temporaire, pour la compatibilite avec la mainline actuelle        
                DO I=LFT,LLT                      
-                 SVIS(I,1) = LBUF%VISC(II(1) + I)		  
-                 SVIS(I,2) = LBUF%VISC(II(2) + I)		  
-                 SVIS(I,3) = LBUF%VISC(II(3) + I)		  
-                 SVIS(I,4) = LBUF%VISC(II(4) + I)		  
-                 SVIS(I,5) = LBUF%VISC(II(5) + I)		  
-                 SVIS(I,6) = LBUF%VISC(II(6) + I)		  
+                 SVIS(I,1) = LBUF%VISC(II(1) + I)         
+                 SVIS(I,2) = LBUF%VISC(II(2) + I)         
+                 SVIS(I,3) = LBUF%VISC(II(3) + I)         
+                 SVIS(I,4) = LBUF%VISC(II(4) + I)         
+                 SVIS(I,5) = LBUF%VISC(II(5) + I)         
+                 SVIS(I,6) = LBUF%VISC(II(6) + I)         
                ENDDO                             
                IF (ISVIS > 0) THEN
 c                viscous stress output
@@ -1499,12 +1498,12 @@ c                viscous stress output
         IF (ISVIS > 0) THEN                      
 c         viscous stress output                  
           DO I=LFT,LLT                           
-            LBUF%SIGV(II(1) + I) = SVIS(I,1)	    
-            LBUF%SIGV(II(2) + I) = SVIS(I,2)	    
-            LBUF%SIGV(II(3) + I) = SVIS(I,3)	    
-            LBUF%SIGV(II(4) + I) = SVIS(I,4)	    
-            LBUF%SIGV(II(5) + I) = SVIS(I,5)	    
-            LBUF%SIGV(II(6) + I) = SVIS(I,6)	    
+            LBUF%SIGV(II(1) + I) = SVIS(I,1)        
+            LBUF%SIGV(II(2) + I) = SVIS(I,2)        
+            LBUF%SIGV(II(3) + I) = SVIS(I,3)        
+            LBUF%SIGV(II(4) + I) = SVIS(I,4)        
+            LBUF%SIGV(II(5) + I) = SVIS(I,5)        
+            LBUF%SIGV(II(6) + I) = SVIS(I,6)        
            ENDDO                                 
         ENDIF                                    
       ENDIF
@@ -1697,8 +1696,8 @@ C  user1
               ! ----------------
               ! ERROR to be printed & exit
                 OPTION='/FAIL/USER1 - SOLID '
-                SIZE=LEN_TRIM(OPTION)
-                CALL ANCMSG(MSGID=257,C1=OPTION(1:SIZE),ANMODE=ANINFO)
+                LENGTH=LEN_TRIM(OPTION)
+                CALL ANCMSG(MSGID=257,C1=OPTION(1:LENGTH),ANMODE=ANINFO)
                 CALL ARRET(2)
               ! ----------------
 !!!
@@ -1730,8 +1729,8 @@ C   user2
               ! ----------------
               ! ERROR to be printed & exit
                 OPTION='/FAIL/USER2 - SOLID '
-                SIZE=LEN_TRIM(OPTION)
-                CALL ANCMSG(MSGID=257,C1=OPTION(1:SIZE),ANMODE=ANINFO)
+                LENGTH=LEN_TRIM(OPTION)
+                CALL ANCMSG(MSGID=257,C1=OPTION(1:LENGTH),ANMODE=ANINFO)
                 CALL ARRET(2)
               ! ----------------
 !!!
@@ -1763,8 +1762,8 @@ C   user3
               ! ----------------
               ! ERROR to be printed & exit
                 OPTION='/FAIL/USER3 - SOLID '
-                SIZE=LEN_TRIM(OPTION)
-                CALL ANCMSG(MSGID=257,C1=OPTION(1:SIZE),ANMODE=ANINFO)
+                LENGTH=LEN_TRIM(OPTION)
+                CALL ANCMSG(MSGID=257,C1=OPTION(1:LENGTH),ANMODE=ANINFO)
                 CALL ARRET(2)
               ! ----------------
 !!!
@@ -2005,11 +2004,11 @@ C replace Solid w/SPH within the same cycle.
             LBUF%VISC(II(6) + I) = ZERO
             IF (ISVIS > 0) THEN                      
 c           viscous stress output                  
-              LBUF%SIGV(II(1) + I) = ZERO	 
-              LBUF%SIGV(II(2) + I) = ZERO	 
-              LBUF%SIGV(II(3) + I) = ZERO	 
-              LBUF%SIGV(II(4) + I) = ZERO	 
-              LBUF%SIGV(II(5) + I) = ZERO	 
+              LBUF%SIGV(II(1) + I) = ZERO    
+              LBUF%SIGV(II(2) + I) = ZERO    
+              LBUF%SIGV(II(3) + I) = ZERO    
+              LBUF%SIGV(II(4) + I) = ZERO    
+              LBUF%SIGV(II(5) + I) = ZERO    
               LBUF%SIGV(II(6) + I) = ZERO
             END IF        
           END IF
