@@ -154,48 +154,16 @@ c     strain transformation following input definition
 c-------------------
       STRFLAG = 0
       IF (STRDEF == 2) THEN        ! failure defined as engineering strain
-        IF (ISMSTR == 10 .or. ISMSTR == 12) THEN
-          STRFLAG = 1
-        ELSE IF (ISMSTR == 0 .or. ISMSTR == 2 .or. ISMSTR == 4) THEN
+        IF (ISMSTR /= 1 .AND. ISMSTR /= 3 .AND. ISMSTR /= 11) THEN
           STRFLAG = 2
         END IF
       ELSE IF (STRDEF == 3) THEN   ! failure defined as true strain
-        IF (ISMSTR == 1 .or. ISMSTR == 3 .or. ISMSTR == 11) THEN
+        IF (ISMSTR == 1 .OR. ISMSTR == 3 .OR. ISMSTR == 11) THEN
           STRFLAG = 3
-        ELSE IF (ISMSTR == 10 .or. ISMSTR == 12) THEN
-          STRFLAG = 4
         END IF
       END IF           
 c--------------------------
       SELECT CASE (STRFLAG)
-        CASE (1)  !  transform Cauchy-Green to engineering
-          DO I=1,NEL
-            IF (OFF(I) == ONE ) THEN
-              THETA  = HALF*ATAN(EPSXY(I) / (EPSXX(I)-EPSYY(I)))
-              C = COS(THETA)
-              S = SIN(THETA)
-c             strain principal + transformation              
-              EPST_A = HALF*(EPSXX(I)+EPSYY(I))
-              EPST_B = SQRT( (HALF*(EPSXX(I)-EPSYY(I)))**2 + (EPSXY(I)**2) )
-              EPST1  = EPST_A + EPST_B
-              EPST2  = EPST_A - EPST_B
-              EPST1  = SQRT(EPST1 + ONE) - ONE
-              EPST2  = SQRT(EPST2 + ONE) - ONE
-              EPS11(I) = C*C*EPST1 + S*S*EPST2
-              EPS22(I) = S*S*EPST1 + C*C*EPST2
-              EPS12(I) = S*C*(EPST1 - EPST2)
-c             strain rate
-              EPST_A = HALF*(EPSPXX(I)+EPSPYY(I))
-              EPST_B = SQRT( (HALF*(EPSPXX(I)-EPSPYY(I)))**2 + (EPSPXY(I)**2) )
-              EPSD1  = EPST_A + EPST_B
-              EPSD2  = EPST_A - EPST_B
-              EPSD1  = SQRT(EPSD1 + ONE) - ONE
-              EPSD2  = SQRT(EPSD2 + ONE) - ONE
-              EPSP11(I) = C*C*EPSD1 + S*S*EPSD2
-              EPSP22(I) = S*S*EPSD1 + C*C*EPSD2
-              EPSP12(I) = S*C*(EPSD1 - EPSD2)
-            END IF
-          ENDDO
 c
         CASE (2)  !  transform true strain to engineering
           DO I=1,NEL
@@ -205,31 +173,28 @@ c
               S = SIN(THETA)
 c             strain principal + transformation              
               EPST_A = HALF*(EPSXX(I)+EPSYY(I))
-              EPST_B = SQRT( (HALF*(EPSXX(I)-EPSYY(I)))**2 + (EPSXY(I)**2) )
+              EPST_B = SQRT( (HALF*(EPSXX(I)-EPSYY(I)))**2 + (HALF*EPSXY(I))**2)
               EPST1  = EPST_A + EPST_B
               EPST2  = EPST_A - EPST_B
-              EPS11(I)  = EXP(EPSXX(I)) - ONE
-              EPS22(I)  = EXP(EPSYY(I)) - ONE
-              EPS12(I)  = EXP(EPSXY(I)) - ONE
-              EPSP11(I) = EXP(EPSPXX(I)) - ONE
-              EPSP22(I) = EXP(EPSPYY(I)) - ONE
-              EPSP12(I) = EXP(EPSPXY(I)) - ONE
+              EPST1  = EXP(EPST1) - ONE
+              EPST2  = EXP(EPST2) - ONE
+              EPS11(I) = C*C*EPST1 + S*S*EPST2
+              EPS22(I) = S*S*EPST1 + C*C*EPST2
+              EPS12(I) = S*C*(EPST2 - EPST1)
+c             strain rate
+              EPST_A = HALF*(EPSPXX(I)+EPSPYY(I))
+              EPST_B = SQRT( (HALF*(EPSPXX(I)-EPSPYY(I)))**2 + (HALF*EPSPXY(I))**2)
+              EPSD1  = EPST_A + EPST_B
+              EPSD2  = EPST_A - EPST_B
+              EPSD1  = (ONE+EPST1)*EPSD1
+              EPSD2  = (ONE+EPST2)*EPSD2
+              EPSP11(I) = C*C*EPSD1 + S*S*EPSD2
+              EPSP22(I) = S*S*EPSD1 + C*C*EPSD2
+              EPSP12(I) = S*C*(EPSD2 - EPSD1)  
             END IF
           ENDDO
 c
         CASE (3)  !  transform engineering to true strain
-          DO I=1,NEL
-            IF (OFF(I) == ONE ) THEN
-              EPS11(I)  = LOG(EPSXX(I) + ONE)
-              EPS22(I)  = LOG(EPSYY(I) + ONE)
-              EPS12(I)  = LOG(EPSXY(I) + ONE)
-              EPSP11(I) = LOG(EPSPXX(I) + ONE)
-              EPSP22(I) = LOG(EPSPYY(I) + ONE)
-              EPSP12(I) = LOG(EPSPXY(I) + ONE)
-            END IF
-          ENDDO
-c
-        CASE (4)  !  transform Cauchy-Green to true strain
           DO I=1,NEL
             IF (OFF(I) == ONE ) THEN
               THETA  = HALF*ATAN(EPSXY(I) / (EPSXX(I)-EPSYY(I)))
@@ -237,24 +202,24 @@ c
               S = SIN(THETA)
 c             strain principal + transformation              
               EPST_A = HALF*(EPSXX(I)+EPSYY(I))
-              EPST_B = SQRT( (HALF*(EPSXX(I)-EPSYY(I)))**2 + (EPSXY(I)**2) )
+              EPST_B = SQRT( (HALF*(EPSXX(I)-EPSYY(I)))**2 + (HALF*EPSXY(I))**2)
               EPST1  = EPST_A + EPST_B
               EPST2  = EPST_A - EPST_B
-              EPST1  = LOG(SQRT(EPST1+ONE))
-              EPST2  = LOG(SQRT(EPST2+ONE))
+              EPST1  = LOG(ONE + EPST1)
+              EPST2  = LOG(ONE + EPST2)
               EPS11(I) = C*C*EPST1 + S*S*EPST2
               EPS22(I) = S*S*EPST1 + C*C*EPST2
-              EPS12(I) = S*C*(EPST1 - EPST2)
+              EPS12(I) = S*C*(EPST2 - EPST1)
 c             strain rate
               EPST_A = HALF*(EPSPXX(I)+EPSPYY(I))
-              EPST_B = SQRT( (HALF*(EPSPXX(I)-EPSPYY(I)))**2 + (EPSPXY(I)**2) )
-              EPST1  = EPST_A + EPST_B
-              EPST2  = EPST_A - EPST_B
-              EPST1  = LOG(SQRT(EPST1+ONE))
-              EPST2  = LOG(SQRT(EPST2+ONE))
-              EPSP11(I) = C*C*EPST1 + S*S*EPST2
-              EPSP22(I) = S*S*EPST1 + C*C*EPST2
-              EPSP12(I) = S*C*(EPST1 - EPST2)
+              EPST_B = SQRT( (HALF*(EPSPXX(I)-EPSPYY(I)))**2 + (HALF*EPSPXY(I))**2)
+              EPSD1  = EPST_A + EPST_B
+              EPSD2  = EPST_A - EPST_B
+              EPSD1  = (ONE/EXP(EPST1))*EPSD1
+              EPSD2  = (ONE/EXP(EPST2))*EPSD2
+              EPSP11(I) = C*C*EPSD1 + S*S*EPSD2
+              EPSP22(I) = S*S*EPSD1 + C*C*EPSD2
+              EPSP12(I) = S*C*(EPSD2 - EPSD1)
             END IF
           ENDDO
 c
@@ -262,10 +227,10 @@ c
            ! no transformation : failure strain measure is defined by Ismstr
            EPS11(1:NEL)  = EPSXX(1:NEL)
            EPS22(1:NEL)  = EPSYY(1:NEL)
-           EPS12(1:NEL)  = EPSXY(1:NEL)
+           EPS12(1:NEL)  = HALF*EPSXY(1:NEL)
            EPSP11(1:NEL) = EPSPXX(1:NEL)
            EPSP22(1:NEL) = EPSPYY(1:NEL)
-           EPSP12(1:NEL) = EPSPXY(1:NEL)
+           EPSP12(1:NEL) = HALF*EPSPXY(1:NEL)
       END SELECT
 c----------------------------------------------
 c     Element size scale factor
