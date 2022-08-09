@@ -52,34 +52,33 @@ C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "scr05_c.inc"
 #include      "scr18_c.inc"
-#include      "com04_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL
-C     REAL
+      INTEGER, INTENT(IN) ::  NEL
       my_real
-     .   X(3,NUMNOD),V(3,NUMNOD),W(3,NUMNOD), VIS(NEL),
-     .   X1(NEL), X2(NEL), X3(NEL), X4(NEL), 
-     .   Y1(NEL), Y2(NEL), Y3(NEL), Y4(NEL), 
-     .   Z1(NEL), Z2(NEL), Z3(NEL), Z4(NEL), 
-     .  VX1(NEL), VX2(NEL), VX3(NEL), VX4(NEL), 
-     .  VY1(NEL), VY2(NEL), VY3(NEL), VY4(NEL), 
-     .  VZ1(NEL), VZ2(NEL), VZ3(NEL), VZ4(NEL), 
-     .  VDX1(NEL),VDX2(NEL),VDX3(NEL),VDX4(NEL),
-     .  VDY1(NEL),VDY2(NEL),VDY3(NEL),VDY4(NEL),
-     .  VDZ1(NEL),VDZ2(NEL),VDZ3(NEL),VDZ4(NEL),
-     .  VDX(NEL), VDY(NEL), VDZ(NEL),VD2(NEL),OFFG(NEL),OFF(NEL),RHO(NEL),
-     .   F11(NEL),F21(NEL),F31(NEL),F12(NEL),F22(NEL),F32(NEL),
-     .   F13(NEL),F23(NEL),F33(NEL),F14(NEL),F24(NEL),F34(NEL),
-     .  RHOO(NEL)
-      INTEGER NC1(NEL), NC2(NEL), NC3(NEL), NC4(NEL),
-     .        MXT(NEL), NGL(NEL),NGEO(NEL)
+     .   X(3,*),V(3,*),W(3,*), VIS(MVSIZ),
+     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ), 
+     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ), 
+     .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ), 
+     .  VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ), VX4(MVSIZ), 
+     .  VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ), 
+     .  VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ), VZ4(MVSIZ), 
+     .  VDX1(MVSIZ),VDX2(MVSIZ),VDX3(MVSIZ),VDX4(MVSIZ),
+     .  VDY1(MVSIZ),VDY2(MVSIZ),VDY3(MVSIZ),VDY4(MVSIZ),
+     .  VDZ1(MVSIZ),VDZ2(MVSIZ),VDZ3(MVSIZ),VDZ4(MVSIZ),
+     .  VDX(MVSIZ), VDY(MVSIZ), VDZ(MVSIZ),VD2(MVSIZ),
+     .  OFFG(NEL),OFF(MVSIZ),RHO(NEL),
+     .  F11(MVSIZ),F21(MVSIZ),F31(MVSIZ),F12(MVSIZ),F22(MVSIZ),F32(MVSIZ),
+     .  F13(MVSIZ),F23(MVSIZ),F33(MVSIZ),F14(MVSIZ),F24(MVSIZ),F34(MVSIZ),
+     .  RHOO(MVSIZ)
+      INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ),
+     .        MXT(MVSIZ), NGL(MVSIZ),NGEO(MVSIZ)
       INTEGER IXS(NIXS,*)
       
       DOUBLE PRECISION 
-     .   XDP(3,NUMNOD), SAV(NEL,9),
+     .   XDP(3,*), SAV(NEL,9),
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
      .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ)
@@ -91,6 +90,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
 C-----------------------------------------------
+#include "vectorize.inc"
       DO I=1,NEL
         VIS(I)=ZERO
         NGEO(I)=IXS(10,I)
@@ -102,6 +102,7 @@ C-----------------------------------------------
         NC4(I)=IXS(6,I)
         RHOO(I)=RHO(I)
       ENDDO
+#include "vectorize.inc"
       DO I=1,NEL
         X1(I) =X(1,NC1(I))
         Y1(I) =X(2,NC1(I))
@@ -134,97 +135,127 @@ C----------------------------
 C     NODAL COORDINATES     |
 C----------------------------
       IF((ISMSTR<=4.AND.JLAG>0).OR.(ISMSTR==12.AND.IDTMIN(1)==3)) THEN
-C
-        DO I=1,NEL
-          IF(ABS(OFFG(I)).GT.ONE)THEN
-            XD1(I)=SAV(I,1)
-            YD1(I)=SAV(I,2)
-            ZD1(I)=SAV(I,3)
-            XD2(I)=SAV(I,4)
-            YD2(I)=SAV(I,5)
-            ZD2(I)=SAV(I,6)
-            XD3(I)=SAV(I,7)
-            YD3(I)=SAV(I,8)
-            ZD3(I)=SAV(I,9)
-            XD4(I)=ZERO
-            YD4(I)=ZERO
-            ZD4(I)=ZERO
-            OFF(I) = ABS(OFFG(I))-ONE
-            OFF_L  = MIN(OFF_L,OFFG(I))
-          ELSE
-           IF(IRESP==1)THEN
-             XD1(I)=XDP(1,NC1(I))
-             YD1(I)=XDP(2,NC1(I))
-             ZD1(I)=XDP(3,NC1(I))
-             XD2(I)=XDP(1,NC2(I))
-             YD2(I)=XDP(2,NC2(I))
-             ZD2(I)=XDP(3,NC2(I))
-             XD3(I)=XDP(1,NC3(I))
-             YD3(I)=XDP(2,NC3(I))
-             ZD3(I)=XDP(3,NC3(I))
-             XD4(I)=XDP(1,NC4(I))
-             YD4(I)=XDP(2,NC4(I))
-             ZD4(I)=XDP(3,NC4(I))
+
+        IF(IRESP == 1) THEN
+#include "vectorize.inc"
+          DO I=1,NEL
+            IF(ABS(OFFG(I)).GT.ONE)THEN
+              XD1(I)=SAV(I,1)
+              YD1(I)=SAV(I,2)
+              ZD1(I)=SAV(I,3)
+              XD2(I)=SAV(I,4)
+              YD2(I)=SAV(I,5)
+              ZD2(I)=SAV(I,6)
+              XD3(I)=SAV(I,7)
+              YD3(I)=SAV(I,8)
+              ZD3(I)=SAV(I,9)
+              XD4(I)=ZERO
+              YD4(I)=ZERO
+              ZD4(I)=ZERO
+              OFF(I) = ABS(OFFG(I))-ONE
+C             OFF_L  = MIN(OFF_L,OFFG(I))
             ELSE
-             XD1(I)=X1(I)
-             YD1(I)=Y1(I)
-             ZD1(I)=Z1(I)
-             XD2(I)=X2(I)
-             YD2(I)=Y2(I)
-             ZD2(I)=Z2(I)
-             XD3(I)=X3(I)
-             YD3(I)=Y3(I)
-             ZD3(I)=Z3(I)
-             XD4(I)=X4(I)
-             YD4(I)=Y4(I)
-             ZD4(I)=Z4(I)
-           ENDIF   
-           OFF(I) = ABS(OFFG(I))
-           OFF_L  = MIN(OFF_L,OFFG(I))
-         ENDIF
-       ENDDO
+              XD1(I)=XDP(1,NC1(I))
+              YD1(I)=XDP(2,NC1(I))
+              ZD1(I)=XDP(3,NC1(I))
+              XD2(I)=XDP(1,NC2(I))
+              YD2(I)=XDP(2,NC2(I))
+              ZD2(I)=XDP(3,NC2(I))
+              XD3(I)=XDP(1,NC3(I))
+              YD3(I)=XDP(2,NC3(I))
+              ZD3(I)=XDP(3,NC3(I))
+              XD4(I)=XDP(1,NC4(I))
+              YD4(I)=XDP(2,NC4(I))
+              ZD4(I)=XDP(3,NC4(I))
+              OFF(I) = ABS(OFFG(I))
+C             OFF_L  = MIN(OFF_L,OFFG(I))
+            ENDIF
+          ENDDO
+          OFF_L = MIN(OFF_L,MINVAL(OFFG(1:NEL)))
+        ELSE
+#include "vectorize.inc"
+          DO I=1,NEL
+            IF(ABS(OFFG(I)).GT.ONE)THEN
+              XD1(I)=SAV(I,1)
+              YD1(I)=SAV(I,2)
+              ZD1(I)=SAV(I,3)
+              XD2(I)=SAV(I,4)
+              YD2(I)=SAV(I,5)
+              ZD2(I)=SAV(I,6)
+              XD3(I)=SAV(I,7)
+              YD3(I)=SAV(I,8)
+              ZD3(I)=SAV(I,9)
+              XD4(I)=ZERO
+              YD4(I)=ZERO
+              ZD4(I)=ZERO
+              OFF(I) = ABS(OFFG(I))-ONE
+C             OFF_L  = MIN(OFF_L,OFFG(I))
+            ELSE
+              XD1(I)=X1(I)
+              YD1(I)=Y1(I)
+              ZD1(I)=Z1(I)
+              XD2(I)=X2(I)
+              YD2(I)=Y2(I)
+              ZD2(I)=Z2(I)
+              XD3(I)=X3(I)
+              YD3(I)=Y3(I)
+              ZD3(I)=Z3(I)
+              XD4(I)=X4(I)
+              YD4(I)=Y4(I)
+              ZD4(I)=Z4(I)
+              OFF(I) = ABS(OFFG(I))
+C             OFF_L  = MIN(OFF_L,OFFG(I))
+            ENDIF
+          ENDDO
+          OFF_L = MIN(OFF_L,MINVAL(OFFG(1:NEL)))
+        ENDIF
 C
       ELSE
 C
-      IF(IRESP==1)THEN 
-        DO I=1,NEL
-          XD1(I)=XDP(1,NC1(I))  
-          YD1(I)=XDP(2,NC1(I))  
-          ZD1(I)=XDP(3,NC1(I))  
-          XD2(I)=XDP(1,NC2(I))  
-          YD2(I)=XDP(2,NC2(I))  
-          ZD2(I)=XDP(3,NC2(I))  
-          XD3(I)=XDP(1,NC3(I))  
-          YD3(I)=XDP(2,NC3(I))  
-          ZD3(I)=XDP(3,NC3(I))  
-          XD4(I)=XDP(1,NC4(I))  
-          YD4(I)=XDP(2,NC4(I))  
-          ZD4(I)=XDP(3,NC4(I))  
-          OFF(I) = ABS(OFFG(I))
-          OFF_L  = MIN(OFF_L,OFFG(I))                 
-        ENDDO
-      ELSE  
-        DO I=1,NEL
-          XD1(I)=X1(I) 
-          YD1(I)=Y1(I) 
-          ZD1(I)=Z1(I) 
-          XD2(I)=X2(I) 
-          YD2(I)=Y2(I) 
-          ZD2(I)=Z2(I) 
-          XD3(I)=X3(I) 
-          YD3(I)=Y3(I) 
-          ZD3(I)=Z3(I) 
-          XD4(I)=X4(I) 
-          YD4(I)=Y4(I) 
-          ZD4(I)=Z4(I)   
-          OFF(I) = ABS(OFFG(I))
-          OFF_L  = MIN(OFF_L,OFFG(I))     
-        ENDDO      
-      ENDIF     
+       IF(IRESP==1)THEN 
+#include "vectorize.inc"
+         DO I=1,NEL
+           XD1(I)=XDP(1,NC1(I))  
+           YD1(I)=XDP(2,NC1(I))  
+           ZD1(I)=XDP(3,NC1(I))  
+           XD2(I)=XDP(1,NC2(I))  
+           YD2(I)=XDP(2,NC2(I))  
+           ZD2(I)=XDP(3,NC2(I))  
+           XD3(I)=XDP(1,NC3(I))  
+           YD3(I)=XDP(2,NC3(I))  
+           ZD3(I)=XDP(3,NC3(I))  
+           XD4(I)=XDP(1,NC4(I))  
+           YD4(I)=XDP(2,NC4(I))  
+           ZD4(I)=XDP(3,NC4(I))  
+           OFF(I) = ABS(OFFG(I))
+C          OFF_L  = MIN(OFF_L,OFFG(I))                 
+         ENDDO
+         OFF_L = MIN(OFF_L,MINVAL(OFFG(1:NEL)))
+       ELSE  
+#include "vectorize.inc"
+         DO I=1,NEL
+           XD1(I)=X1(I) 
+           YD1(I)=Y1(I) 
+           ZD1(I)=Z1(I) 
+           XD2(I)=X2(I) 
+           YD2(I)=Y2(I) 
+           ZD2(I)=Z2(I) 
+           XD3(I)=X3(I) 
+           YD3(I)=Y3(I) 
+           ZD3(I)=Z3(I) 
+           XD4(I)=X4(I) 
+           YD4(I)=Y4(I) 
+           ZD4(I)=Z4(I)   
+           OFF(I) = ABS(OFFG(I))
+C          OFF_L  = MIN(OFF_L,OFFG(I))     
+         ENDDO      
+         OFF_L = MIN(OFF_L,MINVAL(OFFG(1:NEL)))
+       ENDIF     
 C
       ENDIF
 C
       IF(OFF_L.LT.ZERO)THEN
+#include "vectorize.inc"
         DO I=1,NEL
           IF(OFFG(I).LT.ZERO)THEN
             VX1(I)=ZERO
@@ -242,27 +273,26 @@ C
           ENDIF
         ENDDO
       ENDIF
-C
-      DO I=1,NEL
-        VD2(I)=ZERO
-        F11(I)=ZERO
-        F21(I)=ZERO
-        F31(I)=ZERO
-        F12(I)=ZERO
-        F22(I)=ZERO
-        F32(I)=ZERO
-        F13(I)=ZERO
-        F23(I)=ZERO
-        F33(I)=ZERO
-        F14(I)=ZERO
-        F24(I)=ZERO
-        F34(I)=ZERO
-      ENDDO
+
+      F11(1:NEL)=ZERO
+      F21(1:NEL)=ZERO
+      F31(1:NEL)=ZERO
+      F12(1:NEL)=ZERO
+      F22(1:NEL)=ZERO
+      F32(1:NEL)=ZERO
+      F13(1:NEL)=ZERO
+      F23(1:NEL)=ZERO
+      F33(1:NEL)=ZERO
+      F14(1:NEL)=ZERO
+      F24(1:NEL)=ZERO
+      F34(1:NEL)=ZERO
 C
       IF (JLAG.NE.0)THEN
+       VD2(1:NEL)=ZERO
        RETURN
 C
       ELSEIF(JALE.NE.0)THEN
+#include "vectorize.inc"
         DO I=1,NEL
           VDX1(I)=VX1(I)-W(1,NC1(I))
           VDY1(I)=VY1(I)-W(2,NC1(I))
@@ -278,6 +308,7 @@ C
           VDZ4(I)=VZ4(I)-W(3,NC4(I))
         ENDDO
       ELSEIF(JEUL.NE.0)THEN
+#include "vectorize.inc"
         DO I=1,NEL
           VDX1(I)=VX1(I)
           VDY1(I)=VY1(I)
@@ -293,7 +324,7 @@ C
           VDZ4(I)=VZ4(I)
         ENDDO
       ENDIF
-C
+#include "vectorize.inc"
       DO I=1,NEL
         VDX(I)=FOURTH*(VDX1(I)+VDX2(I)+VDX3(I)+VDX4(I))
         VDY(I)=FOURTH*(VDY1(I)+VDY2(I)+VDY3(I)+VDY4(I))
@@ -339,8 +370,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL
-C--------------------------------------------
+C-----------------------------------------------
+#include  "vectorize.inc"
       DO I=1,NEL
         IF(ABS(OFFG(I)) <= ONE) THEN
           SAV(I,1)=XD1(I)-XD4(I)

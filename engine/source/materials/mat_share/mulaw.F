@@ -194,36 +194,35 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NFT ,MTN, NUVAR,JCVT,ISORTH,NFAIL,NPG,NVARTMP,
-     .        JSPH, IPLA,ISMSTR,NELTST, ITYPTST, NUVARR,NG,ILAY,
-     .        IX, JTHE, ISTRAIN,IPTR, IPTS, IPTT,IHET,IEXPAN,NEL
-      INTEGER NPF(*),MAT(MVSIZ),NGL(MVSIZ),PID(MVSIZ),IPM(NPROPMI,NUMMAT),
-     .        IPARG(NPARG,NGROUP),IGEO(NPROPGI,NUMGEO),ITASK,ISELECT
+     .        J, JSPH, IPLA,ISMSTR,NELTST, ITYPTST, NUVARR,NG,ILAY,
+     .        IX, JTHE, ISROT,ISTRAIN,IPTR, IPTS, IPTT,IHET,IEXPAN,NEL
+      INTEGER NPF(*),MAT(MVSIZ),NGL(MVSIZ),PID(MVSIZ),IPM(NPROPMI,*),
+     .        IPARG(NPARG,*),IGEO(NPROPGI,*),ITASK,ISELECT
       TARGET  :: IPM
 C 
-      my_real :: DT2T, BUFVOIS(NEL)
-      my_real :: PM(NPROPM,NUMMAT), GAMA(NEL),PNEW(NEL),VARNL(NEL),
-     .   OFF(NEL), SIG(NEL,6), SIGL(NEL,6), STRAIN(NEL,6), EINT(NEL), 
-     .   RHO(NEL),QOLD(NEL), VOL(NEL), TF(NEL),VK(NEL),
-     .   OFFG(NEL),STIFN(NEL),GEO(NPROPG,*),EPSD(NEL),
-     .   WXX(NEL), WYY(NEL), WZZ(NEL), MUMAX(NEL), SSP(NEL),
-     .   AIRE(NEL) ,VOLN(NEL) ,VD2(NEL) ,VIS(NEL) ,  
+      my_real :: DT2T, BUFVOIS(*)
+      my_real :: PM(NPROPM,*), GAMA(*),PNEW(NEL),VARNL(NEL),
+     .   OFF(*), SIG(NEL,6), SIGL(NEL,6), STRAIN(NEL,6), EINT(*), 
+     .   RHO(*),QOLD(*), VOL(*), BUFMAT(*), TF(*),VK(*),
+     .   OFFG(*),STIFN(*),GEO(NPROPG,*),EPSD(*),
+     .   WXX(*), WYY(*), WZZ(*), MUMAX(*), SSP(*),
+     .   AIRE(*) ,VOLN(*) ,VD2(*) ,DELTAX(*),VIS(*) ,  
      .   SOLD1(MVSIZ) ,SOLD2(MVSIZ) ,SOLD3(MVSIZ) ,
      .   SOLD4(MVSIZ) ,SOLD5(MVSIZ) ,SOLD6(MVSIZ),
-     .   D1(NEL) ,D2(NEL),D3(NEL),D4(NEL),D5(NEL),D6(NEL) ,PSH(NEL),
-     .   Q(NEL),SSP_EQ(NEL),DVOL(NEL),
+     .   D1(MVSIZ) ,D2(MVSIZ),D3(MVSIZ),D4(MVSIZ),D5(MVSIZ),D6(MVSIZ) ,PSH(NEL),
+     .   Q(MVSIZ),SSP_EQ(*),DVOL(MVSIZ),
      .   RX(MVSIZ)    ,RY(MVSIZ)    ,RZ(MVSIZ),
-     .   SX(MVSIZ)    ,SY(MVSIZ)    ,SZ(MVSIZ),
-     .   TX(MVSIZ)    ,TY(MVSIZ)    ,TZ(MVSIZ),
-     .   V(NUMNOD), W(NUMNOD),X(NUMNOD), 
-     .   MFXX(NEL)  ,MFXY(NEL)  ,MFXZ(NEL)  ,MFYX(NEL) ,MFYY(NEL)   ,MFYZ(NEL)   ,
-     .   MFZX(NEL)  ,MFZY(NEL)  ,MFZZ(NEL), FQVIS(NEL),FSSP(NEL),
-     .   SIGV(NEL,6), SIGY(NEL),DEFP(NEL), 
-     .   DXY(NEL) ,DYX(NEL) ,DYZ(NEL) ,DZY(NEL) ,DZX(NEL) ,DXZ(NEL), SIGDD(NEL,6),
-     .   FR_WAV(NEL),ET(NEL), MSSA(NEL), DMELS(NEL),FVD2(NEL),FDELTAX(NEL),
-     .   AL_IMP(MVSIZ),SIGNOR(MVSIZ,6),VDX(NEL),VDY(NEL),VDZ(NEL),EINTTH(MVSIZ),
+     .   SX(MVSIZ)    ,SY(MVSIZ)    ,SZ(MVSIZ)    ,
+     .   TX(MVSIZ)    ,TY(MVSIZ)    ,TZ(MVSIZ)   , V(*), W(*), 
+     .   MFXX(MVSIZ)  ,MFXY(MVSIZ)  ,MFXZ(MVSIZ)  ,MFYX(MVSIZ) ,MFYY(MVSIZ)   ,MFYZ(MVSIZ)   ,
+     .   MFZX(MVSIZ)  ,MFZY(MVSIZ)  ,MFZZ(MVSIZ), FQVIS(*),FSSP(*),
+     .   SIGV(NEL,6), SIGY(*),DEFP(NEL), 
+     .   DXY(MVSIZ) ,DYX(MVSIZ) ,DYZ(MVSIZ) ,DZY(MVSIZ) ,DZX(MVSIZ) ,DXZ(MVSIZ), SIGDD(NEL,6),
+     .   FR_WAV(*),X(*),ET(*), MSSA(*), DMELS(*),FVD2(*),FDELTAX(*),
+     .   AL_IMP(MVSIZ),SIGNOR(MVSIZ,6),VDX(*),VDY(*),VDZ(*),EINTTH(MVSIZ),
      .   SVISC(NEL,6),AMU(MVSIZ),DPDM(MVSIZ),VOL_AVG(MVSIZ),EPSTH(NEL),EPSTH3(MVSIZ),
-     .   ETOTSH(NEL,6),TSTAR(MVSIZ),MUOLD(NEL),CONDE(NEL), RHOREF(MVSIZ), RHOSP(MVSIZ)
-      my_real, TARGET :: BUFMAT(*),DELTAX(NEL)
+     .   ETOTSH(NEL,6),TSTAR(MVSIZ),MUOLD(NEL),CONDE(*), RHOREF(*), RHOSP(*)
+      TARGET :: BUFMAT,DELTAX
       my_real, TARGET, DIMENSION(NUVAR*NEL)   :: UVAR
       my_real, TARGET, DIMENSION(NVARTMP*NEL) :: VARTMP
       my_real, TARGET, DIMENSION(NEL)       :: UVARF1,LTEMP,TEMPEL,SCALE1
@@ -245,7 +244,7 @@ C-----------------------------------------------
      .E1,E2,E3,E4,E5,E6,BID1,BID3,Q1,Q2,Q3,SS1,SS2,SS3,SS4,SS5,
      . SS6,WXXF,WYYF,WZZF,P2,EPSP,DAV,ASRATE,C1(MVSIZ),
      . EP1(MVSIZ),EP2(MVSIZ),EP3(MVSIZ),E7(MVSIZ),
-     . EP4(2*MVSIZ),EP5(2*MVSIZ),EP6(2*MVSIZ),EINC,
+     . EP4(2*MVSIZ),EP5(2*MVSIZ),EP6(2*MVSIZ),EINC(MVSIZ),
      . S1(MVSIZ) ,S2(MVSIZ) ,S3(MVSIZ) ,
      . S4(2*MVSIZ) ,S5(2*MVSIZ) ,S6(2*MVSIZ),
      . DE1(MVSIZ),DE2(MVSIZ),DE3(MVSIZ),
@@ -2243,6 +2242,7 @@ C-----------
        END DO
       ELSE 
         !other material laws without /eos
+#include "vectorize.inc"
         DO I=1,NEL                                                           
           P2 = -(SOLD1(I)+SIG(I,1)+SOLD2(I)+SIG(I,2)+SOLD3(I)+SIG(I,3))* THIRD 
           E1 = D1(I)*(SOLD1(I)+SIG(I,1) + P2+TWO*SVIS(I,1))                   
@@ -2251,10 +2251,13 @@ C-----------
           E4 = D4(I)*(SOLD4(I)+SIG(I,4) + TWO*SVIS(I,4))                      
           E5 = D5(I)*(SOLD5(I)+SIG(I,5) + TWO*SVIS(I,5))                      
           E6 = D6(I)*(SOLD6(I)+SIG(I,6) + TWO*SVIS(I,6))         
-          EINC = VOL_AVG(I)*DT1 * (E1+E2+E3+E4+E5+E6+E7(I))
-     .         - DVOL(I)*(Q(I) + QOLD(I) + P2)
-          EINT(I) = EINT(I) + OFF(I)*EINC*HALF
+          EINC(I) = OFF(I) * (VOL_AVG(I)*DT1 * (E1+E2+E3+E4+E5+E6+E7(I))
+     .         - DVOL(I)*(Q(I) + QOLD(I) + P2)) * HALF
         END DO                                                                 
+        DO I = 1, NEL
+         EINT(I) = EINT(I) + EINC(I)
+        END DO                                                                 
+
       ENDIF
       QOLD(1:NEL) = Q(1:NEL)
 C------------------------------------------
