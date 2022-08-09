@@ -1211,7 +1211,7 @@ c-------
      .                           UPARAM,MAXUPARAM,NUPARAM,
      .                           NUVAR,IFUNC,MAXFUNC,NFUNC,
      .                           LSUBMODEL,
-     .                           PM(1,I) )
+     .                           PM(1,I) ,PARMAT)
         END SELECT
         
 c-----------------------------------------------------------------------
