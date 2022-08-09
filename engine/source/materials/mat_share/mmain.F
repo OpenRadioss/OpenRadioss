@@ -1849,8 +1849,7 @@ c   --- Orthotropic strain failure
      4        ES1      ,ES2      ,ES3      ,ES4      ,ES5      ,ES6     ,
      5        SS1      ,SS2      ,SS3      ,SS4      ,SS5      ,SS6     ,
      6        UVARF    ,OFF      ,IPG      ,NGL      ,DFMAX    ,TDEL    ,                   
-     7        GBUF%UELR,NPG      ,DELTAX   ,MFXX     ,MFXY     ,MFXZ     ,                 
-     8        MFYX     ,MFYY     , MFYZ    ,MFZX     ,MFZY     ,MFZZ     )
+     7        GBUF%UELR,NPG      ,DELTAX   )
           ELSEIF (IRUPT == 27) THEN                                      
 c ---   extended mohr coulomb failure model                  
               CALL FAIL_EMC(

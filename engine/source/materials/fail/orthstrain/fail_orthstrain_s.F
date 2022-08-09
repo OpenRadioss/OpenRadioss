@@ -37,8 +37,7 @@ Chd|====================================================================
      4        EPSXX    ,EPSYY  ,EPSZZ  ,EPSXY   ,EPSYZ  ,EPSZX    ,
      5        SIGNXX   ,SIGNYY ,SIGNZZ ,SIGNXY  ,SIGNYZ ,SIGNZX   ,
      6        UVAR     ,OFF    ,IPT    ,NGL     ,DFMAX  ,TDEL     ,
-     7        UELR     ,NPT    ,DELTAX ,MFXX   ,MFXY    ,MFXZ     ,               
-     8        MFYX     ,MFYY   ,MFYZ   ,MFZX   ,MFZY    ,MFZZ     )
+     7        UELR     ,NPT    ,DELTAX )
 C-----------------------------------------------
 c    Orthotropic strain failure model
 C-----------------------------------------------
@@ -86,8 +85,7 @@ C--------------------------------------------
       my_real :: TIME,TIMESTEP
       my_real ,DIMENSION(NUPARAM) :: UPARAM
       my_real ,DIMENSION(NEL) ,INTENT(IN) :: EPSXX,EPSYY,EPSZZ,
-     .  EPSXY,EPSYZ,EPSZX,EPSPXX,EPSPYY,EPSPZZ,EPSPXY,EPSPYZ,EPSPZX,
-     .  MFXX,MFXY,MFXZ,MFYX,MFYY,MFYZ,MFZX,MFZY,MFZZ
+     .  EPSXY,EPSYZ,EPSZX,EPSPXX,EPSPYY,EPSPZZ,EPSPXY,EPSPYZ,EPSPZX
       my_real ,DIMENSION(NEL)     :: UELR,DELTAX,
      .  SIGNXX,SIGNYY,SIGNZZ,SIGNXY,SIGNYZ,SIGNZX
 C-----------------------------------------------
@@ -124,6 +122,9 @@ C-----------------------------------------------
      .    ET1M,ET2M,ET12M,EC1M,EC2M,EC12M,ET3M,EC3M,EC23M,ET23M,EC31M,ET31M,
      .    DI,DAMXX,DAMYY,DAMXY,DAMZZ,DAMYZ,DAMZX, 
      .    ODAMXX,ODAMYY,ODAMXY,ODAMZZ,ODAMYZ,ODAMZX,FSCALE_SIZ,REF_SIZ
+      my_real  EPSTENS(3,3),EPSTENS2(3,3),EPS_PR(3),VECT_PR(3,3),
+     .         EPSPTENS(3,3),EPSPTENS2(3,3),EPSP_PR(3)
+      INTEGER  NROT,K,L,M
 C=======================================================================
       ALPHA  = UPARAM(16)
       EPSPREF= UPARAM(17)
@@ -136,83 +137,206 @@ c     strain transformation following input definition
 c-------------------
       STRFLAG = 0
       IF (STRDEF == 2) THEN        ! failure defined as engineering strain
-        IF (ISMSTR == 10 .or. ISMSTR == 12) THEN
-          STRFLAG = 1
-        ELSE IF (ISMSTR == 0 .or. ISMSTR == 2 .or. ISMSTR == 4) THEN
+        IF (ISMSTR /=1 .AND. ISMSTR /=3 .AND. ISMSTR /= 11) THEN
           STRFLAG = 2
         END IF
       ELSE IF (STRDEF == 3) THEN   ! failure defined as true strain
-        IF (ISMSTR == 1 .or. ISMSTR == 3 .or. ISMSTR == 11) THEN
+        IF (ISMSTR == 1 .OR. ISMSTR == 3 .OR. ISMSTR == 11) THEN
           STRFLAG = 3
-        ELSE IF (ISMSTR == 10 .or. ISMSTR == 12) THEN
-          STRFLAG = 4
         END IF
       END IF           
 c--------------------------
       SELECT CASE (STRFLAG)
-        CASE (1)  !  transform Grad def to engineering
-          DO I=1,NEL
-            IF (OFF(I) == ONE ) THEN
-              EPS11(I)  = MFXX(I)
-              EPS22(I)  = MFYY(I)
-              EPS33(I)  = MFZZ(I)
-              EPS12(I)  = MFXY(I) + MFYX(I)
-              EPS23(I)  = MFXZ(I) + MFZX(I)
-              EPS31(I)  = MFZY(I) + MFYZ(I)
-            END IF
-          ENDDO
 c
         CASE (2)  !  transform true strain to engineering
           DO I=1,NEL
-            IF (OFF(I) == ONE ) THEN
-              EPS11(I)  = EXP(EPSXX(I)) - ONE
-              EPS22(I)  = EXP(EPSYY(I)) - ONE
-              EPS33(I)  = EXP(EPSZZ(I)) - ONE
-              EPS12(I)  = EXP(EPSXY(I)) - ONE
-              EPS23(I)  = EXP(EPSYZ(I)) - ONE
-              EPS31(I)  = EXP(EPSZX(I)) - ONE
-              EPSP11(I) = EXP(EPSPXX(I)) - ONE
-              EPSP22(I) = EXP(EPSPYY(I)) - ONE
-              EPSP33(I) = EXP(EPSPZZ(I)) - ONE
-              EPSP12(I) = EXP(EPSPXY(I)) - ONE
-              EPSP23(I) = EXP(EPSPYZ(I)) - ONE
-              EPSP31(I) = EXP(EPSPZX(I)) - ONE
+            IF (OFF(I) == ONE ) THEN 
+              ! -> Fill the strain tensor 3x3
+              EPSTENS(1,1) = EPSXX(I)
+              EPSTENS(2,2) = EPSYY(I)
+              EPSTENS(3,3) = EPSZZ(I)
+              EPSTENS(1,2) = HALF*EPSXY(I)
+              EPSTENS(2,3) = HALF*EPSYZ(I)
+              EPSTENS(1,3) = HALF*EPSZX(I)
+              EPSTENS(2,1) = EPSTENS(1,2)
+              EPSTENS(3,1) = EPSTENS(1,3)
+              EPSTENS(3,2) = EPSTENS(2,3)
+              ! -> Compute principal strains and vectors
+              CALL JACOBIEW(EPSTENS,3,EPS_PR,VECT_PR,NROT)
+              ! -> Transform true principal strains to engineering principal strains
+              EPS_PR(1) = EXP(EPS_PR(1)) - ONE
+              EPS_PR(2) = EXP(EPS_PR(2)) - ONE
+              EPS_PR(3) = EXP(EPS_PR(3)) - ONE 
+              ! -> Recover engineering strain tensor 
+              EPSTENS(1:3,1:3) = ZERO
+              EPSTENS(1,1) = EPS_PR(1)
+              EPSTENS(2,2) = EPS_PR(2)
+              EPSTENS(3,3) = EPS_PR(3)
+              !  --> Principal vector*Principal strains*Transpose(Principal vector)
+              DO K = 1,3
+                DO L = 1,3
+                  EPSTENS2(K,L) = ZERO
+                  DO M = 1,3
+                    EPSTENS2(K,L) = EPSTENS2(K,L) + EPSTENS(K,M)*VECT_PR(L,M)
+                  ENDDO
+                ENDDO
+              ENDDO
+              DO K = 1,3
+                DO L = 1,3
+                  EPSTENS(K,L) = ZERO
+                  DO M = 1,3
+                    EPSTENS(K,L) = EPSTENS(K,L) + VECT_PR(K,M)*EPSTENS2(M,L)
+                  ENDDO
+                ENDDO
+              ENDDO
+              ! -> Save engineering strains
+              EPS11(I)  = EPSTENS(1,1)
+              EPS22(I)  = EPSTENS(2,2)
+              EPS33(I)  = EPSTENS(3,3)
+              EPS12(I)  = EPSTENS(1,2)
+              EPS23(I)  = EPSTENS(2,3)
+              EPS31(I)  = EPSTENS(3,1)
+              ! -> Fill the strain rate tensor
+              EPSPTENS(1,1) = EPSPXX(I)
+              EPSPTENS(2,2) = EPSPYY(I)
+              EPSPTENS(3,3) = EPSPZZ(I)
+              EPSPTENS(1,2) = HALF*EPSPXY(I)
+              EPSPTENS(2,3) = HALF*EPSPYZ(I)
+              EPSPTENS(1,3) = HALF*EPSPZX(I)
+              EPSPTENS(2,1) = EPSPTENS(1,2)
+              EPSPTENS(3,1) = EPSPTENS(1,3)
+              EPSPTENS(3,2) = EPSPTENS(2,3)
+              ! -> Compute principal strain rates and vectors
+              CALL JACOBIEW(EPSPTENS,3,EPSP_PR,VECT_PR,NROT)
+              ! -> Transform true principal strain rates to engineering principal strain rates
+              EPSP_PR(1) = (EPS_PR(1)+ONE)*EPSP_PR(1)
+              EPSP_PR(2) = (EPS_PR(2)+ONE)*EPSP_PR(2)
+              EPSP_PR(3) = (EPS_PR(3)+ONE)*EPSP_PR(3)
+              ! -> Recover engineering strain rate tensor 
+              EPSPTENS(1:3,1:3) = ZERO
+              EPSPTENS(1,1) = EPSP_PR(1)
+              EPSPTENS(2,2) = EPSP_PR(2)
+              EPSPTENS(3,3) = EPSP_PR(3)
+              !  --> Principal vector*Principal strains*Transpose(Principal vector)
+              DO K = 1,3
+                DO L = 1,3
+                  EPSPTENS2(K,L) = ZERO
+                  DO M = 1,3
+                    EPSPTENS2(K,L) = EPSPTENS2(K,L) + EPSPTENS(K,M)*VECT_PR(L,M)
+                  ENDDO
+                ENDDO
+              ENDDO
+              DO K = 1,3
+                DO L = 1,3
+                  EPSPTENS(K,L) = ZERO
+                  DO M = 1,3
+                    EPSPTENS(K,L) = EPSPTENS(K,L) + VECT_PR(K,M)*EPSPTENS2(M,L)
+                  ENDDO
+                ENDDO
+              ENDDO
+              ! -> Save engineering strain rates
+              EPSP11(I) = EPSPTENS(1,1)
+              EPSP22(I) = EPSPTENS(2,2)
+              EPSP33(I) = EPSPTENS(3,3)
+              EPSP12(I) = EPSPTENS(1,2)
+              EPSP23(I) = EPSPTENS(2,3)
+              EPSP31(I) = EPSPTENS(3,1)
             END IF
           ENDDO
 c
         CASE (3)  !  transform engineering to true strain
           DO I=1,NEL
             IF (OFF(I) == ONE ) THEN
-              EPS11(I)  = LOG(EPSXX(I) + ONE)
-              EPS22(I)  = LOG(EPSYY(I) + ONE)
-              EPS33(I)  = LOG(EPSZZ(I) + ONE)
-              EPS12(I)  = LOG(EPSXY(I) + ONE)
-              EPS23(I)  = LOG(EPSYZ(I) + ONE)
-              EPS31(I)  = LOG(EPSZX(I) + ONE)
-              EPSP11(I) = LOG(EPSPXX(I) + ONE)
-              EPSP22(I) = LOG(EPSPYY(I) + ONE)
-              EPSP33(I) = LOG(EPSPZZ(I) + ONE)
-              EPSP12(I) = LOG(EPSPXY(I) + ONE)
-              EPSP23(I) = LOG(EPSPYZ(I) + ONE)
-              EPSP31(I) = LOG(EPSPZX(I) + ONE)
-            END IF
-          ENDDO
-c
-        CASE (4)  !  transform Cauchy-Green to true strain
-          DO I=1,NEL
-            IF (OFF(I) == ONE ) THEN
-              EPS11(I)  = LOG(MFXX(I) + ONE)
-              EPS22(I)  = LOG(MFYY(I) + ONE)
-              EPS33(I)  = LOG(MFZZ(I) + ONE)
-              EPS12(I)  = LOG(MFXY(I) + MFYX(I) + ONE)
-              EPS23(I)  = LOG(MFXZ(I) + MFZX(I) + ONE)
-              EPS31(I)  = LOG(MFZY(I) + MFYZ(I) + ONE)
-              EPSP11(I) = LOG(SQRT(EPSPXX(I)+ONE))
-              EPSP22(I) = LOG(SQRT(EPSPYY(I)+ONE))
-              EPSP33(I) = LOG(SQRT(EPSPZZ(I)+ONE))
-              EPSP12(I) = LOG(SQRT(EPSPXY(I)+ONE))
-              EPSP23(I) = LOG(SQRT(EPSPYZ(I)+ONE))
-              EPSP31(I) = LOG(SQRT(EPSPZX(I)+ONE))
+              ! -> Fill the strain tensor 3x3
+              EPSTENS(1,1) = EPSXX(I)
+              EPSTENS(2,2) = EPSYY(I)
+              EPSTENS(3,3) = EPSZZ(I)
+              EPSTENS(1,2) = HALF*EPSXY(I)
+              EPSTENS(2,3) = HALF*EPSYZ(I)
+              EPSTENS(1,3) = HALF*EPSZX(I)
+              EPSTENS(2,1) = EPSTENS(1,2)
+              EPSTENS(3,1) = EPSTENS(1,3)
+              EPSTENS(3,2) = EPSTENS(2,3)
+              ! -> Compute principal strains and vectors
+              CALL JACOBIEW(EPSTENS,3,EPS_PR,VECT_PR,NROT)
+              ! -> Transform engineering principal strains to true principal strains
+              EPS_PR(1) = LOG(ONE + EPS_PR(1))
+              EPS_PR(2) = LOG(ONE + EPS_PR(2))
+              EPS_PR(3) = LOG(ONE + EPS_PR(3)) 
+              ! -> Recover true strain tensor 
+              EPSTENS(1:3,1:3) = ZERO
+              EPSTENS(1,1) = EPS_PR(1)
+              EPSTENS(2,2) = EPS_PR(2)
+              EPSTENS(3,3) = EPS_PR(3)
+              !  --> Principal vector*Principal strains*Transpose(Principal vector)
+              DO K = 1,3
+                DO L = 1,3
+                  EPSTENS2(K,L) = ZERO
+                  DO M = 1,3
+                    EPSTENS2(K,L) = EPSTENS2(K,L) + EPSTENS(K,M)*VECT_PR(L,M)
+                  ENDDO
+                ENDDO
+              ENDDO
+              DO K = 1,3
+                DO L = 1,3
+                  EPSTENS(K,L) = ZERO
+                  DO M = 1,3
+                    EPSTENS(K,L) = EPSTENS(K,L) + VECT_PR(K,M)*EPSTENS2(M,L)
+                  ENDDO
+                ENDDO
+              ENDDO
+              ! -> Save true strains
+              EPS11(I)  = EPSTENS(1,1)
+              EPS22(I)  = EPSTENS(2,2)
+              EPS33(I)  = EPSTENS(3,3)
+              EPS12(I)  = EPSTENS(1,2)
+              EPS23(I)  = EPSTENS(2,3)
+              EPS31(I)  = EPSTENS(3,1)
+              ! -> Fill the strain rate tensor
+              EPSPTENS(1,1) = EPSPXX(I)
+              EPSPTENS(2,2) = EPSPYY(I)
+              EPSPTENS(3,3) = EPSPZZ(I)
+              EPSPTENS(1,2) = HALF*EPSPXY(I)
+              EPSPTENS(2,3) = HALF*EPSPYZ(I)
+              EPSPTENS(1,3) = HALF*EPSPZX(I)
+              EPSPTENS(2,1) = EPSPTENS(1,2)
+              EPSPTENS(3,1) = EPSPTENS(1,3)
+              EPSPTENS(3,2) = EPSPTENS(2,3)
+              ! -> Compute principal strain rates and vectors
+              CALL JACOBIEW(EPSPTENS,3,EPSP_PR,VECT_PR,NROT)
+              ! -> Transform engineering principal strain rates to true principal strain rates
+              EPSP_PR(1) = (ONE/(EXP(EPS_PR(1))))*EPSP_PR(1)
+              EPSP_PR(2) = (ONE/(EXP(EPS_PR(2))))*EPSP_PR(2)
+              EPSP_PR(3) = (ONE/(EXP(EPS_PR(3))))*EPSP_PR(3)
+              ! -> Recover true strain rates tensor 
+              EPSPTENS(1:3,1:3) = ZERO
+              EPSPTENS(1,1) = EPSP_PR(1)
+              EPSPTENS(2,2) = EPSP_PR(2)
+              EPSPTENS(3,3) = EPSP_PR(3)
+              !  --> Principal vector*Principal strains*Transpose(Principal vector)
+              DO K = 1,3
+                DO L = 1,3
+                  EPSPTENS2(K,L) = ZERO
+                  DO M = 1,3
+                    EPSPTENS2(K,L) = EPSPTENS2(K,L) + EPSPTENS(K,M)*VECT_PR(L,M)
+                  ENDDO
+                ENDDO
+              ENDDO
+              DO K = 1,3
+                DO L = 1,3
+                  EPSPTENS(K,L) = ZERO
+                  DO M = 1,3
+                    EPSPTENS(K,L) = EPSPTENS(K,L) + VECT_PR(K,M)*EPSPTENS2(M,L)
+                  ENDDO
+                ENDDO
+              ENDDO
+              ! -> Save true strain rates
+              EPSP11(I) = EPSPTENS(1,1)
+              EPSP22(I) = EPSPTENS(2,2)
+              EPSP33(I) = EPSPTENS(3,3)
+              EPSP12(I) = EPSPTENS(1,2)
+              EPSP23(I) = EPSPTENS(2,3)
+              EPSP31(I) = EPSPTENS(3,1)
             END IF
           ENDDO
 c
@@ -221,15 +345,15 @@ c
           EPS11(1:NEL)  = EPSXX(1:NEL)
           EPS22(1:NEL)  = EPSYY(1:NEL)
           EPS33(1:NEL)  = EPSZZ(1:NEL)
-          EPS12(1:NEL)  = EPSXY(1:NEL)
-          EPS23(1:NEL)  = EPSYZ(1:NEL)
-          EPS31(1:NEL)  = EPSZX(1:NEL)
+          EPS12(1:NEL)  = HALF*EPSXY(1:NEL)
+          EPS23(1:NEL)  = HALF*EPSYZ(1:NEL)
+          EPS31(1:NEL)  = HALF*EPSZX(1:NEL)
           EPSP11(1:NEL) = EPSPXX(1:NEL)
           EPSP22(1:NEL) = EPSPYY(1:NEL)
           EPSP33(1:NEL) = EPSPZZ(1:NEL)
-          EPSP12(1:NEL) = EPSPXY(1:NEL)
-          EPSP23(1:NEL) = EPSPYZ(1:NEL)
-          EPSP31(1:NEL) = EPSPZX(1:NEL)
+          EPSP12(1:NEL) = HALF*EPSPXY(1:NEL)
+          EPSP23(1:NEL) = HALF*EPSPYZ(1:NEL)
+          EPSP31(1:NEL) = HALF*EPSPZX(1:NEL)
       END SELECT
 c------------------------------
 c     Element size scale factor
