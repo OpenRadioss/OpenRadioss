@@ -37,7 +37,7 @@ Chd|====================================================================
      .                           UPARAM,MAXUPARAM,NUPARAM,
      .                           NUVAR ,IFUNC,MAXFUNC,NFUNC,
      .                           LSUBMODEL,
-     .                           PM )
+     .                           PM ,PARMAT)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -83,6 +83,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(MAXFUNC)     :: IFUNC
       my_real, DIMENSION(MAXUPARAM)   :: UPARAM
       my_real, DIMENSION(NPROPM) ,INTENT(INOUT)   :: PM
+      my_real, DIMENSION(100)    ,INTENT(OUT)     :: PARMAT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -138,6 +139,10 @@ C-----------------------------------------------
 
         PM( 1) = MDS_RHO0
         PM(89) = MDS_RHO0
+        !!
+        PARMAT(1) = STIFINT
+        PARMAT(2) = YOUNG
+        PARMAT(3) = NU
 
         CALL RAD_UMAT_CLOSE_INPUT()
 
