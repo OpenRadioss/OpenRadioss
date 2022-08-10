@@ -114,7 +114,7 @@ C-----------------------------------------------
       ! Safety coefficient for non-local stability vs mechanical stability
       ! (here we have a good compromise to find, DENS must be as low as 
       !  possible but sufficiently high to avoid the decrease of the timestep)
-      my_real, PARAMETER                   :: CSTA = 20.0D0
+      my_real, PARAMETER                   :: CSTA = 40.0D0
       ! Position of integration points in the thickness
       DATA  Z01/
      1 0.       ,0.       ,0.       ,0.       ,0.       ,
