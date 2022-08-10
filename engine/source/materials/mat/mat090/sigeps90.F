@@ -156,7 +156,7 @@ C-----------------------------------------------
      . YFAC,YFACJ1,YFACJ2,RATEJ1,RATEJ2, EPSE,EP1,
      . EP2,EP3,EP4,EP5,EP6,ERT11,ERT12,ERT13,ERT21,
      . ERT22,ERT23,ERT31,ERT32,ERT33,SJ1,SJ2,FAC,T1,T2,T3,
-     . DAM,EPE,EMIN,E_MIN(NEL),E1,E2,TMP,QUASI_EINT,DELTA
+     . DAM,EPE,EMIN,E_MIN(NEL),E1,E2,TMP,QUASI_EINT,DELTA,ALPHA
       my_real
      .  AV(6,NEL), EVV(3,NEL),EV(NEL,3),STRAIN(NEL,3),
      .  STRAINRATE(NEL,3),S(NEL,3),SQSTAT(NEL,3),DF(3),
@@ -173,6 +173,7 @@ C-----------------------------------------------
        IFLAG   =  UPARAM(9)  
        IDAM    =  UPARAM(10)
        E_MAX   =  UPARAM(2*NFUNC + 11)
+       ALPHA   =  UPARAM(2*NFUNC + 13)
 C       
        IF(TIME == ZERO )UVAR(1:NEL,8) = E0
 C           
@@ -489,6 +490,7 @@ C  flag is a hidden falg, only idam=0 is activated, Idam > o not tested.
                   I = INDX_UNL(II)
                   IF(UVAR(I,2) > ZERO) THEN
                      DAM = ONE - (ECURENT(I)/UVAR(I,2))**SHAPE
+                     DAM = DAM**ALPHA
                      DAM = ONE - (ONE - HYS)*DAM
                      UVAR(I,7) = DAM
 C  global      
