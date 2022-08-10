@@ -97,7 +97,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,IFLAG,IDAM ,ISMOOTH     
-      my_real E0,NU,FCUT,G,C1,SHAPE,HYS
+      my_real E0,NU,FCUT,G,C1,SHAPE,HYS,ALPHA
       my_real RATE(1000),YFAC(1000),YFAC_DIM(1000)
       my_real :: RHO0, RHOR,FCUT_UNIT
       LOGICAL :: IS_AVAILABLE,IS_CRYPTED
@@ -121,6 +121,7 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('Fcut'      ,FCUT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_SHAPE' ,SHAPE   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Hys'       ,HYS     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_ALPHA' ,ALPHA     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 !   IDAM  ---> not documented, not included within LAW90.cfg
 !!      CALL HM_GET_INTV  ('IDAM'      ,IDAM    ,IS_AVAILABLE, LSUBMODEL)
 !
@@ -156,6 +157,7 @@ C-----------------------------------------------
       IF (NFUNC > 0  .AND. HYS == ZERO) IFLAG = 1     
       IF (NFUNC > 0  .AND. HYS > ZERO)  IFLAG  = 2    ! unloading is quasi-static
       IF (SHAPE == ZERO) SHAPE = ONE
+      IF (ALPHA == ZERO) ALPHA = ONE
       IF (HYS  == ZERO) HYS = ONE
       IF (RHOR.EQ.ZERO) RHOR=RHO0
       IF (FCUT == ZERO ) THEN
@@ -177,9 +179,10 @@ C-----------------------------------------------
          UPARAM(I + 10)        =  RATE(I)
          UPARAM(I + 10 + NFUNC) = YFAC(I)
       END DO
-
+      NUPARAM =13 + 2*NFUNC  
+      UPARAM(NUPARAM) = ALPHA
+!
       C1=E0/THREE/(ONE - TWO*NU)
-      NUPARAM =12 + 2*NFUNC  
       PARMAT(1) = C1
       PARMAT(2) = E0
       PARMAT(3) = NU
@@ -199,7 +202,7 @@ C
       ELSE
         WRITE(IOUT,1100)RHO0                                                     
         WRITE(IOUT,1150)E0,NU
-        WRITE(IOUT,1200)FCUT,ISMOOTH,SHAPE,HYS
+        WRITE(IOUT,1200)FCUT,ISMOOTH,SHAPE,HYS,ALPHA
         WRITE(IOUT,1300)(IFUNC(J),RATE(J),YFAC(J),J=1,NFUNC)
       ENDIF
 c-----------------
@@ -228,7 +231,8 @@ c-----------------
      & 5X,'STRAIN RATE COEFFICIENT . . . . . . . .=',1PG20.13/,
      & 5X,'FLAG FOR FILTRING STRAIN RATE       . .=',I10/,
      & 5X,'SHAPE FACTOR FOR UNLOADING  . . . . . .=',1PG20.13/,
-     & 5X,'HYSTERETIC UNLOADING FACTOR  . . . . . =',1PG20.13/)
+     & 5X,'HYSTERETIC UNLOADING FACTOR  . . . . . =',1PG20.13/,
+     & 5X,'EXPONANT FACTOR FOR UNLOADING  . . .  .=',1PG20.13/)
  1300 FORMAT(
      & 5X,'LOADING STRESS FUNCTION NUMBER.. . . . . =',I10/,
      & 5X,'STRAIN RATE . . . . . . . . . . . . . .=',1PG20.13/,
