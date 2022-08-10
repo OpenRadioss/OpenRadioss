@@ -536,7 +536,7 @@ C-----------------------------------------------
              SENS_TYPE = SENSOR_TAB(ISENS)%TYPE
              TS = EP20
              IF (SENS_TYPE == 14 .or. SENS_TYPE == 15 .or. SENS_TYPE == 16 .or.
-     .           SENS_TYPE == 17) THEN
+     .           SENS_TYPE == 17 .or. SENS_TYPE == 19) THEN
                SENS_ID = SENSOR_TAB(ISENS)%SENS_ID  
                IF (SENSOR_TAB(ISENS)%STATUS == 3) TS = TT
              ELSE

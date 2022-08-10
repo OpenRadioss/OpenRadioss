@@ -43,114 +43,128 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc"
 #include      "units_c.inc"
+#include      "com01_c.inc"
 #include      "com08_c.inc"
-#include      "scr05_c.inc"
 #include      "scr17_c.inc"
 #include      "task_c.inc"
-#include      "parit_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (SENSOR_STR_) ,TARGET :: SENSOR
+      TYPE (SENSOR_STR_) :: SENSOR
 C----------------------------------------------------------
 C Local Variables
 C----------------------------------------------------------
-      INTEGER I,J,IDIR,ISENSOR_TYPE,NPOINT,NPH,NVAR,CFC,
-     .        SKEW_SENS,SKEW_SPRING,IDIR1,IDIR2
-c
-      my_real :: TIME_UNIT,TIME,DT
-      my_real :: NIC_PERIOD,NIJMAX,NIC,NIC_NF,DTIME
-      my_real :: TIME_PREC,TEST_TIME,DELTA_T
-      my_real :: PERIOD_TMP,OPT_PERIOD,
-     .           FTENS,FCOMP,MFLEX,MEXT,ALPHA,BETA
-      my_real :: NIJ,FOR,MOM
-      my_real ,DIMENSION(:) ,ALLOCATABLE :: FX,FY,FZ,MX,MY,MZ
-      my_real ,DIMENSION(3) :: CA
-      my_real ,DIMENSION(2) :: CB
-      my_real ,DIMENSION(:) ,POINTER :: TABLE_F,TABLE_M
-c
-      DATA NVAR/4/
+      INTEGER NPT,NPH,IADFX,IADFY,IADMX,IADMY
+      my_real :: FOR,MOM,DT,TIME,NIJMAX,NIC,ALPHA,BETA,CFC,
+     .           WD,WA,WA2,WA3,A0,A1,A2,B1,B2,X0,X1,X2,Y1,Y2,YF,YM
 c-----------------------------------------------------------------------
 c     Sensor state variables
-c        SENSOR%VAR(1) :  TIME_PREC   = beginning of current time interval
-c        SENSOR%VAR(2) :  Integral of acceleration over time within current time interval
-c        SENSOR%VAR(3) :  Index of current time interval in data table
-c        SENSOR%VAR(4) :  Previous NIC value
-c        SENSOR%VAR(5...5+NPOINT)  : average acceleration data table by time intervals
+c        SENSOR%VAR(1) :  Current non filtered spring force
+c        SENSOR%VAR(2) :  Current non filtered spring moment
+c        free
+c        SENSOR%VAR(6 -10)  :  non filtered force values 
+c        SENSOR%VAR(11-15)  :  filtered force values    
+c        SENSOR%VAR(16-20   :  non filtered moment values 
+c        SENSOR%VAR(21-25)  :  filtered moment values 
 C=======================================================================
       IF (SENSOR%STATUS == 3) RETURN   ! already activated
 c
-      ISENSOR_TYPE = SENSOR%IPARAM(1)
-      SKEW_SENS    = SENSOR%IPARAM(3)
-      SKEW_SPRING  = SENSOR%IPARAM(4)
-      IDIR1        = SENSOR%IPARAM(5)
-      IDIR2        = SENSOR%IPARAM(6)
-      NPH          = SENSOR%IPARAM(7)
-      CFC          = SENSOR%IPARAM(8)
-c
       NIJMAX = SENSOR%RPARAM(1)
-      FTENS  = SENSOR%RPARAM(2)
-      FCOMP  = SENSOR%RPARAM(3)
-      MFLEX  = SENSOR%RPARAM(4)
-      MEXT   = SENSOR%RPARAM(5)
-      CA(1)  = SENSOR%RPARAM(6)
-      CA(2)  = SENSOR%RPARAM(7)
-      CA(3)  = SENSOR%RPARAM(8)
-      CB(1)  = SENSOR%RPARAM(9)
-      CB(2)  = SENSOR%RPARAM(10)
-      DTIME  = SENSOR%RPARAM(11)
-      ALPHA  = SENSOR%RPARAM(12)
-      
-c     actual normalized spring force and moment
-      FOR = SENSOR%VAR(1)
-
-!      MOM = SENSOR%VAR(2)
-      TIME_PREC = SENSOR%VAR(3)  ! bidon
-      
-      
-!     1) fill Force and moment tables from previous time steps  
-!     2) call filtering routine for all components
-!     3) Calculate Nij criterion for each combination of normalized 
-!        tension-compression-flex-ext combinations : N11,N12,N21,N22
-!     4) test crit value over Tmin and deactivate sensor
-!
- 
-!      NPOINT = 2*NPH + 1
-      NPOINT = 7
-      DT = DT2
+      ALPHA  = SENSOR%RPARAM(6)
+      CFC    = SENSOR%RPARAM(7)
+      TIME   = TT
 c
-      TIME = TT
-      NVAR = 5
-c      TABLE_F(1:NPOINT) => SENSOR%VAR(NVAR+1:NVAR+NPOINT)
-c      TABLE_M(1:NPOINT) => SENSOR%VAR(NVAR+NPOINT+1:NVAR+NPOINT*2)
-c     shift data to make place for new time interval when NIC_PERIOD is reached
-      DO I = 1,NPOINT-1
-        TABLE_F(I) = TABLE_F(I+1)   
-      END DO                                
-      TABLE_F(1:NPOINT) = FOR
-      DO I = 1,NPOINT-1
-        TABLE_M(I) = TABLE_M(I+1)   
-      END DO                                
-      TABLE_M(1:NPOINT) = MOM
+c     Parameters of SAE-J211 CFC filter
+      DT   = DT2    
+      WD   = TWO*PI*CFC*ALPHA
+      BETA = HALF * DT * WD
+      WA   = TAN(BETA)
+      WA2  = WA**2
+      WA3  = ONE + SQR2*WA + WA2
+      A0   = WA2 / WA3
+      A1   = A0 * TWO
+      A2   = A0
+      B1   = -TWO*(WA2 - ONE) / WA3
+      B2   = (-ONE + SQR2*WA - WA2) / WA3
+c
+c     current non filtered normalized spring force and moment
+      FOR  = SENSOR%VAR(1)
+      MOM  = SENSOR%VAR(2)
+c
+      NPT = 5
+      NPH = 3
+      IADFX = 5
+      IADFY = IADFX + NPT
+      IADMX = IADFY + NPT
+      IADMY = IADMX + NPT
+c
+      ! forward filter - forces
+c
+      X0 = FOR
+      X1 = SENSOR%VAR(IADFX+5)      
+      X2 = SENSOR%VAR(IADFX+4)    
+      Y1 = SENSOR%VAR(IADFY+5)  
+      Y2 = SENSOR%VAR(IADFY+4)
+c      
+      YF = A0*X0 + A1*X1 + A2*X2 + B1*Y1 + B2*Y2
+c              
+      SENSOR%VAR(IADFX+1) = SENSOR%VAR(IADFX+2)
+      SENSOR%VAR(IADFX+2) = SENSOR%VAR(IADFX+3)
+      SENSOR%VAR(IADFX+3) = SENSOR%VAR(IADFX+4)
+      SENSOR%VAR(IADFX+4) = SENSOR%VAR(IADFX+5)  
+      SENSOR%VAR(IADFX+5) = FOR
+c
+      SENSOR%VAR(IADFY+1) = SENSOR%VAR(IADFY+2)
+      SENSOR%VAR(IADFY+2) = SENSOR%VAR(IADFY+3)
+      SENSOR%VAR(IADFY+3) = SENSOR%VAR(IADFY+4)
+      SENSOR%VAR(IADFY+4) = SENSOR%VAR(IADFY+5)  
+      SENSOR%VAR(IADFY+5) = YF
+c
+      ! backward filter - forces
+c
+      X0 = SENSOR%VAR(IADFX+NPH)
+      X1 = SENSOR%VAR(IADFX+NPH+1)
+      X2 = SENSOR%VAR(IADFX+NPH+2)
+      Y1 = SENSOR%VAR(IADFY+NPH+1)
+      Y2 = SENSOR%VAR(IADFY+NPH+2)
+c      
+      FOR = A0*X0 + A1*X1 + A2*X2 + B1*Y1 + B2*Y2
+c
+      ! forward filter - moments
+      X0 = MOM
+      X1 = SENSOR%VAR(IADMX+5)      
+      X2 = SENSOR%VAR(IADMX+4)
+      Y1 = SENSOR%VAR(IADMY+5)
+      Y2 = SENSOR%VAR(IADMY+4)
+c      
+      YM = A0*X0 + A1*X1 + A2*X2 + B1*Y1 + B2*Y2
+c              
+      SENSOR%VAR(IADMX+1) = SENSOR%VAR(IADMX+2)
+      SENSOR%VAR(IADMX+2) = SENSOR%VAR(IADMX+3)
+      SENSOR%VAR(IADMX+3) = SENSOR%VAR(IADMX+4)
+      SENSOR%VAR(IADMX+4) = SENSOR%VAR(IADMX+5)  
+      SENSOR%VAR(IADMX+5) = MOM
       
-
-c      CALL FILTER_SAE211(NPOINT    ,SENSOR%VAR   ,CA    ,CB   )
-
-c      CALL FILTER_SAE211(TABLE_M   ,DT   ,NPOINT    ,CA    ,CB   )
-
-      NIC = FOR + MOM
-c      SENSOR%VAR(5) = NIC
-c      SENSOR%VAR(3) = TABLE_F(NPH+1)
-c      SENSOR%VAR(4) = TABLE_M(NPH+1)
-      
-c      NIC = SENSOR%VAR(3) + SENSOR%VAR(4)
-      SENSOR%VALUE = NIC
-      
+      SENSOR%VAR(IADMY+1) = SENSOR%VAR(IADMY+2)
+      SENSOR%VAR(IADMY+2) = SENSOR%VAR(IADMY+3)
+      SENSOR%VAR(IADMY+3) = SENSOR%VAR(IADMY+4)
+      SENSOR%VAR(IADMY+4) = SENSOR%VAR(IADMY+5)  
+      SENSOR%VAR(IADMY+5) = YM
+c
+      ! backward filter - moments
+c      
+      X0  = SENSOR%VAR(IADMX+NPH)
+      X1  = SENSOR%VAR(IADMX+NPH+1)
+      X2  = SENSOR%VAR(IADMX+NPH+2)
+      Y1  = SENSOR%VAR(IADMY+NPH+1)
+      Y2  = SENSOR%VAR(IADMY+NPH+2)
+      MOM = A0*X0 + A1*X1 + A2*X2 + B1*Y1 + B2*Y2               
 c-----------------------------------------
 c     Check Sensor State
 c-----------------------------------------
+      NIC = FOR + MOM
+c
       IF (NIC >= NIJMAX) THEN
         IF (SENSOR%STATUS == 0) THEN
           SENSOR%STATUS = 1
@@ -168,8 +182,8 @@ c-----------------------------------------
 c-----------------------------------------------------------------------      
       IF (SENSOR%STATUS == 3 .and. ISPMD == 0) THEN
 #include "lockon.inc"
-        WRITE (ISTDO,1100 ) SENSOR%SENS_ID,SENSOR%TSTART
-        WRITE (IOUT ,1100 ) SENSOR%SENS_ID,SENSOR%TSTART
+        WRITE (ISTDO,1100 ) SENSOR%SENS_ID,SENSOR%TSTART,NIC
+        WRITE (IOUT ,1100 ) SENSOR%SENS_ID,SENSOR%TSTART,NIC
 #include "lockoff.inc"
       ENDIF
 c-----------------------------------------------------------------------      
