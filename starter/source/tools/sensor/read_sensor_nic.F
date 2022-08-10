@@ -77,10 +77,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,SENS_TYPE,SPRING_ID,SKEW_ID,ISK,NTIME,CFC,IDIR1,IDIR2,
-     .   NPARIS,NPARRS,NVAR,NPT
-      my_real :: TDEL,TMIN,NIJMAX,FTENS,FCOMP,MFLEX,MEXT,ALPHA,DTIME,
-     .           BETA,WD,WA,WA2,WA3,A0,A1,A2,B1,B2,FAC_FORC,FAC_MOM
+      INTEGER :: I,SENS_TYPE,SPRING_ID,SKEW_ID,ISK,NPOINT,ICFC,IDIR1,IDIR2,
+     .   NPARIS,NPARRS,NVAR
+      my_real :: TDEL,TMIN,NIJMAX,FTENS,FCOMP,MFLEX,MEXT,ALPHA,CFC,
+     .           FAC_FORC,FAC_MOM
       CHARACTER F_DIR*ncharfield, M_DIR*ncharfield
       LOGICAL :: IS_AVAILABLE
 c--------------------------------
@@ -107,9 +107,7 @@ card3
 card4
       CALL HM_GET_FLOATV('Tmin'      ,TMIN      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('Alpha'     ,ALPHA     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_INTV  ('CFC'       ,CFC       ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_INTV  ('N_filter'  ,NTIME     ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_FLOATV('DT_filter' ,DTIME     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_INTV  ('CFC'       ,ICFC      ,IS_AVAILABLE,LSUBMODEL)
 c
 c--------------------------------------------------
 c     Check input and defaul values
@@ -140,33 +138,20 @@ c
       END IF
       FAC_FORC = FAC_M_WORK * FAC_L_WORK / FAC_T_WORK**2
       FAC_MOM  = FAC_FORC * FAC_L_WORK
+      CFC = ICFC
       IF (FTENS == 0) FTENS = 6806.0 / FAC_FORC 
       IF (FCOMP == 0) FCOMP = 6160.0 / FAC_FORC 
       IF (MFLEX == 0) MFLEX = 310.0  / FAC_MOM
       IF (MEXT  == 0) MEXT  = 135.0  / FAC_MOM
       IF (ALPHA == 0) ALPHA = 2.0775
-      IF (CFC   == 0) CFC   = 600
-      IF (NTIME == 0) NTIME = 5      
-c--------------------------------------------------
-c     Filter parameters
-c--------------------------------------------------
-      WD   = TWO*PI*CFC*ALPHA
-      BETA = HALF * DTIME * WD
-      WA   = TAN(BETA)
-      WA2  = WA**2
-      WA3  = ONE + SQR2*WA + WA2
-      A0   = WA2 / WA3
-      A1   = A0 * TWO
-      A2   = A0
-      B1   = -TWO*(WA2 - ONE) / WA3
-      B2   = (-ONE + SQR2*WA - WA2) / WA3
+      IF (CFC == ZERO) CFC  = 600 * FAC_T_WORK
 c--------------------------------------------------
 c     sensor data structure
 c--------------------------------------------------
-      NPARIS = 8   ! int  value parameters
-      NPARRS = 12  ! real value parameters
-        NPT = 11
-      NVAR   = 5 + NPT*2   ! internal variables
+      NPOINT = 5      
+      NPARIS = 6             ! int  value parameters
+      NPARRS = 7             ! real value parameters
+      NVAR   = NPOINT*4 + 5  ! internal variables
 c
       ALLOCATE (SENSOR_PTR%IPARAM(NPARIS))
       ALLOCATE (SENSOR_PTR%RPARAM(NPARRS))
@@ -191,22 +176,14 @@ c
       SENSOR_PTR%IPARAM(4) = 0        ! spring skew number - initialized in inisens()
       SENSOR_PTR%IPARAM(5) = IDIR1
       SENSOR_PTR%IPARAM(6) = IDIR2
-      SENSOR_PTR%IPARAM(7) = NTIME
-      SENSOR_PTR%IPARAM(8) = CFC       
 c
       SENSOR_PTR%RPARAM(1) = NIJMAX
       SENSOR_PTR%RPARAM(2) = FTENS
       SENSOR_PTR%RPARAM(3) = FCOMP
       SENSOR_PTR%RPARAM(4) = MFLEX
       SENSOR_PTR%RPARAM(5) = MEXT
-      SENSOR_PTR%RPARAM(6) = A0
-      SENSOR_PTR%RPARAM(7) = A1
-      SENSOR_PTR%RPARAM(8) = A2
-      SENSOR_PTR%RPARAM(9) = B1
-      SENSOR_PTR%RPARAM(10)= B2
-      SENSOR_PTR%RPARAM(11)= DTIME
-      SENSOR_PTR%RPARAM(12)= ALPHA  
-      
+      SENSOR_PTR%RPARAM(6) = ALPHA
+      SENSOR_PTR%RPARAM(7) = CFC   
 c---------------------------
 c     old sensor data tables                                           
 c---------------------------                                           
@@ -220,7 +197,7 @@ c
 c------------------------------------------------------------
       WRITE (IOUT ,1000) SENS_ID,TDEL,TMIN
       WRITE (IOUT ,2000) NIJMAX,FTENS,FCOMP,MFLEX,MEXT,SPRING_ID,SKEW_ID,
-     .                   F_DIR,M_DIR,CFC,ALPHA,DTIME,NTIME
+     .                   F_DIR,M_DIR,CFC,ALPHA
 c------------------------------------------------------------
  1000 FORMAT(
      . 5X,'    SENSOR : NECK INJURY CRITERION          '/,
@@ -238,10 +215,8 @@ c------------------------------------------------------------
      . 5X,'  LOCAL SKEW SYSTEM ID . . . . . . . . . . =',I10/
      . 5X,'  DIRECTION OF AXIAL FORCE MONITORING. . . =',9X,A1/
      . 5X,'  DIRECTION OF BENDING MOMENT MONITORING . =',9X,A1/
-     . 5X,'  CFC CHANNEL FREQUENCY CLASS. . . . . . . =',I10/
-     . 5X,'  FILTER CONSTANT. . . . . . . . . . . . . =',E12.4/
-     . 5X,'  TIME INTERVAL VALUE. . . . . . . . . . . =',E12.4/
-     . 5X,'  NUMBER OF TIME INTERVALS . . . . . . . . =',I10/)
+     . 5X,'  CFC CHANNEL FREQUENCY CLASS. . . . . . . =',E12.4/
+     . 5X,'  FILTER CONSTANT. . . . . . . . . . . . . =',E12.4/)
 c-----------
       RETURN
       END

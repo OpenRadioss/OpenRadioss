@@ -4,7 +4,7 @@ Chd|-- called by -----------
 Chd|        SENSOR_NIC                    source/tools/sensor/sensor_nic.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE FILTER_SAE211(NPT    ,VAR   ,CA    ,CB   )
+      SUBROUTINE FILTER_SAE211(NPT,NT,NH,A0,A1,A2,B1,B2,VAR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -27,46 +27,92 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NPT
+      INTEGER NPT,NT,NH
+      my_real :: A0,A1,A2,B1,B2,X0,X1,X2,Y0,Y1,Y2,YNF
       my_real ,DIMENSION(NPT) :: VAR
-      my_real ,DIMENSION(3)   :: CA, XX
-      my_real ,DIMENSION(2)   :: CB,YY,ZZ
 C----------------------------------------------------------
 C Local Variables
 C----------------------------------------------------------
       INTEGER I,NPH,NP
-      my_real :: X0,X1,X2,Y0,Y1,Y2,Z0,Z1,Z2
+      my_real :: YF
 c=======================================================================
-c      NPT = 2*NPH + 1
-c      NPH = (NPT - 1) / 2
-!      NP = NPT
-!      NP = 10
+C    X0   - current unfiltered variable
+C    X1   - unfiltered variable (timestep -1)
+C    X2   - unfiltered variable (timestep -2)
+C    Y1  - filtered variable (timestep -1)  ! forward
+C    Y2  - filtered variable (timestep -2)
+C    Z1  - double filtered variable (timestep -1))  ! backward
+C    Z2  - double filtered variable (timestep -2)
+c=======================================================================
+C     OUTPUT variables:
+C     FX - current filtered variable
+c
+c     setup pre-start array for forward filter - inverted mirror
+c
+      YNF = VAR(1)*TWO
+      X1  = YNF - VAR(NT)
+      X0  = YNF - VAR(NT-1)
+      Y1  = ZERO
+      DO I=1,NH
+        Y1 = Y1 + VAR(I)
+      END DO
+      Y1 = YNF - Y1 / (NT-NH+1)
+      Y0 = Y1
+
+      DO I = NT,1,-1
+        X2 = X1
+        X1 = X0
+        X0 = YNF - VAR(I)
+        Y2 = Y1
+        Y1 = Y0
+        Y0 = A0*X0 + A1*X1 + A2*X2 + B1*Y1 + B2*Y2           
+      END DO
 c
 c     Filter forward
 c
-      X0 = VAR(1)
-      X2 = VAR(2)
-      X3 = VAR(3)
-      Y1 = VAR(4)
-      Y2 = VAR(5)
-      Z1 = VAR(6)
-      Z2 = VAR(7)
+      DO I=1,NPT
+        X2 = X1
+        X1 = X0
+        X0 = VAR(I)
+        Y2 = Y1
+        Y1 = Y0
+        Y0 = A0*X0 + A1*X1 + A2*X2 + B1*Y1 + B2*Y2           
+        VAR(I) = Y0  ! replace initial raw data by filtered value
+      END DO
+c
+c     setup pre-start array for backward filter
+c
+      YNF = VAR(NPT)*TWO
+      X1  = YNF - VAR(NPT-NT)
+      X0  = YNF - VAR(NPT-NT-1)
+      Y1  = ZERO
+      DO I=NH,NT
+        Y1 = Y1 + VAR(NPT-I)
+      END DO
+      Y1 = YNF - Y1 / (NT-NH+1)
+      Y0 = Y1
 
-      Y0 = CA(1)*X0 + CA(2)*X1 + CA(3)*X2
-     .   + CB(1)*Y1 + CB(2)*Y2
+      DO I = NPT-NT+2,NPT
+        X2 = X1
+        X1 = X0
+        X0 = YNF - VAR(I)
+        Y2 = Y1
+        Y1 = Y0
+        Y0 = A0*X0 + A1*X1 + A2*X2 + B1*Y1 + B2*Y2           
+      END DO
 c
 c     Filter backward
 c
-      Z0 = CA(1)*YN + CA(2)*Y1 + CA(3)*Y2
-     .   + CB(1)*Z1 + CB(2)*Z2
+      DO I = NPT,1,-1
+        X2 = X1
+        X1 = X0
+        X0 = VAR(I)
+        Y2 = Y1
+        Y1 = Y0
+        Y0 = A0*X0 + A1*X1 + A2*X2 + B1*Y1 + B2*Y2           
+        VAR(I) = Y0  ! replace initial raw data by filtered value
+      END DO
      
-      VAR(1) = ZERO
-      VAR(2) = X0
-      VAR(3) = X1
-      VAR(4) = Y0
-      VAR(5) = Y1
-      VAR(6) = Z0
-      VAR(7) = Z1
 c-----------------------------------------------------------------------      
       RETURN
       END SUBROUTINE
