@@ -268,7 +268,7 @@ C--------------------------------------------------
          ENDIF
          IF (((IGTYP==43) .and. ((ILAW/=59 .and. ILAW/=83 .and. ILAW/=116 .and. ILAW/=117 .AND. ILAW /=120) .and. 
      .       (USER_LAW .eqv. .false. ) ).eqv. .true.) .or.
-     .       ((ILAW==59 .or. ILAW==83 .or. ILAW==116 .or. ILAW==117 .OR. ILAW==120) .and. IGTYP/=43) .eqv. .true.) THEN
+     .       ((ILAW==59 .or. ILAW==83 .or. ILAW==116 .or. ILAW==117) .and. IGTYP/=43) .eqv. .true.) THEN
            CALL ANCMSG(MSGID=658,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_2,
