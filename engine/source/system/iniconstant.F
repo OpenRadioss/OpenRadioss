@@ -394,7 +394,6 @@ C
        ONEP96  = ONEP9 + ZEP06
        ONEP98  = ONEP9 + ZEP08
 CC  
-       DEUXP02 = TWO + ZEP02    
        TWOP03 = TWO + ZEP03
        TWOP05 = TWO + ZEP05
        TWOP06 = TWO + ZEP06        
