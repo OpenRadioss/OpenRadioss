@@ -69,7 +69,7 @@ c
       my_real ,DIMENSION(NEL) ,INTENT(OUT) :: EPSD,SOUNDSP
       my_real ,DIMENSION(NEL) ,INTENT(OUT) :: 
      .         SIGNXX,SIGNYY,SIGNZZ,SIGNXY,SIGNYZ,SIGNZX
-      my_real ,DIMENSION(NEL,NVARTMP) ,INTENT(INOUT) :: VARTMP
+      INTEGER ,DIMENSION(NEL,NVARTMP) ,INTENT(INOUT) :: VARTMP
       my_real ,DIMENSION(NEL,NUVAR)   ,INTENT(INOUT) :: UVAR
       my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: OFF,PLA,DPLANL
       TYPE(TTABLE), DIMENSION(NTABLE) ::  TABLE
@@ -245,7 +245,7 @@ c     Computation of the initial yield stress
 c----------------------------------------------------      
       IF (NDIM_YLD == 1) THEN
         XVEC1(1:NEL,1) = PLA(1:NEL)
-        IPOS1(1:NEL,1) = INT(VARTMP(1:NEL,1))
+        IPOS1(1:NEL,1) = VARTMP(1:NEL,1)
 c
         CALL TABLE_VINTERP(TABLE(FUNC_YLD),NEL,IPOS1,XVEC1,YLD,HARDP)
 c
@@ -256,7 +256,7 @@ c
       ELSE IF (NDIM_YLD == 2) THEN
         XVEC2(1:NEL,1) = PLA(1:NEL)
         XVEC2(1:NEL,2) = EPSD(1:NEL)
-        IPOS2(1:NEL,1) = INT(VARTMP(1:NEL,1))
+        IPOS2(1:NEL,1) = VARTMP(1:NEL,1)
         IPOS2(1:NEL,2) = 1
 c
         CALL TABLE_VINTERP(TABLE(FUNC_YLD),NEL,IPOS2,XVEC2,YLD,HARDP)
@@ -273,7 +273,7 @@ c
         ELSE
           XVEC3(1:NEL,3) = ZERO
         END IF
-        IPOS3(1:NEL,1) = INT(VARTMP(1:NEL,1))
+        IPOS3(1:NEL,1) = VARTMP(1:NEL,1)
         IPOS3(1:NEL,2) = 1
         IPOS3(1:NEL,3) = 1
 c
@@ -373,7 +373,7 @@ c
             DO II = 1, NINDX 
               I = INDX(II)
               XVEC1(II,1) = PLA(I)
-              IPOS1(II,1) = INT(VARTMP(I,1))
+              IPOS1(II,1) = VARTMP(I,1)
             ENDDO
 c      
             CALL TABLE_VINTERP(TABLE(FUNC_YLD),NEL,IPOS1,XVEC1,YLD_I,HARDP_I)
@@ -390,7 +390,7 @@ c
               I = INDX(II)
               XVEC2(II,1) = PLA(I)
               XVEC2(II,2) = EPSD(I)
-              IPOS2(II,1) = INT(VARTMP(I,1))
+              IPOS2(II,1) = VARTMP(I,1)
             ENDDO
 c      
             CALL TABLE_VINTERP(TABLE(FUNC_YLD),NINDX,IPOS2,XVEC2,YLD_I,HARDP_I)
@@ -408,7 +408,7 @@ c
               XVEC3(II,1) = PLA(I)
               XVEC3(II,2) = EPSD(I)
               XVEC3(II,3) = TEMP(I)
-              IPOS3(II,1) = INT(VARTMP(I,1))
+              IPOS3(II,1) = VARTMP(I,1)
             ENDDO
 c      
             CALL TABLE_VINTERP(TABLE(FUNC_YLD),NEL,IPOS3,XVEC3,YLD_I,HARDP_I)

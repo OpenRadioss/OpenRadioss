@@ -188,7 +188,7 @@ C-----------------------------------
 C     YIELD
 C-----------------------------------
       IF (NFUNC > 0) THEN
-        !IPOS(1:NEL) = NINT(VARTMP(1:NEL,1))
+        !IPOS(1:NEL) = VARTMP(1:NEL,1)
         !IAD (1:NEL) = NPF(IFUNC(1)) / 2 + 1
         !ILEN(1:NEL) = NPF(IFUNC(1)+1) / 2 - IAD(1:NEL) - IPOS(1:NEL)
         !CALL VINTER(TF,IAD,IPOS,ILEN,NEL,PLA,DFDPLA,YLD) 

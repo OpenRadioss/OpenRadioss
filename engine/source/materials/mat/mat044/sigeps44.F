@@ -110,7 +110,7 @@ C---------+---------+---+---+--------------------------------------------
      .   EPSXY(NEL) ,EPSYZ(NEL) ,EPSZX(NEL) ,
      .   SIGOXX(NEL),SIGOYY(NEL),SIGOZZ(NEL),
      .   SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL),
-     .   EPSP(NEL),AMU(NEL),ASRATE
+     .   EPSP(NEL),AMU(NEL), ASRATE
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -120,7 +120,8 @@ C-----------------------------------------------
      .    SIGVXX(NEL),SIGVYY(NEL),SIGVZZ(NEL),
      .    SIGVXY(NEL),SIGVYZ(NEL),SIGVZX(NEL),
      .    SOUNDSP(NEL),VISCMAX(NEL),SIGY(NEL),
-     .    PLA(NEL),DPLA1(MVSIZ),VARTMP(NEL,NVARTMP)  
+     .    PLA(NEL),DPLA1(MVSIZ)
+       INTEGER :: VARTMP(NEL,NVARTMP)  
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
@@ -253,7 +254,7 @@ C-----------------------------------------------
 C     STRAIN RATE EFFECT, CURRENT YIELD & HARDENING
 C-----------------------------------------------
       IF (MFUNC > 0) THEN
-        IPOS(1:NEL)     = NINT(VARTMP(1:NEL,1))
+        IPOS(1:NEL)     = VARTMP(1:NEL,1)
         IAD (1:NEL)     = NPF(KFUNC(1)) / 2 + 1
         ILEN(1:NEL)     = NPF(KFUNC(1)+1) / 2 - IAD(1:NEL) - IPOS(1:NEL)
         CALL VINTER(TF,IAD,IPOS,ILEN,NEL,PLA,DFDPLA,YLD) 

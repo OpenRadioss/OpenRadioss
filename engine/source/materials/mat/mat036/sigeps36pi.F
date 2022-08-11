@@ -92,7 +92,8 @@ C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       my_real
      .    SIGNXX(NEL),SIGNXY(NEL),SIGNXZ(NEL),ETSE(NEL),
-     .    OFF(NEL),VARTMP(NEL,NVARTMP)
+     .    OFF(NEL)
+      INTEGER, INTENT(INOUT) :: VARTMP(NEL,NVARTMP)
 C-----------------------------------------------
 C   E X T E R N A L   F u n c t i o n s
 C-----------------------------------------------
@@ -206,11 +207,11 @@ C
         IPOS2(I) = 1                                          
         IAD2(I)  = 1                 
         ILEN2(I) = 1 
-        IPOS1(I) = NINT(VARTMP(I,J1))                                         
+        IPOS1(I) = VARTMP(I,J1)                                         
         IAD1(I)  = NPF(IFUNC(I,J1)) / 2 + 1                    
         ILEN1(I) = NPF(IFUNC(I,J1)+1) / 2 - IAD1(I) - IPOS1(I) 
         IF ( NRATE(I) > 1)THEN         
-          IPOS2(I) = NINT(VARTMP(I,J2))                                           
+          IPOS2(I) = VARTMP(I,J2)                                           
           IAD2(I)  = NPF(IFUNC(I,J2)) / 2 + 1                    
           ILEN2(I) = NPF(IFUNC(I,J2)+1) / 2 - IAD2(I) - IPOS2(I) 
         ENDIF           

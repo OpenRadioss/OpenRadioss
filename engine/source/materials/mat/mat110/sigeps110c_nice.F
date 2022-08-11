@@ -63,7 +63,8 @@ Chd|====================================================================
       INTEGER NEL,NUPARAM,NUVAR,JTHE,NUMTABL,ITABLE(NUMTABL),NVARTMP,NPF(*),INLOC
       INTEGER ,DIMENSION(NEL), INTENT(IN)    :: NGL
       my_real 
-     .   TIME,TIMESTEP,ASRATE,TF(*),VARTMP(NEL,NVARTMP)
+     .   TIME,TIMESTEP,ASRATE,TF(*)
+      INTEGER :: VARTMP(NEL,NVARTMP)
       my_real,DIMENSION(NUPARAM), INTENT(IN) :: 
      .   UPARAM
       my_real,DIMENSION(NEL), INTENT(IN)     :: 
@@ -287,7 +288,7 @@ c
         ! Tabulation with strain-rate
         XVEC(1:NEL,1) = PLA(1:NEL)
         XVEC(1:NEL,2) = EPSP(1:NEL) * XSCALE
-        IPOS(1:NEL,1) = INT(VARTMP(1:NEL,1))
+        IPOS(1:NEL,1) = VARTMP(1:NEL,1)
         IPOS(1:NEL,2) = 1
         CALL TABLE2D_VINTERP_LOG(TABLE(ITABLE(1)),ISMOOTH,NEL,IPOS,XVEC,YLD,HARDP,HARDR)
         YLD(1:NEL)   = YLD(1:NEL)   * YSCALE
@@ -297,8 +298,8 @@ c
         IF (NUMTABL == 2) THEN
           ! Reference temperature factor
           XVEC(1:NEL,2) = TINI
-          IPOS(1:NEL,1) = INT(VARTMP(1:NEL,2))
-          IPOS(1:NEL,2) = INT(VARTMP(1:NEL,3))
+          IPOS(1:NEL,1) = VARTMP(1:NEL,2)
+          IPOS(1:NEL,2) = VARTMP(1:NEL,3)
           CALL TABLE_VINTERP(TABLE(ITABLE(2)),NEL,IPOS,XVEC,YLD_TREF,DYDX)  
           VARTMP(1:NEL,2) = IPOS(1:NEL,1)     
           VARTMP(1:NEL,3) = IPOS(1:NEL,2)   
@@ -904,7 +905,7 @@ c
       IF ((NUMTABL > 0).AND.(NINDX > 0)) THEN
         XVEC(1:NEL,1) = PLA(1:NEL)
         XVEC(1:NEL,2) = EPSP(1:NEL) * XSCALE
-        IPOS(1:NEL,1) = INT(VARTMP(1:NEL,1))
+        IPOS(1:NEL,1) = VARTMP(1:NEL,1)
         IPOS(1:NEL,2) = 1
         CALL TABLE2D_VINTERP_LOG(TABLE(ITABLE(1)),ISMOOTH,NEL,IPOS,XVEC  ,YLD  ,HARDP,HARDR)               
         YLD(1:NEL)      = YLD(1:NEL) * YSCALE
@@ -914,8 +915,8 @@ c
         IF (NUMTABL == 2) THEN
           ! Reference temperature factor
           XVEC(1:NEL,2) = TINI
-          IPOS(1:NEL,1) = INT(VARTMP(1:NEL,2))
-          IPOS(1:NEL,2) = INT(VARTMP(1:NEL,3))
+          IPOS(1:NEL,1) = VARTMP(1:NEL,2)
+          IPOS(1:NEL,2) = VARTMP(1:NEL,3)
           CALL TABLE_VINTERP(TABLE(ITABLE(2)),NEL,IPOS,XVEC,YLD_TREF,DYDX)  
           VARTMP(1:NEL,2) = IPOS(1:NEL,1)     
           VARTMP(1:NEL,3) = IPOS(1:NEL,2)     

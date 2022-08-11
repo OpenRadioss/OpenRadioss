@@ -190,7 +190,7 @@ c
         !   -> Tensile yield stress in direction 1 (MD)
         XVEC(1:NEL,1) = PLA(1:NEL,2)
         XVEC(1:NEL,2) = EPSD(1:NEL,2) * XSCALE1
-        IPOS(1:NEL,1) = INT(VARTMP(1:NEL,1))
+        IPOS(1:NEL,1) = VARTMP(1:NEL,1)
         IPOS(1:NEL,2) = 1
         CALL TABLE2D_VINTERP_LOG(TABLE(ITABLE(1)),ISMOOTH,NEL,IPOS,XVEC,R1,DR1_DP,HARDR)
         R1(1:NEL)     = R1(1:NEL) * YSCALE1
@@ -199,7 +199,7 @@ c
         !   -> Compressive yield stress in direction 1 (MD)
         XVEC(1:NEL,1) = PLA(1:NEL,3)
         XVEC(1:NEL,2) = EPSD(1:NEL,3) * XSCALE2
-        IPOS(1:NEL,1) = INT(VARTMP(1:NEL,2))
+        IPOS(1:NEL,1) = VARTMP(1:NEL,2)
         IPOS(1:NEL,2) = 1
         CALL TABLE2D_VINTERP_LOG(TABLE(ITABLE(2)),ISMOOTH,NEL,IPOS,XVEC,R2,DR2_DP,HARDR)
         R2(1:NEL)     = R2(1:NEL) * YSCALE2
@@ -208,7 +208,7 @@ c
         !   -> Positive shear yield stress
         XVEC(1:NEL,1) = PLA(1:NEL,4)
         XVEC(1:NEL,2) = EPSD(1:NEL,4) * XSCALE1C
-        IPOS(1:NEL,1) = INT(VARTMP(1:NEL,3))
+        IPOS(1:NEL,1) = VARTMP(1:NEL,3)
         IPOS(1:NEL,2) = 1
         CALL TABLE2D_VINTERP_LOG(TABLE(ITABLE(3)),ISMOOTH,NEL,IPOS,XVEC,R1C,DR1C_DP,HARDR)
         R1C(1:NEL)    = R1C(1:NEL) * YSCALE1C
@@ -217,7 +217,7 @@ c
         !   -> Tensile yield stress in direction 2 (CD)
         XVEC(1:NEL,1) = PLA(1:NEL,5)
         XVEC(1:NEL,2) = EPSD(1:NEL,5) * XSCALE2C
-        IPOS(1:NEL,1) = INT(VARTMP(1:NEL,4))
+        IPOS(1:NEL,1) = VARTMP(1:NEL,4)
         IPOS(1:NEL,2) = 1
         CALL TABLE2D_VINTERP_LOG(TABLE(ITABLE(4)),ISMOOTH,NEL,IPOS,XVEC,R2C,DR2C_DP,HARDR)
         R2C(1:NEL)    = R2C(1:NEL) * YSCALE2C
@@ -226,7 +226,7 @@ c
         ! Compressive yield stress in direction 2 (CD)
         XVEC(1:NEL,1) = PLA(1:NEL,6)
         XVEC(1:NEL,2) = EPSD(1:NEL,6) * XSCALET
-        IPOS(1:NEL,1) = INT(VARTMP(1:NEL,5))
+        IPOS(1:NEL,1) = VARTMP(1:NEL,5)
         IPOS(1:NEL,2) = 1
         CALL TABLE2D_VINTERP_LOG(TABLE(ITABLE(5)),ISMOOTH,NEL,IPOS,XVEC,RT,DRT_DP,HARDR)
         RT(1:NEL)     = RT(1:NEL) * YSCALET
@@ -475,7 +475,7 @@ c
             !   -> Tensile yield stress in direction 1 (MD)
             XVEC(1:NEL,1) = PLA(1:NEL,2)
             XVEC(1:NEL,2) = EPSD(1:NEL,2) * XSCALE1
-            IPOS(1:NEL,1) = INT(VARTMP(1:NEL,1))
+            IPOS(1:NEL,1) = VARTMP(1:NEL,1)
             IPOS(1:NEL,2) = 1
             CALL TABLE2D_VINTERP_LOG(TABLE(ITABLE(1)),ISMOOTH,NEL,IPOS,XVEC,R1,DR1_DP,HARDR)
             R1(1:NEL)     = R1(1:NEL) * YSCALE1
@@ -484,7 +484,7 @@ c
             !   -> Compressive yield stress in direction 1 (MD)
             XVEC(1:NEL,1) = PLA(1:NEL,3)
             XVEC(1:NEL,2) = EPSD(1:NEL,3) * XSCALE2
-            IPOS(1:NEL,1) = INT(VARTMP(1:NEL,2))
+            IPOS(1:NEL,1) = VARTMP(1:NEL,2)
             IPOS(1:NEL,2) = 1
             CALL TABLE2D_VINTERP_LOG(TABLE(ITABLE(2)),ISMOOTH,NEL,IPOS,XVEC,R2,DR2_DP,HARDR)
             R2(1:NEL)     = R2(1:NEL) * YSCALE2
@@ -493,7 +493,7 @@ c
             !   -> Positive shear yield stress
             XVEC(1:NEL,1) = PLA(1:NEL,4)
             XVEC(1:NEL,2) = EPSD(1:NEL,4) * XSCALE1C
-            IPOS(1:NEL,1) = INT(VARTMP(1:NEL,3))
+            IPOS(1:NEL,1) = VARTMP(1:NEL,3)
             IPOS(1:NEL,2) = 1
             CALL TABLE2D_VINTERP_LOG(TABLE(ITABLE(3)),ISMOOTH,NEL,IPOS,XVEC,R1C,DR1C_DP,HARDR)
             R1C(1:NEL)    = R1C(1:NEL) * YSCALE1C
@@ -502,7 +502,7 @@ c
             !   -> Tensile yield stress in direction 2 (CD)
             XVEC(1:NEL,1) = PLA(1:NEL,5)
             XVEC(1:NEL,2) = EPSD(1:NEL,5) * XSCALE2C
-            IPOS(1:NEL,1) = INT(VARTMP(1:NEL,4))
+            IPOS(1:NEL,1) = VARTMP(1:NEL,4)
             IPOS(1:NEL,2) = 1
             CALL TABLE2D_VINTERP_LOG(TABLE(ITABLE(4)),ISMOOTH,NEL,IPOS,XVEC,R2C,DR2C_DP,HARDR)
             R2C(1:NEL)    = R2C(1:NEL) * YSCALE2C
@@ -511,7 +511,7 @@ c
             ! Compressive yield stress in direction 2 (CD)
             XVEC(1:NEL,1) = PLA(1:NEL,6)
             XVEC(1:NEL,2) = EPSD(1:NEL,6) * XSCALET
-            IPOS(1:NEL,1) = INT(VARTMP(1:NEL,5))
+            IPOS(1:NEL,1) = VARTMP(1:NEL,5)
             IPOS(1:NEL,2) = 1
             CALL TABLE2D_VINTERP_LOG(TABLE(ITABLE(5)),ISMOOTH,NEL,IPOS,XVEC,RT,DRT_DP,HARDR)
             RT(1:NEL)     = RT(1:NEL) * YSCALET

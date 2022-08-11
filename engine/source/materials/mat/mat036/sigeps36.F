@@ -125,7 +125,8 @@ C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       my_real 
      .        UVAR(NEL,NUVAR), OFF(NEL),  YLD(NEL),
-     .        PLA(NEL),VARTMP(NEL,NVARTMP)
+     .        PLA(NEL)
+      INTEGER, INTENT(INOUT) :: VARTMP(NEL,NVARTMP)
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
@@ -264,7 +265,7 @@ c------------------------------------------
           IF(PLA(I) > ZERO)THEN
             NINDEX_PLA = NINDEX_PLA + 1
             INDEX_PLA(NINDEX_PLA) = I
-            IPOSPE(NINDEX_PLA) = NINT(VARTMP(I,1))
+            IPOSPE(NINDEX_PLA) = VARTMP(I,1)
             IADP(NINDEX_PLA)   = NPF(KFUNC(IFUNCE)) / 2 + 1
             ILENP(NINDEX_PLA)  = NPF(KFUNC(IFUNCE)+1) / 2 - IADP(NINDEX_PLA) - IPOSPE(NINDEX_PLA)
             TAB_LOC(NINDEX_PLA) = PLA(I)
@@ -301,13 +302,11 @@ c     PRESSURE DEPENDENT YIELD FUNCTION FACTOR
 c------------------------------------------
       IF (PFUN > 0) THEN
         DO I=1,NEL
-          IPOSP(I) = NINT(VARTMP(I,2))
           IADP(I)  = NPF(IPFUN) / 2 + 1
           ILENP(I) = NPF(IPFUN  + 1) / 2 - IADP(I) - IPOSP(I)
-         ENDDO
-        CALL VINTER2(TF,IADP,IPOSP,ILENP,NEL,PSCALE,DFDP,PFAC)
+        ENDDO
+        CALL VINTER2(TF,IADP,VARTMP(1:NEL,2),ILENP,NEL,PSCALE,DFDP,PFAC)
         PFAC(1:NEL) = MAX(ZERO, PFAC(1:NEL))
-        VARTMP(1:NEL,2) = IPOSP(1:NEL)
       ENDIF 
 c
 c     ..pressure + delta_pressure (scaled) .. 
@@ -416,17 +415,13 @@ c        VP = 0 dependent on total strain rate
 C=======================================================================
       IF (VP == 0) THEN
 C=======================================================================
-C       CRITERE
-C-------------------
         IF (NRATE == 1) THEN   ! only static curve => no strain rate interpolation
-          IPOS1(1:NEL) = NINT(VARTMP(1:NEL,3))
           IAD1(1:NEL)  = NPF(IFUNC(1))   / 2 + 1
           ILEN1(1:NEL) = NPF(IFUNC(1)+1) / 2 - IAD1(1:NEL) - IPOS1(1:NEL)
 c
-          CALL VINTER(TF,IAD1,IPOS1,ILEN1,NEL,PLA,DYDX1,Y1)
+          CALL VINTER(TF,IAD1,VARTMP(1:NEL,3),ILEN1,NEL,PLA,DYDX1,Y1)
 c
           YFAC(1:NEL,1)   = UPARAM(6+NRATE+1)*FACYLDI(1:NEL)
-          VARTMP(1:NEL,3) = IPOS1(1:NEL)
           FACT(1:NEL) = FAIL(1:NEL) * PFAC(1:NEL) * YFAC(1:NEL,1)
           H(1:NEL)    = DYDX1(1:NEL) * FACT(1:NEL)
 c
@@ -460,8 +455,8 @@ C
           DO I=1,NEL
             J1 = JJ(I)
             J2 = J1+1
-            IPOS1(I) = NINT(VARTMP(I,J1+2))
-            IPOS2(I) = NINT(VARTMP(I,J2+2))
+            IPOS1(I) = VARTMP(I,J1+2)
+            IPOS2(I) = VARTMP(I,J2+2)
           ENDDO
           IAD1(1:NEL)  = NPF(IFUNC(JJ(1:NEL))) / 2 + 1
           ILEN1(1:NEL) = NPF(IFUNC(JJ(1:NEL))+1) / 2 - IAD1(1:NEL) - IPOS1(1:NEL)
@@ -721,10 +716,10 @@ c
               INDEX_VINTER(NINDEX_VINTER) = I 
               J1=JJ(I)
               J2=JJ(I)+1
-              IPOSP(NINDEX_VINTER) = NINT(VARTMP(I,J1+2))
+              IPOSP(NINDEX_VINTER) = VARTMP(I,J1+2)
               IADP(NINDEX_VINTER)  = NPF(IFUNC(JJ(I))     ) / 2 + 1
               ILENP(NINDEX_VINTER) = NPF(IFUNC(JJ(I))  + 1) / 2 - IADP(NINDEX_VINTER) - IPOSP(NINDEX_VINTER)
-              IPOSP2(NINDEX_VINTER) = NINT(VARTMP(I,J2+2))
+              IPOSP2(NINDEX_VINTER) = VARTMP(I,J2+2)
               IADP2(NINDEX_VINTER)  = NPF(IFUNC(JJ(I)+1)) / 2 + 1
               ILENP2(NINDEX_VINTER) = NPF(IFUNC(JJ(I)+1)  + 1) / 2 - IADP2(NINDEX_VINTER) - IPOSP2(NINDEX_VINTER)
               TAB_LOC(NINDEX_VINTER) = PLA(I)
@@ -815,10 +810,10 @@ c------------------------
                     INDEX_VINTER(NINDEX_VINTER) = I  
                     J1=JJ(I)
                     J2=JJ(I)+1
-                    IPOSP(NINDEX_VINTER) = NINT(VARTMP(I,J1+2))
+                    IPOSP(NINDEX_VINTER) = VARTMP(I,J1+2)
                   IADP(NINDEX_VINTER)  = NPF(IFUNC(JJ(I))     ) / 2 + 1
                   ILENP(NINDEX_VINTER) = NPF(IFUNC(JJ(I))  + 1) / 2 - IADP(NINDEX_VINTER) - IPOSP(NINDEX_VINTER)
-                    IPOSP2(NINDEX_VINTER) = NINT(VARTMP(I,J2+2))
+                    IPOSP2(NINDEX_VINTER) = VARTMP(I,J2+2)
                   IADP2(NINDEX_VINTER)  = NPF(IFUNC(JJ(I)+1)) / 2 + 1
                   ILENP2(NINDEX_VINTER) = NPF(IFUNC(JJ(I)+1)  + 1) / 2 - IADP2(NINDEX_VINTER) - IPOSP2(NINDEX_VINTER)
                     TAB_LOC(NINDEX_VINTER) = PLA(I)
@@ -919,10 +914,10 @@ c------------------------------------------------
               INDEX_VINTER(NINDEX_VINTER) = I 
               J1=JJ(I)
               J2=JJ(I)+1
-              IPOSP(NINDEX_VINTER) = NINT(VARTMP(I,J1+2))
+              IPOSP(NINDEX_VINTER) = VARTMP(I,J1+2)
               IADP(NINDEX_VINTER)  = NPF(IFUNC(JJ(I))     ) / 2 + 1
               ILENP(NINDEX_VINTER) = NPF(IFUNC(JJ(I))  + 1) / 2 - IADP(NINDEX_VINTER) - IPOSP(NINDEX_VINTER)
-              IPOSP2(NINDEX_VINTER) = NINT(VARTMP(I,J2+2))
+              IPOSP2(NINDEX_VINTER) = VARTMP(I,J2+2)
               IADP2(NINDEX_VINTER)  = NPF(IFUNC(JJ(I)+1)) / 2 + 1
               ILENP2(NINDEX_VINTER) = NPF(IFUNC(JJ(I)+1)  + 1) / 2 - IADP2(NINDEX_VINTER) - IPOSP2(NINDEX_VINTER)
               TAB_LOC(NINDEX_VINTER) = PLA(I)
@@ -1033,10 +1028,10 @@ c------------------------------------------------
                 INDEX_VINTER(NINDEX_VINTER) = I 
                 J1=JJ(I)
                 J2=JJ(I)+1
-                IPOSP(NINDEX_VINTER) = NINT(VARTMP(I,J1+2))
+                IPOSP(NINDEX_VINTER) = VARTMP(I,J1+2)
                 IADP(NINDEX_VINTER)  = NPF(IFUNC(JJ(I))     ) / 2 + 1
                 ILENP(NINDEX_VINTER) = NPF(IFUNC(JJ(I))  + 1) / 2 - IADP(NINDEX_VINTER) - IPOSP(NINDEX_VINTER)
-                IPOSP2(NINDEX_VINTER) = NINT(VARTMP(I,J2+2))
+                IPOSP2(NINDEX_VINTER) = VARTMP(I,J2+2)
                 IADP2(NINDEX_VINTER)  = NPF(IFUNC(JJ(I)+1)) / 2 + 1
                 ILENP2(NINDEX_VINTER) = NPF(IFUNC(JJ(I)+1)  + 1) / 2 - IADP2(NINDEX_VINTER) - IPOSP2(NINDEX_VINTER)
                 TAB_LOC(NINDEX_VINTER) = PLA(I)
@@ -1147,10 +1142,10 @@ c------------------------------------------------
               INDEX_VINTER(NINDEX_VINTER) = I 
               J1=JJ(I)
               J2=JJ(I)+1
-              IPOSP(NINDEX_VINTER) = NINT(VARTMP(I,J1+2))
+              IPOSP(NINDEX_VINTER) = VARTMP(I,J1+2)
               IADP(NINDEX_VINTER)  = NPF(IFUNC(JJ(I))     ) / 2 + 1
               ILENP(NINDEX_VINTER) = NPF(IFUNC(JJ(I))  + 1) / 2 - IADP(NINDEX_VINTER) - IPOSP(NINDEX_VINTER)
-              IPOSP2(NINDEX_VINTER) = NINT(VARTMP(I,J2+2))
+              IPOSP2(NINDEX_VINTER) = VARTMP(I,J2+2)
               IADP2(NINDEX_VINTER)  = NPF(IFUNC(JJ(I)+1)) / 2 + 1
               ILENP2(NINDEX_VINTER) = NPF(IFUNC(JJ(I)+1)  + 1) / 2 - IADP2(NINDEX_VINTER) - IPOSP2(NINDEX_VINTER)
               TAB_LOC(NINDEX_VINTER) = PLA(I)
@@ -1261,10 +1256,10 @@ c------------------------------------------------
                 INDEX_VINTER(NINDEX_VINTER) = I 
                 J1=JJ(I)
                 J2=JJ(I)+1
-                IPOSP(NINDEX_VINTER) = NINT(VARTMP(I,J1+2))
+                IPOSP(NINDEX_VINTER) = VARTMP(I,J1+2)
                 IADP(NINDEX_VINTER)  = NPF(IFUNC(JJ(I))     ) / 2 + 1
                 ILENP(NINDEX_VINTER) = NPF(IFUNC(JJ(I))  + 1) / 2 - IADP(NINDEX_VINTER) - IPOSP(NINDEX_VINTER)
-                IPOSP2(NINDEX_VINTER) = NINT(VARTMP(I,J2+2))
+                IPOSP2(NINDEX_VINTER) = VARTMP(I,J2+2)
                 IADP2(NINDEX_VINTER)  = NPF(IFUNC(JJ(I)+1)) / 2 + 1
                 ILENP2(NINDEX_VINTER) = NPF(IFUNC(JJ(I)+1)  + 1) / 2 - IADP2(NINDEX_VINTER) - IPOSP2(NINDEX_VINTER)
                 TAB_LOC(NINDEX_VINTER) = PLA(I)

@@ -1079,7 +1079,7 @@ c-------  layer variables
 
       TYPE BUF_MAT_
         my_real, DIMENSION(:)  , POINTER ::  VAR 
-        my_real, DIMENSION(:)  , POINTER ::  VARTMP
+        INTEGER, DIMENSION(:)  , POINTER ::  VARTMP
       END TYPE BUF_MAT_
 
       TYPE BUF_LAY_

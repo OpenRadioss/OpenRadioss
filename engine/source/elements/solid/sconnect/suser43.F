@@ -208,8 +208,9 @@ C-----------------------------------------------
       TYPE(BUF_FAIL_), POINTER  :: FBUF
       TYPE(ULAWINTBUF) :: USERBUF
       TYPE (TTABLE)  , DIMENSION(NTABLE) ::  TABLE
-      INTEGER, DIMENSION(:) ,POINTER   :: ITABLE
-      my_real, DIMENSION(:),POINTER :: EPLASN,EPLAST,EPSD,UPARAM,UVAR,VARTMP,AREA,AREAN,OFFI
+      INTEGER, DIMENSION(:) ,POINTER   :: ITABLE,VARTMP
+      my_real, DIMENSION(:),POINTER :: EPLASN,EPLAST,EPSD,UPARAM,UVAR,AREA,AREAN,OFFI
+     
 C=======================================================================
       GBUF  => ELBUF_STR%GBUF
       

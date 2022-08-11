@@ -230,7 +230,7 @@ C-----------------------------------------------
        CHARACTER  CHJJ*3,CHKK*2,CHII*2,CHJKK*4
        CHARACTER  CHI*1,CHJ*3,CHK*1,CHJS*1
        CHARACTER*10 VARC2(574),VARC1(208),VARCG1(167),VARCG2(407), VAR ,
-     .              VARTMP,VARC3(500),VARCG3(100),
+     .              VAR_TMP,VARC3(500),VARCG3(100),
      .              VARCGPINCH(1),VARCPINCH(7)
        CHARACTER*80 STR, MES
        LOGICAL :: IS_AVAILABLE
@@ -563,14 +563,14 @@ C=======================================================================
           DO K=1,9
             WRITE(CHK,'(I1.1)')K
             DO L=1,6
-              IF (L==1) VARTMP(1:5)='E11_'//CHI
-              IF (L==2) VARTMP(1:5)='E12_'//CHI
-              IF (L==3) VARTMP(1:5)='E13_'//CHI
-              IF (L==4) VARTMP(1:5)='E22_'//CHI
-              IF (L==5) VARTMP(1:5)='E23_'//CHI
-              IF (L==6) VARTMP(1:5)='E33_'//CHI
-              VARTMP=VARTMP(1:5)//CHK//'_'//CHJ
-              VARS6((J-1)*9*9*6+((I-1)*9+K-1)*6+L)=VARTMP
+              IF (L==1) VAR_TMP(1:5)='E11_'//CHI
+              IF (L==2) VAR_TMP(1:5)='E12_'//CHI
+              IF (L==3) VAR_TMP(1:5)='E13_'//CHI
+              IF (L==4) VAR_TMP(1:5)='E22_'//CHI
+              IF (L==5) VAR_TMP(1:5)='E23_'//CHI
+              IF (L==6) VAR_TMP(1:5)='E33_'//CHI
+              VAR_TMP=VAR_TMP(1:5)//CHK//'_'//CHJ
+              VARS6((J-1)*9*9*6+((I-1)*9+K-1)*6+L)=VAR_TMP
             ENDDO
           ENDDO
         ENDDO
@@ -589,14 +589,14 @@ C Definition of VARS7 : stress for /PROP/TYPE22
           DO K=1,9
             WRITE(CHK,'(I1.1)')K
             DO L=1,6
-              IF (L==1) VARTMP(1:5)='S11_'//CHI
-              IF (L==2) VARTMP(1:5)='S12_'//CHI
-              IF (L==3) VARTMP(1:5)='S13_'//CHI
-              IF (L==4) VARTMP(1:5)='S22_'//CHI
-              IF (L==5) VARTMP(1:5)='S23_'//CHI
-              IF (L==6) VARTMP(1:5)='S33_'//CHI
-              VARTMP=VARTMP(1:5)//CHK//'_'//CHJ
-              VARS7((J-1)*9*9*6+((I-1)*9+K-1)*6+L)=VARTMP
+              IF (L==1) VAR_TMP(1:5)='S11_'//CHI
+              IF (L==2) VAR_TMP(1:5)='S12_'//CHI
+              IF (L==3) VAR_TMP(1:5)='S13_'//CHI
+              IF (L==4) VAR_TMP(1:5)='S22_'//CHI
+              IF (L==5) VAR_TMP(1:5)='S23_'//CHI
+              IF (L==6) VAR_TMP(1:5)='S33_'//CHI
+              VAR_TMP=VAR_TMP(1:5)//CHK//'_'//CHJ
+              VARS7((J-1)*9*9*6+((I-1)*9+K-1)*6+L)=VAR_TMP
             ENDDO
           ENDDO
         ENDDO
@@ -640,18 +640,18 @@ C Definition of VARS8 : strain matrix output
              WRITE(CHI,'(I1.1)')I
              WRITE(CHJS,'(I1.1)')J
              WRITE(CHK,'(I1.1)')K
-             VARTMP = 'EPSX'
-             VARS8(30+(k-1)*9*6*3+(J-1)*3*6+(I-1)*6+1)=VARTMP(1:4)//CHI//CHJS//CHK
-             VARTMP = 'EPSY'
-             VARS8(30+(k-1)*9*6*3+(J-1)*3*6+(I-1)*6+2)=VARTMP(1:4)//CHI//CHJS//CHK
-             VARTMP = 'EPSZ'
-             VARS8(30+(k-1)*9*6*3+(J-1)*3*6+(I-1)*6+3)=VARTMP(1:4)//CHI//CHJS//CHK
-             VARTMP = 'EPSXY'
-             VARS8(30+(k-1)*9*6*3+(J-1)*3*6+(I-1)*6+4)=VARTMP(1:5)//CHI//CHJS//CHK
-             VARTMP = 'EPSYZ'
-             VARS8(30+(k-1)*9*6*3+(J-1)*3*6+(I-1)*6+5)=VARTMP(1:5)//CHI//CHJS//CHK
-             VARTMP = 'EPSZX'
-             VARS8(30+(k-1)*9*6*3+(J-1)*3*6+(I-1)*6+6)=VARTMP(1:5)//CHI//CHJS//CHK
+             VAR_TMP = 'EPSX'
+             VARS8(30+(k-1)*9*6*3+(J-1)*3*6+(I-1)*6+1)=VAR_TMP(1:4)//CHI//CHJS//CHK
+             VAR_TMP = 'EPSY'
+             VARS8(30+(k-1)*9*6*3+(J-1)*3*6+(I-1)*6+2)=VAR_TMP(1:4)//CHI//CHJS//CHK
+             VAR_TMP = 'EPSZ'
+             VARS8(30+(k-1)*9*6*3+(J-1)*3*6+(I-1)*6+3)=VAR_TMP(1:4)//CHI//CHJS//CHK
+             VAR_TMP = 'EPSXY'
+             VARS8(30+(k-1)*9*6*3+(J-1)*3*6+(I-1)*6+4)=VAR_TMP(1:5)//CHI//CHJS//CHK
+             VAR_TMP = 'EPSYZ'
+             VARS8(30+(k-1)*9*6*3+(J-1)*3*6+(I-1)*6+5)=VAR_TMP(1:5)//CHI//CHJS//CHK
+             VAR_TMP = 'EPSZX'
+             VARS8(30+(k-1)*9*6*3+(J-1)*3*6+(I-1)*6+6)=VAR_TMP(1:5)//CHI//CHJS//CHK
 
           ENDDO
         ENDDO
@@ -1122,9 +1122,9 @@ C Definition of VARSG2 : strain for /PROP/TYPE22
           WRITE(CHI,'(I1.1)')I
           DO K=1,9
             WRITE(CHK,'(I1.1)')K
-            VARTMP(1:5)='EPS_'//CHI
-            VARTMP=VARTMP(1:5)//CHK//'_'//CHJ
-            VARSG2((J-1)*99+(I-1)*9+K)=VARTMP
+            VAR_TMP(1:5)='EPS_'//CHI
+            VAR_TMP=VAR_TMP(1:5)//CHK//'_'//CHJ
+            VARSG2((J-1)*99+(I-1)*9+K)=VAR_TMP
           ENDDO
         ENDDO
       ENDDO
@@ -1142,9 +1142,9 @@ C Definition of VARSG3 : stress for /PROP/TYPE22
           WRITE(CHI,'(I1.1)')I
           DO K=1,9
             WRITE(CHK,'(I1.1)')K
-            VARTMP(1:5)='SIG_'//CHI
-            VARTMP=VARTMP(1:5)//CHK//'_'//CHJ
-            VARSG3((J-1)*9*9+(I-1)*9+K)=VARTMP
+            VAR_TMP(1:5)='SIG_'//CHI
+            VAR_TMP=VAR_TMP(1:5)//CHK//'_'//CHJ
+            VARSG3((J-1)*9*9+(I-1)*9+K)=VAR_TMP
           ENDDO
         ENDDO
       ENDDO

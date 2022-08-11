@@ -201,7 +201,7 @@ C
         ! ->  No strain-rate effect
         IF (MFUNC == 1) THEN
           ! Recovering position tables
-          IPOS1(1:NEL) = NINT(VARTMP(1:NEL,1))
+          IPOS1(1:NEL) = VARTMP(1:NEL,1)
           IAD1 (1:NEL) = NPF(KFUNC(1)) / 2 + 1
           ILEN1(1:NEL) = NPF(KFUNC(1)+1) / 2 - IAD1(1:NEL) - IPOS1(1:NEL)
           ! Computing the plastic strain interpolation
@@ -217,11 +217,11 @@ C
             J1 = JJ(I)
             J2 = J1 + 1           
             ! Recovering position tables for the first rate
-            IPOS1(I) = NINT(VARTMP(I,J1))
+            IPOS1(I) = VARTMP(I,J1)
             IAD1 (I) = NPF(KFUNC(J1)) / 2 + 1
             ILEN1(I) = NPF(KFUNC(J1)+1) / 2 - IAD1(I) - IPOS1(I)            
             ! Recovering position tables for the second rate
-            IPOS2(I) = NINT(VARTMP(I,J2))
+            IPOS2(I) = VARTMP(I,J2)
             IAD2 (I) = NPF(KFUNC(J2)) / 2 + 1
             ILEN2(I) = NPF(KFUNC(J2)+1) / 2 - IAD2(I) - IPOS2(I)
           ENDDO
@@ -402,7 +402,7 @@ c
           ! ->  No strain-rate effect
           IF (MFUNC == 1) THEN
             ! Recovering position tables
-            IPOS1(1:NEL) = NINT(VARTMP(1:NEL,1))
+            IPOS1(1:NEL) = VARTMP(1:NEL,1)
             IAD1 (1:NEL) = NPF(KFUNC(1)) / 2 + 1
             ILEN1(1:NEL) = NPF(KFUNC(1)+1) / 2 - IAD1(1:NEL) - IPOS1(1:NEL)
             ! Computing the plastic strain interpolation
@@ -420,11 +420,11 @@ c
               J1 = JJ(I)
               J2 = J1 + 1           
               ! Recovering position tables for the first rate
-              IPOS1(I) = NINT(VARTMP(I,J1))
+              IPOS1(I) = VARTMP(I,J1)
               IAD1 (I) = NPF(KFUNC(J1)) / 2 + 1
               ILEN1(I) = NPF(KFUNC(J1)+1) / 2 - IAD1(I) - IPOS1(I)            
               ! Recovering position tables for the second rate
-              IPOS2(I) = NINT(VARTMP(I,J2))
+              IPOS2(I) = VARTMP(I,J2)
               IAD2 (I) = NPF(KFUNC(J2)) / 2 + 1
               ILEN2(I) = NPF(KFUNC(J2)+1) / 2 - IAD2(I) - IPOS2(I)
             ENDDO

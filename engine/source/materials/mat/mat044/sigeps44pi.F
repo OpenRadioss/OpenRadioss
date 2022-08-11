@@ -63,7 +63,8 @@ C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       my_real ,DIMENSION(NEL) ,INTENT(OUT)   :: SIGNXX,SIGNXY,SIGNXZ,ETSE
-      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: PLA,OFF,VARTMP(NEL,NVARTMP),EPSP
+      my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: PLA,OFF,EPSP
+      INTEGER :: VARTMP(NEL,NVARTMP)
       my_real ,DIMENSION(NEL,NUVAR) ,INTENT(INOUT):: UVAR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -117,7 +118,7 @@ c
 c---    Yield stress
 c
       IF (NFUNC > 0) THEN
-        IPOS(1:NEL) = NINT(VARTMP(1:NEL,1))
+        IPOS(1:NEL) = VARTMP(1:NEL,1)
         IAD (1:NEL) = NPF(IFUNC(1)) / 2 + 1
         ILEN(1:NEL) = NPF(IFUNC(1)+1) / 2 - IAD(1:NEL) - IPOS(1:NEL)
         CALL VINTER(TF,IAD,IPOS,ILEN,NEL,PLA,DFDPLA,YLD) 

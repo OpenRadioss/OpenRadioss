@@ -778,7 +778,7 @@ c
               MATBUF%VAR(1:NEL*NUVAR) = RBUF(IAD+1:IAD+NEL*NUVAR)                          
               IAD = IAD+NEL*NUVAR                                         
               ALLOCATE (MATBUF%VARTMP(NEL*NVARTMP), STAT=ERR)                        
-              MATBUF%VARTMP(1:NEL*NVARTMP) = ZERO                        
+              MATBUF%VARTMP(1:NEL*NVARTMP) = 0
 c-----                                                                           
             ENDDO                                                             
           ENDDO                                                              
@@ -984,7 +984,7 @@ c
               MATBUF%VAR(1:NEL*NUVAR) = RBUF(IAD+1:IAD+NEL*NUVAR)                          
               IAD = IAD+NEL*NUVAR                                         
               ALLOCATE (MATBUF%VARTMP(NEL*NVARTMP), STAT=ERR)                        
-              MATBUF%VARTMP(1:NEL*NVARTMP) = ZERO                     
+              MATBUF%VARTMP(1:NEL*NVARTMP) = 0                    
           ENDDO                                                              
         ENDDO                                                             
       ENDDO                                                               

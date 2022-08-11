@@ -71,7 +71,7 @@ c
      .   SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX
       my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: PLA,DPLA,EPSP,TEMP,THK
       my_real ,DIMENSION(NEL,NUVAR)   ,INTENT(INOUT) :: UVAR
-      my_real ,DIMENSION(NEL,NVARTMP) ,INTENT(INOUT) :: VARTMP
+      INTEGER ,DIMENSION(NEL,NVARTMP) ,INTENT(INOUT) :: VARTMP
 c
       TYPE(TTABLE), DIMENSION(NTABLE) ::  TABLE
 C-----------------------------------------------
@@ -171,7 +171,7 @@ c---  self heating factor and temperatiure initialization
             IPOS_ETA(1:NEL,1) = 1
             IF (NDIM_ETA > 1) THEN
               XVEC_ETA(1:NEL,2) = TEMP(1:NEL)
-              IPOS_ETA(1:NEL,2) = INT(VARTMP(1:NEL,4))
+              IPOS_ETA(1:NEL,2) = VARTMP(1:NEL,4)
             END IF
             IF (NDIM_ETA > 2) THEN
               IF (INLOC == 0) THEN 
@@ -179,7 +179,7 @@ c---  self heating factor and temperatiure initialization
               ELSE
                 XVEC_ETA(1:NEL,3) = PLA_NL(1:NEL)
               ENDIF
-              IPOS_ETA(1:NEL,3) = INT(VARTMP(1:NEL,5))
+              IPOS_ETA(1:NEL,3) = VARTMP(1:NEL,5)
             END IF
 
             CALL TABLE_VINTERP(TABLE(FUNC_ETA),NEL,IPOS_ETA,XVEC_ETA,FACT_ETA,DXDYV)          
@@ -218,7 +218,7 @@ c     Computation of the initial yield stress
 c----------------------------------------------------      
       XVEC(1:NEL,1) = PLA(1:NEL)
       XVEC(1:NEL,2) = EPSP(1:NEL) * XSCALE
-      IPOS(1:NEL,1) = INT(VARTMP(1:NEL,1))
+      IPOS(1:NEL,1) = VARTMP(1:NEL,1)
       IPOS(1:NEL,2) = 1
 c
       CALL TABLE2D_VINTERP_LOG(TABLE(FUNC_YLD),ISMOOTH,NEL,IPOS,XVEC  ,YLD  ,HARDP,HARDR)               
@@ -232,8 +232,8 @@ c----------------------------------------------------
       IF (FUNC_TEMP > 0) THEN
 c        XVEC(1:NEL,1) = PLA(1:NEL)
         XVEC(1:NEL,2) = TREF
-        IPOS(1:NEL,1) = INT(VARTMP(1:NEL,2))
-        IPOS(1:NEL,2) = INT(VARTMP(1:NEL,3))
+        IPOS(1:NEL,1) = VARTMP(1:NEL,2)
+        IPOS(1:NEL,2) = VARTMP(1:NEL,3)
         CALL TABLE_VINTERP(TABLE(FUNC_TEMP),NEL,IPOS,XVEC,YLD_TREF,DYDX)  
         VARTMP(1:NEL,2) = IPOS(1:NEL,1)     
         VARTMP(1:NEL,3) = IPOS(1:NEL,2)     
@@ -298,7 +298,7 @@ c
             I = INDEX(II)
             XVEC(II,1) = PLA(I) + DPLA(I)
             XVEC(II,2) = EPSP(I)
-            IPOS(II,1) = INT(VARTMP(I,1))
+            IPOS(II,1) = VARTMP(I,1)
             IPOS(II,2) = 1
           ENDDO
 c
