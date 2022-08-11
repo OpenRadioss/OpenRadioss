@@ -211,9 +211,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: NEL
       INTEGER IX(*), IPARG(NPARG,NGROUP), NPF(*),PID(*),
      .        MAT(*)  ,NGL(*), IPM(NPROPMI,*),IPARG1(*),IGEO(NPROPGI,*)
-      INTEGER NELTST, ITYPTST, OFFSET, NEL, ISTRAIN, 
+      INTEGER NELTST, ITYPTST, OFFSET, ISTRAIN, 
      .        IEXPAN,NG,ILAY,IPTR,IPTS,IPTT,IBIDON1,IBIDON2,IBIDON3 ,
      .        IBIDON4, IADBUF, ITASK,H3D_STRAIN
 C
@@ -248,7 +249,7 @@ C-----------------------------------------------
       INTEGER I,IPG,NUVAR,NPARAM,NFUNC,IFUNC_ALPHA,ILAW,
      .   NVARF,NFAIL,IR,IP,IRUPT,IVISC,EOSTYP,NPTS,NPTT,NPTR,NPG,ISVIS,
      .   MX,NVARTMP,NLAY,INLOC
-      INTEGER IFUNC(MAXFUNC),II(6),ISELECT,IBPRELD
+      INTEGER IFUNC(MAXFUNC),ISELECT,IBPRELD
       my_real
      .   FACQ0,E1,E2,E3,E4,E5,E6,ALPHA,T0,TM
       my_real
@@ -332,43 +333,35 @@ C=======================================================================
 C
       IBOLTP = IPARG(72,NG)
       NBPRELD = GBUF%G_BPRELD
-      BPRELD =>GBUF%BPRELD(1:NBPRELD*NEL)
+      BPRELD => GBUF%BPRELD(1:NBPRELD*NEL)
 C-----
-
-      DO I=1,6
-        II(I) = NEL*(I-1)
-      ENDDO
 
 C Flag Idel
       IF(IDEL7NG.GE.1.OR.IDTMINS.GE.1) THEN
-        DO I=LFT,LLT
-          OFFOLD(I)=OFF(I)
-        END DO
+        OFFOLD(1:NEL)=OFF(1:NEL)
       END IF
 C
       IF (JTHE < 0) THEN
-           DIE(LFT:LLT) = LBUF%EINT(LFT:LLT)
-           DPLA(LFT:LLT) = ZERO
+           DIE(1:NEL) = LBUF%EINT(1:NEL)
+           DPLA(1:NEL) = ZERO
       ELSE
-          TSTAR(LFT:LLT) = ZERO
-          DPLA(LFT:LLT) = ZERO
+          TSTAR(1:NEL) = ZERO
+          DPLA(1:NEL) = ZERO
       ENDIF        
 C tangent module ratio (often w.r.t. G )
-      DO I=LFT,LLT
-        ET(I)=ONE
-      ENDDO
+      ET(1:NEL) = ONE
 C----   ISELECT>0 : modified LEFT CAUCHY-GREEN  STRAIN  saved in ETOTSH 
-       ISELECT=0
-       IF(ISMSTR >= 10.AND.ISMSTR <= 12) THEN
+      ISELECT=0
+      IF(ISMSTR >= 10.AND.ISMSTR <= 12) THEN
 C------ IPARG(10,NG): ICPRE      
         IF (JHBE==17.AND.IINT==2.AND.JCVT/=0.AND.IPARG(10,NG)/=1) ISELECT=1
-       END IF
+      END IF
 C------For hyper-elastic laws, due to ET=MAX(ET, initialise to zero      
       IF (IMPL_S > 0 .OR. IHET > 1) THEN
         IF (MTN == 42 .OR. MTN == 62 .OR. MTN == 69 .OR. 
      .      MTN == 82 .OR. MTN == 88 .OR. MTN == 92 .OR.
      .      MTN == 94 .OR. MTN == 111 ) THEN
-              ET(LFT:LLT)=ZERO
+              ET(1:NEL)=ZERO
          END IF
       END IF
 C needed in mqviscb
@@ -376,35 +369,35 @@ C needed in mqviscb
       ISVIS = IGEO(35,PID(1))
       IF((IMPL_S > 0 .AND. IDYNA == 0).OR. MTN == 24) ISVIS = 0
 C                  
-      RHO0(LFT:LLT)  = PM(1,MAT(1))
-      SVIS(LFT:LLT,1)= ZERO
-      SVIS(LFT:LLT,2)= ZERO
-      SVIS(LFT:LLT,3)= ZERO
-      SVIS(LFT:LLT,4)= ZERO
-      SVIS(LFT:LLT,5)= ZERO
-      SVIS(LFT:LLT,6)= ZERO 
+      RHO0(1:NEL)  = PM(1,MAT(1))
+      SVIS(1:NEL,1)= ZERO
+      SVIS(1:NEL,2)= ZERO
+      SVIS(1:NEL,3)= ZERO
+      SVIS(1:NEL,4)= ZERO
+      SVIS(1:NEL,5)= ZERO
+      SVIS(1:NEL,6)= ZERO 
 C
       IF(IPARG(64,NG).NE.0)THEN
-        DF(LFT:LLT)      = ONE
-        VOL_AVG(LFT:LLT) = VOLN(LFT:LLT)
+        DF(1:NEL)      = ONE
+        VOL_AVG(1:NEL) = VOLN(1:NEL)
       ELSE
-          DF(LFT:LLT)  =  RHO0(LFT:LLT)/LBUF%RHO(LFT:LLT)
-          VOL_AVG(LFT:LLT) = VOLN(LFT:LLT) - HALF*DVOL(LFT:LLT)
+          DF(1:NEL)  =  RHO0(1:NEL)/LBUF%RHO(1:NEL)
+          VOL_AVG(1:NEL) = VOLN(1:NEL) - HALF*DVOL(1:NEL)
       ENDIF
 C-----due to too much returns of QA, temporaly add IRESP here   
       IF((INCOMP/=1.OR.(JEUL+JALE)/=1).AND.JLAG/=0.AND.N2D==0.AND.JSPH==0.AND.IRESP==1
      .     .AND.IMPL_S==0.AND.ISMSTR/=1.AND.ISMSTR/=3.AND.ISMSTR/=11)THEN
 C-----due to issue w/ SP ----in srho3.F R4_AMU is calculated for SP :      
 C--    R4_AMU =VOL0DP/VOLDP -1   because RHO*VOLDP=RHO0*VOL0DP   
-          AMU(LFT:LLT) =  R4_AMU(LFT:LLT)
+          AMU(1:NEL) =  R4_AMU(1:NEL)
       ELSE
        IF(MTN == 1 .OR. MTN == 2 .OR. MTN == 22.OR.(MTN >=28.AND.MTN /=45)) THEN     ! for compatibility with QA tests
-          AMU(LFT:LLT) =  LBUF%RHO(LFT:LLT)/RHO0(LFT:LLT)-ONE
+          AMU(1:NEL) =  LBUF%RHO(1:NEL)/RHO0(1:NEL)-ONE
        ELSE
-          AMU(LFT:LLT) =  ONE/DF(LFT:LLT)-ONE
+          AMU(1:NEL) =  ONE/DF(1:NEL)-ONE
        END IF 
        IF(ISMSTR==12)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF(ABS(LBUF%OFF(I))>ONE) AMU(I) =  R4_AMU(I)
         END DO
        END IF
@@ -439,9 +432,9 @@ C         !-----------------------
 C     If is not returned by the material law, RHOSP = RHO insures backward compatibility.
 C --------------------------------------------------------
       IF(ISMSTR==1 .OR. ISMSTR==11)THEN
-        RHOREF(LFT:LLT)=RHO0(LFT:LLT)
+        RHOREF(1:NEL)=RHO0(1:NEL)
       ELSEIF(ISMSTR==2 .OR. ISMSTR==12)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF(ABS(LBUF%OFF(I))<=ONE)THEN
             RHOREF(I)=LBUF%RHO(I)
           ELSE
@@ -450,15 +443,15 @@ C --------------------------------------------------------
           END IF
         END DO
       ELSE ! Large Strain, ISMSTR==4 .OR. ISMSTR==10
-        RHOREF(LFT:LLT)=LBUF%RHO(LFT:LLT)
+        RHOREF(1:NEL)=LBUF%RHO(1:NEL)
       END IF
-      RHOSP(LFT:LLT) =LBUF%RHO(LFT:LLT)
+      RHOSP(1:NEL) =LBUF%RHO(1:NEL)
 C --------------------------------------------------------
 C    THERMAL MATERIAL ISTROPE EXPANSION 
 C --------------------------------------------------------
 
       IF((IEXPAN > 0).AND.(JTHE < 0).AND.(TT.NE.ZERO)) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
            IFUNC_ALPHA = IPM(219,MAT(1))
            FSCAL_ALPHA = PM(191,MAT(1))
            TEMPEL0(I)  = LBUF%TEMP(I)
@@ -472,21 +465,19 @@ C --------------------------------------------------------
            DZZ(I)  = DZZ(I)-ETH(I)/DT1
            DVOL(I) = DVOL(I)-THREE*ETH(I)*VOL_AVG(I)
            AMU(I)  = AMU(I) + EPSTH(I)
-           SIGKK(I)= LBUF%SIG(II(1)+I)+LBUF%SIG(II(2)+I)+LBUF%SIG(II(3)+I)
+           SIGKK(I)= LBUF%SIG(NEL*(1-1)+I)+LBUF%SIG(NEL*(2-1)+I)+LBUF%SIG(NEL*(3-1)+I)
            LBUF%EINTTH(I) = LBUF%EINTTH(I)-HALF*SIGKK(I)*ETH(I)
         ENDDO
       ELSE
-        DO I=LFT,LLT
-           EPSTH(I)= ZERO
-        ENDDO
+        EPSTH(1:NEL)= ZERO
       ENDIF     
 c-----Tstar computation for Jonhson Cook failure : T* = (T-T0)/(TM-T0)----
       IF (JTHE < 0) THEN
          MX = MAT(1)
          T0 = PM(79, MX) 
          TM = PM(80, MX) 
-         DO I=LFT,LLT
-            TSTAR(I)=MAX(ZERO,(TEMPEL(I)-T0)/(TM-T0))
+         DO I=1,NEL
+           TSTAR(I)=MAX(ZERO,(TEMPEL(I)-T0)/(TM-T0))
          ENDDO
       ENDIF 
 C-----------------------------------
@@ -588,7 +579,7 @@ C
      .    (H3D_STRAIN == 1 .OR. TH_STRAIN == 1 )) THEN
 !
         ! strain rate
-        DO I=LFT,LLT
+        DO I=1,NEL
           EP1(I) = DXX(I)*OFF(I)
           EP2(I) = DYY(I)*OFF(I)
           EP3(I) = DZZ(I)*OFF(I)
@@ -598,7 +589,7 @@ C
         ENDDO
         ! strain
         IF (JCVT > 0) THEN
-          DO I=LFT,LLT
+          DO I=1,NEL
             ES1(I) = EP1(I)*DT1
             ES2(I) = EP2(I)*DT1
             ES3(I) = EP3(I)*DT1
@@ -614,19 +605,19 @@ C---------------------------
      .                 R23 ,R31,R32,R33,
      .                 RX  ,RY ,RZ ,SX ,SY ,SZ,
      .                 TX  ,TY ,TZ )
-          DO I=LFT,LLT
+          DO I=1,NEL
             EP4(I) = HALF*EP4(I)
             EP5(I) = HALF*EP5(I)
             EP6(I) = HALF*EP6(I)
           ENDDO
-          CALL MROTENS(LFT,LLT,EP1,EP2,EP3,EP4,EP5,EP6,
+          CALL MROTENS(1,NEL,EP1,EP2,EP3,EP4,EP5,EP6,
      .         R11,R21,R31,R12,R22,R32,R13,R23,R33)
-          DO I=LFT,LLT
+          DO I=1,NEL
             EP4(I) = TWO*EP4(I)
             EP5(I) = TWO*EP5(I)
             EP6(I) = TWO*EP6(I)
           ENDDO
-          DO I=LFT,LLT
+          DO I=1,NEL
             ES1(I) = EP1(I)*DT1
             ES2(I) = EP2(I)*DT1
             ES3(I) = EP3(I)*DT1
@@ -639,7 +630,7 @@ C---------------------------
 C       ISOTROPE GLOBAL
 C---------------------------
 #include "vectorize.inc"
-          DO I=LFT,LLT
+          DO I=1,NEL
             ES1(I) = EP1(I)*DT1
             ES2(I) = EP2(I)*DT1
             ES3(I) = EP3(I)*DT1
@@ -648,41 +639,41 @@ C---------------------------
             ES6(I) = EP6(I)*DT1
           ENDDO
 #include "vectorize.inc"
-          DO I=LFT,LLT
+          DO I=1,NEL
             WXXF = WXX(I)*OFF(I)
             WYYF = WYY(I)*OFF(I)
             WZZF = WZZ(I)*OFF(I)
-            Q1 = LBUF%STRA(II(4) + I)*WZZF
-            Q2 = LBUF%STRA(II(6) + I)*WYYF
-            Q3 = LBUF%STRA(II(5) + I)*WXXF
-            STR1 = LBUF%STRA(II(1) + I)-Q1+Q2
-            STR2 = LBUF%STRA(II(2) + I)+Q1-Q3
-            STR3 = LBUF%STRA(II(3) + I)-Q2+Q3
-            STR4 = LBUF%STRA(II(4) + I)+
-     .             TWO*WZZF*(LBUF%STRA(II(1) + I)-LBUF%STRA(II(2) + I))+
-     .             WYYF*LBUF%STRA(II(5) + I)-WXXF*LBUF%STRA(II(6) + I)
-            STR5 = LBUF%STRA(II(5) + I)+
-     .             TWO*WXXF*(LBUF%STRA(II(2) + I)-LBUF%STRA(II(3) + I))+
-     .             WZZF*LBUF%STRA(II(6) + I)-WYYF*LBUF%STRA(II(4) + I)
-            STR6 = LBUF%STRA(II(6) + I)+
-     .             TWO*WYYF*(LBUF%STRA(II(3) + I)-LBUF%STRA(II(1) + I))+
-     .             WXXF*LBUF%STRA(II(4) + I)-WZZF*LBUF%STRA(II(5) + I)
-            LBUF%STRA(II(1) + I) = STR1
-            LBUF%STRA(II(2) + I) = STR2
-            LBUF%STRA(II(3) + I) = STR3
-            LBUF%STRA(II(4) + I) = STR4
-            LBUF%STRA(II(5) + I) = STR5
-            LBUF%STRA(II(6) + I) = STR6
+            Q1 = LBUF%STRA(NEL*(4-1) + I)*WZZF
+            Q2 = LBUF%STRA(NEL*(6-1) + I)*WYYF
+            Q3 = LBUF%STRA(NEL*(5-1) + I)*WXXF
+            STR1 = LBUF%STRA(NEL*(1-1) + I)-Q1+Q2
+            STR2 = LBUF%STRA(NEL*(2-1) + I)+Q1-Q3
+            STR3 = LBUF%STRA(NEL*(3-1) + I)-Q2+Q3
+            STR4 = LBUF%STRA(NEL*(4-1) + I)+
+     .             TWO*WZZF*(LBUF%STRA(NEL*(1-1) + I)-LBUF%STRA(NEL*(2-1) + I))+
+     .             WYYF*LBUF%STRA(NEL*(5-1) + I)-WXXF*LBUF%STRA(NEL*(6-1) + I)
+            STR5 = LBUF%STRA(NEL*(5-1) + I)+
+     .             TWO*WXXF*(LBUF%STRA(NEL*(2-1) + I)-LBUF%STRA(NEL*(3-1) + I))+
+     .             WZZF*LBUF%STRA(NEL*(6-1) + I)-WYYF*LBUF%STRA(NEL*(4-1) + I)
+            STR6 = LBUF%STRA(NEL*(6-1) + I)+
+     .             TWO*WYYF*(LBUF%STRA(NEL*(3-1) + I)-LBUF%STRA(NEL*(1-1) + I))+
+     .             WXXF*LBUF%STRA(NEL*(4-1) + I)-WZZF*LBUF%STRA(NEL*(5-1) + I)
+            LBUF%STRA(NEL*(1-1) + I) = STR1
+            LBUF%STRA(NEL*(2-1) + I) = STR2
+            LBUF%STRA(NEL*(3-1) + I) = STR3
+            LBUF%STRA(NEL*(4-1) + I) = STR4
+            LBUF%STRA(NEL*(5-1) + I) = STR5
+            LBUF%STRA(NEL*(6-1) + I) = STR6
           ENDDO
         ENDIF ! IF (JCVT > 0)
         ! strain update
-        DO I=LFT,LLT
-          LBUF%STRA(II(1) + I) = LBUF%STRA(II(1) + I) + ES1(I)
-          LBUF%STRA(II(2) + I) = LBUF%STRA(II(2) + I) + ES2(I)
-          LBUF%STRA(II(3) + I) = LBUF%STRA(II(3) + I) + ES3(I)
-          LBUF%STRA(II(4) + I) = LBUF%STRA(II(4) + I) + ES4(I)
-          LBUF%STRA(II(5) + I) = LBUF%STRA(II(5) + I) + ES5(I)
-          LBUF%STRA(II(6) + I) = LBUF%STRA(II(6) + I) + ES6(I)
+        DO I=1,NEL
+          LBUF%STRA(NEL*(1-1) + I) = LBUF%STRA(NEL*(1-1) + I) + ES1(I)
+          LBUF%STRA(NEL*(2-1) + I) = LBUF%STRA(NEL*(2-1) + I) + ES2(I)
+          LBUF%STRA(NEL*(3-1) + I) = LBUF%STRA(NEL*(3-1) + I) + ES3(I)
+          LBUF%STRA(NEL*(4-1) + I) = LBUF%STRA(NEL*(4-1) + I) + ES4(I)
+          LBUF%STRA(NEL*(5-1) + I) = LBUF%STRA(NEL*(5-1) + I) + ES5(I)
+          LBUF%STRA(NEL*(6-1) + I) = LBUF%STRA(NEL*(6-1) + I) + ES6(I)
         ENDDO
        ENDIF ! IF (ISTRAIN > 0
 !----------------
@@ -745,7 +736,7 @@ C
      .    (H3D_STRAIN == 1 .OR. TH_STRAIN == 1)) THEN
 !
         ! strain rate
-        DO I=LFT,LLT
+        DO I=1,NEL
           EP1(I) = DXX(I)*OFF(I)
           EP2(I) = DYY(I)*OFF(I)
           EP3(I) = DZZ(I)*OFF(I)
@@ -755,7 +746,7 @@ C
         ENDDO
         ! strain
         IF (JCVT > 0) THEN
-          DO I=LFT,LLT
+          DO I=1,NEL
             ES1(I) = EP1(I)*DT1
             ES2(I) = EP2(I)*DT1
             ES3(I) = EP3(I)*DT1
@@ -771,19 +762,19 @@ C---------------------------
      .                 R23 ,R31,R32,R33,
      .                 RX  ,RY ,RZ ,SX ,SY ,SZ,
      .                 TX  ,TY ,TZ )
-          DO I=LFT,LLT
+          DO I=1,NEL
             EP4(I) = HALF*EP4(I)
             EP5(I) = HALF*EP5(I)
             EP6(I) = HALF*EP6(I)
           ENDDO
-          CALL MROTENS(LFT,LLT,EP1,EP2,EP3,EP4,EP5,EP6,
+          CALL MROTENS(1,NEL,EP1,EP2,EP3,EP4,EP5,EP6,
      .         R11,R21,R31,R12,R22,R32,R13,R23,R33)
-          DO I=LFT,LLT
+          DO I=1,NEL
             EP4(I) = TWO*EP4(I)
             EP5(I) = TWO*EP5(I)
             EP6(I) = TWO*EP6(I)
           ENDDO
-          DO I=LFT,LLT
+          DO I=1,NEL
             ES1(I) = EP1(I)*DT1
             ES2(I) = EP2(I)*DT1
             ES3(I) = EP3(I)*DT1
@@ -796,7 +787,7 @@ C---------------------------
 C       ISOTROPE GLOBAL
 C---------------------------
 #include "vectorize.inc"
-          DO I=LFT,LLT
+          DO I=1,NEL
             ES1(I) = EP1(I)*DT1
             ES2(I) = EP2(I)*DT1
             ES3(I) = EP3(I)*DT1
@@ -805,41 +796,41 @@ C---------------------------
             ES6(I) = EP6(I)*DT1
           ENDDO
 #include "vectorize.inc"
-          DO I=LFT,LLT
+          DO I=1,NEL
             WXXF = WXX(I)*OFF(I)
             WYYF = WYY(I)*OFF(I)
             WZZF = WZZ(I)*OFF(I)
-            Q1 = LBUF%STRA(II(4) + I)*WZZF
-            Q2 = LBUF%STRA(II(6) + I)*WYYF
-            Q3 = LBUF%STRA(II(5) + I)*WXXF
-            STR1 = LBUF%STRA(II(1) + I)-Q1+Q2
-            STR2 = LBUF%STRA(II(2) + I)+Q1-Q3
-            STR3 = LBUF%STRA(II(3) + I)-Q2+Q3
-            STR4 = LBUF%STRA(II(4) + I)+
-     .             TWO*WZZF*(LBUF%STRA(II(1) + I)-LBUF%STRA(II(2) + I))+
-     .             WYYF*LBUF%STRA(II(5) + I)-WXXF*LBUF%STRA(II(6) + I)
-            STR5 = LBUF%STRA(II(5) + I)+
-     .             TWO*WXXF*(LBUF%STRA(II(2) + I)-LBUF%STRA(II(3) + I))+
-     .             WZZF*LBUF%STRA(II(6) + I)-WYYF*LBUF%STRA(II(4) + I)
-            STR6 = LBUF%STRA(II(6) + I)+
-     .             TWO*WYYF*(LBUF%STRA(II(3) + I)-LBUF%STRA(II(1) + I))+
-     .             WXXF*LBUF%STRA(II(4) + I)-WZZF*LBUF%STRA(II(5) + I)
-            LBUF%STRA(II(1) + I) = STR1
-            LBUF%STRA(II(2) + I) = STR2
-            LBUF%STRA(II(3) + I) = STR3
-            LBUF%STRA(II(4) + I) = STR4
-            LBUF%STRA(II(5) + I) = STR5
-            LBUF%STRA(II(6) + I) = STR6
+            Q1 = LBUF%STRA(NEL*(4-1) + I)*WZZF
+            Q2 = LBUF%STRA(NEL*(6-1) + I)*WYYF
+            Q3 = LBUF%STRA(NEL*(5-1) + I)*WXXF
+            STR1 = LBUF%STRA(NEL*(1-1) + I)-Q1+Q2
+            STR2 = LBUF%STRA(NEL*(2-1) + I)+Q1-Q3
+            STR3 = LBUF%STRA(NEL*(3-1) + I)-Q2+Q3
+            STR4 = LBUF%STRA(NEL*(4-1) + I)+
+     .             TWO*WZZF*(LBUF%STRA(NEL*(1-1) + I)-LBUF%STRA(NEL*(2-1) + I))+
+     .             WYYF*LBUF%STRA(NEL*(5-1) + I)-WXXF*LBUF%STRA(NEL*(6-1) + I)
+            STR5 = LBUF%STRA(NEL*(5-1) + I)+
+     .             TWO*WXXF*(LBUF%STRA(NEL*(2-1) + I)-LBUF%STRA(NEL*(3-1) + I))+
+     .             WZZF*LBUF%STRA(NEL*(6-1) + I)-WYYF*LBUF%STRA(NEL*(4-1) + I)
+            STR6 = LBUF%STRA(NEL*(6-1) + I)+
+     .             TWO*WYYF*(LBUF%STRA(NEL*(3-1) + I)-LBUF%STRA(NEL*(1-1) + I))+
+     .             WXXF*LBUF%STRA(NEL*(4-1) + I)-WZZF*LBUF%STRA(NEL*(5-1) + I)
+            LBUF%STRA(NEL*(1-1) + I) = STR1
+            LBUF%STRA(NEL*(2-1) + I) = STR2
+            LBUF%STRA(NEL*(3-1) + I) = STR3
+            LBUF%STRA(NEL*(4-1) + I) = STR4
+            LBUF%STRA(NEL*(5-1) + I) = STR5
+            LBUF%STRA(NEL*(6-1) + I) = STR6
           ENDDO
         ENDIF ! IF (JCVT > 0)
         ! strain update
-        DO I=LFT,LLT
-          LBUF%STRA(II(1) + I) = LBUF%STRA(II(1) + I) + ES1(I)
-          LBUF%STRA(II(2) + I) = LBUF%STRA(II(2) + I) + ES2(I)
-          LBUF%STRA(II(3) + I) = LBUF%STRA(II(3) + I) + ES3(I)
-          LBUF%STRA(II(4) + I) = LBUF%STRA(II(4) + I) + ES4(I)
-          LBUF%STRA(II(5) + I) = LBUF%STRA(II(5) + I) + ES5(I)
-          LBUF%STRA(II(6) + I) = LBUF%STRA(II(6) + I) + ES6(I)
+        DO I=1,NEL
+          LBUF%STRA(NEL*(1-1) + I) = LBUF%STRA(NEL*(1-1) + I) + ES1(I)
+          LBUF%STRA(NEL*(2-1) + I) = LBUF%STRA(NEL*(2-1) + I) + ES2(I)
+          LBUF%STRA(NEL*(3-1) + I) = LBUF%STRA(NEL*(3-1) + I) + ES3(I)
+          LBUF%STRA(NEL*(4-1) + I) = LBUF%STRA(NEL*(4-1) + I) + ES4(I)
+          LBUF%STRA(NEL*(5-1) + I) = LBUF%STRA(NEL*(5-1) + I) + ES5(I)
+          LBUF%STRA(NEL*(6-1) + I) = LBUF%STRA(NEL*(6-1) + I) + ES6(I)
         ENDDO
        ENDIF ! IF (ISTRAIN > 0
 !----------------
@@ -954,9 +945,9 @@ c     .             LBUF%QVIS,LBUF%VOL,MBUF%VAR,STIFN   )
      6              VOLN    ,QVIS    ,RHO0    ,BUFVOIS  ,IPM     ,
      7              NPF     ,TF      ,SSP_EQ  ,GBUF%MOM ,NEL     )
         IF(IPARG(7,NG)+IPARG(11,NG) > 0 ) THEN
-          CXX(LFT:LLT) = SSP_EQ(LFT:LLT)
+          CXX(1:NEL) = SSP_EQ(1:NEL)
         ELSE
-          LBUF%SSP(LFT:LLT) = SSP_EQ(LFT:LLT)
+          LBUF%SSP(1:NEL) = SSP_EQ(1:NEL)
         ENDIF
       ELSEIF (MTN == 12) THEN
 C       TSAI 3D Complet
@@ -1375,7 +1366,7 @@ C --- Needed for finite element transfert.
 C
       IF (JTHE < 0) THEN
         HEAT_MECA_L = ZERO
-        DO I=LFT,LLT
+        DO I=1,NEL
           DIE(I) = (LBUF%EINT(I)*LBUF%VOL(I) - DIE(I)) * PM(90,MAT(1))
           HEAT_MECA_L = HEAT_MECA_L + DIE(I)
         ENDDO
@@ -1384,8 +1375,8 @@ C
 !$OMP END CRITICAL
       ENDIF
       IF((IEXPAN > 0).AND.(JTHE < 0).AND.(TT.NE.0)) THEN
-        DO I=LFT,LLT
-          SIGKK(I) = LBUF%SIG(II(1)+I)+LBUF%SIG(II(2)+I)+LBUF%SIG(II(3)+I)
+        DO I=1,NEL
+          SIGKK(I) = LBUF%SIG(NEL*(1-1)+I)+LBUF%SIG(NEL*(2-1)+I)+LBUF%SIG(NEL*(3-1)+I)
           LBUF%EINTTH(I) = LBUF%EINTTH(I)-HALF*SIGKK(I)*ETH(I)
         ENDDO
       ENDIF
@@ -1399,7 +1390,7 @@ C---------------------------------------------------------------------
      3       DZZ     ,D4      ,D5      ,D6      ,MAT       ,
      4       ISVIS   ,RHOREF  )
         IF (ISVIS > 0) THEN
-          DO  I=LFT,LLT                                                 
+          DO  I=1,NEL                                                 
             VOL(I)  = LBUF%VOL(I)                                       
             EINT(I) = LBUF%EINT(I)                                      
             E1=DXX(I)*SVIS(I,1)                                         
@@ -1419,7 +1410,7 @@ C-----------------------------------------------------------------------
 C     viscous stress (/VISC models) 
 C-----------------------------------------------------------------------
       IF (IVISC > 0 .AND. (MTN  < 28 .AND. MTN /= 24)) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           EP1(I) = DXX(I)*OFF(I)
           EP2(I) = DYY(I)*OFF(I)
           EP3(I) = DZZ(I)*OFF(I)
@@ -1432,14 +1423,14 @@ C-----------------------------------------------------------------------
      .                 R23 ,R31,R32,R33,
      .                 RX  ,RY ,RZ ,SX ,SY ,SZ     ,
      .                 TX  ,TY ,TZ )
-          DO I=LFT,LLT
+          DO I=1,NEL
             EP4(I) = HALF*EP4(I)
             EP5(I) = HALF*EP5(I)
             EP6(I) = HALF*EP6(I)
           ENDDO
-          CALL MROTENS(LFT,LLT,EP1,EP2,EP3,EP4,EP5,EP6,
+          CALL MROTENS(1,NEL,EP1,EP2,EP3,EP4,EP5,EP6,
      .         R11,R21,R31,R12,R22,R32,R13,R23,R33)        
-          DO I=LFT,LLT
+          DO I=1,NEL
             EP4(I) = TWO*EP4(I)
             EP5(I) = TWO*EP5(I)
             EP6(I) = TWO*EP6(I)
@@ -1453,57 +1444,56 @@ c---
      .        SV1     ,SV2     ,SV3     ,SV4     ,SV5     ,SV6     )
 c---
         IF (ISORTH /= 0.AND. JCVT == 0) THEN
-          CALL MROTENS(LFT,LLT,
+          CALL MROTENS(1,NEL,
      .         SV1     ,SV2      ,SV3      ,SV4     ,SV5     ,SV6     ,
      .         R11,R21,R31,R12,R22,R32,R13,R23,R33)
         ENDIF
 c
-        DO I=LFT,LLT    
-          LBUF%VISC(II(1) + I) = SV1(I)*OFF(I)
-          LBUF%VISC(II(2) + I) = SV2(I)*OFF(I)
-          LBUF%VISC(II(3) + I) = SV3(I)*OFF(I)
-          LBUF%VISC(II(4) + I) = SV4(I)*OFF(I)
-          LBUF%VISC(II(5) + I) = SV5(I)*OFF(I)
-          LBUF%VISC(II(6) + I) = SV6(I)*OFF(I)
+        DO I=1,NEL    
+          LBUF%VISC(NEL*(1-1) + I) = SV1(I)*OFF(I)
+          LBUF%VISC(NEL*(2-1) + I) = SV2(I)*OFF(I)
+          LBUF%VISC(NEL*(3-1) + I) = SV3(I)*OFF(I)
+          LBUF%VISC(NEL*(4-1) + I) = SV4(I)*OFF(I)
+          LBUF%VISC(NEL*(5-1) + I) = SV5(I)*OFF(I)
+          LBUF%VISC(NEL*(6-1) + I) = SV6(I)*OFF(I)
         ENDDO           
-c              Temporaire, pour la compatibilite avec la mainline actuelle        
-               DO I=LFT,LLT                      
-                 SVIS(I,1) = LBUF%VISC(II(1) + I)         
-                 SVIS(I,2) = LBUF%VISC(II(2) + I)         
-                 SVIS(I,3) = LBUF%VISC(II(3) + I)         
-                 SVIS(I,4) = LBUF%VISC(II(4) + I)         
-                 SVIS(I,5) = LBUF%VISC(II(5) + I)         
-                 SVIS(I,6) = LBUF%VISC(II(6) + I)         
-               ENDDO                             
-               IF (ISVIS > 0) THEN
-c                viscous stress output
-                 DO I=LFT,LLT
-                   LBUF%SIGV(II(1) + I) = SVIS(I,1)
-                   LBUF%SIGV(II(2) + I) = SVIS(I,2)
-                   LBUF%SIGV(II(3) + I) = SVIS(I,3)
-                   LBUF%SIGV(II(4) + I) = SVIS(I,4)
-                   LBUF%SIGV(II(5) + I) = SVIS(I,5)
-                   LBUF%SIGV(II(6) + I) = SVIS(I,6)
-                  ENDDO                          
-               ENDIF
+        DO I=1,NEL                      
+          SVIS(I,1) = LBUF%VISC(NEL*(1-1) + I)         
+          SVIS(I,2) = LBUF%VISC(NEL*(2-1) + I)         
+          SVIS(I,3) = LBUF%VISC(NEL*(3-1) + I)         
+          SVIS(I,4) = LBUF%VISC(NEL*(4-1) + I)         
+          SVIS(I,5) = LBUF%VISC(NEL*(5-1) + I)         
+          SVIS(I,6) = LBUF%VISC(NEL*(6-1) + I)         
+        ENDDO                             
+        IF (ISVIS > 0) THEN
+c         viscous stress output
+          DO I=1,NEL
+            LBUF%SIGV(NEL*(1-1) + I) = SVIS(I,1)
+            LBUF%SIGV(NEL*(2-1) + I) = SVIS(I,2)
+            LBUF%SIGV(NEL*(3-1) + I) = SVIS(I,3)
+            LBUF%SIGV(NEL*(4-1) + I) = SVIS(I,4)
+            LBUF%SIGV(NEL*(5-1) + I) = SVIS(I,5)
+            LBUF%SIGV(NEL*(6-1) + I) = SVIS(I,6)
+           ENDDO                          
+        ENDIF
       ELSEIF (IVISC > 0) THEN
-        DO I=LFT,LLT    
-          LBUF%VISC(II(1) + I) = SVIS(I,1)
-          LBUF%VISC(II(2) + I) = SVIS(I,2)
-          LBUF%VISC(II(3) + I) = SVIS(I,3)
-          LBUF%VISC(II(4) + I) = SVIS(I,4)
-          LBUF%VISC(II(5) + I) = SVIS(I,5)
-          LBUF%VISC(II(6) + I) = SVIS(I,6)
+        DO I=1,NEL    
+          LBUF%VISC(NEL*(1-1) + I) = SVIS(I,1)
+          LBUF%VISC(NEL*(2-1) + I) = SVIS(I,2)
+          LBUF%VISC(NEL*(3-1) + I) = SVIS(I,3)
+          LBUF%VISC(NEL*(4-1) + I) = SVIS(I,4)
+          LBUF%VISC(NEL*(5-1) + I) = SVIS(I,5)
+          LBUF%VISC(NEL*(6-1) + I) = SVIS(I,6)
         ENDDO           
         IF (ISVIS > 0) THEN                      
 c         viscous stress output                  
-          DO I=LFT,LLT                           
-            LBUF%SIGV(II(1) + I) = SVIS(I,1)        
-            LBUF%SIGV(II(2) + I) = SVIS(I,2)        
-            LBUF%SIGV(II(3) + I) = SVIS(I,3)        
-            LBUF%SIGV(II(4) + I) = SVIS(I,4)        
-            LBUF%SIGV(II(5) + I) = SVIS(I,5)        
-            LBUF%SIGV(II(6) + I) = SVIS(I,6)        
+          DO I=1,NEL                           
+            LBUF%SIGV(NEL*(1-1) + I) = SVIS(I,1)        
+            LBUF%SIGV(NEL*(2-1) + I) = SVIS(I,2)        
+            LBUF%SIGV(NEL*(3-1) + I) = SVIS(I,3)        
+            LBUF%SIGV(NEL*(4-1) + I) = SVIS(I,4)        
+            LBUF%SIGV(NEL*(5-1) + I) = SVIS(I,5)        
+            LBUF%SIGV(NEL*(6-1) + I) = SVIS(I,6)        
            ENDDO                                 
         ENDIF                                    
       ENDIF
@@ -1513,16 +1503,16 @@ C-----------------------------------------------------------------------
       IF ((ITASK==0).AND.(IMON_MAT==1))CALL STARTIME(121,1)
       IF (NFAIL > 0 .AND. (MTN < 28 .OR. MTN == 49)) THEN
         IF (ISTRAIN > 0 .OR. MTN==24 .OR. MTN==25 .OR. MTN==15) THEN
-          DO I=LFT,LLT
-            ES1(I) = LBUF%STRA(II(1) + I)     
-            ES2(I) = LBUF%STRA(II(2) + I) 
-            ES3(I) = LBUF%STRA(II(3) + I) 
-            ES4(I) = LBUF%STRA(II(4) + I) 
-            ES5(I) = LBUF%STRA(II(5) + I) 
-            ES6(I) = LBUF%STRA(II(6) + I) 
+          DO I=1,NEL
+            ES1(I) = LBUF%STRA(NEL*(1-1) + I)     
+            ES2(I) = LBUF%STRA(NEL*(2-1) + I) 
+            ES3(I) = LBUF%STRA(NEL*(3-1) + I) 
+            ES4(I) = LBUF%STRA(NEL*(4-1) + I) 
+            ES5(I) = LBUF%STRA(NEL*(5-1) + I) 
+            ES6(I) = LBUF%STRA(NEL*(6-1) + I) 
           ENDDO
         ELSE
-          DO I=LFT,LLT
+          DO I=1,NEL
             ES1(I) = EP20
             ES2(I) = EP20
             ES3(I) = EP20
@@ -1531,7 +1521,6 @@ C-----------------------------------------------------------------------
             ES6(I) = EP20  
           ENDDO
         ENDIF
-c---
 C------------------------------------------------------------
 C     Recovering non-local variable
 C------------------------------------------------------------
@@ -1542,7 +1531,7 @@ C------------------------------------------------------------
           EL_LEN => LE_MAX(1:NEL) 
           ! -> Copying the non-local plastic strain increment
           IF (ELBUF_TAB(NG)%BUFLY(ILAY)%L_PLA > 0) THEN 
-            DO I = LFT,LLT
+            DO I = 1,NEL
               DPLA(I) = MAX(VARNL(I),ZERO)
             ENDDO
           ENDIF
@@ -1554,13 +1543,13 @@ c---
         DO IR = 1,NFAIL 
           IP = (IR -1)*15         
 c
-          DO I=LFT,LLT
-            SS1(I) = LBUF%SIG(II(1) + I)    
-            SS2(I) = LBUF%SIG(II(2) + I)
-            SS3(I) = LBUF%SIG(II(3) + I)
-            SS4(I) = LBUF%SIG(II(4) + I)
-            SS5(I) = LBUF%SIG(II(5) + I)
-            SS6(I) = LBUF%SIG(II(6) + I)
+          DO I=1,NEL
+            SS1(I) = LBUF%SIG(NEL*(1-1) + I)    
+            SS2(I) = LBUF%SIG(NEL*(2-1) + I)
+            SS3(I) = LBUF%SIG(NEL*(3-1) + I)
+            SS4(I) = LBUF%SIG(NEL*(4-1) + I)
+            SS5(I) = LBUF%SIG(NEL*(5-1) + I)
+            SS6(I) = LBUF%SIG(NEL*(6-1) + I)
             EINT(I) = LBUF%EINT(I)*LBUF%VOL(I)
             IF (MTN.NE.4.AND.MTN.NE.2) THEN
               EPSP(I)=OFF(I)*                                        
@@ -1568,13 +1557,12 @@ c
      .       HALF*ABS(D4(I)),HALF*ABS(D5(I)),HALF*ABS(D6(I)))
             ENDIF         
           ENDDO
-C
 C------------------------------------------------------------
 C     Recovering non-local plastic strain-rate
 C------------------------------------------------------------
           IF (INLOC > 0) THEN 
             IF (ELBUF_TAB(NG)%BUFLY(ILAY)%L_PLA > 0) THEN 
-              DO I = LFT,LLT
+              DO I = 1,NEL
                 EPSP(I) = MAX(VARNL(I),ZERO)/MAX(DT1,EM20)
               ENDDO
             ENDIF
@@ -1585,27 +1573,27 @@ C
      .                  R23  ,R31,R32,R33,                
      .                  RX   ,RY ,RZ ,SX ,SY ,SZ     ,    
      .                  TX   ,TY ,TZ )                    
-            CALL MROTENS(LFT,LLT,SS1,SS2,SS3,SS4,SS5,SS6,
+            CALL MROTENS(1,NEL,SS1,SS2,SS3,SS4,SS5,SS6,
      .              R11,R12,R13,
      .              R21,R22,R23,
      .              R31,R32,R33)
 C strain        
-            DO I=LFT,LLT
+            DO I=1,NEL
               ES4(I) = HALF*ES4(I)
               ES5(I) = HALF*ES5(I)
               ES6(I) = HALF*ES6(I)
             ENDDO              
-            CALL MROTENS(LFT,LLT,ES1,ES2,ES3,ES4,ES5,ES6,
+            CALL MROTENS(1,NEL,ES1,ES2,ES3,ES4,ES5,ES6,
      .              R11,R12,R13,
      .              R21,R22,R23,
      .              R31,R32,R33)
-            DO I=LFT,LLT
+            DO I=1,NEL
               ES4(I) = TWO*ES4(I)
               ES5(I) = TWO*ES5(I)
               ES6(I) = TWO*ES6(I)
             ENDDO 
 C strain rate
-            DO I=LFT,LLT
+            DO I=1,NEL
               EP1(I) = DXX(I)
               EP2(I) = DYY(I)
               EP3(I) = DZZ(I)
@@ -1613,17 +1601,17 @@ C strain rate
               EP5(I) = HALF*D5(I)
               EP6(I) = HALF*D6(I)
             ENDDO              
-            CALL MROTENS(LFT,LLT,EP1,EP2,EP3,EP4,EP5,EP6,
+            CALL MROTENS(1,NEL,EP1,EP2,EP3,EP4,EP5,EP6,
      .              R11,R12,R13,
      .              R21,R22,R23,
      .              R31,R32,R33)
-            DO I=LFT,LLT
+            DO I=1,NEL
               EP4(I) = TWO*EP4(I)
               EP5(I) = TWO*EP5(I)
               EP6(I) = TWO*EP6(I)
             ENDDO
           ELSE          !  strain rate
-            DO I=LFT,LLT
+            DO I=1,NEL
               EP1(I) = DXX(I)
               EP2(I) = DYY(I)
               EP3(I) = DZZ(I)
@@ -1684,14 +1672,6 @@ C  user1
      8                    DELTAX,VOLN,USER_UELR,BIDON4,BIDON5) 
             GBUF%UELR(1:LLT) = USER_UELR(1:LLT)
             ELSE
-!               CALL F04LAW(LLT ,NPARAM,NVARF,NFUNC,IFUNC,
-!     2                    NPF ,TF  ,TT  ,DT1  ,BUFMAT(IADBUF),
-!     3                    NGL ,IBIDON1,IBIDON2,IBIDON3 ,IBIDON4,
-!     4                    EP1  ,EP2 ,EP3  ,EP4  ,EP5  ,EP6 ,
-!     5                    ES1  ,ES2 ,ES3  ,ES4  ,ES5  ,ES6 ,
-!     6                    SS1  ,SS2 ,SS3  ,SS4  ,SS5  ,SS6 ,    
-!     7                    DEFP ,DPLA,EPSP,UVARF,OFF  ,
-!     8                    DELTAX,VOLN,GBUF%UELR,BIDON4,BIDON5) 
 !!!
               ! ----------------
               ! ERROR to be printed & exit
@@ -1717,15 +1697,6 @@ C   user2
      8                    DELTAX,VOLN,USER_UELR,BIDON4,BIDON5) 
             GBUF%UELR(1:LLT) = USER_UELR(1:LLT)
             ELSE
-!               CALL F05LAW(LLT ,NPARAM,NVARF,NFUNC,IFUNC,
-!     2                    NPF ,TF  ,TT  ,DT1  ,BUFMAT(IADBUF),
-!     3                    NGL ,IBIDON1,IBIDON2,IBIDON3 ,IBIDON4,
-!     4                    EP1  ,EP2 ,EP3  ,EP4  ,EP5  ,EP6 ,
-!     5                    ES1  ,ES2 ,ES3  ,ES4  ,ES5  ,ES6 ,
-!     6                    SS1  ,SS2 ,SS3  ,SS4  ,SS5  ,SS6 ,    
-!     7                    DEFP ,DPLA,EPSP,UVARF,OFF  ,
-!     8                    DELTAX,VOLN,GBUF%UELR,BIDON4,BIDON5)
-!!!
               ! ----------------
               ! ERROR to be printed & exit
                 OPTION='/FAIL/USER2 - SOLID '
@@ -1733,7 +1704,6 @@ C   user2
                 CALL ANCMSG(MSGID=257,C1=OPTION(1:LENGTH),ANMODE=ANINFO)
                 CALL ARRET(2)
               ! ----------------
-!!!
             ENDIF
 C   user3         
         ELSEIF(IRUPT.EQ.6)THEN
@@ -1750,15 +1720,6 @@ C   user3
      8                    DELTAX,VOLN,USER_UELR,BIDON4,BIDON5) 
             GBUF%UELR(1:LLT) = USER_UELR(1:LLT)
             ELSE
-!                CALL F06LAW(LLT ,NPARAM,NVARF,NFUNC,IFUNC,
-!     2                    NPF ,TF  ,TT  ,DT1  ,BUFMAT(IADBUF),
-!     3                    NGL ,IBIDON1,IBIDON2,IBIDON3 ,IBIDON4,
-!     4                    EP1  ,EP2 ,EP3  ,EP4  ,EP5  ,EP6 ,
-!     5                    ES1  ,ES2 ,ES3  ,ES4  ,ES5  ,ES6 ,
-!     6                    SS1  ,SS2 ,SS3  ,SS4  ,SS5  ,SS6 ,    
-!     7                    DEFP ,DPLA,EPSP,UVARF,OFF  ,
-!     8                    DELTAX,VOLN,GBUF%UELR,BIDON4,BIDON5)
-!!!
               ! ----------------
               ! ERROR to be printed & exit
                 OPTION='/FAIL/USER3 - SOLID '
@@ -1806,7 +1767,7 @@ c---- energy failure
      7                    DFMAX,TDEL )                      
           ELSEIF(IRUPT == 14)THEN                                        
 c --- Hashin    failure model
-             DO I=LFT,LLT
+             DO I=1,NEL
               EPSP(I) = MAX(ABS(EP1(I)),ABS(EP2(I)),ABS(EP3(I)),EM20)
             ENDDO   
             CALL FAIL_HASHIN_S(
@@ -1933,7 +1894,7 @@ c---------
           ENDIF ! IRUPT                                                  
 c---------
           IF(ISORTH  > 0 .AND. JCVT == 0) THEN  
-             CALL MROTENS(LFT,LLT,
+             CALL MROTENS(1,NEL,
      .                 SS1 ,SS2 ,SS3 ,
      .                 SS4 ,SS5 ,SS6 ,
      .                 R11,R21,R31,
@@ -1941,13 +1902,13 @@ c---------
      .                 R13,R23,R33 )
           ENDIF
 C
-          DO I=LFT,LLT
-            STOR1 = LBUF%SIG(II(1) + I)    
-            STOR2 = LBUF%SIG(II(2) + I)
-            STOR3 = LBUF%SIG(II(3) + I)
-            STOR4 = LBUF%SIG(II(4) + I)
-            STOR5 = LBUF%SIG(II(5) + I)
-            STOR6 = LBUF%SIG(II(6) + I)
+          DO I=1,NEL
+            STOR1 = LBUF%SIG(NEL*(1-1) + I)    
+            STOR2 = LBUF%SIG(NEL*(2-1) + I)
+            STOR3 = LBUF%SIG(NEL*(3-1) + I)
+            STOR4 = LBUF%SIG(NEL*(4-1) + I)
+            STOR5 = LBUF%SIG(NEL*(5-1) + I)
+            STOR6 = LBUF%SIG(NEL*(6-1) + I)
             E1=DXX(I)*(-STOR1+SS1(I))
             E2=DYY(I)*(-STOR2+SS2(I))
             E3=DZZ(I)*(-STOR3+SS3(I))
@@ -1959,13 +1920,13 @@ C
             LBUF%EINT(I)=EINT(I)/MAX(LBUF%VOL(I),EM30)
           END DO
 C
-          DO I=LFT,LLT
-            LBUF%SIG(II(1) + I) = SS1(I)
-            LBUF%SIG(II(2) + I) = SS2(I)
-            LBUF%SIG(II(3) + I) = SS3(I)
-            LBUF%SIG(II(4) + I) = SS4(I)
-            LBUF%SIG(II(5) + I) = SS5(I)
-            LBUF%SIG(II(6) + I) = SS6(I) 
+          DO I=1,NEL
+            LBUF%SIG(NEL*(1-1) + I) = SS1(I)
+            LBUF%SIG(NEL*(2-1) + I) = SS2(I)
+            LBUF%SIG(NEL*(3-1) + I) = SS3(I)
+            LBUF%SIG(NEL*(4-1) + I) = SS4(I)
+            LBUF%SIG(NEL*(5-1) + I) = SS5(I)
+            LBUF%SIG(NEL*(6-1) + I) = SS6(I) 
           ENDDO 
 C
         ENDDO   !  IR = 1,NFAIL
@@ -1975,7 +1936,7 @@ C     Variable to regularize with Non-local
 C------------------------------------------------------------
         IF (INLOC > 0) THEN 
           IF (ELBUF_TAB(NG)%BUFLY(ILAY)%L_PLA > 0) THEN 
-            DO I = LFT,LLT
+            DO I = 1,NEL
               VARNL(I) = DEFP(I)
             ENDDO
           ENDIF
@@ -1984,31 +1945,31 @@ C------------------------------------------------------------
       IF ((ITASK==0).AND.(IMON_MAT==1))CALL STOPTIME(121,1)
 C-----------------------------------------------------------------  
       IF(IPARTSPH/=0)THEN
-       DO I=LFT,LLT
+       DO I=1,NEL
         IF(OFF(I) > ZERO .AND. OFF(I) < ONE)THEN
 C replace Solid w/SPH within the same cycle.
           OFF(I)=ZERO
-          LBUF%SIG(II(1) + I)  = ZERO
-          LBUF%SIG(II(2) + I)  = ZERO
-          LBUF%SIG(II(3) + I)  = ZERO
-          LBUF%SIG(II(4) + I)  = ZERO
-          LBUF%SIG(II(5) + I)  = ZERO
-          LBUF%SIG(II(6) + I)  = ZERO
+          LBUF%SIG(NEL*(1-1) + I)  = ZERO
+          LBUF%SIG(NEL*(2-1) + I)  = ZERO
+          LBUF%SIG(NEL*(3-1) + I)  = ZERO
+          LBUF%SIG(NEL*(4-1) + I)  = ZERO
+          LBUF%SIG(NEL*(5-1) + I)  = ZERO
+          LBUF%SIG(NEL*(6-1) + I)  = ZERO
           IF (IVISC > 0) THEN
-            LBUF%VISC(II(1) + I) = ZERO
-            LBUF%VISC(II(2) + I) = ZERO
-            LBUF%VISC(II(3) + I) = ZERO
-            LBUF%VISC(II(4) + I) = ZERO
-            LBUF%VISC(II(5) + I) = ZERO
-            LBUF%VISC(II(6) + I) = ZERO
+            LBUF%VISC(NEL*(1-1) + I) = ZERO
+            LBUF%VISC(NEL*(2-1) + I) = ZERO
+            LBUF%VISC(NEL*(3-1) + I) = ZERO
+            LBUF%VISC(NEL*(4-1) + I) = ZERO
+            LBUF%VISC(NEL*(5-1) + I) = ZERO
+            LBUF%VISC(NEL*(6-1) + I) = ZERO
             IF (ISVIS > 0) THEN                      
 c           viscous stress output                  
-              LBUF%SIGV(II(1) + I) = ZERO    
-              LBUF%SIGV(II(2) + I) = ZERO    
-              LBUF%SIGV(II(3) + I) = ZERO    
-              LBUF%SIGV(II(4) + I) = ZERO    
-              LBUF%SIGV(II(5) + I) = ZERO    
-              LBUF%SIGV(II(6) + I) = ZERO
+              LBUF%SIGV(NEL*(1-1) + I) = ZERO    
+              LBUF%SIGV(NEL*(2-1) + I) = ZERO    
+              LBUF%SIGV(NEL*(3-1) + I) = ZERO    
+              LBUF%SIGV(NEL*(4-1) + I) = ZERO    
+              LBUF%SIGV(NEL*(5-1) + I) = ZERO    
+              LBUF%SIGV(NEL*(6-1) + I) = ZERO
             END IF        
           END IF
           STIFN(I)          = ZERO
@@ -2024,14 +1985,14 @@ c           viscous stress output
       END IF
 C-----------------------------------------------------------------  
       IF(IEXPAN > 0 .OR. JTHE <0) THEN
-         DO I=LFT,LLT
+         DO I=1,NEL
             IF(OFF(I) == ZERO) CYCLE
             LBUF%TEMP(I) = TEMPEL(I)
          ENDDO
        ENDIF
 c     Flag Idel, test global sur changement de valeur de OFF
       IF(IDEL7NG.GE.1.OR.IDTMINS.GE.1) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
 c          IF(OFFOLD(I).GE.1.AND.OFF(I).NE.OFFOLD(I).AND.OFF(I).GE.0.AND.OFF(I).LT.1)THEN
           IF(OFFOLD(I).GE.1.AND.OFF(I).GE.0.AND.OFF(I).LT.1)THEN
             IDEL7NOK = 1
@@ -2040,7 +2001,7 @@ c          IF(OFFOLD(I).GE.1.AND.OFF(I).NE.OFFOLD(I).AND.OFF(I).GE.0.AND.OFF(I).
       END IF
       IF (IMPL_S > 0) THEN
        CALL PUT_ETFAC(NEL ,ET  ,MTN)
-       CALL PUTSIGNOR3(LFT,LLT ,MTN,IPTR,IPTS,IPTT,AL_IMP ,SIGNOR)
+       CALL PUTSIGNOR3(1,NEL ,MTN,IPTR,IPTS,IPTT,AL_IMP ,SIGNOR)
       END IF
 C-----------  
 C-----------------------------------------------------------------  
@@ -2048,7 +2009,7 @@ C  ALE/EULER  POST-TREATMENT
 C-----------------------------------------------------------------  
       !IF(TT.GE.TANIM)THEN     -> becomes unconditionnal since ssp needed for flux calculation : storage recquired .
         IF(IPARG(7,NG)+IPARG(11,NG) > 0 ) THEN
-          LBUF%SSP(LFT:LLT) = CXX(LFT:LLT)
+          LBUF%SSP(1:NEL) = CXX(1:NEL)
         ENDIF
       !ENDIF      
 C-----------------------------------------------------------------         

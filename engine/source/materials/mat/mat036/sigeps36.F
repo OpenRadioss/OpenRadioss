@@ -144,22 +144,21 @@ C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,J1,J2,NFUNC,VP,N,NMAX,II,NITER,IFAIL,
-     .        NRATE,PFUN,IPFUN,NFUNCM,IPFLAG,YLDCHECK,
-     .        IPARAM,NPAR,OPTE,IFUNCE,NINDX,
+      INTEGER I,J,K,J1,J2,NFUNC,VP,II,NITER,IFAIL,
+     .        NRATE,PFUN,IPFUN,IPFLAG,YLDCHECK,
+     .        OPTE,IFUNCE,NINDX,
      .        ILEN1(MVSIZ),IAD2(MVSIZ),ILEN2(MVSIZ),INDEX(MVSIZ),
-     .        IFUNC(100),IPOS1(NEL),IPOS2(MVSIZ),IAD1(MVSIZ),
-     .        IPOSP(MVSIZ),IADP(MVSIZ),ILENP(MVSIZ),IPOSPE(MVSIZ),
-     .        INDX(MVSIZ),JJ(MVSIZ),TEST_II(MVSIZ),INDICE,
-     .        IPOSP2(MVSIZ),IADP2(MVSIZ),ILENP2(MVSIZ)
+     .        IFUNC(100),IAD1(MVSIZ), IADP(MVSIZ),ILENP(MVSIZ),
+     .        INDX(MVSIZ),JJ(MVSIZ), IADP2(MVSIZ),ILENP2(MVSIZ)
+      INTEGER, DIMENSION(MVSIZ) :: IPOS1,IPOS2,IPOSPE,IPOSP,IPOSP2
       my_real
-     .        E11,NU,DAV,VM,R(MVSIZ),FAC,EPST,EP1,EP2,EP3,EP4,EP5,EP6,P,
+     .        E11,NU,DAV,VM,R(MVSIZ),FAC,EPST,P,
      .        E1,E2,E3,E4,E5,E6,C,CC,D,Y,YP,E42,E52,E62,EPST2,
      .        C11,G11,G21,G31,EPSR1,DPLA,EPSF,HKIN,FISOKIN,
-     .        DEXX,DEYY,DEXY,DEZZ,DEYZ,DEZX,DSXX,DSYY,DSZZ,DSXY,DSYZ,
+     .        DSXX,DSYY,DSZZ,DSXY,DSYZ,
      .        DSZX,SIGPXX,SIGPYY,SIGPXY,SIGPYZ,SIGPZX,SIGPZZ,ALPHA,
      .        EPSR1DAV,EPSR1F,VM_1,G3H,NORM_1,EPSMAX,SSP,
-     .        EINF,CE1,EPSR2,ESCALE1,SVM,DF,F,DFSR,COEF,YLD_I
+     .        EINF,CE1,EPSR2,SVM,DF,F,DFSR,COEF
       my_real :: FACT(NEL),
      .        C1(MVSIZ),G(MVSIZ),G2(MVSIZ),G3(MVSIZ),
      .        Y1(MVSIZ),Y2(MVSIZ),H(MVSIZ),DYDX1(MVSIZ),
@@ -173,7 +172,7 @@ C-----------------------------------------------
      .        RATE(MVSIZ,2),YFAC(MVSIZ,2)
       my_real
      .       PLAP(MVSIZ),SVM2(MVSIZ),DPLA_J(MVSIZ),DPLA_I(MVSIZ),
-     .       SRATE(MVSIZ),HI(MVSIZ),TEST,ESCALE12(MVSIZ),DX1,DX2,DX12,
+     .       SRATE(MVSIZ),HI(MVSIZ),ESCALE12(MVSIZ),
      .       SVM_TAB(MVSIZ)
       INTEGER :: NINDEX_PLA,NINDEX_VINTER
       INTEGER, DIMENSION(MVSIZ) :: INDEX_PLA,INDEX_VINTER
@@ -276,7 +275,6 @@ c------------------------------------------
 #include "vectorize.inc"
          DO II=1,NINDEX_PLA 
            I = INDEX_PLA(II)                
-!           ESCALE1 = FINTER(KFUNC(IFUNCE),PLA(I),NPF,TF,DYDXE(I))   
            E(I) =  ESCALE12(II)* E(I)   
            G(I) =  HALF*E(I)/(ONE+NU) 
            G2(I) = TWO*G(I)                                  
@@ -302,12 +300,10 @@ c     PRESSURE DEPENDENT YIELD FUNCTION FACTOR
 c------------------------------------------
       IF (PFUN > 0) THEN
         DO I=1,NEL
-          IPOSP(I) = VARTMP(I,2)
           IADP(I)  = NPF(IPFUN) / 2 + 1
-          ILENP(I) = NPF(IPFUN  + 1) / 2 - IADP(I) - IPOSP(I)
+          ILENP(I) = NPF(IPFUN  + 1) / 2 - IADP(I) - VARTMP(I,2)
         ENDDO
-        CALL VINTER2(TF,IADP,IPOSP,ILENP,NEL,PSCALE,DFDP,PFAC)
-        VARTMP(1:NEL,2) = IPOSP(1:NEL)
+        CALL VINTER2(TF,IADP,VARTMP(1:NEL,2),ILENP,NEL,PSCALE,DFDP,PFAC)
         PFAC(1:NEL) = MAX(ZERO, PFAC(1:NEL))
       ENDIF 
 c
@@ -418,12 +414,10 @@ C=======================================================================
       IF (VP == 0) THEN
 C=======================================================================
         IF (NRATE == 1) THEN   ! only static curve => no strain rate interpolation
-          IPOS1(1:NEL) = VARTMP(1:NEL,3)
           IAD1(1:NEL)  = NPF(IFUNC(1))   / 2 + 1
-          ILEN1(1:NEL) = NPF(IFUNC(1)+1) / 2 - IAD1(1:NEL) - IPOS1(1:NEL)
+          ILEN1(1:NEL) = NPF(IFUNC(1)+1) / 2 - IAD1(1:NEL) - VARTMP(1:NEL,3)
 c
-          CALL VINTER(TF,IAD1,IPOS1,ILEN1,NEL,PLA,DYDX1,Y1)
-          VARTMP(1:NEL,3) = IPOS1(1:NEL)
+          CALL VINTER(TF,IAD1,VARTMP(1:NEL,3),ILEN1,NEL,PLA,DYDX1,Y1)
 c
           YFAC(1:NEL,1)   = UPARAM(6+NRATE+1)*FACYLDI(1:NEL)
           FACT(1:NEL) = FAIL(1:NEL) * PFAC(1:NEL) * YFAC(1:NEL,1)
@@ -623,18 +617,18 @@ C               inside M36ITER_IMP, IPOS1=0
                 ILEN1(I) = HALF*NPF(IFUNC(J1)+1) - IAD1(I) 
               ENDDO
               CALL M36ITER_IMP( SIGNXX,  SIGNYY,  SIGNZZ,
-     $                          SIGNXY,  SIGNYZ,  SIGNZX,
-     $                          PLA,        YLD,      G3,                   
-     $                          YFAC,     DPLA1,       H,   
-     $                          TF,        IAD1, 
-     $                          ILEN1,      NEL,
-     $                          FISOKIN,  VARTMP,PLA0, 
-     $                          PLAM,Y1,  DYDX1,
-     $                          IPFLAG, PFUN, IPFUN, IPOSP, 
-     $                          NRATE,  NPF,  IADP,  ILENP,
-     $                          PFAC, PSCALE1, DFDP, FAIL,
-     A                          NVARTMP ,
-     B                          SIGBXX,SIGBYY,SIGBZZ,SIGBXY,SIGBYZ,SIGBZX)
+     .                          SIGNXY,  SIGNYZ,  SIGNZX,
+     .                          PLA,        YLD,      G3,                   
+     .                          YFAC,     DPLA1,       H,   
+     .                          TF,        IAD1, 
+     .                          ILEN1,      NEL,
+     .                          FISOKIN,  VARTMP,PLA0, 
+     .                          PLAM,Y1,  DYDX1,
+     .                          IPFLAG, PFUN, IPFUN, IPOSP, 
+     .                          NRATE,  NPF,  IADP,  ILENP,
+     .                          PFAC, PSCALE1, DFDP, FAIL,
+     .                          NVARTMP ,
+     .                          SIGBXX,SIGBYY,SIGBZZ,SIGBXY,SIGBYZ,SIGBZX)
 C
           ENDIF ! -- IMPL_S.LE.0
 c
@@ -733,11 +727,11 @@ c
             CALL VINTER2(TF,IADP2,IPOSP2,ILENP2,NINDEX_VINTER,TAB_LOC,DYDX2_LOC,Y2_LOC)
 
             DO II=1,NINDEX_VINTER  
-                  I = INDEX_VINTER(II)       
-                  J1 = JJ(I)
-                  J2 = J1+1                                 
-                  VARTMP(I,J1+2) = IPOSP(II)
-                  VARTMP(I,J2+2) = IPOSP2(II)
+              I = INDEX_VINTER(II)       
+              J1 = JJ(I)
+              J2 = J1+1                                 
+              VARTMP(I,J1+2) = IPOSP(II)
+              VARTMP(I,J2+2) = IPOSP2(II)
             ENDDO
 #include "vectorize.inc"
             DO II=1,NINDEX_VINTER  
@@ -809,37 +803,37 @@ c------------------------
               NINDEX_VINTER = 0
 #include "vectorize.inc"
               DO II=1,NINDX                                             
-                    I = INDEX(II)
-                    NINDEX_VINTER = NINDEX_VINTER + 1
-                    INDEX_VINTER(NINDEX_VINTER) = I  
-                    J1=JJ(I)
-                    J2=JJ(I)+1
-                    IPOSP(NINDEX_VINTER) = VARTMP(I,J1+2)
-                  IADP(NINDEX_VINTER)  = NPF(IFUNC(JJ(I))     ) / 2 + 1
-                  ILENP(NINDEX_VINTER) = NPF(IFUNC(JJ(I))  + 1) / 2 - IADP(NINDEX_VINTER) - IPOSP(NINDEX_VINTER)
-                    IPOSP2(NINDEX_VINTER) = VARTMP(I,J2+2)
-                  IADP2(NINDEX_VINTER)  = NPF(IFUNC(JJ(I)+1)) / 2 + 1
-                  ILENP2(NINDEX_VINTER) = NPF(IFUNC(JJ(I)+1)  + 1) / 2 - IADP2(NINDEX_VINTER) - IPOSP2(NINDEX_VINTER)
-                    TAB_LOC(NINDEX_VINTER) = PLA(I)
+                I = INDEX(II)
+                NINDEX_VINTER = NINDEX_VINTER + 1
+                INDEX_VINTER(NINDEX_VINTER) = I  
+                J1=JJ(I)
+                J2=JJ(I)+1
+                IPOSP(NINDEX_VINTER) = VARTMP(I,J1+2)
+                IADP(NINDEX_VINTER)  = NPF(IFUNC(JJ(I))     ) / 2 + 1
+                ILENP(NINDEX_VINTER) = NPF(IFUNC(JJ(I))  + 1) / 2 - IADP(NINDEX_VINTER) - IPOSP(NINDEX_VINTER)
+                IPOSP2(NINDEX_VINTER) = VARTMP(I,J2+2)
+                IADP2(NINDEX_VINTER)  = NPF(IFUNC(JJ(I)+1)) / 2 + 1
+                ILENP2(NINDEX_VINTER) = NPF(IFUNC(JJ(I)+1)  + 1) / 2 - IADP2(NINDEX_VINTER) - IPOSP2(NINDEX_VINTER)
+                TAB_LOC(NINDEX_VINTER) = PLA(I)
               ENDDO
 
               CALL VINTER2(TF,IADP,IPOSP,ILENP,NINDEX_VINTER,TAB_LOC,DYDX1_LOC,Y1_LOC)
               CALL VINTER2(TF,IADP2,IPOSP2,ILENP2,NINDEX_VINTER,TAB_LOC,DYDX2_LOC,Y2_LOC)
 
               DO II=1,NINDEX_VINTER  
-                      I = INDEX_VINTER(II)       
-                      J1 = JJ(I)
-                      J2 = J1+1                                 
-                      VARTMP(I,J1+2) = IPOSP(II)
-                      VARTMP(I,J2+2) = IPOSP2(II)
+                I = INDEX_VINTER(II)       
+                J1 = JJ(I)
+                J2 = J1+1                                 
+                VARTMP(I,J1+2) = IPOSP(II)
+                VARTMP(I,J2+2) = IPOSP2(II)
               ENDDO
 #include "vectorize.inc"
               DO II=1,NINDEX_VINTER  
-                    I = INDEX_VINTER(II)
-                    Y1(I) = Y1_LOC(II)
-                    Y2(I) = Y2_LOC(II)
-                    DYDX1(I)=DYDX1_LOC(II)
-                    DYDX2(I)=DYDX2_LOC(II)
+                I = INDEX_VINTER(II)
+                Y1(I) = Y1_LOC(II)
+                Y2(I) = Y2_LOC(II)
+                DYDX1(I)=DYDX1_LOC(II)
+                DYDX2(I)=DYDX2_LOC(II)
               ENDDO
 ! ------------------------
 #include "vectorize.inc" 
@@ -890,7 +884,7 @@ c------------------------------------------------
             !-------------- 
             !update yield :
             !-------------- 
-                    JJ(I) = 1                                                                                          
+                    JJ(I) = 1  
             ENDDO
             DO J=2,NRATE-1
 #include "vectorize.inc"   
