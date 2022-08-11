@@ -41,7 +41,7 @@ Chd|====================================================================
      4           SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      5           DPLA     ,EPSP     ,THK      ,ALDT     ,TEMP     ,
      6           PTHKF    ,DMG_FLAG ,DMG_SCALE,OFF      ,FOFF     ,
-     7           DFMAX    ,TDEL     ,IGTYP    )
+     7           DFMAX    ,TDEL     ,IGTYP    ,INLOC    )
 C-----------------------------------------------
 C    tabulated failure model
 C-----------------------------------------------
@@ -91,7 +91,7 @@ C IPT                         CURRENT INTEGRATION POINT IN THE LAYER
 C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ,INTENT(IN) :: NEL,NUPARAM,NUVAR,IPG,ILAY,IPT,IGTYP
+      INTEGER ,INTENT(IN) :: NEL,NUPARAM,NUVAR,IPG,ILAY,IPT,IGTYP,INLOC
       INTEGER ,DIMENSION(NEL) ,INTENT(IN) :: NGL
       my_real ,INTENT(IN) :: TIME
       my_real ,DIMENSION(NEL) ,INTENT(IN)    :: OFF,THK,ALDT,DPLA,EPSP,
@@ -196,6 +196,7 @@ C---------
       NINDX   = 0  
       NINSTAB = 0
       DO I=1,NEL
+        IF (INLOC > 0) UVAR(I,5) = ALDT(I)
         IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN
           NINDX = NINDX+1                                                 
           INDX(NINDX) = I
