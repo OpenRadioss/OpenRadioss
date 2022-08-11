@@ -73,7 +73,7 @@ C----------------------------------------------------------------
      .         SIGNZZ,SIGNYZ,SIGNZX,STIFM,DMELS
       my_real ,DIMENSION(NEL)         ,INTENT(INOUT) :: PLA,OFF
       my_real ,DIMENSION(NEL,NUVAR)   ,INTENT(INOUT) :: UVAR
-      my_real ,DIMENSION(NEL,NVARTMP) ,INTENT(INOUT) :: VARTMP
+      INTEGER ,DIMENSION(NEL,NVARTMP) ,INTENT(INOUT) :: VARTMP
       TYPE(TTABLE) ,DIMENSION(NTABLE) ,INTENT(IN)    :: TABLE
 c----------------------------------------------------------------
 c  L o c a l  v a r ia b l e s

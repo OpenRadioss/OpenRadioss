@@ -123,7 +123,7 @@ C
      .   EPSXY(NEL0) ,EPSYZ(NEL0) ,EPSZX(NEL0) ,
      .   SIGOXX(NEL0),SIGOYY(NEL0),
      .   SIGOXY(NEL0),SIGOYZ(NEL0),SIGOZX(NEL0),
-     .   GS(*),EPSP(NEL0),ASRATE,VARTMP(NEL0,NVARTMP),
+     .   GS(*),EPSP(NEL0),ASRATE,
      .   DPLANL(NEL0)
       my_real ,DIMENSION(NEL0,3),INTENT(INOUT) :: 
      .   SIGP
@@ -140,6 +140,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
+      INTEGER :: VARTMP(NEL0,NVARTMP)
       my_real
      . UVAR(NEL0,NUVAR), OFF(NEL0),THK(NEL0),YLD(NEL0)
 C-------------------------
@@ -288,7 +289,7 @@ C      CURRENT YIELD AND HARDENING
 C-------------------
 C
        IF (MFUNC > 0) THEN
-         IPOS(1:NEL0)     = NINT(VARTMP(1:NEL0,1))
+         IPOS(1:NEL0)     = VARTMP(1:NEL0,1)
          IAD (1:NEL0)     = NPF(KFUNC(1)) / 2 + 1
          ILEN(1:NEL0)     = NPF(KFUNC(1)+1) / 2 - IAD(1:NEL0) - IPOS(1:NEL0)
          CALL VINTER(TF,IAD,IPOS,ILEN,NEL0,PLA,DFDPLA,YLD) 

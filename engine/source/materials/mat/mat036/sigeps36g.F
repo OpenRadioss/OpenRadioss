@@ -98,7 +98,8 @@ C-----------------------------------------------
 C   I N P U T   O U T P U T   A R G U M E N T S 
 C-----------------------------------------------
       my_real
-     .    VARTMP(NEL,NVARTMP),OFF(NEL),THK(NEL),YLD(NEL)
+     .    OFF(NEL),THK(NEL),YLD(NEL)
+      INTEGER, INTENT(INOUT) :: VARTMP(NEL,NVARTMP)
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
@@ -297,10 +298,10 @@ C
       DO I=1,NEL
         J1 = JJ(I)
         J2 = J1+1
-        IPOS1(I) = NINT(VARTMP(I,J1))
+        IPOS1(I) = VARTMP(I,J1)
         IAD1(I)  = NPF(IPM(10+J1,MAT(1))) / 2 + 1
         ILEN1(I) = NPF(IPM(10+J1,MAT(1))+1) / 2 - IAD1(I) - IPOS1(I)
-        IPOS2(I) = NINT(VARTMP(I,J2))
+        IPOS2(I) = VARTMP(I,J2)
         IAD2(I)  = NPF(IPM(10+J2,MAT(1))) / 2 + 1
         ILEN2(I) = NPF(IPM(10+J2,MAT(1))+1) / 2 - IAD2(I) - IPOS2(I)
       ENDDO

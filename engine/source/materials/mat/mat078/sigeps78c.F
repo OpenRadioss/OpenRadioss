@@ -65,8 +65,7 @@ C-----------------------------------------------
      .         RHO,THKLY,OFF,GS,DPLANL,
      .         DEPSXX,DEPSYY,DEPSXY,DEPSYZ,DEPSZX,
      .         SIGOXX,SIGOYY,SIGOXY,SIGOYZ,SIGOZX
-      my_real ,INTENT(INOUT) :: 
-     . VARTMP(NEL,NVARTMP)
+      INTEGER ,INTENT(INOUT) :: VARTMP(NEL,NVARTMP)
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -163,7 +162,7 @@ C
         YOUNG(1:NEL)    = EINI
       !  -> Tabulated young modulus
       ELSE IF (OPTE == 1) THEN
-        IPOS(1:NEL)     = NINT(VARTMP(1:NEL,1))
+        IPOS(1:NEL)     = VARTMP(1:NEL,1)
         IAD2(1:NEL)     = NPF(IFUNC(1)) / 2 + 1
         ILEN(1:NEL)     = NPF(IFUNC(1)+1) / 2 - IAD2(1:NEL) - IPOS(1:NEL)
         CALL VINTER(TF,IAD2,IPOS,ILEN,NEL,PLA,DYDXE,SCALEE) 

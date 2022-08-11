@@ -179,7 +179,7 @@ c
 c
         IF (IPFLAG == NEL.AND.(IMACH.NE.3.OR.IPARIT == 0)) THEN
           DO I=1,NEL
-            IPOSP(I) = NINT(VARTMP(I,2))
+            IPOSP(I) = VARTMP(I,2)
             IADP(I)  = NPF(IPFUN) / 2 + 1
             ILENP(I) = NPF(IPFUN + 1) / 2 - IADP(I) - IPOSP(I)
           ENDDO
@@ -192,7 +192,7 @@ c
         ELSEIF (IPFLAG  >  0) THEN
           IF (PFUN  >  0) THEN
             DO I=1,NEL
-              IPOSP(I) = NINT(VARTMP(I,2))
+              IPOSP(I) = VARTMP(I,2)
               IADP(I)  = NPF(IPFUN) / 2 + 1
               ILENP(I) = NPF(IPFUN  + 1) / 2 - IADP(I) - IPOSP(I)
               PFAC(I)  = FINTER2(TF   ,IADP(I),IPOSP(I),ILENP(I),

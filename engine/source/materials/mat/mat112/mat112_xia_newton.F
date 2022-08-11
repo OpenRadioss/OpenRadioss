@@ -227,7 +227,7 @@ c
         XVEC(1:NEL,1) = PLA(1:NEL,2)
         XVEC(1:NEL,2) = EPSD(1:NEL,2) * XSCALE1
         !   -> Tensile yield stress in direction 1 (MD)
-        IPOS(1:NEL,1) = INT(VARTMP(1:NEL,1))
+        IPOS(1:NEL,1) = VARTMP(1:NEL,1)
         IPOS(1:NEL,2) = 1
         CALL TABLE2D_VINTERP_LOG(TABLE(ITABLE(1)),ISMOOTH,NEL,IPOS,XVEC,SIGY1,DSIGY1_DP,HARDR)
         SIGY1(1:NEL)    = SIGY1(1:NEL) * YSCALE1
@@ -235,7 +235,7 @@ c
         VARTMP(1:NEL,1) = IPOS(1:NEL,1)
         !   -> Tensile yield stress in direction 2 (CD)
         XVEC(1:NEL,2)   = EPSD(1:NEL,2) * XSCALE2
-        IPOS(1:NEL,1)   = INT(VARTMP(1:NEL,2))
+        IPOS(1:NEL,1)   = VARTMP(1:NEL,2)
         IPOS(1:NEL,2)   = 1
         CALL TABLE2D_VINTERP_LOG(TABLE(ITABLE(2)),ISMOOTH,NEL,IPOS,XVEC,SIGY2,DSIGY2_DP,HARDR)
         SIGY2(1:NEL)    = SIGY2(1:NEL) * YSCALE2
@@ -243,7 +243,7 @@ c
         VARTMP(1:NEL,2) = IPOS(1:NEL,1)  
         !   -> Positive shear yield stress
         XVEC(1:NEL,2) = EPSD(1:NEL,2) * XSCALE3
-        IPOS(1:NEL,1) = INT(VARTMP(1:NEL,3))
+        IPOS(1:NEL,1) = VARTMP(1:NEL,3)
         IPOS(1:NEL,2) = 1
         CALL TABLE2D_VINTERP_LOG(TABLE(ITABLE(3)),ISMOOTH,NEL,IPOS,XVEC,SIGY3,DSIGY3_DP,HARDR)
         SIGY3(1:NEL)    = SIGY3(1:NEL) * YSCALE3
@@ -251,7 +251,7 @@ c
         VARTMP(1:NEL,3) = IPOS(1:NEL,1)
         !   -> Compressive yield stress in direction 1 (MD)
         XVEC(1:NEL,2) = EPSD(1:NEL,2) * XSCALE4
-        IPOS(1:NEL,1) = INT(VARTMP(1:NEL,4))
+        IPOS(1:NEL,1) = VARTMP(1:NEL,4)
         IPOS(1:NEL,2) = 1
         CALL TABLE2D_VINTERP_LOG(TABLE(ITABLE(4)),ISMOOTH,NEL,IPOS,XVEC,SIGY4,DSIGY4_DP,HARDR)
         SIGY4(1:NEL)    = SIGY4(1:NEL) * YSCALE4
@@ -259,7 +259,7 @@ c
         VARTMP(1:NEL,4) = IPOS(1:NEL,1) 
         !   -> Compressive yield stress in direction 2 (CD)
         XVEC(1:NEL,2) = EPSD(1:NEL,2) * XSCALE5
-        IPOS(1:NEL,1) = INT(VARTMP(1:NEL,5))
+        IPOS(1:NEL,1) = VARTMP(1:NEL,5)
         IPOS(1:NEL,2) = 1
         CALL TABLE2D_VINTERP_LOG(TABLE(ITABLE(5)),ISMOOTH,NEL,IPOS,XVEC,SIGY5,DSIGY5_DP,HARDR)
         SIGY5(1:NEL)    = SIGY5(1:NEL) * YSCALE5
@@ -269,7 +269,7 @@ c
         XVEC(1:NEL,1) = PLA(1:NEL,3)
         XVEC(1:NEL,2) = EPSD(1:NEL,3) * XSCALEC
         !   -> Transverse shear yield stress
-        IPOS(1:NEL,1) = INT(VARTMP(1:NEL,6))
+        IPOS(1:NEL,1) = VARTMP(1:NEL,6)
         IPOS(1:NEL,2) = 1
         CALL TABLE2D_VINTERP_LOG(TABLE(ITABLE(6)),ISMOOTH,NEL,IPOS,XVEC,SIGYO,DSIGYO_DP,HARDR)
         SIGYO(1:NEL)    = SIGYO(1:NEL) * YSCALEC
@@ -279,7 +279,7 @@ c
         XVEC(1:NEL,1) = PLA(1:NEL,4)
         XVEC(1:NEL,2) = EPSD(1:NEL,4) * XSCALES
         !   -> Transverse shear yield stress
-        IPOS(1:NEL,1) = INT(VARTMP(1:NEL,7))
+        IPOS(1:NEL,1) = VARTMP(1:NEL,7)
         IPOS(1:NEL,2) = 1
         CALL TABLE2D_VINTERP_LOG(TABLE(ITABLE(7)),ISMOOTH,NEL,IPOS,XVEC,SIGYS,DSIGYS_DP,HARDR)
         SIGYS(1:NEL)    = SIGYS(1:NEL) * YSCALES
@@ -540,7 +540,7 @@ c
             XVEC(1:NEL,1)   = PLA(1:NEL,2)
             XVEC(1:NEL,2)   = EPSD(1:NEL,2) * XSCALE1
             !   -> Tensile yield stress in direction 1 (MD)
-            IPOS(1:NEL,1)   = INT(VARTMP(1:NEL,1))
+            IPOS(1:NEL,1)   = VARTMP(1:NEL,1)
             IPOS(1:NEL,2)   = 1
             CALL TABLE2D_VINTERP_LOG(TABLE(ITABLE(1)),ISMOOTH,NEL,IPOS,XVEC,SIGY1,DSIGY1_DP,HARDR)
             SIGY1(1:NEL)    = SIGY1(1:NEL) * YSCALE1
@@ -548,7 +548,7 @@ c
             VARTMP(1:NEL,1) = IPOS(1:NEL,1)
             !   -> Tensile yield stress in direction 2 (CD)
             XVEC(1:NEL,2)   = EPSD(1:NEL,2) * XSCALE2
-            IPOS(1:NEL,1)   = INT(VARTMP(1:NEL,2))
+            IPOS(1:NEL,1)   = VARTMP(1:NEL,2)
             IPOS(1:NEL,2)   = 1
             CALL TABLE2D_VINTERP_LOG(TABLE(ITABLE(2)),ISMOOTH,NEL,IPOS,XVEC,SIGY2,DSIGY2_DP,HARDR)
             SIGY2(1:NEL)    = SIGY2(1:NEL) * YSCALE2
@@ -556,7 +556,7 @@ c
             VARTMP(1:NEL,2) = IPOS(1:NEL,1)  
             !   -> Positive shear yield stress
             XVEC(1:NEL,2) = EPSD(1:NEL,2) * XSCALE3
-            IPOS(1:NEL,1) = INT(VARTMP(1:NEL,3))
+            IPOS(1:NEL,1) = VARTMP(1:NEL,3)
             IPOS(1:NEL,2) = 1
             CALL TABLE2D_VINTERP_LOG(TABLE(ITABLE(3)),ISMOOTH,NEL,IPOS,XVEC,SIGY3,DSIGY3_DP,HARDR)
             SIGY3(1:NEL)    = SIGY3(1:NEL) * YSCALE3
@@ -564,7 +564,7 @@ c
             VARTMP(1:NEL,3) = IPOS(1:NEL,1)
             !   -> Compressive yield stress in direction 1 (MD)
             XVEC(1:NEL,2) = EPSD(1:NEL,2) * XSCALE4
-            IPOS(1:NEL,1) = INT(VARTMP(1:NEL,4))
+            IPOS(1:NEL,1) = VARTMP(1:NEL,4)
             IPOS(1:NEL,2) = 1
             CALL TABLE2D_VINTERP_LOG(TABLE(ITABLE(4)),ISMOOTH,NEL,IPOS,XVEC,SIGY4,DSIGY4_DP,HARDR)
             SIGY4(1:NEL)    = SIGY4(1:NEL) * YSCALE4
@@ -572,7 +572,7 @@ c
             VARTMP(1:NEL,4) = IPOS(1:NEL,1) 
             !   -> Compressive yield stress in direction 2 (CD)
             XVEC(1:NEL,2) = EPSD(1:NEL,2) * XSCALE5
-            IPOS(1:NEL,1) = INT(VARTMP(1:NEL,5))
+            IPOS(1:NEL,1) = VARTMP(1:NEL,5)
             IPOS(1:NEL,2) = 1
             CALL TABLE2D_VINTERP_LOG(TABLE(ITABLE(5)),ISMOOTH,NEL,IPOS,XVEC,SIGY5,DSIGY5_DP,HARDR)
             SIGY5(1:NEL)    = SIGY5(1:NEL) * YSCALE5
@@ -686,7 +686,7 @@ c
             XVEC(1:NEL,1) = PLA(1:NEL,3)
             XVEC(1:NEL,2) = EPSD(1:NEL,3) * XSCALEC
             !   -> Transverse shear yield stress
-            IPOS(1:NEL,1) = INT(VARTMP(1:NEL,6))
+            IPOS(1:NEL,1) = VARTMP(1:NEL,6)
             IPOS(1:NEL,2) = 1
             CALL TABLE2D_VINTERP_LOG(TABLE(ITABLE(6)),ISMOOTH,NEL,IPOS,XVEC,SIGYO,DSIGYO_DP,HARDR)
             SIGYO(1:NEL)    = SIGYO(1:NEL) * YSCALEC
@@ -793,7 +793,7 @@ c
             XVEC(1:NEL,1) = PLA(1:NEL,4)
             XVEC(1:NEL,2) = EPSD(1:NEL,4) * XSCALES
             ! Transverse shear yield stress
-            IPOS(1:NEL,1) = INT(VARTMP(1:NEL,7))
+            IPOS(1:NEL,1) = VARTMP(1:NEL,7)
             IPOS(1:NEL,2) = 1
             CALL TABLE2D_VINTERP_LOG(TABLE(ITABLE(7)),ISMOOTH,NEL,IPOS,XVEC,SIGYS,DSIGYS_DP,HARDR)
             SIGYS(1:NEL)    = SIGYS(1:NEL) * YSCALES

@@ -110,9 +110,10 @@ C     REAL
      .   MOMNXX(MVSIZ),MOMNYY(MVSIZ),MOMNXY(MVSIZ),
      .   ETSE(MVSIZ)  ,EPSPL(MVSIZ),EPSP_LOC(MVSIZ)
       my_real,
-     .  DIMENSION(:) ,POINTER :: UVAR,VARTMP
+     .  DIMENSION(:) ,POINTER :: UVAR
       my_real, DIMENSION(MVSIZ) :: DT_INV
 C-------------------------------------
+      INTEGER, DIMENSION(:), POINTER :: VARTMP
       TYPE(L_BUFEL_) ,POINTER :: LBUF
 C-------------------------------------
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--

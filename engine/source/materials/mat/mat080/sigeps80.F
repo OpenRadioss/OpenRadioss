@@ -146,8 +146,9 @@ C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
       my_real 
-     .   UVAR(NEL,NUVAR),VARTMP(NEL,NVARTMP),EPSP(NEL),
+     .   UVAR(NEL,NUVAR),EPSP(NEL),
      .   OFF(NEL),THK(NEL),YLD(NEL),EINTTH(NEL)
+      INTEGER :: VARTMP(NEL,NVARTMP)
       TYPE(TTABLE) TABLE(*)
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
@@ -578,25 +579,25 @@ c-------------------------------------
 c interpolatin of yield for each phase 
 c-------------------------------------
       DO I=1,NEL
-        IPOS1(I,1) = NINT(VARTMP(I,1))
-        IPOS1(I,2) = NINT(VARTMP(I,2))
-        IPOS1(I,3) = NINT(VARTMP(I,3))
+        IPOS1(I,1) = VARTMP(I,1)
+        IPOS1(I,2) = VARTMP(I,2)
+        IPOS1(I,3) = VARTMP(I,3)
 C
-        IPOS2(I,1) = NINT(VARTMP(I,4))
-        IPOS2(I,2) = NINT(VARTMP(I,5))
-        IPOS2(I,3) = NINT(VARTMP(I,6))
+        IPOS2(I,1) = VARTMP(I,4)
+        IPOS2(I,2) = VARTMP(I,5)
+        IPOS2(I,3) = VARTMP(I,6)
 
-        IPOS3(I,1) = NINT(VARTMP(I,7))
-        IPOS3(I,2) = NINT(VARTMP(I,8))
-        IPOS3(I,3) = NINT(VARTMP(I,9))
+        IPOS3(I,1) = VARTMP(I,7)
+        IPOS3(I,2) = VARTMP(I,8)
+        IPOS3(I,3) = VARTMP(I,9)
 C
-        IPOS4(I,1) = NINT(VARTMP(I,10))
-        IPOS4(I,2) = NINT(VARTMP(I,11))
-        IPOS4(I,3) = NINT(VARTMP(I,12))
+        IPOS4(I,1) = VARTMP(I,10)
+        IPOS4(I,2) = VARTMP(I,11)
+        IPOS4(I,3) = VARTMP(I,12)
 C
-        IPOS5(I,1) = NINT(VARTMP(I,13))
-        IPOS5(I,2) = NINT(VARTMP(I,14))
-        IPOS5(I,3) = NINT(VARTMP(I,15))
+        IPOS5(I,1) = VARTMP(I,13)
+        IPOS5(I,2) = VARTMP(I,14)
+        IPOS5(I,3) = VARTMP(I,15)
 
 C 
         XX1(I,1)=PLA1(I)

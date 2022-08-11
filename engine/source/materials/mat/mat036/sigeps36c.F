@@ -129,7 +129,8 @@ C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
       my_real
-     .    UVAR(NEL,NUVAR),VARTMP(NEL,NVARTMP), OFF(NEL),THK(NEL),YLD(NEL)
+     .    UVAR(NEL,NUVAR), OFF(NEL),THK(NEL),YLD(NEL)
+      INTEGER, INTENT(INOUT) :: VARTMP(NEL,NVARTMP)
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
@@ -229,7 +230,7 @@ c-----------------------
             IF(PLA(I) > ZERO)THEN
               NINDEX_PLA = NINDEX_PLA + 1
               INDEX_PLA(NINDEX_PLA) = I
-              IPOSPE(NINDEX_PLA) = NINT(VARTMP(I,1))
+              IPOSPE(NINDEX_PLA) = VARTMP(I,1)
               IADP(NINDEX_PLA)  = NPF(KFUNC(IFUNCE)) / 2 + 1
               ILENP(NINDEX_PLA) = NPF(KFUNC(IFUNCE)+1) / 2 - IADP(NINDEX_PLA) - IPOSPE(NINDEX_PLA)
               TAB_LOC(NINDEX_PLA) = PLA(I)
@@ -310,7 +311,7 @@ c-----------------------------------------------
         IF (PFUN > 0) THEN
           PSCALE(1:NEL) = UPARAM(17 + 2*NRATE )*P0(1:NEL)
           DO I=1,NEL     
-            IPOSP(I) = NINT(VARTMP(I,2))
+            IPOSP(I) = VARTMP(I,2)
             IADP(I)  = NPF(IPFUN) / 2 + 1
             ILENP(I) = NPF(IPFUN) / 2 - IADP(I) - IPOSP(I)
           ENDDO
@@ -324,7 +325,7 @@ C-------------------
 C       CRITERE
 C-------------------
         IF (NRATE == 1) THEN   ! only static curve => no strain rate interpolation
-          IPOS1(1:NEL) = NINT(VARTMP(1:NEL,3))
+          IPOS1(1:NEL) = VARTMP(1:NEL,3)
           IAD1(1:NEL)  = NPF(IFUNC(1))   / 2 + 1
           ILEN1(1:NEL) = NPF(IFUNC(1)+1) / 2 - IAD1(1:NEL) - IPOS1(1:NEL)
 c
@@ -366,8 +367,8 @@ c
             J2 = J1+1
             FUN1 = IFUNC(J1)
             FUN2 = IFUNC(J2)
-            IPOS1(I) = NINT(VARTMP(I,2+J1))
-            IPOS2(I) = NINT(VARTMP(I,2+J2))
+            IPOS1(I) = VARTMP(I,2+J1)
+            IPOS2(I) = VARTMP(I,2+J2)
             IAD1(I)  = NPF(FUN1) / 2 + 1
             ILEN1(I) = NPF(FUN1+1) / 2 - IAD1(I)-IPOS1(I)
             IAD2(I)  = NPF(FUN2) / 2 + 1
@@ -673,7 +674,7 @@ c-----------------------------------------------
         IF (PFUN > 0) THEN
           PSCALE(1:NEL) = UPARAM(17 + 2*NRATE )*P0(1:NEL)
           DO I=1,NEL     
-            IPOSP(I) = NINT(VARTMP(I,2))
+            IPOSP(I) = VARTMP(I,2)
             IADP(I)  = NPF(IPFUN) / 2 + 1
             ILENP(I) = NPF(IPFUN) / 2 - IADP(I) - IPOSP(I)
           ENDDO
@@ -710,8 +711,8 @@ C-------------------
           J2 = J1+1
           FUN1 = IFUNC(J1)
           FUN2 = IFUNC(J2)
-          IPOS1(I) = NINT(VARTMP(I,2+J1))
-          IPOS2(I) = NINT(VARTMP(I,2+J2))
+          IPOS1(I) = VARTMP(I,2+J1)
+          IPOS2(I) = VARTMP(I,2+J2)
           IAD1(I)  = NPF(FUN1) / 2 + 1
           ILEN1(I) = NPF(FUN1+1) / 2 - IAD1(I)-IPOS1(I)
           IAD2(I)  = NPF(FUN2) / 2 + 1

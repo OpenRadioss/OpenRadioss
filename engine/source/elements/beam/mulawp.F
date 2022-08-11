@@ -90,7 +90,8 @@ C
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(L_BUFEL_) ,POINTER :: LBUF
       TYPE(G_BUFEL_) ,POINTER :: GBUF      
-      my_real, DIMENSION(:) ,POINTER  :: UVAR,VARTMP
+      my_real, DIMENSION(:) ,POINTER  :: UVAR
+      INTEGER, DIMENSION(:), POINTER :: VARTMP
 C=======================================================================
       IPY  = 200        
       IPZ  = 300        
