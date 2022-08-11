@@ -1155,7 +1155,7 @@ c
         ! Failure criterion parameters scaling
         IF (INLOC > 0) THEN
           ! -> Length used for failure criterion parameters scaling is LE_MAX
-          LE_MAX(1:NEL) = NLOC_DMG%LE_MAX(IPM(1,MAT(1)))
+          LE_MAX(1:NEL) = NLOC_DMG%LE_MAX(MAT(1))
           EL_LEN => LE_MAX(1:NEL) 
         ELSE
           ! -> Length used for failure criterion parameters scaling is LE_MAX

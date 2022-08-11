@@ -1208,7 +1208,7 @@ c
             ! Length used for regularization (failure criterion parameters scaling)
             !  -> If non-local, criterion parameters are scaled with LE_MAX parameter
             IF (INLOC > 0) THEN 
-              LE_MAX(1:NEL) = NLOC_DMG%LE_MAX(IPM(1,MAT(1)))
+              LE_MAX(1:NEL) = NLOC_DMG%LE_MAX(MAT(1))
               EL_LEN => LE_MAX(1:NEL)
             !  -> If not, criterion parameters are scaled with the element characteristic length
             ELSE
@@ -1517,7 +1517,7 @@ c
      4                SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,      
      5                DPLA      ,EPSPL     ,THKN      ,EL_LEN    ,TSTAR     ,
      6                PTHKF(ILAYER,IFL),DMG_FLAG,DMG_LOC_SCALE ,OFF  ,FOFF      ,
-     7                DFMAX     ,TDEL      ,IGTYP     )
+     7                DFMAX     ,TDEL      ,IGTYP     ,INLOC     )
                 ELSE
                   CALL FAIL_TAB_XFEM(
      1                NEL      ,NUPAR    ,NVARF    ,NPF      ,TF       ,
