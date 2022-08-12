@@ -187,8 +187,8 @@ C-----------------------------------------------
      . S4(MVSIZ)  , S5(MVSIZ)  , S6(MVSIZ)  ,
      . DXX(MVSIZ) , DYY(MVSIZ) , DZZ(MVSIZ) ,
      . D4(MVSIZ)  , D5(MVSIZ)  , D6(MVSIZ)  , 
-     . AJ1(MVSIZ) , AJ2(MVSIZ) , AJ3(MVSIZ) ,
-     . AJ4(MVSIZ) , AJ5(MVSIZ) , AJ6(MVSIZ) ,AJ9(MVSIZ) ,
+     . JAC1(MVSIZ), JAC2(MVSIZ), JAC3(MVSIZ),
+     . JAC4(MVSIZ), JAC5(MVSIZ), JAC6(MVSIZ), JAC9(MVSIZ),
      . VDX(MVSIZ) , VDY(MVSIZ) , VDZ(MVSIZ),SSP_EQ(MVSIZ),AIRE(MVSIZ),
      . CONDE(MVSIZ),DIVDE(MVSIZ)
                  
@@ -201,15 +201,15 @@ C-----------------------------------------------
      .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ),     
      .   X0(MVSIZ,8),Y0(MVSIZ,8),Z0(MVSIZ,8),VOLDP(MVSIZ)
 C-----
-C     Variables utilisees en argument par les materiaux.
+C
       my_real
      .   STI(MVSIZ),GAMA(MVSIZ,6),
      .   WXX(MVSIZ) , WYY(MVSIZ) , WZZ(MVSIZ)
-C     Variables utilisees en argument par les materiaux si SPH uniquement.
+C
       my_real
      .   MUVOID(MVSIZ)
 C-----
-C     Variables utilisees dans les routines solides uniquement (en arguments).
+C 8-nodes solid connectivities
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
      .        NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ)
       my_real
@@ -274,7 +274,7 @@ C-----
       TYPE(L_BUFEL_) ,POINTER :: LBUF     
 C-----
 C----- 
-c     Flag Bolt Preloading
+C     IBOLTP : flag bolt preloading
       INTEGER IBOLTP,NBPRELD,IMAT,ISM12_11
       my_real, DIMENSION(:), ALLOCATABLE :: VAR_REG
       my_real, DIMENSION(:), POINTER :: BPRELD,DNL
@@ -300,10 +300,9 @@ C
         II(I) = NEL*(I-1)
       ENDDO
 C
-C-----------
       NF1=NFT+1
-C--------------------------
-      DO I=LFT,LLT
+C
+      DO I=1,NEL
         SIGY(I)   = EP20
         SIGO(I,1) = GBUF%SIG(II(1)+I)
         SIGO(I,2) = GBUF%SIG(II(2)+I)	  
@@ -312,8 +311,8 @@ C--------------------------
         SIGO(I,5) = GBUF%SIG(II(5)+I)	  
         SIGO(I,6) = GBUF%SIG(II(6)+I)
       ENDDO
-C-----------
-C GATHER NODAL VARIABLES AND COMPUTE INTRINSIC ROTATION.
+C
+C Gather nodal variables and compute rotation
       CALL SRCOOR3(X,IXS(1,NF1),V ,W  ,GBUF%GAMA ,GAMA  ,
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
@@ -331,8 +330,8 @@ C GATHER NODAL VARIABLES AND COMPUTE INTRINSIC ROTATION.
      .   XDP, X0 , Y0 , Z0 , NEL, XGXA, XGYA, XGZA,
      .   XGXA2,XGYA2,XGZA2,XGXYA,XGYZA,XGZXA,IPARG(1,NG),
      .   GBUF%GAMA_R) 
-           
-C-----------Pij is in global system w/ Ismstr10 and local system w/ 11
+C
+C Total strain Pij are in global system for ISMSTR=10,12 and in local system for ISMSTR=11
       IF ((ISMSTR >= 10.AND.ISMSTR <= 12).AND.JLAG > 0) THEN
         CALL SGCOOR3(TT,8,X,IXS(1,NF1),
      .    X0, Y0, Z0, VX0, VY0, VZ0, 
@@ -354,7 +353,7 @@ C-----------Pij is in global system w/ Ismstr10 and local system w/ 11
      .    VY0(1,5), VY0(1,6), VY0(1,7), VY0(1,8),
      .    VZ0(1,1), VZ0(1,2), VZ0(1,3), VZ0(1,4), 
      .    VZ0(1,5), VZ0(1,6), VZ0(1,7), VZ0(1,8) )
-        CALL SZDERIT3(OFF,VOLN,NGL,
+        CALL SZDERIT3(OFF,VOLN,NGL,NEL,
      .    X0(1,1), X0(1,2), X0(1,3), X0(1,4), 
      .    X0(1,5), X0(1,6), X0(1,7), X0(1,8),
      .    Y0(1,1), Y0(1,2), Y0(1,3), Y0(1,4), 
@@ -368,16 +367,15 @@ C-----------Pij is in global system w/ Ismstr10 and local system w/ 11
      .    PX2H1, PX2H2, PX2H3, PX2H4,
      .    PX3H1, PX3H2, PX3H3, PX3H4,
      .    PX4H1, PX4H2, PX4H3, PX4H4,
-     .    AJ1,AJ2,AJ3,
-     .    AJ4,AJ5,AJ6,AJ9)
+     .    JAC1,JAC2,JAC3,
+     .    JAC4,JAC5,JAC6,JAC9)
         ELSE
           CALL SZDERITO3(OFF,VOLN,
      .         PX1, PX2, PX3, PX4,
      .         PY1, PY2, PY3, PY4,
      .         PZ1, PZ2, PZ3, PZ4,
-     .         GBUF%JAC_I)
+     .         GBUF%JAC_I,NEL)
         END IF
-c
          CALL SDEFOT3(
      .    PX1, PX2, PX3, PX4,
      .    PY1, PY2, PY3, PY4,
@@ -409,7 +407,7 @@ C
      .                  XD1, XD2, XD3, XD4, XD5, XD6, XD7, XD8,
      .                  YD1, YD2, YD3, YD4, YD5, YD6, YD7, YD8,
      .                  ZD1, ZD2, ZD3, ZD4, ZD5, ZD6, ZD7, ZD8)
-c
+C
 C------
         IF (ISMSTR==11) THEN
          CALL SCOOR_CP2SP(X0,Y0,Z0,
@@ -417,7 +415,7 @@ C------
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8)
         ELSE
-         CALL SZDERI3(OFF,VOLN,NGL,
+         CALL SZDERI3(OFF,VOLN,NGL,ISMSTR,
      .        XD1, XD2, XD3, XD4, XD5, XD6, XD7, XD8,
      .        YD1, YD2, YD3, YD4, YD5, YD6, YD7, YD8,
      .        ZD1, ZD2, ZD3, ZD4, ZD5, ZD6, ZD7, ZD8,
@@ -428,8 +426,8 @@ C------
      .        PX2H1, PX2H2, PX2H3, PX2H4,
      .        PX3H1, PX3H2, PX3H3, PX3H4,
      .        PX4H1, PX4H2, PX4H3, PX4H4,
-     .        AJ1,AJ2,AJ3,
-     .        AJ4,AJ5,AJ6,AJ9,GBUF%SMSTR,GBUF%OFF ,NEL,VOLDP)
+     .        JAC1,JAC2,JAC3,JAC4,JAC5,JAC6,JAC9,
+     .        GBUF%SMSTR,GBUF%OFF,NEL,VOLDP)
         END IF
 C        
         IF (IDTHEPH == 1) THEN
@@ -506,17 +504,14 @@ C
      .           FLUX(1,NF1),FLU1(NF1) , VOLN     , DVOL     , NGL, MXT , OFF,
      .           IBID       ,GBUF%TAG22, VOLDP    ,LBUF%VOL0DP,AMU  ,GBUF%OFF)
 C
-C-----------------------------
-C      EXTRACT STRESSES + SMALL STRAIN
-C-----------------------------
+C Extract stresses + small strain
        CALL SRMALLA3(GBUF%SIG,S1,S2,S3,S4,S5,S6,
      .             GBUF%OFF,OFF,NEL)
        CALL SRMALLA11(GBUF%SMSTR,GBUF%OFF,WXX,WYY,WZZ,
      .     R11, R12, R13, R21, R22, R23, R31, R32, R33,NEL)
-C --------------------------
-C  --- UPDATE REF CONFIGURATION (possible future change to small strain option)
-C  --- ! Total strain option doesn't change the Ref CONF.
-C --------------------------
+C
+C  Update reference configuration (possible future change to small strain option)
+C  Total strain option doesn't change the reference configuration
       IF (ISMSTR <= 3.OR.(ISMSTR==4.AND.JLAG>0)) THEN
        CALL S8SAV3(GBUF%OFF,GBUF%SMSTR,
      .             XD1, XD2, XD3, XD4, XD5, XD6, XD7, XD8,
@@ -524,34 +519,30 @@ C --------------------------
      .             ZD1, ZD2, ZD3, ZD4, ZD5, ZD6, ZD7, ZD8,
      .             NEL)
       END IF !(ISMSTR == 2) THEN
-C-------------------------------------------
-C    COMPUTE TEMPERATURE IN ELEMENT
-C---------------------------------------------------          
+C
+C Element temperature
       IF(JTHE < 0) THEN       
-        DO I=LFT,LLT
+        DO I=1,NEL
           TEMPEL(I) = ONE_OVER_8 *(  TEMP(NC1(I)) + TEMP(NC2(I))  
-     .                         + TEMP(NC3(I)) + TEMP(NC4(I)) 
-     .                         + TEMP(NC5(I)) + TEMP(NC6(I)) 
-     .                         + TEMP(NC7(I)) + TEMP(NC8(I))) 
+     .                             + TEMP(NC3(I)) + TEMP(NC4(I)) 
+     .                             + TEMP(NC5(I)) + TEMP(NC6(I)) 
+     .                             + TEMP(NC7(I)) + TEMP(NC8(I))) 
         ENDDO
       ENDIF
-C------------------------------------------------------
-C     CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES
-C     TIME STEP EST CALCULE ICI DT2T
-C------------------------------------------------------
+C
+C-----------------------------------------------------------------------
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(35,1)
       ILAY = 1 
       IPTR = 1 
       IPTS = 1 
       IPTT = 1 
       IP = 1
-c-------------------------------------------
-c    COMPUTE Regularized non local variable in Gauss point
-c-------------------------------------------
+C
+C Compute regularized non local variable in Gauss point
       IF (INLOC > 0) THEN
         L_NLOC = NLOC_DMG%L_NLOC
         DNL  => NLOC_DMG%DNL(1:L_NLOC) ! DNL = non local variable increment
-        DO I=LFT,LLT
+        DO I=1,NEL
           INOD(1) = NLOC_DMG%IDXI(NC1(I))
           INOD(2) = NLOC_DMG%IDXI(NC2(I))
           INOD(3) = NLOC_DMG%IDXI(NC3(I))
@@ -568,28 +559,28 @@ c-------------------------------------------
           VAR_REG(I) = VAR_REG(I)*ONE_OVER_8
         ENDDO
       ENDIF
-c-------------------------------------------
-c
+C
       IF(IBOLTP /= 0) CALL BOLTST(IBOLTP,IP,BPRELD,LBUF%SIG,TT,NEL,SENSOR,LSENSOR)
-
-      CALL MMAIN(ELBUF_TAB ,NG      ,PM       ,GEO         ,FV  	     ,ALE_CONNECT   ,
+C
+C Compute stresses according to the material law
+      CALL MMAIN(ELBUF_TAB,NG     ,PM     ,GEO     ,FV      ,ALE_CONNECT,
      2           IXS      ,IPARG  ,V      ,TF      ,NPF     ,BUFMAT  ,
      3           STI      ,X      ,DT2T   ,NELTST  ,ITYPTST ,OFFSET  ,
-     4           NEL       ,W       ,OFF      ,NGEO        ,
+     4           NEL      ,W      ,OFF    ,NGEO    ,
      6           MXT      ,NGL    ,VOLN   ,VD2     ,DVOL    ,DELTAX  ,
      7           VIS      ,QVIS   ,CXX    ,S1      ,S2      ,S3      ,
      8           S4       ,S5     ,S6     ,DXX     ,DYY     ,DZZ     ,
      9           D4       ,D5     ,D6     ,WXX     ,WYY     ,WZZ     ,
-     A           AJ1      ,AJ2    ,AJ3    ,AJ4     ,AJ5     ,AJ6     ,
+     A           JAC1     ,JAC2   ,JAC3   ,JAC4    ,JAC5    ,JAC6    ,
      B           VDX      ,VDY    ,VDZ    ,MUVOID  ,SSP_EQ  ,AIRE    ,
-     C           SIGY      ,ET      ,R1_FREE  ,LBUF%PLA    ,R3_DAM	     ,AMU     ,
-     D           MFXX     ,MFXY  ,MFXZ     ,MFYX    ,MFYY    ,MFYZ   , 
-     E           MFZX     ,MFZY  ,MFZZ     ,IPM     ,GAMA    ,BID    ,
-     F           DXY       ,DYX     ,DYZ      ,DZY         ,DZX 	     ,DXZ     ,
-     G           ISTRAIN  ,TEMPEL ,DIE    ,IEXPAN  ,ILAY    ,MSSA   ,
-     H           DMELS    ,IPTR   ,IPTS   ,IPTT    ,TABLE   ,BID    ,
-     I           BID       ,BID     ,BID      ,IPARG(1,NG) ,IGEO      ,CONDE    ,
-     J           ITASK     ,NLOC_DMG,VAR_REG  ,MATPARAM_TAB,H3D_STRAIN)
+     C           SIGY     ,ET     ,R1_FREE,LBUF%PLA,R3_DAM  , AMU    ,
+     D           MFXX     ,MFXY   ,MFXZ   ,MFYX    ,MFYY    ,MFYZ    , 
+     E           MFZX     ,MFZY   ,MFZZ   ,IPM     ,GAMA    ,BID     ,
+     F           DXY      ,DYX    ,DYZ    ,DZY     ,DZX     ,DXZ     ,
+     G           ISTRAIN  ,TEMPEL ,DIE    ,IEXPAN  ,ILAY    ,MSSA    ,
+     H           DMELS    ,IPTR   ,IPTS   ,IPTT    ,TABLE   ,BID     ,
+     I           BID      ,BID    ,BID    ,IPARG(1,NG),IGEO ,CONDE   ,
+     J           ITASK    ,NLOC_DMG,VAR_REG,MATPARAM_TAB,H3D_STRAIN)
       IF (ISTRAIN == 1)THEN 
         CALL SSTRA3(DXX      ,DYY      ,DZZ   ,D4   ,D5   ,
      .              D6       ,LBUF%STRA,WXX   ,WYY  ,WZZ  ,
@@ -598,12 +589,10 @@ c
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)
 C
       IF (JCVT == 2) THEN
-c       CALL SZORSTR3(LFT,LLT,LBUF%STRA,NEL,
-c     .                   G1X, G2X, G3X, G1Y, G2Y, G3Y, G1Z, G2Z, G3Z)
        CALL SROTO3(LFT,LLT,GBUF%SIG,SIGN,
      .            G1X, G2X, G3X, G1Y, G2Y, G3Y, G1Z, G2Z, G3Z,NEL)
       ELSE
-        DO I=LFT,LLT
+        DO I=1,NEL
           SIGN(I,1) = GBUF%SIG(II(1)+I)
           SIGN(I,2) = GBUF%SIG(II(2)+I)
           SIGN(I,3) = GBUF%SIG(II(3)+I)
@@ -612,12 +601,12 @@ c     .                   G1X, G2X, G3X, G1Y, G2Y, G3Y, G1Z, G2Z, G3Z)
           SIGN(I,6) = GBUF%SIG(II(6)+I)
         ENDDO
       ENDIF
-C-----------------------------
-C     SMALL STRAIN 
-C-----------------------------
-C------passage to small strain : by dt_min in mmain; by geo in SMALLGEO3
-C      1)Ismstr=2 GBUF%SMSTR was updated by S8SAV3 (before mmain, each cycle) fixed when off=2
-C      2)Ismstr=12 fixed GBUF%SMSTR before, updated only once by S8SAV12 
+C
+C Small strain formulation is activated:
+C           a) by minimum time step in MMAIN
+C           b) by small volume or bad aspect ratio in SMALLGEO3
+C If ISMSTR=2 GBUF%SMSTR was updated by S8SAV3 (before MMAIN, each cycle) fixed when off=2
+C If ISMSTR=12 fixed GBUF%SMSTR before, updated only once by S8SAV12 
       CALL SMALLB3(GBUF%OFF,OFF)
       ITET = 0
       CALL SMALLGEO3(NGL, GBUF%OFF ,VOLN ,DELTAX, GBUF%VOL ,ITET )
@@ -631,9 +620,8 @@ C      2)Ismstr=12 fixed GBUF%SMSTR before, updated only once by S8SAV12
         END IF
       ENDIF
       IF (JLAG+JALE+JEUL == 0) THEN
-C--------------------------
-C       BILANS PAR MATERIAU thermique
-C--------------------------
+C
+C Balance thermal material
         IFLAG=MOD(NCYCLE,NCPRI)
         IF(IOUTPRT>0)THEN
           IF (MTN == 11) THEN                                    
@@ -649,10 +637,8 @@ C--------------------------
         ENDIF
         RETURN
       ENDIF
-C--------------------------
-C     UPDATE DES MASSES
-C     TRANSPORT FORCES
-C----------------------------
+C
+C ALE or EULER : update masses 
       IF (JALE+JEUL > 0 .AND. INCOMP == 0) THEN
         IF(IPARIT == 0)THEN
           CALL AMASS3(MS,GBUF%RHO,VEUL(LVEUL*NFT+44),GBUF%TAG22,
@@ -662,10 +648,8 @@ C----------------------------
           CALL AMASS3P(FSKYM,GBUF%RHO,VEUL(LVEUL*NFT+44),GBUF%TAG22,VOLN,IADS,OFF,IXS)
         ENDIF
       ENDIF
-C-----------------------------
-C     ANTI-HOURGLASS FORCES
-C-----------------------------
-C------Update ET w/ /VISC/PRONY
+C
+C Update ET for /VISC/PRONY
       IF (IMATVIS>2) THEN
        IVISC = ELBUF_TAB(NG)%BUFLY(ILAY)%IVISC
        IF (IVISC>0) THEN
@@ -675,6 +659,8 @@ C------Update ET w/ /VISC/PRONY
 
        END IF
       END IF
+C
+C Anti hourglass forces
       IF (ISORTH>0) THEN
        IF (MTN>=28) THEN
         IADBUF = IPM(7,MXT(1))
@@ -693,12 +679,10 @@ C------Update ET w/ /VISC/PRONY
      .   PX4H1, PX4H2, PX4H3, PX4H4,
      .   VOLN,MXT,CXX,VIS,VD2,DELTAX,NGEO,GEO,PARTSAV,IPARTS,
      .   DXX, DYY, DZZ, D4, D5, D6 ,
-     .   GBUF%HOURG,AJ1,AJ5,AJ9,GBUF%EINT,GBUF%VOL,SIGY,SIGN,SIGO,ICP,
+     .   GBUF%HOURG,JAC1,JAC5,JAC9,GBUF%EINT,GBUF%VOL,SIGY,SIGN,SIGO,ICP,
      .   LBUF%PLA,IMATVIS,ET ,R3_DAM,NEL,GAMA  ,BUFMAT(IADBUF),
      .   GBUF%STRHG,LBUF%STRA,ISTRAIN)
-c     
-c          call SZSIGPRT_OR(AJ1,AJ5,AJ9,GBUF%HOURG,SIGN ,
-c     .                     PM   ,MXT  ,BUFMAT(IADBUF),GAMA  ,CXX,NEL)
+C
       ELSE
       CALL SZHOUR3(ELBUF_TAB(NG),PM,GBUF%RHO,OFF,
      .   VX1, VX2, VX3, VX4, VX5, VX6, VX7, VX8,
@@ -712,7 +696,7 @@ c     .                     PM   ,MXT  ,BUFMAT(IADBUF),GAMA  ,CXX,NEL)
      .   PX4H1, PX4H2, PX4H3, PX4H4,
      .   VOLN,MXT,CXX,VIS,VD2,DELTAX,NGEO,GEO,PARTSAV,IPARTS,
      .   DXX, DYY, DZZ, D4, D5, D6 ,
-     .   GBUF%HOURG,AJ1,AJ5,AJ9,GBUF%EINT,GBUF%VOL,SIGY,SIGN,SIGO,ICP,
+     .   GBUF%HOURG,JAC1,JAC5,JAC9,GBUF%EINT,GBUF%VOL,SIGY,SIGN,SIGO,ICP,
      .   LBUF%PLA,IMATVIS,ET ,R3_DAM,NEL,GBUF%STRHG,ISTRAIN)
       END IF !(ISORTH>0) THEN
 C 
@@ -724,6 +708,8 @@ C
      .   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38)
 C
       IF (JALE == 1 .OR. (JEUL == 1.AND.INTEG8 == 0)) THEN
+C
+C ALE or EULER : update momentum transport forces
         CALL AMOMT3(
      .   PM    , GBUF%RHO,VOLN,
      .   X1,X2,X3,X4,X5,X6,X7,X8,
@@ -746,7 +732,8 @@ C
      .   MXT   , QMV     ,BUFMAT ,IPARG(1,NG),IXS  ,GBUF%TAG22, 
      .   NC1, NC2, NC3, NC4, NC5, NC6, NC7, NC8, NALE)
       ELSEIF(JEUL == 1 .AND. INTEG8 == 1)THEN
-C       POUR LE MOMENT N'INCLUE PAS UPWIND SUPG ET TG
+C
+C Does not include upwind SUPG or TG
         CALL EMOMT3B(PM,GBUF%RHO,VEUL(LVEUL*NFT+44),
      .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
      .   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,
@@ -771,9 +758,8 @@ C       POUR LE MOMENT N'INCLUE PAS UPWIND SUPG ET TG
      3                           F16,F26,F36,F17,F27,
      4                           F37,F18,F28,F38,GBUF%OFF,
      5                           LFT,LLT,NEL)
-C--------------------------
-C       BILANS PAR MATERIAU
-C--------------------------
+C
+C Energy, momentum, mass balance per part in case of output
       IFLAG=MOD(NCYCLE,NCPRI)
       IF(IFLAG == 0.OR.TT >= THIS.OR.TT >= TDES.
      .  OR.TT >= TPAT.OR.MDESS /= 0.                             
@@ -802,12 +788,8 @@ C--------------------------
      .       GBUF%FILL, XGXA, XGYA, XGZA,
      .       XGXA2,XGYA2,XGZA2,XGXYA,XGYZA,XGZXA,ITASK,IPARG(1,NG))                                  
       ENDIF
-C-------------------------
-C     ASSEMBLE
-C-------------------------
-C----------------------------
-C     INTERNAL FORCES
-C----------------------------
+C
+C Compute nodal internal forces
       CALL SFINT3(SIGN,
      .   PX1, PX2, PX3, PX4,
      .   PY1, PY2, PY3, PY4,
@@ -822,9 +804,8 @@ C----------------------------
      .   N1Y, N2Y, N3Y, N4Y, N5Y, N6Y,
      .   N1Z, N2Z, N3Z, N4Z, N5Z, N6Z,
      .   BID,   P, IXS, NEL)
-c-------------------------
-c     Virtual internal forces of regularized non local ddl 
-c--------------------------
+C
+C Virtual internal forces of regularized non local dof 
       IF (INLOC > 0) THEN  
         IMAT = MXT(LFT)  
         CALL SFINT_REG(NLOC_DMG ,VAR_REG  ,    
@@ -836,10 +817,8 @@ c--------------------------
      .       PZ2      ,PZ3      ,PZ4      ,IMAT     ,
      .       ITASK    ,DT2T     )
       ENDIF      
-C-------------------------
-c    finite element heat transfert  
-C--------------------------
 C
+C Finite element heat transfert
       IF(JTHE < 0) THEN
         CALL STHERM( PM     ,MXT    ,VOLN, 
      .               NC1,  NC2, NC3,NC4,
@@ -851,19 +830,19 @@ C
      .               THEM,GBUF%OFF,LBUF%OFF,
      .               PARTSAV,IPARTS,GBUF%VOL) 
       ENDIF 
-C----------------------------
-C     CONVECTE --> GLOBAL.
-C----------------------------
+C
+C Transform forces from convected frame to global frame
       CALL SRROTA3(
      .   R11, R21, R31, R12, R22, R32, R13, R23, R33,
      .   F11, F12, F13, F14, F15, F16, F17, F18,
      .   F21, F22, F23, F24, F25, F26, F27, F28,
      .   F31, F32, F33, F34, F35, F36, F37, F38)
-C----------------------------
+C
       IF(NFILSOL/=0) CALL SFILLOPT(GBUF%FILL,STI,
      1   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
      2   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38)    
-C----------------------------
+C
+C Assemble internal forces
       IF(IPARIT == 0)THEN
           CALL SCUMU3(GBUF%OFF,A,NC1, NC2, NC3, NC4,
      2             NC5, NC6, NC7, NC8,STIFN,STI,
@@ -886,7 +865,7 @@ C----------------------------
       IF (ALLOCATED(VAR_REG)) DEALLOCATE(VAR_REG)
       RETURN
       END SUBROUTINE SZFORC3
-C                                                                     12
+C                                                                      12
 Chd|====================================================================
 Chd|  STORTH3                       source/elements/solid/solidez/szforc3.F
 Chd|-- called by -----------
@@ -2198,7 +2177,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2206,23 +2184,25 @@ C-----------------------------------------------
       my_real
      .   GG,GV,RHO0,NU,GV_MAX,NU1
 C=======================================================================        
-       IMAT = MXT(LFT)
-       IADBUF = IPM(223,IMAT)  
-       NPRONY  = NINT(UPARAM(IADBUF + 1))
-c
-       GV  = ZERO
-       DO J=1,NPRONY                                  
-        GV   = GV  +  UPARAM(IADBUF + 1 + J)            
-       ENDDO
+      IMAT = MXT(1)
+      IADBUF = IPM(223,IMAT)  
+      NPRONY  = NINT(UPARAM(IADBUF + 1))
+C
+      GV  = ZERO
+      DO J=1,NPRONY                                  
+       GV   = GV  +  UPARAM(IADBUF + 1 + J)            
+      ENDDO
+C
       RHO0=PM(1,IMAT)
       NU=PM(21,IMAT)
       GV_MAX = THIRD*(ONE+NU)/(ONE -TWO*NU)
       NU1= RHO0*(ONE -TWO*NU)/(ONE-NU)
-      DO I=LFT,LLT
+C
+      DO I=1,NEL
        GG = CXX(I)*CXX(I)*NU1    
        ET(I)= ET(I) + MIN(GV_MAX,GV/GG)
       ENDDO
-c------------
-       RETURN
-       END
+C------------
+      RETURN
+      END
 C                                                                     12
