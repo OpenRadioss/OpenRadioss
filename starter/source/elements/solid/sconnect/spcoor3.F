@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        SUINIT3                       source/elements/elbuf_init/suinit3.F
 Chd|-- calls ---------------
 Chd|        CLSKEW3                       source/elements/shell/coque/clskew.F
-Chd|        CHECKVOLUME_8N                source/elements/solid/solide/checksvolume.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SPCOOR3(

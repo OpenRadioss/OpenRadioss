@@ -20,17 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-Chd|====================================================================
-Chd|  CHECKVOLUME_8N                source/elements/solid/solide/checksvolume.F
-Chd|-- called by -----------
-Chd|        S16COOR3                      source/elements/thickshell/solide16/s16coor3.F
-Chd|        S20COOR3                      source/elements/solid/solide20/s20coor3.F
-Chd|        SCCOOR3                       source/elements/thickshell/solidec/sccoor3.F
-Chd|        SCOOR3                        source/elements/solid/solide/scoor3.F
-Chd|        SPCOOR3                       source/elements/solid/sconnect/spcoor3.F
-Chd|        SRCOOR3                       source/elements/solid/solide/srcoor3.F
-Chd|-- calls ---------------
-Chd|====================================================================
       FUNCTION CHECKVOLUME_8N(X,IXS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -121,12 +110,6 @@ C
       RETURN
       END
       
-Chd|====================================================================
-Chd|  CHECKVOLUME_6N                source/elements/solid/solide/checksvolume.F
-Chd|-- called by -----------
-Chd|        S6CCOOR3                      source/elements/thickshell/solide6c/s6ccoor3.F
-Chd|-- calls ---------------
-Chd|====================================================================
       FUNCTION CHECKVOLUME_6N(X,IXS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -192,15 +175,6 @@ C
       RETURN
       END
       
-Chd|====================================================================
-Chd|  CHECKVOLUME_4N                source/elements/solid/solide/checksvolume.F
-Chd|-- called by -----------
-Chd|        S10COOR3                      source/elements/solid/solide10/s10coor3.F
-Chd|        S10COOR3_OLD                  source/elements/solid/solide10/s10coor3.F
-Chd|        S4COOR3                       source/elements/solid/solide4/s4coor3.F
-Chd|        SOLTOSPHX4                    source/elements/sph/soltosph.F
-Chd|-- calls ---------------
-Chd|====================================================================
       FUNCTION CHECKVOLUME_4N(X,IXS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

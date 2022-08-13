@@ -25,7 +25,6 @@ Chd|  S20COOR3                      source/elements/solid/solide20/s20coor3.F
 Chd|-- called by -----------
 Chd|        S20INIT3                      source/elements/solid/solide20/s20init3.F
 Chd|-- calls ---------------
-Chd|        CHECKVOLUME_8N                source/elements/solid/solide/checksvolume.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE S20COOR3(

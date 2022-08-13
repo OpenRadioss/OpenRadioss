@@ -33,7 +33,6 @@ Chd|-- calls ---------------
 Chd|        MOD_CLOSE                     source/elements/solid/solide/mod_close.F
 Chd|        SORTHO3                       source/elements/solid/solide/sortho3.F
 Chd|        SREPISO3                      source/elements/solid/solide/srepiso3.F
-Chd|        CHECKVOLUME_8N                source/elements/solid/solide/checksvolume.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SRCOOR3(

@@ -33,7 +33,6 @@ Chd|        SINIT3                        source/elements/solid/solide/sinit3.F
 Chd|        SUINIT3                       source/elements/elbuf_init/suinit3.F
 Chd|-- calls ---------------
 Chd|        MOD_CLOSE                     source/elements/solid/solide/mod_close.F
-Chd|        CHECKVOLUME_8N                source/elements/solid/solide/checksvolume.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SCOOR3(

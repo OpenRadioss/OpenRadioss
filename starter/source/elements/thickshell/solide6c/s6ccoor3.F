@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        S6CINIT3                      source/elements/thickshell/solide6c/s6cinit3.F
 Chd|-- calls ---------------
 Chd|        S6CORTHO3                     source/elements/thickshell/solide6c/s6cortho3.F
-Chd|        CHECKVOLUME_6N                source/elements/solid/solide/checksvolume.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE S6CCOOR3(X       ,IXS  ,GEO  ,NGL  ,MXT  ,NGEO ,                            
