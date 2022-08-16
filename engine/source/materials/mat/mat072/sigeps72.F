@@ -108,7 +108,7 @@ C-----------------------------------------------
       LAMHOOK = UPARAM(10)  ! Hooke's lamba coefficient
       ! Hardening parameter
       SIGY    = UPARAM(11)  ! Initial yield stress 
-      EPS0    = UPARAM(12)  ! Initial plastic strain
+      EPS0    = UPARAM(12)  ! Initial plastic strain (> 0)
       NEXPO   = UPARAM(13)  ! Hardening exponent
       ! Hill yield criterion parameters
       FF      = UPARAM(14)  ! First  Hill coefficient
@@ -128,7 +128,6 @@ c
       IF (ISIGI == 0) THEN
         IF (TIME == ZERO) THEN
           DO I=1,NEL
-            PLA(I)    = EPS0
             UVAR(I,1) = ZERO                              
           ENDDO
         ENDIF
@@ -137,7 +136,7 @@ c
       ! Recovering internal variables
       DO I=1,NEL
         ! Checking deletion flag value
-        IF (OFF(I) < ONE)   OFF(I) = FOUR_OVER_5*OFF(I)
+        IF (OFF(I) < ONE)  OFF(I) = FOUR_OVER_5*OFF(I)
         IF (OFF(I) < EM01) OFF(I) = ZERO
         ! Hourglass coefficient
         ETSE(I) = ONE
@@ -166,7 +165,7 @@ c
           ENDIF
         ENDIF       
         ! Computation of the yield stress
-        CC(I)  = MAX(EM20,PLA(I))
+        CC(I)  = PLA(I) + EPS0
         YLD(I) = BETA(I)*SIGY*EXP(NEXPO*LOG(CC(I)))
         YLD(I) = MAX(YLD(I), EM10)
       ENDDO
@@ -299,10 +298,10 @@ c
           ! Cumulated plastic strain and strain rate update           
           DDEP    = DLAM*DPLA_DLAM(I)
           DPLA(I) = MAX(ZERO, DPLA(I) + DDEP)
-          PLA(I)  = PLA(I) + DDEP
+          PLA(I)  = MAX(PLA(I) + DDEP,ZERO)
 c
           ! Update the hardening yield stress
-          CC(I)  = MAX(EM20,PLA(I))
+          CC(I)  = PLA(I) + EPS0
           YLD(I) = BETA(I)*SIGY*EXP(NEXPO*LOG(CC(I)))
           YLD(I) = MAX(YLD(I),EM10)
 c

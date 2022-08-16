@@ -174,6 +174,15 @@ C
       ! Initial yield stress
       IF (SIGY == ZERO) SIGY = INFINITY
       IF (C2 == ZERO)   C2   = SIGY
+      ! Make sure initial plastic strain is strictly positive
+      IF (EPS0 < ZERO) THEN 
+         CALL ANCMSG(MSGID=2080,
+     .               MSGTYPE=MSGWARNING,
+     .               ANMODE=ANINFO_BLIND_1,
+     .               I1=MAT_ID,
+     .               C1=TITR)          
+      ENDIF
+      EPS0 = MAX(EPS0,EM20)
 C
       ! Elastic parameters
       !  -> 3D isotropic elastic matrix components
