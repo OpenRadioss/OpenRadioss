@@ -302,10 +302,12 @@ c     PRESSURE DEPENDENT YIELD FUNCTION FACTOR
 c------------------------------------------
       IF (PFUN > 0) THEN
         DO I=1,NEL
+          IPOSP(I) = VARTMP(I,2)
           IADP(I)  = NPF(IPFUN) / 2 + 1
           ILENP(I) = NPF(IPFUN  + 1) / 2 - IADP(I) - IPOSP(I)
         ENDDO
-        CALL VINTER2(TF,IADP,VARTMP(1:NEL,2),ILENP,NEL,PSCALE,DFDP,PFAC)
+        CALL VINTER2(TF,IADP,IPOSP,ILENP,NEL,PSCALE,DFDP,PFAC)
+        VARTMP(1:NEL,2) = IPOSP(1:NEL)
         PFAC(1:NEL) = MAX(ZERO, PFAC(1:NEL))
       ENDIF 
 c
@@ -416,10 +418,12 @@ C=======================================================================
       IF (VP == 0) THEN
 C=======================================================================
         IF (NRATE == 1) THEN   ! only static curve => no strain rate interpolation
+          IPOS1(1:NEL) = VARTMP(1:NEL,3)
           IAD1(1:NEL)  = NPF(IFUNC(1))   / 2 + 1
           ILEN1(1:NEL) = NPF(IFUNC(1)+1) / 2 - IAD1(1:NEL) - IPOS1(1:NEL)
 c
-          CALL VINTER(TF,IAD1,VARTMP(1:NEL,3),ILEN1,NEL,PLA,DYDX1,Y1)
+          CALL VINTER(TF,IAD1,IPOS1,ILEN1,NEL,PLA,DYDX1,Y1)
+          VARTMP(1:NEL,3) = IPOS1(1:NEL)
 c
           YFAC(1:NEL,1)   = UPARAM(6+NRATE+1)*FACYLDI(1:NEL)
           FACT(1:NEL) = FAIL(1:NEL) * PFAC(1:NEL) * YFAC(1:NEL,1)

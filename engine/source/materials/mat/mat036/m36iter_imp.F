@@ -118,10 +118,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C
-      integer  NEL, NVARTMP
-      integer  IAD1(MVSIZ),  ILEN1(MVSIZ),
+      INTEGER  NEL, NVARTMP
+      INTEGER  IAD1(MVSIZ),  ILEN1(MVSIZ),
      .         IPFLAG, PFUN,  IPFUN, IPOSP(MVSIZ),
      .          IADP(MVSIZ), ILENP(MVSIZ), NRATE, NPF(*)
+      INTEGER :: VARTMP(NEL,NVARTMP)
 C
 C     REAL
       my_real
@@ -130,7 +131,7 @@ C     REAL
      .   PLA(*),         G3(*),     YLD(*),
      .   DPLA1(*),        H(*),
      .   TF(*),          Y1(*),   DYDX1(*),
-     .   YFAC(MVSIZ,*),   VARTMP(NEL,NVARTMP),
+     .   YFAC(MVSIZ,*),
      .   PLA0(MVSIZ), PLAM(MVSIZ),
      .   FISOKIN,
      .   PFAC(MVSIZ),  PSCALE1(MVSIZ), DFDP(MVSIZ),
