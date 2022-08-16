@@ -41,6 +41,13 @@ Chd|====================================================================
      3          IDDLEVEL   ,TITR, UNITAB, LSUBMODEL,MULTI_FVM)
 C============================================================================
 C-----------------------------------------------
+C   D e s c r i  p t i o n
+C-----------------------------------------------
+C This subroutine is reading user input file.
+C Parameters are checked and default values are introduced.
+C Parameter and flags are stored in working buffer (IPARI:integer; FRIGAP:real)
+C Buffer arrays are later written in restart file to be read by Engine program.
+C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
@@ -59,16 +66,14 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
-!     NSUBMOD
-#include      "submod_c.inc"
+#include      "submod_c.inc"   !NSUBMOD
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN)::IDDLEVEL
       INTEGER ISU1,ISU2,IS1,IS2,NI,NOINT
       INTEGER IPARI(*)
-      my_real
-     .   FRIGAP(*),FRIC_P(*),STFAC,XFILTR
+      my_real FRIGAP(*),FRIC_P(*),STFAC,XFILTR
       CHARACTER,INTENT(IN) :: TITR*nchartitle
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM      
 C-----------------------------------------------
@@ -95,16 +100,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER GRBRIC_ID,GRQUAD_ID,GRTRIA_ID,IBID,IBAG,IDEL7N,IGAP,IBUC,
+      INTEGER GRBRIC_ID,GRQUAD_ID,GRTRIA_ID,IBID,IBAG,IDEL7N,IGAP,IGAP0,IBUC,
      .    IDUM,NTYP,INACTI,IGSTI,BCOPT,ITIED,VISCF,ILEV,MULTIMP,ICURV,
      .    IVIS2,IDELKEEP,MFROT,IFQ,MODFR,ISU1_user,ISU2_user,ISU3_user,
      .    INTKG,IDIR,ISTIFF
-      my_real
-     .   BID,GAP,STARTT,STOPT,BUMULT,RDUM,VISC,
-     .   GAPSCALE,GAPMAX,STMIN,STMAX,FRIC,ALPHA,DTMIN,VREF
+     
+      my_real BID,GAP,STARTT,STOPT,BUMULT,RDUM,VISC,
+     .        GAPSCALE,GAPMAX,STMIN,STMAX,FRIC,ALPHA,DTMIN,VREF
       CHARACTER MESS*40, MSGTITL*nchartitle
-!
+
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
+      
       LOGICAL :: IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -163,6 +169,7 @@ C------------------------------------------------------------
       IF (.NOT. IS_AVAILABLE) ISU1 = 0
       CALL HM_GET_INTV('mainentityids', ISU2, IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('secondaryentityids', GRBRIC_ID, IS_AVAILABLE, LSUBMODEL)
+      CALL HM_GET_INTV('Igap', IGAP, IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('Ipres', IBAG, IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('Idel', IDEL7N, IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('Iauto', ISTIFF, IS_AVAILABLE, LSUBMODEL)
@@ -185,10 +192,15 @@ C------------------------------------------------------------
        ISU2_user=ISU2
        ISU3_user=GRBRIC_ID
 
+!===CHECK GAP FORMULATION
+      IF(IGAP == 0)IGAP=1000 !default (constant gap)
+      IF(IGAP /= 1000 .AND. IGAP /= 1)IGAP = 1000 !unexpected value => default value 
+      IF(IGAP == 1)INTER18_IS_VARIABLE_GAP_DEFINED = .TRUE.
+      IGAP0=IGAP
 
 !===CHECK FLAG FORMULATION
       IF(ISTIFF==0)ISTIFF=1 !default
-      IF(ISTIFF <= -1 .OR. ISTIFF >2)ISTIFF=1  !default
+      IF(ISTIFF <= -1 .OR. ISTIFF >2)ISTIFF = 1  !default
       IF(ISTIFF == 2) INTER18_AUTOPARAM = 1
       
 !===CHECK STRUCTURE:ISU2=SURF_ID                                                                                                      
@@ -265,6 +277,9 @@ c          ENDIF
         IF(IDEL7N <= -1 .OR. IDEL7N >= 3)IDEL7N=0
         IF(STFAC == ZERO)STFAC=ONE
         STFAC=-STFAC 
+        
+        !IF DEFINTER IS CALLED IN A FURTHER VERSION : remove this line
+        IF(IGAP==1000)IGAP=0
           
 !===STORAGE  
 
@@ -344,16 +359,36 @@ C
             WRITE(IOUT,6001)ISU1_user  !SECONDARY side from grnod_id
         ENDIF
         WRITE(IOUT,6003) ISU2_user   !MAIN side from surf_id     
-
+        
         IF(ISTIFF==1)THEN
-          WRITE(IOUT,3015)
-          WRITE(IOUT,3018)ISTIFF,-STFAC,GAP,STARTT,STOPT,VISC,BUMULT,IBAG!,IDIR                                                  
+          WRITE(IOUT,3018)IGAP0,ISTIFF,IBAG 
+          WRITE(IOUT,3015)          
+          WRITE(IOUT,3020)-STFAC
+          !IF(IGAP==0) WRITE(IOUT,3020)GAP
+          ! WRITE(IOUT,3028)STARTT,STOPT,VISC,BUMULT!,IDIR                                                  
         ELSE
-          WRITE(IOUT,3016)
-          WRITE(IOUT,3019)ISTIFF,VREF,GAP,STARTT,STOPT,VISC,BUMULT,IBAG!,IDIR 
-          IF(GAP > ZERO)WRITE(IOUT,3020)GAP     
-          IF(STFAC > ZERO)WRITE(IOUT,3020)GAP                                                    
+          WRITE(IOUT,3018)IGAP0,ISTIFF,IBAG
+          WRITE(IOUT,3016)          
+          WRITE(IOUT,3021)VREF
+          !IF(GAP > ZERO)WRITE(IOUT,3020)GAP     
+          !IF(STFAC > ZERO)WRITE(IOUT,3020)GAP                                                    
         ENDIF
+
+        IF(IGAP==0)THEN                                  
+          !CONSTANT GAP  
+          WRITE(IOUT,3013)
+          IF(GAP>ZERO)THEN                                
+            WRITE(IOUT,3024)GAP              
+          ELSE
+            WRITE(IOUT,3026)
+          ENDIF
+        ELSE                                             
+          !AUTOMATIC GAP                                 
+          WRITE(IOUT,3014) 
+          WRITE(IOUT,3025)                             
+        ENDIF                                            
+                                                         
+         WRITE(IOUT,3028)STARTT,STOPT,VISC,BUMULT        
         
         IF(IDEL7N /= 0) THEN
            WRITE(IOUT,'(A,A,I5/)')'    DELETION FLAG ON FAILURE OF MAIN ELEMENT','  (1:YES-ALL/2:YES-ANY) : ',IDEL7N
@@ -371,36 +406,38 @@ C------------
  999  CALL FREERR(3)
       RETURN
 
+ 3013 FORMAT('    --- CONSTANT GAP ---' )  
+ 3014 FORMAT('    --- VARIABLE GAP ---' )  
  3015 FORMAT('    --- USER STIFFNESS ---' )  
  3016 FORMAT('    --- AUTOMATIC STIFFNESS ---' )  
           
  3017 FORMAT('    TYPE == 18 ALE-LAGRANGE COUPLING' /)
  3018 FORMAT(
+     .    '    IGAP FLAG FORMULATION . . . . . . . . . . . ',I10/,
      .    '    ISTF FLAG FORMULATION . . . . . . . . . . . ',I10/,
-     .    '    STFVAL. . . . . . . . . . . . . . . . . . . ',1PG20.13/,
-     .    '    USER GAP. . . . . . . . . . . . . . . . . . ',1PG20.13/,
-     .    '    START TIME. . . . . . . . . . . . . . . . . ',1PG20.13/,
+     .    '    PRESSURE CORRECTION FLAG . . . . . . . . . .',I10/)
+          
+ 3020 FORMAT(
+     .    '    STFVAL. . . . . . . . . . . . . . . . . . . ',1PG20.13)
+ 3021 FORMAT(
+     .    '    REFERENCE VELOCITY. . . . . . . . . . . . . ',1PG20.13)          
+ 3024 FORMAT(
+     .    '    CONSTANT USER GAP . . . . . . . . . . . . . ',1PG20.13)
+ 3025 FORMAT(
+     .    '    GAP. . . . . . . . . . . . . . . . . . . . .  AUTO')
+ 3026 FORMAT(
+     .    '    CONSTANT GAP . . . . . . . . . . . . . . . .  AUTO')
+ 3028 FORMAT(
+     .   /'    START TIME. . . . . . . . . . . . . . . . . ',1PG20.13/,
      .    '    STOP TIME . . . . . . . . . . . . . . . . . ',1PG20.13/,
      .    '    CRITICAL DAMPING FACTOR . . . . . . . . . . ',1PG20.13/,
-     .    '    SORTING FACTOR. . . . . . . . . . . . . . . ',1PG20.13/,          
-     .    '    PRESSURE CORRECTION FLAG . . . . . . . . . .',I10)!  /,
-C     .    '    FLAG FOR REACTION FORCE ORIENTATION. . . . .',I10/)
- 3019 FORMAT(
-     .    '    ISTF FLAG FORMULATION . . . . . . . . . . . ',I10/,       
-     .    '    REFERENCE VELOCITY. . . . . . . . . . . . . ',1PG20.13/,
-     .    '    USER GAP. . . . . . . . . . . . . . . . . . ',1PG20.13/,
-     .    '    START TIME. . . . . . . . . . . . . . . . . ',1PG20.13/,
-     .    '    STOP TIME . . . . . . . . . . . . . . . . . ',1PG20.13/, 
-     .    '    CRITICAL DAMPING FACTOR . . . . . . . . . . ',1PG20.13/,
-     .    '    SORTING FACTOR. . . . . . . . . . . . . . . ',1PG20.13/,         
-     .    '    PRESSURE CORRECTION FLAG . . . . . . . . . .',I10)   !/,
-C     .    '    FLAG FOR REACTION FORCE ORIENTATION. . . . .',I10) 
- 3020 FORMAT(
-     .    '    GAP VALUE . . . . . . . . . . . . . . . . . ',1PG20.13) 
+     .    '    SORTING FACTOR. . . . . . . . . . . . . . . ',1PG20.13) 
+     
  6001 FORMAT(
      .       '    NODE GROUP IDENTIFIER.  . . . . . . . . ',I10)
  6002 FORMAT(
      .       '    BRICK GROUP IDENTIFIER  . . . . . . . . ',I10)
  6003 FORMAT(
      .       '    SURFACE GROUP IDENTIFIER. . . . . . . . ',I10/)   
+
       END

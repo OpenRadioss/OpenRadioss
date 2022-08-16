@@ -266,6 +266,7 @@ Chd|====================================================================
       result = .false.
       if(iale > 0 .and. nwale == 6)result=.true.                 !/ale/grid/volume defined
       if(inter18_autoparam == 1)result=.true. !/inter/type18 with flag iauto set to 1
+      if(inter18_is_variable_gap_defined)result=.true. !/inter/type18 with flag iauto set to 1      
       this%has_ne_connect = result
       result = .false.
       if(iale > 0 .and. nwale < 2)result=.true.     !/ale/grid/donea, disp, spring

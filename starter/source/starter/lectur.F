@@ -1181,6 +1181,7 @@ C     After ININTR :         KD(11)=KD(10)+2*NRTS
 C     Idem with  (KD(12) = KD(11) + 4*NRTM )
       I11FLAG=0
       INTER18_AUTOPARAM = 0
+      INTER18_IS_VARIABLE_GAP_DEFINED = .FALSE.
       NBPRELD = 10
 c     RNUR elements (obsolete) :
       NUMELUR = 0

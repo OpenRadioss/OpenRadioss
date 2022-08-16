@@ -74,28 +74,28 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE ALEMAIN(
-     1         PM        , GEO       ,X         ,A        ,AR       ,V       ,
-     2         MS        , WA        ,ELBUF_TAB ,BUFMAT   ,PARTSAV  ,TF      ,
-     3         VAL2      , VEUL      ,FV        ,STIFN    ,FSKY     ,EANI    ,
-     4         PHI       , FILL      ,DFILL     ,ALPH     ,SKEW     ,W       ,
-     5         D         , DSAVE     ,ASAVE     ,DT2T     ,DT2SAVE  ,
-     6         IPARG     , NPC       ,IXS       ,IXQ, IXTG,IADS     ,IADQ    ,
-     7         IFILL     , NODPOR    ,ICODT    ,ISKEW    ,IMS     ,
-     8         NELTST    , ITYPTST   ,IPART     ,IPARTS   ,IPARTQ   ,ITASK   ,
-     A         NODFT     , NODLT     ,NBRCVOIS  ,TEMP     ,
-     B         NBSDVOIS  , LNRCVOIS  ,LNSDVOIS  ,NERCVOIS ,NESDVOIS ,LERCVOIS,
-     C         LESDVOIS  , ISIZXV    ,IAD_ELEM  ,FR_ELEM  ,FSKYM    ,MSNF    ,
-     D         IPARI     , SEGVAR    ,ITAB      ,ISKWN    ,
-     E         VOLMON    , FSAV      ,IGRSURF  ,NELTSA   ,
-     F         ITYPTSA   , WEIGHT    ,NPSEGCOM  ,LSEGCOM  ,IPM      ,IGEO    ,
-     G         ITABM1    ,LENQMV    ,NV46     ,AGLOB    ,GRESAV  ,
-     H         GRTH      , IGRTH     ,LGAUGE    ,GAUGE    ,MSSA     ,
-     I         DMELS     , IGAUP     ,NGAUP     ,TABLE    ,MS0      ,
-     J         XDP       , IGRNOD    ,VARNOD              ,FSKYI    ,ISKY    ,
-     K         INTBUF_TAB, IXT       ,IGRV      ,AGRAV    ,SENSOR   ,LSENSOR ,
-     L         LGRAV     , CONDNSKY  ,CONDN     ,MS_2D    ,MULTI_FVM,IGRTRUSS,
-     M         IGRBRIC   , NLOC_DMG  ,ID_GLOBAL_VOIS,FACE_VOIS, EBCS_TAB, ALE_CONNECTIVITY, DIFFUSION,
-     N         MATPARAM_TAB,H3D_DATA)
+     1         PM          , GEO         ,X             ,A         ,AR        ,V               ,
+     2         MS          , WA          ,ELBUF_TAB     ,BUFMAT    ,PARTSAV   ,TF              ,
+     3         VAL2        , VEUL        ,FV            ,STIFN     ,FSKY      ,EANI            ,
+     4         PHI         , FILL        ,DFILL         ,ALPH      ,SKEW      ,W               ,
+     5         D           , DSAVE       ,ASAVE         ,DT2T      ,DT2SAVE   ,XCELL           ,
+     6         IPARG       , NPC         ,IXS           ,IXQ       ,IXTG      ,IADS            ,IADQ    ,
+     7         IFILL       , NODPOR      ,ICODT         ,ISKEW     ,IMS       ,
+     8         NELTST      , ITYPTST     ,IPART         ,IPARTS    ,IPARTQ    ,ITASK           ,
+     A         NODFT       , NODLT       ,NBRCVOIS      ,TEMP      ,
+     B         NBSDVOIS    , LNRCVOIS    ,LNSDVOIS      ,NERCVOIS  ,NESDVOIS  ,LERCVOIS        ,
+     C         LESDVOIS    , ISIZXV      ,IAD_ELEM      ,FR_ELEM   ,FSKYM     ,MSNF            ,
+     D         IPARI       , SEGVAR      ,ITAB          ,ISKWN     ,
+     E         VOLMON      , FSAV        ,IGRSURF       ,NELTSA    ,
+     F         ITYPTSA     , WEIGHT      ,NPSEGCOM      ,LSEGCOM   ,IPM       ,IGEO            ,
+     G         ITABM1      , LENQMV      ,NV46          ,AGLOB     ,GRESAV    ,
+     H         GRTH        , IGRTH       ,LGAUGE        ,GAUGE     ,MSSA      ,
+     I         DMELS       , IGAUP       ,NGAUP         ,TABLE     ,MS0       ,
+     J         XDP         , IGRNOD      ,VARNOD                   ,FSKYI     ,ISKY            ,
+     K         INTBUF_TAB  , IXT         ,IGRV          ,AGRAV     ,SENSOR    ,LSENSOR         ,
+     L         LGRAV       , CONDNSKY    ,CONDN         ,MS_2D     ,MULTI_FVM ,IGRTRUSS        ,
+     M         IGRBRIC     , NLOC_DMG    ,ID_GLOBAL_VOIS,FACE_VOIS ,EBCS_TAB  ,ALE_CONNECTIVITY, 
+     N         DIFFUSION   , MATPARAM_TAB,H3D_DATA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -141,12 +141,14 @@ C-----------------------------------------------
 #include      "task_c.inc"
 #include      "spmd_c.inc"
 #include      "vale_c.inc"
+#include      "inter18.inc"
 #include      "inter22.inc"
 #include      "alefvm.inc"
 #include      "mmale51_c.inc" 
 #include      "scr07_c.inc"
 #include      "stati_c.inc"
 #include      "macro.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -200,6 +202,7 @@ C-----------------------------------------------
       TYPE(T_DIFFUSION), INTENT(INOUT) :: DIFFUSION
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
       TYPE (H3D_DATABASE) :: H3D_DATA
+      my_real, INTENT(INOUT) :: XCELL(3,SXCELL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -289,6 +292,37 @@ C  IOUTPRT for bilan assemblage
        ENDIF
       ENDIF
             
+      !---------------------------------------------
+      !     INTERFACE 18 - VARIABLE GAP
+      !---------------------------------------------
+       IF(INTER18_IS_VARIABLE_GAP_DEFINED)THEN
+          DO NG=ITASK+1,NGROUP,NTHREAD
+             IF (TT .GT. ZERO .AND. IPARG(76, NG) .EQ. 1) CYCLE ! --> OFF
+             IF(IPARG(8,NG) == 1) CYCLE
+             CALL INITBUF (
+     1          IPARG   ,NG      ,
+     2          MTN     ,NEL     ,NFT     ,IAD      ,ITY     ,
+     3          NPT     ,JALE    ,ISMSTR  ,JEUL     ,JTUR    ,
+     4          JTHE    ,JLAG    ,JMULT   ,JHBE     ,JIVF    ,
+     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE   ,IPLA    ,
+     6          IREP    ,IINT    ,IGTYP   ,ISRAT    ,ISROT   ,
+     7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE ,JSMS    )
+             IF (ITY == 1 .AND. ISOLNOD /= 4) THEN    
+               DO I=1,NEL                             
+                 XCELL(1,I+NFT)=EXP(LOG(ELBUF_TAB(NG)%GBUF%VOL(I))/THREE)
+                 XCELL(2,I+NFT)=ZERO
+                 XCELL(3,I+NFT)=ZERO                   
+               ENDDO      
+             ENDIF                                    
+          ENDDO
+      CALL MY_BARRIER
+        IF(NSPMD>1)THEN
+           LENCOM = NERCVOIS(NSPMD + 1) + NESDVOIS(NSPMD + 1)
+           CALL SPMD_ENVOIS(1, XCELL, 
+     .          NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)    
+        ENDIF
+      ENDIF
+      
       !--------------------------------------------------------
       ! F L U I D E
       !       ALE SUB-CYCLING PREPARATION
@@ -299,7 +333,7 @@ C  IOUTPRT for bilan assemblage
       !-----
       IF(IALESUB == 2)THEN
         IF(ITASK == 0)THEN
-          IF(TT == ZERO .OR. TT+DT1.GT.T1S+DT2S)THEN
+          IF(TT == ZERO .OR. TT+DT1 > T1S+DT2S)THEN
             IFSUB  = 0
             IFSUBM = 1
             DT1SAVE= DT1
