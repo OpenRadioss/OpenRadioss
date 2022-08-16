@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  RESOL                         source/engine/resol.F         
+Chd|  RESOL                         source/engine/resol.F
 Chd|-- called by -----------
 Chd|        RESOL_HEAD                    source/engine/resol_head.F    
 Chd|-- calls ---------------
@@ -3567,27 +3567,27 @@ C     Init var parallel SMP
            ITYPTSTT = ITYPTST
 C     
            CALL ALEMAIN(
-     1          PM         ,GEO      ,X          ,A(1,NDTSK)   ,AR(1,NDTSK)    ,V         ,
-     2          MS         ,WA       ,ELBUF_TAB  ,BUFMAT       ,PARTSAV(IPMTSK),TF        ,
-     3          VAL2       ,VEUL     ,FV         ,STIFN(NDTSK) ,FSKY           ,EANI      ,
-     4          PHI        ,FILL     ,DFILL      ,ALPH         ,SKEW           ,W         ,
-     5          D          ,DSAVE    ,ASAVE      ,DT2TT        ,DT2SAVE        ,
-     6          IPARG      ,NPC      ,IXS        ,IXQ          ,IXTG, IADS     ,IADS(I87B),
-     7          IFILL      ,NODPOR   ,ICODT        ,ISKEW          ,IMS       ,
-     8          NELTSTT    ,ITYPTSTT ,IPART      ,IPART(K1)    ,IPART(K2)      ,ITSK      ,
-     A          NODFTSK    ,NODLTSK  ,NBRCVOIS   ,TEMP         ,
-     B          NBSDVOIS   ,LNRCVOIS ,LNSDVOIS   ,NERCVOIS     ,NESDVOIS       ,LERCVOIS  ,
-     C          LESDVOIS   ,ISIZXV   ,IAD_ELEM   ,FR_ELEM      ,FSKYM          ,MSNF      ,
-     D          IPARI      ,SEGVAR   ,ITAB       ,ISKWN        ,
-     E          VOLMON     ,FSAV       ,IGRSURF      ,NELTSA         ,
-     F          ITYPTSA    ,WEIGHT   ,NPSEGCOM   ,LSEGCOM      ,IPM            ,IGEO      ,
-     G          ITABM1   ,LENQMV     ,NV46         ,A              ,GRESAV    ,
-     H          GRTH       ,IGRTH    ,LGAUGE     ,GAUGE        ,MSSA           ,
-     I          DMELS      ,IGAUP    ,NGAUP      ,TABLE        ,MS0            ,
-     J          XDP        ,IGRNOD   ,VARNOD                   ,FSKYI          ,ISKY      ,
-     K          INTBUF_TAB ,IXT      ,IGRV       ,AGRV         ,SENSOR         ,LSENSOR   ,
-     L          LGRAV      ,CONDNSKY ,CONDN      ,MS_2D        ,MULTI_FVM      ,IGRTRUSS,
-     M          IGRBRIC    ,NLOC_DMG ,ID_GLOBAL_VOIS,FACE_VOIS , EBCS_TAB, ALE_CONNECTIVITY, DIFFUSION,
+     1          PM         ,GEO      ,X             ,A(1,NDTSK)   ,AR(1,NDTSK)    ,V               ,
+     2          MS         ,WA       ,ELBUF_TAB     ,BUFMAT       ,PARTSAV(IPMTSK),TF              ,
+     3          VAL2       ,VEUL     ,FV            ,STIFN(NDTSK) ,FSKY           ,EANI            ,
+     4          PHI        ,FILL     ,DFILL         ,ALPH         ,SKEW           ,W               ,
+     5          D          ,DSAVE    ,ASAVE         ,DT2TT        ,DT2SAVE        ,XCELL           ,
+     6          IPARG      ,NPC      ,IXS           ,IXQ          ,IXTG           ,IADS            ,IADS(I87B),
+     7          IFILL      ,NODPOR   ,ICODT         ,ISKEW        ,IMS            ,
+     8          NELTSTT    ,ITYPTSTT ,IPART         ,IPART(K1)    ,IPART(K2)      ,ITSK            ,
+     A          NODFTSK    ,NODLTSK  ,NBRCVOIS      ,TEMP         ,
+     B          NBSDVOIS   ,LNRCVOIS ,LNSDVOIS      ,NERCVOIS     ,NESDVOIS       ,LERCVOIS        ,
+     C          LESDVOIS   ,ISIZXV   ,IAD_ELEM      ,FR_ELEM      ,FSKYM          ,MSNF            ,
+     D          IPARI      ,SEGVAR   ,ITAB          ,ISKWN        ,
+     E          VOLMON     ,FSAV     ,IGRSURF       ,NELTSA       ,
+     F          ITYPTSA    ,WEIGHT   ,NPSEGCOM      ,LSEGCOM      ,IPM            ,IGEO            ,
+     G          ITABM1     ,LENQMV   ,NV46          ,A            ,GRESAV         ,
+     H          GRTH       ,IGRTH    ,LGAUGE        ,GAUGE        ,MSSA           ,
+     I          DMELS      ,IGAUP    ,NGAUP         ,TABLE        ,MS0            ,
+     J          XDP        ,IGRNOD   ,VARNOD                      ,FSKYI          ,ISKY            ,
+     K          INTBUF_TAB ,IXT      ,IGRV          ,AGRV         ,SENSOR         ,LSENSOR         ,
+     L          LGRAV      ,CONDNSKY ,CONDN         ,MS_2D        ,MULTI_FVM      ,IGRTRUSS        ,
+     M          IGRBRIC    ,NLOC_DMG ,ID_GLOBAL_VOIS,FACE_VOIS    ,EBCS_TAB       ,ALE_CONNECTIVITY, DIFFUSION,
      N          MATPARAM_TAB,H3D_DATA)
 
            IF(INT22 /=0)  call my_barrier !INTER22in input files  - get also IDT_INT22
@@ -3868,30 +3868,30 @@ C Init var parallel SMP
          IF(NPINCH == 0 )IDX_PINCH = 1
        
            CALL INTFOP2(
-     1     IPARI             ,X_A            ,A(1,NDTSK)     ,IGROUPS         ,
-     2     ICODT             ,FSAV           ,V              ,MS              ,DT2TT          ,
-     3     NELTSTT           ,ITYPTSTT       ,ITAB           ,STIFN(NDTSK)    ,TF             ,
-     4     FSKYI             ,ISKY           ,VR             ,FANI            ,SECFCUM        ,
-     5     ITSK+1            ,NISKYFI        ,KINET          ,NEWFRONT        ,NSTRF          ,
-     6     ICONTACT          ,VISCN(NDTSK)    ,
-     8     NUM_IMPL(1,ITSK+1),NS_IMP(IADISK) ,NE_IMP(IADISK) ,IND_IMP(IADISK) ,NT_IMP         ,
+     1     IPARI             ,X_A            ,A(1,NDTSK)     ,IGROUPS         ,ALE_CONNECTIVITY,
+     2     ICODT             ,FSAV           ,V              ,MS              ,DT2TT           ,
+     3     NELTSTT           ,ITYPTSTT       ,ITAB           ,STIFN(NDTSK)    ,TF              ,
+     4     FSKYI             ,ISKY           ,VR             ,FANI            ,SECFCUM         ,
+     5     ITSK+1            ,NISKYFI        ,KINET          ,NEWFRONT        ,NSTRF           ,
+     6     ICONTACT          ,VISCN(NDTSK)   ,XCELL          ,
+     8     NUM_IMPL(1,ITSK+1),NS_IMP(IADISK) ,NE_IMP(IADISK) ,IND_IMP(IADISK) ,NT_IMP          ,
      9     FR_I18            ,IGRBRIC        ,EMINX           ,
-     A     IXS               ,IXS(L3)        ,IXS(L2)        ,FANI(1,NFNCA+1) ,FANI(1,NFTCA+1),
-     B     IAD_ELEM          ,FR_ELEM        ,RCONTACT       ,ACONTACT        ,PCONTACT       ,
+     A     IXS               ,IXS(L3)        ,IXS(L2)        ,FANI(1,NFNCA+1) ,FANI(1,NFTCA+1) ,
+     B     IAD_ELEM          ,FR_ELEM        ,RCONTACT       ,ACONTACT        ,PCONTACT        ,
      C     TEMP              ,FTHE(IDX_FTHE) ,FTHESKYI       ,IPARG           ,  
-     D     PM                ,INTSTAMP       ,WEIGHT         ,NISKYFIE        ,IRLEN20        , 
-     E     ISLEN20           ,IRLEN20T       ,ISLEN20T       ,IRLEN20E        ,ISLEN20E       , 
-     F     MSKYI_SMS         ,ISKYI_SMS      ,NATIV_SMS      ,INT18ADD        ,FCONTG         , 
-     G     FNCONTG           ,FTCONTG        ,NODGLOB        ,MS0             ,NPC            , 
-     H     WA                ,SENSOR         ,QFRICINT       ,NCONT           ,INDEXCONT      , 
-     I     TAGCONT           ,INOD_PXFEM     ,MS_PLY         ,WAGAP           ,ELBUF_TAB      ,
+     D     PM                ,INTSTAMP       ,WEIGHT         ,NISKYFIE        ,IRLEN20         , 
+     E     ISLEN20           ,IRLEN20T       ,ISLEN20T       ,IRLEN20E        ,ISLEN20E        , 
+     F     MSKYI_SMS         ,ISKYI_SMS      ,NATIV_SMS      ,INT18ADD        ,FCONTG          , 
+     G     FNCONTG           ,FTCONTG        ,NODGLOB        ,MS0             ,NPC             , 
+     H     WA                ,SENSOR         ,QFRICINT       ,NCONT           ,INDEXCONT       , 
+     I     TAGCONT           ,INOD_PXFEM     ,MS_PLY         ,WAGAP           ,ELBUF_TAB       ,
      J     CONDN(IDX_CONDN)  ,CONDNSKYI      ,INTBUF_TAB     ,NV46            ,
      K     SFSAV6         ,FBSAV6          ,STABSEN        ,
-     L     TABSENSOR         ,ISENSINT       ,NISUBMAX       ,NB25_CANDT      ,NB25_IMPCT     ,
-     M     NB25_DST1         ,NB25_DST2      ,IXIG3D         ,KXIG3D          ,WIGE           ,
-     N     KNOT              ,IGEO           ,MULTI_FVM      ,H3D_DATA        ,INTBUF_FRIC_TAB,
+     L     TABSENSOR         ,ISENSINT       ,NISUBMAX       ,NB25_CANDT      ,NB25_IMPCT      ,
+     M     NB25_DST1         ,NB25_DST2      ,IXIG3D         ,KXIG3D          ,WIGE            ,
+     N     KNOT              ,IGEO           ,MULTI_FVM      ,H3D_DATA        ,INTBUF_FRIC_TAB ,
      P     PSKIDS            ,T2MAIN_SMS   ,FORNEQS        ,KNOTLOCPC       ,KNOTLOCEL      ,
-     Q     PINCH_DATA%APINCH(1,IDX_PINCH),PINCH_DATA%STIFPINCH(IDX_PINCH),T2FAC_SMS,TAGNCONT  ,
+     Q     PINCH_DATA%APINCH(1,IDX_PINCH),PINCH_DATA%STIFPINCH(IDX_PINCH),T2FAC_SMS,TAGNCONT   ,
      R     KLOADPINTER       ,LOADPINTER     ,LOADP_HYD_INTER ,DGAPLOADINT    ,S_LOADPINTER   )
 
          IF(NINTSTAMP/=0.AND.(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT >0.OR.

@@ -28,25 +28,37 @@ Chd|        I7MAINF                       source/interfaces/int07/i7mainf.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE I18DST3(
-     1                  JLT    ,CAND_N ,CAND_E ,CN_LOC ,CE_LOC ,
-     2                  X1     ,X2     ,X3     ,X4     ,Y1     ,
-     3                  Y2     ,Y3     ,Y4     ,Z1     ,Z2     ,
-     4                  Z3     ,Z4     ,XI     ,YI     ,ZI     ,
-     5                  NX1    ,NX2    ,NX3    ,NX4    ,NY1    ,
-     6                  NY2    ,NY3    ,NY4    ,NZ1    ,NZ2    ,
-     7                  NZ3    ,NZ4    ,LB1    ,LB2    ,LB3    ,
-     8                  LB4    ,LC1    ,LC2    ,LC3    ,LC4    ,
-     9                  P1     ,P2     ,P3     ,P4     ,IX1    ,
-     A                  IX2    ,IX3    ,IX4    ,NSVG   ,STIF   ,
-     B                  JLT_NEW,GAPV   ,INACTI ,CAND_P ,
-     C                  INDEX  ,VXI    ,VYI    ,ITAB   ,
-     D                  VZI    ,MSI    ,KINI   ,SURF   , IBAG)
+     1                  JLT    ,CAND_N   , CAND_E ,CN_LOC ,CE_LOC        ,
+     2                  X1     ,X2       , X3     ,X4     ,Y1            ,
+     3                  Y2     ,Y3       , Y4     ,Z1     ,Z2            ,
+     4                  Z3     ,Z4       , XI     ,YI     ,ZI            ,
+     5                  NX1    ,NX2      , NX3    ,NX4    ,NY1           ,
+     6                  NY2    ,NY3      , NY4    ,NZ1    ,NZ2           ,
+     7                  NZ3    ,NZ4      , LB1    ,LB2    ,LB3           ,
+     8                  LB4    ,LC1      , LC2    ,LC3    ,LC4           ,
+     9                  P1     ,P2       , P3     ,P4     ,IX1           ,
+     A                  IX2    ,IX3      , IX4    ,NSVG   ,STIF          ,
+     B                  JLT_NEW,GAPV     , INACTI ,CAND_P ,ALE_NE_CONNECT,
+     C                  INDEX  ,VXI      , VYI    ,ITAB   ,XCELL         ,
+     D                  VZI    ,MSI      , KINI   ,SURF   , IBAG         ,
+     E                  IGAP   ,MULTI_FVM)
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C This subroutine is computing GAP value (if not constant)
+C and also penetration into the gap.
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE ALE_CONNECTIVITY_MOD
+      USE MULTI_FVM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "comlock.inc"
 #include      "com04_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -58,7 +70,7 @@ C-----------------------------------------------
      .        CAND_E(*),CE_LOC(MVSIZ), NSVG(MVSIZ), KINI(*),ICURV
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        INDEX(MVSIZ),IBAG
-      INTEGER, INTENT(IN) :: ITAB(NUMNOD)
+      INTEGER, INTENT(IN) :: ITAB(NUMNOD),IGAP
       my_real
      .     NX1(MVSIZ), NX2(MVSIZ), NX3(MVSIZ), NX4(MVSIZ),
      .     NY1(MVSIZ), NY2(MVSIZ), NY3(MVSIZ), NY4(MVSIZ),
@@ -74,7 +86,9 @@ C-----------------------------------------------
      .     P1(MVSIZ), P2(MVSIZ), P3(MVSIZ), P4(MVSIZ), 
      .     GAPV(MVSIZ), CAND_P(*),
      .     VXI(MVSIZ), VYI(MVSIZ), VZI(MVSIZ), MSI(MVSIZ),
-     .     SURF(3,*)
+     .     SURF(3,*),XCELL(3,SXCELL)
+      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM      
+      TYPE(t_connectivity), INTENT(IN) :: ALE_NE_CONNECT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -83,7 +97,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG, J
+      INTEGER I, IG, J, IEL, IAD1, IAD2, ELEM_ID
       my_real
      .     X0(MVSIZ), Y0(MVSIZ), Z0(MVSIZ),
      .     AL1(MVSIZ),  AL2(MVSIZ),  AL3(MVSIZ), AL4(MVSIZ),
@@ -97,11 +111,11 @@ C-----------------------------------------------
      .     HLB1(MVSIZ), HLC1(MVSIZ), HLB2(MVSIZ),HLC2(MVSIZ),
      .     HLB3(MVSIZ), HLC3(MVSIZ), HLB4(MVSIZ),HLC4(MVSIZ)
       my_real
-     .     S2,D1,D2,D3,D4,
+     .     S2,D1,D2,D3,D4,DL,
      .     X12,X23,X34,X41,XI0,SX1,SX2,SX3,SX4,SX0,
      .     Y12,Y23,Y34,Y41,YI0,SY1,SY2,SY3,SY4,SY0,
      .     Z12,Z23,Z34,Z41,ZI0,SZ1,SZ2,SZ3,SZ4,SZ0,
-     .     GAP2, DS2,T1,T2,T3,
+     .     GAP2(MVSIZ), DS2,T1,T2,T3,
      .     AL1NUM,AL2NUM,AL3NUM,AL4NUM,AL1DEN,AL2DEN,AL3DEN,AL4DEN,
      .     X23D,Y23D,Z23D,X34D,Y34D,Z34D,X41D,Y41D,Z41D,
      .     X12D,Y12D,Z12D,GAP2D,XI0D,YI0D,ZI0D,S2D, LA, HLA, AAA,
@@ -110,7 +124,16 @@ C-----------------------------------------------
      .     NNX1(MVSIZ), NNX2(MVSIZ), NNX3(MVSIZ), NNX4(MVSIZ),
      .     NNY1(MVSIZ), NNY2(MVSIZ), NNY3(MVSIZ), NNY4(MVSIZ),
      .     NNZ1(MVSIZ), NNZ2(MVSIZ), NNZ3(MVSIZ), NNZ4(MVSIZ)
+     
+      LOGICAL IS_GAP_CONSTANT, IS_GAP_VARIABLE
 C-----------------------------------------------
+
+       IS_GAP_CONSTANT = .TRUE.
+       IS_GAP_VARIABLE = .FALSE.
+       IF(IGAP == 1)THEN
+         IS_GAP_CONSTANT = .FALSE.
+         IS_GAP_VARIABLE = .TRUE.         
+       ENDIF
 
        !Reference point for triangular decomposition
        DO I=1,JLT
@@ -126,9 +149,6 @@ C-----------------------------------------------
          Z0(I) = Z3(I)
         ENDIF
        ENDDO
-       
-       !Gap is constant for interface 18 : !GAPV(1:JLT)=GAP
-       GAP2=GAPV(1)*GAPV(1)   
        
        !COMPUTING VECTORS using each top of the face (from salve point I and from reference point 0 on the face)
        DO I=1,JLT
@@ -236,6 +256,42 @@ C-----------------------------------------------
         LB4(I) = -(SX0*SX1 + SY0*SY1 + SZ0*SZ1) * S2
         LC4(I) =  (SX0*SX4 + SY0*SY4 + SZ0*SZ4) * S2
        ENDDO
+       
+       IF(IGAP == 1)THEN !---VARIABLE GAP, CALCULATED HERE
+        IF (.NOT.MULTI_FVM%IS_USED) THEN
+         DO I=1,JLT
+           IAD1 = ALE_NE_CONNECT%IAD_CONNECT(I)                         
+           IAD2 = ALE_NE_CONNECT%IAD_CONNECT(I + 1) - 1 
+           DL = ZERO                
+           DO IEL = IAD1, IAD2                                          
+              ELEM_ID = ALE_NE_CONNECT%CONNECTED(IEL)                   
+              DL=MAX(DL, XCELL(1,ELEM_ID))      
+           ENDDO                                                   
+           GAPV(I) = THREE_HALF*DL
+         ENDDO!next I
+        ELSEIF(MULTI_FVM%IS_USED) THEN
+         DO I=1,JLT
+           ELEM_ID = NSVG(I) - NUMNOD   !ou NSVG(I) ?
+           DL=XCELL(1,ELEM_ID)                                                         
+           !gap value
+           GAPV(I) = THREE_HALF*DL
+         ENDDO!next I
+        ENDIF
+       ELSE !---CONSTANT GAP INPUT BY USER (IGAP=0=
+         GAPV(1:JLT)=GAPV(1)
+       ENDIF  
+       
+       IF(IS_GAP_CONSTANT)THEN
+       !Gap is constant for interface 18 : !GAPV(1:JLT)=GAP
+         AAA =GAPV(1)*GAPV(1)
+         DO I=1,JLT
+           GAP2(I)=AAA  
+         ENDDO
+       ELSE
+         DO I=1,JLT
+           GAP2(I)=GAPV(I)*GAPV(I)   
+         ENDDO
+       ENDIF             
 
        IF (IBAG/=0) THEN
 #include "lockon.inc"
@@ -365,8 +421,7 @@ C-----------------------------------------------
          LB4(I) = AL4(I)
         ENDIF
        ENDDO
-
-        
+              
        !Use minimal distance from each triangle to compute penetration
        DO I=1,JLT
         !----MINIMAL DISTANCE FROM TRIANGLE_1
@@ -374,27 +429,26 @@ C-----------------------------------------------
         NY1(I) = YI(I)-(Y0(I) + LB1(I)*Y01(I) + LC1(I)*Y02(I))
         NZ1(I) = ZI(I)-(Z0(I) + LB1(I)*Z01(I) + LC1(I)*Z02(I))
         P1(I) = NX1(I)*NX1(I) + NY1(I)*NY1(I) +NZ1(I)*NZ1(I)
-        D1 = MAX(ZERO, GAP2 - P1(I))
         !----MINIMAL DISTANCE FROM TRIANGLE_2        
         NX2(I) = XI(I)-(X0(I) + LB2(I)*X02(I) + LC2(I)*X03(I))
         NY2(I) = YI(I)-(Y0(I) + LB2(I)*Y02(I) + LC2(I)*Y03(I))
         NZ2(I) = ZI(I)-(Z0(I) + LB2(I)*Z02(I) + LC2(I)*Z03(I))
         P2(I) = NX2(I)*NX2(I) + NY2(I)*NY2(I) +NZ2(I)*NZ2(I)
-        D2 = MAX(ZERO, GAP2 - P2(I))
         !----MINIMAL DISTANCE FROM TRIANGLE_3        
         NX3(I) = XI(I)-(X0(I) + LB3(I)*X03(I) + LC3(I)*X04(I))
         NY3(I) = YI(I)-(Y0(I) + LB3(I)*Y03(I) + LC3(I)*Y04(I))
         NZ3(I) = ZI(I)-(Z0(I) + LB3(I)*Z03(I) + LC3(I)*Z04(I))
         P3(I) = NX3(I)*NX3(I) + NY3(I)*NY3(I) +NZ3(I)*NZ3(I)
-        D3 = MAX(ZERO, GAP2 - P3(I))
         !----MINIMAL DISTANCE FROM TRIANGLE_4        
         NX4(I) = XI(I)-(X0(I) + LB4(I)*X04(I) + LC4(I)*X01(I))
         NY4(I) = YI(I)-(Y0(I) + LB4(I)*Y04(I) + LC4(I)*Y01(I))
         NZ4(I) = ZI(I)-(Z0(I) + LB4(I)*Z04(I) + LC4(I)*Z01(I))
         P4(I) = NX4(I)*NX4(I) + NY4(I)*NY4(I) +NZ4(I)*NZ4(I)
-        D4 = MAX(ZERO, GAP2 - P4(I))
-        
         !---------estimation calculated to skip node out of gap
+        D1 = MAX(ZERO, GAP2(I) - P1(I))
+        D2 = MAX(ZERO, GAP2(I) - P2(I))
+        D3 = MAX(ZERO, GAP2(I) - P3(I))
+        D4 = MAX(ZERO, GAP2(I) - P4(I))
         PENE2(I) = MAX(D1,D2,D3,D4) !PENE2 = GAP^2 - DIST^2 :    PENE**2 =0 => PENE=0
         
        ENDDO

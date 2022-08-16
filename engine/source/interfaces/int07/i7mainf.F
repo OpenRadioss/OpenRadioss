@@ -80,25 +80,25 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE I7MAINF(
-     1                   IPARI  ,X        ,A      ,
-     2                   ICODT  ,FSAV    ,V         ,MS       ,DT2T   ,
-     3                   NELTST ,ITYPTST ,ITAB      ,STIFN    ,FSKYI  ,
-     4                   ISKY   ,FCONT   ,NIN       ,LINDMAX  ,KINET  ,
-     5                   JTASK          ,NB_JLT    ,NB_JLT_NEW ,NB_STOK_N ,ELBUF_TAB,
-     6                   NISKYFI        ,NEWFRONT  ,NSTRF      ,SECFCUM   ,IGROUPS  ,
-     7                   ICONTACT       ,VISCN     ,NUM_IMP    ,
-     9                   NS_IMP ,NE_IMP  ,IND_IMP   ,FSAVSUB  ,NRTMDIM,
-     A                   FSAVBAG        ,FR_I18    ,IGRBRIC    ,
-     B                   EMINX  ,IXS     ,IXS16     ,IXS20    ,FNCONT ,
-     C                   FTCONT ,IAD_ELEM,FR_ELEM   ,RCONTACT ,ACONTACT,
-     D                   PCONTACT,TEMP      ,FTHE     ,FTHESKYI,
-     E                   PM      ,IPARG ,IAD17   ,MSKYI_SMS  ,ISKYI_SMS,
-     F                   NODNX_SMS,MS0  ,QFRICINT   ,NPC     ,TF       ,
-     G                   CONDN          ,CONDNSKYI ,INTBUF_TAB , 
-     H                   FBSAV6    ,ISENSINT   ,DIMFB     ,IXIG3D   ,KXIG3D ,
-     I                   WIGE           ,KNOT      ,IGEO       ,MULTI_FVM ,H3D_DATA ,
-     J                   INTBUF_FRIC_TAB,KNOTLOCPC ,KNOTLOCEL ,ITASK      ,TAGNCONT ,
-     K                   KLOADPINTER    ,LOADPINTER,LOADP_HYD_INTER,DGAPLOADINT,S_LOADPINTER)
+     1                   IPARI          ,X           ,A              ,ALE_CONNECTIVITY ,XCELL      ,
+     2                   ICODT          ,FSAV        ,V              ,MS               ,DT2T       ,
+     3                   NELTST         ,ITYPTST     ,ITAB           ,STIFN            ,FSKYI      ,
+     4                   ISKY           ,FCONT       ,NIN            ,LINDMAX          ,KINET      ,
+     5                   JTASK          ,NB_JLT      ,NB_JLT_NEW     ,NB_STOK_N        ,ELBUF_TAB  ,
+     6                   NISKYFI        ,NEWFRONT    ,NSTRF          ,SECFCUM          ,IGROUPS    ,
+     7                   ICONTACT       ,VISCN       ,NUM_IMP        ,
+     9                   NS_IMP         ,NE_IMP      ,IND_IMP        ,FSAVSUB          ,NRTMDIM    ,
+     A                   FSAVBAG        ,FR_I18      ,IGRBRIC        ,
+     B                   EMINX          ,IXS         ,IXS16          ,IXS20            ,FNCONT     ,
+     C                   FTCONT         ,IAD_ELEM    ,FR_ELEM        ,RCONTACT         ,ACONTACT   ,
+     D                   PCONTACT       ,TEMP        ,FTHE           ,FTHESKYI         ,
+     E                   PM             ,IPARG       ,IAD17          ,MSKYI_SMS        ,ISKYI_SMS  ,
+     F                   NODNX_SMS      ,MS0         ,QFRICINT       ,NPC              ,TF         ,
+     G                   CONDN          ,CONDNSKYI   ,INTBUF_TAB     , 
+     H                   FBSAV6         ,ISENSINT    ,DIMFB          ,IXIG3D           ,KXIG3D     ,
+     I                   WIGE           ,KNOT        ,IGEO           ,MULTI_FVM        ,H3D_DATA   ,
+     J                   INTBUF_FRIC_TAB,KNOTLOCPC   ,KNOTLOCEL      ,ITASK            ,TAGNCONT   ,
+     K                   KLOADPINTER    ,LOADPINTER  ,LOADP_HYD_INTER,DGAPLOADINT      ,S_LOADPINTER)
 C======================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -112,6 +112,7 @@ C-----------------------------------------------
       USE H3D_MOD
       USE INTBUF_FRIC_MOD
       USE GROUPDEF_MOD
+      USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -140,9 +141,11 @@ C-----------------------------------------------
 #include      "sms_c.inc"
 #include      "macro.inc"
 #include      "comlock.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       INTEGER NELTST,ITYPTST,NIN,NEWFRONT,NSTRF(*),
      .        NRTMDIM, IAD17, ISENSINT(*),DIMFB,IGROUPS(NUMELS)
@@ -160,8 +163,7 @@ C-----------------------------------------------
       INTEGER  , INTENT(IN) :: KLOADPINTER(NINTER+1),LOADPINTER(S_LOADPINTER),
      .         LOADP_HYD_INTER(NLOADP_HYD)
       my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
-      my_real 
-     .        EMINX(*)
+      my_real  EMINX(*), XCELL(3,SXCELL)
       my_real DT2T,
      .   X(3,*), A(3,*), FSAV(*), V(3,*),FSAVBAG(*),
      .   MS(*),STIFN(*),FSKYI(LSKYI,4),FCONT(3,*),MS0(*),
@@ -637,19 +639,20 @@ C         print *, "---a-b-c-----------------",NFT
 C
           IF(TYPE18)THEN
             CALL I18DST3(
-     1        JLT          ,CAND_N_N,CAND_E_N,CN_LOC ,CE_LOC       ,
-     2        X1           ,X2      ,X3      ,X4     ,Y1           ,
-     3        Y2           ,Y3      ,Y4      ,Z1     ,Z2           ,
-     4        Z3           ,Z4      ,XI      ,YI     ,ZI           ,
-     5        NX1          ,NX2     ,NX3     ,NX4    ,NY1          ,
-     6        NY2          ,NY3     ,NY4     ,NZ1    ,NZ2          ,
-     7        NZ3          ,NZ4     ,LB1     ,LB2    ,LB3          ,
-     8        LB4          ,LC1     ,LC2     ,LC3    ,LC4          ,
-     9        P1           ,P2      ,P3      ,P4     ,IX1          ,
-     A        IX2          ,IX3     ,IX4     ,NSVG   ,STIF         ,
-     B        JLT_NEW      ,GAPV    ,INACTI ,INTBUF_TAB%CAND_P,
-     C        INDEX2(NFT+1) ,VXI       ,VYI       ,ITAB                 ,
-     D        VZI          ,MSI     ,KINI    ,SURF   ,IBAG)
+     1        JLT           ,CAND_N_N ,CAND_E_N, CN_LOC            ,CE_LOC                     , 
+     2        X1            ,X2       ,X3      , X4                ,Y1                         ,
+     3        Y2            ,Y3       ,Y4      , Z1                ,Z2                         ,
+     4        Z3            ,Z4       ,XI      , YI                ,ZI                         ,
+     5        NX1           ,NX2      ,NX3     , NX4               ,NY1                        ,
+     6        NY2           ,NY3      ,NY4     , NZ1               ,NZ2                        ,
+     7        NZ3           ,NZ4      ,LB1     , LB2               ,LB3                        ,
+     8        LB4           ,LC1      ,LC2     , LC3               ,LC4                        ,
+     9        P1            ,P2       ,P3      , P4                ,IX1                        ,
+     A        IX2           ,IX3      ,IX4     , NSVG              ,STIF                       ,
+     B        JLT_NEW       ,GAPV     ,INACTI  , INTBUF_TAB%CAND_P ,ALE_CONNECTIVITY%NE_CONNECT,
+     C        INDEX2(NFT+1) ,VXI      ,VYI     , ITAB              ,XCELL                      ,               
+     D        VZI           ,MSI      ,KINI    , SURF              ,IBAG                       ,
+     E        IGAP          ,MULTI_FVM)
 
             IF( MULTI_FVM%IS_INT18_LAW151 ) THEN
                 MSI_APPEND(1:MVSIZ) = ZERO
