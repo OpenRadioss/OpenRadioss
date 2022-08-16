@@ -44,17 +44,18 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NGL(*),nvar
-      my_real
-     .   VAR(*),FLUX(MVSIZ,6),FLU1(*),PHI(*),PHIV(*)
+      my_real VAR(*),FLUX(MVSIZ,6),FLU1(*),PHI(*),PHIV(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IOFF
-C=======================================================================
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
          IOFF = NUMELS
-         CALL ALECONV3(VAR    ,PHI    ,FLUX    ,FLU1    ,PHIV   ,
-     .                 ALE_CONNECT  ,IOFF   ,NGL     )
+         CALL ALECONV3(VAR         ,PHI    ,FLUX    ,FLU1    ,PHIV   ,
+     .                 ALE_CONNECT ,IOFF   ,NGL     )
 C-------------
       RETURN
       END SUBROUTINE ALECONVE
@@ -66,7 +67,7 @@ Chd|        ALECONVE                      source/ale/aleconv.F
 Chd|-- calls ---------------
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|====================================================================
-      SUBROUTINE ALECONV3(VTOT  ,PHI    ,FLUX  ,FLU1  ,PHIV  ,
+      SUBROUTINE ALECONV3(VTOT        ,PHI    ,FLUX  ,FLU1  ,PHIV  ,
      .                    ALE_CONNECT ,IOFF   ,NGL   )
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
@@ -78,9 +79,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IOFF,NGL(*)
-C     REAL
-      my_real
-     .   VTOT(*), PHI(*), FLUX(MVSIZ,6), FLU1(*),PHIV(*)
+      my_real VTOT(*), PHI(*), FLUX(MVSIZ,6), FLU1(*),PHIV(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -96,6 +95,8 @@ C-----------------------------------------------
       my_real
      .   VALVOIS(MVSIZ,6),VALEL(MVSIZ),VL(6)
 C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       DO I=LFT,LLT
         IE =NFT+I
         VALEL(I)=PHI(IE)
@@ -106,9 +107,9 @@ C
           IE =NFT+I
           IAD2 = ALE_CONNECT%ee_connect%iad_connect(IE)
           IV=ALE_CONNECT%ee_connect%connected(IAD2 + J - 1)
-          IF(IV.GT.0)THEN
+          IF(IV > 0)THEN
             VALVOIS(I,J)=PHI(IV)
-          ELSEIF(IV.EQ.0)THEN       
+          ELSEIF(IV == 0)THEN       
              VALVOIS(I,J)= PHIV(I)
 !C  not incoming gas  
 cc            VALVOIS(I,J)= ZERO

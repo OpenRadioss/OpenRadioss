@@ -42,20 +42,21 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     .   DELTAX(*), YL(*), AIRE(*)
+      my_real DELTAX(*), YL(*), AIRE(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I
-      my_real
-     .   R, A      
+      INTEGER :: I
+      my_real :: R, A      
 C-----------------------------------------------
-      DO 10 I=LFT,LLT
-      R    = DELTAX(I)**2/AIRE(I)
-      A    = MAX(ZERO,FOURTH-R**2)
-      A    = MAX(ZERO,HALF-SQRT(A))
- 10   YL(I)=DELTAX(I)*SQRT(A)/R
-C
+C   S o u r c e   L i n e s
+C-----------------------------------------------
+      DO I=LFT,LLT
+        R = DELTAX(I)**2/AIRE(I)
+        A = MAX(ZERO,FOURTH-R**2)
+        A = MAX(ZERO,HALF-SQRT(A))
+        YL(I)=DELTAX(I)*SQRT(A)/R
+      ENDDO
+C-----------------------------------------------
       RETURN
       END

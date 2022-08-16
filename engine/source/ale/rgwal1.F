@@ -76,18 +76,20 @@ C-----------------------------------------------
       my_real
      .        TEMP,TIME,BID,E(NUMNOD)
 C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
 
 C-----------------------
-C         MUR RIGIDE ALE-TH
+C         RIGID WALL ALE-TH (OBSOLETE)
 C-----------------------
-      IF(NRWALL.GT.0)THEN
+      IF(NRWALL > 0)THEN
           K=1
-          DO 460 N=1,NRWALL
+          DO N=1,NRWALL
             N2=N +NRWALL
             N3=N2+NRWALL
             N4=N3+NRWALL
             ITYP=NPRW(N4)
-            IF(ITYP.EQ.-1)THEN
+            IF(ITYP == -1)THEN
               NSN =NPRW(N)
               NE  =NINT(RWBUF(8,N))
               IFUNC=NINT(RWBUF(9,N))
@@ -98,14 +100,14 @@ C-----------------------
               CALL RGWATH(
      1          X       ,V	     ,W       ,RWBUF(1,N),LPRW(K)    ,
      2          NSN     ,NPRW(N3)    ,MS      ,FSAV(1,N) ,IXS	     ,
-     3          IXQ     ,ELBUF_TAB,IPARG	 ,PM	     ,
+     3          IXQ     ,ELBUF_TAB   ,IPARG   ,PM	 ,
      4          NTAG    ,LPRW(K+NSN) ,NE      ,TEMP	 ,RWBUF(11,N),
      5          E       ,A	     ,NPRW(N2),WEIGHT	 ,IAD_ELEM   ,
      6          FR_ELEM ,FR_WALL(1,N))
               K=K+NINT(RWBUF(8,N))
             ENDIF
             K=K+NPRW(N)
-  460     CONTINUE
+          ENDDO!next N
       ENDIF
       RETURN
       END

@@ -38,20 +38,18 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER J, K
-C     REAL
-      my_real
-     .   W(3), V(3), B(LSKEW)
+      my_real W(3), V(3), B(LSKEW)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL
-      my_real
-     .   AA
+      my_real AA
 C-----------------------------------------------
-      IF(K.EQ.0) RETURN
-      IF(J.EQ.1) THEN
+C   S o u r c e   L i n e s
+C-----------------------------------------------
+      IF(K == 0) RETURN
+      IF(J == 1) THEN
 C------------------
-C     REPERE GLOBAL
+C     GLOBAL FRAME
 C------------------
       GO TO (10,20,30,40,50,60,70),K
    10 W(3)=V(3)
@@ -76,7 +74,7 @@ C------------------
 C
       ELSE
 C-------------------
-C     REPERE OBLIQUE
+C     OBLIQUE FRAME
 C-------------------
       GO TO (110,120,130,140,150,160,170),K
   110 AA  =B(7)*(W(1)-V(1))+B(8)*(W(2)-V(2))+B(9)*(W(3)-V(3))
@@ -146,106 +144,105 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
+#include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NINDX,INDX(*),ISKEW(*),ICODT(*)
-C     REAL
-      my_real
-     .   W(3,*), V(3,*), B(LSKEW,*)
+      my_real W(3,NUMNOD), V(3,NUMNOD), B(LSKEW,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, K, ISK, LCOD
-C     REAL
-      my_real
-     .   AA
+      my_real AA
+C-----------------------------------------------
+C   S o u r c e   L i n e s
 C-----------------------------------------------
 #include "vectorize.inc"
       DO K = 1, NINDX
         N   = INDX(K)
         ISK =ISKEW(N)
         LCOD=ICODT(N)
-        IF(ISK.EQ.1) THEN
+        IF(ISK == 1) THEN
 C------------------
-C     REPERE GLOBAL
+C     GLOBAL FRAME
 C------------------
-          IF(LCOD.EQ.1)THEN
+          IF(LCOD == 1)THEN
             W(3,N)=V(3,N)
-          ELSEIF(LCOD.EQ.2)THEN
+          ELSEIF(LCOD == 2)THEN
             W(2,N)=V(2,N)
-          ELSEIF(LCOD.EQ.3)THEN
+          ELSEIF(LCOD == 3)THEN
             W(2,N)=V(2,N)
             W(3,N)=V(3,N)
-          ELSEIF(LCOD.EQ.4)THEN
+          ELSEIF(LCOD == 4)THEN
             W(1,N)=V(1,N)
-          ELSEIF(LCOD.EQ.5)THEN
+          ELSEIF(LCOD == 5)THEN
             W(1,N)=V(1,N)
             W(3,N)=V(3,N)
-          ELSEIF(LCOD.EQ.6)THEN
+          ELSEIF(LCOD == 6)THEN
             W(1,N)=V(1,N)
             W(2,N)=V(2,N)
-          ELSEIF(LCOD.EQ.7)THEN
+          ELSEIF(LCOD == 7)THEN
             W(1,N)=V(1,N)
             W(2,N)=V(2,N)
             W(3,N)=V(3,N)
           ENDIF
         ELSE
 C-------------------
-C     REPERE OBLIQUE
+C     OBLIQUE FRAME
 C-------------------
-          IF(LCOD.EQ.1)THEN
-            AA  =B(7,ISK)*(W(1,N)-V(1,N))+B(8,ISK)*
-     .           (W(2,N)-V(2,N))+B(9,ISK)*(W(3,N)-V(3,N))
+          IF(LCOD == 1)THEN
+            AA =B(7,ISK)*(W(1,N)-V(1,N))+B(8,ISK)*
+     .          (W(2,N)-V(2,N))+B(9,ISK)*(W(3,N)-V(3,N))
             W(1,N)=W(1,N)-B(7,ISK)*AA
             W(2,N)=W(2,N)-B(8,ISK)*AA
             W(3,N)=W(3,N)-B(9,ISK)*AA
-          ELSEIF(LCOD.EQ.2)THEN
-            AA  =B(4,ISK)*(W(1,N)-V(1,N))+B(5,ISK)*
-     .           (W(2,N)-V(2,N))+B(6,ISK)*(W(3,N)-V(3,N))
+          ELSEIF(LCOD == 2)THEN
+            AA=B(4,ISK)*(W(1,N)-V(1,N))+B(5,ISK)*
+     .         (W(2,N)-V(2,N))+B(6,ISK)*(W(3,N)-V(3,N))
             W(1,N)=W(1,N)-B(4,ISK)*AA
             W(2,N)=W(2,N)-B(5,ISK)*AA
             W(3,N)=W(3,N)-B(6,ISK)*AA
-          ELSEIF(LCOD.EQ.3)THEN
-            AA  =B(7,ISK)*(W(1,N)-V(1,N))+B(8,ISK)*
-     .           (W(2,N)-V(2,N))+B(9,ISK)*(W(3,N)-V(3,N))
+          ELSEIF(LCOD == 3)THEN
+            AA=B(7,ISK)*(W(1,N)-V(1,N))+B(8,ISK)*
+     .         (W(2,N)-V(2,N))+B(9,ISK)*(W(3,N)-V(3,N))
             W(1,N)=W(1,N)-B(7,ISK)*AA
             W(2,N)=W(2,N)-B(8,ISK)*AA
             W(3,N)=W(3,N)-B(9,ISK)*AA
-            AA  =B(4,ISK)*(W(1,N)-V(1,N))+B(5,ISK)*
-     .           (W(2,N)-V(2,N))+B(6,ISK)*(W(3,N)-V(3,N))
+            AA=B(4,ISK)*(W(1,N)-V(1,N))+B(5,ISK)*
+     .         (W(2,N)-V(2,N))+B(6,ISK)*(W(3,N)-V(3,N))
             W(1,N)=W(1,N)-B(4,ISK)*AA
             W(2,N)=W(2,N)-B(5,ISK)*AA
             W(3,N)=W(3,N)-B(6,ISK)*AA
-          ELSEIF(LCOD.EQ.4)THEN
-            AA  =B(1,ISK)*(W(1,N)-V(1,N))+B(2,ISK)*
-     .           (W(2,N)-V(2,N))+B(3,ISK)*(W(3,N)-V(3,N))
+          ELSEIF(LCOD == 4)THEN
+            AA=B(1,ISK)*(W(1,N)-V(1,N))+B(2,ISK)*
+     .         (W(2,N)-V(2,N))+B(3,ISK)*(W(3,N)-V(3,N))
             W(1,N)=W(1,N)-B(1,ISK)*AA
             W(2,N)=W(2,N)-B(2,ISK)*AA
             W(3,N)=W(3,N)-B(3,ISK)*AA
-          ELSEIF(LCOD.EQ.5)THEN
-            AA  =B(7,ISK)*(W(1,N)-V(1,N))+B(8,ISK)*
-     .           (W(2,N)-V(2,N))+B(9,ISK)*(W(3,N)-V(3,N))
+          ELSEIF(LCOD == 5)THEN
+            AA=B(7,ISK)*(W(1,N)-V(1,N))+B(8,ISK)*
+     .         (W(2,N)-V(2,N))+B(9,ISK)*(W(3,N)-V(3,N))
             W(1,N)=W(1,N)-B(7,ISK)*AA
             W(2,N)=W(2,N)-B(8,ISK)*AA
             W(3,N)=W(3,N)-B(9,ISK)*AA
-            AA  =B(1,ISK)*(W(1,N)-V(1,N))+B(2,ISK)*
-     .           (W(2,N)-V(2,N))+B(3,ISK)*(W(3,N)-V(3,N))
+            AA=B(1,ISK)*(W(1,N)-V(1,N))+B(2,ISK)*
+     .         (W(2,N)-V(2,N))+B(3,ISK)*(W(3,N)-V(3,N))
             W(1,N)=W(1,N)-B(1,ISK)*AA
             W(2,N)=W(2,N)-B(2,ISK)*AA
             W(3,N)=W(3,N)-B(3,ISK)*AA
-          ELSEIF(LCOD.EQ.6)THEN
-            AA  =B(1,ISK)*(W(1,N)-V(1,N))+B(2,ISK)*
-     .           (W(2,N)-V(2,N))+B(3,ISK)*(W(3,N)-V(3,N))
+          ELSEIF(LCOD == 6)THEN
+            AA=B(1,ISK)*(W(1,N)-V(1,N))+B(2,ISK)*
+     .         (W(2,N)-V(2,N))+B(3,ISK)*(W(3,N)-V(3,N))
             W(1,N)=W(1,N)-B(1,ISK)*AA
             W(2,N)=W(2,N)-B(2,ISK)*AA
             W(3,N)=W(3,N)-B(3,ISK)*AA
-            AA  =B(4,ISK)*(W(1,N)-V(1,N))+B(5,ISK)*
-     .           (W(2,N)-V(2,N))+B(6,ISK)*(W(3,N)-V(3,N))
+            AA=B(4,ISK)*(W(1,N)-V(1,N))+B(5,ISK)*
+     .         (W(2,N)-V(2,N))+B(6,ISK)*(W(3,N)-V(3,N))
             W(1,N)=W(1,N)-B(4,ISK)*AA
             W(2,N)=W(2,N)-B(5,ISK)*AA
             W(3,N)=W(3,N)-B(6,ISK)*AA
-          ELSEIF(LCOD.EQ.7)THEN
+          ELSEIF(LCOD == 7)THEN
             W(1,N)=V(1,N)
             W(2,N)=V(2,N)
             W(3,N)=V(3,N)

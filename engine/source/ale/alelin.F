@@ -29,7 +29,7 @@ Chd|        SPMD_GLOB_DSUM9               source/mpi/interfaces/spmd_th.F
 Chd|        SPMD_RBCAST                   source/mpi/generic/spmd_rbcast.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
-      SUBROUTINE ALELIN(NALELK,LINALE,W,WEIGHT, IGRNOD, ITAB)
+      SUBROUTINE ALELIN(NALELK ,LINALE ,W ,WEIGHT ,IGRNOD , ITAB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -52,9 +52,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN)   :: NALELK
-      INTEGER,INTENT(IN)   :: LINALE(*), WEIGHT(*),ITAB(*) 
-      my_real,INTENT(INOUT) :: W(3,*)
-!
+      INTEGER,INTENT(IN)   :: LINALE(*), WEIGHT(*),ITAB(NUMNOD) 
+      my_real, INTENT(INOUT) :: W(3,NUMNOD)
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -117,16 +116,16 @@ C-----------------------------------------------
           N        = LINALE(K-2)     
           
           IF(uID<0)CYCLE !OFF          
-          IF(M1.GT.0)THEN                ! test noeud present sur proc
-            IF(WEIGHT(M1).EQ.1)THEN
+          IF(M1 > 0)THEN                ! test if node is on current domain
+            IF(WEIGHT(M1) ==  1)THEN
               WM1M2(1) = W(1,M1)
               WM1M2(2) = W(2,M1)
               WM1M2(3) = W(3,M1)
             END IF
           END IF
           
-          IF(M2.GT.0)THEN                ! test noeud present sur proc
-            IF(WEIGHT(M2).EQ.1)THEN
+          IF(M2 > 0)THEN                ! test if node is on current domain
+            IF(WEIGHT(M2) ==  1)THEN
               WM1M2(4) = W(1,M2)
               WM1M2(5) = W(2,M2)
               WM1M2(6) = W(3,M2)
@@ -134,7 +133,7 @@ C-----------------------------------------------
           END IF
 
           IF(NSPMD > 1) THEN
-            ! COMM a chaque fois pour gerer hierarchie alelink
+            ! Exchange in order to manage the alelink hierarchy
             CALL SPMD_GLOB_DSUM9(WM1M2,6)
             CALL SPMD_RBCAST(WM1M2,WM1M2,1,6,0,2)
           END IF
@@ -155,12 +154,12 @@ C-----------------------------------------------
           ENDIF   
           
           DO J=1,3
-           IF(ID(J).NE.0) THEN
-             IF(IM.EQ.0) THEN
+           IF(ID(J) /=  0) THEN
+             IF(IM ==  0) THEN
                IF(LINALE(K-2)>0)THEN !---NODE LIST IF NUMNOD>0
                  DO I=1,N
                    NI=LINALE(K+I)
-                   IF(NI.GT.0)THEN                ! test noeud present sur proc
+                   IF(NI > 0)THEN                ! test if node is on current domain
                      W(J,NI)=WM1M2(J)+(WM1M2(3+J)-WM1M2(J))*I/N1
                    ENDIF
                  ENDDO
@@ -175,7 +174,7 @@ C-----------------------------------------------
                
              ELSE
              
-               IF(IM*ABS(WM1M2(J)).GT.IM*ABS(WM1M2(3+J)))THEN
+               IF(IM*ABS(WM1M2(J)) > IM*ABS(WM1M2(3+J)))THEN
                  WW=WM1M2(J)
                ELSE
                  WW=WM1M2(3+J)
@@ -184,7 +183,7 @@ C-----------------------------------------------
                IF(LINALE(K-2)>0)THEN !---NODE LIST IF NUMNOD>0
                  DO I=1,N
                    NI=LINALE(K+I)
-                   IF(NI.GT.0)THEN              ! test noeud present sur proc
+                   IF(NI > 0)THEN              ! test if node is on current domain
                      W(J,NI)=WW
                    ENDIF
                  ENDDO
@@ -196,8 +195,8 @@ C-----------------------------------------------
                  ENDDO
                ENDIF!(LINALE(K-2)>0) 
                                
-             ENDIF!(IM.EQ.0)
-           ENDIF!(ID(J).NE.0)
+             ENDIF!(IM ==  0)
+           ENDIF!(ID(J) /=  0)
           ENDDO !next J
         ENDDO
 C-----------------------------------------------

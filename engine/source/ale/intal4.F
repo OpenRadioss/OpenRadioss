@@ -41,14 +41,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL
-      my_real
-     .   A
+      my_real A
       INTEGER IPARI(*), ICODE(*), IBCS(*)
-C     REAL
-      my_real
-     .   X(*), V(*), VG(*), BCS(*)
-
+      my_real X(*), V(*), VG(*), BCS(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -58,7 +53,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-
+C
+C-----------------------------------------------
+C   S o u r c e   L i n e s
 C-----------------------------------------------
       NRTS  =IPARI(3)
       NRTM  =IPARI(4)
@@ -69,8 +66,8 @@ C-----------------------------------------------
       MST   =IPARI(9)
 
       CALL IQELA3
-     1  (V         ,VG        ,INTBUF_TAB%IRECTM,INTBUF_TAB%CSTS,INTBUF_TAB%NSV,
-     2   INTBUF_TAB%ILOCS,INTBUF_TAB%IRTLM,ICODE     ,IBCS      ,BCS       ,
+     1  (V               ,VG              ,INTBUF_TAB%IRECTM,INTBUF_TAB%CSTS,INTBUF_TAB%NSV,
+     2   INTBUF_TAB%ILOCS,INTBUF_TAB%IRTLM,ICODE            ,IBCS           ,BCS       ,
      3   INTBUF_TAB%MSR)
 C
       RETURN

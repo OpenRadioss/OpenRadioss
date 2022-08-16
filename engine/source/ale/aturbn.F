@@ -60,11 +60,10 @@ C-----------------------------------------------
      .   EI, 
      .   XFAC, ARK, C1, C2, C3, SGSL, CMU, SE, FAC, RESGS     
 C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
-C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C
-      IF(JPOR.NE.2)THEN
+      IF(JPOR /= 2)THEN
       
        DO I=LFT,LLT
          XFAC=TMU(I)/VIS(I)
@@ -80,7 +79,7 @@ C
          RK(I)= MAX(EM15,RK(I)/VNEW(I))
          RE(I)= MAX(EM15,RE(I)/VNEW(I))
        ENDDO
-       IF(JCLOSE.EQ.0)THEN
+       IF(JCLOSE == 0)THEN
         DO I=LFT,LLT
           SGSL=PM(46,MAT(I))
           CMU=PM(81,MAT(I))
@@ -104,14 +103,14 @@ C
         ENDDO
        ENDIF
       ELSE
-      !MILIEU POREUX OPTION TURBULENCE IMPOSEE
+      !POROUS MEDIA : IMPOSED TURBULENCY
        DO I=LFT,LLT
-         ! W VITESSE DE GRILLE EST SUPOSEE FAIBLE DEVANT V (QUASI EULERIEN)
+         ! W (GRID/MESH VELOCITY) SUPPOSED TO BE LOW REGARDING MATERIAL VELOCITY V (QUASI EULERIAN)
          RK(I)=RHO(I)*GEO(22,NGEO(I))**2*VD2(I)
          RE(I)=(RK(I)**3/RHO(I))**HALF/GEO(23,NGEO(I))
        ENDDO
        
-      ENDIF! (JPOR.NE.2)
+      ENDIF! (JPOR /= 2)
 C
       RETURN
       END

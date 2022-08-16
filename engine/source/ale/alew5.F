@@ -45,17 +45,24 @@ C-----------------------------------------------
 C     LAPLACIAN GRID SMOOTHING
 C     Compute Grid for /ALE/GRID/LAPLACIAN 
 C-----------------------------------------------
+C     D: is global displacement from t=0
+C     W: is Grid displacement
+C     WEIGHT : 1/n = umbrella
+C     l_ij/sum(l_ik,k) = fujiwara operator   (we must update CFL with DT2< edge_min**2/LAMBDA)
+C     
+C     please note that W will be used as a displacement in this subroutine and translated into grid velocity again before returning 
+C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NALE(*), NODFT, NODLT, ITASK,
+      INTEGER NALE(NUMNOD), NODFT, NODLT, ITASK,
      .     NBRCVOIS(*),NBSDVOIS(*),
      .     LNRCVOIS(*),LNSDVOIS(*),ITAB(*),ISKEW(*),ICODT(*)
       my_real
-     .     X(3,*), D(3,*), V(3,*), W(3,*), WA(3,*), SKEW(LSKEW,*)   
+     .     X(3,NUMNOD), D(3,NUMNOD), V(3,NUMNOD), W(3,NUMNOD), WA(3,*), SKEW(LSKEW,*)   
       TYPE(t_connectivity), INTENT(IN) :: ALE_NN_CONNECT
 C-----------------------------------------------
 C     C o m m o n   B l o c k s
@@ -71,17 +78,11 @@ C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N, IA(6), L, LENCOM, K, ITER,NITER,NUM
-      my_real
-     .     DX, DY, DZ,FAC, VEC(3),LAMBDA,ETA,IFORM, WEIGHT(6),SOM,SOM2,MIN_DIST,MAX_DIST
+      my_real DX, DY, DZ,FAC, VEC(3),LAMBDA,ETA,IFORM, WEIGHT(6),SOM,SOM2,MIN_DIST,MAX_DIST
       my_real, DIMENSION(:), ALLOCATABLE :: DIST
       INTEGER :: IAD, IAD1, IAD2, NODE_ID
 C-----------------------------------------------
-C     D: is global displacement from t=0
-C     W: is Grid displacement
-C     WEIGHT : 1/n = umbrella
-C     l_ij/sum(l_ik,k) = fujiwara operator   (we must update CFL with DT2< edge_min**2/LAMBDA)
-C     
-C     please note that W will be used as a displacement in this subroutine and translated into grid velocity again before returning 
+C   S o u r c e   L i n e s
 C-----------------------------------------------
       LAMBDA=ALPHA
       NITER=NINT(VGX)
@@ -92,17 +93,17 @@ C-----------------------------------------------
       
       DO ITER=1,NITER
 
-         IF(NSPMD.GT.1)THEN
+         IF(NSPMD > 1)THEN
 !$OMP SINGLE
             LENCOM = NBRCVOIS(NSPMD+1)+NBSDVOIS(NSPMD+1)
             CALL SPMD_XVOIS(WA     ,NBRCVOIS,NBSDVOIS,LNRCVOIS,LNSDVOIS,LENCOM)
 !$OMP END SINGLE
          END IF
 
-         IF(IFORM.EQ.1)THEN     
+         IF(IFORM == 1)THEN     
          !default formulation (2020.0)         
             DO I = NODFT, NODLT
-               IF(IABS(NALE(I)).EQ.1) THEN
+               IF(IABS(NALE(I)) == 1) THEN
                   IAD1 = ALE_NN_CONNECT%IAD_CONNECT(I)
                   IAD2 = ALE_NN_CONNECT%IAD_CONNECT(I + 1) - 1
                   NUM = 0
@@ -131,10 +132,10 @@ C-----------------------------------------------
                   W(3,I) = WA(3,I)     
                ENDIF
             ENDDO
-         ELSEIF(IFORM.EQ.2)THEN
+         ELSEIF(IFORM == 2)THEN
          ! experimental formulation
             DO I = NODFT, NODLT
-               IF(IABS(NALE(I)).EQ.1) THEN
+               IF(IABS(NALE(I)) == 1) THEN
                   IAD1 = ALE_NN_CONNECT%IAD_CONNECT(I)
                   IAD2 = ALE_NN_CONNECT%IAD_CONNECT(I + 1) - 1
                   NUM = 0
@@ -191,11 +192,11 @@ C-----------------------------------------------
       
 
       DO I = NODFT, NODLT                              
-         IF(IABS(NALE(I)).EQ.1 .AND. DT2.GT.ZERO) THEN  
+         IF(IABS(NALE(I)) == 1 .AND. DT2 > ZERO) THEN  
             W(1,I)=(WA(1,I)-X(1,I))/DT2                             
             W(2,I)=(WA(2,I)-X(2,I))/DT2                             
             W(3,I)=(WA(3,I)-X(3,I))/DT2                             
-         ELSEIF(NALE(I).EQ.0)THEN                       
+         ELSEIF(NALE(I) == 0)THEN                       
             W(1,I)=V(1,I)                                 
             W(2,I)=V(2,I)                                 
             W(3,I)=V(3,I)                                 

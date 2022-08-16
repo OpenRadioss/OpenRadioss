@@ -68,9 +68,10 @@ C-----------------------------------------------
      .   VX, VY, VZ, AMN, VMN, AMOD, VMOD, BVZ, BAZ, BVX, BVY, BAX, BAY,
      .   A11, A12, A13, A21, A22, A23, A31, A32, A33, DET
 C-----------------------------------------------
-C
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       NIR=2
-      IF(N2D.EQ.0)NIR=4
+      IF(N2D == 0)NIR=4
 C-------------------------------------
 C     ACCELERATIONS DES NOEUDS MAINS
 C-------------------------------------
@@ -82,7 +83,7 @@ C-------------------------------------
         J2=J3-1
         I1=I2-1
         J1=J2-1
-        IF(MSM(I).GT.ZERO)THEN
+        IF(MSM(I) > ZERO)THEN
          A(J1)=A(J1)+E(I1)/MSM(I)
          A(J2)=A(J2)+E(I2)/MSM(I)
          A(J3)=A(J3)+E(I3)/MSM(I)
@@ -135,7 +136,7 @@ C------------------------------------
 
         LCOD=LCODE(I)
       
-        IF(LCOD.NE.0)THEN
+        IF(LCOD /= 0)THEN
 C--------------------------------
 C     NOEUD AVEC CONDITION LIMITE
 C--------------------------------
@@ -147,20 +148,20 @@ C--------------------------------
           LK=ISKEW(I)
           IBC=2
 
-          IF(JBC(1).NE.0)THEN
+          IF(JBC(1) /= 0)THEN
            XN(IBC)=SKEW(1,LK)
            YN(IBC)=SKEW(2,LK)
            ZN(IBC)=SKEW(3,LK)
            IBC=IBC+1
           ENDIF
-          IF(JBC(2).NE.0)THEN
+          IF(JBC(2) /= 0)THEN
            XN(IBC)=SKEW(4,LK)
            YN(IBC)=SKEW(5,LK)
            ZN(IBC)=SKEW(6,LK)
            IBC=IBC+1
           ENDIF
-          IF(JBC(3).NE.0)THEN
-           IF(IBC.EQ.4)THEN
+          IF(JBC(3) /= 0)THEN
+           IF(IBC == 4)THEN
              !C------------------------------------------------
              !C      CE TEST DEVRAIT ETRE FAIT DANS LE STARTER
              !C-----------------------------------------------------
@@ -176,7 +177,7 @@ C--------------------------------
              IBC=IBC+1
            ENDIF
           ENDIF
-          IF(IBC.EQ.3)THEN
+          IF(IBC == 3)THEN
            !C---------------------------
            !C     NOEUD AVEC 1 CONDITION
            !C---------------------------
@@ -212,8 +213,7 @@ C--------------------------------
           !C-----------------------------------
           !C     CALCUL VITESSE ET ACCELERATION
           !C-----------------------------------
-          !IF(DET.EQ.ZERO)GOTO 100
-          IF(DET.NE.ZERO)THEN
+          IF(DET /= ZERO)THEN
            V(I1)=(A11*BVX+A21*BVY+A31*BVZ)/DET
            V(I2)=(A12*BVX+A22*BVY+A32*BVZ)/DET
            V(I3)=(A13*BVX+A23*BVY+A33*BVZ)/DET
@@ -222,7 +222,7 @@ C--------------------------------
            A(I3)=(A13*BAX+A23*BAY+A33*BAZ)/DET
           ENDIF
       
-        ELSEIF(LCOD.EQ.0)THEN
+        ELSEIF(LCOD == 0)THEN
 C--------------------------------
 C     NOEUD SANS CONDITION LIMITE
 C--------------------------------
@@ -231,11 +231,10 @@ C--------------------------------
            A(I3)=A(I3)+AMOD*N3
            V(I1)=V(I1)+VMOD*N1
            V(I2)=V(I2)+VMOD*N2
-           V(I3)=V(I3)+VMOD*N3
-          !GO TO 100      
+           V(I3)=V(I3)+VMOD*N3   
         ENDIF
       
-      ENDDO  !100   !NEXT II
+      ENDDO  !next II
 C--------------------------------  
       RETURN
       END

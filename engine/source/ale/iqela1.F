@@ -79,15 +79,15 @@ C-----------------------------------------------
      .   IMPX,IMPY,IMPZ
       LOGICAL ICONT, IPCONT, IANIM
 C-----------------------------------------------
-
-
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       ICONT  = .FALSE.
       IPCONT = .FALSE.
       IANIM  = .FALSE.
-      ICONT  = (ANIM_V(4)+OUTP_V(4).GT.0+H3D_DATA%N_VECT_CONT)
-      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT .GT.0)THEN      
-       IF(TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.
-     .      (MANIM.GE.4.AND.MANIM.LE.15).OR. H3D_DATA%MH3D .NE. 0)THEN
+      ICONT  = (ANIM_V(4)+OUTP_V(4) > 0+H3D_DATA%N_VECT_CONT)
+      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT  > 0)THEN      
+       IF(TT >= TANIM.OR.TT >= TOUTP.OR.TT >= H3D_DATA%TH3D.OR.
+     .      (MANIM >= 4.AND.MANIM <= 15).OR. H3D_DATA%MH3D  /=  0)THEN
          IPCONT = .TRUE.
        ENDIF
       ENDIF
@@ -99,7 +99,7 @@ C-----------------------------------------------
       FZI_SAV = ZERO
       
       NIR=2
-      IF(N2D.EQ.0)NIR=4
+      IF(N2D == 0)NIR=4
       !main nodes
       DO I=1,NMN
        J=MSR(I)
@@ -116,7 +116,7 @@ C-----------------------------------------------
       DO II=1,NSN
        I=NSV(II)
        J=ILOC(II)
-       IF(J.GE.1) THEN
+       IF(J >= 1) THEN
          L=IRTL(II)
          DO JJ=1,NIR
           NN=IRECT(JJ,L)
@@ -167,7 +167,7 @@ C-----------------------------------------------
 
       !---------------------------------
       ! /TH/INTER
-      !     SAUVEGARDE DE L'IMPULSION NORMALE
+      !     NORMAL IMPULSE BACKUP
       !---------------------------------
       IMPX    = FXI_SAV*DT12
       IMPY    = FYI_SAV*DT12

@@ -37,10 +37,10 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
       SUBROUTINE AGAUGE(
-     1  IPARG   ,ELBUF_STR,PHI     ,IXS     ,IXQ     ,
-     2  X       ,ALE_CONNECT    ,ITASK   ,NERCVOIS,NESDVOIS,
-     3  LERCVOIS,LESDVOIS ,LENCOM  ,LGAUGE  ,
-     4  GAUGE   ,V        ,IGAUP   ,NGAUP   )
+     1  IPARG    ,ELBUF_STR   ,PHI     ,IXS      ,IXQ     ,
+     2  X        ,ALE_CONNECT ,ITASK   ,NERCVOIS ,NESDVOIS,
+     3  LERCVOIS ,LESDVOIS    ,LENCOM  ,LGAUGE   ,
+     4  GAUGE    ,V           ,IGAUP   ,NGAUP   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -69,12 +69,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPARG(NPARG,*), ITASK, LENCOM,
+      INTEGER IPARG(NPARG,NGROUP), ITASK, LENCOM,
      .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),
-     .        IXS(NIXS,*),IXQ(NIXQ,*),LGAUGE(3,*),IGAUP(*),NGAUP(*)   
+     .        IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ),LGAUGE(3,NBGAUGE),IGAUP(NBGAUGE),NGAUP(NSPMD)   
 C     REAL
-      my_real
-     .   PHI(*),GAUGE(LLGAUGE,*),X(3,*),V(3,*)
+      my_real PHI(*),GAUGE(LLGAUGE,*),X(3,NUMNOD),V(3,NUMNOD)
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_STR
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
@@ -130,6 +129,10 @@ c 35:   				   ! Butterworth !
 c 36:   				   ! Butterworth !
 c 37:   				   ! Butterworth !
 C-----------------------------------------------
+
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       IGAUGE=0
       DO IG=1,NBGAUGE
         IF(LGAUGE(1,IG) <= 0 .AND. LGAUGE(1,IG) >= -NUMELS) IGAUGE=1
@@ -144,7 +147,7 @@ C       Recherche des elements T=0
 C-----------------------------
       IF(TT==ZERO)THEN
        DO NG=ITASK+1,NGROUP,NTHREAD
-        IF(IPARG(5,NG).NE.1) CYCLE
+        IF(IPARG(5,NG) /= 1) CYCLE
         CALL INITBUF (IPARG    ,NG      ,
      2        MTN     ,LLT     ,NFT     ,IADR    ,ITY     ,
      3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
@@ -152,7 +155,7 @@ C-----------------------------
      5        NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
      6        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
-        IF (IPARG(8,NG).EQ.1)       CYCLE
+        IF (IPARG(8,NG) == 1)       CYCLE
         LFT=1
         CALL AGAUG30(LGAUGE,GAUGE,IXS ,X  )
        ENDDO
@@ -178,23 +181,23 @@ c taux de penetration dans l'element (initialisation)
 C
       CALL MY_BARRIER
 C-----------------------------
-C       ECHANGES SPMD IGAUGE SUR ELTS VOISINS
+C       SPMD EXCHANGE
 C-----------------------------
-      IF (NSPMD.GT.1) THEN
+      IF (NSPMD > 1) THEN
 C
-C Partie non parallele smt
+C Part not parallel smt
 C
 !$OMP SINGLE
         CALL SPMD_E1VOIS(PHI     ,NERCVOIS,NESDVOIS,LERCVOIS,
      2                     LESDVOIS,LENCOM  )
-C Fin Partie non parallele smt
+C END part not parallel smt
 !$OMP END SINGLE
       ENDIF
 C-----------------------------
-C       Recherche des nouveaux elements  
+C       Searching for new elements
 C-----------------------------
       DO NG=ITASK+1,NGROUP,NTHREAD
-        IF(IPARG(5,NG).NE.1) CYCLE
+        IF(IPARG(5,NG) /= 1) CYCLE
         CALL INITBUF (IPARG    ,NG      ,
      2        MTN     ,LLT     ,NFT     ,IADR    ,ITY     ,
      3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
@@ -202,7 +205,7 @@ C-----------------------------
      5        NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
      6        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
-        IF(IPARG(8,NG).EQ.1)       CYCLE
+        IF(IPARG(8,NG) == 1)       CYCLE
          
         LFT=1    
         CALL AGAUG3(LGAUGE,GAUGE,PHI,IXS  ,X  ,ALE_CONNECT )
@@ -214,8 +217,7 @@ C
           PHI(I)=ZERO
         END DO
 C
-C  ce tableau est utilis    dans le cas ou plusieurs jauges sont
-C       sur le meme elts.         
+C  This array is used when several gauges are on the same element
 c
         DO IG= 1,NBGAUGE
           ITAG(IG) = 0
@@ -236,24 +238,24 @@ C
 C      
       CALL MY_BARRIER
 C-----------------------------
-C       ECHANGES SPMD IGAUGE SUR ELTS VOISINS
+C       SPMD EXCAHNGE
 C-----------------------------
-      IF (NSPMD.GT.1) THEN
+      IF (NSPMD > 1) THEN
 C
-C Partie non parallele smt
+C PArt not parallel smt
 C
 !$OMP SINGLE
         CALL SPMD_E1VOIS(PHI     ,NERCVOIS,NESDVOIS,LERCVOIS,
      2                     LESDVOIS,LENCOM  )
-C Fin Partie non parallele smt
+C END part not parallel smt
 !$OMP END SINGLE
       ENDIF  
 C-----------------------------
-C     Calcul des mesures de jauge
+C     CALCULATION OF GAUGE MEASURES
 C-----------------------------
       DO NG=ITASK+1,NGROUP,NTHREAD
 C-----------------------------
-        IF(IPARG(5,NG).NE.1) CYCLE
+        IF(IPARG(5,NG) /= 1) CYCLE
         CALL INITBUF (IPARG    ,NG      ,
      2        MTN     ,LLT     ,NFT     ,IADR    ,ITY     ,
      3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
@@ -261,7 +263,7 @@ C-----------------------------
      5        NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
      6        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
-         IF (IPARG(8,NG).EQ.1) CYCLE
+         IF (IPARG(8,NG) == 1) CYCLE
          GBUF => ELBUF_STR(NG)%GBUF
          LFT=1
 !
@@ -295,7 +297,6 @@ c
           END DO ! I 
       ENDDO ! NG=ITASK+1,NGROUP,NTASK
 
-cad     ATTENTION   
       IF(ITASK == 0) THEN
        DO IG=1,NBGAUGE
         IG0= ITAG(IG)
@@ -333,7 +334,13 @@ Chd|-- called by -----------
 Chd|        AGAUGE                        source/ale/agauge.F           
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE AGAUG30(LGAUGE,GAUGE,IXS  ,X )
+      SUBROUTINE AGAUG30(LGAUGE ,GAUGE ,IXS  ,X )
+C-----------------------------------------------
+C   Description
+C-----------------------------------------------
+c  Searching for element associated to the gauge
+c     algorithmic complexity:quadratic (numels*nbgauge) at time 0
+c     can be improved
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -355,21 +362,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXS(NIXS,*),LGAUGE(3,*)
-C     REAL
-      my_real
-     .   X(3,*),GAUGE(LLGAUGE,*)
+      INTEGER IXS(NIXS,NUMELS),LGAUGE(3,NBGAUGE)
+      my_real X(3,NUMNOD),GAUGE(LLGAUGE,NBGAUGE)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,J,N,IG,IGAUGE
-      my_real
-     .   XX1,YY1,ZZ1,XX2,YY2,ZZ2,XG,YG,ZG
-c--------------------------------------------------------------
-c  recherche element associe a la jauge
-c     algo quadratique (numels*nbgauge) au temps 0
-c     a ameliorer eventuellement
-c--------------------------------------------------------------
+      my_real XX1,YY1,ZZ1,XX2,YY2,ZZ2,XG,YG,ZG
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       DO I=1,LLT
           II=I+NFT
           XX1 = EP30
@@ -401,9 +403,8 @@ C
            IF(ZG > ZZ2)CYCLE
             IGAUGE=IG
           IF(IGAUGE == 0)CYCLE
-c element associe a la jauge
-c en cas de solutions multiples il n'est pas necessaire de choisir 
-c la meilleure; AGAUG3 corrigera.           
+c element associated to the gauge
+c in case of multiple solutions do not need to choose the best one : AGAUG3 will update it.           
 #include "lockon.inc"
             LGAUGE(1,IGAUGE)=-II
 #include "lockoff.inc"
@@ -444,8 +445,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*),LGAUGE(3,*)
 C     REAL
-      my_real
-     .   PHI(*),X(3,*),GAUGE(LLGAUGE,*)
+      my_real PHI(*),X(3,NUMNOD),GAUGE(LLGAUGE,NBGAUGE)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -453,17 +453,19 @@ C-----------------------------------------------
       INTEGER I,II,J,N,N1,N2,N3,N4,IG,IGAUGE,IAD2
       INTEGER ICONT,INDX(NBGAUGE),NINDX,IP
       INTEGER IFACE(4,6)
-      my_real
-     .   ALPHA,XX0,YY0,ZZ0,XX1,YY1,ZZ1,XX2,YY2,ZZ2,A1,A2,A3,
-     .   VOL,AREAP32,XG,YG,ZG
+      my_real ALPHA,XX0,YY0,ZZ0,XX1,YY1,ZZ1,XX2,YY2,ZZ2,A1,A2,A3,
+     .        VOL,AREAP32,XG,YG,ZG
       DATA IFACE/ 1, 2, 3, 4,
      2            4, 3, 7, 8,
      3            8, 7, 6, 5,
      4            5, 6, 2, 1,
      5            2, 6, 7, 3,
      5            1, 4, 8, 5/
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------     
 c--------------------------------------------------------------
-c  recherche du nouvel element associe a la jauge
+c  Searching for the new element associated to the gauge
 c--------------------------------------------------------------
       DO I=1,LLT
         II=I+NFT  
@@ -492,7 +494,7 @@ C
             XX2 = X(1,N4)-X(1,N2)
             YY2 = X(2,N4)-X(2,N2)
             ZZ2 = X(3,N4)-X(3,N2)
-c surface vectorielle entrante
+c incoming vector surface
 cc            A1 = YY1*YY2 - ZZ1*ZZ2            
 cc            A2 = ZZ1*ZZ2 - XX1*XX2            
 cc            A3 = XX1*XX2 - YY1*YY2
@@ -504,8 +506,8 @@ cc            A3 = XX1*XX2 - YY1*YY2
             ALPHA = VOL/MAX(AREAP32,EM20)
 #include "lockon.inc"            
             IF(ALPHA >= ZERO .AND. ALPHA >= GAUGE(5,IG))THEN
-c la jauge change d'element
-c element associe a la jauge
+c the gauge is changing of element
+c element associated to the gauge
               LGAUGE(1,IG)=-II
               GAUGE(5,IG)=ALPHA 
             ENDIF
@@ -526,35 +528,7 @@ Chd|        SPMD_SD_GAU                   source/mpi/output/spmd_sd_gau.F
 Chd|====================================================================
       SUBROUTINE AGAUGE0(LGAUGE ,GAUGE,X ,IXC,IGAUP,NGAUP)
 C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "scr01_c.inc"
-#include      "scr05_c.inc"
-#include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "vect01_c.inc"
-#include      "param_c.inc"
-#include      "task_c.inc"
-#include      "conv_c.inc"
-#include      "spmd_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER IXC(NIXC,*),LGAUGE(3,*),IGAUP(*),NGAUP(*)
-C     REAL
-      my_real
-     .   X(3,*),GAUGE(LLGAUGE,*)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER I, J, IG,IS,IGAUGE,N,N1,N2,N3,N4
-      my_real
-     .   XX0,YY0,ZZ0,XX1,YY1,ZZ1,XX2,YY2,ZZ2,A1,A2,A3,
-     .   AA,XG,YG,ZG,DIST
+C   D e s c r i p t i o n
 C-----------------------------------------------
 c     GAUGE(3,*)
 c 1:  -Isolid				   -(NUMELS_G+1) if SPH gauge
@@ -599,6 +573,36 @@ c 34:   				   ! Butterworth !
 c 35:   				   ! Butterworth !
 c 36:   				   ! Butterworth !
 c 37:   				   ! Butterworth !
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "scr01_c.inc"
+#include      "scr05_c.inc"
+#include      "com01_c.inc"
+#include      "com04_c.inc"
+#include      "vect01_c.inc"
+#include      "param_c.inc"
+#include      "task_c.inc"
+#include      "conv_c.inc"
+#include      "spmd_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER IXC(NIXC,*),LGAUGE(3,*),IGAUP(*),NGAUP(*)
+C     REAL
+      my_real X(3,NUMNOD),GAUGE(LLGAUGE,NBGAUGE)
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER I, J, IG,IS,IGAUGE,N,N1,N2,N3,N4
+      my_real XX0,YY0,ZZ0,XX1,YY1,ZZ1,XX2,YY2,ZZ2,A1,A2,A3,
+     .        AA,XG,YG,ZG,DIST
+C-----------------------------------------------
+C   S o u r c e   L i n e s
 C-----------------------------------------------
       IGAUGE=0
       DO IG=1,NBGAUGE

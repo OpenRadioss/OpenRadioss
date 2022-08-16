@@ -41,10 +41,10 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-search_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
-      SUBROUTINE AFLUX0(IPARG,ELBUF_STR ,PM    ,IXS         ,IXQ  ,
-     .                  V    ,W         ,X     ,FLUX        ,FLU2 ,
-     .                  MS   ,VEUL      ,FILL  ,DFILL       ,VOL  ,
-     .                  ALE_CONNECT,ALPH      ,ITASK ,NV46        ,IPM  )
+      SUBROUTINE AFLUX0(IPARG       ,ELBUF_STR ,PM    ,IXS         ,IXQ  ,
+     .                  V           ,W         ,X     ,FLUX        ,FLU2 ,
+     .                  MS          ,VEUL      ,FILL  ,DFILL       ,VOL  ,
+     .                  ALE_CONNECT ,ALPH      ,ITASK ,NV46        ,IPM  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -73,29 +73,28 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     .   PM, V, W, X
+      my_real PM, V, W, X
       INTEGER IPARG(NPARG,NGROUP), IXS(NIXS,NUMELS), IXQ(7,NUMELQ), IPM(NPROPMI,NUMMAT)
       INTEGER ITASK,NV46
-      my_real
-     .   FLUX(*), FLU2(*), MS(*), VEUL(*), FILL(NUMNOD,*),
-     .   DFILL(NUMNOD,*), VOL(*), ALPH(2,*)
+      my_real FLUX(*), FLU2(*), MS(*), VEUL(*), FILL(NUMNOD,*),
+     .        DFILL(NUMNOD,*), VOL(*), ALPH(2,*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_STR    
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NG, I, NF1,ISOLNOD,NSG,NEL
-      my_real
-     .   UDT
+      my_real UDT
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
       TYPE(L_BUFEL_)  ,POINTER :: LBUF1,LBUF2    
-C=======================================================================
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       IF(ITASK == 0) THEN
-       IF (NMULT.NE.0) THEN
+       IF (NMULT /= 0) THEN
          DO NG=1,NGROUP
 C     ALE ON / OFF
-            IF (IPARG(76, NG) .EQ. 1) CYCLE ! --> OFF
+            IF (IPARG(76, NG)  ==  1) CYCLE ! --> OFF
            CALL INITBUF (IPARG    ,NG      ,
      2        MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,
      3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
@@ -127,7 +126,7 @@ C--------------------
 C--------------------
       DO NG=ITASK+1,NGROUP,NTHREAD
 C     ALE ON / OFF 
-         IF (IPARG(76, NG) .EQ. 1) CYCLE ! --> OFF
+         IF (IPARG(76, NG)  ==  1) CYCLE ! --> OFF
            CALL INITBUF (IPARG    ,NG      ,
      2        MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,
      3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
@@ -157,11 +156,11 @@ c
      3                        IPM      ,NV46 ,GBUF%MOM  ,ITASK  ,X            ,
      4                        NEL      )        
          ENDIF
-        ELSEIF(N2D.NE.0.AND.JEUL == 0)THEN
+        ELSEIF(N2D /= 0.AND.JEUL == 0)THEN
          CALL AFLUX2(PM,IXQ,V,W,X,
      .               FLUX(4*NFT+1),FLU2(NF1),
      .               FILL,DFILL,VOL,ALE_CONNECT,ALPH)
-        ELSEIF(N2D == 0.AND.JEUL.NE.0)THEN
+        ELSEIF(N2D == 0.AND.JEUL /= 0)THEN
          IF(IALEFVM==0)THEN
            CALL EFLUX3(
      .               PM,IXS,V,FLUX(6*NFT+1),FLU2(NF1),VEUL,
@@ -171,7 +170,7 @@ c
      2                        VEUL ,ALE_CONNECT   ,GBUF%TAG22  ,IPM      ,
      3                        NV46 ,GBUF%MOM,ITASK       ,X            ,NEL      )
          ENDIF
-        ELSEIF(N2D.NE.0.AND.JEUL.NE.0)THEN
+        ELSEIF(N2D /= 0.AND.JEUL /= 0)THEN
          CALL EFLUX2(PM,IXQ,V,X,FLUX(4*NFT+1),FLU2(NF1),
      .               FILL,DFILL,VOL,ALE_CONNECT,ALPH)
         ENDIF
@@ -181,8 +180,8 @@ C-----------
       CALL MY_BARRIER
 C-----------      
       
-      IF(INT22.GT.0)THEN
-        IF(I22_ALEUL.EQ.2)THEN
+      IF(INT22 > 0)THEN
+        IF(I22_ALEUL == 2)THEN
           CALL EFLUX3_INT22_FVM(
      .      PM         , IXS          , V              , FLUX(1)      , FLU2(1)   ,
      .      VEUL       , IPARG          , ELBUF_STR    , ITASK     ,

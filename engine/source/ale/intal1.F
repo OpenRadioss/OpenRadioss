@@ -58,8 +58,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(INOUT)              :: IPARI(NPARI,*), ISKEW(*), LCOD(*), ITAB(*)
-      my_real,INTENT(INOUT)              :: X(*), V(*), A(*), SKEW(*), WA(*), MS(*),FSAV(NTHVKI,*)
+      INTEGER,INTENT(INOUT)              :: IPARI(NPARI,NINTER), ISKEW(*), LCOD(*), ITAB(NUMNOD)
+      my_real,INTENT(INOUT)              :: X(3,NUMNOD), V(3,NUMNOD), A(3,NUMNOD), SKEW(*), WA(*), MS(*),FSAV(NTHVKI,*)
       TYPE(INTBUF_STRUCT_),INTENT(INOUT) :: INTBUF_TAB(*)
       my_real,INTENT(INOUT) :: FCONT(3,*),FNCONT(3,*),FTCONT(3,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
@@ -68,10 +68,11 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, NTY, NMN, NINT
 C-----------------------------------------------
-C
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       DO N=1,NINTER
        NTY   =IPARI(7,N)
-       IF(NTY.EQ.1)THEN
+       IF(NTY == 1)THEN
          NMN   =IPARI(6,N)
          NINT=N
          CALL INTAL2(
@@ -79,10 +80,10 @@ C
      2        A            ,ISKEW        ,SKEW  ,LCOD        ,WA   ,
      3        WA(3*NMN+1)  ,MS           ,ITAB  ,FSAV(1,NINT),FCONT,
      4        FNCONT       ,FTCONT       ,H3D_DATA )
-       ELSEIF(NTY.EQ.9) THEN
+       ELSEIF(NTY == 9) THEN
          NMN   =IPARI(6,N)
          NINT=N
-         IF(N2D.EQ.0)THEN
+         IF(N2D == 0)THEN
           CALL I9MAIN3(
      1      IPARI(1,N)   ,INTBUF_TAB(N),X        ,V ,
      2      A            ,ISKEW        ,SKEW         ,LCOD     ,WA,

@@ -169,21 +169,19 @@ C-----------------------------------------------
       ! for parith/on : ID_GLOBAL_VOIS --> user id ; FACE_VOIS --> face of the remote element
       INTEGER, DIMENSION(*), INTENT(in) :: ID_GLOBAL_VOIS,FACE_VOIS
      
-      DOUBLE PRECISION
-     .   XDP(3,*)
+      DOUBLE PRECISION XDP(3,*)
       
-      my_real
-     .   X(3,*)    ,V(3,*)   ,MS(*)   ,PM(NPROPM,*),SKEW(LSKEW,*),
-     .   GEO(NPROPG,*),BUFMAT(*) ,W(3,*)    ,VEUL(*),FILL(NUMNOD,*),
-     .   DFILL(NUMNOD,*),ALPH(*)   ,TF(*) ,
-     .   FV(*)     ,A(3,*)    ,AR(3,*)     ,VAL2(*)  ,PHI(*),
-     .   PARTSAV(*) ,STIFN(*) ,D(3,*),DSAVE(3,*),ASAVE(3,*),WA(*),
-     .   FSKY(*),EANI(*), FSKYM(*),
-     .   DT2T, DT2SAVE,
-     .   AGLOB(3,*),GAUGE(LLGAUGE,*),MS0(*),
-     .   MSNF(*),VOLMON(*),FSAV(NTHVKI,*),GRESAV(*),
-     .   MSSA(*), DMELS(*),VARNOD(*),FSKYI(LSKYI,NFSKYI),
-     .   AGRAV(*),SENSOR(NSENSR,*),CONDN(*),CONDNSKY(*),MS_2D(*),TEMP(*)
+      my_real X(3,NUMNOD)    ,V(3,NUMNOD)   ,MS(*)   ,PM(NPROPM,NUMMAT),SKEW(LSKEW,*),
+     .        GEO(NPROPG,NGROUP),BUFMAT(*) ,W(3,NUMNOD)    ,VEUL(*),FILL(NUMNOD,*),
+     .        DFILL(NUMNOD,*),ALPH(*)   ,TF(*) ,
+     .        FV(*)     ,A(3,NUMNOD)    ,AR(3,NUMNOD)     ,VAL2(*)  ,PHI(*),
+     .        PARTSAV(*) ,STIFN(*) ,D(3,NUMNOD),DSAVE(3,*),ASAVE(3,*),WA(*),
+     .        FSKY(*),EANI(*), FSKYM(*),
+     .        DT2T, DT2SAVE,
+     .        AGLOB(3,*),GAUGE(LLGAUGE,*),MS0(*),
+     .        MSNF(*),VOLMON(*),FSAV(NTHVKI,*),GRESAV(*),
+     .        MSSA(*), DMELS(*),VARNOD(*),FSKYI(LSKYI,NFSKYI),
+     .        AGRAV(*),SENSOR(NSENSR,*),CONDN(*),CONDNSKY(*),MS_2D(*),TEMP(*)
      
       TYPE(t_segvar) :: SEGVAR
       TYPE(TTABLE) TABLE(*)
@@ -212,12 +210,10 @@ C-----------------------------------------------
       INTEGER IPLA
       INTEGER IADBH, IAD22, NIN, NBRIC_L
       INTEGER IMAT, SBUFVOIS
-      my_real
-     .   FAC,ALS
-      my_real
-     .   FX(MVSIZ,10),FY(MVSIZ,10),FZ(MVSIZ,10),
-     .   MX(MVSIZ,4) ,MY(MVSIZ,4) ,MZ(MVSIZ,4) ,
-     .   VOLN(MVSIZ)  !local array to get rid of equivalence statment
+      my_real FAC,ALS
+      my_real FX(MVSIZ,10),FY(MVSIZ,10),FZ(MVSIZ,10),
+     .        MX(MVSIZ,4) ,MY(MVSIZ,4) ,MZ(MVSIZ,4) ,
+     .        VOLN(MVSIZ)  !local array to get rid of equivalence statment
 
      
       my_real, TARGET  :: BID
@@ -225,7 +221,7 @@ C-----------------------------------------------
       my_real, DIMENSION(:,:),ALLOCATABLE,TARGET  :: QMV
       my_real                            ,POINTER :: pQMV      
 
-      ! tableau SPMD voisin ALE/CFD
+      ! SPMD array for adjacent data ALE/CFD
       my_real, DIMENSION(:,:),ALLOCATABLE ::BUFVOIS
 
       LOGICAL :: PRED
@@ -243,28 +239,28 @@ C-----------------------------------------------
       BID           = ZERO
       SBUFVOIS      = 6
 
-C  IOUTPRT for bilan assemblage   
+C  IOUTPRT (assembly report)   
          IOUTPRT = 0
-         IF(MOD(NCYCLE,IABS(NCPRI)).EQ.0.OR.TT.GE.THIS.OR.TT.GE.TDES.
-     .   OR.TT.GE.TPAT.OR.MDESS /= 0.
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S.GE.THIS).
-     .   OR.TT.GE.THIS1(1).OR.TT.GE.THIS1(2).
-     .   OR.TT.GE.THIS1(3).OR.TT.GE.THIS1(4).OR.TT.GE.THIS1(5).
-     .   OR.TT.GE.THIS1(6).OR.TT.GE.THIS1(7).OR.TT.GE.THIS1(8).
-     .   OR.TT.GE.THIS1(9).OR.NTH /= 0.OR.NANIM /= 0          .
-     .   OR.TT.GE.TABFIS(1).OR.TT.GE.TABFIS(2).
-     .   OR.TT.GE.TABFIS(3).OR.TT.GE.TABFIS(4).OR.TT.GE.TABFIS(5).
-     .   OR.TT.GE.TABFIS(6).OR.TT.GE.TABFIS(7).OR.TT.GE.TABFIS(8).
-     .   OR.TT.GE.TABFIS(9).OR.TT.GE.TABFIS(10).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S.GE.THIS1(1)).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S.GE.THIS1(2)).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S.GE.THIS1(3)).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S.GE.THIS1(4)).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S.GE.THIS1(5)).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S.GE.THIS1(6)).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S.GE.THIS1(7)).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S.GE.THIS1(8)).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S.GE.THIS1(9)).OR.ISTAT==3) IOUTPRT=1
+         IF(MOD(NCYCLE,IABS(NCPRI)) == 0.OR.TT >= THIS.OR.TT >= TDES.
+     .   OR.TT >= TPAT.OR.MDESS /= 0.
+     .   OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS).
+     .   OR.TT >= THIS1(1).OR.TT >= THIS1(2).
+     .   OR.TT >= THIS1(3).OR.TT >= THIS1(4).OR.TT >= THIS1(5).
+     .   OR.TT >= THIS1(6).OR.TT >= THIS1(7).OR.TT >= THIS1(8).
+     .   OR.TT >= THIS1(9).OR.NTH /= 0.OR.NANIM /= 0          .
+     .   OR.TT >= TABFIS(1).OR.TT >= TABFIS(2).
+     .   OR.TT >= TABFIS(3).OR.TT >= TABFIS(4).OR.TT >= TABFIS(5).
+     .   OR.TT >= TABFIS(6).OR.TT >= TABFIS(7).OR.TT >= TABFIS(8).
+     .   OR.TT >= TABFIS(9).OR.TT >= TABFIS(10).
+     .   OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS1(1)).
+     .   OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS1(2)).
+     .   OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS1(3)).
+     .   OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS1(4)).
+     .   OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS1(5)).
+     .   OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS1(6)).
+     .   OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS1(7)).
+     .   OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS1(8)).
+     .   OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS1(9)).OR.ISTAT==3) IOUTPRT=1
       
       ALLOCATE(QMV(2*NV46,LENQMV)) !MM-ALE 51 only                       !OPTIM : SHOULD BE ALLOCATED IN ARRALOC
       IF(M51_IFLG6 == 1)SBUFVOIS = M51_IFLG6_SIZE
@@ -287,7 +283,7 @@ C  IOUTPRT for bilan assemblage
        ENDDO
        IF(IALEFVM > 0)THEN
          DO N=NODFT,NODLT
-           IF(ALE_CONNECTIVITY%NALE(N).NE.0) V(1:3,N) = ZERO !reset velocities
+           IF(ALE_CONNECTIVITY%NALE(N) /= 0) V(1:3,N) = ZERO !reset velocities
          ENDDO       
        ENDIF
       ENDIF
@@ -326,8 +322,8 @@ C  IOUTPRT for bilan assemblage
       !--------------------------------------------------------
       ! F L U I D E
       !       ALE SUB-CYCLING PREPARATION
-      !       IALESUB=1 IMPLANTATION D'ORIGINE NON PARALLELE SUPPRIME EN V11
-      !       IALESUB=2 IMPLANTATION 2002 PARALLELE
+      !       IALESUB=1 LEGACY IMPLMENTATION, NOT PARALLEL, DELETED IN V11
+      !       IALESUB=2 PARALLEL IMPLMEMENTATION IN 2002
       !--------------------------------------------------------
       IF(IALESUB /= 0) CALL MY_BARRIER    
       !-----
@@ -363,13 +359,13 @@ C  IOUTPRT for bilan assemblage
       
       IF(ITHERM == 1 .AND. IALE+IEULER == 0) IFSUBM=0
 C----------------------------------
-C       CAS ALE - EULER - THERMIQUE
+C       ALE - EULER - THERMAL
 C       WA  = flux for sforc3 and qforc3
 C----------------------------------
 
       CALL MY_BARRIER
 C
-      IF (IPARIT == 0 .AND. NSPMD.GT.1 .AND. 
+      IF (IPARIT == 0 .AND. NSPMD > 1 .AND. 
      +    IFSUBM == 1 .AND. N2D == 0 .AND. INCOMP == 0) THEN
         DO N = NODFT, NODLT
           MS(N) = MS(N)*WEIGHT(N)
@@ -380,7 +376,7 @@ C
 C
       ENDIF
 C---------------------------------------------------------
-C       CAS ALE - EULER  + 2D : update masses 
+C       ALE - EULER  + 2D : update masses 
 C---------------------------------------------------------
       IF (N2D > 0 .AND. IFSUBM == 1) THEN
         DO N = NODFT, NODLT
@@ -395,12 +391,12 @@ C
         IF(ITASK==0) CALL STARTIME(MACRO_TIMER_IFSUB0,1)
         IF(IALE+IEULER+ITHERM /= 0)THEN
           IF(INCOMP == 0) THEN
-            IF(NSEGFLU.GT.0 .AND. N2D.EQ.0) THEN
+            IF(NSEGFLU > 0 .AND. N2D == 0) THEN
               CALL SEGGETV(IPARG,ELBUF_TAB,ALE_CONNECTIVITY,ITASK,SEGVAR)
 C             Comm SPMD SEGVAR Pi -> P0
-              IF(NSPMD.GT.1) THEN
+              IF(NSPMD > 1) THEN
 
-C Partie non parallele smt
+C Part not parallel smt
 !$OMP SINGLE
                 CALL SPMD_SEGCOM(
      .            SEGVAR,NPSEGCOM,LSEGCOM,NPSEGCOM(NSPMD+1),0)
@@ -412,14 +408,14 @@ C Partie non parallele smt
             ! INTERFACE CONVECTIONS                          !
             !------------------------------------------------!  
             IF(NINTER /= 0)THEN
-C              el Interface type 12 calculee sur proc0 + envoi X proci -> proc0
+C              element from Interface type 12 calculated on proc_0 + sending X proc_i -> proc_0
 C              Envoi X pour interface type 12 ?
                IF (ITASK == 0 .AND. ISPMD == 0)
      .           CALL INTTI0(IPARI ,X      ,V    ,WA    ,
      .                       ITAB  ,IPARG,IXS,SEGVAR,SKEW,ISKWN,INTBUF_TAB)
                CALL MY_BARRIER
             ENDIF
-            IF(NEBCS.GT.0)THEN
+            IF(NEBCS > 0)THEN
                IF(ITASK == 0)THEN
                  I=1+NINTER+NRWALL+NRBODY+NSECT+NJOINT+NRBAG
                  CALL EBCS_MAIN(IGRSURF,SEGVAR,VOLMON,
@@ -432,15 +428,15 @@ C              Envoi X pour interface type 12 ?
             ENDIF
             !------------------------------------------------!              
 
-            IF(NSEGFLU.GT.0) THEN
+            IF(NSEGFLU > 0) THEN
 C Comm SPMD SEGVAR P0 -> Pi
-               IF(NSPMD.GT.1) THEN
-C Partie non parallele smt
+               IF(NSPMD > 1) THEN
+C Part not parallel smt
 !$OMP SINGLE
                  CALL SPMD_SEGCOM(
      .             SEGVAR,NPSEGCOM,LSEGCOM,NPSEGCOM(NSPMD+1),1)
 
-C Comm SPMD P0 -> Pi temps T=0 suivant type ebcs
+C Comm SPMD P0 -> Pi time T=0 depending on EBCS type
                  IF(TT == ZERO)THEN
                     CALL SPMD_INIT_EBCS(V,ISIZXV,IAD_ELEM,FR_ELEM, EBCS_TAB)
                  ENDIF
@@ -453,15 +449,11 @@ c
          ! SUPERCELLS MANAGEMENT + VELOCITY INTERPOLATION !
          !------------------------------------------------!         
          IF(INT22>0)THEN 
-           NIN     = 1 !provisoire !!!numero dinterface                        
+           NIN     = 1 !temporary (max 1 inteface) !!!interface number                     
            IAD22   = IPARI(NPARI*(NIN-1)+39)                                   
            NBRIC_L = IGRBRIC(IPARI(NPARI*(NIN-1)+45))%NENTITY
 
-!           CALL I22BAKMAT  (
-!     .                       IXS           , ELBUF_TAB, IPARG, ITAB  , ITASK 
-!     .                     )      
            CALL MY_BARRIER
-
 
            CALL SINIT22_FVM(
      1                       IXS           , ELBUF_TAB, IPARG, ITAB  , ITASK   ,       
@@ -479,7 +471,7 @@ C     -------------------------
 C     Multifluid law variable globalization
 C     LBUF -> GBUF
 C     -------------------------
-            IF (TT .EQ. ZERO) THEN
+            IF (TT  ==  ZERO) THEN
                CALL MULTI_GLOBALIZE(ELBUF_TAB, IPARG, ITASK, MULTI_FVM,
      .              PARTSAV, IPARTS, GRESAV, IGRTH, GRTH)
                IF (MULTI_FVM%NS_DIFF) THEN
@@ -509,7 +501,7 @@ C     Face data computation
 C     ---------------------
                CALL MULTI_FACE_ELEM_DATA(ITASK, IPARG, IXS, IXQ, IXTG, X, W, MULTI_FVM)
                CALL MY_BARRIER
-               IF (NSPMD .GT. 1 .AND. ((MULTI_FVM%MUSCL .GT. 0) .OR. MULTI_FVM%NS_DIFF)) THEN
+               IF (NSPMD  >  1 .AND. ((MULTI_FVM%MUSCL  >  0) .OR. MULTI_FVM%NS_DIFF)) THEN
 !$OMP SINGLE
                   LENCOM = NERCVOIS(NSPMD + 1) + NESDVOIS(NSPMD + 1)
                   CALL SPMD_ENVOIS(3, MULTI_FVM%ELEM_DATA%CENTROID, 
@@ -530,14 +522,14 @@ C     -------------------------
 C     -------------------------
 C     Internal forces and nodal mass computation
 C     -------------------------
-               IF(N2D.EQ.0)THEN
+               IF(N2D == 0)THEN
                   DO I=NODFT,NODLT       
                      MS(I)=MS(I)-MSNF(I)  
                      MSNF(I)=ZERO         
                   ENDDO                  
                ENDIF
                CALL MY_BARRIER
-               IF (IALE .GT. 0) THEN
+               IF (IALE  >  0) THEN
                   CALL MULTI_FVM2FEM(DT1, ELBUF_TAB, ITASK, 
      .                 IXS, IXQ, IPARG, X, A, V, W, MS, MSNF, VEUL, 
      .                 STIFN, FSKY, IADS, FSKYM, 
@@ -568,7 +560,7 @@ C     ------------------------
 
                CALL MULTI_FACE_ELEM_DATA(ITASK, IPARG, IXS, IXQ, IXTG, X, W, MULTI_FVM)
                CALL MY_BARRIER
-               IF (NSPMD .GT. 1 .AND. MULTI_FVM%MUSCL .GT. 0) THEN
+               IF (NSPMD  >  1 .AND. MULTI_FVM%MUSCL  >  0) THEN
 !$OMP SINGLE
                   LENCOM = NERCVOIS(NSPMD + 1) + NESDVOIS(NSPMD + 1)
                   CALL SPMD_ENVOIS(3, MULTI_FVM%ELEM_DATA%CENTROID, 
@@ -589,7 +581,7 @@ C     -------------------------
      3              ITAB 
      .              )
                CALL MY_BARRIER
-               IF (MULTI_FVM%MUSCL .EQ. 1) THEN
+               IF (MULTI_FVM%MUSCL  ==  1) THEN
 C     --------------------------------------------------
 C     Multifluid law time evolution --> Prediction phase
 C     Half time step evolution
@@ -668,14 +660,14 @@ C     -------------------------
 C     -------------------------
 C     Internal forces and nodal mass computation
 C     -------------------------
-               IF(N2D.EQ.0)THEN
+               IF(N2D == 0)THEN
                   DO I=NODFT,NODLT       
                      MS(I)=MS(I)-MSNF(I)  
                      MSNF(I)=ZERO         
                   ENDDO                  
                ENDIF
                CALL MY_BARRIER
-               IF (IALE .GT. 0) THEN
+               IF (IALE  >  0) THEN
                   CALL MULTI_FVM2FEM(DT1, ELBUF_TAB, ITASK, 
      .                 IXS, IXQ, IPARG, X, A, V, W, MS, MSNF, VEUL, 
      .                 STIFN, FSKY, IADS, FSKYM, 
@@ -717,7 +709,7 @@ C
          !---------------------------------------------
          !     MULTIMATERIAL - LAW20(BIMAT)
          !---------------------------------------------
-          IF(NMULT.GT.0)THEN
+          IF(NMULT > 0)THEN
             DO N=NODFT,NODLT
               IMS(N)=0
               DO M=1,NMULT
@@ -761,7 +753,7 @@ c end non parralel SMP section
           DO NG=ITASK+1,NGROUP,NTHREAD
 C     ALE ON / OFF
              NGR_SENSOR = NG
-             IF (TT .GT. ZERO .AND. IPARG(76, NG) .EQ. 1) CYCLE ! --> OFF
+             IF (TT  >  ZERO .AND. IPARG(76, NG)  ==  1) CYCLE ! --> OFF
              IF(IPARG(8,NG) /= 1) THEN
 C
              CALL INITBUF (IPARG    ,NG      ,
@@ -772,8 +764,8 @@ C
      6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
 C
-             IF (MTN .EQ. 151) CYCLE
-               IF(JLAG /= 1 .AND. ITY.LE.2) THEN
+             IF (MTN  ==  151) CYCLE
+               IF(JLAG /= 1 .AND. ITY <= 2) THEN
                 IF(IPARG(64,NG)==1) ILAW11=1                      !place later in starter>priv>spmd>ddsplit>c_vois() for law51
                 IF (MTN /= 0  .AND.  IPARG(64,NG)==0) THEN     !IPARG(64) : law11 & law51-outlet
                  NSG    =IPARG(10,NG)
@@ -922,7 +914,7 @@ C Partie non parallele smt
             DO NG=ITASK+1,NGROUP,NTHREAD
 C     ALE ON / OFF
                NGR_SENSOR = NG
-               IF (TT .GT. ZERO .AND. IPARG(76, NG) .EQ. 1) CYCLE ! --> OFF
+               IF (TT  >  ZERO .AND. IPARG(76, NG)  ==  1) CYCLE ! --> OFF
                CALL INITBUF (IPARG    ,NG      ,
      2           MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,
      3           NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
@@ -930,9 +922,9 @@ C     ALE ON / OFF
      5           NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,IPLA    ,
      6           IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7           ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
-               IF (MTN .EQ. 151) CYCLE
+               IF (MTN  ==  151) CYCLE
               IF (IPARG(8,NG) /= 1) THEN
-               IF (JLAG /= 1 .AND. ITY.LE.2) THEN
+               IF (JLAG /= 1 .AND. ITY <= 2) THEN
                 IF (MTN == 11 .OR. IPARG(64,NG) == 1) THEN
                  NSG    =IPARG(10,NG)
                  NVC    =IPARG(19,NG)
@@ -1054,9 +1046,9 @@ c      ENDIF
       !       ALE SUB-CYCLING SUITE
       !--------------------------------------------------------
       IF(IALESUB == 2)THEN
-        !ifsub=0 on a calcule le fluide
-        !ifsub=2 on a calcule le fluide et on assemble
-        !ifsub=1 on ne calcule pas le fluide
+        !ifsub=0 fluid calculation
+        !ifsub=2 fluid calculation + assembly
+        !ifsub=1 no fluid calculation
         IF(ITASK == 0) THEN
           IF(IFSUB == 0) THEN
             IFSUB=2
@@ -1064,8 +1056,8 @@ c      ENDIF
         ENDIF
         CALL MY_BARRIER
         IF(IFSUB == 1)THEN
-          ! on recurepe A depuis ASAVE
-          ! AGLOB pointeur sur A sans shift SMP
+          ! getting A from ASAVE
+          ! AGLOB is pointing on A (no SMP shift))
           DO N=NODFT,NODLT
             AGLOB(1,N)=ASAVE(1,N)
             AGLOB(2,N)=ASAVE(2,N)

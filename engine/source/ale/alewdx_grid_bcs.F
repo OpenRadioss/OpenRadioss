@@ -46,7 +46,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(INOUT) :: ISKEW(*),ICODT(*),NALE(*),ITASK,NODE_ID
+      INTEGER,INTENT(INOUT) :: ISKEW(*),ICODT(*),NALE(NUMNOD),ITASK,NODE_ID
       my_real,INTENT(INOUT) :: SKEW(LSKEW,*),VEC(3)
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
@@ -54,10 +54,13 @@ C-----------------------------------------------
       INTEGER  N, ISK, LCOD1,LCOD2, NINDX
       my_real AA
       LOGICAL TAG(3)
-C----------------------------------------
-C     CONDITIONS AUX LIMITES MAILLAGE
-C----------------------------------------  
+C-----------------------------------------------
+C     S o u r c e   L i n e s
+C-----------------------------------------------
 
+C----------------------------------------
+C     BOUNDARY CONDITIONS (MESH)
+C----------------------------------------  
       !RETRIEVING CODE FOR BCS et ALE/BCS
       ! 000 <=> LCOD=0
       ! 001 <=> LCOD=1 (Z)
@@ -73,11 +76,11 @@ C----------------------------------------
       IF(NALE(N) /= 0)THEN                                                                             
          ISK=ISKEW(N)                                                                                  
          LCOD1=ICODT(N+NUMNOD)   !BCS                                                                       
-         IF(LCOD1.NE.0) THEN                                                                            
+         IF(LCOD1 /= 0) THEN                                                                            
             NINDX = N                                                                                                                                                         
          ENDIF                                                                                         
          LCOD2=ICODT(N+NUMNOD+NUMNOD) !ALE/BCS
-         IF(LCOD2.NE.0) THEN                                                                            
+         IF(LCOD2 /= 0) THEN                                                                            
             NINDX = N                                                                                                                                                         
          ENDIF                                                                            
       ENDIF 
@@ -92,7 +95,7 @@ C----------------------------------------
       !                                                                                                     
       IF (NINDX /= 0 )THEN                                                                            
           ISK  = ISKEW(N)                                                                                                                                                           
-          IF(ISK.EQ.1) THEN                                                                            
+          IF(ISK == 1) THEN                                                                            
            !=====REPERE GLOBAL
            IF(TAG(1))VEC(1)=ZERO                                                                         
            IF(TAG(2))VEC(2)=ZERO

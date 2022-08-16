@@ -41,15 +41,15 @@ Chd|====================================================================
      3     NBRCVOIS  ,NBSDVOIS,LNRCVOIS,LNSDVOIS,ITAB,  NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS,
      4     ELBUF_TAB, IPARG, IXS, IXQ)
 C-----------------------------------------------
-C     M o d u l e s
-C-----------------------------------------------
-      USE ALE_CONNECTIVITY_MOD
-      USE ELBUFDEF_MOD            
-C-----------------------------------------------
 C     D e s c r i p t i o n
 C-----------------------------------------------
 C     VOLUME GRID SMOOTHING
 C     Compute Grid for /ALE/GRID/VOLUME
+C-----------------------------------------------
+C     M o d u l e s
+C-----------------------------------------------
+      USE ALE_CONNECTIVITY_MOD
+      USE ELBUFDEF_MOD            
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,11 +58,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NALE(*), NODFT, NODLT, ITASK,
+      INTEGER NALE(NUMNOD), NODFT, NODLT, ITASK,
      .     NBRCVOIS(*),NBSDVOIS(*),
-     .     LNRCVOIS(*),LNSDVOIS(*),ITAB(*),IPARG(NPARG,*),IXS(NIXS,*),IXQ(NIXQ,*)
-      my_real
-     .     X(3,*), D(3,*), V(3,*), W(3,*), WA(3,*), XCELL(3, *), XFACE(3,6,*)  
+     .     LNRCVOIS(*),LNSDVOIS(*),ITAB(NUMNOD),IPARG(NPARG,NGROUP),IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ)
+      my_real X(3,NUMNOD), D(3,NUMNOD), V(3,NUMNOD), W(3,NUMNOD), WA(3,*), XCELL(3, *), XFACE(3,6,*)  
       TYPE(t_connectivity), INTENT(IN) :: ALE_NN_CONNECT, ALE_NE_CONNECT
       INTEGER, INTENT(IN) :: NERCVOIS(*), NESDVOIS(*), LERCVOIS(*), LESDVOIS(*)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
@@ -80,8 +79,7 @@ C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N, IA(6), L, LENCOM, K, ITER,NITER,NUM
-      my_real
-     .     DX, DY, DZ,FAC, VEC(3),LAMBDA,ETA,IFORM, WEIGHT(6),SOM,SOM2,MIN_DIST,MAX_DIST
+      my_real DX, DY, DZ,FAC, VEC(3),LAMBDA,ETA,IFORM, WEIGHT(6),SOM,SOM2,MIN_DIST,MAX_DIST
       my_real, ALLOCATABLE,DIMENSION(:,:) :: DISP
       my_real, DIMENSION(:), ALLOCATABLE :: DIST
       INTEGER :: IAD, IAD1, IAD2, NODE_ID, NG, NEL, NFT, ITY, ISOLNOD, IEL, ELT_ID, II

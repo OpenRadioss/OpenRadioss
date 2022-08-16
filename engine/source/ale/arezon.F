@@ -67,28 +67,25 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     .   FLUX(*), PHI(*)
-
+      my_real FLUX(*), PHI(*)
       INTEGER NDIM, NVAR, ITASK, LENCOM,ITRIMAT,NV,
      .        IPARG(NPARG,*), 
      .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),
      .        BHOLE(*),IXS(NIXS,*)
-
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_STR
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER                        :: NG, IRS, IRE, NBX, I, J, K, NBB(20), NM, NMN, NFX, NPH, ADD, ADD0,IDX,INDX,
-     .        NEL
+      INTEGER :: NG, IRS, IRE, NBX, I, J, K, NBB(20), NM, NMN, NFX, NPH, ADD, ADD0,IDX,INDX,NEL
       my_real, DIMENSION(:), POINTER :: VAR,SIG,VOL, pPLAS, TAG22
+C-----------------------------------------------
+C     S o u r c e   L i n e s
 C-----------------------------------------------
 
 C=======================================================================
-C CALCUL PHI SUIVANT LA VALEUR DE NVAR
+C PHI DEFINED DEPENDING ON NVAR VALUE
 C=======================================================================
-
       IDX=NV
       NMN=MAX(1,NMULT)
       DO NM=1,NMN
@@ -97,7 +94,7 @@ C---------------------
 C---------------------
        DO NG=ITASK+1,NGROUP,NTHREAD
 C     ALE ON / OFF
-        IF (IPARG(76, NG) .EQ. 1) CYCLE ! --> OFF
+        IF (IPARG(76, NG) == 1) CYCLE ! --> OFF
          CALL INITBUF (IPARG    ,NG      ,                  
      2     MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,   
      3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
@@ -111,10 +108,9 @@ C     ALE ON / OFF
         IF (NVAR == 11 .AND. MTN /= 81) CYCLE
         IF (JALE+JEUL == 0)             CYCLE
         IF (IPARG(8,NG) == 1)           CYCLE
-        IF (MAX(1,JMULT).LT.NM)         CYCLE
-        ! on a besoin de resoner la pression dans le cas des outlets pour assurer
-        ! la continuit.
-        IF( JMULT.NE.0) MTN =IPARG(24+NM,NG)
+        IF (MAX(1,JMULT) < NM)         CYCLE
+        ! pressurer rezoning for outlets (continuity)
+        IF( JMULT /= 0) MTN =IPARG(24+NM,NG)
         IF (NVAR == 10 .AND.(MTN == 37)) CYCLE
         !-----------------------------!
         IRS=IPARG(15,NG)
@@ -133,14 +129,12 @@ C     ALE ON / OFF
             DO I=LFT,LLT
               J      = I+NFT
               PHI(J) = ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ADD+I)
-              !print *, "PHI(J)=",PHI(J),"SIG_TRIMAT "
             END DO
           ELSE
             DO I=LFT,LLT !autre materiaux ou mtn=51 avec SIG global
               J = I+NFT
               K = (IDX-1)*NEL + I
               PHI(J) = ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%SIG(K)
-!            print *, "PHI(J)=",PHI(J),"SIG_GLOBAL "
             ENDDO
           ENDIF
         !----------------------------!
@@ -148,7 +142,7 @@ C     ALE ON / OFF
         !             (EPS_P)        !
         !----------------------------!
         ELSEIF (NVAR == 10 .AND. IRE == 1) THEN
-           IF (MTN .EQ. 41) CYCLE
+           IF (MTN == 41) CYCLE
           IF (MTN==51) THEN
             IF(ITRIMAT==0)CYCLE
             ADD0= N0PHAS + (ITRIMAT-1)*NVPHAS             
@@ -168,7 +162,6 @@ C     ALE ON / OFF
           DO I=LFT,LLT                                           
             J = I+NFT                                            
             PHI(J) = VAR(I)
-!            print *, "PHI(J)=",PHI(J), 'EPSP_TRIMAT'
           ENDDO  
         !----------------------------!
         !        N V A R = 11        !
@@ -196,23 +189,23 @@ C---------------------
        !------------------------------------! 
        ! ECHANGES SPMD PHI SUR ELTS VOISINS !
        !------------------------------------! 
-       IF (NSPMD.GT.1)THEN
-         !Partie non parallele smt
+       IF (NSPMD > 1)THEN
+         !Part no parallel smt
 !$OMP SINGLE
          CALL SPMD_E1VOIS(PHI     ,NERCVOIS,NESDVOIS,LERCVOIS,
      2                    LESDVOIS,LENCOM  )
-        !Fin Partie non parallele smt
+        !END part not parallel smt
 !$OMP  END SINGLE
        END IF
 
 
 C=======================================================================
-C REZONING SUIVANT LA VALEUR DE NVAR
+C REZONING DEPENDING ON NVAR VALUE
 C=======================================================================
 
        DO NG=ITASK+1,NGROUP,NTHREAD
 C     ALE ON / OFF
-        IF (IPARG(76, NG) .EQ. 1) CYCLE ! --> OFF
+        IF (IPARG(76, NG) == 1) CYCLE ! --> OFF
         CALL INITBUF (IPARG    ,NG      ,                  
      2     MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,   
      3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
@@ -224,11 +217,11 @@ C     ALE ON / OFF
         ! CONDITIONS DE DEBRANCHEMENT !
         !-----------------------------!
         IF (NVAR == 11 .AND. MTN /= 81) CYCLE
-        IF (MAX(1,JMULT).LT.NM)         CYCLE
+        IF (MAX(1,JMULT) < NM)         CYCLE
         IF (JALE+JEUL == 0)             CYCLE
         IF (IPARG(8,NG) == 1)           CYCLE
         IF (ITRIMAT /= 0.AND.MTN /= 51) CYCLE
-        IF (JMULT.NE.0) MTN = IPARG(24+NM,NG)
+        IF (JMULT /= 0) MTN = IPARG(24+NM,NG)
         IF (NVAR == 10.AND.(MTN == 37)) CYCLE
         IF (NVAR == 10.AND.MTN==51.AND.ITRIMAT==0) CYCLE
         !-----------------------------!
@@ -274,10 +267,10 @@ C     ALE ON / OFF
         !                (RK) law6   !
         !----------------------------!
         ELSEIF (NVAR == 10 .AND. IRE == 1) THEN
-           IF (MTN .EQ. 41) CYCLE
+           IF (MTN == 41) CYCLE
           INDX = IDX        
           VOL => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%VOL(1:LLT)
-          IF (ITRIMAT.NE.0) THEN
+          IF (ITRIMAT /= 0) THEN
             ADD0= N0PHAS + (ITRIMAT-1)*NVPHAS             
             ADD = ADD0 + 15                                ! UVAR(ADD+1) => PLAS
             K   = LLT*(ADD-1)                               
@@ -331,8 +324,6 @@ C     ALE ON / OFF
         ENDIF !  (NVAR == 2 .AND. IRS == 1)
        ENDDO  ! next NG
       END DO !next NM
-
-Cel attention barrier suivante soit debut arezon soit debut aconve
 C-----------
       RETURN
       END

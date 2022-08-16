@@ -29,16 +29,15 @@ Chd|====================================================================
        SUBROUTINE WPOR(
      1    GEO,NODPOR,X   ,V      ,VR     ,
      2    W  ,RBY   ,NALE,NPORGEO        )
-C
-C     VITESSE DE GRILLE MILIEUX POREUX
-C     FP 08/94
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C     GRID VELOCITY POROUS MEDIA
+C     AUGUST 1994
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   G l o b a l   P a r a m e t e r s
-C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -51,50 +50,43 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NODPOR(*), NALE(*), NPORGEO(*)
-      my_real
-     . GEO(NPROPG,*),X(3,*),V(3,*),VR(3,*),W(3,*),RBY(NRBY,*)
+      my_real GEO(NPROPG,NUMGEO),X(3,NUMNOD),V(3,NUMNOD),VR(3,NUMNOD),W(3,NUMNOD),RBY(NRBY,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NAD,IG,N,IR,M,I,JP
-      my_real
-     . VG(3),V1X2,V2X1,V2X3,V3X2,V3X1,V1X3
+      my_real VG(3),V1X2,V2X1,V2X3,V3X2,V3X1,V1X3
+C-----------------------------------------------
+C   S o u r c e   L i n e s
 C-----------------------------------------------
       NAD=0
-      DO 110 IG=1,NUMGEO
-        IF(INT(GEO(12,IG)).NE.15) GOTO 110
-Cel       N=INT(GEO(31,IG))
-Cel       NG= INT(GEO(31,IG))  ! nb de noeuds globaux non stockes
-        N = NPORGEO(IG)        ! nb de noeuds locaux stockes ds tableau specifique porosite spmd
-        IF(N.EQ.0)GOTO110
-C
+      DO IG=1,NUMGEO
+        IF(INT(GEO(12,IG)) /= 15)CYCLE
+        N = NPORGEO(IG)        ! num of local nodes stored in a specific spmd array
+        IF(N == 0)CYCLE
         IR=INT(GEO(33,IG))
-        IF(IR.GT.0)THEN
+        IF(IR > 0)THEN
           M=INT(GEO(29,IG))
           VG(1)=VR(1,M)
           VG(2)=VR(2,M)
           VG(3)=VR(3,M)
           DO I=NAD+1,NAD+N
             JP=NODPOR(I)
-              IF(IABS(NALE(JP)).EQ.1)THEN
+              IF(IABS(NALE(JP)) == 1)THEN
         	V1X2=VG(1)*(X(2,JP)-X(2,M))
         	V2X1=VG(2)*(X(1,JP)-X(1,M))
         	V2X3=VG(2)*(X(3,JP)-X(3,M))
         	V3X2=VG(3)*(X(2,JP)-X(2,M))
         	V3X1=VG(3)*(X(1,JP)-X(1,M))
         	V1X3=VG(1)*(X(3,JP)-X(3,M))
-        	W(1,JP)= V(1,M)+
-     +  		 V2X3-V3X2-HALF*DT12*(VG(2)*V2X1+VG(3)*V3X1)
-        	W(2,JP)= V(2,M)+
-     +  		 V3X1-V1X3-HALF*DT12*(VG(3)*V3X2+VG(1)*V1X2)
-        	W(3,JP)= V(3,M)+
-     +  		 V1X2-V2X1-HALF*DT12*(VG(1)*V1X3+VG(2)*V2X3)
+        	W(1,JP)= V(1,M) + V2X3-V3X2-HALF*DT12*(VG(2)*V2X1+VG(3)*V3X1)
+        	W(2,JP)= V(2,M) + V3X1-V1X3-HALF*DT12*(VG(3)*V3X2+VG(1)*V1X2)
+        	W(3,JP)= V(3,M) + V1X2-V2X1-HALF*DT12*(VG(1)*V1X3+VG(2)*V2X3)
               ENDIF
           ENDDO 
         ENDIF
-C
         NAD=NAD+N
- 110  CONTINUE
+      ENDDO!next IG
 C
       RETURN
       END
