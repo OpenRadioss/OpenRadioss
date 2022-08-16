@@ -68,7 +68,9 @@ C----------------------------------------------------------------
      .      DEPSXY(NEL),DEPSYZ(NEL),DEPSZX(NEL),
      .      SIGOXX(NEL),SIGOYY(NEL),SIGOZZ(NEL),
      .      SIGOXY(NEL),SIGOYZ(NEL),SIGOZX(NEL),
-     .      SEQ(NEL),EPSP(NEL),ASRATE,VARTMP(NEL,NVARTMP)
+     .      SEQ(NEL),EPSP(NEL),ASRATE
+
+      INTEGER, INTENT(INOUT) :: VARTMP(NEL,NVARTMP)
 C----------------------------------------------------------------
 C  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
