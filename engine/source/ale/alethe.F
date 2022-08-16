@@ -91,18 +91,17 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
 
-      INTEGER IPARG(NPARG,*), IXS(NIXS,*), IXQ(NIXQ,*),NPF(*),
-     .        IADS(8,*), ITAB(*), ITABM1(*), BHOLE(*),
+      INTEGER IPARG(NPARG,NGROUP), IXS(NIXS,NUMELS), IXQ(NIXQ,NUMELQ),NPF(*),
+     .        IADS(8,*), ITAB(NUMNOD), ITABM1(*), BHOLE(*),
      .        NBRCVOIS(*),NBSDVOIS(*), LNRCVOIS(*), LNSDVOIS(*),
      .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),IPM(*),
      .        LGAUGE(3,*),IGAUP(*),NGAUP(*),   
      .        NODFT, NODLT, LENQMV, ITASK, NV46,
      .        IAD_ELEM(2, *), FR_ELEM(*)
  
-      my_real
-     .   VEUL, FLUX(*), VAL2(*), PHI(*), V(*), W(*), X(*), PM(*),
-     .   MS(*), FILL(*), DFILL(*), ALPH(*), FV(*), BUFMAT(*), TF(*),
-     .   MSNF(*),QMV(*),GAUGE(LLGAUGE,*),VOLN(MVSIZ)
+      my_real VEUL, FLUX(*), VAL2(*), PHI(*), V(*), W(*), X(*), PM(*),
+     .        MS(*), FILL(*), DFILL(*), ALPH(*), FV(*), BUFMAT(*), TF(*),
+     .        MSNF(*),QMV(*),GAUGE(LLGAUGE,*),VOLN(MVSIZ)
 
       TYPE(t_segvar) :: SEGVAR
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
@@ -112,39 +111,40 @@ C-----------------------------------------------
       INTEGER ITRIMAT,NVAR,I,N,NMN, LENCOMN,LENCOM
       my_real,
      .    DIMENSION(:,:),ALLOCATABLE:: FLUX_SAV
-C=======================================================================
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       ALLOCATE(FLUX_SAV(NV46,LENQMV))
-
       LENCOMN=NBRCVOIS(NSPMD+1)+NBSDVOIS(NSPMD+1)
       LENCOM =NERCVOIS(NSPMD+1)+NESDVOIS(NSPMD+1)
 
 C=======================================================================
-C     TERMES CDIFFUSIFS
+C     DIFFUSIVE TERMS
 C=======================================================================
-      IF (ITHERM+ITURB.NE.0) THEN
+      IF (ITHERM+ITURB /= 0) THEN
         !-------------------------------------!
         !  ECHANGES SPMD X SUR NOEUDS VOISINS !
         !-------------------------------------!
-        IF (NSPMD.GT.1) THEN
-          ! Partie non parallele smt
+        IF (NSPMD  > 1) THEN
+          ! Part not parallel smt
 !$OMP SINGLE
           CALL SPMD_XVOIS(
      1                    X,NBRCVOIS,NBSDVOIS,LNRCVOIS,LNSDVOIS,
      2                    LENCOMN)
-          ! Fin Partie non parallele smt
+          ! END part not parallel smt
 !$OMP   END SINGLE
         END IF
        !-----------------------------!
-       !   CALCUL DES FLUX DIFFUSIFS !
+       !   DIFFUSIVE FLUXES          !
        !-----------------------------!
         CALL AGRAD0(IPARG,IXS,IXQ,X,ALE_CONNECT,
      +              FLUX,VEUL,ELBUF_TAB,ITASK)
 C----------------------
         CALL MY_BARRIER
 C----------------------
-        IF (ITHERM.NE.0) THEN
-          IF(ITASK.EQ.0) THEN
-            !communication SPMD PHI+VAL2 dans ATHERM
+        IF (ITHERM /= 0) THEN
+          IF(ITASK == 0) THEN
+            !exchange : SPMD PHI+VAL2 in ATHERM
             CALL ATHERM(IPARG   ,PM      ,ELBUF_TAB ,FLUX  ,VAL2  ,
      2                  PHI     ,ALE_CONNECT   ,IXS     ,IXQ   ,FV      ,
      3                  X       ,BUFMAT  ,TF      ,NPF   ,NERCVOIS,
@@ -157,8 +157,8 @@ C------------------------
        !-----------------------------!
        !   TURBULENCY                !
        !-----------------------------!
-        IF (ITURB.NE.0) THEN
-C         communication SPMD PHI+VAL2 dans AKTURB et AETURB
+        IF (ITURB /= 0) THEN
+C         SPMD exchange : PHI+VAL2 dans AKTURB et AETURB
           CALL AKTURB(IPARG   ,ELBUF_TAB,FLUX    ,VAL2    ,PHI         ,
      2                ALE_CONNECT   ,IXS      ,IXQ     ,PM      ,ITASK       ,
      3                NERCVOIS,NESDVOIS ,LERCVOIS,LESDVOIS,LENCOM      )
@@ -166,21 +166,20 @@ C         communication SPMD PHI+VAL2 dans AKTURB et AETURB
      2                ALE_CONNECT   ,IXS     ,IXQ     ,PM      ,ITASK       ,
      3                NERCVOIS,NESDVOIS,LERCVOIS,LESDVOIS,LENCOM      )
           ENDIF
-      ENDIF !(ITHERM+ITURB.NE.0)
+      ENDIF !(ITHERM+ITURB /= 0)
 
 C=======================================================================
 C     TERMES CONVECTIFS
 C=======================================================================
-      IF(IALE+IEULER.NE.0)THEN
+      IF(IALE+IEULER /= 0)THEN
       !-----------------------------!
-      !  CALCUL DES FLUX CONVECTIFS !
-      !   ET MISE A ZERO DES MASSES !
+      !  CONVECTIVE FLUXES          !
+      !   ZEROING MASSES            !
       !-----------------------------!
-      !FP: Initialisation des masses pour convection
-      ! attention le traitement des masses en parith on fonctionne differemment 
-      ! pour l'instant. 
-      !EL: SPMD : MS=0 sur noeuds frontieres si weight.ne.1  (dans resol) 
-        IF(N2D.EQ.0)THEN
+      !zeroing masses for convection
+      ! warning : mass treatment in parith/on is different
+      !EL: SPMD : MS=0 on boundary domains if /= 1  (in resol) 
+        IF(N2D == 0)THEN
           DO I=NODFT,NODLT       
             MS(I)=MS(I)-MSNF(I)    !MS was total mass, it becomes again structural mass. it becomes total mass in RESOL>ASSPAR4 (before calling ACCELE)
             MSNF(I)=ZERO           !MSNF are mass of fluid nodes, 
@@ -196,7 +195,7 @@ C----------------------
         !-----------------------------!
         !     BIMAT (LAW20)           !
         !-----------------------------!
-        IF(N2D.NE.0.AND.NMULT.GT.0)THEN
+        IF(N2D /= 0.AND.NMULT  > 0)THEN
          CALL BHOL2(ITASK,IPARG , PM ,BHOLE ,IXQ  )
 C-----------------------
          CALL MY_BARRIER
@@ -206,7 +205,7 @@ C-----------------------
         !     MULTI-MAT (LAW51)       !
         !-----------------------------!
         ITRIMAT  = 0
-        IF (TRIMAT.GT.0) THEN
+        IF (TRIMAT  > 0) THEN
           CALL ALE51_INIT(IPARG  ,PM      ,IXS  ,IXQ   ,
      2                    V      ,W       ,X    ,FLUX  ,VAL2 ,
      3                    MS     ,VEUL    ,PHI  ,ALE_CONNECT ,ITASK,
@@ -240,20 +239,19 @@ C-----------------------
      3              NESDVOIS,LERCVOIS,LESDVOIS,LENCOM,BHOLE   ,  
      4              ITRIMAT ,IXS)                                    
         !------------------------------!
-        !     REZONE DEFORMEE PLATIQUE !
+        !     REZONING : EPS_PLAS      !
         !------------------------------!
           CALL AREZON(IPARG   ,ELBUF_TAB ,FLUX    ,PHI   , ALE_CONNECT  ,
      2                1       ,10      ,1       ,ITASK ,NERCVOIS,
      3                NESDVOIS,LERCVOIS,LESDVOIS,LENCOM,BHOLE   ,
      4                ITRIMAT ,IXS)
-c---------que loi81
+c---------specific to law81
           CALL AREZON(IPARG   ,ELBUF_TAB ,FLUX    ,PHI   , ALE_CONNECT  ,
      2                1       ,11      ,0       ,ITASK ,NERCVOIS,
      3                NESDVOIS,LERCVOIS,LESDVOIS,LENCOM,BHOLE   ,
      4                ITRIMAT ,IXS)
 C-----------------------------
-C-----------------------------
-C       TRANSPORT ENERGIE RHO ...
+C       MASS & ENERGY CONVECTION
 C-----------------------------
          DO NVAR=LCONV,1,-1
           !1     : Mass
@@ -261,7 +259,7 @@ C-----------------------------
           !3,4   : Turbulency
           !5     : law37 massic fraction
           !6,7,8 : MomX, MomY, MomZ (ALE with Full FVM)
-           IF((NVAR.NE.9.AND.CODV(NVAR).NE.0).OR.(ICONVCP.EQ.1.AND.CODV(NVAR).NE.0))THEN
+           IF((NVAR /= 9.AND.CODV(NVAR) /= 0).OR.(ICONVCP == 1.AND.CODV(NVAR) /= 0))THEN
               CALL ACONVE(
      1                    IPARG    ,ELBUF_TAB ,FLUX   , VAL2     ,PHI     ,
      2                    ALE_CONNECT    ,NVAR      ,ITASK  , NERCVOIS ,NESDVOIS,
@@ -274,10 +272,10 @@ C-----------------------------
 C----------------------       
         !-----------------------------!
         !     TRIMATERIAL :           !
-        !       PHASIS TREATMENT      !
+        !       SUBMATERIAL TREATMENT !
         !-----------------------------!
-         IF (TRIMAT .GT. 0 .AND. IALEMUSCL .GT. 0) THEN
-            IF (N2D .EQ. 0) THEN
+         IF (TRIMAT   >  0 .AND. IALEMUSCL   >  0) THEN
+            IF (N2D  ==  0) THEN
                CALL ALE51_GRADIENT_RECONSTRUCTION(IPARG, ELBUF_TAB, IXS, X, ALE_CONNECT,
      .              NV46,NERCVOIS,NESDVOIS,  LERCVOIS,LESDVOIS,LENCOM, ITASK, 
      .              IAD_ELEM, FR_ELEM, SEGVAR)
@@ -296,8 +294,8 @@ C----------------------
      5                  LERCVOIS,LESDVOIS,LENCOM  ,QMV     ,ITAB    ,
      6                  ITABM1  ,NV46    ,SEGVAR)
         !-----------------------------!
-        !     TRIMATERIAL :           !
-        !       REZONE DEVIATEUR      ! 
+        !     LAW51 REZONING :        !
+        !        DEVIATORIC STRESS    ! 
         !-----------------------------!
             IF(ITRIMAT /= 4 ) THEN
                CALL AREZON(IPARG   ,ELBUF_TAB, FLUX   ,PHI   ,ALE_CONNECT   ,
@@ -326,17 +324,17 @@ C----------------------
      4                     ITRIMAT,IXS)
             ENDIF
         !-----------------------------!
-        !     TRIMATERIAL :           !
-        !       PLASTIC DEFORMATION   !
-        !       or BURNING TIME       !        
+        !     LAW51 REZONING :        !
+        !      EPS_PLAS               !
+        !      or/and DETONATION TIMES!        
         !-----------------------------!
             CALL AREZON(IPARG   ,ELBUF_TAB,FLUX    ,PHI   ,ALE_CONNECT   ,
      2                  1       ,10      ,1        ,ITASK ,NERCVOIS,
-     3                  NESDVOIS,LERCVOIS,LESDVOIS,LENCOM,BHOLE   ,
+     3                  NESDVOIS,LERCVOIS,LESDVOIS,LENCOM ,BHOLE   ,
      4                  ITRIMAT,IXS)
         !-----------------------------!
-        !     TRIMATERIAL :           !
-        !       TRANSPORT EINT        !
+        !     LAW51 :                 !
+        !        EINT CONVECTION      !
         !-----------------------------!
             CALL ACONVE(IPARG   ,ELBUF_TAB,FLUX  ,VAL2    ,PHI     ,
      2                  ALE_CONNECT   ,2       ,ITASK ,NERCVOIS,NESDVOIS,
@@ -344,8 +342,8 @@ C----------------------
      4                  ITRIMAT ,QMV     ,0     ,IXS     ,IXQ     ,
      5                  PM      ,IPM     ,BUFMAT, X )
         !-----------------------------!
-        !     TRIMATERIAL :           !
-        !       TRANSPORT RHO         !
+        !     LAW51 :                 !
+        !       MASS CONVECTION       !
         !-----------------------------!
             CALL ACONVE(IPARG   ,ELBUF_TAB,FLUX  ,VAL2    ,PHI     ,
      2                  ALE_CONNECT   ,1       ,ITASK ,NERCVOIS,NESDVOIS,

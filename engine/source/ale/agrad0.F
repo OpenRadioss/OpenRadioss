@@ -35,8 +35,8 @@ Chd|        TGRAD3                        source/ale/ale3d/tgrad3.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE AGRAD0(IPARG    ,IXS      ,IXQ      ,X       ,ALE_CONNECT   ,
-     .                  GRAD     ,VEUL     ,ELBUF_STR,ITASK   )
+      SUBROUTINE AGRAD0(IPARG    ,IXS      ,IXQ       ,X       ,ALE_CONNECT   ,
+     .                  GRAD     ,VEUL     ,ELBUF_STR ,ITASK   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -50,20 +50,16 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
+#include      "com04_c.inc"
 #include      "vect01_c.inc"
 #include      "param_c.inc"
 #include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXS, IXQ
-C     REAL
-      my_real
-     .   X
-      INTEGER IPARG(NPARG,*),ITASK
-C     REAL
-      my_real
-     .   GRAD(*), VEUL(*)
+      INTEGER IXS(NIXS,NUMELS), IXQ(NIXQ,NUMELQ)
+      my_real X(3,NUMNOD),GRAD(*), VEUL(*)
+      INTEGER IPARG(NPARG,NGROUP),ITASK
       TYPE (ELBUF_STRUCT_), DIMENSION (NGROUP), TARGET :: ELBUF_STR
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
@@ -71,42 +67,42 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NG,NEL
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-C=======================================================================
-C
-      DO 100 NG=ITASK+1,NGROUP,NTHREAD
-
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
+      DO NG=ITASK+1,NGROUP,NTHREAD
         GBUF => ELBUF_STR(NG)%GBUF
         JTUR=IPARG(12,NG)
         JTHE=IPARG(13,NG)
         ITY =IPARG(5,NG)
-        IF((JTUR.NE.1.AND.JTHE.NE.1).OR.ITY == 51) GO TO 100
-        IF(IPARG(8,NG) == 1) GO TO 100
-        MTN=IPARG(1,NG)
-        JALE=IPARG(7,NG)
-        JEUL=IPARG(11,NG)
-        JLAG=IPARG(14,NG)
-        LLT=IPARG(2,NG)
-        NFT=IPARG(3,NG)
-        LFT=1
-        NEL = LLT
-        IF(N2D == 0)THEN
-          IF(JALE+JLAG.NE.0)THEN
-            CALL AGRAD3(IXS,X,ALE_CONNECT,GRAD(6*NFT+1))
-          ELSEIF(JEUL == 1)THEN
-            CALL EGRAD3(IXS,X,ALE_CONNECT,GRAD(6*NFT+1),VEUL)
+        IF((JTUR == 1 .OR. JTHE == 1) .AND. ITY /= 51 .AND. IPARG(8,NG) /= 1) THEN
+          MTN=IPARG(1,NG)
+          JALE=IPARG(7,NG)
+          JEUL=IPARG(11,NG)
+          JLAG=IPARG(14,NG)
+          LLT=IPARG(2,NG)
+          NFT=IPARG(3,NG)
+          LFT=1
+          NEL = LLT
+          IF(N2D == 0)THEN
+            IF(JALE+JLAG /= 0)THEN
+              CALL AGRAD3(IXS,X,ALE_CONNECT,GRAD(6*NFT+1))
+            ELSEIF(JEUL == 1)THEN
+              CALL EGRAD3(IXS,X,ALE_CONNECT,GRAD(6*NFT+1),VEUL)
+            ELSE
+              CALL TGRAD3(GBUF%SIG,GRAD(6*NFT+1),NEL)
+            ENDIF
           ELSE
-            CALL TGRAD3(GBUF%SIG,GRAD(6*NFT+1),NEL)
-          ENDIF
-        ELSE
-          IF(JLAG+JALE.NE.0)THEN
-            CALL AGRAD2(IXQ,X,ALE_CONNECT,GRAD(4*NFT+1))
-          ELSEIF(JEUL == 1)THEN
-            CALL EGRAD2(IXQ,X,ALE_CONNECT,GRAD(4*NFT+1))
-          ELSE
-            CALL TGRAD2(GBUF%SIG,GRAD(4*NFT+1),NEL)
+            IF(JLAG+JALE /= 0)THEN
+              CALL AGRAD2(IXQ,X,ALE_CONNECT,GRAD(4*NFT+1))
+            ELSEIF(JEUL == 1)THEN
+              CALL EGRAD2(IXQ,X,ALE_CONNECT,GRAD(4*NFT+1))
+            ELSE
+              CALL TGRAD2(GBUF%SIG,GRAD(4*NFT+1),NEL)
+            ENDIF
           ENDIF
         ENDIF
- 100  CONTINUE
+      ENDDO!next NG
 C
       CALL MY_BARRIER
 C

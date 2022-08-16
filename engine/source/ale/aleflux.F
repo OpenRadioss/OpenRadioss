@@ -64,9 +64,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  IXS(NIXS,*),NC1(*), NC2(*), NC3(*), 
      .   NC4(*), NC5(*), NC6(*),NC7(*),NC8(*),NGL(*)
-C     REAL
-      my_real
-     .    PM(NPROPM,*), V(3,*), W(3,*), FLUX(MVSIZ,6), FLU1(*),
+      my_real PM(NPROPM,NUMMAT), V(3,NUMNOD), W(3,NUMNOD), FLUX(MVSIZ,6), FLU1(*),
      .    X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
      .    Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),
      .    Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*),
@@ -78,37 +76,35 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL
-      my_real
-     .   UDT
-C-----------------------------------------------
+      my_real UDT
       INTEGER MAT(MVSIZ),  I,J,II,NF1,ISOLNOD,NG,ICLOS,IAD2
-C     REAL
-      my_real 
-     . N1X(MVSIZ), N2X(MVSIZ), N3X(MVSIZ), N4X(MVSIZ), N5X(MVSIZ), 
-     . N6X(MVSIZ), N1Y(MVSIZ), N2Y(MVSIZ), N3Y(MVSIZ), N4Y(MVSIZ), 
-     . N5Y(MVSIZ), N6Y(MVSIZ), N1Z(MVSIZ), N2Z(MVSIZ), N3Z(MVSIZ), 
-     . N4Z(MVSIZ), N5Z(MVSIZ), N6Z(MVSIZ), 
-     . FLUX1(MVSIZ),FLUX2(MVSIZ), FLUX3(MVSIZ), FLUX4(MVSIZ), 
-     . FLUX5(MVSIZ),FLUX6(MVSIZ), VX1(MVSIZ),
-     . VX2(MVSIZ), VX3(MVSIZ), VX4(MVSIZ), VX5(MVSIZ), VX6(MVSIZ),
-     . VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ), VY5(MVSIZ), 
-     . VY6(MVSIZ), VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ), VZ4(MVSIZ), 
-     . VZ5(MVSIZ), VZ6(MVSIZ),
-     .  UPW(1), REDUC,UPWL(MVSIZ,6),XC(MVSIZ),YC(MVSIZ),
-     . ZC(MVSIZ) ,XF1(MVSIZ),YF1(MVSIZ),ZF1(MVSIZ),XF2(MVSIZ),
-     . YF2(MVSIZ),ZF2(MVSIZ), XF3(MVSIZ),YF3(MVSIZ),ZF3(MVSIZ),
-     . XF4(MVSIZ),YF4(MVSIZ),ZF4(MVSIZ),XF5(MVSIZ),YF5(MVSIZ),
-     . ZF5(MVSIZ), XF6(MVSIZ),YF6(MVSIZ),ZF6(MVSIZ),TEST
+      my_real N1X(MVSIZ), N2X(MVSIZ), N3X(MVSIZ), N4X(MVSIZ), N5X(MVSIZ), 
+     .        N6X(MVSIZ), N1Y(MVSIZ), N2Y(MVSIZ), N3Y(MVSIZ), N4Y(MVSIZ), 
+     .        N5Y(MVSIZ), N6Y(MVSIZ), N1Z(MVSIZ), N2Z(MVSIZ), N3Z(MVSIZ), 
+     .        N4Z(MVSIZ), N5Z(MVSIZ), N6Z(MVSIZ), 
+     .        FLUX1(MVSIZ),FLUX2(MVSIZ), FLUX3(MVSIZ), FLUX4(MVSIZ), 
+     .        FLUX5(MVSIZ),FLUX6(MVSIZ), VX1(MVSIZ),
+     .        VX2(MVSIZ), VX3(MVSIZ), VX4(MVSIZ), VX5(MVSIZ), VX6(MVSIZ),
+     .        VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ), VY5(MVSIZ), 
+     .        VY6(MVSIZ), VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ), VZ4(MVSIZ), 
+     .        VZ5(MVSIZ), VZ6(MVSIZ),
+     .        UPW(1), REDUC,UPWL(MVSIZ,6),XC(MVSIZ),YC(MVSIZ),
+     .        ZC(MVSIZ) ,XF1(MVSIZ),YF1(MVSIZ),ZF1(MVSIZ),XF2(MVSIZ),
+     .        YF2(MVSIZ),ZF2(MVSIZ), XF3(MVSIZ),YF3(MVSIZ),ZF3(MVSIZ),
+     .        XF4(MVSIZ),YF4(MVSIZ),ZF4(MVSIZ),XF5(MVSIZ),YF5(MVSIZ),
+     .        ZF5(MVSIZ), XF6(MVSIZ),YF6(MVSIZ),ZF6(MVSIZ),TEST
 C
       INTEGER MA,IC,JST(MVSIZ+1)
-C----------------------------------------------- 
 C-----------------------------------------------
-C     CALCUL PAR FACE DE V MATIERE - V MAILLAGE
+C   S o u r c e   L i n e s
+C-----------------------------------------------   
+
+C-----------------------------------------------
+C     RELATIVE VELOCITY OVER THE FACE
 C-----------------------------------------------
       DO  I=LFT,LLT
-        II=I+NFT
-        MAT(I)=IXS(1,II)
+       II=I+NFT
+       MAT(I)=IXS(1,II)
        VX1(I)=ONE_OVER_8*(VDX1(I)+VDX2(I)+VDX3(I)+VDX4(I))
        VX2(I)=ONE_OVER_8*(VDX3(I)+VDX4(I)+VDX8(I)+VDX7(I))
        VX3(I)=ONE_OVER_8*(VDX5(I)+VDX6(I)+VDX7(I)+VDX8(I))
@@ -131,7 +127,7 @@ C
        VZ6(I)=ONE_OVER_8*(VDZ1(I)+VDZ4(I)+VDZ8(I)+VDZ5(I))
       ENDDO
 C------------------------------------------
-C     CALCUL DE LA NORMALE A CHAQUE FACE
+C     NORMAL VECTORS
 C------------------------------------------
       DO  I=LFT,LLT
        N1X(I)=(Y3(I)-Y1(I))*(Z2(I)-Z4(I)) - (Z3(I)-Z1(I))*(Y2(I)-Y4(I))
@@ -159,9 +155,9 @@ C
        N6Z(I)=(X8(I)-X1(I))*(Y4(I)-Y5(I)) - (Y8(I)-Y1(I))*(X4(I)-X5(I))
       ENDDO
 C
-C VERIFICATION QUE SI AU MOINS UNE ZONE AVEC FERMETRURE ELEMENT
+C CHECK AREA WITH ELEMENT CLOSURE
 C is not available for this new formulation
-      IF(ICLOSE.EQ.1) THEN
+      IF(ICLOSE == 1) THEN
         DO I=LFT,LLT
 C
           XC(I)=ONE_OVER_8*(X1(I)+X2(I)+X3(I)+X4(I)+X5(I)+X6(I)+X7(I)+X8(I))
@@ -192,7 +188,7 @@ C
           TEST=(XF1(I)-XC(I))*N1X(I)+
      .         (YF1(I)-YC(I))*N1Y(I)+
      .         (ZF1(I)-ZC(I))*N1Z(I)
-          IF(TEST.LE.0)THEN
+          IF(TEST <= 0)THEN
               N1X(I)=ZERO
               N1Y(I)=ZERO
               N1Z(I)=ZERO     
@@ -202,7 +198,7 @@ C
           TEST=(XF2(I)-XC(I))*N2X(I)+
      .         (YF2(I)-YC(I))*N2Y(I)+
      .         (ZF2(I)-ZC(I))*N2Z(I)
-          IF(TEST.LE.0)THEN
+          IF(TEST <= 0)THEN
               N2X(I)=ZERO
               N2Y(I)=ZERO
               N2Z(I)=ZERO     
@@ -212,7 +208,7 @@ C
           TEST=(XF3(I)-XC(I))*N3X(I)+
      .         (YF3(I)-YC(I))*N3Y(I)+
      .         (ZF3(I)-ZC(I))*N3Z(I)
-          IF(TEST.LE.0)THEN
+          IF(TEST <= 0)THEN
               N3X(I)=ZERO
               N3Y(I)=ZERO
               N3Z(I)=ZERO              
@@ -222,7 +218,7 @@ C
           TEST=(XF4(I)-XC(I))*N4X(I)+
      .         (YF4(I)-YC(I))*N4Y(I)+
      .         (ZF4(I)-ZC(I))*N4Z(I)
-            IF(TEST.LE.ZERO)THEN
+            IF(TEST <= ZERO)THEN
               N4X(I)=ZERO
               N4Y(I)=ZERO
               N4Z(I)=ZERO              
@@ -232,7 +228,7 @@ C
           TEST=(XF5(I)-XC(I))*N5X(I)+
      .         (YF5(I)-YC(I))*N5Y(I)+
      .         (ZF5(I)-ZC(I))*N5Z(I)
-             IF(TEST.LE.ZERO)THEN
+             IF(TEST <= ZERO)THEN
               N5X(I)=ZERO
               N5Y(I)=ZERO
               N5Z(I)=ZERO              
@@ -242,7 +238,7 @@ C
           TEST=(XF6(I)-XC(I))*N6X(I)+
      .         (YF6(I)-YC(I))*N6Y(I)+
      .         (ZF6(I)-ZC(I))*N6Z(I)
-          IF(TEST.LE.ZERO)THEN
+          IF(TEST <= ZERO)THEN
               N6X(I)=ZERO
               N6Y(I)=ZERO
               N6Z(I)=ZERO      

@@ -31,36 +31,35 @@ Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectiv
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE ALEFLOW(
-     .         PM    ,IPM      ,MAT      ,X      ,IPARG   ,
-     .         MBUF  ,NEL      ,NPF      ,TF     ,RHON    ,
-     .         D     ,IXS      ,ALE_CONNECT    ,V      ,A       ,
-     .         W     ,DFE      ,FRHO0    ,ALPHA  ,
-     .         NC1   ,NC2      ,NC3      ,NC4    ,NC5     ,NC6  ,
-     .         NC7   ,NC8      ,X1       ,X2     ,X3      ,X4   ,
-     .         X5    ,X6       ,X7       ,X8     ,Y1      ,Y2   ,
-     .         Y3    ,Y4       ,Y5       ,Y6     ,Y7      ,Y8   ,
-     .         Z1    ,Z2       ,Z3       ,Z4     ,Z5      ,Z6   ,
-     .         Z7    ,Z8       ,PHI1     ,PHI2   ,FLUX    ,FLU1 ,
-     .         VX1   ,VX2      ,VX3      ,VX4    ,VX5     ,VX6  ,
-     .         VX7   ,VX8      ,VY1      ,VY2    ,VY3     ,VY4  ,
-     .         VY5   ,VY6      ,VY7      ,VY8    ,VZ1     ,VZ2  ,
-     .         VZ3   ,VZ4      ,VZ5      ,VZ6    ,VZ7     ,VZ8  ,
-     .         VDX1  ,VDX2     ,VDX3     ,VDX4   ,VDX5    ,VDX6 ,
-     .         VDX7  ,VDX8     ,VDY1     ,VDY2   ,VDY3    ,VDY4 ,
-     .         VDY5  ,VDY6     ,VDY7     ,VDY8   ,VDZ1    ,VDZ2 ,
-     .         VDZ3  ,VDZ4     ,VDZ5     ,VDZ6   ,VDZ7    ,VDZ8 ,
-     .         VDX   ,VDY      ,VDZ      ,VD2    , NGL    ,
-     .         LVX1  ,LVX2     ,LVX3     ,LVX4   ,LVX5    ,LVX6 ,
-     .         LVX7  ,LVX8     ,LVY1     ,LVY2   ,LVY3    ,LVY4 ,
-     .         LVY5  ,LVY6     ,LVY7     ,LVY8   ,LVZ1    ,LVZ2 ,
-     .         LVZ3  ,LVZ4     ,LVZ5     ,LVZ6   ,LVZ7    ,LVZ8 ,
+     .         PM    ,IPM      ,MAT         ,X      ,IPARG   ,
+     .         MBUF  ,NEL      ,NPF         ,TF     ,RHON    ,
+     .         D     ,IXS      ,ALE_CONNECT ,V      ,A       ,
+     .         W     ,DFE      ,FRHO0       ,ALPHA  ,
+     .         NC1   ,NC2      ,NC3         ,NC4    ,NC5     ,NC6  ,
+     .         NC7   ,NC8      ,X1          ,X2     ,X3      ,X4   ,
+     .         X5    ,X6       ,X7          ,X8     ,Y1      ,Y2   ,
+     .         Y3    ,Y4       ,Y5          ,Y6     ,Y7      ,Y8   ,
+     .         Z1    ,Z2       ,Z3          ,Z4     ,Z5      ,Z6   ,
+     .         Z7    ,Z8       ,PHI1        ,PHI2   ,FLUX    ,FLU1 ,
+     .         VX1   ,VX2      ,VX3         ,VX4    ,VX5     ,VX6  ,
+     .         VX7   ,VX8      ,VY1         ,VY2    ,VY3     ,VY4  ,
+     .         VY5   ,VY6      ,VY7         ,VY8    ,VZ1     ,VZ2  ,
+     .         VZ3   ,VZ4      ,VZ5         ,VZ6    ,VZ7     ,VZ8  ,
+     .         VDX1  ,VDX2     ,VDX3        ,VDX4   ,VDX5    ,VDX6 ,
+     .         VDX7  ,VDX8     ,VDY1        ,VDY2   ,VDY3    ,VDY4 ,
+     .         VDY5  ,VDY6     ,VDY7        ,VDY8   ,VDZ1    ,VDZ2 ,
+     .         VDZ3  ,VDZ4     ,VDZ5        ,VDZ6   ,VDZ7    ,VDZ8 ,
+     .         VDX   ,VDY      ,VDZ         ,VD2    ,NGL     ,
+     .         LVX1  ,LVX2     ,LVX3        ,LVX4   ,LVX5    ,LVX6 ,
+     .         LVX7  ,LVX8     ,LVY1        ,LVY2   ,LVY3    ,LVY4 ,
+     .         LVY5  ,LVY6     ,LVY7        ,LVY8   ,LVZ1    ,LVZ2 ,
+     .         LVZ3  ,LVZ4     ,LVZ5        ,LVZ6   ,LVZ7    ,LVZ8 ,
      .         POR   ,ICONTACT ,IFOAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD            
       USE ALE_CONNECTIVITY_MOD
-C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -87,16 +86,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL
-C-----------------------------------------------
       INTEGER NEL
       INTEGER 
-     .   IPARG(NPARG,*),IPM(NPROPMI,*),
+     .   IPARG(NPARG,NGROUP),IPM(NPROPMI,NUMMAT),
      .   NC1(*),NC2(*),NC3(*),NC4(*),NC5(*),NC6(*),
      ,   NC7(*),NC8(*),IXS(NIXS,*),MAT(*),NGL(*),
      .   ICONTACT(*),IFOAM(*)
       my_real
-     .  V(3,*),W(3,*)   ,FLUX(MVSIZ,6),
+     .  V(3,NUMNOD),W(3,NUMNOD)   ,FLUX(MVSIZ,6),
      .  PHI1(*),PHI2(*),D(3,*),A(3,*),
      .  FLU1(*)  ,X1(*)  ,X2(*)   ,X3(*)    ,X4(*)  ,
      .  X5(*)    ,X6(*)  ,X7(*)   ,X8(*)    ,Y1(*)  ,Y2(*)  ,
@@ -120,13 +117,12 @@ C-----------------------------------------------
      .  POR(*) 
 C-----------------------------------------------,   
       TYPE(BUF_MAT_) :: MBUF  
-      TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
+      TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT   
 C-----------------------------------------------
-C   VARIABLES FOR FUNCTION INTERPOLATION 
+C   VARIABLES FOR INTERPOLATION FUNCTIONS
 C-----------------------------------------------
       INTEGER NPF(*)
-      my_real
-     .   TF(*),FINTER
+      my_real TF(*),FINTER
       EXTERNAL FINTER
 C   EXTERNAL FINTER
 C        Y = FINTER(IFUNC(J),X,NPF,TF,DYDX)
@@ -137,26 +133,22 @@ C        IFUNC(J): FUNCTION INDEX
 C              J : FIRST(J=1), SECOND(J=2) .. FUNCTION USED FOR THIS LAW
 C        NPF,TF  : FUNCTION PARAMETER
 C ---------------------------------------------------------------
-      my_real
-     .   VEUL
-C     REAL
+      my_real VEUL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ITRIMAT,J,IMATV,IV,IE,MX,IAD2,LGTH
-      my_real
-     .  FAC, VFE(3),AFE(3),VOL,RHO,
-     .  YFACK,YFACR,F1,F2,F3,MASS,DTINV,RV,
-     .   REXCH(MVSIZ,6), ALPHA0,
-     .   RHOEXT(MVSIZ),EIEXT(MVSIZ),
-     .   KK(MVSIZ)
-      my_real
-     .  AA,BB,TAUX, RHO0,DF,VAR
+      my_real FAC, VFE(3),AFE(3),VOL,RHO,
+     .        YFACK,YFACR,F1,F2,F3,MASS,DTINV,RV,
+     .        REXCH(MVSIZ,6), ALPHA0,
+     .        RHOEXT(MVSIZ),EIEXT(MVSIZ),
+     .        KK(MVSIZ)
+      my_real AA,BB,TAUX, RHO0,DF,VAR
       INTEGER NVAR,I,N,IFUNCK,IFUNCR,NFUNC
       INTEGER NMN, LENCOMN,LENCOM,ICLOS,II,ICONGAS
-C=======================================================================
-C F L U I D E  
-C=======================================================================
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------   
        DO I = LFT, LLT
         RHOEXT(I)  = ZERO
         EIEXT(I) = ZERO
@@ -225,7 +217,7 @@ C=======================================================================
         VDY8(I)=V(2,NC8(I)) - W(2,NC8(I))
         VDZ8(I)=V(3,NC8(I)) - W(3,NC8(I))
   
-C coordonnees
+C coordinates
         X1(I)=X(1,NC1(I))  
         Y1(I)=X(2,NC1(I))  
         Z1(I)=X(3,NC1(I))  
@@ -252,7 +244,7 @@ C coordonnees
         Z8(I)=X(3,NC8(I))  
        ENDDO
 
-C different Alpha 
+C different Alpha values
        DO  I=LFT,LLT 
            IE =NFT+I
            IAD2 = ALE_CONNECT%ee_connect%iad_connect(IE)
@@ -815,7 +807,8 @@ C
 #include "lockoff.inc"
         ENDIF       
 C----------------------------
-C       CALCUL DES FLUX CONVECTIFS ET MISE A ZERO DES MASSES
+C       CALCULATION OF CONVECTIVE FLUXES
+C       MASSES SET TO ZERO
 C-----------------------------
 C            
         CALL ALEFLUX(PM ,IXS  ,NC1 ,NC2 ,NC3 ,NC4 ,NC5 ,
@@ -1067,7 +1060,7 @@ C
         ENDIF
 
 C-----------------------------
-C       TRANSPORT ENERGIE RHO ...
+C       CONVECTION OF ENERGY AND MASS ...
 C-----------------------------
             NVAR = 1
             CALL ALECONVE(MBUF%VAR((NVAR-1)*NEL+1),FLUX  ,FLU1  ,

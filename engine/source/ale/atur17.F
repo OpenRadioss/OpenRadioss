@@ -43,55 +43,54 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "com01_c.inc"
+#include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     .   PM(NPROPM,*), OFF(*), RHO(*), RK(*), RE(*),GEO(NPROPG,*),VOLN(MVSIZ),
-     .   DELTAX(*), VIS(*), VNEW(*), VD2(*), DVOL(*), AIRE(*), EINC(*), PNEW(*),
-     .   TMU(*), ALOGEY(*)
+      my_real PM(NPROPM,NUMMAT), OFF(*), RHO(*), RK(*), RE(*),GEO(NPROPG,NUMGEO),VOLN(MVSIZ),
+     .        DELTAX(*), VIS(*), VNEW(*), VD2(*), DVOL(*), AIRE(*), EINC(*), PNEW(*),
+     .        TMU(*), ALOGEY(*)
       INTEGER MAT(*),NGEO(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      my_real
-     . EI(MVSIZ), YL(MVSIZ),
-     . GF, CMU, AX, A, GM, XK
+      my_real EI(MVSIZ), YL(MVSIZ), GF, CMU, AX, A, GM, XK
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
 C-----------------
-C     CALCUL DE YL
+C     YL CALCULATION
 C-----------------
-      IF(JPOR.NE.2)THEN
-      IF(N2D.EQ.0)THEN
-        CALL A17YL3(DELTAX, YL)
+      IF(JPOR /= 2)THEN
+        IF(N2D == 0)THEN
+          CALL A17YL3(DELTAX, YL)
+        ELSE
+          CALL A17YL2(DELTAX, YL, AIRE)
+        ENDIF
+        DO I=LFT,LLT
+          GF=PM(50,MAT(I))
+          CMU=PM(81,MAT(I))
+          AX=PM(47,MAT(I))
+          A=PM(49,MAT(I))
+          GM=ONE -GF+GF*ALOGEY(I)
+          PNEW(I)=TWO*RK(I)/(VOLN(I)*THREE)
+          EI(I)=GM*EINC(I)/ALOGEY(I)-DVOL(I)*PNEW(I)
+          EI(I)=MAX(ZERO,EI(I))
+          RK(I)=RK(I)+(EI(I)-RE(I)*DT1)*OFF(I)
+          RK(I)= MAX(EM15,RK(I)/VOLN(I))
+          XK=RK(I)/RHO(I)
+          RE(I)=RHO(I)*SQRT(XK*SQRT(CMU))**3*SQRT(SQRT(GM))/(AX*YL(I))
+          RE(I)=MAX(EM15,RE(I))
+        ENDDO! next I
       ELSE
-        CALL A17YL2(DELTAX, YL, AIRE)
-      ENDIF
-C
-      DO 40 I=LFT,LLT
-      GF =PM(50,MAT(I))
-      CMU=PM(81,MAT(I))
-      AX =PM(47,MAT(I))
-      A  =PM(49,MAT(I))
-      GM =ONE -GF+GF*ALOGEY(I)
-      PNEW(I)=TWO*RK(I)/(VOLN(I)*THREE)
-      EI(I)  =GM*EINC(I)/ALOGEY(I)-DVOL(I)*PNEW(I)
-      EI(I)  =MAX(ZERO,EI(I))
-      RK(I)  =RK(I)+(EI(I)-RE(I)*DT1)*OFF(I)
-      RK(I)  = MAX(EM15,RK(I)/VOLN(I))
-      XK     =RK(I)/RHO(I)
-      RE(I)  =RHO(I)*SQRT(XK*SQRT(CMU))**3*SQRT(SQRT(GM))/(AX*YL(I))
-      RE(I)  = MAX(EM15,RE(I))
-   40 CONTINUE
-C
-      ELSE
-       DO 100 I=LFT,LLT
-C W VITESSE DE GRILLE EST SUPOSEE FAIBLE DEVANT V (QUASI EULERIEN)
+       DO I=LFT,LLT
+        ! MESH VELOCITY SUPPOSED LOW REGARDING MATERIALVELOCITY V(QUASI EULERIAN)
         RK(I)=RHO(I)*GEO(22,NGEO(I))**2*VD2(I)
         RE(I)=(RK(I)**3/RHO(I))**HALF/GEO(23,NGEO(I))
-  100  CONTINUE
+       ENDDO
       ENDIF
       RETURN
       END

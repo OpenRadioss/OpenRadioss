@@ -76,7 +76,7 @@ C-----------------------------------------------
       NST   =IPARI(8)
       MST   =IPARI(9)
 
-      IF(N2D.EQ.0)THEN
+      IF(N2D == 0)THEN
        CALL IQEL03
      1  (X         ,INTBUF_TAB%IRECTM,INTBUF_TAB%NRT ,INTBUF_TAB%MSR ,INTBUF_TAB%NSV ,
      2   INTBUF_TAB%ILOCS ,INTBUF_TAB%IRTLM ,NSN       ,INTBUF_TAB%NSEGM,INTBUF_TAB%CSTS ,

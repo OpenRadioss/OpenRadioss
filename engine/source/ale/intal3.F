@@ -70,34 +70,33 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, NTY, ITIED, N1, N2, N3, NRTS, NRTM
 C-----------------------------------------------
-C
-      DO 10 N=1,NINTER
+C   S o u r c e   L i n e s
+C-----------------------------------------------
+      DO N=1,NINTER
        NTY   =IPARI(7,N)
-       IF(NTY.EQ.1)THEN
-        IF(ISPMD.EQ.0)THEN
+       IF(NTY == 1)THEN
+        IF(ISPMD == 0)THEN
          CALL INTAL4(
-     1        IPARI(1,N),INTBUF_TAB(N),X    ,V     ,
-     2        A         ,VG           ,ICODE        ,ISKEW,SKEW  )
+     1        IPARI(1,N),INTBUF_TAB(N),X            ,V     ,
+     2        A         ,VG           ,ICODE        ,ISKEW ,SKEW  )
         END IF
-       ELSEIF(NTY.EQ.9) THEN
+       ELSEIF(NTY == 9) THEN
          CALL I9WALE(
-     1        IPARI(1,N),INTBUF_TAB(N),X     ,V         ,
-     2        A         ,VG           ,ICODE     ,ISKEW    ,SKEW      ,
-     3        IXS       ,IXQ          ,ELBUF_TAB,IPARG     ,
+     1        IPARI(1,N),INTBUF_TAB(N),X         ,V         ,
+     2        A         ,VG           ,ICODE     ,ISKEW     ,SKEW      ,
+     3        IXS       ,IXQ          ,ELBUF_TAB ,IPARG     ,
      4        PM        ,NALE         )
-       ELSEIF(NTY.EQ.12) THEN
-        IF(ISPMD.EQ.0)THEN
+       ELSEIF(NTY == 12) THEN
+        IF(ISPMD == 0)THEN
 	 ITIED=NINT(INTBUF_TAB(N)%VARIABLES(1))
-C
-C LES VITESSES DE GRILLE DES NOEUDS SECONDS NE SONT INTERPOLEES 
-C QUE DANS LE CAS "TIED"
-C
-         IF (ITIED .EQ.1 .OR. ITIED.EQ.2) CALL INT12W(
-     1        IPARI(1,N),INTBUF_TAB(N),X    ,V     ,
-     2        A         ,VG           ,ICODE        ,ISKEW,SKEW  )
+C Grid Velocities of secondary nodes are not interpolated
+C ONLY in case "TIED"
+         IF (ITIED  == 1 .OR. ITIED == 2) CALL INT12W(
+     1        IPARI(1,N),INTBUF_TAB(N),X            ,V     ,
+     2        A         ,VG           ,ICODE        ,ISKEW ,SKEW  )
         ENDIF
        ENDIF
-   10 CONTINUE
+      ENDDO!next N
 C
       RETURN
 C

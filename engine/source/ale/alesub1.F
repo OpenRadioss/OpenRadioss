@@ -57,21 +57,20 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NALE(*),ICODT(*),ISKEW(*),ITASK,NODFT,NODLT
-      my_real
-     .   V(3,*),W(3,*),DSAVE(3,*),SKEW(LSKEW,*),D(3,*),FSKY(8,LSKY),
-     .   FSKYV(LSKY,8)
+      my_real V(3,NUMNOD),W(3,NUMNOD),DSAVE(3,*),SKEW(LSKEW,*),D(3,NUMNOD),FSKY(8,LSKY),
+     .        FSKYV(LSKY,8)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N,LCOD, INDX2(1024), I,IPRI,NINDX2,
      .        J,KFT1,NISKFT,NISKLT,K
-      my_real
-     .        FAC
+      my_real FAC
 C-----------------------------------------------
-C
+C   S o u r c e   L i n e s
+C-----------------------------------------------
         FAC=ZERO
-        IF(DT1.GT.ZERO)FAC=ONE/DT1
-        IF(IFSUB.EQ.0)THEN
+        IF(DT1 > ZERO)FAC=ONE/DT1
+        IF(IFSUB == 0)THEN
            DO N=NODFT,NODLT
               W(1,N)=FAC*(D(1,N)-DSAVE(1,N))
               W(2,N)=FAC*(D(2,N)-DSAVE(2,N))
@@ -79,7 +78,7 @@ C
               DSAVE(1,N)=V(1,N)
               DSAVE(2,N)=V(2,N)
               DSAVE(3,N)=V(3,N)
-             IF(NALE(N).EQ.0)THEN
+             IF(NALE(N) == 0)THEN
               V(1,N)=W(1,N)
               V(2,N)=W(2,N)
               V(3,N)=W(3,N)
@@ -89,20 +88,20 @@ C
               NINDX2 = 0
               DO N = I,MIN(NODLT,I+1023)
                 LCOD=ICODT(N+NUMNOD+NUMNOD)
-                IF(NALE(N)*LCOD.NE.0)THEN
+                IF(NALE(N)*LCOD /= 0)THEN
                   NINDX2 = NINDX2 + 1
                   INDX2(NINDX2) = N
                 ENDIF
               ENDDO
-              IF (NINDX2.NE.0)
+              IF (NINDX2 /= 0)
      .          CALL BCS3V(NINDX2,INDX2,ISKEW,ICODT(2*NUMNOD+1),V,
      .                     W     ,SKEW)
            ENDDO
 C
-          IF(IPARIT.GT.0)THEN
+          IF(IPARIT > 0)THEN
            NISKFT =  1+ITASK*LSKY/NTHREAD
            NISKLT = (ITASK+1)*LSKY/NTHREAD
-           IF(IVECTOR.EQ.1) THEN
+           IF(IVECTOR == 1) THEN
              DO K=1,8
               DO I=NISKFT,NISKLT
                 FSKYV(I,K)=ZERO

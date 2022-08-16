@@ -63,36 +63,35 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NODPOR(*), WEIGHT(*), NPORGEO(*)
-C     REAL
-      my_real
-     .        GEO(NPROPG,*),MS(*),X(3,*),V(3,*),W(3,*),
+      my_real GEO(NPROPG,NUMGEO),MS(*),X(3,NUMNOD),V(3,NUMNOD),W(3,NUMNOD),
      .        AF(3,*),AM(3,*),SKEW(LSKEW,*), AFM(20)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NAD,IG,I,K,JP,N,JRB,NG, FR_POR(NSPMD+2)
-      my_real
-     .        G1,G2,G3,R11,R12,R13,R21,R22,R23,R31,R32,R33,R(3,3),
+      my_real G1,G2,G3,R11,R12,R13,R21,R22,R23,R31,R32,R33,R(3,3),
      .        VX,VY,VZ,
      .        RFM(3,NUMPORL),F1(NUMPORL),F2(NUMPORL), 
      .        F3(NUMPORL),F4(NUMPORL),F5(NUMPORL),F6(NUMPORL)
       DOUBLE PRECISION FPOR6(6,6)
 C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
        NAD=0
 C
-       DO 110 IG=1,NUMGEO
-        IF(INT(GEO(12,IG)).NE.15)GOTO 110
-        NG= INT(GEO(31,IG))  ! nb de noeuds globaux non stockes
-        N = NPORGEO(IG)      ! nb de noeuds locaux stockes ds tableau specifique porosite spmd
-        IF(NG.EQ.0)GOTO 110
-        IF(INT(GEO(20,IG)).EQ.1)GOTO 146
+       DO IG=1,NUMGEO
+        IF(INT(GEO(12,IG)) /= 15)CYCLE
+        NG= INT(GEO(31,IG))  ! num of global nodes not stored
+        N = NPORGEO(IG)      ! num of local nodes stored in SPMD porosity array
+        IF(NG == 0)CYCLE
+        IF(INT(GEO(20,IG)) == 1)GOTO 146
 C
         G1=GEO(24,IG)
-        IF(INT(GEO(30,IG)).EQ.0)THEN
+        IF(INT(GEO(30,IG)) == 0)THEN
           G2=GEO(25,IG)
           G3=GEO(26,IG)
-        ELSEIF(DT1.GT.0)THEN
-C CORRECTION VITESSE
+        ELSEIF(DT1 > 0)THEN
+C VELOCITY CORRECTION
           G2=ONE/DT1
           G3=ONE/DT1
         ELSE
@@ -120,7 +119,7 @@ C CORRECTION VITESSE
         R(3,3)=R13*R13*G1+R23*R23*G2+R33*R33*G3
         JRB=INT(GEO(29,IG))
 C
-        IF(IALE.EQ.1)THEN
+        IF(IALE == 1)THEN
           DO I=NAD+1,NAD+N
             JP=NODPOR(I)
             VX=MS(JP)*(V(1,JP)-W(1,JP))+AF(1,JP)*DT1
@@ -149,12 +148,12 @@ C
           AF(3,JP)=AF(3,JP)-RFM(3,I)
         ENDDO
 C
-C TRANSMISSION REACTION
+C TRANSMISSION OF REACTION FORCES
 C
-        IF(JRB.NE.0)THEN
+        IF(JRB /= 0)THEN
           DO I=NAD+1,NAD+N
            JP=NODPOR(I)
-           IF(WEIGHT(JP).EQ.1) THEN
+           IF(WEIGHT(JP) == 1) THEN
              F1(I-NAD)=RFM(1,I)
              F2(I-NAD)=RFM(2,I)
              F3(I-NAD)=RFM(3,I)
@@ -174,7 +173,7 @@ C
            ENDIF
           ENDDO
 C
-C Traitement Parith/ON avant echange
+C Parith/ON treatment before SPMD exchange
 C
           DO K = 1, 6
            FPOR6(1,K) = ZERO
@@ -191,8 +190,8 @@ C
           CALL SUM_6_FLOAT(1  ,N  ,F5, FPOR6(5,1), 6)
           CALL SUM_6_FLOAT(1  ,N  ,F6, FPOR6(6,1), 6)
   
-          IF(NSPMD.GT.1) THEN
-C FR_POR construit de maniere triviale
+          IF(NSPMD > 1) THEN
+C FR_POR built here
             DO I = 1, NSPMD
               FR_POR(I) = 1
             END DO
@@ -221,11 +220,11 @@ C
           AM(2,JRB)=AM(2,JRB)+AFM(5)
           AM(3,JRB)=AM(3,JRB)+AFM(6)
 C
-C ENERGIE INTERNE
+C INTERNAL ENERGY
 C
           DO I=NAD+1,NAD+N
             JP=NODPOR(I)
-            IF(WEIGHT(JP).EQ.1) THEN
+            IF(WEIGHT(JP) == 1) THEN
               EPOR=EPOR+DT1*
      +                     (RFM(1,I)*(V(1,JP)-W(1,JP))
      +                     +RFM(2,I)*(V(2,JP)-W(2,JP))
@@ -236,15 +235,14 @@ C
         ELSE
           DO I=NAD+1,NAD+N
             JP=NODPOR(I)
-            IF(WEIGHT(JP).EQ.1) THEN
+            IF(WEIGHT(JP) == 1) THEN
               EPOR=EPOR+DT1*
      +             (RFM(1,I)*V(1,JP)+RFM(2,I)*V(2,JP)+RFM(3,I)*V(3,JP))
             ENDIF
           ENDDO
         ENDIF
  146   NAD=NAD+N
- 110   CONTINUE
-c      ENDIF
-C
+       ENDDO!next IG
+
       RETURN
       END

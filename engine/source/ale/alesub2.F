@@ -62,22 +62,23 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NALE(*),ICODT(*),ISKEW(*), WEIGHT(*), NELTST ,ITYPTST,
      .        ITASK,NODFT,NODLT,NELTSA ,ITYPTSA, NELTS
-      my_real
-     .   V(3,*),DSAVE(3,*),SKEW(LSKEW,*),ASAVE(3,*),A(3,*),D(3,*),
-     .   DT2SAVE,STIFN(*),DT2T,FSKY(8,LSKY),FSKYV(LSKY,8)
+      my_real V(3,NUMNOD),DSAVE(3,*),SKEW(LSKEW,*),ASAVE(3,*),A(3,NUMNOD),D(3,NUMNOD),
+     .         DT2SAVE,STIFN(*),DT2T,FSKY(8,LSKY),FSKYV(LSKY,8)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N,LCOD, INDX2(1024), I,IPRI,NINDX2, K, NISKFT, NISKLT
-      my_real
-     . FAC,ALS
+      my_real FAC,ALS
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------      
 C--------------------------------------------------------
-C       ALE SUB-CYCLING SUITE
+C       ALE SUB-CYCLING (PART 2)
 C--------------------------------------------------------
-      IF(ITASK.EQ.0) THEN
+      IF(ITASK == 0) THEN
           DT2=DT2*DTFSUB
-          IF(DT2S.NE.ZERO)DT2=MIN(DT2,ONEP1*DT2S)
-          IF(TT.GT.ZERO)THEN
+          IF(DT2S /= ZERO)DT2=MIN(DT2,ONEP1*DT2S)
+          IF(TT > ZERO)THEN
            DT12S=HALF*(DT1+INT(DT2/DT1SAVE)*DT1SAVE)
           ELSE
            DT12S=HALF*DT2
@@ -85,9 +86,9 @@ C--------------------------------------------------------
           DT2S=DT2
           DT1=DT1SAVE
           IPRI=MOD(NCYCLE,IABS(NCPRI))
-          IF(IPRI.EQ.0.AND.ISPMD.EQ.0)THEN
+          IF(IPRI == 0.AND.ISPMD == 0)THEN
             WRITE(IOUT,1000) ' FLUID TIME STEP ',DT2S,' SOLID',NELTS
-            IF(NCPRI.LT.0)
+            IF(NCPRI < 0)
      &        WRITE(ISTDO,1000)' FLUID TIME STEP ',DT2S
  1000       FORMAT(A,1PE11.4,A,I10)
           ENDIF
@@ -98,9 +99,9 @@ C
       DT2T=MIN(DT2,DT2SAVE)
       NELTST =NELTSA
       ITYPTST=ITYPTSA
-C REMISE A VITESSE DIRECTIONS LAGRANGIENNES
+C RESET LAGRANGIAN VELOCITIES
       DO N=NODFT,NODLT
-       IF(NALE(N).EQ.0)THEN
+       IF(NALE(N) == 0)THEN
         V(1,N)=DSAVE(1,N)
         V(2,N)=DSAVE(2,N)
         V(3,N)=DSAVE(3,N)
@@ -110,17 +111,17 @@ C REMISE A VITESSE DIRECTIONS LAGRANGIENNES
         NINDX2 = 0
         DO N = I,MIN(NODLT,I+1023)
           LCOD=ICODT(N+NUMNOD+NUMNOD)
-          IF(NALE(N)*LCOD.NE.0)THEN
+          IF(NALE(N)*LCOD /= 0)THEN
             NINDX2 = NINDX2 + 1
             INDX2(NINDX2) = N
           ENDIF
         ENDDO
-        IF (NINDX2.NE.0)
+        IF (NINDX2 /= 0)
      .  CALL BCS3V(NINDX2,INDX2,ISKEW,ICODT(2*NUMNOD+1),V,
      .  	   DSAVE ,SKEW)
       ENDDO
 C
-C SAUVEGARDE DES DEPLACEMENTS
+C DISPLACEMENT BACKUP
 C
       DO N=NODFT,NODLT
  	DSAVE(1,N)=D(1,N)
@@ -128,10 +129,10 @@ C
  	DSAVE(3,N)=D(3,N)
       ENDDO
 
-      IF(IPARIT.GT.0)THEN
-C Les forces venant des solides sont stockees dans fsky
-C et reutilises dans les sous cycles
-C + meme strategie que P/off, ie utilisation de ASAVE
+      IF(IPARIT > 0)THEN
+C forces from solid elements are stored in fsky
+C they are reused in subcycles
+C + same strategy as P/off => use of ASAVE
  	DO N=NODFT,NODLT
  	  ASAVE(1,N)=A(1,N)
  	  ASAVE(2,N)=A(2,N)
@@ -139,7 +140,7 @@ C + meme strategie que P/off, ie utilisation de ASAVE
  	ENDDO
         NISKFT =  1+ITASK*LSKY/NTHREAD
         NISKLT = (ITASK+1)*LSKY/NTHREAD
- 	IF(IVECTOR.EQ.1) THEN
+ 	IF(IVECTOR == 1) THEN
  	  DO K=1,8
  	    DO I=NISKFT,NISKLT
  	      FSKYV(I,K)=ZERO

@@ -60,11 +60,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NALE(*), IPARG(NPARG,*), NC(NIX,*), ADDCNE(*), PROCNE(*),ITAB(*),
+      INTEGER NALE(NUMNOD), IPARG(NPARG,NGROUP), NC(NIX,*), ADDCNE(*), PROCNE(*),ITAB(*),
      .        IAD_ELEM(2,*), FR_ELEM(*), FR_NBCC(2,*), IADX(NIADX,*) ,
      .        SIZEN, NIX, NIADX
       my_real
-     .   X(3,*), D(3,*), V(3,*), W(3,*), WA(3,*), WB(3,*),
+     .   X(3,NUMNOD), D(3,NUMNOD), V(3,NUMNOD), W(3,NUMNOD), WA(3,*), WB(3,*),
      .   FSKY(8,LSKY), FSKYV(LSKY,8), WMA(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -88,10 +88,12 @@ C-----------------------------------------------
      B          1,5,2,6,3,7,4,8/
       DATA ICT4/1,3,3,6,6,1,1,5,3,5,6,5/
       DATA ICT2/1,2,4,3,1,4,2,3/
-C--------------------------------------------------------------------
-      IF(ALPHA.LT.ZERO)THEN
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
+      IF(ALPHA < ZERO)THEN
  	DO I=1,NUMNOD
- 	  IF(IABS(NALE(I)).EQ.1) THEN
+ 	  IF(IABS(NALE(I)) == 1) THEN
  	    WB(1,I)=ZERO
  	    WB(2,I)=ZERO
  	    WB(3,I)=ZERO
@@ -102,9 +104,9 @@ C
       ENDIF
 C
       DT0X=DT2/(-VGX+SQRT(VGX**2+ONE))/ALPHA
-      IF(TT.EQ.ZERO)VGZ=DT0X
+      IF(TT == ZERO)VGZ=DT0X
       VGZ=MAX(DT0X,(VGZ+HALF*DT0X)/THREE_HALF)
-      IF(VGY0.EQ.ZERO)THEN
+      IF(VGY0 == ZERO)THEN
        VGY0=VGY
        VGZ0=VGZ
       ENDIF
@@ -112,12 +114,12 @@ C
       GAM1=GAMMA-ONE
 C
 C-----------------------------------------------
-C CODE SPMD
+C SPMD
 C-----------------------------------------------
-      IF (IPARIT.NE.0) THEN
+      IF (IPARIT /= 0) THEN
 #include "vectorize.inc"
      	DO I=1,NUMNOD
-     	  IF(IABS(NALE(I)).EQ.1) THEN
+     	  IF(IABS(NALE(I)) == 1) THEN
      	    WA(1,I)=ZERO
      	    WA(2,I)=ZERO
      	    WA(3,I)=ZERO
@@ -127,7 +129,7 @@ C-----------------------------------------------
 Cel traitement parith/off avec utilisation WBTMP
 #include "vectorize.inc"
         DO I=1,NUMNOD
-          IF(IABS(NALE(I)).EQ.1) THEN
+          IF(IABS(NALE(I)) == 1) THEN
             WA(1,I)=ZERO
             WA(2,I)=ZERO
             WA(3,I)=ZERO
@@ -141,10 +143,10 @@ Cel traitement parith/off avec utilisation WBTMP
 C
 C mise a 0 de FSKY pour Parith/ON
 C
-      IF(IPARIT.NE.0) THEN
-         IF(IVECTOR.EQ.0) THEN
+      IF(IPARIT /= 0) THEN
+         IF(IVECTOR == 0) THEN
           DO N=1,NUMNOD
-           IF(IABS(NALE(N)).EQ.1) THEN
+           IF(IABS(NALE(N)) == 1) THEN
             NCT = ADDCNE(N)-1
             NNC = ADDCNE(N+1)-ADDCNE(N)
             DO K = NCT+1, NCT+NNC
@@ -159,7 +161,7 @@ C
           ENDDO
          ELSE
           DO N=1,NUMNOD
-           IF(IABS(NALE(N)).EQ.1) THEN
+           IF(IABS(NALE(N)) == 1) THEN
             NCT = ADDCNE(N)-1
             NNC = ADDCNE(N+1)-ADDCNE(N)
             DO K = NCT+1, NCT+NNC
@@ -175,17 +177,17 @@ C
          ENDIF
       ENDIF
 C
-      DO 100 NG=1,NGROUP
+      DO NG=1,NGROUP
        NEL=IPARG(2,NG)
        NFT=IPARG(3,NG)
        ITY=IPARG(5,NG)
        MQE=IPARG(7,NG)
 C
-       IF ((ITY.EQ.1 .OR. ITY.EQ.2) .AND. MQE.EQ.1) THEN
+       IF ((ITY == 1 .OR. ITY == 2) .AND. MQE == 1) THEN
         ISOLNOD=IPARG(28,NG)
          
 c nombre de ressort/noeud=3 
-        IF(ITY.EQ.2)THEN
+        IF(ITY == 2)THEN
           NTR=4
           DO ITR=1,NTR
             ICT(1,ITR)=ICT2(1,ITR)
@@ -212,7 +214,7 @@ c nombre de ressort/noeud=3
              VY(I,2)=VY(I,2)/VV
              VZ(I,2)=VZ(I,2)/VV
           ENDDO
-        ELSEIF(ISOLNOD.EQ.4)THEN
+        ELSEIF(ISOLNOD == 4)THEN
           NTR=6
           DO ITR=1,NTR
             ICT(1,ITR)=ICT4(1,ITR)
@@ -224,7 +226,7 @@ c nombre de ressort/noeud=3
             ICT(1,ITR)=ICT8(1,ITR)
             ICT(2,ITR)=ICT8(2,ITR)
           ENDDO
-cmilieux
+C middle
           DO I=1,NEL
              DO ITR=1,12
                J1(I)=NC(ICT(1,ITR)+1,NFT+I)
@@ -251,9 +253,9 @@ cmilieux
              ENDDO
           ENDDO
         ENDIF          
-        DO 120 ITR=1,NTR
-         IF(ITY.EQ.1)KK=(ITR+3)/4
-         IF(ITY.EQ.2)KK=(ITR+1)/2 
+        DO ITR=1,NTR
+         IF(ITY == 1)KK=(ITR+3)/4
+         IF(ITY == 2)KK=(ITR+1)/2 
          DO  I=1,NEL
 C
  	  J1(I)=NC(ICT(1,ITR)+1,NFT+I)
@@ -279,18 +281,18 @@ C
  	  DLF=MIN(DLF,ONE)
  	  DX(I)=DT2*DLF0*DLF/VGZ/VGZ
  	  DDL(I)= VGX/VGZ
- 	  IF(DDLF.GT.0.)DLF=GAMMA
+ 	  IF(DDLF > 0.)DLF=GAMMA
  	  DL(I) = 1. /VGZ/VGZ *DLF
 c	   DL(I)=0.
 C
          ENDDO
 C
 C-----------------------------------------------
-C CODE SPMD PARITH/OFF
+C SPMD PARITH/OFF
 C-----------------------------------------------
-         IF(IPARIT.EQ.0) THEN
+         IF(IPARIT == 0) THEN
           DO I=1,NEL
-           IF(NALE(J1(I)).NE.0) THEN
+           IF(NALE(J1(I)) /= 0) THEN
  	    WBTMP(1,J1(I))=WBTMP(1,J1(I))+DDX(I)*DL(I)
  	    WBTMP(2,J1(I))=WBTMP(2,J1(I))+DDY(I)*DL(I)
  	    WBTMP(3,J1(I))=WBTMP(3,J1(I))+DDZ(I)*DL(I)
@@ -299,7 +301,7 @@ C-----------------------------------------------
  	    WA(3,J1(I))=WA(3,J1(I))+DDZ(I)*DDL(I)
            ENDIF
 C
- 	   IF(NALE(J2(I)).NE.0) THEN
+ 	   IF(NALE(J2(I)) /= 0) THEN
  	    WBTMP(1,J2(I))=WBTMP(1,J2(I))-DDX(I)*DL(I)
  	    WBTMP(2,J2(I))=WBTMP(2,J2(I))-DDY(I)*DL(I)
  	    WBTMP(3,J2(I))=WBTMP(3,J2(I))-DDZ(I)*DL(I)
@@ -310,12 +312,12 @@ C
           ENDDO
          ELSE
 C-----------------------------------------------
-C CODE SPMD PARITH/ON
+C SPMD PARITH/ON
 C-----------------------------------------------
-          IF(IVECTOR.EQ.0) THEN
+          IF(IVECTOR == 0) THEN
            DO I=1,NEL
             II = I+NFT
-            IF(NALE(J1(I)).NE.0) THEN
+            IF(NALE(J1(I)) /= 0) THEN
               K = IADX(ICT(1,ITR),II)
 C WB J1
               FSKY(1,K)=FSKY(1,K)+DL(I)*DDX(I)
@@ -327,7 +329,7 @@ C WA J1
               FSKY(6,K)=FSKY(6,K)+DDL(I)*DDZ(I)
             ENDIF
 C
-            IF(NALE(J2(I)).NE.0) THEN
+            IF(NALE(J2(I)) /= 0) THEN
               K = IADX(ICT(2,ITR),II)
 C WB J2
               FSKY(1,K)=FSKY(1,K)-DL(I)*DDX(I)
@@ -343,7 +345,7 @@ C WA J2
 #include "vectorize.inc"
            DO I=1,NEL
             II = I+NFT
-            IF(NALE(J1(I)).NE.0) THEN
+            IF(NALE(J1(I)) /= 0) THEN
               K = IADX(ICT(1,ITR),II)
 C WB J1
               FSKYV(K,1)=FSKYV(K,1)+DL(I)*DDX(I)
@@ -355,7 +357,7 @@ C WA J1
               FSKYV(K,6)=FSKYV(K,6)+DDL(I)*DDZ(I)
             ENDIF
 C
-            IF(NALE(J2(I)).NE.0) THEN
+            IF(NALE(J2(I)) /= 0) THEN
               K = IADX(ICT(2,ITR),II)
 C WB J2
               FSKYV(K,1)=FSKYV(K,1)-DL(I)*DDX(I)
@@ -370,28 +372,28 @@ C WA J2
           ENDIF
 C-----------------------------------------------
          ENDIF
-  120   CONTINUE
+        ENDDO!next ITR
        ENDIF
-  100 CONTINUE
+      ENDDO!next NG
 C
 C-----------------------------------------------
-C CODE SPMD : CUMUL WA WB
+C SPMD : CUMULATION OF WA WB
 C-----------------------------------------------
-	IF(IPARIT.EQ.0)THEN
-        IF(NSPMD.GT.1)THEN
+	IF(IPARIT == 0)THEN
+        IF(NSPMD > 1)THEN
           SIZE = 6
           LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
           CALL SPMD_EXALEW(WA,WBTMP,IAD_ELEM,FR_ELEM,NALE,SIZE,LENR)
         END IF
         DO I=1,NUMNOD
-          IF(NALE(I).NE.0) THEN
+          IF(NALE(I) /= 0) THEN
             WB(1,I)=WB(1,I)+WBTMP(1,I)
             WB(2,I)=WB(2,I)+WBTMP(2,I)
             WB(3,I)=WB(3,I)+WBTMP(3,I)
           ENDIF
         ENDDO
       ELSE
-        IF(NSPMD.GT.1)THEN
+        IF(NSPMD > 1)THEN
           SIZE = 6
           LENS = FR_NBCC(1,NSPMD+1)
           LENR = FR_NBCC(2,NSPMD+1)
@@ -400,11 +402,10 @@ C-----------------------------------------------
      2           ADDCNE,PROCNE,FR_NBCC ,SIZE   ,LENR,
      3           LENS  )
         END IF
-Cel traitement SPMD p/on
-        IF(IVECTOR.EQ.1) THEN
-Cel vector
+C SPMD treatment  parith/on
+        IF(IVECTOR == 1) THEN 
           DO N=1,NUMNOD
-            IF(NALE(N).NE.0) THEN
+            IF(NALE(N) /= 0) THEN
               NCT = ADDCNE(N)-1
               NNC = ADDCNE(N+1)-ADDCNE(N)
               DO K = NCT+1, NCT+NNC
@@ -425,9 +426,8 @@ C
             ENDIF
           ENDDO
         ELSE
-Cel scalaire
           DO N=1,NUMNOD
-            IF(NALE(N).NE.0) THEN
+            IF(NALE(N) /= 0) THEN
               NCT = ADDCNE(N)-1
               NNC = ADDCNE(N+1)-ADDCNE(N)
               DO K = NCT+1, NCT+NNC
@@ -450,21 +450,21 @@ C
         ENDIF
       ENDIF
 C-----------------------------------------------
-      DO 200 I=1,NUMNOD
-        IF(IABS(NALE(I)).EQ.1)THEN
+      DO I=1,NUMNOD
+        IF(IABS(NALE(I)) == 1)THEN
          W(1,I)= W(1,I)+(WB(1,I)*DT2+WA(1,I))/WMA(I)
          W(2,I)= W(2,I)+(WB(2,I)*DT2+WA(2,I))/WMA(I)
          W(3,I)= W(3,I)+(WB(3,I)*DT2+WA(3,I))/WMA(I)
-        ELSEIF(NALE(I).EQ.0)THEN
+        ELSEIF(NALE(I) == 0)THEN
          W(1,I)=V(1,I)
          W(2,I)=V(2,I)
          W(3,I)=V(3,I)
-        ELSEIF(IABS(NALE(I)).EQ.2)THEN
+        ELSEIF(IABS(NALE(I)) == 2)THEN
          W(1,I)=ZERO
          W(2,I)=ZERO
          W(3,I)=ZERO
         ENDIF
-  200 CONTINUE
+      ENDDO!next I
 C
       RETURN
       END

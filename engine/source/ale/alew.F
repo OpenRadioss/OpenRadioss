@@ -47,10 +47,8 @@ C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NALE(*), NODFT, NODLT, ITASK,
      .     NBRCVOIS(*),NBSDVOIS(*),
-     .     LNRCVOIS(*),LNSDVOIS(*) ,ITAB(*) 
-C     REAL
-      my_real
-     .     X(3,*), D(3,*), V(3,*), W(3,*), WA(3,*)
+     .     LNRCVOIS(*),LNSDVOIS(*) ,ITAB(NUMNOD) 
+      my_real X(3,NUMNOD), D(3,NUMNOD), V(3,NUMNOD), W(3,NUMNOD), WA(3,*)
       TYPE(t_connectivity), INTENT(IN) :: ALE_NN_CONNECT
 C-----------------------------------------------
 C     C o m m o n   B l o c k s
@@ -64,11 +62,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, I, NCI, K, J, L, LENCOM
-      my_real
-     .     LIJ, XLAGR, FIX, FIY, FIZ, SLI, WIX, WIY, WIZ, FAC,
-     .     LIJ2,LIJSQR
-      INTEGER :: IAD1, IAD2
+      INTEGER N, I, NCI, K, J, L, LENCOM, IAD1, IAD2
+      my_real LIJ, XLAGR, FIX, FIY, FIZ, SLI, WIX, WIY, WIZ, FAC,
+     .        LIJ2,LIJSQR
+C-----------------------------------------------
+C   S o u r c e   L i n e s
 C-----------------------------------------------
 
       DO N = NODFT,NODLT
@@ -76,16 +74,14 @@ C-----------------------------------------------
          WA(2,N)=W(2,N)
          WA(3,N)=W(3,N)
       ENDDO
+
+      CALL MY_BARRIER() !adjacent WA()
 C     
-C     el BARRIER indispensable (WA voisins)
+C     SPMD EXCHANGE : X, D, WA (X is already OK if INCOMP=0)
 C     
-      CALL MY_BARRIER()
+      IF(NSPMD > 1)THEN
 C     
-C     ECHANGE SUR NOEUDS VOISINS de X, D, WA (X est deja bon si INCOMP=0)
-C     
-      IF(NSPMD.GT.1)THEN
-C     
-C     Partie non parallele smt
+C     Part not parallel smt
 C     
 !$OMP SINGLE
 
@@ -94,7 +90,7 @@ C
      1        X	  ,D	   ,WA    ,NBRCVOIS,NBSDVOIS,
      2        LNRCVOIS,LNSDVOIS,LENCOM)
 
-C     Fin Partie non parallele smt
+C     End part not parallel smt
 !$OMP END SINGLE
 
       END IF
@@ -106,9 +102,9 @@ C
          W(3,N)=V(3,N)*XLAGR
       ENDDO
 C     
-      IF(ALPHA.EQ.ZERO) THEN
+      IF(ALPHA == ZERO) THEN
          DO I = NODFT,NODLT
-            IF(NALE(I) .NE. 0) THEN
+            IF(NALE(I)  /=  0) THEN
                NCI=0
                WIX=ZERO
                WIY=ZERO
@@ -134,7 +130,7 @@ C
 C     
       ELSE
          DO I = NODFT,NODLT
-            IF(NALE(I) .NE. 0) THEN
+            IF(NALE(I)  /=  0) THEN
                NCI=0
                FIX=ZERO
                FIY=ZERO
@@ -154,7 +150,7 @@ C
      .                    + (X(3,J)-X(3,I))*(X(3,J)-X(3,I))
                      LIJSQR = SQRT(LIJ2)
                      LIJ=MAX(EM20,LIJSQR)
-                     IF(LIJ.LT.EP20) THEN
+                     IF(LIJ < EP20) THEN
                         SLI=SLI+LIJ
                         FIX=FIX+(D(1,J)-D(1,I))/LIJ
                         FIY=FIY+(D(2,J)-D(2,I))/LIJ
@@ -175,16 +171,16 @@ C
          ENDDO
       ENDIF
 C     
-      IF(GAMMA.LT.EIGHTY19)THEN
+      IF(GAMMA < EIGHTY19)THEN
          DO I = NODFT,NODLT
-            IF(NALE(I) .NE. 0) THEN
-               IF(V(1,I).NE.ZERO)
+            IF(NALE(I)  /=  0) THEN
+               IF(V(1,I) /= ZERO)
      .              W(1,I)=VGX*V(1,I)*
      .              MAX((ONE-GAMMA), MIN((ONE+GAMMA),W(1,I)/V(1,I)))
-               IF(V(2,I).NE.ZERO)
+               IF(V(2,I) /= ZERO)
      .              W(2,I)=VGY*V(2,I)*
      .              MAX((ONE-GAMMA), MIN((ONE+GAMMA),W(2,I)/V(2,I)))
-               IF(V(3,I).NE.ZERO)
+               IF(V(3,I) /= ZERO)
      .              W(3,I)=VGZ*V(3,I)*
      .              MAX((ONE-GAMMA), MIN((ONE+GAMMA),W(3,I)/V(3,I)))
             ENDIF

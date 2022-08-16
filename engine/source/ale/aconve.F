@@ -42,11 +42,11 @@ Chd|        INITBUF_MOD                   share/resol/initbuf.F
 Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
 Chd|====================================================================
       SUBROUTINE ACONVE(
-     1  IPARG   ,ELBUF_TAB,FLUX   ,FLU1    ,PHI     ,
-     2  ALE_CONNECT   ,NVAR    ,ITASK   ,NERCVOIS,NESDVOIS,
-     3  LERCVOIS,LESDVOIS,LENCOM  ,SEGVAR  ,BHOLE   ,
-     4  ITRIMAT ,QMV     ,IFLG    ,IXS     ,IXQ     ,
-     5  PM      ,IPM     ,BUFMAT, X  )
+     1  IPARG       ,ELBUF_TAB ,FLUX    ,FLU1     ,PHI     ,
+     2  ALE_CONNECT ,NVAR      ,ITASK   ,NERCVOIS ,NESDVOIS,
+     3  LERCVOIS    ,LESDVOIS  ,LENCOM  ,SEGVAR   ,BHOLE   ,
+     4  ITRIMAT     ,QMV       ,IFLG    ,IXS      ,IXQ     ,
+     5  PM          ,IPM       ,BUFMAT  ,X  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -86,8 +86,7 @@ C-----------------------------------------------
      .        BHOLE(*)      , IXS(NIXS,*) , IXQ(NIXQ,*), LENCOM     ,
      .        IFLG          , ITASK       , BUFMAT(*)  , IPM(NPROPMI,*) 
 
-      my_real
-     .        FLUX(*)       , FLU1(*)     , PHI(*)     , 
+      my_real FLUX(*)       , FLU1(*)     , PHI(*)     , 
      .        QMV(*)        , PM(NPROPM,*), X(3, *)
      
       TYPE(t_segvar) :: SEGVAR
@@ -107,7 +106,8 @@ C-----------------------------------------------
       my_real, DIMENSION(:), POINTER ::  VAR, pRHO , pVOL , pEINT, pIAD22 
       INTEGER                        :: ICELLv,IB,IBv,NIN,NUM, MCELL, IDX, NDIM
 C-----------------------------------------------
-  
+C   S o u r c e   L i n e s
+C-----------------------------------------------  
 C--------------------
       CALL MY_BARRIER
 C--------------------
@@ -115,7 +115,7 @@ C--------------------
       NULLIFY (VAR)
 
 C=======================================================================
-C CALCUL PHI SUIVANT LA VALEUR DE NVAR
+C PHI IS DEFINED DEPENDING ON NVAR VALUE
 C=======================================================================
 
       NMN=MAX(1,NMULT)
@@ -123,7 +123,7 @@ C=======================================================================
       DO NM=1,NMN
         DO NG=ITASK+1,NGROUP,NTHREAD
 C     ALE ON / OFF
-        IF (IPARG(76, NG) .EQ. 1) CYCLE ! --> OFF
+        IF (IPARG(76, NG)  ==  1) CYCLE ! --> OFF
           CALL INITBUF (IPARG    ,NG      ,
      2         MTN     ,LLT     ,NFT     ,IADR    ,ITY     ,
      3         NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
@@ -133,21 +133,21 @@ C     ALE ON / OFF
      7         ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
          ISILENT = IPARG(64,NG)
          !-----------------------------!
-         ! CONDITIONS DE DEBRANCHEMENT !
+         ! UNPLUG CONDITIONS           !
          !-----------------------------!
          IF (JALE+JEUL == 0)              CYCLE
          IF (IPARG(8,NG) == 1)            CYCLE
          IF (MAX(1,JMUL) < NM)            CYCLE
-         IF (ITRIMAT.NE.0.AND.MTN.NE.51)  CYCLE
+         IF (ITRIMAT /= 0.AND.MTN /= 51)  CYCLE
          !-----------------------------!
-         ! POINTEUR DU GROUPE COURANT  !
+         ! POINTERS FOR CURRENT GROUP  !
          !-----------------------------!
          GBUF => ELBUF_TAB(NG)%GBUF
          LBUF => ELBUF_TAB(NG)%BUFLY(NM)%LBUF(1,1,1)
          MBUF => ELBUF_TAB(NG)%BUFLY(NM)%MAT(1,1,1)
 
          CALL VARCONDEC(JCODV,IPARG(34,NG),CODTOT)
-         IF (JCODV(NVAR).NE.0) THEN
+         IF (JCODV(NVAR) /= 0) THEN
            ISOLNOD = IPARG(28,NG)
            IF (JMUL /= 0) MTN =IPARG(24+NM,NG)
            LFT=1
@@ -240,7 +240,7 @@ C     ALE ON / OFF
           !UVAR(I,5) : volumetric fraction of gas         
           ELSEIF (NVAR == 5) THEN   !  Law 37 or law 41              
             VAR => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(1:LLT)  ! <---- UVAR(1:LLT,1)
-            IF (MTN .EQ. 41) THEN
+            IF (MTN  ==  41) THEN
                pRHO => GBUF%RHO
 #include "vectorize.inc"
                DO I=LFT,LLT                              
@@ -378,13 +378,13 @@ C     ALE ON / OFF
         !    EBCS ****             !
         !--------------------------! 
         IOFF = 0
-        IF(NSEGFLU.GT.0)THEN
+        IF(NSEGFLU > 0)THEN
           IOFF = NUMELS+NUMELQ+NUMELTG
-          IF(NSPMD.GT.1) THEN
+          IF(NSPMD > 1) THEN
             IOFF = IOFF + NSVOIS
           ENDIF
           NGSEG=NSEGFLU/NVSIZ
-          IF(NSEGFLU-NGSEG*NVSIZ .GT.0)NGSEG=NGSEG+1
+          IF(NSEGFLU-NGSEG*NVSIZ  > 0)NGSEG=NGSEG+1
           DO I=ITASK+1,NGSEG,NTHREAD
             ISEG=(I-1)*NVSIZ
             SELECT CASE(NVAR)
@@ -432,9 +432,9 @@ C----------------------
         CALL MY_BARRIER    
 C----------------------
         !-----------------------------------------------!
-        !    ECHANGES SPMD PHI SUR ELTS VOISINS         !
+        !    SPMD EXCHANGES                             !
         !-----------------------------------------------! 
-        IF (NSPMD.GT.1) THEN
+        IF (NSPMD > 1) THEN
           ! Partie non parallele smt
 !$OMP SINGLE
           CALL SPMD_E1VOIS(PHI     ,NERCVOIS,NESDVOIS,LERCVOIS, LESDVOIS,LENCOM  )
@@ -444,12 +444,12 @@ C----------------------
 
 
 C=======================================================================
-C TRANSPORT SUIVANT LA VALEUR DE NVAR
+C CONVECTION DEPENDING ON NVAR VALUE
 C=======================================================================
 
         ! CONVECTION OFF WITH DEBUG OPTION /DEBUG/CONV0/[cycle]
-        IF(DEBUG(10).NE.0)THEN
-          IF(NCYCLE.GE.DEBUG(10))THEN
+        IF(DEBUG(10) /= 0)THEN
+          IF(NCYCLE >= DEBUG(10))THEN
             !write (*,*) "ADVECTION SET OFF"
             CYCLE
           ENDIF
@@ -461,7 +461,7 @@ C=======================================================================
         !TREAT FIRST POLYHEDRA FROM CUT CELL BUFFER
         !ELMENTARY BUFFER IS ALSO UPDATED AND USED LATER
         !TO TREAT USUAL BRICK ELEMS WHILE DEALING WITH ADJACENT VALUES      
-        IF(INT22.GT.0)THEN
+        IF(INT22 > 0)THEN
           NF1=NFT+1+(NM-1)*NUMELS
           NFX=NFT+(NM-1)*NUMELS      
           CALL A22CONV3(
@@ -473,7 +473,7 @@ C=======================================================================
 
         DO NG=ITASK+1,NGROUP,NTHREAD                                                       
 C     ALE ON / OFF
-           IF (IPARG(76, NG) .EQ. 1) CYCLE ! --> OFF
+           IF (IPARG(76, NG)  ==  1) CYCLE ! --> OFF
            CALL VARCONDEC(JCODV,IPARG(34,NG),CODTOT)                                         
            IF (JCODV(NVAR) == 0) CYCLE                                                       
            CALL INITBUF (IPARG    ,NG      ,                                                 
@@ -487,18 +487,18 @@ C     ALE ON / OFF
            IF (ISILENT==1)                   CYCLE  !silent boundaries law 11 & 51           
            IF (IPARG(8,NG) == 1)             CYCLE                                           
            IF (MAX(1,JMUL) < NM)             CYCLE                                           
-           IF (ITRIMAT.NE.0 .AND. MTN.NE.51) CYCLE                                           
+           IF (ITRIMAT /= 0 .AND. MTN /= 51) CYCLE                                           
 
            ISOLNOD = IPARG(28,NG)                                                            
                                                                                              
            !-----------------------------!                                                   
-           ! POINTEUR DU GROUPE COURANT  !                                                   
+           ! POINTERS FROM CURRENT GROUP !                                                   
            !-----------------------------!                                                   
            GBUF => ELBUF_TAB(NG)%GBUF                                                        
            LBUF => ELBUF_TAB(NG)%BUFLY(NM)%LBUF(1,1,1)                                       
            MBUF => ELBUF_TAB(NG)%BUFLY(NM)%MAT(1,1,1)                                        
            !-----------------------------!                                                   
-           IF (JMUL.NE.0) THEN                                                               
+           IF (JMUL /= 0) THEN                                                               
              MTN =IPARG(24+NM,NG)                                                            
            ENDIF                                                                             
            LFT=1                                                                             
@@ -592,7 +592,7 @@ C     ALE ON / OFF
              NF1=NFT+1+(NM-1)*NUMELS                                                         
              NFX=NFT+(NM-1)*NUMELS                                                           
              pVOL => LBUF%VOL(1:LLT)                                                         
-             IF (ISOLNOD.NE.4) THEN                                                          
+             IF (ISOLNOD /= 4) THEN                                                          
                CALL ACONV3(                                                                  
      1              VAR   , PHI    ,FLUX(6*NFX+1), FLU1(NF1) ,IXS    ,                       
      2              ALE_CONNECT , IOFF   ,QMV(12*NFX+1), IFLG      ,ITRIMAT,                       
@@ -625,6 +625,6 @@ C----------------------
 C----------------------
       END DO !next NM
 
-
+C-----------------------------------------------  
       RETURN
       END

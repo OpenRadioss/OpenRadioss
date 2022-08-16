@@ -46,15 +46,16 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real :: SP, SM, TP, TM
 C-----------------------------------------------
-      SP   = ONE +S
-      SM   = ONE -S
-      TP   = FOURTH*(ONE + T)
-      TM   = FOURTH*(ONE - T)
+C   S o u r c e   L i n e s
+C-----------------------------------------------
+      SP = ONE +S
+      SM = ONE -S
+      TP = FOURTH*(ONE + T)
+      TM = FOURTH*(ONE - T)
       H(1) = TM*SM
       H(2) = TM*SP
       H(3) = TP*SP
       H(4) = TP*SM
 C-----------------------------------------------
-
       RETURN
       END

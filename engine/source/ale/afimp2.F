@@ -27,7 +27,9 @@ Chd|        ATHERM                        source/ale/atherm.F
 Chd|-- calls ---------------
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|====================================================================
-      SUBROUTINE AFIMP2(PM,X,IXQ,T,GRAD,COEF,ALE_CONNECT,FV)
+      SUBROUTINE AFIMP2(
+     1                  PM  ,X           ,IXQ  ,T  ,GRAD  ,
+     2                  COEF,ALE_CONNECT ,FV)
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -41,39 +43,42 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
+#include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "com08_c.inc"
 #include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXQ(7,*)
-      my_real
-     .   PM(NPROPM,*), X(3,*), T(*), GRAD(4,*), COEF(*), FV(*)
+      INTEGER IXQ(7,NUMELQ)
+      my_real PM(NPROPM,NUMMAT), X(3,NUMNOD), T(*), GRAD(4,*), COEF(*), FV(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER JFACE(MVSIZ), JVOIS(MVSIZ), NC1(MVSIZ), NC2(MVSIZ), IPERM(2,4),
      .        IFIMP, I,II, MAT, IFQ, J, IAD2, LGTH
-      my_real
-     .   Y1(MVSIZ)  , Y2(MVSIZ), Z1(MVSIZ) , Z2(MVSIZ) ,
-     .   TFLU(MVSIZ), XF(MVSIZ), N1Y(MVSIZ), N1Z(MVSIZ),
-     .   AREA
+      my_real Y1(MVSIZ)  , Y2(MVSIZ), Z1(MVSIZ) , Z2(MVSIZ) ,
+     .        TFLU(MVSIZ), XF(MVSIZ), N1Y(MVSIZ), N1Z(MVSIZ),
+     .        AREA
 C-----------------------------------------------
       DATA IPERM / 1,2,
      .             2,3,
      .             3,4,
      .             4,1/
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
+
 C---------------------------------------------------------------------
-C     CALCUL DES FLUX IMPOSES
+C     CALCULATION OF IMPOSED FLUXES
 C---------------------------------------------------------------------
       IFIMP=0
       DO I=LFT,LLT
         II =NFT+I
         MAT=IXQ(1,II)
         IFQ=NINT(PM(44,MAT))
-        IF(IFQ.NE.0)THEN
+        IF(IFQ /= 0)THEN
           TFLU(I)=PM(60,MAT)*FV(IFQ)
           XF(I)=ONE
           IFIMP=1
@@ -83,9 +88,9 @@ C---------------------------------------------------------------------
         ENDIF
       ENDDO
       
-      IF(IFIMP.EQ.0)RETURN
+      IF(IFIMP == 0)RETURN
 C---------------------------------------------------------------------
-C     RECHERCHE DE LA FACE
+C     FINDING RELATED FACE
 C---------------------------------------------------------------------
       DO I=LFT,LLT
         II =NFT+I
@@ -94,15 +99,15 @@ C---------------------------------------------------------------------
         DO J=1,LGTH
           JFACE(I)=J
           JVOIS(I)=ALE_CONNECT%ee_connect%connected(IAD2 + J - 1)
-          IF(JVOIS(I).LE.0)CYCLE
+          IF(JVOIS(I) <= 0)CYCLE
           MAT=IXQ(1,JVOIS(I))
           MTN=NINT(PM(19,MAT))
-          IF(MTN.NE.11)EXIT
+          IF(MTN /= 11)EXIT
         ENDDO!next J
       ENDDO!next I
       
 C-----------------------------------------------
-C     CALCUL DE LA SURFACE
+C     SURFACE CALCULATION
 C-----------------------------------------------
       DO I=LFT,LLT
         II =NFT+I
@@ -119,7 +124,7 @@ C-----------------------------------------------
         N1Z(I) = -(Y2(I)-Y1(I))
       ENDDO
 
-      IF(N2D.EQ.1)THEN
+      IF(N2D == 1)THEN
         DO I=LFT,LLT
           N1Y(I) = N1Y(I)*(Y1(I)+Y2(I))*HALF
           N1Z(I) = N1Z(I)*(Y1(I)+Y2(I))*HALF
@@ -127,7 +132,7 @@ C-----------------------------------------------
       ENDIF
       
 C------------------------------------------
-C     CALCUL DE LA NORMALE A LA FACE
+C     NORMAL VECTOR CALCULATION
 C------------------------------------------
       DO I=LFT,LLT
         II    = NFT+I

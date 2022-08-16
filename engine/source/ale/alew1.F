@@ -44,11 +44,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NALE(*), NODFT, NODLT, ITASK,
+      INTEGER NALE(NUMNOD), NODFT, NODLT, ITASK,
      .        NBRCVOIS(*),NBSDVOIS(*),
-     .        LNRCVOIS(*),LNSDVOIS(*),ITAB(*)
-      my_real
-     .        X(3,*), D(3,*), V(3,*), W(3,*)     
+     .        LNRCVOIS(*),LNSDVOIS(*),ITAB(NUMNOD)
+      my_real X(3,NUMNOD), D(3,NUMNOD), V(3,NUMNOD), W(3,NUMNOD)     
       TYPE(t_connectivity), INTENT(IN) :: ALE_NN_CONNECT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -70,12 +69,13 @@ C-----------------------------------------------
       my_real :: DY_MAX, DY_MIN
       my_real :: DZ_MAX, DZ_MIN
 C-----------------------------------------------
+C   S o u r c e   L i n e s
 C-----------------------------------------------
+
 C  SPMD : COMM D
-C-----------------------------------------------
-      IF(NSPMD.GT.1)THEN
+      IF(NSPMD > 1)THEN
 C
-C Partie non parallele smt
+C Part not parallel smt
 C
 !$OMP SINGLE
 
@@ -84,13 +84,13 @@ C
      1        D     ,NBRCVOIS,NBSDVOIS,LNRCVOIS,LNSDVOIS,
      2        LENCOM)
 
-C Fin Partie non parallele smt
+C End part not parallel smt
 !$OMP END SINGLE
 
       END IF
       FAC=ONE/DT2/THREE
       DO I = NODFT, NODLT
-         IF(IABS(NALE(I)).EQ.1) THEN
+         IF(IABS(NALE(I)) == 1) THEN
             IAD1 = ALE_NN_CONNECT%IAD_CONNECT(I)
             IAD2 = ALE_NN_CONNECT%IAD_CONNECT(I + 1) - 1
             DX_MAX = -HUGE(ZERO)
@@ -118,7 +118,7 @@ C Fin Partie non parallele smt
             W(1,I)=SIGN(ONE,DX)*MIN(ABS(DX),ALPHA)
             W(2,I)=SIGN(ONE,DY)*MIN(ABS(DY),ALPHA)
             W(3,I)=SIGN(ONE,DZ)*MIN(ABS(DZ),ALPHA)
-         ELSEIF(NALE(I).EQ.0)THEN
+         ELSEIF(NALE(I) == 0)THEN
             W(1,I)=V(1,I)
             W(2,I)=V(2,I)
             W(3,I)=V(3,I)

@@ -27,7 +27,7 @@ Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE EULDX(V,D,X,DDP,NALE,NODFT,NODLT)
-C----6---------------------------------------------------------------7---------8
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -35,25 +35,26 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
+#include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "scr05_c.inc"
-C-----------------------------------------------------------------
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NALE(*),NODFT,NODLT
-      my_real
-     .   X(3,*)    ,D(3,*)      ,V(3,*)  
+      INTEGER NALE(NUMNOD),NODFT,NODLT
+      my_real X(3,NUMNOD), D(3,NUMNOD), V(3,NUMNOD)  
       REAL(kind=8), DIMENSION(3,*), INTENT(INOUT) :: DDP
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  N, L
-      my_real
-     .   XLAG
-C
-        IF(N2D.EQ.1)THEN
+      my_real XLAG
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
+        IF(N2D == 1)THEN
           DO N=NODFT,NODLT
-            IF(X(2,N)+DT2*V(2,N).LT.ZERO)V(2,N)=ZERO
+            IF(X(2,N)+DT2*V(2,N) < ZERO)V(2,N)=ZERO
           ENDDO
         ENDIF
         DO N=NODFT,NODLT
@@ -66,7 +67,7 @@ C
           X(3,N)=X(3,N)+DT2*V(3,N)*XLAG
         ENDDO
 !   -------------------------
-!   simple precision
+!   single precision
         IF(IRESP==1) THEN
             DO N=NODFT,NODLT
                 DDP(1,N)= D(1,N)
@@ -74,7 +75,6 @@ C
                 DDP(3,N)= D(3,N)
             ENDDO
         ENDIF    
-!   -------------------------            
-C
+C-----------------------------------------------       
       RETURN
       END

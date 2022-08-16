@@ -44,9 +44,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(*), ICODE,IBCS
-      my_real
-     .   VG(*),X,V,A,BCS
-
+      my_real VG(*),X,V,A,BCS
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -58,16 +56,18 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ITIED
 C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       NRTS  =IPARI(3)
       NRTM  =IPARI(4)
       NSN   =IPARI(5)
       NMN   =IPARI(6)
       ITIED=INT(INTBUF_TAB%VARIABLES(1))
       CALL IQELA3
-     1  (VG	    ,VG        ,INTBUF_TAB%IRECTM,INTBUF_TAB%CSTS,INTBUF_TAB%NSV,
-     2   INTBUF_TAB%ILOCS,INTBUF_TAB%IRTLM,ICODE	 ,IBCS      ,BCS       ,
+     1  (VG	         ,VG              ,INTBUF_TAB%IRECTM,INTBUF_TAB%CSTS,INTBUF_TAB%NSV,
+     2   INTBUF_TAB%ILOCS,INTBUF_TAB%IRTLM,ICODE	    ,IBCS           ,BCS           ,
      3   INTBUF_TAB%MSR)
-      IF(ITIED.EQ.2) THEN
+      IF(ITIED == 2) THEN
 	 CALL IN12R(VG,INTBUF_TAB%VARIABLES(1),INTBUF_TAB%NSV,NSN,2,INTBUF_TAB%FCOUNT)
       ENDIF
       RETURN

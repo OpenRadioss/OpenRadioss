@@ -87,12 +87,13 @@ C-----------------------------------------------
      .   DIMENSION(:) ,POINTER :: PH1,PH2,PH3
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C-----------------------------------------------
-C=======================================================================
-      DO 100 NG=1,NGROUP
-        IF(IPARG(8,NG) == 1)       GO TO 100
+C   S o u r c e   L i n e s 
+C-----------------------------------------------
+      DO NG=1,NGROUP
+        IF(IPARG(8,NG) == 1)CYCLE
 c     
 C     ALE ON / OFF
-        IF (IPARG(76, NG) .EQ. 1) CYCLE ! --> OFF
+        IF (IPARG(76, NG) == 1) CYCLE ! --> OFF
         GBUF => ELBUF_TAB(NG)%GBUF
         CALL INITBUF (IPARG    ,NG      ,                  
      2     MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,   
@@ -101,25 +102,25 @@ C     ALE ON / OFF
      5     NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,   
      6     IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,   
      7     ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
-        IF((ITY.NE.1).AND.(ITY.NE.2))  GO TO 100
-        IF (MTN == 1)                  GO TO 100
+        IF((ITY /= 1).AND.(ITY /= 2))CYCLE
+        IF (MTN == 1)CYCLE
 c
         LFT=1
 c
         IF(N2D == 0)THEN
-          DO 10 I=LFT,LLT
+          DO I=LFT,LLT
             MAT(I)=IXS(1,I+NFT)
-   10    CONTINUE
+          ENDDO
         ELSE
-          DO 20 I=LFT,LLT
+          DO I=LFT,LLT
             MAT(I)=IXQ(1,I+NFT)
-   20     CONTINUE
+          ENDDO
         ENDIF
 c
         DO I=LFT,LLT
           J=I+NFT
           T(J) = GBUF%TEMP(I)
-          IF(T(J).LE.PM(80,MAT(I)))THEN
+          IF(T(J) <= PM(80,MAT(I)))THEN
             VAL2(J)=PM(75,MAT(I))+PM(76,MAT(I))*T(J)
           ELSE
             VAL2(J)=PM(77,MAT(I))+PM(78,MAT(I))*T(J)
@@ -127,7 +128,7 @@ c
         ENDDO
 c
         IF (MTN == 17)THEN
-          DO 35 I=LFT,LLT
+          DO I=LFT,LLT
            J=I+NFT
            RK = GBUF%RK(I)
            RE = GBUF%RE(I)
@@ -140,10 +141,10 @@ c
            CMU=PM(81,MAT(I))
            RPR=PM(95,MAT(I))
            YPLUS =CMU*RK**2/MAX(AX*RE*XMU,EM15)
-           IF(YPLUS.LT.YP0)GO TO 35
+           IF(YPLUS < YP0)CYCLE
             P = NINEP24*(RPR-ONE)/(RPR**FOURTH)
             VAL2(J)=VAL2(J) * RPR*AX*YPLUS / (A*LOG(E*YPLUS) + AX*P)
-   35     CONTINUE
+          ENDDO!next I
         ELSEIF (MTN == 18)THEN
           CALL M18TH(GBUF%TEMP,VAL2,MAT,PM,IPM,TF,NPF)
         ELSEIF (MTN == 26)THEN
@@ -158,7 +159,7 @@ c
           PH3 =>ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(NPH3+1:NPH3+1+LLT)
           CALL M51TH(T(1+NFT),PH1,PH2,PH3,
      .               BUFMAT(IADBUF),VAL2(1+NFT))
-        ELSEIF (JTUR.NE.0.AND.MTN.NE.11) THEN
+        ELSEIF (JTUR /= 0.AND.MTN /= 11) THEN
           DO I=LFT,LLT
             J=I+NFT
             RK = GBUF%RK(I)
@@ -170,23 +171,23 @@ c
             VAL2(J)=VAL2(J)*(ONE+RPR*XMT/XMU)
           ENDDO
         ENDIF
-  100 CONTINUE
+      ENDDO!next NG
 C-----------------------------
-C       ECHANGES SPMD T, VAL2 SUR ELTS VOISINS
+C       SPMD EXCHANGE T, VAL2
 C-----------------------------
-        IF (NSPMD.GT.1)
+        IF (NSPMD > 1)
      1    CALL SPMD_EVOIS(T       ,VAL2  ,NERCVOIS,NESDVOIS,LERCVOIS,
      2                    LESDVOIS,LENCOM)
 C------------------------------
-C     FLUX IMPOSE
+C     IMPOSED FLUX
 C------------------------------
       DO NG=1,NGROUP
 C     ALE ON / OFF
-        IF (IPARG(76, NG) .EQ. 1) CYCLE ! --> OFF
+        IF (IPARG(76, NG) == 1) CYCLE ! --> OFF
         MTN=IPARG(1,NG)
-        IF (MTN.NE.11) CYCLE
+        IF (MTN /= 11) CYCLE
         JTHE=IPARG(13,NG)
-        IF (JTHE.NE.1) CYCLE
+        IF (JTHE /= 1) CYCLE
         LLT=IPARG(2,NG)
         NFT=IPARG(3,NG)
         IAD=IPARG(4,NG)
@@ -199,9 +200,9 @@ C     ALE ON / OFF
         ENDIF
       ENDDO
 C
-      DO 200 NG=1,NGROUP
+      DO NG=1,NGROUP
 C     ALE ON / OFF
-        IF (IPARG(76, NG) .EQ. 1) CYCLE ! --> OFF
+        IF (IPARG(76, NG) == 1) CYCLE ! --> OFF
 
         GBUF => ELBUF_TAB(NG)%GBUF
         CALL INITBUF (IPARG    ,NG      ,                  
@@ -211,8 +212,8 @@ C     ALE ON / OFF
      5     NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,   
      6     IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,   
      7     ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
-        IF (IPARG(8,NG) == 1)  GO TO 200
-        IF (JTHE.NE.1 .OR. ITY == 51)  GO TO 200
+        IF (IPARG(8,NG) == 1)CYCLE
+        IF (JTHE /= 1 .OR. ITY == 51)CYCLE
         LFT=1
         IF (MTN == 51)THEN
           DO I=LFT,LLT
@@ -231,7 +232,7 @@ c            EV(NB11+I-1) = ZERO
             CALL ADIFF2(GBUF%EINT,T,FLUX(4*NFT+1),VAL2,ALE_CONNECT,GBUF%VOL)
           ENDIF
         ENDIF
-  200 CONTINUE
+      ENDDO!next NG
 C-----------
       RETURN
       END

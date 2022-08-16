@@ -59,7 +59,7 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       NIR=2
-      IF(N2D.EQ.0)NIR=4      
+      IF(N2D == 0)NIR=4      
       DO  II=1,NSN
         N        = NSV(II)
         L        = IRTL(II)
@@ -78,7 +78,7 @@ C-----------------------------------------------
         VMY      = VMY+V(2,IX(JJ))*H(JJ)
         VMZ      = VMZ+V(3,IX(JJ))*H(JJ)
         ENDDO
-        !VITESSE DE MAILLAGE
+        !GRID VELOCITY
         W(1,N)   = VMX
         W(2,N)   = VMY
         W(3,N)   = VMZ

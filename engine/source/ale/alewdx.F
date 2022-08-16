@@ -116,25 +116,23 @@ C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       INTEGER ISKEW(*), IXS(NIXS,*),IXQ(NIXQ,*),
-     .     NPF(*),LAS(*), IPARG(NPARG,*), IPARI(NPARI,*),
+     .     NPF(*),LAS(*), IPARG(NPARG,NGROUP), IPARI(NPARI,NINTER),
      .     NPRW(*), ICODT(*), LINALE(*),
      .     NODPOR(*), NBRCVOIS(*),NBSDVOIS(*), PROCNE(*),FR_NBCC(*),
      .     LNRCVOIS(*),LNSDVOIS(*), NODFT ,NODLT, ITASK,
      .     WEIGHT(*), FR_ELEM(*), IAD_ELEM(*), ADSKY(*), NPORGEO(*),
      .     IADS(*) ,FR_WALL(*), 
      .     IADQ(*), NIADX
-      INTEGER, INTENT(IN) :: ITAB(*)
+      INTEGER, INTENT(IN) :: ITAB(NUMNOD)
       DOUBLE PRECISION    :: XDP(3,*),DDP(3,*)
       my_real
-     .     X(3,*) ,D(3,*), V(3,*) ,VR(3,*) ,A(3,*) ,AR(3,*), FSKY(*),
-     .     MS(*)   ,IN(*)   ,PM(NPROPM,*),SKEW(LSKEW,*),GEO(NPROPG,*),
-     .     W(3,*), WB(*), TF(*), FSAV(NTHVKI,*) ,XLAS(*),
+     .     X(3,NUMNOD) ,D(3,NUMNOD), V(3,NUMNOD) ,VR(3,NUMNOD) ,A(3,NUMNOD) ,AR(3,NUMNOD), FSKY(*),
+     .     MS(*)   ,IN(*)   ,PM(NPROPM,NUMMAT),SKEW(LSKEW,*),GEO(NPROPG,NUMGEO),
+     .     W(3,NUMNOD), WB(*), TF(*), FSAV(NTHVKI,*) ,XLAS(*),
      .     RWBUF(NRWLP,*),RBY(NRBY,*),WA(3,*),DR(3,*),XCELL(3,*), XFACE(3,6,*)
-      my_real
-     .     DT2SAVE
+      my_real DT2SAVE
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
-!     
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
       INTEGER, INTENT(IN) :: NE_NERCVOIS(*), NE_NESDVOIS(*), NE_LERCVOIS(*), NE_LESDVOIS(*)
@@ -157,7 +155,7 @@ C----------------------------------------
       
         IF(ITASK == 0)THEN
           DT2SAVE=DT2                                              
-          IF(IALESUB.NE.0)DT2=INT(DT2S/DT2SAVE)*DT2SAVE !DT2=DT2S  
+          IF(IALESUB /= 0)DT2=INT(DT2S/DT2SAVE)*DT2SAVE !DT2=DT2S  
           SIZEN=0                                                  
           IF(IPARIT == 0)SIZEN = NUMNOD 
         ENDIF
@@ -267,8 +265,8 @@ C
       IF (ITASK == 0) THEN
 C----------------------------------------
          IF(NUMPOR > 0)
-     1        CALL WPOR(GEO,NODPOR,X   ,V      ,VR    ,
-     2        W  ,RBY   ,ALE_CONNECTIVITY%NALE,NPORGEO       )
+     1        CALL WPOR(GEO,NODPOR,X                    ,V       ,VR    ,
+     2                  W  ,RBY   ,ALE_CONNECTIVITY%NALE,NPORGEO       )
 C----------------------------------------
 C     BOUNDARY CONDITIONS AT NODES
 C----------------------------------------
@@ -277,24 +275,24 @@ C----------------------------------------
             NINDX1 = 0
             NINDX2 = 0
             DO  N = I,MIN(NUMNOD,I+1023)
-               IF(ALE_CONNECTIVITY%NALE(N).NE.0)THEN
+               IF(ALE_CONNECTIVITY%NALE(N) /= 0)THEN
                   ISK=ISKEW(N)
                   LCOD=ICODT(N+NUMNOD)
-                  IF(LCOD.NE.0) THEN
+                  IF(LCOD /= 0) THEN
                      NINDX1 = NINDX1 + 1
                      INDX1(NINDX1) = N
                   ENDIF
                   LCOD=ICODT(N+NUMNOD+NUMNOD)
-                  IF(LCOD.NE.0) THEN
+                  IF(LCOD /= 0) THEN
                      NINDX2 = NINDX2 + 1
                      INDX2(NINDX2) = N
                   ENDIF
                ENDIF
             ENDDO
-            IF (NINDX1.NE.0)
+            IF (NINDX1 /= 0)
      .           CALL BCS2V(NINDX1,INDX1,ISKEW,ICODT(NUMNOD+1),W,
      .           SKEW)
-            IF (NINDX2.NE.0)
+            IF (NINDX2 /= 0)
      .           CALL BCS3V(NINDX2,INDX2,ISKEW,ICODT(2*NUMNOD+1),W,
      .           V      ,SKEW)
          ENDDO
@@ -302,7 +300,7 @@ C----------------------------------------
 C--------------------------------
 C     ALE/LAGRANGE INTERFACES
 C--------------------------------
-         IF(NINTER.NE.0) THEN
+         IF(NINTER /= 0) THEN
             IF(IMON > 0 .AND. ITASK == 0) CALL STARTIME(2,1)
             CALL INTAL3(
      1           IPARI,X     ,V      ,
@@ -327,7 +325,7 @@ C-----------------------------------
 C--------------------------------------
 C     /ALE/LINK/VEL
 C--------------------------------------
-         IF(NALELK.NE.0) THEN
+         IF(NALELK /= 0) THEN
             IF(IMON > 0 .AND. ITASK == 0) CALL STARTIME(4,1)
             CALL ALELIN(NALELK,LINALE,W,WEIGHT,IGRNOD,ITAB)
             IF(IMON > 0 .AND. ITASK == 0) CALL STOPTIME(4,1)
@@ -337,11 +335,11 @@ C     2D GRID VELOCITY
 C-----------------------------------
          IF(N2D == 1)THEN
             IF(IMON > 0 .AND. ITASK == 0) CALL STARTIME(5,1)
-            DO 750 I=1,NUMNOD
-               IF(X(2,I)+DT2*W(2,I) >= ZERO)GOTO 750
+            DO I=1,NUMNOD
+               IF(X(2,I)+DT2*W(2,I) >= ZERO)CYCLE
                W(2,I)=ZERO
                V(2,I)=ZERO
- 750        CONTINUE
+            ENDDO!next I
             IF(IMON > 0 .AND. ITASK == 0) CALL STOPTIME(5,1)
          ENDIF
 C-----------------------
@@ -350,21 +348,21 @@ C-----------------------
          IF(NRWALL > 0) THEN
             IF(IMON > 0 .AND. ITASK == 0) CALL STARTIME(4,1)
             CALL RGWAL1(
-     1           X          ,A       ,V          ,W       ,RWBUF           ,
-     2           NPRW(1+NNPRW*NRWALL),NPRW,
-     3           ICODT      ,ISKEW   ,SKEW       ,MS      ,FSAV(1,NINTER+1),
-     4           IXS        ,IXQ     ,ELBUF_TAB,IPARG          ,
-     5           PM         ,ALE_CONNECTIVITY%NALE    ,TF         ,NPF     ,WEIGHT          ,
-     6           IAD_ELEM   ,FR_ELEM ,FR_WALL         )
+     1           X                   ,A                      ,V          ,W       ,RWBUF           ,
+     2           NPRW(1+NNPRW*NRWALL),NPRW                   ,
+     3           ICODT               ,ISKEW                  ,SKEW       ,MS      ,FSAV(1,NINTER+1),
+     4           IXS                 ,IXQ                    ,ELBUF_TAB  ,IPARG   ,
+     5           PM                  ,ALE_CONNECTIVITY%NALE  ,TF         ,NPF     ,WEIGHT          ,
+     6           IAD_ELEM            ,FR_ELEM                ,FR_WALL         )
             IF(IMON > 0.AND. ITASK == 0) CALL STOPTIME(4,1)
          ENDIF
 C-----------------------
 C     LASER
 C-----------------------
          IF (NLASER > 0) THEN
-            CALL LASER1(LAS ,XLAS ,MS   ,X    ,V    ,
-     .           W   ,WA   ,IPARG,IXQ  ,PM   ,
-     .           TF  ,NPF  ,ELBUF_TAB)
+            CALL LASER1(LAS ,XLAS ,MS       ,X    ,V    ,
+     .                  W   ,WA   ,IPARG    ,IXQ  ,PM   ,
+     .                  TF  ,NPF  ,ELBUF_TAB)
          ENDIF
 C-----------------------
       ENDIF                     ! ITASK == 0
@@ -373,7 +371,7 @@ C-----------------------------------
 C     LAGRANGIAN ROTATIONS
 C-----------------------------------
 
-      IF(IMPOSE_DR.NE.0 .AND. IRODDL.NE.0) THEN
+      IF(IMPOSE_DR /= 0 .AND. IRODDL /= 0) THEN
 #include      "vectorize.inc"
          DO N=NODFT,NODLT
             DR(1,N)=DR(1,N)+DT2*VR(1,N)
@@ -393,38 +391,38 @@ C
          IF (IRESP == 1) THEN
 #include      "vectorize.inc"
             DO N=NODFT,NODLT
-               VDT2    =DT2*W(1,N)
+               VDT2 = DT2*W(1,N)
                DDP(1,N) = DDP(1,N)+VDT2
-               D(1,N)  =D(1,N)+VDT2
-               XDP(1,N)=XDP(1,N)+VDT2
-               X(1,N)  =XDP(1,N)   
+               D(1,N) = D(1,N)+VDT2
+               XDP(1,N) = XDP(1,N)+VDT2
+               X(1,N) = XDP(1,N)   
 
-               VDT2    =DT2*W(2,N)
+               VDT2 = DT2*W(2,N)
                DDP(2,N) = DDP(2,N)+VDT2
-               D(2,N)  =D(2,N)+VDT2
-               XDP(2,N)=XDP(2,N)+VDT2
-               X(2,N)  =XDP(2,N)                   
+               D(2,N) = D(2,N)+VDT2
+               XDP(2,N) = XDP(2,N)+VDT2
+               X(2,N) = XDP(2,N)                   
                
-               VDT2    =DT2*W(3,N)
+               VDT2 = DT2*W(3,N)
                DDP(3,N) = DDP(3,N)+VDT2
-               D(3,N)  =D(3,N)+VDT2
-               XDP(3,N)=XDP(3,N)+VDT2
-               X(3,N)  =XDP(3,N)               
+               D(3,N) = D(3,N)+VDT2
+               XDP(3,N) = XDP(3,N)+VDT2
+               X(3,N) = XDP(3,N)               
             ENDDO
          ELSE
 #include      "vectorize.inc"
             DO N=NODFT,NODLT
                VDT = DT2*W(1,N)
-               D(1,N)=D(1,N)+VDT
-               X(1,N)=X(1,N)+VDT
+               D(1,N) = D(1,N)+VDT
+               X(1,N) = X(1,N)+VDT
                
                VDT = DT2*W(2,N)
-               D(2,N)=D(2,N)+VDT
-               X(2,N)=X(2,N)+VDT
+               D(2,N) = D(2,N)+VDT
+               X(2,N) = X(2,N)+VDT
                
                VDT = DT2*W(3,N)
-               D(3,N)=D(3,N)+VDT
-               X(3,N)=X(3,N)+VDT
+               D(3,N) = D(3,N)+VDT
+               X(3,N) = X(3,N)+VDT
             ENDDO
          ENDIF     
       ENDIF

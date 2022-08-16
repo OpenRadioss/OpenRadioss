@@ -35,9 +35,9 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
       SUBROUTINE AKTURB(
-     1  IPARG   ,ELBUF_TAB,FLUX    ,VAL2    ,XK    ,
-     2  ALE_CONNECT   ,IXS      ,IXQ     ,PM      ,ITASK ,
-     3  NERCVOIS,NESDVOIS ,LERCVOIS,LESDVOIS,LENCOM)
+     1  IPARG       ,ELBUF_TAB ,FLUX     ,VAL2     ,XK     ,
+     2  ALE_CONNECT ,IXS       ,IXQ      ,PM       ,ITASK  ,
+     3  NERCVOIS    ,NESDVOIS  ,LERCVOIS ,LESDVOIS ,LENCOM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -54,30 +54,31 @@ C-----------------------------------------------
 #include      "scr01_c.inc"
 #include      "scr05_c.inc"
 #include      "com01_c.inc"
+#include      "com04_c.inc"
 #include      "vect01_c.inc"
 #include      "param_c.inc"
 #include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPARG(NPARG,*), IXS(NIXS,*), IXQ(7,*),
+      INTEGER IPARG(NPARG,NGROUP), IXS(NIXS,NUMELS), IXQ(7,NUMELQ),
      .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),
      .        LENCOM
-      my_real
-     .   FLUX(*), VAL2(*), XK(*), PM(NPROPM,*)
+      my_real FLUX(*), VAL2(*), XK(*), PM(NPROPM,NUMMAT)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NG, I, J, MT, ITASK
-      my_real
-     .   RK, RE, R, XMT      
+      my_real RK, RE, R, XMT      
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-C=======================================================================
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       DO NG=ITASK+1,NGROUP,NTHREAD
-C     ALE ON / OFF
-        IF (IPARG(76, NG) .EQ. 1) CYCLE ! --> OFF
+        !ALE ON / OFF
+        IF (IPARG(76, NG)  ==  1) CYCLE ! --> OFF
         GBUF => ELBUF_TAB(NG)%GBUF
 c
         CALL INITBUF (IPARG    ,NG      ,                  
@@ -87,12 +88,12 @@ c
      5     NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,   
      6     IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,   
      7     ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )                     
-        IF(JALE+JEUL.EQ.0)   CYCLE
-        IF(IPARG(8,NG).EQ.1) CYCLE
+        IF(JALE+JEUL == 0)   CYCLE
+        IF(IPARG(8,NG) == 1) CYCLE
         LFT=1
-        IF(JTUR.EQ.1)THEN
-         IF(N2D.EQ.0)THEN
-          DO 10 I=LFT,LLT
+        IF(JTUR == 1)THEN
+         IF(N2D == 0)THEN
+          DO I=LFT,LLT
            J=I+NFT
            MT=IXS(1,J)
            RK=GBUF%RK(I)
@@ -101,9 +102,9 @@ c
            XK(J)=RK/R
            XMT=PM(81,MT)*RK*RK / MAX(EM15,RE)
            VAL2(J)=XMT/PM(85,MT)
-   10     CONTINUE
+          ENDDO!next I
          ELSE
-          DO 15 I=LFT,LLT
+          DO I=LFT,LLT
            J=I+NFT
            MT=IXQ(1,J)
            RK=GBUF%RK(I)
@@ -112,43 +113,44 @@ c
            XK(J)=RK/R
            XMT=PM(81,MT)*RK*RK / MAX(EM15,RE)
            VAL2(J)=XMT/PM(85,MT)
-   15     CONTINUE
+          ENDDO!next I
          ENDIF
         ELSE
-         DO 20 I=LFT,LLT
+         DO I=LFT,LLT
           J=I+NFT
-   20     XK(J)=ZERO
+          XK(J)=ZERO
+         ENDDO!next I
         ENDIF
-        IF(JPOR.EQ.2)THEN
-C POROSITE OPTION TURBULENCE IMPOSEE ET PAS DE FLUX DIFFUSIFS 
-         DO30 I=LFT,LLT
-          J=I+NFT
-          VAL2(J)=ZERO
-   30    CONTINUE
+        IF(JPOR == 2)THEN
+         ! POROSITY, IMPOSED TURBULENCY & NO DIFFUSIVE FLUX 
+         DO I=LFT,LLT
+           J=I+NFT
+           VAL2(J)=ZERO
+         ENDDO!next I
         ENDIF
       ENDDO
 C
       CALL MY_BARRIER
 C
 C-----------------------------
-C       ECHANGES SPMD XK, VAL2 SUR ELTS VOISINS
+C       SPMD EXCHANGE : XK, VAL2 WITHIN ADJACENT ELEMENTS
 C-----------------------------
-      IF (NSPMD.GT.1) THEN
+      IF (NSPMD > 1) THEN
 C
-C Partie non parallele smt
+C part not parallel smt
 C
 !$OMP SINGLE
 
         CALL SPMD_EVOIS(XK      ,VAL2  ,NERCVOIS,NESDVOIS,LERCVOIS,
      2                    LESDVOIS,LENCOM)
-C Fin Partie non parallele smt
+C END part not parallel smt
 !$OMP END SINGLE
 
       END IF
 C-----------------------------
       DO NG=ITASK+1,NGROUP,NTHREAD
 C     ALE ON / OFF
-        IF (IPARG(76, NG) .EQ. 1) CYCLE ! --> OFF
+        IF (IPARG(76, NG)  ==  1) CYCLE ! --> OFF
         GBUF => ELBUF_TAB(NG)%GBUF
 c
         CALL INITBUF (IPARG    ,NG      ,                  
@@ -158,13 +160,13 @@ c
      5     NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,   
      6     IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,   
      7     ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
-        IF (JALE+JEUL.EQ.0)   CYCLE
-        IF (JTUR.NE.1)        CYCLE
-        IF (MTN.EQ.11)        CYCLE
-        IF (MTN.EQ.17)        CYCLE
-        IF (IPARG(8,NG).EQ.1) CYCLE
+        IF (JALE+JEUL == 0)   CYCLE
+        IF (JTUR /= 1)        CYCLE
+        IF (MTN == 11)        CYCLE
+        IF (MTN == 17)        CYCLE
+        IF (IPARG(8,NG) == 1) CYCLE
         LFT=1
-        IF(N2D.EQ.0)THEN
+        IF(N2D == 0)THEN
          CALL ADIFF3(GBUF%RK,XK,FLUX(6*NFT+1),VAL2,ALE_CONNECT,GBUF%VOL)
         ELSE
          CALL ADIFF2(GBUF%RK,XK,FLUX(4*NFT+1),VAL2,ALE_CONNECT,GBUF%VOL)

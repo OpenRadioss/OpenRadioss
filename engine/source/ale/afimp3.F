@@ -27,7 +27,7 @@ Chd|        ATHERM                        source/ale/atherm.F
 Chd|-- calls ---------------
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|====================================================================
-      SUBROUTINE AFIMP3(PM,X,IXS,T,GRAD,COEF,ALE_CONNECT,FV)
+      SUBROUTINE AFIMP3(PM ,X, IXS, T,GRAD ,COEF ,ALE_CONNECT ,FV)
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -41,24 +41,23 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
+#include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXS(NIXS,*)
-      my_real
-     .   PM(NPROPM,*), X(3,*), T(*), GRAD(6,*), COEF(*), FV(*)
+      INTEGER IXS(NIXS,NUMELS)
+      my_real PM(NPROPM,NUMMAT), X(3,NUMNOD), T(*), GRAD(6,*), COEF(*), FV(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER JFACE(MVSIZ), JVOIS(MVSIZ), NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ),
-     .   IPERM(4,6), IFIMP, I, II, MAT, IFQ, J, IAD2, LGTH
-      my_real
-     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ), Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
-     .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ), TFLU(MVSIZ), XF(MVSIZ),
-     .   N1X, N1Y, N1Z, AREA
+     .        IPERM(4,6), IFIMP, I, II, MAT, IFQ, J, IAD2, LGTH
+      my_real X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ), Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
+     .        Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ), TFLU(MVSIZ), XF(MVSIZ),
+     .        N1X, N1Y, N1Z, AREA
 C-----------------------------------------------
       DATA IPERM / 1,2,3,4,
      .             4,3,7,8,
@@ -66,15 +65,19 @@ C-----------------------------------------------
      .             5,6,2,1,
      .             2,6,7,3,
      .             1,4,8,5/
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
+
 C---------------------------------------------------------------------
-C     CALCUL DES FLUX IMPOSES
+C     CALCULATION OF IMPOSED FLUXES
 C---------------------------------------------------------------------
       IFIMP=0
       DO I=LFT,LLT
         II =NFT+I
         MAT=IXS(1,II)
         IFQ=NINT(PM(44,MAT))
-        IF(IFQ.NE.0)THEN
+        IF(IFQ /= 0)THEN
          TFLU(I)=PM(60,MAT)*FV(IFQ)
          XF(I)=ONE
          IFIMP=1
@@ -83,9 +86,9 @@ C---------------------------------------------------------------------
          XF(I)=ZERO
         ENDIF
       ENDDO
-      IF(IFIMP.EQ.0)RETURN
+      IF(IFIMP == 0)RETURN
 C---------------------------------------------------------------------
-C     RECHERCHE DE LA FACE
+C     FINDING RELATED FACE
 C---------------------------------------------------------------------
       DO I=LFT,LLT
         II =NFT+I
@@ -94,14 +97,14 @@ C---------------------------------------------------------------------
         DO J=1,LGTH
          JFACE(I)=J
          JVOIS(I) = ALE_CONNECT%ee_connect%connected(IAD2 + J - 1)
-         IF(JVOIS(I).LE.0)CYCLE!next J
+         IF(JVOIS(I) <= 0)CYCLE!next J
          MAT=IXS(1,JVOIS(I))
          MTN=NINT(PM(19,MAT))
-         IF(MTN.NE.11)EXIT!next I
+         IF(MTN /= 11)EXIT!next I
         ENDDO!next J
       ENDDO!next I
 C-----------------------------------------------
-C     CALCUL DE LA SURFACE
+C     SURFACE CALCULATION
 C-----------------------------------------------
       DO I=LFT,LLT
         II =NFT+I
@@ -127,7 +130,7 @@ C-----------------------------------------------
         Z4(I)=X(3,NC4(I))
       ENDDO
 C------------------------------------------
-C     CALCUL DE LA NORMALE A LA FACE
+C     NORMAL VECTOR CALCULATION
 C------------------------------------------
       DO I=LFT,LLT
         II =NFT+I
