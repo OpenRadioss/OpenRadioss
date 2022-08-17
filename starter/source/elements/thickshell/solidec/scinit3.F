@@ -58,6 +58,10 @@ Chd|====================================================================
      .                  STRSGLOB  ,STRAGLOB ,ORTHOGLOB ,FAIL_INI  ,ILOADP,
      .                  FACLOAD   ,RNOISE   ,PERTURB   )
 C-----------------------------------------------
+C   D e s c r i p t i o n
+C   Initialize 8-nodes thick shell HQEPH, co-rotational formulation
+C-----------------------------------------------
+C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
@@ -211,7 +215,8 @@ C=======================================================================
       NPTS   =  ELBUF_STR%NPTS
       NPTT   =  ELBUF_STR%NPTT
       NLAY   =  ELBUF_STR%NLAY
-c
+C
+      JEUL   = IPARG(11)
       IREP   = IPARG(35)
       IGTYP  = IPARG(38)
       JHBE   = IPARG(23)
@@ -221,7 +226,7 @@ c
       IBID   = 0
       IDEF   = 0
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         RHOCP(I) =  PM(69,IXS(1,NFT+I))
         TEMP0(I) =  PM(79,IXS(1,NFT+I))
       ENDDO
@@ -234,7 +239,7 @@ C
      .         E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,
      .         F1X  ,F1Y  ,F1Z  ,F2X  ,F2Y  ,F2Z  ,TEMP0, TEMP)
       IF (IGTYP == 21 .OR. IGTYP == 22) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
          ANGLE(I) = GEO(1,PID(I))
         END DO
         CALL SCMORTH3(PID  ,GEO  ,IGEO ,SKEW ,IREP ,GBUF%GAMA ,
@@ -248,15 +253,15 @@ C
         IPTHK = IPANG+NLYMAX
         IPPOS = IPTHK+NLYMAX
         IPMAT = 100
-        IG=PID(LFT)
+        IG=PID(1)
         MTN0=MTN
-        DO I=LFT,LLT
+        DO I=1,NEL
            MAT0(I) = MAT(I)    
            DTX0(I) = EP20
         ENDDO
        END IF
       END IF
-      CALL SCDERI3(GBUF%VOL   ,VEUL(1,NF1),GEO  ,
+      CALL SCDERI3(NEL,GBUF%VOL,JEUL,VEUL(1,NF1),GEO  ,
      .             VZL  ,VZQ  ,NGL  ,PID  ,
      .             X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
      .             Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
@@ -267,11 +272,11 @@ C
      .            Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8   , 
      .            DELTAX, VOLU)
       IF (IDTTSH > 0) THEN
-         CALL SDLENSH(VOLU,LLSH,
+         CALL SDLENSH(NEL,LLSH,
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8)
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF (GBUF%IDT_TSH(I)>0) 
      .     DELTAX(I)=MAX(LLSH(I),DELTAX(I))
         ENDDO
@@ -286,28 +291,26 @@ C
      .            IP      ,NGL    ,NPF        ,TF        ,BUFMAT ,
      .            GBUF    ,LBUF   ,MBUF       ,ELBUF_STR ,ILOADP ,
      .            FACLOAD, DELTAX)
-c
+C
       IF (IGTYP == 22) CALL SCZERO3(GBUF%RHO,GBUF%SIG,GBUF%EINT,NEL)
 C----------------------------------------
-C     INITIALISATION DE LA THERMIQUE 
-C----------------------------------------
+C Thermal initialization
       IF(JTHE /=0) CALL ATHERI(MAT,PM,GBUF%TEMP)
 C------------------------
-C     INTEGRATION POINTS
-C------------------------
+C Loop on integration points
       DO IS=1,NLAY
-c
+C
         LBUF => ELBUF_STR%BUFLY(IS)%LBUF(1,1,1)
         MBUF => ELBUF_STR%BUFLY(IS)%MAT(1,1,1)
         L_PLA = ELBUF_STR%BUFLY(IS)%L_PLA
         L_SIGB= ELBUF_STR%BUFLY(IS)%L_SIGB
-c
+C
        IF (IGTYP == 22) THEN
-        ZI = GEO(IPPOS+IS,IG)
-        WI = GEO(IPTHK+IS,IG)
-        IM=IGEO(IPMAT+IS,IG)
+         ZI = GEO(IPPOS+IS,IG)
+         WI = GEO(IPTHK+IS,IG)
+         IM=IGEO(IPMAT+IS,IG)
          MTN=NINT(PM(19,IM))
-         DO I=LFT,LLT
+         DO I=1,NEL
           MAT(I)=IM
           ANGLE(I) = GEO(IPANG+IS,PID(I))
          ENDDO
@@ -315,7 +318,7 @@ c
           ZI = A_GAUSS(IS,NLAY)
           WI = W_GAUSS(IS,NLAY)
        ENDIF
-        DO I=LFT,LLT
+        DO I=1,NEL
           LBUF%VOL0DP(I) = HALF*WI*(GBUF%VOL(I)+VZL(I)*ZI)
           LBUF%VOL(I) = LBUF%VOL0DP(I)
         ENDDO
@@ -365,12 +368,12 @@ c
      .     MAT  ,LBUF%PLA,L_PLA,PTSOL,LBUF%SIGB,L_SIGB,IPM      ,
      .     BUFMAT,LBUF%VOL0DP)
         IF(IGTYP == 22) THEN
-C         moyene density,sig,...---
+C
           AIRE(:) = ZERO
           CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,
      .         LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE, 
      .         VOLU, DTX , IGEO )
-c
+C Average density, stresses, ...
           CALL SVALUE0(
      .         LBUF%RHO,LBUF%VOL,LBUF%OFF,LBUF%SIG,LBUF%EINT,DTX,        
      .         GBUF%RHO,GBUF%VOL,GBUF%OFF,GBUF%SIG,GBUF%EINT,DTX0,
@@ -380,13 +383,12 @@ c
 C----------------
       IF(IGTYP == 22) THEN
        MTN=MTN0
-       DO I=LFT,LLT
+       DO I=1,NEL
          MAT(I)=MAT0(I)
        ENDDO
       ENDIF
 C----------------------------------------
-C     INITIALISATION DES MASSES
-C----------------------------------------
+C Masses initialization
       BID8MVSIZ(1:8,1:MVSIZ) = ZERO
       BIDMVSIZ(1:MVSIZ) = ZERO
       CALL SMASS3(
@@ -397,16 +399,13 @@ C----------------------------------------
      .     MCPS(1,NF1),MSSA      ,BIDMVSIZ  ,BIDMVSIZ ,GBUF%FILL,
      .     IX1, IX2, IX3, IX4, IX5, IX6, IX7, IX8)
 C----------------------------------------
-c Failure model initialisation
-C----------------------------------------
+C Failure model initialization
       CALL FAILINI(ELBUF_STR,NPTR,NPTS,NPTT,NLAY,
      .             IPM,SIGSP,NSIGI,FAIL_INI ,
      .             SIGI,NSIGS,IXS,NIXS,PTSOL,RNOISE,PERTURB,BUFMAT)
 C------------------------------------------
-C     assemblage des Volumes nodaux et Modules nodaux
-C     (pour rigidites d'interface)
-C------------------------------------------
-C     attention : IX1, IX2 ... IX8 sont sous la forme NC(MVSIZ,8)
+C Assemble nodal volumes and moduli for interface stiffness
+C Warning : IX1, IX2 ... IX8 <=> NC(MVSIZ,8)
       IF(I7STIFS.NE.0)THEN
         NCC=8
         CALL SBULK3(VOLU  ,IX1    ,NCC,MAT,PM ,
@@ -414,19 +413,19 @@ C     attention : IX1, IX2 ... IX8 sont sous la forme NC(MVSIZ,8)
      3              BID   ,GBUF%FILL)
       ENDIF
 C------------------------------------------
-C       CALCUL DES DT ELEMENTAIRES
-C------------------------------------------
+C Element time step
        AIRE(:) = ZERO
        CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,
      .      LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE, 
      .      VOLU, DTX , IGEO )
-c
+C
        IF(IGTYP == 22) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
          DTX(I)=DTX0(I)
         ENDDO
        ENDIF
-       DO 10 I=LFT,LLT
+C
+       DO I=1,NEL
         IF (IXS(10,I+NFT) /= 0) THEN
           IF (IGTYP < 20 .OR. IGTYP > 22) THEN
              IPID1=IXS(NIXS-1,I+NFT)
@@ -451,10 +450,10 @@ C       STI = 0.25 * RHO * VOL / (DT*DT)
         STIFN(IXS(7,I+NFT))=STIFN(IXS(7,I+NFT))+STI
         STIFN(IXS(8,I+NFT))=STIFN(IXS(8,I+NFT))+STI
         STIFN(IXS(9,I+NFT))=STIFN(IXS(9,I+NFT))+STI
-  10   CONTINUE
+       END DO
 C-----------
       RETURN
-      END
+      END SUBROUTINE SCINIT3
 Chd|====================================================================
 Chd|  SVALUE0                       source/elements/thickshell/solidec/scinit3.F
 Chd|-- called by -----------
@@ -483,7 +482,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -491,7 +489,7 @@ C-----------------------------------------------
       my_real
      .   FAC
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         FAC  = OFF(I)*VOL(I)/VOLG(I)
         SIGG(I,1) = SIGG(I,1) + FAC * SIG(I,1)
         SIGG(I,2) = SIGG(I,2) + FAC * SIG(I,2)
@@ -501,12 +499,11 @@ C
         SIGG(I,6) = SIGG(I,6) + FAC * SIG(I,6)
         RHOG(I)   = RHOG(I)   + FAC * RHO(I)
         EINTG(I)  = EINTG(I)  + FAC * EINT(I)
-c        OFFG(I)   = OFF(I)
-	DTXG(I)  = MIN(DTXG(I),DTX(I))
+        DTXG(I)   = MIN(DTXG(I),DTX(I))
       ENDDO
 C
       RETURN
-      END
+      END SUBROUTINE SVALUE0
 C.....
 Chd|====================================================================
 Chd|  SCZERO3                       source/elements/thickshell/solidec/scinit3.F
@@ -532,13 +529,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         SIGG(I,1) = ZERO
         SIGG(I,2) = ZERO
         SIGG(I,3) = ZERO
@@ -550,7 +546,7 @@ C
       ENDDO
 C
       RETURN
-      END
+      END SUBROUTINE SCZERO3
 Chd|====================================================================
 Chd|  SDLENSH                       source/elements/thickshell/solidec/scinit3.F
 Chd|-- called by -----------
@@ -559,7 +555,7 @@ Chd|        SCINIT3                       source/elements/thickshell/solidec/sci
 Chd|-- calls ---------------
 Chd|        CLSYS3                        source/elements/thickshell/solidec/scinit3.F
 Chd|====================================================================
-      SUBROUTINE SDLENSH(VOLN,LLSH,
+      SUBROUTINE SDLENSH(NEL,LLSH,
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8)
@@ -577,14 +573,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc"
 #include      "scr17_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER :: NEL
       my_real,DIMENSION(MVSIZ),INTENT(IN) :: 
-     .   VOLN,
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,  
      .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
@@ -605,7 +599,7 @@ C-----------------------------------------------
      .   X13,X24,Y13,Y24,L13,L24,C1,C2,THKLY,POSLY,
      .   FAC,VISCE,RX1,RY1,SX1,SY1,S1,FAC1,FAC2,FACI,FAC11,FACDT
 C=======================================================================
-        DO I=LFT,LLT
+        DO I=1,NEL
           XN(I,1) = HALF*(X1(I)+X5(I))
           YN(I,1) = HALF*(Y1(I)+Y5(I))
           ZN(I,1) = HALF*(Z1(I)+Z5(I))
@@ -620,7 +614,7 @@ C=======================================================================
           ZN(I,4) = HALF*(Z4(I)+Z8(I))
         ENDDO 
 C------g1,g2 :
-        DO I=LFT,LLT
+        DO I=1,NEL
           RX(I)=XN(I,2)+XN(I,3)-XN(I,1)-XN(I,4)
           RY(I)=YN(I,2)+YN(I,3)-YN(I,1)-YN(I,4)
           RZ(I)=ZN(I,2)+ZN(I,3)-ZN(I,1)-ZN(I,4)
@@ -630,9 +624,9 @@ C------g1,g2 :
         ENDDO 
 C------Local elem. base:
         CALL CLSYS3(RX, RY, RZ, SX, SY, SZ, 
-     .              VQ, DETA1,LLT)
+     .              VQ, DETA1,NEL)
 C------ Global -> Local Coordinate  FOURTH=0.25 ;
-        DO I=LFT,LLT
+        DO I=1,NEL
           LXYZ0(1)=FOURTH*(XN(I,1)+XN(I,2)+XN(I,3)+XN(I,4))
           LXYZ0(2)=FOURTH*(YN(I,1)+YN(I,2)+YN(I,3)+YN(I,4))
           LXYZ0(3)=FOURTH*(ZN(I,1)+ZN(I,2)+ZN(I,3)+ZN(I,4))
@@ -661,10 +655,10 @@ C
         ENDDO 
       FAC = TWO
       FACDT = FIVE_OVER_4
-C-------same than QBAT       
+C-------same as QBAT       
       IF (IDT1SOL.GT.0) FACDT =FOUR_OVER_3
 C---- compute COREL(2,4) mean surface and area     
-      DO I=LFT,LLT
+      DO I=1,NEL
         LXYZ0(1)=FOURTH*(XL2(I)+XL3(I)+XL4(I))
         LXYZ0(2)=FOURTH*(YL2(I)+YL3(I)+YL4(I))
         COREL(1,1)=-LXYZ0(1)
@@ -711,7 +705,7 @@ Chd|-- called by -----------
 Chd|        SDLENSH                       source/elements/thickshell/solidec/scinit3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE CLSYS3(RX, RY, RZ, SX, SY, SZ, VQ, DET,NEL)
+      SUBROUTINE CLSYS3(RX, RY, RZ, SX, SY, SZ, VQ, DET, NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -723,7 +717,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-C     REAL
+C
       my_real,DIMENSION(NEL),INTENT(IN) :: 
      .   RX , RY , RZ, 
      .   SX , SY , SZ
@@ -736,12 +730,12 @@ C---------+---------+---+---+--------------------------------------------
 C VAR     | SIZE    |TYP| RW| DEFINITION
 C---------+---------+---+---+--------------------------------------------
 C NEL     |  1      | I | R | SIZE OF THE ELEMENT GROUP NEL 
-C RX      |    NEL  | R | R | X-of covariant vecter g1
-C RY      |    NEL  | R | R | Y-of covariant vecter g1
-C RZ      |    NEL  | R | R | Z-of covariant vecter g1
-C SX      |    NEL  | R | R | X-of covariant vecter g2
-C SY      |    NEL  | R | R | Y-of covariant vecter g2
-C SZ      |    NEL  | R | R | Z-of covariant vecter g2
+C RX      |    NEL  | R | R | X-of covariant vector g1
+C RY      |    NEL  | R | R | Y-of covariant vector g1
+C RZ      |    NEL  | R | R | Z-of covariant vector g1
+C SX      |    NEL  | R | R | X-of covariant vector g2
+C SY      |    NEL  | R | R | Y-of covariant vector g2
+C SZ      |    NEL  | R | R | Z-of covariant vector g2
 C VQ      |3*3*NEL  | R | W | Local elem sys bases
 C DET     |    NEL  | R | W | det of g1 ^ g2
 C---------+---------+---+---+--------------------------------------------
@@ -749,7 +743,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL
+C
       my_real
      .   E1X(NEL), E1Y(NEL), E1Z(NEL),
      .   E2X(NEL), E2Y(NEL), E2Z(NEL),
@@ -784,7 +778,7 @@ C ----- ZERO=0., ONE=1.0
         E1Y(I) = RY(I)*C2_1+(SZ(I)*E3X(I)-SX(I)*E3Z(I))*C1_1 
         E1Z(I) = RZ(I)*C2_1+(SX(I)*E3Y(I)-SY(I)*E3X(I))*C1_1
        ENDDO 
-C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+C
        DO I=1,NEL
         C1 = SQRT(E1X(I)*E1X(I) + E1Y(I)*E1Y(I) + E1Z(I)*E1Z(I))
         IF ( C1 /= ZERO) C1 = ONE / MAX(EM20,C1)
@@ -806,6 +800,6 @@ C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         VQ(I,2,3)=E3Y(I)
         VQ(I,3,3)=E3Z(I)
       ENDDO 
-c-----------
+C-----------
       RETURN
-      END
+      END SUBROUTINE CLSYS3

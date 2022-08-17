@@ -59,6 +59,10 @@ Chd|====================================================================
      .                    MSSA     ,STRSGLOB,STRAGLOB,ORTHOGLOB,FAIL_INI ,
      .                    ILOADP   ,FACLOAD ,RNOISE  ,PERTURB  )
 C-----------------------------------------------
+C   D e s c r i p t i o n
+C   Initialize 8-nodes thick shell HA8
+C-----------------------------------------------
+C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD            
@@ -220,7 +224,7 @@ c
       BID = ZERO
       NREFSTA = NXREF
       NXREF = 0
-      DO I=LFT,LLT
+      DO I=1,NEL
         DELTAX(I)=EP30
       ENDDO
       JHBE  = IPARG(23)
@@ -232,7 +236,7 @@ C
       IF (IGTYP /= 22) ISORTH = 0
       ICSTR=IPARG(17)
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         RHOCP(I) =  PM(69,IXS(1,NFT+I))
         TEMP0(I) =  PM(79,IXS(1,NFT+I))
       ENDDO
@@ -266,7 +270,7 @@ c
       SELECT CASE (IGTYP)
 c
        CASE(21)
-        DO I=LFT,LLT
+        DO I=1,NEL
           ANGLE(I) = GEO(1,PID(I))
         END DO
         CALL SCMORTH3(PID  ,GEO  ,IGEO ,SKEW ,IREP ,GBUF%GAMA   ,
@@ -276,7 +280,7 @@ c
      .         ORTHOGLOB ,PTSOL,NEL)
 c
        CASE(22)
-        DO I=LFT,LLT
+        DO I=1,NEL
           ANGLE(I) = GEO(1,PID(I))
         END DO
         CALL SCMORTH3(PID  ,GEO  ,IGEO ,SKEW ,IREP ,GBUF%GAMA   ,
@@ -286,9 +290,9 @@ c
      .         ORTHOGLOB ,PTSOL,NEL)
         IPTHK = IPANG+NLYMAX
         IPPOS = IPTHK+NLYMAX
-        IG    = PID(LFT)
+        IG    = PID(1)
         MTN0  = MTN
-        DO I=LFT,LLT
+        DO I=1,NEL
           MAT0(I) = MAT(I)
        	  DTX0(I) = EP20
         ENDDO
@@ -302,7 +306,7 @@ c
      .     YD1  ,YD2  ,YD3  ,YD4  ,YD5  ,YD6  ,YD7  ,YD8   ,
      .     ZD1  ,ZD2  ,ZD3  ,ZD4  ,ZD5  ,ZD6  ,ZD7  ,ZD8   )
       IF (IDTTSH > 0) THEN
-         CALL SDLENSH(VOLU,LLSH,
+         CALL SDLENSH(NEL,LLSH,
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8)
@@ -317,22 +321,19 @@ C
      .            IP       ,NGL    ,NPF        ,TF        ,BUFMAT ,
      .            GBUF     ,LBUF   ,MBUF       ,ELBUF_STR ,ILOADP ,
      .            FACLOAD, DELTAX)
-c
+C
       CALL SCZERO3(GBUF%RHO,GBUF%SIG,GBUF%EINT,NEL)
-C----------------------------------------
-C     INITIALISATION DE LA THERMIQUE 
-C----------------------------------------
+C
+C Thermal initialization
       IF(JTHE /=0) CALL ATHERI(MAT,PM,GBUF%TEMP)
-C-------------------------------
-C     INTEGRATION POINTS
-C-------------------------------
+C
       NLAY = ELBUF_STR%NLAY
       NPTR = ELBUF_STR%NPTR
       NPTS = ELBUF_STR%NPTS
       NPTT = ELBUF_STR%NPTT
       IT   = 1
-C-----------Begin integrating points-----
-
+C
+C Begin integration points
       DO IR=1,NPTR
        DO IS=1,NPTS
         DO IL=1,NLAY
@@ -341,24 +342,21 @@ C-----------
           MBUF => ELBUF_STR%BUFLY(IL)%MAT(IR,IS,IT)
           L_PLA = ELBUF_STR%BUFLY(IL)%L_PLA
           L_SIGB= ELBUF_STR%BUFLY(IL)%L_SIGB
-c
+C
          IF (IGTYP == 21.OR.IGTYP == 22) THEN
-c          WT = GEO(IPTHK+IT,IG)
-c          IM=IGEO(IPMAT+IS,IG)
-c          MTN=NINT(PM(19,IM))
           IF (IGTYP == 22) THEN
             WT = GEO(IPTHK+IL,IG)
             ZZ = GEO(IPPOS+IL,IG)
             IM =IGEO(IPMAT+IL,IG)
             MTN=NINT(PM(19,IM))
-            DO I=LFT,LLT
+            DO I=1,NEL
               MAT(I)=IM
               ANGLE(I) = GEO(IPANG+IL,PID(I))
             ENDDO
           ELSE
             ZZ = A_GAUSS(IL,NLAY)
             WT = W_GAUSS(IL,NLAY)
-	         ENDIF
+          ENDIF
 C----------------
           IF (ICSTR == 10) THEN
             ZR = A_GAUSS(IR,NPTR)
@@ -389,7 +387,7 @@ C
      .        AJC4,AJC5,AJC6,
      .        AJC7,AJC8,AJC9,SMAX, DELTAX, NGL,LBUF%VOL0DP)
          IF (IDTTSH > 0) THEN
-           DO I=LFT,LLT
+           DO I=1,NEL
              IF (GBUF%IDT_TSH(I)>0) 
      .        DELTAX(I)=MAX(LLSH(I),DELTAX(I))
            ENDDO
@@ -434,14 +432,13 @@ c
      .      STRAGLOB ,JHBE     ,IGTYP    ,X        ,GBUF%GAMA,
      .      MAT      ,LBUF%PLA ,L_PLA    ,PTSOL    ,LBUF%SIGB,
      .      L_SIGB   ,IPM      ,BUFMAT   ,LBUF%VOL0DP)
-c
+C
           IF (IGTYP == 22) THEN
-c           moyene density,sig,...---
             AIRE(:) = ZERO
             CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,
      .           LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE, 
      .           VOLU, DTX,IGEO)
-c
+C Average density, stresses, ...
             CALL SVALUE0(
      .           LBUF%RHO,LBUF%VOL,LBUF%OFF,LBUF%SIG,LBUF%EINT,DTX,       
      .           GBUF%RHO,GBUF%VOL,GBUF%OFF,GBUF%SIG,GBUF%EINT,DTX0,
@@ -459,13 +456,12 @@ C
 C-------------------------
       IF (IGTYP == 22) THEN
        MTN=MTN0
-       DO I=LFT,LLT
+       DO I=1,NEL
          MAT(I)=MAT0(I)
        ENDDO
       ENDIF
-C----------------------------------------
-C     INITIALISATION DES MASSES
-C----------------------------------------
+C
+C Masses initialization
       CALL SMASS3(
      .     GBUF%RHO,MAS,PARTSAV,X,V,
      .     IPARTS(NF1),MSS(1,NF1),VOLU  ,
@@ -473,37 +469,33 @@ C----------------------------------------
      .     BID     ,BID         ,WMA  ,RHOCP     ,MCP     ,
      .     MCPS(1,NF1) ,MSSA ,BID   ,BID,GBUF%FILL,
      .     IX1, IX2, IX3, IX4, IX5, IX6, IX7, IX8)
-C------------------------------------------
-C     assemblage des Volumes nodaux et Modules nodaux
-C     (pour rigidites d'interface)
-C------------------------------------------
-C     attention : IX1, IX2 ... IX8 sont sous la forme NC(MVSIZ,8)
+C
+C Assemble nodal volumes and moduli for interfaces stiffness
+C Warning : IX1, IX2 ... IX8 <=> NC(MVSIZ,8)
       IF (I7STIFS /= 0) THEN
         NCC=8
         CALL SBULK3(VOLU  ,IX1    ,NCC,MAT,PM ,
      .              VOLNOD,BVOLNOD,VNS(1,NF1),BNS(1,NF1),BID,
      .              BID   ,GBUF%FILL)
       ENDIF
-C----------------------------------------
-c Failure model initialisation
-C----------------------------------------
+C 
+C Failure model initialization
       CALL FAILINI(ELBUF_STR,NPTR,NPTS,NPTT,NLAY,
      .             IPM,SIGSP,NSIGI,FAIL_INI ,
      .             SIGI,NSIGS,IXS,NIXS,PTSOL,RNOISE,PERTURB,BUFMAT)
-C------------------------------------------
-C       CALCUL DES DT ELEMENTAIRES
-C------------------------------------------
+C
+C Element time step
         AIRE(:) = ZERO
         CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,
      .       LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE, 
      .       VOLU, DTX,IGEO)
 c
        IF (IGTYP == 22) THEN
-         DO I=LFT,LLT
+         DO I=1,NEL
            DTX(I)=DTX0(I)
          ENDDO
        ENDIF
-       DO I=LFT,LLT
+       DO I=1,NEL
         IF (IXS(10,I+NFT).NE.0.AND.INVERS.GT.14) THEN
           IF(IGTYP.NE.0.AND.IGTYP.NE.6.AND.IGTYP.NE.14.AND.IGTYP.NE.15
      .       .AND.IGTYP.NE.20.AND.IGTYP.NE.21.AND.IGTYP.NE.22)THEN
@@ -534,4 +526,4 @@ c
       NXREF = NREFSTA
 C-----------
       RETURN
-      END
+      END SUBROUTINE S8CINIT3
