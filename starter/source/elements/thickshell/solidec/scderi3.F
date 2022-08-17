@@ -28,23 +28,20 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE SCDERI3(VOL    ,VEUL   ,GEO    ,
+      SUBROUTINE SCDERI3(NEL,VOL,JEUL ,VEUL ,GEO  ,
      .         VZL  ,VZQ  ,NGL  ,NGEO ,
      .         X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,  
      .         Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,  
      .         Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8, DET)  
 
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
-C------------------------------------------------------
-C
-C------------------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -52,14 +49,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com06_c.inc"
-#include      "units_c.inc"
-#include      "vect01_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NGL(*),NGEO(*)
+      INTEGER :: NEL,JEUL,NGL(*),NGEO(*)
       my_real
      .   VOL(*), VEUL(LVEUL,*),GEO(NPROPG,*),
      .   VZL(*),VZQ(*), DET(*)
@@ -75,23 +69,22 @@ C-----------------------------------------------
      .   Y5(MVSIZ), Y6(MVSIZ), Y7(MVSIZ), Y8(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
      .   Z5(MVSIZ), Z6(MVSIZ), Z7(MVSIZ), Z8(MVSIZ),
-     .   AJ1(MVSIZ), AJ2(MVSIZ), AJ3(MVSIZ), AJ4(MVSIZ),
-     .   AJ5(MVSIZ), AJ6(MVSIZ), AJ7(MVSIZ), AJ8(MVSIZ),
-     .   AJ9(MVSIZ),
-     .   AJI1(MVSIZ), AJI2(MVSIZ), AJI3(MVSIZ), AJI4(MVSIZ), 
-     .   AJI5(MVSIZ), AJI6(MVSIZ), AJI7(MVSIZ), AJI8(MVSIZ), 
-     .   AJI9(MVSIZ), 
+     .   JAC1(MVSIZ), JAC2(MVSIZ), JAC3(MVSIZ), JAC4(MVSIZ),
+     .   JAC5(MVSIZ), JAC6(MVSIZ), JAC7(MVSIZ), JAC8(MVSIZ),
+     .   JAC9(MVSIZ),
+     .   JACI1(MVSIZ), JACI2(MVSIZ), JACI3(MVSIZ), JACI4(MVSIZ), 
+     .   JACI5(MVSIZ), JACI6(MVSIZ), JACI7(MVSIZ), JACI8(MVSIZ), 
+     .   JACI9(MVSIZ), 
      .   X17(MVSIZ), X28(MVSIZ), X35(MVSIZ), X46(MVSIZ),
      .   Y17(MVSIZ), Y28(MVSIZ), Y35(MVSIZ), Y46(MVSIZ), 
      .   Z17(MVSIZ), Z28(MVSIZ), Z35(MVSIZ), Z46(MVSIZ),
-     .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ), 
-     .   AJ12(MVSIZ),   AJ45(MVSIZ),   AJ78(MVSIZ),
-     .   A17(MVSIZ),    A28(MVSIZ), 
-     .   B17(MVSIZ),    B28(MVSIZ),    C17(MVSIZ),   C28(MVSIZ)
+     .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ),
+     .   X_17_46(MVSIZ),Y_17_46(MVSIZ),Z_17_46(MVSIZ),
+     .   X_28_35(MVSIZ),Y_28_35(MVSIZ),Z_28_35(MVSIZ)
       my_real
      .   H1X,H2X,H1Y,H2Y,H1Z,H2Z
 C=======================================================================
-      DO I=LFT,LLT
+      DO I=1,NEL
         X17(I)=X7(I)-X1(I)
         X28(I)=X8(I)-X2(I)
         X35(I)=X5(I)-X3(I)
@@ -106,44 +99,43 @@ C=======================================================================
         Z46(I)=Z6(I)-Z4(I)
       ENDDO
 C
-      DO I=LFT,LLT
+C Jacobian matrix
+      DO I=1,NEL
 C  -------ri.xi-----------
-        AJ3(I)=X17(I)+X28(I)-X35(I)-X46(I)
-        AJ1(I)=Y17(I)+Y28(I)-Y35(I)-Y46(I)
-        AJ2(I)=Z17(I)+Z28(I)-Z35(I)-Z46(I)
-        A17(I)=X17(I)+X46(I)
-        A28(I)=X28(I)+X35(I)
-        B17(I)=Y17(I)+Y46(I)
-        B28(I)=Y28(I)+Y35(I)
-        C17(I)=Z17(I)+Z46(I)
-        C28(I)=Z28(I)+Z35(I)
+        JAC3(I)=X17(I)+X28(I)-X35(I)-X46(I)
+        JAC1(I)=Y17(I)+Y28(I)-Y35(I)-Y46(I)
+        JAC2(I)=Z17(I)+Z28(I)-Z35(I)-Z46(I)
+        X_17_46(I)=X17(I)+X46(I)
+        Y_17_46(I)=Y17(I)+Y46(I)
+        Z_17_46(I)=Z17(I)+Z46(I)
+        X_28_35(I)=X28(I)+X35(I)
+        Y_28_35(I)=Y28(I)+Y35(I)
+        Z_28_35(I)=Z28(I)+Z35(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
 C  -------si.xi-----------
-        AJ6(I)=A17(I)+A28(I)
-        AJ4(I)=B17(I)+B28(I)
-        AJ5(I)=C17(I)+C28(I)
+        JAC6(I)=X_17_46(I)+X_28_35(I)
+        JAC4(I)=Y_17_46(I)+Y_28_35(I)
+        JAC5(I)=Z_17_46(I)+Z_28_35(I)
 C  -------ti.xi-----------
-        AJ9(I)=A17(I)-A28(I)
-        AJ7(I)=B17(I)-B28(I)
-        AJ8(I)=C17(I)-C28(I)
+        JAC9(I)=X_17_46(I)-X_28_35(I)
+        JAC7(I)=Y_17_46(I)-Y_28_35(I)
+        JAC8(I)=Z_17_46(I)-Z_28_35(I)
       ENDDO
 C
-C     JACOBIAN
-C
-      DO I=LFT,LLT
-        JAC_59_68(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-        JAC_67_49(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
-        JAC_48_57(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
+      DO I=1,NEL
+        JAC_59_68(I)=JAC5(I)*JAC9(I)-JAC6(I)*JAC8(I)
+        JAC_67_49(I)=JAC6(I)*JAC7(I)-JAC4(I)*JAC9(I)
+        JAC_48_57(I)=JAC4(I)*JAC8(I)-JAC5(I)*JAC7(I)
       ENDDO
 C
-      DO I=LFT,LLT
-        DET(I)=ONE_OVER_64*(AJ1(I)*JAC_59_68(I)+AJ2(I)*JAC_67_49(I)+AJ3(I)*JAC_48_57(I))
+      DO I=1,NEL
+        DET(I)=ONE_OVER_64*(JAC1(I)*JAC_59_68(I)+JAC2(I)*JAC_67_49(I)+JAC3(I)*JAC_48_57(I))
         VOL(I)=DET(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF(DET(I).GT.ZERO) CYCLE
         CALL ANCMSG(MSGID=245,
      .              MSGTYPE=MSGERROR,
@@ -151,74 +143,61 @@ C
      .              I1=NGL(I))
       ENDDO
 C
-       DO I=LFT,LLT
+      DO I=1,NEL
         H1X = X1(I)+X2(I)-X3(I)-X4(I)-X5(I)-X6(I)+X7(I)+X8(I)
         H1Y = Y1(I)+Y2(I)-Y3(I)-Y4(I)-Y5(I)-Y6(I)+Y7(I)+Y8(I)
         H1Z = Z1(I)+Z2(I)-Z3(I)-Z4(I)-Z5(I)-Z6(I)+Z7(I)+Z8(I)
         H2X = X1(I)-X2(I)-X3(I)+X4(I)-X5(I)+X6(I)+X7(I)-X8(I)
         H2Y = Y1(I)-Y2(I)-Y3(I)+Y4(I)-Y5(I)+Y6(I)+Y7(I)-Y8(I)
         H2Z = Z1(I)-Z2(I)-Z3(I)+Z4(I)-Z5(I)+Z6(I)+Z7(I)-Z8(I)
-        VZL(I) =  ONE_OVER_64*AJ5(I)*(AJ9(I)*H1Y+AJ1(I)*H2X-AJ3(I)*H2Y-AJ7(I)*H1X)
-     .          + ONE_OVER_64*AJ4(I)*(AJ3(I)*H2Z+AJ8(I)*H1X-AJ9(I)*H1Z-AJ2(I)*H2X)
-     .          + ONE_OVER_64*AJ6(I)*(AJ7(I)*H1Z+AJ2(I)*H2Y-AJ1(I)*H2Z-AJ8(I)*H1Y)
-        VZQ(I) = ONE_OVER_64*AJ5(I)*(H1Y*H2X-H2Y*H1X)
-       ENDDO
-c--------------------------
+        VZL(I) =  ONE_OVER_64*JAC5(I)*(JAC9(I)*H1Y+JAC1(I)*H2X-JAC3(I)*H2Y-JAC7(I)*H1X)
+     .          + ONE_OVER_64*JAC4(I)*(JAC3(I)*H2Z+JAC8(I)*H1X-JAC9(I)*H1Z-JAC2(I)*H2X)
+     .          + ONE_OVER_64*JAC6(I)*(JAC7(I)*H1Z+JAC2(I)*H2Y-JAC1(I)*H2Z-JAC8(I)*H1Y)
+        VZQ(I) =  ONE_OVER_64*JAC5(I)*(H1Y*H2X-H2Y*H1X)
+      ENDDO
+C--------------------------
       IF (JEUL == 0) RETURN
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         DETT(I)=ONE_OVER_64/DET(I)
       ENDDO
 C
-C     INVERSE DE LA MATRICE JACOBIENNE
-C
-      DO I=LFT,LLT
-        AJI1(I)=DETT(I)*JAC_59_68(I)
-        AJI4(I)=DETT(I)*JAC_67_49(I)
-        AJI7(I)=DETT(I)*JAC_48_57(I)
-        AJI2(I)=DETT(I)*(-AJ2(I)*AJ9(I)+AJ3(I)*AJ8(I))
-        AJI5(I)=DETT(I)*( AJ1(I)*AJ9(I)-AJ3(I)*AJ7(I))
-        AJI8(I)=DETT(I)*(-AJ1(I)*AJ8(I)+AJ2(I)*AJ7(I))
-        AJI3(I)=DETT(I)*( AJ2(I)*AJ6(I)-AJ3(I)*AJ5(I))
-        AJI6(I)=DETT(I)*(-AJ1(I)*AJ6(I)+AJ3(I)*AJ4(I))
-        AJI9(I)=DETT(I)*( AJ1(I)*AJ5(I)-AJ2(I)*AJ4(I))
+C Jacobian matrix inverse
+      DO I=1,NEL
+        JACI1(I)=DETT(I)*JAC_59_68(I)
+        JACI4(I)=DETT(I)*JAC_67_49(I)
+        JACI7(I)=DETT(I)*JAC_48_57(I)
+        JACI2(I)=DETT(I)*(-JAC2(I)*JAC9(I)+JAC3(I)*JAC8(I))
+        JACI5(I)=DETT(I)*( JAC1(I)*JAC9(I)-JAC3(I)*JAC7(I))
+        JACI8(I)=DETT(I)*(-JAC1(I)*JAC8(I)+JAC2(I)*JAC7(I))
+        JACI3(I)=DETT(I)*( JAC2(I)*JAC6(I)-JAC3(I)*JAC5(I))
+        JACI6(I)=DETT(I)*(-JAC1(I)*JAC6(I)+JAC3(I)*JAC4(I))
+        JACI9(I)=DETT(I)*( JAC1(I)*JAC5(I)-JAC2(I)*JAC4(I))
       ENDDO
 C
-      DO I=LFT,LLT
-        AJ12(I)=AJI1(I)-AJI2(I)
-        AJ45(I)=AJI4(I)-AJI5(I)
-        AJ78(I)=AJI7(I)-AJI8(I)
+      DO I=1,NEL
+        VEUL(3,I) = JACI1(I)-JACI2(I)+JACI3(I)
+        VEUL(4,I) = JACI1(I)-JACI2(I)-JACI3(I)
+        VEUL(7,I) = JACI4(I)-JACI5(I)+JACI6(I)
+        VEUL(8,I) = JACI4(I)-JACI5(I)-JACI6(I)
+        VEUL(11,I)= JACI7(I)-JACI8(I)+JACI9(I)
+        VEUL(12,I)= JACI7(I)-JACI8(I)-JACI9(I)
       ENDDO
 C
-      DO I=LFT,LLT
-        VEUL(3,I) = AJ12(I)+AJI3(I)
-        VEUL(4,I) = AJ12(I)-AJI3(I)
-        VEUL(7,I) = AJ45(I)+AJI6(I)
-        VEUL(8,I) = AJ45(I)-AJI6(I)
-        VEUL(11,I)= AJ78(I)+AJI9(I)
-        VEUL(12,I)= AJ78(I)-AJI9(I)
-      ENDDO
-C
-      DO I=LFT,LLT
-        AJ12(I)=AJI1(I)+AJI2(I)
-        AJ45(I)=AJI4(I)+AJI5(I)
-        AJ78(I)=AJI7(I)+AJI8(I)
-      ENDDO
-C
-      DO I=LFT,LLT
-        VEUL(1,I) =-AJ12(I)-AJI3(I)
-        VEUL(2,I) =-AJ12(I)+AJI3(I)
-        VEUL(5,I) =-AJ45(I)-AJI6(I)
-        VEUL(6,I) =-AJ45(I)+AJI6(I)
-        VEUL(9,I) =-AJ78(I)-AJI9(I)
-        VEUL(10,I)=-AJ78(I)+AJI9(I)
+      DO I=1,NEL
+        VEUL(1,I) =-JACI1(I)-JACI2(I)-JACI3(I)
+        VEUL(2,I) =-JACI1(I)-JACI2(I)+JACI3(I)
+        VEUL(5,I) =-JACI4(I)-JACI5(I)-JACI6(I)
+        VEUL(6,I) =-JACI4(I)-JACI5(I)+JACI6(I)
+        VEUL(9,I) =-JACI7(I)-JACI8(I)-JACI9(I)
+        VEUL(10,I)=-JACI7(I)-JACI8(I)+JACI9(I)
       ENDDO
 C
       IF (GEO(12,NGEO(I)) == 15) THEN
-          DO I=LFT,LLT
+          DO I=1,NEL
             VOL(I)=VOL(I)*GEO(1,NGEO(I))      
           ENDDO
       ENDIF
 c-----------
       RETURN
-      END
+      END SUBROUTINE SCDERI3
