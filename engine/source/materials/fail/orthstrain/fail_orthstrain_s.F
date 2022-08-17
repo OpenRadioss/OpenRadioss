@@ -27,6 +27,7 @@ Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|        USERMAT_SOLID                 source/materials/mat_share/usermat_solid.F
 Chd|-- calls ---------------
+Chd|        JACOBIEW                      source/materials/mat/mat033/sigeps33.F
 Chd|        VINTER2                       source/tools/curve/vinter.F   
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|====================================================================

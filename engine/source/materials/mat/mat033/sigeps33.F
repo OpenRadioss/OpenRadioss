@@ -598,6 +598,7 @@ C
 Chd|====================================================================
 Chd|  JACOBIEW                      source/materials/mat/mat033/sigeps33.F
 Chd|-- called by -----------
+Chd|        FAIL_ORTHSTRAIN               source/materials/fail/orthstrain/fail_orthstrain_s.F
 Chd|        HENCKY_STRAIN                 source/tools/seatbelts/shell_reactivation.F
 Chd|        SIGEPS33                      source/materials/mat/mat033/sigeps33.F
 Chd|        SIGEPS38                      source/materials/mat/mat038/sigeps38.F
