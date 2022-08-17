@@ -263,6 +263,9 @@ C 78 :NSN_FE    :NBRE DE POINTS ELEMENTS FINIS SECONDS
 C 79 :NMN_IGE   :NBRE DE POINTS ISOGEOMETRIQUES MAINS
 C 80 :NMN_FE    :NBRE DE POINTS ELEMENTS FINIS MAINS
 C=======================================================================
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       ALLOCATE(NTAG_TARGET(2*NUMNOD+1), STAT=Stat)
       NTAG(0:2*NUMNOD) => NTAG_TARGET(1:2*NUMNOD+1)
 
@@ -283,23 +286,22 @@ C=======================================================================
       NRTMS_IGE = 0
       STIFF_STAT = ZERO
       
-C=======================================================================
       DO NI=1,LINTER
 C
-        IGAP   = IPARI(21,NI)
-        INACTI = IPARI(22,NI)
-        MULTIMP= IPARI(23,NI)
+        IGAP    = IPARI(21,NI)
+        INACTI  = IPARI(22,NI)
+        MULTIMP = IPARI(23,NI)
         IEDGE   = IPARI(58,NI)
         MULTIMPE= IPARI(87,NI)
         MULTIMPS= IPARI(89,NI)
-        NTYP   = IPARI(7,NI)
-        IS1    = IPARI(13,NI)/10
-        IS2    = MOD(IPARI(13,NI),10)
-        NOINT  = IPARI(15,NI)
-        ISU1 = IPARI(45,NI) 
-        ISU2 = IPARI(46,NI)  
-        ISTIFF=IPARI(29,NI)       
-        ILAGM = IPARI(33,NI)
+        NTYP    = IPARI(07,NI)
+        IS1     = IPARI(13,NI)/10
+        IS2     = MOD(IPARI(13,NI),10)
+        NOINT   = IPARI(15,NI)
+        ISU1    = IPARI(45,NI) 
+        ISU2    = IPARI(46,NI)  
+        ISTIFF  = IPARI(29,NI)       
+        ILAGM   = IPARI(33,NI)
         TYPE18=.FALSE.
         IF(NTYP==7 .AND. INACTI==7 )TYPE18=.TRUE.
         GRBRIC_ID  = ISU1
@@ -393,21 +395,17 @@ C
             LAG_NK16 = NUMNOD*51                       
           ENDIF
 C--------
-C       n_mul_mx et l_mul_lag sont surestimes
+C       n_mul_mx et l_mul_lag are overestimated
 c        NKMAX = 51
 c        N_MUL_MX   = NUMNOD
 c        N_MUL_MX_I = NUMNOD
 c        N_BCS      = 0
 c        NH = N_MUL_MX * 5
-c        NMNT =MAX(NMNT,
-c     .    8*(NME+100) + (1+4*NKMAX) * N_MUL_MX_I 
-c     .    + 6*(NUMELS16+NUMELS20))
-c        L_MUL_LAG = MAX(L_MUL_LAG,
-c     .   (1+4*NKMAX)*N_MUL_MX_I + 6 * (NUMELS16+NUMELS20),
-c     .   (1+4*NKMAX)*N_MUL_MX_I + 5*N_MUL_MX + 3*NUMNOD + 2*NH)
+c        NMNT =MAX(NMNT,8*(NME+100) + (1+4*NKMAX) * N_MUL_MX_I + 6*(NUMELS16+NUMELS20))
+c        L_MUL_LAG = MAX(L_MUL_LAG,(1+4*NKMAX)*N_MUL_MX_I + 6 * (NUMELS16+NUMELS20),(1+4*NKMAX)*N_MUL_MX_I + 5*N_MUL_MX + 3*NUMNOD + 2*NH)
 C--------
         ELSEIF(NTYP == 20)THEN
-          IALLO = 1  ! evaluation de la memoire
+          IALLO = 1  ! memory estimation
           CALL I20SURFI(IALLO      ,IPARI(1,NI),IGRNOD    ,IGRSURF     ,
      2                  IGRSLIN    ,IBID       ,FRIGAP(1,NI),
      3                  IBID       ,IBID       ,IBID      ,IBID        ,
@@ -421,8 +419,7 @@ C--------
           NLN  = IPARI(35,NI)
 
         ELSEIF(NTYP == 24)THEN
-          IALLO = 1  ! evaluation de la memoire
-!!          INTPLY = 0
+          IALLO = 1  ! memory estimation
           CALL I24SURFI(
      1      IALLO        ,IPARI(1,NI)  ,IGRNOD      ,IGRSURF      ,
      2      IBID         ,FRIGAP(1,NI) ,
@@ -433,7 +430,6 @@ C--------
      7      NOD2ELTG     ,KNOD2ELS     ,NOD2ELS     ,IXS          ,
      8      IXS10        ,IXS16        ,IXS20       ,IBID         ,
      9      IBID         ,IBID         ,IBID        ,IPARI(86,NI) )
-!!            IPARI(66,NI) = INTPLY
             INTPLY= IPARI(66,NI) 
             IF(INTPLY > 0) INTPLYXFEM = 1 
 C----------NRTS,NRTM is calculated in I24SURFI     
@@ -447,7 +443,7 @@ C!!!!!re-calculate NRTM_SH taking into account to ISU1  :inside I24SURFI
           NRTM_SH=IPARI(42,NI)
 C          
         ELSEIF(NTYP == 25)THEN
-          IALLO = 1  ! evaluation de la memoire
+          IALLO = 1  ! memory evalution
           INTPLY = 0
           CALL I25SURFI(
      1      IALLO        ,IPARI(1,NI)  ,IGRNOD     ,IGRSURF      ,
@@ -472,7 +468,7 @@ C!!!!!re-calculate NRTM_SH taking into account to ISU1  :inside I25SURFI
           NRTM_SH=IPARI(42,NI)
         ENDIF
 C--------------------------------------------     
-C     Dimensionnement du aux sous-interfaces
+C     Sizing due to sub-interfaces
 C--------------------------------------------     
         NISUB=0
 C--------------------------------------------
@@ -482,14 +478,12 @@ C--------------------------------------------
 
 C Subinter : Case Inter corresponding to id inter
 
-            IF(NOM_OPT(2,NINTER+JSUB) == NOINT .AND. 
-     .         NOM_OPT(5,NINTER+JSUB) == 1)THEN
+            IF(NOM_OPT(2,NINTER+JSUB) == NOINT .AND. NOM_OPT(5,NINTER+JSUB) == 1)THEN
               NISUB=NISUB+1
               IGR  =NOM_OPT(4,NINTER+JSUB)
               ISU1 =NOM_OPT(3,NINTER+JSUB)
               ISU2 =NOM_OPT(6,NINTER+JSUB)
-              IF(IGR/=0)
-     .          IPARI(37,NI)=IPARI(37,NI)+IGRNOD(IGR)%NENTITY
+              IF(IGR/=0)IPARI(37,NI)=IPARI(37,NI)+IGRNOD(IGR)%NENTITY
               IPARI(38,NI)=IPARI(38,NI)+IGRSURF(ISU1)%NSEG
               IF(ISU2/=0)THEN
                 IPARI(38,NI)=IPARI(38,NI)+IGRSURF(ISU2)%NSEG
@@ -504,8 +498,7 @@ C Subinter : Case Inter corresponding to id inter
 
 C Subinter :  Case Inter 0
 
-            IF(NOM_OPT(2,NINTER+JSUB) == 0 
-     .         .AND. NOM_OPT(5,NINTER+JSUB) == 1) THEN
+            IF(NOM_OPT(2,NINTER+JSUB) == 0 .AND. NOM_OPT(5,NINTER+JSUB) == 1) THEN
               NISUB=NISUB+1
               ISU1 =NOM_OPT(3,NINTER+JSUB)
               ISU2 =NOM_OPT(6,NINTER+JSUB)
@@ -535,15 +528,14 @@ C--------------------------------------------
 C Subinter : Case Inter corresponding to id inter
 
           DO JSUB=1,NINTSUB
-            IF(NOM_OPT(2,NINTER+JSUB) == NOINT .AND. 
-     .         NOM_OPT(5,NINTER+JSUB) == 1)THEN
+            IF(NOM_OPT(2,NINTER+JSUB) == NOINT .AND. NOM_OPT(5,NINTER+JSUB) == 1)THEN
               NISUB=NISUB+1
-              IF (IPARI(71,NI).EQ.0) THEN
+              IF (IPARI(71,NI) == 0) THEN
                 IGR =NOM_OPT(4,NINTER+JSUB)
                 IPARI(37,NI)=IPARI(37,NI)+IGRNOD(IGR)%NENTITY
                 ISU  =NOM_OPT(3,NINTER+JSUB)
                 IPARI(38,NI)=IPARI(38,NI)+IGRSURF(ISU)%NSEG
-              ELSEIF (IPARI(71,NI).EQ.-1) THEN
+              ELSEIF (IPARI(71,NI) == -1) THEN
 C--             Type7 of type19
                 ISU1 =NOM_OPT(4,NINTER+JSUB)
                 IPARI(37,NI)=IPARI(37,NI)+4*IGRSURF(ISU1)%NSEG
@@ -560,8 +552,7 @@ C--             Type7 sym of type19
 
 C Subinter :  Case Inter 0
 
-            IF(NOM_OPT(2,NINTER+JSUB) == 0 
-     .         .AND. NOM_OPT(5,NINTER+JSUB) == 1) THEN
+            IF(NOM_OPT(2,NINTER+JSUB) == 0 .AND. NOM_OPT(5,NINTER+JSUB) == 1) THEN
               NISUB=NISUB+1
               ISU1 =NOM_OPT(3,NINTER+JSUB)
               ISU2 =NOM_OPT(6,NINTER+JSUB)
@@ -578,13 +569,12 @@ C Subinter :  Case Inter 0
           END DO
           IPARI(36,NI)=NISUB
 C
-        ELSEIF (NTYP.EQ.11) THEN
+        ELSEIF (NTYP == 11) THEN
 C
           DO JSUB=1,NINTSUB
-            IF(NOM_OPT(2,NINTER+JSUB) == NOINT .AND. 
-     .         NOM_OPT(5,NINTER+JSUB) == 1)THEN
+            IF(NOM_OPT(2,NINTER+JSUB) == NOINT .AND. NOM_OPT(5,NINTER+JSUB) == 1)THEN
               NISUB=NISUB+1
-              IF (IPARI(71,NI).EQ.0) THEN
+              IF (IPARI(71,NI) == 0) THEN
                 ISU1 =NOM_OPT(4,NINTER+JSUB)
                 IPARI(37,NI)=IPARI(37,NI)+IGRSLIN(ISU1)%NSEG
                 ISU2  =NOM_OPT(3,NINTER+JSUB)
@@ -600,8 +590,7 @@ C--             Type11 of type19
 
 C Subinter :  Case Inter 0
 
-            IF(NOM_OPT(2,NINTER+JSUB) == 0 
-     .         .AND. NOM_OPT(5,NINTER+JSUB) == 1) THEN
+            IF(NOM_OPT(2,NINTER+JSUB) == 0 .AND. NOM_OPT(5,NINTER+JSUB) == 1) THEN
               NISUB=NISUB+1
               ISU1 =NOM_OPT(3,NINTER+JSUB)
               ISU2 =NOM_OPT(6,NINTER+JSUB)
@@ -647,7 +636,7 @@ C=======================================================================
       MAXNSNE = 0
 C
 C----
-C      LECTURE DES RENSEIGNEMENTS SURFACE SECONDARY/MAIN
+C      READING DATA - SURFACE SECONDARY/MAIN
 C----
 C=======================================================================
       DO NI=1,LINTER
@@ -659,6 +648,7 @@ C=======================================================================
         NTYP   = IPARI(7,NI)
         NOINT  = IPARI(15,NI)
         IS1    = IPARI(13,NI)/10
+        IGAP   = IPARI(21,NI)
         ILAGM  = IPARI(33,NI)
         IS2    = MOD(IPARI(13,NI),10)
         ISU1   = IPARI(45,NI)
@@ -671,7 +661,7 @@ C=======================================================================
         GRBRIC_ID  = ISU1
         IF(TYPE18)GRBRIC_ID  = IPARI(83,NI)         
 C-- deactivated interfaces
-        IF (NTYP.EQ.0) CYCLE
+        IF (NTYP == 0) CYCLE
 C-----Isogeometric elements
         IF(NTYP==7) THEN
          NRTM_IGE   = IPARI(73,NI)
@@ -720,8 +710,9 @@ C--------------------------------------------
         
           IF(GRBRIC_ID > 0)THEN
             IS_GAP_COMPUTED = .FALSE.
-            CALL INGRBRIC_DX(NBRIC, IGRBRIC(GRBRIC_ID)%ENTITY, FRIGAP(2,NI), IXS, X,
-     .                       NOINT, TITR, IS_GAP_COMPUTED, PM, RHO0_MAX, IDDLEVEL,ISTIFF,AUTO_RHO,AUTO_LENGTH)
+            CALL INGRBRIC_DX(NBRIC   , IGRBRIC(GRBRIC_ID)%ENTITY, FRIGAP(2,NI)   , IXS        , X,
+     .                       NOINT   , TITR                     , IS_GAP_COMPUTED, PM         , RHO0_MAX, 
+     .                       IDDLEVEL, ISTIFF                   , AUTO_RHO       , AUTO_LENGTH, IGAP)
             IF(IS_GAP_COMPUTED)THEN
               WRITE(IOUT,1000)NOINT
               WRITE(IOUT,3020)FRIGAP(2,NI)
@@ -733,8 +724,8 @@ C--------------------------------------------
         ELSEIF ( NTYP/=15.and.NTYP/=17.and.NTYP/=20.and.NTYP/=22.and.
      .       NTYP/=23.and.NTYP/=24.and.NTYP/=25) THEN
 C--------------------------------------------
-          IF(IS1.NE.0) THEN
-            IF(NRTS_FE == 0.AND.NRTS_IGE == 0.AND.IS1.NE.2.AND.IS1.NE.5) THEN
+          IF(IS1  /= 0) THEN
+            IF(NRTS_FE == 0.AND.NRTS_IGE == 0.AND.IS1  /= 2.AND.IS1  /= 5) THEN
               CALL ANCMSG(MSGID=118,  MSGTYPE=MSGERROR,  ANMODE=ANINFO, I1=ID, C1=TITR)
             ENDIF
             IF(IS1 == 1)THEN
@@ -743,7 +734,7 @@ C--------------------------------------------
               CALL INSURF(NRTS_FE,NSN_FE,IRS,IRECTS,NOINT,
      .                    SURF_NODES,ITAB,NSV,ID,TITR,
      .                    NTAG,S_NSV,S_IRECTS,X,TYPE18)
-              IF (IGRSURF(ISU1)%NSEG_IGE .GE. 1) THEN
+              IF (IGRSURF(ISU1)%NSEG_IGE >= 1) THEN
                 SURF_NODES_IGE => IGRSURF(ISU1)%NODES_IGE(1:NRTS_IGE,1:4)
                 IAD_IGE = IGRSURF(ISU1)%IAD_IGE               
                 CALL INSURFIGEO(NRTS_IGE,NRTS_FE,NSN_IGE,0,IAD_IGE,IRM,IRECTS,NOINT,
@@ -759,8 +750,6 @@ C--------------------------------------------
      .                    NTAG)
               
             ELSEIF(IS1==5) THEN
-              !stop 151018
-               !  GRBRIC_ID + TYPE 18
                NBRIC = IGRBRIC(ISU1)%NENTITY
                CALL INGRBRIC(NSN, NOINT, IGRBRIC(ISU1)%ENTITY, ITAB, NSV,
      .                       IXS, NBRIC, PM,S_NSV)
@@ -787,8 +776,8 @@ C--------------------------------------------
           IPARI(30,NI) = ISU1   !IBAG type7
 C--------------------------------------------
         ELSEIF(NTYP==23) THEN
-          IF(IS1.NE.0) THEN
-            IF(NRTS == 0.AND.IS1.NE.2) THEN
+          IF(IS1  /= 0) THEN
+            IF(NRTS == 0.AND.IS1  /= 2) THEN
               CALL ANCMSG(MSGID=118, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=ID, C1=TITR)
             ENDIF
             IF(IS1 == 1)THEN
@@ -845,7 +834,7 @@ C--------------------------------------------
               IPARI(4,NI)  = IGRSURF(ISU2)%NSEG
 C--------------------------------------------
         ELSEIF( NTYP == 23) THEN
-          IF(IS2.NE.0) THEN
+          IF(IS2  /= 0) THEN
             IF(NRTM == 0) THEN
               CALL ANCMSG(MSGID=119,  MSGTYPE=MSGERROR,  ANMODE=ANINFO, I1=ID, C1=TITR)
             ENDIF
@@ -868,7 +857,7 @@ C--------------------------------------------
         ELSE
           IF (NTYP == 3 .OR. NTYP == 5 .OR. 
      .        NTYP == 6 .OR. NTYP == 8) IRM = IPARI(24,NI)
-          IF(IS2.NE.0) THEN
+          IF(IS2  /= 0) THEN
             IF(NRTM_FE == 0 .AND. NRTM_IGE == 0) THEN
               CALL ANCMSG(MSGID=119,  MSGTYPE=MSGERROR,  ANMODE=ANINFO, I1=ID,  C1=TITR)
             ENDIF
@@ -877,7 +866,7 @@ C--------------------------------------------
               CALL INSURF(NRTM_FE,NMN_FE,IRM,IRECTM,NOINT,
      .                    SURF_NODES,ITAB,MSR,ID,TITR,
      .                    NTAG,S_MSR,S_IRECTM,X,TYPE18)
-              IF (IGRSURF(ISU2)%NSEG_IGE .GE. 1) THEN
+              IF (IGRSURF(ISU2)%NSEG_IGE >= 1) THEN
               SURF_NODES_IGE => IGRSURF(ISU2)%NODES_IGE(1:NRTM_IGE,1:4)
               IAD_IGE = IGRSURF(ISU2)%IAD_IGE              
                 CALL INSURFIGEO(NRTM_IGE,NRTM_FE,NMN_IGE,NSN_IGE,IAD_IGE,IRM,IRECTM,NOINT,
@@ -894,7 +883,7 @@ C--------------------------------------------
               CALL INSURF(NRTM_FE,NMN_FE,IRM,IRECTM,NOINT,
      .                    SURF_NODES,ITAB,MSR,ID,TITR,
      .                    NTAG,S_MSR,S_IRECTM,X,TYPE18)
-              IF (IGRSURF(ISU2)%NSEG_IGE .GE. 1) THEN
+              IF (IGRSURF(ISU2)%NSEG_IGE >= 1) THEN
               SURF_NODES_IGE => IGRSURF(ISU2)%NODES_IGE(1:NRTM_IGE,1:4)
               IAD_IGE = IGRSURF(ISU2)%IAD_IGE              
                 CALL INSURFIGEO(NRTM_IGE,NRTM_FE,NMN_IGE,0,IAD_IGE,IRM,IRECTM,NOINT,
@@ -955,11 +944,7 @@ C
             NCF_I2 = NSN*6
             LAG_NHF = LAG_NHF + NCF_I2*(NCF_I2-1)/2
             LAG_NCF = LAG_NCF + NCF_I2
-c           IF (ILEV == 30) THEN
-c             LAG_NKF = LAG_NKF + NCF_I2*27
-c           ELSE
             LAG_NKF = LAG_NKF + NCF_I2*13 
-c           ENDIF
           ENDIF
           MAXRTM_T2=MAX(MAXRTM_T2,NRTM)    
 C-------
@@ -976,7 +961,7 @@ C-------
           CALL PRESEGMT(IRECTM,MSR,NRTM,NMN,IPARI(9,NI))
 
           IBUC =IPARI(12,NI)
-          IF(IBUC.NE.0)NMNT =MAX0(NMNT,14*NSN)
+          IF(IBUC  /= 0)NMNT =MAX0(NMNT,14*NSN)
           IMAXIMP = IMAXIMP + 2*NINT(NMN/PROBINT)
 C-------
         ELSEIF (NTYP == 5) THEN
@@ -1033,7 +1018,6 @@ C-------
           IPARI(18,NI) = NSN+NMN
           IPARI(24,NI) = NSN
           IPARI(25,NI) = NSN+NMN
-C   tableaux alloues directement en stack en v40
           MAXRTMS=MAX(MAXRTMS,NRTM)
           MAXRTMS=MAX(MAXRTMS,NRTS)
           IMAXIMP = IMAXIMP + MULTIMP*NSN
@@ -1071,7 +1055,7 @@ C-------
           IMAXIMP = IMAXIMP + MULTIMP*NSN
           NMNT =MAX0(NMNT,NSN + 3) 
           MAXRTM=MAX(MAXRTM,NRTM)
-C dimension allocation starter i11buc1
+C allocate dimensions i11buc1
           NLINSA = IPARI(53,NI)
           NLINMA = IPARI(54,NI)
           NSNE = IPARI(55,NI)
@@ -1145,7 +1129,7 @@ C         NADMSR, NEDGE will be over written before writing
           IPARI(68,NI)=4*NRTM
 C
           IF(IEDGE /= 0) THEN
-            NCONTE=4*NRTM       ! cf NCONTE=NEDGE, cest a revoir
+            NCONTE=4*NRTM       ! cf NCONTE=NEDGE
             IPARI(88,NI)=NCONTE
           ELSE
             NCONTE=0
@@ -1181,15 +1165,12 @@ C-
 
       NULLIFY(NTAG)
       DEALLOCATE(NTAG_TARGET)
-C-----
-      RETURN
-C-----
- 999  CALL FREERR(3)
-      RETURN
-C-----
+
 ! inter18 : automatic gap if not defined in input file 
 1000  FORMAT(/1X,'  INTERFACE NUMBER :',I10,1X,A)
 3020  FORMAT(
      .    '    COMPUTED GAP VALUE. . . . . . . . . . . . . ',1PG20.13)
-          
+C-----
+      RETURN
+C-----         
       END

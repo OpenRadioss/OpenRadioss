@@ -67,9 +67,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
@@ -109,10 +106,9 @@ C-----------------------------------------------
      .   AREAS(*),THK(*),THK_PART(*),
      .   GAP_S_L(*),GAP_M_L(*), FILLSOL(*),PM_STACK(20,*)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER*nchartitle, TITR
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
-      TYPE (SURF_)  :: IGRSURF
+      TYPE (SURF_) :: IGRSURF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -122,27 +118,30 @@ C-----------------------------------------------
      .   ISUBSTACK,NELIG3D, COIN_IGE(8), IPID, PX, PY, PZ, IAD ,IPFMAX,IPL,
      .   IPFLMAX,IPG
       INTEGER JPERM(4)
-C     REAL
+      LOGICAL TYPE18
       my_real
      .   DXM, GAPMX, GAPMN, AREA, VOL, DX, GAPM, DDX, 
      .   GAPTMP, GAPSCALE,SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,
      .   SLSFAC,XL
       my_real, dimension(:), allocatable :: GAP_S_L_TMP
       DATA JPERM/2,3,4,1/
-C--------------------------------------------------------------
-C     CALCUL DES RIGIDITES DES SEGMENTS 
-C     V16 : DANS LE CAS OU ONE SEGMENT APPARTIENT A LA FOIS
-C           A UNE BRIQUE ET A UNE COQUE ON CHOISIT LA RIGIDITE
-C           DE LA COQUE SAUF SI LE MATERIAU COQUE EST NUL.
-C---------------------------------------------------------------
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
+C     STIFFNESS SEGMENTS
+C        IF ONE SEGMENTS IS BASED ON BOTH SOLID AND SHELL
+C        THEN SHELL STIFFNESS IS USED. UNLESS MATERIAL HAS
+C        NO STIFFNESS
       ALLOCATE( GAP_S_L_TMP(NUMNOD) )
+      TYPE18 = .FALSE.
+      IF(INACTI == 7)TYPE18=.TRUE.
       IPGMAT = 700
-      IF(NTY==20)THEN
+      IF(NTY == 20)THEN
         SLSFAC = ONE
       ELSE
         SLSFAC = STFAC
       ENDIF
-      IF(IGAP==3)THEN
+      IF(IGAP == 3)THEN
         DO I=1,NUMNOD
           GAP_S_L_TMP(I)=ZERO
         ENDDO
@@ -162,72 +161,59 @@ C---------------------------------------------------------------
       GAPM_MX=ZERO
       GAPM_L_MX=ZERO
 C
-      IF(IGAP.EQ.2)THEN
+      IF(IGAP == 2)THEN
         IF(IDDLEVEL == 1) IGAP = 1  ! to keep it equal to 2 in case of 2 passes
         GAPSCALE = GAPMIN
-        GAPMIN   = ZERO
-      ELSEIF(IGAP.EQ.3)THEN
+        GAPMIN = ZERO
+      ELSEIF(IGAP == 3)THEN
         GAPSCALE=GAPMIN
         GAPMIN=ZERO
       ELSE
         GAPSCALE = ONE
       ENDIF
 C
-      IF(IGAP==3)THEN
+      IF(IGAP == 3)THEN
         DO I=1,NRT+NRT_IGE
           XL = EP30
           DO J=1,4
             N1=IRECT(J,I)
             N2=IRECT(JPERM(J),I)
-            IF(N1 .NE. N2 .AND. N1 .NE. 0)
-     .        XL=MIN(XL,SQRT((X(1,N1)-X(1,N2))**2+(X(2,N1)-X(2,N2))**2+
-     .                 (X(3,N1)-X(3,N2))**2))
+            IF(N1 /= N2 .AND. N1 /= 0)XL=MIN(XL,SQRT((X(1,N1)-X(1,N2))**2+(X(2,N1)-X(2,N2))**2+(X(3,N1)-X(3,N2))**2))
           ENDDO
           DO J=1,4
             IF(GAP_S_L_TMP(IRECT(J,I)) == ZERO) THEN
               GAP_S_L_TMP(IRECT(J,I))= PERCENT_SIZE*XL
             ELSE
-              GAP_S_L_TMP(IRECT(J,I))=
-     .          MIN(GAP_S_L_TMP(IRECT(J,I)),PERCENT_SIZE*XL) 
+              GAP_S_L_TMP(IRECT(J,I))= MIN(GAP_S_L_TMP(IRECT(J,I)),PERCENT_SIZE*XL) 
             ENDIF
           ENDDO
 
           DO J=1,4
             N1=IRECT(J,I)
             DO K=KNOD2EL1D(N1)+1,KNOD2EL1D(N1+1)
-            IF (NOD2EL1D(K) <= NUMELT 
-     .                     .AND. NOD2EL1D(K) .NE. ZERO) THEN
-              T = NOD2EL1D(K)
-              XL=MIN(XL,SQRT((X(1,IXT(2,T))-X(1,IXT(3,T)))**2+
-     .                 (X(2,IXT(2,T))-X(2,IXT(3,T)))**2+
-     .                 (X(3,IXT(2,T))-X(3,IXT(3,T)))**2))
-            ELSEIF (NOD2EL1D(K) <= NUMELT+NUMELP 
-     .                     .AND. NOD2EL1D(K) .NE. ZERO) THEN
-              P = NOD2EL1D(K) - NUMELT
-              XL=MIN(XL,SQRT((X(1,IXP(2,P))-X(1,IXP(3,P)))**2+
-     .                 (X(2,IXP(2,P))-X(2,IXP(3,P)))**2+
-     .                 (X(3,IXP(2,P))-X(3,IXP(3,P)))**2))
-            ELSEIF (NOD2EL1D(K) <= NUMELT+NUMELP+NUMELR 
-     .                     .AND. NOD2EL1D(K) .NE. ZERO) THEN
-              R = NOD2EL1D(K) - NUMELT - NUMELP
-              XL=MIN(XL,SQRT((X(1,IXR(2,R))-X(1,IXR(3,R)))**2+
-     .                 (X(2,IXR(2,R))-X(2,IXR(3,R)))**2+
-     .                 (X(3,IXR(2,R))-X(3,IXR(3,R)))**2))
+            IF (NOD2EL1D(K) <= NUMELT .AND. NOD2EL1D(K) /= ZERO) THEN
+             T=NOD2EL1D(K)
+             XL=MIN(XL,SQRT((X(1,IXT(2,T))-X(1,IXT(3,T)))**2 + (X(2,IXT(2,T))-X(2,IXT(3,T)))**2 + (X(3,IXT(2,T))-X(3,IXT(3,T)))**2))
+            ELSEIF (NOD2EL1D(K) <= NUMELT+NUMELP .AND. NOD2EL1D(K) /= ZERO) THEN
+             P=NOD2EL1D(K) - NUMELT
+             XL=MIN(XL,SQRT((X(1,IXP(2,P))-X(1,IXP(3,P)))**2 + (X(2,IXP(2,P))-X(2,IXP(3,P)))**2 + (X(3,IXP(2,P))-X(3,IXP(3,P)))**2))
+            ELSEIF (NOD2EL1D(K) <= NUMELT+NUMELP+NUMELR .AND. NOD2EL1D(K) /= ZERO) THEN
+             R=NOD2EL1D(K) - NUMELT - NUMELP
+             XL=MIN(XL,SQRT((X(1,IXR(2,R))-X(1,IXR(3,R)))**2 + (X(2,IXR(2,R))-X(2,IXR(3,R)))**2 + (X(3,IXR(2,R))-X(3,IXR(3,R)))**2))
             ENDIF
             ENDDO
           ENDDO
           GAP_M_L(I)=PERCENT_SIZE*XL
           GAPM_L_MX = MAX(GAPM_L_MX,GAP_M_L(I))
           DO J=1,4
-              GAP_S_L_TMP(IRECT(J,I))=
-     .          MIN(GAP_S_L_TMP(IRECT(J,I)),PERCENT_SIZE*XL)
+            GAP_S_L_TMP(IRECT(J,I))=MIN(GAP_S_L_TMP(IRECT(J,I)),PERCENT_SIZE*XL)
           ENDDO
         ENDDO
       ENDIF
 C------------------------------------
-C     GAP NOEUDS SECONDS
+C     GAP OF SECONDARY NODES
 C------------------------------------
-      IF(IGAP.GE.1)THEN
+      IF(IGAP >= 1)THEN
        DO I=1,NUMNOD
         WA(I)=ZERO
        ENDDO
@@ -235,9 +221,9 @@ C------------------------------------
         MG=IXC(6,I)
         IGTYP = IGEO(11,MG)
 	IP = IPARTC(I)
-	IF ( THK_PART(IP) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
+	IF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
 	  DX=HALF*THK_PART(IP)
-	ELSEIF ( THK(I) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
+	ELSEIF ( THK(I)  /= ZERO .AND. IINTTHICK == 0) THEN
 	  DX=HALF*THK(I)
 	ELSEIF(IGTYP == 17 .OR. IGTYP ==51 .OR. IGTYP == 52) THEN
 	  DX=HALF*THK(I)
@@ -253,11 +239,11 @@ C------------------------------------
         MG=IXTG(5,I)
         IGTYP = IGEO(11,MG)
 	IP = IPARTTG(I)
-	IF ( THK_PART(IP) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
+	IF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
 	  DX=HALF*THK_PART(IP)
-	ELSEIF ( THK(NUMELC+I) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
+	ELSEIF ( THK(NUMELC+I) /= ZERO .AND. IINTTHICK == 0) THEN
 	  DX=HALF*THK(NUMELC+I)
-	ELSEIF(IGTYP == 17 .OR. IGTYP ==51 .OR. IGTYP == 52 ) THEN
+	ELSEIF(IGTYP == 17 .OR. IGTYP ==51 .OR. IGTYP == 52) THEN
 	  DX=HALF*THK(NUMELC+I)
         ELSE
           DX=HALF*GEO(1,MG)
@@ -280,20 +266,19 @@ C------------------------------------
        ENDDO
        DO I=1,NSN
          GAP_S(I)=GAPSCALE * WA(NSV(I))
-         IF(IGAP==3 .AND. GAP_S_L_TMP(NSV(I)) .NE. ZERO)
-     .     GAP_S_L(I)=MIN(GAP_S_L(I),GAP_S_L_TMP(NSV(I)))
+         IF(IGAP == 3 .AND. GAP_S_L_TMP(NSV(I)) /= ZERO)GAP_S_L(I)=MIN(GAP_S_L(I),GAP_S_L_TMP(NSV(I)))
          IF(IGAP /= 3) THEN
            GAPS_MX=MAX(GAPS_MX,GAP_S(I))
          ELSE
-           GAPS_MX   = MAX(GAPS_MX,GAP_S(I))
+           GAPS_MX = MAX(GAPS_MX,GAP_S(I))
            GAPS_L_MX = MAX(GAPS_L_MX,GAP_S_L(I))
          END IF
        ENDDO
       ENDIF
 C
-C calcul du surface second. ---
+C SECONDARY SIDE - SURFACE ---
       IF(INTTH > 0 ) THEN
-        IF(NADMESH==0)THEN
+        IF(NADMESH == 0)THEN
           DO I = 1,NSN    
              AREAS(I) = ZERO
              DO J= KNOD2ELC(NSV(I))+1,KNOD2ELC(NSV(I)+1)
@@ -304,11 +289,10 @@ C calcul du surface second. ---
                SX2 = X(1,IXC(5,IE)) - X(1,IXC(3,IE))
                SY2 = X(2,IXC(5,IE)) - X(2,IXC(3,IE))
                SZ2 = X(3,IXC(5,IE)) - X(3,IXc(3,IE))
-               SX3  = SY1*SZ2 - SZ1*SY2
-               SY3  = SZ1*SX2 - SX1*SZ2
-               SZ3  = SX1*SY2 - SY1*SX2
-               AREAS(I) = AREAS(I) 
-     .                    + ONE_OVER_8*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
+               SX3 = SY1*SZ2 - SZ1*SY2
+               SY3 = SZ1*SX2 - SX1*SZ2
+               SZ3 = SX1*SY2 - SY1*SX2
+               AREAS(I) = AREAS(I) + ONE_OVER_8*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
 C overwrite
                IELEC(I) = IXC(1,IE)
              END DO
@@ -321,11 +305,10 @@ C
                SX2 = X(1,IXTG(4,IE)) - X(1,IXTG(2,IE))
                SY2 = X(2,IXTG(4,IE)) - X(2,IXTG(2,IE))
                SZ2 = X(3,IXTG(4,IE)) - X(3,IXTG(2,IE))
-               SX3  = SY1*SZ2 - SZ1*SY2
-               SY3  = SZ1*SX2 - SX1*SZ2
-               SZ3  = SX1*SY2 - SY1*SX2
-               AREAS(I) = AREAS(I) 
-     .                    + ONE_OVER_6*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
+               SX3 = SY1*SZ2 - SZ1*SY2
+               SY3 = SZ1*SX2 - SX1*SZ2
+               SZ3 = SX1*SY2 - SY1*SX2
+               AREAS(I) = AREAS(I) + ONE_OVER_6*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
 C overwrite
                IELEC(I) = IXTG(1,IE)
              END DO
@@ -333,7 +316,7 @@ C overwrite
         ELSE
           DO I = 1,NSN    
              AREAS(I) = ZERO
-             DO J= KNOD2ELC(NSV(I))+1,KNOD2ELC(NSV(I)+1)
+             DO J=KNOD2ELC(NSV(I))+1,KNOD2ELC(NSV(I)+1)
                IE = NOD2ELC(J)
 
                IP = IPARTC(IE)
@@ -341,18 +324,17 @@ C overwrite
                MYLEV=SH4TREE(3,IE)
                IF(MYLEV < 0) MYLEV=-(MYLEV+1)
 
-               IF(MYLEV==NLEV)THEN                 
+               IF(MYLEV == NLEV)THEN                 
                  SX1 = X(1,IXC(4,IE)) - X(1,IXC(2,IE))
                  SY1 = X(2,IXC(4,IE)) - X(2,IXC(2,IE))
                  SZ1 = X(3,IXC(4,IE)) - X(3,IXC(2,IE))
                  SX2 = X(1,IXC(5,IE)) - X(1,IXC(3,IE))
                  SY2 = X(2,IXC(5,IE)) - X(2,IXC(3,IE))
                  SZ2 = X(3,IXC(5,IE)) - X(3,IXC(3,IE))
-                 SX3  = SY1*SZ2 - SZ1*SY2
-                 SY3  = SZ1*SX2 - SX1*SZ2
-                 SZ3  = SX1*SY2 - SY1*SX2
-                 AREAS(I) = AREAS(I) 
-     .                      + ONE_OVER_8*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
+                 SX3 = SY1*SZ2 - SZ1*SY2
+                 SY3 = SZ1*SX2 - SX1*SZ2
+                 SZ3 = SX1*SY2 - SY1*SX2
+                 AREAS(I) = AREAS(I) + ONE_OVER_8*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
 C overwrite
                  IELEC(I) = IXC(1,IE)
                END IF
@@ -361,24 +343,21 @@ C overwrite
 C
             DO J= KNOD2ELTG(NSV(I))+1,KNOD2ELTG(NSV(I)+1)
                IE = NOD2ELTG(J)
-
                IP = IPARTTG(IE)
                NLEV =IPART(10,IP)
                MYLEV=SH3TREE(3,IE)
                IF(MYLEV < 0) MYLEV=-(MYLEV+1)
-
-               IF(MYLEV==NLEV)THEN                 
+               IF(MYLEV == NLEV)THEN                 
                  SX1 = X(1,IXTG(3,IE)) - X(1,IXTG(2,IE))
                  SY1 = X(2,IXTG(3,IE)) - X(2,IXTG(2,IE))
                  SZ1 = X(3,IXTG(3,IE)) - X(3,IXTG(2,IE))
                  SX2 = X(1,IXTG(4,IE)) - X(1,IXTG(2,IE))
                  SY2 = X(2,IXTG(4,IE)) - X(2,IXTG(2,IE))
                  SZ2 = X(3,IXTG(4,IE)) - X(3,IXTG(2,IE))
-                 SX3  = SY1*SZ2 - SZ1*SY2
-                 SY3  = SZ1*SX2 - SX1*SZ2
-                 SZ3  = SX1*SY2 - SY1*SX2
-                 AREAS(I) = AREAS(I) 
-     .                      + ONE_OVER_6*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
+                 SX3 = SY1*SZ2 - SZ1*SY2
+                 SY3 = SZ1*SX2 - SX1*SZ2
+                 SZ3 = SX1*SY2 - SY1*SX2
+                 AREAS(I) = AREAS(I) + ONE_OVER_6*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
 C overwrite
                  IELEC(I) = IXTG(1,IE)
                END IF
@@ -389,640 +368,651 @@ C overwrite
       END IF
 C
 C------------------------------------
-C     GAP STIF FACES MAIN
+C     GAP STIFF FACES MAIN
 C------------------------------------
-      DO 500 I=1,NRT
-      STF(I)=ZERO
-      IF(INTTH > 0 ) IELES(I) = 0
-      IF(SLSFAC.LT.ZERO)STF(I)=SLSFAC
-      GAPM  =ZERO
-      INRT=I
-      CALL I4GMX3(X,IRECT,INRT,GAPMX)
+      DO I=1,NRT
+        STF(I)=ZERO
+        IF(INTTH > 0 ) IELES(I) = 0
+        IF(SLSFAC < ZERO)STF(I)=SLSFAC
+        GAPM=ZERO
+        INRT=I
+        CALL I4GMX3(X,IRECT,INRT,GAPMX)
 C----------------------
-      CALL INELTS(X           ,IRECT,IXS  ,NINT,NELS         ,
-     .            INRT        ,AREA ,NOINT,0   ,IGRSURF%ELTYP,
-     .            IGRSURF%ELEM)
-      IF(NELS.NE.0)THEN
-        MT=IXS(1,NELS)
-        IF(MT.GT.0)THEN
+        CALL INELTS(X           ,IRECT,IXS  ,NINT,NELS         ,
+     .              INRT        ,AREA ,NOINT,0   ,IGRSURF%ELTYP,
+     .              IGRSURF%ELEM)
+     
+        !----------------!
+        !  NELS > 0      !
+        !----------------!
+        IF(NELS /= 0)THEN
+          MT=IXS(1,NELS)
+          IF(MT > 0)THEN
+            DO JJ=1,8
+              JJJ=IXS(JJ+1,NELS)
+              XC(JJ)=X(1,JJJ)
+              YC(JJ)=X(2,JJJ)
+              ZC(JJ)=X(3,JJJ)
+            END DO
+            CALL VOLINT(VOL)
+            STF(I)=SLSFAC*FILLSOL(NELS)*AREA*AREA*PM(32,MT)/VOL
+          ELSE
+            IF(NINT >= 0) THEN
+               CALL ANCMSG(MSGID=95,
+     .                     MSGTYPE=MSGWARNING,
+     .                     ANMODE=ANINFO_BLIND_2,
+     .                     I1=ID,
+     .                     C1=TITR,
+     .                     I2=IXS(NIXS,NELS),
+     .                     C2='SOLID',
+     .                     I3=I)
+            ENDIF
+            IF(NINT < 0) THEN 
+               CALL ANCMSG(MSGID=96,
+     .                     MSGTYPE=MSGWARNING,
+     .                     ANMODE=ANINFO_BLIND_2,
+     .                     I1=ID,
+     .                     C1=TITR,
+     .                     I2=IXS(NIXS,NELS),
+     .                     C2='SOLID',
+     .                     I3=I)
+            ENDIF
+          ENDIF
+          IF(IGAP /= 0 .OR. (NTY /=7 .AND. NTY /= 20)) GAP_M(I)=GAPM
+C -----Friction model ------
+          IF(INTFRIC > 0) THEN
+             IP= IPARTS(NELS)
+             IPG = TAGPRT_FRIC(IP)
+             IF(IPG > 0) THEN
+              CALL FRICTION_PARTS_SEARCH (
+     .                       IPG,INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC,
+     .                       INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL )  
+              IPARTFRICM(INRT) = IPL
+             ENDIF
+          ENDIF
+C------------------------------------
+          CYCLE! next I
+        ENDIF ! => (NELS == 0)
+        
+        
+        CALL INELTC(NELC ,NELTG ,INRT ,IGRSURF%ELTYP, IGRSURF%ELEM)
+        !----------------!
+        !  NELTG > 0     !
+        !----------------!
+        IF(NELTG /= 0) THEN                                                               
+          MT=IXTG(1,NELTG)                                                                
+          MG=IXTG(5,NELTG)                                                                
+          IGTYP = IGEO(11,MG)                                                             
+          IGMAT = IGEO(98,MG)                                                             
+          IP = IPARTTG(NELTG)                                                             
+          IF (THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN                             
+            DX=THK_PART(IP)*GAPSCALE                                                      
+          ELSEIF ( THK(NUMELC+NELTG) /= ZERO .AND. IINTTHICK == 0)THEN                    
+            DX=THK(NUMELC+NELTG)*GAPSCALE                                                 
+          ELSEIF(IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN                      
+             DX=THK(NUMELC+NELTG)*GAPSCALE                                                
+          ELSE                                                                            
+            DX=GEO(1,MG)*GAPSCALE                                                         
+          ENDIF                                                                           
+          GAPM=HALF*DX                                                                    
+          GAPM_MX=MAX(GAPM_MX,GAPM)                                                       
+          GAPMN=MIN(GAPMN,DX)                                                             
+          DXM=DXM+DX                                                                      
+          NDX=NDX+1                                                                       
+           IF(MT > 0)THEN                                                                 
+            IF(IGTYP == 11 .AND. IGMAT > 0) THEN ! igtyp == 11                            
+              IF(SLSFAC < ZERO)THEN                                                       
+                 STF(I)=-SLSFAC                                                           
+              ELSEIF ( THK(NUMELC+NELTG) /= ZERO .AND. IINTTHICK == 0)THEN                
+                 STF(I)=SLSFAC*THK(NUMELC+NELTG)*GEO(IPGMAT + 2 ,MG)                      
+              ELSE                                                                        
+                 STF(I)=SLSFAC*GEO(1,MG)*GEO(IPGMAT + 2 ,MG)                              
+              ENDIF                                                                       
+           ELSEIF(IGTYP == 52 .OR. ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0))THEN  
+              ISUBSTACK = IWORKSH(3,NUMELC + NELTG)                                       
+              IF(SLSFAC < ZERO)THEN                                                       
+                 STF(I)=-SLSFAC                                                           
+              ELSE                                                                        
+                STF(I)=SLSFAC*THK(NUMELC+NELTG)*PM_STACK(2 ,ISUBSTACK)                    
+              ENDIF                                                                       
+           ELSE                                                                           
+              IF(SLSFAC < ZERO)THEN                                                       
+                STF(I)=-SLSFAC                                                            
+              ELSEIF ( THK(NUMELC+NELTG) /= ZERO .AND. IINTTHICK == 0)THEN                
+                STF(I)=SLSFAC*THK(NUMELC+NELTG)*PM(20,MT)                                 
+              ELSE                                                                        
+                STF(I)=SLSFAC*GEO(1,MG)*PM(20,MT)                                         
+              ENDIF                                                                       
+           ENDIF                                                                          
+          ELSE                                                                            
+            IF(NINT >= 0) THEN                                                            
+               CALL ANCMSG(MSGID=95,                                                      
+     .                     MSGTYPE=MSGWARNING,                                            
+     .                     ANMODE=ANINFO_BLIND_2,                                         
+     .                     I1=ID,                                                         
+     .                     C1=TITR,                                                       
+     .                     I2=IXTG(NIXTG,NELTG),                                          
+     .                     C2='SHELL',                                                    
+     .                     I3=I)                                                          
+            END IF                                                                        
+            IF(NINT < 0) THEN                                                             
+               CALL ANCMSG(MSGID=96,                                                      
+     .                     MSGTYPE=MSGWARNING,                                            
+     .                     ANMODE=ANINFO_BLIND_2,                                         
+     .                     I1=ID,                                                         
+     .                     C1=TITR,                                                       
+     .                     I2=IXTG(NIXTG,NELTG),                                          
+     .                     C2='SHELL',                                                    
+     .                     I3=I)                                                          
+            END IF                                                                        
+          END IF                                                                          
+          IF(IGAP /= 0 .OR. (NTY /= 7 .AND. NTY /= 20)) GAP_M(I)=GAPM                     
+C -----Friction model ------                                                              ir
+          IF(INTFRIC > 0) THEN                                                            
+             IP= IPARTTG(NELTG)                                                           
+             IPG = TAGPRT_FRIC(IP)                                                        
+             IF(IPG > 0) THEN                                                             
+              CALL FRICTION_PARTS_SEARCH (                                                
+     .                       IPG,INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC,                
+     .                       INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL )                 
+              IPARTFRICM(INRT) = IPL                                                      
+             ENDIF                                                                        
+          ENDIF                                                                           
+C----------------------------------                                                     --
+          CYCLE!next I                                                                    
+        ENDIF
+           
+        !----------------!
+        !  NELC > 0      !
+        !----------------!            
+        IF(NELC /= 0) THEN                                                                
+          MT=IXC(1,NELC)                                                                  
+          MG=IXC(6,NELC)                                                                  
+          IP = IPARTC(NELC)                                                               
+          IGTYP = IGEO(11,MG)                                                             
+           IGMAT = IGEO(98,MG)                                                            
+          IF (THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN                             
+            DX=THK_PART(IP)*GAPSCALE                                                      
+          ELSEIF (THK(NELC) /= ZERO .AND. IINTTHICK == 0) THEN                            
+            DX=THK(NELC)*GAPSCALE                                                         
+          ELSEIF(IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN                      
+            DX=THK(NELC)*GAPSCALE                                                         
+          ELSE                                                                            
+            DX=GEO(1,MG)*GAPSCALE                                                         
+          ENDIF                                                                           
+          GAPM=HALF*DX                                                                    
+          GAPM_MX=MAX(GAPM_MX,GAPM)                                                       
+          GAPMN = MIN(GAPMN,DX)                                                           
+          DXM=DXM+DX                                                                      
+          NDX=NDX+1                                                                       
+                                                                                          
+          IF(MT > 0)THEN                                                                  
+           IF(IGTYP == 11 .AND. IGMAT > 0) THEN                                           
+            IF(SLSFAC < ZERO)THEN                                                         
+             STF(I)=-SLSFAC                                                               
+            ELSEIF ( THK(NELC) /= ZERO .AND. IINTTHICK == 0) THEN                         
+             STF(I)=SLSFAC*THK(NELC)*GEO(IPGMAT + 2 ,MG)                                  
+            ELSE                                                                          
+             STF(I)=SLSFAC*GEO(1,MG)*GEO(IPGMAT + 2 ,MG)                                  
+            ENDIF                                                                         
+           ELSEIF(IGTYP == 52 .OR. ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0))THEN  
+            ISUBSTACK = IWORKSH(3,NELC)                                                   
+            IF(SLSFAC < ZERO)THEN                                                         
+              STF(I)=-SLSFAC                                                              
+            ELSE                                                                          
+               STF(I)=SLSFAC*THK(NELC)*PM_STACK(2 ,ISUBSTACK )                            
+            ENDIF                                                                         
+           ELSE                                                                           
+            IF(SLSFAC < ZERO)THEN                                                         
+             STF(I)=-SLSFAC                                                               
+            ELSEIF (THK(NELC) /= ZERO .AND. IINTTHICK == 0) THEN                          
+             STF(I)=SLSFAC*THK(NELC)*PM(20,MT)                                            
+            ELSE                                                                          
+             STF(I)=SLSFAC*GEO(1,MG)*PM(20,MT)                                            
+            ENDIF                                                                         
+           ENDIF                                                                          
+          ELSE                                                                            
+            IF(NINT >= 0) THEN                                                            
+               CALL ANCMSG(MSGID=95,                                                      
+     .                     MSGTYPE=MSGWARNING,                                            
+     .                     ANMODE=ANINFO_BLIND_2,                                         
+     .                     I1=ID,                                                         
+     .                     C1=TITR,                                                       
+     .                     I2=IXC(NIXC,NELC),                                             
+     .                     C2='SHELL',                                                    
+     .                     I3=I)                                                          
+            END IF                                                                        
+            IF(NINT < 0) THEN                                                             
+               CALL ANCMSG(MSGID=96,                                                      
+     .                     MSGTYPE=MSGWARNING,                                            
+     .                     ANMODE=ANINFO_BLIND_2,                                         
+     .                     I1=ID,                                                         
+     .                     C1=TITR,                                                       
+     .                     I2=IXC(NIXC,NELC),                                             
+     .                     C2='SHELL',                                                    
+     .                     I3=I)                                                          
+            END IF                                                                        
+          END IF                                                                          
+          IF(IGAP /=0 .OR. (NTY /=7 .AND. NTY /= 20)) GAP_M(I)=GAPM                       
+C -----Fction model ------                                                              ir
+          IF(INTFRIC > 0) THEN                                                            
+             IP= IPARTC(NELC)                                                             
+             IPG = TAGPRT_FRIC(IP)                                                        
+             IF(IPG > 0) THEN                                                             
+              CALL FRICTION_PARTS_SEARCH (                                                
+     .                       IPG,INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC,                
+     .                       INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL )                 
+              IPARTFRICM(INRT) = IPL                                                      
+             ENDIF                                                                        
+          ENDIF                                                                           
+C----------------------------------                                                     --
+          CYCLE! next I                                                                   
+        END IF                                                                            
+        
+C----------------------
+C       SOLID ELEMENTS
+C----------------------
+        CALL INSOL3D(X     ,IRECT ,IXS      ,NINT    ,NELS,INRT,
+     .               AREA  ,NOINT ,KNOD2ELS ,NOD2ELS ,0   ,
+     .               IXS10 ,IXS16 ,IXS20)
+        !----------------!
+        !  NELS > 0      !
+        !----------------!
+        IF(NELS /= 0) THEN
+         MT=IXS(1,NELS)
+         IF(INTTH > 0 ) IELES(I) = NELS
+         IF(MT > 0)THEN
           DO JJ=1,8
             JJJ=IXS(JJ+1,NELS)
             XC(JJ)=X(1,JJJ)
             YC(JJ)=X(2,JJJ)
             ZC(JJ)=X(3,JJJ)
-          END DO
+          ENDDO
           CALL VOLINT(VOL)
           STF(I)=SLSFAC*FILLSOL(NELS)*AREA*AREA*PM(32,MT)/VOL
-        ELSE
-          IF(NINT.GE.0) THEN
-             CALL ANCMSG(MSGID=95,
-     .                   MSGTYPE=MSGWARNING,
-     .                   ANMODE=ANINFO_BLIND_2,
-     .                   I1=ID,
-     .                   C1=TITR,
-     .                   I2=IXS(NIXS,NELS),
-     .                   C2='SOLID',
-     .                   I3=I)
-          ENDIF
-          IF(NINT.LT.0) THEN 
-             CALL ANCMSG(MSGID=96,
-     .                   MSGTYPE=MSGWARNING,
-     .                   ANMODE=ANINFO_BLIND_2,
-     .                   I1=ID,
-     .                   C1=TITR,
-     .                   I2=IXS(NIXS,NELS),
-     .                   C2='SOLID',
-     .                   I3=I)
-          ENDIF
-        ENDIF
-        IF(IGAP/=0 .OR. (NTY/=7.AND.NTY/=20)) GAP_M(I)=GAPM
-C -----Friction model ------
-        IF(INTFRIC > 0) THEN
-           IP= IPARTS(NELS)
-           IPG = TAGPRT_FRIC(IP)
-           IF(IPG > 0) THEN
-            CALL FRICTION_PARTS_SEARCH (
-     .                     IPG,INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC,
-     .                     INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL )  
-            IPARTFRICM(INRT) = IPL
-           ENDIF
-        ENDIF
-C------------------------------------
-
-        GO TO 500
-      ELSE
-        CALL INELTC(NELC ,NELTG ,INRT ,IGRSURF%ELTYP, IGRSURF%ELEM)
-        IF(NELTG.NE.0) THEN
-          MT=IXTG(1,NELTG)
-          MG=IXTG(5,NELTG)
-          IGTYP = IGEO(11,MG)
-          IGMAT = IGEO(98,MG)
-	  IP = IPARTTG(NELTG)
-	  IF ( THK_PART(IP) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
-	    DX=THK_PART(IP)*GAPSCALE
-	  ELSEIF ( THK(NUMELC+NELTG) .NE. ZERO .AND. IINTTHICK.EQ.0)THEN
-	    DX=THK(NUMELC+NELTG)*GAPSCALE
-          ELSEIF(IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
-             DX=THK(NUMELC+NELTG)*GAPSCALE
-	  ELSE
-            DX=GEO(1,MG)*GAPSCALE
-	  ENDIF
-          GAPM=HALF*DX
-          GAPM_MX=MAX(GAPM_MX,GAPM)
-          GAPMN = MIN(GAPMN,DX)
-          DXM=DXM+DX
-          NDX=NDX+1         
-           IF(MT.GT.0)THEN
-            IF(IGTYP == 11 .AND. IGMAT > 0) THEN ! igtyp == 11 
-              IF(SLSFAC .LT. ZERO)THEN
-                 STF(I)=-SLSFAC
-	      ELSEIF ( THK(NUMELC+NELTG) .NE. ZERO 
-     .                                  .AND. IINTTHICK .EQ.0)THEN 
-	         STF(I)=SLSFAC*THK(NUMELC+NELTG)*GEO(IPGMAT + 2 ,MG)
-	      ELSE
-                 STF(I)=SLSFAC*GEO(1,MG)*GEO(IPGMAT + 2 ,MG)
-	      ENDIF
-           ELSEIF(IGTYP == 52 .OR. 
-     .           ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0))THEN
-              ISUBSTACK = IWORKSH(3,NUMELC + NELTG)
-              IF(SLSFAC .LT. ZERO)THEN
-                 STF(I)=-SLSFAC
-	      ELSE
-	        STF(I)=SLSFAC*THK(NUMELC+NELTG)*PM_STACK(2 ,ISUBSTACK)
-	      ENDIF    
-           ELSE
-              IF(SLSFAC .LT. ZERO)THEN
-                STF(I)=-SLSFAC
-	      ELSEIF ( THK(NUMELC+NELTG) .NE. ZERO
-     .                                  .AND. IINTTHICK .EQ.0)THEN 
-	        STF(I)=SLSFAC*THK(NUMELC+NELTG)*PM(20,MT)
-	      ELSE
-                STF(I)=SLSFAC*GEO(1,MG)*PM(20,MT)
-	      ENDIF
-           ENDIF
-          ELSE
-            IF(NINT.GE.0) THEN
+         ELSE
+            IF(NINT >= 0) THEN
                CALL ANCMSG(MSGID=95,
      .                     MSGTYPE=MSGWARNING,
      .                     ANMODE=ANINFO_BLIND_2,
      .                     I1=ID,
      .                     C1=TITR,
-     .                     I2=IXTG(NIXTG,NELTG),
-     .                     C2='SHELL',
+     .                     I2=IXS(NIXS,NELS),
+     .                     C2='SOLID',
      .                     I3=I)
-            END IF
-            IF(NINT.LT.0) THEN
+            ENDIF
+            IF(NINT < 0) THEN 
                CALL ANCMSG(MSGID=96,
      .                     MSGTYPE=MSGWARNING,
      .                     ANMODE=ANINFO_BLIND_2,
      .                     I1=ID,
      .                     C1=TITR,
-     .                     I2=IXTG(NIXTG,NELTG),
-     .                     C2='SHELL',
+     .                     I2=IXS(NIXS,NELS),
+     .                     C2='SOLID',
      .                     I3=I)
-            END IF
-          END IF
-          IF(IGAP/=0 .OR. (NTY/=7.AND.NTY/=20)) GAP_M(I)=GAPM
+            ENDIF
+         ENDIF
 C -----Friction model ------
-        IF(INTFRIC > 0) THEN
-           IP= IPARTTG(NELTG)
-           IPG = TAGPRT_FRIC(IP)
-           IF(IPG > 0) THEN
-            CALL FRICTION_PARTS_SEARCH (
-     .                     IPG,INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC,
-     .                     INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL ) 
-            IPARTFRICM(INRT) = IPL
-           ENDIF
+         IF(INTFRIC > 0) THEN                                                                                 
+            IP= IPARTS(NELS)                                                                                  
+            IPG = TAGPRT_FRIC(IP)                                                                             
+            IF(IPG > 0) THEN                                                                                  
+             CALL FRICTION_PARTS_SEARCH (                                                                     
+     .                      IPG                                   , INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC, 
+     .                      INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC, IPL )                                     
+             IPARTFRICM(INRT) = IPL                                                                           
+            ENDIF                                                                                             
+         ENDIF                                                                                                
+C----------------------------------
         ENDIF
-C------------------------------------
-          GO TO 500
-        ELSEIF(NELC.NE.0) THEN
-          
-          MT=IXC(1,NELC)
-          MG=IXC(6,NELC)
-	  IP = IPARTC(NELC)
+        
+C---------------------
+C        SHELL ELEMENTS
+C---------------------
+        CALL INCOQ3(IRECT     ,IXC      ,IXTG     ,NINT   ,NELC     ,
+     .              NELTG     ,INRT     ,GEO      ,PM     ,KNOD2ELC ,
+     .              KNOD2ELTG ,NOD2ELC  ,NOD2ELTG ,THK    ,NTY      ,
+     .              IGEO      ,PM_STACK ,IWORKSH )
+        !----------------!
+        !  NELTG > 0     !
+        !----------------!
+        IF(NELTG /= 0) THEN
+          MT=IXTG(1,NELTG)
+          MG=IXTG(5,NELTG)
           IGTYP = IGEO(11,MG)
-           IGMAT = IGEO(98,MG)
-	  IF ( THK_PART(IP) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
-	    DX=THK_PART(IP)*GAPSCALE
-	  ELSEIF ( THK(NELC) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
-	    DX=THK(NELC)*GAPSCALE
-	  ELSEIF(IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
-            DX=THK(NELC)*GAPSCALE
+          IGMAT = IGEO(98,MG)
+          IP = IPARTTG(NELTG)
+          IF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
+            DX=THK_PART(IP)*GAPSCALE
+          ELSEIF (THK(NUMELC+NELTG) /= ZERO .AND. IINTTHICK == 0)THEN
+            DX=THK(NUMELC+NELTG)*GAPSCALE
+          ELSEIF(IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
+            DX=THK(NUMELC+NELTG)*GAPSCALE
           ELSE
             DX=GEO(1,MG)*GAPSCALE
-	  ENDIF
+          ENDIF
           GAPM=HALF*DX
           GAPM_MX=MAX(GAPM_MX,GAPM)
           GAPMN = MIN(GAPMN,DX)
           DXM=DXM+DX
           NDX=NDX+1
-         
-          IF(MT.GT.0)THEN
-           IF(IGTYP  == 11 .AND. IGMAT > 0) THEN
-            IF(SLSFAC .LT. ZERO)THEN
-             STF(I)=-SLSFAC
-	    ELSEIF ( THK(NELC) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN 
-	     STF(I)=SLSFAC*THK(NELC)*GEO(IPGMAT + 2 ,MG)
-	    ELSE
-             STF(I)=SLSFAC*GEO(1,MG)*GEO(IPGMAT + 2 ,MG)
-	    ENDIF 
-           ELSEIF(IGTYP == 52 .OR. 
-     .           ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0))THEN
-            ISUBSTACK = IWORKSH(3,NELC)
-            IF(SLSFAC .LT. ZERO)THEN
+          IF(MT > 0)THEN
+           IF(IGTYP == 11 .AND. IGMAT > 0) THEN
+            IF(SLSFAC < ZERO)THEN
               STF(I)=-SLSFAC
-	    ELSE
-	       STF(I)=SLSFAC*THK(NELC)*PM_STACK(2 ,ISUBSTACK )
-	    ENDIF 
+            ELSEIF ( THK(NUMELC+NELTG)  /= ZERO .AND. IINTTHICK == 0) THEN 
+              STF(I)=SLSFAC*THK(NUMELC+NELTG)*GEO(IPGMAT + 2 ,MG)
+            ELSE
+              STF(I)=SLSFAC*GEO(1,MG)*GEO(IPGMAT + 2 ,MG)
+            ENDIF
+           ELSEIF(IGTYP == 52 .OR. ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0))THEN
+             ISUBSTACK = IWORKSH(3,NUMELC+NELTG)
+             IF(SLSFAC < ZERO)THEN
+              STF(I)=-SLSFAC
+            ELSE
+              STF(I)=SLSFAC*THK(NUMELC+NELTG)*PM_STACK(2 ,ISUBSTACK)
+            ENDIF  
            ELSE
-            IF(SLSFAC .LT. ZERO)THEN
-             STF(I)=-SLSFAC
-	    ELSEIF ( THK(NELC) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN 
-	     STF(I)=SLSFAC*THK(NELC)*PM(20,MT)
-	    ELSE
-             STF(I)=SLSFAC*GEO(1,MG)*PM(20,MT)
-	    ENDIF
+            IF(SLSFAC < ZERO)THEN
+              STF(I)=-SLSFAC
+            ELSEIF ( THK(NUMELC+NELTG) /= ZERO .AND. IINTTHICK == 0) THEN 
+              STF(I)=SLSFAC*THK(NUMELC+NELTG)*PM(20,MT)
+            ELSE
+              STF(I)=SLSFAC*GEO(1,MG)*PM(20,MT)
+            ENDIF
            ENDIF  
           ELSE
-            IF(NINT.GE.0) THEN
-               CALL ANCMSG(MSGID=95,
-     .                     MSGTYPE=MSGWARNING,
-     .                     ANMODE=ANINFO_BLIND_2,
-     .                     I1=ID,
-     .                     C1=TITR,
-     .                     I2=IXC(NIXC,NELC),
-     .                     C2='SHELL',
-     .                     I3=I)
-            END IF
-            IF(NINT.LT.0) THEN
-               CALL ANCMSG(MSGID=96,
-     .                     MSGTYPE=MSGWARNING,
-     .                     ANMODE=ANINFO_BLIND_2,
-     .                     I1=ID,
-     .                     C1=TITR,
-     .                     I2=IXC(NIXC,NELC),
-     .                     C2='SHELL',
-     .                     I3=I)
-            END IF
-          END IF
-          IF(IGAP/=0 .OR. (NTY/=7.AND.NTY/=20)) GAP_M(I)=GAPM
-C -----Friction model ------
-        IF(INTFRIC > 0) THEN
-           IP= IPARTC(NELC)
-           IPG = TAGPRT_FRIC(IP)
-           IF(IPG > 0) THEN
-            CALL FRICTION_PARTS_SEARCH (
-     .                     IPG,INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC,
-     .                     INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL )  
-            IPARTFRICM(INRT) = IPL
-           ENDIF
-        ENDIF
-C------------------------------------
-          GO TO 500
-        END IF
-      END IF
-C----------------------
-C     ELEMENTS SOLIDES
-C----------------------
-      CALL INSOL3D(X,IRECT,IXS,NINT,NELS,INRT,
-     .            AREA,NOINT,KNOD2ELS ,NOD2ELS ,0,
-     .            IXS10,IXS16,IXS20)
-      IF(NELS.NE.0) THEN
-       MT=IXS(1,NELS)
-       IF(INTTH > 0 ) IELES(I) = NELS
-       IF(MT.GT.0)THEN
-        DO JJ=1,8
-          JJJ=IXS(JJ+1,NELS)
-          XC(JJ)=X(1,JJJ)
-          YC(JJ)=X(2,JJJ)
-          ZC(JJ)=X(3,JJJ)
-        ENDDO
-        CALL VOLINT(VOL)
-        STF(I)=SLSFAC*FILLSOL(NELS)*AREA*AREA*PM(32,MT)/VOL
-       ELSE
-          IF(NINT.GE.0) THEN
-             CALL ANCMSG(MSGID=95,
-     .                   MSGTYPE=MSGWARNING,
-     .                   ANMODE=ANINFO_BLIND_2,
-     .                   I1=ID,
-     .                   C1=TITR,
-     .                   I2=IXS(NIXS,NELS),
-     .                   C2='SOLID',
-     .                   I3=I)
+             IF(NINT >= 0) THEN
+                CALL ANCMSG(MSGID=95,
+     .                      MSGTYPE=MSGWARNING,
+     .                      ANMODE=ANINFO_BLIND_2,
+     .                      I1=ID,
+     .                      C1=TITR,
+     .                      I2=IXTG(NIXTG,NELTG),
+     .                      C2='SHELL',
+     .                      I3=I)
+             ENDIF
+             IF(NINT < 0) THEN
+                CALL ANCMSG(MSGID=96,
+     .                      MSGTYPE=MSGWARNING,
+     .                      ANMODE=ANINFO_BLIND_2,
+     .                      I1=ID,
+     .                      C1=TITR,
+     .                      I2=IXTG(NIXTG,NELTG),
+     .                      C2='SHELL',
+     .                      I3=I)
+             ENDIF
           ENDIF
-          IF(NINT.LT.0) THEN 
-             CALL ANCMSG(MSGID=96,
-     .                   MSGTYPE=MSGWARNING,
-     .                   ANMODE=ANINFO_BLIND_2,
-     .                   I1=ID,
-     .                   C1=TITR,
-     .                   I2=IXS(NIXS,NELS),
-     .                   C2='SOLID',
-     .                   I3=I)
-          ENDIF
-       ENDIF
-
-C -----Friction model ------
-        IF(INTFRIC > 0) THEN
-           IP= IPARTS(NELS)
-           IPG = TAGPRT_FRIC(IP)
-           IF(IPG > 0) THEN
-            CALL FRICTION_PARTS_SEARCH (
-     .                     IPG,INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC,
-     .                     INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL ) 
-            IPARTFRICM(INRT) = IPL
-           ENDIF
-        ENDIF
-C----------------------------------
-      ENDIF
-C---------------------
-C     ELEMENTS COQUES
-C---------------------
-      CALL INCOQ3(IRECT,IXC ,IXTG ,NINT ,NELC     ,
-     .            NELTG,INRT,GEO  ,PM   ,KNOD2ELC ,
-     .            KNOD2ELTG ,NOD2ELC ,NOD2ELTG,THK,NTY,
-     .            IGEO , PM_STACK , IWORKSH )
-      IF(NELTG.NE.0) THEN
-C
-        MT=IXTG(1,NELTG)
-        MG=IXTG(5,NELTG)
-        IGTYP = IGEO(11,MG)
-        IGMAT = IGEO(98,MG)
-        IP = IPARTTG(NELTG)
-	IF ( THK_PART(IP) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
-	  DX=THK_PART(IP)*GAPSCALE
-        ELSEIF ( THK(NUMELC+NELTG) .NE. ZERO .AND. IINTTHICK .EQ. 0)THEN
-	  DX=THK(NUMELC+NELTG)*GAPSCALE
-        ELSEIF(IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
-          DX=THK(NUMELC+NELTG)*GAPSCALE
-	ELSE
-          DX=GEO(1,MG)*GAPSCALE
-	ENDIF
-        GAPM=HALF*DX
-        GAPM_MX=MAX(GAPM_MX,GAPM)
-        GAPMN = MIN(GAPMN,DX)
-        DXM=DXM+DX
-        NDX=NDX+1
-        IF(MT.GT.0)THEN
-         IF(IGTYP  == 11 .AND. IGMAT > 0) THEN
-          IF(SLSFAC .LT. ZERO)THEN
-            STF(I)=-SLSFAC
-	  ELSEIF ( THK(NUMELC+NELTG) .NE. ZERO 
-     .                              .AND. IINTTHICK .EQ. 0) THEN 
-	    STF(I)=SLSFAC*THK(NUMELC+NELTG)*GEO(IPGMAT + 2 ,MG)
-	  ELSE
-            STF(I)=SLSFAC*GEO(1,MG)*GEO(IPGMAT + 2 ,MG)
-	  ENDIF
-         ELSEIF(IGTYP == 52 .OR. 
-     .           ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0))THEN
-           ISUBSTACK = IWORKSH(3,NUMELC+NELTG)
-           IF(SLSFAC .LT. ZERO)THEN
-            STF(I)=-SLSFAC
-	  ELSE
-	    STF(I)=SLSFAC*THK(NUMELC+NELTG)*PM_STACK(2 ,ISUBSTACK)
-	  ENDIF  
-         ELSE
-          IF(SLSFAC .LT. ZERO)THEN
-            STF(I)=-SLSFAC
-	  ELSEIF ( THK(NUMELC+NELTG) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN 
-	    STF(I)=SLSFAC*THK(NUMELC+NELTG)*PM(20,MT)
-	  ELSE
-            STF(I)=SLSFAC*GEO(1,MG)*PM(20,MT)
-	  ENDIF
-         ENDIF  
-        ELSE
-           IF(NINT.GE.0) THEN
-              CALL ANCMSG(MSGID=95,
-     .                    MSGTYPE=MSGWARNING,
-     .                    ANMODE=ANINFO_BLIND_2,
-     .                    I1=ID,
-     .                    C1=TITR,
-     .                    I2=IXTG(NIXTG,NELTG),
-     .                    C2='SHELL',
-     .                    I3=I)
-           ENDIF
-           IF(NINT.LT.0) THEN
-              CALL ANCMSG(MSGID=96,
-     .                    MSGTYPE=MSGWARNING,
-     .                    ANMODE=ANINFO_BLIND_2,
-     .                    I1=ID,
-     .                    C1=TITR,
-     .                    I2=IXTG(NIXTG,NELTG),
-     .                    C2='SHELL',
-     .                    I3=I)
-           ENDIF
-        ENDIF
-
 C ----- Friction model ------
-        IF(INTFRIC > 0) THEN
-           IP= IPARTTG(NELTG)
-           IPG = TAGPRT_FRIC(IP)
-           IF(IP > 0) THEN
-            CALL FRICTION_PARTS_SEARCH (
-     .                     IPG,INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC,
-     .                     INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL )  
-            IPARTFRICM(INRT) = IPL
-           ENDIF
-        ENDIF
-C----------------------------------
-
-      ELSEIF(NELC.NE.0) THEN
-        MT=IXC(1,NELC)
-        MG=IXC(6,NELC)
-        IGTYP = IGEO(11,MG)
-        IGMAT = IGEO(98,MG)
-        IP = IPARTC(NELC)
-	IF ( THK_PART(IP) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
-	  DX=THK_PART(IP)*GAPSCALE
-        ELSEIF ( THK(NELC) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
-	  DX=THK(NELC)*GAPSCALE
-        ELSEIF(IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
-	  DX=THK(NELC)*GAPSCALE
-	ELSE
-          DX=GEO(1,MG)*GAPSCALE
-	ENDIF
-        GAPM=HALF*DX
-        GAPM_MX=MAX(GAPM_MX,GAPM)
-        GAPMN = MIN(GAPMN,DX)
-        DXM=DXM+DX
-        NDX=NDX+1
-        IF(MT.GT.0)THEN
-         IF(IGTYP  == 11 .AND. IGMAT > 0) THEN
-          IF(SLSFAC .LT. ZERO)THEN
-            STF(I)=-SLSFAC
-	  ELSEIF ( THK(NELC) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN 
-	    STF(I)=SLSFAC*THK(NELC)*GEO(IPGMAT + 2 ,MG)
-	  ELSE
-            STF(I)=SLSFAC*GEO(1,MG)*GEO(IPGMAT + 2 ,MG) 
+          IF(INTFRIC > 0) THEN
+             IP= IPARTTG(NELTG)
+             IPG = TAGPRT_FRIC(IP)
+             IF(IP > 0) THEN
+              CALL FRICTION_PARTS_SEARCH (
+     .                       IPG,INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC,
+     .                       INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL )  
+              IPARTFRICM(INRT) = IPL
+             ENDIF
           ENDIF
-         ELSEIF(IGTYP == 52 .OR. 
-     .           ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0))THEN
-           ISUBSTACK = IWORKSH(3,NELC)
-          IF(SLSFAC .LT. ZERO)THEN
-            STF(I)=-SLSFAC
-	  ELSE
-	    STF(I)=SLSFAC*THK(NELC)*PM_STACK(2 ,ISUBSTACK)
-          ENDIF          
-         ELSE
-          IF(SLSFAC .LT. ZERO)THEN
-            STF(I)=-SLSFAC
-	  ELSEIF ( THK(NELC) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN 
-	    STF(I)=SLSFAC*THK(NELC)*PM(20,MT)
-	  ELSE
-            STF(I)=SLSFAC*GEO(1,MG)*PM(20,MT)
-	  ENDIF
-         ENDIF 
-       ELSE
-           IF(NINT.GE.0) THEN
-              CALL ANCMSG(MSGID=95,
-     .                    MSGTYPE=MSGWARNING,
-     .                    ANMODE=ANINFO_BLIND_2,
-     .                    I1=ID,
-     .                    C1=TITR,
-     .                    I2=IXC(NIXC,NELC),
-     .                    C2='SHELL',
-     .                    I3=I)
-           ENDIF
-           IF(NINT.LT.0) THEN
-              CALL ANCMSG(MSGID=96,
-     .                    MSGTYPE=MSGWARNING,
-     .                    ANMODE=ANINFO_BLIND_2,
-     .                    I1=ID,
-     .                    C1=TITR,
-     .                    I2=IXC(NIXC,NELC),
-     .                    C2='SHELL',
-     .                    I3=I)
-           ENDIF
-        ENDIF
-C -----Friction model ------
-        IF(INTFRIC > 0) THEN
-           IP= IPARTC(NELC)
-           IPG = TAGPRT_FRIC(IP)
-           IF(IPG > 0) THEN
-            CALL FRICTION_PARTS_SEARCH (
-     .                     IPG,INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC,
-     .                     INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL ) 
-            IPARTFRICM(INRT) = IPL
-           ENDIF
-        ENDIF
 C----------------------------------
 
-      ENDIF
-      IF(IGAP/=0 .OR. (NTY/=7.AND.NTY/=20)) GAP_M(I)=GAPM
-C
-      IF(NELS+NELC+NELTG.EQ.0)THEN
-       IF (IMACH.NE.3) THEN
-         IF(NINT.GT.0) THEN
-            CALL ANCMSG(MSGID=92,
-     .                  MSGTYPE=MSGWARNING,
-     .                  ANMODE=ANINFO_BLIND_2,
-     .                  I1=ID,
-     .                  C1=TITR,
-     .                  I2=I)
+        !----------------!
+        !  NELC > 0      !
+        !----------------!
+        ELSEIF(NELC /= 0) THEN
+          MT=IXC(1,NELC)
+          MG=IXC(6,NELC)
+          IGTYP = IGEO(11,MG)
+          IGMAT = IGEO(98,MG)
+          IP = IPARTC(NELC)
+          IF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
+            DX=THK_PART(IP)*GAPSCALE
+          ELSEIF ( THK(NELC) /= ZERO .AND. IINTTHICK == 0) THEN
+            DX=THK(NELC)*GAPSCALE
+          ELSEIF(IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
+            DX=THK(NELC)*GAPSCALE
+          ELSE
+            DX=GEO(1,MG)*GAPSCALE
+          ENDIF
+          GAPM=HALF*DX
+          GAPM_MX=MAX(GAPM_MX,GAPM)
+          GAPMN = MIN(GAPMN,DX)
+          DXM=DXM+DX
+          NDX=NDX+1
+          IF(MT > 0)THEN
+            IF(IGTYP == 11 .AND. IGMAT > 0) THEN
+             IF(SLSFAC < ZERO)THEN
+               STF(I)=-SLSFAC
+             ELSEIF (THK(NELC) /= ZERO .AND. IINTTHICK == 0) THEN 
+               STF(I)=SLSFAC*THK(NELC)*GEO(IPGMAT + 2 ,MG)
+             ELSE
+               STF(I)=SLSFAC*GEO(1,MG)*GEO(IPGMAT + 2 ,MG) 
+             ENDIF
+            ELSEIF(IGTYP == 52 .OR. ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0))THEN
+              ISUBSTACK = IWORKSH(3,NELC)
+             IF(SLSFAC < ZERO)THEN
+               STF(I)=-SLSFAC
+             ELSE
+               STF(I)=SLSFAC*THK(NELC)*PM_STACK(2 ,ISUBSTACK)
+             ENDIF          
+            ELSE
+             IF(SLSFAC < ZERO)THEN
+               STF(I)=-SLSFAC
+             ELSEIF ( THK(NELC) /= ZERO .AND. IINTTHICK == 0) THEN 
+               STF(I)=SLSFAC*THK(NELC)*PM(20,MT)
+             ELSE
+               STF(I)=SLSFAC*GEO(1,MG)*PM(20,MT)
+             ENDIF
+            ENDIF 
+          ELSE
+            IF(NINT >= 0) THEN                     
+               CALL ANCMSG(MSGID=95,               
+     .                     MSGTYPE=MSGWARNING,     
+     .                     ANMODE=ANINFO_BLIND_2,  
+     .                     I1=ID,                  
+     .                     C1=TITR,                
+     .                     I2=IXC(NIXC,NELC),      
+     .                     C2='SHELL',             
+     .                     I3=I)                   
+            ENDIF                                  
+            IF(NINT < 0) THEN                      
+               CALL ANCMSG(MSGID=96,               
+     .                     MSGTYPE=MSGWARNING,     
+     .                     ANMODE=ANINFO_BLIND_2,  
+     .                     I1=ID,                  
+     .                     C1=TITR,                
+     .                     I2=IXC(NIXC,NELC),      
+     .                     C2='SHELL',             
+     .                     I3=I)                   
+            ENDIF                                  
+          ENDIF
+C -----Friction model ------
+          IF(INTFRIC > 0) THEN
+            IP= IPARTC(NELC)                                              
+            IPG = TAGPRT_FRIC(IP)                                         
+            IF(IPG > 0) THEN                                              
+              CALL FRICTION_PARTS_SEARCH (                                 
+     .                       IPG,INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC, 
+     .                       INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL )  
+              IPARTFRICM(INRT) = IPL                                       
+            ENDIF                                                         
+          ENDIF
+C----------------------------------
+        ENDIF
+        
+        IF(IGAP /= 0 .OR. (NTY /= 7 .AND. NTY /= 20)) GAP_M(I)=GAPM
+C----------------------------------
+
+        !---------------------------!
+        !  NELS+NELC+NELTG = 0      !
+        !---------------------------!
+        IF(NELS+NELC+NELTG == 0)THEN
+         IF (IMACH /= 3) THEN
+           IF(NINT > 0) THEN
+              CALL ANCMSG(MSGID=92,
+     .                    MSGTYPE=MSGWARNING,
+     .                    ANMODE=ANINFO_BLIND_2,
+     .                    I1=ID,
+     .                    C1=TITR,
+     .                    I2=I)
+           ENDIF
+           IF(NINT < 0) THEN
+              CALL ANCMSG(MSGID=93,
+     .                    MSGTYPE=MSGWARNING,
+     .                    ANMODE=ANINFO_BLIND_2,
+     .                    I1=ID,
+     .                    C1=TITR,
+     .                    I2=I)
+           ENDIF
+         ELSE
+C        SPMD EXCHANGE : if no element associated to the edge => error
+           IF(NINT > 0) THEN
+             CALL ANCMSG(MSGID=481,             
+     .                   MSGTYPE=MSGERROR,      
+     .                   ANMODE=ANINFO_BLIND_2, 
+     .                   I1=ID,                 
+     .                   C1=TITR,               
+     .                   I2=I)                  
+           ENDIF
+           IF(NINT < 0) THEN
+             CALL ANCMSG(MSGID=482,             
+     .                   MSGTYPE=MSGERROR,      
+     .                   ANMODE=ANINFO_BLIND_2, 
+     .                   I1=ID,                 
+     .                   C1=TITR,               
+     .                   I2=I)                  
+           ENDIF
          ENDIF
-         IF(NINT.LT.0) THEN
-            CALL ANCMSG(MSGID=93,
-     .                  MSGTYPE=MSGWARNING,
-     .                  ANMODE=ANINFO_BLIND_2,
-     .                  I1=ID,
-     .                  C1=TITR,
-     .                  I2=I)
-         ENDIF
-       ELSE
-C      en SPMD il faut un element associe a l'arrete sinon erreur
-         IF(NINT.GT.0) THEN
-            CALL ANCMSG(MSGID=481,
-     .                  MSGTYPE=MSGERROR,
-     .                  ANMODE=ANINFO_BLIND_2,
-     .                  I1=ID,
-     .                  C1=TITR,
-     .                  I2=I)
-         ENDIF
-         IF(NINT.LT.0) THEN
-            CALL ANCMSG(MSGID=482,
-     .                  MSGTYPE=MSGERROR,
-     .                  ANMODE=ANINFO_BLIND_2,
-     .                  I1=ID,
-     .                  C1=TITR,
-     .                  I2=I)
-         ENDIF
-       ENDIF
-      ENDIF
-  500 CONTINUE
+        ENDIF
+C----------------------------------        
+      ENDDO!next I=1,NRT
   
 C------------------------------------
 C     GAP STIF FACES MAIN IGE
 C------------------------------------
-      DO 600 I=NRT+1,NRT+NRT_IGE
-      STF(I)=ZERO
-      IF(INTTH > 0 ) IELES(I) = 0
-      IF(SLSFAC.LT.ZERO)STF(I)=SLSFAC
-      GAPM  =ZERO
-      INRT=I
-      CALL I4GMX3(X,IRECT,INRT,GAPMX)
-C------------------------------------
-C     ELEMENTS ISOGEOMETRIQUES
-C------------------------------------
-      CALL INELTIGEO(X      ,IRECT  ,IXS   ,NINT        ,NELIG3D      ,
-     .               INRT   ,AREA   ,NOINT ,0           ,IGRSURF%ELTYP_IGE,
-     .               IXIG3D ,KXIG3D ,IGEO  ,IGRSURF%ELEM_IGE)
-      IF(NELIG3D.NE.0)THEN
-c        print*,'NELIG3D', NELIG3D
-        MT=KXIG3D(1,NELIG3D)
-        IF(MT.GT.0)THEN
-         IPID = KXIG3D(2,NELIG3D)
-         PX = IGEO(41,IPID)-1
-         PY = IGEO(42,IPID)-1
-         PZ = IGEO(43,IPID)-1
-         COIN_IGE(1) = (PX+1)*PY+1
-         COIN_IGE(2) = (PX+1)*(PY+1)
-         COIN_IGE(3) = PX+1
-         COIN_IGE(4) = 1
-         COIN_IGE(5) = (PX+1)*(PY+1)*PZ+(PX+1)*PY+1
-         COIN_IGE(6) = (PX+1)*(PY+1)*(PZ+1)
-         COIN_IGE(7) = (PX+1)*(PY+1)*PZ+PX+1
-         COIN_IGE(8) = (PX+1)*(PY+1)*PZ+1
-         DO JJ=1,8
-          XC(JJ)=X(1,IXIG3D(KXIG3D(4,NELIG3D)+COIN_IGE(JJ)-1))
-          YC(JJ)=X(2,IXIG3D(KXIG3D(4,NELIG3D)+COIN_IGE(JJ)-1))
-          ZC(JJ)=X(3,IXIG3D(KXIG3D(4,NELIG3D)+COIN_IGE(JJ)-1))
-         END DO
-         CALL VOLINT(VOL)
-         STF(I)=SLSFAC*AREA*AREA*PM(32,MT)/VOL
-         STF(I)=STF(I)*((PX+1)*(PY+1)+(PY+1)*(PZ+1)+(PZ+1)*(PX+1))/3
-        ELSE
-         IF(NINT.GE.0) THEN
-            CALL ANCMSG(MSGID=95,
-     .                   MSGTYPE=MSGWARNING,
-     .                   ANMODE=ANINFO_BLIND_2,
-     .                   I1=ID,
-     .                   C1=TITR,
-     .                   I2=KXIG3D(5,NELIG3D),
-     .                   C2='ISOGEOMETRIC SOLID',
-     .                   I3=I)
-         ENDIF
-         IF(NINT.LT.0) THEN 
-            CALL ANCMSG(MSGID=96,
-     .                  MSGTYPE=MSGWARNING,
-     .                  ANMODE=ANINFO_BLIND_2,
-     .                  I1=ID,
-     .                  C1=TITR,
-     .                  I2=KXIG3D(5,NELIG3D),
-     .                  C2='ISOGEOMETRIC SOLID',
-     .                  I3=I)
+      DO I=NRT+1,NRT+NRT_IGE
+        STF(I)=ZERO
+        IF(INTTH > 0) IELES(I) = 0
+        IF(SLSFAC < ZERO)STF(I)=SLSFAC
+        GAPM =ZERO
+        INRT=I
+        CALL I4GMX3(X,IRECT,INRT,GAPMX)
+        !------------------------------------
+        !       ISOGEOMETRIC ELEMENTS
+        !------------------------------------
+        CALL INELTIGEO(X      ,IRECT  ,IXS   ,NINT        ,NELIG3D          ,
+     .                 INRT   ,AREA   ,NOINT ,0           ,IGRSURF%ELTYP_IGE,
+     .                 IXIG3D ,KXIG3D ,IGEO  ,IGRSURF%ELEM_IGE)
+        IF(NELIG3D /= 0)THEN
+          MT=KXIG3D(1,NELIG3D)
+          IF(MT > 0)THEN
+           IPID = KXIG3D(2,NELIG3D)
+           PX = IGEO(41,IPID)-1
+           PY = IGEO(42,IPID)-1
+           PZ = IGEO(43,IPID)-1
+           COIN_IGE(1) = (PX+1)*PY+1
+           COIN_IGE(2) = (PX+1)*(PY+1)
+           COIN_IGE(3) = PX+1
+           COIN_IGE(4) = 1
+           COIN_IGE(5) = (PX+1)*(PY+1)*PZ+(PX+1)*PY+1
+           COIN_IGE(6) = (PX+1)*(PY+1)*(PZ+1)
+           COIN_IGE(7) = (PX+1)*(PY+1)*PZ+PX+1
+           COIN_IGE(8) = (PX+1)*(PY+1)*PZ+1
+           DO JJ=1,8
+            XC(JJ)=X(1,IXIG3D(KXIG3D(4,NELIG3D)+COIN_IGE(JJ)-1))
+            YC(JJ)=X(2,IXIG3D(KXIG3D(4,NELIG3D)+COIN_IGE(JJ)-1))
+            ZC(JJ)=X(3,IXIG3D(KXIG3D(4,NELIG3D)+COIN_IGE(JJ)-1))
+           END DO
+           CALL VOLINT(VOL)
+           STF(I)=SLSFAC*AREA*AREA*PM(32,MT)/VOL
+           STF(I)=STF(I)*((PX+1)*(PY+1)+(PY+1)*(PZ+1)+(PZ+1)*(PX+1))/3
+          ELSE
+           IF(NINT >= 0) THEN
+              CALL ANCMSG(MSGID=95,
+     .                     MSGTYPE=MSGWARNING,
+     .                     ANMODE=ANINFO_BLIND_2,
+     .                     I1=ID,
+     .                     C1=TITR,
+     .                     I2=KXIG3D(5,NELIG3D),
+     .                     C2='ISOGEOMETRIC SOLID',
+     .                     I3=I)
+           ENDIF
+           IF(NINT < 0) THEN 
+              CALL ANCMSG(MSGID=96,
+     .                    MSGTYPE=MSGWARNING,
+     .                    ANMODE=ANINFO_BLIND_2,
+     .                    I1=ID,
+     .                    C1=TITR,
+     .                    I2=KXIG3D(5,NELIG3D),
+     .                    C2='ISOGEOMETRIC SOLID',
+     .                    I3=I)
+           ENDIF
+          ENDIF  
+        ELSEIF(NELIG3D == 0)THEN
+         IF (IMACH /= 3) THEN
+           IF(NINT > 0) THEN
+              CALL ANCMSG(MSGID=92,
+     .                    MSGTYPE=MSGWARNING,
+     .                    ANMODE=ANINFO_BLIND_2,
+     .                    I1=ID,
+     .                    C1=TITR,
+     .                    I2=I)
+           ENDIF
+           IF(NINT < 0) THEN
+              CALL ANCMSG(MSGID=93,
+     .                    MSGTYPE=MSGWARNING,
+     .                    ANMODE=ANINFO_BLIND_2,
+     .                    I1=ID,
+     .                    C1=TITR,
+     .                    I2=I)
+           ENDIF
+         ELSE
+C        SPMD : one element must be associated to the edge
+           IF(NINT > 0) THEN
+              CALL ANCMSG(MSGID=481,
+     .                    MSGTYPE=MSGERROR,
+     .                    ANMODE=ANINFO_BLIND_2,
+     .                    I1=ID,
+     .                    C1=TITR,
+     .                    I2=I)
+           ENDIF
+           IF(NINT < 0) THEN
+              CALL ANCMSG(MSGID=482,
+     .                    MSGTYPE=MSGERROR,
+     .                    ANMODE=ANINFO_BLIND_2,
+     .                    I1=ID,
+     .                    C1=TITR,
+     .                    I2=I)
+           ENDIF
          ENDIF
         ENDIF
-c        
-      ELSEIF(NELIG3D.EQ.0)THEN
-       IF (IMACH.NE.3) THEN
-         IF(NINT.GT.0) THEN
-            CALL ANCMSG(MSGID=92,
-     .                  MSGTYPE=MSGWARNING,
-     .                  ANMODE=ANINFO_BLIND_2,
-     .                  I1=ID,
-     .                  C1=TITR,
-     .                  I2=I)
-         ENDIF
-         IF(NINT.LT.0) THEN
-            CALL ANCMSG(MSGID=93,
-     .                  MSGTYPE=MSGWARNING,
-     .                  ANMODE=ANINFO_BLIND_2,
-     .                  I1=ID,
-     .                  C1=TITR,
-     .                  I2=I)
-         ENDIF
-       ELSE
-C      en SPMD il faut un element associe a l'arrete sinon erreur
-         IF(NINT.GT.0) THEN
-            CALL ANCMSG(MSGID=481,
-     .                  MSGTYPE=MSGERROR,
-     .                  ANMODE=ANINFO_BLIND_2,
-     .                  I1=ID,
-     .                  C1=TITR,
-     .                  I2=I)
-         ENDIF
-         IF(NINT.LT.0) THEN
-            CALL ANCMSG(MSGID=482,
-     .                  MSGTYPE=MSGERROR,
-     .                  ANMODE=ANINFO_BLIND_2,
-     .                  I1=ID,
-     .                  C1=TITR,
-     .                  I2=I)
-         ENDIF
-       ENDIF
-      ENDIF
-  600 CONTINUE
+      ENDDO!next I
       
 C---------------------------
 C     GAP 
 C---------------------------
-c       IF(IGAP.EQ.3)THEN
-c         GAPMX=SQRT(GAPMX)*PERCENT_SIZE
-c       ELSE
         GAPMX=SQRT(GAPMX)
-c       ENDIF
-       IF(IGAP.EQ.0)THEN
-C GAP FIXE
-         IF(GAP.LE.ZERO)THEN
-           IF(NDX.NE.0)THEN
+       IF(IGAP == 0)THEN
+C CONSTANT GAP
+         IF(GAP <= ZERO)THEN
+           IF(NDX  /= 0)THEN
              GAP = DXM/NDX
              GAP = MIN(HALF*GAPMX,GAP)
            ELSE
              GAP = EM01 * GAPMX
            ENDIF
-           IF (IT19.LE.0) WRITE(IOUT,1300)GAP
+           IF (IT19 <= 0 .AND. .NOT.TYPE18) WRITE(IOUT,1300)GAP
          ENDIF
          GAPMIN = GAP
         
-         IF (GAPMIN.LE.0) THEN
+         IF (GAPMIN <= 0) THEN
            CALL ANCMSG(MSGID=785,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO,
      .                 I1=ID,
      .                 C1=TITR)
          ENDIF
-         IF ((INACTI.NE.7).AND.(GAP.GT.0.5*GAPMX).AND.(IREM_GAP /= 2)) THEN
+         IF ((INACTI /= 7).AND.(GAP > 0.5*GAPMX) .AND. (IREM_GAP /= 2)) THEN
           GAPTMP = HALF*GAPMX
           CALL ANCMSG(MSGID=94,
      .                MSGTYPE=MSGWARNING,
@@ -1033,37 +1023,36 @@ C GAP FIXE
      .                R2=GAPTMP)
        ENDIF
        ELSE
-C GAP VARIABLE :
-C    - GAPMIN CONTIENT ONE GAP MINIMUM UTILISE SI GAP_S(I)+GAP_M(J) < GAPMIN
-C    - GAP CONTIENT LE SUP DE (GAP_S(I)+GAP_M(J),GAPMIN) 
-         IF(GAP.LE.ZERO)THEN
-           IF(NDX.NE.0)THEN
+C VARIABLE GAP:
+C    - GAPMIN IS ONE MINIMUM GAP USED IF GAP_S(I)+GAP_M(J) < GAPMIN
+C    - GAP IS MAX OF (GAP_S(I)+GAP_M(J),GAPMIN) 
+         IF(GAP <= ZERO)THEN
+           IF(NDX  /= 0)THEN
              GAPMIN = GAPMN
              GAPMIN = MIN(HALF*GAPMX,GAPMIN)
            ELSE
              GAPMIN = EM01 * GAPMX
            ENDIF
-           IF (GAPMIN.LE.0) THEN
+           IF (GAPMIN <= 0) THEN
              CALL ANCMSG(MSGID=786,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO,
      .                   I1=ID,
      .                   C1=TITR)
            ENDIF
-           IF (IT19.LE.0) WRITE(IOUT,1300)GAPMIN
+           IF (IT19 <= 0 .AND. .NOT.TYPE18) WRITE(IOUT,1300)GAPMIN
          ELSE
            GAPMIN = GAP
          ENDIF
-C SUP DES GAPS VARIABLES
-         IF( IGAP == 3) THEN
+C MAX OF VARIABLE GAPS
+         IF(IGAP == 3) THEN
            GAP = MAX( MIN(GAPS_MX+GAPM_MX,GAPS_L_MX+GAPM_L_MX) ,GAPMIN)
          ELSE
            GAP = MAX(GAPS_MX+GAPM_MX,GAPMIN)
          ENDIF
          GAP=MIN(GAP,GAPMAX)
-         IF ((IGAP .NE.3).AND.(IREM_GAP /= 2)) THEN
-           IF(INACTI.NE.7.AND.GAP.GT.HALF*GAPMX
-     .        .AND.  IDDLEVEL == 1)THEN
+         IF ((IGAP /= 3).AND.(IREM_GAP /= 2)) THEN
+           IF(INACTI /= 7.AND.GAP > HALF*GAPMX .AND. IDDLEVEL == 1)THEN
             GAPTMP = 0.5*GAPMX
             CALL ANCMSG(MSGID=477,
      .                  MSGTYPE=MSGWARNING,
@@ -1075,19 +1064,18 @@ C SUP DES GAPS VARIABLES
          ENDIF
        ENDIF
 C
-      IF(INTTH/=0)THEN
-        IF(DRAD.EQ.ZERO)THEN
-C Valeur par defaut de Drad = max( sup des gaps , largeur des elts )
+      IF(INTTH /= 0)THEN
+        IF(DRAD == ZERO)THEN
+C Default value : Drad = max( max of gaps , elem wide )
           DRAD=MAX(GAP,GAPMX)
-C je ne sais plus si cest necessaire au tri
-        ELSEIF(DRAD.LT.GAP)THEN
-C Drad est tjrs superieur au gap (sup des gaps si variable)
+        ELSEIF(DRAD < GAP)THEN
+C Drad is always greater than gap (max of gaps if gap is variable)
           DRAD=GAP
         END IF
         WRITE(IOUT,2001)DRAD
 
-Ce warning pour les performances du tri.
-        IF(DRAD.GT.GAPMX)THEN
+Ce warning for sorting algorithm (performance).
+        IF(DRAD > GAPMX)THEN
          CALL ANCMSG(MSGID=918,
      .               MSGTYPE=MSGWARNING,
      .               ANMODE=ANINFO_BLIND_2,
@@ -1101,34 +1089,32 @@ Ce warning pour les performances du tri.
 
 C -----Friction model  secnd nodes parts------
       IF(INTFRIC > 0) THEN
-        IF(NUMELS.NE.0)THEN
+        IF(NUMELS  /= 0)THEN
           DO I = 1,NSN   
              IPFMAX = 0
              IPFLMAX = 0
-
              DO J= KNOD2ELS(NSV(I))+1,KNOD2ELS(NSV(I)+1)
                IE = NOD2ELS(J)
                IP = IPARTS(IE)
                IPG = TAGPRT_FRIC(IP)
-               IF(IPG > 0.AND.IP.GT.IPFMAX) THEN
+               IF(IPG > 0 .AND. IP > IPFMAX) THEN
                   CALL FRICTION_PARTS_SEARCH (
      .                           IPG,INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC,
      .                           INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL ) 
-                  IF(IPL /=0) THEN
+                  IF(IPL /= 0) THEN
                      IPFMAX = IP
                      IPFLMAX = IPL
                   ENDIF
                ENDIF
             ENDDO
-C
-            IF(IPFMAX.NE.0) THEN
+            IF(IPFMAX /= 0) THEN
               IPARTFRICS(I) = IPFLMAX
             ENDIF
 
           ENDDO
         ENDIF  
 
-       IF(NUMELC.NE.0.OR.NUMELTG.NE.0) THEN
+       IF(NUMELC /= 0 .OR. NUMELTG  /= 0) THEN
           DO I = 1,NSN  
              IPFMAX = 0
              IPFLMAX = 0
@@ -1136,11 +1122,11 @@ C
                IE = NOD2ELC(J)
                IP = IPARTC(IE)
                IPG = TAGPRT_FRIC(IP)
-               IF(IPG > 0.AND.IP.GT.IPFMAX) THEN
+               IF(IPG > 0 .AND. IP > IPFMAX) THEN
                   CALL FRICTION_PARTS_SEARCH (
      .                           IPG,INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC,
      .                             INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL )  
-                  IF(IPL /=0) THEN
+                  IF(IPL /= 0) THEN
                      IPFMAX = IP
                      IPFLMAX = IPL
                   ENDIF
@@ -1151,18 +1137,18 @@ C
                IE = NOD2ELTG(J)
                IP = IPARTTG(IE)
                IPG = TAGPRT_FRIC(IP)
-               IF(IPG > 0.AND.IP.GT.IPFMAX) THEN
+               IF(IPG > 0.AND.IP > IPFMAX) THEN
                   CALL FRICTION_PARTS_SEARCH (
      .                           IPG,INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC,
      .                           INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL ) 
 
-                  IF(IPL /=0) THEN
+                  IF(IPL /= 0) THEN
                      IPFMAX = IP
                      IPFLMAX = IPL
                   ENDIF
                ENDIF
             ENDDO
-            IF(IPFMAX.NE.0) THEN
+            IF(IPFMAX /= 0) THEN
               IPARTFRICS(I) = IPFLMAX
             ENDIF
 
@@ -1172,20 +1158,19 @@ C
 C----------------------------------
 C
 C---------------------------------------------
-C     MISE A ONE DU MULTIPLICATEUR NODALE DES RIGIDITES 
+C     NODAL MULTIPLICATOR OF STIFFNESS : SET TO ONE
 C---------------------------------------------
-      DO 610 L=1,NSN
+      DO L=1,NSN
          STFN(L) = 1.
- 610  CONTINUE
+      ENDDO
 C
-C Calcul du gap reel a utiliser lors du critere de retri
+C Real gap to use for resorting criterion
 C
       BGAPSMX = ZERO
-      IF (IGAP.EQ.0) THEN
+      IF (IGAP == 0) THEN
         GAPINF=GAP
-CMAAAA        GAPINF=MAX(GAPINF,EM01*DRAD)   as Interface 21
       ELSE
-        GAPINF   = EP30
+        GAPINF = EP30
         GAPINF_S = EP30
         GAPINF_M = EP30
         DO I = 1, NSN
@@ -1197,7 +1182,6 @@ CMAAAA        GAPINF=MAX(GAPINF,EM01*DRAD)   as Interface 21
         ENDDO
         GAPINF=GAPINF_S+GAPINF_M
         GAPINF=MAX(GAPINF,GAPMIN)
-CMAAAA        GAPINF=MAX(GAPINF,EM01*DRAD)   as Interface 21
       ENDIF 
       DEALLOCATE( GAP_S_L_TMP )
       RETURN
@@ -1248,14 +1232,15 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IPMID ,IPI ,IPF ,IPLMID
-C
+C-----------------------------------------------
+C   S o u r c e   L i n e s
 C-----------------------------------------------
       IPL = 0
       IF (IP == PARTSFRIC(1)) THEN
           IPL = 1
       ELSEIF (IP == PARTSFRIC(NPARTSFRIC)) THEN
           IPL = NPARTSFRIC
-      ELSEIF(IP.GT. PARTSFRIC(1).AND.IP.LT.PARTSFRIC(NPARTSFRIC)) THEN
+      ELSEIF(IP > PARTSFRIC(1).AND.IP < PARTSFRIC(NPARTSFRIC)) THEN
          IPI = 1
          IPF = NPARTSFRIC 
           DO WHILE ((IPF-IPI) >= 1)

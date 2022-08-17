@@ -28,11 +28,22 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE INGRBRIC_DX(NBRIC, IBUFSSG, GLOBAL_GAP, IXS, X, NOINT, TITR, IS_GAP_COMPUTED, PM, RHO0,IDDLEVEL,ISTIFF, 
-     .                       AUTO_RHO, AUTO_LENGTH)
-C-----------------------------------------------------------------------
-C Extract mesh size from group
-C-----------------------------------------------------------------------
+      SUBROUTINE INGRBRIC_DX(NBRIC   , IBUFSSG   , GLOBAL_GAP     , IXS        ,    X,  
+     .                       NOINT   , TITR      , IS_GAP_COMPUTED,  PM        , RHO0,
+     .                       IDDLEVEL, ISTIFF    , AUTO_RHO       , AUTO_LENGTH, IGAP)
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C This subroutine is computing mesh size from the brick group which is
+C related to interface type 18. A gap value is then set consequently.
+C
+C A check is also introduced about aspect ratio 
+C because 
+C  - in this case it is not obvious to determine if computed gap is the expected one
+C  - it is recommended to use uniform mesh size with colocated scheme : ie law151
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -51,13 +62,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(IN)    :: NBRIC, NOINT, IDDLEVEL,ISTIFF
-      INTEGER,INTENT(IN)    :: IBUFSSG(*), IXS(NIXS,*)
+      INTEGER,INTENT(IN)    :: NBRIC, NOINT, IDDLEVEL,ISTIFF,IGAP
+      INTEGER,INTENT(IN)    :: IBUFSSG(*), IXS(NIXS,NUMELS)
       my_real,INTENT(INOUT) :: GLOBAL_GAP
       my_real,INTENT(IN)    :: X(3,NUMNOD)
       CHARACTER*nchartitle,INTENT(IN) :: TITR
       LOGICAL, INTENT(INOUT) :: IS_GAP_COMPUTED
-      my_real , INTENT(IN)    :: PM(NPROPM,*)
+      my_real , INTENT(IN)    :: PM(NPROPM,NUMMAT)
       my_real, INTENT(INOUT) :: RHO0, AUTO_RHO, AUTO_LENGTH
 C-----------------------------------------------
 C   L o c a l   V a r a i b l e s
@@ -85,7 +96,7 @@ C-----------------------------------------------
       !-----------------------------------------
       ! COMPUTE GLOBAL GAP
       !-----------------------------------------
-      IF(GLOBAL_GAP == ZERO)THEN
+      IF(GLOBAL_GAP == ZERO .AND. IGAP == 0)THEN
         DIAG_MAX = EM20
         DO I=1,NBRIC
           IE = IBUFSSG(I)
