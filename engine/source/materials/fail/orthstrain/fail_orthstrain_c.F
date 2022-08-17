@@ -133,14 +133,14 @@ C-----------------------------------------------
 C=======================================================================
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
-      DMG_FLAG = INT(UPARAM(1))
-      PTHKF  = UPARAM(2)
-      ALPHA  = UPARAM(16)
-      EPSPREF= UPARAM(17)
+      DMG_FLAG   = INT(UPARAM(1))
+      PTHKF      = UPARAM(2)
+      ALPHA      = MIN(TWO*PI*UPARAM(16)*TIMESTEP,ONE)
+      EPSPREF    = UPARAM(17)
       FSCALE_SIZ = UPARAM(26)
       REF_SIZ    = UPARAM(27)
       STRDEF     = NINT(UPARAM(28))
-      IFUNC_SIZ = IFUNC(13)
+      IFUNC_SIZ  = IFUNC(13)
 c
 c     et1  = mode1 , et2  = mode 2, ec1 = mode 3, ec2 = mode 4, 
 c     et12 = mode 5, ec12 = mode 6
@@ -161,14 +161,14 @@ c-------------------
         IF (ISMSTR == 1 .OR. ISMSTR == 3 .OR. ISMSTR == 11) THEN
           STRFLAG = 3
         END IF
-      END IF           
+      END IF     
 c--------------------------
       SELECT CASE (STRFLAG)
 c
         CASE (2)  !  transform true strain to engineering
           DO I=1,NEL
             IF (OFF(I) == ONE ) THEN
-              THETA  = HALF*ATAN(EPSXY(I) / (EPSXX(I)-EPSYY(I)))
+              THETA  = HALF*ATAN(EPSXY(I) / MAX((EPSXX(I)-EPSYY(I)),EM20))
               C = COS(THETA)
               S = SIN(THETA)
 c             strain principal + transformation              
@@ -190,14 +190,14 @@ c             strain rate
               EPSD2  = (ONE+EPST2)*EPSD2
               EPSP11(I) = C*C*EPSD1 + S*S*EPSD2
               EPSP22(I) = S*S*EPSD1 + C*C*EPSD2
-              EPSP12(I) = S*C*(EPSD2 - EPSD1)  
+              EPSP12(I) = S*C*(EPSD2 - EPSD1) 
             END IF
           ENDDO
 c
         CASE (3)  !  transform engineering to true strain
           DO I=1,NEL
             IF (OFF(I) == ONE ) THEN
-              THETA  = HALF*ATAN(EPSXY(I) / (EPSXX(I)-EPSYY(I)))
+              THETA  = HALF*ATAN(EPSXY(I) / MAX((EPSXX(I)-EPSYY(I)),EM20))
               C = COS(THETA)
               S = SIN(THETA)
 c             strain principal + transformation              
@@ -231,21 +231,21 @@ c
            EPSP11(1:NEL) = EPSPXX(1:NEL)
            EPSP22(1:NEL) = EPSPYY(1:NEL)
            EPSP12(1:NEL) = HALF*EPSPXY(1:NEL)
-      END SELECT
+      END SELECT 
 c----------------------------------------------
 c     Element size scale factor
       FSIZE => UVAR(1:NEL,32)
 c
       IF (TIME == ZERO) THEN
         IF (IFUNC_SIZ > 0) THEN
-	         ESCAL(1:NEL) = FSCALE_SIZ * ALDT(1:NEL) / REF_SIZ
+	        ESCAL(1:NEL) = ALDT(1:NEL) / REF_SIZ
           IPOSP(1:NEL) = 0
           IADP (1:NEL) = NPF(IFUNC_SIZ) / 2 + 1
           ILENP(1:NEL) = NPF(IFUNC_SIZ  + 1) / 2 - IADP(1:NEL)
-c
           CALL VINTER2(TF,IADP,IPOSP,ILENP,NEL,ESCAL,DYDXE,FSIZE)
+          FSIZE(1:NEL) = FSCALE_SIZ * FSIZE(1:NEL)
         ELSE
-	         FSIZE(1:NEL) = ONE
+	        FSIZE(1:NEL) = ONE
         ENDIF
       ENDIF
 c
@@ -313,7 +313,7 @@ c
           ELSE
             FRATE = ONE
           ENDIF
-		        FRATE = FRATE*FSIZE(I)
+		      FRATE = FRATE*FSIZE(I)
           ET1M = FRATE * ET1M
           ET1  = FRATE * ET1
           DEPS = EPS11(I) - ET1

@@ -127,8 +127,8 @@ C-----------------------------------------------
      .         EPSPTENS(3,3),EPSPTENS2(3,3),EPSP_PR(3)
       INTEGER  NROT,K,L,M
 C=======================================================================
-      ALPHA  = UPARAM(16)
-      EPSPREF= UPARAM(17)
+      ALPHA      = MIN(TWO*PI*UPARAM(16)*TIMESTEP,ONE)
+      EPSPREF    = UPARAM(17)
       FSCALE_SIZ = UPARAM(26)
       REF_SIZ    = UPARAM(27)
       STRDEF     = NINT(UPARAM(28))
@@ -145,7 +145,7 @@ c-------------------
         IF (ISMSTR == 1 .OR. ISMSTR == 3 .OR. ISMSTR == 11) THEN
           STRFLAG = 3
         END IF
-      END IF           
+      END IF         
 c--------------------------
       SELECT CASE (STRFLAG)
 c
@@ -359,14 +359,14 @@ c
 c------------------------------
 c     Element size scale factor
       IF (IFUNC_SIZ > 0) THEN
-	       ESCAL(1:NEL) = FSCALE_SIZ * DELTAX(1:NEL) / REF_SIZ
+	      ESCAL(1:NEL) = DELTAX(1:NEL) / REF_SIZ
         IPOSP(1:NEL) = NINT(UVAR(1:NEL,32))
         IADP (1:NEL) = NPF(IFUNC_SIZ) / 2 + 1
         ILENP(1:NEL) = NPF(IFUNC_SIZ  + 1) / 2 - IADP(1:NEL) - IPOSP(1:NEL)
-c
         CALL VINTER2(TF,IADP,IPOSP,ILENP,NEL,ESCAL,DYDX,FSIZE)
+        FSIZE(1:NEL) = FSCALE_SIZ * FSIZE(1:NEL)
       ELSE
-	       FSIZE(1:NEL) = ONE
+	      FSIZE(1:NEL) = ONE
       ENDIF
 c------------------------------
 c

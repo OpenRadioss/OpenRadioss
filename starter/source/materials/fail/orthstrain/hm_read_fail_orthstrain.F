@@ -95,12 +95,12 @@ C MODIFIED ARGUMENT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IDAM,ISOLID,NCYCLE,FT1,FT2,FT12,FC1,FC2,FC12,STRDEF
+      INTEGER IDAM,ISOLID,FT1,FT2,FT12,FC1,FC2,FC12,STRDEF
       my_real 
      .    EPSPREF,ET1,ET2,ET12,EC1,EC2,EC12,ET3,EC3,EC23,ET23,EC31,ET31,
      .    ET1M,ET2M,ET12M,EC1M,EC2M,EC12M,ET3M,EC3M,EC23M,ET23M,EC31M,ET31M,
      .    FAC_M,FAC_L,FAC_T,FAC_E,PTHK,ALPHA,FSCALE_SIZ,REF_SIZ,
-     .    EPSPREF_UNIT,FSCAL_UNIT,REF_SIZ_UNIT
+     .    EPSPREF_UNIT,FSCAL_UNIT,REF_SIZ_UNIT,FCUT
       LOGICAL :: IS_AVAILABLE,IS_CRYPTED
 C=======================================================================
       IS_CRYPTED   = .FALSE.
@@ -116,7 +116,7 @@ C--------------------------------------------------
       CALL HM_GET_INTV           ('Strdef'           ,STRDEF        ,IS_AVAILABLE,LSUBMODEL)
 c
       CALL HM_GET_FLOATV         ('Epsilon_Dot_ref'  ,EPSPREF       ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_INTV           ('Fcut'             ,NCYCLE        ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_FLOATV         ('Fcut'             ,FCUT          ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_INTV           ('fct_IDel'         ,IFUNC(13)     ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV         ('Fscale_el'        ,FSCALE_SIZ    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV         ('EI_ref'           ,REF_SIZ       ,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -194,8 +194,7 @@ c-----------------------------------------------------
       IF (EC3   == ZERO) EC3 = ET3
       IF (EC3M  == ZERO) EC3M = 1.2*EC3
       IF (PTHK  == ZERO) PTHK = ONE
-      IF (NCYCLE == 0)   NCYCLE = 12
-      ALPHA = ONE / (NCYCLE + 1)
+      IF (FCUT  == ZERO) FCUT = 10000.0D0*FAC_T_WORK
 !
       IDAM = 0
       ISOLID = 0
@@ -219,7 +218,7 @@ C
       UPARAM(13)  = ET12M
       UPARAM(14)  = EC12
       UPARAM(15)  = EC12M
-      UPARAM(16)  = ALPHA   ! strain rate filtering coefficient
+      UPARAM(16)  = FCUT
       UPARAM(17)  = EPSPREF
       UPARAM(18)  = ET3
       UPARAM(19)  = ET3M
@@ -244,7 +243,7 @@ c-----------------------------------------------------
       IF (IS_CRYPTED) THEN
         WRITE(IOUT, 1000)
        ELSE
-        WRITE(IOUT, 1000) FAIL_ID,PTHK,STRDEF,EPSPREF,NCYCLE,
+        WRITE(IOUT, 1000) FAIL_ID,PTHK,STRDEF,EPSPREF,FCUT,
      .     IFUNC(13),FSCALE_SIZ,REF_SIZ,
      .     ET1,ET1M,IFUNC(1)   ,EC1,EC1M,IFUNC(4),
      .     ET2,ET2M,IFUNC(2)   ,EC2,EC2M,IFUNC(5),
@@ -264,7 +263,7 @@ c-----------------------------------------------------
      & 5X,' =2 (ENGINEERING STRAIN) . . . . . . . . ',/                
      & 5X,' =3 (TRUE STRAIN). . . . . . . . . . . . ',/                 
      & 5X,'REFERENCE STRAIN RATE . . . . . . . . . =',E12.4/,
-     & 5X,'STRAIN RATE FILTERING PERIOD IN CYCLES. =',I10/,
+     & 5X,'STRAIN RATE FILTERING FREQUENCY . . . . =',E12.4/,
      & 5X,'ELEMENT SIZE FACTOR FUNCTION. . . . . . =',I10/, 
      & 5X,'SCALE FACTOR OF ELEMENT SIZE FUNCTION . =',E12.4/,
      & 5X,'REFERENCE ELEMENT SIZE. . . . . . . . . =',E12.4/,
