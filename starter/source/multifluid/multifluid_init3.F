@@ -214,9 +214,9 @@ C-----JAC_I [J]^-1 is calculated in global system
      .        X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
      .        Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
      .        Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8   ,
-     .        GBUF%JAC_I ,NEL)
+     .        GBUF%JAC_I)
       END IF
-C Orthotropy wrt reference geometry
+C     lm   Orthotropy wrt reference geometry
       IF (JCVT == 0) THEN
          CALL SCOOR3(X,XREFS(1,1,NF1),IXS(1,NF1),GEO  ,MAT  ,PID  ,NGL  ,
      .        IX1  ,IX2  ,IX3  ,IX4  ,IX5  ,IX6  ,IX7  ,IX8  ,
@@ -257,13 +257,12 @@ C-----------
 
       CALL SDERI3(
      .     GBUF%VOL ,DUMMY  ,GEO  ,IGEO ,
-     .     XD1  ,XD2  ,XD3  ,XD4  ,XD5  ,XD6  ,XD7  ,XD8  ,
-     .     YD1  ,YD2  ,YD3  ,YD4  ,YD5  ,YD6  ,YD7  ,YD8  ,
-     .     ZD1  ,ZD2  ,ZD3  ,ZD4  ,ZD5  ,ZD6  ,ZD7  ,ZD8  ,
+     .     XD1  ,XD2  ,XD3  ,XD4  ,XD5  ,XD6  ,XD7  ,XD8   ,
+     .     YD1  ,YD2  ,YD3  ,YD4  ,YD5  ,YD6  ,YD7  ,YD8   ,
+     .     ZD1  ,ZD2  ,ZD3  ,ZD4  ,ZD5  ,ZD6  ,ZD7  ,ZD8   ,
      .     RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,NGL  ,PID  ,
      .     PX1  ,PX2  ,PX3  ,PX4  ,PY1  ,PY2  ,PY3  ,PY4  ,
-     .     PZ1  ,PZ2  ,PZ3  ,PZ4  ,VOLU ,VOLDP,NEL  ,JEUL ,
-     .     NXREF,IMULTI_FVM )
+     .     PZ1  ,PZ2  ,PZ3  ,PZ4, VOLU  ,VOLDP)
       CALL SDLEN3(
      .     X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
      .     Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
@@ -302,7 +301,7 @@ C     Fill partial volumes
 
          MATLAW = IPM(2, MAT(1))
          IF (MATLAW .EQ. 5) THEN
-! JWL material
+! JWL MAT
             IF (.NOT. ERROR_THROWN) THEN
                IF (PM(44, MAT(1)) .EQ. ZERO) THEN
                   CALL ANCMSG(MSGID = 1623, MSGTYPE = MSGERROR, ANMODE = ANINFO, 
@@ -341,13 +340,13 @@ C      Temperature globalization. We must solve later T such as e+p/rho=integral
 
       ENDIF
 C----------------------------------------
-C Thermal and turbulence initialization 
+C     INITIALISATION DE LA THERMIQUE ET TURBULENCE
 C----------------------------------------
       IF(JTHE /=0) CALL ATHERI(MAT,PM  ,GBUF%TEMP)
       IF(JTUR /=0) CALL ATURI3(IPARG   ,GBUF%RHO,PM,IXS,X,
      .     GBUF%RK ,GBUF%RE,VOLU)
 C----------------------------------------
-C Masses initialization
+C     INITIALISATION DES MASSES
 C----------------------------------------
       IF(JLAG+JALE+JEUL.NE.0) THEN
          CALL SMASS3(
@@ -359,7 +358,7 @@ C----------------------------------------
      .        IX1, IX2, IX3, IX4, IX5, IX6, IX7, IX8)
       ENDIF
 C------------------------------------------
-C Element time steps
+C     CALCUL DES DT ELEMENTAIRES
 C------------------------------------------
       AIRE(:) = ZERO
       CALL DTMAIN(GEO      , PM       , IPM        , PID    , MAT    , FV    ,

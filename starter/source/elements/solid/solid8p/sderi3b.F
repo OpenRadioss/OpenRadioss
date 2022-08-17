@@ -33,7 +33,7 @@ Chd|====================================================================
      .              X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
      .              Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
      .              Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8   ,
-     .              DET, DELTAX,NEL  ,JEUL )
+     .              DET, DELTAX)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -43,6 +43,9 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
+C   A n a l y s e   M o d u l e
+C-----------------------------------------------
+C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
@@ -50,11 +53,14 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
+#include      "com06_c.inc"
+#include      "units_c.inc"
+#include      "vect01_c.inc"
 #include      "pt8_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER :: IGEO(NPROPGI,*),NGL(*),NGEO(*),LVLOC,NEL,JEUL
+      INTEGER IGEO(NPROPGI,*),NGL(*),NGEO(*),LVLOC
       my_real
      .   VOL(*),DET(*), VEUL(LVLOC,*),GEO(NPROPG,*),
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*), 
@@ -97,7 +103,7 @@ C-----------------------------------------------
       my_real
      .   PORO, SMAX, VMIN, XX1, YY1, ZZ1, XX2, YY2, ZZ2, XX3, YY3, ZZ3       
 C=======================================================================
-      DO I=1,NEL
+      DO I=LFT,LLT
         X12(I)=X1(I)-X2(I)
         X34(I)=X3(I)-X4(I)
         X56(I)=X5(I)-X6(I)
@@ -149,11 +155,12 @@ C
 
       DO JPT=1,8
         IPT=JPT
-C Loop on integration points
-C Get basis functions for integration point IPT
+C
+C     GET BASIS FUNCTIONS FOR THE CURRENT INTEGRATION POINT
+C
         CALL BASISF (H,P11,P21,P31,IPT)
 C
-        DO I=1,NEL
+        DO I=LFT,LLT
           AJ11(I)=P11*X12(I)+P13*X34(I)+P15*X56(I)+P17*X78(I)
           AJ12(I)=P11*Y12(I)+P13*Y34(I)+P15*Y56(I)+P17*Y78(I)
           AJ13(I)=P11*Z12(I)+P13*Z34(I)+P15*Z56(I)+P17*Z78(I)
@@ -165,14 +172,14 @@ C
           AJ33(I)=P31*Z15(I)+P32*Z26(I)+P33*Z37(I)+P34*Z48(I)
         ENDDO
 C
-        DO I=1,NEL
+        DO I=LFT,LLT
           AI11(I)= AJ22(I)*AJ33(I)-AJ23(I)*AJ32(I)
           AI21(I)=-AJ21(I)*AJ33(I)+AJ23(I)*AJ31(I)
           AI31(I)= AJ21(I)*AJ32(I)-AJ22(I)*AJ31(I)
           VLINC(I,JPT)=AJ11(I)*AI11(I)+AJ12(I)*AI21(I)+AJ13(I)*AI31(I)
         ENDDO
 C
-        DO I=1,NEL
+        DO I=LFT,LLT
           IF(VLINC(I,JPT).GT.ZERO) CYCLE
           CALL ANCMSG(MSGID=245,
      .                MSGTYPE=MSGERROR,
@@ -180,7 +187,7 @@ C
      .                I1=NGL(I))
         ENDDO
 C
-        DO I=1,NEL
+        DO I=LFT,LLT
           VLINV(I)=ONE/VLINC(I,JPT)
           AI11(I)=VLINV(I)*AI11(I)
           AI21(I)=VLINV(I)*AI21(I)
@@ -193,7 +200,7 @@ C
           AI33(I)=VLINV(I)*( AJ11(I)*AJ22(I)-AJ12(I)*AJ21(I))
         ENDDO
 C
-        DO I=1,NEL
+        DO I=LFT,LLT
           A1111(I)=AI11(I)*P11
           A1113(I)=AI11(I)*P13
           A1115(I)=AI11(I)*P15
@@ -214,7 +221,7 @@ C
           A2222(I)=AI22(I)*P22
         ENDDO
 C
-        DO I=1,NEL
+        DO I=LFT,LLT
           A2225(I)=AI22(I)*P25
           A2226(I)=AI22(I)*P26
           A3221(I)=AI32(I)*P21
@@ -235,7 +242,7 @@ C
           A3334(I)=AI33(I)*P34
         ENDDO
 C
-        DO I=1,NEL
+        DO I=LFT,LLT
           PX1(I)= A1111(I)+A1221(I)+A1331(I)
           PX2(I)=-A1111(I)+A1222(I)+A1332(I)
           PX3(I)= A1113(I)-A1222(I)+A1333(I)
@@ -262,7 +269,7 @@ C
           PZ8(I)=-A3117(I)-A3225(I)-A3334(I)
         ENDDO
 C
-        DO I=1,NEL
+        DO I=LFT,LLT
           DET(I)=DET(I)+VLINC(I,JPT)
           VEUL(1,I)=PX1(I)*VLINC(I,JPT)+VEUL(1,I)
           VEUL(2,I)=PX2(I)*VLINC(I,JPT)+VEUL(2,I)
@@ -300,7 +307,7 @@ C
 C
       ENDDO !JPT=1,8
 C
-      DO I=1,NEL
+      DO I=LFT,LLT
         XX1 = X1(I) + X2(I) + X3(I) + X4(I)
      .      - X5(I) - X6(I) - X7(I) - X8(I)
         YY1 = Y1(I) + Y2(I) + Y3(I) + Y4(I)
@@ -335,29 +342,29 @@ C surface * 16
       ENDDO
 C
       DO J=1,12
-        DO I=1,NEL
+        DO I=LFT,LLT
           VEUL(J,I)=VEUL(J,I)/DET(I)
         ENDDO
       ENDDO
 C
       DO J=32,43
-        DO I=1,NEL
+        DO I=LFT,LLT
           VEUL(J,I)=VEUL(J,I)/DET(I)
         ENDDO
       ENDDO
 C
-      DO I=1,NEL
+      DO I=LFT,LLT
         VOL(I)=DET(I)
       ENDDO
 C      
       IF(JEUL /= 0)THEN
-        DO I=1,NEL      
+        DO I=LFT,LLT      
           VEUL(52,I) = VOL(I)
         ENDDO
       ENDIF          
 C
-      IF (NINT(GEO(12,NGEO(1))) == 15) THEN
-        DO I=1,NEL
+      IF (NINT(GEO(12,NGEO(LFT))) == 15) THEN
+        DO I=LFT,LLT
           PORO=GEO(1,NGEO(I))      
           VEUL(44,I)=VEUL(44,I)*PORO
           VEUL(45,I)=VEUL(45,I)*PORO

@@ -60,7 +60,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SINIT3(ELBUF_STR,MAS      ,IXS    ,PM      ,X       ,
-     .                  DETONATORS,GEO     ,VEUL   ,ALE_CONNECTIVITY ,IPARG_GR,
+     .                  DETONATORS,GEO      ,VEUL   ,ALE_CONNECTIVITY ,IPARG_GR,
      .                  DTELEM   ,SIGI     ,NEL    ,SKEW    ,IGEO    ,
      .                  STIFN    ,PARTSAV  ,V      ,IPARTS  ,MSS     ,
      .                  IPART    ,SIGSP    ,NG     ,IPARG   ,
@@ -156,8 +156,10 @@ C-----------------------------------------------
      .   PY1(MVSIZ),PY2(MVSIZ),PY3(MVSIZ),PY4(MVSIZ),
      .   PZ1(MVSIZ),PZ2(MVSIZ),PZ3(MVSIZ),PZ4(MVSIZ),
      .   RHOF(MVSIZ),ALPHA(MVSIZ), AIRE(1),RHO0(MVSIZ)
-      my_real :: BID, FV, STI
-      my_real :: DELTAX(MVSIZ)
+      my_real
+     .   BID, FV, STI
+      my_real
+     .     DELTAX(MVSIZ)
       DOUBLE PRECISION 
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
      .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ),
@@ -166,7 +168,8 @@ C-----------------------------------------------
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ),
      .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ)     
 C-----------------------------------------------
-      CHARACTER*nchartitle, TITR1
+      CHARACTER*nchartitle,
+     .   TITR1
 C
       PARAMETER (LVLOC = 51)
 C-----------------------------------------------
@@ -175,7 +178,8 @@ C-----------------------------------------------
       TYPE(BUF_MAT_) ,POINTER :: MBUF
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(BUF_FAIL_) ,POINTER:: FBUF
-      my_real, DIMENSION(:), POINTER  :: UVARF    
+      my_real,
+     .  DIMENSION(:), POINTER  :: UVARF    
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C=======================================================================
@@ -205,16 +209,16 @@ c
 C
       IBOLTP = IPARG_GR(72)  !Bolt preloading
 C
-      DO I=1,NEL
+      DO I=LFT,LLT
         RHOCP(I) =  PM(69,IXS(1,NFT+I))
         TEMP0(I) =  PM(79,IXS(1,NFT+I))
         RHO0(I) =   PM(1,IXS(1,NFT+I))
-C For air + foam
+C for air + foam
          RHOF(I) =  PM(192,IXS(1,NFT+I))
          ALPHA(I) = PM(193,IXS(1,NFT+I))
       ENDDO
+C-----JAC_I [J]^-1 is calculated in global system
       IF (ISMSTR==10.OR.ISMSTR==12) THEN
-C Total Lagrange simulation
         CALL SCOOR3(X,XREFS(1,1,NF1),IXS(1,NF1),GEO  ,MAT  ,PID  ,NGL  ,
      .           IX1  ,IX2  ,IX3  ,IX4  ,IX5  ,IX6  ,IX7  ,IX8  ,
      .           X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
@@ -226,14 +230,13 @@ C Total Lagrange simulation
      .           XD1  ,XD2  ,XD3  ,XD4  ,XD5  ,XD6  ,XD7  ,XD8   ,
      .           YD1  ,YD2  ,YD3  ,YD4  ,YD5  ,YD6  ,YD7  ,YD8   ,
      .           ZD1  ,ZD2  ,ZD3  ,ZD4  ,ZD5  ,ZD6  ,ZD7  ,ZD8   )
-C JAC_I : [J]^-1 is calculated in global system
         CALL SJAC_I(
      .              X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
      .              Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
      .              Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8   ,
-     .              GBUF%JAC_I ,NEL)
+     .              GBUF%JAC_I)
       END IF
-C Orthotropy wrt reference geometry
+C     Orthotropy wrt reference geometry
       IF (JCVT == 0) THEN
         CALL SCOOR3(X,XREFS(1,1,NF1),IXS(1,NF1),GEO  ,MAT  ,PID  ,NGL  ,
      .           IX1  ,IX2  ,IX3  ,IX4  ,IX5  ,IX6  ,IX7  ,IX8  ,
@@ -261,7 +264,7 @@ C Orthotropy wrt reference geometry
 
       ENDIF
 C
-C Orthotropy
+C     Orthotropy
       IF (ISORTH == 1)
      .  CALL SMORTH3(PID  ,GEO  ,IGEO ,SKEW ,IREP ,GBUF%GAMA  , 
      .         RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
@@ -269,22 +272,22 @@ C Orthotropy
      .         F1X  ,F1Y  ,F1Z  ,F2X  ,F2Y  ,F2Z  ,NSIGI,SIGSP,NSIGS,
      .         SIGI ,IXS  ,X    ,JHBE ,PTSOL,NEL  ,IPARG_GR(28))
 C
+C-----------
       CALL SVEOK3(NVC,8, IX1, IX2, IX3, IX4, IX5, IX6, IX7, IX8)
-C
       IF(JEUL.NE.0.AND.INTEG8.NE.0) THEN
         CALL SDERI3B(GBUF%VOL,VEUL(1,NF1),LVEUL,GEO,IGEO ,NGL  ,PID  ,
      .              X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
      .              Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
      .              Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8   ,
-     .              VOLU, DELTAX,NEL ,JEUL )
+     .              VOLU, DELTAX)
       ELSEIF (NPT == 8) THEN
         CALL SDERI3B(GBUF%VOL,V8LOC  ,LVLOC,GEO  ,IGEO ,NGL  ,PID  ,
      .              X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
      .              Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
      .              Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8   ,
-     .              VOLU, DELTAX,NEL ,JEUL )
+     .              VOLU, DELTAX)
       ELSE
-C LBUF%VOL0DP is not done for Isolid=12
+C-----------LBUF%VOL0DP is not done for Isolid=12
         IF (JHBE == 24) THEN
           CALL SZDERI3(
      .           GBUF%VOL ,VEUL(1,NF1),GEO  ,IGEO  ,
@@ -295,7 +298,7 @@ C LBUF%VOL0DP is not done for Isolid=12
      .               PY1  ,PY2  ,PY3  ,PY4  ,
      .               PZ1  ,PZ2  ,PZ3  ,PZ4  ,
      .               RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TZ   ,
-     .               NGL  ,PID  ,VOLU ,LBUF%VOL0DP,NEL  ,JEUL ,NXREF)
+     .               NGL  ,PID  ,VOLU ,LBUF%VOL0DP)
         ELSE
           CALL SDERI3(
      .          GBUF%VOL ,VEUL(1,NF1),GEO  ,IGEO  ,
@@ -304,8 +307,7 @@ C LBUF%VOL0DP is not done for Isolid=12
      .              ZD1  ,ZD2  ,ZD3  ,ZD4  ,ZD5   ,ZD6  ,ZD7   ,ZD8   ,
      .              RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,NGL  ,PID  ,
      .              PX1  ,PX2  ,PX3  ,PX4  ,PY1  ,PY2  ,PY3  ,PY4  ,
-     .              PZ1  ,PZ2  ,PZ3  ,PZ4, VOLU  ,LBUF%VOL0DP,NEL  ,JEUL,
-     .              NXREF,IMULTI_FVM)
+     .              PZ1  ,PZ2  ,PZ3  ,PZ4, VOLU  ,LBUF%VOL0DP)
         ENDIF
         CALL SDLEN3(
      .            X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
@@ -343,7 +345,7 @@ c
       MBUF  => ELBUF_STR%BUFLY(1)%MAT(1,1,1)
       FBUF  => ELBUF_STR%BUFLY(1)%FAIL(1,1,1)
 C 
-C Density perturbation for /MAT/LAW115
+      ! Density perturbation for /MAT/LAW115
       IF (MTN == 115) THEN 
         CALL M115_PERTURB(PM       ,MAT      ,GBUF%RHO ,PERTURB  ,RNOISE   ) 
       ENDIF
@@ -353,13 +355,13 @@ C
      1                GBUF%BPRELD,NEL  ,IXS  ,NIXS ,VPRELOAD, IFLAG_BPRELOAD)
       ENDIF
 C----------------------------------------
-C Thermal and Turbulence initialization
+C     INITIALISATION DE LA THERMIQUE ET TURBULENCE
 C----------------------------------------
       IF(JTHE /=0) CALL ATHERI(MAT,PM  ,GBUF%TEMP)
       IF(JTUR /=0) CALL ATURI3(IPARG   ,GBUF%RHO,PM,IXS,X,
      .                         GBUF%RK ,GBUF%RE,VOLU)
 C----------------------------------------
-C Masses initialization
+C     INITIALISATION DES MASSES
 C----------------------------------------
       IF(JLAG+JALE+JEUL.NE.0) THEN
         IF(INTEG8.NE.0 .AND. JEUL.NE.0) THEN
@@ -386,20 +388,20 @@ C----------------------------------------
      4         MCPS(1,NF1),MSSA, VOLU, 
      5         IX1, IX2, IX3, IX4, IX5, IX6, IX7, IX8)
         ELSE
-C Case /INIBRIS/STRS_FGLO missed         
+C-------- case /INIBRIS/STRS_FGLO missed         
          IF (ISIGI /= 0 .AND. (JCVT/=0.OR.ISORTH/=0)) 
      .   CALL USTRSIN3(
      .   SIGI    ,LBUF%SIG ,IXS     ,NIXS    ,NSIGS   ,
      .   NEL     ,STRSGLOB ,JHBE    ,IGTYP   ,X       ,
      .   GBUF%GAMA,PTSOL   ,LBUF%VOL0DP,RHO0,GBUF%RHO)
-C
+C-----     
           IF (((MTN>=28 .AND. MTN/=49) .OR. MTN==14 .OR. MTN==12) .OR.
      .         (ISTRAIN == 1 .AND. 
      .         (MTN==1 .OR. MTN==2 .OR. MTN==3 .OR. MTN==4 .OR. 
      .          MTN==6 .OR. MTN==10.OR. MTN == 21.OR.MTN == 22.OR.
      .          MTN == 23))) THEN
               IDEF = 1
-          ENDIF
+             ENDIF
 c
           IF (ISIGI /= 0 .AND. ((MTN >= 28 .AND. IUSER == 1).OR.
      .      (NVSOLID2 /= 0 .AND .IDEF /=0)))
@@ -418,31 +420,32 @@ c
      .         IX1, IX2, IX3, IX4, IX5, IX6, IX7, IX8)
         ENDIF
 C
-C------------------------------------------------------------------
+C----------------------------------------
 c Initialization of stress tensor in case of Orthotropic properties
-C------------------------------------------------------------------
+C----------------------------------------
         IF (ISIGI /= 0 .AND. ISORTH/=0) THEN 
           LBUF%SIGL = LBUF%SIG
         ENDIF
 C----------------------------------------
-c Failure model initialization
+c Failure model initialisation
 C----------------------------------------
-        CALL FAILINI(ELBUF_STR,NPTR,NPTS,NPTT,NLAY,
-     .               IPM,SIGSP,NSIGI,FAIL_INI ,
-     .               SIGI,NSIGS,IXS,NIXS,PTSOL,RNOISE,PERTURB,BUFMAT)
-C--------------------------------------------------------------------
-C Compute nodal volumes and moduli for contact stiffness
-C Note : IX1, IX2 ... IX8 are in NC(MVSIZ,8)
-C--------------------------------------------------------------------
+      CALL FAILINI(ELBUF_STR,NPTR,NPTS,NPTT,NLAY,
+     .             IPM,SIGSP,NSIGI,FAIL_INI ,
+     .             SIGI,NSIGS,IXS,NIXS,PTSOL,RNOISE,PERTURB,BUFMAT)
+C----------------------------------------
+C       assemblage des Volumes nodaux et Modules nodaux
+C       (pour rigidites d'interface)
+C       attention : IX1, IX2 ... IX8 sont sous la forme NC(MVSIZ,8)
         IF (I7STIFS /= 0) THEN
           NCC=8
           CALL SBULK3(VOLU  ,IX1    ,NCC,MAT,PM ,
      2                VOLNOD,BVOLNOD,VNS(1,NF1),BNS(1,NF1),BID,
      3                BID   ,GBUF%FILL)
         ENDIF
-      ENDIF   ! End masses initialization      
+      ENDIF   ! Fin initialisation masses
+      
 C----------------------------------------
-C Cell momentum for FVM
+c Cell Momentum for FVM
 C----------------------------------------      
       IF(IALEFVM.NE.0) THEN      
         CALL INIMOM_FVM(V   ,  GBUF%RHO,  GBUF%VOL,  GBUF%MOM,  IXS,
@@ -450,15 +453,16 @@ C----------------------------------------
      .                  PM  ,  LBUF%SSP,  GBUF%SIG,  NEL
      .                 )
       ENDIF
+     
 C------------------------------------------
-C Compute element time step
+C     CALCUL DES DT ELEMENTAIRES
 C------------------------------------------
       AIRE(:) = ZERO
       CALL DTMAIN(GEO      , PM       , IPM        , PID    , MAT    , FV    ,
      .     GBUF%EINT, GBUF%TEMP, GBUF%DELTAX, GBUF%RK, GBUF%RE, BUFMAT, DELTAX, AIRE, 
      .     VOLU, DTX, IGEO )
 C
-      DO I=1,NEL
+      DO I=LFT,LLT
         IF(IXS(10,I+NFT).NE.0) THEN
           IF(     IGTYP.NE.0 .AND.IGTYP.NE.6 .AND. IGTYP.NE.14
      .       .AND.IGTYP.NE.15.AND. IGTYP.NE.29) THEN
@@ -475,7 +479,8 @@ C
         DTELEM(NFT+I)=DTX(I)
 C
 C       STI = 0.25 * RHO * VOL / (DT*DT)
-        STI = FOURTH * GBUF%FILL(I) * GBUF%RHO(I) * VOLU(I) / MAX(EM20,DTX(I)*DTX(I))
+        STI = FOURTH * GBUF%FILL(I) * GBUF%RHO(I) * VOLU(I) /
+     .        MAX(EM20,DTX(I)*DTX(I))
         STIFN(IXS(2,I+NFT))=STIFN(IXS(2,I+NFT))+STI
         STIFN(IXS(3,I+NFT))=STIFN(IXS(3,I+NFT))+STI
         STIFN(IXS(4,I+NFT))=STIFN(IXS(4,I+NFT))+STI
@@ -485,12 +490,13 @@ C       STI = 0.25 * RHO * VOL / (DT*DT)
         STIFN(IXS(8,I+NFT))=STIFN(IXS(8,I+NFT))+STI
         STIFN(IXS(9,I+NFT))=STIFN(IXS(9,I+NFT))+STI
       ENDDO
-C--------------------------------------------------------
-C Solid to SPH : compute particles initial volume and mass
-C--------------------------------------------------------
+C------------------------------------------
+C     SOLID TO SPH, COMPUTE INITIAL VOLUME & MASS OF PARTICLES
+C------------------------------------------
       IF(NSPHSOL/=0)THEN
-       DO I=1,NEL
+       DO I=LFT,LLT
          IF(SOL2SPH(1,NFT+I) < SOL2SPH(2,NFT+I))THEN
+C          SOL2SPH(1,N)+1<=I<=SOLSPH(2,N) <=> N==SPH2SOL(I)
            NSPHDIR=IGEO(37,IXS(10,NFT+I))
            NCELF  =SOL2SPH(1,NFT+I)+1
            NCELL  =SOL2SPH(2,NFT+I)-SOL2SPH(1,NFT+I)
