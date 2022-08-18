@@ -96,6 +96,7 @@ c           save normalized FZ and My values
             END IF
             SENSOR_TAB(ISENS)%VAR(1) = FZ
             SENSOR_TAB(ISENS)%VAR(2) = MY
+            SENSOR_TAB(ISENS)%VAR(3) = ONE ! spmd flag for sensor indicating present domain
             EXIT
           END IF
         END DO

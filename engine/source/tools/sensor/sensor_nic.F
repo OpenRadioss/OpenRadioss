@@ -62,13 +62,16 @@ c-----------------------------------------------------------------------
 c     Sensor state variables
 c        SENSOR%VAR(1) :  Current non filtered spring force
 c        SENSOR%VAR(2) :  Current non filtered spring moment
+c        SENSOR%VAR(3) :  flag spmd : =0 => spring not present in the domain
+c                                     =1 => spring is present in the domain
 c        free
 c        SENSOR%VAR(6 -10)  :  non filtered force values 
 c        SENSOR%VAR(11-15)  :  filtered force values    
 c        SENSOR%VAR(16-20   :  non filtered moment values 
 c        SENSOR%VAR(21-25)  :  filtered moment values 
 C=======================================================================
-      IF (SENSOR%STATUS == 3) RETURN   ! already activated
+      IF (SENSOR%STATUS == 3)    RETURN   ! already activated
+      IF (SENSOR%VAR(3) == ZERO) RETURN   ! spring is on different spmd domain
 c
       NIJMAX = SENSOR%RPARAM(1)
       ALPHA  = SENSOR%RPARAM(6)
