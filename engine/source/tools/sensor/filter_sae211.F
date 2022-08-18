@@ -1,8 +1,9 @@
 Chd|====================================================================
-Chd|  FILTER_SAE211                    source/tools/sensor/filter_sae211.F
+Chd|  FILTER_SAE211                 source/tools/sensor/filter_sae211.F
 Chd|-- called by -----------
-Chd|        SENSOR_NIC                    source/tools/sensor/sensor_nic.F
 Chd|-- calls ---------------
+Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE FILTER_SAE211(NPT,NT,NH,A0,A1,A2,B1,B2,VAR)
 C-----------------------------------------------

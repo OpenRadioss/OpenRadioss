@@ -26,6 +26,7 @@ Chd|-- called by -----------
 Chd|        ALEMAIN                       source/ale/alemain.F          
 Chd|        CBILAN                        source/elements/shell/coque/cbilan.F
 Chd|        ECRIT                         source/output/ecrit.F         
+Chd|        FILTER_SAE211                 source/tools/sensor/filter_sae211.F
 Chd|        FORINT                        source/elements/forint.F      
 Chd|        FORINTC                       source/elements/forintc.F     
 Chd|        RADIOSS2                      source/engine/radioss2.F      
@@ -33,6 +34,8 @@ Chd|        RDRESB                        source/output/restart/rdresb.F
 Chd|        READ_SENSOR_TAB               source/output/restart/read_sensor_tab.F
 Chd|        RESOL                         source/engine/resol.F         
 Chd|        RESOL_HEAD                    source/engine/resol_head.F    
+Chd|        RFORC3                        source/elements/spring/rforc3.F
+Chd|        RSENS_NIC                     source/tools/sensor/rsens_nic.F
 Chd|        SENSOR0                       source/tools/sensor/sensor0.F 
 Chd|        SENSOR1                       source/tools/sensor/sensor1.F 
 Chd|        SENSOR2                       source/tools/sensor/sensor2.F 
@@ -43,6 +46,7 @@ Chd|        SENSOR_ENERGY_BILAN           source/tools/sensor/sensor_energy_bila
 Chd|        SENSOR_ENERGY_PART            source/tools/sensor/sensor_energy_part.F
 Chd|        SENSOR_HIC                    source/tools/sensor/sensor_hic.F
 Chd|        SENSOR_INIT                   source/tools/sensor/sensor_init.F
+Chd|        SENSOR_NIC                    source/tools/sensor/sensor_nic.F
 Chd|        SENSOR_TEMP                   source/tools/sensor/sensor_temp.F
 Chd|        SENSOR_TEMP0                  source/tools/sensor/sensor_temp0.F
 Chd|        SORTIE_MAIN                   source/output/sortie_main.F   

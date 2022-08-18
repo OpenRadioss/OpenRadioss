@@ -29,6 +29,7 @@ Chd|        INIVOID                       source/elements/initia/inivoid.F
 Chd|        MULTIFLUID_INIT3T             source/multifluid/multifluid_init3t.F
 Chd|        S4INIT3                       source/elements/solid/solide4/s4init3.F
 Chd|-- calls ---------------
+Chd|        CHECKVOLUME_4N                source/elements/solid/solide/checksvolume.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE S4COOR3(X     ,XREFS   ,IXS    ,NGL     ,MXT    ,

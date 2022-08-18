@@ -62,6 +62,7 @@ Chd|        READ_IMPVEL_LAGMUL            source/constraints/general/impvel/read
 Chd|        READ_SENSOR_ACC               source/tools/sensor/read_sensor_acc.F
 Chd|        READ_SENSOR_CONTACT           source/tools/sensor/read_sensor_contact.F
 Chd|        READ_SENSOR_HIC               source/tools/sensor/read_sensor_hic.F
+Chd|        READ_SENSOR_NIC               source/tools/sensor/read_sensor_nic.F
 Chd|        READ_SENSOR_RBODY             source/tools/sensor/read_sensor_rbody.F
 Chd|        READ_SENSOR_RWALL             source/tools/sensor/read_sensor_rwall.F
 Chd|        READ_SENSOR_SECT              source/tools/sensor/read_sensor_sect.F

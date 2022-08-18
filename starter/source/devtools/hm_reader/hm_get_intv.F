@@ -453,6 +453,7 @@ Chd|        READ_SENSOR_DIST_SURF         source/tools/sensor/read_sensor_dist_s
 Chd|        READ_SENSOR_ENERGY            source/tools/sensor/read_sensor_energy.F
 Chd|        READ_SENSOR_GAUGE             source/tools/sensor/read_sensor_gauge.F
 Chd|        READ_SENSOR_HIC               source/tools/sensor/read_sensor_hic.F
+Chd|        READ_SENSOR_NIC               source/tools/sensor/read_sensor_nic.F
 Chd|        READ_SENSOR_NOT               source/tools/sensor/read_sensor_not.F
 Chd|        READ_SENSOR_OR                source/tools/sensor/read_sensor_or.F
 Chd|        READ_SENSOR_RBODY             source/tools/sensor/read_sensor_rbody.F

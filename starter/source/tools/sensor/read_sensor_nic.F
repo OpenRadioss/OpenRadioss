@@ -21,12 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  READ_SENSOR_NIC              source/tools/sensor/read_sensor_nic.F
+Chd|  READ_SENSOR_NIC               source/tools/sensor/read_sensor_nic.F
 Chd|-- called by -----------
 Chd|        HM_READ_SENSORS               source/tools/sensor/hm_read_sensors.F
 Chd|-- calls ---------------
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
+Chd|        HM_GET_STRING                 source/devtools/hm_reader/hm_get_string.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F

@@ -156,10 +156,13 @@ Chd|        H3D_SHELL_SCALAR              engine/source/output/h3d/h3d_results/h
 Chd|        H3D_SHELL_SCALAR_1            engine/source/output/h3d/h3d_results/h3d_shell_scalar_1.F
 Chd|        H3D_SOLID_SCALAR              engine/source/output/h3d/h3d_results/h3d_solid_scalar.F
 Chd|        H3D_SOLID_SCALAR_1            engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
+Chd|        I18DST3                       engine/source/interfaces/int18/i18dst3.F
 Chd|        I22BUCE                       engine/source/interfaces/intsort/i22buce.F
 Chd|        I22MAIN_TRI                   engine/source/interfaces/intsort/i22main_tri.F
+Chd|        I7MAINF                       engine/source/interfaces/int07/i7mainf.F
 Chd|        IG3DUFORC3                    engine/source/elements/ige3d/ig3duforc3.F
 Chd|        IMP_BUCK                      engine/source/implicit/imp_buck.F
+Chd|        INTFOP2                       engine/source/interfaces/interf/intfop2.F
 Chd|        INTTRI                        engine/source/interfaces/intsort/inttri.F
 Chd|        M11LAW                        engine/source/materials/mat/mat011/m11law.F
 Chd|        M11VS2                        engine/source/materials/mat/mat011/m11vs2.F

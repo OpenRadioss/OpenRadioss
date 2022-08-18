@@ -66,6 +66,7 @@ Chd|        R5LEN3                        source/elements/spring/rforc3.F
 Chd|        R6DEF3                        source/elements/spring/r6def3.F
 Chd|        RBILAN                        source/elements/spring/rbilan.F
 Chd|        RGJOINT                       source/elements/joint/rgjoint.F
+Chd|        RSENS_NIC                     source/tools/sensor/rsens_nic.F
 Chd|        RUSER32                       source/elements/spring/ruser32.F
 Chd|        RUSER35                       source/elements/spring/ruser35.F
 Chd|        RUSER36                       source/elements/spring/ruser36.F
@@ -75,6 +76,7 @@ Chd|        SET_SPRING_ELNUM              source/user_interface/uaccess.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE RFORC3(ELBUF_STR,

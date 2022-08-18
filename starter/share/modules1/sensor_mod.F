@@ -27,6 +27,7 @@ Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|        DOMDEC2                       source/spmd/domdec2.F         
 Chd|        HM_READ_PRELOAD               source/loads/general/preload/hm_read_preload.F
 Chd|        HM_READ_SENSORS               source/tools/sensor/hm_read_sensors.F
+Chd|        INISEN                        source/tools/sensor/inisen.F  
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|        READ_SENSOR_ACC               source/tools/sensor/read_sensor_acc.F
 Chd|        READ_SENSOR_AND               source/tools/sensor/read_sensor_and.F
@@ -36,6 +37,7 @@ Chd|        READ_SENSOR_DIST_SURF         source/tools/sensor/read_sensor_dist_s
 Chd|        READ_SENSOR_ENERGY            source/tools/sensor/read_sensor_energy.F
 Chd|        READ_SENSOR_GAUGE             source/tools/sensor/read_sensor_gauge.F
 Chd|        READ_SENSOR_HIC               source/tools/sensor/read_sensor_hic.F
+Chd|        READ_SENSOR_NIC               source/tools/sensor/read_sensor_nic.F
 Chd|        READ_SENSOR_NOT               source/tools/sensor/read_sensor_not.F
 Chd|        READ_SENSOR_OR                source/tools/sensor/read_sensor_or.F
 Chd|        READ_SENSOR_RBODY             source/tools/sensor/read_sensor_rbody.F

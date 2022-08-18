@@ -26,7 +26,6 @@ Chd|-- called by -----------
 Chd|        LECTUR                        source/starter/lectur.F       
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        FREERR                        source/starter/freform.F      
 Chd|        FRETITL2                      source/starter/freform.F      
 Chd|        I20SURFI                      source/interfaces/inter3d1/i20surfi.F
 Chd|        I24SURFI                      source/interfaces/inter3d1/i24surfi.F

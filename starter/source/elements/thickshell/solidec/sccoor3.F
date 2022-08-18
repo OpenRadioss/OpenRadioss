@@ -27,6 +27,7 @@ Chd|        SCINIT3                       source/elements/thickshell/solidec/sci
 Chd|-- calls ---------------
 Chd|        MOD_CLOSE                     source/elements/solid/solide/mod_close.F
 Chd|        SCORTHO3                      source/elements/thickshell/solidec/scortho3.F
+Chd|        CHECKVOLUME_8N                source/elements/solid/solide/checksvolume.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SCCOOR3(

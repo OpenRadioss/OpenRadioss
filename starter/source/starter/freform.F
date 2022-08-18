@@ -1751,7 +1751,6 @@ Chd|        LECEXTLNK                     source/coupling/rad2rad/lecextlnk.F
 Chd|        LECFILL                       source/elements/initia/lecfill.F
 Chd|        LECG47                        source/properties/ige3d/lecgeo47.F
 Chd|        LECIG3D                       source/elements/ige3d/lecig3d.F
-Chd|        LECINT                        source/interfaces/interf1/lecint.F
 Chd|        LECLAS                        source/loads/laser/leclas.F   
 Chd|        LECSEC0                       source/tools/sect/hm_read_sect.F
 Chd|        LECSEC42                      source/tools/sect/hm_read_sect.F

@@ -182,6 +182,7 @@ Chd|  SOLTOSPHX4                    source/elements/sph/soltosph.F
 Chd|-- called by -----------
 Chd|        HM_READ_SPHCEL                source/elements/reader/hm_read_sphcel.F
 Chd|-- calls ---------------
+Chd|        CHECKVOLUME_4N                source/elements/solid/solide/checksvolume.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SOLTOSPHX4(

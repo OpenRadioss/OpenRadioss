@@ -1,10 +1,9 @@
 Chd|====================================================================
-Chd|  RSENS_NIC                        source/elements/spring/rsens_nic.F
+Chd|  RSENS_NIC                     source/tools/sensor/rsens_nic.F
 Chd|-- called by -----------
 Chd|        RFORC3                        source/elements/spring/rforc3.F
 Chd|-- calls ---------------
-Chd|        GRELEM_SAV                    source/output/th/grelem_sav.F 
-Chd|        SENSOR_ENERGY_BILAN           source/tools/sensor/sensor_energy_bilan.F
+Chd|        SENSOR_MOD                    share/modules/sensor_mod.F    
 Chd|====================================================================
       SUBROUTINE RSENS_NIC(NEL   ,IXR   ,FOR   ,MOM    ,SKEW     ,
      .                     SENSOR_TAB)

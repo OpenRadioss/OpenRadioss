@@ -38,6 +38,7 @@ Chd|        INT18_LAW151_NSV_SHIFT        source/interfaces/int18/int18_law151_n
 Chd|        INT_STARTIME                  source/system/timer_interf.F  
 Chd|        INT_STOPTIME                  source/system/timer_interf.F  
 Chd|        MY_BARRIER                    source/system/machine.F       
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       

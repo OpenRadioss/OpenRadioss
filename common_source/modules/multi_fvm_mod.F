@@ -125,6 +125,7 @@ Chd|        H3D_SOLID_SCALAR              engine/source/output/h3d/h3d_results/h
 Chd|        H3D_SOLID_SCALAR_1            engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
 Chd|        H3D_SOLID_VECTOR              engine/source/output/h3d/h3d_results/h3d_solid_vector.F
 Chd|        HIST2                         engine/source/output/th/hist2.F
+Chd|        I18DST3                       engine/source/interfaces/int18/i18dst3.F
 Chd|        I18FOR3                       engine/source/interfaces/int18/i18for3.F
 Chd|        I22MAIN_TRI                   engine/source/interfaces/intsort/i22main_tri.F
 Chd|        I23MAIN_TRI                   engine/source/interfaces/intsort/i23main_tri.F

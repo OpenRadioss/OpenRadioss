@@ -26,6 +26,8 @@ Chd|-- called by -----------
 Chd|        I18MAIN_KINE_I                source/interfaces/int18/i18main_kine.F
 Chd|        I7MAINF                       source/interfaces/int07/i7mainf.F
 Chd|-- calls ---------------
+Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE I18DST3(
      1                  JLT    ,CAND_N   , CAND_E ,CN_LOC ,CE_LOC        ,

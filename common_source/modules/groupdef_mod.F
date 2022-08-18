@@ -351,6 +351,7 @@ Chd|        READ_INTER_TYPE08             starter/source/interfaces/int08/read_i
 Chd|        READ_MONVOL                   starter/source/airbag/read_monvol.F
 Chd|        READ_RWALL                    starter/source/constraints/general/rwall/read_rwall.F
 Chd|        READ_SENSOR_ENERGY            starter/source/tools/sensor/read_sensor_energy.F
+Chd|        READ_SENSOR_NIC               starter/source/tools/sensor/read_sensor_nic.F
 Chd|        READ_SENSOR_TEMP              starter/source/tools/sensor/read_sensor_temp.F
 Chd|        RECONNECT                     starter/source/elements/nodes/reconnect.F
 Chd|        REORDR                        starter/source/elements/solid_2d/quad/reordr.F
@@ -457,6 +458,7 @@ Chd|        EIG1                          engine/stub/eig1.F
 Chd|        EIGCOND                       engine/stub/eigcond.F         
 Chd|        EIGP                          engine/stub/eigp.F            
 Chd|        ELOFF                         engine/source/elements/eloff.F
+Chd|        FILTER_SAE211                 engine/source/tools/sensor/filter_sae211.F
 Chd|        FORINT                        engine/source/elements/forint.F
 Chd|        FORINTC                       engine/source/elements/forintc.F
 Chd|        GENANI                        engine/source/output/anim/generate/genani.F
@@ -560,6 +562,7 @@ Chd|        SENSOR_ENERGY                 engine/source/tools/sensor/sensor_ener
 Chd|        SENSOR_ENERGY_PART            engine/source/tools/sensor/sensor_energy_part.F
 Chd|        SENSOR_HIC                    engine/source/tools/sensor/sensor_hic.F
 Chd|        SENSOR_INIT                   engine/source/tools/sensor/sensor_init.F
+Chd|        SENSOR_NIC                    engine/source/tools/sensor/sensor_nic.F
 Chd|        SENSOR_TEMP                   engine/source/tools/sensor/sensor_temp.F
 Chd|        SENSOR_TEMP0                  engine/source/tools/sensor/sensor_temp0.F
 Chd|        SINIT22_FVM                   engine/source/interfaces/int22/sinit22_fvm.F

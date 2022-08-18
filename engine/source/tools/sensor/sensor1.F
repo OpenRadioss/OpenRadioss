@@ -29,6 +29,7 @@ Chd|        BUTTERWORTH                   source/tools/univ/butterworth.F
 Chd|        SENSOR_DIST_SURF              source/tools/sensor/sensor_dist_surf.F
 Chd|        SENSOR_ENERGY                 source/tools/sensor/sensor_energy.F
 Chd|        SENSOR_HIC                    source/tools/sensor/sensor_hic.F
+Chd|        SENSOR_NIC                    source/tools/sensor/sensor_nic.F
 Chd|        SENSOR_TEMP                   source/tools/sensor/sensor_temp.F
 Chd|        USENS_SHIFT_AB                source/user_interface/usensor.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
