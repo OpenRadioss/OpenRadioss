@@ -94,6 +94,9 @@ card2
       CALL HM_GET_FLOATV('Tempmean'  ,TEMPAVG  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('Tmin'      ,TMIN     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 c--------------------------------------------------
+      IF (TEMPMAX == ZERO) TEMPMAX = INFINITY
+      IF (TEMPAVG == ZERO) TEMPAVG = INFINITY
+c--------------------------------------------------
 c     Check Grnod_ID
 c--------------------------------------------------
       IGRN = 0 
