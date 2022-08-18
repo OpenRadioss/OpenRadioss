@@ -76,8 +76,8 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I, J,NNEGA,INDEX(MVSIZ)
-C                                                                     12
+      INTEGER :: I,J,NNEGA,INDEX(MVSIZ)
+C
       my_real
      .   DETT ,  JAC7(MVSIZ), JAC8(MVSIZ) , 
      .   JACI1, JACI2, JACI3,
@@ -87,14 +87,13 @@ C                                                                     12
      .   JACI12, JACI45, JACI78,
      .   X_17_46 , X_28_35 ,
      .   Y_17_46 , Y_28_35 ,
-     .   Z_17_46 , Z_48_35 ,
+     .   Z_17_46 , Z_28_35 ,
      .   HX,HY,HZ
       DOUBLE PRECISION
      .   X17 , X28 , X35 , X46,
      .   Y17 , Y28 , Y35 , Y46,
      .   Z17 , Z28 , Z35 , Z46
 C-----------------------------------------------
-C --for case Ismstr10->11, keep configuration, re-compute v,lc
       DO I=1,NEL
         X17=X7(I)-X1(I)
         X28=X8(I)-X2(I)
@@ -117,13 +116,13 @@ C
         Y_17_46=Y17+Y46
         Y_28_35=Y28+Y35
         Z_17_46=Z17+Z46
-        Z_48_35=Z28+Z35
+        Z_28_35=Z28+Z35
         JAC7(I)=X_17_46+X_28_35
         JAC8(I)=Y_17_46+Y_28_35
-        JAC9(I)=Z_17_46+Z_48_35
+        JAC9(I)=Z_17_46+Z_28_35
         JAC1(I)=X_17_46-X_28_35
         JAC2(I)=Y_17_46-Y_28_35
-        JAC3(I)=Z_17_46-Z_48_35
+        JAC3(I)=Z_17_46-Z_28_35
       ENDDO
 C
       DO I=1,NEL
@@ -379,7 +378,7 @@ C                                                                     12
      .   JACI12, JACI45, JACI78,
      .   X_17_46 , X_28_35 ,
      .   Y_17_46 , Y_28_35 ,
-     .   Z_17_46 , Z_48_35 ,
+     .   Z_17_46 , Z_28_35 ,
      .   HX,HY,HZ
 C-----------------------------------------------
 C
@@ -407,14 +406,14 @@ C
        Y_17_46=Y17+Y46
        Y_28_35=Y28+Y35
        Z_17_46=Z17+Z46
-       Z_48_35=Z28+Z35
+       Z_28_35=Z28+Z35
 C
        JAC7(I)=X_17_46+X_28_35
        JAC8(I)=Y_17_46+Y_28_35
-       JAC9(I)=Z_17_46+Z_48_35
+       JAC9(I)=Z_17_46+Z_28_35
        JAC1(I)=X_17_46-X_28_35
        JAC2(I)=Y_17_46-Y_28_35
-       JAC3(I)=Z_17_46-Z_48_35
+       JAC3(I)=Z_17_46-Z_28_35
       ENDDO
 C
       DO I=1,NEL
@@ -580,9 +579,9 @@ C
         PX1(I)=-JACI12-JACI3
         PY1(I)=-JACI45-JACI6
         PZ1(I)=-JACI78-JACI9
-        PX3(I)=JACI12-JACI3
-        PY3(I)=JACI45-JACI6
-        PZ3(I)=JACI78-JACI9
+        PX3(I)= JACI12-JACI3
+        PY3(I)= JACI45-JACI6
+        PZ3(I)= JACI78-JACI9
       ENDDO
 C
       RETURN

@@ -416,7 +416,7 @@ C------should be global system
      .              XR(1,1),XR(1,2),XR(1,3),XR(1,4),XR(1,5),XR(1,6),XR(1,7),XR(1,8),
      .              YR(1,1),YR(1,2),YR(1,3),YR(1,4),YR(1,5),YR(1,6),YR(1,7),YR(1,8),
      .              ZR(1,1),ZR(1,2),ZR(1,3),ZR(1,4),ZR(1,5),ZR(1,6),ZR(1,7),ZR(1,8),
-     .              GBUF%JAC_I)
+     .              GBUF%JAC_I,NEL)
           END IF
           IF (JHBE == 24) THEN
            CALL SZREFDERI3(

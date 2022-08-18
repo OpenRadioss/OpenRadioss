@@ -41,12 +41,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "com06_c.inc"
-#include      "param_c.inc"
-#include      "scr03_c.inc"
-#include      "units_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -59,8 +53,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J
-      
+      INTEGER I
+C
       DOUBLE PRECISION
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
      .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ),
@@ -68,47 +62,45 @@ C-----------------------------------------------
      .   YD5(MVSIZ), YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ),
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ),
      .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ)
-C     REAL
+C
       my_real
-     .   AJ1(MVSIZ), AJ2(MVSIZ), AJ3(MVSIZ), AJ4(MVSIZ), AJ5(MVSIZ), AJ6(MVSIZ),
-     .   AJ7(MVSIZ), AJ8(MVSIZ) , AJ9(MVSIZ),
-     .   A17(MVSIZ) , A28(MVSIZ) ,
-     .   B17(MVSIZ) , B28(MVSIZ) ,
-     .   C17(MVSIZ) , C28(MVSIZ) 
+     .   JAC1(MVSIZ), JAC2(MVSIZ), JAC3(MVSIZ), JAC4(MVSIZ), JAC5(MVSIZ), JAC6(MVSIZ),
+     .   JAC7(MVSIZ), JAC8(MVSIZ), JAC9(MVSIZ),
+     .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ)
       my_real
      .   X17(MVSIZ), X28(MVSIZ), X35(MVSIZ), X46(MVSIZ),
      .   Y17(MVSIZ), Y28(MVSIZ), Y35(MVSIZ), Y46(MVSIZ),
-     .   Z17(MVSIZ), Z28(MVSIZ), Z35(MVSIZ), Z46(MVSIZ),
-     .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ),
-     .   AJ12(MVSIZ),   AJ45(MVSIZ),   AJ78(MVSIZ)
+     .   Z17(MVSIZ), Z28(MVSIZ), Z35(MVSIZ), Z46(MVSIZ)
 C=======================================================================
       DO I=1,NEL
-        XD1(I)=X1(I)
-	       XD2(I)=X2(I)
-	       XD3(I)=X3(I)
-	       XD4(I)=X4(I)
-	       XD5(I)=X5(I)
-	       XD6(I)=X6(I)
-	       XD7(I)=X7(I)
-	       XD8(I)=X8(I)
-        YD1(I)=Y1(I)
-	       YD2(I)=Y2(I)
-	       YD3(I)=Y3(I)
-	       YD4(I)=Y4(I)
-	       YD5(I)=Y5(I)
-	       YD6(I)=Y6(I)
-	       YD7(I)=Y7(I)
-		      YD8(I)=Y8(I)
-        ZD1(I)=Z1(I)
-	       ZD2(I)=Z2(I)
-	       ZD3(I)=Z3(I)
-	       ZD4(I)=Z4(I)
-	       ZD5(I)=Z5(I)
-	       ZD6(I)=Z6(I)
-	       ZD7(I)=Z7(I)
-	       ZD8(I)=Z8(I)
+         XD1(I)=X1(I)
+         XD2(I)=X2(I)
+         XD3(I)=X3(I)
+         XD4(I)=X4(I)
+         XD5(I)=X5(I)
+         XD6(I)=X6(I)
+         XD7(I)=X7(I)
+         XD8(I)=X8(I)
+C
+         YD1(I)=Y1(I)
+         YD2(I)=Y2(I)
+         YD3(I)=Y3(I)
+         YD4(I)=Y4(I)
+         YD5(I)=Y5(I)
+         YD6(I)=Y6(I)
+         YD7(I)=Y7(I)
+         YD8(I)=Y8(I)
+C
+         ZD1(I)=Z1(I)
+         ZD2(I)=Z2(I)
+         ZD3(I)=Z3(I)
+         ZD4(I)=Z4(I)
+         ZD5(I)=Z5(I)
+         ZD6(I)=Z6(I)
+         ZD7(I)=Z7(I)
+         ZD8(I)=Z8(I)
       ENDDO	
-
+C
       DO I=1,NEL
         X17(I)=XD7(I)-XD1(I)
         X28(I)=XD8(I)-XD2(I)
@@ -124,37 +116,29 @@ C=======================================================================
         Z46(I)=ZD6(I)-ZD4(I)
       ENDDO	
 C
+C Jacobian Matrix
       DO I=1,NEL               
-        AJ1(I)=X17(I)+X28(I)-X35(I)-X46(I)
-        AJ2(I)=Y17(I)+Y28(I)-Y35(I)-Y46(I)
-        AJ3(I)=Z17(I)+Z28(I)-Z35(I)-Z46(I)
-        A17(I)=X17(I)+X46(I)
-        A28(I)=X28(I)+X35(I)
-        B17(I)=Y17(I)+Y46(I)
-        B28(I)=Y28(I)+Y35(I)
-        C17(I)=Z17(I)+Z46(I)
-        C28(I)=Z28(I)+Z35(I)
-      ENDDO	
-         
-      DO I=1,NEL
-        AJ4(I)=A17(I)+A28(I)
-        AJ5(I)=B17(I)+B28(I)
-        AJ6(I)=C17(I)+C28(I)
-        AJ7(I)=A17(I)-A28(I)
-        AJ8(I)=B17(I)-B28(I)
-        AJ9(I)=C17(I)-C28(I)
+        JAC1(I)=X17(I)+X28(I)-X35(I)-X46(I)
+        JAC2(I)=Y17(I)+Y28(I)-Y35(I)-Y46(I)
+        JAC3(I)=Z17(I)+Z28(I)-Z35(I)-Z46(I)
+C
+        JAC4(I)=X17(I)+X46(I)+X28(I)+X35(I)
+        JAC5(I)=Y17(I)+Y46(I)+Y28(I)+Y35(I)
+        JAC6(I)=Z17(I)+Z46(I)+Z28(I)+Z35(I)
+C
+        JAC7(I)=X17(I)+X46(I)-X28(I)-X35(I)
+        JAC8(I)=Y17(I)+Y46(I)-Y28(I)-Y35(I)
+        JAC9(I)=Z17(I)+Z46(I)-Z28(I)-Z35(I)
       ENDDO	
 C
-C     JACOBIAN
-C
       DO I=1,NEL
-        JAC_59_68(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-        JAC_67_49(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
-        JAC_48_57(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
+        JAC_59_68(I)=JAC5(I)*JAC9(I)-JAC6(I)*JAC8(I)
+        JAC_67_49(I)=JAC6(I)*JAC7(I)-JAC4(I)*JAC9(I)
+        JAC_48_57(I)=JAC4(I)*JAC8(I)-JAC5(I)*JAC7(I)
       ENDDO
 C
       DO I=1,NEL
-        VOL(I)=ONE_OVER_64*(AJ1(I)*JAC_59_68(I)+AJ2(I)*JAC_67_49(I)+AJ3(I)*JAC_48_57(I))
+        VOL(I)=ONE_OVER_64*(JAC1(I)*JAC_59_68(I)+JAC2(I)*JAC_67_49(I)+JAC3(I)*JAC_48_57(I))
       ENDDO     
 C-----------
       RETURN
