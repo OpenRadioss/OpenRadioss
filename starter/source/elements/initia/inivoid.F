@@ -172,15 +172,14 @@ C
       NXREF = 0
       NF1=NFT+1
       IF (ITY == 1.AND. ISMSTR == 10) ISMSTR = 4
-c--------------------------------------
+C--------------------------------------
       IF(ITY == 1.AND.ISOLNOD == 4)THEN
-C       SOLID TETRA 4 nodes
-c--------------------------------------
+C Solid 4 nodes tetrahedron
         CALL S4COOR3(X    ,XREFS(1,1,NFT+1),IXS(1,NFT+1),NGL  ,
      .               MXT  ,PID  ,IX1  ,IX2  ,IX3  ,IX4  ,
      .               X1   ,X2   ,X3   ,X4   ,Y1   ,Y2   ,
      .               Y3   ,Y4   ,Z1   ,Z2   ,Z3   ,Z4   )
-        DO I=LFT,LLT
+        DO I=1,NEL
           RHO(I) = PM(89,MXT(I))
           DTELEM(NFT+I) = EP30
           FILL(I) = ONE
@@ -213,15 +212,15 @@ c--------------------------------------
         ENDIF
 C------------------------------------------
       ELSEIF(ITY == 1.AND.ISOLNOD == 10)THEN
-C       SOLID TETRA 10 nodes  - not supported
+C Solid 10 nodes tetrahedron not supported
       ELSEIF(ITY == 1.AND.ISOLNOD == 16)THEN
-C       SOLID BRICK 16 nodes  - not supported
+C Solid 16 nodes brick not supported
       ELSEIF(ITY == 1.AND.ISOLNOD == 20)THEN
-C       SOLID BRICK 20 nodes  - not supported
+C Solid 20 nodes brick not supported
+C--------------------------------------
       ELSEIF(ITY == 1)THEN
-c--------------------------------------
-C       SOLID BRICK 8 nodes
-        DO I=LFT,LLT
+C Solid  8 nodes brick
+        DO I=1,NEL
           RHOCP(I) = ZERO
           TEMP0(I) = ZERO
         ENDDO
@@ -237,7 +236,7 @@ C       SOLID BRICK 8 nodes
      .           YD1  ,YD2  ,YD3  ,YD4  ,YD5  ,YD6  ,YD7  ,YD8   ,
      .           ZD1  ,ZD2  ,ZD3  ,ZD4  ,ZD5  ,ZD6  ,ZD7  ,ZD8   )
         IF((JEUL == 0.OR.INTEG8 == 0).AND. NPT /= 8) THEN
-          DO I=LFT,LLT
+          DO I=1,NEL
             RHO(I) = PM(89,MXT(I))
             DTELEM(NFT+I) = EP30
             FILL(I) = ONE
@@ -248,7 +247,8 @@ C       SOLID BRICK 8 nodes
      .            ZD1  ,ZD2  ,ZD3  ,ZD4  ,ZD5  ,ZD6  ,ZD7  ,ZD8  ,
      .            RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,NGL  ,PID  ,
      .            PX1  ,PX2  ,PX3  ,PX4  ,PY1  ,PY2  ,PY3  ,PY4  ,
-     .            PZ1  ,PZ2  ,PZ3  ,PZ4, VOLU  ,VOLDP)
+     .            PZ1  ,PZ2  ,PZ3  ,PZ4, VOLU  ,VOLDP,NEL  ,JEUL ,
+     .            NXREF,IMULTI_FVM )
           CALL SDLEN3(
      .            X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
      .            Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
@@ -268,13 +268,12 @@ C       SOLID BRICK 8 nodes
      2                VOLNOD,BVOLNOD,VNS(1,NF1),BNS(1,NF1),BID,
      3                BID   ,FILL   )
         ENDIF
-c--------------------------------------
+C--------------------------------------
       ELSEIF (ITY == 3) THEN
-C       SHELL
-c--------------------------------------
-        IMAT  = IXC(1,1+NFT)         ! mat N
-        IPROP = IXC(NIXC-1,1+NFT)    ! property N
-c
+C 4 nodes shell
+        IMAT  = IXC(1,1+NFT)         ! material number
+        IPROP = IXC(NIXC-1,1+NFT)    ! property number
+C
         CALL CCOORI(X,XREFC(1,1,NFT+1),IXC(1,NFT+1),
      .              X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .              Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
@@ -285,14 +284,10 @@ C
      .              X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .              Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .              E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z )
-C
-C------------
-C Tags total area of the part (needed in /ADMAS for shells)
-C------------
+C----------------------------------------------------------
+C Save element area (needed in /ADMAS for shells)
         IF (IMASADD > 0) THEN
-          DO I=LFT,LLT
-            IP = IPARTC(I+NFT)
-C           PART_AREA(IP) = PART_AREA(IP) + AREA(I)
+          DO I=1,NEL
             ELE_AREA(I+NFT) = AREA(I)
           ENDDO
         ENDIF
@@ -308,16 +303,15 @@ C
      .              PERTURB,IX1     ,IX2      ,IX3     ,IX4      )
 
         NDEPAR=NUMELS+NFT
-        DO I=LFT,LLT
+        DO I=1,NEL
           DTELEM(NDEPAR+I) = EP30
         ENDDO
-c--------------------------------------
+C--------------------------------------
       ELSEIF(ITY == 7)THEN
-C       SHELL 3N
-c--------------------------------------
-        IMAT  = IXTG(1,1+NFT)          ! mat N
-        IPROP = IXTG(NIXTG-1,1+NFT)    ! property N
-c
+C 3 nodes shell
+        IMAT  = IXTG(1,1+NFT)          ! material number
+        IPROP = IXTG(NIXTG-1,1+NFT)    ! property number
+C
         CALL C3COORI(X,XREFTG(1,1,NFT+1),IXTG(1,NFT+1),NGL,
      .               X1  ,X2  ,X3  ,Y1  ,Y2  ,Y3  ,
      .               Z1  ,Z2  ,Z3  ,IX1 ,IX2 ,IX3 )
@@ -327,13 +321,10 @@ c
      .               Z1  ,Z2  ,Z3  ,E1X ,E2X ,E3X ,
      .               E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z ,
      .               X31, Y31, Z31 ,X2L ,X3L ,Y3L )
-C------------
-C Tags total area of the part (needed in /ADMAS for shells)
-C------------
+C-------------------------------------------------
+C Save element area (needed in /ADMAS for shells)
         IF (IMASADD > 0) THEN
-          DO I=LFT,LLT
-            IP = IPARTT(I+NFT)
-C           PART_AREA(IP) = PART_AREA(IP) + AREA(I)
+          DO I=1,NEL
             ELE_AREA(I+NFT+NUMELC) = AREA(I)
           ENDDO
         ENDIF
@@ -348,27 +339,28 @@ C
      .               X2L      ,X3L    ,Y3L   )
 
         NDEPAR=NUMELS+NUMELC+NUMELT+NUMELP+NUMELR+NFT
-        DO I=LFT,LLT
+        DO I=1,NEL
           DTELEM(NDEPAR+I) = EP30
         ENDDO
-      ELSEIF(ITY == 4)THEN
-C       TRUSS
+C--------------------------------------
+       ELSEIF(ITY == 4)THEN
+C Truss element
         STIFNTMP(1:NUMNOD)=ZERO
         CALL TCOORI(X,IXT(1,NFT+1),MXT, PID, IX1, IX2,
      .             X1, X2, Y1, Y2, Z1, Z2)
-C----- avoid fail of output (Anim division of AREA)---
-        GBUF%AREA(LFT:LLT)= GEO(1,PID(LFT:LLT))
+C Avoid fail in output subroutine (Anim division by AREA)
+        GBUF%AREA(1:NEL)= GEO(1,PID(1:NEL))
         CALL TMASS(X         ,IXT      ,GEO      ,PM          ,MS      ,
      .             STIFNTMP   ,PARTSAV ,V        ,IPARTTR(NFT+1),MST(NFT+1),
      .             STIFINT,STT(NFT+1) ,GBUF%AREA  , MXT, IX1, IX2,
      .             X1, X2, Y1, Y2, Z1, Z2)
            NDEPAR=NUMELS+NUMELC+NFT
-           DO I=LFT,LLT
+           DO I=1,NEL
              DTELEM(NDEPAR + I) = EP30
            ENDDO
-      ELSEIF(ITY == 5)THEN
-C       BEAM
-C
+C--------------------------------------
+       ELSEIF(ITY == 5)THEN
+C Beam element
         STIFNTMP(1:NUMNOD)=ZERO
         CALL PCOORI(X,IXP(1,NFT+1),
      .                    MXT,PID ,IX1,IX2,IX3,DELTAX,
@@ -381,13 +373,15 @@ c        CALL PEVECI(GBUF%SKEW, X1,X3, Y1,Y3, Z1,Z3)
      .             X1,X2, Y1,Y2, Z1,Z2,
      .             IX1,IX2,MXT,PID,AREA,DELTAX,STRP(NFT+1),MCP,MCPP,TEMP)
           NDEPAR=NUMELS+NUMELC+NUMELT+NFT
-          DO I=LFT,LLT
+          DO I=1,NEL
             DTELEM(NDEPAR+I)=EP30
           ENDDO
-      ELSEIF (ITY == 6) THEN
+C--------------------------------------
+       ELSEIF (ITY == 6) THEN
+C Spring element
           I0=IXR(1,1+NFT)
           IGTYP =  IGEO(11,I0)
-!
+C
         IF(IGTYP == 23) THEN
            BIDON = ZERO
            DO I=1,6
@@ -406,13 +400,13 @@ C-----------------
             IPID=IXR(1,NFT+1)
             ID=IGEO(1,IPID)
             CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,IPID),LTITR)
-            DO I=LFT,LLT
+            DO I=1,NEL
               J=I+NFT
               I0=IXR(1,J)
               I1=IXR(2,J)
               I2=IXR(3,J)
               I3=IXR(4,J)
-C-----      ------------ to check
+C----------------------- to check
              IF (I1 == I2 .OR. I1 == I3 .OR. I2 == I3) THEN
                IF (I1 == I2 .OR. I1 == I3) ITMP = I1
                IF (I2 == I3) ITMP = I2
@@ -428,13 +422,13 @@ C-----      ------------ to check
                    KK = KK + 1
                    IF (KK  ==  10) THEN
                       WRITE (IOUT,FMT=FMT_10I)
-     .         (ITAB(IMERGE2(IADMERGE2(ITMP)+KK1)),KK1=0,KK-1)
+     .                (ITAB(IMERGE2(IADMERGE2(ITMP)+KK1)),KK1=0,KK-1)
                       KK = 0
                     ENDIF
                   ENDDO
                   IF (KK /= 0) THEN
                     WRITE (IOUT,FMT=FMT_10I)
-     .       (ITAB(IMERGE2(IADMERGE2(ITMP)+KK1)),KK1=0,KK-1)
+     .              (ITAB(IMERGE2(IADMERGE2(ITMP)+KK1)),KK1=0,KK-1)
                   ENDIF
                 ELSE
                   CALL ANCMSG(MSGID=681,
@@ -443,7 +437,7 @@ C-----      ------------ to check
      .                  I1=IXR(NIXR,J) )
                 ENDIF ! IF (IMERGE2(ITMP) /= 0)
               ENDIF ! IF (I1 == I2 .OR. I1 == I3 .OR. I2 == I3)
-C-----      ------------
+C
               IGTYP=IGEO(11,I0)
               IF (IGTYP /= 23 ) THEN
                  CALL ANCMSG(MSGID=243,
@@ -452,43 +446,9 @@ C-----      ------------
      .                 I1=ID,
      .                 C1=TITR)
               ENDIF
-C
             ENDDO
-C-----
 C
-c            CALL ANCNTS(IDS, CNT2)
-!!            DO I=LFT,LLT
-!!              J=I+NFT
-!!              I0=IXR(1,J)
-!!              I1=IXR(2,J)
-!!              I2=IXR(3,J)
-!!              I3=IXR(4,J)
-!!              IGTYP=IGEO(11,I0)
-!!              ILENG=NINT(GEO(93,I0))
-!!              IF (IGTYP == 23) THEN
-!!                 IMAT  = IXR(5,I+NFT)
-!!                 IMASS =  IGEO(4,I0)
-!!                 MTN = 0
-!!              ENDIF
-! checking L=0, add message if it's needed.
-!!             XL(I) =  SQRT(
-!!     .             (X(1,I1)-X(1,I2))*(X(1,I1)-X(1,I2))
-!!     +          +  (X(2,I1)-X(2,I2))*(X(2,I1)-X(2,I2))
-!!     +          +  (X(3,I1)-X(3,I2))*(X(3,I1)-X(3,I2)) )
-!!              IF (XL(I) <=  NOISE) THEN
-!!                 IPID = IXR(1,I)
-!!                 CALL ANCMSG(MSGID=328,
-!!     .                       MSGTYPE=MSGWARNING,
-!!     .                       ANMODE=ANINFO_BLIND_1,
-!!     .                       I1=ID,
-!!     .                       C1=TITR,
-!!     .                       I2=IXR(NIXR,I))
-!!              ENDIF
-!!           ENDDO
-C
-C
-C
-           DO I=LFT,LLT
+           DO I=1,NEL
              J=I+NFT
              I0=IXR(1,J)
              I1=IXR(2,J)
@@ -497,17 +457,16 @@ C
              IGTYP=IGEO(11,I0)
 C
              LENGTH =  SQRT(
-     .            (X(1,I1)-X(1,I2))*(X(1,I1)-X(1,I2))
+     +               (X(1,I1)-X(1,I2))*(X(1,I1)-X(1,I2))
      +            +  (X(2,I1)-X(2,I2))*(X(2,I1)-X(2,I2))
      +            +  (X(3,I1)-X(3,I2))*(X(3,I1)-X(3,I2)) )
              IF(IGTYP  == 23) THEN
                  IMAT  = IXR(5,I+NFT)
                  RHOR = PM(1,IMAT)
                  IMASS = IGEO(4,I0)
-!!                 MTN   = IPM(2,IMAT)
                  MTN = 0
                  UINER(I) = ZERO
-C----
+C
                  IF(IMASS == 1) THEN
                   MASSR(I) = GEO(1,I0)*LENGTH*RHOR
                   IF (LENGTH == ZERO .AND. RHOR /= ZERO) THEN
@@ -528,41 +487,30 @@ C
                 XINE= GEO(2,I0)
 C
                RATIO = XM * LENGTH * LENGTH
-             ENDIF
-           ENDDO ! DO I=LFT,LLT
-C------------------------------------------
-C     INITIALISATION DES RIGIDITES NODALES POUR INTERFACES
-C------------------------------------------
+             ENDIF ! IGTYP  == 23
+           ENDDO ! DO I=1,NEL
+C---------------------------------------------------------
+C Initialization of nodal stiffness for contact interfaces
            IF (I7STIFS /= 0) THEN
-!!            IF (IGTYP == 23 ) THEN
-               DO I=LFT,LLT
+               DO I=1,NEL
                  J=I+NFT
                  IMAT  = IXR(5,I+NFT)
                  KX    = PM(32, IMAT)
                  STR(J)= KX
                ENDDO
-!!              ENDIF ! IF (IGTYP
-           ENDIF ! IF (I7STIF /= 0)
-C------------------------------------------
+           ENDIF ! I7STIFS /= 0
 C-------------------------------------------------------------------
-C   SPRINGS --> only type23
-C-------------------------------------------------------------------
-C=======================================================================
-        MTN = 0
-C=======================================================================
+C Spring type23
+           MTN = 0
+C
            CALL R23MASS(IXR         ,GEO ,MS        ,IN,PARTSAV     ,
      2                  X           ,V   ,IPARTR(NFT+1),XL ,MSR(1,NFT+1),
      3                  INR(1,NFT+1),MSRT,EMS      ,MASSR   ,UINER,MTN)
-!!     3               INR(1,NFT+1),MSRT,EMS      ,GBUF%MASS   ,UINER,MTN)
-!!=========================================================
-C-----
-
-C------------------------------------------
-C     CALCUL DES DT ELEMENTAIRES & DT Nodal (take into account XCM)
-C------------------------------------------
 C
+C----------------------------------------------
+C Compute element time step and nodal time step
            NDEPAR=NUMELS+NUMELC+NUMELT+NUMELP+NFT
-           DO I=LFT,LLT
+           DO I=1,NEL
              J=I+NFT
              I0=IXR(1,J)
              IGTYP=IGEO(11,I0)
@@ -571,16 +519,15 @@ C
                IMAT   = IXR(5,I+NFT)
                MTN = 0
                DTELEM(NDEPAR+I) = EP20
-               GEO(4,I0)= MIN(GEO(4,I0),DTELEM(NDEPAR+I))  !
+               GEO(4,I0)= MIN(GEO(4,I0),DTELEM(NDEPAR+I))
              ENDIF
            ENDDO
-         ENDIF  ! IGTYP = 23
-!
-      ENDIF ! Ity
+        ENDIF  ! IGTYP = 23
+      ENDIF ! ITY element type
 C
       NXREF = NREFSTA
 C-----------
- 1000 FORMAT('LIST OF POSSIBLE CNODES MERGED WITH NODE OF ID=',I10)
+ 1000 FORMAT('LIST OF POSSIBLE CNODES MERGED WITH NODE ID=',I10)
       RETURN
-      END
+      END SUBROUTINE INIVOID
 

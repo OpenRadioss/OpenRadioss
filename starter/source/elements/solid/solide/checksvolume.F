@@ -20,8 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-#include "my_real.inc"
-      my_real 
 Chd|====================================================================
 Chd|  CHECKVOLUME_8N                source/elements/solid/solide/checksvolume.F
 Chd|-- called by -----------
@@ -33,22 +31,21 @@ Chd|        SPCOOR3                       source/elements/solid/sconnect/spcoor3
 Chd|        SRCOOR3                       source/elements/solid/solide/srcoor3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-     .   FUNCTION CHECKVOLUME_8N(X ,IXS)
+      FUNCTION CHECKVOLUME_8N(X,IXS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
+      my_real :: CHECKVOLUME_8N
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXS(NIXS)
-      my_real 
-     .   X(3,*)
+      INTEGER :: IXS(NIXS)
+      my_real :: X(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -56,8 +53,8 @@ C-----------------------------------------------
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8, 
      .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
-     .   X17, X28, X35, X46,Y17, Y28, Y35, Y46, Z17, Z28, Z35, Z46,
-     .   AJ1,AJ2,AJ3,AJ4,AJ5,AJ6,AJ7,AJ8,AJ9,A17,A28,B17,B28,C17,C28, 
+     .   X17, X28, X35, X46, Y17, Y28, Y35, Y46, Z17, Z28, Z35, Z46,
+     .   JAC1,JAC2,JAC3,JAC4,JAC5,JAC6,JAC7,JAC8,JAC9, 
      .   JAC_59_68, JAC_67_49, JAC_48_57
 C=======================================================================
       CHECKVOLUME_8N = ZERO
@@ -91,69 +88,65 @@ C
       X28=X8-X2
       X35=X5-X3
       X46=X6-X4
+C
       Y17=Y7-Y1
       Y28=Y8-Y2
       Y35=Y5-Y3
       Y46=Y6-Y4
+C
       Z17=Z7-Z1
       Z28=Z8-Z2
       Z35=Z5-Z3
       Z46=Z6-Z4
 C
-      AJ1=X17+X28-X35-X46
-      AJ2=Y17+Y28-Y35-Y46
-      AJ3=Z17+Z28-Z35-Z46
-      A17=X17+X46
-      A28=X28+X35
-      B17=Y17+Y46
-      B28=Y28+Y35
-      C17=Z17+Z46
-      C28=Z28+Z35
-      AJ4=A17+A28
-      AJ5=B17+B28
-      AJ6=C17+C28
-      AJ7=A17-A28
-      AJ8=B17-B28
-      AJ9=C17-C28
-      JAC_59_68=AJ5*AJ9-AJ6*AJ8
-      JAC_67_49=AJ6*AJ7-AJ4*AJ9
-      JAC_48_57=AJ4*AJ8-AJ5*AJ7
-      CHECKVOLUME_8N=ONE_OVER_64*(AJ1*JAC_59_68+AJ2*JAC_67_49+AJ3*JAC_48_57)
-C-----------
+C Jacobian matrix
+      JAC1=X17+X28-X35-X46
+      JAC2=Y17+Y28-Y35-Y46
+      JAC3=Z17+Z28-Z35-Z46
+C
+      JAC4=X17+X46+X28+X35 
+      JAC5=Y17+Y46+Y28+Y35 
+      JAC6=Z17+Z46+Z28+Z35 
+C
+      JAC7=X17+X46-X28-X35 
+      JAC8=Y17+Y46-Y28-Y35 
+      JAC9=Z17+Z46-Z28-Z35 
+C
+      JAC_59_68=JAC5*JAC9-JAC6*JAC8
+      JAC_67_49=JAC6*JAC7-JAC4*JAC9
+      JAC_48_57=JAC4*JAC8-JAC5*JAC7
+C
+      CHECKVOLUME_8N=ONE_OVER_64*(JAC1*JAC_59_68+JAC2*JAC_67_49+JAC3*JAC_48_57)
+C
       RETURN
       END
-      
-
-      my_real 
 Chd|====================================================================
 Chd|  CHECKVOLUME_6N                source/elements/solid/solide/checksvolume.F
 Chd|-- called by -----------
 Chd|        S6CCOOR3                      source/elements/thickshell/solide6c/s6ccoor3.F
 Chd|-- calls ---------------
-Chd|====================================================================
-     .   FUNCTION CHECKVOLUME_6N(X ,IXS)
+Chd|====================================================================      
+      FUNCTION CHECKVOLUME_6N(X,IXS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
+      my_real :: CHECKVOLUME_6N
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXS(NIXS)
-      my_real 
-     .   X(3,*)
+      INTEGER :: IXS(NIXS)
+      my_real :: X(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
      .   X1,X2,X3,X4,X5,X6,Y1,Y2,Y3,Y4,Y5,Y6,Z1,Z2,Z3,Z4,Z5,Z6,
-     .   X21,X31,X41,X54,X64,Y21,Y31,Y41,Y54,Y64,Z21,Z31,Z41,Z54,Z64,
-     .   AJ1,AJ2,AJ3,AJ4,AJ5,AJ6,AJ7,AJ8,AJ9, JAC_59_68,JAC_67_49,JAC_48_57
+     .   JAC1,JAC2,JAC3,JAC4,JAC5,JAC6,JAC7,JAC8,JAC9,JAC_59_68,JAC_67_49,JAC_48_57
 C=======================================================================
       CHECKVOLUME_6N = ZERO
 C
@@ -176,43 +169,27 @@ C
       Y6=X(2,IXS(8))
       Z6=X(3,IXS(8))
 C
-      X21=X2-X1
-      X31=X3-X1
-      X41=X4-X1
-      X54=X5-X4
-      X64=X6-X4
-      Y21=Y2-Y1
-      Y31=Y3-Y1
-      Y41=Y4-Y1
-      Y54=Y5-Y4
-      Y64=Y6-Y4
-      Z21=Z2-Z1
-      Z31=Z3-Z1
-      Z41=Z4-Z1
-      Z54=Z5-Z4
-      Z64=Z6-Z4
+C Jacobian matrix
+      JAC1=X2-X1+X5-X4
+      JAC2=Y2-Y1+Y5-Y4
+      JAC3=Z2-Z1+Z5-Z4 
 C
-      AJ1=X21+X54
-      AJ2=Y21+Y54
-      AJ3=Z21+Z54
-      AJ4=X31+X64
-      AJ5=Y31+Y64
-      AJ6=Z31+Z64
-      AJ7=THIRD*(X41+X5-X2+X6-X3)
-      AJ8=THIRD*(Y41+Y5-Y2+Y6-Y3)
-      AJ9=THIRD*(Z41+Z5-Z2+Z6-Z3)
+      JAC4=X3-X1+X6-X4 
+      JAC5=Y3-Y1+Y6-Y4 
+      JAC6=Z3-Z1+Z6-Z4
 C
-      JAC_59_68=AJ5*AJ9-AJ6*AJ8
-      JAC_67_49=AJ6*AJ7-AJ4*AJ9
-      JAC_48_57=AJ4*AJ8-AJ5*AJ7
+      JAC7=THIRD*(X4-X1+X5-X2+X6-X3)
+      JAC8=THIRD*(Y4-Y1+Y5-Y2+Y6-Y3)
+      JAC9=THIRD*(Z4-Z1+Z5-Z2+Z6-Z3)
 C
-      CHECKVOLUME_6N=ONE_OVER_8*(AJ1*JAC_59_68+AJ2*JAC_67_49+AJ3*JAC_48_57)
-C-----------
+      JAC_59_68=JAC5*JAC9-JAC6*JAC8
+      JAC_67_49=JAC6*JAC7-JAC4*JAC9
+      JAC_48_57=JAC4*JAC8-JAC5*JAC7
+C
+      CHECKVOLUME_6N=ONE_OVER_8*(JAC1*JAC_59_68+JAC2*JAC_67_49+JAC3*JAC_48_57)
+C
       RETURN
       END
-      
-
-      my_real 
 Chd|====================================================================
 Chd|  CHECKVOLUME_4N                source/elements/solid/solide/checksvolume.F
 Chd|-- called by -----------
@@ -221,30 +198,31 @@ Chd|        S10COOR3_OLD                  source/elements/solid/solide10/s10coor
 Chd|        S4COOR3                       source/elements/solid/solide4/s4coor3.F
 Chd|        SOLTOSPHX4                    source/elements/sph/soltosph.F
 Chd|-- calls ---------------
-Chd|====================================================================
-     .   FUNCTION CHECKVOLUME_4N(X ,IXS)
+Chd|====================================================================      
+      FUNCTION CHECKVOLUME_4N(X,IXS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
+      my_real :: CHECKVOLUME_4N
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
-#include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXS(NIXS)
-      my_real 
-     .   X(3,*)
+      INTEGER :: IXS(NIXS)
+      my_real :: X(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
-     .   X1,X2,X3,X4,X5,X6,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
-     .   X41, Y41, Z41, X42, Y42, Z42, X43, Y43, Z43, 
-     .   B1, B2, B3, B4, C1, C2, C3, C4, D1, D2, D3, D4
+     .   X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
+     .   JAC1 ,JAC2 ,JAC3 ,
+     .   JAC4 ,JAC5 ,JAC6 ,
+     .   JAC7 ,JAC8 ,JAC9 ,
+     .   JAC_59_68, JAC_67_49, JAC_48_57
 C=======================================================================
       CHECKVOLUME_4N = ZERO
 C
@@ -261,33 +239,24 @@ C
       Y4=X(2,IXS(6))
       Z4=X(3,IXS(6))
 C
-      X43 = X4 - X3 
-      Y43 = Y4 - Y3 
-      Z43 = Z4 - Z3 
-      X41 = X4 - X1 
-      Y41 = Y4 - Y1 
-      Z41 = Z4 - Z1 
-      X42 = X4 - X2 
-      Y42 = Y4 - Y2 
-      Z42 = Z4 - Z2 
+C Jacobian matrix
+      JAC1=X1-X4
+      JAC2=Y1-Y4
+      JAC3=Z1-Z4
 C
-      B1 = Y43*Z42 - Y42*Z43        
-      B2 = Y41*Z43 - Y43*Z41        
-      B3 = Y42*Z41 - Y41*Z42        
-      B4 = -(B1 + B2 + B3) 
+      JAC4=X2-X4
+      JAC5=Y2-Y4
+      JAC6=Z2-Z4
 C
-      C1 = Z43*X42 - Z42*X43        
-      C2 = Z41*X43 - Z43*X41        
-      C3 = Z42*X41 - Z41*X42        
-      C4 = -(C1 + C2 + C3) 
+      JAC7=X3-X4
+      JAC8=Y3-Y4
+      JAC9=Z3-Z4
 C
-      D1 = X43*Y42 - X42*Y43        
-      D2 = X41*Y43 - X43*Y41        
-      D3 = X42*Y41 - X41*Y42        
-      D4 = -(D1 + D2 + D3) 
+      JAC_59_68=JAC5*JAC9-JAC6*JAC8
+      JAC_67_49=JAC6*JAC7-JAC4*JAC9
+      JAC_48_57=JAC4*JAC8-JAC5*JAC7
 C
-      CHECKVOLUME_4N = (X41*B1 + Y41*C1 + Z41*D1)*ONE_OVER_6
-C-----------
+      CHECKVOLUME_4N=(JAC1*JAC_59_68+JAC2*JAC_67_49+JAC3*JAC_48_57)*ONE_OVER_6
+C
       RETURN
       END
-      
