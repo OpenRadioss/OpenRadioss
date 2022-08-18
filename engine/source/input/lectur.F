@@ -233,13 +233,10 @@ C-----------------------------------------------
          IPARI(13,I)=10
          IF(IPARI(15,I) == 0) IPARI(15,I)=I
       ENDDO
-C
+
       CALL CHKIPARI(IPARI)
-C
-C      IOUTV=0
-C
+
       READ (IIN,'(20A4)')  TITLE
-c      READ (IIN,'(65X,I5)')IBID
       READ (IIN,'(4F16.0,I8,I10,2I8)')TFI,DTH,DTF,DTM,NCPRI1,NCRST1,MULTIREST1,NLPRI1
       READ (IIN,'(5F16.0)')(DTH1(I),I=1,5)
       READ (IIN,'(4F16.0)')(DTH1(I+5),I=1,4)
@@ -718,6 +715,7 @@ C
             IFV_TYPE = MONVOL(K1 - 1 + 2)
             IF (IFV_TYPE .EQ. 8) THEN
                WRITE(IOUT,1153)MONVOL(K1),FVDATA_OLD(IFV)%CFL_COEF,FVDATA_OLD(IFV)%DTMIN,IDTMIN(52)
+               IF(NUM_OPT_DT_FVMBAG_2 > 0)WRITE(IOUT,1154)FVDATA_OLD(IFV)%L_TYPE,FVDATA_OLD(IFV)%LAMBDA,FVDATA_OLD(IFV)%DTOLD
             ENDIF
             K1=K1+NIMV
          ENDDO
@@ -2834,6 +2832,10 @@ c    .  ' TIME INTERVAL FOR PATRAN-FILE PLOTS. . . . . . . ',G14.7//
      .  ' . . FVMBAG1 TIME STEP SCALE FACTOR. . . . . . . . . . ',G14.7/
      .  ' . . FVMBAG1 MINIMUM TIME STEP . . . . . . . . . . . . ',G14.7/
      .  ' . . FVMBAG1 TIME STEP FLAG. . . . . . . . . . . . . . ',I5)
+ 1154 FORMAT(
+     .  ' . . FVMBAG1 CHARACTERISTIC LENGTH OPTION. . . . . . . ',I5/
+     .  ' . . FVMBAG1 TIME STEP SMOOTHING FACTOR. . . . . . . . ',G14.7/
+     .  ' . . FVMBAG1 PREVIOUS TIME STEP. . . . . . . . . . . . ',G14.7)
  1107 FORMAT(
      .  ' CONTACT NODAL TIME STEP SCALE FACTOR . . . . . . ',G14.7/
      .  ' CONTACT NODAL MINIMUM TIME STEP. . . . . . . . . ',G14.7/

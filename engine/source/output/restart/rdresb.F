@@ -179,20 +179,18 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  IDUMM(MVSIZ)
-      INTEGER  I,J,I86B,I86C,I86D, LMXVREA, LEN,MY_ILEN,MY_RLEN,ISTAT,II,JJ,
-     .     NS_DIFF
+      INTEGER  I,J,I86B,I86C,I86D, LMXVREA, LEN,MY_ILEN,MY_RLEN,ISTAT,II,JJ,NS_DIFF
       PARAMETER (LMXVREA=1000+30*MAXLAW+30)
-      my_real
-     .   TABVREA(LMXVREA)
+      my_real TABVREA(LMXVREA)
       INTEGER, DIMENSION(:), ALLOCATABLE::IBID
-      my_real
-     .    , DIMENSION(:), ALLOCATABLE::RBID
-
+      my_real, DIMENSION(:), ALLOCATABLE::RBID
       DOUBLE PRECISION, DIMENSION(:),ALLOCATABLE :: XDPDUM
       INTEGER, DIMENSION(NVOLU) :: NTRI
       INTEGER, DIMENSION(:), ALLOCATABLE :: INTEGER_DATA
       INTEGER :: INT1, INT2, INT0, ITMP
-C=======================================================================
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       DO I=1,LMXVREA
         TABVREA(I)=ZERO
       ENDDO
@@ -201,7 +199,7 @@ C=======================================================================
         CALL ARRET(2)
       ENDIF
 C--------------------------------------
-C     LECTURE DES ENTIERS
+C     READING INTEGERS
 C--------------------------------------
 C fichier de restart au format binaire ieee
       LEN_G = NPROPGI*NUMGEO
@@ -866,7 +864,7 @@ C
 C-----
       CALL RDCOMR(LMXVREA,LVARREA,TABVREA)
 C--------------------------------------
-C     LECTURE DES REELS
+C     READING REALS
 C--------------------------------------
         CALL READ_DB(X,SX)
 
@@ -1064,13 +1062,13 @@ c      IF(NNOISE.GT.0.AND.IRUNN.GT.1)THEN
               CALL READ_DPDB(DDP,3*NUMNOD)
          ELSE
            CALL FILLXDP(X,XDP,D,DDP)
-C  _tmp    Au prochain restart, XDP se trouvera sur la tete de restart !
+C next restart, XDP will be on restart head !
            IRXDP=1
          ENDIF
 C Cas double precision
        ELSE
          IF (IRXDP .EQ.1)THEN
-C Lecture Dummy si XDP est sur le Restart. Et on ecrit pas XDP au prochain restart.
+C Reading Dummy if XDP is in Restart file. XDP written during next restart.
            ALLOCATE(XDPDUM(3*NUMNOD))
 C Read XDP
            CALL READ_DB(XDPDUM,3*NUMNOD)
@@ -1395,7 +1393,7 @@ C-----------------------------------------------
       my_real
      .        VV(6)
 C--------------------------------------
-C     LECTURE DES ENTIERS
+C     READING INTEGERS
 C--------------------------------------
       LEN_IPM=NBIPM*NFXBODY
       IF (IRFORM/5.LE.1) THEN
@@ -1410,7 +1408,7 @@ C--------------------------------------
         IF (LENGRVI.GT.0) CALL READ_I_C(FXBGRVI,LENGRVI)
       ENDIF
 C--------------------------------------
-C     LECTURE DES REELS
+C     READING REALS
 C--------------------------------------
       LEN_MOD=LENMOD*6
       IF (IRFORM/5.LE.1) THEN
@@ -1511,7 +1509,7 @@ C-----------------------------------------------
       my_real
      .        VV(6)
 C--------------------------------------
-C     LECTURE DES ENTIERS
+C     READING INTEGERS
 C--------------------------------------
       IF (IRFORM/5.LE.1) THEN
         CALL REDSQI (EIGIPM,NEIG*NEIPM,IRFORM)
@@ -1521,7 +1519,7 @@ C--------------------------------------
         CALL READ_I_C(EIGIBUF,LEIBUF)
       ENDIF
 C--------------------------------------
-C     LECTURE DES REELS
+C     READING REALS
 C--------------------------------------
       IF (IRFORM/5.LE.1) THEN
         CALL REDSQR (EIGRPM,NEIG*NERPM,IRFORM)
@@ -1610,7 +1608,7 @@ C--------------------------------------
          GRAPHE(I)%IPRI=TN(6)
          GRAPHE(I)%NDDL_GLOB=TN(7)
 C--------------------------------------
-C Lecture des parametres reels
+C     READING REALS
 C--------------------------------------
          N=1
          IF (IRFORM/5.LE.1) THEN
@@ -1620,7 +1618,7 @@ C--------------------------------------
          ENDIF
          GRAPHE(I)%CUTFREQ=CUTFREQ
 C--------------------------------------
-C Lecture du tableau des ddls
+C     READING ARRAY DOF
 C--------------------------------------
          ALLOCATE(GRAPHE(I)%LSDDL(2,DSNDDL),
      .            GRAPHE(I)%LSDDL_INI(2,DSNDDL),
@@ -1648,7 +1646,7 @@ C--------------------------------------
             GRAPHE(I)%LSDDL_GLOB_INI(J)=GRAPHE(I)%LSDDL_GLOB(J)
          ENDDO
 C--------------------------------------
-C Lecture des superelements
+C     READING SUPERELEMENTS
 C--------------------------------------
          ALLOCATE(GRAPHE(I)%DGRAPH(DSLEN))
          DO J=1,DSLEN
@@ -1741,7 +1739,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C
 C--------------------------------------
-C     LECTURE DES ENTIERS
+C     READING INTEGERS
 C--------------------------------------
       IF (IRFORM/5.LE.1) THEN
         CALL REDSQI (IFLOW,LIFLOW,IRFORM)
@@ -1749,7 +1747,7 @@ C--------------------------------------
         CALL READ_I_C(IFLOW,LIFLOW)
       ENDIF
 C--------------------------------------
-C     LECTURE DES REELS
+C     READING REALS
 C--------------------------------------
       IF (IRFORM/5.LE.1) THEN
         CALL REDSQR (RFLOW,LRFLOW,IRFORM)
@@ -1801,7 +1799,7 @@ C--------------------------------------
        IF(ALLOCATED(IMP_RR)) DEALLOCATE(IMP_RR)
        ALLOCATE(IMP_RR(NIMPR))
 C--------------------------------------
-C     LECTURE DES REELS
+C     READING REALS
 C--------------------------------------
       ND = NUMNOD*3
       IDYNA0 = NIMPR - 2
@@ -1841,12 +1839,13 @@ Chd|        SPMD_FVB_COMM_PATTERN         source/mpi/airbags/spmd_fvb_comm_patte
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
 Chd|        FVMBAG_MESHCONTROL_MOD        ../common_source/modules/fvmbag_meshcontrol_mod.F
 Chd|====================================================================
-      SUBROUTINE FVRREST()
+      SUBROUTINE FVRREST(MONVOL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE FVBAG_MOD
       USE FVMBAG_MESHCONTROL_MOD
+      USE MESSAGE_MOD      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1857,20 +1856,29 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "scr05_c.inc"
 #include      "com01_c.inc"
+#include      "com04_c.inc"
 #include      "task_c.inc"
+#include      "param_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER, INTENT(IN) :: MONVOL(SMONVOL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER LEN, I, TABI(11), NNS, NNTR, LENP, NPOLY, LENH, NPOLH,
+      INTEGER LEN, I, II, KK, TABI(11), NNS, NNTR, LENP, NPOLY, LENH, NPOLH,
      .        LENP_ANIM, NPOLH_ANIM, LENH_ANIM, NNS_ANIM, NN_L, NNA_L,
-     .        NNSA_L, NSA, NELSA, NNI_L
+     .        NNSA_L, NSA, NELSA, NNI_L, IFV, ID_DT_OPTION, K1, ITYP, 
+     .        ID_BAG, ID_BAG_INPUT, N
       INTEGER COLOR,KEY
+      LOGICAL lFOUND
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
 
 C--------------------------------------
-C     LECTURE DES DIMENSIONS
+C     READING SIZES
 C--------------------------------------
       LEN=1
       CALL READ_I_C(NFVBAG,LEN)
@@ -1896,6 +1904,10 @@ C--------------------------------------
      *          FVDATA_OLD(I)%RMWPOLH,FVDATA_OLD(I)%VPOLH_INI,
      *          FVDATA_OLD(I)%QPOLH )
 
+        FVDATA_OLD(I)%L_TYPE = 0
+        FVDATA_OLD(I)%ID_DT_OPTION = 0
+        FVDATA_OLD(I)%LAMBDA = ZERO
+        FVDATA_OLD(I)%DTOLD = ZERO
         FVDATA_OLD(I)%CFL_COEF = ZERO
         FVDATA_OLD(I)%DTMIN = ZERO
         FVDATA_OLD(I)%PDISP_OLD = ZERO
@@ -1917,6 +1929,10 @@ C
       ALLOCATE(KMESH(NFVBAG))
       DO I=1,NFVBAG
          IF (IMACH.EQ.3) THEN
+            CALL READ_I_C(FVDATA_OLD(I)%L_TYPE,1)
+            CALL READ_I_C(FVDATA_OLD(I)%ID_DT_OPTION,1)
+            CALL READ_DB(FVDATA_OLD(I)%LAMBDA,1)
+            CALL READ_DB(FVDATA_OLD(I)%DTOLD,1)
             CALL READ_DB(FVDATA_OLD(I)%CFL_COEF,1)
             CALL READ_DB(FVDATA_OLD(I)%DTMIN,1)
             LEN=8
@@ -2051,7 +2067,7 @@ C
      .               FVDATA_OLD(I)%NOD_ANIM(3,NNS_ANIM))
 
 C--------------------------------------
-C     LECTURE DES ENTIERS
+C     READING INTEGERS
 C--------------------------------------
          LEN=3*NNS
          CALL READ_I_C(FVDATA_OLD(I)%IFVNOD,LEN)
@@ -2073,7 +2089,7 @@ C--------------------------------------
            CALL READ_I_C(FVDATA_OLD(I)%REDIR_ANIM,NNS_ANIM)
          ENDIF
 C--------------------------------------
-C     LECTURE DES REELS
+C     READING REALS
 C--------------------------------------
          LEN = 1
 	 CALL READ_DB(FVDATA_OLD(I)%PDISP_OLD,LEN)
@@ -2105,7 +2121,45 @@ C--------------------------------------
 C
       ENDDO
       
-      CALL READ_DB(FVMBAG_DTOLD,1)      
+      
+C--------------------------------------
+C     UPDATING DATA WITH ENGINE FILE PARAMETERS
+C--------------------------------------
+      ! FILL FVDATA BUFFER (NOW ALLOCATED) WITH PARAMETERS READ IN ENGINE FILE (/DT/FVMBAG OPTION)      
+      IF (IMACH == 3) THEN
+        !looping over all /DT/FVMBAG options
+        DO II=1,NUM_OPT_DT_FVMBAG
+          ID_DT_OPTION = FVMBAG_INPUT_OPTIONS(II)%ID_DT_OPTION
+          ! /DT/FVMBAG/2 otherwise next cycle
+          IF(ID_DT_OPTION == 2)THEN
+            K1=1
+            ID_BAG_INPUT = FVMBAG_INPUT_OPTIONS(II)%ID_BAG
+            lFOUND = .FALSE.
+            IF(ID_BAG_INPUT > 0)THEN
+              !Looping over all existing bags to check if one id is matching
+              DO N=1,NVOLU
+                ID_BAG=MONVOL(K1-1+1)
+                ITYP=MONVOL(K1-1+2) 
+                IF(ID_BAG == ID_BAG_INPUT)THEN                      
+                  IF (ITYP == 6 .OR. ITYP == 8) THEN 
+                    lFOUND=.TRUE.           
+                    IFV = MONVOL(K1 -1 +45)                     
+                    FVDATA_OLD(IFV)%L_TYPE = FVMBAG_INPUT_OPTIONS(II)%L_TYPE      
+                    FVDATA_OLD(IFV)%ID_DT_OPTION = FVMBAG_INPUT_OPTIONS(II)%ID_DT_OPTION
+                    FVDATA_OLD(IFV)%LAMBDA = FVMBAG_INPUT_OPTIONS(II)%LAMBDA
+                  ENDIF
+                  K1=K1+NIMV         
+                ENDIF
+              ENDDO !next N
+              IF(.NOT.lFOUND)THEN
+                CALL ANCMSG(MSGID=297,ANMODE=ANINFO,I1=ID_BAG_INPUT)
+                CALL ARRET(2)
+              ENDIF
+            ENDIF !(ID_BAG_INPUT > 0)
+          ENDIF !IF(ID_DT_OPTION == 2)
+        ENDDO!next II
+      ENDIF! IMACH
+      IF(ALLOCATED(FVMBAG_INPUT_OPTIONS))DEALLOCATE(FVMBAG_INPUT_OPTIONS)
 C
       RETURN
       END
@@ -2141,11 +2195,11 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C
 C--------------------------------------
-C     LECTURE DES ENTIERS
+C     READING INTEGERS
 C--------------------------------------
 
 C--------------------------------------
-C     LECTURE DES REELS
+C     READING REALS
 C--------------------------------------
       IF (IRFORM/5.LE.1) THEN
         CALL REDSQR (MCP,NUMNOD,IRFORM)
@@ -2188,11 +2242,11 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C
 C--------------------------------------
-C     LECTURE DES ENTIERS
+C     READING INTEGERS
 C--------------------------------------
 
 C--------------------------------------
-C     LECTURE DES REELS
+C     READING REALS
 C--------------------------------------
       IF (IRFORM/5.LE.1) THEN
         CALL REDSQR (FORNEQS,3*NUMNOD,IRFORM)
@@ -2237,11 +2291,11 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C
 C--------------------------------------
-C     LECTURE DES ENTIERS
+C     READING INTEGERS
 C--------------------------------------
 
 C--------------------------------------
-C     LECTURE DES REELS
+C     READING REALS
 C--------------------------------------
       IF (IRFORM/5.LE.1) THEN
         CALL REDSQR (FCONV,LFACTHER*NUMCONV,IRFORM)
@@ -2287,11 +2341,11 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C
 C--------------------------------------
-C     LECTURE DES ENTIERS
+C     READING INTEGERS
 C--------------------------------------
 
 C--------------------------------------
-C     LECTURE DES REELS
+C     READING REALS
 C--------------------------------------
       IF (IRFORM/5.LE.1) THEN
         CALL REDSQR (FRADIA,LFACTHER*NUMRADIA,IRFORM)
@@ -2337,11 +2391,11 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C
 C--------------------------------------
-C     LECTURE DES ENTIERS
+C     READING INTEGERS
 C--------------------------------------
 
 C--------------------------------------
-C     LECTURE DES REELS
+C     READING REALS
 C--------------------------------------
       IF (IRFORM/5.LE.1) THEN
         CALL REDSQR (FBFTEMP,LFACTHER*NFXTEMP,IRFORM)
@@ -2387,11 +2441,11 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C
 C--------------------------------------
-C     LECTURE DES ENTIERS
+C     READING INTEGERS
 C--------------------------------------
 
 C--------------------------------------
-C     LECTURE DES REELS
+C     READING REALS
 C--------------------------------------
       IF (IRFORM/5.LE.1) THEN
         CALL REDSQR (RBYM,NRBYM*NFRBYM,IRFORM)
@@ -2442,11 +2496,11 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C
 C--------------------------------------
-C     LECTURE DES ENTIERS
+C     READING INTEGERS
 C--------------------------------------
 
 C--------------------------------------
-C     LECTURE DES REELS
+C     READING REALS
 C--------------------------------------
          CALL READ_DB(MS_LAYER,NPLYXFE*NPLYMAX)
          CALL READ_DB(ZI_LAYER,NPLYXFE*NPLYMAX)
@@ -2562,11 +2616,11 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C
 C--------------------------------------
-C     LECTURE DES ENTIERS
+C     READING INTEGERS
 C--------------------------------------
 
 C--------------------------------------
-C     LECTURE DES REELS
+C     READING REALS
 C--------------------------------------
       CALL READ_DB(CFIELD,LFACLOAD*NLOADC)
 C
@@ -2597,18 +2651,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     .        LOADP(*)
+      my_real LOADP(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C
 C--------------------------------------
-C     LECTURE DES ENTIERS
+C     READING INTEGERS
 C--------------------------------------
 
 C--------------------------------------
-C     LECTURE DES REELS
+C     READING REALS
 C--------------------------------------
       CALL READ_DB(LOADP,LFACLOAD*NLOADP)
 C
@@ -2686,7 +2739,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,NN,LEN,ELSZ,NDSZ,NENR,ELSZC,ELSZTG,NCRKXFE_G,
-     .  CRKNUMNODS
+     .        CRKNUMNODS
 C=======================================================================
       CALL READ_I_C(NCRKPART,1)
       CALL READ_I_C(NCRKXFE_G,1)
@@ -2862,8 +2915,6 @@ C-----------------------------------------------
         NOSZ = 3*NPLYXFE
         CALL READ_DB(PLY(K)%U ,NOSZ)
         CALL READ_DB(PLY(K)%V ,NOSZ)
-cc        NOSZ = 4*NPLYXFE
-cc        CALL READ_DB(PLY(K)%A, NOSZ )
       ENDDO
 C
       RETURN
@@ -2938,11 +2989,11 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C
 C--------------------------------------
-C     LECTURE DES ENTIERS
+C     READING INTEGERS
 C--------------------------------------
 
 C--------------------------------------
-C     LECTURE DES REELS
+C     READING REALS
 C--------------------------------------
       CALL READ_DB(RTHBUF,SRTHBUF)
 C
@@ -2982,10 +3033,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C
 C--------------------------------------
-C     LECTURE DES ENTIERS
+C     READING INTEGERS
 C--------------------------------------
 C--------------------------------------
-C     LECTURE DES REELS
+C     READING REALS
 C--------------------------------------
       CALL READ_DB(KNOT,SKNOT)
 C
@@ -3024,10 +3075,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C
 C--------------------------------------
-C     LECTURE DES ENTIERS
+C     READING INTEGERS
 C--------------------------------------
 C--------------------------------------
-C     LECTURE DES REELS
+C     READING REALS
 C--------------------------------------
       CALL READ_DB(KNOTLOCPC,SKNOTLOCPC)
 C
@@ -3059,17 +3110,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     .        KNOTLOCEL(*)
+      my_real KNOTLOCEL(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C
 C--------------------------------------
-C     LECTURE DES ENTIERS
+C     READING INTEGERS
 C--------------------------------------
 C--------------------------------------
-C     LECTURE DES REELS
+C     READING REALS
 C--------------------------------------
       CALL READ_DB(KNOTLOCEL,SKNOTLOCEL)
 C
@@ -3101,17 +3151,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     .        WIGE(*)
+      my_real WIGE(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER I
 C--------------------------------------
-C     LECTURE DES ENTIERS
+C     READING INTEGERS
 C--------------------------------------
 C--------------------------------------
-C     LECTURE DES REELS
+C     READING REALS
 C--------------------------------------
       CALL READ_DB(WIGE,NUMNOD)
 C
@@ -3145,8 +3194,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IGEO(*)
-      my_real
-     .   GEO(*),PM(*)
+      my_real GEO(*),PM(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -3195,7 +3243,7 @@ C-----------------------------------------------
         my_real, ALLOCATABLE, DIMENSION(:,:) ::RTMP
         INTEGER, ALLOCATABLE, DIMENSION(:) ::ITMP,INDX,NPT_ELT
 C--------------------------------------
-C     LECTURE DES ENTIERS
+C     READING INTEGERS
 C--------------------------------------
 C     Shell 4 noeuds
       CALL READ_I_C(NDIM ,1)
@@ -3272,18 +3320,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER
-     .        PLY_INFO(*)
+      INTEGER PLY_INFO(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C
 C--------------------------------------
-C     LECTURE DES ENTIERS
+C     READING INTEGERS
 C--------------------------------------
       CALL READ_I_C(PLY_INFO,2*NUMPLY)
 C--------------------------------------
-C     LECTURE DES REELS
+C     READING REALS
 C--------------------------------------
 C
       RETURN

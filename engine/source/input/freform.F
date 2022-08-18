@@ -152,7 +152,7 @@ C-----------------------------------------------
      .   KUPWIND,KTHERMAL,KH3D,KREPORT,KNEGVOL,KADYREL,KDT1TET10,KPERF,
      .   KDYNAIN,KDTTSH,KMASS
       INTEGER
-     .   IKEY, I, I1, J1, J2, K, M, N, NCT, IKOLD, NBC, K3, K4,
+     .   IKEY, I, II, I1, J1, J2, K, M, N, NCT, IKOLD, NBC, K3, K4,
      .   NUBCS1,NUBCS2, IR,IDT,NELTGOF,
      .   IAL, NINTOF, NELSOF, NDEL, NOF,ITTYP, NCPRI0,NCPRI_HEAD0,IGTYP,
      .   NELQOF, NELCOF, NELTOF, NELPOF, NELROF, NUM_BCS, NINTCH,
@@ -160,11 +160,12 @@ C-----------------------------------------------
      .   INTCH_IFOP,IUSC_TMP,INTCH_ITOP,NBTOPFOP,KONOFF,NINTNOF,NINTSOF,
      .   NSPHOF,NALEOF,NEULEROF,NTHERMOF, IDTGRX,ibid, M1, M2, IFORM,
      .   GR_ID, NLINKOFF,IS_PREVKEYA_NCHARKEY,IS_KEYA_NCHARKEY, IFLAG,
-     .   DT_CTRL_COMPATIBILITY(3), LOWMACH_OPT,IO_ERR, NITERP, IOK_READ
-C
+     .   DT_CTRL_COMPATIBILITY(3), LOWMACH_OPT,IO_ERR, NITERP, IOK_READ,
+     .   ID_BAG, IERR1, ID_DT_OPTION, FVMBAG_L_TYPE
       my_real
      .   TSTOP0,DTFAC0, DTMIN0, DTHIS0, T1G, DTG, T1P, DTP, ALP, GAM,
-     .   A1, A2, A3, VM, DTFACA,DTMINA, DTHIS01(9),vt, TMP,DTFAC_AMS
+     .   A1, A2, A3, VM, DTFACA,DTMINA, DTHIS01(9),vt, TMP,DTFAC_AMS,
+     .   PARAM3,PARAM4
       CHARACTER KEY(9)*5, TITLE*81,
      .  KEY1*5, KEY2*5,KEY3*5,   CH4*4, KEY4*5, KEY5*5, StrIAL*32
       CHARACTER(LEN=ncharline) :: KEYA
@@ -237,39 +238,46 @@ C------------------------------------------------------------------
       KEY3=" "
       KEY4=" "
 
-
-C
-      OPEN(UNIT=IUSC1,FORM='FORMATTED',ACCESS='DIRECT',
-     .     RECL=120,STATUS='SCRATCH')
+      OPEN(UNIT=IUSC1,FORM='FORMATTED',ACCESS='DIRECT',RECL=120,STATUS='SCRATCH')
       OPEN(UNIT=IUSC2,FORM='FORMATTED',STATUS='SCRATCH')
 C attention IBM/MPI ne supporte pas de REWIND sur STDIN !
-c      IF(IMACH.EQ.3) THEN
-        IUSC_TMP=60
-        OPEN(UNIT=IUSC_TMP,FORM='FORMATTED',STATUS='SCRATCH')
-c      ENDIF
+      IUSC_TMP=60
+      OPEN(UNIT=IUSC_TMP,FORM='FORMATTED',STATUS='SCRATCH')
 C
       ROOTNAM=' '
       ROOTLEN = 0
-C
       IERR=0
       NCT=0
       J1 = 0
       J2 = 0
       NBC = 0
-
       IKAD(0:NKEY+1)=0
       NSLASH(1:NKEY) = 0
-C
       IKEY = 0
-C
+      
       DTFACA = EP30
       DTMINA = EP30
-C
+      PARAM3 = ZERO
+      PARAM4 = ZERO
+      ID_BAG = 0
+      
       PERCENT_ADDMASS = ZERO
       DT_STOP_PERCENT_ADDMASS = ZERO
       IDT_PERCENT_ADDMASS = 0
-      
-      FVMBAG_LAMBDA = ZERO
+           
+      IERR1=0
+      IF(.NOT.ALLOCATED(FVMBAG_INPUT_OPTIONS)) ALLOCATE(FVMBAG_INPUT_OPTIONS(8192),STAT=IERR1)
+      IF (IERR1.NE.0) GOTO 1000
+      DO II=1,8192
+        FVMBAG_INPUT_OPTIONS(II)%LAMBDA = ZERO 
+        FVMBAG_INPUT_OPTIONS(II)%ID_BAG = 0
+        FVMBAG_INPUT_OPTIONS(II)%L_type = 0
+        FVMBAG_INPUT_OPTIONS(II)%ID_DT_OPTION = 0        
+      ENDDO
+      NUM_OPT_DT_FVMBAG = 0
+      NUM_OPT_DT_FVMBAG_1 = 0
+      NUM_OPT_DT_FVMBAG_2 = 0
+      NUM_OPT_DT_FVMBAG_3 = 0
 C
 C     DT_CTRL_COMPATIBILITY(1) = 1 -> if /DT/NODA/CST is present
 C     DT_CTRL_COMPATIBILITY(2) = 1 -> if /DT/AMS is present
@@ -281,22 +289,18 @@ C     DT_CTRL_COMPATIBILITY(3) = 1 -> if /DT/CST_AMS is present
 C     FLAG for Hybrid CST + AMS
       FLAG_CST_AMS = 0
 C---------------------------------------------------
-C     DENOMBREMENT DES CARTES PAR OPTION
+C     ENUMERATION OF CARDS BY OPTION
 C---------------------------------------------------
    10 READ(ISTDI,'(A)',END=20) KEYA(1:ncharline)
-c       IF(IMACH.EQ.3) WRITE(IUSC_TMP,'(A)') KEYA
-       WRITE(IUSC_TMP,'(A)') KEYA(1:ncharline)
-       IF(KEYA(1:4).EQ.'/END')GOTO 20
-       NCT=NCT+1
-       IF(KEYA(1:1).EQ.'#')GOTO 10
-       IF(KEYA(1:1).EQ.'$')GOTO 10
-       IF(KEYA.EQ.' ')     GOTO 10
+        WRITE(IUSC_TMP,'(A)') KEYA(1:ncharline)
+        IF(KEYA(1:4).EQ.'/END')GOTO 20
+        NCT=NCT+1
+        IF(KEYA(1:1).EQ.'#')GOTO 10
+        IF(KEYA(1:1).EQ.'$')GOTO 10
+        IF(KEYA.EQ.' ')     GOTO 10
         IF(KEYA(1:1).EQ.'/') CALL REDKEY0(KEY0,NKEY,KEYA,IKEY,NSLASH)
-         IF(IKEY.EQ.0)     GOTO 10
-          IKAD(IKEY)=IKAD(IKEY)+1
-C---
-C prise en compte des Frame_Number > 99999
-C---
+        IF(IKEY.EQ.0)     GOTO 10
+        IKAD(IKEY)=IKAD(IKEY)+1
         IF(KEYA(1:4).EQ.'/BCS' .AND. KEYA(1:5).NE.'/BCSR') THEN
           I=2
           J1 = J1 +1
@@ -314,8 +318,7 @@ C---
           I=I+1
           I1=I
           IF (J1.GT.1000) THEN
-            CALL ANCMSG(MSGID=74,ANMODE=ANINFO,
-     .                  C1=KEYA(1:I1-1),C2='/BCS OR /BCSR')
+            CALL ANCMSG(MSGID=74,ANMODE=ANINFO,C1=KEYA(1:I1-1),C2='/BCS OR /BCSR')
             CALL ARRET(2)
           END IF
           IF(I .LT. LEN_TRIM(KEYA)) THEN
@@ -364,7 +367,6 @@ C---
 C---
       GO TO 10
   20  CONTINUE
-c      IF (IMACH.EQ.3) ISTDI=IUSC_TMP
       ISTDI=IUSC_TMP
       REWIND(ISTDI)
 C---------------------------------------------------
@@ -897,35 +899,27 @@ C
 C
       IF(IKAD(IKEY).NE.IKAD(IKEY+1))THEN
        K=0
- 160   READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A)',
-     .                              ERR=9990)KEY2
-C
+ 160   READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A)',ERR=9990)KEY2
        IF(KEY2(1:4).EQ.'NODA')THEN
-         READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,1X,A)',
-     .                              ERR=9990)KEY2,KEY3
+         READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,1X,A)', ERR=9990)KEY2,KEY3
          IF(KEY3(1:4).NE.'STOP' .AND. KEY3(1:3).NE.'DEL'   .AND.
      .      KEY3(1:3).NE.'CST'  .AND. KEY3(1:3).NE.'SET'   .AND.
      .      KEY3(1:4).NE.'KILL' .AND. KEY3(1:3).NE.'LAG'   .AND.
      .      KEY3(1:3).NE.'AMS'  .AND. KEY3(1:3).NE.'ALE'   )THEN     !ALEON hidden option to keep compatibility of DT NODA * with ALE
-           READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,1X,I5)',
-     .                              ERR=9990)KEY2,K4
+           READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,1X,I5)',ERR=9990)KEY2,K4
          ELSEIF(KEY3(1:3).EQ.'DEL')THEN
            CALL ANCMSG(MSGID=246,ANMODE=ANINFO,C1='/DT/NODA/DEL')
            IERR=IERR+1
          ELSE
-           READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,1X,A,1X,I5)',
-     .                              ERR=9990)KEY2,KEY3,K4
+           READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,1X,A,1X,I5)',ERR=9990)KEY2,KEY3,K4
         ENDIF
        ELSEIF(KEY2.EQ.'AMS')THEN
-         READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,1X,I5)',
-     .                              ERR=9990)KEY2,K4
+         READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,1X,I5)',ERR=9990)KEY2,K4
        ELSEIF(KEY2.EQ.'CST_A')THEN
-C--      /DT/CST_AMS -> hybride /DT/NODA/CST + /DT/AMS
-         READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,1X,I5)',
-     .                              ERR=9990)KEY2,K4
+         ! /DT/CST_AMS -> hybride /DT/NODA/CST + /DT/AMS
+         READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,1X,I5)',ERR=9990)KEY2,K4
        ELSEIF(KEY2.EQ.'GLOB')THEN
-         READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,1X,I5,1X,A)',
-     .                              ERR=9990)KEY2,K4,KEY5
+         READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,1X,I5,1X,A)',ERR=9990)KEY2,K4,KEY5
        ELSEIF(KEY2(1:4).EQ.'NODE')THEN
            CALL ANCMSG(MSGID=246,ANMODE=ANINFO,C1='/DT/NODE')
            IERR=IERR+1
@@ -992,8 +986,15 @@ C--      /DT/CST_AMS -> hybride /DT/NODA/CST + /DT/AMS
           IF (DTFAC_AMS == ZERO) DTFAC_AMS = ZEP67
         ELSE
           CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
-          READ(IUSC2,*,ERR=9003,END=9003)DTFACA,DTMINA,PERCENT_ADDMASS
+          READ(IUSC2,*,ERR=9003,END=9003)DTFACA,DTMINA,PARAM3,PARAM4
+          ID_BAG = 0
+          IF(KEY2(1:5)=='FVMBA' .AND. KEY3(1:1)=='2')THEN
+            K=K+1
+            CALL WRIUSC2(IKAD(IKEY)+2,1,KEY0(IKEY))
+            READ(IUSC2,*,ERR=9003,END=9003)ID_BAG
+          ENDIF
 C--       Read of target % of added mass
+          PERCENT_ADDMASS = PARAM3
           IDT_PERCENT_ADDMASS = 1
           GOTO 9004
  9003     CONTINUE
@@ -1159,11 +1160,35 @@ C           si /DT/AMS lu + tard ce qui suit sera ecrase
          DTFAC1(52) = DTFACA
          DTMIN1(52) = DTMINA
          IDTMIN(52) = 0
-         FVMBAG_LAMBDA = PERCENT_ADDMASS
-         IF(KEY3(1:1)=='1')IDTMIN(52) = 1
-         IF(KEY3(1:1)=='2')IDTMIN(52) = 2
-         IF(KEY3(1:1)=='3')IDTMIN(52) = 3
-         FVMBAG_LAMBDA = MAX(ZERO, FVMBAG_LAMBDA)
+         IF(KEY3(1:1)=='1')THEN
+           ID_DT_OPTION = 1
+         ELSEIF(KEY3(1:1)=='2')THEN
+           ID_DT_OPTION = 2
+         ELSEIF(KEY3(1:1)=='3')THEN
+           ID_DT_OPTION = 3
+         ELSE
+           ID_DT_OPTION = 1
+         ENDIF
+         IDTMIN(52) = ID_DT_OPTION        
+         PARAM3 = MAX(ZERO, PARAM3)
+         FVMBAG_L_TYPE = INT(PARAM4)
+         FVMBAG_L_TYPE = MIN(FVMBAG_L_TYPE,2) !input check:upper bound
+         FVMBAG_L_TYPE = MAX(0,FVMBAG_L_TYPE) !input check:lower bound
+         !storing in temporary data structure. It will be used to fill the final data structure when restart file is read (not yet allocated)         
+         IF(ID_DT_OPTION == 1)NUM_OPT_DT_FVMBAG_1 = NUM_OPT_DT_FVMBAG_1 + 1
+         IF(ID_DT_OPTION == 2)NUM_OPT_DT_FVMBAG_2 = NUM_OPT_DT_FVMBAG_2 + 1
+         IF(ID_DT_OPTION == 3)NUM_OPT_DT_FVMBAG_3 = NUM_OPT_DT_FVMBAG_3 + 1         
+         NUM_OPT_DT_FVMBAG = NUM_OPT_DT_FVMBAG + 1
+         FVMBAG_INPUT_OPTIONS(NUM_OPT_DT_FVMBAG)%LAMBDA = PARAM3 
+         FVMBAG_INPUT_OPTIONS(NUM_OPT_DT_FVMBAG)%ID_BAG = ID_BAG
+         FVMBAG_INPUT_OPTIONS(NUM_OPT_DT_FVMBAG)%L_type = FVMBAG_L_TYPE
+         FVMBAG_INPUT_OPTIONS(NUM_OPT_DT_FVMBAG)%ID_DT_OPTION = ID_DT_OPTION
+         !Warn user if incompatible options are defined
+         IF(NUM_OPT_DT_FVMBAG_1 * NUM_OPT_DT_FVMBAG_2 > 0)THEN
+            CALL ANCMSG(MSGID=296,ANMODE=ANINFO,I1=ID_BAG)
+         ENDIF
+         
+         
         ELSEIF(KEY2(1:3).EQ.'AMS')THEN
           DT_CTRL_COMPATIBILITY(2) = 1
           DTFACS = DTFACA
@@ -2556,6 +2581,17 @@ C
       CALL ANCMSG(MSGID=73,ANMODE=ANINFO,
      .            C1=KEY0(IKEY))
       CALL ARRET(0)
+      RETURN
+      
+C-----------------------------------------------
+ 1000 CONTINUE
+       IF (IERR1.NE.0) THEN
+         WRITE(IOUT,*)' ** ERROR IN MEMORY ALLOCATION WHILE READING ENGINE FILE'
+         WRITE(ISTDO,*)' ** ERROR IN MEMORY ALLOCATION WHILE READING ENGINE FILE'
+         CALL ARRET(2)
+       END IF
+C-----------------------------------------------
+      
       END
 Chd|====================================================================
 Chd|  NGR2USR                       source/input/freform.F        

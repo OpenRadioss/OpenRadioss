@@ -153,6 +153,10 @@ C----------------------------------------------
             LX = T_MONVOL(N)%RVOLU(44)
             LY = T_MONVOL(N)%RVOLU(45)
             LZ = T_MONVOL(N)%RVOLU(53)
+            FVDATA(IFV)%L_TYPE = 0
+            FVDATA(IFV)%ID_DT_OPTION = 0
+            FVDATA(IFV)%LAMBDA = ZERO
+            FVDATA(IFV)%DTOLD = ZERO
             FVDATA(IFV)%CFL_COEF = T_MONVOL(N)%RVOLU(71)
             FVDATA(IFV)%DTMIN = T_MONVOL(N)%RVOLU(72)
             FVDATA(IFV)%PDISP = ZERO

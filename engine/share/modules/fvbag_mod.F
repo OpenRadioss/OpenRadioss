@@ -83,99 +83,103 @@ C-----------------------------------------------
 C   D e r i v e d   T y p e   D e f i n i t i o n s
 C-----------------------------------------------
       TYPE T_ELEM_TO_TRI
-      INTEGER :: MINUS_SIZE, PLUS_SIZE
-      INTEGER, DIMENSION(:), ALLOCATABLE :: MINUS, PLUS
+        INTEGER :: MINUS_SIZE, PLUS_SIZE
+        INTEGER, DIMENSION(:), ALLOCATABLE :: MINUS, PLUS
       END TYPE T_ELEM_TO_TRI
-
-      my_real FVMBAG_LAMBDA ! /DT/FVMBAG/2 Engine keyword (3rd parameter)
-      my_real FVMBAG_DTOLD  ! FVMBAG time step from previous cycle
-      
+                 
       TYPE FVBAG_DATA
-C-------------------------------
-C     Courant number (DT scale factor) 
-C-------------------------------
-      my_real CFL_COEF, DTMIN
-C------------------------------------------------
-C     Dispersion of pressure around mean pressure
-C------------------------------------------------
-      my_real PDISP_OLD, PDISP
-C-------------------------------
-C Donnees briques intersectantes
-C-------------------------------
-         INTEGER, DIMENSION(:,:), POINTER :: BRIC, TBRIC 
-         my_real,
-     .            DIMENSION(:,:), POINTER :: XB
-         my_real,
-     .            DIMENSION(:,:,:), POINTER :: SFAC
-C-----------
-C Dimensions
-C-----------
-         INTEGER NNS, NNTR, LENP, NPOLY, LENH, NPOLH
-C----------------
-C Anim polyhedres
-C----------------
-         INTEGER NPOLH_ANIM, NNS_ANIM, ID
-         INTEGER, DIMENSION(:), POINTER :: IFVPOLY_ANIM, IFVTADR_ANIM,
-     .                                     IFVPOLH_ANIM, IFVPADR_ANIM,
-     .                                     REDIR_ANIM
-         INTEGER, DIMENSION(:,:), POINTER :: IFVTRI_ANIM
-         my_real
-     .          , DIMENSION(:,:), POINTER :: NOD_ANIM
-C------------------------
-C Polygones et polyhedres
-C------------------------
-         INTEGER, DIMENSION(:), POINTER :: IFVPOLY, IFVTADR,
-     .                                     IFVPOLH, IFVPADR, IDPOLH,
-     .                                     IBPOLH
-         INTEGER, DIMENSION(:,:), POINTER :: IFVNOD, IFVTRI
-         my_real
-     .          , DIMENSION(:,:), POINTER :: RFVNOD
-         INTEGER, DIMENSION(:,:), ALLOCATABLE :: TRI_TO_ELEM
-         TYPE(T_ELEM_TO_TRI), DIMENSION(:), ALLOCATABLE :: ELEM_TO_TRI
-C------------------------
-C Variables volumes finis
-C------------------------
-         my_real
-     .          , DIMENSION(:), POINTER :: MPOLH,   EPOLH,   PPOLH,
-     .                                     RPOLH,   GPOLH,   TPOLH,
-     .                                     CPAPOLH, CPBPOLH, CPCPOLH, 
-     .                                     CPDPOLH, CPEPOLH, CPFPOLH,
-     .                                     RMWPOLH, VPOLH_INI
-         my_real
-     .          , DIMENSION(:,:), POINTER :: QPOLH
-C---------------------------
-C Variables stabilite
-C---------------------------
-         my_real
-     .           DLH
-         my_real
-     .          , DIMENSION(:), POINTER :: DTPOLH
-C
+        !-------------------------------
+        ! Courant number (DT scale factor) & Time Step options 
+        !-------------------------------
+        my_real CFL_COEF, DTMIN
+        my_real LAMBDA       ! /DT/FVMBAG param 3
+        my_real DTOLD        ! FVMBAG time step from previous cycle
+        INTEGER L_TYPE       ! FVMBAG characteristic length option     
+        INTEGER ID_DT_OPTION ! /DT/FVMBAG/[ID_DT_OPTION]
+        !------------------------------------------------
+        ! Dispersion of pressure around mean pressure
+        !------------------------------------------------
+        my_real PDISP_OLD, PDISP
+        !-------------------------------
+        ! Donnees briques intersectantes
+        !-------------------------------
+        INTEGER, DIMENSION(:,:), POINTER :: BRIC, TBRIC 
+        my_real, DIMENSION(:,:), POINTER :: XB
+        my_real, DIMENSION(:,:,:), POINTER :: SFAC
+        !-----------
+        ! Dimensions
+        !-----------
+        INTEGER NNS, NNTR, LENP, NPOLY, LENH, NPOLH
+        !----------------
+        ! Anim polyhedres
+        !----------------
+        INTEGER NPOLH_ANIM, NNS_ANIM, ID
+        INTEGER, DIMENSION(:), POINTER :: IFVPOLY_ANIM, IFVTADR_ANIM,
+     .                                    IFVPOLH_ANIM, IFVPADR_ANIM,
+     .                                    REDIR_ANIM
+        INTEGER, DIMENSION(:,:), POINTER :: IFVTRI_ANIM
+        my_real, DIMENSION(:,:), POINTER :: NOD_ANIM
+        !------------------------
+        ! Polygones et polyhedres
+        !------------------------
+        INTEGER, DIMENSION(:), POINTER :: IFVPOLY, IFVTADR,
+     .                                    IFVPOLH, IFVPADR, IDPOLH,
+     .                                    IBPOLH
+        INTEGER, DIMENSION(:,:), POINTER :: IFVNOD, IFVTRI
+        my_real, DIMENSION(:,:), POINTER :: RFVNOD
+        INTEGER, DIMENSION(:,:), ALLOCATABLE :: TRI_TO_ELEM
+        TYPE(T_ELEM_TO_TRI), DIMENSION(:), ALLOCATABLE :: ELEM_TO_TRI
+        !------------------------
+        ! Variables volumes finis
+        !------------------------
+        my_real, DIMENSION(:), POINTER :: MPOLH,   EPOLH,   PPOLH,
+     .                                    RPOLH,   GPOLH,   TPOLH,
+     .                                    CPAPOLH, CPBPOLH, CPCPOLH, 
+     .                                    CPDPOLH, CPEPOLH, CPFPOLH,
+     .                                    RMWPOLH, VPOLH_INI
+        my_real, DIMENSION(:,:), POINTER :: QPOLH
+        !---------------------------
+        ! Variables stabilite
+        !---------------------------
+        my_real DLH
+        my_real, DIMENSION(:), POINTER :: DTPOLH
       END TYPE FVBAG_DATA
-C---------------------------
-C Data SPMD
-C---------------------------
+
       TYPE FVBAG_SPMD
-          INTEGER NN_L, NNA_L, NNSA, NNSA_L, NSA, NELSA, PMAIN, NNI_L,
-     .    MPI_COMM, RANK, NSPMD,NNA_L_GLOB
-          INTEGER, DIMENSION(:,:), POINTER :: IBUF_L, IBUFA_L, IBUFSA_L,
-     .                                        IXSA, ELEMSA,ITAB
-! buffers
-          my_real
-     .    ,DIMENSION(:,:), POINTER :: GGG,GGA,AAA
-          my_real
-     .    ,DIMENSION(:), POINTER :: RBUF ! buffer for fvupd
+          INTEGER NN_L, NNA_L, NNSA, NNSA_L, NSA, NELSA, PMAIN, NNI_L,MPI_COMM, RANK, NSPMD,NNA_L_GLOB
+          INTEGER, DIMENSION(:,:), POINTER :: IBUF_L, IBUFA_L, IBUFSA_L,IXSA, ELEMSA,ITAB
+          ! buffers
+          my_real,DIMENSION(:,:), POINTER :: GGG,GGA,AAA
+          my_real,DIMENSION(:), POINTER :: RBUF ! buffer for fvupd
           INTEGER, DIMENSION(:), POINTER :: IBUF !buffer for fvupd
           INTEGER, DIMENSION(:), POINTER :: REQ,IADI,IADR
-          my_real
-     .    ,DIMENSION(:,:), POINTER :: XXX,VVV,WAX,WAV 
-           
+          my_real,DIMENSION(:,:), POINTER :: XXX,VVV,WAX,WAV 
       END TYPE FVBAG_SPMD
+
+      !-------------------------------------
+      ! TEMP BUFFER (ENGINE FILE PARAMETERS)
+      !-------------------------------------
+      !Reading Engine file option /DT/FVMBAG and store it (FREEFORM subroutine)
+      ! Then use it when airbag buffer are allocated (restart file is read after FREEFORM subroutine)
+      TYPE FVMBAG_INPUT_OPTIONS_
+        INTEGER ID_BAG        ! airbag identifier
+        INTEGER L_TYPE        ! charactersitic length option
+        INTEGER ID_DT_OPTION  !/DT/FVMBAG/[ID_DT_OPTION]
+        my_real LAMBDA        ! 3rd paramter of /DT/FVMBAG option
+      END TYPE FVMBAG_INPUT_OPTIONS_
+            
 C-----------------------------------------------
 C   G l o b a l   V a r i a b l e s   D e f i n i t i o n
 C-----------------------------------------------
       INTEGER NFVBAG
       TYPE(FVBAG_DATA), DIMENSION(:), ALLOCATABLE :: FVDATA, FVDATA_OLD
       TYPE(FVBAG_SPMD), DIMENSION(:), ALLOCATABLE :: FVSPMD
-C
+C-----------------------------------------------      
+      TYPE(FVMBAG_INPUT_OPTIONS_),DIMENSION(:), ALLOCATABLE :: FVMBAG_INPUT_OPTIONS
+      INTEGER NUM_OPT_DT_FVMBAG   !number of option /DT/FVMBAG/[0-9] in Engine file
+      INTEGER NUM_OPT_DT_FVMBAG_1 !number of option /DT/FVMBAG/1 in Engine file
+      INTEGER NUM_OPT_DT_FVMBAG_2 !number of option /DT/FVMBAG/2 in Engine file
+      INTEGER NUM_OPT_DT_FVMBAG_3 !number of option /DT/FVMBAG/2 in Engine file      
+C-----------------------------------------------      
+
       END MODULE FVBAG_MOD

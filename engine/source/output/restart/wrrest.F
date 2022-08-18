@@ -549,6 +549,10 @@ C--------------------------------------
 C
       DO I=1,NFVBAG
          IF (IMACH.EQ.3) THEN
+            CALL WRITE_I_C(FVDATA(I)%L_TYPE,1)
+            CALL WRITE_I_C(FVDATA(I)%ID_DT_OPTION,1)            
+            CALL WRITE_DB(FVDATA(I)%LAMBDA,1)
+            CALL WRITE_DB(FVDATA(I)%DTOLD,1)
             CALL WRITE_DB(FVDATA(I)%CFL_COEF,1)
             CALL WRITE_DB(FVDATA(I)%DTMIN,1)
             TABI(1)=FVSPMD(I)%NN_L
@@ -671,8 +675,6 @@ C--------------------------------------
 C
       ENDDO
       
-      CALL WRITE_DB(FVMBAG_DTOLD,1)      
-C
       RETURN
       END
 C

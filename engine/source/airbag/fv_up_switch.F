@@ -183,15 +183,15 @@ C
      .     CPA_FLUX(NELT), CPB_FLUX(NELT), CPC_FLUX(NELT), CPD_FLUX(NELT),
      .     CPE_FLUX(NELT), CPF_FLUX(NELT), RGAS_FLUX(NELT)
       INTEGER(8) :: VEC_PTR_PLUS, VEC_PTR_MINUS
-      INTEGER :: COUNT, IDT_FVMBAG
+      INTEGER :: COUNT, IDT_FVMBAG, PARAM_L_TYPE
       MY_REAL :: CPAM, CPBM, CPCM, RGASM, CPDM, CPEM, CPFM
       MY_REAL :: DTOLD, LAMBDA
 
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
+C-----------------------------------------------
+C   S O U R C E   L I N E S
+C-----------------------------------------------
       VOLPH = ZERO
-
-
-!
+      
       IF(NBGAUGE > 0 ) THEN
          ALLOCATE(FVSPMD(IFV)%GGG(3,NNT))
          ALLOCATE(FVSPMD(IFV)%GGA(3,NNA))
@@ -1091,38 +1091,84 @@ C QA, QB AND STABILITY
 C---------------------------------------------------
 !$OMP SINGLE
 
-                  !--------!---------------!------------------------------------------------------
-                  ! VALUE    HOW TO ENABLE    DESCRIPTION
-      !-----------!--------!---------------!------------------------------------------------------
-      !IDTMIN(52) : 0,1      default           legacy time step formulation
-      !             2       /DT/FVMBAG/2       face by face
-      !             3       /DT/FVMBAG/3       characteristic length calculated (more restrictive)
-      !-----------!--------!---------------!------------------------------------------------------
+                   !--------!----------------!-------------------------------------------------------------------!
+                   ! VALUE  !  HOW TO ENABLE !   DESCRIPTION                                                     !
+      !------------!--------!----------------!-------------------------------------------------------------------!
+      ! IDTMIN(52) ! 0,1    !  default       !    legacy time step formulation (grid velocity ignored)           !
+      !  =         !  2     !  /DT/FVMBAG/2  !    velocity criterion at cendroid (2022) with characterisic length!
+      ! IDT_FVMBAG !  3     !  /DT/FVMBAG/3  !    velocity criterion face by face (2022)                         !
+      !------------!--------!----------------!-------------------------------------------------------------------!
       
-      IDT_FVMBAG = IDTMIN(52)  ! /DT/FVMBAG/[IDT_FVMBAG]
+      !LAMBDA : is smoothing ratio (for time step increase during next cycle)
+      !L_TYPE : is characteristic length option (IDT_FVMBAG = 2 only)   
+      !         0 : default is 1
+      !         1 : minimal edge length of initial bag mesh
+      !         2 : VOL**1/3
+            
+      IDT_FVMBAG = FVDATA(IFV)%ID_DT_OPTION     !IDTMIN(52)  ! /DT/FVMBAG/[IDT_FVMBAG]
 
       QA=RVOLU(46)
       QB=RVOLU(47)
       DTX=EP30
       PHDT=0
 !$OMP END SINGLE
+
+      !------------------------------!
+      ! --- CHARACTERISTIC LENGTH ---!
+      !------------------------------!
+      IDT_FVMBAG = FVDATA(IFV)%ID_DT_OPTION  ! /DT/FVMBAG/[IDT_FVMBAG]
+      PARAM_L_TYPE = FVDATA(IFV)%L_TYPE           
+      SELECT CASE(IDT_FVMBAG)
+
+        ! /DT/FVMBAG/1 
+        CASE(0,1)
+        ! ------------ 
+!$OMP DO SCHEDULE(GUIDED,1)        
+          DO I=1,NPOLH
+             IF (IBPOLH(I) == 0) THEN
+                DLS(I)=DLH !POLYHEDRON CONSTANT CHARACTERISTIC LENGTH COMPUTED IN THE STARTER
+             ELSE
+               DLS(I)=PVOLU(I)**THIRD !ADDITIONAL BRICKS
+             ENDIF
+          ENDDO
+!$OMP END DO          
+
+        ! /DT/FVMBAG/2
+        CASE(2) 
+        ! ------------        
+          SELECT CASE(PARAM_L_TYPE)
+            CASE(0,1) !dlh = starter constant
+!$OMP DO SCHEDULE(GUIDED,1)
+              DO I=1,NPOLH
+                DLS(I)=DLH 
+              ENDDO
+!$OMP END DO          
+            CASE(2) ! dl=VOL**1/3
+!$OMP DO SCHEDULE(GUIDED,1)
+              DO I=1,NPOLH
+                DLS(I)=PVOLU(I)**THIRD  
+              ENDDO
+!$OMP END DO          
+          END SELECT!PARAM_L_TYPE
+
+        ! /DT/FVMBAG/3
+        CASE(3) 
+        ! ------------
+!$OMP DO SCHEDULE(GUIDED,1)
+           DO I=1,NPOLH
+             DLS(I)=PVOLU(I)
+          ENDDO
+!$OMP END DO
+
+      END SELECT!IDT_FVMBAG
+      
+      
+      !------------------------------!
+      ! ---      TIME STEP        ---!
+      !------------------------------!
       SELECT CASE (IDT_FVMBAG)
 
         CASE(0,1)
-
-!$OMP DO SCHEDULE(GUIDED,1)
-          DO I=1,NPOLH
-            IF (IBPOLH(I)==0.AND.IDTMIN(52) < 2) THEN
-                !POLYEDRA
-                !CONSTANT CHARACTERISTIC LENGTH COMPUTED IN THE STARTER
-                DLS(I)=DLH
-             ELSE
-                !ADDITIONAL BRICKS
-                DLS(I)=PVOLU(I)**THIRD
-             ENDIF
-          ENDDO
-!$OMP END DO
-                       
 !$OMP DO SCHEDULE(GUIDED,1)
           DO I=1,NPOLH
              IF(MPOLH(I).LE.ZERO.OR.EPOLH(I).LE.ZERO.OR.GPOLH(I).LE.ONE) THEN
@@ -1145,44 +1191,7 @@ C
           ENDDO
 !$OMP END DO
 
-        CASE(2) ! check all faces and compute normal relative velocities
-
-
-!$OMP DO SCHEDULE(GUIDED,1)
-          DO I = 1, NPOLH
-             SS_=ZERO
-             DO J = 1, FVDATA(IFV)%ELEM_TO_TRI(I)%MINUS_SIZE
-                IEL = FVDATA(IFV)%ELEM_TO_TRI(I)%MINUS(J)
-!         FINITE VOLUME I IS ON THE LEFT SIDE OF ELEMENT IEL, HENCE A + SIGN
-                SS_=MAX(SS_,SS(IEL)) ! <|u-w|,n>
-             ENDDO
-             DO J = 1, FVDATA(IFV)%ELEM_TO_TRI(I)%PLUS_SIZE
-                IEL = FVDATA(IFV)%ELEM_TO_TRI(I)%PLUS(J)
-!         FINITE VOLUME I IS ON THE RIGHT SIDE OF ELEMENT IEL, HENCE A - SIGN
-                SS_=MAX(SS_,SS(IEL)) ! <|u-w|,n>
-             ENDDO
-             
-             AL=PVOLU(I)**THIRD                                                          
-             DD=DM(I)/MPOLH(I)                                                           
-             AD=MAX(ZERO,DD)                                                             
-             GAMA=GPOLH(I)                                                               
-             SSP=SQRT((GAMA-ONE)*GAMA*EPOLH(I)/MPOLH(I))                                 
-             QVISC(I)=RPOLH(I)*AD*AL*(QA*QA*AL*AD+QB*SSP)                                
-             QX=QB*SSP+AL*QA*QA*AD                                                       
-             SSP=QX+SQRT(QX*QX+SSP*SSP)                                                  
-             ! 3.relative velocty (PU:material velocity : PW:grid velocity)              
-             !    SS_ <- max( area*(u-w).n )
-             !    u-w = 0 unless in case of porosity
-             ! 4.time step       
-             DLS(I)=PVOLU(I)                                                        
-             DTPOLH(I)=CFL_COEF*DLS(I)/(SSP+SS_)                                  
-          ENDDO
-!$OMP END DO
-
-
-
-        CASE(3) !time step computed from a characteristic length
-
+        CASE(2) !time step computed from a characteristic length
 !$OMP DO SCHEDULE(GUIDED,1)
           DO I=1,NPOLH
              IF(MPOLH(I) <= ZERO.OR.EPOLH(I) <= ZERO.OR.GPOLH(I) <= ONE) THEN
@@ -1219,17 +1228,47 @@ C
                IF(COUNT > 0)THEN
                  VV = VV / FLOAT(COUNT) 
                ENDIF               
-               ! 4.time step
-               DLS(I) = PVOLU(I)**THIRD             
+               ! 4.time step            
                DTPOLH(I)=CFL_COEF*DLS(I)/(SSP+VV)
              ENDIF
           ENDDO
 !$OMP END DO
+
+        CASE(3) ! check all faces and compute normal relative velocities
+!$OMP DO SCHEDULE(GUIDED,1)
+          DO I = 1, NPOLH
+             SS_=ZERO
+             DO J = 1, FVDATA(IFV)%ELEM_TO_TRI(I)%MINUS_SIZE
+                IEL = FVDATA(IFV)%ELEM_TO_TRI(I)%MINUS(J)
+!         FINITE VOLUME I IS ON THE LEFT SIDE OF ELEMENT IEL, HENCE A + SIGN
+                SS_=MAX(SS_,SS(IEL)) ! <|u-w|,n>
+             ENDDO
+             DO J = 1, FVDATA(IFV)%ELEM_TO_TRI(I)%PLUS_SIZE
+                IEL = FVDATA(IFV)%ELEM_TO_TRI(I)%PLUS(J)
+!         FINITE VOLUME I IS ON THE RIGHT SIDE OF ELEMENT IEL, HENCE A - SIGN
+                SS_=MAX(SS_,SS(IEL)) ! <|u-w|,n>
+             ENDDO
+             
+             AL=PVOLU(I)**THIRD                                                          
+             DD=DM(I)/MPOLH(I)                                                           
+             AD=MAX(ZERO,DD)                                                             
+             GAMA=GPOLH(I)                                                               
+             SSP=SQRT((GAMA-ONE)*GAMA*EPOLH(I)/MPOLH(I))                                 
+             QVISC(I)=RPOLH(I)*AD*AL*(QA*QA*AL*AD+QB*SSP)                                
+             QX=QB*SSP+AL*QA*QA*AD                                                       
+             SSP=QX+SQRT(QX*QX+SSP*SSP)                                                  
+             ! 3.relative velocty (PU:material velocity : PW:grid velocity)              
+             !    SS_ <- max( area*(u-w).n )
+             !    u-w = 0 unless in case of porosity
+             ! 4.time step                                                             
+             DTPOLH(I)=CFL_COEF*DLS(I)/(SSP+SS_)                                  
+          ENDDO
+!$OMP END DO
+
       END SELECT
 
 
 !$OMP END PARALLEL
-
 
       DO I=1,NPOLH
          IF (DTPOLH(I).LT.DTX) THEN
@@ -1240,19 +1279,16 @@ C
       
       !optionnal time step growth limitor (/DT/FVMBAG/2, 3rd parameter)
       IF(NCYCLE > 0)THEN
-        LAMBDA = FVMBAG_LAMBDA
+        LAMBDA = FVDATA(IFV)%LAMBDA
         IF(LAMBDA > ZERO)THEN
-          DTOLD = FVMBAG_DTOLD        
+          DTOLD = FVDATA(IFV)%DTOLD        
           DTX = MIN(  DTX,(DTOLD)*(ONE+LAMBDA))
         ENDIF
       ENDIF
-      FVMBAG_DTOLD = DTX      
-
+      FVDATA(IFV)%DTOLD = DTX      
 
       IF (ILVOUT >= 1.AND.IPRI.EQ.0) THEN
-         WRITE(IOUT,'(A,I10,A,E12.4,A,I10)')
-     .         ' ** MONITORED VOLUME ID: ',IVOLU(1),
-     .         ' TIME STEP:',DTX,' FINITE VOLUME:',IDPOLH(PHDT)
+         WRITE(IOUT,'(A,I10,A,E12.4,A,I10)')' ** MONITORED VOLUME ID: ',IVOLU(1),' TIME STEP:',DTX,' FINITE VOLUME:',IDPOLH(PHDT)
       ENDIF
 
 C
@@ -1463,17 +1499,10 @@ C PRINT OUTS
 C---------------------------------------------------
  250  IF (ILVOUT >= 1 .AND. IPRI == 0) THEN
          WRITE(IOUT,*)
-         WRITE(IOUT,'(A25,I10,A31)')
-     .         ' ** MONITORED VOLUME ID: ',IVOLU(1),
-     .         ' - FINITE VOLUME MESH UPDATE **'
-         WRITE(IOUT,'(A,I8)')
-     .         '    NUMBER OF FINITE VOLUMES : ',NPOLH
-         WRITE(IOUT,'(A,G16.9,A17,G16.9,A1)')
-     .         '    SUM VOLUME FINITE VOLUMES : ',VOLPH,
-     .         '    (VOLUME AIRBAG: ',VOLG,')'
-         WRITE(IOUT,'(A,G16.9,A17,G16.9,A1)')
-     .         '    SUM AREA SURFACE POLYGONS : ',AREAP,
-     .         '    (AREA AIRBAG  : ',AREAEL,')'
+         WRITE(IOUT,'(A25,I10,A31)')' ** MONITORED VOLUME ID: ',IVOLU(1),' - FINITE VOLUME MESH UPDATE **'
+         WRITE(IOUT,'(A,I8)')'    NUMBER OF FINITE VOLUMES : ',NPOLH
+         WRITE(IOUT,'(A,G16.9,A17,G16.9,A1)')'    SUM VOLUME FINITE VOLUMES : ',VOLPH,'    (VOLUME AIRBAG: ',VOLG,')'
+         WRITE(IOUT,'(A,G16.9,A17,G16.9,A1)')'    SUM AREA SURFACE POLYGONS : ',AREAP,'    (AREA AIRBAG  : ',AREAEL,')'
          WRITE(IOUT,*)
       ENDIF
 C---------------------------------------------------
@@ -1597,7 +1626,6 @@ C     AUTOMATIC SWITCH TO UNIFORM PRESSURE WHEN DISPERSION OF PRESSURE IS LOW
 
       ENDIF
 
-     
       DO IEL=1,NELT
          IF (ITAGEL(IEL) > 0) THEN
             FSAV(15)=FSAV(15)+ELFMASS(IEL)
@@ -1729,7 +1757,7 @@ C------------------
              TEMP=TPOLH(I)
              II=IABS(IBPOLH(I))
              IF(BRNA(1,II).EQ.BRNA(4,II).AND.BRNA(5,II).EQ.BRNA(8,II))THEN
-C PENTAEDRA
+C PENTAHEDRON
                 DO K=1,6
                  J=K
                  IF(K.GE.4) J=J+1
@@ -1759,7 +1787,7 @@ C PYRAMID
                  UA(3,JJ)=UA(3,JJ)+ONE_FIFTH*PU(3,I)*PVOLU(I)
                 ENDDO
              ELSE
-C BRICK OR TETRAEDRA
+C HEXAHEDRON OR TETRAEDRON
                 DO J=1,8
                  JJ=BRNA(J,II)
                  VOLA(JJ)=VOLA(JJ)+ONE_OVER_8*PVOLU(I)
