@@ -52,9 +52,13 @@ C   D e r i v e d   T y p e   D e f i n i t i o n s
 C-----------------------------------------------
       TYPE FVBAG_DATA
 C-------------------------------
-C     Courant number (DT scale factor) 
+C     Courant number (DT scale factor) & Time Step options
 C-------------------------------
       my_real CFL_COEF, DTMIN
+      my_real LAMBDA       ! /DT/FVMBAG param 3
+      my_real DTOLD        ! FVMBAG time step from previous cycle
+      INTEGER L_TYPE       ! FVMBAG characteristic length option      
+      INTEGER ID_DT_OPTION ! /DT/FVMBAG/[ID_DT_OPTION]
 C------------------------------------------------
 C     Dispersion of pressure around mean pressure
 C------------------------------------------------
@@ -126,7 +130,6 @@ C-----------------------------------------------
       TYPE(FVBAG_DATA), DIMENSION(:), ALLOCATABLE :: FVDATA
       TYPE(FVBAG_SPMD), DIMENSION(:), ALLOCATABLE :: FVSPMD
       INTEGER, DIMENSION(:), ALLOCATABLE :: FVID
-      my_real :: FVMBAG_DTOLD
 
 c after bug detected on fvmbags qa after starter paralellization
 !$OMP THREADPRIVATE(FVSPMD) 

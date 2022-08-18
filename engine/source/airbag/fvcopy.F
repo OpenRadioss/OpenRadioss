@@ -114,6 +114,11 @@ C
         ENDDO
 
         DO I=1,NFVBAG_MAX
+            FVDATA_OLD(I)%L_TYPE = 0
+            FVDATA_OLD(I)%ID_DT_OPTION = 0
+            FVDATA_OLD(I)%LAMBDA = ZERO
+            FVDATA_OLD(I)%DTOLD = ZERO
+            
             FVDATA_OLD(I)%CFL_COEF = ZERO
             FVDATA_OLD(I)%DTMIN = ZERO
             FVDATA_OLD(I)%PDISP_OLD = ZERO
@@ -169,6 +174,11 @@ C
      .              FVDATA(I)%CPFPOLH)
          ENDDO
         DO I=1,NFVBAG_MAX
+            FVDATA(I)%L_TYPE = ZERO
+            FVDATA(I)%ID_DT_OPTION = ZERO
+            FVDATA(I)%LAMBDA = ZERO
+            FVDATA(I)%DTOLD = ZERO
+
             FVDATA(I)%CFL_COEF = ZERO
             FVDATA(I)%DTMIN = ZERO
             FVDATA(I)%PDISP_OLD = ZERO
@@ -433,6 +443,11 @@ C
      .                  FVDATA(IFV)%REDIR_ANIM(NNS_ANIM),
      .                  FVDATA(IFV)%NOD_ANIM(3,NNS_ANIM))
 C
+               FVDATA(IFV)%L_TYPE = FVDATA_OLD(IFV)%L_TYPE
+               FVDATA(IFV)%ID_DT_OPTION = FVDATA_OLD(IFV)%ID_DT_OPTION
+               FVDATA(IFV)%LAMBDA = FVDATA_OLD(IFV)%LAMBDA
+               FVDATA(IFV)%DTOLD = FVDATA_OLD(IFV)%DTOLD
+
                FVDATA(IFV)%CFL_COEF = FVDATA_OLD(IFV)%CFL_COEF
                FVDATA(IFV)%PDISP_OLD = FVDATA_OLD(IFV)%PDISP_OLD
                FVDATA(IFV)%PDISP = FVDATA_OLD(IFV)%PDISP
