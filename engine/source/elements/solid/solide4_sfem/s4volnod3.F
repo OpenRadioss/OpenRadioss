@@ -111,7 +111,7 @@ C----------------------------
 C     TETRAHEDRON VOLUME
 C----------------------------
       DO I=LFT,LLT
-       IF(OFFG(I) /= ONE) THEN
+       IF (OFFG(I) == ZERO .OR. ABS(OFFG(I)).GT.ONE) THEN
          DET(I)= ZERO
        ELSE
          X43 = X4(I) - X3(I)
