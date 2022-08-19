@@ -78,7 +78,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,SENS_TYPE,SPRING_ID,SKEW_ID,ISK,NPOINT,ICFC,IDIR1,IDIR2,
+      INTEGER :: I,SENS_TYPE,SPRING_ID,SKEW_ID,ISK,NPOINT,IDIR1,IDIR2,
      .   NPARIS,NPARRS,NVAR
       my_real :: TDEL,TMIN,NIJMAX,FTENS,FCOMP,MFLEX,MEXT,ALPHA,CFC,
      .           FAC_FORC,FAC_MOM
@@ -108,7 +108,7 @@ card3
 card4
       CALL HM_GET_FLOATV('Tmin'      ,TMIN      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('Alpha'     ,ALPHA     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_INTV  ('CFC'       ,ICFC      ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_FLOATV('CFC'       ,CFC       ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 c
 c--------------------------------------------------
 c     Check input and defaul values
@@ -139,13 +139,12 @@ c
       END IF
       FAC_FORC = FAC_M_WORK * FAC_L_WORK / FAC_T_WORK**2
       FAC_MOM  = FAC_FORC * FAC_L_WORK
-      CFC = ICFC
       IF (FTENS == 0) FTENS = 6806.0 / FAC_FORC 
       IF (FCOMP == 0) FCOMP = 6160.0 / FAC_FORC 
       IF (MFLEX == 0) MFLEX = 310.0  / FAC_MOM
       IF (MEXT  == 0) MEXT  = 135.0  / FAC_MOM
       IF (ALPHA == 0) ALPHA = 2.0775
-      IF (CFC == ZERO) CFC  = 600 * FAC_T_WORK
+      IF (CFC == ZERO) CFC  = 600.0 * FAC_T_WORK
 c--------------------------------------------------
 c     sensor data structure
 c--------------------------------------------------
@@ -164,7 +163,7 @@ c
       SENSOR_PTR%NPARR   = NPARRS
       SENSOR_PTR%TYPE    = SENS_TYPE
       SENSOR_PTR%SENS_ID = SENS_ID
-      SENSOR_PTR%STATUS  = 0          ! status = deactivated
+      SENSOR_PTR%STATUS  = 0          ! status = initially deactivated
       SENSOR_PTR%TSTART  = INFINITY   ! start time
       SENSOR_PTR%TCRIT   = INFINITY   ! global activation time
       SENSOR_PTR%TDELAY  = TDEL       ! time delay before activation
@@ -174,7 +173,7 @@ c
       SENSOR_PTR%IPARAM(1) = SPRING_ID
       SENSOR_PTR%IPARAM(2) = 0        ! spring number - initialized in inisens()
       SENSOR_PTR%IPARAM(3) = ISK
-      SENSOR_PTR%IPARAM(4) = 0        ! spring skew number - initialized in inisens()
+      SENSOR_PTR%IPARAM(4) = 0        ! spring skew   - initialized in inisens()
       SENSOR_PTR%IPARAM(5) = IDIR1
       SENSOR_PTR%IPARAM(6) = IDIR2
 c
@@ -216,7 +215,7 @@ c------------------------------------------------------------
      . 5X,'  LOCAL SKEW SYSTEM ID . . . . . . . . . . =',I10/
      . 5X,'  DIRECTION OF AXIAL FORCE MONITORING. . . =',9X,A1/
      . 5X,'  DIRECTION OF BENDING MOMENT MONITORING . =',9X,A1/
-     . 5X,'  CFC CHANNEL FREQUENCY CLASS. . . . . . . =',E12.4/
+     . 5X,'  CFC - CHANNEL FREQUENCY CLASS. . . . . . =',E12.4/
      . 5X,'  FILTER CONSTANT. . . . . . . . . . . . . =',E12.4/)
 c-----------
       RETURN
