@@ -29,21 +29,20 @@ Chd|        VALPVECDP_V                   source/materials/mat/mat033/sigeps33.F
 Chd|        VALPVEC_V                     source/materials/mat/mat033/sigeps33.F
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|====================================================================
-              SUBROUTINE SIGEPS69(
-     1      NEL    , NUPARAM, NUVAR   , NFUNC , IFUNC , NPF   ,
-     2      TF     , TIME   , TIMESTEP, UPARAM, RHO0  , RHO   ,
-     3      VOLUME , EINT   ,
-     4      EPSPXX , EPSPYY , EPSPZZ  , EPSPXY, EPSPYZ, EPSPZX, 
-     5      DEPSXX , DEPSYY , DEPSZZ  , DEPSXY, DEPSYZ, DEPSZX,
-     6      EPSXX  , EPSYY  , EPSZZ   , EPSXY , EPSYZ , EPSZX ,
-     7      SIGOXX , SIGOYY , SIGOZZ  , SIGOXY, SIGOYZ, SIGOZX,
-     8      SIGNXX , SIGNYY , SIGNZZ  , SIGNXY, SIGNYZ, SIGNZX,
-     9      SIGVXX , SIGVYY , SIGVZZ  , SIGVXY, SIGVYZ, SIGVZX,
-     A      SOUNDSP, VISCMAX, UVAR    , OFF   , WXXDT , WYYDT ,
-     B      WZZDT  , ISMSTR , MFXX    , MFXY  , MFXZ  , MFYX  ,    
-     C      MFYY   , MFYZ   , MFZX    , MFZY  , MFZZ  , ET    ,
-     D      IHET   , IPM    , MAT     , NUVARV , UVARV,OFFG   ,
-     E      EPSTH3 , IEXPAN )
+      SUBROUTINE SIGEPS69(
+     1           NEL    , NUPARAM, NUVAR   , NFUNC  , IFUNC   , NPF    ,
+     2           TF     , TIME   , TIMESTEP, UPARAM , RHO0    , RHO    ,
+     3           VOLUME , EINT   , IVISC   , NUPARV , UPARVIS ,
+     4           EPSPXX , EPSPYY , EPSPZZ  , EPSPXY , EPSPYZ  , EPSPZX ,
+     5           DEPSXX , DEPSYY , DEPSZZ  , DEPSXY , DEPSYZ  , DEPSZX ,
+     6           EPSXX  , EPSYY  , EPSZZ   , EPSXY  , EPSYZ   , EPSZX  ,
+     7           SIGOXX , SIGOYY , SIGOZZ  , SIGOXY , SIGOYZ  , SIGOZX ,
+     8           SIGNXX , SIGNYY , SIGNZZ  , SIGNXY , SIGNYZ  , SIGNZX ,
+     9           SIGVXX , SIGVYY , SIGVZZ  , SIGVXY , SIGVYZ  , SIGVZX ,
+     A           SOUNDSP, VISCMAX, UVAR    , OFF    , WXXDT   , WYYDT  ,
+     B           WZZDT  , ISMSTR , MFXX    , MFXY   , MFXZ    , MFYX   , 
+     C           MFYY   , MFYZ   , MFZX    , MFZY   , MFZZ    , ET     ,
+     D           IHET   , NUVARV , UVARV   , OFFG   , EPSTH3  , IEXPAN )
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -64,10 +63,9 @@ C-----------------------------------------------
 C----------------------------------------------------------------
 C  I N P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      INTEGER       NEL,     NUPARAM, NUVAR,ISMSTR,IHET,NUVARV,IEXPAN
-      INTEGER IPM(NPROPMI,*),MAT(NEL)
+      INTEGER :: NEL,NUPARAM,NUVAR,ISMSTR,IHET,NUVARV,NUPARV,IVISC,IEXPAN
       my_real
-     .      TIME       , TIMESTEP   , UPARAM(NUPARAM),
+     .      TIME       , TIMESTEP   , UPARAM(NUPARAM),UPARVIS(NUPARV),
      .      RHO   (NEL), RHO0  (NEL), VOLUME(NEL), EINT(NEL),
      .      EPSPXX(NEL), EPSPYY(NEL), EPSPZZ(NEL),
      .      EPSPXY(NEL), EPSPYZ(NEL), EPSPZX(NEL),
@@ -106,7 +104,7 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
-      INTEGER    I,J,K,KFP,NORDRE,II,IADBUF,IVISC,NPRONY
+      INTEGER    I,J,K,KFP,NORDRE,II,NPRONY
       my_real
      .   TENSCUT,GMAX,FSCALE,RVT,SUMDWDL,EFAC,DWDRV,RBULK,DPDMU,AMAX,ETI(MVSIZ),ETH
       my_real
@@ -117,21 +115,20 @@ C----------------------------------------------------------------
      .   CC,FAC,INVDT,FFT(3)
 C----------------------------------------------------------------
 C SET INITIAL MATERIAL CONSTANTS
-      IADBUF = IPM(7,MAT(1)) 
-      MU(1)  = UPARAM(IADBUF )
-      MU(2)  = UPARAM(IADBUF + 1)
-      MU(3)  = UPARAM(IADBUF + 2)
-      MU(4)  = UPARAM(IADBUF + 3)
-      MU(5)  = UPARAM(IADBUF + 4)
-      AL(1)  = UPARAM(IADBUF + 5)
-      AL(2)  = UPARAM(IADBUF + 6)
-      AL(3)  = UPARAM(IADBUF + 7)
-      AL(4)  = UPARAM(IADBUF + 8)
-      AL(5)  = UPARAM(IADBUF + 9)
-      RBULK  = UPARAM(IADBUF + 10)
-      TENSCUT= UPARAM(IADBUF + 11)
-      FSCALE = UPARAM(IADBUF + 14)
-      NORDRE = NINT(UPARAM(IADBUF + 17))      
+      MU(1)  = UPARAM(1)
+      MU(2)  = UPARAM(2)
+      MU(3)  = UPARAM(3)
+      MU(4)  = UPARAM(4)
+      MU(5)  = UPARAM(5)
+      AL(1)  = UPARAM(6)
+      AL(2)  = UPARAM(7)
+      AL(3)  = UPARAM(8)
+      AL(4)  = UPARAM(9)
+      AL(5)  = UPARAM(10)
+      RBULK  = UPARAM(11)
+      TENSCUT= UPARAM(12)
+      FSCALE = UPARAM(15) 
+      NORDRE = NINT(UPARAM(18))      
 C      
       KFP = IFUNC(1)
 C
@@ -141,15 +138,12 @@ C
       ENDDO
 C
 C add viscosity using /visc/prony
-      IVISC = 0
-      IF(IPM(222,MAT(1)) > 0) THEN 
-         IADBUF = IPM(223,MAT(1))
-         NPRONY =  INT(UPARAM(IADBUF +1 ))
-         IVISC = 1
+      IF (IVISC > 0) THEN 
+         NPRONY = INT(UPARVIS(1))
 c             
          DO I=1,NPRONY
-          GI(I)    = UPARAM(IADBUF + 1 + I)
-          BETA(I)  = UPARAM(IADBUF + 1 + NPRONY + I)
+          GI(I)    = UPARVIS(1 + I)
+          BETA(I)  = UPARVIS(1 + NPRONY + I)
           GMAX = GMAX + GI(I)
          ENDDO 
        ENDIF             

@@ -237,9 +237,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NV46, NUMEL, INLOC
-      INTEGER I,NPAR,IADBUF,NFUNC,NUMTABL,ISRATE,MX,IPG,NPTR,NPTS,
+      INTEGER I,NPAR,IADBUF,IADVIS,NFUNC,NUMTABL,ISRATE,MX,IPG,NPTR,NPTS,
      .  IBID,IBIDON1,IBIDON2,IBIDON3,IBIDON4 ,N48,NIX,ILAW_USER,IGTYP,
-     .  NVARF,IR,IP,IRUPT,IMAT,ISVIS,IVISC,NUVARV,ISEQ,IADRUPBUF,IDEV
+     .  NVARF,IR,IP,IRUPT,IMAT,ISVIS,IVISC,NUVARV,NUPARV,ISEQ,IADRUPBUF,IDEV
       my_real 
      .E1,E2,E3,E4,E5,E6,BID1,BID3,Q1,Q2,Q3,SS1,SS2,SS3,SS4,SS5,
      . SS6,WXXF,WYYF,WZZF,P2,EPSP,DAV,ASRATE,C1(MVSIZ),
@@ -268,8 +268,9 @@ C-----------------------------------------------
       my_real TT_LOCAL
       my_real, DIMENSION(NEL), TARGET  :: LE_MAX
 C----
-      my_real, DIMENSION(:), POINTER   :: UPARAM,UPARAMF,UVARF,DFMAX,TDEL,EL_TEMP, 
-     .                                    YLDFAC,DAM,EL_LEN
+      my_real, DIMENSION(:), POINTER   :: UPARAM,UPARAMF,UPARVIS,UVARF,DFMAX,
+     .                                    TDEL,EL_TEMP,YLDFAC,DAM,EL_LEN
+      my_real, DIMENSION(:), ALLOCATABLE ,TARGET  :: BUFZERO
       TYPE(L_BUFEL_)  ,POINTER         :: LBUF
       TYPE(G_BUFEL_)  ,POINTER         :: GBUF      
       TYPE(MATPARAM_STRUCT_) , POINTER :: MATPARAM
@@ -310,6 +311,16 @@ C=======================================================================
       UPARAM => BUFMAT(IADBUF:IADBUF+NPAR) 
       IFUNC  => IPM(10+1:10+NFUNC,MX)      
       ITABLE => IPM(226+1:226+NUMTABL,MX)
+      IVISC  = IPM(222,MX)
+      NUPARV = IPM(224,MX)
+      NUVARV = IPM(225,MX)
+      IADVIS = IPM(223,MX)
+      IF (IVISC > 0) THEN
+        UPARVIS => BUFMAT(IADVIS:IADVIS+NUPARV)
+      ELSE
+        ALLOCATE (BUFZERO(0))
+        UPARVIS => BUFZERO
+      END IF
       MATPARAM => MATPARAM_TAB(MX)
       !==================================================  
       ! Recovering data from MATPARAM data structure
@@ -1077,22 +1088,22 @@ c
      .                  SV1 ,SV2 ,SV3   ,SV4   ,SV5  ,SV6 ,
      .                  SSP ,VIS ,UVAR  ,OFF   ,NGL  ,0   ,
      .                  IPM ,MAT ,AMU   )
+c
       ELSEIF (MTN == 69) THEN
-          NUVARV = IPM(225,MX)
-          CALL SIGEPS69(NEL ,NPAR,NUVAR,NFUNC,IFUNC,
-     2                  NPF ,TF  ,TT,DT1,BUFMAT,
-     3                  RHO0,RHO ,VOLN,EINT,
-     4                  EP1 ,EP2 ,EP3 ,EP4  ,EP5  ,EP6 ,
-     5                  DE1 ,DE2 ,DE3 ,DE4  ,DE5  ,DE6 ,
-     6                  ES1 ,ES2 ,ES3 ,ES4  ,ES5  ,ES6 ,
-     7                  SO1 ,SO2 ,SO3 ,SO4  ,SO5  ,SO6 ,
-     8                  S1  ,S2  ,S3  ,S4   ,S5   ,S6  ,
-     9                  SV1 ,SV2 ,SV3 ,SV4  ,SV5  ,SV6 ,
-     A                  SSP ,VIS ,UVAR,OFF  ,WXX  ,WYY ,
-     .                  WZZ ,ISMSTR,MFXX,MFXY,MFXZ,MFYX, 
+          CALL SIGEPS69(NEL  ,NPAR,NUVAR,NFUNC,IFUNC,NPF  ,
+     .                  TF   ,TT,DT1,UPARAM,RHO0 ,RHO  ,
+     .                  VOLN ,EINT,IVISC,NUPARV,UPARVIS ,
+     .                  EP1  ,EP2 ,EP3 ,EP4  ,EP5  ,EP6 ,
+     .                  DE1  ,DE2 ,DE3 ,DE4  ,DE5  ,DE6 ,
+     .                  ES1  ,ES2 ,ES3 ,ES4  ,ES5  ,ES6 ,
+     .                  SO1  ,SO2 ,SO3 ,SO4  ,SO5  ,SO6 ,
+     .                  S1   ,S2  ,S3  ,S4   ,S5   ,S6  ,
+     .                  SV1  ,SV2 ,SV3 ,SV4  ,SV5  ,SV6 ,
+     .                  SSP  ,VIS ,UVAR,OFF  ,WXX  ,WYY ,
+     .                  WZZ  ,ISMSTR,MFXX,MFXY,MFXZ,MFYX, 
      .                  MFYY ,MFYZ ,MFZX ,MFZY,MFZZ,ET ,
-     .                  IHET ,IPM  ,MAT,NUVARV,VBUF%VAR,
-     .                  OFFG ,EPSTH3,IEXPAN)
+     .                  IHET ,NUVARV,VBUF%VAR,OFFG ,EPSTH3,IEXPAN)
+c
       ELSEIF (MTN == 70) THEN
 C-------------------
 C     STRAIN RATE
@@ -2263,6 +2274,7 @@ C-----------
 
       ENDIF
       QOLD(1:NEL) = Q(1:NEL)
+      IF (ALLOCATED(BUFZERO)) DEALLOCATE (BUFZERO)
 C------------------------------------------
       RETURN
       END
