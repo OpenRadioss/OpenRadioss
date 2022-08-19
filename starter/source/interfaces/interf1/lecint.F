@@ -711,7 +711,8 @@ C--------------------------------------------
             IS_GAP_COMPUTED = .FALSE.
             CALL INGRBRIC_DX(NBRIC   , IGRBRIC(GRBRIC_ID)%ENTITY, FRIGAP(2,NI)   , IXS        , X,
      .                       NOINT   , TITR                     , IS_GAP_COMPUTED, PM         , RHO0_MAX, 
-     .                       IDDLEVEL, ISTIFF                   , AUTO_RHO       , AUTO_LENGTH, IGAP)
+     .                       IDDLEVEL, ISTIFF                   , AUTO_RHO       , AUTO_LENGTH, IGAP    ,
+     .                       MULTI_FVM)
             IF(IS_GAP_COMPUTED)THEN
               WRITE(IOUT,1000)NOINT
               WRITE(IOUT,3020)FRIGAP(2,NI)

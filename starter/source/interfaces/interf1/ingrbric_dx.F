@@ -30,7 +30,8 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE INGRBRIC_DX(NBRIC   , IBUFSSG   , GLOBAL_GAP     , IXS        ,    X,  
      .                       NOINT   , TITR      , IS_GAP_COMPUTED,  PM        , RHO0,
-     .                       IDDLEVEL, ISTIFF    , AUTO_RHO       , AUTO_LENGTH, IGAP)
+     .                       IDDLEVEL, ISTIFF    , AUTO_RHO       , AUTO_LENGTH, IGAP,
+     .                       MULTI_FVM)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -45,6 +46,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
+      USE MULTI_FVM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,6 +72,7 @@ C-----------------------------------------------
       LOGICAL, INTENT(INOUT) :: IS_GAP_COMPUTED
       my_real , INTENT(IN)    :: PM(NPROPM,NUMMAT)
       my_real, INTENT(INOUT) :: RHO0, AUTO_RHO, AUTO_LENGTH
+      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM      
 C-----------------------------------------------
 C   L o c a l   V a r a i b l e s
 C-----------------------------------------------
@@ -79,7 +82,7 @@ C-----------------------------------------------
       my_real :: XX,YY,ZZ
       my_real :: XX2,YY2,ZZ2
       my_real :: DX,DY,DZ
-      my_real :: DIAG, DIAG_MAX , MAX_RATIO, LEN_EDGE(12), LMAX, LMIN, RATIO
+      my_real :: DIAG, DIAG_MAX , MAX_RATIO, LEN_EDGE(12), LMAX, LMIN, RATIO2
       LOGICAL :: CHECK_ASPECt 
       CHARACTER*nchartitle :: MSGTITL
       CHARACTER*10 :: CHAR_ID
@@ -152,7 +155,7 @@ C-----------------------------------------------
       ! CHECK ASPECT RATIO
       !-----------------------------------------
       CHECK_ASPECT=.FALSE.
-      IF(IDDLEVEL==1)CHECK_ASPECT=.TRUE.
+      IF(IDDLEVEL==1 .AND. MULTI_FVM%IS_USED)CHECK_ASPECT=.TRUE.
       IF (CHECK_ASPECT)THEN
         !edge connectivity
         CONNECT1(1:12)=(/1,1,1,2,2,3,3,4,5,5,6,7/)
@@ -175,8 +178,8 @@ C-----------------------------------------------
           ENDDO
           LMIN=MINVAL(LEN_EDGE)
           LMAX=MAXVAL(LEN_EDGE)
-          RATIO = LMAX/LMIN
-          IF(RATIO > TWO .AND. ENUM < 10)THEN
+          RATIO2 = LMAX/LMIN ! ratio of squared values
+          IF(RATIO2 > 6.25 .AND. ENUM < 10)THEN
             CHAR_ID=' '
             WRITE(CHAR_ID,FMT='(I0)')IXS(11,IBUFSSG(I))
             MSGTITL='CHECK ASPECT RATIO CELL ID ='//CHAR_ID 
