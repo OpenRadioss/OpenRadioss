@@ -73,7 +73,7 @@ C-----------------------------------------------
        character(len=2096) ARGS2,ARGS_REDUCE
        CHARACTER(len=4096) ULIBC
        PARAMETER (LENLIST=18)
-       CHARACTER ARGLIST(LENLIST)*12
+       CHARACTER(LEN=12):: ARGLIST(LENLIST)
        EXTERNAL IARGC
        DATA ARGLIST/
      .    '-VERSION',  '-V',
@@ -385,6 +385,11 @@ C check if -i has got an argument or if the next string is an input command
              PATH(1:LENP)=INPUTR(1:LENP)
            ENDIF
          ENDIF
+       ELSE
+           ! -input/-i was not set. Exiting with error message.
+           MSG= ' ' 
+           CALL PHELPINFO(6,MSG,0)
+           CALL ARRET(7)
        ENDIF
 
 C------------------------------------------------
@@ -551,7 +556,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-       CHARACTER ARGLIST(LENLIST)*10
+       CHARACTER (LEN=12),INTENT(IN) :: ARGLIST(LENLIST)
        CHARACTER ARG*2096
        INTEGER LENLIST,ISIN
 C-----------------------------------------------
@@ -571,7 +576,7 @@ C-----------------------------------------------
 
        ISIN = 0
        DO I=1,LENLIST
-        IF (ARGLIST(I)==ARGC) ISIN=1
+        IF (TRIM(ARGLIST(I))==TRIM(ARGC)) ISIN=1
        ENDDO 
        END
 
@@ -598,13 +603,11 @@ C-----------------------------------------------
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR,ICODE
       INTEGER MYRANK, NNODES
       INTEGER KEY, IERR
-      INTEGER ISV_KEY
-      PARAMETER (ISV_KEY=195118620) 
 #endif
       INTEGER IDUM
 C-----------------------------------------------
 #ifdef MPI
-        KEY = ISV_KEY
+        KEY = 0
         call MPI_INITIALIZED(KEY, IERR)
         CALL MPI_INIT(IERROR)
         CALL MPI_COMM_SIZE(MPI_COMM_WORLD, NNODES, IERROR)
@@ -690,12 +693,10 @@ C-----------------------------------------------
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR,ICODE
       INTEGER MYRANK, NNODES
       INTEGER KEY, IERR
-      INTEGER ISV_KEY
-      PARAMETER (ISV_KEY=195118620) 
 #endif
 C-----------------------------------------------
 #ifdef MPI
-        KEY = ISV_KEY
+        KEY = 0
         call MPI_INITIALIZED(KEY, IERR)
         CALL MPI_INIT(IERROR)
         CALL MPI_COMM_SIZE(MPI_COMM_WORLD, NNODES, IERROR)
@@ -767,6 +768,11 @@ C-----------------------------------------------
          WRITE(6,'(A)') ' '
          WRITE(6,'(A,A,A,A,A)') 
      *     '*** ERROR : Wrong "',EMSG(1:SMSG),'" option'
+       ENDIF
+
+       IF (ERRN == 6)THEN
+         WRITE(6,'(A)') ' '
+         WRITE(6,'(A)') '*** ERROR : No input deck set. Use -input [Starter input file] '
        ENDIF
 
        WRITE(6,'(A)') ' '

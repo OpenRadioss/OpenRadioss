@@ -55,8 +55,6 @@ C-----------------------------------------------
 #include  "units_c.inc"
 #include  "commandline.inc"
       INTEGER KEY, IERR
-      INTEGER ISV_KEY
-      PARAMETER (ISV_KEY=195118620)
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -86,7 +84,7 @@ C
           IFLSIZE = 4*IR4R8
         ENDIF
 C
-        KEY = ISV_KEY
+        KEY = 0
         CALL MPI_INITIALIZED(KEY, IERR)
 
         CALL MPI_INIT(IERROR)
