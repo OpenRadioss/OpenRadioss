@@ -1291,6 +1291,7 @@ C
      B                  ASRATE,ET ,IHET,GBUF%OFF,EPSTH3,IEXPAN,
      C                  EPSD )  
       ELSEIF (MTN == 90) THEN
+      
 C-------------------
 C     visco-hypereslatic law defined by stress strain curve
 C-------------------       
@@ -2161,6 +2162,9 @@ c   bulk viscosity and time step computation
 c   this subroutine return the new bulk viscosity q
 c-----------------------
       IF (JSPH == 0) THEN  
+C qa=qb=zero by default for law70  & 90     
+        IF (IGEO(31,PID(1)) == 1 .AND. (MTN == 70 .OR. MTN == 90)) FACQ0 = ZERO
+C
         CALL MQVISCB(                                            
      1           PM      ,OFF     ,RHO    ,BID1    ,EL_TEMP     ,SSP   ,   
      2           BID3    ,STIFN   ,DT2T   ,NELTST  ,ITYPTST     ,AIRE  ,

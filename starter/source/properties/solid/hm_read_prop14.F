@@ -370,7 +370,7 @@ C
 C                                 
 C  viscosity
 C
-C igeo(31)  flag for default qa qb for law 70 can be used for other law
+C igeo(31)  flag for default qa qb for law 70 and 90 can be used for other law
       IF(QA == ZERO .AND. QB == ZERO) IGEO(31) = 1
       IF (QA == ZERO) QA = ONEP1         
       IF (QB == ZERO) QB = FIVEEM2      
@@ -520,10 +520,10 @@ C---
      & 5X,'HOURGLASS NUMERICAL DAMPING . . . . . .=',1PG20.13/,
      & 5X,'DEFAULT VALUE FOR QUADRATIC BULK. . . . ',/,
      & 5X,'     VISCOSITY (QA) WILL BE USED. . . .=',1PG20.13/,
-     & 5X,'EXCEPT IN CASE LAW 70 WHERE QA = 0.     ',/,
+     & 5X,'EXCEPT IN CASE LAW 70 & 90   QA = 0.     ',/,
      & 5X,'DEFAULT VALUE FOR LINEAR BULK . . . . . ',/,
      & 5X,'     VISCOSITY (QB) WILL BE USED . . . =',1PG20.13/,
-     & 5X,'EXCEPT IN CASE LAW 70 WHERE QB = 0.     ',/,
+     & 5X,'EXCEPT IN CASE LAW 70 & 90  QB = 0.     ',/,
      & 5X,'HOURGLASS VISCOSITY . . . . . . . . . .=',1PG20.13/,
      & 5X,'NUMERICAL NAVIER STOKES VISCO. LAMBDA .=',1PG20.13/,
      & 5X,'NUMERICAL NAVIER STOKES VISCOSITY MU. .=',1PG20.13/,
