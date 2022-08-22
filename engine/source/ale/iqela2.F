@@ -41,23 +41,22 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER IRECT(4,*), LMSR(4,*), MSR(*), NSV(*), ILOC(*), IRTL(*),
-     .   LCODE(*), ISKEW(*), ITAB(*)
-      my_real
-     .   X(3,*), SKEW(LSKEW,*), A(*), E(*), MSM(*), CRST(2,*), V(*),
-     .   NOR(3,*)
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
+#include      "com04_c.inc"
 #include      "scr04_c.inc"
 #include      "scr08_s_c.inc"
 #include      "scr08_a_c.inc"
 #include      "units_c.inc"
 #include      "param_c.inc"
 #include      "warn_c.inc"
+#include      "tabsiz_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER IRECT(4,*), LMSR(4,*), MSR(*), NSV(*), ILOC(*), IRTL(*),LCODE(*), ISKEW(*), ITAB(NUMNOD)
+      my_real X(3,NUMNOD), SKEW(LSKEW,*), A(SA), E(*), MSM(*), CRST(2,*), V(SV),NOR(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

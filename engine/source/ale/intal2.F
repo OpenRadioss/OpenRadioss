@@ -46,21 +46,23 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "com01_c.inc"
+#include      "com04_c.inc"
+#include      "scr04_c.inc"
+#include      "param_c.inc"
+#include      "tabsiz_c.inc"
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(INOUT) :: IPARI(*), ISKEW(*), LCOD(*), ITAB(*)
-      my_real,INTENT(INOUT) :: X(*), V(*), A(*), SKEW(*), E(*), MSM(*), MS(*),FSAV(*)
+      INTEGER,INTENT(INOUT) :: IPARI(SIPARI), ISKEW(*), LCOD(*), ITAB(NUMNOD)
+      my_real,INTENT(INOUT) :: X(3,NUMNOD), V(3,NUMNOD), A(3,NUMNOD), SKEW(*), E(*), MSM(*), MS(*),FSAV(*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
       
        my_real,INTENT(INOUT) :: FCONT(3,*),FNCONT(3,*),FTCONT(3,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "scr04_c.inc"
-#include      "param_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

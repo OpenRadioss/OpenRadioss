@@ -41,24 +41,20 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
+#include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MAT(*),NGEO(*)
-      my_real
-     .   PM(NPROPM,*), OFF(*), RHO(*), RK(*), RE(*),GEO(NPROPG,*)
-      my_real
-     .   EINC(*), DVOL(*), VNEW(*), PNEW(*), TMU(*), VIS(*),
-     .   VD2(*)
+      my_real PM(NPROPM,NUMMAT), OFF(*), RHO(*), RK(*), RE(*),GEO(NPROPG,NUMGEO)
+      my_real EINC(*), DVOL(*), VNEW(*), PNEW(*), TMU(*), VIS(*), VD2(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      my_real
-     .   EI, 
-     .   XFAC, ARK, C1, C2, C3, SGSL, CMU, SE, FAC, RESGS     
+      my_real EI, XFAC, ARK, C1, C2, C3, SGSL, CMU, SE, FAC, RESGS     
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

@@ -62,18 +62,18 @@ C-----------------------------------------------
 #include      "scr01_c.inc"
 #include      "scr05_c.inc"
 #include      "com01_c.inc"
+#include      "com04_c.inc"
 #include      "vect01_c.inc"
 #include      "param_c.inc"
 #include      "mmale51_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  IPARG(NPARG,*), IXS(NIXS,*), IXQ(7,*), NPF(*),
+      INTEGER  IPARG(NPARG,NGROUP), IXS(NIXS,NUMELS), IXQ(7,NUMELQ), NPF(*),
      .         NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),
-     .         IPM(NPROPMI,*), LENCOM
-      my_real
-     .   PM(NPROPM,*), FLUX(*), VAL2(*), T(*), FV(*), X(*),
-     .   TF(*),BUFMAT(*)
+     .         IPM(NPROPMI,NUMMAT), LENCOM
+      my_real PM(NPROPM,NUMMAT), FLUX(*), VAL2(*), T(*), FV(*), X(3,NUMNOD),TF(*),BUFMAT(*)
       TYPE (ELBUF_STRUCT_), DIMENSION (NGROUP), TARGET :: ELBUF_TAB
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
@@ -81,10 +81,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NG, I, J, K, NPH1, NPH2, NPH3, IADBUF
       INTEGER MAT(MVSIZ)
-      my_real
-     .   RK, RE, R, YP0, XMU, AX, E, A, CMU, RPR, YPLUS, P, XMT
-      my_real,
-     .   DIMENSION(:) ,POINTER :: PH1,PH2,PH3
+      my_real RK, RE, R, YP0, XMU, AX, E, A, CMU, RPR, YPLUS, P, XMT
+      my_real, DIMENSION(:) ,POINTER :: PH1,PH2,PH3
       TYPE(G_BUFEL_)  ,POINTER :: GBUF     
 C-----------------------------------------------
 C   S o u r c e   L i n e s 

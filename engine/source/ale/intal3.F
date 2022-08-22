@@ -54,15 +54,14 @@ C-----------------------------------------------
 #include      "task_c.inc"
 #include      "units_c.inc"
 #include      "scr05_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPARI(NPARI,*), ICODE(*) ,
-     .        IXS(NIXS,*),IXQ(NIXQ,*), IPARG(NPARG,*),
+      INTEGER IPARI(NPARI,NINTER), ICODE(*) ,
+     .        IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ), IPARG(NPARG,NGROUP),
      .        ISKEW(*), NALE(*)
-      my_real
-     .   X(*), V(*), A(*), VG(*), SKEW(*),
-     .   PM(NPROPM,*)
+      my_real X(3,NUMNOD), V(3,NUMNOD), A(3,NUMNOD), VG(*), SKEW(*), PM(NPROPM,NUMMAT)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
 C-----------------------------------------------

@@ -40,17 +40,19 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER IPARI(*), ICODE,IBCS
-      my_real VG(*),X,V,A,BCS
-      TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr04_c.inc"
 #include      "param_c.inc"
+#include      "tabsiz_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER IPARI(SIPARI), ICODE,IBCS
+      my_real VG(*),X,V,A,BCS
+      TYPE(INTBUF_STRUCT_) INTBUF_TAB
+
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

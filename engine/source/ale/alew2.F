@@ -37,6 +37,11 @@ C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C Compute Grid for /ALE/GRID/SPRING
+C
+C     X,D,V are allocated to SX,SD,DV=3*(NUMNOD_L+NUMVVOIS_L)
+C      in grid subroutine it may needed to access nodes which
+C      are connected to a remote elem. They are sored in X(1:3,NUMNOD+1:)
+C      Consequently X is defined here X(3,SX/3) instead of X(3,NUMNOD) as usually
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,27 +61,28 @@ C-----------------------------------------------
 #include      "scr05_c.inc"
 #include      "task_c.inc"
 #include      "parit_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NALE(NUMNOD), IPARG(NPARG,NGROUP), NC(11,*), ADDCNE(*), PROCNE(*),
      .        IAD_ELEM(2,*), FR_ELEM(*), FR_NBCC(2,*), IADS(8,*),ITAB(NUMNOD),
      .        SIZEN
-      my_real X(3,NUMNOD), D(3,NUMNOD), V(3,NUMNOD), W(3,NUMNOD), WA(3,*), WB(3,*),
+      my_real X(3,SX/3), D(3,SD/3), V(3,SV/3), W(3,SW/3), WA(3,*), WB(3,*),
      .        FSKY(8,LSKY), FSKYV(LSKY,8)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ICT(2,28), J1(MVSIZ), J2(MVSIZ), I, NG, NEL, NFT, ITY, MQE, ITR,
-     .   NTR, N, NNC, NCT, K, II, J, SIZE, LENR, LENS
+     .   NTR, N, NNC, NCT, K, II, SIZE, LENR, LENS
       my_real
      .   FAC(28), 
      .   DX(MVSIZ)   ,DY(MVSIZ) , DZ(MVSIZ), 
      .   XX(MVSIZ)   ,XY(MVSIZ) , XZ(MVSIZ),
-     .   DL1(MVSIZ)  ,DL2(MVSIZ), DDX(MVSIZ), DDY(MVSIZ), DDZ(MVSIZ), 
+     .   DL1(MVSIZ)  ,DDX(MVSIZ), DDY(MVSIZ), DDZ(MVSIZ), 
      .   DL(MVSIZ)   ,XL(MVSIZ) , DDL(MVSIZ), 
      .   BETA, DLM, DLMIN, GAM1, XLAG,
-     .   XALE, WBTMP(3,SIZEN)
+     .   WBTMP(3,SIZEN)
      
 C-----------------------------------------------
       DATA FAC/1.,1.,1.,1.,
