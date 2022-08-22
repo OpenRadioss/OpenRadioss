@@ -27,7 +27,7 @@ Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|-- calls ---------------
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|====================================================================
-              SUBROUTINE SIGEPS88C(
+       SUBROUTINE SIGEPS88C(
      1      NEL    , NUPARAM, NUVAR   , NFUNC , IFUNC , NPF   ,
      2      NPT0   , ILAYER , NGL   , OFF   , ISMSTR, GS   , 
      2      TF     , TIME   , TIMESTEP, UPARAM, RHO0  ,
@@ -84,30 +84,31 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
 C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
-      INTEGER  IUNL_FOR,ICASE,I,ITER,NLOAD,NN,J
+      INTEGER  IUNL_FOR,ICASE,I,ITER,NLOAD,NN,J,INDX_L(NEL),INDX_UNL(NEL),
+     .         NE_L,NE_UNL,II
       my_real
      .   RBULK, NU,HYS, SHAPE,KT,Y3,A11,DD2,DD1,DD3,DF1,DF2,DF3,
      .   DFLAM3, EMAX, FAC,Y33,DF, P,INVR,YFAC(NFUNC),RATE(NFUNC),YFAC_UNL,
-     .   SCALE,G_INI
+     .   SCALE,G_INI,DAM
       my_real, DIMENSION(NEL) :: T1,T2,T3,EPSZ,TRAV,ROOTV,F1,F2,F3,GMAX,
-     .                           RV,DEZZ,EPSZZ
+     .                           RV,DEZZ,EPSZZ,ECURENT,DEINT,EPS_EQ,DEPS_EQ
      .            
       my_real :: EE(NEL,3),EVV(NEL,3),EV(NEl,3), EIGV(NEL,3,3)
 C=======================================================================
 C material parameters
-       RBULK     = UPARAM(1)
-       NU        = UPARAM(2)
-       GS        = UPARAM(3)
-       NLOAD     = INT(UPARAM(4))
-       IUNL_FOR  = INT(UPARAM(5))
-       HYS       = UPARAM(6) 
-       SHAPE     = UPARAM(7)
-       ICASE      = NINT(UPARAM(9))
-       DO J=1,NLOAD
+      RBULK     = UPARAM(1)
+      NU        = UPARAM(2)
+      GS        = UPARAM(3)
+      NLOAD     = INT(UPARAM(4))
+      IUNL_FOR  = INT(UPARAM(5))
+      HYS       = UPARAM(6) 
+      SHAPE     = UPARAM(7)
+      ICASE      = NINT(UPARAM(9))
+      DO J=1,NLOAD
          RATE(J) = UPARAM(9 + 2*J - 1 )  
          YFAC(J) = UPARAM(9 + 2*J )
-       ENDDO
-       YFAC_UNL = UPARAM(9 + 2*NLOAD + 2 )
+      ENDDO
+      YFAC_UNL = UPARAM(9 + 2*NLOAD + 2 )
 C initialization 
       IF(TIME == ZERO)THEN
          UVAR(1:NEL,1:NUVAR) = ZERO 
@@ -164,6 +165,10 @@ C     Strain definition
       ENDIF
       EE(1:NEL, 1) = EV(1:NEL, 1) - ONE
       EE(1:NEL, 2) = EV(1:NEL, 2) - ONE
+      EE(1:NEL, 3) = EV(1:NEL, 3) - ONE
+      EPS_EQ(1:NEL) = SQRT(EE(1:NEL,1)**2 + EE(1:NEL,2)**2 + EE(1:NEL,3)**2 )
+      DEPS_EQ(1:NEL)= EPS_EQ(1:NEL) - UVAR(1:NEL,2)
+      UVAR(1:NEL,2)= EPS_EQ(1:NEL)
       GMAX(1:NEL) = G_INI      
       DO I=1,NEL                                                         
         F1(I) = EV(I,1)*YFAC(1)*FINTER(IFUNC(1),EE(I,1),NPF,TF,DF1)      
@@ -185,17 +190,17 @@ C     Strain definition
         NN = 1                                                     
         DO WHILE (ABS(DD2) >= EM03 .AND. NN <= 20 )                                     
          F2(I) = F2(I) +  
-     .         (DD2 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD2,NPF,TF,DF)        
+     .         (DD2 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD2,NPF,TF,DF)
          FAC = FAC*(-HALF)                                               
          DD2 = EV(I,2)**FAC - ONE  
          NN = NN + 1
-        ENDDO                                                            
+        ENDDO     
       ENDDO                                                              
 ! 
 C--------------------------------------
 C     Newton method =>  Find EV(3) : T3(EV(3)) = 0
 C--------------------------------------            
-       DO ITER = 1,5  
+      DO ITER = 1,5  
            DO I=1,NEL
                 RV(I) = EV(I,1)*EV(I,2)*EV(I,3)
                 EE(I,3) = EV(I,3) - ONE
@@ -217,18 +222,42 @@ C--------------------------------------
                  NN = NN + 1
                 END DO
               
-               INVR = ONE/MAX(EM20,RV(I))
-               P = INVR*RBULK*(RV(I) - ONE)
-               T1(I) = INVR*(TWO_THIRD*F1(I) - THIRD*(F2(I) + F3(I))) + P 
-               T2(I) = INVR*(TWO_THIRD*F2(I) - THIRD*(F1(I) + F3(I))) + P 
-               T3(I) = INVR*(TWO_THIRD*F3(I) - THIRD*(F1(I) + F2(I))) + P 
+                INVR = ONE/MAX(EM20,RV(I))
+                P = INVR*RBULK*(RV(I) - ONE)
+                T1(I) = INVR*(TWO_THIRD*F1(I) - THIRD*(F2(I) + F3(I))) + P 
+                T2(I) = INVR*(TWO_THIRD*F2(I) - THIRD*(F1(I) + F3(I))) + P 
+                T3(I) = INVR*(TWO_THIRD*F3(I) - THIRD*(F1(I) + F2(I))) + P 
 C
-               KT = Y3 + EV(I,3)*YFAC(1)*DF3 + DFLAM3 
-               KT = TWO_THIRD*KT*INVR + RBULK*INVR/EV(I,3) -
+                KT = Y3 + EV(I,3)*YFAC(1)*DF3 + DFLAM3 
+                KT = TWO_THIRD*KT*INVR + RBULK*INVR/EV(I,3) -
      .            INVR*(TWO_THIRD*F3(I) - THIRD*(F1(I)+F2(I)))/EV(I,3)
-               IF(KT /= ZERO) EV(I,3) = EV(I,3) - T3(I)/KT  
-           ENDDO ! NEL  
+                IF(KT /= ZERO) EV(I,3) = EV(I,3) - T3(I)/KT  
+           ENDDO ! NEL
       ENDDO !  ITER 
+      NE_L = 0
+      NE_UNL = 0
+      DO I=1,NEL
+           ECURENT(I)= HALF*(EE(I,1)*T1(I) + EE(I,2)*T2(I))
+           UVAR(I,17)= MAX(UVAR(I,17), ECURENT(I)) 
+           DEINT(I) = ECURENT(I) - UVAR(I,16)
+           UVAR(I,16) = ECURENT(I)
+           IF(DEINT(I) >= ZERO) THEN
+              NE_L = NE_L + 1 
+              INDX_L(NE_L) = I
+           ELSE
+              NE_UNL = NE_UNL + 1 
+              INDX_UNL(NE_UNL) = I
+           ENDIF
+      ENDDO
+      DO I=1,NEL
+              IF(UVAR(I,17) > ZERO .AND. ECURENT(I) <= UVAR(I,17)) THEN
+                     DAM = ONE - (ECURENT(I)/UVAR(I,17))**SHAPE
+                     DAM = ONE - (ONE - HYS)*DAM
+C  global      
+                    T1(I) = DAM*T1(I)
+                    T2(I) = DAM*T2(I)
+              ENDIF
+      ENDDO
 C-------------------------------------------------------------                                  
 C-------------------------------------------------------------
       IF (ISMSTR == 1 .OR. ISMSTR == 3 .OR. ISMSTR == 11) THEN  ! engineering strain
@@ -257,10 +286,10 @@ C
         SIGNYZ(I) = SIGOYZ(I)+GS(I)*DEPSYZ(I)
         SIGNZX(I) = SIGOZX(I)+GS(I)*DEPSZX(I)
         THKN(I) = THKN(I) + DEZZ(I)*THKLYL(I)*OFF(I)
-         VISCMAX(I)= ZERO
-          EMAX = TWO*G_INI*(ONE + NU)
-          A11  = EMAX/(ONE - NU**2)
-          SOUNDSP(I)= SQRT(A11/RHO0(I))
+        VISCMAX(I)= ZERO
+        EMAX = TWO*G_INI*(ONE + NU)
+        A11  = EMAX/(ONE - NU**2)
+        SOUNDSP(I)= SQRT(A11/RHO0(I))
       ENDDO
 C-----------
       RETURN
