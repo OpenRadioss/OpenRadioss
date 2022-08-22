@@ -82,7 +82,7 @@ C-----------------------------------------------
        REAL(kind=8) :: RANDM_SEED_NBR,RANDM_ALEA_NBR
        INTEGER :: GOT_GRP_SIZE
        PARAMETER (LENLIST=28)
-       CHARACTER ARGLIST(LENLIST)*12
+       CHARACTER (LEN=12) ::  ARGLIST(LENLIST)
        EXTERNAL IARGC
        DATA ARGLIST/
      .    '-VERSION',  '-V',
@@ -495,6 +495,12 @@ C               CALL PRHELPINFO()
              PATH(1:LENP)=INPUTR(1:LENP)
            ENDIF
          ENDIF
+       ELSE
+           ! PINPUTI is 0, which means -input/-i was not set
+           WRITE(6,'(A)') ' '
+           WRITE(6,'(A)') '*** ERROR : No input deck set. Use -input [Starter input file] '
+           WRITE(6,'(A)') ' '
+           CALL PHELPINFO()
        ENDIF
  100    CONTINUE
 C------------------------------------------------
@@ -1010,7 +1016,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-       CHARACTER ARGLIST(LENLIST)*10
+       CHARACTER (LEN=12),INTENT(IN) :: ARGLIST(LENLIST)
        CHARACTER ARG*2096
        INTEGER LENLIST,ISIN
 C-----------------------------------------------
@@ -1020,7 +1026,7 @@ C-----------------------------------------------
 C-----------------------------------------------
        ISIN = 0
        DO I=1,LENLIST
-        IF (ARGLIST(I)==ARG) ISIN=1
+        IF (TRIM(ARGLIST(I))==TRIM(ARG)) ISIN=1
        ENDDO 
        END
 
