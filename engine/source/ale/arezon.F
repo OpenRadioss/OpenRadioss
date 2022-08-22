@@ -69,9 +69,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real FLUX(*), PHI(*)
       INTEGER NDIM, NVAR, ITASK, LENCOM,ITRIMAT,NV,
-     .        IPARG(NPARG,*), 
+     .        IPARG(NPARG,NGROUP), 
      .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),
-     .        BHOLE(*),IXS(NIXS,*)
+     .        BHOLE(*),IXS(NIXS,NUMELS)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_STR
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------

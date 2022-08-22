@@ -39,17 +39,20 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      my_real A
-      INTEGER IPARI(*), ICODE(*), IBCS(*)
-      my_real X(*), V(*), VG(*), BCS(*)
-      TYPE(INTBUF_STRUCT_) INTBUF_TAB
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr04_c.inc"
+#include      "com04_c.inc"
 #include      "param_c.inc"
+#include      "tabsiz_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      my_real A
+      INTEGER IPARI(SIPARI), ICODE(*), IBCS(*)
+      my_real X(3,NUMNOD), V(3,NUMNOD), VG(*), BCS(*)
+      TYPE(INTBUF_STRUCT_) INTBUF_TAB
+
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

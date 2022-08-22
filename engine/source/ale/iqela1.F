@@ -48,6 +48,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
+#include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "scr04_c.inc"
@@ -58,11 +59,12 @@ C-----------------------------------------------
 #include      "scr16_c.inc"
 #include      "param_c.inc"
 #include      "comlock.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,INTENT(INOUT) :: IRECT(4,*), LMSR(4,*), MSR(*), NSV(*), ILOC(*), IRTL(*),LCODE(*), ISKEW(*),ITAB(*)
-      my_real,INTENT(INOUT) :: X(3,*), SKEW(LSKEW,*), A(*), E(*), MSM(*), CRST(2,*), MS(*),NOR(3,*),FSAV(*)
+      INTEGER,INTENT(INOUT) :: IRECT(4,*), LMSR(4,*), MSR(*), NSV(*), ILOC(*), IRTL(*),LCODE(*), ISKEW(*),ITAB(NUMNOD)
+      my_real,INTENT(INOUT) :: X(SX), SKEW(LSKEW,*), A(SA), E(*), MSM(*), CRST(2,*), MS(*),NOR(3,*),FSAV(*)
       my_real,INTENT(INOUT) :: FCONT(3,*),FNCONT(3,*),FTCONT(3,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
@@ -85,9 +87,9 @@ C-----------------------------------------------
       IPCONT = .FALSE.
       IANIM  = .FALSE.
       ICONT  = (ANIM_V(4)+OUTP_V(4) > 0+H3D_DATA%N_VECT_CONT)
-      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT  > 0)THEN      
+      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT > 0)THEN      
        IF(TT >= TANIM.OR.TT >= TOUTP.OR.TT >= H3D_DATA%TH3D.OR.
-     .      (MANIM >= 4.AND.MANIM <= 15).OR. H3D_DATA%MH3D  /=  0)THEN
+     .      (MANIM >= 4.AND.MANIM <= 15).OR. H3D_DATA%MH3D /= 0)THEN
          IPCONT = .TRUE.
        ENDIF
       ENDIF

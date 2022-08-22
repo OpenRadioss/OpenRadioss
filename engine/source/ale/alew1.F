@@ -37,18 +37,15 @@ C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C Compute Grid for /ALE/GRID/DISP
+C
+C     X,D,V are allocated to SX,SD,DV=3*(NUMNOD_L+NUMVVOIS_L)
+C      in grid subroutine it may needed to access nodes which
+C      are connected to a remote elem. They are sored in X(1:3,NUMNOD+1:)
+C      Consequently X is defined here X(3,SX/3) instead of X(3,NUMNOD) as usually
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER NALE(NUMNOD), NODFT, NODLT, ITASK,
-     .        NBRCVOIS(*),NBSDVOIS(*),
-     .        LNRCVOIS(*),LNSDVOIS(*),ITAB(NUMNOD)
-      my_real X(3,NUMNOD), D(3,NUMNOD), V(3,NUMNOD), W(3,NUMNOD)     
-      TYPE(t_connectivity), INTENT(IN) :: ALE_NN_CONNECT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -58,12 +55,19 @@ C-----------------------------------------------
 #include      "com07_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
+#include      "tabsiz_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER NALE(NUMNOD), NODFT, NODLT, ITASK,NBRCVOIS(*),NBSDVOIS(*),LNRCVOIS(*),LNSDVOIS(*),ITAB(NUMNOD)
+      my_real X(3,SX/3), D(3,SD/3), V(3,SV/3), W(3,SW/3)     
+      TYPE(t_connectivity), INTENT(IN) :: ALE_NN_CONNECT
+
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, IA1, IA2, IA3, IA4, IA5, IA6, L, LENCOM
-      my_real
-     .     DX, DY, DZ,FAC
+      INTEGER I, LENCOM
+      my_real DX, DY, DZ,FAC
       INTEGER :: IAD, IAD1, IAD2, NODE_ID
       my_real :: DX_MAX, DX_MIN
       my_real :: DY_MAX, DY_MIN

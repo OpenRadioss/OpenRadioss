@@ -41,15 +41,17 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
+#include      "com04_c.inc"
 #include      "scr04_c.inc"
 #include      "scr08_s_c.inc"
 #include      "scr08_a_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN)    :: IRECT(4,*), NSV(*), ILOC(*), IRTL(*), ICODE(*), IBCS(*), MSR(*)
-      my_real,INTENT(IN)    :: V(3,*), CRST(2,*), BCS(9,*)
-      my_real,INTENT(INOUT) :: W(3,*)
+      my_real,INTENT(IN)    :: V(3,NUMNOD), CRST(2,*), BCS(9,*)
+      my_real,INTENT(INOUT) :: W(3,NUMNOD)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

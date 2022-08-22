@@ -80,6 +80,11 @@ C-----------------------------------------------
 !   6       VOLUME
 ! 
 ! This subroutine is switching to grid formulation depending on NWALE value.
+C
+C     X,D,V are allocated to SX,SD,DV=3*(NUMNOD_L+NUMVVOIS_L)
+C      in grid subroutine it may needed to access nodes which
+C      are connected to a remote elem. They are sored in X(1:3,NUMNOD+1:)
+C      Consequently X is defined here X(3,SX/3) instead of X(3,NUMNOD) as usually
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
@@ -111,11 +116,12 @@ C-----------------------------------------------
 #include      "vale_c.inc"
 #include      "parit_c.inc"
 #include      "ale_param.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
-      INTEGER ISKEW(*), IXS(NIXS,*),IXQ(NIXQ,*),
+      INTEGER ISKEW(*), IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ),
      .     NPF(*),LAS(*), IPARG(NPARG,NGROUP), IPARI(NPARI,NINTER),
      .     NPRW(*), ICODT(*), LINALE(*),
      .     NODPOR(*), NBRCVOIS(*),NBSDVOIS(*), PROCNE(*),FR_NBCC(*),
@@ -126,10 +132,10 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: ITAB(NUMNOD)
       DOUBLE PRECISION    :: XDP(3,*),DDP(3,*)
       my_real
-     .     X(3,NUMNOD) ,D(3,NUMNOD), V(3,NUMNOD) ,VR(3,NUMNOD) ,A(3,NUMNOD) ,AR(3,NUMNOD), FSKY(*),
+     .     X(3,SX/3) ,D(3,SD/3), V(3,SV/3) ,VR(3,SVR/3) ,A(3,SA/3) ,AR(3,SAR/3), FSKY(*),
      .     MS(*)   ,IN(*)   ,PM(NPROPM,NUMMAT),SKEW(LSKEW,*),GEO(NPROPG,NUMGEO),
-     .     W(3,NUMNOD), WB(*), TF(*), FSAV(NTHVKI,*) ,XLAS(*),
-     .     RWBUF(NRWLP,*),RBY(NRBY,*),WA(3,*),DR(3,*),XCELL(3,*), XFACE(3,6,*)
+     .     W(3,SW/3), WB(*), TF(*), FSAV(NTHVKI,*) ,XLAS(*),
+     .     RWBUF(NRWLP,*),RBY(NRBY,*),WA(3,*),DR(3,SDR/3),XCELL(3,SXCELL), XFACE(3,6,*)
       my_real DT2SAVE
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)

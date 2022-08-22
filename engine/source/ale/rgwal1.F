@@ -55,18 +55,18 @@ C-----------------------------------------------
 #include      "scr05_c.inc"
 #include      "parit_c.inc"
 #include      "com08_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LPRW(*), NPRW(*), IXS(NIXS,*),
-     .        IXQ(NIXQ,*),IPARG(NPARG,*),
+      INTEGER LPRW(*), NPRW(*), IXS(NIXS,NUMELS),
+     .        IXQ(NIXQ,NUMELQ),IPARG(NPARG,NGROUP),
      .        ICODT(*), ISKEW(*), NALE(*),NPF(*),
      .        WEIGHT(*),IAD_ELEM(*), FR_ELEM(*),
      .        FR_WALL(NSPMD+2,*)
-      my_real
-     .   X(3,NUMNOD), A(3,NUMNOD), V(3,NUMNOD), W(3,NUMNOD), RWBUF(NRWLP,*), MS(*),
-     .   FSAV(NTHVKI,*), SKEW(LSKEW,*),
-     .   PM(NPROPM,*), TF(*)
+      my_real X(3,NUMNOD), A(3,NUMNOD), V(3,NUMNOD), W(3,NUMNOD), RWBUF(NRWLP,*), MS(*),
+     .        FSAV(NTHVKI,*), SKEW(LSKEW,*),
+     .        PM(NPROPM,NUMMAT), TF(*)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
