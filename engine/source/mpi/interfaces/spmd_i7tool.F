@@ -4226,6 +4226,9 @@ C Remove banned main segment
                       IF(.NOT.ASSOCIATED(REMNOR_FI(I)%P))
      *                      ALLOCATE(REMNOR_FI(I)%P(SIZREMNORFI),STAT=IERROR1)
                       CALL READ_I_C(REMNOR_FI(I)%P(1),SIZREMNORFI)
+                    ELSE IF(SIZREMNORFI == 0) THEN
+                      IF(.NOT.ASSOCIATED(REMNOR_FI(I)%P))
+     *                      ALLOCATE(REMNOR_FI(I)%P(SIZREMNORFI),STAT=IERROR1)
                     ENDIF
                    ENDIF
                   ENDIF

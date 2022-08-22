@@ -981,7 +981,7 @@ C REMOVE main SEGMENTS : no reception but reconstruction of the tab REMNOR_FI
                     KREMNOR_FI(NIN)%P(K)=KREMNOR_FI(NIN)%P(K)+ SIZ
 c                    KK = TMP%KREMNOR_FI%P(L)+1
                     DO KM=TMP%KREMNOR_FI%P(L)+1,TMP%KREMNOR_FI%P(L+1)
-                        KI = KI +1
+                       KI = KI +1
                        REMNOR_FI_TMP(KI) = TMP%REMNOR_FI%P(KM)
                     ENDDO
                 ELSEIF( I < 0 ) THEN
@@ -1050,8 +1050,8 @@ C
          KREMNOR_FI(NIN)%P(1)=0  
 
          SIZREMNORFI = KREMNOR_FI(NIN)%P(NODFI+1)
-         IF(SIZREMNORFI /= 0) THEN
-            MY_ALLOCATE(REMNOR_FI(NIN)%P,SIZREMNORFI)
+         MY_ALLOCATE(REMNOR_FI(NIN)%P,SIZREMNORFI)
+         IF(SIZREMNORFI > 0) THEN
             DO N=1,SIZREMNORFI
                REMNOR_FI(NIN)%P(N) =REMNOR_FI_TMP(N)
             ENDDO
@@ -1394,7 +1394,7 @@ C-----------------------------------------------
       DEALLOCATE(TMP%ISLIDE_FI%P)
       IF(FLAGREMN == 2) THEN
          IF(ASSOCIATED(TMP%REMNOR_FI%P)) DEALLOCATE(TMP%REMNOR_FI%P)
-         DEALLOCATE(TMP%KREMNOR_FI%P)
+         IF(ASSOCIATED(TMP%KREMNOR_FI%P)) DEALLOCATE(TMP%KREMNOR_FI%P)
       ENDIF
 C
 
