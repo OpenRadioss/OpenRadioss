@@ -64,7 +64,7 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "task_c.inc"
 #include      "scr17_c.inc"
-#include      "scr18_c.inc" !DTFAC1
+#include      "scr18_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
