@@ -146,7 +146,7 @@ C     REAL
 C-----------------------------------------------
 C=======================================================================
        FACQ = ONE
-!! qa=qb=zero by default for law70    
+!! qa=qb=zero by default for law70 and 90    
       IF(IGEO(31,PID(1)) == 1) FACQ = ZERO
       DO I=LFT,LLT
         CX(I)=SSP(I)
