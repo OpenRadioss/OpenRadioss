@@ -276,8 +276,11 @@ C       IF(INACTI.EQ.5)THEN
           
         ENDIF
       ELSE ! IEDGE
-          INTBUF_TAB%I_STOK_E(1) = 0
-          INTBUF_TAB%I_STOK_E(2) = 0
+          IF(SIZE(INTBUF_TAB%I_STOK_E) > 1 ) THEN
+! size is 0 or 2
+            INTBUF_TAB%I_STOK_E(1) = 0
+            INTBUF_TAB%I_STOK_E(2) = 0
+          ENDIF
       ENDIF
 C -------------------------------------------------------------
 C     CALCUL BORNE DOMAINE REMONTE DANS I7XSAVE
