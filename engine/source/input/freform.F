@@ -165,7 +165,7 @@ C-----------------------------------------------
       my_real
      .   TSTOP0,DTFAC0, DTMIN0, DTHIS0, T1G, DTG, T1P, DTP, ALP, GAM,
      .   A1, A2, A3, VM, DTFACA,DTMINA, DTHIS01(9),vt, TMP,DTFAC_AMS,
-     .   PARAM3,PARAM4
+     .   LAMBDA,L_TYPE
       CHARACTER KEY(9)*5, TITLE*81,
      .  KEY1*5, KEY2*5,KEY3*5,   CH4*4, KEY4*5, KEY5*5, StrIAL*32
       CHARACTER(LEN=ncharline) :: KEYA
@@ -257,8 +257,8 @@ C
       
       DTFACA = EP30
       DTMINA = EP30
-      PARAM3 = ZERO
-      PARAM4 = ZERO
+      LAMBDA = ZERO
+      L_TYPE = ZERO
       ID_BAG = 0
       
       PERCENT_ADDMASS = ZERO
@@ -984,17 +984,39 @@ C
  9002     CONTINUE
           IF (DTFACA == ZERO) DTFACA = ZEP9
           IF (DTFAC_AMS == ZERO) DTFAC_AMS = ZEP67
+        ELSEIF(KEY2(1:5) == 'FVMBA')THEN
+          ! ---/DT/FVMBAG/. ---                                                 
+          !     dtfaca dtmina lambda l_type
+          !     fvbag_id
+          IERR1=0                                                               
+          CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))                               
+          READ(IUSC2,'(A)')LINE                                                 
+          READ(LINE,*,iostat=IERR1)DTFACA,DTMINA,LAMBDA,L_TYPE                  
+          IF(IERR1 /= 0)THEN                                                    
+            !l_type left blank (default 0)                                      
+            L_TYPE=ZERO                                                         
+            IERR1=0                                                             
+            READ(LINE,*,iostat=IERR1)DTFACA,DTMINA,LAMBDA                       
+            IF(IERR1 /= 0)THEN                                                  
+              !param 3 also left blank (default 0.0)                            
+              LAMBDA=ZERO                                                       
+              IERR1=0                                                           
+              ! this is minimanl input, goto to error message if reading fails  
+              READ(LINE,*,ERR=9990,END=9990)DTFACA,DTMINA                       
+            ENDIF                                                               
+          ENDIF                                                                 
+          ID_BAG = 0                                                            
+          IF(KEY3(1:1)=='2')THEN                                                
+            K=K+1                                                               
+            CALL WRIUSC2(IKAD(IKEY)+2,1,KEY0(IKEY))                             
+            READ(IUSC2,*,ERR=9990,END=9990)ID_BAG                               
+          ENDIF                                                                 
         ELSE
+          ! --- /DT/NODA/CST, and others ... ---
+          !     dtfaca dtmina percent_addmass  
           CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
-          READ(IUSC2,*,ERR=9003,END=9003)DTFACA,DTMINA,PARAM3,PARAM4
-          ID_BAG = 0
-          IF(KEY2(1:5)=='FVMBA' .AND. KEY3(1:1)=='2')THEN
-            K=K+1
-            CALL WRIUSC2(IKAD(IKEY)+2,1,KEY0(IKEY))
-            READ(IUSC2,*,ERR=9003,END=9003)ID_BAG
-          ENDIF
-C--       Read of target % of added mass
-          PERCENT_ADDMASS = PARAM3
+          READ(IUSC2,*,ERR=9003,END=9003)DTFACA,DTMINA,PERCENT_ADDMASS
+          ! Read of target % of added mass
           IDT_PERCENT_ADDMASS = 1
           GOTO 9004
  9003     CONTINUE
@@ -1170,8 +1192,8 @@ C           si /DT/AMS lu + tard ce qui suit sera ecrase
            ID_DT_OPTION = 1
          ENDIF
          IDTMIN(52) = ID_DT_OPTION        
-         PARAM3 = MAX(ZERO, PARAM3)
-         FVMBAG_L_TYPE = INT(PARAM4)
+         LAMBDA = MAX(ZERO, LAMBDA)
+         FVMBAG_L_TYPE = INT(L_TYPE)
          FVMBAG_L_TYPE = MIN(FVMBAG_L_TYPE,2) !input check:upper bound
          FVMBAG_L_TYPE = MAX(0,FVMBAG_L_TYPE) !input check:lower bound
          !storing in temporary data structure. It will be used to fill the final data structure when restart file is read (not yet allocated)         
@@ -1179,7 +1201,7 @@ C           si /DT/AMS lu + tard ce qui suit sera ecrase
          IF(ID_DT_OPTION == 2)NUM_OPT_DT_FVMBAG_2 = NUM_OPT_DT_FVMBAG_2 + 1
          IF(ID_DT_OPTION == 3)NUM_OPT_DT_FVMBAG_3 = NUM_OPT_DT_FVMBAG_3 + 1         
          NUM_OPT_DT_FVMBAG = NUM_OPT_DT_FVMBAG + 1
-         FVMBAG_INPUT_OPTIONS(NUM_OPT_DT_FVMBAG)%LAMBDA = PARAM3 
+         FVMBAG_INPUT_OPTIONS(NUM_OPT_DT_FVMBAG)%LAMBDA = LAMBDA 
          FVMBAG_INPUT_OPTIONS(NUM_OPT_DT_FVMBAG)%ID_BAG = ID_BAG
          FVMBAG_INPUT_OPTIONS(NUM_OPT_DT_FVMBAG)%L_type = FVMBAG_L_TYPE
          FVMBAG_INPUT_OPTIONS(NUM_OPT_DT_FVMBAG)%ID_DT_OPTION = ID_DT_OPTION
