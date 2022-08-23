@@ -2155,7 +2155,7 @@ C--------------------------------------
                 ENDIF
               ENDDO !next N
               IF(.NOT.lFOUND)THEN
-                CALL ANCMSG(MSGID=297,ANMODE=ANINFO,I1=ID_BAG_INPUT)
+                CALL ANCMSG(MSGID=299,ANMODE=ANINFO,I1=ID_BAG_INPUT)
                 CALL ARRET(2)
               ENDIF
             ENDIF !(ID_BAG_INPUT > 0)

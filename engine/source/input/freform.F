@@ -1009,7 +1009,11 @@ C
           IF(KEY3(1:1)=='2')THEN                                                
             K=K+1                                                               
             CALL WRIUSC2(IKAD(IKEY)+2,1,KEY0(IKEY))                             
-            READ(IUSC2,*,ERR=9990,END=9990)ID_BAG                               
+            READ(IUSC2,*,ERR=9990,END=9990)ID_BAG 
+            IF(ID_BAG <= 0)THEN
+                CALL ANCMSG(MSGID=299,ANMODE=ANINFO,I1=ID_BAG)
+                CALL ARRET(0)         
+            ENDIF                            
           ENDIF                                                                 
         ELSE
           ! --- /DT/NODA/CST, and others ... ---
@@ -1207,7 +1211,7 @@ C           si /DT/AMS lu + tard ce qui suit sera ecrase
          FVMBAG_INPUT_OPTIONS(NUM_OPT_DT_FVMBAG)%ID_DT_OPTION = ID_DT_OPTION
          !Warn user if incompatible options are defined
          IF(NUM_OPT_DT_FVMBAG_1 * NUM_OPT_DT_FVMBAG_2 > 0)THEN
-            CALL ANCMSG(MSGID=296,ANMODE=ANINFO,I1=ID_BAG)
+            CALL ANCMSG(MSGID=298,ANMODE=ANINFO,I1=ID_BAG)
          ENDIF
          
          
