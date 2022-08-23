@@ -39,9 +39,9 @@ Chd|        INITBUF_MOD                   share/resol/initbuf.F
 Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
 Chd|        TRIMAT_MOD                    share/modules/trimat.F        
 Chd|====================================================================
-      SUBROUTINE ALE51_GRADIENT_RECONSTRUCTION2(IPARG, ELBUF_TAB, IXQ, X, ALE_CONNECT,
-     .     NV46,NERCVOIS,NESDVOIS,  LERCVOIS,LESDVOIS,LENCOM, ITASK,
-     .     IAD_ELEM, FR_ELEM,SEGVAR)
+      SUBROUTINE ALE51_GRADIENT_RECONSTRUCTION2(IPARG   ,ELBUF_TAB,IXQ     ,X       ,ALE_CONNECT,
+     .                                          NV46    ,NERCVOIS ,NESDVOIS,LERCVOIS,LESDVOIS   ,LENCOM, ITASK,
+     .                                          IAD_ELEM,FR_ELEM  ,SEGVAR)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C   Computes limited gradients for volumic fractions
@@ -98,16 +98,14 @@ C-----------------------------------------------
       INTEGER :: ITRIMAT
       my_real, DIMENSION(:), POINTER :: VOLG, VOLP, UVAR
       INTEGER :: ADD
-      INTEGER :: K, I, II, JJ, JJJ, NODE_ID, JMIN, JMAX
+      INTEGER :: K, I, II, JJ, NODE_ID, JMIN, JMAX
       INTEGER :: ELEM_ID
-      my_real :: VOL, NORM(3), A(3), B(3), C(3), TOTO(3)
-      INTEGER :: ELEM_NODE_LIST(8), VOIS_ID, VOIS_ID2, KK, KKK
 C-----------------------------------------------
-C  B e g i n n i n g  o f   S u b r o u t i n e
-C-----------------------------------------------  
+C   S o u r c e   L i n e s 
+C----------------------------------------------- 
       DO NG=ITASK+1,NGROUP,NTHREAD      
 C     ALE ON / OFF
-         IF (IPARG(76, NG) .EQ. 1) CYCLE ! --> OFF
+         IF (IPARG(76, NG)  ==  1) CYCLE ! --> OFF
          CALL INITBUF (IPARG    ,NG      ,                  
      2        MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,   
      3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
@@ -115,36 +113,32 @@ C     ALE ON / OFF
      5        NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,   
      6        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,   
      7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )                     
-         IF(JALE+JEUL.EQ.0)    CYCLE
-         IF(IPARG(8,NG).EQ.1)  CYCLE
-         IF(IPARG(1,NG).NE.51) CYCLE
-         IF ((JALE .NE. 0) .OR. ((JEUL .NE. 0) .AND. (NCYCLE .EQ. 0 .OR. MCHECK .NE. 0))) THEN
+         IF(JALE+JEUL == 0)    CYCLE
+         IF(IPARG(8,NG) == 1)  CYCLE
+         IF(IPARG(1,NG)  /= 51) CYCLE
+         IF ((JALE   /=  0) .OR. ((JEUL   /=  0) .AND. (NCYCLE  ==  0 .OR. MCHECK   /=  0))) THEN
             !!!   Volume fraction
             DO I=LFT,LLT 
                II     = I+NFT    
-               
                !!! Element centroid
-               ELCENTER(2, II) = FOURTH * (X(2, IXQ(2, II)) + X(2, IXQ(3, II)) +
-     .              X(2, IXQ(4, II)) + X(2, IXQ(5, II)))
-               ELCENTER(3, II) = FOURTH * (X(3, IXQ(2, II)) + X(3, IXQ(3, II)) +
-     .              X(3, IXQ(4, II)) + X(3, IXQ(5, II)))
-               
+               ELCENTER(2, II) = FOURTH * (X(2, IXQ(2, II)) + X(2, IXQ(3, II)) + X(2, IXQ(4, II)) + X(2, IXQ(5, II)))
+               ELCENTER(3, II) = FOURTH * (X(3, IXQ(2, II)) + X(3, IXQ(3, II)) + X(3, IXQ(4, II)) + X(3, IXQ(5, II)))
             ENDDO  
          ENDIF
       ENDDO  ! NG=ITASK+1,NGROUP,NTHREAD
       DO NG=ITASK+1,NGROUP,NTHREAD      
 C     ALE ON / OFF
-         IF (IPARG(76, NG) .EQ. 1) CYCLE ! --> OFF
+         IF (IPARG(76, NG)  ==  1) CYCLE ! --> OFF
          CALL INITBUF (IPARG    ,NG      ,                  
-     2        MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,   
-     3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
-     4        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,   
-     5        NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,   
-     6        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,   
-     7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )                     
-         IF(JALE+JEUL.EQ.0)    CYCLE
-         IF(IPARG(8,NG).EQ.1)  CYCLE
-         IF(IPARG(1,NG).NE.51) CYCLE
+     2                 MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,   
+     3                 NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
+     4                 JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,   
+     5                 NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,   
+     6                 IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,   
+     7                 ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )                     
+         IF(JALE+JEUL == 0) CYCLE
+         IF(IPARG(8,NG) == 1) CYCLE
+         IF(IPARG(1,NG)  /= 51) CYCLE
          VOLG => ELBUF_TAB(NG)%GBUF%VOL
          UVAR => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR
          LFT=1
@@ -165,7 +159,7 @@ C     ALE ON / OFF
       CALL MY_BARRIER
       
       !!! MPI Comm
-      IF(NSPMD.GT.1)THEN
+      IF(NSPMD > 1)THEN
 !$OMP SINGLE
          !!! Volumic fractions comm
          DO ITRIMAT = 1, TRIMAT
@@ -189,7 +183,7 @@ C     ALE ON / OFF
             JMAX = pADDTMPL(NODE_ID) - 1
             DO JJ = JMIN, JMAX
                ELEM_ID = pCNEL(JJ)
-               IF (ELEM_ID .NE. 0 .AND. ELEM_ID .LE. NUMELQ) THEN
+               IF (ELEM_ID   /=  0 .AND. ELEM_ID  <=  NUMELQ) THEN
                   NODE_MAX_VALUE(ITRIMAT,NODE_ID) = MAX(NODE_MAX_VALUE(ITRIMAT,NODE_ID), 
      .                 VOLUME_FRACTION(ITRIMAT, ELEM_ID))
                   NODE_MIN_VALUE(ITRIMAT,NODE_ID) = MIN(NODE_MIN_VALUE(ITRIMAT,NODE_ID), 
@@ -200,7 +194,7 @@ C     ALE ON / OFF
       ENDDO
       CALL MY_BARRIER 
        !!! MPI Comm
-      IF(NSPMD.GT.1)THEN
+      IF(NSPMD > 1)THEN
 !$OMP SINGLE
          DO ITRIMAT = 1, TRIMAT
             CALL  SPMD_EXCH_MIN_MAX(IAD_ELEM ,FR_ELEM ,NODE_MIN_VALUE(ITRIMAT, :), NODE_MAX_VALUE(ITRIMAT, :) )
@@ -211,17 +205,17 @@ C     ALE ON / OFF
 
       DO NG=ITASK+1,NGROUP,NTHREAD  
 C     ALE ON / OFF
-         IF (IPARG(76, NG) .EQ. 1) CYCLE ! --> OFF
-         CALL INITBUF (IPARG    ,NG      ,                  
-     2        MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,   
-     3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
-     4        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,   
-     5        NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,   
-     6        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,   
-     7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )                     
-         IF(JALE+JEUL.EQ.0)    CYCLE
-         IF(IPARG(8,NG).EQ.1)  CYCLE
-         IF(IPARG(1,NG).NE.51) CYCLE
+         IF (IPARG(76, NG)  ==  1) CYCLE ! --> OFF
+         CALL INITBUF (IPARG   ,NG      ,                  
+     2                 MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,   
+     3                 NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
+     4                 JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,   
+     5                 NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,   
+     6                 IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,   
+     7                 ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )                     
+         IF(JALE+JEUL == 0) CYCLE
+         IF(IPARG(8,NG) == 1) CYCLE
+         IF(IPARG(1,NG)  /= 51) CYCLE
          LFT = 1
          !!!   Reconstruct gradient
          DO ITRIMAT = 1, TRIMAT
@@ -231,8 +225,8 @@ C     ALE ON / OFF
 
       CALL MY_BARRIER
 
-      IF (NSPMD .GT. 1) THEN
-C     Communication MPI pour les gradients
+      IF (NSPMD  >            1) THEN
+C     MPI exchange for gradients
 !$OMP SINGLE
          DO ITRIMAT = 1, TRIMAT
             CALL SPMD_ENVOIS(3, GRAD(ITRIMAT, 1:3, :), 
@@ -244,7 +238,7 @@ C     Communication MPI pour les gradients
       
       DO NG=ITASK+1,NGROUP,NTHREAD  
 C     ALE ON / OFF
-         IF (IPARG(76, NG) .EQ. 1) CYCLE ! --> OFF
+         IF (IPARG(76, NG)  ==  1) CYCLE ! --> OFF
          CALL INITBUF (IPARG    ,NG      ,                  
      2        MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,   
      3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
@@ -252,17 +246,15 @@ C     ALE ON / OFF
      5        NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,   
      6        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,   
      7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )                     
-         IF(JALE+JEUL.EQ.0)    CYCLE
-         IF(IPARG(8,NG).EQ.1)  CYCLE
-         IF(IPARG(1,NG).NE.51) CYCLE
+         IF(JALE+JEUL == 0)    CYCLE
+         IF(IPARG(8,NG) == 1)  CYCLE
+         IF(IPARG(1,NG)  /= 51) CYCLE
          LFT = 1
 
          CALL GRADIENT_LIMITATION2(IXQ, X, TRIMAT)
       ENDDO
       CALL MY_BARRIER
  
-C-----------------------------------------------
-C   E n d  o f  S u b r o u t i n e
-C-----------------------------------------------      
+C-----------------------------------------------  
       END SUBROUTINE ALE51_GRADIENT_RECONSTRUCTION2
       

@@ -28,6 +28,9 @@ Chd|-- calls ---------------
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|====================================================================
       SUBROUTINE EGRAD2(IXQ,X,ALE_CONNECT,GRAD)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -37,12 +40,12 @@ C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
+#include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXQ(7,*)
-      my_real
-     .   X(3,*), GRAD(4,*)
+      INTEGER IXQ(7,NUMELQ)
+      my_real X(3,NUMNOD), GRAD(4,*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -56,10 +59,10 @@ C-----------------------------------------------
       INTEGER I, II, IE, IV1, IV2, IV3, IV4, IAD2
       my_real
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ), Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
-     .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ), XC(MVSIZ), YC(MVSIZ), ZC(MVSIZ), N1X(MVSIZ),
-     .   N2X(MVSIZ), N3X(MVSIZ), N4X(MVSIZ), N1Y(MVSIZ), N2Y(MVSIZ), N3Y(MVSIZ), N4Y(MVSIZ), N1Z(MVSIZ),
-     .   N2Z(MVSIZ), N3Z(MVSIZ), N4Z(MVSIZ), DD1(MVSIZ), DD2(MVSIZ), DD3(MVSIZ), DD4(MVSIZ), D1X(MVSIZ),
-     .   D2X(MVSIZ), D3X(MVSIZ), D4X(MVSIZ), D1Y(MVSIZ), D2Y(MVSIZ), D3Y(MVSIZ), D4Y(MVSIZ), D1Z(MVSIZ),
+     .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ), YC(MVSIZ), ZC(MVSIZ),
+     .   N1Y(MVSIZ), N2Y(MVSIZ), N3Y(MVSIZ), N4Y(MVSIZ), N1Z(MVSIZ),
+     .   N2Z(MVSIZ), N3Z(MVSIZ), N4Z(MVSIZ), DD1(MVSIZ), DD2(MVSIZ), DD3(MVSIZ), DD4(MVSIZ),
+     .   D1Y(MVSIZ), D2Y(MVSIZ), D3Y(MVSIZ), D4Y(MVSIZ), D1Z(MVSIZ),
      .   D2Z(MVSIZ), D3Z(MVSIZ), D4Z(MVSIZ)
 C-----------------------------------------------      
       DO I=LFT,LLT
@@ -81,7 +84,7 @@ C-----------------------------------------------
         Z4(I)=X(3,IXQ(5,II))
       ENDDO
 C------------------------------------------
-C     CALCUL DE LA NORMALE A CHAQUE FACE
+C     RELATIVE VELOCITY ON FACE
 C------------------------------------------
       DO I=LFT,LLT
         N1Y(I)= (Z2(I)-Z1(I))
@@ -99,7 +102,7 @@ C------------------------------------------
         ZC(I) = (Z1(I)+Z2(I)+Z3(I)+Z4(I))
       ENDDO
 
-      IF(N2D.EQ.1)THEN
+      IF(N2D == 1)THEN
        DO I=LFT,LLT
          N1Y(I) = N1Y(I)*(Y1(I)+Y2(I))*HALF
          N1Z(I) = N1Z(I)*(Y1(I)+Y2(I))*HALF
@@ -112,7 +115,7 @@ C------------------------------------------
        ENDDO
       ENDIF
 C--------+---------+---------+---------+---------+---------+---------+--
-C     CALCUL DES DISTANCES ENTRE ELEMENTS ( * 4. )
+C     DISTANCE BETWEEN ELEMS ( * 4. )
 C-------------------------------------------------------------
       DO I=LFT,LLT
         IE =NFT+I
@@ -121,10 +124,10 @@ C-------------------------------------------------------------
         IV2 = ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
         IV3 = ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
         IV4 = ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
-        IF(IV1.LE.0) IV1=IE
-        IF(IV2.LE.0) IV2=IE
-        IF(IV3.LE.0) IV3=IE
-        IF(IV4.LE.0) IV4=IE
+        IF(IV1 <= 0) IV1=IE
+        IF(IV2 <= 0) IV2=IE
+        IF(IV3 <= 0) IV3=IE
+        IF(IV4 <= 0) IV4=IE
         D1Y(I) = - YC(I) + X(2,IXQ(2,IV1)) + X(2,IXQ(3,IV1)) + X(2,IXQ(4,IV1)) + X(2,IXQ(5,IV1))
         D1Z(I) = - ZC(I) + X(3,IXQ(2,IV1)) + X(3,IXQ(3,IV1)) + X(3,IXQ(4,IV1)) + X(3,IXQ(5,IV1))
         D2Y(I) = - YC(I) + X(2,IXQ(2,IV2)) + X(2,IXQ(3,IV2)) + X(2,IXQ(4,IV2)) + X(2,IXQ(5,IV2))
@@ -142,7 +145,7 @@ C-------------------------------------------------------------
         DD4(I)=D4Y(I)**2+D4Z(I)**2
       ENDDO
 C---------------------------------
-C     CALCUL DES GRADIENTS * SURFACES
+C     GRADIENTS * SURFACES
 C---------------------------------
       DO I=LFT,LLT
         GRAD(1,I)= FOUR*(D1Y(I)*N1Y(I)+D1Z(I)*N1Z(I)) / MAX(EM15,DD1(I))
@@ -150,6 +153,6 @@ C---------------------------------
         GRAD(3,I)= FOUR*(D3Y(I)*N3Y(I)+D3Z(I)*N3Z(I)) / MAX(EM15,DD3(I))
         GRAD(4,I)= FOUR*(D4Y(I)*N4Y(I)+D4Z(I)*N4Z(I)) / MAX(EM15,DD4(I))
       ENDDO
-
+C-----------------------------------------------
       RETURN
       END

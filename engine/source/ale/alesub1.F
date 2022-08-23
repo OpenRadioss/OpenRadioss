@@ -62,8 +62,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N,LCOD, INDX2(1024), I,IPRI,NINDX2,
-     .        J,KFT1,NISKFT,NISKLT,K
+      INTEGER N,LCOD, INDX2(1024), I,NINDX2,
+     .        KFT1,NISKFT,NISKLT,K
       my_real FAC
 C-----------------------------------------------
 C   S o u r c e   L i n e s

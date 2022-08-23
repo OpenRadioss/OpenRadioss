@@ -85,14 +85,12 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I, II, KK, JJ, IAD2, IAD3
       INTEGER :: NEIGHBOOR_LIST(NV46), FACE_NEIGHBOOR(NV46)
-      my_real :: ALPHAK, ALPHAL
+      my_real :: ALPHAK
       my_real :: XK, YK, ZK
-      my_real :: XF, YF, ZF
-      INTEGER :: NODE_ID
+      my_real :: YF, ZF
       INTEGER :: FACE_TO_NODE_LOCAL_ID(4, 2), NODEID1, NODEID2
-      my_real :: NORM(3), A(3), B(3), C(3), SURF, SURF1, SURF2
 C-----------------------------------------------
-C  B e g i n n i n g  o f   S u b r o u t i n e
+C   S o u r c e   L i n e s 
 C-----------------------------------------------
 !!! Once for all, associate node local id to a face number
 !!! Face 1
@@ -112,14 +110,14 @@ C-----------------------------------------------
          !!! Neighboors
          DO KK = 1, NV46
             !!! Only for outgoing fluxes
-            IF (FLUX(KK, II) .GT. ZERO) THEN
+            IF (FLUX(KK, II) > ZERO) THEN
                !!! Storing neighboor indexes
                NEIGHBOOR_LIST(KK) = ALE_CONNECT%ee_connect%connected(IAD2 + KK - 1)
                FACE_NEIGHBOOR(KK) = KK
                IF (NEIGHBOOR_LIST(KK) <= 0) THEN
                   IF(NEIGHBOOR_LIST(KK)==0)NEIGHBOOR_LIST(KK) = II
                   !case <0 is for eBCS. -NEIGHBOR_LIST is then the segment number                  
-               ELSEIF (NEIGHBOOR_LIST(KK) .LE. NUMELQ) THEN
+               ELSEIF (NEIGHBOOR_LIST(KK) <= NUMELQ) THEN
                   IAD3 = ALE_CONNECT%ee_connect%iad_connect(NEIGHBOOR_LIST(KK))
                   !!! Store the face number to which II and NEIGHBOR_LIST(KK) are adjacent
                   DO JJ = 1, NV46
@@ -143,7 +141,7 @@ C-----------------------------------------------
                !!! Partial volume flux is then computed as:
                FLUX(KK, II) = ALPHAK * FLUX(KK, II)
                IF (NEIGHBOOR_LIST(KK) > 0)THEN
-                 IF (NEIGHBOOR_LIST(KK) .LE. NUMELQ) THEN
+                 IF (NEIGHBOOR_LIST(KK) <= NUMELQ) THEN
                     !!! The opposite of the flux goes to the neighboord
                     FLUX(FACE_NEIGHBOOR(KK), NEIGHBOOR_LIST(KK)) = -FLUX(KK, II)
                  ELSE
@@ -155,7 +153,7 @@ C-----------------------------------------------
                     N4_VOIS(II, 4) = ITAB(IXQ(5, II))
                  ENDIF
                ENDIF
-            ENDIF  ! (FLUX(KK, II) .GT. ZERO)
+            ENDIF  ! (FLUX(KK, II) > ZERO)
          ENDDO  ! KK = 1, NV46
       ENDDO  ! I = LFT, LLT
       
@@ -174,7 +172,5 @@ C-----------------------------------------------
              ENDDO  
           ENDIF 
                 
-C-----------------------------------------------
-C   E n d  o f  S u b r o u t i n e
 C-----------------------------------------------
       END SUBROUTINE ALEMUSCL_UPWIND2

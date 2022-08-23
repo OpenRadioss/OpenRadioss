@@ -37,14 +37,12 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include "implicit_f.inc"
 C-----------------------------------------------
-C  B e g i n n i n g  o f   S u b r o u t i n e
+C   S o u r c e   L i n e s 
 C-----------------------------------------------
       IF (ALLOCATED(VOLUME_FRACTION)) DEALLOCATE(VOLUME_FRACTION)
       IF (ALLOCATED(NODE_MAX_VALUE)) DEALLOCATE(NODE_MAX_VALUE)
       IF (ALLOCATED(NODE_MIN_VALUE)) DEALLOCATE(NODE_MIN_VALUE)
       IF (ALLOCATED(GRAD)) DEALLOCATE(GRAD)
       IF (ALLOCATED(ELCENTER)) DEALLOCATE(ELCENTER)
-C-----------------------------------------------
-C   E n d  o f  S u b r o u t i n e
 C-----------------------------------------------
       END SUBROUTINE ALEMUSCL_DEALLOCATE

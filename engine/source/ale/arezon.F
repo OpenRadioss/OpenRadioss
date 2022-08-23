@@ -77,8 +77,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: NG, IRS, IRE, NBX, I, J, K, NBB(20), NM, NMN, NFX, NPH, ADD, ADD0,IDX,INDX,NEL
-      my_real, DIMENSION(:), POINTER :: VAR,SIG,VOL, pPLAS, TAG22
+      INTEGER :: NG, IRS, IRE, I, J, K, NM, NMN, NFX, ADD, ADD0,IDX,INDX,NEL
+      my_real, DIMENSION(:), POINTER :: VAR,SIG,VOL, TAG22
 C-----------------------------------------------
 C     S o u r c e   L i n e s
 C-----------------------------------------------

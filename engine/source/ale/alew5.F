@@ -83,8 +83,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, N, IA(6), L, LENCOM, K, ITER,NITER,NUM
-      my_real DX, DY, DZ,FAC, VEC(3),LAMBDA,ETA,IFORM, WEIGHT(6),SOM,SOM2,MIN_DIST,MAX_DIST
+      INTEGER I, LENCOM, K, ITER,NITER,NUM
+      my_real VEC(3),LAMBDA,ETA,IFORM, WEIGHT(6),SOM,SOM2,MIN_DIST,MAX_DIST
       my_real, DIMENSION(:), ALLOCATABLE :: DIST
       INTEGER :: IAD, IAD1, IAD2, NODE_ID
 C-----------------------------------------------

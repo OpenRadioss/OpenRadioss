@@ -94,7 +94,7 @@ C-----------------------------------------------
      .   ICONTACT(*),IFOAM(*)
       my_real
      .  V(3,NUMNOD),W(3,NUMNOD)   ,FLUX(MVSIZ,6),
-     .  PHI1(*),PHI2(*),D(3,*),A(3,*),
+     .  PHI1(*),PHI2(*),D(3,*),A(3,NUMNOD),
      .  FLU1(*)  ,X1(*)  ,X2(*)   ,X3(*)    ,X4(*)  ,
      .  X5(*)    ,X6(*)  ,X7(*)   ,X8(*)    ,Y1(*)  ,Y2(*)  ,
      .  Y3(*)    ,Y4(*)  ,Y5(*)   ,Y6(*)    ,Y7(*)  ,Y8(*)  ,
@@ -108,7 +108,7 @@ C-----------------------------------------------
      .  VDX7(*) ,VDX8(*) ,VDY1(*) ,VDY2(*) ,VDY3(*) ,VDY4(*) ,
      .  VDY5(*) ,VDY6(*) ,VDY7(*) ,VDY8(*) ,VDZ1(*) ,VDZ2(*) ,
      .  VDZ3(*) ,VDZ4(*) ,VDZ5(*) ,VDZ6(*) ,VDZ7(*) ,VDZ8(*),
-     .  DFE(MVSIZ,3), FRHO0(*),PM(NPROPM,*), ALPHA(*),VDX(*),
+     .  DFE(MVSIZ,3), FRHO0(*),PM(NPROPM,NUMMAT), ALPHA(*),VDX(*),
      .  VDY(*), VDZ(*),VD2(*),X(3,*),RHON(*),  
      .  LVX1(*) ,LVX2(*) ,LVX3(*) ,LVX4(*) ,LVX5(*) ,LVX6(*)  ,
      .  LVX7(*) ,LVX8(*) ,LVY1(*) ,LVY2(*) ,LVY3(*) ,LVY4(*) ,
@@ -133,19 +133,18 @@ C        IFUNC(J): FUNCTION INDEX
 C              J : FIRST(J=1), SECOND(J=2) .. FUNCTION USED FOR THIS LAW
 C        NPF,TF  : FUNCTION PARAMETER
 C ---------------------------------------------------------------
-      my_real VEUL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ITRIMAT,J,IMATV,IV,IE,MX,IAD2,LGTH
-      my_real FAC, VFE(3),AFE(3),VOL,RHO,
-     .        YFACK,YFACR,F1,F2,F3,MASS,DTINV,RV,
+      INTEGER J,IV,IE,MX,IAD2
+      my_real FAC, VFE(3),AFE(3),
+     .        DTINV,RV,
      .        REXCH(MVSIZ,6), ALPHA0,
      .        RHOEXT(MVSIZ),EIEXT(MVSIZ),
      .        KK(MVSIZ)
-      my_real AA,BB,TAUX, RHO0,DF,VAR
-      INTEGER NVAR,I,N,IFUNCK,IFUNCR,NFUNC
-      INTEGER NMN, LENCOMN,LENCOM,ICLOS,II,ICONGAS
+      my_real AA,BB,TAUX
+      INTEGER NVAR,I
+      INTEGER ICLOS,II,ICONGAS
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------   

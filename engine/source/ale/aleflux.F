@@ -76,8 +76,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real UDT
-      INTEGER MAT(MVSIZ),  I,J,II,NF1,ISOLNOD,NG,ICLOS,IAD2
+      INTEGER MAT(MVSIZ),  I,II,ICLOS,IAD2
       my_real N1X(MVSIZ), N2X(MVSIZ), N3X(MVSIZ), N4X(MVSIZ), N5X(MVSIZ), 
      .        N6X(MVSIZ), N1Y(MVSIZ), N2Y(MVSIZ), N3Y(MVSIZ), N4Y(MVSIZ), 
      .        N5Y(MVSIZ), N6Y(MVSIZ), N1Z(MVSIZ), N2Z(MVSIZ), N3Z(MVSIZ), 
@@ -88,13 +87,13 @@ C-----------------------------------------------
      .        VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ), VY5(MVSIZ), 
      .        VY6(MVSIZ), VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ), VZ4(MVSIZ), 
      .        VZ5(MVSIZ), VZ6(MVSIZ),
-     .        UPW(1), REDUC,UPWL(MVSIZ,6),XC(MVSIZ),YC(MVSIZ),
+     .        UPWL(MVSIZ,6),XC(MVSIZ),YC(MVSIZ),
      .        ZC(MVSIZ) ,XF1(MVSIZ),YF1(MVSIZ),ZF1(MVSIZ),XF2(MVSIZ),
      .        YF2(MVSIZ),ZF2(MVSIZ), XF3(MVSIZ),YF3(MVSIZ),ZF3(MVSIZ),
      .        XF4(MVSIZ),YF4(MVSIZ),ZF4(MVSIZ),XF5(MVSIZ),YF5(MVSIZ),
      .        ZF5(MVSIZ), XF6(MVSIZ),YF6(MVSIZ),ZF6(MVSIZ),TEST
 C
-      INTEGER MA,IC,JST(MVSIZ+1)
+      INTEGER MA
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------   

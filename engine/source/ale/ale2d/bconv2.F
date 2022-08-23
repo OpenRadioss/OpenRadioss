@@ -27,8 +27,11 @@ Chd|        ACONVE                        source/ale/aconve.F
 Chd|-- calls ---------------
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|====================================================================
-      SUBROUTINE BCONV2(VTOT  ,PHI   ,FLUX ,FLU1 ,
-     .                  ALE_CONNECT ,BHOLE ,NM   )
+      SUBROUTINE BCONV2(VTOT  ,PHI   ,FLUX ,FLU1 , ALE_CONNECT ,
+     .                  BHOLE ,NM   )
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -44,46 +47,47 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER BHOLE(NMULT,*) ,NM
-C     REAL
-      my_real
-     .   VTOT(*), PHI(*), FLUX(4,*), FLU1(*)
+      my_real VTOT(*), PHI(*), FLUX(4,*), FLU1(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IE, IV1, IV2, IV3, IV4, IAD2
 C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
         DO I=LFT,LLT
-        IE =NFT+I
-        IAD2 = ALE_CONNECT%ee_connect%iad_connect(IE)
-        IV1=ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
-        IV2=ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
-        IV3=ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
-        IV4=ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
-        IF(IV1.LE.0.)THEN 
-          IV1=IE        
-        ELSEIF(BHOLE(NM,IE).LT.0. .AND.ABS(BHOLE(NM,IV1)).NE.ABS(BHOLE(NM,IE)))THEN
-          IV1=IE
-        ENDIF
-        IF(IV2.LE.0.)THEN 
-          IV2=IE
-        ELSEIF(BHOLE(NM,IE).LT.0. .AND.ABS(BHOLE(NM,IV2)).NE.ABS(BHOLE(NM,IE)))THEN
-          IV2=IE
-        ENDIF
-        IF(IV3.LE.0.)THEN 
-          IV3=IE
-        ELSEIF(BHOLE(NM,IE).LT.0. .AND.ABS(BHOLE(NM,IV3)).NE.ABS(BHOLE(NM,IE)))THEN
-          IV3=IE
-        ENDIF
-        IF(IV4.LE.0.)THEN
-          IV4=IE
-        ELSEIF(BHOLE(NM,IE).LT.0. .AND.ABS(BHOLE(NM,IV4)).NE.ABS(BHOLE(NM,IE)))THEN
-          IV4=IE
-        ENDIF
-        VTOT(I) = VTOT(I) + HALF * DT1 *(
-     1 - PHI(IE)*FLU1(I)
-     2 - PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)-PHI(IV4)*FLUX(4,I))
+          IE =NFT+I
+          IAD2 = ALE_CONNECT%ee_connect%iad_connect(IE)
+          IV1=ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
+          IV2=ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
+          IV3=ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
+          IV4=ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
+          IF(IV1 <= 0.)THEN 
+            IV1=IE        
+          ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV1)) /= ABS(BHOLE(NM,IE)))THEN
+            IV1=IE
+          ENDIF
+          IF(IV2 <= 0.)THEN 
+            IV2=IE
+          ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV2)) /= ABS(BHOLE(NM,IE)))THEN
+            IV2=IE
+          ENDIF
+          IF(IV3 <= 0.)THEN 
+            IV3=IE
+          ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV3)) /= ABS(BHOLE(NM,IE)))THEN
+            IV3=IE
+          ENDIF
+          IF(IV4 <= 0.)THEN
+            IV4=IE
+          ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV4)) /= ABS(BHOLE(NM,IE)))THEN
+            IV4=IE
+          ENDIF
+          VTOT(I) = VTOT(I) + HALF * DT1 *(
+     .                                     - PHI(IE)*FLU1(I)
+     .                                     - PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)-PHI(IV4)*FLUX(4,I)
+     .                                    )
       ENDDO
-C-----------
+C-----------------------------------------------
       RETURN
       END

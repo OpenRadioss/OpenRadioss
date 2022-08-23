@@ -47,15 +47,15 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IFLG, IXQ(NIXQ, NUMELQ),NVAR
       INTEGER,INTENT(IN) :: IOFF, ITRIMAT
-      my_real
-     .   VTOT(*), PHI(*), FLUX(4,*), FLU1(*), QMV(8,*), X(3, NUMNOD)
+      my_real VTOT(*), PHI(*), FLUX(4,*), FLU1(*), QMV(8,*), X(3,NUMNOD)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J,IE, IV1, IV2, IV3, IV4, IV, IAD2, LGTH
-      my_real
-     .   VL(6,MVSIZ),ttt, R1, R2, R3, R4
+      INTEGER I, J,IE, IV, IAD2, LGTH
+      my_real VL(6,MVSIZ), R1, R2, R3, R4
+C-----------------------------------------------
+C   S o u r c e   L i n e s
 C-----------------------------------------------
       DO I=LFT,LLT
          IE =NFT+I
@@ -75,15 +75,15 @@ C-----------------------------------------------
             ENDIF
          ENDDO
       ENDDO
+      
       DO I=LFT,LLT
         IE =NFT+I
-        VTOT(I) = VTOT(I) + HALF * DT1 *
-     1 (- PHI(IE)*FLU1(I) - VL(1,I)-VL(2,I)-VL(3,I)-VL(4,I) )
+        VTOT(I) = VTOT(I) + HALF * DT1 * (- PHI(IE)*FLU1(I) - VL(1,I)-VL(2,I)-VL(3,I)-VL(4,I) )
         VTOT(I)=MAX(EM20,VTOT(I))
       ENDDO
 C
-      IF(TRIMAT.GT.0.AND.IFLG.EQ.1)THEN
-         IF (N2D .EQ. 1) THEN
+      IF(TRIMAT > 0 .AND. IFLG == 1)THEN
+         IF (N2D  ==  1) THEN
             DO I=LFT,LLT
                IE =NFT+I
                R1 = HALF * (X(2, IXQ(2, IE)) + X(2, IXQ(3, IE)))
@@ -91,10 +91,10 @@ C
                R3 = HALF * (X(2, IXQ(4, IE)) + X(2, IXQ(5, IE)))
                R4 = HALF * (X(2, IXQ(5, IE)) + X(2, IXQ(2, IE)))
                !!! Beware of r=0 axis
-               IF (R1 .EQ. ZERO) R1 = ONE
-               IF (R2 .EQ. ZERO) R2 = ONE
-               IF (R3 .EQ. ZERO) R3 = ONE
-               IF (R4 .EQ. ZERO) R4 = ONE
+               IF (R1  ==  ZERO) R1 = ONE
+               IF (R2  ==  ZERO) R2 = ONE
+               IF (R3  ==  ZERO) R3 = ONE
+               IF (R4  ==  ZERO) R4 = ONE
                !!! Divide by mean radius
                QMV(1,I) = QMV(1,I) - VL(1,I) / R1 - PHI(IE)*QMV(5,I) 
                QMV(2,I) = QMV(2,I) - VL(2,I) / R2 - PHI(IE)*QMV(6,I) 
@@ -111,6 +111,6 @@ C
             ENDDO
          ENDIF
       ENDIF
-C-----------
+C-----------------------------------------------
       RETURN
       END

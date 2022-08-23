@@ -42,12 +42,12 @@ C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
+#include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL
       my_real
-     .   VOL(*), V(3,*), VEUL(10,*),
+     .   VOL(*), V(3,NUMNOD), VEUL(10,*),
      .   Y1(*),Y2(*),Y3(*),Y4(*),Z1(*),Z2(*),Z3(*),Z4(*),
      .   VY1(*),VY2(*),VY3(*),VY4(*),VZ1(*),VZ2(*),VZ3(*),VZ4(*),
      .   PY1(*), PY2(*), PZ1(*), PZ2(*),
@@ -66,71 +66,72 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, II
-C     REAL
-      my_real
-     .   VY13(MVSIZ), VY24(MVSIZ), VZ13(MVSIZ),VZ24(MVSIZ),YAVG(MVSIZ),
-     .   DPY,DPZ
+      my_real VY13(MVSIZ), VY24(MVSIZ), VZ13(MVSIZ),VZ24(MVSIZ),YAVG(MVSIZ)
 C-----------------------------------------------
-      DO 10 I=LFT,LLT
-      II=I+NFT
-      PY1(I)=HALF*(Z2(I)-Z4(I))
-      PY2(I)=HALF*(Z3(I)-Z1(I))
-      PZ1(I)=HALF*(Y4(I)-Y2(I))
-      PZ2(I)=HALF*(Y1(I)-Y3(I))      
-      AIRE(I)=VEUL(1,II)
-  10  DELTAX(I)=VEUL(2,II)
-C
-      IF(N2D.EQ.1) THEN
-       DO 20 I=LFT,LLT
-   20  VOLN(I)=VOL(I)
+      DO I=LFT,LLT
+        II=I+NFT
+        PY1(I)=HALF*(Z2(I)-Z4(I))
+        PY2(I)=HALF*(Z3(I)-Z1(I))
+        PZ1(I)=HALF*(Y4(I)-Y2(I))
+        PZ2(I)=HALF*(Y1(I)-Y3(I))      
+        AIRE(I)=VEUL(1,II)
+        DELTAX(I)=VEUL(2,II)
+      ENDDO !next I
+
+      IF(N2D == 1) THEN
+       DO I=LFT,LLT
+         VOLN(I)=VOL(I)
+       ENDDO
       ELSE
-       DO 30 I=LFT,LLT
-   30  VOLN(I)=AIRE(I)
+       DO I=LFT,LLT
+         VOLN(I)=AIRE(I)
+       ENDDO
       ENDIF
-C
-      DO 40 I=LFT,LLT
-      VY1(I)=V(2,NC1(I))
-      VZ1(I)=V(3,NC1(I))
-      VY2(I)=V(2,NC2(I))
-      VZ2(I)=V(3,NC2(I))
-      VY3(I)=V(2,NC3(I))
-      VZ3(I)=V(3,NC3(I))
-      VY4(I)=V(2,NC4(I))
-      VZ4(I)=V(3,NC4(I))
-   40 CONTINUE
-C
-      IF(MTN.NE.11)THEN
-       DO 50 I=LFT,LLT
-        YAVG(I) =Y1(I)+Y2(I)+Y3(I)+Y4(I)
-        VY13(I)=VY1(I)-VY3(I)
-        VY24(I)=VY2(I)-VY4(I)
-        VZ13(I)=VZ1(I)-VZ3(I)
-        VZ24(I)=VZ2(I)-VZ4(I)
-        VDY(I)=FOURTH*(VY1(I)+VY2(I)+VY3(I)+VY4(I))
-        VDZ(I)=FOURTH*(VZ1(I)+VZ2(I)+VZ3(I)+VZ4(I))
-        VD2(I)=VDY(I)**2+VDZ(I)**2
-   50  CONTINUE
-C
-       DO 60  I=LFT,LLT
-        EYY(I)=(PY1(I)*VY13(I)+PY2(I)*VY24(I))/AIRE(I)
-        EZZ(I)=(PZ1(I)*VZ13(I)+PZ2(I)*VZ24(I))/AIRE(I)
-        ETT(I)=ZERO
-        DZY(I)=(PY1(I)*VZ13(I)+PY2(I)*VZ24(I))/AIRE(I)
-        DYZ(I)=(PZ1(I)*VY13(I)+PZ2(I)*VY24(I))/AIRE(I)
-        EYT(I)=ZERO
-        EZT(I)=ZERO
-   60  CONTINUE
-C
-       IF(N2D.EQ.1) THEN
-        DO 65 I=LFT,LLT
+
+      DO I=LFT,LLT
+        VY1(I)=V(2,NC1(I))
+        VZ1(I)=V(3,NC1(I))
+        VY2(I)=V(2,NC2(I))
+        VZ2(I)=V(3,NC2(I))
+        VY3(I)=V(2,NC3(I))
+        VZ3(I)=V(3,NC3(I))
+        VY4(I)=V(2,NC4(I))
+        VZ4(I)=V(3,NC4(I))
+      ENDDO  
+
+      IF(MTN /= 11)THEN
+       DO I=LFT,LLT
+         YAVG(I) =Y1(I)+Y2(I)+Y3(I)+Y4(I)
+         VY13(I)=VY1(I)-VY3(I)
+         VY24(I)=VY2(I)-VY4(I)
+         VZ13(I)=VZ1(I)-VZ3(I)
+         VZ24(I)=VZ2(I)-VZ4(I)
+         VDY(I)=FOURTH*(VY1(I)+VY2(I)+VY3(I)+VY4(I))
+         VDZ(I)=FOURTH*(VZ1(I)+VZ2(I)+VZ3(I)+VZ4(I))
+         VD2(I)=VDY(I)**2+VDZ(I)**2
+       ENDDO 
+
+       DO I=LFT,LLT
+         EYY(I)=(PY1(I)*VY13(I)+PY2(I)*VY24(I))/AIRE(I)
+         EZZ(I)=(PZ1(I)*VZ13(I)+PZ2(I)*VZ24(I))/AIRE(I)
+         ETT(I)=ZERO
+         DZY(I)=(PY1(I)*VZ13(I)+PY2(I)*VZ24(I))/AIRE(I)
+         DYZ(I)=(PZ1(I)*VY13(I)+PZ2(I)*VY24(I))/AIRE(I)
+         EYT(I)=ZERO
+         EZT(I)=ZERO
+       ENDDO 
+
+       IF(N2D == 1) THEN
+        DO I=LFT,LLT
          ETT(I)=(VY1(I)+VY2(I)+VY3(I)+VY4(I))/YAVG(I)
-   65   CONTINUE
+        ENDDO
        ENDIF
-C
-       DO 70 I=LFT,LLT
-        EYZ(I)= DZY(I)+DYZ(I)
-   70   WYZ(I)=HALF*DT1*(DZY(I)-DYZ(I))
+
+       DO I=LFT,LLT
+         EYZ(I)= DZY(I)+DYZ(I)
+         WYZ(I)=HALF*DT1*(DZY(I)-DYZ(I))
+       ENDDO
       ENDIF
-C
+C-----------------------------------------------
       RETURN
       END

@@ -30,6 +30,9 @@ Chd|-- calls ---------------
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|====================================================================
       SUBROUTINE ADIFF3(PHIN,PHI,GRAD,COEF,ALE_CONNECT,VOL)
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -42,9 +45,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL
-      my_real
-     .   PHIN(*), PHI(*), GRAD(6,*), COEF(*), VOL(*)
+      my_real PHIN(*), PHI(*), GRAD(6,*), COEF(*), VOL(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -55,46 +56,42 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IE, IV1, IV2, IV3, IV4, IV5, IV6, IAD2
-C     REAL
-      my_real
-     .   DPHI(MVSIZ)      
+      INTEGER I, IE, IV1, IV2, IV3, IV4, IV5, IV6, IAD2  
+      my_real DPHI(MVSIZ)      
 C-----------------------------------------------
-      DO 10 I=LFT,LLT
-      IE =NFT+I
-      IAD2 = ALE_CONNECT%ee_connect%iad_connect(IE)
-      IV1 = ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
-      IV2 = ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
-      IV3 = ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
-      IV4 = ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
-      IV5 = ALE_CONNECT%ee_connect%connected(IAD2 + 5 - 1)
-      IV6 = ALE_CONNECT%ee_connect%connected(IAD2 + 6 - 1)
-      IF(IV1.LE.0)IV1=IE
-      IF(IV2.LE.0)IV2=IE
-      IF(IV3.LE.0)IV3=IE
-      IF(IV4.LE.0)IV4=IE
-      IF(IV5.LE.0)IV5=IE
-      IF(IV6.LE.0)IV6=IE
-      DPHI(I) =
-     1   (COEF(IE)*COEF(IV1))*(PHI(IV1)-PHI(IE))*GRAD(1,I)
-     2  /MAX(EM20,(COEF(IE)+COEF(IV1)))
-     3 + (COEF(IE)*COEF(IV2))*(PHI(IV2)-PHI(IE))*GRAD(2,I)
-     4  /MAX(EM20,(COEF(IE)+COEF(IV2)))
-     5 + (COEF(IE)*COEF(IV3))*(PHI(IV3)-PHI(IE))*GRAD(3,I)
-     6  /MAX(EM20,(COEF(IE)+COEF(IV3)))
-     7 + (COEF(IE)*COEF(IV4))*(PHI(IV4)-PHI(IE))*GRAD(4,I)
-     8  /MAX(EM20,(COEF(IE)+COEF(IV4)))
-     9 + (COEF(IE)*COEF(IV5))*(PHI(IV5)-PHI(IE))*GRAD(5,I)
-     A  /MAX(EM20,(COEF(IE)+COEF(IV5)))
-     B + (COEF(IE)*COEF(IV6))*(PHI(IV6)-PHI(IE))*GRAD(6,I)
-     C  /MAX(EM20,(COEF(IE)+COEF(IV6)))
-  10  CONTINUE
+C   S o u r c e   L i n e s
+C-----------------------------------------------
+      DO I=LFT,LLT
+        IE =NFT+I
+        IAD2 = ALE_CONNECT%ee_connect%iad_connect(IE)
+        IV1 = ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
+        IV2 = ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
+        IV3 = ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
+        IV4 = ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
+        IV5 = ALE_CONNECT%ee_connect%connected(IAD2 + 5 - 1)
+        IV6 = ALE_CONNECT%ee_connect%connected(IAD2 + 6 - 1)
+        IF(IV1 <= 0)IV1=IE
+        IF(IV2 <= 0)IV2=IE
+        IF(IV3 <= 0)IV3=IE
+        IF(IV4 <= 0)IV4=IE
+        IF(IV5 <= 0)IV5=IE
+        IF(IV6 <= 0)IV6=IE
+        DPHI(I) =
+     1           (COEF(IE)*COEF(IV1))*(PHI(IV1)-PHI(IE))*GRAD(1,I) / MAX(EM20,(COEF(IE)+COEF(IV1)))
+     3         + (COEF(IE)*COEF(IV2))*(PHI(IV2)-PHI(IE))*GRAD(2,I) / MAX(EM20,(COEF(IE)+COEF(IV2)))
+     5         + (COEF(IE)*COEF(IV3))*(PHI(IV3)-PHI(IE))*GRAD(3,I) / MAX(EM20,(COEF(IE)+COEF(IV3)))
+     7         + (COEF(IE)*COEF(IV4))*(PHI(IV4)-PHI(IE))*GRAD(4,I) / MAX(EM20,(COEF(IE)+COEF(IV4)))
+     9         + (COEF(IE)*COEF(IV5))*(PHI(IV5)-PHI(IE))*GRAD(5,I) / MAX(EM20,(COEF(IE)+COEF(IV5)))
+     B         + (COEF(IE)*COEF(IV6))*(PHI(IV6)-PHI(IE))*GRAD(6,I) / MAX(EM20,(COEF(IE)+COEF(IV6)))
+      ENDDO!next I
 C-----------------------------------------------------------
-      DO 30 I=LFT,LLT
-  30  DPHI(I)=TWO  *DPHI(I)*DT1/MAX(VOL(I),EM20)
+      DO I=LFT,LLT
+        DPHI(I)=TWO*DPHI(I)*DT1/MAX(VOL(I),EM20)
+      ENDDO
 C-----------------------------------------------------------
-      DO 40 I=LFT,LLT
-  40  PHIN(I)=PHIN(I)+DPHI(I)
+      DO I=LFT,LLT
+        PHIN(I)=PHIN(I)+DPHI(I)
+      ENDDO
 C-----------------------------------------------------------
       RETURN
       END

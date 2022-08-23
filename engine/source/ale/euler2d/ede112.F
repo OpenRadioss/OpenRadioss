@@ -41,8 +41,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
 #include      "param_c.inc"
+#include      "com01_c.inc"
+#include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "vect01_c.inc"
@@ -50,28 +51,26 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
-      INTEGER IXQ(7,*)
-      my_real
-     .   V(3,*), VEUL(10,*),X(3,*),PM(NPROPM,*),
-     .   WYZ(*), DYZ(*), DZY(*),
-     .   EYY(*),EZZ(*), ETT(*), EYZ(*), EYT(*), EZT(*)
+      INTEGER IXQ(7,NUMELQ)
+      my_real V(3,NUMNOD), VEUL(10,*),X(3,NUMNOD),PM(NPROPM,NUMMAT),
+     .        WYZ(*), DYZ(*), DZY(*), EYY(*),EZZ(*), ETT(*), EYZ(*), EYT(*), EZT(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, II,IVOI,ML,NC1,NC2,NC3,NC4,J,IAD2
-C     REAL
-      my_real
-     .   VY13, VY24, VZ13,VZ24,PY1,PY2,PZ1,PZ2,AIRE
+      my_real VY13, VY24, VZ13,VZ24,PY1,PY2,PZ1,PZ2,AIRE
+C-----------------------------------------------
+C   S o u r c e   L i n e s 
 C-----------------------------------------------
       DO I=LFT,LLT
        II=I+NFT
        IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
        DO J=1,4
         IVOI=ALE_CONNECT%ee_connect%connected(IAD2 + J - 1)
-        IF(IVOI.NE.0) THEN
+        IF(IVOI /= 0) THEN
          ML=NINT(PM(19,IXQ(1,IVOI)))
-         IF(ML.NE.11) THEN
+         IF(ML /= 11) THEN
 C FP 11-dec-96   AIRE=VEUL(1,IVOI)
           NC1=IXQ(2,IVOI)
           NC2=IXQ(3,IVOI)
@@ -99,6 +98,6 @@ C          DYZ(I)=0.
         ENDIF
        ENDDO
       ENDDO
-C
+C-----------------------------------------------
       RETURN
       END

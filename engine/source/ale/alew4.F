@@ -69,25 +69,23 @@ C-----------------------------------------------
       INTEGER NALE(NUMNOD), IPARG(NPARG,NGROUP), NC(NIX,*), ADDCNE(*), PROCNE(*),ITAB(NUMNOD),
      .        IAD_ELEM(2,*), FR_ELEM(*), FR_NBCC(2,*), IADX(NIADX,*) ,
      .        SIZEN, NIX, NIADX
-      my_real
-     .   X(3,SX/3), D(3,SD/3), V(3,SV/3), W(3,SW/3), WA(3,*), WB(3,*),
-     .   FSKY(8,LSKY), FSKYV(LSKY,8), WMA(*)
+      my_real X(3,NUMNOD), D(3,NUMNOD), V(3,NUMNOD), W(3,NUMNOD), WA(3,*), WB(3,*),
+     .        FSKY(8,LSKY), FSKYV(LSKY,8), WMA(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER 
      .   ICT(2,12), J1(MVSIZ), J2(MVSIZ), I   , NG, NEL, NFT, ITY      , MQE        , ITR     ,
-     .   NTR      , N        , NNC      , NCT , K , II , J  , ICT4(2,6), ICT8(2,12) ,ICT2(2,4),
+     .   NTR      , N        , NNC      , NCT , K , II , ICT4(2,6), ICT8(2,12) ,ICT2(2,4),
      .   ISOLNOD  , KK       , SIZE     , LENS, LENR
      
       my_real
-     .   DX(MVSIZ) , DY(MVSIZ) , DZ(MVSIZ)  , XX(MVSIZ) , XY(MVSIZ), XZ(MVSIZ), DL1(MVSIZ),
-     .   DL2(MVSIZ), DDX(MVSIZ), DDY(MVSIZ) , DDZ(MVSIZ), DL(MVSIZ), XL(MVSIZ), DDL(MVSIZ), 
-     .   DLM       , DLMIN     , GAM1       , XLAG      ,
-     .   XALE      , XX0       , XY0        , XZ0       ,XL0       , DLF      , DDLF      , XM(12)      ,
-     .   YM(12)    , ZM(12)    , VX(MVSIZ,3),VY(MVSIZ,3),VZ(MVSIZ,3),VV,
-     .   X13       , Y13       ,Z13         ,X24        ,Y24        ,Z24      ,DT0X       ,
-     .   DLF0        ,WBTMP(3,SIZEN)
+     .   DX(MVSIZ) , DY(MVSIZ) , DZ(MVSIZ)  , XX(MVSIZ) , XY(MVSIZ) , XZ(MVSIZ) , 
+     .   DDX(MVSIZ), DDY(MVSIZ), DDZ(MVSIZ) , DL(MVSIZ) , DDL(MVSIZ), 
+     .   GAM1      , DLF       , DDLF       , XM(12)      ,
+     .   YM(12)    , ZM(12)    , VX(MVSIZ,3),VY(MVSIZ,3),VZ(MVSIZ,3),VV         ,
+     .   X13       , Y13       , Z13        ,X24        ,Y24        ,Z24        ,DT0X       ,
+     .   DLF0      ,WBTMP(3,SIZEN)
 C-----------------------------------------------
       DATA ICT8/1,2,4,3,8,7,5,6,
      A          1,4,5,8,6,7,2,3,

@@ -32,7 +32,7 @@ Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-sear
 Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
 Chd|====================================================================
       SUBROUTINE ALEMUSCL_UPWIND(FLUX, ALE_CONNECT, ALPH, X, IXS, FLUX_VOIS, 
-     .     N4_VOIS, ITAB, NV46, ITRIMAT, SEGVAR)
+     .                           N4_VOIS, ITAB, NV46, ITRIMAT, SEGVAR)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C   This subroutines performs the followind steps: 
@@ -72,8 +72,8 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: NV46
       my_real, INTENT(OUT) :: FLUX(NV46, *)
       my_real, INTENT(IN) :: ALPH(*)
-      my_real, INTENT(IN) :: X(3, NUMNOD)
-      INTEGER, INTENT(IN) :: IXS(NIXS, NUMELS)
+      my_real, INTENT(IN) :: X(3,NUMNOD)
+      INTEGER, INTENT(IN) :: IXS(NIXS,NUMELS)
       my_real, INTENT(OUT) :: FLUX_VOIS(NUMELS+NSVOIS, NV46)
       INTEGER, INTENT(OUT) :: N4_VOIS(NUMELS+NSVOIS,8)
       INTEGER, INTENT(IN) :: ITAB(NUMNOD)
@@ -85,14 +85,13 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I, II, KK, JJ, IAD2, IAD3
       INTEGER :: NEIGHBOOR_LIST(NV46), FACE_NEIGHBOOR(NV46)
-      my_real :: ALPHAK, ALPHAL
+      my_real :: ALPHAK
       my_real :: XK, YK, ZK
       my_real :: XF, YF, ZF
-      INTEGER :: NODE_ID
       INTEGER :: FACE_TO_NODE_LOCAL_ID(6, 4)
       my_real :: NORM(3), A(3), B(3), C(3), SURF, SURF1, SURF2
 C-----------------------------------------------
-C  B e g i n n i n g  o f   S u b r o u t i n e
+C   S o u r c e   L i n e s 
 C-----------------------------------------------
 !!! Once for all, associate node local id to a face number
 !!! Face 1
@@ -123,14 +122,14 @@ C-----------------------------------------------
          !!! Neighboors
          DO KK = 1, NV46
             !!! Only for outgoing fluxes
-            IF (FLUX(KK, II) .GT. ZERO) THEN
+            IF (FLUX(KK, II) > ZERO) THEN
                !!! Storing neighboor indexes
                NEIGHBOOR_LIST(KK) = ALE_CONNECT%ee_connect%connected(IAD2 + KK - 1)
                FACE_NEIGHBOOR(KK) = KK
                IF (NEIGHBOOR_LIST(KK) <= 0) THEN
                   IF(NEIGHBOOR_LIST(KK)==0)NEIGHBOOR_LIST(KK) = II
                   !case <0 is for eBCS. -NEIGHBOR_LIST is then the segment number
-               ELSEIF (NEIGHBOOR_LIST(KK) .LE. NUMELS) THEN
+               ELSEIF (NEIGHBOOR_LIST(KK) <= NUMELS) THEN
                   IAD3 = ALE_CONNECT%ee_connect%iad_connect(NEIGHBOOR_LIST(KK))
                   !!! Store the face number to which II and NEIGHBOR_LIST(KK) are adjacent
                   DO JJ = 1, NV46
@@ -184,7 +183,7 @@ C-----------------------------------------------
                !!! Partial volume flux is then computed as:
                FLUX(KK, II) = ALPHAK * FLUX(KK, II)
                IF (NEIGHBOOR_LIST(KK) > 0)THEN
-                 IF (NEIGHBOOR_LIST(KK) .LE. NUMELS .AND. NEIGHBOOR_LIST(KK) > 0) THEN
+                 IF (NEIGHBOOR_LIST(KK) <= NUMELS .AND. NEIGHBOOR_LIST(KK) > 0) THEN
                     !!! The opposite of the flux goes to the neighboord
                     FLUX(FACE_NEIGHBOOR(KK), NEIGHBOOR_LIST(KK)) = -FLUX(KK, II)
                  ELSE
@@ -200,12 +199,12 @@ C-----------------------------------------------
                     N4_VOIS(II, 8) = ITAB(IXS(9, II))
                  ENDIF
                ENDIF
-            ENDIF  ! (FLUX(KK, II) .GT. ZERO)
+            ENDIF  ! (FLUX(KK, II) > ZERO)
          ENDDO  ! KK = 1, NV46
       ENDDO  ! I = LFT, LLT
       
 C-----------------------------------------------
-C         flux entrant par EBCS 
+C         incoming volume fluxes from EBCS 
 C-----------------------------------------------
           IF(NSEGFLU > 0)THEN
             DO I = LFT, LLT
@@ -219,7 +218,5 @@ C-----------------------------------------------
              ENDDO  
           ENDIF 
       
-C-----------------------------------------------
-C   E n d  o f  S u b r o u t i n e
 C-----------------------------------------------
       END SUBROUTINE ALEMUSCL_UPWIND

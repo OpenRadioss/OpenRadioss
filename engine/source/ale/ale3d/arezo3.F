@@ -28,6 +28,9 @@ Chd|-- calls ---------------
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|====================================================================
       SUBROUTINE AREZO3(ALE_CONNECT,VAR,NV,PHI,NDIM,FLUX,VOL,IAD22,IXS,ITRIMAT)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -37,11 +40,12 @@ C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
+#include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER :: NDIM,NV,ITRIMAT
-      INTEGER :: IXS(NIXS,*)
+      INTEGER :: IXS(NIXS,NUMELS)
       my_real :: VAR(NDIM,*), PHI(*), FLUX(6,MVSIZ), VOL(MVSIZ), IAD22(MVSIZ)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
@@ -60,7 +64,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 
-C NOT YET TREATED WITH INTER22, MUST STACK REZONED VALUE WITH SUPERCELLS LIKE FOR CONVECTION
+C NOT YET TREATED WITH INTER22(OBSOLETE), MUST STACK REZONED VALUE WITH SUPERCELLS
 
       IF(INT22==0)THEN
         DO I=LFT,LLT
@@ -72,12 +76,12 @@ C NOT YET TREATED WITH INTER22, MUST STACK REZONED VALUE WITH SUPERCELLS LIKE FO
           IV4=ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
           IV5=ALE_CONNECT%ee_connect%connected(IAD2 + 5 - 1)
           IV6=ALE_CONNECT%ee_connect%connected(IAD2 + 6 - 1)
-          IF(IV1.LE.0)IV1=IE
-          IF(IV2.LE.0)IV2=IE
-          IF(IV3.LE.0)IV3=IE
-          IF(IV4.LE.0)IV4=IE
-          IF(IV5.LE.0)IV5=IE
-          IF(IV6.LE.0)IV6=IE
+          IF(IV1 <= 0)IV1=IE
+          IF(IV2 <= 0)IV2=IE
+          IF(IV3 <= 0)IV3=IE
+          IF(IV4 <= 0)IV4=IE
+          IF(IV5 <= 0)IV5=IE
+          IF(IV6 <= 0)IV6=IE
           IF (VOL(I) > ZERO) VAR(NV,I) = VAR(NV,I) + HALF*DT1*(PHI(IE)*
      2     (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I)+FLUX(5,I)+FLUX(6,I))
      3     -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)
@@ -95,12 +99,12 @@ C NOT YET TREATED WITH INTER22, MUST STACK REZONED VALUE WITH SUPERCELLS LIKE FO
           IV4=ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
           IV5=ALE_CONNECT%ee_connect%connected(IAD2 + 5 - 1)
           IV6=ALE_CONNECT%ee_connect%connected(IAD2 + 6 - 1) 
-          IF(IV1.LE.0)IV1=IE
-          IF(IV2.LE.0)IV2=IE
-          IF(IV3.LE.0)IV3=IE
-          IF(IV4.LE.0)IV4=IE
-          IF(IV5.LE.0)IV5=IE
-          IF(IV6.LE.0)IV6=IE
+          IF(IV1 <= 0)IV1=IE
+          IF(IV2 <= 0)IV2=IE
+          IF(IV3 <= 0)IV3=IE
+          IF(IV4 <= 0)IV4=IE
+          IF(IV5 <= 0)IV5=IE
+          IF(IV6 <= 0)IV6=IE
           IF (VOL(I) > ZERO) VAR(NV,I) = VAR(NV,I) + HALF*DT1*(PHI(IE)*
      2     (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I)+FLUX(5,I)+FLUX(6,I))
      3     -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)
@@ -120,6 +124,9 @@ Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectiv
 Chd|====================================================================
       SUBROUTINE AREZO3_SIG(ALE_CONNECT,SIG,NV,PHI,NDIM,FLUX,
      .                      VOL,IAD22,IXS,ITRIMAT,NEL)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -133,13 +140,14 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER :: NDIM,NV,ITRIMAT,NEL
-      INTEGER :: IXS(NIXS,*)
+      INTEGER :: IXS(NIXS,NUMELS)
       my_real :: SIG(NEL,NDIM), PHI(*), FLUX(6,MVSIZ), VOL(MVSIZ), IAD22(MVSIZ)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
+#include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "vect01_c.inc"
 #include      "param_c.inc"
@@ -152,7 +160,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 
-C NOT YET TREATED WITH INTER22, MUST STACK REZONED VALUE WITH SUPERCELLS LIKE FOR CONVECTION
+C NOT YET TREATED WITH INTER22(OBSOLETE), MUST STACK REZONED VALUE WITH SUPERCELLS
 
       IF(INT22==0)THEN
         DO I=LFT,LLT
@@ -164,12 +172,12 @@ C NOT YET TREATED WITH INTER22, MUST STACK REZONED VALUE WITH SUPERCELLS LIKE FO
           IV4=ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
           IV5=ALE_CONNECT%ee_connect%connected(IAD2 + 5 - 1)
           IV6=ALE_CONNECT%ee_connect%connected(IAD2 + 6 - 1)
-          IF(IV1.LE.0)IV1=IE
-          IF(IV2.LE.0)IV2=IE
-          IF(IV3.LE.0)IV3=IE
-          IF(IV4.LE.0)IV4=IE
-          IF(IV5.LE.0)IV5=IE
-          IF(IV6.LE.0)IV6=IE
+          IF(IV1 <= 0)IV1=IE
+          IF(IV2 <= 0)IV2=IE
+          IF(IV3 <= 0)IV3=IE
+          IF(IV4 <= 0)IV4=IE
+          IF(IV5 <= 0)IV5=IE
+          IF(IV6 <= 0)IV6=IE
           IF (VOL(I) > ZERO) SIG(I,NV) = SIG(I,NV) + HALF*DT1*(PHI(IE)*
      2     (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I)+FLUX(5,I)+FLUX(6,I))
      3     -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)
@@ -187,20 +195,21 @@ C NOT YET TREATED WITH INTER22, MUST STACK REZONED VALUE WITH SUPERCELLS LIKE FO
           IV4=ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
           IV5=ALE_CONNECT%ee_connect%connected(IAD2 + 5 - 1)
           IV6=ALE_CONNECT%ee_connect%connected(IAD2 + 6 - 1)
-          IF(IV1.LE.0)IV1=IE
-          IF(IV2.LE.0)IV2=IE
-          IF(IV3.LE.0)IV3=IE
-          IF(IV4.LE.0)IV4=IE
-          IF(IV5.LE.0)IV5=IE
-          IF(IV6.LE.0)IV6=IE
-          IF (VOL(I) > ZERO) SIG(I,NV) = SIG(I,NV) + HALF*DT1*(PHI(IE)*
-     2     (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I)+FLUX(5,I)+FLUX(6,I))
-     3     -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)
-     4     -PHI(IV4)*FLUX(4,I)-PHI(IV5)*FLUX(5,I)-PHI(IV6)*FLUX(6,I))/
-     5      VOL(I)
+          IF(IV1 <= 0)IV1=IE
+          IF(IV2 <= 0)IV2=IE
+          IF(IV3 <= 0)IV3=IE
+          IF(IV4 <= 0)IV4=IE
+          IF(IV5 <= 0)IV5=IE
+          IF(IV6 <= 0)IV6=IE
+          IF (VOL(I) > ZERO) THEN
+           SIG(I,NV) = SIG(I,NV) + HALF*DT1*(
+     .        PHI(IE)*(FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I)+FLUX(5,I)+FLUX(6,I))
+     .       -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)-PHI(IV4)*FLUX(4,I)-PHI(IV5)*FLUX(5,I)-PHI(IV6)*FLUX(6,I)
+     .                                      ) / VOL(I)
+          ENDIF
         ENDDO       
       ENDIF
-C-----------
+C-----------------------------------------------
       RETURN
       END
 

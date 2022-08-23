@@ -28,7 +28,10 @@ Chd|-- calls ---------------
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|====================================================================
       SUBROUTINE AREZO2(ALE_CONNECT,VAR,IDX,PHI,NDIM,FLUX,VOL)
-      USE ALE_CONNECTIVITY_MOD
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,15 +49,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NDIM,IDX
-C     REAL
-      my_real
-     .   VAR(NDIM,*), PHI(*), FLUX(4,*), VOL(*)
+      my_real VAR(NDIM,*), PHI(*), FLUX(4,*), VOL(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IE, IV1, IV2, IV3, IV4, IAD2
-C     REAL
       my_real VOLN
 C-----------------------------------------------
       IF (JMULT == 0) THEN
@@ -65,15 +65,14 @@ C-----------------------------------------------
          IV2=ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
          IV3=ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
          IV4=ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
-         IF (IV1.LE.0)IV1=IE
-         IF (IV2.LE.0)IV2=IE
-         IF (IV3.LE.0)IV3=IE
-         IF (IV4.LE.0)IV4=IE
-         IF (VOL(I) > ZERO) VAR(IDX,I)=VAR(IDX,I) + HALF*DT1*(PHI(IE)*
-     2   (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
-     3   -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)
-     4   -PHI(IV4)*FLUX(4,I)) / VOL(I)
-c       if(i==1)print*,'AREZO2,VAR=',VAR(IDX,I)
+         IF (IV1 <= 0)IV1=IE
+         IF (IV2 <= 0)IV2=IE
+         IF (IV3 <= 0)IV3=IE
+         IF (IV4 <= 0)IV4=IE
+         IF (VOL(I) > ZERO) THEN
+           VAR(IDX,I)=VAR(IDX,I) + HALF*DT1*(PHI(IE)* (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
+     .                -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)-PHI(IV4)*FLUX(4,I)) / VOL(I)
+         ENDIF
         ENDDO    
       ELSE
         DO I=LFT,LLT
@@ -84,16 +83,14 @@ c       if(i==1)print*,'AREZO2,VAR=',VAR(IDX,I)
         IV3=ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
         IV4=ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
        
-        IF(IV1.LE.0)IV1=IE
-        IF(IV2.LE.0)IV2=IE
-        IF(IV3.LE.0)IV3=IE
-        IF(IV4.LE.0)IV4=IE
+        IF(IV1 <= 0)IV1=IE
+        IF(IV2 <= 0)IV2=IE
+        IF(IV3 <= 0)IV3=IE
+        IF(IV4 <= 0)IV4=IE
         VOLN=VOL(I)-DT1 * (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
-        IF (VOLN.GT.EM15) THEN
-          VAR(IDX,I) = VAR(IDX,I) + HALF * DT1 * (PHI(IE)*
-     2  (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
-     3  -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)
-     4  -PHI(IV4)*FLUX(4,I)) / MAX(EM15,VOLN)
+        IF (VOLN > EM15) THEN
+          VAR(IDX,I) = VAR(IDX,I) + HALF * DT1 * (PHI(IE)*(FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
+     3                 -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)-PHI(IV4)*FLUX(4,I)) / MAX(EM15,VOLN)
          ENDIF
         ENDDO
       ENDIF
@@ -108,6 +105,9 @@ Chd|-- calls ---------------
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|====================================================================
       SUBROUTINE AREZO2_SIG(ALE_CONNECT,SIG,IDX,PHI,NDIM,FLUX,VOL,NEL)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -126,15 +126,15 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NDIM,IDX,NEL
-      my_real
-     .   SIG(NEL,NDIM), PHI(*), FLUX(4,*), VOL(*)
+      my_real SIG(NEL,NDIM), PHI(*), FLUX(4,*), VOL(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IE, IV1, IV2, IV3, IV4, IAD2
-C     REAL
       my_real VOLN
+C-----------------------------------------------
+C   S o u r c e   L i n e s
 C-----------------------------------------------
       IF (JMULT == 0) THEN
         DO I=LFT,LLT
@@ -144,15 +144,16 @@ C-----------------------------------------------
          IV2=ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
          IV3=ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
          IV4=ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
-         IF (IV1.LE.0)IV1=IE
-         IF (IV2.LE.0)IV2=IE
-         IF (IV3.LE.0)IV3=IE
-         IF (IV4.LE.0)IV4=IE
-         IF (VOL(I) > ZERO) SIG(I,IDX)=SIG(I,IDX) + HALF*DT1*(PHI(IE)*
-     2   (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
-     3   -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)
-     4   -PHI(IV4)*FLUX(4,I)) / VOL(I)
-c       if(i==1)print*,'AREZO2,VAR=',VAR(IDX,I)
+         IF (IV1 <= 0)IV1=IE
+         IF (IV2 <= 0)IV2=IE
+         IF (IV3 <= 0)IV3=IE
+         IF (IV4 <= 0)IV4=IE
+         IF (VOL(I) > ZERO) THEN
+           SIG(I,IDX)=SIG(I,IDX) + HALF*DT1*(PHI(IE)*
+     2                (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
+     3                -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)
+     4                -PHI(IV4)*FLUX(4,I)) / VOL(I)
+         ENDIF
         ENDDO    
       ELSE
         DO I=LFT,LLT
@@ -162,19 +163,19 @@ c       if(i==1)print*,'AREZO2,VAR=',VAR(IDX,I)
         IV2=ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
         IV3=ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
         IV4=ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
-        IF(IV1.LE.0)IV1=IE
-        IF(IV2.LE.0)IV2=IE
-        IF(IV3.LE.0)IV3=IE
-        IF(IV4.LE.0)IV4=IE
+        IF(IV1 <= 0)IV1=IE
+        IF(IV2 <= 0)IV2=IE
+        IF(IV3 <= 0)IV3=IE
+        IF(IV4 <= 0)IV4=IE
         VOLN=VOL(I)-DT1 * (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
-        IF (VOLN.GT.EM15) THEN
-          SIG(I,IDX) = SIG(I,IDX) + HALF * DT1 * (PHI(IE)*
-     2  (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
-     3  -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)
-     4  -PHI(IV4)*FLUX(4,I)) / MAX(EM15,VOLN)
+        IF (VOLN > EM15) THEN
+          SIG(I,IDX) = SIG(I,IDX) + HALF * DT1 * ( 
+     .                                             PHI(IE)*(FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
+     .                                            -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)-PHI(IV4)*FLUX(4,I)
+     .                                           ) / MAX(EM15,VOLN)
          ENDIF
         ENDDO
       ENDIF
-C-----------
+C-----------------------------------------------
       RETURN
       END

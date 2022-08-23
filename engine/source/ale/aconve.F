@@ -81,21 +81,20 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
 
-      INTEGER IPARG(NPARG,*), NVAR        , ITRIMAT    , 
-     .        NERCVOIS(*)   , NESDVOIS(*) , LERCVOIS(*), LESDVOIS(*),
-     .        BHOLE(*)      , IXS(NIXS,*) , IXQ(NIXQ,*), LENCOM     ,
-     .        IFLG          , ITASK       , BUFMAT(*)  , IPM(NPROPMI,*) 
+      INTEGER IPARG(NPARG,NGROUP),NVAR,ITRIMAT, 
+     .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*), LESDVOIS(*),
+     .        BHOLE(*),IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ), LENCOM,
+     .        IFLG, ITASK, BUFMAT(*),IPM(NPROPMI,NUMMAT) 
 
-      my_real FLUX(*)       , FLU1(*)     , PHI(*)     , 
-     .        QMV(*)        , PM(NPROPM,*), X(3, *)
+      my_real FLUX(*), FLU1(*)          , PHI(*)     , 
+     .        QMV(*) , PM(NPROPM,NUMMAT), X(3, NUMNOD)
      
       TYPE(t_segvar) :: SEGVAR
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NMN, NM, NG, JMUL, IADR,  I, J, K, NF1,ISILENT,
-     .   NFX,  IOFF, IMAT
+      INTEGER NMN, NM, NG, JMUL, IADR,  I, J, K, NF1,ISILENT,NFX,  IOFF, IMAT
       INTEGER JCODV(LCONV),CODTOT,NGSEG,ISEG,ISOLNOD
       INTEGER ADD0, ADD
 

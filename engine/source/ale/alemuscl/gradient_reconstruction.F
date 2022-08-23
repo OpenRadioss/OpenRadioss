@@ -63,27 +63,26 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: ITASK
-      INTEGER, INTENT(IN) :: IXS(NIXS, *)
-      my_real, INTENT(IN) :: X(3, *)
+      INTEGER, INTENT(IN) :: IXS(NIXS,NUMELS)
+      my_real, INTENT(IN) :: X(3,NUMNOD)
       INTEGER, INTENT(IN) :: NV46
       INTEGER, INTENT(IN) :: ITRIMAT
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I, II, JJ, KK, INODE, IAD2, LGTH
+      INTEGER :: I, II, KK, IAD2, LGTH
       my_real :: XK, YK, ZK, XL, YL, ZL, XF, YF, ZF
       my_real :: VALK, VALL, VALNODE
       INTEGER :: NODE_ID
       my_real :: mat(3, 3), rhs(3), sol(3)
-      my_real :: reduc_factor, nodal_reduc_factor
-      INTEGER :: JMIN, JMAX, J, ELEM_ID, VOIS_ID
+      INTEGER :: VOIS_ID
       INTEGER :: FACE_TO_NODE_LOCAL_ID(6, 4)
       my_real :: NORM(3), A(3), B(3), C(3), SURF, SURF1, SURF2
       TYPE(t_segvar) :: SEGVAR
 C-----------------------------------------------
-C  B e g i n n i n g  o f   S u b r o u t i n e
-C-----------------------------------------------  
+C   S o u r c e   L i n e s 
+C-----------------------------------------------
 !!! Once for all, associate node local id to a face number
 !!! Face 1
       FACE_TO_NODE_LOCAL_ID(1, 1) = 1 ; FACE_TO_NODE_LOCAL_ID(1, 2) = 4
@@ -122,7 +121,7 @@ C-----------------------------------------------
                VALL = VOLUME_FRACTION(ITRIMAT,VOIS_ID)
                XL = ELCENTER(1, VOIS_ID) ; YL = ELCENTER(2, VOIS_ID) ; ZL = ELCENTER(3, VOIS_ID)
             ELSE
-               IF(VOIS_ID .EQ. 0) THEN
+               IF(VOIS_ID == 0) THEN
                  VALL = VALK
                ELSE
                  !vois_id<0 : means EBCS), -vois_id is seg_id
@@ -196,7 +195,5 @@ c$$$               ENDDO
          GRAD(ITRIMAT,2, II) = -sol(2)
          GRAD(ITRIMAT,3, II) = -sol(3)
       ENDDO  ! I = LFT, LLT
-C-----------------------------------------------
-C   E n d  o f  S u b r o u t i n e
 C-----------------------------------------------      
       END SUBROUTINE GRADIENT_RECONSTRUCTION

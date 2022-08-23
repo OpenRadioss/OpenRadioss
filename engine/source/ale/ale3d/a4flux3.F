@@ -28,7 +28,10 @@ Chd|-- calls ---------------
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|====================================================================
       SUBROUTINE A4FLUX3(PM,IXS,V,W,X,FLUX,FLU1,ALE_CONNECT)
-      USE ALE_CONNECTIVITY_MOD
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -42,48 +45,39 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "param_c.inc"
+#include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXS(NIXS,*)
-      my_real
-     .   PM(NPROPM,*), V(3,*), W(3,*), X(3,*), FLUX(6,*), FLU1(*)
+      INTEGER IXS(NIXS,NUMELS)
+      my_real PM(NPROPM,NUMMAT), V(3,NUMNOD), W(3,NUMNOD), X(3,NUMNOD), FLUX(6,*), FLU1(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER MAT(MVSIZ), 
-     .   NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
-     .   NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ), 
-     .   I,J,II,IAD2
+     .   NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), I,J,II,IAD2
       my_real
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
-     .   X5(MVSIZ), X6(MVSIZ), X7(MVSIZ), X8(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
-     .   Y5(MVSIZ), Y6(MVSIZ), Y7(MVSIZ), Y8(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
-     .   Z5(MVSIZ), Z6(MVSIZ), Z7(MVSIZ), Z8(MVSIZ),
      .   N1X(MVSIZ),N1Y(MVSIZ),N1Z(MVSIZ),
      .   N2X(MVSIZ),N2Y(MVSIZ),N2Z(MVSIZ),
      .   N3X(MVSIZ),N3Y(MVSIZ),N3Z(MVSIZ),
-     .   N4X(MVSIZ),N4Y(MVSIZ),N4Z(MVSIZ),
-     .   N5X(MVSIZ),N5Y(MVSIZ),N5Z(MVSIZ),
-     .   N6X(MVSIZ),N6Y(MVSIZ),N6Z(MVSIZ),                         
-     .   FLUX1(MVSIZ), FLUX2(MVSIZ), FLUX3(MVSIZ),
-     .   FLUX4(MVSIZ), FLUX5(MVSIZ), FLUX6(MVSIZ),
+     .   N4X(MVSIZ),N4Y(MVSIZ),N4Z(MVSIZ),               
+     .   FLUX2(MVSIZ), FLUX4(MVSIZ), FLUX5(MVSIZ), FLUX6(MVSIZ),
      .   VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ), 
-     .   VX4(MVSIZ), VX5(MVSIZ), VX6(MVSIZ),
+     .   VX4(MVSIZ),
      .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), 
-     .   VY4(MVSIZ), VY5(MVSIZ), VY6(MVSIZ), 
+     .   VY4(MVSIZ),  
      .   VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ),
-     .   VZ4(MVSIZ), VZ5(MVSIZ), VZ6(MVSIZ),
+     .   VZ4(MVSIZ),
      .   VDX1(MVSIZ),VDX2(MVSIZ),VDX3(MVSIZ),VDX4(MVSIZ),
-     .   VDX5(MVSIZ),VDX6(MVSIZ),VDX7(MVSIZ),VDX8(MVSIZ),
      .   VDY1(MVSIZ),VDY2(MVSIZ),VDY3(MVSIZ),VDY4(MVSIZ),
-     .   VDY5(MVSIZ),VDY6(MVSIZ),VDY7(MVSIZ),VDY8(MVSIZ),
      .   VDZ1(MVSIZ),VDZ2(MVSIZ),VDZ3(MVSIZ),VDZ4(MVSIZ),
-     .   VDZ5(MVSIZ),VDZ6(MVSIZ),VDZ7(MVSIZ),VDZ8(MVSIZ),
-     .   UPW(MVSIZ), REDUC, UPWL(6,MVSIZ)
+     .   REDUC, UPWL(6,MVSIZ)
+C-----------------------------------------------
+C   S o u r c e   L i n e s
 C-----------------------------------------------
       !======================================================!
       ! INITIALIZATION : COORDINATES & RELATIVE VELOCITIES   !
@@ -222,40 +216,40 @@ C-----------------------------------------------
        ! Face2-neighbor check 
        IAD2 = ALE_CONNECT%ee_connect%iad_connect(I + NFT)
        II = ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
-       IF(II.EQ.0)THEN
+       IF(II == 0)THEN
         FLUX2(I)=FLUX2(I)*REDUC
-       ELSEIF(II.GT.0)THEN
-        IF(INT(PM(19,IXS(1,II))).EQ.11)THEN
+       ELSEIF(II > 0)THEN
+        IF(INT(PM(19,IXS(1,II))) == 11)THEN
           UPWL(2,I)=ONE
           FLUX2(I)=FLUX2(I)*PM(92,IXS(1,II))
         ENDIF
        ENDIF
        ! Face4-neighbor check
        II = ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
-       IF(II.EQ.0)THEN
+       IF(II == 0)THEN
         FLUX4(I)=FLUX4(I)*REDUC
-       ELSEIF(II.GT.0)THEN
-        IF(INT(PM(19,IXS(1,II))).EQ.11)THEN
+       ELSEIF(II > 0)THEN
+        IF(INT(PM(19,IXS(1,II))) == 11)THEN
           UPWL(4,I)=ONE
           FLUX4(I)=FLUX4(I)*PM(92,IXS(1,II))
         ENDIF
        ENDIF
        ! Face5-neighbor check
        II = ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
-       IF(II.EQ.0)THEN
+       IF(II == 0)THEN
         FLUX5(I)=FLUX5(I)*REDUC
-       ELSEIF(II.GT.0)THEN
-        IF(INT(PM(19,IXS(1,II))).EQ.11)THEN
+       ELSEIF(II > 0)THEN
+        IF(INT(PM(19,IXS(1,II))) == 11)THEN
           UPWL(5,I)=ONE
           FLUX5(I)=FLUX5(I)*PM(92,IXS(1,II))
         ENDIF
        ENDIF
        ! Face6-neighbor check
        II = ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
-       IF(II.EQ.0)THEN
+       IF(II == 0)THEN
         FLUX6(I)=FLUX6(I)*REDUC
-       ELSEIF(II.GT.0)THEN
-        IF(INT(PM(19,IXS(1,II))).EQ.11)THEN
+       ELSEIF(II > 0)THEN
+        IF(INT(PM(19,IXS(1,II))) == 11)THEN
           UPWL(6,I)=ONE
           FLUX6(I)=FLUX6(I)*PM(92,IXS(1,II))
         ENDIF
@@ -286,7 +280,7 @@ C-----------------------------------------------
      .           +FLUX5(I)+UPWL(5,I)*ABS(FLUX5(I))
      .           +FLUX6(I)+UPWL(6,I)*ABS(FLUX6(I))
       END DO
-
+C-----------------------------------------------
       RETURN
       END
 C

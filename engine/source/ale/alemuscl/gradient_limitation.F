@@ -58,20 +58,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: IXS(NIXS, *), TRIMAT
-      my_real, INTENT(IN) :: X(3, *)
+      INTEGER, INTENT(IN) :: IXS(NIXS,NUMELS), TRIMAT
+      my_real, INTENT(IN) :: X(3,NUMNOD)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I, II, JJ, KK
+      INTEGER :: I, II, JJ
       INTEGER :: NODE_ID
       my_real :: reduc_factor(TRIMAT), nodal_reduc_factor, XN, YN, ZN, VALNODE
       INTEGER :: ITRIMAT
       INTEGER :: NNUM
       my_real :: XK, YK, ZK
 C-----------------------------------------------
-C  B e g i n n i n g  o f   S u b r o u t i n e
-C-----------------------------------------------     
+C   S o u r c e   L i n e s 
+C-----------------------------------------------  
       !!! Limiting process for the computed gradient -> maximum principle
       !!! and stability purposes
       DO I = LFT, LLT
@@ -82,7 +82,7 @@ C-----------------------------------------------
          NNUM = 0
          DO ITRIMAT = 1, TRIMAT
             IF(ABS(GRAD(ITRIMAT, 1, II)) + ABS(GRAD(ITRIMAT, 2, II)) + 
-     .           ABS(GRAD(ITRIMAT, 3, II)) .GT. ZERO) THEN
+     .           ABS(GRAD(ITRIMAT, 3, II)) > ZERO) THEN
                NNUM = NNUM + 1
                !!! Check the nodes of the element
                DO JJ = 1, 8
@@ -95,11 +95,11 @@ C-----------------------------------------------
      .                 + GRAD(ITRIMAT, 2, II) * (YN - YK)
      .                 + GRAD(ITRIMAT, 3, II) * (ZN - ZK)
                   nodal_reduc_factor = ONE
-                  IF (VALNODE - VOLUME_FRACTION(ITRIMAT, II) .GT. ZERO) THEN
+                  IF (VALNODE - VOLUME_FRACTION(ITRIMAT, II) > ZERO) THEN
                      nodal_reduc_factor = 
      .                    MIN((NODE_MAX_VALUE(ITRIMAT, NODE_ID) - VOLUME_FRACTION(ITRIMAT, II))
      .                    / (VALNODE - VOLUME_FRACTION(ITRIMAT, II)), I_BETA)
-                  ELSE IF (VALNODE - VOLUME_FRACTION(ITRIMAT, II) .LT. ZERO) THEN
+                  ELSE IF (VALNODE - VOLUME_FRACTION(ITRIMAT, II) < ZERO) THEN
                      nodal_reduc_factor = 
      .                    MIN((NODE_MIN_VALUE(ITRIMAT, NODE_ID) - VOLUME_FRACTION(ITRIMAT, II)) 
      .                    / (VALNODE - VOLUME_FRACTION(ITRIMAT, II)), I_BETA)
@@ -115,7 +115,7 @@ C-----------------------------------------------
          !!!ENDIF
          DO ITRIMAT = 1, TRIMAT
             IF(ABS(GRAD(ITRIMAT, 1, II)) + ABS(GRAD(ITRIMAT, 2, II)) + 
-     .           ABS(GRAD(ITRIMAT, 3, II)) .GT. ZERO) THEN
+     .           ABS(GRAD(ITRIMAT, 3, II)) > ZERO) THEN
             !!!   Limitation of the gradient
                GRAD(ITRIMAT, 1, II) = reduc_factor(ITRIMAT) * GRAD(ITRIMAT, 1, II)
                GRAD(ITRIMAT, 2, II) = reduc_factor(ITRIMAT) * GRAD(ITRIMAT, 2, II)
@@ -123,7 +123,6 @@ C-----------------------------------------------
             ENDIF
          ENDDO
       ENDDO  ! I = LFT, LLT
-C-----------------------------------------------
-C   E n d  o f  S u b r o u t i n e
+
 C-----------------------------------------------      
       END SUBROUTINE GRADIENT_LIMITATION

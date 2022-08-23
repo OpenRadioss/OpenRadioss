@@ -39,21 +39,20 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NEL
-C     REAL
-      my_real
-     .   GRD(NEL,4), GRAD(4,*)
+      my_real GRD(NEL,4), GRAD(4,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
 C-----------------------------------------------
-C
-      DO 70 I=LFT,LLT
-      GRAD(1,I)= GRD(I,1)
-      GRAD(2,I)= GRD(I,2)
-      GRAD(3,I)= GRD(I,3)
-      GRAD(4,I)= GRD(I,4)
-   70 CONTINUE
-C
+C   S o u r c e   L i n e s
+C-----------------------------------------------
+      DO I=LFT,LLT
+        GRAD(1,I)= GRD(I,1)
+        GRAD(2,I)= GRD(I,2)
+        GRAD(3,I)= GRD(I,3)
+        GRAD(4,I)= GRD(I,4)
+      ENDDO! nextI
+C-----------------------------------------------
       RETURN
       END

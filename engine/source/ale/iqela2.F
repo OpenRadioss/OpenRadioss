@@ -55,17 +55,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IRECT(4,*), LMSR(4,*), MSR(*), NSV(*), ILOC(*), IRTL(*),LCODE(*), ISKEW(*), ITAB(NUMNOD)
+      INTEGER IRECT(4,*), LMSR(4,*), MSR(*), NSV(*), ILOC(*), IRTL(*), LCODE(*), ISKEW(*), ITAB(*)
       my_real X(3,NUMNOD), SKEW(LSKEW,*), A(SA), E(*), MSM(*), CRST(2,*), V(SV),NOR(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER JBC(3), NIR, I, J, I3, J3, I2, J2, I1, J1, ISK, LCOD, II,
-     .   L, JJ, NN, LK, IBC
-      my_real
-     .   XN(3), YN(3), ZN(3), H(4), N1, N2, N3, SS, TT, AX, AY, AZ,
-     .   VX, VY, VZ, AMN, VMN, AMOD, VMOD, BVZ, BAZ, BVX, BVY, BAX, BAY,
-     .   A11, A12, A13, A21, A22, A23, A31, A32, A33, DET
+      INTEGER JBC(3), NIR, I, J, I3, J3, I2, J2, I1, J1, ISK, LCOD, II, L, JJ, NN, LK, IBC
+      my_real XN(3), YN(3), ZN(3), H(4), N1, N2, N3, SS, TT, AX, AY, AZ,
+     .        VX, VY, VZ, AMN, VMN, AMOD, VMOD, BVZ, BAZ, BVX, BVY, BAX, BAY,
+     .        A11, A12, A13, A21, A22, A23, A31, A32, A33, DET
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------

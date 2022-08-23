@@ -31,6 +31,9 @@ Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectiv
 Chd|====================================================================
       SUBROUTINE ALE51_UPWIND2(PM,X,IXQ,FLUX,FLU1,ALE_CONNECT,
      .               ITRIMAT,DDVOL,QMV,IFLG)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -53,17 +56,15 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXQ(NIXQ,NUMELQ), ITRIMAT,IFLG,IAD2
-      my_real PM(NPROPM,NUMMAT), FLUX(4,*), FLU1(*),DDVOL(*),QMV(8,*), X(3, NUMNOD)
+      my_real PM(NPROPM,NUMMAT), FLUX(4,*), FLU1(*),DDVOL(*),QMV(8,*), X(3,NUMNOD)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,II,K,KK,L,IV,NN,
-     .        MAT(MVSIZ), TAG(NUMNOD)
-      my_real
-     .   REDUC, TEST,QMV5,QMV6,QMV7,QMV8,
-     .   FLUX1(MVSIZ), FLUX2(MVSIZ), FLUX3(MVSIZ), FLUX4(MVSIZ),
-     .   UPW(MVSIZ), UPWL(4,MVSIZ), R1, R2, R3, R4
+      INTEGER I,J,II,MAT(MVSIZ)
+      my_real REDUC,QMV5,QMV6,QMV7,QMV8,
+     .        FLUX1(MVSIZ), FLUX2(MVSIZ), FLUX3(MVSIZ), FLUX4(MVSIZ),
+     .        UPWL(4,MVSIZ), R1, R2, R3, R4
 C-----------------------------------------------
       DO I=LFT,LLT
         FLUX1(I) = FLUX(1,I)
@@ -93,29 +94,29 @@ C
        IAD2 = ALE_CONNECT%ee_connect%iad_connect(I + NFT) 
        REDUC=PM(92,MAT(I))
        II=ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
-       IF(II.EQ.0)THEN
+       IF(II > 0)THEN
         FLUX1(I)=FLUX1(I)*REDUC
        ENDIF
 C
        II=ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
-       IF(II.EQ.0)THEN
+       IF(II > 0)THEN
         FLUX2(I)=FLUX2(I)*REDUC
        ENDIF
 C
        II=ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
-       IF(II.EQ.0)THEN
+       IF(II > 0)THEN
         FLUX3(I)=FLUX3(I)*REDUC
        ENDIF
 C
        II=ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
-       IF(II.EQ.0)THEN
+       IF(II > 0)THEN
         FLUX4(I)=FLUX4(I)*REDUC
        ENDIF
 C
       ENDDO
 C     
-      IF(IFLG.EQ.1)THEN
-         IF (N2D .EQ. 1) THEN
+      IF(IFLG > 1)THEN
+         IF (N2D  >  1) THEN
             !!! Planar integration of momentum when 2D axi
             DO I=LFT,LLT
                II = I + NFT
@@ -138,10 +139,10 @@ C
                R4 = HALF * (X(2, IXQ(5, II)) + X(2, IXQ(2, II)))
                
                !!! Beware of r=0 axis
-               IF (R1 .NE. ZERO) QMV(5,I) = QMV(5,I) / R1
-               IF (R2 .NE. ZERO) QMV(6,I) = QMV(6,I) / R2
-               IF (R3 .NE. ZERO) QMV(7,I) = QMV(7,I) / R3
-               IF (R4 .NE. ZERO) QMV(8,I) = QMV(8,I) / R4
+               IF (R1 /= ZERO) QMV(5,I) = QMV(5,I) / R1
+               IF (R2 /= ZERO) QMV(6,I) = QMV(6,I) / R2
+               IF (R3 /= ZERO) QMV(7,I) = QMV(7,I) / R3
+               IF (R4 /= ZERO) QMV(8,I) = QMV(8,I) / R4
             ENDDO
          ELSE
             DO I=LFT,LLT
@@ -149,13 +150,12 @@ C
                FLUX(2,I) = FLUX2(I)-UPWL(2,I)*ABS(FLUX2(I))
                FLUX(3,I) = FLUX3(I)-UPWL(3,I)*ABS(FLUX3(I))
                FLUX(4,I) = FLUX4(I)-UPWL(4,I)*ABS(FLUX4(I))
-C     
                
                QMV(5,I)  = FLUX1(I)+UPWL(1,I)*ABS(FLUX1(I))
                QMV(6,I)  = FLUX2(I)+UPWL(2,I)*ABS(FLUX2(I))
                QMV(7,I)  = FLUX3(I)+UPWL(3,I)*ABS(FLUX3(I))
                QMV(8,I)  = FLUX4(I)+UPWL(4,I)*ABS(FLUX4(I))
-C     
+                 
                FLU1(I) = QMV(5,I)  +  QMV(6,I)  +  QMV(7,I)  +  QMV(8,I)
             ENDDO
          ENDIF
@@ -165,25 +165,22 @@ C
             FLUX(2,I) = FLUX2(I)-UPWL(2,I)*ABS(FLUX2(I))
             FLUX(3,I) = FLUX3(I)-UPWL(3,I)*ABS(FLUX3(I))
             FLUX(4,I) = FLUX4(I)-UPWL(4,I)*ABS(FLUX4(I))
-C     
-            
+
             QMV5  = FLUX1(I)+UPWL(1,I)*ABS(FLUX1(I))
             QMV6  = FLUX2(I)+UPWL(2,I)*ABS(FLUX2(I))
             QMV7  = FLUX3(I)+UPWL(3,I)*ABS(FLUX3(I))
             QMV8  = FLUX4(I)+UPWL(4,I)*ABS(FLUX4(I))
-C     
+
             FLU1(I) = QMV5  +  QMV6  +  QMV7  +  QMV8
          ENDDO
       END IF
 C
-      IF(ITRIMAT.GT.0)THEN
+      IF(ITRIMAT > 0)THEN
         DO I=LFT,LLT
-C
-          DDVOL(I)=HALF*(FLU1(I)
-     .            +FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
+          DDVOL(I)=HALF * ( FLU1(I)+FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I) )
         ENDDO
       ENDIF
-C        
+C----------------------------------------------- 
       RETURN
       END
 C

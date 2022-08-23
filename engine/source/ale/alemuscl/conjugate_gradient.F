@@ -50,15 +50,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ii, jj  ! matrix and vector indexes
+      INTEGER ii  ! matrix and vector indexes
       INTEGER iter  ! iteration count
       my_real error, norm_init  ! error, initial norm 
       my_real :: r(dim), rnew(dim), p(dim), temp(dim)
       my_real :: alpha, beta
-      my_real :: diag(dim)
 C-----------------------------------------------
-C  B e g i n n i n g  o f   S u b r o u t i n e
-C-----------------------------------------------     
+C   S o u r c e   L i n e s 
+C----------------------------------------------- 
 !!!   Setting the solution vector to zero
       sol(1:dim) = ZERO
 !!!   Initialization of the algorithm
@@ -69,8 +68,8 @@ C-----------------------------------------------
       iter = 0
 
 !!!   Main loop
-      DO WHILE ((iter .LT. max_iter) .AND. (error .GT. tol))
-      !DO WHILE (iter .LT. max_iter)
+      DO WHILE ((iter < max_iter) .AND. (error > tol))
+      !DO WHILE (iter < max_iter)
          iter = iter + 1
          temp(1:dim) = MATMUL(mat(1:dim, 1:dim), p(1:dim))
          alpha = DOT_PRODUCT(r(1:dim), r(1:dim)) / DOT_PRODUCT(temp(1:dim), p(1:dim))
@@ -86,10 +85,9 @@ C-----------------------------------------------
          error = MAXVAL(ABS(r(1:dim))) / norm_init
       ENDDO
 
-      IF (error .GT. tol) THEN
+      IF (error > tol) THEN
 C         PRINT*, "GC NON CONVERGENCE"
       ENDIF
-C-----------------------------------------------
-C   E n d  o f  S u b r o u t i n e
+
 C-----------------------------------------------
       END SUBROUTINE CG
