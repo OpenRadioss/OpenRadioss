@@ -124,6 +124,7 @@ Chd|        FR_RLINK1                     source/mpi/kinematic_conditions/fr_rli
 Chd|        FVBAG1                        source/airbag/fvbag.F         
 Chd|        FVBAG2                        source/airbag/fvbag2.F        
 Chd|        FVCOPY                        source/airbag/fvcopy.F        
+Chd|        FVRREST                       source/output/restart/rdresb.F
 Chd|        FVVENT0                       source/airbag/fvvent0.F       
 Chd|        FV_IMP0                       source/constraints/general/impvel/fv_imp0.F
 Chd|        FV_UP_SWITCH                  source/airbag/fv_up_switch.F  

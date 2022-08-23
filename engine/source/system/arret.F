@@ -138,6 +138,7 @@ Chd|        FREUPWIND                     source/input/freupwind.F
 Chd|        FREUPWM                       source/input/freupwm.F        
 Chd|        FVBAG1                        source/airbag/fvbag.F         
 Chd|        FVMESH1                       source/airbag/fvmesh.F        
+Chd|        FVRREST                       source/output/restart/rdresb.F
 Chd|        FVVENT0                       source/airbag/fvvent0.F       
 Chd|        FV_IMP0                       source/constraints/general/impvel/fv_imp0.F
 Chd|        FV_UP_SWITCH                  source/airbag/fv_up_switch.F  

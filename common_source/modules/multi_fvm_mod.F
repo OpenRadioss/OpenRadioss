@@ -61,6 +61,7 @@ Chd|        HM_READ_PROP14F               starter/source/properties/solid/hm_rea
 Chd|        HM_READ_PROP20                starter/source/properties/thickshell/hm_read_prop20.F
 Chd|        HM_READ_PROP22                starter/source/properties/thickshell/hm_read_prop22.F
 Chd|        HM_READ_PROPERTIES            starter/source/properties/hm_read_properties.F
+Chd|        INGRBRIC_DX                   starter/source/interfaces/interf1/ingrbric_dx.F
 Chd|        INIFILL                       starter/source/initial_conditions/inivol/inifill.F
 Chd|        INIGRAV_LOAD                  starter/source/initial_conditions/inigrav/inigrav_load.F
 Chd|        INIPHASE                      starter/source/initial_conditions/inivol/iniphase.F

@@ -27,6 +27,7 @@ Chd|        LECINT                        source/interfaces/interf1/lecint.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
+Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE INGRBRIC_DX(NBRIC   , IBUFSSG   , GLOBAL_GAP     , IXS        ,    X,  
      .                       NOINT   , TITR      , IS_GAP_COMPUTED,  PM        , RHO0,
