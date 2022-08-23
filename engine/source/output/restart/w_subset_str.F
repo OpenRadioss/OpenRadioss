@@ -44,6 +44,7 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "scr17_c.inc"
 #include      "tabsiz_c.inc"
+#include      "nchar_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -53,7 +54,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,ID,ISU,NCHILD,NBPART,NBTPART,ICHILD,IPART,IPARTTOT,
      .        PARENT,LEVEL,TH_PART,L_SUB,ERR,ITITLE(LTITR),THIAD,IVARTH
-      CHARACTER(LEN=LTITR) :: TITR
+      CHARACTER(LEN=nchartitle) :: TITR
       INTEGER, ALLOCATABLE, DIMENSION (:)  ::  ISUB
 C-----------------------------------------------
       DO ISU=1,NSUBS
