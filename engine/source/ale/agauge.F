@@ -73,16 +73,15 @@ C-----------------------------------------------
      .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),
      .        IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ),LGAUGE(3,NBGAUGE),IGAUP(NBGAUGE),NGAUP(NSPMD)   
 C     REAL
-      my_real PHI(*),GAUGE(LLGAUGE,*),X(3,NUMNOD),V(3,NUMNOD)
+      my_real PHI(*),GAUGE(LLGAUGE,NBGAUGE),X(3,NUMNOD),V(3,NUMNOD)
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_STR
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NG, JMUL, IADR, I, II,J,JJ(6), K,IG,IS,IGAUGE,N,IG0,GELE,
-     .        ITAG(NBGAUGE),NEL,IAD2
-      my_real
-     .   P,RHO,E,PA,U2,ALPHA(NBGAUGE)
+      INTEGER NG, JMUL, IADR, I, II,J,JJ(6), K,N,IG,IS,IGAUGE,IG0,
+     .        ITAG(NBGAUGE),NEL
+      my_real P,RHO,E,PA,U2,ALPHA(NBGAUGE)
       TYPE(G_BUFEL_) ,POINTER :: GBUF
 C-----------------------------------------------
 c     GAUGE(3,*)
@@ -443,15 +442,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXS(NIXS,*),LGAUGE(3,*)
-C     REAL
+      INTEGER IXS(NIXS,NUMELS),LGAUGE(3,NBGAUGE)
       my_real PHI(*),X(3,NUMNOD),GAUGE(LLGAUGE,NBGAUGE)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,J,N,N1,N2,N3,N4,IG,IGAUGE,IAD2
-      INTEGER ICONT,INDX(NBGAUGE),NINDX,IP
+      INTEGER I,II,J,N,N1,N2,N3,N4,IG,IAD2
       INTEGER IFACE(4,6)
       my_real ALPHA,XX0,YY0,ZZ0,XX1,YY1,ZZ1,XX2,YY2,ZZ2,A1,A2,A3,
      .        VOL,AREAP32,XG,YG,ZG
@@ -592,15 +589,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXC(NIXC,*),LGAUGE(3,*),IGAUP(*),NGAUP(*)
-C     REAL
+      INTEGER IXC(NIXC,NUMELC),LGAUGE(3,NBGAUGE),IGAUP(*),NGAUP(*)
       my_real X(3,NUMNOD),GAUGE(LLGAUGE,NBGAUGE)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, IG,IS,IGAUGE,N,N1,N2,N3,N4
+      INTEGER IG,IS,IGAUGE,N,N1,N2,N3,N4
       my_real XX0,YY0,ZZ0,XX1,YY1,ZZ1,XX2,YY2,ZZ2,A1,A2,A3,
-     .        AA,XG,YG,ZG,DIST
+     .        AA,DIST
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------

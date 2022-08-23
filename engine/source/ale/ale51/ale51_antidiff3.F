@@ -37,66 +37,9 @@ C-----------------------------------------------
 C   D e c r i p t i o n
 C-----------------------------------------------
 C
-C ts  :Warning, this formulation (for volume fractions) using \eta_3 parameter from /UPWIND option is not conservative. It was marked as obsolete.
-C ts : Forget it and use MUSCL instead
+C ** Warning, this formulation (for volume fractions) using \eta_3 parameter from /UPWIND option is not conservative. 
+C It was marked as obsolete. Forget it and use MUSCL instead
 C
-c gw     Traitement anti-diffusif multimateriau 51.
-c        hypotheses de disposition du vide et de la phase
-c              entre deux elements communiquants
-c         en fonction du taux de remplissage volumique
-c
-c   +----------+----------+          +----------+----------+
-c   |      ------->       |          |      ------->       |
-c   +----------+----------+          +----------+----------+
-c   |   a0     |    a1    |          |   a0     |    a1    |
-c   +----------+----------+          +----------+----------+
-c   |//////////|          |          |          |//////////|
-c   |//////////|          |          |          |//////////|
-c   |/// 1 ////|    0     | [1]      |    0     |/// 1 ////| [0]
-c   |//////////|          |          |          |//////////|
-c   |//////////|          |          |          |//////////|
-c   +----------+----------+          +----------+----------+
-c   |////////  |          |          |          |  ////////|
-c   |////////  |          |          |          |  ////////|
-c   |///0.8//  |    0     | [0;1[    |    0     |  /0.8////| [0]
-c   |////////  |          |          |          |  ////////|
-c   |////////  |          |          |          |  ////////|
-c   +----------+----------+          +----------+----------+
-c   |//////////|          |          |        //|//////////|
-c   |//////////|          |          |        //|//////////|
-c   |/// 1 ////|    0.2   | [1]      |   0.2  //|/// 1 ////| ]0;1]
-c   |//////////|          |          |        //|//////////|
-c   |//////////|//////////|          |        //|//////////|
-c   +----------+----------+          +----------+----------+
-c   |///////   |          |          |          |          |
-c   |///////   |          |          |       ///|//////////|
-c   |///0.8/   |    0.2   | [0.2;1[  |   0.2 ///|///0.8////| ]0;0.8]
-c   |///////   |          |          |       ///|//////////|
-c   |//////////|//////////|          |       ///|//////////|
-c   +----------+----------+          +----------+----------+
-c   |///       |          |          |          |          |  
-c   |///       |          |          |   0.4    |    0.6   |
-c   |///0.6    |    0.4   | [0.4;1[  |   ///////|//////////| ]0;0.6]
-c   |//////////|//////////|          |   ///////|//////////|
-c   |//////////|//////////|          |   ///////|//////////|
-c   +----------+----------+          +----------+----------+
-c
-c   1- monodim (si sortant)
-c
-c     DV = min[ a0 V0, a2 phi01 dt + max[0,(1-a1)phi01 dt-(1-a0)V0]]
-c     PHI01 = min[ a0 V0/dt, a1 phi01 + max[0,(1-a1)phi01-(1-a0)V0/dt]]
-c
-c
-c   2- tridim
-c
-c     DVsortant tot = DVTe =
-c        min[a0 V0,
-c            Somme(ai phi0i dt) + max[0,
-c                                     Somme((1-ai)phi0i dt)-(1-a0)V0]]
-c
-c     si DVsortant tot != Somme(PHI0i sortant) dt = DVTc
-c         => correction sur sortants
-c              PHI0i = PHI0i DVTe / DVTc
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -126,19 +69,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXS(NIXS,*),N4_VOIS(NUMELS+NSVOIS,8),ITAB(*),NV46,ITRIMAT
-      my_real
-     .   FLUX(NV46,*),ALPH(*),VOL(*),
-     .   FLUX_VOIS(NUMELS+NSVOIS,NV46)
+      INTEGER IXS(NIXS,NUMELS),N4_VOIS(NUMELS+NSVOIS,8),ITAB(NUMNOD),NV46,ITRIMAT
+      my_real FLUX(NV46,*),ALPH(*),VOL(*),FLUX_VOIS(NUMELS+NSVOIS,NV46)
       TYPE(t_segvar),INTENT(IN) :: SEGVAR
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,II,K,JV(NV46),KV(NV46),IFV,NIN, ib, ie,ISKIP(MVSIZ),IEV,IAD2, IAD3
-      my_real
-     .   VOL0,AV0,UAV0,ALPHI,UALPHI,AAA,FF(NV46),UDT,PHI0,
-     .   facev
+      my_real VOL0,AV0,UAV0,ALPHI,UALPHI,AAA,FF(NV46),UDT,PHI0,facev
       my_real :: debug_tmp
       LOGICAL :: debug_outp     
 C-----------------------------------------------
@@ -146,9 +85,9 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
      
       !----------------------------------------------
-      !     SURFACE MOUILLEE PAR LA PHASE DU TRIMATERIAUX
+      !     WET SURFACE
       !-----------------------------------------------
-      IF(DT1.GT.ZERO)THEN
+      IF(DT1 > ZERO)THEN
         UDT = ONE/DT1
       ELSE
         UDT = ZERO
@@ -160,12 +99,12 @@ C-----------------------------------------------
       !INTERFACE 22 ONLY - OUTPUT---------------!
       debug_outp = .false.
       if(int22>0)then
-       if(ibug22_antidiff.ne.0)then
+       if(ibug22_antidiff /= 0)then
          debug_outp = .false.
-         if(ibug22_antidiff.GT.0)then
+         if(ibug22_antidiff > 0)then
            do i=lft,llt
              ie=i+nft
-             if(ixs(11,ie).eq.ibug22_antidiff)then
+             if(ixs(11,ie) == ibug22_antidiff)then
                debug_outp=.true.
                exit
              endif
@@ -173,7 +112,7 @@ C-----------------------------------------------
          elseif(ibug22_antidiff==-1)then
            debug_outp = .true.
          endif         
-         if(((itrimat.ne.ibug22_itrimat).and.(ibug22_itrimat.ne.-1)))debug_outp=.false.
+         if(((itrimat /= ibug22_itrimat).and.(ibug22_itrimat /= -1)))debug_outp=.false.
        endif
        if(debug_outp)then
          print *, "    |----ale51_antidiff3.F-----|"
@@ -190,7 +129,7 @@ C-----------------------------------------------
       IF(INT22>0)THEN
         DO I=LFT,LLT      
           IB=IIAD22(NIN,I+NFT)
-          IF(IB.NE.0)ISKIP(I)=1
+          IF(IB /= 0)ISKIP(I)=1
         ENDDO
       ENDIF  
 
@@ -205,11 +144,11 @@ C-----------------------------------------------
         UALPHI = ZERO 
         PHI0 = ZERO  
         !-----------------------------------------------
-        !       face voisine du voisin  
-        !       et flux total sortant 
+        !       face number from adjacent elem  
+        !       & total volume flux (outgoing)
         !-----------------------------------------------
         DO K=1,NV46
-          IF(FLUX(K,II).GT.ZERO)THEN
+          IF(FLUX(K,II) > ZERO)THEN
             JV(K) = ALE_CONNECT%ee_connect%connected(IAD2 + K - 1)
             KV(K) = K
             IF(JV(K) == 0)THEN
@@ -218,7 +157,7 @@ C-----------------------------------------------
             ELSEIF(JV(K) < 0)THEN
               !case <0 : ebcs (-IVOIS is then segment identifier)
               FF(K)  = SEGVAR%PHASE_ALPHA(ITRIMAT,-JV(K)) * FLUX(K,II)
-            ELSEIF(JV(K).LE.NUMELS)THEN
+            ELSEIF(JV(K) <= NUMELS)THEN
                IAD3 = ALE_CONNECT%ee_connect%iad_connect(JV(K))
               DO J=1,NV46
                 IF(ALE_CONNECT%ee_connect%connected(IAD3 + J - 1) == II) KV(K) = J
@@ -228,63 +167,49 @@ C-----------------------------------------------
               !spmd
               FF(K)  = ALPH(JV(K))*FLUX(K,II)
             ENDIF
-            !flux sortant estime
+            !outgoing volume flux (estimation)
             ALPHI  = ALPHI  + FF(K)
-            !flux sortant initial
+            !outgoing volume flux (initial)
             PHI0 = PHI0 + FLUX(K,II) 
           ENDIF
         ENDDO
-        !vide sortant estime
+        !outgoing rest (estimation)
         UALPHI = PHI0 - ALPHI 
         !-----------------------------------------------
-        !       flux sortant par face
+        !       outgoing volume flux (by face)
         !-----------------------------------------------
-        IF(ALPHI.GT.AV0.AND.AV0.GT.ZERO)THEN
+        IF(ALPHI > AV0.AND.AV0 > ZERO)THEN
           !-----------------------------------------------
-          !         flux sortant > volume non vide
+          !      outgoing volume flux > volume
           !-----------------------------------------------
           AAA = AV0 / ALPHI
           DO K=1,NV46
-            IF(FLUX(K,II).GT.ZERO)THEN
+            IF(FLUX(K,II) > ZERO)THEN
               FF(K) = FF(K) * AAA
             ENDIF
           ENDDO
-        ELSEIF(UALPHI.GT.UAV0.AND.UAV0.GT.ZERO)THEN
+        ELSEIF(UALPHI > UAV0.AND.UAV0 > ZERO)THEN
           !-----------------------------------------------
-          !        vide sortant > vide disponible
+          !      outgoing rest > available
           !-----------------------------------------------
           AAA = UAV0/UALPHI
           DO K=1,NV46
-            IF(FLUX(K,II).GT.ZERO)THEN
+            IF(FLUX(K,II) > ZERO)THEN
               FF(K) = FLUX(K,II) + (FF(K)-FLUX(K,II))*AAA
             ENDIF
           ENDDO
         ENDIF
         !-----------------------------------------------
-        !         flux sortant 
+        !         outgoing volume fluxes
         !-----------------------------------------------
         DO K=1,NV46
-          IF(FLUX(K,II).GT.ZERO)THEN
-            !instable              FLUX(K,II) = FF(K) + (FLUX(K,II)-FF(K))*EM6
-            !instable              FF(K) = FF(K)*0.9
-            !instable     .              + ALPH(II)*FLUX(K,II)*0.1
-            !instable              FF(K) = FF(K)*0.7
-            !instable     .              + ALPH(II)*FLUX(K,II)*0.3
-            !~stable              FF(K) = FF(K)*0.6
-            !~stable     .              + ALPH(II)*FLUX(K,II)*0.4
-            !stable              FF(K) = FF(K)*0.5
-            !stable     .              + ALPH(II)*FLUX(K,II)*0.5
-            !stable              FF(K) = FF(K)*0.1
-            !stable     .              + ALPH(II)*FLUX(K,II)*0.9
-            !stable              FF(K) = ALPH(II)*FLUX(K,II)
-            !stable              FF(K) = FF(K)
-
+          IF(FLUX(K,II) > ZERO)THEN
             FF(K) = HALF * ( FF(K)*(ONE-UPWSM)+ALPH(II)*FLUX(K,II)*(ONE+UPWSM) )
 
-            !INTERFACE 22 ONLY------------------------!
+            !INTERFACE 22 ONLY------------------------! (OBSOLETE)
             if(int22>0)then
             if(debug_outp)then
-            if(ibug22_antidiff.eq.ixs(11,i+nft) .OR. ibug22_antidiff.eq.-1)then          
+            if(ibug22_antidiff == ixs(11,i+nft) .OR. ibug22_antidiff == -1)then          
               print *,              "      brique       =", ixs(11,i+nft)             
               print *,              "      FACE         =", K
         write (*,FMT='(A,6E26.14)')"       WAS  Flux(J) =", FLUX(K,II)
@@ -298,10 +223,10 @@ C-----------------------------------------------
 
             FLUX(K,II) = FF(K)
 
-            IF(JV(K).LT.0)THEN
+            IF(JV(K) < 0)THEN
               ! do nothing
-            ELSEIF(JV(K).LE.NUMELS)THEN
-              IF(INT22.EQ.0)THEN
+            ELSEIF(JV(K) <= NUMELS)THEN
+              IF(INT22 == 0)THEN
                 debug_tmp         = FLUX(KV(K),JV(K))
                 FLUX(KV(K),JV(K)) = -FLUX(K,II)              
               ELSE              
@@ -333,7 +258,7 @@ C-----------------------------------------------
             !INTERFACE 22 ONLY------------------------!
             if(int22>0)then
             if(debug_outp)then 
-            if(ibug22_antidiff.eq.ixs(11,i+nft) .OR. ibug22_antidiff.eq.-1)then                        
+            if(ibug22_antidiff == ixs(11,i+nft) .OR. ibug22_antidiff == -1)then                        
               iev = jv(k)
               facev=kv(k)
               print *, "        => Setting adjacent flux consequently :"
@@ -352,7 +277,7 @@ C-----------------------------------------------
           ENDIF
         ENDDO
 C-----------------------------------------------
-C         flux entrant par EBCS 
+C         incoming volume flux from EBCS
 C-----------------------------------------------
           IF(NSEGFLU > 0)THEN
              IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
@@ -365,7 +290,7 @@ C-----------------------------------------------
         
 C-------------
       ENDDO!next I
-C-------------
+C-----------------------------------------------
       RETURN
       END
 C

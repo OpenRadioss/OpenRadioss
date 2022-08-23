@@ -33,17 +33,23 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "com04_c.inc"
+C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN)    :: NSN
       INTEGER,INTENT(IN)    :: IRECT(4,*), LMSR(*), MSR(*), NSV(*), ILOC(*), IRTL(*),NSEG(*)
-      my_real,INTENT(IN)    :: X(3,*), CRST(2,*)
+      my_real,INTENT(IN)    :: X(3,NUMNOD), CRST(2,*)
       my_real,INTENT(INOUT) :: NOR(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER II, I, J, L, M1, M2, LK, NUM, NPT, JJ
       my_real N2, N3, YM1, YM2, ZM1, ZM2, SS, SCK, XMG
+C-----------------------------------------------
+C   S o u r c e   L i n e s
 C-----------------------------------------------
       DO II=1,NSN
         I   = NSV(II)
@@ -56,24 +62,24 @@ C-----------------------------------------------
         ZM1 = X(3,M1)
         ZM2 = X(3,M2)
         !C-------------------------
-        !C     CALCUL DE LA NORMALE
+        !C     NORMAL VECTOR
         !C-------------------------
         N2  = ZM1-ZM2
         N3  = YM2-YM1
         SS  = CRST(1,II)
         SCK = ABS(SS)-ONE
-        IF(ABS(SCK).LE.FIVEEM2) THEN
+        IF(ABS(SCK) <= FIVEEM2) THEN
           !C----------------------------------
-          !C     TRAITEMENTS DES EXTREMITES
-          !C     MOYENNE PONDEREE DES NORMALES
+          !C     EXTREMITIES
+          !C     WEIGHTED MEAN VALUES FROM NORMAL VECTORS
           !C----------------------------------
           LK=L
           NUM=NSEG(J+1)-NSEG(J)
-          IF(NUM.EQ.2) THEN
+          IF(NUM == 2) THEN
             NPT=NSEG(J)-1
             DO JJ=1,NUM
               L=LMSR(NPT+JJ)
-              IF(L.NE.LK) THEN
+              IF(L /= LK) THEN
                 M1  = MSR(IRECT(1,L))
                 M2  = MSR(IRECT(2,L))
                 YM1 = X(2,M1)
@@ -83,7 +89,7 @@ C-----------------------------------------------
                 N2  = N2+ZM1-ZM2
                 N3  = N3+YM2-YM1
               ENDIF
-            ENDDO !next JJ (label 50)
+            ENDDO !next JJ
           ENDIF
         ENDIF
         XMG       = SQRT(N2*N2+N3*N3)
@@ -93,5 +99,6 @@ C-----------------------------------------------
         NOR(2,II) = N2
         NOR(3,II) = N3
         ENDDO !next II
+C-----------------------------------------------        
       RETURN
       END

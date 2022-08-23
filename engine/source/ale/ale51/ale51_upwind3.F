@@ -66,20 +66,19 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,NUMELS), ITRIMAT,IFLG,NV46
-      my_real
-     .   PM(NPROPM,NUMMAT), FLUX(NV46,*), FLU1(*),DDVOL(*)
+      my_real PM(NPROPM,NUMMAT), FLUX(NV46,*), FLU1(*),DDVOL(*)
       my_real,TARGET :: QMV(12,*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,II,MAT(MVSIZ),IAD2
-      my_real
-     .   REDUC, UPWL(NV46,MVSIZ),
-     .   FLUX1(MVSIZ), FLUX2(MVSIZ), FLUX3(MVSIZ), FLUX4(MVSIZ),FLUX5(MVSIZ), FLUX6(MVSIZ)
+      my_real REDUC, UPWL(NV46,MVSIZ),FLUX1(MVSIZ), FLUX2(MVSIZ), FLUX3(MVSIZ), FLUX4(MVSIZ),FLUX5(MVSIZ), FLUX6(MVSIZ)
       my_real, TARGET :: QMVL(7:12,MVSIZ)
       my_real, DIMENSION(:) ,POINTER :: pQMV7,pQMV8,pQMV9,pQMV10,pQMV11,pQMV12
       LOGICAL :: debug_outp
+C-----------------------------------------------
+C   S o u r c e   L i n e s 
 C-----------------------------------------------
       DO I=LFT,LLT
         FLUX1(I) = FLUX(1,I)
@@ -110,39 +109,38 @@ C-----------------------------------------------
       !  BOUNDARY FACE : no volume flux by default           !
       !    slip wall bc                                      !
       !======================================================!
-
       DO I=LFT,LLT
        IAD2 = ALE_CONNECT%ee_connect%iad_connect(I + NFT)
        REDUC=PM(92,MAT(I))
        !---face1---!       
        II=ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
-       IF(II.EQ.0)THEN
+       IF(II == 0)THEN
         FLUX1(I)=FLUX1(I)*REDUC
        ENDIF
        !---face2---!
        II=ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
-       IF(II.EQ.0)THEN
+       IF(II == 0)THEN
         FLUX2(I)=FLUX2(I)*REDUC
        ENDIF
        !---face3---!
        II=ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
-       IF(II.EQ.0)THEN
+       IF(II == 0)THEN
         FLUX3(I)=FLUX3(I)*REDUC
        ENDIF
        !---face4---!
        II=ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
-       IF(II.EQ.0)THEN
+       IF(II == 0)THEN
         FLUX4(I)=FLUX4(I)*REDUC
        ENDIF
        IF(NV46==6)THEN
          !---face5---!
          II=ALE_CONNECT%ee_connect%connected(IAD2 + 5 - 1)
-         IF(II.EQ.0)THEN
+         IF(II == 0)THEN
           FLUX5(I)=FLUX5(I)*REDUC
          ENDIF
          !---face6---!
          II=ALE_CONNECT%ee_connect%connected(IAD2 + 6 - 1)
-         IF(II.EQ.0)THEN
+         IF(II == 0)THEN
           FLUX6(I)=FLUX6(I)*REDUC
          ENDIF
        ENDIF
@@ -162,7 +160,7 @@ C-----------------------------------------------
       ENDDO            
       ENDIF    
       
-      IF(IFLG.EQ.1)THEN
+      IF(IFLG == 1)THEN
         pQMV7  => QMV(07,LFT:LLT)
         pQMV8  => QMV(08,LFT:LLT)
         pQMV9  => QMV(09,LFT:LLT)
@@ -189,7 +187,7 @@ C-----------------------------------------------
           pQMV12(I) = FLUX6(I)+UPWL(6,I)*ABS(FLUX6(I))                    
           FLU1(I) = pQMV7(I) + pQMV8(I) + pQMV9(I) + pQMV10(I) +pQMV11(I) + pQMV12(I)
         ENDDO           
-        IF(ITRIMAT.GT.0)THEN
+        IF(ITRIMAT  > 0)THEN
           DO I=LFT,LLT
             DDVOL(I)=HALF*( FLU1(I)+ FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I)+FLUX(5,I)+FLUX(6,I) )
           ENDDO
@@ -202,24 +200,24 @@ C-----------------------------------------------
           pQMV10(I) = FLUX4(I)+UPWL(4,I)*ABS(FLUX4(I))                
           FLU1(I) = pQMV7(I) + pQMV8(I) + pQMV9(I) + pQMV10(I)
         ENDDO        
-        IF(ITRIMAT.GT.0)THEN
+        IF(ITRIMAT  > 0)THEN
           DO I=LFT,LLT
             DDVOL(I)=HALF*( FLU1(I)+ FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I) )
           ENDDO
         ENDIF        
       ENDIF
  
-      !INTERFACE 22 ONLY - OUTPUT---------------!
+      !INTERFACE 22 ONLY - OUTPUT---------------! OBSOLETE
       debug_outp = .false.      
-      if(ibug22_upwind.ne.0)then
-        if(ibug22_upwind.GT.0)then
+      if(ibug22_upwind /= 0)then
+        if(ibug22_upwind  > 0)then
           do i=lft,llt
-            if(ixs(11,I+nft).eq.ibug22_upwind)debug_outp=.true.
+            if(ixs(11,I+nft) == ibug22_upwind)debug_outp=.true.
           enddo
         elseif(ibug22_upwind==-1)then
           debug_outp = .true.
         endif
-        if(((itrimat.ne.ibug22_itrimat).and.(ibug22_itrimat.ne.-1)))debug_outp=.false.
+        if(((itrimat /= ibug22_itrimat).and.(ibug22_itrimat /= -1)))debug_outp=.false.
       endif
 !#!include "lockon.inc"      
       if(debug_outp)then
@@ -240,6 +238,7 @@ C-----------------------------------------------
       endif
       !-----------------------------------------!
 
+C-----------------------------------------------
       RETURN
       END
 C

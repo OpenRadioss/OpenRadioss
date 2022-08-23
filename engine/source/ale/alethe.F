@@ -94,8 +94,8 @@ C-----------------------------------------------
       INTEGER IPARG(NPARG,NGROUP), IXS(NIXS,NUMELS), IXQ(NIXQ,NUMELQ),NPF(*),
      .        IADS(8,*), ITAB(NUMNOD), ITABM1(*), BHOLE(*),
      .        NBRCVOIS(*),NBSDVOIS(*), LNRCVOIS(*), LNSDVOIS(*),
-     .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),IPM(*),
-     .        LGAUGE(3,*),IGAUP(*),NGAUP(*),   
+     .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),IPM(NPROPMI,NUMMAT),
+     .        LGAUGE(3,NBGAUGE),IGAUP(*),NGAUP(*),   
      .        NODFT, NODLT, LENQMV, ITASK, NV46,
      .        IAD_ELEM(2, *), FR_ELEM(*)
  
@@ -108,7 +108,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ITRIMAT,NVAR,I,N,NMN, LENCOMN,LENCOM
+      INTEGER ITRIMAT,NVAR,I, LENCOMN,LENCOM
       my_real,
      .    DIMENSION(:,:),ALLOCATABLE:: FLUX_SAV
 C-----------------------------------------------

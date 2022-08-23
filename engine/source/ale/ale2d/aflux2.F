@@ -28,8 +28,12 @@ Chd|-- calls ---------------
 Chd|        AMULF2                        source/ale/bimat/amulf2.F     
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|====================================================================
-      SUBROUTINE AFLUX2(PM,IXQ,V,W,X,
-     .     FLUX,FLU1,FILL,DFILL,VOL,ALE_CONNECT,ALPH)
+      SUBROUTINE AFLUX2(PM         ,IXQ  ,V    ,W     ,X   ,
+     .                  FLUX       ,FLU1 ,FILL ,DFILL ,VOL ,
+     .                  ALE_CONNECT,ALPH)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -57,9 +61,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER MAT(mvsiz), NC1(mvsiz), NC2(mvsiz), NC3(mvsiz), NC4(mvsiz), I,II,J,M,IAD2,LGTH
+      INTEGER MAT(mvsiz), NC1(mvsiz), NC2(mvsiz), NC3(mvsiz), NC4(mvsiz), I,II,J,M,IAD2
       my_real
-     .   Y1(mvsiz), Y2(mvsiz), Y3(mvsiz), Y4(mvsiz),Z1(mvsiz), Z2(mvsiz), Z3(mvsiz), Z4(mvsiz), 
+     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ), 
      .   N1Y(MVSIZ), N2Y(MVSIZ), N3Y(MVSIZ), N4Y(MVSIZ), N1Z(MVSIZ), N2Z(MVSIZ), N3Z(MVSIZ), N4Z(MVSIZ),
      .   FLUX1(MVSIZ), FLUX2(MVSIZ), FLUX3(MVSIZ), FLUX4(MVSIZ),
      .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ), VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ), VZ4(MVSIZ),
@@ -67,6 +71,7 @@ C-----------------------------------------------
      .   VDZ1(MVSIZ), VDZ2(MVSIZ),VDZ3(MVSIZ), VDZ4(MVSIZ), UPW(mvsiz),
      .   REDUC,UPWL(4,MVSIZ)
 C-----------------------------------------------
+C   S o u r c e   L i n e s
 C-----------------------------------------------
       DO I=LFT,LLT
         II=I+NFT
@@ -101,7 +106,7 @@ C-----------------------------------------------
         VDZ4(I)=V(3,NC4(I)) - W(3,NC4(I))
       ENDDO
 C-----------------------------------------------
-C     CALCUL PAR FACE DE V MATIERE - V MAILLAGE
+C     RELATIVE VELOCITY ON FACE
 C-----------------------------------------------
       DO I=LFT,LLT
         VY1(I)=HALF*(VDY1(I)+VDY2(I))
@@ -115,7 +120,7 @@ C-----------------------------------------------
         VZ4(I)=HALF*(VDZ4(I)+VDZ1(I))
       ENDDO
 C------------------------------------------
-C     CALCUL DE LA NORMALE A CHAQUE FACE
+C     NORMAL VECTOR
 C------------------------------------------
       DO I=LFT,LLT
         N1Y(I)= (Z2(I)-Z1(I))
@@ -131,7 +136,7 @@ C------------------------------------------
         N4Z(I)=-(Y1(I)-Y4(I))
       ENDDO
 
-      IF(N2D.EQ.1)THEN
+      IF(N2D == 1)THEN
         DO I=LFT,LLT
          N1Y(I)= N1Y(I)*(Y1(I)+Y2(I))*HALF
          N1Z(I)= N1Z(I)*(Y1(I)+Y2(I))*HALF
@@ -144,7 +149,7 @@ C------------------------------------------
        ENDDO
       ENDIF
 C--------------------
-C     CALCUL DES FLUX
+C     VOLUME FLUXES
 C--------------------
       DO I=LFT,LLT
         FLUX1(I)=(VY1(I)*N1Y(I)+VZ1(I)*N1Z(I))
@@ -153,9 +158,9 @@ C--------------------
         FLUX4(I)=(VY4(I)*N4Y(I)+VZ4(I)*N4Z(I))
       ENDDO
 C-----------------------------------------------
-C     TRIMATERIAU
+C     MULTIMAT LAW51 (SUBMATERIALS)
 C-----------------------------------------------
-      IF(NINT(PM(19,MAT(1))).EQ.51)THEN
+      IF(NINT(PM(19,MAT(1))) == 51)THEN
         DO I=LFT,LLT
           FLUX(1,I)=FLUX1(I)
           FLUX(2,I)=FLUX2(I)
@@ -202,15 +207,15 @@ C
 C
       ENDDO !next I
 C-----------------------------------------------
-C     MULTIMATERIAUX SURFACE MOUILLEE
+C     MULTIMAT LAW 20 (OBSOLETE)
 C-----------------------------------------------
-      IF(JMULT.NE.0)THEN
+      IF(JMULT /= 0)THEN
         DO I=LFT,LLT
           UPW(I) =PM(16,MAT(I))
         ENDDO
         CALL AMULF2(FILL,DFILL,FLUX,FLU1,VOL,ALE_CONNECT,ALPH,
-     .     FLUX1, FLUX2, FLUX3, FLUX4, UPW, 
-     .     NC1, NC2, NC3, NC4)
+     .              FLUX1, FLUX2, FLUX3, FLUX4, UPW, 
+     .              NC1, NC2, NC3, NC4)
       ELSE
 C
         DO I=LFT,LLT
@@ -225,7 +230,7 @@ C
      .             +FLUX4(I)+UPWL(4,I)*ABS(FLUX4(I))
         ENDDO
       ENDIF
-C
+C-----------------------------------------------
       RETURN
       END
 C

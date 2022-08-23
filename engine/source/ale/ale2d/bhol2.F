@@ -43,30 +43,28 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ITASK,IPARG(NPARG,*),
-     .        BHOLE(NMULT,*),IXQ(NIXQ,*)
-C     REAL
-      my_real
-     .   PM(NPROPM,*)
+      INTEGER ITASK,IPARG(NPARG,NGROUP),BHOLE(NMULT,*),IXQ(NIXQ,NUMELQ)
+      my_real PM(NPROPM,NUMMAT)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NM, KM1, KM2, NG, JMUL, I, J, MX
+      INTEGER NM, NG, JMUL, I, J, MX
 C-----------------------------------------------
-      DO 800 NM=1,NMULT
-C
-       DO 100 NG=ITASK+1,NGROUP,NTHREAD
-C     ALE ON / OFF
-        IF (IPARG(76, NG) .EQ. 1) CYCLE ! --> OFF
+C   S o u r c e   L i n e s
+C------------------------------------------------
+      DO NM=1,NMULT
+       DO NG=ITASK+1,NGROUP,NTHREAD
+C       ALE ON / OFF
+        IF (IPARG(76, NG)  ==  1) CYCLE ! --> OFF
         JALE=IPARG(7,NG)
         JEUL=IPARG(11,NG)
-        IF(JALE+JEUL.EQ.0)   GO TO 100
-        IF(IPARG(8,NG).EQ.1) GO TO 100
+        IF(JALE+JEUL == 0)   CYCLE
+        IF(IPARG(8,NG) == 1) CYCLE
         JMUL=IPARG(20,NG)
         LLT=IPARG(2,NG)
         NFT=IPARG(3,NG)
         LFT=1
-        IF(JMUL.EQ.0)THEN
+        IF(JMUL == 0)THEN
           DO I=LFT,LLT
            J=I+NFT
            MX=IXQ(1,J)
@@ -83,11 +81,11 @@ C         ENDDO
            J=I+NFT
            MX=IXQ(1,J)
            BHOLE(NM,J)=NINT(PM( 20+NM,MX))
-           IF(NINT(PM(185+NM,MX)).NE.0)BHOLE(NM,J)=-BHOLE(NM,J)
+           IF(NINT(PM(185+NM,MX)) /= 0)BHOLE(NM,J)=-BHOLE(NM,J)
           ENDDO
         ENDIF
-  100  CONTINUE
-C
-  800 CONTINUE
+       ENDDO! next NG
+      ENDDO !next NM=1,NMULT
+C-----------------------------------------------      
       RETURN
       END

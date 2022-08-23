@@ -71,19 +71,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I, II, JJ, KK, INODE, IAD2, LGTH
+      INTEGER :: I, II, KK, IAD2, LGTH
       my_real ::  YK, ZK, YL, ZL,YF, ZF
-      my_real :: VALK, VALL, VALNODE
-      INTEGER :: NODE_ID
+      my_real :: VALK, VALL
       my_real :: mat(2, 2), rhs(2), sol(2)
-      my_real :: reduc_factor, nodal_reduc_factor
-      INTEGER :: JMIN, JMAX, J, ELEM_ID, VOIS_ID
+      INTEGER :: VOIS_ID
       INTEGER :: FACE_TO_NODE_LOCAL_ID(4, 2), NODEID1, NODEID2
-      my_real :: NORM(3), A(3), B(3), C(3), SURF, SURF1, SURF2
       my_real :: det, undet
 C-----------------------------------------------
-C  B e g i n n i n g  o f   S u b r o u t i n e
-C-----------------------------------------------  
+C   S o u r c e   L i n e s 
+C-----------------------------------------------
 !!! Once for all, associate node local id to a face number
 !!! Face 1
       FACE_TO_NODE_LOCAL_ID(1, 1) = 1 ; FACE_TO_NODE_LOCAL_ID(1, 2) = 2
@@ -93,7 +90,6 @@ C-----------------------------------------------
       FACE_TO_NODE_LOCAL_ID(3, 1) = 3 ; FACE_TO_NODE_LOCAL_ID(3, 2) = 4
 !!! Face 4
       FACE_TO_NODE_LOCAL_ID(4, 1) = 4 ; FACE_TO_NODE_LOCAL_ID(4, 2) = 1
-
 
       DO I = LFT, LLT
          II = I + NFT
@@ -139,7 +135,7 @@ C-----------------------------------------------
          ENDDO
          
          det = mat(1, 1) * mat(2, 2) - mat(2, 1) * mat(1, 2)
-         IF (det .EQ. 0) THEN
+         IF (det == 0) THEN
             PRINT*, "OUPS"
          ENDIF
          undet = ONE / det
@@ -149,7 +145,5 @@ C-----------------------------------------------
          GRAD(ITRIMAT,2, II) = -sol(1)
          GRAD(ITRIMAT,3, II) = -sol(2)
       ENDDO  ! I = LFT, LLT
-C-----------------------------------------------
-C   E n d  o f  S u b r o u t i n e
 C-----------------------------------------------      
       END SUBROUTINE GRADIENT_RECONSTRUCTION2

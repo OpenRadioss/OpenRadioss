@@ -33,6 +33,9 @@ Chd|====================================================================
      .                  VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,
      .                  VOLN,DVOL,VD2,
      .                  NC1,NC2,NC3,NC4,NGL)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -46,11 +49,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL
       my_real
      .   OFF(*), VOLO(*), RHON(*), FLUX(4,*), FLU1(*), W(3,*),
-     .   VY1(*),VY2(*),VY3(*),VY4(*),VZ1(*),VZ2(*),VZ3(*),VZ4(*),
-     .   VOLN(*), DVOL(*), VD2(*)
+     .   VY1(*),VY2(*),VY3(*),VY4(*),VZ1(*),VZ2(*),VZ3(*),VZ4(*),VOLN(*), DVOL(*), VD2(*)
       INTEGER NC1(*), NC2(*), NC3(*), NC4(*), NGL(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -62,33 +63,31 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I
-C     REAL
-      my_real
-     .    VY, VZ
+      my_real VY, VZ
 C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
+
+      DO I=LFT,LLT
+        RHON(I)=RHON(I)/VOLN(I)
+        DVOL(I)=VOLN(I)-VOLO(I)+DT1*HALF*(FLU1(I)+FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
+        VOLO(I)=VOLN(I)
+      ENDDO
 C
-      DO 20 I=LFT,LLT
-      RHON(I)    =RHON(I)/VOLN(I)
-      DVOL(I) = VOLN(I)-VOLO(I)+DT1*HALF*(FLU1(I)
-     .  +FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
-      VOLO(I)=VOLN(I)
-   20 CONTINUE
+      DO I=LFT,LLT
+        VY=VY1(I)+VY2(I)+VY3(I)+VY4(I)-(W(2,NC1(I))+W(2,NC2(I))+W(2,NC3(I))+W(2,NC4(I)))
+        VZ=VZ1(I)+VZ2(I)+VZ3(I)+VZ4(I)-(W(3,NC1(I))+W(3,NC2(I))+W(3,NC3(I))+W(3,NC4(I)))
+        VD2(I)=(VY**2+VZ**2)/SIXTEEN
+      ENDDO
 C
-      DO 30 I=LFT,LLT
-      VY=VY1(I)+VY2(I)+VY3(I)+VY4(I)
-     . -(W(2,NC1(I))+W(2,NC2(I))+W(2,NC3(I))+W(2,NC4(I)))
-      VZ=VZ1(I)+VZ2(I)+VZ3(I)+VZ4(I)
-     . -(W(3,NC1(I))+W(3,NC2(I))+W(3,NC3(I))+W(3,NC4(I)))
-      VD2(I)=(VY**2+VZ**2)/SIXTEEN
-   30 CONTINUE
-C
-      DO 40 I=LFT,LLT
-      IF(OFF(I).EQ.0.0.OR.MTN.EQ.11)GO TO 40
-      IF(RHON(I).GT.0.0)GO TO 40
-      CALL ANCMSG(MSGID=12,ANMODE=ANINFO,
-     .            I1=NGL(I),R1=RHON(I))
-      CALL ARRET(2)
-   40 CONTINUE
-C
+      DO I=LFT,LLT
+        IF(OFF(I) /= 0.0 .AND. MTN /= 11)THEN
+          IF(RHON(I) <= 0.0)THEN
+            CALL ANCMSG(MSGID=12,ANMODE=ANINFO,I1=NGL(I),R1=RHON(I))
+            CALL ARRET(2)
+          ENDIF
+        ENDIF
+      ENDDO
+C-----------------------------------------------
       RETURN
       END

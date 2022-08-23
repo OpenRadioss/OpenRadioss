@@ -54,29 +54,27 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,NUMELS)
-      my_real
-     .   PM(NPROPM,NUMMAT), V(3,NUMNOD), FLUX(6,*), FLU1(*), VEUL(LVEUL,*), TAG22(*)
+      my_real PM(NPROPM,NUMMAT), V(3,NUMNOD), FLUX(6,*), FLU1(*), VEUL(LVEUL,*), TAG22(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER MAT(MVSIZ), NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), NC5(MVSIZ), NC6(MVSIZ),
      .   NC7(MVSIZ), NC8(MVSIZ), I, II,J, IAD2
-      my_real
-     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ), X5(MVSIZ), X6(MVSIZ), X7(MVSIZ), X8(MVSIZ),
-     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ), Y5(MVSIZ), Y6(MVSIZ), Y7(MVSIZ), Y8(MVSIZ), Z1(MVSIZ),
-     .   Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ), Z5(MVSIZ), Z6(MVSIZ), Z7(MVSIZ), Z8(MVSIZ), N1X(MVSIZ),
-     .   N2X(MVSIZ), N3X(MVSIZ), N4X(MVSIZ), N5X(MVSIZ), N6X(MVSIZ), N1Y(MVSIZ), N2Y(MVSIZ), N3Y(MVSIZ),
-     .   N4Y(MVSIZ), N5Y(MVSIZ), N6Y(MVSIZ), N1Z(MVSIZ), N2Z(MVSIZ), N3Z(MVSIZ), N4Z(MVSIZ), N5Z(MVSIZ),
-     .   N6Z(MVSIZ), FLUX1(MVSIZ), FLUX2(MVSIZ), FLUX3(MVSIZ), FLUX4(MVSIZ), FLUX5(MVSIZ),
-     .   FLUX6(MVSIZ), VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ), VX4(MVSIZ), VX5(MVSIZ), VX6(MVSIZ),
-     .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ), VY5(MVSIZ), VY6(MVSIZ), VZ1(MVSIZ), VZ2(MVSIZ),
-     .   VZ3(MVSIZ), VZ4(MVSIZ), VZ5(MVSIZ), VZ6(MVSIZ), VDX1(MVSIZ), VDX2(MVSIZ), VDX3(MVSIZ),
-     .   VDX4(MVSIZ), VDX5(MVSIZ), VDX6(MVSIZ), VDX7(MVSIZ), VDX8(MVSIZ), VDY1(MVSIZ), VDY2(MVSIZ),
-     .   VDY3(MVSIZ), VDY4(MVSIZ), VDY5(MVSIZ), VDY6(MVSIZ), VDY7(MVSIZ), VDY8(MVSIZ), VDZ1(MVSIZ),
-     .   VDZ2(MVSIZ), VDZ3(MVSIZ), VDZ4(MVSIZ), VDZ5(MVSIZ), VDZ6(MVSIZ), VDZ7(MVSIZ), VDZ8(MVSIZ),
-     .   UPW(MVSIZ),REDUC,UPWL(6,MVSIZ)
+      my_real N1X(MVSIZ),
+     .         N2X(MVSIZ), N3X(MVSIZ), N4X(MVSIZ), N5X(MVSIZ), N6X(MVSIZ), N1Y(MVSIZ), N2Y(MVSIZ), N3Y(MVSIZ),
+     .         N4Y(MVSIZ), N5Y(MVSIZ), N6Y(MVSIZ), N1Z(MVSIZ), N2Z(MVSIZ), N3Z(MVSIZ), N4Z(MVSIZ), N5Z(MVSIZ),
+     .         N6Z(MVSIZ), FLUX1(MVSIZ), FLUX2(MVSIZ), FLUX3(MVSIZ), FLUX4(MVSIZ), FLUX5(MVSIZ),
+     .         FLUX6(MVSIZ), VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ), VX4(MVSIZ), VX5(MVSIZ), VX6(MVSIZ),
+     .         VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ), VY5(MVSIZ), VY6(MVSIZ), VZ1(MVSIZ), VZ2(MVSIZ),
+     .         VZ3(MVSIZ), VZ4(MVSIZ), VZ5(MVSIZ), VZ6(MVSIZ), VDX1(MVSIZ), VDX2(MVSIZ), VDX3(MVSIZ),
+     .         VDX4(MVSIZ), VDX5(MVSIZ), VDX6(MVSIZ), VDX7(MVSIZ), VDX8(MVSIZ), VDY1(MVSIZ), VDY2(MVSIZ),
+     .         VDY3(MVSIZ), VDY4(MVSIZ), VDY5(MVSIZ), VDY6(MVSIZ), VDY7(MVSIZ), VDY8(MVSIZ), VDZ1(MVSIZ),
+     .         VDZ2(MVSIZ), VDZ3(MVSIZ), VDZ4(MVSIZ), VDZ5(MVSIZ), VDZ6(MVSIZ), VDZ7(MVSIZ), VDZ8(MVSIZ),
+     .         REDUC,UPWL(6,MVSIZ)
       LOGICAL debug_outp
+C-----------------------------------------------
+C   S o u r c e   L i n e s
 C-----------------------------------------------
       !======================================================!
       ! INITIALIZATION : COORDINATES & RELATIVE VELOCITIES   !
@@ -200,14 +198,14 @@ C-----------------------------------------------
       ENDDO
 
 
-      !INTERFACE 22 ONLY - OUTPUT---------------!
+      !INTERFACE 22 ONLY - OUTPUT---------------! OBSOLETE
       IF(INT22>0)THEN
         debug_outp = .false.
         if(ibug22_flux.ne.0)then
           debug_outp = .false.
           if(ibug22_flux.GT.0)then
             do i=lft,llt
-              if(ixs(11,I+nft).eq.ibug22_flux)then
+              if(ixs(11,I+nft) == ibug22_flux)then
                 if(tag22(i)==zero)then
                   debug_outp=.true.
                   exit
@@ -243,7 +241,7 @@ C-----------------------------------------------
       ! TRIMATERIAL CASE INITIALIZATION (LAW51)              !
       ! -->RETURN                                            !
       !======================================================!
-      IF(NINT(PM(19,MAT(1))).EQ.51)THEN
+      IF(NINT(PM(19,MAT(1))) == 51)THEN
         DO I=LFT,LLT
           FLUX(1,I)=FLUX1(I)
           FLUX(2,I)=FLUX2(I)
@@ -270,32 +268,32 @@ C-----------------------------------------------
        REDUC=PM(92,MAT(I))
        !---face1---!
        II=ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
-       IF(II.EQ.0)THEN
+       IF(II == 0)THEN
         FLUX1(I)=FLUX1(I)*REDUC
        ENDIF
        !---face2---!
        II=ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
-       IF(II.EQ.0)THEN
+       IF(II == 0)THEN
         FLUX2(I)=FLUX2(I)*REDUC
        ENDIF
        !---face3---!
        II=ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
-       IF(II.EQ.0)THEN
+       IF(II == 0)THEN
         FLUX3(I)=FLUX3(I)*REDUC
        ENDIF
        !---face4---!
        II=ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
-       IF(II.EQ.0)THEN
+       IF(II == 0)THEN
         FLUX4(I)=FLUX4(I)*REDUC
        ENDIF
        !---face5---!
        II=ALE_CONNECT%ee_connect%connected(IAD2 + 5 - 1)
-       IF(II.EQ.0)THEN
+       IF(II == 0)THEN
         FLUX5(I)=FLUX5(I)*REDUC
        ENDIF
        !---face6---!
        II=ALE_CONNECT%ee_connect%connected(IAD2 + 6 - 1)
-       IF(II.EQ.0)THEN
+       IF(II == 0)THEN
         FLUX6(I)=FLUX6(I)*REDUC
        ENDIF
       ENDDO !next I
@@ -315,10 +313,6 @@ C-----------------------------------------------
      .           +FLUX5(I)+UPWL(5,I)*ABS(FLUX5(I))
      .           +FLUX6(I)+UPWL(6,I)*ABS(FLUX6(I))
       ENDDO !next I
-
-     
-
-
-
+C-----------------------------------------------
       RETURN
       END

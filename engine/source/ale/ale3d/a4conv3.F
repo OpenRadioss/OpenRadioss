@@ -29,7 +29,10 @@ Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectiv
 Chd|====================================================================
       SUBROUTINE A4CONV3(VTOT ,PHI,FLUX,FLU1,
      .                   ALE_CONNECT,IOFF)
-      USE ALE_CONNECTIVITY_MOD
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
+       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -39,9 +42,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IOFF
-C     REAL
-      my_real
-     .   VTOT(*), PHI(*), FLUX(6,*), FLU1(*)
+      my_real VTOT(*), PHI(*), FLUX(6,*), FLU1(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -54,8 +55,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IE, IV,J,IAD2
-      my_real
-     .   VALVOIS(6,MVSIZ),VALEL(MVSIZ)
+      my_real VALVOIS(6,MVSIZ),VALEL(MVSIZ)
+C-----------------------------------------------
+C   S o u r c e   L i n e s
 C-----------------------------------------------
       DO I=LFT,LLT
         IE =NFT+I
@@ -68,9 +70,9 @@ C-----------------------------------------------
 !
          J = 2
          IV = ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
-         IF(IV.GT.0)THEN
+         IF(IV > 0)THEN
             VALVOIS(J,I)=PHI(IV)
-         ELSEIF(IV.EQ.0)THEN
+         ELSEIF(IV == 0)THEN
             VALVOIS(J,I)=PHI(IE)
          ELSE
             VALVOIS(J,I)=PHI(-IV+IOFF)
@@ -78,9 +80,9 @@ C-----------------------------------------------
 !
          J = 4
          IV = ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
-         IF(IV.GT.0)THEN
+         IF(IV > 0)THEN
             VALVOIS(J,I)=PHI(IV)
-         ELSEIF(IV.EQ.0)THEN
+         ELSEIF(IV == 0)THEN
             VALVOIS(J,I)=PHI(IE)
          ELSE
             VALVOIS(J,I)=PHI(-IV+IOFF)
@@ -88,9 +90,9 @@ C-----------------------------------------------
 !
          J = 5
          IV = ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
-         IF(IV.GT.0)THEN
+         IF(IV > 0)THEN
             VALVOIS(J,I)=PHI(IV)
-         ELSEIF(IV.EQ.0)THEN
+         ELSEIF(IV == 0)THEN
             VALVOIS(J,I)=PHI(IE)
          ELSE
             VALVOIS(J,I)=PHI(-IV+IOFF)
@@ -98,9 +100,9 @@ C-----------------------------------------------
 !
          J = 6
          IV = ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
-         IF(IV.GT.0)THEN
+         IF(IV > 0)THEN
             VALVOIS(J,I)=PHI(IV)
-         ELSEIF(IV.EQ.0)THEN
+         ELSEIF(IV == 0)THEN
             VALVOIS(J,I)=PHI(IE)
          ELSE
             VALVOIS(J,I)=PHI(-IV+IOFF)
@@ -109,13 +111,14 @@ C-----------------------------------------------
 C
       DO I=LFT,LLT
         VTOT(I) = VTOT(I) + HALF * DT1 *(
-     1  -VALEL(I)*FLU1(I)
-     3  -VALVOIS(2,I)*FLUX(2,I)
-     5  -VALVOIS(4,I)*FLUX(4,I)
-     6  -VALVOIS(5,I)*FLUX(5,I)
-     7  -VALVOIS(6,I)*FLUX(6,I)        )
+     1                                   -VALEL(I)*FLU1(I)
+     2                                   -VALVOIS(2,I)*FLUX(2,I)
+     3                                   -VALVOIS(4,I)*FLUX(4,I)
+     4                                   -VALVOIS(5,I)*FLUX(5,I)
+     5                                   -VALVOIS(6,I)*FLUX(6,I) 
+     6                                   )
       ENDDO
-c-----------
+C-----------------------------------------------
       RETURN
       END
 C

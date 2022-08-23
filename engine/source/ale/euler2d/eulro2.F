@@ -30,6 +30,9 @@ Chd|        ARRET                         source/system/arret.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE EULRO2(VOLO,RHON,FLUX,FLU1,VOLN,DVOL,NGL)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -49,29 +52,26 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL
-      my_real
-     .   VOLO(*), RHON(*), FLUX(4,*), FLU1(*),
-     .   VOLN(*), DVOL(*)
+      my_real VOLO(*), RHON(*), FLUX(4,*), FLU1(*),VOLN(*), DVOL(*)
       INTEGER NGL(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
 C-----------------------------------------------
-      DO 20 I=LFT,LLT
-      RHON(I)    =RHON(I)/VOLN(I)
-      DVOL(I) = DT1*HALF*(FLU1(I)
-     .  +FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
-   20 CONTINUE
+      DO I=LFT,LLT
+        RHON(I)    =RHON(I)/VOLN(I)
+        DVOL(I) = DT1*HALF*(FLU1(I)+FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
+      ENDDO
 C
-      DO 40 I=LFT,LLT
-      IF(MTN.EQ.11)GO TO 40
-      IF(RHON(I).GT.ZERO)GO TO 40
-        CALL ANCMSG(MSGID=12,ANMODE=ANINFO,
-     .              I1=NGL(I),R1=RHON(I))
-      CALL ARRET(2)
-   40 CONTINUE
-C
+      DO I=LFT,LLT
+        IF(MTN /= 11)THEN
+         IF(RHON(I) <= ZERO)THEN
+          CALL ANCMSG(MSGID=12,ANMODE=ANINFO,I1=NGL(I),R1=RHON(I))
+          CALL ARRET(2)
+         ENDIF
+        ENDIF
+      ENDDO  
+C-----------------------------------------------
       RETURN
       END

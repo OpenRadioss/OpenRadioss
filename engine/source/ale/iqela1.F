@@ -64,21 +64,15 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(INOUT) :: IRECT(4,*), LMSR(4,*), MSR(*), NSV(*), ILOC(*), IRTL(*),LCODE(*), ISKEW(*),ITAB(NUMNOD)
-      my_real,INTENT(INOUT) :: X(SX), SKEW(LSKEW,*), A(SA), E(*), MSM(*), CRST(2,*), MS(*),NOR(3,*),FSAV(*)
+      my_real,INTENT(INOUT) :: X(3,NUMNOD), SKEW(LSKEW,*), A(SA), E(*), MSM(*), CRST(2,*), MS(*),NOR(3,*),FSAV(*)
       my_real,INTENT(INOUT) :: FCONT(3,*),FNCONT(3,*),FTCONT(3,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NIR, I, J, I3, J3, I2, J2, I1, J1, II, L, JJ, NN, JJ3,
-     .   JJ2, JJ1, ISK, LCOD
-      my_real
-     .   H(4), N1, N2, N3, AA(3), SSS, TTT, XMSS, FXI, FYI, FZI, FSN
-      my_real ::
-     .   FSAV1, FSAV2, FSAV3, FSAV4, FSAV5, FSAV6, FSAV7, FSAV8, 
-     .   FSAV9, FSAV10, FSAV11, FSAV12, FSAV13, FSAV14, FSAV15,
-     .   FSAV22, FSAV23, FSAV24, FSN_SAV, FXI_SAV, FYI_SAV, FZI_SAV,
-     .   IMPX,IMPY,IMPZ
+      INTEGER NIR, I, J, I3, J3, I2, J2, I1, J1, II, L, JJ, NN, JJ3, JJ2, JJ1, ISK, LCOD
+      my_real H(4), N1, N2, N3, AA(3), SSS, TTT, XMSS, FXI, FYI, FZI, FSN
+      my_real :: FSN_SAV, FXI_SAV, FYI_SAV, FZI_SAV,IMPX,IMPY,IMPZ
       LOGICAL ICONT, IPCONT, IANIM
 C-----------------------------------------------
 C   S o u r c e   L i n e s

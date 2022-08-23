@@ -152,18 +152,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXS(NIXS,*),IXQ(NIXQ,*),IXTG(NIXTG, *), ISKY(*),
+      INTEGER IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ),IXTG(NIXTG,NUMELTG), ISKY(*),
      .   IFILL(NUMNOD,*), NPC(*), IPARG(NPARG,NGROUP),NODPOR(*),
      .   IADS(8,*),IADQ(4,*),ICODT(*),ISKEW(*), IMS(*),
-     .   IGEO(NPROPGI,*),
+     .   IGEO(NPROPGI,NUMGEO),
      .   IPART(LIPART1,*) ,IPARTS(*) ,IPARTQ(*),IPM(NPROPMI,*),NODFT,
      .   NELTST ,ITYPTST, ITASK, 
      .   NBRCVOIS(*),NBSDVOIS(*), LNRCVOIS(*), LNSDVOIS(*),
      .   NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),
      .   NELTSA, ITYPTSA,NPSEGCOM(*),LSEGCOM(*),
-     .   IAD_ELEM(*),FR_ELEM(*), IPARI(*),ITAB(*),ISKWN(*),
+     .   IAD_ELEM(*),FR_ELEM(*), IPARI(SIPARI),ITAB(NUMNOD),ISKWN(*),
      .   WEIGHT(*), ITABM1(*),
-     .   ISIZXV, LENQMV,NV46,GRTH(*),IGRTH(*),LGAUGE(3,*),
+     .   ISIZXV, LENQMV,NV46,GRTH(*),IGRTH(*),LGAUGE(3,NBGAUGE),
      .   IGAUP(*),NGAUP(*),NODLT, IXT(NIXT,*),
      .   IGRV(*),LSENSOR(NSENSI,*),LGRAV(*)
       ! for parith/on : ID_GLOBAL_VOIS --> user id ; FACE_VOIS --> face of the remote element
@@ -171,10 +171,10 @@ C-----------------------------------------------
      
       DOUBLE PRECISION XDP(3,*)
       
-      my_real X(3,NUMNOD)    ,V(3,NUMNOD)   ,MS(*)   ,PM(NPROPM,NUMMAT),SKEW(LSKEW,*),
-     .        GEO(NPROPG,NGROUP),BUFMAT(*) ,W(3,NUMNOD)    ,VEUL(*),FILL(NUMNOD,*),
-     .        DFILL(NUMNOD,*),ALPH(*)   ,TF(*) ,
-     .        FV(*)     ,A(3,NUMNOD)    ,AR(3,NUMNOD)     ,VAL2(*)  ,PHI(*),
+      my_real X(3,NUMNOD),V(3,NUMNOD),MS(*),PM(NPROPM,NUMMAT),SKEW(LSKEW,*),
+     .        GEO(NPROPG,NGROUP),BUFMAT(*) ,W(3,NUMNOD),VEUL(*),FILL(NUMNOD,*),
+     .        DFILL(NUMNOD,*),ALPH(*),TF(*),
+     .        FV(*),A(3,NUMNOD),AR(3,NUMNOD),VAL2(*),PHI(*),
      .        PARTSAV(*) ,STIFN(*) ,D(3,NUMNOD),DSAVE(3,*),ASAVE(3,*),WA(*),
      .        FSKY(*),EANI(*), FSKYM(*),
      .        DT2T, DT2SAVE,
@@ -204,32 +204,22 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, M, NG, NVC,   LCOD, IPRI, NF1,
-     .   OFFSET, NELEM, ISK,ISOLNOD,  NSG, NEL,
-     .   NINDX2, INDX2(1024), I, L, LENCOM,ISTRA, IBID,IOUTPRT
+      INTEGER N, M, NG, NVC, NF1,OFFSET,ISOLNOD,  NSG, NEL,I, LENCOM,ISTRA, IBID,IOUTPRT
       INTEGER IPLA
       INTEGER IADBH, IAD22, NIN, NBRIC_L
-      INTEGER IMAT, SBUFVOIS
-      my_real FAC,ALS
-      my_real FX(MVSIZ,10),FY(MVSIZ,10),FZ(MVSIZ,10),
-     .        MX(MVSIZ,4) ,MY(MVSIZ,4) ,MZ(MVSIZ,4) ,
-     .        VOLN(MVSIZ)  !local array to get rid of equivalence statment
-
-     
+      INTEGER SBUFVOIS
+      
+      my_real FX(MVSIZ,10),FY(MVSIZ,10),FZ(MVSIZ,10),VOLN(MVSIZ) 
       my_real, TARGET  :: BID
-
       my_real, DIMENSION(:,:),ALLOCATABLE,TARGET  :: QMV
-      my_real                            ,POINTER :: pQMV      
-
+      my_real, POINTER :: pQMV      
       ! SPMD array for adjacent data ALE/CFD
       my_real, DIMENSION(:,:),ALLOCATABLE ::BUFVOIS
 
       LOGICAL :: PRED
       
-      TYPE(G_BUFEL_) ,POINTER :: GBUF
-            
       SAVE BUFVOIS
-C
+
       DATA OFFSET/0/
 C-----------------------------------------------
 C   S o u r c e   L i n e s

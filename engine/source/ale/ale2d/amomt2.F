@@ -54,6 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
+#include      "com04_c.inc"
 #include      "vect01_c.inc"
 #include      "param_c.inc"
 #include      "scrupw_c.inc"
@@ -61,7 +62,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
-     .   PM(NPROPM,*), V(3,*), W(3,*), RHO(*),
+     .   PM(NPROPM,NUMMAT), V(3,NUMNOD), W(3,NUMNOD), RHO(*),
      .   Y1(*), Y2(*), Y3(*), Y4(*), Z1(*), Z2(*), Z3(*), Z4(*),
      .   T11(*), T12(*), T13(*), T14(*), T21(*), T22(*), T23(*),T24(*), 
      .   PY1(*), PY2(*), PZ1(*), PZ2(*), AIREM(*),
@@ -74,9 +75,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,IADBUF,IFLG
       my_real :: F1(MVSIZ), F2(MVSIZ),A1(MVSIZ), A2(MVSIZ), XMS(MVSIZ), GAMMA(MVSIZ),VDY(MVSIZ), VDZ(MVSIZ)
-      my_real :: FAC,AAA,DM,DMX,DMY,DMZ
-      my_real :: FVY1(MVSIZ), FVZ1(MVSIZ), FVY2(MVSIZ), FVZ2(MVSIZ), 
-     .     FVY3(MVSIZ), FVZ3(MVSIZ), FVY4(MVSIZ), FVZ4(MVSIZ)
+      my_real :: FAC,AAA,DM,DMY,DMZ
+      my_real :: FVY1(MVSIZ), FVZ1(MVSIZ), FVY2(MVSIZ), FVZ2(MVSIZ), FVY3(MVSIZ), FVZ3(MVSIZ), FVY4(MVSIZ), FVZ4(MVSIZ)
       my_real :: PC, PD, PS, PP
       my_real
      .   Y12(MVSIZ), Z12(MVSIZ), Y23(MVSIZ), Z23(MVSIZ),
@@ -89,7 +89,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   C o d e
 C-----------------------------------------------
-
       !-----------------------------------------------
       !   RELATIVE VELOCITY
       !-----------------------------------------------
@@ -136,11 +135,11 @@ C-----------------------------------------------
       !   LAW51 : convective terme computed like in FVM
       !-----------------------------------------------
       !   DMi = 0.5*DT1*QMV(i,I)  masse entrant par la face i
-      IF(MTN.EQ.51 .AND. UPWM .NE. 3) THEN
+      IF(MTN == 51 .AND. UPWM /= 3) THEN
         IADBUF = NINT(PM(27,MAT(1)))
         IFLG = NINT(BUFMAT(31+IADBUF-1))
-        IF(IFLG.GT.1)RETURN
-        IF(UPWM.EQ.0.)THEN
+        IF(IFLG > 1)RETURN
+        IF(UPWM == 0.)THEN
          DO I=LFT,LLT
           GAMMA(I)= PM(15,MAT(I))
          ENDDO
@@ -185,7 +184,7 @@ C-----------------------------------------------
           T23(I)   = T23(I)+(ONE-A1(I))*DMZ
           T24(I)   = T24(I)+(ONE-A2(I))*DMZ
         ENDDO
-      ELSEIF (MTN .NE. 51 .AND. UPWM .NE. 3) THEN
+      ELSEIF (MTN /= 51 .AND. UPWM /= 3) THEN
       !-----------------------------------------------
       !   other material laws
       !-----------------------------------------------
@@ -213,7 +212,7 @@ C-----------------------------------------------
           T24(I)   =  T24(I)+(ONE-A2(I))*F2(I)
         ENDDO
 
-      ELSEIF (UPWM .EQ.3) THEN
+      ELSEIF (UPWM == 3) THEN
          PC=FOURTH
          PD=ONE_OVER_16
          PS=ONE_OVER_16
@@ -348,7 +347,6 @@ C-----------------------------------------------
             T24(I) =  T24(I)+(PP+A3(I))*F2P(I)
          ENDDO
       ENDIF
-
-      !-----------------------------------------------
+C-----------------------------------------------
       RETURN
       END

@@ -79,7 +79,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NG, I, J, K, NPH1, NPH2, NPH3, IADBUF
+      INTEGER NG, I, J, NPH1, NPH2, NPH3, IADBUF
       INTEGER MAT(MVSIZ)
       my_real RK, RE, R, YP0, XMU, AX, E, A, CMU, RPR, YPLUS, P, XMT
       my_real, DIMENSION(:) ,POINTER :: PH1,PH2,PH3

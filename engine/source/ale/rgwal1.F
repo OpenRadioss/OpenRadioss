@@ -29,11 +29,11 @@ Chd|        INTERP                        source/tools/curve/interp.F
 Chd|        RGWATH                        source/interfaces/int09/rgwath.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE RGWAL1(X       ,A	,V	 ,W	  ,RWBUF   ,
+      SUBROUTINE RGWAL1(X       ,A	,V	  ,W	  ,RWBUF   ,
      2                  LPRW    ,NPRW	, 
-     3                  ICODT   ,ISKEW  ,SKEW	 ,MS	  ,FSAV    ,
-     4                  IXS     ,IXQ	,ELBUF_TAB,IPARG   ,
-     5                  PM      ,NALE	,TF	 ,NPF	  ,WEIGHT  ,
+     3                  ICODT   ,ISKEW  ,SKEW	  ,MS	  ,FSAV    ,
+     4                  IXS     ,IXQ	,ELBUF_TAB,IPARG  ,
+     5                  PM      ,NALE	,TF	  ,NPF	  ,WEIGHT  ,
      6                  IAD_ELEM,FR_ELEM,FR_WALL )
 C-----------------------------------------------
 C   M o d u l e s
@@ -71,10 +71,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER K, N, N2, N3, N4, N5, ITYP, LCOD, NE, NSN, IFUNC, ISK, I,
-     .        NIMP, NN, NPOINT, NTAG(NUMNOD)
-      my_real
-     .        TEMP,TIME,BID,E(NUMNOD)
+      INTEGER K, N, N2, N3, N4, ITYP, NE, NSN, IFUNC, NPOINT, NTAG(NUMNOD)
+      my_real TEMP,TIME,BID,E(NUMNOD)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

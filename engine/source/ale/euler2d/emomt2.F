@@ -28,14 +28,14 @@ Chd|-- calls ---------------
 Chd|        UPWIND                        source/elements/solid/solide/upwind.F
 Chd|====================================================================
       SUBROUTINE EMOMT2(PM,RHO,
-     .   Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
-     .   VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,
-     .   T11, T12, T13, T14, T21, T22, T23 , T24, 
-     .   PY1, PY2, PZ1, PZ2, AIRE,
-     .   DYY, DZZ, DYZ, DZY,VDY,VDZ,
-     .   DELTAX,VIS,VD2,
-     .   NC1,NC2,NC3,NC4,MAT,
-     .   QMV,BUFMAT)
+     .                  Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
+     .                  VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,
+     .                  T11, T12, T13, T14, T21, T22, T23 , T24, 
+     .                  PY1, PY2, PZ1, PZ2, AIRE,
+     .                  DYY, DZZ, DYZ, DZY,VDY,VDZ,
+     .                  DELTAX,VIS,VD2,
+     .                  NC1,NC2,NC3,NC4,MAT,
+     .                  QMV,BUFMAT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,6 +48,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
+#include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "vect01_c.inc"
 #include      "param_c.inc"
@@ -55,48 +56,45 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL
-      my_real
-     .   PM(NPROPM,*), RHO(*),
-     .   Y1(*),Y2(*),Y3(*),Y4(*),Z1(*),Z2(*),Z3(*),Z4(*),
-     .   VY1(*), VY2(*), VY3(*), VY4(*), VZ1(*), VZ2(*), VZ3(*), VZ4(*),
-     .   T11(*), T12(*), T13(*), T14(*), T21(*), T22(*), T23(*), T24(*), 
-     .   PY1(*), PY2(*), PZ1(*), PZ2(*), AIRE(*),
-     .   DYY(*), DZZ(*), DYZ(*), DZY(*),VDY(*),VDZ(*),
-     .   DELTAX(*),VIS(*),VD2(*),QMV(8,*),BUFMAT(*)
+      my_real PM(NPROPM,NUMMAT), RHO(*),
+     .        Y1(*),Y2(*),Y3(*),Y4(*),Z1(*),Z2(*),Z3(*),Z4(*),
+     .        VY1(*), VY2(*), VY3(*), VY4(*), VZ1(*), VZ2(*), VZ3(*), VZ4(*),
+     .        T11(*), T12(*), T13(*), T14(*), T21(*), T22(*), T23(*), T24(*), 
+     .        PY1(*), PY2(*), PZ1(*), PZ2(*), AIRE(*),
+     .        DYY(*), DZZ(*), DYZ(*), DZY(*),VDY(*),VDZ(*),
+     .        DELTAX(*),VIS(*),VD2(*),QMV(8,*),BUFMAT(*)
       INTEGER MAT(*), NC1(*), NC2(*), NC3(*), NC4(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL
       my_real
      .   Y12(MVSIZ),Z12(MVSIZ),Y23(MVSIZ),Z23(MVSIZ),
      .   Y34(MVSIZ),Z34(MVSIZ),Y41(MVSIZ),Z41(MVSIZ),
      .   Y24(MVSIZ),Z24(MVSIZ),Y13(MVSIZ),Z13(MVSIZ),
      .   DYYP(MVSIZ), DZZP(MVSIZ), DYZP(MVSIZ), DZYP(MVSIZ),
      .   F1(MVSIZ), F2(MVSIZ),A1(MVSIZ),A2(MVSIZ),A3(MVSIZ),GAM(MVSIZ),
-     .   F1P(MVSIZ),F2P(MVSIZ),F1D(MVSIZ),F2D(MVSIZ),
+     .   F1P(MVSIZ),F2P(MVSIZ),
      .   S(3,MVSIZ),T(3,MVSIZ),
-     .   TR(MVSIZ),FAC,V,PE,DT1H,D1,D2,DV,DIST,
+     .   TR(MVSIZ),FAC,DT1H,
      .   PD,PS,PP,PC
       INTEGER I
 C-----------------------------------------------
-      my_real
-     .   AAA,DM,DMX,DMY,DMZ
+      my_real AAA,DM,DMY,DMZ
       INTEGER IADBUF,IFLG
 C-----------------------------------------------
+C   S o u r c e   L i n e s 
 C-----------------------------------------------
-C     Forces de transports calcul es par volume fini
 C-----------------------------------------------
-C   DMi = 0.5*DT1*QMV(i,I)  masse entrant par la face i
-      IF(MTN.EQ.51 .AND. UPWM.NE.3)THEN
+C     Reynolds transportation theorem
+C-----------------------------------------------
+C   DMi = 0.5*DT1*QMV(i,I)  incoming mass from face i
+      IF(MTN == 51 .AND. UPWM /= 3)THEN
         IADBUF = NINT(PM(27,MAT(1)))
-c        IFLG = NINT(UPARAM(31))
         IFLG = NINT(BUFMAT(31+IADBUF-1))
 C
-        IF(IFLG.GT.1)RETURN
+        IF(IFLG > 1)RETURN
 C
-        IF(UPWM.EQ.0.)THEN
+        IF(UPWM == 0.)THEN
          DO I=LFT,LLT
           GAM(I)= PM(15,MAT(I))
          ENDDO
@@ -148,8 +146,8 @@ C
         ENDDO
         RETURN
       ENDIF
-      IF(UPWM.EQ.0.AND.MTN.EQ.11)RETURN
-      IF(UPWM.GT.1)THEN
+      IF(UPWM == 0.AND.MTN == 11)RETURN
+      IF(UPWM > 1)THEN
        PC=FOURTH
        PD=ONE_OVER_16
        PS=ONE_OVER_16
@@ -177,13 +175,10 @@ C
        ENDDO
       ENDIF
 C
-C CALCUL DE LA FORCE DE TRANSPORT AU CENTRE
+C FORCE AT CENTROID
 C
-C
-C STANDARD UPWIND UTILISANT LES DONNEES MATERIAUX
-C
-      IF(UPWM.LT.2.OR.MTN.EQ.11)THEN
-       IF(MTN.EQ.11.AND.UPWM.GT.1)THEN
+      IF(UPWM < 2.OR.MTN == 11)THEN
+       IF(MTN == 11.AND.UPWM > 1)THEN
         CALL UPWIND(RHO,VIS,VDY,VDY,VDZ,S,S,T,DELTAX,GAM)
         DO I=LFT,LLT
          FAC=4.*GAM(I)/AIRE(I)
@@ -217,35 +212,35 @@ C
 C
       ELSE
 C
-C FORMULATION DE LA FORCE DE TRANSPORT MINIMISANT LES PBS D'HOURGLASS
-C ON EVALUE <PHI,UJ*DUI/DXJ> DIRECTEMENT AUX NOEUDS 
-C DERIVE DE PHI1   
+C TRANSPORTATION FORCE WHICH MINIMIZE HOURGLASS ISSUES
+C EVALUATE <PHI,UJ*DUI/DXJ> DIRECTLY TO NODES
+C DERI PHI1   
 C P1Y1=-Z24/TR1 P1Z1= Y24/TR1 P1Y2=-Z23/TR2 P1Z2= Y23/TR2
 C                             P1Y4=-Z34/TR4 P1Z4= Y34/TR4
-C DERIVE PHI2   
+C DERI PHI2   
 C P2Y1=-Z41/TR1 P2Z1= Y41/TR1 P2Y2= Z13/TR2 P2Z2=-Y13/TR2 
 C P2Y3=-Z34/TR3 P2Z3= Y34/TR3
-C DERIVE DE PHI3
+C DERI PHI3
 C                             P3Y2=-Z12/TR2 P3Z2= Y12/TR2
 C P3Y3= Z24/TR3 P3Z3=-Y24/TR3 P3Y4=-Z41/TR4 P3Z4= Y41/TR4
-C DERIVE DE PHI4   
+C DERIVATE DE PHI4   
 C P4Y1=-Z12/TR1 P4Z1= Y12/TR1 
 C P4Y3=-Z23/TR3 P4Z3= Y23/TR3 P4Y4=-Z13/TR4 P4Z4= Y13/TR4
 C
-C DERIVEES AUX POINT 1
+C DERIV POINT 1
 C P1Y1=-Z24/TR1 P1Z1= Y24/TR1 P2Y1=-Z41/TR1 P2Z1= Y41/TR1
 C                             P4Y1=-Z12/TR1 P4Z1= Y12/TR1
-C DERIVEES AU POINT 2 
+C DERIV POINT 2 
 C P1Y2=-Z23/TR2 P1Z2= Y23/TR2 P2Y2= Z13/TR2 P2Z2=-Y13/TR2
 C P3Y2=-Z12/TR2 P3Z2= Y12/TR2
-C DERIVEES AU POINT 3 
+C DERIV POINT 3 
 C                             P2Y3=-Z34/TR3 P2Z3= Y34/TR3
 C P3Y3= Z24/TR3 P3Z3=-Y24/TR3 P4Y3=-Z23/TR3 P4Z3= Y23/TR3
-C DERIVEES AU POINT 4 
+C DERIV POINT 4 
 C P1Y4=-Z34/TR4 P1Z4= Y34/TR4
 C P3Y4=-Z41/TR4 P3Z4= Y41/TR4 P4Y4=-Z13/TR4 P4Z4= Y13/TR4
 C
-C NOEUD 1      
+C NODE 1      
        CALL UPWIND(RHO,VIS,VY1,VY1,VZ1,S,S,T,DELTAX,GAM)
        DO I=LFT,LLT
         TR(I)=(Y41(I)*Z12(I)-Y12(I)*Z41(I))
@@ -270,7 +265,7 @@ C
         T24(I) =  T24(I)+(PS+A3(I))*F2P(I)
        ENDDO
 C
-       IF(UPWM.EQ.2)THEN
+       IF(UPWM == 2)THEN
         DO I=LFT,LLT
          FAC=-DT1H/TR(I)
          F1(I)=FAC*(-F1P(I)*DZZP(I)+F2P(I)*DYZP(I))
@@ -285,7 +280,7 @@ C
          T24(I) =  T24(I)+PS*F2(I)
         ENDDO
        ENDIF
-C NOEUD 2      
+C NODE 2      
        CALL UPWIND(RHO,VIS,VY2,VY2,VZ2,S,S,T,DELTAX,GAM)
        DO I=LFT,LLT
         TR(I)=(Y12(I)*Z23(I)-Y23(I)*Z12(I))
@@ -308,7 +303,7 @@ C NOEUD 2
         T23(I) =  T23(I)+(PS+A3(I))*F2P(I)
         T24(I) =  T24(I)+PD*F2P(I)
        ENDDO
-       IF(UPWM.EQ.2)THEN
+       IF(UPWM == 2)THEN
         DO I=LFT,LLT
          FAC=-DT1H/TR(I)
          F1(I)=FAC*(-F1P(I)*DZZP(I)+F2P(I)*DYZP(I))
@@ -323,7 +318,7 @@ C NOEUD 2
          T24(I) =  T24(I)+PD*F2(I)
         ENDDO
        ENDIF
-C NOEUD 3      
+C NODE 3      
        CALL UPWIND(RHO,VIS,VY3,VY3,VZ3,S,S,T,DELTAX,GAM)
        DO I=LFT,LLT
         TR(I)=(Y23(I)*Z34(I)-Y34(I)*Z23(I))
@@ -346,7 +341,7 @@ C NOEUD 3
         T23(I) =  T23(I)+(PP+A2(I))*F2P(I)
         T24(I) =  T24(I)+(PS+A3(I))*F2P(I)
        ENDDO
-       IF(UPWM.EQ.2)THEN
+       IF(UPWM == 2)THEN
         DO I=LFT,LLT
          FAC=-DT1H/TR(I)
          F1(I)=FAC*(-F1P(I)*DZZP(I)+F2P(I)*DYZP(I))
@@ -361,7 +356,7 @@ C NOEUD 3
          T24(I) =  T24(I)+PS*F2(I)
         ENDDO
        ENDIF
-C NOEUD  4      
+C NODE  4      
        CALL UPWIND(RHO,VIS,VY4,VY4,VZ4,S,S,T,DELTAX,GAM)
        DO I=LFT,LLT
         TR(I)=(Y34(I)*Z41(I)-Y41(I)*Z34(I))
@@ -384,7 +379,7 @@ C NOEUD  4
         T23(I) =  T23(I)+(PS+A2(I))*F2P(I)
         T24(I) =  T24(I)+(PP+A3(I))*F2P(I)
        ENDDO
-       IF(UPWM.EQ.2)THEN
+       IF(UPWM == 2)THEN
         DO I=LFT,LLT
          FAC=-DT1H/TR(I)
          F1(I)=FAC*(-F1P(I)*DZZP(I)+F2P(I)*DYZP(I))
@@ -400,6 +395,6 @@ C NOEUD  4
         ENDDO
        ENDIF
       ENDIF
-C
+C-----------------------------------------------
       RETURN
       END

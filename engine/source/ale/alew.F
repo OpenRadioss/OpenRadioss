@@ -69,7 +69,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, I, NCI, K, J, L, LENCOM, IAD1, IAD2
+      INTEGER N, I, NCI, K, J, LENCOM, IAD1, IAD2
       my_real LIJ, XLAGR, FIX, FIY, FIZ, SLI, WIX, WIY, WIZ, FAC,
      .        LIJ2,LIJSQR
 C-----------------------------------------------

@@ -49,8 +49,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IOFF, IFLG,IXS(NIXS,NUMELS),NVAR,ITASK
-      my_real
-     .   VTOT(*), PHI(*), FLUX(6,*), FLU1(*), QMV(12,*), TAG22(MVSIZ)
+      my_real VTOT(*), PHI(*), FLUX(6,*), FLU1(*), QMV(12,*), TAG22(MVSIZ)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -68,6 +67,8 @@ C-----------------------------------------------
       my_real :: VALVOIS(6,MVSIZ),VALEL(MVSIZ),VL(6,MVSIZ), DELTA(MVSIZ)
       LOGICAL debug_outp
 C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
 
       !---------------------------------------------------------!
       ! CONVECTION                                              !
@@ -83,9 +84,9 @@ C-----------------------------------------------
          DO J=1,LGTH
             
             IV = ALE_CONNECT%ee_connect%connected(IAD2 + J - 1)
-            IF(IV.GT.0)THEN
+            IF(IV > 0)THEN
                VALVOIS(J,I) = PHI(IV)
-            ELSEIF(IV.EQ.0)THEN
+            ELSEIF(IV == 0)THEN
                VALVOIS(J,I) = PHI(IE)
             ELSE
                !-IV is segment ID
@@ -113,10 +114,9 @@ C-----------------------------------------------
         ENDIF
       ENDIF
 
-
       IF(INT22==0)THEN
         DO I=LFT,LLT
-          VTOT(I)        = VTOT(I) + DELTA(I)        
+          VTOT(I) = VTOT(I) + DELTA(I)        
         ENDDO
       ELSE
         DO I=LFT,LLT
@@ -124,20 +124,20 @@ C-----------------------------------------------
         ENDDO     
       ENDIF
 
-      IF(TRIMAT.GT.0.AND.IFLG.EQ.1)THEN
+      IF(TRIMAT > 0.AND.IFLG == 1)THEN
         DO I=LFT,LLT
-          QMV(1,I)       = QMV(1,I) - VL(1,I) - VALEL(I)*QMV(07,I) 
-          QMV(2,I)       = QMV(2,I) - VL(2,I) - VALEL(I)*QMV(08,I) 
-          QMV(3,I)       = QMV(3,I) - VL(3,I) - VALEL(I)*QMV(09,I) 
-          QMV(4,I)       = QMV(4,I) - VL(4,I) - VALEL(I)*QMV(10,I) 
-          QMV(5,I)       = QMV(5,I) - VL(5,I) - VALEL(I)*QMV(11,I) 
-          QMV(6,I)       = QMV(6,I) - VL(6,I) - VALEL(I)*QMV(12,I)  
+          QMV(1,I) = QMV(1,I) - VL(1,I) - VALEL(I)*QMV(07,I) 
+          QMV(2,I) = QMV(2,I) - VL(2,I) - VALEL(I)*QMV(08,I) 
+          QMV(3,I) = QMV(3,I) - VL(3,I) - VALEL(I)*QMV(09,I) 
+          QMV(4,I) = QMV(4,I) - VL(4,I) - VALEL(I)*QMV(10,I) 
+          QMV(5,I) = QMV(5,I) - VL(5,I) - VALEL(I)*QMV(11,I) 
+          QMV(6,I) = QMV(6,I) - VL(6,I) - VALEL(I)*QMV(12,I)  
         ENDDO
       ENDIF
 C-----------
 
 
-      !INTERFACE 22 ONLY / OUTPUT---------------!
+      !INTERFACE 22 ONLY / OUTPUT---------------!(OBSOLETE)
       !---------------------------------------------------------!
       ! DEBUG OUTPUT                                            !
       !---------------------------------------------------------!
@@ -145,7 +145,7 @@ C-----------
                 debug_outp = .false.
       if(int22>0)then
         debug_outp=.false. 
-        if(ibug22_convec.ne.0 .AND. IBUG22_NVAR==NVAR)then
+        if(ibug22_convec /= 0 .AND. IBUG22_NVAR==NVAR)then
            debug_outp=.true.  
         endif
 
@@ -162,9 +162,9 @@ C-----------
             if(IBUG22_NVAR==NVAR)then
               do i=lft,llt
                 if(int22>0)then;if (tag22(i)/=zero)then;cycle                 ;endif;endif
-                if(ibug22_convec.eq.ixs(11,i+nft) .OR. ibug22_convec.eq.-1)then                
+                if(ibug22_convec == ixs(11,i+nft) .OR. ibug22_convec == -1)then                
                   if((ibug22_convec==ixs(11,nft+i).OR.ibug22_convec==-1) .AND. nvar==1)then 
-                  if(delta(i).eq.zero)cycle                             
+                  if(delta(i) == zero)cycle                             
                     !if(int22>0)then;if (tag22(i)==zero)then;print *,"       UNCUT";endif;endif               
                     print *, "      brique=", ixs(11,nft+i)
                     print *, "        nvar=", NVAR
@@ -184,9 +184,9 @@ C-----------
             if(IBUG22_NVAR==NVAR)then
               do i=lft,llt
                 if(int22>0)then;if (tag22(i)/=zero)then;cycle                 ;endif;endif
-                if(ibug22_convec.eq.ixs(11,i+nft) .OR. ibug22_convec.eq.-1)then                
+                if(ibug22_convec == ixs(11,i+nft) .OR. ibug22_convec == -1)then                
                   if((ibug22_convec==ixs(11,nft+i).OR.ibug22_convec==-1) .AND. nvar==1)then 
-                  if(delta(i).eq.zero)cycle                             
+                  if(delta(i) == zero)cycle                             
                     !if(int22>0)then;if (tag22(i)==zero)then;print *,"       UNCUT";endif;endif       
                     print *, "      brique=", ixs(11,nft+i)
                     print *, "        nvar=", NVAR
@@ -206,9 +206,9 @@ C-----------
             if(IBUG22_NVAR==NVAR)then
               do i=lft,llt
                 if(int22>0)then;if (tag22(i)/=zero)then;cycle                 ;endif;endif
-                if(ibug22_convec.eq.ixs(11,i+nft) .OR. ibug22_convec.eq.-1)then                
+                if(ibug22_convec == ixs(11,i+nft) .OR. ibug22_convec == -1)then                
                   if((ibug22_convec==ixs(11,nft+i).OR.ibug22_convec==-1) .AND. nvar==1)then 
-                  if(delta(i).eq.zero)cycle                             
+                  if(delta(i) == zero)cycle                             
                     !if(int22>0)then;if (tag22(i)==zero)then;print *,"       UNCUT";endif;endif       
                     print *, "      brique=", ixs(11,nft+i)
                     print *, "        nvar=", NVAR
@@ -228,9 +228,9 @@ C-----------
             if(IBUG22_NVAR==NVAR)then
               do i=lft,llt
                 if(int22>0)then;if (tag22(i)/=zero)then;cycle                 ;endif;endif
-                if(ibug22_convec.eq.ixs(11,i+nft) .OR. ibug22_convec.eq.-1)then                
+                if(ibug22_convec == ixs(11,i+nft) .OR. ibug22_convec == -1)then                
                   if((ibug22_convec==ixs(11,nft+i).OR.ibug22_convec==-1) .AND. nvar==1)then 
-                  if(delta(i).eq.zero)cycle                             
+                  if(delta(i) == zero)cycle                             
                     !if(int22>0)then;if (tag22(i)==zero)then;print *,"       UNCUT";endif;endif       
                     print *, "      brique=", ixs(11,nft+i)
                     print *, "        nvar=", NVAR
@@ -248,11 +248,7 @@ C-----------
       endif!(int22>0)
       !-----------------------------------------!
 
-
-
-
-
-C-----------      
+C-----------------------------------------------   
       RETURN
       END
 C

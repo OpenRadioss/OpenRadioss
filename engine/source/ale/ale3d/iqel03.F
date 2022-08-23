@@ -37,23 +37,23 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN) :: NSN
       INTEGER,INTENT(IN) :: IRECT(4,*), LMSR(*), MSR(*), NSV(*), ILOC(*), IRTL(*),NSEG(*)
-      my_real,INTENT(IN) :: X(3,*), CRST(2,*)
+      my_real,INTENT(IN) :: X(3,NUMNOD), CRST(2,*)
       my_real,INTENT(INOUT) :: NOR(3,*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr08_s_c.inc"
 #include      "scr08_a_c.inc"
+#include      "com04_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER II, I, J, K, L, JJ, NN, LK, NUM, NPT, K1, K2, K3, NODE1,
      .   NODE2, KK
-      my_real
-     .   N1, N2, N3, XX112, XX212, XX312, XX114, XX214, XX314, XX123,
-     .   XX223, XX323, XX134, XX234, XX334, SS, TT, TP, TM, FS1, FS2,
-     .   FS3, SP, SM, FT1, FT2, FT3, SCK, TCK, AJ4, AJ5, AJ6, AJ7, AJ8,
-     .   AJ9, V1, V2, V3, XMG, XM1, XM2
+      my_real N1, N2, N3, XX112, XX212, XX312, XX114, XX214, XX314, XX123,
+     .        XX223, XX323, XX134, XX234, XX334, SS, TT, TP, TM, FS1, FS2,
+     .        FS3, SP, SM, FT1, FT2, FT3, SCK, TCK, AJ4, AJ5, AJ6, AJ7, AJ8,
+     .       AJ9, V1, V2, V3, XMG, XM1, XM2
 C-----------------------------------------------
       DO II=1,NSN
         I=NSV(II)
@@ -61,8 +61,8 @@ C-----------------------------------------------
         K=MSR(J)
         L=IRTL(II)
         DO JJ=1,4
-          NN      = MSR(IRECT(JJ,L))
-          IX(JJ)  = NN
+          NN = MSR(IRECT(JJ,L))
+          IX(JJ) = NN
           XX1(JJ) = X(1,NN)
           XX2(JJ) = X(2,NN)
           XX3(JJ) = X(3,NN)
@@ -70,18 +70,18 @@ C-----------------------------------------------
         XS1=X(1,I)
         YS1=X(2,I)
         ZS1=X(3,I)
-        XX112 =XX1(1)-XX1(2)
-        XX212 =XX2(1)-XX2(2)
-        XX312 =XX3(1)-XX3(2)
-        XX114 =XX1(1)-XX1(4)
-        XX214 =XX2(1)-XX2(4)
-        XX314 =XX3(1)-XX3(4)
-        XX123 =XX1(2)-XX1(3)
-        XX223 =XX2(2)-XX2(3)
-        XX323 =XX3(2)-XX3(3)
-        XX134 =XX1(3)-XX1(4)
-        XX234 =XX2(3)-XX2(4)
-        XX334 =XX3(3)-XX3(4)
+        XX112=XX1(1)-XX1(2)
+        XX212=XX2(1)-XX2(2)
+        XX312=XX3(1)-XX3(2)
+        XX114=XX1(1)-XX1(4)
+        XX214=XX2(1)-XX2(4)
+        XX314=XX3(1)-XX3(4)
+        XX123=XX1(2)-XX1(3)
+        XX223=XX2(2)-XX2(3)
+        XX323=XX3(2)-XX3(3)
+        XX134=XX1(3)-XX1(4)
+        XX234=XX2(3)-XX2(4)
+        XX334=XX3(3)-XX3(4)
         SS=CRST(1,II)
         TT=CRST(2,II)
         TP=FOURTH*(ONE + TT)
@@ -89,8 +89,8 @@ C-----------------------------------------------
         FS1=TP*XX134-TM*XX112
         FS2=TP*XX234-TM*XX212
         FS3=TP*XX334-TM*XX312
-        ! Cas particulier
-        IF(IX(3)==IX(4).AND.TM==ZERO) THEN
+        ! Specific Case
+        IF(IX(3) == IX(4) .AND. TM == ZERO) THEN
           FS1=-XX112
           FS2=-XX212
           FS3=-XX312
@@ -108,31 +108,31 @@ C-----------------------------------------------
 
         SCK=ABS(SS) - ONE
         TCK=ABS(TT) - ONE
-
+        
         LK=L
         NUM=NSEG(J+1)-NSEG(J)
-        IF(NUM.LE.4 .AND. (ABS(SCK).LE.FIVEEM2.OR.ABS(TCK).LE.FIVEEM2) ) THEN  
+        IF(NUM <= 4 .AND. (ABS(SCK) <= FIVEEM2.OR.ABS(TCK) <= FIVEEM2) ) THEN  
           NPT = NSEG(J)-1
           N1  = ZERO
           N2  = ZERO
           N3  = ZERO    
-          IF(ABS(SCK).GT.FIVEEM2 .OR. ABS(TCK).GT.FIVEEM2) THEN
+          IF(ABS(SCK) > FIVEEM2 .OR. ABS(TCK) > FIVEEM2) THEN
             !C----------------------------------------------------
             !C     TRAITEMENT DES BORDS
             !C---------------------------------------------------
-            IF(K.EQ.IX(1)) THEN
+            IF(K == IX(1)) THEN
               K1=1
               K2=2
               K3=4
-            ELSEIF(K.EQ.IX(2)) THEN
+            ELSEIF(K == IX(2)) THEN
               K1=2
               K2=3
               K3=1
-            ELSEIF(K.EQ.IX(3)) THEN
+            ELSEIF(K == IX(3)) THEN
               K1=3
               K2=4
               K3=2
-              IF(IX(3).EQ.IX(4)) K2=1
+              IF(IX(3) == IX(4)) K2=1
             ELSE
               K1=4
               K2=1
@@ -156,10 +156,10 @@ C-----------------------------------------------
             XM2=(V1*AJ7+V2*AJ8+V3*AJ9)/XMG
             NODE1=IX(K1)
             NODE2=IX(K2)
-            IF(XM2.GT.XM1) NODE2=IX(K3)
+            IF(XM2 > XM1) NODE2=IX(K3)
             DO JJ=1,NUM
               L=LMSR(NPT+JJ)
-              IF(L.NE.LK) THEN
+              IF(L /= LK) THEN
                 DO KK=1,4
                   NN=MSR(IRECT(KK,L))
                   IX(KK)=NN
@@ -167,25 +167,25 @@ C-----------------------------------------------
                   XX2(KK)=X(2,NN)
                   XX3(KK)=X(3,NN)
                 ENDDO !next KK
-                IF(K.EQ.IX(1))THEN
+                IF(K == IX(1))THEN
                   K1=1
                   K2=2
                   K3=4
-                ELSEIF(K.EQ.IX(2))THEN
+                ELSEIF(K == IX(2))THEN
                   K1=2
                   K2=3
                   K3=1
-                ELSEIF(K.EQ.IX(3))THEN
+                ELSEIF(K == IX(3))THEN
                   K1=3
                   K2=4
                   K3=2
-                  IF(IX(3).EQ.IX(4)) K2=1
+                  IF(IX(3) == IX(4)) K2=1
                 ELSE
                   K1=4
                   K2=1
                   K3=3
                 ENDIF
-                IF(NODE2.EQ.IX(K2).OR.NODE2.EQ.IX(K3)) THEN
+                IF(NODE2 == IX(K2) .OR. NODE2 == IX(K3)) THEN
                   AJ4 = XX1(K2)-XX1(K1)
                   AJ5 = XX2(K2)-XX2(K1)
                   AJ6 = XX3(K2)-XX3(K1)
@@ -196,13 +196,13 @@ C-----------------------------------------------
                   N2  = N2+AJ6*AJ7-AJ4*AJ9
                   N3  = N3+AJ4*AJ8-AJ5*AJ7
                 ENDIF
-              ENDIF!IF(L.NE.LK)
+              ENDIF!IF(L /= LK)
             ENDDO !next JJ
           ELSE
             !C------------------------------------------------------
-            !C     TRAITEMENT DES COINS
+            !C     TREATMENT SPECIFIC TO CORNERS
             !C------------------------------------------------------
-            DO  JJ=1,NUM    !label 120
+            DO  JJ=1,NUM 
               L=LMSR(NPT+JJ)
               DO  KK=1,4
                  NN=MSR(IRECT(KK,L))
@@ -211,19 +211,19 @@ C-----------------------------------------------
                  XX2(KK) = X(2,NN)
                  XX3(KK) = X(3,NN)
               ENDDO !next KK
-              IF(K.EQ.IX(1)) THEN
+              IF(K == IX(1)) THEN
                 K1=1
                 K2=2
                 K3=4
-              ELSEIF(K.EQ.IX(2))THEN
+              ELSEIF(K == IX(2))THEN
                 K1=2
                 K2=3
                 K3=1
-              ELSEIF(K.EQ.IX(3))THEN
+              ELSEIF(K == IX(3))THEN
                 K1=3
                 K2=4
                 K3=2
-                IF(IX(3).EQ.IX(4)) K2=1
+                IF(IX(3) == IX(4)) K2=1
               ELSE
                 K1=4
                 K2=1
@@ -249,5 +249,6 @@ C-----------------------------------------------
         NOR(2,II) = N2
         NOR(3,II) = N3
       ENDDO !next II
+C-----------------------------------------------      
       RETURN
       END

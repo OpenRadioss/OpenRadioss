@@ -68,13 +68,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB      
-      my_real
-     .        PM, V, W, X,
+      my_real PM(NPROPM,NUMMAT), V(3,NUMNOD), W(3,NUMNOD),X(3,NUMNOD),
      .        EV(*), FLUX(NV46,*), FLU2(*), MS(*), VEUL(*), 
      .        ALPHA(*), FLUX_SAV(NV46,*), QMV(*)
-
-      INTEGER IPARG(NPARG,*), IXS(NIXS,*), IXQ(7,*), 
-     .        ITASK,NV46, J
+      INTEGER IPARG(NPARG,NGROUP), IXS(NIXS,NUMELS), IXQ(7,NUMELQ),ITASK,NV46, J
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -84,16 +81,18 @@ C-----------------------------------------------
       INTEGER :: NIN, IB, NBF, NBL, IE, MLW      
 C-----------------------------------------------
 
-C--------------------
+C-----------------------------------------------
+C   S o u r c e   L i n e s 
+C-----------------------------------------------
+
       CALL MY_BARRIER
-C--------------------
 
 C-----------------------------------------------
-C     SAUVEGARDE  DES FLUX
+C     VOLUME FLUXES BACKUP
 C-----------------------------------------------
       DO NG=ITASK+1,NGROUP,NTHREAD
 C     ALE ON / OFF
-        IF (IPARG(76, NG) .EQ. 1) CYCLE ! --> OFF
+        IF (IPARG(76, NG)  ==  1) CYCLE ! --> OFF
         CALL INITBUF (IPARG    ,NG      ,                  
      2     MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,   
      3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
@@ -104,9 +103,9 @@ C     ALE ON / OFF
         !------------------------------!
         ! CONDITIONS DE DEBRANCHEMENT  !
         !------------------------------!
-        IF(JALE+JEUL.EQ.0)    CYCLE
-        IF(IPARG(8,NG).EQ.1)  CYCLE
-        IF(IPARG(1,NG).NE.51) CYCLE
+        IF(JALE+JEUL == 0)    CYCLE
+        IF(IPARG(8,NG) == 1)  CYCLE
+        IF(IPARG(1,NG) /= 51) CYCLE
         !------------------------------!
         LFT=1
         DO I=LFT,LLT 
@@ -129,7 +128,7 @@ C     REMISE A JOUR DES FLUX ET UPWIND POUR SRHO3
 C-----------------------------------------------
       DO NG=ITASK+1,NGROUP,NTHREAD
 C     ALE ON / OFF
-        IF (IPARG(76, NG) .EQ. 1) CYCLE ! --> OFF
+        IF (IPARG(76, NG)  ==  1) CYCLE ! --> OFF
         CALL INITBUF (IPARG    ,NG      ,                  
      2     MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,   
      3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
@@ -140,16 +139,16 @@ C     ALE ON / OFF
         !------------------------------!
         ! CONDITIONS DE DEBRANCHEMENT  !
         !------------------------------!
-        IF(JALE+JEUL.EQ.0)    CYCLE
-        IF(IPARG(8,NG).EQ.1)  CYCLE
-        IF(IPARG(1,NG).NE.51) CYCLE
+        IF(JALE+JEUL == 0)    CYCLE
+        IF(IPARG(8,NG) == 1)  CYCLE
+        IF(IPARG(1,NG) /= 51) CYCLE
         !------------------------------!
         LFT=1
         NF1=NFT+1
         !------------------------------!
         !  UPWIND, QMV, DDVOL          !
         !------------------------------!
-        IF(N2D.EQ.0)THEN
+        IF(N2D == 0)THEN
           CALL ALE51_UPWIND3(PM,IXS,FLUX(1,NF1),FLU2(NF1),ALE_CONNECT,
      +                       0 ,BID,QMV(12*NFT+1) ,0  ,
      +                       NV46)
@@ -163,8 +162,8 @@ C--------------------
       CALL MY_BARRIER
 C--------------------
 
-      IF(INT22.NE.0)THEN
-        !Restore Direct Fluxes
+      IF(INT22 /= 0)THEN ! obsolete
+        !Restore Volume Fluxes
         NIN = 1
         NBF = 1+ITASK*NB/NTHREAD
         NBL = (ITASK+1)*NB/NTHREAD
@@ -172,7 +171,7 @@ C--------------------
         DO IB=NBF,NBL
           IE  = BRICK_LIST(NIN,IB)%ID 
           MLW = BRICK_LIST(NIN,IB)%MLW 
-          IF(MLW.NE.51)CYCLE
+          IF(MLW /= 51)CYCLE
           DO J=1,6
             BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_UpwFLUX(1) = BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_FLUX(1)
             BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_UpwFLUX(2) = BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_FLUX(2)
@@ -182,14 +181,14 @@ C--------------------
           ENDDO !next J
         ENDDO   
         
-        !Computing Upwind fluxes
+        !Computing Upwind fluxes (inter22 - obsolete)
         CALL ALE51_UPWIND3_INT22
      +                      (PM  , IXS  ,   0     ,  0, 
      +                       NV46, IPARG,   ELBUF_TAB  ,ITASK     )
 
       ENDIF
 
-
+C-----------------------------------------------
       RETURN
       END
 C

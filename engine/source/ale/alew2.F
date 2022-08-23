@@ -81,8 +81,7 @@ C-----------------------------------------------
      .   XX(MVSIZ)   ,XY(MVSIZ) , XZ(MVSIZ),
      .   DL1(MVSIZ)  ,DDX(MVSIZ), DDY(MVSIZ), DDZ(MVSIZ), 
      .   DL(MVSIZ)   ,XL(MVSIZ) , DDL(MVSIZ), 
-     .   BETA, DLM, DLMIN, GAM1, XLAG,
-     .   WBTMP(3,SIZEN)
+     .   BETA, DLM, DLMIN, GAM1, WBTMP(3,SIZEN)
      
 C-----------------------------------------------
       DATA FAC/1.,1.,1.,1.,

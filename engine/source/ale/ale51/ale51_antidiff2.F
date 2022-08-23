@@ -35,66 +35,9 @@ C-----------------------------------------------
 C   D e c r i p t i o n
 C-----------------------------------------------
 C
-C ts  :Warning, this formulation (for volume fractions) using \eta_3 parameter from /UPWIND option is not conservative. It was marked as obsolete.
-C ts : Forget it and use MUSCL instead
+C ** Warning, this formulation (for volume fractions) using \eta_3 parameter from /UPWIND option is not conservative. 
+C It was marked as OBSOLETE. Forget it and use MUSCL instead
 C
-c gw     Traitement anti-diffusif multimateriau 51.
-c        hypotheses de disposition du vide et de la phase
-c              entre deux elements communiquants
-c         en fonction du taux de remplissage volumique
-c
-c   +----------+----------+          +----------+----------+
-c   |      ------->       |          |      ------->       |
-c   +----------+----------+          +----------+----------+
-c   |   a0     |    a1    |          |   a0     |    a1    |
-c   +----------+----------+          +----------+----------+
-c   |//////////|          |          |          |//////////|
-c   |//////////|          |          |          |//////////|
-c   |/// 1 ////|    0     | [1]      |    0     |/// 1 ////| [0]
-c   |//////////|          |          |          |//////////|
-c   |//////////|          |          |          |//////////|
-c   +----------+----------+          +----------+----------+
-c   |////////  |          |          |          |  ////////|
-c   |////////  |          |          |          |  ////////|
-c   |///0.8//  |    0     | [0;1[    |    0     |  /0.8////| [0]
-c   |////////  |          |          |          |  ////////|
-c   |////////  |          |          |          |  ////////|
-c   +----------+----------+          +----------+----------+
-c   |//////////|          |          |        //|//////////|
-c   |//////////|          |          |        //|//////////|
-c   |/// 1 ////|    0.2   | [1]      |   0.2  //|/// 1 ////| ]0;1]
-c   |//////////|          |          |        //|//////////|
-c   |//////////|//////////|          |        //|//////////|
-c   +----------+----------+          +----------+----------+
-c   |///////   |          |          |          |          |
-c   |///////   |          |          |       ///|//////////|
-c   |///0.8/   |    0.2   | [0.2;1[  |   0.2 ///|///0.8////| ]0;0.8]
-c   |///////   |          |          |       ///|//////////|
-c   |//////////|//////////|          |       ///|//////////|
-c   +----------+----------+          +----------+----------+
-c   |///       |          |          |          |          |  
-c   |///       |          |          |   0.4    |    0.6   |
-c   |///0.6    |    0.4   | [0.4;1[  |   ///////|//////////| ]0;0.6]
-c   |//////////|//////////|          |   ///////|//////////|
-c   |//////////|//////////|          |   ///////|//////////|
-c   +----------+----------+          +----------+----------+
-c
-c   1- monodim (si sortant)
-c
-c     DV = min[ a0 V0, a2 phi01 dt + max[0,(1-a1)phi01 dt-(1-a0)V0]]
-c     PHI01 = min[ a0 V0/dt, a1 phi01 + max[0,(1-a1)phi01-(1-a0)V0/dt]]
-c
-c
-c   2- tridim
-c
-c     DVsortant tot = DVTe =
-c        min[a0 V0,
-c            Somme(ai phi0i dt) + max[0,
-c                                     Somme((1-ai)phi0i dt)-(1-a0)V0]]
-c
-c     si DVsortant tot != Somme(PHI0i sortant) dt = DVTc
-c         => correction sur sortants
-c              PHI0i = PHI0i DVTe / DVTc
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -123,22 +66,22 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXQ(NIXQ,NUMELQ),N4_VOIS(NUMELQ+NQVOIS,4),ITAB(NUMNOD)
       INTEGER,INTENT(IN) :: ITRIMAT
-      my_real
-     .   FLUX(4,*),ALPH(*),VOL(*),
-     .   FLUX_VOIS(NUMELQ+NQVOIS,6)
+      my_real FLUX(4,*),ALPH(*),VOL(*),FLUX_VOIS(NUMELQ+NQVOIS,6)
       TYPE(t_segvar),INTENT(IN) :: SEGVAR     
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,II,K,KK,JV(6),KV(6),IAD2,IAD3
+      INTEGER I,II,K,JV(6),KV(6),IAD2,IAD3
       my_real
-     .   VOL0,AV0,UAV0,ALPHI,UALPHI,PHISE,PHISC,AAA,FF(6),UDT,PHI0,
-     .   BBB,CCC,DDD,EEE
+     .   VOL0,AV0,UAV0,ALPHI,UALPHI,PHISE,AAA,FF(6),UDT,PHI0
 C-----------------------------------------------
-C     SURFACE MOUILLEE PAR LA PHASE DU TRIMATERIAUX
+C   S o u r c e   L i n e s 
+C-----------------------------------------------     
 C-----------------------------------------------
-      IF(DT1.GT.ZERO)THEN
+C     WET SURFACE
+C-----------------------------------------------
+      IF(DT1 > ZERO)THEN
         UDT = ONE/DT1
       ELSE
         UDT = ZERO
@@ -154,11 +97,10 @@ C
         UALPHI = ZERO 
         PHI0 = ZERO  
 C-----------------------------------------------
-C       face voisine du voisin  
-C       et flux total sortant 
+C       adjacent face & total outgoing volume flux 
 C-----------------------------------------------
         DO K=1,4
-          IF(FLUX(K,II).GT.ZERO)THEN
+          IF(FLUX(K,II) > ZERO)THEN
             JV(K) = ALE_CONNECT%ee_connect%connected(IAD2 + K - 1)
             KV(K) = K
             IF(JV(K) == 0)THEN
@@ -169,56 +111,54 @@ C-----------------------------------------------
               FF(K)  = SEGVAR%PHASE_ALPHA(ITRIMAT,-JV(K))  *FLUX(K,II)         
             ELSEIF(JV(K) <= NUMELQ)THEN
                IAD3 = ALE_CONNECT%ee_connect%iad_connect(JV(K))
-              IF(ALE_CONNECT%ee_connect%connected(IAD3 + 1 - 1).EQ.II) KV(K) = 1
-              IF(ALE_CONNECT%ee_connect%connected(IAD3 + 2 - 1).EQ.II) KV(K) = 2
-              IF(ALE_CONNECT%ee_connect%connected(IAD3 + 3 - 1).EQ.II) KV(K) = 3
-              IF(ALE_CONNECT%ee_connect%connected(IAD3 + 4 - 1).EQ.II) KV(K) = 4
+              IF(ALE_CONNECT%ee_connect%connected(IAD3 + 1 - 1) == II) KV(K) = 1
+              IF(ALE_CONNECT%ee_connect%connected(IAD3 + 2 - 1) == II) KV(K) = 2
+              IF(ALE_CONNECT%ee_connect%connected(IAD3 + 3 - 1) == II) KV(K) = 3
+              IF(ALE_CONNECT%ee_connect%connected(IAD3 + 4 - 1) == II) KV(K) = 4
               FF(K)  = ALPH(JV(K))*FLUX(K,II)
             ELSE
               !spmd
               FF(K)  = ALPH(JV(K))*FLUX(K,II)              
             ENDIF
-            
-c           flux sortant estime
+c           outgoing volume flux (estimation)
             ALPHI  = ALPHI  + FF(K)
-c           flux sortant initial
+c           intial outgoing flux
             PHI0 = PHI0 + FLUX(K,II) 
           ENDIF
         ENDDO
-c       vide sortant estime
+c       outgoing rest
         UALPHI = PHI0 - ALPHI 
 C-----------------------------------------------
-C       flux sortant par face
+C       outgoing volume flux by face
 C-----------------------------------------------
-        IF(ALPHI.GT.AV0.AND.AV0.GT.ZERO)THEN
+        IF(ALPHI > AV0.AND.AV0 > ZERO)THEN
 C-----------------------------------------------
-C         flux sortant > volume non vide
+C         outgoing volume flux > volume
 C-----------------------------------------------
           AAA = AV0 / ALPHI
           DO K=1,4
-            IF(FLUX(K,II).GT.ZERO)THEN
+            IF(FLUX(K,II) > ZERO)THEN
               FF(K) = FF(K) * AAA
             ENDIF
           ENDDO
-       ELSEIF(UALPHI.GT.UAV0.AND.UAV0.GT.ZERO)THEN
+       ELSEIF(UALPHI > UAV0.AND.UAV0 > ZERO)THEN
 
 C-----------------------------------------------
-C         vide sortant > vide disponible
+C         outgoing rest > available volume
 C-----------------------------------------------
           AAA = UAV0/UALPHI
-c          BBB = (UALPHI-UAV0)/UALPHI
           DO K=1,4
-            IF(FLUX(K,II).GT.ZERO)THEN
+            IF(FLUX(K,II) > ZERO)THEN
               FF(K) = FLUX(K,II) + (FF(K)-FLUX(K,II))*AAA
             ENDIF
           ENDDO
 c        ELSE
         ENDIF
 C-----------------------------------------------
-C         flux sortant 
+C         outgoing flux
 C-----------------------------------------------
           DO K=1,4
-            IF(FLUX(K,II).GT.ZERO)THEN
+            IF(FLUX(K,II) > ZERO)THEN
               FF(K) = 0.5* (FF(K)*(1.-UPWSM)
      .                    + ALPH(II)*FLUX(K,II)*(1.+UPWSM))
               FLUX(K,II) = FF(K)
@@ -236,7 +176,7 @@ C-----------------------------------------------
             ENDIF
           ENDDO
 C-----------------------------------------------
-C         flux entrant par EBCS 
+C         incoming volume flux from EBCS
 C-----------------------------------------------
           IF(NSEGFLU > 0)THEN
              IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
@@ -248,7 +188,7 @@ C-----------------------------------------------
           ENDIF   
 C-------------
       ENDDO! next I
-C-------------
+C-----------------------------------------------
       RETURN
       END
 C

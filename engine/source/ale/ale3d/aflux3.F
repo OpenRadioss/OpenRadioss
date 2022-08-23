@@ -55,8 +55,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,NUMELS), NSG
-      my_real
-     .   PM(NPROPM,NUMMAT), V(3,NUMNOD), W(3,NUMNOD), X(3,NUMNOD), FLUX(6,*), FLU1(*)
+      my_real PM(NPROPM,NUMMAT), V(3,NUMNOD), W(3,NUMNOD), X(3,NUMNOD), FLUX(6,*), FLU1(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -65,7 +64,7 @@ C-----------------------------------------------
      .   NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
      .   NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ), 
      .   I,II
-
+     
       my_real
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ), 
      .   X5(MVSIZ), X6(MVSIZ), X7(MVSIZ), X8(MVSIZ),
@@ -93,7 +92,7 @@ C-----------------------------------------------
      .   VDY5(MVSIZ), VDY6(MVSIZ), VDY7(MVSIZ), VDY8(MVSIZ),
      .   VDZ1(MVSIZ), VDZ2(MVSIZ), VDZ3(MVSIZ), VDZ4(MVSIZ),
      .   VDZ5(MVSIZ), VDZ6(MVSIZ), VDZ7(MVSIZ), VDZ8(MVSIZ),
-     .   UPW(MVSIZ), REDUC,UPWL(6,MVSIZ),
+     .   REDUC,UPWL(6,MVSIZ),
      .   XC(MVSIZ),YC(MVSIZ),ZC(MVSIZ),
      .   XF1(MVSIZ),YF1(MVSIZ),ZF1(MVSIZ),
      .   XF2(MVSIZ),YF2(MVSIZ),ZF2(MVSIZ),
@@ -102,7 +101,7 @@ C-----------------------------------------------
      .   XF5(MVSIZ),YF5(MVSIZ),ZF5(MVSIZ),
      .   XF6(MVSIZ),YF6(MVSIZ),ZF6(MVSIZ),
      .   TEST
-     
+   
       INTEGER,DIMENSION(:),   POINTER     :: pIsMain       
      
       my_real :: TAG22(MVSIZ), RATIOFACE(6)
@@ -111,7 +110,9 @@ C-----------------------------------------------
       my_real,DIMENSION(:)  , POINTER     :: pFullFACE  
      
       INTEGER MA,IC,JST(MVSIZ+1)
-      INTEGER MCELL,IB, NIN, NBCUT, IAD2, LGTH
+      INTEGER MCELL,IB, NIN, NBCUT, IAD2
+C-----------------------------------------------
+C   S o u r c e   L i n e s
 C-----------------------------------------------
       !======================================================!
       ! INITIALIZATION : COORDINATES & RELATIVE VELOCITIES   !
@@ -272,7 +273,7 @@ C-----------------------------------------------
       !      C: element centroid                             !
       !      F: face centroid                                !
       !======================================================!
-      IF(ICLOSE.EQ.1) THEN
+      IF(ICLOSE == 1) THEN
         DO I=LFT,LLT
 	  ! Solid Element Centorid
           XC(I)=ONE_OVER_8*(X1(I)+X2(I)+X3(I)+X4(I)+X5(I)+X6(I)+X7(I)+X8(I))
@@ -306,7 +307,7 @@ C-----------------------------------------------
           TEST=(XF1(I)-XC(I))*N1X(I)+
      .         (YF1(I)-YC(I))*N1Y(I)+
      .         (ZF1(I)-ZC(I))*N1Z(I)
-          IF(TEST.LE.0)THEN
+          IF(TEST <= 0)THEN
               N1X(I)=ZERO
               N1Y(I)=ZERO
               N1Z(I)=ZERO     
@@ -317,7 +318,7 @@ C-----------------------------------------------
           TEST=(XF2(I)-XC(I))*N2X(I)+
      .         (YF2(I)-YC(I))*N2Y(I)+
      .         (ZF2(I)-ZC(I))*N2Z(I)
-          IF(TEST.LE.0)THEN
+          IF(TEST <= 0)THEN
               N2X(I)=ZERO
               N2Y(I)=ZERO
               N2Z(I)=ZERO     
@@ -328,7 +329,7 @@ C-----------------------------------------------
           TEST=(XF3(I)-XC(I))*N3X(I)+
      .         (YF3(I)-YC(I))*N3Y(I)+
      .         (ZF3(I)-ZC(I))*N3Z(I)
-          IF(TEST.LE.0)THEN
+          IF(TEST <= 0)THEN
               N3X(I)=ZERO
               N3Y(I)=ZERO
               N3Z(I)=ZERO              
@@ -339,7 +340,7 @@ C-----------------------------------------------
           TEST=(XF4(I)-XC(I))*N4X(I)+
      .         (YF4(I)-YC(I))*N4Y(I)+
      .         (ZF4(I)-ZC(I))*N4Z(I)
-            IF(TEST.LE.ZERO)THEN
+            IF(TEST <= ZERO)THEN
               N4X(I)=ZERO
               N4Y(I)=ZERO
               N4Z(I)=ZERO              
@@ -350,7 +351,7 @@ C-----------------------------------------------
           TEST=(XF5(I)-XC(I))*N5X(I)+
      .         (YF5(I)-YC(I))*N5Y(I)+
      .         (ZF5(I)-ZC(I))*N5Z(I)
-             IF(TEST.LE.ZERO)THEN
+             IF(TEST <= ZERO)THEN
               N5X(I)=ZERO
               N5Y(I)=ZERO
               N5Z(I)=ZERO              
@@ -361,7 +362,7 @@ C-----------------------------------------------
           TEST=(XF6(I)-XC(I))*N6X(I)+
      .         (YF6(I)-YC(I))*N6Y(I)+
      .         (ZF6(I)-ZC(I))*N6Z(I)
-          IF(TEST.LE.ZERO)THEN
+          IF(TEST <= ZERO)THEN
               N6X(I)=ZERO
               N6Y(I)=ZERO
               N6Z(I)=ZERO      
@@ -387,13 +388,13 @@ C-----------------------------------------------
       ! REDUCTION FACTOR FOR POLYHEDRA FACES                 !
       !   interface type22 (cut cell method)                 !
       !======================================================!
-      IF(INT22.GT.0)THEN
+      IF(INT22 > 0)THEN
       print *, "**inter22, CURRENLTY EULERIAN ONLY"
       stop 2204
         NIN   = 1
         DO I=LFT,LLT
           IB = NINT(TAG22(I)) !GBUF%TAG22
-          IF(IB.GT.0)THEN
+          IF(IB > 0)THEN
             NBCUT        =  BRICK_LIST(NIN,IB)%NBCUT
             IF(NBCUT==0)CYCLE          
             MCELL        =  BRICK_LIST(NIN,IB)%mainID                
@@ -421,7 +422,7 @@ C-----------------------------------------------
       ! TRIMATERIAL CASE INITIALIZATION (LAW51)              !
       ! -->RETURN                                            !
       !======================================================!
-      IF(NINT(PM(19,MAT(1))).EQ.51)THEN
+      IF(NINT(PM(19,MAT(1))) == 51)THEN
         DO I=LFT,LLT
           FLUX(1,I)=FLUX1(I)
           FLUX(2,I)=FLUX2(I)
@@ -437,7 +438,7 @@ C-----------------------------------------------
       !  UPWIND TREATMENT                                    !
       !    reading coefficient for mass transportation UPWL  !
       !======================================================!
-      IF (NSG.EQ.1) THEN
+      IF (NSG == 1) THEN
          MA = MAT(1)
          DO I=LFT,LLT
            UPWL(1,I)=PM(16,MA)
@@ -448,7 +449,7 @@ C-----------------------------------------------
            UPWL(6,I)=PM(16,MA)
          ENDDO
       ELSE
-         IF (IVECTOR.EQ.0) THEN
+         IF (IVECTOR == 0) THEN
            DO I=LFT,LLT
              UPWL(1,I)=PM(16,MAT(I))
              UPWL(2,I)=PM(16,MAT(I))
@@ -461,7 +462,7 @@ C-----------------------------------------------
            IC=1
            JST(IC)=LFT
            DO I=LFT+1,LLT
-             IF(MAT(I).NE.MAT(I-1)) THEN
+             IF(MAT(I) /= MAT(I-1)) THEN
                IC = IC+1
                JST(IC)=I
              ENDIF
@@ -490,32 +491,32 @@ C-----------------------------------------------
        ! Face1-neighbor check
        REDUC=PM(92,MAT(I))
        II = ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
-       IF(II.EQ.0)THEN
+       IF(II == 0)THEN
         FLUX1(I)=FLUX1(I)*REDUC
        ENDIF
        ! Face2-neighbor check
        II = ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
-       IF(II.EQ.0)THEN
+       IF(II == 0)THEN
         FLUX2(I)=FLUX2(I)*REDUC
        ENDIF
        ! Face3-neighbor check
        II = ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
-       IF(II.EQ.0)THEN
+       IF(II == 0)THEN
         FLUX3(I)=FLUX3(I)*REDUC
        ENDIF
        ! Face4-neighbor check
        II = ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
-       IF(II.EQ.0)THEN
+       IF(II == 0)THEN
         FLUX4(I)=FLUX4(I)*REDUC
        ENDIF
        ! Face5-neighbor check
        II = ALE_CONNECT%ee_connect%connected(IAD2 + 5 - 1)
-       IF(II.EQ.0)THEN
+       IF(II == 0)THEN
         FLUX5(I)=FLUX5(I)*REDUC
        ENDIF
        ! Face6-neighbor check
        II = ALE_CONNECT%ee_connect%connected(IAD2 + 6 - 1)
-       IF(II.EQ.0)THEN
+       IF(II == 0)THEN
         FLUX6(I)=FLUX6(I)*REDUC
        ENDIF
       END DO !I=LFT,LLT
@@ -544,7 +545,7 @@ C-----------------------------------------------
      .           +FLUX5(I)+UPWL(5,I)*ABS(FLUX5(I))
      .           +FLUX6(I)+UPWL(6,I)*ABS(FLUX6(I))
       END DO
-
+C-----------------------------------------------
       RETURN
       END
 C
