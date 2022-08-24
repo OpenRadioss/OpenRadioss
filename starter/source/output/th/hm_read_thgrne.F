@@ -45,11 +45,12 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_THGRNE(
-     1      ITYP   ,KEY    ,ITAB  ,ITABM1 ,IX     ,
-     3      NIX    ,IAD    ,IFI   ,ITHGRP ,ITHBUF ,
-     4      NV     ,VARE   ,NUMEL ,VARG   ,NVG    ,
-     5      IVARG  ,NSNE   ,NV0   ,IMERGE ,ITHVAR ,
-     6      FLAGABF,NVARABF,RFI   ,LSUBMODEL,MAP, MAPSIZE )
+     1      ITYP   ,KEY    ,ITAB  ,ITABM1   ,IX     ,
+     3      NIX    ,IAD    ,IFI   ,ITHGRP   ,ITHBUF ,
+     4      NV     ,VARE   ,NUMEL ,VARG     ,NVG    ,
+     5      IVARG  ,NSNE   ,NV0   ,IMERGE   ,ITHVAR ,
+     6      FLAGABF,NVARABF,RFI   ,LSUBMODEL,MAP    , 
+     7      MAPSIZE )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -77,7 +78,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NIX,ITYP,ITABM1(*),IX(NIX,*),
-     .        ITAB(*),ITHGRP(NITHGR),ITHBUF(*),
+     .        ITAB(NUMNOD),ITHGRP(NITHGR),ITHBUF(*),
      .        IFI,IAD,NV,NUMEL,NVG,IVARG(18,*),NSNE,
      .        NV0,IMERGE(*),ITHVAR(*),FLAGABF,NVARABF,RFI
       CHARACTER*10 VARE(NV),KEY,VARG(NVG),KEY1
@@ -104,46 +105,49 @@ C-----------------------------------------------
       INTEGER SET_USRTOS
       EXTERNAL SET_USRTOS
       DATA MESS/'TH GROUP                      '/
-C=======================================================================
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       IS_AVAILABLE = .FALSE.
       ID=ITHGRP(1)
       CALL FRETITL2(TITR1,ITHGRP(NITHGR-LTITR+1),LTITR)
       ITHGRP(2)=ITYP
       ITHGRP(3)=0                                                
       IFITMP=IFI+1000                                            
-      ! Number of variables indicated by the user
+      ! Number of labels/variables indicated by the user (ex: DEF, DX, DY, DZ, REACX,  ...)
       CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
 
-      ! Number of stored variables and reading the variables
+      ! Number of stored labels/variables and reading the variables (ex: DEF, DX, DY, DZ, REACX,  ...)
       IF (NVAR>0) NVAR = HM_THVARC(VARE,NV,ITHBUF(IAD),VARG,NVG,IVARG,NV0,ID,TITR1 ,LSUBMODEL) 
-c
-      IF(NVAR == 0) CALL ANCMSG(MSGID=1109,
-     .   MSGTYPE=MSGERROR,
-     .   ANMODE=ANINFO_BLIND_1,
-     .   I1=ID,
-     .   C1=TITR1 )
-c
+
+      IF(NVAR == 0) THEN
+        CALL ANCMSG(MSGID=1109,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,I1=ID,C1=TITR1 )
+      ENDIF
+
       ITHGRP(6)=NVAR                                             
       ITHGRP(7)=IAD                                              
       IAD=IAD+NVAR                                               
       IFI=IFI+NVAR
       RFI=0	                                              	                                              
-C
+
       CONT=1
       NNE=0                                                      
 C------------------------
       ! Number of Objects IDs
       CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)  
-
       ! Loop over Objects IDs                                                             
       DO K = 1,IDSMAX                                                                     
         CALL HM_GET_INT_ARRAY_INDEX('ids',N,K,IS_AVAILABLE,LSUBMODEL) 
         IF (NSUBDOM /= 0) THEN                                                            
-C         Multidomains-> on ignore les noeuds et elements supprimes----                                                         
-          IF (ITYP.EQ.0) THEN                                                             
-             IF(R2R_SYS(N,ITABM1,MESS) /= 0) NNE=NNE+1                                    
+C         Multidomains-> skipping entities which are not on current domain                                                       
+          IF (ITYP == 0) THEN                                                             
+             IF(R2R_SYS(N,ITABM1,MESS) /= 0)THEN
+               NNE=NNE+1                                    
+             ENDIF
           ELSE                                                                            
-            IF(R2R_NIN(N,IX,NIX,NUMEL) /= 0) NNE=NNE+1                                    
+            IF(R2R_NIN(N,IX,NIX,NUMEL) /= 0)THEN
+              NNE=NNE+1  
+            ENDIF
           ENDIF                                                                           
         ELSE                                                                              
           NNE = NNE+1                                                                     
@@ -158,16 +162,17 @@ C------------------------
       CALL ZEROIN(IAD,IAD+(40+LVARITHB)*NNE-1,ITHBUF)
       RFI=0                 
 C------------------------
-      DO K=1,NNE    
+      ! Loop again over Objects IDs                                                             
+      DO K=1,IDSMAX    
         CALL HM_GET_INT_ARRAY_INDEX('ids',N,K,IS_AVAILABLE,LSUBMODEL) 
         CALL HM_GET_INT_ARRAY_INDEX('SKEW_ARRAY',ISK,K,IS_AVAILABLE,LSUBMODEL) 
         CALL HM_GET_STRING_INDEX('NAME_ARRAY',TITR,K,40,IS_AVAILABLE) 
         SIZ=LEN_TRIM(TITR)
         TITR(SIZ+1:SIZ+1)=' '     
         IF (ITYP == 0) THEN                               
-C         Multidomains-> on ignore les noeuds supprimes----		    	 		  		  
-	  IF(NSUBDOM.NE.0) THEN
-              IF (R2R_SYS(N,ITABM1,MESS).EQ.0) CYCLE
+C         Multidomains-> skipping nodes which are not on current domain 	    	 		  		  
+	  IF(NSUBDOM /= 0) THEN
+              IF (R2R_SYS(N,ITABM1,MESS) == 0) CYCLE
 	  ENDIF  
           ITHBUF(IAD)=USR2SYS(N,ITABM1,MESS,ID)                          
           ITHBUF(IAD+NNE)=ISK                                         
@@ -176,22 +181,16 @@ C         Multidomains-> on ignore les noeuds supprimes----
      .          ITHBUF(IAD)  = IMERGE(NUMCNOD+JC)                     
           ENDDO                                                         
         ELSE                                                                           
-C         Multidomains-> on ignore les elements supprimes----		    	 		  		  
-	  IF(NSUBDOM.NE.0) THEN                                   
-	      IF (R2R_NIN(N,IX,NIX,NUMEL).EQ.0) CYCLE             
+C         Multidomains-> skipping elems which are not on current domain 		    	 		  		  
+	  IF(NSUBDOM /= 0) THEN                                   
+	      IF (R2R_NIN(N,IX,NIX,NUMEL) == 0) CYCLE             
 	  ENDIF  
-
           ID_LOCAL = SET_USRTOS(N,MAP,MAPSIZE)
           IF(ID_LOCAL == 0) THEN
-                CALL ANCMSG(MSGID=69,
-     .                      MSGTYPE=MSGERROR,
-     .                      ANMODE=ANINFO,
-     .                      I1=ITHGRP(1),
-     .                      C1=TITR1,
-     .                      I2=N)
-                ITHBUF(IAD)=0
+            CALL ANCMSG(MSGID=69, MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ITHGRP(1),C1=TITR1,I2=N)
+            ITHBUF(IAD)=0
           ELSE
-                ITHBUF(IAD)=MAP(ID_LOCAL,2)
+            ITHBUF(IAD)=MAP(ID_LOCAL,2)
           ENDIF                         
           IPROC=0                      
           ITHBUF(IAD+NNE)=IPROC    
@@ -210,7 +209,7 @@ C
       IAD2= ITHGRP(8)   
       CALL HORD3(ITHBUF(IAD),NNE,ITHBUF(IAD+NNE),ITHBUF(IAD2),40) 
 C
-      IF(ITYP.EQ.0) THEN                                             
+      IF(ITYP == 0) THEN                                             
        IAD0=ITHGRP(7)                                                
        DO I=IAD0,IAD0+NVAR-1
          IF((IREAC == 0) .AND. (ITHBUF(I) == 620 .OR.                
@@ -247,7 +246,7 @@ C
        ENDDO                                                         
        DO I=1,NNE                                                    
          K = ITHBUF(IAD)                                             
-         ITHBUF(IAD+2*NNE)=ITAB(K)                                   
+           ITHBUF(IAD+2*NNE)=ITAB(K)
          IAD=IAD+1                                                   
        ENDDO                                                         
        IAD=ITHGRP(5)                                                 
@@ -292,44 +291,41 @@ C=======================================================================
 C PRINTOUT
 C=======================================================================
       IF (IPRI < 1) RETURN
-C
-        N=ITHGRP(4)
-        IAD1=ITHGRP(5)
-        NVAR=ITHGRP(6)
-        IAD0=ITHGRP(7)
-        IAD2=ITHGRP(8)
-        WRITE(IOUT,'(//)')
-        IF ( KEY == 'NODE' ) THEN
-          IF ( N >= 2 ) THEN
-            KEY1 = 'NODES'
-          ELSE
-            KEY1 = 'NODE'  
-          ENDIF
-        ELSE 
-          KEY1 = KEY  
-        ENDIF  
-        CALL FRETITL2(TITR,ITHGRP(NITHGR-LTITR+1),LTITR)
-        WRITE(IOUT,'(A,I10,3A,I3,A,I5,A,2A)')'TH GROUP:',ITHGRP(1),',',TRIM(TITR),',',NVAR,' VAR,',N,' ',KEY1,':'
-        WRITE(IOUT,'(A)')' -------------------'
-        IF(ITYP.EQ.0)THEN
-          WRITE(IOUT,'(10A10)')(VARE(ITHBUF(J)),J=IAD0,IAD0+NVAR-1)
-          WRITE(IOUT,'(A)')'    NODE  SKEW(OR FRAME)     NAME '
-          DO K=IAD1,IAD1+N-1
-            CALL FRETITL2(TITR,ITHBUF(IAD2),40)
-            IAD2=IAD2+40
-            WRITE(IOUT,'(2I10,8X,2A)')ITAB(ITHBUF(K)),ITHBUF(K+N),' ',TITR(1:40)
-          ENDDO
+      N=ITHGRP(4)
+      IAD1=ITHGRP(5)
+      NVAR=ITHGRP(6)
+      IAD0=ITHGRP(7)
+      IAD2=ITHGRP(8)
+      WRITE(IOUT,'(//)')
+      IF ( KEY == 'NODE' ) THEN
+        IF ( N >= 2 ) THEN
+          KEY1 = 'NODES'
         ELSE
-          WRITE(IOUT,'(10A10)')(VARE(ITHBUF(J)),J=IAD0,IAD0+NVAR-1)
-          WRITE(IOUT,'(2A)')KEY,'  P_SPMD       NAME '
-          DO K=IAD1,IAD1+N-1
-            CALL FRETITL2(TITR,ITHBUF(IAD2),40)
-            IAD2=IAD2+40
-            WRITE(IOUT,'(2I10,2A)')IX(NIX,ITHBUF(K)),ITHBUF(K+N),' ',TITR(1:40)
-          ENDDO
+          KEY1 = 'NODE'  
         ENDIF
+      ELSE 
+        KEY1 = KEY  
+      ENDIF  
+      CALL FRETITL2(TITR,ITHGRP(NITHGR-LTITR+1),LTITR)
+      WRITE(IOUT,'(A,I10,3A,I3,A,I5,A,2A)')'TH GROUP:',ITHGRP(1),',',TRIM(TITR),',',NVAR,' VAR,',N,' ',KEY1,':'
+      WRITE(IOUT,'(A)')' -------------------'
+      IF(ITYP == 0)THEN
+        WRITE(IOUT,'(10A10)')(VARE(ITHBUF(J)),J=IAD0,IAD0+NVAR-1)
+        WRITE(IOUT,'(A)')'    NODE  SKEW(OR FRAME)     NAME '
+        DO K=IAD1,IAD1+N-1
+          CALL FRETITL2(TITR,ITHBUF(IAD2),40)
+          IAD2=IAD2+40
+          WRITE(IOUT,'(2I10,8X,2A)')ITAB(ITHBUF(K)),ITHBUF(K+N),' ',TITR(1:40)
+        ENDDO
+      ELSE
+        WRITE(IOUT,'(10A10)')(VARE(ITHBUF(J)),J=IAD0,IAD0+NVAR-1)
+        WRITE(IOUT,'(2A)')KEY,'  P_SPMD       NAME '
+        DO K=IAD1,IAD1+N-1
+          CALL FRETITL2(TITR,ITHBUF(IAD2),40)
+          IAD2=IAD2+40
+          WRITE(IOUT,'(2I10,2A)')IX(NIX,ITHBUF(K)),ITHBUF(K+N),' ',TITR(1:40)
+        ENDDO
+      ENDIF
 C---------------------------------------------------------
-      RETURN
- 999  CALL FREERR(1)
       RETURN
       END
