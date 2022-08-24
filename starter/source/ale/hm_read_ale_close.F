@@ -31,6 +31,11 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_ALE_CLOSE(UNITAB, LSUBMODEL, GEO)
 C-----------------------------------------------
+C   Description
+C-----------------------------------------------
+C This subroutine is reading option /ALE/CLOSE
+C  in Starter input file
+C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
@@ -58,33 +63,26 @@ C-----------------------------------------------
       my_real :: HTEST, HCLOSE
       LOGICAL :: IS_AVAILABLE1, IS_AVAILABLE2
 C-----------------------------------------------
-C     B e g i n n i n g   O f   S u b r o u t i n e
+C   S o u r c e   L i n e s
 C-----------------------------------------------
-
       ICLOSE = 0
       CALL HM_GET_FLOATV('htest', HTEST, IS_AVAILABLE1, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('hclose', HCLOSE, IS_AVAILABLE2, LSUBMODEL, UNITAB)
-      
       IF (IS_AVAILABLE1 .OR. IS_AVAILABLE2) THEN
          ICLOSE = 1
-
          IF (HTEST == ZERO) HTEST = EM20
          IF (HCLOSE == ZERO) HCLOSE = HTEST * EM01
          HCLOSE = MIN(HTEST, HCLOSE)
          GEO(129) = HCLOSE
          GEO(130) = HTEST
-
          WRITE(IOUT, 2010) HTEST, HCLOSE
       ENDIF
-
       RETURN
+C-----------------------------------------------
  2010 FORMAT(
      & 5X,'    ELEMENT CLOSURE  ',/,
      & 5X,'    ---------------  ',/,
      & 5X,'MAXIMUM LENGTH FOR ACTIVATION . . . . .=',1PG20.13/,
      & 5X,'MAXIMUM LENGTH FOR RESISTANCE . . . . .=',1PG20.13//)
 C-----------------------------------------------
-C     E n d   O f   S u b r o u t i n e
-C-----------------------------------------------
-
       END SUBROUTINE HM_READ_ALE_CLOSE

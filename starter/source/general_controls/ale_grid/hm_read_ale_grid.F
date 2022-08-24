@@ -162,10 +162,10 @@ C-----------------------------------------------
          NWALE=0
          CALL HM_OPTION_COUNT('/TETRA4', NTETRA4)
          IF(NTETRA4 > 0) NALENOVS=12              
-         IF(GAMMA.EQ.ZERO) GAMMA=HUNDRED
-         IF(VGX.EQ.ZERO)   VGX=ONE
-         IF(VGY.EQ.ZERO)   VGY=ONE
-         IF(VGZ.EQ.ZERO)   VGZ=ONE
+         IF(GAMMA == ZERO) GAMMA=HUNDRED
+         IF(VGX == ZERO)   VGX=ONE
+         IF(VGY == ZERO)   VGY=ONE
+         IF(VGZ == ZERO)   VGZ=ONE
        ENDIF      
 
       END SUBROUTINE HM_READ_ALE_GRID

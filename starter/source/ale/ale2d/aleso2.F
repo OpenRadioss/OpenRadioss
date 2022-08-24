@@ -29,7 +29,16 @@ Chd|-- calls ---------------
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|====================================================================
       SUBROUTINE ALESO2(ALE_CONNECTIVITY,PM,IXQ)
-C
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C This subroutine is displaying in Starter listing file
+C  element/element connectivities (ALE)
+C  specific case of quads (4-node-solid-elems in 2D) : buffer is IXQ contrary to IXTG for triangles
+C Precondition : IPRI >= 3 (/IOFLAG Starter option)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -47,32 +56,33 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXQ(7,*)
-      my_real
-     .   PM(NPROPM,*)
+      INTEGER,INTENT(IN) :: IXQ(7,NUMELQ)
+      my_real,INTENT(IN) :: PM(NPROPM,NUMMAT)
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IVPR(4), M, IAL, I, IAD1, LGTH
-
-      IF(IPRI.GE.3)THEN
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
+      IF(IPRI <= 3)THEN
         WRITE(IOUT,1200)
         DO M=1,NUMELQ
           IAL=NINT(PM(71,IABS(IXQ(1,M)))+PM(72,IABS(IXQ(1,M))))
-          IF(IAL.EQ.0)CYCLE
+          IF(IAL == 0)CYCLE
           IAD1 = ALE_CONNECTIVITY%ee_connect%iad_connect(M)
           LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(M+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(M)        
           DO I=1,LGTH
             IVPR(I)=ALE_CONNECTIVITY%ee_connect%connected(IAD1 + I - 1)
-            IF(IVPR(I).NE.0)IVPR(I)=IXQ(7,IVPR(I))
+            IF(IVPR(I) /= 0)IVPR(I)=IXQ(7,IVPR(I))
           ENDDO
           WRITE(IOUT,'(5I10)')IXQ(7,M),(IVPR(I),I=1,4)
         ENDDO
       ENDIF
-
+C-----------------------------------------------
       RETURN
-      
+C-----------------------------------------------    
  1200 FORMAT(//
      & 6X,'A.L.E.  ELEMENT CONNECTIVITIES                ',/
      & 6X,'------------------------------                ',/

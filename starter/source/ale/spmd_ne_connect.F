@@ -27,17 +27,33 @@ Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|====================================================================
-      SUBROUTINE C_SPMD_NE_CONNECT(ALE_CONNECTIVITY, PROC, CEP, CEL, 
-     .     NODGLOBAL, NODLOCAL, 
-     .     NUMEL, NUMNOD, NUMEL_L, NUMNOD_L, 
-     .     NUMELS_L, NUMELQ_L, NUMELTG_L,
-     .     NERVOIS, NESVOIS,
-     .     NSVOIS, NQVOIS, NTGVOIS)
+      SUBROUTINE C_SPMD_NE_CONNECT(ALE_CONNECTIVITY, PROC    , CEP      , CEL     , 
+     .                             NODGLOBAL       , NODLOCAL, 
+     .                             NUMEL           , NUMNOD  , NUMEL_L  , NUMNOD_L, 
+     .                             NUMELS_L        , NUMELQ_L, NUMELTG_L,
+     .                             NERVOIS         , NESVOIS ,
+     .                             NSVOIS          , NQVOIS  , NTGVOIS)
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C This subroutine is used to split connectivity 
+C buffers in case of SPMD domain decomposition
+C-----------------------------------------------
+C  M o d u l e s
+C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
 !     Includes
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
 #include "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
 #include "com01_c.inc"
-!     Dummy
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
       INTEGER, INTENT(IN) :: CEP(*), CEL(*)
       INTEGER, DIMENSION(NUMNOD), INTENT(IN) :: NODLOCAL
@@ -45,7 +61,9 @@ Chd|====================================================================
       INTEGER, INTENT(IN) :: PROC, NUMNOD, NUMNOD_L, NUMEL, NUMEL_L, 
      .     NUMELS_L, NUMELQ_L, NUMELTG_L
       INTEGER, INTENT(INOUT) :: NSVOIS, NQVOIS, NTGVOIS, NERVOIS, NESVOIS
-!     Local
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
       INTEGER :: INODE, IAD, IAD1, IAD2, NODE_ID, P, IELEM, IELEM_L, PROC2, II
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGELE
       INTEGER, DIMENSION(:, :), ALLOCATABLE :: TAGELE_L
@@ -53,9 +71,9 @@ Chd|====================================================================
       INTEGER, DIMENSION(:), ALLOCATABLE :: PROC_LIST
       INTEGER :: ELEM1_L, ELEM2_L
       LOGICAL :: OK_RC
-
-
-!     Source
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       ALLOCATE(TAGELE(NUMEL))
       TAGELE(1:NUMEL) = 0
       ALLOCATE(TAGELE_L(NSPMD, NUMEL_L))
@@ -133,7 +151,6 @@ Chd|====================================================================
       ENDDO         
       
       DEALLOCATE(TAGELE_L, TAGELE, NERCVOIS, NESDVOIS)
-
       
       END SUBROUTINE C_SPMD_NE_CONNECT
 
@@ -146,29 +163,45 @@ Chd|-- calls ---------------
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|====================================================================
-      SUBROUTINE SPMD_NE_CONNECT(ALE_CONNECTIVITY, PROC, CEP, CEL, 
-     .     NODGLOBAL, NODLOCAL, 
-     .     NUMEL, NUMNOD, NUMEL_L, NUMNOD_L, 
-     .     NUMELS_L, NUMELQ_L, NUMELTG_L,
-     .     NERVOIS, NESVOIS,
-     .     NSVOIS, NQVOIS, NTGVOIS, ELEMID_L, LEN_IA,IXS)     
+      SUBROUTINE SPMD_NE_CONNECT(ALE_CONNECTIVITY, PROC    , CEP      , CEL     , 
+     .                           NODGLOBAL       , NODLOCAL, 
+     .                           NUMEL           , NUMNOD  , NUMEL_L  , NUMNOD_L, 
+     .                           NUMELS_L        , NUMELQ_L, NUMELTG_L,
+     .                           NERVOIS         , NESVOIS ,
+     .                           NSVOIS          , NQVOIS  , NTGVOIS  , ELEMID_L, LEN_IA,IXS)     
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C This subroutine is used to split connectivity 
+C buffers in case of SPMD domain decomposition
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
-!     Includes
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
 #include "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
 #include "com01_c.inc"
-!     Dummy
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
       INTEGER, INTENT(IN) :: CEP(*), CEL(*)
       INTEGER, DIMENSION(NUMNOD), INTENT(IN) :: NODLOCAL
       INTEGER, DIMENSION(NUMNOD_L), INTENT(IN) :: NODGLOBAL
-      INTEGER, INTENT(IN) :: PROC, NUMNOD, NUMNOD_L, NUMEL, NUMEL_L, 
-     .     NUMELS_L, NUMELQ_L, NUMELTG_L
+      INTEGER, INTENT(IN) :: PROC, NUMNOD, NUMNOD_L, NUMEL, NUMEL_L, NUMELS_L, NUMELQ_L, NUMELTG_L
       INTEGER, INTENT(IN) :: NERVOIS, NESVOIS
       INTEGER, INTENT(INOUT) :: NSVOIS, NQVOIS, NTGVOIS
       INTEGER, DIMENSION(NUMEL), INTENT(INOUT) :: ELEMID_L
       INTEGER, INTENT(INOUT) :: LEN_IA
       INTEGER, INTENT(IN) :: IXS(11,*)
-!     Local
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
       INTEGER :: INODE, IAD, IAD1, IAD2, NODE_ID, P, IELEM, IELEM_L, PROC2, IFE, JFE, II
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGELE
       INTEGER, DIMENSION(:, :), ALLOCATABLE :: TAGELE_L
@@ -177,9 +210,9 @@ Chd|====================================================================
       INTEGER, DIMENSION(:), ALLOCATABLE :: IDX, TMP, TMP2, PROC_LIST
       INTEGER :: ELEM1_L, ELEM2_L
       LOGICAL :: OK_RC
-
-
-!     Source
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       ALLOCATE(TAGELE(NUMEL))
       TAGELE(1:NUMEL) = 0
       ALLOCATE(TAGELE_L(NSPMD, NUMEL_L))
@@ -283,9 +316,8 @@ Chd|====================================================================
          NERCVOIS(NSPMD + 1) = NERCVOIS(NSPMD + 1) + NERCVOIS(P)
          NESDVOIS(NSPMD + 1) = NESDVOIS(NSPMD + 1) + NESDVOIS(P)
       ENDDO
-
-      
-C     Tri LERCVOIS
+ 
+C     Sorting LERCVOIS
       DO II = 1, NERVOIS
          TMP(II) = TAGER(II)
          TMP2(II) = LERCVOIS(II)
@@ -318,7 +350,8 @@ C     Tri LERCVOIS
       DO II = 1, NERVOIS
          LERCVOIS(II) = TMP2(IDX(II))
       ENDDO
-C     Tri LESDVOIS
+
+C     Sorting LESDVOIS
       DO II = 1, NESVOIS
          TMP(II) = TAGES(II)
          TMP2(II) = LESDVOIS(II)

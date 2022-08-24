@@ -28,6 +28,16 @@ Chd|-- calls ---------------
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|====================================================================
       SUBROUTINE ALESO3(ALE_CONNECTIVITY,PM,IXS,GEO)
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C This subroutine is displaying in Starter listing file
+C  element/element connectivities (ALE)
+C  specific case of hexahedra (8-node-solid-elems in 3D) : buffer is IXS 
+C Precondition : IPRI >= 3 (/IOFLAG Starter option)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -45,33 +55,36 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  :: IXS(NIXS,*)
-      my_real  :: PM(NPROPM,*), GEO(NPROPG,*)
+      INTEGER  :: IXS(NIXS,NUMELS)
+      my_real  :: PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO)
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IVPR(6), M, IAL, I, IAD1, LGTH
-
-      IF(IPRI.GE.3)THEN
-       WRITE(IOUT,1200)
-       DO M=1,NUMELS
-        IAL=NINT(PM(71,IABS(IXS(1,M)))+PM(72,IABS(IXS(1,M))))
-        IF(IAL.EQ.0)CYCLE
-        IAD1 = ALE_CONNECTIVITY%ee_connect%iad_connect(M)
-        LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(M+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(M) 
-        DO  I=1,LGTH
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
+      IF(IPRI >= 3)THEN
+        WRITE(IOUT,1200)
+        DO M=1,NUMELS
+          IAL=NINT(PM(71,IABS(IXS(1,M)))+PM(72,IABS(IXS(1,M))))
+          IF(IAL == 0)CYCLE
+          IAD1 = ALE_CONNECTIVITY%ee_connect%iad_connect(M)
+          LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(M+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(M) 
+          DO I=1,LGTH
             IVPR(I)=ALE_CONNECTIVITY%ee_connect%connected(IAD1 + I - 1)
-            IF(IVPR(I).NE.0)IVPR(I)=IXS(11,IVPR(I))
+            IF(IVPR(I) /= 0)IVPR(I)=IXS(11,IVPR(I))
           ENDDO
           WRITE(IOUT,'(7I10)')IXS(11,M),(IVPR(I),I=1,6)
-       ENDDO
+        ENDDO
       ENDIF
-
+C-----------------------------------------------
  1200 FORMAT(//
      & 6X,'A.L.E.  ELEMENT CONNECTIVITIES                ',/
      & 6X,'------------------------------                ',/
      & 6X,'ELEM      ELE1      ELE2      ELE3      ELE4      ELE5',
      & 6X,'ELE6')
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
+C-----------------------------------------------
+      RETURN
       END
