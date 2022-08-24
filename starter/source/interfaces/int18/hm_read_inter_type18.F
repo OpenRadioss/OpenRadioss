@@ -60,9 +60,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
@@ -72,7 +69,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN)::IDDLEVEL
       INTEGER ISU1,ISU2,IS1,IS2,NI,NOINT
-      INTEGER IPARI(*)
+      INTEGER IPARI(NPARI)
       my_real FRIGAP(*),FRIC_P(*),STFAC,XFILTR
       CHARACTER,INTENT(IN) :: TITR*nchartitle
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM      
@@ -116,10 +113,10 @@ C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER NGR2USR
-C=======================================================================
-C    /INTER/TYPE18 reading 
-C=======================================================================
-
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
+C  /INTER/TYPE18 READING
 C Initializations
       IS1=0
       IS2=0
@@ -166,7 +163,9 @@ C------------------------------------------------------------
 C  Card1
 C------------------------------------------------------------
       CALL HM_GET_INTV('tempsecondaryentityids', ISU1, IS_AVAILABLE, LSUBMODEL)
-      IF (.NOT. IS_AVAILABLE) ISU1 = 0
+      IF (.NOT. IS_AVAILABLE) THEN
+        ISU1 = 0
+      ENDIF
       CALL HM_GET_INTV('mainentityids', ISU2, IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('secondaryentityids', GRBRIC_ID, IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('Igap', IGAP, IS_AVAILABLE, LSUBMODEL)
@@ -176,17 +175,17 @@ C------------------------------------------------------------
 C------------------------------------------------------------
 C  Card2
 C------------------------------------------------------------
-      CALL HM_GET_FLOATV('Stfval', STFAC, IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('Vref', VREF, IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('Gap', GAP, IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('Tstart', STARTT, IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('Tstop', STOPT, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('STFAC', STFAC, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('VREF', VREF, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('GAP', GAP, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('TSTART', STARTT, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('TSTOP', STOPT, IS_AVAILABLE, LSUBMODEL, UNITAB)
 C------------------------------------------------------------
 C  Card3
 C------------------------------------------------------------
-      CALL HM_GET_FLOATV('VISs', VISC, IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('Bumult', BUMULT, IS_AVAILABLE, LSUBMODEL, UNITAB)
-
+      CALL HM_GET_FLOATV('STIFF_DC', VISC, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('SORT_FACT', BUMULT, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      
 !===TO BE ABLE TO OUTPUT USER ids
        ISU1_user=ISU1
        ISU2_user=ISU2
@@ -206,7 +205,6 @@ C------------------------------------------------------------
 !===CHECK STRUCTURE:ISU2=SURF_ID                                                                                                      
        IF(ISU2 == 0) THEN 
              MSGTITL='LAGRANGIAN SURFACE IS EMPTY (SURF_ID)'
-             !IF(IDDLEVEL==1)CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR,ANMODE=ANINFO, I1=NOINT,C1=TITR,C2=MSGTITL)
              CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR,ANMODE=ANINFO, I1=NOINT,C1=TITR,C2=MSGTITL)                
             IS2=0      
           ELSE 
@@ -214,7 +212,6 @@ C------------------------------------------------------------
             INGR2USR => IGRSURF(1:NSURF)%ID  
             ISU2=NGR2USR(ISU2,INGR2USR,NSURF) 
             MSGTITL='SURFACE CANNOT BE FOUND (SURF_ID)' 
-            !IF(ISU2 == 0 .AND. IDDLEVEL==1)CALL ANCMSG(MSGID=1115, MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL) 
             IF(ISU2 == 0)CALL ANCMSG(MSGID=1115, MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)                        
        ENDIF 
 
@@ -233,7 +230,6 @@ c          ENDIF
             INGR2USR => IGRNOD(1:NGRNOD)%ID                                
             ISU1=NGR2USR(ISU1,INGR2USR,NGRNOD)                             
             IS1 =2  
-             !IF(ISU1 == 0 .AND. IDDLEVEL==1)CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)
              IF(ISU1 == 0)THEN
                MSGTITL='GROUP OF NODES CANNOT BE FOUND (GRNOD_ID)'              
                CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)  
@@ -250,7 +246,6 @@ c          ENDIF
             ENDIF                                                          
             IF(GRBRIC_ID == 0) THEN                                        
              MSGTITL='GROUP OF ALE CELLS IS EMPTY (GRBRIC_ID)'             
-             !IF(IDDLEVEL==1)CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)
              CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)             
             ELSE                                                           
               ISU1=GRBRIC_ID !ISU1 outgoing argument used to get nodes in grbrick  
@@ -259,7 +254,6 @@ c          ENDIF
 !===CHECK STFAC                                                
         IF(STFAC <= ZERO .AND. ISTIFF==1)THEN                                  
              MSGTITL='STIFFNESS VALUE MUST BE DEFINED (STFVAL)'
-             !IF(IDDLEVEL==1)CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR, ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)  
              CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR, ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)                          
         ENDIF
         IF(ISTIFF==2)THEN
@@ -268,7 +262,6 @@ c          ENDIF
       
       IF(ISTIFF == 2 .AND. GRBRIC_ID == 0)THEN
         MSGTITL='GROUP OF ALE CELLS (GRBRIC_ID) MUST BE DEFINED WHEN ISTIFF=2'                                                   
-        !IF(IDDLEVEL==1)CALL ANCMSG(MSGID=1115, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=NOINT, C1=TITR, C2=MSGTITL)
         CALL ANCMSG(MSGID=1115, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=NOINT, C1=TITR, C2=MSGTITL)        
       ENDIF
       
@@ -308,20 +301,14 @@ c          ENDIF
         IPARI(61) = 0       !IDELKEEP
         IPARI(83) = GRBRIC_ID
         FRIC_P(1:6) = ZERO  !C1..C6
-
-C------------------------------------------------------------
-
         IPARI(12)=IBUC
         IPARI(29)=ISTIFF
         IPARI(65) = INTKG
         IPARI(20)=ILEV
-
         FRIGAP(1)=FRIC
         FRIGAP(2)=GAP
 
-
         IF (STOPT == ZERO) STOPT = EP30
-
         FRIGAP(3)=STARTT
         FRIGAP(11)=STOPT
 
@@ -331,8 +318,8 @@ C------------------------------------------------------------
 C FRIGAP(10) is initialized but used only in engine for storing number of couples candidates  
         FRIGAP(10)=FLOAT(0)
 
-C       POUR STOCKER LE FLAG D'INACTIVATION DES PENE INITIALES
-C       (0 = RIEN , 1 = NOEUDS , 2 = FACETTES )
+C       storing disabling flag for initial penetrations
+C       (0 = empty , 1 = nodes , 2 = faces )
         IPARI(21)=IGAP
         IPARI(22)=INACTI
         MULTIMP = 4
@@ -349,8 +336,6 @@ C------------------------------------------------------------
 C
       DTMIN = ZERO
       
-      !IF(IDDLEVEL==0)THEN
-
         !==OUTPUTS USER IDS FOR MAIN/SECONDARY DEFINITION
         WRITE(IOUT,3017)  
         IF(GRBRIC_ID > 0)THEN
@@ -374,10 +359,10 @@ C
           !IF(STFAC > ZERO)WRITE(IOUT,3020)GAP                                                    
         ENDIF
 
-        IF(IGAP==0)THEN                                  
+        IF(IGAP == 0)THEN                                  
           !CONSTANT GAP  
           WRITE(IOUT,3013)
-          IF(GAP>ZERO)THEN                                
+          IF(GAP > ZERO)THEN                                
             WRITE(IOUT,3024)GAP              
           ELSE
             WRITE(IOUT,3026)
@@ -397,13 +382,9 @@ C
            ENDIF         
         ENDIF
         
-      !ENDIF
-
 C--------------------------------------------------------------
 C 1000 FORMAT(/1X,'  INTERFACE NUMBER :',I10,1X,A)
 C------------
-      RETURN
- 999  CALL FREERR(3)
       RETURN
 
  3013 FORMAT('    --- CONSTANT GAP ---' )  

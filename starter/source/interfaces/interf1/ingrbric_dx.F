@@ -100,7 +100,9 @@ C-----------------------------------------------
       !-----------------------------------------
       ! COMPUTE GLOBAL GAP
       !-----------------------------------------
-      IF(GLOBAL_GAP == ZERO .AND. IGAP == 0)THEN
+      IF(GLOBAL_GAP == ZERO)THEN
+        !global gap required to estimate a stiffness value (automatic stiffness value when ISTIFF==2)
+        !global gap also required when a constant gap is not input IGAP=0
         DIAG_MAX = EM20
         DO I=1,NBRIC
           IE = IBUFSSG(I)
@@ -190,8 +192,6 @@ C-----------------------------------------------
           IF(ENUM==10)EXIT
         ENDDO      
       ENDIF
-
 C------------------------------------------------------------
       RETURN
       END
-
