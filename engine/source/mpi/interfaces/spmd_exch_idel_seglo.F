@@ -136,7 +136,7 @@ C
           CALL MPI_WAIT(REQ_S1(I),STATUS,IERROR)
           SIZ = INDSEGLO(NINTER+1)-INDSEGLO(1)
           IF(SIZ.GT.0)THEN
-              CALL MPI_WAIT(REQ_S1(I),STATUS,IERROR)
+              CALL MPI_WAIT(REQ_S2(I),STATUS,IERROR)
           ENDIF
         ENDIF
       ENDDO
