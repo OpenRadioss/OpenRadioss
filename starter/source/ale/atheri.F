@@ -39,8 +39,11 @@ Chd|        SINIT3                        source/elements/solid/solide/sinit3.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE ATHERI(MAT,PM,TEMP)
-C-------------------------------
-C     INITIALISATION TEMPERATURE
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C This subroutine is initializing elem temperatures
+C initial temperature is stored in material buffer PM(79,[mat_internal_id])
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,22 +53,24 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "param_c.inc"
+#include      "com04_c.inc"
+#include      "mvsiz_p.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MAT(*)
-C     REAL
-      my_real
-     .   PM(NPROPM,*),  TEMP(*)
+      INTEGER,INTENT(IN) :: MAT(MVSIZ)
+      my_real, INTENT(IN) :: PM(NPROPM,NUMMAT)
+      my_real, INTENT(INOUT) :: TEMP(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C-----------------------------------------------------------------------
-C=======================================================================
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       DO I=LFT,LLT
         TEMP(I) = PM(79,MAT(I))
       ENDDO
-C-----------
+C-----------------------------------------------
       RETURN
       END

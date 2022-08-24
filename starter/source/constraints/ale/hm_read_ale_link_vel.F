@@ -42,6 +42,10 @@ Chd|====================================================================
      .     IGRNOD, IBCSLAG, LAG_NCF, LAG_NKF, LAG_NHF,
      .     IKINE1LAG, LINALE, LSUBMODEL, UNITAB)
 C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C This subroutine is reading /ALE/LINK/VEL options in user input file
+C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
@@ -49,7 +53,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD
-C----------------------------------------------------------------
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
@@ -62,13 +66,13 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "scr03_c.inc"
 #include      "titr_c.inc"
-#include "submod_c.inc"
+#include      "submod_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ICODE(*), ISKEW(*), ITAB(*), ITABM1(*), IKINE(*),
-     .        IBCSLAG(5,*),
-     .        LAG_NCF,LAG_NKF,LAG_NHF,IKINE1LAG(*), LINALE(*)
+      INTEGER,INTENT(IN) :: ICODE(NUMNOD), ISKEW(*), ITAB(NUMNOD), ITABM1(*), IKINE(*),IBCSLAG(5,*)
+      INTEGER,INTENT(IN) :: LAG_NCF,LAG_NKF,LAG_NHF,IKINE1LAG(*)
+      INTEGER,INTENT(INOUT) :: LINALE(*)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
       TYPE(UNIT_TYPE_), INTENT(IN) :: UNITAB
 C-----------------------------------------------
@@ -81,8 +85,7 @@ C-----------------------------------------------
      .        FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,IKINE1(3*NUMNOD),IGRNS
       CHARACTER KEY*ncharkey,STRING*ncharfield,KEY2*ncharkey
       CHARACTER TITR*nchartitle,OPT*8, CHAR_XYZ*ncharfield,MESS*40
-      my_real 
-     .        TSTART,TSTOP
+      my_real TSTART,TSTOP
       LOGICAL :: IS_AVAILABLE
       INTEGER :: WX, WY, WZ
 C-----------------------------------------------
@@ -93,11 +96,13 @@ C-----------------------------------------------
       INTEGER USR2SYS,MY_OR,CHECK_NEW,NGR2USR
 !
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
- 
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       POS=0
       IGRNS=0
-      TSTART = ZERO
-      TSTOP  = ZERO
+      TSTART=ZERO
+      TSTOP=ZERO
       
       WRITE(IOUT,1000)
       CALL HM_OPTION_START('/ALE/LINK/VEL')
@@ -111,11 +116,9 @@ C-----------------------------------------------
          CALL HM_GET_INTV('Wy', WY, IS_AVAILABLE, LSUBMODEL)
          CALL HM_GET_INTV('Wz', WZ, IS_AVAILABLE, LSUBMODEL)
          CALL HM_GET_INTV('Iform', IFORM, IS_AVAILABLE, LSUBMODEL)
-
          CALL HM_GET_FLOATV('Tstart', TSTART, IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('Tstop', TSTOP, IS_AVAILABLE, LSUBMODEL, UNITAB)
          IF (TSTOP == ZERO) TSTOP = EP30
-
          INGR2USR => IGRNOD(1:NGRNOD)%ID
          IGRS=NGR2USR(IGR,INGR2USR,NGRNOD)
          IF(IGRS==0)THEN
@@ -127,7 +130,6 @@ C-----------------------------------------------
          J3(2) = WY
          J3(3) = WZ
          IC  = J3(1) * 4 + J3(2) * 2 + J3(3)            
-         
          CHAR_XYZ = '          '           
          K=LFIELD
          IF(J3(3)==1 )THEN
@@ -144,12 +146,10 @@ C-----------------------------------------------
 !     
          IGRNS = IGRNOD(IGRS)%SORTED
 !     
-         IF(IFORM==0.AND.IGRNS.NE.1)THEN
-            CALL ANCMSG(MSGID=271,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .           I1=N,I2=IFORM) 
+         IF(IFORM==0.AND.IGRNS /= 1)THEN
+            CALL ANCMSG(MSGID=271,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=N,I2=IFORM) 
          ELSE
-            WRITE(IOUT,1100) 
-     .           N,TRIM(TITR),NODE_ID1,NODE_ID2,IGR,CHAR_XYZ,IFORM,TSTART,TSTOP
+            WRITE(IOUT,1100) N,TRIM(TITR),NODE_ID1,NODE_ID2,IGR,CHAR_XYZ,IFORM,TSTART,TSTOP
          ENDIF
 
          LINALE(POS+1)=N
@@ -161,17 +161,16 @@ C-----------------------------------------------
          LINALE(POS+7)=IGRS
 
          POS = POS+1+6 
-         
          MESS=''
          MESS(1:10)='ALE  LINKS'
          BID=USR2SYS(NODE_ID1,ITABM1,MESS,N)
          BID=USR2SYS(NODE_ID2,ITABM1,MESS,N)
         ENDDO
-
+C-----------------------------------------------
 1000  FORMAT(/
      . '       ALE LINKS DEFINITIONS '/
      . '      ---------------------- '/)
-     
+C-----------------------------------------------     
 1100  FORMAT( /5X,'ALE LINK ID ',I10,': ',A,
      .       /10X,'MAIN NODE 1 . . . . . . . . . . . . . ',I10
      .       /10X,'MAIN NODE 2 . . . . . . . . . . . . . ',I10
@@ -180,16 +179,14 @@ C-----------------------------------------------
      .       /10X,'FORMULATION . . . . . . . . . . . . . . ',I10
      .       /10X,'START TIME. . . . . . . . . . . . . . . ',1PG20.13
      .       /10X,'STOP TIME . . . . . . . . . . . . . . . ',1PG20.13/)
-
-     
-         
+C-----------------------------------------------
       RETURN
-      
+C-----------------------------------------------
  999  IF(LINE(1:1)=='/')THEN
         LINE(:)=' '
         LINE(1:7)='MISSING'
       ENDIF
       CALL FREERR(1)
-     
+C-----------------------------------------------
       RETURN
       END

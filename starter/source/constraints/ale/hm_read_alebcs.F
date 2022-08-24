@@ -36,9 +36,13 @@ Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_ALEBCS(ICODE     ,ISKEW   ,ITAB    ,ITABM1 ,IKINE  ,
-     .                  IGRNOD    ,IBCSLAG ,LAG_NCF ,LAG_NKF,LAG_NHF,
-     .                  IKINE1LAG ,ISKN    ,NOM_OPT, LSUBMODEL)
+      SUBROUTINE HM_READ_ALEBCS(ICODE     ,ISKEW   ,ITAB    ,ITABM1   ,IKINE  ,
+     .                          IGRNOD    ,IBCSLAG ,LAG_NCF ,LAG_NKF  ,LAG_NHF,
+     .                          IKINE1LAG ,ISKN    ,NOM_OPT, LSUBMODEL)
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C This subroutine is reading /ALE/BCS options in user input file
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -66,39 +70,35 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ICODE(*), ISKEW(*), ITAB(*), ITABM1(*), IKINE(*),
-     .        IBCSLAG(5,*),
-     .        LAG_NCF,LAG_NKF,LAG_NHF,IKINE1LAG(*),ISKN(LISKN,*)
-      INTEGER NOM_OPT(LNOPT1,*)
+      INTEGER,INTENT(IN) ::  ITAB(NUMNOD), ITABM1(*), IKINE(*), IBCSLAG(5,*), LAG_NCF,LAG_NKF,LAG_NHF,IKINE1LAG(*),ISKN(LISKN,*)
+      INTEGER,INTENT(IN) ::  NOM_OPT(LNOPT1,*)
+      INTEGER,INTENt(INOUT) :: ISKEW(*),ICODE(NUMNOD)
       TYPE(SUBMODEL_DATA), INTENT(IN), DIMENSION(NSUBMOD) :: LSUBMODEL
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,JJ(12), IC, NC, N, NUSR, IS, IC1, IC2, IC3, IC4,
-     .        NOSYS, J,J10(10),IGR,IGRS,ISU,IBCALE,J6(6),K,
-     .        IC0, IC01, IC02, IC03, IC04, ID ,ILAGM, NBCSLAG,
-     .        IFIX_TMP,IKINE1(3*NUMNOD),SUB_ID,
-     .        CHKCOD,ISERR,NOD,SUB_INDEX
+      INTEGER I, IC, NC, N, IS, IC1, IC2,
+     .        NOSYS, J,IGR,IGRS,IBCALE,J6(6),
+     .        IC0, IC01, IC02, IC03, IC04, ID ,ILAGM,
+     .        CHKCOD,NOD,SUB_INDEX
       INTEGER IUN
-      CHARACTER MESS*40,KEY*ncharkey,STRING*ncharfield,CODE*7
-      CHARACTER TITR*nchartitle,OPT*8
+      CHARACTER MESS*40,STRING*ncharfield,CODE*7
+      CHARACTER TITR*nchartitle
       LOGICAL :: IS_AVAILABLE, FOUND
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER USR2SYS,MY_OR,CHECK_NEW,NGR2USR
-!
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
-C
 C-----------------------------------------------
 C   D a t a
 C-----------------------------------------------
       DATA IUN/1/
       DATA MESS/'BOUNDARY CONDITIONS                     '/
 C-----------------------------------------------
-C     B e g i n n i n g   o f   S u b r o u t i n e 
+C   S o u r c e   L i n e s
 C-----------------------------------------------
       IS_AVAILABLE = .FALSE.
       SUB_INDEX = 0
@@ -112,9 +112,8 @@ C-----------------------------------------------
      .                       SUBMODEL_INDEX = SUB_INDEX)
          CALL HM_GET_STRING('dofstring', STRING, ncharfield, IS_AVAILABLE)
          CALL HM_GET_INTV('inputsystem', IS, IS_AVAILABLE, LSUBMODEL)
-         IF(IS == 0 .AND. SUB_INDEX .NE. 0 ) IS = LSUBMODEL(SUB_INDEX)%SKEW
+         IF(IS == 0 .AND. SUB_INDEX /= 0 ) IS = LSUBMODEL(SUB_INDEX)%SKEW
          CALL HM_GET_INTV('entityid', IGR, IS_AVAILABLE, LSUBMODEL)
-!     
          FOUND = .FALSE.
          DO J = 0, NUMSKW + NSUBMOD
             IF(IS == ISKN(4, J + 1)) THEN
@@ -128,43 +127,39 @@ C-----------------------------------------------
      .           C1 = 'BOUNDARY CONDITION', C2 = 'BOUNDARY CONDITION',
      .           I2 = IS, I1 = N, C3 = TITR)
          ENDIF
-     
 !         CODE = STRING(LFIELD - 6 : LFIELD)
          CODE = STRING(1:7)
          READ(CODE,FMT='(3I1,1X,3I1)') J6
          CHKCOD = 0
          DO J=1,6
-            IF (J6(J) .GE. 2) THEN
+            IF (J6(J) >= 2) THEN
                CHKCOD = 1
             ENDIF
          ENDDO
-         IF (CHKCOD == 1) 
-     .        CALL ANCMSG(MSGID = 1051, ANMODE = ANINFO_BLIND,
-     .        MSGTYPE = MSGERROR, I1 = ID, C1 = TITR, C2 = CODE)
+         IF (CHKCOD == 1) THEN
+           CALL ANCMSG(MSGID = 1051, ANMODE = ANINFO_BLIND,MSGTYPE = MSGERROR, I1 = ID, C1 = TITR, C2 = CODE)
+         ENDIF
          IC1=J6(1)*4 +J6(2)*2 +J6(3)
          IC2=J6(4)*4 +J6(5)*2 +J6(6)
          IC=IC1*8+IC2
          INGR2USR => IGRNOD(1:NGRNOD)%ID
          IGRS=NGR2USR(IGR,INGR2USR,NGRNOD)
-         IF(IGRS.NE.0)THEN
+         IF(IGRS /= 0)THEN
             DO J=1,IGRNOD(IGRS)%NENTITY
                NOSYS=IGRNOD(IGRS)%ENTITY(J)
                ICODE(NOSYS)=MY_OR(IC,ICODE(NOSYS))
-               IF(ISKEW(NOSYS).EQ.-1.OR.ISKEW(NOSYS).EQ.IS)THEN
+               IF(ISKEW(NOSYS) == -1.OR.ISKEW(NOSYS) == IS)THEN
                   CHECK_NEW=IS
                ELSE
-                  CALL ANCMSG(MSGID=148,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .                 I1=ITAB(NOSYS),PRMOD=MSG_CUMU)
+                  CALL ANCMSG(MSGID=148,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=ITAB(NOSYS),PRMOD=MSG_CUMU)
                ENDIF
                ISKEW(NOSYS)=CHECK_NEW
             ENDDO
-            CALL ANCMSG(MSGID=148,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .           I1=ID,C1=TITR,PRMOD=MSG_PRINT)
+            CALL ANCMSG(MSGID=148,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=ID,C1=TITR,PRMOD=MSG_PRINT)
          ELSE
-            CALL ANCMSG(MSGID=678,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .           I1=ID,I2=IGR,C1=TITR)
+            CALL ANCMSG(MSGID=678,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=ID,I2=IGR,C1=TITR)
          ENDIF
-         
       ENDDO
+C-----------------------------------------------      
       RETURN
       END

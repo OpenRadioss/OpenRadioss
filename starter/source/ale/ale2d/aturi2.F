@@ -29,11 +29,12 @@ Chd|        Q4INIT2                       source/elements/solid_2d/quad4/q4init2
 Chd|        QINIT2                        source/elements/solid_2d/quad/qinit2.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE ATURI2(IPARG,RHO,PM,IX,X,RK,RE, 
-     .     AIRE)
-C-------------------------------
-C     INITIALISATION K EPS
-C--------------------------------
+      SUBROUTINE ATURI2(IPARG,RHO,PM,IX,X,RK,RE,AIRE)
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C This subroutine is initializing state for
+C  turbulency model K-EPS in ALE (2D)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,60 +53,57 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPARG(NPARG,*), IX(7,*)
-      my_real
-     .   RHO(*), PM(NPROPM,*), X(3,*), RK(*), RE(*), AIRE(*)
+      INTEGER IPARG(NPARG,NGROUP), IX(7,*)
+      my_real, INTENT(INOUT) :: X(3,NUMNOD), RK(MVSIZ), RE(MVSIZ)
+      my_real, INTENT(IN) :: RHO(MVSIZ),PM(NPROPM,NUMMAT), AIRE(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, II, MAT, NG, MTN2, LLT2, NFT2, LFT2, JJ, J
-      my_real
-     .   XL, XK, C1, XE, D2, Y0, Z0, Y1, Z1
-
-C-----------------------------------------------------------------------
-      IF(MTN.EQ.17)THEN
-      
-       DO I=LFT,LLT
-        II=I+NFT
-        MAT=IABS(IX(1,II))
-        RK(I)=RHO(I)*PM(87,MAT)
-        XL=SQRT(AIRE(I))
-        XK= MAX(RK(I),EM15)/RHO(I)
-        C1=PM(81,MAT)
-        XE=SQRT(XK*SQRT(C1))**3/(ZEP4187*XL)
-        RE(I)=RHO(I)*XE
-      END DO
-
+      my_real XL, XK, C1, XE, D2, Y0, Z0, Y1, Z1
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
+      IF(MTN == 17)THEN
+        DO I=LFT,LLT
+          II=I+NFT
+          MAT=IABS(IX(1,II))
+          RK(I)=RHO(I)*PM(87,MAT)
+          XL=SQRT(AIRE(I))
+          XK= MAX(RK(I),EM15)/RHO(I)
+          C1=PM(81,MAT)
+          XE=SQRT(XK*SQRT(C1))**3/(ZEP4187*XL)
+          RE(I)=RHO(I)*XE
+        END DO
       ELSE
-      
        DO I=LFT,LLT
-        II=I+NFT
-        MAT=IABS(IX(1,II))
-        RK(I)=RHO(I)*PM(87,MAT)
-        XL=SQRT(AIRE(I))
-        XK= MAX(RK(I),EM15)/RHO(I)
-        D2=EP30
-        Y0=X(2,IX(2,II))+X(2,IX(3,II))+X(2,IX(4,II))+X(2,IX(5,II))
-        Z0=X(3,IX(2,II))+X(3,IX(3,II))+X(3,IX(4,II))+X(3,IX(5,II))
-        DO NG=1,NGROUP
-         MTN2=IPARG(1,NG)
-         IF(MTN2.NE.17)CYCLE
-          LLT2=IPARG(2,NG)
-          NFT2=IPARG(3,NG)
-          LFT2=1
-          DO JJ=LFT2,LLT2
-           J=JJ+NFT2
-           Y1=X(2,IX(2,J))+X(2,IX(3,J))+X(2,IX(4,J))+X(2,IX(5,J))
-           Z1=X(3,IX(2,J))+X(3,IX(3,J))+X(3,IX(4,J))+X(3,IX(5,J))
-           D2= MIN(D2,(Y1-Y0)**2+(Z1-Z0)**2)
-          END DO !JJ=LFT2,LLT2
-        END DO !NG=1,NGROUP
-        XL=XL+ FOURTH*SQRT(D2)
-        XE=ZEP33*SQRT(XK)**3/XL
-        RE(I)=RHO(I)*XE
+         II=I+NFT
+         MAT=IABS(IX(1,II))
+         RK(I)=RHO(I)*PM(87,MAT)
+         XL=SQRT(AIRE(I))
+         XK= MAX(RK(I),EM15)/RHO(I)
+         D2=EP30
+         Y0=X(2,IX(2,II))+X(2,IX(3,II))+X(2,IX(4,II))+X(2,IX(5,II))
+         Z0=X(3,IX(2,II))+X(3,IX(3,II))+X(3,IX(4,II))+X(3,IX(5,II))
+         DO NG=1,NGROUP
+           MTN2=IPARG(1,NG)
+           IF(MTN2 == 17)THEN
+             LLT2=IPARG(2,NG)
+             NFT2=IPARG(3,NG)
+             LFT2=1
+             DO JJ=LFT2,LLT2
+               J=JJ+NFT2
+               Y1=X(2,IX(2,J))+X(2,IX(3,J))+X(2,IX(4,J))+X(2,IX(5,J))
+               Z1=X(3,IX(2,J))+X(3,IX(3,J))+X(3,IX(4,J))+X(3,IX(5,J))
+               D2= MIN(D2,(Y1-Y0)**2+(Z1-Z0)**2)
+             END DO !JJ=LFT2,LLT2
+           ENDIF
+         END DO !NG=1,NGROUP
+         XL=XL+ FOURTH*SQRT(D2)
+         XE=ZEP33*SQRT(XK)**3/XL
+         RE(I)=RHO(I)*XE
        END DO !I=LFT,LLT
-
       ENDIF
-C
+C-----------------------------------------------
       RETURN
       END

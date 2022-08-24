@@ -36,6 +36,10 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_ALE_SOLVER(LSUBMODEL, UNITAB, ICAA, ISFINT)
 C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C This subroutine is reading /ALE/SOLVER/FINT option in user input file
+C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD

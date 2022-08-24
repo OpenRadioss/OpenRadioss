@@ -40,6 +40,14 @@ Chd|====================================================================
      3      ITAB  ,GEO    ,NALE_R2R,FLAG_R2R, MULTI_FVM,
      4      ALE_CONNECTIVITY)
 C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C This subroutine is building ALE connectivities
+C    'NN' stands for Node/Node
+C    'NE' stands for Node/Elem
+C    'EE' stands for Elem/Elem
+C  In addition to that the subroutine is also marking ALE nodes 
+C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
@@ -50,15 +58,11 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ICODE(*),IXS(*),IXQ(*),IXC(*),IXT(*),IXTG(*)
-      INTEGER ITAB(*)
-      INTEGER NALE_R2R(*),FLAG_R2R
-      my_real PM(*), GEO(*)
+      INTEGER,INTENT(IN) :: ICODE(*),IXS(3,NUMNOD),IXQ(NIXQ,NUMELQ),IXC(NIXC,NUMELC),IXT(NIXT,NUMELT),IXTG(NIXTG,NUMELTG)
+      INTEGER,INTENT(IN) ::  ITAB(NUMNOD), NALE_R2R(*),FLAG_R2R
+      my_real,INTENT(IN) ::  PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO)
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
 C-----------------------------------------------
@@ -72,16 +76,20 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I
-      CALL ALE_CONNECTIVITY%ALE_COMPUTE_EE_CONNECTIVITY(PM,
-     .     NPROPM, NUMMAT, NUMNOD, NUMELQ, NUMELTG, NUMELS, N2D, 
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
+      CALL ALE_CONNECTIVITY%ALE_COMPUTE_EE_CONNECTIVITY(
+     .     PM  , NPROPM, NUMMAT, NUMNOD , NUMELQ, NUMELTG, NUMELS, N2D, 
      .     IALE, IEULER, ITHERM, IALELAG, 
-     .     NIXQ, NIXTG, NIXS, ITAB, 
-     .     IXQ, IXTG, IXS)
+     .     NIXQ, NIXTG , NIXS  , ITAB   , 
+     .     IXQ , IXTG  , IXS)
       
       IF (ALE_CONNECTIVITY%has_ne_connect .OR. ALE_CONNECTIVITY%has_nn_connect) THEN
-         CALL ALE_CONNECTIVITY%ALE_COMPUTE_CONNECTIVITY(NUMNOD, NUMELQ, NUMELTG, NUMELS, 
-     .        NIXQ, NIXTG, NIXS, ITAB, 
-     .        IXQ, IXTG, IXS)
+         CALL ALE_CONNECTIVITY%ALE_COMPUTE_CONNECTIVITY(
+     .        NUMNOD, NUMELQ, NUMELTG, NUMELS, 
+     .        NIXQ  , NIXTG , NIXS   , ITAB, 
+     .        IXQ   , IXTG  , IXS)
       ENDIF
       
       CALL ALE_CHECK_LAG(ALE_CONNECTIVITY%NALE,IXS,IXQ,IXC,IXT,IXTG,PM,ITAB,NALE_R2R,FLAG_R2R)   
@@ -91,15 +99,16 @@ C-----------------------------------------------
       ENDIF
 
 
-      !MARQUAGE DES NOEUDS ALE
+      !ALE NODES ARE HERE MARKED
       IF (N2D == 0)THEN
          CALL ALESO3(ALE_CONNECTIVITY,PM,IXS,GEO)
-      ELSEIF( .NOT. MULTI_FVM%IS_USED .OR. NUMELQ .NE. 0) THEN
+      ELSEIF( .NOT. MULTI_FVM%IS_USED .OR. NUMELQ /= 0) THEN
          CALL ALESO2(ALE_CONNECTIVITY,PM,IXQ)   
       ELSE
          CALL ALESO2T(ALE_CONNECTIVITY, PM, IXTG)
       ENDIF
 
+      !SPECIFIC MARKER FOR COLOCATED SCHEME (LAW51)
       IF(MULTI_FVM%IS_USED)THEN
         DO I=1,NUMNOD
           IF(    ALE_CONNECTIVITY%NALE(I)==151)THEN
@@ -109,6 +118,6 @@ C-----------------------------------------------
           ENDIF
         ENDDO
       ENDIF
-
+C-----------------------------------------------
       RETURN
       END

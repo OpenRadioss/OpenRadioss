@@ -20,8 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-C
-C
 Chd|====================================================================
 Chd|  ATHLEN                        source/ale/athlen.F           
 Chd|-- called by -----------
@@ -29,7 +27,6 @@ Chd|        MATINI                        source/materials/mat_share/matini.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE ATHLEN(DELT, DELTAX)
-C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -41,8 +38,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     .   DELT(*), DELTAX(*)
+      my_real, INTENT(IN) :: DELTAX(MVSIZ)
+      my_real, INTENT(INOUT) :: DELT(MVSIZ) 
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -51,11 +48,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C--------------------------------------------------------------------
-C
+C-----------------------------------------------
+C   S o u r c e  L i n e s
+C-----------------------------------------------
       DO I=LFT,LLT
         DELT(I)=DELTAX(I)
       END DO
-
+C-----------------------------------------------
       RETURN
       END

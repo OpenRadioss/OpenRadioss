@@ -20,7 +20,6 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-C
 Chd|====================================================================
 Chd|  EDLEN2                        source/ale/ale2d/edlen2.F     
 Chd|-- called by -----------
@@ -30,7 +29,6 @@ Chd|        QINIT2                        source/elements/solid_2d/quad/qinit2.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE EDLEN2(VEUL, AIRE, DELTAX)
-C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -42,8 +40,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real
-     .   VEUL(10,*), AIRE(*), DELTAX(*)
+      my_real, INTENT(INOUT) :: VEUL(10,*)
+      my_real, INTENT(IN) :: AIRE(MVSIZ), DELTAX(MVSIZ)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -52,12 +50,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C--------------------------------------------------------------------
-C
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       DO I=LFT,LLT
         VEUL(2,I)=DELTAX(I)
         VEUL(1,I)=AIRE(I)
       END DO
-
+C-----------------------------------------------
       RETURN
       END
