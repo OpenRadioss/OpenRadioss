@@ -327,7 +327,7 @@ C
       INDX  = 0
       DO I=1,NEL
         ! Modified Mohr Criteria Failure Model
-        IF ((OFF(I) == ONE).AND.(DPLA(I) > ZERO)) THEN
+        IF (OFF(I) == ONE) THEN
           ! Pressure
           P    = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
           ! Von Mises equivalent stress
