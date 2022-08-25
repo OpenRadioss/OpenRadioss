@@ -42,18 +42,28 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER IXS(NIXS,NUMELS)
-      my_real X(3,NUMNOD), GRAD(6,*)
-      TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "vect01_c.inc"
+#include      "tabsiz_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+! SPMD CASE : SIXS >= NIXS*NUMELS    (SIXS=NIXS*NUMELS_L+NSVOIS_L*NIXS+6*NUMELS10_L)
+! IXS(1:NIXS, 1:NUMELS) local elems
+!    (1:NIXS, NUMELS+1:) additional elems (also on adjacent domains but connected to the boundary of the current domain)
+!
+! SPMD CASE : SX >= 3*NUMNOD    (SX = 3*(NUMNOD_L+NRCVVOIS_L))
+! X(1:3,1:NUMNOD) : local nodes
+!  (1:3, NUMNOD+1:) additional nodes (also on adjacent domains but connected to the boundary of the current domain)
+C-----------------------------------------------
+      INTEGER,INTENT(IN) :: IXS(NIXS,SIXS/NIXS)
+      my_real,INTENT(IN) :: X(3,SX/3)
+      my_real, INTENT(INOUT) :: GRAD(6,*)
+      TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -137,9 +147,9 @@ C------------------------------------------
         YC(I)  =  (Y1(I)+Y2(I)+Y3(I)+Y4(I)+Y5(I)+Y6(I)+Y7(I)+Y8(I))
         ZC(I)  =  (Z1(I)+Z2(I)+Z3(I)+Z4(I)+Z5(I)+Z6(I)+Z7(I)+Z8(I))
       ENDDO
-C--------+---------+---------+---------+---------+---------+---------+--
+C------------------------------------------
 C     DISTANCE BETWEEN ELEMS ( * 8. )
-C-------------------------------------------------------------
+C------------------------------------------
       DO I=LFT,LLT
        IE =NFT+I
        IAD2 = ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
