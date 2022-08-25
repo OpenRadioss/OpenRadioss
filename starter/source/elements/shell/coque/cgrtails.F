@@ -807,7 +807,7 @@ C         flag for group of dupplicated elements in multidomains
           IPARG(90,NGROUP) = IPINCH
 C
           ISEATBELT = 0
-          IF(MLN == 19.AND.IPM(6,MID)==1) ISEATBELT = 1
+          IF(MLN == 119) ISEATBELT = 1
           IPARG(91,NGROUP) = ISEATBELT
 C
           NSG = 1

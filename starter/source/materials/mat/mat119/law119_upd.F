@@ -101,11 +101,8 @@ c
             SLOPE = FSCALE2 * DY / DX
             KMAX  = MAX(KMAX, SLOPE)
           END DO
-          UPARAM(1) = KMAX             ! E11 
-          UPARAM(2) = KMAX * FSCALET   ! E22 
 c
 c         check intersection with loading curve
-c
           CALL TABLE_INTERS(TABLE,FUNC,FUND,FSCALE1,FSCALE2,XINT,YINT)
 c
           IF (XINT == ZERO .or. YINT == ZERO) THEN
@@ -117,30 +114,11 @@ c
           ENDIF 
           UPARAM(18) = XINT   
           UPARAM(19) = YINT
-c
         END IF
-c
-        RHO = PM(89)
-        C1  = KMAX / (ONE - FSCALET*N12**2)
-        SSP = SQRT(C1/RHO)
-        N21 = N12 * FSCALET
-        NU  = SQRT(N12*N21)
-        DET = ONE / (ONE - N12*N21)
-        A11 = KMAX * DET
-        A22 = A11 * FSCALET
-        A12 = A11 * N21
-        UPARAM(1) = KMAX                 ! E11 
-        UPARAM(2) = UPARAM(1) * FSCALET  ! E22 
-        UPARAM(4) = N21
-        UPARAM(5) = NU
-        UPARAM(7) = A11 
-        UPARAM(8) = A22 
-        UPARAM(9) = A12   
-        UPARAM(17)= SSP        
-        PM(20) = KMAX
-        PM(21) = NU
-        PM(24) = KMAX/(ONE - NU**2)
-        PM(32) = C1     
+C
+        UPARAM(1) = KMAX                 ! E11
+C       other material paramters are recomputed in create_seatbelt when section is available
+C  
       END IF      
 c-----------
       RETURN

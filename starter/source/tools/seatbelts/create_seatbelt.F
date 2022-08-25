@@ -65,13 +65,16 @@ C-----------------------------------------------
       INTEGER I,J,K,L,NOD_START,SEATBELT_ID,COMPT,ELEM_CUR,
      .        FLAG,NNOD,MTYP,MID,NDIR,
      .        I1,I2,IADBUF,TAG_PRINT,ISENS_LOC(2),IPID,OFFC,OFFR,NB_ELEM,NODE,
-     .        NB_2D_SEATBELT,COMPT_BELT_END,COMPT_FRAM,NEXT_NODE,NODE_CUR,COMPT_2D,MID_2D,NODE_LONGI
-      my_real DIST2,LMIN,RHO,XK,XC,AREA,LONGI_DIRECTION(3),EDGE_DIRECTION(3),SCAL,E11,G12,DETC,C1
+     .        NB_2D_SEATBELT,COMPT_BELT_END,COMPT_FRAM,NEXT_NODE,NODE_CUR,COMPT_2D,MID_2D,NODE_LONGI,
+     .        IADBUF_2D,FUNC1,FUNC2
+      my_real DIST2,LMIN,RHO,XK,XC,AREA,LONGI_DIRECTION(3),EDGE_DIRECTION(3),SCAL,E11,E22,G12,DET,
+     .        N12,N21,NU,FSCALE1,FSCALE2,A11,A22,A12,C1,SSP,RHO0,YOUNG,FSCALET
 C
       INTEGER , DIMENSION(:), ALLOCATABLE:: TAG_RES,TAG_SHELL,TAG_NOD,CC_ELEM,CPT_MAT,TAG_MAT_2D,
      .                                      TAG_NOD_SHELL,TAG_NOD_SPRING,FRAM_TAB,TAG_FRAM_SEATBELT,
      .                                      NNOD_FRAM_SEATBELT,BELT_END_NFRAM,BELT_END_ADDR,TAG_PROP_2D
-      my_real , DIMENSION(:), ALLOCATABLE:: AV_LEN_MAT,AV_AREA_MAT,ELEMSIZE_MAT,BELT_END_SECTION,SECTION_MAT
+      my_real , DIMENSION(:), ALLOCATABLE:: AV_LEN_MAT,AV_AREA_MAT,ELEMSIZE_MAT,BELT_END_SECTION,
+     .                                      SECTION_MAT
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -136,7 +139,7 @@ C
         MID = IXC(1,I)
         MTYP = IPM(2,MID)
         IPID = IXC(6,I)
-        IF ((MTYP == 19).AND.(IPM(6,MID)==1)) THEN
+        IF (MTYP == 119) THEN
           DO J=2,5
             TAG_NOD_SHELL(IXC(J,I)) = TAG_NOD_SHELL(IXC(J,I)) + 1
           ENDDO
@@ -210,7 +213,7 @@ C
                 ELEM_CUR = NOD2ELC(K)
                 MID = IXC(1,ELEM_CUR)
                 MTYP = IPM(2,MID)
-                IF ((MTYP==19).AND.(IPM(6,MID)==1)) THEN
+                IF (MTYP==119) THEN
                   DO J=2,5
                     IF ((TAG_NOD_SPRING(IXC(J,ELEM_CUR))==1).AND.(TAG_NOD(IXC(J,ELEM_CUR))==0)) THEN
 C--                   next node on transverse edge of seatbelt
@@ -275,7 +278,7 @@ C
                 ELEM_CUR = NOD2ELC(K)
                 MID = IXC(1,ELEM_CUR)
                 MTYP = IPM(2,MID)
-                IF ((MTYP==19).AND.(IPM(6,MID)==1)) THEN
+                IF (MTYP==119) THEN
                   DO J=2,5
                     IF ((TAG_NOD_SPRING(IXC(J,ELEM_CUR))==1).AND.(TAG_NOD(IXC(J,ELEM_CUR))==0)) THEN
 C--                   next node on transverse edge of seatbelt
@@ -431,7 +434,7 @@ C--         count and tag of 2d elements of the seatbelt
                 ELEM_CUR = NOD2ELC(L)
                 MID_2D = IXC(1,ELEM_CUR)
                 MTYP = IPM(2,MID_2D)
-                IF ((MTYP==19).AND.(IPM(6,MID_2D)==1)) THEN
+                IF (MTYP==119) THEN
                   IF (TAG_SHELL(ELEM_CUR)==0) THEN
                     TAG_SHELL(ELEM_CUR) = I
                     COMPT_2D = COMPT_2D + 1
@@ -547,10 +550,7 @@ C--       for 2D_seatbelt mass is apllied on shell - rho set to 0 - rho is store
             BUFMAT(IADBUF+128-1) = 0.9*PM(1,MID)
             PM(1,MID) = EM20
             BUFMAT(IADBUF+71) = 0.3*XC  
-            BUFMAT(IADBUF+72) = 0.3*XC  
-C--         if for mat119 K_PUL is not defined value is read from mat114
-            MID_2D = TAG_MAT_2D(MID)
-            IF (PM(33,MID_2D) <= EM20) PM(33,MID_2D) = EM02*XK
+            BUFMAT(IADBUF+72) = 0.3*XC
           ENDIF       
         ENDIF       
       ENDDO
@@ -566,59 +566,75 @@ C
         DO MID=1,NUMMAT
           MTYP = IPM(2,MID)
           IADBUF = IPM(7,MID)
-          IF ((MTYP == 19).AND.(IPM(6,MID)==1)) THEN
-C--         RHO = MPUL/S
-            PM(1,MID)=PM(1,MID)/SECTION_MAT(MID)
-            PM(89,MID)=PM(89,MID)/SECTION_MAT(MID)
+          IF (MTYP == 119) THEN
+            FUNC1 = IPM(227,MID)
+            FUNC2 = IPM(228,MID)
+C--         RHO = MPUL/S)
+            RHO0=PM(1,MID)/SECTION_MAT(MID)
 C--         E11 = K/S
-            E11 = PM(33,MID)/SECTION_MAT(MID)
-            PM(33,MID) = E11
-            IF (PM(34,MID) == EM20) PM(34,MID) = TEN*E11
-            PM(36,MID) = PM(35,MID)*PM(34,MID)/E11
-            DETC=ONE -PM(35,MID)*PM(36,MID)
-            IF(DETC.LE.ZERO) THEN
+            E11 = BUFMAT(IADBUF)/SECTION_MAT(MID)
+            E22 = BUFMAT(IADBUF+1)
+            FSCALET = BUFMAT(IADBUF+12)
+            IF (E22 == EM20) E22 = FSCALET*E11
+            N12 = BUFMAT(IADBUF+2)
+            IF (FUNC1 == 0) THEN
+              N21 = N12*E22/E11
+            ELSE
+              N21 = N12*FSCALET
+            ENDIF
+            NU  = SQRT(N12*N21)
+            G12 = BUFMAT(IADBUF+5)
+            IF (G12 == EM20) G12 = E11/(TWO*(ONE + N12))
+            DET = ONE / (ONE - N12*N21)
+            A11 = E11 * DET
+            A22 = E22 * DET
+            A12 = A11 * N21
+            C1  = MAX(E11,E22) * DET
+            SSP = SQRT(C1/RHO0)
+            IF(DET.LE.ZERO) THEN
               CALL ANCMSG(MSGID=307,
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO,
      .                    I1=IPM(1,MID),
      .                    C1='SEATBELT MATERIAL')
             ENDIF
-            IF (PM(37,MID) == EM20) THEN
-              G12 = E11/(TWO*(ONE+PM(35,MID)))
-              PM(37,MID)=G12
-              PM(38,MID)=G12
-              PM(39,MID)=G12
-            ENDIF
-            PM(22,MID)=MAX(PM(37,MID),PM(38,MID),PM(39,MID))    
-            C1=MAX(E11,PM(34,MID))/DETC
-            PM(20,MID)=C1
-            PM(24,MID)=C1
-            PM(32,MID)=C1
-            PM(21,MID)=SQRT(PM(35,MID)*PM(36,MID))
-            PM(25,MID)=PM(21,MID)*PM(24,MID)
-            PM(27,MID)=SQRT(C1/PM(1,MID))
-            PM(52,MID)=ONEP414*PM(17,MID)*PM(1,MID)*PM(27,MID)
-            PM(100,MID)=PM(32,MID)
-            PM(190,MID)= SQRT(MAX(ZERO,PM(21,MID)))
-            PM(12,MID)=SQRT(MAX(ZERO, PM(22,MID))) 
-            PM(13,MID)=SQRT(MAX(ZERO, PM(24,MID))) 
-            PM(14,MID)=SQRT(MAX(ZERO, PM(25,MID)))
+            FSCALE1 = BUFMAT(IADBUF+10)/SECTION_MAT(MID)
+            FSCALE2 = BUFMAT(IADBUF+11)/SECTION_MAT(MID)
 C--         update of UPARAM
-            BUFMAT(IADBUF) = PM(33,MID)
-            BUFMAT(IADBUF+1) = PM(34,MID)
-            BUFMAT(IADBUF+3) = PM(36,MID)
-            BUFMAT(IADBUF+4) = PM(37,MID)
-            BUFMAT(IADBUF+5) = PM(38,MID)
-            BUFMAT(IADBUF+6) = PM(39,MID)
-            BUFMAT(IADBUF+8) = PM(27,MID)
-            BUFMAT(IADBUF+9) = PM(33,MID)/DETC
-            BUFMAT(IADBUF+10) = PM(34,MID)/DETC
-            BUFMAT(IADBUF+11) = PM(36,MID)*PM(33,MID)/DETC
+            BUFMAT(IADBUF) = E11
+            BUFMAT(IADBUF+1) = E22
+            BUFMAT(IADBUF+3) = N21
+            BUFMAT(IADBUF+4) = NU
+            BUFMAT(IADBUF+5) = G12
+            BUFMAT(IADBUF+6) = A11
+            BUFMAT(IADBUF+7) = A22
+            BUFMAT(IADBUF+8) = A12
+            BUFMAT(IADBUF+10) = FSCALE1
+            BUFMAT(IADBUF+11) = FSCALE2
+            BUFMAT(IADBUF+16) = SSP
+C--         update of PM
+            PM(1,MID)=RHO0
+            PM(89,MID)=RHO0
+            YOUNG = MAX(E11,E22)
+            PM(20,MID) = YOUNG/(ONE - NU**2)
+            PM(21,MID) = NU
+            PM(22,MID) = HALF*YOUNG/(ONE + NU)
+            PM(24,MID) = YOUNG/(ONE - NU**2)
+            PM(32,MID) = C1
+C--         Need to be store in PM for hourglass forces computation
+            PM(33,MID) = E11
+            PM(34,MID) = E22
+            PM(35,MID) = N12
+            PM(36,MID) = N21
+            PM(37,MID) = G12
+            PM(38,MID) = G12
+            PM(39,MID) = G12
+
 C--         printout
             IF (TAG_PRINT == 0) WRITE(IOUT,1200)
             TAG_PRINT = 1
             WRITE(IOUT,'(5X,I10,8X,G16.9,G16.9,G16.9,G16.9)') IPM(1,MID),SECTION_MAT(MID),E11,
-     .                                                        PM(34,MID),PM(37,MID)
+     .                                                        E22,G12
           ENDIF       
         ENDDO
       ENDIF

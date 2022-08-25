@@ -36,7 +36,8 @@ Chd|====================================================================
      .            IQEPH   ,ZCFAC   ,DEPSXX  ,DEPSYY  ,DEPSXY  ,
      .            EPSXX   ,EPSYY   ,EPSXY   ,EPSYZ   ,EPSZX   ,
      .            SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
-     .            SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  )
+     .            SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
+     .            FACTOR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -66,7 +67,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(NUPARAM) ,INTENT(IN)  :: UPARAM
       my_real ,DIMENSION(NEL) ,INTENT(IN) ::  SHF,THKLYL,OFF,
      .   DEPSXX,DEPSYY,DEPSXY,EPSXX,EPSYY,EPSXY,EPSYZ,EPSZX,
-     .   SIGOXX,SIGOYY,SIGOXY,SIGOYZ,SIGOZX
+     .   SIGOXX,SIGOYY,SIGOXY,SIGOYZ,SIGOZX,FACTOR
       my_real ,DIMENSION(NEL) ,INTENT(OUT) ::
      .   SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX,THK,SSP
       my_real ,DIMENSION(NEL,NUVAR) ,INTENT(INOUT) :: UVAR
@@ -123,6 +124,16 @@ c------------------------------------
         ENDDO
 c
       END IF
+C
+C-----Scale of stress when close of slipring
+      DO I=1,NEL
+        SIGNXX(I) = SIGNXX(I)*FACTOR(I)
+        SIGNYY(I) = SIGNYY(I)*FACTOR(I)
+        SIGNXY(I) = SIGNXY(I)*FACTOR(I)
+        SIGNYZ(I) = SIGNYZ(I)*FACTOR(I)
+        SIGNZX(I) = SIGNZX(I)*FACTOR(I)
+      ENDDO
+C
 C------for QEPH-------       
       IF (IQEPH) THEN
         DO I=1,NEL

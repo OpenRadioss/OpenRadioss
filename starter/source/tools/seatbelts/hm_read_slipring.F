@@ -551,7 +551,7 @@ C--           Search for closest node on element set 1 for each anchorage node
                   ENDIF
                 ENDDO
                 MID = IXC(1,ISHELL)
-                IF ((IPM(2,MID)/=19).OR.(IPM(6,MID)/=1)) THEN
+                IF (IPM(2,MID)/=119) THEN
                   CALL ANCMSG(MSGID=2074,
      .                        MSGTYPE=MSGERROR,
      .                        ANMODE=ANINFO_BLIND_1,
@@ -575,7 +575,7 @@ C--           Search for closest node on element set 2 for each anchorage node
                   ENDIF
                 ENDDO
                 MID = IXC(1,ISHELL)
-                IF ((IPM(2,MID)/=19).OR.(IPM(6,MID)/=1)) THEN
+                IF (IPM(2,MID)/=119) THEN
                   CALL ANCMSG(MSGID=2074,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO_BLIND_1,

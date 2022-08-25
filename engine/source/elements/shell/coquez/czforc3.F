@@ -623,20 +623,20 @@ c--------------------------
       ENDIF 
 c-------------------------------
         IF (NPTTOT == 1) THEN
-		  IF (MTN==58.OR.MTN==19) THEN
-           CALL CZFINTNM1(JFT  ,JLT  ,THK0  ,A_I   ,DHG  ,
-     2                   X13  ,X24  ,Y13  ,Y24  ,VF   ,
-     4                   MX13 ,MX23 ,MY13 ,MY23 ,
-     3                   G    ,RHO  ,AREA ,AMU  ,DT1  ,
-     4                   VL13 ,VL24 ,VLHI ,GBUF%HOURG,
-     4                   OFF  ,IPARTC,PARTSAV,KFTS  ,NEL )
-	      ELSE
+          IF (MTN==58.OR.MTN==19.OR.MTN==119) THEN
+            CALL CZFINTNM1(JFT  ,JLT  ,THK0  ,A_I   ,DHG  ,
+     2                     X13  ,X24  ,Y13  ,Y24  ,VF   ,
+     4                     MX13 ,MX23 ,MY13 ,MY23 ,
+     3                     G    ,RHO  ,AREA ,AMU  ,DT1  ,
+     4                     VL13 ,VL24 ,VLHI ,GBUF%HOURG,
+     4                     OFF  ,IPARTC,PARTSAV,KFTS  ,NEL )
+	  ELSE
             CALL CZFINTNM(JFT  ,JLT  ,THK0  ,A_I   ,DHG  ,
-     2                   X13  ,X24  ,Y13  ,Y24  ,VF   ,
-     3                   G    ,RHO  ,AREA ,AMU  ,DT1  ,
-     4                   OFF  ,IPARTC,PARTSAV,KFTS  )
-		  END IF
-	    END IF
+     2                    X13  ,X24  ,Y13  ,Y24  ,VF   ,
+     3                    G    ,RHO  ,AREA ,AMU  ,DT1  ,
+     4                    OFF  ,IPARTC,PARTSAV,KFTS  )
+	  END IF
+	END IF
         CALL CZPROJ1(
      1            JFT    ,JLT    ,VQN    ,VQ     ,VF ,
      2            VM     ,PLAT   ,

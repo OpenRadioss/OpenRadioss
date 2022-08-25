@@ -92,7 +92,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER FUNC1,FUNC2,IRELOAD
-      my_real :: NU,N12,N21,E11,E22,G12,G23,G31,RCOMP,DET,C1,SSP,
+      my_real :: NU,N12,E11,E22,G12,G23,G31,RCOMP,DET,C1,SSP,
      .   A11,A22,A12,A1C,A2C,GC,RHO0,LMIN,DAMP,FSCALE1,FSCALE2,FSCALET,
      .   ECOAT,NUCOAT,TCOAT
       LOGICAL IS_AVAILABLE,IS_CRYPTED
@@ -125,18 +125,27 @@ card5
       CALL HM_GET_FLOATV('ECOAT'    ,ECOAT     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('NUCOAT'   ,NUCOAT    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('TCOAT'    ,TCOAT     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+C
 c-----------------------------------------------------
       PM(1) = RHO0
       PM(89)= RHO0
 c
       ISRATE = -1
-      IF (N12 == ZERO) N12 = 0.3
-      IF (E22 == ZERO) E22 = EM01*E11
-      IF (G12 == ZERO) G12 = EM02*E11/(TWO*(ONE + N12))
+      IF (N12 == ZERO) N12 = 0.19
+C--   Values are replaced in create_seatbelt.F when section is avaialble
+      IF (E11 == ZERO) E11 = EM20
+      IF (E22 == ZERO) E22 = EM20
+      IF (G12 == ZERO) G12 = EM20
+C
       IF (FSCALE1 == ZERO) FSCALE1 = ONE
       IF (FSCALE2 == ZERO) FSCALE2 = ONE
       IF (FSCALET == ZERO) FSCALET = EM01
-      N21 = ZERO
+
+C--   stiffness of the shell is 1% of the total stiffness
+      FSCALE1 = EM02*FSCALE1
+      FSCALE2 = EM02*FSCALE2
+      FSCALET = EP02*FSCALET
+C
 C-----------------------------------------------------
       IF (FUNC1 == 0 .and. E11 == ZERO) THEN
          CALL ANCMSG(MSGID=306, MSGTYPE=MSGERROR, ANMODE=ANINFO,
@@ -153,35 +162,15 @@ C-----------------------------------------
      .                C1=TITR)
          RCOMP = EM03
       ENDIF
-c-----------------------------------------
-c     
-      IF (FUNC1 == 0) N21 = N12*E22 / E11
-      NU  = SQRT(N12*N21)
-      DET = ONE / (ONE - N12*N21)
-      IF (DET <= ZERO) THEN
-         CALL ANCMSG(MSGID=307, MSGTYPE=MSGERROR, ANMODE=ANINFO,
-     .               I1=MAT_ID,
-     .               C1=TITR)
-      ENDIF
 C--------------------------------------------------------
-      A11 = E11 * DET
-      A22 = E22 * DET
-      A12 = A11 * N21
-      C1  = MAX(E11,E22) * DET
-      SSP = SQRT(C1/RHO0)
       A1C = ECOAT /  (ONE - NUCOAT**2)
       A2C = A1C * NUCOAT
       GC  = ECOAT * HALF / (ONE + NUCOAT)
 c-----------------------------------------
-      UPARAM(1)  = E11
+      UPARAM(1)  = E11*EM02
       UPARAM(2)  = E22
       UPARAM(3)  = N12
-      UPARAM(4)  = N21
-      UPARAM(5)  = NU
-      UPARAM(6)  = G12
-      UPARAM(7)  = A11 
-      UPARAM(8)  = A22 
-      UPARAM(9)  = A12     
+      UPARAM(6)  = G12  
       UPARAM(10) = RCOMP                          
       UPARAM(11) = FSCALE1                           
       UPARAM(12) = FSCALE2  
@@ -189,7 +178,6 @@ c-----------------------------------------
       UPARAM(14) = A1C
       UPARAM(15) = A2C
       UPARAM(16) = TCOAT
-      UPARAM(17) = SSP
       UPARAM(18) = ZERO  ! Xint
       UPARAM(19) = ZERO  ! Yint
       UPARAM(20) = GC
@@ -202,9 +190,10 @@ c
       ITABLE(1) = FUNC1                
       ITABLE(2) = FUNC2                
 c --------------------------
-      PARMAT(1)  = C1
-      PARMAT(2)  = MAX(E11,E22)
-      PARMAT(3)  = SQRT(N12*N21)
+C--   Values of C1,E11,E22 and N21 are computed in create_seatbelt.F when section is avaialble
+C     PARMAT(1)  = C1
+C     PARMAT(2)  = MAX(E11,E22)
+C     PARMAT(3)  = SQRT(N12*N21)
       PARMAT(4)  = ISRATE
       PARMAT(5)  = ZERO ! FCUT
 c
@@ -215,9 +204,7 @@ c
       MTAG%G_SLIPRING_FRAM_ID = 2
       MTAG%G_UPDATE = 1
       MTAG%G_ADD_NODE = 4
-c
-c     flag for seatbelts
-c     IPM(6) = 1
+      MTAG%G_POSX = 2
 c
 c--------------------- 
       CALL INIT_MAT_KEYWORD(MATPARAM,"COMPRESSIBLE")
@@ -231,7 +218,7 @@ c----------------------------------------
       ELSE
         WRITE(IOUT,1200) RHO0
         IF (FUNC1 == 0) THEN
-          WRITE(IOUT,1300) E11,E22,N12,N21,G12,RCOMP,LMIN,DAMP
+          WRITE(IOUT,1300) E11,E22,N12,G12,RCOMP,LMIN,DAMP
         ELSE
           WRITE(IOUT,1400) N12,G12,RCOMP,LMIN,DAMP,FUNC1,FUNC2,
      .    FSCALE1,FSCALE2,IRELOAD,FSCALET
@@ -249,12 +236,11 @@ c--------------------------------------
      &(5X,'ORTHOTROPIC MATERIAL FOR SEATBELTS (LAW119)       ',/,
      & 5X,'-------------------------------------------       ',/)
  1200 FORMAT(
-     & 5X,'INITIAL DENSITY . . . .  .  . . . . . . . . . . .=',1PG20.13/)  
+     & 5X,'MASS PER UNIT LENGTH  . . . . . . . . . . . . . .=',1PG20.13/)  
  1300 FORMAT(
-     & 5X,'YOUNG MODULUS E11 (TENSION) . . . . . . . . . . .=',1PG20.13/
+     & 5X,'STIFFNESS PER UNIT LENGTH (TENSION) . . . . . . .=',1PG20.13/
      & 5X,'YOUNG MODULUS E22 (TENSION) . . . . . . . . . . .=',1PG20.13/
      & 5X,'POISSON RATIO NU12. . . . . . . . . . . . . . . .=',1PG20.13/
-     & 5X,'POISSON RATIO NU21. . . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'SHEAR MODULUS G12 . . . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'COMPRESSION REDUCTION FACTOR. . . . . . . . . . . ',/
      & 5X,'     RCOMP=E11C/E11= E22C/E22 . . . . . . . . . .=',1PG20.13/

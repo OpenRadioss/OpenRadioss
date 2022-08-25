@@ -297,7 +297,7 @@ C
         IF (GBUF%G_INTVAR      == 0) GBUF%G_INTVAR       = MTAG%G_INTVAR
       ENDIF
 C
-      IF ((IGTYP == 9).AND.(GLAW == 19)) THEN   ! 2D seatbelt material
+      IF ((IGTYP == 9).AND.(GLAW == 119)) THEN   ! 2D seatbelt material
         MTAG  => MLAW_TAG(GMAT)
         IF (GBUF%G_SLIPRING_ID == 0) GBUF%G_SLIPRING_ID  = MTAG%G_SLIPRING_ID
         IF (GBUF%G_SLIPRING_FRAM_ID == 0) GBUF%G_SLIPRING_FRAM_ID  = MTAG%G_SLIPRING_FRAM_ID
