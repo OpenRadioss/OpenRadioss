@@ -49,22 +49,22 @@ Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE ALEWDX(
-     1     GEO           ,X             ,D          ,V          ,VR         ,
-     2     W             ,WA            ,WB         ,RBY        ,SKEW       ,
-     3     PM            ,XLAS          ,MS         ,FSAV       ,
-     4     A             ,AR            ,TF         ,RWBUF      ,
-     5     IN            ,DT2SAVE       ,
-     6     IPARG         ,IXS           ,IXQ        ,NODPOR     ,
-     7     ISKEW         ,ICODT      ,ELBUF_TAB  ,
-     8     NPF           ,LINALE        ,NPRW       ,LAS        ,
-     9     IPARI         ,NODFT         ,NODLT      ,ITASK       ,
-     A     IAD_ELEM      ,FR_ELEM       ,NBRCVOIS   ,NBSDVOIS   ,LNRCVOIS   ,
-     B     LNSDVOIS      ,WEIGHT        ,ADSKY      ,FSKY       ,IADS       ,
-     C     FR_WALL    ,NPORGEO    ,PROCNE     ,
-     D     FR_NBCC       ,IADQ       ,XDP        ,IGRNOD     ,
-     E     DR            ,INTBUF_TAB    ,ITAB       ,MULTI_FVM  ,
-     F     ALE_CONNECTIVITY,DDP        ,NE_NERCVOIS,NE_NESDVOIS, 
-     G     NE_LERCVOIS   ,NE_LESDVOIS   ,XCELL      ,XFACE)
+     1     GEO             ,X             ,D          ,V          ,VR         ,
+     2     W               ,WA            ,WB         ,RBY        ,SKEW       ,
+     3     PM              ,XLAS          ,MS         ,FSAV       ,
+     4     A               ,AR            ,TF         ,RWBUF      ,
+     5     IN              ,DT2SAVE       ,
+     6     IPARG           ,IXS           ,IXQ        ,NODPOR     ,
+     7     ISKEW           ,ICODT         ,ELBUF_TAB  ,
+     8     NPF             ,LINALE        ,NPRW       ,LAS        ,
+     9     IPARI           ,NODFT         ,NODLT      ,ITASK      ,
+     A     IAD_ELEM        ,FR_ELEM       ,NBRCVOIS   ,NBSDVOIS   ,LNRCVOIS   ,
+     B     LNSDVOIS        ,WEIGHT        ,ADSKY      ,FSKY       ,IADS       ,
+     C     FR_WALL         ,NPORGEO       ,PROCNE     ,
+     D     FR_NBCC         ,IADQ          ,XDP        ,IGRNOD     ,
+     E     DR              ,INTBUF_TAB    ,ITAB       ,MULTI_FVM  ,
+     F     ALE_CONNECTIVITY,DDP           ,NE_NERCVOIS,NE_NESDVOIS, 
+     G     NE_LERCVOIS     ,NE_LESDVOIS   ,XCELL      ,XFACE)
 C-----------------------------------------------
 C     D e s c r i p t i o n
 C-----------------------------------------------
