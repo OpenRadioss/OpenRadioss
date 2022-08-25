@@ -238,14 +238,13 @@ C
         IF(IEDGE /= 0) ALLOCATE(NSNFIEOLD(NSPMD))
       END IF
 C
-C Barriere dans tous les cas pour bminma [et cur_max_max]
+C wait bminma [and cur_max_max]
 C
       CALL MY_BARRIER
 
       IF(IEDGE/=0) THEN
 C
         INACTI  = IPARI(22,NIN)
-C       IF(INACTI.EQ.5)THEN
         IF(ITASK.EQ.0)THEN
 
 
@@ -283,9 +282,8 @@ C       IF(INACTI.EQ.5)THEN
           ENDIF
       ENDIF
 C -------------------------------------------------------------
-C     CALCUL BORNE DOMAINE REMONTE DANS I7XSAVE
+C     Bounds of the domains                                         
 C -------------------------------------------------------------
-C SSHIFT : decalage sur cand_e
       CALL I7XSAVE(
      1       X            ,INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN ,NMN     ,
      2       ITASK        ,INTBUF_TAB%XSAV,XMINL      ,YMINL ,ZMINL   ,
@@ -381,16 +379,8 @@ C
 
         IF(ITASK.EQ.0)THEN
 
-c     do i = 1,numnod
-c     do j = 1,3
-c     if( isnan(X(j,i))) then 
-c       write(6,*) NCYCLE,"NaN X(",j,",",i,")"
-c     endif
-c     enddo
-c     enddo
-
 C
-C recuperation des noeuds remote NSNR stockes dans XREM
+C Get remote nodes in XREM/IREM
 C
           INACTI=0
           NEDGE_LOCAL = INTBUF_TAB%NB_INTERNAL_EDGES + INTBUF_TAB%NB_BOUNDARY_EDGES_LOCAL
@@ -421,8 +411,7 @@ C
      M      ISKEW,INTBUF_TAB%IPARTFRIC_E,
      N      INTBUF_TAB%E2S_NOD_NORMAL)
 
-C renumerotation locale des anciens candidats
-C
+C local renumbering of old candidates to collision
           CALL SPMD_RNUM25(
      1      RENUM  ,NIN, NSN,NSNFIOLD     ,NSNROLD)
           IF(IEDGE /= 0) THEN
@@ -444,7 +433,7 @@ C
 C
       IF (IMONM > 0) CALL STARTIME(30,1)
 C
-C     Reserve NCONT additional candidates (if every slavle node alreay impacted, cf i25optcd)
+C     NCONT additional candidates (if all secondary nodes are alreay impacted, cf i25optcd)
       MULTIMP = IPARI(23,NIN)
       MULNSN  = INTBUF_TAB%S_CAND_N - NCONT
       CALL I25BUCE(
@@ -487,12 +476,8 @@ C--------------------------------------------------------------
 C     Edges
 C--------------------------------------------------------------
       IF(IEDGE==0) GOTO 200
-
-C
       INACTI  = IPARI(22,NIN)
-C
       CAND_E_OLD(1:2) = INTBUF_TAB%I_STOK_E(1:2)
-C
       BGAPEMX=INTBUF_TAB%VARIABLES(40)
       IF(ITASK == 0)THEN
 
@@ -589,7 +574,7 @@ C
 C--------------------------------------------------------------
  200  CONTINUE
 C--------------------------------------------------------------
-C mise a - de dist temporairement pour reperage dans partie frontiere
+C Negative value in "dist" : tag boundary part
       IF(NSPMD.GT.1)THEN
 !$OMP SINGLE
         IF (IMONM > 0) CALL STARTIME(26,1)
@@ -618,13 +603,11 @@ C
         ENDIF
 
         IPARI(69 ,NIN) = NEDGE_REMOTE_OLD
-
 C
         IF (IMONM > 0) CALL STOPTIME(26,1)
         IF(IEDGE /= 0) THEN
             DEALLOCATE(RENUM_EDGE)
             DEALLOCATE(OLDNUM_EDGE)
-C           DEALLOCATE(NSNFIEOLD)
         ENDIF
 !$OMP END SINGLE
       END IF
@@ -633,12 +616,7 @@ C           DEALLOCATE(NSNFIEOLD)
             DEALLOCATE(NSNFIEOLD)
 !$OMP END SINGLE
         ENDIF
-
 C
       CALL MY_BARRIER
-
-
-
-C
       RETURN
       END
