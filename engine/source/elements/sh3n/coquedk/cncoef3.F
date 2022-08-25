@@ -138,9 +138,12 @@ C
                KRZ(I) =KFAC*G(I)
           ENDDO 
       ELSEIF(MTN==58) THEN
-           K58(1) = UPARAM( 9)  ! young dir1
-           K58(2) = UPARAM(10)  ! young dir2
-           K58(3) = MAX(UPARAM(13),UPARAM(14))
+           MX  =MAT(JFT)
+C---- due to too high young update (Starter) w/ input func            
+           FAC1TMP = PM(23,MX)/PM(20,MX)
+           K58(1) = FAC1TMP*UPARAM( 9)  ! young dir1
+           K58(2) = FAC1TMP*UPARAM(10)  ! young dir2
+           K58(3) = FAC1TMP*MAX(UPARAM(13),UPARAM(14))
            K58I = EM02		   
            FAC58(JFT:JLT,1:2) = K58I
          IF(NPT==1) THEN
