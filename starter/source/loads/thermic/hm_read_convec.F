@@ -86,7 +86,7 @@ C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER USR2SYS
-      DATA MESS/'CONVECTION  FLUX  DEFINITION             '/
+      DATA MESS/'CONVECTION  FLUX  DEFINITION            '/
 C=======================================================================
       IS_AVAILABLE = .FALSE.                                            
       K=0                                

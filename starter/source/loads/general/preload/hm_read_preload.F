@@ -94,7 +94,7 @@ C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER USR2SYS
-      DATA MESS/'BOLT PRELOADING DEFINITION               '/
+      DATA MESS/'BOLT PRELOADING DEFINITION              '/
 C=======================================================================
       IS_AVAILABLE = .FALSE.
 C-----------------------------------------------
