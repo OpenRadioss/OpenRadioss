@@ -241,7 +241,7 @@ C
             II(I) = (I-1)*NEL + 1
           ENDDO
 C
-          IF ((ITYP == 3).AND.(MTN == 19).AND.(ISEATBELT==1)) THEN
+          IF ((ITYP == 3).AND.(ISEATBELT==1)) THEN
 C
             BUFLY => ELBUF_TAB(NG)%BUFLY(1)
             NLAY   = ELBUF_TAB(NG)%NLAY

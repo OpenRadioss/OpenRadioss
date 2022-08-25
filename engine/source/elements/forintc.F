@@ -294,7 +294,7 @@ C----6---------------------------------------------------------------7---------8
           IOFC = 0
 C
 C--      Reduction factor computation for seatbelts in sliprings
-         IF ((NSLIPRING > 0).AND.(MLW == 19).AND.(ISEATBELT==1)) THEN
+         IF ((NSLIPRING > 0).AND.(ISEATBELT==1)) THEN
            CALL SEATBELT_REDUCTION_FACTOR(ELBUF_TAB(NG),JFT,JLT,IXC,NEL,X,NFT)
          ENDIF
 C

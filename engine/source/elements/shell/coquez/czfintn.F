@@ -1138,7 +1138,7 @@ C      -----------for energy calculation-Mean_value--VGLAS(t)------
       END DO 
 C -----------elastic increment
       IF (IORTH>0) THEN
-       IF (MTN==19) THEN
+       IF ((MTN==19).OR.(MTN==119)) THEN
         DO I=JFT,JLT
          C2=FAC1(I)*DT1
          FACM(I)=FAC(I,1)*C2
@@ -1606,7 +1606,7 @@ C      -----------for energy calculation-Mean_value--VGLAS(t)------
       END DO 
 C -----------elastic increment     
       IF (IORTH>0) THEN
-       IF (MTN==19) THEN
+       IF ((MTN==19).OR.(MTN==119)) THEN
         DO I=JFT,JLT
          C2=FAC1(I)*DT1
          FACM(I)=FAC(I,1)*C2

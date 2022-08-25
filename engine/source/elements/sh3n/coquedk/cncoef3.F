@@ -93,7 +93,7 @@ C------implicit KFAC=0.1 for all----
 C
        IGTYP = IGEO(11,PID(1))
        IGMAT = IGEO(98,PID(1))
-       IPGMAT = 700 
+       IPGMAT = 700
       IF(IGTYP == 11 .AND. IGMAT > 0) THEN
            DO I=JFT,JLT
                THK02(I) = THK0(I)*THK0(I)
@@ -555,7 +555,7 @@ C     REAL
      .   HMLY(MVSIZ,4),HCLY(MVSIZ,2), HMORLY(MVSIZ,2),SHF(MVSIZ),
      .   IZZ(MVSIZ),IZ(MVSIZ),THK_LY(JLT-JFT+1,NPT)
 C--------IORTH=2 -> HMFOR couplage non-null----------------
-      IF (MTN == 19.OR.MTN == 15.OR.MTN == 25) THEN
+      IF (MTN == 19.OR.MTN == 15.OR.MTN == 25.OR.MTN == 119) THEN
         IORTH=1
       ELSE
         IORTH=0
@@ -575,7 +575,7 @@ C----------unify the factor ONE_OVER_12 after
             SHF(I)=GEO(38,PID(I))
           ENDDO
         ENDIF
-        IF (MTN == 19) THEN
+        IF ((MTN == 19).OR.(MTN == 119)) THEN
           CALL GEPM_LC(JFT,JLT,MAT,PM,SHF,HMLY,HC)
           CALL CCTOGLOB(JFT,JLT,HMLY,HC,HMOR,DIR,NEL)
           DO I=JFT,JLT

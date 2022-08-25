@@ -74,7 +74,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,L,M,NG,NEL,ITY,IAD,LFT,LLT,NFT,MTN,NODE,NODE_NEXT,
      .        ELEM_NEXT,N1,N2,NTOOL,KK,NOT_USED,FLAG,ELEM_CUR,NN,ID,NNOD,
-     .        MID,MTYP,P,NB_SHELL,NFRAM,N3,N4,M_FLAG,MS,NODES,ISEATBELT
+     .        MID,MTYP,P,NB_SHELL,NFRAM,N3,N4,MS,NODES,ISEATBELT
 C
       my_real DIST1,DIST2,ALEA_MAX,TOLE_2
 C
@@ -87,6 +87,7 @@ C-----------------------------------------------
 C
 C-----Reset of TAG_RES from SEATBELT_TAB structure----------------------------------
       MY_ALLOCATE(TAG_RES,NUMELR)
+      TAG_RES(1:NUMELR) = 0
       DO I=1,N_SEATBELT
         DO J=1,SEATBELT_TAB(I)%NSPRING
           TAG_RES(SEATBELT_TAB(I)%SPRING(J)) = I
@@ -369,7 +370,7 @@ C
               ELEM_CUR = NOD2ELC(K)
               MID = IXC(1,ELEM_CUR)
               MTYP = IPM(2,MID)
-              IF ((MTYP == 19).AND.(IPM(6,MID)==1)) NB_SHELL = NB_SHELL + 1                
+              IF (MTYP == 119) NB_SHELL = NB_SHELL + 1                
             ENDDO
 C
             NFRAM = SEATBELT_TAB(TAG_RES(J))%NFRAM
@@ -389,7 +390,7 @@ C--         element mass and inertia scaled by frame factor for elementary time 
 C
           ENDDO  
 C
-        ELSEIF ((ITY==3).AND.(MTN==19).AND.(ISEATBELT==1)) THEN
+        ELSEIF ((ITY==3).AND.(ISEATBELT==1)) THEN
 C
 C---      2D seatbelts shells
 C
@@ -398,21 +399,17 @@ C
           DO I=1,NEL
 C
             J = NFT + I        
-            MID = IXC(1,J)
-            M_FLAG = IPM(6,MID)
 C
-            IF (M_FLAG > 0) THEN
+            N1 = IXC(2,J)
+            N2 = IXC(3,J)
+            N3 = IXC(4,J)
+            N4 = IXC(5,J)
 C
-              N1 = IXC(2,J)
-              N2 = IXC(3,J)
-              N3 = IXC(4,J)
-              N4 = IXC(5,J)
+C--         Scale factor on stress intialised 
+            GBUF%INTVAR(I) = ONE
 C
-C--           Scale factor on stress intialised 
-              GBUF%INTVAR(I) = ONE
-C
-              DO M=2,5
-CCC-          Find node after node i
+            DO M=2,5
+CCC-        Find node after node i
 C
 C--             spring either betwenn node 1/2 - or 3/4
                 IF (M==2) MS =3
@@ -445,9 +442,7 @@ C
                 ENDDO
                 GBUF%ADD_NODE((M-2)*NEL+I) = NODE_NEXT
 C
-              ENDDO
-C
-            ENDIF
+            ENDDO
 C
           ENDDO
 C

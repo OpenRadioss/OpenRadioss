@@ -1645,7 +1645,8 @@ c
      .           FLAG_ZCFAC,ZCFAC   ,DEPSXX   ,DEPSYY   ,DEPSXY   ,
      .           EPSXX    ,EPSYY    ,EPSXY    ,EPSYZ    ,EPSZX    ,
      .           LBUF%SIG(IJ1),LBUF%SIG(IJ2),LBUF%SIG(IJ3),LBUF%SIG(IJ4),LBUF%SIG(IJ5),
-     .           SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ) 
+     .           SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
+     .           GBUF%INTVAR) 
 !          
           ELSEIF (ILAW == 121 )THEN
             CALL SIGEPS121C(
@@ -2533,7 +2534,7 @@ c
       MOM(JFT:JLT,1)=MOM(JFT:JLT,1)*OFF(JFT:JLT)*DMG_GLOB_SCALE(JFT:JLT)
       MOM(JFT:JLT,2)=MOM(JFT:JLT,2)*OFF(JFT:JLT)*DMG_GLOB_SCALE(JFT:JLT)
       MOM(JFT:JLT,3)=MOM(JFT:JLT,3)*OFF(JFT:JLT)*DMG_GLOB_SCALE(JFT:JLT)
-c
+C
       DEGMB(JFT:JLT) = DEGMB(JFT:JLT)+ FOR(JFT:JLT,1)*EXX(JFT:JLT)+FOR(JFT:JLT,2)*EYY(JFT:JLT)
      .                   + FOR(JFT:JLT,3)*EXY(JFT:JLT)+FOR(JFT:JLT,4)*EYZ(JFT:JLT)
      .                   + FOR(JFT:JLT,5)*EXZ(JFT:JLT)

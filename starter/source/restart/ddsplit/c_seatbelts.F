@@ -276,7 +276,7 @@ c----
               IF (GBUF%RETRACTOR_ID(I) > 0) GBUF%RETRACTOR_ID(I) = LOCAL_RETR(GBUF%RETRACTOR_ID(I))
             ENDDO
 C
-          ELSEIF ((P == PROC + 1).AND.(ITY==3).AND.(MTN==19).AND.(ISEATBELT==1)) THEN
+          ELSEIF ((P == PROC + 1).AND.(ITY==3).AND.(ISEATBELT==1)) THEN
             GBUF => ELBUF_TAB(NG)%GBUF
             DO I=1,NEL
               IF (GBUF%ADD_NODE(I) > 0) GBUF%ADD_NODE(I) = NODLOCAL(GBUF%ADD_NODE(I))
