@@ -99,8 +99,7 @@ C=======================================================================
         DO I=LFT,LLT
           E0(I)  = PM(20,MX)
         ENDDO
-        CALL S8ZSIGP3(LFT  ,LLT       ,SIG  ,E0  ,DEFP,
-     2                FAC  ,GBUF%G_PLA,NEL  )
+        CALL S8CSIGP3(SIG,E0 ,DEFP,FAC,GBUF%G_PLA,NEL)
       ENDIF
 C
       DO IT=1,NPTT

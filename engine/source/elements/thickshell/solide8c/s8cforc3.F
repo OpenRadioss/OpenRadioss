@@ -529,8 +529,7 @@ C --------------------------
       END IF !(ISMSTR == 2) THEN
 C
       IF (ICP == 2) THEN
-        CALL S8ZSIGP3(LFT  ,LLT       ,GBUF%SIG,E0  ,GBUF%PLA,
-     2                FAC  ,GBUF%G_PLA,NEL     )
+        CALL S8CSIGP3(GBUF%SIG,E0  ,GBUF%PLA,FAC,GBUF%G_PLA,NEL)
         DO I=LFT,LLT
           NU1(I)=NU(I)+(HALF-NU(I))*FAC(I)
         ENDDO
