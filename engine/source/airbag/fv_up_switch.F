@@ -1569,6 +1569,7 @@ C
       FSAV(14) = NPOLH
       RGAS_AV = CP_AV - CV_AV
       RHO_AV = AMTOT / VOLPH
+      FSAV(5) = FSAV(5) / AMTOT ! sum(mass[i]*T[i])/total_mass      
 
       IF(IVOLU(39) == 0) THEN
         FSAV(6) =ZERO
