@@ -35,11 +35,11 @@ Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectiv
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE ALEW6( 
-     1     X         ,D       ,V       ,W       ,WA      ,
-     .     XCELL, XFACE,
-     2     ALE_NN_CONNECT     ,ALE_NE_CONNECT, NALE    ,NODFT   ,NODLT   ,ITASK   ,
-     3     NBRCVOIS  ,NBSDVOIS,LNRCVOIS,LNSDVOIS,ITAB,  NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS,
-     4     ELBUF_TAB, IPARG, IXS, IXQ)
+     1     X             ,D             , V       ,W       ,WA      ,
+     .     XCELL         , XFACE        ,
+     2     ALE_NN_CONNECT,ALE_NE_CONNECT, NALE    ,NODFT   ,NODLT   ,ITASK   ,
+     3     NBRCVOIS      ,NBSDVOIS      , LNRCVOIS,LNSDVOIS,ITAB    ,NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS,
+     4     ELBUF_TAB     , IPARG        , IXS     , IXQ)
 C-----------------------------------------------
 C     D e s c r i p t i o n
 C-----------------------------------------------

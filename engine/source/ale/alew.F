@@ -30,9 +30,12 @@ Chd|        SPMD_WVOIS                    source/mpi/fluid/spmd_cfd.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|====================================================================
       SUBROUTINE ALEW(
-     1     X         ,D      ,V       ,W       ,WA      ,
-     2     ALE_NN_CONNECT     ,NALE   ,NODFT   ,NODLT   ,ITASK   ,
-     3     NBRCVOIS,NBSDVOIS,LNRCVOIS ,LNSDVOIS,ITAB         )
+     1     X              ,D       ,V        ,W       ,WA      ,
+     2     ALE_NN_CONNECT ,NALE    ,NODFT    ,NODLT   ,ITASK   ,
+     3     NBRCVOIS       ,NBSDVOIS,LNRCVOIS ,LNSDVOIS,ITAB         )
+C-----------------------------------------------
+C     M o d u l e s 
+C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C     D e s c r i p t i o n
@@ -65,13 +68,11 @@ C-----------------------------------------------
      .     LNRCVOIS(*),LNSDVOIS(*) ,ITAB(NUMNOD) 
       my_real X(3,SX/3), D(3,SD/3), V(3,SV/3), W(3,SW/3), WA(3,*)
       TYPE(t_connectivity), INTENT(IN) :: ALE_NN_CONNECT
-
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N, I, NCI, K, J, LENCOM, IAD1, IAD2
-      my_real LIJ, XLAGR, FIX, FIY, FIZ, SLI, WIX, WIY, WIZ, FAC,
-     .        LIJ2,LIJSQR
+      my_real LIJ, XLAGR, FIX, FIY, FIZ, SLI, WIX, WIY, WIZ, FAC,LIJ2,LIJSQR
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------

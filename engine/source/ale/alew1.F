@@ -29,9 +29,12 @@ Chd|        SPMD_XVOIS                    source/mpi/fluid/spmd_cfd.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|====================================================================
       SUBROUTINE ALEW1( 
-     1   X         ,D       ,V       ,W       ,
-     2   ALE_NN_CONNECT     ,NALE    ,NODFT   ,NODLT   ,ITASK   ,
-     3   NBRCVOIS  ,NBSDVOIS,LNRCVOIS,LNSDVOIS,ITAB         )
+     1   X              ,D       ,V       ,W       ,
+     2   ALE_NN_CONNECT ,NALE    ,NODFT   ,NODLT   ,ITASK   ,
+     3   NBRCVOIS       ,NBSDVOIS,LNRCVOIS,LNSDVOIS,ITAB         )
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------      
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -47,14 +50,6 @@ C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER NALE(NUMNOD), NODFT, NODLT, ITASK,
-     .        NBRCVOIS(*),NBSDVOIS(*),
-     .        LNRCVOIS(*),LNSDVOIS(*),ITAB(NUMNOD)
-      my_real X(3,NUMNOD), D(3,NUMNOD), V(3,NUMNOD), W(3,NUMNOD)     
-      TYPE(t_connectivity), INTENT(IN) :: ALE_NN_CONNECT
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr05_c.inc"
@@ -63,6 +58,16 @@ C-----------------------------------------------
 #include      "com07_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
+#include      "tabsiz_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER NALE(NUMNOD), NODFT, NODLT, ITASK,
+     .        NBRCVOIS(*),NBSDVOIS(*),
+     .        LNRCVOIS(*),LNSDVOIS(*),ITAB(NUMNOD)
+      my_real X(3,SX/3), D(3,SD/3), V(3,SV/3), W(3,SW/3)     
+      TYPE(t_connectivity), INTENT(IN) :: ALE_NN_CONNECT
+
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

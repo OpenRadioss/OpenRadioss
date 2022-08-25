@@ -76,9 +76,8 @@ C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NALE(NUMNOD), NODFT, NODLT, ITASK,
      .     NBRCVOIS(*),NBSDVOIS(*),
-     .     LNRCVOIS(*),LNSDVOIS(*),ITAB(*),ISKEW(*),ICODT(*)
-      my_real
-     .     X(3,SX/3), D(3,SD/3), V(3,SV/3), W(3,SW/3), WA(3,*), SKEW(LSKEW,*)   
+     .     LNRCVOIS(*),LNSDVOIS(*),ITAB(NUMNOD),ISKEW(*),ICODT(*)
+      my_real X(3,SX/3), D(3,SD/3), V(3,SV/3), W(3,SW/3), WA(3,*), SKEW(LSKEW,*)   
       TYPE(t_connectivity), INTENT(IN) :: ALE_NN_CONNECT
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
