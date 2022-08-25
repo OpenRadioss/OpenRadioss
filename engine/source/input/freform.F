@@ -990,7 +990,7 @@ C
           !     fvbag_id
           IERR1=0                                                               
           CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))                               
-          READ(IUSC2,'(A)')LINE                                                 
+          READ(IUSC2,'(A)',ERR=9990,END=9990)LINE                                                 
           READ(LINE,*,iostat=IERR1)DTFACA,DTMINA,LAMBDA,L_TYPE                  
           IF(IERR1 /= 0)THEN                                                    
             !l_type left blank (default 0)                                      
@@ -1008,8 +1008,9 @@ C
           ID_BAG = 0                                                            
           IF(KEY3(1:1)=='2')THEN                                                
             K=K+1                                                               
-            CALL WRIUSC2(IKAD(IKEY)+2,1,KEY0(IKEY))                             
-            READ(IUSC2,*,ERR=9990,END=9990)ID_BAG 
+            CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
+            READ(IUSC2,'(A)',ERR=9990,END=9990)LINE                                              
+            READ(LINE,*,ERR=9990,END=9990)ID_BAG 
             IF(ID_BAG <= 0)THEN
                 CALL ANCMSG(MSGID=299,ANMODE=ANINFO,I1=ID_BAG)
                 CALL ARRET(0)         
