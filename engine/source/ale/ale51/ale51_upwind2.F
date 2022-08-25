@@ -94,29 +94,29 @@ C
        IAD2 = ALE_CONNECT%ee_connect%iad_connect(I + NFT) 
        REDUC=PM(92,MAT(I))
        II=ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
-       IF(II > 0)THEN
+       IF(II == 0)THEN
         FLUX1(I)=FLUX1(I)*REDUC
        ENDIF
 C
        II=ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
-       IF(II > 0)THEN
+       IF(II == 0)THEN
         FLUX2(I)=FLUX2(I)*REDUC
        ENDIF
 C
        II=ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
-       IF(II > 0)THEN
+       IF(II == 0)THEN
         FLUX3(I)=FLUX3(I)*REDUC
        ENDIF
 C
        II=ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
-       IF(II > 0)THEN
+       IF(II == 0)THEN
         FLUX4(I)=FLUX4(I)*REDUC
        ENDIF
 C
       ENDDO
 C     
-      IF(IFLG > 1)THEN
-         IF (N2D  >  1) THEN
+      IF(IFLG == 1)THEN
+         IF (N2D  ==  1) THEN
             !!! Planar integration of momentum when 2D axi
             DO I=LFT,LLT
                II = I + NFT

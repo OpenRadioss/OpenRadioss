@@ -41,18 +41,28 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER IXQ(7,NUMELQ)
-      my_real X(3,NUMNOD), GRAD(4,*)
-      TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
-C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "vect01_c.inc"
+#include      "tabsiz_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+! SPMD CASE : SIXQ >= NIXQ*NUMELQ    (SIXQ = NIXQ*NUMELQ_L+NIXQ*NQVOIS_L)
+! IXQ(1:NIXQ, 1:NUMELQ) local elems
+!    (1:NIXQ, NUMELQ+1:) additional elems (also on adjacent domains but connected to the boundary of the current domain)
+!
+! SPMD CASE : SX >= 3*NUMNOD    (SX = 3*(NUMNOD_L+NRCVVOIS_L))
+! X(1:3,1:NUMNOD) : local nodes
+!  (1:3, NUMNOD+1:) additional nodes (also on adjacent domains but connected to the boundary of the current domain)
+C-----------------------------------------------
+      INTEGER,INTENT(IN) :: IXQ(7,SIXQ/NIXQ)
+      my_real,INTENT(IN) :: X(3,SX/3)
+      my_real,INTENT(INOUT) :: GRAD(4,*)
+      TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -108,9 +118,9 @@ C------------------------------------------
          N4Z(I) = N4Z(I)*(Y1(I)+Y4(I))*HALF  
        ENDDO
       ENDIF
-C--------+---------+---------+---------+---------+---------+---------+--
+C------------------------------------------
 C     DISTANCE BETWEEN ELEMS ( * 4. )
-C-------------------------------------------------------------
+C------------------------------------------
       DO I=LFT,LLT
         IE =NFT+I
         IAD2 = ALE_CONNECT%ee_connect%iad_connect(IE)
