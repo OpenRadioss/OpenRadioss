@@ -70,6 +70,8 @@ c
       DO IPG = 1,NPG
         OFFL  => ELBUF_STR%BUFLY(1)%LBUF(IPG,1,1)%OFF(1:NEL)
         DO IEL=1,NEL
+          IF (OFFG(IEL)==ZERO .AND. OFFL(IEL)/=OFFG(IEL)) 
+     .        OFFL(IEL)=OFFG(IEL)  
           COUNTPG(IEL) = COUNTPG(IEL) + OFFL(IEL)
         ENDDO         ! IEL=1,NEL
       ENDDO
