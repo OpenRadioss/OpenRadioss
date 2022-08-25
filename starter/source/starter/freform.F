@@ -1610,7 +1610,6 @@ Chd|        HM_READ_INTER_TYPE11          source/interfaces/int11/hm_read_inter_
 Chd|        HM_READ_INTER_TYPE12          source/interfaces/int12/hm_read_inter_type12.F
 Chd|        HM_READ_INTER_TYPE14          source/interfaces/int14/hm_read_inter_type14.F
 Chd|        HM_READ_INTER_TYPE15          source/interfaces/int15/hm_read_inter_type15.F
-Chd|        HM_READ_INTER_TYPE18          source/interfaces/int18/hm_read_inter_type18.F
 Chd|        HM_READ_INTER_TYPE20          source/interfaces/int20/hm_read_inter_type20.F
 Chd|        HM_READ_INTER_TYPE21          source/interfaces/int21/hm_read_inter_type21.F
 Chd|        HM_READ_INTER_TYPE22          source/interfaces/int22/hm_read_inter_type22.F
@@ -1730,7 +1729,6 @@ Chd|        HM_READ_TABLE1                source/tools/curve/hm_read_table.F
 Chd|        HM_READ_TABLE2                source/tools/curve/hm_read_table.F
 Chd|        HM_READ_THGRKI                source/output/th/hm_read_thgrki.F
 Chd|        HM_READ_THGRKI_RBODY          source/output/th/hm_read_thgrki_rbody.F
-Chd|        HM_READ_THGRNE                source/output/th/hm_read_thgrne.F
 Chd|        HM_READ_THGRNS                source/output/th/hm_read_thgrns.F
 Chd|        HM_READ_THGRSURF              source/output/th/hm_read_thgrsurf.F
 Chd|        HM_READ_THPART                source/output/thpart/hm_read_thpart.F
