@@ -773,7 +773,7 @@ C
         IF ((JTYP.EQ.2).OR.(JTYP.EQ.3).OR.(JTYP.EQ.4)) THEN
 C--      only one init angle allowed on X axis
           ERR = ABS(T(2))+ABS(T(3))
-          IF (ERR.GT.EM8) THEN
+          IF (ERR.GT.EM6) THEN
             CALL ANCMSG(MSGID=1132,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,
