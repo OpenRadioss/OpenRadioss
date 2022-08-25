@@ -245,8 +245,8 @@ C     Variables utilisees dans les routines solides uniquement (en arguments).
      .   TEMPEL(MVSIZ),THEM(MVSIZ,8),DIE(MVSIZ),
      .   STIN(MVSIZ),DSV(MVSIZ),BID(MVSIZ),CONDEN(MVSIZ),DTI
        my_real
-     .       NU1(MVSIZ),FAC,DIVDE(MVSIZ),FOR(MVSIZ,6),
-     .       ALPHA_E(MVSIZ),LLSH(MVSIZ)
+     .       NU1(MVSIZ),FAC(MVSIZ),DIVDE(MVSIZ),FOR(MVSIZ,6),
+     .       ALPHA_E(MVSIZ),LLSH(MVSIZ),C1,E0(MVSIZ)
       DOUBLE PRECISION 
      .   FACDP
 C-----
@@ -437,16 +437,19 @@ C
         DHXZ(I)= ZERO
         DHYZ(I)= ZERO
         CONDEN(I)= ZERO
+        C1 =PM(32,MXT(I))
+        E0(I) =THREE*(ONE-TWO*NU(I))*C1
       ENDDO
         IF (ICP == 1) THEN
           DO I=LFT,LLT
            NU1(I)=HALF
           ENDDO
         ELSEIF (ICP == 2) THEN
+          CALL S8CSIGP3(GBUF%SIG,E0 ,GBUF%PLA,FAC,GBUF%G_PLA,NEL)
           DO I=LFT,LLT
-           NU1(I) =NU(I)
+            NU1(I)=NU(I)+(HALF-NU(I))*FAC(I)
           ENDDO
-         ELSE
+        ELSE
           DO I=LFT,LLT
            NU1(I) =NU(I)
           ENDDO

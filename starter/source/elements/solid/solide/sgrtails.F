@@ -133,7 +133,7 @@ C-----------------------------------------------
      .   IFAIL,IMATVIS,NLY,NL,ILAW,IM,IPMAT,ITET4,ITET10,
      .   NGP(NSPMD+1),JJ,IFAILMODEL,NFAIL,ISVIS,IVISC,IMAT,
      .   INUM_R2R(1+R2R_SIU*NUMELS),IPARTSPH,IPARTR2R,MFT,IBOLTP,ICP0,ISM0,
-     .   IPERT,STAT
+     .   IPERT,STAT,ITSH,IT10
        DATA IPMAT /100/
        INTEGER, DIMENSION(:), ALLOCATABLE :: INDEXS2
       INTEGER ID
@@ -479,6 +479,8 @@ C de plus ISOLNOD remis a 0 real dans lectur
           ISVIS = 0
           IPARTSPH=0
           IVISC = 0
+          ITSH = 0
+          IT10 = 0
 C-------------------------
 C         PARAMETRE GROUPE
           IF (PID.NE.0) THEN
@@ -662,6 +664,7 @@ c
           IF(IKSNOD0 == 10.OR.
      .      (IKSNOD0 == 4.AND.ITET4 == 1))THEN
             NPT=4
+            IT10 =1
           ELSEIF(IKSNOD0 == 4)THEN
             NPT=1
 !          ELSEIF(IKSNOD0 == 20.OR.IKSNOD0 == 16)THEN
@@ -733,6 +736,32 @@ C
 C--------------------
 C-   ICPRE,ISMSTR JCVT Automatic           
 C--------------------
+          IF (IGT == 20 .OR. IGT == 21 .OR. IGT == 22) ITSH = 1
+C---add ICPRE auto for thick-shell          
+          IF (ITSH == 1 ) THEN
+            MATPARAM => MATPARAM_TAB(MID)
+             ICP0=MATPARAM%COMPRESSIBILITY
+             SELECT CASE (ICP0)
+C-------compressible       
+              CASE(1)                                             
+               ICPRE = 3        
+C-------uncompressible       
+              CASE(2)                                             
+               ICPRE = 1
+C--------elasto-plastic       
+              CASE(3)                                             
+               ICPRE = 2
+             END SELECT 
+C--------message out       
+                CALL ANCMSG(MSGID=1741,
+     .                      MSGTYPE=MSGINFO,
+     .                      ANMODE=ANINFO_BLIND_2,
+     .                      I1=ID,
+     .                      C1=TITR,
+     .                      I2=ICPRE,
+     .                      PRMOD=MSG_CUMU)
+          END IF !IF (ITSH == 1 )
+C          
           IF (IGT == 14 .OR. IGT == 6) THEN
            MATPARAM => MATPARAM_TAB(MID)
            IF (ICPRE<0) THEN
