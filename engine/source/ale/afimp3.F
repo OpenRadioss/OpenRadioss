@@ -44,11 +44,20 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "com08_c.inc"
 #include      "vect01_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXS(NIXS,NUMELS)
-      my_real PM(NPROPM,NUMMAT), X(3,NUMNOD), T(*), GRAD(6,*), COEF(*), FV(*)
+! SPMD CASE : SIXS >= NIXS*NUMELS    (SIXS = NIXS*NUMELS_L+NIXS*NSVOIS_L)
+! IXQ(1:NIXS, 1:NUMELS) local elems
+!    (1:NIXS, NUMELS+1:) additional elems (also on adjacent domains but connected to the boundary of the current domain)
+!
+! SPMD CASE : SX >= 3*NUMNOD    (SX = 3*(NUMNOD_L+NRCVVOIS_L))
+! X(1:3,1:NUMNOD) : local nodes
+!  (1:3, NUMNOD+1:) additional nodes (also on adjacent domains but connected to the boundary of the current domain)
+!      
+      INTEGER IXS(NIXS,SIXS/NIXS)
+      my_real PM(NPROPM,NUMMAT), X(3,SX/3), T(*), GRAD(6,*), COEF(*), FV(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

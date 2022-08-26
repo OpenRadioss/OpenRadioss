@@ -27,8 +27,11 @@ Chd|        QFORC2                        source/elements/solid_2d/quad/qforc2.F
 Chd|-- calls ---------------
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|====================================================================
-      SUBROUTINE EDE112(PM,V,VEUL,X,IXQ,ALE_CONNECT,
-     .                  WYZ,DYZ,DZY,EYY,EZZ,ETT,EYZ,EYT,EZT)
+      SUBROUTINE EDE112(PM  ,V   ,VEUL ,X   ,IXQ ,ALE_CONNECT ,
+     .                  WYZ ,DYZ ,DZY  ,EYY ,EZZ ,ETT         ,EYZ ,EYT ,EZT)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -47,18 +50,26 @@ C-----------------------------------------------
 #include      "com06_c.inc"
 #include      "com08_c.inc"
 #include      "vect01_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-C     REAL
-      INTEGER IXQ(7,NUMELQ)
-      my_real V(3,NUMNOD), VEUL(10,*),X(3,NUMNOD),PM(NPROPM,NUMMAT),
-     .        WYZ(*), DYZ(*), DZY(*), EYY(*),EZZ(*), ETT(*), EYZ(*), EYT(*), EZT(*)
+! SPMD CASE : SIXQ >= NIXQ*NUMELQ    (SIXQ = NIXQ*NUMELQ_L+NIXQ*NQVOIS_L)
+! IXQ(1:NIXQ, 1:NUMELQ) local elems
+!    (1:NIXQ, NUMELQ+1:) additional elems (also on adjacent domains but connected to the boundary of the current domain)
+      INTEGER,INTENT(IN) :: IXQ(NIXQ,SIXQ/NIXQ)
+! SPMD CASE : SX >= 3*NUMNOD    (SX = 3*(NUMNOD_L+NRCVVOIS_L))
+! X(1:3,1:NUMNOD) : local nodes
+!  (1:3, NUMNOD+1:) additional nodes (also on adjacent domains but connected to the boundary of the current domain)
+      my_real,INTENT(IN) :: X(3,SX/3)
+!
+      my_real,INTENT(IN) :: V(3,NUMNOD), VEUL(10,*), PM(NPROPM,NUMMAT), ETT(*), EYZ(*), EYT(*), EZT(*)
+      my_real,INTENT(INOUT) :: EYY(*),EZZ(*),DYZ(*), DZY(*),WYZ(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, II,IVOI,ML,NC1,NC2,NC3,NC4,J,IAD2
+      INTEGER I, II,IADJ,ML,NC1,NC2,NC3,NC4,J,IAD2
       my_real VY13, VY24, VZ13,VZ24,PY1,PY2,PZ1,PZ2,AIRE
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
@@ -67,37 +78,33 @@ C-----------------------------------------------
        II=I+NFT
        IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
        DO J=1,4
-        IVOI=ALE_CONNECT%ee_connect%connected(IAD2 + J - 1)
-        IF(IVOI /= 0) THEN
-         ML=NINT(PM(19,IXQ(1,IVOI)))
-         IF(ML /= 11) THEN
-C FP 11-dec-96   AIRE=VEUL(1,IVOI)
-          NC1=IXQ(2,IVOI)
-          NC2=IXQ(3,IVOI)
-          NC3=IXQ(4,IVOI)
-          NC4=IXQ(5,IVOI)
-          PY1=HALF*(X(3,NC2)-X(3,NC4))
-          PY2=HALF*(X(3,NC3)-X(3,NC1))
-          PZ1=HALF*(X(2,NC4)-X(2,NC2))
-          PZ2=HALF*(X(2,NC1)-X(2,NC3))	  
-C Added 1 ligne FP 11-dec-96
-          AIRE=TWO*(PY1*PZ2-PZ1*PY2)
-          VY13=V(2,NC1)-V(2,NC3)
-          VY24=V(2,NC2)-V(2,NC4)
-          VZ13=V(3,NC1)-V(3,NC3)
-          VZ24=V(3,NC2)-V(3,NC4)
-          EYY(I)=(PY1*VY13+PY2*VY24)/AIRE
-          EZZ(I)=(PZ1*VZ13+PZ2*VZ24)/AIRE
-          DZY(I)=(PY1*VZ13+PY2*VZ24)/AIRE
-          DYZ(I)=(PZ1*VY13+PZ2*VY24)/AIRE
-          EZZ(I)=ZERO
-C          DZY(I)=0.
-C          DYZ(I)=0.
-          WYZ(I)=HALF*DT1*(DZY(I)-DYZ(I))
+         IADJ=ALE_CONNECT%ee_connect%connected(IAD2 + J - 1)
+         IF(IADJ /= 0) THEN
+           ML=NINT(PM(19,IXQ(1,IADJ)))
+           IF(ML /= 11) THEN
+             NC1=IXQ(2,IADJ)
+             NC2=IXQ(3,IADJ)
+             NC3=IXQ(4,IADJ)
+             NC4=IXQ(5,IADJ)
+             PY1=HALF*(X(3,NC2)-X(3,NC4))
+             PY2=HALF*(X(3,NC3)-X(3,NC1))
+             PZ1=HALF*(X(2,NC4)-X(2,NC2))
+             PZ2=HALF*(X(2,NC1)-X(2,NC3))    
+             AIRE=TWO*(PY1*PZ2-PZ1*PY2)
+             VY13=V(2,NC1)-V(2,NC3)
+             VY24=V(2,NC2)-V(2,NC4)
+             VZ13=V(3,NC1)-V(3,NC3)
+             VZ24=V(3,NC2)-V(3,NC4)
+             EYY(I)=(PY1*VY13+PY2*VY24)/AIRE
+             EZZ(I)=(PZ1*VZ13+PZ2*VZ24)/AIRE
+             DZY(I)=(PY1*VZ13+PY2*VZ24)/AIRE
+             DYZ(I)=(PZ1*VY13+PZ2*VY24)/AIRE
+             EZZ(I)=ZERO
+             WYZ(I)=HALF*DT1*(DZY(I)-DYZ(I))
+           ENDIF
          ENDIF
-        ENDIF
-       ENDDO
-      ENDDO
+       ENDDO!next J
+      ENDDO!next I
 C-----------------------------------------------
       RETURN
       END
