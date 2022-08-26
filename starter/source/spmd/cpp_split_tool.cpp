@@ -35,7 +35,9 @@
 #include <map>
 
 
-//#define NDEBUG
+#ifndef NDEBUG
+#define NDEBUG
+#endif
 #include <assert.h>
 
 

@@ -114,17 +114,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real                            :: GRAV0,BX,BY,BZ,NX,NY,NZ,DOTPROD,DOTP,RHO0,NGX,NGY,NGZ,ALPHA,INTERP(3),ValA,ValB,NORM
-      my_real                            :: Z(3), DEPTH(MVSIZ), N(3,8),VEC(3), DELTA_P(MVSIZ),PSURF,PGRAV(MVSIZ),VFRAC,P(3,1:4)
-      my_real                            :: LAMBDA,DIAG1(3),DIAG2(3),TOL,DIST,B(3),VOLFRAC
+      my_real :: GRAV0,BX,BY,BZ,NX,NY,NZ,DOTPROD,DOTP,RHO0,NGX,NGY,NGZ,ALPHA,INTERP(3),ValA,ValB,NORM
+      my_real :: Z(3), DEPTH(MVSIZ), N(3,8),VEC(3), DELTA_P(MVSIZ),PSURF,PGRAV(MVSIZ),VFRAC,P(3,1:4)
+      my_real :: LAMBDA,DIAG1(3),DIAG2(3),TOL,DIST,B(3),VOLFRAC
       my_real,ALLOCATABLE,DIMENSION(:,:) :: MIN_COOR, MAX_COOR, N_SURF, ZF
-      INTEGER                            :: K,KK,IGRP,ISURF,IGRAV,NP,MLW,NG,IAD0,II,NEL,J,IE,I,IERROR,IMAT,M(MVSIZ),Q,NSEG,ISEG
-      INTEGER                            :: USERID
-      INTEGER                            :: NOD(8), MATID, IADBUF,IFORM,NEL2,LIST(MVSIZ),NBMAT,MATLAW,NIX,UID,SURF_TYPE,IELTYP
+      INTEGER :: K,KK,IGRP,ISURF,IGRAV,NP,MLW,NG,IAD0,II,NEL,J,IE,I,IERROR,IMAT,M(MVSIZ),Q,NSEG,ISEG
+      INTEGER :: USERID
+      INTEGER :: NOD(8), MATID, IADBUF,IFORM,NEL2,LIST(MVSIZ),NBMAT,MATLAW,NIX,UID,SURF_TYPE,IELTYP
       INTEGER, ALLOCATABLE, DIMENSION(:) :: IP
       TYPE(G_BUFEL_) ,POINTER            :: GBUF
       TYPE(L_BUFEL_), POINTER            :: LBUF
-      LOGICAL                            :: lCYCLE,lERROR,lTRIA,lFOUND_PROJ,lTEST,l_PLANAR_SURF,l_USER_SURF
+      LOGICAL :: lCYCLE,lERROR,lTRIA,lFOUND_PROJ,lTEST,l_PLANAR_SURF,l_USER_SURF
       INTEGER, DIMENSION(:, :), POINTER  :: IX
       character*64                       :: ERRMSG
 C-----------------------------------------------

@@ -31,7 +31,9 @@
 #include <limits>
 #include <cfloat>
 
+#ifndef NDEBUG
 #define NDEBUG
+#endif
 #include <assert.h>
 
 // to be consistent with Fortran
