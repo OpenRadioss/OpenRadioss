@@ -50,10 +50,15 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "inter22.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXS(NIXS,NUMELS)
+! SPMD CASE : SIXS >= NIXS*NUMELS    (SIXS = NIXS*NUMELS_L+NIXS*NSVOIS_L)
+! IXQ(1:NIXS, 1:NUMELS) local elems
+!    (1:NIXS, NUMELS+1:) additional elems (also on adjacent domains but connected to the boundary of the current domain)
+!
+      INTEGER IXS(NIXS,SIXS/NIXS)
       my_real PM(NPROPM,NUMMAT), V(3,NUMNOD), FLUX(6,*), FLU1(*), VEUL(LVEUL,*), TAG22(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
