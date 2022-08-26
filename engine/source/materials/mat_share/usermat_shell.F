@@ -1113,6 +1113,7 @@ c
               LBUF%PLA(I) = COPY_PLA(I)
             ENDDO 
 c--------------------------------
+#ifdef DNC
         ELSEIF (MTN == 200 ) THEN  ! MDS
   
 c--------------------------------
@@ -1176,6 +1177,7 @@ C
      .            C1=MDS_LIBNAME(1:LENGTH))
               CALL ARRET(2)
          ENDIF                         ! MDS_AVAIL == 1 
+#endif
        ENDIF !ILAW
 c-------------------------------------------
         DO I=JFT,JLT

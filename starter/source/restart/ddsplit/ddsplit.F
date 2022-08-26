@@ -3177,10 +3177,12 @@ C--------------------------------------
         CALL TABLE_WRESTR(TABLE, LTABLE)
         LEN_AM=LEN_AM+LTABLE
       END IF
+#ifdef DNC
 C--------------------------------------
 C MDS Restart informations
 C--------------------------------------
       CALL MDS_RESTART()
+#endif
 C--------------------------------------
 C ALE LINKS
 C--------------------------------------

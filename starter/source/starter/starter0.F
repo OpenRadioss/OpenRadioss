@@ -333,11 +333,15 @@ C Dynamical Libaries initialization
 C------------------------------------------------
 C Mds lib initialization
 C------------------------------------------------
+#ifdef DNC
        CALL MDS_USERLIB_INIT (IRESP,
      .                        MDS_AVAIL, 
      .                        MDS_VER,
      .                        MDS_PATH,
      .                        MDS_PATH_LEN)
+#else
+      MDS_AVAIL=0
+#endif
 #endif
 C-----------------------------------------------------
 C Avoid linking issue with dynamical libraries
