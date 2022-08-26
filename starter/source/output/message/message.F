@@ -1593,7 +1593,7 @@ C                WRITE(CTYPE,'(A,/)')"DESCRIPTION : "
               IOLD=1
               NO_PRINT = 0
               DO WHILE (I+1.LE.LEN_TRIM(TMPLINE))  ! loop over all characters from TMPLINE
-                IF (TMPLINE(I:I).EQ.'\') THEN
+                IF (TMPLINE(I:I) == '\' ) THEN
                   I=I+1
                   IF (I-2.GE.1) THEN
                     WRITE(TMPBUF,'(A,A)')TMPLINE(IOLD:I-2),TMPLINE(I:I)
@@ -2053,7 +2053,7 @@ c HM_READER messages ( line with error sent by reader)
               ELSEIF ( MSGID > 200000 .AND. ITYPE .NE. 1 ) THEN 
 c CONVERTER messages ( line with error sent by onverter)
                 DO WHILE (I+1.LE.LEN_TRIM(TMPLINE))
-                  IF (TMPLINE(I:I).EQ.'\') THEN
+                  IF (TMPLINE(I:I) == '\') THEN
                     I=I+1
                     IF (I-2.GE.1) THEN
                       WRITE(TMPBUF,'(A,A)')TMPLINE(IOLD:I-2),TMPLINE(I:I)

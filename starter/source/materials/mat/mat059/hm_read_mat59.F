@@ -102,7 +102,8 @@ C-----------------------------------------------
       INTEGER :: NBMAT  ! Number of declared materials
       INTEGER :: I,J
       INTEGER :: RHOFLAG,ICOMP,NRATE,IFILTR,IFUNN(MAXFUNC),IFUNT(MAXFUNC)
-      my_real :: RHO0, RHOR,E,G,ECOMP,FCUT,RATE0,YFAC(MAXFUNC),RATE(MAXFUNC),NU,FCUT_UNIT,YFAC_UNIT(MAXFUNC),RATE_UNIT(MAXFUNC)
+      my_real :: RHO0, RHOR,E,G,ECOMP,FCUT,RATE0,YFAC(MAXFUNC)
+      my_real :: RATE(MAXFUNC),NU,FCUT_UNIT,YFAC_UNIT(MAXFUNC),RATE_UNIT(MAXFUNC)
       LOGICAL :: IS_AVAILABLE,IS_CRYPTED
 C-----------------------------------------------
 C   S o u r c e   L i n e s

@@ -75,7 +75,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ISTAT,KDOM,IPID_RET,IERROR,WAIT,IPID_L,STAT,DOM_SWITCH
       LOGICAL(4) WAITA       
-#if COMP_ARMFLANG==1
+#if defined(COMP_ARMFLANG) || defined(COMP_LLVM)
       INTEGER  GETPID
 #endif
       INTEGER :: LEN_TMP_NAME
@@ -108,7 +108,7 @@ C----------------------------------------------------------------------
 C-------------------INTEL -> LINUX/LINUXIA64/MACOSX--------------------
 C----------------------------------------------------------------------         
 #else
-#if COMP_GFORTRAN==1 ||  COMP_ARMFLANG==1
+#if defined (COMP_GFORTRAN) ||  defined(COMP_ARMFLANG) || defined(COMP_LLVM)
         CALL MY_FORK(IPID)
         IPID_RET = GETPID()
 #else
@@ -139,7 +139,7 @@ C----------------------------------------------------------------------
 C-------------------INTEL -> LINUX/LINUXIA64/MACOSX--------------------
 C----------------------------------------------------------------------                     
 #else
-#if COMP_GFORTRAN==1 ||  COMP_ARMFLANG==1
+#if defined(COMP_GFORTRAN) ||  defined(COMP_ARMFLANG) || defined(COMP_LLVM)
             CALL MY_WAITPID(IPID,ISTAT,0,IPID_RET)
 #else
             CALL PXFWAITPID(IPID,ISTAT,0,IPID_RET,IERROR)

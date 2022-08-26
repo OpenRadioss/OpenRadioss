@@ -72,7 +72,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real C, S1, S2, S3, GAMA0, A, E0, RHO0,RHOI,RHOR,FAC_L,FAC_T,FAC_M,FAC_C,MU,MU2,MU3,MUP1,NUM,DENOM,FAC1,DPDMU,PP,BB,AA
+      my_real :: C, S1, S2, S3, GAMA0, A, E0, RHO0,RHOI,RHOR,FAC_L,FAC_T
+      my_real :: FAC_M,FAC_C,MU,MU2,MU3,MUP1,NUM,DENOM,FAC1,DPDMU,PP,BB,AA
       my_real :: MU0, DF, SSP0, G0, FAC, FF, FG, XX, DFF, DFG
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
 C-----------------------------------------------
