@@ -1196,6 +1196,7 @@ c-------
             MTAG%G_PLA  = 1
             MTAG%L_PLA  = 1
 c-------
+#ifdef DNC
           CASE ('LAW200', 'MDS')
             READ(KEY(5:6), '(I2)') IUSER_LAW
             ILAW  = 200
@@ -1212,8 +1213,8 @@ c-------
      .                           NUVAR,IFUNC,MAXFUNC,NFUNC,
      .                           LSUBMODEL,
      .                           PM(1,I) ,PARMAT)
+#endif        
         END SELECT
-        
 c-----------------------------------------------------------------------
         IF (ILAW == 99) THEN
           WRITE(IOUT,2000) TITR,MAT_ID,IUSER_LAW

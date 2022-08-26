@@ -1042,6 +1042,7 @@ C
           IF (JTHE == 0) EL_TEMP = USERBUF%TEMP ! otherwise it's read only in user law
          ENDIF
 c
+#ifdef DNC
       ELSE IF (MTN == 200) THEN  ! MDS MATERIAL LAW INTERFACE (in construction)
 
         IF(MDS_AVAIL == 1 )THEN
@@ -1123,7 +1124,6 @@ C---------------------------
           END IF! (ISMSTR == 10) 
 
            
-
           CALL ENG_MDS_SIGEPS_S( NCYCLE ,IMAT, NGL,NEL    ,
      *                          IPTR     , IPTS     , IPTT     , NPAR     ,NUVAR     ,NFUNC     ,IFUNC  ,
      *                          NPF      , TF       , TT       , DT1      , UPARAM   , UVAR     ,
@@ -1145,6 +1145,7 @@ C
      .            C1=MDS_LIBNAME(1:LENGTH))
              CALL ARRET(2)
         ENDIF
+#endif
       ENDIF  ! MTN
 C=======================================================================
 C                  FAILURE MODEL 

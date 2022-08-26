@@ -1294,7 +1294,9 @@ C--------------------------------------
 C--------------------------------------
 C    MDS Parameters
 C--------------------------------------
+#ifdef DNC
       CALL ENG_WRT_MDS()
+#endif
 C--------------------------------------
 C ALE LINKS
 !      print *,"wrrestp.F: WRITE_I_C, SLINALE=", SLINALE

@@ -58,9 +58,11 @@ set ( RELNAME ${arch}${mpi_suf}  )
 # Third party libraries
 # ---------------------
 
+#H3D
+set (h3d_inc "-I${source_directory}/../extlib/h3d/includes")
 
 #Lapack
-set (lapack_lib "${source_directory}/../extlib/starter/liblapack.a ${source_directory}/../extlib/starter/librefblas.a  ${source_directory}/../extlib/starter/libtmglib.a")
+set (lapack_lib "${source_directory}/../extlib/lapack-3.10.0/lib_linux64_gf/liblapack.a ${source_directory}/../extlib/lapack-3.10.0/lib_linux64_gf/librefblas.a  ${source_directory}/../extlib/lapack-3.10.0/lib_linux64_gf/libtmglib.a")
 
 #
 # compiler Flags
@@ -119,10 +121,10 @@ else ()
 set_source_files_properties( ${source_files}  PROPERTIES COMPILE_FLAGS " -O3 -fdec-math ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF} " )
 
 # C source files
-set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " -O2 ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} " )
+set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS " -O2 ${h3d_inc} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} " )
 
 # CXX source files
-set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " -O2 ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -std=c++11  " )
+set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " -O2 ${h3d_inc} ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -std=c++11  " )
 
 endif()
 

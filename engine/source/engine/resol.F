@@ -6125,6 +6125,7 @@ C-----------------------------
          ENDIF
       ENDIF
       ! ----------------------
+#ifdef DNC
       IF(MDS_AVAIL==1) THEN
         TSTOP_USER = TSTOP
         TT_USER = TT
@@ -6136,7 +6137,7 @@ C-----------------------------
             MREST=1
          ENDIF
       ENDIF
-
+#endif
 
       ! ----------------------
 

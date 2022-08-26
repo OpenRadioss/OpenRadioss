@@ -591,10 +591,12 @@ C -----------------------------------------------
         CALL ENGINE_USER_FINALIZE( ISPMD_USER )
       ENDIF
       ! ----------------------
+#ifdef DNC
       IF(MDS_AVAIL==1) THEN
         ISPMD_USER = ISPMD
         CALL MDS_ENGINE_USER_FINALIZE( ISPMD_USER )
       ENDIF
+#endif
 C -----------------------------------------------
       IF (ISPMD == 0) THEN
        CALL QACLOSE()
