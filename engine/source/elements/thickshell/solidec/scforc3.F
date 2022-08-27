@@ -27,6 +27,7 @@ Chd|        FORINT                        source/elements/forint.F
 Chd|-- calls ---------------
 Chd|        CSMALL3                       source/elements/solid/solide/csmall3.F
 Chd|        MMAIN                         source/materials/mat_share/mmain.F
+Chd|        S8CSIGP3                      source/elements/thickshell/solide8c/s8csigp3.F
 Chd|        S8SAV3                        source/elements/solid/solide/srcoor3.F
 Chd|        SCDEFC3                       source/elements/thickshell/solidec/scdefo3.F
 Chd|        SCDEFO3                       source/elements/thickshell/solidec/scdefo3.F

@@ -42,7 +42,7 @@ Chd|        MY_BARRIER                    source/system/machine.F
 Chd|        SPMD_RNUM25                   source/mpi/interfaces/spmd_i7tool.F
 Chd|        SPMD_RNUM25_EDGE              source/mpi/interfaces/spmd_rnum25_edge.F
 Chd|        SPMD_TRI25EGAT                source/mpi/interfaces/spmd_tri25egat.F
-Chd|        SPMD_TRI25GAT                 source/mpi/interfaces/spmd_int.F
+Chd|        SPMD_TRI25GAT                 source/mpi/interfaces/spmd_tri25gat.F
 Chd|        SPMD_TRI25VOX                 source/mpi/interfaces/spmd_tri25vox.F
 Chd|        SPMD_TRI25VOX0                source/mpi/interfaces/spmd_tri25vox0.F
 Chd|        SPMD_TRI25VOX0_EDGE           source/mpi/interfaces/spmd_tri25vox0.F

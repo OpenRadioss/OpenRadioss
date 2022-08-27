@@ -450,7 +450,7 @@ Chd|        SPMD_TRI22VOX                 source/mpi/interfaces/spmd_tri22vox.F
 Chd|        SPMD_TRI24GAT                 source/mpi/interfaces/spmd_int.F
 Chd|        SPMD_TRI24VOX                 source/mpi/interfaces/spmd_int.F
 Chd|        SPMD_TRI25EGAT                source/mpi/interfaces/spmd_tri25egat.F
-Chd|        SPMD_TRI25GAT                 source/mpi/interfaces/spmd_int.F
+Chd|        SPMD_TRI25GAT                 source/mpi/interfaces/spmd_tri25gat.F
 Chd|        SPMD_TRI25VOX                 source/mpi/interfaces/spmd_tri25vox.F
 Chd|        SPMD_TRI7GAT                  source/mpi/interfaces/spmd_int.F
 Chd|        SPMD_TRI7VOX                  source/mpi/interfaces/spmd_int.F

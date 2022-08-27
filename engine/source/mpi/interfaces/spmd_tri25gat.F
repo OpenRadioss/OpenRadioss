@@ -4,10 +4,10 @@ Chd|-- called by -----------
 Chd|        I25MAIN_TRI                   source/interfaces/intsort/i25main_tri.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
-Chd|        ARRET                         source/system/arret.F
-Chd|        H3D_MOD                       share/modules/h3d_mod.F
+Chd|        ARRET                         source/system/arret.F         
+Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
-Chd|        TRI7BOX                       share/modules/tri7box.F
+Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE SPMD_TRI25GAT(RESULT,NSN ,CAND_N ,I_STOK,NIN,
      2                        IGAP  ,NSNR,MULTIMP,ITY,INTTH ,

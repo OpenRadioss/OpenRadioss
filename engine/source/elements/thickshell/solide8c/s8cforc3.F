@@ -29,6 +29,7 @@ Chd|        BOLTST                        source/elements/solid/solide/boltst.F
 Chd|        CSMALL3                       source/elements/solid/solide/csmall3.F
 Chd|        DEGENES8                      source/elements/solid/solide/sdlen3.F
 Chd|        MMAIN                         source/materials/mat_share/mmain.F
+Chd|        S8CSIGP3                      source/elements/thickshell/solide8c/s8csigp3.F
 Chd|        S8ETHERM                      source/elements/solid/solide8e/s8etherm.F
 Chd|        S8SAV3                        source/elements/solid/solide/srcoor3.F
 Chd|        S8ZDEFO3                      source/elements/solid/solide8z/s8zdefo3.F
@@ -36,7 +37,6 @@ Chd|        S8ZDERI3                      source/elements/solid/solide8z/s8zderi
 Chd|        S8ZDERIC3                     source/elements/solid/solide8z/s8zderi3.F
 Chd|        S8ZFINT3                      source/elements/solid/solide8z/s8zfint3.F
 Chd|        S8ZFINTP3                     source/elements/solid/solide8z/s8zfint3.F
-Chd|        S8ZSIGP3                      source/elements/solid/solide8z/s8zforc3.F
 Chd|        S8ZTEMPEL                     source/elements/solid/solide8z/s8zforc3.F
 Chd|        S8ZZERO3                      source/elements/solid/solide8z/s8zfint3.F
 Chd|        SBILAN                        source/elements/solid/solide/sbilan.F

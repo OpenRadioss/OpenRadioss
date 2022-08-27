@@ -1282,10 +1282,7 @@ Chd|  S8ZSIGP3                      source/elements/solid/solide8z/s8zforc3.F
 Chd|-- called by -----------
 Chd|        Q4FORC2                       source/elements/solid_2d/quad4/q4forc2.F
 Chd|        Q4KE2                         source/elements/solid_2d/quad4/q4ke2.F
-Chd|        S16SIGP3                      source/elements/thickshell/solide16/s16sigp3.F
-Chd|        S6CFORC3                      source/elements/thickshell/solide6c/s6cforc3.F
 Chd|        S6CKE3                        source/elements/thickshell/solide6c/s6cke3.F
-Chd|        S8CFORC3                      source/elements/thickshell/solide8c/s8cforc3.F
 Chd|        S8CKE3                        source/elements/thickshell/solide8c/s8cke3.F
 Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc3.F
 Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F

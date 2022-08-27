@@ -38,7 +38,7 @@ Chd|        S6FILLOPT                     source/elements/thickshell/solide6c/s6
 Chd|        S6PROJ3                       source/elements/thickshell/solide6c/s6rcoor3.F
 Chd|        S6RCOOR3                      source/elements/thickshell/solide6c/s6rcoor3.F
 Chd|        S6SAV3                        source/elements/thickshell/solide6c/s6rcoor3.F
-Chd|        S8ZSIGP3                      source/elements/solid/solide8z/s8zforc3.F
+Chd|        S8CSIGP3                      source/elements/thickshell/solide8c/s8csigp3.F
 Chd|        SCDEFO3                       source/elements/thickshell/solidec/scdefo3.F
 Chd|        SCORDEF3                      source/elements/thickshell/solidec/scforc3.F
 Chd|        SCROTO_SIG                    source/elements/thickshell/solidec/scforc3.F
