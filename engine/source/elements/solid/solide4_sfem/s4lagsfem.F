@@ -34,7 +34,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
       SUBROUTINE S4LAGSFEM(IPARG,IXS,X,V,ELBUF_TAB,VARNOD,
-     .                     IAD_ELEM,FR_ELEM)
+     .                     IAD_ELEM,FR_ELEM,IXS10)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -62,7 +62,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXS(NIXS,*),IPARG(NPARG,*),IAD_ELEM(2,*),FR_ELEM(*)
+      INTEGER IXS(NIXS,*),IPARG(NPARG,*),IAD_ELEM(2,*),FR_ELEM(*),
+     .        IXS10(6,NUMELS10)
 C     REAL
       my_real
      .   X(*),VARNOD(*),V(*)
@@ -70,10 +71,10 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NG, I, J, I1, I2, I3, I4, K, LENR,NEL
-      INTEGER NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),NC4(MVSIZ)
+      INTEGER NG, I, J, I1, I2, I3, I4, K, LENR,NEL,NNOD,ICPRE
+      INTEGER NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),NC4(MVSIZ),NC(MVSIZ,10)
       my_real
-     .   VOL0(MVSIZ)
+     .   VOL0(MVSIZ),VOLG(MVSIZ)
 
       DOUBLE PRECISION
      .   VOL06(6,MVSIZ), VARNOD6(6,2*NUMNOD)      
@@ -91,7 +92,9 @@ C Boucle parallele dynamique SMP
 C
       DO NG = 1,NGROUP
         IF(IPARG(8, NG).EQ.1) CYCLE
-        IF(IPARG(28,NG).NE.4) CYCLE
+        NNOD = IPARG(28,NG)
+        ICPRE  = IPARG(10,NG)
+        IF(NNOD/=4 .AND. NNOD /= 10) CYCLE
         CALL INITBUF (IPARG    ,NG      ,
      2        MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,
      3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
@@ -101,7 +104,8 @@ C
      7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
 C
         IF(JEUL  == 1) CYCLE
-        IF(ISROT <= 2) CYCLE
+        IF(NNOD==4 .AND. ISROT /= 3) CYCLE
+        IF(ICPRE/=1.AND.(NNOD==10.OR.(NNOD==4.AND.ISROT == 1))) CYCLE
         LFT=1
         NEL = LLT
 C
@@ -114,7 +118,7 @@ C
         ENDDO
 C
         GBUF => ELBUF_TAB(NG)%GBUF
-        IF(ISROT == 3) THEN
+        IF(NNOD==4 .AND.ISROT == 3) THEN
           CALL S4VOLNOD3(VARNOD6,X,NC1,NC2,NC3,NC4,GBUF%OFF,GBUF%SMSTR,NEL)
           DO I=LFT,LLT
            IF(GBUF%OFF(I) == ZERO) THEN
@@ -126,6 +130,46 @@ C
 C-----for small strain elements
           CALL S4VOLNOD_SM(VARNOD6,V,NC1,NC2,NC3,NC4,VOL0,GBUF%AMU,GBUF%OFF,
      2                     GBUF%SMSTR,NEL)
+          !Parith-On treatment
+          CALL FOAT_TO_6_FLOAT(LFT  ,LLT  ,VOL0 ,VOL06 )
+          DO I=LFT,LLT      
+            I1=NC1(I)+NUMNOD
+            I2=NC2(I)+NUMNOD
+            I3=NC3(I)+NUMNOD
+            I4=NC4(I)+NUMNOD
+            !Parith-On treatment
+            DO K=1,6
+              VARNOD6(K,I1) = VARNOD6(K,I1) + VOL06(K,I)
+              VARNOD6(K,I2) = VARNOD6(K,I2) + VOL06(K,I)
+              VARNOD6(K,I3) = VARNOD6(K,I3) + VOL06(K,I)
+              VARNOD6(K,I4) = VARNOD6(K,I4) + VOL06(K,I)
+            ENDDO
+          ENDDO
+        ELSE
+C-----T10 large strain first         
+          NC(LFT:LLT,1) =NC1(LFT:LLT)
+          NC(LFT:LLT,2) =NC2(LFT:LLT)
+          NC(LFT:LLT,3) =NC3(LFT:LLT)
+          NC(LFT:LLT,4) =NC4(LFT:LLT)
+          IF(ISROT /= 1)THEN
+            DO I=LFT,LLT
+             J=I+NFT-NUMELS8
+             NC(I,5:10) =IXS10(1:6,J)
+            ENDDO
+          ELSE
+            NC(LFT:LLT,5:10) = 0
+          ENDIF
+          CALL S10VOLNOD3(VARNOD6,X,NC,GBUF%OFF,VOLG,NEL)
+          DO I=LFT,LLT
+           IF(GBUF%OFF(I) == ZERO) THEN
+             VOL0(I)=ZERO
+           ELSE
+             VOL0(I)=GBUF%VOL(I)
+           ENDIF
+          ENDDO
+C-----for small strain elements
+c          CALL S4VOLNOD_SM(VARNOD6,V,NC1,NC2,NC3,NC4,VOL0,GBUF%AMU,GBUF%OFF,
+c     2                     GBUF%SMSTR,NEL)
           !Parith-On treatment
           CALL FOAT_TO_6_FLOAT(LFT  ,LLT  ,VOL0 ,VOL06 )
           DO I=LFT,LLT      

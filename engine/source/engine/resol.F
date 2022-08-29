@@ -3291,8 +3291,9 @@ C TETRA4 : SMOOTH FINITE ELEMENT FORMULATIONS
 C---------------------------------------------
       IF(ISFEM >= 1) THEN
         IF(IALE+IEULER+ITHERM.EQ.0) THEN
+          L1 = 1+NIXS*NUMELS + NSVOIS*NIXS
           CALL S4LAGSFEM(IPARG,IXS,X,V,ELBUF_TAB,VARNOD,
-     .                   IAD_ELEM,FR_ELEM)
+     .                   IAD_ELEM,FR_ELEM,IXS(L1))
         ENDIF
       ENDIF
 C========================================================================================

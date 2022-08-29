@@ -213,3 +213,130 @@ C
       RETURN
 C
       END
+Chd|====================================================================
+Chd|  S10_ICPT                     source/elements/solid/solide10/s10defo3.F
+Chd|-- called by -----------
+Chd|-- calls ---------------
+Chd|====================================================================
+      SUBROUTINE S10_ICPT(
+     .   DXX, DXY, DXZ, DYX, DYY, DYZ, DZX, DZY,
+     .   DZZ,NU ,NPT,NEL)
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   G l o b a l   P a r a m e t e r s
+C-----------------------------------------------
+#include      "mvsiz_p.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER  NPT,NEL
+      my_real ,DIMENSION(MVSIZ) ,INTENT(IN) :: NU
+      my_real ,DIMENSION(MVSIZ,5) ,INTENT(INOUT) :: 
+     .   DXX, DXY, DXZ,
+     .   DYX, DYY, DYZ,
+     .   DZX, DZY, DZZ
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER  I,N,IP
+      my_real
+     .   JAC0(MVSIZ),JAC(MVSIZ,5),FAC,BASE,JFAC
+C-----------------------------------------------
+C
+      JAC0(1:NEL)=ZERO   
+      DO IP=1,NPT
+        CALL JACOB_J33(JAC(1,IP),
+     .                DXX(1,IP), DXY(1,IP), DXZ(1,IP),
+     .                DYX(1,IP), DYY(1,IP), DYZ(1,IP),
+     .                DZX(1,IP), DZY(1,IP), DZZ(1,IP))
+        JAC0(1:NEL)=JAC0(1:NEL)+JAC(1:NEL,IP)   
+      ENDDO
+C
+      DO IP=1,NPT
+        DO I=1,NEL
+         FAC=TWO_THIRD*NU(I)
+         BASE = JAC0(I)/MAX(EM20,NPT*JAC(I,IP))
+         JFAC =EXP(FAC*LOG(MAX(EM20,BASE)))
+C         
+         DXX(I,IP) = JFAC*DXX(I,IP)+JFAC-ONE
+         DYY(I,IP) = JFAC*DYY(I,IP)+JFAC-ONE
+         DZZ(I,IP) = JFAC*DZZ(I,IP)+JFAC-ONE
+         DXY(I,IP) = JFAC*DXY(I,IP)
+         DYX(I,IP) = JFAC*DYX(I,IP)
+         DZX(I,IP) = JFAC*DZX(I,IP)
+         DXZ(I,IP) = JFAC*DXZ(I,IP)
+         DYZ(I,IP) = JFAC*DYZ(I,IP)
+         DZY(I,IP) = JFAC*DZY(I,IP)
+        ENDDO
+      ENDDO
+C      
+      RETURN
+C
+      END SUBROUTINE S10_ICPT
+Chd|====================================================================
+Chd|   S10_ICP                     source/elements/solid/solide10/s10defo3.F
+Chd|-- called by -----------
+Chd|        S10FORC3                      source/elements/solid/solide10/s10forc3.F
+Chd|-- calls ---------------
+Chd|====================================================================
+      SUBROUTINE S10_ICP(OFFG,VOLG0,VOLG,FACP,
+     .                   VOL0,VOLN,VOL0DP,VOLDP,NEL)
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   G l o b a l   P a r a m e t e r s
+C-----------------------------------------------
+#include      "mvsiz_p.inc"
+#include      "param_c.inc"
+#include      "com04_c.inc"
+#include      "com08_c.inc"
+#include      "com01_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      INTEGER NEL
+C     REAL
+      my_real ,DIMENSION(NEL) ,INTENT(IN) :: OFFG,VOLG0,VOL0
+      DOUBLE PRECISION , DIMENSION(NEL) ,INTENT(IN) :: VOL0DP
+      my_real ,DIMENSION(MVSIZ) ,INTENT(IN) :: VOLG,FACP
+      my_real ,DIMENSION(MVSIZ) ,INTENT(INOUT) :: VOLN
+      DOUBLE PRECISION , DIMENSION(NEL) ,INTENT(INOUT) :: VOLDP
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "scr05_c.inc"
+#include      "vect01_c.inc"
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER I, K
+C     REAL
+
+      DOUBLE PRECISION   :: FACVM
+
+C----------------------------
+      IF(ISMSTR==1.OR.ISMSTR>=10)THEN
+      ELSE
+c-------------------------------------------------------------------------
+       IF(IRESP==1)THEN
+        DO I=1,NEL
+         IF(OFFG(I)==ZERO.OR.ABS(OFFG(I))>ONE) CYCLE
+         FACVM = VOLG(I)/VOLG0(I)
+         VOLDP(I) = (ONE-FACP(I))*VOLDP(I)+FACP(I)*FACVM*VOL0DP(I)             
+        ENDDO
+       ELSE
+        DO I=1,NEL
+         IF(OFFG(I)==ZERO.OR.ABS(OFFG(I))>ONE) CYCLE
+         FACVM = VOLG(I)/VOLG0(I)
+         VOLN(I) = (ONE-FACP(I))*VOLN(I)+FACP(I)*FACVM*VOL0(I)             
+        ENDDO
+       ENDIF
+      END IF !(ISMSTR==1.OR.ISMSTR>=10)THEN
+C       
+      RETURN
+      END SUBROUTINE S10_ICP
