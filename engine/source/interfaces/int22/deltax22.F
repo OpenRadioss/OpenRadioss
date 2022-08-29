@@ -32,8 +32,11 @@ Chd|====================================================================
       SUBROUTINE DELTAX22(VOL,VEUL,VOLN,DELTAX,IAD22,
      .                  IXS)
 C-----------------------------------------------
-C   D e s c r i p  t i o n
+C   D e s c r i p t i o n
 C-----------------------------------------------
+C Interface Type22 (/INTER/TYPE22) is an FSI coupling method based on cut cell method. 
+C   This experimental cut cell method is not completed, abandonned, and is not an official option.
+C
 C this subroutines update VOLN for cut cells.
 C Main cells have extended values of volume due
 C to secnd cell merging. This extension data is 

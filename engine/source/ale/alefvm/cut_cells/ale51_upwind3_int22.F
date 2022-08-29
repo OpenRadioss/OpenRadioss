@@ -38,6 +38,11 @@ Chd|====================================================================
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
+C 'alefvm' is related to a collocated scheme (built from FVM and based on Godunov scheme)
+C  which was temporarily introduced for experimental option /INTER/TYPE22 (FSI coupling with cut cell method)
+C This cut cell method is not completed, abandonned, and is not an official option.
+C There is no other use for this scheme which is automatically enabled when /INTER/TYPE22 is defined (INT22>0 => IALEFVM=1).
+C
 C  This subroutines computes from direct fluxes :
 C  -1- FLUXES
 C  -2- QMV(7:12)            : QMV*DT = OUTGOING VOLUME  (DT*FLUX(i,i) is INCOMING ONE), FLU1 IS SUM OF QMV

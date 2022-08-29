@@ -25,8 +25,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
      .                                     NINTP      , ICODE      , IDBLE      , lvl         ,
      .                                     RESULT     , bFOUND)   
 C-----------------------------------------------
-C  D e s c r i p t i o n
+C   D e s c r i p t i o n
 C-----------------------------------------------
+C Interface Type22 (/INTER/TYPE22) is an FSI coupling method based on cut cell method. 
+C   This experimental cut cell method is not completed, abandonned, and is not an official option.
 C
 C  Recursive combinatory algorithm.
 C

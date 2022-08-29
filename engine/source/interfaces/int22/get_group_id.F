@@ -49,8 +49,11 @@ C-----------------------------------------------
       INTEGER NEL, NFL, I, NG_
       LOGICAL DONE
 C-----------------------------------------------
-C   D e s c r i p t  i o n
+C   D e s c r i p t i o n
 C-----------------------------------------------
+C Interface Type22 (/INTER/TYPE22) is an FSI coupling method based on cut cell method. 
+C   This experimental cut cell method is not completed, abandonned, and is not an official option.
+C
 C   Defines following surjective application  
 C            [1:SPHI]    -->   [1:NGROUP] x [1:MVSIZ] 
 C               II      |-->        (NG,IG)

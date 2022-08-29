@@ -32,6 +32,13 @@ Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-sear
 Chd|====================================================================
       SUBROUTINE W_BUFBRIC_22()
 C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C Interface Type22 (/INTER/TYPE22) is an FSI coupling method based on cut cell method. 
+C   This experimental cut cell method is not completed, abandonned, and is not an official option.
+C
+C This subroutine is writing buffer in RESTART file.
+C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE I22BUFBRIC_MOD  
