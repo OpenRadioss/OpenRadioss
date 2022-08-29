@@ -82,7 +82,7 @@ Chd|====================================================================
      A                   ITASK    ,TEMP    ,FTHE    ,FTHESKY ,IEXPAN  ,
      B                   STIFR    ,D       ,GRESAV  ,GRTH    ,IGRTH   ,
      C                   TABLE    ,MSSA    ,DMELS   ,IGEO    ,XDP     ,
-     D                   VOLN     ,CONDN   ,CONDNSKY,
+     D                   VOLN     ,CONDN   ,CONDNSKY,VARNOD  ,
      E                   ITAGDN  ,SENSOR  ,LSENSOR ,IOUTPRT ,
      F                   MATPARAM_TAB,H3D_STRAIN)
 C-----------------------------------------------
@@ -140,14 +140,14 @@ C     REAL
       my_real
      .   DT2T
       my_real
-     .   PM(*), GEO(*), X(*), A(*), V(3,*), MS(*), W(*),
+     .   PM(NPROPM,*), GEO(*), X(*), A(*), V(3,*), MS(*), W(*),
      .   FLUX(6,*),FLU1(*), VEUL(*), FV(*), TF(*), 
      .   BUFMAT(*),PARTSAV(*),STIFN(*), FSKY(*),EANI(*),
      .   AR(*),VR(*) ,DR(*) ,STIFR(*),D(*), MSSA(*)  ,DMELS(*)
       my_real
      .   FX(MVSIZ,10),FY(MVSIZ,10),FZ(MVSIZ,10),
      .   TEMP(*), FTHE(*), FTHESKY(*),GRESAV(*),VOLN(MVSIZ),CONDN(*),
-     .   CONDNSKY(*),SENSOR(NSENSR,*)
+     .   CONDNSKY(*),SENSOR(NSENSR,*),VARNOD(12*NUMNOD)
       TYPE(TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
@@ -188,7 +188,7 @@ C     Variables void MMAIN
      . SIGY(MVSIZ),ET(MVSIZ),GAMA(MVSIZ,6),
      . R1_FREE(MVSIZ),R3_FREE(MVSIZ),R4_FREE(MVSIZ)
 C Variables utilisees dans les routines solides uniquement (en arguments).
-      INTEGER NC(MVSIZ,10)
+      INTEGER NC(MVSIZ,10),ICP,MX
 
       DOUBLE PRECISION
      .  XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10),
@@ -204,7 +204,7 @@ C Variables utilisees dans les routines solides uniquement (en arguments).
      .  DXY(MVSIZ),DYX(MVSIZ),DYZ(MVSIZ),DZY(MVSIZ),
      .  DZX(MVSIZ),DXZ(MVSIZ),
      .  STIG(MVSIZ),  WIP(5,5), ALPH(5,5), BETA(5,5),BID(MVSIZ),
-     .  DIE(MVSIZ), MBID(1),OFFG0(MVSIZ),AMU(MVSIZ)
+     .  DIE(MVSIZ), MBID(1),OFFG0(MVSIZ),AMU(MVSIZ),SUM
       my_real NXT4(MVSIZ,4,4)
       my_real, DIMENSION(MVSIZ) ::
      .   E1X, E1Y, E1Z, E2X, E2Y, E2Z, E3X, E3Y, E3Z
@@ -213,7 +213,8 @@ C
      .    VX0(MVSIZ,10),VY0(MVSIZ,10),VZ0(MVSIZ,10),
      .    MFXX(MVSIZ,5),MFXY(MVSIZ,5),MFYX(MVSIZ,5),
      .    MFYY(MVSIZ,5),MFYZ(MVSIZ,5),MFZY(MVSIZ,5),
-     .    MFZZ(MVSIZ,5),MFZX(MVSIZ,5),MFXZ(MVSIZ,5),DIVDE(MVSIZ)
+     .    MFZZ(MVSIZ,5),MFZX(MVSIZ,5),MFXZ(MVSIZ,5),DIVDE(MVSIZ),
+     .    NU(MVSIZ),FAC(MVSIZ),FACP(MVSIZ),E0(MVSIZ),C1
 c
       my_real VARNL(NEL)
 c     Flag Bolt Preloading
@@ -243,10 +244,14 @@ C-----
       IBID = 0
       IBIDON  = 0
       IOFFS=0
+       IPTS = 1
+       IPTT = 1
+       ILAY = 1
       IF(ISROT == 1) THEN
         IISROT=1
         NF2=1
       END IF
+      ICP = IPARG(10,NG)
       DO I=LFT,LLT
         OFFS(I)=EP20
       END DO
@@ -298,6 +303,18 @@ C-----------
 C     
       CALL S10NX3(NX)
       IF(JTHE < 0 .AND. ISOLNOD == 4) CALL S10NXT4(NXT4,NEL)
+C      
+      IF (ICP==1) THEN
+        MX = MXT(LFT)
+        NU(I)=MIN(HALF,PM(21,MX))
+        FACP(LFT:LLT)=ONE
+      ELSEIF (ICP==2) THEN
+        MX = MXT(LFT)
+        NU(I)=MIN(HALF,PM(21,MX))
+        C1 =PM(32,MX)
+        E0(I) =THREE*(ONE-TWO*NU(I))*C1
+        CALL S8CSIGP3(GBUF%SIG,E0  ,GBUF%PLA,FACP ,GBUF%G_PLA,NEL )
+      END IF
 C-----------
 C GATHER NODAL VARIABLES FOR TOTAL STRAIN CASE.
 C-----------
@@ -365,9 +382,6 @@ C--- for /CST avoid multi-printout----
        IF (ISMSTR == 2 .OR.ISMSTR ==12) THEN
         DO IP=1,NPT
          IPTR = IP
-         IPTS = 1
-         IPTT = 1
-         ILAY = 1
          LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IPTR,IPTS,IPTT)
          DO I=LFT,LLT
           IF (GBUF%OFF(I)==TWO) LBUF%OFF(I)=GBUF%OFF(I)
@@ -400,13 +414,27 @@ C-----------------------------
      .       RX , RY , RZ , SX , SY , SZ , TX , TY , TZ  ,
      .       E1X, E2X, E3X, E1Y, E2Y, E3Y, E1Z, E2Z, E3Z ,
      .       GBUF%GAMA,GAMA )
-      ENDIF                             
+      ENDIF
+      IF(ICP ==1 ) THEN
+        IF (TT ==ZERO) THEN
+          DO I=LFT,LLT
+           IF(GBUF%OFF(I) == ZERO) CYCLE
+           FAC(I) = GBUF%VOL(I)/VOLG(I)
+           SUM=VARNOD(NC(I,1))+VARNOD(NC(I,2))+VARNOD(NC(I,3))+VARNOD(NC(I,4))
+           VOLG(I)=FOURTH*SUM*GBUF%VOL(I)
+           GBUF%VOL(I) =FAC(I)*VOLG(I)
+          ENDDO
+        ELSE
+          DO I=LFT,LLT
+           IF(GBUF%OFF(I) == ZERO) CYCLE
+           SUM=VARNOD(NC(I,1))+VARNOD(NC(I,2))+VARNOD(NC(I,3))+VARNOD(NC(I,4))
+           VOLG(I)=FOURTH*SUM*GBUF%VOL(I)
+          ENDDO
+        END IF
+      ENDIF
 C-----------------------------
 C     POINTS D' INTEGRATION 
 C-----------------------------
-        IPTS = 1
-        IPTT = 1
-        ILAY = 1
       DO IP=1,NPT
         IPTR = IP
         LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IPTR,IPTS,IPTT)
@@ -425,6 +453,10 @@ C
           CALL SORDEF12(LFT,LLT,DXX, DYY, DZZ,
      .         D4, D5, D6,
      .         E1X, E1Y, E1Z, E2X, E2Y, E2Z, E3X, E3Y, E3Z,OFFG0)
+         ENDIF
+         IF (ICP>0) THEN
+           CALL S10_ICP(GBUF%OFF,GBUF%VOL,VOLG,FACP,
+     .                  LBUF%VOL,VOLN,LBUF%VOL0DP,VOLDP(1,IP),NEL)
          ENDIF
 C   
         DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))  

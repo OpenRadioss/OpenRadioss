@@ -243,7 +243,7 @@ C
 
       DO I=LFT,LLT
         VOLU(I) =VOLG(I)/NPT
-        VOLN(I) =VOLG(I)/NPT
+        VOLN(I) =VOLG(I)
       END DO
 C
       RETURN

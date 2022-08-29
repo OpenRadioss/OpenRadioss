@@ -835,6 +835,32 @@ C--------message out
      .                      PRMOD=MSG_CUMU)
            END IF
           END IF
+C---add ICPRE auto for T10, firsly limited by Ismstr=4          
+          IF (IT10 ==1 .AND. ISSN==4 ) THEN
+            MATPARAM => MATPARAM_TAB(MID)
+             ICP0=MATPARAM%COMPRESSIBILITY
+             SELECT CASE (ICP0)
+C-------compressible       
+              CASE(1)                                             
+               ICPRE = 3        
+C-------uncompressible       
+              CASE(2)                                             
+               ICPRE = 3
+C--------elasto-plastic       
+              CASE(3)                                             
+               ICPRE = 1
+             END SELECT 
+C--------message out       
+                CALL ANCMSG(MSGID=1741,
+     .                      MSGTYPE=MSGINFO,
+     .                      ANMODE=ANINFO_BLIND_2,
+     .                      I1=ID,
+     .                      C1=TITR,
+     .                      I2=ICPRE,
+     .                      PRMOD=MSG_CUMU)
+          ELSEIF (IT10 ==1) THEN
+            ICPRE = 0
+          END IF !IF (IT10 == 1 )
 C--------------------
 C TEST COMPATIBILITE
 C--------------------

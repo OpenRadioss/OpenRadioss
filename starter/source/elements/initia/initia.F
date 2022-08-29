@@ -356,7 +356,7 @@ C      INTEGER *8 I8MI(6,NUMNOD)
      .   IFILE,IRCS,NELT,NELP,FXBID, ANOD, IRCM, NSNI, NSN, NMANI, IMIN, IMAX,
      .   NELEMR,CPT_ELTENS,IXFEM,ITG,ISUBSTACK,NCTRL, ITETRA10, KK,PX,PY,PZ,IPID
       INTEGER IFRAC,IDP,IDC,IDSURF,IFILL,JMID,JADCONTY, NBCONTY,NSEG_SWIFT_SURF,NSEG_USED,
-     .   NSURF_INVOL,IMAT
+     .   NSURF_INVOL,IMAT,ICPRE
       INTEGER SOLMAT(0:MAXLAW), COQMAT(0:MAXLAW), TRUMAT(0:MAXLAW),
      .   POUMAT(0:MAXLAW),SPHMAT(0:MAXLAW),
      .   RESMAT(0:MAXLAW),RESPID(0:50), SPHPID(0:50),
@@ -1502,10 +1502,15 @@ C-------------------------------------------------
       ISFEM=0
       DO NG = 1, NGROUP
         ITY   =IPARG(5,NG)
-        IF(ITY.EQ.3.OR.ITY.EQ.7)CYCLE
-        IF(IPARG(8, NG).EQ.1) CYCLE
-        IF(IPARG(28,NG).NE.4) CYCLE
-        IF(IPARG(41,NG) == 3.AND.ISFEM == 0) ISFEM=1
+        ISOLNOD = IPARG(28,NG)
+        ISROT  = IPARG(41,NG)
+        ICPRE  = IPARG(10,NG)
+        IF(ITY /= 1)CYCLE
+        IF(IPARG(8, NG) == 1) CYCLE
+        IF(ISOLNOD /= 4 .AND. ISOLNOD /= 10) CYCLE
+        IF(ISOLNOD==4.AND.ISROT == 3) ISFEM=1
+        IF(ICPRE==1.AND.(ISOLNOD==10.OR.(ISOLNOD==4.AND.ISROT == 1)))
+     .     ISFEM=1
       ENDDO
 C--------------------------------------------
 C Warning : Elements initially in tension
@@ -3512,6 +3517,7 @@ C-------this is done in ENGINE, should be done in Starter
            ELSE
              NLY = NPT
            ENDIF  
+           IF (ICPRE==0) ICPRE=3 
 c-----          
            IF (IGTYP==22.AND.IHBE==14 ) THEN
 C------  IPARG(6,NG)= NPG after elbuf_ini          
@@ -3529,8 +3535,8 @@ C------  IPARG(6,NG)= NPG after elbuf_ini
                IF (NLY ==0) NLY =IINT 
              END SELECT 
             ENDIF  
-           WRITE(IOUT,'(A)') '  Isolid  Ismstr     NPT'
-           WRITE(IOUT,'(3I8)')IHBE,Ismstr, NLY
+           WRITE(IOUT,'(A)') '  Isolid  Ismstr   Icpre     NPT'
+           WRITE(IOUT,'(3I8)')IHBE,Ismstr,ICSTR, NLY
           ELSE
 c2345678+-------+-------+-------+-------+-------+-------+-------+-------+-------+  
 c---1----|----2----|----3----|----4----|----5----|----6----|----7----|----8----|----9----|---10----|
