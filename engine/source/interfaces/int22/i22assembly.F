@@ -35,6 +35,11 @@ Chd|====================================================================
      6                  INTTH ,PHI  ,FTHE ,PHI1 , PHI2  ,PHI3 ,
      7                  PHI4  )
 C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C Interface Type22 (/INTER/TYPE22) is an FSI coupling method based on cut cell method. 
+C   This experimental cut cell method is not completed, abandonned, and is not an official option.
+C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
@@ -71,7 +76,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J1, IG
 C
-
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
           DO I=1,JLT
            J1=IX1(I)
            A(1,J1)=A(1,J1)+FX1(I)

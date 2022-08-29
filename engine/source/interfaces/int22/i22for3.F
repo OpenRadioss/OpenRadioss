@@ -59,6 +59,12 @@ Chd|====================================================================
      4                   Z2        ,Z3       ,Z4        ,IXS      ,NV46   ,
      5                   Delta     ,ISENSINT ,FSAVPARIT ,IPARG    ,H3D_DATA)
 C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C Interface Type22 (/INTER/TYPE22) is an FSI coupling method based on cut cell method. 
+C   This experimental cut cell method is not completed, abandonned, and is not an official option.
+C
+C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD  
@@ -195,7 +201,9 @@ C-----------------------------------------------
       END INTERFACE     
 C-----------------------------------------------
 #include "sync_dir.inc"
-
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------  
       ECONTT = ZERO
       ECONVT = ZERO
       DO I=1,JLT
@@ -203,9 +211,6 @@ C-----------------------------------------------
       ENDDO
 
   
-C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES
-C--------------------------------------------------------
       BID = ZERO
       IBID = 0
      
@@ -220,8 +225,6 @@ C--------------------------------------------------------
 !#include "lockoff.inc"
 !      END IF
        
-      
-      
 C---------------------------------
 #include "lockon.inc"
         ECONTV = ECONTV + ECONVT
@@ -229,7 +232,6 @@ C---------------------------------
 #include "lockoff.inc"
 C---------------------------------
 C
-
       !---------------------------------!
       !       PARAMETER INIT.           !
       !---------------------------------! 
@@ -250,9 +252,9 @@ C
       DO I=1,JLT
          
 c        print *, "       I===== :      ", I
-c        print *, "       BRIQUE :      ", IXS(11,BRICK_LIST(NIN,CB_LOC(I))%ID)
+c        print *, "       CELL   :      ", IXS(11,BRICK_LIST(NIN,CB_LOC(I))%ID)
 c        print *, "       NBCUT  :      ", BRICK_LIST(NIN,CB_LOC(I))%NBCUT             
-c        print *, "       FACETTE:      ", ITAB(IRECT(1:4,iabs(CE_LOC(I))))
+c        print *, "       SHELL  :      ", ITAB(IRECT(1:4,iabs(CE_LOC(I))))
 c        print *, "       NCYCLE :      ", NCYCLE
          
          
@@ -286,25 +288,25 @@ c        IF(NBCUT==0) print *, "     C Y C L E"
         Pt2(1:3) = (/X2(I),Y2(I),Z2(I)/)
         Pt3(1:3) = (/X3(I),Y3(I),Z3(I)/)
         Pt4(1:3) = (/X4(I),Y4(I),Z4(I)/)    
-        TMP(1:3) = I22AERA(  NP_RECT(I), (/Pt1,Pt2,Pt3,Pt4/) ,TMP2)  !a optimiser, quasi calcule dans i22cor ou i22dst3
+        TMP(1:3) = I22AERA(  NP_RECT(I), (/Pt1,Pt2,Pt3,Pt4/) ,TMP2)  !to be optimized, almoste calculated in i22cor or i22dst3
         Slag=  SQRT(SUM(TMP(1:3)*TMP(1:3)))
 
         DO ICUT=1,NBCUT
 
-          IF(CAND_E(I).LT.0) CYCLE   !ICUT=1,8 ne pas projecter les facettes non intersecatantes.
+          IF(CAND_E(I).LT.0) CYCLE   !ICUT=1,8 do not project shell which do not intersect
           !
           ! +------------+------------+
-          ! +        |   +       |    +      20 avec facette 1 + ( + : intersection)
-          ! +        |   +       |    +      20 avec facette 2 - ( - : couple sans intersection)
-          ! +    20  |   +    30 |    +      30 avec facette 1 -
-          ! +        |   +       |    +      30 avec facette 2 +
+          ! +        |   +       |    +      20 with facette 1 + ( + : intersection)
+          ! +        |   +       |    +      20 with facette 2 - ( - : couple sans intersection)
+          ! +    20  |   +    30 |    +      30 with facette 1 -
+          ! +        |   +       |    +      30 with facette 2 +
           ! +  IX    | I +   I   | IX +
           ! +------------+------------+
           !
           ! +--------\----+
           ! +         \I  +
           ! +          ---+-\
-          ! +    20       +  | <---facettes non  intersectante mais devant  tre projetees sur la surface virtuelle (hypothese de fermeture)
+          ! +    20       +  | <---non intersecting edges but near virtual face (closure hypothesis)
           ! +           __+_/
           ! +  IX      /II+
           ! +---------/---+
@@ -317,15 +319,15 @@ c        IF(NBCUT==0) print *, "     C Y C L E"
           ! +  IX      /II+   I   | IX +
           ! +---------/---+-------|----+
           !                       |
-          !                       | <------ les facettes de cette surface ne doivent pas etres projetes sur les secantes et virtuelles de la brique 20
-          !                                 Ce cas l  n'est pas gere (surfaces lagrangienne trop complexe, ou surfaces multiples auto impactantes...)
-          !                                 Utiliser une surface simple : connexe et relativement lisse
+          !                       | <------ face of this edge must not be projected on vitual cut surface from cell 20
+          !                                 this case is not treated (lagrangian face too complex or multiple surface, self-impact, etc...)
+          !                                 Use a simple surface : smooth and without holes
 
           !-------------------------------!
           !     GET RELATIVE PRESSURE.    !
           ! FROM BOTH SIDE OF CUT SURFACE !
           !-------------------------------!
-          ! Possibilite maintenant de chercher la pression dans le buffer cut cell ...%P ont y sauvegarde P <- P + Pvisc + Partif (varaibles locales)
+          ! %P is pressure in cut cell buffer. 
           !Bijection : Scut=Icut <-> (icell1,icell2)
           ICELL1 = ICUT
           ICELL2 = 9
@@ -380,7 +382,7 @@ c        IF(NBCUT==0) print *, "     C Y C L E"
           ZC2    = BRICK_LIST(NIN,IBM2)%RHOC
           M2     = BRICK_LIST(NIN,IBM2)%MACH
           
-          MF     = HALF*(M1+M2) ! avec vitesse de grille, Mi doit etre calcule en consequence dans alefvm_stress*
+          MF     = HALF*(M1+M2) ! with grid velocity  Mi must be calculated consequently in alefvm_stress*
           THETA  = MIN(ONE,MF)
           
           P1(I)  = P1(I) + ZC1*UN1*THETA
@@ -392,7 +394,7 @@ c        IF(NBCUT==0) print *, "     C Y C L E"
           !-------------------------------! 
           Q     = SUM( N_SURF(1:3,iabs(CAND_E(I))) * N_SCUT(1:3,ICUT,I) ) !N_SCUT(1:3,ICUT,I)= S*n(1:3)
           FFO   = DP(I) * Swet(ICUT,I)
-          IF(Q<ZERO) FFO = -FFO   !inversion du signe pour ajuster le sens de la normal (surface non orientee)
+          IF(Q<ZERO) FFO = -FFO   !sign change to adjust normal direction (non oriented surface)
 
           !force au CoG
           FF(:) = FFO * N_SURF(:,iabs(CAND_E(I)))
@@ -428,8 +430,8 @@ C          print *, "FF=", FF(1), ITAB(IRECT(1:4,CE_LOC(I)))
             print *, "##I22FOR ; candidat I=", I, "  ICUT=", ICUT
             print *, "######################################################"    
             print *, "   JLT    :      ", I,"/",JLT
-            print *, "   BRIQUE :      ", IXS(11,BRICK_LIST(NIN,CB_LOC(I))%ID)
-            print *, "   FACETTE:      ", ITAB(IRECT(1:4,iabs(CE_LOC(I))))
+            print *, "   CELL   :      ", IXS(11,BRICK_LIST(NIN,CB_LOC(I))%ID)
+            print *, "   SHELL  :      ", ITAB(IRECT(1:4,iabs(CE_LOC(I))))
             print *, "   ICUT   :      ", ICUT
             print *, "   NCYCLE :      ", NCYCLE
             print *, "   P1           =", P1(I)
@@ -544,7 +546,7 @@ C              endif
           N_SCUT_(1:3) = BRICK_LIST(NIN,IB)%N(J,1:3)*BRICK_LIST(NIN,IB)%POLY(9)%FACE(J)%Surf                     
           Q            = SUM( N_SURF(1:3,iabs(CAND_E(I))) * N_SCUT_(1:3)  )
           FFO          = DP(I) * Swet(8+J,I)
-          IF(Q<ZERO) FFO = -FFO   !inversion du signe pour ajuster le sens de la normal (surface non orientee)
+          IF(Q<ZERO) FFO = -FFO   !sign change to adjust normal direction (non oriented surface)
 
           !force au CoG
           FF(:)        = FFO * N_SURF(:,iabs(CAND_E(I)))
@@ -579,8 +581,8 @@ C           print *, "FF=", FF(1), ITAB(IRECT(1:4,CE_LOC(I)))
             print *, "#################################"
             print *, "##I22FOR ; facette I=", I
             print *, "#################################"    
-            print *, "   BRIQUE :      ", IXS(11,BRICK_LIST(NIN,CB_LOC(I))%ID)
-            print *, "   FACETTE:      ", ITAB(IRECT(1:4,iabs(CE_LOC(I))))
+            print *, "   CELL :      ", IXS(11,BRICK_LIST(NIN,CB_LOC(I))%ID)
+            print *, "   SHELL  :      ", ITAB(IRECT(1:4,iabs(CE_LOC(I))))
             print *, "   NCYCLE :      ", NCYCLE
             print *, "   P1           =", P1(I)
             print *, "   P2           =", P2(I)           
@@ -738,8 +740,8 @@ C
                print *, "##I22FOR ; facette I=", I
                print *, "##    FCONT /ANIM/VECT/CONT     #"               
                print *, "#################################"    
-               print *, "   BRIQUE :       ", IXS(11,BRICK_LIST(NIN,CB_LOC(I))%ID)
-               print *, "   FACETTE:       ", ITAB(IRECT(1:4,iabs(CE_LOC(I))))
+               print *, "   CELL   :       ", IXS(11,BRICK_LIST(NIN,CB_LOC(I))%ID)
+               print *, "   SHELL  :       ", ITAB(IRECT(1:4,iabs(CE_LOC(I))))
                print *, "   NCYCLE :       ", NCYCLE
                print *, "------------------"    
                write(*,FMT='(A,I8,A,3E30.16)')"FCONT(",itab(IRECT(1,iabs(CE_LOC(I)))),") = ", FCONT(1:3,IX1(I))                            
@@ -780,8 +782,8 @@ C
                print *, "##I22FOR ; facette I=", I
                print *, "##    FCONT /ANIM/VECT/CONT     #"               
                print *, "#################################"    
-               print *, "   BRIQUE :        ", IXS(11,BRICK_LIST(NIN,CB_LOC(I))%ID)
-               print *, "   FACETTE:        ", ITAB(IRECT(1:4,iabs(CE_LOC(I))))
+               print *, "   CELL   :        ", IXS(11,BRICK_LIST(NIN,CB_LOC(I))%ID)
+               print *, "   SHELL  :        ", ITAB(IRECT(1:4,iabs(CE_LOC(I))))
                print *, "   NCYCLE :        ", NCYCLE
                print *, "-------------------"    
                write(*,FMT='(A,I8,A,3E30.16)')"FNCONT(",itab(IRECT(1,iabs(CE_LOC(I)))),") = ", FNCONT(1:3,IX1(I))                            

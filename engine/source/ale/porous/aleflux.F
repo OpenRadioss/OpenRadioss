@@ -38,6 +38,10 @@ Chd|====================================================================
      .               VDZ1,VDZ2,VDZ3,VDZ4,VDZ5,VDZ6,VDZ7,VDZ8,
      .               W  , FLUX ,FLU1 ,ALE_CONNECT,ALPHA  ,NGL  )
 C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C This subroutine is related to porous material law 77
+C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD

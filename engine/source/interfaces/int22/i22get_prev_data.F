@@ -37,6 +37,9 @@ C============================================================================
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
+C Interface Type22 (/INTER/TYPE22) is an FSI coupling method based on cut cell method. 
+C   This experimental cut cell method is not completed, abandonned, and is not an official option.
+C
 C  This subroutine get data from cut cell buffer
 C  in previous cycle and update new buffer with
 C  consistent data if brick is sill there
@@ -103,8 +106,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------
-C    INT22 > 0 already true if this subroutine 
-C               is called
+C    INT22 > 0 already true if this subroutine is called
 C-----------------------------------------------
 C   S o u r c e   L i n e 
 C-----------------------------------------------     
@@ -146,45 +148,40 @@ ccc            print *, "new in buffer, IB=", ib, ixs(11,idx)
           ELSE
             BRICK_LIST(NIN,IB)%NewInBuffer = 0            
           ENDIF
-        ENDDO!next IB 
-c        !ne devrait pas etre necessaire car on ne travaille plus dans cette plage.
-c        DO IB=NB+1,NBOLD(NIN)
-c          IDX = TAG_INDEX_OLD(IB)
-c          BRICK_LIST(NIN,IB)%NewInBuffer = 0 
-c        ENDDO       
+        ENDDO!next IB      
                                
         !---NodWasMain-------!
         DO IB=1,NBOLD(NIN)
-          I8(1:8,IB) = BRICK_LIST(NIN,IB)%NODE(1:8)%NodWasMain    !sauvegarder avant de faire la modification ci-dessous
+          I8(1:8,IB) = BRICK_LIST(NIN,IB)%NODE(1:8)%NodWasMain    !backup
         ENDDO
         DO IB=1,NBOLD(NIN)
-          IDX = LIST_B_OLD(NIN,IB)                             !doit etre alloue dans resol en meme temps que brick_list
-          IF(TAG_INDEX(IDX).GT.0)THEN                          !la brick BUFBBRIC(IDX) est toujours dans le buffer
-            IDX = TAG_INDEX(IDX)                               !position dans le nouveau buffer
+          IDX = LIST_B_OLD(NIN,IB)                             !allocated in resol with brick_list
+          IF(TAG_INDEX(IDX).GT.0)THEN                          !cell BUFBBRIC(IDX) is always in buffer
+            IDX = TAG_INDEX(IDX)                               !position in new buffer
             BRICK_LIST(NIN,IDX)%NODE(1:8)%NodWasMain = I8(1:8,IB)
           ENDIF
         ENDDO!next IB
         !---WhereWasMain-----!
         DO IB=1,NBOLD(NIN)
-          I8(1:8,IB) = BRICK_LIST(NIN,IB)%NODE(1:8)%WhereWasMain !sauvegarder avant de faire la modification ci-dessous
+          I8(1:8,IB) = BRICK_LIST(NIN,IB)%NODE(1:8)%WhereWasMain !backup
         ENDDO
         DO IB=1,NBOLD(NIN)
-          IDX = LIST_B_OLD(NIN,IB)                             !doit etre alloue dans resol en meme temps que brick_list
-          IF(TAG_INDEX(IDX).GT.0)THEN                          !la brick BUFBBRIC(IDX) est toujours dans le buffer
-            IDX = TAG_INDEX(IDX)                               !position dans le nouveau buffer
+          IDX = LIST_B_OLD(NIN,IB)  
+          IF(TAG_INDEX(IDX).GT.0)THEN  
+            IDX = TAG_INDEX(IDX)  
             BRICK_LIST(NIN,IDX)%NODE(1:8)%WhereWasMain = I8(1:8,IB)
           ENDIF
         ENDDO!next IB
         
         !--Old main volume---!
         DO IB=1,NBOLD(NIN)
-          R9(1,IB) = BRICK_LIST(NIN,IB)%Vold_SCell             !sauvegarder avant de faire la modification ci-dessous
+          R9(1,IB) = BRICK_LIST(NIN,IB)%Vold_SCell             !backup
         ENDDO
         BRICK_LIST(NIN,1:NBOLD(NIN))%Vold_SCell = ZERO
         DO IB=1,NBOLD(NIN)
-          IDX = LIST_B_OLD(NIN,IB)                             !doit etre alloue dans resol en meme temps que brick_list
-          IF(TAG_INDEX(IDX).GT.0)THEN                          !la brick BUFBBRIC(IDX) est toujours dans le buffer
-            IDX = TAG_INDEX(IDX)                               !position dans le nouveau buffer
+          IDX = LIST_B_OLD(NIN,IB) 
+          IF(TAG_INDEX(IDX).GT.0)THEN  
+            IDX = TAG_INDEX(IDX)  
             BRICK_LIST(NIN,IDX)%Vold_SCell = R9(1,IB)
           ENDIF
         ENDDO!next IB
@@ -192,18 +189,18 @@ c        ENDDO
         
         !--Old whichcellnode-!
         DO IB=1,NBOLD(NIN)
-          I8(1:8,IB) = BRICK_LIST(NIN,IB)%NODE(1:8)%WhichCell !sauvegarder avant de faire la modification ci-dessous
+          I8(1:8,IB) = BRICK_LIST(NIN,IB)%NODE(1:8)%WhichCell !backup
         ENDDO
         DO IB=1,NBOLD(NIN)
-          IDX = LIST_B_OLD(NIN,IB)                             !doit etre alloue dans resol en meme temps que brick_list
-          IF(TAG_INDEX(IDX).GT.0)THEN                          !la brick BUFBBRIC(IDX) est toujours dans le buffer
-            IDX = TAG_INDEX(IDX)                               !position dans le nouveau buffer
+          IDX = LIST_B_OLD(NIN,IB) 
+          IF(TAG_INDEX(IDX).GT.0)THEN 
+            IDX = TAG_INDEX(IDX)  
             BRICK_LIST(NIN,IDX)%NODE(1:8)%OLD_WhichCell = I8(1:8,IB)
           ENDIF
         ENDDO!next IB       
         !--Old current volume---!
         DO IB=1,NBOLD(NIN)
-          R9(1:9,IB) = BRICK_LIST(NIN,IB)%POLY(1:9)%Vnew       !sauvegarder avant de faire la modification ci-dessous
+          R9(1:9,IB) = BRICK_LIST(NIN,IB)%POLY(1:9)%Vnew       !backup
         ENDDO
         DO J=1,9;BRICK_LIST(NIN,1:NBOLD(NIN))%POLY(J)%Vnew = -EP30;ENDDO
         DO IB=1,NBOLD(NIN)
@@ -216,9 +213,9 @@ c        ENDDO
                 
         !------SecndList-------!
         DO IB=1,NBOLD(NIN)
-          IDX = LIST_B_OLD(NIN,IB)                             !doit etre alloue dans resol en meme temps que brick_list
-          IF(TAG_INDEX(IDX).GT.0)THEN                          !la brick BUFBBRIC(IDX) est toujours dans le buffer
-            IDX = TAG_INDEX(IDX)                               !position dans le nouveau buffer
+          IDX = LIST_B_OLD(NIN,IB) 
+          IF(TAG_INDEX(IDX).GT.0)THEN 
+            IDX = TAG_INDEX(IDX) 
             IF(BRICK_LIST(NIN,IB)%SecndList%Num==0)CYCLE
             OLD_SecndList(NIN,IDX)%VOL_unmerged       = BRICK_LIST(NIN,IB)%SecndList%VOL_unmerged
             OLD_SecndList(NIN,IDX)%Num                = BRICK_LIST(NIN,IB)%SecndList%Num
@@ -253,9 +250,9 @@ c        ENDDO
           I8(1,IB) = BRICK_LIST(NIN,IB)%OldMainStrongNode !sauvegarder avant de faire la modification ci-dessous
         ENDDO
         DO IB=1,NBOLD(NIN)
-          IDX = LIST_B_OLD(NIN,IB)                             !doit etre alloue dans resol en meme temps que brick_list
-          IF(TAG_INDEX(IDX).GT.0)THEN                          !la brick BUFBBRIC(IDX) est toujours dans le buffer
-            IDX = TAG_INDEX(IDX)                               !position dans le nouveau buffer
+          IDX = LIST_B_OLD(NIN,IB) 
+          IF(TAG_INDEX(IDX).GT.0)THEN 
+            IDX = TAG_INDEX(IDX) 
             BRICK_LIST(NIN,IDX)%OldMainStrongNode = I8(1,IB)
           ENDIF
         ENDDO!next IB       
@@ -264,9 +261,9 @@ c        ENDDO
           I8(1,IB) = BRICK_LIST(NIN,IB)%NBCUT
         ENDDO
         DO IB=1,NBOLD(NIN)
-          IDX = LIST_B_OLD(NIN,IB)                             !doit etre alloue dans resol en meme temps que brick_list
-          IF(TAG_INDEX(IDX).GT.0)THEN                          !la brick BUFBBRIC(IDX) est toujours dans le buffer
-            IDX = TAG_INDEX(IDX)                               !position dans le nouveau buffer
+          IDX = LIST_B_OLD(NIN,IB) 
+          IF(TAG_INDEX(IDX).GT.0)THEN 
+            IDX = TAG_INDEX(IDX) 
             BRICK_LIST(NIN,IDX)%WasCut = 0
             IF(I8(1,IB).GT.0)BRICK_LIST(NIN,IDX)%WasCut = 1
           ENDIF
@@ -274,12 +271,12 @@ c        ENDDO
 
         !---old_ICODE----!
         DO IB=1,NBOLD(NIN)
-          I8(1,IB) = BRICK_LIST(NIN,IB)%ICODE                  !sauvegarder avant de faire la modification ci-dessous
+          I8(1,IB) = BRICK_LIST(NIN,IB)%ICODE                   !backup
         ENDDO
         BRICK_LIST(NIN,1:NB)%OLD_ICODE = 0
         DO IB=1,NBOLD(NIN)
-          IDX = LIST_B_OLD(NIN,IB)                             !doit etre alloue dans resol en meme temps que brick_list
-          IF(TAG_INDEX(IDX).GT.0)THEN                          !la brick BUFBBRIC(IDX) est toujours dans le buffer
+          IDX = LIST_B_OLD(NIN,IB) 
+          IF(TAG_INDEX(IDX).GT.0)THEN 
             IDX = TAG_INDEX(IDX)
             BRICK_LIST(NIN,IDX)%OLD_ICODE = I8(1,IB)
           ENDIF

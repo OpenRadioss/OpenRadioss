@@ -37,8 +37,11 @@ Chd|====================================================================
      1    GEO    ,NODPOR ,MS ,X   ,V     ,
      2    W      ,AF     ,AM ,SKEW,WEIGHT,
      3    NPORGEO)
-C
-C     FORCES MILIEUX POREUX
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C     --- /PROP/POROUS (TYPE15) ---
+C     FORCES / POROUS MEDIA
 C     FP 08/94
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

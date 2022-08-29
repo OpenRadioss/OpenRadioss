@@ -36,10 +36,12 @@ Chd|====================================================================
      .                     W    ,IGRSH3N )
 C============================================================================      
 C-----------------------------------------------
-C  D e s c r i p t i o n
+C   D e s c r i p t i o n
 C-----------------------------------------------
-C Calcul les coordonnes des points d intersection et les aires des facettes
+C Interface Type22 (/INTER/TYPE22) is an FSI coupling method based on cut cell method. 
+C   This experimental cut cell method is not completed, abandonned, and is not an official option.
 C
+C CThis subroutine computes coordinates of intersection points and faces area
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------

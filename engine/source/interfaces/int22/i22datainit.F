@@ -31,6 +31,12 @@ Chd|====================================================================
       SUBROUTINE I22DATAINIT()
       USE I22TRI_MOD
       USE I22BUFBRIC_MOD   
+C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C Interface Type22 (/INTER/TYPE22) is an FSI coupling method based on cut cell method. 
+C   This experimental cut cell method is not completed, abandonned, and is not an official option.
+C
 C=======================================================================   
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

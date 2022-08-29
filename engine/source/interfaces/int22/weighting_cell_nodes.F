@@ -31,7 +31,10 @@ Chd|====================================================================
      .                    NIN,   IB,   ICELL , IRES, IDEMERGE)
 C-----------------------------------------------
 C   D e s c r i p t i o n
-C----------------------------------------------- 
+C-----------------------------------------------
+C Interface Type22 (/INTER/TYPE22) is an FSI coupling method based on cut cell method. 
+C   This experimental cut cell method is not completed, abandonned, and is not an official option.
+C
 ! Get Nodes which is the farthest from intersection points
 ! equivalent to calculating mean adjacent surface ratio.
 C-----------------------------------------------

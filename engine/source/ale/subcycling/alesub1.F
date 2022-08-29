@@ -31,7 +31,12 @@ Chd|====================================================================
      1  NALE ,V    ,W    ,DSAVE ,ICODT,
      2  ISKEW,SKEW ,D    ,ITASK ,NODFT,
      3  NODLT,FSKY ,FSKYV)
-C----6---------------------------------------------------------------7---------8
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+C /ALESUB is an obsolete option
+C Multidomain computation (/SUBDOMAIN) is now used instead.
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"

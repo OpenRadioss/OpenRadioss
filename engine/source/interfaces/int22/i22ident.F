@@ -34,10 +34,13 @@ Chd|====================================================================
      1       IXS, X, ITASK, NIN, BUFBRIC)
 C============================================================================      
 C-----------------------------------------------
-C  D e s c r i p t i o n
+C   D e s c r i p t i o n
 C-----------------------------------------------
-C Determination de la nature de l intersection
-C---------Numerotation locale des Arretes------------------
+C Interface Type22 (/INTER/TYPE22) is an FSI coupling method based on cut cell method. 
+C   This experimental cut cell method is not completed, abandonned, and is not an official option.
+C
+C Determine intersection type
+C---------local numbering of edges------------------
 C                                                                                       
 C                            +------------+------------+                                         
 C         8+--------+7       | iEDGE(1,*) | iEDGE(2,*) |        +---12---+            +--------+ 
@@ -56,7 +59,7 @@ C     DEFINED WITH        11 +     8      +     5      +   DEFINED WITH        D
 C     LOCAL IDs           12 +     8      +     7      +   LOCAL IDs               LOCAL IDs         
 C                            +------------+------------+
 
-C---------Identification du Decoupage de la brique---------
+C---------identification of cut cell---------
 C
 C           +---------------+ 
 C          /|              /|
@@ -65,7 +68,7 @@ C        /  |            /  |
 C       +---------------+   |   
 C       |   +-----------|---+  
 C       |  /            |  /    
-C       T T             | /       -> edge 1,2,3 <=> 111000000000(3584) <=> TETRA sommet 1
+C       T T             | /       -> edge 1,2,3 <=> 111000000000(3584) <=> TETRA summit 1
 C       |/              |/     
 C       +---T-----------+      
 C      (1)                     
@@ -133,7 +136,7 @@ C-----------------------------------------------
       CHARACTER*14    :: dbKEY1,   dbKEY2
       integer idb1(0:ncandb), idb2(0:ncandb)
       INTEGER :: tagTETRA(S_TETRA),tagPENTA(S_PENTA),tagPOLY3(S_POLY3),
-     .           tagHEXAE(S_HEXAE),tagPOLY4(S_POLY4)                     !tag si l'intersection est probable. L'alog detrminera lesquelles sont pr   sentes
+     .           tagHEXAE(S_HEXAE),tagPOLY4(S_POLY4)                     !tag if there is a potential intersection
       INTEGER      :: MultICODE(S22_MAX), MultIDBLE(S22_MAX)
       CHARACTER*14 :: MultiSECtype(S22_MAX)
       INTEGER :: MultiSECid(S22_MAX)
@@ -387,7 +390,7 @@ C=======================================================================
  
 !      if(itask==0.AND.debug_outp)then
 !        if(ibug22_ident==-1 .or. ibug22_ident==ixs(11,brick_list(nin,ib)%id))then
-!          print *, "  BRIQUE ID *:",IXS(11,BRICK_LIST(NIN,I)%ID)      
+!          print *, "  CELL ID *  :",IXS(11,BRICK_LIST(NIN,I)%ID)      
 !          write (*,FMT='(A,I12,A,12L1,A,I12,A,12L1)') , "ICODE =",ICODE," ", (BTEST(ICODE,12-K),K=1,12), 
 !     .                                                "  IDBLE=", IDBLE, " ",(BTEST(IDBLE,12-K),K=1,12)
 !          do K=1,SecTypeList(0)
@@ -472,7 +475,7 @@ C=======================================================================
    !         CALL REMOVE_DOUBLE_INTP(
    !  1                              IXS, X, ITASK, NIN, BUFBRIC,
    !  2                              IB ) 
-   !         print *, "  BRIQUE ID EXITING REMOVING DOUBLE INTERP:",IXS(11,BRICK_LIST(NIN,I)%ID)      
+   !         print *, "  CELL ID EXITING REMOVING DOUBLE INTERP:",IXS(11,BRICK_LIST(NIN,I)%ID)      
    !         Iremoved = Iremoved +1
    !         IF(Iremoved.LE.1)GOTO 10
    !         endif            
@@ -549,7 +552,7 @@ C=======================================================================
           ICODE=BRICK_LIST(NIN,I)%ICODE
           NBITS=BRICK_LIST(NIN,I)%Nbits
           NPQTS=BRICK_LIST(NIN,I)%Npqts
-          print *, "  BRIQUE ID -:",IXS(11,BRICK_LIST(NIN,I)%ID)
+          print *, "  CELL ID -:",IXS(11,BRICK_LIST(NIN,I)%ID)
            WRITE(*,FMT='(A20,I10,A4,I10)')   "     edges add from ",idb1(i)," to ",idb2(i)  
            WRITE(*,FMT='(A11,I4,A20,I2,A1,I1,A1)') "     icode=", ICODE,  "   (nbits,npqts) = (", NBITS,",",NPQTS,")"  
            WRITE(*,FMT='(A11,I4,A20,I2,A1,I1,A1)') "     idble=", IDBLE

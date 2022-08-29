@@ -41,6 +41,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D e c r i p t i o n
 C-----------------------------------------------
+C 'alefvm' is related to a collocated scheme (built from FVM and based on Godunov scheme)
+C  which was temporarily introduced for experimental option /INTER/TYPE22 (FSI coupling with cut cell method)
+C This cut cell method is not completed, abandonned, and is not an official option.
+C There is no other use for this scheme which is automatically enabled when /INTER/TYPE22 is defined (INT22>0 => IALEFVM=1).
+C
 c        Same as ALE51_ANTIDIFF3 but for cut cells 
 C                                        (inter22)
 C-----------------------------------------------

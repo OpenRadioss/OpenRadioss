@@ -37,6 +37,15 @@ Chd|====================================================================
      5                          X  ,      IPM,  RHO,  VOL,  A  ,  IAD22,
      6                          ELBUF_TAB,NEL,  MOM,  SSP,  ITASK)
 C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C 'alefvm' is related to a collocated scheme (built from FVM and based on Godunov scheme)
+C  which was temporarily introduced for experimental option /INTER/TYPE22 (FSI coupling with cut cell method)
+C This cut cell method is not completed, abandonned, and is not an official option.
+C There is no other use for this scheme which is automatically enabled when /INTER/TYPE22 is defined (INT22>0 => IALEFVM=1).
+C
+C This subroutine is treating an uncut cell.
+C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ALEFVM_MOD       !F_FACE

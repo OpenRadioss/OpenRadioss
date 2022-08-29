@@ -59,6 +59,12 @@ Chd|====================================================================
      G                   ISENSINT  ,DIMFB      ,H3D_DATA   )
 C=======================================================================
 C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C Interface Type22 (/INTER/TYPE22) is an FSI coupling method based on cut cell method. 
+C   This experimental cut cell method is not completed, abandonned, and is not an official option.
+C
+C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD 
@@ -221,7 +227,7 @@ C
       IF(TT.GT.STOPT)  RETURN
 
       !-------------------------------!
-      !DECOUPAGE STATIQUE             !
+      !STATIC CUTTING                 !
       !-------------------------------!
           NB_LOC = I_STOK / NTHREAD
           IF (JTASK.EQ.NTHREAD) THEN
@@ -233,7 +239,7 @@ C
         I_STOK = 0
       
       !-------------------------------!
-      !RECALCUL DU I_STOK             !
+      !RECALCULATE DU I_STOK          !
       !-------------------------------!
           DO I = DEBUT+1, DEBUT+I_STOK_LOC
             IF(INTBUF_TAB%CAND_N(I).NE.0) THEN
@@ -262,12 +268,12 @@ c------------------------------------------------
          SURF(3,I) = ZERO
        ENDDO
 
-!PARITH/ON    A TRAITER PLUS TARD
+!PARITH/ON    TO BE DONE LATER
 
 !       IF(IPARIT.NE.0)THEN
-!       !C Il faut trier les candidats suivant le numero de noeud user
-!       !C de maniere a cumuler une pression parith/on dans i18for3
-!       !C pour une facette donnee, l ordre des noeuds traites doit rester identique
+!       !C sort depending on user node ids
+!       !C calculate parith/on pressure
+!       !C for a given face, node order must be the same one
 !         CALL I18TRI(
 !     1     INDEX2       ,I_STOK,INTBUF_TAB%CAND_N,ITAB ,NSN ,
 !     2     INTBUF_TAB%NSV,NIN   )
@@ -318,7 +324,7 @@ C
 !          print *, "================================================"        
 !        endif
 	       
-        ! cand_b et cand_e remplace par cand_b_n et cand_e_n
+        ! cand_b & cand_e replaced with cand_b_n & cand_e_n
         CALL I22COR3(
      1  JLT              ,X                 , INTBUF_TAB%IRECTM         ,INTBUF_TAB%NSV            ,CAND_E_N         ,
      2  CAND_B_N         ,INTBUF_TAB%STFM   , INTBUF_TAB%STFNS          ,X1                        ,X2               ,

@@ -46,6 +46,12 @@ Chd|====================================================================
      F                IELECI  ,NODNX_SMS ,NSMS   ,GAP_S_L ,GAP_M_L,
      G                BUFBRIC ,JTASK)
 C-----------------------------------------------
+C   D e s c r i p t i o n
+C-----------------------------------------------
+C Interface Type22 (/INTER/TYPE22) is an FSI coupling method based on cut cell method. 
+C   This experimental cut cell method is not completed, abandonned, and is not an official option.
+C
+C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
@@ -94,10 +100,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I ,J  ,IL, EI, NN, IG,JFT, IX,  BI, NI
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------  
 C -------------------------------------------------------------
-C     DEFINITION DU TABLEAU GLOBAL DE COQUES (LOCAL + REMOTES)
+C     DEFINITION OF GLOBAL ARRAY FOR SHELLS (LOCAL + REMOTE ONES)
 C -------------------------------------------------------------
-C      IRECT_L( 1: 4, :)                         : Four Node ITAB( ID) : numero glolocal pour unicit avec XREM
+C      IRECT_L( 1: 4, :)                         : Four Node ITAB( ID) : global id to manage unicity with XREM
 C      IRECT_L( 5: 8, :)                         : X-coordinates
 C      IRECT_L( 9:12, :)                         : Y-coordinates
 C      IRECT_L(13:16, :)                         : Z-coordinates
@@ -113,8 +122,8 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 
-          !preparation des candidats retenus pour chaque thread
-          !INDEX est le tableau d'indexes pour le thread courant
+          !candidates retaines from each nodes
+          !INDEX is index array for current thread
           DO I=1,JLT
             CAND_E(I) = CAND__E(INDEX(I))
             CAND_B(I) = CAND__B(INDEX(I))      

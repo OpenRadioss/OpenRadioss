@@ -32,6 +32,9 @@ Chd|====================================================================
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C----------------------------------------------- 
+C Interface Type22 (/INTER/TYPE22) is an FSI coupling method based on cut cell method. 
+C   This experimental cut cell method is not completed, abandonned, and is not an official option.
+C
 C Destroy a cell ICELL_target for a given cut 
 C cell IB in the cut cell buffer.
 C When a Cell is destroyed from the list , Cell
@@ -83,10 +86,6 @@ C-----------------------------------------------
       my_real             :: FACE_CELL(1:6)
       TYPE (BRICK_ENTITY) :: CUTCELL_TMP  
       LOGICAL             ::  bFOUND  
-C-----------------------------------------------
-C   P r e c o n d i t i o n s
-C----------------------------------------------- 
-      !all conditions satisfied is this subroutine is called : IF(INT22 .EQ. 0) RETURN
 C-----------------------------------------------
 C   S o u r c e    L i n e s
 C-----------------------------------------------      
