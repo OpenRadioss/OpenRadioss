@@ -20,6 +20,7 @@
 //Copyright>    As an alternative to this open-source version, Altair also offers Altair Radioss 
 //Copyright>    software under a commercial license.  Contact Altair to discuss further if the 
 //Copyright>    commercial version may interest you: https://www.altair.com/radioss/.    
+//    
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -64,7 +65,7 @@ void *h3dhandle;
 #endif
 char load_libname[20000];
 char * H3D_open_file="Hyper3DExportOpen";
-
+  
 
 /**************/
 /* The Basics */
@@ -1400,15 +1401,4 @@ H3DFileInfo* Hyper3DExportOpen(const char* filename, H3D_FileMode mode,
    return_value = DLHyper3DDatasetEnd(h3d_file);
    return return_value ;
 }
-
-
-
-
-
-
-
-
-
-
-
 
