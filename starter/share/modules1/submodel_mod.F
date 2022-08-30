@@ -396,7 +396,6 @@ Chd|        HM_READ_MAT95                 source/materials/mat/mat095/hm_read_ma
 Chd|        HM_READ_MAT97                 source/materials/mat/mat097/hm_read_mat97.F
 Chd|        HM_READ_MATGAS                source/materials/mat/matgas/hm_read_matgas.F
 Chd|        HM_READ_MAT_99                source/materials/mat/matuser/hm_read_mat_user_99.F
-Chd|        HM_READ_MAT_MDS               source/materials/mat/matuser/hm_read_mat_mds.F
 Chd|        HM_READ_MERGE                 source/constraints/general/merge/hm_read_merge.F
 Chd|        HM_READ_MERGE_NODE            source/elements/reader/hm_read_merge_node.F
 Chd|        HM_READ_MONVOL_TYPE1          source/airbag/hm_read_monvol_type1.F

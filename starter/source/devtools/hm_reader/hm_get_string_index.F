@@ -27,7 +27,6 @@ Chd|        HM_READ_DRAPE                 source/properties/composite_options/dr
 Chd|        HM_READ_FAIL_USER             source/materials/fail/failuser/hm_read_fail_user.F
 Chd|        HM_READ_MAT29_31              source/materials/mat/matuser/hm_read_mat_user29_31.F
 Chd|        HM_READ_MAT_99                source/materials/mat/matuser/hm_read_mat_user_99.F
-Chd|        HM_READ_MAT_MDS               source/materials/mat/matuser/hm_read_mat_mds.F
 Chd|        HM_READ_MONVOL_TYPE11         source/airbag/hm_read_monvol_type11.F
 Chd|        HM_READ_MONVOL_TYPE7          source/airbag/hm_read_monvol_type7.F
 Chd|        HM_READ_MONVOL_TYPE8          source/airbag/hm_read_monvol_type8.F

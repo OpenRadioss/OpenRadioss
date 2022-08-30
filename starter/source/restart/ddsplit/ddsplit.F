@@ -100,7 +100,6 @@ Chd|        INTFRIC_WRESTR                source/interfaces/intbuf/intbufFric_in
 Chd|        INTSTAMP_WRESTI               share/modules1/intstamp_mod.F 
 Chd|        INTSTAMP_WRESTR               share/modules1/intstamp_mod.F 
 Chd|        IPARI_L_INI                   source/restart/ddsplit/ipari_l_ini.F
-Chd|        MDS_RESTART                   source/restart/ddsplit/mds_restart.F
 Chd|        M_FLOW                        source/restart/ddsplit/m_flow.F
 Chd|        NFWRESTP                      source/restart/ddsplit/wrrest.F
 Chd|        PBLAST_WRITE_STARTER          ../common_source/modules/pblast_mod.F

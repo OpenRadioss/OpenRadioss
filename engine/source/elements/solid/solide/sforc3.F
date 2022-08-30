@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        ALEMAIN                       source/ale/alemain.F          
 Chd|        FORINT                        source/elements/forint.F      
 Chd|-- calls ---------------
-Chd|        ALEFLOW                       source/ale/aleflow.F          
+Chd|        ALEFLOW                       source/ale/porous/aleflow.F   
 Chd|        ALEFVM_EPSDOT                 source/ale/alefvm/alefvm_epsdot.F
 Chd|        ALEFVM_FRESET                 source/ale/alefvm/alefvm_freset.F
 Chd|        ALEFVM_GRAVITY                source/ale/alefvm/alefvm_gravity.F

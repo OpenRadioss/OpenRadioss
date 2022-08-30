@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  ATUR17                        source/ale/atur17.F           
+Chd|  ATUR17                        source/ale/turbulence/atur17.F
 Chd|-- called by -----------
 Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|-- calls ---------------
-Chd|        A17YL2                        source/ale/a17yl2.F           
-Chd|        A17YL3                        source/ale/a17yl3.F           
+Chd|        A17YL2                        source/ale/turbulence/a17yl2.F
+Chd|        A17YL3                        source/ale/turbulence/a17yl3.F
 Chd|====================================================================
       SUBROUTINE ATUR17(PM,OFF,RHO,RK,RE,GEO,VOLN,MAT,DELTAX,NGEO,VIS,VNEW,
      .                  VD2,DVOL, AIRE, EINC, PNEW, TMU, ALOGEY)

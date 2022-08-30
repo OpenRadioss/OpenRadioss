@@ -51,7 +51,6 @@ Chd|        HM_READ_FAIL_USER             source/materials/fail/failuser/hm_read
 Chd|        HM_READ_MAT                   source/materials/mat/hm_read_mat.F
 Chd|        HM_READ_MAT29_31              source/materials/mat/matuser/hm_read_mat_user29_31.F
 Chd|        HM_READ_MAT_99                source/materials/mat/matuser/hm_read_mat_user_99.F
-Chd|        HM_READ_MAT_MDS               source/materials/mat/matuser/hm_read_mat_mds.F
 Chd|        HM_READ_PBLAST                source/loads/pblast/hm_read_pblast.F
 Chd|        HM_READ_PROP06                source/properties/solid/hm_read_prop06.F
 Chd|        HM_READ_PROP14                source/properties/solid/hm_read_prop14.F

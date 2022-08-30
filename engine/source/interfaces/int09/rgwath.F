@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  RGWATH                        source/interfaces/int09/rgwath.F
 Chd|-- called by -----------
-Chd|        RGWAL1                        source/ale/rgwal1.F           
+Chd|        RGWAL1                        source/ale/grid/rgwal1.F      
 Chd|-- calls ---------------
 Chd|        RGWAT2                        source/interfaces/int09/rgwat2.F
 Chd|        RGWAT3                        source/interfaces/int09/rgwat3.F

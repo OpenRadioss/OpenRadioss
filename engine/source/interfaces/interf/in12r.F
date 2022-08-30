@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  IN12R                         source/interfaces/interf/in12r.F
 Chd|-- called by -----------
-Chd|        INT12W                        source/ale/int12w.F           
+Chd|        INT12W                        source/ale/inter/int12w.F     
 Chd|        INTTI12F                      source/interfaces/interf/intti12.F
 Chd|        INTTI12V                      source/interfaces/interf/intti12.F
 Chd|-- calls ---------------

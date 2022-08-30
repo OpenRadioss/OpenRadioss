@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  IQELA1                        source/ale/iqela1.F           
+Chd|  IQELA1                        source/ale/inter/iqela1.F     
 Chd|-- called by -----------
-Chd|        INTAL2                        source/ale/intal2.F           
+Chd|        INTAL2                        source/ale/inter/intal2.F     
 Chd|-- calls ---------------
-Chd|        SHAPEH                        source/ale/shapeh.F           
+Chd|        SHAPEH                        source/ale/inter/shapeh.F     
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
       SUBROUTINE IQELA1(X,SKEW,A,E,MSM,IRECT,LMSR,CRST,MSR,

@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  ALEW6                         source/ale/alew6.F            
+Chd|  ALEW6                         source/ale/grid/alew6.F       
 Chd|-- called by -----------
-Chd|        ALEWDX                        source/ale/alewdx.F           
+Chd|        ALEWDX                        source/ale/grid/alewdx.F      
 Chd|-- calls ---------------
 Chd|        CENTROID2                     source/multifluid/centroid.F  
 Chd|        CENTROID3                     source/multifluid/centroid.F  

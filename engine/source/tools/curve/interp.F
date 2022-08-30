@@ -28,7 +28,7 @@ Chd|        LASER3                        source/loads/laser/laser2.F
 Chd|        M18LAW                        source/materials/mat/mat018/m18law.F
 Chd|        M18TH                         source/materials/mat/mat018/m18th.F
 Chd|        REPLA3                        source/elements/spring/repla3.F
-Chd|        RGWAL1                        source/ale/rgwal1.F           
+Chd|        RGWAL1                        source/ale/grid/rgwal1.F      
 Chd|        TIMFUN                        source/tools/curve/timfun.F   
 Chd|-- calls ---------------
 Chd|====================================================================

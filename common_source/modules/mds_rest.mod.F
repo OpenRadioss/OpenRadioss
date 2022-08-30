@@ -23,8 +23,6 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  MDS_RESTART_MOD               modules/mds_rest.mod.F        
 Chd|-- called by -----------
-Chd|        ENG_READ_MDS                  engine/source/output/restart/mds_eng_rest.F
-Chd|        ENG_WRT_MDS                   engine/source/output/restart/mds_eng_rest.F
 Chd|        RADIOSS2                      engine/source/engine/radioss2.F
 Chd|        RESOL                         engine/source/engine/resol.F  
 Chd|-- calls ---------------

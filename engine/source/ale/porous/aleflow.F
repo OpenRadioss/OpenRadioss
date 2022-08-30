@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  ALEFLOW                       source/ale/aleflow.F          
+Chd|  ALEFLOW                       source/ale/porous/aleflow.F   
 Chd|-- called by -----------
 Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
 Chd|-- calls ---------------
-Chd|        ALECONVE                      source/ale/aleconv.F          
-Chd|        ALEFLUX                       source/ale/aleflux.F          
+Chd|        ALECONVE                      source/ale/porous/aleconv.F   
+Chd|        ALEFLUX                       source/ale/porous/aleflux.F   
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================

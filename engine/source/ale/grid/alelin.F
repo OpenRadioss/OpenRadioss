@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  ALELIN                        source/ale/alelin.F           
+Chd|  ALELIN                        source/ale/grid/alelin.F      
 Chd|-- called by -----------
-Chd|        ALEWDX                        source/ale/alewdx.F           
+Chd|        ALEWDX                        source/ale/grid/alewdx.F      
 Chd|-- calls ---------------
 Chd|        SPMD_GLOB_DSUM9               source/mpi/interfaces/spmd_th.F
 Chd|        SPMD_RBCAST                   source/mpi/generic/spmd_rbcast.F

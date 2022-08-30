@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  I9MAIN2                       source/interfaces/int09/i9main2.F
 Chd|-- called by -----------
-Chd|        INTAL1                        source/ale/intal1.F           
+Chd|        INTAL1                        source/ale/inter/intal1.F     
 Chd|-- calls ---------------
 Chd|        I9AVEL                        source/interfaces/int09/i9avel.F
 Chd|        I9FRMS                        source/interfaces/int09/i9frms.F

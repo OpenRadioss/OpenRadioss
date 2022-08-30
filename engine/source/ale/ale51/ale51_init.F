@@ -27,7 +27,7 @@ Chd|        ALETHE                        source/ale/alethe.F
 Chd|-- calls ---------------
 Chd|        ALE51_UPWIND2                 source/ale/ale51/ale51_upwind2.F
 Chd|        ALE51_UPWIND3                 source/ale/ale51/ale51_upwind3.F
-Chd|        ALE51_UPWIND3_INT22           source/ale/ale22/ale51_upwind3_int22.F
+Chd|        ALE51_UPWIND3_INT22           source/ale/alefvm/cut_cells/ale51_upwind3_int22.F
 Chd|        INITBUF                       share/resol/initbuf.F         
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F

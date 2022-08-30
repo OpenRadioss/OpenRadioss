@@ -21,13 +21,13 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  INTAL3                        source/ale/intal3.F           
+Chd|  INTAL3                        source/ale/inter/intal3.F     
 Chd|-- called by -----------
-Chd|        ALEWDX                        source/ale/alewdx.F           
+Chd|        ALEWDX                        source/ale/grid/alewdx.F      
 Chd|-- calls ---------------
 Chd|        I9WALE                        source/interfaces/int09/i9wale.F
-Chd|        INT12W                        source/ale/int12w.F           
-Chd|        INTAL4                        source/ale/intal4.F           
+Chd|        INT12W                        source/ale/inter/int12w.F     
+Chd|        INTAL4                        source/ale/inter/intal4.F     
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================

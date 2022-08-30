@@ -135,7 +135,6 @@ Chd|        HM_READ_MAT95                 source/materials/mat/mat095/hm_read_ma
 Chd|        HM_READ_MAT97                 source/materials/mat/mat097/hm_read_mat97.F
 Chd|        HM_READ_MATGAS                source/materials/mat/matgas/hm_read_matgas.F
 Chd|        HM_READ_MAT_99                source/materials/mat/matuser/hm_read_mat_user_99.F
-Chd|        HM_READ_MAT_MDS               source/materials/mat/matuser/hm_read_mat_mds.F
 Chd|        INIT_MAT_KEYWORD              source/materials/mat/init_mat_keyword.F
 Chd|        VDOUBLE                       source/system/sysfus.F        
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 

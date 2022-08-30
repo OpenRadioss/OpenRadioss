@@ -21,12 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  IQELA3                        source/ale/iqela3.F           
+Chd|  IQELA3                        source/ale/inter/iqela3.F     
 Chd|-- called by -----------
-Chd|        INT12W                        source/ale/int12w.F           
-Chd|        INTAL4                        source/ale/intal4.F           
+Chd|        INT12W                        source/ale/inter/int12w.F     
+Chd|        INTAL4                        source/ale/inter/intal4.F     
 Chd|-- calls ---------------
-Chd|        SHAPEH                        source/ale/shapeh.F           
+Chd|        SHAPEH                        source/ale/inter/shapeh.F     
 Chd|====================================================================
       SUBROUTINE IQELA3(
      1                  V    ,W    ,IRECT ,CRST ,NSV ,

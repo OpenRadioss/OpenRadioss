@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  INTAL4                        source/ale/intal4.F           
+Chd|  INTAL4                        source/ale/inter/intal4.F     
 Chd|-- called by -----------
-Chd|        INTAL3                        source/ale/intal3.F           
+Chd|        INTAL3                        source/ale/inter/intal3.F     
 Chd|-- calls ---------------
-Chd|        IQELA3                        source/ale/iqela3.F           
+Chd|        IQELA3                        source/ale/inter/iqela3.F     
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE INTAL4(IPARI,INTBUF_TAB         ,X         ,V         ,

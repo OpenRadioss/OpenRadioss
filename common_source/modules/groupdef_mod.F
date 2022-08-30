@@ -434,9 +434,9 @@ Chd|        ABFHIST1                      engine/source/output/abf/abfhist1.F
 Chd|        ABFHIST2                      engine/source/output/abf/abfhist2.F
 Chd|        AIRBAGB                       engine/source/airbag/airbag2.F
 Chd|        AIRBAGB1                      engine/source/airbag/airbagb1.F
-Chd|        ALELIN                        engine/source/ale/alelin.F    
+Chd|        ALELIN                        engine/source/ale/grid/alelin.F
 Chd|        ALEMAIN                       engine/source/ale/alemain.F   
-Chd|        ALEWDX                        engine/source/ale/alewdx.F    
+Chd|        ALEWDX                        engine/source/ale/grid/alewdx.F
 Chd|        ALLOC_GROUP_STR               engine/source/groups/alloc_group_str.F
 Chd|        ALLOC_LINE_STR                engine/source/groups/alloc_line_str.F
 Chd|        ALLOC_SUBSET_STR              engine/source/groups/alloc_subset_str.F

@@ -23,8 +23,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  ADIFF3                        source/ale/ale3d/adiff3.F     
 Chd|-- called by -----------
-Chd|        AETURB                        source/ale/aeturb.F           
-Chd|        AKTURB                        source/ale/akturb.F           
+Chd|        AETURB                        source/ale/turbulence/aeturb.F
+Chd|        AKTURB                        source/ale/turbulence/akturb.F
 Chd|        ATHERM                        source/ale/atherm.F           
 Chd|-- calls ---------------
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F

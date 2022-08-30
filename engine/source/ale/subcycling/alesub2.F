@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  ALESUB2                       source/ale/alesub2.F          
+Chd|  ALESUB2                       source/ale/subcycling/alesub2.F
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
-Chd|        BCS3V                         source/ale/bcs3.F             
+Chd|        BCS3V                         source/ale/inter/bcs3v.F      
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|====================================================================
       SUBROUTINE ALESUB2(

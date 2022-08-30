@@ -29,8 +29,8 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
 Chd|        BCS2                          source/constraints/general/bcs/bcs2.F
-Chd|        BCS4                          source/ale/bcs4.F             
-Chd|        SHAPEH                        source/ale/shapeh.F           
+Chd|        BCS4                          source/ale/inter/bcs4.F       
+Chd|        SHAPEH                        source/ale/inter/shapeh.F     
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE I9AVEL(X    ,SKEW,A     ,FN  ,FT   ,

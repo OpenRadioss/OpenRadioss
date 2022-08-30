@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  LASER1                        source/loads/laser/laser1.F   
 Chd|-- called by -----------
-Chd|        ALEWDX                        source/ale/alewdx.F           
+Chd|        ALEWDX                        source/ale/grid/alewdx.F      
 Chd|-- calls ---------------
 Chd|        LASER2                        source/loads/laser/laser2.F   
 Chd|        LASER3                        source/loads/laser/laser2.F   

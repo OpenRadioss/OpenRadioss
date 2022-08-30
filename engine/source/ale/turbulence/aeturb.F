@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  AETURB                        source/ale/aeturb.F           
+Chd|  AETURB                        source/ale/turbulence/aeturb.F
 Chd|-- called by -----------
 Chd|        ALETHE                        source/ale/alethe.F           
 Chd|-- calls ---------------

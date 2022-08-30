@@ -21,10 +21,10 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  BCS4                          source/ale/bcs4.F             
+Chd|  BCS4                          source/ale/inter/bcs4.F       
 Chd|-- called by -----------
 Chd|        I9AVEL                        source/interfaces/int09/i9avel.F
-Chd|        IQELA2                        source/ale/iqela2.F           
+Chd|        IQELA2                        source/ale/inter/iqela2.F     
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE BCS4(J,K)

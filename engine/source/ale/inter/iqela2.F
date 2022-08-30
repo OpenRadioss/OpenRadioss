@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  IQELA2                        source/ale/iqela2.F           
+Chd|  IQELA2                        source/ale/inter/iqela2.F     
 Chd|-- called by -----------
-Chd|        INTAL2                        source/ale/intal2.F           
+Chd|        INTAL2                        source/ale/inter/intal2.F     
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        BCS2                          source/constraints/general/bcs/bcs2.F
-Chd|        BCS4                          source/ale/bcs4.F             
-Chd|        SHAPEH                        source/ale/shapeh.F           
+Chd|        BCS4                          source/ale/inter/bcs4.F       
+Chd|        SHAPEH                        source/ale/inter/shapeh.F     
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE IQELA2(

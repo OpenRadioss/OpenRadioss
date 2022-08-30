@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  AFIMP2                        source/ale/afimp2.F           
+Chd|  AFIMP2                        source/ale/ale2d/afimp2.F     
 Chd|-- called by -----------
 Chd|        ATHERM                        source/ale/atherm.F           
 Chd|-- calls ---------------

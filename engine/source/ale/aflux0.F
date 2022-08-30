@@ -28,12 +28,12 @@ Chd|-- calls ---------------
 Chd|        A4FLUX3                       source/ale/ale3d/a4flux3.F    
 Chd|        AFLUX2                        source/ale/ale2d/aflux2.F     
 Chd|        AFLUX3                        source/ale/ale3d/aflux3.F     
-Chd|        AFLUX3_INT22_FVM              source/ale/ale22/aflux3_int22_fvm.F
+Chd|        AFLUX3_INT22_FVM              source/ale/alefvm/cut_cells/aflux3_int22_fvm.F
 Chd|        ALEFVM_AFLUX3                 source/ale/alefvm/alefvm_aflux3.F
 Chd|        ALEFVM_EFLUX3                 source/ale/alefvm/alefvm_eflux3.F
 Chd|        EFLUX2                        source/ale/euler2d/eflux2.F   
 Chd|        EFLUX3                        source/ale/euler3d/eflux3.F   
-Chd|        EFLUX3_INT22_FVM              source/ale/ale22/eflux3_int22_fvm.F
+Chd|        EFLUX3_INT22_FVM              source/ale/alefvm/cut_cells/eflux3_int22_fvm.F
 Chd|        INITBUF                       share/resol/initbuf.F         
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F

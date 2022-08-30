@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  CENTROID3                     source/multifluid/centroid.F  
 Chd|-- called by -----------
-Chd|        ALEW6                         source/ale/alew6.F            
+Chd|        ALEW6                         source/ale/grid/alew6.F       
 Chd|        MULTI_FACE_ELEM_DATA          source/multifluid/multi_face_data_elem.F
 Chd|-- calls ---------------
 Chd|====================================================================
@@ -99,7 +99,7 @@ C     Face 6
 Chd|====================================================================
 Chd|  CENTROID3T                    source/multifluid/centroid.F  
 Chd|-- called by -----------
-Chd|        ALEW6                         source/ale/alew6.F            
+Chd|        ALEW6                         source/ale/grid/alew6.F       
 Chd|        MULTI_FACE_ELEM_DATA          source/multifluid/multi_face_data_elem.F
 Chd|-- calls ---------------
 Chd|        GEOM                          source/ale/alemuscl/geom.F    
@@ -190,7 +190,7 @@ C     Face 4
 Chd|====================================================================
 Chd|  CENTROID2                     source/multifluid/centroid.F  
 Chd|-- called by -----------
-Chd|        ALEW6                         source/ale/alew6.F            
+Chd|        ALEW6                         source/ale/grid/alew6.F       
 Chd|        MULTI_FACE_ELEM_DATA          source/multifluid/multi_face_data_elem.F
 Chd|-- calls ---------------
 Chd|====================================================================

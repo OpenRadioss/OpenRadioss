@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        I9MAIN2                       source/interfaces/int09/i9main2.F
 Chd|        I9MAIN3                       source/interfaces/int09/i9main3.F
 Chd|-- calls ---------------
-Chd|        SHAPEH                        source/ale/shapeh.F           
+Chd|        SHAPEH                        source/ale/inter/shapeh.F     
 Chd|====================================================================
       SUBROUTINE I9FRMS(X    ,SKEW,A   ,FN ,FT   ,
      2                  IRECT,LMSR,CRST,MSR,NSV  ,

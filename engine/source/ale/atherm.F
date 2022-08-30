@@ -27,8 +27,8 @@ Chd|        ALETHE                        source/ale/alethe.F
 Chd|-- calls ---------------
 Chd|        ADIFF2                        source/ale/ale2d/adiff2.F     
 Chd|        ADIFF3                        source/ale/ale3d/adiff3.F     
-Chd|        AFIMP2                        source/ale/afimp2.F           
-Chd|        AFIMP3                        source/ale/afimp3.F           
+Chd|        AFIMP2                        source/ale/ale2d/afimp2.F     
+Chd|        AFIMP3                        source/ale/ale3d/afimp3.F     
 Chd|        INITBUF                       share/resol/initbuf.F         
 Chd|        M18TH                         source/materials/mat/mat018/m18th.F
 Chd|        M26TH                         source/materials/mat/mat026/m26th.F

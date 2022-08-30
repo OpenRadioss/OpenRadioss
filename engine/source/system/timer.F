@@ -661,7 +661,7 @@ Chd|====================================================================
 Chd|  STARTIME                      source/system/timer.F         
 Chd|-- called by -----------
 Chd|        ALEMAIN                       source/ale/alemain.F          
-Chd|        ALEWDX                        source/ale/alewdx.F           
+Chd|        ALEWDX                        source/ale/grid/alewdx.F      
 Chd|        C3FORC3                       source/elements/sh3n/coque3n/c3forc3.F
 Chd|        C3FORC3_CRK                   source/elements/xfem/c3forc3_crk.F
 Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3.F
@@ -814,7 +814,7 @@ Chd|====================================================================
 Chd|  STOPTIME                      source/system/timer.F         
 Chd|-- called by -----------
 Chd|        ALEMAIN                       source/ale/alemain.F          
-Chd|        ALEWDX                        source/ale/alewdx.F           
+Chd|        ALEWDX                        source/ale/grid/alewdx.F      
 Chd|        C3FORC3                       source/elements/sh3n/coque3n/c3forc3.F
 Chd|        C3FORC3_CRK                   source/elements/xfem/c3forc3_crk.F
 Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3.F

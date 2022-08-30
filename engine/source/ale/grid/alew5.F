@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  ALEW5                         source/ale/alew5.F            
+Chd|  ALEW5                         source/ale/grid/alew5.F       
 Chd|-- called by -----------
-Chd|        ALEWDX                        source/ale/alewdx.F           
+Chd|        ALEWDX                        source/ale/grid/alewdx.F      
 Chd|-- calls ---------------
-Chd|        ALEWDX_GRID_BCS               source/ale/alewdx_grid_bcs.F  
+Chd|        ALEWDX_GRID_BCS               source/ale/grid/alewdx_grid_bcs.F
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        SPMD_XVOIS                    source/mpi/fluid/spmd_cfd.F   
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F

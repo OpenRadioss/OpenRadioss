@@ -264,7 +264,7 @@ Chd|        INT18_LAW151_OMP_ACCUMULATION source/interfaces/int18/int18_law151_o
 Chd|        INTER_COUNT_NODE_CURV         source/interfaces/generic/inter_count_node_curv.F
 Chd|        INTER_MINMAX_NODE             source/interfaces/generic/inter_minmax_node.F
 Chd|        INTER_SORT_07                 source/interfaces/int07/inter_sort_07.F
-Chd|        IQELA2                        source/ale/iqela2.F           
+Chd|        IQELA2                        source/ale/inter/iqela2.F     
 Chd|        KNOTLOCELREST                 source/output/restart/rdresb.F
 Chd|        KNOTLOCPCREST                 source/output/restart/rdresb.F
 Chd|        KNOTREST                      source/output/restart/rdresb.F

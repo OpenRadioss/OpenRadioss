@@ -24,16 +24,16 @@ Chd|====================================================================
 Chd|  INITBUF_MOD                   share/resol/initbuf.F         
 Chd|-- called by -----------
 Chd|        ACONVE                        source/ale/aconve.F           
-Chd|        AETURB                        source/ale/aeturb.F           
+Chd|        AETURB                        source/ale/turbulence/aeturb.F
 Chd|        AFLUX0                        source/ale/aflux0.F           
 Chd|        AFLUXT                        source/ale/ale51/afluxt.F     
 Chd|        AGAUGE                        source/ale/agauge.F           
-Chd|        AKTURB                        source/ale/akturb.F           
+Chd|        AKTURB                        source/ale/turbulence/akturb.F
 Chd|        ALE51_FINISH                  source/ale/ale51/ale51_finish.F
 Chd|        ALE51_GRADIENT_RECONSTRUCTION source/ale/alemuscl/ale51_gradient_reconstruction.F
 Chd|        ALE51_GRADIENT_RECONSTRUCTION2source/ale/alemuscl/ale51_gradient_reconstruction2.F
 Chd|        ALE51_INIT                    source/ale/ale51/ale51_init.F 
-Chd|        ALEFLUX                       source/ale/aleflux.F          
+Chd|        ALEFLUX                       source/ale/porous/aleflux.F   
 Chd|        ALEFVM_MAIN                   source/ale/alefvm/alefvm_main.F
 Chd|        ALEMAIN                       source/ale/alemain.F          
 Chd|        AREZON                        source/ale/arezon.F           
@@ -154,11 +154,11 @@ Chd|====================================================================
 Chd|  INITBUF                       share/resol/initbuf.F         
 Chd|-- called by -----------
 Chd|        ACONVE                        source/ale/aconve.F           
-Chd|        AETURB                        source/ale/aeturb.F           
+Chd|        AETURB                        source/ale/turbulence/aeturb.F
 Chd|        AFLUX0                        source/ale/aflux0.F           
 Chd|        AFLUXT                        source/ale/ale51/afluxt.F     
 Chd|        AGAUGE                        source/ale/agauge.F           
-Chd|        AKTURB                        source/ale/akturb.F           
+Chd|        AKTURB                        source/ale/turbulence/akturb.F
 Chd|        ALE51_FINISH                  source/ale/ale51/ale51_finish.F
 Chd|        ALE51_GRADIENT_RECONSTRUCTION source/ale/alemuscl/ale51_gradient_reconstruction.F
 Chd|        ALE51_GRADIENT_RECONSTRUCTION2source/ale/alemuscl/ale51_gradient_reconstruction2.F

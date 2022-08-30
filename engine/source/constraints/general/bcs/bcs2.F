@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        I9AVEL                        source/interfaces/int09/i9avel.F
 Chd|        I9WAL2                        source/interfaces/int09/i9wal2.F
 Chd|        I9WAL3                        source/interfaces/int09/i9wal3.F
-Chd|        IQELA2                        source/ale/iqela2.F           
+Chd|        IQELA2                        source/ale/inter/iqela2.F     
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE BCS2(A,B,J,K)
@@ -141,7 +141,7 @@ C-----------------------------------------------
 Chd|====================================================================
 Chd|  BCS2V                         source/constraints/general/bcs/bcs2.F
 Chd|-- called by -----------
-Chd|        ALEWDX                        source/ale/alewdx.F           
+Chd|        ALEWDX                        source/ale/grid/alewdx.F      
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE BCS2V(NINDX,INDX,ISKEW,ICODT,A,B)

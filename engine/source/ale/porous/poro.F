@@ -26,7 +26,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       DATA EPOR/0./
       END
 Chd|====================================================================
-Chd|  PORO                          source/ale/poro.F             
+Chd|  PORO                          source/ale/porous/poro.F      
 Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------

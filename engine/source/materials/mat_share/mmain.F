@@ -68,8 +68,8 @@ Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
-Chd|        ATUR17                        source/ale/atur17.F           
-Chd|        ATURBN                        source/ale/aturbn.F           
+Chd|        ATUR17                        source/ale/turbulence/atur17.F
+Chd|        ATURBN                        source/ale/turbulence/aturbn.F
 Chd|        ENG_USERLIB_FLAW              source/user_interface/dyn_userlib.c
 Chd|        EOSMAIN                       ../common_source/eos/eosmain.F
 Chd|        EOSUPDA                       ../common_source/eos/eosupda.F

@@ -26,12 +26,12 @@ Chd|-- called by -----------
 Chd|        ALEMAIN                       source/ale/alemain.F          
 Chd|-- calls ---------------
 Chd|        ACONVE                        source/ale/aconve.F           
-Chd|        AETURB                        source/ale/aeturb.F           
+Chd|        AETURB                        source/ale/turbulence/aeturb.F
 Chd|        AFLUX0                        source/ale/aflux0.F           
 Chd|        AFLUXT                        source/ale/ale51/afluxt.F     
 Chd|        AGAUGE                        source/ale/agauge.F           
 Chd|        AGRAD0                        source/ale/agrad0.F           
-Chd|        AKTURB                        source/ale/akturb.F           
+Chd|        AKTURB                        source/ale/turbulence/akturb.F
 Chd|        ALE51_FINISH                  source/ale/ale51/ale51_finish.F
 Chd|        ALE51_GRADIENT_RECONSTRUCTION source/ale/alemuscl/ale51_gradient_reconstruction.F
 Chd|        ALE51_GRADIENT_RECONSTRUCTION2source/ale/alemuscl/ale51_gradient_reconstruction2.F

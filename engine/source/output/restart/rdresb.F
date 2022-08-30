@@ -32,7 +32,6 @@ Chd|        DECOMPRESS_I_NNZ              ../common_source/comm/decompress_nnz.F
 Chd|        DECOMPRESS_R_NNZ              ../common_source/comm/decompress_nnz.F
 Chd|        EIGRREST                      source/output/restart/rdresb.F
 Chd|        ELBUF_INI                     source/elements/elbuf/elbuf_ini.F
-Chd|        ENG_READ_MDS                  source/output/restart/mds_eng_rest.F
 Chd|        FILLXDP                       source/output/restart/fillxdp.F
 Chd|        FXBRESB                       source/output/restart/rdresb.F
 Chd|        GROUP_INI                     source/groups/group_ini.F     

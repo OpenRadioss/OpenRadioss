@@ -29,7 +29,7 @@ Chd|  SPMD_RBCAST                   source/mpi/generic/spmd_rbcast.F
 Chd|-- called by -----------
 Chd|        AGAUGE                        source/ale/agauge.F           
 Chd|        AGAUGE0                       source/ale/agauge.F           
-Chd|        ALELIN                        source/ale/alelin.F           
+Chd|        ALELIN                        source/ale/grid/alelin.F      
 Chd|        ECRIT                         source/output/ecrit.F         
 Chd|        FIND_DT_FOR_TARGETED_ADDED_MASSsource/time_step/find_dt_for_targeted_added_mass.F
 Chd|        GET_MASS_RBY_SPMD             source/coupling/rad2rad/r2r_init.F

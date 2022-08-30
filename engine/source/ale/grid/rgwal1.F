@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  RGWAL1                        source/ale/rgwal1.F           
+Chd|  RGWAL1                        source/ale/grid/rgwal1.F      
 Chd|-- called by -----------
-Chd|        ALEWDX                        source/ale/alewdx.F           
+Chd|        ALEWDX                        source/ale/grid/alewdx.F      
 Chd|-- calls ---------------
 Chd|        INTERP                        source/tools/curve/interp.F   
 Chd|        RGWATH                        source/interfaces/int09/rgwath.F

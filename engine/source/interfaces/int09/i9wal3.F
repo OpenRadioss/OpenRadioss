@@ -27,7 +27,7 @@ Chd|        I9WALE                        source/interfaces/int09/i9wale.F
 Chd|-- calls ---------------
 Chd|        BCS2                          source/constraints/general/bcs/bcs2.F
 Chd|        I9GRD3                        source/interfaces/int09/i9grd3.F
-Chd|        SHAPEH                        source/ale/shapeh.F           
+Chd|        SHAPEH                        source/ale/inter/shapeh.F     
 Chd|        SPMD_GLOB_DSUM9               source/mpi/interfaces/spmd_th.F
 Chd|        SPMD_GLOB_ISUM9               source/mpi/interfaces/spmd_th.F
 Chd|        SPMD_IBCAST                   source/mpi/generic/spmd_ibcast.F

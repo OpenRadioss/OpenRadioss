@@ -46,7 +46,6 @@ Chd|        INICONSTANT                   source/system/iniconstant.F
 Chd|        INITIME                       source/system/timer.F         
 Chd|        INI_MSG                       source/output/message/inimsg.F
 Chd|        LECTUR                        source/starter/lectur.F       
-Chd|        MDS_USERLIB_INIT              source/user_interface/mds_userlib.c
 Chd|        MY_EXIT                       source/output/analyse/analyse.c
 Chd|        PRHELPINFO                    source/starter/execargcheck.F 
 Chd|        PRINTCENTER                   source/starter/radioss_title.F

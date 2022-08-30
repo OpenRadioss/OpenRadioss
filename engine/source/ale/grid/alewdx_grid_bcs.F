@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  ALEWDX_GRID_BCS               source/ale/alewdx_grid_bcs.F  
+Chd|  ALEWDX_GRID_BCS               source/ale/grid/alewdx_grid_bcs.F
 Chd|-- called by -----------
-Chd|        ALEW5                         source/ale/alew5.F            
+Chd|        ALEW5                         source/ale/grid/alew5.F       
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE ALEWDX_GRID_BCS(

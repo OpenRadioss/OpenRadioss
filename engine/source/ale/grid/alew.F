@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  ALEW                          source/ale/alew.F             
+Chd|  ALEW                          source/ale/grid/alew.F        
 Chd|-- called by -----------
-Chd|        ALEWDX                        source/ale/alewdx.F           
+Chd|        ALEWDX                        source/ale/grid/alewdx.F      
 Chd|-- calls ---------------
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        SPMD_WVOIS                    source/mpi/fluid/spmd_cfd.F   

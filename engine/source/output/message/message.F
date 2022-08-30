@@ -177,7 +177,7 @@ Chd|        IND_KTOT                      source/implicit/ind_glob_k.F
 Chd|        INI_K0H                       source/implicit/imp_solv.F    
 Chd|        INI_KISC                      source/implicit/lin_solv.F    
 Chd|        INTER_COUNT_NODE_CURV         source/interfaces/generic/inter_count_node_curv.F
-Chd|        IQELA2                        source/ale/iqela2.F           
+Chd|        IQELA2                        source/ale/inter/iqela2.F     
 Chd|        KTBUF_INI                     source/implicit/imp_init.F    
 Chd|        L2G_KLOC                      source/implicit/ind_glob_k.F  
 Chd|        LAG_DIRECT                    source/tools/lagmul/lag_direct.F

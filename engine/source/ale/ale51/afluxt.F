@@ -27,12 +27,12 @@ Chd|        ALETHE                        source/ale/alethe.F
 Chd|-- calls ---------------
 Chd|        ALE51_ANTIDIFF2               source/ale/ale51/ale51_antidiff2.F
 Chd|        ALE51_ANTIDIFF3               source/ale/ale51/ale51_antidiff3.F
-Chd|        ALE51_ANTIDIFF3_INT22         source/ale/ale22/ale51_antidiff3_int22.F
+Chd|        ALE51_ANTIDIFF3_INT22         source/ale/alefvm/cut_cells/ale51_antidiff3_int22.F
 Chd|        ALE51_SPMD2                   source/ale/ale51/ale51_spmd2.F
 Chd|        ALE51_SPMD3                   source/ale/ale51/ale51_spmd3.F
 Chd|        ALE51_UPWIND2                 source/ale/ale51/ale51_upwind2.F
 Chd|        ALE51_UPWIND3                 source/ale/ale51/ale51_upwind3.F
-Chd|        ALE51_UPWIND3_INT22           source/ale/ale22/ale51_upwind3_int22.F
+Chd|        ALE51_UPWIND3_INT22           source/ale/alefvm/cut_cells/ale51_upwind3_int22.F
 Chd|        ALEMUSCL_UPWIND               source/ale/alemuscl/alemuscl_upwind.F
 Chd|        ALEMUSCL_UPWIND2              source/ale/alemuscl/alemuscl_upwind2.F
 Chd|        INITBUF                       share/resol/initbuf.F         

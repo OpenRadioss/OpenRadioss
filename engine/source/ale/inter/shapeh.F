@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  SHAPEH                        source/ale/shapeh.F           
+Chd|  SHAPEH                        source/ale/inter/shapeh.F     
 Chd|-- called by -----------
 Chd|        I9AVEL                        source/interfaces/int09/i9avel.F
 Chd|        I9FRMS                        source/interfaces/int09/i9frms.F
 Chd|        I9WAL3                        source/interfaces/int09/i9wal3.F
-Chd|        IQELA1                        source/ale/iqela1.F           
-Chd|        IQELA2                        source/ale/iqela2.F           
-Chd|        IQELA3                        source/ale/iqela3.F           
+Chd|        IQELA1                        source/ale/inter/iqela1.F     
+Chd|        IQELA2                        source/ale/inter/iqela2.F     
+Chd|        IQELA3                        source/ale/inter/iqela3.F     
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SHAPEH(H,S,T)

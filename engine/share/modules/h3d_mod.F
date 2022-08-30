@@ -202,8 +202,8 @@ Chd|        IMP_SOLV                      source/implicit/imp_solv.F
 Chd|        IMP_TRIPI                     source/implicit/imp_int_k.F   
 Chd|        INIRESA                       source/output/restart/rdresa.F
 Chd|        INT2RUPT                      source/interfaces/interf/int2rupt.F
-Chd|        INTAL1                        source/ale/intal1.F           
-Chd|        INTAL2                        source/ale/intal2.F           
+Chd|        INTAL1                        source/ale/inter/intal1.F     
+Chd|        INTAL2                        source/ale/inter/intal2.F     
 Chd|        INTER_DEALLOCATE_WAIT         source/interfaces/generic/inter_deallocate_wait.F
 Chd|        INTER_SORT                    source/interfaces/generic/inter_sort.F
 Chd|        INTER_SORT_07                 source/interfaces/int07/inter_sort_07.F
@@ -216,7 +216,7 @@ Chd|        INTTRI                        source/interfaces/intsort/inttri.F
 Chd|        INTVO2                        source/interfaces/inter2d/intvo2.F
 Chd|        INTVO3                        source/interfaces/inter3d/intvo3.F
 Chd|        INTVO8                        source/interfaces/inter3d/intvo8.F
-Chd|        IQELA1                        source/ale/iqela1.F           
+Chd|        IQELA1                        source/ale/inter/iqela1.F     
 Chd|        LAG_ANITH                     source/tools/lagmul/lag_anith.F
 Chd|        LAG_ANITHP                    source/tools/lagmul/lag_anith.F
 Chd|        LAG_MULT                      source/tools/lagmul/lag_mult.F

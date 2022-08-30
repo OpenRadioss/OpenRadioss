@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  IQEL02                        source/ale/ale2d/iqel02.F     
 Chd|-- called by -----------
-Chd|        INTAL2                        source/ale/intal2.F           
+Chd|        INTAL2                        source/ale/inter/intal2.F     
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE IQEL02(X,IRECT,LMSR,MSR,NSV,ILOC,IRTL,

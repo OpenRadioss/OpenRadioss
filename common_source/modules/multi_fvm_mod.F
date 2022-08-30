@@ -96,7 +96,7 @@ Chd|        W_FI                          starter/source/restart/ddsplit/w_fi.F
 Chd|        W_FRONT                       starter/source/restart/ddsplit/w_front.F
 Chd|        ABFHIST2                      engine/source/output/abf/abfhist2.F
 Chd|        ALEMAIN                       engine/source/ale/alemain.F   
-Chd|        ALEWDX                        engine/source/ale/alewdx.F    
+Chd|        ALEWDX                        engine/source/ale/grid/alewdx.F
 Chd|        BUILD_CONNECTIVITY            engine/source/multifluid/connectivity.F
 Chd|        DFUNC0                        engine/source/output/anim/generate/dfunc0.F
 Chd|        DFUNCC                        engine/source/output/anim/generate/dfuncc.F

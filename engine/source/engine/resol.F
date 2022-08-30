@@ -43,8 +43,8 @@ Chd|        ALEFVM_MAIN                   source/ale/alefvm/alefvm_main.F
 Chd|        ALELAG_WREST                  source/output/restart/wrrest.F
 Chd|        ALEMAIN                       source/ale/alemain.F          
 Chd|        ALEMUSCL_DEALLOCATE           source/ale/alemuscl/alemuscl_deallocate.F
-Chd|        ALESUB2                       source/ale/alesub2.F          
-Chd|        ALEWDX                        source/ale/alewdx.F           
+Chd|        ALESUB2                       source/ale/subcycling/alesub2.F
+Chd|        ALEWDX                        source/ale/grid/alewdx.F      
 Chd|        ALLOC_ELBUF_IMP               source/elements/elbuf/alloc_elbuf_imp.F
 Chd|        AMS_PREPARE_POFF_ASSEMBLY     source/mpi/ams/spmd_sms.F     
 Chd|        ANCMSG                        source/output/message/message.F
@@ -117,7 +117,7 @@ Chd|        ENGINE_USER_CHECK             source/user_interface/dyn_userlib.c
 Chd|        ENGINE_USER_INITIALIZE        source/user_interface/dyn_userlib.c
 Chd|        ENG_USERLIB_USERWI            source/user_interface/dyn_userlib.c
 Chd|        ERR_THK                       source/elements/shell/err_thk.F
-Chd|        EULDX                         source/ale/euldx.F            
+Chd|        EULDX                         source/ale/grid/euldx.F       
 Chd|        FAIL_WIND_FRWAVE_INIT         source/materials/fail/alter/fail_wind_frwave_init.F
 Chd|        FEQUILIBRE                    source/elements/shell/fequilibre.F
 Chd|        FINALIZE_REACTIONS            source/output/reactions.F     
@@ -188,7 +188,7 @@ Chd|        INT18_LAW151_ALLOC            source/interfaces/int18/int18_law151_a
 Chd|        INT18_LAW151_INIT             source/interfaces/int18/int18_law151_init.F
 Chd|        INT18_LAW151_OMP_ACCUMULATION source/interfaces/int18/int18_law151_omp_accumulation.F
 Chd|        INT18_LAW151_UPDATE           source/interfaces/int18/int18_law151_update.F
-Chd|        INTAL1                        source/ale/intal1.F           
+Chd|        INTAL1                        source/ale/inter/intal1.F     
 Chd|        INTER_STRUCT_INIT             source/interfaces/generic/inter_struct_init.F
 Chd|        INTFOP1                       source/interfaces/interf/intfop1.F
 Chd|        INTFOP2                       source/interfaces/interf/intfop2.F
@@ -236,7 +236,7 @@ Chd|        PLY_ACCELE                    source/assembly/ply_accele.F
 Chd|        PLY_BCS                       source/constraints/general/bcs/ply_bcs.F
 Chd|        PLY_INFO_WREST                source/output/restart/wrrest.F
 Chd|        PLY_VITESSE                   source/assembly/ply_vitesse.F 
-Chd|        PORO                          source/ale/poro.F             
+Chd|        PORO                          source/ale/porous/poro.F      
 Chd|        PREPARE_DEBUG                 share/modules/debug_mod.F     
 Chd|        PRERBE3P0                     source/constraints/general/rbe3/rbe3f.F
 Chd|        PRINTIME                      source/system/timer.F         

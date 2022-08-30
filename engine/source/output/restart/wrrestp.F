@@ -28,7 +28,6 @@ Chd|-- calls ---------------
 Chd|        COMPRESS_I_NNZ                ../common_source/comm/compress_nnz.F
 Chd|        COMPRESS_R_NNZ                ../common_source/comm/compress_nnz.F
 Chd|        CUR_FIL_C                     source/output/tools/sortie_c.c
-Chd|        ENG_WRT_MDS                   source/output/restart/mds_eng_rest.F
 Chd|        FXBWREST                      source/output/restart/wrrest.F
 Chd|        INTFRIC_WRESTI                share/modules/intbuf_fric_mod.F
 Chd|        INTFRIC_WRESTR                share/modules/intbuf_fric_mod.F

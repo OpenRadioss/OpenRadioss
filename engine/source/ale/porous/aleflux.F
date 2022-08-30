@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  ALEFLUX                       source/ale/aleflux.F          
+Chd|  ALEFLUX                       source/ale/porous/aleflux.F   
 Chd|-- called by -----------
-Chd|        ALEFLOW                       source/ale/aleflow.F          
+Chd|        ALEFLOW                       source/ale/porous/aleflow.F   
 Chd|-- calls ---------------
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         

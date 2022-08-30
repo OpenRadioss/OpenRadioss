@@ -72,7 +72,6 @@ Chd|        LECINP                        source/input/lecinp.F
 Chd|        LECTUR                        source/input/lectur.F         
 Chd|        LF_CONVERT_C_FLAT             source/engine/lf_convert_c.c  
 Chd|        LOADPREST                     source/output/restart/rdresb.F
-Chd|        MDS_USERLIB_INIT              source/user_interface/mds_userlib.c
 Chd|        NFRREST                       source/output/restart/rdresb.F
 Chd|        NITSCHERREST                  source/output/restart/rdresb.F
 Chd|        OPEN_C                        source/output/tools/sortie_c.c

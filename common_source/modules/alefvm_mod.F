@@ -27,7 +27,7 @@ Chd|        DDSPLIT                       starter/source/restart/ddsplit/ddsplit
 Chd|        INIMOM_FVM                    starter/source/elements/solid/solide/inimom_fvm.F
 Chd|        LECTUR                        starter/source/starter/lectur.F
 Chd|        ACONV3                        engine/source/ale/ale3d/aconv3.F
-Chd|        AFLUX3_INT22_FVM              engine/source/ale/ale22/aflux3_int22_fvm.F
+Chd|        AFLUX3_INT22_FVM              engine/source/ale/alefvm/cut_cells/aflux3_int22_fvm.F
 Chd|        ALEFVM_AFLUX3                 engine/source/ale/alefvm/alefvm_aflux3.F
 Chd|        ALEFVM_EFLUX3                 engine/source/ale/alefvm/alefvm_eflux3.F
 Chd|        ALEFVM_EPSDOT                 engine/source/ale/alefvm/alefvm_epsdot.F
@@ -47,7 +47,7 @@ Chd|        ALEFVM_TFEXT                  engine/source/ale/alefvm/alefvm_tfext.
 Chd|        ALEMAIN                       engine/source/ale/alemain.F   
 Chd|        DFUNC0                        engine/source/output/anim/generate/dfunc0.F
 Chd|        DFUNCS                        engine/source/output/anim/generate/dfunc6.F
-Chd|        EFLUX3_INT22_FVM              engine/source/ale/ale22/eflux3_int22_fvm.F
+Chd|        EFLUX3_INT22_FVM              engine/source/ale/alefvm/cut_cells/eflux3_int22_fvm.F
 Chd|        H3D_QUAD_VECTOR               engine/source/output/h3d/h3d_results/h3d_quad_vector.F
 Chd|        H3D_SHELL_VECTOR_1            engine/source/output/h3d/h3d_results/h3d_shell_vector_1.F
 Chd|        M11VS2                        engine/source/materials/mat/mat011/m11vs2.F

@@ -21,11 +21,11 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  ALECONVE                      source/ale/aleconv.F          
+Chd|  ALECONVE                      source/ale/porous/aleconv.F   
 Chd|-- called by -----------
-Chd|        ALEFLOW                       source/ale/aleflow.F          
+Chd|        ALEFLOW                       source/ale/porous/aleflow.F   
 Chd|-- calls ---------------
-Chd|        ALECONV3                      source/ale/aleconv.F          
+Chd|        ALECONV3                      source/ale/porous/aleconv.F   
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|====================================================================
       SUBROUTINE ALECONVE(VAR     ,FLUX    ,FLU1    ,PHI     ,
@@ -68,9 +68,9 @@ C-------------
       END SUBROUTINE ALECONVE
 c
 Chd|====================================================================
-Chd|  ALECONV3                      source/ale/aleconv.F          
+Chd|  ALECONV3                      source/ale/porous/aleconv.F   
 Chd|-- called by -----------
-Chd|        ALECONVE                      source/ale/aleconv.F          
+Chd|        ALECONVE                      source/ale/porous/aleconv.F   
 Chd|-- calls ---------------
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|====================================================================
