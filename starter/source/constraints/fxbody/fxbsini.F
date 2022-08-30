@@ -95,31 +95,31 @@ C
               IADM=IADM+6
            ENDDO
         ENDIF
-C   1. TRAITEMENT DES SOLIDES
+C   1. Solid elements
         IADEL=1
         IADS=1
         IF (NELS.GT.0) CALL FSIGSINI(
      .     FXBELM(IADEL), IPARG, X,          PM,   IXS, 
      .     GEO,           VMOD,  VSIG(IADS), RINI, NELS)
-C   2. TRAITEMENT DES COQUES 4 NOEUDS
+C   2. 4-nodes shell elements
         IADEL=IADEL+NELS*13
         IADS=IADS+NELS*7             
         IF (NELC.GT.0) CALL FSIGCINI(
      .     FXBELM(IADEL), IPARG, X,          PM,   IXC, 
      .     GEO,           VMOD,  VSIG(IADS), RINI, NELC)
-C   3. TRAITEMENT DES BARRES
+C   3. Truss elements
         IADEL=IADEL+NELC*10
         IADS=IADS+NELC*10
         IF (NELT.GT.0) CALL FSIGTRINI(
      .     FXBELM(IADEL), IPARG, X,         PM,   IXT,
      .     GEO,           VMOD,  VSIG(IADS),NELT)
-C   4. TRAITEMENT DES POUTRES
+C   4. Beam elements
         IADEL=IADEL+NELT*7
         IADS=IADS+NELT*2
         IF (NELP.GT.0) CALL FSIGPINI(
      .     FXBELM(IADEL), IPARG, X,          PM,   IXP, 
      .     GEO,           VMOD,  VSIG(IADS), RINI, NELP)
-C   5. TRAITEMENT DES COQUES 3 NOEUDS
+C   5. 3-nodes shell elements
         IADEL=IADEL+NELP*9
         IADS=IADS+NELP*8             
         IF (NELTG.GT.0) CALL FSIGTINI(
@@ -146,7 +146,7 @@ C   5. TRAITEMENT DES COQUES 3 NOEUDS
       ENDDO
 C-----------
       RETURN
-      END     
+      END SUBROUTINE FXBSINI 
       
       
             

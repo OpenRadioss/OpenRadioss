@@ -40,15 +40,15 @@ Chd|====================================================================
      .                      ITAB, X ,MS, IN, FXB_MATRIX,
      .                      FXB_MATRIX_ADD,FXB_LAST_ADRESS,ICODE,NOM_OPT)
 C-----------------------------------------------
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
       USE INOUTFILE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -318,7 +318,7 @@ C
           ENDIF
 C
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-CCCCC   COMPLEMENT MODES - used for otrhogonalisation with RB modes     CCCCC
+CCCCC   COMPLEMENT MODES - used for othogonalisation with RB modes      CCCCC
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C
           NMR = 0
@@ -429,7 +429,7 @@ C
             NMST = NMST_F
           ENDIF
 
-C--       Number of static mod is updated
+C--       Number of static modes is updated
           NMOD = NMST
           FXBIPM(4,NFX) = NMOD
           FXBIPM(5,NFX) = NMST
@@ -852,5 +852,5 @@ C
      .       /10X,'NUMBER OF RIGID BODY MODES              ',I10
      .       /10X,'STABILITY TIME STEP                     ',1PE10.3)
 C
-      END
+      END SUBROUTINE INI_FXBODY
          

@@ -55,7 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IG, OFFSET, LFT, LLT, NFT, NFS, NG, IEL,
+      INTEGER I, IG, OFFSET, LAST, NFT, NFS, NG, IEL,
      .        N1, N2, N3, N4, N5, N6, N7, N8
       INTEGER MAT(MVSIZ)
       my_real
@@ -94,11 +94,10 @@ C-----------------------------------------------
 C
       DO IG=1,NELS,MVSIZ
         OFFSET=IG-1
-        LFT=1
-        LLT=MIN(MVSIZ,NELS-OFFSET)
+        LAST=MIN(MVSIZ,NELS-OFFSET)
         NFT=OFFSET*13
         NFS=OFFSET*7
-        DO I=LFT,LLT
+        DO I=1,LAST
           NG=FXBELM(NFT+13*(I-1)+1)
           IEL=IPARG(3,NG)+FXBELM(NFT+13*(I-1)+2)
           MAT(I)=IXS(1,IEL)
@@ -208,21 +207,21 @@ C
           Z8P(I)=Z8(I)+VZ8(I)
         ENDDO
 C
-        CALL SDERII(LFT, LLT, VOLP,
+        CALL SDERII(LAST, VOLP,
      .   X1P, X2P, X3P, X4P, X5P, X6P, X7P, X8P,
      .   Y1P, Y2P, Y3P, Y4P, Y5P, Y6P, Y7P, Y8P,
      .   Z1P, Z2P, Z3P, Z4P, Z5P, Z6P, Z7P, Z8P,
      .   PX1, PX2, PX3, PX4,
      .   PY1, PY2, PY3, PY4,
      .   PZ1, PZ2, PZ3, PZ4)
-        CALL SDERII(LFT, LLT, VOL,
+        CALL SDERII(LAST, VOL,
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
      .   PX1, PX2, PX3, PX4,
      .   PY1, PY2, PY3, PY4,
      .   PZ1, PZ2, PZ3, PZ4)
-        CALL SDEFOI(LFT, LLT,
+        CALL SDEFOI(LAST,
      .   PX1, PX2, PX3, PX4,
      .   PY1, PY2, PY3, PY4,
      .   PZ1, PZ2, PZ3, PZ4,
@@ -230,14 +229,13 @@ C
      .   VY1, VY2, VY3, VY4, VY5, VY6, VY7, VY8,
      .   VZ1, VZ2, VZ3, VZ4, VZ5, VZ6, VZ7, VZ8,
      .   D1,  D2 , D3,  D4,  D5,  D6 )
-        CALL SRHOI(LFT, LLT, PM, VOL, RHOP, VOLP,
-     .             MAT)
-        CALL SM1INIF(LFT,  LLT, PM,  SIG, EINT,
+        CALL SRHOI(LAST, PM, VOL, RHOP, VOLP, MAT)
+        CALL SM1INIF(LAST, PM,  SIG, EINT,
      .               RHOP, D1,  D2,  D3,  D4,
      .               D5,   D6,  MAT)
-        CALL SCHREP(LFT, LLT, SIG, SIGL, R)
+        CALL SCHREP(LAST, SIG, SIGL, R)
 C
-        DO I=LFT,LLT
+        DO I=1,LAST
            IEL=IPARG(3,NG)+FXBELM(NFT+13*(I-1)+2)
            FXBSIG(NFS+7*(I-1)+1)=SIGL(1,I)
            FXBSIG(NFS+7*(I-1)+2)=SIGL(2,I)
@@ -250,14 +248,14 @@ C
       ENDDO
 C 
       RETURN
-      END
+      END SUBROUTINE FSIGSINI
 Chd|====================================================================
 Chd|  SDERII                        source/constraints/fxbody/fsigsini.F
 Chd|-- called by -----------
 Chd|        FSIGSINI                      source/constraints/fxbody/fsigsini.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SDERII(JFT, JLT, DET,
+      SUBROUTINE SDERII(NEL, DET,
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
@@ -278,7 +276,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT
+      INTEGER :: NEL
       my_real
      .   DET(*), 
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
@@ -292,22 +290,22 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
       my_real
-     .   AJ1(MVSIZ),AJ2(MVSIZ),AJ3(MVSIZ),
-     .   AJ4(MVSIZ),AJ5(MVSIZ),AJ6(MVSIZ),
-     .   DETT(MVSIZ) ,  AJ7(MVSIZ), AJ8(MVSIZ) , AJ9(MVSIZ),
-     .   AJI1(MVSIZ), AJI2(MVSIZ), AJI3(MVSIZ),
-     .   AJI4(MVSIZ), AJI5(MVSIZ), AJI6(MVSIZ),
-     .   AJI7(MVSIZ), AJI8(MVSIZ), AJI9(MVSIZ),
+     .   JAC1(MVSIZ),JAC2(MVSIZ),JAC3(MVSIZ),
+     .   JAC4(MVSIZ),JAC5(MVSIZ),JAC6(MVSIZ),
+     .   DETT(MVSIZ) ,  JAC7(MVSIZ), JAC8(MVSIZ) , JAC9(MVSIZ),
+     .   JACI1(MVSIZ), JACI2(MVSIZ), JACI3(MVSIZ),
+     .   JACI4(MVSIZ), JACI5(MVSIZ), JACI6(MVSIZ),
+     .   JACI7(MVSIZ), JACI8(MVSIZ), JACI9(MVSIZ),
      .   X17(MVSIZ) , X28(MVSIZ) , X35(MVSIZ) , X46(MVSIZ),
      .   Y17(MVSIZ) , Y28(MVSIZ) , Y35(MVSIZ) , Y46(MVSIZ),
      .   Z17(MVSIZ) , Z28(MVSIZ) , Z35(MVSIZ) , Z46(MVSIZ),
      .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ),
-     .   AJ12(MVSIZ), AJ45(MVSIZ), AJ78(MVSIZ),
-     .   A17(MVSIZ) , A28(MVSIZ) ,
-     .   B17(MVSIZ) , B28(MVSIZ) ,
-     .   C17(MVSIZ) , C28(MVSIZ) 
+     .   JACI12(MVSIZ), JACI45(MVSIZ), JACI78(MVSIZ),
+     .   X_17_46(MVSIZ) , X_28_35(MVSIZ) ,
+     .   Y_17_46(MVSIZ) , Y_28_35(MVSIZ) ,
+     .   Z_17_46(MVSIZ) , Z_28_35(MVSIZ) 
 C
-      DO I=JFT,JLT
+      DO I=1,NEL
          X17(I)=X7(I)-X1(I)
          X28(I)=X8(I)-X2(I)
          X35(I)=X5(I)-X3(I)
@@ -322,94 +320,92 @@ C
          Z46(I)=Z6(I)-Z4(I)
       ENDDO
 C
-      DO I=JFT,JLT               
-         AJ1(I)=X17(I)+X28(I)-X35(I)-X46(I)
-         AJ2(I)=Y17(I)+Y28(I)-Y35(I)-Y46(I)
-         AJ3(I)=Z17(I)+Z28(I)-Z35(I)-Z46(I)
-         A17(I)=X17(I)+X46(I)
-         A28(I)=X28(I)+X35(I)
-         B17(I)=Y17(I)+Y46(I)
-         B28(I)=Y28(I)+Y35(I)
-         C17(I)=Z17(I)+Z46(I)
-         C28(I)=Z28(I)+Z35(I)
+      DO I=1,NEL               
+         JAC1(I)=X17(I)+X28(I)-X35(I)-X46(I)
+         JAC2(I)=Y17(I)+Y28(I)-Y35(I)-Y46(I)
+         JAC3(I)=Z17(I)+Z28(I)-Z35(I)-Z46(I)
+         X_17_46(I)=X17(I)+X46(I)
+         X_28_35(I)=X28(I)+X35(I)
+         Y_17_46(I)=Y17(I)+Y46(I)
+         Y_28_35(I)=Y28(I)+Y35(I)
+         Z_17_46(I)=Z17(I)+Z46(I)
+         Z_28_35(I)=Z28(I)+Z35(I)
       ENDDO
 C
-      DO I=JFT,JLT
-         AJ4(I)=A17(I)+A28(I)
-         AJ5(I)=B17(I)+B28(I)
-         AJ6(I)=C17(I)+C28(I)
-         AJ7(I)=A17(I)-A28(I)
-         AJ8(I)=B17(I)-B28(I)
-         AJ9(I)=C17(I)-C28(I)
+C Jacobian matrix
+      DO I=1,NEL
+         JAC4(I)=X_17_46(I)+X_28_35(I)
+         JAC5(I)=Y_17_46(I)+Y_28_35(I)
+         JAC6(I)=Z_17_46(I)+Z_28_35(I)
+         JAC7(I)=X_17_46(I)-X_28_35(I)
+         JAC8(I)=Y_17_46(I)-Y_28_35(I)
+         JAC9(I)=Z_17_46(I)-Z_28_35(I)
       ENDDO
 C                  
-C     JACOBIAN
-C
-      DO I=JFT,JLT     
-         JAC_59_68(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-         JAC_67_49(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
-         JAC_48_57(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
+      DO I=1,NEL     
+         JAC_59_68(I)=JAC5(I)*JAC9(I)-JAC6(I)*JAC8(I)
+         JAC_67_49(I)=JAC6(I)*JAC7(I)-JAC4(I)*JAC9(I)
+         JAC_48_57(I)=JAC4(I)*JAC8(I)-JAC5(I)*JAC7(I)
       ENDDO
 C
-      DO I=JFT,JLT   
-         DET(I)=ONE_OVER_64*(AJ1(I)*JAC_59_68(I)+AJ2(I)*JAC_67_49(I)
-     .         +AJ3(I)*JAC_48_57(I))
+      DO I=1,NEL   
+         DET(I)=ONE_OVER_64*(JAC1(I)*JAC_59_68(I)+JAC2(I)*JAC_67_49(I)
+     .         +JAC3(I)*JAC_48_57(I))
       ENDDO
 C
-      DO I=JFT,JLT
+      DO I=1,NEL
          DETT(I)=ONE_OVER_64/DET(I)
       ENDDO
 C
-C     INVERSE DE LA MATRICE JACOBIENNE
-C
-      DO I=JFT,JLT
-         AJI1(I)=DETT(I)*JAC_59_68(I)
-         AJI4(I)=DETT(I)*JAC_67_49(I)
-         AJI7(I)=DETT(I)*JAC_48_57(I)
-         AJI2(I)=DETT(I)*(-AJ2(I)*AJ9(I)+AJ3(I)*AJ8(I))
-         AJI5(I)=DETT(I)*( AJ1(I)*AJ9(I)-AJ3(I)*AJ7(I))
-         AJI8(I)=DETT(I)*(-AJ1(I)*AJ8(I)+AJ2(I)*AJ7(I))
-         AJI3(I)=DETT(I)*( AJ2(I)*AJ6(I)-AJ3(I)*AJ5(I))
-         AJI6(I)=DETT(I)*(-AJ1(I)*AJ6(I)+AJ3(I)*AJ4(I))
-         AJI9(I)=DETT(I)*( AJ1(I)*AJ5(I)-AJ2(I)*AJ4(I))
+C Jacobian matrix inverse
+      DO I=1,NEL
+         JACI1(I)=DETT(I)*JAC_59_68(I)
+         JACI4(I)=DETT(I)*JAC_67_49(I)
+         JACI7(I)=DETT(I)*JAC_48_57(I)
+         JACI2(I)=DETT(I)*(-JAC2(I)*JAC9(I)+JAC3(I)*JAC8(I))
+         JACI5(I)=DETT(I)*( JAC1(I)*JAC9(I)-JAC3(I)*JAC7(I))
+         JACI8(I)=DETT(I)*(-JAC1(I)*JAC8(I)+JAC2(I)*JAC7(I))
+         JACI3(I)=DETT(I)*( JAC2(I)*JAC6(I)-JAC3(I)*JAC5(I))
+         JACI6(I)=DETT(I)*(-JAC1(I)*JAC6(I)+JAC3(I)*JAC4(I))
+         JACI9(I)=DETT(I)*( JAC1(I)*JAC5(I)-JAC2(I)*JAC4(I))
       ENDDO
 C
-      DO I=JFT,JLT
-         AJ12(I)=AJI1(I)-AJI2(I)
-         AJ45(I)=AJI4(I)-AJI5(I)
-         AJ78(I)=AJI7(I)-AJI8(I)
+      DO I=1,NEL
+         JACI12(I)=JACI1(I)-JACI2(I)
+         JACI45(I)=JACI4(I)-JACI5(I)
+         JACI78(I)=JACI7(I)-JACI8(I)
       ENDDO
-      DO I=JFT,JLT
-         PX3(I)= AJ12(I)+AJI3(I)
-         PY3(I)= AJ45(I)+AJI6(I)
-         PZ3(I)= AJ78(I)+AJI9(I)
-         PX4(I)= AJ12(I)-AJI3(I)
-         PY4(I)= AJ45(I)-AJI6(I)
-         PZ4(I)= AJ78(I)-AJI9(I)
+      DO I=1,NEL
+         PX3(I)= JACI12(I)+JACI3(I)
+         PY3(I)= JACI45(I)+JACI6(I)
+         PZ3(I)= JACI78(I)+JACI9(I)
+         PX4(I)= JACI12(I)-JACI3(I)
+         PY4(I)= JACI45(I)-JACI6(I)
+         PZ4(I)= JACI78(I)-JACI9(I)
       ENDDO
-      DO I=JFT,JLT
-         AJ12(I)=AJI1(I)+AJI2(I)
-         AJ45(I)=AJI4(I)+AJI5(I)
-         AJ78(I)=AJI7(I)+AJI8(I)
+      DO I=1,NEL
+         JACI12(I)=JACI1(I)+JACI2(I)
+         JACI45(I)=JACI4(I)+JACI5(I)
+         JACI78(I)=JACI7(I)+JACI8(I)
       ENDDO
-      DO I=JFT,JLT
-         PX1(I)=-AJ12(I)-AJI3(I)
-         PY1(I)=-AJ45(I)-AJI6(I)
-         PZ1(I)=-AJ78(I)-AJI9(I)
-         PX2(I)=-AJ12(I)+AJI3(I)
-         PY2(I)=-AJ45(I)+AJI6(I)
-         PZ2(I)=-AJ78(I)+AJI9(I)
+      DO I=1,NEL
+         PX1(I)=-JACI12(I)-JACI3(I)
+         PY1(I)=-JACI45(I)-JACI6(I)
+         PZ1(I)=-JACI78(I)-JACI9(I)
+         PX2(I)=-JACI12(I)+JACI3(I)
+         PY2(I)=-JACI45(I)+JACI6(I)
+         PZ2(I)=-JACI78(I)+JACI9(I)
       ENDDO
 C
       RETURN
-      END
+      END SUBROUTINE SDERII
 Chd|====================================================================
 Chd|  SDEFOI                        source/constraints/fxbody/fsigsini.F
 Chd|-- called by -----------
 Chd|        FSIGSINI                      source/constraints/fxbody/fsigsini.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SDEFOI(JFT, JLT,
+      SUBROUTINE SDEFOI(NEL,
      .   PX1, PX2, PX3, PX4,
      .   PY1, PY2, PY3, PY4,
      .   PZ1, PZ2, PZ3, PZ4,
@@ -431,7 +427,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT
+      INTEGER :: NEL
       my_real
      .   VX1(*), VX2(*), VX3(*), VX4(*), VX5(*), VX6(*), VX7(*), VX8(*),
      .   VY1(*), VY2(*), VY3(*), VY4(*), VY5(*), VY6(*), VY7(*), VY8(*),
@@ -453,7 +449,7 @@ C-----------------------------------------------
      .   DXY(MVSIZ), DXZ(MVSIZ), DYX(MVSIZ), DYZ(MVSIZ), DZX(MVSIZ),
      .   DZY(MVSIZ)
 C
-      DO I=JFT,JLT
+      DO I=1,NEL
          VX17(I)=VX1(I)-VX7(I)
          VX28(I)=VX2(I)-VX8(I)
          VX35(I)=VX3(I)-VX5(I)
@@ -468,7 +464,7 @@ C
          VZ46(I)=VZ4(I)-VZ6(I)
       ENDDO
 C
-      DO I=JFT,JLT
+      DO I=1,NEL
          DXX(I)=PX1(I)*VX17(I)+PX2(I)*VX28(I)+
      .          PX3(I)*VX35(I)+PX4(I)*VX46(I)
          DYY(I)=PY1(I)*VY17(I)+PY2(I)*VY28(I)+
@@ -489,7 +485,7 @@ C
      .          PY3(I)*VZ35(I)+PY4(I)*VZ46(I)
       ENDDO
 C
-      DO I=JFT,JLT
+      DO I=1,NEL
          D4(I)   = DXY(I)+DYX(I)
          D5(I)   = DYZ(I)+DZY(I)
          D6(I)   = DXZ(I)+DZX(I)
@@ -499,15 +495,14 @@ C
       ENDDO
 C
       RETURN
-      END       
+      END SUBROUTINE SDEFOI
 Chd|====================================================================
 Chd|  SRHOI                         source/constraints/fxbody/fsigsini.F
 Chd|-- called by -----------
 Chd|        FSIGSINI                      source/constraints/fxbody/fsigsini.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SRHOI(JFT, JLT, PM, VOLO, RHON, VOLN,
-     .                 MAT)
+      SUBROUTINE SRHOI(NEL, PM, VOLO, RHON, VOLN, MAT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -523,7 +518,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT, MAT(*)
+      INTEGER NEL, MAT(*)
       my_real
      .        PM(NPROPM,*), VOLO(*), RHON(*), VOLN(*)
 C-----------------------------------------------
@@ -533,20 +528,20 @@ C-----------------------------------------------
       my_real
      .   RHO0(MVSIZ)
 C
-      DO I=JFT,JLT
+      DO I=1,NEL
          RHO0(I)=PM(1,MAT(I))
          RHON(I)=RHO0(I)*(VOLO(I)/VOLN(I))
       ENDDO
 C
       RETURN
-      END
+      END SUBROUTINE SRHOI
 Chd|====================================================================
 Chd|  SM1INIF                       source/constraints/fxbody/fsigsini.F
 Chd|-- called by -----------
 Chd|        FSIGSINI                      source/constraints/fxbody/fsigsini.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SM1INIF(JFT, JLT, PM , SIG , EINT, 
+      SUBROUTINE SM1INIF(NEL, PM , SIG , EINT, 
      .                   RHO, D1 , D2 , D3  , D4  , 
      .                   D5  ,D6 , MAT)
 C-----------------------------------------------
@@ -564,7 +559,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT, MAT(*)
+      INTEGER :: NEL, MAT(*)
       my_real
      .        PM(NPROPM,*), SIG(6,*), EINT(*), RHO(*),D1(*), D2(*),
      .        D3(*), D4(*), D5(*), D6(*)    
@@ -577,7 +572,7 @@ C-----------------------------------------------
      .   DAV, PNEW(MVSIZ), E1, E2, E3, E4, E5, E6, NU1(MVSIZ),
      .   CNU1(MVSIZ)
 C
-      DO I=JFT,JLT
+      DO I=1,NEL
          MX     =MAT(I)
          RHO0(I)=PM( 1,MX)
          NU1(I) =PM(21,MX)
@@ -588,7 +583,7 @@ C
          AMU(I) =RHO(I)/RHO0(I)-ONE
       ENDDO       
 C
-      DO I=JFT,JLT
+      DO I=1,NEL
          DAV=CNU1(I)*(D1(I)+D2(I)+D3(I))
          SIG(1,I)=G2(I)*(D1(I)+DAV)
          SIG(2,I)=G2(I)*(D2(I)+DAV)
@@ -598,12 +593,7 @@ C
          SIG(6,I)=G1(I)*D6(I)
       ENDDO       
 C
-      DO I=JFT,JLT
-*         PNEW(I)=C1(I)*AMU(I)
-*         SIG(1,I)=SIG(1,I)-PNEW(I)
-*         SIG(2,I)=SIG(2,I)-PNEW(I)
-*         SIG(3,I)=SIG(3,I)-PNEW(I)
-C
+      DO I=1,NEL
          E1=D1(I)*SIG(1,I)
          E2=D2(I)*SIG(2,I)
          E3=D3(I)*SIG(3,I)
@@ -614,7 +604,7 @@ C
       ENDDO
 C
       RETURN
-      END    
+      END SUBROUTINE SM1INIF
 Chd|====================================================================
 Chd|  SCHREP                        source/constraints/fxbody/fsigsini.F
 Chd|-- called by -----------
@@ -622,7 +612,7 @@ Chd|        FSIGSINI                      source/constraints/fxbody/fsigsini.F
 Chd|        MODBUFEL                      source/constraints/fxbody/modbufel.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SCHREP(JFT, JLT, SIG, SIGL, R)
+      SUBROUTINE SCHREP(NEL, SIG, SIGL, R)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -637,7 +627,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT
+      INTEGER :: NEL
       my_real
      .        SIG(6,*), SIGL(6,*), R(3,*)
 C-----------------------------------------------
@@ -645,7 +635,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
 C
-      DO I=JFT,JLT
+      DO I=1,NEL
          SIGL(1,I)=
      .      R(1,1)*(R(1,1)*SIG(1,I)+R(2,1)*SIG(4,I)+R(3,1)*SIG(6,I))
      .     +R(2,1)*(R(1,1)*SIG(4,I)+R(2,1)*SIG(2,I)+R(3,1)*SIG(5,I))
@@ -673,5 +663,5 @@ C
       ENDDO
 C
       RETURN
-      END
+      END SUBROUTINE SCHREP
          

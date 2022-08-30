@@ -50,7 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IG, OFFSET, LFT, LLT, NFT, NFS, I, NG, IEL,
+      INTEGER IG, OFFSET, LAST, NFT, NFS, I, NG, IEL,
      .        MAT, PROP, N1, N2
       my_real
      .        AREA, E, X1, Y1, Z1, X2, Y2, Z2, L0, D11, D12, D13,
@@ -59,11 +59,10 @@ C-----------------------------------------------
 C
       DO IG=1,NELT,MVSIZ
          OFFSET=IG-1
-         LFT=1
-         LLT=MIN(MVSIZ,NELT-OFFSET)
+         LAST=MIN(MVSIZ,NELT-OFFSET)
          NFT=OFFSET*7
          NFS=OFFSET*2
-         DO I=LFT,LLT
+         DO I=1,LAST
             NG=FXBELM(NFT+7*(I-1)+1)
             IEL=IPARG(3,NG)+FXBELM(NFT+7*(I-1)+2)
             MAT=IXT(1,IEL)
@@ -99,5 +98,5 @@ C
       ENDDO
 C
       RETURN
-      END
+      END SUBROUTINE FSIGTRINI
       

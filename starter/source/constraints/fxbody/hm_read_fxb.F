@@ -45,6 +45,9 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_FXB1(NOM_OPT,FXBNOD,FXBIPM,FXB_MATRIX,FXB_MATRIX_ADD,
      .                        NMANIM,ITAB,ITABM1,FXBFILE_TAB,LSUBMODEL)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
       USE INOUTFILE_MOD
       USE HM_OPTION_READ_MOD
@@ -53,9 +56,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -192,7 +192,7 @@ C
 C            In FXB_MATRIX_ADD -> local id in FXBNOD us used instead on internal id
             IL1 = ITAG(I1)
             IL2 = ITAG(I2)
-	    FXB_MATRIX_ADD(1,ADR_STIFF0+I-1) = IL1
+            FXB_MATRIX_ADD(1,ADR_STIFF0+I-1) = IL1
             FXB_MATRIX_ADD(2,ADR_STIFF0+I-1) = IL2
 C
 C --          Craig-bampton with only boundary nodes - one static mode per dof in connected
@@ -216,7 +216,7 @@ C
 C            In FXB_MATRIX_ADD -> local id in FXBNOD us used instead on internal id
             IL1 = ITAG(I1)
             IL2 = ITAG(I2)
-	    FXB_MATRIX_ADD(1,ADR_MASS0+I-1) = IL1
+            FXB_MATRIX_ADD(1,ADR_MASS0+I-1) = IL1
             FXB_MATRIX_ADD(2,ADR_MASS0+I-1) = IL2              
           ENDDO
 
@@ -253,7 +253,7 @@ C
           CALL FXRLINE(IFICM,NWLINE,ID,TITR)
           READ(NWLINE,FMT='(7I8)',ERR=9999) 
      .       NMOD, NMST, NBNO, ISHELL, IDAMP, IBLO, IFILE
-C Gestion des erreurs
+C Print-out of errors
           IF (NMOD < 0) THEN
              STRERR='NEGATIVE MODE NUMBER'
              CALL ANCMSG(MSGID=582,
@@ -384,11 +384,11 @@ C
       ENDDO
 C
 C-------------------------------------
-C Recherche des ID doubles
+C Search nodes with same ID
 C-------------------------------------
       CALL UDOUBLE(FXBIPM(1,1),NBIPM,NFXBODY,MESS1,0,BID)
 C-------------------------------------
-C Recherche des MAIN ID doubles
+C Search main nodes with same ID
 C-------------------------------------
       IC = 567
       I  = 0
@@ -398,7 +398,7 @@ c      CALL ANCNTS(IC, I)
 c      CALL ANCNTG(IC, I, J)
 c      CALL ANCHECK(67)
 C-------------------------------------
-C Bilan SECONDARY nodes doubles
+C Secondary nodes with same ID
 C-------------------------------------
       IF (NFXBODY > 1) THEN
       IWORK=0
@@ -479,7 +479,7 @@ C
      .       /10X,'  --> STIFFNESS MATRIX                  ',
      .       /10X,'  --> MASS MATRIX                       ')
 C      
-      END    
+      END SUBROUTINE HM_READ_FXB1
 c=================================================================================
 Chd|====================================================================
 Chd|  HM_READ_FXB2                  source/constraints/fxbody/hm_read_fxb.F
@@ -501,6 +501,9 @@ Chd|====================================================================
      .                   FXBCPM , FXBCPS, FXBLM , FXBFLS, FXBDLS,
      .                   FXBMOD , ITAB   , ITABM1, NOM_OPT,FXB_LAST_ADRESS,
      .                   LSUBMODEL)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
       USE INOUTFILE_MOD
       USE SUBMODEL_MOD
@@ -509,9 +512,6 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -661,7 +661,8 @@ C Reading of modes
 C-------------------------------------
 C
          IF (IFILE == 0) THEN
-C On stocke les modes entiers en memoire centrale
+C
+C Store modes in memory
             IF (IBLO == 0) THEN
                DO IMOD = 1,NME
                   ADRM1 = ADRMOD
@@ -732,9 +733,9 @@ C On stocke les modes entiers en memoire centrale
                ADRMOD = ADRM2
             ENDDO
          ELSEIF (IFILE == 1) THEN
-C On stocke seulement les composantes des modes sur les noeuds d'interface
-C em memoire centrale
-C Les autres composantes sont ecrites sur le disque
+C
+C Store modes on interface nodes in memory and modes on other nodes on disk
+C
             IF (IBLO == 0) THEN
                DO IMOD = 1,NME
                   ADRM1 = ADRMOD
@@ -956,7 +957,7 @@ C
 C
  100     CLOSE(IFICM)
 C
-C Reorganisation du tableau des noeuds
+C Re-arrange nodes table
          DO I = 1,NBNO
             CNOD(I)=FXBNOD(ADRNOD+I-1)
          ENDDO
@@ -979,7 +980,7 @@ C
      .                    FXBRPM(FXBIPM(14,NFX))      
       ENDDO
 C
-C -- Last adresses are stored for storage of otehr fxbodies in initia
+C -- Last adresses are stored for storage of other fxbodies in initia
 C
       FXB_LAST_ADRESS(1) = ADRMOD
       FXB_LAST_ADRESS(2) = ADRGLM
@@ -1013,7 +1014,7 @@ C
      .       /10X,(9(1PE10.3))
      .       /10X,'STABILITY TIME-STEP                     ',1PE10.3)
 C
-      END    
+      END SUBROUTINE HM_READ_FXB2
 Chd|====================================================================
 Chd|  FXRLINE                       source/constraints/fxbody/hm_read_fxb.F
 Chd|-- called by -----------
@@ -1026,14 +1027,14 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE FXRLINE(IFIC, NWLINE, ID,TITR)                     
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -1064,4 +1065,4 @@ C
      .            C1=TITR)
       RETURN
 C
-      END
+      END SUBROUTINE FXRLINE

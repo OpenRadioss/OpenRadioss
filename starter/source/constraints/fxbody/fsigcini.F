@@ -56,7 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IG,OFFSET,LFT,LLT,NFT,I,NG,IEL,
+      INTEGER IG,OFFSET,FIRST,LAST,NFT,I,NG,IEL,
      .        N1,N2,N3,N4,ISM,ITHK,NPT,NFS
       INTEGER MAT(MVSIZ), PROP(MVSIZ)
       INTEGER II,J
@@ -81,13 +81,13 @@ C-----------------------------------------------
      .   EINT(2,MVSIZ)   , THK(MVSIZ), AREA(MVSIZ),
      .   NU(MVSIZ), G(MVSIZ), A1(MVSIZ), A2(MVSIZ), GS(MVSIZ)
 C=======================================================================
-      DO IG=1,NELC,MVSIZ
+       FIRST=1
+       DO IG=1,NELC,MVSIZ
         OFFSET=IG-1
-        LFT=1
-        LLT=MIN(MVSIZ,NELC-OFFSET)
+        LAST=MIN(MVSIZ,NELC-OFFSET)
         NFT=OFFSET*10
         NFS=OFFSET*10
-        DO I=LFT,LLT
+        DO I=1,LAST
           NG=FXBELM(NFT+10*(I-1)+1)
           IEL=IPARG(3,NG)+FXBELM(NFT+10*(I-1)+2)
           MAT(I)=IXC(1,IEL)
@@ -176,37 +176,37 @@ C=======================================================================
           ITHK=0
         ENDDO
 C
-        CALL CEVECI(LFT, LLT ,AREA,
+        CALL CEVECI(FIRST, LAST , AREA,
      .              X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .              Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .              E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z )
         NPT=1
-        CALL CCOEFI(LFT, LLT,  PM,  GEO, NU,
-     .              G,   A1,   A2,  GS , THK,
-     .              MAT, PROP, NPT ,AREA)
-        CALL CPXPYI(LFT  ,LLT  ,ISM        ,
+        CALL CCOEFI(LAST, PM  ,  GEO,  NU  ,
+     .              G   , A1  ,  A2 ,  GS  , THK,
+     .              MAT , PROP,  NPT,  AREA)
+        CALL CPXPYI(FIRST,LAST,  ISM,
      .              PX1G ,PX2G ,PY1G ,PY2G ,AREA  ,
      .              PX1  ,PX2  ,PY1  ,PY2  ,
      .              X1   ,X2   ,X3   ,X4   ,Y1   ,Y2  ,
      .              Y3   ,Y4   ,Z1   ,Z2   ,Z3   ,Z4  ,
      .              E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y ,E1Z ,E2Z ,E3Z ,
      .              X2S  ,Y2S  ,X3S  ,Y3S  ,X4S  ,Y4S  )
-        CALL CDEFLI(LFT  ,LLT  ,VL   ,GSTRBID, 
+        CALL CDEFLI(LAST ,VL   ,GSTRBID, 
      .              PX1  ,PX2  ,PY1  ,PY2  ,
      .              E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y ,E1Z ,E2Z ,E3Z ,
      .              EXX  ,EYY  ,EXY  ,EYZ  ,EZX  ,AREA )
-        CALL CCURVI(LFT, LLT, VRL,
-     .              PX1, PX2, PY1, PY2,
+        CALL CCURVI(LAST ,VRL  ,
+     .              PX1  ,PX2  ,PY1  ,PY2  ,
      .              E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y ,E1Z ,E2Z ,E3Z ,
      .              EYZ  ,EZX  ,KXX  ,KYY  ,KXY  ,AREA )
         ITHK=0
-        CALL CM1INIF(LFT  ,LLT  ,FOR  ,MOM  ,ITHK , 
+        CALL CM1INIF(FIRST,LAST ,FOR  ,MOM  ,ITHK , 
      .               THK  ,EINT ,NU   ,G    ,A1   , 
      .               A2   ,GS   ,KXX  ,KYY  ,KXY  ,
      .               EXX  ,EYY  ,EXY  ,EYZ  ,EZX  ,
      .               AREA )
 C
-        DO I=LFT,LLT
+        DO I=1,LAST
            FXBSIG(NFS+10*(I-1)+1)=FOR(1,I)
            FXBSIG(NFS+10*(I-1)+2)=FOR(2,I)
            FXBSIG(NFS+10*(I-1)+3)=FOR(3,I)
@@ -221,7 +221,7 @@ C
       ENDDO
 C-----------
       RETURN
-      END
+      END SUBROUTINE FSIGCINI
 Chd|====================================================================
 Chd|  CCOEFI                        source/constraints/fxbody/fsigcini.F
 Chd|-- called by -----------
@@ -229,7 +229,7 @@ Chd|        FSIGCINI                      source/constraints/fxbody/fsigcini.F
 Chd|        FSIGTINI                      source/constraints/fxbody/fsigtini.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE CCOEFI(JFT , JLT , PM , GEO, NU ,
+      SUBROUTINE CCOEFI(NEL , PM  , GEO, NU ,
      .                  G   , A1  , A2 , GS , THK,
      .                  MAT , PROP, NPT, AREA )
 C-----------------------------------------------
@@ -247,7 +247,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT, MAT(*), PROP(*), NPT
+      INTEGER :: NEL, MAT(*), PROP(*), NPT
       my_real AREA(MVSIZ),
      .        PM(NPROPM,*), GEO(NPROPG,*), NU(*), G(*), A1(*),
      .        A2(*), GS(*), THK(*)
@@ -257,7 +257,7 @@ C-----------------------------------------------
       INTEGER I,IM,IP,ISH
       my_real THK02,FAC1,FSH,SHF  
 C=======================================================================
-      DO I=JFT,JLT
+      DO I=1,NEL
          IM=MAT(I)
          IP=PROP(I)
          NU(I)=PM(21,IM)
@@ -277,15 +277,15 @@ C=======================================================================
       ENDDO
 C
       RETURN
-      END
+      END SUBROUTINE CCOEFI
 Chd|====================================================================
 Chd|  CDEFLI                        source/constraints/fxbody/fsigcini.F
 Chd|-- called by -----------
 Chd|        FSIGCINI                      source/constraints/fxbody/fsigcini.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE CDEFLI (JFT , JLT ,VL  ,GSTR ,
-     .                   PX1 , PX2 ,PY1 ,PY2  ,
+      SUBROUTINE CDEFLI (NEL  ,VL   ,GSTR ,
+     .                   PX1  ,PX2  ,PY1  ,PY2  ,
      .                   E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y ,E1Z ,E2Z ,E3Z ,
      .                   EXX  ,EYY  ,EXY  ,EYZ  ,EZX  ,AREA )
 C-----------------------------------------------
@@ -299,7 +299,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT
+      INTEGER :: NEL
       my_real VL(3,4,*),GSTR(8,*),PX1(*) ,PX2(*) ,PY1(*) ,PY2(*)
       my_real EXX(MVSIZ),EYY(MVSIZ),EXY(MVSIZ),EZX(MVSIZ),EYZ(MVSIZ),
      .    E1X(MVSIZ) , E1Y(MVSIZ) , E1Z(MVSIZ) , 
@@ -317,7 +317,7 @@ C-----------------------------------------------
      .    VX13(MVSIZ), VX24(MVSIZ), VY13(MVSIZ), VY24(MVSIZ),
      .    VZ13(MVSIZ), VZ24(MVSIZ)
 C=======================================================================
-      DO I=JFT,JLT
+      DO I=1,NEL
         VX1(I)=E1X(I)*VL(1,1,I)+E1Y(I)*VL(2,1,I)+E1Z(I)*VL(3,1,I)
         VX2(I)=E1X(I)*VL(1,2,I)+E1Y(I)*VL(2,2,I)+E1Z(I)*VL(3,2,I)
         VX3(I)=E1X(I)*VL(1,3,I)+E1Y(I)*VL(2,3,I)+E1Z(I)*VL(3,3,I)
@@ -334,7 +334,7 @@ C
         VZ4(I)=E3X(I)*VL(1,4,I)+E3Y(I)*VL(2,4,I)+E3Z(I)*VL(3,4,I)
       ENDDO
 C
-      DO I=JFT,JLT
+      DO I=1,NEL
         VZ13(I)=VZ1(I)-VZ3(I)
         VZ24(I)=VZ2(I)-VZ4(I)
 C
@@ -353,27 +353,27 @@ C
         EZX(I)=PX1(I)*VZ13(I)+PX2(I)*VZ24(I)
       ENDDO
 C
-      DO I=JFT,JLT
+      DO I=1,NEL
         FAC1  = ONE/AREA(I)
         EXX(I)=EXX(I)*FAC1
         EYY(I)=EYY(I)*FAC1
         EXY(I)=EXY(I)*FAC1
       ENDDO
 C
-      DO I=JFT,JLT
+      DO I=1,NEL
         GSTR(1,I)=GSTR(1,I)+EXX(I)
         GSTR(2,I)=GSTR(2,I)+EYY(I)
         GSTR(3,I)=GSTR(3,I)+EXY(I)
       ENDDO
       RETURN
-      END
+      END SUBROUTINE CDEFLI
 Chd|====================================================================
 Chd|  CCURVI                        source/constraints/fxbody/fsigcini.F
 Chd|-- called by -----------
 Chd|        FSIGCINI                      source/constraints/fxbody/fsigcini.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE CCURVI(JFT  ,JLT  ,VRL  ,
+      SUBROUTINE CCURVI(NEL  ,VRL  ,
      .                  PX1  ,PX2  ,PY1  ,PY2  ,
      .                  E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y ,E1Z ,E2Z ,E3Z ,
      .                  EYZ  ,EZX  ,KXX  ,KYY  ,KXY  ,AREA )
@@ -388,7 +388,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT,JLT
+      INTEGER :: NEL
       my_real VRL(3,4,*),PX1(*),PX2(*),PY1(*),PY2(*)
       my_real E1X(MVSIZ),  E1Y(MVSIZ),  E1Z(MVSIZ),  E2X(MVSIZ),
      .        E2Y(MVSIZ),  E2Z(MVSIZ),  E3X(MVSIZ),  E3Y(MVSIZ),
@@ -404,7 +404,7 @@ C-----------------------------------------------
       my_real
      .     RXAVTA,RX13TA,RX24TA,RY13TA,RYAVTA,RY24TA,FAC1
 C=======================================================================
-      DO I=JFT,JLT
+      DO I=1,NEL
         RX1(I)=E1X(I)*VRL(1,1,I)+E1Y(I)*VRL(2,1,I)+E1Z(I)*VRL(3,1,I)
         RX2(I)=E1X(I)*VRL(1,2,I)+E1Y(I)*VRL(2,2,I)+E1Z(I)*VRL(3,2,I)
         RX3(I)=E1X(I)*VRL(1,3,I)+E1Y(I)*VRL(2,3,I)+E1Z(I)*VRL(3,3,I)
@@ -415,7 +415,7 @@ C=======================================================================
         RY4(I)=E2X(I)*VRL(1,4,I)+E2Y(I)*VRL(2,4,I)+E2Z(I)*VRL(3,4,I)
       ENDDO
 C
-      DO I=JFT,JLT
+      DO I=1,NEL
         RX13TA =RX1(I)-RX3(I)
         RXAVTA =RX1(I)+RX2(I)+RX3(I)+RX4(I)
         RX24TA =RX2(I)-RX4(I)
@@ -435,7 +435,7 @@ C
         EYZ(I)=EYZ(I)-RXAVTA*(FOURTH*AREA(I))
       ENDDO
 C
-      DO I=JFT,JLT
+      DO I=1,NEL
         FAC1  = ONE/AREA(I)
         EZX(I)=EZX(I)*FAC1
         EYZ(I)=EYZ(I)*FAC1
@@ -445,5 +445,5 @@ C
       ENDDO
 C
       RETURN
-      END
+      END SUBROUTINE CCURVI
      

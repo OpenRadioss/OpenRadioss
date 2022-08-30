@@ -103,7 +103,7 @@ C
      .                 ISH   , IFILE , NFX, IRCM)
       ENDIF
 C-----------------------------------------------
-C   FORCES EXTERNES MODALES
+C External modal forces
 C-----------------------------------------------
       DO I=1,NUMNOD
          IFAC(I)=1
@@ -219,7 +219,7 @@ C
       ENDIF
 C
       RETURN
-      END
+      END SUBROUTINE FXBODFP1
 Chd|====================================================================
 Chd|  FXBODFP2                      source/constraints/fxbody/fxbodfp.F
 Chd|-- called by -----------
@@ -272,7 +272,7 @@ C
       IF (NMOD.GT.0) CALL FXBMAJP2(MC,  RC,     MVN,    NME,   NMOD,
      .                             DT1, FXBCPM, FXBCPS, FXBLM, FXBRPM)
 C-----------------------------------------------
-C   FORCES GRAVITE PROJETEES
+C Projection of gravity forces
 C-----------------------------------------------
       DO I=1,NME+NMOD
          MFGRAV(I)=ZERO
@@ -321,7 +321,7 @@ C
          ENDDO
       ENDIF
 C-----------------------------------------------
-C   TRAVAIL FORCES EXTERNES
+C External forces work
 C-----------------------------------------------
       TFGRAV=ZERO
       DO I=1,NME+NMOD
@@ -332,7 +332,7 @@ C-----------------------------------------------
          FXBFP(I)=MFEXT(I)
       ENDDO
 C-----------------------------------------------
-C   FORCES INTERNES MODALES
+C Internal modal forces
 C-----------------------------------------------
       NMST=FXBIPM(5)
       ALPHA=FXBRPM(13)
@@ -395,7 +395,7 @@ C-----------------------------------------------
       FSAV(1)=ENINT
       FSAV(3)=TFEXT
 C-----------------------------------------------
-C   CONDENSATION SUR LES INCONNUES D'ENSEMBLE
+C Condensation of global unknowns
 C-----------------------------------------------
       DO I=1,NME
          SE(I)=MFEXT(I)-MFINT(I)
@@ -435,7 +435,7 @@ C-----------------------------------------------
       ENDIF
 C
       RETURN
-      END  
+      END SUBROUTINE FXBODFP2
 Chd|====================================================================
 Chd|  FXBMAJP1                      source/constraints/fxbody/fxbodfp.F
 Chd|-- called by -----------
@@ -465,14 +465,14 @@ C-----------------------------------------------
      .   DDEP(NME+NMOD)
 C  
 C-----------------------------------------------
-C   ACTUALISATION DEPLACEMENT ET VITESSE
+C Update displacements and velocities
 C-----------------------------------------------
       DO I=1,NME+NMOD
          FXBDEP(I)=FXBDEP(I)+DT1*FXBVIT(I)
          DDEP(I)=DT1*FXBVIT(I)
       ENDDO
 C-----------------------------------------------
-C   MATRICE DE PASSAGE
+C Transfer matrix
 C-----------------------------------------------
       DO I=1,3
          DO J=1,3
@@ -483,7 +483,7 @@ C-----------------------------------------------
       END DO
 C      
       RETURN
-      END     
+      END SUBROUTINE FXBMAJP1  
 Chd|====================================================================
 Chd|  FXBMAJP2                      source/constraints/fxbody/fxbodfp.F
 Chd|-- called by -----------
@@ -519,7 +519,7 @@ C
          ENDDO
       ENDDO
 C-----------------------------------------------
-C   COUPLAGE EN MASSE ET RAIDEUR
+C Mass and stiffness coupling
 C-----------------------------------------------
       DO I=1,NME*NMOD
          RC(I)=ZERO
@@ -544,4 +544,4 @@ C
       ENDDO
 C      
       RETURN
-      END     
+      END SUBROUTINE FXBMAJP2

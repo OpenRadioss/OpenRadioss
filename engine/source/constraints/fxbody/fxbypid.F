@@ -71,18 +71,18 @@ C
       IF (ISPMD == 0) WRITE(IOUT,*) ' BEGINNING FXBYPID'
       IF (ONOF == 0) THEN
 C-----------------------
-C     DESACTIVATION DES FXB
+C Flexible body de-activation (to be done)
 C-----------------------
       ELSEIF (ONOF == 1) THEN
 C-----------------------
-C     ACTIVATION DES FXB
+C Flexible body activation
 C-----------------------
       ENDIF
 C      
       IF(ONFELT == 0.OR.ONFELT == 1)THEN
       NSN=FXBIPM(3)
 C-----------------------
-C     TAG DES NOEUDS SECONDS
+C Tag secondary nodes
 C-----------------------
       DO I=1,NUMNOD
        ITAG(I)=0
@@ -91,7 +91,7 @@ C-----------------------
        ITAG(FXBNOD(I))=1
       ENDDO
 C-----------------------
-C     MISE DE OFF A -OFF
+C Change OFF to -OFF
 C-----------------------
       DO NG=1,NGROUP
        MLW=IPARG(1,NG)
@@ -100,9 +100,9 @@ C-----------------------
        NFT=IPARG(3,NG)
        IAD=IPARG(4,NG) - 1
 C-----------------------
-C     1. ELEMENTS SOLIDES
+C     1. Solid elements
 C-----------------------
-       IF (ITY == 1 .AND. MLW /= 0) THEN       ! loi0, pas de off
+       IF (ITY == 1 .AND. MLW /= 0) THEN       ! loi0, no off
          OFFG => ELBUF_STR(NG)%GBUF%OFF
         DO I=1,NEL
          II=I+NFT
@@ -121,17 +121,17 @@ C-----------------------
          ENDIF
         ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'ONE GROUPE
+C Test group elimination
 C----------------------------------------
         IGOF = 1
         DO I = 1,NEL
           IF (OFFG(I) > ZERO) IGOF=0
         ENDDO
         IPARG(8,NG) = IGOF
-C-----------------------
-C     3. ELEMENTS COQUES
-C-----------------------
-       ELSEIF(ITY == 3 .and. MLW /= 0)THEN       ! loi0, pas de off
+C-------------------------------
+C     3. 4-nodes shell elements
+C-------------------------------
+       ELSEIF(ITY == 3 .and. MLW /= 0)THEN       ! loi0, no off
          OFFG => ELBUF_STR(NG)%GBUF%OFF
          DO I=1,NEL
           II=I+NFT
@@ -148,7 +148,7 @@ C-----------------------
           ENDIF
          ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'ONE GROUPE
+C Test group elimination
 C----------------------------------------
         IGOF = 1
         DO I = 1,NEL
@@ -156,7 +156,7 @@ C----------------------------------------
         ENDDO
         IPARG(8,NG) = IGOF
 C-----------------------
-C     4. ELEMENTS TRUSS
+C     4. Truss elements
 C-----------------------
        ELSEIF(ITY == 4)THEN
         OFFG => ELBUF_STR(NG)%GBUF%OFF
@@ -174,7 +174,7 @@ C-----------------------
          ENDIF
         ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'ONE GROUPE
+C Test group elimination
 C----------------------------------------
         IGOF = 1
         DO I = 1,NEL
@@ -182,7 +182,7 @@ C----------------------------------------
         ENDDO
         IPARG(8,NG) = IGOF
 C-----------------------
-C     5. ELEMENTS POUTRES
+C     5. Beam elements
 C-----------------------
        ELSEIF(ITY == 5)THEN
         OFFG => ELBUF_STR(NG)%GBUF%OFF
@@ -200,7 +200,7 @@ C-----------------------
          ENDIF
         ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'ONE GROUPE
+C Test group elimination
 C----------------------------------------
         IGOF = 1
         DO I = 1,NEL
@@ -208,7 +208,7 @@ C----------------------------------------
         ENDDO
         IPARG(8,NG) = IGOF
 C-----------------------
-C     6. ELEMENTS RESSORTS
+C     6. Spring elements
 C-----------------------
        ELSEIF(ITY == 6.AND.MLW /= 3)THEN
         OFFG => ELBUF_STR(NG)%GBUF%OFF
@@ -226,16 +226,16 @@ C-----------------------
          ENDIF
         ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'ONE GROUPE
+C Test group elimination
 C----------------------------------------
         IGOF = 1
         DO I = 1,NEL
          IF(OFFG(I) /= ZERO) IGOF=0
         ENDDO
         IPARG(8,NG) = IGOF
-C-----------------------
-C     7. ELEMENTS COQUES 3N
-C-----------------------
+C------------------------------
+C     7. 3-nodes shell elements
+C------------------------------
        ELSEIF(ITY == 7 .and. MLW /= 0)THEN       ! loi0, pas de off
          OFFG => ELBUF_STR(NG)%GBUF%OFF
          DO I=1,NEL
@@ -253,7 +253,7 @@ C-----------------------
           ENDIF
          ENDDO
 C----------------------------------------
-C       TEST POUR L'ELIMINATION D'ONE GROUPE
+C Test group elimination
 C----------------------------------------
         IGOF = 1
         DO I = 1,NEL
@@ -264,7 +264,8 @@ C----------------------------------------
        ENDIF
       ENDDO
       IF(NSPMD.GT.1) THEN
-C traitement necessaire pour recuperer les elts active ou desactive dans l'ordre
+C
+C Recovery of active or de-activated elements in the right order
         IWIOUT = 0
         IF (ISPMD /= 0) CALL SPMD_CHKW(IWIOUT,IOUT)
         CALL SPMD_GLOB_ISUM9(IWIOUT,1)
@@ -279,5 +280,5 @@ C
       IF (ISPMD == 0) WRITE(IOUT,*) ' END FXBYPID'
 c-----------
       RETURN
-      END
+      END SUBROUTINE FXBYPID
                   

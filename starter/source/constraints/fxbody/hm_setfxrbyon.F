@@ -43,7 +43,7 @@ Chd|====================================================================
      .                      IXT,ITRUOFF,IXP,IPOUOFF,IXR,IRESOFF,
      .                      IXTG,ITRIOFF,FXBIPM,LSUBMODEL)
 C-----------------------------------------------
-C   A n a l y s e   M o d u l e
+C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE INOUTFILE_MOD
@@ -345,7 +345,7 @@ C
         LENNOD = LENNOD + NBNO
         LENMAT = LENMAT + SIZE_STIFF + SIZE_MASS
 C
-C Elements Solides
+C Solid elements
         DO II = 1,NUMELS
           NALL = ITAG(IXS(2,II)) * ITAG(IXS(3,II)) *
      +           ITAG(IXS(4,II)) * ITAG(IXS(5,II)) *
@@ -356,7 +356,7 @@ C Elements Solides
           END IF
         ENDDO
 
-C Elements Coques
+C 4-nodes shell elements
         DO II=1,NUMELC
           NALL = ITAG(IXC(2,II)) * ITAG(IXC(3,II)) *
      +           ITAG(IXC(4,II)) * ITAG(IXC(5,II)) 
@@ -365,7 +365,7 @@ C Elements Coques
           END IF
         ENDDO
 
-C Elements TRUSS
+C Truss elements
         DO II=1,NUMELT
           NALL = ITAG(IXT(2,II)) * ITAG(IXT(3,II))
           IF (NALL /= 0) THEN
@@ -373,7 +373,7 @@ C Elements TRUSS
           END IF
         ENDDO
 
-C Elements POUTRES
+C Beam elements
         DO II=1,NUMELP
           NALL = ITAG(IXP(2,II)) * ITAG(IXP(3,II))
           IF (NALL /= 0) THEN
@@ -381,7 +381,7 @@ C Elements POUTRES
           END IF
         ENDDO
 
-C Elements RESSORTS
+C Spring elements
         DO II=1,NUMELR
           NALL = ITAG(IXR(2,II)) * ITAG(IXR(3,II))
           IF (NALL /= 0) THEN
@@ -389,16 +389,15 @@ C Elements RESSORTS
           END IF
         ENDDO
  
-C Elements TRIANGLES
+C 3-nodes shell elements
         DO II=1,NUMELTG
           NALL = ITAG(IXTG(2,II)) * ITAG(IXTG(3,II)) * ITAG(IXTG(4,II))
           IF (NALL /= 0) THEN
              ITRIOFF(II) = 3
           END IF
         ENDDO
-
-C fin des traitements sur FXB
-      ENDDO
+C
+      ENDDO ! end loop on flexible bodies
      
 
       IF (ALLOCATED(ITAG)) DEALLOCATE (ITAG)
@@ -417,224 +416,5 @@ C
       IF (ALLOCATED(ITAG)) DEALLOCATE (ITAG)
       RETURN
 C
-      END    
-
-
-Chd|====================================================================
-Chd|  FXSETELOFF                    source/constraints/fxbody/hm_setfxrbyon.F
-Chd|-- called by -----------
-Chd|-- calls ---------------
-Chd|====================================================================
-      SUBROUTINE FXSETELOFF(IPARG  ,ELBUF , 
-     1                      IXS    ,IXC    ,IXT    ,IXP    ,IXR    ,
-     2                      IXTG   ,ISOLOFF,ISHEOFF,ITRUOFF,IPOUOFF,
-     3                      IRESOFF,ITRIOFF )                
-C-----------------------------------------------
-C   I m p l i c i t   T y p e s
-C-----------------------------------------------
-#include      "implicit_f.inc"
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
-C-----------------------------------------------
-C   C o m m o n   B l o c k s
-C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "com04_c.inc"
-#include      "units_c.inc"
-#include      "scr17_c.inc"
-#include      "scr03_c.inc"
-#include      "scr05_c.inc"
-#include      "warn_c.inc"
-#include      "param_c.inc"
-C-----------------------------------------------
-C   D u m m y   A r g u m e n t s
-C-----------------------------------------------
-      INTEGER IPARG(NPARG,*)
-      INTEGER IXS(NIXS,*), IXC(NIXC,*), IXTG(NIXTG,*), IXT(NIXT,*),
-     *        IXP(NIXP,*), IXR(NIXR,*),
-     *        ISOLOFF(*),ISHEOFF(*),ITRUOFF(*),IPOUOFF(*),
-     *        IRESOFF(*),ITRIOFF(*)
-      my_real ELBUF(*)
-C-----------------------------------------------
-C   L o c a l   V a r i a b l e s
-C-----------------------------------------------
-      INTEGER NG,I,II
-      INTEGER MLW,ITY,NEL,NFT,IAD,IOK,IGOF,ISHFT
-C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
-C-----------------------------------------------
-C-----------------------------------
-C
-      DO NG=1,NGROUP
-         MLW=IPARG(1,NG)
-         ITY=IPARG(5,NG)
-         NEL=IPARG(2,NG)
-         NFT=IPARG(3,NG)
-         IAD=IPARG(4,NG) - 1
-
-C-----------------------
-C     1. ELEMENTS SOLIDES
-C-----------------------
-         IF(ITY.EQ.1.AND.MLW.NE.0)THEN        ! loi0, pas de off
-           IOK = 0
-           DO I=1,NEL
-             II=I+NFT
-             IF(ISOLOFF(II)==3)THEN
-               ELBUF(IAD+I)= -ABS(ELBUF(IAD+I))
-               IF(IPRI.GE.5) WRITE(IOUT,*)' BRICK DEACTIVATION:',
-     .         IXS(11,II)
-               IOK = 1
-             ENDIF
-           ENDDO
-C----------------------------------------
-C       TEST POUR L'ELIMINATION D'ONE GROUPE
-C----------------------------------------
-           IF(IOK.EQ.1)THEN
-             IGOF = 1
-             DO I = 1,NEL
-               II=I+NFT
-               IF(ELBUF(IAD + I).GT.ZERO) IGOF=0
-             ENDDO
-             IPARG(8,NG) = IGOF
-           END IF
-
-C-----------------------
-C     3. ELEMENTS COQUES
-C-----------------------
-         ELSEIF(ITY.EQ.3.AND.MLW.NE.0)THEN       ! loi0, pas de off
-           IF(IPARG(23,NG).EQ.21) THEN
-             ISHFT=17
-           ELSEIF(IPARG(23,NG).EQ.22.OR.IPARG(23,NG).EQ.23) THEN
-             ISHFT=23
-           ELSE
-             ISHFT=16
-           ENDIF
-           IOK = 0
-           DO I=1,NEL
-             II=I+NFT
-             IF(ISHEOFF(II)==3)THEN
-               IF(ELBUF(IAD+I+ISHFT*NEL).GT.ZERO)THEN
-                 ELBUF(IAD+I+ISHFT*NEL)= -ELBUF(IAD+I+ISHFT*NEL)
-                 IF(IPRI.GE.5) WRITE(IOUT,*)' SHELL DEACTIVATION:',
-     .           IXC(7,II)
-                 IOK = 1
-               ENDIF
-             ENDIF
-           ENDDO
-C----------------------------------------
-C       TEST POUR L'ELIMINATION D'ONE GROUPE
-C----------------------------------------
-           IF(IOK.EQ.1)THEN
-             IGOF = 1
-             DO I = 1,NEL
-               II=I+NFT
-               IF(ELBUF(IAD + I + ISHFT*NEL).GT.ZERO) IGOF=0
-             ENDDO
-             IPARG(8,NG) = IGOF
-           END IF
-C-----------------------
-C     4. ELEMENTS TRUSS
-C-----------------------
-         ELSEIF(ITY.EQ.4)THEN
-           IOK = 0
-           DO I=1,NEL
-             II=I+NFT
-             IF(ITRUOFF(II)==3)THEN
-               ELBUF(IAD+I)= ZERO
-               IF(IPRI.GE.5) WRITE(IOUT,*)' TRUSS DEACTIVATION:',
-     .         IXT(5,II)
-               IOK = 1
-             ENDIF
-           ENDDO
-C----------------------------------------
-C       TEST POUR L'ELIMINATION D'ONE GROUPE
-C----------------------------------------
-C Incompatible avec option de gap dans propriete de truss
-C        IGOF = 1
-C        DO I = 1,NEL
-C         IF(ELBUF(IAD + I).NE.ZERO) IGOF=0
-C        ENDDO
-C        IPARG(8,NG) = IGOF
-C-----------------------
-C     5. ELEMENTS POUTRES
-C-----------------------
-         ELSEIF(ITY.EQ.5)THEN
-           IOK = 0
-           DO I=1,NEL
-             II=I+NFT
-             IF(IPOUOFF(II)==3)THEN
-               ELBUF(IAD+I)= -ABS(ELBUF(IAD+I))
-               IF(IPRI.GE.5) WRITE(IOUT,*)' BEAM DEACTIVATION:',
-     .         IXP(6,II)
-               IOK = 1
-             ENDIF
-           ENDDO
-C----------------------------------------
-C       TEST POUR L'ELIMINATION D'ONE GROUPE
-C----------------------------------------
-           IF(IOK.EQ.1)THEN
-             IGOF = 1
-             DO I = 1,NEL
-               IF(ELBUF(IAD + I).GT.ZERO) IGOF=0
-             ENDDO
-             IPARG(8,NG) = IGOF
-           END IF
-C-----------------------
-C     6. ELEMENTS RESSORTS
-C-----------------------
-         ELSEIF(ITY.EQ.6.AND.MLW.NE.3)THEN
-           IOK = 0
-           DO I=1,NEL
-             II=I+NFT
-             IF(IRESOFF(II)==3)THEN
-               IF(ELBUF(IAD+I).NE.-TEN)
-     .         ELBUF(IAD+I)= -ABS(ELBUF(IAD+I))
-C             spring is active
-               IF(IPRI.GE.5) WRITE(IOUT,*)' SPRING DEACTIVATION:',
-     .         IXR(6,II)
-               IOK = 1
-             ENDIF
-           ENDDO
-C----------------------------------------
-C       TEST POUR L'ELIMINATION D'ONE GROUPE
-C----------------------------------------
-           IF(IOK.EQ.1)THEN
-             IGOF = 1
-             DO I = 1,NEL
-               IF(ELBUF(IAD + I).NE.ZERO) IGOF=0
-             ENDDO
-             IPARG(8,NG) = IGOF
-           END IF
-C-----------------------
-C     7. ELEMENTS COQUES 3N
-C-----------------------
-         ELSEIF(ITY.EQ.7.AND.MLW.NE.0)THEN       ! loi0, pas de off
-           ISHFT=16
-           IOK = 0
-           DO I=1,NEL
-             II=I+NFT
-             IF(ITRIOFF(II)==3)THEN
-               ELBUF(IAD+I+ISHFT*NEL)= -ABS(ELBUF(IAD+I+ISHFT*NEL))
-               IF(IPRI.GE.5) WRITE(IOUT,*)' SH_3N DEACTIVATION:',
-     .         IXTG(6,II)
-               IOK = 1
-             ENDIF
-           ENDDO
-C----------------------------------------
-C       TEST POUR L'ELIMINATION D'ONE GROUPE
-C----------------------------------------
-           IF(IOK.EQ.1)THEN
-             IGOF = 1
-             DO I = 1,NEL
-               II=I+NFT
-               IF(ELBUF(IAD + I + ISHFT*NEL).GT.ZERO) IGOF=0
-             ENDDO
-             IPARG(8,NG) = IGOF
-           END IF
-C----------------------------------------
-         ENDIF
-        ENDDO
-
-
-      END
+      END SUBROUTINE HM_SETFXRBYON
+      
