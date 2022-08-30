@@ -52,7 +52,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, NFT, NFS, IG, OFFSET, LFT, LLT, MX, IAD1, IAD2,
+      INTEGER I, J, NFT, NFS, IG, OFFSET, LAST, MX, IAD1, IAD2,
      .        NFT1, IAD, II, IAD3
       my_real
      .        RT(9), VSIG(LVSIG), SIGL(6,MVSIZ), SIG(6,MVSIZ)
@@ -86,9 +86,8 @@ C
       NFS=0
       DO IG=1,NELS,MVSIZ
          OFFSET=IG-1
-         LFT=1
-         LLT=MIN(MVSIZ,NELS-OFFSET)
-         DO I=LFT,LLT
+         LAST=MIN(MVSIZ,NELS-OFFSET)
+         DO I=1,LAST
             MX=FXBELM(NFT+13)
             IAD1=FXBELM(NFT+11)
             IAD2=FXBELM(NFT+12)
@@ -105,9 +104,8 @@ C
       ENDDO
       DO IG=1,NELC,MVSIZ
          OFFSET=IG-1
-         LFT=1
-         LLT=MIN(MVSIZ,NELC-OFFSET)
-         DO I=LFT,LLT
+         LAST=MIN(MVSIZ,NELC-OFFSET)
+         DO I=1,LAST
             MX=FXBELM(NFT+10)
             IAD1=FXBELM(NFT+7)
             IAD2=FXBELM(NFT+8)
@@ -128,9 +126,8 @@ C
       ENDDO
       DO IG=1,NELT,MVSIZ
          OFFSET=IG-1
-         LFT=1
-         LLT=MIN(MVSIZ,NELC-OFFSET)
-         DO I=LFT,LLT
+         LAST=MIN(MVSIZ,NELT-OFFSET)
+         DO I=1,LAST
             MX=FXBELM(NFT+7)
             IAD1=FXBELM(NFT+5)
             IAD2=FXBELM(NFT+6)
@@ -142,9 +139,8 @@ C
       ENDDO
       DO IG=1,NELP,MVSIZ
          OFFSET=IG-1
-         LFT=1
-         LLT=MIN(MVSIZ,NELC-OFFSET)
-         DO I=LFT,LLT
+         LAST=MIN(MVSIZ,NELP-OFFSET)
+         DO I=1,LAST
             MX=FXBELM(NFT+9)
             IAD1=FXBELM(NFT+6)
             IAD2=FXBELM(NFT+7)
@@ -163,9 +159,8 @@ C
       ENDDO
       DO IG=1,NELTG,MVSIZ
          OFFSET=IG-1
-         LFT=1
-         LLT=MIN(MVSIZ,NELTG-OFFSET)
-         DO I=LFT,LLT
+         LAST=MIN(MVSIZ,NELTG-OFFSET)
+         DO I=1,LAST
             MX=FXBELM(NFT+9)
             IAD1=FXBELM(NFT+6)
             IAD2=FXBELM(NFT+7)
@@ -188,10 +183,9 @@ C
       NFT=0
       DO IG=1,NELS,MVSIZ
          OFFSET=IG-1
-         LFT=1
-         LLT=MIN(MVSIZ,NELS-OFFSET)
+         LAST=MIN(MVSIZ,NELS-OFFSET)
          NFT1=NFT
-         DO I=LFT,LLT
+         DO I=1,LAST
             IAD1=FXBELM(NFT+11)
             SIGL(1,I)=BUFEL(IAD1) 
             SIGL(2,I)=BUFEL(IAD1+1) 
@@ -201,9 +195,9 @@ C
             SIGL(6,I)=BUFEL(IAD1+5)
             NFT=NFT+13
          ENDDO
-         CALL SCHREP(LFT,LLT,SIGL,SIG,RT)
+         CALL SCHREP(LAST,SIGL,SIG,RT)
          NFT=NFT1
-         DO I=LFT,LLT
+         DO I=1,LAST
             IAD1=FXBELM(NFT+11)
             BUFEL(IAD1)=SIG(1,I)
             BUFEL(IAD1+1)=SIG(2,I) 
@@ -216,5 +210,5 @@ C
       ENDDO   
 C
       RETURN
-      END
+      END SUBROUTINE MODBUFEL
            

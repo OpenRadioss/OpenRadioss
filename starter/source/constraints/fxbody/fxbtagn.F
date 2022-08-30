@@ -81,14 +81,14 @@ C
       NELT=0
       NELP=0
 C-----------------------
-C     RECHERCHE DES NOEUDS FRONTIERES
+C Search boundary nodes
 C-----------------------
       DO NG=1,NGROUP
        MLW=IPARG(1,NG)
        ITY=IPARG(5,NG)
        NEL=IPARG(2,NG)
        NFT=IPARG(3,NG)
-C     1. ELEMENTS SOLIDES
+C     1. Solid elements
        IF(ITY.EQ.1)THEN
         DO I=1,NEL
          II=I+NFT
@@ -104,7 +104,7 @@ C     1. ELEMENTS SOLIDES
            NELS=NELS+1 
          ENDIF
         ENDDO
-C     3. ELEMENTS COQUES
+C     3. 4-nodes shell elements
        ELSEIF(ITY.EQ.3)THEN
         DO I=1,NEL
          II=I+NFT
@@ -118,7 +118,7 @@ C     3. ELEMENTS COQUES
            NELC=NELC+1
          ENDIF
         ENDDO
-C     4. ELEMENTS TRUSS
+C     4. Truss elements
        ELSEIF(ITY.EQ.4)THEN
         DO I=1,NEL
          II=I+NFT
@@ -131,7 +131,7 @@ C     4. ELEMENTS TRUSS
            NELT=NELT+1
          ENDIF
         ENDDO
-C     5. ELEMENTS POUTRES
+C     5. Beam elements
        ELSEIF(ITY.EQ.5)THEN
         DO I=1,NEL
          II=I+NFT
@@ -144,7 +144,7 @@ C     5. ELEMENTS POUTRES
            NELP=NELP+1
          ENDIF
         ENDDO
-C     6. ELEMENTS RESSORTS
+C     6. Spring elements
        ELSEIF(ITY.EQ.6.AND.MLW.NE.3)THEN
         DO I=1,NEL
          II=I+NFT
@@ -155,7 +155,7 @@ C     6. ELEMENTS RESSORTS
            ENDDO 
          ENDIF
         ENDDO
-C     7. ELEMENTS COQUES 3N
+C     7. 3-nodes shell elements
        ELSEIF(ITY.EQ.7)THEN
         DO I=1,NEL
          II=I+NFT
@@ -171,9 +171,9 @@ C     7. ELEMENTS COQUES 3N
         ENDDO
        ENDIF 
       ENDDO     
-C-----------------------
-C     RECHERCHE DES NOEUDS DANS INTERFACES TYPE 2, 7
-C-----------------------
+C-----------------------------------------
+C Search nodes in interfaces type 2, 7, 22
+C-----------------------------------------
       DO N=1,NINTER
          NTY =IPARI(7,N)
          NRTS=IPARI(3,N)
@@ -217,9 +217,9 @@ C
          II=FXBNOD(I)
          IF (ITAG(II).EQ.2) FXBTAG(I)=1
       ENDDO     
-C-----------------------
-C     RECHERCHE DES NOEUDS PORTEURS DE FORCES
-C-----------------------
+C-------------------------------------------------------
+C Search nodes with concentrated loads or pressure loads
+C-------------------------------------------------------
       DO I=1,NUMNOD
          ITAG(I)=0
       ENDDO
@@ -259,7 +259,7 @@ C
       ENDIF
 C
 C-----------------------
-C     DIMENSIONNEMENT POUR LE TRAITEMENT DE LA GRAVITE
+C Memory for gravity
 C-----------------------
       NLGRAV=0
       NNGT=0
@@ -285,4 +285,4 @@ C
       LENGRVR=LENGRVR+(NBMO-NBML)*NLGRAV+NBML*9*NLGRAV
 C      
       RETURN
-      END
+      END SUBROUTINE FXBTAGN

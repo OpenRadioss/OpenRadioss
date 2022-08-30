@@ -54,7 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IG, OFFSET, LFT, LLT, NFT, NFS, I, NG, IEL,
+      INTEGER IG, OFFSET, LAST, NFT, NFS, I, NG, IEL,
      .        N1, N2
       INTEGER MAT(MVSIZ), PROP(MVSIZ)
       my_real
@@ -80,11 +80,10 @@ C-----------------------------------------------
 C
       DO IG=1,NELP,MVSIZ
          OFFSET=IG-1
-         LFT=1
-         LLT=MIN(MVSIZ,NELP-OFFSET)
+         LAST=MIN(MVSIZ,NELP-OFFSET)
          NFT=OFFSET*9
          NFS=OFFSET*8
-         DO I=LFT,LLT
+         DO I=1,LAST
             NG=FXBELM(NFT+9*(I-1)+1)
             IEL=IPARG(3,NG)+FXBELM(NFT+9*(I-1)+2)
             MAT(I)=IXP(1,IEL)
@@ -139,31 +138,27 @@ C
             MOM(3,I)=ZERO
          ENDDO
 C
-         CALL PEVECII(X1,  Y1,  Z1,   X2, Y2, 
-     .        Z2,  VRL, RLOC, AL, LFT,
-     .        LLT, 
+         CALL PEVECII(X1,  Y1,  Z1,  X2, Y2, 
+     .        Z2,  VRL, RLOC, AL, LAST, 
      .        EE1X, EE1Y, EE1Z, 
      .        EE2X, EE2Y, EE2Z, 
      .        EE3X, EE3Y, EE3Z)
 C     
-         CALL PDEFOI(VL,  EXX, EXY, EXZ, AL,
-     .        LFT, LLT, 
+         CALL PDEFOI(VL , EXX , EXY, EXZ, AL, LAST, 
      .        EE1X, EE1Y, EE1Z, 
      .        EE2X, EE2Y, EE2Z, 
      .        EE3X, EE3Y, EE3Z)
-         CALL PCURVI(VRL,  GEO, KXX, KYY, KZZ,
-     .        EXY,  EXZ, AL,  LFT, LLT, 
-     .        PROP, 
+         CALL PCURVI(VRL, GEO , KXX , KYY , KZZ ,
+     .        EXY , EXZ , AL  , LAST, PROP, 
      .        EE1X, EE1Y, EE1Z, 
      .        EE2X, EE2Y, EE2Z, 
      .        EE3X, EE3Y, EE3Z)
 C
-         CALL PM1INIF(PM,   FOR, MOM, EINT, GEO,
-     .                EXX,  EXY, EXZ, KXX,  KYY,
-     .                KZZ,  AL,  LFT, LLT,  MAT,
-     .                PROP) 
+         CALL PM1INIF(PM,   FOR, MOM , EINT, GEO,
+     .                EXX,  EXY, EXZ , KXX , KYY,
+     .                KZZ,  AL , LAST, MAT , PROP) 
 C
-         DO I=LFT,LLT
+         DO I=1,LAST
             FXBSIG(NFS+8*(I-1)+1)=FOR(1,I)
             FXBSIG(NFS+8*(I-1)+2)=FOR(2,I)
             FXBSIG(NFS+8*(I-1)+3)=FOR(3,I)
@@ -176,7 +171,7 @@ C
       ENDDO
 C
       RETURN
-      END
+      END SUBROUTINE FSIGPINI
 Chd|====================================================================
 Chd|  PEVECII                       source/constraints/fxbody/fsigpini.F
 Chd|-- called by -----------
@@ -184,8 +179,7 @@ Chd|        FSIGPINI                      source/constraints/fxbody/fsigpini.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE PEVECII(X1 , Y1, Z1  , X2, Y2 ,
-     .     Z2 , R , RLOC, AL, LFT,
-     .     LLT, 
+     .     Z2 , R , RLOC, AL, NEL, 
      .     E1X, E1Y, E1Z, 
      .     E2X, E2Y, E2Z, 
      .     E3X, E3Y, E3Z)
@@ -200,7 +194,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LFT, LLT
+      INTEGER :: NEL
       my_real
      .     X1(*), Y1(*), Z1(*), X2(*), Y2(*), Z2(*),
      .     R(3,2,*), RLOC(3,*), AL(*),
@@ -220,7 +214,7 @@ C-----------------------------------------------
      .     COST(MVSIZ), SINT(MVSIZ)
 
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
          RX1G(I)=R(1,1,I)
          RY1G(I)=R(2,1,I)
          RZ1G(I)=R(3,1,I)
@@ -229,43 +223,43 @@ C
          RZ2G(I)=R(3,2,I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
          E2X(I)=RLOC(1,I)
          E2Y(I)=RLOC(2,I)
          E2Z(I)=RLOC(3,I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
          E1X(I)=X2(I)-X1(I)
          E1Y(I)=Y2(I)-Y1(I)
          E1Z(I)=Z2(I)-Z1(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
          AL(I)=SQRT(E1X(I)**2+E1Y(I)**2+E1Z(I)**2)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
          E1X(I)=E1X(I)/AL(I)
          E1Y(I)=E1Y(I)/AL(I)
          E1Z(I)=E1Z(I)/AL(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
          E3X(I)=E1Y(I)*E2Z(I)-E1Z(I)*E2Y(I)
          E3Y(I)=E1Z(I)*E2X(I)-E1X(I)*E2Z(I)
          E3Z(I)=E1X(I)*E2Y(I)-E1Y(I)*E2X(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
          E2X(I)=E3Y(I)*E1Z(I)-E3Z(I)*E1Y(I)
          E2Y(I)=E3Z(I)*E1X(I)-E3X(I)*E1Z(I)
          E2Z(I)=E3X(I)*E1Y(I)-E3Y(I)*E1X(I)
       ENDDO
 C--------------------------------------------
-C     TORSION MOYENNE EN COORDONNEES GLOBALES
+C Average torsion in global coordinates
 C--------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
          RX1(I)=E1X(I)*RX1G(I)+E1Y(I)*RY1G(I)+E1Z(I)*RZ1G(I)
          RX2(I)=E1X(I)*RX2G(I)+E1Y(I)*RY2G(I)+E1Z(I)*RZ2G(I)
          THETA=HALF*(RX1(I)+RX2(I))
@@ -275,29 +269,29 @@ C--------------------------------------------
          SINT(I)=SIN(THETA)/SUM3(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
          E2X(I)=E2X(I)*COST(I)+E3X(I)*SINT(I)
          E2Y(I)=E2Y(I)*COST(I)+E3Y(I)*SINT(I)
          E2Z(I)=E2Z(I)*COST(I)+E3Z(I)*SINT(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
          SUM(I)=SQRT(E2X(I)**2+E2Y(I)**2+E2Z(I)**2)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
          E2X(I)=E2X(I)/SUM(I)
          E2Y(I)=E2Y(I)/SUM(I)
          E2Z(I)=E2Z(I)/SUM(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
          E3X(I)=E1Y(I)*E2Z(I)-E1Z(I)*E2Y(I)
          E3Y(I)=E1Z(I)*E2X(I)-E1X(I)*E2Z(I)
          E3Z(I)=E1X(I)*E2Y(I)-E1Y(I)*E2X(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
          SUM(I)=SQRT(E3X(I)**2+E3Y(I)**2+E3Z(I)**2)
          E3X(I)=E3X(I)/SUM(I)
          E3Y(I)=E3Y(I)/SUM(I)
@@ -305,15 +299,14 @@ C
       ENDDO
 C
       RETURN
-      END
+      END SUBROUTINE PEVECII
 Chd|====================================================================
 Chd|  PDEFOI                        source/constraints/fxbody/fsigpini.F
 Chd|-- called by -----------
 Chd|        FSIGPINI                      source/constraints/fxbody/fsigpini.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE PDEFOI(V  , EXX, EXY, EXZ, AL,
-     .     LFT, LLT, 
+      SUBROUTINE PDEFOI(V  , EXX, EXY, EXZ, AL, NEL, 
      .     E1X, E1Y, E1Z, 
      .     E2X, E2Y, E2Z, 
      .     E3X, E3Y, E3Z)            
@@ -328,7 +321,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LFT, LLT
+      INTEGER :: NEL
       my_real
      .     V(3,2,*), EXX(*), EXY(*), EXZ(*), AL(*),
      .     E1X(*), E1Y(*), E1Z(*),
@@ -344,7 +337,7 @@ C-----------------------------------------------
      .        VX1(MVSIZ), VY1(MVSIZ), VZ1(MVSIZ),
      .        VX2(MVSIZ), VY2(MVSIZ), VZ2(MVSIZ)
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
          VX1G(I)=V(1,1,I)
          VY1G(I)=V(2,1,I)
          VZ1G(I)=V(3,1,I)
@@ -353,7 +346,7 @@ C
          VZ2G(I)=V(3,2,I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
          VX1(I)=E1X(I)*VX1G(I)+E1Y(I)*VY1G(I)+E1Z(I)*VZ1G(I)
          VY1(I)=E2X(I)*VX1G(I)+E2Y(I)*VY1G(I)+E2Z(I)*VZ1G(I)
          VZ1(I)=E3X(I)*VX1G(I)+E3Y(I)*VY1G(I)+E3Z(I)*VZ1G(I)
@@ -362,14 +355,14 @@ C
          VZ2(I)=E3X(I)*VX2G(I)+E3Y(I)*VY2G(I)+E3Z(I)*VZ2G(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
          EXX(I)=(VX2(I)-VX1(I))/AL(I)
          EXY(I)=(VY2(I)-VY1(I))/AL(I)
          EXZ(I)=(VZ2(I)-VZ1(I))/AL(I)
       ENDDO
 C
       RETURN
-      END
+      END SUBROUTINE PDEFOI
 Chd|====================================================================
 Chd|  PCURVI                        source/constraints/fxbody/fsigpini.F
 Chd|-- called by -----------
@@ -377,8 +370,7 @@ Chd|        FSIGPINI                      source/constraints/fxbody/fsigpini.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE PCURVI(V  , GEO, KXX, KYY, KZZ,
-     .     EXY, EXZ, AL , LFT, LLT,
-     .     MGM, 
+     .     EXY, EXZ, AL , NEL, MGM, 
      .     E1X, E1Y, E1Z, 
      .     E2X, E2Y, E2Z, 
      .     E3X, E3Y, E3Z)      
@@ -397,7 +389,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LFT, LLT, MGM(*)
+      INTEGER :: NEL, MGM(*)
       my_real
      .     V(3,2,*), GEO(NPROPG,*), KXX(*), KYY(*), KZZ(*),
      .     EXY(*), EXZ(*), AL(*),
@@ -415,7 +407,7 @@ C-----------------------------------------------
      .        RX2(MVSIZ), RY2(MVSIZ), RZ2(MVSIZ),
      .        RXAV(MVSIZ), RYAV(MVSIZ), RZAV(MVSIZ)
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
          RX1G(I)=V(1,1,I)
          RY1G(I)=V(2,1,I)
          RZ1G(I)=V(3,1,I)
@@ -424,7 +416,7 @@ C
          RZ2G(I)=V(3,2,I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
          RX1(I)=E1X(I)*RX1G(I)+E1Y(I)*RY1G(I)+E1Z(I)*RZ1G(I)
          RY1(I)=E2X(I)*RX1G(I)+E2Y(I)*RY1G(I)+E2Z(I)*RZ1G(I)
          RZ1(I)=E3X(I)*RX1G(I)+E3Y(I)*RY1G(I)+E3Z(I)*RZ1G(I)
@@ -433,9 +425,9 @@ C
          RZ2(I)=E3X(I)*RX2G(I)+E3Y(I)*RY2G(I)+E3Z(I)*RZ2G(I)
       ENDDO
 C---------------------------------------------------
-C     LIBERATION DES ROTATIONS
+C Free rotations
 C---------------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
          IG=MGM(I)
          IRX =NINT(GEO(7 ,IG))
          IR1Y=NINT(GEO(8 ,IG))
@@ -462,25 +454,25 @@ C---------------------------------------------------
      +          +(ONE -IR2Z)*(THREE_HALF*EXY(I)-HALF*RZ1(I))
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
          KXX(I)=(RX2(I)-RX1(I))/AL(I)
          KYY(I)=(RY2(I)-RY1(I))/AL(I)
          KZZ(I)=(RZ2(I)-RZ1(I))/AL(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
          RXAV(I)=RX1(I)+RX2(I)
          RZAV(I)=RZ1(I)+RZ2(I)
          RYAV(I)=RY1(I)+RY2(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
          EXZ(I)=EXZ(I) + HALF*RYAV(I)
          EXY(I)=EXY(I) - HALF*RZAV(I)
       ENDDO
 C
       RETURN
-      END
+      END SUBROUTINE PCURVI
 Chd|====================================================================
 Chd|  PM1INIF                       source/constraints/fxbody/fsigpini.F
 Chd|-- called by -----------
@@ -489,8 +481,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE PM1INIF(PM , FOR, MOM, EINT, GEO,
      .                   EXX, EXY, EXZ, KXX , KYY,
-     .                   KZZ, AL , LFT, LLT , MAT,
-     .                   MGM)     
+     .                   KZZ, AL , NEL, MAT , MGM)     
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -506,7 +497,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LFT, LLT, MAT(*), MGM(*)
+      INTEGER :: NEL, MAT(*), MGM(*)
       my_real
      .        PM(NPROPM,*), FOR(3,*), MOM(3,*), EINT(2,*),
      .        GEO(NPROPG,*), EXX(*), EXY(*), EXZ(*), KXX(*),
@@ -521,7 +512,7 @@ C-----------------------------------------------
      .        YMA2(MVSIZ), SH10(MVSIZ), SH20(MVSIZ), SH0(MVSIZ),
      .        SH1(MVSIZ), SH2(MVSIZ), DEGMB(MVSIZ), DEGFX(MVSIZ)
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
          RHO(I) =PM( 1,MAT(I))
          G(I)   =PM(22,MAT(I))
          YM(I)  =PM(20,MAT(I))
@@ -532,9 +523,8 @@ C
          SHF(I) =GEO(37,MGM(I))
       ENDDO
 C
-C     CISSAILLEMENT TRANSVERSAL CALCULE AVEC K1=12EI/L**2 K2=5/6GA
-C
-      DO I=LFT,LLT
+C Transverse shear computed with K1=12EI/L**2 K2=5/6GA
+      DO I=1,NEL
          SH(I)=FIVE_OVER_6*G(I)*A1(I)
          YMA2(I)=TWELVE*YM(I)/AL(I)**2
          SH10(I)=YMA2(I)*B1(I)
@@ -551,16 +541,16 @@ C
          MOM(3,I)=MOM(3,I)+ KZZ(I)*YM(I)*B2(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
          DEGMB(I) = FOR(1,I)*EXX(I)+FOR(2,I)*EXY(I)+FOR(3,I)*EXZ(I)
          DEGFX(I) = MOM(1,I)*KXX(I)+MOM(2,I)*KYY(I)+MOM(3,I)*KZZ(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
          EINT(1,I) = DEGMB(I)*AL(I)*HALF
          EINT(2,I) = DEGFX(I)*AL(I)*HALF
       ENDDO
 C
       RETURN
-      END
+      END SUBROUTINE PM1INIF
             

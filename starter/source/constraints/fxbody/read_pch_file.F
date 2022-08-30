@@ -34,15 +34,15 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE READ_PCH_FILE(FLAG,MATRIX,ITAG,MATRIX_ADD,CPT_STIFF,
      .                         CPT_MASS,ITABM1,PCH_FILE,ID,TITR)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE INOUTFILE_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -75,7 +75,7 @@ C-----------------------------------------------
       DATA MESS/'FLEXIBLE BODY DEF - READ OF PCH FILE '/
 C=======================================================================
 C
-C     FLAG = 0 -> PREREADING FOR NODES DETECTION AND NUMBERING (SETRFXBTON.F)
+C     FLAG = 0 -> PREREADING FOR NODES DETECTION AND NUMBERING (SETRFXBYON.F)
 C     FLAG = 1 -> READING OF NODES AND MATRIX (LECFXB1.F)
 C
       REF = 71
@@ -181,4 +181,4 @@ C
 C 
       RETURN     
 C
-      END
+      END SUBROUTINE READ_PCH_FILE

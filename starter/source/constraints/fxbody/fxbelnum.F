@@ -69,7 +69,7 @@ C
        IAD=IPARG(4,NG)
        ITY=IPARG(5,NG)
        JHBE=IPARG(23,NG)
-C     1. ELEMENTS SOLIDES
+C     1. Solid elements
        IF(ITY == 1)THEN
         DO I=1,NEL
          II=I+NFT
@@ -89,13 +89,11 @@ C     1. ELEMENTS SOLIDES
             DO J=1,8
                FXBELM(NEL2+2+J)=ITAG(IXS(1+J,II))
             ENDDO
-c            FXBELM(NEL2+11)=NB2+6*(I-1)  ! Not used with the new element buffer
-c            FXBELM(NEL2+12)=NB3+I-1
             FXBELM(NEL2+13)=IPARTS(II)
             NEL2=NEL2+13
          ENDIF
         ENDDO
-C     3. ELEMENTS COQUES
+C     3. 4-nodes shell elements
        ELSEIF(ITY == 3)THEN
         DO I=1,NEL
          II=I+NFT
@@ -110,14 +108,11 @@ C     3. ELEMENTS COQUES
             DO J=1,4
                FXBELM(NEL2+2+J)=ITAG(IXC(1+J,II))
             ENDDO
-c            FXBELM(NEL2+7)=NB1+5*(I-1)  ! no more needed
-c            FXBELM(NEL2+8)=NB2+3*(I-1)
-c            FXBELM(NEL2+9)=NB5+2*(I-1)
             FXBELM(NEL2+10)=IPARTC(II)
             NEL2=NEL2+10
          ENDIF
         ENDDO
-C     4. ELEMENTS BARRES
+C     4. Truss elements
        ELSEIF (ITY == 4) THEN
         DO I=1,NEL
          II=I+NFT
@@ -138,7 +133,7 @@ C     4. ELEMENTS BARRES
             NEL2=NEL2+7
          ENDIF
         ENDDO
-C     5. ELEMENTS POUTRES
+C     5. Beam elements
        ELSEIF (ITY == 5) THEN
         DO I=1,NEL
          II=I+NFT
@@ -165,7 +160,7 @@ C     5. ELEMENTS POUTRES
             NEL2=NEL2+9
          ENDIF
         ENDDO
-C     7. ELEMENTS COQUES 3N
+C     7. 3-nodes shell elements
        ELSEIF(ITY == 7)THEN
         DO I=1,NEL
          II=I+NFT
@@ -179,9 +174,6 @@ C     7. ELEMENTS COQUES 3N
             DO J=1,3
                FXBELM(NEL2+2+J)=ITAG(IXTG(1+J,II))
             ENDDO
-c            FXBELM(NEL2+6)=NB1+5*(I-1)  ! no more needed
-c            FXBELM(NEL2+7)=NB2+3*(I-1)
-c            FXBELM(NEL2+8)=NB5+2*(I-1)
             FXBELM(NEL2+9)=IPARTTG(II)
             NEL2=NEL2+9
          ENDIF
@@ -190,4 +182,4 @@ c            FXBELM(NEL2+8)=NB5+2*(I-1)
       ENDDO
 C-----------
       RETURN
-      END
+      END SUBROUTINE FXBELNUM

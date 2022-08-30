@@ -63,7 +63,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NELS, NELC, NELTG, NML, NME, IM, IG, OFFSET, NFT, NFS,
-     .        LFT, LLT, IAD1, IAD2, IAD3, I, MX, NFT1, II, OFF, NG,
+     .        LAST, IAD1, IAD2, IAD3, I, MX, NFT1, II, OFF, NG,
      .        IGOF, IFILE, NFS2, J, IAD, NELT, NELP,IEL,JJ(6),NEL
       my_real
      .   FAC,FAC2,SIGL(MVSIZ,6),SIG(MVSIZ,6),
@@ -87,9 +87,8 @@ C
       EIEL=ZERO
       DO IG=1,NELS,NVSIZ
          OFFSET=IG-1
-         LFT=1
-         LLT=MIN(NVSIZ,NELS-OFFSET)
-         DO I=LFT,LLT
+         LAST=MIN(NVSIZ,NELS-OFFSET)
+         DO I=1,LAST
             NG =FXBELM(NFT+1)
             IEL=FXBELM(NFT+2)
             GBUF => ELBUF_TAB(NG)%GBUF
@@ -115,9 +114,8 @@ C
       ENDDO
       DO IG=1,NELC,NVSIZ
          OFFSET=IG-1
-         LFT=1
-         LLT=MIN(NVSIZ,NELC-OFFSET)
-         DO I=LFT,LLT
+         LAST=MIN(NVSIZ,NELC-OFFSET)
+         DO I=1,LAST
             NG=FXBELM(NFT+1)
             IEL=FXBELM(NFT+2)
             GBUF => ELBUF_TAB(NG)%GBUF
@@ -149,9 +147,8 @@ C
       ENDDO
       DO IG=1,NELT,NVSIZ
          OFFSET=IG-1
-         LFT=1
-         LLT=MIN(NVSIZ,NELT-OFFSET)
-         DO I=LFT,LLT
+         LAST=MIN(NVSIZ,NELT-OFFSET)
+         DO I=1,LAST
             NG=FXBELM(NFT+1)
             IEL=FXBELM(NFT+2)
             GBUF => ELBUF_TAB(NG)%GBUF
@@ -166,9 +163,8 @@ C
       ENDDO      
       DO IG=1,NELP,NVSIZ
          OFFSET=IG-1
-         LFT=1
-         LLT=MIN(NVSIZ,NELP-OFFSET)
-         DO I=LFT,LLT
+         LAST=MIN(NVSIZ,NELP-OFFSET)
+         DO I=1,LAST
             NG=FXBELM(NFT+1)
             IEL=FXBELM(NFT+2)
             GBUF => ELBUF_TAB(NG)%GBUF
@@ -197,9 +193,8 @@ C
       ENDDO      
       DO IG=1,NELTG,NVSIZ
          OFFSET=IG-1
-         LFT=1
-         LLT=MIN(NVSIZ,NELTG-OFFSET)
-         DO I=LFT,LLT
+         LAST=MIN(NVSIZ,NELTG-OFFSET)
+         DO I=1,LAST
             NG=FXBELM(NFT+1)
             IEL=FXBELM(NFT+2)
             GBUF => ELBUF_TAB(NG)%GBUF
@@ -256,9 +251,8 @@ C
          NFS2=0
          DO IG=1,NELS,NVSIZ
             OFFSET=IG-1
-            LFT=1
-            LLT=MIN(NVSIZ,NELS-OFFSET)
-            DO I=LFT,LLT
+            LAST=MIN(NVSIZ,NELS-OFFSET)
+            DO I=1,LAST
                NG=FXBELM(NFT+1)
                IEL=FXBELM(NFT+2)
                GBUF => ELBUF_TAB(NG)%GBUF
@@ -284,9 +278,8 @@ C
          ENDDO
          DO IG=1,NELC,NVSIZ
             OFFSET=IG-1
-            LFT=1
-            LLT=MIN(NVSIZ,NELC-OFFSET)
-            DO I=LFT,LLT
+            LAST=MIN(NVSIZ,NELC-OFFSET)
+            DO I=1,LAST
                NG=FXBELM(NFT+1)
                IEL=FXBELM(NFT+2)
                MX=FXBELM(NFT+10)
@@ -317,9 +310,8 @@ C
          ENDDO
          DO IG=1,NELT,NVSIZ
             OFFSET=IG-1
-            LFT=1
-            LLT=MIN(NVSIZ,NELT-OFFSET)
-            DO I=LFT,LLT
+            LAST=MIN(NVSIZ,NELT-OFFSET)
+            DO I=1,LAST
                NG=FXBELM(NFT+1)
                IEL=FXBELM(NFT+2)
                MX=FXBELM(NFT+7)
@@ -334,9 +326,8 @@ C
          ENDDO
          DO IG=1,NELP,NVSIZ
             OFFSET=IG-1
-            LFT=1
-            LLT=MIN(NVSIZ,NELP-OFFSET)
-            DO I=LFT,LLT
+            LAST=MIN(NVSIZ,NELP-OFFSET)
+            DO I=1,LAST
                NG=FXBELM(NFT+1)
                MX=FXBELM(NFT+9)
                IEL=FXBELM(NFT+2)
@@ -365,9 +356,8 @@ C
          ENDDO
          DO IG=1,NELTG,NVSIZ
             OFFSET=IG-1
-            LFT=1
-            LLT=MIN(NVSIZ,NELTG-OFFSET)
-            DO I=LFT,LLT
+            LAST=MIN(NVSIZ,NELTG-OFFSET)
+            DO I=1,LAST
                MX=FXBELM(NFT+9)
                NG=FXBELM(NFT+1)
                IEL=FXBELM(NFT+2)
@@ -401,10 +391,9 @@ C
       NFT=0
       DO IG=1,NELS,NVSIZ
          OFFSET=IG-1
-         LFT=1
-         LLT=MIN(NVSIZ,NELS-OFFSET)
+         LAST=MIN(NVSIZ,NELS-OFFSET)
          NFT1=NFT
-         DO I=LFT,LLT
+         DO I=1,LAST
             NG=FXBELM(NFT+1)
             IEL=FXBELM(NFT+2)
             GBUF => ELBUF_TAB(NG)%GBUF
@@ -422,9 +411,9 @@ C
             SIGL(I,6)=ELBUF_TAB(NG)%GBUF%SIG(JJ(6)+IEL)
             NFT=NFT+13
          ENDDO
-         CALL SCHREP(LFT,LLT,SIGL,SIG,RT)
+         CALL SCHREP(LAST,SIGL,SIG,RT)
          NFT=NFT1
-         DO I=LFT,LLT
+         DO I=1,LAST
             NG=FXBELM(NFT+1)   
             IEL=FXBELM(NFT+2)
             NEL = IPARG(2,NG)
@@ -450,14 +439,14 @@ C
       ENDDO
 C
       RETURN
-      END
+      END SUBROUTINE FXBSGMAJ
 Chd|====================================================================
 Chd|  SCHREP                        source/constraints/fxbody/fxbsgmaj.F
 Chd|-- called by -----------
 Chd|        FXBSGMAJ                      source/constraints/fxbody/fxbsgmaj.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SCHREP(JFT, JLT, SIG, SIGL, R)
+      SUBROUTINE SCHREP(NEL, SIG, SIGL, R)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -472,7 +461,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT
+      INTEGER :: NEL
       my_real
      .        SIG(MVSIZ,6), SIGL(MVSIZ,6), R(3,*)
 C-----------------------------------------------
@@ -480,7 +469,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
 C
-      DO I=JFT,JLT
+      DO I=1,NEL
          SIGL(I,1)=
      .      R(1,1)*(R(1,1)*SIG(I,1)+R(2,1)*SIG(I,4)+R(3,1)*SIG(I,6))
      .     +R(2,1)*(R(1,1)*SIG(I,4)+R(2,1)*SIG(I,2)+R(3,1)*SIG(I,5))
@@ -508,6 +497,6 @@ C
       ENDDO
 C
       RETURN
-      END
+      END SUBROUTINE SCHREP
       
                

@@ -111,9 +111,9 @@ C
                LIST(NNP)=I
             ENDIF
          ENDDO
-C-----------------------
-C     PROJECTION SUR LES MODES D'ENSEMBLE
-C-----------------------
+C---------------------------
+C Projection on global modes
+C---------------------------
          DO IM=1,NBME
             IF (IFILE.EQ.0) THEN
                IADM=(IM-1)*NSN*6
@@ -146,9 +146,9 @@ C-----------------------
      .                           VMOD(IADM+3)*MS(II)*FGRV(3)
             ENDDO
          ENDDO
-C-----------------------
-C     PROJECTION SUR LES MODES LOCAUX
-C-----------------------
+C--------------------------
+C Projection on local modes
+C--------------------------
          IIM=0
          DO IM=1,NBML
             IF (IFILE.EQ.0) THEN
@@ -209,4 +209,4 @@ C-----------------------
       ENDDO
 C
       RETURN
-      END
+      END SUBROUTINE FXBGRAV
