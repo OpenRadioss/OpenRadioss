@@ -89,6 +89,8 @@ C-----------------------------------------------------------
       ITY = IPARG(5, NG)
       JHBE = IPARG(23,NG)
       ISMSTR = IPARG(9,NG)
+      LFT = 1
+      LLT = NEL
 C
       IF (JEUL .NE. 0) THEN
 C     Euler : volume does not change
