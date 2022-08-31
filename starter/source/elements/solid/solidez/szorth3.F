@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        SREFSTA3                      source/elements/solid/solide/srefsta3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE STORTH3(JFT,JLT,NEL,
+      SUBROUTINE STORTH3(ISORTH,NEL,
      .                   G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z,GAMA)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -39,23 +39,21 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C----------------------------------------------- 
-      INTEGER JFT, JLT, NEL
-C     REAL
+      INTEGER :: ISORTH, NEL
+C
       my_real
      .   G1X(*),G1Y(*),G1Z(*),
      .   G2X(*),G2Y(*),G2Z(*),G3X(*),G3Y(*),G3Z(*),GAMA(NEL,6)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL
 C-----------------------------------------------
-      DO I=JFT,JLT
-        IF (ISORTH == 1) THEN 
+      IF (ISORTH == 1) THEN 
+        DO I=1,NEL
          G1X(I)=GAMA(I,1)
          G1Y(I)=GAMA(I,2)
          G1Z(I)=GAMA(I,3)
@@ -65,7 +63,9 @@ C-----------------------------------------------
          G3X(I)=G1Y(I)*G2Z(I)-G1Z(I)*G2Y(I)
          G3Y(I)=G1Z(I)*G2X(I)-G1X(I)*G2Z(I)
          G3Z(I)=G1X(I)*G2Y(I)-G1Y(I)*G2X(I)
-        ELSE
+        END DO
+      ELSE
+        DO I=1,NEL
          G1X(I)=ONE
          G1Y(I)=ZERO
          G1Z(I)=ZERO
@@ -74,12 +74,12 @@ C-----------------------------------------------
          G2Z(I)=ZERO
          G3X(I)=ZERO
          G3Y(I)=ZERO
-         G3Z(I)=ONE       
-        ENDIF 
-      ENDDO
+         G3Z(I)=ONE
+        END DO
+      ENDIF 
 C
       RETURN
-      END
+      END SUBROUTINE STORTH3
 Chd|====================================================================
 Chd|  SZORDEF3                      source/elements/solid/solidez/szorth3.F
 Chd|-- called by -----------
@@ -87,7 +87,7 @@ Chd|        SREFSTA3                      source/elements/solid/solide/srefsta3.
 Chd|-- calls ---------------
 Chd|        SROTO3                        source/elements/solid/solidez/szorth3.F
 Chd|====================================================================
-      SUBROUTINE SZORDEF3(JFT,JLT,DXX,DYY,DZZ,D4,D5,D6,
+      SUBROUTINE SZORDEF3(NEL,DXX,DYY,DZZ,D4,D5,D6,
      .                   G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -100,8 +100,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT
-C     REAL
+      INTEGER :: NEL
+C
       my_real
      .   DXX(*),DYY(*),DZZ(*),D4(*),D5(*),D6(*), G1X(*),G1Y(*),G1Z(*),
      .   G2X(*),G2Y(*),G2Z(*),G3X(*),G3Y(*),G3Z(*)
@@ -112,11 +112,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL
+C
       my_real
      .   DEF(6,MVSIZ),DEFN(6,MVSIZ)
 C-----------------------------------------------
-      DO I=JFT,JLT
+      DO I=1,NEL
         DEF(1,I) = DXX(I)
         DEF(2,I) = DYY(I)
         DEF(3,I) = DZZ(I)
@@ -124,9 +124,9 @@ C-----------------------------------------------
         DEF(5,I) = HALF*D5(I)
         DEF(6,I) = HALF*D6(I)
       ENDDO
-      CALL SROTO3(JFT,JLT,DEF,DEFN,
-     .                 G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z)
-      DO I=JFT,JLT
+      CALL SROTO3(NEL,DEF,DEFN,
+     .            G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z)
+      DO I=1,NEL
         DXX(I) = DEFN(1,I)
         DYY(I) = DEFN(2,I)
         DZZ(I) = DEFN(3,I)
@@ -136,15 +136,15 @@ C-----------------------------------------------
       ENDDO
 C
       RETURN
-      END
+      END SUBROUTINE SZORDEF3
 Chd|====================================================================
 Chd|  SROTO3                        source/elements/solid/solidez/szorth3.F
 Chd|-- called by -----------
 Chd|        SZORDEF3                      source/elements/solid/solidez/szorth3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SROTO3(JFT,JLT,SIG,SIGN,
-     .                 G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z)
+      SUBROUTINE SROTO3(NEL,SIG,SIGN,
+     .                  G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -155,8 +155,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT
-C     REAL
+      INTEGER :: NEL
+C
       my_real
      .   SIG(6,*),SIGN(6,*), G1X(*),G1Y(*),G1Z(*),
      .   G2X(*),G2Y(*),G2Z(*),G3X(*),G3Y(*),G3Z(*)
@@ -167,11 +167,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-C     REAL
+C
       my_real
      .   SX,SY,SZ
 C-----------------------------------------------
-      DO I=JFT,JLT
+      DO I=1,NEL
          SX = SIG(1,I)*G1X(I)+SIG(4,I)*G1Y(I)+SIG(6,I)*G1Z(I)
          SY = SIG(4,I)*G1X(I)+SIG(2,I)*G1Y(I)+SIG(5,I)*G1Z(I)
          SZ = SIG(6,I)*G1X(I)+SIG(5,I)*G1Y(I)+SIG(3,I)*G1Z(I)
@@ -190,4 +190,4 @@ C-----------------------------------------------
       ENDDO
 C
       RETURN
-      END
+      END SUBROUTINE SROTO3

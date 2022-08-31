@@ -136,28 +136,29 @@ C-----------------------------------------------
      .   FAC, XT, YT, ZT
 C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF 
-      CHARACTER*nchartitle ,
-     .     TITR
+      CHARACTER*nchartitle , TITR
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C=======================================================================
       GBUF  => ELBUF_STR%GBUF
+      JEUL  = IPARG(11)
       JHBE  = IPARG(23)
       IREP  = IPARG(35)
       JCVT  = IPARG(37)
       IGTYP = IPARG(38)
+      ISORTH= IPARG(42)
       NF1=NFT+1
 C
       NITSAV=NITRS
-C-----Case total strain, rather for computing Eint, stress will also be calculated at T=0 of Engine
-C-----but NITRS=1 (before), for nonlinear elastic, Eint is too approximative
+C Case total strain, rather for computing Eint, stress will also be calculated at initial time in Engine
+C but NITRS=1 (before), for nonlinear elastic, Eint is too approximative
       IF (ISMSTR >= 10) NITRS=10
       IBID   = 0
       DO J=1,6
         II(J) = NEL*(J-1)
       ENDDO
 C--------------------------------------------------
-C REFERENCE METRICS
+C Reference metrics
 C--------------------------------------------------
       IF (NXREF > 0 .AND. JLAG/=0 .AND. JSPH==0)THEN
 
@@ -173,11 +174,10 @@ C         message moved to hm_read_xref
 C         message
           RETURN
         END IF
-
-C--------------------------------------------------
-C     CONNECTIVITES ET NUMERO DE MATERIAU ET PID
-C--------------------------------------------------
-        DO I=LFT,LLT
+C---------------------------------------------------------
+C Element connectivities, material number, property number
+C---------------------------------------------------------
+        DO I=1,NEL
           N=NFT+I
           MAT(I)=IXS(1,N)
           IX1(I)=IXS(2,N)
@@ -192,9 +192,9 @@ C--------------------------------------------------
           NGL(I)=IXS(NIXS,N)
         END DO
 C----------------------------
-C     COORDONNEES
+C Coordinates
 C----------------------------
-        DO I=LFT,LLT
+        DO I=1,NEL
           XT      = XREFS(8,1,NFT+I)
           YT      = XREFS(8,2,NFT+I)
           ZT      = XREFS(8,3,NFT+I)
@@ -223,7 +223,8 @@ C----------------------------
           YR(I,8) = ZERO
           ZR(I,8) = ZERO
         END DO
-C       Repere isoparametrique ,rep convecte, rep orthotrope
+C
+C Isoparametric frame, convected frame, orthotropic frame
         CALL SREPISO3(
      .    XR(1,1) ,XR(1,2) ,XR(1,3) ,XR(1,4) ,
      .    XR(1,5) ,XR(1,6) ,XR(1,7) ,XR(1,8) ,
@@ -244,18 +245,7 @@ C         HEPH
      .      RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
      .      E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  )
         ENDIF
-
-C---------useless to change XR,YR,ZR
-C       Reference en coordonnees locales
-c        CALL SRROTA3(E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z ,
-c     .               XR(1,1) ,XR(1,2) ,XR(1,3) ,XR(1,4) ,
-c     .               XR(1,5) ,XR(1,6) ,XR(1,7) ,XR(1,8) ,
-c     .               YR(1,1) ,YR(1,2) ,YR(1,3) ,YR(1,4) ,
-c     .               YR(1,5) ,YR(1,6) ,YR(1,7) ,YR(1,8) ,
-c     .               ZR(1,1) ,ZR(1,2) ,ZR(1,3) ,ZR(1,4) ,
-c     .               ZR(1,5) ,ZR(1,6) ,ZR(1,7) ,ZR(1,8) )
-c
-C       IF (IGTYP == 6 .OR. IGTYP == 21)THEN
+C
         IF (IGTYP == 6)THEN
           IF(JHBE /=24)THEN
             CALL SRORTH3(JHBE ,GBUF%GAMA ,
@@ -266,11 +256,10 @@ C       IF (IGTYP == 6 .OR. IGTYP == 21)THEN
      .         YR(1,5) ,YR(1,6) ,YR(1,7) ,YR(1,8) ,
      .         ZR(1,1) ,ZR(1,2) ,ZR(1,3) ,ZR(1,4) ,
      .         ZR(1,5) ,ZR(1,6) ,ZR(1,7) ,ZR(1,8) ,NEL)
-          ELSE
           END IF
         END IF
 
-        DO I=LFT,LLT
+        DO I=1,NEL
           XT=X(1,IX8(I))
           YT=X(2,IX8(I))
           ZT=X(3,IX8(I))
@@ -300,7 +289,7 @@ C       IF (IGTYP == 6 .OR. IGTYP == 21)THEN
           Z8(I)=ZERO
         END DO
 C
-C       Repere isoparametrique ,rep convecte, rep orthotrope
+C Isoparametric frame, convected frame, orthotropic frame
         CALL SREPISO3(
      .    X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
      .    Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
@@ -324,7 +313,7 @@ C         HEPH
      .       Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
      .       Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8   )
 
-C       IF (IGTYP == 6 .OR. IGTYP == 21)THEN
+C
         IF (IGTYP == 6)THEN
           IF(JHBE /=24)THEN
             CALL SRORTH3(JHBE ,GBUF%GAMA ,
@@ -332,20 +321,10 @@ C       IF (IGTYP == 6 .OR. IGTYP == 21)THEN
      .         X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
      .         Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
      .         Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8   ,NEL)
-          ELSE
           END IF
         END IF
 C
-C       Retourne la reference en coordonnees globales.
-c        CALL SRROTA3(E1X ,E1Y ,E1Z ,E2X ,E2Y ,E2Z ,E3X ,E3Y ,E3Z ,
-c     .       XR(1,1)   ,XR(1,2)   ,XR(1,3)   ,XR(1,4)   ,
-c     .       XR(1,5)   ,XR(1,6)   ,XR(1,7)   ,XR(1,8)   ,
-c     .       YR(1,1)   ,YR(1,2)   ,YR(1,3)   ,YR(1,4)   ,
-c     .       YR(1,5)   ,YR(1,6)   ,YR(1,7)   ,YR(1,8)   ,
-c     .       ZR(1,1)   ,ZR(1,2)   ,ZR(1,3)   ,ZR(1,4)   ,
-c     .       ZR(1,5)   ,ZR(1,6)   ,ZR(1,7)   ,ZR(1,8)   )
-C
-        DO I=LFT,LLT
+        DO I=1,NEL
           XT      = XREFS(8,1,NFT+I)
           YT      = XREFS(8,2,NFT+I)
           ZT      = XREFS(8,3,NFT+I)
@@ -375,7 +354,7 @@ C
           ZR(I,8) = ZERO
         END DO
         FAC=ONE/FLOAT(NITRS)
-        DO I=LFT,LLT
+        DO I=1,NEL
           XT=X(1,IX8(I))
           YT=X(2,IX8(I))
           ZT=X(3,IX8(I))
@@ -407,10 +386,10 @@ C
 C
         DO ITRS=1,NITRS
 
-          FAC=FLOAT(ITRS)
-C-----Case total strain first in global sys
+         FAC=FLOAT(ITRS)
+C
          IF (ISMSTR >= 10 ) THEN
-C------should be global system
+C Case total strain first in global system
           IF (ISMSTR == 10.OR.ISMSTR == 12) THEN
             CALL SJAC_I(
      .              XR(1,1),XR(1,2),XR(1,3),XR(1,4),XR(1,5),XR(1,6),XR(1,7),XR(1,8),
@@ -419,7 +398,7 @@ C------should be global system
      .              GBUF%JAC_I,NEL)
           END IF
           IF (JHBE == 24) THEN
-           CALL SZREFDERI3(
+           CALL SZREFDERI3(NEL ,JEUL ,
      .        VOLN ,VBID ,GEO  ,IGEO ,
      .        XR(1,1)   ,XR(1,2)   ,XR(1,3)   ,XR(1,4)   ,
      .        XR(1,5)   ,XR(1,6)   ,XR(1,7)   ,XR(1,8)   ,
@@ -433,8 +412,8 @@ C------should be global system
      .        RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TZ   ,
      .        NGL  ,PID  ,VOLU )
           ELSE
-           CALL SREFDERI3(
-     .        VOLN ,VBID ,GEO  ,IGEO ,
+           CALL SREFDERI3(NEL ,JEUL ,
+     .        VOLN ,VBID ,GEO ,IGEO ,
      .        XR(1,1)   ,XR(1,2)   ,XR(1,3)   ,XR(1,4)   ,
      .        XR(1,5)   ,XR(1,6)   ,XR(1,7)   ,XR(1,8)   ,
      .        YR(1,1)   ,YR(1,2)   ,YR(1,3)   ,YR(1,4)   ,
@@ -443,10 +422,10 @@ C------should be global system
      .        ZR(1,5)   ,ZR(1,6)   ,ZR(1,7)   ,ZR(1,8)   ,
      .        RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,NGL  ,PID  ,
      .        PX1  ,PX2  ,PX3  ,PX4  ,PY1  ,PY2  ,PY3  ,PY4  ,
-     .        PZ1  ,PZ2  ,PZ3  ,PZ4, VOLU)
+     .        PZ1  ,PZ2  ,PZ3  ,PZ4  ,VOLU )
           ENDIF
 C         
-          CALL SDEFOT3(
+          CALL SDEFOT3(NEL,
      .     PX1, PX2, PX3, PX4,
      .     PY1, PY2, PY3, PY4,
      .     PZ1, PZ2, PZ3, PZ4,
@@ -454,7 +433,8 @@ C
      .     VY1, VY2, VY3, VY4, VY5, VY6, VY7, VY8, 
      .     VZ1, VZ2, VZ3, VZ4, VZ5, VZ6, VZ7, VZ8, 
      .     MFXX, MFXY, MFXZ, MFYX, MFYY, MFYZ, MFZX, MFZY, MFZZ)
-          DO I=LFT,LLT
+C
+          DO I=1,NEL
             MFXX(I)=FAC*MFXX(I)
             MFYY(I)=FAC*MFYY(I)
             MFZZ(I)=FAC*MFZZ(I)
@@ -466,9 +446,10 @@ C
             MFZY(I)=FAC*MFZY(I)
           ENDDO
 C     
-         END IF !(ISMSTR == 10 ) THEN
-C---ref stat for total strain     
-          DO I=LFT,LLT
+         END IF !(ISMSTR >= 10 )
+C
+C Reference state
+          DO I=1,NEL
             X1(I)=XR(I,1)+FAC*VX1(I)
             Y1(I)=YR(I,1)+FAC*VY1(I)
             Z1(I)=ZR(I,1)+FAC*VZ1(I)
@@ -495,7 +476,7 @@ C---ref stat for total strain
             Z8(I)=ZR(I,8)+FAC*VZ8(I)
           END DO
 C
-C         Repere isoparametrique ,rep convecte, rep orthotrope
+C Isoparametric frame, convected frame, orthotropic frame
           CALL SREPISO3(
      .      X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
      .      Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
@@ -514,7 +495,7 @@ C           HEPH
      .        E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  )
           ENDIF
           IF (ISMSTR == 1 .OR. ISMSTR == 11) THEN
-           DO I=LFT,LLT
+           DO I=1,NEL
             X1(I)=XR(I,1)
             Y1(I)=YR(I,1)
             Z1(I)=ZR(I,1)
@@ -554,17 +535,16 @@ C           HEPH
      .           X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
      .           Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
      .           Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8   ,NEL)
-            ELSE
             END IF
           END IF
          IF (ISMSTR >= 10 ) THEN
-           CALL SORDEFT3(LFT,LLT,MFXX, MFXY, MFXZ, MFYX, MFYY, MFYZ,
+           CALL SORDEFT3(NEL,MFXX, MFXY, MFXZ, MFYX, MFYY, MFYZ,
      .                  MFZX, MFZY, MFZZ,
      .                  E1X, E1Y, E1Z, E2X, E2Y, E2Z, E3X, E3Y, E3Z)
          END IF
 C-----------
           IF (JHBE == 24) THEN
-           CALL SZREFDERI3(
+           CALL SZREFDERI3(NEL ,JEUL ,
      .        VOLN ,VBID ,GEO  ,IGEO ,
      .        X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
      .        Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
@@ -575,17 +555,17 @@ C-----------
      .        RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TZ   ,
      .        NGL  ,PID  ,VOLU )
           ELSE
-           CALL SREFDERI3(
+           CALL SREFDERI3(NEL  ,JEUL ,
      .        VOLN ,VBID ,GEO  ,IGEO ,
      .        X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
      .        Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
      .        Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8   ,
      .        RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,NGL  ,PID  ,
      .        PX1  ,PX2  ,PX3  ,PX4  ,PY1  ,PY2  ,PY3  ,PY4  ,
-     .        PZ1  ,PZ2  ,PZ3  ,PZ4, VOLU)
+     .        PZ1  ,PZ2  ,PZ3  ,PZ4  ,VOLU )
           ENDIF
 C-----------
-          DO I=LFT,LLT
+          DO I=1,NEL
             VXL(I,1)=VX1(I)
             VYL(I,1)=VY1(I)
             VZL(I,1)=VZ1(I)
@@ -632,21 +612,20 @@ C-----------
      .      DXX, DXY, DXZ, DYX, DYY, DYZ, DZX, DZY, DZZ, D4, D5, D6,
      .      WXX, WYY, WZZ)
 C-----------
-C         IF (IGTYP == 6 .OR. IGTYP == 21)THEN
+C
           IF (IGTYP == 6)THEN
-            IF(JHBE /=24)THEN
-            ELSE
-              CALL STORTH3(LFT,LLT,NEL,
+            IF(JHBE ==24)THEN
+              CALL STORTH3(ISORTH,NEL,
      .              G1X, G1Y, G1Z, G2X, G2Y, G2Z, G3X, G3Y, G3Z,
      .              GBUF%GAMA)
-              CALL SZORDEF3(LFT,LLT,DXX,DYY,DZZ,D4,D5,D6,
+              CALL SZORDEF3(NEL,DXX,DYY,DZZ,D4,D5,D6,
      .              G1X, G1Y, G1Z, G2X, G2Y, G2Z, G3X, G3Y, G3Z)
             END IF
           END IF
 C-----------
           CALL SRHO3(PM, GBUF%VOL, GBUF%RHO, GBUF%EINT, DXX,
      .               DYY, DZZ, VOLN, DVOL, MAT)
-          DO I=LFT,LLT
+          DO I=1,NEL
             S1(I) = GBUF%SIG(II(1) + I)
             S2(I) = GBUF%SIG(II(2) + I)
             S3(I) = GBUF%SIG(II(3) + I)
@@ -666,20 +645,20 @@ C-----------
      B             S2     ,S3       ,S4     ,S5      ,S6     ,
      9             DXX    ,DYY      ,DZZ    ,D4      ,D5     ,
      A             D6     ,WXX      ,WYY    ,WZZ     )
-        END DO
-      END IF
+        END DO ! ITRS=1,NITRS
+      END IF   ! NXREF > 0 .AND. JLAG/=0 .AND. JSPH==0
 C ======================================================================
       NITRS=NITSAV
       RETURN
       END SUBROUTINE SREFSTA3
-c
+C
 Chd|====================================================================
 Chd|  SDEFOT3                       source/elements/solid/solide/srefsta3.F
 Chd|-- called by -----------
 Chd|        SREFSTA3                      source/elements/solid/solide/srefsta3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SDEFOT3(
+      SUBROUTINE SDEFOT3(NEL,
      .   PX1, PX2, PX3, PX4,
      .   PY1, PY2, PY3, PY4,
      .   PZ1, PZ2, PZ3, PZ4,
@@ -698,10 +677,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
+      INTEGER :: NEL
       my_real
      .   VX1(*), VX2(*), VX3(*), VX4(*), VX5(*), VX6(*), VX7(*), VX8(*),
      .   VY1(*), VY2(*), VY3(*), VY4(*), VY5(*), VY6(*), VY7(*), VY8(*),
@@ -718,14 +697,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  I, J
+      INTEGER  I
       my_real
      .   VX17(MVSIZ), VY17(MVSIZ), VZ17(MVSIZ),
      .   VX28(MVSIZ), VY28(MVSIZ), VZ28(MVSIZ),
      .   VX35(MVSIZ), VY35(MVSIZ), VZ35(MVSIZ),
      .   VX46(MVSIZ), VY46(MVSIZ), VZ46(MVSIZ)
 C-----------------------------------------------
-      DO I=LFT,LLT
+      DO I=1,NEL
        VX17(I)=VX1(I)-VX7(I)
        VX28(I)=VX2(I)-VX8(I)
        VX35(I)=VX3(I)-VX5(I)
@@ -741,7 +720,7 @@ C-----------------------------------------------
       ENDDO
 
 C                                                                     12
-      DO I=LFT,LLT
+      DO I=1,NEL
         DXX(I)=PX1(I)*VX17(I)+PX2(I)*VX28(I)+
      .         PX3(I)*VX35(I)+PX4(I)*VX46(I)
         DYY(I)=PY1(I)*VY17(I)+PY2(I)*VY28(I)+
@@ -763,15 +742,15 @@ C                                                                     12
       ENDDO
 C-----------
       RETURN
-      END
+      END SUBROUTINE SDEFOT3
 Chd|====================================================================
 Chd|  SORDEFT3                      source/elements/solid/solide/srefsta3.F
 Chd|-- called by -----------
 Chd|        SREFSTA3                      source/elements/solid/solide/srefsta3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SORDEFT3(JFT,JLT,MXX, MXY, MXZ,  
-     .                     MYX, MYY, MYZ,MZX, MZY, MZZ,
+      SUBROUTINE SORDEFT3( NEL, MXX, MXY, MXZ,  
+     .                     MYX, MYY, MYZ, MZX, MZY, MZZ,
      .                     G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -784,7 +763,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT
+      INTEGER :: NEL
       my_real
      .   MXX(*), MXY(*), MXZ(*),MYX(*), MYY(*), MYZ(*),  
      .   MZX(*), MZY(*), MZZ(*),G1X(*),G1Y(*),G1Z(*),
@@ -799,7 +778,7 @@ C-----------------------------------------------
       my_real
      .   SX,SY,SZ,FXX,FXY,FXZ,FYX,FYY,FYZ,FZX,FZY,FZZ
 C-----------------------------------------------
-      DO I=JFT,JLT
+      DO I=1,NEL
          SX = MXX(I)*G1X(I)+MYX(I)*G1Y(I)+MZX(I)*G1Z(I)
          SY = MXY(I)*G1X(I)+MYY(I)*G1Y(I)+MZY(I)*G1Z(I)
          SZ = MXZ(I)*G1X(I)+MYZ(I)*G1Y(I)+MZZ(I)*G1Z(I)
@@ -830,7 +809,7 @@ C-----------------------------------------------
       ENDDO
 C-----------
       RETURN
-      END
+      END SUBROUTINE SORDEFT3
 Chd|====================================================================
 Chd|  SREFDERI3                     source/elements/solid/solide/srefsta3.F
 Chd|-- called by -----------
@@ -839,12 +818,12 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE SREFDERI3(
+      SUBROUTINE SREFDERI3(NEL ,JEUL ,
      .              VOL  ,VEUL ,GEO  ,IGEO , 
      .              X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
      .              Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
      .              Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8   ,
-     .              JJ1  ,JJ2  ,JJ3  ,JJ4  ,JJ5  ,JJ6  ,NGL  ,NGEO ,
+     .              JAC1 ,JAC2 ,JAC3 ,JAC4 ,JAC5 ,JAC6 ,NGL  ,NGEO ,
      .              PX1  ,PX2  ,PX3  ,PX4  ,PY1  ,PY2  ,PY3  ,PY4  ,
      .              PZ1  ,PZ2  ,PZ3  ,PZ4, DET)
 C-----------------------------------------------
@@ -852,14 +831,10 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
 C-----------------------------------------------
-C     SOUS PROGRAMME DERIVED FROM SDERI3
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -867,23 +842,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"
-#include      "com06_c.inc"
 #include      "param_c.inc"
 #include      "scr03_c.inc"
-#include      "units_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IGEO(NPROPGI,*),NGL(*),NGEO(*)
-C     REAL
+      INTEGER :: NEL,JEUL,IGEO(NPROPGI,*),NGL(*),NGEO(*)
+C
       my_real
      .   VOL(*), VEUL(LVEUL,*),GEO(NPROPG,*),
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*),
      .   X7(*), X8(*), Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*),
      .   Y8(*), Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*),
-     .   JJ1(*), JJ2(*), JJ3(*), JJ4(*), JJ5(*), JJ6(*),
+     .   JAC1(*), JAC2(*), JAC3(*), JAC4(*), JAC5(*), JAC6(*),
      .   PX1(*), PX2(*), PX3(*), PX4(*),  
      .   PY1(*), PY2(*), PY3(*), PY4(*),  
      .   PZ1(*), PZ2(*), PZ3(*), PZ4(*), DET(*)
@@ -899,24 +870,24 @@ C-----------------------------------------------
      .   Y5_COPY(MVSIZ), Y6_COPY(MVSIZ), Y7_COPY(MVSIZ), Y8_COPY(MVSIZ),
      .   Z1_COPY(MVSIZ), Z2_COPY(MVSIZ), Z3_COPY(MVSIZ), Z4_COPY(MVSIZ),
      .   Z5_COPY(MVSIZ), Z6_COPY(MVSIZ), Z7_COPY(MVSIZ), Z8_COPY(MVSIZ)
-C     REAL
+C
       my_real
-     .   JJ7(MVSIZ), JJ8(MVSIZ) , JJ9(MVSIZ),
-     .   A17(MVSIZ) , A28(MVSIZ) ,
-     .   B17(MVSIZ) , B28(MVSIZ) ,
-     .   C17(MVSIZ) , C28(MVSIZ) 
+     .   JAC7(MVSIZ), JAC8(MVSIZ), JAC9(MVSIZ),
+     .   X_17_46(MVSIZ) , X_28_35(MVSIZ) ,
+     .   Y_17_46(MVSIZ) , Y_28_35(MVSIZ) ,
+     .   Z_17_46(MVSIZ) , Z_28_35(MVSIZ) 
       my_real
      .   DETT(MVSIZ), 
-     .   INV_JAC1(MVSIZ), INV_JAC2(MVSIZ), INV_JAC3(MVSIZ), 
-     .   INV_JAC4(MVSIZ), INV_JAC5(MVSIZ), INV_JAC6(MVSIZ),
-     .   INV_JAC7(MVSIZ), INV_JAC8(MVSIZ), INV_JAC9(MVSIZ),
+     .   JACI1(MVSIZ), JACI2(MVSIZ), JACI3(MVSIZ), 
+     .   JACI4(MVSIZ), JACI5(MVSIZ), JACI6(MVSIZ),
+     .   JACI7(MVSIZ), JACI8(MVSIZ), JACI9(MVSIZ),
      .   X17(MVSIZ), X28(MVSIZ), X35(MVSIZ), X46(MVSIZ),
      .   Y17(MVSIZ), Y28(MVSIZ), Y35(MVSIZ), Y46(MVSIZ),
      .   Z17(MVSIZ), Z28(MVSIZ), Z35(MVSIZ), Z46(MVSIZ),
      .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ),
-     .   JJ12(MVSIZ),   JJ45(MVSIZ),   JJ78(MVSIZ)
+     .   JACI12(MVSIZ),   JACI45(MVSIZ),   JACI78(MVSIZ)
 C=======================================================================
-      DO I=LFT,LLT
+      DO I=1,NEL
         X1_COPY(I)=X1(I)
         X2_COPY(I)=X2(I)
         X3_COPY(I)=X3(I)
@@ -945,7 +916,7 @@ C
         Z8_COPY(I)=Z8(I)
       ENDDO     
 
-      DO I=LFT,LLT
+      DO I=1,NEL
         X17(I)=X7_COPY(I)-X1_COPY(I)
         X28(I)=X8_COPY(I)-X2_COPY(I)
         X35(I)=X5_COPY(I)-X3_COPY(I)
@@ -960,47 +931,46 @@ C
         Z46(I)=Z6_COPY(I)-Z4_COPY(I)
       ENDDO
 C
-      DO I=LFT,LLT               
-        JJ1(I)=X17(I)+X28(I)-X35(I)-X46(I)
-        JJ2(I)=Y17(I)+Y28(I)-Y35(I)-Y46(I)
-        JJ3(I)=Z17(I)+Z28(I)-Z35(I)-Z46(I)
-        A17(I)=X17(I)+X46(I)
-        A28(I)=X28(I)+X35(I)
-        B17(I)=Y17(I)+Y46(I)
-        B28(I)=Y28(I)+Y35(I)
-        C17(I)=Z17(I)+Z46(I)
-        C28(I)=Z28(I)+Z35(I)
-      ENDDO
-         
-      DO I=LFT,LLT
-        JJ4(I)=A17(I)+A28(I)
-        JJ5(I)=B17(I)+B28(I)
-        JJ6(I)=C17(I)+C28(I)
-        JJ7(I)=A17(I)-A28(I)
-        JJ8(I)=B17(I)-B28(I)
-        JJ9(I)=C17(I)-C28(I)
+C  Jacobian matrix JAC()
+      DO I=1,NEL               
+        JAC1(I)=X17(I)+X28(I)-X35(I)-X46(I)
+        JAC2(I)=Y17(I)+Y28(I)-Y35(I)-Y46(I)
+        JAC3(I)=Z17(I)+Z28(I)-Z35(I)-Z46(I)
+        X_17_46(I)=X17(I)+X46(I)
+        X_28_35(I)=X28(I)+X35(I)
+        Y_17_46(I)=Y17(I)+Y46(I)
+        Y_28_35(I)=Y28(I)+Y35(I)
+        Z_17_46(I)=Z17(I)+Z46(I)
+        Z_28_35(I)=Z28(I)+Z35(I)
       ENDDO
 C
-C     JACOBIAN
-C
-      DO I=LFT,LLT
-        JAC_59_68(I)=JJ5(I)*JJ9(I)-JJ6(I)*JJ8(I)
-        JAC_67_49(I)=JJ6(I)*JJ7(I)-JJ4(I)*JJ9(I)
-        JAC_48_57(I)=JJ4(I)*JJ8(I)-JJ5(I)*JJ7(I)
+      DO I=1,NEL
+        JAC4(I)=X_17_46(I)+X_28_35(I)
+        JAC5(I)=Y_17_46(I)+Y_28_35(I)
+        JAC6(I)=Z_17_46(I)+Z_28_35(I)
+        JAC7(I)=X_17_46(I)-X_28_35(I)
+        JAC8(I)=Y_17_46(I)-Y_28_35(I)
+        JAC9(I)=Z_17_46(I)-Z_28_35(I)
       ENDDO
 C
-      DO I=LFT,LLT
-       DET(I)=ONE_OVER_64*(JJ1(I)*JAC_59_68(I)+JJ2(I)*JAC_67_49(I)+JJ3(I)*JAC_48_57(I))
+      DO I=1,NEL
+        JAC_59_68(I)=JAC5(I)*JAC9(I)-JAC6(I)*JAC8(I)
+        JAC_67_49(I)=JAC6(I)*JAC7(I)-JAC4(I)*JAC9(I)
+        JAC_48_57(I)=JAC4(I)*JAC8(I)-JAC5(I)*JAC7(I)
+      ENDDO
+C
+      DO I=1,NEL
+       DET(I)=ONE_OVER_64*(JAC1(I)*JAC_59_68(I)+JAC2(I)*JAC_67_49(I)+JAC3(I)*JAC_48_57(I))
        VOL(I)=DET(I)
       ENDDO     
 C
       IF(JEUL /= 0)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           VEUL(32,I) = VOL(I)
         ENDDO
       ENDIF             
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF (DET(I) > ZERO) CYCLE
         IF (IGEO(11,NGEO(I)).NE.0 .AND. IGEO(11,NGEO(I)).NE.43) THEN
           CALL ANCMSG(MSGID=245,
@@ -1017,56 +987,55 @@ C
 C
       IF( JEUL==0 .AND. NXREF==0) RETURN
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         DETT(I)=ONE_OVER_64/MAX(DET(I),EM20)
       ENDDO
 C
-C     INVERSE DE LA MATRICE JACOBIENNE
-C
-      DO I=LFT,LLT
-        INV_JAC1(I)=DETT(I)*JAC_59_68(I)
-        INV_JAC4(I)=DETT(I)*JAC_67_49(I)
-        INV_JAC7(I)=DETT(I)*JAC_48_57(I)
-        INV_JAC2(I)=DETT(I)*(-JJ2(I)*JJ9(I)+JJ3(I)*JJ8(I))
-        INV_JAC5(I)=DETT(I)*( JJ1(I)*JJ9(I)-JJ3(I)*JJ7(I))
-        INV_JAC8(I)=DETT(I)*(-JJ1(I)*JJ8(I)+JJ2(I)*JJ7(I))
-        INV_JAC3(I)=DETT(I)*( JJ2(I)*JJ6(I)-JJ3(I)*JJ5(I))
-        INV_JAC6(I)=DETT(I)*(-JJ1(I)*JJ6(I)+JJ3(I)*JJ4(I))
-        INV_JAC9(I)=DETT(I)*( JJ1(I)*JJ5(I)-JJ2(I)*JJ4(I))
+C Jacobian matrix inverse JACI()
+      DO I=1,NEL
+        JACI1(I)=DETT(I)*JAC_59_68(I)
+        JACI4(I)=DETT(I)*JAC_67_49(I)
+        JACI7(I)=DETT(I)*JAC_48_57(I)
+        JACI2(I)=DETT(I)*(-JAC2(I)*JAC9(I)+JAC3(I)*JAC8(I))
+        JACI5(I)=DETT(I)*( JAC1(I)*JAC9(I)-JAC3(I)*JAC7(I))
+        JACI8(I)=DETT(I)*(-JAC1(I)*JAC8(I)+JAC2(I)*JAC7(I))
+        JACI3(I)=DETT(I)*( JAC2(I)*JAC6(I)-JAC3(I)*JAC5(I))
+        JACI6(I)=DETT(I)*(-JAC1(I)*JAC6(I)+JAC3(I)*JAC4(I))
+        JACI9(I)=DETT(I)*( JAC1(I)*JAC5(I)-JAC2(I)*JAC4(I))
       ENDDO
 C
-      DO I=LFT,LLT
-        JJ12(I)=INV_JAC1(I)-INV_JAC2(I)
-        JJ45(I)=INV_JAC4(I)-INV_JAC5(I)
-        JJ78(I)=INV_JAC7(I)-INV_JAC8(I)
+      DO I=1,NEL
+        JACI12(I)=JACI1(I)-JACI2(I)
+        JACI45(I)=JACI4(I)-JACI5(I)
+        JACI78(I)=JACI7(I)-JACI8(I)
       ENDDO
 
-      DO I=LFT,LLT
-        PX3(I)= JJ12(I)+INV_JAC3(I)
-        PY3(I)= JJ45(I)+INV_JAC6(I)
-        PZ3(I)= JJ78(I)+INV_JAC9(I)
-        PX4(I)= JJ12(I)-INV_JAC3(I)
-        PY4(I)= JJ45(I)-INV_JAC6(I)
-        PZ4(I)= JJ78(I)-INV_JAC9(I)
+      DO I=1,NEL
+        PX3(I)= JACI12(I)+JACI3(I)
+        PY3(I)= JACI45(I)+JACI6(I)
+        PZ3(I)= JACI78(I)+JACI9(I)
+        PX4(I)= JACI12(I)-JACI3(I)
+        PY4(I)= JACI45(I)-JACI6(I)
+        PZ4(I)= JACI78(I)-JACI9(I)
       ENDDO
 
-      DO I=LFT,LLT
-        JJ12(I)=INV_JAC1(I)+INV_JAC2(I)
-        JJ45(I)=INV_JAC4(I)+INV_JAC5(I)
-        JJ78(I)=INV_JAC7(I)+INV_JAC8(I)
+      DO I=1,NEL
+        JACI12(I)=JACI1(I)+JACI2(I)
+        JACI45(I)=JACI4(I)+JACI5(I)
+        JACI78(I)=JACI7(I)+JACI8(I)
       ENDDO
 
-      DO I=LFT,LLT
-        PX1(I)=-JJ12(I)-INV_JAC3(I)
-        PY1(I)=-JJ45(I)-INV_JAC6(I)
-        PZ1(I)=-JJ78(I)-INV_JAC9(I)
-        PX2(I)=-JJ12(I)+INV_JAC3(I)
-        PY2(I)=-JJ45(I)+INV_JAC6(I)
-        PZ2(I)=-JJ78(I)+INV_JAC9(I)
+      DO I=1,NEL
+        PX1(I)=-JACI12(I)-JACI3(I)
+        PY1(I)=-JACI45(I)-JACI6(I)
+        PZ1(I)=-JACI78(I)-JACI9(I)
+        PX2(I)=-JACI12(I)+JACI3(I)
+        PY2(I)=-JACI45(I)+JACI6(I)
+        PZ2(I)=-JACI78(I)+JACI9(I)
       ENDDO
 C---
       IF(JEUL /= 0)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           VEUL(1,I) = PX1(I)
           VEUL(2,I) = PX2(I)
           VEUL(3,I) = PX3(I)
@@ -1080,15 +1049,15 @@ C---
           VEUL(11,I)= PZ3(I)
           VEUL(12,I)= PZ4(I)
         END DO
-        IF (IGEO(11,NGEO(LFT)) == 15) THEN
-          DO I=LFT,LLT
+        IF (IGEO(11,NGEO(1)) == 15) THEN
+          DO I=1,NEL
             VOL(I)=VOL(I)*GEO(1,NGEO(I))      
           END DO              
         END IF
       END IF
 C-----------
       RETURN
-      END
+      END SUBROUTINE SREFDERI3
 Chd|====================================================================
 Chd|  SZREFDERI3                    source/elements/solid/solide/srefsta3.F
 Chd|-- called by -----------
@@ -1097,7 +1066,7 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE SZREFDERI3(
+      SUBROUTINE SZREFDERI3(NEL,JEUL ,
      .              VOL  ,VEUL ,GEO  ,IGEO , 
      .              X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   , 
      .              Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   , 
@@ -1105,16 +1074,16 @@ Chd|====================================================================
      .              PX1  ,PX2  ,PX3  ,PX4  ,
      .              PY1  ,PY2  ,PY3  ,PY4  ,
      .              PZ1  ,PZ2  ,PZ3  ,PZ4  , 
-     .              JJ1  ,JJ2  ,JJ3  ,JJ4  ,JJ5  ,JJ6  ,JJ9  ,
+     .              JAC1 ,JAC2 ,JAC3 ,JAC4 ,JAC5 ,JAC6 ,JAC9 ,
      .              NGL  ,NGEO ,DET  )
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -1122,18 +1091,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com06_c.inc"
 #include      "param_c.inc"
 #include      "scr03_c.inc"
-#include      "units_c.inc"
-#include      "vect01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IGEO(NPROPGI,*),NGL(*),NGEO(*)
+      INTEGER :: NEL,JEUL,IGEO(NPROPGI,*),NGL(*),NGEO(*)
       my_real
      .   VOL(*), VEUL(LVEUL,*),GEO(NPROPG,*),
-     .   JJ1(*), JJ2(*), JJ3(*), JJ4(*), JJ5(*), JJ6(*), JJ9(*),
+     .   JAC1(*), JAC2(*), JAC3(*), JAC4(*), JAC5(*), JAC6(*), JAC9(*),
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*), 
      .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*), 
      .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*),
@@ -1143,7 +1109,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J
+      INTEGER I
       
       DOUBLE PRECISION
      .   X1_COPY(MVSIZ), X2_COPY(MVSIZ), X3_COPY(MVSIZ), X4_COPY(MVSIZ),
@@ -1154,17 +1120,18 @@ C-----------------------------------------------
      .   Z5_COPY(MVSIZ), Z6_COPY(MVSIZ), Z7_COPY(MVSIZ), Z8_COPY(MVSIZ)
            
       my_real
-     .   DETT(MVSIZ),  JJ7(MVSIZ), JJ8(MVSIZ) , 
-     .   INV_JAC1(MVSIZ), INV_JAC2(MVSIZ), INV_JAC3(MVSIZ), INV_JAC4(MVSIZ), 
-     .   INV_JAC5(MVSIZ),INV_JAC6(MVSIZ),INV_JAC7(MVSIZ), INV_JAC8(MVSIZ), INV_JAC9(MVSIZ), 
-     .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ), JJ12(MVSIZ), 
-     .   JJ45(MVSIZ),JJ78(MVSIZ),A17(MVSIZ),A28(MVSIZ),B17(MVSIZ),
-     .   B28(MVSIZ),C17(MVSIZ),C28(MVSIZ), 
+     .   DETT(MVSIZ) , JAC7(MVSIZ) , JAC8(MVSIZ) , 
+     .   JACI1(MVSIZ), JACI2(MVSIZ), JACI3(MVSIZ), JACI4(MVSIZ), 
+     .   JACI5(MVSIZ), JACI6(MVSIZ), JACI7(MVSIZ), JACI8(MVSIZ), JACI9(MVSIZ), 
+     .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ), 
+     .   JACI12(MVSIZ), JACI45(MVSIZ), JACI78(MVSIZ),
+     .   X_17_46(MVSIZ),X_28_35(MVSIZ),Y_17_46(MVSIZ),
+     .   Y_28_35(MVSIZ),Z_17_46(MVSIZ),Z_28_35(MVSIZ), 
      .   X17(MVSIZ) , X28(MVSIZ) , X35(MVSIZ) , X46(MVSIZ),
      .   Y17(MVSIZ) , Y28(MVSIZ) , Y35(MVSIZ) , Y46(MVSIZ),
      .   Z17(MVSIZ) , Z28(MVSIZ) , Z35(MVSIZ) , Z46(MVSIZ)
 C=======================================================================
-      DO I=LFT,LLT
+      DO I=1,NEL
         X1_COPY(I)=X1(I)
         X2_COPY(I)=X2(I)
         X3_COPY(I)=X3(I)
@@ -1193,7 +1160,7 @@ C
         Z8_COPY(I)=Z8(I)
       ENDDO     
       
-      DO I=LFT,LLT
+      DO I=1,NEL
         X17(I)=X7_COPY(I)-X1_COPY(I)
         X28(I)=X8_COPY(I)-X2_COPY(I)
         X35(I)=X5_COPY(I)-X3_COPY(I)
@@ -1208,41 +1175,41 @@ C
         Z46(I)=Z6_COPY(I)-Z4_COPY(I)
       ENDDO
 C
-      DO I=LFT,LLT
-        JJ4(I)=X17(I)+X28(I)-X35(I)-X46(I)
-        JJ5(I)=Y17(I)+Y28(I)-Y35(I)-Y46(I)
-        JJ6(I)=Z17(I)+Z28(I)-Z35(I)-Z46(I)
-        A17(I)=X17(I)+X46(I)
-        A28(I)=X28(I)+X35(I)
-        B17(I)=Y17(I)+Y46(I)
-        B28(I)=Y28(I)+Y35(I)
-        C17(I)=Z17(I)+Z46(I)
-        C28(I)=Z28(I)+Z35(I)
+C Jacobian matrix
+      DO I=1,NEL
+        JAC4(I)=X17(I)+X28(I)-X35(I)-X46(I)
+        JAC5(I)=Y17(I)+Y28(I)-Y35(I)-Y46(I)
+        JAC6(I)=Z17(I)+Z28(I)-Z35(I)-Z46(I)
+        X_17_46(I)=X17(I)+X46(I)
+        X_28_35(I)=X28(I)+X35(I)
+        Y_17_46(I)=Y17(I)+Y46(I)
+        Y_28_35(I)=Y28(I)+Y35(I)
+        Z_17_46(I)=Z17(I)+Z46(I)
+        Z_28_35(I)=Z28(I)+Z35(I)
       ENDDO
 C
-      DO I=LFT,LLT
-        JJ7(I)=A17(I)+A28(I)
-        JJ8(I)=B17(I)+B28(I)
-        JJ9(I)=C17(I)+C28(I)
-        JJ1(I)=A17(I)-A28(I)
-        JJ2(I)=B17(I)-B28(I)
-        JJ3(I)=C17(I)-C28(I)
-      ENDDO
-C
-C
-      DO I=LFT,LLT
-        JAC_59_68(I)=JJ5(I)*JJ9(I)-JJ6(I)*JJ8(I)
-        JAC_67_49(I)=JJ6(I)*JJ7(I)-JJ4(I)*JJ9(I)
-        JAC_48_57(I)=JJ4(I)*JJ8(I)-JJ5(I)*JJ7(I)
+      DO I=1,NEL
+        JAC7(I)=X_17_46(I)+X_28_35(I)
+        JAC8(I)=Y_17_46(I)+Y_28_35(I)
+        JAC9(I)=Z_17_46(I)+Z_28_35(I)
+        JAC1(I)=X_17_46(I)-X_28_35(I)
+        JAC2(I)=Y_17_46(I)-Y_28_35(I)
+        JAC3(I)=Z_17_46(I)-Z_28_35(I)
       ENDDO
 C
 C
-      DO I=LFT,LLT
-       DET(I)=ONE_OVER_64*(JJ1(I)*JAC_59_68(I)+JJ2(I)*JAC_67_49(I)+JJ3(I)*JAC_48_57(I))
+      DO I=1,NEL
+        JAC_59_68(I)=JAC5(I)*JAC9(I)-JAC6(I)*JAC8(I)
+        JAC_67_49(I)=JAC6(I)*JAC7(I)-JAC4(I)*JAC9(I)
+        JAC_48_57(I)=JAC4(I)*JAC8(I)-JAC5(I)*JAC7(I)
+      ENDDO
+C
+      DO I=1,NEL
+       DET(I)=ONE_OVER_64*(JAC1(I)*JAC_59_68(I)+JAC2(I)*JAC_67_49(I)+JAC3(I)*JAC_48_57(I))
        VOL(I)=DET(I)
       ENDDO
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         IF(DET(I) <= ZERO) THEN
           CALL ANCMSG(MSGID=245,
      .                MSGTYPE=MSGERROR,
@@ -1253,56 +1220,55 @@ C
 C
       IF (JEUL == 0 .AND. NXREF == 0) RETURN
 C
-      DO I=LFT,LLT
+      DO I=1,NEL
         DETT(I)=ONE_OVER_64/DET(I)
       ENDDO
 C
-C     INVERSE DE LA MATRICE JACOBIENNE
-C
-      DO I=LFT,LLT
-        INV_JAC1(I)=DETT(I)*JAC_59_68(I)
-        INV_JAC4(I)=DETT(I)*JAC_67_49(I)
-        INV_JAC7(I)=DETT(I)*JAC_48_57(I)
-        INV_JAC2(I)=DETT(I)*(-JJ2(I)*JJ9(I)+JJ3(I)*JJ8(I))
-        INV_JAC5(I)=DETT(I)*( JJ1(I)*JJ9(I)-JJ3(I)*JJ7(I))
-        INV_JAC8(I)=DETT(I)*(-JJ1(I)*JJ8(I)+JJ2(I)*JJ7(I))
-        INV_JAC3(I)=DETT(I)*( JJ2(I)*JJ6(I)-JJ3(I)*JJ5(I))
-        INV_JAC6(I)=DETT(I)*(-JJ1(I)*JJ6(I)+JJ3(I)*JJ4(I))
-        INV_JAC9(I)=DETT(I)*( JJ1(I)*JJ5(I)-JJ2(I)*JJ4(I))
+C Jacobian matric inverse
+      DO I=1,NEL
+        JACI1(I)=DETT(I)*JAC_59_68(I)
+        JACI4(I)=DETT(I)*JAC_67_49(I)
+        JACI7(I)=DETT(I)*JAC_48_57(I)
+        JACI2(I)=DETT(I)*(-JAC2(I)*JAC9(I)+JAC3(I)*JAC8(I))
+        JACI5(I)=DETT(I)*( JAC1(I)*JAC9(I)-JAC3(I)*JAC7(I))
+        JACI8(I)=DETT(I)*(-JAC1(I)*JAC8(I)+JAC2(I)*JAC7(I))
+        JACI3(I)=DETT(I)*( JAC2(I)*JAC6(I)-JAC3(I)*JAC5(I))
+        JACI6(I)=DETT(I)*(-JAC1(I)*JAC6(I)+JAC3(I)*JAC4(I))
+        JACI9(I)=DETT(I)*( JAC1(I)*JAC5(I)-JAC2(I)*JAC4(I))
       ENDDO
 C
-      DO I=LFT,LLT
-        JJ12(I)=INV_JAC1(I)-INV_JAC2(I)
-        JJ45(I)=INV_JAC4(I)-INV_JAC5(I)
-        JJ78(I)=INV_JAC7(I)-INV_JAC8(I)
+      DO I=1,NEL
+        JACI12(I)=JACI1(I)-JACI2(I)
+        JACI45(I)=JACI4(I)-JACI5(I)
+        JACI78(I)=JACI7(I)-JACI8(I)
       ENDDO
 C
-      DO I=LFT,LLT
-        PX2(I)= JJ12(I)-INV_JAC3(I)
-        PY2(I)= JJ45(I)-INV_JAC6(I)
-        PZ2(I)= JJ78(I)-INV_JAC9(I)
-        PX4(I)=-JJ12(I)-INV_JAC3(I)
-        PY4(I)=-JJ45(I)-INV_JAC6(I)
-        PZ4(I)=-JJ78(I)-INV_JAC9(I)
+      DO I=1,NEL
+        PX2(I)= JACI12(I)-JACI3(I)
+        PY2(I)= JACI45(I)-JACI6(I)
+        PZ2(I)= JACI78(I)-JACI9(I)
+        PX4(I)=-JACI12(I)-JACI3(I)
+        PY4(I)=-JACI45(I)-JACI6(I)
+        PZ4(I)=-JACI78(I)-JACI9(I)
       ENDDO
 C
-      DO I=LFT,LLT
-        JJ12(I)=INV_JAC1(I)+INV_JAC2(I)
-        JJ45(I)=INV_JAC4(I)+INV_JAC5(I)
-        JJ78(I)=INV_JAC7(I)+INV_JAC8(I)
+      DO I=1,NEL
+        JACI12(I)=JACI1(I)+JACI2(I)
+        JACI45(I)=JACI4(I)+JACI5(I)
+        JACI78(I)=JACI7(I)+JACI8(I)
       ENDDO
 C
-      DO I=LFT,LLT
-        PX1(I)=-JJ12(I)-INV_JAC3(I)
-        PY1(I)=-JJ45(I)-INV_JAC6(I)
-        PZ1(I)=-JJ78(I)-INV_JAC9(I)
-        PX3(I)=JJ12(I)-INV_JAC3(I)
-        PY3(I)=JJ45(I)-INV_JAC6(I)
-        PZ3(I)=JJ78(I)-INV_JAC9(I)
+      DO I=1,NEL
+        PX1(I)=-JACI12(I)-JACI3(I)
+        PY1(I)=-JACI45(I)-JACI6(I)
+        PZ1(I)=-JACI78(I)-JACI9(I)
+        PX3(I)=JACI12(I)-JACI3(I)
+        PY3(I)=JACI45(I)-JACI6(I)
+        PZ3(I)=JACI78(I)-JACI9(I)
       ENDDO
 C
       IF(JEUL /= 0)THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           VEUL(3,I) = PX3(I)
           VEUL(4,I) = PY3(I)
           VEUL(7,I) = PZ3(I)
@@ -1316,12 +1282,12 @@ C
           VEUL(9,I) = PY2(I)
           VEUL(10,I)= PZ2(I)
         END DO
-        IF (IGEO(11,NGEO(LFT)) == 15) THEN
-          DO I=LFT,LLT
+        IF (IGEO(11,NGEO(1)) == 15) THEN
+          DO I=1,NEL
             VOL(I)=VOL(I)*GEO(1,NGEO(I))      
           ENDDO              
         ENDIF
       ENDIF
 C-----------
       RETURN
-      END
+      END SUBROUTINE SZREFDERI3
