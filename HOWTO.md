@@ -39,6 +39,7 @@ Install as sudo or root
 * Ubuntu
 
            apt-get update
+		   apt-get upgrade
            apt-get install build-essential
            apt-get install gfortran
            apt-get install cmake
