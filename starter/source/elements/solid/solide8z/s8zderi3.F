@@ -36,14 +36,14 @@ Chd|====================================================================
      .    CJ4,CJ5,CJ6,
      .    CJ7,CJ8,CJ9,
      .    SMAX, DELTAX, NGL,VOLDP)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -76,49 +76,45 @@ C-----------------------------------------------
       INTEGER I,J
 C                                                                     12
       my_real
-     .   AJ1(MVSIZ),AJ2(MVSIZ),AJ3(MVSIZ),
-     .   AJ4(MVSIZ),AJ5(MVSIZ),AJ6(MVSIZ),
-     .   AJ7(MVSIZ),AJ8(MVSIZ),AJ9(MVSIZ),
-     .   AJI1(MVSIZ), AJI2(MVSIZ), AJI3(MVSIZ),
-     .   AJI4(MVSIZ), AJI5(MVSIZ), AJI6(MVSIZ),
-     .   AJI7(MVSIZ), AJI8(MVSIZ), AJI9(MVSIZ),
+     .   JAC1(MVSIZ),JAC2(MVSIZ),JAC3(MVSIZ),
+     .   JAC4(MVSIZ),JAC5(MVSIZ),JAC6(MVSIZ),
+     .   JAC7(MVSIZ),JAC8(MVSIZ),JAC9(MVSIZ),
      .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ), DET(MVSIZ)
 C-----------------------------------------------
+C Jacobian matrix
       DO I=LFT,LLT
-       AJ1(I)=CJ1(I)+HX(3,I)*ETA+(HX(2,I)+HX(4,I)*ETA)*ZETA
-       AJ2(I)=CJ2(I)+HY(3,I)*ETA+(HY(2,I)+HY(4,I)*ETA)*ZETA
-       AJ3(I)=CJ3(I)+HZ(3,I)*ETA+(HZ(2,I)+HZ(4,I)*ETA)*ZETA
+       JAC1(I)=CJ1(I)+HX(3,I)*ETA+(HX(2,I)+HX(4,I)*ETA)*ZETA
+       JAC2(I)=CJ2(I)+HY(3,I)*ETA+(HY(2,I)+HY(4,I)*ETA)*ZETA
+       JAC3(I)=CJ3(I)+HZ(3,I)*ETA+(HZ(2,I)+HZ(4,I)*ETA)*ZETA
 C
-       AJ4(I)=CJ4(I)+HX(1,I)*ZETA+(HX(3,I)+HX(4,I)*ZETA)*KSI
-       AJ5(I)=CJ5(I)+HY(1,I)*ZETA+(HY(3,I)+HY(4,I)*ZETA)*KSI
-       AJ6(I)=CJ6(I)+HZ(1,I)*ZETA+(HZ(3,I)+HZ(4,I)*ZETA)*KSI
+       JAC4(I)=CJ4(I)+HX(1,I)*ZETA+(HX(3,I)+HX(4,I)*ZETA)*KSI
+       JAC5(I)=CJ5(I)+HY(1,I)*ZETA+(HY(3,I)+HY(4,I)*ZETA)*KSI
+       JAC6(I)=CJ6(I)+HZ(1,I)*ZETA+(HZ(3,I)+HZ(4,I)*ZETA)*KSI
 C
-       AJ7(I)=CJ7(I)+HX(2,I)*KSI+(HX(1,I)+HX(4,I)*KSI)*ETA
-       AJ8(I)=CJ8(I)+HY(2,I)*KSI+(HY(1,I)+HY(4,I)*KSI)*ETA
-       AJ9(I)=CJ9(I)+HZ(2,I)*KSI+(HZ(1,I)+HZ(4,I)*KSI)*ETA
-      ENDDO
-C
-C     JACOBIAN
-C
-      DO I=LFT,LLT
-       JAC_59_68(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-       JAC_67_49(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
-       JAC_48_57(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
+       JAC7(I)=CJ7(I)+HX(2,I)*KSI+(HX(1,I)+HX(4,I)*KSI)*ETA
+       JAC8(I)=CJ8(I)+HY(2,I)*KSI+(HY(1,I)+HY(4,I)*KSI)*ETA
+       JAC9(I)=CJ9(I)+HZ(2,I)*KSI+(HZ(1,I)+HZ(4,I)*KSI)*ETA
       ENDDO
 C
       DO I=LFT,LLT
-      DETDP=ONE_OVER_512*(AJ1(I)*JAC_59_68(I)+AJ2(I)*JAC_67_49(I)+AJ3(I)*JAC_48_57(I))
+       JAC_59_68(I)=JAC5(I)*JAC9(I)-JAC6(I)*JAC8(I)
+       JAC_67_49(I)=JAC6(I)*JAC7(I)-JAC4(I)*JAC9(I)
+       JAC_48_57(I)=JAC4(I)*JAC8(I)-JAC5(I)*JAC7(I)
+      ENDDO
+C
+      DO I=LFT,LLT
+      DETDP=ONE_OVER_512*(JAC1(I)*JAC_59_68(I)+JAC2(I)*JAC_67_49(I)+JAC3(I)*JAC_48_57(I))
       DET(I)=DETDP
       VOLDP(I)=WI*DETDP
       VOL(I)= VOLDP(I)
       ENDDO
-      DO 130 I=LFT,LLT
-      IF(DET(I).GT.0.0) GO TO 130
+      DO I=LFT,LLT
+      IF(DET(I).GT.0.0) CYCLE
       CALL ANCMSG(MSGID=245,
      .            MSGTYPE=MSGERROR,
      .            ANMODE=ANINFO,
      .            I1=NGL(I))
-  130 CONTINUE
+      END DO
 C
 C
       DO I=LFT,LLT
@@ -137,20 +133,20 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE S8ZDERIC3(VOL,
      .     HX, HY, HZ,   
-     .     AJ1,AJ2,AJ3,
-     .     AJ4,AJ5,AJ6,
-     .     AJ7,AJ8,AJ9,SMAX, DET, NGL, 
+     .     JAC1,JAC2,JAC3,
+     .     JAC4,JAC5,JAC6,
+     .     JAC7,JAC8,JAC9,SMAX, DET, NGL, 
      .     XD1, XD2, XD3, XD4, XD5, XD6, XD7, XD8, 
      .     YD1, YD2, YD3, YD4, YD5, YD6, YD7, YD8, 
      .     ZD1, ZD2, ZD3, ZD4, ZD5, ZD6, ZD7, ZD8)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -167,9 +163,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
      .   VOL(*),HX(4,*), HY(4,*), HZ(4,*),  
-     .   AJ1(*),AJ2(*),AJ3(*),
-     .   AJ4(*),AJ5(*),AJ6(*),
-     .   AJ7(*),AJ8(*),AJ9(*),SMAX(*), DET(*)
+     .   JAC1(*),JAC2(*),JAC3(*),
+     .   JAC4(*),JAC5(*),JAC6(*),
+     .   JAC7(*),JAC8(*),JAC9(*),SMAX(*), DET(*)
       DOUBLE PRECISION
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ), 
      .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ), 
@@ -191,11 +187,11 @@ C                                                                     12
      .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ),
      .   JAC_38_29(MVSIZ), JAC_19_37(MVSIZ), JAC_27_18(MVSIZ),
      .   JAC_26_35(MVSIZ), JAC_34_16(MVSIZ), JAC_15_24(MVSIZ),
-     .   A17(MVSIZ) , A28(MVSIZ) ,
-     .   B17(MVSIZ) , B28(MVSIZ) ,
-     .   C17(MVSIZ) , C28(MVSIZ) 
+     .   X_17_46(MVSIZ) , X_28_35(MVSIZ) ,
+     .   Y_17_46(MVSIZ) , Y_28_35(MVSIZ) ,
+     .   Z_17_46(MVSIZ) , Z_28_35(MVSIZ) 
 C-----------------------------------------------
-      DO 10 I=LFT,LLT
+      DO I=LFT,LLT
       X17(I)=XD7(I)-XD1(I)
       X28(I)=XD8(I)-XD2(I)
       X35(I)=XD5(I)-XD3(I)
@@ -207,50 +203,55 @@ C-----------------------------------------------
       Z17(I)=ZD7(I)-ZD1(I)
       Z28(I)=ZD8(I)-ZD2(I)
       Z35(I)=ZD5(I)-ZD3(I)
-   10 Z46(I)=ZD6(I)-ZD4(I)
+      Z46(I)=ZD6(I)-ZD4(I)
+      END DO
 C
-      DO 20 I=LFT,LLT
-      AJ4(I)=X17(I)+X28(I)-X35(I)-X46(I)
-      AJ5(I)=Y17(I)+Y28(I)-Y35(I)-Y46(I)
-      AJ6(I)=Z17(I)+Z28(I)-Z35(I)-Z46(I)
-      A17(I)=X17(I)+X46(I)
-      A28(I)=X28(I)+X35(I)
-      B17(I)=Y17(I)+Y46(I)
-      B28(I)=Y28(I)+Y35(I)
-      C17(I)=Z17(I)+Z46(I)
-   20 C28(I)=Z28(I)+Z35(I)
-      DO 30 I=LFT,LLT
-      AJ7(I)=A17(I)+A28(I)
-      AJ8(I)=B17(I)+B28(I)
-      AJ9(I)=C17(I)+C28(I)
-      AJ1(I)=A17(I)-A28(I)
-      AJ2(I)=B17(I)-B28(I)
-   30 AJ3(I)=C17(I)-C28(I)
+      DO I=LFT,LLT
+      JAC4(I)=X17(I)+X28(I)-X35(I)-X46(I)
+      JAC5(I)=Y17(I)+Y28(I)-Y35(I)-Y46(I)
+      JAC6(I)=Z17(I)+Z28(I)-Z35(I)-Z46(I)
+      X_17_46(I)=X17(I)+X46(I)
+      X_28_35(I)=X28(I)+X35(I)
+      Y_17_46(I)=Y17(I)+Y46(I)
+      Y_28_35(I)=Y28(I)+Y35(I)
+      Z_17_46(I)=Z17(I)+Z46(I)
+      Z_28_35(I)=Z28(I)+Z35(I)
+      END DO
 C
-C     JACOBIAN
+C Jacobian matrix
+      DO I=LFT,LLT
+      JAC7(I)=X_17_46(I)+X_28_35(I)
+      JAC8(I)=Y_17_46(I)+Y_28_35(I)
+      JAC9(I)=Z_17_46(I)+Z_28_35(I)
+      JAC1(I)=X_17_46(I)-X_28_35(I)
+      JAC2(I)=Y_17_46(I)-Y_28_35(I)
+      JAC3(I)=Z_17_46(I)-Z_28_35(I)
+      END DO
 C
-      DO 100 I=LFT,LLT
-      JAC_59_68(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-      JAC_67_49(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
-      JAC_38_29(I)=(-AJ2(I)*AJ9(I)+AJ3(I)*AJ8(I))
-      JAC_19_37(I)=( AJ1(I)*AJ9(I)-AJ3(I)*AJ7(I))
-      JAC_27_18(I)=(-AJ1(I)*AJ8(I)+AJ2(I)*AJ7(I))
-      JAC_26_35(I)=( AJ2(I)*AJ6(I)-AJ3(I)*AJ5(I))
-      JAC_34_16(I)=(-AJ1(I)*AJ6(I)+AJ3(I)*AJ4(I))
-      JAC_15_24(I)=( AJ1(I)*AJ5(I)-AJ2(I)*AJ4(I))
-  100 JAC_48_57(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
+      DO I=LFT,LLT
+      JAC_59_68(I)=JAC5(I)*JAC9(I)-JAC6(I)*JAC8(I)
+      JAC_67_49(I)=JAC6(I)*JAC7(I)-JAC4(I)*JAC9(I)
+      JAC_38_29(I)=(-JAC2(I)*JAC9(I)+JAC3(I)*JAC8(I))
+      JAC_19_37(I)=( JAC1(I)*JAC9(I)-JAC3(I)*JAC7(I))
+      JAC_27_18(I)=(-JAC1(I)*JAC8(I)+JAC2(I)*JAC7(I))
+      JAC_26_35(I)=( JAC2(I)*JAC6(I)-JAC3(I)*JAC5(I))
+      JAC_34_16(I)=(-JAC1(I)*JAC6(I)+JAC3(I)*JAC4(I))
+      JAC_15_24(I)=( JAC1(I)*JAC5(I)-JAC2(I)*JAC4(I))
+      JAC_48_57(I)=JAC4(I)*JAC8(I)-JAC5(I)*JAC7(I)
+      END DO
 C
-      DO 110 I=LFT,LLT
-      DET(I)=ONE_OVER_64*(AJ1(I)*JAC_59_68(I)+AJ2(I)*JAC_67_49(I)+AJ3(I)*JAC_48_57(I))
-  110 VOL(I)=DET(I)
+      DO I=LFT,LLT
+      DET(I)=ONE_OVER_64*(JAC1(I)*JAC_59_68(I)+JAC2(I)*JAC_67_49(I)+JAC3(I)*JAC_48_57(I))
+      VOL(I)=DET(I)
+      END DO
 C
-      DO 130 I=LFT,LLT
-      IF(DET(I).GT.0.0) GO TO 130
+      DO I=LFT,LLT
+      IF(DET(I).GT.0.0) CYCLE
       CALL ANCMSG(MSGID=245,
      .            MSGTYPE=MSGERROR,
      .            ANMODE=ANINFO,
      .            I1=NGL(I))
-  130 CONTINUE
+      END DO
 C
 C
 C mode 1
@@ -313,20 +314,19 @@ Chd|====================================================================
      .              XD1  ,XD2  ,XD3  ,XD4  ,XD5  ,XD6  ,XD7  ,XD8   ,
      .              YD1  ,YD2  ,YD3  ,YD4  ,YD5  ,YD6  ,YD7  ,YD8   ,
      .              ZD1  ,ZD2  ,ZD3  ,ZD4  ,ZD5  ,ZD6  ,ZD7  ,ZD8   ,
-     .              AJ1  ,AJ2  ,AJ3  ,
-     .              AJ4  ,AJ5  ,AJ6  ,
-     .              AJ7  ,AJ8  ,AJ9  ,
+     .              JAC1  ,JAC2  ,JAC3  ,
+     .              JAC4  ,JAC5  ,JAC6  ,
+     .              JAC7  ,JAC8  ,JAC9  ,
      .              HX, HY, HZ,
      .              JAC_I)
+C-----------------------------------------------
+C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -343,9 +343,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
      .   HX(4,*), HY(4,*), HZ(4,*),  
-     .   AJ1(*),AJ2(*),AJ3(*),
-     .   AJ4(*),AJ5(*),AJ6(*),
-     .   AJ7(*),AJ8(*),AJ9(*),JAC_I(10,*)
+     .   JAC1(*),JAC2(*),JAC3(*),
+     .   JAC4(*),JAC5(*),JAC6(*),
+     .   JAC7(*),JAC8(*),JAC9(*),JAC_I(10,*)
       DOUBLE PRECISION
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ), 
      .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ), 
@@ -368,12 +368,12 @@ C                                                                     12
      .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ),
      .   JAC_38_29(MVSIZ), JAC_19_37(MVSIZ), JAC_27_18(MVSIZ),
      .   JAC_26_35(MVSIZ), JAC_34_16(MVSIZ), JAC_15_24(MVSIZ),
-     .   A17(MVSIZ) , A28(MVSIZ) ,
-     .   B17(MVSIZ) , B28(MVSIZ) ,
-     .   C17(MVSIZ) , C28(MVSIZ) 
+     .   X_17_46(MVSIZ) , X_28_35(MVSIZ) ,
+     .   Y_17_46(MVSIZ) , Y_28_35(MVSIZ) ,
+     .   Z_17_46(MVSIZ) , Z_28_35(MVSIZ) 
 
 C-----------------------------------------------
-      DO 10 I=LFT,LLT
+      DO I=LFT,LLT
       X17(I)=XD7(I)-XD1(I)
       X28(I)=XD8(I)-XD2(I)
       X35(I)=XD5(I)-XD3(I)
@@ -385,42 +385,46 @@ C-----------------------------------------------
       Z17(I)=ZD7(I)-ZD1(I)
       Z28(I)=ZD8(I)-ZD2(I)
       Z35(I)=ZD5(I)-ZD3(I)
-   10 Z46(I)=ZD6(I)-ZD4(I)
+      Z46(I)=ZD6(I)-ZD4(I)
+      END DO
 C
-      DO 20 I=LFT,LLT
-      AJ4(I)=X17(I)+X28(I)-X35(I)-X46(I)
-      AJ5(I)=Y17(I)+Y28(I)-Y35(I)-Y46(I)
-      AJ6(I)=Z17(I)+Z28(I)-Z35(I)-Z46(I)
-      A17(I)=X17(I)+X46(I)
-      A28(I)=X28(I)+X35(I)
-      B17(I)=Y17(I)+Y46(I)
-      B28(I)=Y28(I)+Y35(I)
-      C17(I)=Z17(I)+Z46(I)
-   20 C28(I)=Z28(I)+Z35(I)
-      DO 30 I=LFT,LLT
-      AJ7(I)=A17(I)+A28(I)
-      AJ8(I)=B17(I)+B28(I)
-      AJ9(I)=C17(I)+C28(I)
-      AJ1(I)=A17(I)-A28(I)
-      AJ2(I)=B17(I)-B28(I)
-   30 AJ3(I)=C17(I)-C28(I)
+      DO I=LFT,LLT
+      JAC4(I)=X17(I)+X28(I)-X35(I)-X46(I)
+      JAC5(I)=Y17(I)+Y28(I)-Y35(I)-Y46(I)
+      JAC6(I)=Z17(I)+Z28(I)-Z35(I)-Z46(I)
+      X_17_46(I)=X17(I)+X46(I)
+      X_28_35(I)=X28(I)+X35(I)
+      Y_17_46(I)=Y17(I)+Y46(I)
+      Y_28_35(I)=Y28(I)+Y35(I)
+      Z_17_46(I)=Z17(I)+Z46(I)
+      Z_28_35(I)=Z28(I)+Z35(I)
+      END DO
 C
-C     JACOBIAN
+      DO I=LFT,LLT
+      JAC7(I)=X_17_46(I)+X_28_35(I)
+      JAC8(I)=Y_17_46(I)+Y_28_35(I)
+      JAC9(I)=Z_17_46(I)+Z_28_35(I)
+      JAC1(I)=X_17_46(I)-X_28_35(I)
+      JAC2(I)=Y_17_46(I)-Y_28_35(I)
+      JAC3(I)=Z_17_46(I)-Z_28_35(I)
+      END DO
 C
-      DO 100 I=LFT,LLT
-      JAC_59_68(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-      JAC_67_49(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
-      JAC_38_29(I)=(-AJ2(I)*AJ9(I)+AJ3(I)*AJ8(I))
-      JAC_19_37(I)=( AJ1(I)*AJ9(I)-AJ3(I)*AJ7(I))
-      JAC_27_18(I)=(-AJ1(I)*AJ8(I)+AJ2(I)*AJ7(I))
-      JAC_26_35(I)=( AJ2(I)*AJ6(I)-AJ3(I)*AJ5(I))
-      JAC_34_16(I)=(-AJ1(I)*AJ6(I)+AJ3(I)*AJ4(I))
-      JAC_15_24(I)=( AJ1(I)*AJ5(I)-AJ2(I)*AJ4(I))
-  100 JAC_48_57(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
+      DO I=LFT,LLT
+      JAC_59_68(I)=JAC5(I)*JAC9(I)-JAC6(I)*JAC8(I)
+      JAC_67_49(I)=JAC6(I)*JAC7(I)-JAC4(I)*JAC9(I)
+      JAC_38_29(I)=(-JAC2(I)*JAC9(I)+JAC3(I)*JAC8(I))
+      JAC_19_37(I)=( JAC1(I)*JAC9(I)-JAC3(I)*JAC7(I))
+      JAC_27_18(I)=(-JAC1(I)*JAC8(I)+JAC2(I)*JAC7(I))
+      JAC_26_35(I)=( JAC2(I)*JAC6(I)-JAC3(I)*JAC5(I))
+      JAC_34_16(I)=(-JAC1(I)*JAC6(I)+JAC3(I)*JAC4(I))
+      JAC_15_24(I)=( JAC1(I)*JAC5(I)-JAC2(I)*JAC4(I))
+      JAC_48_57(I)=JAC4(I)*JAC8(I)-JAC5(I)*JAC7(I)
+      END DO
 C
-      DO 110 I=LFT,LLT
-      DET(I)=ONE_OVER_64*(AJ1(I)*JAC_59_68(I)+AJ2(I)*JAC_67_49(I)+AJ3(I)*JAC_48_57(I))
-  110 DETT(I)=ONE_OVER_64/DET(I)
+      DO I=LFT,LLT
+      DET(I)=ONE_OVER_64*(JAC1(I)*JAC_59_68(I)+JAC2(I)*JAC_67_49(I)+JAC3(I)*JAC_48_57(I))
+      DETT(I)=ONE_OVER_64/DET(I)
+      END DO
 C
       DO I=LFT,LLT
        JAC_I(1,I)=DETT(I)*JAC_59_68(I)
@@ -477,22 +481,21 @@ Chd|====================================================================
      .              XD1  ,XD2  ,XD3  ,XD4  ,XD5  ,XD6  ,XD7  ,XD8   ,
      .              YD1  ,YD2  ,YD3  ,YD4  ,YD5  ,YD6  ,YD7  ,YD8   ,
      .              ZD1  ,ZD2  ,ZD3  ,ZD4  ,ZD5  ,ZD6  ,ZD7  ,ZD8   ,
-     .              AJ1  ,AJ2  ,AJ3  ,
-     .              AJ4  ,AJ5  ,AJ6  ,
-     .              AJ7  ,AJ8  ,AJ9  ,
+     .              JAC1  ,JAC2  ,JAC3  ,
+     .              JAC4  ,JAC5  ,JAC6  ,
+     .              JAC7  ,JAC8  ,JAC9  ,
      .              HX, HY, HZ,
      .              PXC1, PXC2, PXC3, PXC4, 
      .              PYC1, PYC2, PYC3, PYC4, 
      .              PZC1, PZC2, PZC3, PZC4)
+C-----------------------------------------------
+C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -512,9 +515,9 @@ C-----------------------------------------------
      .   PXC1(*), PXC2(*), PXC3(*), PXC4(*), 
      .   PYC1(*), PYC2(*), PYC3(*), PYC4(*), 
      .   PZC1(*), PZC2(*), PZC3(*), PZC4(*), 
-     .   AJ1(*),AJ2(*),AJ3(*),
-     .   AJ4(*),AJ5(*),AJ6(*),
-     .   AJ7(*),AJ8(*),AJ9(*)
+     .   JAC1(*),JAC2(*),JAC3(*),
+     .   JAC4(*),JAC5(*),JAC6(*),
+     .   JAC7(*),JAC8(*),JAC9(*)
       DOUBLE PRECISION
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ), 
      .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ), 
@@ -537,14 +540,14 @@ C                                                                     12
      .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ),
      .   JAC_38_29(MVSIZ), JAC_19_37(MVSIZ), JAC_27_18(MVSIZ),
      .   JAC_26_35(MVSIZ), JAC_34_16(MVSIZ), JAC_15_24(MVSIZ),
-     .   AJI1, AJI2, AJI3,AJI4, AJI5, AJI6,AJI7, AJI8, AJI9,
-     .   AJ12, AJ45, AJ78,AJ12P, AJ45P, AJ78P,
-     .   A17(MVSIZ) , A28(MVSIZ) ,
-     .   B17(MVSIZ) , B28(MVSIZ) ,
-     .   C17(MVSIZ) , C28(MVSIZ) 
+     .   JACI1, JACI2, JACI3,JACI4, JACI5, JACI6,JACI7, JACI8, JACI9,
+     .   JACI12, JACI45, JACI78,JACI12P, JACI45P, JACI78P,
+     .   X_17_46(MVSIZ) , X_28_35(MVSIZ) ,
+     .   Y_17_46(MVSIZ) , Y_28_35(MVSIZ) ,
+     .   Z_17_46(MVSIZ) , Z_28_35(MVSIZ) 
 
 C-----------------------------------------------
-      DO 10 I=LFT,LLT
+      DO I=LFT,LLT
       X17(I)=XD7(I)-XD1(I)
       X28(I)=XD8(I)-XD2(I)
       X35(I)=XD5(I)-XD3(I)
@@ -556,70 +559,75 @@ C-----------------------------------------------
       Z17(I)=ZD7(I)-ZD1(I)
       Z28(I)=ZD8(I)-ZD2(I)
       Z35(I)=ZD5(I)-ZD3(I)
-   10 Z46(I)=ZD6(I)-ZD4(I)
+      Z46(I)=ZD6(I)-ZD4(I)
+      END DO
 C
-      DO 20 I=LFT,LLT
-      AJ4(I)=X17(I)+X28(I)-X35(I)-X46(I)
-      AJ5(I)=Y17(I)+Y28(I)-Y35(I)-Y46(I)
-      AJ6(I)=Z17(I)+Z28(I)-Z35(I)-Z46(I)
-      A17(I)=X17(I)+X46(I)
-      A28(I)=X28(I)+X35(I)
-      B17(I)=Y17(I)+Y46(I)
-      B28(I)=Y28(I)+Y35(I)
-      C17(I)=Z17(I)+Z46(I)
-   20 C28(I)=Z28(I)+Z35(I)
-      DO 30 I=LFT,LLT
-      AJ7(I)=A17(I)+A28(I)
-      AJ8(I)=B17(I)+B28(I)
-      AJ9(I)=C17(I)+C28(I)
-      AJ1(I)=A17(I)-A28(I)
-      AJ2(I)=B17(I)-B28(I)
-   30 AJ3(I)=C17(I)-C28(I)
+      DO I=LFT,LLT
+      JAC4(I)=X17(I)+X28(I)-X35(I)-X46(I)
+      JAC5(I)=Y17(I)+Y28(I)-Y35(I)-Y46(I)
+      JAC6(I)=Z17(I)+Z28(I)-Z35(I)-Z46(I)
+      X_17_46(I)=X17(I)+X46(I)
+      X_28_35(I)=X28(I)+X35(I)
+      Y_17_46(I)=Y17(I)+Y46(I)
+      Y_28_35(I)=Y28(I)+Y35(I)
+      Z_17_46(I)=Z17(I)+Z46(I)
+      Z_28_35(I)=Z28(I)+Z35(I)
+      END DO
 C
-C     JACOBIAN
+      DO I=LFT,LLT
+      JAC7(I)=X_17_46(I)+X_28_35(I)
+      JAC8(I)=Y_17_46(I)+Y_28_35(I)
+      JAC9(I)=Z_17_46(I)+Z_28_35(I)
+      JAC1(I)=X_17_46(I)-X_28_35(I)
+      JAC2(I)=Y_17_46(I)-Y_28_35(I)
+      JAC3(I)=Z_17_46(I)-Z_28_35(I)
+      END DO
 C
-      DO 100 I=LFT,LLT
-      JAC_59_68(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-      JAC_67_49(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
-      JAC_38_29(I)=(-AJ2(I)*AJ9(I)+AJ3(I)*AJ8(I))
-      JAC_19_37(I)=( AJ1(I)*AJ9(I)-AJ3(I)*AJ7(I))
-      JAC_27_18(I)=(-AJ1(I)*AJ8(I)+AJ2(I)*AJ7(I))
-      JAC_26_35(I)=( AJ2(I)*AJ6(I)-AJ3(I)*AJ5(I))
-      JAC_34_16(I)=(-AJ1(I)*AJ6(I)+AJ3(I)*AJ4(I))
-      JAC_15_24(I)=( AJ1(I)*AJ5(I)-AJ2(I)*AJ4(I))
-  100 JAC_48_57(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
+      DO I=LFT,LLT
+      JAC_59_68(I)=JAC5(I)*JAC9(I)-JAC6(I)*JAC8(I)
+      JAC_67_49(I)=JAC6(I)*JAC7(I)-JAC4(I)*JAC9(I)
+      JAC_38_29(I)=(-JAC2(I)*JAC9(I)+JAC3(I)*JAC8(I))
+      JAC_19_37(I)=( JAC1(I)*JAC9(I)-JAC3(I)*JAC7(I))
+      JAC_27_18(I)=(-JAC1(I)*JAC8(I)+JAC2(I)*JAC7(I))
+      JAC_26_35(I)=( JAC2(I)*JAC6(I)-JAC3(I)*JAC5(I))
+      JAC_34_16(I)=(-JAC1(I)*JAC6(I)+JAC3(I)*JAC4(I))
+      JAC_15_24(I)=( JAC1(I)*JAC5(I)-JAC2(I)*JAC4(I))
+      JAC_48_57(I)=JAC4(I)*JAC8(I)-JAC5(I)*JAC7(I)
+      END DO
 C
-      DO 110 I=LFT,LLT
-      DET(I)=ONE_OVER_64*(AJ1(I)*JAC_59_68(I)+AJ2(I)*JAC_67_49(I)+AJ3(I)*JAC_48_57(I))
-  110 DETT(I)=ONE_OVER_64/DET(I)
+      DO I=LFT,LLT
+      DET(I)=ONE_OVER_64*(JAC1(I)*JAC_59_68(I)+JAC2(I)*JAC_67_49(I)+JAC3(I)*JAC_48_57(I))
+      DETT(I)=ONE_OVER_64/DET(I)
+      END DO
+C
        DO I=LFT,LLT
-         AJI1=DETT(I)*JAC_59_68(I)
-         AJI4=DETT(I)*JAC_67_49(I)
-         AJI7=DETT(I)*JAC_48_57(I)
-         AJI2=DETT(I)*JAC_38_29(I)
-         AJI5=DETT(I)*JAC_19_37(I)
-         AJI8=DETT(I)*JAC_27_18(I)
-         AJI3=DETT(I)*JAC_26_35(I)
-         AJI6=DETT(I)*JAC_34_16(I)
-         AJI9=DETT(I)*JAC_15_24(I)
-         AJ12=AJI1-AJI2
-         AJ45=AJI4-AJI5
-         AJ78=AJI7-AJI8
-         PXC2(I)= AJ12-AJI3
-         PYC2(I)= AJ45-AJI6
-         PZC2(I)= AJ78-AJI9
-         PXC4(I)=-AJ12-AJI3
-         PYC4(I)=-AJ45-AJI6
-         PZC4(I)=-AJ78-AJI9
-         AJ12P=AJI1+AJI2
-         AJ45P=AJI4+AJI5
-         AJ78P=AJI7+AJI8
-         PXC1(I)=-AJ12P-AJI3
-         PYC1(I)=-AJ45P-AJI6
-         PZC1(I)=-AJ78P-AJI9
-         PXC3(I)=AJ12P-AJI3
-         PYC3(I)=AJ45P-AJI6
-         PZC3(I)=AJ78P-AJI9
+         JACI1=DETT(I)*JAC_59_68(I)
+         JACI4=DETT(I)*JAC_67_49(I)
+         JACI7=DETT(I)*JAC_48_57(I)
+         JACI2=DETT(I)*JAC_38_29(I)
+         JACI5=DETT(I)*JAC_19_37(I)
+         JACI8=DETT(I)*JAC_27_18(I)
+         JACI3=DETT(I)*JAC_26_35(I)
+         JACI6=DETT(I)*JAC_34_16(I)
+         JACI9=DETT(I)*JAC_15_24(I)
+         JACI12=JACI1-JACI2
+         JACI45=JACI4-JACI5
+         JACI78=JACI7-JACI8
+         PXC2(I)= JACI12-JACI3
+         PYC2(I)= JACI45-JACI6
+         PZC2(I)= JACI78-JACI9
+         PXC4(I)=-JACI12-JACI3
+         PYC4(I)=-JACI45-JACI6
+         PZC4(I)=-JACI78-JACI9
+         JACI12P=JACI1+JACI2
+         JACI45P=JACI4+JACI5
+         JACI78P=JACI7+JACI8
+         PXC1(I)=-JACI12P-JACI3
+         PYC1(I)=-JACI45P-JACI6
+         PZC1(I)=-JACI78P-JACI9
+         PXC3(I)= JACI12P-JACI3
+         PYC3(I)= JACI45P-JACI6
+         PZC3(I)= JACI78P-JACI9
        ENDDO
 C mode 1
 C 1 1 -1 -1 -1 -1 1 1
@@ -701,16 +709,16 @@ C-----------------------------------------------
       INTEGER I,  J
       my_real
      .   DET(MVSIZ) ,  DETT(MVSIZ) ,
-     .   AJ1(MVSIZ),AJ2(MVSIZ),AJ3(MVSIZ),
-     .   AJ4(MVSIZ),AJ5(MVSIZ),AJ6(MVSIZ),
-     .   AJ7(MVSIZ),AJ8(MVSIZ),AJ9(MVSIZ),
+     .   JAC1(MVSIZ),JAC2(MVSIZ),JAC3(MVSIZ),
+     .   JAC4(MVSIZ),JAC5(MVSIZ),JAC6(MVSIZ),
+     .   JAC7(MVSIZ),JAC8(MVSIZ),JAC9(MVSIZ),
      .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ),
      .   JAC_38_29(MVSIZ), JAC_19_37(MVSIZ), JAC_27_18(MVSIZ),
      .   JAC_26_35(MVSIZ), JAC_34_16(MVSIZ), JAC_15_24(MVSIZ)
       my_real
-     .   AJI1(MVSIZ), AJI2(MVSIZ), AJI3(MVSIZ),
-     .   AJI4(MVSIZ), AJI5(MVSIZ), AJI6(MVSIZ),
-     .   AJI7(MVSIZ), AJI8(MVSIZ), AJI9(MVSIZ),
+     .   JACI1(MVSIZ), JACI2(MVSIZ), JACI3(MVSIZ),
+     .   JACI4(MVSIZ), JACI5(MVSIZ), JACI6(MVSIZ),
+     .   JACI7(MVSIZ), JACI8(MVSIZ), JACI9(MVSIZ),
      .   A1PR1(MVSIZ),A1PR3(MVSIZ),A1PR5(MVSIZ),A1PR7(MVSIZ),
      .   A4PR1(MVSIZ),A4PR3(MVSIZ),A4PR5(MVSIZ),A4PR7(MVSIZ),
      .   A7PR1(MVSIZ),A7PR3(MVSIZ),A7PR5(MVSIZ),A7PR7(MVSIZ),
@@ -726,35 +734,35 @@ C-----------------------------------------------
      .   PZ1, PZ2, PZ3, PZ4,PZ5, PZ6, PZ7, PZ8
 C-----------------------------------------------
       DO I=LFT,LLT
-       AJ1(I)=CJ1(I)+HX(3,I)*ETA+(HX(2,I)+HX(4,I)*ETA)*ZETA
-       AJ2(I)=CJ2(I)+HY(3,I)*ETA+(HY(2,I)+HY(4,I)*ETA)*ZETA
-       AJ3(I)=CJ3(I)+HZ(3,I)*ETA+(HZ(2,I)+HZ(4,I)*ETA)*ZETA
+       JAC1(I)=CJ1(I)+HX(3,I)*ETA+(HX(2,I)+HX(4,I)*ETA)*ZETA
+       JAC2(I)=CJ2(I)+HY(3,I)*ETA+(HY(2,I)+HY(4,I)*ETA)*ZETA
+       JAC3(I)=CJ3(I)+HZ(3,I)*ETA+(HZ(2,I)+HZ(4,I)*ETA)*ZETA
 C
-       AJ4(I)=CJ4(I)+HX(1,I)*ZETA+(HX(3,I)+HX(4,I)*ZETA)*KSI
-       AJ5(I)=CJ5(I)+HY(1,I)*ZETA+(HY(3,I)+HY(4,I)*ZETA)*KSI
-       AJ6(I)=CJ6(I)+HZ(1,I)*ZETA+(HZ(3,I)+HZ(4,I)*ZETA)*KSI
+       JAC4(I)=CJ4(I)+HX(1,I)*ZETA+(HX(3,I)+HX(4,I)*ZETA)*KSI
+       JAC5(I)=CJ5(I)+HY(1,I)*ZETA+(HY(3,I)+HY(4,I)*ZETA)*KSI
+       JAC6(I)=CJ6(I)+HZ(1,I)*ZETA+(HZ(3,I)+HZ(4,I)*ZETA)*KSI
 C
-       AJ7(I)=CJ7(I)+HX(2,I)*KSI+(HX(1,I)+HX(4,I)*KSI)*ETA
-       AJ8(I)=CJ8(I)+HY(2,I)*KSI+(HY(1,I)+HY(4,I)*KSI)*ETA
-       AJ9(I)=CJ9(I)+HZ(2,I)*KSI+(HZ(1,I)+HZ(4,I)*KSI)*ETA
+       JAC7(I)=CJ7(I)+HX(2,I)*KSI+(HX(1,I)+HX(4,I)*KSI)*ETA
+       JAC8(I)=CJ8(I)+HY(2,I)*KSI+(HY(1,I)+HY(4,I)*KSI)*ETA
+       JAC9(I)=CJ9(I)+HZ(2,I)*KSI+(HZ(1,I)+HZ(4,I)*KSI)*ETA
       ENDDO
 C
 C     JACOBIAN
 C
       DO I=LFT,LLT
-      JAC_59_68(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-      JAC_67_49(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
-      JAC_38_29(I)=(-AJ2(I)*AJ9(I)+AJ3(I)*AJ8(I))
-      JAC_19_37(I)=( AJ1(I)*AJ9(I)-AJ3(I)*AJ7(I))
-      JAC_27_18(I)=(-AJ1(I)*AJ8(I)+AJ2(I)*AJ7(I))
-      JAC_26_35(I)=( AJ2(I)*AJ6(I)-AJ3(I)*AJ5(I))
-      JAC_34_16(I)=(-AJ1(I)*AJ6(I)+AJ3(I)*AJ4(I))
-      JAC_15_24(I)=( AJ1(I)*AJ5(I)-AJ2(I)*AJ4(I))
-      JAC_48_57(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
+      JAC_59_68(I)=JAC5(I)*JAC9(I)-JAC6(I)*JAC8(I)
+      JAC_67_49(I)=JAC6(I)*JAC7(I)-JAC4(I)*JAC9(I)
+      JAC_38_29(I)=(-JAC2(I)*JAC9(I)+JAC3(I)*JAC8(I))
+      JAC_19_37(I)=( JAC1(I)*JAC9(I)-JAC3(I)*JAC7(I))
+      JAC_27_18(I)=(-JAC1(I)*JAC8(I)+JAC2(I)*JAC7(I))
+      JAC_26_35(I)=( JAC2(I)*JAC6(I)-JAC3(I)*JAC5(I))
+      JAC_34_16(I)=(-JAC1(I)*JAC6(I)+JAC3(I)*JAC4(I))
+      JAC_15_24(I)=( JAC1(I)*JAC5(I)-JAC2(I)*JAC4(I))
+      JAC_48_57(I)=JAC4(I)*JAC8(I)-JAC5(I)*JAC7(I)
       ENDDO
 C
       DO I=LFT,LLT
-      DET(I)=ONE_OVER_512*(AJ1(I)*JAC_59_68(I)+AJ2(I)*JAC_67_49(I)+AJ3(I)*JAC_48_57(I))
+      DET(I)=ONE_OVER_512*(JAC1(I)*JAC_59_68(I)+JAC2(I)*JAC_67_49(I)+JAC3(I)*JAC_48_57(I))
       DETT(I)=ONE_OVER_512/DET(I)
       ENDDO
 C      
@@ -774,15 +782,15 @@ C
       ELSE
 C--------calculate Pij----      
       DO I=LFT,LLT
-       AJI1(I)=DETT(I)*JAC_59_68(I)
-       AJI4(I)=DETT(I)*JAC_67_49(I)
-       AJI7(I)=DETT(I)*JAC_48_57(I)
-       AJI2(I)=DETT(I)*JAC_38_29(I)
-       AJI5(I)=DETT(I)*JAC_19_37(I)
-       AJI8(I)=DETT(I)*JAC_27_18(I)
-       AJI3(I)=DETT(I)*JAC_26_35(I)
-       AJI6(I)=DETT(I)*JAC_34_16(I)
-       AJI9(I)=DETT(I)*JAC_15_24(I)
+       JACI1(I)=DETT(I)*JAC_59_68(I)
+       JACI4(I)=DETT(I)*JAC_67_49(I)
+       JACI7(I)=DETT(I)*JAC_48_57(I)
+       JACI2(I)=DETT(I)*JAC_38_29(I)
+       JACI5(I)=DETT(I)*JAC_19_37(I)
+       JACI8(I)=DETT(I)*JAC_27_18(I)
+       JACI3(I)=DETT(I)*JAC_26_35(I)
+       JACI6(I)=DETT(I)*JAC_34_16(I)
+       JACI9(I)=DETT(I)*JAC_15_24(I)
       ENDDO
 C------NI,ksi-------
       RP = ONE + KSI
@@ -817,47 +825,47 @@ C------NI,ksi-------
       PT(8)=-PT(4)
 cc
       DO I=LFT,LLT
-        A1PR1(I)=AJI1(I)*PR(1)
-        A1PR3(I)=AJI1(I)*PR(3)
-        A1PR5(I)=AJI1(I)*PR(5)
-        A1PR7(I)=AJI1(I)*PR(7)
-        A4PR1(I)=AJI4(I)*PR(1)
-        A4PR3(I)=AJI4(I)*PR(3)
-        A4PR5(I)=AJI4(I)*PR(5)
-        A4PR7(I)=AJI4(I)*PR(7)
-        A7PR1(I)=AJI7(I)*PR(1)
-        A7PR3(I)=AJI7(I)*PR(3)
-        A7PR5(I)=AJI7(I)*PR(5)
-        A7PR7(I)=AJI7(I)*PR(7)
+        A1PR1(I)=JACI1(I)*PR(1)
+        A1PR3(I)=JACI1(I)*PR(3)
+        A1PR5(I)=JACI1(I)*PR(5)
+        A1PR7(I)=JACI1(I)*PR(7)
+        A4PR1(I)=JACI4(I)*PR(1)
+        A4PR3(I)=JACI4(I)*PR(3)
+        A4PR5(I)=JACI4(I)*PR(5)
+        A4PR7(I)=JACI4(I)*PR(7)
+        A7PR1(I)=JACI7(I)*PR(1)
+        A7PR3(I)=JACI7(I)*PR(3)
+        A7PR5(I)=JACI7(I)*PR(5)
+        A7PR7(I)=JACI7(I)*PR(7)
       ENDDO
       DO I=LFT,LLT
-        A2PS1(I)=AJI2(I)*PS(1)
-        A2PS2(I)=AJI2(I)*PS(2)
-        A2PS5(I)=AJI2(I)*PS(5)
-        A2PS6(I)=AJI2(I)*PS(6)
-        A5PS1(I)=AJI5(I)*PS(1)
-        A5PS2(I)=AJI5(I)*PS(2)
-        A5PS5(I)=AJI5(I)*PS(5)
-        A5PS6(I)=AJI5(I)*PS(6)
-        A8PS1(I)=AJI8(I)*PS(1)
-        A8PS2(I)=AJI8(I)*PS(2)
-        A8PS5(I)=AJI8(I)*PS(5)
-        A8PS6(I)=AJI8(I)*PS(6)
+        A2PS1(I)=JACI2(I)*PS(1)
+        A2PS2(I)=JACI2(I)*PS(2)
+        A2PS5(I)=JACI2(I)*PS(5)
+        A2PS6(I)=JACI2(I)*PS(6)
+        A5PS1(I)=JACI5(I)*PS(1)
+        A5PS2(I)=JACI5(I)*PS(2)
+        A5PS5(I)=JACI5(I)*PS(5)
+        A5PS6(I)=JACI5(I)*PS(6)
+        A8PS1(I)=JACI8(I)*PS(1)
+        A8PS2(I)=JACI8(I)*PS(2)
+        A8PS5(I)=JACI8(I)*PS(5)
+        A8PS6(I)=JACI8(I)*PS(6)
       ENDDO
 C
       DO I=LFT,LLT
-        A3PT1(I)=AJI3(I)*PT(1)
-        A3PT2(I)=AJI3(I)*PT(2)
-        A3PT3(I)=AJI3(I)*PT(3)
-        A3PT4(I)=AJI3(I)*PT(4)
-        A6PT1(I)=AJI6(I)*PT(1)
-        A6PT2(I)=AJI6(I)*PT(2)
-        A6PT3(I)=AJI6(I)*PT(3)
-        A6PT4(I)=AJI6(I)*PT(4)
-        A9PT1(I)=AJI9(I)*PT(1)
-        A9PT2(I)=AJI9(I)*PT(2)
-        A9PT3(I)=AJI9(I)*PT(3)
-        A9PT4(I)=AJI9(I)*PT(4)
+        A3PT1(I)=JACI3(I)*PT(1)
+        A3PT2(I)=JACI3(I)*PT(2)
+        A3PT3(I)=JACI3(I)*PT(3)
+        A3PT4(I)=JACI3(I)*PT(4)
+        A6PT1(I)=JACI6(I)*PT(1)
+        A6PT2(I)=JACI6(I)*PT(2)
+        A6PT3(I)=JACI6(I)*PT(3)
+        A6PT4(I)=JACI6(I)*PT(4)
+        A9PT1(I)=JACI9(I)*PT(1)
+        A9PT2(I)=JACI9(I)*PT(2)
+        A9PT3(I)=JACI9(I)*PT(3)
+        A9PT4(I)=JACI9(I)*PT(4)
       ENDDO
 C
       DO I=LFT,LLT
@@ -2216,9 +2224,9 @@ Chd|====================================================================
      .    CJ1,CJ2,CJ3,
      .    CJ4,CJ5,CJ6,
      .    CJ7,CJ8,CJ9,
-     .    AJ1,AJ2,AJ3,
-     .    AJ4,AJ5,AJ6,
-     .    AJ7,AJ8,AJ9)
+     .    JAC1,JAC2,JAC3,
+     .    JAC4,JAC5,JAC6,
+     .    JAC7,JAC8,JAC9)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2240,9 +2248,9 @@ C     REAL
      .   CJ1(*),CJ2(*),CJ3(*),
      .   CJ4(*),CJ5(*),CJ6(*),
      .   CJ7(*),CJ8(*),CJ9(*),
-     .   AJ1(MVSIZ,8),AJ2(MVSIZ,8),AJ3(MVSIZ,8),
-     .   AJ4(MVSIZ,8),AJ5(MVSIZ,8),AJ6(MVSIZ,8),
-     .   AJ7(MVSIZ,8),AJ8(MVSIZ,8),AJ9(MVSIZ,8)
+     .   JAC1(MVSIZ,8),JAC2(MVSIZ,8),JAC3(MVSIZ,8),
+     .   JAC4(MVSIZ,8),JAC5(MVSIZ,8),JAC6(MVSIZ,8),
+     .   JAC7(MVSIZ,8),JAC8(MVSIZ,8),JAC9(MVSIZ,8)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2275,122 +2283,122 @@ C
       IP=1
 C - - -	  
       DO I=LFT,LLT
-       AJ1(I,IP)=CJ1(I)-HX3PG(I)-HX2PG(I)+HX4PG2(I)
-       AJ2(I,IP)=CJ2(I)-HY3PG(I)-HY2PG(I)+HY4PG2(I)
-       AJ3(I,IP)=CJ3(I)-HZ3PG(I)-HZ2PG(I)+HZ4PG2(I)
+       JAC1(I,IP)=CJ1(I)-HX3PG(I)-HX2PG(I)+HX4PG2(I)
+       JAC2(I,IP)=CJ2(I)-HY3PG(I)-HY2PG(I)+HY4PG2(I)
+       JAC3(I,IP)=CJ3(I)-HZ3PG(I)-HZ2PG(I)+HZ4PG2(I)
 C
-       AJ4(I,IP)=CJ4(I)-HX1PG(I)-HX3PG(I)+HX4PG2(I)
-       AJ5(I,IP)=CJ5(I)-HY1PG(I)-HY3PG(I)+HY4PG2(I)
-       AJ6(I,IP)=CJ6(I)-HZ1PG(I)-HZ3PG(I)+HZ4PG2(I)
+       JAC4(I,IP)=CJ4(I)-HX1PG(I)-HX3PG(I)+HX4PG2(I)
+       JAC5(I,IP)=CJ5(I)-HY1PG(I)-HY3PG(I)+HY4PG2(I)
+       JAC6(I,IP)=CJ6(I)-HZ1PG(I)-HZ3PG(I)+HZ4PG2(I)
 C
-       AJ7(I,IP)=CJ7(I)-HX2PG(I)-HX1PG(I)+HX4PG2(I)
-       AJ8(I,IP)=CJ8(I)-HY2PG(I)-HY1PG(I)+HY4PG2(I)
-       AJ9(I,IP)=CJ9(I)-HZ2PG(I)-HZ1PG(I)+HZ4PG2(I)
+       JAC7(I,IP)=CJ7(I)-HX2PG(I)-HX1PG(I)+HX4PG2(I)
+       JAC8(I,IP)=CJ8(I)-HY2PG(I)-HY1PG(I)+HY4PG2(I)
+       JAC9(I,IP)=CJ9(I)-HZ2PG(I)-HZ1PG(I)+HZ4PG2(I)
       ENDDO
       IP=2	  
 C + - -	  
       DO I=LFT,LLT
-       AJ1(I,IP)=CJ1(I)-HX3PG(I)-HX2PG(I)+HX4PG2(I)
-       AJ2(I,IP)=CJ2(I)-HY3PG(I)-HY2PG(I)+HY4PG2(I)
-       AJ3(I,IP)=CJ3(I)-HZ3PG(I)-HZ2PG(I)+HZ4PG2(I)
+       JAC1(I,IP)=CJ1(I)-HX3PG(I)-HX2PG(I)+HX4PG2(I)
+       JAC2(I,IP)=CJ2(I)-HY3PG(I)-HY2PG(I)+HY4PG2(I)
+       JAC3(I,IP)=CJ3(I)-HZ3PG(I)-HZ2PG(I)+HZ4PG2(I)
 C
-       AJ4(I,IP)=CJ4(I)-HX1PG(I)+HX3PG(I)-HX4PG2(I)
-       AJ5(I,IP)=CJ5(I)-HY1PG(I)+HY3PG(I)-HY4PG2(I)
-       AJ6(I,IP)=CJ6(I)-HZ1PG(I)+HZ3PG(I)-HZ4PG2(I)
+       JAC4(I,IP)=CJ4(I)-HX1PG(I)+HX3PG(I)-HX4PG2(I)
+       JAC5(I,IP)=CJ5(I)-HY1PG(I)+HY3PG(I)-HY4PG2(I)
+       JAC6(I,IP)=CJ6(I)-HZ1PG(I)+HZ3PG(I)-HZ4PG2(I)
 C
-       AJ7(I,IP)=CJ7(I)+HX2PG(I)-HX1PG(I)-HX4PG2(I)
-       AJ8(I,IP)=CJ8(I)+HY2PG(I)-HY1PG(I)-HY4PG2(I)
-       AJ9(I,IP)=CJ9(I)+HZ2PG(I)-HZ1PG(I)-HZ4PG2(I)
+       JAC7(I,IP)=CJ7(I)+HX2PG(I)-HX1PG(I)-HX4PG2(I)
+       JAC8(I,IP)=CJ8(I)+HY2PG(I)-HY1PG(I)-HY4PG2(I)
+       JAC9(I,IP)=CJ9(I)+HZ2PG(I)-HZ1PG(I)-HZ4PG2(I)
       ENDDO
       IP=3	  
 C - + -	  
       DO I=LFT,LLT
-       AJ1(I,IP)=CJ1(I)+HX3PG(I)-HX2PG(I)-HX4PG2(I)
-       AJ2(I,IP)=CJ2(I)+HY3PG(I)-HY2PG(I)-HY4PG2(I)
-       AJ3(I,IP)=CJ3(I)+HZ3PG(I)-HZ2PG(I)-HZ4PG2(I)
+       JAC1(I,IP)=CJ1(I)+HX3PG(I)-HX2PG(I)-HX4PG2(I)
+       JAC2(I,IP)=CJ2(I)+HY3PG(I)-HY2PG(I)-HY4PG2(I)
+       JAC3(I,IP)=CJ3(I)+HZ3PG(I)-HZ2PG(I)-HZ4PG2(I)
 C
-       AJ4(I,IP)=CJ4(I)-HX1PG(I)-HX3PG(I)+HX4PG2(I)
-       AJ5(I,IP)=CJ5(I)-HY1PG(I)-HY3PG(I)+HY4PG2(I)
-       AJ6(I,IP)=CJ6(I)-HZ1PG(I)-HZ3PG(I)+HZ4PG2(I)
+       JAC4(I,IP)=CJ4(I)-HX1PG(I)-HX3PG(I)+HX4PG2(I)
+       JAC5(I,IP)=CJ5(I)-HY1PG(I)-HY3PG(I)+HY4PG2(I)
+       JAC6(I,IP)=CJ6(I)-HZ1PG(I)-HZ3PG(I)+HZ4PG2(I)
 C
-       AJ7(I,IP)=CJ7(I)-HX2PG(I)+HX1PG(I)-HX4PG2(I)
-       AJ8(I,IP)=CJ8(I)-HY2PG(I)+HY1PG(I)-HY4PG2(I)
-       AJ9(I,IP)=CJ9(I)-HZ2PG(I)+HZ1PG(I)-HZ4PG2(I)
+       JAC7(I,IP)=CJ7(I)-HX2PG(I)+HX1PG(I)-HX4PG2(I)
+       JAC8(I,IP)=CJ8(I)-HY2PG(I)+HY1PG(I)-HY4PG2(I)
+       JAC9(I,IP)=CJ9(I)-HZ2PG(I)+HZ1PG(I)-HZ4PG2(I)
       ENDDO
       IP=4	  
 C + + -	  
       DO I=LFT,LLT
-       AJ1(I,IP)=CJ1(I)+HX3PG(I)-HX2PG(I)-HX4PG2(I)
-       AJ2(I,IP)=CJ2(I)+HY3PG(I)-HY2PG(I)-HY4PG2(I)
-       AJ3(I,IP)=CJ3(I)+HZ3PG(I)-HZ2PG(I)-HZ4PG2(I)
+       JAC1(I,IP)=CJ1(I)+HX3PG(I)-HX2PG(I)-HX4PG2(I)
+       JAC2(I,IP)=CJ2(I)+HY3PG(I)-HY2PG(I)-HY4PG2(I)
+       JAC3(I,IP)=CJ3(I)+HZ3PG(I)-HZ2PG(I)-HZ4PG2(I)
 C
-       AJ4(I,IP)=CJ4(I)-HX1PG(I)+HX3PG(I)-HX4PG2(I)
-       AJ5(I,IP)=CJ5(I)-HY1PG(I)+HY3PG(I)-HY4PG2(I)
-       AJ6(I,IP)=CJ6(I)-HZ1PG(I)+HZ3PG(I)-HZ4PG2(I)
+       JAC4(I,IP)=CJ4(I)-HX1PG(I)+HX3PG(I)-HX4PG2(I)
+       JAC5(I,IP)=CJ5(I)-HY1PG(I)+HY3PG(I)-HY4PG2(I)
+       JAC6(I,IP)=CJ6(I)-HZ1PG(I)+HZ3PG(I)-HZ4PG2(I)
 C
-       AJ7(I,IP)=CJ7(I)+HX2PG(I)+HX1PG(I)+HX4PG2(I)
-       AJ8(I,IP)=CJ8(I)+HY2PG(I)+HY1PG(I)+HY4PG2(I)
-       AJ9(I,IP)=CJ9(I)+HZ2PG(I)+HZ1PG(I)+HZ4PG2(I)
+       JAC7(I,IP)=CJ7(I)+HX2PG(I)+HX1PG(I)+HX4PG2(I)
+       JAC8(I,IP)=CJ8(I)+HY2PG(I)+HY1PG(I)+HY4PG2(I)
+       JAC9(I,IP)=CJ9(I)+HZ2PG(I)+HZ1PG(I)+HZ4PG2(I)
       ENDDO
       IP=5	  
 C - - +	  
       DO I=LFT,LLT
-       AJ1(I,IP)=CJ1(I)-HX3PG(I)+HX2PG(I)-HX4PG2(I)
-       AJ2(I,IP)=CJ2(I)-HY3PG(I)+HY2PG(I)-HY4PG2(I)
-       AJ3(I,IP)=CJ3(I)-HZ3PG(I)+HZ2PG(I)-HZ4PG2(I)
+       JAC1(I,IP)=CJ1(I)-HX3PG(I)+HX2PG(I)-HX4PG2(I)
+       JAC2(I,IP)=CJ2(I)-HY3PG(I)+HY2PG(I)-HY4PG2(I)
+       JAC3(I,IP)=CJ3(I)-HZ3PG(I)+HZ2PG(I)-HZ4PG2(I)
 C
-       AJ4(I,IP)=CJ4(I)+HX1PG(I)-HX3PG(I)-HX4PG2(I)
-       AJ5(I,IP)=CJ5(I)+HY1PG(I)-HY3PG(I)-HY4PG2(I)
-       AJ6(I,IP)=CJ6(I)+HZ1PG(I)-HZ3PG(I)-HZ4PG2(I)
+       JAC4(I,IP)=CJ4(I)+HX1PG(I)-HX3PG(I)-HX4PG2(I)
+       JAC5(I,IP)=CJ5(I)+HY1PG(I)-HY3PG(I)-HY4PG2(I)
+       JAC6(I,IP)=CJ6(I)+HZ1PG(I)-HZ3PG(I)-HZ4PG2(I)
 C
-       AJ7(I,IP)=CJ7(I)-HX2PG(I)-HX1PG(I)+HX4PG2(I)
-       AJ8(I,IP)=CJ8(I)-HY2PG(I)-HY1PG(I)+HY4PG2(I)
-       AJ9(I,IP)=CJ9(I)-HZ2PG(I)-HZ1PG(I)+HZ4PG2(I)
+       JAC7(I,IP)=CJ7(I)-HX2PG(I)-HX1PG(I)+HX4PG2(I)
+       JAC8(I,IP)=CJ8(I)-HY2PG(I)-HY1PG(I)+HY4PG2(I)
+       JAC9(I,IP)=CJ9(I)-HZ2PG(I)-HZ1PG(I)+HZ4PG2(I)
       ENDDO
       IP=6	  
 C + - +	  
       DO I=LFT,LLT
-       AJ1(I,IP)=CJ1(I)-HX3PG(I)+HX2PG(I)-HX4PG2(I)
-       AJ2(I,IP)=CJ2(I)-HY3PG(I)+HY2PG(I)-HY4PG2(I)
-       AJ3(I,IP)=CJ3(I)-HZ3PG(I)+HZ2PG(I)-HZ4PG2(I)
+       JAC1(I,IP)=CJ1(I)-HX3PG(I)+HX2PG(I)-HX4PG2(I)
+       JAC2(I,IP)=CJ2(I)-HY3PG(I)+HY2PG(I)-HY4PG2(I)
+       JAC3(I,IP)=CJ3(I)-HZ3PG(I)+HZ2PG(I)-HZ4PG2(I)
 C
-       AJ4(I,IP)=CJ4(I)+HX1PG(I)+HX3PG(I)+HX4PG2(I)
-       AJ5(I,IP)=CJ5(I)+HY1PG(I)+HY3PG(I)+HY4PG2(I)
-       AJ6(I,IP)=CJ6(I)+HZ1PG(I)+HZ3PG(I)+HZ4PG2(I)
+       JAC4(I,IP)=CJ4(I)+HX1PG(I)+HX3PG(I)+HX4PG2(I)
+       JAC5(I,IP)=CJ5(I)+HY1PG(I)+HY3PG(I)+HY4PG2(I)
+       JAC6(I,IP)=CJ6(I)+HZ1PG(I)+HZ3PG(I)+HZ4PG2(I)
 C
-       AJ7(I,IP)=CJ7(I)+HX2PG(I)-HX1PG(I)-HX4PG2(I)
-       AJ8(I,IP)=CJ8(I)+HY2PG(I)-HY1PG(I)-HY4PG2(I)
-       AJ9(I,IP)=CJ9(I)+HZ2PG(I)-HZ1PG(I)-HZ4PG2(I)
+       JAC7(I,IP)=CJ7(I)+HX2PG(I)-HX1PG(I)-HX4PG2(I)
+       JAC8(I,IP)=CJ8(I)+HY2PG(I)-HY1PG(I)-HY4PG2(I)
+       JAC9(I,IP)=CJ9(I)+HZ2PG(I)-HZ1PG(I)-HZ4PG2(I)
       ENDDO
       IP=7	  
 C - + +	  
       DO I=LFT,LLT
-       AJ1(I,IP)=CJ1(I)+HX3PG(I)+HX2PG(I)+HX4PG2(I)
-       AJ2(I,IP)=CJ2(I)+HY3PG(I)+HY2PG(I)+HY4PG2(I)
-       AJ3(I,IP)=CJ3(I)+HZ3PG(I)+HZ2PG(I)+HZ4PG2(I)
+       JAC1(I,IP)=CJ1(I)+HX3PG(I)+HX2PG(I)+HX4PG2(I)
+       JAC2(I,IP)=CJ2(I)+HY3PG(I)+HY2PG(I)+HY4PG2(I)
+       JAC3(I,IP)=CJ3(I)+HZ3PG(I)+HZ2PG(I)+HZ4PG2(I)
 C
-       AJ4(I,IP)=CJ4(I)+HX1PG(I)-HX3PG(I)-HX4PG2(I)
-       AJ5(I,IP)=CJ5(I)+HY1PG(I)-HY3PG(I)-HY4PG2(I)
-       AJ6(I,IP)=CJ6(I)+HZ1PG(I)-HZ3PG(I)-HZ4PG2(I)
+       JAC4(I,IP)=CJ4(I)+HX1PG(I)-HX3PG(I)-HX4PG2(I)
+       JAC5(I,IP)=CJ5(I)+HY1PG(I)-HY3PG(I)-HY4PG2(I)
+       JAC6(I,IP)=CJ6(I)+HZ1PG(I)-HZ3PG(I)-HZ4PG2(I)
 C
-       AJ7(I,IP)=CJ7(I)-HX2PG(I)+HX1PG(I)-HX4PG2(I)
-       AJ8(I,IP)=CJ8(I)-HY2PG(I)+HY1PG(I)-HY4PG2(I)
-       AJ9(I,IP)=CJ9(I)-HZ2PG(I)+HZ1PG(I)-HZ4PG2(I)
+       JAC7(I,IP)=CJ7(I)-HX2PG(I)+HX1PG(I)-HX4PG2(I)
+       JAC8(I,IP)=CJ8(I)-HY2PG(I)+HY1PG(I)-HY4PG2(I)
+       JAC9(I,IP)=CJ9(I)-HZ2PG(I)+HZ1PG(I)-HZ4PG2(I)
       ENDDO
       IP=8	  
 C + + +	  
       DO I=LFT,LLT
-       AJ1(I,IP)=CJ1(I)+HX3PG(I)+HX2PG(I)+HX4PG2(I)
-       AJ2(I,IP)=CJ2(I)+HY3PG(I)+HY2PG(I)+HY4PG2(I)
-       AJ3(I,IP)=CJ3(I)+HZ3PG(I)+HZ2PG(I)+HZ4PG2(I)
+       JAC1(I,IP)=CJ1(I)+HX3PG(I)+HX2PG(I)+HX4PG2(I)
+       JAC2(I,IP)=CJ2(I)+HY3PG(I)+HY2PG(I)+HY4PG2(I)
+       JAC3(I,IP)=CJ3(I)+HZ3PG(I)+HZ2PG(I)+HZ4PG2(I)
 C
-       AJ4(I,IP)=CJ4(I)+HX1PG(I)+HX3PG(I)+HX4PG2(I)
-       AJ5(I,IP)=CJ5(I)+HY1PG(I)+HY3PG(I)+HY4PG2(I)
-       AJ6(I,IP)=CJ6(I)+HZ1PG(I)+HZ3PG(I)+HZ4PG2(I)
+       JAC4(I,IP)=CJ4(I)+HX1PG(I)+HX3PG(I)+HX4PG2(I)
+       JAC5(I,IP)=CJ5(I)+HY1PG(I)+HY3PG(I)+HY4PG2(I)
+       JAC6(I,IP)=CJ6(I)+HZ1PG(I)+HZ3PG(I)+HZ4PG2(I)
 C
-       AJ7(I,IP)=CJ7(I)+HX2PG(I)+HX1PG(I)+HX4PG2(I)
-       AJ8(I,IP)=CJ8(I)+HY2PG(I)+HY1PG(I)+HY4PG2(I)
-       AJ9(I,IP)=CJ9(I)+HZ2PG(I)+HZ1PG(I)+HZ4PG2(I)
+       JAC7(I,IP)=CJ7(I)+HX2PG(I)+HX1PG(I)+HX4PG2(I)
+       JAC8(I,IP)=CJ8(I)+HY2PG(I)+HY1PG(I)+HY4PG2(I)
+       JAC9(I,IP)=CJ9(I)+HZ2PG(I)+HZ1PG(I)+HZ4PG2(I)
       ENDDO
 C
       RETURN
@@ -2404,9 +2412,9 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE S8EDERI3(VOL,VEUL,GEO,WI,
-     .    AJP1,AJP2,AJP3,
-     .    AJP4,AJP5,AJP6,
-     .    AJP7,AJP8,AJP9,
+     .    JACP1,JACP2,JACP3,
+     .    JACP4,JACP5,JACP6,
+     .    JACP7,JACP8,JACP9,
      .    SMAX, DELTAX, NGL,VOLDP)
       USE MESSAGE_MOD
 C-----------------------------------------------
@@ -2433,9 +2441,9 @@ C-----------------------------------------------
       my_real
      .   VOL(*), VEUL(LVEUL,*),GEO(NPROPG,*),WI
       my_real
-     .   AJP1(*),AJP2(*),AJP3(*),
-     .   AJP4(*),AJP5(*),AJP6(*),
-     .   AJP7(*),AJP8(*),AJP9(*),
+     .   JACP1(*),JACP2(*),JACP3(*),
+     .   JACP4(*),JACP5(*),JACP6(*),
+     .   JACP7(*),JACP8(*),JACP9(*),
      .   SMAX(*), DELTAX(*)
       INTEGER NGL(*)
       DOUBLE PRECISION
@@ -2446,34 +2454,34 @@ C-----------------------------------------------
       INTEGER I,J
 C                                                                     12
       my_real
-     .   AJ1(MVSIZ),AJ2(MVSIZ),AJ3(MVSIZ),
-     .   AJ4(MVSIZ),AJ5(MVSIZ),AJ6(MVSIZ),
-     .   AJ7(MVSIZ),AJ8(MVSIZ),AJ9(MVSIZ),
-     .   AJI1(MVSIZ), AJI2(MVSIZ), AJI3(MVSIZ),
-     .   AJI4(MVSIZ), AJI5(MVSIZ), AJI6(MVSIZ),
-     .   AJI7(MVSIZ), AJI8(MVSIZ), AJI9(MVSIZ),
+     .   JAC1(MVSIZ),JAC2(MVSIZ),JAC3(MVSIZ),
+     .   JAC4(MVSIZ),JAC5(MVSIZ),JAC6(MVSIZ),
+     .   JAC7(MVSIZ),JAC8(MVSIZ),JAC9(MVSIZ),
+     .   JACI1(MVSIZ), JACI2(MVSIZ), JACI3(MVSIZ),
+     .   JACI4(MVSIZ), JACI5(MVSIZ), JACI6(MVSIZ),
+     .   JACI7(MVSIZ), JACI8(MVSIZ), JACI9(MVSIZ),
      .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ), DET(MVSIZ)
 C-----------------------------------------------
-       AJ1(LFT:LLT)=AJP1(LFT:LLT)
-       AJ2(LFT:LLT)=AJP2(LFT:LLT)
-       AJ3(LFT:LLT)=AJP3(LFT:LLT)
-       AJ4(LFT:LLT)=AJP4(LFT:LLT)
-       AJ5(LFT:LLT)=AJP5(LFT:LLT)
-       AJ6(LFT:LLT)=AJP6(LFT:LLT)
-       AJ7(LFT:LLT)=AJP7(LFT:LLT)
-       AJ8(LFT:LLT)=AJP8(LFT:LLT)
-       AJ9(LFT:LLT)=AJP9(LFT:LLT)
+       JAC1(LFT:LLT)=JACP1(LFT:LLT)
+       JAC2(LFT:LLT)=JACP2(LFT:LLT)
+       JAC3(LFT:LLT)=JACP3(LFT:LLT)
+       JAC4(LFT:LLT)=JACP4(LFT:LLT)
+       JAC5(LFT:LLT)=JACP5(LFT:LLT)
+       JAC6(LFT:LLT)=JACP6(LFT:LLT)
+       JAC7(LFT:LLT)=JACP7(LFT:LLT)
+       JAC8(LFT:LLT)=JACP8(LFT:LLT)
+       JAC9(LFT:LLT)=JACP9(LFT:LLT)
 C
 C     JACOBIAN
 C
       DO I=LFT,LLT
-       JAC_59_68(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-       JAC_67_49(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
-       JAC_48_57(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
+       JAC_59_68(I)=JAC5(I)*JAC9(I)-JAC6(I)*JAC8(I)
+       JAC_67_49(I)=JAC6(I)*JAC7(I)-JAC4(I)*JAC9(I)
+       JAC_48_57(I)=JAC4(I)*JAC8(I)-JAC5(I)*JAC7(I)
       ENDDO
 C
       DO I=LFT,LLT
-      DETDP=ONE_OVER_512*(AJ1(I)*JAC_59_68(I)+AJ2(I)*JAC_67_49(I)+AJ3(I)*JAC_48_57(I))
+      DETDP=ONE_OVER_512*(JAC1(I)*JAC_59_68(I)+JAC2(I)*JAC_67_49(I)+JAC3(I)*JAC_48_57(I))
       DET(I)=DETDP
       VOLDP(I)= WI*DETDP
       VOL(I)= VOLDP(I)
