@@ -25,7 +25,6 @@ Chd|  S10COOR3                      source/elements/solid/solide10/s10coor3.F
 Chd|-- called by -----------
 Chd|        S10INIT3                      source/elements/solid/solide10/s10init3.F
 Chd|-- calls ---------------
-Chd|        CHECKVOLUME_4N                source/elements/solid/solide/checksvolume.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE S10COOR3(
@@ -215,7 +214,6 @@ Chd|  S10COOR3_OLD                  source/elements/solid/solide10/s10coor3.F
 Chd|-- called by -----------
 Chd|        INIRIG_MAT                    source/elements/initia/inirig_mat.F
 Chd|-- calls ---------------
-Chd|        CHECKVOLUME_4N                source/elements/solid/solide/checksvolume.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE S10COOR3_OLD(X,V, IXS,IXS10,
