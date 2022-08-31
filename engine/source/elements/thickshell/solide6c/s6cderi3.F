@@ -40,9 +40,9 @@ Chd|====================================================================
      .   PX1H, PX2H, PX3H, 
      .   PY1H, PY2H, PY3H, 
      .   PZ1H, PZ2H, PZ3H, 
-     .   AAJ5,AAJ6,AAJ4,
-     .   AAJ8,AAJ9,AAJ7,
-     .   JI33,B1X,B1Y,B2Y,B2X,B1122,B1221,B2212,B1121,
+     .   JACOB5,JACOB6,JACOB4,
+     .   JACOB8,JACOB9,JACOB7,
+     .   JACI33,B1X,B1Y,B2Y,B2X,B1122,B1221,B2212,B1121,
      .   B1XH,B1YH,B2XH,B2YH,B1122H,B1221H,B2212H,B1121H,
      .   VZL,VOLG,SAV,OFFG,NEL)
 C-----------------------------------------------
@@ -70,8 +70,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL
-C     REAL
+      INTEGER :: NEL, NGL(*)
+C
       my_real
      .   OFF(*),DET(*),
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), 
@@ -83,9 +83,9 @@ C     REAL
      .   PX1H(*), PX2H(*), PX3H(*),  
      .   PY1H(*), PY2H(*), PY3H(*),   
      .   PZ1H(*), PZ2H(*), PZ3H(*),   
-     .   AAJ7(*),AAJ8(*),AAJ9(*),
-     .   AAJ4(*),AAJ5(*),AAJ6(*),
-     .   JI33(*),B1X(MVSIZ,2),B1Y(MVSIZ,2),B2X(MVSIZ,2),B2Y(MVSIZ,2),
+     .   JACOB7(*),JACOB8(*),JACOB9(*),
+     .   JACOB4(*),JACOB5(*),JACOB6(*),
+     .   JACI33(*),B1X(MVSIZ,2),B1Y(MVSIZ,2),B2X(MVSIZ,2),B2Y(MVSIZ,2),
      .   B1XH(MVSIZ,2),B1YH(MVSIZ,2),B2XH(MVSIZ,2),B2YH(MVSIZ,2),
      .   B1122(*),B1221(*),B2212(*),B1121(*),
      .   B1122H(*),B1221H(*),B2212H(*),B1121H(*),
@@ -95,27 +95,26 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NGL(*), I, J,ICOR,NNEGA,INDEX(MVSIZ)
-C     REAL
+      INTEGER :: I, J,ICOR,NNEGA,INDEX(MVSIZ)
 C                                                                     12
       my_real
-     .   DETT(MVSIZ) ,  AJ1(MVSIZ), AJ2(MVSIZ) ,AJ3(MVSIZ), 
-     .   AJ4(MVSIZ)  ,  AJ5(MVSIZ), AJ6(MVSIZ),
-     .   AJ7(MVSIZ)  ,  AJ8(MVSIZ), AJ9(MVSIZ),
-     .   AJI1, AJI2, AJI3,
-     .   AJI4, AJI5, AJI6,
-     .   AJI7, AJI8, AJI9,
+     .   DETT(MVSIZ), JAC1(MVSIZ), JAC2(MVSIZ), JAC3(MVSIZ), 
+     .   JAC4(MVSIZ), JAC5(MVSIZ), JAC6(MVSIZ),
+     .   JAC7(MVSIZ), JAC8(MVSIZ), JAC9(MVSIZ),
+     .   JACI1, JACI2, JACI3,
+     .   JACI4, JACI5, JACI6,
+     .   JACI7, JACI8, JACI9,
      .   X21(MVSIZ) , X31(MVSIZ) , X54(MVSIZ) , X64(MVSIZ),
      .   Y21(MVSIZ) , Y31(MVSIZ) , Y54(MVSIZ) , Y64(MVSIZ),
      .   Z21(MVSIZ) , Z31(MVSIZ) , Z54(MVSIZ) , Z64(MVSIZ),
      .   X41(MVSIZ) , Y41(MVSIZ) , Z41(MVSIZ) , 
      .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ),
-     .   AJ12, AJ45, AJ78,
+     .   JACI12, JACI45, JACI78,
      .   FAC
 C-----------------------------------------------
       NNEGA=0
 C
-      DO 10 I=LFT,LLT
+      DO I=1,NEL
       X21(I)=X2(I)-X1(I)
       X31(I)=X3(I)-X1(I)
       X41(I)=X4(I)-X1(I)
@@ -130,44 +129,49 @@ C
       Z31(I)=Z3(I)-Z1(I)
       Z41(I)=Z4(I)-Z1(I)
       Z54(I)=Z5(I)-Z4(I)
-   10 Z64(I)=Z6(I)-Z4(I)
+      Z64(I)=Z6(I)-Z4(I)
+      END DO
 C
-      DO 20 I=LFT,LLT
+C Jacobian matrix
+      DO I=1,NEL
 C  -------ri.xi---->ksi--------
-      AJ1(I)=X21(I)+X54(I)
-      AJ2(I)=Y21(I)+Y54(I)
-   20 AJ3(I)=Z21(I)+Z54(I)
-      DO 30 I=LFT,LLT
+       JAC1(I)=X21(I)+X54(I)
+       JAC2(I)=Y21(I)+Y54(I)
+       JAC3(I)=Z21(I)+Z54(I)
+      END DO
+      DO I=1,NEL
 C  -------si.xi--->eta--------
-      AJ4(I)=X31(I)+X64(I)
-      AJ5(I)=Y31(I)+Y64(I)
-      AJ6(I)=Z31(I)+Z64(I)
+       JAC4(I)=X31(I)+X64(I)
+       JAC5(I)=Y31(I)+Y64(I)
+       JAC6(I)=Z31(I)+Z64(I)
 C  -------ti.xi----zeta-------
-      AJ7(I)=THIRD*(X41(I)+X5(I)-X2(I)+X6(I)-X3(I))
-      AJ8(I)=THIRD*(Y41(I)+Y5(I)-Y2(I)+Y6(I)-Y3(I))
-   30 AJ9(I)=THIRD*(Z41(I)+Z5(I)-Z2(I)+Z6(I)-Z3(I))
-      DO I=LFT,LLT
-       AAJ4(I)=AJ4(I)
-       AAJ5(I)=AJ5(I)
-       AAJ6(I)=AJ6(I)
-       AAJ7(I)=AJ7(I)
-       AAJ8(I)=AJ8(I)
-       AAJ9(I)=AJ9(I)
+       JAC7(I)=THIRD*(X41(I)+X5(I)-X2(I)+X6(I)-X3(I))
+       JAC8(I)=THIRD*(Y41(I)+Y5(I)-Y2(I)+Y6(I)-Y3(I))
+       JAC9(I)=THIRD*(Z41(I)+Z5(I)-Z2(I)+Z6(I)-Z3(I))
+      END DO
+C
+      DO I=1,NEL
+       JACOB4(I)=JAC4(I)
+       JACOB5(I)=JAC5(I)
+       JACOB6(I)=JAC6(I)
+       JACOB7(I)=JAC7(I)
+       JACOB8(I)=JAC8(I)
+       JACOB9(I)=JAC9(I)
       ENDDO 
 C
-C     JACOBIAN
+      DO I=1,NEL
+      JAC_59_68(I)=JAC5(I)*JAC9(I)-JAC6(I)*JAC8(I)
+      JAC_67_49(I)=JAC6(I)*JAC7(I)-JAC4(I)*JAC9(I)
+      JAC_48_57(I)=JAC4(I)*JAC8(I)-JAC5(I)*JAC7(I)
+      END DO
 C
-      DO 100 I=LFT,LLT
-      JAC_59_68(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-      JAC_67_49(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
-  100 JAC_48_57(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
-C
-      DO 110 I=LFT,LLT
-  110 DET(I)=ONE_OVER_8*(AJ1(I)*JAC_59_68(I)+AJ2(I)*JAC_67_49(I)+AJ3(I)*JAC_48_57(I))
+      DO I=1,NEL
+      DET(I)=ONE_OVER_8*(JAC1(I)*JAC_59_68(I)+JAC2(I)*JAC_67_49(I)+JAC3(I)*JAC_48_57(I))
+      END DO
 C
       IF(IDTMIN(1).EQ.1)THEN
         ICOR = 0
-        DO I=LFT,LLT
+        DO I=1,NEL
            IF(OFF(I) .EQ.ZERO)THEN
             DET(I)=ONE
           ELSEIF((DET(I).LE.VOLMIN).OR.(DET(I).LE.ZERO))THEN
@@ -175,7 +179,7 @@ C
           ENDIF
         ENDDO
         IF (ICOR.GT.0) THEN
-          DO I=LFT,LLT
+          DO I=1,NEL
            IF(OFF(I).NE.ZERO)THEN
              IF(DET(I).LE.VOLMIN)THEN
               DET(I)=ONE
@@ -194,7 +198,7 @@ C
         ENDIF
       ELSEIF(IDTMIN(1).EQ.2)THEN
         ICOR = 0
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF(OFF(I) .EQ.ZERO)THEN
             DET(I)=ONE
            ELSEIF((DET(I).LE.VOLMIN).OR.(DET(I).LE.ZERO))THEN
@@ -202,7 +206,7 @@ C
           ENDIF
         ENDDO
         IF (ICOR.GT.0) THEN
-          DO I=LFT,LLT
+          DO I=1,NEL
             IF((OFF(I).NE.ZERO).AND.
      .         (DET(I).LE.VOLMIN.OR.DET(I).LE.ZERO))THEN
               DET(I)=ONE
@@ -217,7 +221,7 @@ C
         ENDIF
       ELSEIF (ISMSTR /=4 ) THEN
         ICOR = 0
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF(OFF(I) .EQ.ZERO)THEN
             DET(I)=ONE
           ELSEIF((DET(I).LE.VOLMIN).OR.(DET(I).LE.ZERO))THEN
@@ -225,7 +229,7 @@ C
           ENDIF
         ENDDO
         IF (ICOR.GT.0) THEN
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF(OFF(I) == ZERO)THEN
             DET(I)=ONE
           ELSEIF(OFFG(I) > ONE)THEN
@@ -247,7 +251,7 @@ C
       ELSE
 C
         ICOR = 0
-        DO I=LFT,LLT
+        DO I=1,NEL
           IF(OFF(I) .EQ.ZERO)THEN
             DET(I)=ONE
           ELSEIF(DET(I).LE.ZERO)THEN
@@ -255,7 +259,7 @@ C
           ENDIF
         ENDDO
         IF (ICOR.GT.0) THEN
-          DO I=LFT,LLT
+          DO I=1,NEL
            IF(OFF(I).NE.ZERO)THEN
             IF(DET(I).LE.ZERO)THEN
               CALL ANCMSG(MSGID=166,ANMODE=ANINFO,
@@ -266,7 +270,8 @@ C
           ENDDO
         ENDIF
       ENDIF
-C------------projection is not changed---
+C
+C Projection is not changed---
       IF (NNEGA>0) THEN
 #include "vectorize.inc"
          DO J=1,NNEGA
@@ -306,83 +311,82 @@ C
            Z54(I)=Z5(I)-Z4(I)
            Z64(I)=Z6(I)-Z4(I)
 C
-           AJ1(I)=X21(I)+X54(I)
-           AJ2(I)=Y21(I)+Y54(I)
-           AJ3(I)=Z21(I)+Z54(I)
+           JAC1(I)=X21(I)+X54(I)
+           JAC2(I)=Y21(I)+Y54(I)
+           JAC3(I)=Z21(I)+Z54(I)
 C----
-           AJ4(I)=X31(I)+X64(I)
-           AJ5(I)=Y31(I)+Y64(I)
-           AJ6(I)=Z31(I)+Z64(I)
-           AJ7(I)=THIRD*(X41(I)+X5(I)-X2(I)+X6(I)-X3(I))
-           AJ8(I)=THIRD*(Y41(I)+Y5(I)-Y2(I)+Y6(I)-Y3(I))
-           AJ9(I)=THIRD*(Z41(I)+Z5(I)-Z2(I)+Z6(I)-Z3(I))
+           JAC4(I)=X31(I)+X64(I)
+           JAC5(I)=Y31(I)+Y64(I)
+           JAC6(I)=Z31(I)+Z64(I)
+           JAC7(I)=THIRD*(X41(I)+X5(I)-X2(I)+X6(I)-X3(I))
+           JAC8(I)=THIRD*(Y41(I)+Y5(I)-Y2(I)+Y6(I)-Y3(I))
+           JAC9(I)=THIRD*(Z41(I)+Z5(I)-Z2(I)+Z6(I)-Z3(I))
 C
-           AAJ4(I)=AJ4(I)
-           AAJ5(I)=AJ5(I)
-           AAJ6(I)=AJ6(I)
-           AAJ7(I)=AJ7(I)
-           AAJ8(I)=AJ8(I)
-           AAJ9(I)=AJ9(I)
+           JACOB4(I)=JAC4(I)
+           JACOB5(I)=JAC5(I)
+           JACOB6(I)=JAC6(I)
+           JACOB7(I)=JAC7(I)
+           JACOB8(I)=JAC8(I)
+           JACOB9(I)=JAC9(I)
 C
-           JAC_59_68(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-           JAC_67_49(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
-           JAC_48_57(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
+           JAC_59_68(I)=JAC5(I)*JAC9(I)-JAC6(I)*JAC8(I)
+           JAC_67_49(I)=JAC6(I)*JAC7(I)-JAC4(I)*JAC9(I)
+           JAC_48_57(I)=JAC4(I)*JAC8(I)-JAC5(I)*JAC7(I)
 C
-           DET(I)=ONE_OVER_8*(AJ1(I)*JAC_59_68(I)+AJ2(I)*JAC_67_49(I)+AJ3(I)*JAC_48_57(I))
-	   OFFG(I) = TWO
+           DET(I)=ONE_OVER_8*(JAC1(I)*JAC_59_68(I)+JAC2(I)*JAC_67_49(I)+JAC3(I)*JAC_48_57(I))
+           OFFG(I) = TWO
          ENDDO
       END IF
-C      
-      DO I=LFT,LLT
+C
+C Jacobian matrix inverse
+      DO I=1,NEL
         DETT(I)=ONE_OVER_8/DET(I)
 C
-C     INVERSE DE LA MATRICE JACOBIENNE
+        JACI1=DETT(I)*JAC_59_68(I)
+        JACI4=DETT(I)*JAC_67_49(I)
+        JACI7=DETT(I)*JAC_48_57(I)
+        JACI2=DETT(I)*(-JAC2(I)*JAC9(I)+JAC3(I)*JAC8(I))
+        JACI5=DETT(I)*( JAC1(I)*JAC9(I)-JAC3(I)*JAC7(I))
+        JACI8=DETT(I)*(-JAC1(I)*JAC8(I)+JAC2(I)*JAC7(I))
+        JACI3=DETT(I)*( JAC2(I)*JAC6(I)-JAC3(I)*JAC5(I))
+        JACI6=DETT(I)*(-JAC1(I)*JAC6(I)+JAC3(I)*JAC4(I))
+        JACI9=DETT(I)*( JAC1(I)*JAC5(I)-JAC2(I)*JAC4(I))
 C
-        AJI1=DETT(I)*JAC_59_68(I)
-        AJI4=DETT(I)*JAC_67_49(I)
-        AJI7=DETT(I)*JAC_48_57(I)
-        AJI2=DETT(I)*(-AJ2(I)*AJ9(I)+AJ3(I)*AJ8(I))
-        AJI5=DETT(I)*(AJ1(I)*AJ9(I)-AJ3(I)*AJ7(I))
-        AJI8=DETT(I)*(-AJ1(I)*AJ8(I)+AJ2(I)*AJ7(I))
-        AJI3=DETT(I)*( AJ2(I)*AJ6(I)-AJ3(I)*AJ5(I))
-        AJI6=DETT(I)*(-AJ1(I)*AJ6(I)+AJ3(I)*AJ4(I))
-        AJI9=DETT(I)*(AJ1(I)*AJ5(I)-AJ2(I)*AJ4(I))
+        JACI12=JACI1+JACI2
+        JACI45=JACI4+JACI5
+        JACI78=JACI7+JACI8
 C
-        AJ12=AJI1+AJI2
-        AJ45=AJI4+AJI5
-        AJ78=AJI7+AJI8
-C
-C ----------symtrie(a b c a b c)->P1-P3,anti-symtrie(-1 -1 -1 1 1 1)->P4
-        PX1(I)=-AJ12
-        PY1(I)=-AJ45
-        PZ1(I)=-AJ78
-        PX2(I)=AJI1
-        PY2(I)=AJI4
-        PZ2(I)=AJI7
-        PX3(I)=AJI2
-        PY3(I)=AJI5
-        PZ3(I)=AJI8
-        PX4(I)=THIRD*AJI3
-        PY4(I)=THIRD*AJI6
-        PZ4(I)=THIRD*AJI9
-       JI33(I) = AJI9*ONE_OVER_12
+C Symmetry (a b c a b c)->P1-P3, anti-symmetry(-1 -1 -1 1 1 1)->P4
+        PX1(I)=-JACI12
+        PY1(I)=-JACI45
+        PZ1(I)=-JACI78
+        PX2(I)=JACI1
+        PY2(I)=JACI4
+        PZ2(I)=JACI7
+        PX3(I)=JACI2
+        PY3(I)=JACI5
+        PZ3(I)=JACI8
+        PX4(I)=THIRD*JACI3
+        PY4(I)=THIRD*JACI6
+        PZ4(I)=THIRD*JACI9
+        JACI33(I) = JACI9*ONE_OVER_12
       ENDDO
-C ----------for shear traitement----------
-      DO I=LFT,LLT
+C
+C For shear traitement----------
+      DO I=1,NEL
        FAC = DETT(I)*ONE_OVER_12
-       B1X(I,1)=-FAC*AJ1(I)*AJ2(I)
-       B1X(I,2)=-FAC*AJ4(I)*AJ5(I)
-       B1Y(I,1)=-FAC*AJ2(I)*AJ2(I)
-       B1Y(I,2)=-FAC*AJ5(I)*AJ5(I)
-       B2X(I,1)=-FAC*AJ1(I)*AJ1(I)
-       B2X(I,2)=-FAC*AJ4(I)*AJ4(I)
+       B1X(I,1)=-FAC*JAC1(I)*JAC2(I)
+       B1X(I,2)=-FAC*JAC4(I)*JAC5(I)
+       B1Y(I,1)=-FAC*JAC2(I)*JAC2(I)
+       B1Y(I,2)=-FAC*JAC5(I)*JAC5(I)
+       B2X(I,1)=-FAC*JAC1(I)*JAC1(I)
+       B2X(I,2)=-FAC*JAC4(I)*JAC4(I)
        B2Y(I,1)=B1X(I,1)
        B2Y(I,2)=B1X(I,2)
        FAC = FAC*2.0
-       B1122(I)=FAC*AJ1(I)*AJ5(I)
-       B1221(I)=FAC*AJ2(I)*AJ4(I)
-       B2212(I)=FAC*AJ5(I)*AJ2(I)
-C         B1121(I)=FAC*AJ1(I)*AJ4(I)
+       B1122(I)=FAC*JAC1(I)*JAC5(I)
+       B1221(I)=FAC*JAC2(I)*JAC4(I)
+       B2212(I)=FAC*JAC5(I)*JAC2(I)
        B1121(I)=B2212(I)
 C
        B1XH(I,1)=-FAC*(X54(I)*Y54(I)-X21(I)*Y21(I))
@@ -397,59 +401,54 @@ C
        B1122H(I)=FAC*(X54(I)*Y64(I)-X21(I)*Y31(I))
        B1221H(I)=FAC*(X64(I)*Y54(I)-X31(I)*Y21(I))
        B2212H(I)=FAC*(Y54(I)*Y64(I)-Y21(I)*Y31(I))
-C         B1121H(I)=FAC*(X64(I)*Y54(I)-X31(I)*Y21(I))
        B1121H(I)=B2212H(I)
       ENDDO
-C  --------non constante part--------
-      DO I=LFT,LLT
-       AJ1(I)=-X21(I)+X54(I)
-       AJ2(I)=-Y21(I)+Y54(I)
-       AJ3(I)=-Z21(I)+Z54(I)
-       AJ4(I)=-X31(I)+X64(I)
-       AJ5(I)=-Y31(I)+Y64(I)
-       AJ6(I)=-Z31(I)+Z64(I)
+C Non constant part
+      DO I=1,NEL
+       JAC1(I)=-X21(I)+X54(I)
+       JAC2(I)=-Y21(I)+Y54(I)
+       JAC3(I)=-Z21(I)+Z54(I)
+       JAC4(I)=-X31(I)+X64(I)
+       JAC5(I)=-Y31(I)+Y64(I)
+       JAC6(I)=-Z31(I)+Z64(I)
       ENDDO
 C
-C     JACOBIAN
-C
-      DO I=LFT,LLT
-       JAC_59_68(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
-       JAC_67_49(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
-       JAC_48_57(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
+      DO I=1,NEL
+       JAC_59_68(I)=JAC5(I)*JAC9(I)-JAC6(I)*JAC8(I)
+       JAC_67_49(I)=JAC6(I)*JAC7(I)-JAC4(I)*JAC9(I)
+       JAC_48_57(I)=JAC4(I)*JAC8(I)-JAC5(I)*JAC7(I)
       ENDDO
 C
-C     INVERSE DE LA MATRICE JACOBIENNE
+      DO I=1,NEL
+       JACI1=DETT(I)*JAC_59_68(I)
+       JACI4=DETT(I)*JAC_67_49(I)
+       JACI7=DETT(I)*JAC_48_57(I)
+       JACI2=DETT(I)*(-JAC2(I)*JAC9(I)+JAC3(I)*JAC8(I))
+       JACI5=DETT(I)*( JAC1(I)*JAC9(I)-JAC3(I)*JAC7(I))
+       JACI8=DETT(I)*(-JAC1(I)*JAC8(I)+JAC2(I)*JAC7(I))
 C
-      DO I=LFT,LLT
-       AJI1=DETT(I)*JAC_59_68(I)
-       AJI4=DETT(I)*JAC_67_49(I)
-       AJI7=DETT(I)*JAC_48_57(I)
-       AJI2=DETT(I)*(-AJ2(I)*AJ9(I)+AJ3(I)*AJ8(I))
-       AJI5=DETT(I)*(AJ1(I)*AJ9(I)-AJ3(I)*AJ7(I))
-       AJI8=DETT(I)*(-AJ1(I)*AJ8(I)+AJ2(I)*AJ7(I))
+       JACI12=JACI1+JACI2
+       JACI45=JACI4+JACI5
+       JACI78=JACI7+JACI8
 C
-       AJ12=AJI1+AJI2
-       AJ45=AJI4+AJI5
-       AJ78=AJI7+AJI8
-C
-C ----------symtrie(a b c a b c)->P1-P3
-       PX1H(I)=-AJ12
-       PY1H(I)=-AJ45
-       PZ1H(I)=-AJ78
-       PX2H(I)=AJI1
-       PY2H(I)=AJI4
-       PZ2H(I)=AJI7
-       PX3H(I)=AJI2
-       PY3H(I)=AJI5
-       PZ3H(I)=AJI8
+C Symmetry(a b c a b c)->P1-P3
+       PX1H(I)=-JACI12
+       PY1H(I)=-JACI45
+       PZ1H(I)=-JACI78
+       PX2H(I)=JACI1
+       PY2H(I)=JACI4
+       PZ2H(I)=JACI7
+       PX3H(I)=JACI2
+       PY3H(I)=JACI5
+       PZ3H(I)=JACI8
       ENDDO
 C                                                                     12
-       DO I=LFT,LLT
-        VZL(I) = FOURTH*(AAJ9(I)*(
+       DO I=1,NEL
+        VZL(I) = FOURTH*(JACOB9(I)*(
      .          X54(I)*Y64(I)-X21(I)*Y31(I)-X64(I)*Y54(I)+X31(I)*Y21(I))
-     .                -AAJ8(I)*(
+     .                  -JACOB8(I)*(
      .          X54(I)*Z64(I)+X31(I)*Z21(I)-X21(I)*Z31(I)-X64(I)*Z54(I))
-     .                +AAJ7(I)*(
+     .                  +JACOB7(I)*(
      .          Y54(I)*Z64(I)+Y31(I)*Z21(I)-Y21(I)*Z31(I)-Y64(I)*Z54(I))
      .                )
         VOLG(I)= DET(I)
@@ -460,4 +459,4 @@ C
  2000 FORMAT(/' ZERO OR NEGATIVE VOLUME : DELETE 3D-ELEMENT NB',I10/)
  3000 FORMAT(/' ZERO OR NEGATIVE VOLUME : 3D-ELEMENT NB:',I10/,
      +    ' SOLID-SHELL ELEMENT IS SWITCHED TO SMALL STRAIN OPTION'/) 
-      END
+      END SUBROUTINE S6CDERI3

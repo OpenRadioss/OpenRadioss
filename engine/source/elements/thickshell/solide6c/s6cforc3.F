@@ -148,14 +148,13 @@ C----------
      . S4(MVSIZ)  , S5(MVSIZ)  , S6(MVSIZ)  ,
      . DXX(MVSIZ) , DYY(MVSIZ) , DZZ(MVSIZ) ,
      . D4(MVSIZ)  , D5(MVSIZ)  , D6(MVSIZ)  , 
-     . AJ1(MVSIZ) , AJ2(MVSIZ) , AJ3(MVSIZ) ,
-     . AJ4(MVSIZ) , AJ5(MVSIZ) , AJ6(MVSIZ) ,
+     . JAC1(MVSIZ), JAC2(MVSIZ), JAC3(MVSIZ),
+     . JAC4(MVSIZ), JAC5(MVSIZ), JAC6(MVSIZ),
      . VDX(MVSIZ) , VDY(MVSIZ) , VDZ(MVSIZ),SSP_EQ(MVSIZ),AIRE(MVSIZ)
 C-----
-c      Variables utilisees en argument par les materiaux.
       my_real
      .   STI(MVSIZ),WXX(MVSIZ),WYY(MVSIZ),WZZ(MVSIZ),CONDE(MVSIZ)
-C     Variables utilisees en argument par les materiaux si SPH uniquement.
+C
       my_real
      .   MUVOID(MVSIZ)
       my_real
@@ -202,7 +201,7 @@ C                                                                     12
      .   B1XH(MVSIZ,2),B1YH(MVSIZ,2),B2XH(MVSIZ,2),B2YH(MVSIZ,2),
      .   DCXX(MVSIZ),DCXY(MVSIZ),DCXZ(MVSIZ),DCYX(MVSIZ),DCYY(MVSIZ),
      .   DCYZ(MVSIZ),DCZX(MVSIZ),DCZY(MVSIZ),DCZZ(MVSIZ),DC4(MVSIZ),
-     .   DC5(MVSIZ),DC6(MVSIZ),VZL(MVSIZ),JI33(MVSIZ),
+     .   DC5(MVSIZ),DC6(MVSIZ),VZL(MVSIZ),JACI33(MVSIZ),
      .   DHXX(MVSIZ),DHXY(MVSIZ),DHYX(MVSIZ),DHYY(MVSIZ),DHYZ(MVSIZ),
      .   DHZX(MVSIZ),DHZY(MVSIZ),DHZZ(MVSIZ),DH4(MVSIZ),DHXZ(MVSIZ),
      .   DH5(MVSIZ),DH6(MVSIZ),EINTM(MVSIZ),DDHV(MVSIZ),DD(MVSIZ,6),
@@ -299,7 +298,6 @@ C=======================================================================
 C-----------
       IBID = 0
       IBIDON(1) = 0
-c      MPT =IABS(NPT)
       IF (IGTYP /= 22) THEN
         ISORTHG = 0
       END IF 
@@ -312,7 +310,9 @@ C-----------
      .   6 ,X,IXS(1,NF1),
      .   RX, RY, RZ, SX, SY, SZ, TX, TY, TZ )
        ENDIF
-C      GATHER NODAL VARIABLES AND COMPUTE INTRINSIC ROTATION.
+C-----------------------------------------------------------
+C Gather nodal variables and compute intinsic rotations
+C-----------------------------------------------------------
        CALL S6RCOOR3(X,IXS(1,NF1),V,W,GBUF%GAMA,GAMA,
      .   X1, X2, X3, X4, X5, X6,
      .   Y1, Y2, Y3, Y4, Y5, Y6, 
@@ -327,9 +327,9 @@ C      GATHER NODAL VARIABLES AND COMPUTE INTRINSIC ROTATION.
      .   NEL, XGXA, XGYA, XGZA,XGXA2,XGYA2,XGZA2,
      .   XGXYA,XGYZA,XGZXA,IPARG(1,NG),GBUF%GAMA_R) 
 C
-      MX = MXT(LFT)
+      MX = MXT(1)
       C1 =PM(32,MX)
-      DO I=LFT,LLT
+      DO I=1,NEL
         SIGZM(I) = ZERO
         VOLM(I) = ZERO
         NU(I)=MIN(HALF,PM(21,MX))
@@ -339,16 +339,16 @@ C
       ENDDO
 C
       IF (ICP.EQ.1) THEN                                
-        DO I=LFT,LLT                                    
+        DO I=1,NEL                                    
          NU1(I)=HALF                                  
         ENDDO                                           
       ELSEIF (ICP.EQ.2) THEN                            
         CALL S8CSIGP3(GBUF%SIG,E0 ,GBUF%PLA,FAC,GBUF%G_PLA,NEL)
-        DO I=LFT,LLT                                    
+        DO I=1,NEL                                    
           NU1(I)=NU(I)+(HALF-NU(I))*FAC(I)             
         ENDDO                                           
       ELSE                                             
-         DO I=LFT,LLT                                    
+         DO I=1,NEL                                    
           NU1(I) =NU(I)                                  
          ENDDO                                           
       ENDIF                                             
@@ -363,9 +363,9 @@ C
      .   PX1H, PX2H, PX3H, 
      .   PY1H, PY2H, PY3H, 
      .   PZ1H, PZ2H, PZ3H, 
-     .   AJ1,AJ2,AJ3,
-     .   AJ4,AJ5,AJ6,
-     .   JI33,B1X,B1Y,B2Y,B2X,B1122,B1221,B2212,B1121,
+     .   JAC1,JAC2,JAC3,
+     .   JAC4,JAC5,JAC6,
+     .   JACI33,B1X,B1Y,B2Y,B2X,B1122,B1221,B2212,B1121,
      .   B1XH,B1YH,B2XH,B2YH,B1122H,B1221H,B2212H,B1121H,
      .   VZL,VOLG,GBUF%SMSTR,GBUF%OFF,NEL)
       CALL SDLEN3(VOLG,DELTAX,
@@ -380,8 +380,8 @@ C
      .                  X1, X2, X3, X4, X5, X6,
      .                  Y1, Y2, Y3, Y4, Y5, Y6,
      .                  Z1, Z2, Z3, Z4, Z5, Z6)
-        ALPHA_E(LFT:LLT) = ONE  
-        DO I=LFT,LLT
+        ALPHA_E(1:NEL) = ONE  
+        DO I=1,NEL
           IF (GBUF%IDT_TSH(I)<=0) CYCLE
           FACDP = 1.343*LLSH(I)/DELTAX(I)
           ALPHA_E(I) = FACDP*FACDP  
@@ -402,7 +402,7 @@ C
      .   PX1H, PX2H, PX3H, 
      .   PY1H, PY2H, PY3H, 
      .   PZ1H, PZ2H, PZ3H, 
-     .   JI33,B1X,B1Y,B2Y,B2X,B1122,B1221,B2212,B1121,
+     .   JACI33,B1X,B1Y,B2Y,B2X,B1122,B1221,B2212,B1121,
      .   B1XH,B1YH,B2XH,B2YH,B1122H,B1221H,B2212H,B1121H,
      .   DDHV,NU1) 
       CALL S6CZERO3(
@@ -410,10 +410,9 @@ C
      .   F33, F14, F24, F34, F15, F25, F35, F16, F26, F36, 
      .   GBUF%SIG,GBUF%EINT,GBUF%RHO,GBUF%QVIS,
      .   GBUF%PLA,GBUF%EPSD,GBUF%G_PLA,GBUF%G_EPSD,NEL)
-C --------------------------
-C  --- UPDATE REF CONFIGURATION (possible future change to small strain option)
-C  --- ! Total strain option doesn't change the Ref CONF.
-C --------------------------
+C ------------------------------------------------------------------------------
+C  Update reference configuration (possible future change to small strain option)
+C -------------------------------------------------------------------------------
       IF (ISMSTR <= 3.OR.(ISMSTR==4.AND.JLAG>0)) THEN
        CALL S6SAV3(GBUF%OFF,GBUF%SMSTR,
      .   X1, X2, X3, X4, X5, X6,
@@ -423,11 +422,11 @@ C --------------------------
       END IF !(ISMSTR <= 3) THEN
 c
       IF (ISORTH > 0) THEN                         
-        PID = NGEO(LFT)                              
+        PID = NGEO(1)                              
         IF (IGTYP == 21) THEN                      
-         CALL SGETDIR3(LFT,LLT, RX,RY,RZ,TX,TY,TZ, 
+         CALL SGETDIR3(NEL,RX,RY,RZ,TX,TY,TZ, 
      .                 R11,R21,R31,R12,R22,R32,    
-     .                 GBUF%GAMA,DIR,IREP,NEL)         
+     .                 GBUF%GAMA,DIR,IREP)         
         ENDIF                                      
         IF (IGTYP == 22) THEN                      
           NLYMAX= 200                              
@@ -436,22 +435,22 @@ c
           IPPOS = IPTHK+NLYMAX                     
 	         IPMAT = 100                              
           MTN0=MTN                                 
-          DO I=LFT,LLT                             
+          DO I=1,NEL                             
             MXT0(I)=MXT(I)                         
             SHF(I)=GEO(38,NGEO(I))                 
           ENDDO                                    
         ENDIF                                      
       ENDIF                                        
-C-----------------------------
-C     TRAITEMENT ASSURER SIGZ CONSTANTE
-C-----------------------------
+C--------------------------------------
+C Constant stress through the thickness
+C--------------------------------------
       DO ILAY=1,NLAY
         LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)
         IF (IGTYP == 22) THEN
           MID=IGEO(IPMAT+ILAY,PID)
           MTN=NINT(PM(19,MID))
         ENDIF
-        DO I=LFT,LLT
+        DO I=1,NEL
           SIGZM(I) = SIGZM(I)+LBUF%VOL(I)*LBUF%SIG(I+2*NEL)
           VOLM(I)  = VOLM(I) +LBUF%VOL(I)
         ENDDO
@@ -461,9 +460,9 @@ C-----------------------------
       ELSE
         DTI = ONE/DT1
       ENDIF 
-C-----------------------------
-C     POINTS D' INTEGRATION DANS EPAISSEUR
-C-----------------------------
+C---------------------------------------------
+C Loop on integration points through thickness
+C---------------------------------------------
       DO ILAY=1,NLAY
         LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)
         IF (IGTYP == 22) THEN
@@ -471,7 +470,7 @@ C-----------------------------
           WT = GEO(IPTHK+ILAY,PID)
           MID=IGEO(IPMAT+ILAY,PID)
           MTN=NINT(PM(19,MID))
-          DO I=LFT,LLT
+          DO I=1,NEL
             MXT(I)=MID
           ENDDO
         ELSE
@@ -488,17 +487,17 @@ C
      .    LBUF%VOL,DDHV ,LBUF%SIG,SIGZM ,VOLM   ,
      .    USB     ,LBUF%EINT,OFF ,OFFG,DTI,
      .    GBUF%OFF,DSV,NEL,LBUF%VOL0DP,VOLDP)
-        DO I=LFT,LLT
+        DO I=1,NEL
           RHOO(I)= LBUF%RHO(I)
         ENDDO
         IF (ISORTH > 0) THEN
           IF (IGTYP == 22)  
-     .      CALL SGETDIR3(LFT,LLT, RX,RY,RZ,TX,TY,TZ,
+     .      CALL SGETDIR3(NEL,RX,RY,RZ,TX,TY,TZ,
      .                   R11,R21,R31,R12,R22,R32,
-     .                   LBUF%GAMA,DIR,IREP,NEL)
-          CALL SCORDEF3(LFT,LLT,DXX,DYY,DZZ,D4,D5,D6,DIR)
+     .                   LBUF%GAMA,DIR,IREP)
+          CALL SCORDEF3(NEL,DXX,DYY,DZZ,D4,D5,D6,DIR)
           IF (IGTYP == 22) THEN
-            DO I=LFT,LLT
+            DO I=1,NEL
               D5(I)=SHF(I)*D5(I)
               D6(I)=SHF(I)*D6(I)
             ENDDO
@@ -511,35 +510,34 @@ C
      .              0          , GBUF%TAG22 , VOLDP    ,LBUF%VOL0DP,AMU  ,GBUF%OFF)
 C
 C-----------------------------
-C      EXTRACT STRESSES + SMALL STRAIN
+C Gather stresses
 C-----------------------------
         CALL CSMALL3(LBUF%SIG,S1,S2,S3,S4,S5,S6,
      .              GBUF%OFF,OFF,NEL)
 C------------------------------------------------------
-C       CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES
-C       TIME STEP EST CALCULE ICI DT2T
+C Compute new stresses according to constitutive laws
 C------------------------------------------------------
         CALL MMAIN(
-     1           ELBUF_TAB,NG     ,PM     ,GEO        ,FV	  ,ALE_CONNECT   ,
+     1           ELBUF_TAB,NG     ,PM     ,GEO        ,FV	    ,ALE_CONNECT,
      2           IXS      ,IPARG  ,V      ,TF         ,NPF	  ,BUFMAT  ,
-     3           STI      ,X      ,DT2T   ,NELTST     ,ITYPTST    ,OFFSET  ,
+     3           STI      ,X      ,DT2T   ,NELTST     ,ITYPTST,OFFSET  ,
      4           NEL      ,W      ,OFF    ,NGEO       ,
      6           MXT      ,NGL    ,VOLN   ,VD2        ,DVOL	  ,DELTAX  ,
-     7           VIS      ,QVIS   ,CXX    ,S1         ,S2	  ,S3	   ,
+     7           VIS      ,QVIS   ,CXX    ,S1         ,S2	    ,S3	     ,
      8           S4       ,S5     ,S6     ,DXX        ,DYY	  ,DZZ     ,
      9           D4       ,D5     ,D6     ,WXX        ,WYY	  ,WZZ     ,
-     A           AJ1      ,AJ2    ,AJ3    ,AJ4        ,AJ5	  ,AJ6     ,
-     B           VDX      ,VDY    ,VDZ    ,MUVOID     ,SSP_EQ	  ,AIRE    ,
-     C           SIGY     ,ET     ,R1_FREE,LBUF%PLA   ,R3_FREE    ,AMU     ,
+     A           JAC1     ,JAC2   ,JAC3   ,JAC4       ,JAC5	  ,JAC6    ,
+     B           VDX      ,VDY    ,VDZ    ,MUVOID     ,SSP_EQ ,AIRE    ,
+     C           SIGY     ,ET     ,R1_FREE,LBUF%PLA   ,R3_FREE,AMU     ,
      D           DXX      ,DXY    ,DXZ    ,DYX        ,DYY	  ,DYZ     ,
      E           DZX      ,DZY    ,DZZ    ,IPM        ,GAMA	  ,BID     ,
      F           BID      ,BID    ,BID    ,BID        ,BID	  ,BID     ,
      G           ISTRAIN  ,BID    ,BID    ,IBID       ,ILAY	  ,MSSA    ,
-     H           DMELS    ,IR     ,IS     ,IT         ,TABLE	  ,BID     ,
-     I           BID      ,BID    ,BID    ,IPARG(1,NG),IGEO    ,BID      ,
+     H           DMELS    ,IR     ,IS     ,IT         ,TABLE	,BID     ,
+     I           BID      ,BID    ,BID    ,IPARG(1,NG),IGEO   ,BID     ,
      J           ITASK    ,NLOC_DMG,VARNL ,MATPARAM_TAB,H3D_STRAIN)
 C
-        DO I=LFT,LLT
+        DO I=1,NEL
           STIN(I) = STIN(I)+STI(I)
         ENDDO
         IF (ISTRAIN == 1) THEN 
@@ -548,13 +546,12 @@ C
      .                OFF,NEL)
         ENDIF
 C----------------------------
-C     INTERNAL FORCES
+C Internal forces
 C----------------------------
         IF (ISORTH > 0) THEN
-         CALL SCROTO_SIG(LFT,LLT,LBUF%SIG,SIGN,DIR,NEL)
-!! temporary replaced by (the same) SCROTO_SIG() in order to do not affect
+         CALL SCROTO_SIG(NEL,LBUF%SIG,SIGN,DIR)
+!! SCROTO() temporary replaced by (the same) SCROTO_SIG() in order to do not affect
 !! the other multidimensional buffer ARRAYS which are still not modified
-!!         CALL SCROTO(LFT,LLT,LBUF%SIG,SIGN,DIR)
          CALL S6CFINT3(SIGN,
      .     PX1, PX2, PX3, PX4,
      .     PY1, PY2, PY3, PY4,
@@ -562,7 +559,7 @@ C----------------------------
      .     PX1H, PX2H, PX3H, 
      .     PY1H, PY2H, PY3H, 
      .     PZ1H, PZ2H, PZ3H, 
-     .     JI33,B1X,B1Y,B2Y,B2X,B1122,B1221,B2212,B1121,
+     .     JACI33,B1X,B1Y,B2Y,B2X,B1122,B1221,B2212,B1121,
      .     B1XH,B1YH,B2XH,B2YH,B1122H,B1221H,B2212H,B1121H,
      .     F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
      .     F15,F25,F35,F16,F26,F36,
@@ -579,7 +576,7 @@ C----------------------------
      .     PX1H, PX2H, PX3H, 
      .     PY1H, PY2H, PY3H, 
      .     PZ1H, PZ2H, PZ3H, 
-     .     JI33,B1X,B1Y,B2Y,B2X,B1122,B1221,B2212,B1121,
+     .     JACI33,B1X,B1Y,B2Y,B2X,B1122,B1221,B2212,B1121,
      .     B1XH,B1YH,B2XH,B2YH,B1122H,B1221H,B2212H,B1121H,
      .     F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
      .     F15,F25,F35,F16,F26,F36,
@@ -588,12 +585,12 @@ C----------------------------
      .     GBUF%SIG,GBUF%EINT,GBUF%RHO,GBUF%QVIS,GBUF%PLA,
      .     A_GAUSS(ILAY,NLAY),W_GAUSS(ILAY,NLAY),VOLG,OFF,NU1,
      .     LBUF%VOL,GBUF%VOL,GBUF%G_PLA,GBUF%G_EPSD,NEL)
-          DO I=LFT,LLT
+          DO I=1,NEL
             OFFS(I)=EP20
           ENDDO
         ENDIF ! IF (ISORTH > 0)
         IOFFS=0
-        DO I=LFT,LLT                                        
+        DO I=1,NEL                                        
           OFFG(I)=MIN(OFFG(I),OFF(I))                        
          IF (LBUF%OFF(I) > ONE .AND. GBUF%OFF(I) == ONE) THEN
            OFFS(I) = MIN(LBUF%OFF(I),OFFS(I))
@@ -604,7 +601,7 @@ C-----------------------------
       ENDDO  !  ILAY=1,NLAY
 C-----------------------------
       IF (IOFFS == 1) THEN
-       DO I=LFT,LLT
+       DO I=1,NEL
          IF (OFFS(I).LE.TWO)GBUF%OFF(I) = OFFS(I)
        END DO
        DO ILAY=1,NLAY
@@ -613,24 +610,24 @@ C-----------------------------
            MID=IGEO(IPMAT+ILAY,PID)
            MTN=NINT(PM(19,MID))
          ENDIF
-         DO I=LFT,LLT
+         DO I=1,NEL
            IF (GBUF%OFF(I) > ONE) LBUF%OFF(I)=GBUF%OFF(I)
          END DO
        END DO
       END IF
       IF (IGTYP == 22) THEN
         MTN = MTN0
-        DO I=LFT,LLT
+        DO I=1,NEL
           MXT(I)=MXT0(I)
         ENDDO
       ENDIF
 C-----------------------------
-C     SMALL STRAIN 
+C Small strain
 C-----------------------------
       CALL SMALLB3(GBUF%OFF,OFFG)
-C--------------------------
-C       BILANS PAR MATERIAU
-C--------------------------
+C--------------------------------------
+C Balance per part in case of print out
+C--------------------------------------
       IFLAG=MOD(NCYCLE,NCPRI)
       IF (IOUTPRT>0) THEN         
            CALL S6CBILAN(PARTSAV,GBUF%EINT,GBUF%RHO,GBUF%RK ,GBUF%VOL,
@@ -639,9 +636,9 @@ C--------------------------
      .       GBUF%FILL, XGXA, XGYA, XGZA,XGXA2,XGYA2,XGZA2,
      .       XGXYA,XGYZA,XGZXA,ITASK,IPARG(1,NG))
       ENDIF
-C----------------------------
-C     CONVECTE --> GLOBAL.
-C----------------------------
+C--------------------------------
+C Convected frame to global frame
+C--------------------------------
       CALL S6PROJ3(
      .   X1, X2, X3, X4, X5, X6,
      .   Y1, Y2, Y3, Y4, Y5, Y6,
@@ -673,6 +670,8 @@ C----------------------------
      1   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
      2   F15,F25,F35,F16,F26,F36)    
 C----------------------------
+C Assemble nodal forces
+C----------------------------
       IF (IPARIT == 0) THEN
         CALL S6CUMU3(GBUF%OFF,A,NC1, NC2, NC3, NC4,
      .             NC5, NC6, STIFN,STIN,
@@ -689,4 +688,3 @@ C----------------------------
 C-----------
       RETURN
       END SUBROUTINE S6CFORC3
-
