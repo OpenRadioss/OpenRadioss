@@ -162,15 +162,6 @@ C
           A11(I) =PM(24,MX)
           A12(I) =PM(25,MX)
         ENDDO
-        IF (MTN==78)THEN
-          CALL GET_ETFAC_S(NEL,SFAC,MTN)
-          DO I=JFT,JLT
-            YM(I) =SFAC(I)*YM(I)
-            G(I)  =SFAC(I)*G(I)
-            A11(I)=SFAC(I)*A11(I)
-            A12(I)=SFAC(I)*A12(I)
-          ENDDO
-        END IF
       END IF
       IF(NPT.EQ.1) THEN
         DO I=JFT,JLT
@@ -189,6 +180,14 @@ C----this will do only for QEPH and change also in CNCOEF!!!look at starter firs
         DO I=JFT,JLT
           A12(I)  =NU(I)*A11(I)
         ENDDO
+      ELSEIF (MTN==78)THEN
+          CALL GET_ETFAC_S(NEL,SFAC,MTN)
+          DO I=JFT,JLT
+            YM(I) =SFAC(I)*YM(I)
+            G(I)  =SFAC(I)*G(I)
+            A11(I)=SFAC(I)*A11(I)
+            A12(I)=SFAC(I)*A12(I)
+          ENDDO
       ENDIF
       IF (MTN.EQ.19.OR.MTN.EQ.15.OR.MTN.EQ.25) THEN
        IORTH=1

@@ -5406,13 +5406,13 @@ c         RBUF(L,1) = E_REF(2)
 C
          L = L + 1
          LSKEW_G = INT(RBUF(L,1))          
-        DO I = 1,6
-          L = L + 1
-          IKCE(I) = INT(RBUF(L,1)) 
-        END DO 
         DO I = 1,9
           L = L + 1
           RLSKEW(I) = RBUF(L,1) 
+        END DO 
+        DO I = 1,6
+          L = L + 1
+          IKCE(I) = INT(RBUF(L,1)) 
         END DO 
 C
       RETURN

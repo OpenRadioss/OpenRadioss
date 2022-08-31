@@ -8222,6 +8222,14 @@ C------case input 3N---
          CALL SPB_REF_NDS(
      1    X         ,D_IMP     ,NDOF      ,IDDL      ,IKC       ,
      2    ICODT     ,ICODR     ,ISKEW     ,SKEW      )
+           IF (ILSKEW>0) THEN
+C----get ISK(from E_REF)set [Q],transfert DTRA,DROT to local reset IKCE(6) put (j)=0 for fixing dir
+             NN = ILSKEW
+             ISK = ISKEW(NN)
+C---------local IKC
+             RLSKEW(1:9) = SKEW(1:9,ISK)        
+             CALL GETIKCE(ICODT(NN),ICODR(NN),NDOF(NN),IKCE)
+           END IF
          IF (NSPMD>1) CALL SPMD_N_REF()
         ELSE
           IF (NBC_B>0) THEN
@@ -8249,7 +8257,7 @@ C
 C-----IKCE : only local BCS nodes are initialized-----       
        CALL SPB_RGMOD(N_SEG ,X_REF ,D_REF ,X   ,D_IMP  ,
      +                X0  ,Y0  ,Z0  ,DTRA,DROT )
-       IF (NBC_B>0.OR.ILSKEW>0) THEN
+       IF (NBC_B>0.OR.LSKEW_G>0) THEN
         DO J=1,3
          IF (IKCE(J)==1) DTRA(J)= ZERO
         ENDDO
