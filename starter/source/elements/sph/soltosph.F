@@ -32,14 +32,13 @@ Chd|====================================================================
      .   X       ,IXS     ,KXSP    ,IPARTSP ,NOD2SP ,
      .   IRST    )
 C-----------------------------------------------
+C    M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -176,7 +175,7 @@ C
       ENDDO
 C-----------------------------------------------
       RETURN
-      END
+      END SUBROUTINE SOLTOSPHX8
 Chd|====================================================================
 Chd|  SOLTOSPHX4                    source/elements/sph/soltosph.F
 Chd|-- called by -----------
@@ -190,14 +189,13 @@ Chd|====================================================================
      .   X       ,IXS     ,KXSP    ,IPARTSP ,NOD2SP ,
      .   IRST    )
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -281,8 +279,8 @@ C-----------------------------------------------
       Y4=X(2,N4)
       Z4=X(3,N4)
 
-C-----------------------------------------------
-C--   Renumerotation des noeuds si necessaire
+C------------------------------------------------
+C Renumber tetrahedron in case of negative volume
       IF (CHECKVOLUME_4N(X ,IXS(1)) < ZERO) THEN
          N2=IXS(6)
          N4=IXS(4)
@@ -326,7 +324,7 @@ C
 C
 C-----------------------------------------------
       RETURN
-      END
+      END SUBROUTINE SOLTOSPHX4
 Chd|====================================================================
 Chd|  SOLTOSPHV8                    source/elements/sph/soltosph.F
 Chd|-- called by -----------
@@ -340,14 +338,13 @@ Chd|====================================================================
      .   NSPHDIR ,RHO     ,NCELL   ,X      ,SPBUF   ,
      .   IXS     ,KXSP    ,IPARTSP ,IRST   )
 C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -378,18 +375,18 @@ C
      .   Y17 , Y28 , Y35 , Y46 ,
      .   Z17 , Z28 , Z35 , Z46 ,
      .   VOL, HX(4), HY(4), HZ(4), DET, 
-     .   AJ1 ,AJ2 ,AJ3 ,
-     .   AJ4 ,AJ5 ,AJ6 ,
-     .   AJ7 ,AJ8 ,AJ9 ,
+     .   JAC1 ,JAC2 ,JAC3 ,
+     .   JAC4 ,JAC5 ,JAC6 ,
+     .   JAC7 ,JAC8 ,JAC9 ,
      .   CJ1 ,CJ2 ,CJ3 ,
      .   CJ4 ,CJ5 ,CJ6 ,
      .   CJ7 ,CJ8 ,CJ9 ,
      .   JAC_59_68, JAC_67_49, JAC_48_57,
      .   JAC_38_29, JAC_19_37, JAC_27_18,
      .   JAC_26_35, JAC_34_16, JAC_15_24,
-     .   A17 , A28 ,
-     .   B17 , B28 ,
-     .   C17 , C28 ,
+     .   X_17_46 , X_28_35 ,
+     .   Y_17_46 , Y_28_35 ,
+     .   Z_17_46 , Z_28_35 ,
      .   KSI, ETA, ZETA, WI,
      .   XI, YI, ZI
 C-----------------------------------------------
@@ -500,23 +497,24 @@ C
       Z35=Z5-Z3
       Z46=Z6-Z4
 C
+C Jacobian matrix
       CJ4=X17+X28-X35-X46
       CJ5=Y17+Y28-Y35-Y46
       CJ6=Z17+Z28-Z35-Z46
-      A17=X17+X46
-      A28=X28+X35
-      B17=Y17+Y46
-      B28=Y28+Y35
-      C17=Z17+Z46
-      C28=Z28+Z35
+      X_17_46=X17+X46
+      X_28_35=X28+X35
+      Y_17_46=Y17+Y46
+      Y_28_35=Y28+Y35
+      Z_17_46=Z17+Z46
+      Z_28_35=Z28+Z35
 C
-      CJ7=A17+A28
-      CJ8=B17+B28
-      CJ9=C17+C28
-      CJ1=A17-A28
-      CJ2=B17-B28
-      CJ3=C17-C28
-C
+      CJ7=X_17_46+X_28_35
+      CJ8=Y_17_46+Y_28_35
+      CJ9=Z_17_46+Z_28_35
+      CJ1=X_17_46-X_28_35
+      CJ2=Y_17_46-Y_28_35
+      CJ3=Z_17_46-Z_28_35
+C Hourglass
 C mode 1
 C 1 1 -1 -1 -1 -1 1 1
       HX(1)=(X1+X2-X3-X4-X5-X6+X7+X8)
@@ -546,29 +544,27 @@ C
        KSI  = A_GAUSS(IT,NSPHDIR)
        ETA  = A_GAUSS(IR,NSPHDIR)
        ZETA = A_GAUSS(IS,NSPHDIR)
-C       WI = W_GAUSS(IR,NSPHDIR)*W_GAUSS(IS,NSPHDIR)*W_GAUSS(IT,NSPHDIR)
 C
        WI = EIGHT/NP 
 C
-       AJ1=CJ1+HX(3)*ETA+(HX(2)+HX(4)*ETA)*ZETA
-       AJ2=CJ2+HY(3)*ETA+(HY(2)+HY(4)*ETA)*ZETA
-       AJ3=CJ3+HZ(3)*ETA+(HZ(2)+HZ(4)*ETA)*ZETA
+C Jacobian matrix
+       JAC1=CJ1+HX(3)*ETA+(HX(2)+HX(4)*ETA)*ZETA
+       JAC2=CJ2+HY(3)*ETA+(HY(2)+HY(4)*ETA)*ZETA
+       JAC3=CJ3+HZ(3)*ETA+(HZ(2)+HZ(4)*ETA)*ZETA
 C
-       AJ4=CJ4+HX(1)*ZETA+(HX(3)+HX(4)*ZETA)*KSI
-       AJ5=CJ5+HY(1)*ZETA+(HY(3)+HY(4)*ZETA)*KSI
-       AJ6=CJ6+HZ(1)*ZETA+(HZ(3)+HZ(4)*ZETA)*KSI
+       JAC4=CJ4+HX(1)*ZETA+(HX(3)+HX(4)*ZETA)*KSI
+       JAC5=CJ5+HY(1)*ZETA+(HY(3)+HY(4)*ZETA)*KSI
+       JAC6=CJ6+HZ(1)*ZETA+(HZ(3)+HZ(4)*ZETA)*KSI
 C
-       AJ7=CJ7+HX(2)*KSI+(HX(1)+HX(4)*KSI)*ETA
-       AJ8=CJ8+HY(2)*KSI+(HY(1)+HY(4)*KSI)*ETA
-       AJ9=CJ9+HZ(2)*KSI+(HZ(1)+HZ(4)*KSI)*ETA
+       JAC7=CJ7+HX(2)*KSI+(HX(1)+HX(4)*KSI)*ETA
+       JAC8=CJ8+HY(2)*KSI+(HY(1)+HY(4)*KSI)*ETA
+       JAC9=CJ9+HZ(2)*KSI+(HZ(1)+HZ(4)*KSI)*ETA
 C
-C      JACOBIAN
+       JAC_59_68=JAC5*JAC9-JAC6*JAC8
+       JAC_67_49=JAC6*JAC7-JAC4*JAC9
+       JAC_48_57=JAC4*JAC8-JAC5*JAC7
 C
-       JAC_59_68=AJ5*AJ9-AJ6*AJ8
-       JAC_67_49=AJ6*AJ7-AJ4*AJ9
-       JAC_48_57=AJ4*AJ8-AJ5*AJ7
-C
-       DET=ONE_OVER_512*(AJ1*JAC_59_68+AJ2*JAC_67_49+AJ3*JAC_48_57)
+       DET=ONE_OVER_512*(JAC1*JAC_59_68+JAC2*JAC_67_49+JAC3*JAC_48_57)
        VOL= WI*DET
        IF(DET.LT.ZERO)
      . CALL ANCMSG(MSGID=1038,
@@ -583,7 +579,7 @@ C
       ENDDO
 C-----------------------------------------------
       RETURN
-      END
+      END SUBROUTINE SOLTOSPHV8
 Chd|====================================================================
 Chd|  SOLTOSPHV4                    source/elements/sph/soltosph.F
 Chd|-- called by -----------
@@ -629,9 +625,9 @@ C
      .   Y1,Y2,Y3,Y4,
      .   Z1,Z2,Z3,Z4,
      .   VOL, DET, WI,
-     .   AJ1 ,AJ2 ,AJ3 ,
-     .   AJ4 ,AJ5 ,AJ6 ,
-     .   AJ7 ,AJ8 ,AJ9 ,
+     .   JAC1 ,JAC2 ,JAC3 ,
+     .   JAC4 ,JAC5 ,JAC6 ,
+     .   JAC7 ,JAC8 ,JAC9 ,
      .   JAC_59_68, JAC_67_49, JAC_48_57
 C-----------------------------------------------
       NP = 0
@@ -658,23 +654,22 @@ C-----------------------------------------------
       Y4=X(2,N4)
       Z4=X(3,N4)
 C
-      AJ1=X1-X4
-      AJ2=Y1-Y4
-      AJ3=Z1-Z4
-      AJ4=X2-X4
-      AJ5=Y2-Y4
-      AJ6=Z2-Z4
-      AJ7=X3-X4
-      AJ8=Y3-Y4
-      AJ9=Z3-Z4
+C Jacobian matrix
+      JAC1=X1-X4
+      JAC2=Y1-Y4
+      JAC3=Z1-Z4
+      JAC4=X2-X4
+      JAC5=Y2-Y4
+      JAC6=Z2-Z4
+      JAC7=X3-X4
+      JAC8=Y3-Y4
+      JAC9=Z3-Z4
 C
-C     JACOBIAN
+      JAC_59_68=JAC5*JAC9-JAC6*JAC8
+      JAC_67_49=JAC6*JAC7-JAC4*JAC9
+      JAC_48_57=JAC4*JAC8-JAC5*JAC7
 C
-      JAC_59_68=AJ5*AJ9-AJ6*AJ8
-      JAC_67_49=AJ6*AJ7-AJ4*AJ9
-      JAC_48_57=AJ4*AJ8-AJ5*AJ7
-C
-      DET=AJ1*JAC_59_68+AJ2*JAC_67_49+AJ3*JAC_48_57
+      DET=JAC1*JAC_59_68+JAC2*JAC_67_49+JAC3*JAC_48_57
 C-----------------------------------------------
       DO IP=1,NCELL
 C
@@ -694,4 +689,4 @@ C
       ENDDO
 C-----------------------------------------------
       RETURN
-      END
+      END SUBROUTINE SOLTOSPHV4
