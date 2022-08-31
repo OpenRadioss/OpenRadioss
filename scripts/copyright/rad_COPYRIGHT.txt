@@ -1,21 +1,3 @@
 # Copyright (C) 2022 Altair Engineering Inc. ("Holder")
 # Model is licensed by Holder under CC BY-NC 4.0
 # (https://creativecommons.org/licenses/by-nc/4.0/legalcode).
-#
-/RUN/SPR250/1
- 5.01
-/VERS/44
-/TFILE
-  0.01
-/ANIM/DT
- 0.  2.
-/ANIM/VECT/DISP
-/ANIM/VECT/VEL
-/ANIM/SPRING/FORC
-/PRINT/-10
-/DT
-.9 0
-
-
-/MON/ON
-/ANIM/GZIP
