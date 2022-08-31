@@ -5,9 +5,8 @@
  
 # How to Use OpenRadioss
 
-## [How to Build OpenRadioss](HOWTO.md)
-
-## [How to Run OpenRadioss](INSTALL.md)
+* [How to Build OpenRadioss](HOWTO.md)
+* [How to Run OpenRadioss](INSTALL.md)
 
 
 # Community and Ways to Participate
