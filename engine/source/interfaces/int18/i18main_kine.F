@@ -42,13 +42,21 @@ Chd|====================================================================
      2                   A    ,ISKEW   ,SKEW    ,LCOD    ,WA      ,
      3                   MS   ,ITAB    ,JTASK   ,KINET   ,STIFN   ,
      4                   MTF  ,CAND_SAV,INT18ADD,IAD_ELEM,FR_ELEM ,
-     5                   TAGPENE,H3D_DATA)
+     5                   TAGPENE,H3D_DATA,MULTI_FVM)
+C-----------------------------------------------
+C   D e s c r i p t i o n 
+C-----------------------------------------------
+C This subroutine is a 'kinematic version' of coupling interface type 18
+C It is an old and experimental version which has never been released (abandonned)
+C  Principle : Structural velocity is imposing fluid velocity
+C  Starter Keyword : /INTER/TYPE18/KINE
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
       USE INTBUFDEF_MOD
       USE H3D_MOD
+      USE MULTI_FVM_MOD      
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,12 +78,12 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,*), ISKEW(*), LCOD(*), ITAB(*),
      .   KINET(*),INT18ADD(*),JTASK,IAD_ELEM(2,*),FR_ELEM(*),TAGPENE(*)
-C     REAL
       my_real
      .   X(*), V(*), A(3,*), SKEW(*), WA(*), MS(*),
      .   MTF(14,*),CAND_SAV(*),STIFN(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE(H3D_DATABASE) :: H3D_DATA
+      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM            
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -175,12 +183,11 @@ C -------------------
       IF (NSPMD > 1)THEN
 C     MSFI (MASSE des noeuds seconds  n est pas mis a jour
 C     la masse est necessaire pour les calculs ensuite
-          CALL SPMD_I18KINE_COM_MS(IPARI,INTBUF_TAB,
-     *                MTF,MS,ITAB)
+          CALL SPMD_I18KINE_COM_MS(IPARI,INTBUF_TAB,MTF,MS,ITAB)
       ENDIF
 C-----------------------------------------------
 C statistique interface
-      IF (DEBUG(3).GE.1.AND.NCYCLE.EQ.0) THEN
+      IF (DEBUG(3) >= 1.AND.NCYCLE == 0) THEN
         NB_JLT(JTASK) = 0
         NB_JLT_NEW(JTASK) = 0
         NB_STOK_N(JTASK) = 0
@@ -200,11 +207,11 @@ C LINDMAX = NCONT*MULTIMP
          NRTMDIM=IPARI(4,N)
          NMN    =IPARI(6,N)
          CALL I18MAIN_KINE_I(
-     1 N,IPARI(1,N),INTBUF_TAB(N)     ,X        ,
-     2 STIFN     ,V         ,A        ,MS               ,NMN      ,
-     3 ITAB      ,LINDMAX  ,CAND_SAV(INT18ADD(N)),MTF  ,
-     4 NRTMDIM,JTASK,NB_JLT(JTASK),NB_JLT_NEW(JTASK),NB_STOK_N(JTASK),
-     5 KINET    )
+     1                       N           ,IPARI(1,N)    ,INTBUF_TAB(N)         ,X                , 
+     2                       STIFN       ,V             ,A                     ,MS               , NMN             ,
+     3                       ITAB        ,LINDMAX       ,CAND_SAV(INT18ADD(N)) ,MTF              ,
+     4                       NRTMDIM     ,JTASK         ,NB_JLT(JTASK)         ,NB_JLT_NEW(JTASK),N B_STOK_N(JTASK),
+     5                       KINET       ,MULTI_FVM)
        ENDIF
       ENDDO
 C=======================================================================
@@ -218,16 +225,15 @@ c   2: cumul(ou min) sur les noeuds frontieres secnd 18
 c   2: cumul sur les noeuds frontieres secnd 18
       IF (NSPMD > 1)THEN
          CALL SPMD_I18KINE_PENE_COM_POFF(IPARI,INTBUF_TAB,BID,
-     *                      MTF,A,IAD_ELEM,FR_ELEM,1,BID,TAGPENE,ITAB,
-     .                      H3D_DATA  )
+     *                                   MTF,A,IAD_ELEM,FR_ELEM,1,BID,TAGPENE,ITAB,
+     .                                   H3D_DATA  )
 
 c     Besoin des accelerations pour le noeud second
 c     quand on a surface main, noeud second. distant
 c     Dans le meme cas, retour du MTF_PENE+MTF_PENEMIN pour les
 c     calculs suivants.
 
-          CALL SPMD_I18KINE_COM_ACC(IPARI,INTBUF_TAB,
-     *                MTF,A,ITAB,TAGPENE)
+          CALL SPMD_I18KINE_COM_ACC(IPARI,INTBUF_TAB,MTF,A,ITAB,TAGPENE)
       ENDIF
 !$OMP END SINGLE
 C=======================================================================
@@ -242,10 +248,10 @@ C -------------------
        INACTI =IPARI(22,N)
        IF(NTY==7.and.IPARI(34,N)==-2.and.INACTI==7)THEN
          CALL I18MAIN_KINE_F( N,
-     1 IPARI(1,N)   ,INTBUF_TAB(N)  ,X      ,STIFN    ,
-     2 V            ,A          ,MS         ,ITAB       ,LINDMAX  ,
-     3 CAND_SAV(INT18ADD(N)),MTF,JTASK,NB_JLT(JTASK),NB_JLT_NEW(JTASK),
-     4 NB_STOK_N(JTASK))
+     1                        IPARI(1,N)           ,INTBUF_TAB(N)  ,X      ,STIFN         ,
+     2                        V                    ,A              ,MS     ,ITAB          ,LINDMAX          ,
+     3                        CAND_SAV(INT18ADD(N)),MTF            ,JTASK  ,NB_JLT(JTASK) ,NB_JLT_NEW(JTASK),
+     4                        NB_STOK_N(JTASK) )
        ENDIF
       ENDDO
 C=======================================================================
@@ -271,8 +277,8 @@ C -------------------
          STOPT =INTBUF_TAB(N)%VARIABLES(11)
          IF(TT >= STARTT .and. TT <= STOPT)THEN
            CALL I18_KINE_M(
-     1      JTASK-1  ,NMN    ,INTBUF_TAB(N)%MSR,V,A   ,MS      ,
-     2      MTF      ,ISKEW  ,SKEW         ,LCOD      ,ITAB   )
+     1                     JTASK-1  ,NMN    ,INTBUF_TAB(N)%MSR,V    ,A   ,MS      ,
+     2                     MTF      ,ISKEW  ,SKEW             ,LCOD      ,ITAB   )
          ENDIF
        ENDIF
       ENDDO
@@ -284,8 +290,7 @@ c     => envoyer MTF(1,*) et A(1:3,*) pour TOUS les noeuds frontieres
 c     en reception si MTF(recu) est non nul
 c     => ecraser A(local) par A(recu)
 !$OMP SINGLE
-      IF(NSPMD > 1) CALL SPMD_I18KINE_MACC_COM_POFF(MTF,A,
-     *                                       IAD_ELEM,FR_ELEM,ITAB)
+      IF(NSPMD > 1) CALL SPMD_I18KINE_MACC_COM_POFF(MTF,A,IAD_ELEM,FR_ELEM,ITAB)
 !$OMP END SINGLE
 C=======================================================================
 
@@ -339,7 +344,6 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,*), ISKEW(*), LCOD(*), ITAB(*),
      .   KINET(*),INT18ADD(*),JTASK,IAD_ELEM(2,*),FR_ELEM(*)
-C     REAL
       my_real
      .   X(*), V(*), A(3,*), SKEW(*), WA(*), MS(*),
      .   FSAV(NTHVKI,*),MTF(14,*),CAND_SAV(*),STIFN(*),
@@ -415,8 +419,7 @@ C
       ENDIF
 
       IF (NSPMD > 1)
-     *    CALL  SPMD_I18KINE_COM_A(IPARI,INTBUF_TAB,
-     *                A,ITAB)
+     *    CALL  SPMD_I18KINE_COM_A(IPARI,INTBUF_TAB,A,ITAB)
 !$OMP END SINGLE
 C -------------------
       CALL MY_BARRIER
@@ -426,34 +429,33 @@ C -------------------
        INACTI =IPARI(22,N)
        IF(NTY==7.and.IPARI(34,N)==-2.and.INACTI==7)THEN
          CALL I18MAIN_KINE_V(N,
-     1    IPARI(1,N)   ,INTBUF_TAB(N)  ,X       ,STIFN   ,
-     2    V            ,A          ,MS          ,JTASK      ,ITAB    ,
-     3    CAND_SAV(INT18ADD(N)),MTF,ISKEW       ,SKEW       ,LCOD    ,
-     4    NB_JLT(JTASK),NB_JLT_NEW(JTASK),NB_STOK_N(JTASK))
+     1                       IPARI(1,N)           ,INTBUF_TAB(N)    ,X           ,STIFN      ,
+     2                       V                    ,A                ,MS          ,JTASK      ,ITAB    ,
+     3                       CAND_SAV(INT18ADD(N)),MTF              ,ISKEW       ,SKEW       ,LCOD    ,
+     4                       NB_JLT(JTASK)        ,NB_JLT_NEW(JTASK),NB_STOK_N(JTASK))
        ENDIF
       ENDDO
 C=======================================================================
 
 C     a faire:
-C     COMM SPMD : MTF(1:6,*)= vitesses des seconds
+C     COMM SPMD : MTF(1:6,*)= velocities
 
-c   1: envoie sur le proc qui possede le noeud
-c   2: CUMUL sur les noeuds frontieres secnd 18
+c   1: send to proc which contain the fluid node
+c   2: cumul on boundary fluid nodes
 !$OMP SINGLE
       IF (NSPMD > 1)THEN
         CALL SPMD_I18KINE_PENE_COM_POFF(IPARI,INTBUF_TAB,FCONT,
-     *                      MTF,A,IAD_ELEM,FR_ELEM,2,SLVNDTAG,IBID,ITAB,
-     .                      H3D_DATA )
-C Besoin en retour de reinitialiser les MTF_V sur les proc
-C qui n ont pas le noeud secnd et qui l'ont en candidat
+     *                                  MTF,A,IAD_ELEM,FR_ELEM,2,SLVNDTAG,IBID,ITAB,
+     .                                  H3D_DATA )
+C reset  MTF_V on procs which do not have fluid node but have it as candidate
         CALL SPMD_I18KINE_COM_V(IPARI,INTBUF_TAB,MTF,A,ITAB)
       ENDIF
 !$OMP END SINGLE
 
 C=======================================================================
 C=======================================================================
-C     on impose les vitesses mains aux seconds
-C     (en fait on impose l'acceleration correspondante)
+C     structural velocity imposed to fluid nodes
+C     (corresponding acceleration)
 C=======================================================================
 C -------------------
       CALL MY_BARRIER
@@ -463,11 +465,11 @@ C -------------------
        INACTI =IPARI(22,N)
        IF(NTY==7.and.IPARI(34,N)==-2.and.INACTI==7)THEN
          CALL I18MAIN_KINE_S(N,
-     1    IPARI(1,N) ,INTBUF_TAB(N)  ,X        ,STIFN     ,
-     2    V          ,A          ,MS           ,FSAV(1,N)  ,FCONT     ,
-     3    JTASK      ,ITAB       ,CAND_SAV(INT18ADD(N)),MTF,
-     4    NB_JLT(JTASK),NB_JLT_NEW(JTASK),NB_STOK_N(JTASK) ,ISKEW,SKEW,
-     5    LCOD       ,SLVNDTAG   ,H3D_DATA )
+     1                       IPARI(1,N)   ,INTBUF_TAB(N)    ,X                    ,STIFN      ,
+     2                       V            ,A                ,MS                   ,FSAV(1,N)  ,FCONT     ,
+     3                       JTASK        ,ITAB             ,CAND_SAV(INT18ADD(N)),MTF        ,
+     4                       NB_JLT(JTASK),NB_JLT_NEW(JTASK),NB_STOK_N(JTASK)     ,ISKEW      ,SKEW      ,
+     5                       LCOD         ,SLVNDTAG         ,H3D_DATA )
        ENDIF
       ENDDO
 C=======================================================================
@@ -477,8 +479,8 @@ C     COMM SPMD : A(1:3,*)= acceleration des seconds
 c   1: envoie sur le proc qui possede le noeud qui ecrase l'acceleration
       IF (NSPMD > 1)THEN
         CALL SPMD_I18KINE_PENE_COM_POFF(IPARI,INTBUF_TAB,FCONT,
-     *                      MTF,A,IAD_ELEM,FR_ELEM,3,SLVNDTAG,IBID,ITAB,
-     .                      H3D_DATA)
+     *                                  MTF,A,IAD_ELEM,FR_ELEM,3,SLVNDTAG,IBID,ITAB,
+     .                                  H3D_DATA)
       ENDIF
 
 C=======================================================================
@@ -508,12 +510,13 @@ Chd|====================================================================
      2      STIFN    ,V         ,A          ,MS           ,NMN      ,
      3      ITAB     ,LINDMAX   ,CAND_SAV   ,MTF          ,
      4      NRTMDIM  ,JTASK     ,NB_JLT     ,NB_JLT_NEW   ,NB_STOK_N,
-     5      KINET    )
+     5      KINET    ,MULTI_FVM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
+      USE MULTI_FVM_MOD      
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C
@@ -556,13 +559,12 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NIN,JTASK ,LINDMAX,NMN     ,
      .        NB_JLT,NB_JLT_NEW,NB_STOK_N,NRTMDIM
-      INTEGER IPARI(NPARI), KINET(*),STIFN(*),
-     .        ITAB(*)
-C     REAL
+      INTEGER IPARI(NPARI), KINET(*),ITAB(*)
       my_real
      .   X(3,*), V(3,*), A(3,*), MS(*),
-     .   MTF(14,*),CAND_SAV(8,*)
+     .   MTF(14,*),CAND_SAV(8,*),STIFN(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
+      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM         
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -573,7 +575,6 @@ C-----------------------------------------------
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ), CN_LOC(MVSIZ),CE_LOC(MVSIZ),INDEX2(LINDMAX),
      .        CAND_N_N(MVSIZ),CAND_E_N(MVSIZ),KINI(MVSIZ),IBID
-C     REAL
       my_real
      .   STARTT, STOPT,GAP,GAPMIN,MAXBOX,MINBOX,BID,
      .   KMIN, KMAX, GAPMAX,SURF(3,NRTMDIM)
@@ -604,25 +605,6 @@ C
 C -------------------
       CALL MY_BARRIER
 C -------------------
-c      NMNF = 1 + (JTASK-1)*NMN / NTHREAD
-c      NMNL = JTASK*NMN / NTHREAD
-c#include "vectorize.inc"
-c      DO J=NMNF,NMNL
-c        I=MSR(J)
-c        IF(I.GT.0) THEN
-c#include "lockon.inc"
-c          MTF(1,I) = MS(I)
-c          MTF(4,I) = MS(I)
-c          MTF(6,I) = MS(I)
-c          MTF(7,I) = A(1,I)*MS(I)
-c          MTF(8,I) = A(2,I)*MS(I)
-c          MTF(9,I) = A(3,I)*MS(I)
-c#include "lockoff.inc"
-c        ENDIF
-c      ENDDO
-cC -------------------
-c      CALL MY_BARRIER
-cC -------------------
 
 C=======================================================================
 C     calcul des pene,normale,Hi...
@@ -644,8 +626,8 @@ C
       IADM =IPARI(44)
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT > TT) RETURN
+      IF(TT > STOPT)  RETURN
       GAP   =INTBUF_TAB%VARIABLES(2)
       GAPMIN=INTBUF_TAB%VARIABLES(13)
 C
@@ -656,20 +638,20 @@ C
       KMIN  =INTBUF_TAB%VARIABLES(17)
       KMAX  =INTBUF_TAB%VARIABLES(18)
 
-C     cette partie est effectuee en // apres le calcul des forces des elem.
-C     decoupage statique
+C     parrallel part after elem forces
+C     static cutting
       NB_LOC = I_STOK / NTHREAD
-      IF (JTASK.EQ.NTHREAD) THEN
+      IF (JTASK == NTHREAD) THEN
           I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
       ELSE
           I_STOK_LOC = NB_LOC
       ENDIF
       DEBUT = (JTASK-1)*NB_LOC
       I_STOK = 0
-C recalcul du istok
+C ristock updated
       DO I = DEBUT+1, DEBUT+I_STOK_LOC
-            IF(INTBUF_TAB%CAND_N(I).LT.0) THEN
-              IF(I_STOK + 1.GT.4*NUMNOD) THEN
+            IF(INTBUF_TAB%CAND_N(I) < 0) THEN
+              IF(I_STOK + 1 > 4*NUMNOD) THEN
                 CALL ANCMSG(MSGID=94,ANMODE=ANINFO)
                 CALL ARRET(2)
               ENDIF
@@ -678,22 +660,22 @@ C recalcul du istok
 C inbuf == cand_n
               INTBUF_TAB%CAND_N(I) = -INTBUF_TAB%CAND_N(I)
             ENDIF
-c remise a zero de la pene
+c zeroing penetration
             CAND_SAV(8,I) = ZERO
       ENDDO
 C
-      IF (DEBUG(3).GE.1) THEN
+      IF (DEBUG(3) >= 1) THEN
           NB_JLT = NB_JLT + I_STOK_LOC
           NB_STOK_N = NB_STOK_N + I_STOK
       ENDIF
 C
       DO NFT = 0 , I_STOK - 1 , NVSIZ
           JLT = MIN( NVSIZ, I_STOK - NFT )
-C preparation candidats retenus
+C preparing retained candidates
           CALL I7CDCOR3(
      1         JLT,INDEX2(NFT+1),INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,
      2         CAND_E_N,CAND_N_N)
-C cand_n et cand_e remplace par cand_n_n et cand_e_n
+C cand_n et cand_e replaced with cand_n_n et cand_e_n
           CALL I7COR3(
      1         JLT       ,X   ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,CAND_E_N,
      2         CAND_N_N  ,INTBUF_TAB%STFM   ,INTBUF_TAB%STFNS  ,X1    ,X2   ,
@@ -725,25 +707,26 @@ C cand_n et cand_e remplace par cand_n_n et cand_e_n
      9        P1           ,P2       ,P3       ,P4               ,IX1    ,
      A        IX2          ,IX3      ,IX4      ,NSVG             ,STIF   ,
      B        JLT_NEW      ,GAPV     ,INACTI   ,INTBUF_TAB%CAND_P,
-     C        INDEX2(NFT+1),VXI      ,VYI      ,ITAB,
-     D        VZI   ,MSI   ,KINI     ,SURF     ,IBAG)
+     C        INDEX2(NFT+1),VXI      ,VYI      ,ITAB             ,
+     D        VZI   ,MSI   ,KINI     ,SURF     ,IBAG             ,IGAP   ,
+     E        MULTI_FVM)
           JLT = JLT_NEW
-          IF(JLT_NEW.NE.0) THEN
+          IF(JLT_NEW /= 0) THEN
             IPARI(29) = 1
-            IF (DEBUG(3).GE.1)
+            IF (DEBUG(3) >= 1)
      .        NB_JLT_NEW = NB_JLT_NEW + JLT_NEW
             CALL I18KINE_I(
-     1  JLT          ,A         ,V            ,
-     2  GAP          ,MS        ,NOINT        ,INTBUF_TAB%STFNS,ITAB ,
-     3  STIFN        ,STIF      ,X            ,INTBUF_TAB%IRECTM     ,
-     4  NX1          ,NX2       ,NX3          ,NX4         ,NY1      ,
-     5  NY2          ,NY3       ,NY4          ,NZ1         ,NZ2      ,
-     6  NZ3          ,NZ4       ,LB1          ,LB2         ,LB3      ,
-     7  LB4          ,LC1       ,LC2          ,LC3         ,LC4      ,
-     8  P1           ,P2        ,P3           ,P4          ,NIN      ,
-     9  IX1          ,IX2       ,IX3          ,IX4         ,NSVG     ,
-     A  GAPV         ,INACTI    ,VXI          ,VYI         ,VZI      ,
-     B  MSI          ,MTF       ,INDEX2(NFT+1),CAND_SAV)
+     1                      JLT          ,A         ,V            ,
+     2                      GAP          ,MS        ,NOINT        ,INTBUF_TAB%STFNS  ,ITAB ,
+     3                      STIFN        ,STIF      ,X            ,INTBUF_TAB%IRECTM ,
+     4                      NX1          ,NX2       ,NX3          ,NX4               ,NY1      ,
+     5                      NY2          ,NY3       ,NY4          ,NZ1               ,NZ2      ,
+     6                      NZ3          ,NZ4       ,LB1          ,LB2               ,LB3      ,
+     7                      LB4          ,LC1       ,LC2          ,LC3               ,LC4      ,
+     8                      P1           ,P2        ,P3           ,P4                ,NIN      ,
+     9                      IX1          ,IX2       ,IX3          ,IX4               ,NSVG     ,
+     A                      GAPV         ,INACTI    ,VXI          ,VYI               ,VZI      ,
+     B                      MSI          ,MTF       ,INDEX2(NFT+1),CAND_SAV)
           ENDIF
       ENDDO
 
@@ -758,10 +741,10 @@ Chd|        I18KINE_F                     source/interfaces/int18/i18main_kine.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE I18MAIN_KINE_F(NIN,
-     1      IPARI     ,INTBUF_TAB          ,X         ,STIFN     ,
-     2      V         ,A        ,MS        ,ITAB      ,LINDMAX   ,
-     3      CAND_SAV  ,MTF      ,JTASK     ,NB_JLT    ,NB_JLT_NEW,
-     4      NB_STOK_N )
+     1                          IPARI     ,INTBUF_TAB          ,X         ,STIFN     ,
+     2                          V         ,A        ,MS        ,ITAB      ,LINDMAX   ,
+     3                          CAND_SAV  ,MTF      ,JTASK     ,NB_JLT    ,NB_JLT_NEW,
+     4                          NB_STOK_N )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -809,7 +792,6 @@ C-----------------------------------------------
      .        NB_JLT,NB_JLT_NEW,NB_STOK_N
       INTEGER IPARI(NPARI), STIFN(*),
      .        ITAB(*)
-C     REAL
       my_real
      .   X(3,*), V(3,*), A(3,*), MS(*),
      .   MTF(14,*),CAND_SAV(8,*)
@@ -821,7 +803,6 @@ C-----------------------------------------------
      .        NME_T,ESH_T,IGN,IGE,MULTIMP,NOINT,I,MX_CAND,NTY,IVIS2,
      .        IGAP,INACTI,IBAG,I_STOK, I_STOK_LOC, JLT_NEW,
      .        JLT, NFT,DEBUT,NB_LOC, I3N,IGSTI,ICURV,IADM
-C     REAL
       my_real
      .   STARTT, STOPT,GAP,GAPMIN,MAXBOX,MINBOX,
      .   KMIN, KMAX, GAPMAX
@@ -865,8 +846,8 @@ C=======================================================================
       IADM =IPARI(44)
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT > TT) RETURN
+      IF(TT > STOPT)  RETURN
       GAP   =INTBUF_TAB%VARIABLES(2)
       GAPMIN=INTBUF_TAB%VARIABLES(13)
 C
@@ -879,7 +860,7 @@ C
 C     cette partie est effectuee en // apres le calcul des forces des elem.
 C     decoupage statique
       NB_LOC = I_STOK / NTHREAD
-      IF (JTASK.EQ.NTHREAD) THEN
+      IF (JTASK == NTHREAD) THEN
           I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
       ELSE
           I_STOK_LOC = NB_LOC
@@ -959,7 +940,7 @@ C-----------------------------------------------
 #include "vectorize.inc"
       DO I=NMNF,NMNL
         J=MSR(I)
-        IF(J.GT.0) THEN
+        IF(J > 0) THEN
 
 c     invertion matrice 3x3 sym et multiplication par un vecteur
 c
@@ -1061,7 +1042,6 @@ C-----------------------------------------------
      .        NB_JLT,NB_JLT_NEW,NB_STOK_N
       INTEGER IPARI(NPARI), STIFN(*),
      .        ITAB(*), ISKEW(*), LCOD(*)
-C     REAL
       my_real
      .   X(3,*), V(3,*), A(3,*), MS(*),
      .   MTF(14,*),CAND_SAV(8,*), SKEW(*)
@@ -1073,7 +1053,6 @@ C-----------------------------------------------
      .        NME_T,ESH_T,IGN,IGE,MULTIMP,NOINT,I,MX_CAND,NTY,IVIS2,
      .        IGAP,INACTI,IBAG,I_STOK, I_STOK_LOC, JLT_NEW,DEBUT,
      .        JLT, NFT,NBID,NB_LOC, I3N,IADM
-C     REAL
       my_real
      .   STARTT, STOPT,GAP,GAPMIN,MAXBOX,MINBOX,
      .   KMIN, KMAX, GAPMAX
@@ -1111,8 +1090,8 @@ C -------------------
       IADM  =IPARI(44)
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT > TT) RETURN
+      IF(TT > STOPT)  RETURN
       GAP   =INTBUF_TAB%VARIABLES(2)
       GAPMIN=INTBUF_TAB%VARIABLES(13)
 C
@@ -1125,7 +1104,7 @@ C
 C     cette partie est effectuee en // apres le calcul des forces des elem.
 C     decoupage statique
       NB_LOC = I_STOK / NTHREAD
-      IF (JTASK.EQ.NTHREAD) THEN
+      IF (JTASK == NTHREAD) THEN
           I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
       ELSE
           I_STOK_LOC = NB_LOC
@@ -1219,7 +1198,6 @@ C-----------------------------------------------
      .        NB_JLT,NB_JLT_NEW,NB_STOK_N
       INTEGER IPARI(NPARI), STIFN(*),
      .        ITAB(*), ISKEW(*), LCOD(*) ,SLVNDTAG(*)
-C     REAL
       my_real
      .   X(3,*), V(3,*), A(3,*), MS(*),
      .   MTF(14,*),CAND_SAV(8,*), FSAV(*),FCONT(3,*), SKEW(*)
@@ -1232,7 +1210,6 @@ C-----------------------------------------------
      .        NME_T,ESH_T,IGN,IGE,MULTIMP,NOINT,I,MX_CAND,NTY,IVIS2,
      .        IGAP,INACTI,IBAG,I_STOK, I_STOK_LOC, JLT_NEW,DEBUT,
      .        JLT, NFT,NBID,NB_LOC, I3N,IADM
-C     REAL
       my_real
      .   STARTT, STOPT,GAP,GAPMIN,MAXBOX,MINBOX,BID,
      .   KMIN, KMAX, GAPMAX
@@ -1273,8 +1250,8 @@ C
       IADM  =IPARI(44)
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT > TT) RETURN
+      IF(TT > STOPT)  RETURN
       GAP   =INTBUF_TAB%VARIABLES(2)
       GAPMIN=INTBUF_TAB%VARIABLES(13)
 C
@@ -1284,22 +1261,21 @@ C
       GAPMAX=INTBUF_TAB%VARIABLES(16)
       KMIN  =INTBUF_TAB%VARIABLES(17)
       KMAX  =INTBUF_TAB%VARIABLES(18)
-C     cette partie est effectuee en // apres le calcul des forces des elem.
-C     decoupage statique
+C     parallel part after elem forces
+C     static cutting
       NB_LOC = I_STOK / NTHREAD
-      IF (JTASK.EQ.NTHREAD) THEN
+      IF (JTASK == NTHREAD) THEN
           I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
       ELSE
           I_STOK_LOC = NB_LOC
       ENDIF
       DEBUT = NB_LOC*(JTASK-1)
 C=======================================================================
-C     on impose les vitesses mains aux seconds
-C     (en fait on impose l'acceleration correspondante)
-C     et calcul des forces mains et seconds
+C     velocity are imposed to fluid nodes
+C     (acceleration)
+C    computing reaction forces
 C=======================================================================
-c      DO NFT = DEBUT , DEBUT + I_STOK_LOC - 1 , NVSIZ
-c          JLT = MIN( NVSIZ, I_STOK_LOC - NFT )
+
       if(JTASK/=1)return
       DO NFT = 0 , I_STOK - 1 , NVSIZ
           JLT = MIN( NVSIZ, I_STOK - NFT )
@@ -1370,7 +1346,6 @@ C-----------------------------------------------
 #include      "warn_c.inc"
 #include      "couple_c.inc"
 #include      "param_c.inc"
-ctmp+1
 #include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -1436,12 +1411,12 @@ C-----------------------------------------------
 C
 C-----------------------------------------------
 #include "sync_dir.inc"
-      IF (IRESP.EQ.1) THEN
+      IF (IRESP == 1) THEN
            PREC = FIVEEM4
       ELSE
            PREC = EM10
       ENDIF
-      IF(DT1.GT.ZERO)THEN
+      IF(DT1 > ZERO)THEN
         DT1INV = ONE/DT1
       ELSE
         DT1INV =ZERO
@@ -1449,13 +1424,13 @@ C-----------------------------------------------
       ECONTT = ZERO
       ECONVT = ZERO
 C--------------------------------------------------------
-C  CAS DES PAQUETS MIXTES
+C  MIXED PACKAGES
 C--------------------------------------------------------
       BID = ZERO
       IBID = 0
 C
       DO I=1,JLT
-        IF(IX3(I).NE.IX4(I))THEN
+        IF(IX3(I) /= IX4(I))THEN
 C
          D1 = SQRT(P1(I))
          PP1 = MAX(ZERO, GAPV(I) - D1)
@@ -1511,31 +1486,7 @@ C
            H3(I) = H0
            H4(I) = H0 + LB4(I)
          ENDIF
-c         A1 = PP1/MAX(EM20,D1)
-c         A2 = PP2/MAX(EM20,D2)
-c         A3 = PP3/MAX(EM20,D3)
-c         A4 = PP4/MAX(EM20,D4)
-c         N1(I) = A1*NX1(I) + A2*NX2(I) + A3*NX3(I) + A4*NX4(I)
-c         N2(I) = A1*NY1(I) + A2*NY2(I) + A3*NY3(I) + A4*NY4(I)
-c         N3(I) = A1*NZ1(I) + A2*NZ2(I) + A3*NZ3(I) + A4*NZ4(I)
-C
-c         LA1 = ONE - LB1(I) - LC1(I)
-c         LA2 = ONE - LB2(I) - LC2(I)
-c         LA3 = ONE - LB3(I) - LC3(I)
-c         LA4 = ONE - LB4(I) - LC4(I)
-C
-c         H0    = FOURTH *
-c     .         (PP1*LA1 + PP2*LA2 + PP3*LA3 + PP4*LA4)
-c         H1(I) = H0 + PP1 * LB1(I) + PP4 * LC4(I)
-c         H2(I) = H0 + PP2 * LB2(I) + PP1 * LC1(I)
-c         H3(I) = H0 + PP3 * LB3(I) + PP2 * LC2(I)
-c         H4(I) = H0 + PP4 * LB4(I) + PP3 * LC3(I)
-c         H0    = FOURTH *
-c     .         (A1*LA1 + A2*LA2 + A3*LA3 + A4*LA4)
-c         H1(I) = H0 + A1 * LB1(I) + A4 * LC4(I)
-c         H2(I) = H0 + A2 * LB2(I) + A1 * LC1(I)
-c         H3(I) = H0 + A3 * LB3(I) + A2 * LC2(I)
-c         H4(I) = H0 + A4 * LB4(I) + A3 * LC3(I)
+
          H00    = ONE/MAX(EM20,H1(I) + H2(I) + H3(I) + H4(I))
          H1(I) = H1(I) * H00
          H2(I) = H2(I) * H00
@@ -1557,7 +1508,7 @@ C
         ENDIF
       ENDDO
 C---------------------
-C     NORMALE
+C     NORMAL VECTOR
 C---------------------
       DO I=1,JLT
          S2 = ONE/MAX(EM30,SQRT(N1(I)**2 + N2(I)**2 + N3(I)**2))
@@ -1566,23 +1517,11 @@ C---------------------
          N3(I) = N3(I)*S2
       ENDDO
 C---------------------
-C      PENE
-C---------------------
-c      DO I=1,JLT
-cC       correction hourglass
-c        H0 = -.25*(H1(I) - H2(I) + H3(I) - H4(I))
-c        H0 = MIN(H0,H2(I),H4(I))
-c        H0 = MAX(H0,-H1(I),-H3(I))
-c        IF(IX3(I).EQ.IX4(I))H0 = ZERO
-c        H1(I) = H1(I) + H0
-c        H2(I) = H2(I) - H0
-c        H3(I) = H3(I) + H0
-c        H4(I) = H4(I) - H0
-c      ENDDO
+C      PENETRATION
 C---------------------
       DO I=1,JLT
         IG=NSVG(I)
-        IF(IG.GT.0)THEN
+        IF(IG > 0)THEN
 #include "lockon.inc"
          IF(PENE(I) > MTF(11,IG))THEN
            MTF(11,IG) = PENE(I)
@@ -1670,7 +1609,6 @@ C-----------------------------------------------
 #include      "warn_c.inc"
 #include      "couple_c.inc"
 #include      "param_c.inc"
-ctmp+1
 #include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -1744,7 +1682,9 @@ C-----------------------------------------------
 C
 C-----------------------------------------------
 #include "sync_dir.inc"
-C---------------------
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
 C
       DO I=1,JLT
         H1(I)   = CAND_SAV(1,I)
@@ -1760,9 +1700,8 @@ C
         IX2(I)  = IRECT(2,L)
         IX3(I)  = IRECT(3,L)
         IX4(I)  = IRECT(4,L)
-c       NSVG(I) = NSV(CAND_N(I))
         NI = CAND_N(I)
-        IF(NI.LE.NSN)THEN
+        IF(NI <= NSN)THEN
           IG = NSV(NI)
           NSVG(I) = IG
         ELSE
@@ -1778,23 +1717,9 @@ C
         FZI(I)  = ZERO
         IF(PENE(I) > ZERO)THEN
           IG=NSVG(I)
-          IF(IG.GT.0)THEN
+          IF(IG > 0)THEN
            IF(PENE(I) == MTF(11,IG))THEN
-c            N1(I)   = MTF(12,IG)
-c            N2(I)   = MTF(13,IG)
-c            N3(I)   = MTF(14,IG)
 
-c           ponderation impact multiple
-cc            FAC  = PENE(I) / MTF(10,IG)
-c           ponderation distance
-c quad           FAC = FAC * (ONE-MTF(11,IG)*MTF(11,IG))
-c line           FAC = FAC * (ONE-MTF(11,IG))
-c            FAC = FAC * (MTF(11,IG)**4-TWO*MTF(11,IG)**2+ONE)
-cc            MSI(I)  = MS(IG) * FAC
-c           la normale n'est pas normee!
-c            FNI(I)  = N1(I) * A(1,IG) * FAC
-c     .              + N2(I) * A(2,IG) * FAC
-c     .              + N3(I) * A(3,IG) * FAC
             MSI(I)  = MS(IG)
             FNI(I)  = N1(I) * A(1,IG)
      .              + N2(I) * A(2,IG)
@@ -1812,17 +1737,6 @@ c     .              + N3(I) * A(3,IG) * FAC
           ELSE
            IF(PENE(I) == MTFI_PENEMIN(NIN)%P(-IG))THEN
             NN=-IG
-c            N1(I)   = MTFI_N(NIN)%P(1,NN)
-c            N2(I)   = MTFI_N(NIN)%P(2,NN)
-c            N3(I)   = MTFI_N(NIN)%P(3,NN)
-cc            FAC  = PENE(I) / MTFI_PENE(NIN)%P(NN)
-c           ponderation distance
-c            FAC = FAC * (MTFI_PENEMIN(NIN)%P(NN)**4-
-c     *              TWO*MTFI_PENEMIN(NIN)%P(NN)**2+ONE)
-cc            MSI(I)= MSFI(NIN)%P(NN) * FAC
-cc            FNI(I)  = N1(I) * I18KAFI(NIN)%P(1,NN) * FAC
-cc     .              + N2(I) * I18KAFI(NIN)%P(2,NN) * FAC
-cc     .              + N3(I) * I18KAFI(NIN)%P(3,NN) * FAC
 
             MSI(I)= MSFI(NIN)%P(NN)
             FNI(I)  = N1(I) * I18KAFI(NIN)%P(1,NN)
@@ -1844,10 +1758,10 @@ cc     .              + N3(I) * I18KAFI(NIN)%P(3,NN) * FAC
 C
       ENDDO
 C---------------------------------
-C     transfers secnd forces to main nodes
+C    transfering fluid force to structure nodes
 C---------------------------------
       DO I=1,JLT
-        IF(PENE(I).GT.ZERO)THEN
+        IF(PENE(I) > ZERO)THEN
           FX1(I)=FXI(I)*H1(I)
           FY1(I)=FYI(I)*H1(I)
           FZ1(I)=FZI(I)*H1(I)
@@ -1864,7 +1778,7 @@ C
           FY4(I)=FYI(I)*H4(I)
           FZ4(I)=FZI(I)*H4(I)
 C---------------------------------
-c       transfers secnd tensorial mass to main nodes
+c       transfering fluid tensorial mass to structural nodes
 C---------------------------------
 c
 c            | nx*nx nx*ny nx*nz |
@@ -1910,11 +1824,11 @@ C---------------------------------
         ENDIF
       ENDDO
 c
-c  provisoire NON PARITH/ON  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+c  temporaty : not PARITH/ON  !
 C
       DO I=1,JLT
         IG=NSVG(I)
-        IF(PENE(I).GT.ZERO)THEN
+        IF(PENE(I) > ZERO)THEN
 #include "lockon.inc"
           MTF(1,IX1(I)) = MTF(1,IX1(I)) + MT1XX(I)
           MTF(2,IX1(I)) = MTF(2,IX1(I)) + MT1XY(I)
@@ -2098,7 +2012,7 @@ C--------------------------------------------------------
         IX4(I)  = IRECT(4,L)
 c        NSVG(I) = NSV(CAND_N(I))
         NI = CAND_N(I)
-        IF(NI.LE.NSN)THEN
+        IF(NI <= NSN)THEN
           IG = NSV(NI)
           NSVG(I) = IG
         ELSE
@@ -2108,26 +2022,14 @@ c        NSVG(I) = NSV(CAND_N(I))
 
       ENDDO
 C---------------------------------
-C     le main impose sa vitesse normale au secnd
-C      + calcul des forces pour post
+C     structural node imposed its velocity to fluid node
+C      + force calculation( POST-TREATMENT)
 C---------------------------------
       DO I=1,JLT
-        IF(PENE(I).GT.ZERO)THEN
+        IF(PENE(I) > ZERO)THEN
           IG=NSVG(I)
           FAC = ONE
-c          IF(IG.GT.0)THEN
-c            N1(I)   = MTF(12,IG)
-c            N2(I)   = MTF(13,IG)
-c            N3(I)   = MTF(14,IG)
-c            FAC  = PENE(I) / MTF(10,IG)
-c          ELSE
-c            NN=-IG
-c            N1(I) = MTFI_N(NIN)%P(1,NN)
-c            N2(I) = MTFI_N(NIN)%P(2,NN)
-c            N3(I) = MTFI_N(NIN)%P(3,NN)
-c            FAC  = PENE(I) / MTFI_PENE(NIN)%P(NN)
-c          ENDIF
-c         la normale n'est pas normee
+c         warning normal is not normalized
           V1 = N1(I) * (V(1,IX1(I))+DT12*A(1,IX1(I)))
      .       + N2(I) * (V(2,IX1(I))+DT12*A(2,IX1(I)))
      .       + N3(I) * (V(3,IX1(I))+DT12*A(3,IX1(I)))
@@ -2142,11 +2044,11 @@ c         la normale n'est pas normee
      .       + N3(I) * (V(3,IX4(I))+DT12*A(3,IX4(I)))
           AAA = MAX(EM30,N1(I)**2 + N2(I)**2 + N3(I)**2)
           AAA = FAC*(H1(I)*V1 + H2(I)*V2 + H3(I)*V3 + H4(I)*V4)/AAA
-c         on divise par le carre de la normale Vs = (n.Vm).n / n.n
+c         divide by square of normal vecotor Vs = (n.Vm).n / n.n
           VSX = N1(I) * AAA
           VSY = N2(I) * AAA
           VSZ = N3(I) * AAA
-          IF(IG.GT.0)THEN
+          IF(IG > 0)THEN
 #include "lockon.inc"
             MTF(1,IG) = MTF(1,IG)+VSX
             MTF(2,IG) = MTF(2,IG)+VSY
@@ -2160,12 +2062,9 @@ c         on divise par le carre de la normale Vs = (n.Vm).n / n.n
             MTFI_V(NIN)%P(1,NN) = MTFI_V(NIN)%P(1,NN)+VSX
             MTFI_V(NIN)%P(2,NN) = MTFI_V(NIN)%P(2,NN)+VSY
             MTFI_V(NIN)%P(3,NN) = MTFI_V(NIN)%P(3,NN)+VSZ
-            MTFI_V(NIN)%P(4,NN) = VFI(NIN)%P(1,NN)+
-     *                                      DT12*I18KAFI(NIN)%P(1,NN)
-            MTFI_V(NIN)%P(5,NN) = VFI(NIN)%P(2,NN)+
-     *                                      DT12*I18KAFI(NIN)%P(2,NN)
-            MTFI_V(NIN)%P(6,NN) = VFI(NIN)%P(3,NN)+
-     *                                      DT12*I18KAFI(NIN)%P(3,NN)
+            MTFI_V(NIN)%P(4,NN) = VFI(NIN)%P(1,NN)+DT12*I18KAFI(NIN)%P(1,NN)
+            MTFI_V(NIN)%P(5,NN) = VFI(NIN)%P(2,NN)+DT12*I18KAFI(NIN)%P(2,NN)
+            MTFI_V(NIN)%P(6,NN) = VFI(NIN)%P(3,NN)+DT12*I18KAFI(NIN)%P(3,NN)
           ENDIF
 
         ENDIF
@@ -2174,14 +2073,14 @@ C
       ENDDO
 
 C-----------------------------------------------------
-C Pour le moment pas utile
+C not useful so far
 C-----------------------------------------------------
 CC spmd : identification des noeuds interf. utiles a envoyer
 C      IF (NSPMD > 1) THEN
 C        DO I = 1,JLT
-C          IF(PENE(I).GT.ZERO)THEN
+C          IF(PENE(I) > ZERO)THEN
 C           NN = NSVG(I)
-C          IF(NN.LT.0)THEN
+C          IF(NN < 0)THEN
 C tag temporaire de NSVFI a -
 C            NSVFI(NIN)%P(-NN) = -ABS(NSVFI(NIN)%P(-NN))
 C          ENDIF
@@ -2316,7 +2215,7 @@ C-----------------------------------------------
 C
 C-----------------------------------------------
 #include "sync_dir.inc"
-      IF(DT12.GT.ZERO)THEN
+      IF(DT12 > ZERO)THEN
         DT12INV = ONE/DT12
       ELSE
         DT12INV =ZERO
@@ -2329,18 +2228,14 @@ C--------------------------------------------------------
         H2(I)   = CAND_SAV(2,I)
         H3(I)   = CAND_SAV(3,I)
         H4(I)   = CAND_SAV(4,I)
-c        N1(I)   = CAND_SAV(5,I)
-c        N2(I)   = CAND_SAV(6,I)
-c        N3(I)   = CAND_SAV(7,I)
         PENE(I) = CAND_SAV(8,I)
         L       = CAND_E(I)
         IX1(I)  = IRECT(1,L)
         IX2(I)  = IRECT(2,L)
         IX3(I)  = IRECT(3,L)
         IX4(I)  = IRECT(4,L)
-c        NSVG(I) = NSV(CAND_N(I))
         NI = CAND_N(I)
-        IF(NI.LE.NSN)THEN
+        IF(NI <= NSN)THEN
           IG = NSV(NI)
           NSVG(I) = IG
         ELSE
@@ -2350,28 +2245,23 @@ c        NSVG(I) = NSV(CAND_N(I))
 
       ENDDO
 C---------------------------------
-C     le main impose sa vitesse normale au secnd
-C      + calcul des forces pour post
+C     structural node imposes its velocity to fluid node
+C      + force calculation (POST-TREATMENT)
 C---------------------------------
       DO I=1,JLT
-        IF(PENE(I).GT.ZERO)THEN
-c si un second. est traite plusieurs fois,
-c la meme vitesse sera imposee a chaque fois.
-c la force est ponderee avec FAC
+        IF(PENE(I) > ZERO)THEN
+c if a fluid node is treated several times, same velocity will be defined.
+c force is ponderated with FAC
           IG=NSVG(I)
-          IF(IG.GT.0)THEN
+          IF(IG > 0)THEN
             VSX = MTF(1,IG)
             VSY = MTF(2,IG)
             VSZ = MTF(3,IG)
             VSXP = MTF(4,IG)
             VSYP = MTF(5,IG)
             VSZP = MTF(6,IG)
-c            FAC  = PENE(I) / MTF(10,IG)
             FAC = ONE
             FAC2 = ONE
-c quad           FAC2 = (ONE-MTF(11,IG)*MTF(11,IG))
-c line            FAC2 = (ONE-MTF(11,IG))
-c            FAC2 = (MTF(11,IG)**4-TWO*MTF(11,IG)**2+ONE)
             MSI(I)  = MS(IG)
             VXI(I)  = V(1,IG)
             VYI(I)  = V(2,IG)
@@ -2384,11 +2274,8 @@ c            FAC2 = (MTF(11,IG)**4-TWO*MTF(11,IG)**2+ONE)
             VSXP = MTFI_V(NIN)%P(4,NN)
             VSYP = MTFI_V(NIN)%P(5,NN)
             VSZP = MTFI_V(NIN)%P(6,NN)
-c            FAC  = PENE(I) / MTFI_PENE(NIN)%P(NN)
             FAC = ONE
             FAC2 = ONE
-c            FAC2 = (     MTFI_PENEMIN(NIN)%P(NN)**4-
-c     *              TWO*MTFI_PENEMIN(NIN)%P(NN)**2+ONE)
             MSI(I)  = MSFI(NIN)%P(NN)
             VXI(I)  = VFI(NIN)%P(1,NN)
             VYI(I)  = VFI(NIN)%P(2,NN)
@@ -2405,11 +2292,10 @@ c          VSX = DVSX + VXI(I)
 c          VSY = DVSY + VYI(I)
 c          VSZ = DVSZ + VZI(I)
 C=======================================================================
-c           ce calcul est fait plusieurs fois
-c           en cas d'impact multiple
-c           mais le resultat est identique
+c           made several time in case of multiple impacts
+c           but result is the same one
 C=======================================================================
-          IF(IG.GT.0)THEN
+          IF(IG > 0)THEN
             A(1,IG)  = DVSX*DT12INV
             A(2,IG)  = DVSY*DT12INV
             A(3,IG)  = DVSZ*DT12INV
@@ -2419,12 +2305,11 @@ C=======================================================================
             MTFI_A(NIN)%P(1,NN) = DVSX*DT12INV
             MTFI_A(NIN)%P(2,NN) = DVSY*DT12INV
             MTFI_A(NIN)%P(3,NN) = DVSZ*DT12INV
-C on emmene la pene comme marqueur si l'on doit mettre a jour
-C les accelerations sur le proc qui possede le noeud.
+C backup penetration as a tag if we need to update acceleration on domain which contains the node
             MTFI_A(NIN)%P(7,NN) = PENE(I)
           ENDIF
 
-c         forces d'interface
+c         interface forces
 
           AAA = (VSXP*VSX + VSYP*VSY + VSZP*VSZ)/BBB
           AAA = (ONE-AAA)*FAC2
@@ -2457,20 +2342,8 @@ c          FNI(I) = N1(I) * FXI(I) + N2(I) * FYI(I) + N3(I) * FZI(I)
 C
       ENDDO
 
-CC spmd : identification des noeuds interf. utiles a envoyer
-C      IF (NSPMD > 1) THEN
-C        DO I = 1,JLT
-C         IF(PENE(I).GT.ZERO)THEN
-C          NN = NSVG(I)
-C          IF(NN.LT.0)THEN
-C tag temporaire de NSVFI a -
-C            NSVFI(NIN)%P(-NN) = -ABS(NSVFI(NIN)%P(-NN))
-C          ENDIF
-C         ENDIF
-C        ENDDO
-C      ENDIF
 C---------------------------------
-C     SAUVEGARDE DE L'IMPULSION NORMALE
+C     BACKUP NORMAL IMPULSE
 C---------------------------------
       FSAV1 = ZERO
       FSAV2 = ZERO
@@ -2480,13 +2353,7 @@ C---------------------------------
       FSAV10= ZERO
       FSAV11= ZERO
       DO I=1,JLT
-c       ECONVT = ECONVT + DT1*VN(I)*FNI(I)
-C fait uniquement si ibag <> 0
-C       PRES(CE_LOC(I)) = PRES(CE_LOC(I)) + FNI(I)
-c       FXI(I)=N1(I)*FNI(I)
-c       FYI(I)=N2(I)*FNI(I)
-c       FZI(I)=N3(I)*FNI(I)
-        IF(PENE(I).GT.ZERO)THEN
+        IF(PENE(I) > ZERO)THEN
           IMPX=FXI(I)*DT12
           IMPY=FYI(I)*DT12
           IMPZ=FZI(I)*DT12
@@ -2509,12 +2376,12 @@ c       FZI(I)=N3(I)*FNI(I)
         FSAV(11)=FSAV(11)+FSAV11
 #include "lockoff.inc"
 C
-      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT.GT.0.AND.
-     .          (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.
-     .              (MANIM.GE.4.AND.MANIM.LE.15).OR. H3D_DATA%MH3D .NE. 0))THEN
+      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT > 0.AND.
+     .          (TT >= TANIM.OR.TT >= TOUTP.OR.TT >= H3D_DATA%TH3D.OR.
+     .              (MANIM >= 4.AND.MANIM <= 15).OR. H3D_DATA%MH3D  /=  0))THEN
 #include "lockon.inc"
          DO I=1,JLT
-          IF(PENE(I).GT.ZERO)THEN
+          IF(PENE(I) > ZERO)THEN
 	    FCONT(1,IX1(I)) =FCONT(1,IX1(I)) + FX1(I)
 	    FCONT(2,IX1(I)) =FCONT(2,IX1(I)) + FY1(I)
 	    FCONT(3,IX1(I)) =FCONT(3,IX1(I)) + FZ1(I)
@@ -2528,7 +2395,7 @@ C
 	    FCONT(2,IX4(I)) =FCONT(2,IX4(I)) + FY4(I)
 	    FCONT(3,IX4(I)) =FCONT(3,IX4(I)) + FZ4(I)
             JG = NSVG(I)
-            IF(JG.GT.0) THEN
+            IF(JG > 0) THEN
               FCONT(1,JG)=FCONT(1,JG)- FXI(I)
               FCONT(2,JG)=FCONT(2,JG)- FYI(I)
               FCONT(3,JG)=FCONT(3,JG)- FZI(I)
