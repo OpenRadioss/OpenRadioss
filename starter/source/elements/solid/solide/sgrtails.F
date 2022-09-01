@@ -133,7 +133,7 @@ C-----------------------------------------------
      .   IFAIL,IMATVIS,NLY,NL,ILAW,IM,IPMAT,ITET4,ITET10,
      .   NGP(NSPMD+1),JJ,IFAILMODEL,NFAIL,ISVIS,IVISC,IMAT,
      .   INUM_R2R(1+R2R_SIU*NUMELS),IPARTSPH,IPARTR2R,MFT,IBOLTP,ICP0,ISM0,
-     .   IPERT,STAT,ITSH,IT10
+     .   IPERT,STAT,ITSH,IT10,ICPT10
        DATA IPMAT /100/
        INTEGER, DIMENSION(:), ALLOCATABLE :: INDEXS2
       INTEGER ID
@@ -558,6 +558,7 @@ C
               IPLAST = IGEO(9,PID)
               ICPRE  = IGEO(13,PID) 
               ICSTR  = IGEO(14,PID)
+              ICPT10 = ICPRE
             ENDIF
             IF (IGT == 14.OR.IGT == 6) THEN
               IF (ITET4.NE.0.AND.IKSNOD0 == 8) THEN
@@ -848,10 +849,11 @@ C-------uncompressible
                ICPRE = 3
 C--------elasto-plastic       
               CASE(3)                                             
-               ICPRE = 1
+               ICPRE = 3
+               IF (ICPT10==1) ICPRE = 1
              END SELECT 
 C--------message out       
-                CALL ANCMSG(MSGID=1741,
+             IF (ICPRE == 1)  CALL ANCMSG(MSGID=1741,
      .                      MSGTYPE=MSGINFO,
      .                      ANMODE=ANINFO_BLIND_2,
      .                      I1=ID,
