@@ -399,7 +399,7 @@ c---------
      A       ITASK   ,TEMP , FTHE , FTHESKY,IEXPAN ,                   
      B       STIFR  ,D   ,GRESAV  ,GRTH        ,IGRTH(OFF_IGRTH+NF1),  
      C       TABLE  ,MSSA(NF1),DMELS(NF1),IGEO ,XDP,
-     D       VOLN    ,CONDN    ,CONDNSKY  ,
+     D       VOLN    ,CONDN    ,CONDNSKY  , VARNOD, 
      E       ITAGND  ,SENSOR   ,LSENSOR   ,IPRI     ,MATPARAM_TAB,IBID)                        
 c
             IF(NSECT.GT.0)THEN 
