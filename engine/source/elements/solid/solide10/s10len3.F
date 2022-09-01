@@ -27,7 +27,7 @@ Chd|        S10FORC3                      source/elements/solid/solide10/s10forc
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE S10LEN3(VOL,NGL,DELTAX,DELTAX2,
-     .   PX,  PY,  PZ,VOLG,VOLO,
+     .   PX,  PY,  PZ,VOLG,VOLGO,
      .   RX,  RY,  RZ,  SX,  SY,  SZ , TX, TY, TZ,
      .   NC,NEL,MXT,PM,
      .   TAGELEM_SMS,V_PITER)
@@ -61,7 +61,7 @@ C     REAL
      .   VOL(MVSIZ,5),DELTAX(*),DELTAX2(*),VOLG(*),
      .   RX(*),RY(*),RZ(*), SX(*),SY(*),SZ(*), TX(*),TY(*),TZ(*),
      .   PX(MVSIZ,10,5),PY(MVSIZ,10,5),PZ(MVSIZ,10,5),
-     .   VOLO(*),
+     .   VOLGO(NEL),
      .   PM(NPROPM,*),V_PITER(NEL,3,10)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -411,8 +411,7 @@ C
 C         DELTAX2 is not used w/IDT1TET10
           DELTAX2(I) = ONE 
 C
-C         beware : VOLO = GBUF%VOL stored in RD Starter = Initial Volume / 4 => M = (NPT * VOLO) * RHOG0
-          MASS       = NPT * VOLO(I) ! (multiplied by RHOG0)
+          MASS       = VOLGO(I) ! (multiplied by RHOG0)
 
           MREF       = ONE/THIRTY2 * MASS
           DELTAX(I)  = TWO*SQRT(MREF/D(I))
@@ -928,8 +927,7 @@ C
 C         DELTAX2 is not used w/IDT1TET10
           DELTAX2(I) = ONE 
 C
-C         beware : VOLO = GBUF%VOL stored in RD Starter = Initial Volume / 4 => M = (NPT * VOLO) * RHOG0
-          MASS       = NPT * VOLO(I) ! (multiplied by RHOG0)
+          MASS       = VOLGO(I) ! (multiplied by RHOG0)
           MREF       = FOURTH * MASS
           DELTAX(I)  = TWO*SQRT(MREF/D(I)) !
 
