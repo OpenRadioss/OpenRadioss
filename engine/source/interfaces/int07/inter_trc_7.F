@@ -132,7 +132,7 @@ C------for travelling nodes detected in imp_solv-----
      2            INTBUF_TAB(NIN)%CAND_P,INTBUF_TAB(NIN)%FTSAVX,INTBUF_TAB(NIN)%FTSAVY,INTBUF_TAB(NIN)%FTSAVZ,
      3            INTER_STRUCT(NIN)%CAND_A,INTBUF_TAB(NIN)%IFPEN ,INACTI,IFQ,
      4            NUM_IMP          ,IND_IMP          ,INTBUF_TAB(NIN)%STFNS ,NIN              ,
-     5            NSN ,ITIED,INTBUF_TAB(NIN)%CAND_F,INTER_STRUCT(NIN)%CAND_A )
+     5            NSN ,ITIED,INTBUF_TAB(NIN)%CAND_F)
 
                 IF(INTER_STRUCT(NIN)%I_SK_OLD.EQ.0) THEN
                     INTER_STRUCT(NIN)%INACTI=-ABS(INACTI)
