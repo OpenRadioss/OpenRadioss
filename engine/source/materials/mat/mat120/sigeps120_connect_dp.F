@@ -88,8 +88,8 @@ c     Paramters of yield function/hardening law and flow potential
       HH    = UPARAM(8)
       A1F   = UPARAM(9) 
       A2F   = UPARAM(10)
-c      A1H   = UPARAM(11)
-c      A2H   = UPARAM(12)
+      A1H   = UPARAM(11)
+      A2H   = UPARAM(12)
       AS    = UPARAM(13)
 c     Johnson-Cook failure parameters
       D1C   = UPARAM(14)
