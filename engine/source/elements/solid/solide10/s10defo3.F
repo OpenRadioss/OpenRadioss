@@ -214,9 +214,10 @@ C
 C
       END
 Chd|====================================================================
-Chd|  S10_ICPT                     source/elements/solid/solide10/s10defo3.F
+Chd|  S10_ICPT                      source/elements/solid/solide10/s10defo3.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
+Chd|        JACOB_J33                     source/elements/solid/solide8e/s8edefo3.F
 Chd|====================================================================
       SUBROUTINE S10_ICPT(
      .   DXX, DXY, DXZ, DYX, DYY, DYZ, DZX, DZY,
@@ -277,7 +278,7 @@ C
 C
       END SUBROUTINE S10_ICPT
 Chd|====================================================================
-Chd|   S10_ICP                     source/elements/solid/solide10/s10defo3.F
+Chd|  S10_ICP                       source/elements/solid/solide10/s10defo3.F
 Chd|-- called by -----------
 Chd|        S10FORC3                      source/elements/solid/solide10/s10forc3.F
 Chd|-- calls ---------------

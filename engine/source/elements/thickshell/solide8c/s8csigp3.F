@@ -23,6 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 Chd|====================================================================
 Chd|  S8CSIGP3                      source/elements/thickshell/solide8c/s8csigp3.F
 Chd|-- called by -----------
+Chd|        S10FORC3                      source/elements/solid/solide10/s10forc3.F
 Chd|        S16SIGP3                      source/elements/thickshell/solide16/s16sigp3.F
 Chd|        S6CFORC3                      source/elements/thickshell/solide6c/s6cforc3.F
 Chd|        S8CFORC3                      source/elements/thickshell/solide8c/s8cforc3.F

@@ -48,7 +48,9 @@ Chd|        S10SAV12                      source/elements/solid/solide10/s10coor
 Chd|        S10SAV3                       source/elements/solid/solide10/s10coor3.F
 Chd|        S10THERM                      source/elements/solid/solide10/s10therm.F
 Chd|        S10UPD11T12                   source/elements/solid/solide10/s10upd11t12.F
+Chd|        S10_ICP                       source/elements/solid/solide10/s10defo3.F
 Chd|        S4THERM_ITET1                 source/elements/solid/solide4/s4therm-itet1.F
+Chd|        S8CSIGP3                      source/elements/thickshell/solide8c/s8csigp3.F
 Chd|        SGCOOR10                      source/elements/solid/solide10/s10coor3.F
 Chd|        SMALLB3                       source/elements/solid/solide/small3.F
 Chd|        SORDEF12                      source/elements/solid/solidez/szforc3.F

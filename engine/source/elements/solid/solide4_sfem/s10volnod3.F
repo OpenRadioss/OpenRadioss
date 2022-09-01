@@ -21,11 +21,12 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  S10VOLNOD3                     source/elements/solid/solide4_sfem/s4volnod3.F
+Chd|  S10VOLNOD3                    source/elements/solid/solide4_sfem/s10volnod3.F
 Chd|-- called by -----------
 Chd|        S4LAGSFEM                     source/elements/solid/solide4_sfem/s4lagsfem.F
 Chd|-- calls ---------------
 Chd|        FOAT_TO_6_FLOAT               source/system/parit.F         
+Chd|        S10VOLJ                       source/elements/solid/solide4_sfem/s10volj.F
 Chd|====================================================================
       SUBROUTINE S10VOLNOD3(VOLNOD6,X,NC,OFFG,VOLG,NEL)
 C-----------------------------------------------

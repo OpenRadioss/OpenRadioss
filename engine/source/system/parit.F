@@ -213,6 +213,7 @@ Chd|        MULTI_I18_FORCE_PON           source/interfaces/int18/multi_i18_forc
 Chd|        RBE2F                         source/constraints/general/rbe2/rbe2f.F
 Chd|        RBE2FL                        source/constraints/general/rbe2/rbe2f.F
 Chd|        RBE3T1                        source/constraints/general/rbe3/rbe3f.F
+Chd|        S10VOLNOD3                    source/elements/solid/solide4_sfem/s10volnod3.F
 Chd|        S4ALESFEM                     source/elements/solid/solide4_sfem/s4alesfem.F
 Chd|        S4LAGSFEM                     source/elements/solid/solide4_sfem/s4lagsfem.F
 Chd|        S4VOLNOD3                     source/elements/solid/solide4_sfem/s4volnod3.F

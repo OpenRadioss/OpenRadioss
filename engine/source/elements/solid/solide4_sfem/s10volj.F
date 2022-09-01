@@ -21,8 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  S10VOLJ                      source/elements/solid/solide10/s10deri3.F
+Chd|  S10VOLJ                       source/elements/solid/solide4_sfem/s10volj.F
 Chd|-- called by -----------
+Chd|        S10VOLNOD3                    source/elements/solid/solide4_sfem/s10volnod3.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE S10VOLJ(W,
