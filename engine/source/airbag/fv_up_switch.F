@@ -166,7 +166,7 @@ C-----------------------------------------------
      .        CPD, CPE, CPF, TEMP0, PEL(NELT), PSTAG, VOLNO,TSTOPE,
      .        ENINT, MASSFLOW, TFEXT0, ELDMASS(NEL), ELDEHPY(NEL), DMOUT, DHOUT,
      .        XX1, XX2, XX3, YY1, YY2, YY3, ZZ1, ZZ2, ZZ3, NNX, NNY, NNZ,
-     .        AREAMAX, PRES_AV, CP_AV, CV_AV, RGAS_AV, RHO_AV
+     .        PRES_AV, CP_AV, CV_AV, RGAS_AV, RHO_AV
 
 
       LOGICAL :: EXIT_NEG_VOL,INJECTION_STARTED
@@ -986,7 +986,8 @@ C
 
 !$OMP PARALLEL PRIVATE(I,MSINI,CPA,CPB,CPC,CPD,CPE,CPF,EFAC,TEMP0)
 !$OMP+ PRIVATE(TEMP,CP,CV,RMW)
-!$OMP+ PRIVATE(AL,DD,AD,GAMA,SSP,QX,VV,SS_,AREAMAX,AREA)
+!$OMP+ PRIVATE(AL,DD,AD,GAMA,SSP,QX,VV,SS_,AREA)
+! --- PRIVATE(AREAMAX)
 !$OMP+ PRIVATE(ITYPL,J,IEL)
 
 !$OMP DO SCHEDULE(GUIDED,1)
@@ -1202,11 +1203,12 @@ C
                COUNT = 0
                VV = ZERO
                !loop over polygons
+               !AREAMAX=ZERO
                DO J = 1, FVDATA(IFV)%ELEM_TO_TRI(I)%MINUS_SIZE
                   IEL = FVDATA(IFV)%ELEM_TO_TRI(I)%MINUS(J)
                   AREA = ELAREA(IEL)          
 !                  FINITE VOLUME I IS ON THE LEFT SIDE OF ELEMENT IEL, HENCE A + SIGN
-                  AREAMAX=MAX(AREAMAX,AREA)
+                  !AREAMAX=MAX(AREAMAX,AREA)
                   VV = VV+SQRT(VREL(IEL))
                   COUNT=COUNT+1
                ENDDO
