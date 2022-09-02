@@ -39,10 +39,10 @@ Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE I18MAIN_KINE_1(IPARI,INTBUF_TAB,X      ,V       ,
-     2                   A    ,ISKEW   ,SKEW    ,LCOD    ,WA      ,
-     3                   MS   ,ITAB    ,JTASK   ,KINET   ,STIFN   ,
-     4                   MTF  ,CAND_SAV,INT18ADD,IAD_ELEM,FR_ELEM ,
-     5                   TAGPENE,H3D_DATA,MULTI_FVM)
+     2                   A      ,ISKEW   ,SKEW     ,LCOD          ,WA      ,
+     3                   MS     ,ITAB    ,JTASK    ,KINET         ,STIFN   ,
+     4                   MTF    ,CAND_SAV,INT18ADD ,IAD_ELEM      ,FR_ELEM ,
+     5                   TAGPENE,H3D_DATA,MULTI_FVM,ALE_NE_CONNECT,XCELL)
 C-----------------------------------------------
 C   D e s c r i p t i o n 
 C-----------------------------------------------
@@ -56,7 +56,8 @@ C-----------------------------------------------
       USE TRI7BOX
       USE INTBUFDEF_MOD
       USE H3D_MOD
-      USE MULTI_FVM_MOD      
+      USE MULTI_FVM_MOD    
+      USE ALE_CONNECTIVITY_MOD          
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -73,6 +74,7 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "warn_c.inc"
 #include      "scr05_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -80,10 +82,11 @@ C-----------------------------------------------
      .   KINET(*),INT18ADD(*),JTASK,IAD_ELEM(2,*),FR_ELEM(*),TAGPENE(*)
       my_real
      .   X(*), V(*), A(3,*), SKEW(*), WA(*), MS(*),
-     .   MTF(14,*),CAND_SAV(*),STIFN(*)
+     .   MTF(14,*),CAND_SAV(*),STIFN(*),XCELL(3,SXCELL)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE(H3D_DATABASE) :: H3D_DATA
-      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM            
+      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM  
+      TYPE(t_connectivity), INTENT(IN) :: ALE_NE_CONNECT          
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -209,9 +212,9 @@ C LINDMAX = NCONT*MULTIMP
          CALL I18MAIN_KINE_I(
      1                       N           ,IPARI(1,N)    ,INTBUF_TAB(N)         ,X                , 
      2                       STIFN       ,V             ,A                     ,MS               , NMN             ,
-     3                       ITAB        ,LINDMAX       ,CAND_SAV(INT18ADD(N)) ,MTF              ,
+     3                       ITAB        ,LINDMAX       ,CAND_SAV(INT18ADD(N)) ,MTF              , ALE_NE_CONNECT  ,
      4                       NRTMDIM     ,JTASK         ,NB_JLT(JTASK)         ,NB_JLT_NEW(JTASK),N B_STOK_N(JTASK),
-     5                       KINET       ,MULTI_FVM)
+     5                       KINET       ,MULTI_FVM     ,XCELL)
        ENDIF
       ENDDO
 C=======================================================================
@@ -508,32 +511,26 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE I18MAIN_KINE_I(NIN,IPARI,INTBUF_TAB      ,X        ,
      2      STIFN    ,V         ,A          ,MS           ,NMN      ,
-     3      ITAB     ,LINDMAX   ,CAND_SAV   ,MTF          ,
+     3      ITAB     ,LINDMAX   ,CAND_SAV   ,MTF          ,ALE_NE_CONNECT,
      4      NRTMDIM  ,JTASK     ,NB_JLT     ,NB_JLT_NEW   ,NB_STOK_N,
-     5      KINET    ,MULTI_FVM)
+     5      KINET    ,MULTI_FVM ,XCELL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
-      USE MULTI_FVM_MOD      
+      USE MULTI_FVM_MOD 
+      USE ALE_CONNECTIVITY_MOD           
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
-C
 C-------------------------------------------------------------------------------
 C     NOM    DIMENSION               DESCRIPTION                       E/S
 C-------------------------------------------------------------------------------
-C
 C    NIN    1                        NUMERO INTERFACE                   E
-C
 C   IPARI   NPARI,NINTER             PARAMETRES D'INTERFACE             E
-C
 C     X     3,NUMNOD                 COORDONNEES                        E
-C
 C     V     3,NUMNOD                 VITESSES                           E
-C
 C    EMINX  6*NME<6*NUMELS           MIN MAX DE CHAQUE ELEMENT        TMP_GLOBAL
-C
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -554,17 +551,19 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "task_c.inc"
 #include      "warn_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NIN,JTASK ,LINDMAX,NMN     ,
      .        NB_JLT,NB_JLT_NEW,NB_STOK_N,NRTMDIM
-      INTEGER IPARI(NPARI), KINET(*),ITAB(*)
+      INTEGER IPARI(NPARI), KINET(*),ITAB(*),STIFN(*)
       my_real
      .   X(3,*), V(3,*), A(3,*), MS(*),
-     .   MTF(14,*),CAND_SAV(8,*),STIFN(*)
+     .   MTF(14,*),CAND_SAV(8,*),XCELL(3,SXCELL)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
-      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM         
+      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM   
+      TYPE(t_connectivity), INTENT(IN) :: ALE_NE_CONNECT            
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -706,10 +705,10 @@ C cand_n et cand_e replaced with cand_n_n et cand_e_n
      8        LB4          ,LC1      ,LC2      ,LC3              ,LC4    ,
      9        P1           ,P2       ,P3       ,P4               ,IX1    ,
      A        IX2          ,IX3      ,IX4      ,NSVG             ,STIF   ,
-     B        JLT_NEW      ,GAPV     ,INACTI   ,INTBUF_TAB%CAND_P,
-     C        INDEX2(NFT+1),VXI      ,VYI      ,ITAB             ,
-     D        VZI   ,MSI   ,KINI     ,SURF     ,IBAG             ,IGAP   ,
-     E        MULTI_FVM)
+     B        JLT_NEW      ,GAPV     ,INACTI   ,INTBUF_TAB%CAND_P,ALE_NE_CONNECT,
+     C        INDEX2(NFT+1),VXI      ,VYI      ,ITAB             ,XCELL  ,
+     D        VZI          ,MSI      ,KINI     ,SURF             ,IBAG    ,
+     E        IGAP         ,MULTI_FVM)
           JLT = JLT_NEW
           IF(JLT_NEW /= 0) THEN
             IPARI(29) = 1
@@ -1304,14 +1303,14 @@ Chd|        TRI7BOX                       share/modules/tri7box.F
 Chd|====================================================================
       SUBROUTINE I18KINE_I(JLT ,A      ,V      ,
      2                  GAP    ,MS     ,NOINT  ,STFN  ,ITAB   ,
-     3                  STIFN  ,STIF   ,X      ,IRECT  ,
+     3                  STIFN  ,STIF   ,X      ,IRECT ,
      4                  NX1    ,NX2    ,NX3    ,NX4   ,NY1    ,
      5                  NY2    ,NY3    ,NY4    ,NZ1   ,NZ2    ,
      6                  NZ3    ,NZ4    ,LB1    ,LB2   ,LB3    ,
      7                  LB4    ,LC1    ,LC2    ,LC3   ,LC4    ,
      8                  P1     ,P2     ,P3     ,P4    ,NIN    ,
      9                  IX1    ,IX2    ,IX3    ,IX4   ,NSVG   ,
-     A                  GAPV   ,INACTI ,VXI    ,VYI    ,VZI   ,
+     A                  GAPV   ,INACTI ,VXI    ,VYI   ,VZI    ,
      B                  MSI    ,MTF    ,INDEX  ,CAND_SAV)
 C-----------------------------------------------
 C   M o d u l e s
