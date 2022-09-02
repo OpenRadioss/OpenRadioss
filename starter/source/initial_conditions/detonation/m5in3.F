@@ -303,6 +303,7 @@ C     Getting rid of the equivalences
         !---------------------------------! 
         ! LIGHTING TIME FOR /DFS/DETCORD  !
         !---------------------------------!
+        VDET = ZERO
         IF(NDETCORD /= 0) THEN
           N2        = 1
           DO N=NDETPS+NDETSG+NECRAN+NDETPL+1,NDETPS+NDETSG+NECRAN+NDETPL+NDETCORD
