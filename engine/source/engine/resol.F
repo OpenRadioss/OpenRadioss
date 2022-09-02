@@ -5304,7 +5304,7 @@ C        /---------------/
      2             A          ,ISKEW     ,SKEW     ,ICODT   ,WA      ,
      3             MS         ,ITAB      ,ITSK+1   ,KINET   ,STIFN   ,
      4             MTF        ,CAND_SAV  ,INT18ADD ,IAD_ELEM,FR_ELEM ,
-     5             TAGPENE    ,H3D_DATA  ,MULTI_FVM)
+     5             TAGPENE    ,H3D_DATA  ,MULTI_FVM,ALE_CONNECTIVITY%NE_CONNECT,XCELL)
 !$OMP END PARALLEL
         ENDIF
 C------------------------
