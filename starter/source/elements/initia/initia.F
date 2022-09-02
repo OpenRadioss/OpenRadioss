@@ -3536,7 +3536,7 @@ C------  IPARG(6,NG)= NPG after elbuf_ini
              END SELECT 
             ENDIF  
            WRITE(IOUT,'(A)') '  Isolid  Ismstr   Icpre     NPT'
-           WRITE(IOUT,'(3I8)')IHBE,Ismstr,ICSTR, NLY
+           WRITE(IOUT,'(3I8)')IHBE,Ismstr,ICPRE, NLY
           ELSE
 c2345678+-------+-------+-------+-------+-------+-------+-------+-------+-------+  
 c---1----|----2----|----3----|----4----|----5----|----6----|----7----|----8----|----9----|---10----|
