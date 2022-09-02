@@ -88,7 +88,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRUNN, IRFL, IRFE, FLAG_CST_AMS
-      TYPE(H3D_DATABASE), INTENT(IN) :: H3D_DATA
+      TYPE(H3D_DATABASE), INTENT(INOUT) :: H3D_DATA
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
