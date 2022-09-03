@@ -157,6 +157,8 @@ Chd|        H3D_SHELL_SCALAR_1            engine/source/output/h3d/h3d_results/h
 Chd|        H3D_SOLID_SCALAR              engine/source/output/h3d/h3d_results/h3d_solid_scalar.F
 Chd|        H3D_SOLID_SCALAR_1            engine/source/output/h3d/h3d_results/h3d_solid_scalar_1.F
 Chd|        I18DST3                       engine/source/interfaces/int18/i18dst3.F
+Chd|        I18MAIN_KINE_1                engine/source/interfaces/int18/i18main_kine.F
+Chd|        I18MAIN_KINE_I                engine/source/interfaces/int18/i18main_kine.F
 Chd|        I22BUCE                       engine/source/interfaces/intsort/i22buce.F
 Chd|        I22MAIN_TRI                   engine/source/interfaces/intsort/i22main_tri.F
 Chd|        I7MAINF                       engine/source/interfaces/int07/i7mainf.F

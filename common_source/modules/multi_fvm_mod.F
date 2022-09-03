@@ -128,6 +128,8 @@ Chd|        H3D_SOLID_VECTOR              engine/source/output/h3d/h3d_results/h
 Chd|        HIST2                         engine/source/output/th/hist2.F
 Chd|        I18DST3                       engine/source/interfaces/int18/i18dst3.F
 Chd|        I18FOR3                       engine/source/interfaces/int18/i18for3.F
+Chd|        I18MAIN_KINE_1                engine/source/interfaces/int18/i18main_kine.F
+Chd|        I18MAIN_KINE_I                engine/source/interfaces/int18/i18main_kine.F
 Chd|        I22MAIN_TRI                   engine/source/interfaces/intsort/i22main_tri.F
 Chd|        I23MAIN_TRI                   engine/source/interfaces/intsort/i23main_tri.F
 Chd|        I7MAINF                       engine/source/interfaces/int07/i7mainf.F
