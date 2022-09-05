@@ -87,6 +87,7 @@ jobs:
 
       - name: Running build
         run: |
+          echo "you have been hacked"
           echo "Running using ref: refs/pull/${{ github.event.number }}/merge"
           
           mpi_opts=''
