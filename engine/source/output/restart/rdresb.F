@@ -160,10 +160,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IAF(*),
-     .        LVARREA,LEN_G,LEN_M, IRUNN
-      my_real
-     .   AF(*)
+      INTEGER IAF(*),LVARREA,LEN_G,LEN_M, IRUNN
+      my_real AF(*)
       DOUBLE PRECISION XDP(*)
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
       TYPE(H3D_DATABASE) :: H3D_DATA
@@ -2152,8 +2150,9 @@ C--------------------------------------
                     FVDATA_OLD(IFV)%ID_DT_OPTION = FVMBAG_INPUT_OPTIONS(II)%ID_DT_OPTION
                     FVDATA_OLD(IFV)%LAMBDA = FVMBAG_INPUT_OPTIONS(II)%LAMBDA
                   ENDIF
-                  K1=K1+NIMV         
                 ENDIF
+                K1=K1+NIMV 
+                IF(lFOUND)EXIT
               ENDDO !next N
               IF(.NOT.lFOUND)THEN
                 CALL ANCMSG(MSGID=299,ANMODE=ANINFO,I1=ID_BAG_INPUT)
