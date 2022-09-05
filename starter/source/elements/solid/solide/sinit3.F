@@ -454,6 +454,7 @@ C------------------------------------------
 C Compute element time step
 C------------------------------------------
       AIRE(:) = ZERO
+      DTX(:) = ZERO
       CALL DTMAIN(GEO      , PM       , IPM        , PID    , MAT    , FV    ,
      .     GBUF%EINT, GBUF%TEMP, GBUF%DELTAX, GBUF%RK, GBUF%RE, BUFMAT, DELTAX, AIRE, 
      .     VOLU, DTX, IGEO )
