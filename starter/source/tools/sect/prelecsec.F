@@ -128,7 +128,7 @@ C=======================================================================
       DO I=1,NSECT
 
         NG=NG+1
-C----------Multidomaines --> on ignore les sections non tagees----
+C----------Multidomain --> non taged sections ignored----
         IF (FLAG_R2R == 0) THEN
             IF( NSUBDOM > 0 ) THEN
                 IF( TAGSEC(NG) == 0 ) CALL HM_SZ_R2R(TAGSEC,NG,LSUBMODEL)
@@ -163,16 +163,16 @@ C-----------------------------------------------------------------
         CALL HM_GET_INTV('Niter', NBINTER, IS_AVAILABLE, LSUBMODEL)  
 C---    
         IF (FLAG_R2R == 1) THEN
-C----------tag des noeuds du skew de la saection---------------
+C----------tag section s skew nodes---------------
 	  IF (N1 /= 0) N1=USR2SYS(N1,ITABM1,MESS,ID)
           IF (N2 /= 0) N2=USR2SYS(N2,ITABM1,MESS,ID)
           IF (N3 /= 0) N3=USR2SYS(N3,ITABM1,MESS,ID)
 	  IF(TAGNO(N1+NPART) < 2) TAGNO(N1+NPART) = 2
 	  IF(TAGNO(N2+NPART) < 2) TAGNO(N2+NPART) = 2
 	  IF(TAGNO(N3+NPART) < 2) TAGNO(N3+NPART) = 2
-        ELSEIF (FLAG_R2R == 2) THEN
-C----------determination de la position de la section par rapport  l'interface multidomaines---------------        
-C----------groupe d'elements
+        ELSEIF (FLAG_R2R == 2) THEN     
+C----------set section position  wrt multidomain interface
+C----------element groups
            NSEG  = GRSIZE_ELE(IGUS,IGRBRIC,NGRBRIC)
            NSEGC = GRSIZE_R2R(IGUS,IGRBRIC,NGRBRIC,9)
            NSEG0 = GRSIZE_R2R(IGUS,IGRBRIC,NGRBRIC,8)
@@ -203,15 +203,15 @@ C
 C                                                                                   
            TAGSEC(I)=ID
            COMPT = COMPT + 1
-C-----------Critre de tri
+C-----------sorting criteria
            IF ((NSEGC > 0).OR.((NSEG.NE.NSEG0).AND.(NSEG > 0))) THEN
-C-------------Section sur l'interface multidomains
+C-------------multidomains interface sections
               CALL ANCMSG(MSGID=1006,
      .                 MSGTYPE=MSGWARNING,
      .                 ANMODE=ANINFO_BLIND_1,
      .                 I1=ID)         
            ELSEIF ((NSEG == 0).AND.(NSEG0 > 0)) THEN
-C-------------Section externe : non conserve
+C------------ external sections : not keeped
              TAGSEC(I)=0
              COMPT = COMPT - 1                          
            ENDIF                                                                                                               
