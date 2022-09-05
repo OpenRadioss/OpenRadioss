@@ -87,7 +87,7 @@ jobs:
 
       - name: Running build
         run: |
-          echo "Running using ref: refs/pull/${{ github.event.number }}/merge"
+          echo "Running using reference: refs/pull/${{ github.event.number }}/merge"
           
           mpi_opts=''
           if [ ! -z ${{ matrix.mpi }} ]
