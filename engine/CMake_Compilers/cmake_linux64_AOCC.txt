@@ -129,13 +129,13 @@ set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " -O2 $
 endif()
 
 # Linking flags
-set (CMAKE_EXE_LINKER_FLAGS " ${mpi_lib} -fopenmp  -ldl -lrt -lstdc++ ${FSANITIZE}  " )
+set (CMAKE_EXE_LINKER_FLAGS " -fopenmp  -ldl -lrt -lstdc++ ${FSANITIZE}  " )
 
 #Libraries
 if ( static_link STREQUAL "1" )
-  set (LINK "rt  -ldl -static-libgfortran -static-libstdc++ -static-libgcc -Wunused-function"  )
+  set (LINK "rt ${mpi_lib} -ldl -static-libgfortran -static-libstdc++ -static-libgcc -Wunused-function"  )
 else()
-  set (LINK "rt  -ldl -Wunused-function"  )
+  set (LINK "rt ${mpi_lib} -ldl -Wunused-function"  )
 endif()
 
 # -------------------------------------------------------------------------------------------------------------------------------------------
