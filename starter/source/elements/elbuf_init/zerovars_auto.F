@@ -442,6 +442,8 @@ c---
 c---
 C  nb of layer variable
         BUFLY%NVAR_LAY = IAD
+
+        BUFLY%NPTT = 0
 c---
       ENDDO 
 c-----------------------------------------------
