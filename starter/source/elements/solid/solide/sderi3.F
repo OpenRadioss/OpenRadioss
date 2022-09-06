@@ -56,25 +56,27 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "param_c.inc"
+#include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER :: IGEO(NPROPGI,*), NGL(*), NGEO(*)
+      INTEGER :: IGEO(NPROPGI,NUMGEO), NGL(NEL), NGEO(NEL)
       INTEGER :: NEL, JEUL, NXREF, IMULTI_FVM
 C
       my_real
-     .   VOL(*), VEUL(LVEUL,*) , GEO(NPROPG,*),
-     .   JAC1(*), JAC2(*), JAC3(*), JAC4(*), JAC5(*), JAC6(*),
-     .   PX1(*), PX2(*), PX3(*), PX4(*),  
-     .   PY1(*), PY2(*), PY3(*), PY4(*),  
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*), DET(*)
+     .   VOL(NEL), VEUL(LVEUL,*) , GEO(NPROPG,NUMGEO),
+     .   JAC1(NEL), JAC2(NEL), JAC3(NEL), JAC4(NEL), JAC5(NEL), JAC6(NEL),
+     .   PX1(NEL), PX2(NEL), PX3(NEL), PX4(NEL),  
+     .   PY1(NEL), PY2(NEL), PY3(NEL), PY4(NEL),  
+     .   PZ1(NEL), PZ2(NEL), PZ3(NEL), PZ4(NEL), DET(NEL)
       DOUBLE PRECISION
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
      .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ),
      .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
      .   YD5(MVSIZ), YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ),
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ),
-     .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ),VOLDP(*)
+     .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ),
+     .   VOLDP(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -95,7 +97,9 @@ C
      .   X17, X28, X35, X46,
      .   Y17, Y28, Y35, Y46,
      .   Z17, Z28, Z35, Z46
-C=======================================================================
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
 C
 C Jacobian matrix
       DO I=1,NEL
@@ -154,7 +158,7 @@ C
 C
       DO I=1,NEL
         IF (DET(I) > ZERO) CYCLE
-        IF (IGEO(11,NGEO(I)).NE.0 .AND. IGEO(11,NGEO(I)).NE.43) THEN
+        IF (IGEO(11,NGEO(I)) /= 0 .AND. IGEO(11,NGEO(I)) /= 43) THEN
           CALL ANCMSG(MSGID=245,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -248,8 +252,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-C------------------------------------------------------
-C------------------------------------------------------
+C-----------------------------------------------
+C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
