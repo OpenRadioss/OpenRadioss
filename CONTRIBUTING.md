@@ -23,7 +23,7 @@ Windows users may want to use [git bash](https://gitforwindows.org/) or [WSL](ht
 ```bash
 git config --global user.email "<ID+username>@users.noreply.github.com"
 ```
-* Add the main the official repository as a remote: 
+* Add the official repository as a remote: 
 ```bash
 git remote add upstream git@github.com:OpenRadioss/OpenRadioss.git
 ```
