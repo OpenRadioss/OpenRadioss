@@ -26,15 +26,25 @@ Chd|-- called by -----------
 Chd|        EOSMAIN                       common_source/eos/eosmain.F   
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE COMPACTION     (
-     1                            IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU   ,MU2 , 
-     2                            ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH  ,POLD,
-     3                            PNEW ,DPDM ,DPDE ,THETA,ECOLD,SIG  ,MU_OLD)
+      SUBROUTINE COMPACTION(
+     1                      IFLAG, NEL  , PM   , OFF  , EINT , MU   , MU2 , 
+     2                      ESPE , DVOL , DF   , VNEW , MAT  , PSH  , POLD,
+     3                      PNEW , DPDM , DPDE , THETA, ECOLD, SIG  , MU_OLD)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
-C This subroutine contains numerical solving
-C of COMPACTION EOS
+C This subroutine contains numerical solving of COMPACTION EOS
+C
+C Iform : formulation flag for unload behavior
+C          1 : constant unload modulus (DEFAULT)
+C          2 : unload modulus increases with compaction from C1 to BUNL in [MU_MIN,MU_MAX]
+C         10 : legacy behvior (fixed with iform=1) (not documented)
+C
+C  MU_MIN : elastic behavior up to this limit
+C  MU_MAX : elastic behavior above this limit
+C  C0,C1,C2,C3 : EoS parameter
+C  BUNL : unload modulus
+C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -45,17 +55,17 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
+#include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MAT(*), IFLAG, NEL
-      my_real
-     .   PM(NPROPM,*), 
-     .   OFF(*)  ,EINT(*) ,MU(*)   , 
-     .   MU2(*)  ,ESPE(*) ,DVOL(*) ,DF(*)  , 
-     .   VNEW(*) ,PNEW(*) ,DPDM(*),
-     .   DPDE(*) ,THETA(*),ECOLD(*),
-     .   SIG(NEL,6),POLD(MVSIZ)
+      INTEGER,INTENT(IN) :: MAT(NEL), IFLAG, NEL
+      my_real,INTENT(INOUT) :: PM(NPROPM,NUMMAT), 
+     .        OFF(NEL)  ,EINT(NEL) ,MU(NEL), 
+     .        MU2(NEL)  ,ESPE(NEL) ,DVOL(NEL),
+     .        VNEW(NEL) ,PNEW(NEL) ,DPDM(NEL),
+     .        DPDE(NEL) ,THETA(NEL),ECOLD(NEL),
+     .        SIG(NEL,6),POLD(NEL) ,DF(NEL)   
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -74,13 +84,13 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 
-       MX           = MAT(LFT)
+       MX           = MAT(1)
        E0           = PM(23,MX)         
        C0           = PM(49,MX)
        C1           = PM(32,MX)
        C2           = PM(33,MX)
        C3           = PM(34,MX)
-       PSH(LFT:LLT) = PM(88,MX)
+       PSH(1:NEL)   = PM(88,MX)
        BUNL         = PM(45,MX)
        MU_MAX       = PM(46,MX)
        SPH          = PM(69,MX)
@@ -88,67 +98,70 @@ C-----------------------------------------------
        PFRAC        = PM(37,MX)
        MUMIN        = PM(47,MX)
        IFORM        = NINT(PM(48,MX))
+       
        TFEXTT       = ZERO
-
-       BULK(LFT:LLT)  = BUNL
-       BULK2(LFT:LLT) = BUNL
-
+       BULK(1:NEL)  = BUNL
+       BULK2(1:NEL) = BUNL
+       
       !----------------------------------------------------------------!
       !  COMPACTION EOS                                                !
       !----------------------------------------------------------------!  
-      IF(IFORM.EQ.1)THEN    
-        DO I=LFT,LLT
-          IF(MU_OLD(I).LT.ZERO)BULK(I)  = C1 
-          IF(MU(I).LT.ZERO)    BULK2(I) = C1
-          PNE1 = POLD(I)+PSH(I)+MU(I)*BULK2(I)-MU_OLD(I)*BULK(I)
-          P(I)    = C0+C1*MU(I)+C2*MU2(I)+C3*MU2(I)*MU(I)
-          IF(MU(I).LT.MU_MAX) P(I) = MIN(P(I),PNE1) 
-          P(I) = MAX(P(I),PFRAC)  *OFF(I) 
-          !B(I) = MAX(BULK(I),BULK2(I))
-          B(I) = BULK(I)
-        ENDDO !next I   
-      ELSEIF(IFORM.EQ.2)THEN
-        DO I=LFT,LLT
+      !--- constant unload slope ---!       
+      IF(IFORM == 1)THEN
+        DO I=1,NEL
           P(I) = C0+C1*MU(I)+(C2+C3*MU(I))*MU2(I)
           P_   = C0+C1*MU_OLD(I)+(C2+C3*MU_OLD(I))*MU_OLD(I)*MU_OLD(I)
-          B(I)=BUNL 
+          B(I) = BUNL 
           PNE1 = P_-(MU_OLD(I)-MU(I))*B(I)
-          IF(MU_OLD(I).GT.MUMIN) P(I) = MIN(PNE1, P(I))
-          P(I) = MAX(P(I),PFRAC)  *OFF(I)
+          IF(MU_OLD(I) > MUMIN) P(I) = MIN(PNE1, P(I))
+          P(I) = MAX(P(I),PFRAC)*OFF(I)
         ENDDO !next I   
-      ELSEIF(IFORM.EQ.3)THEN
-        DO I=LFT,LLT
+      !--- continuous unload slope (increases with compaction) ---!
+      ELSEIF(IFORM == 2)THEN
+        DO I=1,NEL
           P(I) = C0+C1*MU(I)+(C2+C3*MU(I))*MU2(I)
           P_   = C0+C1*MU_OLD(I)+(C2+C3*MU_OLD(I))*MU_OLD(I)*MU_OLD(I)
           !linear unload modulus
           ALPHA = ONE
-          IF(MU_MAX.GT.ZERO)THEN
+          IF(MU_MAX > ZERO)THEN
             ALPHA=MU_OLD(I)/MU_MAX
           ENDIF
           B(I) = ALPHA*BUNL+(ONE-ALPHA)*C1
           PNE1 = P_-(MU_OLD(I)-MU(I))*B(I)
-          IF(MU_OLD(I).GT.MUMIN) P(I) = MIN(PNE1, P(I))
+          IF(MU_OLD(I) > MUMIN) P(I) = MIN(PNE1, P(I))
           P(I) = MAX(P(I),PFRAC)  *OFF(I)
-        ENDDO !next I   
+        ENDDO !next I  
+      !--- legacy behavior ---! 
+      ELSEIF(IFORM == 10)THEN    
+        DO I=1,NEL
+          IF(MU_OLD(I) < ZERO)BULK(I)  = C1 
+          IF(MU(I) < ZERO)    BULK2(I) = C1
+          PNE1 = POLD(I)+PSH(I)+MU(I)*BULK2(I)-MU_OLD(I)*BULK(I)
+          P(I)    = C0+C1*MU(I)+C2*MU2(I)+C3*MU2(I)*MU(I)
+          IF(MU(I) < MU_MAX) P(I) = MIN(P(I),PNE1) 
+          P(I) = MAX(P(I),PFRAC)  *OFF(I) 
+          !B(I) = MAX(BULK(I),BULK2(I))
+          B(I) = BULK(I)
+        ENDDO !next I            
       ENDIF
       !----------------------------------------------------------------!
       !  SOUND SPEED                                                   !
       !----------------------------------------------------------------!      
-      DO I=LFT,LLT
-        DPDM(I) = C1 + TWO*C2*MU(I)+THREE*C3*MU2(I)   !can be discussed in expansion...
+      DO I=1,NEL
+        DPDM(I) = C1 + MAX(ZERO,MU(I)) *( TWO*C2+THREE*C3*MU(I) ) 
         DPDM(I) = MAX(B(I),DPDM(I))
         DPDE(I) = ZERO
       ENDDO !next I   
       !----------------------------------------------------------------!
       !  OUTPUT                                                        !
       !----------------------------------------------------------------!      
-      DO I=LFT,LLT
+      DO I=1,NEL
         P(I)=MAX(PFRAC,P(I))*OFF(I)
         PNEW(I) = P(I)-PSH(I)
       ENDDO !next I     
-      DO I=LFT,LLT
+      DO I=1,NEL
         ECOLD(I)=-THREE100*SPH
-        !IF(MU(I).GT.ZERO) ECOLD(I)=
+        !IF(MU(I) > ZERO) ECOLD(I)=
       ENDDO
 
       
@@ -157,61 +170,62 @@ C-----------------------------------------------
         !----------------------------------------------------------------!
         !  FRACTURE  - MU_OLD                                            !
         !----------------------------------------------------------------!      
-        DO I=LFT,LLT
+        DO I=1,NEL
           EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I) )
         ENDDO !next I 
         !----------------------------------------------------------------!
         !  FRACTURE  - MU_OLD                                            !
         !----------------------------------------------------------------!      
-        IF(IFORM.EQ.1)THEN
-          DO I=LFT,LLT
-            IF(P(I).LE.PFRAC)THEN
+        IF(IFORM == 10)THEN
+          DO I=1,NEL
+            IF(P(I) <= PFRAC)THEN
               MU_OLD(I) =MU_OLD(I)+(PFRAC-POLD(I)-PSH(I))/BULK2(I)  
             ELSE
               MU_OLD(I)= MU(I)
             ENDIF
           ENDDO !next I
-        ELSEIF(IFORM.GE.2)THEN
-          DO I=LFT,LLT
-            IF(MU(I).GT.MU_OLD(I)) MU_OLD(I) = MIN(MU_MAX,MU(I))
+        ELSEIF(IFORM <= 2)THEN   !iform=1,2
+          DO I=1,NEL
+            IF(MU(I) > MU_OLD(I)) MU_OLD(I) = MIN(MU_MAX,MU(I))
           ENDDO !next I 
         ENDIF
         !----------------------------------------------------------------!
         !  OUTPUT                                                        !
         !----------------------------------------------------------------!      
-        DO I=LFT,LLT
+        DO I=1,NEL
           P(I)=MAX(PFRAC,P(I))*OFF(I)
           PNEW(I) = P(I)-PSH(I)
         ENDDO !next I     
-         DO I=LFT,LLT
+         DO I=1,NEL
            ECOLD(I)=-THREE100*SPH
-           !IF(MU(I).GT.ZERO) ECOLD(I)=
+           !IF(MU(I) > ZERO) ECOLD(I)=
          ENDDO
         !----------------------------------------------------------------!
         !  PRESSURE WORK                                                 !
         !----------------------------------------------------------------!      
-         DO I=LFT,LLT
+         DO I=1,NEL
            TFEXTT     = TFEXTT-DVOL(I)*PSH(I)
          ENDDO
 #include "atomic.inc"
          TFEXT = TFEXT + TFEXTT
 #include "atomend.inc"
 
+
       ELSEIF(IFLAG == 2) THEN
         !----------------------------------------------------------------!
         !  FRACTURE  - MU_OLD                                            !
         !----------------------------------------------------------------!      
-        IF(IFORM.EQ.1)THEN
+        IF(IFORM == 10)THEN
           DO I=1,NEL
-            IF(P(I).LE.PFRAC)THEN
+            IF(P(I) <= PFRAC)THEN
               MU_OLD(I) =MU_OLD(I)+(PFRAC-POLD(I)-PSH(I))/BULK2(I)  
             ELSE
               MU_OLD(I)= MU(I)
             ENDIF
           ENDDO !next I
-        ELSEIF(IFORM.GE.2)THEN
+        ELSEIF(IFORM <= 2)THEN  !iform=1,2
           DO I=1,NEL
-            IF(MU(I).GT.MU_OLD(I)) MU_OLD(I) = MIN(MU_MAX,MU(I))
+            IF(MU(I) > MU_OLD(I)) MU_OLD(I) = MIN(MU_MAX,MU(I))
           ENDDO !next I 
         ENDIF
         !----------------------------------------------------------------!
@@ -222,7 +236,6 @@ C-----------------------------------------------
           PNEW(I) = P(I)-PSH(I)
         ENDDO !next I     
       ENDIF
-
 
 C------------------------      
       RETURN

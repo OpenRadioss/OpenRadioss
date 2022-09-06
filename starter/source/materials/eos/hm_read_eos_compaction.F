@@ -99,7 +99,7 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('EOS_COM_C1', C1, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('EOS_COM_C2', C2, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('EOS_COM_C3', C3, IS_AVAILABLE,LSUBMODEL,UNITAB)
-      !CALL HM_GET_INTV('IFORM', IFORM, IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV('IFORM', IFORM, IS_AVAILABLE,LSUBMODEL)
 
       CALL HM_GET_FLOATV('EOS_COM_Mue_min', MUMIN, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('EOS_COM_Mue_max', MUMAX, IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -118,7 +118,7 @@ C-----------------------------------------------
         RHO0=RHOR                   
       ENDIF
             
-      IF(C1.LE.ZERO)THEN
+      IF(C1 <= ZERO)THEN
          CALL ANCMSG(MSGID=67,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -127,14 +127,14 @@ C-----------------------------------------------
      .               C2='C1 MUST BE POSITIVE')
       ENDIF
 
-      !IFORM=1 : old formulation law10 (slope change when mu<0)
-      !IFORM=2 : new formulation slope is constant BUNL
-      !IFORM=3 : new formulation with linear unload modulus from CA to BUNL
-      IF(IFORM.LE.0 .OR. IFORM.GE.4)THEN 
+      !IFORM=1 : new formulation slope is constant BUNL (DEFAULT)
+      !IFORM=2 : new formulation with linear unload modulus from CA to BUNL
+      !IFORM=10 : old formulation law10 (slope change when mu<0) 
+      IF(IFORM /= 1 .AND. IFORM /= 2 .AND. IFORM /= 10)THEN 
         IFORM=1 !default     
         IOUTP=0
       ENDIF
-
+      
       MU = RHO0/RHOR-ONE
       P0 = C0+MIN(C1*MU,C1*MU+C2*MU*MU+C3*MU*MU*MU)
       E0 = ZERO
@@ -165,13 +165,13 @@ C-----------------------------------------------
       SSP0 = ZERO 
       G0 = PM(22)
       RHOI = PM(89) 
-        IF(IFORM.EQ.1)THEN    
+        IF(IFORM == 10)THEN    
             BB = BULK
-        ELSEIF(IFORM.EQ.2)THEN
+        ELSEIF(IFORM == 1)THEN
             BB=BUNL 
-        ELSEIF(IFORM.EQ.3)THEN
+        ELSEIF(IFORM == 2)THEN
           ALPHA = ONE
-          IF(MUMAX.GT.ZERO)THEN
+          IF(MUMAX > ZERO)THEN
             ALPHA=MUOLD/MUMAX
           ENDIF        
           BB = ALPHA*BUNL+(ONE-ALPHA)*C1
@@ -189,13 +189,13 @@ C-----------------------------------------------
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
         WRITE(IOUT,1500)C0,C1,C2,C3,PSH,BUNL,MUMIN,MUMAX
-        IF(IOUTP.EQ.1)THEN
-          IF(IFORM==1)THEN
+        IF(IOUTP == 1)THEN
+          IF(IFORM==10)THEN
+             WRITE(IOUT,1510)
+          ELSEIF(IFORM==1)THEN
              WRITE(IOUT,1501)
           ELSEIF(IFORM==2)THEN
              WRITE(IOUT,1502)
-          ELSEIF(IFORM==3)THEN
-             WRITE(IOUT,1503)
           ENDIF
         ENDIF
       ENDIF
@@ -213,12 +213,12 @@ C-----------------------------------------------
      & 5X,'BUNL : UNLOADING MODULUS. . . . . . . . . .=',1PG20.13/,
      & 5X,'MU_MIN : ELASTIC LIMIT. . . . . . . . . . .=',1PG20.13/,
      & 5X,'MU_MAX : MAXIMUM COMPACTION . . . . . . . .=',1PG20.13/)
+ 1510 FORMAT(
+     & 5X,'LEGACY FORMULATION'/)
  1501 FORMAT(
-     & 5X,'LEGACY FORMULATION PRIOR TO 2019.1 VERSION'/)
- 1502 FORMAT(
      & 5X,'CONSTANT UNLOAD MODULUS'/)
- 1503 FORMAT(
-     & 5X,'LINEAR UNLOAD MODULUS FROM C1 TO BUNL IN RANGE [MUMIN,MUMAX]'/)
+ 1502 FORMAT(
+     & 5X,'CONTINUOUS UNLOAD MODULUS FROM C1 TO BUNL IN RANGE [MUMIN,MUMAX]'/)
  999  CALL FREERR(3)
       RETURN
   

@@ -83,6 +83,7 @@ C-----------------------------------------------
       LLT = NEL
       RHO0(1:NEL) = PM(1, LOCAL_MATID)
       MAT(1:NEL) = LOCAL_MATID
+      DVOL(1:NEL) = ZERO
       DO II = 1, NEL
          IF (VOL(II) .GT. ZERO) THEN
             MU(II)    = RHO(II) / RHO0(II) - ONE
