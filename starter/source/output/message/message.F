@@ -1865,16 +1865,13 @@ C
             RETURN
           END IF
         IF (ANMODE.NE.ANINFO_BLIND_2) THEN
-            WRITE(ISTDO,'(/A,I6)')CMSGTYPE(1:LEN_TRIM(CMSGTYPE))
-     *                      //' ID : ',MSGID
+            WRITE(ISTDO,'(/A,I6)')CMSGTYPE(1:LEN_TRIM(CMSGTYPE))//' ID : ',MSGID
         END IF
         IF (ISTDO.NE.IOUT) THEN
           IF (IOUT.NE.0) THEN
-          WRITE(IOUT,'(/A,I6)')CMSGTYPE(1:LEN_TRIM(CMSGTYPE))
-     *                        //' ID : ',MSGID
+            WRITE(IOUT,'(/A,I6)')CMSGTYPE(1:LEN_TRIM(CMSGTYPE))//' ID : ',MSGID
           ELSE
-          WRITE(ISTDO,'(/A,I6)')CMSGTYPE(1:LEN_TRIM(CMSGTYPE))
-     *                       //' ID : ',MSGID
+            WRITE(ISTDO,'(/A,I6)')CMSGTYPE(1:LEN_TRIM(CMSGTYPE))//' ID : ',MSGID
           END IF
         END IF
         IBUF=0

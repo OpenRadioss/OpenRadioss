@@ -108,23 +108,22 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXS(NIXS,*),IPARG(NPARG,NGROUP),
-     .   IPARG_GR(NPARG),IPARTS(*),IGEO(NPROPGI,*),
-     .   IPM(NPROPMI,*),IPART(LIPART1,*),PTSOL(*),
-     .   NG,NSIGI ,NVC,NEL,IUSER, NSIGS, NPF(*),
-     .   STRSGLOB(*),STRAGLOB(*),FAIL_INI(*), 
-     .   KXSP(NISP,*), IPARTSP(*), NOD2SP(*), SOL2SPH(2,*), IRST(3,*),
-     .   PERTURB(NPERTURB)
-      my_real
-     .   MAS(*), PM(NPROPM,*), X(3,*),GEO(NPROPG,*),
-     .   VEUL(LVEUL,*), DTELEM(*),SIGI(NSIGS,*),SKEW(LSKEW,*),STIFN(*),
-     .   PARTSAV(20,*), V(*), MSS(8,*), 
-     .   SIGSP(NSIGI,*),MSNF(*), MSSF(8,*), WMA(*),
-     .   VOLNOD(*), BVOLNOD(*), VNS(8,*), BNS(8,*),
-     .   IN(*),VR(*), INS(8,*),BUFMAT(*),
-     .   MCP(*), MCPS(8,*), TEMP(*),
-     .   XREFS(8,3,*), TF(*), MSSA(*),
-     .   SPBUF(NSPBUF,*),RNOISE(NPERTURB,*)
+      INTEGER IXS(NIXS,NUMELS),IPARG(NPARG,NGROUP),
+     .        IPARG_GR(NPARG),IPARTS(*),IGEO(NPROPGI,NUMGEO),
+     .        IPM(NPROPMI,NUMMAT),IPART(LIPART1,*),PTSOL(*),
+     .        NG,NSIGI ,NVC,NEL,IUSER, NSIGS, NPF(*),
+     .        STRSGLOB(*),STRAGLOB(*),FAIL_INI(*), 
+     .        KXSP(NISP,*), IPARTSP(*), NOD2SP(*), SOL2SPH(2,*), IRST(3,*),
+     .        PERTURB(NPERTURB)
+      my_real MAS(*), PM(NPROPM,NUMMAT), X(3,NUMNOD),GEO(NPROPG,NUMGEO),
+     .        VEUL(LVEUL,*), DTELEM(*),SIGI(NSIGS,*),SKEW(LSKEW,*),STIFN(*),
+     .        PARTSAV(20,*), V(*), MSS(8,*), 
+     .        SIGSP(NSIGI,*),MSNF(*), MSSF(8,*), WMA(*),
+     .        VOLNOD(*), BVOLNOD(*), VNS(8,*), BNS(8,*),
+     .        IN(*),VR(*), INS(8,*),BUFMAT(*),
+     .        MCP(*), MCPS(8,*), TEMP(*),
+     .        XREFS(8,3,*), TF(*), MSSA(*),
+     .        SPBUF(NSPBUF,*),RNOISE(NPERTURB,*)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
       INTEGER,INTENT(IN) :: ILOADP(SIZLOADP,*)
       my_real,INTENT(IN) :: FACLOAD(LFACLOAD,*)
@@ -178,7 +177,7 @@ C-----------------------------------------------
       my_real, DIMENSION(:), POINTER  :: UVARF    
 C-----------------------------------------------
 C   S o u r c e  L i n e s
-C=======================================================================
+C-----------------------------------------------
       GBUF  => ELBUF_STR%GBUF
       LBUF  => ELBUF_STR%BUFLY(1)%LBUF(1,1,1)
       MBUF  => ELBUF_STR%BUFLY(1)%MAT(1,1,1)
@@ -202,6 +201,7 @@ c
       IBID = 0
       NDDIM = 0
       NF1=NFT+1
+      VOLU(1:NEL)=ZERO
 C
       IBOLTP = IPARG_GR(72)  !Bolt preloading
 C
@@ -271,7 +271,7 @@ C Orthotropy
 C
       CALL SVEOK3(NVC,8, IX1, IX2, IX3, IX4, IX5, IX6, IX7, IX8)
 C
-      IF(JEUL.NE.0.AND.INTEG8.NE.0) THEN
+      IF(JEUL /= 0.AND.INTEG8 /= 0) THEN
         CALL SDERI3B(GBUF%VOL,VEUL(1,NF1),LVEUL,GEO,IGEO ,NGL  ,PID  ,
      .              X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
      .              Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
@@ -286,7 +286,7 @@ C
       ELSE
 C LBUF%VOL0DP is not done for Isolid=12
         IF (JHBE == 24) THEN
-          CALL SZDERI3(
+          IF(ASSOCIATED(LBUF%VOL0DP)) CALL SZDERI3(
      .           GBUF%VOL ,VEUL(1,NF1),GEO  ,IGEO  ,
      .               XD1  ,XD2  ,XD3  ,XD4  ,XD5   ,XD6  ,XD7   ,XD8   ,
      .               YD1  ,YD2  ,YD3  ,YD4  ,YD5   ,YD6  ,YD7   ,YD8   ,
@@ -297,7 +297,7 @@ C LBUF%VOL0DP is not done for Isolid=12
      .               RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TZ   ,
      .               NGL  ,PID  ,VOLU ,LBUF%VOL0DP,NEL  ,JEUL ,NXREF)
         ELSE
-          CALL SDERI3(
+          IF(ASSOCIATED(LBUF%VOL0DP)) CALL SDERI3(
      .          GBUF%VOL ,VEUL(1,NF1),GEO  ,IGEO  ,
      .              XD1  ,XD2  ,XD3  ,XD4  ,XD5   ,XD6  ,XD7   ,XD8   ,
      .              YD1  ,YD2  ,YD3  ,YD4  ,YD5   ,YD6  ,YD7   ,YD8   ,
@@ -313,7 +313,7 @@ C LBUF%VOL0DP is not done for Isolid=12
      .            Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8,
      .            DELTAX, VOLU)
       ENDIF
-      IF(JEUL.NE.0)THEN
+      IF(JEUL /= 0)THEN
         CALL EDLEN3(VEUL(1,NF1), DELTAX)
         CALL ENORM3(VEUL(1,NF1),
      .              X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
@@ -361,8 +361,8 @@ C----------------------------------------
 C----------------------------------------
 C Masses initialization
 C----------------------------------------
-      IF(JLAG+JALE+JEUL.NE.0) THEN
-        IF(INTEG8.NE.0 .AND. JEUL.NE.0) THEN
+      IF(JLAG+JALE+JEUL /= 0) THEN
+        IF(INTEG8 /= 0 .AND. JEUL /= 0) THEN
           CALL SMASS3B(
      1          GBUF%RHO,MAS,VEUL(44,NF1),LVEUL      ,MSS(1,NF1),
      2          PARTSAV,X  ,V           ,IPARTS(NF1),MSNF      ,
@@ -387,17 +387,16 @@ C----------------------------------------
      5         IX1, IX2, IX3, IX4, IX5, IX6, IX7, IX8)
         ELSE
 C Case /INIBRIS/STRS_FGLO missed         
-         IF (ISIGI /= 0 .AND. (JCVT/=0.OR.ISORTH/=0)) 
-     .   CALL USTRSIN3(
-     .   SIGI    ,LBUF%SIG ,IXS     ,NIXS    ,NSIGS   ,
-     .   NEL     ,STRSGLOB ,JHBE    ,IGTYP   ,X       ,
-     .   GBUF%GAMA,PTSOL   ,LBUF%VOL0DP,RHO0,GBUF%RHO)
-C
+          IF (ISIGI /= 0 .AND. (JCVT /= 0 .OR. ISORTH /= 0) ) THEN
+            IF(ASSOCIATED(LBUF%VOL0DP)) CALL USTRSIN3( SIGI    ,LBUF%SIG ,IXS     ,NIXS    ,NSIGS   ,
+     .                                                 NEL     ,STRSGLOB ,JHBE    ,IGTYP   ,X       ,
+     .                                                 GBUF%GAMA,PTSOL   ,LBUF%VOL0DP,RHO0,GBUF%RHO )
+          ENDIF
           IF (((MTN>=28 .AND. MTN/=49) .OR. MTN==14 .OR. MTN==12) .OR.
      .         (ISTRAIN == 1 .AND. 
-     .         (MTN==1 .OR. MTN==2 .OR. MTN==3 .OR. MTN==4 .OR. 
-     .          MTN==6 .OR. MTN==10.OR. MTN == 21.OR.MTN == 22.OR.
-     .          MTN == 23))) THEN
+     .         (MTN==1  .OR. MTN==2  .OR. MTN==3    .OR. MTN==4  .OR. 
+     .          MTN==6  .OR. MTN==10 .OR. MTN==21   .OR. MTN==22 .OR.
+     .          MTN==23))) THEN
               IDEF = 1
           ENDIF
 c
@@ -444,7 +443,7 @@ C--------------------------------------------------------------------
 C----------------------------------------
 C Cell momentum for FVM
 C----------------------------------------      
-      IF(IALEFVM.NE.0) THEN      
+      IF(IALEFVM /= 0) THEN      
         CALL INIMOM_FVM(V   ,  GBUF%RHO,  GBUF%VOL,  GBUF%MOM,  IXS,
      .                  IPM ,  MAT     ,  IPARG_GR,  NPF     ,  TF ,
      .                  PM  ,  LBUF%SSP,  GBUF%SIG,  NEL
@@ -460,9 +459,8 @@ C------------------------------------------
      .     VOLU, DTX, IGEO )
 C
       DO I=1,NEL
-        IF(IXS(10,I+NFT).NE.0) THEN
-          IF(     IGTYP.NE.0 .AND.IGTYP.NE.6 .AND. IGTYP.NE.14
-     .       .AND.IGTYP.NE.15.AND. IGTYP.NE.29) THEN
+        IF(IXS(10,I+NFT) /= 0) THEN
+          IF(IGTYP /= 0 .AND.IGTYP /= 6 .AND. IGTYP /= 14 .AND.IGTYP /= 15.AND. IGTYP /= 29) THEN
              IPID1=IXS(NIXS-1,I+NFT)
              CALL FRETITL2(TITR1,IGEO(NPROPGI-LTITR+1,IPID1),LTITR)
              CALL ANCMSG(MSGID=226,
