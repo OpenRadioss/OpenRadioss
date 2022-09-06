@@ -110,7 +110,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MAT(*),IFLAG, EOSTYP, NEL, MLW
+      INTEGER MAT(NEL),IFLAG, EOSTYP, NEL, MLW
       my_real
      .   PM(NPROPM,NUMMAT),BUFMAT(NEL)   ,OFF(NEL)  , 
      .   EINT(NEL) ,RHO(NEL)  ,RHO0(NEL) , 
@@ -126,19 +126,19 @@ C-----------------------------------------------
       INTEGER I, MX
 
       IF(IFLAG == 0) THEN
-       DO I=LFT,LLT
+       DO I=1,NEL
         MU2(I)=MAX(ZERO,MU(I))**2
         ESPE(I)=DF(I)*EINT(I)/ MAX(EM15,VNEW(I))         !ESPE=rho0.e   since EINT=rho.e.V  and DF=rho0/rho   =>  DF*EINT/V = E
        ENDDO
        IF(EOSTYP==13 .OR. EOSTYP==16)THEN
-         DO I = LFT, LLT
+         DO I = 1, NEL
            POLD(I)=-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
          ENDDO
        ENDIF                
       ELSEIF (IFLAG == 2) THEN
       !LAW151 ONLY
          DO I = 1, NEL
-            IF (VNEW(I) .GT. ZERO) THEN
+            IF (VNEW(I) > ZERO) THEN
                MU2(I)=MAX(ZERO,MU(I))**2
             ENDIF
             ESPE(I) =  DF(I) * EINT(I)                   !law151 : EINT=rho.e
@@ -154,7 +154,7 @@ C-----------------------------------------------
       ! a quoi bon mettre a 0.0 quelque chose qui va etre ecrase dans le bloc SELECT CASE ce dessous.
       !IF (IFLAG==1)THEN
       !  IF (MLW .NE. 6 .AND. MLW .NE. 17) THEN
-      !      IF(EOSTYP/=13)PNEW(LFT:LLT) = ZERO
+      !      IF(EOSTYP/=13)PNEW(1:NEL) = ZERO
       !  ENDIF
       !ENDIF
            
