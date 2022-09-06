@@ -74,10 +74,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
      .   C1, C2, A, B, ER, ES, VS, E0, RHO0,RHOI,RHOR, ALPHA, BETA,
-     .   FAC_L,FAC_T,FAC_M,FAC_C,FACC1,FACC2,FACPB,MU,MU2,DF,ETA,
+     .   FAC_L,FAC_T,FAC_M,FAC_C,FACC1,FACC2,FACPB,MU0,MU2,DF,ETA,
      .   OMEGA,AA,BB,PP,XX,EXPA,EXPB
       LOGICAL :: IS_ENCRYPTED,IS_AVAILABLE
-      my_real :: DPDMU, SSP0, MU0, G0
+      my_real :: DPDMU, SSP0, G0
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -123,32 +123,44 @@ C-----------------------------------------------
       PM(163) = BETA
 
       !COMPUTING INITIAL PRESSURE FOR PM(31) -> SIG(1:3,*)
-      MU    = RHOI/RHOR-ONE
-      MU2   = MU*MU
-      DF    = RHOR/RHOI
+      
+      IF(RHOI == ZERO)THEN
+        MU0 = ZERO ! error 683 already displayed
+      ELSE
+        IF(RHOR /= ZERO)THEN
+          MU0 = RHOI/RHOR-ONE
+        ELSE
+          MU0 = ZERO ! error 683 already displayed
+        ENDIF
+      ENDIF
+      
+      IF(RHOI /= ZERO)THEN
+        DF = RHOR/RHOI
+      ELSE
+        DF = ZERO
+      ENDIF
+
+      MU2   = MU0*MU0
       FACC1 = ONE
       FACC2 = ONE
       FACPB = ONE
-      IF(MU<ZERO) THEN
+      IF(MU0<ZERO) THEN
         FACC2=ZERO
         IF(DF>VS .OR. (DF<=VS .AND. E0>=ES) ) THEN
-         XX    = MU/(ONE+MU)
+         XX    = MU0/(ONE+MU0)
          EXPA  = EXP(-ALPHA*XX*XX)
          EXPB  = EXP(BETA*XX)
          FACC1 = EXPA*EXPB
          FACPB = EXPA
         ENDIF
       ENDIF      
-      ETA   = ONE+MU        
+      ETA   = ONE+MU0       
       OMEGA = ONE+E0/(ER*ETA**2)
-      AA    = FACC1*C1*MU+FACC2*C2*MU2
+      AA    = FACC1*C1*MU0+FACC2*C2*MU2
       BB    = A+FACPB*B/OMEGA
       PP    = MAX(AA+BB*ETA*E0,PM(37))
       PM(31)= PP
-      
-      !P0
-      MU0 = RHOI/RHOR-ONE
-      DF = RHOR/RHOI     
+        
       !SSP0
       SSP0 = ZERO 
       G0 = PM(22)
@@ -186,7 +198,6 @@ C-----------------------------------------------
      & 5X,'REFERENCE DENSITY. . .  . . . . . . . . .=',1PG20.13/,
      & 5X,'ALPHA . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'BETA. . . . . . . . . . . . . . . . . . .=',1PG20.13//)
- 999  CALL FREERR(3)
  
       RETURN
       END

@@ -130,8 +130,22 @@ C-----------------------------------------------
       ENDIF
 
       !COMPUTE P0 (stress tensor)
-      MU0 = RHOI/RHOR-ONE
-      DF = RHOR/RHOI
+      IF(RHOI == ZERO)THEN
+        MU0 = ZERO ! error 683 already displayed
+      ELSE
+        IF(RHOR /= ZERO)THEN
+          MU0 = RHOI/RHOR-ONE
+        ELSE
+          MU0 = ZERO ! error 683 already displayed
+        ENDIF
+      ENDIF
+      
+      IF(RHOI /= ZERO)THEN
+        DF = RHOR/RHOI
+      ELSE
+        DF = ZERO
+      ENDIF
+
       P0 = ZERO ! A(MU0) + B(MU0)*E0
 
       !SSP0
@@ -155,8 +169,6 @@ C-----------------------------------------------
       PM(104)= P0-PSH      
       PM(160) = FSCALE_A
       PM(161) = FSCALE_B
-      
-
 
       WRITE(IOUT,1000)
 
@@ -180,7 +192,7 @@ C-----------------------------------------------
      & 5X,'E0. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,          
      & 5X,'PSH . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'REFERENCE DENSITY. . . . .  . . . . . . .=',1PG20.13/)
- 999  CALL FREERR(3)
+
       RETURN
 
       END SUBROUTINE HM_READ_EOS_TABULATED

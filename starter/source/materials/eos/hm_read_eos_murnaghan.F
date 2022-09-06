@@ -73,7 +73,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real  GAMMA, P0,T0, E0, PSH, RHO0,FAC_L,FAC_T,FAC_M,FAC_C,K0,K1,RHOI,RHOR,MU0,DF,MU,SSP0,G0,DPDMU
+      my_real  GAMMA, P0,T0, E0, PSH, RHO0,FAC_L,FAC_T,FAC_M,FAC_C,K0,K1,RHOI,RHOR,MU0,DF,SSP0,G0,DPDMU
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -101,7 +101,7 @@ C-----------------------------------------------
       
       E0=ZERO
       
-      IF(K0.LE.ZERO)THEN
+      IF(K0 <= ZERO)THEN
          CALL ANCMSG(MSGID=67,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -126,13 +126,27 @@ C-----------------------------------------------
       PM(35)=K1
       IF(PM(79)==ZERO)PM(79)=THREE100
 
+      IF(RHOI == ZERO)THEN
+        MU0 = ZERO ! error 683 already displayed
+      ELSE
+        IF(RHOR /= ZERO)THEN
+          MU0 = RHOI/RHOR-ONE
+        ELSE
+          MU0 = ZERO ! error 683 already displayed
+        ENDIF
+      ENDIF
+      
+      IF(RHOI /= ZERO)THEN
+        DF = RHOR/RHOI
+      ELSE
+        DF = ZERO
+      ENDIF
+      
       !P0
-      MU     = RHOI/RHOR - ONE
-      PM(31) =  K0/K1 * (EXP(K1*LOG(1+MU)) - ONE )  + P0 - PSH
-      PM(104)=  K0/K1 * (EXP(K1*LOG(1+MU)) - ONE )  + P0 - PSH
+      PM(31) =  K0/K1 * (EXP(K1*LOG(1+MU0)) - ONE )  + P0 - PSH
+      PM(104)=  K0/K1 * (EXP(K1*LOG(1+MU0)) - ONE )  + P0 - PSH      
+         
       !SSP0
-      MU0 = RHOI/RHOR-ONE
-      DF = RHOR/RHOI     
       SSP0 = ZERO 
       G0 = PM(22)
       RHOI = PM(89)      
@@ -159,7 +173,7 @@ C-----------------------------------------------
      & 5X,'INITIAL PRESSURE. . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'PSH . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'RHO0. . . . . . . . . . . . . . . . . . .=',1PG20.13/)
- 999  CALL FREERR(3)
+
       RETURN
 
 

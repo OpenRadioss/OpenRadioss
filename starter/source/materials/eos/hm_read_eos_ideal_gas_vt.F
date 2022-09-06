@@ -127,7 +127,7 @@ C      CALL HM_GET_FLOATV('MAT_R', R_GAS, IS_AVAILABLE,LSUBMODEL,UNITAB)
      .               C2='P0 AND T0 CANNOT BE BOTH DEFINED')
       ENDIF
       
-      IF(r_gas_.LE.ZERO)THEN
+      IF(r_gas_ <= ZERO)THEN
          CALL ANCMSG(MSGID=67,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -149,7 +149,7 @@ C      CALL HM_GET_FLOATV('MAT_R', R_GAS, IS_AVAILABLE,LSUBMODEL,UNITAB)
         
       ENDIF
       
-      IF(P0.LE.ZERO)THEN
+      IF(P0 <= ZERO)THEN
          CALL ANCMSG(MSGID=67,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -158,7 +158,7 @@ C      CALL HM_GET_FLOATV('MAT_R', R_GAS, IS_AVAILABLE,LSUBMODEL,UNITAB)
      .               C2='INITIAL PRESSURE MUST BE POSITIVE')
       ENDIF   
       
-      IF(T0.LT.ZERO)THEN
+      IF(T0 < ZERO)THEN
          CALL ANCMSG(MSGID=67,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -168,12 +168,25 @@ C      CALL HM_GET_FLOATV('MAT_R', R_GAS, IS_AVAILABLE,LSUBMODEL,UNITAB)
       ENDIF     
               
       
-      MU0 = RHOI/RHOR-ONE
-      DF = RHOR/RHOI
+      IF(RHOI == ZERO)THEN
+        MU0 = ZERO ! error 683 already displayed
+      ELSE
+        IF(RHOR /= ZERO)THEN
+          MU0 = RHOI/RHOR-ONE
+        ELSE
+          MU0 = ZERO ! error 683 already displayed
+        ENDIF
+      ENDIF
+      
+      IF(RHOI /= ZERO)THEN
+        DF = RHOR/RHOI
+      ELSE
+        DF = ZERO
+      ENDIF
             
       CP = A0 + A1*T0 + A2*T0*T0 + A3*T0**3 + A4*T0**4
       
-      IF(CP.LT.r_GAS_)THEN
+      IF(CP < r_GAS_)THEN
          CALL ANCMSG(MSGID=67,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -185,7 +198,7 @@ C      CALL HM_GET_FLOATV('MAT_R', R_GAS, IS_AVAILABLE,LSUBMODEL,UNITAB)
       E0 = RHO0 * (A0 * T0 + HALF * A1 * T0**2 + THIRD * A2 * T0**3 + FOURTH * A3 * T0**4 + 
      .     ONE_FIFTH * A4 * T0**5 - r_GAS_ * T0)
      
-      IF(T0.EQ.ZERO)T0=THREE100
+      IF(T0 == ZERO)T0=THREE100
      
       PM(106) = r_gas_ ! r=R_GAS/M
       PM(88) = PSH
@@ -203,7 +216,11 @@ C      CALL HM_GET_FLOATV('MAT_R', R_GAS, IS_AVAILABLE,LSUBMODEL,UNITAB)
             
       !SSP0
       CV = CP - r_gas_ 
-      GAMMA = CP/CV
+      IF(CV /= ZERO)THEN
+        GAMMA = CP/CV
+      ELSE
+        GAMMA = ZERO !  this error is managed above (CP < r_GAS_)
+      ENDIF
       SSP0 = SQRT(GAMMA*r_gas_*T0)
       G0 = PM(22) ! 0.0 with physical input.However mathematical model allows any positive value.
       RHOI = PM(89)            
@@ -237,7 +254,7 @@ C      CALL HM_GET_FLOATV('MAT_R', R_GAS, IS_AVAILABLE,LSUBMODEL,UNITAB)
      & 5X,'A2. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'A3. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'A4. . . . . . . . . . . . . . . . . . . .=',1PG20.13/)
- 999  CALL FREERR(3)
+
       RETURN
 
       END SUBROUTINE HM_READ_EOS_IDEAL_GAS_VT

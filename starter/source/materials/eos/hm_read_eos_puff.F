@@ -75,7 +75,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
      .   C1, C2, C3, G0, T1, T2, ES, HH, E0, RHO0,
-     .   FAC_L,FAC_T,FAC_M,FAC_C,RHOR,RHOI,MU,MU2,
+     .   FAC_L,FAC_T,FAC_M,FAC_C,RHOR,RHOI,MU2,
      .   XX,AA,BB,GX,PRES,EXPA,ETA,EE,CC, MU0, DF, PP ,SSP0, DPDMU, PC
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -98,7 +98,7 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('MAT_EA', E0, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho', RHO0, IS_AVAILABLE,LSUBMODEL,UNITAB)
 
-      IF(T1 == 0.) T1=C1
+      IF(T1 == ZERO) T1=C1
 
       RHOR = PM(1)
       RHOI = PM(89)
@@ -122,21 +122,37 @@ C-----------------------------------------------
       IF(PM(79)==ZERO)PM(79)=THREE100
 
       !COMPUTING INITIAL PRESSURE
-      MU=RHOI/RHOR-ONE
-      MU2=MU*MU
-      XX =MU/(ONE+MU)                                              
-      IF(MU>=ZERO) THEN                                              
-        AA=(C1+C3*MU2)*MU+C2*MU2                      
+      IF(RHOI == ZERO)THEN
+        MU0 = ZERO ! error 683 already displayed
+      ELSE
+        IF(RHOR /= ZERO)THEN
+          MU0 = RHOI/RHOR-ONE
+        ELSE
+          MU0 = ZERO ! error 683 already displayed
+        ENDIF
+      ENDIF
+      
+      IF(RHOI /= ZERO)THEN
+        DF = RHOR/RHOI
+      ELSE
+        DF = ZERO
+      ENDIF
+
+      MU2 = MU0*MU0
+            
+      XX =MU0/(ONE+MU0)  
+      IF(MU0 >= ZERO) THEN                                              
+        AA=(C1+C3*MU2)*MU0+C2*MU2                      
         GX=ONE-G0*HALF*XX                                           
         BB=G0                                                        
         PRES=MAX(AA*GX+BB*E0,PM(37))                                                                              
       ELSEIF(E0<ES)THEN                                      
-        AA=(T1+T2*MU)*MU                                    
+        AA=(T1+T2*MU0)*MU0                                    
         GX=ONE-G0*HALF*XX                                           
         BB=G0                                                        
         PRES=MAX(AA*GX+BB*E0,PM(37))                                                                          
       ELSE                                                              
-        ETA=ONE+MU                                                    
+        ETA=ONE+MU0                                                    
         EE=SQRT(ETA)                                                    
         BB=(HH+(G0-HH)*EE)*ETA                                 
         CC= C1/(G0*ES)                                      
@@ -148,9 +164,6 @@ C-----------------------------------------------
       PC = PM(37)   
       
       !SSP0
-      MU0 = RHOI/RHOR-ONE
-      MU2 = MU0*MU0
-      DF = RHOR/RHOI
       PP = PM(31)
       SSP0 = ZERO 
       G0 = PM(22)
@@ -158,14 +171,11 @@ C-----------------------------------------------
 
       XX =MU0/(ONE+MU0)                                              
       IF(MU0>=ZERO) THEN                                                              
-        DPDMU=(C1+TWO*C2*MU0+THREE*C3*MU2)*GX          
-     .          +G0*DF*DF*(PRES-HALF*AA)                     
+        DPDMU=(C1+TWO*C2*MU0+THREE*C3*MU2)*GX + G0*DF*DF*(PRES-HALF*AA)                     
       ELSEIF(E0<ES)THEN                                                         
-        DPDMU=(T1+TWO*T2*MU0)*GX +                           
-     .          G0*DF*DF*(PRES-HALF*AA)                                                                          
+        DPDMU=(T1+TWO*T2*MU0)*GX + G0*DF*DF*(PRES-HALF*AA)                                                                          
       ELSE                                                                                   
-        DPDMU=BB*DF*DF*(PRES+ES*EXPA*CC) +                
-     .     (E0+ES*(EXPA-ONE))*(HH+THREE_HALF*EE*(G0-HH))                                                     
+        DPDMU=BB*DF*DF*(PRES+ES*EXPA*CC) + (E0+ES*(EXPA-ONE))*(HH+THREE_HALF*EE*(G0-HH))                                                     
       ENDIF                                                             
         
       DPDMU=MAX(ZERO,DPDMU)
@@ -197,7 +207,6 @@ C-----------------------------------------------
      & 5X,'INITIAL INTERNAL ENERGY (PER UNIT VOLUME) .=',1PG20.13/,
      & 5X,'INITIAL PRESSURE. . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'REFERENCE DENSITY . . . . . . . . . . . . .=',1PG20.13//)
- 999  CALL FREERR(3)
 
       RETURN
       END

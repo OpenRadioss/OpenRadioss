@@ -127,9 +127,9 @@ C-----------------------------------------------
      .               C2='C1 MUST BE POSITIVE')
       ENDIF
 
-      !IFORM=1 : new formulation slope is constant BUNL (DEFAULT)
-      !IFORM=2 : new formulation with linear unload modulus from CA to BUNL
-      !IFORM=10 : old formulation law10 (slope change when mu<0) 
+      !IFORM=1 : CONSTANT unload modulus BUNL (DEFAULT)
+      !IFORM=2 : LINEAR uload modulus from C1 to BUNL
+      !IFORM=10 : legacy formulation law10 (slope change when mu<0) 
       IF(IFORM /= 1 .AND. IFORM /= 2 .AND. IFORM /= 10)THEN 
         IFORM=1 !default     
         IOUTP=0
@@ -154,14 +154,29 @@ C-----------------------------------------------
       PM(31) = P0-PSH
       PM(104)= P0-PSH
       
-      !SSP0
-      MU0 = RHOI/RHOR-ONE
+      IF(RHOI == ZERO)THEN
+        MU0 = ZERO ! error 683 already displayed
+      ELSE
+        IF(RHOR /= ZERO)THEN
+          MU0 = RHOI/RHOR-ONE
+        ELSE
+          MU0 = ZERO ! error 683 already displayed
+        ENDIF
+      ENDIF
+      
+      IF(RHOI /= ZERO)THEN
+        DF = RHOR/RHOI
+      ELSE
+        DF = ZERO
+      ENDIF
+      
       MU2=MU0*MU0
       MUOLD=MU0
       POLD=P0
       BULK = BUNL
-      BULK2 = BUNL      
-      DF = RHOR/RHOI     
+      BULK2 = BUNL          
+
+      !SSP0
       SSP0 = ZERO 
       G0 = PM(22)
       RHOI = PM(89) 
@@ -219,7 +234,7 @@ C-----------------------------------------------
      & 5X,'CONSTANT UNLOAD MODULUS'/)
  1502 FORMAT(
      & 5X,'CONTINUOUS UNLOAD MODULUS FROM C1 TO BUNL IN RANGE [MUMIN,MUMAX]'/)
- 999  CALL FREERR(3)
+
       RETURN
   
       END

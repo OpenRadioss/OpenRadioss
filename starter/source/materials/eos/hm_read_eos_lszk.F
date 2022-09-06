@@ -104,7 +104,7 @@ C-----------------------------------------------
       !ERREURS :
       ! GAMMA <=0
       
-      IF(GAMMA.LE.ZERO)THEN
+      IF(GAMMA <= ZERO)THEN
          CALL ANCMSG(MSGID=67,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -120,11 +120,29 @@ C-----------------------------------------------
       PM(36) = B
       IF(PM(79)==ZERO)PM(79)=THREE100
 
-      MU0 = RHOI/RHOR-ONE
-      IF(MU0 <= -ONE)MU0=-ONE+EP12
-      DF = RHOR/RHOI     
+      IF(RHOI == ZERO)THEN
+        MU0 = ZERO ! error 683 already displayed
+      ELSE
+        IF(RHOR /= ZERO)THEN
+          MU0 = RHOI/RHOR-ONE
+        ELSE
+          MU0 = ZERO ! error 683 already displayed
+        ENDIF
+      ENDIF
       
-      E0 = (P0-A*EXP(B*LOG(ONE+MU0)))/(GAMMA-ONE)/(ONE+MU0)
+      IF(RHOI /= ZERO)THEN
+        DF = RHOR/RHOI
+      ELSE
+        DF = ZERO
+      ENDIF
+      
+      IF(MU0 <= -ONE)MU0=-ONE+EP12
+    
+      IF(GAMMA > ONE)THEN
+        E0 = (P0-A*EXP(B*LOG(ONE+MU0)))/(GAMMA-ONE)/(ONE+MU0)
+      ELSE
+        E0 = ZERO ! this error is managed above
+      ENDIF
       
       IF(E0 < ZERO)THEN
          CALL ANCMSG(MSGID=67,
@@ -144,8 +162,8 @@ C-----------------------------------------------
       G0 = PM(22)
       PP = (GAMMA-ONE)*(ONE+MU0)*E0 + A*EXP(B*LOG(ONE+MU0))
       RHOI = PM(89)      
-         DPDMU = (GAMMA-ONE)*E0+A*B/(ONE+MU0)*EXP((B-ONE)*LOG(ONE+MU0))+(GAMMA-ONE)*DF*PP   !total derivative
-      DPDMU=MAX(ZERO,DPDMU)
+      DPDMU = (GAMMA-ONE)*E0+A*B/(ONE+MU0)*EXP((B-ONE)*LOG(ONE+MU0))+(GAMMA-ONE)*DF*PP   !total derivative
+      DPDMU = MAX(ZERO,DPDMU)
       IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
       PM(27)=SSP0
       
@@ -168,6 +186,6 @@ C-----------------------------------------------
      & 5X,'A . . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'b . . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'RHO0. . . . . . . . . . . . . . . . . . .=',1PG20.13/)
- 999  CALL FREERR(3)
+
       RETURN
       END SUBROUTINE HM_READ_EOS_LSZK

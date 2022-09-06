@@ -116,9 +116,23 @@ C-----------------------------------------------
       PM(104)  = PP - PSH      
       
       !SSP0
-      MU0 = RHOI/RHOR-ONE
+      IF(RHOI == ZERO)THEN
+        MU0 = ZERO ! error 683 already displayed
+      ELSE
+        IF(RHOR /= ZERO)THEN
+          MU0 = RHOI/RHOR-ONE
+        ELSE
+          MU0 = ZERO ! error 683 already displayed
+        ENDIF
+      ENDIF
+      
+      IF(RHOI /= ZERO)THEN
+        DF = RHOR/RHOI
+      ELSE
+        DF = ZERO
+      ENDIF
+      
       MU2 = MU0*MU0
-      DF = RHOR/RHOI
       PP = PM(31)+PSH
       SSP0 = ZERO 
       G0 = PM(22)
@@ -148,6 +162,6 @@ C-----------------------------------------------
      & 5X,'INITIAL INTERNAL ENERGY PER UNIT VOLUME .=',1PG20.13/,
      & 5X,'REFERENCE DENSITY . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'PRESSURE SHIFT. . . . . . . . . . . . . .=',1PG20.13//)
- 999  CALL FREERR(3)
+
       RETURN
       END

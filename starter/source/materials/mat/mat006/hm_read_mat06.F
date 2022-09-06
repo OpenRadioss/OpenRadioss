@@ -137,16 +137,20 @@ C-----------------------------------------------
          PSH =ZERO
       ENDIF
       
-      IF (PMIN.EQ.ZERO) PMIN=-INFINITY
-      IF (RHOR.EQ.ZERO) RHOR=RHO0
+      IF (PMIN == ZERO) PMIN=-INFINITY
+      IF (RHOR == ZERO) RHOR=RHO0
       PM(1) = RHOR
       PM(89)= RHO0
 
       PM(23)=E0
       PM(24)=VIS
 
-      MU = RHO0/RHOR-ONE
-      IF(MU.LT.ZERO)THEN
+      IF(RHOR /= ZERO) THEN
+        MU = RHO0/RHOR-ONE  
+      ELSE
+        MU = ZERO  ! RHOR=0.0 => error 683 will be displayed in hm_read_mat.F
+      ENDIf
+      IF(MU < ZERO)THEN
         PM(31) = -PSH + C0+C1*MU+         C3*MU**3+(C4+C5*MU)*E0
       ELSE
         PM(31) = -PSH + C0+C1*MU+C2*MU**2+C3*MU**3+(C4+C5*MU)*E0
