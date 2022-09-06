@@ -112,7 +112,7 @@ C-----------------------------------------------
       !---warning/errors :
       ! GAMMA <=0
       
-      IF(GAMMA.LE.ONE)THEN
+      IF(GAMMA <= ONE)THEN
          CALL ANCMSG(MSGID=67,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -121,7 +121,7 @@ C-----------------------------------------------
      .               C2='GAMMA MUST BE GREATER THAN 1.0')
       ENDIF
       
-      IF(E0.LE.ZERO)THEN
+      IF(E0 <= ZERO)THEN
          CALL ANCMSG(MSGID=67,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -146,8 +146,22 @@ C-----------------------------------------------
       IF(PM(79)==ZERO)PM(79)=THREE100
       
       !P0
-      MU0 = RHOI/RHOR-ONE
-      DF = RHOR/RHOI     
+      IF(RHOI == ZERO)THEN
+        MU0 = ZERO ! error 683 already displayed
+      ELSE
+        IF(RHOR /= ZERO)THEN
+          MU0 = RHOI/RHOR-ONE
+        ELSE
+          MU0 = ZERO ! error 683 already displayed
+        ENDIF
+      ENDIF
+      
+      IF(RHOI /= ZERO)THEN
+        DF = RHOR/RHOI
+      ELSE
+        DF = ZERO
+      ENDIF
+         
       !SSP0
       SSP0 = ZERO 
       G0 = PM(22)
@@ -163,13 +177,11 @@ C-----------------------------------------------
       IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
       PM(27)=SSP0           
    
-
       !---listing output
       WRITE(IOUT,1000)
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-        !WRITE(IOUT,1500)GAMMA,b,q,q_,PSH,PSTAR,Cv,P0,T0,E0,RHO0
         WRITE(IOUT,1500)GAMMA,b,q,PSH,PSTAR,Cv,P0,E0,RHO0
       ENDIF
 
@@ -189,6 +201,6 @@ C-----------------------------------------------
 !     & 5X,'T0 .  . . . . . . . . . . . . . . . . . .=',1PG20.13/,     
      & 5X,'E0 .  . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'RHO0. . . . . . . . . . . . . . . . . . .=',1PG20.13/)
- 999  CALL FREERR(3)
+
       RETURN
       END

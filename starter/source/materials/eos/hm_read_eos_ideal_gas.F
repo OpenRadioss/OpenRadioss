@@ -99,14 +99,32 @@ C-----------------------------------------------
         RHO0=RHOR                   
       ENDIF
       
-      MU0 = RHOI/RHOR-ONE
-      DF = RHOR/RHOI
-      E0 = P0/(GAMMA-ONE)/(ONE+MU0)
+      IF(RHOI == ZERO)THEN
+        MU0 = ZERO ! error 683 already displayed
+      ELSE
+        IF(RHOR /= ZERO)THEN
+          MU0 = RHOI/RHOR-ONE
+        ELSE
+          MU0 = ZERO ! error 683 already displayed
+        ENDIF
+      ENDIF
+      
+      IF(RHOI /= ZERO)THEN
+        DF = RHOR/RHOI
+      ELSE
+        DF = ZERO
+      ENDIF
+      
+      IF(GAMMA > ONE) THEN
+        E0 = P0/(GAMMA-ONE)/(ONE+MU0)
+      ELSE
+        E0 = ZERO !manage this error below
+      ENDIF
 
       !ERREURS :
       ! P0 <=0
       ! GAMMA <=ONE
-      IF(P0.LE.ZERO)THEN
+      IF(P0 <= ZERO)THEN
          CALL ANCMSG(MSGID=67,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -115,7 +133,7 @@ C-----------------------------------------------
      .               C2='INITIAL PRESSURE MUST BE POSITIVE')
       ENDIF
       
-      IF(GAMMA.LE.ONE)THEN
+      IF(GAMMA <= ONE)THEN
          CALL ANCMSG(MSGID=67,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -124,7 +142,7 @@ C-----------------------------------------------
      .               C2='SPECIFIC HEAT RATIO (GAMMA) MUST BE GREATER THAN 1.0')
       ENDIF
 
-      IF(T0.EQ.ZERO)T0=THREE100
+      IF(T0 == ZERO)T0=THREE100
       Cv = E0/RHO0/T0
       
       PM(32) = GAMMA
@@ -166,7 +184,7 @@ C-----------------------------------------------
      & 5X,'RHO0. . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'E0. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'COMPUTED HEAT CAPACITY (Cv) . . . . . . .=',1PG20.13/)
- 999  CALL FREERR(3)
+
       RETURN
 
       END SUBROUTINE HM_READ_EOS_IDEAL_GAS

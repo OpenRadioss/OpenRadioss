@@ -113,16 +113,8 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('DAMP1'        ,VIS      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_PC'       ,PMIN     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 
-      IF (PMIN.EQ.ZERO) PMIN=-INFINITY
-      IF (RHOR.EQ.ZERO) RHOR=RHO0
-
- 1100 FORMAT(/
-     & 5X,A,/,
-     & 5X,'   MATERIAL NUMBER . . . . . . . . . . . .=',I10/,
-     & 5X,'   MATERIAL LAW. . . . . . . . . . . . . .=',I10/)
- 1200 FORMAT(
-     & 5X,'  INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'  EOS REFERENCE DENSITY . . . . . . . . .=',1PG20.13/)
+      IF (PMIN == ZERO) PMIN=-INFINITY
+      IF (RHOR == ZERO) RHOR=RHO0
 
       CALL HM_GET_FLOATV('RHO0_K0'      ,RK0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('SSL'      ,SSL     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -159,8 +151,13 @@ C-----------------------------------------------
       PM(36)=C5
       PM(37)=PMIN
 
-      MU = RHO0/RHOR-ONE
-      IF(MU.LT.ZERO)THEN
+      IF(RHOR /= ZERO) THEN
+        MU = RHO0/RHOR-ONE  
+      ELSE
+        MU = ZERO  ! RHOR=0.0 => error 683 will be displayed in hm_read_mat.F
+      ENDIf
+            
+      IF(MU < ZERO)THEN
         PM(31) = -PSH + C0+C1*MU+         C3*MU**3+(C4+C5*MU)*E0
       ELSE
         PM(31) = -PSH + C0+C1*MU+C2*MU**2+C3*MU**3+(C4+C5*MU)*E0
@@ -168,32 +165,32 @@ C-----------------------------------------------
 
       PM(80)=INFINITY
       
-      IF(SSL.EQ.ZERO)SSL= EP10
+      IF(SSL == ZERO)SSL= EP10
       PM(46)=SSL
       PM(95)=RPR      
 
-      IF(CTM.EQ.ZERO)CTM=NINEEM2                           
-      IF(CT1.EQ.ZERO)CT1=ONEP44                             
-      IF(CT2.EQ.ZERO)CT2=ONEP92                             
-      IF(CT3.EQ.ZERO)CT3=-ZEP373                           
-      IF(SK.EQ.ZERO)SK=ONE                                  
-      IF(SE.EQ.ZERO)SE=ONEP3                                
-      IF(RPR.EQ.ZERO)RPR=SEVEN_OVER_9                            
+      IF(CTM == ZERO)CTM=NINEEM2                           
+      IF(CT1 == ZERO)CT1=ONEP44                             
+      IF(CT2 == ZERO)CT2=ONEP92                             
+      IF(CT3 == ZERO)CT3=-ZEP373                           
+      IF(SK == ZERO)SK=ONE                                  
+      IF(SE == ZERO)SE=ONEP3                                
+      IF(RPR == ZERO)RPR=SEVEN_OVER_9                            
       !PARAMETRES MUR TURBULENT                            
-      IF(AK.EQ.ZERO) AK=ZEP4187                            
-      IF(E.EQ.ZERO)  E=NINEP793                            
-      IF(A.EQ.ZERO)  A=HALF                              
+      IF(AK == ZERO) AK=ZEP4187                            
+      IF(E == ZERO)  E=NINEP793                            
+      IF(A == ZERO)  A=HALF                              
       PM(47)=A*AK                                          
       PM(48)=E                                             
       PM(49)=A                                             
       PM(50)=B                                             
       YP0=ELEVENP5                                           
-      DO 10 I=1,100                                        
-      YP1=LOG(E*YP0)/AK                                    
-      IF(YP1.EQ.YP0)GOTO 15                                
-      YP0=YP1                                              
-  10  CONTINUE                                             
-  15  PM(51)=YP1                                           
+      DO I=1,100                                        
+        YP1=LOG(E*YP0)/AK                                    
+        IF(YP1 == YP0)EXIT                                
+        YP0=YP1                                              
+      ENDDO                                           
+      PM(51)=YP1                                           
       PM(79)=THREE100                                      
       ! FIN PARAMS MUR TURBULENT                           
       PM(81)=CTM                                           
@@ -242,22 +239,8 @@ C--------------------------------
  1001 FORMAT(
      & 5X,'  K-EPSILON TURBULENT FLUID ',/,
      & 5X,'  ------------------------- ',//)
- 1002 FORMAT(
-     & 5X,'NEW FORMAT : LAW6 WITH EOS . . . . . . .'/)
  1300 FORMAT(
      & 5X,'VISCOSITY . . . . . . . . . . . . . . .=',1PG20.13)
- 1400 FORMAT(
-     & 5X,'PSH PRESSURE SHIFT. . . . . . . . . . .=',1PG20.13/)
- 1500 FORMAT(
-     & 5X,'C0. . . . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'C1. . . . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'C2. . . . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'C3. . . . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'C4. . . . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'C5. . . . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'PRESSURE CUTOFF . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'INITIAL PRESSURE. . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'INITIAL INTERNAL ENERGY PER UNIT VOLUME=',1PG20.13//)
  1501 FORMAT(
      & 5X,'PRESSURE CUTOFF . . . . . . . . . . . .=',1PG20.13//)
  2001 FORMAT(/
@@ -284,8 +267,5 @@ C--------------------------------
      & 5X,'A  K,EPSILON ECCENTRICITY . . . . . . .=',1PG20.13/,
      & 5X,'B  SOURCE FLAG. . . . . . . . . . . . .=',1PG20.13/)
 C--------------------------------
-      RETURN
- 999  CALL FREERR(3)
-C-----------
       RETURN
       END

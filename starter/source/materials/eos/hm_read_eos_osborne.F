@@ -108,15 +108,15 @@ C-----------------------------------------------
       ENDIF
             
       IF(
-     .   A1.LE.ZERO .OR.
-     .   A2.LE.ZERO .OR.
-     .   B0.LE.ZERO .OR.
-     .   B1.LE.ZERO .OR.
-     .   B2.LE.ZERO .OR.
-     .   C0.LE.ZERO .OR.
-     .   C1.LE.ZERO .OR.
-     .   D0.LE.ZERO .OR.
-     .   RHO0.LE.ZERO 
+     .   A1 <= ZERO .OR.
+     .   A2 <= ZERO .OR.
+     .   B0 <= ZERO .OR.
+     .   B1 <= ZERO .OR.
+     .   B2 <= ZERO .OR.
+     .   C0 <= ZERO .OR.
+     .   C1 <= ZERO .OR.
+     .   D0 <= ZERO .OR.
+     .   RHO0 <= ZERO 
      .   )THEN
          CALL ANCMSG(MSGID=67,
      .               MSGTYPE=MSGERROR,
@@ -146,8 +146,22 @@ C-----------------------------------------------
       IF(PM(79)==ZERO)PM(79)=THREE100     
       
       !P0
-      MU0 = RHOI/RHOR-ONE
-      DF = RHOR/RHOI     
+      IF(RHOI == ZERO)THEN
+        MU0 = ZERO ! error 683 already displayed
+      ELSE
+        IF(RHOR /= ZERO)THEN
+          MU0 = RHOI/RHOR-ONE
+        ELSE
+          MU0 = ZERO ! error 683 already displayed
+        ENDIF
+      ENDIF
+      
+      IF(RHOI /= ZERO)THEN
+        DF = RHOR/RHOI
+      ELSE
+        DF = ZERO
+      ENDIF
+      
       !SSP0
       SSP0 = ZERO 
       G0 = PM(22)
@@ -187,6 +201,6 @@ C-----------------------------------------------
      & 5X,'D0. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'P0. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'RHO0. . . . . . . . . . . . . . . . . . .=',1PG20.13/)
- 999  CALL FREERR(3)
+
       RETURN
       END

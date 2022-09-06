@@ -115,9 +115,23 @@ C-----------------------------------------------
       IF(PM(79)==ZERO)PM(79)=THREE100
   
       !initial pressure for stress tensor
-      MU0 = RHOI/RHOR-ONE
-      DF = RHOR/RHOI
-      IF(MU0.GE.ZERO)THEN
+      IF(RHOI == ZERO)THEN
+        MU0 = ZERO ! error 683 already displayed
+      ELSE
+        IF(RHOR /= ZERO)THEN
+          MU0 = RHOI/RHOR-ONE
+        ELSE
+          MU0 = ZERO ! error 683 already displayed
+        ENDIF
+      ENDIF
+      
+      IF(RHOI /= ZERO)THEN
+        DF = RHOR/RHOI
+      ELSE
+        DF = ZERO 
+      ENDIF
+      
+      IF(MU0 >= ZERO)THEN
         PM(31)=C0-PSH+C1*MU0+C2*MU0**2+C3*MU0**3+(C4+C5*MU0)*E0
       ELSE
         PM(31)=C0-PSH+C1*MU0          +C3*MU0**3+(C4+C5*MU0)*E0
@@ -155,7 +169,7 @@ C-----------------------------------------------
      & 5X,'INITIAL DENSITY . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'REFERENCE DENSITY . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'PRESSURE SHIFT. . . . . . . . . . . . . .=',1PG20.13//)
- 999  CALL FREERR(3)
+
       RETURN
       END
 

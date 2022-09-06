@@ -111,7 +111,16 @@ C-----------------------------------------------
       IF(PM(79)==ZERO)PM(79)=THREE100
   
       !initial pressure for stress tensor
-      MU0 = RHOI/RHOR-ONE 
+      IF(RHOI == ZERO)THEN
+        MU0 = ZERO ! error 683 already displayed
+      ELSE
+        IF(RHOR /= ZERO)THEN
+          MU0 = RHOI/RHOR-ONE
+        ELSE
+          MU0 = ZERO ! error 683 already displayed
+        ENDIF
+      ENDIF
+      
       PM(31)=C0-PSH+C1*MU0
       
       !SSP0
@@ -140,6 +149,6 @@ C-----------------------------------------------
      & 5X,'BULK MODULUS. . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'PRESSURE SHIFT. . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'REFERENCE DENSITY . . . . . . . . . . . .=',1PG20.13//)
- 999  CALL FREERR(3)
+
       RETURN
       END

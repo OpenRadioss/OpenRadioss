@@ -99,12 +99,16 @@ C-----------------------------------------------
         RHO0=RHOR                   
       ENDIF
       
-      E0=(P0+GAMMA*PSTAR)/(GAMMA-1)
+      IF(GAMMA /= ONE)THEN
+        E0=(P0+GAMMA*PSTAR)/(GAMMA-ONE)
+      ELSE
+        E0 = ZERO ! error managed below
+      ENDIf
       
       !ERREURS :
       ! GAMMA <=0
       
-      IF(GAMMA.LE.ONE)THEN
+      IF(GAMMA <= ONE)THEN
          CALL ANCMSG(MSGID=67,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -121,8 +125,22 @@ C-----------------------------------------------
       PM(35)=PSTAR
       
       !P0
-      MU0 = RHOI/RHOR-ONE
-      DF = RHOR/RHOI
+      IF(RHOI == ZERO)THEN
+        MU0 = ZERO ! error 683 already displayed
+      ELSE
+        IF(RHOR /= ZERO)THEN
+          MU0 = RHOI/RHOR-ONE
+        ELSE
+          MU0 = ZERO ! error 683 already displayed
+        ENDIF
+      ENDIF
+      
+      IF(RHOI /= ZERO)THEN
+        DF = RHOR/RHOI
+      ELSE
+        DF = ZERO
+      ENDIF
+
       PP = -GAMMA*PSTAR-PSH + (GAMMA-ONE)*(ONE+MU0)*E0
       PM(31)=P0-PSH
       IF(PM(79)==ZERO)PM(79)=THREE100
@@ -156,6 +174,6 @@ C-----------------------------------------------
      & 5X,'PSTAR . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'RHO0. . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'COMPUTED E0 . . . . . . . . . . . . . . .=',1PG20.13/)
- 999  CALL FREERR(3)
+
       RETURN
       END

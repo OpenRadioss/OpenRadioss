@@ -160,13 +160,27 @@ C
       PM(31) = P0
       
       !SSP0
-      MU0 = RHOI/RHOR-ONE
+      IF(RHOI == ZERO)THEN
+        MU0 = ZERO ! error 683 already displayed
+      ELSE
+        IF(RHOR /= ZERO)THEN
+          MU0 = RHOI/RHOR-ONE
+        ELSE
+          MU0 = ZERO ! error 683 already displayed
+        ENDIF
+      ENDIF
+      
+      IF(RHOI /= ZERO)THEN
+        DF = RHOR/RHOI
+      ELSE
+        DF = ZERO
+      ENDIF
+            
       RHO0I=PM(89)
-      DF = RHOR/RHOI     
       SSP0 = ZERO 
       G0 = PM(22)
       RHOI = PM(89) 
-        DPDMU=RHO0I*DPDR
+      DPDMU=RHO0I*DPDR
       DPDMU=MAX(ZERO,DPDMU)        
       IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
       PM(27)=SSP0      
