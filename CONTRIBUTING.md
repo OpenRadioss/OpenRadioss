@@ -92,5 +92,4 @@ It is not recommended to push commits directly into your `main` branch. This bra
 * Do not use aliasing of dummy arguments: different arguments must point to different memory locations
 * Avoid large arrays of small datatype: prefer `POINT%X(1:NBPOINT)` to `POINT(1:NBOINT)%X`
 * Initializing large array can be costly, avoid flushing to zeros entire arrays when it is not needed
-* Use integer exponent instead of real exponent ( `A**2` instead of `A**2.0` )
-
+* Use integer exponent instead of real exponent ( `A**2` instead of `A**2.0` )   
