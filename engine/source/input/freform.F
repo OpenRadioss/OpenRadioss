@@ -80,6 +80,7 @@ C-----------------------------------------------
       USE METRIC_MOD
       USE CHECK_MOD
       USE FVBAG_MOD
+      USE TH_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -264,6 +265,8 @@ C
       PERCENT_ADDMASS = ZERO
       DT_STOP_PERCENT_ADDMASS = ZERO
       IDT_PERCENT_ADDMASS = 0
+      
+      TH_TITLES = 0
            
       IERR1=0
       IF(.NOT.ALLOCATED(FVMBAG_INPUT_OPTIONS)) ALLOCATE(FVMBAG_INPUT_OPTIONS(8192),STAT=IERR1)
@@ -1469,6 +1472,8 @@ C
        K=K+1
        IF(KEY2(1:4).EQ.'VERS')THEN
          READ(KEY3,'(I4)')TH_VERS
+       ELSEIF(KEY2(1:5).EQ.'TITLE')THEN
+         TH_TITLES = 1
        ELSE
          GOTO 9990
        ENDIF

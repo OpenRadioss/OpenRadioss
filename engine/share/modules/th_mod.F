@@ -58,6 +58,8 @@ C-----------------------------------------------
             TYPE(TH_EL_TYPE), DIMENSION(:), ALLOCATABLE :: TH_PROC
         END TYPE TH_PROC_TYPE
 !   -------------------------
+        INTEGER TH_TITLES
+!   -------------------------
         INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX_WA_ELTYPE
 
         !   SPRING

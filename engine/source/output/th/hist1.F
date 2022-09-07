@@ -44,12 +44,13 @@ Chd|====================================================================
      2                 IWA  ,PM     ,GEO  ,IPART,
      3                 SUBSET,ITHGRP,ITHBUF,IGEO ,
      4                 IPM  ,IPARTH ,NPARTH ,NVPARTH ,
-     5                 NVSUBTH ,ITTYP,ITHFLAG)
+     5                 NVSUBTH ,ITTYP,ITHFLAG,ITHVAR,IFILTITL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE GROUPDEF_MOD
       USE INOUTFILE_MOD
+      USE TH_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -86,7 +87,7 @@ C-----------------------------------------------
      .   ITHGRP(NITHGR,*),ITHBUF(*), IFIL,
      .   NTHGRP2, LONG,
      .   NPARTH,IPARTH(NPARTH,*),NVPARTH,NVSUBTH,
-     .   ITTYP,ITHFLAG
+     .   ITTYP,ITHFLAG,ITHVAR(*),IFILTITL
 C     REAL
       my_real
      .   PM(NPROPM,*),GEO(NPROPG,*)
@@ -104,7 +105,7 @@ C     REAL
       my_real
      .   TITLE(20),TIT40(10),TIT80(20),TIT100(25)
       CHARACTER EOR*8, CH8*8, CARD*80, BLA*7, CH8M*8, CH8L*8, CH8T*8 
-      CHARACTER CH80*80,TITL*100
+      CHARACTER CH80*80,TITL*100,VAR*10
       INTEGER :: LEN_TMP_NAME, TITLSUM
       CHARACTER(len=2148) :: TMP_NAME
 C-----------------------------------------------
@@ -137,7 +138,13 @@ C      ICODE=3030
       ENDIF
 C
       LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN+LONG
-      TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))       
+      TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))  
+C
+      IF(TH_TITLES == 1)
+     .     OPEN(UNIT=IFILTITL,FILE=TMP_NAME(1:LEN_TMP_NAME)//'_TITLES',
+     .     ACCESS='SEQUENTIAL',
+     .     FORM='FORMATTED',STATUS='UNKNOWN')
+C     
       IF(ITTYP.EQ.0)THEN
         OPEN(UNIT=IUNIT,FILE=TMP_NAME(1:LEN_TMP_NAME),
      .     ACCESS='SEQUENTIAL',
@@ -558,8 +565,21 @@ C (nstrands elements are treated as a spring group)
           IAD1=IAD1+1
           IAD2=IAD2+40
         ENDDO
-        IF(NVAR.NE.0)CALL WRTDES(ITHBUF(ITHGRP(7,N)),
+        IF(NVAR.NE.0)THEN
+          CALL WRTDES(ITHBUF(ITHGRP(7,N)),
      .                           ITHBUF(ITHGRP(7,N)),NVAR,ITTYP,0)
+          IF(TH_TITLES == 1)THEN
+            DO I=1,ITHGRP(4,N)
+              DO J=1,NVAR
+                DO K=1,10
+                  VAR(K:K)=CHAR(ITHVAR((ITHGRP(9,N)-1+J-1)*10+K))
+                ENDDO 
+                WRITE(IFILTITL,'(I10)')ITHGRP(2,N)
+                WRITE(IFILTITL,'(A)')VAR(1:10)
+              ENDDO 
+            ENDDO
+          ENDIF
+        ENDIF
       ENDDO
 C-------TH GROUP + 1 section fluide------------
       IF(NSECT.EQ.0.AND.NSFLSW.NE.0) THEN
@@ -631,6 +651,8 @@ C
           SEEK_FLAG(SEEK_LOC) = 1
         ENDIF  
       ENDIF  
+C
+      IF(TH_TITLES == 1) CLOSE(IFILTITL)
 C
       RETURN
       END
