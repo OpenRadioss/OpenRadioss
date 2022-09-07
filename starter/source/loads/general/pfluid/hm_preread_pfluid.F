@@ -54,6 +54,7 @@ C-----------------------------------------------
 #include      "scr03_c.inc"
 #include      "scr17_c.inc"
 #include      "com04_c.inc"
+#include      "submod_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -61,7 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (SURF_)   ,TARGET, DIMENSION(NSURF)   :: IGRSURF
-      TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
+      TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(NSUBMOD)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -92,7 +93,7 @@ C--------------------------------------------------
 C-------
         IS = 0                                              
         DO J=1,NSURF
-          IF(ISU.EQ.IGRSURF(J)%ID)IS=J
+          IF(ISU == IGRSURF(J)%ID)IS=J
         ENDDO 
         IF(IS == 0)THEN
           CALL ANCMSG(MSGID=931,
