@@ -87,7 +87,7 @@ C-----------------------------------------------
       INTEGER :: I,IFUNC,COUNT,ID,IFORM,IEOS
       my_real :: RHO0,RHOR,E,NU,A0,A1,A2,AMX,C0,C1,C2,C3,FAC_Y
       my_real :: PMIN,PEXT,XMUMX,BUNL,E0,G,PSTAR,PSH,DELTA,DET,YOUNG,ANU
-      CHARACTER*64 :: chain      
+      CHARACTER*64 :: chain,chain2  
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -128,26 +128,27 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('PEXT'            ,PEXT  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 
 !---
-      IF (RHOR.EQ.ZERO) RHOR=RHO0
+      IF (RHOR == ZERO) RHOR=RHO0
       PM(1) = RHOR
       PM(89)= RHO0
 !
-      IF(COUNT.EQ.5) THEN
-        IFORM= 1 !old format
+      IF(COUNT == 5) THEN
+        IFORM= 1 !old format (embedded EoS : C0,C1,C2, ... parameters)
         IEOS = 13
         IPM(4)=IEOS
         EOS_TAG(IEOS)%L_MU = 1
       ELSE
-        IFORM=2 !new format
+        IFORM=2 !new format (Eos defined from /EOS option)
         IREC = IREC+1
       ENDIF
 
       E0 = ZERO
 
-      IF(C1.EQ.ZERO)C1=THIRD*YOUNG/(ONE-TWO*ANU)   !bulk modulus
+      IF(C1 == ZERO)C1=THIRD*YOUNG/(ONE-TWO*ANU)   !bulk modulus
 
-      IF(YOUNG.LE.ZERO)THEN
-        chain='YOUNG MODULUS MUST BE DEFINED                           '
+      IF(YOUNG <= ZERO)THEN
+        chain='YOUNG MODULUS MUST BE DEFINED                                   '
+        chain2=''
         CALL ANCMSG(MSGID=829,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -155,11 +156,13 @@ C-----------------------------------------------
      .                I2=MAT_ID,
      .                C1='ERROR',
      .                C2=TITR,
-     .                C3=chain)   
+     .                C3=chain,
+     .                C4=chain2)   
       ENDIF 
 
-      IF(ANU.LE.ZERO)THEN
-        chain='POISSON RATIO MUST BE DEFINED                           '
+      IF(ANU <= ZERO)THEN
+        chain='POISSON RATIO MUST BE DEFINED                                   '
+        chain2=''
         CALL ANCMSG(MSGID=829,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -167,11 +170,13 @@ C-----------------------------------------------
      .                I2=MAT_ID,
      .                C1='ERROR',
      .                C2=TITR,
-     .                C3=chain)   
+     .                C3=chain,
+     .                C4=chain2)   
       ENDIF 
       
-      IF(A1 < ZERO .AND. A2 == ZERO)THEN
-        chain='INVERTED YIELD SURFACE. CHECK A1 SIGN.                            '
+      IF(A1 < ZERO .AND. A2 == ZERO)THEN  
+        chain ='INVERTED YIELD SURFACE BECAUSE A1 IS NEGATIVE.                  '
+        chain2='CHECK A0,A1,A2 YIELD PARAMETERS                                 '
         CALL ANCMSG(MSGID=829,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO,
@@ -179,11 +184,13 @@ C-----------------------------------------------
      .                I2=MAT_ID,
      .                C1='WARNING',
      .                C2=TITR,
-     .                C3=chain)   
+     .                C3=chain,
+     .                C4=chain2)   
       ENDIF 
     
       IF(A2 < ZERO)THEN
-        chain='UNTIPYCAL YIELD SURFACE. CHECK A2 SIGN.                           '
+        chain ='UNEXPECTED YIELD SURFACE : A2 IS NEGATIVE                       '
+        chain2='CHECK A0,A1,A2 YIELD PARAMETERS                                 '
         CALL ANCMSG(MSGID=829,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO,
@@ -191,10 +198,12 @@ C-----------------------------------------------
      .                I2=MAT_ID,
      .                C1='WARNING',
      .                C2=TITR,
-     .                C3=chain)     
+     .                C3=chain,
+     .                C4=chain2)     
       ENDIF           
-      IF(IFORM.EQ.1 .AND. C1.LE.ZERO) THEN
-        chain='TENSILE BULK MODULUS IS LOWER OR EQUAL TO 0.                      '      
+      IF(IFORM == 1 .AND. C1 <= ZERO) THEN
+        chain='TENSILE BULK MODULUS C1 IS LOWER OR EQUAL TO 0.                 '
+        chain2=''
         CALL ANCMSG(MSGID=829,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -202,21 +211,24 @@ C-----------------------------------------------
      .                I2=MAT_ID,
      .                C1='ERROR',
      .                C2=TITR,
-     .                C3=chain)
+     .                C3=chain,
+     .                C4=chain2)
       END IF  
 
       IF(A2==ZERO.AND.A1/=ZERO)THEN   !(A2=A1=ZERO => error message)
         PSTAR=-A0/A1 
-      ELSEIF(A2.NE.ZERO)THEN
+      ELSEIF(A2 /= ZERO)THEN
         DELTA = A1*A1-FOUR*A0*A2
         !Si intersection avec l'axe
-        IF(DELTA .GE. ZERO)THEN
+        IF(DELTA  >=  ZERO)THEN
           DELTA=SQRT(DELTA) 
           PSTAR = (-A1+DELTA)/TWO/A2
         
         ELSE
           PSTAR = -A1/TWO/A2 !extremum
-          chain='YIELD FUNCTION HAS NO ROOT.                                       '      
+          chain ='YIELD SURFACE J2(P)=A0+A1.P+A2.P^2 HAS NO INTERSECTION WITH     '
+          chain2='PRESSURE AXIS. ASSUMING SURFACE CLOSURE AT P=                   '
+          WRITE(chain2(46:59),FMT=('(E13.6)'))   PSTAR   
           CALL ANCMSG(  MSGID=829,
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO,
@@ -224,21 +236,23 @@ C-----------------------------------------------
      .                  I2=MAT_ID,
      .                  C1='WARNING',
      .                  C2=TITR,
-     .                  C3=chain)               
+     .                  C3=chain,
+     .                  C4=chain2)               
         ENDIF
       ELSE
         !do nothing let user do what he wants
       ENDIF
 C
-      IF(AMX.EQ.ZERO)  AMX   = EP20
-      IF(PMIN.EQ.ZERO) PMIN  =-INFINITY
+      IF(AMX == ZERO)  AMX   = EP20
+      IF(PMIN == ZERO) PMIN  =-INFINITY
       !-----------------------------------------------------------------------------!
       ! THESE FOLLOWING CHECKS ARE RELEVANT ONLY IN CASE OF EMBEDDED COMPACTION EOS !
       !-----------------------------------------------------------------------------!
 
-      IF(IFORM.EQ.1)THEN
-        IF(XMUMX.EQ.ZERO.AND.BUNL.NE.ZERO)THEN
-         chain=   'MISSING MUMAX VALUE IS AUTOMATICALLY ESTIMATED FROM BUNL VALUE.  '
+      IF(IFORM == 1)THEN
+        IF(XMUMX == ZERO.AND.BUNL /= ZERO)THEN
+         chain= 'MISSING MUMAX VALUE IS AUTOMATICALLY ESTIMATED FROM BUNL VALUE. '
+         chain2=''
          CALL ANCMSG(MSGID=829,
      .               MSGTYPE=MSGWARNING,
      .               ANMODE=ANINFO,
@@ -246,9 +260,10 @@ C
      .               I2=MAT_ID,
      .               C1='WARNING',
      .               C2=TITR,
-     .               C3=chain)         
-         IF(C3.EQ.ZERO)THEN
-          IF(C2.EQ.ZERO)THEN
+     .               C3=chain,
+     .               C4=chain2)         
+         IF(C3 == ZERO)THEN
+          IF(C2 == ZERO)THEN
            XMUMX=EP20 
           ELSE
            XMUMX=(BUNL-C1)/(TWO*C2)
@@ -259,8 +274,9 @@ C
          ENDIF
         ENDIF
 
-        IF(XMUMX.NE.ZERO.AND.BUNL.EQ.ZERO)THEN
-         chain=   'MISSING BUNL VALUE IS AUTOMATICALLY ESTIMATED FROM MUMAX         '      
+        IF(XMUMX /= ZERO.AND.BUNL == ZERO)THEN
+         chain= 'MISSING BUNL VALUE IS AUTOMATICALLY ESTIMATED FROM MUMAX        '     
+         chain2='' 
          CALL ANCMSG(MSGID=829,
      .               MSGTYPE=MSGWARNING,
      .               ANMODE=ANINFO,
@@ -268,9 +284,10 @@ C
      .               I2=MAT_ID,
      .               C1='WARNING',
      .               C2=TITR,
-     .               C3=chain)
-         IF(C3.EQ.ZERO)THEN
-          IF(C2.EQ.ZERO)THEN
+     .               C3=chain,
+     .               C4=chain2)
+         IF(C3 == ZERO)THEN
+          IF(C2 == ZERO)THEN
            BUNL = C1 
           ELSE
            BUNL = C1 + TWO*C2*XMUMX
@@ -279,11 +296,12 @@ C
            BUNL = C1 + TWO*C2*XMUMX + THREE*C3*C3*XMUMX**TWO
          ENDIF
         ENDIF  
-        IF(BUNL.EQ.ZERO) BUNL  = C1           
-      ENDIF !IFORM.EQ.1
+        IF(BUNL == ZERO) BUNL  = C1           
+      ENDIF !IFORM == 1
 
       G=YOUNG/(TWO*(ONE + ANU))
 
+      !--- STORAGE OF MATERIAL PARAMETERS IN MATERIAL BUFFER ---!
       PM(20)=YOUNG
       PM(21)=ANU
       PM(22)=G
@@ -309,20 +327,20 @@ C
       PM(79)=THREE100
       PM(88)=PSH 
       PM(104)=C0     
-
+      PM(105) = TWO*G/(C1+FOUR_OVER_3*G) ! =(1-2*Nu)/(1-Nu)
+      
       !Formulation for solid elements time step computation.
       IPM(252)= 2
-      
-      PM(105) = TWO*G/(C1+FOUR_OVER_3*G) ! =(1-2*Nu)/(1-Nu)
 
-C---- Definition des variables internes (stockage elementaire)
+C---- Buffer Size for specific element buffer allocations
 
       MTAG%G_PLA   = 1
       MTAG%G_EPSQ  = 1
 
       MTAG%L_PLA   = 1     ! /TH(VPLA)
       MTAG%L_EPSQ  = 1     ! /TH(EPSP)  
-C--------------------------------
+
+      !--- OUTPUT IN STARTER LISTING FILE ---!
       WRITE(IOUT,1100) TRIM(TITR),MAT_ID,10
       WRITE(IOUT,1000)
       IF(IS_CRYPTED)THEN
@@ -331,7 +349,7 @@ C--------------------------------
         WRITE(IOUT,1200) RHO0,RHOR
         WRITE(IOUT,1300)YOUNG,ANU,G
         WRITE(IOUT,1400)A0,A1,A2,AMX
-        IF(IFORM.EQ.1)THEN
+        IF(IFORM == 1)THEN
           WRITE(IOUT,1500)C0,C1,C2,C3,BUNL,XMUMX,PMIN,PSTAR
         ELSE
           WRITE(IOUT,1501)BUNL,XMUMX,PMIN,PSTAR
@@ -372,7 +390,6 @@ C-----------
      & 5X,40HMAX VOLUMIC COMPRESSION . . . . . . . .=,E12.4/,
      & 5X,40HFRACTURE PRESSURE . . . . . . . . . . .=,E12.4/,
      & 5X,40HYIELD SURFACE PRESSURE ROOT . . . . . .=,E12.4//)
- 999  CALL FREERR(3)
 C-----------
       RETURN
       END
