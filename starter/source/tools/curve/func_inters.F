@@ -432,12 +432,12 @@ c     Check common points between 2 curves => intersection
       ENDDO
 c     Check intersection of curve segments
       IF (FOUND == 0) THEN
-        DO J=3,NP1
+        DO J=2,NP1
           S1 = TABLE(FUNC1)%X(1)%VALUES(J-1)
           S2 = TABLE(FUNC1)%X(1)%VALUES(J)
           T1 = TABLE(FUNC1)%Y%VALUES(J-1)
           T2 = TABLE(FUNC1)%Y%VALUES(J)
-          DO K=3,NP2
+          DO K=2,NP2
             X1 = TABLE(FUNC2)%X(1)%VALUES(K-1)
             X2 = TABLE(FUNC2)%X(1)%VALUES(K)
             Y1 = TABLE(FUNC2)%Y%VALUES(K-1)
@@ -453,8 +453,9 @@ c     Check intersection of curve segments
               CY = T1 - Y1
               ALPHA = (BX * CY - BY * CX) / DM
               BETA  = (AX * CY - AY * CX) / DM
-              IF (ALPHA > ZERO .and. ALPHA < ONE .and.
-     .            BETA  < ZERO .and. BETA  >-ONE) THEN
+              IF (ALPHA >= ZERO .and. ALPHA < ONE .and.
+     .            BETA  <= ZERO .and. BETA  >-ONE .and.
+     .            S1 > ZERO) THEN
                 XINT = X1 + ALPHA * AX
                 YINT = Y1 + ALPHA * AY
                 FOUND = 1
