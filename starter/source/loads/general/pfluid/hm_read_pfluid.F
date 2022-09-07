@@ -67,21 +67,22 @@ C-----------------------------------------------
 #include      "r2r_c.inc"
 #include      "sysunit.inc"
 #include      "mvsiz_p.inc"
+#include      "submod_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER NPC(*), LSENSOR(NSENSI,*), IFRAME(LISKN,*),
-     .        NUMLOADP, ILOADP(SIZLOADP,*), LLOADP(*)
-      my_real FACLOADP(LFACLOAD,*)
+      INTEGER NPC(SNPC), LSENSOR(NSENSI,NSENSOR), IFRAME(LISKN,NUMFRAM+1),
+     .        NUMLOADP, ILOADP(SIZLOADP,NLOADP), LLOADP(SLLOADP)
+      my_real FACLOADP(LFACLOAD,NUMLOADP)
 C-----------------------------------------------
       TYPE (SURF_)   ,TARGET, DIMENSION(NSURF)   :: IGRSURF
-      TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
+      TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(NSUBMOD)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real
-     .        FCX,FCY,FAC_FCX,FAC_FCY,FCX1,FCY1,FCX2,FCY2
+      my_real FCX,FCY,FAC_FCX,FAC_FCY,FCX1,FCY1,FCX2,FCY2
       INTEGER I,J,K, 
      .        SUB_INDEX, SUB_ID, UID, ID, IFLAGUNIT,
      .        NN,IAD,TSENS,ISENS,IS,ISU,IFRA,
@@ -138,7 +139,7 @@ C     FACLOADP( 7,K) = UNUSED		                              ZERO ! TA_SHIFT
 C----------------------------------------------------------------------------------        
 C   S o u r c e   L i n e s
 C----------------------------------------------------------------------------------        
-      NN           = 0 
+      NN = 0 
 C--------------------------------------------------
 C START BROWSING MODEL /LOAD/PFLUID
 C--------------------------------------------------
@@ -164,7 +165,7 @@ C--------------------------------------------------
             EXIT
           ENDIF
         ENDDO
-        IF (UID.NE.0.AND.IFLAGUNIT.EQ.0) THEN
+        IF (UID /= 0.AND.IFLAGUNIT  == 0) THEN
           CALL ANCMSG(MSGID   = 659,
      .                ANMODE  = ANINFO,
      .                MSGTYPE = MSGERROR,
@@ -188,15 +189,15 @@ C-----------
           !-----------
           IS=0                                                     
           DO J=1,NSURF
-            IF (ISU.EQ.IGRSURF(J)%ID) IS=J
+            IF (ISU  == IGRSURF(J)%ID) IS=J
           ENDDO                                                     
-          IF(IS.NE.0)THEN                                          
+          IF(IS /= 0)THEN                                          
             NN=IGRSURF(IS)%NSEG
             DO J=1,NN                                               
               LLOADP(IAD+4*(J-1))  =IGRSURF(IS)%NODES(J,1)
               LLOADP(IAD+4*(J-1)+1)=IGRSURF(IS)%NODES(J,2)
               LLOADP(IAD+4*(J-1)+2)=IGRSURF(IS)%NODES(J,3)
-              IF(IGRSURF(IS)%ELTYP(J).EQ.7)THEN
+              IF(IGRSURF(IS)%ELTYP(J)  == 7)THEN
                LLOADP(IAD+4*(J-1)+3)=0                                         
               ELSE                                                 
                LLOADP(IAD+4*(J-1)+3)=IGRSURF(IS)%NODES(J,4)
@@ -207,11 +208,11 @@ C-----------
           !-----------
 	  TSENS=0
           DO J=1,NSENSOR
-	    IF(ISENS.NE.0) THEN
-	      IF(ISENS.EQ.LSENSOR(1,J))TSENS=J
+	    IF(ISENS /= 0) THEN
+	      IF(ISENS  == LSENSOR(1,J))TSENS=J
 	    ENDIF
 	  ENDDO
-	  IF((TSENS.EQ.0).AND.(ISENS.NE.0))THEN
+	  IF((TSENS  == 0).AND.(ISENS /= 0))THEN
             CALL ANCMSG(MSGID=930,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
@@ -228,11 +229,11 @@ C-----------
           IF (FCX == ZERO) FCX = FAC_FCX
           IF (FCY == ZERO) FCY = FAC_FCY
           !-----------
-          IF(NCUR_HSP .NE. 0)THEN
+          IF(NCUR_HSP  /=  0)THEN
             DO J=1,NFUNCT
-              IF(NPC(NFUNCT+J+1).EQ.NCUR_HSP)FUN_HSP=J
+              IF(NPC(NFUNCT+J+1)  == NCUR_HSP)FUN_HSP=J
             ENDDO
-            IF(FUN_HSP.EQ.0)THEN
+            IF(FUN_HSP  == 0)THEN
               CALL ANCMSG(MSGID=929,
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO_BLIND_1,
@@ -247,13 +248,13 @@ C-----------
           CALL HM_GET_INTV('frahsp_ID',IFRA1,IS_AVAILABLE,LSUBMODEL)
           !-----------
           ICFIELD8 = 0
-          IF(XYZ(1:1).EQ.char_X)ICFIELD8=1
-          IF(XYZ(1:1).EQ.char_Y)ICFIELD8=2
-          IF(XYZ(1:1).EQ.char_Z)ICFIELD8=3          
-          IF (NCUR_HSP.NE.0)THEN
-            IF(XYZ(1:1)  .NE.char_X  .AND. 
-     .         XYZ(1:1)  .NE.char_Y  .AND.
-     .         XYZ(1:1)  .NE.char_Z  ) THEN
+          IF(XYZ(1:1)  == char_X)ICFIELD8=1
+          IF(XYZ(1:1)  == char_Y)ICFIELD8=2
+          IF(XYZ(1:1)  == char_Z)ICFIELD8=3          
+          IF (NCUR_HSP /= 0)THEN
+            IF(XYZ(1:1)   /= char_X  .AND. 
+     .         XYZ(1:1)   /= char_Y  .AND.
+     .         XYZ(1:1)   /= char_Z  ) THEN
                CALL ANCMSG(MSGID=927,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO_BLIND_1,
@@ -263,12 +264,12 @@ C-----------
             ENDIF
           ENDIF
           DO J=0,NUMFRAM
-            IF(IFRA1.EQ.IFRAME(4,J+1)) THEN
+            IF(IFRA1  == IFRAME(4,J+1)) THEN
               ICFIELD9=J+1
             ENDIF
           ENDDO
           IF(IFRA1 == 0) ICFIELD9 = 1
-          IF (IFRA1 .NE.0 .AND. ICFIELD9 == 0) THEN
+          IF (IFRA1  /= 0 .AND. ICFIELD9 == 0) THEN
             CALL ANCMSG(MSGID=928,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_1,
@@ -285,11 +286,11 @@ C-----------
           IF (FCX1 == ZERO) FCX1 = FAC_FCX
           IF (FCY1 == ZERO) FCY1 = FAC_FCY
           !-----------
-          IF (NCUR_CX.NE.0)THEN
+          IF (NCUR_CX /= 0)THEN
             DO J=1,NFUNCT
-              IF(NPC(NFUNCT+J+1).EQ.NCUR_CX)FUN_CX=J
+              IF(NPC(NFUNCT+J+1)  == NCUR_CX)FUN_CX=J
             ENDDO
-            IF(FUN_CX.EQ.0)THEN
+            IF(FUN_CX  == 0)THEN
               CALL ANCMSG(MSGID=929,
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO_BLIND_1,
@@ -307,11 +308,11 @@ C-----------
           IF (FCX2 == ZERO) FCX2 = FAC_FCX
           IF (FCY2 == ZERO) FCY2 = FAC_FCY
           !-----------
-          IF (NCUR_VEL.NE.0)THEN
+          IF (NCUR_VEL /= 0)THEN
             DO J=1,NFUNCT
-              IF(NPC(NFUNCT+J+1).EQ.NCUR_VEL)FUN_VEL=J
+              IF(NPC(NFUNCT+J+1)  == NCUR_VEL)FUN_VEL=J
             ENDDO
-            IF(FUN_VEL.EQ.0)THEN
+            IF(FUN_VEL  == 0)THEN
               CALL ANCMSG(MSGID=929,
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO_BLIND_1,
@@ -325,13 +326,13 @@ C-----------
           CALL HM_GET_INTV('fravel_ID',IFRA2,IS_AVAILABLE,LSUBMODEL)
          !-----------
           ICFIELD12 = 0
-          IF(XYZ1(1:1).EQ.char_X)ICFIELD12=1
-          IF(XYZ1(1:1).EQ.char_Y)ICFIELD12=2
-          IF(XYZ1(1:1).EQ.char_Z)ICFIELD12=3
-          IF (NCUR_VEL.NE.0)THEN
-            IF(XYZ1(1:1)  .NE.char_X  .AND. 
-     .         XYZ1(1:1)  .NE.char_Y  .AND.
-     .         XYZ1(1:1)  .NE.char_Z  ) THEN
+          IF(XYZ1(1:1)  == char_X)ICFIELD12=1
+          IF(XYZ1(1:1)  == char_Y)ICFIELD12=2
+          IF(XYZ1(1:1)  == char_Z)ICFIELD12=3
+          IF (NCUR_VEL /= 0)THEN
+            IF(XYZ1(1:1)   /= char_X  .AND. 
+     .         XYZ1(1:1)   /= char_Y  .AND.
+     .         XYZ1(1:1)   /= char_Z  ) THEN
                CALL ANCMSG(MSGID=927,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO_BLIND_1,
@@ -341,12 +342,12 @@ C-----------
             ENDIF
           ENDIF
           DO J=0,NUMFRAM
-            IF(IFRA2.EQ.IFRAME(4,J+1)) THEN 
+            IF(IFRA2  == IFRAME(4,J+1)) THEN 
               ICFIELD13=J+1
             ENDIF
           ENDDO
           IF(IFRA2 == 0) ICFIELD13 = 1
-          IF (IFRA2.NE.0  .AND. ICFIELD13 == 0) THEN
+          IF (IFRA2 /= 0  .AND. ICFIELD13 == 0) THEN
             CALL ANCMSG(MSGID=928,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_1,
@@ -357,15 +358,15 @@ C-----------
            
          ILOADP(5,K)=2 
                       
-         IF(IS.NE.0)THEN            
-	   IF (IDDOM.NE.0) THEN         
-C----------Multidomaines -> on elimine les seg communs, on ne les traite qu'une foi---
+         IF(IS /= 0)THEN            
+	   IF (IDDOM /= 0) THEN         
+C----------Multidomains -> deleting common segments (one single time)
 	      CAPT=0 
               DO H=1,4
 !!	        CAPT=CAPT+TAGNO(NPART+IBUFSSG(IAD+H-1))
 !!cmi                CAPT=CAPT+TAGNO(NPART+IGRSURF(IS)%NODES(J,H))
               END DO    
-	      IF (CAPT.EQ.8) GOTO 150
+	      IF (CAPT == 8) GOTO 150
 	   ENDIF                      
 150        ILOADP  ( 4,K) = IAD
            ILOADP  ( 6,K) = ISENS  
@@ -382,13 +383,12 @@ C----------Multidomaines -> on elimine les seg communs, on ne les traite qu'une 
            FACLOADP( 6,K) = ONE/FCX2 
            ILOADP  (12,K) = ICFIELD12
            ILOADP  (13,K) = ICFIELD13
-           !Multidomaines -> on decompte les seg communs, on ne les compte qu'une foi---        
-	   IF (IDDOM.GT.0) NN = NN-ISURF_R2R(1,IS)                
+           !Multidomains -> numbering common segments (one singe time)        
+	   IF (IDDOM > 0) NN = NN-ISURF_R2R(1,IS)                
          ENDIF    
 
          WRITE (IOUT,2002)
-         WRITE (IOUT,'(I10,2X,I10,9X,A1,2X,I10,2X,I10,2X,
-     .                1PG20.13,2X,1PG20.13)')ISU,IFRA1,XYZ(1:1),NCUR_HSP,ISENS,FCX,FCY
+         WRITE (IOUT,'(I10,2X,I10,9X,A1,2X,I10,2X,I10,2X,1PG20.13,2X,1PG20.13)')ISU,IFRA1,XYZ(1:1),NCUR_HSP,ISENS,FCX,FCY
          WRITE (IOUT,2003)
          WRITE (IOUT,'(I10,4X,1PG20.13,4X,1PG20.13)')NCUR_CX,FCX1,FCY1
          WRITE (IOUT,2004)
