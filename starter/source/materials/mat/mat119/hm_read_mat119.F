@@ -126,6 +126,8 @@ card5
       CALL HM_GET_FLOATV('NUCOAT'   ,NUCOAT    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('TCOAT'    ,TCOAT     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
+      IF (FUNC2 == FUNC1) FUNC2 = 0
+C
 c-----------------------------------------------------
       PM(1) = RHO0
       PM(89)= RHO0
