@@ -235,11 +235,6 @@ C-----------------------------------------------
       lmb(i)  =(THREE*c1(i)-TWO*g(i))
    10 CONTINUE
 C
-       !print*,' sig avant '
-       !write(*,'(6(1X,1pe10.3))')sig(10,1:6)
-       !print*,' sold '
-       !write(*,'(6(1X,1pe10.3))')sold1(10),sold2(10),sold3(10),sold4(10),sold5(10),sold6(10)
-       !print*, 'dt1 ',dt1
 
       DO I=LFT,LLT
        G1(I)=DT1*G(I)
@@ -298,12 +293,6 @@ C
        EINT(I)=(EINT(I)+EINC*OFF(I)) / MAX(EM15,VOL(I))
        QOLD(I)=QNEW(I)
        
-       !if (i == llt) then
-       !print*,' DDD '
-       !write(*,'(6(1X,1pe10.3))')d1(i),d2(i),d3(i),d4(i),d5(i),d6(i)
-       !print*,' sig m1lawi '
-       !write(*,'(6(1X,1pe10.3))')sig(i,1:6)
-       !endif
       ENDDO
 
       RETURN
