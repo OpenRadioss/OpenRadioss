@@ -1283,8 +1283,10 @@ C
       IF(NCYCLE > 0)THEN
         LAMBDA = FVDATA(IFV)%LAMBDA
         IF(LAMBDA > ZERO)THEN
-          DTOLD = FVDATA(IFV)%DTOLD        
-          DTX = MIN(  DTX,(DTOLD)*(ONE+LAMBDA))
+          DTOLD = FVDATA(IFV)%DTOLD   
+          IF(DTOLD > ZERO)THEN     
+            DTX = MIN( DTX, DTOLD*(ONE+LAMBDA))
+          ENDIF
         ENDIF
       ENDIF
       FVDATA(IFV)%DTOLD = DTX      
