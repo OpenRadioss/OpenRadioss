@@ -1655,8 +1655,10 @@ C---------------------------------------------------
       IF(NCYCLE > 0)THEN
         PARAM_LAMBDA =  FVDATA(IFV)%LAMBDA
         IF(PARAM_LAMBDA > ZERO)THEN
-          DTOLD = FVDATA(IFV)%DTOLD        
-          DTX = MIN(  DTX,DTOLD*(ONE+PARAM_LAMBDA))
+          DTOLD = FVDATA(IFV)%DTOLD
+          IF(DTOLD > ZERO)THEN        
+            DTX = MIN( DTX, DTOLD*(ONE+PARAM_LAMBDA))
+          ENDIF
         ENDIF
       ENDIF
       FVDATA(IFV)%DTOLD = DTX
