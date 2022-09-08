@@ -387,6 +387,7 @@ jobs:
         password: ${{secrets.DOCKER_REGISTRY_PASSWD}}
       volumes: 
          - /etc/localtime:/etc/localtime:ro
+         - /github_download_counter:/github_download_counter
 
     env:
       SERVBOT_USER: ${{ secrets.SERVBOT_USER }}
@@ -454,6 +455,20 @@ jobs:
       with:
         route: GET /repos/${{ github.repository }}/commits/${{ github.sha }}
 
+    - name: Counter Download - Update values
+      run: |
+          cd /github_download_counter
+
+          # Do some before using some lock and retry stuff
+          cp download_count.json download_count.json-sav-${{ env.DATEOFTHEDAY }}
+
+          github_download_count.py \
+            --git_api_url ${{ github.api_url }} \
+            --git_repo ${{ github.repository }} \
+            --git_user $SERVBOT_USER \
+            --git_token $SERVBOT_PAT \
+            --action update_values
+
     - name: Release the new binaries
       uses: docker://ghcr.io/mini-bomba/create-github-release:v1.1.2
       with:
@@ -471,7 +486,18 @@ jobs:
           todeliver/${{ env.OPENRADIOSS_BIN_ARCHIVE }}
         clear_attachments: true     
 
-    - name: Clean old github release/tag if needed
+    - name: Counter Download - Update/Add entries
+      run: |
+          cd /github_download_counter
+          github_download_count.py \
+            --git_api_url ${{ github.api_url }} \
+            --git_repo ${{ github.repository }} \
+            --git_user $SERVBOT_USER \
+            --git_token $SERVBOT_PAT \
+            --action update \
+            --tag_date ${{ env.DATEOFTHEDAY }}
+
+    - name: Clean old github release/tag if needed + clean Counter Download
       run: |
           clean_github_release.py \
             --git_api_url ${{ github.api_url }} \
@@ -479,4 +505,5 @@ jobs:
             --git_user $SERVBOT_USER \
             --git_token $SERVBOT_PAT \
             --nb_releases_to_keep ${{ env.DELIVERY_NB_RELEASES_TO_KEEP }} \
+            --counter_file_dir /github_download_counter \
             --tag_prefix ${{ env.DELIVERY_TAG_PREFIX }}
