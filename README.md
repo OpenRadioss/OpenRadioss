@@ -25,7 +25,7 @@ If you have any questions about OpenRadioss, please feel free to contact <webmas
 
 Community Manager   
 Marian Bulla   
-<communitymanager@openradioss.com>  
+<communitymanager@openradioss.org>  
 
 
 # Resources
