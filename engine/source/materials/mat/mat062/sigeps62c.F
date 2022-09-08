@@ -84,7 +84,7 @@ C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
       INTEGER  I,J,K,NORDRE,NPRONY,ITER,IVISC,JNV
       my_real
-     .   NU,GMAX,RBULK,BETA,GAMAINF,DVISC,SUM,FAC,RVT,EVL,
+     .   NU,GMAX,RBULK,BETA(100),GAMAINF,DVISC,SUM,FAC,RVT,EVL,
      .   EV1,EV2,EV3,KT3(NEL),INVR(NEL),DSDEV(NEL),DSVOL(NEL),
      .   DQ1(NEL),DQ2(NEL),DQ3(NEL),SDH01(NEL),
      .   SDH02(NEL),SDH03(NEL),SDH1(NEL),SDH2(NEL),SDH3(NEL),
@@ -108,11 +108,11 @@ C SET INITIAL MATERIAL CONSTANTS
       GAMAINF = UPARAM(4)
       RBULK   = UPARAM(5)
       DVISC   = UPARAM(6)
-      BETA    = NU/(ONE - TWO*NU)
       GMAX    = ZERO
       DO I= 1,NORDRE
         MU(I) = UPARAM(6 + I)
         AL(I) = UPARAM(6 + NORDRE + I)
+        BETA(I) = UPARAM(2*NORDRE + 2*NPRONY + 7 + I)
         GMAX  = GMAX + MU(I)
       ENDDO
       IVISC = 0
@@ -216,7 +216,7 @@ C
                  RVT = ZERO
                  IF(RV(I) > ZERO) THEN
                    RVT = ONE
-                   IF(AL(K)/= ZERO) RVT = EXP((-BETA*AL(K))*LOG(RV(I)))
+                   IF(AL(K)/= ZERO) RVT = EXP((-BETA(K)*AL(K))*LOG(RV(I)))
                  ENDIF
 C             
                  FAC = TWO*MU(K)/AL(K) 
@@ -225,7 +225,7 @@ C----       cauchy stress
                
                  KT3(I) = KT3(I) + 
      .                  (-FAC       *(EV3 - RVT) + 
-     .                    TWO*MU(K)*(EV3 + BETA*RVT))/EV(I,3)/RV(I)
+     .                    TWO*MU(K)*(EV3 + BETA(K)*RVT))/EV(I,3)/RV(I)
                 ENDDO
             ENDDO   ! Ordre
 !          -----------------------      
@@ -255,7 +255,7 @@ C
               RVT = ZERO
               IF(RV(I) > ZERO) THEN
               RVT = ONE
-                IF(AL(K)/= ZERO) RVT = EXP((-BETA*AL(K))*LOG(RV(I)))
+                IF(AL(K)/= ZERO) RVT = EXP((-BETA(K)*AL(K))*LOG(RV(I)))
               ENDIF
             
               FAC = TWO*MU(K)/AL(K)
@@ -311,7 +311,7 @@ C
               RVT = ZERO          
               IF(RV(I) > ZERO) THEN
                 RVT = ONE
-                IF(AL(K)/= ZERO) RVT = EXP((-BETA*AL(K))*LOG(RV(I)))
+                IF(AL(K)/= ZERO) RVT = EXP((-BETA(K)*AL(K))*LOG(RV(I)))
               ENDIF
 C             
               FAC = TWO*MU(K)/AL(K) 
@@ -322,7 +322,7 @@ C----       cauchy stress
 C              
               DSVOL(I) = DSVOL(I) - TWO_THIRD*FAC*(EV1 + EV2 + EV3) + 
      .                      + TWO*FAC*RVT + TWO_THIRD*MU(K)*EV3 
-     .                      + TWO*BETA*MU(K)*RVT
+     .                      + TWO*BETA(K)*MU(K)*RVT
 C     
               DSDEV(I) = DSDEV(I) - TWO*FAC*(TWO_THIRD*EV3 - THIRD*(EV1 + EV2))
      .                      + FOUR_OVER_3*MU(K)*EV3
@@ -448,7 +448,7 @@ C
               RVT = ZERO          
               IF(RV(I) > ZERO) THEN
                 RVT = ONE
-                IF(AL(K)/= ZERO) RVT = EXP((-BETA*AL(K))*LOG(RV(I)))
+                IF(AL(K)/= ZERO) RVT = EXP((-BETA(K)*AL(K))*LOG(RV(I)))
               ENDIF
 C             
               EV3  = ZERO

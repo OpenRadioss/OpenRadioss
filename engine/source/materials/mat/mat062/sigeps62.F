@@ -103,7 +103,7 @@ C----------------------------------------------------------------
      .   EC(MVSIZ,3),HD(MVSIZ,3,100),
      .   EV(MVSIZ,3),AV(MVSIZ,6),DIRPRV(MVSIZ,3,3),
      .   RV(MVSIZ),P(MVSIZ),RBULK,
-     .   EVV(MVSIZ,3),SSP(MVSIZ,3),FAC, BETA,
+     .   EVV(MVSIZ,3),SSP(MVSIZ,3),FAC, BETA(100),
      .   DTINV,VISC,FAC1,
      .   E1,E2,E3,E4,E5,E6,EPSP, VM,DAV,VISC1,SIGXX(MVSIZ),
      .   SIGYY(MVSIZ),SIGZZ(MVSIZ),SIGXY(MVSIZ),SIGZX(MVSIZ),
@@ -125,10 +125,11 @@ C SET INITIAL MATERIAL CONSTANTS
       GAMAINF = UPARAM(4)
       RBULK   = UPARAM(5)
       DVISC   = UPARAM(6)
-      BETA = NU/(ONE - TWO*NU)
+!!      BETA = NU/(ONE - TWO*NU)
       DO I= 1,NORDRE
        MU(I) = UPARAM(6 + I)
        AL(I) = UPARAM(6 + NORDRE + I)
+       BETA(I) = UPARAM(2*NORDRE + 2*NPRONY + 7 + I)
 C       GMAX = GMAX + AL(I)*MU(I)
        GMAX = GMAX + MU(I)
       ENDDO
@@ -251,7 +252,7 @@ C calcul de la pression
      .       FAC1*THIRD*( EXP(AL(II)*LOG(EV(I,3)))    )   
      
             IF(RV(I)>ZERO) P(I) = P(I) 
-     .          - FAC1*EXP((-BETA*AL(II))*LOG(RV(I)))
+     .          - FAC1*EXP((-BETA(II)*AL(II))*LOG(RV(I)))
           ENDDO
          ELSE
           DO I=1,NEL
@@ -276,7 +277,7 @@ C compute de piola kirchoff stress 2emme espece---
           FAC1 = FAC/(EV(I,J)**2)
            IF(AL(II)/=ZERO) THEN
             IF(EV(I,J)>ZERO) S(I,J)= S(I,J) + FAC1*EXP(AL(II)*LOG(EV(I,J)))  
-            IF(RV(I)>ZERO) S(I,J)= S(I,J) - FAC1*EXP((-BETA*AL(II))*LOG(RV(I)))
+            IF(RV(I)>ZERO) S(I,J)= S(I,J) - FAC1*EXP((-BETA(II)*AL(II))*LOG(RV(I)))
            ELSE
             IF(EV(I,J)==ZERO) THEN
              S(I,J)= S(I,J) - FAC1
@@ -456,11 +457,11 @@ C-----
        DO II = 1,NORDRE
         IF(AL(II)/=ZERO) THEN
          FAC = ONE/AL(II)
-         FAC1 = BETA+FAC
+         FAC1 = BETA(II)+FAC
          MU2 = TWO*MU(II)
            DO I=1,NEL
             LAM_AL(1:3) = EXP(AL(II)*LOG(EV(I,1:3)))
-            RVL = FAC1*EXP(-BETA*AL(II)*LOG(RV(I)))
+            RVL = FAC1*EXP(-BETA(II)*AL(II)*LOG(RV(I)))
             CJ(I) = CJ(I) + MU2*RVL
             AI(I,1:3) = AI(I,1:3) + MU2*LAM_AL(1:3)
             BI(I,1:3) = BI(I,1:3) + FAC*MU2*LAM_AL(1:3)
