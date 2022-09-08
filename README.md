@@ -31,7 +31,7 @@ Marian Bulla
 # Resources
 
 Online Help Documentation:
-* [Radioss online help](https://2022.help.altair.com/2022/hwsolvers/rad/index.htm)
+* [Radioss online help](https://2022.help.altair.com/2022.1/hwsolvers/rad/index.htm)
 
 Help Documentation in pdf form:
 * [reference guide](https://2022.help.altair.com/2022/simulation/pdfs/radopen/AltairRadioss_2022_ReferenceGuide.pdf)  
