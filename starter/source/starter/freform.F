@@ -1770,7 +1770,6 @@ Chd|        THPRIN                        source/output/th/thprin.F
 Chd|        THPRIN_SUB                    source/output/th/thprin.F     
 Chd|        UNIT_CODE                     source/general_controls/computation/unit_code.F
 Chd|        YCTRL                         source/initial_conditions/inista/yctrl.F
-Chd|        HAS                           source/materials/mat/mat010/hm_read_mat10.F
 Chd|        NGR2USR                       source/system/nintrr.F        
 Chd|        NODREAD                       source/starter/freform.F      
 Chd|        R2R_LISTCNT                   source/coupling/rad2rad/routines_r2r.F

@@ -819,7 +819,6 @@ Chd|        GET_U_MNU                     source/user_interface/uaccess.F
 Chd|        GET_U_NUMFUN                  source/user_interface/uaccess.F
 Chd|        GET_U_PNU                     source/user_interface/uaccess.F
 Chd|        GRFIND                        source/starter/freform.F      
-Chd|        HAS                           source/materials/mat/mat010/hm_read_mat10.F
 Chd|        HM_THVARC                     source/output/th/hm_read_thvarc.F
 Chd|        ID                            source/boundary_conditions/ebcs/hm_read_ebcs_inlet.F
 Chd|        NBOXLST                       source/model/box/nboxlist.F   
