@@ -30,6 +30,7 @@ Install as sudo or root
 
            dnf install gcc
            dnf install gcc-gfortran
+           dnf install gcc-c++
            dnf install make
            dnf install cmake
            dnf install perl
