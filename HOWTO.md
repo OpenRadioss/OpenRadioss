@@ -51,7 +51,7 @@ Install as sudo or root
 ### OpenMPI
 
 OpenMPI is needed to build OpenRadioss with OpenMPI support.
-It is recommended to build and install OpenMPI from OpenMPI web side using gcc compiler.
+It is recommended to build and install OpenMPI from OpenMPI website using gcc compiler.
 
 1. Download OpenMPI tarball from  [www.openmpi.org](https://www.open-mpi.org/software/ompi/v4.1)
    prefered version is [OpenMPI v4.1.2](https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.2.tar.gz)
