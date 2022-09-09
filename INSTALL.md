@@ -13,15 +13,16 @@ Download and [build OpenRadioss](https://github.com/OpenRadioss/OpenRadioss/blob
 ### Environment variable
 
         export OPENRADIOSS_PATH=[OpenRadioss Root directory]
-        export RAD_CFG_PATH=$OPENRADIOSS_PATH/hm_cfg_files
         export OMP_STACKSIZE=400m
         
 If you built OpenRadioss from the source
  
+        export RAD_CFG_PATH=$OPENRADIOSS_PATH/hm_cfg_files
         export LD_LIBRARY_PATH=$OPENRADIOSS_PATH/extlib/hm_reader/linux64/:$OPENRADIOSS_PATH/extlib/h3d/lib/linux64/:$LD_LIBRARY_PATH
         
 If you downloaded the binaries from [here](https://github.com/OpenRadioss/OpenRadioss/releases)
 
+        export RAD_CFG_PATH=$OPENRADIOSS_PATH/cfg
         export LD_LIBRARY_PATH=$OPENRADIOSS_PATH/lib/:$LD_LIBRARY_PATH
 
 ### Running OpenRadioss without MPI (OpenMP only)
