@@ -40,3 +40,5 @@ Help Documentation in pdf form:
 
 [![Current status](https://github.com/OpenRadioss/OpenRadioss/actions/workflows/prmerge_ci_main.yml/badge.svg)](https://github.com/OpenRadioss/OpenRadioss/actions/workflows/prmerge_ci_main.yml)
 
+Help for contributors:
+* [OpenRadioss documentation](https://openradioss.atlassian.net/wiki/spaces/OPENRADIOSS/pages/1016047/OpenRadioss+Documentation)
