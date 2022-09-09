@@ -41,7 +41,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
-C   READ PROPERTY TYPE01 WITH HM READER
+C   READ PROPERTY TYPE14 (/PROP/SOLID)
 C-----------------------------------------------
 C   DUMMY ARGUMENTS DESCRIPTION:
 C   ===================
@@ -52,7 +52,7 @@ C     IGEO            PROPERTY ARRAY(INTEGER)
 C     GEO             PROPERTY ARRAY(REAL)
 C     UNITAB          UNITS ARRAY
 C     IG              PROPERTY ID(INTEGER)
-C     TITR          MATERIAL TITLE
+C     TITR            MATERIAL TITLE
 C     LSUBMODEL       SUBMODEL STRUCTURE    
 C-----------------------------------------------
 C============================================================================
@@ -63,7 +63,6 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE ELBUFTAG_MOD            
       USE MULTI_FVM_MOD
-C---s----1---------2---------3---------4---------5---------6---------7->
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -89,35 +88,30 @@ C INPUT ARGUMENTS
       INTEGER,INTENT(IN)::IG,IGTYP
       INTEGER,INTENT(IN)::IPART(LIPART1,*)
       CHARACTER*nchartitle,INTENT(IN)::TITR
-      TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
+      TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(NSUBMOD)
+      TYPE(MULTI_FVM_STRUCT),INTENT(IN) :: MULTI_FVM      
 C MODIFIED ARGUMENT
-      INTEGER,INTENT(INOUT)::IGEO(*)
-      my_real,
-     .  INTENT(INOUT)::GEO(*)
+      INTEGER,INTENT(INOUT)::IGEO(NPROPGI)
+      my_real,INTENT(INOUT)::GEO(NPROPG)
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
-      TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL
-      INTEGER IHBE,ISMSTR,IPLAS,ICPRE,ICSTR,IINT,JCVT,
-     .   NPG,NPT,NPTR,NPTS,NPTT, ISTRAIN,IET,IHBE_OLD,ID
+      INTEGER IHBE,ISMSTR,IPLAS,ICPRE,ICSTR,IINT,JCVT,NPG,NPT,NPTR,NPTS,NPTT, ISTRAIN,IET,IHBE_OLD,ID
       INTEGER I8PT,ITET4,NSPHDIR,ID_SENS,ID_PARTSPH,IPARTSPH,J,ITET10
-      my_real
-     .    CVIS,QA,QB,QH,VNS1,VNS2,DTMIN 
-      LOGICAL IS_AVAILABLE, IS_CRYPTED
-C=======================================================================
-      IS_CRYPTED = .FALSE.
+      my_real CVIS,QA,QB,QH,VNS1,VNS2,DTMIN 
+      LOGICAL IS_AVAILABLE, IS_ENCRYPTED
+C-----------------------------------------------
+C   S o u r c e   L i n e s
+C-----------------------------------------------
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
         NSPHDIR = 0
         ID_PARTSPH = 0
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_CRYPTED(IS_ENCRYPTED)
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
@@ -145,17 +139,13 @@ C--------------------------------------------------
       CALL HM_GET_FLOATV('h',QH,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('dn',CVIS,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('deltaT_min',DTMIN,IS_AVAILABLE,LSUBMODEL,UNITAB)
-C-------for lecture check 
-c          WRITE(IOUT,2000)IG,IHBE,ISMSTR,IPLAS,JCVT,ITET4,ITET10,
-c     .   		ICPRE,ICSTR,CVIS,QA,QB,QH,VNS1,VNS2,DTMIN, ISTRAIN,
-c     .                  NPTR,NPTS,NPTT,IET,NSPHDIR,ID_PARTSPH
-C-----hide and removed flags:
+
       ICSTR = 0                              
       ID_SENS = 0
       ISTRAIN=1 
       IPLAS = 2
       IET = 0
-C
+
       IF(ITET4 == 0)  ITET4 = ITET4_D
       IF(ITET10 == 0)  ITET10 = ITET10_D
 
@@ -175,7 +165,7 @@ C-------------------
       IPARTSPH=0
       IF(ID_PARTSPH>0)THEN
         DO J=1,NPART
-          IF(IPART(4,J).EQ.ID_PARTSPH) THEN
+          IF(IPART(4,J) == ID_PARTSPH) THEN
            IPARTSPH=J
            GOTO 175
           ENDIF
@@ -192,11 +182,9 @@ C-------------------
 C-----------------------
 C---   Default values
 C-----------------------
-C
 C  ihbe
-C
       IF (IHBE == 0) IHBE = IHBE_DS      
-C     
+
 C  iint : Lobato/GAuss (cache)
 C------- used for elasto-platic critia parameter: IET---
       IF (IHBE == 16 ) THEN  ! not allowed
@@ -235,7 +223,7 @@ C------  for Salim new solid17 IINT=3
      .              I3=14)
       ENDIF    
       
-      IF(QH.LT.ZERO .OR. QH.GE.FIFTEEN/HUNDRED)THEN                                                                       
+      IF(QH  < ZERO .OR. QH >= FIFTEEN/HUNDRED)THEN                                                                       
          CALL ANCMSG(MSGID=311,
      .               MSGTYPE=MSGWARNING,
      .               ANMODE=ANINFO_BLIND_1,
@@ -305,7 +293,7 @@ C------ no effet for Axi Isolid17 for the moment
 C
 C  npt
 C
-      NPT = NPTR*100+NPTS*10+ NPTT     
+      NPT = NPTR*100 + NPTS*10 + NPTT     
       SELECT CASE (IHBE)
       CASE(14,16,222) 
         IF (NPT== 0) THEN                              
@@ -367,7 +355,7 @@ C
      .               I2=IHBE_OLD,
      .               I3=IHBE)
       ENDIF                                                            
-C                                 
+C                 
 C  viscosity
 C
 C igeo(31)  flag for default qa qb for law 70 and 90 can be used for other law
@@ -418,7 +406,7 @@ C
       GEO(17)  = VNS2
       GEO(172)= DTMIN
 C----------------------
-      IF(.NOT.IS_CRYPTED)THEN
+      IF(.NOT.IS_ENCRYPTED)THEN
         IF(IGEO(31) == 1) THEN   
           WRITE(IOUT,1100)IG,IHBE,ISMSTR,IPLAS,JCVT,ITET4,ITET10,
      .   		ICPRE,ICSTR,CVIS,QA,QB,QH,VNS1,VNS2,DTMIN, ISTRAIN
@@ -458,7 +446,7 @@ c       IF(GEO( 3)/=ZERO.AND.IGEO( 5)== 0)IGEO( 5)=NINT(GEO( 3))
        IF (MULTI_FVM%IS_USED)  PROP_TAG(IGTYP)%G_MOM = 3
        PROP_TAG(IGTYP)%G_FILL = 1
        PROP_TAG(IGTYP)%L_STRA = 6 
-       IF (N2D .NE. 0 .AND. MULTI_FVM%IS_USED) PROP_TAG(IGTYP)%G_AREA = 1
+       IF (N2D  /=  0 .AND. MULTI_FVM%IS_USED) PROP_TAG(IGTYP)%G_AREA = 1
        IF (GEO(16) /= ZERO .OR. GEO(17) /= ZERO) THEN
          IGEO(33) = 1   ! ISVIS flag
        ENDIF         
@@ -474,8 +462,6 @@ c        GEO(171)= IGEO(10)
          IGEO(36) = 1
         ENDIF
 C---
-      RETURN
- 999  CALL FREERR(3)
       RETURN
 C---
  1000 FORMAT(
@@ -535,32 +521,11 @@ C---
      & 5X,'NUMBER OF SPH PARTICLES PER DIRECTION .=',I10/,
      & 5X,'CORRESPONDING PART FOR SPH PARTICLES. .=',I10/,
      & 5X,'SENSOR TO ACTIVATE SPH PARTICLES ......=',I10/)
- 2000 FORMAT(
-     & 5X,'BY HM LECTURE:'/,
-     & 5X,'PROPERTY SET NUMBER . . . . . . . . . .=',I10/,
-     & 5X,'SOLID FORMULATION FLAG. . . . . . . . .=',I10/,
-     & 5X,'SMALL STRAIN FLAG . . . . . . . . . . .=',I10/,
-     & 5X,'SOLID STRESS PLASTICITY FLAG. . . . . .=',I10/,
-     & 5X,'COROTATIONAL SYSTEM FLAG. . . . . . . .=',I10/,
-     & 5X,'TETRA4 FORMULATION FLAG. . . . .  . . .=',I10/,
-     & 5X,'TETRA10 FORMULATION FLAG . . . .  . . .=',I10/,
-     & 5X,'CONSTANT PRESSURE FLAG. . . . . . . . .=',I10/,
-     & 5X,'CONSTANT STRESS FLAG. . . . . . . . . .=',I10/,
-     & 5X,'HOURGLASS NUMERICAL DAMPING . . . . . .=',1PG20.13/,
-     & 5X,'QUADRATIC BULK VISCOSITY. . . . . . . .=',1PG20.13/,
-     & 5X,'LINEAR BULK VISCOSITY . . . . . . . . .=',1PG20.13/,
-     & 5X,'HOURGLASS VISCOSITY . . . . . . . . . .=',1PG20.13/,
-     & 5X,'NUMERICAL NAVIER STOKES VISCO. LAMBDA .=',1PG20.13/,
-     & 5X,'NUMERICAL NAVIER STOKES VISCOSITY MU. .=',1PG20.13/,
-     & 5X,'BRICK MINIMUM TIME STEP................=',1PG20.13/,
-     & 5X,'POST PROCESSING STRAIN FLAG . . . . . .=',I10/,
-     & 5X,'Inpts_R . . . . . . . . . . . . . . . .=',I10/,
-     & 5X,'Inpts_S . . . . . . . . . . . . . . . .=',I10/,
-     & 5X,'Inpts_T . . . . . . . . . . . . . . . .=',I10/,
-     & 5X,'IHKT    . . . . . . . . . . . . . . . .=',I10/,
-     & 5X,'NSPHDIR . . . . . . . . . . . . . . . .=',I10/,
-     & 5X,'ID_PARTSPH. . . . . . . . . . . . . . .=',I10/)
 C
+
+
+
+
 
       END SUBROUTINE HM_READ_PROP14
 Chd|====================================================================
@@ -582,7 +547,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
-C   READ PROPERTY TYPE01 WITH HM READER
+C   READ PROPERTY /PROP/FLUID
 C-----------------------------------------------
 C   DUMMY ARGUMENTS DESCRIPTION:
 C   ===================
@@ -593,10 +558,9 @@ C     IGEO            PROPERTY ARRAY(INTEGER)
 C     GEO             PROPERTY ARRAY(REAL)
 C     UNITAB          UNITS ARRAY
 C     IG              PROPERTY ID(INTEGER)
-C     TITR          MATERIAL TITLE
+C     TITR            MATERIAL TITLE
 C     LSUBMODEL       SUBMODEL STRUCTURE    
 C-----------------------------------------------
-C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
@@ -604,7 +568,6 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE ELBUFTAG_MOD            
       USE MULTI_FVM_MOD
-C---s----1---------2---------3---------4---------5---------6---------7->
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -621,6 +584,7 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "tablen_c.inc"
+#include      "fluid_scr_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -628,36 +592,27 @@ C INPUT ARGUMENTS
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
       INTEGER,INTENT(IN)::IG,IGTYP
       CHARACTER*nchartitle,INTENT(IN)::TITR
-      TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
+      TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(NSUBMOD)
+      TYPE(MULTI_FVM_STRUCT),INTENT(IN) :: MULTI_FVM      
 C MODIFIED ARGUMENT
-      INTEGER,INTENT(INOUT)::IGEO(*)
-      my_real,
-     .  INTENT(INOUT)::GEO(*)
+      INTEGER,INTENT(INOUT)::IGEO(NPROPGI)
+      my_real,INTENT(INOUT)::GEO(NPROPG)
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
-      TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
-C-----------------------------------------------
-C   A n a l y s e   M o d u l e
-C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-C     REAL
-      INTEGER IHBE,ISMSTR,IPLAS,ICPRE,ICSTR,IINT,JCVT,
-     .   NPG,NPT,NPTR,NPTS,NPTT, ISTRAIN,IET,IHBE_OLD,ID
-      INTEGER I8PT,J
-      my_real
-     .    CVIS,QA,QB,QH,VNS1,VNS2,DTMIN 
-      LOGICAL IS_AVAILABLE, IS_CRYPTED
+      INTEGER IHBE,ISMSTR,IPLAS,ICPRE,ICSTR,IINT,JCVT,NPG,NPT,NPTR,NPTS,NPTT, ISTRAIN,IET,IHBE_OLD,ID,I8PT,J
+      my_real CVIS,QA,QB,QH,VNS1,VNS2,DTMIN 
+      LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C-----------------------------------------------
-C   E x t e r n a l   F u n c t i o n s
+C   S o u r c e   L i n e s
 C-----------------------------------------------
-C=======================================================================
-      IS_CRYPTED = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_CRYPTED(IS_ENCRYPTED)
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
@@ -715,7 +670,7 @@ C
      .               I3=IHBE)
       ENDIF                                                            
 
-      IF(QH.LT.ZERO .OR. QH.GE.FIFTEEN/HUNDRED)THEN                                                                       
+      IF(QH  < ZERO .OR. QH >= FIFTEEN/HUNDRED)THEN                                                                       
          CALL ANCMSG(MSGID=311,
      .               MSGTYPE=MSGWARNING,
      .               ANMODE=ANINFO_BLIND_1,
@@ -727,6 +682,12 @@ C
         IF (QH == ZERO) QH = EM01
         GEO(13) = QH
 C    
+      !PSEUDO-VISCOSITY IS REQUIRED FOR STABILITY AND FOR SHOCK MODELING (STAGGERED SCHEME) 
+      IF(ICAA == 0)THEN
+        !CAA is an obsolete option. Unless it is defined, program will set default values
+        IF (QA == ZERO) QA = ONEP1         
+        IF (QB == ZERO) QB = FIVEEM2     
+      ENDIF  
  
 !     /ALE/CLOSE
 !     ----------
@@ -758,10 +719,7 @@ c       IF(GEO( 3)/=ZERO.AND.IGEO( 5)== 0)IGEO( 5)=NINT(GEO( 3))
        IF (MULTI_FVM%IS_USED)  PROP_TAG(IGTYP)%G_MOM = 3
        PROP_TAG(IGTYP)%G_FILL = 1
        PROP_TAG(IGTYP)%L_STRA = 6 
-       IF (N2D .NE. 0 .AND. MULTI_FVM%IS_USED) PROP_TAG(IGTYP)%G_AREA = 1
-c       IF (GEO(16) /= ZERO .OR. GEO(17) /= ZERO) THEN
-c         IGEO(33) = 1   ! ISVIS flag
-c       ENDIF         
+       IF (N2D  /=  0 .AND. MULTI_FVM%IS_USED) PROP_TAG(IGTYP)%G_AREA = 1     
         IGEO(1) =IG
         IGEO(11)=IGTYP
         IGEO(17)=0
@@ -770,7 +728,7 @@ c       ENDIF
         GEO(12)= IGTYP + 0.1
         GEO(1) = IGEO(4)
 C----------------------
-      IF(.NOT.IS_CRYPTED)THEN
+      IF(.NOT.IS_ENCRYPTED)THEN
        WRITE(IOUT,1000)IG,IHBE,ISMSTR,JCVT,IINT,CVIS,QA,QB,QH,VNS1,VNS2
         WRITE(IOUT,1002) NPG
       ELSE
