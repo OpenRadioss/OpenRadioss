@@ -234,7 +234,7 @@ C unity
            ENDIF      
            MFUNC = NC + NT          
 C----------------
-C verfication
+C verification
 C----------------
            DO I=1,NC-1                        
 	      IF(RATE(I) > RATE(I+1))THEN        

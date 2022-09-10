@@ -104,7 +104,7 @@ C
 !!        PT=NVSHELL+3  ! wrong position, overwriting FAIL
         PT = NVSHELL+NUSHELL+NORTSHEL+NVSHELL1+3
 C
-C for IGTYP == 51, usualy NPT <= NPTI (NPTI = NTPP --> for all layers)
+C for IGTYP == 51, usually NPT <= NPTI (NPTI = NTPP --> for all layers)
         IF ((NPGI /= NPG.OR.NPI /= NPT) .AND. IGTYP /= 51 
      .                                  .AND. IGTYP /=52) THEN
           IPID1=IX(NIX-1,NFT+I)

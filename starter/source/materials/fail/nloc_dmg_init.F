@@ -467,7 +467,7 @@ C
         TMP_NAME = INFILE_NAME(1:INFILE_NAME_LEN)//FILNAM(1:ROOTLEN+9)
         INQUIRE(FILE = TMP_NAME,EXIST = ENG_FILE)
         IF (ENG_FILE) THEN 
-          ! Openning the engine file
+          ! Opening the engine file
           OPEN(UNIT=71,FILE=TMP_NAME(1:LEN_TMP_NAME),
      .       ACCESS='SEQUENTIAL',STATUS='OLD',IOSTAT=IO_ERR1)
           ! Reading keywords
@@ -532,7 +532,7 @@ C
             IMAT   = IXS(1,I)
             ! Soundspeed
             SSP    = SQRT(((THIRD*PM(20,IMAT)/(ONE - PM(21,IMAT)*TWO)) + FOUR_OVER_3*PM(22,IMAT))/PM(1,IMAT))
-            ! Element caracteristic length
+            ! Element characteristic length
             LE_MIN = (VOLU(I))**THIRD
             IF (TAGTET(I)>0) THEN 
               ! Loop over element nodes
@@ -563,7 +563,7 @@ C
             IMAT   = IXC(1,I)
             ! Soundspeed
             SSP    = SQRT(PM(24,IMAT)/PM(1,IMAT))
-            ! Element caracteristic length
+            ! Element characteristic length
             LE_MIN = SQRT(AREA(I))       
           ! Triangle elements
           ELSEIF (J<=NUMELS_NL+NUMELC_NL+NUMELTG_NL) THEN
@@ -578,12 +578,12 @@ C
             IMAT   = IXTG(1,I)
             ! Soundspeed
             SSP    = SQRT(PM(24,IMAT)/PM(1,IMAT))
-            ! Element caracteristic length
+            ! Element characteristic length
             LE_MIN = SQRT((FOUR/SQRT(THREE))*AREA(I))            
           ENDIF
           ! Recovering the non-local internal length
           LEN    = NLOC_DMG%LEN(IMAT)
-          ! Computing the theoritical maximal length
+          ! Computing the theoretical maximal length
           LE_MAX = NLOC_DMG%LE_MAX(IMAT)
           IF (LE_MAX == ZERO) THEN 
             NLOC_DMG%LE_MAX(IMAT) = LE_MIN

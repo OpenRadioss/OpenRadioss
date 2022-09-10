@@ -204,7 +204,7 @@ C
           HYS = ABS(HYS)
         ENDIF 
       ELSEIF(ITENS == -2 .AND. IFUNC_UNLOAD > 0 ) THEN
-           ICASE = 3  !  follow unloading curve the curve shoudl form closed loop
+           ICASE = 3  !  follow unloading curve the curve should form closed loop
            NFUNC = NFUNC + 1
           IFUNC(NFUNC) = IFUNC_UNLOAD
           YFAC(NFUNC) = YFAC_UNL

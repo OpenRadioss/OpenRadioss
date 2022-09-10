@@ -101,7 +101,7 @@ C=======================================================================
         F0    = UPARF(10)
         ! Non-local internal length
         RLEN  = UPARF(11)
-        ! Micromorphic penalty paramter
+        ! Micromorphic penalty parameter
         HKHI  = UPARF(12)
 c
         ! Storage of the non-local internal length

@@ -165,9 +165,9 @@ C-----------
      & 5X,'Coupling parameter GAMA2. . . . . . . .  .  =',E12.4/
      & 5X,'Yield energy damage  . . . . . . . .  . . . =',E12.4/
      & 5X,'Critical energy damage  . . . . . . . .  .  =',E12.4/
-     & 5X,'Paramater k . . . . . . . . . . . . . . . . =',E12.4/
-     & 5X,'Paramater a . . . . . . . . . . . . . . . . =',E12.4/     
-     & 5X,' Relaxation time . . . . . . . . . . . . .  =',E12.4/)  
+     & 5X,'Parameter k . . . . . . . . . . . . . . . . =',E12.4/
+     & 5X,'Parameter a . . . . . . . . . . . . . . . . =',E12.4/
+     & 5X,' Relaxation time . . . . . . . . . . . . .  =',E12.4/)
  1100 FORMAT(
      & 5X,' SOLID IS DELETED IF CRITERIA IS REACHED FOR'/
      & 5X,'          ONE INTEGRATION POINT ') 

@@ -205,7 +205,7 @@ C     & 5X,'HEAT LATENT OF PHASE CHANGE . . . . . . . . . =',E12.4/
      & 5X,'MATERIAL PARAMETER  (V0)     . . . . .. . . . =',E12.4/
      & 5X,'LIMIT MARTENISTE TEMPERATURE (Md) . . . . . . =',E12.4/
      & 5X,'CONTENT MARTENSITE VOLUME FRACTION(Vmc) . . . =',E12.4/
-     & 5X,'INITIAL TEMPURATURE . .  . . . . . . . . . .  =',E12.4)
+     & 5X,'INITIAL TEMPERATURE . .  . . . . . . . . . .  =',E12.4)
  1200 FORMAT(
      & 5X,'YIELD STRESS FUNCTION NUMBER. . . . . . . . . =',I8/
      & 5X,'YIELD SCALE FACTOR. . . . . . . . . . . . . . =',E12.4)

@@ -187,8 +187,8 @@ C=======================================================================
             lFOUND_51          = lFOUND_51 + 1
             !-----------------------------------------!
             ! GET ADJACENT LAW51 PARAMETER            !
-            !   necessarly defined - check by lecm51  !
-            !-----------------------------------------!            
+            !   necessarily defined - check by lecm51 !
+            !-----------------------------------------!
             AV1v    = BUFMAT(IADBUF-1+04)    ; 
             AV2v    = BUFMAT(IADBUF-1+05)    ; 
             AV3v    = BUFMAT(IADBUF-1+06)    ; 
@@ -295,7 +295,7 @@ C=======================================================================
             ENDIF   
             
             
-            !WARNING : intial state muste be updated later in case of /LOAD/HYDRO or /INITIA : it will no longer be in UPARAM but in UVAR
+            !WARNING : initial state must be updated later in case of /LOAD/HYDRO or /INITIA : it will no longer be in UPARAM but in UVAR
 
             K=N0PHAS+(1-1)*NVPHAS                          
             IF(RHO01.EQ.ZERO)THEN
@@ -436,7 +436,7 @@ C=======================================================================
             !UPARAM(226) = UPARAM(11)*UPARAM(224)*UPARAM(224)
             !UPARAM(275) = UPARAM(47)*UPARAM(273)*UPARAM(273)    
 
-            !WARNING : intial state muste be updated later in case of /LOAD/HYDRO or /INITIA : it will no longer be in UPARAM but in UVAR
+            !WARNING : initial state must be updated later in case of /LOAD/HYDRO or /INITIA : it will no longer be in UPARAM but in UVAR
                                  
             !K=N0PHAS+(1-1)*NVPHAS
             !UVAR(I,K+20)=RHO01v

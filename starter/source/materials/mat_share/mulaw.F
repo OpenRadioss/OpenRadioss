@@ -302,7 +302,7 @@ C ===================================================================
         SIG(I,5) = S5(I)*OFF(I)
         SIG(I,6) = S6(I)*OFF(I)
       END DO
-C--- Engine doesn't have this because generaly dvol<<vol
+C--- Engine doesn't have this because generally dvol<<vol
       IF (ISMSTR == 1.OR.ISMSTR == 11) THEN
        DO I=LFT,LLT
         VOL_AVG(I) = VOL(I)

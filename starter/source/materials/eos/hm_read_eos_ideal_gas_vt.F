@@ -42,7 +42,7 @@ C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
 C reading parameters for
-C   IDEAL-GAS EQUATION OF STATE WITH CP(T) FUCNTION
+C   IDEAL-GAS EQUATION OF STATE WITH CP(T) FUNCTION
 C   Cp(T) = A0 + A1.T + A2.T^2 + A3.T^3 + A4.T^4 + A5.T^5
 C
 C   clarification :
@@ -132,7 +132,7 @@ C      CALL HM_GET_FLOATV('MAT_R', R_GAS, IS_AVAILABLE,LSUBMODEL,UNITAB)
      .               ANMODE=ANINFO,
      .               I1=IMIDEOS,
      .               C1='/EOS/IDEAL-GAS-VT',
-     .               C2='GAS CONSTANT r MUST BE STRICLTY POSITIVE')
+     .               C2='GAS CONSTANT r MUST BE STRICTLY POSITIVE')
        P0 = ZERO
       ELSE
         ! P0= rho0.r.T0 

@@ -137,10 +137,10 @@ C-----------
      & 5X,40H    CRYPTED DATA IN FAILURE MODEL             /,
      & 5X,40H    -----------------------------             /)
  1100 FORMAT(
-     & 5X,40H    EXETENDED MOHR COULOMB RUPTURE MODEL /,
-     & 5X,40H    ------------------------------------ /,
+     & 5X,40H    EXTENDED MOHR COULOMB RUPTURE MODEL /,
+     & 5X,40H    ----------------------------------- /,
      & 5X,'HOSFORD EXPONENT. . . . . . . . . .  . . . . . . . =',E16.9/
-     & 5X,'STRESS STATE SENSIVITY. . . . . . .  . . . . . . . =',E16.9/
+     & 5X,'STRESS STATE SENSITIVITY. . . . . .  . . . . . . . =',E16.9/
      & 5X,'STRAIN TO FRACTURE FOR UNIAXIAL TENSION. . . . . . =',E16.9/
      & 5X,'FRICTION COEFFICIENT FOR TRIAXIALITY . . . . . . . =',E16.9/
      & 5X,'STRAIN RATE SENSITIVITY . . . . . .  . . . . . . . =',E16.9/

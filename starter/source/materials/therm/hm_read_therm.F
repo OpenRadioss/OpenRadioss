@@ -293,7 +293,7 @@ c-----------------------------------------
      & 5X,'T1. . . . . . . . . . . . . . . . . . . . . . =',1PG20.13/,
      & 5X,'AL. . . . . . . . . . . . . . . . . . . . . . =',1PG20.13/,
      & 5X,'BL. . . . . . . . . . . . . . . . . . . . . . =',1PG20.13/,
-     & 5X,'HEAT TRANSFERT FORMULATION. . . . . . . . . . = ',I10/,
+     & 5X,'HEAT TRANSFER FORMULATION . . . . . . . . . . = ',I10/,
      & 10X,'    0: it is based on Finite Volume  Method',/        
      & 10X,'    1: it is based on Finite Element Method '/
      & 5X,'FRACTION OF STRAIN ENERGY CONVERTED INTO HEAT =',1PG20.13/)

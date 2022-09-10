@@ -283,7 +283,7 @@ C-----------------------------------------------
 !       ENDIF
 
        IF(NBMAT>4)THEN
-          chain1='LAW51 IS COMPATBILE WITH UP TO 4 SUBMATERIAL ONLY'
+          chain1='LAW51 IS COMPATIBLE WITH UP TO 4 SUBMATERIAL ONLY'
           CALL ANCMSG(MSGID=99,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,

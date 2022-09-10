@@ -308,9 +308,9 @@ c-----------------------------------------------------------------------
      & 5X,'DAMAGE FLAG . . . . . . . . . . . . . . . . . . . . .=',I10/    
      & 5X,'TEMPERATURE SCALE FUNCTION. . . . . . . . . . . . . .=',I10/
      & 5X,'SCALE FACTOR OF TEMPERATURE FUNCTION. . . . . . . . .=',E12.4/
-     & 5X,'ELEMENT LENGHT FUNCTION . . . . . . . . . . . . . . .=',I10/
-     & 5X,'SCALE FACTOR OF LENGHT FUNCTION . . . . . . . . . . .=',E12.4/
-     & 5X,'REFERENCE ELEMENT LENGHT. . . . . . . . . . . . . . .=',E12.4/
+     & 5X,'ELEMENT LENGTH FUNCTION . . . . . . . . . . . . . . .=',I10/
+     & 5X,'SCALE FACTOR OF LENGTH FUNCTION . . . . . . . . . . .=',E12.4/
+     & 5X,'REFERENCE ELEMENT LENGTH. . . . . . . . . . . . . . .=',E12.4/
      & 5X,'SHEAR TRIAXIALITY LIMIT FOR ELEMENT SIZE SCALING. . .=',E12.4/
      & 5X,'BI-TRACT TRIAXIALITY LIMIT FOR ELEMENT SIZE SCALING .=',E12.4/
      & 5X,'REGULARIZATION FLAG . . . . . . . . . . . . . . . . .=',I10/

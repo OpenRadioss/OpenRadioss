@@ -269,7 +269,7 @@ C-----------------------------------------------
          WRITE(IOUT,1002) RHO0,RHOR
          WRITE(IOUT,1300)A,B,R1,R2,W
          WRITE(IOUT,1400)D,PCJ,VCJ,E0,C0,PSH,BULK,IBFRAC
-         !AFTERBURNING OPTIONNAL MODEL
+         !AFTERBURNING OPTIONAL MODEL
          IF(EADD == ZERO) THEN
            WRITE(IOUT,1500)
          ELSE
