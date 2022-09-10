@@ -220,9 +220,9 @@ c-----------------------------------------------------------------------
  1004 FORMAT(
      & 5X,'TEMPERATURE SCALE FUNCTION. . . . . . . . . .=',I10/
      & 5X,'SCALE FACTOR OF TEMPERATURE FUNCTION. . . . .=',E12.4/
-     & 5X,'ELEMENT LENGHT FUNCTION . . . . . . . . . . .=',I10/
-     & 5X,'SCALE FACTOR OF LENGHT FUNCTION . . . . . . .=',E12.4/
-     & 5X,'REFERENCE ELEMENT LENGHT. . . . . . . . . . .=',E12.4/
+     & 5X,'ELEMENT LENGTH FUNCTION . . . . . . . . . . .=',I10/
+     & 5X,'SCALE FACTOR OF LENGTH FUNCTION . . . . . . .=',E12.4/
+     & 5X,'REFERENCE ELEMENT LENGTH. . . . . . . . . . .=',E12.4/
      & 5X,'REGULARIZATION FLAG . . . . . . . . . . . . .=',I10/
      & 5X,'FAILURE OPTION:')
  1100 FORMAT(

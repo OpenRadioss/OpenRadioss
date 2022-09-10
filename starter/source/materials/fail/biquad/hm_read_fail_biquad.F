@@ -253,7 +253,7 @@ c-----------------------------------------------------------------------
      & 5X,' Instability will be ignored and selector set to 2 !',/)
  1800 FORMAT(
      & 5X,' ELEMENT DELETION :',/,
-     & 5X,' Fraction of failled IPs for shell deletion . =',F5.1,/
+     & 5X,' Fraction of failed IPs for shell deletion. . =',F5.1,/
      & 5X,' S-Flag. . . . . . . . . . . . . . . . . . . .=',I10,/)
  1900 FORMAT(
      & 5X,'Instability strain . . . . . . . . . . . . . .=',E12.4,//)

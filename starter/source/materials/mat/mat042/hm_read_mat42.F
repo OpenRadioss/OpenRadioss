@@ -183,7 +183,7 @@ c---------------------
       UPARAM(17) = IFORM  
 c---------------------
 C     Iform is only for solid to active old formulation 
-C     the flag ivisc for shell is activeted in engine
+C     the flag ivisc for shell is activated in engine
 C     IVISC =0 (hyperelastic - New formulation  corresponding to iform 0
 C     IVISC =1 (Hyperelastic + viscosity - Using Old iterative formulation) corresponding to iform=1
 C

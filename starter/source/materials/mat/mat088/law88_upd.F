@@ -136,14 +136,14 @@ c
           FUND = IFUNC(NL + 1)
           FAC1 = UPARAM(11  )
           FAC2 = UPARAM(11 + 2*NL  )
-C interscetion pt of tension if existing
+C intersection pt of tension if existing
           UPARAM(NV + 1) = 0  ! not existing
           CALL FUNC_INTERS(TITR   ,MAT_ID ,FUNC   ,FUND   ,FAC1   ,
      .                     FAC2   ,NPC    ,PLD    ,XINT  ,YINT  )
           UPARAM(NV + 2) = XINT   
           UPARAM(NV + 3) = YINT
           IF(XINT*YINT /= ZERO)UPARAM(NV + 1) = 1 ! only tension 
-C interscetion pt of compression if existing 
+C intersection pt of compression if existing 
           CALL FUNC_INTERS_C(TITR   ,MAT_ID ,FUNC   ,FUND   ,FAC1   ,
      .                     FAC2   ,NPC    ,PLD    ,XINC  ,YINC  )
           UPARAM(NV + 4) = XINC   

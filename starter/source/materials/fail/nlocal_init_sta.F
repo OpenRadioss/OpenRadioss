@@ -153,7 +153,7 @@ C-----------------------------------------------
           FNL = FNL / MNL
           ! Computation of the velocities
           VNL = VNL + DT_NL*FNL
-          ! Reseting the forces
+          ! Resetting the forces
           FNL = ZERO
           ! Norm of the previous increment
           NORM_1 = SQRT(DOT_PRODUCT(DNL,DNL))
@@ -174,7 +174,7 @@ C-----------------------------------------------
           ! Updating time 
           TIME = TIME + DT_NL
         ENDDO
-        ! Reseting the non-local vectors
+        ! Resetting the non-local vectors
         FNL = ZERO
         VNL = ZERO
         DNL = ZERO

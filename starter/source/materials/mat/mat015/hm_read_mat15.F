@@ -457,11 +457,11 @@ c
      & 5X,'SMOOTH STRAIN RATE OPTION . . . . . . .=',I10/,
      & 5X,'STRAIN RATE CUTTING FREQUENCY . . . . .=',1PG20.13/)
  2700 FORMAT(
-     & 5X,'LONGITUDINAL TENSILE STRENTH  . . . . . .=',1PG20.13/,
-     & 5X,'TRANSVERSE   TENSION STRENTH  . . . . . .=',1PG20.13/,
-     & 5X,'SHEAR STRENGH . . . . . . . .  .  . . . .=',1PG20.13/,
-     & 5X,' LONGITUDINAL COMPRESSIVE STRENTH . . . .=',1PG20.13/,
-     & 5X,' TRANSVERSE   COMPRESSIVE STRENTH. . . . =',1PG20.13//)
+     & 5X,'LONGITUDINAL TENSILE STRENGTH . . . . . .=',1PG20.13/,
+     & 5X,'TRANSVERSE   TENSION STRENGTH . . . . . .=',1PG20.13/,
+     & 5X,'SHEAR STRENGTH  . . . . . . . . . . . . .=',1PG20.13/,
+     & 5X,' LONGITUDINAL COMPRESSIVE STRENGTH  . . .=',1PG20.13/,
+     & 5X,' TRANSVERSE   COMPRESSIVE STRENGTH  . . .=',1PG20.13//)
  999  CALL FREERR(3)
       RETURN
       END

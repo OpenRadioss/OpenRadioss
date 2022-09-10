@@ -117,7 +117,7 @@ c
         END IF
 C
         UPARAM(1) = KMAX                 ! E11
-C       other material paramters are recomputed in create_seatbelt when section is available
+C       other material parameters are recomputed in create_seatbelt when section is available
 C  
       END IF      
 c-----------

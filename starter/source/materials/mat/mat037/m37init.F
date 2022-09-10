@@ -81,7 +81,7 @@ C-----------------------------------------------
       !---------------------------------!
       ! CELL INIT.   (UVAR ARRAY)       !
       !---------------------------------!
-      !UVAR(I,1) : massic percentage of liquid * global density  (rho1*V1/V : it needs to give liquid mass multipling by element volume in aleconve.F)
+      !UVAR(I,1) : massic percentage of liquid * global density  (rho1*V1/V : it needs to give liquid mass multiplying by element volume in aleconve.F)
       !UVAR(I,2) : density of gas
       !UVAR(I,3) : density of liquid
       !UVAR(I,4) : volumetric fraction of liquid

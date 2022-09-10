@@ -1301,7 +1301,7 @@ C------------------------
       MTAG%G_TOTDEPL = 3  ! DX (DY,DZ) - total deformation (translation)
       MTAG%G_TOTROT = 3   ! RX (RY,RZ) - total deformation (rotation)
       MTAG%G_DEP_IN_TENS = 3   ! DPX  (DPY,DPZ) - max displacement in tension
-      MTAG%G_DEP_IN_COMP = 3   ! DPX2 (DPY2,DPZ2) - max displacelent in compresion
+      MTAG%G_DEP_IN_COMP = 3   ! DPX2 (DPY2,DPZ2) - max displacement in compression
       MTAG%G_ROT_IN_TENS = 3   ! RPX (RPY,RPZ) - max rotation in tension
       MTAG%G_ROT_IN_COMP = 3   ! RPX2 (RPY2,RPY2) - max rotation in compression
       MTAG%G_POSX = 5

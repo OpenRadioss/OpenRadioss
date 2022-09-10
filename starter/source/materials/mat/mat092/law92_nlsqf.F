@@ -148,7 +148,7 @@ C
         CALL MY_EXIT(2)
       ENDIF
       ! IF ABS(Y(I)) <  SMALL_ABS_YI, use SMALL_ABS_YI to avoid
-      ! unnecessary numerical issues when avoid devided by small value
+      ! unnecessary numerical issues when avoid divided by small value
 
       MAX_ABS_YI = ZERO
       MIN_ABS_YI = EP20

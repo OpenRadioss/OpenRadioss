@@ -158,7 +158,7 @@ C=======================================================================
       IF(XFAC == ZERO) XFAC = ONE
       IF(YFAC == ZERO) YFAC  = ONE          
 C.....
-Ccheck of the parameters compatibily FI<Fc<FF
+C check of the parameters compatibility FI<Fc<FF
 C
       IF(FF < FC  .OR. FF < FI .OR.  FC < FI  ) THEN
            CALL ANCMSG(MSGID=1745,

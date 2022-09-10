@@ -39,7 +39,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
-C   READ MAT LAW117 WITH HM READER - conection material
+C   READ MAT LAW117 WITH HM READER - connection material
 C-----------------------------------------------
 C   DUMMY ARGUMENTS DESCRIPTION:
 C   ===================

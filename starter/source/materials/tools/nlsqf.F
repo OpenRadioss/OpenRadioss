@@ -687,7 +687,7 @@ c     the combinations
       IF(ICHECK < 0) ICOMP= 1
       ICHECK = ABS(ICHECK)
       ! IF ABS(Y(I)) <  SMALL_ABS_YI, use SMALL_ABS_YI to avoid
-      ! unnecessary numerical issues when avoid devided by small value
+      ! unnecessary numerical issues when avoid divided by small value
 
       MAX_ABS_YI = ZERO
       DO I = 1, NPT
@@ -1114,7 +1114,7 @@ Chd|====================================================================
 !>    @purpose
 !>      get one guess for starting Levenberg-Marquardt method
 !>    @param[in]   LAWID                material type(1=Ogden, 2=Mooney-Rivlin)
-!>    @param[out]  NGUESS               Number of retuned guess 
+!>    @param[out]  NGUESS               Number of returned guess 
 !>                                      0 = no return,already go through all combinations, 
 !>                                      1 = return one guess point successfully
 !>    @param[out]  A0(NMUAL)             returned guess 
@@ -1188,7 +1188,7 @@ C-----------------------------------------------
 !>                <=0      no constraint (IVALID always return as 1)
 !>                1        SUM( mu(i) * alpha(i) ) > 0.0
 !>                2        mu(i) * alpha(i) > 0.0
-!>    @param[in]  MU_INCR  if codition mu(i) <= mu(i+1) is checked              
+!>    @param[in]  MU_INCR  if condition mu(i) <= mu(i+1) is checked              
 !>                         0=no, 1=yes
 !>    @param[out] IVALID   0=not valid, 1=valid
 Chd|====================================================================
@@ -1371,8 +1371,8 @@ c        avolid dx to be too small
       END SUBROUTINE LAW69_GUESS_BOUNDS
 
 !>    @purpose
-!>      return a random value within [0.0, 1.0) with uniform distribution      
-!>    @param[in]  IVAL integer for calcualting next random number      
+!>      return a random value within [0.0, 1.0) with uniform distribution
+!>    @param[in]  IVAL integer for calculating next random number
 !>    @note
 !>       - random number generator of Park and Miller.  
 !>       - Schrage's modification is used to avoid 'a*(m-1)' overflows for 32-bit. 

@@ -134,7 +134,7 @@ c-----------------------------------------------------
 c
       ISRATE = -1
       IF (N12 == ZERO) N12 = 0.19
-C--   Values are replaced in create_seatbelt.F when section is avaialble
+C--   Values are replaced in create_seatbelt.F when section is available
       IF (E11 == ZERO) E11 = EM20
       IF (E22 == ZERO) E22 = EM20
       IF (G12 == ZERO) G12 = EM20
@@ -192,7 +192,7 @@ c
       ITABLE(1) = FUNC1                
       ITABLE(2) = FUNC2                
 c --------------------------
-C--   Values of C1,E11,E22 and N21 are computed in create_seatbelt.F when section is avaialble
+C--   Values of C1,E11,E22 and N21 are computed in create_seatbelt.F when section is available
 C     PARMAT(1)  = C1
 C     PARMAT(2)  = MAX(E11,E22)
 C     PARMAT(3)  = SQRT(N12*N21)
@@ -246,13 +246,13 @@ c--------------------------------------
      & 5X,'SHEAR MODULUS G12 . . . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'COMPRESSION REDUCTION FACTOR. . . . . . . . . . . ',/
      & 5X,'     RCOMP=E11C/E11= E22C/E22 . . . . . . . . . .=',1PG20.13/
-     & 5X,'MINIMUM LENGHT LMIN. . . . . . . . .. . . . . . .=',1PG20.13/
+     & 5X,'MINIMUM LENGTH LMIN. . . . . . . . .. . . . . . .=',1PG20.13/
      & 5X,'DAMPING COEFFICIENT. . . . . . . . .. . . . . . .=',1PG20.13/)
  1400 FORMAT(
      & 5X,'POISSON RATIO NU12. . . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'SHEAR MODULUS G12 . . . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'COMPRESSION REDUCTION FACTOR. . . . . . . . . . . ',1PG20.13/
-     & 5X,'MINIMUM LENGHT LMIN. . . . . . . . .. . . . . . .=',1PG20.13/
+     & 5X,'MINIMUM LENGTH LMIN. . . . . . . . .. . . . . . .=',1PG20.13/
      & 5X,'DAMPING COEFFICIENT. . . . . . . . .. . . . . . .=',1PG20.13/
      & 5X,'LOADING CURVE ID. . . . . . . . . . . . . . . . .=',1I10/
      & 5X,'UNLOADING CURVE ID. . . . . . . . . . . . . . . .=',1I10/

@@ -439,7 +439,7 @@ C-----------------------------------------------------------------
      & 5X,'CONTINUOUS YIELD STRESS               '/,
      & 5X,'--------------------------------------'//) 
  1400 FORMAT(
-     & 5X,'INTIAL YIELD STRESS . . . . . . . . .=',1PG20.13/,
+     & 5X,'INITIAL YIELD STRESS. . . . . . . . .=',1PG20.13/,
      & 5X,'PARAMETER QR1 OF  HARDENING . . . . .=',1PG20.13/,
      & 5X,'PARAMETER CR1 OF  HARDENING . . . . .=',1PG20.13/,
      & 5X,'PARAMETER QR2 OF  HARDENING . . . . .=',1PG20.13/,

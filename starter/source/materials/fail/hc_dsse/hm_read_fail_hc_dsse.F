@@ -2626,7 +2626,7 @@ C--------------------------------------------------
      & 5X,' COEFFICIENT Nf........... =',E12.4,/
      & 5X,' DSSE INSTABILITY STRAIN.. =',E12.4,//)
  1100 FORMAT(
-     & 5X,' Percentage of failled IPs for shell deletion  ',F5.1,'%',/
+     & 5X,' Percentage of failed IPs for shell deletion   ',F5.1,'%',/
      & 5X,' --------------------------------------------------------- ',/)
  1200 FORMAT(
      & 5X,' SHELL ELEMENT DELETION ')

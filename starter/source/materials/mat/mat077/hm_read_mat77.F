@@ -55,7 +55,7 @@ C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
 C   READ MAT LAW77 WITH HM READER
-C   this law is Ale law for air and foam is in lagrangian and is not activeted thru ale option. 
+C   this law is Ale law for air and foam is in lagrangian and is not activated thru ale option. 
 C-----------------------------------------------
 C   DUMMY ARGUMENTS DESCRIPTION:
 C   ===================
@@ -326,7 +326,7 @@ c-----------------------------------------------------------------------
      & 5X,'POISSON''S RATIO . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'MAXIMUM YOUNG''S MODULUS . . . . . . . . . .=',1PG20.13/,
      & 5X,'MAXIMUM STRAIN   . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'INTIAL FOAM PRESSURE  .  . . . . . . . . . .=',1PG20.13/)
+     & 5X,'INITIAL FOAM PRESSURE. . . . . . . . . . . .=',1PG20.13/)
  1400 FORMAT(
      & 5X,'STRAIN RATE CUTOFF FREQUENCY . . . . . . . .=',1PG20.13/,
      & 5X,'FLAG FOR STRAIN RATE         . . . . . . . .=',I10/,

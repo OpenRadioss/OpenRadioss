@@ -374,7 +374,7 @@ C----------------------
  1301 FORMAT(
      & 5X,40HSTAGNATION DENSITY  LOAD CURVE. . . . .=,I10/,
      & 5X,40HSTAGNATION PRESSURE LOAD CURVE. . . . .=,I10/,
-     & 5X,40HSTAGNATION ENERGYE  LOAD CURVE. . . . .=,I10/)
+     & 5X,40HSTAGNATION ENERGY   LOAD CURVE. . . . .=,I10/)
  1302 FORMAT(
      & 5X,40HDENSITY    LOAD CURVE . . . . . . . . .=,I10/,
      & 5X,40HPRESSURE   LOAD CURVE . . . . . . . . .=,I10/,
@@ -385,8 +385,8 @@ C----------------------
      & 5X,40HFINAL STAGNATION ENERGY . . . . . . . .=,E12.4/,
      & 5X,40HDISCHARGE COEFFICIENT (ENTRY LOSS). . .=,E12.4/)
  1353 FORMAT(
-     & 5X,40HCARACTERISTIC SOUND SPEED . . . . . . .=,E12.4/,
-     & 5X,40HCARACTERISTIC LENGHT. . . . . . . . . .=,E12.4/,
+     & 5X,40HCHARACTERISTIC SOUND SPEED. . . . . . .=,E12.4/,
+     & 5X,40HCHARACTERISTIC LENGTH . . . . . . . . .=,E12.4/,
      & 5X,40HREFERENCE NODE (VELOCITY) . . . . . . .=,I10/)
  1400 FORMAT(
      & 5X,40HINITIAL PRESSURE(P-PSH) . . . . . . . .=,E12.4/,
@@ -404,7 +404,7 @@ C----------------------
  2001 FORMAT(
      & 5X,'    THERMAL BOUNDARY  ',/,
      & 5X,'    ----------------  ',/,
-     & 5X,'TEMPERATUR LOAD CURVE . . . . . . . . .=',I10/,
+     & 5X,'TEMPERATURE LOAD CURVE. . . . . . . . .=',I10/,
      & 5X,'FLUX LOAD CURVE. . .  . . . . . . . . .=',I10/)
 C-----------
  999  CALL FREERR(3)

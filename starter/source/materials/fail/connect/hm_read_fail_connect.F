@@ -212,8 +212,8 @@ C--------------------------------------------------
      & 5X,'Multi-directional rupture flag                 . . =',I10/
      & 5X,'Integration point rupture flag                 . . =',I10/
      & 5X,'Rupture deactivation flag in compression       . . =',I10/
-     & 5X,'Strain rate scale fuction in normal direction  . . =',I10/
-     & 5X,'Strain rate scale fuction in tangent direction . . =',I10/
+     & 5X,'Strain rate scale function in normal direction . . =',I10/
+     & 5X,'Strain rate scale function in tangent direction. . =',I10/
      & 5X,'Function scale factor in normal direction  . . . . =',E16.9/
      & 5X,'Function scale factor in tangent direction . . . . =',E16.9/
      & 5X,'Maximum total internal energy    . . . . . . . . . =',E16.9/
@@ -221,7 +221,7 @@ C--------------------------------------------------
      & 5X,'Maximum energy in tangent direction      . . . . . =',E16.9/
      & 5X,'Energy exponent in normal direction      . . . . . =',E16.9/
      & 5X,'Energy exponent in tangent direction     . . . . . =',E16.9/
-     & 5X,'Damage duration paramater      . . . . . . . . . . =',E16.9/
+     & 5X,'Damage duration parameter      . . . . . . . . . . =',E16.9/
      & 5X,'Damage softening parameter     . . . . . . . . . . =',E16.9/ 
      & 5X,'Element deformation parameter  . . . . . . . . . . =',E16.9/)
 C-----------       
