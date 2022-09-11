@@ -10,6 +10,12 @@ OpenRadioss is made of:
 ## Running OpenRadioss
 Download and [build OpenRadioss](https://github.com/OpenRadioss/OpenRadioss/blob/main/HOWTO.md), or download the [binaries](https://github.com/OpenRadioss/OpenRadioss/releases)
 
+### Prerequisites
+        
+	libapr (e.g. for Ubuntu: sudo apt-get install libaprutil1)
+	git-lfs (e.g. for Ubuntu: sudo apt-get install git-lfs)
+
+
 ### Environment variable
 
         export OPENRADIOSS_PATH=[OpenRadioss Root directory]
@@ -23,6 +29,7 @@ If you built OpenRadioss from the source
 If you downloaded the binaries from [here](https://github.com/OpenRadioss/OpenRadioss/releases)
 
         export LD_LIBRARY_PATH=$OPENRADIOSS_PATH/lib/:$LD_LIBRARY_PATH
+	export RAD_CFG_PATH=$OPENRADIOSS_PATH/cfg
 
 ### Running OpenRadioss without MPI (OpenMP only)
 
