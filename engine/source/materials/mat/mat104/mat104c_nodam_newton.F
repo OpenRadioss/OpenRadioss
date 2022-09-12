@@ -142,7 +142,7 @@ c
       ! Recovering internal variables
       DO I=1,NEL
         IF (OFF(I) < EM01) OFF(I) = ZERO
-        IF (OFF(I) < ONE)   OFF(I) = OFF(I)*FOUR_OVER_5
+        IF (OFF(I) < ONE)  OFF(I) = OFF(I)*FOUR_OVER_5
         ! Standard inputs
         DPLA(I)  = ZERO      ! Initialization of the plastic strain increment
         ET(I)    = ONE        ! Initialization of hourglass coefficient
@@ -477,7 +477,7 @@ c
      .            + TWO*SIGNXY(I)*SIGNXY(I)
      .            + TWO*SIGNYZ(I)*SIGNYZ(I)
      .            + TWO*SIGNZX(I)*SIGNZX(I))
-          IF (NORMSIG>ZERO) THEN  
+          IF (NORMSIG>EM10) THEN  
             FDR(I)     =  (J2(I)/(NORMSIG**2))**3 - CDR*((J3(I)/(NORMSIG**3))**2)       
             DPHI_DFDR  =  DPHI_DSIG*KDR*(ONE/SIX)*EXP(-(FIVE/SIX)*LOG(FDR(I)))             
             DSDRDJ2    =  DPHI_DFDR*THREE*(J2(I)/(NORMSIG**2))**2                             
