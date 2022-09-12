@@ -220,7 +220,7 @@ C
      .           +VZ(I,15)*VZ(I,15)+VZ(I,16)*VZ(I,16)))
        ENDDO  
 CC
-C  heat transfert for solid
+C  heat transfer for solid
 C      
        IF(JTHE < 0 ) THEN
         DO I=LFT,LLT

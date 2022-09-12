@@ -788,7 +788,7 @@ C     INITIALISATION DES BUFFERS DES ELEMENTS
 C     INITIALISATION DES MASSES ET DES INERTIES
 C-----------------------------------------------------
 C
-C  for heat transfert
+C  for heat transfer
 C
       IF(ITHERM_FE > 0 ) THEN
         ALLOCATE(MCPS(8*NUMELS))

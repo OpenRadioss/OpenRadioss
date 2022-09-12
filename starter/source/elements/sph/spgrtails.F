@@ -389,7 +389,7 @@ C
           IPARG(43,NGROUP)=IFAIL
           IPARG(62,NGROUP)=IG
           IPARG(69,NGROUP)=ISPH2SOL
-C         flag for group of dupplicated elements in multidomains
+C         flag for group of duplicated elements in multidomains
           IF (NSUBDOM.GT.0) IPARG(71,NGROUP)= IPARTR2R
 C         thermal expansion
           IF(IPM(218,MT) > 0 .AND. MLN /= 0 .AND. MLN /= 13) IPARG(49,NGROUP)= 1 

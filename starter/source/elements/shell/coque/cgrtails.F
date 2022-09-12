@@ -635,7 +635,7 @@ c         global integration
           IF (NPN > 1  .and. MLN == 91) THEN
             NPN = 0
           ENDIF
-c         swtich global integration to npt=3 
+c         switch global integration to npt=3 
           IF (NPN == 0  .and. MLN /= 0 .and. MLN /= 1 .and. MLN /= 91) THEN
               CALL ANCMSG(MSGID=1912,
      .                    ANMODE=ANINFO,
@@ -792,7 +792,7 @@ C
 C---------
           IPARG(54,NGROUP) = IXFEM
           IPARG(65,NGROUP) = NLEVXF
-C         flag for group of dupplicated elements in multidomains
+C         flag for group of duplicated elements in multidomains
           IF (NSUBDOM.GT.0) IPARG(77,NGROUP)= IPARTR2R
           IPARG(5,NGROUP)  = 3          ! ITY
           IPARG(6,NGROUP)  = NPN

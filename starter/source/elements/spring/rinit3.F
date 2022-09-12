@@ -1894,7 +1894,7 @@ C---
       IF (INISPRI /= 0) THEN
         DO I=LFT,LLT
           II = I+NFT
-!         lenght recumputed in engine if not concerned by INISPRI
+!         length recumputed in engine if not concerned by INISPRI
           XL0(I)   = ZERO
 !
           JJ = PTSPRI(II)
@@ -1977,7 +1977,7 @@ C---
       IF (INISPRI /= 0) THEN
         DO I=LFT,LLT
           II = I+NFT
-!         lenght recumputed in engine if not concerned by INISPRI
+!         length recumputed in engine if not concerned by INISPRI
           XL0(I)   = ZERO
           YL0(I)   = ZERO
           ZL0(I)   = ZERO
@@ -2112,7 +2112,7 @@ C---
 C
           PT = 14
 !!   no realy need for initialisation, since they are computed at cycle = 0
-!!   within engine (overwritting initial values)
+!!   within engine (overwriting initial values)
 !!          IF (IGTYP /= 32 .AND. IGTYP /= 33 .AND. IGTYP /= 45) THEN
 !!            YMOM1(I) = SIGRS(PT+1,JJ)
 !!            ZMOM1(I) = SIGRS(PT+2,JJ)

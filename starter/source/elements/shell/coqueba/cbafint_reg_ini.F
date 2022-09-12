@@ -255,7 +255,7 @@ c
            POS4(I) = NLOC_DMG%POSI(N4)
          ENDDO
 c
-         ! Non-local variable transfert at Gauss point 
+         ! Non-local variable transfer at Gauss point 
          ! Loop over Gauss points in the thickness 
          DO K = 1,NDOF
            ! Loop over element
@@ -334,7 +334,7 @@ c
            ENDDO
            DO K = 1,NDNOD
              DO I = 1,NEL
-               ! Reseting non-local forces
+               ! Resetting non-local forces
                FNLTH(I,K) = ZERO
              ENDDO
            ENDDO
@@ -404,7 +404,7 @@ c
              ENDDO
            ENDDO
 c
-           ! Transfert at the integration point
+           ! Transfer at the integration point
            DO K = 1, NDOF
              !Computation of shape functions value
              IF ((NDOF==2).AND.(K==2)) THEN

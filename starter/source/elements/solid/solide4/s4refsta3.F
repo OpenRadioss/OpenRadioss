@@ -447,7 +447,7 @@ C-----------
      .         VYL(1,1)   ,VYL(1,2)   ,VYL(1,3)   ,VYL(1,4)   ,
      .         VZL(1,1)   ,VZL(1,2)   ,VZL(1,3)   ,VZL(1,4)   )
 C-----calculate Dij anyway to get EINT 
-C-----(small strain is not taken accound here, if do it, should also modify SRHO3)	
+C-----(small strain is not taken account here, if do it, should also modify SRHO3)	
           CALL S4DEFO3(
      .      PX1, PX2, PX3, PX4,
      .      PY1, PY2, PY3, PY4,

@@ -321,7 +321,7 @@ C
      .                PRMOD=MSG_PRINT )
 C
 C-------------------------------------------------------------------------- 
-C     Ignore merge in case of hierachy                         
+C     Ignore merge in case of hierarchy                         
 C--------------------------------------------------------------------------
       DO I= 1,NN1 
         IF (IMERGE0(I) > 0) THEN
@@ -330,7 +330,7 @@ C--------------------------------------------------------------------------
           IF (LIST1_INV(N_DEST) > 0) THEN
            IF (IMERGE0(LIST1_INV(N_DEST)) > 0) THEN
             N_DEST_DEST = USRTOS(IMERGE0(LIST1_INV(N_DEST)),ITABM1)
-C--         hierachy detected - the longest merge is removed
+C--         hierarchy detected - the longest merge is removed
             IF (DIST(LIST1_INV(N_DEST)) > DIST(I)) THEN
               IMERGE0(LIST1_INV(N_DEST)) = 0
               CALL ANCMSG(MSGID=2038,

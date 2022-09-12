@@ -315,7 +315,7 @@ c
            ENDDO
            DO K = 1,NDNOD
              DO I = 1,NEL
-               ! Reseting non-local forces
+               ! Resetting non-local forces
                FNLTH(I,K) = ZERO
              ENDDO
            ENDDO
@@ -385,7 +385,7 @@ c
              ENDDO
            ENDDO
 c
-           ! Transfert at the integration point
+           ! Transfer at the integration point
            DO K = 1, NDOF
              !Computation of shape functions value
              IF ((NDOF==2).AND.(K==2)) THEN

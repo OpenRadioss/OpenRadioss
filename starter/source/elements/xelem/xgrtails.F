@@ -225,7 +225,7 @@ C
 c                                        other groups using old buffer
           IPARG(5,NGROUP) = IETYP
           IPARG(9,NGROUP) = ISSN
-C         flag for group of dupplicated elements in multidomains
+C         flag for group of duplicated elements in multidomains
           IF (NSUBDOM.GT.0) IPARG(77,NGROUP)= IPARTR2R
 C
 cc          LBUFEL= IPARG(4,NGROUP)+NE1*

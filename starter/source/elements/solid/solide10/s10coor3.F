@@ -176,7 +176,7 @@ C
         ENDDO
       ENDDO
 C
-C   initial nodal tempurature
+C   initial nodal temperature
 C
         IF(JTHE < 0 ) THEN
          IF(NINTEMP > 0 ) THEN
@@ -364,7 +364,7 @@ C
         ENDDO
       ENDDO
 C
-C   initial nodal tempurature
+C   initial nodal temperature
 C
         IF(JTHE < 0 ) THEN
          IF(NINTEMP > 0 ) THEN
