@@ -55,7 +55,6 @@ C-----------------------------------------------
       USE R2R_MOD
       USE REORDER_MOD
       USE GROUPDEF_MOD
-      !USE OPTIONDEF_MOD
       USE CLUSTER_MOD
       USE MATPARAM_DEF_MOD
       USE INIVOL_DEF_MOD
@@ -63,18 +62,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
-C     IXS(117,NUMELS)      TABLEAU CONECS+PID+MID+NOS COQUES          E
-C     PM(NPROPM,NUMMAT)  TABLEAU DES CARACS DES MATERIAUX           E
-C     IPARG(NPARG,NGROUP)TABLEAU DES CARACTERISTIQUES DES GROUPES   E/S
-C     GEO(NPROPG,NUMGEO) TABLEAU DES CARACS DES PID                 E
-C     EADD(NUMELS)       TABLEAU DES ADRESEES DANS IDAM CHGT DAMIER E 
-C     DD_IAD             TABLEAU DE LA DD EN SUPER GROUPES          S
-C     IPARTS                                                        E/S
-C     INUM(13,NUMELS)    TABLEAU DE TRAVAIL                         E/S
-C     INDEX(NUMELS)      TABLEAU DE TRAVAIL                         E/S
-C     CEP(NUMELS)        TABLEAU DE TRAVAIL                         E/S
-C     ITR1(NSELS)        TABLEAU DE TRAVAIL                         E/S
-C     ISOLOFF(NUMELS)    FLAG ELEM RBY ON/OFF                       E/S
+C     IXS(11,NUMELS)       ARRAY: CONECS+PID+MID+NOS SOLIDS          E
+C     PM(NPROPM,NUMMAT)    ARRAY: MATERIAL PARAMETERS (real)         E
+C     IPM(NPROPMI,NUMMAT)  ARRAY: MATERIAL PARAMETERS (integer)      E
+C     GEO(NPROPG,NUMGEO)   ARRAY: PROPERTY PARAMETERS (real)         E
+C     IGEO(NPROPGI,NUMGEO) ARRAY: PROPERTY PARAMETERS (integer)      E
+C     IPARG(NPARG,NGROUP)  ARRAY: GROUP PARAMETERS (itneger)         E/S
+C     EADD(NUMELS)         ARRAY: IDAM indexes / checkboard            S
+C     DD_IAD               ARRAY: DE LA DD EN SUPER GROUPES            S
+C     IPARTS                                                         E/S
+C     INUM(13,NUMELS)      ARRAY:WORKING                             E/S
+C     INDEX(NUMELS)        ARRAY:WORKING                             E/S
+C     CEP(NUMELS)          ARRAY:WORKING                             E/S
+C     ITR1(NSELS)          ARRAY:WORKING                             E/S
+C     ISOLOFF(NUMELS)      FLAG ELEM RBY ON/OFF                      E/S
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -109,14 +110,12 @@ C-----------------------------------------------
       INTEGER IXS(11,*),IPARG(NPARG,*),EADD(*), ISOLNOD(*),
      .        DD_IAD(NSPMD+1,*),IPARTS(*), NELS(*),
      .        INUM(16,*), INDEX(*),CEP(*),ITR1(*),IXS10(6,*),IXS20(12,*),
-     .        IXS16(8,*),IGEO(NPROPGI,*),IPM(NPROPMI,*),
+     .        IXS16(8,*),IGEO(NPROPGI,NUMGEO),IPM(NPROPMI,NUMMAT),
      .        NOD2ELS(*), ISOLOFF(*),ISOLNOD1(*),
      .        TAGPRT_SMS(*),SPH2SOL(*),
      .        SOL2SPH(2,*),SOL2SPH_TYP(*),IFLAG_BPRELOAD(*)
       TYPE(MATPARAM_STRUCT_) , TARGET, DIMENSION(NUMMAT),INTENT(IN) :: MATPARAM_TAB
-C     REAL OU REAL*8
-      MY_REAL
-     .    PM(NPROPM,*), GEO(NPROPG,*), RNOISE(NPERTURB,NUMELS)
+      MY_REAL  PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO), RNOISE(NPERTURB,NUMELS)
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
@@ -133,7 +132,7 @@ C-----------------------------------------------
      .   IFAIL,IMATVIS,NLY,NL,ILAW,IM,IPMAT,ITET4,ITET10,
      .   NGP(NSPMD+1),JJ,IFAILMODEL,NFAIL,ISVIS,IVISC,IMAT,
      .   INUM_R2R(1+R2R_SIU*NUMELS),IPARTSPH,IPARTR2R,MFT,IBOLTP,ICP0,ISM0,
-     .   IPERT,STAT,ITSH,IT10,ICPT10
+     .   IPERT,STAT,ITSH,IT10,ICPT10,JALE_FROM_MAT,JALE_FROM_PROP
        DATA IPMAT /100/
        INTEGER, DIMENSION(:), ALLOCATABLE :: INDEXS2
       INTEGER ID
@@ -699,9 +698,11 @@ c
           ENDIF
           IF(JHBE==14 .AND. MLN==1.AND.IGT /= 22) NPT = 222
 C
-          JALE=NINT(PM(72,MID))
+          JALE_FROM_MAT = NINT(PM(72,MID))
+          JALE_FROM_PROP = IGEO(62,PID)
+          JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if unconsistent, error message was displayed in PART reader
           JLAG=0
-          IF(JALE == 0.AND.MLN.NE.18)JLAG=1
+          IF(JALE == 0.AND.MLN /= 18)JLAG=1
           JEUL=0
           IF(JALE == 2)THEN
             JALE=0

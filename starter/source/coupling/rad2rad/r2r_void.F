@@ -123,9 +123,10 @@ C--------------------------------------------------------------C
       COMPT = 0
       
       DO K=1,NPART
-        IPART_R2R(1,K) = IPARTL(1,K)
-        IPART_R2R(2,K) = IPARTL(5,K)
+        IPART_R2R(1,K) = IPARTL(1,K) !mat_id
+        IPART_R2R(2,K) = IPARTL(5,K) !user_mat_id
         IPART_R2R(3,K) = 0		     
+        IPART_R2R(4,K) = IPARTL(2,K) !prop_id       
         IF (TAG_PART(K).EQ.1) THEN
 	  COMPT=COMPT+1
           IGTYP = IGEO(NPROPGI*(IPARTL(2,K)-1)+11)

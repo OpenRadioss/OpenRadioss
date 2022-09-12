@@ -2019,7 +2019,7 @@ c---------------------------------------------------------------
      .     MATPARAM_TAB,MLAW_TAG ,FAIL_TAG ,VISC_TAG ,EOS_TAG   ,
      .     RWORK       ,SBUFMAT  ,IPM      ,PM       ,UNITAB    ,
      .     MULTI_FVM   ,MAXEOS   ,FAILWAVE ,NLOC_DMG ,LSUBMODEL ,
-     .     TABLE       ,NPC)
+     .     TABLE       ,NPC      )
 c---------------------------------------------------------------
       ALLOCATE (BUFMAT(SBUFMAT)    ,STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
@@ -2190,11 +2190,11 @@ c
         CALL SAV_BUF_POINT(DBRWORK,4)
 C
         IADGEO=1
-        CALL HM_READ_PROPERTIES(GEO    ,X      ,IXC    ,PM     ,ITABM1 ,
-     .              DBRWORK  ,SBUFGEO,ISKWN  ,IGEO   ,IPM    ,
-     .              NPC    ,TF     ,UNITAB , RTRANS ,LSUBMODEL,
-     .              PROP_TAG,IPART ,KNOT,IDRAPEID  ,STACK_INFO,
-     .              NUMGEOSTACK, NPROP_STACK, MULTI_FVM,IADGEO)
+        CALL HM_READ_PROPERTIES(GEO        , X           , IXC      , PM       ,ITABM1    ,
+     .                          DBRWORK    , SBUFGEO     , ISKWN    , IGEO     ,IPM       ,
+     .                          NPC        , TF          , UNITAB   , RTRANS   ,LSUBMODEL ,
+     .                          PROP_TAG   , IPART       , KNOT     , IDRAPEID ,STACK_INFO,
+     .                          NUMGEOSTACK, NPROP_STACK , MULTI_FVM, IADGEO)
 C
         ALLOCATE (BUFGEO(SBUFGEO)    ,STAT=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
@@ -2316,7 +2316,7 @@ C--------------------------------------------
         NL_DDR2R = NR2RLNK
       ENDIF
       IF (NSUBDOM > 0) THEN
-        ALLOCATE(TAG_PART(NPART),IPART_R2R(3,NPART))
+        ALLOCATE(TAG_PART(NPART),IPART_R2R(4,NPART))
         TAG_PART(:)=0
         CALL R2R_VOID(IPART)
         NL_DDR2R = 2
@@ -3652,7 +3652,7 @@ C---  Premiere Passe -> comptage
      4           IADBUF,NALE_R2R,FLG_R2R_ERR ,
      5           STACK%PM ,IWORKSH  ,IGRBRIC ,IGRQUAD   ,IGRSH4N ,
      6           IGRSH3N  ,IGRTRUSS ,IGRBEAM ,IGRSPRING ,IGRNOD  ,
-     7           IGRSURF  ,IGRSLIN, LSUBMODEL,ALE_EULER)
+     7           IGRSURF  ,IGRSLIN, LSUBMODEL,ALE_EULER ,IGEO)
 C---
          ALLOCATE(IBUFTMP(IDX2)%ptr(SIBUFSSG+INNOD)   ,STAT=stat)
          IF (STAT /= 0) THEN
@@ -3678,7 +3678,7 @@ C---  Deuxieme Passe -> creation des interfaces
      4           IADBUF,NALE_R2R,FLG_R2R_ERR ,
      5           STACK%PM ,IWORKSH  ,IGRBRIC ,IGRQUAD   ,IGRSH4N ,
      6           IGRSH3N  ,IGRTRUSS ,IGRBEAM ,IGRSPRING ,IGRNOD  ,
-     7           IGRSURF  ,IGRSLIN, LSUBMODEL,ALE_EULER)
+     7           IGRSURF  ,IGRSLIN, LSUBMODEL,ALE_EULER ,IGEO)
 C--------------------------------------------
 C     MULTIDOMAINS - SPLIT DES TABLEAUX
 C--------------------------------------------
@@ -4221,10 +4221,9 @@ C--------------------------------------------
       IF(IALE+IEULER+IALELAG.NE.0)THEN
        WRITE(ISTDO,'(A)')TITRE(30)
        CALL ALELEC(
-     1     ICODE   ,IXS     ,IXQ     ,IXC     ,IXT     ,
-     2     IXTG    ,PM      ,
-     3     ITAB    ,GEO     ,NALE_R2R,NSUBDOM, MULTI_FVM,
-     4     ALE_CONNECTIVITY)
+     1     ICODE    ,IXS      ,IXQ       ,IXC               ,IXT     ,
+     2     IXTG     ,PM       ,IGEO      ,ITAB              ,GEO     ,
+     3     NALE_R2R ,NSUBDOM  ,MULTI_FVM ,ALE_CONNECTIVITY)
 C     ---------------------------------------------------------------
 C     Unplug neighboor elements in case of direct lagrangian coupling
 C     ---------------------------------------------------------------
@@ -4748,7 +4747,7 @@ C-------------------------------------------------
         !allocate & count
         ALLOCATE(LSENSOR(0))
         CALL INIEBCS(ALE_CONNECTIVITY, 0, IGRSURF, IXS, IXQ, IXTG,
-     .        PM, X, LSENSOR, MONVOl, MULTI_FVM%IS_USED, EBCS_TAB, EBCS_TAG_CELL_SPMD)
+     .        PM, IGEO, X, LSENSOR, MONVOl, MULTI_FVM%IS_USED, EBCS_TAB, EBCS_TAG_CELL_SPMD)
         DEALLOCATE(LSENSOR)
       ENDIF
       CALL TRACE_OUT1()
@@ -6312,7 +6311,7 @@ C
         CALL IG3DGRHEAD(
      1    KXIG3D    ,GEO       ,INUM      ,ITR1      ,EADD      ,
      2    INDEX1    ,ITRI1     ,IPARTIG3D ,ND        ,IGRSURF   ,
-     3    CEP(OFF)  ,XEP       ,
+     3    CEP(OFF)  ,XEP       ,IGEO      ,
      4    IPM       ,PM        ,NIGE      ,KNOTLOCEL)
 C--------------------------------
 C-  GROUPAGE SPMD
@@ -7135,20 +7134,20 @@ C--------------------------------------------------------------
      6           INTBUF_FRIC_TAB    ,IDDLEVEL ,LSUBMODEL  ,TF                          ,
      7           KLOADPINTER        ,DGAPINT  )
 C
-       CALL LECINT (IPARI    ,NINTER   ,IPM      ,BUFMAT   ,
-     .              NMNT     ,ITAB     ,ITABM1   ,GEO      ,
-     .             PM       ,X        ,IGRNOD   ,IGRSURF  ,IGRSLIN  ,
-     .             NPC      ,PROBINT  ,LAG_NCF  ,
-     .              LAG_NKF  ,LAG_NCL  ,LAG_NKL  ,LAG_NHF  ,MAXRTM   ,
-     .              ISKWN    ,MAXRTMS  ,IGEO     ,
-     .              XFILTR   ,STFAC    ,FRIC_P   ,FRIGAP   ,
-     .             I2RUPT   ,AREASL   ,UNITAB   ,IXS,NOM_OPT(LNOPT1*INOM_OPT(3)+1),
-     .             ITAG     ,IXC      ,IXTG     ,KNOD2ELC,KNOD2ELTG,
-     .             NOD2ELC  ,NOD2ELTG ,KNOD2ELS ,NOD2ELS  ,IXS10   ,
-     .             IXS16    ,IXS20    ,DEF_INTER,MAXNSNE  ,
-     .             NPC1     ,LSENSOR, MULTI_FVM,NOM_OPT(LNOPT1*INOM_OPT(29)+1),INTBUF_FRIC_TAB,
-     .             IGRBRIC ,IGRSH3N   ,IGRTRUSS ,MAXRTM_T2,NSN_MULTI_CONNEC,T2_NB_CONNEC,
-     .             IDDLEVEL,ALE_CONNECTIVITY%NALE)
+       CALL LECINT (IPARI       ,NINTER    ,IPM       ,BUFMAT   ,                                                 
+     .              NMNT        ,ITAB      ,ITABM1    ,GEO      ,                                                 
+     .              PM          ,X         ,IGRNOD    ,IGRSURF  ,IGRSLIN  ,                                       
+     .              NPC         ,PROBINT   ,LAG_NCF   ,                                                           
+     .              LAG_NKF     ,LAG_NCL   ,LAG_NKL   ,LAG_NHF  ,MAXRTM   ,                                       
+     .              ISKWN       ,MAXRTMS   ,IGEO      ,                                                           
+     .              XFILTR      ,STFAC     ,FRIC_P    ,FRIGAP   ,                                                 
+     .              I2RUPT      ,AREASL    ,UNITAB    ,IXS      ,NOM_OPT(LNOPT1*INOM_OPT(3)+1),                   
+     .              ITAG        ,IXC       ,IXTG      ,KNOD2ELC ,KNOD2ELTG,                                       
+     .              NOD2ELC     ,NOD2ELTG  ,KNOD2ELS  ,NOD2ELS  ,IXS10   ,                                        
+     .              IXS16       ,IXS20     ,DEF_INTER ,MAXNSNE  ,                                                 
+     .              NPC1        ,LSENSOR   ,MULTI_FVM ,NOM_OPT(LNOPT1*INOM_OPT(29)+1),INTBUF_FRIC_TAB,            
+     .              IGRBRIC     ,IGRSH3N   ,IGRTRUSS  ,MAXRTM_T2,NSN_MULTI_CONNEC,           
+     .              T2_NB_CONNEC,IDDLEVEL ,ALE_CONNECTIVITY%NALE)
 C
        !need to allocate only once at first passage in lectur
        FLAG_ALLOCATE = 1
@@ -7195,14 +7194,14 @@ C
          END IF
        END IF
 C
-       CALL LECINS(IPARI    ,ITAB      ,PM      ,IPM      ,BUFMAT,
-     .             IGRNOD   ,IGRSURF   ,IGRSLIN ,XFILTR   ,STFAC  ,
-     .             FRIC_P ,FRIGAP ,I2RUPT ,AREASL ,LIXINT ,
-     .             X      ,NINTER ,IXS,NOM_OPT(LNOPT1*INOM_OPT(3)+1),
-     .             IXC    ,IXTG    ,KNOD2ELC,KNOD2ELTG,NOD2ELC  ,
-     .             NOD2ELTG,INTBUF_TAB,KNOD2ELS,NOD2ELS  ,IXS10   ,
-     .             IXS16    ,IXS20     ,NIGE    ,RIGE     ,XIGE   ,
-     .             VIGE     ,IGRBRIC   ,MULTI_FVM,ALE_CONNECTIVITY%NALE)
+       CALL LECINS(IPARI    ,ITAB      ,PM       ,IPM                          ,BUFMAT ,
+     .             IGRNOD   ,IGRSURF   ,IGRSLIN  ,XFILTR                       ,STFAC  ,
+     .             FRIC_P   ,FRIGAP    ,I2RUPT   ,AREASL                       ,LIXINT ,
+     .             X        ,NINTER    ,IXS      ,NOM_OPT(LNOPT1*INOM_OPT(3)+1),
+     .             IXC      ,IXTG      ,KNOD2ELC ,KNOD2ELTG                    ,NOD2ELC,
+     .             NOD2ELTG ,INTBUF_TAB,KNOD2ELS ,NOD2ELS                      ,IXS10  ,
+     .             IXS16    ,IXS20     ,NIGE     ,RIGE                         ,XIGE   ,
+     .             VIGE     ,IGRBRIC   ,MULTI_FVM,ALE_CONNECTIVITY%NALE        ,IGEO)
 C
 cc     DEALLOCATE(XFILTR)
 cc     DEALLOCATE(STFAC)
@@ -9202,7 +9201,7 @@ c
          SEGINDX = 0
          !update due to domain decomposition
          CALL INIEBCS(ALE_CONNECTIVITY, 1,IGRSURF, IXS, IXQ, IXTG,
-     .        PM, X, LSENSOR, MONVOl, MULTI_FVM%IS_USED, EBCS_TAB, EBCS_TAG_CELL_SPMD)
+     .        PM, IGEO, X, LSENSOR, MONVOl, MULTI_FVM%IS_USED, EBCS_TAB, EBCS_TAG_CELL_SPMD)
          !initialization
         CALL INIEBCSP0(X, IPARG, ELBUF_TAB, EBCS_TAB, IXS, IXQ, IXTG, IPARTS, IPARTQ, IPARTG, PM, IPM)
       ENDIF

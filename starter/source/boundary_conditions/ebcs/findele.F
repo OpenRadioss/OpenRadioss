@@ -33,7 +33,7 @@ Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectiv
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE FINDELE(ALE_CONNECTIVITY, NNODE, NIX, NVOIS, IDSU,ID,NSEG,IX,
-     .     ISEG,IELE,ITYPE,IFAC,SURF_NODES,IADD,INVC,PM,X,TYPE)
+     .                   ISEG,IELE,ITYPE,IFAC,SURF_NODES,IADD,INVC,PM,X,TYPE,IGEO)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -54,23 +54,21 @@ C-----------------------------------------------
 #include      "scr07_c.2.inc"
 #include      "warn_c.inc"
 #include      "scr17_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
       INTEGER NNODE, NIX, NVOIS, IDSU,ID,NSEG,IX(NIX,*),ISEG(*),IELE(*),ITYPE(*),
      .        IADD(*),INVC(*),IFAC(*),TYPE,SURF_NODES(NSEG,4)
-      my_real
-     .        PM(NPROPM,*),X(3,*)
+      INTEGER,INTENT(IN) :: IGEO(NPROPGI,NUMGEO)
+      my_real PM(NPROPM,NUMMAT),X(3,SX/3)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER II,JJ,J,K,L,M,NN,KK,NEL,IRECT(4),IAD,N,ALE,NF,IP(NNODE),
-     .        TURBU,NEIGH,CON(8),IS
-      my_real
-     .   N1, N2, N3, DDS,AREA
-
-      INTEGER IFACE, IFACE2, IFACE2T
+      INTEGER II,JJ,J,K,L,M,PP,NN,KK,NEL,IRECT(4),IAD,N,ALE,NF,IP(NNODE),TURBU,NEIGH,CON(8),IS
+      INTEGER IFACE, IFACE2, IFACE2T, JALE_FROM_MAT, JALE_FROM_PROP
+      my_real :: N1, N2, N3, DDS,AREA
       EXTERNAL  IFACE, IFACE2, IFACE2T
       DATA CON/1,2,3,4,5,6,7,8/
 C-----------------------------------------------
@@ -184,7 +182,10 @@ C-----------------------------------------------
            IFAC(J) = NF
         ENDIF
         M=IX(1,NEL)
-        ALE=INT(PM(72,M))
+        PP=IX(NIX-1,NEL)
+        JALE_FROM_MAT = INT(PM(72,M))
+        JALE_FROM_PROP = IGEO(62,PP)
+        ALE = JALE_FROM_MAT + JALE_FROM_PROP 
         IF(ALE.NE.0)THEN
           SEGINDX = SEGINDX+1
           ISEG(J) = IS*SEGINDX

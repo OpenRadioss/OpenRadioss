@@ -34,30 +34,32 @@ Chd|        R2R_MOD                       share/modules1/r2r_mod.F
 Chd|        REORDER_MOD                   share/modules1/reorder_mod.F  
 Chd|====================================================================
       SUBROUTINE SGRHEAD(
-     1       IXS        ,PM       ,GEO       ,INUM    ,ISEL   ,
-     2       ITR1       ,EADD     ,INDEX     ,ITRI    ,IPARTS ,      
-     3       ND         ,IGRSURF  ,IGRBRIC   ,ISOLNOD ,
-     4       CEP        ,XEP      ,IXS10     ,IXS20   ,IXS16  ,
-     5       IGEO     ,IPM       ,NOD2ELS ,ISOLOFF,
-     6       TAGPRT_SMS,SPH2SOL ,SOL2SPH,
-     7       SOL2SPH_TYP,IFLAG_BPRELOAD,CLUSTERS,RNOISE)
+     1       IXS        ,PM            ,GEO       ,INUM    ,ISEL   ,
+     2       ITR1       ,EADD          ,INDEX     ,ITRI    ,IPARTS ,      
+     3       ND         ,IGRSURF       ,IGRBRIC   ,ISOLNOD ,
+     4       CEP        ,XEP           ,IXS10     ,IXS20   ,IXS16  ,
+     5       IGEO       ,IPM           ,NOD2ELS   ,ISOLOFF ,
+     6       TAGPRT_SMS ,SPH2SOL       ,SOL2SPH   ,
+     7       SOL2SPH_TYP,IFLAG_BPRELOAD,CLUSTERS  ,RNOISE)
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
-C     IXS(11,NUMELS)     TABLEAU CONECS+PID+MID+NOS SOLIDES        E
-C     PM(NPROPM,NUMMAT) TABLEAU DES CARACS DES MATERIAUX           E
-C     GEO(NPROPG,NUMGEO)TABLEAU DES CARACS DES PID                 E
-C     INUM(13,NUMELS)   TABLEAU DE TRAVAIL                         E/S
-C     ISEL(NSELS)       TABLEAU DES SOLIDES CHOISIS POUR TH        E/S
-C     ITR1(NSELS)       TABLEAU DE TRAVAIL                         E/S
-C     EADD(NUMELS)      TABLEAU DES ADRESEES DANS IDAM CHGT DAMIER   S
-C     INDEX(NUMELS)     TABLEAU DE TRAVAIL                         E/S
-C     ITRI(6,NUMELS)    TABLEAU DE TRAVAIL                         E/S
-C     IPARTS(NUMELS)    TABLEAU PART                               E/S
-C     CEP(NUMELS)       TABLEAU DE TRAVAIL                         E/S
-C     XEP(NUMELS)       TABLEAU DE TRAVAIL                         E/S
-C     NOD2ELS(8*NUMELS+6*NUMELS10+12*NUMELS20+16*NUMELS16)         E/S
-C     ISOLOFF(NUMELS)   FLAG ELEM RBY ON/OFF                       E/S
+C     IXS(11,NUMELS)       ARRAY: CONECS+PID+MID+NOS SOLIDS          E
+C     PM(NPROPM,NUMMAT)    ARRAY: MATERIAL PARAMETERS (real)         E
+C     IPM(NPROPMI,NUMMAT)  ARRAY: MATERIAL PARAMETERS (integer)      E
+C     GEO(NPROPG,NUMGEO)   ARRAY: PROPERTY PARAMETERS (real)         E
+C     IGEO(NPROPGI,NUMGEO) ARRAY: PROPERTY PARAMETERS (integer)      E
+C     INUM(13,NUMELS)      ARRAY: WORKING                            E/S
+C     ISEL(NSELS)          ARRAY: DES SOLIDES CHOISIS POUR TH        E/S
+C     ITR1(NSELS)          ARRAY: WORKING                            E/S
+C     EADD(NUMELS)         ARRAY: IDAM INDEXES / checkboard            S
+C     INDEX(NUMELS)        ARRAY: WORKING                            E/S
+C     ITRI(6,NUMELS)       ARRAY: WORKING                            E/S
+C     IPARTS(NUMELS)       ARRAY: PART                               E/S
+C     CEP(NUMELS)          ARRAY: WORKING                            E/S
+C     XEP(NUMELS)          ARRAY: WORKING                            E/S
+C     NOD2ELS(8*NUMELS+6*NUMELS10+12*NUMELS20+16*NUMELS16)           E/S
+C     ISOLOFF(NUMELS)      FLAG ELEM RBY ON/OFF                      E/S
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -99,15 +101,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
-      INTEGER IXS(NIXS,*),ISEL(*),INUM(16,*),IPARTS(*),IGEO(NPROPGI,*),
+      INTEGER IXS(NIXS,NUMELS),ISEL(*),INUM(16,*),IPARTS(*),
      .        EADD(*),ITR1(*),INDEX(*),ITRI(7,*),
      .        ND, ISOLNOD(*), CEP(*),
      .        XEP(*),IXS10(6,*),IXS20(12,*),IXS16(8,*),
-     .        IPM(NPROPMI,*), NOD2ELS(*), ISOLOFF(*),
+     .        NOD2ELS(*), ISOLOFF(*),
      .        TAGPRT_SMS(*), SPH2SOL(*), 
      .        SOL2SPH(2,*),SOL2SPH_TYP(*),IFLAG_BPRELOAD(*)
-      my_real
-     .    PM(NPROPM,*), GEO(NPROPG,*), RNOISE(NPERTURB,NUMELS)
+      INTEGER,INTENT(IN) :: IPM(NPROPMI,NUMMAT)
+      INTEGER,INTENT(INOUT) :: IGEO(NPROPGI,NUMGEO)
+      my_real,INTENT(IN) :: PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO)
+      my_real,INTENT(INOUT) ::  RNOISE(NPERTURB,NUMELS)
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
@@ -126,18 +130,17 @@ C-----------------------------------------------
       INTEGER WORK(70000)
       EXTERNAL MY_SHIFTL,MY_SHIFTR,MY_AND
       INTEGER MY_SHIFTL,MY_SHIFTR,MY_AND
-      INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      INTEGER ID, JALE_FROM_MAT, JALE_FROM_PROP
+      CHARACTER*nchartitle :: TITR
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX2
       INTEGER :: CLUSTER_TYP,CLUSTER_NEL
       INTEGER, DIMENSION(:), ALLOCATABLE :: SAVE_CLUSTER
-C     REAL OU REAL*8
       my_real, DIMENSION(:,:), ALLOCATABLE :: XNUM_RNOISE
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
+C-----------------------------------------------
+C   S O U R C E   L I N E S
+C-----------------------------------------------
+
 C   TRI GLOBAL SUR TOUS LES CRITERES POUR TOUS LES ELEMENTS
-C----------------------------------------------------------C
   
       MY_ALLOCATE(INDEX2,NUMELS) 
 C
@@ -256,9 +259,11 @@ C--------------Navier Storks Vis
         IF (JHBE == 12)  JHBE = 4
         IF (JHBE.EQ.2)   JHBE = 0
 c        
-        JALE=NINT(PM(72,MID))
+        JALE_FROM_MAT = NINT(PM(72,MID))
+        JALE_FROM_PROP = IGEO(62,PID)
+        JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if unconsistent, error message was displayed in PART reader
         JLAG=0
-        IF(JALE.EQ.0.AND.MLN.NE.18)JLAG=1
+        IF(JALE == 0 .AND. MLN /= 18)JLAG=1
         JEUL=0
         IF(JALE.EQ.2)THEN
           JALE=0

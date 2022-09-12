@@ -112,14 +112,11 @@ C-----------------------------------------------
       INTEGER ND, IDX, LB_MAX,
      .        IXTG(NIXTG,*), IPARG(NPARG,*), EADD(*), IXTG1(4,*),
      .        DD_IAD(NSPMD+1,*),IPARTTG(*), NELTG(*),
-     .        INUM(10,*),ITR1(*),INDEX(*),CEP(*),ICNOD(*),IPM(NPROPMI,*),
-     .        ITRIOFF(*), SH3TRIM(*),IGEO(NPROPGI,*),
+     .        INUM(10,*),ITR1(*),INDEX(*),CEP(*),ICNOD(*),IPM(NPROPMI,NUMMAT),
+     .        ITRIOFF(*), SH3TRIM(*),IGEO(NPROPGI,NUMGEO),
      .        IPART(LIPART1,*), SH3TREE(KSH3TREE,*), NOD2ELTG(*) ,
      .        TAGPRT_SMS(*),IWORKSH(3,*)
-C     REAL OU REAL*8
-      MY_REAL
-     .        PM(NPROPM,*), GEO(NPROPG,*),THK(*),XNUM(*),
-     .        RNOISE(NPERTURB,*), SH3ANG(*)
+      MY_REAL PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO),THK(*),XNUM(*),RNOISE(NPERTURB,*), SH3ANG(*)
 C-----------------------------------------------
       TYPE (STACK_PLY) :: STACK
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
@@ -138,23 +135,19 @@ C-----------------------------------------------
      .   ILEV, IE, MPT, NUVARR,IPIDL, IADM, MY_NVSIZ, JLEV,IXFEM_ERR,
      .   MLNLY,IMATLY,IRUP,IXFEM,IPTUN,IREP,IFWV,
      .   ISUBSTACK,IIGEO,IADI,IPPID,IPMAT,ISH3N, NPG,IDROT1,NB_LAW58,IPERT,
-     .   STAT, MT, IALEL,IGMAT,ISM0
+     .   STAT, MT, IALEL,IGMAT,ISM0,JALE_FROM_MAT, JALE_FROM_PROP
       INTEGER WORK(70000),NGP(NSPMD+1)
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ISTOR
-C     REAL OU REAL*8
-C
       INTEGER ID,IPARTR2R
-      CHARACTER*nchartitle,
-     .   TITR,TITR1
+      CHARACTER*nchartitle :: TITR,TITR1
       INTEGER, DIMENSION(:), ALLOCATABLE :: MINDEXTG2
       my_real, DIMENSION(:,:), ALLOCATABLE :: XNUM_RNOISE
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX2
       TYPE(MATPARAM_STRUCT_) , POINTER :: MATPARAM
-      my_real
-     .  ANGLE(NUMELTG)
+      my_real :: ANGLE(NUMELTG)
 
-C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C-----------------------------------------------
+C   S O U R C E   L I N E S
 C-----------------------------------------------
       MY_ALLOCATE(INDEX2,NUMELTG)
 
@@ -759,7 +752,11 @@ c
 C     Multifluid law, setting NLAY
           IF (MLN .EQ. 151) THEN
              IPARG(20, NGROUP) = IPM(20, MID)
-             JALE=NINT(PM(72,MID))
+             
+             JALE_FROM_MAT = NINT(PM(72,MID))
+             JALE_FROM_PROP = IGEO(62,PID)
+             JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if unconsistent, error message was displayed in PART reader
+             
              JLAG=0
              JEUL=0
              IF(JALE == 2)THEN

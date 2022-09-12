@@ -244,10 +244,6 @@ C     #######################################################
         IBRIC = BRICS(I)
         MID   = IXS(1,IBRIC)
         ILAW  = NINT(PM(19,MID))
-	!JALE = NINT(PM(72,MID))
-	!JEUL = IPARG(11,NG)
-	!JLAG = IPARG(11,NG)
-
         I22LAW06 = 0
         I22LAW37 = 0
         I22LAW51 = 0

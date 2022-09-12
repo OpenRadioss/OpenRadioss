@@ -84,11 +84,9 @@ C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER IXQ(7,*),ISEL(*),INUM(9,*),IPARTQ(*),
      .        EADD(*),ITR1(*),INDEX(*),ITRI(5,*),ND, CEP(*),XEP(*),
-     .        IGEO(NPROPGI,*), IPM(NPROPMI,*),
+     .        IGEO(NPROPGI,NUMGEO), IPM(NPROPMI,NUMMAT),
      .        IQUAOFF(*)
-C     REAL OU REAL*8
-      my_real
-     .    PM(NPROPM,*), GEO(NPROPG,*)
+      my_real ::  PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO)
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRQUAD)  :: IGRQUAD
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
@@ -101,7 +99,8 @@ C-----------------------------------------------
      .        MODE, ML1, ML2, MT1, MT2,IGT, 
      .        MSKMLN,MSKJAL,MSKMID,MSKPID,IEOS,
      .        MSKJEU,MSKJTU,MSKJTH,MSKJPO,
-     .        IPLAST, IALEL, MT,IREP,IINT,ISSN,NGTVX,IFAIL,IRB
+     .        IPLAST, IALEL, MT,IREP,IINT,ISSN,NGTVX,IFAIL,IRB,
+     .        JALE_FROM_MAT,JALE_FROM_PROP
       INTEGER ID
       CHARACTER*nchartitle,
      .   TITR
@@ -168,7 +167,9 @@ C
           MID=IABS(MID)
         ENDIF
         IFAIL = IPM(220,MID)       
-        JALE=NINT(PM(72,MID))
+        JALE_FROM_MAT = NINT(PM(72,MID))
+        JALE_FROM_PROP = IGEO(62,PID)
+        JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if unconsistent, error message was displayed in PART reader
         JLAG=0
         IF(JALE.EQ.0.AND.MLN.NE.18)JLAG=1
         JEUL=0

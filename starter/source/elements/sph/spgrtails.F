@@ -86,7 +86,7 @@ C-----------------------------------------------
      .        ISSN,IKSNOD,IORDER,IPRT,ISLEEP,IEOS,NEL_PREC,IUN,IG,IFAIL, 
      .        WORK(70000),INUM(13,NUMSPH),INDEX(2*NUMSPH),
      .        NGP(NSPMD+1),K,J,II, MX, NUMBER_FAILURE, IR, IP, STAT,
-     .        IPARTR2R, NOD
+     .        IPARTR2R, NOD, JALE_FROM_MAT, JALE_FROM_PROP
 C     REAL
       my_real
      .        RNUM(NSPBUF,NUMSPH)
@@ -297,7 +297,11 @@ C ngroup global
           IEOS  = IPM(4,MT)
           IORDER=GET_U_GEO(5,IG)
           ISLEEP=KXSP(2,II)
-          JALE=NINT(PM(72,MT))
+          
+          JALE_FROM_MAT = NINT(PM(72,MT))
+          JALE_FROM_PROP = IGEO(62,IG)
+          JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if unconsistent, error message was displayed in PART reader
+
           JLAG=0
           IF(JALE.EQ.0.AND.MLN.NE.18)JLAG=1
           JEUL=0

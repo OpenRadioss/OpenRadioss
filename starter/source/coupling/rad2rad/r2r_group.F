@@ -51,7 +51,7 @@ Chd|====================================================================
      4           INOM_OPT,IPART_L,IAD,NALE_R2R,FLG_R2R_ERR ,
      5           PM_STACK ,IWORKSH  ,IGRBRIC2,IGRQUAD2  ,IGRSH4N2,
      6           IGRSH3N2 ,IGRTRUSS2,IGRBEAM2,IGRSPRING2,IGRNOD2 ,
-     7           IGRSURF2 ,IGRSLIN2,LSUBMODEL,ALE_EULER)
+     7           IGRSURF2 ,IGRSLIN2,LSUBMODEL,ALE_EULER,IGEO_)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -70,6 +70,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   A n a l y s e   M o d u l e
 C-----------------------------------------------
+      INTEGER,INTENT(IN) :: IGEO_(NPROPGI,NUMGEO)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -95,8 +96,7 @@ C-----------------------------------------------
      .   IPARTC(*),IPARTT(*),IPARTP(*),IPARTR(*),
      .   IPARTG(*),IXR_KJ(*),INOM_OPT(*),IPART_L(*),IAD,
      .   NALE_R2R(*),FLG_R2R_ERR,IWORKSH(*),ALE_EULER
-      my_real
-     .   PM_STACK(*)
+      my_real :: PM_STACK(*)
 C-----------------------------------------------
 !      TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD2
       TYPE (GROUP_)  , DIMENSION(NGROU)   :: IGRNOD2
@@ -118,11 +118,9 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: IGROUP_TEMP2
       INTEGER N_LNK_C,NI,GRM,GRS,MAIN,IGU,NUL,IAD_TMP,COMPT_T2
       INTEGER MODIF,NINTER_PREC,FAC,IO_ERR,NUM_KJ,NSPCONDN,NSPHION
-      INTEGER MEMTR(NUMNOD),FLG_SPH,COUNT,NEW_NSLASH_INT,NEW_HM_NINTER,NEW_NINTSUB,
-     .        NEW_NINIVOL
+      INTEGER MEMTR(NUMNOD),FLG_SPH,COUNT,NEW_NSLASH_INT,NEW_HM_NINTER,NEW_NINTSUB,NEW_NINIVOL
       CHARACTER TITR*nchartitle,NAME*100
-      INTEGER NGRNOD2,NGRBRIC2,NGRQUAD2,NGRSHEL2,NGRSH3N2,NGRTRUS2,
-     .        NGRBEAM2,NGRSPRI2,LENGRN,ITITLE(LTITR)
+      INTEGER NGRNOD2,NGRBRIC2,NGRQUAD2,NGRSHEL2,NGRSH3N2,NGRTRUS2,NGRBEAM2,NGRSPRI2,LENGRN,ITITLE(LTITR)
       CHARACTER NEW_TITLE(NGROU+10*NSUBDOM)*nchartitle
 
       INTEGER, DIMENSION(:), ALLOCATABLE :: IGROUP_TEMP2_BUF
@@ -334,11 +332,11 @@ C---------------Tag of nodes of pretaged elements ( for TYPE2)-------C
         END DO ! DO WHILE
 C---------------Tag of nodes ALE/lagrange ---------------------------C
         IF (IALE.GT.0) THEN
-          CALL ALE_CHECK_LAG(NALE_R2R,IXS,IXQ,IXC,IXT,IXTG,PM,ITAB,NALE_R2R,0)
+          CALL ALE_CHECK_LAG(NALE_R2R,IXS,IXQ,IXC,IXT,IXTG,PM,ITAB,NALE_R2R,0,IGEO_)
         ENDIF
 C---------------Check of FLG_FSI ------------------------------------C
         IF (IALE+IEULER.GT.0) THEN
-          CALL CHK_FLG_FSI(IXS,PM,IPARTS,ALE_EULER)
+          CALL CHK_FLG_FSI(IXS,PM,IPARTS,ALE_EULER,IGEO_)
         ENDIF
 C---------------Error message infinite loop -------------------------C
         IF (COMPT.GE.80) THEN

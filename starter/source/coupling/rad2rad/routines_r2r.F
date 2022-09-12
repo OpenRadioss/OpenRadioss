@@ -709,7 +709,7 @@ Chd|        R2R_GROUP                     source/coupling/rad2rad/r2r_group.F
 Chd|-- calls ---------------
 Chd|        R2R_MOD                       share/modules1/r2r_mod.F      
 Chd|====================================================================
-      SUBROUTINE CHK_FLG_FSI(IXS,PM,IPARTS,ALE_EULER)
+      SUBROUTINE CHK_FLG_FSI(IXS,PM,IPARTS,ALE_EULER,IGEO)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -724,34 +724,35 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "r2r_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXS(NIXS,*),IPARTS(*),ALE_EULER
-      my_real
-     .   PM(NPROPM,*)
+      INTEGER IXS(NIXS,SIXS/NIXS),IPARTS(*),ALE_EULER
+      INTEGER,INTENT(IN) :: IGEO(NPROPGI,NUMGEO)
+      my_real PM(NPROPM,NUMMAT)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER M,JALE,ID_PART,IMAT0,ELEM_VOID
+      INTEGER M,JALE,ID_PART,IMAT0,IPROP0,ELEM_VOID,JALE_FROM_MAT, JALE_FROM_PROP
 C-----------------------------------------------
-
+C   S o u r c e   L i n e s
+C-----------------------------------------------
       FLG_FSI = 0
       ALE_EULER = 0
       DO M=1,NUMELS
-        ID_PART=IPARTS(M)
-C---------------On recupere l'id du materiau original-----------C      
-        IMAT0=IPART_R2R(1,ID_PART)
-        JALE=NINT(PM(72,IMAT0))
-C
+        ID_PART=IPARTS(M)  
+        IMAT0=IPART_R2R(1,ID_PART) !original mat_id
+        IPROP0=IPART_R2R(4,ID_PART) !original prop_id
+        JALE_FROM_MAT = NINT(PM(72,IMAT0))
+        JALE_FROM_PROP = IGEO(62,IPROP0)
+        JALE= MAX(JALE_FROM_MAT, JALE_FROM_PROP)
         ELEM_VOID = 0
         IF ((TAGNO(ID_PART).EQ.0).AND.(TAG_ELS(M).GT.0)) ELEM_VOID=1 
-C
         IF ((JALE > 0).AND.(TAGNO(ID_PART) > 0)) ALE_EULER = 1
-        IF ((JALE.EQ.0).OR.(ELEM_VOID.EQ.0)) CYCLE
+        IF ((JALE == 0).OR.(ELEM_VOID == 0)) CYCLE
         FLG_FSI = 1
-      END DO
-                   
+      END DO                  
 C------------------------------------------- 
       RETURN
       END

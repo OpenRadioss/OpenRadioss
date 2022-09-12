@@ -94,13 +94,13 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER ND, IDX, LB_MAX
-      INTEGER IGEO(NPROPGI,*),IPM(NPROPMI,*), IXQ(7,*),IPARG(NPARG,*),
+      INTEGER IGEO(NPROPGI,NUMGEO),IPM(NPROPMI,NUMMAT), IXQ(7,*),IPARG(NPARG,NGROUP),
      .        EADD(*),DD_IAD(NSPMD+1,*),INUM(9,*),INDEX(*),
      .        CEP(*),IPARTQ(*),NELQ(*),ITR1(*),
      .        IQUAOFF(*)
       TYPE (INIVOL_) , DIMENSION(NINIVOL) :: INIVOL
       MY_REAL
-     .    PM(NPROPM,*), GEO(NPROPG,*)
+     .    PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO)
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRQUAD)  :: IGRQUAD
       TYPE (SURF_)   , DIMENSION(NSURF)    :: IGRSURF
@@ -113,7 +113,8 @@ C-----------------------------------------------
      .   ML1, ML2, MT1, MT2,NB,INEG,IEOS,
      .   MODE, WORK(70000),NN,J,
      .   IPLAST, IALEL, MT,IFAIL,NFAIL,FAILMODEL,
-     .   NGP(NSPMD+1),ICPRE,NMTV_MAX,IPARTR2R,ISMST,TAG_INVOL
+     .   NGP(NSPMD+1),ICPRE,NMTV_MAX,IPARTR2R,ISMST,TAG_INVOL,
+     .   JALE_FROM_MAT,JALE_FROM_PROP
       INTEGER ID,MFT,ILOC,JJ
       CHARACTER*nchartitle, TITR
       LOGICAL lFOUND
@@ -271,7 +272,9 @@ C ngroup global
             IXQ(1,II)=MID
             INEG = 1
           ENDIF
-          JALE=NINT(PM(72,MID))
+          JALE_FROM_MAT = NINT(PM(72,MID))
+          JALE_FROM_PROP = IGEO(62,PID)
+          JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if unconsistent, error message was displayed in PART reader
           JLAG=0
           IF(JALE.EQ.0.AND.MLN.NE.18)JLAG=1
           JEUL=0

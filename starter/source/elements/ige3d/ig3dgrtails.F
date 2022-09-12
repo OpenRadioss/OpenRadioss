@@ -44,15 +44,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C            A R G U M E N T S
 C-----------------------------------------------
-C     KXIG3D(NIXIG3D,NUMELIG3D)  TABLEAU CONECS+PID+NOS RESSORTS    E
-C     IPARG(NPARG,NGROUP)TABLEAU DES CARACTERISTIQUES DES GROUPES   E/S
-C     GEO(NPROPG,NUMGEO) TABLEAU DES CARACS DES PID                 E
-C     EADD(NUMELIG3D)       TABLEAU DES ADRESEES DANS IDAM CHGT DAMIER E 
-C     DD_IAD             TABLEAU DE LA DD EN SUPER GROUPES          S
-C     INDEX(NUMELIG3D)      TABLEAU DE TRAVAIL                         E/S
-C     INUM (9*NUMELIG3D)      TABLEAU DE TRAVAIL                         E/S
-C     CEP(NUMELIG3D)        TABLEAU DE TRAVAIL                         E/S
-C     ITR1(NUMELIG3D)        TABLEAU DE TRAVAIL                         E/S
+C     KXIG3D(NIXIG3D,NUMELIG3D)  ARRAY: CONECS+PID+NOS RESSORTS    E
+C     IPARG(NPARG,NGROUP)        ARRAY: GROUP PARAMS               E/S
+C     GEO(NPROPG,NUMGEO)         ARRAY: PROPERTY PARAMS            E
+C     EADD(NUMELIG3D)            ARRAY: IDAM INDEXES / checkboard  E 
+C     DD_IAD                     ARRAY: DD IN SUPER GROUP            S
+C     INDEX(NUMELIG3D)           ARRAY: WORKING                    E/S
+C     INUM (9*NUMELIG3D)         ARRAY: WORKING                    E/S
+C     CEP(NUMELIG3D)             ARRAY: WORKING                    E/S
+C     ITR1(NUMELIG3D)            ARRAY: WORKING                    E/S
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -81,11 +81,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER KXIG3D(NIXIG3D,*),IPARG(NPARG,*),EADD(*),
-     .        ND, DD_IAD(NSPMD+1,*),IDX,IGEO(NPROPGI,*),
+     .        ND, DD_IAD(NSPMD+1,*),IDX,IGEO(NPROPGI,NUMGEO),
      .        LB_MAX, INUM(NIXIG3D+1,*), INDEX(*),CEP(*),
      .        IPARTIG3D(*), ITR1(*),NIGE(*)
-      my_real
-     .   GEO(NPROPG,*),PM(NPROPM,*),KNOTLOCEL(*)
+      my_real GEO(NPROPG,NUMGEO),PM(NPROPM,NUMMAT),KNOTLOCEL(*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -94,9 +93,8 @@ C-----------------------------------------------
      .        PID, NEL_PREC, LB_L, P, NEL,NB,
      .        MODE, WORK(70000),NN,IAD1,NGROU, J,MID,IETYP,
      .        MT,IXIG3D(*),NUVAR,NUVARN,NXVIE,NXVIN,INND,II,inno,
-     .        NGP(NSPMD+1)
-      my_real
-     .    KNOTLOCELINDX(SKNOTLOCEL)
+     .        NGP(NSPMD+1),JALE_FROM_MAT,JALE_FROM_PROP
+      my_real KNOTLOCELINDX(SKNOTLOCEL)
 C
       DATA NXVIE/3/, NXVIN/0/
 C----------------------------------------------------------
@@ -198,7 +196,11 @@ C xgroup global
           MTNN= NINT(PM(19,ABS(KXIG3D(1,II))))
           IETYP = 101
           GEO(8,PID)=IETYP + EM01
-          JALE=NINT(PM(72,MID))
+          
+          JALE_FROM_MAT = NINT(PM(72,MID))
+          JALE_FROM_PROP = IGEO(62,PID)
+          JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if unconsistent, error message was displayed in PART reader
+ 
           JLAG=0
           IF(JALE == 0.AND.MTNN.NE.18)JLAG=1
           JEUL=0

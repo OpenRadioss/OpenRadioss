@@ -33,7 +33,7 @@ Chd|====================================================================
      1       KXIG3D,  GEO,   INUM,    ITR1,
      2       EADD, INDEX, ITRI,    IPARTIG3D,     
      3       ND,   IGRSURF,
-     4       CEP,  XEP,IPM, PM, NIGE, KNOTLOCEL)
+     4       CEP,  XEP,IGEO, IPM, PM, NIGE, KNOTLOCEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -86,10 +86,9 @@ C-----------------------------------------------
       INTEGER KXIG3D(NIXIG3D,*),INUM(NIXIG3D+1,*),IPARTIG3D(*),
      .        EADD(*),ITR1(*),INDEX(*),ITRI(4,*),
      .        ND, CEP(*), XEP(*),
-     .        IPM(NPROPMI,*),NIGE(*)
-C     REAL OU REAL*8
-      my_real
-     .    GEO(NPROPG,*),PM(NPROPM,*),KNOTLOCEL(*)
+     .        IPM(NPROPMI,NUMMAT),NIGE(*)
+      INTEGER,INTENT(IN) :: IGEO(NPROPGI,NUMGEO)
+      my_real GEO(NPROPG,NUMGEO),PM(NPROPM,NUMMAT),KNOTLOCEL(*)
 C
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
 C-----------------------------------------------
@@ -98,7 +97,7 @@ C-----------------------------------------------
       INTEGER 
      .        I, K, NG, ISSN, NPN, NN, N, MID, PID ,
      .        II, J, II2,JJ2,JJ, II3, JJ3, L,NGROU,
-     .        MODE, WORK(70000),NCTRL,MLN
+     .        MODE, WORK(70000),NCTRL,MLN,JALE_FROM_MAT,JALE_FROM_PROP
       EXTERNAL MY_SHIFTL,MY_SHIFTR,MY_AND
       INTEGER MY_SHIFTL,MY_SHIFTR,MY_AND
       my_real
@@ -134,7 +133,10 @@ C
         PID= KXIG3D(2,I)
         NCTRL= KXIG3D(3,I)
 C
-        JALE=NINT(PM(72,MID))
+        JALE_FROM_MAT = NINT(PM(72,MID))
+        JALE_FROM_PROP = IGEO(62,PID)
+        JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if unconsistent, error message was displayed in PART reader
+
         JLAG=0
         IF(JALE.EQ.0.AND.MLN.NE.18)JLAG=1
         JEUL=0
