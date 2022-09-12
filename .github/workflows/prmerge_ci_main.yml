@@ -431,11 +431,17 @@ jobs:
     - name: Provide ALL binaries
       run: |
         # Prepare tree architecture
-        mkdir -p todeliver/${{ env.OPENRADIOSS_MAINDIR_NAME }}/lib todeliver/${{ env.OPENRADIOSS_MAINDIR_NAME }}/licenses
-        cp -a extlib/h3d/lib/linux64/libh3dwriter.so extlib/hm_reader/linux64/libhm_reader_linux64.so todeliver/${{ env.OPENRADIOSS_MAINDIR_NAME }}/lib/
-        cp -a hm_cfg_files todeliver/${{ env.OPENRADIOSS_MAINDIR_NAME }}/cfg
-        cp -a exec todeliver/${{ env.OPENRADIOSS_MAINDIR_NAME }}/bin
+        mkdir -p todeliver/${{ env.OPENRADIOSS_MAINDIR_NAME }}/extlib/h3d/lib/linux64 todeliver/${{ env.OPENRADIOSS_MAINDIR_NAME }}/extlib/hm_reader
+        cp -a extlib/h3d/lib/linux64/libh3dwriter.so todeliver/${{ env.OPENRADIOSS_MAINDIR_NAME }}/extlib/h3d/lib/linux64/
+        cp -a extlib/hm_reader todeliver/${{ env.OPENRADIOSS_MAINDIR_NAME }}/extlib/
+
+        cp -a hm_cfg_files todeliver/${{ env.OPENRADIOSS_MAINDIR_NAME }}/
+
+        cp -a exec todeliver/${{ env.OPENRADIOSS_MAINDIR_NAME }}/
+
+        mkdir -p todeliver/${{ env.OPENRADIOSS_MAINDIR_NAME }}/licenses
         cp -a extlib/license/* todeliver/${{ env.OPENRADIOSS_MAINDIR_NAME }}/licenses/
+
         cp -a COPYRIGHT.md todeliver/${{ env.OPENRADIOSS_MAINDIR_NAME }}/
 
         export OPENRADIOSS_BIN_ARCHIVE="${{ env.OPENRADIOSS_MAINDIR_NAME }}_${{ matrix.os }}.zip"
