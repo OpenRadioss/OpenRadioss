@@ -5,37 +5,30 @@ OpenRadioss is made of:
 * OpenRadioss Starter that checks the model and splits the mesh
 * OpenRadioss Engine that runs the simulation in parallel
 * Few [libraries](https://github.com/OpenRadioss/OpenRadioss/tree/main/extlib)
-* A set of [configuration files](https://github.com/OpenRadioss/OpenRadioss/tree/main/hm_cfg_files) that describes the input 
+* A set of [configuration files](https://github.com/OpenRadioss/OpenRadioss/tree/main/hm_cfg_files) that describes the input
 
-## Running OpenRadioss
-Download and [build OpenRadioss](https://github.com/OpenRadioss/OpenRadioss/blob/main/HOWTO.md), or download the [binaries](https://github.com/OpenRadioss/OpenRadioss/releases)
 
-### Environment variable
+## Prerequisites
+* Download and [build OpenRadioss](https://github.com/OpenRadioss/OpenRadioss/blob/main/HOWTO.md), or download the [binaries](https://github.com/OpenRadioss/OpenRadioss/releases)
+* Set the following environment variables:
 
-        export OPENRADIOSS_PATH=[OpenRadioss Root directory]
-        export OMP_STACKSIZE=400m
-        
-If you built OpenRadioss from the source
- 
+        export OPENRADIOSS_PATH=[Path to OpenRadioss root directory]
         export RAD_CFG_PATH=$OPENRADIOSS_PATH/hm_cfg_files
+        export OMP_STACKSIZE=400m
         export LD_LIBRARY_PATH=$OPENRADIOSS_PATH/extlib/hm_reader/linux64/:$OPENRADIOSS_PATH/extlib/h3d/lib/linux64/:$LD_LIBRARY_PATH
-        
-If you downloaded the binaries from [here](https://github.com/OpenRadioss/OpenRadioss/releases)
 
-        export RAD_CFG_PATH=$OPENRADIOSS_PATH/cfg
-        export LD_LIBRARY_PATH=$OPENRADIOSS_PATH/lib/:$LD_LIBRARY_PATH
-
+## Runing OpenRadioss
 ### Running OpenRadioss without MPI (OpenMP only)
 
 * Define number of OpenMP threads
 
-        export OMP_NUM_THREADS=N
+        export OMP_NUM_THREADS=[N]
 
 * Run OpenRadioss Starter and Engine from the directory that contains the binaries
 
-        ./starter_linux64_gf -i [Starter input file] -np 1       
+        ./starter_linux64_gf -i [Starter input file] -np 1
         ./engine_linux64_gf -i [Engine input file]
- 
+
 ### Running OpenRadioss with MPI+OpenMP
 
 * Set up environment variables, assuming that OpenMPI is installed in `/opt/openmpi`
@@ -43,25 +36,18 @@ If you downloaded the binaries from [here](https://github.com/OpenRadioss/OpenRa
         export LD_LIBRARY_PATH=/opt/openmpi/lib:$LD_LIBRARY_PATH
         export PATH=/opt/openmpi/bin:$PATH
 
-* Run OpenRadioss with P MPI process and N threads per domain from the directory that contains the binaries
+* Run OpenRadioss with P MPI processes and N threads per domain from the directory that contains the binaries
 
-        export OMP_NUM_THREADS=N
-        ./starter_linux64_gf -i [Starter input file] -np P        
-        mpiexec -n P ./engine_linux64_gf_ompi -i [Engine input file]
+        export OMP_NUM_THREADS=[N]
+        ./starter_linux64_gf -i [Starter input file] -np [P]
+        mpiexec -n [P] ./engine_linux64_gf_ompi -i [Engine input file]
 
 
 ## Running OpenRadioss test suite from the source code
 
-* Set OpenRadioss Environment variables
-
-        export OPENRADIOSS_SOURCE_PATH=[OpenRadioss Root directory]
-        export RAD_CFG_PATH=$OPENRADIOSS_SOURCE_PATH/hm_cfg_files
-        export LD_LIBRARY_PATH=$OPENRADIOSS_SOURCE_PATH/extlib/hm_reader/linux64/:$OPENRADIOSS_SOURCE_PATH/extlib/h3d/lib/linux64/:$LD_LIBRARY_PATH
-        export OMP_STACKSIZE=400m
-
 * Go to the `qa_test/scripts` directory
 
-        cd $OPENRADIOSS_SOURCE_PATH/qa-tests/scripts
+        cd $OPENRADIOSS_PATH/qa-tests/scripts
 
 ### Running without MPI (OpenMP only)
 
@@ -76,5 +62,5 @@ If you downloaded the binaries from [here](https://github.com/OpenRadioss/OpenRa
 
 * Run the test suite with P MPI processes, and N threads per MPI process
 
-        export OMP_NUM_THREADS=N
-        perl ./or_qa_script ../../exec/engine_linux64_gf_ompi --exec_script_args="mpiexec -np P"  1.0
+        export OMP_NUM_THREADS=[N]
+        perl ./or_qa_script ../../exec/engine_linux64_gf_ompi --exec_script_args="mpiexec -np [P]"  1.0
