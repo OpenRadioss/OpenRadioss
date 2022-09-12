@@ -110,11 +110,12 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       CHARACTER MESS*40
       CHARACTER*nchartitle,TITR,TITR1,TITR2,LINE1
+      CHARACTER*5 CHAR_PROP,CHAR_MAT
       LOGICAL IS_AVAILABLE, USER_LAW, IS_ASSOCIATED_LAW51
       INTEGER PID,MID,SID,ID,ID1,ID2,I,IMID,IPID,ISID,K,ITH, IGTYP,XFEMFLG,
      .        IXFEM,IHBE,ILAW,UID,IFLAGUNIT,J,FLG_SPH_THERM_UPDT,IDMAT_PLY,
      .        ILAW_PLY,IPMAT,NPT,IDPARTSPH,SUB_INDEX,SIZE, IDS, CNT, 
-     .        IFIX_TMP, IGFLU, JALE,JTHE,STAT
+     .        IFIX_TMP, IGFLU, JALE,JTHE,STAT,JALE_FROM_MAT,JALE_FROM_PROP
       my_real BID, THICK,FAC_L,MP,VOL,DIAM
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -369,6 +370,51 @@ C     Allow SHELL3N for 2D law 151
               ENDIF
            ENDIF
         ENDIF
+        !################################################################!
+        !  EULER & ALE : CHECK CONSISTENCY BETWEEN MAT and PROP          !
+        !################################################################!  
+        ! JALE_FROM_MAT = PM(72)        0:lagrange   1:ale    2:euler 
+        ! JALE_FROM_PROP = IGEO(62)     0:lagrange   1:ale    2:euler       
+        
+        !/ALE/MAT or /EULER/MAT
+        IF(IMID > 0)THEN
+          JALE_FROM_MAT = PM(72,IMID)
+          !character string for possible error message
+          IF(JALE_FROM_MAT == 1)THEN
+            CHAR_MAT = 'ALE  '
+          ELSEIF(JALE_FROM_MAT == 2)THEN
+            CHAR_MAT = 'EULER'
+          ENDIF
+        ELSE
+          JALE_FROM_MAT = 0
+        ENDIF
+        
+        !/PROP_TYPE14 (IALE_FLAG)
+        IF(IPID > 0)THEN
+          JALE_FROM_PROP = IGEO(62,IPID)
+          !character string for possible error message          
+          IF(JALE_FROM_PROP == 1)THEN
+            CHAR_PROP = 'ALE  '
+          ELSEIF(JALE_FROM_PROP == 2)THEN
+            CHAR_PROP = 'EULER'
+          ENDIF          
+        ELSE
+          JALE_FROM_PROP = 0
+        ENDIF
+        
+        !display error message if MATERIAL and PROPERTY have unconsistent definitions     
+        IF(JALE_FROM_MAT > 0 .AND. JALE_FROM_PROP > 0)THEN
+          IF(JALE_FROM_MAT /= JALE_FROM_PROP)THEN
+            CALL ANCMSG(MSGID=130,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,
+     .                I1=ID, C1=TITR,
+     .                I2=PID,C2=TITR1,C3=CHAR_PROP,
+     .                I3=MID,C4=TITR2,C5=CHAR_MAT )          
+          ENDIF
+        ENDIF
+
+
+
+        
        
         WRITE(IOUT,'(A,I10,2A)')'     SUBSET  :',SID
         WRITE(IOUT,'(A,1PG20.13,2A)')' VIRT. THICKN:',THK_PART(I)

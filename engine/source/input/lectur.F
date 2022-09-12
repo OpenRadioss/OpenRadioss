@@ -1078,7 +1078,7 @@ C----------------------------------------
          IF(UPW_UPDATE/=0)THEN
            DO K=1,NUMMAT-1
              !ILAW=PM(19,K)
-             JALE=PM(72,K)
+             JALE=PM(72,K)  ! JALE from PROP (IGEO(62,IPID)) is not checked since this option /UPWIND is obsolete
              IF(JALE /= 0)THEN
                IF(PM(15,K)/=UPWMG2.OR.PM(16,K)/=UPWOG2)THEN
                  UPW_UPDATE = 2

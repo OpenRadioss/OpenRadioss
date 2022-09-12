@@ -35,7 +35,7 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE INIEBCS(ALE_CONNECTIVITY, IFLAG,IGRSURF, IXS, IXQ, IXTG, 
-     .     PM, X, LSENSOR, IVOLU, MULTI_FVM_IS_USED, EBCS_TAB, EBCS_TAG_CELL_SPMD)
+     .     PM, IGEO, X, LSENSOR, IVOLU, MULTI_FVM_IS_USED, EBCS_TAB, EBCS_TAG_CELL_SPMD)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -56,17 +56,18 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
-      INTEGER IXS(*),IXQ(*),IXTG(*), LSENSOR(NSENSI,*),IVOLU(NIMV,*)
+      INTEGER IXS(SIXS),IXQ(SIXQ),IXTG(SIXTG), LSENSOR(NSENSI,NSENSOR),IVOLU(NIMV,*)
       LOGICAL, INTENT(IN) :: MULTI_FVM_IS_USED
       INTEGER, INTENT(INOUT) :: EBCS_TAG_CELL_SPMD(NUMELQ+NUMELTG+NUMELS)
-      my_real PM(*),X(*)
+      my_real PM(NPROPM,NUMMAT),X(SX)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
       TYPE(t_ebcs_tab), TARGET, INTENT(INOUT) :: EBCS_TAB
-      INTEGER,INTENT(IN) :: IFLAG
+      INTEGER,INTENT(IN) :: IFLAG, IGEO(NPROPGI,NUMGEO)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -289,15 +290,15 @@ C=======================================================================
           IF (N2D == 0) THEN
              CALL FINDELE(ALE_CONNECTIVITY, 8, NIXS, 6, IDSU,ID,NSEG,IXS,
      .            EBCS%iseg, EBCS%ielem, EBCS%itype,EBCS%iface, 
-     .            IGRSURF(ISU)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP)
+     .            IGRSURF(ISU)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO)
           ELSEIF (NUMELQ /= 0) THEN
              CALL FINDELE(ALE_CONNECTIVITY, 4, NIXQ, 4, IDSU,ID,NSEG,IXQ,
      .            EBCS%iseg, EBCS%ielem,EBCS%itype, EBCS%iface,
-     .            IGRSURF(ISU)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP)           
+     .            IGRSURF(ISU)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO)           
           ELSEIF (NUMELTG /= 0 .AND. MULTI_FVM_IS_USED) THEN
              CALL FINDELE(ALE_CONNECTIVITY, 3, NIXTG, 3, IDSU,ID,NSEG,IXTG,
      .            EBCS%iseg, EBCS%ielem,EBCS%itype, EBCS%iface,
-     .            IGRSURF(ISU)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP)                  
+     .            IGRSURF(ISU)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO)                  
           ENDIF
           
           IF(.NOT.EBCS%is_multifluid .AND. (TYP == 0 .OR. TYP == 10))THEN                                           

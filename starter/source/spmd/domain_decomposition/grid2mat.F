@@ -112,11 +112,11 @@ C-----------------------------------------------
      .        IXP(NIXP,*), IXR(NIXR,*), IXUR(NIXUR,*), IXTG(NIXTG,*),
      .        CEP(*), ITRI1(*), ITRI2(*), INDEX1(*),INDEX2(*),
      .        NUM(*), NELEM,IDDLEVEL, NELEMINT, IXINT(6,*),
-     .        KXX(NIXX,NUMELX),IXX(*), ADSKY(0:*),IGEO(NPROPGI,*),
+     .        KXX(NIXX,NUMELX),IXX(*), ADSKY(0:*),IGEO(NPROPGI,NUMGEO),
      .        ISOLNOD(*), IWCONT(5,*), IWCIN2(2,*), DSDOF(*),
      .        ISOLOFF(*), ISHEOFF(*), ITRIOFF(*), IKINE(*),
      .        ITRUOFF(*), IPOUOFF(*), IRESOFF(*), IELEM21(*),
-     .        IPM(NPROPMI,*),IXS10(6,*),KXIG3D(NIXIG3D,NUMELIG3D),
+     .        IPM(NPROPMI,NUMMAT),IXS10(6,*),KXIG3D(NIXIG3D,NUMELIG3D),
      .        IQUAOFF(*),
      .        IXIG3D(*),NSNT, NMNT,TABMP_L,
      .        FVMAIN(NVOLU)
@@ -124,16 +124,13 @@ C-----------------------------------------------
       INTEGER, DIMENSION(LIPART1,*), INTENT(IN) :: IPART
       INTEGER, DIMENSION(*), INTENT(IN) :: IPARTC,IPARTG,IPARTS
       TYPE (CLUSTER_) ,DIMENSION(*) :: CLUSTERS
-      my_real 
-     .        GEO(NPROPG,*),  PM(NPROPM,*), X(3,*), COST_R2R,
-     .        BUFMAT(*)
+      my_real GEO(NPROPG,NUMGEO),  PM(NPROPM,NUMMAT), X(3,*), COST_R2R,BUFMAT(*)
       REAL    WD(*)
       INTEGER TAILLE
       INTEGER, DIMENSION(NUMMAT_OLD) :: POIN_UMP_OLD
       INTEGER, DIMENSION(7,TAILLE_OLD) :: TAB_UMP_OLD
       INTEGER, DIMENSION(NUMMAT) :: POIN_UMP
       INTEGER, DIMENSION(7,TAILLE) :: TAB_UMP
-C     REAL OU REAL*8
       my_real, DIMENSION(TAILLE_OLD) :: CPUTIME_MP_OLD
       INTEGER, DIMENSION(2,NPART), INTENT(IN) :: POIN_PART_SHELL,POIN_PART_TRI
       INTEGER, DIMENSION(2,NPART,7), INTENT(IN) :: POIN_PART_SOL
@@ -157,7 +154,7 @@ C-----------------------------------------------
      .        WORK(70000), NUML, IERROR,
      .        ELEMD, IMMNUL, NEDDEL, ITYPINT, IWARN1,
      .        MAXI, MAXJ, MAX, I1, I2, I3, N1, N2, NUMG3, NUMG4,
-     .        NELX,ADDX,MID,JALE,MLN,NSHIFT,NNODE, NN,
+     .        NELX,ADDX,MID,PID,JALE,MLN,NSHIFT,NNODE, NN,
      .        OPTIONS(40),NCOND,NFLAG,IWFLG,NODC,ICUR,IERR1,NEC,
      .        INWDCOUNT,ICCAND,ICNOD_SMS,ISOLBAR, ICKIN, NK, NKI,
      .        ICELEM, ICINTS, ICINTM, ICINT2, ICDDL, ICFSI, ICDEL, ICSOL,
@@ -165,7 +162,7 @@ C-----------------------------------------------
      .        NCONNX, CURR, PREV, NEXT, I1OLD, I2OLD, INC, IDB_METIS,
      .        NELIG3D,NCOND2,LSMS,  
      .        OFFC,OFFTG,K0,ITYP,                     
-     .        NN_L,IS,IAD,ITY,KAD
+     .        NN_L,IS,IAD,ITY,KAD,JALE_FROM_MAT, JALE_FROM_PROP
       INTEGER, DIMENSION(:),ALLOCATABLE :: XADJ, ADJNCY,IWD,IWD2, 
      .        IENDT,ITRI,INDEX,DOMCLUSTER,ELEMCLUST,
      .        XADJ_OLD, ADJNCY_OLD, COLORS, ROOTS,
@@ -488,7 +485,10 @@ C-----------------------------------------------
         END IF
 C additional test for barrier
         MID = ABS(IXS(1,II))
-        JALE = NINT(PM(72,MID))
+        PID = ABS(IXS(10,II))
+        JALE_FROM_MAT = NINT(PM(72,MID))
+        JALE_FROM_PROP = IGEO(62,PID)
+        JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if unconsistent, error message was displayed in PART reader
         MLN = NINT(PM(19,MID))
         IF(JALE.EQ.0.AND.(MLN.EQ.28.OR.MLN.EQ.68))THEN
           ISOLBAR=ISOLBAR+1

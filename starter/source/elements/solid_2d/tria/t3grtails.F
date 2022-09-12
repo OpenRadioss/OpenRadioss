@@ -113,16 +113,14 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER ND, IDX, LB_MAX,
-     .        IXTG(NIXTG,*), IPARG(NPARG,*), EADD(*), IXTG1(4,*),
+     .        IXTG(NIXTG,*), IPARG(NPARG,NGROUP), EADD(*), IXTG1(4,*),
      .        DD_IAD(NSPMD+1,*),IPARTTG(*), NELTG(*),
-     .        INUM(10,*),ITR1(*),INDEX(*),CEP(*),ICNOD(*),IPM(NPROPMI,*),
-     .        ITRIOFF(*), SH3TRIM(*),IGEO(NPROPGI,*),
+     .        INUM(10,*),ITR1(*),INDEX(*),CEP(*),ICNOD(*),IPM(NPROPMI,NUMMAT),
+     .        ITRIOFF(*), SH3TRIM(*),IGEO(NPROPGI,NUMGEO),
      .        IPART(LIPART1,*), SH3TREE(KSH3TREE,*), NOD2ELTG(*) ,
      .        TAGPRT_SMS(*),IWORKSH(3,*)
       TYPE (INIVOL_) , DIMENSION(NINIVOL) :: INIVOL
-      MY_REAL
-     .        PM(NPROPM,*), GEO(NPROPG,*),THK(*),XNUM(*),RNOISE(NPERTURB,*),
-     .        SH3ANG(*)
+      MY_REAL :: PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO),THK(*),XNUM(*),RNOISE(NPERTURB,*),SH3ANG(*)
 C-----------------------------------------------
       TYPE (STACK_PLY) :: STACK
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
@@ -140,9 +138,9 @@ C-----------------------------------------------
      .   ILEV, IE, MPT, NUVAR, NUVARR,IPIDL, IADM, MY_NVSIZ, JLEV,
      .   MLNLY,IMATLY,IRUP,IXFEM,IPTUN,IREP,
      .   ISUBSTACK,IIGEO,IADI,IPPID,IPMAT,ISH3N, NPG,IDROT1,NB_LAW58,IPERT,
-     .   STAT, MT, IALEL, MFT,ILOC,JJ
-       my_real
-     . ANGLE(NUMELTG)
+     .   STAT, MT, IALEL, MFT,ILOC,JJ,
+     .   JALE_FROM_MAT,JALE_FROM_PROP
+       my_real ::  ANGLE(NUMELTG)
       INTEGER WORK(70000),NGP(NSPMD+1)
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ISTOR
       INTEGER ID,IPARTR2R
@@ -679,7 +677,9 @@ C         flag for group of dupplicated elements in multidomains
 C     Multifluid law, setting NLAY
           IF (MLN .EQ. 151) THEN
              IPARG(20, NGROUP) = IPM(20, MID)
-             JALE=NINT(PM(72,MID))
+             JALE_FROM_MAT = NINT(PM(72,MID))
+             JALE_FROM_PROP = IGEO(62,PID)
+             JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if unconsistent, error message was displayed in PART reader
              JLAG=0
              JEUL=0
              IF(JALE == 2)THEN

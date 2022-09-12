@@ -64,26 +64,26 @@ Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|        TH_MOD                        share/modules/th_mod.F        
 Chd|====================================================================
-      SUBROUTINE HIST2(PM      ,D       ,X      ,V        ,A        ,
-     2                 IXS     ,BUFEL   ,WA     ,IPARG    ,
-     4                 FSAV    ,FLSW    ,SKEW   ,ELBUF_TAB,CLUSTER  ,
-     5                 PARTSAV ,ACCELM  ,LOUT   ,
-     6                 IPARI   ,WEIGHT  ,IPART  ,IGRSURF  ,
-     7                 ITHGRP  ,ITHBUF  ,SUBSET ,GEO      ,
-     8                 KXX     ,IXR      ,
-     9                 KXSP    ,NOD2SP  ,SPBUF  ,
-     B                 NPARTSAV,AR      ,VR     ,DR       ,
-     D                 FSAVD   ,LRIVET   ,RIVET    ,
-     E                 ISKWN   ,IFRAME  ,XFRAME ,IXC      ,IXQ      ,
-     F                 DTHIS0  ,THIS0   ,IFIL   ,NTHGRP2  ,IXTG     ,
-     G                 IGEO    ,IPM     ,FXBIPM ,FXBDEP   ,FXBVIT   ,
-     H                 FXBACC  ,IPARTL  ,NPARTL ,IACCP    ,NACCP    ,
-     I                 IPARTH  ,NPARTH  ,NVPARTH,
-     J                 NVSUBTH ,MONVOL  ,VOLMON ,FR_MV    ,TEMP,INOD,
-     K                 FTHREAC,NODREAC  ,GRESAV ,GAUGE    ,
-     L                 IGAUP  ,NGAUP    ,ITTYP  ,WEIGHT_MD,SIZE_MES ,
-     M                 RTHBUF ,THKE     ,STACK  ,ISPHIO   ,VSPHIO  ,
-     N                 ITHFLAG,PINCH_DATA,MULTI_FVM,W)
+      SUBROUTINE HIST2(PM      ,D         ,X        ,V        ,A        ,
+     2                 IXS     ,BUFEL     ,WA       ,IPARG    ,
+     4                 FSAV    ,FLSW      ,SKEW     ,ELBUF_TAB,CLUSTER  ,
+     5                 PARTSAV ,ACCELM    ,LOUT     ,
+     6                 IPARI   ,WEIGHT    ,IPART    ,IGRSURF  ,
+     7                 ITHGRP  ,ITHBUF    ,SUBSET   ,GEO      ,
+     8                 KXX     ,IXR       ,
+     9                 KXSP    ,NOD2SP    ,SPBUF    ,
+     B                 NPARTSAV,AR        ,VR       ,DR       ,
+     D                 FSAVD   ,LRIVET    ,RIVET    ,
+     E                 ISKWN   ,IFRAME    ,XFRAME   ,IXC      ,IXQ      ,
+     F                 DTHIS0  ,THIS0     ,IFIL     ,NTHGRP2  ,IXTG     ,
+     G                 IGEO    ,IPM       ,FXBIPM   ,FXBDEP   ,FXBVIT   ,
+     H                 FXBACC  ,IPARTL    ,NPARTL   ,IACCP    ,NACCP    ,
+     I                 IPARTH  ,NPARTH    ,NVPARTH  ,
+     J                 NVSUBTH ,MONVOL    ,VOLMON   ,FR_MV    ,TEMP,INOD,
+     K                 FTHREAC ,NODREAC   ,GRESAV   ,GAUGE    ,
+     L                 IGAUP   ,NGAUP     ,ITTYP    ,WEIGHT_MD,SIZE_MES ,
+     M                 RTHBUF  ,THKE      ,STACK    ,ISPHIO   ,VSPHIO   ,
+     N                 ITHFLAG ,PINCH_DATA,MULTI_FVM,W)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -131,28 +131,27 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MBUFFER, NPARTL
       LOGICAL LOUT
-      INTEGER IXS(NIXS,*),IPARG(NPARG,*),
+      INTEGER IXS(NIXS,NUMELS),IPARG(NPARG,NGROUP),
      .   NPARTSAV,
-     .   IPARI(NPARI,*),IGEO(NPROPGI,*),
+     .   IPARI(NPARI,NINTER),IGEO(NPROPGI,NUMGEO),
      .   WEIGHT(NUMNOD),IPART(LIPART1,*),
      .   ITHGRP(NITHGR,*),ITHBUF(*),
-     .   IXR(NIXR,*),KXSP(NISP,*),NOD2SP(*),LRIVET(4,*),IPM(NPROPMI,*),
-     .   ISKWN(LISKN,*),IFRAME(LISKN,*),IXC(NIXC,*),IXQ(NIXQ,*),
+     .   IXR(NIXR,*),KXSP(NISP,*),NOD2SP(*),LRIVET(4,*),IPM(NPROPMI,NUMMAT),
+     .   ISKWN(LISKN,*),IFRAME(LISKN,*),IXC(NIXC,NUMELC),IXQ(NIXQ,NUMELQ),
      .   IXTG(NIXTG,*),IFIL,NTHGRP2,FXBIPM(*),IPARTL(*),IACCP(*),
      .   NACCP(*),NPARTH,IPARTH(NPARTH,*),NVPARTH,
      .   NVSUBTH, MONVOL(*), FR_MV(*),INOD(*),
      .   NODREAC(*),KXX(NIXX,*),IGAUP(*),NGAUP(*),ITTYP,
      .   WEIGHT_MD(NUMNOD),SIZE_MES,ISPHIO(NISPHIO,*),ITHFLAG
-C     REAL
       my_real
-     .   PM(NPROPM,*), D(3,*), X(3,*), V(3,*), A(3,*), BUFEL(*), WA(*),
+     .   PM(NPROPM,NUMMAT), D(3,NUMNOD), X(3,NUMNOD), V(3,NUMNOD), A(3,NUMNOD), BUFEL(*), WA(*),
      .   FSAV(NTHVKI,*), FLSW(9,*), SKEW(LSKEW,*), PARTSAV(NPSAV,*),
      .   ACCELM(LLACCELM,*), GEO(NPROPG,*),SPBUF(*),XFRAME(NXFRAME,*),
-     .   AR(3,*),VR(3,*),DR(3,*),FSAVD(NTHVKI,*),
+     .   AR(3,NUMNOD),VR(3,NUMNOD),DR(3,NUMNOD),FSAVD(NTHVKI,*),
      .   RIVET(NRIVF,*), THIS0, DTHIS0,THKE(*),
      .   RIVOFF(NRIVET), FXBDEP(*), FXBVIT(*), FXBACC(*), VOLMON(*),
-     .   TEMP(*),FTHREAC(*),GRESAV(NPSAV,*), GAUGE(LLGAUGE,*),RTHBUF(*),
-     .   VSPHIO(*), W(3,*)
+     .   TEMP(*),FTHREAC(*),GRESAV(NPSAV,*), GAUGE(LLGAUGE,NBGAUGE),RTHBUF(*),
+     .   VSPHIO(*), W(3,NUMNOD)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (CLUSTER_) ,DIMENSION(NCLUSTER)    :: CLUSTER
       TYPE (STACK_PLY) :: STACK
@@ -163,26 +162,20 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
+      LOGICAL ICOND,RIVET_BOOL
+      
       INTEGER I,J,K,L,M,N,II,JJ,IP,NP,NN,NG,ITY,NEL,NFT,N1,N2,NPT,NRWA,
-     .   JALE,FSAVMAX,PROC,NVAR,IAD,ITYP,IADV,FIRST,KRBHOL,ISKN,NNOD
-      INTEGER :: ID_HIST
-      INTEGER
-     .   SEEK_ID
-      LOGICAL ICOND
-      my_real
-     . XFN,SUBSAV(100),XX,YY,ZZ,XY,YZ,ZX,DET,XXMOM,YYMOM,ZZMOM,NORM,
-     .   XCG, YCG, ZCG, IXX, IYY, IZZ,IXY, IYZ, IZX,
-     .   JXX, JYY, JZZ, JXY, JYZ, JZX, AA, THISC,XM,YM,ZM
+     .        JALE,FSAVMAX,PROC,NVAR,IAD,ITYP,IADV,FIRST,KRBHOL,ISKN,NNOD, ID_HIST, SEEK_ID,
+     .        MY_SIZE,IMID,IPID,JALE_FROM_MAT,JALE_FROM_PROP
+
+      my_real XFN,SUBSAV(100),XX,YY,ZZ,XY,YZ,ZX,DET,XXMOM,YYMOM,ZZMOM,NORM, 
+     .        XCG, YCG, ZCG, IXX, IYY, IZZ,IXY, IYZ, IZX,                   
+     .        JXX, JYY, JZZ, JXY, JYZ, JZX, AA, THISC,XM,YM,ZM,             
+     .        FSAVINT(NTHVKI,NINTER+NINTSUB),FSAVVENT(5,NVENTTOT),          
+     .        VX(3),VY(3),VN(3),X1(3),X2(3),X3(3),FLOC(3),MLOC(3),FAC ,     
+     .        FSAVSURF(3,NSURF),ARRAY(5)                                    
       DATA FIRST/0/
       SAVE FIRST
-      my_real
-     .   FSAVINT(NTHVKI,NINTER+NINTSUB),FSAVVENT(5,NVENTTOT),
-     .   VX(3),VY(3),VN(3),X1(3),X2(3),X3(3),FLOC(3),MLOC(3),FAC
-      my_real
-     .   FSAVSURF(3,NSURF)
-      my_real :: ARRAY(5)
-      INTEGER :: MY_SIZE
-      LOGICAL :: RIVET_BOOL
 C=======================================================================
       ID_HIST = ITHFLAG
       THISC = THIS0
@@ -1332,14 +1325,18 @@ C-------------------------
       IF(IUNIT==3)THEN
         ICOND = TT+2.*DT2.GE.T1S+DT2S
         DO II=1,NPARTL
-C remise a zero sur part active du processeur en spmd
-          M = IPARTL(II)
-          JALE= NINT(PM(72,IPART(1,M)))
-          IF(JALE==0.OR.(JALE.GT.0.AND.ICOND))THEN
+          ! zeroing on current PART on local domain
+          M = IPARTL(II) !local parts (present on current domain)
+          IMID = IPART(1,M)
+          IPID = IPART(2,M)
+          JALE_FROM_MAT = NINT(PM(72,IMID))
+          JALE_FROM_PROP = IGEO(62,IPID)
+          JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP)
+          IF(JALE == 0 .OR. (JALE > 0 .AND. ICOND))THEN
             DO I=1,NPSAV
-              IF((I.LT.23.OR.I.GT.26).AND.I.NE.8 .AND. NABFILE==0
-     .               .AND.(MSTOP .NE. 1 .OR. ICTLSTOP == 1) )
-     .          PARTSAV(I,M)=0
+              IF((I < 23.OR.I > 26) .AND. I /= 8 .AND. NABFILE==0 .AND.(MSTOP .NE. 1 .OR. ICTLSTOP == 1) ) THEN
+                PARTSAV(I,M)=0
+              ENDIF
             END DO
           END IF
         END DO

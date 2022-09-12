@@ -61,7 +61,7 @@ Chd|====================================================================
      .           MATPARAM_TAB,MLAW_TAG ,FAIL_TAG ,VISC_TAG ,EOS_TAG  ,
      .           BUFMAT      ,BUFLEN   ,IPM      ,PM       ,UNITAB   ,
      .           MULTI_FVM   ,MAXEOS   ,FAILWAVE ,NLOC_DMG ,LSUBMODEL,
-     .           TABLE       ,NPC)
+     .           TABLE       ,NPC      )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -122,7 +122,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ::  I,J,K,N,IADBUF,IMAT, ILAW, JALE, JTUR, JTHE, 
+      INTEGER ::  I,J,K,N,IADBUF,IMAT, ILAW, JALE, JTUR, JTHE, I_ALE,
      .     IBID, CODCONV,CODREZO, IAD_THERM, IALEFVM_FLG, IGFLAG, MFLAG,
      .     IFUNC_ALPHA,IFORM,IGAS,IMOLE,ID,MID1,MID2,UID1,UID2, ILAW1,ILAW2,NPAR,MAT_ID,UID
       INTEGER :: KK
@@ -287,7 +287,7 @@ c-------------------------------------------------------------------
             ENDIF                                        
           ENDDO                                          
         ENDDO
-
+        
 c-------------------------------------------------------------------
 c     multimaterial law buffer (need to be done after lecmat and before inivol)
 c         LAW51 - IFORM=12

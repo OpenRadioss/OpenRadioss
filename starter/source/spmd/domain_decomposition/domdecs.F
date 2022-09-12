@@ -77,7 +77,7 @@ C-----------------------------------------------
      .        CEP(*), NELEM,IDDLEVEL, NELEMINT, IXINT(6,*), ISOLNOD(*),
      .        KXX(NIXX,*),IXX(*), NSUB, NUMNOD, NUMELS, NUMELQ,  
      .        NUMELC, NUMELT, NUMELP, NUMELR, NUMELTG, NUMELUR, NUMELX,
-     .        ADSKY(0:*), IGEO(NPROPGI,*), IWCONT(*), IWCIN2(*),
+     .        ADSKY(0:*), IGEO(NPROPGI,NUMGEO), IWCONT(*), IWCIN2(*),
      .        DSDOF(*), DSARCH,times,IPM(*),TABMP_L,NPART
       INTEGER, DIMENSION(LIPART1,*), INTENT(IN) :: IPART
       INTEGER, DIMENSION(*), INTENT(IN) :: IPARTC,IPARTG,IPARTS
@@ -100,8 +100,8 @@ C-----------------------------------------------
      .        ELEMD, CEPD, IMMNUL, NEDDEL, ITYPINT,
      .        MAXI, MAXJ, MAX, I1, I2, I3, N1, N2, NUMG3, NUMG4,
      .        NELX,ADDX,NCOND,NFLAG,IWFLG,NODC,ICUR,IERR1,NEC,
-     .        IFSI,MID,JALE,MLN,OPTIONS(40),
-     .        NUMMAT    ,NUMGEO   ,TAILLE
+     .        IFSI,MID,PID,JALE,MLN,OPTIONS(40),
+     .        NUMMAT    ,NUMGEO   ,TAILLE, JALE_FROM_MAT, JALE_FROM_PROP
       INTEGER, DIMENSION(NUMMAT_OLD+NUMGEO_OLD) :: POIN_UMP_OLD
       INTEGER, DIMENSION(7,TAILLE_OLD) :: TAB_UMP_OLD
       INTEGER, DIMENSION(NUMMAT) :: POIN_UMP
@@ -637,7 +637,10 @@ C poids interface deja calcul
             DO I = 1, NELEM
               IF(I.LE.NUMELS)THEN
                 MID = ABS(IXS(1,I))
-                JALE = NINT(PM(72,MID))
+                PID = ABS(IXS(10,I))
+                JALE_FROM_MAT = NINT(PM(72,MID))
+                JALE_FROM_PROP = IGEO(62,PID)
+                JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if unconsistent, error message was displayed in PART reader
                 MLN = NINT(PM(19,MID))
                 IF(JALE.EQ.0.AND.MLN.NE.18)THEN
                   IWD(NCOND*(I-1)+1) = INT(WD(I)*1000)

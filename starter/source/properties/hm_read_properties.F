@@ -197,7 +197,7 @@ C    IGEO(8)  : ISHEAR
 C    IGEO(9)  : IPLAST
 C    IGEO(10) : IHBE
 C    IGEO(11) : IGTYP
-C    IGEO(12) :
+C    IGEO(12) : ISTRAIN
 C    IGEO(13) : ICPRE
 C    IGEO(14) : ICSTR
 C    IGEO(15) : IINT
@@ -248,7 +248,8 @@ C    IGEO(58) : IADFUN  ! reserved for generic storage, don't use it for anythin
 C    IGEO(59) : IADMAT  ! reserved for generic storage, don't use it for anything else !
 C    IGEO(60) : IADPID  ! reserved for generic storage, don't use it for anything else !
 C    IGEO(61) : IADTAB  ! reserved for generic storage, don't use it for anything else !
-C    IGEO(62:100) : Unused
+C    IGEO(62) : IALE_FLAG ! 1:Lagrange(default)  2:Euler 3:ALE
+C    IGEO(63:100) : Unused
 C    IGEO(101...) : Various data related to Integration points, Layers or Injectors (airbags)
 C=======================================================================
 C
@@ -769,16 +770,17 @@ C
          ENDIF ! beging igtype = 17   
       ENDDO ! DO CPT = 1, HM_NUMGEO
 C------------------------------
-C Precalcul SQRT
+C SQRT precalculation
 C------------------------------
       DO I = 1, NUMGEO
         GEO(100,I) = SQRT(GEO(38,I))      ! SHFSR
       END DO
 C-------------------------------------
-C Recherche des ID doubles
+C Searching for duplicated prop_ids 
 C-------------------------------------
       RBID = ZERO
       CALL VDOUBLE(IGEO(1,1),NPROPGI,NUMGEO,MESS,0,RBID)
+      
 C-------------------------------
       RETURN
 C-------------------------------

@@ -27,7 +27,7 @@ Chd|        LECINS                        source/interfaces/interf1/lecins.F
 Chd|        LECINT                        source/interfaces/interf1/lecint.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE INGRBRIC(MSN,NOINT,BRICS,ITAB,MSV, IXS, NBRIC, PM,S_MSV)
+      SUBROUTINE INGRBRIC(MSN,NOINT,BRICS,ITAB,MSV, IXS, NBRIC, PM,S_MSV ,IGEO)
 C-----------------------------------------------------------------------
 C This subroutine lists all brick in the /GRBRICK 
 C (for example it is used with /inter/type22 which recquires a grbrick_id)
@@ -50,13 +50,13 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER , INTENT(IN)    :: NOINT, NBRIC,S_MSV
-      INTEGER , INTENT(IN)    :: BRICS(NBRIC), ITAB(NUMNOD), IXS(NIXS,NUMELS)
+      INTEGER , INTENT(IN)    :: BRICS(NBRIC), ITAB(NUMNOD), IXS(NIXS,NUMELS), IGEO(NPROPGI,NUMGEO)
       INTEGER , INTENT(INOUT) :: MSN, MSV(S_MSV)
       my_real , INTENT(IN)    :: PM(NPROPM,NUMMAT)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER                 :: I, IMAT, IALE_, IF_ALE, IF_EUL
+      INTEGER                 :: I, IMAT, IPID, IALE_, IF_ALE, IF_EUL, JALE_FROM_MAT, JALE_FROM_PROP
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -70,8 +70,11 @@ C-----------------------------------------------
       
       IF(INT22.NE.0)THEN
         DO I=1,NBRIC
-          IMAT  = IXS(1,MSV(I))
-          IALE_ = PM(72,IMAT)
+          IMAT = IXS(1,MSV(I))
+          IPID = IXS(10,MSV(I))
+          JALE_FROM_MAT = NINT(PM(72,IMAT))
+          JALE_FROM_PROP = IGEO(62,IPID)
+          IALE_ = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if unconsistent, error message was displayed in PART reader          
           IF(IALE_.EQ.1)IF_ALE=1
           IF(IALE_.EQ.2)IF_EUL=1
         ENDDO

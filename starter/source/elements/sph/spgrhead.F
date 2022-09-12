@@ -68,25 +68,24 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER KXSP(NISP,*),IPARG(NPARG,*),IXSP(KVOISPH,*),
+      INTEGER KXSP(NISP,*),IPARG(NPARG,NGROUP),IXSP(KVOISPH,*),
      .        IPART(LIPART1,*),IPARTSP(*), EADD(*), CEPSP(*),
-     .        IPM(NPROPMI,*), IGEO(NPROPGI,*),
+     .        IPM(NPROPMI,NUMMAT), IGEO(NPROPGI,NUMGEO),
      .        ND, SPH2SOL(*), SOL2SPH(2,*), IRST(3,NSPHSOL)
 C     REAL
       my_real
-     .        PM(NPROPM,*), SPBUF(NSPBUF,NUMSPH)
+     .        PM(NPROPM,NUMMAT), SPBUF(NSPBUF,NUMSPH)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NE, NG, MT, MLN, I, J, MODE, II0, JJ0, 
      .        II, JJ, II1, JJ1, II2, JJ2, II3, JJ3, II4, JJ4,
-     .        N, IGTYP,IORDER,IPRT,ISLEEP,IUN,IFAIL,IEOS, IKIND, STAT
+     .        N, IGTYP,IORDER,IPRT,ISLEEP,IUN,IFAIL,IEOS, IKIND, STAT,
+     .        JALE_FROM_MAT, JALE_FROM_PROP
       INTEGER WORK(70000),
      .        ITRI(7,NUMSPH), INDEX(2*NUMSPH),
      .        INUM(13,NUMSPH), XEP(NUMSPH)
-C     REAL
-      my_real
-     .        RNUM(NSPBUF,NUMSPH)
+      my_real RNUM(NSPBUF,NUMSPH)
       DATA IUN/1/
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -192,7 +191,10 @@ C       ITRI(1,I)=IKIND
           ITRI(1,I)=SPH2SOL(I)
         END IF
 C
-        JALE=NINT(PM(72,MT))
+        JALE_FROM_MAT = NINT(PM(72,MT))
+        JALE_FROM_PROP = IGEO(62,NG)
+        JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if unconsistent, error message was displayed in PART reader
+        
         JLAG=0
         IF(JALE.EQ.0.AND.MLN.NE.18)JLAG=1
         JEUL=0

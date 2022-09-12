@@ -35,10 +35,9 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|====================================================================
       SUBROUTINE ALELEC(
-     1      ICODE ,IXS    ,IXQ     ,IXC    ,IXT    ,
-     2      IXTG  ,PM     ,
-     3      ITAB  ,GEO    ,NALE_R2R,FLAG_R2R, MULTI_FVM,
-     4      ALE_CONNECTIVITY)
+     1      ICODE    ,IXS     , IXQ      , IXC             ,IXT    ,
+     2      IXTG     ,PM      , IGEO     , ITAB            ,GEO    ,
+     3      NALE_R2R ,FLAG_R2R, MULTI_FVM, ALE_CONNECTIVITY)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -61,7 +60,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN) :: ICODE(*),IXS(3,NUMNOD),IXQ(NIXQ,NUMELQ),IXC(NIXC,NUMELC),IXT(NIXT,NUMELT),IXTG(NIXTG,NUMELTG)
-      INTEGER,INTENT(IN) ::  ITAB(NUMNOD), NALE_R2R(*),FLAG_R2R
+      INTEGER,INTENT(IN) ::  ITAB(NUMNOD), NALE_R2R(*),FLAG_R2R,IGEO(NPROPGI,NUMGEO)
       my_real,INTENT(IN) ::  PM(NPROPM,NUMMAT), GEO(NPROPG,NUMGEO)
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
@@ -92,7 +91,7 @@ C-----------------------------------------------
      .        IXQ   , IXTG  , IXS)
       ENDIF
       
-      CALL ALE_CHECK_LAG(ALE_CONNECTIVITY%NALE,IXS,IXQ,IXC,IXT,IXTG,PM,ITAB,NALE_R2R,FLAG_R2R)   
+      CALL ALE_CHECK_LAG(ALE_CONNECTIVITY%NALE,IXS,IXQ,IXC,IXT,IXTG,PM,ITAB,NALE_R2R,FLAG_R2R,IGEO)   
       
       IF (ALE_CONNECTIVITY%has_nn_connect) THEN 
          CALL ALESOP(ALE_CONNECTIVITY%NALE, ALE_CONNECTIVITY%NN_CONNECT, ICODE, ITAB)        
@@ -101,11 +100,11 @@ C-----------------------------------------------
 
       !ALE NODES ARE HERE MARKED
       IF (N2D == 0)THEN
-         CALL ALESO3(ALE_CONNECTIVITY,PM,IXS,GEO)
+         CALL ALESO3(ALE_CONNECTIVITY,PM,IXS,GEO,IGEO)
       ELSEIF( .NOT. MULTI_FVM%IS_USED .OR. NUMELQ /= 0) THEN
-         CALL ALESO2(ALE_CONNECTIVITY,PM,IXQ)   
+         CALL ALESO2(ALE_CONNECTIVITY,PM,IXQ,IGEO)   
       ELSE
-         CALL ALESO2T(ALE_CONNECTIVITY, PM, IXTG)
+         CALL ALESO2T(ALE_CONNECTIVITY, PM, IXTG,IGEO)
       ENDIF
 
       !SPECIFIC MARKER FOR COLOCATED SCHEME (LAW51)

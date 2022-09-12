@@ -53,7 +53,7 @@ Chd|====================================================================
      .                  IXC     ,IXTG       ,KNOD2ELC ,KNOD2ELTG ,NOD2ELC ,
      .                  NOD2ELTG,INTBUF_TAB ,KNOD2ELS ,NOD2ELS   ,IXS10   ,
      .                  IXS16   ,IXS20      ,NIGE,RIGE,XIGE      ,VIGE    ,
-     .                  IGRBRIC ,MULTI_FVM  ,NALE)
+     .                  IGRBRIC ,MULTI_FVM  ,NALE     ,IGEO)
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -89,18 +89,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPARI(NPARI,*), ITAB(NUMNOD),IXS(NIXS,NUMELS),
+      INTEGER IPARI(NPARI,NINTER), ITAB(NUMNOD),IXS(NIXS,NUMELS),
      .        IXC(*),IXTG(*),KNOD2ELC(*),KNOD2ELTG(*),
      .        NOD2ELC(*),NOD2ELTG(*),KNOD2ELS(*),NOD2ELS(*),
      .        IXS10(6,*), IXS16(8,*), IXS20(12,*),NIGE(*)
       INTEGER LIXINT, NBRIC
-      INTEGER,INTENT(IN) :: IPM(NPROPMI,NUMMAT)
+      INTEGER,INTENT(IN) :: IPM(NPROPMI,NUMMAT), IGEO(NPROPGI,NUMGEO)
       my_real,INTENT(IN) :: BUFMAT(SBUFMAT)
-      my_real
-     .   XFILTR(*),STFAC(*),FRIC_P(10,*),FRIGAP(NPARIR,*),
-     .   I2RUPT (6,*),AREASL(*),RIGE(*),XIGE(*),VIGE(*)
-      my_real
-     .   X(3,NUMNOD)
+      my_real XFILTR(*),STFAC(*),FRIC_P(10,*),FRIGAP(NPARIR,*),I2RUPT (6,*),AREASL(*),RIGE(*),XIGE(*),VIGE(*)
+      my_real,INTENT(IN) :: X(3,NUMNOD)
       my_real, INTENT(IN) :: PM(*)
       INTEGER NOM_OPT(LNOPT1,*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
@@ -218,7 +215,7 @@ C
               IF(IPRI.GE.1) WRITE(IOUT,'(//,A)')' SECONDARY SURFACE'
               NBRIC=IGRBRIC(ISU1)%NENTITY
               CALL INGRBRIC(NSN,   NOINT,   IGRBRIC(ISU1)%ENTITY,   ITAB,  INTBUF_TAB(NI)%NSV,
-     +                      IXS,   NBRIC,   PM, INTBUF_TAB(NI)%S_NSV)
+     +                      IXS,   NBRIC,   PM, INTBUF_TAB(NI)%S_NSV,IGEO)
            ENDIF
 C--------------------------------------------
         ELSEIF(NTYP == 23) THEN

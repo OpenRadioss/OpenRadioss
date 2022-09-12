@@ -752,7 +752,7 @@ C--------------------------------------------
             ELSEIF(IS1==5) THEN
                NBRIC = IGRBRIC(ISU1)%NENTITY
                CALL INGRBRIC(NSN, NOINT, IGRBRIC(ISU1)%ENTITY, ITAB, NSV,
-     .                       IXS, NBRIC, PM,S_NSV)
+     .                       IXS, NBRIC, PM,S_NSV, IGEO)
             ENDIF
           ENDIF
           NSN = NSN_FE+NSN_IGE
@@ -766,7 +766,7 @@ C--------------------------------------------
           IF(ISU1 > 0)THEN
             NBRIC=IGRBRIC(ISU1)%NENTITY
             CALL INGRBRIC(NSN   ,NOINT  ,IGRBRIC(ISU1)%ENTITY   ,ITAB   ,NSV   , 
-     .                    IXS  , NBRIC  ,PM, S_NSV)
+     .                    IXS  , NBRIC  ,PM, S_NSV, IGEO)
           ELSE
             NBRIC = 0
             NSN   = 0

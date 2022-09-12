@@ -29,7 +29,7 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE ALE_CHECK_LAG(NALE,IXS,IXQ,IXC,IXT,IXTG,PM,ITAB,NALE_R2R,FLAG_R2R)
+      SUBROUTINE ALE_CHECK_LAG(NALE,IXS,IXQ,IXC,IXT,IXTG,PM,ITAB,NALE_R2R,FLAG_R2R,IGEO)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -58,12 +58,13 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(INOUT) :: NALE(NUMNOD)
       INTEGER,INTENT(IN) :: IXS(NIXS,NUMELS), IXQ(NIXQ,NUMELQ), IXC(NIXC,NUMELC), IXT(NIXT,NUMELT), IXTG(NIXTG,NUMELTG)
-      INTEGER,INTENT(IN) :: ITAB(NUMNOD), NALE_R2R(*),FLAG_R2R
+      INTEGER,INTENT(IN) :: ITAB(NUMNOD), NALE_R2R(*),FLAG_R2R, IGEO(NPROPGI,NUMGEO)
       my_real,INTENT(IN) :: PM(NPROPM,NUMMAT)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER M, IAL, I, N, JWARN, IMAT
+      INTEGER M, IAL, I, N, JWARN, IMAT, IPROP
+      INTEGER JALE_FROM_MAT, JALE_FROM_PROP
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -74,9 +75,12 @@ C--------------------------------------------------------------
       JWARN=0
       IF(NUMELQ /= 0)THEN
         DO M=1,NUMELQ
-          IMAT = IABS(IXQ(1,M))
+          IMAT = IABS(IXQ(1,M)) !/EULER/MAT or /ALE/MAT
+          IPROP = IABS(IXQ(6,M))!/PROP/TYPE14 (IALE_FLAG)
           IF(IMAT == 0)CYCLE
-          IAL = PM(72,IMAT)
+          JALE_FROM_MAT = PM(72,IMAT)
+          JALE_FROM_PROP = IGEO(62,IPROP)
+          IAL = JALE_FROM_MAT + JALE_FROM_PROP
           IF(IAL /= 0)CYCLE
           DO I=2,5
             N=IXQ(I,M)
@@ -96,9 +100,12 @@ C LAGRANGIAN CONDITION FOR NODES ON 3D LAGRANGIANS ELEMS
 C--------------------------------------------------------------
       IF(NUMELS /= 0)THEN
         DO M=1,NUMELS
-          IMAT = IABS(IXS(1,M))
+          IMAT = IABS(IXS(1,M)) !/EULER/MAT or /ALE/MAT
+          IPROP = IABS(IXS(10,M))!/PROP/TYPE14 (IALE_FLAG)
           IF(IMAT == 0)CYCLE
-          IAL = PM(72,IMAT)
+          JALE_FROM_MAT = PM(72,IMAT)
+          JALE_FROM_PROP = IGEO(62,IPROP)
+          IAL = JALE_FROM_MAT + JALE_FROM_PROP
           IF(IAL /= 0)CYCLE
           DO I=2,9
             N=IXS(I,M)
