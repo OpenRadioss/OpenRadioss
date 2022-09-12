@@ -431,7 +431,7 @@ C  attention en toute rigeur >=46
 C         equation of state
           IPARG(55,NGROUP)= IEOS
           IPARG(62,NGROUP)= PID
-C         flag for group of dupplicated elements in multidomains
+C         flag for group of duplicated elements in multidomains
           IF (NSUBDOM.GT.0) IPARG(77,NGROUP)= IPARTR2R 
           NFT = NFT + NE1
   220    CONTINUE

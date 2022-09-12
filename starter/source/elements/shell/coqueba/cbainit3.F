@@ -206,7 +206,7 @@ C
       DIR_A = ZERO
       DIR_B = ZERO
 !
-      DO I=1,9  ! lenght max of GBUF%G_SMSTR = 9
+      DO I=1,9  ! length max of GBUF%G_SMSTR = 9
         JJ(I) = NEL*(I-1)
       ENDDO
 !

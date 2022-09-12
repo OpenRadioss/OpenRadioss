@@ -162,7 +162,7 @@ C       POLYLINE TO DRAW INTO ANIM.
         NAX2D=0
         NAX3D=0
 C-----------------------------------------------
-C       initial total lenght UVAR(NB1:NB1)
+C       initial total length UVAR(NB1:NB1)
         NB1=1
 C       previous elongation  UVAR(NB2:NB2)
         NB2=NB1+1
@@ -173,7 +173,7 @@ C       initial nodes masses UVARN(MB1:MB1+NX-1)
 C       forces into strands UVARN(MB2:MB2+NX-1)
 C       using UVARN(MB2:MB2+NX-2) only.
         MB2=MB1+NX
-C       strands initial lenght UVARN(MB3:MB3+NX-1)
+C       strands initial length UVARN(MB3:MB3+NX-1)
 C      using UVARN(MB3:MB3+NX-2) only.
         MB3=MB2+NX
 C       strands elongations UVARN(MB4:MB4+NX-1)
@@ -237,7 +237,7 @@ C        GOTO 999
      .           +(XEL(3,K+1)-XEL(3,K))*(XEL(3,K+1)-XEL(3,K)))
           IF (LNEXT.LE.EM15) THEN
 C           WRITE(IOUT,*)
-C     .' ** ERROR NSTRAND : NULL STRAND LENGHT, ELEMENT=',
+C     .' ** ERROR NSTRAND : NULL STRAND LENGTH, ELEMENT=',
 C     .      IDS
 C          IERR=IERR+1
 C           GOTO 999
@@ -379,7 +379,7 @@ C-------
  1000 FORMAT(' NSTRAND ELEMENT CHECKING :',/,
      .       ' ------------------------  ',/,
      .       ' ELEMENT IDENTIFIER . . . .',I8/,
-     .       ' TOTAL LENGHT . . . . . . .',E12.4/,
+     .       ' TOTAL LENGTH . . . . . . .',E12.4/,
      .       ' MASS . . . . . . . . . . .',E12.4/,
      .       ' INITIAL GLOBAL STIFFNESS .',E12.4//)
 C-------

@@ -189,7 +189,7 @@ C
         ENDIF
        ELSE
 C
-C  + heat transfert
+C  + heat transfer
 C       
         IF(NUMELS10.GT.0) THEN
           DO J=1,NUMELS10

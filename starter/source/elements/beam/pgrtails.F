@@ -295,7 +295,7 @@ c                                        other groups using old buffer
           IPARG(38,NGROUP) = IGTYP      
           !---reperage groupe/processeur
           IPARG(32,NGROUP)= P-1
-C         flag for group of dupplicated elements in multidomains
+C         flag for group of duplicated elements in multidomains
           IF (NSUBDOM.GT.0) IPARG(77,NGROUP)= IPARTR2R
 C        thermal material expansion 
          IPARG(49,NGROUP) = 0

@@ -1250,7 +1250,7 @@ C
 C-----------------------------------------------
 C   CALCUL DES ADRESSES DU VECTEUR SKYLINE
 C-----------------------------------------------
-C------remove zero value nodes at the begining---
+C------remove zero value nodes at the beginning---
        IF (ADSKYCND(1)>0) THEN
         NI= 1
        ELSE

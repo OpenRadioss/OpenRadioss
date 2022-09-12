@@ -109,7 +109,7 @@ C
            IXSP(K1,N) = JK
          END DO
 C
-C--- Closest neighboor is stored for tensile instability treatment --
+C--- Closest neighbor is stored for tensile instability treatment --
 C
          IF (NSPBUF.EQ.13) THEN
            SPBUF(13,N)=TWO*SQRT(DVOIS(1))

@@ -143,7 +143,7 @@ C
         ENDDO
        ENDIF
 C
-C  --- for FEM solid heat transfert
+C  --- for FEM solid heat transfer
 C
         IF(JTHE < 0 ) THEN
           DO I=LFT,LLT

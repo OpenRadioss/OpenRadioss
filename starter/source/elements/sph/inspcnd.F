@@ -157,7 +157,7 @@ C         prepares particles to be symetrized with respect to the condition.
              MP    =GET_U_GEO(1,IPROP)
              VOL   =MP/RHO
              DI    =GET_U_GEO(6,IPROP)
-C            Default=Characteristic lenght of hexagonal compact net:
+C            Default=Characteristic length of hexagonal compact net:
              IF(DI.EQ.0.) DI=(SQRT(2.)*VOL)**UNTIERS
              IF (DD.LT.EM3*DI) THEN
                 ISPTAG(N)=ISPTAG(N)+1

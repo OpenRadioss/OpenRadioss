@@ -1472,7 +1472,7 @@ C         flag for vis stress
           IPARG(61,NGROUP)= IVISC
           IPARG(62,NGROUP)= PID  ! property number
           IPARG(69,NGROUP)= IPARTSPH
-C         flag for group of dupplicated elements in multidomains
+C         flag for group of duplicated elements in multidomains
           IF (NSUBDOM.GT.0) IPARG(77,NGROUP)= IPARTR2R
 C         flag for bolt preloading
           IPARG(72,NGROUP)= IBOLTP

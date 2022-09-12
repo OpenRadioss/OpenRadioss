@@ -117,14 +117,14 @@ C-----------------------------------------------
           I_ALE_SOLVER=5
           IF(IALEFVM_IPRINT_1.EQ.0)THEN
             !print *, "** WARNING INT22 : UNDEFINED /ALE/SOLVER CARD"
-            !print *, "                   ENABLING IT AUTOMATICALY WITH IMOM_VEL=5"
+            !print *, "                   ENABLING IT AUTOMATICALLY WITH IMOM_VEL=5"
             IALEFVM_IPRINT_1 = 1
           ENDIF
         ELSEIF(I_ALE_SOLVER.NE.5)THEN
           I_ALE_SOLVER=5
           IF(IALEFVM_IPRINT_2.EQ.0)THEN
             print *, "** WARNING INT22 : /ALE/SOLVER CARD"
-            print *, "                   RECOMMANDED VALUE IS IMOM_VEL=5"
+            print *, "                   RECOMMENDED VALUE IS IMOM_VEL=5"
             IALEFVM_IPRINT_2 = 1
           ENDIF
         ENDIF

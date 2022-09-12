@@ -103,7 +103,7 @@ C
         NVARS = NINT(SIGSH(NVSHELL + 4,II))
 C
         IF ((NPGI /= NPG.OR.NPI /= NPT) .AND. IGTYP/=51 .AND. IGTYP/=52) THEN
-c         for IGTYP == 51, usualy NPT <= NPTI (NPTI = NTPP --> for all layers)
+c         for IGTYP == 51, usually NPT <= NPTI (NPTI = NTPP --> for all layers)
           IPID1=IX(NIX-1,NFT+I)
           PID1=IGEO(1,IPID1)
           CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,IPID1),LTITR)

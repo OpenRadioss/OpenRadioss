@@ -931,7 +931,7 @@ c            LLOC = LLOC + BUFLY%L_VOL0DP
           ENDDO
 c          print*,'      local=',(LLOC * NEL + NPAR_LBUF) * NPG
 c-----------------------------------
-          IPARG(66,NG) = BUFLEN    !  size of restart transfert table 
+          IPARG(66,NG) = BUFLEN    !  size of restart transfer table 
 c          print*,' elbuf_ini : buflen=',buflen
 c          print*,' elbuf_ini : buflen=',buflen,ITY,NPG
 c          print*,'   nlay,nptr,npts,nptt=',nlay,nptr,npts,nptt
@@ -1731,7 +1731,7 @@ c---------
                print*,'    LEN=',(LINTLOC * NEL)*NPTR*NPTS +(LINTLAY * NEL)+lintpar  
             ENDIF
           ENDDO
-          IPARG(66,NG) = BUFLEN    !  size of restart transfert table 
+          IPARG(66,NG) = BUFLEN    !  size of restart transfer table 
  
           WRITE(IOUT,1002) NG, BUFLEN
 c
@@ -2100,7 +2100,7 @@ c     . ITY,IGTYP,GBUF%G_PLA,MLW,NLAY,NPTS
 C----
 c
 c-------------------------------------------------
-          IPARG(66,NG) = BUFLEN    !  size of restart transfert table 
+          IPARG(66,NG) = BUFLEN    !  size of restart transfer table 
 c 
           WRITE(IOUT,1002) NG, BUFLEN
 c-------------------------------------------------

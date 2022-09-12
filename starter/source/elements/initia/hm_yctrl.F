@@ -296,7 +296,7 @@ C------------------------------------
                 NUMSOL = NUMSOL + NB_ELEMENTS
                 DO J=1,NB_ELEMENTS
                   CALL HM_GET_INT_ARRAY_INDEX('Isolnod',ISOLNOD,J,IS_AVAILABLE,LSUBMODEL)
-C------ use NVSOLID5 temporaly, read directly after new reader  or add NVSOLID6    
+C------ use NVSOLID5 temporarily, read directly after new reader or add NVSOLID6
                   NVSOLID6 = MAX(NVSOLID6, ISOLNOD*3)
                 ENDDO ! DO J=1,NB_ELEMENTS
 !

@@ -47,7 +47,7 @@ C----------+---------+---+---+--------------------------------------------
 C IX       | 4*NEL   | I | R | SPRING CONNECTIVITY
 C                            | IX(1,I) NODE 1 ID
 C                            | IX(2,I) NODE 2 ID
-C                            | IX(3,I) OPTIONNAL NODE 3 ID
+C                            | IX(3,I) OPTIONAL NODE 3 ID
 C                            | IX(4,I) SPRING ID
 C----------+---------+---+---+--------------------------------------------
 C MASS     |   NEL   | F | W | ELEMENT MASS
