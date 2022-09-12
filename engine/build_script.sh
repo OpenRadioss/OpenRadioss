@@ -69,7 +69,6 @@ qd=""
 ADF=""
 MPI="-DMPI=smp"
 pmpi="SMP Only"
-debug=0
 clean=0
 mpi_os=0
 mpi_root=""

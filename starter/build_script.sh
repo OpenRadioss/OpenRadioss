@@ -47,7 +47,6 @@ cf=""
 dc=""
 qd=""
 ADF=""
-debug=0
 sanitize=0
 ddebug=""
 static_link=0
