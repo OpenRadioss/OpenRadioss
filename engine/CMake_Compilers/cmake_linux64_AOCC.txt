@@ -129,7 +129,7 @@ set_source_files_properties(${cpp_source_files} PROPERTIES COMPILE_FLAGS " -O2 $
 endif()
 
 # Linking flags
-set (CMAKE_EXE_LINKER_FLAGS " -fopenmp  -ldl -lrt -lstdc++ ${FSANITIZE}  " )
+set (CMAKE_EXE_LINKER_FLAGS "-rdynamic -fopenmp  -ldl -lrt -lstdc++ ${FSANITIZE}  " )
 
 #Libraries
 if ( static_link STREQUAL "1" )
