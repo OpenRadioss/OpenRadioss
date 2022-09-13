@@ -61,8 +61,21 @@ set ( RELNAME ${arch}${mpi_suf}  )
 #H3D
 set (h3d_inc "-I${source_directory}/../extlib/h3d/includes")
 
-#Lapack
-set (lapack_lib "${source_directory}/../extlib/lapack-3.10.0/lib_linux64_gf/liblapack.a ${source_directory}/../extlib/lapack-3.10.0/lib_linux64_gf/librefblas.a  ${source_directory}/../extlib/lapack-3.10.0/lib_linux64_gf/libtmglib.a")
+
+
+
+#mumps
+# Download and install MUMPS prerequisites (blas/lapack, scalapack) 
+# download mumps and compile mumps in the extlib directory
+#  - wget http://mumps.enseeiht.fr/MUMPS_5.4.1.tar.gz
+# uncomment the following lines
+#set(MUMPSLIB "${source_directory}/../extlib/mumps/MUMPS_5.4.1/lib")
+#set(mumps_inc "-I${source_directory}/../extlib/mumps/MUMPS_5.4.1/include")
+#set(mumps_libs "${MUMPSLIB}/libdmumps.a ${MUMPSLIB}/libmumps_common.a ${MUMPSLIB}/libpord.a ${metis_lib}")
+#set(mumps_flag "-Dpord -Dmetis -Dthr_all -DMUMPS5 -DAdd_")
+
+
+
 
 #
 # compiler Flags
@@ -101,11 +114,14 @@ if ( sanitize STREQUAL "1" )
 set( FSANITIZE "-fsanitize=address -DSANITIZE") 
 endif()
 
+#Uncomment the following line to add mumps
+set(opt_flag "${opt_flag} ${mumps_flag} ${mumps_inc}")
+
 
 if ( debug STREQUAL "1" )
 # Fortran
 
-set_source_files_properties(${source_files}  PROPERTIES COMPILE_FLAGS "${FSANITIZE} -O0 -g -fdec-math -fbacktrace -Wunused-dummy-argument -Wdo-subscript -Wunused ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF}  " )
+set_source_files_properties(${source_files}  PROPERTIES COMPILE_FLAGS "${FSANITIZE} -O0 -g -fdec-math -fbacktrace -Wunused-dummy-argument -Wdo-subscript ${opt_flag} ${precision_flag} ${cppmach} ${cpprel} -DCPP_comp=f90 -ffixed-line-length-none  ${mpi_flag} ${ADF}  " )
 
 # C source files
 set_source_files_properties(${c_source_files} PROPERTIES COMPILE_FLAGS "${FSANITIZE} ${h3d_inc} ${precision_flag}  ${cppmach} ${cpprel} -O0 -g  -fopenmp " )
@@ -137,6 +153,14 @@ if ( static_link STREQUAL "1" )
 else()
   set (LINK "rt ${mpi_lib} -ldl -Wunused-function"  )
 endif()
+
+#Assuming that all libraries are in LIBRARY_PATH
+#Uncomment the following line and update the libraries name if necessary (especially for scalapack) 
+#set(LINK "${LINK} -DMUMPS5 ${mumps_libs} -lmetis -lscalapack-openmpi -lblas -llapack") 
+#otheriwse, if libs are not in LIBRARY_PATH, you uncomment the 3 following lines  
+#set(lapack_lib "${source_directory}/../extlib/lapack-3.10.0/lib_linux64_gf/liblapack.a ${source_directory}/../extlib/lapack-3.10.0/lib_linux64_gf/librefblas.a  ${source_directory}/../extlib/lapack-3.10.0/lib_linux64_gf/libtmglib.a [....]")
+#set(metis_lib "${source_directory}/../extlib/metis/linux64/libmetis_linux64_gcc.a")
+#set(LINK "${LINK} -DMUMPS5 ${metis_lib} ${lapack_lib} ${mumps_libs}") 
 
 # -------------------------------------------------------------------------------------------------------------------------------------------
 # Specific set of compilation flag
