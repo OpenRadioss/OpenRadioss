@@ -187,7 +187,7 @@ C
 
       DO 200 I=1,NEL
         GAMA(I) = (RHO0(I)/RHO(I)-ONE+GAMA0)
-        IF(ONE+GAMA(I)-PHI.LE.SMALL) GAMA(I)=-(ONE-PHI-SMALL)
+        IF(ONE+GAMA(I)-PHI<=SMALL) GAMA(I)=-(ONE-PHI-SMALL)
         SM(I)=THIRD*(SIGOXX(I)+SIGOYY(I)+SIGOZZ(I))+UVAR(I,1)
         EM(I)=THIRD*(EPSXX(I)+EPSYY(I)+EPSZZ(I))
         DEDM(I)=THIRD*(DEPSXX(I)+DEPSYY(I)+DEPSZZ(I))
@@ -274,9 +274,9 @@ C       delta_sigma  = ...
 
 C COMPUTE PRESSURE
       DO I=1,NEL
-        IF(KF.NE.0) THEN
+        IF(KF/=0) THEN
           AMU(I)=RHO(I)/RHO0(I)-ONE
-          IF(IFLAG.EQ.0) THEN
+          IF(IFLAG==0) THEN
             P(I)=-FAC*FINTER(KF,AMU(I),NPF,TF,DPDMU)
           ELSE
             PDELT(I)=( C1*(BULK3(I)*DEDM(I))*(VLAMDA3+VMU2)+
@@ -293,7 +293,7 @@ C COMPUTE PRESSURE
      &           / ((VLAMDA3+VMU2)+C2*(BULK3(I)+BULKT3)*HALF)
           P(I)=SM(I)+PDELT(I)
         ENDIF
-        IF(P(I).LE.PMIN) P(I)=PMIN
+        IF(P(I)<=PMIN) P(I)=PMIN
       ENDDO
 
 C COMPUTE SOUND SPEED 

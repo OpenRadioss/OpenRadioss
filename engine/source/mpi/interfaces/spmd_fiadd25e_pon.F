@@ -90,7 +90,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      IF ((NISKY+NB).GT. LSKYI)THEN
+      IF ((NISKY+NB)> LSKYI)THEN
            CALL ANCMSG(MSGID=26,ANMODE=ANINFO)
            CALL ARRET(2)
       ENDIF
@@ -114,7 +114,7 @@ C#endif
           FSKYI(NISKY,2)=BUFR(3,I)
           FSKYI(NISKY,3)=BUFR(4,I)
           FSKYI(NISKY,4)=BUFR(5,I)
-C         IF(KDTINT .NE. 0) FSKYI(NISKY,5) = BUFR(6,I)
+C         IF(KDTINT /= 0) FSKYI(NISKY,5) = BUFR(6,I)
           ISKY(NISKY) = NOD
 
 C#ifdef D_EM
@@ -131,7 +131,7 @@ C#endif
           FSKYI(NISKY,2)=BUFR(8,I)
           FSKYI(NISKY,3)=BUFR(9,I)
           FSKYI(NISKY,4)=BUFR(10,I)
-C         IF(KDTINT .NE. 0) FSKYI(NISKY,5) = BUFR(11,I)
+C         IF(KDTINT /= 0) FSKYI(NISKY,5) = BUFR(11,I)
           ISKY(NISKY) = NOD
 
 
@@ -168,10 +168,10 @@ C        ENDIF
 C
 C suite traitement i7for3 et i10for3 sur noeud secnd
 C
-      IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT .GT.0.AND.
-     .   (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.
-     .   (MANIM.GE.4.AND.MANIM.LE.15)))
-     .   .OR.ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX.GT.0)THEN
+      IF((ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
+     .   (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .   (MANIM>=4.AND.MANIM<=15)))
+     .   .OR.ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX>0)THEN
 C Anim FCONT
         DO I = 1, NB_EDGE
           N = NINT(BUFR(1,I))
@@ -200,26 +200,26 @@ C------------For /LOAD/PRESSURE tag nodes in contact-------------
             ENDDO
          ENDIF
 C
-         IF(ISECIN.GT.0)THEN
+         IF(ISECIN>0)THEN
 C     Sections
             K0=NSTRF(25)
-            IF(NSTRF(1)+NSTRF(2).NE.0)THEN
+            IF(NSTRF(1)+NSTRF(2)/=0)THEN
                DO I=1,NSECT
                   NBINTER=NSTRF(K0+14)
                   K1S=K0+30
                   DO J=1,NBINTER
-                     IF(NSTRF(K1S).EQ.NOINT)THEN
-                        IF(ISECUT.NE.0)THEN
+                     IF(NSTRF(K1S)==NOINT)THEN
+                        IF(ISECUT/=0)THEN
                            DO II = 1, NB
                               N = NINT(BUFR(1,II))
                               NOD = LEDGE(5,N)
-                              IF(SECFCUM(4,NOD,I).EQ.1.)THEN
+                              IF(SECFCUM(4,NOD,I)==1.)THEN
                                  SECFCUM(1,NOD,I)=SECFCUM(1,NOD,I)+BUFR(2,II)
                                  SECFCUM(2,NOD,I)=SECFCUM(2,NOD,I)+BUFR(3,II)
                                  SECFCUM(3,NOD,I)=SECFCUM(3,NOD,I)+BUFR(4,II)
                               ENDIF
                               NOD = LEDGE(6,N)
-                              IF(SECFCUM(4,NOD,I).EQ.1.)THEN
+                              IF(SECFCUM(4,NOD,I)==1.)THEN
                                  SECFCUM(1,NOD,I)=SECFCUM(1,NOD,I)+BUFR(7,II)
                                  SECFCUM(2,NOD,I)=SECFCUM(2,NOD,I)+BUFR(8,II)
                                  SECFCUM(3,NOD,I)=SECFCUM(3,NOD,I)+BUFR(9,II)
@@ -234,12 +234,12 @@ C     Sections
             ENDIF
          ENDIF
 C     
-         IF((IBAG.NE.0.AND.INACTI.NE.7).OR.
-     .        (IADM.NE.0).OR.(IDAMP_RDOF.NE.0)) THEN ! attention conflit inacti=7 et ibag=3
+         IF((IBAG/=0.AND.INACTI/=7).OR.
+     .        (IADM/=0).OR.(IDAMP_RDOF/=0)) THEN ! attention conflit inacti=7 et ibag=3
 C     Airbags IBAG
             DO I = 1, NB
-               IF(BUFR(2,I).NE.ZERO.OR.BUFR(3,I).NE.ZERO.OR.
-     +              BUFR(4,I).NE.ZERO) THEN
+               IF(BUFR(2,I)/=ZERO.OR.BUFR(3,I)/=ZERO.OR.
+     +              BUFR(4,I)/=ZERO) THEN
                   N = NINT(BUFR(1,I))
                   NOD = LEDGE(5,N)
                   ICONTACT(NOD)=1
@@ -249,11 +249,11 @@ C     Airbags IBAG
             END DO
          END IF
 C     
-         IF(IBC.NE.0) THEN
+         IF(IBC/=0) THEN
             IBCM = IBC / 8
             IBCS = IBC - 8 * IBCM
 C     Boundary cond.
-            IF(IBCS.GT.0) THEN
+            IF(IBCS>0) THEN
                DO I = 1, NB
                   N = NINT(BUFR(1,I))
                   NOD = LEDGE(5,N)

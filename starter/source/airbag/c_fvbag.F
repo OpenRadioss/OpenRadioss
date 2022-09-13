@@ -72,12 +72,12 @@ C-----------------------------------------------
       ALLOCATE( FVSPMD(NFVBAG) )
 ! ---------------------------------
 C
-      IF (PROC.EQ.1)THEN
+      IF (PROC==1)THEN
         NTGM = 0
         K1 = 1
         DO I=1,NVOLU
           ITYP=MONVOL(K1-1+2)
-          IF (ITYP.EQ.6.OR.ITYP.EQ.8) THEN
+          IF (ITYP==6.OR.ITYP==8) THEN
             NTG=MONVOL(K1-1+33)
           ELSE
             NTG = 0
@@ -92,7 +92,7 @@ C
       IFV=0
       DO I=1,NVOLU
          ITYP=MONVOL(K1-1+2)
-         IF (ITYP.EQ.6.OR.ITYP.EQ.8) THEN
+         IF (ITYP==6.OR.ITYP==8) THEN
             IFV=IFV+1
             NN= MONVOL(K1-1+32)
             NTG=MONVOL(K1-1+33)
@@ -140,14 +140,14 @@ C Identification du PMAIN
  200                 CONTINUE
                   ENDIF
                ENDDO
-               IF(NN_L+NNI_L.GT.NMAX)THEN
+               IF(NN_L+NNI_L>NMAX)THEN
                   PMAIN=P
                   NMAX=NN_L+NNI_L
                ENDIF
             ENDDO
 
 
-            IF ((ITYP.EQ.6.OR.ITYP.EQ.8) .AND. FVMAIN(IFV) >= 0) THEN
+            IF ((ITYP==6.OR.ITYP==8) .AND. FVMAIN(IFV) >= 0) THEN
            !FVMAIN(IFV) > 0 : The main processor was computed during domain decomposition
               PMAIN = FVMAIN(IFV)
             ENDIF 
@@ -156,17 +156,17 @@ C Noeuds locaux
             NN_L=0
             DO J=1,NN
                JJ=IBUF(J)
-               IF (NODLOCAL(JJ).NE.0) NN_L=NN_L+1
+               IF (NODLOCAL(JJ)/=0) NN_L=NN_L+1
             ENDDO
             NNI_L=0
             DO J=NN+1,NN+NNI
                JJ=IBUF(J)
-               IF (NODLOCAL(JJ).NE.0) NNI_L=NNI_L+1
+               IF (NODLOCAL(JJ)/=0) NNI_L=NNI_L+1
             ENDDO
             NNA_L=0
             DO J=1,NNA
                JJ=IBUFA(J)
-               IF (NODLOCAL(JJ).NE.0) NNA_L=NNA_L+1
+               IF (NODLOCAL(JJ)/=0) NNA_L=NNA_L+1
             ENDDO
             FVSPMD(IFV)%NN_L=NN_L
             FVSPMD(IFV)%NNI_L=NNI_L
@@ -177,7 +177,7 @@ C Noeuds locaux
             NN_L=0
             DO J=1,NN+NNI
                JJ=IBUF(J)
-               IF (NODLOCAL(JJ).NE.0) THEN
+               IF (NODLOCAL(JJ)/=0) THEN
                   NN_L=NN_L+1
                   FVSPMD(IFV)%IBUF_L(1,NN_L)=J
                   FVSPMD(IFV)%IBUF_L(2,NN_L)=NODLOCAL(JJ)
@@ -186,7 +186,7 @@ C Noeuds locaux
             NNA_L=0
             DO J=1,NNA
                JJ=IBUFA(J)
-               IF (NODLOCAL(JJ).NE.0) THEN
+               IF (NODLOCAL(JJ)/=0) THEN
                   NNA_L=NNA_L+1
                   FVSPMD(IFV)%IBUFA_L(1,NNA_L)=J
                   FVSPMD(IFV)%IBUFA_L(2,NNA_L)=NODLOCAL(JJ)
@@ -198,8 +198,8 @@ C Solides additionnels
             FVSPMD(IFV)%NNSA=0
             FVSPMD(IFV)%NNSA_L=0
             FVSPMD(IFV)%NELSA=0
-            IF (NBA.GT.0) THEN 
-               IF (PROC.EQ.PMAIN) ALLOCATE(FVSPMD(IFV)%IXSA(8,NBA))
+            IF (NBA>0) THEN 
+               IF (PROC==PMAIN) ALLOCATE(FVSPMD(IFV)%IXSA(8,NBA))
                KIA1=K2+MONVOL(K1-1+19)-1
                DO J=1,NB_NODE
                   ITAG(J)=0
@@ -214,14 +214,14 @@ C Solides additionnels
                ENDDO
                NNSA=0
                DO J=1,NB_NODE
-                  IF (ITAG(J).EQ.1) THEN
+                  IF (ITAG(J)==1) THEN
                      NNSA=NNSA+1
                      REDIR(J)=NNSA
                      IBUFSA(NNSA)=J
                   ENDIF
                ENDDO
                FVSPMD(IFV)%NNSA=NNSA
-               IF (PROC.EQ.PMAIN) THEN
+               IF (PROC==PMAIN) THEN
                   DO J=1,NBA                            
                      JJ=MONVOL(KIA1-1+J)                
                      DO K=1,8                           
@@ -240,7 +240,7 @@ C
                      ENDDO
                   ENDDO
                   DO J=1,FVDATA(IFV)%NNS
-                     IF (FVDATA(IFV)%IFVNOD(1,J).EQ.2) THEN
+                     IF (FVDATA(IFV)%IFVNOD(1,J)==2) THEN
                         JJ=FVDATA(IFV)%IFVNOD(2,J)
                         FVDATA(IFV)%IFVNOD(2,J)=REDIR(JJ)
                      ENDIF
@@ -249,14 +249,14 @@ C
                NNSA_L=0
                DO J=1,NNSA
                   JJ=IBUFSA(J)
-                  IF (NODLOCAL(JJ).NE.0) NNSA_L=NNSA_L+1
+                  IF (NODLOCAL(JJ)/=0) NNSA_L=NNSA_L+1
                ENDDO
                FVSPMD(IFV)%NNSA_L=NNSA_L
                ALLOCATE(FVSPMD(IFV)%IBUFSA_L(2,NNSA_L))
                NNSA_L=0
                DO J=1,NNSA
                   JJ=IBUFSA(J)
-                  IF (NODLOCAL(JJ).NE.0) THEN
+                  IF (NODLOCAL(JJ)/=0) THEN
                      NNSA_L=NNSA_L+1
                      FVSPMD(IFV)%IBUFSA_L(1,NNSA_L)=J
                      FVSPMD(IFV)%IBUFSA_L(2,NNSA_L)=NODLOCAL(JJ)

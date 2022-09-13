@@ -109,12 +109,12 @@ c      OFFSET3 = 3 * OFFSET
 c      OFFSET4 = 4 * OFFSET
 C
 C=======================================================================
-C      IF(IGTYP.EQ.13)THEN
+C      IF(IGTYP==13)THEN
 C=======================================================================
 c       NB3 =NB2  + NEL3
 c       NB4 =NB3  + NEL
 c       NB5 =NB4  + NEL3
-c       IF (SCODVER.LT.101) THEN
+c       IF (SCODVER<101) THEN
 c         NB6 =NB5  + NEL3
 c       ELSE
 c         NB6 =NB5  + 2*NEL3
@@ -127,7 +127,7 @@ c       NB11=NB10 + NEL3
 c       NB12=NB11 + NEL3
 c       NB13=NB12 + NEL3
 c       NB14=NB13 + NEL3
-c       IF (SCODVER.LT.101) THEN
+c       IF (SCODVER<101) THEN
 c         NB15 = NB14 + NEL3
 c       ELSE
 c         NB15 = NB14 + 2*NEL3
@@ -231,11 +231,11 @@ C-------------------------
      3              R12    ,R13    ,R21     ,R22     ,R23    ,
      4              R31    ,R32    ,R33     ,KE11    ,KE12   ,
      5              KE22   )
-      IF (IKGEO.EQ.1) CALL PKEG3(JFT    ,JLT    ,
+      IF (IKGEO==1) CALL PKEG3(JFT    ,JLT    ,
      1                GBUF%FOR(II(1))  ,AL      ,KE11    ,KE12    ,KE22   )
 
 
-              IF (NEIG.GT.0) CALL PEOFF(
+              IF (NEIG>0) CALL PEOFF(
      1                   NIXR, JFT, JLT, IXR, ETAG,
      2                   OFF )
               CALL ASSEM_P(NIXR,6   ,

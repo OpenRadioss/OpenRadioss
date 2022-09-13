@@ -63,12 +63,12 @@ C          were returned by user routine.
       DO K=1,NX
        I1=IXX(IADNOD+K-1)
        XK=USTIFM(K)
-       IF (MS(I1).NE.ZERO.AND.XK.NE.ZERO) THEN
+       IF (MS(I1)/=ZERO.AND.XK/=ZERO) THEN
         XM= MS(I1)
         XC= UVISCM(K)
         A = XC/SQRT(FOUR*XK*XM)
         XK= XK/(SQRT(A**2+ ONE)-A)**2  
-       ELSEIF (XK.NE.ZERO) THEN
+       ELSEIF (XK/=ZERO) THEN
        ELSE
         XC= UVISCM(K)
 C       XK= 0.5 *XC**2/(2.*MS(I1))
@@ -127,19 +127,19 @@ C-----------------------------------------------
 C     ASSEMBLE
 C-------------------------
       IADNOD=KXX(4)
-      IF(KDTINT.EQ.0)THEN
+      IF(KDTINT==0)THEN
 C-----
 C     total of stiffnesses and viscosities applied to each node
 C          were returned by user routine.
       DO K=1,NX
        I1=IXX(IADNOD+K-1)
        XK=USTIFM(K)
-       IF (MS(I1).NE.ZERO.AND.XK.NE.ZERO) THEN
+       IF (MS(I1)/=ZERO.AND.XK/=ZERO) THEN
         XM= MS(I1)
         XC= UVISCM(K)
         A = XC/SQRT(FOUR*XK*XM)
         XK= XK/(SQRT(A**2+ ONE)-A)**2  
-       ELSEIF (XK.NE.ZERO) THEN
+       ELSEIF (XK/=ZERO) THEN
        ELSE
         XC= UVISCM(K)
 C       XK= 0.5 *XC**2/(2.*MS(I1))

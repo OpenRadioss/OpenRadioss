@@ -98,7 +98,7 @@ C----------Copying parts numbers and coefficient in the new structure and ommiti
            K = 0
            IF(IORTH == 0) THEN
               DO I=1,NSETT
-                 IF( TABCOUPLEPARTS_FRIC_TMP(NIF,J).NE. 0) THEN
+                 IF( TABCOUPLEPARTS_FRIC_TMP(NIF,J)/= 0) THEN
                     K = K +1
 C
                     TABCOUPLEPARTS_FRIC(K) = TABCOUPLEPARTS_FRIC_TMP(NIF,J+1)
@@ -113,7 +113,7 @@ C
                 ENDDO
             ELSEIF(IORTH==1) THEN
               DO I=1,NSETT
-                 IF( TABCOUPLEPARTS_FRIC_TMP(NIF,J).NE. 0) THEN
+                 IF( TABCOUPLEPARTS_FRIC_TMP(NIF,J)/= 0) THEN
                     K = K +1
 C
                     TABCOUPLEPARTS_FRIC(K) = TABCOUPLEPARTS_FRIC_TMP(NIF,J+1)
@@ -143,7 +143,7 @@ C----------Computation of the adress of each part in the tabs TABPARTSFRIC TABCO
               K = 0
               J = 1 
               DO N=1,NSETT
-                IF( TABCOUPLEPARTS_FRIC_TMP(NIF,J).NE. 0) THEN
+                IF( TABCOUPLEPARTS_FRIC_TMP(NIF,J)/= 0) THEN
                  K = K + 1                  
                  IF(TABCOUPLEPARTS_FRIC_TMP(NIF,J) == TABPARTS_FRIC(I)) THEN  
                     ADPART_FRIC(I+1) = ADPART_FRIC(I+1) + 1

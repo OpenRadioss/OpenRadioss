@@ -73,7 +73,7 @@ C     REAL
       EXTERNAL NGR2USR
 C-----------------------------------------------
 C
-      IF(IMACH.NE.3.OR.ISPMD.EQ.0) THEN
+      IF(IMACH/=3.OR.ISPMD==0) THEN
         WRITE(IOUT,'(//,A,/)')' VELOCITY REINITIALISATION'
 C
       ENDIF
@@ -99,7 +99,7 @@ C-----
        ENDIF
 C
        IF (IDIR < 0) THEN
-         IF(IMACH.NE.3.OR.ISPMD.EQ.0) THEN
+         IF(IMACH/=3.OR.ISPMD==0) THEN
            IF (N1 < 0) THEN
              IF (CPT20==0) WRITE(IOUT,3000)
              WRITE(IOUT,3100) -N1,VV,VTX,VTY,VTZ,IFRA
@@ -124,7 +124,7 @@ C
              IF (IFRA > 0) THEN
                DO K=1,NUMFRAM
                  J=K+1
-                 IF(IFRA.EQ.IFRAME(4,K+1)) THEN
+                 IF(IFRA==IFRAME(4,K+1)) THEN
                  VX = XFRAME(1,J)*VTX+XFRAME(4,J)*VTY+XFRAME(7,J)*VTZ
                  VY = XFRAME(2,J)*VTX+XFRAME(5,J)*VTY+XFRAME(8,J)*VTZ
                  VZ = XFRAME(3,J)*VTX+XFRAME(6,J)*VTY+XFRAME(9,J)*VTZ
@@ -140,26 +140,26 @@ C
                NIXJ(4)=XFRAME(K3,J)*(X(2,N)-XFRAME(11,J))
                NIXJ(5)=XFRAME(K3,J)*(X(1,N)-XFRAME(10,J))
                NIXJ(6)=XFRAME(K1,J)*(X(3,N)-XFRAME(12,J))
-               IF (IRODDL.GT.0) THEN
+               IF (IRODDL>0) THEN
                  VR(1,N)= VV*XFRAME(K1,J)
                  VR(2,N)= VV*XFRAME(K2,J)
                  VR(3,N)= VV*XFRAME(K3,J)
                END IF
              ELSE
-               IF(-IDIR.EQ.1) THEN
+               IF(-IDIR==1) THEN
                  NIXJ(1)=X(2,N)
                  NIXJ(6)=X(3,N)
-               ELSEIF(-IDIR.EQ.2) THEN
+               ELSEIF(-IDIR==2) THEN
                  NIXJ(2)=X(1,N)
                  NIXJ(3)=X(3,N)
-               ELSEIF(-IDIR.EQ.3) THEN
+               ELSEIF(-IDIR==3) THEN
                  NIXJ(4)=X(2,N)
                  NIXJ(5)=X(1,N)
                ENDIF
                VX=VTX
                VY=VTY
                VZ=VTZ
-               IF (IRODDL.GT.0) THEN
+               IF (IRODDL>0) THEN
                  IF (IDIR==-1) VR(1,N)= VV
                  IF (IDIR==-2) VR(2,N)= VV
                  IF (IDIR==-3) VR(3,N)= VV
@@ -171,13 +171,13 @@ C
           ENDDO
          ELSE
           DO N = 1,NUMNOD
-           IF(ITAB(N).GE.N1.AND.ITAB(N).LE.N2) THEN
+           IF(ITAB(N)>=N1.AND.ITAB(N)<=N2) THEN
 C
              NIXJ = ZERO
              IF (IFRA > 0) THEN
                DO K=1,NUMFRAM
                  J=K+1
-                 IF(IFRA.EQ.IFRAME(4,K+1)) THEN
+                 IF(IFRA==IFRAME(4,K+1)) THEN
                  VX = XFRAME(1,J)*VTX+XFRAME(4,J)*VTY+XFRAME(7,J)*VTZ
                  VY = XFRAME(2,J)*VTX+XFRAME(5,J)*VTY+XFRAME(8,J)*VTZ
                  VZ = XFRAME(3,J)*VTX+XFRAME(6,J)*VTY+XFRAME(9,J)*VTZ
@@ -193,26 +193,26 @@ C
                NIXJ(4)=XFRAME(K3,J)*(X(2,N)-XFRAME(11,J))
                NIXJ(5)=XFRAME(K3,J)*(X(1,N)-XFRAME(10,J))
                NIXJ(6)=XFRAME(K1,J)*(X(3,N)-XFRAME(12,J))
-               IF (IRODDL.GT.0) THEN
+               IF (IRODDL>0) THEN
                  VR(1,N)= VV*XFRAME(K1,J)
                  VR(2,N)= VV*XFRAME(K2,J)
                  VR(3,N)= VV*XFRAME(K3,J)
                END IF
              ELSE
-               IF(-IDIR.EQ.1) THEN
+               IF(-IDIR==1) THEN
                  NIXJ(1)=X(2,N)
                  NIXJ(6)=X(3,N)
-               ELSEIF(-IDIR.EQ.2) THEN
+               ELSEIF(-IDIR==2) THEN
                  NIXJ(2)=X(1,N)
                  NIXJ(3)=X(3,N)
-               ELSEIF(-IDIR.EQ.3) THEN
+               ELSEIF(-IDIR==3) THEN
                  NIXJ(4)=X(2,N)
                  NIXJ(5)=X(1,N)
                ENDIF
                VX=VTX
                VY=VTY
                VZ=VTZ
-               IF (IRODDL.GT.0) THEN
+               IF (IRODDL>0) THEN
                  IF (IDIR==-1) VR(1,N)= VV
                  IF (IDIR==-2) VR(2,N)= VV
                  IF (IDIR==-3) VR(3,N)= VV
@@ -227,14 +227,14 @@ C
        ELSE
 C
         IF (N1 < 0) THEN
-         IF(ISPMD.EQ.0) THEN
+         IF(ISPMD==0) THEN
            IF (CPT21==0) WRITE(IOUT,4000)
            WRITE(IOUT,4100)-N1,IDIR,VV
            CPT21=CPT21+1
            CPT20=0
          ENDIF
 C
-         IF(IDIR.LE.3)THEN
+         IF(IDIR<=3)THEN
            DO II=1,IGRNOD(IGN)%NENTITY
              N=IGRNOD(IGN)%ENTITY(II)
              V(IDIR,N) = VV
@@ -246,20 +246,20 @@ C
            ENDDO
          ENDIF
         ELSE
-         IF(IMACH.NE.3.OR.ISPMD.EQ.0) THEN
+         IF(IMACH/=3.OR.ISPMD==0) THEN
            IF (CPT1==0) WRITE(IOUT,2000)
            WRITE(IOUT,2100)N1,N2,IDIR,VV
            CPT1=CPT1+1
            CPT0=0
          ENDIF
 C
-         IF(IDIR.LE.3)THEN
+         IF(IDIR<=3)THEN
            DO N = 1,NUMNOD
-            IF(ITAB(N).GE.N1.AND.ITAB(N).LE.N2)V(IDIR,N) = VV
+            IF(ITAB(N)>=N1.AND.ITAB(N)<=N2)V(IDIR,N) = VV
            ENDDO
          ELSE
            DO N = 1,NUMNOD
-            IF(ITAB(N).GE.N1.AND.ITAB(N).LE.N2)VR(IDIR-3,N) = VV
+            IF(ITAB(N)>=N1.AND.ITAB(N)<=N2)VR(IDIR-3,N) = VV
            ENDDO
          ENDIF
         END IF !(N1 < 0) THEN

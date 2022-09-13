@@ -50,11 +50,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C-----------------------------
-      IF (IT.GE.IT_MAX) THEN
+      IF (IT>=IT_MAX) THEN
        CRIT_STOP = 0
        RETURN
       ENDIF
-      IF (R2.LE.TOL) THEN
+      IF (R2<=TOL) THEN
        CRIT_STOP = 0
       ELSE
        CRIT_STOP = 1
@@ -684,7 +684,7 @@ C
       NLIM=MAX(NLIM,2)
       TOLS=MAX(TOL,EPS_M)
       IPRI = IPRINT
-      IF (ISPMD.NE.0) IPRI = 0
+      IF (ISPMD/=0) IPRI = 0
 C--------
 C routine speciale pour sauvegarder les input
       IF(ISAVE==1)CALL IMP_ISAVE(
@@ -698,11 +698,11 @@ C routine speciale pour sauvegarder les input
      3   IADK,JDIK,LT_K0,IADK0,JDIK0)   
 C--------
       IF (ITASK == 0) THEN
-       IF(IPRI.NE.0)THEN
+       IF(IPRI/=0)THEN
         WRITE(IOUT,*)'     *** BEGIN CONJUGATE GRADIENT ITERATION ***'
         WRITE(IOUT,*)
        ENDIF
-       IF(IPRI.LT.0)THEN
+       IF(IPRI<0)THEN
         WRITE(ISTDO,*)'     *** BEGIN CONJUGATE GRADIENT ITERATION ***'
         WRITE(ISTDO,*)
        ENDIF
@@ -757,8 +757,8 @@ C----------------------
 C---------------------
        CALL PRODUT_H(F_DDL  ,L_DDL ,P   ,Y  ,W_DDL , S ,ITASK )
 C---------------------
-       IF (G0.EQ.ZERO) THEN
-        IF (ITOL.GT.1) THEN
+       IF (G0==ZERO) THEN
+        IF (ITOL>1) THEN
          ISTOP=-1
          GOTO 200
 	ELSE
@@ -768,11 +768,11 @@ C---------------------
         ALPHA = G0/S
        ENDIF
        TOLS2=TOLS*TOLS
-       IF (ITOL.EQ.1) THEN
+       IF (ITOL==1) THEN
          CALL PRODUT_H( F_DDL  ,L_DDL ,R   ,R  ,W_DDL , R02 ,ITASK )
 C---------------------
         R2 =R02
-       ELSEIF (ITOL.EQ.3) THEN
+       ELSEIF (ITOL==3) THEN
 C------ R2<TOL*TOL*ANORM2*XNORM2------
         R02=ABS(G0)
         R2 =R02
@@ -784,7 +784,7 @@ C        L_B2=R02
         A_OLD=L_A
         B_OLD=ZERO
         OLDB   = SQRT(R02)
-       ELSEIF (ITOL.EQ.4) THEN
+       ELSEIF (ITOL==4) THEN
         R02=ALPHA*ALPHA*ABS(G0)
         EPS(1)=R02
         R2=R02
@@ -792,14 +792,14 @@ C        L_B2=R02
         R02=ABS(G0)
         R2 =R02
        ENDIF
-       IF (R02.EQ.ZERO) THEN
+       IF (R02==ZERO) THEN
         ISTOP=-1
         GOTO 200
        ENDIF
        TOLN=R02*TOLS2
-       IF(IPRI.NE.0.AND.ITASK.EQ.0)THEN
+       IF(IPRI/=0.AND.ITASK==0)THEN
         RR = SQRT(R2)
-        IF(IPRI.LT.0) WRITE(ISTDO,1000)IT,RR
+        IF(IPRI<0) WRITE(ISTDO,1000)IT,RR
         WRITE(IOUT,1000)IT,RR
        ENDIF
 C-------pour etre coherent avec lanzos for linear
@@ -828,9 +828,9 @@ C---------------------
        CALL PRODUT_H( F_DDL  ,L_DDL ,R   ,Z  ,W_DDL , G1 ,ITASK )
 C---------------------
        BETA=G1/G0
-       IF (ITOL.EQ.1) THEN
+       IF (ITOL==1) THEN
         CALL PRODUT_H( F_DDL  ,L_DDL ,R   ,R  ,W_DDL , R2 ,ITASK )
-       ELSEIF (ITOL.EQ.3) THEN
+       ELSEIF (ITOL==3) THEN
 C------ R2<TOL*TOL*ANORM2*XNORM2------
         R2=ABS(G1)
         L_B2=ABS(BETA)*A_OLD*A_OLD
@@ -846,25 +846,25 @@ C*     INITIALIZE OTHER QUANTITIES.
         GMIN   = GMAX
         OLDB2   = L_B2
         OLDB   = L_B
-       ELSEIF (ITOL.EQ.4) THEN
+       ELSEIF (ITOL==4) THEN
         R2=R02
        ELSE
         R2=ABS(G1)
        ENDIF
        G0 = G1
-       IF (ITOL.EQ.3) TOLN=TOLN*TNORM2
+       IF (ITOL==3) TOLN=TOLN*TNORM2
 C----------------------
        CALL MY_BARRIER
 C---------------------
 #include "lockon.inc"
        ISTOP=CRIT_STOP(IT,R2,NLIM,TOLN)
 #include "lockoff.inc"
-       IF(NDDLI_G.GT.0.AND.INTP_C.EQ.-1)IUPD0 = -INTP_C
-       DO WHILE (ISTOP.EQ.1)
+       IF(NDDLI_G>0.AND.INTP_C==-1)IUPD0 = -INTP_C
+       DO WHILE (ISTOP==1)
         DO I=F_DDL,L_DDL
          P(I) = Z(I) + BETA*P(I)
         ENDDO 
-        IF(IUPD0.GT.0.AND.IT.GT.NDDLI_G/2) IUPD = IUPD0
+        IF(IUPD0>0.AND.IT>NDDLI_G/2) IUPD = IUPD0
 C----------------------
         CALL MY_BARRIER
 C---------------------
@@ -907,9 +907,9 @@ C---------------------
 C---------------------
         BETA=G1/G0
         G0 = G1
-        IF (ITOL.EQ.1) THEN
+        IF (ITOL==1) THEN
          CALL PRODUT_H( F_DDL  ,L_DDL ,R   ,R  ,W_DDL , R2 ,ITASK )
-        ELSEIF (ITOL.EQ.3) THEN
+        ELSEIF (ITOL==3) THEN
          R2 =ABS(G1)
          S=ONE/ALPHA
          L_A=S+B_OLD*A_OLD
@@ -936,9 +936,9 @@ C----------L_B2 : beta(j-1)^2-A_OLD :1/alpha(j-1)-------
          TOLN=TOLS2*ANORM2*XNORM2
          OLDB2   = L_B2
          OLDB   = L_B
-        ELSEIF (ITOL.EQ.4) THEN
+        ELSEIF (ITOL==4) THEN
          TMP=ALPHA*ALPHA*ABS(G1)
-         IF (IT.GE.ND) THEN
+         IF (IT>=ND) THEN
           DO J=1,ND-1
            EPS(J)=EPS(J+1)
           ENDDO
@@ -955,11 +955,11 @@ C----------L_B2 : beta(j-1)^2-A_OLD :1/alpha(j-1)-------
          R2 =ABS(G1)
         ENDIF
 C        
-        IF(IPRI.NE.0.AND.ITASK.EQ.0)THEN
-         IF(MOD(IT,IP).EQ.0)THEN
+        IF(IPRI/=0.AND.ITASK==0)THEN
+         IF(MOD(IT,IP)==0)THEN
           RR = SQRT(R2/R02)
           WRITE(IOUT,1001)IT,RR
-          IF(IPRI.LT.0) WRITE(ISTDO,1001)IT,RR
+          IF(IPRI<0) WRITE(ISTDO,1001)IT,RR
          ENDIF
         ENDIF
 C----------------------
@@ -969,11 +969,11 @@ C---------------------
         ISTOP=CRIT_STOP(IT,R2,NLIM,TOLN)
 #include "lockoff.inc"
 
-        IF((IUPD.GT.0.AND.IT.EQ.NLIM).OR.
-     .     (IUPD.EQ.0.AND.ISTOP.NE.1.AND.IUPD0.GT.0))THEN
+        IF((IUPD>0.AND.IT==NLIM).OR.
+     .     (IUPD==0.AND.ISTOP/=1.AND.IUPD0>0))THEN
 C------- re-iter with linear Kint------	
          IUPD0 = 0 
-         IF(IUPD.GT.0) IUPD = 0 
+         IF(IUPD>0) IUPD = 0 
 #include "lockon.inc"
          ISTOP = 1
 #include "lockoff.inc"
@@ -1019,7 +1019,7 @@ C---------------------
          CALL PRODUT_H( F_DDL  ,L_DDL ,R   ,Z  ,W_DDL , G0 ,ITASK )
          BETA = ZERO
 C------ R2<TOL*TOL*ANORM2*XNORM2------
-         IF (ITOL.EQ.3) THEN
+         IF (ITOL==3) THEN
            TNORM2=L_A*L_A
            ANORM2=ZERO
            XNORM2=ZERO
@@ -1035,7 +1035,7 @@ C*     INITIALIZE OTHER QUANTITIES.
            GMIN   = GMAX
            OLDB2   = ZERO
            OLDB   = L_B
-         ELSEIF (ITOL.EQ.4) THEN
+         ELSEIF (ITOL==4) THEN
           DO J=1,ND
            EPS(J)=R02
           ENDDO
@@ -1051,7 +1051,7 @@ C---------------------
 #elif defined knf
       IF(GPUR4R8==1)THEN
       ELSEIF(GPUR4R8==2)THEN
-       IF(ITASK.EQ.0)THEN
+       IF(ITASK==0)THEN
 C Code MIC simple precision
 
 C debut code specifique MIC double precision
@@ -1389,8 +1389,8 @@ C si spmd penser a faire avant D_Z = D_Y*D_W pour les poids
          END IF
 C---------------------
 C---------------------
-         IF (G0.EQ.ZERO) THEN
-           IF (ITOL.GT.1) THEN
+         IF (G0==ZERO) THEN
+           IF (ITOL>1) THEN
              ISTOP=-1
              GOTO 206
            ELSE
@@ -1400,7 +1400,7 @@ C---------------------
            ALPHA = G0/S
          ENDIF
          TOLS2=TOLS*TOLS
-         IF (ITOL.EQ.1) THEN
+         IF (ITOL==1) THEN
            IF(NSPMD == 1) THEN
 !dir$ omp offload target(mic:MICID)
      & nocopy(r)
@@ -1424,7 +1424,7 @@ C si spmd penser a faire avant D_Z = D_R*W pour les poids
 C---------------------
 C---------------------
            R2 =R02
-         ELSEIF (ITOL.EQ.3) THEN
+         ELSEIF (ITOL==3) THEN
 C------ R2<TOL*TOL*ANORM2*XNORM2------
            R02=ABS(G0)
            R2 =R02
@@ -1436,7 +1436,7 @@ C          L_B2=R02
            A_OLD=L_A
            B_OLD=ZERO
            OLDB   = SQRT(R02)
-         ELSEIF (ITOL.EQ.4) THEN
+         ELSEIF (ITOL==4) THEN
            R02=ALPHA*ALPHA*ABS(G0)
            EPS(1)=R02
            R2=R02
@@ -1444,14 +1444,14 @@ C          L_B2=R02
            R02=ABS(G0)
            R2 =R02
          ENDIF
-         IF (R02.EQ.ZERO) THEN
+         IF (R02==ZERO) THEN
            ISTOP=-1
            GOTO 206
          ENDIF
          TOLN=R02*TOLS2
-         IF(IPRI.NE.0.AND.ITASK.EQ.0)THEN
+         IF(IPRI/=0.AND.ITASK==0)THEN
            RR = SQRT(R2)
-           IF(IPRI.LT.0) WRITE(ISTDO,1000)IT,RR
+           IF(IPRI<0) WRITE(ISTDO,1000)IT,RR
            WRITE(IOUT,1000)IT,RR
          ENDIF
 C-------pour etre coherent avec lanzos for linear
@@ -1536,7 +1536,7 @@ C si spmd penser a faire avant D_Y = D_Z*D_W pour les poids
          END IF
 C---------------------
          BETA=G1/G0
-         IF (ITOL.EQ.1) THEN
+         IF (ITOL==1) THEN
            IF(NSPMD == 1) THEN
 !dir$ omp offload target(mic:MICID)
      & nocopy(r)
@@ -1557,7 +1557,7 @@ C si spmd penser a faire avant D_Y = D_R*W pour les poids
              CALL SPMD_SUM_S(R2)
              IF(IMONM > 0) CALL STOPTIME(67,1)
            END IF
-         ELSEIF (ITOL.EQ.3) THEN
+         ELSEIF (ITOL==3) THEN
 C------ R2<TOL*TOL*ANORM2*XNORM2------
            R2=ABS(G1)
            L_B2=ABS(BETA)*A_OLD*A_OLD
@@ -1573,13 +1573,13 @@ C     INITIALIZE OTHER QUANTITIES.
            GMIN   = GMAX
            OLDB2   = L_B2
            OLDB   = L_B
-         ELSEIF (ITOL.EQ.4) THEN
+         ELSEIF (ITOL==4) THEN
            R2=R02
          ELSE
            R2=ABS(G1)
          ENDIF
          G0 = G1
-         IF (ITOL.EQ.3) TOLN=TOLN*TNORM2
+         IF (ITOL==3) TOLN=TOLN*TNORM2
 C----------------------
 c         CALL MY_BARRIER
 C---------------------
@@ -1589,7 +1589,7 @@ C----------------------
 c         LOOP OVER ITERATIONS
 C---------------------
 
-         DO WHILE (ISTOP.EQ.1)
+         DO WHILE (ISTOP==1)
 
 !dir$ omp offload target(mic:MICID)
      & nocopy(iadk,iadk0,iadm,iadm0,lt_k,lt_k0,lt_m)
@@ -1737,7 +1737,7 @@ cc!$OMP single
           BETA=G1/G0
           G0 = G1
 cc!$OMP end single 
-          IF (ITOL.EQ.1) THEN
+          IF (ITOL==1) THEN
             IF(NSPMD == 1) THEN
 !dir$ omp offload target(mic:MICID)
      & nocopy(r)
@@ -1758,7 +1758,7 @@ C si spmd penser a faire avant D_Y = D_R*W pour les poids
               CALL SPMD_SUM_S(R2)
               IF(IMONM > 0) CALL STOPTIME(67,1)
             END IF
-          ELSEIF (ITOL.EQ.3) THEN
+          ELSEIF (ITOL==3) THEN
            R2 =ABS(G1)
            S=ONE/ALPHA
            L_A=S+B_OLD*A_OLD
@@ -1785,9 +1785,9 @@ C----------L_B2 : beta(j-1)^2-A_OLD :1/alpha(j-1)-------
            TOLN=TOLS2*ANORM2*XNORM2
            OLDB2   = L_B2
            OLDB   = L_B
-          ELSEIF (ITOL.EQ.4) THEN
+          ELSEIF (ITOL==4) THEN
            TMP=ALPHA*ALPHA*ABS(G1)
-           IF (IT.GE.ND) THEN
+           IF (IT>=ND) THEN
             DO J=1,ND-1
              EPS(J)=EPS(J+1)
             ENDDO
@@ -1803,11 +1803,11 @@ C----------L_B2 : beta(j-1)^2-A_OLD :1/alpha(j-1)-------
           ELSE
            R2 =ABS(G1)
           ENDIF
-          IF(IPRI.NE.0.AND.ITASK.EQ.0)THEN
-           IF(MOD(IT,IP).EQ.0)THEN
+          IF(IPRI/=0.AND.ITASK==0)THEN
+           IF(MOD(IT,IP)==0)THEN
             RR = SQRT(R2/R02)
             WRITE(IOUT,1001)IT,RR
-            IF(IPRI.LT.0) WRITE(ISTDO,1001)IT,RR
+            IF(IPRI<0) WRITE(ISTDO,1001)IT,RR
            ENDIF
           ENDIF
 C----------------------
@@ -2019,8 +2019,8 @@ c           IF(IMONM > 0) CALL STOPTIME(67,1)
 c         END IF
 C---------------------
 C---------------------
-         IF (G0.EQ.ZERO) THEN
-           IF (ITOL.GT.1) THEN
+         IF (G0==ZERO) THEN
+           IF (ITOL>1) THEN
              ISTOP=-1
              GOTO 2060
            ELSE
@@ -2030,7 +2030,7 @@ C---------------------
            ALPHA = G0/S
          ENDIF
          TOLS2=TOLS*TOLS
-         IF (ITOL.EQ.1) THEN
+         IF (ITOL==1) THEN
 c           IF(NSPMD == 1) THEN
 c!dir$ omp offload target(mic:MICID)
 c     & nocopy(r)
@@ -2054,7 +2054,7 @@ c           END IF
 C---------------------
 C---------------------
            R2 =R02
-         ELSEIF (ITOL.EQ.3) THEN
+         ELSEIF (ITOL==3) THEN
 C------ R2<TOL*TOL*ANORM2*XNORM2------
 c+1
 !$OMP SINGLE
@@ -2070,7 +2070,7 @@ C          L_B2=R02
            OLDB   = SQRT(R02)
 c+1
 !$OMP END SINGLE
-         ELSEIF (ITOL.EQ.4) THEN
+         ELSEIF (ITOL==4) THEN
            R02=ALPHA*ALPHA*ABS(G0)
            EPS(1)=R02
            R2=R02
@@ -2078,16 +2078,16 @@ c+1
            R02=ABS(G0)
            R2 =R02
          ENDIF
-         IF (R02.EQ.ZERO) THEN
+         IF (R02==ZERO) THEN
            ISTOP=-1
            GOTO 2060
          ENDIF
 c+1
 !$OMP SINGLE
          TOLN=R02*TOLS2
-         IF(IPRI.NE.0.AND.ITASK.EQ.0)THEN
+         IF(IPRI/=0.AND.ITASK==0)THEN
            RR = SQRT(R2)
-           IF(IPRI.LT.0) WRITE(ISTDO,1000)IT,RR
+           IF(IPRI<0) WRITE(ISTDO,1000)IT,RR
            WRITE(IOUT,1000)IT,RR
          ENDIF
 c+1
@@ -2174,7 +2174,7 @@ c           IF(IMONM > 0) CALL STOPTIME(67,1)
 c         END IF
 C---------------------
          BETA=G1/G0
-         IF (ITOL.EQ.1) THEN
+         IF (ITOL==1) THEN
 c           IF(NSPMD == 1) THEN
 c!dir$ omp offload target(mic:MICID)
 c     & nocopy(r)
@@ -2195,7 +2195,7 @@ c             IF(IMONM > 0) CALL STARTIME(67,1)
 c             CALL SPMD_SUM_S(R2)
 c             IF(IMONM > 0) CALL STOPTIME(67,1)
 c           END IF
-         ELSEIF (ITOL.EQ.3) THEN
+         ELSEIF (ITOL==3) THEN
 C------ R2<TOL*TOL*ANORM2*XNORM2------
 c+1
 !$OMP SINGLE 
@@ -2215,7 +2215,7 @@ C     INITIALIZE OTHER QUANTITIES.
            OLDB   = L_B
 c+1
 !$OMP END SINGLE
-         ELSEIF (ITOL.EQ.4) THEN
+         ELSEIF (ITOL==4) THEN
            R2=R02
          ELSE
            R2=ABS(G1)
@@ -2223,17 +2223,17 @@ c+1
          G0 = G1
 c+1
 !$OMP SINGLE
-         IF (ITOL.EQ.3) TOLN=TOLN*TNORM2
+         IF (ITOL==3) TOLN=TOLN*TNORM2
 
 
 C----------------------
 c         CALL MY_BARRIER
 C---------------------
 C         ISTOP=CRIT_STOP(IT,R2,NLIM,TOLN)
-         IF (IT.GE.NLIM) THEN
+         IF (IT>=NLIM) THEN
            ISTOP = 0
          ELSE
-           IF (R2.LE.TOLN) THEN
+           IF (R2<=TOLN) THEN
              ISTOP = 0
            ELSE
              ISTOP = 1
@@ -2245,7 +2245,7 @@ C----------------------
 c         LOOP OVER ITERATIONS
 C---------------------
 
-         DO WHILE (ISTOP.EQ.1)
+         DO WHILE (ISTOP==1)
 
 c!dir$ omp offload target(mic:MICID)
 c     & nocopy(iadk,iadk0,iadm,iadm0,lt_k,lt_k0,lt_m)
@@ -2395,7 +2395,7 @@ c+1
           G0 = G1
 c+1
 !$OMP end single 
-          IF (ITOL.EQ.1) THEN
+          IF (ITOL==1) THEN
 c            IF(NSPMD == 1) THEN
 c!dir$ omp offload target(mic:MICID)
 c     & nocopy(r)
@@ -2416,7 +2416,7 @@ c              IF(IMONM > 0) CALL STARTIME(67,1)
 c              CALL SPMD_SUM_S(R2)
 c              IF(IMONM > 0) CALL STOPTIME(67,1)
 c            END IF
-          ELSEIF (ITOL.EQ.3) THEN
+          ELSEIF (ITOL==3) THEN
 c+1
 !$OMP single 
            R2 =ABS(G1)
@@ -2447,9 +2447,9 @@ C----------L_B2 : beta(j-1)^2-A_OLD :1/alpha(j-1)-------
            OLDB   = L_B
 c+1
 !$OMP end single 
-          ELSEIF (ITOL.EQ.4) THEN
+          ELSEIF (ITOL==4) THEN
            TMP=ALPHA*ALPHA*ABS(G1)
-           IF (IT.GE.ND) THEN
+           IF (IT>=ND) THEN
             DO J=1,ND-1
              EPS(J)=EPS(J+1)
             ENDDO
@@ -2467,21 +2467,21 @@ c+1
           ENDIF
 c+1
 !$OMP single 
-          IF(IPRI.NE.0.AND.ITASK.EQ.0)THEN
-           IF(MOD(IT,IP).EQ.0)THEN
+          IF(IPRI/=0.AND.ITASK==0)THEN
+           IF(MOD(IT,IP)==0)THEN
             RR = SQRT(R2/R02)
             WRITE(IOUT,1001)IT,RR
-            IF(IPRI.LT.0) WRITE(ISTDO,1001)IT,RR
+            IF(IPRI<0) WRITE(ISTDO,1001)IT,RR
            ENDIF
           ENDIF
 C----------------------
 c          CALL MY_BARRIER
 C---------------------
 C          ISTOP=CRIT_STOP(IT,R2,NLIM,TOLN)
-          IF (IT.GE.NLIM) THEN
+          IF (IT>=NLIM) THEN
             ISTOP = 0
           ELSE
-            IF (R2.LE.TOLN) THEN
+            IF (R2<=TOLN) THEN
               ISTOP = 0
             ELSE
               ISTOP = 1
@@ -2546,15 +2546,15 @@ C routine speciale pour sauvegarder les resultats
       
 C
 C------due to ISTOP local variable
-C      IF(IT.GE.NLIM.AND.ISOLV.EQ.7) ISTOP = 3
+C      IF(IT>=NLIM.AND.ISOLV==7) ISTOP = 3
       IF(ITASK == 0) THEN
 #include "lockon.inc"
         ISTOP_H = ISTOP
 #include "lockoff.inc"
        CALL PUPD(N_MAX,NDDLI_G,IT)
 C       
-       IF(IT.GE.NLIM)THEN
-        IF (ISOLV.EQ.7) THEN
+       IF(IT>=NLIM)THEN
+        IF (ISOLV==7) THEN
 #include "lockon.inc"
          ISTOP_H = 3
 #include "lockoff.inc"
@@ -2570,14 +2570,14 @@ C
         WRITE(ISTDO,*)
         WRITE(ISTDO,1003)NLIM
         WRITE(ISTDO,*)
-        IF(ITOL.EQ.3)THEN
+        IF(ITOL==3)THEN
           WRITE(IOUT,2000)  
      .     EXIT, SQRT(ANORM2), SQRT(XNORM2),GMAX/GMIN
           WRITE(ISTDO,2000)  
      .     EXIT, SQRT(ANORM2), SQRT(XNORM2),GMAX/GMIN
         ENDIF
 C----add condition to remove wrong message with mix solver        
-        IF (R2.GT.HUNDRED*TOLN) THEN
+        IF (R2>HUNDRED*TOLN) THEN
          ISTOP_H = 2
          RR = SQRT(R2/R02)
          WRITE(IOUT,*)
@@ -2589,24 +2589,24 @@ C----add condition to remove wrong message with mix solver
         ENDIF
         END IF !(.NOT.(MIXEDSOL)) THEN
          
-        END IF !(ISOLV.EQ.7) THEN
+        END IF !(ISOLV==7) THEN
        ENDIF
-       IF(IPRI.NE.0)THEN
+       IF(IPRI/=0)THEN
         RR = SQRT(R2/R02)
         WRITE(IOUT,*)
         WRITE(IOUT,1002)IT,RR
-        IF(ITOL.EQ.3)WRITE(IOUT,2000)  
+        IF(ITOL==3)WRITE(IOUT,2000)  
      .     EXIT, SQRT(ANORM2), SQRT(XNORM2),GMAX/GMIN
         WRITE(IOUT,*)
-        IF(IPRI.LT.0) THEN
+        IF(IPRI<0) THEN
          WRITE(ISTDO,*)
          WRITE(ISTDO,1002)IT,RR
-         IF(ITOL.EQ.3)WRITE(ISTDO,2000)
+         IF(ITOL==3)WRITE(ISTDO,2000)
      .     EXIT, SQRT(ANORM2), SQRT(XNORM2),GMAX/GMIN
          WRITE(ISTDO,*)
         ENDIF
        ENDIF
-       IF(ITOL.EQ.3) THEN
+       IF(ITOL==3) THEN
         K_LAMDA0= GMIN
         K_LAMDA1= GMAX
        ELSE
@@ -2670,13 +2670,13 @@ C-----------------------------------------------
 C-----------------------------
 C      
       IT_PCG = IT_PCG + ITN
-      IF (ISOLV.EQ.5.OR.ISOLV.EQ.6) THEN
-       IF (IPUPD.GT.0) THEN
+      IF (ISOLV==5.OR.ISOLV==6) THEN
+       IF (IPUPD>0) THEN
         NLIM=IPUPD+NDDLI/10
        ELSE
         NLIM=MAX(5,NDDL/10000)+NDDLI/10
        ENDIF
-       IF (ITN.GT.NLIM) THEN
+       IF (ITN>NLIM) THEN
 c         WRITE(IOUT,*) '****RE-FRACTO. DUE TO ITN=',ITN
          IT_PCG = -IT_PCG
        ENDIF
@@ -2712,8 +2712,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I
 C-----------------------------
-       IF (ISOLV.NE.5.AND.ISOLV.NE.6) RETURN
-       IF (IPUPD.GT.0) THEN
+       IF (ISOLV/=5.AND.ISOLV/=6) RETURN
+       IF (IPUPD>0) THEN
         NLIM=10*IPUPD+NDDLI
        ELSE
         NLIM=10+NDDL/100+NDDLI
@@ -3291,15 +3291,15 @@ C
       NLIM=MAX(NLIM,2)
       TOLS=MAX(TOL,EPS_M)
       IPRI = IPRINT
-      IF (ISPMD.NE.0) IPRI = 0
+      IF (ISPMD/=0) IPRI = 0
 C--------
       IF (ITASK == 0) THEN
-       IF(IPRI.NE.0)THEN
+       IF(IPRI/=0)THEN
         WRITE(IOUT,*)
      1         '*** BEGIN PROJECTED CONJUGATE GRADIENT ITERATION ***'
         WRITE(IOUT,*)
        ENDIF
-       IF(IPRI.LT.0)THEN
+       IF(IPRI<0)THEN
         WRITE(ISTDO,*)
      1         '*** BEGIN PROJECTED CONJUGATE GRADIENT ITERATION ***'
         WRITE(ISTDO,*)
@@ -3448,8 +3448,8 @@ C---------------------
      C                    LT_M  )
        CALL PRODUT_H(F_DDL  ,L_DDL ,P   ,Y  ,W_DDL , S ,ITASK )
 C---------------------
-       IF (G0.EQ.ZERO) THEN
-        IF (ITOL.GT.1) THEN
+       IF (G0==ZERO) THEN
+        IF (ITOL>1) THEN
          ISTOP=-1
          GOTO 200
 	ELSE
@@ -3459,10 +3459,10 @@ C---------------------
         ALPHA = G0/S
        ENDIF
        TOLS2=TOLS*TOLS
-       IF (ITOL.EQ.1) THEN
+       IF (ITOL==1) THEN
 C---------------------
         R2 =G0
-       ELSEIF (ITOL.EQ.3) THEN
+       ELSEIF (ITOL==3) THEN
 C------ R2<TOL*TOL*ANORM2*XNORM2------
         R02=ABS(G0)
         R2 =R02
@@ -3474,7 +3474,7 @@ C        L_B2=R02
         A_OLD=L_A
         B_OLD=ZERO
         OLDB   = SQRT(R02)
-       ELSEIF (ITOL.EQ.4) THEN
+       ELSEIF (ITOL==4) THEN
         R02=ALPHA*ALPHA*ABS(G0)
         EPS(1)=R02
         R2=R02
@@ -3482,14 +3482,14 @@ C        L_B2=R02
         R02=ABS(G0)
         R2 =R02
        ENDIF
-       IF (R02.EQ.ZERO) THEN
+       IF (R02==ZERO) THEN
         ISTOP=-1
         GOTO 200
        ENDIF
        TOLN=R02*TOLS2
-       IF(IPRI.NE.0.AND.ITASK.EQ.0)THEN
+       IF(IPRI/=0.AND.ITASK==0)THEN
         RR = SQRT(R2)
-        IF(IPRI.LT.0) WRITE(ISTDO,1000)IT,RR
+        IF(IPRI<0) WRITE(ISTDO,1000)IT,RR
         WRITE(IOUT,1000)IT,RR
        ENDIF
 C-------pour etre coherent avec lanzos for linear
@@ -3516,9 +3516,9 @@ C---------------------
        CALL PRODUT_H( F_DDL  ,L_DDL ,R   ,R  ,W_DDL , G1 ,ITASK )
 C---------------------
        BETA=G1/G0
-       IF (ITOL.EQ.1) THEN
+       IF (ITOL==1) THEN
         R2 = G1
-       ELSEIF (ITOL.EQ.3) THEN
+       ELSEIF (ITOL==3) THEN
 C------ R2<TOL*TOL*ANORM2*XNORM2------
         R2=ABS(G1)
         L_B2=ABS(BETA)*A_OLD*A_OLD
@@ -3534,23 +3534,23 @@ C*     INITIALIZE OTHER QUANTITIES.
         GMIN   = GMAX
         OLDB2   = L_B2
         OLDB   = L_B
-       ELSEIF (ITOL.EQ.4) THEN
+       ELSEIF (ITOL==4) THEN
         R2=R02
        ELSE
         R2=ABS(G1)
        ENDIF
        G0 = G1
-       IF (ITOL.EQ.3) TOLN=TOLN*TNORM2
+       IF (ITOL==3) TOLN=TOLN*TNORM2
 C----------------------
        CALL MY_BARRIER
 C---------------------
        ISTOP=CRIT_STOP(IT,R2,NLIM,TOLN)
-       IF(NDDLI_G.GT.0.AND.INTP_C.EQ.-1)IUPD0 = -INTP_C
-       DO WHILE (ISTOP.EQ.1)
+       IF(NDDLI_G>0.AND.INTP_C==-1)IUPD0 = -INTP_C
+       DO WHILE (ISTOP==1)
         DO I=F_DDL,L_DDL
          P(I) = R(I) + BETA*P(I)
         ENDDO 
-        IF(IUPD0.GT.0.AND.IT.GT.NDDLI_G/2) IUPD = IUPD0
+        IF(IUPD0>0.AND.IT>NDDLI_G/2) IUPD = IUPD0
 C       
 C------PCG(PROJECTION)----
         CALL IMP_PRO_P(F_DDL,L_DDL,NDDL ,P  ,W_DDL,ITASK )
@@ -3593,7 +3593,7 @@ C---------------------
         CALL PRODUT_H(F_DDL  ,L_DDL ,P   ,Y  ,W_DDL , S ,ITASK )
 C---------------------
         ALPHA=G0/S
-       IF(MOD(IT,10).LT.0)THEN
+       IF(MOD(IT,10)<0)THEN
         DO I=F_DDL,L_DDL
          X(I) = X(I) + ALPHA*P(I)
         ENDDO 
@@ -3620,7 +3620,7 @@ C---------------------
          X(I) = X(I) + ALPHA*P(I)
          R(I) = R(I) - ALPHA*Y(I)
         ENDDO 
-       END IF !  IF(MOD(IT,IP).EQ.0)THEN
+       END IF !  IF(MOD(IT,IP)==0)THEN
 C----------------------
         CALL MY_BARRIER
 C---------------------
@@ -3637,9 +3637,9 @@ C---------------------
 C---------------------
         BETA=G1/G0
         G0 = G1
-        IF (ITOL.EQ.1) THEN
+        IF (ITOL==1) THEN
          R2 = G1
-        ELSEIF (ITOL.EQ.3) THEN
+        ELSEIF (ITOL==3) THEN
          R2 =ABS(G1)
          S=ONE/ALPHA
          L_A=S+B_OLD*A_OLD
@@ -3666,9 +3666,9 @@ C----------L_B2 : beta(j-1)^2-A_OLD :1/alpha(j-1)-------
          TOLN=TOLS2*ANORM2*XNORM2
          OLDB2   = L_B2
          OLDB   = L_B
-        ELSEIF (ITOL.EQ.4) THEN
+        ELSEIF (ITOL==4) THEN
          TMP=ALPHA*ALPHA*ABS(G1)
-         IF (IT.GE.ND) THEN
+         IF (IT>=ND) THEN
           DO J=1,ND-1
            EPS(J)=EPS(J+1)
           ENDDO
@@ -3689,22 +3689,22 @@ C
      1                    R2  ,R2_OLD  ,RMAX  ,PROJ_V,P      ,   
      2                    IT  ,F_DDL,L_DDL )
 C        
-        IF(IPRI.NE.0.AND.ITASK.EQ.0)THEN
-         IF(MOD(IT,IP).EQ.0)THEN
+        IF(IPRI/=0.AND.ITASK==0)THEN
+         IF(MOD(IT,IP)==0)THEN
           RR = SQRT(R2/R02)
           WRITE(IOUT,1001)IT,RR
-          IF(IPRI.LT.0) WRITE(ISTDO,1001)IT,RR
+          IF(IPRI<0) WRITE(ISTDO,1001)IT,RR
          ENDIF
         ENDIF
 C----------------------
         CALL MY_BARRIER
 C---------------------
         ISTOP=CRIT_STOP(IT,R2,NLIM,TOLN)
-        IF((IUPD.GT.0.AND.IT.EQ.NLIM).OR.
-     .     (IUPD.EQ.0.AND.ISTOP.NE.1.AND.IUPD0.GT.0))THEN
+        IF((IUPD>0.AND.IT==NLIM).OR.
+     .     (IUPD==0.AND.ISTOP/=1.AND.IUPD0>0))THEN
 C------- re-iter with linear Kint------	
          IUPD0 = 0 
-         IF(IUPD.GT.0) IUPD = 0 
+         IF(IUPD>0) IUPD = 0 
          ISTOP = 1
          NLIM = NLIM + NLIM
          DO I=F_DDL,L_DDL
@@ -3745,7 +3745,7 @@ C---------------------
          CALL PRODUT_H( F_DDL  ,L_DDL ,R   ,R  ,W_DDL , G0 ,ITASK )
          BETA = ZERO
 C------ R2<TOL*TOL*ANORM2*XNORM2------
-         IF (ITOL.EQ.3) THEN
+         IF (ITOL==3) THEN
            TNORM2=L_A*L_A
            ANORM2=ZERO
            XNORM2=ZERO
@@ -3761,7 +3761,7 @@ C*     INITIALIZE OTHER QUANTITIES.
            GMIN   = GMAX
            OLDB2   = ZERO
            OLDB   = L_B
-         ELSEIF (ITOL.EQ.4) THEN
+         ELSEIF (ITOL==4) THEN
           DO J=1,ND
            EPS(J)=R02
           ENDDO
@@ -3805,8 +3805,8 @@ C----------------------
 C---------------------
       END IF
 C------due to ISTOP local variable
-C      IF(IT.GE.NLIM.AND.ISOLV.EQ.7) ISTOP = 3
-c         IF(ITOL.EQ.3)then
+C      IF(IT>=NLIM.AND.ISOLV==7) ISTOP = 3
+c         IF(ITOL==3)then
 c          DO I=F_DDL,L_DDL
 c           Z(I)=X(I)/DIAG_M(I)
 c          ENDDO
@@ -3819,8 +3819,8 @@ c	 END IF
         ISTOP_H = ISTOP
        CALL PUPD(N_MAX,NDDLI_G,IT)
 C       
-       IF(IT.GE.NLIM)THEN
-        IF (ISOLV.EQ.7) THEN
+       IF(IT>=NLIM)THEN
+        IF (ISOLV==7) THEN
          ISTOP_H = 3
         ELSE
 
@@ -3830,14 +3830,14 @@ C
         WRITE(ISTDO,*)
         WRITE(ISTDO,1003)NLIM
         WRITE(ISTDO,*)
-        IF(ITOL.EQ.3)THEN
+        IF(ITOL==3)THEN
           WRITE(IOUT,2000)  
      .     EXIT, SQRT(ANORM2), SQRT(XNORM2),GMAX/GMIN
           WRITE(ISTDO,2000)  
      .     EXIT, SQRT(ANORM2), SQRT(XNORM2),GMAX/GMIN
         ENDIF
         ISTOP_H = 1
-        IF (R2.GT.HUNDRED*TOLN) THEN
+        IF (R2>HUNDRED*TOLN) THEN
          ISTOP_H = 2
          RR = SQRT(R2/R02)
          WRITE(IOUT,*)
@@ -3848,25 +3848,25 @@ C
          WRITE(ISTDO,*)
         ENDIF
          
-        END IF !(ISOLV.EQ.7) THEN
+        END IF !(ISOLV==7) THEN
        ENDIF
-       IF(IPRI.NE.0)THEN
+       IF(IPRI/=0)THEN
         RR = SQRT(R2/R02)
         WRITE(IOUT,*)
         WRITE(IOUT,1002)IT,RR
-        IF(ITOL.EQ.3)WRITE(IOUT,2000)  
+        IF(ITOL==3)WRITE(IOUT,2000)  
      .     EXIT, SQRT(ANORM2), SQRT(XNORM2),GMAX/GMIN
 C          WRITE(IOUT,*) 'TOLN,TOLS2=',TOLN,TOLS2 
         WRITE(IOUT,*)
-        IF(IPRI.LT.0) THEN
+        IF(IPRI<0) THEN
          WRITE(ISTDO,*)
          WRITE(ISTDO,1002)IT,RR
-         IF(ITOL.EQ.3)WRITE(ISTDO,2000)
+         IF(ITOL==3)WRITE(ISTDO,2000)
      .     EXIT, SQRT(ANORM2), SQRT(XNORM2),GMAX/GMIN
          WRITE(ISTDO,*)
         ENDIF
        ENDIF
-       IF(ITOL.EQ.3) THEN
+       IF(ITOL==3) THEN
         K_LAMDA0= GMIN
         K_LAMDA1= GMAX
        ELSE

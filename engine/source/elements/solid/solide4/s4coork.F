@@ -103,9 +103,9 @@ C----------------------------
         OFF(I) = MIN(ONE,ABS(OFFG(I)))
       ENDDO
 C-----------
-      IF(ISMSTR.EQ.1.OR.(ISMSTR.EQ.2.AND.IDTMIN(1).EQ.3))THEN
+      IF(ISMSTR==1.OR.(ISMSTR==2.AND.IDTMIN(1)==3))THEN
        DO I=LFT,LLT
-       IF(ABS(OFFG(I)).GT.ONE)THEN
+       IF(ABS(OFFG(I))>ONE)THEN
         X1(I)=SAV(I,1)
         Y1(I)=SAV(I,2)
         Z1(I)=SAV(I,3)

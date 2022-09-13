@@ -76,11 +76,11 @@ C-----------------------------------------------
 
       LOC_PROC = ISPMD+1
       SIZ = 5*NVOLU+2*NJET*NVOLU+1
-      IF(ITYP .EQ. 9) SIZ = SIZ + NGASES*2*NJET*NVOLU
+      IF(ITYP == 9) SIZ = SIZ + NGASES*2*NJET*NVOLU
       ALLOCATE(BUFS(SIZ),BUFR(SIZ))
 
 
-      IF(IFLAG.EQ.1) THEN
+      IF(IFLAG==1) THEN
         L = 1
         NB = 0
         DO P = 1, NSPMD
@@ -89,7 +89,7 @@ C-----------------------------------------------
         DO I=1,NAV
           II = ICBAG(1,I)
 C si pmain
-          IF(FR_MV(NSPMD+2,II).EQ.LOC_PROC)THEN
+          IF(FR_MV(NSPMD+2,II)==LOC_PROC)THEN
             NB = NB + 1
             BUFS(L+1)=II
             BUFS(L+2)=RVOLUV(12,II)
@@ -103,7 +103,7 @@ C
               BUFS(L+1)=RBAGVJET(RADVOIS+NRBJET*(IJ-1)+9)
               BUFS(L+2)=RBAGVJET(RADVOIS+NRBJET*(IJ-1)+10)
               L = L + 2
-              IF(ITYP .EQ. 9) THEN
+              IF(ITYP == 9) THEN
                DO IGAS = 1,NGASES 
                  BUFS(L+1)=RBAGVJET(RADVOIS+NRBJET*(IJ-1)+23+(IGAS-1)*4)
                  BUFS(L+2)=RBAGVJET(RADVOIS+NRBJET*(IJ-1)+24+(IGAS-1)*4)
@@ -113,17 +113,17 @@ C
             END DO
 C
             DO P = 1, NSPMD
-              IF(FR_MV(P,II).EQ.0.AND.FR_MV(P,IV).NE.0) THEN
+              IF(FR_MV(P,II)==0.AND.FR_MV(P,IV)/=0) THEN
                 ICOMSD(P) = 1
               END IF
             END DO
           END IF
         END DO
 C
-        IF (NB.GT.0) THEN
+        IF (NB>0) THEN
           BUFS(1) = NB
           DO P = 1, NSPMD
-            IF(ICOMSD(P).EQ.1) THEN
+            IF(ICOMSD(P)==1) THEN
               MSGTYP = MSGOFF
               CALL MPI_ISEND(
      .          BUFS,L,REAL,IT_SPMD(P),MSGTYP,
@@ -132,20 +132,20 @@ C
           END DO
         END IF
 C
-        IF(FR_MV(LOC_PROC,IV).NE.0) THEN
+        IF(FR_MV(LOC_PROC,IV)/=0) THEN
           DO P = 1, NSPMD
             ICOMRC = 0
             DO I=1,NAV
               II = ICBAG(1,I)
 C si pmain
-              IF(FR_MV(NSPMD+2,II).EQ.P.AND.
-     +           FR_MV(LOC_PROC,II).EQ.0)THEN
+              IF(FR_MV(NSPMD+2,II)==P.AND.
+     +           FR_MV(LOC_PROC,II)==0)THEN
                 ICOMRC = 1
               END IF
             END DO
-            IF(ICOMRC.EQ.1) THEN
+            IF(ICOMRC==1) THEN
               SIZ = 5*NVOLU+2*NJET*NVOLU+1
-              IF(ITYP .EQ. 9) SIZ = SIZ + 2*NJET*NVOLU*NGASES
+              IF(ITYP == 9) SIZ = SIZ + 2*NJET*NVOLU*NGASES
               MSGTYP = MSGOFF
               CALL MPI_RECV(BUFR   ,SIZ           ,REAL  ,IT_SPMD(P),
      .                      MSGTYP,MPI_COMM_WORLD,STATUS,IERROR    )
@@ -164,7 +164,7 @@ C
                   RBAGVJET(RADVOIS+NRBJET*(IJ-1)+9) =BUFR(L+1)
                   RBAGVJET(RADVOIS+NRBJET*(IJ-1)+10)=BUFR(L+2)
                   L = L + 2
-                  IF(ITYP .EQ. 9) THEN
+                  IF(ITYP == 9) THEN
                     DO IGAS = 1,NGASES 
                       RBAGVJET(RADVOIS+NRBJET*(IJ-1)+23+(IGAS-1)*4)=BUFR(L+1)
                       RBAGVJET(RADVOIS+NRBJET*(IJ-1)+24+(IGAS-1)*4)=BUFR(L+2)
@@ -178,11 +178,11 @@ C
         END IF
 C
         DO P = 1, NSPMD
-          IF(ICOMSD(P).EQ.1) CALL MPI_WAIT(REQ_S(P),STATUS,IERROR)
+          IF(ICOMSD(P)==1) CALL MPI_WAIT(REQ_S(P),STATUS,IERROR)
         END DO
-      ELSE !IFLAG .NE. 1
+      ELSE !IFLAG /= 1
 C cas renvoi des pressions du pmain du mv vers les processeurs traitant les mv voisins
-        IF(FR_MV(NSPMD+2,IV).EQ.LOC_PROC)THEN
+        IF(FR_MV(NSPMD+2,IV)==LOC_PROC)THEN
 C
           DO P = 1, NSPMD
             ICOMSD(P) = 0
@@ -200,7 +200,7 @@ C
               BUFS(L+1)=RBAGVJET(RADVOIS+NRBJET*(IJ-1)+9)
               BUFS(L+2)=RBAGVJET(RADVOIS+NRBJET*(IJ-1)+10)
               L = L + 2
-              IF(ITYP .EQ. 9) THEN
+              IF(ITYP == 9) THEN
                DO IGAS = 1,NGASES 
                  BUFS(L+1)=RBAGVJET(RADVOIS+NRBJET*(IJ-1)+23+(IGAS-1)*4)
                  BUFS(L+2)=RBAGVJET(RADVOIS+NRBJET*(IJ-1)+24+(IGAS-1)*4)
@@ -210,14 +210,14 @@ C
             END DO
 C
             DO P = 1, NSPMD
-              IF(FR_MV(P,II).NE.0.AND.FR_MV(P,IV).EQ.0) THEN
+              IF(FR_MV(P,II)/=0.AND.FR_MV(P,IV)==0) THEN
                 ICOMSD(P) = 1
               END IF
             END DO
           END DO
-          IF (L.GT.0) THEN
+          IF (L>0) THEN
            DO P = 1, NSPMD
-             IF(ICOMSD(P).EQ.1) THEN
+             IF(ICOMSD(P)==1) THEN
                MSGTYP = MSGOFF2
                CALL MPI_ISEND(
      .           BUFS,L,REAL,IT_SPMD(P),MSGTYP,
@@ -227,21 +227,21 @@ C
          END IF
 C
          DO P = 1, NSPMD
-           IF(ICOMSD(P).EQ.1) CALL MPI_WAIT(REQ_S(P),STATUS,IERROR)
+           IF(ICOMSD(P)==1) CALL MPI_WAIT(REQ_S(P),STATUS,IERROR)
          END DO
-        ELSEIF(FR_MV(LOC_PROC,IV).EQ.0) THEN
+        ELSEIF(FR_MV(LOC_PROC,IV)==0) THEN
           ICOMRC = 0
           DO I=1,NAV
             II = ICBAG(1,I)
-            IF(FR_MV(LOC_PROC,II).NE.0)THEN
+            IF(FR_MV(LOC_PROC,II)/=0)THEN
               ICOMRC = 1
             END IF
           END DO
-          IF(ICOMRC.EQ.1) THEN
+          IF(ICOMRC==1) THEN
 C pmain
             P = FR_MV(NSPMD+2,IV)
             SIZ = 2*NAV+2*NJET*NAV
-            IF(ITYP .EQ. 9) SIZ = SIZ +2*NJET*NAV*NGASES
+            IF(ITYP == 9) SIZ = SIZ +2*NJET*NAV*NGASES
             MSGTYP = MSGOFF2
             CALL MPI_RECV(BUFR   ,SIZ           ,REAL  ,IT_SPMD(P),
      .                    MSGTYP,MPI_COMM_WORLD,STATUS,IERROR    )
@@ -257,7 +257,7 @@ C
                 RBAGVJET(RADVOIS+NRBJET*(IJ-1)+9) =BUFR(L+1)
                 RBAGVJET(RADVOIS+NRBJET*(IJ-1)+10)=BUFR(L+2)
                 L = L + 2
-                IF(ITYP .EQ. 9) THEN
+                IF(ITYP == 9) THEN
                   DO IGAS=1,NGASES
                     RBAGVJET(RADVOIS+NRBJET*(IJ-1)+23+(IGAS-1)*4)=BUFR(L+1)
                     RBAGVJET(RADVOIS+NRBJET*(IJ-1)+24+(IGAS-1)*4)=BUFR(L+2)

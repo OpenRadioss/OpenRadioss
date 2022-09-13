@@ -73,21 +73,21 @@ C
       DO I=1,NDDL
        AII = DIAG_M(I)
        K0 = IADK(I+1) - 1
-       IF (K0.GT.0) THEN
+       IF (K0>0) THEN
         J0 = JDIK(K0)
-        IF (J0.GT.MAXK) MAXK=J0
+        IF (J0>MAXK) MAXK=J0
        ENDIF 
        DO J = IADK(I),K0
         K1= JDIK(J)
         LI(K1) = LT_K(J)
 C----------ISKY(J)=I for LT_K(I,J)-----
-        IF (ISKY(K1).EQ.K1) ISKY(K1)=I
+        IF (ISKY(K1)==K1) ISKY(K1)=I
        ENDDO
        KFT =ISKY(I)
        DO K = KFT,I-1
         LSKY = ISKY(K)
-C        IF (LSKY.GE.IADM(K+1)) write(*,*)'found 1',i       
-        IF (LSKY.LT.IADM(K+1).AND.JDIM(LSKY).EQ.I) THEN
+C        IF (LSKY>=IADM(K+1)) write(*,*)'found 1',i       
+        IF (LSKY<IADM(K+1).AND.JDIM(LSKY)==I) THEN
          LKIK = LT_M(LSKY)/DIAG_M(K)
          AII = AII -LT_M(LSKY)*LKIK 
          ISKY(K)=LSKY+1
@@ -99,17 +99,17 @@ C----------voir ici quand ca tombre sur diagonal---
         ENDIF 
        ENDDO 
        DO 100 J = I+1 , MAXK
-        IF (ISKY(J).EQ.J) GOTO 100
+        IF (ISKY(J)==J) GOTO 100
         S = LI(J)
-        IF (S.NE.ZERO) THEN
+        IF (S/=ZERO) THEN
          LI(J)=ZERO
          AJJ = DIAG_M(J)
-         IF (PSI.EQ.ZERO) THEN
+         IF (PSI==ZERO) THEN
           NNZM = NNZM +1
-          IF (NNZM.GT.MAX_L) CALL ERR_MEM(NNZM)
+          IF (NNZM>MAX_L) CALL ERR_MEM(NNZM)
           LT_M(NNZM)=S
           JDIM(NNZM)=J
-         ELSEIF (S*S.LT.PSI*AII*AJJ) THEN
+         ELSEIF (S*S<PSI*AII*AJJ) THEN
           S =ABS(S)
           FAC = SQRT(AII/AJJ)
           AII = AII +S*FAC 
@@ -117,13 +117,13 @@ C----------voir ici quand ca tombre sur diagonal---
           REJ = REJ +1
          ELSE
           NNZM = NNZM +1
-          IF (NNZM.GT.MAX_L) CALL ERR_MEM(NNZM)
+          IF (NNZM>MAX_L) CALL ERR_MEM(NNZM)
           LT_M(NNZM)=S
           JDIM(NNZM)=J
          ENDIF 
         ENDIF 
  100   CONTINUE
-       IF (AII.LT.EM20) THEN
+       IF (AII<EM20) THEN
         NNE=NNE+1
         AII=SIGN(MAX(ABS(AII),EM20),AII)
        ENDIF 
@@ -133,9 +133,9 @@ C----------voir ici quand ca tombre sur diagonal---
         LT_M(J)=LT_M(J)*DIAG_M(I)
        ENDDO
        ISKY(I)=IADM(I)
-       IF (ISKY(I).GT.NNZM) ISKY(I)= IADM(I)
+       IF (ISKY(I)>NNZM) ISKY(I)= IADM(I)
       ENDDO
-c      IF (NNE.GT.0) then
+c      IF (NNE>0) then
 c       write(*,*)'--WARNING: PIVOT PROBLEM',NNE
 c      DO I=1,NDDL
 c       write(*,*)'diag,i,iadm=',DIAG_M(I),I,IADM(I)
@@ -176,14 +176,14 @@ C-----------------------------------------------
      .   AJJ,S,FAC
 C-----------------------------------------------
        DO J = J0, J1
-        IF (ISKY(J).NE.J) THEN
+        IF (ISKY(J)/=J) THEN
          S = LI(J)
-         IF (S.NE.ZERO) THEN
+         IF (S/=ZERO) THEN
           AJJ = DIAG_M(J)
           S =ABS(S)
           FAC = SQRT(ABS(AII/AJJ))
           AII = AII +S*FAC 
-          IF (abs(aii).LT.EP30) THEN
+          IF (abs(aii)<EP30) THEN
           ELSE
           ENDIF
           DIAG_M(J) = AJJ +S/FAC

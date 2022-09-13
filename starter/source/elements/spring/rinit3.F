@@ -820,8 +820,8 @@ C
           STIFR(I1)=STIFR(I1)+XKR
           STIFR(I2)=STIFR(I2)+XKR
           STRR(J)=XKR
-          IF (XCM+XKM.LT.EM15) XM =ONE
-          IF (XCR+XKR.LT.EM15) XINE=ONE
+          IF (XCM+XKM<EM15) XM =ONE
+          IF (XCR+XKR<EM15) XINE=ONE
           XKM= MAX(EM15,XKM)
           XKR= MAX(EM15,XKR)
           DT=(SQRT(XCM*XCM+XM*XKM)-XCM)/XKM
@@ -883,8 +883,8 @@ C---
           STIFR(I1)=STIFR(I1)+XKR
           STIFR(I2)=STIFR(I2)+XKR
           STRR(J)=XKR
-          IF (XCM+XKM.LT.EM15) XM =ONE
-          IF (XCR+XKR.LT.EM15) XINE=ONE
+          IF (XCM+XKM<EM15) XM =ONE
+          IF (XCR+XKR<EM15) XINE=ONE
           XKM= MAX(EM15,XKM)
           XKR= MAX(EM15,XKR)
           DT=(SQRT(XCM*XCM+XM*XKM)-XCM)/XKM
@@ -1062,8 +1062,8 @@ C
           STIFR(I1)=STIFR(I1)+XKR
           STIFR(I2)=STIFR(I2)+XKR
           STRR(J)=XKR
-          IF (XCM+XKM.LT.EM15) XM =ONE
-          IF (XCR+XKR.LT.EM15) XINE=ONE
+          IF (XCM+XKM<EM15) XM =ONE
+          IF (XCR+XKR<EM15) XINE=ONE
           XKM= MAX(EM15,XKM)
           XKR= MAX(EM15,XKR)
           DT=(SQRT(XCM*XCM+XM*XKM)-XCM)/XKM
@@ -1117,8 +1117,8 @@ C
           STIFR(I1)=STIFR(I1)+XKR
           STIFR(I2)=STIFR(I2)+XKR
           STRR(J)=XKR
-          IF(XCM+XKM.LT.EM15)XM =ONE
-          IF(XCR+XKR.LT.EM15)XINE=ONE
+          IF(XCM+XKM<EM15)XM =ONE
+          IF(XCR+XKR<EM15)XINE=ONE
           XKM= MAX(EM15,XKM)
           XKR= MAX(EM15,XKR)
           DT=(SQRT(XCM*XCM+XM*XKM)-XCM)/XKM
@@ -1171,8 +1171,8 @@ C
           STIFR(I1)=STIFR(I1)+XKR
           STIFR(I2)=STIFR(I2)+XKR
           STRR(J)=XKR
-          IF (XCM+XKM.LT.EM15) XM =ONE
-          IF (XCR+XKR.LT.EM15) XINE=ONE
+          IF (XCM+XKM<EM15) XM =ONE
+          IF (XCR+XKR<EM15) XINE=ONE
           XKM= MAX(EM15,XKM)
           XKR= MAX(EM15,XKR)
           DT=(SQRT(XCM*XCM+XM*XKM)-XCM)/XKM
@@ -1266,8 +1266,8 @@ C
      .        + MAX(GEO(144,I0),GEO(145,I0),GEO(146,I0)))/XL(I)
           XM=GEO(1,I0)*XL(I)
           XINE=GEO(9,I0)*XL(I)
-          IF (XCM+XKM.LT.EM15) XM =ONE
-          IF (XCR+XKR.LT.EM15) XINE=ONE
+          IF (XCM+XKM<EM15) XM =ONE
+          IF (XCR+XKR<EM15) XINE=ONE
           XKM= MAX(EM15,XKM)
           XKR= MAX(EM15,XKR)
           DT=XM/MAX(EM15,SQRT(XCM*XCM+XKM*XM)+XCM)
@@ -1337,8 +1337,8 @@ C
      .        +   MAX(GEO(144,I0),GEO(145,I0),GEO(146,I0)) )/XL(I)
           XM=GEO(1,I0)*XL(I)
           XINE=GEO(9,I0)*XL(I)
-          IF (XCM+XKM.LT.EM15) XM =ONE
-          IF (XCR+XKR.LT.EM15) XINE=ONE
+          IF (XCM+XKM<EM15) XM =ONE
+          IF (XCR+XKR<EM15) XINE=ONE
           XKM= MAX(EM15,XKM)
           XKR= MAX(EM15,XKR)
           DT=XM/MAX(EM15,SQRT(XCM*XCM+XKM*XM)+XCM)
@@ -1380,8 +1380,8 @@ C
               ! old Geo 144,145,146 not used.
               XM  = GBUF%MASS(I)*XL(I)
               XINE= GEO(2,I0)*XL(I)
-              IF (XCM+XKM.LT.EM15) XM  =ONE
-              IF (XCR+XKR.LT.EM15) XINE=ONE
+              IF (XCM+XKM<EM15) XM  =ONE
+              IF (XCR+XKR<EM15) XINE=ONE
               XKM= MAX(EM15,XKM)
               XKR= MAX(EM15,XKR)
               DT =XM/MAX(EM15,SQRT(XCM*XCM+XKM*XM)+XCM)
@@ -1412,8 +1412,8 @@ C
      .            +     MAX(UPARAM(IAD + K14 + 4),UPARAM(IADBUF + K14 + 5),UPARAM(IADBUF + K14 + 6)) )/XL(I)
               XM  =GBUF%MASS(I)
               XINE=GEO(2,I0)*XL(I)
-              IF (XCM+XKM.LT.EM15) XM  =ONE
-              IF (XCR+XKR.LT.EM15) XINE=ONE
+              IF (XCM+XKM<EM15) XM  =ONE
+              IF (XCR+XKR<EM15) XINE=ONE
               XKM= MAX(EM15,XKM)
               XKR= MAX(EM15,XKR)
               DT =XM/MAX(EM15,SQRT(XCM*XCM+XKM*XM)+XCM)
@@ -1465,8 +1465,8 @@ C-              1D material of 2D seatbelt - element mass and inertia recomputed
               ENDIF
               GBUF%FRAM_FACTOR(I) = ONE
 C
-              IF (XCM+XKM.LT.EM15) XM  =ONE
-              IF (XCR+XKR.LT.EM15) XINE=ONE
+              IF (XCM+XKM<EM15) XM  =ONE
+              IF (XCR+XKR<EM15) XINE=ONE
               XKM= MAX(EM15,XKM)
               XKR= MAX(EM15,XKR)
               DT =XM/MAX(EM15,SQRT(XCM*XCM+XKM*XM)+XCM)

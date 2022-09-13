@@ -75,7 +75,7 @@ C
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      IF (DEBUG(3).GE.1) THEN
+      IF (DEBUG(3)>=1) THEN
 #include "lockon.inc"
           WRITE(ISTDO,*)'** NEW SORT FOR INTERFACE NUMBER ',NOINT,
      .                ' AT CYCLE ',NCYCLE
@@ -106,23 +106,23 @@ C-----------------------------------------------
         N10 = N8-NUMELS8
         N20 = N10-NUMELS10
         N16 = N20-NUMELS20
-        IF(N16.GT.0)THEN
+        IF(N16>0)THEN
           DO K=1,8
             J=IXS16(K,N16)
             XSAV(1,J) = X(1,J)+DT2*(V(1,J)+DT12*A(1,J))
             XSAV(2,J) = X(2,J)+DT2*(V(2,J)+DT12*A(2,J))
             XSAV(3,J) = X(3,J)+DT2*(V(3,J)+DT12*A(3,J))
           ENDDO
-        ELSEIF(N20.GT.0)THEN
+        ELSEIF(N20>0)THEN
           DO K=1,12
             J=IXS20(K,N20)
-            IF(J.NE.0)THEN	
+            IF(J/=0)THEN	
               XSAV(1,J) = X(1,J)+DT2*(V(1,J)+DT12*A(1,J))
               XSAV(2,J) = X(2,J)+DT2*(V(2,J)+DT12*A(2,J))
               XSAV(3,J) = X(3,J)+DT2*(V(3,J)+DT12*A(3,J))
 	    ENDIF	      
           ENDDO
-        ELSEIF(N10.GT.0)THEN
+        ELSEIF(N10>0)THEN
           DO K=1,6
             J=IXS10(K,N10)
             XSAV(1,J) = X(1,J)+DT2*(V(1,J)+DT12*A(1,J))
@@ -160,7 +160,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     Boucle sur les retris
 C-----------------------------------------------
-      DO WHILE (CONT.NE.0)
+      DO WHILE (CONT/=0)
         CALL I16TRI(
      1   MWA(IP1),MWA(IP2) ,MWA(IP21),MWA(IP22),NSN     ,
      2   TZINF   ,IXS      ,IXS16    ,IXS20    ,NELEM   ,

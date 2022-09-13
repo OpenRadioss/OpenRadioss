@@ -399,7 +399,7 @@ C                          +------------+-----------+
 
                 CURRENT_ADD = CURRENT_ADD+1 
 
-                IF( CURRENT_ADD.GE.MAX_ADD)THEN
+                IF( CURRENT_ADD>=MAX_ADD)THEN
                  !OPTIMISATION : suprresion du deallocate/GOTO debut.
                  !REALLOCATE SI PAS ASSEZ DE PLACE : inutile de recommencer de 1 a MAX_ADD-1, on poursuit de MAX_ADD a 2*MAX_ADD
                  MAX_ADD = 2 * MAX_ADD        
@@ -522,7 +522,7 @@ C--- IREMGAP - tag of deactivated lines
               TAGEDG(JJ)=1
 
               !secnd edge nodes, exclure couples avec noeud commun
-              IF (JJ.LE.NEDGE)THEN
+              IF (JJ<=NEDGE)THEN
                 SS1= ITAB(LEDGE(5,JJ))
                 SS2= ITAB(LEDGE(6,JJ))
                 EID = LEDGE(8,JJ) 
@@ -532,8 +532,8 @@ C--- IREMGAP - tag of deactivated lines
                 EID = IREM_EDGE(E_GLOBAL_ID,JJ-NEDGE)
               END IF
               
-              IF( (SS1.EQ.MM1).OR.(SS1.EQ.MM2).OR.
-     .            (SS2.EQ.MM1).OR.(SS2.EQ.MM2)    )THEN
+              IF( (SS1==MM1).OR.(SS1==MM2).OR.
+     .            (SS2==MM1).OR.(SS2==MM2)    )THEN
                 CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
                 CYCLE
               END IF
@@ -561,7 +561,7 @@ C                 double-check
                 EDGE_TYPE = IREM_EDGE(E_TYPE ,JJ - NEDGE)
               ENDIF
 
-              IF(IABS(LEDGE(7,IEDG))/=1 .AND. EDGE_TYPE .NE. 1 )THEN
+              IF(IABS(LEDGE(7,IEDG))/=1 .AND. EDGE_TYPE /= 1 )THEN
                 ! attention les traitements de i25dst3e pour les solides 
                 ! ne sont pas symetriques main second.
                 AS1 = MIN(SS1,SS2)
@@ -623,7 +623,7 @@ c              IF(DEJA==0) NEDG = NEDG + 1     !nombre d edges candidate au calc
 c              DEJA=1                          !l edge main IEDG fait l'objet d'une ecriture de candidat. On compte les edges main faisant l'objet dun couple candidate : on ne doit plus incrementer NEDG pour les autres edge secnd testees.
               CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
 C-----------------------------------------------------
-              IF(J_STOK.EQ.NVSIZ)THEN
+              IF(J_STOK==NVSIZ)THEN
                 CALL I25STO_EDG(
      1               NVSIZ ,IRECT  ,X      ,II_STOK,INACTI,
      2               CANDS_E2E,CANDM_E2E ,MULNSNE,NOINT  ,MARGE ,
@@ -678,7 +678,7 @@ C--- IREMGAP - clean of tagremline
 C-------------------------------------------------------------------------
 C     FIN DU TRI vs Main shell edges
 C-------------------------------------------------------------------------
-      IF(J_STOK.NE.0)CALL I25STO_EDG(
+      IF(J_STOK/=0)CALL I25STO_EDG(
      1                 J_STOK ,IRECT  ,X     ,II_STOK,INACTI,
      2                 CANDS_E2E,CANDM_E2E ,MULNSNE,NOINT  ,MARGE ,
      3                 I_MEM(1) ,PROV_S ,PROV_M ,IGAP0,CAND_A,
@@ -805,7 +805,7 @@ C--- IREMGAP - tag of deactivated lines
               JJ = LCHAIN_ELEM(CHAIN_ADD)       ! numeros des edge_id balayes dans le voxel courant
 
 
-              IF (JJ.LE.NEDGE)THEN
+              IF (JJ<=NEDGE)THEN
                 EID = LEDGE(8,JJ)
               ELSE
                 EID = IREM_EDGE(E_GLOBAL_ID,JJ-NEDGE)
@@ -818,7 +818,7 @@ C--- IREMGAP - tag of deactivated lines
               TAGEDG(JJ)=1
 
               !secnd edge nodes, exclure couples avec noeud commun
-              IF (JJ.LE.NEDGE)THEN
+              IF (JJ<=NEDGE)THEN
                 SS1= ITAB(LEDGE(5,JJ))
                 SS2= ITAB(LEDGE(6,JJ))
               ELSE
@@ -826,8 +826,8 @@ C--- IREMGAP - tag of deactivated lines
                 SS2=IREM_EDGE(E_NODE2_GLOBID,JJ-NEDGE) 
               END IF
 
-              IF((SS1.EQ.MM1).OR.(SS1.EQ.MM2).OR.(SS1.EQ.MM3).OR.(SS1.EQ.MM4).OR.
-     .           (SS2.EQ.MM1).OR.(SS2.EQ.MM2).OR.(SS2.EQ.MM3).OR.(SS2.EQ.MM4))THEN
+              IF((SS1==MM1).OR.(SS1==MM2).OR.(SS1==MM3).OR.(SS1==MM4).OR.
+     .           (SS2==MM1).OR.(SS2==MM2).OR.(SS2==MM3).OR.(SS2==MM4))THEN
                 CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
                 CYCLE
               END IF
@@ -849,7 +849,7 @@ C--- IREMGAP - tag of deactivated lines
 
 C             IREMPGAP
               IF (FLAGREMNODE == 2) THEN
-                 IF (JJ.LE.NEDGE)THEN
+                 IF (JJ<=NEDGE)THEN
 C-                Local Taged lines are removed
                     IF(TAGREMLINE(JJ)==1) THEN
                        CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
@@ -899,7 +899,7 @@ C DEBUG ONLY
               ASSERT(JJ > 0) 
               ASSERT(JJ <= NEDGE + NEDGE_REMOTE)
 C-----------------------------------------------------
-              IF(J_STOK.EQ.NVSIZ)THEN
+              IF(J_STOK==NVSIZ)THEN
                 CALL I25STO_E2S(
      1               NVSIZ ,IRECT  ,X         ,LL_STOK,INACTI,
      2               CANDS_E2S,CANDM_E2S,MULNSNS,NOINT  ,MARGE ,
@@ -955,7 +955,7 @@ C--- IREMGAP - clean of tagremline
 C-------------------------------------------------------------------------
 C     FIN DU TRI vs Main solid edges
 C-------------------------------------------------------------------------
-      IF(J_STOK.NE.0)CALL I25STO_E2S(
+      IF(J_STOK/=0)CALL I25STO_E2S(
      1                 J_STOK ,IRECT  ,X        ,LL_STOK,INACTI,
      2                 CANDS_E2S,CANDM_E2S,MULNSNS,NOINT  ,MARGE ,
      3                 I_MEM(2) ,PROV_S ,PROV_M   ,IGAP0  ,CAND_B,

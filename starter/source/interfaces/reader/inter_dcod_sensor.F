@@ -89,11 +89,11 @@ C------------------------------------------------
 C     SENSOR RENUMBERING FOR INTERFACE ACTIVATION
 C-------------------------------------------
 C
-      IF(NTYP.EQ.5.OR.NTYP.EQ.7.OR.NTYP.EQ.11.OR.NTYP.EQ.19
-     .            .OR.NTYP.EQ.21.OR.NTYP.EQ.24.OR.NTYP.EQ.25) THEN
+      IF(NTYP==5.OR.NTYP==7.OR.NTYP==11.OR.NTYP==19
+     .            .OR.NTYP==21.OR.NTYP==24.OR.NTYP==25) THEN
 C
          IERR1 = 0
-         IF(IPARI(64).NE.0) THEN
+         IF(IPARI(64)/=0) THEN
               IERR1 = 1
             DO J=1,NSENSOR
                IF (LSENSOR(1,J)==IPARI(64) ) THEN  

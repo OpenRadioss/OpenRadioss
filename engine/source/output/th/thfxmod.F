@@ -57,12 +57,12 @@ C-----------------------------------------------
       my_real
      .        VV(NVAR,NNE), WA(NVAR*NNE) 
 C
-      IF (IMACH.NE.3) THEN
+      IF (IMACH/=3) THEN
          NFXB=0
          IFXBC=0
          DO I=1,NNE
             IFXB=ITHBUF(IAD+NNE+I-1)
-            IF (IFXB.NE.IFXBC) THEN
+            IF (IFXB/=IFXBC) THEN
                IFXBC=IFXB
                NFXB=NFXB+1
                TFXB(NFXB)=IFXBC
@@ -73,7 +73,7 @@ C
 C
          DO N=1,NVAR
             NN=ITHBUF(IADV+N-1)
-            IF (NN.EQ.1) THEN
+            IF (NN==1) THEN
                DO I=1,NFXB
                   IFXB=TFXB(I)
                   AVAR=FXBIPM(13,IFXB)
@@ -83,7 +83,7 @@ C
                   ENDDO
                ENDDO
             ENDIF
-            IF (NN.EQ.2) THEN
+            IF (NN==2) THEN
                DO I=1,NFXB
                   IFXB=TFXB(I)
                   AVAR=FXBIPM(13,IFXB)
@@ -93,7 +93,7 @@ C
                   ENDDO
                ENDDO
             ENDIF
-            IF (NN.EQ.3) THEN
+            IF (NN==3) THEN
                DO I=1,NFXB
                   IFXB=TFXB(I)
                   AVAR=FXBIPM(13,IFXB)

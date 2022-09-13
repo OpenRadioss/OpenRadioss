@@ -61,17 +61,17 @@ C
       C1 = (S-SM) / (D+DM)
       C6 = ZERO
 C
-      IF(I.EQ.1)THEN
-        IF(S*(S-D*C2).LE.ZERO) C2 = S/D
+      IF(I==1)THEN
+        IF(S*(S-D*C2)<=ZERO) C2 = S/D
         C4 = C2
-      ELSE IF(I.EQ.N-1)THEN
+      ELSE IF(I==N-1)THEN
         C4 = C1
       ELSE
-        IF(I.EQ.2.AND.SM*(SM-DM*C1).LE.0.)C1=(S-SM-SM) / D
+        IF(I==2.AND.SM*(SM-DM*C1)<=0.)C1=(S-SM-SM) / D
         C3 = ABS(C2*R)
         C3D = C3+ABS(C1*Q)
         C5 = ZERO
-        IF(C3D.GT.ZERO) THEN
+        IF(C3D>ZERO) THEN
           C3 = C3/C3D
           C5 = C3*(C1-C2)
         ENDIF

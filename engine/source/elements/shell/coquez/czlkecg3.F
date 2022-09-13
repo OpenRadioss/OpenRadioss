@@ -140,7 +140,7 @@ C---------membrane-------
         ENDDO
        ENDDO
 C------ renforce positive  ----------
-        IF (NEIG.EQ.0.AND.IDRIL==0.AND.IORTH >0) THEN
+        IF (NEIG==0.AND.IDRIL==0.AND.IORTH >0) THEN
          DO EP=JFT,JLT
           C1 = MIN(H11(EP),H22(EP),-H11(EP),-H22(EP))
           IF (C1 < ZERO) THEN

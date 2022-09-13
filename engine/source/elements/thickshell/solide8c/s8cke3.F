@@ -283,13 +283,13 @@ C      CALL GET_GAMA(MTN,NEL,NBGAMA,JCVT,PM,IXS(1,NF1),IGTYP)
         DELTAX(I)=EP30
 		      IDEG(I)=0
       ENDDO
-      IF (JHBE.NE.14.AND.JHBE.LT.20) THEN
+      IF (JHBE/=14.AND.JHBE<20) THEN
         DO I=LFT,LLT
           NU(I)=ZERO
         ENDDO
       ENDIF 
       ICPG = ICP
-      IF (JHBE.NE.14.AND.JHBE.NE.17.AND.JHBE.NE.24) THEN
+      IF (JHBE/=14.AND.JHBE/=17.AND.JHBE/=24) THEN
         ICPG = 1
       ENDIF 
 c
@@ -308,7 +308,7 @@ c
      .   AJC1,AJC2,AJC3,
      .   AJC4,AJC5,AJC6,
      .   AJC7,AJC8,AJC9,SMAX)
-      IF (ICPG.EQ.2) THEN
+      IF (ICPG==2) THEN
        CALL S8ZSIGP3(LFT  ,LLT       ,GBUF%SIG,E0  ,GBUF%PLA,
      2               FAC  ,GBUF%G_PLA,NEL     )
        DO I=LFT,LLT
@@ -319,7 +319,7 @@ c
         NU1(I)=NU(I)
        ENDDO
       ENDIF 
-      IF (MTN.GE.28) THEN
+      IF (MTN>=28) THEN
        IADBUF = IPM(7,MXT(1))
       ELSE
        IADBUF = 0
@@ -402,7 +402,7 @@ C-----------  check MPT sont memes entre KE et forc3----
      .   K38,K44,K45,K46,K47,K48,K55,K56,K57,K58,
      .   K66,K67,K68,K77,K78,K88,
      .   DD ,GG,ICPG,OFFG,IKORTH,DG ,G33)
-      IF (IKGEO.LT.0.AND.JHBE.EQ.14) THEN
+      IF (IKGEO<0.AND.JHBE==14) THEN
        CALL S8ZKGEI3(LBUF%SIG, VOLN,
      .   PX1, PX2, PX3, PX4,
      .   PY1, PY2, PY3, PY4,
@@ -431,7 +431,7 @@ C-------------
      .    HH ,VOLG,FAC  ,ICPG)
       END IF 
 C------due to the generic form, only the mean geometrical stiffness is considered
-      IF (IKGEO.GT.0) THEN
+      IF (IKGEO>0) THEN
        CALL S8ZKGEO3(GBUF%SIG,VOLG ,
      .   PXC1, PXC2, PXC3, PXC4,
      .   PYC1, PYC2, PYC3, PYC4,
@@ -451,7 +451,7 @@ C----------------------------
      .   K38,K44,K45,K46,K47,K48,K55,K56,K57,K58,
      .   K66,K67,K68,K77,K78,K88)
      
-      IF (NEIG.GT.0) CALL S8EOFF(
+      IF (NEIG>0) CALL S8EOFF(
      1   LFT, LLT, IXS(1,NF1), ETAG, OFFG)
       CALL ASSEM_S8(
      1    IXS(1,NF1),NEL   ,IDDL  ,NDOF  ,K_DIAG,

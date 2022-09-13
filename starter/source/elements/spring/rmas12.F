@@ -77,7 +77,7 @@ C----------------------------------------------
 C----------------------------------------------
 C     INITIALISATION DES MASSES NODALES
 C----------------------------------------------
-      IF (IMACH.NE.3) THEN
+      IF (IMACH/=3) THEN
        DO I=LFT,LLT
         I1 = IXR(2,I+NFT)
         I2 = IXR(3,I+NFT)

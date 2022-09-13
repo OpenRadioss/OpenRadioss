@@ -90,10 +90,10 @@ C-----------------------------------------------
 C
       DO 100 IPRT = 1 , NPART
 C
-       IF(MATER(IPRT).NE.2) GOTO 100
+       IF(MATER(IPRT)/=2) GOTO 100
        NPAR = NPAR + 1
        DO 90 NG=1,NGROUP
-c        IF(ANIM_K.EQ.0.AND.IPARG(8,NG).EQ.1)GOTO 90
+c        IF(ANIM_K==0.AND.IPARG(8,NG)==1)GOTO 90
         NEL   =IPARG(2,NG)
         NFT   =IPARG(3,NG)
         IAD   =IPARG(4,NG)
@@ -105,27 +105,27 @@ C-----------------------------------------------
 C       SOLID 16N
 C-----------------------------------------------
         NNN = INSPH + ISPH3D*NNSPH
-        IF(ITY.EQ.1.AND.ISOLNOD.EQ.16)THEN
+        IF(ITY==1.AND.ISOLNOD==16)THEN
           DO I=LFT,LLT
            N = I + NFT
            J = N - NUMELS8 - NUMELS10 - NUMELS20
            N9 =IXS16(1,J)
-           IF( N9.EQ.0) N9=IXS(2,N)
+           IF( N9==0) N9=IXS(2,N)
            N10=IXS16(2,J)
-           IF(N10.EQ.0)N10=IXS(3,N)
+           IF(N10==0)N10=IXS(3,N)
            N11=IXS16(3,J)
-           IF(N11.EQ.0)N11=IXS(4,N)
+           IF(N11==0)N11=IXS(4,N)
            N12=IXS16(4,J)
-           IF(N12.EQ.0)N12=IXS(5,N)
+           IF(N12==0)N12=IXS(5,N)
            N13=IXS16(5,J)
-           IF(N13.EQ.0)N13=IXS(6,N)
+           IF(N13==0)N13=IXS(6,N)
            N14=IXS16(6,J)
-           IF(N14.EQ.0)N14=IXS(7,N)
+           IF(N14==0)N14=IXS(7,N)
            N15=IXS16(7,J)
-           IF(N15.EQ.0)N15=IXS(8,N)
+           IF(N15==0)N15=IXS(8,N)
            N16=IXS16(8,J)
-           IF(N16.EQ.0)N16=IXS(9,N)
-           IF(IPARTS(N).EQ.IPRT) THEN
+           IF(N16==0)N16=IXS(9,N)
+           IF(IPARTS(N)==IPRT) THEN
              IF (NSPMD == 1) THEN 
                II(1) = IXS(2,N)    -1
                II(2) = N9   -1
@@ -209,10 +209,10 @@ C
 C-----------------------------------------------
 C       SOLID 8N 4N 10N 20N
 C-----------------------------------------------
-        ELSEIF(ITY.EQ.1)THEN
+        ELSEIF(ITY==1)THEN
           DO 10 I=LFT,LLT
            N = I + NFT
-           IF(IPARTS(N).NE.IPRT) GOTO 10
+           IF(IPARTS(N)/=IPRT) GOTO 10
              IF (NSPMD == 1) THEN 
                II(1) = IXS(2,N)-1
                II(2) = IXS(3,N)-1
@@ -237,13 +237,13 @@ C-----------------------------------------------
              EL2FA(NN2+N) = IE
              JJ = JJ + 8
  10      CONTINUE
-        ELSEIF(ISPH3D.EQ.1.AND.ITY.EQ.51)THEN
+        ELSEIF(ISPH3D==1.AND.ITY==51)THEN
 C-----------------------------------------------
 C TETRAS SPH.
 C-----------------------------------------------
           DO 20 I=LFT,LLT
            N = I + NFT
-           IF(IPARTSP(N).NE.IPRT) GOTO 20
+           IF(IPARTSP(N)/=IPRT) GOTO 20
              INOD=KXSP(3,N)
              IF (NSPMD == 1) THEN 
                II(1) = INSPH+4*(N-1)+1
@@ -269,7 +269,7 @@ C-----------------------------------------------
              EL2FA(NN3+N) = IE
              JJ = JJ + 8
  20      CONTINUE
-        ELSEIF(ITY.EQ.101)THEN
+        ELSEIF(ITY==101)THEN
 C-----------------------------------------------
 C ISO GEO ELEMS
 C-----------------------------------------------
@@ -278,7 +278,7 @@ C-----------------------------------------------
            PX = IGEO(41,IPROP)
            PY = IGEO(42,IPROP)
            PZ = IGEO(43,IPROP)
-           IF(IPARTIG3D(I+NFT).NE.IPRT) GOTO 30
+           IF(IPARTIG3D(I+NFT)/=IPRT) GOTO 30
              IE1 = IE + 1
              IDBRICK = 0
              DO L=1,3
@@ -311,7 +311,7 @@ C-----------------------------------------------
  100  CONTINUE
 C
       IF (NSPMD > 1) THEN
-        IF (ISPMD.EQ.0) THEN
+        IF (ISPMD==0) THEN
           BUFP = NPART
           BUF = NUMELSG*8 + 24*NUMELS16G+NUMSPHG*8 +64*NUMELIG3D
         ELSE

@@ -83,7 +83,7 @@ C IMAT : relevant for multifluid eos. imat=0 => monomaterial law
       
       GBUF => ELBUF_TAB(NG)%GBUF
       NULLIFY(LBUF)
-      IF(IMAT.GT.0)THEN
+      IF(IMAT>0)THEN
         LBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1, 1, 1)
       ENDIF
       
@@ -138,7 +138,7 @@ C IMAT : relevant for multifluid eos. imat=0 => monomaterial law
       !===================================================================! 
       POLD(1:NEL)=PRES(1:NEL)   
       REMAINING_ELTS = NEL                      !Number of elements for which convergence is not achieved 
-      DO WHILE(CONT .AND. ITER .LT. MAX_ITER)   !Start nonlinear solver loop
+      DO WHILE(CONT .AND. ITER < MAX_ITER)   !Start nonlinear solver loop
          ITER = ITER + 1
          DO K = 1, NEL
             MU(K) = RHO(K) / RHOZERO(K) - ONE
@@ -171,9 +171,9 @@ C IMAT : relevant for multifluid eos. imat=0 => monomaterial law
                
                INCR =   - (PRES(K)+PSH(K)+HALF*DPDRHO(K)*INCR)*(RHOZERO(K)/RHO(K)-RHOZERO(K)/RHO_OLD)
                EINT(K) = EINT(K) + INCR   !EINT is in fact Eint/V with law 151 here 
-               IF(DPDE(K).EQ.ZERO)EINT(K)=ZERO
+               IF(DPDE(K)==ZERO)EINT(K)=ZERO
                
-               IF (ERROR(K) .LT. TOL .OR. ITER .EQ. MAX_ITER) THEN 
+               IF (ERROR(K) < TOL .OR. ITER == MAX_ITER) THEN 
                   CONVERGED(K) = .TRUE.                                                                                    
                   REMAINING_ELTS = REMAINING_ELTS - 1                                                                      
                   VOL(K) = ZERO                                                                                            
@@ -195,7 +195,7 @@ C IMAT : relevant for multifluid eos. imat=0 => monomaterial law
                ENDIF
             ENDIF    
          ENDDO   
-         CONT = (REMAINING_ELTS .NE. 0)
+         CONT = (REMAINING_ELTS /= 0)
       ENDDO                     ! WHILE
 
 

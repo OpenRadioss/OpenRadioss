@@ -68,7 +68,7 @@ C     UP
       NFVBAG_MAX=0
       DO N=1,NVOLU
          ITYP=MONVOL(K1-1+2)
-         IF (ITYP.EQ.6.OR.ITYP.EQ.8) THEN
+         IF (ITYP==6.OR.ITYP==8) THEN
             IFV = MONVOL(K1-1+45)                   
             NFVBAG_MAX = MAX(NFVBAG_MAX,IFV)
          ENDIF
@@ -202,7 +202,7 @@ C
       IFV=0
       DO N=1,NVOLU
          ITYP=MONVOL(K1-1+2)
-         IF (ITYP.EQ.6.OR.ITYP.EQ.8) THEN
+         IF (ITYP==6.OR.ITYP==8) THEN
             IFV = MONVOL(K1-1+45)                   
             IMESH=MONVOL(K1-1+56)
 C
@@ -211,8 +211,8 @@ C
             NPOLY=MONVOL(K1-1+48)
             NPOLH=MONVOL(K1-1+49)
 C
-            IF (IMESH.EQ.1.AND.DT1.GT.ZERO.AND.NCYCLE.NE.0) THEN
-               IF (ISPMD.NE.FVSPMD(I)%PMAIN-1) THEN
+            IF (IMESH==1.AND.DT1>ZERO.AND.NCYCLE/=0) THEN
+               IF (ISPMD/=FVSPMD(I)%PMAIN-1) THEN
                   ALLOCATE(FVDATA_OLD(I)%IFVNOD(3,0),
      .                     FVDATA_OLD(I)%RFVNOD(2,0),
      .                     FVDATA_OLD(I)%IFVTRI(6,0),
@@ -356,9 +356,9 @@ C
                   FVDATA_OLD(IFV)%CPFPOLH(I)=FVDATA(IFV)%CPFPOLH(I)
                ENDDO
 C
-            ELSEIF ((IMESH.EQ.0.AND.NCYCLE.EQ.0).OR. 
+            ELSEIF ((IMESH==0.AND.NCYCLE==0).OR. 
      .              (IMESH==0.AND.MCHECK > 0)) THEN
-               IF (ISPMD.NE.FVSPMD(IFV)%PMAIN-1) THEN
+               IF (ISPMD/=FVSPMD(IFV)%PMAIN-1) THEN
                   ALLOCATE(FVDATA(IFV)%IFVNOD(3,0),
      .                     FVDATA(IFV)%RFVNOD(2,0),
      .                     FVDATA(IFV)%IFVTRI(6,0),

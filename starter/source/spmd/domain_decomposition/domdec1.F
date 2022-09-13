@@ -100,27 +100,27 @@ C
         NEL = IPARG(2,NG)
         NFT = IPARG(3,NG)
         P   = IPARG(32,NG)+1
-        IF(ITY.EQ.1) THEN
+        IF(ITY==1) THEN
           ICON = 8
           DIM  = NIXS
           CALL DD_FR(IXS(1,NFT+1),P,NEL,ICON,DIM)
-          IF(CODVERS.GE.42) THEN
+          IF(CODVERS>=42) THEN
             ISOLNOD = IPARG(28,NG)
-            IF (ISOLNOD.EQ.10) THEN
+            IF (ISOLNOD==10) THEN
               ICON = 6
               DIM = 6
 C
               CALL DD_FR_2(
      .          IXS10(1,1+NFT-NUMELS8),P,NEL,
      .          ICON,DIM)
-            ELSEIF(ISOLNOD.EQ.20) THEN
+            ELSEIF(ISOLNOD==20) THEN
               ICON = 12
               DIM = 12
 C
               CALL DD_FR_2(
      .          IXS20(1,1+NFT-NUMELS8-NUMELS10),P,NEL,
      .          ICON,DIM)
-            ELSEIF(ISOLNOD.EQ.16) THEN
+            ELSEIF(ISOLNOD==16) THEN
               ICON = 8
               DIM = 8
 C
@@ -129,54 +129,54 @@ C
      .          ICON,DIM)
             ENDIF
           ENDIF
-        ELSE IF(ITY.EQ.2) THEN
+        ELSE IF(ITY==2) THEN
           ICON = 4
           DIM  = NIXQ
           CALL DD_FR(IXQ(1,NFT+1),P,NEL,ICON,DIM)
-        ELSE IF(ITY.EQ.3) THEN
+        ELSE IF(ITY==3) THEN
           ICON = 4
           DIM  = NIXC
           CALL DD_FR(IXC(1,NFT+1),P,NEL,ICON,DIM)
-        ELSE IF(ITY.EQ.4) THEN
+        ELSE IF(ITY==4) THEN
           ICON = 2
           DIM  = NIXT
           CALL DD_FR(IXT(1,NFT+1),P,NEL,ICON,DIM)
-        ELSE IF(ITY.EQ.5) THEN
+        ELSE IF(ITY==5) THEN
           ICON = 3
           DIM  = NIXP
           CALL DD_FR(IXP(1,NFT+1),P,NEL,ICON,DIM)
-        ELSE IF(ITY.EQ.6) THEN
+        ELSE IF(ITY==6) THEN
           ICON = 3
           DIM  = NIXR
           CALL DD_FR(IXR(1,NFT+1),P,NEL,ICON,DIM)
-        ELSE IF(ITY.EQ.7) THEN
+        ELSE IF(ITY==7) THEN
           ICON = 3
           DIM  = NIXTG
           CALL DD_FR(IXTG(1,NFT+1),P,NEL,ICON,DIM)
           ICNOD = IPARG(11,NG)
           ICON = 3
           DIM = 4
-          IF(ICNOD.EQ.6)THEN
+          IF(ICNOD==6)THEN
 C shift de 1 sur ixtg6
             CALL DD_FR(
      .          IXTG6(4,1+NFT-NUMELTG+NUMELTG6),P,NEL,
      .          ICON,DIM)
           END IF
-        ELSE IF(ITY.EQ.50) THEN
+        ELSE IF(ITY==50) THEN
           ICON = 4
           DIM  = NIXUR
           CALL DD_FR(IXUR(1,NFT+1),P,NEL,ICON,DIM)
-        ELSE IF(ITY.EQ.51) THEN
+        ELSE IF(ITY==51) THEN
           ICON = 1
           DIM  = NISP
 C kxsp decale pour retrouver KXSP(3) = no noeud
           CALL DD_FR(KXSP(2,NFT+1),P,NEL,ICON,DIM)
-        ELSE IF(ITY.EQ.100) THEN
+        ELSE IF(ITY==100) THEN
           DIM = NIXX 
           CALL DD_FRX(KXX(1,NFT+1),IXX,P,NEL,DIM)
         ENDIF        
       END DO
-c      IF(NUMSPH.GT.0)THEN
+c      IF(NUMSPH>0)THEN
 c        DO PP = 1, NSPMD
 c          DO P = 1, NSPMD
 c            DOMAINE(PP,P) = 0
@@ -186,7 +186,7 @@ c        DO I = 1, NUMSPH
 c          N = KXSP(3,I)
 c          PP = CEPSP(I)+1
 c          DO P = 1, NSPMD
-c            IF(MOD(FRONT(N,P),10).EQ.1) THEN
+c            IF(MOD(FRONT(N,P),10)==1) THEN
 c              DOMAINE(PP,P) = DOMAINE(PP,P) + 1
 c            END IF
 c          END DO
@@ -197,8 +197,8 @@ c       END DO
 c      END IF
 
 C              3) Ecrire le fichier Anim de la DD
-C  a condition que imach.eq.3 !
-      IF (IMACH.EQ.3.AND.DECANI.EQ.1.AND.ANIM_VERS.LT.40) THEN
+C  a condition que imach==3 !
+      IF (IMACH==3.AND.DECANI==1.AND.ANIM_VERS<40) THEN
         CALL DD_ANI(X     ,IXS   ,IXQ  ,IXC  ,
      .              IXT   ,IXP   ,IXR  ,IXTG ,
      .              IPARG ,KXSP  ,IXSP )
@@ -246,7 +246,7 @@ C         mettre a 1 la FRONTIERE(sd) correspondante
       DO I=1,ICON
         DO J=1,NEL
           N = IX(1+I,J)
-          IF(N.NE.0) THEN
+          IF(N/=0) THEN
 	    CALL IFRONTPLUS(N,P)    
           ENDIF
         END DO
@@ -297,7 +297,7 @@ C         mettre a 1 la FRONTIERE(sd) correspondante
           ADDX = KXX(4,I)
         DO J=1,ICON
           N = IXX(ADDX-1+J)
-          IF(N.NE.0) THEN
+          IF(N/=0) THEN
 	    CALL IFRONTPLUS(N,P)  
           ENDIF
         END DO
@@ -344,7 +344,7 @@ C         mettre a 1 la FRONTIERE(sd) correspondante
       DO I=1,ICON
         DO J=1,NEL
           N = IX(I,J)
-          IF(N.NE.0) THEN
+          IF(N/=0) THEN
             CALL IFRONTPLUS(N,P)
           ENDIF
         END DO

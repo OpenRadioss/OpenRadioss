@@ -269,7 +269,7 @@ c
 C----------------------------
 C     SMALL STRAIN
 C----------------------------
-      IF(ISMSTR.EQ.10)THEN
+      IF(ISMSTR==10)THEN
        DO I=JFT,JLT
         XLCOR(I,1,1)=XL2(I)
         XLCOR(I,2,1)=YL2(I)
@@ -278,9 +278,9 @@ C----------------------------
         XLCOR(I,1,3)=XL4(I)
         XLCOR(I,2,3)=YL4(I)
        ENDDO
-      ELSEIF(ISMSTR.EQ.11)THEN
+      ELSEIF(ISMSTR==11)THEN
         DO I=JFT,JLT
-          IF(ABS(OFFG(I)).EQ.ONE)OFFG(I)=SIGN(TWO,OFFG(I))
+          IF(ABS(OFFG(I))==ONE)OFFG(I)=SIGN(TWO,OFFG(I))
           UX1(I) = ZERO
           UY1(I) = ZERO
           UX2(I) = ZERO
@@ -289,7 +289,7 @@ C----------------------------
           UY3(I) = ZERO
           UX4(I) = ZERO
           UY4(I) = ZERO
-          IF(ABS(OFFG(I)).EQ.TWO)THEN
+          IF(ABS(OFFG(I))==TWO)THEN
             UX2(I) = XL2(I)-SMSTR(II(1)+I)
             UY2(I) = YL2(I)-SMSTR(II(2)+I)
             UX3(I) = XL3(I)-SMSTR(II(3)+I)
@@ -315,9 +315,9 @@ C----------------------------
             SMSTR(II(6)+I)=YL4(I)
           ENDIF
         ENDDO
-      ELSEIF(ISMSTR.EQ.1.OR.ISMSTR.EQ.2)THEN
+      ELSEIF(ISMSTR==1.OR.ISMSTR==2)THEN
         DO I=JFT,JLT
-          IF(ABS(OFFG(I)).EQ.TWO)THEN
+          IF(ABS(OFFG(I))==TWO)THEN
             XL2(I)=SMSTR(II(1)+I)
             YL2(I)=SMSTR(II(2)+I)
             XL3(I)=SMSTR(II(3)+I)
@@ -338,9 +338,9 @@ C----------------------------
          ENDIF
         ENDDO
       ENDIF
-      IF(ISMSTR.EQ.1)THEN
+      IF(ISMSTR==1)THEN
         DO I=JFT,JLT
-            IF(OFFG(I).EQ.ONE)OFFG(I)=TWO
+            IF(OFFG(I)==ONE)OFFG(I)=TWO
         ENDDO
       ENDIF
 C----------------------------
@@ -427,7 +427,7 @@ C
      1           +VQ(EP,3,3)*VGHI(3))
       ENDDO 
 C
-       IF (ISHV51.GT.51.AND.(IMPL_S.EQ.0.OR.IMP_LR.GT.0)) THEN
+       IF (ISHV51>51.AND.(IMPL_S==0.OR.IMP_LR>0)) THEN
         DT05 = HALF*DT1
         DT025 =FOURTH*DT1
         DO I=JFT,JLT
@@ -439,12 +439,12 @@ C
          V24X = V24(I,1)
          VHIX = VHI(I,1)
          DDRZ1=DT025*(V13(I,2)-V24(I,2))/(X13_T(I)-X24_T(I))
-        IF (ABS(X13_T(I)-X24_T(I)).LT.EM10) DDRZ1 = ZERO
+        IF (ABS(X13_T(I)-X24_T(I))<EM10) DDRZ1 = ZERO
          V13(I,1) = V13(I,1)-DDRY*V13(I,3)-DDRZ1*V13(I,2)
          V24(I,1) = V24(I,1)-DDRY*V24(I,3)-DDRZ1*V24(I,2)
          VHI(I,1) = VHI(I,1)-DDRY*VHI(I,3)-DDRZ1*VHI(I,2)
          DDRZ2=DT025*(V13X+V24X)/(Y13_T(I)+Y24_T(I))
-        IF (ABS(Y13_T(I)+Y24_T(I)).LT.EM10) DDRZ2 = ZERO
+        IF (ABS(Y13_T(I)+Y24_T(I))<EM10) DDRZ2 = ZERO
          V13(I,2) = V13(I,2)-DDRX*V13(I,3)-DDRZ2*V13X
          V24(I,2) = V24(I,2)-DDRX*V24(I,3)-DDRZ2*V24X
          VHI(I,2) = VHI(I,2)-DDRX*VHI(I,3)-DDRZ2*VHIX
@@ -456,7 +456,7 @@ C [PM] in order to make all shells as non-flat shells for pinching
 C [PM] flat shells algorithm not implemented for pinching
       DO EP=JFT,JLT
        Z2=ZL1(EP)*ZL1(EP)
-       IF ((Z2.LT.TOL*LL(EP).OR.NPT.EQ.1).AND.NPINCH==0) THEN
+       IF ((Z2<TOL*LL(EP).OR.NPT==1).AND.NPINCH==0) THEN
         NPLAT=NPLAT+1
         IPLAT(NPLAT)=EP
        ELSE
@@ -837,7 +837,7 @@ C
 C
         SL = SQRT(VQG(EP,1,1)*VQG(EP,1,1) + VQG(EP,2,1)*VQG(EP,2,1)
      1            + VQG(EP,3,1)*VQG(EP,3,1))
-        IF ( SL.NE.ZERO) SL = ONE / SL
+        IF ( SL/=ZERO) SL = ONE / SL
         VQG(EP,1,1) = VQG(EP,1,1)*SL
         VQG(EP,2,1) = VQG(EP,2,1)*SL
         VQG(EP,3,1) = VQG(EP,3,1)*SL
@@ -878,7 +878,7 @@ C
 C
         SL = SQRT(VQG(EP,1,3)*VQG(EP,1,3) + VQG(EP,2,3)*VQG(EP,2,3)
      1            + VQG(EP,3,3)*VQG(EP,3,3))
-        IF ( SL.NE.ZERO) SL = ONE / SL
+        IF ( SL/=ZERO) SL = ONE / SL
         VQG(EP,1,3) = VQG(EP,1,3)*SL
         VQG(EP,2,3) = VQG(EP,2,3)*SL
         VQG(EP,3,3) = VQG(EP,3,3)*SL
@@ -917,7 +917,7 @@ C
 C
         SL = SQRT(VQG(EP,1,2)*VQG(EP,1,2) + VQG(EP,2,2)*VQG(EP,2,2)
      1            + VQG(EP,3,2)*VQG(EP,3,2))
-        IF ( SL.NE.ZERO) SL = ONE / SL
+        IF ( SL/=ZERO) SL = ONE / SL
         VQG(EP,1,2) = VQG(EP,1,2)*SL
         VQG(EP,2,2) = VQG(EP,2,2)*SL
         VQG(EP,3,2) = VQG(EP,3,2)*SL
@@ -950,7 +950,7 @@ C
 C
         SL = SQRT(VQG(EP,1,4)*VQG(EP,1,4) + VQG(EP,2,4)*VQG(EP,2,4)
      1            + VQG(EP,3,4)*VQG(EP,3,4))
-        IF ( SL.NE.ZERO) SL = ONE / SL
+        IF ( SL/=ZERO) SL = ONE / SL
         VQG(EP,1,4) = VQG(EP,1,4)*SL
         VQG(EP,2,4) = VQG(EP,2,4)*SL
         VQG(EP,3,4) = VQG(EP,3,4)*SL
@@ -960,7 +960,7 @@ C
         AREA(EP)=JAC(EP,1)+JAC(EP,2)+JAC(EP,3)+JAC(EP,4)
       ENDDO
 C ---w/ drilling dof----------
-      IF (ISROT.GT.0) THEN
+      IF (ISROT>0) THEN
 #include "vectorize.inc"
         DO I=JFT,NPLAT
          EP =IPLAT(I)
@@ -978,7 +978,7 @@ C-------TRANSMET 3DDL ROTATIONS ----
          RLZ(I,4) =(VQ(EP,1,3)*VR(1,NN(4))+VQ(EP,2,3)*VR(2,NN(4))
      1              +VQ(EP,3,3)*VR(3,NN(4)))
         ENDDO
-      END IF !(ISROT.GT.0) THEN
+      END IF !(ISROT>0) THEN
 C  
        DO I=NPLAT+1,JLT
         EP =IPLAT(I)
@@ -1060,7 +1060,7 @@ C
          YYXZ2 = D(2)*D(5)*D(5)
          ZZXY2 = D(3)*D(4)*D(4)
          DETA = ABC+2*D(4)*D(5)*D(6)-XXYZ2-YYXZ2-ZZXY2
-         IF (DETA.LT.EM20) THEN
+         IF (DETA<EM20) THEN
           DETA=ONE
          ELSE
           DETA=ONE/DETA
@@ -1131,7 +1131,7 @@ C
        RXYZ(EP,2,4)=VQN(EP,4,4)*RR(1,4)+
      +               VQN(EP,5,4)*RR(2,4)+VQN(EP,6,4)*RR(3,4)
 C--------drilling dof  
-        IF (ISROT.GT.0) THEN
+        IF (ISROT>0) THEN
          RLZ(I,1)=(VQN(EP,7,1)*RR(1,1)+
      1             VQN(EP,8,1)*RR(2,1)+VQN(EP,9,1)*RR(3,1))
          RLZ(I,2)=(VQN(EP,7,2)*RR(1,2)+
@@ -1140,7 +1140,7 @@ C--------drilling dof
      1             VQN(EP,8,3)*RR(2,3)+VQN(EP,9,3)*RR(3,3))
          RLZ(I,4)=(VQN(EP,7,4)*RR(1,4)+
      1             VQN(EP,8,4)*RR(2,4)+VQN(EP,9,4)*RR(3,4))
-        END IF !(ISROT.GT.0) THEN
+        END IF !(ISROT>0) THEN
        END DO 
 C
 C----------------------------
@@ -1167,7 +1167,7 @@ C
         LL(I) = AREA(I)/S1
        ENDDO
 C      
-C      IF (ISROT.GT.0) THEN
+C      IF (ISROT>0) THEN
 C        DO I=JFT,JLT
 C	     S1=ONE/SQRT(MAX(L13(I),L24(I)))
 C	     FAC1=S1*SQRT(ONE_OVER_9*(AREA(I)+THK(I)*THK(I)))
@@ -1183,9 +1183,9 @@ C---------Facteur pour longueur caracteristique---
         OFF_L  = MIN(OFF_L,OFFG(EP))
       ENDDO
 C       
-      IF(OFF_L.LT.ZERO)THEN
+      IF(OFF_L<ZERO)THEN
         DO EP=JFT,JLT
-         IF(OFFG(EP).LT.ZERO)THEN
+         IF(OFFG(EP)<ZERO)THEN
           VXYZ(EP,1,1)= ZERO
           VXYZ(EP,2,1)= ZERO
           VXYZ(EP,3,1)= ZERO
@@ -1532,7 +1532,7 @@ c
       SPLAT= 0
       DO EP=JFT,JLT
        Z2=ZL1(EP)*ZL1(EP)
-       IF (Z2.LT.TOL*LL(EP).OR.NPT.EQ.1) THEN
+       IF (Z2<TOL*LL(EP).OR.NPT==1) THEN
         NPLAT=NPLAT+1
         IPLAT(NPLAT)=EP
        ELSE
@@ -1614,7 +1614,7 @@ C----
         HY(EP,4)=-J2/JAC(EP,4)
       ENDDO
 C ---w/ drilling dof------drilling may not work -> check RLZj w/ Rz0
-      IF (ISROT.GT.0) THEN
+      IF (ISROT>0) THEN
 #include "vectorize.inc"
         DO I=JFT,NPLAT
          EP =IPLAT(I)
@@ -1628,7 +1628,7 @@ C-------TRANSMET 3DDL ROTATIONS ----
          RLZ(EP,4) =VQ(EP,1,3)*AXYZ(EP,1,4)+VQ(EP,2,3)*AXYZ(EP,2,4)
      1             +VQ(EP,3,3)*AXYZ(EP,3,4)
         ENDDO
-      END IF !(ISROT.GT.0) THEN
+      END IF !(ISROT>0) THEN
 C----------group warped elements , VJFI,VQN,VQG    
        IFPROJ = 0
 #include "vectorize.inc"
@@ -1732,7 +1732,7 @@ C
 C
         SL = SQRT(VQG(EP,1,1)*VQG(EP,1,1) + VQG(EP,2,1)*VQG(EP,2,1)
      1            + VQG(EP,3,1)*VQG(EP,3,1))
-        IF ( SL.NE.ZERO) SL = ONE / SL
+        IF ( SL/=ZERO) SL = ONE / SL
         VQG(EP,1,1) = VQG(EP,1,1)*SL
         VQG(EP,2,1) = VQG(EP,2,1)*SL
         VQG(EP,3,1) = VQG(EP,3,1)*SL
@@ -1773,7 +1773,7 @@ C
 C
         SL = SQRT(VQG(EP,1,3)*VQG(EP,1,3) + VQG(EP,2,3)*VQG(EP,2,3)
      1            + VQG(EP,3,3)*VQG(EP,3,3))
-        IF ( SL.NE.ZERO) SL = ONE / SL
+        IF ( SL/=ZERO) SL = ONE / SL
         VQG(EP,1,3) = VQG(EP,1,3)*SL
         VQG(EP,2,3) = VQG(EP,2,3)*SL
         VQG(EP,3,3) = VQG(EP,3,3)*SL
@@ -1812,7 +1812,7 @@ C
 C
         SL = SQRT(VQG(EP,1,2)*VQG(EP,1,2) + VQG(EP,2,2)*VQG(EP,2,2)
      1            + VQG(EP,3,2)*VQG(EP,3,2))
-        IF ( SL.NE.ZERO) SL = ONE / SL
+        IF ( SL/=ZERO) SL = ONE / SL
         VQG(EP,1,2) = VQG(EP,1,2)*SL
         VQG(EP,2,2) = VQG(EP,2,2)*SL
         VQG(EP,3,2) = VQG(EP,3,2)*SL
@@ -1845,7 +1845,7 @@ C
 C
         SL = SQRT(VQG(EP,1,4)*VQG(EP,1,4) + VQG(EP,2,4)*VQG(EP,2,4)
      1            + VQG(EP,3,4)*VQG(EP,3,4))
-        IF ( SL.NE.ZERO) SL = ONE / SL
+        IF ( SL/=ZERO) SL = ONE / SL
         VQG(EP,1,4) = VQG(EP,1,4)*SL
         VQG(EP,2,4) = VQG(EP,2,4)*SL
         VQG(EP,3,4) = VQG(EP,3,4)*SL
@@ -1874,7 +1874,7 @@ C
           VXYZ(EP,3,3)= -HALF*V13(EP,3)+FOURTH*VHI(EP,3)
           VXYZ(EP,3,4)= -HALF*V24(EP,3)-FOURTH*VHI(EP,3)
 C--------drilling dof  
-        IF (ISROT.GT.0) THEN
+        IF (ISROT>0) THEN
          RR(1,1) =VQ(EP,1,1)*AXYZ(EP,1,1)+VQ(EP,2,1)*AXYZ(EP,2,1)
      1              +VQ(EP,3,1)*AXYZ(EP,3,1)
          RR(1,2) =VQ(EP,1,1)*AXYZ(EP,1,2)+VQ(EP,2,1)*AXYZ(EP,2,2)
@@ -1908,7 +1908,7 @@ C----------not right takes the RLZ with cbacoor
      1             VQN(EP,8,3)*RR(2,3)+VQN(EP,9,3)*RR(3,3))
          RLZ(EP,4)=(VQN(EP,7,4)*RR(1,4)+
      1             VQN(EP,8,4)*RR(2,4)+VQN(EP,9,4)*RR(3,4))
-        END IF !(ISROT.GT.0) THEN
+        END IF !(ISROT>0) THEN
        END DO
 C
       OFF_L = ZERO
@@ -1916,9 +1916,9 @@ C
         OFF_L  = MIN(OFF_L,OFFG(EP))
       ENDDO
 C       
-      IF(OFF_L.LT.ZERO)THEN
+      IF(OFF_L<ZERO)THEN
         DO EP=JFT,JLT
-         IF(OFFG(EP).LT.ZERO)THEN
+         IF(OFFG(EP)<ZERO)THEN
           VXYZ(EP,1:3,1:4)= ZERO
           RLZ(EP,1:4)= ZERO
          ENDIF

@@ -168,8 +168,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
-      IF(TIME.EQ.0.0)THEN
-       IF (NUVAR.GT.0) THEN
+      IF(TIME==0.0)THEN
+       IF (NUVAR>0) THEN
         DO J=1,NUVAR
           DO I=1,NEL
            UVAR(I,J)=ZERO
@@ -252,19 +252,19 @@ C
           FAC(I,16) = UPARAM(IADBUF+36)
           FAC(I,17) = UPARAM(IADBUF+37)
           FAC(I,18) = UPARAM(IADBUF+38)
-          IF((EPSXX(I).GT.EMX11.OR.
-     .        EPSYY(I).GT.EMX22.OR.
-     .        EPSZZ(I).GT.EMX33.OR.
-     .        ABS(EPSXY(I)/TWO).GT.EMX12.OR.
-     .        ABS(EPSYZ(I)/TWO).GT.EMX23.OR.
-     .        ABS(EPSZX(I)/TWO).GT.EMX31).AND.OFF(I).NE.ZERO) THEN
+          IF((EPSXX(I)>EMX11.OR.
+     .        EPSYY(I)>EMX22.OR.
+     .        EPSZZ(I)>EMX33.OR.
+     .        ABS(EPSXY(I)/TWO)>EMX12.OR.
+     .        ABS(EPSYZ(I)/TWO)>EMX23.OR.
+     .        ABS(EPSZX(I)/TWO)>EMX31).AND.OFF(I)/=ZERO) THEN
             OFF(I) = ZERO
             NINDX=NINDX+1  
             INDEX(NINDX)=I  
             IDEL7NOK = 1
           ENDIF
       ENDDO
-      IF(NINDX.GT.0)THEN
+      IF(NINDX>0)THEN
         DO J=1,NINDX
 #include "lockon.inc"
           WRITE(IOUT, 1000) NGL(INDEX(J))
@@ -283,27 +283,27 @@ c        AMU = RHO(I)/RHO0(I) - 1.
         EP(I,4) = AMU(I)
         EP(I,5) = AMU(I)
         EP(I,6) = AMU(I)
-        IF(NUPARAM.GE.8)THEN
+        IF(NUPARAM>=8)THEN
          IADBUF = IPM(7,MAT(I))
          IF1=NINT(UPARAM(IADBUF+6))
          IF2=NINT(UPARAM(IADBUF+7))
-         IF(IF1.EQ.1)THEN
+         IF(IF1==1)THEN
            EP(I,1) = EPSXX(I)
            EP(I,2) = EPSYY(I)
            EP(I,3) = EPSZZ(I)
-         ELSEIF(IF1.EQ.-1)THEN
+         ELSEIF(IF1==-1)THEN
            EP(I,1) = -EPSXX(I)
            EP(I,2) = -EPSYY(I)
            EP(I,3) = -EPSZZ(I)
          ENDIF
-         IF(IF2.EQ.1)THEN
+         IF(IF2==1)THEN
            EP(I,4) = EPSXY(I)
            EP(I,5) = EPSYZ(I)
            EP(I,6) = EPSZX(I)
            EP(I,7) = EPSXY(I)
            EP(I,8) = EPSYZ(I)
            EP(I,9) = EPSZX(I)
-         ELSEIF(IF2.EQ.-1)THEN
+         ELSEIF(IF2==-1)THEN
            EP(I,4) = -EPSXY(I)
            EP(I,5) = -EPSYZ(I)
            EP(I,6) = -EPSZX(I)
@@ -319,11 +319,11 @@ C
 #include "vectorize.inc"
         DO I = 1, NEL
           JJ=J
-          IF(FR_WAV(I).EQ.1.)JJ=J+9
+          IF(FR_WAV(I)==1.)JJ=J+9
           NFUNC  = IPM(10,MAT(I))
-          IF (NFUNC.GE.JJ) THEN
+          IF (NFUNC>=JJ) THEN
            AUX=IPM(10+JJ,MAT(I))
-           IF (AUX.NE.0) THEN
+           IF (AUX/=0) THEN
             IC = IC + 1
             INDEX(IC) = I
             IPOS1(IC) = NINT(UVAR(I,JJ))
@@ -334,98 +334,98 @@ C
           ENDIF
         ENDDO
 C   
-        IF (IRESP.EQ.1) THEN
+        IF (IRESP==1) THEN
          CALL VINTER2DP(TF,IAD1,IPOS1,ILEN1,IC,EPC,DYDXV,YC)
         ELSE
          CALL VINTER2(TF,IAD1,IPOS1,ILEN1,IC,EPC,DYDXV,YC)
         ENDIF
 C
-        IF (J.EQ.1) THEN
+        IF (J==1) THEN
 #include "vectorize.inc"
           DO II = 1, IC
             I = INDEX(II)
             JJ=J
-            IF(FR_WAV(I).EQ.1.)JJ=J+9
+            IF(FR_WAV(I)==1.)JJ=J+9
             UVAR(I,JJ) = IPOS1(II)
             SIGNXX(I) = SIGN(MIN(ABS(SIGNXX(I)),
      .                  FAC(I,JJ)*YC(II)),SIGNXX(I))
           ENDDO
-        ELSEIF (J.EQ.2) THEN
+        ELSEIF (J==2) THEN
 #include "vectorize.inc"
           DO II = 1, IC
             I = INDEX(II)
             JJ=J
-            IF(FR_WAV(I).EQ.1.)JJ=J+9
+            IF(FR_WAV(I)==1.)JJ=J+9
             UVAR(I,JJ) = IPOS1(II) 
             SIGNYY(I) = SIGN(MIN(ABS(SIGNYY(I)),
      .                  FAC(I,JJ)*YC(II)),SIGNYY(I))
           ENDDO
-        ELSEIF (J.EQ.3) THEN
+        ELSEIF (J==3) THEN
 #include "vectorize.inc"
           DO II = 1, IC
             I = INDEX(II)
             JJ=J
-            IF(FR_WAV(I).EQ.1.)JJ=J+9
+            IF(FR_WAV(I)==1.)JJ=J+9
             UVAR(I,JJ) = IPOS1(II) 
             SIGNZZ(I) = SIGN(MIN(ABS(SIGNZZ(I)),
      .                  FAC(I,JJ)*YC(II)),SIGNZZ(I))
           ENDDO
-        ELSEIF (J.EQ.4) THEN
+        ELSEIF (J==4) THEN
 #include "vectorize.inc"
           DO II = 1, IC
             I = INDEX(II)
             JJ=J
-            IF(FR_WAV(I).EQ.1.)JJ=J+9
+            IF(FR_WAV(I)==1.)JJ=J+9
             UVAR(I,JJ) = IPOS1(II) 
             SXY(I) = SIGN(MIN(ABS(SXY(I)),
      .               FAC(I,JJ)*YC(II)),SXY(I))
           ENDDO
-        ELSEIF (J.EQ.5) THEN
+        ELSEIF (J==5) THEN
 #include "vectorize.inc"
           DO II = 1, IC
             I = INDEX(II)
             JJ=J
-            IF(FR_WAV(I).EQ.1.)JJ=J+9
+            IF(FR_WAV(I)==1.)JJ=J+9
             UVAR(I,JJ) = IPOS1(II) 
             SYZ(I) = SIGN(MIN(ABS(SYZ(I)),
      .               FAC(I,JJ)*YC(II)),SYZ(I))
           ENDDO
-        ELSEIF (J.EQ.6) THEN
+        ELSEIF (J==6) THEN
 #include "vectorize.inc"
           DO II = 1, IC
             I = INDEX(II)
             JJ=J
-            IF(FR_WAV(I).EQ.1.)JJ=J+9
+            IF(FR_WAV(I)==1.)JJ=J+9
             UVAR(I,JJ) = IPOS1(II) 
             SZX(I) = SIGN(MIN(ABS(SZX(I)),
      .               FAC(I,JJ)*YC(II)),SZX(I))
           ENDDO
-        ELSEIF (J.EQ.7) THEN
+        ELSEIF (J==7) THEN
 #include "vectorize.inc"
           DO II = 1, IC
             I = INDEX(II)
             JJ=J
-            IF(FR_WAV(I).EQ.1.)JJ=J+9
+            IF(FR_WAV(I)==1.)JJ=J+9
             UVAR(I,JJ) = IPOS1(II) 
             SYX(I) = SIGN(MIN(ABS(SYX(I)),
      .               FAC(I,JJ)*YC(II)),SYX(I))
           ENDDO
-        ELSEIF (J.EQ.8) THEN
+        ELSEIF (J==8) THEN
 #include "vectorize.inc"
           DO II = 1, IC
             I = INDEX(II)
             JJ=J
-            IF(FR_WAV(I).EQ.1.)JJ=J+9
+            IF(FR_WAV(I)==1.)JJ=J+9
             UVAR(I,JJ) = IPOS1(II) 
             SZY(I) = SIGN(MIN(ABS(SZY(I)),
      .               FAC(I,JJ)*YC(II)),SZY(I))
           ENDDO
-        ELSEIF (J.EQ.9) THEN
+        ELSEIF (J==9) THEN
 #include "vectorize.inc"
           DO II = 1, IC
             I = INDEX(II)
             JJ=J
-            IF(FR_WAV(I).EQ.1.)JJ=J+9
+            IF(FR_WAV(I)==1.)JJ=J+9
             UVAR(I,JJ) = IPOS1(II) 
             SXZ(I) = SIGN(MIN(ABS(SXZ(I)),
      .               FAC(I,JJ)*YC(II)),SXZ(I))
@@ -452,12 +452,12 @@ C
           EMX12 = UPARAM(IADBUF+18)
           EMX23 = UPARAM(IADBUF+19)
           EMX31 = UPARAM(IADBUF+20)
-          IF(-EPSXX(I).GT.EMX11.OR.
-     .       -EPSYY(I).GT.EMX22.OR.
-     .       -EPSZZ(I).GT.EMX33.OR.
-     .        ABS(EPSXY(I)/TWO).GT.EMX12.OR.
-     .        ABS(EPSYZ(I)/TWO).GT.EMX23.OR.
-     .        ABS(EPSZX(I)/TWO).GT.EMX31) THEN
+          IF(-EPSXX(I)>EMX11.OR.
+     .       -EPSYY(I)>EMX22.OR.
+     .       -EPSZZ(I)>EMX33.OR.
+     .        ABS(EPSXY(I)/TWO)>EMX12.OR.
+     .        ABS(EPSYZ(I)/TWO)>EMX23.OR.
+     .        ABS(EPSZX(I)/TWO)>EMX31) THEN
             FR_WAV(I) = ONE
           ELSE
             FR_WAV(I) = ZERO

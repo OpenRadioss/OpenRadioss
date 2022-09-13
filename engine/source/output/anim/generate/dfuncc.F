@@ -153,7 +153,7 @@ C-----------------------------------------------
       !-------------------------------------------------------!      
       IF(IFUNC==10672)THEN
         NTG=0
-        IF(N2D.NE.0)NTG=NUMELTG
+        IF(N2D/=0)NTG=NUMELTG
         SWA_L = MAX(IALE,ITHERM,IEULER,IALELAG)*( NUMELS + NUMELQ + NSVOIS+ NQVOIS + NSEGFLU + NTG )
         IF(.NOT.ALLOCATED(WA_L))ALLOCATE(WA_L(SWA_L)) ! work array for ANIM/ELEM/SCHLIEREN
         DO NG=1,NGROUP
@@ -171,7 +171,7 @@ C-----------------------------------------------
             LLT=MIN(NVSIZ,NEL-OFFSET)
             IALEL  = IPARG(7,NG) + IPARG(11,NG)
             IF (IALEL==0)CYCLE
-            IF (ITY == 2 .OR.(ITY == 7.AND.N2D.NE.0)) THEN !QUAD
+            IF (ITY == 2 .OR.(ITY == 7.AND.N2D/=0)) THEN !QUAD
              !SOLID ELEMENTS
               GBUF => ELBUF_TAB(NG)%GBUF
               WA_L(NFT+LFT:NFT+LLT) = GBUF%RHO(LFT:LLT)    
@@ -184,9 +184,9 @@ C-----------------------------------------------
         !--------------------
         !    SPMD EXCHANGE OF ADJACENT ELEMS 
         !--------------------
-        IF(IALE+IEULER+ITHERM .NE. 0)THEN            
+        IF(IALE+IEULER+ITHERM /= 0)THEN            
           LENCOM = NERCVOIS(NSPMD+1)+NESDVOIS(NSPMD+1)
-          IF (NSPMD.GT.1) THEN
+          IF (NSPMD>1) THEN
             ! Partie non parallele smt
             CALL SPMD_E1VOIS(WA_L     ,NERCVOIS,NESDVOIS,LERCVOIS,
      2                       LESDVOIS,LENCOM  )
@@ -233,7 +233,7 @@ c
 C-----------------------------------------------
 C           QUAD OR TRIA
 C-----------------------------------------------
-        IF (ITY == 2 .OR.(ITY == 7.AND.N2D.NE.0) ) THEN
+        IF (ITY == 2 .OR.(ITY == 7.AND.N2D/=0) ) THEN
             GBUF => ELBUF_TAB(NG)%GBUF
             LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
             UVAR => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR
@@ -318,12 +318,12 @@ C
      .                + HALF*(S1**2+S2**2+S3**2) )
                 FUNC(EL2FA(NN3+NFT+I)) = SQRT(VONM2)
                ENDDO
-            ELSEIF(IFUNC == 8 .AND. JTURB.NE.0)THEN
+            ELSEIF(IFUNC == 8 .AND. JTURB/=0)THEN
               DO I=LFT,LLT
                 FUNC(EL2FA(NN3+NFT+I)) = GBUF%RK(I)
               ENDDO
             ELSEIF(IFUNC == 9 )THEN  
-              IF (MLW == 6 .OR. MLW == 17.AND.JTURB.NE.0) THEN
+              IF (MLW == 6 .OR. MLW == 17.AND.JTURB/=0) THEN
               DO I=LFT,LLT
                   N = I + NFT
                    MT=IXQ(1,N)
@@ -367,7 +367,7 @@ C
                 FUNC(EL2FA(NN3+NFT+I)) = GBUF%SIG(JJ(4) + I)
               ENDDO
 c----
-            ELSEIF(IFUNC.GE.20.AND.IFUNC.LE.24.AND.
+            ELSEIF(IFUNC>=20.AND.IFUNC<=24.AND.
      .             (MLW == 28.OR.MLW == 29.OR.MLW == 30.OR.
      .              MLW == 31.OR.MLW == 52.OR.MLW == 79))THEN
 c----         USER VARIABLES from 1 to 5
@@ -385,7 +385,7 @@ c----         USER VARIABLES from 1 to 5
                 FUNC(EL2FA(NN3+NFT+I)) = EHOUR(N)
                ENDDO
 c----
-            ELSEIF (IFUNC.GE.27 .AND. IFUNC.LE.39 .AND.
+            ELSEIF (IFUNC>=27 .AND. IFUNC<=39 .AND.
      .       (MLW == 28.OR.MLW == 29.OR.MLW == 30.OR.MLW == 31.OR.
      .        MLW == 52))THEN
 c----           USER VARIABLES from 6 to 60
@@ -394,7 +394,7 @@ c----           USER VARIABLES from 6 to 60
                 N = I + NFT
                 MT=IXQ(1,N)
                   NUVAR = IPM(8,MT)
-                IF (NUVAR.GT.IUS) FUNC(EL2FA(NN3+N)) = UVAR(IUS*NEL + I)
+                IF (NUVAR>IUS) FUNC(EL2FA(NN3+N)) = UVAR(IUS*NEL + I)
               ENDDO
               
             !/ANIM/ELEM/VFRAC law 20
@@ -414,7 +414,7 @@ c----           USER VARIABLES from 6 to 60
              ENDDO      
 
             !/ANIM/ELEM/VFRAC law 51
-            ELSEIF(MLW == 51 .AND. (IFUNC .GE. 10248.AND.IFUNC .LE. 10251))THEN 
+            ELSEIF(MLW == 51 .AND. (IFUNC >= 10248.AND.IFUNC <= 10251))THEN 
               IMAT = IXQ(1,NFT+1)                        
               IADBUF = IPM(7,IMAT)                       
               NUPARAM= IPM(9,IMAT)                       
@@ -427,7 +427,7 @@ c----           USER VARIABLES from 6 to 60
                FUNC(EL2FA(NN3+NFT+I)) = MBUF%VAR(I+IUS*NEL)
              ENDDO   
 
-            ELSEIF(MLW == 151 .AND. (IFUNC .GE. 10248.AND.IFUNC .LE. 10250))THEN 
+            ELSEIF(MLW == 151 .AND. (IFUNC >= 10248.AND.IFUNC <= 10250))THEN 
              IUS= IFUNC - 10248 + 1
              IF(IUS<=NLAY)THEN
                DO  I=LFT,LLT
@@ -458,7 +458,7 @@ c----           USER VARIABLES from 6 to 60
                   ENDDO
                ELSE
                   L = ELBUF_TAB(NG)%BUFLY(1)%L_SSP                        
-                  IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP .NE. 0)THEN              
+                  IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN              
                      LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)            
                      DO  I=1,NEL                                         
                        FUNC(EL2FA(NN3+NFT+I)) = LBUF%SSP(I) 
@@ -479,7 +479,7 @@ c----           USER VARIABLES from 6 to 60
      2                   IPARG   , WA_L   , ELBUF_TAB   , ALE_CONNECTIVITY   , GBUF%VOL,
      3                   PM      , NG     , NIXQ        , IOFF    ,
      4                   ITY)
-                 ELSEIF(ITY==7.AND.N2D.NE.0)THEN
+                 ELSEIF(ITY==7.AND.N2D/=0)THEN
                    CALL SCHLIEREN(
      1                   EVAR    , IXTG   , X           , V       , W       ,
      2                   IPARG   , WA_L   , ELBUF_TAB   , ALE_CONNECTIVITY   , GBUF%VOL,
@@ -565,8 +565,8 @@ C------------------
               ENDIF                   
             ! === LAW 20 === ! 
             !DENS BIMAT LAW20 - or future 2d law51 
-            ELSEIF(IFUNC.GE.11890 .AND. IFUNC.LE.11893)THEN
-               IF (MLW .EQ. 51) THEN
+            ELSEIF(IFUNC>=11890 .AND. IFUNC<=11893)THEN
+               IF (MLW == 51) THEN
                   MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)     
                   DO I = LFT, LLT
                      N = I + NFT
@@ -595,8 +595,8 @@ C------------------
                   ENDDO          
                ENDIF
             !ENER BY VOLUME BIMAT LAW20 - or future 2d law51 
-            ELSEIF(IFUNC.GE.11894 .AND. IFUNC.LE.11897)THEN
-               IF (MLW .EQ. 51) THEN
+            ELSEIF(IFUNC>=11894 .AND. IFUNC<=11897)THEN
+               IF (MLW == 51) THEN
                   MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)     
                   DO I = LFT, LLT
                      N = I + NFT
@@ -626,8 +626,8 @@ C------------------
                   ENDDO  
               ENDIF
             !TEMP BIMAT LAW20 - or future 2d law51 
-            ELSEIF(IFUNC.GE.11898 .AND. IFUNC.LE.11901)THEN
-               IF (MLW .EQ. 51) THEN
+            ELSEIF(IFUNC>=11898 .AND. IFUNC<=11901)THEN
+               IF (MLW == 51) THEN
                   MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)     
                   DO I = LFT, LLT
                      N = I + NFT
@@ -656,8 +656,8 @@ C------------------
                   ENDDO 
                ENDIF
             !PRES BIMAT LAW20 - or future 2d law51 
-            ELSEIF(IFUNC.GE.11902 .AND. IFUNC.LE.11905)THEN
-               IF (MLW .EQ. 51) THEN
+            ELSEIF(IFUNC>=11902 .AND. IFUNC<=11905)THEN
+               IF (MLW == 51) THEN
                   MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)     
                   DO I = LFT, LLT
                      N = I + NFT
@@ -690,7 +690,7 @@ C------------------
                   ENDDO    
                ENDIF
             !PLASTIC STRAIN BIMAT LAW20 - or future 2d law51 
-            ELSEIF(IFUNC.GE.11906 .AND. IFUNC.LE.11909)THEN
+            ELSEIF(IFUNC>=11906 .AND. IFUNC<=11909)THEN
               DO I=LFT,LLT
                   VALUE  = ZERO
                   VALUE1 = ZERO
@@ -709,8 +709,8 @@ C------------------
                   FUNC(EL2FA(NN3+N)) = VALUE
               ENDDO  
             !SOUND SPEED BIMAT LAW20 - or future 2d law51 
-           ELSEIF(IFUNC.GE.11910 .AND. IFUNC.LE.11913)THEN
-              IF (MLW .EQ. 51) THEN
+           ELSEIF(IFUNC>=11910 .AND. IFUNC<=11913)THEN
+              IF (MLW == 51) THEN
                  MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)     
                  DO I = LFT, LLT
                     N = I + NFT
@@ -739,8 +739,8 @@ C------------------
                  ENDDO  
               ENDIF
 !VOLUME SPEED BIMAT LAW20 - or future 2d law51 
-            ELSEIF(IFUNC.GE.11914 .AND. IFUNC.LE.11917)THEN
-               IF (MLW .EQ. 51) THEN
+            ELSEIF(IFUNC>=11914 .AND. IFUNC<=11917)THEN
+               IF (MLW == 51) THEN
                   MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)     
                   DO I = LFT, LLT
                      N = I + NFT
@@ -769,8 +769,8 @@ C------------------
                   ENDDO 
                ENDIF
             !MASS BIMAT LAW20 - or future 2d law51 
-            ELSEIF(IFUNC.GE.11918 .AND. IFUNC.LE.11921)THEN
-               IF (MLW .EQ. 51) THEN
+            ELSEIF(IFUNC>=11918 .AND. IFUNC<=11921)THEN
+               IF (MLW == 51) THEN
                   MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)     
                   DO I = LFT, LLT
                      N = I + NFT
@@ -799,7 +799,7 @@ C------------------
                   ENDDO 
                ENDIF
             !ARTIFICIAL VISCOSITY BIMAT LAW20 - or future 2d law51 
-            ELSEIF(IFUNC.GE.11922 .AND. IFUNC.LE.11925)THEN
+            ELSEIF(IFUNC>=11922 .AND. IFUNC<=11925)THEN
               DO I=LFT,LLT
                   VALUE = ZERO
                   N     = I + NFT
@@ -831,9 +831,9 @@ c------------------------------------ Mach Number
                     VEL(0) = SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))                              
                     FUNC(EL2FA(NN3+NFT+I)) = VEL(0)/MULTI_FVM%SOUND_SPEED(I + NFT)                                      
                  ENDDO                                                                                    
-              ELSEIF(I_ALE_SOLVER.GT.1)THEN                                                                    
+              ELSEIF(I_ALE_SOLVER>1)THEN                                                                    
                    L = ELBUF_TAB(NG)%BUFLY(1)%L_SSP                                                       
-                   IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP .NE. 0)THEN                                            
+                   IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN                                            
                       LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)                                          
                       DO  I=1,NEL                                                                         
                          VEL(1) = GBUF%MOM(JJ(1) + I) / GBUF%RHO(I)                                       
@@ -845,7 +845,7 @@ c------------------------------------ Mach Number
                    ENDIF                                                                                   
               ELSE                                                                               
                 L = ELBUF_TAB(NG)%BUFLY(1)%L_SSP                                                     
-                IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP .NE. 0)THEN                                               
+                IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN                                               
                   LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)  
                   IF(IS_ALE /= 0)THEN
                   !ale                                             
@@ -919,7 +919,7 @@ c------------------------------------ Color Function
                 NFRAC=0
                 VFRAC(1:NEL,1:21)=ZERO     
               ENDIF 
-              IF(NFRAC.GT.0)THEN
+              IF(NFRAC>0)THEN
                 DO I=1,NEL
                   VALUES(I)=ZERO
                   DO IMAT=1,NFRAC
@@ -962,7 +962,7 @@ c------------------------------------
 C-----------------------------------------------
 C           COQUES 3 N 4 N
 C-----------------------------------------------
-        ELSEIF (ITY == 3.OR.(ITY == 7.AND.N2D.EQ.0)) THEN
+        ELSEIF (ITY == 3.OR.(ITY == 7.AND.N2D==0)) THEN
             IF(ITY == 3)THEN
                NNI = NN4
             ELSE
@@ -1105,7 +1105,7 @@ c---
               ENDIF ! IF (ITY == 3)
              END IF
 c---
-            ELSEIF (IFUNC == 6 .AND. MLW .EQ. 151) THEN
+            ELSEIF (IFUNC == 6 .AND. MLW == 151) THEN
               DO I=LFT,LLT
                 EVAR(I) = - THIRD * (GBUF%SIG(I) + GBUF%SIG(I + NEL) + GBUF%SIG(I + 2 * NEL))
               ENDDO
@@ -1209,7 +1209,7 @@ c---
                 EVAR(I) = HUNDRED *(GBUF%THK_I(I)-GBUF%THK(I))/GBUF%THK_I(I)
               ENDDO
 c------------------------------------
-            ELSEIF (IFUNC.GE.20 .AND. IFUNC.LE.24) THEN
+            ELSEIF (IFUNC>=20 .AND. IFUNC<=24) THEN
 C             USER VARIABLES from 1 to 5
 c------------------------------------
               IF (MLW==29 .OR. MLW==30 .OR. MLW==31 .OR. MLW>=33) THEN
@@ -1311,7 +1311,7 @@ c------------------------------------
                 ENDDO                                                      
               ENDIF   ! USER LAW                                        
 c------------------------------------
-            ELSEIF( (IFUNC.GE.10140.AND.IFUNC.LE.10239) 
+            ELSEIF( (IFUNC>=10140.AND.IFUNC<=10239) 
      .             .OR. IFUNC == 10673.OR. IFUNC == 10674
      .             .OR. IFUNC == 10675 ) THEN
               IF (IFUNC == 10673) THEN      ! phi Output : Mid Layer
@@ -1331,7 +1331,7 @@ c
                   IF (IGTYP == 9  .OR. IGTYP == 10 .OR.IGTYP == 11 .OR.
      .                IGTYP == 16 .OR. IGTYP == 17 .OR. IGTYP == 51 .OR.
      .                IGTYP == 52 ) THEN
-                    IF (MLW .NE. 0 .AND. MLW .NE. 13) THEN                        
+                    IF (MLW /= 0 .AND. MLW /= 13) THEN                        
                       DO I=LFT,LLT                                                
                         N = I + NFT                                               
                         X21 = X(1,IXC(3,N))-X(1,IXC(2,N))                         
@@ -1451,7 +1451,7 @@ C
                   IF (IGTYP == 9  .OR. IGTYP == 10 .OR. IGTYP == 11 .OR. 
      .                IGTYP == 16 .OR. IGTYP == 17 .OR. IGTYP == 51 .OR.
      .                IGTYP == 52 ) THEN
-                    IF (MLW .NE. 0 .AND. MLW .NE. 13) THEN                      
+                    IF (MLW /= 0 .AND. MLW /= 13) THEN                      
                       DO I=LFT,LLT                                              
                         N = I + NFT                                             
                         X21 = X(1,IXTG(3,N))-X(1,IXTG(2,N))                     
@@ -2057,9 +2057,9 @@ c
 !!                    IF (IFAILA == 1) THEN
 !!                      DO  I=LFT,LLT
 !!                        OFF = GBUF%OFF(I)
-!!                        IF (OFF.LT.ZERO) THEN
+!!                        IF (OFF<ZERO) THEN
 !!                          FAIL(I)= -ONE
-!                        ELSEIF (OFF.GT.ZERO) THEN
+!                        ELSEIF (OFF>ZERO) THEN
 !!                          FAIL(I)=  ZERO
 !!                        ELSE
 !!                          FAIL(I)=  ONE
@@ -2099,9 +2099,9 @@ c
 !!                IF (IFAILURE==0 .OR.(IFAILURE /=0 .AND.IFAILA==1)) THEN
 !!                  DO  I=LFT,LLT                                         
 !!                    OFF = GBUF%OFF(I)                                  
-!!                    IF (OFF.LT.ZERO)THEN                                  
+!!                    IF (OFF<ZERO)THEN                                  
 !!                      FAIL(I)= -ONE                                       
-!!                    ELSEIF(OFF.GT.ZERO)THEN                              
+!!                    ELSEIF(OFF>ZERO)THEN                              
 !!                      FAIL(I)=  ZERO                                       
 !!                    ELSE                                                 
 !!                      FAIL(I)=  ONE                                     
@@ -2671,7 +2671,7 @@ c
                       BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                   IF (ITY == 3) THEN
                    IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 ) THEN
-                    IF (MLW .NE. 0 .AND. MLW .NE. 13) THEN                        
+                    IF (MLW /= 0 .AND. MLW /= 13) THEN                        
                       DO I=LFT,LLT                                                
                         N = I + NFT                                               
                         X21 = X(1,IXC(3,N))-X(1,IXC(2,N))                         
@@ -2786,7 +2786,7 @@ c
 
                   ELSEIF (ITY == 7) THEN
                    IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 ) THEN
-                    IF (MLW .NE. 0 .AND. MLW .NE. 13) THEN                      
+                    IF (MLW /= 0 .AND. MLW /= 13) THEN                      
                       DO I=LFT,LLT                                              
                         N = I + NFT                                             
                         X21 = X(1,IXTG(3,N))-X(1,IXTG(2,N))                     
@@ -3823,9 +3823,9 @@ c------------------------------------ Mach Number
                     VEL(0) = SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))                              
                     EVAR(I) = VEL(0)/MULTI_FVM%SOUND_SPEED(I + NFT)                                              
                  ENDDO                                                                                    
-              ELSEIF(I_ALE_SOLVER.GT.1)THEN                                                                    
+              ELSEIF(I_ALE_SOLVER>1)THEN                                                                    
                    L = ELBUF_TAB(NG)%BUFLY(1)%L_SSP                                                       
-                   IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP .NE. 0)THEN                                            
+                   IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN                                            
                       LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)                                          
                       DO  I=1,NEL                                                                         
                          VEL(1) = GBUF%MOM(JJ(1) + I) / GBUF%RHO(I)                                       
@@ -3837,9 +3837,9 @@ c------------------------------------ Mach Number
                    ENDIF                                                                                  
               ELSE                                                                                 
                 L = ELBUF_TAB(NG)%BUFLY(1)%L_SSP                                                     
-                IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP .NE. 0)THEN                                               
+                IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN                                               
                   LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1) 
-                  IF(JALE.NE.0)THEN                                             
+                  IF(JALE/=0)THEN                                             
                     DO  I=1,NEL                                                                             
                       TMP(1,1:3)=V(1,IXTG(2:4,I+NFT))-W(1,IXTG(2:4,I+NFT))                                                     
                       TMP(2,1:3)=V(2,IXTG(2:4,I+NFT))-W(2,IXTG(2:4,I+NFT))                                                     
@@ -3920,7 +3920,7 @@ c----------Membrane
                  EVAR(I) = ZERO
                ENDDO
                ! Odd number of thickness integration points
-               IF ((MOD(NPTT,2).NE.0).AND.(NPTT>1)) THEN
+               IF ((MOD(NPTT,2)/=0).AND.(NPTT>1)) THEN
                  DO IL=1,NLAY                                              
                    DO IS=1,NPTS 
                      DO IR=1,NPTR                                     
@@ -4128,7 +4128,7 @@ C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         E1Z = RZ*C2+(SX*E3Y-SY*E3X)*C1
 C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         C1 = SQRT(E1X*E1X + E1Y*E1Y + E1Z*E1Z)
-        IF ( C1.NE.ZERO) C1 = ONE / C1
+        IF ( C1/=ZERO) C1 = ONE / C1
         E1X = E1X*C1
         E1Y = E1Y*C1
         E1Z = E1Z*C1

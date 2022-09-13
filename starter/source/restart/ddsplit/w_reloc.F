@@ -58,7 +58,7 @@ C-----------------------------------------------
 C
       EL = 0
       DO I = 1, NUMEL
-        IF(CEP(I).EQ.P) THEN
+        IF(CEP(I)==P) THEN
           EL = EL + 1
           RTMP(EL) = RTAB(I)
         ENDIF

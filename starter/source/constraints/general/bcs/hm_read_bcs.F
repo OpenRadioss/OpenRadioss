@@ -158,7 +158,7 @@ C--------------------------------------------------
           CALL HM_GET_INTV('inputsystem',IS,IS_AVAILABLE,LSUBMODEL)
         END IF !(ICYC == 1 )THEN
 c
-        IF(IS == 0 .AND. SUB_INDEX .NE. 0 ) IS = LSUBMODEL(SUB_INDEX)%SKEW
+        IF(IS == 0 .AND. SUB_INDEX /= 0 ) IS = LSUBMODEL(SUB_INDEX)%SKEW
         IS0 = IS
         CALL HM_GET_INTV('entityid',IGR,IS_AVAILABLE,LSUBMODEL)
 C--------------------------------------------------
@@ -178,7 +178,7 @@ C
         IF (ICYC == 0 )THEN
           CHKCOD = 0
           DO J=1,6
-            IF (J6(J) .GE. 2) THEN
+            IF (J6(J) >= 2) THEN
               CHKCOD = 1
             ENDIF
           ENDDO
@@ -190,7 +190,7 @@ C
           IC =IC1*512+IC2*64
           INGR2USR => IGRNOD(1:NGRNOD)%ID
           IGRS=NGR2USR(IGR,INGR2USR,NGRNOD)
-          IF (IGRS.EQ.0) THEN
+          IF (IGRS==0) THEN
             CALL ANCMSG(MSGID=678,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I1=ID,I2=IGR,C1=TITR)
           END IF
@@ -198,7 +198,7 @@ C
             DO J=1,IGRNOD(IGRS)%NENTITY
               NOSYS=IGRNOD(IGRS)%ENTITY(J)
               ICODE(NOSYS)=MY_OR(IC,ICODE(NOSYS))
-              IF(ISKEW(NOSYS).EQ.-1.OR.ISKEW(NOSYS).EQ.IS)THEN
+              IF(ISKEW(NOSYS)==-1.OR.ISKEW(NOSYS)==IS)THEN
                 CHECK_NEW=IS
               ELSE
                 CALL ANCMSG(MSGID=148,ANMODE=ANINFO,MSGTYPE=MSGERROR,
@@ -207,7 +207,7 @@ C
               ISKEW(NOSYS)=CHECK_NEW
             
               DO K=1,6
-                IF(J6(K).NE.0)
+                IF(J6(K)/=0)
      .          CALL KINSET(1,ITAB(NOSYS),IKINE(NOSYS),K,ISKEW(NOSYS)
      .                    ,IKINE1(NOSYS))
               ENDDO
@@ -226,10 +226,10 @@ C
               CALL KINSET(512,ITAB(NOSYS),IKINE(NOSYS),7,0
      .                    ,IKINE1LAG(NOSYS))
               DO K=1,6
-                IF(J6(K).NE.0) THEN
+                IF(J6(K)/=0) THEN
                   LAG_NHF = LAG_NHF + 1
                   LAG_NCF = LAG_NCF + 1
-                  IF(IS.EQ.0) THEN
+                  IF(IS==0) THEN
                     LAG_NKF = LAG_NKF + 1
                   ELSE
                     LAG_NKF = LAG_NKF + 3

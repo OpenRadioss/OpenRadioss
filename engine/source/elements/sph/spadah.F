@@ -87,7 +87,7 @@ C--     3D dilatation of H : GET_U_GEO(8,IPROP) = 1/3
 C--     1D dilatation of H : GET_U_GEO(8,IPROP) = 1
 C--     Constant H : GET_U_GEO(8,IPROP) = 0        
         SPBUF(1,N)=DI*(ONE+DIVV*DT1*COEFF)
-        IF(SPBUF(1,N).LT.EM20)THEN
+        IF(SPBUF(1,N)<EM20)THEN
           CALL ANCMSG(MSGID=174,ANMODE=ANINFO,
      .            I1=KXSP(NISP,N))
           CALL ARRET(2)

@@ -199,11 +199,11 @@ C======================================================================|
       ITG2 = 2*NUMELC
       ITG3 = 1+NUMELC
       IPRI = 0
-      IF(MOD(NCYCLE,IABS(NCPRI)).EQ.0.OR.TT >= THIS.OR.TT >= TDES.OR.TT >= TPAT.OR.
+      IF(MOD(NCYCLE,IABS(NCPRI))==0.OR.TT >= THIS.OR.TT >= TDES.OR.TT >= TPAT.OR.
      +       MDESS /= 0.OR.TT >= THIS1(1).OR.TT >= THIS1(2).
      +       OR.TT >= THIS1(3) .OR.TT >= THIS1(4).OR.TT >= THIS1(5).
      +       OR.TT >= THIS1(6) .OR.TT >= THIS1(7).OR.TT >= THIS1(8).
-     +       OR.TT >= THIS1(9) .OR.NTH /= 0.OR.NANIM.NE.0.
+     +       OR.TT >= THIS1(9) .OR.NTH /= 0.OR.NANIM/=0.
      +       OR.TT >= TABFIS(1).OR.TT >= TABFIS(2).
      +       OR. TT >= TABFIS(3).OR.TT >= TABFIS(4).OR.TT >= TABFIS(5).
      +       OR. TT >= TABFIS(6).OR.TT >= TABFIS(7).OR.TT >= TABFIS(8).
@@ -224,16 +224,16 @@ C
             NG = IGROUC(IG)
             NGR_SENSOR = NG
             NGR_FAIL_WIND = NG
-            IF (IPARG(1, NG) .EQ. 151) THEN
+            IF (IPARG(1, NG) == 151) THEN
 C     Debranchement loi 151
                CYCLE
             ENDIF
 C---------temporaly used to avoid pass KTBUF_STR everywhere
             NG_IMP = NG
-            IF(IPARG(8,NG).EQ.1)GOTO 250
+            IF(IPARG(8,NG)==1)GOTO 250
             ITY   =IPARG(5,NG)
-C            IF(ITY.NE.3.AND.ITY.NE.7)GOTO 250
-            IF (IDDW.GT.0) CALL STARTIMEG(NG)
+C            IF(ITY/=3.AND.ITY/=7)GOTO 250
+            IF (IDDW>0) CALL STARTIMEG(NG)
             OFFSET  = 0
             MLW     = IPARG(1,NG)
 C MLW= 0 ----> void
@@ -290,7 +290,7 @@ C---
             NF1 = NFT+1
             JSPH=0
 C----6---------------------------------------------------------------7---------8
-        IF(ITY.EQ.3)THEN
+        IF(ITY==3)THEN
           IOFC = 0
 C
 C--      Reduction factor computation for seatbelts in sliprings
@@ -440,7 +440,7 @@ c
             END IF
           ENDIF
 C
-          IF(NSECT.GT.0)THEN
+          IF(NSECT>0)THEN
                K0=NSTRF(25)
                N=NINTER+NRWALL+NRBODY
                DO I=1,NSECT
@@ -467,7 +467,7 @@ C
                 K0 = NSTRF(K0+24)
                ENDDO
           ENDIF
-             IF(NEXMAD.NE.0.AND.IOFC.NE.0)THEN
+             IF(NEXMAD/=0.AND.IOFC/=0)THEN
                IMADFSH4=1
                DO J=1,IOFC
                 II=INDXOF(J)+JFT-1+NFT
@@ -475,7 +475,7 @@ C
                ENDDO
              ENDIF
 C----6---------------------------------------------------------------7--
-        ELSEIF(ITY.EQ.7)THEN
+        ELSEIF(ITY==7)THEN
            IOFC = 0
            IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
      .        CALL SENSOR_ENERGY_PART(LSENSOR ,IPARTTG(NF1) ,SUBSET ,IPRI)
@@ -578,7 +578,7 @@ C----6---------------------------------------------------------------7--
        ENDIF
       ENDIF
 c
-           IF(NSECT.GT.0)THEN
+           IF(NSECT>0)THEN
              K0=NSTRF(25)
              N=NINTER+NRWALL+NRBODY
              DO I=1,NSECT
@@ -607,7 +607,7 @@ C
              ENDDO
            ENDIF
         ENDIF
-        IF (IDDW.GT.0) CALL STOPTIMEG(NG)
+        IF (IDDW>0) CALL STOPTIMEG(NG)
   250   CONTINUE
       END DO
 !$OMP END DO

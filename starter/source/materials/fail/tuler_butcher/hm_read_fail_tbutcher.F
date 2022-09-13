@@ -116,9 +116,9 @@ C
      .               I1=ID)
       ENDIF
 C
-      IF(ISHELL.EQ.0)ISHELL=1
-      IF(ISOLID.EQ.0)ISOLID= 1
-      IF(IBRIT.EQ.0)IBRIT= 1
+      IF(ISHELL==0)ISHELL=1
+      IF(ISOLID==0)ISOLID= 1
+      IF(IBRIT==0)IBRIT= 1
       IF(IXFEM /= 1 .AND. IXFEM /= 2)IXFEM = 0
       IF(IXFEM > 0)ISOLID = 0
       IF(IXFEM == 0)IBRIT = 0
@@ -149,9 +149,9 @@ C for shell
 C---
         IF(IXFEM == 0)THEN
           WRITE(IOUT, 1000)TBA,TBK,SIGR,IXFEM
-          IF(ISHELL.EQ.1)THEN
+          IF(ISHELL==1)THEN
             WRITE(IOUT, 1100)
-          ELSEIF(ISHELL.EQ.2)THEN
+          ELSEIF(ISHELL==2)THEN
             WRITE(IOUT, 1200)
           ENDIF
         ELSE
@@ -162,9 +162,9 @@ C---
 C for solid      
 C---
         IF(IXFEM == 0)THEN ! XFEM yet not available for solids
-          IF(ISOLID.EQ.1)THEN
+          IF(ISOLID==1)THEN
             WRITE(IOUT, 2100)
-          ELSEIF(ISOLID.EQ.2)THEN
+          ELSEIF(ISOLID==2)THEN
             WRITE(IOUT, 2200)
           ENDIF
         END IF

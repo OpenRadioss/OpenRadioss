@@ -303,9 +303,9 @@ c           delta A parith on
         END DO
       END IF
 
-      IF(ANIM_V(15)+OUTP_V(15)+H3D_DATA%N_VECT_DXANC .GT.0.AND.
-     .          (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.
-     .              (MANIM.GE.4.AND.MANIM.LE.15).OR.H3D_DATA%MH3D.NE.0))THEN
+      IF(ANIM_V(15)+OUTP_V(15)+H3D_DATA%N_VECT_DXANC >0.AND.
+     .          (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .              (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0))THEN
         DO I=NLNF,NLNL
           IG=NLG(I)
           DXANCG(1,IG) = DXANC(1,I)
@@ -316,7 +316,7 @@ c           delta A parith on
 C=======================================================================
 C     maj pene a verifier !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 C=======================================================================
-      IF(INACTI.EQ.5.OR.INACTI.EQ.6)THEN
+      IF(INACTI==5.OR.INACTI==6)THEN
         IF(NSPMD > 1 .AND. TT > ZERO) THEN     ! a tt=0. les frontieres ne sont que partiellement baties
 C
 C Partie non parallele smt
@@ -353,7 +353,7 @@ c a faire ici ou dans I20BUCE_CRIT IF(PENIA(5,I)+... /= ZERO)NACTI=NACTI+1
 C=======================================================================
 C     maj pene edges   !!!!!  deplace
 C=======================================================================
-c      IF(INACTI.EQ.5.OR.INACTI.EQ.6)THEN
+c      IF(INACTI==5.OR.INACTI==6)THEN
 cC
 cC  maj PENIS sur partie non locale
 cC
@@ -379,7 +379,7 @@ C=======================================================================
 #include "vectorize.inc"
       DO I=NSNF,NSNL
           IL = NSV(I)
-          IF(STFA(IL).NE.ZERO) THEN
+          IF(STFA(IL)/=ZERO) THEN
 
             XSLV(1)=MAX(XSLV(1),XA(1,IL)-XSAV(1,I))
             XSLV(2)=MAX(XSLV(2),XA(2,IL)-XSAV(2,I))
@@ -402,7 +402,7 @@ C
       DO I=NMNF,NMNL
           II = I+NSN
           IL=MSR(I)
-          IF(IL.GT.0) THEN
+          IF(IL>0) THEN
             XMSR(1)=MAX(XMSR(1),XA(1,IL)-XSAV(1,II))
             XMSR(2)=MAX(XMSR(2),XA(2,IL)-XSAV(2,II))
             XMSR(3)=MAX(XMSR(3),XA(3,IL)-XSAV(3,II))
@@ -425,7 +425,7 @@ C
       DO I=NSNEF,NSNEL
          IL=NSVE(I)
 C shooting nodes
-         IF(IL.GT.0) THEN
+         IF(IL>0) THEN
           XSLV(1)=MAX(XSLV(1),XA(1,IL)-XSAVE(1,I))
           XSLV(2)=MAX(XSLV(2),XA(2,IL)-XSAVE(2,I))
           XSLV(3)=MAX(XSLV(3),XA(3,IL)-XSAVE(3,I))
@@ -445,7 +445,7 @@ C
          II = I+NSNE
          IL=MSRE(I)
 C shooting nodes
-         IF(IL.GT.0) THEN
+         IF(IL>0) THEN
           XMSR(1)=MAX(XMSR(1),XA(1,IL)-XSAVE(1,II))
           XMSR(2)=MAX(XMSR(2),XA(2,IL)-XSAVE(2,II))
           XMSR(3)=MAX(XMSR(3),XA(3,IL)-XSAVE(3,II))
@@ -496,7 +496,7 @@ C
 C=======================================================================
 C     STIF
 C=======================================================================
-      IF(NSPMD.EQ.1) THEN
+      IF(NSPMD==1) THEN
 C traitement deplace dans SPMD_GET_STIF en SPMD
         DO I=NLNF,NLNL
           STFA(I)=MAX(STFA(I),ZERO)
@@ -509,7 +509,7 @@ C
 C=======================================================================
 C     maj pene edges   !!!!!  deplace
 C=======================================================================
-c      IF(INACTI.EQ.5.OR.INACTI.EQ.6)THEN
+c      IF(INACTI==5.OR.INACTI==6)THEN
 cC
 cC  maj PENIS sur partie non locale
 cC

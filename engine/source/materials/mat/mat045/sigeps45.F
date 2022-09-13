@@ -183,7 +183,7 @@ c jbm035
 C-----------------------------------------------
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
-      IF(TIME.EQ.ZERO)THEN
+      IF(TIME==ZERO)THEN
         DO I=1,NEL0
            UVAR(I,1)=ZERO
            UVAR(I,2)=ZERO
@@ -252,21 +252,21 @@ C-------------------
 C     CRITERIA
 C-------------------
        DO I=1,NEL0
-        IF(UVAR(I,1).LE.ZERO) THEN
+        IF(UVAR(I,1)<=ZERO) THEN
          CH1=CA
-        ELSEIF(UVAR(I,1).GT.EPSM) THEN
+        ELSEIF(UVAR(I,1)>EPSM) THEN
          CH1=CA+CB*EPSM**CN
         ELSE
          CH1=CA+CB*UVAR(I,1)**CN
         ENDIF
-        IF(UVAR(I,2).LE.EPS0) THEN
+        IF(UVAR(I,2)<=EPS0) THEN
          CH2=ZERO
-        ELSEIF(UVAR(I,1).LE.ZERO) THEN
+        ELSEIF(UVAR(I,1)<=ZERO) THEN
          CH2=CC*LOG(UVAR(I,2)/EPS0)
         ELSE
          CH2=(CC-CD*UVAR(I,1)**CM)*LOG(UVAR(I,2)/EPS0)
         ENDIF
-        IF(UVAR(I,2).LE.ZERO) THEN
+        IF(UVAR(I,2)<=ZERO) THEN
          CH3=ZERO
         ELSE
          CH3=CE*UVAR(I,2)**CK
@@ -274,22 +274,22 @@ C-------------------
 c jbm033        UVAR(I,3)=MIN(SIGM,CH1+CH2+CH3)
         UVAR(I,3)=MIN(SIGM+CH3,CH1+CH2+CH3)
         SIGY(I)=UVAR(I,3)
-        IF(UVAR(I,1).GT.EPSM) UVAR(I,3)=ZERO
+        IF(UVAR(I,1)>EPSM) UVAR(I,3)=ZERO
        ENDDO
 C------------------------
 C     HARDENING MODULUS
 C------------------------
        DO I=1,NEL0
-        IF(UVAR(I,1).GT.ZERO. AND .CN.GE.ONE) THEN
+        IF(UVAR(I,1)>ZERO. AND .CN>=ONE) THEN
          QH1= CB*CN*UVAR(I,1)**(CN- ONE)
-        ELSEIF(UVAR(I,1).GT.ZERO. AND .CN.LT.ONE)THEN
+        ELSEIF(UVAR(I,1)>ZERO. AND .CN<ONE)THEN
          QH1= CB*CN*UVAR(I,1)**(ONE - CN)
         ELSE
          QH1=ZERO
         ENDIF
-        IF(UVAR(I,1).LE.ZERO. OR .UVAR(I,2).LE.EPS0) THEN
+        IF(UVAR(I,1)<=ZERO. OR .UVAR(I,2)<=EPS0) THEN
          QH2=ZERO
-        ELSEIF(CM.GE.ONE) THEN
+        ELSEIF(CM>=ONE) THEN
          QH2=CD*CM*UVAR(I,1)**(CM- ONE)*LOG(UVAR(I,2)/EPS0)
         ELSE
          QH2=CD*CM*UVAR(I,1)**(ONE - CM)*LOG(UVAR(I,2)/EPS0)
@@ -335,7 +335,7 @@ c         AMU = ONE /DF - ONE
 C-----------------------------
 C  A VOIR .....
       DO I=1,NEL0
-        IF(OFF(I).LT.ONE) IDEL7NOK = 1
+        IF(OFF(I)<ONE) IDEL7NOK = 1
       ENDDO
       DO I=1,NEL0
         DEFP(I)=UVAR(I,1)

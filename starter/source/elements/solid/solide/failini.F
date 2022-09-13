@@ -81,7 +81,7 @@ C
 c
          II=NFT+I
          JJ=PT(II)
-         IF(JJ.EQ.0)CYCLE
+         IF(JJ==0)CYCLE
 c         
          DO IL=1,NLAY 
            NFAIL =  ELBUF_STR%BUFLY(IL)%NFAIL
@@ -116,7 +116,7 @@ c-----------------------------
        DO J=1,NPERTURB
          IF(PERTURB(J) == 2)THEN
            DO I=LFT,LLT 
-             IF (RNOISE(J,I+NFT) .NE. ZERO) THEN
+             IF (RNOISE(J,I+NFT) /= ZERO) THEN
                DO IL=1,NLAY   
                  NFAIL =  ELBUF_STR%BUFLY(IL)%NFAIL
                  IMAT  =  ELBUF_STR%BUFLY(IL)%IMAT

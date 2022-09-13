@@ -205,21 +205,21 @@ C
 C
 C         STARTT=INTBUF_TAB(NIN)%VARIABLES(3)
 C         STOPT =INTBUF_TAB(NIN)%VARIABLES(11)
-C         IF(STARTT.GT.TT) CYCLE
-C         IF(TT.GT.STOPT)  CYCLE
+C         IF(STARTT>TT) CYCLE
+C         IF(TT>STOPT)  CYCLE
 C
 C         Look if interface is activated 
 C          ISENS = IPARI(64,NIN)  
-C          IF(ISENS.NE.0)  THEN         ! Interface activated by sensor
+C          IF(ISENS/=0)  THEN         ! Interface activated by sensor
 C             TS = SENSOR(2,ISENS)
 C          ELSE
 C             TS = TT
 C          ENDIF
-C          IF(TT.LT.TS) CYCLE
+C          IF(TT<TS) CYCLE
 
           DO P = 1,NSPMD
              LENT25 = IAD_FRNOR(NI25,P+1)-IAD_FRNOR(NI25,P)
-             IF(P .NE. ISPMD +1 .AND. LENT25 /= 0) THEN
+             IF(P /= ISPMD +1 .AND. LENT25 /= 0) THEN
                 COMM_PATTERN(P,NI25) = 1
              ENDIF
           ENDDO
@@ -234,17 +234,17 @@ C
 C
 C         STARTT=INTBUF_TAB(NIN)%VARIABLES(3)
 C         STOPT =INTBUF_TAB(NIN)%VARIABLES(11)
-C         IF(STARTT.GT.TT) CYCLE
-C         IF(TT.GT.STOPT)  CYCLE
+C         IF(STARTT>TT) CYCLE
+C         IF(TT>STOPT)  CYCLE
 C
 C         Look if interface is activated 
 C         ISENS = IPARI(64,NIN)  
-C         IF(ISENS.NE.0)  THEN         ! Interface activated by sensor
+C         IF(ISENS/=0)  THEN         ! Interface activated by sensor
 C            TS = SENSOR(2,ISENS)
 C         ELSE
 C            TS = TT
 C         ENDIF
-C         IF(TT.LT.TS) CYCLE
+C         IF(TT<TS) CYCLE
 C
 C precalculer LENS
           LENT25 = IAD_FRNOR(NI25,NSPMD+1)-IAD_FRNOR(NI25,1)
@@ -273,14 +273,14 @@ C         SPMD only <=> envoi de nds secnds qui glissent sur un sommet frontire
 C-----------------------------------------------------------------------
 C
           ALLOCATE(NADD(NADMAX+1),STAT=IERROR)
-          IF(IERROR.NE.0) THEN
+          IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
           ENDIF
 C
           LADMAX = 4*NSLIDMX
           ALLOCATE(KADD(LADMAX),STAT=IERROR)
-          IF(IERROR.NE.0) THEN
+          IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
           ENDIF
@@ -293,17 +293,17 @@ C
 C
 C            STARTT=INTBUF_TAB(NIN)%VARIABLES(3)
 C            STOPT =INTBUF_TAB(NIN)%VARIABLES(11)
-C            IF(STARTT.GT.TT) CYCLE
-C            IF(TT.GT.STOPT)  CYCLE
+C            IF(STARTT>TT) CYCLE
+C            IF(TT>STOPT)  CYCLE
 C
 C            Look if interface is activated 
 C            ISENS = IPARI(64,NIN)  
-C            IF(ISENS.NE.0)  THEN         ! Interface activated by sensor
+C            IF(ISENS/=0)  THEN         ! Interface activated by sensor
 C               TS = SENSOR(2,ISENS)
 C            ELSE
 C               TS = TT
 C            ENDIF
-C            IF(TT.LT.TS) CYCLE
+C            IF(TT<TS) CYCLE
 
 C ==========================================================================
 C            Post Asynchronous reception of the sizes
@@ -340,7 +340,7 @@ C           compute size of buffer for send
      4        KADD   ,SIZBUFS,NSENDTOT)
 C
             ALLOCATE(FR_SLIDE(4*NSENDTOT),INDXTOSEND(NSENDTOT),STAT=IERROR)
-            IF(IERROR.NE.0) THEN
+            IF(IERROR/=0) THEN
               CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
               CALL ARRET(2)
             ENDIF
@@ -364,7 +364,7 @@ C
                RBUFS(P,NI25)%P(1:RSIZ(NI25)*SIZBUFS(P)) = -1
               ENDIF
               SIZBUFS_GLOB(P,NI25)=SIZBUFS(P)
-              IF(IERROR.NE.0) THEN
+              IF(IERROR/=0) THEN
                 CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                 CALL ARRET(2)
               ENDIF
@@ -414,17 +414,17 @@ C
 C
 C          STARTT=INTBUF_TAB(NIN)%VARIABLES(3)
 C          STOPT =INTBUF_TAB(NIN)%VARIABLES(11)
-C          IF(STARTT.GT.TT) CYCLE
-C          IF(TT.GT.STOPT)  CYCLE
+C          IF(STARTT>TT) CYCLE
+C          IF(TT>STOPT)  CYCLE
 C
 C         Look if interface is activated 
 C         ISENS = IPARI(64,NIN)  
-C         IF(ISENS.NE.0)  THEN         ! Interface activated by sensor
+C         IF(ISENS/=0)  THEN         ! Interface activated by sensor
 C            TS = SENSOR(2,ISENS)
 C         ELSE
 C            TS = TT
 C         ENDIF
-C         IF(TT.LT.TS) CYCLE
+C         IF(TT<TS) CYCLE
 C
 C         Recieve buffer ( + wait for sizes)
           IF(NSPMD > 1) THEN
@@ -542,7 +542,7 @@ C         Warning : Arrays are reallocated in UPGRADE_CAND_OPT routine !!!!
           END IF
 C
           INTBUF_TAB(NIN)%I_STOK(2)=I_OPT_STOK ! == INTBUF_TAB(NIN)%I_STOK(2)+K_STOK
-          IF (DEBUG(3).GE.1) THEN
+          IF (DEBUG(3)>=1) THEN
               NB_DST1(JTASK)  = NB_DST1(JTASK)  + K_STOK
               NB_DST2(JTASK)  = NB_DST2(JTASK)  - K_STOK
           ENDIF
@@ -562,17 +562,17 @@ C-----------------------------------------------------------------------
 C
 C         STARTT=INTBUF_TAB(NIN)%VARIABLES(3)
 C         STOPT =INTBUF_TAB(NIN)%VARIABLES(11)
-C         IF(STARTT.GT.TT) CYCLE
-C         IF(TT.GT.STOPT)  CYCLE
+C         IF(STARTT>TT) CYCLE
+C         IF(TT>STOPT)  CYCLE
 C
 C         Look if interface is activated 
 C         ISENS = IPARI(64,NIN)  
-C         IF(ISENS.NE.0)  THEN         ! Interface activated by sensor
+C         IF(ISENS/=0)  THEN         ! Interface activated by sensor
 C            TS = SENSOR(2,ISENS)
 C         ELSE
 C            TS = TT
 C         ENDIF
-C         IF(TT.LT.TS) CYCLE
+C         IF(TT<TS) CYCLE
 
           ! Wait and deallocate Send buffers
           CALL SPMD_I25_SLIDE_EXCH(IBUFS    ,RBUFS      ,ISIZ(NI25)     ,RSIZ(NI25) 

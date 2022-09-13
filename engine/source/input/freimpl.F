@@ -130,7 +130,7 @@ C      IRREF = 0
       IKPROJ=0
       ISMDISP = 0
       IACUSLV = 0
-      IF(IKAD(IKEY).NE.IKAD(IKEY+1))THEN
+      IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        K=0
        IMPL_S=1
        NCINP=1
@@ -175,22 +175,22 @@ C      IRREF = 0
 C----------------------------
 C      Dynamic implicit
 C----------------------------
-       IF(KEY2(1:4).EQ.'DYNA')THEN
-        IF (IDYNA.EQ.0) IDYNA=1
-        IF(KEY3(1:4).EQ.'DAMP')THEN
+       IF(KEY2(1:4)=='DYNA')THEN
+        IF (IDYNA==0) IDYNA=1
+        IF(KEY3(1:4)=='DAMP')THEN
          IDY_DAMP=1
          CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
          READ(IUSC2,*) DAMPA_IMP,DAMPB_IMP
-        ELSE IF(KEY3(1:3).EQ.'FSI')THEN
+        ELSE IF(KEY3(1:3)=='FSI')THEN
          WRITE(6,*) "ERROR: /IMPL/DYNA/FSI IS A DEPRECATED FEATURE"
           GOTO 9990
         ELSE
          READ(KEY3,'(I2)')IM
          IDYNA=MAX(IDYNA,IM)
-         IF(IDYNA.EQ.1)THEN
+         IF(IDYNA==1)THEN
           CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
           READ(IUSC2,*)HHT_A
-         ELSEIF(IDYNA.EQ.2)THEN
+         ELSEIF(IDYNA==2)THEN
           CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
           READ(IUSC2,*)NEWM_A,NEWM_B
          ELSE 
@@ -200,44 +200,44 @@ C----------------------------
 C----------------------------
 C      Implicit linear
 C----------------------------
-       ELSEIF(KEY2(1:4).EQ.'LINE')THEN
+       ELSEIF(KEY2(1:4)=='LINE')THEN
         ILINE=1
-        IF(KEY3(1:5).EQ.'INTER') THEN
+        IF(KEY3(1:5)=='INTER') THEN
          READ(KEY4,'(I5)')ILINTF
          ILINTF = MAX(2,ILINTF)
-        ELSEIF(KEY3(1:5).EQ.'SCAUC') THEN
+        ELSEIF(KEY3(1:5)=='SCAUC') THEN
          ISCAU = 1
         ENDIF
-       ELSEIF(KEY2(1:5).EQ.'MONVO')THEN
-        IF(KEY3(1:3).EQ.'OFF')IMPMV=0
-       ELSEIF(KEY2(1:5).EQ.'SPRIN')THEN
-         IF(KEY3(1:4).EQ.'NONL')THEN
+       ELSEIF(KEY2(1:5)=='MONVO')THEN
+        IF(KEY3(1:3)=='OFF')IMPMV=0
+       ELSEIF(KEY2(1:5)=='SPRIN')THEN
+         IF(KEY3(1:4)=='NONL')THEN
           ISPRN = 1 
-         ELSEIF(KEY3(1:4).EQ.'LINE')THEN
+         ELSEIF(KEY3(1:4)=='LINE')THEN
           ISPRN = 0 
          ELSE
           GOTO 9990
          ENDIF
-       ELSEIF(KEY2(1:5).EQ.'PREPA')THEN
+       ELSEIF(KEY2(1:5)=='PREPA')THEN
         READ(KEY3,'(I2)')N_PAT
-       ELSEIF(KEY2(1:5).EQ.'PROJV')THEN
+       ELSEIF(KEY2(1:5)=='PROJV')THEN
         READ(KEY3,'(I2)') M_VS
-       ELSEIF(KEY2(1:5).EQ.'PROSI')THEN
+       ELSEIF(KEY2(1:5)=='PROSI')THEN
         READ(KEY3,'(I2)') IPRO_S0
 C----------------------------
 C      Implicit check
 C----------------------------
-       ELSEIF(KEY2(1:5).EQ.'CHECK')THEN
+       ELSEIF(KEY2(1:5)=='CHECK')THEN
         IMP_CHK = 1
 C----------------------------
 C      Implicit quasi-static
 C----------------------------
-       ELSEIF(KEY2(1:5).EQ.'QSTAT')THEN
+       ELSEIF(KEY2(1:5)=='QSTAT')THEN
         IQSTAT = 1
-        IF(KEY3(1:5).EQ.'DTSCA')THEN
+        IF(KEY3(1:5)=='DTSCA')THEN
           CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
           READ(IUSC2,*)SCAL_DTQ
-        ELSEIF(KEY3(1:5).EQ.'MRIGM')THEN
+        ELSEIF(KEY3(1:5)=='MRIGM')THEN
           IRIG_M = 1
           CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
           READ(IUSC2,*,ERR=520,END=520)E_REF(1),E_REF(2),E_REF(3)
@@ -250,17 +250,17 @@ C----------------------------
 C----------------------------
 C      spring-back
 C----------------------------
-       ELSEIF(KEY2(1:4).EQ.'SPRB')THEN
+       ELSEIF(KEY2(1:4)=='SPRB')THEN
         ISPRB=1
 C----------------------------
 C      print-out
 C----------------------------
-       ELSEIF(KEY2.EQ.'PRINT')THEN
-         IF(KEY3(1:4).EQ.'LINE')THEN
+       ELSEIF(KEY2=='PRINT')THEN
+         IF(KEY3(1:4)=='LINE')THEN
           READ(KEY4,'(I5)')LPRINT
-         ELSEIF(KEY3(1:4).EQ.'NONL')THEN
+         ELSEIF(KEY3(1:4)=='NONL')THEN
           READ(KEY4,'(I5)')NPRINT
-         ELSEIF(KEY3(1:4).EQ.'STIF')THEN
+         ELSEIF(KEY3(1:4)=='STIF')THEN
           PRSTIFMAT = 1    
           CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
           READ(IUSC2,*)PRSTIFMAT_TOL,PRSTIFMAT_NC,PRSTIFMAT_IT          
@@ -270,21 +270,21 @@ C----------------------------
 C----------------------------
 C      Linear SOLVER
 C----------------------------
-       ELSEIF(KEY2(1:4).EQ.'SOLV')THEN
+       ELSEIF(KEY2(1:4)=='SOLV')THEN
         READ(KEY3,'(I2)')ISOLV
         CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
         READ(IUSC2,*)IPREC,L_LIM,ITOL,L_TOL
-        IF (IMACH.EQ.3.AND.ISOLV.EQ.3) IMUMPSD=L_LIM
+        IF (IMACH==3.AND.ISOLV==3) IMUMPSD=L_LIM
 C----------------------------
 C      BCS parameters
 C----------------------------
-       ELSEIF(KEY2(1:4).EQ.'SBCS')THEN
-        IF(KEY3(1:5).EQ.'MSGLV')THEN
+       ELSEIF(KEY2(1:4)=='SBCS')THEN
+        IF(KEY3(1:5)=='MSGLV')THEN
          READ(KEY4,'(I2)')MSG_LVL
-        ELSEIF(KEY3(1:5).EQ.'ORDER')THEN
+        ELSEIF(KEY3(1:5)=='ORDER')THEN
          READ(KEY4,'(I2)')B_ORDER
 C-------0 default 1 :MMD  2 :metis       
-        ELSEIF(KEY3(1:5).EQ.'OUTCO')THEN
+        ELSEIF(KEY3(1:5)=='OUTCO')THEN
              B_MCORE=1
         ELSE
           GOTO 9990
@@ -292,17 +292,17 @@ C-------0 default 1 :MMD  2 :metis
 C----------------------------
 C      MUMPS parameters
 C----------------------------
-       ELSEIF(KEY2(1:5).EQ.'MUMPS')THEN
-        IF(KEY3(1:5).EQ.'MSGLV')THEN
+       ELSEIF(KEY2(1:5)=='MUMPS')THEN
+        IF(KEY3(1:5)=='MSGLV')THEN
          READ(KEY4,'(I2)')M_MSG
-        ELSEIF(KEY3(1:5).EQ.'ORDER')THEN
-         IF(KEY4(1:5).EQ.'METIS')THEN
+        ELSEIF(KEY3(1:5)=='ORDER')THEN
+         IF(KEY4(1:5)=='METIS')THEN
           M_ORDER = 5
-         ELSEIF(KEY4(1:4).EQ.'PORD')THEN
+         ELSEIF(KEY4(1:4)=='PORD')THEN
           M_ORDER = 4
          END IF
 C-------0 default 1 :MMD  2 :metis       
-        ELSEIF(KEY3(1:5).EQ.'OUTCO')THEN
+        ELSEIF(KEY3(1:5)=='OUTCO')THEN
              M_OCORE=1
         ELSE
           GOTO 9990
@@ -310,27 +310,27 @@ C-------0 default 1 :MMD  2 :metis
 C----------------------------
 C      Nonlinear SOLVER
 C----------------------------
-       ELSEIF(KEY2(1:4).EQ.'NONL')THEN
-        IF(KEY3(1:5).EQ.'KTANG')THEN
+       ELSEIF(KEY2(1:4)=='NONL')THEN
+        IF(KEY3(1:5)=='KTANG')THEN
          IKT = 1
-        ELSEIF(KEY3(1:5).EQ.'KTFUL')THEN
+        ELSEIF(KEY3(1:5)=='KTFUL')THEN
          IKT = 2
-        ELSEIF(KEY3(1:5).EQ.'KTFU8')THEN
+        ELSEIF(KEY3(1:5)=='KTFU8')THEN
          IKT = 3
-        ELSEIF(KEY3(1:5).EQ.'KTCON')THEN
+        ELSEIF(KEY3(1:5)=='KTCON')THEN
          IKT = 4
-        ELSEIF(KEY3(1:5).EQ.'PITER')THEN
+        ELSEIF(KEY3(1:5)=='PITER')THEN
          READ(KEY4,'(I5)') IPUPD
-        ELSEIF(KEY3(1:5).EQ.'SMDIS')THEN
+        ELSEIF(KEY3(1:5)=='SMDIS')THEN
          ISMDISP = 1
-        ELSEIF(KEY3(1:5).EQ.'SOLVI')THEN
+        ELSEIF(KEY3(1:5)=='SOLVI')THEN
          SOLVNFO = 1
         ELSE
          READ(KEY3,'(I2)')INSOLV
          CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
          READ(IUSC2,'(a)')TITLE
          READ(TITLE,*)N_LIM,NITOL,N_TOL
-         IF (NITOL.GT.10) THEN
+         IF (NITOL>10) THEN
           SELECT CASE (NITOL)
            CASE(12)                                            
             READ(TITLE,*)N_LIM,NITOL,N_TOLE,N_TOLF
@@ -341,33 +341,33 @@ C----------------------------
            CASE(123)                                            
             READ(TITLE,*)N_LIM,NITOL,N_TOLE,N_TOLF,N_TOLU
           END SELECT      
-         ENDIF !(NITOL.GT.10)
-         IF(NITOL.EQ.1.AND.IRREF.EQ.1) IRREF = 0
+         ENDIF !(NITOL>10)
+         IF(NITOL==1.AND.IRREF==1) IRREF = 0
         ENDIF
-       ELSEIF(KEY2(1:5).EQ.'SINIT')THEN
+       ELSEIF(KEY2(1:5)=='SINIT')THEN
         ISIGINI=1
-       ELSEIF(KEY2(1:5).EQ.'LBFGS')THEN
+       ELSEIF(KEY2(1:5)=='LBFGS')THEN
           READ(KEY3,'(I5)') L_BFGS
 C----------------------------
 C      Step Control
 C----------------------------
-       ELSEIF(KEY2.EQ.'DTINI')THEN
+       ELSEIF(KEY2=='DTINI')THEN
          CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
          READ(IUSC2,*)DT_IMP
-       ELSEIF(KEY2(1:2).EQ.'DT')THEN
-         IF(KEY3(1:4).EQ.'STOP')THEN
+       ELSEIF(KEY2(1:2)=='DT')THEN
+         IF(KEY3(1:4)=='STOP')THEN
            CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
            READ(IUSC2,*)DT_MIN,DT_MAX
 C----------------------------
 C-------------fix point for time step----
 C----------------------------
-         ELSEIF(KEY3(1:4).EQ.'FIXP')THEN
+         ELSEIF(KEY3(1:4)=='FIXP')THEN
           KK =K
           DO I=1,NBC
            READ(IUSC1,REC=IKAD(IKEY)+KK,FMT='(A)',ERR=9990)CARTE
            CALL WRIUSC2(IKAD(IKEY)+KK,1,KEY0(IKEY))
            NJ = NVAR(CARTE)
-           IF ((NDTFIX+NJ).GT.100) THEN
+           IF ((NDTFIX+NJ)>100) THEN
             NJ = 100-NDTFIX
             WRITE(ISTDO,*) 
      .       ' ** WARNING ** : MAXMUM 100 FIX POINTS PERMITTED '
@@ -379,15 +379,15 @@ C----------------------------
           CALL ORDER_DTF(NDTFIX,DTIMPF)
          ELSE
            READ(KEY3,'(I2)')IM
-           IF (IDTC.GT.0.AND.IM.GT.0) GOTO 9990
+           IF (IDTC>0.AND.IM>0) GOTO 9990
            IDTC=IM
-           IF(IM.EQ.1)THEN
+           IF(IM==1)THEN
             CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
             READ(IUSC2,*)NL_DTP,SCAL_DTP,NL_DTN,SCAL_DTN
-           ELSEIF(IM.EQ.2)THEN
+           ELSEIF(IM==2)THEN
             CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
             READ(IUSC2,*)NL_DTP,ALEN0,NL_DTN,SCAL_DTN,SCAL_DTP
-           ELSEIF(IM.EQ.3)THEN
+           ELSEIF(IM==3)THEN
             CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
             READ(IUSC2,*)NL_DTP,ALEN0,NL_DTN,SCAL_DTN,SCAL_DTP,IAL_M,
      .                   SCAL_RIKS
@@ -398,8 +398,8 @@ C----------------------------
 C----------------------------
 C      NCYCLE stop
 C----------------------------
-       ELSEIF(KEY2.EQ.'NCYCL')THEN
-         IF(KEY3(1:4).EQ.'STOP')THEN
+       ELSEIF(KEY2=='NCYCL')THEN
+         IF(KEY3(1:4)=='STOP')THEN
            CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
            READ(IUSC2,*)NCY_MAX
          ELSE
@@ -408,23 +408,23 @@ C----------------------------
 C----------------------------
 C      interface Control
 C----------------------------
-       ELSEIF(KEY2(1:5).EQ.'INTER')THEN
-         IF(KEY3(1:5).EQ.'TTOFF')THEN
+       ELSEIF(KEY2(1:5)=='INTER')THEN
+         IF(KEY3(1:5)=='TTOFF')THEN
           ITTOFF = 1
-         ELSEIF(KEY3(1:5).EQ.'SINT7')THEN
+         ELSEIF(KEY3(1:5)=='SINT7')THEN
           READ(KEY4,'(I2)')IMP_INT7
 C-----0 nonlinear, 1: linear 2: constant---
           IMP_INT7= MIN(2,IMP_INT7)
 C---------will be suppressed in the 14.0.210          
-         ELSEIF(KEY3(1:5).EQ.'KNONL')THEN
+         ELSEIF(KEY3(1:5)=='KNONL')THEN
 C-----0 nonlinear, 1: linear ----
           READ(KEY4,'(I2)')IM
           INTP_C = -IM -1 
-C         ELSEIF(KEY3(1:5).EQ.'KCOMP'.AND.INTP_C.EQ.0)THEN
-         ELSEIF(KEY3(1:5).EQ.'KCOMP')THEN
+C         ELSEIF(KEY3(1:5)=='KCOMP'.AND.INTP_C==0)THEN
+         ELSEIF(KEY3(1:5)=='KCOMP')THEN
 c          INTP_C = 1
 C-----hide option to activate KG in int24 (/IMPLICIT should be defined in Starter)        
-         ELSEIF(KEY3(1:4).EQ.'KGON')THEN
+         ELSEIF(KEY3(1:4)=='KGON')THEN
           IIKGOFF = 0
          ELSE
           GOTO 9990
@@ -432,23 +432,23 @@ C-----hide option to activate KG in int24 (/IMPLICIT should be defined in Starte
 C----------------------------
 C      R_ref options
 C----------------------------
-       ELSEIF(KEY2(1:4).EQ.'RREF')THEN
+       ELSEIF(KEY2(1:4)=='RREF')THEN
          IRREF = 2
-         IF(KEY3(1:3).EQ.'OFF') THEN
+         IF(KEY3(1:3)=='OFF') THEN
           IRREF = 0
-         ELSEIF(KEY3(1:5).EQ.'INTER')THEN
+         ELSEIF(KEY3(1:5)=='INTER')THEN
 C-----0 agressive, 1: moyen ----2--faible  3  non--4 non sauf 1er---
           READ(KEY4,'(I2)')IM
           IREFI = IM
-         ELSEIF(KEY3(1:5).EQ.'LIMIT')THEN
+         ELSEIF(KEY3(1:5)=='LIMIT')THEN
            CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
            READ(IUSC2,*)RF_MIN,RF_MAX
          ENDIF
 C----------------------------
 C      divergence criteria
 C----------------------------
-       ELSEIF(KEY2(1:5).EQ.'DIVER')THEN
-         IF(KEY3(1:3).EQ.'TOL')THEN
+       ELSEIF(KEY2(1:5)=='DIVER')THEN
+         IF(KEY3(1:3)=='TOL')THEN
            CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
            READ(IUSC2,*)TOL_DIV
 C-----num. of diver---
@@ -460,19 +460,19 @@ C-----num. of diver---
 C----------------------------
 C      Geometrical stifness
 C----------------------------
-       ELSEIF(KEY2(1:5).EQ.'GSTIF')THEN
-        IF(KEY3(1:3).EQ.'OFF')IKG=0
+       ELSEIF(KEY2(1:5)=='GSTIF')THEN
+        IF(KEY3(1:3)=='OFF')IKG=0
 C----------------------------
 C      Geometrical stifness
 C----------------------------
-       ELSEIF(KEY2(1:5).EQ.'PSTIF')THEN
-        IF(KEY3(1:3).EQ.'OFF') IKPRES=0
+       ELSEIF(KEY2(1:5)=='PSTIF')THEN
+        IF(KEY3(1:3)=='OFF') IKPRES=0
 C----------------------------
 C      buckling analysis
 C----------------------------
-       ELSEIF(KEY2.EQ.'BUCKL')THEN
+       ELSEIF(KEY2=='BUCKL')THEN
         READ(KEY3,'(I2)')IBUCKL
-        IF (IBUCKL.EQ.0) THEN
+        IF (IBUCKL==0) THEN
          WRITE(ISTDO,*) ' ** ERROR ** : KEYWORD /IMPL/BUCKL OBSOLETE ',
      .                  'USING /IMPL/BUCKL/1 OR /IMPL/BUCKL/2'
          GOTO 9990
@@ -480,9 +480,9 @@ C----------------------------
         IBUCKL = IBUCKL-1
         CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
         READ(IUSC2,*) EMIN_B, EMAX_B, NBUCK, MSGL_B, MAXSET_B, SHIFT_B
-        IF (SHIFT_B.EQ.ZERO) SHIFT_B=EM02
+        IF (SHIFT_B==ZERO) SHIFT_B=EM02
         SHFTBUCK = SHIFT_B
-        IF (MAXSET_B.EQ.0) MAXSET_B=8
+        IF (MAXSET_B==0) MAXSET_B=8
         BNITER=300
         BINCV=4
         BMAXNCV=16
@@ -490,17 +490,17 @@ c        BMAXNCV=MAX(BINCV,BMAXNCV)
         BIPRI =MSGL_B
         BISOLV=1
 C
-       ELSEIF(KEY2(1:5).EQ.'AUTOS')THEN
-         IF(KEY3(1:3).EQ.'OFF')THEN
+       ELSEIF(KEY2(1:5)=='AUTOS')THEN
+         IF(KEY3(1:3)=='OFF')THEN
            IAUTSPC=0
-         ELSEIF(KEY3(1:3).EQ.'ALL')THEN
+         ELSEIF(KEY3(1:3)=='ALL')THEN
            IAUTSPC=2
          ENDIF
 C----------------------------
 C      line_search option
 C--------0=3, 1:energy 2: force --3:AUTO (old)------------------
-       ELSEIF(KEY2(1:5).EQ.'LSEAR')THEN
-        IF(KEY3(1:3).EQ.'OFF')THEN
+       ELSEIF(KEY2(1:5)=='LSEAR')THEN
+        IF(KEY3(1:3)=='OFF')THEN
          ILINE_S = 100
         ELSE
          READ(KEY3,'(I2)')ILINE_S
@@ -510,37 +510,37 @@ C--------0=3, 1:energy 2: force --3:AUTO (old)------------------
 C----------------------------
 C      projection for warped shell elements
 C--------0=no proj but keep explicit part 1:doing -1 :no proj, neither for explicit---
-       ELSEIF(KEY2(1:5).EQ.'SHPOF')THEN
+       ELSEIF(KEY2(1:5)=='SHPOF')THEN
            IKPROJ=-1
 C-----------become default-after-----
-       ELSEIF(KEY2(1:5).EQ.'SHPON')THEN
+       ELSEIF(KEY2(1:5)=='SHPON')THEN
            IKPROJ=1
 C----------------------------
 C      OLD CONTROL OPTIONS
 C----------------------------
-       ELSEIF(KEY2(1:5).EQ.'CONTR')THEN
-         IF(KEY3(1:2).EQ.'DT')THEN
-          IF(KEY4(1:4).EQ.'STOP')THEN
+       ELSEIF(KEY2(1:5)=='CONTR')THEN
+         IF(KEY3(1:2)=='DT')THEN
+          IF(KEY4(1:4)=='STOP')THEN
            CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
            READ(IUSC2,*)DT_MIN,DT_MAX
           ELSE
            READ(KEY4,'(I2)')IM
            IDTC=IM
-           IF(IM.EQ.1)THEN
+           IF(IM==1)THEN
             CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
             READ(IUSC2,*)NL_DTP,SCAL_DTP,NL_DTN,SCAL_DTN
-           ELSEIF(IM.EQ.2)THEN
+           ELSEIF(IM==2)THEN
             CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
             READ(IUSC2,*)NL_DTP,ALEN0,NL_DTN,SCAL_DTN,SCAL_DTP
            ENDIF
           ENDIF
-         ELSEIF(KEY3(1:4).EQ.'SHEL')THEN
+         ELSEIF(KEY3(1:4)=='SHEL')THEN
 C----------------------------
 C         Fictif stifness of Mzz for shell
 C----------------------------
           CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
           READ(IUSC2,*)KZ_TOL
-         ELSEIF(KEY3(1:5).EQ.'INTER')THEN
+         ELSEIF(KEY3(1:5)=='INTER')THEN
 C----------------------------
 C         stifness factor for interface
 C----------------------------
@@ -550,34 +550,34 @@ C----------------------------
 C----------------------------
 C      hide options
 C----------------------------
-       ELSEIF(KEY2(1:5).EQ.'PRTOL')THEN
+       ELSEIF(KEY2(1:5)=='PRTOL')THEN
         CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
         READ(IUSC2,*)D_TOL
-       ELSEIF(KEY2(1:4).EQ.'NEXP')THEN
+       ELSEIF(KEY2(1:4)=='NEXP')THEN
         READ(KEY3,'(I5)')NEXP
-       ELSEIF(KEY2.EQ.'DEBUG')THEN
+       ELSEIF(KEY2=='DEBUG')THEN
         IMPDEB=1
         CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
         READ(IUSC2,*)NDEB0,NDEB1
-         IF(NDEB0.NE.0)NDEB0 = NDEB0 + 1
+         IF(NDEB0/=0)NDEB0 = NDEB0 + 1
          NDEB1=MAX(NDEB0,NDEB1+1)
-       ELSEIF(KEY2(1:3).EQ.'DEL')THEN
-         IF(KEY3(1:5).EQ.'RBODY')THEN
+       ELSEIF(KEY2(1:3)=='DEL')THEN
+         IF(KEY3(1:5)=='RBODY')THEN
            IMP_RBY=1
-         ELSEIF(KEY3(1:5).EQ.'INTER')THEN
+         ELSEIF(KEY3(1:5)=='INTER')THEN
            IMP_INT=1
          ENDIF
-       ELSEIF(KEY2(1:5).EQ.'ITRBY')THEN
+       ELSEIF(KEY2(1:5)=='ITRBY')THEN
 C-------max iter for secnd dis calculation with finite rotation---       
         READ(KEY3,'(I3)')ITRMAX
-       ELSEIF(KEY2(1:4).EQ.'LRIG')THEN
+       ELSEIF(KEY2(1:4)=='LRIG')THEN
         IMP_LR = 1
        ELSE
          GOTO 9990
        ENDIF
        K=K+NBC
-       IF(IKAD(IKEY)+K.NE.IKAD(IKEY+1))GO TO 1160
-       IF (IPARIT.NE.0) THEN
+       IF(IKAD(IKEY)+K/=IKAD(IKEY+1))GO TO 1160
+       IF (IPARIT/=0) THEN
         IPARIT=0
         IKG=IKG+5
        ENDIF
@@ -614,11 +614,11 @@ C-----------------------------------------------
       my_real
      .        S(N),SMIN
 C
-      IF (N.EQ.0) RETURN
+      IF (N==0) RETURN
 C-----en ordre croisante-----
       NN =0
       DO I =1,N
-       IF (RC(I).GT.ZERO) THEN
+       IF (RC(I)>ZERO) THEN
         NN = NN +1
         S(NN)= RC(I)
        ENDIF
@@ -628,12 +628,12 @@ C-----en ordre croisante-----
        SMIN=S(I)
        II=I
        DO J =I+1,N
-        IF (S(J).LT.SMIN) THEN
+        IF (S(J)<SMIN) THEN
          II=J
          SMIN = S(J)
         ENDIF
        ENDDO
-       IF (II.NE.I) THEN
+       IF (II/=I) THEN
         SMIN =S(I)
         S(I)=S(II)
         S(II)=SMIN

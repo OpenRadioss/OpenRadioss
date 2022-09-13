@@ -73,7 +73,7 @@ C=======================================================================
 C     LES NOEUDS DELETES DEVIENNENT NSN+1 
 C=======================================================================
       DO I=1,I_STOK
-        IF(IFPEN(I).EQ.0)THEN
+        IF(IFPEN(I)==0)THEN
           CAND_N(I) = NSN+1
         ENDIF
       ENDDO

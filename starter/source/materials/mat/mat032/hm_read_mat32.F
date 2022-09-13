@@ -141,15 +141,15 @@ C-----------------------------------------------
       PM(01)=RHOR
       PM(89)=RHO0
 
-      IF(ANU.EQ.HALF)ANU=ZEP499
-      IF(R00.EQ.ZERO) R00   = ONE
-      IF(R45.EQ.ZERO) R45   = ONE
-      IF(R90.EQ.ZERO) R90   = ONE
-      IF(CA.EQ.ZERO)  CA    = INFINITY
-      IF(CN.EQ.ZERO)  CN    = ONE
-      IF(EPSM.EQ.ZERO) EPSM  = INFINITY
-      IF(SIGM.EQ.ZERO) SIGM  = INFINITY
-      IF(CM.EQ.ZERO)  EPS0  = ONE
+      IF(ANU==HALF)ANU=ZEP499
+      IF(R00==ZERO) R00   = ONE
+      IF(R45==ZERO) R45   = ONE
+      IF(R90==ZERO) R90   = ONE
+      IF(CA==ZERO)  CA    = INFINITY
+      IF(CN==ZERO)  CN    = ONE
+      IF(EPSM==ZERO) EPSM  = INFINITY
+      IF(SIGM==ZERO) SIGM  = INFINITY
+      IF(CM==ZERO)  EPS0  = ONE
 C
       G=YOUNG/(TWO*(ONE + ANU))
       E0=ZERO
@@ -221,12 +221,12 @@ C
       ENDIF
 C.....ERRORS
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-      IF(CN.GT.1.) THEN
+      IF(CN>1.) THEN
          CALL ANCMSG(MSGID=213,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO)
       ENDIF
-      IF(EPS0.LE.ZERO) THEN
+      IF(EPS0<=ZERO) THEN
          CALL ANCMSG(MSGID=207,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,

@@ -85,7 +85,7 @@ C-----------------------------------------------
       MAT(1:NEL) = LOCAL_MATID
       DVOL(1:NEL) = ZERO
       DO II = 1, NEL
-         IF (VOL(II) .GT. ZERO) THEN
+         IF (VOL(II) > ZERO) THEN
             MU(II)    = RHO(II) / RHO0(II) - ONE
             DF(II)    = RHO0(II) / RHO(II)
             PSH(II)   = PM(88, LOCAL_MATID)
@@ -110,28 +110,28 @@ C     JWL material
             IBFRAC = NINT(PM(41, LOCAL_MATID))
             GRUN(1:NEL) = ZERO
             DO II = 1, NEL
-               IF (VOL(II) .GT. ZERO) THEN 
+               IF (VOL(II) > ZERO) THEN 
 C     Burnt fraction
-                  IF (IFLAG .EQ. 1) THEN
-                     IF (BURNFRAC(II) .LT. ONE) THEN
+                  IF (IFLAG == 1) THEN
+                     IF (BURNFRAC(II) < ONE) THEN
                         TB = - BURNTIME(II)
                         BFRAC1 = ZERO
                         BFRAC2 = ZERO
-                        IF (IBFRAC .NE. 1 .AND. CURRENT_TIME .GT. TB) THEN
+                        IF (IBFRAC /= 1 .AND. CURRENT_TIME > TB) THEN
                            BFRAC1 = ONE
-                           IF (DELTAX(II) .GT. ZERO) THEN
+                           IF (DELTAX(II) > ZERO) THEN
                               BFRAC1 = VDET * (CURRENT_TIME - TB) / THREE_HALF / DELTAX(II)
                            ENDIF
                         ENDIF
-                        IF (IBFRAC .NE. 2) THEN
+                        IF (IBFRAC /= 2) THEN
                            BFRAC2 = BHE * (ONE - DF(II))
                         ENDIF
                         !BURNFRAC(II) = MAX(BFRAC1, BFRAC2, BURNFRAC(II))
                         BURNFRAC(II) = MAX(BFRAC1, BFRAC2)
-                        IF (BURNFRAC(II) .LT. EM04) THEN
+                        IF (BURNFRAC(II) < EM04) THEN
                            BURNFRAC(II) = ZERO
                         ENDIF
-                        IF (BURNFRAC(II) .GT. ONE) THEN
+                        IF (BURNFRAC(II) > ONE) THEN
                            BURNFRAC(II) = ONE
                         ENDIF
                      ENDIF
@@ -168,7 +168,7 @@ C     -> FLAG = 2 : compute pressure as a function of rho and e, as well as dpdm
      .                   NPF   , TF)
 C     SQUARE sound speed : c^2 = 1/rho0 * dp/dmu
             DO II = 1, NEL
-               IF (VOL(II) .GT. ZERO) THEN
+               IF (VOL(II) > ZERO) THEN
                   SSP(II) = SSP(II) / RHO0(II)
                   GRUN(II) = DPDE(II) / (ONE + MU(II))
                ELSE

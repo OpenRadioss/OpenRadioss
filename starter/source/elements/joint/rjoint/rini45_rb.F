@@ -110,7 +110,7 @@ C--             Tag for error message - Can't be attached to main node of rbody-
 C
               DO J=1,NSL
                 NN = LPBY(J+K)
-                IF(NN.EQ.NOD(I)) THEN
+                IF(NN==NOD(I)) THEN
 		  IDRB(I)=N
                   M(I) = NPBY(1,N)
                   MASS = RBY(14,N)
@@ -177,17 +177,17 @@ C---> Print de l'output pour kjoint2--------------------
         N2 = ITAB(IXR(3,NFT+IEL))
 	N3 = 0
 	N4 = 0
-        IF (IXR(4,NFT+IEL).NE.0) N3 = ITAB(IXR(4,NFT+IEL)) 	
+        IF (IXR(4,NFT+IEL)/=0) N3 = ITAB(IXR(4,NFT+IEL)) 	
 	LEN=SQRT(UVAR(1,IEL)**2+UVAR(2,IEL)**2+UVAR(3,IEL)**2)
 	NUMEL_KJ = IXR_KJ(1,NUMELR+1)
         DO J=1,NUMEL_KJ
-          IF (IXR_KJ(4,J).EQ.IELUSR) ID_KJ = J
+          IF (IXR_KJ(4,J)==IELUSR) ID_KJ = J
         END DO 
-        IF (ID_KJ.GT.0) THEN 	     
-          IF (IXR_KJ(1,ID_KJ).NE.0) N4 = ITAB(IXR_KJ(1,ID_KJ))
+        IF (ID_KJ>0) THEN 	     
+          IF (IXR_KJ(1,ID_KJ)/=0) N4 = ITAB(IXR_KJ(1,ID_KJ))
         ENDIF
         IDSK2 = NINT(GET_U_GEO(54,IPROP))
-        IF (IDSK2.EQ.0) THEN
+        IF (IDSK2==0) THEN
           WRITE(IOUT,2000)      	  
           WRITE(IOUT,'(1X,5I10,4X,2I10,2X,F16.7,2X,3F16.7)') IELUSR,N1,
      .    N2,N3,N4,RB1,RB2,LEN,(UVAR(21+K,IEL),K=1,3)

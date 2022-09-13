@@ -78,12 +78,12 @@ C----------------------------------------------------------------------
         A2(I) =Y2(I)*(Z4(I)-Z1(I))+
      .         Y4(I)*(Z1(I)-Z2(I))+Y1(I)*(Z2(I)-Z4(I))
         AIRE(I)=(A1(I)+A2(I))* HALF
-        IF (AIRE(I).EQ.ZERO) THEN
+        IF (AIRE(I)==ZERO) THEN
            CALL ANCMSG(MSGID=227,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,
      .                 I1=IXQ(NIXQ,I))
-        ELSEIF(AIRE(I).LT.ZERO.AND.N2D==1) THEN
+        ELSEIF(AIRE(I)<ZERO.AND.N2D==1) THEN
                      CALL ANCMSG(MSGID=1228,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,
@@ -93,7 +93,7 @@ C----------------------------------------------------------------------
         ENDIF
       END DO
 
-      IF(N2D.EQ.1) THEN
+      IF(N2D==1) THEN
         DO I=LFT,LLT
           VOLU(I)=((Y2(I)+Y3(I)+Y4(I))*A1(I)+
      .             (Y1(I)+Y2(I)+Y4(I))*A2(I))* ONE_OVER_6
@@ -105,7 +105,7 @@ C----------------------------------------------------------------------
       ENDIF
 
       DO I=LFT,LLT
-        IF(VOLU(I).LE.0.0)THEN
+        IF(VOLU(I)<=0.0)THEN
           CALL ANCMSG(MSGID=228,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,

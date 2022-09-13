@@ -84,26 +84,26 @@ C-----------------------------------------------
 C INITIALIALISATION DES COEFFICIENTS DU FILTRE
 C-----------------------------------------------
       TOL=EM01
-      IF(IMACH.NE.3.OR.ISPMD.EQ.0) THEN
+      IF(IMACH/=3.OR.ISPMD==0) THEN
         IUNIT=IUNOI
-        IF(ITFORM.EQ.3) CALL CUR_FIL_C(IUNIT)
+        IF(ITFORM==3) CALL CUR_FIL_C(IUNIT)
       ENDIF
-      IF(IFIRST.EQ.0)THEN
+      IF(IFIRST==0)THEN
         IFIRST=1
-        IF(RNOI.EQ.0)THEN
+        IF(RNOI==0)THEN
 C NE : NOMBRE D'ECHANTILLON ENTRE CHAQUE SORTIE
         TE=DT2
          DT2R=TE
         NE=MAX(1,INT(DTNOISE/TE))
          J(7)=NE
-        ELSEIF(RNOI.EQ.1)THEN
+        ELSEIF(RNOI==1)THEN
          TE=DT2R
          NE=J(7)
         ENDIF
 C
 C INITIALISATION DES TABLEAUX D'ELEMENTS PAR NOEUDS SAUVES
 C
-        IF(NOISEP.NE.0)THEN
+        IF(NOISEP/=0)THEN
           ALLOCATE (NOIADD(NNOISE+1))
           CALL INITNOISE(IN,NOIADD,IXS,ITAG(0),LENGTH,IXQ)
           ALLOCATE(ELNOI(LENGTH))        
@@ -118,7 +118,7 @@ C NOMBRE DE COEFFICIENTS ET ALLOCATION ; TO DEPHASAGE
         FAC=ONE/FLOAT(NE)
         DEC=FLOAT(3*NE) - HALF
         TO=FLOAT(3*NE)*TE
-        IF(NC.GT.0)THEN
+        IF(NC>0)THEN
           ALLOCATE(C(NC))
         ENDIF
 C
@@ -129,7 +129,7 @@ C
         DO 10 I=1,NC
           XI=FLOAT(I-1)-DEC
           W=0.54+0.46*COS(PI2*XI/FLOAT(NC))
-          IF(ABS(PI*FAC*XI).LT.TOL)THEN
+          IF(ABS(PI*FAC*XI)<TOL)THEN
             C(I)=FAC
           ELSE
             C(I)=W*SIN(PI*XI*FAC)/PI/XI
@@ -137,13 +137,13 @@ C
           TRANS=TRANS+C(I)
  10     CONTINUE
 C
-        IF(IMACH.NE.3.OR.ISPMD.EQ.0) THEN
+        IF(IMACH/=3.OR.ISPMD==0) THEN
           WRITE(IOUT,1000)ONE/DTNOISE,ONE/TC,NC,TRANS
           WRITE(IOUT,'(1P8E10.3)')(C(I),I=1,NC)
           WRITE(IOUT,'(//)')
         ENDIF
 C           
-        IF(RNOI.EQ.0)THEN
+        IF(RNOI==0)THEN
          DO 20 K=1,6
  20       J(K)=(1-K)*NE-1
          DO I=1,6*NNOISE
@@ -153,17 +153,17 @@ C
          ENDDO
         ENDIF  
       ENDIF
-      IF(IMACH.NE.3.OR.ISPMD.EQ.0) THEN
-        IF(ABS(1.-DT2/TE).GT.TOL)THEN
+      IF(IMACH/=3.OR.ISPMD==0) THEN
+        IF(ABS(1.-DT2/TE)>TOL)THEN
           WRITE(IOUT,1100)
           WRITE(ISTDO,1100)
         ENDIF
       ENDIF
-      IF(RNOI.EQ.0 .AND. TT-TO.LT.TNOISE-NC*TE)RETURN
+      IF(RNOI==0 .AND. TT-TO<TNOISE-NC*TE)RETURN
 C-----------------------------------------------
 C PRESSION
 C-----------------------------------------------
-      IF(NOISEP.NE.0)
+      IF(NOISEP/=0)
      .  CALL PNOISE(ELNOI,ELG,NOIADD,ELBUF_TAB,WA,IPARG)
 C-----------------------------------------------
 C FILTRAGE
@@ -171,7 +171,7 @@ C-----------------------------------------------
 C
 C Anullation buffer noise sur pi, i<>0 en SPMD
 C
-      IF(IMACH.EQ.3.AND.ISPMD.NE.0) THEN
+      IF(IMACH==3.AND.ISPMD/=0) THEN
         DO I=1,6*NNOISE
           DO L=1,NCNOIS
             BUF(L,I)=ZERO	 
@@ -181,19 +181,19 @@ C
 C
       DO 100 K=1,6
       J(K)=J(K)+1
-      IF(J(K).GT.0)THEN
+      IF(J(K)>0)THEN
        CC=C(J(K))
        KK=(K-1)*NNOISE
        DO 110 I=1,NNOISE
           KK=KK+1
-          IF(IN(I).NE.0)THEN          ! test preliminaire necessaire en spmd (presence noeud sur proc)
-           IF(WEIGHT(IN(I)).EQ.1) THEN
-            IF(NOISEV.NE.0)THEN
+          IF(IN(I)/=0)THEN          ! test preliminaire necessaire en spmd (presence noeud sur proc)
+           IF(WEIGHT(IN(I))==1) THEN
+            IF(NOISEV/=0)THEN
              BUF(1,KK)=BUF(1,KK)+CC *V(1,IN(I))
              BUF(2,KK)=BUF(2,KK)+CC *V(2,IN(I))
 	            BUF(3,KK)=BUF(3,KK)+CC *V(3,IN(I))
             ENDIF
-            IF(NOISEA.NE.0)THEN
+            IF(NOISEA/=0)THEN
              IAD=3*NOISEV
              BUF(IAD+1,KK)=BUF(IAD+1,KK)+CC *A(1,IN(I))
              BUF(IAD+2,KK)=BUF(IAD+2,KK)+CC *A(2,IN(I))
@@ -201,7 +201,7 @@ C
             ENDIF
            ENDIF
           END IF
-          IF(NOISEP.NE.0.AND.ISPMD.EQ.0)THEN
+          IF(NOISEP/=0.AND.ISPMD==0)THEN
             IAD=3*NOISEV+3*NOISEA+1
             BUF(IAD,KK)=BUF(IAD,KK)-CC *WA(I)
           ENDIF
@@ -211,7 +211,7 @@ C
 C
 C GATHER SPMD BUF
 C
-      IF(IMACH.EQ.3.AND.NSPMD.GT.1) THEN
+      IF(IMACH==3.AND.NSPMD>1) THEN
         LEN = 6*NNOISE*NCNOIS
         CALL SPMD_GLOB_DSUM9(BUF,LEN)
       ENDIF
@@ -219,11 +219,11 @@ C-----------------------------------------------------
 C INCREMENTATION DES INDICES ET ECRITURE DES RESULTATS
 C-----------------------------------------------------
       DO 200 K=1,6
-        IF(J(K).EQ.NC)THEN
+        IF(J(K)==NC)THEN
          J(K)=0
          KK=(K-1)*NNOISE+1
          TTN=TT-TO
-         IF(IMACH.NE.3.OR.ISPMD.EQ.0) THEN
+         IF(IMACH/=3.OR.ISPMD==0) THEN
            CALL WRTDES(TTN,TTN,1,ITFORM,1)
            CALL WRTDES(TTN,TTN,1,ITFORM,1)
            CALL WRTDES(BUF(1,KK),BUF(1,KK),NCNOIS*NNOISE,ITFORM,1)

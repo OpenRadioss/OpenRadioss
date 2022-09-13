@@ -74,7 +74,7 @@ C-
        ENDDO
 C
 #include "lockon.inc"
-      IF(NVC1.EQ.0)THEN
+      IF(NVC1==0)THEN
 #include "vectorize.inc"
        DO I=LFT,LLT
          MS(NC1(I))=MS(NC1(I)) + DMASS(I)
@@ -87,7 +87,7 @@ C
        ENDDO
       ENDIF
 C
-      IF(NVC2.EQ.0)THEN
+      IF(NVC2==0)THEN
 #include "vectorize.inc"
        DO I=LFT,LLT
          MS(NC2(I))=MS(NC2(I)) + DMASS(I)
@@ -100,7 +100,7 @@ C
        ENDDO
       ENDIF
 C
-      IF(NVC3.EQ.0)THEN
+      IF(NVC3==0)THEN
 #include "vectorize.inc"
        DO I=LFT,LLT
          MS(NC3(I))=MS(NC3(I)) + DMASS(I)
@@ -113,7 +113,7 @@ C
        ENDDO
       ENDIF
 C
-      IF(NVC4.EQ.0)THEN
+      IF(NVC4==0)THEN
 #include "vectorize.inc"
        DO I=LFT,LLT
          MS(NC4(I))=MS(NC4(I)) + DMASS(I)
@@ -126,7 +126,7 @@ C
        ENDDO
       ENDIF
 C
-      IF(NVC5.EQ.0)THEN
+      IF(NVC5==0)THEN
 #include "vectorize.inc"
        DO I=LFT,LLT
          MS(NC5(I))=MS(NC5(I)) + DMASS(I)
@@ -139,7 +139,7 @@ C
        ENDDO
       ENDIF
 C
-      IF(NVC6.EQ.0)THEN
+      IF(NVC6==0)THEN
 #include "vectorize.inc"
        DO I=LFT,LLT
          MS(NC6(I))=MS(NC6(I)) + DMASS(I)
@@ -152,7 +152,7 @@ C
        ENDDO
       ENDIF
 C
-      IF(NVC7.EQ.0)THEN
+      IF(NVC7==0)THEN
 #include "vectorize.inc"
        DO I=LFT,LLT
          MS(NC7(I))=MS(NC7(I)) + DMASS(I)
@@ -165,7 +165,7 @@ C
        ENDDO
       ENDIF
 C
-      IF(NVC8.EQ.0)THEN
+      IF(NVC8==0)THEN
 #include "vectorize.inc"
        DO I=LFT,LLT
          MS(NC8(I))=MS(NC8(I)) + DMASS(I)

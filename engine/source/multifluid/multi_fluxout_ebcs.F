@@ -106,7 +106,7 @@ C     Face of the element
          MULTI_FVM%FLUXES(1:5, KFACE, ELEMID) = (FII(1:5) - NORMALW * VII(1:5)) * SURF
          MULTI_FVM%FLUXES(6, KFACE, ELEMID) = SURF * NORMVEL
 
-         IF (MULTI_FVM%NBMAT .GT. 1) THEN
+         IF (MULTI_FVM%NBMAT > 1) THEN
             MULTI_FVM%FLUXES(1, KFACE, ELEMID) = ZERO
             DO IMAT = 1, MULTI_FVM%NBMAT
                VII(1) = MULTI_FVM%PHASE_ALPHA(IMAT, ELEMID)

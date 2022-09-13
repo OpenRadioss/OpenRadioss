@@ -170,9 +170,9 @@ C
        NNU11 = NU / (ONE - NU)
 C
        EPSR11 =UPARAM(IADBUFV1+6+2*NRATE1+2)
-       IF(EPSR11.EQ.ZERO)EPSR11=EP30
+       IF(EPSR11==ZERO)EPSR11=EP30
        EPSR21 =UPARAM(IADBUFV1+6+2*NRATE1+3)
-       IF(EPSR21.EQ.ZERO)EPSR21=TWOEP30
+       IF(EPSR21==ZERO)EPSR21=TWOEP30
        EPSF1 = UPARAM(IADBUFV1+6+2*NRATE1+9)  
 c---------------------  
        OPTE1 = UPARAM(IADBUFV1+2*NRATE1 + 23) 
@@ -224,7 +224,7 @@ c--------------------
          ENDDO                                                                    
        ENDIF
        
-c       IF(IVECTOR.EQ.1) THEN
+c       IF(IVECTOR==1) THEN
 c         DO I=1,NEL
 c            MFUNCE=UPARAM(IADBUFV(I)+2*NRATE(I)+ 22)
 c            IDESCALE(I)=IFUNC(I,MFUNCE)
@@ -236,8 +236,8 @@ c            IDESCALE(I)=  IPM(10+NFUNCE,MAT(I))
 c        END DO
 c       ENDIF
 
-       IF(EPSMAX1.EQ.ZERO)THEN
-           IF(TF(NPF(IPM(11,MAT(1))+1)-1).EQ.ZERO)THEN
+       IF(EPSMAX1==ZERO)THEN
+           IF(TF(NPF(IPM(11,MAT(1))+1)-1)==ZERO)THEN
              EPSMAX1=TF(NPF(IPM(11,MAT(1))+1)-2)
            ELSE
              EPSMAX1= EP30
@@ -281,9 +281,9 @@ C-------------------
         JJ(I) = 1
       ENDDO
       DO J=2,NRATEM-1
-        IF(NRATE1-1.GE.J) THEN
+        IF(NRATE1-1>=J) THEN
           DO I=1,NEL
-              IF(EPSP(I).GE.UPARAM(IADBUFV1+6+J)) JJ(I) = J
+              IF(EPSP(I)>=UPARAM(IADBUFV1+6+J)) JJ(I) = J
           ENDDO
         ENDIF
       ENDDO
@@ -323,7 +323,7 @@ C
         VARTMP(I,J1) = IPOS1(I)
         VARTMP(I,J2) = IPOS2(I)
       ENDDO
-      IF(IPLA.EQ.0) THEN
+      IF(IPLA==0) THEN
 C---------------------------
 C    RADIAL RETURN
 C---------------------------
@@ -335,7 +335,7 @@ C---------------------------
      .          + FS*FS+ THREE*(SIGNXY(I)*SIGNXY(I)-SIGNXX(I)*SIGNYY(I))
        SVM(I) = SQRT(MAX(SVM(I),EM20))
        RR(I) = MIN(ONE,YLD(I)/SVM(I))
-       IF(RR(I).LT.ONE) ETSE(I)= H(I)/(H(I)+E(I))
+       IF(RR(I)<ONE) ETSE(I)= H(I)/(H(I)+E(I))
       ENDDO
       DO  I=1,NEL
        SIGNXX(I) = SIGNXX(I)*RR(I)
@@ -371,7 +371,7 @@ C---------------------------
        DEZZ = - (DEPSXX(I)+DEPSYY(I)) * (NNU11*AAA + BBB) / CCC
        THK(I) = THK(I) * (ONE + DEZZ*OFF(I))
       ENDDO
-      ELSEIF(CODVERS.LT.44)THEN
+      ELSEIF(CODVERS<44)THEN
 C-------------------------
 C     CRITERE DE VON MISES
 C-------------------------
@@ -410,12 +410,12 @@ C     GATHER PLASTIC FLOW
 C-------------------------
       NINDX=0
       DO I=1,NEL
-      IF(SVM(I).GT.YLD(I).AND.OFF(I).EQ.ONE) THEN
+      IF(SVM(I)>YLD(I).AND.OFF(I)==ONE) THEN
         NINDX=NINDX+1
         INDEX(NINDX)=I
       ENDIF
       ENDDO
-      IF(NINDX.EQ.0) RETURN
+      IF(NINDX==0) RETURN
 C---------------------------
 C    DEP EN CONTRAINTE PLANE
 C---------------------------
@@ -469,7 +469,7 @@ C-------------------------------
         FN=AA*FNP*AN(I)+BB*FNQ*BN(I)
         FM=AA*FMP*AM(I)+BB*FMQ*BM(I)
         FNM=AA*FNMP*ANM(I)+BB*FNMQ*BNM(I)
-        IF (FNM.LT.ZERO) THEN
+        IF (FNM<ZERO) THEN
          FNM=-FNM
          S=-ONE
         ELSE
@@ -492,7 +492,7 @@ C-------------------------------
         DF    =(DFN+DFM+S*DFNM)*
      .         (E(I)*HALF-DR*H(I))/YLD_I-2.*H(I)*YLD_I
 C DEBUG
-C          IF(I.EQ.21) THEN
+C          IF(I==21) THEN
 C            WRITE(12,*) 'DFN,DFM,DFNM'
 C            WRITE(12,*) DFN,DFM,DFNM
 C            ERR=ABS(F/(DF*DPLA_I))
@@ -527,7 +527,7 @@ C------------------------------------------
         FNMP=ONE-ONEP222*GAMA2(I)*XP*XP
         FNMQ=ONE-ONEP222*GAMA2(I)*XQ*XQ
         FNM=AA*FNMP*ANM(I)+BB*FNMQ*BNM(I)
-        IF (FNM.LT.ZERO) THEN
+        IF (FNM<ZERO) THEN
          S=-ONE
         ELSE
          S=ONE
@@ -556,7 +556,7 @@ C------------------------------------------
       ENDDO
 C---
       ELSE
-C     IF(CODVERS.GE.44.AND.IPLA.EQ.1) THEN
+C     IF(CODVERS>=44.AND.IPLA==1) THEN
 C-------------------------
 C     ITERATIVE
 C-------------------------
@@ -599,12 +599,12 @@ C     GATHER PLASTIC FLOW
 C-------------------------
       NINDX=0
       DO I=1,NEL
-      IF(SVM(I).GT.YLD(I).AND.OFF(I).EQ.ONE) THEN
+      IF(SVM(I)>YLD(I).AND.OFF(I)==ONE) THEN
         NINDX=NINDX+1
         INDEX(NINDX)=I
       ENDIF
       ENDDO
-      IF(NINDX.EQ.0) RETURN
+      IF(NINDX==0) RETURN
 C---------------------------
 C    DEP EN CONTRAINTE PLANE
 C---------------------------
@@ -657,7 +657,7 @@ C-------------------------------
         FNMP=ONE+DFNMP*XP
         FNMQ=ONE+DFNMQ*XQ
         FNM=AA*FNMP*ANM(I)+BB*FNMQ*BNM(I)
-        IF (FNM.LT.ZERO) THEN
+        IF (FNM<ZERO) THEN
          S=-ONE
         ELSE
          S=ONE
@@ -699,7 +699,7 @@ C------------------------------------------
         FNMP=ONE+QFNM(I)*XPG
         FNMQ=ONE+QFNM(I)*XQG
         FNM=AA*FNMP*ANM(I)+BB*FNMQ*BNM(I)
-        IF (FNM.LT.ZERO) THEN
+        IF (FNM<ZERO) THEN
          S=-ONEP732*GAMA(I)
         ELSE
          S=ONEP732*GAMA(I)
@@ -725,8 +725,8 @@ C
       ENDIF
 C
       DO I=1,NEL
-        IF((PLA(I).GT.EPSMAX1.OR.EPST(I).GT.EPSF1).
-     .   AND.OFF(I).EQ.ONE) THEN
+        IF((PLA(I)>EPSMAX1.OR.EPST(I)>EPSF1).
+     .   AND.OFF(I)==ONE) THEN
            OFF(I)=FOUR_OVER_5
         ENDIF
       ENDDO

@@ -89,7 +89,7 @@ C-----------------------------------------------
       DP     =Q+PRES-PEXT
       DO I=1,NN
 C
-        IF(SURF_ELTYP(I).EQ.3)THEN
+        IF(SURF_ELTYP(I)==3)THEN
           P=DP*FOURTH
           II=SURF_ELEM(I)
 C
@@ -118,7 +118,7 @@ C
           A(2,N4)=A(2,N4)+FY
           A(3,N4)=A(3,N4)+FZ
           IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT+
-     .       ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT .GT.0) THEN
+     .       ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT >0) THEN
             FEXT(1,N1) = FEXT(1,N1)+FX
             FEXT(2,N1) = FEXT(2,N1)+FY
             FEXT(3,N1) = FEXT(3,N1)+FZ
@@ -132,7 +132,7 @@ C
             FEXT(2,N4) = FEXT(2,N4)+FY
             FEXT(3,N4) = FEXT(3,N4)+FZ
           ENDIF
-        ELSEIF(SURF_ELTYP(I).EQ.7)THEN
+        ELSEIF(SURF_ELTYP(I)==7)THEN
           P=DP/3.
           II=SURF_ELEM(I) + NUMELC
 C
@@ -156,7 +156,7 @@ C
           A(2,N3)=A(2,N3)+FY
           A(3,N3)=A(3,N3)+FZ
           IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT+
-     .       ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT .GT.0) THEN
+     .       ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT >0) THEN
             FEXT(1,N1) = FEXT(1,N1)+FX
             FEXT(2,N1) = FEXT(2,N1)+FY
             FEXT(3,N1) = FEXT(3,N1)+FZ
@@ -196,7 +196,7 @@ C
           A(2,N4)=A(2,N4)+FY
           A(3,N4)=A(3,N4)+FZ
           IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT+
-     .       ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT .GT.0) THEN
+     .       ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT >0) THEN
             FEXT(1,N1) = FEXT(1,N1)+FX
             FEXT(2,N1) = FEXT(2,N1)+FY
             FEXT(3,N1) = FEXT(3,N1)+FZ
@@ -214,7 +214,7 @@ C
       ENDDO
 C
       ITYP=IVOLU(2)
-      IF(ITYP.NE.4.AND.ITYP.NE.5.AND.ITYP.NE.7.AND.ITYP.NE.9)RETURN
+      IF(ITYP/=4.AND.ITYP/=5.AND.ITYP/=7.AND.ITYP/=9)RETURN
 C-------------------------------------------
 C     INJECTEURS
 C-------------------------------------------
@@ -230,17 +230,17 @@ C-------------------------------------------
        FPZ  = RBAGJET(14,IJ)
 C 
        ISENS=IBAGJET(4,IJ)
-       IF(ISENS.EQ.0)THEN
+       IF(ISENS==0)THEN
          TSTART=ZERO
        ELSE
          TSTART=SENSOR(2,ISENS)
        ENDIF
 C
-       IF(NJ1.NE.0.AND.TT.GE.TSTART)THEN
+       IF(NJ1/=0.AND.TT>=TSTART)THEN
         TS=TT-TSTART
         PJ0=FPT*FINTER(IPT,TS*SCALT,NPC,TF,DYDX)
         DO I=1,NN
-        IF(SURF_ELTYP(I).EQ.3)THEN
+        IF(SURF_ELTYP(I)==3)THEN
           PJ=FOURTH*PJ0
 C
           N1 = SURF_NODES(I,1)
@@ -295,7 +295,7 @@ C
           THETA=API*ACOS(TMPO)
           PJ=PJ*FPA*FINTER(IPA,THETA*SCALA,NPC,TF,DYDX)
           DIST = SQRT(AN1)
-          IF(IPZ.NE.0)PJ=PJ*FPZ*FINTER(IPZ,DIST*SCALD,NPC,TF,DYDX)
+          IF(IPZ/=0)PJ=PJ*FPZ*FINTER(IPZ,DIST*SCALD,NPC,TF,DYDX)
 C
           FX=PJ*N(1,II)
           FY=PJ*N(2,II)
@@ -318,7 +318,7 @@ C
           A(3,N4)=A(3,N4)+FZ
 C
           IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT+
-     .       ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT .GT.0) THEN
+     .       ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT >0) THEN
             FEXT(1,N1) = FEXT(1,N1)+FX
             FEXT(2,N1) = FEXT(2,N1)+FY
             FEXT(3,N1) = FEXT(3,N1)+FZ
@@ -336,7 +336,7 @@ C
           TFEXT=TFEXT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
      +                    +FY*(V(2,N1)+V(2,N2)+V(2,N3)+V(2,N4))
      +                    +FZ*(V(3,N1)+V(3,N2)+V(3,N3)+V(3,N4)))
-        ELSEIF(SURF_ELTYP(I).EQ.7)THEN
+        ELSEIF(SURF_ELTYP(I)==7)THEN
           PJ=PJ0*THIRD         
 C
           N1 = SURF_NODES(I,1)
@@ -389,7 +389,7 @@ C
           THETA=API*ACOS(TMPO)
           PJ=PJ*FPA*FINTER(IPA,THETA*SCALA,NPC,TF,DYDX)
           DIST = SQRT(AN1)
-          IF(IPZ.NE.0)PJ=PJ*FPZ*FINTER(IPZ,DIST*SCALD,NPC,TF,DYDX)
+          IF(IPZ/=0)PJ=PJ*FPZ*FINTER(IPZ,DIST*SCALD,NPC,TF,DYDX)
 C
           FX=PJ*N(1,II)
           FY=PJ*N(2,II)
@@ -408,7 +408,7 @@ C
           A(3,N3)=A(3,N3)+FZ
 C
           IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT+
-     .       ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT .GT.0) THEN
+     .       ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT >0) THEN
             FEXT(1,N1) = FEXT(1,N1)+FX
             FEXT(2,N1) = FEXT(2,N1)+FY
             FEXT(3,N1) = FEXT(3,N1)+FZ
@@ -481,7 +481,7 @@ C
           THETA=API*ACOS(TMPO)
           PJ=PJ*FPA*FINTER(IPA,THETA*SCALA,NPC,TF,DYDX)
           DIST = SQRT(AN1)
-          IF(IPZ.NE.0)PJ=PJ*FPZ*FINTER(IPZ,DIST*SCALD,NPC,TF,DYDX)
+          IF(IPZ/=0)PJ=PJ*FPZ*FINTER(IPZ,DIST*SCALD,NPC,TF,DYDX)
 C
           FX=PJ*N(1,II)
           FY=PJ*N(2,II)
@@ -504,7 +504,7 @@ C
           A(3,N4)=A(3,N4)+FZ
 C
           IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT+
-     .       ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT .GT.0) THEN
+     .       ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT >0) THEN
             FEXT(1,N1) = FEXT(1,N1)+FX
             FEXT(2,N1) = FEXT(2,N1)+FY
             FEXT(3,N1) = FEXT(3,N1)+FZ

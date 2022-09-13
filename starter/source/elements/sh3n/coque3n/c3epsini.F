@@ -160,7 +160,7 @@ c
         VL(3,3,I) = (VL(3,3,I) - Z3(I))*FAC
       ENDDO
 c-----------------------------------------------------------
-      IF (ISMSTR.NE.1 .AND. ISMSTR.NE.11) THEN
+      IF (ISMSTR/=1 .AND. ISMSTR/=11) THEN
 C
         DO NT=1,NITRS
 c          FAC =  FLOAT(NT) / FLOAT(NITRS)
@@ -293,7 +293,7 @@ C-----------------------------------------------
       my_real X21G(MVSIZ), Y21G(MVSIZ), Z21G(MVSIZ),
      .        X31G(MVSIZ), Y31G(MVSIZ), Z31G(MVSIZ)
 C=======================================================================
-      IF (ISMSTR.NE.3)THEN
+      IF (ISMSTR/=3)THEN
         DO I=JFT,JLT
           X21G(I)=X2G(I)-X1G(I)
           Y21G(I)=Y2G(I)-Y1G(I)

@@ -59,7 +59,7 @@ C=======================================================================
         J=0
         II=IBUF(1,IE)
         NODE(1:10) = 0
-        IF(II.LE.NUMELS8)THEN
+        IF(II<=NUMELS8)THEN
          IF(ISOLNOD(II) == 4) THEN     ! Cas du tetra4
            DO I=0,6,2
             IF(BTEST(IBUF(2,IE),I)) THEN
@@ -109,7 +109,7 @@ C=======================================================================
          
         ELSE
          I10=II-NUMELS8
-         IF(I10.LE.NUMELS10) THEN
+         IF(I10<=NUMELS10) THEN
          !IF(ISOLNOD(II) == 10) THEN     ! Cas du tetra10
           DO I=0,6,2
            IF(BTEST(IBUF(2,IE),I)) THEN

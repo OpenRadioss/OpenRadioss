@@ -143,7 +143,7 @@ C-----------------------------------------------
 
       DO NG=ITASK+1,NGROUP,NTHREAD
 C     ALE ON / OFF
-         IF (TT .GT. ZERO .AND. IPARG(76, NG) .EQ. 1) CYCLE ! --> OFF
+         IF (TT > ZERO .AND. IPARG(76, NG) == 1) CYCLE ! --> OFF
          IF(IPARG(8,NG) /= 1) THEN
 C     
             CALL INITBUF (IPARG    ,NG      ,
@@ -153,9 +153,9 @@ C
      5           NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,IPLA    ,
      6           IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7           ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
-            IF (MTN .EQ. 151) THEN
+            IF (MTN == 151) THEN
                GBUF => ELBUF_TAB(NG)%GBUF
-               IF(JLAG /= 1 .AND. ITY.LE.2) THEN
+               IF(JLAG /= 1 .AND. ITY<=2) THEN
                   NSG    =IPARG(10,NG)
                   NVC    =IPARG(19,NG)
                   ISOLNOD=IPARG(28,NG)

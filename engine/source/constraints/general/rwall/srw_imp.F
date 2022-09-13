@@ -58,12 +58,12 @@ C     REAL
 C-----------------------------------------------
       N_RWL = 0
       DO I = 1,NUMNOD
-       IF (NDOF(I).GT.0) THEN
+       IF (NDOF(I)>0) THEN
         ND = IDDL(I)+1
-        IF (IKC(ND).EQ.10) N_RWL=N_RWL+1
+        IF (IKC(ND)==10) N_RWL=N_RWL+1
        ENDIF
       ENDDO
-      IF (N_RWL.EQ.0) RETURN
+      IF (N_RWL==0) RETURN
 C--------allocation------ 
       IF(ALLOCATED(IN_RWL)) DEALLOCATE(IN_RWL)
       ALLOCATE(IN_RWL(N_RWL),STAT=IERR1)
@@ -71,9 +71,9 @@ C--------allocation------
       ALLOCATE(NOR_RWL(3,N_RWL),STAT=IERR2)
       NL = 0
       DO I = 1,NUMNOD
-       IF (NDOF(I).GT.0) THEN
+       IF (NDOF(I)>0) THEN
         ND = IDDL(I)
-        IF (IKC(ND+1).EQ.10) THEN
+        IF (IKC(ND+1)==10) THEN
          NL=NL+1
          IN_RWL(NL)=I
          NOR_RWL(1,NL) = A(1,I)

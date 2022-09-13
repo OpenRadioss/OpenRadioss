@@ -95,7 +95,7 @@ C
 
 #ifdef MPI
 C
-      IF (NDDLC.EQ.0) RETURN
+      IF (NDDLC==0) RETURN
 C
       DO I=1,NSPMD
          LENBUF(1,I)=0
@@ -116,7 +116,7 @@ C
 C      
       CALL SPMD_DS_IEXCH(LENBUF, LENBUFR, 2, MSGOFF)
 C
-      IF (ISPMD.EQ.0.AND.IPMESS.NE.0) THEN
+      IF (ISPMD==0.AND.IPMESS/=0) THEN
          WRITE(ISTDO,*)
          WRITE(ISTDO,'(A)') TITRE(1:LTITR1)
          WRITE(IOUT,'(A)') TITRE(1:LTITR1)
@@ -134,7 +134,7 @@ C Chargement de la matrice de rigidite
          IREC=IREC+1
       ENDDO
       NR=LEN-(LEN/10)*10
-      IF (NR.GT.0) READ(IFILE,REC=IREC) (KL(IKC+J),J=1,NR)
+      IF (NR>0) READ(IFILE,REC=IREC) (KL(IKC+J),J=1,NR)
 C
       LENM=0
       LENV=0
@@ -199,7 +199,7 @@ C
      .                   IADM, IADMR, LENM  ) 
       DEALLOCATE(KEXCH)      
 C
-      IF (IOPT.EQ.1) THEN
+      IF (IOPT==1) THEN
          DEALLOCATE(IMEXCH)
          ALLOCATE(FEXCH(LENV,NSCM), IVEXCH(LENV))
          DO I=1,NSCM
@@ -226,7 +226,7 @@ C
          CALL SPMD_DS_VEXCH(F,    NNRP,  IVEXCH, FEXCH, MSGOFF3,
      .                      IADV, IADVR, LENV  , NSCM )
          DEALLOCATE(FEXCH, IVEXCH)
-      ELSEIF (IOPT.EQ.2) THEN
+      ELSEIF (IOPT==2) THEN
 C Chargement de la matrice de masse
          ALLOCATE(ML(LEN))
          IREC=PGRAPH%DGRAPH(1)%MREC
@@ -237,7 +237,7 @@ C Chargement de la matrice de masse
             IREC=IREC+1
          ENDDO
          NR=LEN-(LEN/10)*10
-         IF (NR.GT.0) READ(IFILE,REC=IREC) (ML(IMC+J),J=1,NR)
+         IF (NR>0) READ(IFILE,REC=IREC) (ML(IMC+J),J=1,NR)
 C
          ALLOCATE(MEXCH(LENM))
          DO I=1,NSPMD
@@ -290,7 +290,7 @@ C Descripteur pour RIGI
       DESC_K(8)=0
       DESC_K(9)=MAX(1,NNRP)
 C
-      IF (IOPT.EQ.1) THEN
+      IF (IOPT==1) THEN
 C Resolution systeme lineaire pour NSCM seconds membres
          ALLOCATE(V(NNRP,NSCM), S(NNRP))
 C Descripteur pour S
@@ -321,7 +321,7 @@ C
          ENDDO
          DEALLOCATE(S)
          NDEPL=NSCM
-      ELSEIF (IOPT.EQ.2) THEN
+      ELSEIF (IOPT==2) THEN
 C Resolution probleme aux valeurs propres
 C Descripteur pour MASS
          DESC_M(1)=1
@@ -342,7 +342,7 @@ C
          VECT = 0
          SHIFT=SHIFTI
          TSHIFT=SHIFT
-         IF (ISPMD.EQ.0)
+         IF (ISPMD==0)
      .      WRITE(IOUT,FMT='(A15,1PG11.4)') ' INITIAL SHIFT ',SHIFT
          ISTOP=0
          NVD=0
@@ -353,7 +353,7 @@ C
          NBLF0=NBLF
          NBLF=MIN(NBLF0,N-2)
 C
-         DO WHILE (ISTOP.EQ.0)
+         DO WHILE (ISTOP==0)
             NVD0=NVD
             INOPRI=0
             TSHIFT0=TSHIFT
@@ -383,19 +383,19 @@ C
 #endif
 C
             NUV=NEV-1
-            IF (NEV.EQ.NVAL-NVD) NUV=NEV
+            IF (NEV==NVAL-NVD) NUV=NEV
 C
             DO I=1,NUV
                PULS=MAX(ZERO,FREQ(I,1))
                FRQ=SQRT(PULS)/TWO/PI
-               IF (FRQ.LE.CUTFRQ.AND.NVD.LT.NSVMAXT.
-     .             AND.NVD.LT.NVAL) THEN
+               IF (FRQ<=CUTFRQ.AND.NVD<NSVMAXT.
+     .             AND.NVD<NVAL) THEN
                   NVD=NVD+1
                   FREQ2(NVD)=FRQ
                   DO II=1,NNRP
                      V(II,NVD)=VECT(II,I)
                   ENDDO
-                  IF (NVD.EQ.NSVMAXT) THEN
+                  IF (NVD==NSVMAXT) THEN
                      ISTOP=1
                   ENDIF
                ELSE
@@ -403,22 +403,22 @@ C
                ENDIF
             ENDDO
 C
-            IF (NVD.EQ.NVAL) ISTOP=1
+            IF (NVD==NVAL) ISTOP=1
 C
-            IF (ISTOP.EQ.0) THEN
+            IF (ISTOP==0) THEN
                FR1=FREQ(NEV,1)
                IDBL=0
                IDF=2
-               DO WHILE (IDBL.EQ.0.AND.IDF.LE.NEV)
+               DO WHILE (IDBL==0.AND.IDF<=NEV)
                   FR2=FREQ(NEV-IDF+1,1)
-                  IF (ABS((FR2-FR1)/FR1).LE.EM01) THEN
+                  IF (ABS((FR2-FR1)/FR1)<=EM01) THEN
                      IDF=IDF+1
                      NVD=NVD-1
                   ELSE
                      IDBL=1
                   ENDIF
                ENDDO
-               IF (IDF.EQ.NEV+1) THEN
+               IF (IDF==NEV+1) THEN
                   NBLF=2*NBLF
                   SHIFT=ZERO
                   INOPRI=1
@@ -430,9 +430,9 @@ C
                TSHIFT=TSHIFT+SHIFT
             ENDIF
 C
-            IF (INOPRI.EQ.0) THEN
+            IF (INOPRI==0) THEN
                NIB=NIB+1
-               IF (ISPMD.EQ.0) THEN
+               IF (ISPMD==0) THEN
                   WRITE(IOUT,*)
                   WRITE(IOUT,FMT='(A7,I10,A7,1PG11.4,A23,I10)')
      .                     ' BLOCK ',NIB,' SHIFT ',TSHIFT0,
@@ -450,7 +450,7 @@ C
          ENDDO
          DEALLOCATE(VECT, RIGIS, FREQ)
          NDEPL=NVD
-         IF (ISPMD.EQ.0) WRITE(IOUT,*)
+         IF (ISPMD==0) WRITE(IOUT,*)
       ENDIF
 C
 C Redescente des deplacements
@@ -473,8 +473,8 @@ C
       ENDDO
 C
       DEALLOCATE(V, VV)
-      IF (IOPT.EQ.1) DEALLOCATE(F)
-      IF (IOPT.EQ.2) DEALLOCATE(MASS)
+      IF (IOPT==1) DEALLOCATE(F)
+      IF (IOPT==2) DEALLOCATE(MASS)
       DEALLOCATE(RIGI)
       CALL BLACS_GRIDEXIT(ICTXT)
 C
@@ -546,7 +546,7 @@ C
 
 #ifdef MPI
 C
-      IF (NDDLC.EQ.0) RETURN
+      IF (NDDLC==0) RETURN
 C
       DO I=1,NSPMD
          LENBUF(1,I)=0
@@ -566,7 +566,7 @@ C
       
       CALL SPMD_DS_IEXCH(LENBUF, LENBUFR, 2, MSGOFF)
 C
-      IF (ISPMD.EQ.0.AND.IPMESS.NE.0) THEN
+      IF (ISPMD==0.AND.IPMESS/=0) THEN
          WRITE(IOUT,'(A)') TITRE(1:LTITR1)
          WRITE(ISTDO,*)
          WRITE(ISTDO,'(A)') TITRE(1:LTITR1)
@@ -595,7 +595,7 @@ C
 C
       IFILE=PGRAPH%IFILE
       LEN=NDF*(NDF+1)/2
-      IF (IDSC.EQ.1) THEN
+      IF (IDSC==1) THEN
 C Chargement de la matrice de rigidite
          ALLOCATE(KL(LEN))
          IREC=PGRAPH%DGRAPH(1)%KREC
@@ -606,7 +606,7 @@ C Chargement de la matrice de rigidite
             IREC=IREC+1
          ENDDO
          NR=LEN-(LEN/10)*10
-         IF (NR.GT.0) READ(IFILE,REC=IREC) (KL(IKC+J),J=1,NR)
+         IF (NR>0) READ(IFILE,REC=IREC) (KL(IKC+J),J=1,NR)
 C
          ALLOCATE(KEXCH(LENM), IMEXCH(LENM,2))
          DO I=1,NDF
@@ -699,11 +699,11 @@ C Descripteur pour S
       DESC_S(8)=0
       DESC_S(9)=MAX(1,NNRP)
 C Factorisation et resolution
-      IF (IDSC.EQ.1) THEN
-         IF (IGEN.EQ.1) THEN
+      IF (IDSC==1) THEN
+         IF (IGEN==1) THEN
             CALL PDPOTRF('U',    NDDLC,  RIGI, 1, 1,
      .                   DESC_K, INFFAC)
-         ELSEIF (IGEN.EQ.2) THEN
+         ELSEIF (IGEN==2) THEN
             CALL PDGETRF(NDDLC,   NDDLC, RIGI,   1, 1,
      .                   DESC_K,  IPIV,  INFFAC)
          ENDIF
@@ -714,11 +714,11 @@ C
             S(J)=F(J,I)
          ENDDO
          NRHS=1
-         IF (IGEN.EQ.1) THEN
+         IF (IGEN==1) THEN
             CALL PDPOTRS('U',    NDDLC,  NRHS, RIGI, 1,
      .                   1,      DESC_K, S,    1,    1,
      .                   DESC_S, INFRES)
-         ELSEIF (IGEN.EQ.2) THEN
+         ELSEIF (IGEN==2) THEN
             CALL PDGETRS('N', NDDLC,   1,      RIGI, 1,
      .                   1,   DESC_K,  IPIV,   S,    1,
      .                   1,   DESC_S,  INFRES)
@@ -848,7 +848,7 @@ C
       DATA MSGOFF5 /600000/
 #ifdef MPI
 C
-      IF (NDDLC.EQ.0) RETURN
+      IF (NDDLC==0) RETURN
 C
       DO I=1,NSPMD
          LENBUF(1,I)=0
@@ -869,7 +869,7 @@ C
 C      
       CALL SPMD_DS_IEXCH(LENBUF, LENBUFR, 2, MSGOFF)
 C
-      IF (ISPMD.EQ.0.AND.IPMESS.NE.0) THEN
+      IF (ISPMD==0.AND.IPMESS/=0) THEN
          WRITE(ISTDO,*)
          WRITE(ISTDO,'(A)') TITRE(1:LTITR1)
          WRITE(IOUT,'(A)') TITRE(1:LTITR1)
@@ -887,7 +887,7 @@ C Chargement de la matrice de rigidite
          IREC=IREC+1
       ENDDO
       NR=LEN-(LEN/10)*10
-      IF (NR.GT.0) READ(IFILE,REC=IREC) (KL(IKC+J),J=1,NR)
+      IF (NR>0) READ(IFILE,REC=IREC) (KL(IKC+J),J=1,NR)
 C
       LENM=0
       LENMR=0
@@ -952,7 +952,7 @@ C Chargement de la matrice de rigidite geometrique
          IREC=IREC+1
       ENDDO
       NR=LEN-(LEN/10)*10
-      IF (NR.GT.0) READ(IFILE,REC=IREC) (KGL(IMC+J),J=1,NR)
+      IF (NR>0) READ(IFILE,REC=IREC) (KGL(IMC+J),J=1,NR)
 C
       ALLOCATE(MEXCH(LENM))
       DO I=1,NSPMD
@@ -1064,7 +1064,7 @@ C
          EIG(I,1)=VAL(I,1)
          EIG(I,2)=VAL(I,2)
       ENDDO   
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
          WRITE(IOUT,*)
          WRITE(IOUT,'(A6,1PG11.4,A35,I10)') 
      .    'SHIFT ',SHIFT,' NUMBER OF BUCKLING CRITICAL LOADS ',NBUCK

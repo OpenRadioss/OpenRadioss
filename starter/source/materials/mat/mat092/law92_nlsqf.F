@@ -142,7 +142,7 @@ c     the combinations
 C
       ALLOCATE (SIG(1:NPT))
 
-      IF ( MAXA .LT. NMULA ) THEN
+      IF ( MAXA < NMULA ) THEN
         WRITE(*,*) 'ERROR, MAXA < MA'
         WRITE(*,*) __FILE__,__LINE__
         CALL MY_EXIT(2)
@@ -162,7 +162,7 @@ C
 
       SMALL_ABS_YI = MAX_ABS_YI * SMALL_FAC_ABS_YI
 
-      IF (IDEBUG .GT. 0) THEN
+      IF (IDEBUG > 0) THEN
         WRITE(IOUT, *) ' MAX_ABS_YI, SMALL_FAC_ABS_YI, SMALL_ABS_YI = ',
      $                   MAX_ABS_YI, SMALL_FAC_ABS_YI, SMALL_ABS_YI
       ENDIF
@@ -171,12 +171,12 @@ C
       DO J=1,NPT
         SIG(J)=MAX(SMALL_ABS_YI, ABS(Y(J)) )
         IF(Y(J) == ZERO) Y(J) = SMALL_ABS_YI
-        IF (IDEBUG .GT. 0) THEN
+        IF (IDEBUG > 0) THEN
           WRITE(IOUT, *) 'J, SIG(J) = ', J,  SIG(J)
         ENDIF
       ENDDO  
 C     
-      IF (MAXA .LT. NMULA) THEN
+      IF (MAXA < NMULA) THEN
 !       TBD_KANG      
         WRITE(*,*) 'ERROR: MAXA < MA'
         WRITE(*,*) ' MAXA = ', MAXA
@@ -203,10 +203,10 @@ C
       NPSAVED = 0
 C
       NSTART = 5
-      DO 111 WHILE ( ISTART .LT. NSTART )
+      DO 111 WHILE ( ISTART < NSTART )
 c       get one guess point A0(1:MA)        
          CALL LAW92_GUESS(STRETCH,Y,A0,NPT)  
-!        IF (NGUESS .EQ. 0) THEN
+!        IF (NGUESS == 0) THEN
 !          GOTO 112
 !        ENDIF
 
@@ -222,7 +222,7 @@ C       calculate averaged ERROR before LM
 C        
         ISTART = ISTART + 1
 
-        IF (IDEBUG .GT. 0) THEN
+        IF (IDEBUG > 0) THEN
           WRITE(IOUT,*) ' ISTART = ', ISTART
           WRITE(IOUT,*) ' Before LM optimization ...'
           DO I = 1, NMULA
@@ -243,7 +243,7 @@ C
      $       GAMMA,IRET,ITEST) 
      
         IF (IRET > 0) GOTO 111
-        IF (IDEBUG .GT. 0) THEN
+        IF (IDEBUG > 0) THEN
           ERRAVE = 0.0
           DO I=1,NPT
             CALL ARRUDA_BOYCE(STRETCH(I), A0, YOGD,ITEST)
@@ -268,7 +268,7 @@ C
      $       GAMMA,IRET,ITEST) 
         IF (IRET > 0) GOTO 111
 
-       IF (IDEBUG .EQ. 1) THEN
+       IF (IDEBUG == 1) THEN
           ERRAVE = ZERO
           DO I=1,NPT
             CALL ARRUDA_BOYCE(STRETCH(I), A0, YOGD,ITEST)
@@ -290,7 +290,7 @@ C
 
 c       IF A0(J) is too small, restart from next initial guess        
         DO J = 1, NMULA
-          IF ( ABS( A0(J) ) .LT. EM20 ) THEN
+          IF ( ABS( A0(J) ) < EM20 ) THEN
              goto 111  ! restart from next initial guess
 c            WRITE(IOUT, *) ' A is too small, and could result in error'
 c            WRITE(IOUT,*) 'J, A0(J) = ', J, A0(J)
@@ -300,40 +300,40 @@ c            STOP
 
 c       check convergence of LM optimization        
         LMSTOP = 0
-        IF (IDEBUG .GT. 0) THEN
+        IF (IDEBUG > 0) THEN
           WRITE(IOUT, *) ' ERRNOW/(1.0*NPT) = ', ERRNOW/(1.0*NPT)
-          WRITE(IOUT, *) ' ERRNOW .LT. ERRPRE = ', (ERRNOW .LT. ERRPRE)
+          WRITE(IOUT, *) ' ERRNOW < ERRPRE = ', (ERRNOW < ERRPRE)
         ENDIF
 
-        IF ( ITER .GT. MINITER_LM ) THEN
-          IF (ERRNOW .LT. ERRPRE) THEN
-            IF ( ABS(ERRPRE) .GT. ZERO) THEN
-              IF  ( ABS( (ERRNOW-ERRPRE)/ ERRPRE ) .LT. EPS_LM) THEN
+        IF ( ITER > MINITER_LM ) THEN
+          IF (ERRNOW < ERRPRE) THEN
+            IF ( ABS(ERRPRE) > ZERO) THEN
+              IF  ( ABS( (ERRNOW-ERRPRE)/ ERRPRE ) < EPS_LM) THEN
                 CNT_HIT_EPS_LM = CNT_HIT_EPS_LM + 1
 
-                IF (IDEBUG .GT. 0) THEN
+                IF (IDEBUG > 0) THEN
                   WRITE(IOUT,*) 
      $            ' CNT_HIT_EPS_LM, ABS((ERRNOW-ERRPRE)/ERRPRE)  = ', 
      $            CNT_HIT_EPS_LM, ABS( (ERRNOW-ERRPRE)/ ERRPRE )
                 ENDIF
 
-                IF ( CNT_HIT_EPS_LM .GE. LMT_HIT_EPS_LM ) THEN
-                  IF (IDEBUG .GT. 0) THEN
+                IF ( CNT_HIT_EPS_LM >= LMT_HIT_EPS_LM ) THEN
+                  IF (IDEBUG > 0) THEN
                     WRITE(IOUT,*) 'STOP AT ', __LINE__
                   ENDIF
                   LMSTOP = 1
                 ENDIF
               ENDIF
             ENDIF
-          ELSEIF (ITER .GE. MAXITER_LM .OR. GAMMA .GE. GAMMA_STOP) THEN
-            IF (IDEBUG .GT. 0) THEN
+          ELSEIF (ITER >= MAXITER_LM .OR. GAMMA >= GAMMA_STOP) THEN
+            IF (IDEBUG > 0) THEN
               WRITE(IOUT,*) 'STOP AT ', __LINE__
             ENDIF
             LMSTOP = 1
           ENDIF  
         ENDIF
 
-        IF (LMSTOP.EQ. 0) THEN
+        IF (LMSTOP== 0) THEN
           GOTO 21
         ENDIF
 !       end loop of LM optimization        
@@ -347,7 +347,7 @@ c       check convergence of LM optimization
         ENDDO      
         ERRAVE = ERRAVE / (1.0 * NPT)
 
-        IF (IDEBUG .GT. 0) THEN
+        IF (IDEBUG > 0) THEN
            WRITE(IOUT,*) ' After LM optimization ...'
            DO I = 1, NMULA
              WRITE(IOUT, *) ' I, A0(I) = ', I, A0(I)
@@ -356,9 +356,9 @@ c       check convergence of LM optimization
         ENDIF
 C
         IF(A0(1) > ZERO .AND. A0(2) > ZERO) IVALID = 1
-        IF (IVALID .GT. 0) THEN
-          IF (   NPSAVED.EQ.0 .OR. 
-     $         ( NPSAVED.GT.0 .AND. ERRAVE.LT.ERRAVE_MIN) ) THEN
+        IF (IVALID > 0) THEN
+          IF (   NPSAVED==0 .OR. 
+     $         ( NPSAVED>0 .AND. ERRAVE<ERRAVE_MIN) ) THEN
             NPSAVED = NPSAVED + 1
             ERRAVE_MIN = ERRAVE
             DO I = 1, NMULA
@@ -366,40 +366,40 @@ C
             ENDDO
           ENDIF
         ELSE
-          IF (IDEBUG .GT. 0) THEN
+          IF (IDEBUG > 0) THEN
             WRITE(IOUT,*) __FILE__,__LINE__
             WRITE(IOUT,*) ' LM converges to invalid point'
           ENDIF
         ENDIF
 
-        IF (NPSAVED .GT. 0) THEN
-          IF (IDEBUG .GT. 0) THEN
+        IF (NPSAVED > 0) THEN
+          IF (IDEBUG > 0) THEN
             WRITE(*, *) ' ISTART, NPSAVED, ERRAVE_MIN = ', 
      $                    ISTART, NPSAVED, ERRAVE_MIN
             WRITE(IOUT, *) ' ISTART, NPSAVED, ERRAVE_MIN = ', 
      $                    ISTART, NPSAVED, ERRAVE_MIN
           ENDIF
 
-          IF ( ERRAVE_MIN .LT. ERRTOL ) THEN
+          IF ( ERRAVE_MIN < ERRTOL ) THEN
             IFIT_SUCCESS = 1
             GOTO 112
           ENDIF
         ELSE
-          IF (IDEBUG .GT. 0) THEN
+          IF (IDEBUG > 0) THEN
             WRITE(*, *) ' ISTART, NPSAVED ', 
      $                    ISTART, NPSAVED
             WRITE(IOUT, *) ' ISTART, NPSAVED ', 
      $                    ISTART, NPSAVED
           ENDIF
         ENDIF
-111   CONTINUE  ! WHILE ( ISTART .LT. NSTART )
+111   CONTINUE  ! WHILE ( ISTART < NSTART )
 
 112   CONTINUE
 
       DEALLOCATE (SIG)
 
-      IF (IFIT_SUCCESS .EQ. 0) THEN
-        IF (NPSAVED .EQ. 0) THEN
+      IF (IFIT_SUCCESS == 0) THEN
+        IF (NPSAVED == 0) THEN
           CALL ANCMSG(MSGID=901,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -425,7 +425,7 @@ C
     
 c     output curcves to .csv format to simplify visualization    
       ICURV = 0
-      IF (IOCSV.GT. 0) THEN
+      IF (IOCSV> 0) THEN
         DO ICURV = 25, 99
           inquire (unit=ICURV, opened=lopened) 
           if (.not. lopened) goto 77
@@ -440,7 +440,7 @@ c     output curcves to .csv format to simplify visualization
         CALL ARRUDA_BOYCE(STRETCH(I), A, YOGD,ITEST)
         WRITE(IOUT,'(F18.4,F20.4,F28.4)') 
      *   STRETCH(I)-ONE,Y0(I),YOGD
-        IF (ICURV .GT. 0) THEN
+        IF (ICURV > 0) THEN
            WRITE(ICURV, '(F18.4, A, F18.4, A, F18.4)') 
      $            STRETCH(I)-ONE,',',Y0(I),',',YOGD
         ENDIF
@@ -452,7 +452,7 @@ c     output curcves to .csv format to simplify visualization
      $                            ERRAVE_MIN*100.0, '%'
 
 c     output curcves to .csv format to simplify visualization    
-      IF ( ICURV .GT. 0) THEN
+      IF ( ICURV > 0) THEN
         CLOSE(ICURV)
       ENDIF
 C-----------
@@ -697,8 +697,8 @@ C
 C    
       CALL INVERSION(COVAR,MFIT,NCA,DA,1,1,IRET)     
 C      
-      IF (IRET .NE. 0) THEN
-        IF (IDEBUG .GT. 0) THEN
+      IF (IRET /= 0) THEN
+        IF (IDEBUG > 0) THEN
           WRITE(*,*) ' IRET = ', IRET
           DO J=1,NCA  
             WRITE(IOUT, *) 'J, A(J) = ', J, A(J)
@@ -721,7 +721,7 @@ C
 !ok      IF(ATRY(2) <= ZERO ) THEN
 !ok        ATRY(2)= A(2)
 !ok      ENDIF  
-      IF (IDEBUG .GT. 0) THEN
+      IF (IDEBUG > 0) THEN
         WRITE(IOUT,*) __FILE__,__LINE__
         DO J=1, NCA
           write(IOUT,*) 'J,ATRY(J) = ', J, ATRY(J)

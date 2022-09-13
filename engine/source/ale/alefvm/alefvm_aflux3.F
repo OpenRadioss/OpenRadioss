@@ -121,7 +121,7 @@ C-----------------------------------------------
       IF(IALEFVM == 0)    RETURN
       IMAT        = IXS(1,LFT+NFT)
       IALEFVM_FLG = IPM(251,IMAT)
-      IF(IALEFVM_FLG .LE. 1)RETURN
+      IF(IALEFVM_FLG <= 1)RETURN
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -283,7 +283,7 @@ C-----------------------------------------------
       !UPDATE LATER WITH LINEAR INTERPOLATION INSTEAD OF MEAN VALUE
       !MEAN VALUE OK FOR CARTESIAN REGULAR MESH
 
-      IF(IALEFVM_IFORM.NE.0)IALEFVM_FLG = IALEFVM_IFORM !for debug purpose if set in alefvm_init.F
+      IF(IALEFVM_IFORM/=0)IALEFVM_FLG = IALEFVM_IFORM !for debug purpose if set in alefvm_init.F
 
       SELECT CASE(I_ALE_SOLVER)
       
@@ -562,7 +562,7 @@ C-----------------------------------------------
             LGTH = ALE_CONNECT%ee_connect%iad_connect(II + 1) - IAD2
             DO J=1,LGTH
               IDV = ALE_CONNECT%ee_connect%connected(IAD2 + J - 1)
-              IF(IDV.LE.0)THEN
+              IF(IDV<=0)THEN
                 VEC(1:3,J) = ZERO
                 CYCLE
               ENDIF
@@ -703,7 +703,7 @@ C-----------------------------------------------
       ! TRIMATERIAL CASE INITIALIZATION (LAW51)              !
       ! -->RETURN                                            !
       !======================================================!
-      IF(NINT(PM(19,MAT(1))).EQ.51)THEN
+      IF(NINT(PM(19,MAT(1)))==51)THEN
         DO I=LFT,LLT
           FLUX(1,I)=FLUX1(I)
           FLUX(2,I)=FLUX2(I)
@@ -730,32 +730,32 @@ C-----------------------------------------------
        IAD2 = ALE_CONNECT%ee_connect%iad_connect(I + NFT)
        !---face1---!
        II=ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
-       IF(II.EQ.0)THEN
+       IF(II==0)THEN
         FLUX1(I)=FLUX1(I)*REDUC
        ENDIF
        !---face2---!
        II=ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
-       IF(II.EQ.0)THEN
+       IF(II==0)THEN
         FLUX2(I)=FLUX2(I)*REDUC
        ENDIF
        !---face3---!
        II=ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
-       IF(II.EQ.0)THEN
+       IF(II==0)THEN
         FLUX3(I)=FLUX3(I)*REDUC
        ENDIF
        !---face4---!
        II=ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
-       IF(II.EQ.0)THEN
+       IF(II==0)THEN
         FLUX4(I)=FLUX4(I)*REDUC
        ENDIF
        !---face5---!
        II=ALE_CONNECT%ee_connect%connected(IAD2 + 5 - 1)
-       IF(II.EQ.0)THEN
+       IF(II==0)THEN
         FLUX5(I)=FLUX5(I)*REDUC
        ENDIF
        !---face6---!
        II=ALE_CONNECT%ee_connect%connected(IAD2 + 6 - 1)
-       IF(II.EQ.0)THEN
+       IF(II==0)THEN
         FLUX6(I)=FLUX6(I)*REDUC
        ENDIF
       ENDDO !next I

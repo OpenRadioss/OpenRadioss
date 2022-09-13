@@ -70,7 +70,7 @@ C
                 WA(II)=FSAVSURF(K,I)
              ENDDO
         ENDDO
-        IF(II.GT.0)CALL WRTDES(WA,WA,II,IFORM,1)
+        IF(II>0)CALL WRTDES(WA,WA,II,IFORM,1)
       ENDIF
 C
       RETURN

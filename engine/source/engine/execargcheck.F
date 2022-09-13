@@ -231,7 +231,7 @@ C Check if argument string is a variable to an argument
              ENDIF
 C
 C Specificife Radioss Madymo
-             IF (ERR == 1.AND.strl.GT.4)THEN
+             IF (ERR == 1.AND.strl>4)THEN
                IF (ARGS(strl-3:strl)=='.XML')THEN
                  ERR = 0
                ENDIF
@@ -300,7 +300,7 @@ C------------------------------------------------
 C------------------------------------------------
 C -ERROR_MSG SET
 C------------------------------------------------
-       IF (IERRMSG .NE. 0)THEN
+       IF (IERRMSG /= 0)THEN
          IF (IERRMSG+1  > ARGN) THEN
 
 C          Case -I is last argument in the list.
@@ -335,7 +335,7 @@ C check if -i has got an argument or if the next string is an input command
 C------------------------------------------------
 C -INPUT SET
 C------------------------------------------------
-       IF (PINPUTI .NE. 0)THEN
+       IF (PINPUTI /= 0)THEN
          IF (PINPUTI+1  > ARGN) THEN
 
 C          Case -I is last argument in the list.
@@ -395,7 +395,7 @@ C check if -i has got an argument or if the next string is an input command
 C------------------------------------------------
 C -NTHREAD SET
 C------------------------------------------------
-       IF (PNTHI .NE. 0)THEN
+       IF (PNTHI /= 0)THEN
          IF (PNTHI+1  > ARGN) THEN
 C case -nt is last argument in the list.
            CALL GETARG(PNTHI,ARGP)
@@ -435,7 +435,7 @@ c           CALL GETARG(PNTHI,ARGP)
 C------------------------------------------------
 C -DYLIB SET
 C------------------------------------------------
-       IF (PUSERLNAMI .NE. 0)THEN
+       IF (PUSERLNAMI /= 0)THEN
          IF (PUSERLNAMI+1  > ARGN) THEN
 
 C          Case -DYLIB is last argument in the list.
@@ -467,7 +467,7 @@ C check if -dylib has got an argument or if the next string is an input command
 C------------------------------------------------
 C -MDS_LIBPATH
 C------------------------------------------------
-       IF (MDS_PATHI .NE. 0)THEN
+       IF (MDS_PATHI /= 0)THEN
 
          IF (MDS_PATHI+1  > ARGN) THEN
 
@@ -613,7 +613,7 @@ C-----------------------------------------------
         CALL MPI_COMM_SIZE(MPI_COMM_WORLD, NNODES, IERROR)
         CALL MPI_COMM_RANK(MPI_COMM_WORLD, MYRANK, IERROR)
 
-        if (MYRANK.EQ.0) CALL PREXECINFO(IDUM)
+        if (MYRANK==0) CALL PREXECINFO(IDUM)
         
         CALL MPI_BARRIER(MPI_COMM_WORLD,IERROR)
 
@@ -702,7 +702,7 @@ C-----------------------------------------------
         CALL MPI_COMM_SIZE(MPI_COMM_WORLD, NNODES, IERROR)
         CALL MPI_COMM_RANK(MPI_COMM_WORLD, MYRANK, IERROR)
 
-        if (MYRANK.EQ.0) CALL PRHELPINFO(ERRN,EMSG,SMSG)
+        if (MYRANK==0) CALL PRHELPINFO(ERRN,EMSG,SMSG)
         
         CALL MPI_BARRIER(MPI_COMM_WORLD,IERROR)
 

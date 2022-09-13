@@ -98,13 +98,13 @@ C-----------------------------------------------
 C-----------------------------------------------
         K_STOK = 0
         DO I=1,J_STOK
-          IF(PENE(I).NE.ZERO) K_STOK = K_STOK + 1
+          IF(PENE(I)/=ZERO) K_STOK = K_STOK + 1
         ENDDO
-        IF(K_STOK.EQ.0)RETURN
+        IF(K_STOK==0)RETURN
 C
 #include "lockon.inc"
           I_STOK = II_STOK 
-          IF(I_STOK+K_STOK.GT.MULNSN) THEN
+          IF(I_STOK+K_STOK>MULNSN) THEN
             I_MEM = 2
 #include "lockoff.inc"
             RETURN
@@ -113,7 +113,7 @@ C
 #include "lockoff.inc"
 C-----------------------------------------------
         DO I=1,J_STOK
-          IF(PENE(I).NE.ZERO)THEN
+          IF(PENE(I)/=ZERO)THEN
             I_STOK = I_STOK + 1
             CAND_N(I_STOK) = PROV_N(I)
             CAND_E(I_STOK) = PROV_E(I)+ESHIFT

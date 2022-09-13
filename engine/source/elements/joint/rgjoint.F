@@ -120,7 +120,7 @@ C
      .              NC1  ,NC2    )
       CALL RANIM33 (JFT,JLT,FORX,FORY,FORZ,XMOM,YMOM,ZMOM,XL,TANI,H3D_DATA)
 C
-      IF(IPARIT.EQ.0)THEN
+      IF(IPARIT==0)THEN
         CALL RCUM33(JFT   ,JLT    ,XL    ,NC1   ,NC2   ,
      .              F     ,FORX   ,FORY  ,FORZ  ,AR    ,
      .              XMOM  ,YMOM   ,ZMOM  ,STI   ,STIR  ,

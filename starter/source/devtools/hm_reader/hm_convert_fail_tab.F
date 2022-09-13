@@ -90,8 +90,8 @@ C=======================================================================
 
         CALL CPP_GET_SUBMODEL_INDEX(SUBMODEL_INDEX)
         OFFSET = 0
-        IF(SUBMODEL_INDEX .NE.0) OFFSET = LSUBMODEL(SUBMODEL_INDEX)%OFF_DEF
-        IF(KEY .NE. 'TAB1' ) THEN
+        IF(SUBMODEL_INDEX /=0) OFFSET = LSUBMODEL(SUBMODEL_INDEX)%OFF_DEF
+        IF(KEY /= 'TAB1' ) THEN
           CALL CPP_CONVERT_FAIL_TAB(TABLE_MAXID,FAIL_MAXID,OFFSET,ISFIRST)
           IS_CONVERT = 1
         ENDIF
@@ -110,7 +110,7 @@ C--------------------------------------------------
             CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                          KEYWORD2    = KEY )
           ENDDO
-          IF(KEY .NE. 'TAB1' )CALL CPP_DELETE_ENTITY()
+          IF(KEY /= 'TAB1' )CALL CPP_DELETE_ENTITY()
         ENDDO
       ENDIF
 C--------------------------------------------------

@@ -65,11 +65,11 @@ C
 C communication dans resol juste avant mvoludt et envoi a proc0 des volmon
 C evite difference en parallele quand processeur ne traite pas ts les airbags
 C voir formules sur min dty / max dtx
-C       IF(IMACH.EQ.3) THEN
+C       IF(IMACH==3) THEN
 C debranchement a part pour le proc main (proc ayant a jour p,v,s)
-C         IF(FR_MV(NSPMD+2,I).NE.ISPMD+1) GOTO 100
+C         IF(FR_MV(NSPMD+2,I)/=ISPMD+1) GOTO 100
 C       END IF
-       IF(ITYP.NE.1)THEN
+       IF(ITYP/=1)THEN
         GAMA=VOLMON(KK1+1)
         AL=VOLMON(KK1+2)
         P=VOLMON(KK1+12)
@@ -77,7 +77,7 @@ C       END IF
         S=VOLMON(KK1+18)
         ROT=VOLMON(KK1+21)
         DTY=MIN(SQRT(ONE+AL)-AL,DTY)
-        IF(ROT.EQ.ZERO) THEN
+        IF(ROT==ZERO) THEN
           DTX=DTY
         ELSE
           DTX=MAX(SQRT(ONE+DT2**2*GAMA*P*S/V/ROT),DTX)

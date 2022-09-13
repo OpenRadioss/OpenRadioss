@@ -168,7 +168,7 @@ C-----------------------------------------------
         CALL HM_GET_FLOATV('TSTART', TBEGIN, IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('TSTOP', TEND, IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF(TEND==ZERO) TEND=INFINITY 
-        IF(EADD.GT.ZERO)THEN                                   
+        IF(EADD>ZERO)THEN                                   
           IF(TBEGIN==TEND)THEN                                 
             !Dirac function release : this means instantaneous 
             QOPT = 0                                           
@@ -208,7 +208,7 @@ C-----------------------------------------------
       END SELECT     
       
       !========C1: MODULE EQUIVALENT POUR LES RIGIDITES D'INTERFACES
-      IF(BULK.GT.ZERO)THEN
+      IF(BULK>ZERO)THEN
         C1 = BULK      
       ELSE
         C1 = W*(PCJ+E0)

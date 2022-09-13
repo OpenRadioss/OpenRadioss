@@ -181,7 +181,7 @@ C-----------------------------------------------
           N(1:3,5,I) = HALF * N(1:3,5,I)
           N(1:3,6,I) = HALF * N(1:3,6,I)
         ENDDO 
-      ELSEIF(ITYP.EQ.2)THEN !quads
+      ELSEIF(ITYP==2)THEN !quads
         DO I=LFT,LLT                                                                                                                
           IE=I+NFT    
           !---4 local node numbers NC1 TO NC4 for 2D solid element IE ---!                                                          
@@ -235,7 +235,7 @@ C-----------------------------------------------
            AREA(I)=GBUF%AREA(I)
           ENDIF
         ENDDO                                                                                                                       
-      ELSEIF(ITYP.EQ.7)THEN !triangles
+      ELSEIF(ITYP==7)THEN !triangles
         DO I=LFT,LLT                                                                                                                
           IE=I+NFT                                                             
           !---3 local node numbers NC1 TO NC3 for 2D solid element IE ---!                                                          
@@ -323,7 +323,7 @@ C-----------------------------------------------
           SCH = EXP(-SCH)          
           EVAR(I) = SCH        
         ENDDO!next I
-      ELSEIF(ITYP.EQ.2)THEN
+      ELSEIF(ITYP==2)THEN
         GBUF => ELBUF_TAB(NG)%GBUF
         DO I=LFT,LLT
           IE=I+NFT 
@@ -357,7 +357,7 @@ C-----------------------------------------------
           SCH = EXP(-SCH)
           EVAR(I) = SCH
         ENDDO!next I
-      ELSEIF(ITYP.EQ.7)THEN
+      ELSEIF(ITYP==7)THEN
         GBUF => ELBUF_TAB(NG)%GBUF      
         DO I=LFT,LLT
           IE=I+NFT 

@@ -121,19 +121,19 @@ C
       ID_OPT(1:NUNIT0) = 0
 C     Chaque unite globale doit etre definie une seule fois
 C     (input vers <= 90)
-      IF ( FLAG_KEY_M .GT. 1) THEN
+      IF ( FLAG_KEY_M > 1) THEN
         CALL ANCMSG(MSGID=575,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO_BLIND_1,
      .                    C1='GLOBAL UNIT')
       ENDIF
-      IF ( FLAG_KEY_L .GT. 1) THEN
+      IF ( FLAG_KEY_L > 1) THEN
         CALL ANCMSG(MSGID=575,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO_BLIND_1,
      .                    C1='GLOBAL UNIT')
       ENDIF
-      IF ( FLAG_KEY_T .GT. 1) THEN
+      IF ( FLAG_KEY_T > 1) THEN
         CALL ANCMSG(MSGID=575,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO_BLIND_1,
@@ -176,7 +176,7 @@ C
 c
          UNIT_NAME = ''
          CALL HM_GET_STRING('UNIT_NAME',UNIT_NAME,2*ncharfield,IS_AVAILABLE)
-         IF(UNIT_NAME .NE. 'LENGTH' .AND. UNIT_NAME .NE. 'MASS' .AND. UNIT_NAME .NE. 'TIME') THEN
+         IF(UNIT_NAME /= 'LENGTH' .AND. UNIT_NAME /= 'MASS' .AND. UNIT_NAME /= 'TIME') THEN
            IERR0  = 1
            NUNITS = NUNITS + 1
            ID_OPT(NUNITS)=ID
@@ -269,12 +269,12 @@ C
         CALL HM_OPTION_COUNT('/BEGIN',NB_BEGIN)
         SCHAR = 20
         NBUNIT_SUB = 0
-        IF (NB_BEGIN .NE. 0) THEN
+        IF (NB_BEGIN /= 0) THEN
           CALL HM_OPTION_START('/BEGIN')
           DO I=1,NB_BEGIN
             CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                              SUBMODEL_INDEX = SUB_INDEX)
-            IF (SUB_INDEX .NE. 0) THEN
+            IF (SUB_INDEX /= 0) THEN
               NBUNIT_SUB = NBUNIT_SUB + 1
               NUNITS = NUNITS + 1
 

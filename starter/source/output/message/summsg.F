@@ -83,7 +83,7 @@ c///////////////////////////////////
 
 
         IEND = 0
-        DO WHILE(CPT .LT. IWARN)
+        DO WHILE(CPT < IWARN)
           READ(RES_CHECK,'(A)',END=110) TMPIN
           IF(TMPIN(1:9)== 'W_OPTION=')THEN
             CPT = CPT + 1
@@ -112,8 +112,8 @@ c
         ENDDO
 110     IEND = 1
 C
-        IF (CPT .NE. IWARN) THEN
-          DO WHILE(CPT .LT. IWARN)
+        IF (CPT /= IWARN) THEN
+          DO WHILE(CPT < IWARN)
             CPT = CPT + 1
             INDEXOPT_1(CPT) = CPT
             INDEX_WARN(CPT) = CPT
@@ -158,13 +158,13 @@ c
         REWIND(RES_CHECK)
 c
       J = 1
-      IF(IWARN .NE.0) THEN
+      IF(IWARN /=0) THEN
 	    W_CPT_TYP(J) = W_CPT_TYP(J) + 1
 	    W_OPTION_TYPE(J) = OPTIONTYPE(INDEXOPT(INDEX_WARN(1)))
             W_OPTION_INDEX(J) = 1
       ENDIF
       DO I=2,CPT
-	  IF( ITAB(1,INDEX_WARN(I)) .NE. ITAB(1,INDEX_WARN(I-1))  )  THEN
+	  IF( ITAB(1,INDEX_WARN(I)) /= ITAB(1,INDEX_WARN(I-1))  )  THEN
             J = J+1
             W_OPTION_INDEX(J) = I
           ENDIF
@@ -181,7 +181,7 @@ c
       CPTWARN = CPT
 c
       NBWARN = 0
-      IF(IWARN .NE.0)  INDEX_WARN(W_OPTION_INDEX(J+1)) = CPT + 1
+      IF(IWARN /=0)  INDEX_WARN(W_OPTION_INDEX(J+1)) = CPT + 1
 c
 c///////////////////////////////////
 c ERROR(s)
@@ -196,7 +196,7 @@ c///////////////////////////////////
 
 
         IEND = 0
-        DO WHILE(CPT .LT. IERR)
+        DO WHILE(CPT < IERR)
           READ(RES_CHECK,'(A)',END=120) TMPIN
           IF(TMPIN(1:9)== 'E_OPTION=')THEN
             CPT = CPT + 1
@@ -225,8 +225,8 @@ c
         ENDDO
 120     IEND = 1
 c
-        IF (CPT .NE. IERR) THEN
-          DO WHILE(CPT .LT. IERR)
+        IF (CPT /= IERR) THEN
+          DO WHILE(CPT < IERR)
             CPT = CPT + 1
             INDEXOPT_1(CPT) = CPT
             INDEX_ERR(CPT) = CPT
@@ -271,13 +271,13 @@ c
         REWIND(RES_CHECK)
 c
       J = 1
-      IF(IERR .NE.0) THEN
+      IF(IERR /=0) THEN
 	    E_CPT_TYP(J) = E_CPT_TYP(J) + 1
 	    E_OPTION_TYPE(J) = OPTIONTYPE(INDEXOPT(INDEX_ERR(1)))
             E_OPTION_INDEX(J) = 1
       ENDIF
       DO I=2,CPT
-	  IF( ITAB(1,INDEX_ERR(I)) .NE. ITAB(1,INDEX_ERR(I-1))  )  THEN
+	  IF( ITAB(1,INDEX_ERR(I)) /= ITAB(1,INDEX_ERR(I-1))  )  THEN
             J = J+1
             E_OPTION_INDEX(J) = I
           ENDIF
@@ -294,15 +294,15 @@ c
       CPTERR = CPT
 c
       NBERR = 0
-      IF(IERR .NE.0) INDEX_ERR(E_OPTION_INDEX(J+1)) = CPT + 1
+      IF(IERR /=0) INDEX_ERR(E_OPTION_INDEX(J+1)) = CPT + 1
 c
 c///////////////////////////////////
 c OUTPUT
 c///////////////////////////////////
       ALLOCATE(SUM_WARN(CPTWARN*10),SUM_ERR(CPTERR*10))
-      IF( IERR + IWARN .NE. 0 ) THEN
+      IF( IERR + IWARN /= 0 ) THEN
 c
-            IF(CPTWARN .NE. 0) THEN 
+            IF(CPTWARN /= 0) THEN 
               NBWARN = NBWARN + 1
               WRITE(TMP_CHAR ,'(A)') '  '
               DO I=1,58
@@ -311,7 +311,7 @@ c
             ENDIF
 c
             DO J=1,IERR+IWARN 
-              IF(W_CPT_TYP(J) .NE. 0) THEN 
+              IF(W_CPT_TYP(J) /= 0) THEN 
                 NBWARN = NBWARN + 1
                 WRITE(TMP_CHAR ,'(2X,A,A,5X,I6,1X,A)') '---',
      .          	 W_OPTION_TYPE(J),W_CPT_TYP(J),'WARNING(S) '
@@ -332,9 +332,9 @@ c
                 ENDDO 
 c
                 DO K=W_OPTION_INDEX(J),W_OPTION_INDEX(J+1)-1
-                  IF(ITRI_WARN(3,INDEX_WARN(K+1)) .NE. ITRI_WARN(3,INDEX_WARN(K)) )THEN
+                  IF(ITRI_WARN(3,INDEX_WARN(K+1)) /= ITRI_WARN(3,INDEX_WARN(K)) )THEN
                    NBWARN = NBWARN + 1
-                   IF(ITRI_WARN(3,INDEX_WARN(K)) .NE. 9998) THEN
+                   IF(ITRI_WARN(3,INDEX_WARN(K)) /= 9998) THEN
                      WRITE(TMP_CHAR ,'(7X,A,I6,X,A,I6)') '|---',
      .                   ITRI_WARN(4,INDEX_WARN(K)),'WARNING ID :       ',ITRI_WARN(3,INDEX_WARN(K))
                    ELSE
@@ -377,7 +377,7 @@ C
             ENDDO
 C
 c
-            IF(CPTERR .NE. 0)THEN
+            IF(CPTERR /= 0)THEN
               NBERR = NBERR + 1
               WRITE(TMP_CHAR ,'(A)') '  '
               DO I=1,58
@@ -385,7 +385,7 @@ c
               ENDDO 
             ENDIF
             DO J=1,IERR+IWARN  
-              IF(E_CPT_TYP(J) .NE. 0) THEN 
+              IF(E_CPT_TYP(J) /= 0) THEN 
                 NBERR = NBERR + 1
                 WRITE(TMP_CHAR ,'(2X,A,A,5X,I6,1X,A)') '---',
      .          	 E_OPTION_TYPE(J),E_CPT_TYP(J),'  ERROR(S) '
@@ -406,10 +406,10 @@ c
                 ENDDO 
 c
                 DO K=E_OPTION_INDEX(J),E_OPTION_INDEX(J+1)-1
-                  IF(ITRI_ERR(3,INDEX_ERR(K+1)) .NE. ITRI_ERR(3,INDEX_ERR(K)) )THEN
+                  IF(ITRI_ERR(3,INDEX_ERR(K+1)) /= ITRI_ERR(3,INDEX_ERR(K)) )THEN
                    NBERR = NBERR + 1
 C
-                   IF(ITRI_ERR(3,INDEX_ERR(K)) .NE. 9998) THEN
+                   IF(ITRI_ERR(3,INDEX_ERR(K)) /= 9998) THEN
                      WRITE(TMP_CHAR ,'(7X,A,I6,X,A,I6)') '|---',
      .                   ITRI_ERR(4,INDEX_ERR(K)),'  ERROR ID :       ',ITRI_ERR(3,INDEX_ERR(K))
                    ELSE

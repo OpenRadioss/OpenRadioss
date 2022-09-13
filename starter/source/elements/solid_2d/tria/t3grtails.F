@@ -156,7 +156,7 @@ C-----------------------------------------------
       MY_ALLOCATE(INDEX2,NUMELTG)
       INDEX2(1:NUMELTG)=PERMUTATION%TRIANGLE(1:NUMELTG)
 
-      IF(NADMESH.NE.0)THEN
+      IF(NADMESH/=0)THEN
         ALLOCATE( ISTOR(KSH3TREE+1,NUMELTG) )
       ELSE
         ALLOCATE( ISTOR(0,0) )
@@ -233,7 +233,7 @@ C
           ANGLE(I)=SH3ANG(NFT+I)
         ENDDO
 C
-        IF(NADMESH.NE.0)THEN
+        IF(NADMESH/=0)THEN
           DO  K=1,KSH3TREE
             DO  I=1,NEL
               ISTOR(K,I)=SH3TREE(K,NFT+I)
@@ -277,7 +277,7 @@ C
           SH3ANG(NFT+I) = ANGLE(INDEX(I))
         ENDDO
 
-       	IF(NADMESH.NE.0)THEN
+       	IF(NADMESH/=0)THEN
        	  DO  K=1,KSH3TREE
        	    DO  I=1,NEL
        	      SH3TREE(K,I+NFT)=ISTOR(K,INDEX(I))
@@ -290,7 +290,7 @@ C
        	  END IF
        	END IF
 C
-        IF(NFT.GE.NELTG3)THEN
+        IF(NFT>=NELTG3)THEN
           DO I = 1, NEL
             II = I+NFT-NELTG3
             INUM(1,I)=IXTG1(1,II)
@@ -312,7 +312,7 @@ C
         P = CEP(NFT+INDEX(1))
         NB = 1
         DO I = 2, NEL
-          IF (CEP(NFT+INDEX(I)).NE.P) THEN
+          IF (CEP(NFT+INDEX(I))/=P) THEN
             DD_IAD(P+1,NSPGROUP+N) = NB
             NB = 1
             P = CEP(NFT+INDEX(I))
@@ -345,11 +345,11 @@ C
 C     
 C RENUMEROTATION DE L'ARBRE
 C
-      IF(NADMESH.NE.0)THEN
+      IF(NADMESH/=0)THEN
         DO  I=1,NUMELTG
-          IF(SH3TREE(1,I).NE.0)
+          IF(SH3TREE(1,I)/=0)
      .       SH3TREE(1,I)=ITR1(SH3TREE(1,I))
-          IF(SH3TREE(2,I).NE.0)
+          IF(SH3TREE(2,I)/=0)
      .       SH3TREE(2,I)=ITR1(SH3TREE(2,I))
         ENDDO
       END IF
@@ -387,7 +387,7 @@ C
        DO P = 1, NSPMD
         NGP(P)=0
         NEL = DD_IAD(P+1,NSPGROUP+N)-DD_IAD(P,NSPGROUP+N)
-        IF (NEL.GT.0) THEN
+        IF (NEL>0) THEN
          NEL_PREC = DD_IAD(P,NSPGROUP+N)-DD_IAD(1,NSPGROUP+N)
          NGP(P)=NGROUP
          DO WHILE (NFT < NEL_PREC+NEL)
@@ -397,7 +397,7 @@ C
           MID = IXTG(1,II)
           MLN = NINT(PM(19,MID))
           PID = IXTG(5,II)
-          IF (NSUBDOM.GT.0) IPARTR2R = TAG_MAT(MID)
+          IF (NSUBDOM>0) IPARTR2R = TAG_MAT(MID)
           NPN = IGEO(4,PID)
           ISMST = IGEO(5,PID)
           IGTYP=IGEO(11,PID)
@@ -477,7 +477,7 @@ C
                 MY_NVSIZ=NVSIZ
             ELSE
                 ILEV=SH3TREE(3,II)
-                IF(ILEV.LT.0)ILEV=-ILEV-1
+                IF(ILEV<0)ILEV=-ILEV-1
                 MY_NVSIZ=MAX(4,MIN(4**ILEV,NVSIZ))
             END IF
           END IF
@@ -514,7 +514,7 @@ c         global integration
           ENDIF
 C
 C---------Drilling dof--using NB4 -> no supper place needed---------         
-          IF (IDROT1.GT.0.AND.ISH3N.GT.29) THEN
+          IF (IDROT1>0.AND.ISH3N>29) THEN
            CALL ANCMSG(MSGID=854,
      .                 MSGTYPE=MSGWARNING,
      .                 ANMODE=ANINFO_BLIND_2,
@@ -526,7 +526,7 @@ C---------Drilling dof--using NB4 -> no supper place needed---------
           IPLA = NINT(GEO(39,PID))
           ICSEN= IGEO(3,PID)
           IF(NPN == 0.AND.(MLN == 36.OR.MLN == 86))THEN
-           IF(INVERS.LT.44)THEN
+           IF(INVERS<44)THEN
             IPLA=1
            ELSE
             IF(IPLA == 0) IPLA=1
@@ -534,7 +534,7 @@ C---------Drilling dof--using NB4 -> no supper place needed---------
 C           IF(IPLA == 3) IPLA=2
            ENDIF
           ELSEIF(NPN == 0.AND.MLN == 3)THEN
-           IF(INVERS.LT.44)THEN
+           IF(INVERS<44)THEN
             IPLA=0
            ELSE
             IF(IPLA == 2) IPLA=0
@@ -550,8 +550,8 @@ C           IF(IPLA == 3) IPLA=2
             ITHK = 1
           ENDIF
           ISTRAIN = NINT(GEO(11,PID))
-C          IF(MLN == 19.OR.MLN.GE.25)ISTRAIN = 1
-          IF(MLN == 19.OR.MLN.GE.25.OR.MLN == 15)ISTRAIN = 1
+C          IF(MLN == 19.OR.MLN>=25)ISTRAIN = 1
+          IF(MLN == 19.OR.MLN>=25.OR.MLN == 15)ISTRAIN = 1
 c
           CALL ZEROIN(1,NPARG,IPARG(1,NGROUP))
           IPARG(1,NGROUP) = MLN
@@ -660,7 +660,7 @@ C---------
           IPARG(54,NGROUP) = IXFEM
           IPARG(65,NGROUP) = NLEVXF
 C         flag for group of duplicated elements in multidomains
-          IF (NSUBDOM.GT.0) IPARG(77,NGROUP)= IPARTR2R
+          IF (NSUBDOM>0) IPARG(77,NGROUP)= IPARTR2R
           IPARG(5,NGROUP) = 7
           IPARG(6,NGROUP) = NPN
           IPARG(9,NGROUP) = ISMST
@@ -675,7 +675,7 @@ C         flag for group of duplicated elements in multidomains
           IPARG(39,NGROUP)= ICSEN
           IPARG(41,NGROUP)= IDROT1
 C     Multifluid law, setting NLAY
-          IF (MLN .EQ. 151) THEN
+          IF (MLN == 151) THEN
              IPARG(20, NGROUP) = IPM(20, MID)
              JALE_FROM_MAT = NINT(PM(72,MID))
              JALE_FROM_PROP = IGEO(62,PID)
@@ -714,7 +714,7 @@ C     Multifluid law, setting NLAY
           NSG = 1
           DO 210 J = 2,NE1
             MIDN = IXTG(1,J+EADD(N)+NFT-1)
-            IF(MID.NE.MIDN)THEN
+            IF(MID/=MIDN)THEN
               MID = MIDN
               NSG = NSG + 1
             ENDIF

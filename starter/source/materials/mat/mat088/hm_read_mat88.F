@@ -136,7 +136,7 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('LAW88_Shape'     ,SHAPE         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_INTV('LAW88_Tension'     ,ITENS        ,IS_AVAILABLE, LSUBMODEL)
 
-      IF(RHOR.EQ.ZERO)RHOR=RHO0
+      IF(RHOR==ZERO)RHOR=RHO0
       PM(1) =RHOR
       PM(89)=RHO0
 
@@ -216,7 +216,7 @@ C
       IF(NU == ZERO) NU = ZEP495
       GS =  THREE_HALF*BULK*(ONE - TWO*NU)/(ONE + NU)
       E = TWO*GS*(ONE + NU)
-      IF (GS.LE.0) THEN
+      IF (GS<=0) THEN
         CALL ANCMSG(MSGID=828,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANSTOP,

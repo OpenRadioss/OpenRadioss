@@ -164,7 +164,7 @@ C-----------------------------------------------
      +        +PZY7(LFT:LLT)*VZ7(LFT:LLT)+PZY8(LFT:LLT)*VZ8(LFT:LLT)
         DVC(LFT:LLT) =(DXX(LFT:LLT)+DYY(LFT:LLT)+DZZ(LFT:LLT))*DT1
 C  
-      IF (ICP .EQ.1) THEN
+      IF (ICP ==1) THEN
         DVCA(LFT:LLT)=PXC1(LFT:LLT)*(VX1(LFT:LLT)-VX7(LFT:LLT))+PXC2(LFT:LLT)*(VX2(LFT:LLT)-VX8(LFT:LLT))
      .        +PXC3(LFT:LLT)*(VX3(LFT:LLT)-VX5(LFT:LLT))+PXC4(LFT:LLT)*(VX4(LFT:LLT)-VX6(LFT:LLT))
      .        +PYC1(LFT:LLT)*(VY1(LFT:LLT)-VY7(LFT:LLT))+PYC2(LFT:LLT)*(VY2(LFT:LLT)-VY8(LFT:LLT))
@@ -201,24 +201,24 @@ C
       ENDIF
 C-------------Constant stress traitement------
 C-------------R--direction------
-      IF (ICR.EQ.1) THEN
+      IF (ICR==1) THEN
        DO I=LFT,LLT
         DXX(I)= DXX(I)-DSR(I)*DTI
-        IF(ISMDISP.EQ.0.AND.OFFS(I).NE.TWO)DVCA(I)= DVCA(I)-DSR(I)
+        IF(ISMDISP==0.AND.OFFS(I)/=TWO)DVCA(I)= DVCA(I)-DSR(I)
        ENDDO
       ENDIF 
 C--------------S--direction--
-      IF (ICS.EQ.1) THEN
+      IF (ICS==1) THEN
        DO I=LFT,LLT
         DYY(I)= DYY(I)-DSS(I)*DTI
-        IF(ISMDISP.EQ.0.AND.OFFS(I).NE.TWO)DVCA(I)= DVCA(I)-DSS(I)
+        IF(ISMDISP==0.AND.OFFS(I)/=TWO)DVCA(I)= DVCA(I)-DSS(I)
        ENDDO
       ENDIF 
 C--------------T--direction
-      IF (ICT.EQ.1) THEN
+      IF (ICT==1) THEN
        DO I=LFT,LLT
         DZZ(I)= DZZ(I)-DST(I)*DTI
-        IF(ISMDISP.EQ.0.AND.OFFS(I).NE.TWO)DVCA(I)= DVCA(I)-DST(I)
+        IF(ISMDISP==0.AND.OFFS(I)/=TWO)DVCA(I)= DVCA(I)-DST(I)
        ENDDO
       ENDIF 
 C-------------Volume traitement------
@@ -228,7 +228,7 @@ C-------------Volume traitement------
         IF(IDEG(I)>10) DV = ZERO
         DSV(I) = DV
       ENDDO
-      IF (ISMDISP.GT.0.AND.(ICR+ICS+ICT).EQ.0.AND.ICP.NE.1) THEN
+      IF (ISMDISP>0.AND.(ICR+ICS+ICT)==0.AND.ICP/=1) THEN
        DO I=LFT,LLT
         DSV(I) = ZERO
        ENDDO
@@ -240,10 +240,10 @@ C-------------Volume traitement------
        DO I=LFT,LLT
         IF(OFFS(I)<=ONE) DSV(I) = ZERO
        ENDDO
-      ELSEIF ((ICR+ICS+ICT).GT.0 ) THEN
+      ELSEIF ((ICR+ICS+ICT)>0 ) THEN
        DO I=LFT,LLT
-        IF(OFFS(I).EQ.TWO.OR.ISMSTR==11) THEN
-         IF (ICP.EQ.1) THEN
+        IF(OFFS(I)==TWO.OR.ISMSTR==11) THEN
+         IF (ICP==1) THEN
           DSV(I) =DVCA(I)-(DXX(I)+DYY(I)+DZZ(I))*DT1
          ELSE
           DSV(I) = ZERO
@@ -254,21 +254,21 @@ C-------------Volume traitement------
       DO I=LFT,LLT
         IF(OFFS(I)==TWO.OR.ISMSTR==11) CYCLE
         DV=DSV(I)
-        IF (ABS(DV).GT.TOL.AND.OFF(I).NE.ZERO) THEN
+        IF (ABS(DV)>TOL.AND.OFF(I)/=ZERO) THEN
           DV =ZERO
 C----generally element will be switched to smstr 	  
 C          OFF(I)=ZERO
-C         IF (IMCONV.EQ.1) THEN
+C         IF (IMCONV==1) THEN
 C#include "lockon.inc"
 C          WRITE(ISTDO,2000) NGL(I)
 C          WRITE(IOUT ,2000) NGL(I)
 C#include "lockoff.inc"
 C          IDEL7NOK = 1
 C         ENDIF 
-        ELSEIF(ABS(DV).GT.TOL)THEN
+        ELSEIF(ABS(DV)>TOL)THEN
           DV =ZERO
         ENDIF
-        IF(ISMDISP.EQ.0) THEN
+        IF(ISMDISP==0) THEN
          DV1 = ONE-DV
          VOLO(I) = VOLO(I)*DV1
          IF (IRESP==1) VOL0DP(I) = VOL0DP(I)*DV1
@@ -277,10 +277,10 @@ C         ENDIF
       ENDDO
 C
       DT1D2=HALF*DT1
-      IF (ISCAU.GT.0 )DT1D2=DT1
+      IF (ISCAU>0 )DT1D2=DT1
       DT1D=TWO*DT1D2
-      IF (JCVT.NE.0) THEN
-       IF (ISMDISP.GT.0.AND.ISCAU.EQ.0) THEN
+      IF (JCVT/=0) THEN
+       IF (ISMDISP>0.AND.ISCAU==0) THEN
          D4(LFT:LLT)   = DXY(LFT:LLT)+DYX(LFT:LLT)
          D5(LFT:LLT)   = DYZ(LFT:LLT)+DZY(LFT:LLT)
          D6(LFT:LLT)   = DXZ(LFT:LLT)+DZX(LFT:LLT)

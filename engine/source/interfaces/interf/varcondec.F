@@ -53,7 +53,7 @@ C
          ICODV(I)=CODVR/PDIX
          CODVR=CODVR-ICODV(I)*PDIX
          PDIX=PDIX/10
-         IF(ICODV(I).NE.0)CODTOT=CODTOT+1
+         IF(ICODV(I)/=0)CODTOT=CODTOT+1
       ENDDO
       RETURN
       END

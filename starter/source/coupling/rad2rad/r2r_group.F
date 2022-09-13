@@ -180,16 +180,16 @@ C--------------------------------------------------------------------C
         NUM = 1
         IGS = NGROU+1
         DO I=1,NGROU
-          IF (NUM.LE.IGRNOD2(I)%ID) NUM=IGRNOD2(I)%ID+1     
+          IF (NUM<=IGRNOD2(I)%ID) NUM=IGRNOD2(I)%ID+1     
         END DO
       ENDIF
 C--------------------------------------------------------------------C
-      IF (IPID.EQ.0) NSUBDOM = 1
+      IF (IPID==0) NSUBDOM = 1
       NSUBDOM_LOC = NSUBDOM
       DO P=1,NSUBDOM_LOC
 C-----2 pass : pass 1 - contact nodes / passe 2 - connection nodes
         N = P
-        IF (IPID.EQ.0) N = IDDOM
+        IF (IPID==0) N = IDDOM
         COMPT = 0
 C--------------------------------------------------------------------C			
 C---------------FLAG = 0 --> tag of nodes and couting ---------------C
@@ -197,11 +197,11 @@ C--------------------------------------------------------------------C
         IF (FLAG==0) THEN
 C---------------Reset of out file + printout of new heading ---------C
         IPID_L = IPID
-        IF (FLG_SWALE.EQ.1) THEN
-          IF (IPID.EQ.0) IPID_L = 1
-          IF (IPID.NE.0) IPID_L = 0          
+        IF (FLG_SWALE==1) THEN
+          IF (IPID==0) IPID_L = 1
+          IF (IPID/=0) IPID_L = 0          
         ENDIF
-        IF (IPID_L.EQ.0) THEN
+        IF (IPID_L==0) THEN
           CLOSE(UNIT=IOUT, STATUS='DELETE',IOSTAT=IO_ERR)
 
           TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//R2R_FILNAM(1:LEN_TRIM(R2R_FILNAM))    
@@ -300,7 +300,7 @@ C---------------Tag of 3rd nodes of beams/springs -> pass 3----------C
 C---------------Tag of additionals nodes for kjoints-- --------------C        
         CALL TAGNOD_R2R(IXR_KJ,5,1,3,NUMELR,IPARTR,TAGNO,NPART,4,N)        
 C---------------Tag of specific nodes -> Skew,Frames-----------------C 
-        IF (P.EQ.NSUBDOM_LOC) CALL TAGNOD_R2R_S(TAGNO)
+        IF (P==NSUBDOM_LOC) CALL TAGNOD_R2R_S(TAGNO)
 C---------------Storage of initial tag of nodes----------------------C 
         DO I=1,NUMNOD
           TAGNO(NPART+NUMNOD+I) = TAGNO(NPART+I)
@@ -308,10 +308,10 @@ C---------------Storage of initial tag of nodes----------------------C
 C--------------------------------------------------------------------C
 C////////////////////////////////////////////////////////////////////C
 C--------------------------------------------------------------------C
-        DO WHILE ((MODIF.GT.0).AND.(COMPT.LT.80))
+        DO WHILE ((MODIF>0).AND.(COMPT<80))
         MODIF = 0
 C---------------Prereading of options for tag of nodes---------------C
-        IF (P.EQ.NSUBDOM_LOC) THEN
+        IF (P==NSUBDOM_LOC) THEN
           CALL R2R_PRELEC(IPARTS,
      2           IPARTC,IPARTG,IPARTT,IPARTP,IPARTR,IPARTSP,COMPT_T2,
      3           MODIF,COMPT,INOM_OPT,NSPCONDN,NSPHION,IPART_L,MEMTR,
@@ -321,7 +321,7 @@ C---------------Prereading of options for tag of nodes---------------C
      7           NEW_NINTSUB,NEW_NINIVOL,IXS10,IXS20,IXS16)
         ENDIF
 C---------------Tag of nodes of pretaged elements ( for TYPE2)-------C
-        IF (COMPT_T2.GT.0) THEN
+        IF (COMPT_T2>0) THEN
         CALL TAGNODS_R2R(IXS,IXS10,IXS20,IXS16,TAG_ELS,TAGNO,2,1)
         CALL TAGNOD_R2R(IXC,NIXC,2,5,NUMELC,TAG_ELC,TAGNO,NPART,2,1)
         CALL TAGNOD_R2R(IXTG,NIXTG,2,4,NUMELTG,TAG_ELG,TAGNO,NPART,2,1)
@@ -331,15 +331,15 @@ C---------------Tag of nodes of pretaged elements ( for TYPE2)-------C
         COMPT = COMPT+1
         END DO ! DO WHILE
 C---------------Tag of nodes ALE/lagrange ---------------------------C
-        IF (IALE.GT.0) THEN
+        IF (IALE>0) THEN
           CALL ALE_CHECK_LAG(NALE_R2R,IXS,IXQ,IXC,IXT,IXTG,PM,ITAB,NALE_R2R,0,IGEO_)
         ENDIF
 C---------------Check of FLG_FSI ------------------------------------C
-        IF (IALE+IEULER.GT.0) THEN
+        IF (IALE+IEULER>0) THEN
           CALL CHK_FLG_FSI(IXS,PM,IPARTS,ALE_EULER,IGEO_)
         ENDIF
 C---------------Error message infinite loop -------------------------C
-        IF (COMPT.GE.80) THEN
+        IF (COMPT>=80) THEN
           CALL ANCMSG(MSGID=972,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO)
@@ -368,15 +368,15 @@ C
 C---------------Determination of flag for coupled sph particles------C
           FLG_SPH = 0
           DO J=1,NUMSPH
-            IF (TAGNO(KXSP(NISP*(J-1)+3)+NPART).GT.1) FLG_SPH = 1
+            IF (TAGNO(KXSP(NISP*(J-1)+3)+NPART)>1) FLG_SPH = 1
           END DO   
 C---------------Couting of remaining nodes---------------------------C
           COMPT = 0
           DO J=1,NUMNOD
-            IF (TAGNO(J+NPART).GT.1) INNOD = INNOD+1	        
+            IF (TAGNO(J+NPART)>1) INNOD = INNOD+1	        
           ENDDO
 C---------------Warnings for size of interfaces ---------------------C
-          IF (INNOD.EQ.0) THEN
+          IF (INNOD==0) THEN
             CALL ANCMSG(MSGID=839,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -385,16 +385,16 @@ C---------------Warnings for size of interfaces ---------------------C
      .                   I1=ISUBDOM(1,P))
           ELSE
 C--         For SPH big multidomains interfaces are alloxed -> no error message only a warning
-            IF ((FLG_SPH.EQ.1).OR.(FLG_FSI.EQ.1)) R2R_FLAG_ERR_OFF = 1
+            IF ((FLG_SPH==1).OR.(FLG_FSI==1)) R2R_FLAG_ERR_OFF = 1
 C              
             FAC = (100*INNOD) / NUMNOD
-            IF (((FAC.GT.20).AND.(FAC.LT.50)).OR.((R2R_FLAG_ERR_OFF.EQ.1).AND.(FAC.GT.50))) THEN
+            IF (((FAC>20).AND.(FAC<50)).OR.((R2R_FLAG_ERR_OFF==1).AND.(FAC>50))) THEN
               CALL ANCMSG(MSGID=859,
      .                    MSGTYPE=MSGWARNING,
      .                    ANMODE=ANINFO_BLIND_1,
      .                    I1=INNOD,
      .                    I2=FAC)
-            ELSEIF (FAC.GT.50) THEN
+            ELSEIF (FAC>50) THEN
               FLG_R2R_ERR = 1
               CALL ANCMSG(MSGID=1075,
      .                    MSGTYPE=MSGERROR,
@@ -404,7 +404,7 @@ C
             ENDIF
           ENDIF
 C---------------Warnings for splitted contact interfaces ------------C
-          IF (TAGINT_WARN(1).GT.0) THEN
+          IF (TAGINT_WARN(1)>0) THEN
             CALL ANCMSG(MSGID=842,
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_1)
@@ -422,14 +422,14 @@ C--------------------------------------------------------------------C
             IAD_TMP = IAD
 C---------------Storage inside buffer--------------------------------C	
             DO J=1,NUMNOD
-              IF (TAGNO(J+NPART).EQ.(K+N)) THEN 
+              IF (TAGNO(J+NPART)==(K+N)) THEN 
                 BUF_NOD(IAD)=J
                 IAD=IAD+1
                 COMPT = COMPT+1	        
               ENDIF
             ENDDO
             INNOD = INNOD + COMPT   
-            IF (COMPT.GT.0) THEN
+            IF (COMPT>0) THEN
 C---------------Creation of new GRNOD + LINK ------------------------C
               IF (K == 1) THEN
                 TITR="MULTIDOMAINS INTERFACE TYPE CONNECTION "
@@ -452,11 +452,11 @@ C---------------Creation of new LINK---------------------------------C
 C---------------Incrementation of Variables for future GRNOD---------C
                NUM = NUM+1
                IGS = IGS+1
-               IF (COMPT.GT.0) N_LNK_C = N_LNK_C+1   
+               IF (COMPT>0) N_LNK_C = N_LNK_C+1   
              ENDIF
            END DO
-           IF (INNOD.EQ.0) THEN	
-             IF (IPID.NE.0) THEN
+           IF (INNOD==0) THEN	
+             IF (IPID/=0) THEN
              ENDIF  
              CALL ANCMSG(MSGID=839,
      .                   MSGTYPE=MSGERROR,
@@ -514,7 +514,7 @@ C--------------------------------------------------------------------C
 C----- Creation of file "_0000.r2r"----------------------------------C
 C--------------------------------------------------------------------C
       IF (FLAG == 1) THEN
-        IF (IPID.NE.0) THEN
+        IF (IPID/=0) THEN
           WRITE(ISTDO,'(A)')' .. MULTIDOMAINS INPUT FILE GENERATION' 
           CALL R2R_INPUT(IEXLNK)   
         ENDIF      

@@ -85,7 +85,7 @@ c
       BNIGE = 0
 c
       DO ITSURF=1,NSURF
-        IF(IGRSURF(ITSURF)%NSEG_IGE.GT.0) THEN !! on est sur une surface isogeometrique
+        IF(IGRSURF(ITSURF)%NSEG_IGE>0) THEN !! on est sur une surface isogeometrique
           DO J=1,IGRSURF(ITSURF)%NSEG_IGE
             IEL=IGRSURF(ITSURF)%ELEM_IGE(J)
             AV1 = VOL(IEL)/56

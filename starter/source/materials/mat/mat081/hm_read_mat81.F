@@ -149,14 +149,14 @@ c-----------------------------------------------------------------------
 C-----------------------------------------------
 C     DATA CHECKING
 C-----------------------------------------------
-      IF(KINI.LE.ZERO)THEN
+      IF(KINI<=ZERO)THEN
           CALL ANCMSG(MSGID=1012,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=MAT_ID,
      .                C1=TITR)
       ENDIF
-      IF(GINI.LE.ZERO)THEN
+      IF(GINI<=ZERO)THEN
           CALL ANCMSG(MSGID=1013,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
@@ -222,7 +222,7 @@ C
       ENDIF
 C new in May 2015 by Fred Perie (implemented by Marian)
       IF(SAT0/=ZERO)THEN
-       IF(KWATER .LE.ZERO )THEN
+       IF(KWATER <=ZERO )THEN
           CALL ANCMSG(MSGID=1085,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,

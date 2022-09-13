@@ -47,21 +47,21 @@ C-----------------------------------------------
       INTEGER I,J1,J2,J
       KEY=' '
       I=2
-      DO WHILE(LINE1(I:I).NE.'/')
+      DO WHILE(LINE1(I:I)/='/')
         I=I+1
-        IF(I.GT.ncharline) GOTO 900
+        IF(I>ncharline) GOTO 900
       ENDDO
       I=I+1
-      DO WHILE(LINE1(I:I).NE.'/')
+      DO WHILE(LINE1(I:I)/='/')
         I=I+1
-        IF(I.GT.ncharline) GOTO 900
+        IF(I>ncharline) GOTO 900
       ENDDO
       I=I+1
-      IF(I.GT.ncharline) GOTO 900
+      IF(I>ncharline) GOTO 900
       J1=I
-      DO WHILE(LINE1(I:I).NE.'/')
+      DO WHILE(LINE1(I:I)/='/')
         I=I+1
-        IF(I.GT.ncharline) THEN
+        IF(I>ncharline) THEN
           J2=ncharline
           GOTO 10
         END IF

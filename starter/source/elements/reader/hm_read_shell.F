@@ -182,21 +182,21 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
-        IF(SUB_SHELL(I) .NE. 0)THEN
-          IF(IPARTC(I) .NE. 0) IPARTC(I) = IPARTC(I) + OFF_PART(SUB_SHELL(I)) 
-          IF(IXC(NIXC,I) .NE. 0) IXC(NIXC,I) = IXC(NIXC,I) + OFF_EL(SUB_SHELL(I))
+        IF(SUB_SHELL(I) /= 0)THEN
+          IF(IPARTC(I) /= 0) IPARTC(I) = IPARTC(I) + OFF_PART(SUB_SHELL(I)) 
+          IF(IXC(NIXC,I) /= 0) IXC(NIXC,I) = IXC(NIXC,I) + OFF_EL(SUB_SHELL(I))
           DO J=2,5
-            IF(IXC(J,I) .NE. 0) IXC(J,I) = IXC(J,I) + OFF_NOD(SUB_SHELL(I))
+            IF(IXC(J,I) /= 0) IXC(J,I) = IXC(J,I) + OFF_NOD(SUB_SHELL(I))
           ENDDO
-          IF(UID_SHELL(I) .NE. 0) UID_SHELL(I) = UID_SHELL(I) + OFF_DEF(SUB_SHELL(I))
-          IF(UID_SHELL(I) == 0 .AND. LSUBMODEL(SUB_SHELL(I))%UID .NE. 0) 
+          IF(UID_SHELL(I) /= 0) UID_SHELL(I) = UID_SHELL(I) + OFF_DEF(SUB_SHELL(I))
+          IF(UID_SHELL(I) == 0 .AND. LSUBMODEL(SUB_SHELL(I))%UID /= 0) 
      .         UID_SHELL(I) = LSUBMODEL(SUB_SHELL(I))%UID
         ENDIF
 C--------------------------------------------------
 C      UNITS
 C--------------------------------------------------
         FAC_L = ONE
-        IF(UID_SHELL(I) .NE. UID )THEN
+        IF(UID_SHELL(I) /= UID )THEN
           UID = UID_SHELL(I)
           IFLAGUNIT = 0          
           DO J=1,NUNITS                         
@@ -205,7 +205,7 @@ C--------------------------------------------------
               IFLAGUNIT = 1                     
             ENDIF                               
           ENDDO                                  
-          IF (UID.NE.0.AND.IFLAGUNIT.EQ.0) THEN
+          IF (UID/=0.AND.IFLAGUNIT==0) THEN
             CALL ANCMSG(MSGID=643,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I1=UID,C1='/SHELL')
           ENDIF 
@@ -214,9 +214,9 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
-        IF( IPART(4,INDEX_PART) .NE. IPARTC(I) )THEN  
+        IF( IPART(4,INDEX_PART) /= IPARTC(I) )THEN  
           DO J=1,NPART                            
-            IF(IPART(4,J).EQ. IPARTC(I) ) INDEX_PART = J 
+            IF(IPART(4,J)== IPARTC(I) ) INDEX_PART = J 
           ENDDO  
         ENDIF
         IF(IPART(4,INDEX_PART) /= IPARTC(I)) THEN
@@ -234,15 +234,15 @@ C--------------------------------------------------
         IPID=IPART(2,INDEX_PART)                                 
         IXC(1,I)=MT                                
         IXC(6,I)=IPID 
-        IF (IXC(NIXC,I).GT.ID_LIMIT)THEN
+        IF (IXC(NIXC,I)>ID_LIMIT)THEN
             CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I1=IXC(NIXC,I),C1=LINE,C2='/SHELL')
-        ELSEIF (NADMESH.NE.0.AND.IXC(NIXC,I).GT.ID_LIMIT_ADMESH)THEN
+        ELSEIF (NADMESH/=0.AND.IXC(NIXC,I)>ID_LIMIT_ADMESH)THEN
             CALL ANCMSG(MSGID=1069,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I1=IXC(NIXC,I),C1=LINE,C2='/SHELL')
         ENDIF                            
-        IF(  ( IXC(4,I) .EQ. IXC(5,I)) .OR.        
-     .       ( IXC(5,I) .EQ. 0 )) THEN             
+        IF(  ( IXC(4,I) == IXC(5,I)) .OR.        
+     .       ( IXC(5,I) == 0 )) THEN             
            NDEGEN = NDEGEN + 1                     
            CALL ANCMSG(MSGID=430,
      .                 MSGTYPE=MSGWARNING,
@@ -250,7 +250,7 @@ C--------------------------------------------------
      .                 ANMODE=ANINFO_BLIND_2,
      .                 PRMOD=MSG_CUMU)
         ENDIF                                                                  
-        IF(THK(I).GT.0) THEN                       
+        IF(THK(I)>0) THEN                       
            CALL APARTSET(INDEX_PART, CHECK_THICK_SHELL)   
         ENDIF 
                                
@@ -277,7 +277,7 @@ C
       I1=1
       I2=MIN0(50,NUMELC0)
 C
-      IF(IPRI.GE.5)THEN
+      IF(IPRI>=5)THEN
    90  WRITE (IOUT,'(//A/A//A,A/)')TITRE(110),TITRE(111),TITRE(102),TITRE(105)
        DO I=I1,I2
          MID = IPM(1,IXC(1,I))
@@ -285,7 +285,7 @@ C
          WRITE (IOUT,FMT='(8(I10,1X),1PG20.13,1X,1PG20.13)') IXC(NIXC,I),I,MID,PID,
      .                      (ITAB(IXC(J,I)),J=2,5),ANGLE(I),THK(I)
        ENDDO
-       IF(I2.EQ.NUMELC0)GOTO 200
+       IF(I2==NUMELC0)GOTO 200
        I1=I1+50
        I2=MIN0(I2+50,NUMELC0)
        GOTO 90

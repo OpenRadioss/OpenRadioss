@@ -82,7 +82,7 @@ C-----------------------------------------------
         PZC4(I) = -PZC2(I)
       ENDDO
 C
-      IF (IKSUP.EQ.0) THEN
+      IF (IKSUP==0) THEN
         IS = 1
         CALL Q4KELIJS2(PY1, PZ1, PY1, PZ1,
      .                PYC1, PZC1, PYC1, PZC1, AY, R22, R23,
@@ -212,11 +212,11 @@ C-----------------------------------------------
      .                G33(1,1,EP)*PYCI(EP)*PYCJ(EP)
       ENDDO
 C
-      IF (N2D.EQ.1) THEN
+      IF (N2D==1) THEN
         DO EP=LFT,LLT
           AYS(EP) = AY(EP)*AY(EP)
         ENDDO
-        IF (JCVT.EQ.0) THEN
+        IF (JCVT==0) THEN
           DO EP=LFT,LLT
             KIJ(1,1,EP) = KIJ(1,1,EP) +
      .                  DD(1,3,EP)*AY(EP)*(PYI(EP)+PYJ(EP)) +
@@ -231,7 +231,7 @@ C
           ENDDO
 C         asymmetric part
 C          IASY = 0
-C          IF (IASY.NE.0) THEN
+C          IF (IASY/=0) THEN
 C          ENDIF
         ELSE
           DO EP=LFT,LLT
@@ -256,7 +256,7 @@ C          ENDIF
           ENDDO
 C         asymmetric part
 C          IASY = 0
-C          IF (IASY.NE.0) THEN
+C          IF (IASY/=0) THEN
 C          ENDIF
         ENDIF
       ENDIF
@@ -317,11 +317,11 @@ C-----------------------------------------------
      .                GG(EP)*PYCI(EP)*PYCJ(EP)
       ENDDO
 C
-      IF (N2D.EQ.1) THEN
+      IF (N2D==1) THEN
         DO EP=LFT,LLT
           AYS(EP) = AY(EP)*AY(EP)
         ENDDO
-        IF (JCVT.EQ.0) THEN
+        IF (JCVT==0) THEN
           DO EP=LFT,LLT
             KIJ(1,1,EP) = KIJ(1,1,EP) + 
      .                  DD(1,3,EP)*AY(EP)*(PYI(EP)+PYJ(EP)) + 
@@ -333,7 +333,7 @@ C
           ENDDO
 C         asymmetric part
 C          IASY = 0
-C          IF (IASY.NE.0) THEN
+C          IF (IASY/=0) THEN
 C          DO EP=LFT,LLT
 C            KIJU(1,1,EP) = KIJU(1,1,EP) - 
 C     .                  AY(EP)*(DD(1,1,EP)*PYJ(EP)+DD(1,3,EP)*AY(EP))
@@ -366,7 +366,7 @@ C          ENDIF
           ENDDO
 C         asymmetric part
 C          IASY = 0
-C          IF (IASY.NE.0) THEN
+C          IF (IASY/=0) THEN
 C          ENDIF
         ENDIF
       ENDIF

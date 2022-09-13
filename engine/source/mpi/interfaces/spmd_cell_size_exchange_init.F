@@ -19,7 +19,7 @@ Copyright>        Commercial Alternative: Altair Radioss Software
 Copyright>    
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
-Copyright>        commercial version may interest you: https://www.altair.com/radioss/.  
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
 Chd|  SPMD_CELL_SIZE_EXCHANGE_INIT  source/mpi/interfaces/spmd_cell_size_exchange_init.F
 Chd|-- called by -----------
@@ -104,7 +104,7 @@ C-----------------------------------------------
         INACTI = IPARI(22,NIN)
         IFQ =IPARI(31,NIN)
 
-        IF(INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7.OR.IFQ.GT.0.OR.ITIED.NE.0) THEN
+        IF(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.IFQ>0.OR.ITIED/=0) THEN
             IF(.NOT.ALLOCATED(INTER_STRUCT(NIN)%NSNFIOLD) ) THEN
                 ALLOCATE(INTER_STRUCT(NIN)%NSNFIOLD(NSPMD))
                 INTER_STRUCT(NIN)%NSNFIOLD(1:NSPMD) = 0
@@ -137,10 +137,10 @@ C-----------------------------------------------
 
 c specific cases 
 c IGAP=1 or IGAP=2
-            IF(IGAP.EQ.1 .OR. IGAP.EQ.2)THEN
+            IF(IGAP==1 .OR. IGAP==2)THEN
                 RSIZ = RSIZ + 1
 c IGAP=3	
-            ELSEIF(IGAP.EQ.3)THEN
+            ELSEIF(IGAP==3)THEN
                 RSIZ = RSIZ + 2
             ENDIF
 

@@ -111,7 +111,7 @@ C----IKC(NDDL) : 1->fix_global,2->Ud_global,3,4->fv_rw,5->Int2_0,6->Int2_1,7->RB
 C----a faire (8->fix_local,9->Ud_local)-----10,11->sliding rw---12->remesh,13->RBE3,14->AUTO-SPC
 C----15->AUTO-SPC-in local sys,16->RBE2,
 C----No ddl -> IDDL(NDDL)+NDOF(NUMNOD)-MIN(IKC,1)---
-      IF(NINT2.GT.0)THEN
+      IF(NINT2>0)THEN
        CALL I2_IMP0(NINT2 ,IINT2 ,
      1              IPARI,INTBUF_TAB,X,MS   ,IN   ,
      1              NMC2  ,IMIJ2 ,ITAB   ,
@@ -120,21 +120,21 @@ C----No ddl -> IDDL(NDDL)+NDOF(NUMNOD)-MIN(IKC,1)---
      4              IADK  ,JDIK   ,DIAG_K ,LT_K  ,B      )
       ENDIF
 c
-      IF(NRBE2.GT.0)THEN
+      IF(NRBE2>0)THEN
        CALL RBE2_IMP0(
      1                IRBE2  ,LRBE2  ,X      ,NSRB2  ,ISB2   ,
      2                IKC    ,NDOF   ,IDDL   ,IADK   ,JDIK   ,
      3                DIAG_K ,LT_K   ,B      ,WEIGHT ,ITAB   ,
      4                SKEW   )
       ENDIF
-      IF(NRBE3.GT.0)THEN
+      IF(NRBE3>0)THEN
        CALL RBE3_IMP0(
      1              IRBE3  ,LRBE3 ,FRBE3  ,X     ,SKEW    ,
      2              ISS3   ,IKC   ,NDOF   ,IDDL  ,IADK    ,
      3              JDIK   ,DIAG_K,LT_K   ,B     ,WEIGHT  ,
      4              ITAB  )
       ENDIF
-      IF(NRBYAC.GT.0)THEN
+      IF(NRBYAC>0)THEN
        CALL RBY_IMP0(X     ,RBY   ,LPBY  ,NPBY  ,SKEW  ,
      1               NRBYAC,IRBYAC,NSC   ,ISIJ  ,NMC   ,
      2               IMIJ  ,NSS   ,ISS   ,ISKEW ,ITAB  ,
@@ -142,7 +142,7 @@ c
      4               NDDL  ,IADK  ,JDIK  ,DIAG_K,
      5               LT_K  ,NDOF  ,IDDL  ,IKC   ,B     )
       ENDIF
-      IF(NADMESH.NE.0)THEN
+      IF(NADMESH/=0)THEN
             CALL RM_IMP0(
      4                   NDDL  ,IADK  ,JDIK  ,DIAG_K ,LT_K  ,
      5                   NDOF  ,IDDL  ,IKC   ,B      ,ITAB  )
@@ -175,7 +175,7 @@ C
      1             NDOF  ,IDDL  ,IADK  ,JDIK  ,DIAG_K,
      2             LT_K  )
       END IF
-      IF(NFXVEL.GT.0) THEN
+      IF(NFXVEL>0) THEN
        CALL FV_IMPL(IBFV   ,SKEW  ,XFRAME ,LJ   ,IDDL   ,
      1              IKC    ,NDOF  ,IADK   ,JDIK ,DIAG_K ,
      2              LT_K   ,UD    ,RD     ,B    )
@@ -184,18 +184,18 @@ C
      2              BKUD   ,NDDL  ,RD    )
       ENDIF
 C
-      IF(NT_RW.GT.0) THEN
+      IF(NT_RW>0) THEN
        CALL FV_RW0(IDDL   ,IKC   ,NDOF  ,IADK  ,JDIK ,
      1             DIAG_K ,LT_K  ,UD    ,B     )
       ENDIF
-      IF(IAUTSPC.GT.0) THEN
+      IF(IAUTSPC>0) THEN
        ALLOCATE(DOFSPC(NUMNOD))
        CALL INI_DOFSPC(
      1    NPBY      ,LPBY      ,NRBYAC    ,IRBYAC    ,NINT2     ,
      2    IINT2     ,IPARI     ,INTBUF_TAB,NDOF      ,IRBE3     ,
      3    LRBE3     ,IRBE2     ,LRBE2     ,X         ,DOFSPC    )
        DO I=1,NDDL
-        IF (IKC(I).EQ.14.OR.IKC(I).EQ.15) IKC(I)=0
+        IF (IKC(I)==14.OR.IKC(I)==15) IKC(I)=0
        END DO
        CALL UPD_ASPC(NDDL  ,DOFSPC,IDDL  ,IKC    ,ITAB  ,
      .               IADK  ,JDIK  ,DIAG_K,LT_K   )
@@ -311,13 +311,13 @@ C
        DO NI = 1,NDL
         I=NI+NDF
         IFIX(I) = NL
-        IF (IKC(I).LT.1) THEN
+        IF (IKC(I)<1) THEN
          NDDL=NDDL+1
          IADK(NDDL)=NNZ+1
          DO J = IADK1(NI),IADK1(NI+1)-1
           JI=J-NZF
           K= JDIK1(JI)
-          IF (IKC(K).LT.1) THEN
+          IF (IKC(K)<1) THEN
            NNZ=NNZ+1
            JDIK(NNZ)=K
            LT_K(NNZ)=LT_K1(JI)
@@ -354,7 +354,7 @@ C-----------------------------------------------
       INTEGER IADK1(NDDL+1),JDIK1(NNZ),IFIX(NDDL)
       INTEGER I,J,K,I1,J1,ND,NI,JI,NL
 C -----update---condense-IKC>=1------------------------------------
-       IF (NDDL.EQ.0) RETURN
+       IF (NDDL==0) RETURN
         DO I = 1,NDDL+1
          IADK1(I)=IADK(I)
         ENDDO
@@ -367,12 +367,12 @@ C
        NL = 0
        DO I = 1,NDDL
         IFIX(I) = NL
-        IF (IKC(I).LT.1) THEN
+        IF (IKC(I)<1) THEN
          ND=ND+1
          IADK(ND)=NNZ+1
          DO J = IADK1(I),IADK1(I+1)-1
           K= JDIK1(J)
-          IF (IKC(K).LT.1) THEN
+          IF (IKC(K)<1) THEN
            NNZ=NNZ+1
            JDIK(NNZ)=K
           ENDIF
@@ -439,7 +439,7 @@ C
       ND=0
 C
       DO I = 1,NDDL
-       IF (IKC(I).LT.1) THEN
+       IF (IKC(I)<1) THEN
         ND=ND+1
         B(ND)=B1(I)
        ENDIF
@@ -531,32 +531,32 @@ C
       DO I=1,NDDLI
        IAD=ITOK(I)
        IIC(I)=0
-       IF (IKC(IAD).EQ.2.OR.IKC(IAD).EQ.9) IIC(I)=IKC(IAD)
-       IF (IKC(IAD).EQ.3.OR.IKC(IAD).EQ.4.OR.
-     .       IKC(IAD).EQ.10.OR.IKC(IAD).EQ.11) IIC(I)=IKC(IAD)
-       IF (IKC(IAD).EQ.14.OR.IKC(IAD).EQ.15) IIC(I)=IKC(IAD)
-       IF (IKC(IAD).LT.1) THEN
+       IF (IKC(IAD)==2.OR.IKC(IAD)==9) IIC(I)=IKC(IAD)
+       IF (IKC(IAD)==3.OR.IKC(IAD)==4.OR.
+     .       IKC(IAD)==10.OR.IKC(IAD)==11) IIC(I)=IKC(IAD)
+       IF (IKC(IAD)==14.OR.IKC(IAD)==15) IIC(I)=IKC(IAD)
+       IF (IKC(IAD)<1) THEN
         LBI(I)=LB(IAD)
        ELSE
         LBI(I)=ZERO
        ENDIF
        ITOK1(I)=IAD
       ENDDO
-      IF(NINT2.GT.0.OR.NRBYAC.GT.0.OR.NRBE3.GT.0)
+      IF(NINT2>0.OR.NRBYAC>0.OR.NRBE3>0)
      .    CALL CP_REAL(NDDLI,LBI,LB0)
       NDDL0=NDDLI
       NNZK0=NNZI
 C -----update---due to kinematic conditions-----------------------------------
 C----IKC(NDDL) : 1->fix_global,2->Ud_global,3->fix_local,4->Ud_local,5->Int2_0,6->Int2_1,7->RB------
 C-----l'interface 2 ------
-      IF(NINT2.GT.0)THEN
+      IF(NINT2>0)THEN
        CALL I2_IMPI(NINT2  ,IINT2 ,IPARI ,INTBUF_TAB ,
      1              X      ,MS    ,IN    ,NSS2  ,ISS2  ,
      2              WEIGHT ,IIC   ,NDOFI ,NDDLI ,IDDLI ,
      3              IADI   ,JDII  ,DIAG_I,LT_I  ,IAINT2,
      4              LB0    ,ITAB  )
       ENDIF
-      IF(NRBE2.GT.0)THEN
+      IF(NRBE2>0)THEN
        CALL RBE2_IMPI(
      1                IRBE2  ,LRBE2 ,X     ,SKEW   ,
      2                NSB2   ,ISB2  ,IIC   ,NDOFI  ,IDDLI  ,
@@ -564,7 +564,7 @@ C-----l'interface 2 ------
      4                WEIGHT ,ITAB  )
       ENDIF
 C-----rbe3 ------
-      IF(NRBE3.GT.0)THEN
+      IF(NRBE3>0)THEN
        CALL RBE3_IMPI(
      1              IRBE3  ,LRBE3 ,FRBE3  ,X     ,SKEW    ,
      2              NSS3   ,ISS3  ,IIC   ,NDOFI  ,IDDLI   ,
@@ -572,7 +572,7 @@ C-----rbe3 ------
      4              WEIGHT ,ITAB  )
       ENDIF
 C-----RIGID BODIES-------
-      IF(NRBYAC.GT.0)THEN
+      IF(NRBYAC>0)THEN
        CALL RBY_IMPI(X     ,RBY   ,LPBY  ,NPBY  ,SKEW  ,
      1               NRBYAC,IRBYAC,NSS   ,ISS   ,ISKEW ,
      2               ITAB  ,WEIGHT,MS    ,IN    ,SENSOR,
@@ -584,14 +584,14 @@ C------------
       CALL BC_IMP1(ICODT ,ICODR ,ISKEW ,SKEW  ,IIC   ,
      1             NDOFI ,IDDLI ,IADI  ,JDII  ,DIAG_I,
      2             LT_I  )
-      IF(IAUTSPC.GT.0) THEN
+      IF(IAUTSPC>0) THEN
        CALL BC_IMPA(IADI  ,JDII   ,DIAG_I,LT_I  ,NDOFI ,
      1              IDDLI ,IIC    )
       ENDIF
-      IF(NFXVEL.GT.0) THEN
+      IF(NFXVEL>0) THEN
         DO I=1,NFXVEL
          N=IABS(IBFV(1,I))
-         IF (NDOFI(N).GT.0.AND.LUJ(I).LE.3) THEN
+         IF (NDOFI(N)>0.AND.LUJ(I)<=3) THEN
           LUJI(I) = LUJ(I)
          ELSE
           LUJI(I) = 0
@@ -603,20 +603,20 @@ C------------
         CALL FV_IMPI(IDDLI  ,IIC   ,NDOFI ,IADI  ,JDII   ,
      1               DIAG_I ,LT_I  ,UD    ,LBI   ,NDDLI  )
       ENDIF
-      IF(NT_RW.GT.0) THEN
+      IF(NT_RW>0) THEN
        CALL FV_RW0(IDDLI  ,IIC   ,NDOFI ,IADI  ,JDII ,
      1             DIAG_I ,LT_I  ,UD    ,LBI   )
       ENDIF
 C -----diak=0------------------------------------
-      IF (INTP_C.GE.0) THEN
+      IF (INTP_C>=0) THEN
       DO I=1,NDDLI
-      IF (IIC(I).LT.1.AND.DIAG_I(I).LE.EM20) IIC(I)=10
+      IF (IIC(I)<1.AND.DIAG_I(I)<=EM20) IIC(I)=10
       ENDDO
       ENDIF
 C -----update---LB------------------------------------
       DO I=1,NDDLI
        IAD=ITOK(I)
-       IF (IIC(I).LT.1) LB(IAD)=LBI(I)
+       IF (IIC(I)<1) LB(IAD)=LBI(I)
       ENDDO
 C -----update---condense-IKC>=1------------------------------------
       CALL CONDENS_B(NDDLI ,IIC    ,DIAG_I)
@@ -624,7 +624,7 @@ C -----update---condense-IKC>=1------------------------------------
 C -----update---ITOK------------------------------------
       ND=0
       DO I = 1,NDDL
-       IF (IKC(I).LT.1) THEN
+       IF (IKC(I)<1) THEN
         ND=ND+1
         IDEN(I)=ND
        ELSE
@@ -634,11 +634,11 @@ C -----update---ITOK------------------------------------
 C
       ND=0
       DO I = 1,NDDL0
-       IF (IIC(I).LT.1) THEN
+       IF (IIC(I)<1) THEN
         ND=ND+1
         L1=ITOK1(I)
         L2=IDEN(L1)
-        IF (L2.LE.0)WRITE(*,*)'---ERROR ITOK:---',I,L1,L2
+        IF (L2<=0)WRITE(*,*)'---ERROR ITOK:---',I,L1,L2
         ITOK(ND)=L2
        ENDIF
       ENDDO
@@ -722,18 +722,18 @@ C-----------------------------------------------
       my_real,
      .         DIMENSION(:),ALLOCATABLE :: B0
 C-------int2,RBE3,rby speciale (Fext seulement)----------
-        IF (IUPD.EQ.0) THEN
+        IF (IUPD==0) THEN
          DO I=1,NINT2
           N=IINT2(I)
           CALL I2_IMPR1(IPARI(1,N),INTBUF_TAB(N) ,
      .                  X  ,NDOF ,IDDL    ,B  )
          ENDDO
-         IF (NRBE2.GT.0) THEN
+         IF (NRBE2>0) THEN
           CALL RBE2_IMPR1(
      1                    IRBE2  ,LRBE2 ,X     ,SKEW   ,NDOF   ,
      2                    IDDL   ,B     ,WEIGHT)
          ENDIF
-         IF (NRBE3.GT.0) THEN
+         IF (NRBE3>0) THEN
           CALL RBE3_IMPR1(
      1                    IRBE3  ,LRBE3 ,FRBE3  ,X     ,SKEW   ,
      2                    NDOF   ,IDDL  ,B      ,WEIGHT)
@@ -751,7 +751,7 @@ C-------int2,rby speciale (elems deleted)----------
           CALL I2_IMPR2(IPARI(1,N),INTBUF_TAB(N) ,AC    ,ACR  ,
      .                  X  ,NDOF ,IDDL    ,B  )
          ENDDO
-         IF (NRBE3.GT.0) THEN
+         IF (NRBE3>0) THEN
           CALL RBE3_IMPR2(
      1                    IRBE3  ,LRBE3 ,FRBE3  ,X     ,SKEW   ,
      2                    NDOF   ,IDDL  ,B      ,WEIGHT,AC     ,
@@ -763,9 +763,9 @@ C-------int2,rby speciale (elems deleted)----------
           CALL RBY_IMPR2(X, RBY(1,N),LPBY(K1),NPBY(1,N),
      1                   NDOF  ,IDDL   ,B    ,AC    ,ACR  )
          ENDDO
-        IF (IDYNA.GT.0) THEN
+        IF (IDYNA>0) THEN
           ALLOCATE(MA(3,NUMNOD))
-          IF (IRODDL.NE.0) ALLOCATE(INA(3,NUMNOD))
+          IF (IRODDL/=0) ALLOCATE(INA(3,NUMNOD))
           CALL IMP_DYNAR(MA   ,INA   ,MS   ,IN     ,A    ,AR    ,
      .                   V    ,VR    )
          DO I=1,NRBYAC
@@ -774,7 +774,7 @@ C-------int2,rby speciale (elems deleted)----------
      .                   WEIGHT,ICODR  ,ISKEW  ,SKEW   )
          ENDDO
         ENDIF
-        IF (IRFLAG.GT.0) THEN
+        IF (IRFLAG>0) THEN
          CALL EXT_RHS(ICODT ,ICODR ,ISKEW ,IBFV    ,XFRAME ,
      1                X     ,SKEW  ,NDOF  ,IDDL    ,IKC    ,
      2                NDDL0 ,B     ,INLOC  ,LJ     ,AC     ,
@@ -785,13 +785,13 @@ C-------int2,rby speciale (elems deleted)----------
      1                X     ,SKEW  ,NDOF  ,IDDL    ,IKC    ,
      2                NDDL0 ,B0    ,INLOC  ,LJ     ,A      ,
      3                AR    ,NT_RW ,W_DDL  ,NDDL   ,R02    )
-         IF (IDYNA.GT.0) THEN
+         IF (IDYNA>0) THEN
          CALL IMP_SETB(MA   ,INA   ,IDDL  ,NDOF    ,B0     )
          CALL EXT_RHS(ICODT ,ICODR ,ISKEW ,IBFV    ,XFRAME ,
      1                X     ,SKEW  ,NDOF  ,IDDL    ,IKC    ,
      2                NDDL0 ,B0    ,INLOC  ,LJ     ,MA     ,
      3                INA   ,NT_RW ,W_DDL  ,NDDL   ,R02    )
-         END IF !(IDYNA.GT.0) THEN
+         END IF !(IDYNA>0) THEN
          DEALLOCATE(B0)
         ENDIF
 C -----add Fint---------------------
@@ -803,7 +803,7 @@ C -----add Fint---------------------
          A(2,I) = A(2,I) + AC(2,I)
          A(3,I) = A(3,I) + AC(3,I)
         ENDDO
-        IF (IRODDL.NE.0) THEN
+        IF (IRODDL/=0) THEN
          DO I = 1,NUMNOD
           AR(1,I) = AR(1,I) + ACR(1,I)
           AR(2,I) = AR(2,I) + ACR(2,I)
@@ -811,7 +811,7 @@ C -----add Fint---------------------
          ENDDO
         ENDIF
 C+++
-        IF (IDYNA.GT.0) THEN
+        IF (IDYNA>0) THEN
 C-------------
          CALL IMP_FHHT(NDDL0  ,B    )
 C -----add Ma----M,IN sont deja condenses-----------------
@@ -822,7 +822,7 @@ C -----add Ma----M,IN sont deja condenses-----------------
           A(2,I) = A(2,I) + MA(2,I)
           A(3,I) = A(3,I) + MA(3,I)
          ENDDO
-         IF (IRODDL.NE.0) THEN
+         IF (IRODDL/=0) THEN
           DO I = 1,NUMNOD
            AR(1,I) = AR(1,I) + INA(1,I)
            AR(2,I) = AR(2,I) + INA(2,I)
@@ -830,7 +830,7 @@ C -----add Ma----M,IN sont deja condenses-----------------
           ENDDO
          ENDIF
           DEALLOCATE(MA)
-          IF (IRODDL.NE.0) DEALLOCATE(INA)
+          IF (IRODDL/=0) DEALLOCATE(INA)
         ENDIF
 C ---
 C
@@ -838,14 +838,14 @@ C
        CALL BC_IMPR1(ICODT ,ICODR ,ISKEW ,SKEW  ,NDOF  ,
      1               IDDL  ,B     )
 C
-       IF(NFXVEL.GT.0) THEN
+       IF(NFXVEL>0) THEN
          CALL FV_IMPRL(IBFV   ,SKEW  ,XFRAME ,LJ   ,IDDL   ,
      1                 NDOF   ,B     )
        ENDIF
 C
-       IF(NT_RW.GT.0) CALL FV_RWLR0(IDDL   ,B     )
+       IF(NT_RW>0) CALL FV_RWLR0(IDDL   ,B     )
 C
-       IF (IMACH.EQ.3.AND.NSPMD.GT.1) THEN
+       IF (IMACH==3.AND.NSPMD>1) THEN
 C ----------B->dB---------------------
         IFLAG = 0
         CALL IMP_SETBA(A     ,AR      ,IDDL   ,NDOF  ,B     ,
@@ -858,7 +858,7 @@ C ----------B->dB---------------------
         CALL CONDENS_B(NDDL0  ,IKC  ,B    )
        ENDIF
 C-------------
-       IF (IDYNA.GT.0) CALL IMP_FHHT1(NDDL0  ,NDDL    ,B    ,IKC )
+       IF (IDYNA>0) CALL IMP_FHHT1(NDDL0  ,NDDL    ,B    ,IKC )
 C
       RETURN
       END
@@ -914,13 +914,13 @@ C------------------------------------------
         CALL CP_REAL(NDDL0,B,LB)
         CALL BC_IMPR1(ICODT ,ICODR ,ISKEW ,SKEW  ,NDOF  ,
      1                IDDL  ,LB    )
-        IF(NFXVEL.GT.0) THEN
+        IF(NFXVEL>0) THEN
          CALL FV_IMPRL(IBFV   ,SKEW  ,XFRAME ,LJ   ,IDDL   ,
      1                 NDOF   ,LB    )
         ENDIF
-        IF(NT_RW.GT.0) CALL FV_RWLR0(IDDL   ,LB    )
+        IF(NT_RW>0) CALL FV_RWLR0(IDDL   ,LB    )
 C
-       IF (IMACH.EQ.3.AND.NSPMD.GT.1) THEN
+       IF (IMACH==3.AND.NSPMD>1) THEN
 C ----------LB->dB---------------------
         IFLAG = 0
         CALL IMP_SETBA(AC     ,ACR      ,IDDL   ,NDOF  ,LB    ,
@@ -1011,7 +1011,7 @@ C-------D=0 for free dof------------
          A(2,N)= D(2,N)
          A(3,N)= D(3,N)
        ENDDO
-       IF (IRODDL.NE.0) THEN
+       IF (IRODDL/=0) THEN
         DO N =1,NUMNOD
          AR(1,N)= DR(1,N)
          AR(2,N)= DR(2,N)
@@ -1022,11 +1022,11 @@ C-------D=0 for free dof------------
         I=INLOC(N)
         DO J=1,MIN(3,NDOF(I))
          ND = IDDL(I)+J
-         IF (IKC(ND).EQ.0) A(J,I) =ZERO
+         IF (IKC(ND)==0) A(J,I) =ZERO
         ENDDO
         DO J=4,NDOF(I)
          ND = IDDL(I)+J
-         IF (IKC(ND).EQ.0) AR(J-3,I) =ZERO
+         IF (IKC(ND)==0) AR(J-3,I) =ZERO
         ENDDO
        ENDDO
 C
@@ -1048,7 +1048,7 @@ C
      5                X     ,XFRAME,LJ    ,IXR   ,IXC   ,
      6                IXTG  ,SH4TREE,SH3TREE,IRBE3 ,LRBE3,
      7                FRBE3 ,IRBE2 ,LRBE2 )
-       END IF !(IMP_LR .GT. 0)THEN
+       END IF !(IMP_LR > 0)THEN
 C
         CALL RER_INT_V(
      1    IPARI     ,INTBUF_TAB,NUM_IMP   ,NS_IMP    ,NE_IMP    ,
@@ -1067,11 +1067,11 @@ c        CALL MAV_LT(
 c     1               NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,
 c     2               LT_K  ,U     ,F     )
         CALL PRODUT_W( NDDL  ,F   ,F  ,W_DDL  , R2)
-        IF (R2.GT.R02.AND.IMCONV.GE.0.AND.
-     .         (LPRINT.NE.0.OR.NPRINT.NE.0)) THEN
-         IF(IMACH.NE.3.OR.ISPMD.EQ.0) THEN
+        IF (R2>R02.AND.IMCONV>=0.AND.
+     .         (LPRINT/=0.OR.NPRINT/=0)) THEN
+         IF(IMACH/=3.OR.ISPMD==0) THEN
             WRITE(IOUT,1006)SQRT(R2)
-           IF(NPRINT.LT.0) THEN
+           IF(NPRINT<0) THEN
             WRITE(ISTDO,1006)SQRT(R2)
            ENDIF
          ENDIF
@@ -1134,9 +1134,9 @@ C-----------------------------------------------
        NTY   =IPARI(7,NIN)
        NSN   =IPARI(5,NIN)
 C
-       IF(NTY.EQ.3)THEN
-       ELSEIF(NTY.EQ.4)THEN
-       ELSEIF(NTY.EQ.5)THEN
+       IF(NTY==3)THEN
+       ELSEIF(NTY==4)THEN
+       ELSEIF(NTY==5)THEN
           CALL UD_INT5(
      1       IPARI(1,NIN),INTBUF_TAB(NIN) ,X       ,
      2       NUM_IMP(NIN),NS_IMP(IAD),NE_IMP(IAD)  ,UD    )
@@ -1148,19 +1148,19 @@ C
        NTY   =IPARI(7,NIN)
        NSN   =IPARI(5,NIN)
 C
-       IF(NTY.EQ.3)THEN
-       ELSEIF(NTY.EQ.4)THEN
-       ELSEIF(NTY.EQ.5)THEN
-       ELSEIF(NTY.EQ.6)THEN
+       IF(NTY==3)THEN
+       ELSEIF(NTY==4)THEN
+       ELSEIF(NTY==5)THEN
+       ELSEIF(NTY==6)THEN
 C------------verify effect, if R02 is too high-----
-       ELSEIF(NTY.EQ.7.OR.NTY.EQ.10.OR.NTY.EQ.24)THEN
+       ELSEIF(NTY==7.OR.NTY==10.OR.NTY==24)THEN
 C
         CALL UD_INT7(
      1    NUM_IMP(NIN),NS_IMP(IAD),NE_IMP(IAD),INTBUF_TAB(NIN)%IRECTM,
      .    INTBUF_TAB(NIN)%NSV,
      2    NSN         ,X          ,UD         )
         IAD=IAD+NUM_IMP(NIN)
-       ELSEIF(NTY.EQ.11)THEN
+       ELSEIF(NTY==11)THEN
 C
         NRTS   =IPARI(3,NIN)
         CALL UD_INT11(
@@ -1210,7 +1210,7 @@ C-------Missed SPMD----------------------------------------
        DO I = 1, JLT
 C--------secnd node-----add case Ud_s >0
         IG = NS_IMP(I)
-       IF (IG.LE.NSN) THEN
+       IF (IG<=NSN) THEN
         N1 = NSV(IG)
         NE=NE_IMP(I)
         DO J = 1, 4
@@ -1222,9 +1222,9 @@ C--------secnd node-----add case Ud_s >0
           US(1) = H(J)*UD(1,N1)
           US(2) = H(J)*UD(2,N1)
           US(3) = H(J)*UD(3,N1)
-         IF (ABS(US(1)).GT.ABS(UD(1,M(J)))) UD(1,M(J))= US(1)
-         IF (ABS(US(2)).GT.ABS(UD(2,M(J)))) UD(2,M(J))= US(2)
-         IF (ABS(US(3)).GT.ABS(UD(3,M(J)))) UD(3,M(J))= US(3)
+         IF (ABS(US(1))>ABS(UD(1,M(J)))) UD(1,M(J))= US(1)
+         IF (ABS(US(2))>ABS(UD(2,M(J)))) UD(2,M(J))= US(2)
+         IF (ABS(US(3))>ABS(UD(3,M(J)))) UD(3,M(J))= US(3)
          ENDDO
         ELSE
          US(1) = ZERO
@@ -1235,9 +1235,9 @@ C--------secnd node-----add case Ud_s >0
          US(2) = US(2)+ H(J)*UD(2,M(J))
          US(3) = US(3)+ H(J)*UD(3,M(J))
          ENDDO
-         IF (ABS(US(1)).GT.ABS(UD(1,N1))) UD(1,N1)= US(1)
-         IF (ABS(US(2)).GT.ABS(UD(2,N1))) UD(2,N1)= US(2)
-         IF (ABS(US(3)).GT.ABS(UD(3,N1))) UD(3,N1)= US(3)
+         IF (ABS(US(1))>ABS(UD(1,N1))) UD(1,N1)= US(1)
+         IF (ABS(US(2))>ABS(UD(2,N1))) UD(2,N1)= US(2)
+         IF (ABS(US(3))>ABS(UD(3,N1))) UD(3,N1)= US(3)
         END IF 
        ENDIF
        ENDDO
@@ -1281,7 +1281,7 @@ C-----------------------------------------------
        DO I = 1, JLT
 C--------secnd node-----
         IG = NS_IMP(I)
-       IF (IG.LE.NSN) THEN
+       IF (IG<=NSN) THEN
         NS(1) = IRECTS(1,IG)
         NS(2) = IRECTS(2,IG)
         NE=NE_IMP(I)
@@ -1292,8 +1292,8 @@ C--------secnd node-----
          VM = HM(1)*UD(J,NM(1))+HM(2)*UD(J,NM(2))
          US(J,1)=HS(1)*VM
          US(J,2)=HS(2)*VM
-         IF (ABS(US(J,1)).GT.ABS(UD(J,NS(1)))) UD(J,NS(1))= US(J,1)
-         IF (ABS(US(J,2)).GT.ABS(UD(J,NS(2)))) UD(J,NS(2))= US(J,2)
+         IF (ABS(US(J,1))>ABS(UD(J,NS(1)))) UD(J,NS(1))= US(J,1)
+         IF (ABS(US(J,2))>ABS(UD(J,NS(2)))) UD(J,NS(2))= US(J,2)
         ENDDO
        ENDIF
        ENDDO
@@ -1419,7 +1419,7 @@ C
       NZ=NZ+ZN3
 C
       AN= MAX(EM20,SQRT(NX*NX+NY*NY+NZ*NZ))
-      IF(AN.LE.EM19) RETURN
+      IF(AN<=EM19) RETURN
       NX=NX/AN
       NY=NY/AN
       NZ=NZ/AN
@@ -1453,29 +1453,29 @@ C
       AB1=A23*B41
       AB2=B23*A41
 C
-      IF(ABS(AB1+AB2)/AREA.GT.EM10)THEN
+      IF(ABS(AB1+AB2)/AREA>EM10)THEN
        SSC=(AB1-AB2)/(AB1+AB2)
       ELSE
        SSC=ZERO
       ENDIF
-      IF(ABS(A34/AREA).GT.EM10)THEN
+      IF(ABS(A34/AREA)>EM10)THEN
        AB1=B12*A34
        AB2=B34*A12
        TTC=(AB1-AB2)/(AB1+AB2)
       ELSE
        TTC=(B12-A12)/A12
-       IF(B23.LE.ZERO.AND.B41.LE.ZERO)THEN
-         IF(-B23/A12.LE.ALP.AND.-B41/A12.LE.ALP)SSC=ZERO
-       ELSEIF(B23.LE.ZERO)THEN
-         IF(-B23/A12.LE.ALP)SSC=ONE
-       ELSEIF(B41.EQ.ZERO)THEN
-         IF(B41.LT.ZERO.AND.-B41/A12.LE.ALP)SSC=-ONE
+       IF(B23<=ZERO.AND.B41<=ZERO)THEN
+         IF(-B23/A12<=ALP.AND.-B41/A12<=ALP)SSC=ZERO
+       ELSEIF(B23<=ZERO)THEN
+         IF(-B23/A12<=ALP)SSC=ONE
+       ELSEIF(B41==ZERO)THEN
+         IF(B41<ZERO.AND.-B41/A12<=ALP)SSC=-ONE
        ENDIF
       ENDIF
 C
-      IF(ABS(SSC).GT.ONE+ALP.OR.ABS(TTC).GT.ONE+ALP) RETURN
-      IF(ABS(SSC).GT.ONE)SSC=SSC/ABS(SSC)
-      IF(ABS(TTC).GT.ONE)TTC=TTC/ABS(TTC)
+      IF(ABS(SSC)>ONE+ALP.OR.ABS(TTC)>ONE+ALP) RETURN
+      IF(ABS(SSC)>ONE)SSC=SSC/ABS(SSC)
+      IF(ABS(TTC)>ONE)TTC=TTC/ABS(TTC)
 C
       TP=FOURTH*(ONE+TTC)
       TM=FOURTH*(ONE-TTC)
@@ -1547,18 +1547,18 @@ C
 C
        XS2 = MAX(XS2,EM20)
        XM2 = MAX(XM2,EM20)
-       IF(HM(1).LT.ZERO)THEN
+       IF(HM(1)<ZERO)THEN
          HM(1) = ZERO
          HS(1) = -XA / XS2
-       ELSEIF(HM(1).GT.ONE)THEN
+       ELSEIF(HM(1)>ONE)THEN
          HM(1) = ONE
          HS(1) = -(XA + XSM) / XS2
        ENDIF
 C
-       IF(HS(1).LT.ZERO)THEN
+       IF(HS(1)<ZERO)THEN
          HS(1) = ZERO
          HM(1) = -XB / XM2
-       ELSEIF(HS(1).GT.ONE)THEN
+       ELSEIF(HS(1)>ONE)THEN
          HS(1) = ONE
          HM(1) = -(XB + XSM) / XM2
        ENDIF
@@ -1748,9 +1748,9 @@ C--------secnd node-----
          US(2) = US(2)+ H(J)*UD(2,M(J))
          US(3) = US(3)+ H(J)*UD(3,M(J))
         ENDDO
-        IF (ABS(US(1)).GT.ABS(UD(1,NS))) UD(1,NS)= US(1)
-        IF (ABS(US(2)).GT.ABS(UD(2,NS))) UD(2,NS)= US(2)
-        IF (ABS(US(3)).GT.ABS(UD(3,NS))) UD(3,NS)= US(3)
+        IF (ABS(US(1))>ABS(UD(1,NS))) UD(1,NS)= US(1)
+        IF (ABS(US(2))>ABS(UD(2,NS))) UD(2,NS)= US(2)
+        IF (ABS(US(3))>ABS(UD(3,NS))) UD(3,NS)= US(3)
        ENDDO
 C----6---------------------------------------------------------------7---------8
       RETURN
@@ -1811,36 +1811,36 @@ C
        N=IRBYAC(I)
        K=IRBYAC(I+NRBYKIN)
        M=NPBY(1,N)
-       IF (M.LE.0) CYCLE
+       IF (M<=0) CYCLE
        DOFSPC(M)=0
        NSN  =NPBY(2,N)
        ICOL = 1
        DO N =1,NSN
         NS=LPBY(K+N)
-        IF (NDOF(NS).GT.3) THEN
+        IF (NDOF(NS)>3) THEN
          ICOL = 0
          CYCLE
         ENDIF
        END DO
-       IF (ICOL.EQ.1) THEN
-        IF (NSN.LE.2) THEN
+       IF (ICOL==1) THEN
+        IF (NSN<=2) THEN
          DOFSPC(M)=NDOF(M)
         ELSE
          CALL COLINEAR3(LPBY(K+1),LPBY(K+2),LPBY(K+3),X,ICOL)
-         IF (ICOL.EQ.1) THEN
+         IF (ICOL==1) THEN
           N1=LPBY(K+2)
           N2=LPBY(K+3)
            DO N =4,NSN
             N3=LPBY(K+N)
             CALL COLINEAR3(N1,N2,N3,X,ICOL)
-            IF (ICOL.EQ.0) CYCLE
+            IF (ICOL==0) CYCLE
             N1=N2
             N2=N3
            END DO
-           IF (ICOL.EQ.1) DOFSPC(M)=NDOF(M)
+           IF (ICOL==1) DOFSPC(M)=NDOF(M)
          END IF
         END IF
-       END IF !(ICOL.EQ.1) THEN
+       END IF !(ICOL==1) THEN
       ENDDO
 C------interface 2-----------
       DO I=1,NINT2
@@ -1859,7 +1859,7 @@ C------MSR(NMN)-----
 C------IRTL(NSN)--main el number---
 c       DO J=1,NSN
 c        NS=INBUF(K12+J)
-c        IF (NDOF(NS).GT.0) THEN
+c        IF (NDOF(NS)>0) THEN
 c         L=INBUF(K14+J)
 c         ID=K11+4*(L-1)
 c         DO M=1,4
@@ -1877,7 +1877,7 @@ C
       DO I=1,NRBE3
        IAD=IRBE3(1,I)
        NS =IRBE3(3,I)
-       IF (NS.EQ.0) CYCLE
+       IF (NS==0) CYCLE
        NMN=IRBE3(5,I)
        DO J=1,NMN
          NM=LRBE3(IAD+J)
@@ -1889,38 +1889,38 @@ C
        J=IRBE2(3,I)
        IAD=IRBE2(1,I)
        NSN = IRBE2(5,I)
-       IF (NSN.EQ.0) CYCLE
+       IF (NSN==0) CYCLE
        ICOL = 1
        DOFSPC(J)=0
        DO N =1,NSN
         NS = LRBE2(IAD+N)
-        IF (NDOF(NS).GT.3) THEN
+        IF (NDOF(NS)>3) THEN
          ICOL = 0
          CYCLE
         ENDIF
        END DO
-       IF (ICOL.EQ.1) THEN
-        IF (NSN.EQ.1) THEN
+       IF (ICOL==1) THEN
+        IF (NSN==1) THEN
          DOFSPC(J)=NDOF(J)
-        ELSEIF (NSN.EQ.2) THEN
+        ELSEIF (NSN==2) THEN
          CALL COLINEAR3(J,LRBE2(IAD+1),LRBE2(IAD+2),X,ICOL)
-         IF (ICOL.EQ.1) DOFSPC(J)=NDOF(J)
+         IF (ICOL==1) DOFSPC(J)=NDOF(J)
         ELSE
          CALL COLINEAR3(J,LRBE2(IAD+1),LRBE2(IAD+2),X,ICOL)
-         IF (ICOL.EQ.1) THEN
+         IF (ICOL==1) THEN
           N1=LRBE2(IAD+1)
           N2=LRBE2(IAD+2)
            DO N =3,NSN
             N3=LRBE2(IAD+N)
             CALL COLINEAR3(N1,N2,N3,X,ICOL)
-            IF (ICOL.EQ.0) CYCLE
+            IF (ICOL==0) CYCLE
             N1=N2
             N2=N3
            END DO
-           IF (ICOL.EQ.1) DOFSPC(J)=NDOF(J)
+           IF (ICOL==1) DOFSPC(J)=NDOF(J)
          END IF
         END IF
-       END IF !(ICOL.EQ.1) THEN
+       END IF !(ICOL==1) THEN
       END DO
 C----6---------------------------------------------------------------7---------8
       RETURN
@@ -1961,11 +1961,11 @@ C
        Z31=X(3,N3)-X(3,N1)
 C       -----------------
        PR = Y21 * Z31 - Z21 * Y31
-       IF (ABS(PR).LE.EM10) THEN
+       IF (ABS(PR)<=EM10) THEN
         PR = Z21 * X31 - X21 * Z31
-        IF (ABS(PR).LE.EM10) THEN
+        IF (ABS(PR)<=EM10) THEN
          PR = X21 * Y31 - Y21 * X31
-         IF (ABS(PR).LE.EM10) ICOL=1
+         IF (ABS(PR)<=EM10) ICOL=1
         END IF
        END IF
 C

@@ -193,7 +193,7 @@ c
 C=========================================================================
       IF(H3D_DATA%TH3D0 /= ZERO)  H3D_DATA%TH3D = H3D_DATA%TH3D0
       IF(H3D_DATA%DTH3D0 > ZERO) H3D_DATA%DTH3D= H3D_DATA%DTH3D0
-      IF(H3D_DATA%DTH3D.LE.ZERO)  H3D_DATA%TH3D = EP30
+      IF(H3D_DATA%DTH3D<=ZERO)  H3D_DATA%TH3D = EP30
       IF (H3D_DATA%TH3D < TT-DT2.AND.H3D_DATA%DTH3D > ZERO)H3D_DATA%TH3D = H3D_DATA%TH3D
      .    + INT((TT-DT2-H3D_DATA%TH3D)/H3D_DATA%DTH3D)*H3D_DATA%DTH3D
       IF (H3D_DATA%TH3D < TT-DT2)H3D_DATA%TH3D = H3D_DATA%TH3D+H3D_DATA%DTH3D
@@ -465,17 +465,17 @@ C SEARCH '=' character
 C-------------------------------------------------- 
          DO I=1,ncharkey
            IF ( KEY3(I:I) == '=' ) IS_CHAR_KEY3 = 0
-           IF ( KEY3(I:I) .NE. ' ' ) IS_EMPTY_KEY3 = 0
+           IF ( KEY3(I:I) /= ' ' ) IS_EMPTY_KEY3 = 0
            IF ( KEY4(I:I) == '=' ) IS_CHAR_KEY4 = 0
-           IF ( KEY4(I:I) .NE. ' ' ) IS_EMPTY_KEY4 = 0
+           IF ( KEY4(I:I) /= ' ' ) IS_EMPTY_KEY4 = 0
            IF ( KEY5(I:I) == '=' ) IS_CHAR_KEY5 = 0
-           IF ( KEY5(I:I) .NE. ' ' ) IS_EMPTY_KEY5 = 0
+           IF ( KEY5(I:I) /= ' ' ) IS_EMPTY_KEY5 = 0
            IF ( KEY6(I:I) == '=' ) IS_CHAR_KEY6 = 0
-           IF ( KEY6(I:I) .NE. ' ' ) IS_EMPTY_KEY6 = 0
+           IF ( KEY6(I:I) /= ' ' ) IS_EMPTY_KEY6 = 0
            IF ( KEY7(I:I) == '=' ) IS_CHAR_KEY7 = 0
-           IF ( KEY7(I:I) .NE. ' ' ) IS_EMPTY_KEY7 = 0
+           IF ( KEY7(I:I) /= ' ' ) IS_EMPTY_KEY7 = 0
            IF ( KEY8(I:I) == '=' ) IS_CHAR_KEY8 = 0
-           IF ( KEY8(I:I) .NE. ' ' ) IS_EMPTY_KEY8 = 0
+           IF ( KEY8(I:I) /= ' ' ) IS_EMPTY_KEY8 = 0
          ENDDO
 C-------------------------------------------------- 
 C Read PLY= I/ALL
@@ -601,7 +601,7 @@ C--------------------------------------------------
          CPT = 0
          IF ( IS_CHAR_KEY3 == 1 .AND. IS_EMPTY_KEY3 == 0) THEN
            DO I=1,ncharkey
-             IF ( KEY3(I:I) .NE. ' ' ) THEN 
+             IF ( KEY3(I:I) /= ' ' ) THEN 
                CPT = CPT + 1
                KEY3_GLOB(CPT:CPT) = KEY3(I:I)
              ENDIF
@@ -611,7 +611,7 @@ C--------------------------------------------------
            CPT = CPT + 1
            KEY3_GLOB(CPT:CPT) = '/'
            DO I=1,ncharkey
-             IF ( KEY4(I:I) .NE. ' ' ) THEN 
+             IF ( KEY4(I:I) /= ' ' ) THEN 
                CPT = CPT + 1
                KEY3_GLOB(CPT:CPT) = KEY4(I:I)
              ENDIF
@@ -621,7 +621,7 @@ C--------------------------------------------------
            CPT = CPT + 1
            KEY3_GLOB(CPT:CPT) = '/'
            DO I=1,ncharkey
-             IF ( KEY5(I:I) .NE. ' ' ) THEN 
+             IF ( KEY5(I:I) /= ' ' ) THEN 
                CPT = CPT + 1
                KEY3_GLOB(CPT:CPT) = KEY5(I:I)
              ENDIF
@@ -631,7 +631,7 @@ C--------------------------------------------------
            CPT = CPT + 1
            KEY3_GLOB(CPT:CPT) = '/'
            DO I=1,ncharkey
-             IF ( KEY6(I:I) .NE. ' ' ) THEN 
+             IF ( KEY6(I:I) /= ' ' ) THEN 
                CPT = CPT + 1
                KEY3_GLOB(CPT:CPT) = KEY6(I:I)
              ENDIF
@@ -641,7 +641,7 @@ C--------------------------------------------------
            CPT = CPT + 1
            KEY3_GLOB(CPT:CPT) = '/'
            DO I=1,ncharkey
-             IF ( KEY7(I:I) .NE. ' ' ) THEN 
+             IF ( KEY7(I:I) /= ' ' ) THEN 
                CPT = CPT + 1
                KEY3_GLOB(CPT:CPT) = KEY7(I:I)
              ENDIF
@@ -651,7 +651,7 @@ C--------------------------------------------------
            CPT = CPT + 1
            KEY3_GLOB(CPT:CPT) = '/'
            DO I=1,ncharkey
-             IF ( KEY8(I:I) .NE. ' ' ) THEN 
+             IF ( KEY8(I:I) /= ' ' ) THEN 
                CPT = CPT + 1
                KEY3_GLOB(CPT:CPT) = KEY8(I:I)
              ENDIF
@@ -718,13 +718,13 @@ c Input for each interface
               IF ( KEY3_GLOB == H3D_KEYWORD_NODAL_TENSOR(J)%KEY3) IS_TENSOR = 1
 C--------------------------
 	      IF ( IS_SCALAR == 1 ) THEN
-           	IF(H3D_KEYWORD_NODAL_SCALAR(J)%IS_INTER .NE. 0 ) THEN
+           	IF(H3D_KEYWORD_NODAL_SCALAR(J)%IS_INTER /= 0 ) THEN
            	  IF(IS_INTER_ALL == 0 )THEN
            	    CPT_H3D = CPT_H3D + 1
            	    INTER_INPUT(CPT_H3D) = 0
            	    IS_AVAILABLE_KEY(CPT_H3D) = 1 
            	    IF(H3D_KEYWORD_NODAL_SCALAR(J)%IS_INTER == 1) THEN
-           	      IF(INTER .NE. 0) THEN 
+           	      IF(INTER /= 0) THEN 
                          DO K=1,NINTER
                            IF(IPARI(15,K) == INTER) THEN
 c                             H3D_DATA%OUTPUT_LIST(I)%INTER = K 
@@ -738,7 +738,7 @@ c                             H3D_DATA%OUTPUT_LIST(I)%INTER = K
                        ENDIF
            	    ENDIF
            	  ELSE
-	 	   IF(NINTER_MAX .NE. 0)THEN
+	 	   IF(NINTER_MAX /= 0)THEN
 	 	     DO K=1,NINTER_MAX
 	 	  	CPT_H3D = CPT_H3D + 1
 c
@@ -883,7 +883,7 @@ C
                     NPTR=MAX(2,IGEO(4,K)/100)
                     IR_MAX = MAX(IR_MAX,NPTR)
                   ENDIF
-                  IF(N2D.NE.0) THEN
+                  IF(N2D/=0) THEN
                     IF(IGEO(4,K) == 4) THEN
                       IR_MAX = 2
                     ELSE
@@ -912,7 +912,7 @@ C-------------    thick-shell Isolid=15
                     NPTS=MAX(2,MOD(IGEO(4,K)/10,10))
                     IS_MAX = MAX(IS_MAX,NPTS)
                   ENDIF
-                  IF(N2D.NE.0) THEN
+                  IF(N2D/=0) THEN
                     IF(IGEO(4,K) == 4) THEN
                       IS_MAX = 2
                     ELSE
@@ -941,7 +941,7 @@ C-------------    thick-shell Isolid=15
                ELSEIF(IGEO(11,K) == 43)THEN
                   IT_MAX = MAX(IT_MAX,1)
                ENDIF
-               IF(N2D.NE.0) THEN
+               IF(N2D/=0) THEN
                   IT_MAX = 1
                ENDIF
               ENDDO
@@ -1034,7 +1034,7 @@ C--------------------------------------------------
               IF(KEY3_GLOB(1:3) == 'MDS' ) THEN
 	        DO K=1,MDS_NMAT
 	          DO L=1,MDS_NDEPSVAR(K)
-           	    IF(MDS_OUTPUT_TABLE(L,K) .NE. 0) THEN
+           	    IF(MDS_OUTPUT_TABLE(L,K) /= 0) THEN
            	      CPT = CPT + 1
                       MDSVAR_INPUT_TMP(CPT) = K
                       MDSVAR_INPUT1_TMP(CPT) = L
@@ -1101,12 +1101,12 @@ C--------------------------------------------------
            	IF(IS_VECTOR == 1) H3D_KEYWORD_SHELL = H3D_KEYWORD_SHELL_VECTOR(J)
            	IF(IS_TENSOR == 1) H3D_KEYWORD_SHELL = H3D_KEYWORD_SHELL_TENSOR(J)
 
-           	IF(H3D_KEYWORD_SHELL%IS_LAYER .NE. 0  .OR. 
-     .     	   H3D_KEYWORD_SHELL%IS_IPT .NE. 0 .OR.
-     .     	   H3D_KEYWORD_SHELL%IS_PLY .NE. 0 .OR.
-     .     	   H3D_KEYWORD_SHELL%IS_UVAR .NE. 0  .OR.
-     .     	   H3D_KEYWORD_SHELL%IS_MDSVAR .NE. 0  .OR.
-     .     	   H3D_KEYWORD_SHELL%IS_ID .NE. 0  ) THEN
+           	IF(H3D_KEYWORD_SHELL%IS_LAYER /= 0  .OR. 
+     .     	   H3D_KEYWORD_SHELL%IS_IPT /= 0 .OR.
+     .     	   H3D_KEYWORD_SHELL%IS_PLY /= 0 .OR.
+     .     	   H3D_KEYWORD_SHELL%IS_UVAR /= 0  .OR.
+     .     	   H3D_KEYWORD_SHELL%IS_MDSVAR /= 0  .OR.
+     .     	   H3D_KEYWORD_SHELL%IS_ID /= 0  ) THEN
 C            
            	  IF(IS_LAYER_ALL == 0 .AND. IS_IPT_ALL == 0 .AND. IS_PLY_ALL == 0 .AND. IS_UVAR_ALL == 0 .AND. 
      .               IS_MDSVAR_ALL == 0 .AND. IS_MDSVAR_DEF ==0 .AND. IS_ID_ALL ==0)THEN
@@ -1124,31 +1124,31 @@ C
            	    IS_AVAILABLE_KEY(CPT_H3D) = 1 
 
            	    IF(H3D_KEYWORD_SHELL%IS_LAYER == 1) THEN
-           	      IF(LAYER .NE. 0) LAYER_INPUT(CPT_H3D) = LAYER
+           	      IF(LAYER /= 0) LAYER_INPUT(CPT_H3D) = LAYER
            	      IF(IS_LAYER_LOWER == 1) LAYER_INPUT(CPT_H3D) = -2
            	      IF(IS_LAYER_UPPER == 1) LAYER_INPUT(CPT_H3D) = -3
            	    ENDIF
 
            	    IF(H3D_KEYWORD_SHELL%IS_IPT == 1) THEN
-           	      IF(IPT .NE. 0) IPT_INPUT(CPT_H3D) = IPT
+           	      IF(IPT /= 0) IPT_INPUT(CPT_H3D) = IPT
            	      IF(IS_IPT_LOWER == 1 )IPT_INPUT(CPT_H3D) = -2
            	      IF(IS_IPT_UPPER == 1 )IPT_INPUT(CPT_H3D) = -3
            	    ENDIF
 
            	    IF(H3D_KEYWORD_SHELL%IS_PLY == 1) THEN
-           	      IF(PLY .NE. 0) PLY_INPUT(CPT_H3D) = PLY
+           	      IF(PLY /= 0) PLY_INPUT(CPT_H3D) = PLY
            	    ENDIF
 
            	    IF(H3D_KEYWORD_SHELL%IS_UVAR == 1) THEN
-           	      IF(IUVAR .NE. 0) UVAR_INPUT(CPT_H3D) = IUVAR
+           	      IF(IUVAR /= 0) UVAR_INPUT(CPT_H3D) = IUVAR
            	    ENDIF
 
            	    IF(H3D_KEYWORD_SHELL%IS_ID == 1) THEN
-           	      IF(ID .NE. 0) IDS_INPUT(CPT_H3D) = ID
+           	      IF(ID /= 0) IDS_INPUT(CPT_H3D) = ID
            	    ENDIF
 
            	    IF(H3D_KEYWORD_SHELL%IS_MDSVAR == 1) THEN
-           	      IF(IMDSVAR .NE. 0) THEN
+           	      IF(IMDSVAR /= 0) THEN
                         MDSVAR_INPUT(CPT_H3D) = ((IMDSVAR-1) * MDS_NMAT /NMDSVAR_MAX)+1
            	        MDSVAR_INPUT1(CPT_H3D) = IMDSVAR-(MDSVAR_INPUT(CPT_H3D)-1)*NMDSVAR_MAX/MDS_NMAT
            	        MDSVAR_INPUT2(CPT_H3D) = ID_MAT_MDS(MDSVAR_INPUT(CPT_H3D))
@@ -1156,7 +1156,7 @@ C
            	    ENDIF
            	  ELSE
                    
-	 	   IF(NLAY_MAX + MAX(1,NIP_MAX) + NPLY_MAX + NUVAR_MAX + NMDSVAR_MAX .NE. 0)THEN
+	 	   IF(NLAY_MAX + MAX(1,NIP_MAX) + NPLY_MAX + NUVAR_MAX + NMDSVAR_MAX /= 0)THEN
 	 	     DO K=1,MAX(1,IS_LAYER_ALL*MAX(NLAY_MAX,1))
 	 	       DO L=1,MAX(1,IS_IPT_ALL*MAX(NIP_MAX,1))
 	 	  	 DO M=1,MAX(1,IS_PLY_ALL*MAX(NPLY_MAX,1))
@@ -1166,7 +1166,7 @@ C
 	 	  	         CPT_H3D = CPT_H3D + 1
 c                    
 	 	  	         LAYER_INPUT(CPT_H3D) = -1
-	 	  	         IF (NLAY_MAX .NE. 0 .AND. IS_LAYER_ALL == 1) LAYER_INPUT(CPT_H3D) = K
+	 	  	         IF (NLAY_MAX /= 0 .AND. IS_LAYER_ALL == 1) LAYER_INPUT(CPT_H3D) = K
 	 	  	         IF (IS_LAYER_ALL == 0 .AND. LAYER >= 1) LAYER_INPUT(CPT_H3D) = LAYER
 c
 	 	  	         IPT_INPUT(CPT_H3D) = -1
@@ -1174,19 +1174,19 @@ c
 	 	  	         IF (IS_IPT_ALL == 0 .AND. IPT >= 1) IPT_INPUT(CPT_H3D) = IPT
 c
 	 	  	         PLY_INPUT(CPT_H3D) = -1
-	 	  	         IF (NPLY_MAX .NE. 0  .AND. IS_PLY_ALL == 1) PLY_INPUT(CPT_H3D) = ID_PLY(M)
+	 	  	         IF (NPLY_MAX /= 0  .AND. IS_PLY_ALL == 1) PLY_INPUT(CPT_H3D) = ID_PLY(M)
 	 	  	         IF (IS_PLY_ALL == 0  .AND. PLY >= 1) PLY_INPUT(CPT_H3D) = PLY
 c
 	 	  	         UVAR_INPUT(CPT_H3D) = -1
-	 	  	         IF (NUVAR_MAX .NE. 0  .AND. IS_UVAR_ALL == 1) THEN
+	 	  	         IF (NUVAR_MAX /= 0  .AND. IS_UVAR_ALL == 1) THEN
                                    UVAR_INPUT(CPT_H3D) = N
                                  ENDIF
 	 	  	         IF (IS_UVAR_ALL == 0  .AND. IUVAR >= 1) UVAR_INPUT(CPT_H3D) = IUVAR
 
 	 	  	         MDSVAR_INPUT(CPT_H3D) = -1
 	 	  	         MDSVAR_INPUT1(CPT_H3D) = -1
-	 	  	         IF (NMDSVAR_MAX .NE. 0  .AND. IS_MDSVAR_ALL == 1 .AND. 
-     .                               KEY3_GLOB(1:3) == 'MDS' .AND. MDS_NMAT .NE. 0) THEN
+	 	  	         IF (NMDSVAR_MAX /= 0  .AND. IS_MDSVAR_ALL == 1 .AND. 
+     .                               KEY3_GLOB(1:3) == 'MDS' .AND. MDS_NMAT /= 0) THEN
 	 	  	           MDSVAR_INPUT(CPT_H3D) = ((O-1) * MDS_NMAT /NMDSVAR_MAX)+1
                                    MDSVAR_INPUT1(CPT_H3D) = O-(MDSVAR_INPUT(CPT_H3D)-1)*NMDSVAR_MAX/MDS_NMAT
                                    MDSVAR_INPUT2(CPT_H3D) = ID_MAT_MDS(MDSVAR_INPUT(CPT_H3D))
@@ -1198,8 +1198,8 @@ c
 	 	  	           MDSVAR_INPUT2(CPT_H3D) = MDSVAR_INPUT2_TMP(O)
                                  ENDIF
 
-	 	  	         IF (NMDSVAR_MAX .NE. 0  .AND. IS_MDSVAR_DEF == 1 .AND. 
-     .                               KEY3_GLOB(1:3) == 'MDS' .AND. MDS_NMAT .NE. 0) THEN
+	 	  	         IF (NMDSVAR_MAX /= 0  .AND. IS_MDSVAR_DEF == 1 .AND. 
+     .                               KEY3_GLOB(1:3) == 'MDS' .AND. MDS_NMAT /= 0) THEN
 	 	  	           MDSVAR_INPUT(CPT_H3D) = MDSVAR_INPUT_TMP(O)
 	 	  	           MDSVAR_INPUT1(CPT_H3D) = MDSVAR_INPUT1_TMP(O)
 	 	  	           MDSVAR_INPUT2(CPT_H3D) = MDSVAR_INPUT2_TMP(O)
@@ -1347,13 +1347,13 @@ C--------------------------------------------------
            	IF(IS_VECTOR == 1) H3D_KEYWORD_SOLID = H3D_KEYWORD_SOLID_VECTOR(J)
            	IF(IS_TENSOR == 1) H3D_KEYWORD_SOLID = H3D_KEYWORD_SOLID_TENSOR(J)
 
-           	IF(H3D_KEYWORD_SOLID%IS_LAYER .NE. 0  .OR. 
-     .     	   H3D_KEYWORD_SOLID%IS_IR .NE. 0 .OR.
-     .     	   H3D_KEYWORD_SOLID%IS_IS .NE. 0 .OR.
-     .     	   H3D_KEYWORD_SOLID%IS_IT .NE. 0 .OR. 
-     .     	   H3D_KEYWORD_SOLID%IS_UVAR .NE. 0  .OR. 
-     .     	   H3D_KEYWORD_SOLID%IS_MDSVAR .NE. 0  .OR. 
-     .     	   H3D_KEYWORD_SOLID%IS_ID .NE. 0 ) THEN
+           	IF(H3D_KEYWORD_SOLID%IS_LAYER /= 0  .OR. 
+     .     	   H3D_KEYWORD_SOLID%IS_IR /= 0 .OR.
+     .     	   H3D_KEYWORD_SOLID%IS_IS /= 0 .OR.
+     .     	   H3D_KEYWORD_SOLID%IS_IT /= 0 .OR. 
+     .     	   H3D_KEYWORD_SOLID%IS_UVAR /= 0  .OR. 
+     .     	   H3D_KEYWORD_SOLID%IS_MDSVAR /= 0  .OR. 
+     .     	   H3D_KEYWORD_SOLID%IS_ID /= 0 ) THEN
 
            	  IF(IS_LAYER_ALL == 0 .AND. IS_IR_ALL == 0 .AND. IS_IS_ALL == 0 .AND.
      .     	     IS_IT_ALL == 0 .AND. IS_UVAR_ALL == 0 .AND. IS_MDSVAR_ALL == 0 .AND. 
@@ -1373,23 +1373,23 @@ C--------------------------------------------------
            	    IS_AVAILABLE_KEY(CPT_H3D) = 1 
 
            	    IF(H3D_KEYWORD_SOLID%IS_LAYER == 1) THEN
-           	      IF(LAYER .NE. 0) LAYER_INPUT(CPT_H3D) = LAYER
+           	      IF(LAYER /= 0) LAYER_INPUT(CPT_H3D) = LAYER
            	      IF(IS_LAYER_LOWER == 1) LAYER_INPUT(CPT_H3D) = -2
            	      IF(IS_LAYER_UPPER == 1) LAYER_INPUT(CPT_H3D) = -3
            	    ENDIF
 
            	    IF(H3D_KEYWORD_SOLID%IS_IPT == 1) THEN
-           	      IF(IPT .NE. 0) IPT_INPUT(CPT_H3D) = IPT
+           	      IF(IPT /= 0) IPT_INPUT(CPT_H3D) = IPT
            	      IF(IS_IPT_LOWER == 1) IPT_INPUT(CPT_H3D) = -2
            	      IF(IS_IPT_UPPER == 1) IPT_INPUT(CPT_H3D) = -3
            	    ENDIF
 
            	    IF(H3D_KEYWORD_SOLID%IS_UVAR == 1) THEN
-           	      IF(IUVAR .NE. 0) UVAR_INPUT(CPT_H3D) = IUVAR
+           	      IF(IUVAR /= 0) UVAR_INPUT(CPT_H3D) = IUVAR
            	    ENDIF
 
            	    IF(H3D_KEYWORD_SOLID%IS_MDSVAR == 1) THEN
-           	      IF(IMDSVAR .NE. 0) THEN
+           	      IF(IMDSVAR /= 0) THEN
                         MDSVAR_INPUT(CPT_H3D) = ((IMDSVAR-1) * MDS_NMAT /NMDSVAR_MAX)+1
            	        MDSVAR_INPUT1(CPT_H3D) = IMDSVAR-(MDSVAR_INPUT(CPT_H3D)-1)*NMDSVAR_MAX/MDS_NMAT
            	        MDSVAR_INPUT2(CPT_H3D) = ID_MAT_MDS(MDSVAR_INPUT(CPT_H3D))
@@ -1397,24 +1397,24 @@ C--------------------------------------------------
            	    ENDIF
 
            	    IF(H3D_KEYWORD_SOLID%IS_IR == 1) THEN
-           	      IF(IR .NE. 0) IR_INPUT(CPT_H3D) = IR
+           	      IF(IR /= 0) IR_INPUT(CPT_H3D) = IR
            	    ENDIF
 
            	    IF(H3D_KEYWORD_SOLID%IS_IS == 1) THEN
-           	      IF(IS .NE. 0) IS_INPUT(CPT_H3D) = IS
+           	      IF(IS /= 0) IS_INPUT(CPT_H3D) = IS
            	    ENDIF
 
            	    IF(H3D_KEYWORD_SOLID%IS_IT == 1) THEN
-           	      IF(IT .NE. 0) IT_INPUT(CPT_H3D) = IT
+           	      IF(IT /= 0) IT_INPUT(CPT_H3D) = IT
            	    ENDIF
 
            	    IF(H3D_KEYWORD_SOLID%IS_ID == 1) THEN
-           	      IF(ID .NE. 0) IDS_INPUT(CPT_H3D) = ID
+           	      IF(ID /= 0) IDS_INPUT(CPT_H3D) = ID
            	    ENDIF
 
            	  ELSE
 C------ LAYER is not available for /SOLID/TENS/ in manuel, might be removed in the loop                  
-	 	   IF(NLAY_MAX + IR_MAX + IS_MAX + IT_MAX + NUVAR_MAX + NMDSVAR_MAX  .NE. 0)THEN
+	 	   IF(NLAY_MAX + IR_MAX + IS_MAX + IT_MAX + NUVAR_MAX + NMDSVAR_MAX  /= 0)THEN
 	 	     DO K=1,MAX(1,IS_LAYER_ALL*MAX(NLAY_MAX,1))
 	 	       DO L=1,MAX(1,IS_UVAR_ALL*MAX(NUVAR_MAX,1))
 	 	  	 DO M=1,MAX(1,IS_IR_ALL*MAX(IR_MAX,1))
@@ -1425,17 +1425,17 @@ C------ LAYER is not available for /SOLID/TENS/ in manuel, might be removed in t
 	 	  	           CPT_H3D = CPT_H3D + 1
 c
 	 	  	           LAYER_INPUT(CPT_H3D) = -1
-	 	  	           IF (NLAY_MAX .NE. 0 .AND. IS_LAYER_ALL == 1) LAYER_INPUT(CPT_H3D) = K
+	 	  	           IF (NLAY_MAX /= 0 .AND. IS_LAYER_ALL == 1) LAYER_INPUT(CPT_H3D) = K
 c
 	 	  	           UVAR_INPUT(CPT_H3D) = -1
            	                   IF(H3D_KEYWORD_SOLID%IS_UVAR == 1 .AND. IUVAR > 0) UVAR_INPUT(CPT_H3D) = IUVAR
-	 	  	           IF (NUVAR_MAX .NE. 0  .AND. IS_UVAR_ALL == 1) UVAR_INPUT(CPT_H3D) = L
+	 	  	           IF (NUVAR_MAX /= 0  .AND. IS_UVAR_ALL == 1) UVAR_INPUT(CPT_H3D) = L
 
 	 	  	           MDSVAR_INPUT(CPT_H3D) = -1
 	 	  	           MDSVAR_INPUT1(CPT_H3D) = -1
 	 	  	           MDSVAR_INPUT2(CPT_H3D) = -1
-	 	  	           IF (NMDSVAR_MAX .NE. 0  .AND. IS_MDSVAR_ALL == 1 .AND. 
-     .                                 KEY3_GLOB(1:3) == 'MDS' .AND. MDS_NMAT .NE. 0) THEN
+	 	  	           IF (NMDSVAR_MAX /= 0  .AND. IS_MDSVAR_ALL == 1 .AND. 
+     .                                 KEY3_GLOB(1:3) == 'MDS' .AND. MDS_NMAT /= 0) THEN
 	 	  	             MDSVAR_INPUT(CPT_H3D) = MDSVAR_INPUT_TMP(P)
 	 	  	             MDSVAR_INPUT1(CPT_H3D) = MDSVAR_INPUT1_TMP(P)
 	 	  	             MDSVAR_INPUT2(CPT_H3D) = MDSVAR_INPUT2_TMP(P)
@@ -1444,8 +1444,8 @@ c
 	 	  	           IF (IS_MDSVAR_ALL == 0  .AND. IMDSVAR >= 1) MDSVAR_INPUT(CPT_H3D) = IMDSVAR
 
 
-	 	  	           IF (NMDSVAR_MAX .NE. 0  .AND. IS_MDSVAR_DEF == 1 .AND. 
-     .                                 KEY3_GLOB(1:3) == 'MDS' .AND. MDS_NMAT .NE. 0) THEN
+	 	  	           IF (NMDSVAR_MAX /= 0  .AND. IS_MDSVAR_DEF == 1 .AND. 
+     .                                 KEY3_GLOB(1:3) == 'MDS' .AND. MDS_NMAT /= 0) THEN
 	 	  	             MDSVAR_INPUT(CPT_H3D) = MDSVAR_INPUT_TMP(P)
 	 	  	             MDSVAR_INPUT1(CPT_H3D) = MDSVAR_INPUT1_TMP(P)
 	 	  	             MDSVAR_INPUT2(CPT_H3D) = MDSVAR_INPUT2_TMP(P)
@@ -1453,15 +1453,15 @@ c
 
 	 	  	           IR_INPUT(CPT_H3D) = -1
            	                   IF(H3D_KEYWORD_SOLID%IS_IR == 1 .AND. IR > 0) IR_INPUT(CPT_H3D) = IR
-	 	  	           IF (IR_MAX .NE. 0  .AND. IS_IR_ALL == 1) IR_INPUT(CPT_H3D) = M
+	 	  	           IF (IR_MAX /= 0  .AND. IS_IR_ALL == 1) IR_INPUT(CPT_H3D) = M
 
 	 	  	           IS_INPUT(CPT_H3D) = -1
            	                   IF(H3D_KEYWORD_SOLID%IS_IS == 1 .AND. IS > 0) IS_INPUT(CPT_H3D) = IS
-	 	  	           IF (IS_MAX .NE. 0  .AND. IS_IS_ALL == 1) IS_INPUT(CPT_H3D) = N
+	 	  	           IF (IS_MAX /= 0  .AND. IS_IS_ALL == 1) IS_INPUT(CPT_H3D) = N
 
 	 	  	           IT_INPUT(CPT_H3D) = -1
            	                   IF(H3D_KEYWORD_SOLID%IS_IT == 1 .AND. IT > 0) IT_INPUT(CPT_H3D) = IT
-	 	  	           IF (IT_MAX .NE. 0  .AND. IS_IT_ALL == 1) IT_INPUT(CPT_H3D) = O
+	 	  	           IF (IT_MAX /= 0  .AND. IS_IT_ALL == 1) IT_INPUT(CPT_H3D) = O
 c
 	 	  	           IDS_INPUT(CPT_H3D) = -1
 	 	  	           IF (IS_ID_ALL == 1) IDS_INPUT(CPT_H3D) = Q
@@ -1605,21 +1605,21 @@ C
                 IF (IS_TENSOR == 1 ) H3D_KEYWORD_ONED = H3D_KEYWORD_ONED_TENSOR(J)
                 IF (IS_TORSOR == 1 ) H3D_KEYWORD_ONED = H3D_KEYWORD_ONED_TORSOR(J)
 
-                IF ( H3D_KEYWORD_ONED%IS_IPT .NE. 0 ) THEN
+                IF ( H3D_KEYWORD_ONED%IS_IPT /= 0 ) THEN
 C            
                   IF ( IS_IPT_ALL == 0 ) THEN
                     CPT_H3D = CPT_H3D + 1
                     IPT_INPUT(CPT_H3D) = -1
                     IS_AVAILABLE_KEY(CPT_H3D) = 1 
                     IF ( H3D_KEYWORD_ONED%IS_IPT == 1 ) THEN
-                      IF ( IPT .NE. 0 ) IPT_INPUT(CPT_H3D) = IPT
+                      IF ( IPT /= 0 ) IPT_INPUT(CPT_H3D) = IPT
                     ENDIF
                   ELSE   !  IF ( IS_IPT_ALL == 0 )
-                    IF ( NIP_MAX .NE. 0 ) THEN
+                    IF ( NIP_MAX /= 0 ) THEN
                       DO L=1,MAX(1,IS_IPT_ALL*MAX(NIP_MAX,1))
                         CPT_H3D = CPT_H3D + 1
                         IPT_INPUT(CPT_H3D) = -1
-                        IF ( NIP_MAX .NE. 0  .AND. IS_IPT_ALL == 1 ) IPT_INPUT(CPT_H3D) = L
+                        IF ( NIP_MAX /= 0  .AND. IS_IPT_ALL == 1 ) IPT_INPUT(CPT_H3D) = L
                         IF (IS_IPT_ALL == 0 .AND. IPT >= 1) IPT_INPUT(CPT_H3D) = IPT
                         IS_AVAILABLE_KEY(CPT_H3D) = 1                              
                       ENDDO
@@ -1629,7 +1629,7 @@ C
                   CPT_H3D = CPT_H3D + 1
                   IPT_INPUT(CPT_H3D) = -1
                   IS_AVAILABLE_KEY(CPT_H3D) = 1 
-                ENDIF ! IF ( H3D_KEYWORD_ONED%IS_IPT .NE. 0 )
+                ENDIF ! IF ( H3D_KEYWORD_ONED%IS_IPT /= 0 )
               ENDIF ! IF ( IS_SCALAR == 1 .OR. IS_VECTOR == 1 .OR. IS_TENSOR == 1  .OR. IS_TORSOR == 1 )
 c
               DO K=1,CPT_H3D
@@ -1674,11 +1674,11 @@ C--------------------------------------------------
            	IF(IS_SCALAR == 1) H3D_KEYWORD_QUAD = H3D_KEYWORD_QUAD_SCALAR(J)
            	IF(IS_VECTOR == 1) H3D_KEYWORD_QUAD = H3D_KEYWORD_QUAD_VECTOR(J)
            	IF(IS_TENSOR == 1) H3D_KEYWORD_QUAD = H3D_KEYWORD_QUAD_TENSOR(J)
-           	IF(H3D_KEYWORD_QUAD%IS_LAYER .NE. 0  .OR. 
-     .     	   H3D_KEYWORD_QUAD%IS_IR .NE. 0 .OR.
-     .     	   H3D_KEYWORD_QUAD%IS_IS .NE. 0 .OR.
-     .     	   H3D_KEYWORD_QUAD%IS_IT .NE. 0 .OR. 
-     .     	   H3D_KEYWORD_QUAD%IS_UVAR .NE. 0  ) THEN
+           	IF(H3D_KEYWORD_QUAD%IS_LAYER /= 0  .OR. 
+     .     	   H3D_KEYWORD_QUAD%IS_IR /= 0 .OR.
+     .     	   H3D_KEYWORD_QUAD%IS_IS /= 0 .OR.
+     .     	   H3D_KEYWORD_QUAD%IS_IT /= 0 .OR. 
+     .     	   H3D_KEYWORD_QUAD%IS_UVAR /= 0  ) THEN
            	  IF(IS_LAYER_ALL == 0 .AND. IS_IR_ALL == 0 .AND. IS_IS_ALL == 0 .AND.
      .     	     IS_IT_ALL == 0 .AND. IS_UVAR_ALL == 0)THEN
 
@@ -1695,35 +1695,35 @@ C--------------------------------------------------
            	    IS_AVAILABLE_KEY(CPT_H3D) = 1 
 
            	    IF(H3D_KEYWORD_QUAD%IS_LAYER == 1) THEN
-           	      IF(LAYER .NE. 0) LAYER_INPUT(CPT_H3D) = LAYER
+           	      IF(LAYER /= 0) LAYER_INPUT(CPT_H3D) = LAYER
            	      IF(IS_LAYER_LOWER == 1) LAYER_INPUT(CPT_H3D) = -2
            	      IF(IS_LAYER_UPPER == 1) LAYER_INPUT(CPT_H3D) = -3
            	    ENDIF
 
            	    IF(H3D_KEYWORD_QUAD%IS_IPT == 1) THEN
-           	      IF(IPT .NE. 0) IPT_INPUT(CPT_H3D) = IPT
+           	      IF(IPT /= 0) IPT_INPUT(CPT_H3D) = IPT
            	      IF(IS_IPT_LOWER == 1) IPT_INPUT(CPT_H3D) = -2
            	      IF(IS_IPT_UPPER == 1) IPT_INPUT(CPT_H3D) = -3
            	    ENDIF
 
            	    IF(H3D_KEYWORD_QUAD%IS_UVAR == 1) THEN
-           	      IF(IUVAR .NE. 0) UVAR_INPUT(CPT_H3D) = IUVAR
+           	      IF(IUVAR /= 0) UVAR_INPUT(CPT_H3D) = IUVAR
            	    ENDIF
 
            	    IF(H3D_KEYWORD_QUAD%IS_IR == 1) THEN
-           	      IF(IR .NE. 0) IR_INPUT(CPT_H3D) = IR
+           	      IF(IR /= 0) IR_INPUT(CPT_H3D) = IR
            	    ENDIF
 
            	    IF(H3D_KEYWORD_QUAD%IS_IS == 1) THEN
-           	      IF(IS .NE. 0) IS_INPUT(CPT_H3D) = IS
+           	      IF(IS /= 0) IS_INPUT(CPT_H3D) = IS
            	    ENDIF
 
            	    IF(H3D_KEYWORD_QUAD%IS_IT == 1) THEN
-           	      IF(IT .NE. 0) IT_INPUT(CPT_H3D) = IT
+           	      IF(IT /= 0) IT_INPUT(CPT_H3D) = IT
            	    ENDIF
 
            	  ELSE
-	 	   IF(NLAY_MAX + IR_MAX + IS_MAX + IT_MAX + NUVAR_MAX .NE. 0)THEN
+	 	   IF(NLAY_MAX + IR_MAX + IS_MAX + IT_MAX + NUVAR_MAX /= 0)THEN
 	 	     DO K=1,MAX(1,IS_LAYER_ALL*MAX(NLAY_MAX,1))
 	 	       DO L=1,MAX(1,IS_UVAR_ALL*MAX(NUVAR_MAX,1))
 	 	  	 DO M=1,MAX(1,IS_IR_ALL*MAX(IR_MAX,1))
@@ -1732,19 +1732,19 @@ C--------------------------------------------------
 	 	  	       CPT_H3D = CPT_H3D + 1
 c
 	 	  	       LAYER_INPUT(CPT_H3D) = -1
-	 	  	       IF (NLAY_MAX .NE. 0 .AND. IS_LAYER_ALL == 1) LAYER_INPUT(CPT_H3D) = K
+	 	  	       IF (NLAY_MAX /= 0 .AND. IS_LAYER_ALL == 1) LAYER_INPUT(CPT_H3D) = K
 c
 	 	  	       UVAR_INPUT(CPT_H3D) = -1
-	 	  	       IF (NUVAR_MAX .NE. 0  .AND. IS_UVAR_ALL == 1) UVAR_INPUT(CPT_H3D) = L
+	 	  	       IF (NUVAR_MAX /= 0  .AND. IS_UVAR_ALL == 1) UVAR_INPUT(CPT_H3D) = L
 
 	 	  	       IR_INPUT(CPT_H3D) = -1
-	 	  	       IF (IR_MAX .NE. 0  .AND. IS_IR_ALL == 1) IR_INPUT(CPT_H3D) = M
+	 	  	       IF (IR_MAX /= 0  .AND. IS_IR_ALL == 1) IR_INPUT(CPT_H3D) = M
 
 	 	  	       IS_INPUT(CPT_H3D) = -1
-	 	  	       IF (IS_MAX .NE. 0  .AND. IS_IS_ALL == 1) IS_INPUT(CPT_H3D) = N
+	 	  	       IF (IS_MAX /= 0  .AND. IS_IS_ALL == 1) IS_INPUT(CPT_H3D) = N
 
 	 	  	       IT_INPUT(CPT_H3D) = -1
-	 	  	       IF (IT_MAX .NE. 0  .AND. IS_IT_ALL == 1) IT_INPUT(CPT_H3D) = O
+	 	  	       IF (IT_MAX /= 0  .AND. IS_IT_ALL == 1) IT_INPUT(CPT_H3D) = O
 c
 	 	  	       GAUSS_INPUT(CPT_H3D) = -1
 c

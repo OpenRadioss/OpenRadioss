@@ -105,9 +105,9 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV         ('P_min'        ,PMIN   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_INTV           ('Ifail_so'     ,ISOLID ,IS_AVAILABLE,LSUBMODEL)
 
-      IF(EPSP0.EQ.0)EPSP0=EM20
-      IF(PMIN.EQ.0)PMIN=-EP30
-      IF(ISOLID.EQ.0)ISOLID=1
+      IF(EPSP0==0)EPSP0=EM20
+      IF(PMIN==0)PMIN=-EP30
+      IF(ISOLID==0)ISOLID=1
       UPARAM(1) = D1
       UPARAM(2) = D2
       UPARAM(3) = D3
@@ -124,17 +124,17 @@ C-----------------------------------------------
        WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE       
        WRITE(IOUT, 1000)D1,D2,D3,D4,D5,PMIN         
-       IF(ISOLID.EQ.1)THEN
+       IF(ISOLID==1)THEN
          WRITE(IOUT, 1100)
-       ELSEIF(ISOLID.EQ.2)THEN
+       ELSEIF(ISOLID==2)THEN
          WRITE(IOUT, 1200)
-       ELSEIF(ISOLID.EQ.3)THEN
+       ELSEIF(ISOLID==3)THEN
          WRITE(IOUT, 1300)
-       ELSEIF(ISOLID.EQ.4)THEN
+       ELSEIF(ISOLID==4)THEN
          WRITE(IOUT, 1400)  
        ENDIF
 
-       IF(D3.GT.0.)THEN
+       IF(D3>0.)THEN
           CALL ANCMSG(MSGID=831,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO,

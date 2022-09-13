@@ -106,7 +106,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C Partie ELEMENT
 C-----------------------------------------------   
-       IF (IVECTOR.EQ.1) THEN
+       IF (IVECTOR==1) THEN
           IVSIZE = 1024
        ELSE
           IVSIZE = 32
@@ -116,14 +116,14 @@ C-----------------------------------------------
        ALLOCATE(VIND2(VIND_SIZE))
        ALLOCATE(VIND3(VIND_SIZE))
            
-       IF (IVECTOR.EQ.1) THEN
+       IF (IVECTOR==1) THEN
          IDEB = 1
          DO LB = 1, NBLOC
            NC = NBCOL(LB)
            KK = NBVAL(LB)
-           IF (NC.EQ.1) THEN
+           IF (NC==1) THEN
             IF(ITHERM_FE == 0 ) THEN
-               IF(IFSUBM.EQ.0)THEN
+               IF(IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -137,7 +137,7 @@ C-----------------------------------------------
                   STIFN(N) = STIFN(N) + FSKYV(NCT,7)
                   STIFR(N) = STIFR(N) + FSKYV(NCT,8)
                 ENDDO
-               ELSEIF(N2D.NE.0)THEN
+               ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -169,7 +169,7 @@ C-----------------------------------------------
                 ENDDO
                ENDIF
               ELSE
-               IF(IFSUBM.EQ.0)THEN
+               IF(IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -184,7 +184,7 @@ C-----------------------------------------------
                   STIFR(N) = STIFR(N) + FSKYV(NCT,8)
                   FTHE(N)  = FTHE(N)   + FTHESKY(NCT)
                 ENDDO
-               ELSEIF(N2D.NE.0)THEN
+               ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -218,9 +218,9 @@ C-----------------------------------------------
                 ENDDO
                ENDIF 
              ENDIF    
-           ELSEIF(NC.EQ.2) THEN
+           ELSEIF(NC==2) THEN
             IF(ITHERM_FE == 0 ) THEN
-             IF(IFSUBM.EQ.0)THEN
+             IF(IFSUBM==0)THEN
 #include "vectorize.inc"
               DO K1 = IDEB, IDEB+KK-1
                 N = INDSKY(K1)
@@ -234,7 +234,7 @@ C-----------------------------------------------
                 STIFN(N) = STIFN(N) + FSKYV(NCT,7) + FSKYV(NCT+1,7)
                 STIFR(N) = STIFR(N) + FSKYV(NCT,8) + FSKYV(NCT+1,8)
               ENDDO
-             ELSEIF(N2D.NE.0)THEN
+             ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
               DO K1 = IDEB, IDEB+KK-1
                 N = INDSKY(K1)
@@ -266,7 +266,7 @@ C-----------------------------------------------
               ENDDO
              ENDIF
             ELSE
-             IF(IFSUBM.EQ.0)THEN
+             IF(IFSUBM==0)THEN
 #include "vectorize.inc"
               DO K1 = IDEB, IDEB+KK-1
                 N = INDSKY(K1)
@@ -281,7 +281,7 @@ C-----------------------------------------------
                 STIFR(N) = STIFR(N) + FSKYV(NCT,8) + FSKYV(NCT+1,8)
                 FTHE(N)   = FTHE(N)   + FTHESKY(NCT) + FTHESKY(NCT+1)
               ENDDO
-             ELSEIF(N2D.NE.0)THEN
+             ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
               DO K1 = IDEB, IDEB+KK-1
                 N = INDSKY(K1)
@@ -316,9 +316,9 @@ C-----------------------------------------------
              ENDIF             
             ENDIF
 C
-           ELSEIF(NC.EQ.3) THEN
+           ELSEIF(NC==3) THEN
             IF(ITHERM_FE == 0 ) THEN
-               IF(IFSUBM.EQ.0)THEN
+               IF(IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -340,7 +340,7 @@ C
                   STIFR(N) = STIFR(N) + FSKYV(NCT,8)   + FSKYV(NCT+1,8)
      +                                + FSKYV(NCT+2,8)
                 ENDDO
-               ELSEIF(N2D.NE.0)THEN
+               ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -390,7 +390,7 @@ C
                 ENDDO
                ENDIF
              ELSE
-               IF(IFSUBM.EQ.0)THEN
+               IF(IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -414,7 +414,7 @@ C
                   FTHE(N)   = FTHE(N) + FTHESKY(NCT)   + FTHESKY(NCT+1)
      +                                + FTHESKY(NCT+2)
                  ENDDO
-               ELSEIF(N2D.NE.0)THEN
+               ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -468,9 +468,9 @@ C
                 ENDDO
                ENDIF
              ENDIF
-           ELSEIF(NC.EQ.4) THEN
+           ELSEIF(NC==4) THEN
             IF(ITHERM_FE == 0 ) THEN
-              IF(IFSUBM.EQ.0)THEN
+              IF(IFSUBM==0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                  N = INDSKY(K1)
@@ -492,7 +492,7 @@ C
                  STIFR(N) = STIFR(N) + FSKYV(NCT,8)   + FSKYV(NCT+1,8)
      +                               + FSKYV(NCT+2,8) + FSKYV(NCT+3,8)
                ENDDO
-              ELSEIF(N2D.NE.0)THEN
+              ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                  N = INDSKY(K1)
@@ -542,7 +542,7 @@ C
                ENDDO
                ENDIF
              ELSE
-              IF(IFSUBM.EQ.0)THEN
+              IF(IFSUBM==0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                  N = INDSKY(K1)
@@ -566,7 +566,7 @@ C
                  FTHE(N)   = FTHE(N) + FTHESKY(NCT)   + FTHESKY(NCT+1)
      +                               + FTHESKY(NCT+2) + FTHESKY(NCT+3)
                ENDDO
-              ELSEIF(N2D.NE.0)THEN
+              ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                  N = INDSKY(K1)
@@ -620,9 +620,9 @@ C
                ENDDO
               ENDIF  
              ENDIF
-           ELSEIF(NC.EQ.5) THEN
+           ELSEIF(NC==5) THEN
             IF(ITHERM_FE == 0 ) THEN
-             IF(IFSUBM.EQ.0)THEN
+             IF(IFSUBM==0)THEN
 #include "vectorize.inc"
               DO K1 = IDEB, IDEB+KK-1
                 N = INDSKY(K1)
@@ -652,7 +652,7 @@ C
      +                              + FSKYV(NCT+2,8) + FSKYV(NCT+3,8) 
      +                              + FSKYV(NCT+4,8)
               ENDDO
-             ELSEIF(N2D.NE.0)THEN
+             ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
               DO K1 = IDEB, IDEB+KK-1
                 N = INDSKY(K1)
@@ -720,7 +720,7 @@ C
               ENDDO
              ENDIF
             ELSE
-             IF(IFSUBM.EQ.0)THEN
+             IF(IFSUBM==0)THEN
 #include "vectorize.inc"
               DO K1 = IDEB, IDEB+KK-1
                 N = INDSKY(K1)
@@ -753,7 +753,7 @@ C
      +                              + FTHESKY(NCT+2) + FTHESKY(NCT+3)
      +                              + FTHESKY(NCT+4) 
               ENDDO
-             ELSEIF(N2D.NE.0)THEN
+             ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
               DO K1 = IDEB, IDEB+KK-1
                 N = INDSKY(K1)
@@ -828,9 +828,9 @@ C
              ENDIF
             ENDIF
 C
-           ELSEIF(NC.EQ.6) THEN
+           ELSEIF(NC==6) THEN
             IF(ITHERM_FE == 0 ) THEN
-              IF(IFSUBM.EQ.0)THEN
+              IF(IFSUBM==0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                  N = INDSKY(K1)
@@ -860,7 +860,7 @@ C
      +                               + FSKYV(NCT+2,8) + FSKYV(NCT+3,8) 
      +                               + FSKYV(NCT+4,8) + FSKYV(NCT+5,8)
                ENDDO
-              ELSEIF(N2D.NE.0)THEN
+              ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                  N = INDSKY(K1)
@@ -928,7 +928,7 @@ C
                ENDDO
               ENDIF
             ELSE
-              IF(IFSUBM.EQ.0)THEN
+              IF(IFSUBM==0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                  N = INDSKY(K1)
@@ -961,7 +961,7 @@ C
      +                               + FTHESKY(NCT+2) + FTHESKY(NCT+3)
      +                               + FTHESKY(NCT+4) + FTHESKY(NCT+5)
                ENDDO
-              ELSEIF(N2D.NE.0)THEN
+              ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                  N = INDSKY(K1)
@@ -1035,9 +1035,9 @@ C
                ENDDO
               ENDIF
             ENDIF
-           ELSEIF(NC.EQ.7) THEN
+           ELSEIF(NC==7) THEN
             IF(ITHERM_FE == 0  ) THEN
-               IF(IFSUBM.EQ.0)THEN
+               IF(IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -1075,7 +1075,7 @@ C
      +                                + FSKYV(NCT+4,8) + FSKYV(NCT+5,8) 
      +                                + FSKYV(NCT+6,8)
                 ENDDO
-               ELSEIF(N2D.NE.0)THEN
+               ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -1161,7 +1161,7 @@ C
                 ENDDO
                ENDIF
              ELSE
-               IF(IFSUBM.EQ.0)THEN
+               IF(IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -1203,7 +1203,7 @@ C
      +                                + FTHESKY(NCT+4) + FTHESKY(NCT+5)
      +                                + FTHESKY(NCT+6)
                 ENDDO
-               ELSEIF(N2D.NE.0)THEN
+               ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -1297,9 +1297,9 @@ C
                 ENDDO
                ENDIF              
              ENDIF
-           ELSEIF(NC.EQ.8) THEN
+           ELSEIF(NC==8) THEN
             IF(ITHERM_FE == 0  ) THEN
-             IF(IFSUBM.EQ.0)THEN
+             IF(IFSUBM==0)THEN
 #include "vectorize.inc"
               DO K1 = IDEB, IDEB+KK-1
                 N = INDSKY(K1)
@@ -1337,7 +1337,7 @@ C
      +                              + FSKYV(NCT+4,8) + FSKYV(NCT+5,8) 
      +                              + FSKYV(NCT+6,8) + FSKYV(NCT+7,8)
               ENDDO
-             ELSEIF(N2D.NE.0)THEN
+             ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
               DO K1 = IDEB, IDEB+KK-1
                 N = INDSKY(K1)
@@ -1423,7 +1423,7 @@ C
               ENDDO
              ENDIF
             ELSE
-             IF(IFSUBM.EQ.0)THEN
+             IF(IFSUBM==0)THEN
 #include "vectorize.inc"
               DO K1 = IDEB, IDEB+KK-1
                 N = INDSKY(K1)
@@ -1465,7 +1465,7 @@ C
      +                              + FTHESKY(NCT+4) + FTHESKY(NCT+5)
      +                              + FTHESKY(NCT+6) + FTHESKY(NCT+7)
               ENDDO
-             ELSEIF(N2D.NE.0)THEN
+             ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
               DO K1 = IDEB, IDEB+KK-1
                 N = INDSKY(K1)
@@ -1559,9 +1559,9 @@ C
               ENDDO
              ENDIF              
             ENDIF
-           ELSEIF(NC.EQ.9) THEN
+           ELSEIF(NC==9) THEN
             IF(ITHERM_FE == 0  ) THEN
-             IF(IFSUBM.EQ.0)THEN
+             IF(IFSUBM==0)THEN
 #include "vectorize.inc"
               DO K1 = IDEB, IDEB+KK-1
                 N = INDSKY(K1)
@@ -1607,7 +1607,7 @@ C
      +                              + FSKYV(NCT+6,8) + FSKYV(NCT+7,8) 
      +                              + FSKYV(NCT+8,8)
               ENDDO
-             ELSEIF(N2D.NE.0)THEN
+             ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
               DO K1 = IDEB, IDEB+KK-1
                 N = INDSKY(K1)
@@ -1711,7 +1711,7 @@ C
               ENDDO
              ENDIF
             ELSE
-             IF(IFSUBM.EQ.0)THEN
+             IF(IFSUBM==0)THEN
 #include "vectorize.inc"
               DO K1 = IDEB, IDEB+KK-1
                 N = INDSKY(K1)
@@ -1762,7 +1762,7 @@ C
      +                              + FTHESKY(NCT+6) + FTHESKY(NCT+7)
      +                              + FTHESKY(NCT+8)
               ENDDO
-             ELSEIF(N2D.NE.0)THEN
+             ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
               DO K1 = IDEB, IDEB+KK-1
                 N = INDSKY(K1)
@@ -1878,9 +1878,9 @@ C
             
             ENDIF
 C
-           ELSEIF(NC.EQ.10) THEN
+           ELSEIF(NC==10) THEN
             IF(ITHERM_FE == 0  )THEN
-              IF(IFSUBM.EQ.0)THEN
+              IF(IFSUBM==0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                  N = INDSKY(K1)
@@ -1926,7 +1926,7 @@ C
      +                               + FSKYV(NCT+6,8) + FSKYV(NCT+7,8) 
      +                               + FSKYV(NCT+8,8) + FSKYV(NCT+9,8)
                ENDDO
-             ELSEIF(N2D.NE.0)THEN
+             ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                  N = INDSKY(K1)
@@ -2031,7 +2031,7 @@ C
                ENDDO
               ENDIF
              ELSE
-              IF(IFSUBM.EQ.0)THEN
+              IF(IFSUBM==0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                  N = INDSKY(K1)
@@ -2082,7 +2082,7 @@ C
      +                               + FTHESKY(NCT+6) + FTHESKY(NCT+7)
      +                               + FTHESKY(NCT+8) + FTHESKY(NCT+9)
                ENDDO
-             ELSEIF(N2D.NE.0)THEN
+             ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                  N = INDSKY(K1)
@@ -2197,9 +2197,9 @@ C
               ENDIF              
              ENDIF
 C
-           ELSEIF(NC.EQ.11) THEN
+           ELSEIF(NC==11) THEN
             IF(ITHERM_FE == 0  ) THEN
-              IF(IFSUBM.EQ.0)THEN
+              IF(IFSUBM==0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                  N = INDSKY(K1)
@@ -2215,7 +2215,7 @@ C
                    STIFR(N) = STIFR(N) + FSKYV(NCT+K2,8)
                  ENDDO
                ENDDO
-              ELSEIF(N2D.NE.0)THEN
+              ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                  N = INDSKY(K1)
@@ -2251,7 +2251,7 @@ C
                ENDDO
               ENDIF
              ELSE
-              IF(IFSUBM.EQ.0)THEN
+              IF(IFSUBM==0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                  N = INDSKY(K1)
@@ -2268,7 +2268,7 @@ C
                    FTHE(N)  = FTHE(N) + FTHESKY(NCT+K2)
                  ENDDO
                ENDDO
-              ELSEIF(N2D.NE.0)THEN
+              ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                  N = INDSKY(K1)
@@ -2307,9 +2307,9 @@ C
               ENDIF              
              ENDIF
 C          
-           ELSEIF(NC.EQ.12) THEN
+           ELSEIF(NC==12) THEN
             IF(ITHERM_FE == 0  ) THEN
-              IF(IFSUBM.EQ.0)THEN
+              IF(IFSUBM==0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                  N = INDSKY(K1)
@@ -2325,7 +2325,7 @@ C
                    STIFR(N) = STIFR(N) + FSKYV(NCT+K2,8)
                  ENDDO
                ENDDO
-              ELSEIF(N2D.NE.0)THEN
+              ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                  N = INDSKY(K1)
@@ -2361,7 +2361,7 @@ C
                ENDDO
               ENDIF
              ELSE
-              IF(IFSUBM.EQ.0)THEN
+              IF(IFSUBM==0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                  N = INDSKY(K1)
@@ -2378,7 +2378,7 @@ C
                    FTHE(N)   = FTHE(N) + FTHESKY(NCT+K2) 
                  ENDDO
                ENDDO
-              ELSEIF(N2D.NE.0)THEN
+              ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                  N = INDSKY(K1)
@@ -2416,9 +2416,9 @@ C
                ENDDO
               ENDIF             
              ENDIF 
-           ELSEIF(NC.EQ.13) THEN
+           ELSEIF(NC==13) THEN
             IF(ITHERM_FE == 0  ) THEN
-               IF(IFSUBM.EQ.0)THEN
+               IF(IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -2434,7 +2434,7 @@ C
                     STIFR(N) = STIFR(N) + FSKYV(NCT+K2,8)
                   ENDDO
                 ENDDO
-               ELSEIF(N2D.NE.0)THEN
+               ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -2470,7 +2470,7 @@ C
                 ENDDO
                ENDIF
               ELSE
-               IF(IFSUBM.EQ.0)THEN
+               IF(IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -2487,7 +2487,7 @@ C
                     FTHE(N)   = FTHE(N) + FTHESKY(NCT+K2)
                   ENDDO
                 ENDDO
-               ELSEIF(N2D.NE.0)THEN
+               ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -2525,9 +2525,9 @@ C
                 ENDDO
                ENDIF              
               ENDIF 
-           ELSEIF(NC.EQ.14) THEN
+           ELSEIF(NC==14) THEN
             IF(ITHERM_FE == 0  ) THEN
-                IF(IFSUBM.EQ.0)THEN
+                IF(IFSUBM==0)THEN
 #include "vectorize.inc"
                  DO K1 = IDEB, IDEB+KK-1
                    N = INDSKY(K1)
@@ -2543,7 +2543,7 @@ C
                      STIFR(N) = STIFR(N) + FSKYV(NCT+K2,8)
                    ENDDO
                  ENDDO
-                ELSEIF(N2D.NE.0)THEN
+                ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
                  DO K1 = IDEB, IDEB+KK-1
                    N = INDSKY(K1)
@@ -2579,7 +2579,7 @@ C
                  ENDDO
                 ENDIF
               ELSE
-                IF(IFSUBM.EQ.0)THEN
+                IF(IFSUBM==0)THEN
 #include "vectorize.inc"
                  DO K1 = IDEB, IDEB+KK-1
                    N = INDSKY(K1)
@@ -2596,7 +2596,7 @@ C
                      FTHE(N)   = FTHE(N) + FTHESKY(NCT+K2) 
                    ENDDO
                  ENDDO
-                ELSEIF(N2D.NE.0)THEN
+                ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
                  DO K1 = IDEB, IDEB+KK-1
                    N = INDSKY(K1)
@@ -2634,9 +2634,9 @@ C
                  ENDDO
                 ENDIF               
               ENDIF
-           ELSEIF(NC.EQ.15) THEN
+           ELSEIF(NC==15) THEN
             IF(ITHERM_FE == 0  )THEN
-               IF(IFSUBM.EQ.0)THEN
+               IF(IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -2652,7 +2652,7 @@ C
                     STIFR(N) = STIFR(N) + FSKYV(NCT+K2,8)
                   ENDDO
                 ENDDO
-               ELSEIF(N2D.NE.0)THEN
+               ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -2688,7 +2688,7 @@ C
                 ENDDO
                ENDIF
              ELSE
-               IF(IFSUBM.EQ.0)THEN
+               IF(IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -2705,7 +2705,7 @@ C
                     FTHE(N)   = FTHE(N) + FTHESKY(NCT+K2)
                   ENDDO
                 ENDDO
-               ELSEIF(N2D.NE.0)THEN
+               ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -2743,9 +2743,9 @@ C
                 ENDDO
                ENDIF              
             ENDIF
-           ELSEIF(NC.EQ.16) THEN
+           ELSEIF(NC==16) THEN
             IF(ITHERM_FE == 0  ) THEN
-               IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+               IF(N2D/=0.OR.IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -2761,7 +2761,7 @@ C
                     STIFR(N) = STIFR(N) + FSKYV(NCT+K2,8)
                   ENDDO
                 ENDDO
-               ELSEIF(N2D.NE.0)THEN
+               ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -2797,7 +2797,7 @@ C
                 ENDDO
                ENDIF
              ELSE
-               IF(IFSUBM.EQ.0)THEN
+               IF(IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -2814,7 +2814,7 @@ C
                     FTHE(N)   = FTHE(N) + FTHESKY(NCT+K2)
                   ENDDO
                 ENDDO
-               ELSEIF(N2D.NE.0)THEN
+               ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -2852,9 +2852,9 @@ C
                 ENDDO
                ENDIF               
              ENDIF
-           ELSEIF(NC.EQ.17) THEN
+           ELSEIF(NC==17) THEN
             IF(ITHERM_FE == 0  ) THEN
-               IF(IFSUBM.EQ.0)THEN
+               IF(IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -2870,7 +2870,7 @@ C
                     STIFR(N) = STIFR(N) + FSKYV(NCT+K2,8)
                   ENDDO
                 ENDDO
-               ELSEIF(N2D.NE.0)THEN
+               ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -2906,7 +2906,7 @@ C
                 ENDDO
                ENDIF
             ELSE
-               IF(IFSUBM.EQ.0)THEN
+               IF(IFSUBM==0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -2924,7 +2924,7 @@ C
                     MS_2D(N) = MS_2D(N)  + FSKYM(NCT+K2)
                   ENDDO
                 ENDDO
-               ELSEIF(N2D.NE.0)THEN
+               ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
@@ -2962,9 +2962,9 @@ C
                 ENDDO
                ENDIF             
             ENDIF
-           ELSEIF(NC.EQ.18) THEN
+           ELSEIF(NC==18) THEN
             IF(ITHERM_FE == 0  )THEN
-              IF(IFSUBM.EQ.0)THEN
+              IF(IFSUBM==0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                  N = INDSKY(K1)
@@ -2980,7 +2980,7 @@ C
                    STIFR(N) = STIFR(N) + FSKYV(NCT+K2,8)
                  ENDDO
                ENDDO
-              ELSEIF(N2D.NE.0)THEN
+              ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                  N = INDSKY(K1)
@@ -3017,7 +3017,7 @@ C
                ENDDO
               ENDIF
              ELSE
-              IF(IFSUBM.EQ.0)THEN
+              IF(IFSUBM==0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                  N = INDSKY(K1)
@@ -3034,7 +3034,7 @@ C
                    FTHE(N)   = FTHE(N) + FTHESKY(NCT+K2)
                  ENDDO
                ENDDO
-              ELSEIF(N2D.NE.0)THEN
+              ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                  N = INDSKY(K1)
@@ -3072,9 +3072,9 @@ C
                ENDDO
               ENDIF              
              ENDIF 
-           ELSEIF(NC.EQ.19) THEN
+           ELSEIF(NC==19) THEN
             IF(ITHERM_FE == 0  )THEN
-                IF(IFSUBM.EQ.0)THEN
+                IF(IFSUBM==0)THEN
 #include "vectorize.inc"
                   DO K1 = IDEB, IDEB+KK-1
                     N = INDSKY(K1)
@@ -3090,7 +3090,7 @@ C
                       STIFR(N) = STIFR(N) + FSKYV(NCT+K2,8)
                     ENDDO
                   ENDDO
-                 ELSEIF(N2D.NE.0)THEN
+                 ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
                   DO K1 = IDEB, IDEB+KK-1
                     N = INDSKY(K1)
@@ -3126,7 +3126,7 @@ C
                   ENDDO
                  ENDIF
              ELSE
-                 IF(IFSUBM.EQ.0)THEN
+                 IF(IFSUBM==0)THEN
 #include "vectorize.inc"
                   DO K1 = IDEB, IDEB+KK-1
                     N = INDSKY(K1)
@@ -3143,7 +3143,7 @@ C
                       FTHE(N)   = FTHE(N) + FTHESKY(NCT+K2)
                     ENDDO
                   ENDDO
-                 ELSEIF(N2D.NE.0)THEN
+                 ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
                   DO K1 = IDEB, IDEB+KK-1
                     N = INDSKY(K1)
@@ -3181,9 +3181,9 @@ C
                   ENDDO
                  ENDIF               
              ENDIF
-           ELSEIF(NC.EQ.20) THEN
+           ELSEIF(NC==20) THEN
             IF(ITHERM_FE == 0 ) THEN
-              IF(IFSUBM.EQ.0)THEN
+              IF(IFSUBM==0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                  N = INDSKY(K1)
@@ -3199,7 +3199,7 @@ C
                    STIFR(N) = STIFR(N) + FSKYV(NCT+K2,8)
                  ENDDO
                ENDDO
-              ELSEIF(N2D.NE.0)THEN
+              ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                  N = INDSKY(K1)
@@ -3235,7 +3235,7 @@ C
                ENDDO
               ENDIF
             ELSE
-              IF(IFSUBM.EQ.0)THEN
+              IF(IFSUBM==0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                  N = INDSKY(K1)
@@ -3252,7 +3252,7 @@ C
                    FTHE(N)  = FTHE(N) + FTHESKY(NCT+K2)
                  ENDDO
                ENDDO
-              ELSEIF(N2D.NE.0)THEN
+              ELSEIF(N2D/=0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                  N = INDSKY(K1)
@@ -3292,7 +3292,7 @@ C
             ENDIF
            ELSE
             IF(ITHERM_FE == 0 ) THEN
-               IF(IFSUBM.EQ.0)THEN
+               IF(IFSUBM==0)THEN
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
                   NCT = ADDCNE(N)
@@ -3307,7 +3307,7 @@ C
                     STIFR(N) = STIFR(N) + FSKYV(NCT+K2,8)
                   ENDDO
                 ENDDO
-               ELSEIF(N2D.NE.0)THEN
+               ELSEIF(N2D/=0)THEN
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
                   NCT = ADDCNE(N)
@@ -3341,7 +3341,7 @@ C
                 ENDDO
                ENDIF
               ELSE
-               IF(IFSUBM.EQ.0)THEN
+               IF(IFSUBM==0)THEN
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
                   NCT = ADDCNE(N)
@@ -3357,7 +3357,7 @@ C
                     FTHE(N)  = FTHE(N)  + FTHESKY(NCT+K2)
                   ENDDO
                 ENDDO
-               ELSEIF(N2D.NE.0)THEN
+               ELSEIF(N2D/=0)THEN
                 DO K1 = IDEB, IDEB+KK-1
                   N = INDSKY(K1)
                   NCT = ADDCNE(N)
@@ -3401,7 +3401,7 @@ C
 C
 C scalaire
         IF(ITHERM_FE == 0 ) THEN
-         IF(IFSUBM.EQ.0)THEN
+         IF(IFSUBM==0)THEN
            DO N = NODFT_2, NODLT_2
              NCT = ADDCNE(N)-1
              NC = ADDCNE(N+1)-ADDCNE(N)
@@ -3417,7 +3417,7 @@ C scalaire
 C
              ENDDO
            ENDDO
-         ELSEIF(N2D.NE.0)THEN
+         ELSEIF(N2D/=0)THEN
            DO N = NODFT_2, NODLT_2
              NCT = ADDCNE(N)-1
              NC = ADDCNE(N+1)-ADDCNE(N)
@@ -3453,7 +3453,7 @@ C
          ENDIF
         ELSE
          IF(NODADT_THERM == 1) THEN 
-          IF(IFSUBM.EQ.0)THEN
+          IF(IFSUBM==0)THEN
            DO N = NODFT_2, NODLT_2
              NCT = ADDCNE(N)-1
              NC = ADDCNE(N+1)-ADDCNE(N)
@@ -3470,7 +3470,7 @@ C
                CONDN(N) = CONDN(N) + CONDNSKY(K)
              ENDDO
            ENDDO
-          ELSEIF(N2D.NE.0)THEN
+          ELSEIF(N2D/=0)THEN
            DO N = NODFT_2, NODLT_2
              NCT = ADDCNE(N)-1
              NC = ADDCNE(N+1)-ADDCNE(N)
@@ -3508,7 +3508,7 @@ C
            ENDDO
           ENDIF   
          ELSE
-          IF(IFSUBM.EQ.0)THEN
+          IF(IFSUBM==0)THEN
            DO N = NODFT_2, NODLT_2
              NCT = ADDCNE(N)-1
              NC = ADDCNE(N+1)-ADDCNE(N)
@@ -3524,7 +3524,7 @@ C
                FTHE(N)  = FTHE(N)  + FTHESKY(K)
              ENDDO
            ENDDO
-          ELSEIF(N2D.NE.0)THEN
+          ELSEIF(N2D/=0)THEN
            DO N = NODFT_2, NODLT_2
              NCT = ADDCNE(N)-1
              NC = ADDCNE(N+1)-ADDCNE(N)
@@ -3612,16 +3612,16 @@ C-----------------------------------------------
          ENDDO  
         ENDIF        
 
-        IF( (N2D.NE.0).OR.(IFSUBM.EQ.1).OR.(IALELAG > 0) ) CALL MY_BARRIER         
+        IF( (N2D/=0).OR.(IFSUBM==1).OR.(IALELAG > 0) ) CALL MY_BARRIER         
 
 C masse stocke dans FSKY(1) et A(1) utilise pour cumul en 2D
-       IF(N2D.NE.0) THEN
+       IF(N2D/=0) THEN
 #include "vectorize.inc"
          DO I = NODFT, NODLT
            MS(I) = A(1,I)
            A(1,I) = ZERO
          ENDDO
-       ELSEIF(IFSUBM.EQ.1)THEN
+       ELSEIF(IFSUBM==1)THEN
 #include "vectorize.inc"
          DO I = NODFT, NODLT
            MS(I) = MS(I) + MSNF(I)
@@ -3668,7 +3668,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C Partie INTERFACE
 C-----------------------------------------------
-      IF(NISKY.GT.LSKYI)THEN
+      IF(NISKY>LSKYI)THEN
         WRITE(IOUT,*) ' **ERROR** : MEMORY PROBLEM IN PARITH OPTION'
         WRITE(IOUT,*)
      .    ' PLEASE, INCREASE MULTIMP FOR INTERFACES 7, 10 AND 11'
@@ -3678,7 +3678,7 @@ C-----------------------------------------------
         RETURN
       ENDIF
 C
-      IF (NISKY.NE.0) THEN
+      IF (NISKY/=0) THEN
         NISKYFT   = 1+ITASK*NISKY/ NTHREAD
         NISKYLT   = (ITASK+1)*NISKY/NTHREAD
         NFSKYFT   = 1+ITASK*NFSKYI/ NTHREAD
@@ -3806,14 +3806,14 @@ C-----------------------------------------------
         DO N=NDFT,NDLT
          NN = N-1
          DIFFADD = ADSKYI(N)-1-ADSKYI(NN)
-         IF(DIFFADD.EQ.0) THEN
+         IF(DIFFADD==0) THEN
            K1 = K1 + 1
            VIND1(K1) = N
 Cel 20 valeur seuil pour appel a qsort (20 = NBCC)
-         ELSEIF(DIFFADD.GE.1.AND.DIFFADD.LT.NBCC) THEN
+         ELSEIF(DIFFADD>=1.AND.DIFFADD<NBCC) THEN
            K2 = K2 + 1
            VIND2(K2) = N
-         ELSEIF(DIFFADD.GE.NBCC) THEN
+         ELSEIF(DIFFADD>=NBCC) THEN
            K3 = K3 + 1
            VIND3(K3) = N
          ENDIF
@@ -3822,7 +3822,7 @@ C
 C une seule contribution
 C
         IF(INTHEAT == 0 ) THEN
-         IF(KDTINT.EQ.0)THEN
+         IF(KDTINT==0)THEN
 #include "vectorize.inc"
           DO IJK=1,K1
            N = VIND1(IJK)
@@ -3847,7 +3847,7 @@ C
 C + la thermique
         ELSE
          IF(NODADT_THERM == 1) THEN
-          IF(KDTINT.EQ.0)THEN
+          IF(KDTINT==0)THEN
 #include "vectorize.inc"
            DO IJK=1,K1
             N = VIND1(IJK)
@@ -3876,7 +3876,7 @@ C + la thermique
            ENDDO
           ENDIF 
          ELSE
-          IF(KDTINT.EQ.0)THEN
+          IF(KDTINT==0)THEN
 #include "vectorize.inc"
            DO IJK=1,K1
             N = VIND1(IJK)
@@ -3930,7 +3930,7 @@ C                Iply is the position of ply in contact
 C
 C pas plus de 20 contributions
 C
-        IF (IVECTOR.EQ.0) THEN
+        IF (IVECTOR==0) THEN
 Cel ANCIEN CODE
          DO 800 IJK=1,K2
           N = VIND2(IJK)
@@ -3944,7 +3944,7 @@ C-----------------------------------------------
           DO 500 K=JJ1,JJ2-1
            DO 500 KK=K+1,JJ2
              DO 500 L=1,NFSKYI
-               IF(FSKYI(KK,L).GT.FSKYI(K,L))THEN
+               IF(FSKYI(KK,L)>FSKYI(K,L))THEN
                  FF = FSKYI(KK,L)
                  FSKYI(KK,L) = FSKYI(K,L)
                  FSKYI(K,L)  = FF
@@ -3956,18 +3956,18 @@ C + la thermique
            DO  K=JJ1,JJ2-1
             DO  KK=K+1,JJ2
              DO  L=1,NFSKYI
-               IF(FSKYI(KK,L).GT.FSKYI(K,L))THEN
+               IF(FSKYI(KK,L)>FSKYI(K,L))THEN
                  FF = FSKYI(KK,L)
                  FSKYI(KK,L) = FSKYI(K,L)
                  FSKYI(K,L)  = FF
                ENDIF
              ENDDO        
-             IF(FTHESKYI(KK).GT.FTHESKYI(K))THEN
+             IF(FTHESKYI(KK)>FTHESKYI(K))THEN
                  FF = FTHESKYI(KK)
                  FTHESKYI(KK) = FTHESKYI(K)
                  FTHESKYI(K)  = FF
              ENDIF 
-             IF(CONDNSKYI(KK).GT.CONDNSKYI(K))THEN
+             IF(CONDNSKYI(KK)>CONDNSKYI(K))THEN
                  FF = CONDNSKYI(KK)
                  CONDNSKYI(KK) = CONDNSKYI(K)
                  CONDNSKYI(K)  = FF
@@ -3978,13 +3978,13 @@ C + la thermique
            DO  K=JJ1,JJ2-1
             DO  KK=K+1,JJ2
              DO  L=1,NFSKYI
-               IF(FSKYI(KK,L).GT.FSKYI(K,L))THEN
+               IF(FSKYI(KK,L)>FSKYI(K,L))THEN
                  FF = FSKYI(KK,L)
                  FSKYI(KK,L) = FSKYI(K,L)
                  FSKYI(K,L)  = FF
                ENDIF
              ENDDO        
-             IF(FTHESKYI(KK).GT.FTHESKYI(K))THEN
+             IF(FTHESKYI(KK)>FTHESKYI(K))THEN
                  FF = FTHESKYI(KK)
                  FTHESKYI(KK) = FTHESKYI(K)
                  FTHESKYI(K)  = FF
@@ -3999,7 +3999,7 @@ C
            DO  KK=K+1,JJ2
             IF(PLYSKYI%FSKYI(K,5) == PLYSKYI%FSKYI(KK,5)) THEN
              DO  L=1,4
-               IF(PLYSKYI%FSKYI(KK,L).GT.PLYSKYI%FSKYI(K,L))THEN
+               IF(PLYSKYI%FSKYI(KK,L)>PLYSKYI%FSKYI(K,L))THEN
                  FF = PLYSKYI%FSKYI(KK,L)
                  PLYSKYI%FSKYI(KK,L) = PLYSKYI%FSKYI(K,L)
                  PLYSKYI%FSKYI(K,L)  = FF
@@ -4015,7 +4015,7 @@ C       ASSEMBLAGE DES FORCES
 C-----------------------------------------------
    
          IF(INTHEAT == 0 ) THEN
-          IF(KDTINT.EQ.0)THEN
+          IF(KDTINT==0)THEN
            DO K=JJ1,JJ2
             A(1,N)  = A(1,N)  + FSKYI(K,1)
             A(2,N)  = A(2,N)  + FSKYI(K,2)
@@ -4034,7 +4034,7 @@ C-----------------------------------------------
 C+ la thermique
          ELSE
           IF(NODADT_THERM == 1) THEN
-           IF(KDTINT.EQ.0)THEN
+           IF(KDTINT==0)THEN
             DO K=JJ1,JJ2
              A(1,N)  = A(1,N)  + FSKYI(K,1)
              A(2,N)  = A(2,N)  + FSKYI(K,2)
@@ -4057,7 +4057,7 @@ C+ la thermique
             ENDDO
            ENDIF   
           ELSE
-           IF(KDTINT.EQ.0)THEN
+           IF(KDTINT==0)THEN
             DO K=JJ1,JJ2
              A(1,N)  = A(1,N)  + FSKYI(K,1)
              A(2,N)  = A(2,N)  + FSKYI(K,2)
@@ -4112,7 +4112,7 @@ C     DECIDE WHICH TREATMENT SHALL BE USED
 C       USE OLD TREATMENT FOR NEWN < 100
 C       USE NEW TREATMENT AND DECIDE WHERE TO USE NEW LOOP
 C           AND WHERE TO STAY WITH OLD LOOP 
-         IF (K2.LT.100) THEN
+         IF (K2<100) THEN
            KSPLIT=1
            DO I=1,K2
               IARRAY(I)=I
@@ -4128,7 +4128,7 @@ C           AND WHERE TO STAY WITH OLD LOOP
              JJ1 = ADSKYI(N-1)
              JJ2 = ADSKYI(N)-1
              LJ=JJ2-JJ1+1
-             IF(LJ.GT.KMAX) KMAX=LJ
+             IF(LJ>KMAX) KMAX=LJ
              NN_A(I)=LJ
            ENDDO
 
@@ -4137,7 +4137,7 @@ C           AND WHERE TO STAY WITH OLD LOOP
 C
            KSPLIT=1
            DO I=2,KMAX
-             IF(K2-IC(I).GT.NBCC) KSPLIT=I
+             IF(K2-IC(I)>NBCC) KSPLIT=I
            ENDDO
          ENDIF
 C --- ORDERING LOOP
@@ -4152,25 +4152,25 @@ C --- ORDERING LOOP
                J=ADSKYI(N-1)+K-1
                JJ=ADSKYI(N-1)+KK-1
 C L=1
-               IF (FSKYI(JJ,1).GT.FSKYI(J,1)) THEN
+               IF (FSKYI(JJ,1)>FSKYI(J,1)) THEN
                  FF=FSKYI(JJ,1)
                  FSKYI(JJ,1)=FSKYI(J,1)
                  FSKYI(J,1) =FF
                ENDIF
 C L=2
-               IF (FSKYI(JJ,2).GT.FSKYI(J,2)) THEN
+               IF (FSKYI(JJ,2)>FSKYI(J,2)) THEN
                  FF=FSKYI(JJ,2)
                  FSKYI(JJ,2)=FSKYI(J,2)
                  FSKYI(J,2) =FF
                ENDIF
 C L=3
-               IF (FSKYI(JJ,3).GT.FSKYI(J,3)) THEN
+               IF (FSKYI(JJ,3)>FSKYI(J,3)) THEN
                  FF=FSKYI(JJ,3)
                  FSKYI(JJ,3)=FSKYI(J,3)
                  FSKYI(J,3) =FF
                ENDIF
 C L=4
-               IF (FSKYI(JJ,4).GT.FSKYI(J,4)) THEN
+               IF (FSKYI(JJ,4)>FSKYI(J,4)) THEN
                  FF=FSKYI(JJ,4)
                  FSKYI(JJ,4)=FSKYI(J,4)
                  FSKYI(J,4) =FF
@@ -4179,7 +4179,7 @@ C L=4
            ENDDO
          ENDDO
 C
-         IF(KDTINT.NE.0)THEN
+         IF(KDTINT/=0)THEN
           KKEND=IC(KSPLIT+1)-1
           DO K=1,KSPLIT-1
            DO KK=K+1,KSPLIT
@@ -4191,7 +4191,7 @@ C
                J=ADSKYI(N-1)+K-1
                JJ=ADSKYI(N-1)+KK-1
 C L=5
-               IF (FSKYI(JJ,5).GT.FSKYI(J,5)) THEN
+               IF (FSKYI(JJ,5)>FSKYI(J,5)) THEN
                  FF=FSKYI(JJ,5)
                  FSKYI(JJ,5)=FSKYI(J,5)
                  FSKYI(J,5) =FF
@@ -4212,7 +4212,7 @@ C  + la thermique
                N=VIND2(IJK)
                J=ADSKYI(N-1)+K-1
                JJ=ADSKYI(N-1)+KK-1
-               IF (FTHESKYI(JJ).GT.FTHESKYI(J)) THEN
+               IF (FTHESKYI(JJ)>FTHESKYI(J)) THEN
                  FF=FTHESKYI(JJ)
                  FTHESKYI(JJ)=FTHESKYI(J)
                  FTHESKYI(J) =FF
@@ -4232,7 +4232,7 @@ C  + Thermal Time Step
                N=VIND2(IJK)
                J=ADSKYI(N-1)+K-1
                JJ=ADSKYI(N-1)+KK-1
-               IF (CONDNSKYI(JJ).GT.CONDNSKYI(J)) THEN
+               IF (CONDNSKYI(JJ)>CONDNSKYI(J)) THEN
                  FF=CONDNSKYI(JJ)
                  CONDNSKYI(JJ)=CONDNSKYI(J)
                  CONDNSKYI(J) =FF
@@ -4261,25 +4261,25 @@ C --- ORDERING LOOP
                JJ=ADSKYI(N-1)+KK-1
                IF (PLYSKYI%FSKYI(JJ,5) == PLYSKYI%FSKYI(J,5)) THEN 
 C L=1
-                  IF (PLYSKYI%FSKYI(JJ,1).GT.PLYSKYI%FSKYI(J,1)) THEN
+                  IF (PLYSKYI%FSKYI(JJ,1)>PLYSKYI%FSKYI(J,1)) THEN
                     FF=PLYSKYI%FSKYI(JJ,1)
                     PLYSKYI%FSKYI(JJ,1)=PLYSKYI%FSKYI(J,1)
                     PLYSKYI%FSKYI(J,1) =FF
                   ENDIF
 C L=2
-                  IF (PLYSKYI%FSKYI(JJ,2).GT.PLYSKYI%FSKYI(J,2)) THEN
+                  IF (PLYSKYI%FSKYI(JJ,2)>PLYSKYI%FSKYI(J,2)) THEN
                     FF=PLYSKYI%FSKYI(JJ,2)
                     PLYSKYI%FSKYI(JJ,2)=PLYSKYI%FSKYI(J,2)
                     PLYSKYI%FSKYI(J,2) =FF
                   ENDIF
 C L=3
-                  IF (PLYSKYI%FSKYI(JJ,3).GT.PLYSKYI%FSKYI(J,3)) THEN
+                  IF (PLYSKYI%FSKYI(JJ,3)>PLYSKYI%FSKYI(J,3)) THEN
                     FF=PLYSKYI%FSKYI(JJ,3)
                     PLYSKYI%FSKYI(JJ,3)=PLYSKYI%FSKYI(J,3)
                     PLYSKYI%FSKYI(J,3) =FF
                   ENDIF
 C L=4
-                  IF (PLYSKYI%FSKYI(JJ,4).GT.PLYSKYI%FSKYI(J,4)) THEN
+                  IF (PLYSKYI%FSKYI(JJ,4)>PLYSKYI%FSKYI(J,4)) THEN
                     FF=PLYSKYI%FSKYI(JJ,4)
                     PLYSKYI%FSKYI(JJ,4)=PLYSKYI%FSKYI(J,4)
                     PLYSKYI%FSKYI(J,4) =FF
@@ -4292,7 +4292,7 @@ C L=4
 C
 C --- FILL ARRAY A
         IF(INTHEAT == 0 ) THEN
-         IF(KDTINT.EQ.0)THEN
+         IF(KDTINT==0)THEN
           DO K=1,KSPLIT
            KKSTART=IC(K)
 #include "vectorize.inc"
@@ -4325,7 +4325,7 @@ C --- FILL ARRAY A
 C + la thermique
         ELSE
          IF(NODADT_THERM ==1) THEN
-          IF(KDTINT.EQ.0)THEN
+          IF(KDTINT==0)THEN
            DO K=1,KSPLIT
             KKSTART=IC(K)
 #include "vectorize.inc"
@@ -4362,7 +4362,7 @@ C + la thermique
            ENDDO
           ENDIF
          ELSE
-          IF(KDTINT.EQ.0)THEN
+          IF(KDTINT==0)THEN
            DO K=1,KSPLIT
             KKSTART=IC(K)
 #include "vectorize.inc"
@@ -4434,7 +4434,7 @@ C --- DO THE REST IN OLD WAY - SUM UP ALL CONTRIBUTIONS PER NODE
             DO 501 K=JJ1,JJ2-1
              DO 501 KK=K+1,JJ2
                 DO 501 L=1,NFSKYI
-                 IF(FSKYI(KK,L).GT.FSKYI(K,L)) THEN
+                 IF(FSKYI(KK,L)>FSKYI(K,L)) THEN
                    FF=FSKYI(KK,L)
                    FSKYI(KK,L)=FSKYI(K,L)
                    FSKYI(K,L)=FF
@@ -4446,18 +4446,18 @@ C + la thermique
              DO  K=JJ1,JJ2-1
               DO  KK=K+1,JJ2
                DO  L=1,NFSKYI
-                 IF(FSKYI(KK,L).GT.FSKYI(K,L)) THEN
+                 IF(FSKYI(KK,L)>FSKYI(K,L)) THEN
                    FF=FSKYI(KK,L)
                    FSKYI(KK,L)=FSKYI(K,L)
                    FSKYI(K,L)=FF
                  ENDIF
                 ENDDO
-                IF(FTHESKYI(KK).GT.FTHESKYI(K)) THEN
+                IF(FTHESKYI(KK)>FTHESKYI(K)) THEN
                    FF=FTHESKYI(KK)
                    FTHESKYI(KK)=FTHESKYI(K)
                    FTHESKYI(K)=FF
                 ENDIF
-                IF(CONDNSKYI(KK).GT.CONDNSKYI(K)) THEN
+                IF(CONDNSKYI(KK)>CONDNSKYI(K)) THEN
                    FF=CONDNSKYI(KK)
                    CONDNSKYI(KK)=CONDNSKYI(K)
                    CONDNSKYI(K)=FF
@@ -4468,13 +4468,13 @@ C + la thermique
              DO  K=JJ1,JJ2-1
               DO  KK=K+1,JJ2
                DO  L=1,NFSKYI
-                 IF(FSKYI(KK,L).GT.FSKYI(K,L)) THEN
+                 IF(FSKYI(KK,L)>FSKYI(K,L)) THEN
                    FF=FSKYI(KK,L)
                    FSKYI(KK,L)=FSKYI(K,L)
                    FSKYI(K,L)=FF
                  ENDIF
                 ENDDO
-                IF(FTHESKYI(KK).GT.FTHESKYI(K)) THEN
+                IF(FTHESKYI(KK)>FTHESKYI(K)) THEN
                    FF=FTHESKYI(KK)
                    FTHESKYI(KK)=FTHESKYI(K)
                    FTHESKYI(K)=FF
@@ -4489,7 +4489,7 @@ C plyxfem + type 24
               DO  KK=K+1,JJ2
                 IF(PLYSKYI%FSKYI(K,5) == PLYSKYI%FSKYI(KK,5)) THEN
                   DO  L=1,NFSKYI - 1
-                   IF(PLYSKYI%FSKYI(KK,L).GT.PLYSKYI%FSKYI(K,L)) THEN
+                   IF(PLYSKYI%FSKYI(KK,L)>PLYSKYI%FSKYI(K,L)) THEN
                      FF=PLYSKYI%FSKYI(KK,L)
                      PLYSKYI%FSKYI(KK,L)=PLYSKYI%FSKYI(K,L)
                      PLYSKYI%FSKYI(K,L)=FF
@@ -4501,7 +4501,7 @@ C plyxfem + type 24
            ENDIF
 C           
            IF(INTHEAT ==  0 ) THEN
-            IF(KDTINT.EQ.0)THEN
+            IF(KDTINT==0)THEN
 #include "scalar.inc"
              DO K=JJ1,JJ2
               A(1,N) = A(1,N) + FSKYI(K,1)
@@ -4522,7 +4522,7 @@ C
 C + la thermique
            ELSE
             IF(NODADT_THERM == 1) THEN
-             IF(KDTINT.EQ.0)THEN
+             IF(KDTINT==0)THEN
 #include "scalar.inc"
               DO K=JJ1,JJ2
                A(1,N) = A(1,N) + FSKYI(K,1)
@@ -4547,7 +4547,7 @@ C + la thermique
                ENDDO
              ENDIF             
             ELSE
-             IF(KDTINT.EQ.0)THEN
+             IF(KDTINT==0)THEN
 #include "scalar.inc"
               DO K=JJ1,JJ2
                A(1,N) = A(1,N) + FSKYI(K,1)
@@ -4612,7 +4612,7 @@ C-----------------------------------------------
 C       ASSEMBLAGE DES FORCES 
 C-----------------------------------------------
          IF(INTHEAT == 0 ) THEN
-          IF(KDTINT.EQ.0)THEN
+          IF(KDTINT==0)THEN
            DO K=JJ1,JJ2
              A(1,N)  = A(1,N)  + FSKYI(K,1)
              A(2,N)  = A(2,N)  + FSKYI(K,2)
@@ -4631,7 +4631,7 @@ C-----------------------------------------------
 C  + la thermique
          ELSE
           IF(NODADT_THERM ==1) THEN
-           IF(KDTINT.EQ.0)THEN
+           IF(KDTINT==0)THEN
             DO K=JJ1,JJ2
              A(1,N)  = A(1,N)  + FSKYI(K,1)
              A(2,N)  = A(2,N)  + FSKYI(K,2)
@@ -4654,7 +4654,7 @@ C  + la thermique
             ENDDO
            ENDIF
           ELSE
-           IF(KDTINT.EQ.0)THEN
+           IF(KDTINT==0)THEN
             DO K=JJ1,JJ2
              A(1,N)  = A(1,N)  + FSKYI(K,1)
              A(2,N)  = A(2,N)  + FSKYI(K,2)
@@ -4697,7 +4697,7 @@ C
 !$OMP END DO
 c ftheskyi and condnskyi are nor all reset to zero
 c
-C fin nisky.ne.0
+C fin nisky/=0
       ENDIF
 C
       NUM7 = NPSAV*NPART
@@ -4717,7 +4717,7 @@ C
       NUM7 = NPSAV*NGPE
 C
       KM = 0
-      IF (NTHPART .GT. 0) THEN
+      IF (NTHPART > 0) THEN
         DO K=1,NTHREAD-1
           KM = KM + NUM7
 #include "vectorize.inc"
@@ -4785,14 +4785,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C Interface type2
 C-----------------------------------------------
-       IF (IVECTOR.EQ.1) THEN
+       IF (IVECTOR==1) THEN
         IDEB = 1
          DO LB = 1, NBLOCI2
           NC = NBCOLI2(LB)
           KK = NBVALI2(LB)
-          IF (NC.EQ.1) THEN
+          IF (NC==1) THEN
            IF(INTHEAT == 0 ) THEN  
-            IF(IRODDL.NE.0)THEN
+            IF(IRODDL/=0)THEN
 #include "vectorize.inc"
              DO K1 = IDEB, IDEB+KK-1
                N = INDSKY(K1)
@@ -4822,7 +4822,7 @@ C-----------------------------------------------
             ENDIF
            ELSE
             IF(IDT_THERM == 0) THEN
-             IF(IRODDL.NE.0)THEN
+             IF(IRODDL/=0)THEN
 #include "vectorize.inc"
               DO K1 = IDEB, IDEB+KK-1
                N = INDSKY(K1)
@@ -4854,7 +4854,7 @@ C-----------------------------------------------
               ENDDO
              ENDIF
             ELSE
-            IF(IRODDL.NE.0)THEN
+            IF(IRODDL/=0)THEN
 #include "vectorize.inc"
              DO K1 = IDEB, IDEB+KK-1
                N = INDSKY(K1)
@@ -4889,9 +4889,9 @@ C-----------------------------------------------
             ENDIF
             ENDIF
            ENDIF  
-          ELSEIF(NC.EQ.2) THEN
+          ELSEIF(NC==2) THEN
            IF(INTHEAT == 0 ) THEN
-            IF(IRODDL.NE.0)THEN
+            IF(IRODDL/=0)THEN
 #include "vectorize.inc"
               DO K1 = IDEB, IDEB+KK-1
                N = INDSKY(K1)
@@ -4921,7 +4921,7 @@ C-----------------------------------------------
              ENDIF
             ELSE
              IF(IDT_THERM == 0) THEN
-              IF(IRODDL.NE.0)THEN
+              IF(IRODDL/=0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                 N = INDSKY(K1)
@@ -4952,7 +4952,7 @@ C-----------------------------------------------
                ENDDO
               ENDIF
              ELSE
-              IF(IRODDL.NE.0)THEN
+              IF(IRODDL/=0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                 N = INDSKY(K1)
@@ -4986,9 +4986,9 @@ C-----------------------------------------------
               ENDIF
              ENDIF
             ENDIF
-           ELSEIF(NC.EQ.3) THEN
+           ELSEIF(NC==3) THEN
             IF(INTHEAT == 0 ) THEN
-             IF(IRODDL.NE.0)THEN
+             IF(IRODDL/=0)THEN
 #include "vectorize.inc"
               DO K1 = IDEB, IDEB+KK-1
                N = INDSKY(K1)
@@ -5033,7 +5033,7 @@ C-----------------------------------------------
              ENDIF
             ELSE
              IF(IDT_THERM ==0 )THEN
-              IF(IRODDL.NE.0)THEN
+              IF(IRODDL/=0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                 N = INDSKY(K1)
@@ -5081,7 +5081,7 @@ C-----------------------------------------------
                ENDDO
               ENDIF
              ELSE
-              IF(IRODDL.NE.0)THEN
+              IF(IRODDL/=0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                 N = INDSKY(K1)
@@ -5134,9 +5134,9 @@ C-----------------------------------------------
               ENDIF
              ENDIF
             ENDIF
-           ELSEIF(NC.EQ.4) THEN
+           ELSEIF(NC==4) THEN
             IF(INTHEAT == 0 ) THEN
-             IF(IRODDL.NE.0)THEN
+             IF(IRODDL/=0)THEN
 #include "vectorize.inc"
               DO K1 = IDEB, IDEB+KK-1
                N = INDSKY(K1)
@@ -5181,7 +5181,7 @@ C-----------------------------------------------
              ENDIF
             ELSE
              IF(IDT_THERM == 0) THEN
-              IF(IRODDL.NE.0)THEN
+              IF(IRODDL/=0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                 N = INDSKY(K1)
@@ -5229,7 +5229,7 @@ C-----------------------------------------------
                ENDDO
               ENDIF
              ELSE
-              IF(IRODDL.NE.0)THEN
+              IF(IRODDL/=0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                 N = INDSKY(K1)
@@ -5282,9 +5282,9 @@ C-----------------------------------------------
               ENDIF
              ENDIF
             ENDIF
-           ELSEIF(NC.EQ.5) THEN
+           ELSEIF(NC==5) THEN
             IF(INTHEAT == 0 ) THEN
-             IF(IRODDL.NE.0)THEN
+             IF(IRODDL/=0)THEN
 #include "vectorize.inc"
               DO K1 = IDEB, IDEB+KK-1
                 N = INDSKY(K1)
@@ -5344,7 +5344,7 @@ C-----------------------------------------------
              ENDIF
             ELSE
              IF(IDT_THERM == 0 ) THEN
-              IF(IRODDL.NE.0)THEN
+              IF(IRODDL/=0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                  N = INDSKY(K1)
@@ -5409,7 +5409,7 @@ C-----------------------------------------------
                ENDDO
               ENDIF
              ELSE
-              IF(IRODDL.NE.0)THEN
+              IF(IRODDL/=0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                  N = INDSKY(K1)
@@ -5481,9 +5481,9 @@ C-----------------------------------------------
               ENDIF
              ENDIF
             ENDIF
-           ELSEIF(NC.EQ.6) THEN
+           ELSEIF(NC==6) THEN
             IF(INTHEAT == 0 ) THEN
-             IF(IRODDL.NE.0)THEN
+             IF(IRODDL/=0)THEN
 #include "vectorize.inc"
               DO K1 = IDEB, IDEB+KK-1
                 N = INDSKY(K1)
@@ -5543,7 +5543,7 @@ C-----------------------------------------------
              ENDIF
             ELSE
              IF(IDT_THERM == 0 ) THEN
-              IF(IRODDL.NE.0)THEN
+              IF(IRODDL/=0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                 N = INDSKY(K1)
@@ -5608,7 +5608,7 @@ C-----------------------------------------------
                ENDDO
               ENDIF
              ELSE
-              IF(IRODDL.NE.0)THEN
+              IF(IRODDL/=0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                 N = INDSKY(K1)
@@ -5680,9 +5680,9 @@ C-----------------------------------------------
               ENDIF
              ENDIF
             ENDIF
-           ELSEIF(NC.EQ.7) THEN
+           ELSEIF(NC==7) THEN
 
-            IF(IRODDL.NE.0)THEN
+            IF(IRODDL/=0)THEN
 #include "vectorize.inc"
              DO K1 = IDEB, IDEB+KK-1
                N = INDSKY(K1)
@@ -5755,8 +5755,8 @@ C-----------------------------------------------
      +                             + FSKYI2(5,NCT+6)
              ENDDO
             ENDIF
-           ELSEIF(NC.EQ.8) THEN
-            IF(IRODDL.NE.0)THEN
+           ELSEIF(NC==8) THEN
+            IF(IRODDL/=0)THEN
 #include "vectorize.inc"
              DO K1 = IDEB, IDEB+KK-1
                N = INDSKY(K1)
@@ -5829,8 +5829,8 @@ C-----------------------------------------------
      +                             + FSKYI2(5,NCT+6)+ FSKYI2(5,NCT+7)
              ENDDO
             ENDIF
-           ELSEIF(NC.EQ.9) THEN
-            IF(IRODDL.NE.0)THEN
+           ELSEIF(NC==9) THEN
+            IF(IRODDL/=0)THEN
 #include "vectorize.inc"
              DO K1 = IDEB, IDEB+KK-1
                N = INDSKY(K1)
@@ -5918,9 +5918,9 @@ C-----------------------------------------------
      +                             + FSKYI2(5,NCT+8)
             ENDDO
             ENDIF
-           ELSEIF(NC.EQ.10) THEN
+           ELSEIF(NC==10) THEN
             IF(INTHEAT == 0) THEN
-             IF(IRODDL.NE.0)THEN
+             IF(IRODDL/=0)THEN
 #include "vectorize.inc"
               DO K1 = IDEB, IDEB+KK-1
                N = INDSKY(K1)
@@ -6010,7 +6010,7 @@ C-----------------------------------------------
              ENDIF
             ELSE
              IF(IDT_THERM == 0) THEN
-              IF(IRODDL.NE.0)THEN
+              IF(IRODDL/=0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                 N = INDSKY(K1)
@@ -6109,7 +6109,7 @@ C-----------------------------------------------
                ENDDO
               ENDIF
              ELSE
-              IF(IRODDL.NE.0)THEN
+              IF(IRODDL/=0)THEN
 #include "vectorize.inc"
                DO K1 = IDEB, IDEB+KK-1
                 N = INDSKY(K1)
@@ -6223,7 +6223,7 @@ C-----------------------------------------------
            ELSE
 
             IF(INTHEAT == 0) THEN
-             IF(IRODDL.NE.0)THEN
+             IF(IRODDL/=0)THEN
               DO K1 = IDEB, IDEB+KK-1
                N = INDSKY(K1)
                NCT = ADDCNI2(N)
@@ -6255,7 +6255,7 @@ C-----------------------------------------------
              ENDIF
            ELSE
             IF(IDT_THERM == 0) THEN
-             IF(IRODDL.NE.0)THEN
+             IF(IRODDL/=0)THEN
               DO K1 = IDEB, IDEB+KK-1
                N = INDSKY(K1)
                NCT = ADDCNI2(N)
@@ -6288,7 +6288,7 @@ C-----------------------------------------------
                ENDDO
               ENDIF
             ELSE
-             IF(IRODDL.NE.0)THEN
+             IF(IRODDL/=0)THEN
               DO K1 = IDEB, IDEB+KK-1
                N = INDSKY(K1)
                NCT = ADDCNI2(N)
@@ -6332,7 +6332,7 @@ C
 C
 C scalaire
         IF(INTHEAT == 0 ) THEN
-         IF(IRODDL.NE.0)THEN
+         IF(IRODDL/=0)THEN
            DO N = 1, NUMNOD
              NCT = ADDCNI2(N)-1
              NC = ADDCNI2(N+1)-ADDCNI2(N)
@@ -6363,7 +6363,7 @@ C scalaire
            ENDDO
          ENDIF
         ELSE
-         IF(IRODDL.NE.0)THEN
+         IF(IRODDL/=0)THEN
            DO N = 1, NUMNOD
              NCT = ADDCNI2(N)-1
              NC = ADDCNI2(N+1)-ADDCNI2(N)

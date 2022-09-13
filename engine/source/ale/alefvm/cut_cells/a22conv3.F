@@ -119,12 +119,12 @@ C-----------------------------------------------
       !---------------------------------------------------------!
       !INTERFACE 22 ONLY - OUTPUT---------------!
        debug_outp = .false.
-       if(ibug22_convec.ne.0)then
+       if(ibug22_convec/=0)then
          debug_outp = .false.
-         if(ibug22_convec.GT.0)then
+         if(ibug22_convec>0)then
            do ib=nbf,nbl
            ie=brick_list(nin,ib)%id
-             if(ixs(11,ie).eq.ibug22_convec)then
+             if(ixs(11,ie)==ibug22_convec)then
                debug_outp=.true.
                exit
              endif
@@ -132,7 +132,7 @@ C-----------------------------------------------
          elseif(ibug22_convec==-1)then
            debug_outp = .true.
          endif
-         if(((itrimat>0) .and. (ibug22_itrimat.ne.trimat)))debug_outp=.false.
+         if(((itrimat>0) .and. (ibug22_itrimat/=trimat)))debug_outp=.false.
          if(((itrimat>0) .and. (ibug22_itrimat==-1)))debug_outp=.true.
        endif
 
@@ -148,10 +148,10 @@ C-----------------------------------------------
         ICELL             =  0 
         dPHI              =  ZERO 
         MLW               = BRICK_LIST(NIN,IB)%MLW
-        IF(ITRIMAT.NE.0 .AND. MLW.NE.51)CYCLE
-        DO WHILE (ICELL.LE.NCELL) ! loop on polyhedron {1:NCELL} U {9}
+        IF(ITRIMAT/=0 .AND. MLW/=51)CYCLE
+        DO WHILE (ICELL<=NCELL) ! loop on polyhedron {1:NCELL} U {9}
           ICELL = ICELL +1
-          IF (ICELL>NCELL .AND. NCELL.NE.0)ICELL=9 
+          IF (ICELL>NCELL .AND. NCELL/=0)ICELL=9 
           BRICK_LIST(NIN,IB)%POLY(ICELL)%dPHI = ZERO !init
           pAdjBRICK => BRICK_LIST(NIN,IB)%Adjacent_Brick(1:6,1:5)          
           DO J=1,6
@@ -161,14 +161,14 @@ C-----------------------------------------------
               IBV    = pAdjBRICK(J,4)                                                          
               JV     = pAdjBRICK(J,5)                                                           
               ICELLv = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_Cell(IADJ)                                                     
-              IF(IV.GT.0)THEN                                                                   
+              IF(IV>0)THEN                                                                   
                 IF(IBv==0)THEN                                                                  
                   VALVOIS      = PHI(IV)
                 ELSE 
                   !IBv>0                                                                           
                   VALVOIS = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%PHI                                    
                 ENDIF                                                                           
-              ELSEIF(IV.EQ.0)THEN                                                               
+              ELSEIF(IV==0)THEN                                                               
                 VALVOIS = PHI(IE)                                                               
               !ELSE                                                                             
               !  VALVOIS = PHI(-IV+IOFF)                                                        
@@ -201,7 +201,7 @@ C-----------------------------------------------
           MCELL = BRICK_LIST(NIN,IB)%mainID      
           dPHI  = ZERO        
           MLW   = BRICK_LIST(NIN,IB)%MLW
-          IF(ITRIMAT.NE.0 .AND. MLW.NE.51)CYCLE                
+          IF(ITRIMAT/=0 .AND. MLW/=51)CYCLE                
           DO K=1,NUM                                                        
             IBV    = BRICK_LIST(NIN,IB)%SecndList%IBV(K)                    
             ICELLv = BRICK_LIST(NIN,IB)%SecndList%ICELLv(K)                 
@@ -226,13 +226,13 @@ C-----------------------------------------------
         MBUF  => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)
         LLT_  =  IPARG(2,NG)
         MLW   = BRICK_LIST(NIN,IB)%MLW
-        IF(ITRIMAT.NE.0 .AND. MLW.NE.51)CYCLE
+        IF(ITRIMAT/=0 .AND. MLW/=51)CYCLE
 
         !----------------------------!
         !        N V A R = 1         !
         !----------------------------!
         IF (NVAR == 1) THEN
-           IF(ITRIMAT==0 .OR. MLW.NE.51)THEN
+           IF(ITRIMAT==0 .OR. MLW/=51)THEN
              pRHO => LBUF%RHO(1:LLT_) 
            ELSE
              !USE PHASIS DATA
@@ -246,7 +246,7 @@ C-----------------------------------------------
         !        N V A R = 2         !
         !----------------------------!
         ELSEIF (NVAR == 2) THEN
-           IF(ITRIMAT==0 .OR. MLW.NE.51)THEN
+           IF(ITRIMAT==0 .OR. MLW/=51)THEN
              pEINT=> LBUF%EINT(1:LLT_) 
            ELSE
              !USE PHASIS DATA
@@ -301,7 +301,7 @@ C-----------------------------------------------
         !----------------------------!
         !   TRANSPORTS CONVECTIFS    !
         !----------------------------!
-         IF(MLW/=51.AND.ITRIMAT.GT.0)THEN !si law51 dans jdd TRIMAT=4 
+         IF(MLW/=51.AND.ITRIMAT>0)THEN !si law51 dans jdd TRIMAT=4 
            CYCLE
          ELSE
            VAR(IDLOC) = VAR(IDLOC) + dPHI   !transport convectif des voisins additionels
@@ -316,7 +316,7 @@ C-----------------------------------------------
            !INTERFACE 22 ONLY------------------------!
            
             !INTERFACE 22 ONLY------------------------!
-            if(debug_outp .AND. nvar.eq.IBUG22_NVAR)then
+            if(debug_outp .AND. nvar==IBUG22_NVAR)then
               call my_barrier
               if(itask==0)then
                 print *, "    |--------a22conv3.F--------|"
@@ -334,7 +334,7 @@ C-----------------------------------------------
                   LBUF   => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
                   MBUF   => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)
                   LLT_   =  IPARG(2,NG)   
-                  if(itrimat>0 .and. mlw.ne.51)cycle  
+                  if(itrimat>0 .and. mlw/=51)cycle  
                   ie     = brick_list(nin,ib)%id  
                   IF(ITRIMAT==0)THEN
                     pRHO => LBUF%RHO(1:LLT_) 
@@ -345,7 +345,7 @@ C-----------------------------------------------
                     K    =  LLT_*(ADD-1)                                ! UVAR(I,ADD) = UVAR(K+I)
                     pRHO => MBUF%VAR(K+1:K+LLT_)
                   END IF
-                  if(ibug22_convec .gt. 0 .and. brick_list(nin,ib)%id.eq.ibug22_convec )cycle
+                  if(ibug22_convec > 0 .and. brick_list(nin,ib)%id==ibug22_convec )cycle
                   if(nvar==1)then
                   VAR => pRHO           
                   else
@@ -368,7 +368,7 @@ C-----------------------------------------------
       !----------------------------!
       !   MOMENTUM DATA            !
       !----------------------------!      
-      IF(TRIMAT.GT.0.AND.IFLG.EQ.1)THEN
+      IF(TRIMAT>0.AND.IFLG==1)THEN
       !A TRAITER
           !QMV(6,I) = QMV(6,I) - VL(6,I) - VALEL(I)*QMV(12,I)  
       ENDIF

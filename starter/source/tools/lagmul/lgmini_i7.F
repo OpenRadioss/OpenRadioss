@@ -78,13 +78,13 @@ C======================================================================|
         CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,N),LTITR)
          NTY=IPARI(7,N)
          ILAGM=0
-         IF(CODVERS.GE.44) ILAGM=IPARI(33,N)
-           IF(NTY.EQ.7.AND.ILAGM.EQ.1) THEN
+         IF(CODVERS>=44) ILAGM=IPARI(33,N)
+           IF(NTY==7.AND.ILAGM==1) THEN
              NSN   =IPARI(5,N)
              NMN   =IPARI(6,N)
              DO I=1,NSN
                NN0=INTBUF_TAB(N)%NSV(I)
-               IF(MASS(NN0).EQ.0)THEN
+               IF(MASS(NN0)==0)THEN
                  CALL ANCMSG(MSGID=535,
      .                       MSGTYPE=MSGERROR,
      .                       ANMODE=ANINFO_BLIND_1,
@@ -96,14 +96,14 @@ C======================================================================|
                ENDIF  
              ENDDO
            ELSE
-            IF(NTY.EQ.16.AND.ILAGM.EQ.1) THEN
+            IF(NTY==16.AND.ILAGM==1) THEN
              IGN  =IPARI(36,N)
              NRTM  =IPARI(4,N)
              NSN   =IPARI(5,N)
              NMN   =IPARI(6,N)
              DO I=1,NSN
                NN0=IGRNOD(IGN)%ENTITY(I)
-               IF(MASS(NN0).EQ.0)THEN
+               IF(MASS(NN0)==0)THEN
                  CALL ANCMSG(MSGID=535,
      .                       MSGTYPE=MSGERROR,
      .                       ANMODE=ANINFO_BLIND_1,

@@ -362,7 +362,7 @@ c               END IF
      5              ILEV,MSEGTYP,ITAB  ,IGAP ,GAP_S_L,
      6              GAP_M_L,EDGE_L2,ICODE,ISKEW,DRAD ,
      7              DGAPLOAD)
-                 IF(I_MEM.EQ.2)GOTO 100
+                 IF(I_MEM==2)GOTO 100
                  J_STOK = 0
                ENDIF
  400           CONTINUE
@@ -463,7 +463,7 @@ cc             nnr0pelem = nnr0pelem + 1
      5              ILEV,MSEGTYP,ITAB  ,IGAP ,GAP_S_L,
      6              GAP_M_L,EDGE_L2,ICODE,ISKEW,DRAD ,
      7              DGAPLOAD)
-                 IF(I_MEM.EQ.2)GOTO 100
+                 IF(I_MEM==2)GOTO 100
                  J_STOK = 0
                ENDIF
 
@@ -489,7 +489,7 @@ cc             nnr0pelem = nnr0pelem + 1
 C-------------------------------------------------------------------------
 C     FIN DU TRI
 C-------------------------------------------------------------------------
-      IF(J_STOK.NE.0)CALL I25STO(
+      IF(J_STOK/=0)CALL I25STO(
      1                J_STOK,IRECT  ,X     ,NSV   ,II_STOK,
      2                CAND_N,CAND_E ,MULNSN,NOINT ,MARGE  ,
      3                I_MEM ,PROV_N ,PROV_E,ESHIFT,NSN   ,

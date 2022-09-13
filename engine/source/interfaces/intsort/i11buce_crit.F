@@ -80,14 +80,14 @@ C     maj pene
 C
       NRTSF = 1 + ITASK * NRTS / NTHREAD
       NRTSL = (ITASK+1) * NRTS / NTHREAD
-      IF(INACTI.EQ.5.OR.INACTI.EQ.6)THEN
+      IF(INACTI==5.OR.INACTI==6)THEN
         NRTMF = 1 + ITASK * NRTM / NTHREAD
         NRTML = (ITASK+1) * NRTM / NTHREAD
 
 C-----------------------------------------------
 C  maj PENIS sur partie non locale
 C-----------------------------------------------
-        IF(NSPMD.GT.1 .AND. TT > ZERO) THEN ! frontieres partiellement baties a tt=0 
+        IF(NSPMD>1 .AND. TT > ZERO) THEN ! frontieres partiellement baties a tt=0 
 C
 C Partie non parallele smt
 C
@@ -114,7 +114,7 @@ C
 C si NSPMD > 1 traitement effectue dans SPMD_GET_STIF11
 C car reperage comm sur stfs < ZERO
 C
-      IF (NSPMD.EQ.1) THEN
+      IF (NSPMD==1) THEN
         DO I=NRTSF,NRTSL
           STFS(I)=MAX(STFS(I),ZERO)
         ENDDO
@@ -153,12 +153,12 @@ C
       NMNF = 1 + ITASK*NMN / NTHREAD
       NMNL = (ITASK+1)*NMN / NTHREAD
 C
-      IF(NSN+NMN.LT.NUMNOD)THEN
+      IF(NSN+NMN<NUMNOD)THEN
 C
         DO I=NSNF,NSNL
          J=NSV(I)
 C shooting nodes
-         IF(J.GT.0) THEN
+         IF(J>0) THEN
           XSLV(1)=MAX(XSLV(1),X(1,J)-XSAV(1,I))
           XSLV(2)=MAX(XSLV(2),X(2,J)-XSAV(2,I))
           XSLV(3)=MAX(XSLV(3),X(3,J)-XSAV(3,I))
@@ -178,7 +178,7 @@ C
          II = I+NSN
          J=MSR(I)
 C shooting nodes
-         IF(J.GT.0) THEN
+         IF(J>0) THEN
           XMSR(1)=MAX(XMSR(1),X(1,J)-XSAV(1,II))
           XMSR(2)=MAX(XMSR(2),X(2,J)-XSAV(2,II))
           XMSR(3)=MAX(XMSR(3),X(3,J)-XSAV(3,II))
@@ -200,7 +200,7 @@ C
         DO I=NSNF,NSNL
          J=NSV(I)
 C shooting nodes
-         IF(J.GT.0) THEN
+         IF(J>0) THEN
           XSLV(1)=MAX(XSLV(1),X(1,J)-XSAV(1,J))
           XSLV(2)=MAX(XSLV(2),X(2,J)-XSAV(2,J))
           XSLV(3)=MAX(XSLV(3),X(3,J)-XSAV(3,J))
@@ -220,7 +220,7 @@ C
         DO I=NMNF,NMNL
          J=MSR(I)
 C shooting nodes
-         IF(J.GT.0) THEN
+         IF(J>0) THEN
           XMSR(1)=MAX(XMSR(1),X(1,J)-XSAV(1,J))
           XMSR(2)=MAX(XMSR(2),X(2,J)-XSAV(2,J))
           XMSR(3)=MAX(XMSR(3),X(3,J)-XSAV(3,J))

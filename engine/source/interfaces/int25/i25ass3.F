@@ -87,9 +87,9 @@ C-----------------------------------------------
      .    PHI4(MVSIZ),CONDINT(MVSIZ)
 C-----------------------------------------------
 C
-      IF(IPARIT.EQ.3)THEN
+      IF(IPARIT==3)THEN
          stop 789
-      ELSEIF(IPARIT.EQ.0)THEN
+      ELSEIF(IPARIT==0)THEN
          CALL I25ASS0(JLT  ,IX1    ,IX2  ,IX3  ,IX4    ,
      2               NSVG  ,H1     ,H2   ,H3   ,H4     ,STIF ,
      3               FX1   ,FY1    ,FZ1  ,FX2  ,FY2    ,FZ2  ,
@@ -187,10 +187,10 @@ C
       DO I = 1, JLT
        HH(I)=H1(I)+H2(I)+H3(I)+H4(I)
        IF(HH(I)==ZERO)CYCLE
-        IF (H1(I).NE.ZERO) NISKYL1 = NISKYL1 + 1
-        IF (H2(I).NE.ZERO) NISKYL1 = NISKYL1 + 1
-        IF (H3(I).NE.ZERO) NISKYL1 = NISKYL1 + 1
-        IF (H4(I).NE.ZERO) NISKYL1 = NISKYL1 + 1
+        IF (H1(I)/=ZERO) NISKYL1 = NISKYL1 + 1
+        IF (H2(I)/=ZERO) NISKYL1 = NISKYL1 + 1
+        IF (H3(I)/=ZERO) NISKYL1 = NISKYL1 + 1
+        IF (H4(I)/=ZERO) NISKYL1 = NISKYL1 + 1
         
       ENDDO
 C
@@ -201,7 +201,7 @@ C
       DO I=1,JLT
        IF(HH(I)==ZERO)CYCLE
         IG =NSVG(I)
-        IF(IG.GT.0) THEN
+        IF(IG>0) THEN
           IGP = IGP+1
         ELSE
           IGM = IGM+1
@@ -215,18 +215,18 @@ C
       NISKYFI = NISKYFI + IGM
 #include "lockoff.inc"
 C
-      IF (NISKYL+NISKYL1+IGP .GT. LSKYI) THEN
+      IF (NISKYL+NISKYL1+IGP > LSKYI) THEN
          CALL ANCMSG(MSGID=26,ANMODE=ANINFO)
          CALL ARRET(2)
       ENDIF
-      IF (NISKYFIL+IGM .GT. NLSKYFI(NIN)) THEN
+      IF (NISKYFIL+IGM > NLSKYFI(NIN)) THEN
         CALL ANCMSG(MSGID=26,ANMODE=ANINFO)
         CALL ARRET(2)
       ENDIF
 C  
       IF(INTTH == 0 ) THEN
         DO I=1,JLT
-          IF (H1(I).NE.ZERO) THEN
+          IF (H1(I)/=ZERO) THEN
             NISKYL = NISKYL + 1
             FSKYI(NISKYL,1)=FX1(I)
             FSKYI(NISKYL,2)=FY1(I)
@@ -236,7 +236,7 @@ C
           ENDIF
         ENDDO
         DO I=1,JLT
-          IF (H2(I).NE.ZERO) THEN
+          IF (H2(I)/=ZERO) THEN
             NISKYL = NISKYL + 1
             FSKYI(NISKYL,1)=FX2(I)
             FSKYI(NISKYL,2)=FY2(I)
@@ -246,7 +246,7 @@ C
           ENDIF
         ENDDO
         DO I=1,JLT
-          IF (H3(I).NE.ZERO) THEN
+          IF (H3(I)/=ZERO) THEN
             NISKYL = NISKYL + 1
             FSKYI(NISKYL,1)=FX3(I)
             FSKYI(NISKYL,2)=FY3(I)
@@ -256,7 +256,7 @@ C
           ENDIF
         ENDDO
         DO I=1,JLT
-          IF (H4(I).NE.ZERO) THEN
+          IF (H4(I)/=ZERO) THEN
             NISKYL = NISKYL + 1
             FSKYI(NISKYL,1)=FX4(I)
             FSKYI(NISKYL,2)=FY4(I)
@@ -269,7 +269,7 @@ C
         DO I=1,JLT
           IF(HH(I)==ZERO)CYCLE
           IG =NSVG(I)
-          IF(IG.GT.0) THEN
+          IF(IG>0) THEN
             NISKYL = NISKYL + 1
             FSKYI(NISKYL,1)=-FXI(I)
             FSKYI(NISKYL,2)=-FYI(I)
@@ -289,7 +289,7 @@ C
 C Thermique
       ELSE
         DO I=1,JLT
-          IF (H1(I).NE.0.) THEN
+          IF (H1(I)/=0.) THEN
             NISKYL = NISKYL + 1
             FSKYI(NISKYL,1)=FX1(I)
             FSKYI(NISKYL,2)=FY1(I)
@@ -301,7 +301,7 @@ C Thermique
           ENDIF
         ENDDO
         DO I=1,JLT
-          IF (H2(I).NE.ZERO) THEN
+          IF (H2(I)/=ZERO) THEN
             NISKYL = NISKYL + 1
             FSKYI(NISKYL,1)=FX2(I)
             FSKYI(NISKYL,2)=FY2(I)
@@ -313,7 +313,7 @@ C Thermique
           ENDIF
         ENDDO
         DO I=1,JLT
-          IF (H3(I).NE.ZERO) THEN
+          IF (H3(I)/=ZERO) THEN
             NISKYL = NISKYL + 1
             FSKYI(NISKYL,1)=FX3(I)
             FSKYI(NISKYL,2)=FY3(I)
@@ -325,7 +325,7 @@ C Thermique
           ENDIF
         ENDDO
         DO I=1,JLT
-          IF (H4(I).NE.ZERO) THEN
+          IF (H4(I)/=ZERO) THEN
             NISKYL = NISKYL + 1
             FSKYI(NISKYL,1)=FX4(I)
             FSKYI(NISKYL,2)=FY4(I)
@@ -340,7 +340,7 @@ C
         DO I=1,JLT
          IF(HH(I)==ZERO)CYCLE
           IG =NSVG(I)
-          IF(IG.GT.0) THEN
+          IF(IG>0) THEN
             NISKYL = NISKYL + 1
             FSKYI(NISKYL,1)=-FXI(I)
             FSKYI(NISKYL,2)=-FYI(I)
@@ -434,7 +434,7 @@ C
         IF(NPINCH > 0)THEN
           DO I=1,JLT
            FACT = HALF
-           IF(MSEGTYP(CE_LOC(I)).LT.0) THEN
+           IF(MSEGTYP(CE_LOC(I))<0) THEN
              FACT = -HALF
            ENDIF
 C
@@ -554,7 +554,7 @@ C
          DO I=1,JLT
            IF(HH(I)==ZERO)CYCLE
            IG=NSVG(I)
-           IF(IG.GT.0)THEN
+           IF(IG>0)THEN
              A(1,IG)=A(1,IG)-FXI(I)
              A(2,IG)=A(2,IG)-FYI(I)
              A(3,IG)=A(3,IG)-FZI(I)
@@ -572,7 +572,7 @@ C
          DO I=1,JLT
            IF(HH(I)==ZERO)CYCLE
            IG=NSVG(I)
-           IF(IG.GT.0)THEN
+           IF(IG>0)THEN
              A(1,IG)=A(1,IG)-FXI(I)
              A(2,IG)=A(2,IG)-FYI(I)
              A(3,IG)=A(3,IG)-FZI(I)

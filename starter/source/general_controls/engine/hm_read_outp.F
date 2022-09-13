@@ -103,7 +103,7 @@ C-----------------------------------------------
         NSPS_OUTP = NSPS_OUTP + OUTP_SPS(I)
         NSPT_OUTP = NSPT_OUTP + OUTP_SPT(I)
       ENDDO
-      IF(OUTP_V(12).EQ.1)NV_OUTP=NV_OUTP+1
+      IF(OUTP_V(12)==1)NV_OUTP=NV_OUTP+1
 C
       RETURN
       END

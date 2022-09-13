@@ -122,7 +122,7 @@ C
        SSP(I)=SQRT((ONEP333*PM(22, MX)+C1_1)/RHO0(I))
       ENDDO
 C
-      IF (JSPH.EQ.0)THEN
+      IF (JSPH==0)THEN
        CALL MQVISCB(PM,OFF     ,RHO    ,BID1  ,BID2    ,SSP    ,
      2        BID3    ,STIFN   ,DT2T   ,NELTST,ITYPTST ,AIRE   ,
      3        OFFG    ,GEO     ,PID    ,VNEW   ,VD2    ,DELTAX ,

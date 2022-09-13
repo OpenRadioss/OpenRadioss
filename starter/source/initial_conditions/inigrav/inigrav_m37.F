@@ -86,7 +86,7 @@ C     EOS parameters mat2:
       RHO20 = BUFMAT(12)
       ISOLVER = BUFMAT(17)
 
-      IF(PSURF==ZERO .AND. ISOLVER.LE.1)THEN
+      IF(PSURF==ZERO .AND. ISOLVER<=1)THEN
         PSURF=P0  !historical solver requires a total pressure formulation
         print *, "**WARNING : INIGRAV CARD, PREF PARAMETER MUST BE A TOTAL PRESSURE WITH LAW37, SETTING PREF=P0"
       ENDIF      

@@ -52,7 +52,7 @@ C-----------------------------------------------
 C
       DO N=1,NSEGQUADFR
         NN=SEGQUADFR(1,N)
-        IF(CEP(NN).EQ.P)NSEGQUADFR_L=NSEGQUADFR_L+1
+        IF(CEP(NN)==P)NSEGQUADFR_L=NSEGQUADFR_L+1
       ENDDO
 C
       RETURN

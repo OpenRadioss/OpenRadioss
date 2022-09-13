@@ -80,7 +80,7 @@ C
         N4=N3+NRWALL
         MSR = NPRW(N3)
         IF (NSPMD == 1) THEN
-          IF(MSR.EQ.0)THEN
+          IF(MSR==0)THEN
             XWL(N)= ZERO
             YWL(N)= ZERO
             ZWL(N)= ZERO
@@ -93,15 +93,15 @@ C verifier que ce noeud est sur proc0 !
         ELSE
           CALL SPMD_H3D_GETMSR_UPDATE(FR_WALL(1,N),DISP,MSR,XWL(N),YWL(N),ZWL(N),RWBUF(1,N))
         END IF
-        IF (ISPMD.EQ.0) THEN
+        IF (ISPMD==0) THEN
           ITYP= NPRW(N4)
-          IF(ITYP.EQ.4)THEN
+          IF(ITYP==4)THEN
            XWL(N) = XWL(N)
            YWL(N) = YWL(N)
            ZWL(N) = ZWL(N)
           ENDIF
           K=K+NPRW(N)
-          IF(NPRW(N4).EQ.-1)K=K+NINT(RWBUF(8,N))
+          IF(NPRW(N4)==-1)K=K+NINT(RWBUF(8,N))
         END IF
       ENDDO
 C
@@ -112,9 +112,9 @@ C
         N4=N3+NRWALL
         ITYP= NPRW(N4)
 
-        IF(IABS(ITYP).EQ.1)THEN
+        IF(IABS(ITYP)==1)THEN
 C
-          IF (ISPMD.EQ.0) THEN
+          IF (ISPMD==0) THEN
 c
             RWALL_V1(N) = ZERO
             RWALL_V2(N) = ZERO
@@ -124,9 +124,9 @@ c
             RWALL_V6(N) = ZERO
           ENDIF
 c
-        ELSEIF(ITYP.EQ.2)THEN
+        ELSEIF(ITYP==2)THEN
 C
-          IF (ISPMD.EQ.0) THEN
+          IF (ISPMD==0) THEN
 c
             RWALL_V1(N) = ZERO
             RWALL_V2(N) = ZERO
@@ -135,9 +135,9 @@ c
             RWALL_V5(N) = ZERO
             RWALL_V6(N) = ZERO
           ENDIF
-        ELSEIF(ITYP.EQ.3)THEN
+        ELSEIF(ITYP==3)THEN
 c
-          IF (ISPMD.EQ.0) THEN
+          IF (ISPMD==0) THEN
             RWALL_V1(N) = ZERO
             RWALL_V2(N) = ZERO
             RWALL_V3(N) = ZERO
@@ -145,8 +145,8 @@ c
             RWALL_V5(N) = ZERO
             RWALL_V6(N) = ZERO
           ENDIF
-        ELSEIF(ITYP.EQ.4)THEN
-          IF (ISPMD.EQ.0) THEN
+        ELSEIF(ITYP==4)THEN
+          IF (ISPMD==0) THEN
 C
             RWALL_V1(N) = ZERO
             RWALL_V2(N) = ZERO
@@ -158,7 +158,7 @@ C
 
         ENDIF
         K=K+NPRW(N)
-        IF(NPRW(N4).EQ.-1)K=K+NINT(RWBUF(8,N))
+        IF(NPRW(N4)==-1)K=K+NINT(RWBUF(8,N))
       ENDDO
 C
       RETURN

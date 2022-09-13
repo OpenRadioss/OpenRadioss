@@ -102,7 +102,7 @@ C-----------------------------------------------
       ENDDO
 
       DO  N=1,NFUNCT
-         IF (EBCS_EXTRAP(N) .EQ. 1) THEN
+         IF (EBCS_EXTRAP(N) == 1) THEN
             NPOINT=(NP(N+1)-NP(N))/2
             CALL EBCS_EXTRAP2(TF(NP(N)),TT,NPOINT,FV(N))
          ENDIF
@@ -143,10 +143,10 @@ C     REAL
       !!! If tt (=current time) is lower than tmin (=TF(1,1)) then take first value
       !!! If tt (=current time) is greater than tmax (=TF(1,NPOINT)= then take last value
 
-      IF (TT .LE. TF(1, 1)) THEN
+      IF (TT <= TF(1, 1)) THEN
          F = TF(2,1)
       ENDIF
-      IF (TT .GE. TF(1, NPOINT)) THEN
+      IF (TT >= TF(1, NPOINT)) THEN
          F = TF(2, NPOINT)
       ENDIF
 

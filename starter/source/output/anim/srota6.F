@@ -109,7 +109,7 @@ C-----------
 C-----------                                                            
 C     REPERE ORTHOTROPE.                                                
 C-----------                                                            
-      IF (KCVT.EQ.2) THEN                                               
+      IF (KCVT==2) THEN                                               
         G11=GAMA(1)                                                     
         G21=GAMA(2)                                                     
         G31=GAMA(3)                                                     

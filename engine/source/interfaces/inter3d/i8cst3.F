@@ -207,16 +207,16 @@ C
  300  CONTINUE
 C
       DO 320 I=LFT,LLT
-      IF(XFACE(I).EQ.ZERO)GOTO 320
-      IF(ZZ2(I)+XX3(I).NE.ZERO)THEN
+      IF(XFACE(I)==ZERO)GOTO 320
+      IF(ZZ2(I)+XX3(I)/=ZERO)THEN
        SSC(I)=(ZZ2(I)-XX3(I))/(ZZ2(I)+XX3(I))
       ELSE
        SSC(I)=ZERO
       ENDIF
-      IF(Z0(I).NE.ZERO)THEN
+      IF(Z0(I)/=ZERO)THEN
        ZZ2(I)=YY1(I)*Z0(I)
        XX3(I)=XX2(I)*X0(I)
-       IF(ZZ2(I)+XX3(I).NE.ZERO)THEN
+       IF(ZZ2(I)+XX3(I)/=ZERO)THEN
         TTC(I)=(ZZ2(I)-XX3(I))/(ZZ2(I)+XX3(I))
        ELSE
         TTC(I)=ZERO

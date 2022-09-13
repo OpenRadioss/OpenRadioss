@@ -57,7 +57,7 @@ C-----------------------------------------------
       INTEGER I, J
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C
-      IF(IEPSDOT.NE.0)THEN
+      IF(IEPSDOT/=0)THEN
        DO I=JFT,JLT
         J = I + NFT
         EPSDOT(1,J) = VDEF(I,1)
@@ -80,7 +80,7 @@ C
         KXY(I) = VDEF(I,8) * DT1C(I)
       ENDDO
 C
-      IF(ISTRAIN.NE.0)THEN
+      IF(ISTRAIN/=0)THEN
         DO I=JFT,JLT
          GSTR(I,1)=GSTR(I,1)+EXX(I)
          GSTR(I,2)=GSTR(I,2)+EYY(I)

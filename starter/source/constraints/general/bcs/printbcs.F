@@ -89,20 +89,20 @@ C-----------------------------------------------
 C======================================================================|
 C
       DO I=1,NUMNOD
-        IF(ISKEW(I).EQ.-1)ISKEW(I)=0
+        IF(ISKEW(I)==-1)ISKEW(I)=0
       ENDDO
 C
-      IF(IALE.EQ.0)THEN
+      IF(IALE==0)THEN
         WRITE(IOUT,'(/A/A/A/)')TITRE(80),TITRE(81),
      .   '       NODE  TRANS. ROTAT.         SKEW'
 C
       ELSE
         WRITE(IOUT,'(/A/A/A/)')TITRE(80),TITRE(81),TITRE(82)
       ENDIF
-      IF(IPRI.GE.2)THEN
+      IF(IPRI>=2)THEN
        DO 500 N=1,NUMNOD
        IC=ICODE(N)
-       IF (IC.EQ.0) GO TO 500
+       IF (IC==0) GO TO 500
        IC1=IC/512
        IC2=(IC-512*IC1)/64
        IC3=(IC-512*IC1-64*IC2)/8
@@ -113,7 +113,7 @@ C
        J6(4)=IC2/4
        J6(5)=(IC2-4*J6(4))/2
        J6(6)=(IC2-4*J6(4)-2*J6(5))
-       IF(IALE.EQ.0)THEN
+       IF(IALE==0)THEN
 C
          WRITE(IOUT,'(1X,I10,2(1X,3I2),3X,I10)')ITAB(N),J6,
      .           ISKN(4,ISKEW(N))
@@ -136,7 +136,7 @@ C
        ENDIF
  500   CONTINUE
       ENDIF
-      IF (NBCSLAG.GT.0) THEN
+      IF (NBCSLAG>0) THEN
         WRITE(IOUT,1000)
         DO I = 1, NBCSLAG
           IGRS=IBCSLAG(1,I)
@@ -153,7 +153,7 @@ C
           J6(4)=IC2/4
           J6(5)=(IC2-4*J6(4))/2
           J6(6)=(IC2-4*J6(4)-2*J6(5))
-          IF (IPRI.GE.2) THEN
+          IF (IPRI>=2) THEN
             DO J=1,IGRNOD(IGRS)%NENTITY
               NOSYS=IGRNOD(IGRS)%ENTITY(J)
 C

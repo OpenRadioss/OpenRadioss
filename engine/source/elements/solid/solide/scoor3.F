@@ -203,7 +203,7 @@ C=======================================================================
       IF(ISMSTR<=4.AND.JLAG>0.OR.(ISMSTR==12.AND.IDTMIN(1)==3)) THEN
 C
        DO I=LFT,LLT
-         IF(ABS(OFFG(I)).GT.ONE)THEN
+         IF(ABS(OFFG(I))>ONE)THEN
           XD1(I)=SAV(I,1)
           YD1(I)=SAV(I,2)
           ZD1(I)=SAV(I,3)
@@ -298,7 +298,7 @@ C
        VZ8(I)=V(3,NC8(I))
       ENDDO
       
-      IF(ISROT.NE.0)THEN
+      IF(ISROT/=0)THEN
        DO I=LFT,LLT
         VXR(I)=(VR(1,NC1(I))+VR(1,NC2(I))+VR(1,NC3(I))+VR(1,NC4(I)) + VR(1,NC5(I))+VR(1,NC6(I))+VR(1,NC7(I))+VR(1,NC8(I)))/EIGHT
         VYR(I)=(VR(2,NC1(I))+VR(2,NC2(I))+VR(2,NC3(I))+VR(2,NC4(I)) + VR(2,NC5(I))+VR(2,NC6(I))+VR(2,NC7(I))+VR(2,NC8(I)))/EIGHT
@@ -309,9 +309,9 @@ C
        ENDDO
       ENDIF
       
-      IF(OFF_L.LT.ZERO)THEN
+      IF(OFF_L<ZERO)THEN
         DO I=LFT,LLT
-          IF(OFFG(I).LT.ZERO)THEN
+          IF(OFFG(I)<ZERO)THEN
             VX1(I)=ZERO
             VY1(I)=ZERO
             VZ1(I)=ZERO
@@ -340,7 +340,7 @@ C
         ENDDO
       ENDIF
 
-      IF (JLAG.NE.0)THEN
+      IF (JLAG/=0)THEN
        DO I=LFT,LLT
         VD2(I)=ZERO
 	VDX1(I)=ZERO
@@ -369,7 +369,7 @@ C
 	VDZ8(I)=ZERO
        ENDDO
        RETURN
-      ELSEIF(JALE.NE.0)THEN
+      ELSEIF(JALE/=0)THEN
        IF(IPARG(64,NG)==1)THEN
          DO I=LFT,LLT
          VD2(I) =ZERO
@@ -426,7 +426,7 @@ C
         VDY8(I)=VY8(I)-W(2,NC8(I))
         VDZ8(I)=VZ8(I)-W(3,NC8(I))
        ENDDO
-      ELSEIF(JEUL.NE.0)THEN
+      ELSEIF(JEUL/=0)THEN
        IF(IPARG(64,NG)==1)THEN
          DO I=LFT,LLT
          VD2(I) =ZERO

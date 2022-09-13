@@ -226,14 +226,14 @@ C.....GATHER DIRECTION 1
         ENDIF  
       ENDDO
 C.....1.FIRST FAILURE DIRECTION 1
-      IF(NINDX.GT.0)THEN
+      IF(NINDX>0)THEN
         IDIR=1
           DO  J=1,NINDX
             I=INDX(J)
             DAM1=(EPST(I,1)-EPST1(I))/(EPSM1(I)-EPST1(I))
             DAM2= DAM1*EPSM1(I)/EPST(I,1)
             DAMT(I,1)= MIN(DAM2,DMAX(I))
-            IF(DAMT(I,1).EQ.DMAX(I).AND.IMCONV.EQ.1)THEN
+            IF(DAMT(I,1)==DMAX(I).AND.IMCONV==1)THEN
 #include "lockon.inc"
                WRITE(IOUT, '(A,I1,A,I10,A,I3,A,I3,A,1PE11.4)')
      +        ' FAILURE-',IDIR,', ELEMENT #',NGL(I),
@@ -287,7 +287,7 @@ C----------------------------
       NINDX=0
       MX = MAT(LFT)
        DO  I=LFT,LLT
-           IF(OFF(I).EQ.ONE) THEN
+           IF(OFF(I)==ONE) THEN
              IOFF=NINT(PM(42,MX))
              IF(IOFF < 0) IOFF=-(IOFF+1)
              JOFF=0
@@ -305,7 +305,7 @@ c             IF(IOFF == 6 .AND. NFIS3(I) == NPT) JOFF=1
                  II=I+NFT
                  NINDX=NINDX+1
                  INDX(NINDX)=I
-                 IF(IMCONV.EQ.1)THEN
+                 IF(IMCONV==1)THEN
 #include "lockon.inc"
                     WRITE(IOUT,1000)  NGL(I)
                     WRITE(ISTDO,1100) NGL(I),TT

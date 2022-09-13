@@ -85,7 +85,7 @@ C
       L = 1
       IAD_RECV(1) = 1
       DO I = 1, NSPMD
-        IF(FR_NBCCCDN(2,I).GT.0) THEN
+        IF(FR_NBCCCDN(2,I)>0) THEN
           SIZ = ISIZE*FR_NBCCCDN(2,I)
           MSGTYP = MSGOFF
           NBIRECV = NBIRECV + 1
@@ -96,7 +96,7 @@ C
           L = L + SIZ
         ENDIF
         IAD_RECV(I+1) = L
-        IF(FR_NBCCCDN(1,I).GT.0) THEN
+        IF(FR_NBCCCDN(1,I)>0) THEN
           NBISEND = NBISEND + 1
           INDEXS(NBISEND) = I
         ENDIF
@@ -110,7 +110,7 @@ C
            DO J=IAD_CDNM(I),IAD_CDNM(I+1)-1
             NOD = FR_CDNM(J)
             DO CC = ADDCNCDN(NOD),ADDCNCDN(NOD+1)-1
-              IF(PROCNCDN(CC).EQ.LOC_PROC) THEN
+              IF(PROCNCDN(CC)==LOC_PROC) THEN
                DO K = 1, ISIZE
                 SBUF(L+K-1)   = FSKYCDN(K,CC)
                END DO
@@ -143,7 +143,7 @@ C
             NOD = FR_CDNM(J)
 #include "scalar.inc"
             DO CC = ADDCNCDN(NOD), ADDCNCDN(NOD+1)-1
-              IF(PROCNCDN(CC).EQ.I) THEN
+              IF(PROCNCDN(CC)==I) THEN
                DO K = 1, ISIZE
                 FSKYCDN(K,CC) = RBUF(L+K-1)
                END DO 

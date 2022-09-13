@@ -149,9 +149,9 @@ C-----------------------------------------------
         NGY     = LINIGRAV(09,K)
         NGZ     = LINIGRAV(10,K) 
         PSURF   = LINIGRAV(11,K)        
-        IF (GRAV0.EQ.ZERO)CYCLE          !nothing to do if g=0 at time=0 => Delta_P=0 => P=P(t=0)=P0
+        IF (GRAV0==ZERO)CYCLE          !nothing to do if g=0 at time=0 => Delta_P=0 => P=P(t=0)=P0
         !READING GRPART DATA
-        IF(IGRP.NE.0)THEN
+        IF(IGRP/=0)THEN
          NP       = IGRPART(IGRP)%NENTITY
          ALLOCATE(IP(NP),STAT=IERROR)
          IF(IERROR/=0)CALL ANCMSG(MSGID   = 268,
@@ -167,7 +167,7 @@ C-----------------------------------------------
         l_PLANAR_SURF = .FALSE.
         l_USER_SURF   = .FALSE.
         SURF_TYPE=-1   !-1:unaffected
-        IF(ISURF.GT.0)SURF_TYPE=IGRSURF(ISURF)%TYPE
+        IF(ISURF>0)SURF_TYPE=IGRSURF(ISURF)%TYPE
         IF(SURF_TYPE==200 .OR. SURF_TYPE == -1)THEN
           l_PLANAR_SURF=.TRUE.
         ELSEIF(SURF_TYPE == 0) THEN  
@@ -253,7 +253,7 @@ C-----------------------------------------------
             !===================================================================!
             !                     SELECTION DES ELEMENTS                        !
             !===================================================================! 
-            IF(IGRP.NE.0)THEN
+            IF(IGRP/=0)THEN
               lCYCLE = .TRUE.
               DO I=1,NEL
                 DO Q=1,NP
@@ -344,17 +344,17 @@ C-----------------------------------------------
                  lFOUND_PROJ=.FALSE.
                  DO ISEG=1,NSEG
                 
-                   IF(NGX.EQ.ZERO)THEN
+                   IF(NGX==ZERO)THEN
                      IF(Z(1)+TOL < MIN_COOR(1,ISEG)  .OR. Z(1)-TOL > MAX_COOR(1,ISEG))CYCLE
                    ENDIF
-                   IF(NGY.EQ.ZERO)THEN
+                   IF(NGY==ZERO)THEN
                      IF(Z(2)+TOL < MIN_COOR(2,ISEG)  .OR. Z(2)-TOL > MAX_COOR(2,ISEG))CYCLE
                    ENDIF
-                   IF(NGZ.EQ.ZERO)THEN
+                   IF(NGZ==ZERO)THEN
                      IF(Z(3)+TOL < MIN_COOR(3,ISEG)  .OR. Z(3)-TOL > MAX_COOR(3,ISEG))CYCLE 
                    ENDIF                                     
                    DOTP = N_SURF(1,ISEG)*NGX + N_SURF(2,ISEG)*NGY + N_SURF(3,ISEG)*NGZ
-                   IF(ABS(DOTP).LE.EM04)THEN
+                   IF(ABS(DOTP)<=EM04)THEN
                      CALL ANCMSG(MSGID   = 90,
      .                           ANMODE  = ANINFO,
      .                           MSGTYPE = MSGERROR,
@@ -373,7 +373,7 @@ C-----------------------------------------------
                    !  => INTERP = ...
                    B(1:3)=ZF(1:3,ISEG)
                    DIST=(B(1)-Z(1))*(B(1)-Z(1)) + (B(2)-Z(2))*(B(2)-Z(2)) + (B(3)-Z(3))*(B(3)-Z(3))
-                   IF(DIST.LE.TOL*TOL)THEN
+                   IF(DIST<=TOL*TOL)THEN
                      !use another basis point if face centroid superimposed with cell centroid
                      B(1:3)=P(1:3,1)                                         
                    ENDIF
@@ -408,7 +408,7 @@ C-----------------------------------------------
           !===================================================================!
           !                 INITIALISATION DE L'ETAT INITIAL                  !
           !===================================================================! 
-           IF (N2D .EQ. 0) THEN
+           IF (N2D == 0) THEN
               MATID = IXS(1, 1 + NFT)
            ELSEIF(ITY==2)THEN
               MATID = IXQ(1, 1 + NFT)
@@ -434,18 +434,18 @@ C-----------------------------------------------
           !     MM-ALE 51                         !
           !=======================================! 
            CASE (51)
-              IF (N2D .EQ. 0) THEN ! HEXA
+              IF (N2D == 0) THEN ! HEXA
                  IX => IXS(1:NIXS, 1:NUMELS)
                  NIX = NIXS
-              ELSEIF (ITY .EQ. 2) THEN! QUADS
+              ELSEIF (ITY == 2) THEN! QUADS
                  IX => IXQ(1:NIXQ, 1:NUMELQ)
                  NIX = NIXQ
-              ELSEIF (ITY .EQ. 7) THEN! TRIAS
+              ELSEIF (ITY == 7) THEN! TRIAS
                  IX => IXTG(1:NIXTG, 1:NUMELTG)
                  NIX = NIXTG                 
               ENDIF
               IFORM = BUFMAT(IADBUF + 31 - 1)
-              IF (IFORM .NE. 3) THEN
+              IF (IFORM /= 3) THEN
                  CALL INIGRAV_M51(NEL  , NEL2,     NG, MATID,  IPM, GRAV0, DEPTH, PM,    BUFMAT(IADBUF), ELBUF_TAB, 
      .                            PSURF, LIST,  ALE_CONNECTIVITY,   NV46, IX , NIX  , NFT  , BUFMAT, IPARG)
               ELSE
@@ -459,11 +459,11 @@ C-----------------------------------------------
           !=======================================! 
            CASE(151)
             NBMAT = IPARG(20, NG)
-            IF (N2D .EQ. 0) THEN ! HEXA
+            IF (N2D == 0) THEN ! HEXA
                IX => IXS(1:NIXS, LFT + NFT:LLT + NFT)
-            ELSEIF (ITY .EQ. 2) THEN! QUADS
+            ELSEIF (ITY == 2) THEN! QUADS
                IX => IXQ(1:NIXQ, LFT + NFT:LLT + NFT)
-            ELSEIF (ITY .EQ. 7) THEN ! TRIAS
+            ELSEIF (ITY == 7) THEN ! TRIAS
                IX => IXTG(1:NIXTG, LFT + NFT:LLT + NFT)
             ENDIF
               !mixture density : in case of inigrav with (water+vapor) vapor eos must use mixture density
@@ -510,13 +510,13 @@ C-----------------------------------------------
           !              DEFAULT                  !
           !=======================================! 
            CASE DEFAULT  
-              IF (N2D .EQ. 0) THEN ! HEXA
+              IF (N2D == 0) THEN ! HEXA
                  IX => IXS(1:NIXS, 1:NUMELS)
                  NIX = NIXS
-              ELSEIF (ITY .EQ. 2) THEN! QUADS
+              ELSEIF (ITY == 2) THEN! QUADS
                  IX => IXQ(1:NIXQ, 1:NUMELQ)
                  NIX = NIXQ
-              ELSEIF (ITY .EQ. 7) THEN! TRIAS
+              ELSEIF (ITY == 7) THEN! TRIAS
                  IX => IXTG(1:NIXTG, 1:NUMELTG)
                  NIX = NIXTG                 
               ENDIF            
@@ -536,7 +536,7 @@ C-----------------------------------------------
         IF(ALLOCATED(MIN_COOR))DEALLOCATE(MIN_COOR)
         IF(ALLOCATED(N_SURF))DEALLOCATE(N_SURF)
         IF(ALLOCATED(ZF))DEALLOCATE(ZF)
-        IF(IGRP.NE.0)THEN
+        IF(IGRP/=0)THEN
           IF(ALLOCATED(IP))DEALLOCATE(IP)  
         ENDIF
 
@@ -678,9 +678,9 @@ C-----------------------------------------------
         !  write(*,fmt='(A12,3F30.16)')"*createnode ",H(1:3)
         !ENDIF
   
-        IF(t.GE.-TOL)THEN
-          IF(s.GE.-TOL )THEN
-            IF(s+t.LE.ONE+TOL)THEN
+        IF(t>=-TOL)THEN
+          IF(s>=-TOL )THEN
+            IF(s+t<=ONE+TOL)THEN
               ISONTRIA(I) = 1
             ENDIF
           ENDIF       

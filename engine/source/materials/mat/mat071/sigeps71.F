@@ -212,7 +212,7 @@ C
       ENDDO
 C     Eigenvalues needed to be calcultated in double precision
 C     for a simple precision executing
-      IF (IRESP.EQ.1) THEN
+      IF (IRESP==1) THEN
         CALL VALPVECDP_V(AV,EVV,DIRPRV,NEL)
       ELSE
         CALL VALPVEC_V(AV,EVV,DIRPRV,NEL)

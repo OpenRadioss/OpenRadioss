@@ -426,7 +426,7 @@ C-----------------------------------------------
      .   PLYN*(Y-XINT1Y)+
      .   PLZN*(Z-XINT1Z)
       LEN=SQRT(PLXN**2+PLYN**2+PLZN**2)
-      IF(LEN.NE.ZERO)FI=FI/LEN
+      IF(LEN/=ZERO)FI=FI/LEN
 C
       RETURN
       END
@@ -467,7 +467,7 @@ C
 C
       AREA=-HALF*SQRT(XX**2+YY**2+ZZ**2)
       DIS=SQRT(X12**2+Y12**2+Z12**2)
-      IF(DIS.NE.ZERO)DIS=AREA/DIS
+      IF(DIS/=ZERO)DIS=AREA/DIS
 C
       RETURN
       END

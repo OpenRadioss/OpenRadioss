@@ -72,9 +72,9 @@ C-----------------------------------------------
        YCT=YC+YT
        ZCT=ZC+ZT
 C
-       IF(FLAG.EQ.1)THEN
+       IF(FLAG==1)THEN
        BN=SQRT(YR**2+ZR**2)
-        IF(BN.LT.EM3)THEN
+        IF(BN<EM3)THEN
          S11=ONE
          S21=ZERO
          S31=ZERO

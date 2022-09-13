@@ -64,7 +64,7 @@ C-----------------------------------------------------------------------
          DSNDDL=GRAPHE(I)%NDDL_INI
          NDDLACTI=0
          DO J=1,DSNDDL
-            IF (IKC(J).LT.1) THEN
+            IF (IKC(J)<1) THEN
                NDDLACTI=NDDLACTI+1
                ITAG(J)=NDDLACTI
                DO K=1,2
@@ -75,7 +75,7 @@ C-----------------------------------------------------------------------
             ENDIF
          ENDDO
          GRAPHE(I)%NDDL=NDDLACTI
-         IF (NDDLACTI.NE.NDDLQ) THEN
+         IF (NDDLACTI/=NDDLQ) THEN
             CALL ANCMSG(MSGID=36,ANMODE=ANINFO,
      .            C1='NDDLQ NON EQUAL TO NDDLACTI')
             CALL ARRET(2)
@@ -96,7 +96,7 @@ C Elimination des ddls bloques dans tous les superelements
             IAD=0
             DO K=1,NDF0
                KK=GRAPHE(I)%DGRAPH(J)%DDLS_INI(IAD+K)
-               IF (IKC(KK).LT.1) THEN
+               IF (IKC(KK)<1) THEN
                   NDF=NDF+1
                   GRAPHE(I)%DGRAPH(J)%DDLS(NDF)=ITAG(KK)
                   DO L=1,NSDMAX+1
@@ -110,7 +110,7 @@ C Elimination des ddls bloques dans tous les superelements
             IAD=IAD+NDF0
             DO K=1,NDI0
                KK=GRAPHE(I)%DGRAPH(J)%DDLS_INI(IAD+K)
-               IF (IKC(KK).LT.1) THEN
+               IF (IKC(KK)<1) THEN
                   NDI=NDI+1
                   GRAPHE(I)%DGRAPH(J)%DDLS(NDF+NDI)=ITAG(KK)
                ENDIF
@@ -181,7 +181,7 @@ C
             DO K=1,NDF0
                KK=GRAPHE(I)%DGRAPH(J)%DDLS(IAD+K)
                KK=LBLOC(KK)
-               IF (KK.EQ.0) THEN
+               IF (KK==0) THEN
                   NDF=NDF+1
                   DDLT(NDF)=GRAPHE(I)%DGRAPH(J)%DDLS(IAD+K)
                   DO L=1,NSDMAX+1
@@ -194,7 +194,7 @@ C
             DO K=1,NDI0
                KK=GRAPHE(I)%DGRAPH(J)%DDLS(IAD+K)
                KK=LBLOC(KK)
-               IF (KK.EQ.0) THEN
+               IF (KK==0) THEN
                   NDI=NDI+1
                   DDLT(NDF+NDI)=GRAPHE(I)%DGRAPH(J)%DDLS(IAD+K)
                ENDIF

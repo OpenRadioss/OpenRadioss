@@ -298,17 +298,17 @@ C
 C       HLA, HLB, HLC necessaires pour triangle angle obtu
         AAA = ONE / MAX(EM20,X12(I)*X12(I)+Y12(I)*Y12(I)+Z12(I)*Z12(I))
         HLA= LAP*ABS(LAP) * AAA
-        IF(LAP.LT.ZERO.AND.
-     +     HLA.LE.HLB(I,IT).AND.HLA.LE.HLC(I,IT))THEN
+        IF(LAP<ZERO.AND.
+     +     HLA<=HLB(I,IT).AND.HLA<=HLC(I,IT))THEN
          LBP(I,IT) = (XIJ(I,I2)*X12(I)+YIJ(I,I2)*Y12(I)+ZIJ(I,I2)*Z12(I)) * AAA
          LBP(I,IT) = MAX(ZERO,MIN(ONE,LBP(I,IT)))
          LCP(I,IT) = ONE - LBP(I,IT)
-        ELSEIF(LBP(I,IT).LT.ZERO.AND.
-     +         HLB(I,IT).LE.HLC(I,IT).AND.HLB(I,IT).LE.HLA)THEN
+        ELSEIF(LBP(I,IT)<ZERO.AND.
+     +         HLB(I,IT)<=HLC(I,IT).AND.HLB(I,IT)<=HLA)THEN
          LBP(I,IT) = ZERO
          LCP(I,IT) = AL(I,I2)
-        ELSEIF(LCP(I,IT).LT.ZERO.AND.
-     +         HLC(I,IT).LE.HLA.AND.HLC(I,IT).LE.HLB(I,IT))THEN
+        ELSEIF(LCP(I,IT)<ZERO.AND.
+     +         HLC(I,IT)<=HLA.AND.HLC(I,IT)<=HLB(I,IT))THEN
          LCP(I,IT) = ZERO
          LBP(I,IT) = AL(I,I1)
         ENDIF
@@ -356,7 +356,7 @@ C--------------------------------------------------------
 C
        IF(STIF(I) == ZERO)CYCLE
 C
-       IF(IX3(I).NE.IX4(I))THEN
+       IF(IX3(I)/=IX4(I))THEN
          N4N = N4N+1
          I4N(N4N)=I
        ENDIF
@@ -381,17 +381,17 @@ C
 C        HLA, HLB, HLC necessaires pour triangle angle obtu
          AAA = ONE / MAX(EM20,X12(I)*X12(I)+Y12(I)*Y12(I)+Z12(I)*Z12(I))
          HLA= LAP*ABS(LAP) * AAA
-         IF(LAP.LT.ZERO.AND.
-     +      HLA.LE.HLB(I,IT).AND.HLA.LE.HLC(I,IT))THEN
+         IF(LAP<ZERO.AND.
+     +      HLA<=HLB(I,IT).AND.HLA<=HLC(I,IT))THEN
           LBP(I,IT) = (XIJ(I,I2)*X12(I)+YIJ(I,I2)*Y12(I)+ZIJ(I,I2)*Z12(I)) * AAA
           LBP(I,IT) = MAX(ZERO,MIN(ONE,LBP(I,IT)))
           LCP(I,IT) = ONE - LBP(I,IT)
-         ELSEIF(LBP(I,IT).LT.ZERO.AND.
-     +          HLB(I,IT).LE.HLC(I,IT).AND.HLB(I,IT).LE.HLA)THEN
+         ELSEIF(LBP(I,IT)<ZERO.AND.
+     +          HLB(I,IT)<=HLC(I,IT).AND.HLB(I,IT)<=HLA)THEN
           LBP(I,IT) = ZERO
           LCP(I,IT) = AL(I,I2)
-         ELSEIF(LCP(I,IT).LT.ZERO.AND.
-     +          HLC(I,IT).LE.HLA.AND.HLC(I,IT).LE.HLB(I,IT))THEN
+         ELSEIF(LCP(I,IT)<ZERO.AND.
+     +          HLC(I,IT)<=HLA.AND.HLC(I,IT)<=HLB(I,IT))THEN
           LCP(I,IT) = ZERO
           LBP(I,IT) = AL(I,I1)
          ENDIF
@@ -809,7 +809,7 @@ C
         MGLOB=MSEGLO(L)
 
         PENE=PENT(I,IT) ! PENE /= ZERO
-        IF(N.LE.NSN)THEN
+        IF(N<=NSN)THEN
 #include "lockon.inc"
 
 c       if(itab(nsvg(i))==27363)

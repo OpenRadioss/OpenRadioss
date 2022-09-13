@@ -89,7 +89,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       DO I=1,JLT
         NI = CAND_N(I)
-        IF(NI.LE.NSN)THEN
+        IF(NI<=NSN)THEN
           IG = NSV(NI)
           NSVG(I) = IG
           XI(I) = X(1,IG)
@@ -145,7 +145,7 @@ C
         DO I=1,JLT
           NI = CAND_N(I)
           L  = CAND_E(I)
-          IF(NI.LE.NSN)THEN
+          IF(NI<=NSN)THEN
             GAPMXL(I)=GAP_S_L(NI)+GAP_M_L(L)
           ELSE
             GAPMXL(I)=GAP_LFI(NIN)%P(NI-NSN)+GAP_M_L(L)
@@ -190,7 +190,7 @@ C
       END DO
 C
       DO I=1,JLT
-        IF(IX3(I).NE.IX4(I))THEN
+        IF(IX3(I)/=IX4(I))THEN
           NNX(I,5)=FOURTH*(NNX(I,1)+NNX(I,2)+NNX(I,3)+NNX(I,4))
           NNY(I,5)=FOURTH*(NNY(I,1)+NNY(I,2)+NNY(I,3)+NNY(I,4))
           NNZ(I,5)=FOURTH*(NNZ(I,1)+NNZ(I,2)+NNZ(I,3)+NNZ(I,4))
@@ -208,7 +208,7 @@ C
       DO I=1,JLT
         L  = CAND_E(I)
         NI = CAND_N(I)
-        IF(NI.LE.NSN)THEN
+        IF(NI<=NSN)THEN
           STIF(I)=STF(L)*ABS(STFN(NI))
         ELSE
           NN = NI - NSN
@@ -301,7 +301,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       DO I=1,JLT
         NI = CAND_N(I)
-        IF(NI.LE.NSN)THEN
+        IF(NI<=NSN)THEN
           IG = NSV(NI)
           NSVG(I) = IG
           XI(I) = X(1,IG)
@@ -358,7 +358,7 @@ C
         DO I=1,JLT
           NI = CAND_N(I)
           L  = CAND_E(I)
-          IF(NI.LE.NSN)THEN
+          IF(NI<=NSN)THEN
             GAPMXL(I)=GAP_S_L(NI)+GAP_M_L(L)
           ELSE
             GAPMXL(I)=GAP_LFI(NIN)%P(NI-NSN)+GAP_M_L(L)
@@ -403,7 +403,7 @@ C
       END DO
 C
       DO I=1,JLT
-        IF(IX3(I).NE.IX4(I))THEN
+        IF(IX3(I)/=IX4(I))THEN
           NNX(I,5)=FOURTH*(NNX(I,1)+NNX(I,2)+NNX(I,3)+NNX(I,4))
           NNY(I,5)=FOURTH*(NNY(I,1)+NNY(I,2)+NNY(I,3)+NNY(I,4))
           NNZ(I,5)=FOURTH*(NNZ(I,1)+NNZ(I,2)+NNZ(I,3)+NNZ(I,4))
@@ -421,7 +421,7 @@ C
       DO I=1,JLT
        L  = CAND_E(I)
        NI = CAND_N(I)
-       IF(NI.LE.NSN)THEN
+       IF(NI<=NSN)THEN
          STIF(I)=STF(L)*ABS(STFN(NI))
        ELSE
          NN = NI - NSN
@@ -442,7 +442,7 @@ C
         DO J=1,4
           MVOISN(I,J)=MVOISIN(J,L)
 
-          IF(NI.LE.NSN)THEN
+          IF(NI<=NSN)THEN
             NOR=ISLIDE(J,NI)
           ELSE
             NN = NI - NSN
@@ -547,7 +547,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       DO I=1,JLT
         NI = CAND_N(I)
-        IF(NI.LE.NSN)THEN
+        IF(NI<=NSN)THEN
           IG = NSV(NI)
           NSVG(I) = IG
           XI(I) = X(1,IG)
@@ -628,7 +628,7 @@ C
         DO I=1,JLT
           NI = CAND_N(I)
           L  = CAND_E(I)
-          IF(NI.LE.NSN)THEN
+          IF(NI<=NSN)THEN
             GAPMXL(I)=GAP_S_L(NI)+GAP_M_L(L)
           ELSE
             GAPMXL(I)=GAP_LFI(NIN)%P(NI-NSN)+GAP_M_L(L)
@@ -673,7 +673,7 @@ C
       END DO
 C
       DO I=1,JLT
-        IF(IX3(I).NE.IX4(I))THEN
+        IF(IX3(I)/=IX4(I))THEN
          NAX(I,5)= FOURTH*(NAX(I,1)+NAX(I,2)+NAX(I,3)+NAX(I,4))
          NAY(I,5)= FOURTH*(NAY(I,1)+NAY(I,2)+NAY(I,3)+NAY(I,4))
          NAZ(I,5)= FOURTH*(NAZ(I,1)+NAZ(I,2)+NAZ(I,3)+NAZ(I,4))
@@ -693,7 +693,7 @@ C
         L  = ISHEL(I)
         IF(L==0) CYCLE
 C
-        IF(IX3(I).NE.IX4(I))THEN
+        IF(IX3(I)/=IX4(I))THEN
 C
           NBX(I,1)=NOD_NORMAL(1,1,L)
           NBY(I,1)=NOD_NORMAL(2,1,L)
@@ -734,7 +734,7 @@ C
         L  = ISHEL(I)
         IF(L==0) CYCLE
 C
-        IF(IX3(I).NE.IX4(I))THEN
+        IF(IX3(I)/=IX4(I))THEN
          NBX(I,5)= FOURTH*(NBX(I,1)+NBX(I,2)+NBX(I,3)+NBX(I,4))
          NBY(I,5)= FOURTH*(NBY(I,1)+NBY(I,2)+NBY(I,3)+NBY(I,4))
          NBZ(I,5)= FOURTH*(NBZ(I,1)+NBZ(I,2)+NBZ(I,3)+NBZ(I,4))
@@ -752,7 +752,7 @@ C
       DO I=1,JLT
        L  = CAND_E(I)
        NI = CAND_N(I)
-       IF(NI.LE.NSN)THEN
+       IF(NI<=NSN)THEN
          STIF(I)=STF(L)*ABS(STFN(NI))
        ELSE
          NN = NI - NSN
@@ -886,7 +886,7 @@ C-----------------------------------------------
       IBOUND(1:4,1:JLT)=0
       DO I=1,JLT
            NI = CAND_N(I)
-           IF(NI.LE.NSN)THEN
+           IF(NI<=NSN)THEN
              IG = NSV(NI)
              NSVG(I) = IG
 C---------------voir quand KINET(IG) est utilise  
@@ -982,7 +982,7 @@ C
         DO I=1,JLT
           NI = CAND_N(I)
           L  = CAND_E(I)
-          IF(NI.LE.NSN)THEN
+          IF(NI<=NSN)THEN
             GAPMXL(I)=GAP_S_L(NI)+GAP_M_L(L)
           ELSE
             GAPMXL(I)=GAP_LFI(NIN)%P(NI-NSN)+GAP_M_L(L)
@@ -1013,7 +1013,7 @@ C
       END DO
 C
       DO I=1,JLT
-        IF(IX3(I).NE.IX4(I))THEN
+        IF(IX3(I)/=IX4(I))THEN
           NNX(I,5)=FOURTH*(NNX(I,1)+NNX(I,2)+NNX(I,3)+NNX(I,4))
           NNY(I,5)=FOURTH*(NNY(I,1)+NNY(I,2)+NNY(I,3)+NNY(I,4))
           NNZ(I,5)=FOURTH*(NNZ(I,1)+NNZ(I,2)+NNZ(I,3)+NNZ(I,4))
@@ -1028,11 +1028,11 @@ C
         NNZ(I,5)=XN*NNZ(I,5)       
       END DO
 C
-      IF(IGSTI.LE.1)THEN
+      IF(IGSTI<=1)THEN
          DO I=1,JLT
           L  = CAND_E(I)
           NI = CAND_N(I)
-          IF(NI.LE.NSN)THEN
+          IF(NI<=NSN)THEN
             STIF(I)=STF(L)*ABS(STFN(NI))
           ELSE
             NN = NI - NSN
@@ -1040,11 +1040,11 @@ C
           END IF
           STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
          ENDDO
-      ELSEIF(IGSTI.EQ.2)THEN
+      ELSEIF(IGSTI==2)THEN
          DO I=1,JLT
           L  = CAND_E(I)
           NI = CAND_N(I)
-          IF(NI.LE.NSN)THEN
+          IF(NI<=NSN)THEN
             STIF(I)=ABS(STFN(NI))
           ELSE
             NN = NI - NSN
@@ -1053,11 +1053,11 @@ C
           STIF(I)=HALF*(STF(L)+STIF(I))
           STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
          ENDDO
-      ELSEIF(IGSTI.EQ.3)THEN
+      ELSEIF(IGSTI==3)THEN
          DO I=1,JLT
           L  = CAND_E(I)
           NI = CAND_N(I)
-          IF(NI.LE.NSN)THEN
+          IF(NI<=NSN)THEN
             STIF(I)=ABS(STFN(NI))
           ELSE
             NN = NI - NSN
@@ -1066,11 +1066,11 @@ C
           STIF(I)=MAX(STF(L),STIF(I))
           STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
          ENDDO
-      ELSEIF(IGSTI.EQ.4.OR.IGSTI.EQ.6)THEN
+      ELSEIF(IGSTI==4.OR.IGSTI==6)THEN
          DO I=1,JLT
           L  = CAND_E(I)
           NI = CAND_N(I)
-          IF(NI.LE.NSN)THEN
+          IF(NI<=NSN)THEN
             STIF(I)=ABS(STFN(NI))
           ELSE
             NN = NI - NSN
@@ -1079,11 +1079,11 @@ C
           STIF(I)=MIN(STF(L),STIF(I))
           STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
          ENDDO
-      ELSEIF(IGSTI.EQ.5)THEN
+      ELSEIF(IGSTI==5)THEN
          DO I=1,JLT
           L  = CAND_E(I)
           NI = CAND_N(I)
-          IF(NI.LE.NSN)THEN
+          IF(NI<=NSN)THEN
             STIF(I)=ABS(STFN(NI))
           ELSE
             NN = NI - NSN
@@ -1097,7 +1097,7 @@ C
 C----------
       IF(IDTMINS==2)THEN
        DO I=1,JLT
-        IF(NSVG(I).GT.0)THEN
+        IF(NSVG(I)>0)THEN
           NSMS(I)=NODNX_SMS(NSVG(I))
      .                       +NODNX_SMS(IX1(I))+NODNX_SMS(IX2(I))
      .                       +NODNX_SMS(IX3(I))+NODNX_SMS(IX4(I))
@@ -1110,7 +1110,7 @@ C----------
        ENDDO
        IF(IDTMINS_INT/=0)THEN
          DO I=1,JLT
-          IF(NSMS(I).EQ.0)NSMS(I)=-1
+          IF(NSMS(I)==0)NSMS(I)=-1
          ENDDO
        END IF
       ELSEIF(IDTMINS_INT/=0)THEN
@@ -1131,7 +1131,7 @@ C----Friction model : secnd part IDs---------
          DO I=1,JLT
            NI = CAND_N(I)
            L  = CAND_E(I)
-           IF(NI.LE.NSN)THEN
+           IF(NI<=NSN)THEN
              IPARTFRICSI(I)= IPARTFRICS(NI)
            ELSE
              NN = NI - NSN
@@ -1164,11 +1164,11 @@ C
 
 C----Adhesion case - mvsize division of if_adh done in dst3_3
         
-      IF(INTTH>0.OR.IVIS2.EQ.-1) THEN
+      IF(INTTH>0.OR.IVIS2==-1) THEN
         DO I=1,JLT
            NI = CAND_N(I)           
            L  = CAND_E(I)
-           IF(NI.LE.NSN)THEN
+           IF(NI<=NSN)THEN
              AREASI(I)= AREAS(NI)
            ELSE                
              NN = NI - NSN
@@ -1182,7 +1182,7 @@ C----Thermal case -
         DO I=1,JLT
            NI = CAND_N(I)           
            L  = CAND_E(I)
-           IF(NI.LE.NSN)THEN
+           IF(NI<=NSN)THEN
              IG = NSV(NI)
              TEMPI(I) = TEMP(IG)
              IELESI(I)= IELES(NI)

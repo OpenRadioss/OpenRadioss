@@ -306,7 +306,7 @@ c---------
 !            ENDDO
            ENDIF
 c---------
-          ELSEIF (IFUNC.GE.14.AND.IFUNC.LE.15) THEN
+          ELSEIF (IFUNC>=14.AND.IFUNC<=15) THEN
 c---------
 C
 Cit's available just for law25 and batoz shell
@@ -390,7 +390,7 @@ C +
             ENDIF
 CCC
 c---------
-          ELSEIF(IFUNC.GE.17.AND.IFUNC.LE.19)THEN           
+          ELSEIF(IFUNC>=17.AND.IFUNC<=19)THEN           
 c---------
             IUS = IFUNC-14
 Cit's available just for law25 and batoz shell
@@ -490,13 +490,13 @@ c            IADD  = NB3
               ENDIF
             ENDDO
 c---------
-         ELSEIF(IFUNC.GE.20.AND.IFUNC.LE.24)THEN
+         ELSEIF(IFUNC>=20.AND.IFUNC<=24)THEN
 c          USER VARIABLES from 1 to 5)THEN
 c---------
            IUS = IFUNC - 20                                
 CCC
            IF(IHBE == 11.AND.
-     .       (MLW == 29.OR.MLW == 30.OR.MLW == 31.OR.MLW.GE.33))THEN 
+     .       (MLW == 29.OR.MLW == 30.OR.MLW == 31.OR.MLW>=33))THEN 
                 NPG=0
 C------QBAT----
                IF (ITY == 3.AND.IHBE == 11) THEN
@@ -531,7 +531,7 @@ C
                I1  = IUS*NEL
                DO I=LFT,LLT
                N = I + NFT
-               IF(NUVAR.GE.IUS)THEN
+               IF(NUVAR>=IUS)THEN
                    EVAR(I) = ZERO
                   N = I + NFT 
                   ILAYER = PLYELEMS(N)
@@ -549,19 +549,19 @@ C
                ENDDO
               ENDIF
            ELSEIF (MLW == 29 .OR. MLW == 30.OR.
-     .             MLW == 31.OR.MLW.GE.33) THEN
+     .             MLW == 31.OR.MLW>=33) THEN
 C---        USER VARIABLES
              IUS = IFUNC - 20
              DO I=LFT,LLT
                N = I + NFT
-                IF (IPM(8,IXC(1,N)).GT.IUS) THEN
+                IF (IPM(8,IXC(1,N))>IUS) THEN
                ENDIF
              ENDDO
            ENDIF
 c---------
-          ELSEIF(IFUNC.GE.27.AND.IFUNC.LE.39) THEN
+          ELSEIF(IFUNC>=27.AND.IFUNC<=39) THEN
 c---------
-            IF (MLW == 29.OR.MLW == 30.OR.MLW == 31.OR.MLW.GE.33)THEN 
+            IF (MLW == 29.OR.MLW == 30.OR.MLW == 31.OR.MLW>=33)THEN 
               IF (MPT > 0)THEN
                 IUS = IFUNC - 22
                 DO I=LFT,LLT               
@@ -572,7 +572,7 @@ c---------
                     IPT = ILAYER
                     NUVAR = ELBUF_TAB(NG)%BUFLY(IPT)%NVAR_MAT
                     I1 = IUS*NEL
-                    IF (NUVAR.GE.IUS)THEN
+                    IF (NUVAR>=IUS)THEN
                       DO IR = 1, NPTR
                        DO IS = 1, NPTS
                         UVAR=>ELBUF_TAB(NG)%BUFLY(IPT)%MAT(IR,IS,1)%VAR
@@ -585,13 +585,13 @@ c---------
               ENDIF
             ENDIF 
 c---------
-          ELSEIF((IFUNC.GE.40.AND.IFUNC.LE.2039).OR.
-     .           (IFUNC.GE.2240.AND.IFUNC.LE.10139)) THEN
+          ELSEIF((IFUNC>=40.AND.IFUNC<=2039).OR.
+     .           (IFUNC>=2240.AND.IFUNC<=10139)) THEN
 c---------
-            IF (IFUNC.GE.40.AND.IFUNC.LE.2039) THEN
+            IF (IFUNC>=40.AND.IFUNC<=2039) THEN
               IUS = (IFUNC - 39)/100
               IPT = MOD ((IFUNC - 39), 100)  
-            ELSEIF (IFUNC.GE.2240.AND.IFUNC.LE.10139) THEN 
+            ELSEIF (IFUNC>=2240.AND.IFUNC<=10139) THEN 
               IUS = ((IFUNC - 2239)/100) +20  
               IPT = MOD ((IFUNC - 2239), 100)  
             ENDIF  
@@ -606,7 +606,7 @@ c---------
               IL  = 1           
             ENDIF               
             IPT = ILAYER
-            IF (MLW == 29.OR.MLW == 30.OR.MLW == 31.OR.MLW.GE.33)THEN 
+            IF (MLW == 29.OR.MLW == 30.OR.MLW == 31.OR.MLW>=33)THEN 
                 NPG=0
 C              ------QBAT----
                IF (ITY == 3.AND.IHBE == 11) THEN
@@ -627,7 +627,7 @@ C              -----------------------
                  ELSE
                    NUVAR  = MAX(NUVAR,IPM(8,IXC(1,NFT+1)))
                  ENDIF
-                 IF (NUVAR.GE.IUS.AND.NPT.GE.IPT)THEN
+                 IF (NUVAR>=IUS.AND.NPT>=IPT)THEN
                    EVAR(I) = ZERO
                    ILAYER = PLYELEMS(N)
                    I1  = IUS*NEL
@@ -654,7 +654,7 @@ c---------
                   N = I + NFT                                                   
                   ILAYER = PLYELEMS(N)
                   NFAIL = 0
-                  IF(ILAYER .NE. 0.AND. ILAYER <= ELBUF_TAB(NG)%NINTLAY) 
+                  IF(ILAYER /= 0.AND. ILAYER <= ELBUF_TAB(NG)%NINTLAY) 
      .                NFAIL  = ELBUF_TAB(NG)%INTLAY(ILAYER)%NFAIL
                   IF (ILAYER > 0 .AND. ILAYER <= ELBUF_TAB(NG)%NINTLAY .AND. NFAIL > 0) THEN
                     NUVAR = ELBUF_TAB(NG)%INTLAY(ILAYER)%FAIL(1,1)%FLOC(1)%NVAR
@@ -674,7 +674,7 @@ c---------
                   N = I + NFT                                                                     
                   ILAYER = PLYELEMS(N)
                   NFAIL = 0
-                  IF(ILAYER .NE. 0.AND. ILAYER <= ELBUF_TAB(NG)%NINTLAY) 
+                  IF(ILAYER /= 0.AND. ILAYER <= ELBUF_TAB(NG)%NINTLAY) 
      .                NFAIL  = ELBUF_TAB(NG)%INTLAY(ILAYER)%NFAIL
                   IF (ILAYER > 0 .AND. ILAYER <= ELBUF_TAB(NG)%NINTLAY .AND. NFAIL > 0) THEN
                     NUVAR = ELBUF_TAB(NG)%INTLAY(ILAYER)%FAIL(1,1)%FLOC(1)%NVAR
@@ -691,7 +691,7 @@ c---------
               ENDIF                                                           
             ENDIF                                               
 c---------
-          ELSEIF((IFUNC.GE.10241.AND.IFUNC.LE.10243)) THEN 
+          ELSEIF((IFUNC>=10241.AND.IFUNC<=10243)) THEN 
 C           interply stress
 c---------
             LL = IFUNC - 10240 
@@ -710,7 +710,7 @@ c---------
                ENDDO                                                                  
              ENDIF   ! interply                                                       
 c---------
-          ELSEIF((IFUNC.GE.10244.AND.IFUNC.LE.10246)) THEN  
+          ELSEIF((IFUNC>=10244.AND.IFUNC<=10246)) THEN  
 C           interply strain
 c---------
             LL = IFUNC - 10243
@@ -770,12 +770,12 @@ c---------
              ENDDO                                       
            ENDIF                                         
 c---------
-         ELSEIF(IFUNC.GE.2042.AND.IFUNC.LE.2141) THEN   
+         ELSEIF(IFUNC>=2042.AND.IFUNC<=2141) THEN   
 c---------
-            IF(MLW.NE.1)THEN
+            IF(MLW/=1)THEN
               IPT = MOD ((IFUNC - 2041), 100)     
               IF(IPT == 0)IPT = 100
-              IF(NPT.GE.IPT)THEN 
+              IF(NPT>=IPT)THEN 
 c                 IADD  = NB11 + LLT*(ILAYER-1)
                  DO  I=LFT,LLT
                   ILAYER = PLYELEMS(N)
@@ -825,8 +825,8 @@ c
 !!                    WPLA(I) = LBUF%PLA(I)                           
 !!                    DMAX(I) = PM(64,MATLY(J))                       
 !!                    WPMAX(I)= PM(41,MATLY(J))                       
-!!                    IF(DAM1(I).GE.DMAX(I).OR.DAM2(I).GE.DMAX(I).OR. 
-!!     .                 WPLA(I).LT.ZERO.OR.WPLA(I).GE.WPMAX(I))      
+!!                    IF(DAM1(I)>=DMAX(I).OR.DAM2(I)>=DMAX(I).OR. 
+!!     .                 WPLA(I)<ZERO.OR.WPLA(I)>=WPMAX(I))      
 !!     .              FAIL(I) =  FAIL(I) + ONE                         
 !!                  ENDDO                                               
 !!                ENDDO                                               
@@ -834,9 +834,9 @@ c
 !!                IF(IFAILA == 1) THEN
 !!                  DO  I=LFT,LLT
 c                    OFF = BUFEL(IADD+I)
-!!                    IF(OFF.LT.ZERO)THEN
+!!                    IF(OFF<ZERO)THEN
 !!                      FAIL(I)= -ONE
-!!                    ELSEIF(OFF.GT.ZERO)THEN
+!!                    ELSEIF(OFF>ZERO)THEN
 !!                      FAIL(I)=  ONE
 !!                    ELSE
 !!                      FAIL(I)=  ZERO

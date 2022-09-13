@@ -127,9 +127,9 @@ C
 C
 C
        !NST=0                                                                                                       
-       !DOWHILE(LINE(1:1).NE.'/')                                                                                   
+       !DOWHILE(LINE(1:1)/='/')                                                                                   
        ! READ(LINE,ERR=999,FMT=FMT_THGR)IST,IDST,TITR                                                               
-       ! IF (IST.GT.NNE) THEN                                                                                       
+       ! IF (IST>NNE) THEN                                                                                       
        !    CALL FRETITL2(TITR,ITHGRP(NITHGR-LTITR+1),LTITR)                                                        
        !    CALL ANCMSG(MSGID=361,                                                                                  
      . !                MSGTYPE=MSGERROR,                                                                           

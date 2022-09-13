@@ -109,7 +109,7 @@ C SPMD: Need to send infos even if 0 elems
       II = 0
       DO NG=1,NGROUP
        ITY   =IPARG(5,NG)
-       IF(ITY.EQ.3) THEN
+       IF(ITY==3) THEN
          NEL   =IPARG(2,NG)
          NFT   =IPARG(3,NG)
          GBUF => ELBUF_TAB(NG)%GBUF   
@@ -136,7 +136,7 @@ C SPMD: Need to send infos even if 0 elems
           NPC(JJ+7) = NINT(GBUF%OFF(I))
           NPC(JJ+8) = IGTYP
           II = II + 1
-          IF (MLW .NE. 0 .AND. MLW .NE. 13) THEN
+          IF (MLW /= 0 .AND. MLW /= 13) THEN
             IF (ITHK >0 ) THEN
                 THKC(II) = GBUF%THK(I)
             ELSE
@@ -181,7 +181,7 @@ C SPMD: Need to send infos even if 0 elems
       II = 0
       DO NG=1,NGROUP
        ITY   =IPARG(5,NG)
-       IF(ITY.EQ.7) THEN
+       IF(ITY==7) THEN
          NEL   =IPARG(2,NG)
          NFT   =IPARG(3,NG)
          GBUF => ELBUF_TAB(NG)%GBUF   
@@ -208,7 +208,7 @@ C
           NPTG(JJ+6) = NINT(GBUF%OFF(I))
           NPTG(JJ+7) = IGTYP
           II = II + 1
-          IF (MLW .NE. 0 .AND. MLW .NE. 13) THEN
+          IF (MLW /= 0 .AND. MLW /= 13) THEN
             IF (ITHK >0 ) THEN
                 THKTG(II) = GBUF%THK(I)
             ELSE
@@ -249,7 +249,7 @@ C------------------------------------------------------------
 C---------Non Orthotropic elements ------------
 
 C-----
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
 C
         DO N=1,DYNAIN_NUMELC_G
           DYNAIN_INDXC(N)=N

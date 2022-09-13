@@ -325,17 +325,17 @@ C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
           RETURN
         ENDIF
      
-      IF(I_MEM.EQ.1)THEN
+      IF(I_MEM==1)THEN
         NB_N_B = NB_N_B + 1
         I_MEM = 0
         GO TO 100
-      ELSE IF(I_MEM.EQ.2) THEN
+      ELSE IF(I_MEM==2) THEN
         MARGE_ST = THREE_OVER_4*MARGE_ST
         TZINF_ST = MARGE_ST + MAX(DEPTH,DRAD,(GAP+DGAPLOAD))
         MAXBOX_ST= HALF*(DD + 2*TZINF_ST)
         MINBOX_ST= HALF*MAXBOX_ST
         I_MEM = 0
-        IF(MARGE_ST.LT.EM03) THEN
+        IF(MARGE_ST<EM03) THEN
 C             WRITE(ISTDO,*)' ***ERROR INFINITE LOOP DETECTED(I7BUC)'
 C             WRITE(IOUT,*)' **ERROR INFINITE LOOP DETECTED(I7BUC)'
 C             CALL ARRET(2)
@@ -355,10 +355,10 @@ C             CALL ARRET(2)
         ENDIF
         GO TO 100
       ENDIF
-      IF(I_ADD.NE.0) GO TO 200
+      IF(I_ADD/=0) GO TO 200
 C     FIN BOUCLE TANT QUE
 C---------------------------------
-      IF(J_STOK.NE.0)THEN
+      IF(J_STOK/=0)THEN
          LFT = 1
          LLT = J_STOK
          CALL I21COR3T(X    ,IRECT ,NSV  ,PROV_E ,PROV_N,
@@ -382,14 +382,14 @@ C---------------------------------
      2                  NY2  ,NZ2 ,NX3,NY3,NZ3,
      3                  NX4  ,NY4 ,NZ4,P1 ,P2 ,
      4                  P3   ,P4)
-         IF(I_STOK+J_STOK.LT.MULTIMP*NSN) THEN
+         IF(I_STOK+J_STOK<MULTIMP*NSN) THEN
           CALL I7CMP3(I_STOK,CAND_E  ,CAND_N,1,PENE,
      1                  PROV_N,PROV_E)
          ELSE
           I_BID = 0
           CALL I7CMP3(I_BID,CAND_E,CAND_N,0,PENE,
      1                  PROV_N,PROV_E)
-          IF(I_STOK+I_BID.LT.MULTIMP*NSN) THEN
+          IF(I_STOK+I_BID<MULTIMP*NSN) THEN
             CALL I7CMP3(I_STOK,CAND_E,CAND_N,1,PENE,
      1                  PROV_N,PROV_E)
           ELSE
@@ -398,7 +398,7 @@ C---------------------------------
             MAXBOX_ST= HALF*(DD + 2*TZINF_ST)
             MINBOX_ST= HALF*MAXBOX_ST
 	    I_MEM = 0
-            IF(MARGE_ST.LT.EM03) THEN
+            IF(MARGE_ST<EM03) THEN
 C             WRITE(ISTDO,*)' ***ERROR INFINITE LOOP DETECTED(I7BUC)'
 C             WRITE(IOUT,*)' **ERROR INFINITE LOOP DETECTED(I7BUC)'
 C             CALL ARRET(2)
@@ -420,7 +420,7 @@ C             CALL ARRET(2)
           ENDIF
         ENDIF
       ENDIF
-      IF(NSN.NE.0)THEN
+      IF(NSN/=0)THEN
       WRITE(IOUT,*)' POSSIBLE IMPACT NUMBER:',I_STOK,' (<=',
      . 1+(I_STOK-1)/NSN,'*NSN)'
       ELSE

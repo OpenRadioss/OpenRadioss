@@ -85,7 +85,7 @@ C
       L = 1
       IAD_RECV(1) = 1
       DO I = 1, NSPMD
-        IF(FR_NBCCI2(2,I).GT.0) THEN
+        IF(FR_NBCCI2(2,I)>0) THEN
           SIZ = (I2SIZE)*FR_NBCCI2(2,I)
           MSGTYP = MSGOFF
           NBIRECV = NBIRECV + 1
@@ -96,7 +96,7 @@ C
           L = L + SIZ
         ENDIF
         IAD_RECV(I+1) = L
-        IF(FR_NBCCI2(1,I).GT.0) THEN
+        IF(FR_NBCCI2(1,I)>0) THEN
           NBISEND = NBISEND + 1
           INDEXS(NBISEND) = I
         ENDIF
@@ -109,11 +109,11 @@ C
         I = INDEXS(II)
         IF (INTTH2 == 1) THEN
          IF(IDT_THERM == 1) THEN             
-          IF(IRODDL.NE.0) THEN
+          IF(IRODDL/=0) THEN
            DO J=IAD_I2M(I),IAD_I2M(I+1)-1
             NOD = FR_I2M(J)
             DO CC = ADDCNI2(NOD),ADDCNI2(NOD+1)-1
-              IF(PROCNI2(CC).EQ.LOC_PROC) THEN
+              IF(PROCNI2(CC)==LOC_PROC) THEN
                 SBUF(L)   = FSKYI2(1,CC)
                 SBUF(L+1) = FSKYI2(2,CC)
                 SBUF(L+2) = FSKYI2(3,CC)
@@ -134,7 +134,7 @@ C
            DO J=IAD_I2M(I),IAD_I2M(I+1)-1
             NOD = FR_I2M(J)
             DO CC = ADDCNI2(NOD),ADDCNI2(NOD+1)-1
-              IF(PROCNI2(CC).EQ.LOC_PROC) THEN
+              IF(PROCNI2(CC)==LOC_PROC) THEN
                 SBUF(L)   = FSKYI2(1,CC)
                 SBUF(L+1) = FSKYI2(2,CC)
                 SBUF(L+2) = FSKYI2(3,CC)
@@ -148,11 +148,11 @@ C
            END DO
           ENDIF
          ELSE
-          IF(IRODDL.NE.0) THEN
+          IF(IRODDL/=0) THEN
            DO J=IAD_I2M(I),IAD_I2M(I+1)-1
             NOD = FR_I2M(J)
             DO CC = ADDCNI2(NOD),ADDCNI2(NOD+1)-1
-              IF(PROCNI2(CC).EQ.LOC_PROC) THEN
+              IF(PROCNI2(CC)==LOC_PROC) THEN
                 SBUF(L)   = FSKYI2(1,CC)
                 SBUF(L+1) = FSKYI2(2,CC)
                 SBUF(L+2) = FSKYI2(3,CC)
@@ -172,7 +172,7 @@ C
            DO J=IAD_I2M(I),IAD_I2M(I+1)-1
             NOD = FR_I2M(J)
             DO CC = ADDCNI2(NOD),ADDCNI2(NOD+1)-1
-              IF(PROCNI2(CC).EQ.LOC_PROC) THEN
+              IF(PROCNI2(CC)==LOC_PROC) THEN
                 SBUF(L)   = FSKYI2(1,CC)
                 SBUF(L+1) = FSKYI2(2,CC)
                 SBUF(L+2) = FSKYI2(3,CC)
@@ -186,11 +186,11 @@ C
           ENDIF
          ENDIF
        ELSE
-         IF(IRODDL.NE.0) THEN
+         IF(IRODDL/=0) THEN
           DO J=IAD_I2M(I),IAD_I2M(I+1)-1
             NOD = FR_I2M(J)
             DO CC = ADDCNI2(NOD),ADDCNI2(NOD+1)-1
-              IF(PROCNI2(CC).EQ.LOC_PROC) THEN
+              IF(PROCNI2(CC)==LOC_PROC) THEN
                 SBUF(L)   = FSKYI2(1,CC)
                 SBUF(L+1) = FSKYI2(2,CC)
                 SBUF(L+2) = FSKYI2(3,CC)
@@ -209,7 +209,7 @@ C
           DO J=IAD_I2M(I),IAD_I2M(I+1)-1
             NOD = FR_I2M(J)
             DO CC = ADDCNI2(NOD),ADDCNI2(NOD+1)-1
-              IF(PROCNI2(CC).EQ.LOC_PROC) THEN
+              IF(PROCNI2(CC)==LOC_PROC) THEN
                 SBUF(L)   = FSKYI2(1,CC)
                 SBUF(L+1) = FSKYI2(2,CC)
                 SBUF(L+2) = FSKYI2(3,CC)
@@ -245,12 +245,12 @@ C
         L = IAD_RECV(I)
         IF (INTTH2 == 1) THEN
          IF(IDT_THERM == 1) THEN                    
-          IF(IRODDL.NE.0) THEN
+          IF(IRODDL/=0) THEN
            DO J=IAD_I2M(I),IAD_I2M(I+1)-1
             NOD = FR_I2M(J)
 #include "scalar.inc"
             DO CC = ADDCNI2(NOD), ADDCNI2(NOD+1)-1
-              IF(PROCNI2(CC).EQ.I) THEN
+              IF(PROCNI2(CC)==I) THEN
                 FSKYI2(1,CC) = RBUF(L)
                 FSKYI2(2,CC) = RBUF(L+1)
                 FSKYI2(3,CC) = RBUF(L+2)
@@ -272,7 +272,7 @@ C
             NOD = FR_I2M(J)
 #include "scalar.inc"
             DO CC = ADDCNI2(NOD), ADDCNI2(NOD+1)-1
-              IF(PROCNI2(CC).EQ.I) THEN
+              IF(PROCNI2(CC)==I) THEN
                 FSKYI2(1,CC) = RBUF(L)
                 FSKYI2(2,CC) = RBUF(L+1)
                 FSKYI2(3,CC) = RBUF(L+2)
@@ -286,12 +286,12 @@ C
            END DO
           END IF
          ELSE
-          IF(IRODDL.NE.0) THEN
+          IF(IRODDL/=0) THEN
            DO J=IAD_I2M(I),IAD_I2M(I+1)-1
             NOD = FR_I2M(J)
 #include "scalar.inc"
             DO CC = ADDCNI2(NOD), ADDCNI2(NOD+1)-1
-              IF(PROCNI2(CC).EQ.I) THEN
+              IF(PROCNI2(CC)==I) THEN
                 FSKYI2(1,CC) = RBUF(L)
                 FSKYI2(2,CC) = RBUF(L+1)
                 FSKYI2(3,CC) = RBUF(L+2)
@@ -312,7 +312,7 @@ C
             NOD = FR_I2M(J)
 #include "scalar.inc"
             DO CC = ADDCNI2(NOD), ADDCNI2(NOD+1)-1
-              IF(PROCNI2(CC).EQ.I) THEN
+              IF(PROCNI2(CC)==I) THEN
                 FSKYI2(1,CC) = RBUF(L)
                 FSKYI2(2,CC) = RBUF(L+1)
                 FSKYI2(3,CC) = RBUF(L+2)
@@ -326,12 +326,12 @@ C
           END IF
          ENDIF
        ELSE
-         IF(IRODDL.NE.0) THEN
+         IF(IRODDL/=0) THEN
           DO J=IAD_I2M(I),IAD_I2M(I+1)-1
             NOD = FR_I2M(J)
 #include "scalar.inc"
             DO CC = ADDCNI2(NOD), ADDCNI2(NOD+1)-1
-              IF(PROCNI2(CC).EQ.I) THEN
+              IF(PROCNI2(CC)==I) THEN
                 FSKYI2(1,CC) = RBUF(L)
                 FSKYI2(2,CC) = RBUF(L+1)
                 FSKYI2(3,CC) = RBUF(L+2)
@@ -351,7 +351,7 @@ C
             NOD = FR_I2M(J)
 #include "scalar.inc"
             DO CC = ADDCNI2(NOD), ADDCNI2(NOD+1)-1
-              IF(PROCNI2(CC).EQ.I) THEN
+              IF(PROCNI2(CC)==I) THEN
                 FSKYI2(1,CC) = RBUF(L)
                 FSKYI2(2,CC) = RBUF(L+1)
                 FSKYI2(3,CC) = RBUF(L+2)

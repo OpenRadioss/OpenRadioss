@@ -84,11 +84,11 @@ C--------------------------------------------
       IF(ITYP == 117) ITYP = 7
 
 C decalage IH
-      DO WHILE((ITHBUF(IH+NN).NE.ISPMD).AND.(IH.LT.IADB+NN))
+      DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.(IH<IADB+NN))
           IH = IH + 1
         ENDDO
 C----
-        IF (IH.GE.IADB+NN) GOTO 666 
+        IF (IH>=IADB+NN) GOTO 666 
 C----
 c
       DO NG=1,NGROUP
@@ -109,7 +109,7 @@ C
                 IF (IMACH==3) THEN
 C recherche du ii correct
                     II = ((IH-1) - IADB)*NVAR
-                    DO WHILE((ITHBUF(IH+NN).NE.ISPMD).AND.(IH.LT.IADB+NN))
+                    DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.(IH<IADB+NN))
                         IH = IH + 1
                     ENDDO
                 ENDIF

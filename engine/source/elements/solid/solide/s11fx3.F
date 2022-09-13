@@ -66,14 +66,14 @@ C-----------------------------------------------
              IAD2 = ALE_CONNECT%ee_connect%iad_connect(I + NFT)
             DO K=1,6
             JJ = ALE_CONNECT%ee_connect%connected(IAD2 + K - 1)
-            IF(JJ.GT.0)THEN         ! negatif si ebcs
+            IF(JJ>0)THEN         ! negatif si ebcs
               J = IXS(1,JJ)
-              IF(NINT(PM(50,J)).EQ.8)THEN
+              IF(NINT(PM(50,J))==8)THEN
                 !TEST LAW11
-                IF(NINT(PM(19,J)).EQ.11)THEN
+                IF(NINT(PM(19,J))==11)THEN
                     FLUX(K,I) = MAX(FLUX(K,I),ZERO)
                 !TEST LAW51 IFORM=3
-                ELSEIF(NINT(PM(19,J)).EQ.51)THEN
+                ELSEIF(NINT(PM(19,J))==51)THEN
                   IADBUF = NINT(PM(27,J))
                   IFLG   = NINT(BUFMAT(31+IADBUF-1))
                   IF (IFLG == 6)THEN

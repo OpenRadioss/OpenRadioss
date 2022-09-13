@@ -96,22 +96,22 @@ C-----------------------------------------------
 C-----------------------------------------------
 C SUPPRESSION DES ANCIENS CANDIDATS DEJA STOCKES (PENE INITIALE)
 C-----------------------------------------------
-C     IF(INACTI.EQ.5)THEN
+C     IF(INACTI==5)THEN
         DO I=1,J_STOK
 C         DEBUG_E2E(PROV_IDS(2,I)==D_ES.AND.PROV_IDS(1,I)==D_EM, PENE(I))
 
-          IF(PENE(I).NE.ZERO)THEN
+          IF(PENE(I)/=ZERO)THEN
             N  = PROV_S(I)
             NE = PROV_M(I)
 
-C           IF(N.GT.NEDGE) THEN
+C           IF(N>NEDGE) THEN
 C numerotation tris precedent pour les noeuds non locaux (SPMD)
 C              N = OLDNUM(N-NEDGE)+NEDGE
-C              IF(N.EQ.NEDGE) N = NEDGE+NEDGEROLD+1
+C              IF(N==NEDGE) N = NEDGE+NEDGEROLD+1
 C           END IF
 
 C           DEBUG_E2E(PROV_IDS(2,I)==D_ES.AND.PROV_IDS(1,I)==D_EM, N)
-            IF(N.GT.NEDGE) THEN
+            IF(N>NEDGE) THEN
 C numerotation tris precedent pour les noeuds non locaux (SPMD)
 C             DEBUG_E2E(PROV_IDS(2,I)==D_ES.AND.PROV_IDS(1,I)==D_EM, OLDNUM_EDGE(N-NEDGE))
               N = OLDNUM_EDGE(N-NEDGE)+NEDGE
@@ -122,8 +122,8 @@ C           DEBUG_E2E(PROV_IDS(2,I)==D_ES.AND.PROV_IDS(1,I)==D_EM, N)
 
             ASSERT(N > 0)
             J = CAND_A(N)
-            DO WHILE(J.LE.CAND_A(N+1)-1)
-              IF(CAND_M(J).EQ.NE)THEN
+            DO WHILE(J<=CAND_A(N+1)-1)
+              IF(CAND_M(J)==NE)THEN
                 PENE(I)=ZERO
                 J=CAND_A(N+1)
 C               DEBUG_E2E(PROV_IDS(2,I)==D_ES.AND.PROV_IDS(1,I)==D_EM, J)
@@ -139,15 +139,15 @@ C     ENDIF
 C-----------------------------------------------
       K_STOK = 0
       DO I=1,J_STOK
-          IF(PENE(I).NE.ZERO) THEN
+          IF(PENE(I)/=ZERO) THEN
             K_STOK = K_STOK + 1
           END IF 
       ENDDO
-      IF(K_STOK.EQ.0)RETURN
+      IF(K_STOK==0)RETURN
 C
 #include "lockon.inc"
       I_STOK = II_STOK
-      IF(I_STOK+K_STOK.GT.MULNSN) THEN
+      IF(I_STOK+K_STOK>MULNSN) THEN
             I_MEM = 2
 #include "lockoff.inc"
             RETURN
@@ -157,7 +157,7 @@ C
 C     IF(INACTI==5)THEN
         DO I=1,J_STOK
           DEBUG_E2E(PROV_IDS(2,I)==D_ES.AND.PROV_IDS(1,I)==D_EM,PENE(I))
-          IF(PENE(I).NE.ZERO)THEN
+          IF(PENE(I)/=ZERO)THEN
             ASSERT(PROV_S(I) > 0)
             ASSERT(PROV_S(I) <= NEDGE + NEDGE_REMOTE)
 C           DEBUG_E2E(PROV_IDS(2,I)==D_ES.AND.PROV_IDS(1,I)==D_EM, I_STOK)
@@ -179,7 +179,7 @@ C           DEBUG_E2E(PROV_IDS(2,I)==D_ES.AND.PROV_IDS(1,I)==D_EM, I_STOK)
         ENDDO
 C     ELSE
 C       DO I=1,J_STOK
-C         IF(PENE(I).NE.ZERO)THEN
+C         IF(PENE(I)/=ZERO)THEN
 C           I_STOK = I_STOK + 1
 C           CAND_S(I_STOK) = PROV_S(I)
 C           CAND_M(I_STOK) = PROV_M(I)

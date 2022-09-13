@@ -693,9 +693,9 @@ C-----------------------------
        D  = HALF*(FOR(I,1)-FOR(I,2))
        R  = SQRT(FOR(I,3)*FOR(I,3) + D*D)
        P1 = S - R
-       IF(P1.LT.ZERO)THEN
+       IF(P1<ZERO)THEN
          P2 = S + R
-         IF(P2.GT.ZERO)THEN
+         IF(P2>ZERO)THEN
            BETA = HALF*((ONE-DE(I))*S/R + ONE+DE(I))
            FOR(I,1)=BETA*(FOR(I,1)-P2) + P2
            FOR(I,2)=BETA*(FOR(I,2)-P2) + P2
@@ -879,11 +879,11 @@ C-------------------------------------------------------------
       DO I=JFT,JLT
         DELT(I)=((GSTR(I,1)+GSTR(I,2))*(GSTR(I,1)+GSTR(I,2)))-FOUR*
      .   (GSTR(I,1)*GSTR(I,2)-FOURTH*GSTR(I,3)*GSTR(I,3))
-       IF(DELT(I).GE.ZERO)THEN
+       IF(DELT(I)>=ZERO)THEN
          X1(I) = (GSTR(I,1)+GSTR(I,2)-SQRT(DELT(I)))/TWO
          X2(I) = (GSTR(I,1)+GSTR(I,2)+SQRT(DELT(I)))/TWO
-         IF((X1(I).GT.ZERO.AND.(X1(I).GT.EM10)).OR.(X2(I).GT.ZERO
-     .    .AND.(X2(I).GT.EM10)))THEN
+         IF((X1(I)>ZERO.AND.(X1(I)>EM10)).OR.(X2(I)>ZERO
+     .    .AND.(X2(I)>EM10)))THEN
            IF(IPRI == 5) THEN
              CALL ANCMSG(MSGID=607,
      .                   MSGTYPE=MSGWARNING,

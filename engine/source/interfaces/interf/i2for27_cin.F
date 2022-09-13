@@ -81,14 +81,14 @@ C     REAL
      .   MXS,MYS,MZS,STIFMR,DWDU,RM(3),BETAX,BETAY,H2(4),MXI,MYI,MZI
 C=======================================================================
       NIR=2
-      IF(N2D.EQ.0)NIR=4
+      IF(N2D==0)NIR=4
 C
-      IF(IMPL_S.GT.0) THEN
+      IF(IMPL_S>0) THEN
       DO II=1,NSN
        K = INDXC(II)
        IF (K == 0) CYCLE
        I = NSV(K)
-       IF(I.GT.0)THEN
+       IF(I>0)THEN
         L=IRTL(II)
 C
         XMSI=MS(I)*WEIGHT(I)
@@ -330,8 +330,8 @@ C---    output of tied contact forces
      .	              IRECT(1,L),H	,NIR     ,FSAV    ,FNCONT ,
      .                FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)
 C      
-        IF(IRODDL.EQ.0)THEN
-          IF(IDEL2.NE.0.AND.MS(I).NE.0.)SMASS(II)=MS(I)
+        IF(IRODDL==0)THEN
+          IF(IDEL2/=0.AND.MS(I)/=0.)SMASS(II)=MS(I)
           MS(I)=ZERO
           STIFN(I)=EM20
           A(1,I)=ZERO
@@ -350,7 +350,7 @@ c
        K = INDXC(II)
        IF (K == 0) CYCLE
        I = NSV(K)
-       IF(I.GT.0)THEN
+       IF(I>0)THEN
         L=IRTL(II)
 C
         XMSI=MS(I)*WEIGHT(I)
@@ -597,8 +597,8 @@ C---    output of tied contact forces
      .	              IRECT(1,L),H	,NIR     ,FSAV    ,FNCONT ,
      .                FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)
 C
-        IF(IRODDL.EQ.0)THEN
-          IF(IDEL2.NE.0.AND.MS(I).NE.0.) SMASS(II)=MS(I)
+        IF(IRODDL==0)THEN
+          IF(IDEL2/=0.AND.MS(I)/=0.) SMASS(II)=MS(I)
           MS(I)=ZERO
           STIFN(I)=EM20
           A(1,I)=ZERO

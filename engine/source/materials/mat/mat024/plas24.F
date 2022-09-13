@@ -183,7 +183,7 @@ c--------------------
           ROK = ROK0+ROB(I)-RO0
           R2  = S1(I)**2+S2(I)**2+S3(I)**2
      .        + TWO*S4(I)**2+TWO*S5(I)**2+TWO*S6(I)**2
-          IF (SM(I) .GE. RT-TOL)THEN
+          IF (SM(I) >= RT-TOL)THEN
             VK(I)=ONE
           ELSEIF (SM(I) > RC) THEN
             VK(I)=ONE +(ONE-VK0(I))*(RCT1-TWO*RC*SM(I)+SM(I)**2)/RCT2
@@ -220,7 +220,7 @@ C                       B2:1/CONT**2  DFDTO:ADIM  DRFDSM:ADIM DKDSM:1/CONT
 C . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 C PRINCIPALES DERIVEES
           SM(I) = MAX(ROB(I),SM(I))
-          IF(SM(I) .GE. RT-TOL)THEN
+          IF(SM(I) >= RT-TOL)THEN
             DKDSM =ZERO
           ELSEIF(SM(I)>RC)THEN
             DKDSM = TWO*(ONE -VK0(I))*(SM(I)-RC)/RCT2
@@ -271,7 +271,7 @@ C PLASTICITE VOLUMIQUE COMPACTANCE/DILATANCE
             IF (B0 < -EM02) ALPHA = MIN(ALPHA,-ZEP4/B0)
             IF (B0 > EM02)  ALPHA = MAX(ALPHA,-ZEP4/B0)
           ENDIF
-          IF (EINT(I).LE.ZERO) ALPHA=ZERO
+          IF (EINT(I)<=ZERO) ALPHA=ZERO
 c         AJOUT DILATANCE PLASTIQUE MAX fp 09/16 
           IF (RHO(I) < RHO0) ALPHA = ZERO
           IF (AJJ > EM3*FC) THEN                 
@@ -307,7 +307,7 @@ c
             PHI  = (ALPHA*THREE*SM(I)+AJJ)
             DFDTO1=B0-SQRT(TWO_THIRD)
             DFDTO2=THREE*B0
-            IF(DFDTO1.LE.DFDTO2)THEN
+            IF(DFDTO1<=DFDTO2)THEN
               TO=SQR3_2*VK(I)*RF
               DFDTO=DFDTO1
             ELSE
@@ -318,8 +318,8 @@ c
           ELSE
             DFDTO1=B0-SQRT(TWO_THIRD)
             DFDTO2=THREE*B0
-C            IF(DFDTO2.GE.ZERO)THEN
-            IF(DFDTO1.LE.DFDTO2)THEN
+C            IF(DFDTO2>=ZERO)THEN
+            IF(DFDTO1<=DFDTO2)THEN
               TO=SQR3_2*VK(I)*RF
               PHI  = (ALPHA*THREE*SM(I)+AJJ)/TO
               DFDTO=DFDTO1

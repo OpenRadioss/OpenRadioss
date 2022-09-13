@@ -142,7 +142,7 @@ C
 
       ENDDO
 
-      IF(IGAP.EQ.0)THEN
+      IF(IGAP==0)THEN
        DO I=1,JLT
          GAPV(I)=GAP
        ENDDO
@@ -212,7 +212,7 @@ C     MAIN TEMPERATURE
                   TEMP4 = NMTEMP(NIN)%P(-ND)
                ENDIF
 C
-               IF(IX3(I).NE.IX4(I))THEN
+               IF(IX3(I)/=IX4(I))THEN
                  TEMP0 = FOURTH*(TEMP1+TEMP2+TEMP3+TEMP4) 
                ELSE
                  TEMP0 = TEMP3 
@@ -238,7 +238,7 @@ C
 
       IF(IFORM==1)THEN 
         DO I=1,JLT
-          IF(IX3(I).NE.IX4(I))THEN
+          IF(IX3(I)/=IX4(I))THEN
 C
            IF(ITRIA(I)==1.OR.ITRIA(I)==-1)THEN
              H1(I) = LB(I) + LA(I)/4
@@ -430,7 +430,7 @@ C
       END IF
 C
        DO I=1,JLT
-        IF(IX3(I).NE.IX4(I))THEN
+        IF(IX3(I)/=IX4(I))THEN
          X0(I) = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
          Y0(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
          Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I)) 
@@ -596,7 +596,7 @@ C
           TOL =  GAPV(I) + TOLFIX
           IF(IFPEN(CAND_N(I))==1)THEN
 C check if penetrations are important at 1st impact => detect if normals are inverted GAPV+DEPTH-0.01*DEPTH <= PENE <= GAPV+DEPTH
-             IF(PENE(I).GT.TOL.AND.STIF(I).GT.ZERO) THEN
+             IF(PENE(I)>TOL.AND.STIF(I)>ZERO) THEN
 #include "lockon.inc"
                WRITE(IOUT,'(A,I10,A)')
      .            ' **CONTACT PROBLEM IN INTERFACE ',NOINT,'**'
@@ -632,7 +632,7 @@ C
         FZT(I)=FTZSAV(CAND_N(I))
       END DO
 C
-      IF(IADM.NE.0)THEN
+      IF(IADM/=0)THEN
         DO I=1,JLT
          L  = CAND_E(I)
          RCURVI(I)=RCURV(L)/NRADM
@@ -646,7 +646,7 @@ C
         ENDDO
         IF(IDTMINS_INT/=0)THEN
           DO I=1,JLT
-           IF(NSMS(I).EQ.0)NSMS(I)=-1
+           IF(NSMS(I)==0)NSMS(I)=-1
           ENDDO
         END IF
       ELSEIF(IDTMINS_INT/=0)THEN

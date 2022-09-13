@@ -58,7 +58,7 @@ C-----------------------------------------------
      .         II(8), N5, N6, N7, N8, K3
       DATA POWER2/1,2,4,8,16,32,64,128/
 C-----------------------------------------------
-      IF (NSECT.GT.0) THEN
+      IF (NSECT>0) THEN
         K0 = NSTRF(25)
         DO I=1,NSECT
           K5=K0+30+NSTRF(K0+14)+NSTRF(K0+6)
@@ -66,24 +66,24 @@ C-----------------------------------------------
           NSEGC = NSTRF(K0+9)
           DO J=1,NSEGC
             KK = K5+2*(J-1)+1
-            IF(NSTRF(KK).NE.0) NESCT = NESCT + 1
+            IF(NSTRF(KK)/=0) NESCT = NESCT + 1
           ENDDO
           K9=K5+2*NSTRF(K0+9) +2*NSTRF(K0+10)
      1         +2*NSTRF(K0+11)+2*NSTRF(K0+12)
           NSEGTG = NSTRF(K0+13)
           DO J=1,NSEGTG
             KK = K9+2*(J-1)+1
-            IF(NSTRF(KK).NE.0) NESCT = NESCT + 1
+            IF(NSTRF(KK)/=0) NESCT = NESCT + 1
           ENDDO
           K3=K0+30+NSTRF(K0+14)+NSTRF(K0+6)
           NSEGS=NSTRF(K0+7)
 
-          IF(NSEGS.NE.0) NESCT = NESCT + 1
+          IF(NSEGS/=0) NESCT = NESCT + 1
 
           DO J=1,NSEGS
             KK=K3+2*(J-1)
             IPACK=NSTRF(KK+1)
-            IF(IPACK.NE.0)THEN
+            IF(IPACK/=0)THEN
               N =NSTRF(KK)
               II(1)=IXS(2,N)
               II(2)=IXS(3,N)
@@ -93,19 +93,19 @@ C-----------------------------------------------
               II(6)=IXS(7,N)
               II(7)=IXS(8,N)
               II(8)=IXS(9,N)
-              IF(     II(2).EQ.II(1).AND.II(4).EQ.II(3)
-     .           .AND.II(8).EQ.II(5).AND.II(7).EQ.II(6))THEN
+              IF(     II(2)==II(1).AND.II(4)==II(3)
+     .           .AND.II(8)==II(5).AND.II(7)==II(6))THEN
                 N1=MOD(IPACK/POWER2(1),2)
                 N2=MOD(IPACK/POWER2(3),2)
                 N3=MOD(IPACK/POWER2(5),2)
                 N4=MOD(IPACK/POWER2(6),2)
-                IF(N1.NE.0.AND.N2.NE.0.AND.N3.NE.0)
+                IF(N1/=0.AND.N2/=0.AND.N3/=0)
      .             NESCT = NESCT + 1
-                IF(N1.NE.0.AND.N2.NE.0.AND.N4.NE.0)
+                IF(N1/=0.AND.N2/=0.AND.N4/=0)
      .             NESCT = NESCT + 1
-                IF(N2.NE.0.AND.N3.NE.0.AND.N4.NE.0)
+                IF(N2/=0.AND.N3/=0.AND.N4/=0)
      .             NESCT = NESCT + 1
-                IF(N3.NE.0.AND.N1.NE.0.AND.N4.NE.0)
+                IF(N3/=0.AND.N1/=0.AND.N4/=0)
      .             NESCT = NESCT + 1
               ELSE
                 N1=MOD(IPACK/POWER2(1),2)
@@ -116,17 +116,17 @@ C-----------------------------------------------
                 N6=MOD(IPACK/POWER2(6),2)
                 N7=MOD(IPACK/POWER2(7),2)
                 N8=MOD(IPACK/POWER2(8),2)
-                IF(N1.NE.0.AND.N2.NE.0.AND.N3.NE.0.AND.N4.NE.0)
+                IF(N1/=0.AND.N2/=0.AND.N3/=0.AND.N4/=0)
      .             NESCT = NESCT + 1
-                IF(N5.NE.0.AND.N6.NE.0.AND.N7.NE.0.AND.N8.NE.0)
+                IF(N5/=0.AND.N6/=0.AND.N7/=0.AND.N8/=0)
      .             NESCT = NESCT + 1
-                IF(N1.NE.0.AND.N5.NE.0.AND.N6.NE.0.AND.N2.NE.0)
+                IF(N1/=0.AND.N5/=0.AND.N6/=0.AND.N2/=0)
      .             NESCT = NESCT + 1
-                IF(N4.NE.0.AND.N8.NE.0.AND.N7.NE.0.AND.N3.NE.0)
+                IF(N4/=0.AND.N8/=0.AND.N7/=0.AND.N3/=0)
      .             NESCT = NESCT + 1
-                IF(N1.NE.0.AND.N4.NE.0.AND.N8.NE.0.AND.N5.NE.0)
+                IF(N1/=0.AND.N4/=0.AND.N8/=0.AND.N5/=0)
      .             NESCT = NESCT + 1
-                IF(N2.NE.0.AND.N3.NE.0.AND.N7.NE.0.AND.N6.NE.0)
+                IF(N2/=0.AND.N3/=0.AND.N7/=0.AND.N6/=0)
      .             NESCT = NESCT + 1
               END IF
             END IF
@@ -142,21 +142,21 @@ C
          N4=N3+NRWALL
          ITYP= NPRW(N4)
 
-         IF(IABS(ITYP).EQ.1)THEN
+         IF(IABS(ITYP)==1)THEN
             NERWL = NERWL + 1 + 1
             NNWL = NNWL + 4
-         ELSEIF(ITYP.EQ.2)THEN
+         ELSEIF(ITYP==2)THEN
             NERWL = NERWL + 24 + 1
             NNWL = NNWL + 48
-         ELSEIF(ITYP.EQ.3)THEN
+         ELSEIF(ITYP==3)THEN
             NERWL = NERWL + 216 + 1
             NNWL = NNWL + 294
-         ELSEIF(ITYP.EQ.4)THEN
+         ELSEIF(ITYP==4)THEN
             NERWL = NERWL + 1 + 1
             NNWL = NNWL + 4
          ENDIF
          K=K+NPRW(N)
-         IF(NPRW(N4).EQ.-1)K=K+NINT(RWBUF(8,N))
+         IF(NPRW(N4)==-1)K=K+NINT(RWBUF(8,N))
       ENDDO
 C
       NESBW = NESCT + NERWL

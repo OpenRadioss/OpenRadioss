@@ -212,7 +212,7 @@ C
      6               IREP,NPT,ISMSTR,
      7               DIR_A,DIR_B,PID,MAT,NGL,NPLAT,IPLAT ,
      8               CORELV,OFF,THKE,NEL)
-       IF (IKPROJ.GT.0.OR.IDRIL.GT.0) THEN
+       IF (IKPROJ>0.OR.IDRIL>0) THEN
         DO I=1,3 
         DO J=1,3 
         DO EP=JFT,JLT 
@@ -247,7 +247,7 @@ C
         ENDDO
        ENDIF
 C
-      IF (IREP.GT.0) THEN
+      IF (IREP>0) THEN
        CALL CMATC3(JFT    ,JLT       ,PM     ,MAT     ,GEO      ,
      1             PID    ,AREA      ,THK0   ,THK2    ,GBUF%THK ,
      2             THKE   ,VOL       ,MTN    ,NPT     ,ITHK     ,
@@ -355,7 +355,7 @@ C--------------------------
      A               M11,M12,M13,M14,M22,M23,M24,M33,M34,M44,
      B               MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33, 
      C               MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34) 
-       IF (IDRIL.GT.0) THEN
+       IF (IDRIL>0) THEN
          CALL CZBER3(JFT ,JLT  ,AREA ,A_I  ,X13  ,
      1               X24  ,Y13  ,Y24  ,MX13 ,MX23 ,
      2               MX34 ,MY13 ,MY23 ,MY34 ,Z1   ,
@@ -378,7 +378,7 @@ C--------------------------
 C     3. PARTIE HOURGLASS
 C--------------------------
       GOTO 100
-      IF (MTN.EQ.19.OR.MTN.EQ.15.OR.MTN.EQ.25) THEN
+      IF (MTN==19.OR.MTN==15.OR.MTN==25) THEN
 C-----------keep isotropic for hourglass part (36 to avoid A12=0 for LAW25)------------
        IBID=36      
        CALL CMATC3(JFT    ,JLT       ,PM     ,MAT     ,GEO      ,
@@ -399,7 +399,7 @@ C-----------keep isotropic for hourglass part (36 to avoid A12=0 for LAW25)-----
      7           MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33, 
      8           MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34,
      9           IDRIL )
-       IF (IDRIL.GT.0) THEN
+       IF (IDRIL>0) THEN
          CALL CZLKENR3(JFT ,JLT  ,VOL  ,THK0 ,THK2 ,
      2                 HM  ,HZ   ,A_I  ,PX1  ,PX2  ,
      3                 PY1  ,PY2  ,HXX  ,HYY  ,HXY  ,
@@ -411,7 +411,7 @@ C-----------keep isotropic for hourglass part (36 to avoid A12=0 for LAW25)-----
      9           PHKRX,PHKRY,PHKRXY,PHERX,PHERY,PHERXY,
      A           PHKRZ,PHERZ,PHKX ,PHKY ,PHEX ,PHEY  ) 
        ENDIF
-       IF (IKGEO .EQ.1) 
+       IF (IKGEO ==1) 
      .  CALL CZLKECG3(JFT ,JLT   ,VOL  ,THK0 ,THK2 ,
      1               PX1  ,PX2  ,PY1   ,PY2  ,RX   ,
      2               RY   ,SX    ,SY   ,RX2  ,RY2  ,

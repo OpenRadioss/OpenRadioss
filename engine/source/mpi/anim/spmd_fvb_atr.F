@@ -67,8 +67,8 @@ C
       ELOFF=0
       DO I=1,NFVBAG
          PMAIN=FVSPMD(I)%PMAIN
-         IF (ISPMD.EQ.0) THEN
-            IF (ISPMD.EQ.PMAIN-1) THEN
+         IF (ISPMD==0) THEN
+            IF (ISPMD==PMAIN-1) THEN
                ALLOCATE(ITAGT(FVDATA(I)%NNTR))
                II=0
                DO J=1,FVDATA(I)%NNTR
@@ -82,7 +82,7 @@ C
                      DO N=FVDATA(I)%IFVTADR_ANIM(KK),
      .                         FVDATA(I)%IFVTADR_ANIM(KK+1)-1
                         NN=FVDATA(I)%IFVPOLY_ANIM(N)
-                        IF (ITAGT(NN).EQ.1) CYCLE
+                        IF (ITAGT(NN)==1) CYCLE
                         INOD(1)=FVOFF(1,I)+FVDATA(I)%IFVTRI_ANIM(1,NN)-1
                         INOD(2)=FVOFF(1,I)+FVDATA(I)%IFVTRI_ANIM(2,NN)-1
                         INOD(3)=FVOFF(1,I)+FVDATA(I)%IFVTRI_ANIM(3,NN)-1
@@ -90,10 +90,10 @@ C
                         II=II+1
 C Nombre de noeuds distincts de la coque (apres fusion dans FVMESH)
                         NND=1
-                        IF (INOD(2).NE.INOD(1)) NND=NND+1
-                        IF (INOD(3).NE.INOD(1).AND.
-     .                      INOD(3).NE.INOD(2)) NND=NND+1
-                        IF (NND.NE.3) THEN
+                        IF (INOD(2)/=INOD(1)) NND=NND+1
+                        IF (INOD(3)/=INOD(1).AND.
+     .                      INOD(3)/=INOD(2)) NND=NND+1
+                        IF (NND/=3) THEN
                            INOD(1)=NBID1-1
                            INOD(2)=NBID2-1
                            INOD(3)=NBID3-1
@@ -129,10 +129,10 @@ C
 C
 C Nombre de noeuds distincts de la coque (apres fusion dans FVMESH)
                   NND=1
-                  IF (INOD(2).NE.INOD(1)) NND=NND+1
-                  IF (INOD(3).NE.INOD(1).AND.
-     .                INOD(3).NE.INOD(2)) NND=NND+1
-                  IF (NND.NE.3) THEN
+                  IF (INOD(2)/=INOD(1)) NND=NND+1
+                  IF (INOD(3)/=INOD(1).AND.
+     .                INOD(3)/=INOD(2)) NND=NND+1
+                  IF (NND/=3) THEN
                      INOD(1)=NBID1-1
                      INOD(2)=NBID2-1
                      INOD(3)=NBID3-1
@@ -149,7 +149,7 @@ C
                DEALLOCATE(IBUF)
             ENDIF
          ELSE
-            IF (ISPMD.EQ.PMAIN-1) THEN
+            IF (ISPMD==PMAIN-1) THEN
                ITAG=MSGOFF
                CALL MPI_SEND(FVDATA(I)%NNTR, 1, MPI_INTEGER,
      .                       IT_SPMD(1), ITAG, MPI_COMM_WORLD,
@@ -173,7 +173,7 @@ C
                      DO N=FVDATA(I)%IFVTADR_ANIM(KK),
      .                         FVDATA(I)%IFVTADR_ANIM(KK+1)-1
                         NN=FVDATA(I)%IFVPOLY_ANIM(N)
-                        IF (ITAGT(NN).EQ.1) CYCLE
+                        IF (ITAGT(NN)==1) CYCLE
                         INOD(1)=FVDATA(I)%IFVTRI_ANIM(1,NN)-1
                         INOD(2)=FVDATA(I)%IFVTRI_ANIM(2,NN)-1
                         INOD(3)=FVDATA(I)%IFVTRI_ANIM(3,NN)-1

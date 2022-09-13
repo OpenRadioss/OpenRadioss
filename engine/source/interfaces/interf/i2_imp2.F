@@ -69,13 +69,13 @@ C-----------------------------------------------
       ILEV  =IPARI(20)
 C
 C  version spmd avec plus d'un proc nsn = nsn_loc & nmn = nmn_loc
-c      IF (IMACH.EQ.3.AND.NSPMD.GT.1) THEN
+c      IF (IMACH==3.AND.NSPMD>1) THEN
 c        NSN = IPARI(16)
 c        NMN = IPARI(18)
 c      ENDIF
 C
-      IF(ILEV.EQ.1)THEN
-        if( IMP_LR .GT. 0)THEN
+      IF(ILEV==1)THEN
+        if( IMP_LR > 0)THEN
           CALL I2RECU2(NSN       ,NMN       ,INTBUF_TAB%IRECTM,
      1      INTBUF_TAB%DPARA,INTBUF_TAB%MSR,INTBUF_TAB%NSV,
      .      INTBUF_TAB%IRTLM,
@@ -152,7 +152,7 @@ C
         TT = MAX(NUN,TT)
        SP=ONE + SS
        SM=ONE - SS
-       IF (IRECT(3,L).EQ.IRECT(4,L)) THEN
+       IF (IRECT(3,L)==IRECT(4,L)) THEN
          NIR=3
          TP=THIRD*(ONE + TT)
          TM=THIRD*(ONE - TT)
@@ -174,7 +174,7 @@ C
          ND = MAX(ND,NDOF(NJ))
        ENDDO
 C-------NDOF(M)> 3 comme rigid body---
-        IF (ND.EQ.6) THEN
+        IF (ND==6) THEN
          XS0=ZERO
          YS0=ZERO
          ZS0=ZERO
@@ -197,7 +197,7 @@ C-------NDOF(M)> 3 comme rigid body---
          D(K,I)=D(K,I)+H(J)*D(K,NJ)
         ENDDO
        ENDDO 
-       IF (ND.EQ.6) THEN 
+       IF (ND==6) THEN 
         DO K =1,3
           DR(K,I)=ZERO
         ENDDO
@@ -207,7 +207,7 @@ C-------NDOF(M)> 3 comme rigid body---
           DR(K,I)=DR(K,I)+H(J)*DR(K,NJ)
          ENDDO
         ENDDO
-        IF( IMP_LR .GT. 0)THEN
+        IF( IMP_LR > 0)THEN
           CALL ZERO1(DS,3)
           LSM(1) = XS
           LSM(2) = YS
@@ -270,7 +270,7 @@ C------------------------------------
        DO K =1,3
         D(K,I)=ZERO
        ENDDO
-       IF (NDOF(I).GT.3) THEN
+       IF (NDOF(I)>3) THEN
         DO K =1,3
          DR(K,I)=ZERO
         ENDDO
@@ -282,7 +282,7 @@ C-------recupere salve dis : in function of main's translation--
           D(K,I)=D(K,I)+RJT(K,1,J,II)*D(1,NJ)+
      .           RJT(K,2,J,II)*D(2,NJ)+RJT(K,3,J,II)*D(3,NJ)
          ENDDO 
-         IF (NDOF(I).GT.3) THEN
+         IF (NDOF(I)>3) THEN
           DO K=1,3
            DR(K,I)=DR(K,I)+RJ(K,1,J,II)*D(1,NJ)+
      .           RJ(K,2,J,II)*D(2,NJ)+RJ(K,3,J,II)*D(3,NJ)
@@ -343,7 +343,7 @@ C------------------------------------
         YM(J)=X(2,NJ)
         ZM(J)=X(3,NJ)
        ENDDO 
-       IF(IRECT(3,L).EQ.IRECT(4,L)) THEN
+       IF(IRECT(3,L)==IRECT(4,L)) THEN
         NIRI=3
         XM(4)=ZERO
         YM(4)=ZERO
@@ -362,7 +362,7 @@ C----------------------------------------------------
        DO K =1,3
         D(K,I)=ZERO
        ENDDO
-       IF (NDOF(I).GT.3) THEN
+       IF (NDOF(I)>3) THEN
         DO K =1,3
          DR(K,I)=ZERO
         ENDDO
@@ -378,7 +378,7 @@ C-------recupere salve dis : in function of main's translation--
            DT(K) = DT(K) + FACM*D(K,NJ)
           END DO
           
-         IF (NDOF(I).GT.3) THEN
+         IF (NDOF(I)>3) THEN
           DO K=1,3
            DR(K,I)=DR(K,I)+RJ(K,1,J,II)*D(1,NJ)+
      .           RJ(K,2,J,II)*D(2,NJ)+RJ(K,3,J,II)*D(3,NJ)
@@ -547,7 +547,7 @@ C
         ND = MAX(ND,NDOF(NJ))
        ENDDO
 C-------NDOF(M)> 3 comme rigid body---
-        IF (ND.EQ.6) THEN
+        IF (ND==6) THEN
          XS0=ZERO
          YS0=ZERO
          ZS0=ZERO
@@ -571,7 +571,7 @@ C-------Update K(main node),B---
          D(K,I)=D(K,I)+H(J)*D(K,NJ)
         ENDDO
        ENDDO 
-       IF (ND.EQ.6) THEN 
+       IF (ND==6) THEN 
         DO K =1,3
           DR1(K)=ZERO
         ENDDO

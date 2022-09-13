@@ -100,9 +100,9 @@ C
          DWA(N)=ONE
          NVOIS1 =KXSP(4,N)
          NVOISS1=KXSP(6,N)
-         IF(KREDUCE(N)/=0.OR.NVOIS1+NVOISS1.GT.LVOISPH)THEN
+         IF(KREDUCE(N)/=0.OR.NVOIS1+NVOISS1>LVOISPH)THEN
 C
-           IF(NVOIS1+NVOISS1.GT.LVOISPH)THEN
+           IF(NVOIS1+NVOISS1>LVOISPH)THEN
              KREDUCE(N)=KREDUCE(N)+10
              LVOIRED = 1
            END IF
@@ -116,7 +116,7 @@ C
            NCAND=KXSP(5,N)+KXSP(7,N)
            DO K=1,NVOIS
              JNOD = IXSP(K,N)
-             IF(JNOD.GT.0)THEN
+             IF(JNOD>0)THEN
                M =NOD2SP(JNOD)
                XJ=X(1,JNOD)
                YJ=X(2,JNOD)
@@ -136,7 +136,7 @@ C
            END DO
            DO K=NVOIS+1,NCAND
              JK = IXSP(K,N)
-             IF(JK.GT.0)THEN
+             IF(JK>0)THEN
                NC=MOD(JK,NSPCOND+1)
                M=JK/(NSPCOND+1)
                JS=ISPSYM(NC,M)
@@ -210,7 +210,7 @@ C
 C         /---------------/
           CALL MY_BARRIER
 C         /---------------/
-          IF(ITASK.EQ.0) THEN
+          IF(ITASK==0) THEN
 c            CALL SPMD_GLOB_IMAX9(LVOIRED,1)
             CALL  SPMD_ALLGLOB_ISUM9(LVOIRED,1)
 C
@@ -240,7 +240,7 @@ C
 C
 C          on est forcement plus proche de la particule vraie que de la particule fantome
            JNOD = IXSP(NVOIS,N)
-           IF(JNOD.GT.0)THEN
+           IF(JNOD>0)THEN
              M =NOD2SP(JNOD)
              XJ=X(1,JNOD)
              YJ=X(2,JNOD)
@@ -263,7 +263,7 @@ C
        END DO
 C-------------------------------------------
  100    CONTINUE
-        IF(NSPCOND.EQ.0) THEN
+        IF(NSPCOND==0) THEN
           DO N = ITASK+1,NSPHR,NTHREAD
 C remise a zero du flag de reperage des cellules actives en spmd multiprocesseurs
             ISPHR(N) = 0
@@ -291,7 +291,7 @@ C
           NVOIS2=0
           DO J=1,NCAND
             JNOD=IXSP(J,N)
-            IF(JNOD.GT.0)THEN
+            IF(JNOD>0)THEN
               M=NOD2SP(JNOD)
               XJ=X(1,JNOD)
               YJ=X(2,JNOD)
@@ -299,7 +299,7 @@ C
               DD  =(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
               DMS =SPBUF(1,N)+SPBUF(1,M)
               DMS2=DMS*DMS
-              IF (KXSP(2,M).NE.0.AND.DD.LT.DMS2) THEN
+              IF (KXSP(2,M)/=0.AND.DD<DMS2) THEN
                 NVOIS1=NVOIS1+1
                 MWA(NVOIS1)=JNOD
               ELSE
@@ -314,7 +314,7 @@ C
               DD  =(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
               DMS =SPBUF(1,N)+XSPHR(2,NN)
               DMS2=DMS*DMS
-              IF (NINT(XSPHR(13,NN)).NE.0.AND.DD.LT.DMS2) THEN
+              IF (NINT(XSPHR(13,NN))/=0.AND.DD<DMS2) THEN
                 NVOIS1=NVOIS1+1
                 MWA(NVOIS1)=JNOD
                 ISPHR(NN) = 1          ! flag reperage cellule active          
@@ -336,7 +336,7 @@ C------------------
 C Tri des particules effectives suivant no particule pour conservation Parith/ON
           DO K = 1, NVOIS1
             JK = IXSP(K,N)
-            IF(JK.GT.0)THEN
+            IF(JK>0)THEN
               DVOIS(K) = KXSP(8,NOD2SP(JK))           ! ID particule stoke ds DVOIS
             ELSE
               DVOIS(K) = NINT(XSPHR(6,-JK))
@@ -365,7 +365,7 @@ C      Re-ordonne les particules fantomes.
           NVOISS2=0
           DO K=NVOIS2+1,NVOIS2+NVOISS
             JK=IXSP(K,N)
-            IF(JK.GT.0)THEN
+            IF(JK>0)THEN
              NC=MOD(JK,NSPCOND+1)
              M =JK/(NSPCOND+1)
              JS=ISPSYM(NC,M)
@@ -376,7 +376,7 @@ C      Re-ordonne les particules fantomes.
              DMS =DI+DJ
              DMS2=DMS*DMS
              DD=(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
-             IF (KXSP(2,M).NE.0.AND.DD.LT.DMS2) THEN
+             IF (KXSP(2,M)/=0.AND.DD<DMS2) THEN
               NVOISS1=NVOISS1+1
               MWA(NVOISS1)=JK
              ELSE
@@ -394,7 +394,7 @@ C      Re-ordonne les particules fantomes.
              DMS =DI+DJ
              DMS2=DMS*DMS
              DD=(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
-             IF (NINT(XSPHR(13,M)).NE.0.AND.DD.LT.DMS2) THEN
+             IF (NINT(XSPHR(13,M))/=0.AND.DD<DMS2) THEN
               NVOISS1=NVOISS1+1
               MWA(NVOISS1)=JK
              ELSE
@@ -413,7 +413,7 @@ C      Re-ordonne les particules fantomes.
 C Tri des particules symetriques suivant no particule pour conservation Parith/ON
           DO K = 1, NVOISS1
             JK = IXSP(NVOIS2+K,N)
-            IF(JK.GT.0)THEN
+            IF(JK>0)THEN
               M=JK/(NSPCOND+1)
               NC=MOD(JK,NSPCOND+1)
               DVOIS(K) = KXSP(8,M)            ! ID particule stoke ds DVOIS
@@ -439,19 +439,19 @@ cc              DVOIS(K) = KXSP(8,nod2sp(M))          ! ID particule stoke ds DV
           DO K=1,NVOISS1
            MWA(K) = JSTOR(JPERM(K))
           END DO
-          IF(NSPCOND.GT.1) THEN
+          IF(NSPCOND>1) THEN
 C Tri des particules symetriques suivant NSPCOND pour un meme no particule pour conservation Parith/ON
             M = NINT(DVOIS(1))
             NB = 1
             DO K = 2, NVOISS1
-              IF(NINT(DVOIS(K)).NE.M) THEN
-                IF(NB.GT.1)THEN
+              IF(NINT(DVOIS(K))/=M) THEN
+                IF(NB>1)THEN
                   JJ1 = K-NB
                   JJ2 = K-1
 C petit tri bulle
                   DO JJ = JJ1, JJ2-1
                     DO JJJ = JJ+1, JJ2
-                      IF(MWA(JJ).GT.MWA(JJJ))THEN
+                      IF(MWA(JJ)>MWA(JJJ))THEN
                         IAUX = MWA(JJ)
                         MWA(JJ) = MWA(JJJ)
                         MWA(JJJ) = IAUX
@@ -469,13 +469,13 @@ C petit tri bulle
               END IF 
             END DO
 C terminaison
-            IF(NB.GT.1)THEN
+            IF(NB>1)THEN
               JJ1 = NVOISS1-NB+1
               JJ2 = NVOISS1
 C petit tri bulle
               DO JJ = JJ1, JJ2-1
                 DO JJJ = JJ+1, JJ2
-                  IF(MWA(JJ).GT.MWA(JJJ))THEN
+                  IF(MWA(JJ)>MWA(JJJ))THEN
                     IAUX = MWA(JJ)
                     MWA(JJ) = MWA(JJJ)
                     MWA(JJJ) = IAUX
@@ -502,7 +502,7 @@ C--------------------------------------------
           NVOIS2=0
           DO J=1,NCAND
             JNOD=IXSP(J,N)
-            IF(JNOD.GT.0)THEN
+            IF(JNOD>0)THEN
               M=NOD2SP(JNOD)
               XJ=X(1,JNOD)
               YJ=X(2,JNOD)
@@ -510,7 +510,7 @@ C--------------------------------------------
               DD  =(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
               DMS =SPBUF(1,N)+SPBUF(1,M)
               DMS2=DMS*DMS
-              IF (KXSP(2,M).NE.0.AND.DD.LT.DMS2) THEN
+              IF (KXSP(2,M)/=0.AND.DD<DMS2) THEN
                 NVOIS1=NVOIS1+1
                 MWA(NVOIS1)=JNOD
               ELSE
@@ -525,7 +525,7 @@ C--------------------------------------------
               DD  =(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
               DMS =SPBUF(1,N)+XSPHR(2,NN)
               DMS2=DMS*DMS
-              IF (NINT(XSPHR(13,NN)).NE.0.AND.DD.LT.DMS2) THEN
+              IF (NINT(XSPHR(13,NN))/=0.AND.DD<DMS2) THEN
                 NVOIS1=NVOIS1+1
                 MWA(NVOIS1)=JNOD
                 ISPHR(NN) = 1          ! flag reperage cellule active          
@@ -559,7 +559,7 @@ C        Re-ordonne les particules fantomes.
           NVOISS2=0
           DO K=NVOIS2+1,NVOIS2+NVOISS
             JK=IXSP(K,N)
-            IF(JK.GT.0)THEN
+            IF(JK>0)THEN
              NC=MOD(JK,NSPCOND+1)
              M =JK/(NSPCOND+1)
              JS=ISPSYM(NC,M)
@@ -570,7 +570,7 @@ C        Re-ordonne les particules fantomes.
              DMS =DI+DJ
              DMS2=DMS*DMS
              DD=(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
-             IF (KXSP(2,M).NE.0.AND.DD.LT.DMS2) THEN
+             IF (KXSP(2,M)/=0.AND.DD<DMS2) THEN
               NVOISS1=NVOISS1+1
               MWA(NVOISS1)=JK
              ELSE
@@ -588,7 +588,7 @@ C        Re-ordonne les particules fantomes.
              DMS =DI+DJ
              DMS2=DMS*DMS
              DD=(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
-             IF (NINT(XSPHR(13,M)).NE.0.AND.DD.LT.DMS2) THEN
+             IF (NINT(XSPHR(13,M))/=0.AND.DD<DMS2) THEN
               NVOISS1=NVOISS1+1
               MWA(NVOISS1)=JK
              ELSE
@@ -619,7 +619,7 @@ C-----------------------------------------------
          NVOIS2=0
          DO J=1,NCAND
            JNOD=IXSP(J,N)
-           IF(JNOD.GT.0)THEN
+           IF(JNOD>0)THEN
              M=NOD2SP(JNOD)
              XJ=X(1,JNOD)
              YJ=X(2,JNOD)
@@ -627,7 +627,7 @@ C-----------------------------------------------
              DD  =(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
              DMS =TWO*SPBUF(1,M)
              DMS2=DMS*DMS
-             IF (KXSP(2,M).NE.0.AND.DD.LT.DMS2) THEN
+             IF (KXSP(2,M)/=0.AND.DD<DMS2) THEN
                NVOIS1=NVOIS1+1
                MWA(NVOIS1)=JNOD
              ELSE
@@ -642,7 +642,7 @@ C-----------------------------------------------
              DD  =(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
              DMS =TWO*XSPHR(2,NN)
              DMS2=DMS*DMS
-             IF (NINT(XSPHR(13,NN)).NE.0.AND.DD.LT.DMS2) THEN
+             IF (NINT(XSPHR(13,NN))/=0.AND.DD<DMS2) THEN
                NVOIS1=NVOIS1+1
                MWA(NVOIS1)=JNOD
                ISPHR(NN) = 1          ! flag reperage cellule active          
@@ -668,7 +668,7 @@ C        Re-ordonne les particules fantomes.
          NVOISS2=0
          DO K=NVOIS2+1,NVOIS2+NVOISS
            JK=IXSP(K,N)
-           IF(JK.GT.0)THEN
+           IF(JK>0)THEN
             NC=MOD(JK,NSPCOND+1)
             M =JK/(NSPCOND+1)
             JS=ISPSYM(NC,M)
@@ -679,7 +679,7 @@ C        Re-ordonne les particules fantomes.
             DMS =TWO*DJ
             DMS2=DMS*DMS
             DD=(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
-            IF (KXSP(2,M).NE.0.AND.DD.LT.DMS2) THEN
+            IF (KXSP(2,M)/=0.AND.DD<DMS2) THEN
              NVOISS1=NVOISS1+1
              MWA(NVOISS1)=JK
             ELSE
@@ -697,7 +697,7 @@ C        Re-ordonne les particules fantomes.
             DMS =TWO*DJ
             DMS2=DMS*DMS
             DD=(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
-            IF (NINT(XSPHR(13,M)).NE.0.AND.DD.LT.DMS2) THEN
+            IF (NINT(XSPHR(13,M))/=0.AND.DD<DMS2) THEN
              NVOISS1=NVOISS1+1
              MWA(NVOISS1)=JK
             ELSE

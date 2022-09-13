@@ -70,17 +70,17 @@ C
       DO N=1,NUMELC0
         IP   =IPARTC(N)
         NLEV =IPART(10,IP)
-        IF(NLEV.GT.0)THEN
+        IF(NLEV>0)THEN
           DO DIR=0,3
             N1=IXC(DIR+2,N)
             N2=IXC(MOD(DIR+1,4)+2,N)
             IC1 =ICODE(N1)
             IC2 =ICODE(N2)
             ICOD=MY_AND(IC1,IC2)
-            IF(ICOD.NE.0)THEN
+            IF(ICOD/=0)THEN
               IS1=ISKEW(N1)
               IS2=ISKEW(N2)
-              IF(IS1.NE.IS2)THEN
+              IF(IS1/=IS2)THEN
                 CALL ANCMSG(MSGID=650,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO,
@@ -98,17 +98,17 @@ C
       DO N=1,NUMELTG0
         IP   =IPARTTG(N)
         NLEV =IPART(10,IP)
-        IF(NLEV.GT.0)THEN
+        IF(NLEV>0)THEN
           DO DIR=0,2
             N1=IXTG(DIR+2,N)
             N2=IXTG(MOD(DIR+1,3)+2,N)
             IC1 =ICODE(N1)
             IC2 =ICODE(N2)
             ICOD=MY_AND(IC1,IC2)
-            IF(ICOD.NE.0)THEN
+            IF(ICOD/=0)THEN
               IS1=ISKEW(N1)
               IS2=ISKEW(N2)
-              IF(IS1.NE.IS2)THEN
+              IF(IS1/=IS2)THEN
                 CALL ANCMSG(MSGID=650,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO,
@@ -161,13 +161,13 @@ C-----------------------------------------------
       EXTERNAL MY_OR
 C-----------------------------------------------
       LEVEL=SH4TREE(3,N)
-      IF(LEVEL.LT.0)THEN
+      IF(LEVEL<0)THEN
         LEVEL=-(LEVEL+1)
       END IF
       IP   =IPARTC(N)
       NLEV =IPART(10,IP)
 
-      IF(LEVEL.LT.NLEV)THEN
+      IF(LEVEL<NLEV)THEN
         SON=SH4TREE(2,N)+DIR
         CALL ADMBCS4(DIR,ICOD,ISK,SON,IXC,
      .              IPARTC,IPART,ICODE,ISKEW,SH4TREE)
@@ -220,13 +220,13 @@ C-----------------------------------------------
       EXTERNAL MY_OR
 C-----------------------------------------------
       LEVEL=SH3TREE(3,N)
-      IF(LEVEL.LT.0)THEN
+      IF(LEVEL<0)THEN
         LEVEL=-(LEVEL+1)
       END IF
       IP   =IPARTTG(N)
       NLEV =IPART(10,IP)
 
-      IF(LEVEL.LT.NLEV)THEN
+      IF(LEVEL<NLEV)THEN
         SON=SH3TREE(2,N)+DIR
         CALL ADMBCS3(DIR,ICOD,ISK,SON,IXTG,
      .              IPARTTG,IPART,ICODE,ISKEW,SH3TREE)

@@ -68,13 +68,13 @@ C
       L_TAB_NEWFCTCUT = 0
       TOL = EM06
 C
-      IF(DIR.EQ.1) THEN
+      IF(DIR==1) THEN
         DIRTANG1 = 2
         DIRTANG2 = 3
-      ELSEIF(DIR.EQ.2) THEN
+      ELSEIF(DIR==2) THEN
         DIRTANG1 = 3
         DIRTANG2 = 1
-      ELSEIF(DIR.EQ.3) THEN
+      ELSEIF(DIR==3) THEN
         DIRTANG1 = 1
         DIRTANG2 = 2
       ENDIF
@@ -91,21 +91,21 @@ C       Fonctions stockees dans le tableau tab_newfct offsete
 c       pour ne pas prendre les newfct des anciennes coupes terminees
 
         DO J=1,L_TAB_REMOVE
-          IF(TAB_REMOVE(J).EQ.IDFCT) EXIT
+          IF(TAB_REMOVE(J)==IDFCT) EXIT
         ENDDO
-        IF(J.LE.L_TAB_REMOVE) CYCLE
+        IF(J<=L_TAB_REMOVE) CYCLE
 
-        IF(KNOTLOCPC(1,DIR,DECALGEO+IDFCT).GE.NEWKNOT) CYCLE
-        IF(KNOTLOCPC(DIRDEG+1,DIR,DECALGEO+IDFCT).LE.NEWKNOT) CYCLE
+        IF(KNOTLOCPC(1,DIR,DECALGEO+IDFCT)>=NEWKNOT) CYCLE
+        IF(KNOTLOCPC(DIRDEG+1,DIR,DECALGEO+IDFCT)<=NEWKNOT) CYCLE
 C
 C----------------------------------------------------------------------
 C  LE KNOT A INSERER NE DOIT PAS DEJA ETRE PRESENT
 C----------------------------------------------------------------------
 C
         DO J=2,DIRDEG
-          IF(KNOTLOCPC(J,DIR,DECALGEO+IDFCT).EQ.NEWKNOT) EXIT
+          IF(KNOTLOCPC(J,DIR,DECALGEO+IDFCT)==NEWKNOT) EXIT
         ENDDO
-        IF(J.LE.DIRDEG) CYCLE
+        IF(J<=DIRDEG) CYCLE
 c
         IOUT=0
 C
@@ -124,8 +124,8 @@ C
         YA(4) = KNOTLOCPC(DEGTANG2+1,DIRTANG2,DECALGEO+IDFCT) - TOL
         YA(5) = YA(1)
 C
-        IF(XA(1).LT.COIN(1,1).OR.YA(1).LT.COIN(2,1)) CYCLE
-        IF(XA(3).GT.COIN(1,2).OR.YA(3).GT.COIN(2,2)) CYCLE
+        IF(XA(1)<COIN(1,1).OR.YA(1)<COIN(2,1)) CYCLE
+        IF(XA(3)>COIN(1,2).OR.YA(3)>COIN(2,2)) CYCLE
 C
         XB=COIN(1,1)-1000
         YB=COIN(2,1)-2000
@@ -138,17 +138,17 @@ C
             XD=TAB_COINKNOT(1,K+1)
             YD=TAB_COINKNOT(2,K+1)
             DET = (XB-XA(J))*(YC-YD) - (XC-XD)*(YB-YA(J))
-            IF(DET.EQ.0) THEN
+            IF(DET==0) THEN
             ELSE
               T1 = ((XC-XA(J))*(YC-YD)-(XC-XD)*(YC-YA(J)))/DET
               T2 = ((XB-XA(J))*(YC-YA(J))-(XC-XA(J))*(YB-YA(J)))/DET
-              IF(T1.GT.1.OR.T1.LT.0.OR.T2.GT.1.OR.T2.LE.0) THEN
+              IF(T1>1.OR.T1<0.OR.T2>1.OR.T2<=0) THEN
               ELSE
                 INTERSEC = INTERSEC + 1 
               ENDIF
             ENDIF
           ENDDO
-          IF(MOD(INTERSEC,2).EQ.0) IOUT=1
+          IF(MOD(INTERSEC,2)==0) IOUT=1
         ENDDO
 C
         DO J=1,4  
@@ -158,11 +158,11 @@ C
             XD=TAB_COINKNOT(1,K+1)
             YD=TAB_COINKNOT(2,K+1)
             DET = (XA(J+1)-XA(J))*(YC-YD) - (XC-XD)*(YA(J+1)-YA(J))
-            IF(DET.EQ.0) THEN
+            IF(DET==0) THEN
             ELSE
               T1 = ((XC-XA(J))*(YC-YD)-(XC-XD)*(YC-YA(J)))/DET
               T2 = ((XA(J+1)-XA(J))*(YC-YA(J))-(XC-XA(J))*(YA(J+1)-YA(J)))/DET
-              IF(T1.GT.1.OR.T1.LT.0.OR.T2.GT.1.OR.T2.LE.0) THEN
+              IF(T1>1.OR.T1<0.OR.T2>1.OR.T2<=0) THEN
               ELSE
                 IOUT=1
                 CYCLE
@@ -176,8 +176,8 @@ C  DIMENSIONNEMENT ET STOCKAGE DU TABLEAU DES FONCTIONS A RETRAITER
 C  PAR LES ANCIENNES COUPES (TAB_MESHSURFCUT)
 C----------------------------------------------------------------------
 C
-        IF(IOUT.EQ.0) THEN
-          IF(FLAG.EQ.0) THEN
+        IF(IOUT==0) THEN
+          IF(FLAG==0) THEN
             L_TAB_NEWFCTCUT = L_TAB_NEWFCTCUT + 1
           ELSE
             L_TAB_NEWFCTCUT = L_TAB_NEWFCTCUT + 1

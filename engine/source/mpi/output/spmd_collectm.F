@@ -87,10 +87,10 @@ C-----------------------------------------------
      .                  FORM='FORMATTED',STATUS='UNKNOWN')
 
       FILEN = ROOTLEN+17
-      IF (ISPMD.NE.0) THEN
+      IF (ISPMD/=0) THEN
         N = 0
         DO I = 1, NUMNOD
-         IF (WEIGHT(I).EQ.1) THEN
+         IF (WEIGHT(I)==1) THEN
            N = N+1
            SDNODG(N) = NODGLOB(I)
            IGLOB(1,N) = ITAB(I)
@@ -107,7 +107,7 @@ C-----------------------------------------------
      .                MPI_COMM_WORLD,IERROR)
       ELSE
         DO I=1,NUMNOD
-          IF (WEIGHT(I).EQ.1) THEN
+          IF (WEIGHT(I)==1) THEN
             EMPL = NODGLOB(I)
             RTRI(1,EMPL) = ITAB(I)
             RTRI(2,EMPL) = NODNX_SMS(I)

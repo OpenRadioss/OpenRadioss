@@ -124,7 +124,7 @@ C------------------------
         PSH(I) =PM(88,MX)
        ENDDO
        DO I=LFT,LLT
-        IF(OFF(I).LT.1..OR.SPH(I).LE.0.) CYCLE
+        IF(OFF(I)<1..OR.SPH(I)<=0.) CYCLE
         THETA(I)=(DF(I)*EINT(I)/VNEW(I)-ECOLD(I))/SPH(I)
         THETA(I)=MAX(ZERO,THETA(I))
        ENDDO
@@ -138,7 +138,7 @@ C------------------------------------------------
            PSH(I) =PM(88,MX)                       
         ENDDO                                      
         DO I=1, NEL                                
-           IF (VNEW(I) .GT. ZERO) THEN             
+           IF (VNEW(I) > ZERO) THEN             
               PNEW(I) = C0(I)+BULK(I)*MU(I)        
               PNEW(I) = MAX(PNEW(I),PC(I)-PSH(I))  
               PNEW(I) = PNEW(I)*OFF(I)             

@@ -116,10 +116,10 @@ C-----------------------------------------------
          WRITE(IOUT, 2001) ID
          WRITE(IOUT, 2002) TRIM(TITR)
             INIMAP1D(KK)%FILE = .FALSE.         
-         IF (KEY2(1:2) .EQ. 'VP') THEN
+         IF (KEY2(1:2) == 'VP') THEN
             INIMAP1D(KK)%FORMULATION = 1
             WRITE(IOUT, 2010)
-         ELSE IF (KEY2(1:2) .EQ. 'VE') THEN
+         ELSE IF (KEY2(1:2) == 'VE') THEN
             INIMAP1D(KK)%FORMULATION = 2
             WRITE(IOUT, 2020)
          ELSE IF (KEY2(1:5) == 'FILE ') THEN
@@ -133,18 +133,18 @@ C-----------------------------------------------
          INIMAP1D(KK)%NODEID1 = -1
          INIMAP1D(KK)%NODEID2 = -1
 
-         IF (INIMAP1D(KK)%PROJ .EQ. 3) THEN
+         IF (INIMAP1D(KK)%PROJ == 3) THEN
 C     Spherical mapping
 C     --> Read 1 node
             CALL HM_GET_INTV('node_ID1', INIMAP1D(KK)%NODEID1, IS_AVAILABLE, LSUBMODEL)
             WRITE(IOUT, 2030) "SPHERICAL"
-         ELSE IF (INIMAP1D(KK)%PROJ .EQ. 1) THEN
+         ELSE IF (INIMAP1D(KK)%PROJ == 1) THEN
 C     Planar mapping
 C     --> Read 2 nodes
             CALL HM_GET_INTV('node_ID1', INIMAP1D(KK)%NODEID1, IS_AVAILABLE, LSUBMODEL)
             CALL HM_GET_INTV('node_ID2', INIMAP1D(KK)%NODEID2, IS_AVAILABLE, LSUBMODEL)
             WRITE(IOUT, 2030) "PLANAR"
-         ELSE IF (INIMAP1D(KK)%PROJ .EQ. 2) THEN
+         ELSE IF (INIMAP1D(KK)%PROJ == 2) THEN
 C     Cylindrical mapping
 C     --> Read 2 nodes
             CALL HM_GET_INTV('node_ID1', INIMAP1D(KK)%NODEID1, IS_AVAILABLE, LSUBMODEL)
@@ -163,14 +163,14 @@ C     --> Read 2 nodes
 C     ==============
 C     Check if found
 C     ==============
-         IF (INIMAP1D(KK)%GRBRICID + INIMAP1D(KK)%GRQUADID + INIMAP1D(KK)%GRSH3NID .EQ. 0) THEN
+         IF (INIMAP1D(KK)%GRBRICID + INIMAP1D(KK)%GRQUADID + INIMAP1D(KK)%GRSH3NID == 0) THEN
             CALL ANCMSG(MSGID=1554, MSGTYPE=MSGWARNING, ANMODE=ANINFO, 
      .           C1='IN /INIMAP1D OPTION')
          ELSE
             GRBRICID_LOC = -1
             GRQUADID_LOC = -1
             GRSH3NID_LOC = -1
-            IF (INIMAP1D(KK)%GRBRICID .NE. 0) THEN
+            IF (INIMAP1D(KK)%GRBRICID /= 0) THEN
                DO J = 1,NGRBRIC
                   IF (INIMAP1D(KK)%GRBRICID == IGRBRIC(J)%ID) THEN
                      GRBRICID_LOC  = J
@@ -178,7 +178,7 @@ C     ==============
                      EXIT
                   ENDIF
                ENDDO
-               IF (GRBRICID_LOC .EQ. -1) THEN
+               IF (GRBRICID_LOC == -1) THEN
                   CALL ANCMSG(MSGID=1554,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO,
@@ -186,7 +186,7 @@ C     ==============
      .                 I1=INIMAP1D(KK)%GRBRICID)
                ENDIF
             ENDIF
-            IF (INIMAP1D(KK)%GRQUADID .NE. 0) THEN
+            IF (INIMAP1D(KK)%GRQUADID /= 0) THEN
                DO J = 1,NGRQUAD
                   IF (INIMAP1D(KK)%GRQUADID == IGRQUAD(J)%ID) THEN
                      GRQUADID_LOC = J
@@ -194,7 +194,7 @@ C     ==============
                      EXIT
                   ENDIF
                ENDDO    
-               IF (GRQUADID_LOC .EQ. -1) THEN
+               IF (GRQUADID_LOC == -1) THEN
                   CALL ANCMSG(MSGID=1554,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO,
@@ -202,7 +202,7 @@ C     ==============
      .                 I1=INIMAP1D(KK)%GRQUADID)
                ENDIF
             ENDIF
-            IF (INIMAP1D(KK)%GRSH3NID .NE. 0) THEN
+            IF (INIMAP1D(KK)%GRSH3NID /= 0) THEN
                DO J = 1,NGRSH3N
                   IF (INIMAP1D(KK)%GRSH3NID == IGRSH3N(J)%ID) THEN
                      GRSH3NID_LOC = J
@@ -210,7 +210,7 @@ C     ==============
                      EXIT
                   ENDIF
                ENDDO
-               IF (GRSH3NID_LOC .EQ. -1) THEN
+               IF (GRSH3NID_LOC == -1) THEN
                   CALL ANCMSG(MSGID=1554,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO,
@@ -234,7 +234,7 @@ C     ==============
               FOUND = .FALSE.
               DO II = NFUNCT + 2, 2 * NFUNCT + 1
                  JJ = JJ + 1
-                 IF (NPC(II) .EQ. IFUNC3) THEN
+                 IF (NPC(II) == IFUNC3) THEN
                     INIMAP1D(KK)%FUNC_VEL = JJ
                     FOUND = .TRUE.
                     EXIT
@@ -346,15 +346,15 @@ C     OR FUNC_RHO, FUNC_ENER AND FUNC_VEL depending on the forumlation
             CALL LEC_INIMAP1D_FILE(INIMAP1D(KK), FILENAME, ID, TITR)
          ENDIF
 
-         IF (INIMAP1D(KK)%NODEID1 .GT. 0) THEN                                           
+         IF (INIMAP1D(KK)%NODEID1 > 0) THEN                                           
             LNODID1 = USR2SYS(INIMAP1D(KK)%NODEID1, ITABM1, MESS, INIMAP1D(KK)%NODEID1)  
             INIMAP1D(KK)%NODEID1 = LNODID1                                               
          ENDIF                                                                           
-         IF (INIMAP1D(KK)%NODEID2 .GT. 0) THEN                                           
+         IF (INIMAP1D(KK)%NODEID2 > 0) THEN                                           
             LNODID2 = USR2SYS(INIMAP1D(KK)%NODEID2, ITABM1, MESS, INIMAP1D(KK)%NODEID2)  
             INIMAP1D(KK)%NODEID2 = LNODID2                                               
          ENDIF                                                                           
-         IF (INIMAP1D(KK)%PROJ .EQ. 1) THEN                                              
+         IF (INIMAP1D(KK)%PROJ == 1) THEN                                              
             X0 = X(1, LNODID1)                                                           
             Y0 = X(2, LNODID1)                                                           
             Z0 = X(3, LNODID1)                                                           

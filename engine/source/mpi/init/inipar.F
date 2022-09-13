@@ -72,11 +72,11 @@ C--------------------------------------------------
 C     CONVENTIONS:
 C                  ispmd 0...NSPMD-1
 C--------------------------------------------------
-      IF(ICAS.EQ.1) THEN
+      IF(ICAS==1) THEN
         REAL = MPI_REAL
-        IF(IR4R8.EQ.2) REAL = MPI_DOUBLE_PRECISION
+        IF(IR4R8==2) REAL = MPI_DOUBLE_PRECISION
 C
-        IF(ICRAY.EQ.1) THEN
+        IF(ICRAY==1) THEN
           INTSIZE = 8
           IFLSIZE = 8
         ELSE
@@ -95,7 +95,7 @@ C
           IT_SPMD(JRANK) = JRANK-1
         END DO
 C
-        IF (MYRANK.EQ.0) THEN
+        IF (MYRANK==0) THEN
 C         I AM THE FIRST ONE
           ISPMD = 0
 C
@@ -131,8 +131,8 @@ C nthread1 : nombre de threads fixe par la variable environnememt
                 WRITE(IOUT,*)' '
             END IF
           ENDIF
-          IF(NTHREAD.LE.0)  NTHREAD=1
-          IF(NTHREAD.GT.NTHMAX) NTHREAD=NTHMAX
+          IF(NTHREAD<=0)  NTHREAD=1
+          IF(NTHREAD>NTHMAX) NTHREAD=NTHMAX
 #elif 1
           NTHREAD = 1
 #endif
@@ -151,7 +151,7 @@ C
           ENDIF
 C
           DO J=2,NSPMD
-            IF(MYRANK.EQ.IT_SPMD(J))THEN
+            IF(MYRANK==IT_SPMD(J))THEN
                ISPMD = J-1
             END IF
           END DO
@@ -180,12 +180,12 @@ C control of nthread per MPI process
      .                    IT_SPMD(1),MPI_COMM_WORLD,IERROR)            
            
             END IF
-      ELSE IF(ICAS.EQ.3) THEN
+      ELSE IF(ICAS==3) THEN
         IF(ISPMD == 0) THEN
 C
 C test cooherence NSPMD et nombre de proccesses MPI demandes (-np)
 C
-          IF (NSPMD .NE. NNODES) THEN
+          IF (NSPMD /= NNODES) THEN
             WRITE(IOUT,*)
      .      'THE REQUIRED NUMBER OF MPI PROCESSES DOES NOT MATCH MPIRUN'
             WRITE(IOUT,*)
@@ -282,7 +282,7 @@ C tri bulle basic
           LOCAL=0
           HOST_NUMBER = 0
           DO I = 1, NSPMD
-            IF(HOST .NE. HOSTNAME(I))THEN
+            IF(HOST /= HOSTNAME(I))THEN
               HOST = HOSTNAME(I)
               LOCAL = 1
               HOST_NUMBER = HOST_NUMBER + 1
@@ -314,7 +314,7 @@ C       Count the number of SPMD on the local host
         END DO  
 
 
-      ELSE IF(ICAS.EQ.2) THEN
+      ELSE IF(ICAS==2) THEN
 C
         CALL MPI_BARRIER(MPI_COMM_WORLD,IERROR)
 C
@@ -368,12 +368,12 @@ C--------------------------------------------------
 C     CONVENTIONS:
 C                  ispmd 0...NSPMD-1
 C--------------------------------------------------
-      IF(ICAS.EQ.1) THEN
+      IF(ICAS==1) THEN
 C
         REAL = 4
-        IF(IR4R8.EQ.2) REAL = 8
+        IF(IR4R8==2) REAL = 8
 C
-        IF(ICRAY.EQ.1) THEN
+        IF(ICRAY==1) THEN
           INTSIZE = 8
           IFLSIZE = 8
         ELSE
@@ -413,15 +413,15 @@ C nthread1 : nombre de threads fixe par la variable environnememt
               WRITE(IOUT,*)' '
           END IF
         ENDIF
-        IF(NTHREAD.LE.0)  NTHREAD=1
-        IF(NTHREAD.GT.NTHMAX) NTHREAD=NTHMAX
+        IF(NTHREAD<=0)  NTHREAD=1
+        IF(NTHREAD>NTHMAX) NTHREAD=NTHMAX
 C
 #elif 1
         NTHREAD = 1
 #endif
-      ELSE IF(ICAS.EQ.3) THEN
+      ELSE IF(ICAS==3) THEN
 C
-        IF (NSPMD .NE. NNODES) THEN
+        IF (NSPMD /= NNODES) THEN
           WRITE(IOUT,*)
      .    'NON HYBRID EXECUTABLE ONLY SUPPORTS ONE SPMD DOMAIN'
           WRITE(IOUT,*)
@@ -456,7 +456,7 @@ C
           CALL OMP_INIT_LOCK(LLOCK(1,I))
         ENDDO
 #endif
-      ELSE IF(ICAS.EQ.2) THEN
+      ELSE IF(ICAS==2) THEN
 #if defined(_OPENMP)
 #endif
       ENDIF

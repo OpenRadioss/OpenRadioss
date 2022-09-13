@@ -56,7 +56,7 @@ C
        YN =RWL(2)
        ZN =RWL(3)
       IF (NSPMD == 1) THEN
-        IF(MSR.EQ.0)THEN
+        IF(MSR==0)THEN
          XWL=RWL(4)
          YWL=RWL(5)
          ZWL=RWL(6)
@@ -68,7 +68,7 @@ C
       ELSE
          CALL SPMD_AGETMSR(FR_WALL,X,MSR,XWL,YWL,ZWL,RWL)
       END IF 
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
 C
       XL1=RWL(7)
       YL1=RWL(8)

@@ -123,7 +123,7 @@ C     REAL
 C-----------------------------------------------
 C  -------symm(diag)------
       IS =1
-      IF (ICP.EQ.1) THEN
+      IF (ICP==1) THEN
        CALL S8ZKED3(LFT,LLT,PX1, PY1 ,PZ1 ,PX1, PY1, PZ1, DD, K11,IS)
        CALL S8ZKED3(LFT,LLT,PX2, PY2 ,PZ2 ,PX2, PY2, PZ2, DD, K22,IS)
        CALL S8ZKED3(LFT,LLT,PX3, PY3 ,PZ3 ,PX3, PY3, PZ3, DD, K33,IS)
@@ -158,7 +158,7 @@ C  -------symm(diag)------
      .                      BXY8, BYX8 ,BXZ8,BZX8 ,BYZ8,BZY8,
      .                      BXY8, BYX8 ,BXZ8,BZX8 ,BYZ8,BZY8,DD,K88,IS) 
       ENDIF
-      IF (IKSUP.EQ.0) THEN
+      IF (IKSUP==0) THEN
        CALL S8ZKEG3(LFT,LLT,PXY1, PYX1 ,PXZ1,PZX1 ,PYZ1,PZY1,
      .                      PXY1, PYX1 ,PXZ1,PZX1 ,PYZ1,PZY1,GG,K11,IS) 
        CALL S8ZKEG3(LFT,LLT,PXY2, PYX2 ,PXZ2,PZX2 ,PYZ2,PZY2,
@@ -178,7 +178,7 @@ C  -------symm(diag)------
       ENDIF 
 C  -------non symm------
       IS =0
-      IF (ICP.EQ.1) THEN
+      IF (ICP==1) THEN
        CALL S8ZKED3(LFT,LLT,PX1, PY1 ,PZ1 ,PX2, PY2, PZ2, DD, K12,IS)
        CALL S8ZKED3(LFT,LLT,PX1, PY1 ,PZ1 ,PX3, PY3, PZ3, DD, K13,IS)
        CALL S8ZKED3(LFT,LLT,PX1, PY1 ,PZ1 ,PX4, PY4, PZ4, DD, K14,IS)
@@ -295,7 +295,7 @@ C  -------non symm------
       ENDIF
 C
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-      IF (IKSUP.EQ.0) THEN
+      IF (IKSUP==0) THEN
        CALL S8ZKEG3(LFT,LLT,PXY1, PYX1 ,PXZ1,PZX1 ,PYZ1,PZY1,
      .                      PXY2, PYX2 ,PXZ2,PZX2 ,PYZ2,PZY2,GG,K12,IS) 
        CALL S8ZKEG3(LFT,LLT,PXY1, PYX1 ,PXZ1,PZX1 ,PYZ1,PZY1,
@@ -653,7 +653,7 @@ C-----------------------------------------------
       INTEGER I
 C     REAL
 C-----------------------------------------------
-      IF (IS.EQ.1) THEN
+      IF (IS==1) THEN
        DO I=LFT,LLT
         KIJ(1,1,I)=KIJ(1,1,I)+PXI(I)*DD(1,1,I)*PXJ(I)
         KIJ(2,2,I)=KIJ(2,2,I)+PYI(I)*DD(2,2,I)*PYJ(I)
@@ -718,7 +718,7 @@ C-----------------------------------------------
       INTEGER I
 C     REAL
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-      IF (IS.EQ.1) THEN
+      IF (IS==1) THEN
        DO I=LFT,LLT
         KIJ(1,1,I)=KIJ(1,1,I)+G(I)*(PXYI(I)*PXYJ(I)+PXZI(I)*PXZJ(I))
         KIJ(2,2,I)=KIJ(2,2,I)+G(I)*(PYXI(I)*PYXJ(I)+PYZI(I)*PYZJ(I))
@@ -785,7 +785,7 @@ C     REAL
       my_real
      .   BI(3,3,MVSIZ),BJ(3,3,MVSIZ)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-      IF (IS.EQ.1) THEN
+      IF (IS==1) THEN
        DO I=LFT,LLT
         BI(1,1,I)=PXI(I)
         BI(2,2,I)=PYI(I)
@@ -890,7 +890,7 @@ C     REAL
       my_real
      .   BI(3,3,MVSIZ),BJ(3,3,MVSIZ)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-      IF (IS.EQ.1) THEN
+      IF (IS==1) THEN
        DO I=LFT,LLT
         BI(1,1,I)=PXYI(I)
         BI(1,2,I)=PYXI(I)
@@ -998,8 +998,8 @@ C     REAL
       my_real
      .   BI(3,3,MVSIZ),BJ(3,3,MVSIZ),CI(3,3,MVSIZ),CJ(3,3,MVSIZ)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-      IF (IS.EQ.1) THEN
-       IF (ICP.EQ.1) THEN
+      IF (IS==1) THEN
+       IF (ICP==1) THEN
         DO I=LFT,LLT
          BI(1,1,I)=PXI(I)
          BI(2,2,I)=PYI(I)
@@ -1065,7 +1065,7 @@ C
        ENDDO
        ENDDO
       ELSE ! IS = 0 -- non-symmetry
-       IF (ICP.EQ.1) THEN
+       IF (ICP==1) THEN
         DO I=LFT,LLT
          BI(1,1,I)=PXI(I)
          BI(2,2,I)=PYI(I)
@@ -1204,7 +1204,7 @@ C     REAL
       my_real
      .   BI(3,MVSIZ),BJ(3,MVSIZ),CI(3,3,MVSIZ),CJ(3,3,MVSIZ)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-      IF (IS.EQ.1) THEN
+      IF (IS==1) THEN
         DO I=LFT,LLT
          BI(1,I)=PXI(I)
          BI(2,I)=PYI(I)

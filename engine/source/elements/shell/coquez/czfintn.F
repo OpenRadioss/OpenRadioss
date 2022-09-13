@@ -91,12 +91,12 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
       TOL= EM18 
       FBEND_V =THREEP464
 C
-      IF (NPT.EQ.0) THEN
+      IF (NPT==0) THEN
        COEF1=SIXTEEN
       ELSE
        COEF1=TWENTY5
       ENDIF
-      IF (NPT.EQ.1) THEN
+      IF (NPT==1) THEN
        FBEND =ZERO
        FBEND_V =ZERO
       ELSE
@@ -301,12 +301,12 @@ C-------------enint------------------
       END DO
 C
       DO I=JFT,JLT
-        IF (SIGY(I).LT.ZEP9EP30) THEN
+        IF (SIGY(I)<ZEP9EP30) THEN
           UFAC=ABS(MIN(FAC(I,1),FAC(I,2))-ONE)
           SIGY2 = SIGY(I)*SIGY(I)
           SVM =ZERO
           SXY0=ZERO   
-          IF (UFAC.LT.TOL) THEN
+          IF (UFAC<TOL) THEN
             SXY0= VSTRE(I,1)*VSTRE(I,1)+VSTRE(I,2)*VSTRE(I,2)
      .           -VSTRE(I,1)*VSTRE(I,2)+THREE*VSTRE(I,3)*VSTRE(I,3)
             MXY0= MSTRE(I,1)*MSTRE(I,1)+MSTRE(I,2)*MSTRE(I,2)
@@ -332,12 +332,12 @@ C
             SVM =  SXY0+COEF1*MXY0
           ENDIF 
 C-----------ELASTIC-PLASTIC global yield criterion------------
-          IF (UFAC.GE.TOL.OR.SVM.GT.SIGY2) THEN
+          IF (UFAC>=TOL.OR.SVM>SIGY2) THEN
             EH1=MIN(SXY0/MAX(SIGY2,TOL),ONE)
             EH1=MAX(COEFH*EH1,(ONE-FAC(I,1)))
             EH2=MAX(COEFH,(ONE-FAC(I,2)))
-            IF (ESX(I).LT.ZERO) EH1=ZERO
-            IF (EMX(I).LT.ZERO) EH2=ZERO
+            IF (ESX(I)<ZERO) EH1=ZERO
+            IF (EMX(I)<ZERO) EH2=ZERO
 C-------------MEMBRANE------------------------
             VGLAS(I,1)=VGLAS(I,1)-EH1*DGLAS(I,1)
             VGLAS(I,2)=VGLAS(I,2)-EH1*DGLAS(I,2)
@@ -456,19 +456,19 @@ C
       IC=1
       JST(IC)=JFT
       DO J=JFT+1,JLT
-         IF (IPARTC(J).NE.IPARTC(J-1)) THEN
+         IF (IPARTC(J)/=IPARTC(J-1)) THEN
             IC=IC+1
             JST(IC)=J
          ENDIF
       ENDDO
       JST(IC+1)=JLT+1
-      IF(IC.EQ.1) THEN
+      IF(IC==1) THEN
         MX = IPARTC(JFT)
 #include "simd.inc"
         DO I=JFT,JLT
           EVIS(8,MX)=EVIS(8,MX) + TESY(I)
         ENDDO
-      ELSEIF(IC.EQ.2.AND.KFTS.GT.0)THEN
+      ELSEIF(IC==2.AND.KFTS>0)THEN
         MX = IPARTC(JFT)
 #include "simd.inc"
         DO I=JFT, KFTS-1
@@ -483,7 +483,7 @@ C
       ELSE
         DO II=1,IC
            MX=IPARTC(JST(II))
-           IF (JST(II+1)-JST(II).GT.15) THEN
+           IF (JST(II+1)-JST(II)>15) THEN
 #include "simd.inc"
               DO J=JST(II),JST(II+1)-1
                 EVIS(8,MX)=EVIS(8,MX) + TESY(J)
@@ -642,12 +642,12 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
       STIER  = FIVEP333  
       TOL= EM18 
       FBEND_V =THREEP464
-      IF (NPT.EQ.0) THEN
+      IF (NPT==0) THEN
        COEF1=SIXTEEN
       ELSE
        COEF1=TWENTY5
       ENDIF
-      IF (NPT.EQ.1) THEN
+      IF (NPT==1) THEN
        FBEND =ZERO
        FBEND_V =ZERO
       ELSE
@@ -768,12 +768,12 @@ C      ---------enint----------
       END DO
 C
       DO I=JFT,JLT
-        IF (SIGY(I).LT.ZEP9EP30) THEN
+        IF (SIGY(I)<ZEP9EP30) THEN
            UFAC=ABS(MIN(FAC(I,1),FAC(I,2))-ONE)
            SIGY2 = SIGY(I)*SIGY(I)
            SVM =ZERO
            SXY0=ZERO   
-           IF (UFAC.LT.TOL) THEN
+           IF (UFAC<TOL) THEN
             SXY0= VSTRE(I,1)*VSTRE(I,1)+VSTRE(I,2)*VSTRE(I,2)
      .           -VSTRE(I,1)*VSTRE(I,2)+THREE*VSTRE(I,3)*VSTRE(I,3)
             MXY0= MSTRE(I,1)*MSTRE(I,1)+MSTRE(I,2)*MSTRE(I,2)
@@ -805,12 +805,12 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
      1                    +CMMY*(TWO*CMMY_K-CMMX_K))     
             SVM =  SXY0+COEF1*MXY0
            ENDIF 
-           IF (UFAC.GE.TOL.OR.SVM.GT.SIGY2) THEN
+           IF (UFAC>=TOL.OR.SVM>SIGY2) THEN
               EH1=MIN(SXY0/MAX(SIGY2,TOL),ONE)
               EH1=MAX(COEFH*EH1,(ONE-FAC(I,1)))
               EH2=MAX(COEFH,(ONE-FAC(I,2)))
-              IF (ESX(I).LT.ZERO) EH1=ZERO
-              IF (EMX(I).LT.ZERO) EH2=ZERO
+              IF (ESX(I)<ZERO) EH1=ZERO
+              IF (EMX(I)<ZERO) EH2=ZERO
 C-------------MEMBRANE------------------------
              VGLAS(I,1)=VGLAS(I,1)-EH1*DGLAS(I,1)
              VGLAS(I,2)=VGLAS(I,2)-EH1*DGLAS(I,2)
@@ -977,20 +977,20 @@ C
       IC=1
       JST(IC)=JFT
       DO J=JFT+1,JLT
-         IF (IPARTC(J).NE.IPARTC(J-1)) THEN
+         IF (IPARTC(J)/=IPARTC(J-1)) THEN
             IC=IC+1
             JST(IC)=J
          ENDIF
       ENDDO
       JST(IC+1)=JLT+1
 
-      IF(IC.EQ.1) THEN
+      IF(IC==1) THEN
         MX = IPARTC(JFT)
 #include "simd.inc"
         DO I=JFT,JLT
           EVIS(8,MX)=EVIS(8,MX) + TESY(i)
         ENDDO
-      ELSEIF(IC.EQ.2.AND.KFTS.GT.0)THEN
+      ELSEIF(IC==2.AND.KFTS>0)THEN
         MX = IPARTC(JFT)
 #include "simd.inc"
         DO I=JFT, KFTS-1
@@ -1004,7 +1004,7 @@ C
       ELSE
         DO II=1,IC
            MX=IPARTC(JST(II))
-           IF (JST(II+1)-JST(II).GT.15) THEN
+           IF (JST(II+1)-JST(II)>15) THEN
 #include "simd.inc"
               DO J=JST(II),JST(II+1)-1
                 EVIS(8,MX)=EVIS(8,MX) + TESY(J)
@@ -1091,7 +1091,7 @@ C-----------------------------------------------
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
        C7=FOUR_OVER_3
        STIER  = FIVEP333  
-      IF (NPT.EQ.1) THEN
+      IF (NPT==1) THEN
        FBEND =ZERO
        FBEND_V =ZERO
       ELSE
@@ -1418,20 +1418,20 @@ C-----------------------------------------------
       IC=1
       JST(IC)=JFT
       DO J=JFT+1,JLT
-         IF (IPARTC(J).NE.IPARTC(J-1)) THEN
+         IF (IPARTC(J)/=IPARTC(J-1)) THEN
             IC=IC+1
             JST(IC)=J
          ENDIF
       ENDDO
       JST(IC+1)=JLT+1
-      IF(IC.EQ.1) THEN
+      IF(IC==1) THEN
         MX = IPARTC(JFT)
 #include "simd.inc"
         DO I=JFT,JLT
           EVIS(8,MX)=EVIS(8,MX) + TESY(I)
         ENDDO
 
-      ELSEIF(IC.EQ.2.AND.KFTS.GT.0)THEN
+      ELSEIF(IC==2.AND.KFTS>0)THEN
         MX = IPARTC(JFT)
 #include "simd.inc"
         DO I=JFT, KFTS-1
@@ -1447,7 +1447,7 @@ C-----------------------------------------------
 C
            DO II=1,IC
               MX=IPARTC(JST(II))
-              IF (JST(II+1)-JST(II).GT.15) THEN
+              IF (JST(II+1)-JST(II)>15) THEN
 #include "simd.inc"
                  DO J=JST(II),JST(II+1)-1
                    EVIS(8,MX)=EVIS(8,MX) + TESY(J)
@@ -1542,7 +1542,7 @@ C-----------------------------------------------
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
        C7=FOUR_OVER_3
        STIER  = FIVEP333  
-      IF (NPT.EQ.1) THEN
+      IF (NPT==1) THEN
        FBEND =ZERO
        FBEND_V =ZERO
       ELSE
@@ -1967,7 +1967,7 @@ C-----------------------------------------------
        COEFH= ZEP99
        COEF= ZEP85
        TOL= EM18 
-      IF (NPT.EQ.0) THEN
+      IF (NPT==0) THEN
        COEF1=SIXTEEN
       ELSE
        COEF1=TWENTY5
@@ -1976,10 +1976,10 @@ C---- FAC(1,I)= mean value of Et/G; FAC(2,I)= min(Et_ip/G ), negative value when
 C---- en Elastic FAC(1,I)=0;FAC(2,I)= 1   
       DO I=JFT,JLT
           IF (ESX(I)<ZERO.AND.EMX(I)<ZERO) CYCLE
-          IF (SIGY(I).LT.ZEP9EP30) THEN
+          IF (SIGY(I)<ZEP9EP30) THEN
            UFAC=ABS(MIN(FAC(I,1),ABS(FAC(I,2)))-ONE)
 C---------elastic inc on quadrature-----------           
-           IF (UFAC.LT.TOL) THEN
+           IF (UFAC<TOL) THEN
             SIGY2 = SIGY(I)*SIGY(I)
             SXY0= VSTRE(I,1)*VSTRE(I,1)+VSTRE(I,2)*VSTRE(I,2)
      .           -VSTRE(I,1)*VSTRE(I,2)+THREE*VSTRE(I,3)*VSTRE(I,3)
@@ -2021,8 +2021,8 @@ C
             EH1=ONE-FAC(I,1)
             EH2=ONE-ABS(FAC(I,2))
            END IF
-           IF (ESX(I).LT.ZERO) EH1=ZERO
-           IF (EMX(I).LT.ZERO) EH2=ZERO
+           IF (ESX(I)<ZERO) EH1=ZERO
+           IF (EMX(I)<ZERO) EH2=ZERO
 C-------------MEMBRANE------------------------
              VGLAS(I,1)=VGLAS(I,1)-EH1*DGLAS(I,1)
              VGLAS(I,2)=VGLAS(I,2)-EH1*DGLAS(I,2)
@@ -2041,7 +2041,7 @@ C-----taking into accound failing in the layers(law25 first)----
        FACF = ZEP7 +ZEP015*(NPT1-2)
        FACT = ZEP9999
        DO I=JFT,JLT
-          IF (FAC(I,2).LT.ZERO) THEN
+          IF (FAC(I,2)<ZERO) THEN
             VGLAS(I,1)=FACM*VGLAS(I,1)
             VGLAS(I,2)=FACM*VGLAS(I,2)
             VGLAS(I,7)=FACM*VGLAS(I,7)
@@ -2091,19 +2091,19 @@ C-----------------------------------------------
        COEFH= ZEP99
        COEF= ZEP85
        TOL= EM18 
-      IF (NPT.EQ.0) THEN
+      IF (NPT==0) THEN
        COEF1=SIXTEEN
       ELSE
        COEF1=TWENTY5
       ENDIF
       DO I=JFT,JLT
           IF (ESX(I)<ZERO.AND.EMX(I)<ZERO) CYCLE
-          IF (SIGY(I).LT.ZEP9EP30) THEN
+          IF (SIGY(I)<ZEP9EP30) THEN
            UFAC=ABS(MIN(FAC(I,1),ABS(FAC(I,2)))-ONE)
            SIGY2 = SIGY(I)*SIGY(I)
            SVM =ZERO
            SXY0=ZERO   
-           IF (UFAC.LT.TOL) THEN
+           IF (UFAC<TOL) THEN
 c            CYCLE
             SXY0= VSTRE(I,1)*VSTRE(I,1)+VSTRE(I,2)*VSTRE(I,2)
      .           -VSTRE(I,1)*VSTRE(I,2)+THREE*VSTRE(I,3)*VSTRE(I,3)
@@ -2148,8 +2148,8 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
             EH1=ONE-FAC(I,1)
             EH2=ONE-ABS(FAC(I,2))
            END IF
-              IF (ESX(I).LT.ZERO) EH1=ZERO
-              IF (EMX(I).LT.ZERO) EH2=ZERO
+              IF (ESX(I)<ZERO) EH1=ZERO
+              IF (EMX(I)<ZERO) EH2=ZERO
 C-------------MEMBRANE------------------------
              VGLAS(I,1)=VGLAS(I,1)-EH1*DGLAS(I,1)
              VGLAS(I,2)=VGLAS(I,2)-EH1*DGLAS(I,2)
@@ -2172,7 +2172,7 @@ C-----taking into accound failing in the layers(law25 first)----
        FACF = ZEP7 +ZEP015*(NPT1-2)
        FACT = ZEP9999
        DO I=JFT,JLT
-          IF (FAC(I,2).LT.ZERO) THEN
+          IF (FAC(I,2)<ZERO) THEN
             VGLAS(I,1)=FACM*VGLAS(I,1)
             VGLAS(I,2)=FACM*VGLAS(I,2)
             VGLAS(I,7)=FACM*VGLAS(I,7)

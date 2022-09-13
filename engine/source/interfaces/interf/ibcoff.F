@@ -73,7 +73,7 @@ C     CALL MY_LOCK
 C      ICODT=4*MAX0(0,J1-K1)+2*MAX0(0,J2-K2)+MAX0(0,J3-K3)
 C     CALL MY_FREE
       ICODTN = 4*MAX0(0,J1-K1)+2*MAX0(0,J2-K2)+MAX0(0,J3-K3)
-      IF (ICODTN.NE.ICODT) THEN
+      IF (ICODTN/=ICODT) THEN
 #include "lockon.inc"
         ICODT = ICODTN
 #include "lockoff.inc"

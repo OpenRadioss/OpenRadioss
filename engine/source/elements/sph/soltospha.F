@@ -185,8 +185,8 @@ C
 !$OMP DO SCHEDULE(DYNAMIC,1)
       DO IG = 1, NGROUNC
         NG = IGROUNC(IG)         
-        IF(IPARG(8,NG).EQ.1)GOTO 250
-        IF (IDDW.GT.0) CALL STARTIMEG(NG)
+        IF(IPARG(8,NG)==1)GOTO 250
+        IF (IDDW>0) CALL STARTIMEG(NG)
         DO NELEM = 1,IPARG(2,NG),NVSIZ
           OFFSET = NELEM - 1
           NEL   =IPARG(2,NG)
@@ -196,7 +196,7 @@ C
           IPARTSPH=IPARG(69,NG)
           LFT=1
           LLT=MIN(NVSIZ,NEL-NELEM+1)
-          IF(ITY.EQ.1.AND.IPARTSPH.NE.0) THEN
+          IF(ITY==1.AND.IPARTSPH/=0) THEN
 C-----------
             GBUF => ELBUF_TAB(NG)%GBUF
             LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
@@ -204,11 +204,11 @@ C-----------
 C-----
 C----TETRA---     
 C-----
-            IF (IPARG(28,NG).EQ.4) THEN
+            IF (IPARG(28,NG)==4) THEN
 C-----
               DO I=LFT,LLT
               N=NFT+I
-              IF(GBUF%OFF(I).EQ.ZERO) CYCLE
+              IF(GBUF%OFF(I)==ZERO) CYCLE
 C
 C             SOL2SPH(1,N)+1<=I<=SOLSPH(2,N) <=> N==SPH2SOL(I)
               N1=IXS(2,N)
@@ -261,7 +261,7 @@ C----HEXA---
 C-----
             DO I=LFT,LLT
               N=NFT+I
-              IF(GBUF%OFF(I).EQ.ZERO) CYCLE
+              IF(GBUF%OFF(I)==ZERO) CYCLE
 C
 C             SOL2SPH(1,N)+1<=I<=SOLSPH(2,N) <=> N==SPH2SOL(I)
               N1=IXS(2,N)
@@ -334,7 +334,7 @@ C-----
           ENDIF
 C-----
           ENDIF
-          IF (IDDW.GT.0) CALL STOPTIMEG(NG)
+          IF (IDDW>0) CALL STOPTIMEG(NG)
         END DO
 C--------
  250    CONTINUE
@@ -344,8 +344,8 @@ C
 !$OMP DO SCHEDULE(DYNAMIC,1)
       DO IG = 1, NGROUNC
         NG = IGROUNC(IG)         
-        IF(IPARG(8,NG).EQ.1)GOTO 350
-        IF (IDDW.GT.0) CALL STARTIMEG(NG)
+        IF(IPARG(8,NG)==1)GOTO 350
+        IF (IDDW>0) CALL STARTIMEG(NG)
         DO NELEM = 1,IPARG(2,NG),NVSIZ
           OFFSET = NELEM - 1
           NEL   =IPARG(2,NG)
@@ -355,7 +355,7 @@ C
           IPARTSPH=IPARG(69,NG)
           LFT=1
           LLT=MIN(NVSIZ,NEL-NELEM+1)
-          IF(ITY.EQ.1.AND.IPARTSPH.NE.0) THEN
+          IF(ITY==1.AND.IPARTSPH/=0) THEN
 C-----------
             GBUF => ELBUF_TAB(NG)%GBUF
             LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
@@ -363,7 +363,7 @@ C-----------
 C-----
             DO I=LFT,LLT
               N=NFT+I
-              IF(GBUF%OFF(I).NE.ZERO) THEN
+              IF(GBUF%OFF(I)/=ZERO) THEN
 C
 C               SOL2SPH(1,N)+1<=I<=SOLSPH(2,N) <=> N==SPH2SOL(I)
 C
@@ -383,9 +383,9 @@ C
                   ENCIN_T=ENCIN_T
      .                   -HALF*MS(INOD)*(VXI*VXI+VYI*VYI+VZI*VZI)
 C
-C                 IPARG(8,MG).EQ.1 <=> group was not computed 
+C                 IPARG(8,MG)==1 <=> group was not computed 
 C                 (there is no cloud active particle within the group)
-                  IF(IPARG(8,MG).EQ.1)CYCLE
+                  IF(IPARG(8,MG)==1)CYCLE
 C
                   KFT=IPARG(3,MG)
                   GBUFSP => ELBUF_TAB(MG)%GBUF
@@ -408,7 +408,7 @@ C
             END DO
           END IF
         END DO
-        IF (IDDW.GT.0) CALL STOPTIMEG(NG)
+        IF (IDDW>0) CALL STOPTIMEG(NG)
  350    CONTINUE
       END DO
 !$OMP END DO

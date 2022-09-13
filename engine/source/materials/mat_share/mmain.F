@@ -337,7 +337,7 @@ C
 C-----
 
 C Flag Idel
-      IF(IDEL7NG.GE.1.OR.IDTMINS.GE.1) THEN
+      IF(IDEL7NG>=1.OR.IDTMINS>=1) THEN
         OFFOLD(1:NEL)=OFF(1:NEL)
       END IF
 C
@@ -377,7 +377,7 @@ C
       SVIS(1:NEL,5)= ZERO
       SVIS(1:NEL,6)= ZERO 
 C
-      IF(IPARG(64,NG).NE.0)THEN
+      IF(IPARG(64,NG)/=0)THEN
         DF(1:NEL)      = ONE
         VOL_AVG(1:NEL) = VOLN(1:NEL)
       ELSE
@@ -450,7 +450,7 @@ C --------------------------------------------------------
 C    THERMAL MATERIAL ISTROPE EXPANSION 
 C --------------------------------------------------------
 
-      IF((IEXPAN > 0).AND.(JTHE < 0).AND.(TT.NE.ZERO)) THEN
+      IF((IEXPAN > 0).AND.(JTHE < 0).AND.(TT/=ZERO)) THEN
         DO I=1,NEL
            IFUNC_ALPHA = IPM(219,MAT(1))
            FSCAL_ALPHA = PM(191,MAT(1))
@@ -483,7 +483,7 @@ c-----Tstar computation for Jonhson Cook failure : T* = (T-T0)/(TM-T0)----
 C-----------------------------------
 C     EOS PART1
 C-----------------------------------
-      IF (MTN == 3.OR.MTN == 4.OR.MTN == 6.OR.MTN.EQ.10.OR.MTN.EQ.17.OR.MTN == 49.OR.MTN == 102.OR.MTN == 103) THEN
+      IF (MTN == 3.OR.MTN == 4.OR.MTN == 6.OR.MTN==10.OR.MTN==17.OR.MTN == 49.OR.MTN == 102.OR.MTN == 103) THEN
         EOSTYP= IPM(4,MAT(1))
         CALL EOSMAIN(0       ,NEL      ,EOSTYP  ,PM        ,OFF      ,LBUF%EINT,
      2               LBUF%RHO,RHO0     ,AMU     ,AMU2      ,ESPE     ,
@@ -892,7 +892,7 @@ C
      3            DXX    ,DYY    ,DZZ    ,D4     ,D5   ,D6   , 
      4            PSH    ,DVOL   ,DF     ,QVIS   ,PNEW ,VIS  ,
      5            TMU    ,EINC   ,MTN    ,VOL_AVG,NEL  )
-        IF(JTUR.NE.0)CALL ATURBN (
+        IF(JTUR/=0)CALL ATURBN (
      1            PM     ,OFF    ,LBUF%RHO,LBUF%RK,LBUF%RE ,GEO   , 
      2            EINC   ,DVOL   ,VOLN   ,PNEW    ,TMU     ,VIS   ,
      3            VD2    ,MAT    ,PID    )
@@ -1338,8 +1338,8 @@ c
 C-----------------------------------
 C     EOS PART2
 C-----------------------------------
-      IF (MTN == 3.OR.MTN == 4.OR.MTN == 6.OR.MTN.EQ.10.OR.MTN.EQ.17.OR.MTN == 49.OR.MTN == 102.OR.MTN == 103) THEN
-         IF (MTN .NE. 6 .AND. MTN .NE. 17) THEN
+      IF (MTN == 3.OR.MTN == 4.OR.MTN == 6.OR.MTN==10.OR.MTN==17.OR.MTN == 49.OR.MTN == 102.OR.MTN == 103) THEN
+         IF (MTN /= 6 .AND. MTN /= 17) THEN
             PNEW(:) = ZERO
          ENDIF
         CALL EOSMAIN(1       ,NEL      ,EOSTYP  ,PM       ,OFF      ,LBUF%EINT,
@@ -1352,7 +1352,7 @@ C-----------------------------------
       ELSEIF(l_MULAW_CALLED)THEN
         IF(l_MULAW_CALLED)THEN
          DO I=1,NEL
-           IF(LBUF%VOL(I) .GT. ZERO)THEN
+           IF(LBUF%VOL(I) > ZERO)THEN
              LBUF%EINT(I)=LBUF%EINT(I)/MAX(LBUF%VOL(I),EM20)
            ELSE
              LBUF%EINT(I)=ZERO
@@ -1374,7 +1374,7 @@ C
       HEAT_MECA = HEAT_MECA_L + HEAT_MECA
 !$OMP END CRITICAL
       ENDIF
-      IF((IEXPAN > 0).AND.(JTHE < 0).AND.(TT.NE.0)) THEN
+      IF((IEXPAN > 0).AND.(JTHE < 0).AND.(TT/=0)) THEN
         DO I=1,NEL
           SIGKK(I) = LBUF%SIG(NEL*(1-1)+I)+LBUF%SIG(NEL*(2-1)+I)+LBUF%SIG(NEL*(3-1)+I)
           LBUF%EINTTH(I) = LBUF%EINTTH(I)-HALF*SIGKK(I)*ETH(I)
@@ -1551,7 +1551,7 @@ c
             SS5(I) = LBUF%SIG(NEL*(5-1) + I)
             SS6(I) = LBUF%SIG(NEL*(6-1) + I)
             EINT(I) = LBUF%EINT(I)*LBUF%VOL(I)
-            IF (MTN.NE.4.AND.MTN.NE.2) THEN
+            IF (MTN/=4.AND.MTN/=2) THEN
               EPSP(I)=OFF(I)*                                        
      .        MAX( ABS(DXX(I)),ABS(DYY(I)),ABS(DZZ(I)),              
      .       HALF*ABS(D4(I)),HALF*ABS(D5(I)),HALF*ABS(D6(I)))
@@ -1658,7 +1658,7 @@ C  --- wilkins
      5                    DPLA ,UVARF,OFF  ,IP    ,DFMAX ,TDEL ) 
 C--------------------------------------------------------------
 C  user1
-        ELSEIF(IRUPT.EQ.4)THEN 
+        ELSEIF(IRUPT==4)THEN 
             IF (LOGICAL_USERL_AVAIL)THEN
                USER_UELR(1:LLT)=GBUF%UELR(1:LLT)
                CALL ENG_USERLIB_FLAW(IRUPT,
@@ -1683,7 +1683,7 @@ C  user1
 !!!
             ENDIF
 C   user2
-        ELSEIF(IRUPT.EQ.5)THEN        
+        ELSEIF(IRUPT==5)THEN        
             IF (LOGICAL_USERL_AVAIL)THEN
                USER_UELR(1:LLT)=GBUF%UELR(1:LLT)
                CALL ENG_USERLIB_FLAW(IRUPT,
@@ -1706,7 +1706,7 @@ C   user2
               ! ----------------
             ENDIF
 C   user3         
-        ELSEIF(IRUPT.EQ.6)THEN
+        ELSEIF(IRUPT==6)THEN
             IF (LOGICAL_USERL_AVAIL)THEN
                USER_UELR(1:LLT)=GBUF%UELR(1:LLT)
                CALL ENG_USERLIB_FLAW(IRUPT,
@@ -1991,10 +1991,10 @@ C-----------------------------------------------------------------
          ENDDO
        ENDIF
 c     Flag Idel, test global sur changement de valeur de OFF
-      IF(IDEL7NG.GE.1.OR.IDTMINS.GE.1) THEN
+      IF(IDEL7NG>=1.OR.IDTMINS>=1) THEN
         DO I=1,NEL
-c          IF(OFFOLD(I).GE.1.AND.OFF(I).NE.OFFOLD(I).AND.OFF(I).GE.0.AND.OFF(I).LT.1)THEN
-          IF(OFFOLD(I).GE.1.AND.OFF(I).GE.0.AND.OFF(I).LT.1)THEN
+c          IF(OFFOLD(I)>=1.AND.OFF(I)/=OFFOLD(I).AND.OFF(I)>=0.AND.OFF(I)<1)THEN
+          IF(OFFOLD(I)>=1.AND.OFF(I)>=0.AND.OFF(I)<1)THEN
             IDEL7NOK = 1
           END IF
         END DO
@@ -2007,7 +2007,7 @@ C-----------
 C-----------------------------------------------------------------  
 C  ALE/EULER  POST-TREATMENT
 C-----------------------------------------------------------------  
-      !IF(TT.GE.TANIM)THEN     -> becomes unconditionnal since ssp needed for flux calculation : storage recquired .
+      !IF(TT>=TANIM)THEN     -> becomes unconditionnal since ssp needed for flux calculation : storage recquired .
         IF(IPARG(7,NG)+IPARG(11,NG) > 0 ) THEN
           LBUF%SSP(1:NEL) = CXX(1:NEL)
         ENDIF

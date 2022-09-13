@@ -74,7 +74,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I ,J  ,IL, L, NN, IG,JFT
 C-----------------------------------------------
-      IF(IGAP.EQ.0)THEN
+      IF(IGAP==0)THEN
         DO I=1,JLT
 C Depth >= gap
           GAPV(I)=MAX(DEPTH+DGAPLOAD,DRAD)

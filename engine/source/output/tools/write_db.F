@@ -96,7 +96,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       K=0
       N1=N/1000
-      IF(ICRAY.EQ.1)THEN
+      IF(ICRAY==1)THEN
 C fortran double precision : 128 bits C double : 64 bits
 C fortran real : 64 bits C double : 64 bits
        DO I = 1, N1
@@ -107,7 +107,7 @@ C fortran real : 64 bits C double : 64 bits
         CALL WRITE_DB_C(R4,1000)
        ENDDO
        N2=N1*1000
-       IF(N2.NE.N)THEN
+       IF(N2/=N)THEN
         DO J = 1, N-N2
           K=K+1
           R4(J) = A(K)
@@ -124,7 +124,7 @@ C fortran double precision : 64 bits C double : 64 bits
         CALL WRITE_DB_C(R8,1000)
        ENDDO
        N2=N1*1000
-       IF(N2.NE.N)THEN
+       IF(N2/=N)THEN
         DO J = 1, N-N2
           K=K+1
           R8(J) = A(K)
@@ -184,7 +184,7 @@ C fortran double precision : 64 bits C double : 64 bits
         CALL WRITE_DB_C(R8,1000)
        ENDDO
        N2=N1*1000
-       IF(N2.NE.N)THEN
+       IF(N2/=N)THEN
         DO J = 1, N-N2
           K=K+1
           R8(J) = A(K)

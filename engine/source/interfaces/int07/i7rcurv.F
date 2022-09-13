@@ -203,7 +203,7 @@ C-----------------------------------------------
         FSKYT(3,IAD) =  SURFZ
       END DO
 C
-      IF(NSPMD.GT.1) THEN
+      IF(NSPMD>1) THEN
         LENR = IRCSIZ(NSPMD+1)*3+IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
         LENS = ISDSIZ(NSPMD+1)*3+IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
         CALL SPMD_I7CURVCOM(IAD_ELEM,FR_ELEM,ADSKYT,FSKYT,
@@ -216,18 +216,18 @@ C
         N2 = ADSKYT(N1-1)
         N3 = ADSKYT(N1)-1
         N4 = N3-N2+1
-        IF(N4.GT.1)THEN        ! cas N contribution => tri
+        IF(N4>1)THEN        ! cas N contribution => tri
           DO J = 1, 3
             DO CC = N2, N3
               FSKYT2(CC-N2+1) = FSKYT(J,CC)
             END DO
-C            IF(N4.GT.MAXCC)print*,'error cc:',n4,maxcc
+C            IF(N4>MAXCC)print*,'error cc:',n4,maxcc
             CALL MYQSORT(N4,FSKYT2,PERM,ERROR)
             DO CC = N2, N3
               NOD_NORMAL(J,N1) = NOD_NORMAL(J,N1) + FSKYT2(CC-N2+1)
             END DO
           END DO
-        ELSEIF(N4.EQ.1)THEN    ! cas 1 seule contribution => direct
+        ELSEIF(N4==1)THEN    ! cas 1 seule contribution => direct
           NOD_NORMAL(1,N1) = FSKYT(1,N2)
           NOD_NORMAL(2,N1) = FSKYT(2,N2)
           NOD_NORMAL(3,N1) = FSKYT(3,N2)

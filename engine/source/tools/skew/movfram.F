@@ -68,7 +68,7 @@ C     REAL
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      IF(ISPMD.EQ.0) THEN
+      IF(ISPMD==0) THEN
         XPI=-1.
         XPI=ACOS(XPI)
 C-----------------------------------------------
@@ -77,14 +77,14 @@ C-----------------------------------------------
           N2=IFRAME(2,N+1)
           N3=IFRAME(3,N+1)
           IMOV=IFRAME(5,N+1)
-          IF(N1+N2+N3.EQ.0) THEN
+          IF(N1+N2+N3==0) THEN
 C         Fixed Frame
-          ELSEIF (N2+N3.EQ.0) THEN
+          ELSEIF (N2+N3==0) THEN
 C         Node defined frame (moving)
             XFRAME(16,N+1)=AR(1,N1)
             XFRAME(17,N+1)=AR(2,N1)
             XFRAME(18,N+1)=AR(3,N1)
-            IF(NXFRAME.GE.36)THEN
+            IF(NXFRAME>=36)THEN
               XFRAME(28,N+1)=A(1,N1)
               XFRAME(29,N+1)=A(2,N1)
               XFRAME(30,N+1)=A(3,N1)
@@ -154,7 +154,7 @@ C      => Z'=Z (IDIR=3)
 C------------------
               IF (IDIR == 1) THEN
                 PP1=SQRT(P(1)*P(1)+P(2)*P(2)+P(3)*P(3))
-                IF(PP1.EQ.ZERO)THEN
+                IF(PP1==ZERO)THEN
                   P(1)=ONE
                   P(2)=ZERO
                   P(3)=ZERO
@@ -162,7 +162,7 @@ C------------------
                 ENDIF
               ELSEIF (IDIR == 2) THEN
                 PP1=SQRT(P(4)*P(4)+P(5)*P(5)+P(6)*P(6))
-                IF(PP1.EQ.ZERO)THEN
+                IF(PP1==ZERO)THEN
                   P(4)=ONE
                   P(5)=ZERO
                   P(6)=ZERO
@@ -170,7 +170,7 @@ C------------------
                 ENDIF
               ELSEIF (IDIR == 3) THEN
                 PP1=SQRT(P(7)*P(7)+P(8)*P(8)+P(9)*P(9))
-                IF(PP1.EQ.ZERO)THEN
+                IF(PP1==ZERO)THEN
                   P(7)=ONE
                   P(8)=ZERO
                   P(9)=ZERO
@@ -205,8 +205,8 @@ C      SI Y'=0 (X0'=Z')
 C      => X0' != Z' (IDIR=3)
 C------------------
               IF (IDIR == 1) THEN
-                IF(PP3.EQ.ZERO)THEN
-                  IF(P(1).EQ.ZERO)THEN
+                IF(PP3==ZERO)THEN
+                  IF(P(1)==ZERO)THEN
                     P(4)=PP1
                     P(5)=P(2)
                   ELSE
@@ -220,8 +220,8 @@ C------------------
                   PP3=SQRT(P(7)*P(7)+P(8)*P(8)+P(9)*P(9))
                 ENDIF
               ELSEIF (IDIR == 2) THEN
-                IF(PP3.EQ.ZERO)THEN
-                  IF(P(4).EQ.ZERO)THEN
+                IF(PP3==ZERO)THEN
+                  IF(P(4)==ZERO)THEN
                     P(7)=PP1
                     P(8)=P(5)
                   ELSE
@@ -235,8 +235,8 @@ C------------------
                   PP3=SQRT(P(1)*P(1)+P(2)*P(2)+P(3)*P(3))
                 ENDIF
               ELSEIF (IDIR == 3) THEN
-                IF(PP3.EQ.ZERO)THEN
-                  IF(P(7).EQ.ZERO)THEN
+                IF(PP3==ZERO)THEN
+                  IF(P(7)==ZERO)THEN
                     P(1)=PP1
                     P(2)=P(8)
                   ELSE
@@ -288,7 +288,7 @@ C      SI Z'=0
 C      => Z'=Z
 C------------------
               PP3=SQRT(P(7)*P(7)+P(8)*P(8)+P(9)*P(9))
-              IF(PP3.EQ.ZERO)THEN
+              IF(PP3==ZERO)THEN
                 P(7)=ZERO
                 P(8)=ZERO
                 P(9)=ONE
@@ -305,8 +305,8 @@ C------------------
 C      SI Y'=0 (X0'=Z')
 C      => X0' != Y'
 C------------------
-              IF(PP2.EQ.ZERO)THEN
-                IF(P(7).EQ.ZERO)THEN
+              IF(PP2==ZERO)THEN
+                IF(P(7)==ZERO)THEN
                   P(1)=PP3
                   P(2)=P(8)
                 ELSE
@@ -356,28 +356,28 @@ C       rotation increment DR=Transpose( P Transpose(POLD) )
 C-------
 C       rotation increment vector.
             CS =(DR11+DR22+DR33-ONE)*HALF
-            IF (CS.GE.ONE) THEN
+            IF (CS>=ONE) THEN
 C             DRX=0.
 C             DRY=0.
 C             DRZ=0.
               DRX=(DR23-DR32)*HALF
               DRY=(DR31-DR13)*HALF
               DRZ=(DR12-DR21)*HALF
-            ELSEIF (CS.LE.-ONE) THEN
+            ELSEIF (CS<=-ONE) THEN
               DRX=XPI*SQRT((DR11+ONE)*HALF)
               DRY=XPI*SQRT((DR22+ONE)*HALF)
               DRZ=XPI*SQRT((DR33+ONE)*HALF)
-              IF (DR12.LT.ZERO.AND.DR23.LT.ZERO) THEN
+              IF (DR12<ZERO.AND.DR23<ZERO) THEN
                 DRY=-DRY
-              ELSEIF (DR23.LT.ZERO.AND.DR31.LT.ZERO) THEN
+              ELSEIF (DR23<ZERO.AND.DR31<ZERO) THEN
                 DRZ=-DRZ
-              ELSEIF (DR31.LT.ZERO.AND.DR12.LT.ZERO) THEN
+              ELSEIF (DR31<ZERO.AND.DR12<ZERO) THEN
                 DRX=-DRX
-              ELSEIF (DR12.LT.ZERO) THEN
+              ELSEIF (DR12<ZERO) THEN
                 DRZ=-DRZ
-              ELSEIF (DR23.LT.ZERO) THEN
+              ELSEIF (DR23<ZERO) THEN
                 DRX=-DRX
-              ELSEIF (DR31.LT.ZERO) THEN
+              ELSEIF (DR31<ZERO) THEN
                 DRY=-DRY
             ENDIF
           ELSE
@@ -399,7 +399,7 @@ C-------
           XFRAME(16,N+1)=(VRX-XFRAME(13,N+1))*DTINV
           XFRAME(17,N+1)=(VRY-XFRAME(14,N+1))*DTINV
           XFRAME(18,N+1)=(VRZ-XFRAME(15,N+1))*DTINV
-          IF(NXFRAME.GE.36)THEN
+          IF(NXFRAME>=36)THEN
             XFRAME(28,N+1)=A(1,N1)
             XFRAME(29,N+1)=A(2,N1)
             XFRAME(30,N+1)=A(3,N1)
@@ -465,7 +465,7 @@ C     REAL
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      IF(ISPMD.EQ.0) THEN
+      IF(ISPMD==0) THEN
        XPI=-1.
        XPI=ACOS(XPI)
 C-----------------------------------------------
@@ -477,7 +477,7 @@ C-----------------------------------------------
 C----------------
 C      REFERENCE FRAME MOBILE
 C----------------
-         IF(N1+N2+N3.EQ.0)GOTO 100
+         IF(N1+N2+N3==0)GOTO 100
 C-----------------
 C      EXTRACT FRAME ORIENTATION WRT GLOBAL SYSTEM at TIME T-1.
 C-----------------
@@ -490,7 +490,7 @@ C-----------------
          POLD(7)=XFRAME(7,N+1)
          POLD(8)=XFRAME(8,N+1)
          POLD(9)=XFRAME(9,N+1)
-         IF (N2+N3.EQ.0) THEN
+         IF (N2+N3==0) THEN
 C        Node defined frame
           VRN(1)=POLD(1)*VR(1,N1)+POLD(2)*VR(2,N1)+POLD(3)*VR(3,N1)
           VRN(2)=POLD(4)*VR(1,N1)+POLD(5)*VR(2,N1)+POLD(6)*VR(3,N1)
@@ -506,7 +506,7 @@ C
           XFRAME(13,N+1)=VR(1,N1)
           XFRAME(14,N+1)=VR(2,N1)
           XFRAME(15,N+1)=VR(3,N1)
-          IF(NXFRAME.GE.36)THEN
+          IF(NXFRAME>=36)THEN
            XFRAME(31,N+1)=V(1,N1)
            XFRAME(32,N+1)=V(2,N1)
            XFRAME(33,N+1)=V(3,N1)
@@ -569,7 +569,7 @@ C      => Z'=Z(IDIR=3)
 C------------------
             IF (IDIR == 1) THEN
               PP1=SQRT(P(1)*P(1)+P(2)*P(2)+P(3)*P(3))
-              IF(PP1.EQ.0.)THEN
+              IF(PP1==0.)THEN
                P(1)=1.
                P(2)=0.
                P(3)=0.
@@ -577,7 +577,7 @@ C------------------
               ENDIF
             ELSEIF (IDIR == 2) THEN
               PP1=SQRT(P(4)*P(4)+P(5)*P(5)+P(6)*P(6))
-              IF(PP1.EQ.0.)THEN
+              IF(PP1==0.)THEN
                P(4)=1.
                P(5)=0.
                P(6)=0.
@@ -585,7 +585,7 @@ C------------------
               ENDIF
             ELSEIF (IDIR == 3) THEN
               PP1=SQRT(P(7)*P(7)+P(8)*P(8)+P(9)*P(9))
-              IF(PP1.EQ.0.)THEN
+              IF(PP1==0.)THEN
                P(7)=1.
                P(8)=0.
                P(9)=0.
@@ -620,8 +620,8 @@ C      SI Y'=0 (X0'=Z')
 C      => X0' != Z'(IDIR=3)
 C------------------
             IF (IDIR == 1) THEN
-              IF(PP3.EQ.ZERO)THEN
-               IF(P(1).EQ.ZERO)THEN
+              IF(PP3==ZERO)THEN
+               IF(P(1)==ZERO)THEN
                 P(4)=PP1
                 P(5)=P(2)
                ELSE
@@ -635,8 +635,8 @@ C------------------
                PP3=SQRT(P(7)*P(7)+P(8)*P(8)+P(9)*P(9))
               ENDIF
             ELSEIF (IDIR == 2) THEN
-              IF(PP3.EQ.ZERO)THEN
-               IF(P(4).EQ.ZERO)THEN
+              IF(PP3==ZERO)THEN
+               IF(P(4)==ZERO)THEN
                 P(7)=PP1
                 P(8)=P(5)
                ELSE
@@ -650,8 +650,8 @@ C------------------
                PP3=SQRT(P(1)*P(1)+P(2)*P(2)+P(3)*P(3))
               ENDIF
             ELSEIF (IDIR == 3) THEN
-              IF(PP3.EQ.ZERO)THEN
-               IF(P(7).EQ.ZERO)THEN
+              IF(PP3==ZERO)THEN
+               IF(P(7)==ZERO)THEN
                 P(1)=PP1
                 P(2)=P(8)
                ELSE
@@ -703,7 +703,7 @@ C      SI Z'=0
 C      => Z'=Z
 C------------------
             PP3=SQRT(P(7)*P(7)+P(8)*P(8)+P(9)*P(9))
-            IF(PP3.EQ.ZERO)THEN
+            IF(PP3==ZERO)THEN
               P(7)=ZERO
               P(8)=ZERO
               P(9)=ONE
@@ -720,8 +720,8 @@ C------------------
 C      SI Y'=0 (X0'=Z')
 C      => X0' != Y'
 C------------------
-            IF(PP2.EQ.ZERO)THEN
-              IF(P(7).EQ.ZERO)THEN
+            IF(PP2==ZERO)THEN
+              IF(P(7)==ZERO)THEN
                 P(1)=PP3
                 P(2)=P(8)
               ELSE
@@ -763,7 +763,7 @@ C
           XFRAME(10,N+1)=O(1)
           XFRAME(11,N+1)=O(2)
           XFRAME(12,N+1)=O(3)
-          IF(NXFRAME.GE.36)THEN
+          IF(NXFRAME>=36)THEN
             XFRAME(31,N+1)=V(1,N1)
             XFRAME(32,N+1)=V(2,N1)
             XFRAME(33,N+1)=V(3,N1)
@@ -840,7 +840,7 @@ C     REAL
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      IF(ISPMD.EQ.0) THEN
+      IF(ISPMD==0) THEN
         XPI=-1.
         XPI=ACOS(XPI)
 C-----------------------------------------------
@@ -849,9 +849,9 @@ C-----------------------------------------------
           N2=IFRAME(2,N+1)
           N3=IFRAME(3,N+1)
           IMOV=IFRAME(5,N+1)
-          IF(N1+N2+N3.EQ.0) THEN
+          IF(N1+N2+N3==0) THEN
 C         Fixed Frame
-          ELSEIF (N2+N3.EQ.0) THEN
+          ELSEIF (N2+N3==0) THEN
 C        Node defined frame
           IF (INCONV==1) THEN
 C-----------------
@@ -882,7 +882,7 @@ C
           XFRAME(16,N+1)=AR(1,N1)
           XFRAME(17,N+1)=AR(2,N1)
           XFRAME(18,N+1)=AR(3,N1)
-          IF(NXFRAME.GE.36)THEN
+          IF(NXFRAME>=36)THEN
            XFRAME(28,N+1)=A(1,N1)
            XFRAME(29,N+1)=A(2,N1)
            XFRAME(30,N+1)=A(3,N1)
@@ -932,7 +932,7 @@ C      SI X'=0
 C      => X'=X
 C------------------
               PP1=SQRT(P(1)*P(1)+P(2)*P(2)+P(3)*P(3))
-              IF(PP1.EQ.ZERO)THEN
+              IF(PP1==ZERO)THEN
                 P(1)=ONE
                 P(2)=ZERO
                 P(3)=ZERO
@@ -949,8 +949,8 @@ C------------------
 C      SI Z'=0 (Y0'=X')
 C      => Y0' != X'
 C------------------
-              IF(PP3.EQ.ZERO)THEN
-                IF(P(1).EQ.ZERO)THEN
+              IF(PP3==ZERO)THEN
+                IF(P(1)==ZERO)THEN
                   P(4)=PP1
                   P(5)=P(2)
                 ELSE
@@ -989,7 +989,7 @@ C      SI Z'=0
 C      => Z'=Z
 C------------------
               PP3=SQRT(P(7)*P(7)+P(8)*P(8)+P(9)*P(9))
-              IF(PP3.EQ.ZERO)THEN
+              IF(PP3==ZERO)THEN
                 P(7)=ZERO
                 P(8)=ZERO
                 P(9)=ONE
@@ -1006,8 +1006,8 @@ C------------------
 C      SI Y'=0 (X0'=Z')
 C      => X0' != Y'
 C------------------
-              IF(PP2.EQ.ZERO)THEN
-                IF(P(7).EQ.ZERO)THEN
+              IF(PP2==ZERO)THEN
+                IF(P(7)==ZERO)THEN
                   P(1)=PP3
                   P(2)=P(8)
                 ELSE
@@ -1066,25 +1066,25 @@ C       rotation increment DR=Transpose( P Transpose(POLD) )
 C-------
 C       rotation increment vector.
             CS =(DR11+DR22+DR33-ONE)*HALF
-            IF (CS.GE.ONE) THEN
+            IF (CS>=ONE) THEN
               DRX=(DR23-DR32)*HALF
               DRY=(DR31-DR13)*HALF
               DRZ=(DR12-DR21)*HALF
-            ELSEIF (CS.LE.-ONE) THEN
+            ELSEIF (CS<=-ONE) THEN
               DRX=XPI*SQRT((DR11+ONE)*HALF)
               DRY=XPI*SQRT((DR22+ONE)*HALF)
               DRZ=XPI*SQRT((DR33+ONE)*HALF)
-              IF (DR12.LT.ZERO.AND.DR23.LT.ZERO) THEN
+              IF (DR12<ZERO.AND.DR23<ZERO) THEN
                 DRY=-DRY
-              ELSEIF (DR23.LT.ZERO.AND.DR31.LT.ZERO) THEN
+              ELSEIF (DR23<ZERO.AND.DR31<ZERO) THEN
                 DRZ=-DRZ
-              ELSEIF (DR31.LT.ZERO.AND.DR12.LT.ZERO) THEN
+              ELSEIF (DR31<ZERO.AND.DR12<ZERO) THEN
                 DRX=-DRX
-              ELSEIF (DR12.LT.ZERO) THEN
+              ELSEIF (DR12<ZERO) THEN
                 DRZ=-DRZ
-              ELSEIF (DR23.LT.ZERO) THEN
+              ELSEIF (DR23<ZERO) THEN
                 DRX=-DRX
-              ELSEIF (DR31.LT.ZERO) THEN
+              ELSEIF (DR31<ZERO) THEN
                 DRY=-DRY
             ENDIF
           ELSE
@@ -1109,7 +1109,7 @@ C-------
           XFRAME(16,N+1)=(VRX-XFRAME(13,N+1))*DTINV
           XFRAME(17,N+1)=(VRY-XFRAME(14,N+1))*DTINV
           XFRAME(18,N+1)=(VRZ-XFRAME(15,N+1))*DTINV
-          IF(NXFRAME.GE.36)THEN
+          IF(NXFRAME>=36)THEN
            XFRAME(28,N+1)=A(1,N1)
            XFRAME(29,N+1)=A(2,N1)
            XFRAME(30,N+1)=A(3,N1)
@@ -1120,7 +1120,7 @@ C-------
            XFRAME(35,N+1)=D(2,N1)
            XFRAME(36,N+1)=D(3,N1)
           ENDIF
-        ENDIF !(N1+N2+N3.EQ.0)
+        ENDIF !(N1+N2+N3==0)
 C
   100  CONTINUE
       ENDIF

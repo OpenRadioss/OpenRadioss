@@ -210,7 +210,7 @@ C-------------
           CALL HM_GET_FLOATV('MAT_ETA1'  ,VMU    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('MAT_ETA2'  ,VMU0    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 
-          IF (VMU.LE.0..OR.VMU0.LE.0.) THEN
+          IF (VMU<=0..OR.VMU0<=0.) THEN
              CALL ANCMSG(MSGID=310,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO,

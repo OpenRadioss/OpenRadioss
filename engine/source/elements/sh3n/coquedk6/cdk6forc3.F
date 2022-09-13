@@ -403,7 +403,7 @@ C--------------------------
      3                R    ,THK02  ,AREA ,GRESAV ,GRTH   ,
      4                IGRTH,OFF    ,IBID ,IBID,IBID   ,IBID   ,
      5                IBID ,IEXPAN ,GBUF%EINTTH,ITASK)
-      IF(IPARIT.EQ.0)THEN
+      IF(IPARIT==0)THEN
         CALL CDK6UPDT3(JFT  ,JLT  ,F   ,M   ,NVC  ,
      2             GBUF%OFF,OFF  ,STI ,STIR,STIFN,
      3             STIFR  ,IXTG ,IXTG1, F11  ,

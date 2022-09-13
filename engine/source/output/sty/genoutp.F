@@ -163,12 +163,12 @@ C   OPEN FILE
 C-----------------------------------------------
       IF(ISPMD == 0) THEN
        IF(IROOTYY == 2)THEN
-        IF(IOUTP.GE.1000)IOUTP=1
+        IF(IOUTP>=1000)IOUTP=1
         WRITE(CHOUTP,'(I3.3)')IOUTP
         FILNAM=ROOTNAM(1:ROOTLEN)//'Y'//CHOUTP
         FILEN = ROOTLEN + 4 
        ELSE       
-        IF(IOUTP.GE.10000)IOUTP=1
+        IF(IOUTP>=10000)IOUTP=1
         WRITE(CHOUTP,'(I4.4)')IOUTP
         FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHOUTP//'.sty'
         FILEN = ROOTLEN + 9
@@ -266,7 +266,7 @@ C-----------------------------------------------
      .   20,ANIN,NUMNOD,ITAB,INNODA,
      .   ITABG,LENG,NODGLOB,WEIGHT)
 
-      IF(OUTP_N(1)+ANIM_N(1).GE.1)
+      IF(OUTP_N(1)+ANIM_N(1)>=1)
      .   INNODA=INNODA+NUMNOD
 
       IF(OUTP_N(2) == 1) CALL OUTP_NO('NOD_ADMAS ',
@@ -274,7 +274,7 @@ C-----------------------------------------------
      .   20,ANIN,NUMNOD,ITAB,INNODA,
      .   ITABG,LENG,NODGLOB,WEIGHT)
 
-      IF(OUTP_N(2)+ANIM_N(2).GE.1)
+      IF(OUTP_N(2)+ANIM_N(2)>=1)
      .   INNODA=INNODA+NUMNOD
 
       IF(OUTP_N(3) == 1) CALL OUTP_NO('NOD_ADINER',
@@ -282,7 +282,7 @@ C-----------------------------------------------
      .   20,ANIN,NUMNOD,ITAB,INNODA,
      .   ITABG,LENG,NODGLOB,WEIGHT)
 
-C     IF(OUTP_N(3)+ANIM_N(12).GE.1)
+C     IF(OUTP_N(3)+ANIM_N(12)>=1)
 C    .   INNODA=INNODA+NUMNOD
 
 C-----------------------------------------------

@@ -62,7 +62,7 @@ C     REAL
      .   EMS, XI
 C--------------------------------------------
       IADNOD=KXX(4)
-      IF (KEUSR.EQ.0) THEN
+      IF (KEUSR==0) THEN
        DO K=1,NX
         I1 = IXX(IADNOD+K-1)
         EMS=UMASS(K)

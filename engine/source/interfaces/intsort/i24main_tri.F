@@ -154,7 +154,7 @@ C
       INTNITSCHE = IPARI(86,NIN)
 
 C
-c      IF(NUM_IMP.GT.0)THEN
+c      IF(NUM_IMP>0)THEN
 c        NSNROLD = IPARI(24,NIN)
 c      ELSE
          NSNROLD = IPARI(24,NIN)
@@ -162,8 +162,8 @@ c      ENDIF
 C
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
       GAP =INTBUF_TAB%VARIABLES(2)
       GAPMIN=INTBUF_TAB%VARIABLES(13)
       GAPMAX=INTBUF_TAB%VARIABLES(16)
@@ -175,7 +175,7 @@ C
 C -------------------------------------------------------------
 C
       DIST = INTBUF_TAB%VARIABLES(5)
-      IF (DIST.GT.ZERO) RETURN
+      IF (DIST>ZERO) RETURN
       RETRI = 1
 C
 C -------------------------------------------------------------
@@ -238,10 +238,10 @@ C eshift : decalage sur cand_e
 C BARRIER II_STOK et RESULT
       CALL MY_BARRIER
 C a conserver pour cas inacti est modifie sur p0
-      IF(ITASK.EQ.0)THEN
-        IF(ABS(BMINMA(6)-BMINMA(3)).GT.2*EP30.OR.
-     +     ABS(BMINMA(5)-BMINMA(2)).GT.2*EP30.OR.
-     +     ABS(BMINMA(4)-BMINMA(1)).GT.2*EP30)THEN
+      IF(ITASK==0)THEN
+        IF(ABS(BMINMA(6)-BMINMA(3))>2*EP30.OR.
+     +     ABS(BMINMA(5)-BMINMA(2))>2*EP30.OR.
+     +     ABS(BMINMA(4)-BMINMA(1))>2*EP30)THEN
           CALL ANCMSG(MSGID=87,ANMODE=ANINFO,
      .            I1=NOINT,C1='(I24BUCE)')
           CALL ARRET(2)
@@ -290,7 +290,7 @@ C
 
       IF(NSPMD > 1) THEN
 
-        IF(ITASK.EQ.0) CRVOXEL(0:LRVOXEL,0:LRVOXEL,LOC_PROC)=0
+        IF(ITASK==0) CRVOXEL(0:LRVOXEL,0:LRVOXEL,LOC_PROC)=0
 c        goto 150
         CALL MY_BARRIER
         IF (IMONM > 0 .AND. ITASK == 0) CALL STARTIME(26,1)
@@ -304,7 +304,7 @@ c        goto 150
         CALL MY_BARRIER
         IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(26,1)
 
-        IF(ITASK.EQ.0)THEN
+        IF(ITASK==0)THEN
 C
 C recuperation des noeuds remote NSNR stockes dans XREM
 C
@@ -325,7 +325,7 @@ C
 C
 C renumerotation locale des anciens candidats
 C
-ccc          IF(NUM_IMP.GT.0)THEN
+ccc          IF(NUM_IMP>0)THEN
             CALL SPMD_RNUMCD(
      1        INTBUF_TAB%CAND_N,RENUM  ,INTBUF_TAB%I_STOK(1), NIN, NSN,
      2        NSNFIOLD     ,NSNROLD)
@@ -391,9 +391,9 @@ C
 C--------------------------------------------------------------
 C--------------------------------------------------------------
       CALL MY_BARRIER
-      IF (RESULT.NE.0) THEN
+      IF (RESULT/=0) THEN
         CALL MY_BARRIER
-        IF (ITASK.EQ.0) THEN
+        IF (ITASK==0) THEN
 C utile si on revient
           INTBUF_TAB%I_STOK(1) =  I_SK_OLD
           RESULT = 0
@@ -403,7 +403,7 @@ C utile si on revient
         GOTO 50
       ENDIF
 C mise a - de dist temporairement pour reperage dans partie frontiere
-      IF(NSPMD.GT.1)THEN
+      IF(NSPMD>1)THEN
 C mono tache
 !$OMP SINGLE
         IF (IMONM > 0) CALL STARTIME(26,1)

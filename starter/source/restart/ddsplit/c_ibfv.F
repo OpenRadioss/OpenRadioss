@@ -64,13 +64,13 @@ C
         NCUV = IBFV(3,I)
         IF(NLOCAL(N,PROC+1)==1.AND.NCUV>0)THEN
           N_L = N_L + 1
-          IF(IBFV(8,I).NE.0) THEN ! LAG MULT
+          IF(IBFV(8,I)/=0) THEN ! LAG MULT
             ISK = IBFV(2,I)/10
             DO P = 1, NSPMD
               IF(NLOCAL(N,P)==1) THEN
-                IF(P.EQ.PROC+1) THEN
+                IF(P==PROC+1) THEN
                   DD_LAGF(1,P) = DD_LAGF(1,P) + 1
-                  IF(ISK.LE.1)THEN
+                  IF(ISK<=1)THEN
                     DD_LAGF(2,P) = DD_LAGF(2,P) + 1
                   ELSE
                     DD_LAGF(2,P) = DD_LAGF(2,P) + 3

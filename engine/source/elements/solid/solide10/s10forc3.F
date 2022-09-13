@@ -340,7 +340,7 @@ C!!!!!!calcul local rep for ISMSTR 10 to 11 (offg>un)
         IF (ISMSTR == 12.AND.ISM12_11==0.AND.IDTMIN(1)==3) THEN
          CALL S10RCOOR12(GBUF%OFF,X ,XDP ,NC ,
      .    E1X   ,E2X   ,E3X   ,E1Y   ,E2Y   ,E3Y   ,E1Z  ,E2Z  ,E3Z   ) 
-        END IF !(ISMSTR == 10.AND.ISORTH/=0.AND.IDTMIN(1).EQ.3)
+        END IF !(ISMSTR == 10.AND.ISORTH/=0.AND.IDTMIN(1)==3)
 c        CALL S10DERITO3(VOLP,
 c     .   XX0, YY0, ZZ0, PX,PY,PZ, NX,
 c     .   RX,  RY,  RZ,  SX,  SY,  SZ , TX, TY, TZ,
@@ -442,7 +442,7 @@ C-----------------------------
         LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IPTR,IPTS,IPTT)
        IF (IOFFS == 1)THEN
         DO I=LFT,LLT
-         IF (OFFS(I).LE.TWO) LBUF%OFF(I)=OFFS(I)
+         IF (OFFS(I)<=TWO) LBUF%OFF(I)=OFFS(I)
         ENDDO
        END IF
 C
@@ -597,7 +597,7 @@ C------ correction of GBUF%SMSTR will be done only from next cycle
         IF (IOFFS == 1)THEN
           DO I=LFT,LLT
 C           switch to small strain
-            IF (OFFS(I).LE.TWO) GBUF%OFF(I) = OFFS(I)
+            IF (OFFS(I)<=TWO) GBUF%OFF(I) = OFFS(I)
           END DO
 C
         IPTS = 1
@@ -711,11 +711,11 @@ C-----------------------------------------------
      .            1, 4, 2, 3, 8, 9, 5, 7,10, 6,
      .            1, 2, 3, 4, 5, 6, 7, 8, 9,10/
 C-----------------------------------------------
-      IF(NPT.EQ.4)THEN
+      IF(NPT==4)THEN
         ALPH = ZEP5854102
         BETA  = ZEP1381966
         W = FOURTH
-      ELSEIF(NPT.EQ.5)THEN
+      ELSEIF(NPT==5)THEN
         ALPH = HALF
         BETA  = ONE_OVER_6
         W = NINE_OVER_20
@@ -781,7 +781,7 @@ c
       ENDDO
 C
 C
-      IF(NPT.EQ.5)THEN
+      IF(NPT==5)THEN
         ALPH = FOURTH
         BETA  = FOURTH
         A4 = ONE

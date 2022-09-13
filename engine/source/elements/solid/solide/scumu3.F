@@ -90,9 +90,9 @@ C-----------------------------------------------
         OFF_L = MIN(OFF_L,OFFG(I))
       ENDDO
       IF(IPARTSPH==0)THEN
-        IF(OFF_L.LT.ZERO)THEN
+        IF(OFF_L<ZERO)THEN
           DO I=LFT,LLT
-           IF(OFFG(I).LT.ZERO)THEN
+           IF(OFFG(I)<ZERO)THEN
              F11(I)=ZERO
              F21(I)=ZERO
              F31(I)=ZERO
@@ -122,9 +122,9 @@ C-----------------------------------------------
           ENDDO
         ENDIF
       ELSE
-        IF(OFF_L.LE.ZERO)THEN
+        IF(OFF_L<=ZERO)THEN
           DO I=LFT,LLT
-           IF(OFFG(I).LE.ZERO)THEN
+           IF(OFFG(I)<=ZERO)THEN
 C
 C case /DT/BRICK/DEL => OFFG==0 &  F,STI/=0
              F11(I)=ZERO
@@ -157,19 +157,19 @@ C case /DT/BRICK/DEL => OFFG==0 &  F,STI/=0
         ENDIF
       ENDIF
       IF(JTHE < 0 ) THEN
-       IF(OFF_L.LE.ZERO)THEN
+       IF(OFF_L<=ZERO)THEN
         DO J=1,8
          DO I=LFT,LLT
-          IF(OFFG(I).LE.ZERO)THEN
+          IF(OFFG(I)<=ZERO)THEN
              THEM(I,J)=ZERO
           ENDIF
          ENDDO
         ENDDO
        ENDIF
        IF(NODADT_THERM == 1) THEN
-        IF(OFF_L.LT.ZERO)THEN
+        IF(OFF_L<ZERO)THEN
          DO I=LFT,LLT
-          IF(OFFG(I).LT.ZERO)THEN
+          IF(OFFG(I)<ZERO)THEN
              CONDE(I)=ZERO
           ENDIF
          ENDDO
@@ -197,7 +197,7 @@ C     because 2*Mnodal = 2*Melement/8
 C
 C
       IF(JTHE >= 0) THEN
-       IF(NVC1.EQ.0)THEN
+       IF(NVC1==0)THEN
         DO I=LFT,LLT
          E(1,NC1(I))=E(1,NC1(I))+F11(I)
          E(2,NC1(I))=E(2,NC1(I))+F21(I)
@@ -212,7 +212,7 @@ C
          STIFN(NC1(I))=STIFN(NC1(I))+STI(I)
         ENDDO
        ENDIF
-       IF(NVC2.EQ.0)THEN
+       IF(NVC2==0)THEN
         DO I=LFT,LLT
          E(1,NC2(I))=E(1,NC2(I))+F12(I)
          E(2,NC2(I))=E(2,NC2(I))+F22(I)
@@ -227,7 +227,7 @@ C
          STIFN(NC2(I))=STIFN(NC2(I))+STI(I)
         ENDDO
        ENDIF
-       IF(NVC3.EQ.0)THEN
+       IF(NVC3==0)THEN
         DO I=LFT,LLT
          E(1,NC3(I))=E(1,NC3(I))+F13(I)
          E(2,NC3(I))=E(2,NC3(I))+F23(I)
@@ -242,7 +242,7 @@ C
          STIFN(NC3(I))=STIFN(NC3(I))+STI(I)
         ENDDO
        ENDIF
-       IF(NVC4.EQ.0)THEN
+       IF(NVC4==0)THEN
         DO I=LFT,LLT
          E(1,NC4(I))=E(1,NC4(I))+F14(I)
          E(2,NC4(I))=E(2,NC4(I))+F24(I)
@@ -257,7 +257,7 @@ C
          STIFN(NC4(I))=STIFN(NC4(I))+STI(I)
         ENDDO
        ENDIF
-       IF(NVC5.EQ.0)THEN
+       IF(NVC5==0)THEN
         DO I=LFT,LLT
          E(1,NC5(I))=E(1,NC5(I))+F15(I)
          E(2,NC5(I))=E(2,NC5(I))+F25(I)
@@ -272,7 +272,7 @@ C
          STIFN(NC5(I))=STIFN(NC5(I))+STI(I)
        ENDDO
        ENDIF
-       IF(NVC6.EQ.0)THEN
+       IF(NVC6==0)THEN
         DO I=LFT,LLT
          E(1,NC6(I))=E(1,NC6(I))+F16(I)
          E(2,NC6(I))=E(2,NC6(I))+F26(I)
@@ -287,7 +287,7 @@ C
          STIFN(NC6(I))=STIFN(NC6(I))+STI(I)
         ENDDO
        ENDIF
-       IF(NVC7.EQ.0)THEN
+       IF(NVC7==0)THEN
         DO I=LFT,LLT
          E(1,NC7(I))=E(1,NC7(I))+F17(I)
          E(2,NC7(I))=E(2,NC7(I))+F27(I)
@@ -302,7 +302,7 @@ C
          STIFN(NC7(I))=STIFN(NC7(I))+STI(I)
         ENDDO
        ENDIF
-      IF(NVC8.EQ.0)THEN
+      IF(NVC8==0)THEN
        DO I=LFT,LLT
          E(1,NC8(I))=E(1,NC8(I))+F18(I)
          E(2,NC8(I))=E(2,NC8(I))+F28(I)
@@ -320,7 +320,7 @@ C
 CCC
       ELSE
        IF(NODADT_THERM == 1 ) THEN  
-        IF(NVC1.EQ.0)THEN
+        IF(NVC1==0)THEN
         DO I=LFT,LLT
          E(1,NC1(I))=E(1,NC1(I))+F11(I)
          E(2,NC1(I))=E(2,NC1(I))+F21(I)
@@ -339,7 +339,7 @@ CCC
          CONDN(NC1(I))= CONDN(NC1(I))+ CONDE(I)
         ENDDO
        ENDIF
-       IF(NVC2.EQ.0)THEN
+       IF(NVC2==0)THEN
         DO I=LFT,LLT
          E(1,NC2(I))=E(1,NC2(I))+F12(I)
          E(2,NC2(I))=E(2,NC2(I))+F22(I)
@@ -358,7 +358,7 @@ CCC
          CONDN(NC2(I))= CONDN(NC2(I))+ CONDE(I)
         ENDDO
        ENDIF
-       IF(NVC3.EQ.0)THEN
+       IF(NVC3==0)THEN
         DO I=LFT,LLT
          E(1,NC3(I))=E(1,NC3(I))+F13(I)
          E(2,NC3(I))=E(2,NC3(I))+F23(I)
@@ -377,7 +377,7 @@ CCC
          CONDN(NC3(I))= CONDN(NC3(I))+ CONDE(I)
         ENDDO
        ENDIF
-       IF(NVC4.EQ.0)THEN
+       IF(NVC4==0)THEN
         DO I=LFT,LLT
          E(1,NC4(I))=E(1,NC4(I))+F14(I)
          E(2,NC4(I))=E(2,NC4(I))+F24(I)
@@ -396,7 +396,7 @@ CCC
          CONDN(NC4(I))= CONDN(NC4(I))+ CONDE(I)
         ENDDO
        ENDIF
-       IF(NVC5.EQ.0)THEN
+       IF(NVC5==0)THEN
         DO I=LFT,LLT
          E(1,NC5(I))=E(1,NC5(I))+F15(I)
          E(2,NC5(I))=E(2,NC5(I))+F25(I)
@@ -415,7 +415,7 @@ CCC
          CONDN(NC5(I))= CONDN(NC5(I))+ CONDE(I)
        ENDDO
        ENDIF
-       IF(NVC6.EQ.0)THEN
+       IF(NVC6==0)THEN
         DO I=LFT,LLT
          E(1,NC6(I))=E(1,NC6(I))+F16(I)
          E(2,NC6(I))=E(2,NC6(I))+F26(I)
@@ -434,7 +434,7 @@ CCC
          CONDN(NC6(I))= CONDN(NC6(I))+ CONDE(I)
         ENDDO
        ENDIF
-       IF(NVC7.EQ.0)THEN
+       IF(NVC7==0)THEN
         DO I=LFT,LLT
          E(1,NC7(I))=E(1,NC7(I))+F17(I)
          E(2,NC7(I))=E(2,NC7(I))+F27(I)
@@ -453,7 +453,7 @@ CCC
          CONDN(NC7(I))= CONDN(NC7(I))+ CONDE(I)
         ENDDO
        ENDIF
-      IF(NVC8.EQ.0)THEN
+      IF(NVC8==0)THEN
        DO I=LFT,LLT
          E(1,NC8(I))=E(1,NC8(I))+F18(I)
          E(2,NC8(I))=E(2,NC8(I))+F28(I)
@@ -475,7 +475,7 @@ CCC
 C   
        ELSE ! NODADT_THERM
 C
-        IF(NVC1.EQ.0)THEN
+        IF(NVC1==0)THEN
         DO I=LFT,LLT
          E(1,NC1(I))=E(1,NC1(I))+F11(I)
          E(2,NC1(I))=E(2,NC1(I))+F21(I)
@@ -492,7 +492,7 @@ C
          FTHE(NC1(I)) = FTHE(NC1(I)) + THEM(I,1)
         ENDDO
        ENDIF
-       IF(NVC2.EQ.0)THEN
+       IF(NVC2==0)THEN
         DO I=LFT,LLT
          E(1,NC2(I))=E(1,NC2(I))+F12(I)
          E(2,NC2(I))=E(2,NC2(I))+F22(I)
@@ -509,7 +509,7 @@ C
          FTHE(NC2(I)) = FTHE(NC2(I)) + THEM(I,2)
         ENDDO
        ENDIF
-       IF(NVC3.EQ.0)THEN
+       IF(NVC3==0)THEN
         DO I=LFT,LLT
          E(1,NC3(I))=E(1,NC3(I))+F13(I)
          E(2,NC3(I))=E(2,NC3(I))+F23(I)
@@ -526,7 +526,7 @@ C
          FTHE(NC3(I)) = FTHE(NC3(I)) + THEM(I,3) 
         ENDDO
        ENDIF
-       IF(NVC4.EQ.0)THEN
+       IF(NVC4==0)THEN
         DO I=LFT,LLT
          E(1,NC4(I))=E(1,NC4(I))+F14(I)
          E(2,NC4(I))=E(2,NC4(I))+F24(I)
@@ -543,7 +543,7 @@ C
          FTHE(NC4(I)) = FTHE(NC4(I)) + THEM(I,4)
         ENDDO
        ENDIF
-       IF(NVC5.EQ.0)THEN
+       IF(NVC5==0)THEN
         DO I=LFT,LLT
          E(1,NC5(I))=E(1,NC5(I))+F15(I)
          E(2,NC5(I))=E(2,NC5(I))+F25(I)
@@ -560,7 +560,7 @@ C
          FTHE(NC5(I)) = FTHE(NC5(I)) + THEM(I,5)
        ENDDO
        ENDIF
-       IF(NVC6.EQ.0)THEN
+       IF(NVC6==0)THEN
         DO I=LFT,LLT
          E(1,NC6(I))=E(1,NC6(I))+F16(I)
          E(2,NC6(I))=E(2,NC6(I))+F26(I)
@@ -577,7 +577,7 @@ C
          FTHE(NC6(I)) = FTHE(NC6(I)) + THEM(I,6)
         ENDDO
        ENDIF
-       IF(NVC7.EQ.0)THEN
+       IF(NVC7==0)THEN
         DO I=LFT,LLT
          E(1,NC7(I))=E(1,NC7(I))+F17(I)
          E(2,NC7(I))=E(2,NC7(I))+F27(I)
@@ -594,7 +594,7 @@ C
          FTHE(NC7(I)) = FTHE(NC7(I)) + THEM(I,7)
         ENDDO
        ENDIF
-      IF(NVC8.EQ.0)THEN
+      IF(NVC8==0)THEN
        DO I=LFT,LLT
          E(1,NC8(I))=E(1,NC8(I))+F18(I)
          E(2,NC8(I))=E(2,NC8(I))+F28(I)
@@ -615,10 +615,10 @@ C
        ENDIF       
       ENDIF
 C
-      IF(ISROT.NE.0)THEN
-       IF(OFF_L.LT.ZERO)THEN
+      IF(ISROT/=0)THEN
+       IF(OFF_L<ZERO)THEN
         DO I=LFT,LLT
-         IF(OFFG(I).LT.ZERO)THEN
+         IF(OFFG(I)<ZERO)THEN
            MX1(I)=0.
            MY1(I)=0.
            MZ1(I)=0.
@@ -685,17 +685,17 @@ C
 C--------------------------------------------
 C     Front wave
 C--------------------------------------------
-       IF (IFRWV.NE.0)THEN
+       IF (IFRWV/=0)THEN
 #include "lockon.inc"
          DO I=LFT,LLT
-           IF(FR_WAVE(NC1(I)).EQ.0.0)FR_WAVE(NC1(I))=-FR_WAV(I)
-           IF(FR_WAVE(NC2(I)).EQ.0.0)FR_WAVE(NC2(I))=-FR_WAV(I)
-           IF(FR_WAVE(NC3(I)).EQ.0.0)FR_WAVE(NC3(I))=-FR_WAV(I)
-           IF(FR_WAVE(NC4(I)).EQ.0.0)FR_WAVE(NC4(I))=-FR_WAV(I)
-           IF(FR_WAVE(NC5(I)).EQ.0.0)FR_WAVE(NC5(I))=-FR_WAV(I)
-           IF(FR_WAVE(NC6(I)).EQ.0.0)FR_WAVE(NC6(I))=-FR_WAV(I)
-           IF(FR_WAVE(NC7(I)).EQ.0.0)FR_WAVE(NC7(I))=-FR_WAV(I)
-           IF(FR_WAVE(NC8(I)).EQ.0.0)FR_WAVE(NC8(I))=-FR_WAV(I)
+           IF(FR_WAVE(NC1(I))==0.0)FR_WAVE(NC1(I))=-FR_WAV(I)
+           IF(FR_WAVE(NC2(I))==0.0)FR_WAVE(NC2(I))=-FR_WAV(I)
+           IF(FR_WAVE(NC3(I))==0.0)FR_WAVE(NC3(I))=-FR_WAV(I)
+           IF(FR_WAVE(NC4(I))==0.0)FR_WAVE(NC4(I))=-FR_WAV(I)
+           IF(FR_WAVE(NC5(I))==0.0)FR_WAVE(NC5(I))=-FR_WAV(I)
+           IF(FR_WAVE(NC6(I))==0.0)FR_WAVE(NC6(I))=-FR_WAV(I)
+           IF(FR_WAVE(NC7(I))==0.0)FR_WAVE(NC7(I))=-FR_WAV(I)
+           IF(FR_WAVE(NC8(I))==0.0)FR_WAVE(NC8(I))=-FR_WAV(I)
 c         FR_WAVE(NC1(I)) = MAX(FR_WAVE(NC1(I)),FR_WAV(I))
 c         FR_WAVE(NC2(I)) = MAX(FR_WAVE(NC2(I)),FR_WAV(I))
 c         FR_WAVE(NC3(I)) = MAX(FR_WAVE(NC3(I)),FR_WAV(I))
@@ -779,9 +779,9 @@ C-----------------------------------------------
         OFF_L = MIN(OFF_L,OFFG(I))
       ENDDO
       IF(IPARTSPH==0)THEN
-        IF(OFF_L.LT.ZERO)THEN
+        IF(OFF_L<ZERO)THEN
           DO I=LFT,LLT
-           IF(OFFG(I).LT.ZERO)THEN
+           IF(OFFG(I)<ZERO)THEN
              F11(I)=ZERO
              F21(I)=ZERO
              F31(I)=ZERO
@@ -810,9 +810,9 @@ C-----------------------------------------------
           ENDDO
         ENDIF
       ELSE
-        IF(OFF_L.LE.ZERO)THEN
+        IF(OFF_L<=ZERO)THEN
           DO I=LFT,LLT
-           IF(OFFG(I).LE.ZERO)THEN
+           IF(OFFG(I)<=ZERO)THEN
 C
 C case /DT/BRICK/DEL => OFFG==0 &  F,STI/=0
              F11(I)=ZERO
@@ -845,19 +845,19 @@ C case /DT/BRICK/DEL => OFFG==0 &  F,STI/=0
         ENDIF
       ENDIF
       IF(JTHE < 0 ) THEN
-       IF(OFF_L.LE.ZERO)THEN
+       IF(OFF_L<=ZERO)THEN
         DO J=1,8
          DO I=LFT,LLT
-          IF(OFFG(I).LE.ZERO)THEN
+          IF(OFFG(I)<=ZERO)THEN
              THEM(I,J)=ZERO
           ENDIF
          ENDDO
         ENDDO
        ENDIF
        IF(NODADT_THERM == 1) THEN
-        IF(OFF_L.LT.ZERO)THEN
+        IF(OFF_L<ZERO)THEN
          DO I=LFT,LLT
-          IF(OFFG(I).LT.ZERO)THEN
+          IF(OFFG(I)<ZERO)THEN
              CONDE(I)=ZERO
           ENDIF
          ENDDO
@@ -877,7 +877,7 @@ C     because 2*Mnodal = 2*Melement/8
       ENDIF
 C
       IF(JTHE >= 0) THEN
-       IF(IVECTOR.EQ.1) THEN
+       IF(IVECTOR==1) THEN
 #include "vectorize.inc"
         DO I=LFT,LLT
           II=I+NFT
@@ -985,7 +985,7 @@ C
 C   heat transfert
 C         
       ELSE
-       IF(IVECTOR.EQ.1) THEN
+       IF(IVECTOR==1) THEN
 #include "vectorize.inc"
         DO I=LFT,LLT
           II=I+NFT
@@ -1176,10 +1176,10 @@ C
       
       ENDIF
 
-      IF(ISROT.NE.0)THEN
-       IF(OFF_L.LT.ZERO)THEN
+      IF(ISROT/=0)THEN
+       IF(OFF_L<ZERO)THEN
         DO I=LFT,LLT
-         IF(OFFG(I).LT.ZERO)THEN
+         IF(OFFG(I)<ZERO)THEN
            MX1(I)=0.
            MY1(I)=0.
            MZ1(I)=0.
@@ -1207,7 +1207,7 @@ C
          ENDIF
         ENDDO
        ENDIF
-       IF(IVECTOR.EQ.1) THEN
+       IF(IVECTOR==1) THEN
 #include "vectorize.inc"
         DO I=LFT,LLT
           II=I+NFT
@@ -1317,17 +1317,17 @@ C
 C--------------------------------------------
 C     Front wave
 C--------------------------------------------
-       IF (IFRWV.NE.0)THEN
+       IF (IFRWV/=0)THEN
 #include "lockon.inc"
          DO I=LFT,LLT
-           IF(FR_WAVE(NC1(I)).EQ.0.0)FR_WAVE(NC1(I))=-FR_WAV(I)
-           IF(FR_WAVE(NC2(I)).EQ.0.0)FR_WAVE(NC2(I))=-FR_WAV(I)
-           IF(FR_WAVE(NC3(I)).EQ.0.0)FR_WAVE(NC3(I))=-FR_WAV(I)
-           IF(FR_WAVE(NC4(I)).EQ.0.0)FR_WAVE(NC4(I))=-FR_WAV(I)
-           IF(FR_WAVE(NC5(I)).EQ.0.0)FR_WAVE(NC5(I))=-FR_WAV(I)
-           IF(FR_WAVE(NC6(I)).EQ.0.0)FR_WAVE(NC6(I))=-FR_WAV(I)
-           IF(FR_WAVE(NC7(I)).EQ.0.0)FR_WAVE(NC7(I))=-FR_WAV(I)
-           IF(FR_WAVE(NC8(I)).EQ.0.0)FR_WAVE(NC8(I))=-FR_WAV(I)
+           IF(FR_WAVE(NC1(I))==0.0)FR_WAVE(NC1(I))=-FR_WAV(I)
+           IF(FR_WAVE(NC2(I))==0.0)FR_WAVE(NC2(I))=-FR_WAV(I)
+           IF(FR_WAVE(NC3(I))==0.0)FR_WAVE(NC3(I))=-FR_WAV(I)
+           IF(FR_WAVE(NC4(I))==0.0)FR_WAVE(NC4(I))=-FR_WAV(I)
+           IF(FR_WAVE(NC5(I))==0.0)FR_WAVE(NC5(I))=-FR_WAV(I)
+           IF(FR_WAVE(NC6(I))==0.0)FR_WAVE(NC6(I))=-FR_WAV(I)
+           IF(FR_WAVE(NC7(I))==0.0)FR_WAVE(NC7(I))=-FR_WAV(I)
+           IF(FR_WAVE(NC8(I))==0.0)FR_WAVE(NC8(I))=-FR_WAV(I)
        ENDDO
 #include "lockoff.inc"
        ENDIF

@@ -972,7 +972,7 @@ C
 C
       DO I=1,NEL
         IF (DET(I) > ZERO) CYCLE
-        IF (IGEO(11,NGEO(I)).NE.0 .AND. IGEO(11,NGEO(I)).NE.43) THEN
+        IF (IGEO(11,NGEO(I))/=0 .AND. IGEO(11,NGEO(I))/=43) THEN
           CALL ANCMSG(MSGID=245,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,

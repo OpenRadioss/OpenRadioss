@@ -79,7 +79,7 @@ C======================================================================|
       ICONT=0
       NINDEX=0
 C
-      IF(MSR.EQ.0)THEN
+      IF(MSR==0)THEN
        XWL=RWL(4)
        YWL=RWL(5)
        ZWL=RWL(6)
@@ -118,37 +118,37 @@ ctmp        VZ=V(N3)+A(N3)*DT12
         YC=UY-YWL
         ZC=UZ-ZWL
         DP=XC*RWL(1)+YC*RWL(2)+ZC*RWL(3)
-        IF(DP.GT.ZERO) GOTO 20
+        IF(DP>ZERO) GOTO 20
         ICONT=1
 C---    test pour noeuds penetres
         XC=X(N1)-XWL
         YC=X(N2)-YWL
         ZC=X(N3)-ZWL
         DP0=XC*RWL(1)+YC*RWL(2)+ZC*RWL(3)
-        IF((VX-VXW)*RWL(1)+(VY-VYW)*RWL(2)+(VZ-VZW)*RWL(3).GT.0.0
-     .     .AND.DP0.GT.0.0) GOTO 20
-ctmp        IF((VX-VXW)*RWL(1)+(VY-VYW)*RWL(2)+(VZ-VZW)*RWL(3).GT.0.)
+        IF((VX-VXW)*RWL(1)+(VY-VYW)*RWL(2)+(VZ-VZW)*RWL(3)>0.0
+     .     .AND.DP0>0.0) GOTO 20
+ctmp        IF((VX-VXW)*RWL(1)+(VY-VYW)*RWL(2)+(VZ-VZW)*RWL(3)>0.)
 ctmp     .    GOTO 20
         NINDEX = NINDEX+1
         INDEX(NINDEX) = I
  20   CONTINUE
 
-      IF(MSR.EQ.0)THEN
+      IF(MSR==0)THEN
 C---------------------------
 C       Fixed rigid wall
 C---------------------------
-        IF(ITIED.EQ.0)THEN
+        IF(ITIED==0)THEN
           DO J = 1,NINDEX
             I = INDEX(J)
             N =NSW(I)
             NC=NC+1
-            IF(NC.GT.N_MUL_MX)THEN
+            IF(NC>N_MUL_MX)THEN
               CALL ANCMSG(MSGID=118,ANMODE=ANINFO,
      .            C1='NC')
               CALL ARRET(2)
             ENDIF
             IADLL(NC+1)=IADLL(NC) + 3
-            IF(IADLL(NC+1)-1.GT.NKMAX)THEN
+            IF(IADLL(NC+1)-1>NKMAX)THEN
               CALL ANCMSG(MSGID=118,ANMODE=ANINFO,
      .            C1='NK')
               CALL ARRET(2)
@@ -171,20 +171,20 @@ C---------------------------
             COMNTAG(N) = COMNTAG(N) + 1
           ENDDO          
 C
-        ELSEIF(ITIED.EQ.1)THEN
+        ELSEIF(ITIED==1)THEN
 C
           DO J = 1,NINDEX
             I = INDEX(J)
             N = NSW(I)
 C---       x
             NC=NC+1
-            IF(NC.GT.N_MUL_MX)THEN
+            IF(NC>N_MUL_MX)THEN
               CALL ANCMSG(MSGID=118,ANMODE=ANINFO,
      .            C1='NC')
               CALL ARRET(2)
             ENDIF
             IADLL(NC+1)=IADLL(NC) + 1
-            IF(IADLL(NC+1)-1.GT.NKMAX)THEN
+            IF(IADLL(NC+1)-1>NKMAX)THEN
               CALL ANCMSG(MSGID=118,ANMODE=ANINFO,
      .            C1='NK')
               CALL ARRET(2)
@@ -196,13 +196,13 @@ C---       x
             XLL(IK) = ONE
 C---       y
             NC=NC+1
-            IF(NC.GT.N_MUL_MX)THEN
+            IF(NC>N_MUL_MX)THEN
               CALL ANCMSG(MSGID=118,ANMODE=ANINFO,
      .            C1='NC')
               CALL ARRET(2)
             ENDIF
             IADLL(NC+1)=IADLL(NC) + 1
-            IF(IADLL(NC+1)-1.GT.NKMAX)THEN
+            IF(IADLL(NC+1)-1>NKMAX)THEN
               CALL ANCMSG(MSGID=118,ANMODE=ANINFO,
      .            C1='NK')
               CALL ARRET(2)
@@ -214,13 +214,13 @@ C---       y
             XLL(IK) = ONE
 C---       z
             NC=NC+1
-            IF(NC.GT.N_MUL_MX)THEN
+            IF(NC>N_MUL_MX)THEN
               CALL ANCMSG(MSGID=118,ANMODE=ANINFO,
      .            C1='NC')
               CALL ARRET(2)
             ENDIF
             IADLL(NC+1)=IADLL(NC) + 1
-            IF(IADLL(NC+1)-1.GT.NKMAX)THEN
+            IF(IADLL(NC+1)-1>NKMAX)THEN
               CALL ANCMSG(MSGID=118,ANMODE=ANINFO,
      .            C1='NK')
               CALL ARRET(2)
@@ -239,18 +239,18 @@ c---  add friction
 C---------------------------
 C       Moving rigid wall
 C---------------------------
-        IF(ITIED.EQ.0)THEN
+        IF(ITIED==0)THEN
           DO J = 1,NINDEX
             I = INDEX(J)
             N =NSW(I)
             NC=NC+1
-            IF(NC.GT.N_MUL_MX)THEN
+            IF(NC>N_MUL_MX)THEN
               CALL ANCMSG(MSGID=118,ANMODE=ANINFO,
      .            C1='NC')
               CALL ARRET(2)
             ENDIF
             IADLL(NC+1)=IADLL(NC) + 6
-            IF(IADLL(NC+1)-1.GT.NKMAX)THEN
+            IF(IADLL(NC+1)-1>NKMAX)THEN
               CALL ANCMSG(MSGID=118,ANMODE=ANINFO,
      .            C1='NK')
               CALL ARRET(2)
@@ -289,19 +289,19 @@ C---------------------------
             COMNTAG(MSR) = COMNTAG(MSR) + 1
           ENDDO
 C
-        ELSEIF(ITIED.EQ.1)THEN
+        ELSEIF(ITIED==1)THEN
           DO J = 1,NINDEX
             I = INDEX(J)
             N = NSW(I)
 C---       x
             NC=NC+1
-            IF(NC.GT.N_MUL_MX)THEN
+            IF(NC>N_MUL_MX)THEN
               CALL ANCMSG(MSGID=118,ANMODE=ANINFO,
      .            C1='NC')
               CALL ARRET(2)
             ENDIF
             IADLL(NC+1)=IADLL(NC) + 2
-            IF(IADLL(NC+1)-1.GT.NKMAX)THEN
+            IF(IADLL(NC+1)-1>NKMAX)THEN
               CALL ANCMSG(MSGID=118,ANMODE=ANINFO,
      .            C1='NK')
               CALL ARRET(2)
@@ -318,13 +318,13 @@ C---       x
             XLL(IK) =-ONE
 C---       y
             NC=NC+1
-            IF(NC.GT.N_MUL_MX)THEN
+            IF(NC>N_MUL_MX)THEN
               CALL ANCMSG(MSGID=118,ANMODE=ANINFO,
      .            C1='NC')
               CALL ARRET(2)
             ENDIF
             IADLL(NC+1)=IADLL(NC) + 2
-            IF(IADLL(NC+1)-1.GT.NKMAX)THEN
+            IF(IADLL(NC+1)-1>NKMAX)THEN
               CALL ANCMSG(MSGID=118,ANMODE=ANINFO,
      .            C1='NK')
               CALL ARRET(2)
@@ -341,13 +341,13 @@ C---       y
             XLL(IK) =-ONE
 C---       z
             NC=NC+1
-            IF(NC.GT.N_MUL_MX)THEN
+            IF(NC>N_MUL_MX)THEN
               CALL ANCMSG(MSGID=118,ANMODE=ANINFO,
      .            C1='NC')
               CALL ARRET(2)
             ENDIF
             IADLL(NC+1)=IADLL(NC) + 2
-            IF(IADLL(NC+1)-1.GT.NKMAX)THEN
+            IF(IADLL(NC+1)-1>NKMAX)THEN
               CALL ANCMSG(MSGID=118,ANMODE=ANINFO,
      .            C1='NK')
               CALL ARRET(2)

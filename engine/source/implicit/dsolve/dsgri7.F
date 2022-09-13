@@ -66,11 +66,11 @@ C
       IAD=1
       DO NIN=1,NINTER
          NTY=IPARI(7,NIN)
-         IF(NTY.EQ.3)THEN
-         ELSEIF(NTY.EQ.4)THEN
-         ELSEIF(NTY.EQ.5)THEN
-         ELSEIF(NTY.EQ.6)THEN
-         ELSEIF(NTY.EQ.7.OR.NTY.EQ.22)THEN
+         IF(NTY==3)THEN
+         ELSEIF(NTY==4)THEN
+         ELSEIF(NTY==5)THEN
+         ELSEIF(NTY==6)THEN
+         ELSEIF(NTY==7.OR.NTY==22)THEN
             CALL DSGRI7(
      . GRAPHE,      DSLEN,       NDMAX,        NUM_IMP(NIN), NS_IMP(IAD),
      . NE_IMP(IAD), INTBUF_TAB(NIN)%NSV,INTBUF_TAB(NIN)%IRECTM, NDDL)
@@ -152,7 +152,7 @@ C
             NMAST(J)=IRECT(J,FMAST)
          ENDDO
          NNM=3
-         IF (IRECT(3,FMAST).NE.IRECT(4,FMAST)) THEN
+         IF (IRECT(3,FMAST)/=IRECT(4,FMAST)) THEN
             NMAST(4)=IRECT(4,FMAST)
             NNM=4
          ENDIF
@@ -174,16 +174,16 @@ C
                   LL=GRAPHE(J)%DGRAPH(ISD)%DDLS(L)
                   LLL=GRAPHE(J)%LSDDL(1,LL)
                   IDL=GRAPHE(J)%LSDDL(2,LL)
-                  IF (LLL.EQ.NSLV.AND.IDL.LE.3) THEN
+                  IF (LLL==NSLV.AND.IDL<=3) THEN
                      NIN=NIN+1
                      IIN(NIN)=L
                   ENDIF
                   DO M=1,NNM
-                     IF (LLL.EQ.NMAST(M)) IIM(M)=1
+                     IF (LLL==NMAST(M)) IIM(M)=1
                   ENDDO
                ENDDO
 C Superelements contenant le noeud secnd
-               IF (NIN.GT.0) THEN
+               IF (NIN>0) THEN
                   NSSE=NSSE+1
                   TSSE(1,NSSE)=J
                   TSSE(2,NSSE)=ISD
@@ -199,7 +199,7 @@ C Superelement contenant la facette main
                DO L=2,NNM
                   LL=LL*IIM(L)
                ENDDO
-               IF (LL.EQ.1) THEN
+               IF (LL==1) THEN
                   TMSE(1)=J
                   TMSE(2)=ISD
                ENDIF
@@ -208,15 +208,15 @@ C Superelement contenant la facette main
 C
          IMSE=0
          DO J=1,NSSE
-            IF (TSSE(1,J).EQ.TMSE(1).AND.TSSE(2,J).EQ.TMSE(2)) IMSE=1
+            IF (TSSE(1,J)==TMSE(1).AND.TSSE(2,J)==TMSE(2)) IMSE=1
          ENDDO
-         IF (IMSE.EQ.1) CYCLE
+         IF (IMSE==1) CYCLE
 C On rajoute les ddls translation secnds 
 C sur la frontiere du superelement main
          NDSLV=0
          DO J=1,NDDL
-            IF (GRAPHE(1)%LSDDL(1,J).EQ.NSLV.AND.
-     .          GRAPHE(1)%LSDDL(2,J).LE.3) THEN
+            IF (GRAPHE(1)%LSDDL(1,J)==NSLV.AND.
+     .          GRAPHE(1)%LSDDL(2,J)<=3) THEN
                NDSLV=NDSLV+1
                IDSLV(NDSLV)=J
             ENDIF
@@ -278,7 +278,7 @@ C Modification des allocations pour B et D
          ALLOCATE(GRAPHE(J)%DGRAPH(ISD)%B(NSBMAX,NDF),
      .            GRAPHE(J)%DGRAPH(ISD)%D(NMAX,NDI+NDF+NSVMAX*NSDEC))
 C
-         IF (NSSE.EQ.1) THEN
+         IF (NSSE==1) THEN
 C On rajoute les ddls secnds sur la frontiere du superelement secnd
             J=TSSE(1,1)
             ISD=TSSE(2,1)
@@ -331,7 +331,7 @@ C
             NDI_OLD=NDI
             NDI=0
             DO K=1,NDI_OLD
-               IF (ITAG(K).EQ.0) THEN
+               IF (ITAG(K)==0) THEN
                   NDI=NDI+1
                   GRAPHE(J)%DGRAPH(ISD)%DDLS(NDF+NDI)=DDLS_TMP(K)
                ENDIF
@@ -352,7 +352,7 @@ C On modifie seulement IFAC
                NSDMAX_OLD=NSDMAX
                NSDMAX=MAX(NSDMAX,NSSE+1)
                GRAPHE(J)%DGRAPH(ISD)%NSDMAX=NSDMAX
-               IF (NSDMAX.GT.NSDMAX_OLD) THEN
+               IF (NSDMAX>NSDMAX_OLD) THEN
                   ALLOCATE(IFAC_TMP(NSDMAX_OLD+1,NDF))
                   DO K=1,NDF
                      DO L=1,NSDMAX_OLD+1
@@ -404,7 +404,7 @@ C 1- Identification si les ddls secnd seront internes ou sur la frontiere
             DO J=1,NCSE
                PP(1,J)=TCSE(1,J)
                PP(2,J)=PARENT(TCSE(2,J))
-               IF (J.GE.2) THEN
+               IF (J>=2) THEN
                   DD1=MAX(DD1,ABS(PP(1,J)-PP(1,J-1)))
                   DD2=MAX(DD2,ABS(PP(2,J)-PP(2,J-1)))
                ENDIF
@@ -430,18 +430,18 @@ C
                ITEST=0
                DO K=1,NDSLV
                   KK=ITAGP(IDSLV(K))
-                  IF (K.GE.2) DD1=MAX(ITEST,ABS(KK-KK_OLD))
+                  IF (K>=2) DD1=MAX(ITEST,ABS(KK-KK_OLD))
                   KK_OLD=KK
                ENDDO
-               IF (ITEST.NE.0) THEN
+               IF (ITEST/=0) THEN
                   WRITE(*,'(A)') 
      .                ' !! DSGRI7: RADIOSS INTERNAL ERROR !!'
                   CALL ARRET(2)
                ENDIF
 C
-               IF (DD1.EQ.0.AND.DD2.EQ.0) THEN
+               IF (DD1==0.AND.DD2==0) THEN
                   IN=ITAGP(IDSLV(1))
-                  IF (IN.EQ.0) THEN
+                  IF (IN==0) THEN
 C On rajoute les ddls secnd a l'interieur
                      ALLOCATE(DDLS_TMP(NDFP+NDIP))
                      DO K=1,NDFP+NDIP
@@ -469,7 +469,7 @@ C Modification des allocations pour D
                ENDIF
 C
                IN=ITAGP(IDSLV(1))
-               IF (IN.EQ.0) THEN               
+               IF (IN==0) THEN               
 C On rajoute les ddls secnd sur la frontiere
                   ALLOCATE(DDLS_TMP(NDFP+NDIP))
                   DO K=1,NDFP+NDIP
@@ -498,7 +498,7 @@ C Modification des allocations pour B et D
                   ALLOCATE(
      .    GRAPHE(JP)%DGRAPH(ISDP)%B(NSBMAX,NDFP),
      .    GRAPHE(JP)%DGRAPH(ISDP)%D(NMAX,NDIP+NDFP+NSVMAX*NSDEC))
-               ELSEIF (IN.EQ.2) THEN
+               ELSEIF (IN==2) THEN
 C Les ddls secnd sont deplaces de l'interieur vers la frontiere
                   ALLOCATE(DDLS_TMP(NDIP), ITAG(NDIP))
                   DO K=1,NDIP
@@ -506,7 +506,7 @@ C Les ddls secnd sont deplaces de l'interieur vers la frontiere
                      KK=GRAPHE(JP)%DGRAPH(ISDP)%DDLS(NDFP+K)
                      DDLS_TMP(K)=KK
                      DO L=1,NDSLV
-                        IF (IDSLV(L).EQ.KK) ITAG(K)=1
+                        IF (IDSLV(L)==KK) ITAG(K)=1
                      ENDDO
                   ENDDO
 C
@@ -517,7 +517,7 @@ C
                   NDIP_OLD=NDIP
                   NDIP=0
                   DO K=1,NDIP_OLD
-                     IF (ITAG(K).EQ.0) THEN
+                     IF (ITAG(K)==0) THEN
                         NDIP=NDIP+1
                         GRAPHE(JP)%DGRAPH(ISDP)%DDLS(NDFP+NDIP)=
      .                        DDLS_TMP(K)
@@ -540,10 +540,10 @@ C Elimination des parents doubles
             DO J=1,NCSE_TMP
                JJ=0
                DO K=1,NCSE
-                  IF (TCSE_TMP(1,J).EQ.TCSE(1,K).AND.
-     .                TCSE_TMP(2,J).EQ.TCSE(2,K)) JJ=1
+                  IF (TCSE_TMP(1,J)==TCSE(1,K).AND.
+     .                TCSE_TMP(2,J)==TCSE(2,K)) JJ=1
                ENDDO
-               IF (JJ.EQ.0) THEN
+               IF (JJ==0) THEN
                   NCSE=NCSE+1
                   TCSE(1,NCSE)=TCSE_TMP(1,J)
                   TCSE(2,NCSE)=TCSE_TMP(2,J)

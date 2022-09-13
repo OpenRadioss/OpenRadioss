@@ -87,11 +87,11 @@ C=======================================================================
 c---------------------------------------------------
 C
       ITYEL = 3
-      IF (NNE.EQ.3) ITYEL = 7
+      IF (NNE==3) ITYEL = 7
 C----- isub will add here-----
       IF(IDTMINS == 2)THEN
         DO I=JFT,JLT
-         IF (OFF(I).EQ.ZERO) THEN
+         IF (OFF(I)==ZERO) THEN
           STI(I) = ZERO
           STIR(I) = ZERO          
          ELSE
@@ -120,7 +120,7 @@ c dt = 2/w = sqrt( 2*(m+dmelc)/k)
      .                  (DTMINS/DTFACS)**2 * STI(I) - TWO*MSC(I))
             DT(I)  = DTFACS*
      .               SQRT((TWO*MSC(I)+DMELC(I))/MAX(EM20,STI(I)))
-            IF(DT(I).LT.DT2T)THEN
+            IF(DT(I)<DT2T)THEN
               DT2T    = DT(I)
               NELTST  = NGL(I)
               ITYPTST = ITYEL
@@ -139,7 +139,7 @@ c dt = 2/w = sqrt( 2*(m+dmelc)/k)
      .                  (DTMINS/DTFACS)**2 * STI(I) - TWO*MMIN)
             DT(I)  = DTFACS*
      .               SQRT((TWO*MMIN+DMELC(I))/MAX(EM20,STI(I)))
-            IF(DT(I).LT.DT2T)THEN
+            IF(DT(I)<DT2T)THEN
               DT2T    = DT(I)
               NELTST  = NGL(I)
               ITYPTST = ITYEL
@@ -147,12 +147,12 @@ c dt = 2/w = sqrt( 2*(m+dmelc)/k)
            END DO
          END IF
         ENDIF
-      ELSEIF(NODADT.NE.0)THEN
+      ELSEIF(NODADT/=0)THEN
           IF(IGTYP == 52 .OR. 
      .        ((IGTYP == 11 .OR. IGTYP == 17 .OR. IGTYP == 51)
      .                                   .AND. IGMAT > 0 ))THEN
             DO I=JFT,JLT
-                IF (OFF(I).EQ.ZERO) THEN
+                IF (OFF(I)==ZERO) THEN
                    STI(I) = ZERO
                    STIR(I) = ZERO          
                 ELSE
@@ -164,7 +164,7 @@ c dt = 2/w = sqrt( 2*(m+dmelc)/k)
              ENDDO
           ELSE
              DO I=JFT,JLT
-                IF (OFF(I).EQ.ZERO) THEN
+                IF (OFF(I)==ZERO) THEN
                    STI(I) = ZERO
                    STIR(I) = ZERO          
                 ELSE
@@ -178,27 +178,27 @@ C
       DO I=JFT,JLT
         DT(I)=DTFAC1(ITYEL)*ALDT(I)/SSP(I)   
       ENDDO
-      IF(G_DT.GT.0)THEN
+      IF(G_DT>0)THEN
         DO I=JFT,JLT
           DTEL(I)=ALDT(I)/SSP(I)     ! DT=ALDT(I)/SSP(I) & DT=DT*DTFAC1 does not lead to same digits, so operation is made again here.
         ENDDO
       ENDIF
       IF((NODADT/=0.OR.IDTMINS==2).AND.IDTMIN(ITYEL)==0)RETURN
 C
-      IF(IDTMIN(ITYEL).GE.1)THEN
+      IF(IDTMIN(ITYEL)>=1)THEN
         NINDX=IOFC
         DO I=JFT,JLT
-         IF(DT(I).LE.DTMIN1(ITYEL).AND.
-     .     OFF(I).GE.ONE.AND.OFFG(I).NE.TWO.AND.OFFG(I).GE.ZERO) THEN
+         IF(DT(I)<=DTMIN1(ITYEL).AND.
+     .     OFF(I)>=ONE.AND.OFFG(I)/=TWO.AND.OFFG(I)>=ZERO) THEN
           NINDX=NINDX+1
           INDXOF(NINDX)=I
          ENDIF
         ENDDO
       ENDIF
 C
-      IF(IDTMIN(ITYEL).EQ.1)THEN
+      IF(IDTMIN(ITYEL)==1)THEN
 
-        IF(NINDX.GT.IOFC) MSTOP = 2
+        IF(NINDX>IOFC) MSTOP = 2
 
         DO 100 J=IOFC+1,NINDX
           I = INDXOF(J)
@@ -207,8 +207,8 @@ C
           WRITE(ISTDO,1000) NNE,NGL(I)
 #include "lockoff.inc"
   100   CONTINUE
-      ELSEIF(IDTMIN(ITYEL).EQ.2)THEN
-        IF(NINDX.GT.IOFC) IDEL7NOK = 1         
+      ELSEIF(IDTMIN(ITYEL)==2)THEN
+        IF(NINDX>IOFC) IDEL7NOK = 1         
         DO 125 J=IOFC+1,NINDX
          I = INDXOF(J)
          OFF(I)=0.
@@ -218,7 +218,7 @@ C
 #include "lockoff.inc"
   125   CONTINUE
         IOFC = NINDX
-      ELSEIF(IDTMIN(ITYEL).EQ.3.AND.ISMSTR.EQ.2)THEN
+      ELSEIF(IDTMIN(ITYEL)==3.AND.ISMSTR==2)THEN
         DO 140 J=IOFC+1,NINDX
          I = INDXOF(J)
          OFFG(I)=2.
@@ -228,8 +228,8 @@ C
 #include "lockoff.inc"
   140   CONTINUE
         NINDX=IOFC
-      ELSEIF(IDTMIN(ITYEL).EQ.5)THEN
-        IF(NINDX.GT.IOFC) MSTOP = 2
+      ELSEIF(IDTMIN(ITYEL)==5)THEN
+        IF(NINDX>IOFC) MSTOP = 2
         DO 160 J=IOFC+1,NINDX
          I = INDXOF(J)
 #include "lockon.inc"
@@ -246,17 +246,17 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
  1300 FORMAT(1X,'--DELETE ',I1',N SHELL ELEMENT:',I10,' AT TIME:',G11.4)
  1400 FORMAT(1X,'--CONSTANT TIME STEP ',I1,'N SHELL ELEMENT NUMBER',I10)
 C
-      IF(NODADT.NE.0.OR.(IDTMINS==2.AND.JSMS/=0))RETURN
+      IF(NODADT/=0.OR.(IDTMINS==2.AND.JSMS/=0))RETURN
 C
 C- VECTOR
       IDT=0
       DO I=JFT,JLT
-       IF(OFFG(I).GT.ZERO.AND.OFF(I).NE.ZERO.AND.DT(I).LT.DT2T) IDT=1
+       IF(OFFG(I)>ZERO.AND.OFF(I)/=ZERO.AND.DT(I)<DT2T) IDT=1
       ENDDO
 C- NON VECTOR
-      IF(IDT.EQ.1)THEN
+      IF(IDT==1)THEN
        DO I=JFT,JLT
-       IF(OFFG(I).GT.ZERO.AND.OFF(I).NE.ZERO.AND.DT(I).LT.DT2T)THEN
+       IF(OFFG(I)>ZERO.AND.OFF(I)/=ZERO.AND.DT(I)<DT2T)THEN
          DT2T    = DT(I)
          NELTST  = NGL(I)
          ITYPTST = ITYEL
@@ -326,12 +326,12 @@ c       DT_THERM = EP20
        BK2 = PM(78,MT)
        TLI = PM(80,MT)
        DO I=JFT,JLT
-          IF(T(I).LT.TLI)THEN
+          IF(T(I)<TLI)THEN
             AKK=AK1+BK1*T(I)
           ELSE
             AKK=AK2+BK2*T(I)
           ENDIF
-          IF(JTUR.NE.0)THEN
+          IF(JTUR/=0)THEN
             XMU = RHO(I)*PM(24,MT)
             TMU = PM(81,MT)
             RPR = PM(95,MT)
@@ -340,7 +340,7 @@ c       DT_THERM = EP20
           ENDIF
           LC2 = LC(I)*LC(I)
           DT = HALF*LC2*SPH/MAX(AKK,EM20)
-          IF(DT.LT.DT_THERM)  DT_THERM = DT
+          IF(DT<DT_THERM)  DT_THERM = DT
           CONDE(I) = FOUR*VOL(I)*AKK/LC2  
           CONDE(I) = CONDE(I)*OFF(I)
        ENDDO

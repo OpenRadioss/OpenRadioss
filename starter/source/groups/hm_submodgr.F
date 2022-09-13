@@ -105,7 +105,7 @@ C-------------------------
           DO K=1,NSUBMOD 
             CUR_SUBMOD = K
             ISELECT = 0
-            DO WHILE (CUR_SUBMOD .NE. 0 .AND. ISELECT .EQ. 0)
+            DO WHILE (CUR_SUBMOD /= 0 .AND. ISELECT == 0)
               IF (LSUBMODEL(CUR_SUBMOD)%NOSUBMOD == JJ) ISELECT = 1
               IF (LSUBMODEL(CUR_SUBMOD)%NOSUBMOD == -JJ) ISELECT = -1
               CUR_SUBMOD = LSUBMODEL(CUR_SUBMOD)%IFATHER
@@ -252,7 +252,7 @@ C-------------------------
             DO K=1,NSUBMOD                                                                    
               CUR_SUBMOD = K                                                                  
               ISELECT = 0                                                                     
-              DO WHILE (CUR_SUBMOD .NE. 0 .AND. ISELECT .EQ. 0)                               
+              DO WHILE (CUR_SUBMOD /= 0 .AND. ISELECT == 0)                               
                 IF (LSUBMODEL(CUR_SUBMOD)%NOSUBMOD == JJ) ISELECT = 1                         
                 IF (LSUBMODEL(CUR_SUBMOD)%NOSUBMOD == -JJ) ISELECT = -1                       
                 CUR_SUBMOD = LSUBMODEL(CUR_SUBMOD)%IFATHER                                    

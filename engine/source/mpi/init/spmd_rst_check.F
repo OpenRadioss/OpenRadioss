@@ -74,7 +74,7 @@ C-----------------------------------------------
       CHARACTER FILNAM*100, FILNAM1*100,RSRUN*4,RSRUN1*4
 
 
-       IF (ISPMD.NE.0) THEN
+       IF (ISPMD/=0) THEN
 
 C   ENVOI DE TT AU PROC 0
          MSGTYP = MSGOFF
@@ -86,7 +86,7 @@ C   Check sur TT
            MSGTYP = MSGOFF
            CALL MPI_RECV(TTREC,1,REAL,IT_SPMD(I),
      .                         MSGTYP,MPI_COMM_WORLD,STATUS,ierror)
-           IF (TTREC.NE.TT) THEN
+           IF (TTREC/=TT) THEN
 
              WRITE(RSRUN1,'(I4.4)')1
              FILNAM1=ROOTNAM(1:ROOTLEN)

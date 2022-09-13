@@ -209,12 +209,12 @@ C
       ENDDO
 C
       DO I=1,NEL
-          IF(EPSXX(I).GT.EMX11.OR.
-     .       EPSYY(I).GT.EMX22.OR.
-     .       EPSZZ(I).GT.EMX33.OR.
-     .       ABS(EPSXY(I)/TWO).GT.EMX12.OR.
-     .       ABS(EPSYZ(I)/TWO).GT.EMX23.OR.
-     .       ABS(EPSZX(I)/TWO).GT.EMX31) OFF(I) = ZERO
+          IF(EPSXX(I)>EMX11.OR.
+     .       EPSYY(I)>EMX22.OR.
+     .       EPSZZ(I)>EMX33.OR.
+     .       ABS(EPSXY(I)/TWO)>EMX12.OR.
+     .       ABS(EPSYZ(I)/TWO)>EMX23.OR.
+     .       ABS(EPSZX(I)/TWO)>EMX31) OFF(I) = ZERO
       ENDDO
 c
       DO I=1,NEL
@@ -234,26 +234,26 @@ c       AMU = RHO(I)/RHO0(I) - ONE
        EP6(I) = AMU(I)
       ENDDO
 c
-      IF(IF1.EQ.1)THEN
+      IF(IF1==1)THEN
        DO I=1,NEL
            EP1(I) = EPSXX(I)
            EP2(I) = EPSYY(I)
            EP3(I) = EPSZZ(I)
        ENDDO
-      ELSEIF(IF1.EQ.-1)THEN
+      ELSEIF(IF1==-1)THEN
        DO I=1,NEL
            EP1(I) = -EPSXX(I)
            EP2(I) = -EPSYY(I)
            EP3(I) = -EPSZZ(I)
        ENDDO
       ENDIF
-      IF(IF2.EQ.1)THEN
+      IF(IF2==1)THEN
        DO I=1,NEL
            EP4(I) = EPSXY(I)
            EP5(I) = EPSYZ(I)
            EP6(I) = EPSZX(I)
         ENDDO
-      ELSEIF(IF2.EQ.-1)THEN
+      ELSEIF(IF2==-1)THEN
        DO I=1,NEL
            EP4(I) = -EPSXY(I)
            EP5(I) = -EPSYZ(I)
@@ -284,7 +284,7 @@ C
        UVAR(I,4) = SQRT(THREE*UVAR(I,4))/THREE_HALF
       ENDDO
 C
-       IF (I11(1).NE.0)THEN
+       IF (I11(1)/=0)THEN
         CALL INTEREPSP(NEL,DEP1,DEP11,N11,NMOINS,NPLUS,COEF)
         DO I=1,NEL
           Y11M = FINTER(I11(NMOINS(I)),EP1(I),NPF,TF,DYDX)
@@ -295,7 +295,7 @@ C
           SIGNXX(I) = SIGN(MIN(ABS(SIGNXX(I)),Y11),SIGNXX(I))
         ENDDO
        ENDIF
-       IF (I22(1).NE.0)THEN
+       IF (I22(1)/=0)THEN
         CALL INTEREPSP(NEL,DEP2,DEP22,N22,NMOINS,NPLUS,COEF)
         DO I=1,NEL
           Y22M = FINTER(I22(NMOINS(I)),EP2(I),NPF,TF,DYDX)
@@ -306,7 +306,7 @@ C
           SIGNYY(I) = SIGN(MIN(ABS(SIGNYY(I)),Y22),SIGNYY(I))
         ENDDO
        ENDIF
-       IF (I33(1).NE.0)THEN
+       IF (I33(1)/=0)THEN
         CALL INTEREPSP(NEL,DEP3,DEP33,N33,NMOINS,NPLUS,COEF)
         DO I=1,NEL
           Y33M = FINTER(I33(NMOINS(I)),EP3(I),NPF,TF,DYDX)
@@ -317,7 +317,7 @@ C
           SIGNZZ(I) = SIGN(MIN(ABS(SIGNZZ(I)),Y33),SIGNZZ(I))
         ENDDO
        ENDIF
-       IF (I12(1).NE.0)THEN
+       IF (I12(1)/=0)THEN
         CALL INTEREPSP(NEL,DEP4,DEP12,N12,NMOINS,NPLUS,COEF)
         DO I=1,NEL
           Y12M = FINTER(I12(NMOINS(I)),EP4(I),NPF,TF,DYDX)
@@ -328,7 +328,7 @@ C
           SIGNXY(I) = SIGN(MIN(ABS(SIGNXY(I)),Y12),SIGNXY(I))
         ENDDO
        ENDIF
-       IF (I23(1).NE.0)THEN
+       IF (I23(1)/=0)THEN
         CALL INTEREPSP(NEL,DEP5,DEP23,N23,NMOINS,NPLUS,COEF)
         DO I=1,NEL
           Y23M = FINTER(I23(NMOINS(I)),EP5(I),NPF,TF,DYDX)
@@ -339,7 +339,7 @@ C
           SIGNYZ(I) = SIGN(MIN(ABS(SIGNYZ(I)),Y23),SIGNYZ(I))
         ENDDO
        ENDIF
-       IF (I31(1).NE.0)THEN
+       IF (I31(1)/=0)THEN
         CALL INTEREPSP(NEL,DEP6,DEP31,N31,NMOINS,NPLUS,COEF)
         DO I=1,NEL
           Y31M = FINTER(I31(NMOINS(I)),EP6(I),NPF,TF,DYDX)
@@ -381,18 +381,18 @@ C-----------------------------------------------
       my_real VAL
 C=======================================================================
       DO J=1,NEL
-        IF (EP(J).LE.EPSP(1)) THEN
+        IF (EP(J)<=EPSP(1)) THEN
           NPLUS(J)=2
           NMOINS(J)=1
           COEF(J)=ZERO
-        ELSE IF(EP(J).GE.EPSP(NI)) THEN
+        ELSE IF(EP(J)>=EPSP(NI)) THEN
           NPLUS(J)=NI
           NMOINS(J)=NI-1
           COEF(J)=(EP(J)-EPSP(NI-1))/(MAX(EM20,EPSP(NI)-EPSP(NI-1)))
         ELSE
           DO I=2,NI
             VAL= (EP(J)-EPSP(I-1))/(MAX(EM20,EPSP(I)-EPSP(I-1)))
-            IF ((VAL.GE.0).AND.(VAL.LE.1)) THEN
+            IF ((VAL>=0).AND.(VAL<=1)) THEN
               COEF(J)=VAL
               NPLUS(J)=I
               NMOINS(J)=I-1

@@ -105,14 +105,14 @@ C-----------------------------------------------
         DO  J=1,6
          IVOI=ALE_CONNECT%ee_connect%connected(IAD2 + J - 1)
          ML=11
-         IF(IVOI.NE.0)ML=NINT(PM(19,IXS(1,IVOI)))
-         IF(ML.NE.11)EXIT
+         IF(IVOI/=0)ML=NINT(PM(19,IXS(1,IVOI)))
+         IF(ML/=11)EXIT
         ENDDO
-        IF(ML.NE.11)THEN
+        IF(ML/=11)THEN
           !
           !      ADJACENT VALUES
           !       
-          IF(IVOI.LE.NUMELS)THEN
+          IF(IVOI<=NUMELS)THEN
             !                                                        
             !  LOCAL ADJACENT ELEM : REFER TO GBUF%
             !    
@@ -121,7 +121,7 @@ C-----------------------------------------------
                KTY   = IPARG(5,N)                             
                KLT   = IPARG(2,N)                             
                MFT   = IPARG(3,N)                             
-               IF (KTY.EQ.1 .AND. IVOI.LE.KLT+MFT)THEN      
+               IF (KTY==1 .AND. IVOI<=KLT+MFT)THEN      
                  bFOUND = .TRUE.                            
                  EXIT                                       
                ENDIF                                        
@@ -203,7 +203,7 @@ C-----------------------------------------------
           !
           !      STANDARD FEM FOR MOMENTUM (VELOCITY ON NODES)
           !       
-          IF(IALEFVM_FLG .LE. 1)THEN
+          IF(IALEFVM_FLG <= 1)THEN
             !
             !      SUPG&ITG
             !
@@ -216,7 +216,7 @@ C-----------------------------------------------
               VDZ(I)=VDZ(I)-FOURTH*(W(3,IX1)+W(3,IX2)+W(3,IX3)+W(3,IX4))           
             ENDIF                                                                 
             VD2(I)=VDX(I)**2+VDY(I)**2+VDZ(I)**2                                  
-            IF(VDX(I)*XN+VDY(I)*YN+VDZ(I)*ZN .LE.ZERO)THEN                        
+            IF(VDX(I)*XN+VDY(I)*YN+VDZ(I)*ZN <=ZERO)THEN                        
               VDX(I)=ZERO                                                         
               VDY(I)=ZERO                                                         
               VDZ(I)=ZERO                                                         
@@ -225,7 +225,7 @@ C-----------------------------------------------
             ! NON REFLECTING BOUNDARY : VN et DVP
             !
             INOD=NINT(PM(51,MT))
-            IF(INOD.GE.1)THEN
+            IF(INOD>=1)THEN
               VN(I)=V(1,INOD)*XN+V(2,INOD)*YN+V(3,INOD)*ZN
               DVP(I)=ZERO
             ELSE
@@ -235,7 +235,7 @@ C-----------------------------------------------
               VN4=V(1,IX4)*XN+V(2,IX4)*YN+V(3,IX4)*ZN
               VEL(I)=(MIN(VN1,VN2,VN3,VN4))**2
               VN(I)=FOURTH*(VN1+VN2+VN3+VN4)
-              IF(VN(I).GE.ZERO)VEL(I)=ZERO
+              IF(VN(I)>=ZERO)VEL(I)=ZERO
               VX1=V(1,IX1)-VN1*XN
               VY1=V(2,IX1)-VN1*YN
               VZ1=V(3,IX1)-VN1*ZN
@@ -262,13 +262,13 @@ C-----------------------------------------------
           !
           !      SWITCH TO FVM FOR MOMENTUM (VELOCITY ON CELL CENTROID)
           !              
-          ELSE ! => (IALEFVM_FLG .GE. 2)
+          ELSE ! => (IALEFVM_FLG >= 2)
         
             VDX(I)   = HALF * (Vx(I) + VxV(I))
             VDY(I)   = HALF * (Vy(I) + VyV(I))
             VDZ(I)   = HALF * (Vz(I) + VzV(I)) 
             VD2(I)   = VDX(I)**2 + VDY(I)**2 + VDZ(I)**2                                  
-            IF(VDX(I)*XN + VDY(I)*YN + VDZ(I)*ZN .LE. ZERO)THEN                        
+            IF(VDX(I)*XN + VDY(I)*YN + VDZ(I)*ZN <= ZERO)THEN                        
               VDX(I) = ZERO                                                         
               VDY(I) = ZERO                                                         
               VDZ(I) = ZERO                                                         
@@ -278,20 +278,20 @@ C-----------------------------------------------
             ! NON REFLECTING BOUNDARY : VN et DVP
             !
             INOD=NINT(PM(51,MT))
-            IF(INOD.GE.1)THEN
+            IF(INOD>=1)THEN
               VN(I)  = V(1,INOD)*XN+V(2,INOD)*YN+V(3,INOD)*ZN
               DVP(I) = ZERO
             ELSE
               VN(I)  = VDX(I)*XN + VDY(I)*YN + VDZ(I)*ZN
               VEL(I) = VN(I)**2
-              IF(VN(I).GE.ZERO)VEL(I)=ZERO
+              IF(VN(I)>=ZERO)VEL(I)=ZERO
               DVP(I) = ZERO !NOT YET CALCULATED : USUALLY NOT USED : EXPERIMENTAL FORMULATION
             ENDIF
                                             
             
-          ENDIF! IF(IALEFVM_FLG .LE. 1)THEN
+          ENDIF! IF(IALEFVM_FLG <= 1)THEN
          
-        ELSE! => ML.EQ.11
+        ELSE! => ML==11
           VDX(I)     = ZERO     
           VDY(I)     = ZERO     
           VDZ(I)     = ZERO     

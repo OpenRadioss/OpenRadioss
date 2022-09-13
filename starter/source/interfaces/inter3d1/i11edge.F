@@ -108,13 +108,13 @@ C-----------------------------------------------
 C
       K=0
       DO I = 1,NRTS
-        IF(IRECTS(3,I).EQ.IRECTS(4,I).AND.
-     .     IRECTS(3,I).EQ.IRECTS(1,I))THEN
-          IF(IRECTS(1,I).GT.IRECTS(2,I))THEN
+        IF(IRECTS(3,I)==IRECTS(4,I).AND.
+     .     IRECTS(3,I)==IRECTS(1,I))THEN
+          IF(IRECTS(1,I)>IRECTS(2,I))THEN
             K=K+1
             IW1(K)=IRECTS(2,I)
             IW2(K)=IRECTS(1,I)
-          ELSEIF(IRECTS(1,I).LT.IRECTS(2,I))THEN
+          ELSEIF(IRECTS(1,I)<IRECTS(2,I))THEN
             K=K+1
             IW1(K)=IRECTS(1,I)
             IW2(K)=IRECTS(2,I)
@@ -122,13 +122,13 @@ C
         ELSE
          DO J1=1,4
           J2=IPERM(J1)
-          IF(IRECTS(J2,I).NE.0.AND.
-     .       IRECTS(J1,I).GT.IRECTS(J2,I))THEN
+          IF(IRECTS(J2,I)/=0.AND.
+     .       IRECTS(J1,I)>IRECTS(J2,I))THEN
             K=K+1
             IW1(K)=IRECTS(J2,I)
             IW2(K)=IRECTS(J1,I)
-          ELSEIF(IRECTS(J1,I).NE.0.AND.
-     .           IRECTS(J1,I).LT.IRECTS(J2,I))THEN
+          ELSEIF(IRECTS(J1,I)/=0.AND.
+     .           IRECTS(J1,I)<IRECTS(J2,I))THEN
             K=K+1
             IW1(K)=IRECTS(J1,I)
             IW2(K)=IRECTS(J2,I)
@@ -142,8 +142,8 @@ C
       IW3(NRTS2)=IW1(INDEX(1))
       IW4(NRTS2)=IW2(INDEX(1))
       DO I=2,K
-        IF(IW1(INDEX(I-1)).NE.IW1(INDEX(I)).OR.
-     .     IW2(INDEX(I-1)).NE.IW2(INDEX(I)))THEN
+        IF(IW1(INDEX(I-1))/=IW1(INDEX(I)).OR.
+     .     IW2(INDEX(I-1))/=IW2(INDEX(I)))THEN
             NRTS2=NRTS2+1
             IW3(NRTS2)=IW1(INDEX(I))
             IW4(NRTS2)=IW2(INDEX(I))
@@ -152,13 +152,13 @@ C
 C
       K=0
       DO I = 1,NRTM
-        IF(IRECTM(3,I).EQ.IRECTM(4,I).AND.
-     .     IRECTM(3,I).EQ.IRECTM(1,I))THEN
-          IF(IRECTM(1,I).GT.IRECTM(2,I))THEN
+        IF(IRECTM(3,I)==IRECTM(4,I).AND.
+     .     IRECTM(3,I)==IRECTM(1,I))THEN
+          IF(IRECTM(1,I)>IRECTM(2,I))THEN
             K=K+1
             IW1(K)=IRECTM(2,I)
             IW2(K)=IRECTM(1,I)
-          ELSEIF(IRECTM(1,I).LT.IRECTM(2,I))THEN
+          ELSEIF(IRECTM(1,I)<IRECTM(2,I))THEN
             K=K+1
             IW1(K)=IRECTM(1,I)
             IW2(K)=IRECTM(2,I)
@@ -166,13 +166,13 @@ C
         ELSE
          DO J1=1,4
           J2=IPERM(J1)
-          IF(IRECTM(J1,I).NE.0.AND.
-     .       IRECTM(J1,I).GT.IRECTM(J2,I))THEN
+          IF(IRECTM(J1,I)/=0.AND.
+     .       IRECTM(J1,I)>IRECTM(J2,I))THEN
             K=K+1
             IW1(K)=IRECTM(J2,I)
             IW2(K)=IRECTM(J1,I)
-          ELSEIF(IRECTM(J2,I).NE.0.AND.
-     .       IRECTM(J1,I).LT.IRECTM(J2,I))THEN
+          ELSEIF(IRECTM(J2,I)/=0.AND.
+     .       IRECTM(J1,I)<IRECTM(J2,I))THEN
             K=K+1
             IW1(K)=IRECTM(J1,I)
             IW2(K)=IRECTM(J2,I)
@@ -186,8 +186,8 @@ C
       IW5(NRTM2)=IW1(INDEX(1))
       IW6(NRTM2)=IW2(INDEX(1))
       DO I=2,K
-        IF(IW1(INDEX(I-1)).NE.IW1(INDEX(I)).OR.
-     .     IW2(INDEX(I-1)).NE.IW2(INDEX(I)))THEN
+        IF(IW1(INDEX(I-1))/=IW1(INDEX(I)).OR.
+     .     IW2(INDEX(I-1))/=IW2(INDEX(I)))THEN
             NRTM2=NRTM2+1
             IW5(NRTM2)=IW1(INDEX(I))
             IW6(NRTM2)=IW2(INDEX(I))
@@ -252,7 +252,7 @@ C----------------------------------
 C
       NSN=0
       DO I = 1,NUMNOD
-        IF(NTAG(I).EQ.1) THEN
+        IF(NTAG(I)==1) THEN
           NSN = NSN+1
           NSV(NSN)=I
           NTAG(I) = 0
@@ -266,7 +266,7 @@ C
 C
       NMN=0
       DO I = 1,NUMNOD
-        IF(NTAG(I).EQ.1) THEN
+        IF(NTAG(I)==1) THEN
           NMN = NMN+1
           MSR(NMN)=I
         ENDIF

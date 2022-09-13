@@ -126,7 +126,7 @@ C-----------------------------------------------
 C
       DO N=1,NFASOLFR
         NN=FASOLFR(1,N)
-        IF(CEP(NN).EQ.P)NFASOLFR_L=NFASOLFR_L+1
+        IF(CEP(NN)==P)NFASOLFR_L=NFASOLFR_L+1
       ENDDO
 C
       RETURN

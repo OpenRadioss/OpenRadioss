@@ -67,7 +67,7 @@ Chd|====================================================================
         my_real                              :: SEFF(1)                 !Efficace Section = Wetted Surface : Cut Aera - Holes         (computed by suming lagrangian projection)
         my_real                              :: P(3,8)                  !Cut Surface Polygon (coordinates)
         my_real                              :: Vel(3)
-        INTEGER                              :: NP                      !Cut Surface Polygon (number of points) ! NP.LE.6 | NP.LE.8 for additional Scut (closed surface hypothesis)
+        INTEGER                              :: NP                      !Cut Surface Polygon (number of points) ! NP<=6 | NP<=8 for additional Scut (closed surface hypothesis)
       END TYPE 
 
       TYPE LIST_ADJ

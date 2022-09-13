@@ -167,7 +167,7 @@ C
       II_STOK = 0
      
 C
-c     IF (IFORM .NE. 2) THEN
+c     IF (IFORM /= 2) THEN
         DO I=1,NRTM
           ADDCM(I)=0
         ENDDO 
@@ -209,9 +209,9 @@ C      TZINF = BUMULT*DD
 C MARGE_ST : marge independante du BUMULT en input pour trouver les memes pene initiales
       MARGE_ST = BMUL0*DD
 C 1er passage avec marge x2 pour trouver plus de candidats (revient a prendre bmul0=0.4 au lieu de 0.2)
-C      IF(IDDLEVEL.EQ.0) MARGE_ST = 2*MARGE_ST
+C      IF(IDDLEVEL==0) MARGE_ST = 2*MARGE_ST
 c     WRITE(6,*) __FILE__,__LINE__,MARGE
-      IF(IDDLEVEL.EQ.0) MARGE_ST = MARGE
+      IF(IDDLEVEL==0) MARGE_ST = MARGE
       TZINF_ST = MARGE_ST + MAX(MAXGAP+DGAPLOAD,DRAD)
 
       XMIN=EP30
@@ -223,7 +223,7 @@ c     WRITE(6,*) __FILE__,__LINE__,MARGE
 C
       DO I=1,NMN
          J=MSR(I)
-        IF(J.GT.0) THEN 
+        IF(J>0) THEN 
           XMIN= MIN(XMIN,X(1,J))
           YMIN= MIN(YMIN,X(2,J))
           ZMIN= MIN(ZMIN,X(3,J))
@@ -343,7 +343,7 @@ C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
       IF (I_MEM == 2) RETURN
       IF(I_MEM ==1 .OR. I_MEM == 3)THEN
         NB_N_B = NB_N_B + 1
-        IF ( NB_N_B .GT. MAX(NRTM,NRTS)) THEN
+        IF ( NB_N_B > MAX(NRTM,NRTS)) THEN
           CALL ANCMSG(MSGID=83,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO ,
@@ -353,10 +353,10 @@ C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
         ENDIF
       ENDIF
 
-      IF ((NSN.NE.0)) THEN
+      IF ((NSN/=0)) THEN
       WRITE(IOUT,*)' POSSIBLE IMPACT NUMBER:',II_STOK,' (<=',
      . 1+(II_STOK-1)/NSN,'*NSN)'
-      ELSEIF(NSN.EQ.0) THEN
+      ELSEIF(NSN==0) THEN
        CALL ANCMSG(MSGID=552,
      .             MSGTYPE=MSGWARNING,
      .             ANMODE=ANINFO_BLIND_2,
@@ -495,7 +495,7 @@ C      TZINF = BUMULT*DD
 C MARGE_ST : marge independante du BUMULT en input pour trouver les memes pene initiales
       MARGE_ST = BMUL0*DD
 C 1er passage avec marge x2 pour trouver plus de candidats (revient a prendre bmul0=0.4 au lieu de 0.2)
-C      IF(IDDLEVEL.EQ.0) MARGE_ST = 2*MARGE_ST
+C      IF(IDDLEVEL==0) MARGE_ST = 2*MARGE_ST
 c     WRITE(6,*) __FILE__,__LINE__,"IDDLEVEL=",IDDLEVEL
 c     WRITE(6,*) __FILE__,__LINE__,MARGE
 c     WRITE(6,*) __FILE__,__LINE__,MINBOX,MAXBOX,MULTIMP
@@ -503,7 +503,7 @@ c     WRITE(6,*) __FILE__,__LINE__,DRAD,GAP,BMUL0
 
 
 
-      IF(IDDLEVEL.EQ.0) MARGE_ST = MARGE
+      IF(IDDLEVEL==0) MARGE_ST = MARGE
       TZINF_ST = MARGE_ST + MAX(GAP,DRAD)
 C
       MINBOX= DD + TZINF
@@ -639,19 +639,19 @@ C------------------
       IF (I_MEM == 2) RETURN
 C     I_MEM = 1 ==> PAS ASSEZ DE MEMOIRE PILE
 C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
-      IF(I_MEM.EQ.1)THEN
+      IF(I_MEM==1)THEN
         NB_N_B = NB_N_B + 1
         I_MEM = 0
         GO TO 100
       ENDIF
-      IF(I_ADD.NE.0) GO TO 200
+      IF(I_ADD/=0) GO TO 200
 C     FIN BOUCLE TANT QUE
 C---------------------------------
 C-------------------------------------------------------------------------
 C     FIN DU TRI
 C-------------------------------------------------------------------------
       I_STOK=II_STOK
-      IF(J_STOK.NE.0)CALL I11STO(
+      IF(J_STOK/=0)CALL I11STO(
      1              J_STOK,IRECTS,IRECTM,X     ,II_STOK,
      2              CAND_S,CAND_M,NSN   ,NOINT ,TZINF_ST,
      3              I_MEM ,PROV_S,PROV_M,MULTIMP,ADDCM,
@@ -659,7 +659,7 @@ C-------------------------------------------------------------------------
       IF (I_MEM == 2) RETURN
 
       I_STOK=II_STOK
-      IF ((NSN.NE.0).AND.(IT19.EQ.0)) THEN
+      IF ((NSN/=0).AND.(IT19==0)) THEN
       WRITE(IOUT,*)' POSSIBLE IMPACT NUMBER:',I_STOK,' (<=',
      . 1+(I_STOK-1)/NSN,'*NSN)'
 c     DO I = 1, I_STOK
@@ -667,7 +667,7 @@ c       WRITE(700+IDDLEVEL,*) CAND_S(I),CAND_M(I)
 c     ENDDO
 c     CALL FLUSH(700+IDDLEVEL)
 
-      ELSEIF(NSN.EQ.0) THEN
+      ELSEIF(NSN==0) THEN
        CALL ANCMSG(MSGID=552,
      .             MSGTYPE=MSGWARNING,
      .             ANMODE=ANINFO_BLIND_2,

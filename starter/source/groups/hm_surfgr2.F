@@ -108,7 +108,7 @@ C=======================================================================
         CALL GROUPS_GET_ELEM_LIST(LIST_ENTITY, NENTITY, LSUBMODEL)       
         DO KK=1,NENTITY                                                              
           JJ=LIST_ENTITY(KK)      
-          IF(JJ.NE.0)THEN
+          IF(JJ/=0)THEN
             ISU=0
             DO K=1,NGRELE
               IF (JJ == IGRELEM(K)%ID) ISU=K

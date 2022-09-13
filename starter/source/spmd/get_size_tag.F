@@ -76,11 +76,11 @@ C
         DO NI =1, NINTER
                 ITYP = IPARI(7,NI)
                 INACTI = IPARI(22,NI)
-                IF( ITYP.EQ.7.OR.ITYP.EQ.20.OR.ITYP.EQ.22.OR.ITYP.EQ.23.OR.
-     .              ITYP.EQ.24.OR.ITYP.EQ.25 )    THEN
+                IF( ITYP==7.OR.ITYP==20.OR.ITYP==22.OR.ITYP==23.OR.
+     .              ITYP==24.OR.ITYP==25 )    THEN
                         FLAG_TAG=.TRUE.                
                         SIZE_TAG = NUMNOD+I24MAXNSNE
-                        IF (FLAG_FVM .AND. INACTI .EQ. 7) SIZE_FVM = NUMELS
+                        IF (FLAG_FVM .AND. INACTI == 7) SIZE_FVM = NUMELS
                 ENDIF
         ENDDO
         IF(FLAG_TAG) SIZE_TAG = NUMNOD+I24MAXNSNE+SIZE_FVM  
@@ -147,7 +147,7 @@ C Tag Arrays must be increased accordingly
         FLAG_24_25 = .FALSE.
         DO NI= 1, NINTER
                 ITYP = IPARI(7,NI)
-                IF(ITYP.EQ.24)THEN
+                IF(ITYP==24)THEN
                         NSNE   = IPARI(55,NI)
                         I24MAXNSNE = MAX(I24MAXNSNE,NSNE)
                 ENDIF

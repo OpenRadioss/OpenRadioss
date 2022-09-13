@@ -120,7 +120,7 @@ C-----------------------------------------------
       TFEXTT=ZERO
       DO 10 I=LFT,LLT
         N    =NFT+I
-        IF(KXSP(2,N).LE.0.AND.ISPH2SOL.EQ.0)GOTO 10
+        IF(KXSP(2,N)<=0.AND.ISPH2SOL==0)GOTO 10
         IF(KXSP(2,N)==0.AND.ISPH2SOL/=0)GOTO 10
         INOD =KXSP(3,N)
         XI=X(1,INOD)
@@ -170,11 +170,11 @@ C----------------------------------
         NVOIS=KXSP(4,N)
         DO J=1,NVOIS
          JNOD=IXSP(J,N)
-         IF(JNOD.GT.0)THEN
+         IF(JNOD>0)THEN
           M=NOD2SP(JNOD)
 C
 C Solids to SPH, no interaction if both particles are inactive
-          IF(KXSP(2,N).LE.0.AND.KXSP(2,M).LE.0)CYCLE
+          IF(KXSP(2,N)<=0.AND.KXSP(2,M)<=0)CYCLE
 C
           XJ=X(1,JNOD)
           YJ=X(2,JNOD)
@@ -310,7 +310,7 @@ C         FV(j,i)=-FV(i,j)
           FVX=-FACT*WGRDX
           FVY=-FACT*WGRDY
           FVZ=-FACT*WGRDZ
-          IF((NODADT.NE.0).OR.(I7KGLO.NE.0))THEN
+          IF((NODADT/=0).OR.(I7KGLO/=0))THEN
 C
 C           nodal stability
             DLDT=ABS(DXIJ)
@@ -343,7 +343,7 @@ C           K*=FV divise par DL (C=FV divise par V)
           NN = -JNOD
 C
 C Solids to SPH, no interaction if both particles are inactive
-          IF(KXSP(2,N).LE.0.AND.XSPHR(13,NN).LE.0)CYCLE
+          IF(KXSP(2,N)<=0.AND.XSPHR(13,NN)<=0)CYCLE
           XJ=XSPHR(3,NN)
           YJ=XSPHR(4,NN)
           ZJ=XSPHR(5,NN)
@@ -481,7 +481,7 @@ C         FV(j,i)=-FV(i,j)
           FVX=-FACT*WGRDX
           FVY=-FACT*WGRDY
           FVZ=-FACT*WGRDZ
-          IF((NODADT.NE.0).OR.(I7KGLO.NE.0))THEN
+          IF((NODADT/=0).OR.(I7KGLO/=0))THEN
 C
 C           nodal stability
             DLDT=ABS(DXIJ)
@@ -529,11 +529,11 @@ C----------------------------------
         NVOISS=KXSP(6,N)
         DO 200 J=KXSP(5,N)+1,KXSP(5,N)+NVOISS
           JS=IXSP(J,N)
-          IF(JS.GT.0)THEN
+          IF(JS>0)THEN
            SM=JS/(NSPCOND+1)
 C
 C Solids to SPH, no interaction if both particles are inactive
-           IF(KXSP(2,N).LE.0.AND.KXSP(2,SM).LE.0)CYCLE
+           IF(KXSP(2,N)<=0.AND.KXSP(2,SM)<=0)CYCLE
 C
            NC=MOD(JS,NSPCOND+1)
            JS=ISPSYM(NC,SM)
@@ -673,7 +673,7 @@ C---------
            FVX=-FACT*WGRDX
            FVY=-FACT*WGRDY
            FVZ=-FACT*WGRDZ
-           IF((NODADT.NE.0).OR.(I7KGLO.NE.0))THEN
+           IF((NODADT/=0).OR.(I7KGLO/=0))THEN
 C            nodal stability
              DLDT=ABS(DXIJ)
              L   =SQRT(NXIJ)
@@ -716,7 +716,7 @@ C          pour travail des forces de visc. artificielle (par cellule).
            SM=-JS/(NSPCOND+1)
 C
 C Solids to SPH, no interaction if both particles are inactive
-          IF(KXSP(2,N).LE.0.AND.XSPHR(13,SM).LE.0)CYCLE
+          IF(KXSP(2,N)<=0.AND.XSPHR(13,SM)<=0)CYCLE
            NC=MOD(-JS,NSPCOND+1)
            JS=ISPSYMR(NC,SM)
            XJ =XSPSYM(1,JS)
@@ -857,7 +857,7 @@ C---------
            FVX=-FACT*WGRDX
            FVY=-FACT*WGRDY
            FVZ=-FACT*WGRDZ
-           IF((NODADT.NE.0).OR.(I7KGLO.NE.0))THEN
+           IF((NODADT/=0).OR.(I7KGLO/=0))THEN
 C            nodal stability
              DLDT=ABS(DXIJ)
              L   =SQRT(NXIJ)

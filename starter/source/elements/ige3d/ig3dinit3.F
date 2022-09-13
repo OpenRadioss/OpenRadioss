@@ -331,7 +331,7 @@ c     6      PY-1      ,PZ-1          ,1)
         
           LBUF%VOL(ITEL)= PGAUSS*DETJAC 
 
-          IF (PX*PY*PZ.NE.1) THEN
+          IF (PX*PY*PZ/=1) THEN
            GBUF%VOL(ITEL)=GBUF%VOL(ITEL) + LBUF%VOL(ITEL)
           ENDIF
 
@@ -370,7 +370,7 @@ C------------------------------------------
        ENDDO
       ENDDO
 
-      IF (PX*PY*PZ.NE.1) THEN
+      IF (PX*PY*PZ/=1) THEN
 
        DO I=1,PX
         DO J=1,PY
@@ -392,7 +392,7 @@ C------------------------------------------
 C     assemblage des Volumes nodaux et Modules nodaux
 C     (pour rigidites d'interface)
 C------------------------------------------
-      IF(I7STIFS.NE.0)THEN
+      IF(I7STIFS/=0)THEN
         CALL BULKIGE3(GBUF%VOL ,NCTRL     ,IMAT      ,PM     ,
      2                VNIGE(1,NF1),BNIGE(1,NF1),PX ,
      3                PY       ,PZ     ,NCTRLMAX  )

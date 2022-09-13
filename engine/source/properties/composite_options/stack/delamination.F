@@ -215,7 +215,7 @@ C-----------------------------------------------
 !           DO I=JFT +1 ,JLT
 !             IFAIL(IC) = IPM(111 + IP,MAT(I-1))
 !             MATF(IC) = MAT(I-1)
-!             IF(IPM(111 + IP ,MAT(I)).NE.IPM(111 + IP,MAT(I-1)))THEN
+!             IF(IPM(111 + IP ,MAT(I))/=IPM(111 + IP,MAT(I-1)))THEN
 !               IC = IC+1
 !               MATF(IC)  = MAT(I)
 !               IFAIL(IC) = IPM(111 + IP,MAT(I))

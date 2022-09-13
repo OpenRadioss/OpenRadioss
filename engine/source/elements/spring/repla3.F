@@ -63,7 +63,7 @@ C     REAL
      .    XKI, FP
 C-----------------------------------------------
       DO I=LFT,LLT
-        IF(IFUNC(I).NE.0.AND.IECROU(I).EQ.3)THEN
+        IF(IFUNC(I)/=0.AND.IECROU(I)==3)THEN
           NPOINT=(NPF(IFUNC(I)+1)-NPF(IFUNC(I)))/2
 C-------------------------------------
 C       ELASTO PLASTIQUE (TENSION COMPRESSION COUPLEE 6 DOF COUPLES)

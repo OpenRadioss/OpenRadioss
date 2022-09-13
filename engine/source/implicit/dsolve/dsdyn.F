@@ -63,10 +63,10 @@ C-----------------------------------------------
      .       , DIMENSION(:,:), ALLOCATABLE :: KLS, VECT, FREQ
       CHARACTER WHICH*2
 C
-      IF (NDI.EQ.1) THEN
+      IF (NDI==1) THEN
          NVD=1
          FREQ2(1)=SQRT(KL(1,1)/ML(1,1))/TWO/PI
-         IF (IPRI.GT.0) THEN
+         IF (IPRI>0) THEN
             WRITE(IOUT,*)
             WRITE(IOUT,'(A26,I8)') ' NUMBER OF DYNAMIC MODES: ',NVD
             WRITE(IOUT,'(A)') '         NUMBER  EIGENVALUE   FREQUENCY'
@@ -90,7 +90,7 @@ C      SHIFT=ZERO
       ISTOP=0
       NVD=0
       ISTOP1=0
-      DO WHILE (ISTOP.EQ.0)
+      DO WHILE (ISTOP==0)
          CALL DSMSHIFT(KLS, KL,  ML, TSHIFT, IMDIAG,
      .                 NDI, LDM)
          N=NDI
@@ -111,20 +111,20 @@ C
      .              LDM   )
 C
          NUV=NEV-1
-         IF (NEV.EQ.N-NVD) NUV=NEV
+         IF (NEV==N-NVD) NUV=NEV
 C
          DO I=1,NUV
             PULS=MAX(ZERO,FREQ(I,1))
             FRQ=SQRT(PULS)/TWO/PI
-            IF (FRQ.LE.CUTFRQ.AND.NVD.LT.NVMAX.AND.NVD.LT.NDI.AND.
-     .          FREQ(I,1).GE.TSHIFT) THEN
+            IF (FRQ<=CUTFRQ.AND.NVD<NVMAX.AND.NVD<NDI.AND.
+     .          FREQ(I,1)>=TSHIFT) THEN
                NVD=NVD+1
                FREQ2(NVD)=FRQ
                DO II=1,NDI
                   VD(II,NVD)=VECT(II,I)
                ENDDO
-               IF (NVD.EQ.NVMAX) THEN
-                  IF (IPRI.GT.0) THEN
+               IF (NVD==NVMAX) THEN
+                  IF (IPRI>0) THEN
 *                     WRITE(ISTDO,'(A67,I5,A9,I5)') 
 *     . ' ** INFO : MAXIMUM DYNAMIC MODES NUMBER REACHED FOR'//
 *     . ' SUPERELEMENT ',ISD,' OF PROC ',IPROC
@@ -143,26 +143,26 @@ C
             ENDIF
          ENDDO
 C
-         IF (NVD.EQ.NDI.OR.ISTOP1.EQ.1) ISTOP=1
+         IF (NVD==NDI.OR.ISTOP1==1) ISTOP=1
 C
-         IF (ISTOP.EQ.0) THEN
+         IF (ISTOP==0) THEN
             FR1=FREQ(NEV,1)
             IDBL=0
             IDF=2
-            DO WHILE (IDBL.EQ.0.AND.IDF.LE.NEV)
+            DO WHILE (IDBL==0.AND.IDF<=NEV)
                FR2=FREQ(NEV-IDF+1,1)
-               IF (ABS((FR2-FR1)/FR1).LE.EM01) THEN
+               IF (ABS((FR2-FR1)/FR1)<=EM01) THEN
                   IDF=IDF+1
                   NVD=NVD-1
                ELSE
                   IDBL=1
                ENDIF
             ENDDO
-            IF (IDF.EQ.NEV+1) THEN
+            IF (IDF==NEV+1) THEN
                NBLF1=NBLF
                NBLF=2*NBLF
                NBLF=MIN(NBLF,NDI-2)
-               IF (NBLF1.EQ.NBLF) ISTOP1=1
+               IF (NBLF1==NBLF) ISTOP1=1
                SHIFT=ZERO
             ELSE
                NBLF=MIN(NBLF0,NDI-2)
@@ -173,7 +173,7 @@ C
          ENDIF
       ENDDO
 C
-      IF (IPRI.GT.0) THEN
+      IF (IPRI>0) THEN
          WRITE(IOUT,*)
          WRITE(IOUT,'(A26,I8)') ' NUMBER OF DYNAMIC MODES: ',NVD
          WRITE(IOUT,'(A)') '         NUMBER  EIGENVALUE   FREQUENCY'
@@ -216,13 +216,13 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J
 C
-      IF (IMDIAG.EQ.0) THEN
+      IF (IMDIAG==0) THEN
          DO I=1,NDI
             DO J=1,NDI
                KLS(I,J)=KL(I,J)-SHIFT*ML(I,J)
             ENDDO
          ENDDO
-      ELSEIF (IMDIAG.EQ.1) THEN
+      ELSEIF (IMDIAG==1) THEN
          DO I=1,NDI
             DO J=1,NDI
                KLS(I,J)=KL(I,J)

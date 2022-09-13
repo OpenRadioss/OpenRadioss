@@ -165,7 +165,7 @@ C
       END IF
 C
 C=======================================================================
-      IF(NTY.EQ.21) THEN
+      IF(NTY==21) THEN
 C=======================================================================
 C
 C      CALCUL DU GAP, apres INITIA (lecture des epaisseurs).
@@ -244,7 +244,7 @@ C
 C
        DO 700 NG=1,NGROUS
 
-        IF(IPRI.GE.1) WRITE(IOUT,2007)
+        IF(IPRI>=1) WRITE(IOUT,2007)
         NFT = (NG-1) * NVSIZ
         LFT = 1
         LLT = MIN0( NVSIZ, I_STOK - NFT )
@@ -266,11 +266,11 @@ C
      .                                                INTBUF_TAB%VARIABLES(23),
      4   NSN    ,MWA   ,INTBUF_TAB%VARIABLES(32),ID,TITR)
 
-       IF(IWPENE.EQ.0.AND.(INACTI.EQ.5.OR.INACTI.EQ.6))
+       IF(IWPENE==0.AND.(INACTI==5.OR.INACTI==6))
      .   IPARI(22) = -INACTI     ! passage en negatif pour dimensionnenment
        INTBUF_TAB%I_STOK(1)=IWPENE
 C
-C      IF(NUMELS10.GT.0)CALL
+C      IF(NUMELS10>0)CALL
 C    .        INSOLT10(IXS(1,NUMELS8+1),IXS(1,NUMELS+1),INTBUF_TAB%IRECTM),
 C    .                 NOINT,NRTM,ITAB,KNOD2ELS,NOD2ELS)
 C=======================================================================

@@ -76,7 +76,7 @@ C-----------------------------------------------
        ALLOCATE(VRECV(3,RBUF))
        ALLOCATE(VTOTAL(3,NUMPOG))
 
-       IF (ISPMD.NE.0) THEN
+       IF (ISPMD/=0) THEN
 C   on envoie le nodglob
          MSGTYP = MSGOFF
 

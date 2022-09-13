@@ -124,27 +124,27 @@ C-----------------------------------------------
      .                                      LB0,BKUD,D_IMP,ELBUF_C,BUFMAT_C,
      .                                      X_C,DD,DDR
 C=======================================================================
-          IF (N2D.GT.0) THEN
-           IF(ISPMD.EQ.0)THEN
+          IF (N2D>0) THEN
+           IF(ISPMD==0)THEN
              CALL ANCMSG(MSGID=161,ANMODE=ANINFO)
            ENDIF
 C            CALL ARRET(2)
           ENDIF
-          IF (IRESP.EQ.1) THEN
-           IF(ISPMD.EQ.0)THEN
+          IF (IRESP==1) THEN
+           IF(ISPMD==0)THEN
              CALL ANCMSG(MSGID=162,ANMODE=ANINFO)
            ENDIF
              CALL ARRET(2)
           ENDIF
 #ifndef MPI
-        IF (NEIG.GT.0) THEN
-           IF(ISPMD.EQ.0)THEN
+        IF (NEIG>0) THEN
+           IF(ISPMD==0)THEN
              CALL ANCMSG(MSGID=294,ANMODE=ANINFO)
            ENDIF
            CALL ARRET(2)
 	    END IF
-        IF (NBUCK.GT.0) THEN
-           IF(ISPMD.EQ.0)THEN
+        IF (NBUCK>0) THEN
+           IF(ISPMD==0)THEN
              CALL ANCMSG(MSGID=295,ANMODE=ANINFO)
            ENDIF
            CALL ARRET(2)
@@ -271,7 +271,7 @@ C----finally not to splite IKINW, otherwise too many changes
      C    LRBE3     ,IKINW(LI13),FR_I2M   ,IAD_I2M   ,FR_RBE3M  ,
      D    IAD_RBE3M ,IRBE2     ,LRBE2     ,IKINW(LI14),IKINW(LI15))
           NTMP=MAX(NKMAX,NNMAX)
-          IF (IRODDL.NE.0) THEN
+          IF (IRODDL/=0) THEN
            MAXB = MIN(6*(NTMP+1),NDDL)
            MAXB1 = MIN(6*(NNMAX+1),NDDL)
           ELSE
@@ -280,8 +280,8 @@ C----finally not to splite IKINW, otherwise too many changes
           ENDIF
           MAXB0 = MAXB
           NNDL=3*NUMNOD
-c          IF (IMON.GT.0) CALL STOPTIME(31,1)
-          IF(ISPMD.EQ.0)THEN
+c          IF (IMON>0) CALL STOPTIME(31,1)
+          IF(ISPMD==0)THEN
            WRITE(ISTDO,*)
            WRITE(ISTDO,*)'          **************************'
            WRITE(ISTDO,*)'          ** IMPLICIT OPTION USED **'
@@ -289,7 +289,7 @@ c          IF (IMON.GT.0) CALL STOPTIME(31,1)
            WRITE(ISTDO,*)
           ENDIF
 C-----integer : 1:IKC,2:IKUD,3:W_DDL,4:IADM,5:JDIM,6:NDOFI,7:IDDLI,8:INBUF_C
-          IF(NFXVEL.GT.0.AND.NEIG.EQ.0)THEN
+          IF(NFXVEL>0.AND.NEIG==0)THEN
            L1=NFXVEL*MAX(3,MAXB)
           ELSE
            L1=0
@@ -299,14 +299,14 @@ C-----integer : 1:IKC,2:IKUD,3:W_DDL,4:IADM,5:JDIM,6:NDOFI,7:IDDLI,8:INBUF_C
 C  -----------W_DDL is reserved anyway------
 	      S_W_DDL=NDDL
           MAX_L = 0
-          IF (NMONV.GT.0.AND.ISOLV.GE.3.AND.NEIG.EQ.0) THEN
-           IF(ISPMD.EQ.0)THEN
+          IF (NMONV>0.AND.ISOLV>=3.AND.NEIG==0) THEN
+           IF(ISPMD==0)THEN
              CALL ANCMSG(MSGID=163,ANMODE=ANINFO)
            ENDIF
              CALL ARRET(2)
           ENDIF
 C     ----- ---------
-         IF ((ISOLV.EQ.1.OR.ISOLV.GT.4).AND.N_PAT.GT.1) THEN
+         IF ((ISOLV==1.OR.ISOLV>4).AND.N_PAT>1) THEN
           CALL FIL_SPAN0(NRBYAC,IRBYAC,NPBY,IDDL,NDOF,NDDL)
           CALL DIM_SPAN(N_PAT,NDDL,IADK,JDIK,MAX_L,MAXB1)
 	      S_IADM=NDDL+1
@@ -325,10 +325,10 @@ C     ----- ---------
           S_CAND_N = 0
           S_CAND_E = 0
           S_INDSUBT= 0  
-         IF (NINTER.NE.0.AND.NEIG.EQ.0) THEN
+         IF (NINTER/=0.AND.NEIG==0) THEN
           CALL DIM_INT7(NINTER,IPARI ,INTBUF_TAB ,NINT7)
-          IF (NINT7.GT.0) THEN
-           IF (ISOLV.EQ.4.AND.IMACH.EQ.3) THEN
+          IF (NINT7>0) THEN
+           IF (ISOLV==4.AND.IMACH==3) THEN
               CALL ANCMSG(MSGID=214,ANMODE=ANINFO)
               CALL ARRET(2)
            ENDIF
@@ -337,7 +337,7 @@ C     ----- ---------
            S_INDSUBT= S_CAND_N      !IND_IMP  
 	       S_IDDLI=NUMNOD
           ELSE
-           IF (ILINTF.GT.0.AND.IMACH.NE.3) ILINTF=0
+           IF (ILINTF>0.AND.IMACH/=3) ILINTF=0
           ENDIF
          ENDIF
          ALLOCATE(IMPBUF_TAB%CAND_N(S_CAND_N))
@@ -347,7 +347,7 @@ C     ----- ---------
           ALLOCATE(IMPBUF_TAB%NDOFI(S_NDOFI))
           ALLOCATE(IMPBUF_TAB%IDDLI(S_IDDLI))
           ALLOCATE(IMPBUF_TAB%INBUF_C(S_INBUF_C))
-         IF (NSPMD.GT.1.AND.NBINTC.GT.0) CALL IMP_FRII(NINTER)
+         IF (NSPMD>1.AND.NBINTC>0) CALL IMP_FRII(NINTER)
 c         IIF=II9
 C-----reel : 1,2,3,4:DIAG_K,LT_K,DIAG_M,LT_M,5,6:LB,DB,7:BKUD,8,9:D_IMP,DR_IMP
 C----       10,11,12:ELBUF_C,BUFMAT_C,X_C,13,14:DD,DDR,15,16:X_actual,free
@@ -357,34 +357,34 @@ C-----------17-21:FEXT,DG,DGR,DI,DIR;(Riks arc-length);22:BUFIN_C,23,24:AC,ACR,
 	      S_DIAG_M=NDDL
 	      S_LT_M=MAX(NNZK,MAX_L)
 	      S_LB=NDDL
-          IF (ILINE.NE.1.AND.TT.EQ.ZERO.AND.ISPRB.EQ.0) THEN
-           IF (NMONV.GT.0) ISIGINI=1
+          IF (ILINE/=1.AND.TT==ZERO.AND.ISPRB==0) THEN
+           IF (NMONV>0) ISIGINI=1
           ELSE
            ISIGINI=0
           ENDIF
-          IF ((ISPRB.EQ.1.OR.ISIGINI.EQ.1.OR.ILINTF.GT.0)
-     .        .AND.NEIG.EQ.0) THEN
+          IF ((ISPRB==1.OR.ISIGINI==1.OR.ILINTF>0)
+     .        .AND.NEIG==0) THEN
 	       S_LB0=NDDL
           ELSE
 	       S_LB0=0
           ENDIF
 	      S_BKUD=L1
 	      S_D_IMP=NNDL
-          IF (IRODDL.NE.0.AND.NEIG.EQ.0) THEN
+          IF (IRODDL/=0.AND.NEIG==0) THEN
 	        S_DR_IMP=NNDL
           ELSE
 	        S_DR_IMP=0
           ENDIF
-          IF (ILINE.NE.1) THEN
+          IF (ILINE/=1) THEN
            CALL BUF_DIM1(S_ELBUF_C,S_BUFMAT_C)
 		   S_X_C=NNDL
 		   S_DD=NNDL
-           IF (IRODDL.NE.0) THEN
+           IF (IRODDL/=0) THEN
 		    S_DDR=NNDL
            ELSE
 		    S_DDR=0
            ENDIF
-          ELSEIF (ILINTF.GT.0) THEN
+          ELSEIF (ILINTF>0) THEN
            CALL BUF_DIM1(S_ELBUF_C,S_BUFMAT_C)
 		   S_X_C=NNDL
 		    S_DD=0
@@ -397,8 +397,8 @@ C-----------17-21:FEXT,DG,DGR,DI,DIR;(Riks arc-length);22:BUFIN_C,23,24:AC,ACR,
 		    S_DDR=0
           ENDIF
 		  S_X_A=0
-          IF (NEIG.EQ.0) THEN
-           IF (ISMDISP.GT.0) S_X_A=NNDL
+          IF (NEIG==0) THEN
+           IF (ISMDISP>0) S_X_A=NNDL
           ENDIF
 C-----------17-21:FEXT,DG,DGR,DG0,DGR0;(Riks arc-length);22:BUFIN_C,23,24:AC,ACR,
 		  S_FEXT=0
@@ -406,9 +406,9 @@ C-----------17-21:FEXT,DG,DGR,DG0,DGR0;(Riks arc-length);22:BUFIN_C,23,24:AC,ACR
 		  S_DGR=0
 		  S_DG0=0
 		  S_DGR0=0
-          IF (IDTC.EQ.3) THEN
+          IF (IDTC==3) THEN
 		   S_FEXT=NDDL
-           IF (IRODDL.NE.0) THEN
+           IF (IRODDL/=0) THEN
 		    S_DG=NNDL
 		    S_DGR=NNDL
 		    S_DG0=NNDL
@@ -421,9 +421,9 @@ C-----------17-21:FEXT,DG,DGR,DG0,DGR0;(Riks arc-length);22:BUFIN_C,23,24:AC,ACR
 		   S_BUFIN_C=0
 		   S_AC=0
 		   S_ACR=0
-          IF (NEIG.EQ.0) THEN
+          IF (NEIG==0) THEN
 		    S_AC=NNDL
-            IF (IRODDL.NE.0) S_ACR=NNDL
+            IF (IRODDL/=0) S_ACR=NNDL
           ENDIF
 C		  
 	      ALLOCATE(IMPBUF_TAB%DIAG_K(S_DIAG_K)) 
@@ -450,7 +450,7 @@ C
 		  ALLOCATE(IMPBUF_TAB%AC(S_AC))
 		  ALLOCATE(IMPBUF_TAB%ACR(S_ACR),STAT=IER2)
 c
-         IF (IER1.NE.0.OR.IER2.NE.0) THEN
+         IF (IER1/=0.OR.IER2/=0) THEN
              CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .            C1='FOR IMPLICIT')
              CALL ARRET(2)
@@ -468,12 +468,12 @@ C---------IT(TOTAL),ITC,IWAIT,IDIV,R02,EIMP,E02-,Ichang-----
           IT_PCG = 0
           IMPBUF_TAB%R_IMP(1:25)=ZERO
 C ----   X_actual,V_zero-----
-         IF (NEIG.EQ.0) THEN
+         IF (NEIG==0) THEN
           IF (S_X_A>0) CALL CP_REAL(NNDL,X,IMPBUF_TAB%X_A)
           IF (IDYNA==0) CALL CP_DM(NUMGEO,GEO,IGEO,DMCP,1)
          END IF
 C----i--initialisation for for travers nodes detection-----
-          IF (NINTER.NE.0.AND.NEIG.EQ.0) THEN
+          IF (NINTER/=0.AND.NEIG==0) THEN
            NT_IMP1=0
            DO I=1,NINTER
             NUM_IMP1(I)=0
@@ -485,9 +485,9 @@ C----i--initialisation for for travers nodes detection-----
            ENDDO
           ENDIF
           CALL IMP_TRANS0(IMPBUF_TAB%R_IMP,IMPL_S0)
-          IF (ILINE.NE.1) CALL ZERO1(IMPBUF_TAB%DD,NNDL)
+          IF (ILINE/=1) CALL ZERO1(IMPBUF_TAB%DD,NNDL)
 c      IBUCK= IBUCKL
-      IF (NBUCK.GT.0.AND.BISOLV.EQ.2.AND.NDSOLV.NE.1) THEN
+      IF (NBUCK>0.AND.BISOLV==2.AND.NDSOLV/=1) THEN
          WRITE(ISTDO,'(A)')
      .' !! BISOLV =2 REQUIRES OPTION /IMPL/GRAPH IN RADIOSS STARTER'
          WRITE(IOUT,'(A)')
@@ -543,13 +543,13 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NNDL
 C-----------------------------------------------
-          IF (IDYNA.EQ.0) THEN
+          IF (IDYNA==0) THEN
             CALL ZEROR(V,NUMNOD)
-            IF (IRODDL.NE.0) CALL ZEROR(VR,NUMNOD)
+            IF (IRODDL/=0) CALL ZEROR(VR,NUMNOD)
             CALL CP_DM(NUMGEO,GEO,IGEO,DMCP,2)
           ENDIF
 C ----------------for restart---
-          IF (ISMDISP.GT.0) THEN
+          IF (ISMDISP>0) THEN
             NNDL=3*NUMNOD
             CALL CP_REAL(NNDL,IMPBUF_TAB%X_A,X)
           END IF

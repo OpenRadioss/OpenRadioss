@@ -131,7 +131,7 @@ c!      UVAR(I,3) contains the previous first principal stress
 c!       PTHKF               = P_THICK
 C-----------------------------------------------
        DO I =1,NEL
-         IF(OFF(I) .GE. ONE .AND. FOFF(I) .EQ. 1 ) THEN
+         IF(OFF(I) >= ONE .AND. FOFF(I) == 1 ) THEN
 c! equivalent strain calculation (negative = total strain ; positive = plastic strain)
           IF(C0 < ZERO)THEN
             E_HYD = THIRD * (EPSXX(I) + EPSYY(I))
@@ -147,7 +147,7 @@ c! equivalent strain calculation (negative = total strain ; positive = plastic s
             EEQ   = 0.8164965809 * SQRT(EEQ) ! sqrt (2/3)*sqrt(...)
             
             D_EEQ = EEQ - UVAR(I,1)
-            IF (D_EEQ .LE. ZERO) D_EEQ = ZERO
+            IF (D_EEQ <= ZERO) D_EEQ = ZERO
             UVAR(I,1) = EEQ             
           ELSE                               ! positive = plastic strain increment
             D_EEQ = DPLA(I)

@@ -99,7 +99,7 @@ C
         VZ4(I)=V(3,NC4(I))
       END DO
 C-----Exx ia calculated anyway in global system
-      IF(N2D.EQ.1) THEN
+      IF(N2D==1) THEN
         DO I=LFT,LLT
           YAVG(I) = Y1(I)+Y2(I)+Y3(I)+Y4(I)
           VYG(I) = VY1(I)+VY2(I)+VY3(I)+VY4(I)

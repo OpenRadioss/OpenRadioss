@@ -128,13 +128,13 @@ C
    50 AJ2(I)=SQRT(3.*AJ2(I))
 C
       DO 90 I=LFT,LLT
-      IF(THETA(I).GE.TMELT(I)) GOTO 90
+      IF(THETA(I)>=TMELT(I)) GOTO 90
 C
       TSTAR=0.
       CT=1.
-      IF(THETA(I).LE.THREE100) GOTO 60
+      IF(THETA(I)<=THREE100) GOTO 60
       TSTAR=(THETA(I)-THREE100)/(TMELT(I)-THREE100)
-      IF(THETA(I).GT.THETL(I)) CMX(I)=ONE
+      IF(THETA(I)>THETL(I)) CMX(I)=ONE
       CT=ONE -TSTAR**CMX(I)
 C
    60 CE=ONE
@@ -142,22 +142,22 @@ C
       EPD(I)=OFF(I)* MAX(   ABS(D1(I)),   ABS(D2(I)),   ABS(D3(I)),
      .             HALF*ABS(D4(I)),.5*ABS(D5(I)),.5*ABS(D6(I)))
 C----------------------------------------------------------
-      IF(EPD(I).LE.EPDR(I)) GOTO 70
+      IF(EPD(I)<=EPDR(I)) GOTO 70
       CE=ONE + CC(I) * LOG(EPD(I)/EPDR(I))
 C
    70 CH=CA(I)
-      IF(EPXE(I).LE.ZERO) GOTO 80
+      IF(EPXE(I)<=ZERO) GOTO 80
       CH=CA(I)+CB(I)*EPXE(I)**CN(I)
-      IF(EPXE(I).GT.EPMX(I)) CH=CA(I)+CB(I)*EPMX(I)**CN(I)
+      IF(EPXE(I)>EPMX(I)) CH=CA(I)+CB(I)*EPMX(I)**CN(I)
 C
    80 AK(I)= MIN(SIGMX(I),CH)*CE*CT
 C-----------------------
 C     MODULE ECROUISSAGE
 C-----------------------
-      IF(CN(I).GE.1) THEN
+      IF(CN(I)>=1) THEN
        QH(I)= (CB(I)*CN(I)*EPXE(I)**(CN(I)-ONE))*CE*CT
       ELSE
-       IF(EPXE(I).NE.ZERO)THEN
+       IF(EPXE(I)/=ZERO)THEN
         QH(I)= (CB(I)*CN(I)/EPXE(I)**(ONE-CN(I)))*CE*CT
        ELSE
        QH(I)=ZERO
@@ -166,11 +166,11 @@ C-----------------------
    90 CONTINUE
 C
       DO 110 I=LFT,LLT
-      IF(THETA(I).GE.TMELT(I)) GOTO 100
-      IF(AJ2(I).LE.AK(I))      GOTO 110
+      IF(THETA(I)>=TMELT(I)) GOTO 100
+      IF(AJ2(I)<=AK(I))      GOTO 110
 C
       SCALE=ZERO
-      IF(AJ2(I).NE.ZERO) SCALE=AK(I)/AJ2(I)
+      IF(AJ2(I)/=ZERO) SCALE=AK(I)/AJ2(I)
       SIG(I,1)=SCALE*SIG(I,1)
       SIG(I,2)=SCALE*SIG(I,2)
       SIG(I,3)=SCALE*SIG(I,3)

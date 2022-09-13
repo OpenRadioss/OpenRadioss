@@ -176,7 +176,7 @@ C---    read property data
                   PHI1(J,I)= STACK%GEO(IPANG+J,ISUBSTACK)
                 ENDIF
               ELSEIF ((IGTYP == 17 .OR. IGTYP == 51) .AND. 
-     .             STACK%IGEO(2+J,ISUBSTACK) .NE. 0) THEN
+     .             STACK%IGEO(2+J,ISUBSTACK) /= 0) THEN
                 IF (IGEO(49,STACK%IGEO(2+J,ISUBSTACK)) == 1) THEN
                   PHI1(J,I)= GEO(2,STACK%IGEO(2+J,ISUBSTACK)) + ANGLE(I)
                     DEF_ORTH(I) = DEF_ORTH(I) - 1 
@@ -359,8 +359,8 @@ C---    Check projection
         ENDDO
 C
         DO I=JFT,JLT
-          IF (V(I) < EM3 .AND. IORTHLOC(I) .EQ. 0 .AND.
-     .                                   DEF_ORTH(I) .NE.  0)THEN
+          IF (V(I) < EM3 .AND. IORTHLOC(I) == 0 .AND.
+     .                                   DEF_ORTH(I) /=  0)THEN
             PID = IX(NIX-1,I)
             V(I)= MAX(V(I),EM20)
             CALL FRETITL2(TITR1,IGEO(NPROPGI-LTITR+1,PID),LTITR)

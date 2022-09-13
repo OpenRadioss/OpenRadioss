@@ -68,7 +68,7 @@ C-----------------------------------------------
       
       CALL MY_ORDERS(0,WORK,ITAB,INDX,NUMNOD,1)
       
-      IF(NUMNOD.GE.1)THEN
+      IF(NUMNOD>=1)THEN
         ITABM1(1) = ITAB(INDX(1))
         ITABM1(NUMNOD+1) = INDX(1)
       ENDIF

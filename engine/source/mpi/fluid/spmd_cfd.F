@@ -86,7 +86,7 @@ C
       DO I = 1, NSPMD
         MSGTYP = MSGOFF 
         IAD_RECV(I) = IDEB2+1
-        IF(NBRCVOIS(I).GT.0) THEN
+        IF(NBRCVOIS(I)>0) THEN
           NBIRECV = NBIRECV + 1
           IRINDEX(NBIRECV) = I
           LEN = 3*NBRCVOIS(I)
@@ -101,7 +101,7 @@ C
       DO I = 1, NSPMD
         MSGTYP = MSGOFF 
         LEN = NBSDVOIS(I)
-        IF(LEN.GT.0) THEN
+        IF(LEN>0) THEN
           DO N = 1, LEN
             NN = LNSDVOIS(IDEB+N)
             WA(IDEB2+3*(N-1)+1) = X(1,NN)
@@ -131,7 +131,7 @@ C
       ENDDO
 C
       DO I = 1, NSPMD
-        IF(NBSDVOIS(I).GT.0) THEN
+        IF(NBSDVOIS(I)>0) THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -201,7 +201,7 @@ C
       DO I = 1, NSPMD
         MSGTYP = MSGOFF 
         IAD_RECV(I) = IDEB2+1
-        IF(NBRCVOIS(I).GT.0) THEN
+        IF(NBRCVOIS(I)>0) THEN
           NBIRECV = NBIRECV + 1
           IRINDEX(NBIRECV) = I
           LEN = 9*NBRCVOIS(I)
@@ -216,7 +216,7 @@ C
       DO I = 1, NSPMD
         MSGTYP = MSGOFF 
         LEN = NBSDVOIS(I)
-        IF(LEN.GT.0) THEN
+        IF(LEN>0) THEN
           DO N = 1, LEN
             NN = LNSDVOIS(IDEB+N)
             WA(IDEB2+9*(N-1)+1) = X(1,NN)
@@ -258,7 +258,7 @@ C
       ENDDO
 C
       DO I = 1, NSPMD
-        IF(NBSDVOIS(I).GT.0) THEN
+        IF(NBSDVOIS(I)>0) THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -332,7 +332,7 @@ C
       DO I = 1, NSPMD
         MSGTYP = MSGOFF 
         IAD_RECV(I) = IDEB2+1
-        IF(NERCVOIS(I).GT.0) THEN
+        IF(NERCVOIS(I)>0) THEN
           NBIRECV = NBIRECV + 1
           IRINDEX(NBIRECV) = I
           LEN = 2*NERCVOIS(I)
@@ -347,7 +347,7 @@ C
       DO I = 1, NSPMD
         MSGTYP = MSGOFF
         LEN = NESDVOIS(I)
-        IF(LEN.GT.0) THEN
+        IF(LEN>0) THEN
           DO N = 1, LEN
             NN = LESDVOIS(IDEB+N)
             WA(IDEB2+2*(N-1)+1) = T(NN)
@@ -375,7 +375,7 @@ C
       ENDDO
 C
       DO I = 1, NSPMD
-        IF(NESDVOIS(I).GT.0) THEN
+        IF(NESDVOIS(I)>0) THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -460,7 +460,7 @@ C
       DO I = 1, NSPMD
         MSGTYP = MSGOFF 
         IAD_RECV(I) = IDEB2+1
-        IF(NERCVOIS(I).GT.0) THEN
+        IF(NERCVOIS(I)>0) THEN
           NBIRECV = NBIRECV + 1
           IRINDEX(NBIRECV) = I
           LEN = NERCVOIS(I)
@@ -475,7 +475,7 @@ C
       DO I = 1, NSPMD
         MSGTYP = MSGOFF 
         LEN = NESDVOIS(I)
-        IF(LEN.GT.0) THEN
+        IF(LEN>0) THEN
           DO N = 1, LEN
             NN = LESDVOIS(IDEB+N)
             WA(IDEB2+N) = PHI(NN)
@@ -499,7 +499,7 @@ C
       ENDDO
 C
       DO I = 1, NSPMD
-        IF(NESDVOIS(I).GT.0) THEN
+        IF(NESDVOIS(I)>0) THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -572,7 +572,7 @@ C
       DO I = 1, NSPMD
         MSGTYP = MSGOFF 
         IAD_RECV(I) = IDEB2+1
-        IF(NERCVOIS(I).GT.0) THEN
+        IF(NERCVOIS(I)>0) THEN
           NBIRECV = NBIRECV + 1
           IRINDEX(NBIRECV) = I
           LEN = NERCVOIS(I)
@@ -587,7 +587,7 @@ C
       DO I = 1, NSPMD
         MSGTYP = MSGOFF 
         LEN = NESDVOIS(I)
-        IF(LEN.GT.0) THEN
+        IF(LEN>0) THEN
           DO N = 1, LEN
             NN = LESDVOIS(IDEB+N)
             WA(1,IDEB2+N) = PHI(NN,1)
@@ -621,7 +621,7 @@ C
       ENDDO
 C
       DO I = 1, NSPMD
-        IF(NESDVOIS(I).GT.0) THEN
+        IF(NESDVOIS(I)>0) THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -694,7 +694,7 @@ C
       DO I = 1, NSPMD
         MSGTYP = MSGOFF 
         IAD_RECV(I) = IDEB2+1
-        IF(NERCVOIS(I).GT.0) THEN
+        IF(NERCVOIS(I)>0) THEN
           NBIRECV = NBIRECV + 1
           IRINDEX(NBIRECV) = I
           LEN = NERCVOIS(I)
@@ -709,7 +709,7 @@ C
       DO I = 1, NSPMD
         MSGTYP = MSGOFF 
         LEN = NESDVOIS(I)
-        IF(LEN.GT.0) THEN
+        IF(LEN>0) THEN
           DO N = 1, LEN
             NN = LESDVOIS(IDEB+N)
             WA(1,IDEB2+N) = PHI(NN,1)
@@ -739,7 +739,7 @@ C
       ENDDO
 C
       DO I = 1, NSPMD
-        IF(NESDVOIS(I).GT.0) THEN
+        IF(NESDVOIS(I)>0) THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -806,7 +806,7 @@ C
       DO I = 1, NSPMD
         MSGTYP = MSGOFF 
         IAD_RECV(I) = IDEB2+1
-        IF(NERCVOIS(I).GT.0) THEN
+        IF(NERCVOIS(I)>0) THEN
           NBIRECV = NBIRECV + 1
           IRINDEX(NBIRECV) = I
           LEN = NERCVOIS(I)
@@ -821,7 +821,7 @@ C
       DO I = 1, NSPMD
         MSGTYP = MSGOFF 
         LEN = NESDVOIS(I)
-        IF(LEN.GT.0) THEN
+        IF(LEN>0) THEN
           DO N = 1, LEN
             NN = LESDVOIS(IDEB+N)
             WA(1,IDEB2+N) = PHI(NN,1)
@@ -849,7 +849,7 @@ C
       ENDDO
 C
       DO I = 1, NSPMD
-        IF(NESDVOIS(I).GT.0) THEN
+        IF(NESDVOIS(I)>0) THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -924,7 +924,7 @@ C
       DO I = 1, NSPMD
         MSGTYP = MSGOFF 
         IAD_RECV(I) = IDEB2+1
-        IF(NERCVOIS(I).GT.0) THEN
+        IF(NERCVOIS(I)>0) THEN
           NBIRECV = NBIRECV + 1
           IRINDEX(NBIRECV) = I
           LEN = NERCVOIS(I)
@@ -939,7 +939,7 @@ C
       DO I = 1, NSPMD
         MSGTYP = MSGOFF 
         LEN = NESDVOIS(I)
-        IF(LEN.GT.0) THEN
+        IF(LEN>0) THEN
           DO N = 1, LEN
             NN = LESDVOIS(IDEB+N)
             DO NDIM = 1, DIM
@@ -967,7 +967,7 @@ C
       ENDDO
 C
       DO I = 1, NSPMD
-        IF(NESDVOIS(I).GT.0) THEN
+        IF(NESDVOIS(I)>0) THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -1029,7 +1029,7 @@ C
       DO I = 1, NSPMD
         MSGTYP = MSGOFF
         IAD_RECV(I) = IDEB2+1
-        IF(NERCVOIS(I).GT.0) THEN
+        IF(NERCVOIS(I)>0) THEN
           NBIRECV = NBIRECV + 1
           IRINDEX(NBIRECV) = I
           LEN = NERCVOIS(I)
@@ -1044,7 +1044,7 @@ C
       DO I = 1, NSPMD
         MSGTYP = MSGOFF
         LEN = NESDVOIS(I)
-        IF(LEN.GT.0) THEN
+        IF(LEN>0) THEN
           DO N = 1, LEN
             NN = LESDVOIS(IDEB+N)
             WA(IDEB2+N) = PHI(NN)
@@ -1069,7 +1069,7 @@ C
       ENDDO
 C
       DO I = 1, NSPMD
-        IF(NESDVOIS(I).GT.0) THEN
+        IF(NESDVOIS(I)>0) THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,ierror)
         ENDIF
       ENDDO
@@ -1135,7 +1135,7 @@ C
       DO I = 1, NSPMD
         MSGTYP = MSGOFF 
         IAD_RECV(I) = IDEB2+1
-        IF(NERCVOIS(I).GT.0) THEN
+        IF(NERCVOIS(I)>0) THEN
           NBIRECV = NBIRECV + 1
           IRINDEX(NBIRECV) = I
           LEN = NERCVOIS(I)
@@ -1150,7 +1150,7 @@ C
       DO I = 1, NSPMD
         MSGTYP = MSGOFF 
         LEN = NESDVOIS(I)
-        IF(LEN.GT.0) THEN
+        IF(LEN>0) THEN
           DO N = 1, LEN
             NN = LESDVOIS(IDEB+N)
             WA(1,IDEB2+N) = PHI(NN,1)
@@ -1190,7 +1190,7 @@ C
       ENDDO
 C
       DO I = 1, NSPMD
-        IF(NESDVOIS(I).GT.0) THEN
+        IF(NESDVOIS(I)>0) THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,ierror)
         ENDIF
       ENDDO
@@ -1259,7 +1259,7 @@ C
       DO I = 1, NSPMD
         MSGTYP = MSGOFF 
         IAD_RECV(I) = IDEB2+1
-        IF(NERCVOIS(I).GT.0) THEN
+        IF(NERCVOIS(I)>0) THEN
           NBIRECV = NBIRECV + 1
           IRINDEX(NBIRECV) = I
           LEN = NERCVOIS(I)
@@ -1274,7 +1274,7 @@ C
       DO I = 1, NSPMD
         MSGTYP = MSGOFF 
         LEN = NESDVOIS(I)
-        IF(LEN.GT.0) THEN
+        IF(LEN>0) THEN
           DO N = 1, LEN
             NN = LESDVOIS(IDEB+N)
             WA(1,IDEB2+N) = PHI(NN,1)
@@ -1305,7 +1305,7 @@ C
       ENDDO
 C
       DO I = 1, NSPMD
-        IF(NESDVOIS(I).GT.0) THEN
+        IF(NESDVOIS(I)>0) THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,ierror)
         ENDIF
       ENDDO
@@ -1368,7 +1368,7 @@ C
       DO I = 1, NSPMD
         MSGTYP = MSGOFF 
         IAD_RECV(I) = IDEB2+1
-        IF(NERCVOIS(I).GT.0) THEN
+        IF(NERCVOIS(I)>0) THEN
           NBIRECV = NBIRECV + 1
           IRINDEX(NBIRECV) = I
           LEN = NERCVOIS(I)
@@ -1383,7 +1383,7 @@ C
       DO I = 1, NSPMD
         MSGTYP = MSGOFF 
         LEN = NESDVOIS(I)
-        IF(LEN.GT.0) THEN
+        IF(LEN>0) THEN
           DO N = 1, LEN
             NN = LESDVOIS(IDEB+N)
             WA(1,IDEB2+N) = PHI(NN,1)
@@ -1412,7 +1412,7 @@ C
       ENDDO
 C
       DO I = 1, NSPMD
-        IF(NESDVOIS(I).GT.0) THEN
+        IF(NESDVOIS(I)>0) THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,ierror)
         ENDIF
       ENDDO
@@ -1496,7 +1496,7 @@ C
       DO I = 1, NSPMD
         MSGTYP = MSGOFF 
         IAD_RECV(I) = IDEB2+1
-        IF(NERCVOIS(I).GT.0) THEN
+        IF(NERCVOIS(I)>0) THEN
           NBIRECV = NBIRECV + 1
           IRINDEX(NBIRECV) = I
           LEN = 6*NERCVOIS(I)
@@ -1510,7 +1510,7 @@ C
       DO I = 1, NSPMD
         MSGTYP = MSGOFF
         LEN = NESDVOIS(I)
-        IF(LEN.GT.0) THEN
+        IF(LEN>0) THEN
           KTY = -1
           KLT = -1
           MFT = -1
@@ -1531,7 +1531,7 @@ C
                 KTY = IPARG(5,NI)                                
                 KLT = IPARG(2,NI)                                
                 MFT = IPARG(3,NI)                                
-                IF( (KTY == 1.OR.KTY == 2).AND.(NN.LE.KLT+MFT) .AND. NN.GT.MFT) THEN  
+                IF( (KTY == 1.OR.KTY == 2).AND.(NN<=KLT+MFT) .AND. NN>MFT) THEN  
                   G_PLA = ELBUF_TAB(NI)%GBUF%G_PLA                
                   G_RK  = ELBUF_TAB(NI)%GBUF%G_RK                 
                   L_RE  = ELBUF_TAB(NI)%BUFLY(1)%L_RE             
@@ -1601,7 +1601,7 @@ C
       ENDDO
 
       DO I = 1, NSPMD
-        IF(NESDVOIS(I).GT.0) THEN
+        IF(NESDVOIS(I)>0) THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,ierror)
         ENDIF
       ENDDO
@@ -1641,7 +1641,7 @@ C
 C
         DO J=1,ILEN
           IDUMMY(J) = INC
-          IF (IA(I+J-1).GE.IT) INC = 0
+          IF (IA(I+J-1)>=IT) INC = 0
         ENDDO
 C
 #include "vectorize.inc"
@@ -1649,7 +1649,7 @@ C
           ISUM = ISUM + IDUMMY(J)
         ENDDO
 C
-        IF (INC.NE.1) THEn
+        IF (INC/=1) THEn
           NISGE = I + ISUM - 1
           RETURN
         ENDIF
@@ -1718,7 +1718,7 @@ C
 C SIZE = 6
       DO I=1,NSPMD
         SIZ = SIZE*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
-        IF(SIZ.NE.0)THEN
+        IF(SIZ/=0)THEN
           MSGTYP = MSGOFF
           CALL MPI_IRECV(
      S      RBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
@@ -1748,7 +1748,7 @@ C
       ENDDO
 C
       DO I=1,NSPMD
-        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0)THEN
+        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
           MSGTYP = MSGOFF
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
           L = IAD_SEND(I)
@@ -1761,7 +1761,7 @@ C
 C decompactage
 C
       DO I = 1, NSPMD
-        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0)THEN
+        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
           L = IAD_RECV(I)
 #include "vectorize.inc"
@@ -1783,7 +1783,7 @@ C
 C Wait terminaison isend
 C
         DO I = 1, NSPMD
-          IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0)
+          IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)
      .     CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDDO
 C
@@ -1859,7 +1859,7 @@ C
       L = 1     
       IAD_RECV(1) = 1
       DO I=1,NSPMD
-        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0) THEN
+        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0) THEN
           MSGTYP = MSGOFF
           SIZ = SIZE*FR_NBCC(2,I)
           NBIRECV = NBIRECV + 1
@@ -1910,7 +1910,7 @@ C
       ENDDO
 C
       DO I=1,NSPMD
-        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0)THEN
+        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
           L = IAD_SEND(I)
           MSGTYP = MSGOFF
@@ -1962,7 +1962,7 @@ C
 C
 C Wait terminaison isend
       DO I = 1, NSPMD
-        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0) THEN
+        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0) THEN
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
@@ -2019,7 +2019,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       CALL STARTIME(MACRO_TIMER_SPMDCFD,1)
 
-      IF (LEN .GT. 0) THEN
+      IF (LEN > 0) THEN
         CALL MPI_REDUCE(V,VTMP,LEN,
      .                  REAL,MPI_MIN,IT_SPMD(1),
      .                  MPI_COMM_WORLD,IERROR)
@@ -2080,7 +2080,7 @@ C
       LOC_PROC = ISPMD+1
       N_LEN  = 4
       N_LEN2 = 3
-      IF(ISPMD.NE.0) THEN
+      IF(ISPMD/=0) THEN
 C
 C Envoi X local
 C
@@ -2221,7 +2221,7 @@ C
       IAD_RECV(1) = 1
       DO I=1,NSPMD
         SIZ = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
-        IF(SIZ.NE.0)THEN
+        IF(SIZ/=0)THEN
           MSGTYP = MSGOFF
           CALL MPI_IRECV(
      S      RBUF(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
@@ -2237,7 +2237,7 @@ C
 #include "vectorize.inc"
         DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
           NOD = FR_ELEM(J)
-          IF(NTAG(NOD).GT.0) THEN
+          IF(NTAG(NOD)>0) THEN
 C il faut enlever le tag initial deja decompe localement
             SBUF(L) =  NTAG(NOD)-1
           ELSE
@@ -2249,7 +2249,7 @@ C il faut enlever le tag initial deja decompe localement
       ENDDO
 C
       DO I=1,NSPMD
-        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0)THEN
+        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
           MSGTYP = MSGOFF
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
           L = IAD_SEND(I)
@@ -2263,7 +2263,7 @@ C decompactage
 C
       DO I = 1, NSPMD
         NB_NOD = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
-        IF(NB_NOD.GT.0)THEN
+        IF(NB_NOD>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
           L = IAD_RECV(I)
 #include "vectorize.inc"
@@ -2276,7 +2276,7 @@ C
       END DO
 C Wait terminaison isend
       DO I = 1, NSPMD
-        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0)
+        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)
      .     CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
       ENDDO
 C
@@ -2340,10 +2340,10 @@ C-----------------------------------------------
 C
 C Envoi segvar de pi vers p0
 C
-        IF(LOC_PROC.NE.1)THEN
+        IF(LOC_PROC/=1)THEN
           MSGTYP = MSGOFF 
           LEN = NPSEGCOM(1)
-          IF(LEN.GT.0) THEN
+          IF(LEN>0) THEN
             DO N = 1, LEN
               KK = LSEGCOM(N)
               
@@ -2384,7 +2384,7 @@ C
           DO I = 2, NSPMD
             MSGTYP = MSGOFF
             IAD_RECV(I) = IDEB+1
-            IF(NPSEGCOM(I).GT.0) THEN
+            IF(NPSEGCOM(I)>0) THEN
               NBIRECV = NBIRECV + 1
               IRINDEX(NBIRECV) = I
               LEN = NVCONV*NPSEGCOM(I)
@@ -2437,10 +2437,10 @@ C
 C
 C Envoi segvar de p0 vers pi
 C
-        IF(LOC_PROC.NE.1)THEN
+        IF(LOC_PROC/=1)THEN
           MSGTYP = MSGOFF 
           LEN = NPSEGCOM(1)
-          IF(LEN.GT.0) THEN
+          IF(LEN>0) THEN
             CALL MPI_RECV(
      S        WA,LEN*NVCONV,REAL,IT_SPMD(1),MSGTYP,
      G        MPI_COMM_WORLD,status,ierror)
@@ -2479,7 +2479,7 @@ C
           IDEB = 0
           DO I = 2, NSPMD
             LEN = NPSEGCOM(I)
-            IF(LEN.GT.0) THEN
+            IF(LEN>0) THEN
               MSGTYP = MSGOFF
               DO N = 1, LEN
                 KK = LSEGCOM(IDEB+N)
@@ -2610,7 +2610,7 @@ C
         L = 1
         DO I=1,NSPMD
 C----------------------------------------------------------------------------
-          IF(IAD_ELEM(1,I+1)-IAD_ELEM(2,I).GT.0)THEN
+          IF(IAD_ELEM(1,I+1)-IAD_ELEM(2,I)>0)THEN
             MSGTYP = MSGOFF
             SIZ = E_LEN*(IAD_ELEM(1,I+1)-IAD_ELEM(2,I))
             CALL MPI_SEND(
@@ -2627,7 +2627,7 @@ C
         IF(ICOMV == 0) RETURN
 C
         SIZ = E_LEN*(IAD_ELEM(1,2)-IAD_ELEM(2,1))
-        IF(SIZ.NE.0)THEN
+        IF(SIZ/=0)THEN
           L = 0
           MSGTYP = MSGOFF
           CALL MPI_RECV(
@@ -2724,7 +2724,7 @@ C-----------------------------------------------
       DO I = 1, NSPMD
         MSGTYP             = MSGOFF 
         IAD_RECV(I)        = IDEB2+1
-        IF(NERCVOIS(I).GT.0) THEN
+        IF(NERCVOIS(I)>0) THEN
           NBIRECV          = NBIRECV + 1
           IRINDEX(NBIRECV) = I
           LEN              = M51_IFLG6_SIZE*NERCVOIS(I)
@@ -2739,7 +2739,7 @@ C-----------------------------------------------
       DO I = 1, NSPMD
         MSGTYP  = MSGOFF
         LEN     = NESDVOIS(I)
-        IF(LEN.GT.0) THEN
+        IF(LEN>0) THEN
           KTY   = -1
           KLT   = -1
           MFT   = -1
@@ -2755,7 +2755,7 @@ C-----------------------------------------------
             ENDIF
             IADBUF = IPM(7,IMAT)
             IFLG   = 6
-            IF(ML.EQ.51)IFLG   = NINT(BUFMAT(IADBUF-1+31)) 
+            IF(ML==51)IFLG   = NINT(BUFMAT(IADBUF-1+31)) 
             ! SEARCH FOR REMOTE ELEM DATA TO SEND
             IF (IFLG /= 6) THEN
                 DO NI=1,NGROUP
@@ -2766,7 +2766,7 @@ C-----------------------------------------------
                   KTY         = IPARG(5,NI)
                   KLT         = IPARG(2,NI)
                   MFT         = IPARG(3,NI)
-                  IF( (KTY    == 1.OR.KTY == 2).AND.(NN.LE.KLT+MFT) .AND. NN.GT.MFT) THEN
+                  IF( (KTY    == 1.OR.KTY == 2).AND.(NN<=KLT+MFT) .AND. NN>MFT) THEN
                    L_TEMP     = ELBUF_TAB(NI)%BUFLY(1)%L_TEMP
                    IS         = NN-MFT
                    DO K=1,6
@@ -2862,7 +2862,7 @@ C-----------------------------------------------
         ENDDO
       ENDDO
       DO I = 1, NSPMD
-        IF(NESDVOIS(I).GT.0) THEN
+        IF(NESDVOIS(I)>0) THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,ierror)
         ENDIF
       ENDDO

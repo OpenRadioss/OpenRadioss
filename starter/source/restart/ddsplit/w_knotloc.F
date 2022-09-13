@@ -64,7 +64,7 @@ C
       MAXGEO=1
 C
       DO I = 1, NUMELIG3D
-c        IF(CEP(OFF+I).EQ.PROC) THEN
+c        IF(CEP(OFF+I)==PROC) THEN
           MAXGEO= MAX(MAXGEO,KXIG3D(2,I))
 C
           NNOD  = KXIG3D(3,I)

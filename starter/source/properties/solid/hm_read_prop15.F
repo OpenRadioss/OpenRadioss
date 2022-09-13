@@ -170,13 +170,13 @@ c
            I8PT=1
          ELSEIF(IHBE==112)THEN
            I8PT=1
-         ELSEIF(IHBE.GE.222)THEN
+         ELSEIF(IHBE>=222)THEN
            I8PT=1
          ENDIF
          GEO(1)=1
          IF(N2D==0.AND.I8PT==1) GEO(1)=8
-         IF(IABS(IHBE).GE.222) GEO(1)=IHBE
-         IF(N2D.GT.0.AND.I8PT==1)THEN
+         IF(IABS(IHBE)>=222) GEO(1)=IHBE
+         IF(N2D>0.AND.I8PT==1)THEN
            GEO(1)=4
            CALL ANCMSG(MSGID=323,
      .                 MSGTYPE=MSGWARNING,
@@ -184,7 +184,7 @@ c
      .                 I1=IG,
      .                 C1=IDTITL)
          ENDIF
-         IF(N2D.GT.0.AND.IHBE.NE.0.AND.IHBE.NE.2)THEN
+         IF(N2D>0.AND.IHBE/=0.AND.IHBE/=2)THEN
             IHBE_OLD=IHBE
             IHBE=0
             CALL ANCMSG(MSGID=324,
@@ -195,11 +195,11 @@ c
      .                  I2=IHBE_OLD,
      .                  I3=IHBE)
          ENDIF
-         IF(IHBE.GE.3.AND.IHBE.LT.13.AND.IHBE.NE.4) IHBE=1
+         IF(IHBE>=3.AND.IHBE<13.AND.IHBE/=4) IHBE=1
          GEO(171)=IHBE
-         IF(IHBE.GT.1000.AND.IHBE.LT.1050) THEN
+         IF(IHBE>1000.AND.IHBE<1050) THEN
           NPTS=IHBE-1000
-         ELSEIF(IABS(IHBE).GE.222) THEN
+         ELSEIF(IABS(IHBE)>=222) THEN
           NPTS=IABS(IHBE)/100*MOD(IABS(IHBE)/10,10)*MOD(IABS(IHBE),10)
          ELSE
           NPTS=NINT(GEO(1))
@@ -234,7 +234,7 @@ C
 C
          GEO(27)=ISK + EM01
          GEO(28)=ITU + EM01
-         IF(IRB.NE.0)THEN
+         IF(IRB/=0)THEN
           GEO(29)=USR2SYS(IRB,ITABM1,MESS,IG)+PUN
          ELSE
           GEO(29)=0

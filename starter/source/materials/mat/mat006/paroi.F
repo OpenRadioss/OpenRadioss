@@ -50,32 +50,32 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, MT, MLAW, JTUR,IC,IC1,IC2,IC3,IC4
 C
-      IF(NUMELS.GT.0)THEN
+      IF(NUMELS>0)THEN
        DO 10 I=1,NUMELS
         MT=IXS(1,I)
-        IF(MT.GT.0) THEN
+        IF(MT>0) THEN
          MLAW=NINT(PM(19,MT))
          JTUR=NINT(PM(70,MT))
-C        IF(MLAW.NE.6.OR.JTUR.EQ.0) GOTO10
-         IF((MLAW.EQ.6.AND.JTUR.NE.0) .OR. MLAW.EQ.46) THEN
+C        IF(MLAW/=6.OR.JTUR==0) GOTO10
+         IF((MLAW==6.AND.JTUR/=0) .OR. MLAW==46) THEN
           DO 11 J=2,9
-           IF(NALE(IXS(J,I)).EQ.0)IXS(1,I)=-IABS(IXS(1,I))
+           IF(NALE(IXS(J,I))==0)IXS(1,I)=-IABS(IXS(1,I))
   11      CONTINUE
          ENDIF
         ENDIF
   10   CONTINUE
       ENDIF
 C
-      IF(NUMELQ.GT.0)THEN
+      IF(NUMELQ>0)THEN
        DO 20 I=1,NUMELQ
         MT=IXQ(1,I)
-        IF(MT.GT.0) THEN
+        IF(MT>0) THEN
          MLAW=NINT(PM(19,MT))
          JTUR=NINT(PM(70,MT))
-C        IF(MLAW.NE.6.OR.JTUR.EQ.0) GOTO20
-         IF((MLAW.EQ.6.AND.JTUR.NE.0) .OR. MLAW.EQ.46) THEN
+C        IF(MLAW/=6.OR.JTUR==0) GOTO20
+         IF((MLAW==6.AND.JTUR/=0) .OR. MLAW==46) THEN
           DO 21 J=2,5
-           IF(NALE(IXQ(J,I)).EQ.0)IXQ(1,I)=-IABS(IXQ(1,I))
+           IF(NALE(IXQ(J,I))==0)IXQ(1,I)=-IABS(IXQ(1,I))
   21      CONTINUE
          ENDIF
         ENDIF
@@ -87,13 +87,13 @@ C
           MLAW=NINT(PM(19,MT))
           JTUR=NINT(PM(70,MT))
           DO J=2,5
-           IF((MLAW.EQ.6.AND.JTUR.NE.0) .OR. MLAW.EQ.46)THEN
+           IF((MLAW==6.AND.JTUR/=0) .OR. MLAW==46)THEN
             IC=ICODE(IXQ(J,I))
             IC1=IC/512
             IC2=(IC-512*IC1)/64
             IC3=(IC-512*IC1-64*IC2)/8
             IC4=(IC-512*IC1-64*IC2-8*IC3)
-            IF(IC1.EQ.3.OR.IC1.EQ.7.OR.IC4.EQ.3.OR.IC4.EQ.7)
+            IF(IC1==3.OR.IC1==7.OR.IC4==3.OR.IC4==7)
      .        IXQ(1,I)=-IABS(IXQ(1,I))
            ENDIF
           ENDDO

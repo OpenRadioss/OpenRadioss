@@ -62,7 +62,7 @@ C--------------------------------------------------------
       FI=A(1,1)*A(1,1)+A(2,1)*A(2,1)+A(3,1)*A(3,1)
       FJ=A(1,2)*A(1,2)+A(2,2)*A(2,2)+A(3,2)*A(3,2)
       FK=A(1,3)*A(1,3)+A(2,3)*A(2,3)+A(3,3)*A(3,3)
-      IF(FI.LT.EM10.AND.FJ.LT.EM10.AND.FK.LT.EM10)THEN
+      IF(FI<EM10.AND.FJ<EM10.AND.FK<EM10)THEN
 C      A is almost identical to null matrix
        IA(1,1)=ZERO
        IA(1,2)=ZERO
@@ -77,15 +77,15 @@ C      A is almost identical to null matrix
 C---------------------------------------------------------
 C       Permute i,j,k pour trouver Ai != 0
 C---------------------------------------------------------
-        IF(FI.GE.MAX(FJ,FK))THEN
+        IF(FI>=MAX(FJ,FK))THEN
          PERMUTI=1
-        ELSEIF(FJ.GE.MAX(FI,FK))THEN
+        ELSEIF(FJ>=MAX(FI,FK))THEN
          PERMUTI=2
         ELSE
-C              FK.GE.MAX(FI,FJ)
+C              FK>=MAX(FI,FJ)
          PERMUTI=3
         ENDIF
-        IF(PERMUTI.EQ.2)THEN
+        IF(PERMUTI==2)THEN
 C         passage dans j,k,i
           FI=FJ
           C(1,1)=A(2,2)
@@ -106,7 +106,7 @@ C         passage dans j,k,i
           A(3,1)=C(3,1)
           A(3,2)=C(3,2)
           A(3,3)=C(3,3)
-        ELSEIF(PERMUTI.EQ.3)THEN
+        ELSEIF(PERMUTI==3)THEN
 C         passage dans k,i,j
           FI=FK
           C(1,1)=A(3,3)
@@ -139,17 +139,17 @@ C       Ai^Ak=(V1,-V2,V3)
         V3=A(1,1)*A(2,3)-A(2,1)*A(1,3)
         PIK=V1*V1+V2*V2+V3*V3
 C
-        IF(PIJ.LT.EM10.AND.PIK.LT.EM10)THEN
+        IF(PIJ<EM10.AND.PIK<EM10)THEN
 C---------------------------------------------------------
 C         FI,FJ lies & FI,FK lies (matrice de rang 1).
 C---------------------------------------------------------
-          IF(     ABS(A(1,1)).GE.ABS(A(2,1))
-     .       .AND.ABS(A(1,1)).GE.ABS(A(3,1)))THEN
+          IF(     ABS(A(1,1))>=ABS(A(2,1))
+     .       .AND.ABS(A(1,1))>=ABS(A(3,1)))THEN
             AI =A(1,1)
             AIJ=A(1,2)/AI
             AIK=A(1,3)/AI
-          ELSEIF(     ABS(A(2,1)).GE.ABS(A(1,1))
-     .           .AND.ABS(A(2,1)).GE.ABS(A(3,1)))THEN
+          ELSEIF(     ABS(A(2,1))>=ABS(A(1,1))
+     .           .AND.ABS(A(2,1))>=ABS(A(3,1)))THEN
             AI =A(2,1)
             AIJ=A(2,2)/AI
             AIK=A(2,3)/AI
@@ -232,8 +232,8 @@ C---------------------------------------------------------
 C        matrice de rang 2.
 C---------------------------------------------------------
           PERMUTJ=0
-          IF(PIK.GT.PIJ)PERMUTJ=1
-          IF(PERMUTJ.EQ.1)THEN
+          IF(PIK>PIJ)PERMUTJ=1
+          IF(PERMUTJ==1)THEN
 C----------------------------
 C          Echange j = k,k = -j pour trouver Ai^Aj != 0
 C----------------------------
@@ -262,18 +262,18 @@ c
           ENDIF
 C---------
 C         Decomposition Ak=AIK*Ai+AJK*Aj
-          IF(ABS(U3).GE.EM10)THEN
+          IF(ABS(U3)>=EM10)THEN
 C          U3 determinant mineur non nul
            U3=ONE/U3
            AIK=(A(1,3)*A(2,2)-A(2,3)*A(1,2))*U3
            AJK=(A(1,1)*A(2,3)-A(2,1)*A(1,3))*U3
-          ELSEIF(ABS(U2).GE.EM10)THEN
+          ELSEIF(ABS(U2)>=EM10)THEN
 C          U2 determinant mineur non nul
            U2=ONE/U2
            AIK=(A(1,3)*A(3,2)-A(3,3)*A(1,2))*U2
            AJK=(A(1,1)*A(3,3)-A(3,1)*A(1,3))*U2
           ELSE
-C                ABS(U1).GE.EM10
+C                ABS(U1)>=EM10
 C          U1 determinant mineur non nul
            U1=ONE/U1
            AIK=(A(2,3)*A(3,2)-A(3,3)*A(2,2))*U1
@@ -358,7 +358,7 @@ C          Retour dans (i,j,k)
           ENDDO
           ENDDO
 C---------
-          IF(PERMUTJ.EQ.1)THEN
+          IF(PERMUTJ==1)THEN
 C----------------------------
 C           Retour j = k,k = -j soit j = -k, k = j
 C----------------------------
@@ -385,7 +385,7 @@ C----------------------------
 C---------------------------------------------------------
 C       Retour Permutation i,j,k
 C---------------------------------------------------------
-         IF(PERMUTI.EQ.2)THEN
+         IF(PERMUTI==2)THEN
 C         j,k,i -> i,j,k
           C(1,1)=IA(3,3)
           C(1,2)=IA(3,1)
@@ -405,7 +405,7 @@ C         j,k,i -> i,j,k
           IA(3,1)=C(3,1)
           IA(3,2)=C(3,2)
           IA(3,3)=C(3,3)
-         ELSEIF(PERMUTI.EQ.3)THEN
+         ELSEIF(PERMUTI==3)THEN
 C         k,i,j -> i,j,k
           C(1,1)=IA(2,2)
           C(1,2)=IA(2,3)

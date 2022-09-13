@@ -89,7 +89,7 @@ c ------------------------------
 c Angle d'orthotropie defini par rapport
 c a la premiere direction du repere isoparametrique
 c ------------------------------
-          IF(IPNUM.EQ.11) THEN
+          IF(IPNUM==11) THEN
             SUM=SQRT(RY(I)**2+RZ(I)**2)
             SUM=ONE/MAX(SUM,EM20)
             HX=ZERO
@@ -149,7 +149,7 @@ c ------------------------------
             GAMA(I,6)= ZERO
           ENDIF
         ELSEIF (JCVT > 0) THEN
-          IF(IPNUM.EQ.11) THEN       
+          IF(IPNUM==11) THEN       
             SUM=SQRT(E1Y(I)**2+E1Z(I)**2)
             IF (SUM > ZERO) SUM=ONE/SUM
             HX=ZERO

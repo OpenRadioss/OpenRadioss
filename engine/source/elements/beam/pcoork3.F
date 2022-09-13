@@ -98,7 +98,7 @@ C----------------------------
        R31(I)=Z2(I)-Z1(I)
       ENDDO 
 C
-      IF (ISMSTR.NE.0) THEN
+      IF (ISMSTR/=0) THEN
        DO  I=JFT, JLT
         AL(I)=ALS(I)
        ENDDO
@@ -108,7 +108,7 @@ C
        ENDDO
       ENDIF 
       DO  I=JFT, JLT
-       IF (AL(I).LT.EM20) OFFG(I)=ZERO
+       IF (AL(I)<EM20) OFFG(I)=ZERO
        ALI(I)=ONE/MAX(EM20,AL(I))
       ENDDO 
 C

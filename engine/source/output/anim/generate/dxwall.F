@@ -59,7 +59,7 @@ C
        YN =RWL(2)
        ZN =RWL(3)
       IF (NSPMD == 1) THEN
-        IF(MSR.EQ.0)THEN
+        IF(MSR==0)THEN
          XWL=RWL(4)
          YWL=RWL(5)
          ZWL=RWL(6)
@@ -72,13 +72,13 @@ C
          CALL SPMD_AGETMSR(FR_WALL,X,MSR,XWL,YWL,ZWL,RWL)
 C
       END IF 
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
       DX = XMAX - XMIN
       DY = YMAX - YMIN
       DZ = ZMAX - ZMIN
 C
       R = ZEP707*MAX(DX,DY,DZ)
-      IF (XN == ZERO .AND. YN == ZERO .AND. ZN .NE. ZERO ) THEN
+      IF (XN == ZERO .AND. YN == ZERO .AND. ZN /= ZERO ) THEN
         V1 = ZEP707
         V2 = ZEP707
         V3 = ZERO
@@ -91,8 +91,8 @@ C
       VV2 = V3 * XN - V1 * ZN
       VV3 = V1 * YN - V2 * XN
       VV = SQRT(VV1*VV1 + VV2*VV2 + VV3*VV3)
-      IF(VV.LE.HALF)THEN
-        IF (XN == ZERO .AND. YN == ZERO .AND. ZN .NE. ZERO ) THEN
+      IF(VV<=HALF)THEN
+        IF (XN == ZERO .AND. YN == ZERO .AND. ZN /= ZERO ) THEN
           V1 = -ZEP707
           V2 = ZEP707
           V3 = ZERO        

@@ -120,27 +120,27 @@ C----
       K4 = KRX
       K5 = KRY
       K6 = KRZ
-      IF (IFKNX.NE.0) THEN
+      IF (IFKNX/=0) THEN
         XF = GET_U_FUNC(IFKNX,ZERO,DERI)
         K1  = MAX(KXX*DERI, EM20)
       ENDIF
-      IF (IFKNY.NE.0) THEN
+      IF (IFKNY/=0) THEN
         XF = GET_U_FUNC(IFKNY,ZERO,DERI)
         K2  = MAX(KYY*DERI, EM20)
       ENDIF
-      IF (IFKNZ.NE.0) THEN
+      IF (IFKNZ/=0) THEN
         XF = GET_U_FUNC(IFKNZ,ZERO,DERI)
         K3  = MAX(KZZ*DERI, EM20)
       ENDIF
-      IF (IFKRX.NE.0) THEN
+      IF (IFKRX/=0) THEN
         XF = GET_U_FUNC(IFKRX,ZERO,DERI)
         K4  = MAX(KRX*DERI, EM20)
       ENDIF
-      IF (IFKRY.NE.0) THEN
+      IF (IFKRY/=0) THEN
         XF = GET_U_FUNC(IFKRY,ZERO,DERI)
         K5  = MAX(KRY*DERI, EM20) 
       ENDIF
-      IF (IFKRZ.NE.0) THEN
+      IF (IFKRZ/=0) THEN
         XF = GET_U_FUNC(IFKRZ,ZERO,DERI)
         K6  = MAX(KRZ*DERI, EM20)
       ENDIF
@@ -164,27 +164,27 @@ C
       C4 = CRX
       C5 = CRY
       C6 = CRZ
-      IF (IFCNX.NE.0) THEN
+      IF (IFCNX/=0) THEN
         XF = GET_U_FUNC(IFCNX,ZERO,DERI)
         C1  = MAX(CXX*DERI, EM20)
       ENDIF
-      IF (IFCNY.NE.0) THEN
+      IF (IFCNY/=0) THEN
         XF = GET_U_FUNC(IFCNY,ZERO,DERI)
         C2  = MAX(CYY*DERI, EM20)
       ENDIF
-      IF (IFCNZ.NE.0) THEN
+      IF (IFCNZ/=0) THEN
         XF = GET_U_FUNC(IFCNZ,ZERO,DERI)
         C3  = MAX(CZZ*DERI, EM20)
       ENDIF
-      IF (IFCRX.NE.0) THEN
+      IF (IFCRX/=0) THEN
         XF = GET_U_FUNC(IFCRX,ZERO,DERI)
         C4  = MAX(CRX*DERI, EM20)
       ENDIF
-      IF (IFCRY.NE.0) THEN
+      IF (IFCRY/=0) THEN
         XF = GET_U_FUNC(IFCRY,ZERO,DERI)
         C5  = MAX(CRY*DERI, EM20) 
       ENDIF
-      IF (IFCRZ.NE.0) THEN
+      IF (IFCRZ/=0) THEN
         XF = GET_U_FUNC(IFCRZ,ZERO,DERI)
         C6  = MAX(CRZ*DERI, EM20)
       ENDIF
@@ -236,15 +236,15 @@ C
           UVAR(20,I)= KYY
           UVAR(21,I)= KZZ
 	  
-          IF(JTYP.GE.2.AND.JTYP.LE.4) THEN
+          IF(JTYP>=2.AND.JTYP<=4) THEN
             UVAR(31,I)= KRX
             UVAR(32,I)= KR
             UVAR(33,I)= KR
-          ELSEIF(JTYP.EQ.5) THEN
+          ELSEIF(JTYP==5) THEN
             UVAR(31,I)= KR
             UVAR(32,I)= KRY
             UVAR(33,I)= KRZ
-          ELSEIF(JTYP.GE.6.AND.JTYP.LE.8) THEN
+          ELSEIF(JTYP>=6.AND.JTYP<=8) THEN
             UVAR(31,I)= KR
             UVAR(32,I)= KR
             UVAR(33,I)= KR
@@ -313,9 +313,9 @@ C
       ISK1 = GET_U_SKEW(IDSK1,N1,N2,N3,U)
       ISK2 = GET_U_SKEW(IDSK2,N1,N2,N3,V)
 C
-      IF (JTYP.EQ.5) THEN
+      IF (JTYP==5) THEN
 C---     universal joint
-        IF ((U(1)*V(1)+U(2)*V(2)+U(3)*V(3)).LE.EM10) THEN
+        IF ((U(1)*V(1)+U(2)*V(2)+U(3)*V(3))<=EM10) THEN
           X(1) = U(2)*V(3) - U(3)*V(2)
           X(2) = U(3)*V(1) - U(1)*V(3)
           X(3) = U(1)*V(2) - U(2)*V(1)
@@ -346,9 +346,9 @@ c     .                   C1=TITR)
         ENDIF
       ELSE
 C---------------------------
-        IF (SKFLG.EQ.1) THEN
+        IF (SKFLG==1) THEN
 c----   first skew is used
-          IF (ISK2.EQ.0) THEN
+          IF (ISK2==0) THEN
             DO I=1,9
               X(I) = U(I)
               A(I) = U(I)
@@ -500,7 +500,7 @@ C---   first skew rotation
        C = MAX(C,UMI)
        KSI = ACOS(C)
        S   = SIN(KSI)
-       IF(S.EQ.ZERO) THEN
+       IF(S==ZERO) THEN
          SI2 = ZERO
        ELSE
          SI2  = HALF / S
@@ -509,7 +509,7 @@ C---   first skew rotation
        T(2) = (E13 - E31) * SI2
        T(3) = (E21 - E12) * SI2
        NR = SQRT(T(1)*T(1)+T(2)*T(2)+T(3)*T(3))
-       IF (NR.NE.ZERO) NR = ONE/NR
+       IF (NR/=ZERO) NR = ONE/NR
        T(1) = T(1)*NR
        T(2) = T(2)*NR 
        T(3) = T(3)*NR 

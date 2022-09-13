@@ -143,7 +143,7 @@ C
       ENDIF
 C
       IF (IFUNC(1) > 0) THEN
-        IF ((XK_INI.LT.XK).AND.(XK_INI > ZERO)) THEN
+        IF ((XK_INI<XK).AND.(XK_INI > ZERO)) THEN
           CALL ANCMSG(MSGID=1640, ! 
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_1,

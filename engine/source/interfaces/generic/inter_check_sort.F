@@ -100,7 +100,7 @@ C-----------------------------------------------
 
             ISENS = 0
             IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 25) ISENS = IPARI(64,N)  
-            IF(ISENS.NE.0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+            IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
                 TS = SENSOR(2,ISENS)
             ELSE
                 TS = TT
@@ -108,7 +108,7 @@ C-----------------------------------------------
             IS_SORTING_NEEDED=.FALSE.
             ! ------------------------
             ! interface type 7
-            IF( (NTY == 7.AND.TT.GE.TS).AND.(.NOT.TYPE18) )THEN
+            IF( (NTY == 7.AND.TT>=TS).AND.(.NOT.TYPE18) )THEN
                 ! check if the interface must be sorted (dist + t_start + t_stop)
                 DIST = INTBUF_TAB(N)%VARIABLES(5)
                 IF (DIST<=ZERO) IS_SORTING_NEEDED = .TRUE.

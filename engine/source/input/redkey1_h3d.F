@@ -58,18 +58,18 @@ C
       JK=0
 C
       DO 10 I=1,ncharline
-      IF(CARTE(I:I).EQ.'/')THEN
+      IF(CARTE(I:I)=='/')THEN
        JK=JK+1
        J=0
-      ELSEIF(CARTE(I:I).NE.' ')THEN
+      ELSEIF(CARTE(I:I)/=' ')THEN
        J=J+1
-       IF(J.LE.ncharkey)KEY(JK)(J:J)=CARTE(I:I)
+       IF(J<=ncharkey)KEY(JK)(J:J)=CARTE(I:I)
       ENDIF
  10   CONTINUE
 C
       DO 100 I=1,NKEY
       IKEY=I
- 100  IF(KEY(1)(1:5).EQ.KEY0(IKEY)(1:5)) GOTO 400
+ 100  IF(KEY(1)(1:5)==KEY0(IKEY)(1:5)) GOTO 400
 C
       IR=1
       IKEY=IKEYO

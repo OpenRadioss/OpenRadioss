@@ -106,7 +106,7 @@ C------------------------------------------------------------
       CALL HM_GET_INTV('secondaryentityids',ISU1,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('mainentityids',ISU2,IS_AVAILABLE,LSUBMODEL)
 C
-       IF(ISU2.EQ.0) THEN
+       IF(ISU2==0) THEN
           CALL ANCMSG(MSGID=119,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -117,17 +117,17 @@ C
        IS2=1
        INGR2USR => IGRSURF(1:NSURF)%ID
        ISU2=NGR2USR(ISU2,INGR2USR,NSURF)
-       IF(ISU1.NE.0)THEN
+       IF(ISU1/=0)THEN
           INGR2USR => IGRNOD(1:NGRNOD)%ID
           ISU1=NGR2USR(ISU1,INGR2USR,NGRNOD)
           IS1 =2
        ENDIF
-       IF(ISU1.EQ.0)THEN
+       IF(ISU1==0)THEN
          ISU1=ISU2
          IS1 =1
        ENDIF
 C------------------------------------------------------------
-       IF(FRIGAP(16).EQ.ZERO)THEN
+       IF(FRIGAP(16)==ZERO)THEN
            GAPMAX=EP30
            FRIGAP(16)=GAPMAX
        END IF
@@ -154,7 +154,7 @@ C
         FRIGAP(3)=STARTT
         FRIGAP(11)=STOPT
 C
-        IF(STFAC.EQ.ZERO) THEN
+        IF(STFAC==ZERO) THEN
            STFAC=ONE
         ENDIF 
 C
@@ -163,10 +163,10 @@ C  Card5
 C------------------------------------------------------------
         CALL HM_GET_FLOATV('BUMULT',BUMULT,IS_AVAILABLE,LSUBMODEL,UNITAB)
 
-        IF(BUMULT.EQ.ZERO) THEN
+        IF(BUMULT==ZERO) THEN
           BUMULT = BMUL0
 C bmult augmente pour les tres gros modeles et interface 7 ou 20
-           IF(NTYP.EQ.7)THEN
+           IF(NTYP==7)THEN
              IF(NUMNOD > 2500000) THEN
                BUMULT = BMUL0*TWO
              ELSEIF(NUMNOD > 1500000) THEN
@@ -194,28 +194,28 @@ C------------------------------------------------------------
 C
       WRITE(IOUT,1527)       
 C
-      IF(IS1.EQ.0)THEN
+      IF(IS1==0)THEN
         WRITE(IOUT,'(6X,A)')'NO SECONDARY SURFACE INPUT'
-      ELSEIF(IS1.EQ.1)THEN
+      ELSEIF(IS1==1)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS1.EQ.2)THEN
+      ELSEIF(IS1==2)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY NODES'
-      ELSEIF(IS1.EQ.3)THEN
+      ELSEIF(IS1==3)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS1.EQ.4 )THEN
+      ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
-      ELSEIF(IS1.EQ.5 )THEN
+      ELSEIF(IS1==5 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
       ENDIF
-      IF(IS2.EQ.0)THEN
+      IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'
-      ELSEIF(IS2.EQ.1)THEN
+      ELSEIF(IS2==1)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS2.EQ.2)THEN
+      ELSEIF(IS2==2)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY NODES'
-      ELSEIF(IS2.EQ.3)THEN
+      ELSEIF(IS2==3)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS2.EQ.4)THEN
+      ELSEIF(IS2==4)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE REFERS ',
      .                      'TO HYPER-ELLIPSOIDAL SURFACE'
       ENDIF
@@ -223,6 +223,6 @@ C
 C--------------------------------------------------------------
       RETURN
  1527 FORMAT(//
-     .    '    TYPE.EQ.7   PARALLEL/AUTO IMPACTING           ' /,
+     .    '    TYPE==7   PARALLEL/AUTO IMPACTING           ' /,
      .    '    LAGRANGE MULTIPLIER FORMULATION               ' //)  
       END

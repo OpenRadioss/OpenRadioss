@@ -90,7 +90,7 @@ C
          RTKF(I)=RTK(NKLOC+I)
       ENDDO   
 C
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
          DO I=1,NSPMD-1
             IRQTAG=MSGOFF 
             CALL MPI_IRECV(RBUF(1,I), 2, MPI_INTEGER, IT_SPMD(I+1),
@@ -199,7 +199,7 @@ C
             NNZT=NNZT+NKIP(I)
          ENDDO
          NNZT=NNZT+NKF_TOT
-         IF (ISPMD.EQ.0.AND.IPRINT.EQ.1) THEN
+         IF (ISPMD==0.AND.IPRINT==1) THEN
             WRITE(ISTDO,*)
             WRITE(ISTDO,'(A21,I10,A8,I10)') 
      .        ' MUMPS    DIM : NNZ =',NNZT,' NNZFR =',NKF_TOT
@@ -221,7 +221,7 @@ C  KFMAP(PKFRONT(2,I),NKF_NEW(PKFRONT(2,I))) = I
 C
 C
          DO I=1,NKF_TOT
-            IF (PKFRONT(1,I).EQ.1) THEN
+            IF (PKFRONT(1,I)==1) THEN
                PP=PKFRONT(2,I)
                NN=NKF_NEW(PP)
                NN=NN+1
@@ -234,7 +234,7 @@ C
                PMIN=PP
                DO J=2,NP
                   PP=PKFRONT(1+J,I)
-                  IF (NKF_NEW(PP).LT.NMIN) THEN
+                  IF (NKF_NEW(PP)<NMIN) THEN
                      NMIN=NKF_NEW(PP)
                      PMIN=PP
                   ENDIF
@@ -246,10 +246,10 @@ C
             ENDIF
          ENDDO
 C
-         IF (ISPMD.EQ.0.AND.IPRINT.EQ.1) THEN
+         IF (ISPMD==0.AND.IPRINT==1) THEN
             WRITE(ISTDO,*)
             DO I=1,NSPMD
-               IF (I.EQ.1) THEN
+               IF (I==1) THEN
                   WRITE(ISTDO,'(A6,I5,5X,A5,I10,A8,I10)') 
      .                 ' PROC=',I,'NNZ =',NKLOC+NKF_NEW(1),
      .                 ' NNZFR =',NKF_NEW(1)
@@ -378,7 +378,7 @@ C-----------------------------------------------
       DATA MSGOFF/16001/
 C
       NNZ=0
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
          NNZ=NZLOC
          DO I=1,NSPMD-1
             IRQTAG=MSGOFF 
@@ -442,7 +442,7 @@ C-----------------------------------------------
       DATA MSGOFF2/16055/
 
 C
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
          NNZ=0
          DO I=1,NZLOC
             NNZ=NNZ+1
@@ -631,9 +631,9 @@ C-----------------------------------------------
      .       , DIMENSION(:,:), ALLOCATABLE :: VP
       DATA MSGOFF/16003/
 C
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
 C
-         IF (ISENS.EQ.1) THEN
+         IF (ISENS==1) THEN
             ALLOCATE(VP(NDDLG,NSPMD-1))
 C Gather des forces
             DO I=1,NDDLG
@@ -658,7 +658,7 @@ C
 C
             DEALLOCATE(VP)
 C
-         ELSEIF (ISENS.EQ.2) THEN
+         ELSEIF (ISENS==2) THEN
 C Scatter des deplacements
             DO I=1,NDDL
                II=CDDLP(I)
@@ -673,7 +673,7 @@ C
             IF(NSPMD > 1) CALL MPI_WAITALL(NSPMD-1, REQ, TSTAT, IERR)
          ENDIF
       ELSE
-         IF (ISENS.EQ.1) THEN
+         IF (ISENS==1) THEN
             DO I=1,NDDLG
                VG(I)=ZERO
             ENDDO
@@ -686,7 +686,7 @@ C
             CALL MPI_ISEND(VG, NDDLG, REAL, IT_SPMD(1),
      .                     IRQTAG, MPI_COMM_WORLD, REQ, IERR)
             CALL MPI_WAIT(REQ, TSTAT, IERR)
-         ELSEIF (ISENS.EQ.2) THEN
+         ELSEIF (ISENS==2) THEN
             IRQTAG=MSGOFF 
             CALL MPI_IRECV(VG, NDDLG, REAL, IT_SPMD(1),
      .                     IRQTAG, MPI_COMM_WORLD, REQ, IERR)
@@ -744,7 +744,7 @@ C-----------------------------------------------
 
 ! Only the testing here, initializations are removed into IMP_MUMPS1
 
-      IF (ITASK.EQ.1) THEN
+      IF (ITASK==1) THEN
         METIS = 5
         PORD = 4
 
@@ -865,7 +865,7 @@ c        WRITE(IOUT,*) 'MUMPS error code :',MUMPS_PAR%INFOG(1)
 
 
 
-      ELSEIF (ITASK.EQ.2) THEN
+      ELSEIF (ITASK==2) THEN
 C Resolution
          MUMPS_PAR%JOB=3
 c        CALL STARTIME(99,1)
@@ -915,7 +915,7 @@ C-----------------------------------------------
       CHARACTER (len=255) file_mat,file_rhs,file_icntl
 c     Uncomment the following lines to print the matrix into the matrix
 c     Matrix Market format.
-      IF(IMUMPSD .EQ. 2 .AND. ISPMD .EQ. 0) THEN
+      IF(IMUMPSD == 2 .AND. ISPMD == 0) THEN
 C If centralized matrix on zero
         OPEN(unit=21,file="matrix",action="write",status="replace",
      . form='unformatted')
@@ -959,7 +959,7 @@ C If centralized matrix on zero
         WRITE(21) MUMPS_PAR%IRN_LOC(I),MUMPS_PAR%JCN_LOC(I),
      .  MUMPS_PAR%A_LOC(I)
         END DO
-        IF( ISPMD .EQ. 0 ) THEN
+        IF( ISPMD == 0 ) THEN
           WRITE(22) MUMPS_PAR%N              
           DO I = 1,MUMPS_PAR%N
             WRITE(22)  MUMPS_PAR%RHS(I)
@@ -1041,7 +1041,7 @@ C---try      CALL MPI_REDUCE(SI,S,1,REAL,MPI_SUM,0,MPI_COMM_WORLD,IERROR)
 C---try      CALL MPI_BCAST(S,1,REAL,0,MPI_COMM_WORLD,IERROR)
       LOC_PROC = ISPMD + 1
       SIZ=1
-      IF(ISPMD.EQ.0) THEN
+      IF(ISPMD==0) THEN
         DO I = 2, NSPMD
           MSGTYP=MSGOFF 
           CALL MPI_IRECV(RBUF(I),SIZ,REAL,IT_SPMD(I),MSGTYP,
@@ -1118,7 +1118,7 @@ C---try      CALL MPI_REDUCE(SI,S,1,REAL,MPI_SUM,0,MPI_COMM_WORLD,IERROR)
 C---try      CALL MPI_BCAST(S,1,REAL,0,MPI_COMM_WORLD,IERROR)
       LOC_PROC = ISPMD + 1
       SIZ=LEN
-      IF(ISPMD.EQ.0) THEN
+      IF(ISPMD==0) THEN
        IDEB = SIZ+1
        DO I = 2, NSPMD
           MSGTYP=MSGOFF 
@@ -1196,7 +1196,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD + 1
       SIZ=1
-      IF(ISPMD.EQ.0) THEN
+      IF(ISPMD==0) THEN
         DO I = 2, NSPMD
           MSGTYP=MSGOFF 
           CALL MPI_IRECV(RBUF(I),SIZ,REAL,IT_SPMD(I),MSGTYP,
@@ -1274,7 +1274,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD + 1
       SIZ=1
-      IF(ISPMD.EQ.0) THEN
+      IF(ISPMD==0) THEN
         DO I = 2, NSPMD
           MSGTYP=MSGOFF 
           CALL MPI_IRECV(RBUF(I),SIZ,REAL,IT_SPMD(I),MSGTYP,
@@ -1359,7 +1359,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD + 1
       SIZ=1
-      IF(ISPMD.EQ.0) THEN
+      IF(ISPMD==0) THEN
         DO I = 2, NSPMD
           MSGTYP=MSGOFF 
           CALL MPI_IRECV(RBUF(I),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
@@ -1430,7 +1430,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD + 1
       SIZ=1
-      IF(ISPMD.EQ.0) THEN
+      IF(ISPMD==0) THEN
         DO I = 2, NSPMD
           MSGTYP=MSGOFF 
           CALL MPI_IRECV(RBUF(I),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
@@ -1522,7 +1522,7 @@ C-----------------------------------------------
        RBUF(7,1) = NZKFR
        RBUF(8,1) = LEN_V-2*NDDLFRB1/3
        RBUF(9,1) = LEN_K-LEN_V
-      IF(ISPMD.EQ.0) THEN
+      IF(ISPMD==0) THEN
         DO I = 2, NSPMD
           MSGTYP=MSGOFF 
           CALL MPI_IRECV(RBUF(1,I),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
@@ -1578,7 +1578,7 @@ C
       END IF
        NDDL_G = NDDL
        NNZK_G = NZZK
-      IF (L_LIM.EQ.0) L_LIM = NDDL_G
+      IF (L_LIM==0) L_LIM = NDDL_G
 C
       RETURN
       END
@@ -1646,14 +1646,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      IF (NDDLFR.LE.0) RETURN
+      IF (NDDLFR<=0) RETURN
 C
       LOC_PROC = ISPMD + 1
 C
       L=1
       DO I=1,NSPMD
         SIZ = ND_FR(I)
-        IF(SIZ.GT.0)THEN
+        IF(SIZ>0)THEN
           MSGTYP = MSGOFF
           CALL MPI_IRECV(
      S      RBUF(L),SIZ  ,REAL,IT_SPMD(I),MSGTYP,
@@ -1666,7 +1666,7 @@ C preparation envoi  a proc I
 C--------------------------------------------------------------------
       L = 0
       DO I=1,NSPMD
-        IF(ND_FR(I).GT.0)THEN
+        IF(ND_FR(I)>0)THEN
           DO J=1,ND_FR(I)
            ID = J + L
            ND=IFR2K(ID)
@@ -1681,7 +1681,7 @@ C--------------------------------------------------------------------
       L = 1
       DO I=1,NSPMD
         SIZ = ND_FR(I)
-        IF(SIZ.GT.0)THEN
+        IF(SIZ>0)THEN
           MSGTYP = MSGOFF 
           CALL MPI_ISEND(
      S      SBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
@@ -1694,7 +1694,7 @@ C assemblage
 C--------------------------------------------------------------------
       L = 0
       DO I=1,NSPMD
-        IF(ND_FR(I).GT.0)THEN
+        IF(ND_FR(I)>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
           DO J=1,ND_FR(I)
            ID = J + L
@@ -1708,7 +1708,7 @@ C
 Cel wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
-        IF(ND_FR(I).GT.0)THEN
+        IF(ND_FR(I)>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -1764,14 +1764,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      IF (NDDLFR.LE.0) RETURN
+      IF (NDDLFR<=0) RETURN
 C
       LOC_PROC = ISPMD + 1
 C
       L=1
       DO I=1,NSPMD
         SIZ = ND_FR(I)
-        IF(SIZ.GT.0)THEN
+        IF(SIZ>0)THEN
           MSGTYP = MSGOFF 
           CALL MPI_IRECV(
      S      VSCA(L),SIZ  ,REAL,IT_SPMD(I),MSGTYP,
@@ -1783,7 +1783,7 @@ C
       L = 1
       DO I=1,NSPMD
         SIZ = ND_FR(I)
-        IF(SIZ.GT.0)THEN
+        IF(SIZ>0)THEN
           MSGTYP = MSGOFF 
           CALL MPI_ISEND(
      S      VGAT(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
@@ -1793,7 +1793,7 @@ C
       ENDDO
 C
       DO I = 1, NSPMD
-        IF(ND_FR(I).GT.0)THEN
+        IF(ND_FR(I)>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
@@ -1861,7 +1861,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      IF (NDDLFR.LE.0) RETURN
+      IF (NDDLFR<=0) RETURN
 C
       LOC_PROC = ISPMD + 1
 C
@@ -1869,7 +1869,7 @@ C
       L=1
       DO I=1,NSPMD
         SIZ(I) = ND_FR(I)+IADFR(ND_FR(I)+IAD+1)-IADFR(IAD+1)
-        IF(SIZ(I).GT.0)THEN
+        IF(SIZ(I)>0)THEN
           MSGTYP = MSGOFF 
           CALL MPI_IRECV(
      .      RBUF(L),SIZ(I),REAL,IT_SPMD(I),MSGTYP,
@@ -1886,7 +1886,7 @@ C--------------------------------------------------------------------
       IAD2=0
       JAD=0
        DO I=1,NSPMD
-        IF(SIZ(I).GT.0)THEN
+        IF(SIZ(I)>0)THEN
           DO J=1,ND_FR(I)
            ND=IFR2K(J+IAD2)
            SBUF(L)= DIAG_K(ND)   
@@ -1908,7 +1908,7 @@ C   echange messages
 C--------------------------------------------------------------------
       L=1
       DO I=1,NSPMD
-        IF(SIZ(I).GT.0)THEN
+        IF(SIZ(I)>0)THEN
           MSGTYP = MSGOFF 
           CALL MPI_ISEND(
      S      SBUF(L),SIZ(I),REAL,IT_SPMD(I),MSGTYP,
@@ -1924,7 +1924,7 @@ C--------------------------------------------------------------------
       IAD2=0
       JAD=0
        DO I=1,NSPMD
-        IF(SIZ(I).GT.0)THEN
+        IF(SIZ(I)>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
           DO J=1,ND_FR(I)
            ND=IFR2K(J+IAD2)
@@ -1946,7 +1946,7 @@ C
 Cel wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
-        IF(SIZ(I).GT.0)THEN
+        IF(SIZ(I)>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -1997,7 +1997,7 @@ C----creer IAD_R (taille de recevoir)a partir de IAD_S------
 C------recive--
         DO I=1,NSPMD
           MSGTYP = MSGOFF 
-         IF(I.NE.LOC_PROC)THEN
+         IF(I/=LOC_PROC)THEN
           CALL MPI_IRECV(
      S      RBUF(I),1  ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      G      MPI_COMM_WORLD,REQ_R(I),IERROR)
@@ -2007,7 +2007,7 @@ C
 C   echange messages
 C--------------------------------------------------------------------
       DO I=1,NSPMD
-        IF(I.NE.LOC_PROC)THEN
+        IF(I/=LOC_PROC)THEN
           MSGTYP = MSGOFF 
           SBUF(I) = IAD_S(I+1)-IAD_S(I)
           CALL MPI_ISEND(
@@ -2020,7 +2020,7 @@ C assemblage
 C--------------------------------------------------------------------
       IAD_R(1)=1
       DO I=1,NSPMD
-        IF(I.NE.LOC_PROC)THEN
+        IF(I/=LOC_PROC)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
           IAD_R(I+1) = IAD_R(I)+RBUF(I)
         ELSE
@@ -2031,7 +2031,7 @@ C
 Cel wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
-        IF(I.NE.LOC_PROC)THEN
+        IF(I/=LOC_PROC)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -2084,7 +2084,7 @@ C------recive--
       L = 1
         DO I=1,NSPMD
           MSGTYP = MSGOFF 
-         IF(I.NE.LOC_PROC)THEN
+         IF(I/=LOC_PROC)THEN
           CALL MPI_IRECV(
      S      RBUF(L),SIZ  ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      G      MPI_COMM_WORLD,REQ_R(I),IERROR)
@@ -2096,7 +2096,7 @@ C   echange messages
 C--------------------------------------------------------------------
       L = 1
       DO I=1,NSPMD
-        IF(I.NE.LOC_PROC)THEN
+        IF(I/=LOC_PROC)THEN
           MSGTYP = MSGOFF 
           DO J = 1, NBINTC
            SBUF(L+J-1) = INBSL(J,I)
@@ -2112,7 +2112,7 @@ C assemblage
 C--------------------------------------------------------------------
       L = 0
       DO I=1,NSPMD
-        IF(I.NE.LOC_PROC)THEN
+        IF(I/=LOC_PROC)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
           DO J = 1, NBINTC
            INBSL(J,I) = RBUF(L+J) 
@@ -2124,7 +2124,7 @@ C
 Cel wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
-        IF(I.NE.LOC_PROC)THEN
+        IF(I/=LOC_PROC)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -2186,9 +2186,9 @@ C------recive--
         SIZE=7
         L=1
         DO I=1,NSPMD
-         IF(I.NE.LOC_PROC)THEN
+         IF(I/=LOC_PROC)THEN
           SIZ = (IAD_SL(I+1)-IAD_SL(I))*SIZE
-          IF(SIZ.GT.0)THEN
+          IF(SIZ>0)THEN
            MSGTYP = MSGOFF 
            CALL MPI_IRECV(
      S      RBUF(L),SIZ  ,REAL,IT_SPMD(I),MSGTYP,
@@ -2202,7 +2202,7 @@ C preparation envoi  a proc I
 C--------------------------------------------------------------------
        L=1
        DO I=1,NSPMD
-        IF(I.NE.LOC_PROC)THEN
+        IF(I/=LOC_PROC)THEN
          DO J=IAD_SREM(I),IAD_SREM(I+1)-1
           SBUF(L)=FR_SREM(J)
           SBUF(L+1)=FFI(1,J)
@@ -2220,9 +2220,9 @@ C   echange messages
 C--------------------------------------------------------------------
        L=1
       DO I=1,NSPMD
-        IF(I.NE.LOC_PROC)THEN
+        IF(I/=LOC_PROC)THEN
           SIZ = (IAD_SREM(I+1)-IAD_SREM(I))*SIZE
-          IF(SIZ.GT.0)THEN
+          IF(SIZ>0)THEN
            MSGTYP = MSGOFF 
            CALL MPI_ISEND(
      S      SBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
@@ -2236,7 +2236,7 @@ C assemblage
 C--------------------------------------------------------------------
        L=1
       DO I=1,NSPMD
-        IF(I.NE.LOC_PROC.AND.IAD_SL(I+1).GT.IAD_SL(I))THEN
+        IF(I/=LOC_PROC.AND.IAD_SL(I+1)>IAD_SL(I))THEN
          CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
          DO J=IAD_SL(I),IAD_SL(I+1)-1
           ISL(J) = INT(RBUF(L))
@@ -2254,7 +2254,7 @@ C
 Cel wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
-        IF(IAD_SREM(I+1)-IAD_SREM(I).GT.0)THEN
+        IF(IAD_SREM(I+1)-IAD_SREM(I)>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -2315,9 +2315,9 @@ C------recive--
         SIZE=3
         L=1
         DO I=1,NSPMD
-         IF(I.NE.LOC_PROC)THEN
+         IF(I/=LOC_PROC)THEN
           SIZ = (IAD_SREM(I+1)-IAD_SREM(I))*SIZE
-          IF(SIZ.GT.0)THEN
+          IF(SIZ>0)THEN
            MSGTYP = MSGOFF
            CALL MPI_IRECV(
      S      RBUF(L),SIZ  ,REAL,IT_SPMD(I),MSGTYP,
@@ -2331,7 +2331,7 @@ C preparation envoi  a proc I
 C--------------------------------------------------------------------
        L=1
        DO I=1,NSPMD
-        IF(I.NE.LOC_PROC)THEN
+        IF(I/=LOC_PROC)THEN
          DO J=IAD_SL(I),IAD_SL(I+1)-1
           NOD=ISL(J)
           SBUF(L)  =D_IMP(1,NOD)
@@ -2346,9 +2346,9 @@ C   echange messages
 C--------------------------------------------------------------------
        L=1
       DO I=1,NSPMD
-        IF(I.NE.LOC_PROC)THEN
+        IF(I/=LOC_PROC)THEN
           SIZ = (IAD_SL(I+1)-IAD_SL(I))*SIZE
-          IF(SIZ.GT.0)THEN
+          IF(SIZ>0)THEN
            MSGTYP = MSGOFF 
            CALL MPI_ISEND(
      S      SBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
@@ -2362,7 +2362,7 @@ C assemblage
 C--------------------------------------------------------------------
        L=1
       DO I=1,NSPMD
-        IF(I.NE.LOC_PROC.AND.IAD_SREM(I+1).GT.IAD_SREM(I))THEN
+        IF(I/=LOC_PROC.AND.IAD_SREM(I+1)>IAD_SREM(I))THEN
          CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
          DO J=IAD_SREM(I),IAD_SREM(I+1)-1
           DFI(1,J) = RBUF(L)
@@ -2376,7 +2376,7 @@ C
 Cel wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
-        IF(IAD_SL(I+1)-IAD_SL(I).GT.0)THEN
+        IF(IAD_SL(I+1)-IAD_SL(I)>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -2437,9 +2437,9 @@ C------recive--
         SIZE=3
         L=1
         DO I=1,NSPMD
-         IF(I.NE.LOC_PROC)THEN
+         IF(I/=LOC_PROC)THEN
           SIZ = (IAD_SL(I+1)-IAD_SL(I))*SIZE
-          IF(SIZ.GT.0)THEN
+          IF(SIZ>0)THEN
            MSGTYP = MSGOFF 
            CALL MPI_IRECV(
      S      RBUF(L),SIZ  ,REAL,IT_SPMD(I),MSGTYP,
@@ -2453,7 +2453,7 @@ C preparation envoi  a proc I
 C--------------------------------------------------------------------
        L=1
        DO I=1,NSPMD
-        IF(I.NE.LOC_PROC)THEN
+        IF(I/=LOC_PROC)THEN
          DO J=IAD_SREM(I),IAD_SREM(I+1)-1
           SBUF(L)  =FFI(1,J)
           SBUF(L+1)=FFI(2,J)
@@ -2467,9 +2467,9 @@ C   echange messages
 C--------------------------------------------------------------------
        L=1
       DO I=1,NSPMD
-        IF(I.NE.LOC_PROC)THEN
+        IF(I/=LOC_PROC)THEN
           SIZ = (IAD_SREM(I+1)-IAD_SREM(I))*SIZE
-          IF(SIZ.GT.0)THEN
+          IF(SIZ>0)THEN
            MSGTYP = MSGOFF 
            CALL MPI_ISEND(
      S      SBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
@@ -2483,7 +2483,7 @@ C assemblage
 C--------------------------------------------------------------------
        L=1
       DO I=1,NSPMD
-        IF(I.NE.LOC_PROC.AND.IAD_SL(I+1).GT.IAD_SL(I))THEN
+        IF(I/=LOC_PROC.AND.IAD_SL(I+1)>IAD_SL(I))THEN
          CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
          DO J=IAD_SL(I),IAD_SL(I+1)-1
           NOD=ISL(J)
@@ -2498,7 +2498,7 @@ C
 Cel wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
-        IF(IAD_SREM(I+1)-IAD_SREM(I).GT.0)THEN
+        IF(IAD_SREM(I+1)-IAD_SREM(I)>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -2551,7 +2551,7 @@ C-----------------------------------------------
       LOC_PROC = ISPMD + 1
       DO I=1,NSPMD
         SIZ = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
-        IF(SIZ.GT.0)THEN
+        IF(SIZ>0)THEN
           L = IAD_ELEM(1,I)
           MSGTYP = MSGOFF 
           CALL MPI_IRECV(
@@ -2572,7 +2572,7 @@ C   echange messages
 C--------------------------------------------------------------------
       DO I=1,NSPMD
         SIZ = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
-        IF(SIZ.GT.0)THEN
+        IF(SIZ>0)THEN
           L = IAD_ELEM(1,I)
           MSGTYP = MSGOFF 
           CALL MPI_ISEND(
@@ -2585,7 +2585,7 @@ C assemblage
 C--------------------------------------------------------------------
       DO I=1,NSPMD
        SIZ = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
-       IF(SIZ.GT.0)THEN
+       IF(SIZ>0)THEN
         CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
         DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
          FR_NROW(J) = RBUF(J)
@@ -2596,7 +2596,7 @@ C
 Cel wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
-        IF((IAD_ELEM(1,I+1)-IAD_ELEM(1,I)).GT.0)THEN
+        IF((IAD_ELEM(1,I+1)-IAD_ELEM(1,I))>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -2654,7 +2654,7 @@ C-----------------------------------------------
       LOC_PROC = ISPMD + 1
       DO I=1,NSPMD
         SIZ = IAD_R(I+1)-IAD_R(I)
-        IF(SIZ.GT.0)THEN
+        IF(SIZ>0)THEN
           L = IAD_R(I)
           MSGTYP = MSGOFF 
           CALL MPI_IRECV(
@@ -2667,7 +2667,7 @@ C preparation envoi  a proc I
 C--------------------------------------------------------------------
       DO I=1,NSPMD
        SIZ = IAD_S(I+1)-IAD_S(I)
-       IF(SIZ.GT.0)THEN
+       IF(SIZ>0)THEN
         L = IAD_S(I)-1
         DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
           DO K=1,NROW(J)
@@ -2682,7 +2682,7 @@ C   echange messages
 C--------------------------------------------------------------------
       DO I=1,NSPMD
         SIZ = IAD_S(I+1)-IAD_S(I)
-        IF(SIZ.GT.0)THEN
+        IF(SIZ>0)THEN
           L = IAD_S(I)
           MSGTYP = MSGOFF 
           CALL MPI_ISEND(
@@ -2695,7 +2695,7 @@ C assemblage
 C--------------------------------------------------------------------
       DO I=1,NSPMD
        SIZ = IAD_R(I+1)-IAD_R(I)
-       IF(SIZ.GT.0)THEN
+       IF(SIZ>0)THEN
         CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
         L=IAD_R(I)-1
         DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
@@ -2713,7 +2713,7 @@ C
 Cel wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
-        IF(IAD_S(I+1)-IAD_S(I).GT.0)THEN
+        IF(IAD_S(I+1)-IAD_S(I)>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -2763,7 +2763,7 @@ C-----------------------------------------------
       LOC_PROC = ISPMD + 1
       DO I=1,NSPMD
         SIZ = IAD_ELEM(I+1)-IAD_ELEM(I)
-        IF(SIZ.GT.0)THEN
+        IF(SIZ>0)THEN
           L = IAD_ELEM(I)
           MSGTYP = MSGOFF 
           CALL MPI_IRECV(
@@ -2785,7 +2785,7 @@ C   echange messages
 C--------------------------------------------------------------------
       DO I=1,NSPMD
         SIZ = IAD_ELEM(I+1)-IAD_ELEM(I)
-        IF(SIZ.GT.0)THEN
+        IF(SIZ>0)THEN
           L = IAD_ELEM(I)
           MSGTYP = MSGOFF 
           CALL MPI_ISEND(
@@ -2798,7 +2798,7 @@ C assemblage
 C--------------------------------------------------------------------
       DO I=1,NSPMD
        SIZ = IAD_ELEM(I+1)-IAD_ELEM(I)
-       IF(SIZ.GT.0)THEN
+       IF(SIZ>0)THEN
         CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
         DO J=IAD_ELEM(I),IAD_ELEM(I+1)-1
          NOD = FR_ELEM(J)
@@ -2810,7 +2810,7 @@ C
 Cel wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
-        IF((IAD_ELEM(I+1)-IAD_ELEM(I)).GT.0)THEN
+        IF((IAD_ELEM(I+1)-IAD_ELEM(I))>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -2868,9 +2868,9 @@ C ------ com. de D nodes SECONDARYs -----
 C------recive--
         L=1
         DO I=1,NSPMD
-         IF(I.NE.LOC_PROC)THEN
+         IF(I/=LOC_PROC)THEN
           SIZ = (IAD_ELEM(1,I+1)-IAD_ELEM(1,I))*SIZE
-          IF(SIZ.GT.0)THEN
+          IF(SIZ>0)THEN
            MSGTYP = MSGOFF 
            CALL MPI_IRECV(
      S      RBUF(L),SIZ  ,REAL,IT_SPMD(I),MSGTYP,
@@ -2884,8 +2884,8 @@ C preparation envoi  a proc I
 C--------------------------------------------------------------------
        L=1
        DO I=1,NSPMD
-        IF(I.NE.LOC_PROC)THEN
-          IF(IRODDL.NE.0) THEN
+        IF(I/=LOC_PROC)THEN
+          IF(IRODDL/=0) THEN
 #include      "vectorize.inc"
             DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
               NOD = FR_ELEM(J)
@@ -2914,9 +2914,9 @@ C   echange messages
 C--------------------------------------------------------------------
        L=1
       DO I=1,NSPMD
-        IF(I.NE.LOC_PROC)THEN
+        IF(I/=LOC_PROC)THEN
           SIZ = (IAD_ELEM(1,I+1)-IAD_ELEM(1,I))*SIZE
-          IF(SIZ.GT.0)THEN
+          IF(SIZ>0)THEN
            MSGTYP = MSGOFF 
            CALL MPI_ISEND(
      S      SBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
@@ -2930,9 +2930,9 @@ C assemblage
 C--------------------------------------------------------------------
        L=1
       DO I=1,NSPMD
-        IF(I.NE.LOC_PROC.AND.IAD_ELEM(1,I+1).GT.IAD_ELEM(1,I))THEN
+        IF(I/=LOC_PROC.AND.IAD_ELEM(1,I+1)>IAD_ELEM(1,I))THEN
          CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
-          IF(IRODDL.NE.0) THEN
+          IF(IRODDL/=0) THEN
 #include      "vectorize.inc"
             DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
               NOD = FR_ELEM(J)
@@ -2960,7 +2960,7 @@ C
 Cel wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
-        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0)THEN
+        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -3010,7 +3010,7 @@ C-----------------------------------------------
       LOC_PROC = ISPMD + 1
       DO I=1,NSPMD
         SIZ = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
-        IF(SIZ.GT.0)THEN
+        IF(SIZ>0)THEN
           L = IAD_ELEM(1,I)
           MSGTYP = MSGOFF 
           CALL MPI_IRECV(
@@ -3032,7 +3032,7 @@ C   echange messages
 C--------------------------------------------------------------------
       DO I=1,NSPMD
         SIZ = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
-        IF(SIZ.GT.0)THEN
+        IF(SIZ>0)THEN
           L = IAD_ELEM(1,I)
           MSGTYP = MSGOFF 
           CALL MPI_ISEND(
@@ -3045,7 +3045,7 @@ C assemblage
 C--------------------------------------------------------------------
       DO I=1,NSPMD
        SIZ = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
-       IF(SIZ.GT.0)THEN
+       IF(SIZ>0)THEN
         CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
         DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
          NOD = FR_ELEM(J)
@@ -3057,7 +3057,7 @@ C
 Cel wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
-        IF((IAD_ELEM(1,I+1)-IAD_ELEM(1,I)).GT.0)THEN
+        IF((IAD_ELEM(1,I+1)-IAD_ELEM(1,I))>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -3123,7 +3123,7 @@ C
          DO J=1,NDOF(I)
             ND=IDDL(I)+J
             ID=ND-NKC
-            IF (IKC(ND).LT.1) THEN
+            IF (IKC(ND)<1) THEN
                TDDL(1,ID)=NODGLOB(I)
                TDDL(2,ID)=J
             ELSE
@@ -3132,12 +3132,12 @@ C
          ENDDO
       ENDDO
 C
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
          NDDLGL=0
          DO I=1,NSPMD
             NDDLC=NDDLP(I)
             ALLOCATE(TDDLC(2,NDDLC), CDDLPC(NDDLC))
-            IF (I.EQ.1) THEN
+            IF (I==1) THEN
                DO J=1,NDDLC
                   TDDLC(1,J)=TDDL(1,J)
                   TDDLC(2,J)=TDDL(2,J)
@@ -3154,7 +3154,7 @@ C
                NN=TDDLC(1,J)
                ID=TDDLC(2,J)
                JJ=ITAG(ID,NN)
-               IF (JJ.EQ.0) THEN
+               IF (JJ==0) THEN
                   NDDLGL=NDDLGL+1
                   ITAG(ID,NN)=NDDLGL
                   JJ=NDDLGL
@@ -3162,7 +3162,7 @@ C
                CDDLPC(J)=JJ
             ENDDO
 C
-            IF (I.EQ.1) THEN
+            IF (I==1) THEN
                DO J=1,NDDLC
                   CDDLP(J)=CDDLPC(J)
                ENDDO
@@ -3240,9 +3240,9 @@ C-----------------------------------------------
       DATA MSGOFF/16057/,MSGOFF2/16058/,MSGOFF3/16059/,MSGOFF4/16060/
 
 C
-      IF (IS.EQ.1) THEN
+      IF (IS==1) THEN
 C Passage de la decomposition DOMDEC a la process grid PARPACK
-         IF (ISPMD.EQ.0) THEN
+         IF (ISPMD==0) THEN
             DO I=1,NDDL
                VV(I)=ZERO
             ENDDO
@@ -3262,13 +3262,13 @@ C
                ITAG=MSGOFF3             
                CALL MPI_RECV(VP, NVP, REAL, IT_SPMD(I+1),
      .                       ITAG, MPI_COMM_WORLD, ISTAT, IERR)
-               IF (ISUM.EQ.1) THEN
+               IF (ISUM==1) THEN
 C Pas de sommation des contributions : valable pour des deplacements
                   DO J=1,NVP
                      JJ=IVP(J)
                      VV(JJ)=VP(J)
                   ENDDO
-               ELSEIF (ISUM.EQ.2) THEN
+               ELSEIF (ISUM==2) THEN
 C Sommation des contributions : valable pour des forces
                   DO J=1,NVP
                      JJ=IVP(J)
@@ -3304,9 +3304,9 @@ C
             CALL MPI_RECV(VG, NVG, REAL, IT_SPMD(1),
      .                    ITAG, MPI_COMM_WORLD, ISTAT, IERR)
          ENDIF
-      ELSEIF (IS.EQ.2) THEN
+      ELSEIF (IS==2) THEN
 C Passage de la process grid PARPACK a la decomposition DOMDEC
-         IF (ISPMD.EQ.0) THEN
+         IF (ISPMD==0) THEN
             NN=MIN(NBLOC,NDDL)
             DO I=1,NN
                VV(I)=VG(I)
@@ -3408,9 +3408,9 @@ C             SSIZE=IAD_S(NSPMD+1)-1
 C------recive--
         L=1
         DO I=1,NSPMD
-         IF(I.NE.LOC_PROC)THEN
+         IF(I/=LOC_PROC)THEN
           SIZ = IAD_R(I+1)-IAD_R(I)
-          IF(SIZ.GT.0)THEN
+          IF(SIZ>0)THEN
            MSGTYP = MSGOFF 
            CALL MPI_IRECV(
      S      RBUF(L),SIZ  ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
@@ -3424,7 +3424,7 @@ C preparation envoi  a proc I
 C--------------------------------------------------------------------
        L=1
        DO I=1,NSPMD
-        IF(I.NE.LOC_PROC)THEN
+        IF(I/=LOC_PROC)THEN
          DO J=IAD_S(I),IAD_S(I+1)-1
           SBUF(L)=ITS(J)
           L = L + 1
@@ -3436,9 +3436,9 @@ C   echange messages
 C--------------------------------------------------------------------
        L=1
       DO I=1,NSPMD
-        IF(I.NE.LOC_PROC)THEN
+        IF(I/=LOC_PROC)THEN
           SIZ = IAD_S(I+1)-IAD_S(I)
-          IF(SIZ.GT.0)THEN
+          IF(SIZ>0)THEN
            MSGTYP = MSGOFF 
            CALL MPI_ISEND(
      S      SBUF(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
@@ -3452,7 +3452,7 @@ C assemblage
 C--------------------------------------------------------------------
        L=1
       DO I=1,NSPMD
-        IF(I.NE.LOC_PROC.AND.IAD_R(I+1).GT.IAD_R(I))THEN
+        IF(I/=LOC_PROC.AND.IAD_R(I+1)>IAD_R(I))THEN
          CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
          DO J=IAD_R(I),IAD_R(I+1)-1
           ITR(J) = RBUF(L)
@@ -3464,7 +3464,7 @@ C
 Cel wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
-        IF(IAD_S(I+1)-IAD_S(I).GT.0)THEN
+        IF(IAD_S(I+1)-IAD_S(I)>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -3521,9 +3521,9 @@ C             SSIZE=IAD_S(NSPMD+1)-1
 C------recive--
         L=1
         DO I=1,NSPMD
-         IF(I.NE.LOC_PROC)THEN
+         IF(I/=LOC_PROC)THEN
           SIZ = (IAD_R(I+1)-IAD_R(I))*SIZE
-          IF(SIZ.GT.0)THEN
+          IF(SIZ>0)THEN
            MSGTYP = MSGOFF 
            CALL MPI_IRECV(
      S      RBUF(L),SIZ  ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
@@ -3537,7 +3537,7 @@ C preparation envoi  a proc I
 C--------------------------------------------------------------------
        L=0
        DO I=1,NSPMD
-        IF(I.NE.LOC_PROC)THEN
+        IF(I/=LOC_PROC)THEN
          DO J=IAD_S(I),IAD_S(I+1)-1
           DO K =1,SIZE
            SBUF(L+K)=ITS(K,J)
@@ -3551,9 +3551,9 @@ C   echange messages
 C--------------------------------------------------------------------
        L=1
       DO I=1,NSPMD
-        IF(I.NE.LOC_PROC)THEN
+        IF(I/=LOC_PROC)THEN
           SIZ = (IAD_S(I+1)-IAD_S(I))*SIZE
-          IF(SIZ.GT.0)THEN
+          IF(SIZ>0)THEN
            MSGTYP = MSGOFF 
            CALL MPI_ISEND(
      S      SBUF(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
@@ -3567,7 +3567,7 @@ C assemblage
 C--------------------------------------------------------------------
        L=0
       DO I=1,NSPMD
-        IF(I.NE.LOC_PROC.AND.IAD_R(I+1).GT.IAD_R(I))THEN
+        IF(I/=LOC_PROC.AND.IAD_R(I+1)>IAD_R(I))THEN
          CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
          DO J=IAD_R(I),IAD_R(I+1)-1
           DO K =1,SIZE
@@ -3581,7 +3581,7 @@ C
 Cel wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
-        IF(IAD_S(I+1)-IAD_S(I).GT.0)THEN
+        IF(IAD_S(I+1)-IAD_S(I)>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -3636,9 +3636,9 @@ C-----------------------------------------------
 C------recive--
         L=1
         DO I=1,NSPMD
-         IF(I.NE.LOC_PROC)THEN
+         IF(I/=LOC_PROC)THEN
           SIZ = (IAD_R(I+1)-IAD_R(I))*SIZE
-          IF(SIZ.GT.0)THEN
+          IF(SIZ>0)THEN
            MSGTYP = MSGOFF 
            CALL MPI_IRECV(
      S      RBUF(L),SIZ  ,REAL,IT_SPMD(I),MSGTYP,
@@ -3652,7 +3652,7 @@ C preparation envoi  a proc I
 C--------------------------------------------------------------------
        L=0
        DO I=1,NSPMD
-        IF(I.NE.LOC_PROC)THEN
+        IF(I/=LOC_PROC)THEN
          DO J=IAD_S(I),IAD_S(I+1)-1
           DO NOD = 1,SIZE
            SBUF(L+NOD)=KS11(NOD,J)
@@ -3666,9 +3666,9 @@ C   echange messages
 C--------------------------------------------------------------------
        L=1
       DO I=1,NSPMD
-        IF(I.NE.LOC_PROC)THEN
+        IF(I/=LOC_PROC)THEN
           SIZ = (IAD_S(I+1)-IAD_S(I))*SIZE
-          IF(SIZ.GT.0)THEN
+          IF(SIZ>0)THEN
            MSGTYP = MSGOFF 
            CALL MPI_ISEND(
      S      SBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
@@ -3682,7 +3682,7 @@ C assemblage
 C--------------------------------------------------------------------
        L=0
       DO I=1,NSPMD
-        IF(I.NE.LOC_PROC.AND.IAD_R(I+1).GT.IAD_R(I))THEN
+        IF(I/=LOC_PROC.AND.IAD_R(I+1)>IAD_R(I))THEN
          CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
          DO J=IAD_R(I),IAD_R(I+1)-1
           DO NOD = 1,SIZE
@@ -3696,7 +3696,7 @@ C
 Cel wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
-        IF(IAD_S(I+1)-IAD_S(I).GT.0)THEN
+        IF(IAD_S(I+1)-IAD_S(I)>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -3753,9 +3753,9 @@ C ------ com. de D nodes SECONDARYs -----
 C------recive--
         L=1
         DO I=1,NSPMD
-         IF(I.NE.LOC_PROC)THEN
+         IF(I/=LOC_PROC)THEN
           SIZ = IAD_SREM(I+1)-IAD_SREM(I)
-          IF(SIZ.GT.0)THEN
+          IF(SIZ>0)THEN
            MSGTYP = MSGOFF 
            CALL MPI_IRECV(
      S      RBUF(L),SIZ  ,REAL,IT_SPMD(I),MSGTYP,
@@ -3769,7 +3769,7 @@ C preparation envoi  a proc I
 C--------------------------------------------------------------------
        L=1
        DO I=1,NSPMD
-        IF(I.NE.LOC_PROC)THEN
+        IF(I/=LOC_PROC)THEN
          DO J=IAD_SL(I),IAD_SL(I+1)-1
           ID=IDDL_SL(J)
           SBUF(L)  = LX(ID)
@@ -3782,9 +3782,9 @@ C   echange messages
 C--------------------------------------------------------------------
        L=1
       DO I=1,NSPMD
-        IF(I.NE.LOC_PROC)THEN
+        IF(I/=LOC_PROC)THEN
           SIZ = IAD_SL(I+1)-IAD_SL(I)
-          IF(SIZ.GT.0)THEN
+          IF(SIZ>0)THEN
            MSGTYP = MSGOFF 
            CALL MPI_ISEND(
      S      SBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
@@ -3798,7 +3798,7 @@ C assemblage
 C--------------------------------------------------------------------
        L=1
       DO I=1,NSPMD
-        IF(I.NE.LOC_PROC.AND.IAD_SREM(I+1).GT.IAD_SREM(I))THEN
+        IF(I/=LOC_PROC.AND.IAD_SREM(I+1)>IAD_SREM(I))THEN
          CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
          DO J=IAD_SREM(I),IAD_SREM(I+1)-1
           USI(J) = RBUF(L)
@@ -3810,7 +3810,7 @@ C
 Cel wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
-        IF(IAD_SL(I+1)-IAD_SL(I).GT.0)THEN
+        IF(IAD_SL(I+1)-IAD_SL(I)>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -3869,9 +3869,9 @@ C ------ comm. de F nodes SECONDARYs -----
 C------recive--
         L=1
         DO I=1,NSPMD
-         IF(I.NE.LOC_PROC)THEN
+         IF(I/=LOC_PROC)THEN
           SIZ = IAD_SL(I+1)-IAD_SL(I)
-          IF(SIZ.GT.0)THEN
+          IF(SIZ>0)THEN
            MSGTYP = MSGOFF 
            CALL MPI_IRECV(
      S      RBUF(L),SIZ  ,REAL,IT_SPMD(I),MSGTYP,
@@ -3885,7 +3885,7 @@ C preparation envoi  a proc I
 C--------------------------------------------------------------------
        L=1
        DO I=1,NSPMD
-        IF(I.NE.LOC_PROC)THEN
+        IF(I/=LOC_PROC)THEN
          DO J=IAD_SREM(I),IAD_SREM(I+1)-1
           SBUF(L)  = FSI(J)
           L = L + 1
@@ -3897,9 +3897,9 @@ C   echange messages
 C--------------------------------------------------------------------
        L=1
       DO I=1,NSPMD
-        IF(I.NE.LOC_PROC)THEN
+        IF(I/=LOC_PROC)THEN
           SIZ = IAD_SREM(I+1)-IAD_SREM(I)
-          IF(SIZ.GT.0)THEN
+          IF(SIZ>0)THEN
            MSGTYP = MSGOFF 
            CALL MPI_ISEND(
      S      SBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
@@ -3913,7 +3913,7 @@ C assemblage
 C--------------------------------------------------------------------
        L=1
       DO I=1,NSPMD
-        IF(I.NE.LOC_PROC.AND.IAD_SL(I+1).GT.IAD_SL(I))THEN
+        IF(I/=LOC_PROC.AND.IAD_SL(I+1)>IAD_SL(I))THEN
          CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
          DO J=IAD_SL(I),IAD_SL(I+1)-1
           ID=IDDL_SL(J)
@@ -3926,7 +3926,7 @@ C
 Cel wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
-        IF(IAD_SREM(I+1)-IAD_SREM(I).GT.0)THEN
+        IF(IAD_SREM(I+1)-IAD_SREM(I)>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -3984,9 +3984,9 @@ C ------ com. de D nodes SECONDARYs -----
 C------recive--
         L=1
         DO I=1,NSPMD
-         IF(I.NE.LOC_PROC)THEN
+         IF(I/=LOC_PROC)THEN
           SIZ = IAD_SREM(I+1)-IAD_SREM(I)
-          IF(SIZ.GT.0)THEN
+          IF(SIZ>0)THEN
            MSGTYP = MSGOFF 
            CALL MPI_IRECV(
      S      RBUF(L),SIZ  ,REAL,IT_SPMD(I),MSGTYP,
@@ -4000,7 +4000,7 @@ C preparation envoi  a proc I
 C--------------------------------------------------------------------
        L=1
        DO I=1,NSPMD
-        IF(I.NE.LOC_PROC)THEN
+        IF(I/=LOC_PROC)THEN
          DO J=IAD_SL(I),IAD_SL(I+1)-1
           ID=IDDL_SL(J)
           II=NINDEX(ID)
@@ -4014,9 +4014,9 @@ C   echange messages
 C--------------------------------------------------------------------
        L=1
       DO I=1,NSPMD
-        IF(I.NE.LOC_PROC)THEN
+        IF(I/=LOC_PROC)THEN
           SIZ = IAD_SL(I+1)-IAD_SL(I)
-          IF(SIZ.GT.0)THEN
+          IF(SIZ>0)THEN
            MSGTYP = MSGOFF 
            CALL MPI_ISEND(
      S      SBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
@@ -4030,7 +4030,7 @@ C assemblage
 C--------------------------------------------------------------------
        L=1
       DO I=1,NSPMD
-        IF(I.NE.LOC_PROC.AND.IAD_SREM(I+1).GT.IAD_SREM(I))THEN
+        IF(I/=LOC_PROC.AND.IAD_SREM(I+1)>IAD_SREM(I))THEN
          CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
          DO J=IAD_SREM(I),IAD_SREM(I+1)-1
           USI(J) = RBUF(L)
@@ -4042,7 +4042,7 @@ C
 Cel wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
-        IF(IAD_SL(I+1)-IAD_SL(I).GT.0)THEN
+        IF(IAD_SL(I+1)-IAD_SL(I)>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -4101,9 +4101,9 @@ C ------ comm. de F nodes SECONDARYs -----
 C------recive--
         L=1
         DO I=1,NSPMD
-         IF(I.NE.LOC_PROC)THEN
+         IF(I/=LOC_PROC)THEN
           SIZ = IAD_SL(I+1)-IAD_SL(I)
-          IF(SIZ.GT.0)THEN
+          IF(SIZ>0)THEN
            MSGTYP = MSGOFF 
            CALL MPI_IRECV(
      S      RBUF(L),SIZ  ,REAL,IT_SPMD(I),MSGTYP,
@@ -4117,7 +4117,7 @@ C preparation envoi  a proc I
 C--------------------------------------------------------------------
        L=1
        DO I=1,NSPMD
-        IF(I.NE.LOC_PROC)THEN
+        IF(I/=LOC_PROC)THEN
          DO J=IAD_SREM(I),IAD_SREM(I+1)-1
           SBUF(L)  = FSI(J)
           L = L + 1
@@ -4129,9 +4129,9 @@ C   echange messages
 C--------------------------------------------------------------------
        L=1
       DO I=1,NSPMD
-        IF(I.NE.LOC_PROC)THEN
+        IF(I/=LOC_PROC)THEN
           SIZ = IAD_SREM(I+1)-IAD_SREM(I)
-          IF(SIZ.GT.0)THEN
+          IF(SIZ>0)THEN
            MSGTYP = MSGOFF 
            CALL MPI_ISEND(
      S      SBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
@@ -4145,7 +4145,7 @@ C assemblage
 C--------------------------------------------------------------------
        L=1
       DO I=1,NSPMD
-        IF(I.NE.LOC_PROC.AND.IAD_SL(I+1).GT.IAD_SL(I))THEN
+        IF(I/=LOC_PROC.AND.IAD_SL(I+1)>IAD_SL(I))THEN
          CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
          DO J=IAD_SL(I),IAD_SL(I+1)-1
           ID=IDDL_SL(J)
@@ -4159,7 +4159,7 @@ C
 Cel wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
-        IF(IAD_SREM(I+1)-IAD_SREM(I).GT.0)THEN
+        IF(IAD_SREM(I+1)-IAD_SREM(I)>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -4214,9 +4214,9 @@ C ------ com. de D nodes SECONDARYs -----
 C------recive--
         L=1
         DO I=1,NSPMD
-         IF(I.NE.LOC_PROC)THEN
+         IF(I/=LOC_PROC)THEN
           SIZ = IAD_SREM(I+1)-IAD_SREM(I)
-          IF(SIZ.GT.0)THEN
+          IF(SIZ>0)THEN
            MSGTYP = MSGOFF 
            CALL MPI_IRECV(
      S      RBUF(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
@@ -4230,7 +4230,7 @@ C preparation envoi  a proc I
 C--------------------------------------------------------------------
        L=1
        DO I=1,NSPMD
-        IF(I.NE.LOC_PROC)THEN
+        IF(I/=LOC_PROC)THEN
          DO J=IAD_SL(I),IAD_SL(I+1)-1
            ID=IDDL_SL(J)
             SBUF(L)  = IG(ID)
@@ -4243,9 +4243,9 @@ C   echange messages
 C--------------------------------------------------------------------
        L=1
       DO I=1,NSPMD
-        IF(I.NE.LOC_PROC)THEN
+        IF(I/=LOC_PROC)THEN
           SIZ = IAD_SL(I+1)-IAD_SL(I)
-          IF(SIZ.GT.0)THEN
+          IF(SIZ>0)THEN
            MSGTYP = MSGOFF 
            CALL MPI_ISEND(
      S      SBUF(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
@@ -4259,7 +4259,7 @@ C assemblage
 C--------------------------------------------------------------------
        L=1
       DO I=1,NSPMD
-        IF(I.NE.LOC_PROC.AND.IAD_SREM(I+1).GT.IAD_SREM(I))THEN
+        IF(I/=LOC_PROC.AND.IAD_SREM(I+1)>IAD_SREM(I))THEN
          CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
          DO J=IAD_SREM(I),IAD_SREM(I+1)-1
            IL(J) = RBUF(L)
@@ -4271,7 +4271,7 @@ C
 Cel wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
-        IF(IAD_SL(I+1)-IAD_SL(I).GT.0)THEN
+        IF(IAD_SL(I+1)-IAD_SL(I)>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -4328,7 +4328,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD + 1
       SIZ = 1
-      IF(ISPMD.EQ.0) THEN
+      IF(ISPMD==0) THEN
         DO I = 2, NSPMD
           MSGTYP=MSGOFF 
           CALL MPI_IRECV(RBUF(1,I),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
@@ -4349,7 +4349,7 @@ C
      .                MSGTYP,MPI_COMM_WORLD,IERROR)
       END IF
 C
-      IF(ISPMD.EQ.0) THEN
+      IF(ISPMD==0) THEN
         DO I = 2, NSPMD
           SIZ = NSIZ*NBUF(I)
           MSGTYP=MSGOFF2 
@@ -4359,14 +4359,14 @@ C
 C
           I = 1
           L = 1
-         IF(NSIZ.EQ.1) THEN
+         IF(NSIZ==1) THEN
           DO J = 1, NBUF(I)
            NN = RBUF(L,I)
            WRITE(CSP,'(A,I2.2)')'INTERFACE TYPE ',NN
            WRITE(IOUT,1100)MSG_TYPE(1),CSP
            L = L + 1
           END DO
-         ELSEIF(NSIZ.EQ.3) THEN
+         ELSEIF(NSIZ==3) THEN
           DO J = 1, NBUF(I)
            IP = 1000 + RBUF(L,I)
            IT = RBUF(L+1,I)
@@ -4411,14 +4411,14 @@ C
 C----------write in *.lis-----------
           I = INDEX+1
           L = 1
-         IF(NSIZ.EQ.1) THEN
+         IF(NSIZ==1) THEN
           DO J = 1, NBUF(I)
                NN = RBUF(L,I)
            WRITE(CSP,'(A,I2.2)')'INTERFACE TYPE ',NN
            WRITE(IOUT,1100)MSG_TYPE(1),CSP
            L = L + 1
           END DO
-         ELSEIF(NSIZ.EQ.3) THEN
+         ELSEIF(NSIZ==3) THEN
           DO J = 1, NBUF(I)
            IP = RBUF(L,I)
            IT = RBUF(L+1,I)
@@ -4555,7 +4555,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD + 1
       SIZ = 1
-      IF(ISPMD.EQ.0) THEN
+      IF(ISPMD==0) THEN
         DO I = 2, NSPMD
           MSGTYP=MSGOFF 
           CALL MPI_IRECV(NBUF(I),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
@@ -4576,7 +4576,7 @@ C
      .                MSGTYP,MPI_COMM_WORLD,IERROR)
       END IF
 C
-      IF(ISPMD.EQ.0) THEN
+      IF(ISPMD==0) THEN
         DO I = 2, NSPMD
           SIZ = NSIZ*NR(I)
           MSGTYP=MSGOFF2
@@ -4590,7 +4590,7 @@ C
           NN = INT(VR(L,I))
           IT = INT(VR(L+1,I))
           S = VR(L+2,I)
-             IF (IT.LE.3) THEN
+             IF (IT<=3) THEN
               WRITE(IOUT,1001)NN,DIR(IT),S
              ELSE 
               WRITE(IOUT,1002)NN,DIR(IT-3),S
@@ -4606,7 +4606,7 @@ C----------write in *.lis-----------
           NN = INT(RBUF(L,I))
           IT = INT(RBUF(L+1,I))
           S = RBUF(L+2,I)
-             IF (IT.LE.3) THEN
+             IF (IT<=3) THEN
               WRITE(IOUT,1001)NN,DIR(IT),S
              ELSE 
               WRITE(IOUT,1002)NN,DIR(IT-3),S
@@ -4675,7 +4675,7 @@ C-----------------------------------------------
       LOC_PROC = ISPMD + 1
       SIZ=1
       RBUF(1) = NDDL
-      IF(ISPMD.EQ.0) THEN
+      IF(ISPMD==0) THEN
         DO I = 2, NSPMD
           MSGTYP=MSGOFF 
           CALL MPI_IRECV(RBUF(I),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
@@ -4751,7 +4751,7 @@ C-----------------------------------------------
       LOC_PROC = ISPMD + 1
       DO I=1,NSPMD
         SIZ = IAD_ELEM(I+1)-IAD_ELEM(I)
-        IF(SIZ.GT.0)THEN
+        IF(SIZ>0)THEN
           L = IAD_ELEM(I)
           MSGTYP = MSGOFF
           CALL MPI_IRECV(
@@ -4772,7 +4772,7 @@ C   echange messages
 C--------------------------------------------------------------------
       DO I=1,NSPMD
         SIZ = IAD_ELEM(I+1)-IAD_ELEM(I)
-        IF(SIZ.GT.0)THEN
+        IF(SIZ>0)THEN
           L = IAD_ELEM(I)
           MSGTYP = MSGOFF 
           CALL MPI_ISEND(
@@ -4785,7 +4785,7 @@ C assemblage
 C--------------------------------------------------------------------
       DO I=1,NSPMD
        SIZ = IAD_ELEM(I+1)-IAD_ELEM(I)
-       IF(SIZ.GT.0)THEN
+       IF(SIZ>0)THEN
         CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
         DO J=IAD_ELEM(I),IAD_ELEM(I+1)-1
          NMAX = MAX(NMAX,RBUF(J))
@@ -4796,7 +4796,7 @@ C
 Cel wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
-        IF((IAD_ELEM(I+1)-IAD_ELEM(I)).GT.0)THEN
+        IF((IAD_ELEM(I+1)-IAD_ELEM(I))>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -4852,7 +4852,7 @@ C-----------------------------------------------
       SIZ=1
       SIZ2=1
       SIZ3=1
-      IF(ISPMD.EQ.0) THEN
+      IF(ISPMD==0) THEN
         DO I = 2, NSPMD
           MSGTYP=MSGOFF 
           MSGTYP2=MSGOFF3 
@@ -4959,14 +4959,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      IF (NDDLFR.LE.0) RETURN
+      IF (NDDLFR<=0) RETURN
 C
       LOC_PROC = ISPMD + 1
 C
       L=1
       DO I=1,NSPMD
         SIZ = ND_FR(I)
-        IF(SIZ.GT.0)THEN
+        IF(SIZ>0)THEN
           MSGTYP = MSGOFF 
           CALL MPI_IRECV(
      S      RBUF(L),SIZ  ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
@@ -4979,7 +4979,7 @@ C preparation envoi  a proc I
 C--------------------------------------------------------------------
       L = 0
       DO I=1,NSPMD
-        IF(ND_FR(I).GT.0)THEN
+        IF(ND_FR(I)>0)THEN
           DO J=1,ND_FR(I)
            ID = J + L
            SBUF(ID) = IV(ID)
@@ -4993,7 +4993,7 @@ C--------------------------------------------------------------------
       L = 1
       DO I=1,NSPMD
         SIZ = ND_FR(I)
-        IF(SIZ.GT.0)THEN
+        IF(SIZ>0)THEN
           MSGTYP = MSGOFF 
           CALL MPI_ISEND(
      S      SBUF(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
@@ -5006,7 +5006,7 @@ C assemblage
 C--------------------------------------------------------------------
       L = 0
       DO I=1,NSPMD
-        IF(ND_FR(I).GT.0)THEN
+        IF(ND_FR(I)>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
           DO J=1,ND_FR(I)
            ID = J + L
@@ -5019,7 +5019,7 @@ C
 Cel wait terminaison isend
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
-        IF(ND_FR(I).GT.0)THEN
+        IF(ND_FR(I)>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -5142,7 +5142,7 @@ C
         L = L + 1
         RBUF(L,1) = LSKEW_G
 C        
-      IF(ISPMD.EQ.0) THEN
+      IF(ISPMD==0) THEN
         DO I = 2, NSPMD
           MSGTYP=MSGOFF 
           CALL MPI_IRECV(RBUF(1,I),SIZ,REAL,IT_SPMD(I),MSGTYP,
@@ -5312,7 +5312,7 @@ C
           RBUF(L,1) = IKCE(I)
         END DO 
 C        
-      IF(ISPMD.EQ.0) THEN
+      IF(ISPMD==0) THEN
         DO I = 2, NSPMD
           MSGTYP=MSGOFF 
           CALL MPI_IRECV(RBUF(1,I),SIZ,REAL,IT_SPMD(I),MSGTYP,

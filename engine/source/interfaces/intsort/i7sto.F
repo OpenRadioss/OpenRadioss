@@ -103,20 +103,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C SUPPRESSION DES ANCIENS CANDIDATS DEJE STOCKES (PENE INITIALE)
 C-----------------------------------------------
-       IF(INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7.OR.IFQ.GT.0.OR.
-     .    ITIED.NE.0)THEN
+       IF(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.IFQ>0.OR.
+     .    ITIED/=0)THEN
             DO I=1,J_STOK
-              IF(PENE(I).NE.ZERO)THEN
+              IF(PENE(I)/=ZERO)THEN
                 N  = PROV_N(I)
                 NE = PROV_E(I)+ESHIFT
-                IF(N.GT.NSN) THEN
+                IF(N>NSN) THEN
 C numerotation tris precedent pour les noeuds non locaux (SPMD)
                   N = OLDNUM(N-NSN)+NSN
-                  IF(N.EQ.NSN) N = NSN+NSNROLD+1
+                  IF(N==NSN) N = NSN+NSNROLD+1
                 END IF
                 J = CAND_A(N)
-                DO WHILE(J.LE.CAND_A(N+1)-1)
-                  IF(CAND_E(J).EQ.NE)THEN
+                DO WHILE(J<=CAND_A(N+1)-1)
+                  IF(CAND_E(J)==NE)THEN
                     PENE(I)=ZERO
                     J=CAND_A(N+1)
                   ELSE
@@ -129,13 +129,13 @@ C numerotation tris precedent pour les noeuds non locaux (SPMD)
 C-----------------------------------------------
         K_STOK = 0
         DO I=1,J_STOK
-          IF(PENE(I).NE.ZERO) K_STOK = K_STOK + 1
+          IF(PENE(I)/=ZERO) K_STOK = K_STOK + 1
         ENDDO
-        IF(K_STOK.EQ.0)RETURN
+        IF(K_STOK==0)RETURN
 C
 #include "lockon.inc"
           I_STOK = II_STOK
-          IF(I_STOK+K_STOK.GT.MULNSN) THEN
+          IF(I_STOK+K_STOK>MULNSN) THEN
             I_MEM = 2
 #include "lockoff.inc"
             RETURN
@@ -146,7 +146,7 @@ C-----------------------------------------------
       IF(IFQ > 0 .AND. 
      .   (INACTI == 5 .OR. INACTI ==6 .OR. INACTI ==7).AND.ITIED /=0)THEN
         DO I=1,J_STOK
-          IF(PENE(I).NE.ZERO)THEN
+          IF(PENE(I)/=ZERO)THEN
             I_STOK = I_STOK + 1
             CAND_N(I_STOK) = PROV_N(I)
             CAND_E(I_STOK) = PROV_E(I)+ESHIFT
@@ -158,7 +158,7 @@ C-----------------------------------------------
       ELSEIF(IFQ > 0 .AND. 
      .   (INACTI == 5 .OR. INACTI ==6 .OR. INACTI ==7))THEN
         DO I=1,J_STOK
-          IF(PENE(I).NE.0.0)THEN
+          IF(PENE(I)/=0.0)THEN
             I_STOK = I_STOK + 1
             CAND_N(I_STOK) = PROV_N(I)
             CAND_E(I_STOK) = PROV_E(I)+ESHIFT
@@ -168,7 +168,7 @@ C-----------------------------------------------
         ENDDO
       ELSEIF(IFQ > 0..AND. ITIED /=0)THEN
         DO I=1,J_STOK
-          IF(PENE(I).NE.ZERO)THEN
+          IF(PENE(I)/=ZERO)THEN
             I_STOK = I_STOK + 1
             CAND_N(I_STOK) = PROV_N(I)
             CAND_E(I_STOK) = PROV_E(I)+ESHIFT
@@ -178,16 +178,16 @@ C-----------------------------------------------
         ENDDO
       ELSEIF(IFQ > 0)THEN
         DO I=1,J_STOK
-          IF(PENE(I).NE.ZERO)THEN
+          IF(PENE(I)/=ZERO)THEN
             I_STOK = I_STOK + 1
             CAND_N(I_STOK) = PROV_N(I)
             CAND_E(I_STOK) = PROV_E(I)+ESHIFT
             IFPEN(I_STOK)  = 0
           ENDIF
         ENDDO
-      ELSEIF((INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7).AND.ITIED /= 0)THEN
+      ELSEIF((INACTI==5.OR.INACTI==6.OR.INACTI==7).AND.ITIED /= 0)THEN
         DO I=1,J_STOK
-          IF(PENE(I).NE.ZERO)THEN
+          IF(PENE(I)/=ZERO)THEN
             I_STOK = I_STOK + 1
             CAND_N(I_STOK) = PROV_N(I)
             CAND_E(I_STOK) = PROV_E(I)+ESHIFT
@@ -195,9 +195,9 @@ C-----------------------------------------------
             CAND_F(1:8,I_STOK)=ZERO
           ENDIF
         ENDDO
-      ELSEIF(INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7)THEN
+      ELSEIF(INACTI==5.OR.INACTI==6.OR.INACTI==7)THEN
         DO I=1,J_STOK
-          IF(PENE(I).NE.ZERO)THEN
+          IF(PENE(I)/=ZERO)THEN
             I_STOK = I_STOK + 1
             CAND_N(I_STOK) = PROV_N(I)
             CAND_E(I_STOK) = PROV_E(I)+ESHIFT
@@ -206,7 +206,7 @@ C-----------------------------------------------
         ENDDO
       ELSEIF(ITIED /= 0)THEN
         DO I=1,J_STOK
-          IF(PENE(I).NE.ZERO)THEN
+          IF(PENE(I)/=ZERO)THEN
             I_STOK = I_STOK + 1
             CAND_N(I_STOK) = PROV_N(I)
             CAND_E(I_STOK) = PROV_E(I)+ESHIFT
@@ -215,7 +215,7 @@ C-----------------------------------------------
         ENDDO
       ELSE
         DO I=1,J_STOK
-          IF(PENE(I).NE.ZERO)THEN
+          IF(PENE(I)/=ZERO)THEN
             I_STOK = I_STOK + 1
             CAND_N(I_STOK) = PROV_N(I)
             CAND_E(I_STOK) = PROV_E(I)+ESHIFT

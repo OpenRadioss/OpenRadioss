@@ -70,7 +70,7 @@ C
       DO I=1,NUMNOD
          IDMAXL=MAX(IDMAXL,ITAB(I))
       ENDDO
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
          DO I=1,NSPMD-1
             MSGTYP=MSGOFF
             CALL MPI_IRECV(IDMAXP(I), 1, MPI_INTEGER, IT_SPMD(I+1),
@@ -91,8 +91,8 @@ C
 C
       DO I=1,NFVBAG
          PMAIN=FVSPMD(I)%PMAIN
-         IF (ISPMD.EQ.0) THEN
-            IF (ISPMD.EQ.PMAIN-1) THEN
+         IF (ISPMD==0) THEN
+            IF (ISPMD==PMAIN-1) THEN
                NFVTR=NFVTR+FVDATA(I)%NNTR
                FVOFF(1,I)=NUMNODG+NODCUT+NSECT+NRWALL+NNWL
      .                   +NNSRG+NNSMD+NNSPHG+2*NUMELS16G+NFVNOD
@@ -114,7 +114,7 @@ C
                NFVSUBS=NFVSUBS+1
             ENDIF
          ELSE
-            IF (ISPMD.EQ.PMAIN-1) THEN
+            IF (ISPMD==PMAIN-1) THEN
                MSGTYP=MSGOFF
                TAB(1)=FVDATA(I)%NNTR
                TAB(2)=FVDATA(I)%NNS_ANIM
@@ -125,7 +125,7 @@ C
          ENDIF
       ENDDO
 C
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
          TAB(1)=NFVTR
          TAB(2)=NFVNOD
          TAB(3)=NFVPART
@@ -133,7 +133,7 @@ C
       ENDIF
       CALL MPI_BCAST(TAB, 4, MPI_INTEGER, IT_SPMD(1),
      .               MPI_COMM_WORLD, IERR)
-      IF (ISPMD.NE.0) THEN
+      IF (ISPMD/=0) THEN
          NFVTR=TAB(1)
          NFVNOD=TAB(2)
          NFVPART=TAB(3)

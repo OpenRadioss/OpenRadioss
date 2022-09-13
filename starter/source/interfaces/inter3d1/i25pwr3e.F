@@ -74,7 +74,7 @@ C-----------------------------------------------
          IF(PENE(I)/=ZERO)THEN
 C          True initial penetration
            IWPENE=IWPENE+1
-           IF(IPRI.GE.5)
+           IF(IPRI>=5)
      .         CALL ANCMSG(MSGID=1631,
      .                         MSGTYPE=MSGWARNING,
      .                         ANMODE=ANINFO_BLIND_1,
@@ -84,20 +84,20 @@ C          True initial penetration
      .                         I4=ITAB(M2(I)),
      .                         R1=PENE(I),
      .                         PRMOD=MSG_CUMU)
-           IF(INACTI.EQ.0)THEN
+           IF(INACTI==0)THEN
 C            Ignore initial penetrations
-C          ELSEIF(INACTI.EQ.1) THEN
+C          ELSEIF(INACTI==1) THEN
 C            DESACTIVATION DES NOEUDS
 C            WRITE(IOUT,'(A)')'NODE STIFFNESS IS SET TO ZERO'
 C            STFN(J) = ZERO
-           ELSE IF(INACTI.EQ.5) THEN
+           ELSE IF(INACTI==5) THEN
 C
 C            Reduction of PENE
              ISTOK=ISTOK+1
              CAND_M_G(ISTOK)= CAND_M(I)
              CAND_S_G(ISTOK)= CAND_S(I)
              CAND_P_G(ISTOK)= -PENE(I)
-           ELSE IF(INACTI.EQ.-1) THEN
+           ELSE IF(INACTI==-1) THEN
              ISTOK=ISTOK+1
 C            CAND_P < 0 <=> Initial penetration into the Starter & Initial forces
              CAND_M_G(ISTOK)= CAND_M(I)

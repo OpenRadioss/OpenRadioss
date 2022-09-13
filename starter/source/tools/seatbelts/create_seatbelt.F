@@ -591,7 +591,7 @@ C--         E11 = K/S
             A12 = A11 * N21
             C1  = MAX(E11,E22) * DET
             SSP = SQRT(C1/RHO0)
-            IF(DET.LE.ZERO) THEN
+            IF(DET<=ZERO) THEN
               CALL ANCMSG(MSGID=307,
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO,

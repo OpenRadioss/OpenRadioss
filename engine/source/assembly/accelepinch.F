@@ -64,7 +64,7 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------    
 #include      "vectorize.inc"
       DO N=NODFT,NODLT
-        IF(MS(N).GT.ZERO) THEN
+        IF(MS(N)>ZERO) THEN
           FACTOR = (DTNOD**2) * HALF / (DTFAC**2)
           MSPINCH(N) = MAX(MSPINCH(N), STIFPINCH(N)*FACTOR) 
           RTMP = ONE / MSPINCH(N)

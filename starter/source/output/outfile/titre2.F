@@ -95,7 +95,7 @@ C------------------------------------
       TITRE(61)='     SK  K DIFFUSION COEFFICIENT. . . . . . .'
       TITRE(62)='     SE  EPSILON DIFFUSION COEFFICIENT. . . .'
       TITRE(63)='     PR/PRT LAM./TURB. PRANDT NUMBER RATIO. .'
-      TITRE(64)='     EPS0 SHOULD BE .GT. 0. IF CC .NE. 0.'
+      TITRE(64)='     EPS0 SHOULD BE > 0. IF CC /= 0.'
       TITRE(65)='     BULK MODULUS . . . . . . . . . . . . . .'
 C------------------------------------
 C     MATERIAUX 1

@@ -821,12 +821,12 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,IMIN,IT,II
 C
-      IF (N.LE.0) RETURN
+      IF (N<=0) RETURN
       DO I =1,N
        IMIN=IC(I)
        II=I
        DO J =I+1,N
-        IF (IC(J).LT.IMIN) THEN
+        IF (IC(J)<IMIN) THEN
          IMIN=IC(J)
          II=J
         ENDIF

@@ -150,10 +150,10 @@ C
            E3Y=Z31*X42-X31*Z42
            E3Z=X31*Y42-Y31*X42
 C
-           IF(    N4.NE.N3
-     .       .AND.N3.NE.N2
-     .       .AND.N2.NE.N1
-     .       .AND.N1.NE.N4)THEN
+           IF(    N4/=N3
+     .       .AND.N3/=N2
+     .       .AND.N2/=N1
+     .       .AND.N1/=N4)THEN
              E3X=ONE_OVER_8*E3X
              E3Y=ONE_OVER_8*E3Y
              E3Z=ONE_OVER_8*E3Z
@@ -167,26 +167,26 @@ C
              E3Y=ONE_OVER_6*E3Y
              E3Z=ONE_OVER_6*E3Z
              AREA=SQRT(E3X*E3X+E3Y*E3Y+E3Z*E3Z)
-             IF(N4.EQ.N3)THEN
-                IF(N2.NE.N1) THEN
+             IF(N4==N3)THEN
+                IF(N2/=N1) THEN
                   NODAREA(N1)=NODAREA(N1)+AREA
                   NODAREA(N2)=NODAREA(N2)+AREA
                   NODAREA(N3)=NODAREA(N3)+AREA
                 ENDIF
-             ELSEIF(N3.EQ.N2)THEN
-                IF(N4.NE.N1) THEN
+             ELSEIF(N3==N2)THEN
+                IF(N4/=N1) THEN
                   NODAREA(N1)=NODAREA(N1)+AREA
                   NODAREA(N2)=NODAREA(N2)+AREA
                   NODAREA(N4)=NODAREA(N4)+AREA
                 ENDIF
-             ELSEIF(N2.EQ.N1)THEN
-                IF(N4.NE.N3) THEN
+             ELSEIF(N2==N1)THEN
+                IF(N4/=N3) THEN
                    NODAREA(N2)=NODAREA(N2)+AREA
                    NODAREA(N3)=NODAREA(N3)+AREA
                    NODAREA(N4)=NODAREA(N4)+AREA
                 ENDIF
-             ELSEIF(N1.EQ.N4)THEN
-                IF(N2.NE.N3) THEN
+             ELSEIF(N1==N4)THEN
+                IF(N2/=N3) THEN
                    NODAREA(N2)=NODAREA(N2)+AREA
                    NODAREA(N3)=NODAREA(N3)+AREA
                    NODAREA(N4)=NODAREA(N4)+AREA
@@ -267,7 +267,7 @@ C
         N2=IXC(3,N)
         N3=IXC(4,N)
         N4=IXC(5,N)
-        IF(N4.NE.N3)THEN
+        IF(N4/=N3)THEN
           X1=X(1,N1)
           Y1=X(2,N1)
           Z1=X(3,N1)
@@ -392,7 +392,7 @@ C
         CALL SPMD_EXCH_NODAREA(NODAREA,IAD_ELEM,FR_ELEM,LENR,WEIGHT)
       END IF
 C
-      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT .NE.0) THEN
+      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT /=0) THEN
          DO N=1,NUMNOD
            IF (NODAREA(N) == ZERO) THEN
              CONTN(1,N)=ZERO
@@ -413,7 +413,7 @@ C
          END DO
        ENDIF
 C
-      IF(ANIM_V(27)+H3D_DATA%N_VECT_PCONT2 .NE.0) THEN
+      IF(ANIM_V(27)+H3D_DATA%N_VECT_PCONT2 /=0) THEN
          DO N=1,NUMNOD
            IF (NODAREA(N) == ZERO) THEN
              FNCONTP2(1,N)=ZERO
@@ -541,10 +541,10 @@ C
         E3Y=Z31*X42-X31*Z42
         E3Z=X31*Y42-Y31*X42
 C
-        IF(    N4.NE.N3
-     .    .AND.N3.NE.N2
-     .    .AND.N2.NE.N1
-     .    .AND.N1.NE.N4)THEN
+        IF(    N4/=N3
+     .    .AND.N3/=N2
+     .    .AND.N2/=N1
+     .    .AND.N1/=N4)THEN
           E3X=ONE_OVER_8*E3X
           E3Y=ONE_OVER_8*E3Y
           E3Z=ONE_OVER_8*E3Z
@@ -558,26 +558,26 @@ C
           E3Y=ONE_OVER_6*E3Y
           E3Z=ONE_OVER_6*E3Z
           AREA=SQRT(E3X*E3X+E3Y*E3Y+E3Z*E3Z)
-          IF(N4.EQ.N3)THEN
-            IF(N2.NE.N1) THEN
+          IF(N4==N3)THEN
+            IF(N2/=N1) THEN
               NODAREA(N1)=NODAREA(N1)+AREA
               NODAREA(N2)=NODAREA(N2)+AREA
               NODAREA(N3)=NODAREA(N3)+AREA
             ENDIF
-          ELSEIF(N3.EQ.N2)THEN
-            IF(N4.NE.N1) THEN
+          ELSEIF(N3==N2)THEN
+            IF(N4/=N1) THEN
               NODAREA(N1)=NODAREA(N1)+AREA
               NODAREA(N2)=NODAREA(N2)+AREA
               NODAREA(N4)=NODAREA(N4)+AREA
             ENDIF
-          ELSEIF(N2.EQ.N1)THEN
-            IF(N4.NE.N3) THEN
+          ELSEIF(N2==N1)THEN
+            IF(N4/=N3) THEN
               NODAREA(N2)=NODAREA(N2)+AREA
               NODAREA(N3)=NODAREA(N3)+AREA
               NODAREA(N4)=NODAREA(N4)+AREA
             ENDIF
-          ELSEIF(N1.EQ.N4)THEN
-            IF(N2.NE.N3) THEN
+          ELSEIF(N1==N4)THEN
+            IF(N2/=N3) THEN
               NODAREA(N2)=NODAREA(N2)+AREA
               NODAREA(N3)=NODAREA(N3)+AREA
               NODAREA(N4)=NODAREA(N4)+AREA
@@ -591,7 +591,7 @@ C
         N2=IXC(3,N)
         N3=IXC(4,N)
         N4=IXC(5,N)
-        IF(N4.NE.N3)THEN
+        IF(N4/=N3)THEN
           X1=X(1,N1)
           Y1=X(2,N1)
           Z1=X(3,N1)
@@ -696,7 +696,7 @@ C
       END IF
 C-----
 
-      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT .NE.0) THEN
+      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT /=0) THEN
 C     INTER == 21
         IF (NSPMD == 1) THEN
           DO N=1,NUMNOD
@@ -765,7 +765,7 @@ C     INTER == 21
          END IF
        ENDIF
 C
-      IF(ANIM_V(27)+H3D_DATA%N_VECT_PCONT2 .NE.0) THEN
+      IF(ANIM_V(27)+H3D_DATA%N_VECT_PCONT2 /=0) THEN
          DO N=1,NUMNOD
            IF (NODAREA(N) == ZERO) THEN
              FNCONTP2(1,N)=ZERO

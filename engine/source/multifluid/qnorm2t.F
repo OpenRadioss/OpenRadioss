@@ -71,7 +71,7 @@ C-----------------------------------------------
          X2(1:3) = XGRID(1:3, NODE2)
          X3(1:3) = XGRID(1:3, NODE3)
          XK(1:3) = THIRD * (X1(1:3) + X2(1:3) + X3(1:3))
-         IF (JALE .NE. 0) THEN
+         IF (JALE /= 0) THEN
 C     Node grid velocities
             W1(1:3) = WGRID(3 * (NODE1 - 1) + 1 : 3 * (NODE1 - 1) + 3)
             W2(1:3) = WGRID(3 * (NODE2 - 1) + 1 : 3 * (NODE2 - 1) + 3)
@@ -93,11 +93,11 @@ C     Face 1
          SURF(KFACE, II) = SQRT(NY * NY + NZ * NZ)
          NY = NY / SURF(KFACE, II)
          NZ = NZ / SURF(KFACE, II)
-         IF (SYM .EQ. 1) THEN
+         IF (SYM == 1) THEN
             SURF(KFACE, II) = SURF(KFACE, II) * HALF * (X1(2) + X2(2))
          ENDIF
          XF(1:3) = HALF * (X1(1:3) + X2(1:3))
-         IF (NX * (XF(1) - XK(1)) + NY * (XF(2) - XK(2)) + NZ * (XF(3) - XK(3)) .LE. ZERO) THEN
+         IF (NX * (XF(1) - XK(1)) + NY * (XF(2) - XK(2)) + NZ * (XF(3) - XK(3)) <= ZERO) THEN
             CALL ARRET(2)
          ENDIF
 C     Face 2
@@ -111,11 +111,11 @@ C     Face 2
          SURF(KFACE, II) = SQRT(NY * NY + NZ * NZ)
          NY = NY / SURF(KFACE, II)
          NZ = NZ / SURF(KFACE, II)
-         IF (SYM .EQ. 1) THEN
+         IF (SYM == 1) THEN
             SURF(KFACE, II) = SURF(KFACE, II) * HALF * (X2(2) + X3(2))
          ENDIF
          XF(1:3) = HALF * (X2(1:3) + X3(1:3))
-         IF (NX * (XF(1) - XK(1)) + NY * (XF(2) - XK(2)) + NZ * (XF(3) - XK(3)) .LE. ZERO) THEN
+         IF (NX * (XF(1) - XK(1)) + NY * (XF(2) - XK(2)) + NZ * (XF(3) - XK(3)) <= ZERO) THEN
             CALL ARRET(2)
          ENDIF
 C     Face 3
@@ -129,11 +129,11 @@ C     Face 3
          SURF(KFACE, II) = SQRT(NY * NY + NZ * NZ)
          NY = NY / SURF(KFACE, II)
          NZ = NZ / SURF(KFACE, II)
-         IF (SYM .EQ. 1) THEN
+         IF (SYM == 1) THEN
             SURF(KFACE, II) = SURF(KFACE, II) * HALF * (X3(2) + X1(2))
          ENDIF
          XF(1:3) = HALF * (X3(1:3) + X1(1:3))
-         IF (NX * (XF(1) - XK(1)) + NY * (XF(2) - XK(2)) + NZ * (XF(3) - XK(3)) .LE. ZERO) THEN
+         IF (NX * (XF(1) - XK(1)) + NY * (XF(2) - XK(2)) + NZ * (XF(3) - XK(3)) <= ZERO) THEN
             CALL ARRET(2)
          ENDIF
 C     Face grid velocity 1

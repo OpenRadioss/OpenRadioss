@@ -174,7 +174,7 @@ C
                CALL WSUM(VECTS(1,I), VECTS(1,II), ONE, MS, NDDL)
             ENDDO
             NORM=PRSCAL(VECTS(1,I), VECTS(1,I), NDDL, MAS)
-            IF (SQRT(NORM).GT.TOLE*REF) THEN
+            IF (SQRT(NORM)>TOLE*REF) THEN
                NMSF=NMSF+1
                UNSN=ONE/SQRT(NORM)
                CALL WSUM(VECTS(1,NMSF), VECTS(1,I), ZERO, UNSN, NDDL)

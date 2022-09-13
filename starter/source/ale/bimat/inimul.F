@@ -55,10 +55,10 @@ C-----------------------------------------------
 
       DO M=1,NMULT
         DO N=1,NUMNOD
-          IF(DF(N,M).EQ.ZERO)CYCLE !N
+          IF(DF(N,M)==ZERO)CYCLE !N
           F(N,M)=TWO*F(N,M)/DF(N,M)-ONE
           IF(DISCRETE_FILL)THEN
-            IF(F(N,M).LT.ZEP99.AND.F(N,M).GT.-ZEP99)F(N,M)=ZERO        
+            IF(F(N,M)<ZEP99.AND.F(N,M)>-ZEP99)F(N,M)=ZERO        
           ENDIF
           !remplissage partiel autorise mais check dans l'engine de alpd=zero
           DF(N,M)=ZERO

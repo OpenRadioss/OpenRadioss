@@ -77,17 +77,17 @@ C Presssion et densite imposes
         IPRES=EBCS%ipres
         IRHO=EBCS%irho
         IENER=EBCS%iener
-        IF(IPRES.GT.0)THEN
+        IF(IPRES>0)THEN
            PRES=EBCS%pres*FV(IPRES)
         ELSE
            PRES=EBCS%pres
         ENDIF
-        IF(IRHO.GT.0)THEN
+        IF(IRHO>0)THEN
            RHO=EBCS%rho*FV(IRHO)
         ELSE
            RHO=EBCS%rho
         ENDIF
-        IF(IENER.GT.0)THEN
+        IF(IENER>0)THEN
            ENER=EBCS%ener*FV(IENER)
         ELSE
            ENER=EBCS%ener
@@ -100,17 +100,17 @@ C Presssion et densite imposes
         IPRES=EBCS%ipres
         IRHO=EBCS%irho
         IENER=EBCS%iener
-        IF(IPRES.GT.0)THEN
+        IF(IPRES>0)THEN
            PRES=EBCS%pres*FV(IPRES)
         ELSE
            PRES=EBCS%pres
         ENDIF
-        IF(IRHO.GT.0)THEN
+        IF(IRHO>0)THEN
            RHO=EBCS%rho*FV(IRHO)
         ELSE
            RHO=EBCS%rho
         ENDIF
-        IF(IENER.GT.0)THEN
+        IF(IENER>0)THEN
            ENER=EBCS%ener*FV(IENER)
         ELSE
            ENER=EBCS%ener
@@ -123,17 +123,17 @@ C Presssion et densite imposes
         IPRES=EBCS%ipres
         IRHO=EBCS%irho
         IENER=EBCS%iener
-        IF(IPRES.GT.0)THEN
+        IF(IPRES>0)THEN
            PRES=EBCS%pres*FV(IPRES)
         ELSE
            PRES=EBCS%pres
         ENDIF
-        IF(IRHO.GT.0)THEN
+        IF(IRHO>0)THEN
            RHO=EBCS%rho*FV(IRHO)
         ELSE
            RHO=EBCS%rho
         ENDIF
-        IF(IENER.GT.0)THEN
+        IF(IENER>0)THEN
            ENER=EBCS%ener*FV(IENER)
         ELSE
            ENER=EBCS%ener
@@ -149,7 +149,7 @@ c
 c      write(6,*)R1,R2,LCAR
 c
       ALP=ZERO
-      IF (LCAR.GT.0)ALP=C*DT1/LCAR
+      IF (LCAR>0)ALP=C*DT1/LCAR
 C SURFACE NORMALE NODALES
       DO I=1,NOD
          LA(1,I)=ZERO
@@ -163,7 +163,7 @@ C SURFACE NORMALE NODALES
         N2=IRECT(2,IS)
         N3=IRECT(3,IS)
         N4=IRECT(4,IS)
-        IF(N4.EQ.0 .OR. N4.EQ.N3) THEN
+        IF(N4==0 .OR. N4==N3) THEN
           FAC=ONE_OVER_6*ORIENT
           N4=N3
         ELSE
@@ -198,7 +198,7 @@ C
         VMX=V(1,NG1)+V(1,NG2)+V(1,NG3)
         VMY=V(2,NG1)+V(2,NG2)+V(2,NG3)
         VMZ=V(3,NG1)+V(3,NG2)+V(3,NG3)
-        IF(N4.NE.N3) THEN
+        IF(N4/=N3) THEN
            LA(1,N4)=LA(1,N4)+NX
            LA(2,N4)=LA(2,N4)+NY
            LA(3,N4)=LA(3,N4)+NZ
@@ -233,12 +233,12 @@ C ajout resistance
         DPDV=ROC+R1+TWO*R2*ABS(VN)
 c condition darret
 c        write(6,*)i,n,pn,pres,-0.5*RHO*VN**2
-        IF(VN.LT.0)THEN
+        IF(VN<0)THEN
           PN=PN-HALF*RHO*VN**2
           DPDV=DPDV-RHO*VN
         ENDIF
 c frontiere silencieuse
-        IF(TT.GT.0)THEN
+        IF(TT>0)THEN
           DU=ROC*(VN-VO(I))
         ELSE
           DU=ZERO
@@ -248,7 +248,7 @@ c frontiere silencieuse
 c        write(6,*)'vitesse',vn,vo(i)
         VO(I)=VN
         P=PO(I)+DP+DU
-        IF(C.EQ.ZERO)P=PN
+        IF(C==ZERO)P=PN
 c        write(6,*)'ebcs1 pression',p,'vn',vn,'dp',dp,'du',du
 c
         A(1,N)=A(1,N)-P*LA(1,I)

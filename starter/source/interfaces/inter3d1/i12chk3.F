@@ -79,36 +79,36 @@ C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
 
-      IF(ITIED.NE.3)THEN
+      IF(ITIED/=3)THEN
         CALL ICINV3(IXS,IXC,IXTG,MWA,MWA(1+(2+NUMNOD)))
-        IF(IPRI.GE.1 .AND. NINT.LT.0)WRITE(IOUT,1000)
-        IF(IPRI.GE.1 .AND. NINT.GT.0)WRITE(IOUT,1001)
+        IF(IPRI>=1 .AND. NINT<0)WRITE(IOUT,1000)
+        IF(IPRI>=1 .AND. NINT>0)WRITE(IOUT,1001)
         DO I=1,NRT
           INRT=I
           CALL I12SOL3(X,IRECT,IXS,NINT,NELS,INRT,
      .                 AREA,NOINT,MWA ,MWA(1+(2+NUMNOD)),NF,ITAB,
      .                 KNOD2ELS,NOD2ELS,NTY,ID,TITR)
-          IF(NELS.NE.0) THEN
+          IF(NELS/=0) THEN
             M=IXS(1,NELS)
             VARCONV=INT(PM(10,M))
-            IF(VARCONVINT.EQ.-1)VARCONVINT=VARCONV
-            IF(VARCONV.EQ.VARCONVINT)THEN
+            IF(VARCONVINT==-1)VARCONVINT=VARCONV
+            IF(VARCONV==VARCONVINT)THEN
               SEGINDX = SEGINDX+1
               ISEG(I) = SEGINDX
               IAD = ALE_CONNECTIVITY%ee_connect%iad_connect(NELS)
               ALE_CONNECTIVITY%ee_connect%connected(IAD + NF - 1) = -SEGINDX
-              IF(IPRI.GE.1)
+              IF(IPRI>=1)
      .        WRITE(IOUT,FMT=FMW_10I)I,IXS(11,NELS),NF,SEGINDX,NELS
             ELSE
-              IF(NINT.GT.0) WRITE (IOUT,1101) I, NOINT
-              IF(NINT.LT.0) WRITE (IOUT,1201) I, NOINT
+              IF(NINT>0) WRITE (IOUT,1101) I, NOINT
+              IF(NINT<0) WRITE (IOUT,1201) I, NOINT
               IERR=IERR+1
             ENDIF
           ELSE
-            IF(NINT.GT.0) WRITE (IOUT,1100) I, NOINT
-            IF(NINT.LT.0) WRITE (IOUT,1200) I, NOINT
+            IF(NINT>0) WRITE (IOUT,1100) I, NOINT
+            IF(NINT<0) WRITE (IOUT,1200) I, NOINT
             IERR=IERR+1
-          ENDIF !(NELS.NE.0)
+          ENDIF !(NELS/=0)
         END DO !I=1,NRT 
         CALL ANCMSG(MSGID=1245,
      .                  MSGTYPE=MSGERROR,
@@ -122,7 +122,7 @@ C-----------------------------------------------
      .                  I1=ID,
      .                  C1=TITR,
      .                  PRMOD=MSG_PRINT) 
-      END IF !(ITIED.NE.3)
+      END IF !(ITIED/=3)
       
       !------------------------------------------------------------------------!
       !     LE NOEUD GLOBAL EST REMPLACE PAR LE NOEUD LOCAL DANS IRECT         !
@@ -137,7 +137,7 @@ C-----------------------------------------------
       !------------------------------------------------------------------------!
       !     COMPTAGE DU NOMBRE DE FACETTES CONNECTEES PAR NOEUD (SECONDARY ONLY!)  !
       !------------------------------------------------------------------------!
-      IF(NINT.GT.0)THEN
+      IF(NINT>0)THEN
          DO  I=1,NSN
            FCOUNT(I)=0
          ENDDO

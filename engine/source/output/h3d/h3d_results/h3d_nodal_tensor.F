@@ -162,12 +162,12 @@ C-----------------------------------------------
          ENDIF
          DO J=1,3
            DO N=1,NUMNOD
-             IF (ITAGPS(N).GT.0) VALUE(J,N)=VFLU(J,N)/ITAGPS(N)
+             IF (ITAGPS(N)>0) VALUE(J,N)=VFLU(J,N)/ITAGPS(N)
            ENDDO
          ENDDO
          DO J=4,6
            DO N=1,NUMNOD
-             IF (ITAGPS(N).GT.0) VALUE(J,N)=AFLU(J-3,N)/ITAGPS(N)
+             IF (ITAGPS(N)>0) VALUE(J,N)=AFLU(J-3,N)/ITAGPS(N)
            ENDDO
          ENDDO
 C-----------------------------------------------
@@ -198,12 +198,12 @@ C-----------------------------------------------
 
         DO J=1,3
           DO N=1,NUMNOD
-            IF (ITAGPS(N).GT.0) VALUE(J,N)=VFLU(J,N)/ITAGPS(N)
+            IF (ITAGPS(N)>0) VALUE(J,N)=VFLU(J,N)/ITAGPS(N)
           ENDDO
         ENDDO
         DO J=4,6
           DO N=1,NUMNOD
-            IF (ITAGPS(N).GT.0) VALUE(J,N)=AFLU(J-3,N)/ITAGPS(N)
+            IF (ITAGPS(N)>0) VALUE(J,N)=AFLU(J-3,N)/ITAGPS(N)
           ENDDO
         ENDDO
 C-----------------------------------------------
@@ -234,12 +234,12 @@ C-----------------------------------------------
 
         DO J=1,3
           DO N=1,NUMNOD
-            IF (VGPS(N).GT.ZERO) VALUE(J,N)=VFLU(J,N)/VGPS(N)
+            IF (VGPS(N)>ZERO) VALUE(J,N)=VFLU(J,N)/VGPS(N)
           ENDDO
         ENDDO
         DO J=4,6
           DO N=1,NUMNOD
-            IF (VGPS(N).GT.ZERO) VALUE(J,N)=AFLU(J-3,N)/VGPS(N)
+            IF (VGPS(N)>ZERO) VALUE(J,N)=AFLU(J-3,N)/VGPS(N)
           ENDDO
         ENDDO
 C-----------------------------------------------
@@ -270,12 +270,12 @@ C-----------------------------------------------
 
          DO J=1,3
            DO N=1,NUMNOD
-             IF (ITAGPS(N).GT.0) VALUE(J,N)=VFLU(J,N)/ITAGPS(N)
+             IF (ITAGPS(N)>0) VALUE(J,N)=VFLU(J,N)/ITAGPS(N)
            ENDDO
          ENDDO
          DO J=4,6
            DO N=1,NUMNOD
-             IF (ITAGPS(N).GT.0) VALUE(J,N)=AFLU(J-3,N)/ITAGPS(N)
+             IF (ITAGPS(N)>0) VALUE(J,N)=AFLU(J-3,N)/ITAGPS(N)
            ENDDO
          ENDDO
 C-----------------------------------------------

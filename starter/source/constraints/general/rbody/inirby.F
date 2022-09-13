@@ -114,8 +114,8 @@ C-------------------------------------------------------------------------------
          IN_LOC(I)=IN(N)
       ENDDO
 C-----------Multidomaines : on ne compte l'ajout de masse et d'inertie uniquement d'1 cote-------------
-      IF ((NSUBDOM.GT.0).AND.(IPID.EQ.0)) THEN
-        IF (TAGNO(M+N_PART).EQ.3) THEN
+      IF ((NSUBDOM>0).AND.(IPID==0)) THEN
+        IF (TAGNO(M+N_PART)==3) THEN
 	   FLAG = 1
 	   DO J=1,9
 	     RBY(J,NRB) = ZERO
@@ -123,10 +123,10 @@ C-----------Multidomaines : on ne compte l'ajout de masse et d'inertie uniquemen
 C-----------Multidomaines : on evite de compter 2 fois la masse et l'inertie des noeuds communs--------
            DO I=1,NSL
              N=LSN(I)
-             IF (TAGNO(N+N_PART).GT.3) MS_LOC(I)= 0
-             IF (TAGNO(N+N_PART).GT.3) IN_LOC(I)= 0
-             IF (TAGNO(N+N_PART).EQ.0) MS_LOC(I)= 0
-             IF (TAGNO(N+N_PART).EQ.0) IN_LOC(I)= 0
+             IF (TAGNO(N+N_PART)>3) MS_LOC(I)= 0
+             IF (TAGNO(N+N_PART)>3) IN_LOC(I)= 0
+             IF (TAGNO(N+N_PART)==0) MS_LOC(I)= 0
+             IF (TAGNO(N+N_PART)==0) IN_LOC(I)= 0
            ENDDO
 	ENDIF
       ENDIF
@@ -147,7 +147,7 @@ C
 C------------------------------------------------------------------------------------------------------
 
       MS(M)=MS(M)+RBY(1,NRB)
-       IF(MS(M).EQ.ZERO) MS(M)=EM20
+       IF(MS(M)==ZERO) MS(M)=EM20
 
 C NUMERO EXTERNE DU NOEUD (DEPLACEE PAR JBM LE 30/9/96)
       NONOD=ITAB(M)
@@ -162,7 +162,7 @@ C
       RBY(5,NRB)=RBY(3,NRB)
       RBY(3,NRB)=RBY(7,NRB)
 C CAS DU REPERE SKEW POUR LE RB
-      IF(NOSKEW.NE.0) THEN
+      IF(NOSKEW/=0) THEN
         CALL CHBAS(SKEW(1,NOSKEW),RBY(1,NRB))
       ENDIF
 C
@@ -186,7 +186,7 @@ C-----INITIAL COORDINATES ARE STORED FOR INIVEL/AXIS correction
       ENDIF
 
 C-----CDG DES NOEUDS SECONDS + MAIN
-      IF(ICDG.EQ.1)THEN
+      IF(ICDG==1)THEN
         MASRB=MS(M)
         DO J=1,3
           XG(J)=X(J,M)
@@ -200,7 +200,7 @@ C-----CDG DES NOEUDS SECONDS + MAIN
          MASRB   = MASRB+MS_LOC(I)
         ENDDO
 C
-        IF(MASRB.LE.1.E-30) THEN
+        IF(MASRB<=1.E-30) THEN
            CALL ANCMSG(MSGID=679,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,
@@ -214,7 +214,7 @@ C
         ENDDO
 C
 C-----CDG DES NOEUDS SECONDS
-      ELSEIF(ICDG.EQ.2)THEN
+      ELSEIF(ICDG==2)THEN
         MASRB=ZERO
         DO J=1,3
           X(J,M)=ZERO
@@ -226,9 +226,9 @@ C-----CDG DES NOEUDS SECONDS
          ENDDO
          MASRB   = MASRB+MS_LOC(I)
         ENDDO
-	IF (FLAG.EQ.1) MASRB = MAX(MASRB,EM20)	
+	IF (FLAG==1) MASRB = MAX(MASRB,EM20)	
 C
-        IF(MASRB.LE.EM30) THEN
+        IF(MASRB<=EM30) THEN
            CALL ANCMSG(MSGID=679,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,
@@ -246,7 +246,7 @@ C
         MASRB=MASRB+MS(M)
 C
 C-----CDG DU NOEUD MAIN
-      ELSEIF(ICDG.EQ.3)THEN
+      ELSEIF(ICDG==3)THEN
         DO J=1,3
           XG(J)=X(J,M)
         ENDDO
@@ -256,7 +256,7 @@ C-----CDG DU NOEUD MAIN
          MASRB   = MASRB+MS_LOC(I)
         ENDDO
 C
-        IF(MASRB.LE.EM30) THEN
+        IF(MASRB<=EM30) THEN
            CALL ANCMSG(MSGID=679,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,
@@ -266,13 +266,13 @@ C
         ENDIF
 C
 C-----CDG DU NOEUD MAIN (MASSE DES SECONDS IGNOREE)
-      ELSEIF(ICDG.EQ.4)THEN
+      ELSEIF(ICDG==4)THEN
         DO J=1,3
           XG(J)=X(J,M)
         ENDDO
         MASRB=MS(M)
 C
-        IF(MASRB.LE.EM30) THEN
+        IF(MASRB<=EM30) THEN
            CALL ANCMSG(MSGID=679,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,
@@ -322,8 +322,8 @@ C
 C--------------------------------------
 C     CORRECTION DE L'INERTIE DU MAIN
 C--------------------------------------
-      IF(ICDG.LE.3)THEN
-        IF(N2D.EQ.0)THEN
+      IF(ICDG<=3)THEN
+        IF(N2D==0)THEN
 C        ANALYSE 3D
           XX=(XG(1)-X(1,M))*(XG(1)-X(1,M))
           XY=(XG(1)-X(1,M))*(XG(2)-X(2,M))
@@ -341,7 +341,7 @@ C        ANALYSE 3D
           RBY(8,NRB)=RBY(8,NRB)-YZ*XMG
           RBY(9,NRB)=RBY(9,NRB)+(XX+YY)*XMG
 
-	  IF (NSL.EQ.1) THEN
+	  IF (NSL==1) THEN
             RBY(1,NRB)=RBY(1,NRB)+EM20
             RBY(5,NRB)=RBY(5,NRB)+EM20
             RBY(9,NRB)=RBY(9,NRB)+EM20
@@ -385,7 +385,7 @@ C
           RBY(8,NRB)=ZERO
           RBY(9,NRB)=RBY(9,NRB)+YY*XMG
 
-	  IF (NSL.EQ.1) THEN
+	  IF (NSL==1) THEN
             RBY(1,NRB)=RBY(1,NRB)+EM20
             RBY(5,NRB)=RBY(5,NRB)+EM20
             RBY(9,NRB)=RBY(9,NRB)+EM20
@@ -419,7 +419,7 @@ c
           RBY(8,NRB)=RBY(8,NRB)-YZ*XMG
           RBY(9,NRB)=RBY(9,NRB)+YY*XMG
 
-	  IF (NSL.EQ.1) THEN
+	  IF (NSL==1) THEN
             RBY(1,NRB)=RBY(1,NRB)+EM20
             RBY(5,NRB)=RBY(5,NRB)+EM20
             RBY(9,NRB)=RBY(9,NRB)+EM20
@@ -449,7 +449,7 @@ C--------------------------------------
         LSN_XTRA => LPBY(NPBY(11,NRB)+NSL+NPBY(14,NRB)+1:
      .                   NPBY(11,NRB)+NSL+NPBY(14,NRB)+NPBY(15,NRB)+NPBY(16,NRB))
 
-        IF(N2D.EQ.0)THEN
+        IF(N2D==0)THEN
          DO I=1,NPBY(15,NRB)+NPBY(16,NRB)
           N=LSN_XTRA(I)
           XX=(X(1,N)-X(1,M))*(X(1,N)-X(1,M))
@@ -523,7 +523,7 @@ C--------------------------------------
 C     TRANSFERT DES INERTIES AU COG
 C--------------------------------------
           IF(OPT_MERGE == 2) THEN
-           IF(N2D.EQ.0)THEN
+           IF(N2D==0)THEN
             XX=(XG(1)-X(1,M))*(XG(1)-X(1,M))
             XY=(XG(1)-X(1,M))*(XG(2)-X(2,M))
             XZ=(XG(1)-X(1,M))*(XG(3)-X(3,M))
@@ -567,7 +567,7 @@ C--------------------------------------
            ENDIF
           ENDIF
           IF(OPT_MERGE > 1) THEN
-           IF(N2D.EQ.0)THEN
+           IF(N2D==0)THEN
             XX=(X(1,M_I)-X(1,M))*(X(1,M_I)-X(1,M))  
             XY=(X(1,M_I)-X(1,M))*(X(2,M_I)-X(2,M))
             XZ=(X(1,M_I)-X(1,M))*(X(3,M_I)-X(3,M))
@@ -623,15 +623,15 @@ C----------------------------------------------
           ALLOCATE (IN_LOC(NSL))
 C
 C-----------Multidomaines : on ne compte l'ajout de masse et d'inertie uniquement d'1 cote-------------
-          IF ((NSUBDOM.GT.0).AND.(IPID.EQ.0)) THEN
-            IF (TAGNO(M+N_PART).EQ.3) THEN
+          IF ((NSUBDOM>0).AND.(IPID==0)) THEN
+            IF (TAGNO(M+N_PART)==3) THEN
 C-----------Multidomaines : on evite de compter 2 fois la masse et l'inertie des noeuds communs--------
                DO I=1,NSL
                  N=LSN(I)
-                 IF (TAGNO(N+N_PART).GT.3) MS_LOC(I)= 0
-                 IF (TAGNO(N+N_PART).GT.3) IN_LOC(I)= 0
-                 IF (TAGNO(N+N_PART).EQ.0) MS_LOC(I)= 0
-                 IF (TAGNO(N+N_PART).EQ.0) IN_LOC(I)= 0
+                 IF (TAGNO(N+N_PART)>3) MS_LOC(I)= 0
+                 IF (TAGNO(N+N_PART)>3) IN_LOC(I)= 0
+                 IF (TAGNO(N+N_PART)==0) MS_LOC(I)= 0
+                 IF (TAGNO(N+N_PART)==0) IN_LOC(I)= 0
               ENDDO
 	    ENDIF
           ENDIF
@@ -657,8 +657,8 @@ C
         ENDIF
 C
 C-----------Multidomaines : on stoke la matrice assembl   e--------------
-        IF(NSUBDOM.GT.0)THEN
-          IF(TAGNO(M+N_PART).EQ.3)THEN
+        IF(NSUBDOM>0)THEN
+          IF(TAGNO(M+N_PART)==3)THEN
             DO J=1,9
 	      RBY_R2R(J)=RBY(J,NRB)
 	    END DO
@@ -696,15 +696,15 @@ C
          ZGT = ZGT - MS_LOC(I)*X(3,N)
          TOTMAS = TOTMAS - MS_LOC(I)
         ENDDO
-        IF(ISPH.NE.1)THEN
+        IF(ISPH/=1)THEN
          B1 = B1 + RBY(1,NRB)
          B2 = B2 + RBY(2,NRB)
          B3 = B3 + RBY(3,NRB)
          B5 = B5 + RBY(5,NRB)
          B6 = B6 + RBY(6,NRB)
          B9 = B9 + RBY(9,NRB)
-         IF(NSUBDOM.GT.0)THEN
-           IF(TAGNO(M+N_PART).EQ.3) THEN
+         IF(NSUBDOM>0)THEN
+           IF(TAGNO(M+N_PART)==3) THEN
              WRITE(IOUT,1300) RBYID
              WRITE(IOUT,1400)
            ELSE
@@ -731,7 +731,7 @@ C----------------------------------------------------------------
           CALL INEPRI(RBY(10,NRB),RBY(1,NRB))
         ENDIF
 C
-        IF(ISPH.EQ.1)THEN
+        IF(ISPH==1)THEN
           XIIN = (RBY(10,NRB) + RBY(11,NRB) + RBY(12,NRB)) * THIRD
           RBY(10,NRB) = XIIN
           RBY(11,NRB) = XIIN
@@ -740,8 +740,8 @@ C
           B1 = B1 + XIIN
           B5 = B5 + XIIN
           B9 = B9 + XIIN
-          IF(NSUBDOM.GT.0)THEN
-            IF(TAGNO(M+N_PART).EQ.3)THEN
+          IF(NSUBDOM>0)THEN
+            IF(TAGNO(M+N_PART)==3)THEN
               WRITE(IOUT,1300) RBYID
               WRITE(IOUT,1400)
             ELSE
@@ -778,8 +778,8 @@ C
         ENDIF
 
       
-        IF(NSUBDOM.GT.0)THEN
-          IF(TAGNO(M+N_PART).EQ.3)GOTO 350
+        IF(NSUBDOM>0)THEN
+          IF(TAGNO(M+N_PART)==3)GOTO 350
         END IF
 
 
@@ -788,8 +788,8 @@ C
         WRITE(IOUT,1101)
         WRITE(IOUT,1102) (ITAB(LPBY(I+NPBY(11,NRB))),I=1,NSL)
 
-        IF(RBY(10,NRB).GE.RBY(11,NRB).AND.RBY(10,NRB).GE.RBY(12,NRB))THEN
-          IF(RBY(10,NRB).GT.(RBY(11,NRB)+RBY(12,NRB))*TOL)THEN
+        IF(RBY(10,NRB)>=RBY(11,NRB).AND.RBY(10,NRB)>=RBY(12,NRB))THEN
+          IF(RBY(10,NRB)>(RBY(11,NRB)+RBY(12,NRB))*TOL)THEN
            CALL ANCMSG(MSGID=542,
      .                 MSGTYPE=MSGWARNING,
      .                 ANMODE=ANINFO_BLIND_1,
@@ -799,8 +799,8 @@ C
      .                 R2=RBY(11,NRB),
      .                 R3=RBY(12,NRB))
           ENDIF
-        ELSEIF(RBY(11,NRB).GE.RBY(10,NRB).AND.RBY(11,NRB).GE.RBY(12,NRB))THEN
-          IF(RBY(11,NRB).GT.(RBY(10,NRB)+RBY(12,NRB))*TOL)THEN
+        ELSEIF(RBY(11,NRB)>=RBY(10,NRB).AND.RBY(11,NRB)>=RBY(12,NRB))THEN
+          IF(RBY(11,NRB)>(RBY(10,NRB)+RBY(12,NRB))*TOL)THEN
            CALL ANCMSG(MSGID=542,
      .                 MSGTYPE=MSGWARNING,
      .                 ANMODE=ANINFO_BLIND_1,
@@ -810,8 +810,8 @@ C
      .                 R2=RBY(10,NRB),
      .                 R3=RBY(12,NRB))
           ENDIF
-        ELSEIF(RBY(12,NRB).GE.RBY(10,NRB).AND.RBY(12,NRB).GE.RBY(11,NRB))THEN
-          IF(RBY(12,NRB).GT.(RBY(10,NRB)+RBY(11,NRB))*TOL)THEN
+        ELSEIF(RBY(12,NRB)>=RBY(10,NRB).AND.RBY(12,NRB)>=RBY(11,NRB))THEN
+          IF(RBY(12,NRB)>(RBY(10,NRB)+RBY(11,NRB))*TOL)THEN
            CALL ANCMSG(MSGID=542,
      .                 MSGTYPE=MSGWARNING,
      .                 ANMODE=ANINFO_BLIND_1,
@@ -1005,8 +1005,8 @@ C
        ENDIF
 C-----------Multidomaines : on ignore l'erreur generee par le calcul des val propres et le chgt de repere--------------
 C------------------> on reinjecte les ancienne valeures de la matrice dans le repere global <--------------------------
-       IF(NSUBDOM.GT.0)THEN
-         IF(TAGNO(M+N_PART).EQ.3)THEN
+       IF(NSUBDOM>0)THEN
+         IF(TAGNO(M+N_PART)==3)THEN
            DO J=1,9
              RBY(16+J,NRB)=RBY_R2R(J)
            END DO
@@ -1196,7 +1196,7 @@ C     DE SOUS RBY (NOEUD MAIN PARMI LES SECONDS)
 C---------------------------------
       DO I=1,NSL
          N=LSN(I)
-         IF(IWA(N).GT.0)THEN
+         IF(IWA(N)>0)THEN
            K=0
            DO NI=1,IWA(N)-1
              NSLI=NPBY(2,NI)
@@ -1205,7 +1205,7 @@ C---------------------------------
            NSLI=NPBY(2,IWA(N))
            DO II=1,NSLI
              NI=LPBY(K+II)
-             IF(IWA(NI).EQ.0)IWA(NI)=-1
+             IF(IWA(NI)==0)IWA(NI)=-1
            ENDDO
          ENDIF
       ENDDO
@@ -1239,7 +1239,7 @@ C-----CDG DES NOEUDS SECONDS
       ELSE
       DO I=1,NSL
        N=LSN(I)
-       IF(IWA(N).GE.0)THEN
+       IF(IWA(N)>=0)THEN
          DO J=1,3
           X(J,M)    = X(J,M)+X(J,N)*MS(N)
          ENDDO
@@ -1248,7 +1248,7 @@ C-----CDG DES NOEUDS SECONDS
       ENDDO
       END IF !(NS10E>0) THEN
 C
-      IF(MASRB.LE.1.E-30) THEN
+      IF(MASRB<=1.E-30) THEN
          CALL ANCMSG(MSGID=679,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
@@ -1308,7 +1308,7 @@ C        ANALYSE 3D
          DO I=1,NSL
            N=LSN(I)
            NI=IWA(N)
-           IF(NI.EQ.0)THEN
+           IF(NI==0)THEN
             XX=(X(1,N)-X(1,M))*(X(1,N)-X(1,M))
             XY=(X(1,N)-X(1,M))*(X(2,N)-X(2,M))
             XZ=(X(1,N)-X(1,M))*(X(3,N)-X(3,M))
@@ -1324,7 +1324,7 @@ C        ANALYSE 3D
             RBY(7,NRB)=RBY(7,NRB)-XZ*MS(N)
             RBY(8,NRB)=RBY(8,NRB)-YZ*MS(N)
             RBY(9,NRB)=RBY(9,NRB)+IN(N)+(XX+YY)*MS(N)
-           ELSEIF(NI.GT.0)THEN
+           ELSEIF(NI>0)THEN
 C MAIN DE SOUS RBY
             XX=(X(1,N)-X(1,M))*(X(1,N)-X(1,M))
             XY=(X(1,N)-X(1,M))*(X(2,N)-X(2,M))
@@ -1349,7 +1349,7 @@ C        ANALYSE 2D : Axisymetrie
          DO I=1,NSL
            N=LSN(I)
            NI=IWA(N)
-           IF(NI.EQ.0)THEN
+           IF(NI==0)THEN
             YY=(X(2,N)-X(2,M))*(X(2,N)-X(2,M))
             YZ=(X(2,N)-X(2,M))*(X(3,N)-X(3,M))
             ZZ=(X(3,N)-X(3,M))*(X(3,N)-X(3,M))
@@ -1362,7 +1362,7 @@ C        ANALYSE 2D : Axisymetrie
             RBY(7,NRB)=ZERO
             RBY(8,NRB)=ZERO
             RBY(9,NRB)=RBY(9,NRB)+IN(N)+(XX+YY)*MS(N)
-           ELSEIF(NI.GT.0)THEN
+           ELSEIF(NI>0)THEN
 C MAIN DE SOUS RBY
             YY=(X(2,N)-X(2,M))*(X(2,N)-X(2,M))
             YZ=(X(2,N)-X(2,M))*(X(3,N)-X(3,M))
@@ -1384,7 +1384,7 @@ C        ANALYSE 2D : Strain Plane
          DO I=1,NSL
            N=LSN(I)
            NI=IWA(N)
-           IF(NI.EQ.0)THEN
+           IF(NI==0)THEN
             YY=(X(2,N)-X(2,M))*(X(2,N)-X(2,M))
             YZ=(X(2,N)-X(2,M))*(X(3,N)-X(3,M))
             ZZ=(X(3,N)-X(3,M))*(X(3,N)-X(3,M))
@@ -1397,7 +1397,7 @@ C        ANALYSE 2D : Strain Plane
             RBY(7,NRB)=ZERO
             RBY(8,NRB)=RBY(8,NRB)-YZ*MS(N)
             RBY(9,NRB)=RBY(9,NRB)+IN(N)+YY*MS(N)
-           ELSEIF(NI.GT.0)THEN
+           ELSEIF(NI>0)THEN
 C MAIN DE SOUS RBY
             YY=(X(2,N)-X(2,M))*(X(2,N)-X(2,M))
             YZ=(X(2,N)-X(2,M))*(X(3,N)-X(3,M))
@@ -1424,7 +1424,7 @@ C--------------------------------------
         LSN_XTRA => LPBY(NPBY(11,NRB)+NSL+NPBY(14,NRB)+1:
      .                   NPBY(11,NRB)+NSL+NPBY(14,NRB)+NPBY(15,NRB)+NPBY(16,NRB))
 
-        IF(N2D.EQ.0)THEN
+        IF(N2D==0)THEN
          DO I=1,NPBY(15,NRB)+NPBY(16,NRB)
           N=LSN_XTRA(I)
           IF (ITAGND(N)/=0) CYCLE
@@ -1501,7 +1501,7 @@ C--------------------------------------
 C     TRANSFERT DES INERTIES AU COG
 C--------------------------------------
           IF(OPT_MERGE == 2) THEN ! COG ACTUALISE, TRANSFERT INERTIE MAIN
-           IF(N2D.EQ.0)THEN
+           IF(N2D==0)THEN
             XX=(XG(1)-X(1,M))*(XG(1)-X(1,M))
             XY=(XG(1)-X(1,M))*(XG(2)-X(2,M))
             XZ=(XG(1)-X(1,M))*(XG(3)-X(3,M))
@@ -1545,7 +1545,7 @@ C--------------------------------------
            ENDIF
           ENDIF
           IF(OPT_MERGE > 1) THEN ! TRANSFERT INERTIE SECONDARY 
-           IF(N2D.EQ.0)THEN
+           IF(N2D==0)THEN
             XX=(X(1,M_I)-X(1,M))*(X(1,M_I)-X(1,M))  
             XY=(X(1,M_I)-X(1,M))*(X(2,M_I)-X(2,M))
             XZ=(X(1,M_I)-X(1,M))*(X(3,M_I)-X(3,M))
@@ -1597,7 +1597,7 @@ C----------------------------------------------
 c
         WRITE(IOUT,1000)
 
-        IF(ISPH.EQ.1)THEN
+        IF(ISPH==1)THEN
         ELSE
 
           WRITE(IOUT,1100) RBYID,NONOD,X(1,M),X(2,M),X(3,M),

@@ -235,7 +235,7 @@ C
         ANGLE(I)=SH3ANG(I)
       ENDDO
 C
-      IF(NADMESH.NE.0)THEN
+      IF(NADMESH/=0)THEN
         DO  K=1,KSH3TREE
           DO  I=1,NUMELTG
             ISTOR(K,I)=SH3TREE(K,I)
@@ -255,7 +255,7 @@ C
       DO 100 I = 1, NUMELTG
         II = I
 C
-        IF(NADMESH.EQ.0)THEN
+        IF(NADMESH==0)THEN
           ITRI(1,I)=0
         ELSE
 C
@@ -267,7 +267,7 @@ C         not the same group as if adaptivity.
             ITRI(1,I)=0
           ELSE
             ILEV=SH3TREE(3,I)
-            IF(ILEV.LT.0)ILEV=-ILEV-1
+            IF(ILEV<0)ILEV=-ILEV-1
             ITRI(1,I)=ILEV+1
           END IF
         END IF
@@ -364,7 +364,7 @@ c
 C thermal material expansion
         IEXPAN  = IPM(218, MID)       
         ICO = ICNOD(II)
-        IF(ISH3N.GT.3.AND.ISH3N.LE.29)THEN
+        IF(ISH3N>3.AND.ISH3N<=29)THEN
           ID = IGEO(1,PID)
           CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,PID),LTITR)
           CALL ANCMSG(MSGID=435,
@@ -383,24 +383,24 @@ C thermal material expansion
         ICSEN= IGEO(3,PID)
         IF (ICSEN > 0) ICSEN=1
 C
-        IF(NPN.EQ.0.AND.(MLN.EQ.36.OR.MLN.EQ.86))THEN
-          IF(IPLA.EQ.0) IPLA=1
-          IF(IPLA.EQ.2) IPLA=0
-        ELSEIF(NPN.EQ.0.AND.MLN.EQ.2)THEN
-          IF(IPLA.EQ.2) IPLA=0
+        IF(NPN==0.AND.(MLN==36.OR.MLN==86))THEN
+          IF(IPLA==0) IPLA=1
+          IF(IPLA==2) IPLA=0
+        ELSEIF(NPN==0.AND.MLN==2)THEN
+          IF(IPLA==2) IPLA=0
         ELSE
-         IF(IPLA.EQ.2) IPLA=0
-         IF(IPLA.EQ.3) IPLA=2
+         IF(IPLA==2) IPLA=0
+         IF(IPLA==3) IPLA=2
         ENDIF
-        IF(ITHK.EQ.2)THEN
+        IF(ITHK==2)THEN
           ITHK = 0
-        ELSEIF(MLN.EQ.32)THEN
+        ELSEIF(MLN==32)THEN
           ITHK = 1
         ENDIF
         IPLA = IABS(IPLA)
         ITHK = IABS(ITHK)
         ISTRAIN = NINT(GEO(11,PID))
-        IF(MLN.EQ.19.OR.MLN.GE.25.OR.MLN.EQ.15)ISTRAIN = 1
+        IF(MLN==19.OR.MLN>=25.OR.MLN==15)ISTRAIN = 1
         ISSN = IABS(NINT(GEO(3,PID)))
 C tri sur elem delete des rigidbody
 C IRB = 0 : elem actif
@@ -479,7 +479,7 @@ C
         ENDDO
       ENDDO
 C
-      IF (NUMELTG6.GT.0) THEN
+      IF (NUMELTG6>0) THEN
         NELTG3 = NUMELTG-NUMELTG6
         DO I = 1, NUMELTG6
           II = I + NELTG3
@@ -519,7 +519,7 @@ C
        ENDIF
         SH3ANG(I)=ANGLE(INDEX(I))
       ENDDO
-      IF(NADMESH.NE.0)THEN
+      IF(NADMESH/=0)THEN
         DO  K=1,KSH3TREE
           DO  I=1,NUMELTG
             SH3TREE(K,I)=ISTOR(K,INDEX(I))
@@ -540,11 +540,11 @@ C
       ENDDO      
 
 C RENUMEROTATION DE L'ARBRE
-      IF(NADMESH.NE.0)THEN
+      IF(NADMESH/=0)THEN
         DO  I=1,NUMELTG
-          IF(SH3TREE(1,I).NE.0)
+          IF(SH3TREE(1,I)/=0)
      .       SH3TREE(1,I)=ITR1(SH3TREE(1,I))
-          IF(SH3TREE(2,I).NE.0)
+          IF(SH3TREE(2,I)/=0)
      .       SH3TREE(2,I)=ITR1(SH3TREE(2,I))
         ENDDO
       END IF
@@ -593,20 +593,20 @@ C--------------------------------------------------------------
 C for stack/ply pid
         II5=ITRI(7,INDEX(I))
         JJ5=ITRI(7,INDEX(I-1))
-        IF (II0.NE.JJ0.OR.
-     .      II.NE.JJ.OR.
-     .      II1.NE.JJ1.OR.
-     .      II2.NE.JJ2.OR.
-     .      II3.NE.JJ3.OR.
-     .      II4.NE.JJ4.OR.
-     .      II5 .NE. JJ5) THEN
+        IF (II0/=JJ0.OR.
+     .      II/=JJ.OR.
+     .      II1/=JJ1.OR.
+     .      II2/=JJ2.OR.
+     .      II3/=JJ3.OR.
+     .      II4/=JJ4.OR.
+     .      II5 /= JJ5) THEN
                ND=ND+1
                EADD(ND)=I
         ENDIF
       ENDDO
       EADD(ND+1) = NUMELTG+1
       DO I=1,NUMELTG
-      IF(IWARNHB.NE.0)THEN
+      IF(IWARNHB/=0)THEN
          PID = IXTG(NIXTG-1,I)
          ID=IGEO(1,PID)
          CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,PID),LTITR)

@@ -110,7 +110,7 @@ C-----------------------------------------------
       IF (NVAR>0) NVAR = HM_THVARC(VARE,NV,ITHBUF(IAD),VARG,NVG,IVARG,NV0,ID,TITR ,LSUBMODEL)                       
 
       IF(NVAR == 0) THEN
-        IF(ITYP .NE. 116)
+        IF(ITYP /= 116)
      .    CALL ANCMSG(MSGID=1109,
      .      MSGTYPE=MSGERROR,
      .      ANMODE=ANINFO_BLIND_1,
@@ -136,8 +136,8 @@ C
           DO K = 1,IDSMAX
             CALL HM_GET_INT_ARRAY_INDEX('ids',IDS,K,IS_AVAILABLE,LSUBMODEL) 
 
-            IF(IDS.NE.0)THEN
-              IF (NSUBDOM.GT.0) THEN
+            IF(IDS/=0)THEN
+              IF (NSUBDOM>0) THEN
 C----------->Multidomaines - on saute si l'entite n'existe plus--------	
 	       IF(R2R_EXIST(ITYP,IDS)==0) GOTO 150
 	      ENDIF
@@ -149,7 +149,7 @@ C----------------------------------------------------------------------
                    IGRSURF(J)%TH_SURF=1
                 ENDIF
               ENDDO
-              IF(N.EQ.0)THEN
+              IF(N==0)THEN
                  CALL FRETITL2(TITR,ITHGRP(NITHGR-LTITR+1),LTITR)
                  CALL ANCMSG(MSGID=257,
      .                       MSGTYPE=MSGERROR,
@@ -197,7 +197,7 @@ C=======================================================================
 C=======================================================================
 C PRINTOUT
 C=======================================================================
-          IF(IPRI.LT.1)RETURN
+          IF(IPRI<1)RETURN
           N=ITHGRP(4)
           IAD1=ITHGRP(5)
           NVAR=ITHGRP(6)

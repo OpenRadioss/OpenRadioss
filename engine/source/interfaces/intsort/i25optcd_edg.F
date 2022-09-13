@@ -112,7 +112,7 @@ C-----
       DO SG = FIRST,LAST,MSEG
        NSEG = MIN(MSEG,LAST-JS)
        NLS=0
-       IF(NSPMD.GT.1) THEN
+       IF(NSPMD>1) THEN
 C
 C Partage cand_n local / frontiere
 C
@@ -124,7 +124,7 @@ C
 
            IF(SH_EDGE==1.AND.LEDGE(3,CAND_M(I))/=0) CYCLE ! Shell edge is not a free edge
 
-           IF(CAND_S(I).LE.NEDGE)THEN
+           IF(CAND_S(I)<=NEDGE)THEN
 C            CAND_S is local
              IF(SH_EDGE==1.AND.LEDGE(3,CAND_S(I))/=0) CYCLE ! Shell edge is not a free edge
 
@@ -228,7 +228,7 @@ C Loop over local candidates
          ELSE IF(L < 0) THEN
            S = ONE 
          ENDIF
-         IF (S.NE.ZERO) THEN
+         IF (S/=ZERO) THEN
            N1= LEDGE(5,CAND_S(I))
            Z1=X(3,N1)
            N2= LEDGE(6,CAND_S(I))
@@ -240,7 +240,7 @@ C Loop over local candidates
            ELSEIF(L < 0) THEN
              S = ZERO 
            ENDIF
-           IF (S.NE.ZERO) THEN
+           IF (S/=ZERO) THEN
             M1= LEDGE(5,CAND_M(I))
             Z3=X(3,M1)
             M2= LEDGE(6,CAND_M(I))
@@ -250,7 +250,7 @@ C Loop over local candidates
             ZMAXS = MAX(Z1,Z2)+GAPVD
             ZMINM = MIN(Z3,Z4)-GAPVD
             ZMAXM = MAX(Z3,Z4)+GAPVD
-            IF (ZMAXS.GE.ZMINM.AND.ZMAXM.GE.ZMINS) THEN
+            IF (ZMAXS>=ZMINM.AND.ZMAXM>=ZMINS) THEN
              NLS=NLS+1
              LIST(NLS)=IS
             ENDIF
@@ -277,7 +277,7 @@ C
           YMAXS = MAX(Y1,Y2)+GAPVD
           YMINM = MIN(Y3,Y4)-GAPVD
           YMAXM = MAX(Y3,Y4)+GAPVD
-          IF (YMAXS.GE.YMINM.AND.YMAXM.GE.YMINS) THEN
+          IF (YMAXS>=YMINM.AND.YMAXM>=YMINS) THEN
             NLS=NLS+1
             LIST(NLS)=IS
           ENDIF
@@ -300,13 +300,13 @@ C
           XMAXS = MAX(X1,X2)+GAPVD
           XMINM = MIN(X3,X4)-GAPVD
           XMAXM = MAX(X3,X4)+GAPVD
-          IF (XMAXS.GE.XMINM.AND.XMAXM.GE.XMINS) THEN
+          IF (XMAXS>=XMINM.AND.XMAXM>=XMINS) THEN
             CAND_S(I) = -CAND_S(I)
             COUNT_CAND = COUNT_CAND+1
           ENDIF
        ENDDO
 C
-       IF(NSPMD.GT.1)THEN
+       IF(NSPMD>1)THEN
 C loop over remote candidates
          NLF = NLS2
          NLT = NSEG
@@ -335,9 +335,9 @@ Cel conserver LISTI et LIST pour optimiser le code genere (IA64)
           ASSERT(II > 0) 
           ASSERT(IS > 0)
           ASSERT(IS <= MVSIZ)
-C         IF (STIFIE(NIN)%P(II).NE.ZERO) THEN
+C         IF (STIFIE(NIN)%P(II)/=ZERO) THEN
 
-          IF (STIFIE(NIN)%P(II).NE.ZERO) THEN
+          IF (STIFIE(NIN)%P(II)/=ZERO) THEN
            NN1 = 2*(II-1)+1
            NN2 = 2*II
            Z1=XFIE(NIN)%P(3,NN1)
@@ -349,7 +349,7 @@ C         IF (STIFIE(NIN)%P(II).NE.ZERO) THEN
            ELSE IF( L < 0) THEN
              S = ZERO
            ENDIF
-           IF (S.NE.ZERO) THEN
+           IF (S/=ZERO) THEN
             M1= LEDGE(5,CAND_M(I))
             Z3=X(3,M1)
             M2= LEDGE(6,CAND_M(I))
@@ -359,7 +359,7 @@ C         IF (STIFIE(NIN)%P(II).NE.ZERO) THEN
             ZMAXS = MAX(Z1,Z2)+GAPVD
             ZMINM = MIN(Z3,Z4)-GAPVD
             ZMAXM = MAX(Z3,Z4)+GAPVD
-            IF (ZMAXS.GE.ZMINM.AND.ZMAXM.GE.ZMINS) THEN
+            IF (ZMAXS>=ZMINM.AND.ZMAXM>=ZMINS) THEN
              NLS=NLS+1
              LIST(NLS)=IS
             ENDIF
@@ -388,7 +388,7 @@ C
           YMAXS = MAX(Y1,Y2)+GAPVD
           YMINM = MIN(Y3,Y4)-GAPVD
           YMAXM = MAX(Y3,Y4)+GAPVD
-          IF (YMAXS.GE.YMINM.AND.YMAXM.GE.YMINS) THEN
+          IF (YMAXS>=YMINM.AND.YMAXM>=YMINS) THEN
             NLS=NLS+1
             LIST(NLS)=IS
           ENDIF
@@ -412,7 +412,7 @@ C
           XMAXS = MAX(X1,X2)+GAPVD
           XMINM = MIN(X3,X4)-GAPVD
           XMAXM = MAX(X3,X4)+GAPVD
-          IF (XMAXS.GE.XMINM.AND.XMAXM.GE.XMINS) THEN
+          IF (XMAXS>=XMINM.AND.XMAXM>=XMINS) THEN
             CAND_S(I) = -CAND_S(I)
             COUNT_CAND = COUNT_CAND+1
             CT = CT+1

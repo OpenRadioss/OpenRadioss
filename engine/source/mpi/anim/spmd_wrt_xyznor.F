@@ -73,17 +73,17 @@ C-----------------------------------------------
 
 
        IXNN = S3000
-       IF(FMT_ANI.EQ.4)IXNN=0
+       IF(FMT_ANI==4)IXNN=0
 
-       IF (ISPMD.NE.0) THEN
+       IF (ISPMD/=0) THEN
 
          SIZ = 0
          DO I=1,NUMNOD
-           IF (WEIGHT(I).EQ.1) THEN
+           IF (WEIGHT(I)==1) THEN
              SIZ = SIZ + 1
              IBUF(1,SIZ) = NODGLOB(I)
              S = SQRT(XNORM(1,I)**2 + XNORM(2,I)**2 + XNORM(3,I)**2)
-             IF(S.NE.ZERO)THEN
+             IF(S/=ZERO)THEN
                S = S3000 / S
                XN1 = XNORM(1,I) * S
                XN2 = XNORM(2,I) * S
@@ -109,10 +109,10 @@ C   de noeuds au max
 
        ELSE
           DO I=1,NUMNOD
-            IF (WEIGHT(I).EQ.1) THEN
+            IF (WEIGHT(I)==1) THEN
               NG = NODGLOB(I)
               S = SQRT(XNORM(1,I)**2 + XNORM(2,I)**2 + XNORM(3,I)**2)
-              IF(S.NE.ZERO)THEN
+              IF(S/=ZERO)THEN
                S = S3000 / S
                XN1 = XNORM(1,I) * S
                XN2 = XNORM(2,I) * S

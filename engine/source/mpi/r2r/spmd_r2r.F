@@ -73,16 +73,16 @@ C
       L = 0
       DO I = 1, NNG
         N=GRNOD(I)
-        IF(WEIGHT(N).EQ.1)THEN
+        IF(WEIGHT(N)==1)THEN
           L = L + 1
           BUFR(1,L) = X(1,N)
           BUFR(2,L) = X(2,N)
           BUFR(3,L) = X(3,N)
         END IF
       END DO
-      IF(LOC_PROC.EQ.1) THEN
+      IF(LOC_PROC==1) THEN
         DO P = 2, NSPMD
-          IF(DD_R2R(P).GT.0)THEN
+          IF(DD_R2R(P)>0)THEN
             BUFSIZ = 3*DD_R2R(P)
             MSGTYP = MSGOFF 
             CALL MPI_RECV(
@@ -91,7 +91,7 @@ C
             L = L + DD_R2R(P)
           END IF
         END DO
-      ELSEIF(L.GT.0)THEN
+      ELSEIF(L>0)THEN
         MSGTYP = MSGOFF
         CALL MPI_SEND(
      S     BUFR,L*3,REAL,IT_SPMD(1),MSGTYP,
@@ -153,16 +153,16 @@ C
       L = 0
       DO I = 1, NNG
         N=GRNOD(I)
-        IF(WEIGHT(N).EQ.1)THEN
+        IF(WEIGHT(N)==1)THEN
           L = L + 1
           BUFR(1,L) = X(1,N)
           BUFR(2,L) = X(2,N)
           BUFR(3,L) = X(3,N)
         END IF
       END DO
-      IF(LOC_PROC.EQ.1) THEN
+      IF(LOC_PROC==1) THEN
         DO P = 2, NSPMD
-          IF(DD_R2R(P).GT.0)THEN
+          IF(DD_R2R(P)>0)THEN
             BUFSIZ = 3*DD_R2R(P)
             MSGTYP = MSGOFF
             CALL MPI_RECV(
@@ -171,7 +171,7 @@ C
             L = L + DD_R2R(P)
           END IF
         END DO
-      ELSEIF(L.GT.0)THEN
+      ELSEIF(L>0)THEN
         MSGTYP = MSGOFF
         CALL MPI_SEND(
      S     BUFR,L*3,MPI_DOUBLE_PRECISION,IT_SPMD(1),MSGTYP,
@@ -235,14 +235,14 @@ C
       L = 0
       DO I = 1, NNG
         N=GRNOD(I)
-        IF(WEIGHT(N).EQ.1)THEN
+        IF(WEIGHT(N)==1)THEN
           L = L + 1
           BUFR(L) = M(N)
         END IF
       END DO
-      IF(LOC_PROC.EQ.1) THEN
+      IF(LOC_PROC==1) THEN
         DO P = 2, NSPMD
-          IF(DD_R2R(P).GT.0)THEN
+          IF(DD_R2R(P)>0)THEN
             BUFSIZ = DD_R2R(P)
             MSGTYP = MSGOFF 
             CALL MPI_RECV(
@@ -251,7 +251,7 @@ C
             L = L + DD_R2R(P)
           END IF
         END DO
-      ELSEIF(L.GT.0)THEN
+      ELSEIF(L>0)THEN
         MSGTYP = MSGOFF 
         CALL MPI_SEND(
      S     BUFR,L,REAL,IT_SPMD(1),MSGTYP,
@@ -318,7 +318,7 @@ C
       L = 0
       DO I = 1, NNG
         NOD=GRNOD(I)
-        IF(WEIGHT(NOD).EQ.1)THEN
+        IF(WEIGHT(NOD)==1)THEN
           N=TAG_RBY(ADD_RBY(IEX)+I)	
           L = L + 1
 	  DO P = 1, 9
@@ -326,9 +326,9 @@ C
 	  END DO  
         END IF
       END DO
-      IF(LOC_PROC.EQ.1) THEN
+      IF(LOC_PROC==1) THEN
         DO P = 2, NSPMD
-          IF(DD_R2R(P).GT.0)THEN
+          IF(DD_R2R(P)>0)THEN
             BUFSIZ = 9*DD_R2R(P)
             MSGTYP = MSGOFF 
             CALL MPI_RECV(
@@ -337,7 +337,7 @@ C
             L = L + DD_R2R(P)
           END IF
         END DO
-      ELSEIF(L.GT.0)THEN
+      ELSEIF(L>0)THEN
         MSGTYP = MSGOFF 
         CALL MPI_SEND(
      S     BUFR,L*9,REAL,IT_SPMD(1),MSGTYP,
@@ -412,7 +412,7 @@ C
                         
       DO I = 1, NNG
         N=GRNOD(I)
-        IF(WEIGHT(N).EQ.0)THEN
+        IF(WEIGHT(N)==0)THEN
           L(1) = L(1) + 1
         END IF
       END DO
@@ -422,7 +422,7 @@ C
           L(5) = TCNEL
           L(6) = TCNELDB
 	  	  
-      IF(LOC_PROC.EQ.1) THEN
+      IF(LOC_PROC==1) THEN
             DBN(IEX,1)=L(1)	    
 	    DBNO(IEX)=L(1)
 	    NBEL(IEX,1) = L(2)
@@ -516,9 +516,9 @@ C
       
       DO I = 1, NNG
         N=GRNOD(I)
-        IF(WEIGHT(N).EQ.1)THEN
+        IF(WEIGHT(N)==1)THEN
           L = L + 1
-	  IF (FLAG.EQ.1) THEN
+	  IF (FLAG==1) THEN
           IBUF(L) = ITAB(N)
 	  ELSE
           IBUF(L) = ITAB(I)	  
@@ -526,9 +526,9 @@ C
         END IF
       END DO
       
-      IF(LOC_PROC.EQ.1) THEN
+      IF(LOC_PROC==1) THEN
         DO P = 2, NSPMD
-          IF(DD_R2R(P).GT.0)THEN
+          IF(DD_R2R(P)>0)THEN
             BUFSIZ = DD_R2R(P)
             MSGTYP = MSGOFF 
             CALL MPI_RECV(
@@ -537,7 +537,7 @@ C
             L = L + DD_R2R(P)
           END IF
         END DO
-      ELSEIF(L.GT.0)THEN
+      ELSEIF(L>0)THEN
         MSGTYP = MSGOFF 
         CALL MPI_SEND(
      S     IBUF,L,MPI_INTEGER,IT_SPMD(1),MSGTYP,
@@ -602,7 +602,7 @@ C
       LOC_PROC = ISPMD+1
       L = 0      
 
-      IF(LOC_PROC.EQ.1) THEN     
+      IF(LOC_PROC==1) THEN     
         DO I = 1, NNG
          IBUF(I) = ITAB(I)
 	 L = L+1
@@ -610,17 +610,17 @@ C
 	       
         DO P = 2, NSPMD
 		  
-	    IF (FLAG.LT.2) THEN
+	    IF (FLAG<2) THEN
             BUFSIZ = NBEL(IEX,P)
-	    ELSEIF (FLAG.EQ.2) THEN
+	    ELSEIF (FLAG==2) THEN
             BUFSIZ = NBELN(IEX,P)
-	    ELSEIF (FLAG.EQ.3) THEN
+	    ELSEIF (FLAG==3) THEN
 	    BUFSIZ = TBCNEL(IEX,P)
-	    ELSEIF (FLAG.EQ.4) THEN
+	    ELSEIF (FLAG==4) THEN
 	    BUFSIZ = TBCNELDB(IEX,P)	    	    
 	    ENDIF
 	    
-	    IF(BUFSIZ.GT.0)THEN
+	    IF(BUFSIZ>0)THEN
 	    
             MSGTYP = MSGOFF 
             CALL MPI_RECV(
@@ -628,26 +628,26 @@ C
      G        MPI_COMM_WORLD,STATUS,IERROR)
   
 C--------------OFFSET de la numerotation des elements----     
-            IF ((FLAG.EQ.1).OR.(FLAG.GT.2)) THEN
+            IF ((FLAG==1).OR.(FLAG>2)) THEN
 	      DO I=1,BUFSIZ
 	        IBUF(L+I)=IBUF(L+I)+OFFSET(P)
 	      END DO
 	    ENDIF
 C--------------------------------------------------------	    
 	    
-	    IF (FLAG.LT.2) THEN     
+	    IF (FLAG<2) THEN     
             L = L + NBEL(IEX,P)
-	    ELSEIF (FLAG.EQ.2) THEN
+	    ELSEIF (FLAG==2) THEN
             L = L + NBELN(IEX,P)
-	    ELSEIF (FLAG.EQ.3) THEN
+	    ELSEIF (FLAG==3) THEN
 	    L = L + TBCNEL(IEX,P)
-	    ELSEIF (FLAG.EQ.4) THEN
+	    ELSEIF (FLAG==4) THEN
 	    L = L + TBCNELDB(IEX,P)	    	    	    
 	    ENDIF
 	    	    
           END IF
         END DO
-      ELSEIF(NNG.GT.0)THEN
+      ELSEIF(NNG>0)THEN
         MSGTYP = MSGOFF
         CALL MPI_SEND(
      S     ITAB,NNG,MPI_INTEGER,IT_SPMD(1),MSGTYP,
@@ -716,9 +716,9 @@ C
       L = 0
       DO I = 1, NNG
         N=GRNOD(I)
-        IF(WEIGHT(N).EQ.0)THEN
+        IF(WEIGHT(N)==0)THEN
           L = L + 1
-	  IF (FLAG.EQ.1) THEN
+	  IF (FLAG==1) THEN
            IBUF(L) = ITAB(N)	   
 	  ELSE
            IBUF(L) = ITAB(I)	  
@@ -726,14 +726,14 @@ C
         END IF
       END DO		
       
-      IF(LOC_PROC.EQ.1) THEN
+      IF(LOC_PROC==1) THEN
 	  DBNBUF(1)=DBN(IEX,1)
 	  DDBUF(1)=DD_R2R(1)       	        
         DO P = 2, NSPMD
 	  DBNBUF(P)=DBN(IEX,P)
 	  DDBUF(P)=DD_R2R(P)
 	    	  
-          IF(DBN(IEX,P).GT.0)THEN
+          IF(DBN(IEX,P)>0)THEN
             BUFSIZ = DBN(IEX,P)
             MSGTYP = MSGOFF
             CALL MPI_RECV(
@@ -744,7 +744,7 @@ C
 	    
           END IF
         END DO
-      ELSEIF(L.GT.0)THEN
+      ELSEIF(L>0)THEN
         MSGTYP = MSGOFF 
         CALL MPI_SEND(
      S     IBUF,L,MPI_INTEGER,IT_SPMD(1),MSGTYP,
@@ -802,8 +802,8 @@ C-----------------------------------------------
 C
       LOC_PROC = ISPMD+1
       BUFSIZ=35
-      IF(NSPMD.GT.1) THEN      
-       IF(LOC_PROC.EQ.1) THEN
+      IF(NSPMD>1) THEN      
+       IF(LOC_PROC==1) THEN
         CALL GET_NAME_C(ADDR)
 	ADDR=trim(ADDR)
 	TOTO=len_trim(ADDR)     
@@ -886,10 +886,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C
       LOC_PROC = ISPMD+1
-      IF(LOC_PROC.EQ.1) THEN
+      IF(LOC_PROC==1) THEN
         L = DD_R2R(1)+DBN(IEX,1)	
         DO P = 2, NSPMD
-          IF((DD_R2R(P)+DBN(IEX,P)).GT.0)THEN
+          IF((DD_R2R(P)+DBN(IEX,P))>0)THEN
             BUFSIZ = DD_R2R(P)+DBN(IEX,P)
             MSGTYP = MSGOFF
             CALL MPI_SEND(
@@ -898,7 +898,7 @@ C
             L = L + DD_R2R(P)+DBN(IEX,P)
           END IF
         END DO
-      ELSEIF(NNG.GT.0)THEN
+      ELSEIF(NNG>0)THEN
         BUFSIZ = NNG
         MSGTYP = MSGOFF
         CALL MPI_RECV(
@@ -913,7 +913,7 @@ C
 
       DO I = 1, NNG
         N=GRNOD(I)
-        IF(WEIGHT(N).EQ.1)THEN
+        IF(WEIGHT(N)==1)THEN
           L = L + 1
           M(N) = BUFR(L)
 	ELSE
@@ -980,10 +980,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C
       LOC_PROC = ISPMD+1
-      IF(LOC_PROC.EQ.1) THEN
+      IF(LOC_PROC==1) THEN
         L = DD_R2R(1)		
         DO P = 2, NSPMD	
-          IF((DD_R2R(P)).GT.0)THEN
+          IF((DD_R2R(P))>0)THEN
             BUFSIZ = DD_R2R(P)
             MSGTYP = MSGOFF 
             CALL MPI_SEND(
@@ -992,7 +992,7 @@ C
             L = L + DD_R2R(P)
           END IF
         END DO
-      ELSEIF(DD_R2R(LOC_PROC).GT.0)THEN
+      ELSEIF(DD_R2R(LOC_PROC)>0)THEN
         BUFSIZ = DD_R2R(LOC_PROC)
         MSGTYP = MSGOFF 
         CALL MPI_RECV(
@@ -1005,7 +1005,7 @@ C
       L = 0   
       DO I = 1, NNG
         N=GRNOD(I)
-        IF(WEIGHT(N).EQ.1)THEN
+        IF(WEIGHT(N)==1)THEN
           L = L + 1
           M(N) = BUFR(L)
           ITAG(N) = 1
@@ -1078,10 +1078,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C
       LOC_PROC = ISPMD+1
-      IF(LOC_PROC.EQ.1) THEN
+      IF(LOC_PROC==1) THEN
         L = DD_R2R(1)+DBN(IEX,1)
         DO P = 2, NSPMD
-          IF((DD_R2R(P)+DBN(IEX,P)).GT.0)THEN
+          IF((DD_R2R(P)+DBN(IEX,P))>0)THEN
             BUFSIZ = (DD_R2R(P)+DBN(IEX,P))*3
             MSGTYP = MSGOFF
             CALL MPI_SEND(
@@ -1090,7 +1090,7 @@ C
             L = L + DD_R2R(P)+DBN(IEX,P)
           END IF
         END DO
-      ELSEIF(NNG.GT.0)THEN
+      ELSEIF(NNG>0)THEN
         BUFSIZ = NNG*3
         MSGTYP = MSGOFF 
         CALL MPI_RECV(
@@ -1106,7 +1106,7 @@ C
 
       DO I = 1, NNG
         N=GRNOD(I)
-        IF(WEIGHT(N).EQ.1)THEN
+        IF(WEIGHT(N)==1)THEN
           L = L + 1 
           A(1,N) = BUFR(1,L)
           A(2,N) = BUFR(2,L)
@@ -1188,10 +1188,10 @@ C
       WF2=0
 
       LOC_PROC = ISPMD+1
-      IF(LOC_PROC.EQ.1) THEN
+      IF(LOC_PROC==1) THEN
         L = DD_R2R(1)+DBN(IEX,1)
         DO P = 2, NSPMD
-          IF((DD_R2R(P)+DBN(IEX,P)).GT.0)THEN
+          IF((DD_R2R(P)+DBN(IEX,P))>0)THEN
             BUFSIZ = (DD_R2R(P)+DBN(IEX,P))*3
             MSGTYP = MSGOFF
             CALL MPI_SEND(
@@ -1200,7 +1200,7 @@ C
             L = L + DD_R2R(P)+DBN(IEX,P)
           END IF
         END DO
-      ELSEIF(NNG.GT.0)THEN
+      ELSEIF(NNG>0)THEN
         BUFSIZ = NNG*3
         MSGTYP = MSGOFF 
         CALL MPI_RECV(
@@ -1213,7 +1213,7 @@ C
 
       DO I = 1, NNG
         N=GRNOD(I)
-        IF(WEIGHT(N).EQ.1)THEN
+        IF(WEIGHT(N)==1)THEN
           L = L + 1 
           DF1 = MS(N)*BUFR(1,L)-A(1,N)
           DF2 = MS(N)*BUFR(2,L)-A(2,N)
@@ -1236,7 +1236,7 @@ C calcul du travail localement
       END DO
       
 C Sommation sur les procs de WF
-      IF(LOC_PROC.EQ.1) THEN
+      IF(LOC_PROC==1) THEN
         DO P = 2, NSPMD
             MSGTYP = MSGOFF 
             CALL MPI_RECV(
@@ -1253,7 +1253,7 @@ C Sommation sur les procs de WF
       
 C Sommation sur les procs de WF2
 
-      IF(LOC_PROC.EQ.1) THEN
+      IF(LOC_PROC==1) THEN
         DO P = 2, NSPMD
             MSGTYP = MSGOFF
             CALL MPI_RECV(
@@ -1332,7 +1332,7 @@ C-----------------------------------------------
       
       DO I=1,NSPMD
         SIZ = SIZE*(DD_R2R(I+1,2)-DD_R2R(I,2))
-        IF(SIZ.NE.0)THEN
+        IF(SIZ/=0)THEN
           MSGTYP = MSGOFF
           CALL MPI_IRECV(
      S      RBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
@@ -1346,11 +1346,11 @@ C-----------------------------------------------
 C      
       DO I=1,NSPMD
 C preparation envoi  partie fixe (elem) a proc I
-        IF(IRODDL.NE.0) THEN
+        IF(IRODDL/=0) THEN
 #include      "vectorize.inc"
             DO J=DD_R2R(I,1),DD_R2R(I+1,1)-1
               NOD = DD_R2R_ELEM(J)
-              IF (FLAG.EQ.2) THEN
+              IF (FLAG==2) THEN
                 SBUF(L  ) =  A(1,NOD)
                 SBUF(L+1) =  A(2,NOD)
                 SBUF(L+2) =  A(3,NOD)
@@ -1367,7 +1367,7 @@ C preparation envoi  partie fixe (elem) a proc I
 #include      "vectorize.inc"
             DO J=DD_R2R(I,1),DD_R2R(I+1,1)-1
               NOD = DD_R2R_ELEM(J)
-              IF (FLAG.EQ.2) THEN
+              IF (FLAG==2) THEN
                 SBUF(L  ) =  A(1,NOD)
                 SBUF(L+1) =  A(2,NOD)
                 SBUF(L+2) =  A(3,NOD)
@@ -1387,7 +1387,7 @@ C
 C--------------------------------------------------------------------
 C envoi a N+I mod P
 Cel test si msg necessaire a envoyer a completer par test interface
-       IF(DD_R2R(I+1,1)-DD_R2R(I,1).GT.0)THEN
+       IF(DD_R2R(I+1,1)-DD_R2R(I,1)>0)THEN
           MSGTYP = MSGOFF
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
           L = IAD_SEND(I)
@@ -1404,15 +1404,15 @@ C
       DO I = 1, NSPMD
 Cel test si msg necessaire a envoyer a completer par test interface
         NB_NOD = DD_R2R(I+1,2)-DD_R2R(I,2)
-        IF(NB_NOD.GT.0)THEN
+        IF(NB_NOD>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
           L = IAD_RECV(I)
 
-          IF(IRODDL.NE.0) THEN
+          IF(IRODDL/=0) THEN
 #include        "vectorize.inc"
             DO J=DD_R2R(I,2),DD_R2R(I+1,2)-1
                 NOD = DD_R2R_ELEM(OFFSET+J)
-                IF (FLAG.EQ.2) THEN
+                IF (FLAG==2) THEN
                   A(1,NOD) = RBUF(L)
                   A(2,NOD) = RBUF(L+1)
                   A(3,NOD) = RBUF(L+2)
@@ -1429,7 +1429,7 @@ Cel test si msg necessaire a envoyer a completer par test interface
 #include        "vectorize.inc"
              DO J=DD_R2R(I,2),DD_R2R(I+1,2)-1
                  NOD = DD_R2R_ELEM(OFFSET+J)
-                 IF (FLAG.EQ.2) THEN                 
+                 IF (FLAG==2) THEN                 
                    A(1,NOD) = RBUF(L)
                    A(2,NOD) = RBUF(L+1)
                    A(3,NOD) = RBUF(L+2)
@@ -1447,7 +1447,7 @@ C
 Cel wait terminaison isend
 C
       DO I = 1, NSPMD
-        IF(DD_R2R(I+1,1)-DD_R2R(I,1).GT.0)THEN
+        IF(DD_R2R(I+1,1)-DD_R2R(I,1)>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF       
       ENDDO
@@ -1518,7 +1518,7 @@ C-----------------------------------------------
       
       DO I=1,NSPMD
         SIZ = SIZE*(DD_R2R(I+1,2)-DD_R2R(I,2))
-        IF(SIZ.NE.0)THEN
+        IF(SIZ/=0)THEN
           MSGTYP = MSGOFF
           CALL MPI_IRECV(
      S      RBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
@@ -1532,7 +1532,7 @@ C-----------------------------------------------
 C      
       DO I=1,NSPMD
 C preparation envoi  partie fixe (elem) a proc I
-        IF(IRODDL.NE.0) THEN
+        IF(IRODDL/=0) THEN
 #include      "vectorize.inc"
             DO J=DD_R2R(I,1),DD_R2R(I+1,1)-1
               NOD = DD_R2R_ELEM(J)
@@ -1542,7 +1542,7 @@ C preparation envoi  partie fixe (elem) a proc I
               SBUF(L+3) =  AR(1,NOD)
               SBUF(L+4) =  AR(2,NOD)
               SBUF(L+5) =  AR(3,NOD)
-              IF (FLAG.EQ.1) THEN
+              IF (FLAG==1) THEN
                 SBUF(L+6) =  MS(NOD)
                 SBUF(L+7) =  IN(NOD)              
               ENDIF 
@@ -1555,7 +1555,7 @@ C preparation envoi  partie fixe (elem) a proc I
               SBUF(L  ) =  A(1,NOD)
               SBUF(L+1) =  A(2,NOD)
               SBUF(L+2) =  A(3,NOD)
-              IF (FLAG.EQ.1) THEN
+              IF (FLAG==1) THEN
                 SBUF(L+3) =  MS(NOD)              
               ENDIF  
               L = L + SIZE
@@ -1571,7 +1571,7 @@ C
 C--------------------------------------------------------------------
 C envoi a N+I mod P
 Cel test si msg necessaire a envoyer a completer par test interface
-       IF(DD_R2R(I+1,1)-DD_R2R(I,1).GT.0)THEN
+       IF(DD_R2R(I+1,1)-DD_R2R(I,1)>0)THEN
           MSGTYP = MSGOFF
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
           L = IAD_SEND(I)
@@ -1588,15 +1588,15 @@ C
       DO I = 1, NSPMD
 Cel test si msg necessaire a envoyer a completer par test interface
         NB_NOD = DD_R2R(I+1,2)-DD_R2R(I,2)
-        IF(NB_NOD.GT.0)THEN
+        IF(NB_NOD>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
           L = IAD_RECV(I)
 
-          IF(IRODDL.NE.0) THEN
+          IF(IRODDL/=0) THEN
 #include        "vectorize.inc"
             DO J=DD_R2R(I,2),DD_R2R(I+1,2)-1
                 NOD = DD_R2R_ELEM(OFFSET+J)
-                IF(WEIGHT(NOD).EQ.1)THEN
+                IF(WEIGHT(NOD)==1)THEN
                   DF1 = RBUF(L)-A(1,NOD)
                   DF2 = RBUF(L+1)-A(2,NOD)
                   DF3 = RBUF(L+2)-A(3,NOD)
@@ -1610,13 +1610,13 @@ Cel test si msg necessaire a envoyer a completer par test interface
                 AR(1,NOD)= RBUF(L+3)
                 AR(2,NOD)= RBUF(L+4)
                 AR(3,NOD)= RBUF(L+5)
-                IF (FLAG.EQ.1) THEN
+                IF (FLAG==1) THEN
                   MS(NOD)= RBUF(L+6)
                   IN(NOD)= RBUF(L+7)            
                 ENDIF                                 
                 L = L + SIZE
 C calcul du travail localement                
-                IF(WEIGHT(NOD).EQ.1)THEN
+                IF(WEIGHT(NOD)==1)THEN
                   WF = WF + (DF1*V(1,NOD)+DF2*V(2,NOD)+
      .                 DF3*V(3,NOD))/TWO
                   WF2= WF2+ (DF1*A(1,NOD)+DF2*A(2,NOD)+
@@ -1631,7 +1631,7 @@ C calcul du travail localement
 #include        "vectorize.inc"
              DO J=DD_R2R(I,2),DD_R2R(I+1,2)-1
                  NOD = DD_R2R_ELEM(OFFSET+J)
-                 IF(WEIGHT(NOD).EQ.1)THEN
+                 IF(WEIGHT(NOD)==1)THEN
                    DF1 = RBUF(L)-A(1,NOD)
                    DF2 = RBUF(L+1)-A(2,NOD)
                    DF3 = RBUF(L+2)-A(3,NOD)               
@@ -1639,12 +1639,12 @@ C calcul du travail localement
                  A(1,NOD) = RBUF(L)
                  A(2,NOD) = RBUF(L+1)
                  A(3,NOD) = RBUF(L+2)
-                 IF (FLAG.EQ.1) THEN
+                 IF (FLAG==1) THEN
                    MS(NOD)= RBUF(L+3)           
                  ENDIF                 
                  L = L + SIZE
 C calcul du travail localement                
-                 IF(WEIGHT(NOD).EQ.1)THEN
+                 IF(WEIGHT(NOD)==1)THEN
                    WF = WF + (DF1*V(1,NOD)+DF2*V(2,NOD)+
      .                 DF3*V(3,NOD))/TWO
                    WF2= WF2+ (DF1*A(1,NOD)+DF2*A(2,NOD)+
@@ -1660,7 +1660,7 @@ C
 Cel wait terminaison isend
 C
       DO I = 1, NSPMD
-        IF(DD_R2R(I+1,1)-DD_R2R(I,1).GT.0)THEN
+        IF(DD_R2R(I+1,1)-DD_R2R(I,1)>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF       
       ENDDO
@@ -1730,7 +1730,7 @@ C-----------------------------------------------
       
       DO I=1,NSPMD
         SIZ = SIZE*(DD_R2R(I+1,2)-DD_R2R(I,2))
-        IF(SIZ.NE.0)THEN
+        IF(SIZ/=0)THEN
           MSGTYP = MSGOFF
           CALL MPI_IRECV(
      S      RBUF(L),SIZ,MPI_DOUBLE_PRECISION,IT_SPMD(I),
@@ -1750,9 +1750,9 @@ C preparation envoi  partie fixe (elem) a proc I
               IDRBY = 0
               NOD = DD_R2R_ELEM(J)
               DO K=1,NRBODY
-                 IF (NPBY(1,K).EQ.NOD) IDRBY = K
+                 IF (NPBY(1,K)==NOD) IDRBY = K
               END DO
-              IF (IDRBY.GT.0) THEN
+              IF (IDRBY>0) THEN
                 DO K=1,25
                   SBUF(L+K-1) =  RBY(K,IDRBY)
                 END DO
@@ -1776,7 +1776,7 @@ C
 C--------------------------------------------------------------------
 C envoi a N+I mod P
 Cel test si msg necessaire a envoyer a completer par test interface
-       IF(DD_R2R(I+1,1)-DD_R2R(I,1).GT.0)THEN
+       IF(DD_R2R(I+1,1)-DD_R2R(I,1)>0)THEN
           MSGTYP = MSGOFF
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
           L = IAD_SEND(I)
@@ -1793,7 +1793,7 @@ C
       DO I = 1, NSPMD
 Cel test si msg necessaire a envoyer a completer par test interface
         NB_NOD = DD_R2R(I+1,2)-DD_R2R(I,2)
-        IF(NB_NOD.GT.0)THEN
+        IF(NB_NOD>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
           L = IAD_RECV(I)
 
@@ -1802,9 +1802,9 @@ Cel test si msg necessaire a envoyer a completer par test interface
               IDRBY = 0
                NOD = DD_R2R_ELEM(OFFSET+J)
                 DO K=1,NRBODY
-                   IF (NPBY(1,K).EQ.NOD) IDRBY = K
+                   IF (NPBY(1,K)==NOD) IDRBY = K
                 END DO                              
-                IF (IDRBY.GT.0) THEN
+                IF (IDRBY>0) THEN
                   DO K=1,25
                     RBY(K,IDRBY) = RBUF(L+K-1)
                   END DO
@@ -1822,7 +1822,7 @@ C
 Cel wait terminaison isend
 C
       DO I = 1, NSPMD
-        IF(DD_R2R(I+1,1)-DD_R2R(I,1).GT.0)THEN
+        IF(DD_R2R(I+1,1)-DD_R2R(I,1)>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF       
       ENDDO
@@ -1887,7 +1887,7 @@ C
       LOC_PROC = ISPMD+1
       
 C Sommation sur les procs de WF
-      IF(LOC_PROC.EQ.1) THEN
+      IF(LOC_PROC==1) THEN
         DO P = 2, NSPMD
             MSGTYP = MSGOFF 
             CALL MPI_RECV(
@@ -1904,7 +1904,7 @@ C Sommation sur les procs de WF
       
 C Sommation sur les procs de WF2
 
-      IF(LOC_PROC.EQ.1) THEN
+      IF(LOC_PROC==1) THEN
         DO P = 2, NSPMD
             MSGTYP = MSGOFF 
             CALL MPI_RECV(
@@ -1970,13 +1970,13 @@ C
       LOC_PROC = ISPMD+1
       L = 0
 C      
-      IF(LOC_PROC.EQ.1) THEN
+      IF(LOC_PROC==1) THEN
         DO I=1,LEN(LOC_PROC)
           TAGELG(I)=TAGEL(I)
           L = L+1
         ENDDO
         DO P = 2, NSPMD
-          IF(LEN(P).GT.0)THEN
+          IF(LEN(P)>0)THEN
             MSGTYP = MSGOFF
             CALL MPI_RECV(
      S        TAGELG(L+1),LEN(P),MPI_INTEGER,IT_SPMD(P),MSGTYP,
@@ -1984,7 +1984,7 @@ C
             L = L + LEN(P)
           END IF
         END DO
-      ELSEIF(LEN(LOC_PROC).GT.0)THEN
+      ELSEIF(LEN(LOC_PROC)>0)THEN
         MSGTYP = MSGOFF 
         CALL MPI_SEND(
      S     TAGEL,LEN(LOC_PROC),MPI_INTEGER,IT_SPMD(1),MSGTYP,
@@ -2050,7 +2050,7 @@ C-----------------------------------------------
       
       DO I=1,NSPMD
         SIZ = 2*(DD_R2R(I+1,2)-DD_R2R(I,2))
-        IF(SIZ.NE.0)THEN
+        IF(SIZ/=0)THEN
           MSGTYP = MSGOFF
           CALL MPI_IRECV(
      S      RBUF(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
@@ -2080,7 +2080,7 @@ C
 C--------------------------------------------------------------------
 C envoi a N+I mod P
 Cel test si msg necessaire a envoyer a completer par test interface
-       IF(DD_R2R(I+1,1)-DD_R2R(I,1).GT.0)THEN
+       IF(DD_R2R(I+1,1)-DD_R2R(I,1)>0)THEN
           MSGTYP = MSGOFF
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
           L = IAD_SEND(I)
@@ -2097,7 +2097,7 @@ C
       DO I = 1, NSPMD
 Cel test si msg necessaire a envoyer a completer par test interface
         NB_NOD = DD_R2R(I+1,2)-DD_R2R(I,2)
-        IF(NB_NOD.GT.0)THEN
+        IF(NB_NOD>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
           L = IAD_RECV(I)
 #include        "vectorize.inc"
@@ -2115,7 +2115,7 @@ C
 Cel wait terminaison isend
 C
       DO I = 1, NSPMD
-        IF(DD_R2R(I+1,1)-DD_R2R(I,1).GT.0)THEN
+        IF(DD_R2R(I+1,1)-DD_R2R(I,1)>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF       
       ENDDO
@@ -2180,7 +2180,7 @@ C-----------------------------------------------
       
       DO I=1,NSPMD
         SIZ = 3*(DD_R2R(I+1,1)-DD_R2R(I,1))
-        IF(SIZ.NE.0)THEN
+        IF(SIZ/=0)THEN
           MSGTYP = 10000 + NSPMD*(I-1) + LOC_PROC
           CALL MPI_IRECV(
      S      RBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
@@ -2212,7 +2212,7 @@ C
       DO I=1,NSPMD
 C--------------------------------------------------------------------
 C envoi a N+I mod P
-       IF(DD_R2R(I+1,2)-DD_R2R(I,2).GT.0)THEN
+       IF(DD_R2R(I+1,2)-DD_R2R(I,2)>0)THEN
           MSGTYP = 10000 + NSPMD*(LOC_PROC-1) + I
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
           L = IAD_SEND(I)
@@ -2227,7 +2227,7 @@ C decompactage
 C
       DO I = 1, NSPMD
         NB_NOD = DD_R2R(I+1,1)-DD_R2R(I,1)
-        IF(NB_NOD.GT.0)THEN
+        IF(NB_NOD>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
           L = IAD_RECV(I)
 #include        "vectorize.inc"
@@ -2246,7 +2246,7 @@ C
 Cel wait terminaison isend
 C
       DO I = 1, NSPMD
-        IF(DD_R2R(I+1,2)-DD_R2R(I,2).GT.0)THEN
+        IF(DD_R2R(I+1,2)-DD_R2R(I,2)>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF       
       ENDDO
@@ -2307,7 +2307,7 @@ C-----------------------------------------------
       
       DO I=1,NSPMD
         SIZ = DD_R2R(I+1,1)-DD_R2R(I,1)
-        IF(SIZ.NE.0)THEN
+        IF(SIZ/=0)THEN
           MSGTYP = 10000 + NSPMD*(I-1) + LOC_PROC
           CALL MPI_IRECV(
      S      RBUF(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
@@ -2337,7 +2337,7 @@ C
       DO I=1,NSPMD
 C--------------------------------------------------------------------
 C envoi a N+I mod P
-       IF(DD_R2R(I+1,2)-DD_R2R(I,2).GT.0)THEN
+       IF(DD_R2R(I+1,2)-DD_R2R(I,2)>0)THEN
           MSGTYP = 10000 + NSPMD*(LOC_PROC-1) + I
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
           L = IAD_SEND(I)
@@ -2352,7 +2352,7 @@ C decompactage
 C
       DO I = 1, NSPMD
         NB_NOD = DD_R2R(I+1,1)-DD_R2R(I,1)
-        IF(NB_NOD.GT.0)THEN
+        IF(NB_NOD>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
           L = IAD_RECV(I)
 #include        "vectorize.inc"
@@ -2369,7 +2369,7 @@ C
 Cel wait terminaison isend
 C
       DO I = 1, NSPMD
-        IF(DD_R2R(I+1,2)-DD_R2R(I,2).GT.0)THEN
+        IF(DD_R2R(I+1,2)-DD_R2R(I,2)>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF       
       ENDDO

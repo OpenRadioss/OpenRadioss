@@ -252,9 +252,9 @@ C
           ENDIF
         ENDIF
 C-------  parith      
-        IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT.GT.0.AND.                      
-     .    (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.                     
-     .   (MANIM.GE.4.AND.MANIM.LE.15).OR. H3D_DATA%MH3D .NE. 0))THEN                   
+        IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0.AND.                      
+     .    (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.                     
+     .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN                   
 #include "lockon.inc"                                         
            DO IL=1,NSN                                        
             IL3=3*IL                                          
@@ -280,7 +280,7 @@ C
         DTMI = EM01*SQRT(XMAS/MAX(XK,EM20))
       ENDIF
 C-----------
-      IF(DTMI.LT.DT2T)THEN
+      IF(DTMI<DT2T)THEN
         DT2T    = DTMI   
         NELTST  = NOINT  
         ITYPTST = 10     

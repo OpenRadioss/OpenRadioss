@@ -65,19 +65,19 @@ C=======================================================================
       IF (NDAMP == 1) THEN
         READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,I5,37X,I10)',ERR=9990)
      .                                                       ID,NBC
-        IF (ID.NE.1.AND.NBC.EQ.1) THEN
+        IF (ID/=1.AND.NBC==1) THEN
           KORTH=0
           K=K+1
           CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
           READ(IUSC2,*,ERR=9990,END=9990) DAMPA,DAMPB
           WRITE(IIN,'(I10,1P2G20.13,2I10)') ID,DAMPA,DAMPB,IGR,KORTH
-        ELSEIF(ID.EQ.1) THEN
-          IF(NBC.EQ.2) THEN
+        ELSEIF(ID==1) THEN
+          IF(NBC==2) THEN
             K=K+1
             CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
             READ(IUSC2,*,ERR=9990,END=9990) IGR
           ENDIF
-          IF(NBC.NE.6)THEN
+          IF(NBC/=6)THEN
             KORTH=0
             K=K+1
             CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
@@ -123,7 +123,7 @@ C           damparz, damprbz
         DO NN=1,NDAMP
           READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,I5,37X,I10)',ERR=9990)
      .                                                         ID,NBC
-          IF(NBC.NE.6)THEN
+          IF(NBC/=6)THEN
             KORTH=0
             K=K+1
             CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))

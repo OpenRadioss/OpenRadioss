@@ -104,8 +104,8 @@ C--------------------------------------------------
       CALL HM_GET_INTV      ('Ifail_sh'      ,ISHELL    ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV      ('Ifail_so'      ,ISOLID    ,IS_AVAILABLE,LSUBMODEL)
             
-      IF(ISHELL.EQ.0)ISHELL=1
-      IF(ISOLID.EQ.0)ISOLID=1
+      IF(ISHELL==0)ISHELL=1
+      IF(ISOLID==0)ISOLID=1
       IF(PC == ZERO)PC=EP30
       IF(DF <= ZERO) DF=EP30
       UPARAM(1) = ALPHA
@@ -122,14 +122,14 @@ C--------------------------------------------------
        WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE       
        WRITE(IOUT, 1000)ALPHA,BETA,PC,DF     
-       IF(ISHELL.EQ.1)THEN
+       IF(ISHELL==1)THEN
         WRITE(IOUT, 1100)
-       ELSEIF(ISHELL.EQ.2)THEN
+       ELSEIF(ISHELL==2)THEN
         WRITE(IOUT, 1200)
        ENDIF   
-       IF(ISOLID.EQ.1)THEN
+       IF(ISOLID==1)THEN
         WRITE(IOUT, 2100)
-       ELSEIF(ISOLID.EQ.2)THEN
+       ELSEIF(ISOLID==2)THEN
         WRITE(IOUT, 2200)
        ENDIF
       ENDIF         

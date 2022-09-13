@@ -139,7 +139,7 @@ C-----------------
       IF(JTHE >= 0) THEN
         DO I=LFT,LLT
            THETA(I)=TEMPER(I)
-           IF(THETA(I).GT.T0(I)) TSTAR(I)=(THETA(I)- T0(I))/(TMELT(I)-T0(I))
+           IF(THETA(I)>T0(I)) TSTAR(I)=(THETA(I)- T0(I))/(TMELT(I)-T0(I))
         ENDDO
       ELSE
         DO I=LFT,LLT
@@ -150,29 +150,29 @@ C-------------------------------
 C     CRITERE
 C-------------------------------
       DO I=LFT,LLT
-       IF(THETA(I).GE.TMELT(I)) THEN
+       IF(THETA(I)>=TMELT(I)) THEN
         AJ2(I)=ZERO
         QH(I)=ZERO
         AK(I)=ZERO
         SCALE(I)=ZERO
         CYCLE
-       ELSEIF(THETA(I).GT.T0(I)) THEN
-        IF(THETA(I).GT.THETL(I)) CMX(I)=ONE
+       ELSEIF(THETA(I)>T0(I)) THEN
+        IF(THETA(I)>THETL(I)) CMX(I)=ONE
         CT=ONE - TSTAR(I)**CMX(I)
        ELSE
         TSTAR(I) = ZERO
         CT=ONE
        ENDIF
 C
-       IF(EPD(I).LE.EPDR(I)) THEN
+       IF(EPD(I)<=EPDR(I)) THEN
         CE=ONE
        ELSE
         CE=ONE + CC(I) * LOG(EPD(I)/EPDR(I))
        ENDIF
 C
-       IF(EPXE(I).LE.ZERO) THEN
+       IF(EPXE(I)<=ZERO) THEN
         CH=CA(I)
-       ELSEIF(EPXE(I).GT.EPMX(I)) THEN
+       ELSEIF(EPXE(I)>EPMX(I)) THEN
         CH=ZERO
        ELSE
         CH=CA(I)+CB(I)*EPXE(I)**CN(I)
@@ -182,9 +182,9 @@ C
 C-----------------------
 C     MODULE ECROUISSAGE
 C-----------------------
-       IF(CN(I).GE.ONE) THEN
+       IF(CN(I)>=ONE) THEN
         QH(I)= (CB(I)*CN(I)*EPXE(I)**(CN(I) - ONE))*CE*CT
-       ELSEIF(EPXE(I).GT.ZERO)THEN
+       ELSEIF(EPXE(I)>ZERO)THEN
         QH(I)= (CB(I)*CN(I)/EPXE(I)**(ONE -CN(I)))*CE*CT
        ELSE
         QH(I)=ZERO
@@ -192,16 +192,16 @@ C-----------------------
 C-------------------------------
 C     PROJECTION
 C-------------------------------
-       IF(AJ2(I).LE.AK(I)) THEN
+       IF(AJ2(I)<=AK(I)) THEN
         SCALE(I)=1.
-       ELSEIF(AJ2(I).NE.ZERO) THEN
+       ELSEIF(AJ2(I)/=ZERO) THEN
         SCALE(I)=AK(I)/AJ2(I)
        ELSE
         SCALE(I)=ZERO
        ENDIF
       ENDDO
 C
-      IF(IPLA.EQ.0)THEN
+      IF(IPLA==0)THEN
        DO I=LFT,LLT
        SIG(I,1)=SCALE(I)*SIG(I,1)
        SIG(I,2)=SCALE(I)*SIG(I,2)
@@ -214,7 +214,7 @@ C
        EPXE(I)=EPXE(I)*OFF(I)
       ENDDO
 C
-      ELSEIF(IPLA.EQ.2)THEN
+      ELSEIF(IPLA==2)THEN
        DO I=LFT,LLT
        SIG(I,1)=SCALE(I)*SIG(I,1)
        SIG(I,2)=SCALE(I)*SIG(I,2)
@@ -227,7 +227,7 @@ C
        EPXE(I)=EPXE(I)*OFF(I)
        ENDDO
 C
-      ELSEIF(IPLA.EQ.1)THEN
+      ELSEIF(IPLA==1)THEN
        DO I=LFT,LLT
 C      plastic strain increment.
        DPLA(I)=(ONE -SCALE(I))*AJ2(I)/(THREE*G(I)+QH(I))

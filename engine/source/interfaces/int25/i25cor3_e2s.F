@@ -153,7 +153,7 @@ C by default, the ID is local to each domain
           MM1(EJ,I) = MS(M1(EJ,I))
           MM2(EJ,I) = MS(M2(EJ,I))
 C
-          IF(CAND_S(I).LE.NEDGE) THEN
+          IF(CAND_S(I)<=NEDGE) THEN
 
             ES    =CAND_S(I)
             IAS(I)=ABS(LEDGE(1,ES))
@@ -245,7 +245,7 @@ C     THIS is provisional (solids => Zero gap even if secnd shell edge)
       DO I=1,JLT
         GAPE_M(I)=ZERO ! Solids 
                        ! If edge is shared by solid and shell : edge is considered as a shell edge
-        IF(CAND_S(I).LE.NEDGE) THEN
+        IF(CAND_S(I)<=NEDGE) THEN
           GAPE_S(I)=GAPE(CAND_S(I))
         ELSE ! TBD
           GAPE_S(I)= GAPFIE(NIN)%P(CAND_S(I) - NEDGE)
@@ -279,7 +279,7 @@ C Comment savoir si EDG_BiSECTOR a ete calcule
 
 C
       DO I=1,JLT
-        IF(CAND_S(I).LE.NEDGE) THEN
+        IF(CAND_S(I)<=NEDGE) THEN
           FX(I) = EDG_BISECTOR(1,JAS(I),IAS(I))
           FY(I) = EDG_BISECTOR(2,JAS(I),IAS(I))
           FZ(I) = EDG_BISECTOR(3,JAS(I),IAS(I))
@@ -294,7 +294,7 @@ C
       NSMS(1:4,1:MVSIZ) = -666
       IF(IDTMINS==2)THEN
        DO I=1,JLT
-        IF(CAND_S(I).LE.NEDGE)THEN
+        IF(CAND_S(I)<=NEDGE)THEN
           DO EJ=1,4
             NSMS(EJ,I)=NODNX_SMS(N1(EJ,I))+NODNX_SMS(N2(EJ,I))+
      .              NODNX_SMS(M1(EJ,I))+NODNX_SMS(M2(EJ,I))
@@ -315,7 +315,7 @@ C
        IF(IDTMINS_INT/=0)THEN
          DO I=1,JLT
          DO EJ=1,4
-          IF(NSMS(EJ,I).EQ.0)NSMS(EJ,I)=-1
+          IF(NSMS(EJ,I)==0)NSMS(EJ,I)=-1
          ENDDO
          ENDDO
        END IF
@@ -331,7 +331,7 @@ C----Friction model : secnd part IDs---------
       IF(INTFRIC > 0) THEN
          DO I=1,JLT
 
-           IF(CAND_S(I).LE.NEDGE)THEN
+           IF(CAND_S(I)<=NEDGE)THEN
              IPARTFRIC_ES(1:4,I) = IPARTFRIC_E(CAND_S(I))
            ELSE
              NN = CAND_S(I) - NEDGE            

@@ -70,12 +70,12 @@ C
          NNG=0
          DO I=1,NSN
             II=FXBNOD(I)
-            IF (ITAG(II).GT.0) THEN
+            IF (ITAG(II)>0) THEN
                NNG=NNG+1
                FXBGRVI(IADG+2+NNG)=II
             ENDIF
          ENDDO
-         IF (NNG.GT.0) THEN
+         IF (NNG>0) THEN
             NLG=NLG+1
             FXBGRVI(IADG+1)=NL
             FXBGRVI(IADG+2)=NNG
@@ -94,7 +94,7 @@ C
          ISK=IGRV(2,NL)/10
          N2=IGRV(2,NL)-10*ISK
          NNP=0
-         IF (ISK.LE.1) THEN
+         IF (ISK<=1) THEN
             FGRV(N2)=GRAV(1,NL)
          ELSE
             K1=3*N2-2
@@ -106,7 +106,7 @@ C
          ENDIF
          DO I=1,NSN
             II=FXBNOD(I)
-            IF (ITAG(II).GT.0) THEN
+            IF (ITAG(II)>0) THEN
                NNP=NNP+1
                LIST(NNP)=I
             ENDIF
@@ -115,12 +115,12 @@ C---------------------------
 C Projection on global modes
 C---------------------------
          DO IM=1,NBME
-            IF (IFILE.EQ.0) THEN
+            IF (IFILE==0) THEN
                IADM=(IM-1)*NSN*6
                DO I=1,NSN*6
                   VMOD(I)=FXBMOD(IADM+I)
                ENDDO
-            ELSEIF (IFILE.EQ.1) THEN
+            ELSEIF (IFILE==1) THEN
                IADM=(IM-1)*NSNI*6
                DO I=1,NSNI*6
                   VMOD(I)=FXBMOD(IADM+I)
@@ -151,12 +151,12 @@ C Projection on local modes
 C--------------------------
          IIM=0
          DO IM=1,NBML
-            IF (IFILE.EQ.0) THEN
+            IF (IFILE==0) THEN
                IADM=(NBME+IM-1)*NSN*6
                DO I=1,NSN*6
                   VMOD(I)=FXBMOD(IADM+I)
                ENDDO
-            ELSEIF (IFILE.EQ.1) THEN
+            ELSEIF (IFILE==1) THEN
                IADM=(NBME+IM-1)*NSNI*6
                DO I=1,NSNI*6
                   VMOD(I)=FXBMOD(IADM+I)

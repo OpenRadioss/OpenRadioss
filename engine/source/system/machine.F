@@ -254,10 +254,10 @@ Chd|====================================================================
 #if defined(_OPENMP)
 !$OMP BARRIER
 #endif
-        IF(PARALLEL_END.EQ.1) THEN
+        IF(PARALLEL_END==1) THEN
 #if defined(_OPENMP)
           CALL OMP_SET_LOCK(LLOCK(1,1))
-          IF(IOCLOSE.EQ.0) THEN
+          IF(IOCLOSE==0) THEN
            CLOSE(UNIT=IOUT)
            CLOSE(UNIT=IUHIS)
            IOCLOSE = 1
@@ -363,7 +363,7 @@ Chd|====================================================================
 #include      "implicit_f.inc"
       my_real
      .   X1, X2, X3
-      IF(X3.EQ.0.) THEN
+      IF(X3==0.) THEN
        CVMGN=X2
       ELSE
        CVMGN=X1

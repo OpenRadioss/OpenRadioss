@@ -147,7 +147,7 @@ c
 
         IPT = IPT_INPUT
 
-        IF(ITY.EQ.4 .OR. ITY.EQ.5 .OR. ITY.EQ.6)THEN
+        IF(ITY==4 .OR. ITY==5 .OR. ITY==6)THEN
           DO I=1,NEL
             ONED_TENSOR(1:6,OFFSET+NFT+I) = ZERO   ! Default = zero in all cases !
           ENDDO
@@ -155,7 +155,7 @@ c
 C-----------------------------------------------
 C       TRUSS
 C-----------------------------------------------
-        IF(ITY.EQ.4)THEN
+        IF(ITY==4)THEN
 C--------------------------------------------------
           IF (KEYWORD == 'TEST') THEN
 C--------------------------------------------------
@@ -196,7 +196,7 @@ C--------------------------------------------------
 C-----------------------------------------------
 C       POUTRES
 C-----------------------------------------------
-        ELSEIF(ITY.EQ.5)THEN
+        ELSEIF(ITY==5)THEN
 C--------------------------------------------------
           IF (KEYWORD == 'TENS/STRESS') THEN
 C--------------------------------------------------
@@ -293,7 +293,7 @@ c            ENDDO
 C-----------------------------------------------
 C       RESSORTS
 C-----------------------------------------------
-        ELSEIF(ITY.EQ.6)THEN
+        ELSEIF(ITY==6)THEN
 C--------------------------------------------------
           IF (KEYWORD == 'TEST') THEN
 C--------------------------------------------------
@@ -317,7 +317,7 @@ c            ENDDO
           ENDIF
         ENDIF
 C-----------------------------------------------
-        IF(ITY.EQ.4 .OR. ITY.EQ.5 .OR. ITY.EQ.6)THEN
+        IF(ITY==4 .OR. ITY==5 .OR. ITY==6)THEN
           CALL H3D_WRITE_TENSOR(IOK_PART,IS_WRITTEN_ONED,ONED_TENSOR,NEL,OFFSET,NFT,
      .                                    EVAR,IS_WRITTEN_TENSOR)
         ENDIF

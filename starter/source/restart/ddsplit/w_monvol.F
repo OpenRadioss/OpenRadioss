@@ -72,17 +72,17 @@ c      END DO
           NJ1 = MONVOL(ISHIFT+IADJET+(NJ-1)*NIBJET+5)
           NJ2 = MONVOL(ISHIFT+IADJET+(NJ-1)*NIBJET+6)
           NJ3 = MONVOL(ISHIFT+IADJET+(NJ-1)*NIBJET+7)
-          IF(NJ1.NE.0)THEN
+          IF(NJ1/=0)THEN
             NJ1 = NODLOCAL(NJ1)
-            IF(NJ1.NE.0)MONVOL_L(ISHIFT+IADJET+(NJ-1)*NIBJET+5)=NJ1
+            IF(NJ1/=0)MONVOL_L(ISHIFT+IADJET+(NJ-1)*NIBJET+5)=NJ1
           END IF
-          IF(NJ2.NE.0)THEN
+          IF(NJ2/=0)THEN
             NJ2 = NODLOCAL(NJ2)
-            IF(NJ2.NE.0)MONVOL_L(ISHIFT+IADJET+(NJ-1)*NIBJET+6)=NJ2
+            IF(NJ2/=0)MONVOL_L(ISHIFT+IADJET+(NJ-1)*NIBJET+6)=NJ2
           END IF
-          IF(NJ3.NE.0)THEN
+          IF(NJ3/=0)THEN
             NJ3 = NODLOCAL(NJ3)
-            IF(NJ3.NE.0)MONVOL_L(ISHIFT+IADJET+(NJ-1)*NIBJET+7)=NJ3
+            IF(NJ3/=0)MONVOL_L(ISHIFT+IADJET+(NJ-1)*NIBJET+7)=NJ3
           END IF
         END DO
       END DO

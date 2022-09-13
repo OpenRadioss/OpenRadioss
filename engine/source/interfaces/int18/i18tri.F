@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       DO I = 1, I_STOK
         NI = CAND_N(INDEX(I))                  ! l ordre des facette n importe plus a nouveau P/on
-         IF(NI.LE.NSN) THEN
+         IF(NI<=NSN) THEN
             ITRI(I) = ITAB(NSV(NI)) ! 1 seul critere : noeud (user)
         ELSE
           ITRI(I) = ITAFI(NIN)%P(NI-NSN)       ! attention au noeud frontiere

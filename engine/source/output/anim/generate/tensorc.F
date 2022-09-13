@@ -1455,7 +1455,7 @@ C-----upper----
      .            MLW == 15.OR.
      .            MLW == 22.OR.MLW == 25.OR.
      .            MLW == 27.OR.MLW == 32.OR.
-     .            MLW.GE.28)THEN 
+     .            MLW>=28)THEN 
              A1   = ONE
              A2   = ZERO
            ELSEIF(MLW == 3.OR.MLW == 23)THEN
@@ -1473,7 +1473,7 @@ C-----lower----
      .            MLW == 15.OR.
      .            MLW == 22.OR.MLW == 25.OR.
      .            MLW == 27.OR.MLW == 32.OR.
-     .            MLW.GE.28)THEN 
+     .            MLW>=28)THEN 
              A1   = ONE
              A2   = ZERO
            ELSEIF(MLW == 3.OR.MLW == 23)THEN
@@ -1516,7 +1516,7 @@ C-----------------------------------------------
         DO I=LFT,LLT
 	   DO J = 1,NNOD
 	      N = NC(J,I)
-	      IF (N.GT.0)THEN
+	      IF (N>0)THEN
 	       DO K = 1,3
 	        TENS1(K,N) = TENS1(K,N)+EVAR(K,I)
 	        TENS2(K,N) = TENS2(K,N)+EVAR(K+3,I)
@@ -1618,7 +1618,7 @@ C-----upper----
      .            MLW == 15.OR.
      .            MLW == 22.OR.MLW == 25.OR.
      .            MLW == 27.OR.MLW == 32.OR.
-     .            MLW.GE.28)THEN 
+     .            MLW>=28)THEN 
              A1   = ONE
              A2   = ZERO
            ELSEIF(MLW == 3.OR.MLW == 23)THEN
@@ -1636,7 +1636,7 @@ C-----lower----
      .            MLW == 15.OR.
      .            MLW == 22.OR.MLW == 25.OR.
      .            MLW == 27.OR.MLW == 32.OR.
-     .            MLW.GE.28)THEN 
+     .            MLW>=28)THEN 
              A1   = ONE
              A2   = ZERO
            ELSEIF(MLW == 3.OR.MLW == 23)THEN
@@ -1685,7 +1685,7 @@ C-----------------------------------------------
         DO I=LFT,LLT
 	   DO J = 1,NNOD
 	      N = NC(J,I)
-	      IF (N.GT.0)THEN
+	      IF (N>0)THEN
 	       DO K = 1,3
 	        TENS1(K,N) = TENS1(K,N)+EVAR(K,I)*VOL(I)
 	        TENS2(K,N) = TENS2(K,N)+EVAR(K+3,I)*VOL(I)

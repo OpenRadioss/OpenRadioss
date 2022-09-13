@@ -58,13 +58,13 @@ C-----------------------------------------------
       DTY=ONE
       DO100 IG=1,NUMGEO
       ITYP=IGEO(11,IG)
-      IF(ITYP.NE.7) GOTO100
+      IF(ITYP/=7) GOTO100
       GAMA=GEO(13,IG)
       P=GEO(27,IG)
       V=GEO(25,IG)
       S=GEO(35,IG)
       ROT=GEO(36,IG)
-      IF(V.GT.VMIN)
+      IF(V>VMIN)
      *   DTX=MAX(SQRT(ONE+DT2**2*GAMA*P*S/V/ROT),DTX)
       AL=GEO(14,IG)
       DTY=MIN(SQRT(ONE+AL)-AL,DTY)

@@ -99,16 +99,16 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD + 1
       DT_CST = 0
-      IF (IDTMIN(11).EQ.3.OR.IDTMIN(11)==8.OR.IDTMIN(10).EQ.3) THEN
-        IF(IMSCH.GT.0) DT_CST = 1
+      IF (IDTMIN(11)==3.OR.IDTMIN(11)==8.OR.IDTMIN(10)==3) THEN
+        IF(IMSCH>0) DT_CST = 1
       ENDIF
-      IF ((IRAD2R.EQ.1).AND.(NCYCLE.LT.2)) DT_CST = 1
-      IF ((IALESUB.NE.0).OR.(IALE.NE.0).OR.(ISUB.GT.0).OR.
-     .    TT.GE.TANIM.OR.
-     .    TT.GE.TOUTP.OR.TT.GE.TDES.OR.TT.GE.TPAT.OR.
-     .    (MANIM.GE.1.AND.MANIM.LE.15)) THEN
+      IF ((IRAD2R==1).AND.(NCYCLE<2)) DT_CST = 1
+      IF ((IALESUB/=0).OR.(IALE/=0).OR.(ISUB>0).OR.
+     .    TT>=TANIM.OR.
+     .    TT>=TOUTP.OR.TT>=TDES.OR.TT>=TPAT.OR.
+     .    (MANIM>=1.AND.MANIM<=15)) THEN
         NEW_D = 1
-        IF(IALE.NE.0.AND.NINTER.GT.0) NEW_D = 2
+        IF(IALE/=0.AND.NINTER>0) NEW_D = 2
       ELSE
         NEW_D = 0
       ENDIF
@@ -118,7 +118,7 @@ C-----------------------------------------------
       
       IF(IRESP==1)THEN
         ALLOCATE(SRBUFDP(ISIZXV*LEN_DP),STAT=IERROR1)
-	IF(IERROR1.NE.0) THEN
+	IF(IERROR1/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
         ENDIF
@@ -126,13 +126,13 @@ C-----------------------------------------------
          ALLOCATE(SRBUFDP(1),STAT=IERROR1)
       ENDIF
       
-      IF(ISPMD.EQ.0) THEN
+      IF(ISPMD==0) THEN
         L = 1
 	L2 = 1
 C
         DO I=1,NSPMD
-          IF (NEW_D.EQ.0) THEN
-           IF(IRODDL.NE.0.AND.DT_CST.NE.0) THEN
+          IF (NEW_D==0) THEN
+           IF(IRODDL/=0.AND.DT_CST/=0) THEN
 #include      "vectorize.inc"
              DO J=IAD_ELEM(2,I),IAD_ELEM(1,I+1)-1
               NOD = FR_ELEM(J)
@@ -149,7 +149,7 @@ C
               SRBUF(L+10)= IN(NOD)
               L = L + E_LEN
             END DO
-           ELSEIF (IRODDL.NE.0.AND.DT_CST.EQ.0) THEN
+           ELSEIF (IRODDL/=0.AND.DT_CST==0) THEN
 #include      "vectorize.inc"
             DO J=IAD_ELEM(2,I),IAD_ELEM(1,I+1)-1
               NOD = FR_ELEM(J)
@@ -164,7 +164,7 @@ C
               SRBUF(L+8) = VR(3,NOD)
               L = L + E_LEN
             END DO
-           ELSEIF (IRODDL.EQ.0.AND.DT_CST.NE.0) THEN
+           ELSEIF (IRODDL==0.AND.DT_CST/=0) THEN
 #include      "vectorize.inc"
             DO J=IAD_ELEM(2,I),IAD_ELEM(1,I+1)-1
               NOD = FR_ELEM(J)
@@ -192,8 +192,8 @@ C
             END DO
            ENDIF
 Cel D est a envoyer pour sorties
-          ELSEIF(NEW_D.EQ.1) THEN
-           IF(IRODDL.NE.0.AND.DT_CST.NE.0) THEN
+          ELSEIF(NEW_D==1) THEN
+           IF(IRODDL/=0.AND.DT_CST/=0) THEN
 #include      "vectorize.inc"
             DO J=IAD_ELEM(2,I),IAD_ELEM(1,I+1)-1
               NOD = FR_ELEM(J)
@@ -213,7 +213,7 @@ Cel D est a envoyer pour sorties
               SRBUF(L+13)= IN(NOD)
               L = L + E_LEN
             END DO
-           ELSEIF (IRODDL.NE.0.AND.DT_CST.EQ.0) THEN
+           ELSEIF (IRODDL/=0.AND.DT_CST==0) THEN
 #include      "vectorize.inc"
             DO J=IAD_ELEM(2,I),IAD_ELEM(1,I+1)-1
               NOD = FR_ELEM(J)
@@ -231,7 +231,7 @@ Cel D est a envoyer pour sorties
               SRBUF(L+11)= VR(3,NOD)
               L = L + E_LEN
             END DO
-           ELSEIF (IRODDL.EQ.0.AND.DT_CST.NE.0) THEN
+           ELSEIF (IRODDL==0.AND.DT_CST/=0) THEN
 #include      "vectorize.inc"
             DO J=IAD_ELEM(2,I),IAD_ELEM(1,I+1)-1
               NOD = FR_ELEM(J)
@@ -264,9 +264,9 @@ Cel D est a envoyer pour sorties
               L = L + E_LEN
             END DO
            ENDIF
-Cel NEW_D.EQ.2 => Envoyer D et W
+Cel NEW_D==2 => Envoyer D et W
           ELSE
-           IF(IRODDL.NE.0.AND.DT_CST.NE.0) THEN
+           IF(IRODDL/=0.AND.DT_CST/=0) THEN
 #include      "vectorize.inc"
             DO J=IAD_ELEM(2,I),IAD_ELEM(1,I+1)-1
               NOD = FR_ELEM(J)
@@ -289,7 +289,7 @@ Cel NEW_D.EQ.2 => Envoyer D et W
               SRBUF(L+16)= W(3,NOD)
               L = L + E_LEN
             END DO
-           ELSEIF (IRODDL.NE.0.AND.DT_CST.EQ.0) THEN
+           ELSEIF (IRODDL/=0.AND.DT_CST==0) THEN
 #include      "vectorize.inc"
             DO J=IAD_ELEM(2,I),IAD_ELEM(1,I+1)-1
               NOD = FR_ELEM(J)
@@ -310,7 +310,7 @@ Cel NEW_D.EQ.2 => Envoyer D et W
               SRBUF(L+14)= W(3,NOD)
               L = L + E_LEN
             END DO
-           ELSEIF (IRODDL.EQ.0.AND.DT_CST.NE.0) THEN
+           ELSEIF (IRODDL==0.AND.DT_CST/=0) THEN
 #include      "vectorize.inc"
             DO J=IAD_ELEM(2,I),IAD_ELEM(1,I+1)-1
               NOD = FR_ELEM(J)
@@ -368,7 +368,7 @@ C
        L2= 1
        DO I=1,NSPMD
 C----------------------------------------------------------------------------
-         IF(IAD_ELEM(1,I+1)-IAD_ELEM(2,I).GT.0)THEN
+         IF(IAD_ELEM(1,I+1)-IAD_ELEM(2,I)>0)THEN
            MSGTYP = MSGOFF
            SIZ = E_LEN*(IAD_ELEM(1,I+1)-IAD_ELEM(2,I))
            CALL MPI_ISEND(
@@ -389,7 +389,7 @@ C----------------------------------------------------------------------------
        ENDDO
 Cel wait terminaison isend
        DO I = 1, NSPMD
-         IF(IAD_ELEM(1,I+1)-IAD_ELEM(2,I).GT.0)THEN
+         IF(IAD_ELEM(1,I+1)-IAD_ELEM(2,I)>0)THEN
            CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
 	   IF(IRESP==1)THEN
     	     CALL MPI_WAIT(REQ_S_DP(I),STATUS,IERROR)
@@ -401,12 +401,12 @@ Cel wait terminaison isend
 C
 C decompactage
 C
-      IF(ISPMD.NE.0) THEN
+      IF(ISPMD/=0) THEN
         L = 1
 	L2= 1
         SIZ = E_LEN*(IAD_ELEM(1,2)-IAD_ELEM(2,1))
 	IF(IRESP==1)SIZDP = LEN_DP*(IAD_ELEM(1,2)-IAD_ELEM(2,1))
-        IF(SIZ.NE.0)THEN
+        IF(SIZ/=0)THEN
           MSGTYP = MSGOFF
           CALL MPI_RECV(
      S      SRBUF(L),SIZ,REAL,IT_SPMD(1),MSGTYP,
@@ -419,8 +419,8 @@ C
      G        MPI_COMM_WORLD,STATUS,IERROR)
           ENDIF
      	  
-          IF(NEW_D.EQ.0) THEN
-            IF(IRODDL.NE.0.AND.DT_CST.NE.0) THEN
+          IF(NEW_D==0) THEN
+            IF(IRODDL/=0.AND.DT_CST/=0) THEN
 #include      "vectorize.inc"
               DO J=IAD_ELEM(2,1),IAD_ELEM(1,2)-1
                 NOD = FR_ELEM(J)
@@ -437,7 +437,7 @@ C
                 IN(NOD)   =  SRBUF(L+10)
                 L = L + E_LEN
               END DO
-            ELSEIF (IRODDL.NE.0.AND.DT_CST.EQ.0) THEN
+            ELSEIF (IRODDL/=0.AND.DT_CST==0) THEN
 #include      "vectorize.inc"
               DO J=IAD_ELEM(2,1),IAD_ELEM(1,2)-1
                 NOD = FR_ELEM(J)
@@ -452,7 +452,7 @@ C
                 VR(3,NOD) =  SRBUF(L+8)
                 L = L + E_LEN
               END DO
-            ELSEIF (IRODDL.EQ.0.AND.DT_CST.NE.0) THEN
+            ELSEIF (IRODDL==0.AND.DT_CST/=0) THEN
 #include      "vectorize.inc"
               DO J=IAD_ELEM(2,1),IAD_ELEM(1,2)-1
                 NOD = FR_ELEM(J)
@@ -480,8 +480,8 @@ C
               END DO
             ENDIF
 Cel D a recevoir
-          ELSEIF(NEW_D.EQ.1) THEN
-            IF(IRODDL.NE.0.AND.DT_CST.NE.0) THEN
+          ELSEIF(NEW_D==1) THEN
+            IF(IRODDL/=0.AND.DT_CST/=0) THEN
 #include      "vectorize.inc"
               DO J=IAD_ELEM(2,1),IAD_ELEM(1,2)-1
                 NOD = FR_ELEM(J)
@@ -501,7 +501,7 @@ Cel D a recevoir
                 IN(NOD)   =  SRBUF(L+13)
                 L = L + E_LEN
               END DO
-            ELSEIF (IRODDL.NE.0.AND.DT_CST.EQ.0) THEN
+            ELSEIF (IRODDL/=0.AND.DT_CST==0) THEN
 #include      "vectorize.inc"
               DO J=IAD_ELEM(2,1),IAD_ELEM(1,2)-1
                 NOD = FR_ELEM(J)
@@ -519,7 +519,7 @@ Cel D a recevoir
                 VR(3,NOD) =  SRBUF(L+11)
                 L = L + E_LEN
               END DO
-            ELSEIF (IRODDL.EQ.0.AND.DT_CST.NE.0) THEN
+            ELSEIF (IRODDL==0.AND.DT_CST/=0) THEN
 #include      "vectorize.inc"
               DO J=IAD_ELEM(2,1),IAD_ELEM(1,2)-1
                 NOD = FR_ELEM(J)
@@ -555,7 +555,7 @@ Cel D a recevoir
 
 CD et W a recevoir
           ELSE
-            IF(IRODDL.NE.0.AND.DT_CST.NE.0) THEN
+            IF(IRODDL/=0.AND.DT_CST/=0) THEN
 #include      "vectorize.inc"
               DO J=IAD_ELEM(2,1),IAD_ELEM(1,2)-1
                 NOD = FR_ELEM(J)
@@ -578,7 +578,7 @@ CD et W a recevoir
                 W(3,NOD)  =  SRBUF(L+16)
                 L = L + E_LEN
               END DO
-            ELSEIF (IRODDL.NE.0.AND.DT_CST.EQ.0) THEN
+            ELSEIF (IRODDL/=0.AND.DT_CST==0) THEN
 #include      "vectorize.inc"
               DO J=IAD_ELEM(2,1),IAD_ELEM(1,2)-1
                 NOD = FR_ELEM(J)
@@ -599,7 +599,7 @@ CD et W a recevoir
                 W(3,NOD)  =  SRBUF(L+14)
                 L = L + E_LEN
               END DO
-            ELSEIF (IRODDL.EQ.0.AND.DT_CST.NE.0) THEN
+            ELSEIF (IRODDL==0.AND.DT_CST/=0) THEN
 #include      "vectorize.inc"
               DO J=IAD_ELEM(2,1),IAD_ELEM(1,2)-1
                 NOD = FR_ELEM(J)

@@ -89,7 +89,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u  r c e   L  i n e s
 C-----------------------------------------------
-      IF(IMPL.EQ.ZERO)THEN
+      IF(IMPL==ZERO)THEN
        DO I=LFT,LLT
          CX(I)=SSP(I)+SQRT(VD2(I))
        ENDDO
@@ -107,7 +107,7 @@ C-----------------------------------------------
       !(they are not yet available with SPH).
       DO I=LFT,LLT
         AL(I)=ZERO
-        IF(OFF(I).LT.1.) CYCLE
+        IF(OFF(I)<1.) CYCLE
         AL(I)=VOL(I)**THIRD
       ENDDO
 
@@ -130,7 +130,7 @@ C-----------------------------------------------
        SSP_EQ(I) = MAX(EM20,QXMATER(I)+SQRT(QXMATER(I)*QXMATER(I)+CX(I)*CX(I)))
       ENDDO            
 
-      IF(JTHE.NE.0)THEN
+      IF(JTHE/=0)THEN
         MT  = MAT(LFT)
         SPH = PM(69,MT)
         AK1 = PM(75,MT)
@@ -139,12 +139,12 @@ C-----------------------------------------------
         BK2 = PM(78,MT)
         TLI = PM(80,MT)
         DO I=LFT,LLT
-         IF(T(I).LT.TLI)THEN
+         IF(T(I)<TLI)THEN
           AKK=AK1+BK1*T(I)
          ELSE
           AKK=AK2+BK2*T(I)
          ENDIF
-         IF(JTUR.NE.0)THEN
+         IF(JTUR/=0)THEN
           XMU = RHO(I)*PM(24,MT)
           TMU = PM(81,MT)
           RPR = PM(95,MT)
@@ -157,42 +157,42 @@ C-----------------------------------------------
 
       DO I=LFT,LLT
         STI(I) = ZERO
-        IF(OFF(I).EQ.ZERO) CYCLE
+        IF(OFF(I)==ZERO) CYCLE
         STI(I) = TWO*RHO(I) * VOL(I) / (DTX(I)*DTX(I))
         DTX(I)= DTFAC1(ITY)*DTX(I)
         !dt2 remplace par dt2t
-        IF(NODADT.EQ.0)DT2T= MIN(DTX(I),DT2T)
+        IF(NODADT==0)DT2T= MIN(DTX(I),DT2T)
       ENDDO
       
-      IF(G_DT.NE.ZERO)THEN
+      IF(G_DT/=ZERO)THEN
         DO I=LFT,LLT
           DTSPH(I) = DTX(I)
         ENDDO
       ENDIF
       
 
-      IF(NODADT.EQ.0)THEN
-       IF(IDTMIN(ITY).EQ.1)THEN
+      IF(NODADT==0)THEN
+       IF(IDTMIN(ITY)==1)THEN
         DO 170 I=LFT,LLT
-        IF(DTX(I).GT.DTMIN1(ITY).OR.OFF(I).EQ.ZERO) GO TO 170
+        IF(DTX(I)>DTMIN1(ITY).OR.OFF(I)==ZERO) GO TO 170
           TSTOP = TT
 #include "lockon.inc"
           WRITE(IOUT,*) ' **ERROR : TIME STEP LESS OR EQUAL DTMIN FOR SPH PARTICLE'
           WRITE(ISTDO,*)' **ERROR : TIME STEP LESS OR EQUAL DTMIN FOR SPH PARTICLE'
 #include "lockoff.inc"
  170     CONTINUE
-       ELSEIF(IDTMIN(ITY).EQ.2)THEN
+       ELSEIF(IDTMIN(ITY)==2)THEN
         DO 270 I=LFT,LLT
-        IF(DTX(I).GT.DTMIN1(ITY).OR.OFF(I).EQ.ZERO) GO TO 270
+        IF(DTX(I)>DTMIN1(ITY).OR.OFF(I)==ZERO) GO TO 270
           OFF(I) = ZERO
 #include "lockon.inc"
           WRITE(IOUT,*) ' -- DELETE SPH PARTICLE',NGL(I)
           WRITE(ISTDO,*)' -- DELETE SPH PARTICLE',NGL(I)
 #include "lockoff.inc"
  270    CONTINUE
-       ELSEIF(IDTMIN(ITY).EQ.5)THEN
+       ELSEIF(IDTMIN(ITY)==5)THEN
         DO 570 I=LFT,LLT
-        IF(DTX(I).GT.DTMIN1(ITY).OR.OFF(I).EQ.0.) GO TO 570
+        IF(DTX(I)>DTMIN1(ITY).OR.OFF(I)==0.) GO TO 570
           MSTOP = 2
 #include "lockon.inc"
           WRITE(IOUT,*)
@@ -204,7 +204,7 @@ C-----------------------------------------------
        ENDIF
        
        DO I=LFT,LLT
-         IF(DTX(I).GT.DT2T.OR.OFF(I).EQ.ZERO) CYCLE
+         IF(DTX(I)>DT2T.OR.OFF(I)==ZERO) CYCLE
          !nelts et itypts remplaces par neltst et itypst
          NELTST =NGL(I)
          ITYPTST=ITY

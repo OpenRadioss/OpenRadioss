@@ -145,16 +145,16 @@ C     I_MEM = 1 ==> PAS ASSEZ DE MEMOIRE PILE
 C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
 C     I_MEM = 3 ==> TROP NIVEAUX PILE 
       IF (I_MEM == 2) RETURN
-      IF(I_MEM.EQ.1)THEN
+      IF(I_MEM==1)THEN
         NB_N_B = NB_N_B + 1
-        IF ( NB_N_B .GT. NCONT) THEN
+        IF ( NB_N_B > NCONT) THEN
           CALL ANCMSG(MSGID=85,ANMODE=ANINFO,
      .                I1=NOINT)
           CALL ARRET(2)
         ENDIF
         ILD = 1
-      ELSEIF(I_MEM.EQ.2) THEN
-        IF(DEBUG(1).GE.1) THEN
+      ELSEIF(I_MEM==2) THEN
+        IF(DEBUG(1)>=1) THEN
           IWARN = IWARN+1
 #include "lockon.inc"
           WRITE(ISTDO,*)' **WARNING INTERFACE/MEMORY'
@@ -168,15 +168,15 @@ C     I_MEM = 3 ==> TROP NIVEAUX PILE
 C ne pas dimunuer la taille des boite
 C        MINBOX= THREE_OVER_4*MINBOX
 C        MAXBOX= THREE_OVER_4*MAXBOX
-        IF( TZINF.LE.GAP ) THEN
+        IF( TZINF<=GAP ) THEN
           CALL ANCMSG(MSGID=85,ANMODE=ANINFO,
      .                I1=NOINT)
           CALL ARRET(2)
         ENDIF
         ILD = 1
-      ELSEIF(I_MEM.EQ.3)THEN
+      ELSEIF(I_MEM==3)THEN
         NB_N_B = NB_N_B + 1
-        IF ( NB_N_B .GT. NCONT) THEN
+        IF ( NB_N_B > NCONT) THEN
           CALL ANCMSG(MSGID=90,ANMODE=ANINFO,
      .                I1=NOINT)
           CALL ARRET(2)

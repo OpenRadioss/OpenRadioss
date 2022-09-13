@@ -60,7 +60,7 @@ C-----------------------------------------------
       my_real M1,M2,M3
 C=======================================================================
 C
-      IF(ANIM_FT(1).NE.0 .OR. H3D_DATA%UND_FORC /= 0)THEN
+      IF(ANIM_FT(1)/=0 .OR. H3D_DATA%UND_FORC /= 0)THEN
        DO I=JFT,JLT
         TANI(1,I)= FORX(I)
         TANI(2,I)= FORY(I)

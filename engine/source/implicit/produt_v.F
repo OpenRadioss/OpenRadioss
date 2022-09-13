@@ -57,7 +57,7 @@ C-----------------------------
       DO I=1,NDDL
        R = R + X(I)*Y(I)
       ENDDO
-      IF (IMACH.EQ.3.AND.NSPMD.GT.1) CALL SPMD_SUM_S(R)
+      IF (IMACH==3.AND.NSPMD>1) CALL SPMD_SUM_S(R)
 C--------------------------------------------
       RETURN
       END
@@ -141,9 +141,9 @@ C-----------------------------------------------
       INTEGER I
 C-----------------------------
       R = ZERO
-      IF (IMACH.EQ.3.AND.NSPMD.GT.1) THEN
+      IF (IMACH==3.AND.NSPMD>1) THEN
        DO I=1,NDDL
-        IF (W(I).NE.0) R = R + X(I)*Y(I)
+        IF (W(I)/=0) R = R + X(I)*Y(I)
        ENDDO
        CALL SPMD_SUM_S(R)
       ELSE
@@ -354,15 +354,15 @@ C-----------------------------
       DO I=1,NUM
        DO J=1,3
         ID = IDDL(I)+J
-        IF (IKC(ID).EQ.2) D(J,I)=ZERO
+        IF (IKC(ID)==2) D(J,I)=ZERO
        ENDDO
       ENDDO
-      IF (IR.NE.0) THEN
+      IF (IR/=0) THEN
        DO I=1,NUM
-        IF (NDOF(I).GT.3) THEN
+        IF (NDOF(I)>3) THEN
          DO J=1,3
           ID = IDDL(I)+J+3
-          IF (IKC(ID).EQ.2) DR(J,I)=ZERO
+          IF (IKC(ID)==2) DR(J,I)=ZERO
          ENDDO
         ENDIF 
        ENDDO
@@ -559,8 +559,8 @@ C
         ENDDO
        ENDDO
 C  ------[K]{V}  
-      IF (NDDLI.GT.0.AND.INTP_C.LT.0 ) THEN
-        IF (ILINTF.GT.0) THEN
+      IF (NDDLI>0.AND.INTP_C<0 ) THEN
+        IF (ILINTF>0) THEN
          CALL INT_MATV(IPARI ,INTBUF_TAB     ,NDOF   ,NUM_IMP,
      1                NS_IMP ,NE_IMP ,INDEX2 ,A      ,AR     ,
      2                VE     ,XI_C   ,MS     ,D      ,IBFV   ,
@@ -587,7 +587,7 @@ C  ------LT_I
        ENDDO
       ENDIF
        CALL MATV_KIF(V,W)
-       IF (NMONV.GT.0) THEN
+       IF (NMONV>0) THEN
         CALL MV_MATV(MONVOL ,VOLMON  ,X      ,IGRSURF,
      1               IBID   ,NMONV   ,IMONV  ,V      ,W      ,
      2               NDOF   ,IPARI  ,INTBUF_TAB  ,A      ,
@@ -677,8 +677,8 @@ C
         ENDDO
        ENDDO
 C  ------[K]{V}  
-      IF ((NDDLI+NSREM+NSL).GT.0.AND.INTP_C.LT.0 ) THEN
-        IF (ILINTF.GT.0) THEN
+      IF ((NDDLI+NSREM+NSL)>0.AND.INTP_C<0 ) THEN
+        IF (ILINTF>0) THEN
          CALL INT_MATVP(IPARI  ,INTBUF_TAB  ,NDOF   ,NUM_IMP,
      1                NS_IMP ,NE_IMP ,INDEX2 ,A      ,AR     ,
      2                VE     ,XI_C   ,MS     ,D      ,IBFV   ,
@@ -708,7 +708,7 @@ C  ------LT_I
        ENDDO
       ENDIF
       CALL MATV_KIF(V,W)
-       IF (NMONV.GT.0) THEN
+       IF (NMONV>0) THEN
         CALL MV_MATV(MONVOL ,VOLMON  ,X      ,IGRSURF,
      1               FR_MV  ,NMONV  ,IMONV   ,V      ,W      ,
      2               NDOF   ,IPARI  ,INTBUF_TAB  ,A      ,
@@ -716,8 +716,8 @@ C  ------LT_I
      4               IRBE3  ,LRBE3  ,IRBE2   ,LRBE2  )
        ENDIF
 C    
-      IF (IMACH.EQ.3.AND.NSPMD.GT.1) THEN
-       IF ((NSREM+NSL).GT.0.AND.INTP_C.GE.0) 
+      IF (IMACH==3.AND.NSPMD>1) THEN
+       IF ((NSREM+NSL)>0.AND.INTP_C>=0) 
      .   CALL FR_MATV(  A     ,VE    ,D      ,MS     ,X      ,
      1                  DR    ,AR    ,IPARI  ,INTBUF_TAB     ,
      2                  NDOF  ,NUM_IMP,NS_IMP,NE_IMP,V       ,
@@ -768,7 +768,7 @@ C-----------------------------
       DO I = 1,II-1
        DO J =IADL(I),IADL(I+1)-1
         K =JDIL(J)
-        IF (K.EQ.II) THEN
+        IF (K==II) THEN
          W(I) = LT_K(J)
         ENDIF 
        ENDDO
@@ -795,9 +795,9 @@ C-------Kij Vj (j<i)---
         JJ =JDIM(IZ)
         DO J =IADL(I),IADL(I+1)-1
          K =JDIL(J)
-         IF (K.GT.JJ) THEN
+         IF (K>JJ) THEN
           GOTO 100
-         ELSEIF (K.EQ.JJ) THEN
+         ELSEIF (K==JJ) THEN
           IM=IADM(IZ)
           W(I)=W(I)+LT_K(J)*LT_M(IM)
          ENDIF
@@ -847,7 +847,7 @@ C-----------------------------
       DO I = 1,II-1
        DO J =IADL(I),IADL(I+1)-1
         K =JDIL(J)
-        IF (K.EQ.II) THEN
+        IF (K==II) THEN
          W(I) = LT_K(J)
         ENDIF 
        ENDDO
@@ -873,9 +873,9 @@ C-------Kij Vj (j<i)---
         IZ =JDIM(IM)
         DO J =IADL(I),IADL(I+1)-1
          K =JDIL(J)
-         IF (K.GT.IZ) THEN
+         IF (K>IZ) THEN
           GOTO 100
-         ELSEIF (K.EQ.IZ) THEN
+         ELSEIF (K==IZ) THEN
           W(I)=W(I)+LT_K(J)*LT_M(IM)
          ENDIF
         ENDDO
@@ -1168,7 +1168,7 @@ C--------------Iflag= 1->copy; 2 ->restore---------------
       LI5=NPSAV*NPART
 c      LI6=SBUFIN
 C------------BUF->BUF_C--------------------------------
-      IF (IFLAG.EQ.1) THEN
+      IF (IFLAG==1) THEN
             CALL COPY_ELBUF(ELBUF_TAB,ELBUF_IMP,IPARG,NGROUP)
             CALL CP_REAL(LI1,ELBUF,ELBUF_C)
             CALL CP_REAL(LI2,BUFMAT,BUFMAT_C)
@@ -1178,7 +1178,7 @@ C------------BUF->BUF_C--------------------------------
               CALL CP_REAL(LI4,VOLMON,BUFMAT_C(LL))
             LL=LL+LI4
             CALL CP_REAL(LI5,PARTSAV,BUFMAT_C(LL))
-           IF (NINTER.NE.0.AND.ILINE.NE.1) THEN
+           IF (NINTER/=0.AND.ILINE/=1) THEN
 C------for int24 + Istif=6
             DO N = 1,NINTER
              ITY   =IPARI(7,N)
@@ -1198,7 +1198,7 @@ C------for int24 + Istif=6
      .                     IRLEN20E,ISLEN20E,NEWFRONT)
           END IF 
 C------------BUF_C->BUF--------------------------------
-      ELSEIF (IFLAG.EQ.2) THEN
+      ELSEIF (IFLAG==2) THEN
             CALL COPY_ELBUF(ELBUF_IMP,ELBUF_TAB,IPARG,NGROUP)
             CALL CP_REAL(LI1,ELBUF_C,ELBUF)
             CALL CP_REAL(LI2,BUFMAT_C,BUFMAT)
@@ -1208,7 +1208,7 @@ C------------BUF_C->BUF--------------------------------
             CALL CP_REAL(LI4,BUFMAT_C(LL),VOLMON)
             LL=LL+LI4
             CALL CP_REAL(LI5,BUFMAT_C(LL),PARTSAV)
-          IF (NINTER.NE.0.AND.ILINE.NE.1) THEN
+          IF (NINTER/=0.AND.ILINE/=1) THEN
 C------for int24 + Istif=6 
             DO N = 1,NINTER
              ITY   =IPARI(7,N)
@@ -1380,10 +1380,10 @@ C----------------------
       CALL MY_BARRIER
 C---------------------
 C  ------[K]{V}  
-      IF ((NDDLI+NSREM+NSL).GT.0.AND.INTP_C.LT.0 ) THEN
+      IF ((NDDLI+NSREM+NSL)>0.AND.INTP_C<0 ) THEN
 C--------spmd only for the moment-------
-       IF (ITASK.EQ.0) THEN
-        IF (ILINTF.GT.0) THEN
+       IF (ITASK==0) THEN
+        IF (ILINTF>0) THEN
          CALL INT_MATVP(IPARI  ,INTBUF_TAB  ,NDOF   ,NUM_IMP,
      1                NS_IMP ,NE_IMP ,INDEX2 ,A      ,AR     ,
      2                VE     ,XI_C   ,MS     ,D      ,IBFV   ,
@@ -1398,8 +1398,8 @@ C--------spmd only for the moment-------
      4                NSREM  ,NSL    ,IUPD   ,IRBE3  ,LRBE3  ,
      5                IRBE2  ,LRBE2  )
         ENDIF
-       END IF !(ITASK.EQ.0) THEN
-      ELSEIF(NDDLI.GT.0) THEN
+       END IF !(ITASK==0) THEN
+      ELSEIF(NDDLI>0) THEN
 C  ------LT_I    //
        F_DDLI=1+ITASK*NDDLI/NTHREAD
        L_DDLI=(ITASK+1)*NDDLI/NTHREAD
@@ -1426,14 +1426,14 @@ C
        ENDDO
 #include "lockoff.inc"
 C
-      END IF !((NDDLI+NSREM+NSL).GT.0.AND.INTP_C.LT.0 ) THEN
+      END IF !((NDDLI+NSREM+NSL)>0.AND.INTP_C<0 ) THEN
 C----------------------
       CALL MY_BARRIER
 C---------------------
 C
-      IF (ITASK.EQ.0) THEN
+      IF (ITASK==0) THEN
       CALL MATV_KIF(V,W)
-       IF (NMONV.GT.0) THEN
+       IF (NMONV>0) THEN
         CALL MV_MATV(MONVOL ,VOLMON  ,X      ,IGRSURF,
      1               FR_MV  ,NMONV  ,IMONV   ,V      ,W      ,
      2               NDOF   ,IPARI  ,INTBUF_TAB      ,A      ,
@@ -1441,8 +1441,8 @@ C
      4               IRBE3  ,LRBE3  ,IRBE2  ,LRBE2  )
        ENDIF 
 C    
-      IF (NSPMD.GT.1) THEN
-       IF ((NSREM+NSL).GT.0.AND.INTP_C.GE.0) 
+      IF (NSPMD>1) THEN
+       IF ((NSREM+NSL)>0.AND.INTP_C>=0) 
      .   CALL FR_MATV(  A     ,VE    ,D      ,MS     ,X      ,
      1                  DR    ,AR    ,IPARI  ,INTBUF_TAB     ,
      2                  NDOF  ,NUM_IMP,NS_IMP,NE_IMP,V       ,
@@ -1450,7 +1450,7 @@ C
      4                  W     ,IRBE3  ,LRBE3 ,IRBE2  ,LRBE2  )
        CALL SPMD_SUMF_V(W )
       ENDIF
-      END IF !(ITASK.EQ.0) THEN
+      END IF !(ITASK==0) THEN
 C--------------------------------------------
       RETURN
       END
@@ -1537,10 +1537,10 @@ C-----------PCG_GP-----------
 C----------------------
       CALL MY_BARRIER
 C---------------------
-      IF ((NDDLI+NSREM+NSL).GT.0.AND.INTP_C.LT.0 ) THEN
+      IF ((NDDLI+NSREM+NSL)>0.AND.INTP_C<0 ) THEN
 C--------spmd only for the moment-------
-       IF (ITASK.EQ.0) THEN
-        IF (ILINTF.GT.0) THEN
+       IF (ITASK==0) THEN
+        IF (ILINTF>0) THEN
          CALL INT_MATVP(IPARI,INTBUF_TAB     ,NDOF   ,NUM_IMP,
      1                NS_IMP ,NE_IMP ,INDEX2 ,A      ,AR     ,
      2                VE     ,XI_C   ,MS     ,D      ,IBFV   ,
@@ -1555,8 +1555,8 @@ C--------spmd only for the moment-------
      4                NSREM  ,NSL    ,IUPD   ,IRBE3  ,LRBE3  ,
      5                IRBE2  ,LRBE2  )
         ENDIF
-       END IF !(ITASK.EQ.0) THEN
-      ELSEIF(NDDLI.GT.0) THEN
+       END IF !(ITASK==0) THEN
+      ELSEIF(NDDLI>0) THEN
        F_DDLI=1+ITASK*NDDLI/NTHREAD
        L_DDLI=(ITASK+1)*NDDLI/NTHREAD
 C
@@ -1589,14 +1589,14 @@ C
 #include "lockoff.inc"
        END IF !(ISOLV > 7) THEN
 C
-      END IF !((NDDLI+NSREM+NSL).GT.0.AND.INTP_C.LT.0 ) THEN
+      END IF !((NDDLI+NSREM+NSL)>0.AND.INTP_C<0 ) THEN
 C----------------------
       CALL MY_BARRIER
 C---------------------
 C
-      IF (ITASK.EQ.0) THEN
+      IF (ITASK==0) THEN
        CALL MATV_KIF(V,W)
-       IF (NMONV.GT.0) THEN
+       IF (NMONV>0) THEN
         CALL MV_MATV(MONVOL ,VOLMON  ,X      ,IGRSURF,
      1               FR_MV  ,NMONV  ,IMONV   ,V      ,W      ,
      2               NDOF   ,IPARI  ,INTBUF_TAB,A      ,
@@ -1604,8 +1604,8 @@ C
      4               IRBE3  ,LRBE3  ,IRBE2  ,LRBE2  )
        ENDIF 
 C    
-       IF (NSPMD.GT.1) THEN
-        IF ((NSREM+NSL).GT.0.AND.INTP_C.GE.0) 
+       IF (NSPMD>1) THEN
+        IF ((NSREM+NSL)>0.AND.INTP_C>=0) 
      .   CALL FR_MATV(  A     ,VE    ,D      ,MS     ,X      ,
      1                  DR    ,AR    ,IPARI ,INTBUF_TAB      ,
      2                  NDOF  ,NUM_IMP,NS_IMP,NE_IMP,V       ,
@@ -1615,7 +1615,7 @@ C
         CALL SPMD_SUMF_V(W )
         IF(IMONM > 0) CALL STOPTIME(66,1)
        ENDIF
-      END IF !(ITASK.EQ.0) THEN
+      END IF !(ITASK==0) THEN
 C--------------------------------------------
       RETURN
       END
@@ -1673,7 +1673,7 @@ C-----------------------------------------------
       my_real
      .  RTMP(MVSIZ),RL
 C-----------------------------
-      IF (ITASK.EQ.0) R_N2 = ZERO
+      IF (ITASK==0) R_N2 = ZERO
 C----------------------
       CALL MY_BARRIER
 C---------------------
@@ -1714,7 +1714,7 @@ C
 C----------------------
       CALL MY_BARRIER
 C---------------------
-       IF (ITASK.EQ.0) THEN
+       IF (ITASK==0) THEN
          IF(IMONM > 0) CALL STARTIME(67,1)
          CALL SPMD_SUM_S(R_N2)
          IF(IMONM > 0) CALL STARTIME(67,1)
@@ -2020,7 +2020,7 @@ C-----------------------------------------------
      .         IGAP,ITYP,LENS0,LENR0,INTTH,J,JFI,JD(50),ITY,IGSTI,
      .         NREBOU
 C--------------------------------------------
-      IF(IFLAG.EQ.1) THEN
+      IF(IFLAG==1) THEN
          IF(ALLOCATED(IPARICP)) DEALLOCATE(IPARICP)
          IF(ALLOCATED(IAD_STIFOLD)) DEALLOCATE(IAD_STIFOLD)
          ALLOCATE(IPARICP(NPARI,NINTER),IAD_STIFOLD(NINTER),STAT=IERR)
@@ -2048,21 +2048,21 @@ C           END IF
             IPARI(J,I) = IPARICP(J,I)  
           END DO 
           END DO 
-      ENDIF !IF(IFLAG.EQ.1) THEN
+      ENDIF !IF(IFLAG==1) THEN
 C      
-      IF (NSPMD.LE.1) RETURN
+      IF (NSPMD<=1) RETURN
 C      
-      IF(IFLAG.EQ.1) THEN
+      IF(IFLAG==1) THEN
        LII7CP=0
        LRI7CP=0
-        IF(NINTER.NE.0) THEN
+        IF(NINTER/=0) THEN
 C dim compute---
           DO I =1, NINTER
             ITYP = IPARI(7,I)
             IGAP = IPARI(21,I)
             INACTI = IPARI(22,I)
             INTTH = IPARI(47,I)
-            IF(ITYP.EQ.7.OR.ITYP.EQ.10.OR.ITYP.EQ.11.OR.ITYP.EQ.24)THEN
+            IF(ITYP==7.OR.ITYP==10.OR.ITYP==11.OR.ITYP==24)THEN
               LENS = 0
               LENR = 0
               DO P = 1, NSPMD
@@ -2072,21 +2072,21 @@ C dim compute---
               LII7CP=LII7CP+2*NSPMD+2
               LII7CP=LII7CP+LENS
 C
-              IF (LENR.GT.0) THEN
+              IF (LENR>0) THEN
                 LII7CP=LII7CP+LENR
-                IF(ITYP.EQ.7.OR.ITYP.EQ.10.OR.ITYP.EQ.24) THEN
+                IF(ITYP==7.OR.ITYP==10.OR.ITYP==24) THEN
 C-------------------ITAFI,KINFI
                   LII7CP=LII7CP+2*LENR
                   IF (INTTH > 0 ) LII7CP=LII7CP+LENR
 C-------------------MSFI,STIFI
                   LRI7CP=LRI7CP+2*LENR
-                  IF(IGAP.NE.0) LRI7CP=LRI7CP+LENR
+                  IF(IGAP/=0) LRI7CP=LRI7CP+LENR
 C-------------------XFI,VFI
                   LRI7CP=LRI7CP+6*LENR
-                 IF(IPARIT.EQ.0) THEN
+                 IF(IPARIT==0) THEN
 C-------------------AFI,STNFI,VSCFI
                     LRI7CP=LRI7CP+4*LENR*NTHREAD
-                  IF(KDTINT.NE.0)LRI7CP=LRI7CP+LENR*NTHREAD
+                  IF(KDTINT/=0)LRI7CP=LRI7CP+LENR*NTHREAD
                   IF(INTTH > 0 )LRI7CP=LRI7CP+2*LENR+2*LENR*NTHREAD
                  ELSE
 C-----------------PARITON not yet with implicit----	       
@@ -2099,37 +2099,37 @@ C-----  IRTLM_FI,TIME_SFI,SECND_FRFI,PENE_OLDFI,STIF_OLDFI
                   LRI7CP=LRI7CP+5*LENR
                   LRI7CP=LRI7CP+2*LENR
                  END IF
-                ELSEIF(ITYP.EQ.11) THEN
+                ELSEIF(ITYP==11) THEN
 C-------------------ITAFI
                   LII7CP=LII7CP+2*LENR
 C-------------------MASFI,STIFI
                   LRI7CP=LRI7CP+3*LENR
-                  IF(IGAP.NE.0) LRI7CP=LRI7CP+LENR
+                  IF(IGAP/=0) LRI7CP=LRI7CP+LENR
                   IF (INTTH > 0 ) LII7CP=LII7CP+LENR
 C-------------------XFI,VFI
                   LRI7CP=LRI7CP+12*LENR
-                  IF(INACTI.EQ.5.OR.INACTI.EQ.6)LRI7CP=LRI7CP+2*LENR
-                 IF(IPARIT.EQ.0) THEN
+                  IF(INACTI==5.OR.INACTI==6)LRI7CP=LRI7CP+2*LENR
+                 IF(IPARIT==0) THEN
 C-------------------AFI,STNFI,VSCFI,AREASFI,TEMPFI
                   LRI7CP=LRI7CP+8*LENR*NTHREAD
-                  IF(KDTINT.NE.0)LRI7CP=LRI7CP+2*LENR*NTHREAD
+                  IF(KDTINT/=0)LRI7CP=LRI7CP+2*LENR*NTHREAD
                   IF(INTTH > 0 )LRI7CP=LRI7CP+3*LENR   
                  ELSE
 C-----------------PARITON not yet with implicit----	       
 	         ENDIF
-                ELSEIF(ITYP.EQ.17)THEN
+                ELSEIF(ITYP==17)THEN
                 END IF
               END IF
             ENDIF
          ENDDO
         END IF
-        IF((LII7CP+LRI7CP).EQ.0) RETURN
-        IF(NINTER.NE.0) THEN
+        IF((LII7CP+LRI7CP)==0) RETURN
+        IF(NINTER/=0) THEN
          IF(ALLOCATED(II7CP)) DEALLOCATE(II7CP)
          IF(ALLOCATED(RI7CP)) DEALLOCATE(RI7CP)
          IF(ALLOCATED(NEWFRCP)) DEALLOCATE(NEWFRCP)
          ALLOCATE(II7CP(LII7CP),NEWFRCP(SNEWFRONT),STAT=IERR)
-         IF(LRI7CP.GT.0)ALLOCATE(RI7CP(LRI7CP),STAT=IERR)
+         IF(LRI7CP>0)ALLOCATE(RI7CP(LRI7CP),STAT=IERR)
 C ----copy-to II7CP,RI7CP ---------------
           IID=1
 	      RID=1
@@ -2138,7 +2138,7 @@ C ----copy-to II7CP,RI7CP ---------------
             IGAP = IPARI(21,I)
             INACTI = IPARI(22,I)
             INTTH = IPARI(47,I)
-           IF(ITYP.EQ.7.OR.ITYP.EQ.10.OR.ITYP.EQ.11.OR.ITYP.EQ.24)THEN
+           IF(ITYP==7.OR.ITYP==10.OR.ITYP==11.OR.ITYP==24)THEN
 	        II7CP(IID) = IPARI(24,I)
 	        II7CP(IID+1) = IPARI(57,I)
 	        IID=IID+2
@@ -2152,14 +2152,14 @@ C ----copy-to II7CP,RI7CP ---------------
                 LENS = LENS + NSNSI(I)%P(P)
                 LENR = LENR + NSNFI(I)%P(P)
               END DO
-               IF (LENS.GT.0)
+               IF (LENS>0)
      .       	   CALL CP_INT(LENS,NSVSI(I)%P(1),II7CP(IID))
 	        IID=IID+LENS
 C
-            IF (LENR.GT.0) THEN
+            IF (LENR>0) THEN
 	         CALL CP_INT(LENR,NSVFI(I)%P(1),II7CP(IID))
 	         IID=IID+LENR
-             IF(ITYP.EQ.7.OR.ITYP.EQ.10.OR.ITYP.EQ.24) THEN
+             IF(ITYP==7.OR.ITYP==10.OR.ITYP==24) THEN
 C-------------------ITAFI,KINFI
 	          CALL CP_INT(LENR,ITAFI(I)%P(1),II7CP(IID))
 	          IID=IID+LENR
@@ -2174,7 +2174,7 @@ C-------------------MSFI,STIFI
 	           RID=RID+LENR
 	          CALL CP_REAL(LENR,STIFI(I)%P(1),RI7CP(RID))
 	           RID=RID+LENR
-              IF(IGAP.NE.0) THEN
+              IF(IGAP/=0) THEN
 	           CALL CP_REAL(LENR,GAPFI(I)%P(1),RI7CP(RID))
 	           RID=RID+LENR
               ENDIF
@@ -2183,17 +2183,17 @@ C-------------------XFI,VFI
 	           RID=RID+3*LENR
 	          CALL CP_REAL(3*LENR,VFI(I)%P(1,1),RI7CP(RID))
 	           RID=RID+3*LENR
-              IF(IPARIT.EQ.0) THEN
+              IF(IPARIT==0) THEN
 C-------------------AFI,STNFI,VSCFI
                     CALL CP_REAL(3*LENR*NTHREAD,AFI(I)%P(1,1),RI7CP(RID))
 	            RID=RID+3*LENR*NTHREAD
 	            CALL CP_REAL(LENR*NTHREAD,STNFI(I)%P(1),RI7CP(RID))
 	            RID=RID+LENR*NTHREAD
-               IF(KDTINT.NE.0) THEN
+               IF(KDTINT/=0) THEN
 	            CALL CP_REAL(LENR*NTHREAD,VSCFI(I)%P(1),RI7CP(RID))
 	            RID=RID+LENR*NTHREAD
                ENDIF
-               IF(INTTH.NE.0) THEN
+               IF(INTTH/=0) THEN
 	            CALL CP_REAL(LENR*NTHREAD,FTHEFI(I)%P(1),RI7CP(RID))
 	            RID=RID+LENR*NTHREAD
 	            CALL CP_REAL(LENR*NTHREAD,CONDNFI(I)%P(1),RI7CP(RID))
@@ -2218,7 +2218,7 @@ C-----------------PARITON not yet with implicit----
 	           CALL CP_REAL(2*LENR,STIF_OLDFI(I)%P(1,1),RI7CP(RID))
 	           RID=RID+2*LENR
               END IF
-             ELSEIF(ITYP.EQ.11) THEN
+             ELSEIF(ITYP==11) THEN
 C-------------------ITAFI
 	          CALL CP_INT(2*LENR,ITAFI(I)%P(1),II7CP(IID))
 	          IID=IID+2*LENR
@@ -2231,7 +2231,7 @@ C-------------------MSFI,STIFI
 	           RID=RID+2*LENR
 	          CALL CP_REAL(LENR,STIFI(I)%P(1),RI7CP(RID))
 	           RID=RID+LENR
-              IF(IGAP.NE.0) THEN
+              IF(IGAP/=0) THEN
 	           CALL CP_REAL(LENR,GAPFI(I)%P(1),RI7CP(RID))
 	           RID=RID+LENR
               ENDIF
@@ -2240,21 +2240,21 @@ C-------------------XFI,VFI
 	           RID=RID+6*LENR
 	          CALL CP_REAL(6*LENR,VFI(I)%P(1,1),RI7CP(RID))
 	           RID=RID+6*LENR
-              IF(INACTI.EQ.5.OR.INACTI.EQ.6) THEN
+              IF(INACTI==5.OR.INACTI==6) THEN
 	           CALL CP_REAL(2*LENR,PENFI(I)%P(1,1),RI7CP(RID))
 	           RID=RID+2*LENR
               ENDIF
-              IF(IPARIT.EQ.0) THEN
+              IF(IPARIT==0) THEN
 C-------------------AFI,STNFI,VSCFI
                    CALL CP_REAL(6*LENR*NTHREAD,AFI(I)%P(1,1),RI7CP(RID))
 	           RID=RID+6*LENR*NTHREAD
 	           CALL CP_REAL(2*LENR*NTHREAD,STNFI(I)%P(1),RI7CP(RID))
 	           RID=RID+2*LENR*NTHREAD
-               IF(KDTINT.NE.0) THEN
+               IF(KDTINT/=0) THEN
 	            CALL CP_REAL(2*LENR*NTHREAD,VSCFI(I)%P(1),RI7CP(RID))
 	            RID=RID+2*LENR*NTHREAD
                ENDIF
-               IF(INTTH.NE.0) THEN
+               IF(INTTH/=0) THEN
 	            CALL CP_REAL(LENR,FTHEFI(I)%P(1),RI7CP(RID))
 	            RID=RID+LENR
 	            CALL CP_REAL(LENR,TEMPFI(I)%P(1),RI7CP(RID))
@@ -2265,10 +2265,10 @@ C-------------------AFI,STNFI,VSCFI
               ELSE
 C-----------------PARITON not yet with implicit----	       
 	          ENDIF
-             ELSEIF(ITYP.EQ.17)THEN
+             ELSEIF(ITYP==17)THEN
              END IF
-            END IF !IF (LENR.GT.0)
-          ENDIF !IF(ITYP.EQ.7.OR.ITYP.EQ.10.OR.IT
+            END IF !IF (LENR>0)
+          ENDIF !IF(ITYP==7.OR.ITYP==10.OR.IT
          ENDDO
          LENSCP(1)=ISLEN7
          LENSCP(2)=IRLEN7
@@ -2285,15 +2285,15 @@ C-----------------PARITON not yet with implicit----
          LENSCP(13)=IRLEN20E
          LENSCP(14)=ISLEN20E
          CALL CP_INT(SNEWFRONT,NEWFRONT,NEWFRCP)
-         IF (IID.GT.(LII7CP+1).OR.RID.GT.(LRI7CP+1)) then
+         IF (IID>(LII7CP+1).OR.RID>(LRI7CP+1)) then
 	       CALL ANCMSG(MSGID=82,ANMODE=ANINFO,
      .            I1=IID,I2=LII7CP,I3=RID,I4=LRI7CP)
            CALL ARRET(2)
          ENDIF
         END IF 
       ELSE	
-        IF((LII7CP+LRI7CP).EQ.0) RETURN
-        IF(NINTER.NE.0) THEN
+        IF((LII7CP+LRI7CP)==0) RETURN
+        IF(NINTER/=0) THEN
 C ----copy- from II7CP,RI7CP -------------
           IID=1
           RID=1
@@ -2303,7 +2303,7 @@ C ----copy- from II7CP,RI7CP -------------
             INACTI = IPARI(22,I)
             INTTH = IPARI(47,I)
             NREBOU=IPARI(53,I)
-            IF(ITYP.EQ.7.OR.ITYP.EQ.10.OR.ITYP.EQ.11.OR.ITYP.EQ.24)THEN
+            IF(ITYP==7.OR.ITYP==10.OR.ITYP==11.OR.ITYP==24)THEN
 	         IPARI(24,I) = II7CP(IID) 
 	         IPARI(57,I) = II7CP(IID+1) 
 	         IID=IID+2
@@ -2321,19 +2321,19 @@ C ----copy- from II7CP,RI7CP -------------
                 LENS = LENS + NSNSI(I)%P(P)
                 LENR = LENR + NSNFI(I)%P(P)
               END DO
-	         IF (LENS.GT.0) THEN
+	         IF (LENS>0) THEN
                IF(ASSOCIATED(NSVSI(I)%P)) DEALLOCATE(NSVSI(I)%P)
                ALLOCATE(NSVSI(I)%P(LENS),STAT=IERR)
 	          CALL CP_INT(LENS,II7CP(IID),NSVSI(I)%P(1))
 	          IID=IID+LENS
 	         ENDIF	      
 C-----------------ALLOCATION cp from II7CP,RI7CP----------
-              IF (LENR.GT.0) THEN
+              IF (LENR>0) THEN
                IF(ASSOCIATED(NSVFI(I)%P)) DEALLOCATE(NSVFI(I)%P)
                ALLOCATE(NSVFI(I)%P(LENR),STAT=IERR)
 	           CALL CP_INT(LENR,II7CP(IID),NSVFI(I)%P(1))
 	           IID=IID+LENR
-               IF(ITYP.EQ.7.OR.ITYP.EQ.10.OR.ITYP.EQ.24) THEN
+               IF(ITYP==7.OR.ITYP==10.OR.ITYP==24) THEN
                   IF(ASSOCIATED(ITAFI(I)%P)) DEALLOCATE(ITAFI(I)%P)
                   ALLOCATE(ITAFI(I)%P(LENR),STAT=IERR)
 	              CALL CP_INT(LENR,II7CP(IID),ITAFI(I)%P(1))
@@ -2356,7 +2356,7 @@ C-----------------ALLOCATION cp from II7CP,RI7CP----------
                   ALLOCATE(STIFI(I)%P(LENR),STAT=IERR)
 	              CALL CP_REAL(LENR,RI7CP(RID),STIFI(I)%P(1))
 	              RID=RID+LENR
-                  IF(IGAP.NE.0) THEN
+                  IF(IGAP/=0) THEN
                    IF(ASSOCIATED(GAPFI(I)%P)) DEALLOCATE(GAPFI(I)%P)
                    ALLOCATE(GAPFI(I)%P(LENR),STAT=IERR)
 	               CALL CP_REAL(LENR,RI7CP(RID),GAPFI(I)%P(1))
@@ -2370,7 +2370,7 @@ C-----------------ALLOCATION cp from II7CP,RI7CP----------
                   ALLOCATE(VFI(I)%P(3,LENR),STAT=IERR)
 	              CALL CP_REAL(3*LENR,RI7CP(RID),VFI(I)%P(1,1))
 	              RID=RID+3*LENR
-                  IF(IPARIT.EQ.0) THEN
+                  IF(IPARIT==0) THEN
                      IF(ASSOCIATED(AFI(I)%P)) DEALLOCATE(AFI(I)%P)
                      ALLOCATE(AFI(I)%P(3,LENR*NTHREAD),STAT=IERR)
 	             CALL CP_REAL(3*LENR*NTHREAD,RI7CP(RID),AFI(I)%P(1,1))
@@ -2380,7 +2380,7 @@ C-----------------ALLOCATION cp from II7CP,RI7CP----------
 	             CALL CP_REAL(LENR*NTHREAD,RI7CP(RID),STNFI(I)%P(1))
 	             RID=RID+LENR*NTHREAD
                      NLSKYFI(I)=LENR
-                  IF(KDTINT.NE.0)THEN
+                  IF(KDTINT/=0)THEN
                    IF(ASSOCIATED(VSCFI(I)%P)) DEALLOCATE(VSCFI(I)%P)
                    ALLOCATE(VSCFI(I)%P(LENR),STAT=IERR)
 	               CALL CP_REAL(LENR*NTHREAD,RI7CP(RID),VSCFI(I)%P(1))
@@ -2440,7 +2440,7 @@ C-----------------PARITON not yet with implicit----
                  END IF !(NREBOU <0.AND.IMCONV>=0) THEN
 	             RID=RID+2*LENR
                 END IF
-               ELSEIF(ITYP.EQ.11) THEN
+               ELSEIF(ITYP==11) THEN
 C
                 IF(ASSOCIATED(ITAFI(I)%P)) DEALLOCATE(ITAFI(I)%P)
                 ALLOCATE(ITAFI(I)%P(2*LENR),STAT=IERR)
@@ -2460,7 +2460,7 @@ C
                   ALLOCATE(STIFI(I)%P(LENR),STAT=IERR)
 	            CALL CP_REAL(LENR,RI7CP(RID),STIFI(I)%P(1))
 	            RID=RID+LENR
-                 IF(IGAP.NE.0) THEN
+                 IF(IGAP/=0) THEN
                    IF(ASSOCIATED(GAPFI(I)%P)) DEALLOCATE(GAPFI(I)%P)
                    ALLOCATE(GAPFI(I)%P(LENR),STAT=IERR)
 	               CALL CP_REAL(LENR,RI7CP(RID),GAPFI(I)%P(1))
@@ -2474,13 +2474,13 @@ C
                   ALLOCATE(VFI(I)%P(3,2*LENR),STAT=IERR)
 	             CALL CP_REAL(6*LENR,RI7CP(RID),VFI(I)%P(1,1))
 	             RID=RID+6*LENR
-                 IF(INACTI.EQ.5.OR.INACTI.EQ.6) THEN
+                 IF(INACTI==5.OR.INACTI==6) THEN
                   IF(ASSOCIATED(PENFI(I)%P)) DEALLOCATE(PENFI(I)%P)
                   ALLOCATE(PENFI(I)%P(2,LENR),STAT=IERR)
 	              CALL CP_REAL(2*LENR,RI7CP(RID),PENFI(I)%P(1,1))
 	              RID=RID+2*LENR
                  END IF
-                 IF(IPARIT.EQ.0) THEN
+                 IF(IPARIT==0) THEN
 
                   IF(ASSOCIATED(AFI(I)%P)) DEALLOCATE(AFI(I)%P)
                   ALLOCATE(AFI(I)%P(3,2*LENR*NTHREAD),STAT=IERR)
@@ -2492,7 +2492,7 @@ C
 	              CALL CP_REAL(2*LENR*NTHREAD,RI7CP(RID),STNFI(I)%P(1))
 	              RID=RID+2*LENR
 
-                  IF(KDTINT.NE.0)THEN
+                  IF(KDTINT/=0)THEN
                    IF(ASSOCIATED(VSCFI(I)%P)) DEALLOCATE(VSCFI(I)%P)
                    ALLOCATE(VSCFI(I)%P(2*LENR),STAT=IERR)
 	               CALL CP_REAL(2*LENR*NTHREAD,RI7CP(RID),VSCFI(I)%P(1))
@@ -2516,8 +2516,8 @@ C
                  ELSE
 C-----------------PARITON not yet with implicit----	       
 	             ENDIF
-               ELSEIF(ITYP.EQ.17)THEN
-	          ENDIF !IF(ITYP.EQ.7.OR.ITYP.EQ.10)	      
+               ELSEIF(ITYP==17)THEN
+	          ENDIF !IF(ITYP==7.OR.ITYP==10)	      
 	         ENDIF !IF (LENR.GT0)	      
             ENDIF
          ENDDO
@@ -2536,13 +2536,13 @@ C-----------------PARITON not yet with implicit----
          IRLEN20E=LENSCP(13)
          ISLEN20E=LENSCP(14)
          CALL CP_INT(SNEWFRONT,NEWFRCP,NEWFRONT)
-         IF (IID.GT.(LII7CP+1).OR.RID.GT.(LRI7CP+1)) then
+         IF (IID>(LII7CP+1).OR.RID>(LRI7CP+1)) then
 	      CALL ANCMSG(MSGID=82,ANMODE=ANINFO,
      .            I1=IID,I2=LII7CP,I3=RID,I4=LRI7CP)
           CALL ARRET(2)
          ENDIF
-        END IF !IF(NINTER.NE.0) THEN
-      ENDIF !IF(IFLAG.EQ.1) THEN
+        END IF !IF(NINTER/=0) THEN
+      ENDIF !IF(IFLAG==1) THEN
 C-----------------------------------------------------------------------
       RETURN
       END
@@ -2580,15 +2580,15 @@ C-----------------------------------------------
 C-----------------------------
       NORM2=ZERO
       DO I=1,NUMNOD
-       IF (WEIGHT(I).EQ.1) THEN
+       IF (WEIGHT(I)==1) THEN
         NORM2 = NORM2 + DD(1,I)*DD(1,I)
         NORM2 = NORM2 + DD(2,I)*DD(2,I)
         NORM2 = NORM2 + DD(3,I)*DD(3,I)
        END IF 
       END DO
-      IF (IRODDL.GT.0) THEN
+      IF (IRODDL>0) THEN
        DO I=1,NUMNOD
-        IF (WEIGHT(I).EQ.1) THEN
+        IF (WEIGHT(I)==1) THEN
          NORM2 = NORM2 + DDR(1,I)*DDR(1,I)
          NORM2 = NORM2 + DDR(2,I)*DDR(2,I)
          NORM2 = NORM2 + DDR(3,I)*DDR(3,I)
@@ -2596,7 +2596,7 @@ C-----------------------------
        END DO
       END IF 
 C       
-      IF (NSPMD.GT.1) THEN
+      IF (NSPMD>1) THEN
         CALL SPMD_SUM_S(NORM2)
       END IF 
 C--------------------------------------------
@@ -2649,7 +2649,7 @@ C-----------------------------
 C----------------------
       CALL MY_BARRIER
 C---------------------
-      IF (ITASK.EQ.0.AND.NSPMD.GT.1) CALL SPMD_SUMF_V(W )
+      IF (ITASK==0.AND.NSPMD>1) CALL SPMD_SUMF_V(W )
 C--------------------------------------------
       RETURN
       END
@@ -3265,11 +3265,11 @@ C-----------------------------
         Z(I) = V(I)
       ENDDO
 C      
-      IF (IPREC.EQ.2) THEN
+      IF (IPREC==2) THEN
        DO I=F_DDL ,L_DDL
         Z(I) = V(I)*DIAG_M(I)
        ENDDO
-      ELSEIF (IPREC.EQ.5) THEN
+      ELSEIF (IPREC==5) THEN
 C--------{z}=[Z]^t{v}-------------
        DO I=F_DDL ,L_DDL
         DO J =IADM(I),IADM(I+1)-1
@@ -3281,13 +3281,13 @@ C--------{z}=[D]^-1/2{z}-------------
        DO I=F_DDL ,L_DDL
         Z(I) = Z(I)*DIAG_M(I)
        ENDDO
-      END IF !(IPREC.EQ.2) THEN
+      END IF !(IPREC==2) THEN
 C      
-      IF (IPREC.GT.1) THEN
+      IF (IPREC>1) THEN
 C----------------------
       CALL MY_BARRIER
 C---------------------
-       IF (ITASK.EQ.0.AND.NSPMD.GT.1) CALL SPMD_SUMF_V(Z)
+       IF (ITASK==0.AND.NSPMD>1) CALL SPMD_SUMF_V(Z)
       ENDIF
 C--------------------------------------------
       RETURN
@@ -3334,11 +3334,11 @@ C-----------------------------
         Z(I) = V(I)
       ENDDO
 C      
-      IF (IPREC.EQ.2) THEN
+      IF (IPREC==2) THEN
        DO I=F_DDL ,L_DDL
         Z(I) = V(I)*DIAG_M(I)
        ENDDO
-      ELSEIF (IPREC.EQ.5) THEN
+      ELSEIF (IPREC==5) THEN
 C--------{z}=[D]^-1/2{v}-------------
        DO I=F_DDL ,L_DDL
         Z(I) = V(I)*DIAG_M(I)
@@ -3359,13 +3359,13 @@ C --------{z}=[Z]{z}-------
          Z(I) = Z(I)+LT_M(J)*TMP(K)
         ENDDO
        ENDDO
-      END IF !(IPREC.EQ.2) THEN
+      END IF !(IPREC==2) THEN
 C      
-      IF (IPREC.GT.1) THEN
+      IF (IPREC>1) THEN
 C----------------------
       CALL MY_BARRIER
 C---------------------
-       IF (ITASK.EQ.0.AND.NSPMD.GT.1) CALL SPMD_SUMF_V(Z)
+       IF (ITASK==0.AND.NSPMD>1) CALL SPMD_SUMF_V(Z)
       ENDIF
 C--------------------------------------------
       RETURN
@@ -3685,7 +3685,7 @@ C-----------------------------
 !$OMP PARALLEL PRIVATE(ITSK,NODFT ,NODLT,I)
       CALL IMP_SMPINI(ITSK   ,NODFT ,NODLT ,NUMNOD )
       DO I=NODFT ,NODLT
-       IF (WEIGHT(I).EQ.1) THEN
+       IF (WEIGHT(I)==1) THEN
 #include "lockon.inc"
         NORM2 = NORM2 + DD(1,I)*DD(1,I)
         NORM2 = NORM2 + DD(2,I)*DD(2,I)
@@ -3693,9 +3693,9 @@ C-----------------------------
 #include "lockoff.inc"
        END IF 
       END DO
-      IF (IRODDL.GT.0) THEN
+      IF (IRODDL>0) THEN
        DO I=NODFT ,NODLT
-        IF (WEIGHT(I).EQ.1) THEN
+        IF (WEIGHT(I)==1) THEN
 #include "lockon.inc"
          NORM2 = NORM2 + DDR(1,I)*DDR(1,I)
          NORM2 = NORM2 + DDR(2,I)*DDR(2,I)
@@ -3706,7 +3706,7 @@ C-----------------------------
       END IF 
 !$OMP END PARALLEL 
 C       
-      IF (NSPMD.GT.1) THEN
+      IF (NSPMD>1) THEN
         CALL SPMD_SUM_S(NORM2)
       END IF 
 C--------------------------------------------

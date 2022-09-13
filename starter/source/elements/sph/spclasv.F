@@ -111,7 +111,7 @@ C
 C
 C--- Closest neighbor is stored for tensile instability treatment --
 C
-         IF (NSPBUF.EQ.13) THEN
+         IF (NSPBUF==13) THEN
            SPBUF(13,N)=TWO*SQRT(DVOIS(1))
          ENDIF
 C
@@ -126,9 +126,9 @@ C
          N=WASPACT(NS)
          DWA(N)=ONE
          NVOIS1 =KXSP(4,N)
-         IF(KREDUCE(N)/=0.OR.NVOIS1.GT.LVOISPH)THEN
+         IF(KREDUCE(N)/=0.OR.NVOIS1>LVOISPH)THEN
 C
-           IF(NVOIS1.GT.LVOISPH)THEN
+           IF(NVOIS1>LVOISPH)THEN
              KREDUCE(N)=KREDUCE(N)+10
              LVOIRED = 1
            END IF

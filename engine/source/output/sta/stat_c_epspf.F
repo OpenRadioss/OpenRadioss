@@ -476,7 +476,7 @@ C       construit les pointeurs dans le tableau global WAP0
         CALL SPMD_RGATHER9_DP(WA,JJ,WAP0,SIZP0,LEN)
       ENDIF
 C
-      IF(ISPMD == 0.AND.LEN.GT.0) THEN
+      IF(ISPMD == 0.AND.LEN>0) THEN
 C
         IPRT0=0
         DO N=1,STAT_NUMELTG_G
@@ -543,7 +543,7 @@ C
             ENDIF
           ENDIF  !  IF (IOFF == 1)
         ENDDO  !  DO N=1,STAT_NUMELTG_G	    
-      ENDIF  !  IF(ISPMD == 0.AND.LEN.GT.0)
+      ENDIF  !  IF(ISPMD == 0.AND.LEN>0)
 C
       RETURN
       END

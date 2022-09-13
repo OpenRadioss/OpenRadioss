@@ -82,7 +82,7 @@ C=======================================================================
       DO I=LFT,LLT
         CX(I)=SSP(I)
         AL(I)=VOL(I)** THIRD
-        IF(N2D.GT.0) AL(I)=SQRT(AIRE(I))
+        IF(N2D>0) AL(I)=SQRT(AIRE(I))
       ENDDO
 C
       DO I=LFT,LLT                                               
@@ -151,7 +151,7 @@ C=======================================================================
       DO I=LFT,LLT
         CX(I)=SSP(I)
         AL(I)=VOL(I)** THIRD
-        IF(N2D.GT.0) AL(I)=SQRT(AIRE(I))
+        IF(N2D>0) AL(I)=SQRT(AIRE(I))
       ENDDO
 C
       DO I=LFT,LLT                                               

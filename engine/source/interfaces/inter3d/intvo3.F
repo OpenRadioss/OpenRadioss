@@ -144,8 +144,8 @@ C----
 C
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
 C
       FRIC =INTBUF_TAB%VARIABLES(1)
       GAP  =INTBUF_TAB%VARIABLES(2)
@@ -156,7 +156,7 @@ C
 C
       DIST = ZERO
 C
-      IF(NTY.EQ.3)THEN
+      IF(NTY==3)THEN
        DO 100 NG=1,NGROUS
        NFT=(NG-1)*NVSIZ
        LFT=1
@@ -193,7 +193,7 @@ C
      4             N2    ,N3      ,SSC   ,TTC   ,ALP,
      5             ANS   ,XP      ,YP    ,ZP    ,H1 ,
      6             H2    ,H3      ,H4)
-       IF(IGIMP.EQ.0)GOTO 100
+       IF(IGIMP==0)GOTO 100
        CALL I3FOR3(LFT   ,LLT   ,NFT   ,
      2      A ,INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,INTBUF_TAB%STFM,
      3      INTBUF_TAB%STFNS,IBC ,ICODT  ,1   ,FSAV ,
@@ -205,8 +205,8 @@ C
      7      XX4   ,YY4   ,YI1   ,YI2   ,YI3      ,
      8      ZZ4   ,ZI1   ,ZI2   ,ZI3   ,XI1      ,
      9      XI2   ,XI3   ,XI4)
-       IF(FRIC.EQ.0.)GOTO 100
-       IF(IGIMP.EQ.0)GOTO 100
+       IF(FRIC==0.)GOTO 100
+       IF(IGIMP==0)GOTO 100
        CALL I3FRI3(LFT   ,LLT   ,NFT   ,X ,A  ,
      2      INTBUF_TAB%IRECTM,INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,
      3      NTY,INTBUF_TAB%CSTS,INTBUF_TAB%IRTLOM,INTBUF_TAB%FRICOS,
@@ -255,7 +255,7 @@ C
      4             N2    ,N3      ,SSC   ,TTC   ,ALP,
      5             ANS   ,XP      ,YP    ,ZP    ,H1 ,
      6             H2    ,H3      ,H4)
-       IF(IGIMP.EQ.0)GOTO 130
+       IF(IGIMP==0)GOTO 130
        CALL I3FOR3(LFT   ,LLT   ,NFT   , A  ,
      2      INTBUF_TAB%NSV,INTBUF_TAB%MSR,INTBUF_TAB%IRTLS,INTBUF_TAB%STFS,
      3      INTBUF_TAB%STFNM,IBC  ,ICODT        ,-1        ,FSAV      ,
@@ -267,8 +267,8 @@ C
      7      XX4   ,YY4   ,YI1   ,YI2   ,YI3      ,
      8      ZZ4   ,ZI1   ,ZI2   ,ZI3   ,XI1      ,
      9      XI2   ,XI3   ,XI4)
-       IF(FRIC.EQ.0.)GOTO 130
-       IF(IGIMP.EQ.0)GOTO 130
+       IF(FRIC==0.)GOTO 130
+       IF(IGIMP==0)GOTO 130
        IPARI(29) = 1
        CALL I3FRI3(LFT   ,LLT   ,NFT   ,X      ,A    ,
      2      INTBUF_TAB%IRECTS,INTBUF_TAB%NSV,INTBUF_TAB%MSR,INTBUF_TAB%IRTLS,
@@ -284,10 +284,10 @@ C
 
  130   CONTINUE
 C
-      ELSEIF(NTY.EQ.4)THEN
+      ELSEIF(NTY==4)THEN
 C
-      ELSEIF(NTY.EQ.5)THEN
-        IF (IMPL_S.EQ.1) THEN
+      ELSEIF(NTY==5)THEN
+        IF (IMPL_S==1) THEN
          NUM_IMP = 0
          VISC  =ZERO
          VISCF =ZERO
@@ -328,7 +328,7 @@ C
      4             N2    ,N3      ,SSC   ,TTC   ,ALP,
      5             ANS   ,XP      ,YP    ,ZP    ,H1 ,
      6             H2    ,H3      ,H4)
-        IF(IGIMP.EQ.0)GOTO 150
+        IF(IGIMP==0)GOTO 150
         CALL I5FOR3(LFT   ,LLT   ,NFT   , A ,
      2          INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,INTBUF_TAB%STFM,
      3          INTBUF_TAB%STFNS,IBC   ,ICODT     ,FSAV      ,IGIMP     ,
@@ -338,12 +338,12 @@ C
      7          N2    ,N3    ,XFACE   ,H1     ,H2    ,
      8          H3    ,H4    ,THK     ,ANS    ,STIF  ,
      9          XX3 )
-        IF (IMPL_S.EQ.1) THEN
+        IF (IMPL_S==1) THEN
          CALL I5IMPK3(INTBUF_TAB%IRECTM,INTBUF_TAB%MSR,INTBUF_TAB%NSV,
      .                INTBUF_TAB%IRTLM,NUM_IMP,NS_IMP,NE_IMP,ANS)
         ENDIF
-        IF(FRIC.EQ.0.AND.MFROT.EQ.0)GOTO 150
-        IF(IGIMP.EQ.0)GOTO 150
+        IF(FRIC==0.AND.MFROT==0)GOTO 150
+        IF(IGIMP==0)GOTO 150
         IPARI(29) = 1
         CALL I5FRI3(LFT    ,LLT    ,NFT    ,IPARI  ,X      ,A      ,
      2          INTBUF_TAB%IRECTM,INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,
@@ -358,11 +358,11 @@ C
      1          H4    ,AREA  ,XX3)
  150    CONTINUE
 C
-      ELSEIF(NTY.EQ.6)THEN
+      ELSEIF(NTY==6)THEN
 C
-      ELSEIF(NTY.EQ.7.OR.NTY.EQ.22)THEN
+      ELSEIF(NTY==7.OR.NTY==22)THEN
 C
-      ELSEIF(NTY.EQ.8)THEN
+      ELSEIF(NTY==8)THEN
 
  180    CONTINUE
 

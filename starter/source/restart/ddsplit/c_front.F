@@ -122,7 +122,7 @@ C
            !Add CPT-1 in order to don't take into account current proc himself
             NBDDACC = NBDDACC + (CPT - 1)
           ELSE
-            IF(PROC.NE.1)THEN
+            IF(PROC/=1)THEN
               !add only one time when PROC ne 1 and FLAGKIN(I)=1
               NBDDKIN = NBDDKIN + 1
               !do not count proc itself and proc 1
@@ -137,7 +137,7 @@ C
 C Frontiere Multidomaines
 C      
       SDD_R2R_ELEM = 0       
-      IF ((NSUBDOM.GT.0).AND.(IDDOM.EQ.0)) THEN
+      IF ((NSUBDOM>0).AND.(IDDOM==0)) THEN
         SDD_R2R_ELEM = 2*(NBDDKIN + NBDDACC)       
       ENDIF     
 C
@@ -150,7 +150,7 @@ C
         IF(NODLOCAL(M)/=0.AND.NODLOCAL(M)<=NUMNOD_L)THEN
           NRBYKIN_L = NRBYKIN_L + 1
           DO P = 1, NSPMD
-            IF(P.NE.PROC) THEN
+            IF(P/=PROC) THEN
               IF(NLOCAL(M,P)==1) THEN
                 NBDDNRB = NBDDNRB + 1
               ENDIF
@@ -167,7 +167,7 @@ C
         NSN=LJOINT(K)
         DO J = 1, NSN
           M = LJOINT(K+J)
-          IF(PROC.NE.1) THEN
+          IF(PROC/=1) THEN
 C proc <> 0, frontiere si noeud sur le proc
              IF(NODLOCAL(M)/=0.AND.NODLOCAL(M)<=NUMNOD_L)THEN
               NBDDNCJ = NBDDNCJ + 1
@@ -191,7 +191,7 @@ C
         M=IBVEL(4,N)
         IF(NODLOCAL(M)/=0.AND.NODLOCAL(M)<=NUMNOD_L)THEN
           DO P = 1, NSPMD
-            IF(P.NE.PROC) THEN
+            IF(P/=PROC) THEN
               IF(NLOCAL(M,P)==1) THEN         
                 NBDDNRBM = NBDDNRBM + 1
               ENDIF
@@ -205,11 +205,11 @@ C
       NBDDNRBYM = 0
       NRBYMK_L = 0
       DO N = 1, NRBYM
-        IF(MOD(FRONT_RM(N,PROC),10).EQ.1)THEN
+        IF(MOD(FRONT_RM(N,PROC),10)==1)THEN
           NRBYMK_L = NRBYMK_L + 1
           DO P = 1, NSPMD
-            IF(P.NE.PROC) THEN
-              IF(MOD(FRONT_RM(N,P),10).EQ.1) THEN
+            IF(P/=PROC) THEN
+              IF(MOD(FRONT_RM(N,P),10)==1) THEN
                 NBDDNRBYM = NBDDNRBYM + 1
               ENDIF
             ENDIF
@@ -219,7 +219,7 @@ C
 C
 C Frontiere LAG MULT
 C
-      IF(LAG_NCF.GT.0) THEN
+      IF(LAG_NCF>0) THEN
         DO N = 1, NUMNOD
           ITAG(N) = 0
         END DO
@@ -231,7 +231,7 @@ C
          IKN = IADLL(IC+1)-1
          DO IK = IK0,IKN
           N = LLL(IK)
-          IF(ITAG(N).EQ.0) THEN
+          IF(ITAG(N)==0) THEN
             ITAG(N) = 1
             DO P = 1, NSPMD
               IF(NLOCAL(N,P)==1)THEN          

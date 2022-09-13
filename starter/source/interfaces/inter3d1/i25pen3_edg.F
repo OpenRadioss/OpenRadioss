@@ -134,7 +134,7 @@ C       B = (XA*XSM-XB*XS2) / (XM2*XS2 - XSM*XSM)
 C       A = (XB*XSM-XA*XM2) / (XM2*XS2 - XSM*XSM)
 C--------------------------------------------------------
       DO I=1,JLT
-        IF(CAND_S(I).LE.NEDGE) THEN
+        IF(CAND_S(I)<=NEDGE) THEN
           N1 = LEDGE(5,CAND_S(I))
           N2 = LEDGE(6,CAND_S(I))
 

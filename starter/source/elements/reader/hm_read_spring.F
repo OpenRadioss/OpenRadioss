@@ -156,26 +156,26 @@ C
 C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
-          IF(SUB_SPRING(I) .NE. 0)THEN
-            IF(IPARTR(I) .NE. 0) IPARTR(I) = IPARTR(I) + OFF_PART(SUB_SPRING(I)) 
-            IF(IXR(NIXR,I) .NE. 0) IXR(NIXR,I) = IXR(NIXR,I) + OFF_EL(SUB_SPRING(I))
+          IF(SUB_SPRING(I) /= 0)THEN
+            IF(IPARTR(I) /= 0) IPARTR(I) = IPARTR(I) + OFF_PART(SUB_SPRING(I)) 
+            IF(IXR(NIXR,I) /= 0) IXR(NIXR,I) = IXR(NIXR,I) + OFF_EL(SUB_SPRING(I))
             DO J=2,4
-              IF(IXR(J,I) .NE. 0) IXR(J,I) = IXR(J,I) + OFF_NOD(SUB_SPRING(I))
+              IF(IXR(J,I) /= 0) IXR(J,I) = IXR(J,I) + OFF_NOD(SUB_SPRING(I))
             ENDDO
             DO J=1,3
-              IF(IXR_KJ(J,I) .NE. 0) IXR_KJ(J,I) = IXR_KJ(J,I) + OFF_NOD(SUB_SPRING(I))
+              IF(IXR_KJ(J,I) /= 0) IXR_KJ(J,I) = IXR_KJ(J,I) + OFF_NOD(SUB_SPRING(I))
             ENDDO
             IF(SKEWID(I) > 0) SKEWID(I)=SKEWID(I)+OFF_DEF(SUB_SPRING(I))
           ENDIF
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
-          IF( IPART(4,INDEX_PART) .NE. IPARTR(I) )THEN  
+          IF( IPART(4,INDEX_PART) /= IPARTR(I) )THEN  
             DO J=1,NPART                            
-              IF(IPART(4,J).EQ. IPARTR(I) ) INDEX_PART = J 
+              IF(IPART(4,J)== IPARTR(I) ) INDEX_PART = J 
             ENDDO  
           ENDIF
-          IF( IPART(4,INDEX_PART) .NE. IPARTR(I) ) THEN
+          IF( IPART(4,INDEX_PART) /= IPARTR(I) ) THEN
             CALL ANCMSG(MSGID=402,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_1,
@@ -195,10 +195,10 @@ C--------------------------------------------------
 c
           FLAG_KJ(I) = 0
           DO J=1,3
-            IF (IXR_KJ(J,I).NE.0) FLAG_KJ(I) = FLAG_KJ(I) + 1
+            IF (IXR_KJ(J,I)/=0) FLAG_KJ(I) = FLAG_KJ(I) + 1
           END DO   
 c	    
-          IF (IXR(NIXR,I).GT.ID_LIMIT) THEN
+          IF (IXR(NIXR,I)>ID_LIMIT) THEN
             CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I1=IXR(NIXR,I),C1=LINE,C2='/SPRING')
           ENDIF
@@ -207,14 +207,14 @@ c
           IXR(3,I)=USR2SYS(IXR(3,I),ITABM1,MESS,IXR(NIXR,I))
           CALL ANODSET(IXR(2,I), CHECK_SPRING)
           CALL ANODSET(IXR(3,I), CHECK_SPRING)
-          IF(IXR(4,I).NE.0) THEN
+          IF(IXR(4,I)/=0) THEN
              IXR(4,I)=USR2SYS(IXR(4,I),ITABM1,MESS,IXR(NIXR,I))
              CALL ANODSET(IXR(4,I), CHECK_USED)
           ENDIF
 C         Noeuds additionels pour joints	  
-	  IF (FLAG_KJ(I).GT.0) THEN
+	  IF (FLAG_KJ(I)>0) THEN
             DO J=1,3
-             IF(IXR_KJ(J,I).NE.0) THEN
+             IF(IXR_KJ(J,I)/=0) THEN
                 IXR_KJ(J,I)=USR2SYS(IXR_KJ(J,I),ITABM1,MESS,IXR(NIXR,I))
                 CALL ANODSET(IXR_KJ(J,I), CHECK_USED)
              ENDIF
@@ -271,11 +271,11 @@ C
           CHAR_SKEW=''
         ENDIF
 C
-	IF (IGEO(11,IXR(1,I)).EQ.45) NUMEL_KJ = NUMEL_KJ + 1
-        IF(IXR(4,I).EQ.0) THEN
+	IF (IGEO(11,IXR(1,I))==45) NUMEL_KJ = NUMEL_KJ + 1
+        IF(IXR(4,I)==0) THEN
           WRITE (IOUT,'(5(I10,1X),44X,A,A)') I,IXR(NIXR,I),PID,
      .                  ITAB(IXR(2,I)),ITAB(IXR(3,I)),CHAR_MAT,CHAR_SKEW
-        ELSEIF (FLAG_KJ(I).GT.0) THEN
+        ELSEIF (FLAG_KJ(I)>0) THEN
           IF (FLAG_KJ(I) == 1) THEN
             WRITE (IOUT,'(7(I10,1X),A,A)') I,IXR(NIXR,I),PID,
      .                   ITAB(IXR(2,I)),ITAB(IXR(3,I)),ITAB(IXR(4,I)),
@@ -295,7 +295,7 @@ C
         ENDIF
 C
   100 CONTINUE
-      IF(I2.EQ.NUMELR)GOTO 200
+      IF(I2==NUMELR)GOTO 200
       I1=I1+50
       I2=MIN0(I2+50,NUMELR)
       GOTO 90
@@ -306,7 +306,7 @@ C--------------------------------------------------
 C Reorganisation du tableau additionel pour kjoints
 C--------------------------------------------------
 
-      IF (NUMEL_KJ.GT.0) THEN
+      IF (NUMEL_KJ>0) THEN
         DO I=1,NUMELR
 	  DO J=1,3
 	    IKJ_TMP(J,I)=IXR_KJ(J,I)
@@ -315,7 +315,7 @@ C--------------------------------------------------
 	CPT = 0
 	IXR_KJ(1,NUMELR+1)=NUMEL_KJ
         DO I=1,NUMELR
-	  IF (IGEO(11,IXR(1,I)).EQ.45) THEN
+	  IF (IGEO(11,IXR(1,I))==45) THEN
 	    CPT = CPT+1
 	    DO J=1,3
 	      IXR_KJ(J,CPT)=IKJ_TMP(J,I)

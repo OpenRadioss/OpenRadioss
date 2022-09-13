@@ -107,7 +107,7 @@ C
       ENDDO 
 C
       DO I=JFT, JLT
-       IF (AL1(I).GT.EM15) THEN
+       IF (AL1(I)>EM15) THEN
         NORM=ONE/AL1(I)
         R11(I)=R11(I)*NORM
         R21(I)=R21(I)*NORM
@@ -124,24 +124,24 @@ C
       ENDDO 
 C
       DO I=JFT, JLT
-       IF (AL2(I).GT.EM15) THEN
+       IF (AL2(I)>EM15) THEN
         NORM=ONE/AL2(I)
         R12(I)=R12(I)*NORM
         R22(I)=R22(I)*NORM
         R32(I)=R32(I)*NORM
        ENDIF 
       ENDDO 
-      IF (IMP_CHK .GT. 0) THEN
+      IF (IMP_CHK > 0) THEN
        DO I=JFT,JLT
-        IF(OFFG(I).NE.ZERO)THEN
-         IF(AL1(I).LE.EM15)THEN
+        IF(OFFG(I)/=ZERO)THEN
+         IF(AL1(I)<=EM15)THEN
 #include "lockon.inc"
             WRITE(IOUT ,2001) NGL(I)
 #include "lockoff.inc"
             IDEL7NOK = 1
             IMP_IW = IMP_IW + 1
          ENDIF 
-         IF(AL2(I).LE.EM15)THEN
+         IF(AL2(I)<=EM15)THEN
 #include "lockon.inc"
             WRITE(IOUT ,2002) NGL(I)
 #include "lockoff.inc"

@@ -167,7 +167,7 @@ C
             IB(2,K)=IGRSURF(IS)%NODES(J,2)
             IB(3,K)=IGRSURF(IS)%NODES(J,3)
             ITY    =IGRSURF(IS)%ELTYP(J)
-            IF(ITY.EQ.7)THEN                          
+            IF(ITY==7)THEN                          
 C          true triangles (not segments built from 3 nodes).   
              IB(4,K)=0                                           
             ELSE                                                 

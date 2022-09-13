@@ -387,7 +387,7 @@ C
       ENDDO 
 C
       ! Printout element deletion
-      IF(NINDX.GT.0)THEN
+      IF(NINDX>0)THEN
         DO J=1,NINDX
 #include "lockon.inc"
           WRITE(IOUT, 1000) NGL(INDX(J))

@@ -77,7 +77,7 @@ C
 C-----------------------------------------------                        
 C       SOLIDES 16N                                                     
 C-----------------------------------------------                        
-        IF (ITY.EQ.1.AND.ISOLNOD.EQ.16) THEN  
+        IF (ITY==1.AND.ISOLNOD==16) THEN  
           GBUF =>  ELBUF_TAB(NG)%GBUF                           
           IF (MLW == 0 .OR. MLW == 13)THEN                                              
             DO I=LFT,LLT                                                
@@ -99,9 +99,9 @@ C-----------------------------------------------
 C-----------------------------------------------                        
 C       AUTRES SOLIDES                                                  
 C-----------------------------------------------                        
-        ELSEIF(ITY.EQ.1)THEN                                            
+        ELSEIF(ITY==1)THEN                                            
           GBUF =>  ELBUF_TAB(NG)%GBUF                           
-          IF(MLW.EQ.0)THEN                                              
+          IF(MLW==0)THEN                                              
             DO I=LFT,LLT                                                
               N = NFT + I                                               
               IOFF(EL2FA(NN2+N)) = 0                                    
@@ -112,12 +112,12 @@ C-----------------------------------------------
               IOFF(EL2FA(NN2+N)) = NINT(MIN(GBUF%OFF(I),ONE))        
             ENDDO                                                       
           ENDIF                                                         
-        ELSEIF(ISPH3D.EQ.1.AND.ITY.EQ.51)THEN                           
+        ELSEIF(ISPH3D==1.AND.ITY==51)THEN                           
           GBUF =>  ELBUF_TAB(NG)%GBUF                           
 C-----------------------------------------------                        
 C         TETRAS SPH.                                                  
 C-----------------------------------------------                        
-          IF(MLW.EQ.0)THEN                                              
+          IF(MLW==0)THEN                                              
             DO I=LFT,LLT                                                
               N = NFT + I                                               
               IOFF(EL2FA(NN3+N)) = 0                                    

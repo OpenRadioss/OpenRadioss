@@ -152,12 +152,12 @@ C....* CHECKS *.............
       IS1=2
       IS2=4
       INGR2USR => IGRNOD(1:NGRNOD)%ID
-      IF(ISU1.NE.0)ISU1=NGR2USR(ISU1,INGR2USR,NGRNOD)
+      IF(ISU1/=0)ISU1=NGR2USR(ISU1,INGR2USR,NGRNOD)
          ISU20=ISU2
          INGR2USR => IGRSURF(1:NSURF)%ID
          ISU2=NGR2USR(ISU2,INGR2USR,NSURF)
-         IF ( IGRSURF(ISU2)%TYPE.NE.100
-     .    .AND.IGRSURF(ISU2)%TYPE.NE.101) THEN
+         IF ( IGRSURF(ISU2)%TYPE/=100
+     .    .AND.IGRSURF(ISU2)%TYPE/=101) THEN
           TITR1 = IGRSURF(ISU20)%TITLE
              CALL ANCMSG(MSGID=111,
      .                   MSGTYPE=MSGERROR,
@@ -169,9 +169,9 @@ C....* CHECKS *.............
       END IF
 C-----
 
-        IF (NLO.EQ.0) GOTO 11
+        IF (NLO==0) GOTO 11
         DO NCURS=1,NFUNCT
-          IF (NLO.EQ.NPC(NFUNCT+1+NCURS)) THEN
+          IF (NLO==NPC(NFUNCT+1+NCURS)) THEN
             IPARI(8)=NCURS
             GOTO 11
           ENDIF
@@ -183,9 +183,9 @@ C-----
      .              C1=TITR,
      .              I2=NLO)
  11     CONTINUE
-        IF (NFRIC.EQ.0) GOTO 12
+        IF (NFRIC==0) GOTO 12
         DO NCURS=1,NFUNCT
-          IF (NFRIC.EQ.NPC(NFUNCT+1+NCURS)) THEN
+          IF (NFRIC==NPC(NFUNCT+1+NCURS)) THEN
             IPARI(9)=NCURS
             GOTO 12
           ENDIF
@@ -197,9 +197,9 @@ C-----
      .              C1=TITR,
      .              I2=NFRIC)
  12     CONTINUE
-        IF (NDAMP1.EQ.0) GOTO 13
+        IF (NDAMP1==0) GOTO 13
         DO NCURS=1,NFUNCT
-          IF (NDAMP1.EQ.NPC(NFUNCT+1+NCURS)) THEN
+          IF (NDAMP1==NPC(NFUNCT+1+NCURS)) THEN
             IPARI(10)=NCURS
             GOTO 13
           ENDIF
@@ -211,9 +211,9 @@ C-----
      .              C1=TITR,
      .              I2=NDAMP1)
  13     CONTINUE
-        IF (NDAMP2.EQ.0) GOTO 14
+        IF (NDAMP2==0) GOTO 14
         DO NCURS=1,NFUNCT
-          IF (NDAMP2.EQ.NPC(NFUNCT+1+NCURS)) THEN
+          IF (NDAMP2==NPC(NFUNCT+1+NCURS)) THEN
             IPARI(11)=NCURS
             GOTO 14
           ENDIF
@@ -254,28 +254,28 @@ C
      .     STARTT,STOPT
 
 C--------------------------------------------------------------
-      IF(IS1.EQ.0)THEN
+      IF(IS1==0)THEN
         WRITE(IOUT,'(6X,A)')'NO SECONDARY SURFACE INPUT'
-      ELSEIF(IS1.EQ.1)THEN
+      ELSEIF(IS1==1)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS1.EQ.2)THEN
+      ELSEIF(IS1==2)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY NODES'
-      ELSEIF(IS1.EQ.3)THEN
+      ELSEIF(IS1==3)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS1.EQ.4 )THEN
+      ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
-      ELSEIF(IS1.EQ.5 )THEN
+      ELSEIF(IS1==5 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
       ENDIF
-      IF(IS2.EQ.0)THEN
+      IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'
-      ELSEIF(IS2.EQ.1)THEN
+      ELSEIF(IS2==1)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS2.EQ.2)THEN
+      ELSEIF(IS2==2)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY NODES'
-      ELSEIF(IS2.EQ.3)THEN
+      ELSEIF(IS2==3)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS2.EQ.4)THEN
+      ELSEIF(IS2==4)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE REFERS ',
      .                      'TO HYPER-ELLIPSOIDAL SURFACE'
       ENDIF
@@ -289,7 +289,7 @@ C------------
 
 
  1514 FORMAT(//
-     .    '    TYPE.EQ.14   NODE to SURFACE                ' //,
+     .    '    TYPE==14   NODE to SURFACE                ' //,
      .    '    INTERFACE STIFFNESS . . . . . . . . . . . . ',1PG20.13/,
      .    '    FUNCTION FOR ELASTIC CONTACT  . . . . . . . ',I10/,
      .    '    FRICTION COEFFICIENT  . . . . . . . . . . . ',1PG20.13/,

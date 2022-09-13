@@ -61,7 +61,7 @@ C------- integrateur ----------
             A(2,I)=ZERO
             A(3,I)=ZERO
            ENDDO
-           IF (IRODDL.NE.0) THEN
+           IF (IRODDL/=0) THEN
             DO I=NODFT,NODLT
             VR(1,I)=DR(1,I)*DTI
             VR(2,I)=DR(2,I)*DTI
@@ -109,7 +109,7 @@ C-----------------------------------------------
       my_real
      .  DTI
 C------- integrateur ---------- 
-      IF (IDYNA.GT.0) CALL INTE_DYNA(NODFT,NODLT ,
+      IF (IDYNA>0) CALL INTE_DYNA(NODFT,NODLT ,
      .                               D    ,DR    ,V    ,VR    )
       DTI = ONE/DT2/NDT
        DO I=NODFT,NODLT
@@ -117,7 +117,7 @@ C------- integrateur ----------
         V(2,I)=DTI*D(2,I)
         V(3,I)=DTI*D(3,I)
        ENDDO
-       IF (IRODDL.NE.0) THEN
+       IF (IRODDL/=0) THEN
         DO I=NODFT,NODLT
          VR(1,I)=DTI*DR(1,I)
          VR(2,I)=DTI*DR(2,I)
@@ -131,7 +131,7 @@ C
        A(2,I)=ZERO
        A(3,I)=ZERO
       ENDDO
-      IF (IRODDL.NE.0) THEN
+      IF (IRODDL/=0) THEN
        DO I=NODFT,NODLT
         AR(1,I)=ZERO
         AR(2,I)=ZERO
@@ -246,15 +246,15 @@ C-----------------------------------------------
           DO I=NODFT,NODLT
            DO J=1,3
             ID = IDDL(I)+J
-            IF (IKC(ID).EQ.0) D(J,I)=D(J,I)+DD(J,I)
+            IF (IKC(ID)==0) D(J,I)=D(J,I)+DD(J,I)
            ENDDO
           ENDDO
-          IF (IRODDL.NE.0) THEN
+          IF (IRODDL/=0) THEN
             DO I=NODFT,NODLT
-             IF (NDOF(I).GT.3) THEN
+             IF (NDOF(I)>3) THEN
               DO J=1,3
                ID = IDDL(I)+J+3
-               IF (IKC(ID).EQ.0) DR(J,I)=DR(J,I)+DDR(J,I)
+               IF (IKC(ID)==0) DR(J,I)=DR(J,I)+DDR(J,I)
               ENDDO
              ENDIF
             ENDDO
@@ -293,15 +293,15 @@ C-----------------------------------------------
           DO I=NODFT,NODLT
            DO J=1,3
             ID = IDDL(I)+J
-            IF (IKC(ID).EQ.0) D(J,I)=D(J,I)*FAC
+            IF (IKC(ID)==0) D(J,I)=D(J,I)*FAC
            ENDDO
           ENDDO
-          IF (IRODDL.NE.0) THEN
+          IF (IRODDL/=0) THEN
             DO I=NODFT,NODLT
-             IF (NDOF(I).GT.3) THEN
+             IF (NDOF(I)>3) THEN
               DO J=1,3
                ID = IDDL(I)+J+3
-               IF (IKC(ID).EQ.0) DR(J,I)=DR(J,I)*FAC
+               IF (IKC(ID)==0) DR(J,I)=DR(J,I)*FAC
               ENDDO
              ENDIF
             ENDDO
@@ -342,15 +342,15 @@ C-----------------------------------------------
           DO I=NODFT,NODLT
            DO J=1,3
             ID = IDDL(I)+J
-            IF (IKC(ID).EQ.0) D(J,I)=D(J,I)+FAC*DD(J,I)
+            IF (IKC(ID)==0) D(J,I)=D(J,I)+FAC*DD(J,I)
            ENDDO
           ENDDO
-          IF (IRODDL.NE.0) THEN
+          IF (IRODDL/=0) THEN
             DO I=NODFT,NODLT
-             IF (NDOF(I).GT.3) THEN
+             IF (NDOF(I)>3) THEN
               DO J=1,3
                ID = IDDL(I)+J+3
-               IF (IKC(ID).EQ.0) DR(J,I)=DR(J,I)+FAC*DDR(J,I)
+               IF (IKC(ID)==0) DR(J,I)=DR(J,I)+FAC*DDR(J,I)
               ENDDO
              ENDIF
             ENDDO
@@ -405,7 +405,7 @@ C------- integrateur ----------
             A(2,I)=ZERO
             A(3,I)=ZERO
            ENDDO
-           IF (IRODDL.NE.0) THEN
+           IF (IRODDL/=0) THEN
             DO I=NODFT,NODLT
             VR(1,I)=DR(1,I)*DTI
             VR(2,I)=DR(2,I)*DTI
@@ -461,14 +461,14 @@ C------- integrateur ----------
       DTI = ONE/DT2/NDT
 !$OMP PARALLEL PRIVATE(ITSK,NODFT ,NODLT,I)
       CALL IMP_SMPINI(ITSK   ,NODFT ,NODLT ,NUMNOD )
-      IF (IDYNA.GT.0) CALL INTE_DYNA(NODFT,NODLT ,
+      IF (IDYNA>0) CALL INTE_DYNA(NODFT,NODLT ,
      .                               D    ,DR    ,V    ,VR    )
        DO I=NODFT,NODLT
         V(1,I)=DTI*D(1,I)
         V(2,I)=DTI*D(2,I)
         V(3,I)=DTI*D(3,I)
        ENDDO
-       IF (IRODDL.NE.0) THEN
+       IF (IRODDL/=0) THEN
         DO I=NODFT,NODLT
          VR(1,I)=DTI*DR(1,I)
          VR(2,I)=DTI*DR(2,I)
@@ -482,7 +482,7 @@ C
        A(2,I)=ZERO
        A(3,I)=ZERO
       ENDDO
-      IF (IRODDL.NE.0) THEN
+      IF (IRODDL/=0) THEN
        DO I=NODFT,NODLT
         AR(1,I)=ZERO
         AR(2,I)=ZERO
@@ -572,15 +572,15 @@ C-----------------------------------------------
           DO I=NODFT,NODLT
            DO J=1,3
             ID = IDDL(I)+J
-            IF (IKC(ID).EQ.0) D(J,I)=D(J,I)+DD(J,I)
+            IF (IKC(ID)==0) D(J,I)=D(J,I)+DD(J,I)
            ENDDO
           ENDDO
-          IF (IRODDL.NE.0) THEN
+          IF (IRODDL/=0) THEN
             DO I=NODFT,NODLT
-             IF (NDOF(I).GT.3) THEN
+             IF (NDOF(I)>3) THEN
               DO J=1,3
                ID = IDDL(I)+J+3
-               IF (IKC(ID).EQ.0) DR(J,I)=DR(J,I)+DDR(J,I)
+               IF (IKC(ID)==0) DR(J,I)=DR(J,I)+DDR(J,I)
               ENDDO
              ENDIF
             ENDDO
@@ -626,15 +626,15 @@ C-----------------------------------------------
           DO I=NODFT,NODLT
            DO J=1,3
             ID = IDDL(I)+J
-            IF (IKC(ID).EQ.0) D(J,I)=D(J,I)*FAC
+            IF (IKC(ID)==0) D(J,I)=D(J,I)*FAC
            ENDDO
           ENDDO
-          IF (IRODDL.NE.0) THEN
+          IF (IRODDL/=0) THEN
             DO I=NODFT,NODLT
-             IF (NDOF(I).GT.3) THEN
+             IF (NDOF(I)>3) THEN
               DO J=1,3
                ID = IDDL(I)+J+3
-               IF (IKC(ID).EQ.0) DR(J,I)=DR(J,I)*FAC
+               IF (IKC(ID)==0) DR(J,I)=DR(J,I)*FAC
               ENDDO
              ENDIF
             ENDDO
@@ -681,15 +681,15 @@ C-----------------------------------------------
           DO I=NODFT,NODLT
            DO J=1,3
             ID = IDDL(I)+J
-            IF (IKC(ID).EQ.0) D(J,I)=D(J,I)+FAC*DD(J,I)
+            IF (IKC(ID)==0) D(J,I)=D(J,I)+FAC*DD(J,I)
            ENDDO
           ENDDO
-          IF (IRODDL.NE.0) THEN
+          IF (IRODDL/=0) THEN
             DO I=NODFT,NODLT
-             IF (NDOF(I).GT.3) THEN
+             IF (NDOF(I)>3) THEN
               DO J=1,3
                ID = IDDL(I)+J+3
-               IF (IKC(ID).EQ.0) DR(J,I)=DR(J,I)+FAC*DDR(J,I)
+               IF (IKC(ID)==0) DR(J,I)=DR(J,I)+FAC*DDR(J,I)
               ENDDO
              ENDIF
             ENDDO

@@ -81,14 +81,14 @@ C
 C
       UPW   = INTBUF_TAB%VARIABLES(14)
       STENS = INTBUF_TAB%VARIABLES(15)
-c      IF(IMACH.EQ.3)THEN
+c      IF(IMACH==3)THEN
         ISIZES = NRTS
         ISIZEM = NRTM
 c      ELSE
 c        ISIZES = 0
 c        ISIZEM = 0
 c      END IF
-      IF(N2D.EQ.0)THEN
+      IF(N2D==0)THEN
         CALL I9WAL3
      1  (X         ,V         ,VG        ,A         ,INTBUF_TAB%CSTS,
      2   INTBUF_TAB%NSV,INTBUF_TAB%ILOCS,INTBUF_TAB%IRTLM,ICODE ,ISKEW,

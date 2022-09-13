@@ -67,10 +67,10 @@ C-----------------------------------------------
         OFFSET = IG - 1
         LFT=1
         LLT=MIN(MVSIZ,NEL-OFFSET)  
-        IF(ITY.EQ.51)THEN
+        IF(ITY==51)THEN
          DO I=LFT,LLT
           N =I+NFT
-          IF(SPBUF(9,N).GT.ZERO)THEN
+          IF(SPBUF(9,N)>ZERO)THEN
            KXSP(1,N) =0
            KXSP(2,N) =NG
            SPBUF(9,N)=ZERO	   

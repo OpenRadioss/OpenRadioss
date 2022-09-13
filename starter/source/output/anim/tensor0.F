@@ -96,7 +96,7 @@ C          STRESS
 C-----------------------------------------------                        
            DO I=LFT,LLT                                                 
              N = I + NFT                                                
-             IF(EL2FA(NN1+N).NE.0)THEN                                  
+             IF(EL2FA(NN1+N)/=0)THEN                                  
                TENS(1,EL2FA(NN1+N)) = GBUF%SIG(II(1) + I)
                TENS(2,EL2FA(NN1+N)) = GBUF%SIG(II(2) + I)
                TENS(3,EL2FA(NN1+N)) = GBUF%SIG(II(3) + I)
@@ -112,7 +112,7 @@ C          CRACKS
 C-----------------------------------------------                        
            DO I=LFT,LLT                                                 
              N = I + NFT                                                
-             IF(EL2FA(NN1+N).NE.0)THEN                                  
+             IF(EL2FA(NN1+N)/=0)THEN                                  
                TENS(1,EL2FA(NN1+N)) =  LBUF%DGLO(II(1) + I)	
                TENS(2,EL2FA(NN1+N)) =  LBUF%DGLO(II(2) + I)	
                TENS(3,EL2FA(NN1+N)) =  LBUF%DGLO(II(3) + I)		    
@@ -125,7 +125,7 @@ C-----------------------------------------------
 C-----------------------------------------------                        
            DO I=LFT,LLT                                                 
              N = I + NFT                                                
-             IF(EL2FA(NN1+N).NE.0)THEN                                  
+             IF(EL2FA(NN1+N)/=0)THEN                                  
                TENS(1,EL2FA(NN1+N)) = ZERO                              
                TENS(2,EL2FA(NN1+N)) = ZERO                              
                TENS(3,EL2FA(NN1+N)) = ZERO                              

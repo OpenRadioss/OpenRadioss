@@ -4121,7 +4121,7 @@ C
       NN(1)=N1
       NN(2)=N2
       NN(3)=N3
-      IF(AN.LE.EM19) THEN
+      IF(AN<=EM19) THEN
         IER=-1
         RETURN
       ENDIF
@@ -4155,27 +4155,27 @@ C
       AB1=A23*B41
       AB2=B23*A41
 C
-      IF(ABS(AB1+AB2)/AREA.GT.EM10)THEN
+      IF(ABS(AB1+AB2)/AREA>EM10)THEN
        SSC=(AB1-AB2)/(AB1+AB2)
       ELSE
        SSC=ZERO
       ENDIF
-      IF(ABS(A34/AREA).GT.EM10)THEN
+      IF(ABS(A34/AREA)>EM10)THEN
        AB1=B12*A34
        AB2=B34*A12
        TTC=(AB1-AB2)/(AB1+AB2)
       ELSE
        TTC=B12/A12-ONE
-       IF(B23.LE.ZERO.AND.B41.LE.ZERO)THEN
-         IF(-B23/A12.LE.ALP.AND.-B41/A12.LE.ALP)SSC=ZERO
-       ELSEIF(B23.LE.ZERO)THEN
-         IF(-B23/A12.LE.ALP) THEN
+       IF(B23<=ZERO.AND.B41<=ZERO)THEN
+         IF(-B23/A12<=ALP.AND.-B41/A12<=ALP)SSC=ZERO
+       ELSEIF(B23<=ZERO)THEN
+         IF(-B23/A12<=ALP) THEN
           SSC=ONE
          ELSE
           SSC=TWO
          END IF
-       ELSEIF(B41.LE.ZERO)THEN
-         IF(-B41/A12.LE.ALP) THEN
+       ELSEIF(B41<=ZERO)THEN
+         IF(-B41/A12<=ALP) THEN
           SSC=-ONE
          ELSE
           SSC=-TWO
@@ -4183,7 +4183,7 @@ C
        ENDIF
       ENDIF
 C
-      IF(ABS(SSC).GT.ONE+ALP.OR.ABS(TTC).GT.ONE+ALP) THEN
+      IF(ABS(SSC)>ONE+ALP.OR.ABS(TTC)>ONE+ALP) THEN
         IER=1
       ENDIF
 C

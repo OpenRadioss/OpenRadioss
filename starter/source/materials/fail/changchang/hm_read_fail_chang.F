@@ -105,13 +105,13 @@ C--------------------------------------------------
       CALL HM_GET_FLOATV    ('Tau_max'    ,TMAX       ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_INTV      ('Ifail_sh'   ,ISHELL     ,IS_AVAILABLE,LSUBMODEL)
             
-      IF (SIGT1.EQ.ZERO) SIGT1 = EP30
-      IF (SIGT2.EQ.ZERO) SIGT2 = EP30
-      IF (SIGT12.EQ.ZERO) SIGT12 = EP30
-      IF (SIGC1.EQ.ZERO) SIGC1 = EP30
-      IF (SIGC2.EQ.ZERO) SIGC2 = EP30
-      IF(TMAX.EQ.ZERO) TMAX=EP30
-      IF(ISHELL.EQ.0) ISHELL = 1               
+      IF (SIGT1==ZERO) SIGT1 = EP30
+      IF (SIGT2==ZERO) SIGT2 = EP30
+      IF (SIGT12==ZERO) SIGT12 = EP30
+      IF (SIGC1==ZERO) SIGC1 = EP30
+      IF (SIGC2==ZERO) SIGC2 = EP30
+      IF(TMAX==ZERO) TMAX=EP30
+      IF(ISHELL==0) ISHELL = 1               
 
       UPARAM(1) = SIGT1
       UPARAM(2) = SIGT2
@@ -130,9 +130,9 @@ C--------------------------------------------------
       
       ELSE
        WRITE(IOUT, 1000)SIGT1,SIGT2,SIGT12,SIGC1,SIGC2,BETA,TMAX    
-       IF(ISHELL.EQ.1)THEN
+       IF(ISHELL==1)THEN
         WRITE(IOUT, 1100)
-       ELSEIF(ISHELL.EQ.2)THEN
+       ELSEIF(ISHELL==2)THEN
         WRITE(IOUT, 1200)
        ENDIF       
       ENDIF

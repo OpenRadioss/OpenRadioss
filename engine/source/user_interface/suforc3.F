@@ -139,7 +139,7 @@ C GATHER NODAL VARIABLES
 C-----------
       IG =IPROP(1)
       IGT=IGEO(11,IG)
-      IF (IGT.GE.29)THEN
+      IF (IGT>=29)THEN
         NUVARP=NINT(GEO(25,IG))
       ELSE
         NUVARP=0
@@ -147,7 +147,7 @@ C-----------
 C----------------------------
 C     INTERNAL FORCES
 C----------------------------
-      IF(IGTYP.EQ.29)THEN
+      IF(IGTYP==29)THEN
        DO I=LFT,LLT
          SIG_LOC(1,I) = GBUF%SIG(II(1)+I)
          SIG_LOC(2,I) = GBUF%SIG(II(2)+I)
@@ -219,7 +219,7 @@ C----------------------------
          GBUF%RHO(I) = RHO_LOC(I)
        ENDDO
 
-      ELSEIF(IGTYP.EQ.30)THEN
+      ELSEIF(IGTYP==30)THEN
        DO I=LFT,LLT
          SIG_LOC(1,I) = GBUF%SIG(II(1)+I)
          SIG_LOC(2,I) = GBUF%SIG(II(2)+I)
@@ -290,7 +290,7 @@ C----------------------------
          GBUF%RHO(I) = RHO_LOC(I)
        ENDDO
 
-      ELSEIF(IGTYP.EQ.31)THEN
+      ELSEIF(IGTYP==31)THEN
        DO I=LFT,LLT
          SIG_LOC(1,I) = GBUF%SIG(II(1)+I)
          SIG_LOC(2,I) = GBUF%SIG(II(2)+I)
@@ -398,11 +398,11 @@ C
 C--------------------------------------------
 C     Front wave
 C--------------------------------------------
-      IF(IFRWV.NE.0)THEN
+      IF(IFRWV/=0)THEN
 #include "lockon.inc"
         DO J=1,8
          DO I=LFT,LLT
-          IF(FR_WAVE(NC(I,J)).EQ.ZERO)FR_WAVE(NC(I,J))=-FR_W_E(I)
+          IF(FR_WAVE(NC(I,J))==ZERO)FR_WAVE(NC(I,J))=-FR_W_E(I)
          ENDDO
         ENDDO
 #include "lockoff.inc"
@@ -649,7 +649,7 @@ C----------------------------
 C--------------------------------------------
 C     Front wave
 C--------------------------------------------
-      IF(IFRWV.NE.0)THEN
+      IF(IFRWV/=0)THEN
         DO I=LFT,LLT
           FR_W_E(I)=ZERO
         ENDDO

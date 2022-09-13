@@ -107,18 +107,18 @@ C----------------------------
       DO I=LFT,LLT
         QA = P(I)*DF(I)**THIRD
         QB = ONE - CH*(THETA(I)-T0)
-        IF(EMELT(I).LE.ZERO .OR. CF.LE.ZERO) THEN
+        IF(EMELT(I)<=ZERO .OR. CF<=ZERO) THEN
            QC = ONE
-        ELSEIF(ESPE(I).GE.EMELT(I)) THEN
+        ELSEIF(ESPE(I)>=EMELT(I)) THEN
            QC = ZERO
         ELSE
            QC = EXP(CF * ESPE(I) / (ESPE(I)-EMELT(I)))
         ENDIF
         G(I)  = G0 * (CB1*QA + QB) * QC
         QD(I) = (CB2*QA + QB) * QC
-        IF(EPXE(I).LE.ZERO) THEN
+        IF(EPXE(I)<=ZERO) THEN
           QE = SIG0
-        ELSEIF(EPXE(I).GT.EPMX) THEN
+        ELSEIF(EPXE(I)>EPMX) THEN
           QE = SIG0 * ((ONE + CB*EPMX)**CN)
         ELSE
           QE = SIG0 * ((ONE + CB*EPXE(I))**CN)
@@ -154,7 +154,7 @@ C
 C---
       DO I=LFT,LLT
 C---      Melting
-        IF(THETA(I).GE.TMELT) THEN
+        IF(THETA(I)>=TMELT) THEN
           QH(I) =ZERO
           G(I)  =ZERO
           YLD(I)=ZERO
@@ -162,19 +162,19 @@ C---      Melting
           SCALE(I)=ZERO	  
         ELSE
 C---      Hardening rule
-          IF(CN.GE.1) THEN
+          IF(CN>=1) THEN
             QH(I)= QD(I)*SIG0*CB*CN
      .           * ((ONE + CB*EPXE(I))**(CN-ONE))
-          ELSEIF(EPXE(I).GT.ZERO)THEN
+          ELSEIF(EPXE(I)>ZERO)THEN
             QH(I)= QD(I)*SIG0*CB*CN
      .           / ((ONE + CB*EPXE(I))**(ONE-CN))
           ELSE
             QH(I)=ZERO
           ENDIF
 C---      Radial return
-          IF(AJ2(I).LE.YLD(I)) THEN
+          IF(AJ2(I)<=YLD(I)) THEN
             SCALE(I)=ONE
-          ELSEIF(AJ2(I).NE.ZERO) THEN
+          ELSEIF(AJ2(I)/=ZERO) THEN
             SCALE(I)=YLD(I)/AJ2(I)
           ELSE
             SCALE(I)=ZERO

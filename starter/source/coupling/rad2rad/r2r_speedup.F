@@ -83,19 +83,19 @@ C
         COST_R2R = COST_R2R + 12.0
       END DO
 C
-      IF (IDDOM.NE.0) THEN
+      IF (IDDOM/=0) THEN
 C
         DT_R2R(1,1) = DT
         DT_R2R(2,1) = COST_R2R
-        IF (FLG_CHK.GT.0) DT_R2R(3,1) = ONE
-        IF (FLG_CTL.GT.0) DT_R2R(4,1) = ONE
+        IF (FLG_CHK>0) DT_R2R(3,1) = ONE
+        IF (FLG_CTL>0) DT_R2R(4,1) = ONE
 C
       ELSE
 C
         WRITE(IOUT,1000)
         WRITE(IOUT,1001)
 C
-        IF (FLG_CHK.EQ.0) THEN 
+        IF (FLG_CHK==0) THEN 
           CALL ANCMSG(MSGID=1095,
      .                 MSGTYPE=MSGWARNING,
      .                 ANMODE=ANINFO_BLIND_2,
@@ -105,7 +105,7 @@ C
         DT_SUB = DT_R2R(1,1)
         COST_SUB = DT_R2R(2,1)
 C
-        IF (FLG_SWALE.EQ.1) THEN
+        IF (FLG_SWALE==1) THEN
           DT_SUB = DT
           DT = DT_R2R(1,1)
           COST_SUB = COST_R2R
@@ -114,13 +114,13 @@ C
 C
         FLG_CHK_SUB = 0
         FLG_CTL_SUB = 0
-        IF (DT_R2R(3,1).GT.EM20) FLG_CHK_SUB = 1
-        IF (DT_R2R(4,1).GT.EM20) FLG_CTL_SUB = 1
+        IF (DT_R2R(3,1)>EM20) FLG_CHK_SUB = 1
+        IF (DT_R2R(4,1)>EM20) FLG_CTL_SUB = 1
         NAM=DOM_NAME(ISUBDOM(8,1):ISUBDOM(8,1)+
      .               ISUBDOM(7,1)-1)
         DOMLEN = ISUBDOM(7,1)
 C
-        IF (FLG_CHK_SUB.EQ.0) THEN 
+        IF (FLG_CHK_SUB==0) THEN 
           CALL ANCMSG(MSGID=1095,
      .                 MSGTYPE=MSGWARNING,
      .                 ANMODE=ANINFO_BLIND_2,
@@ -234,56 +234,56 @@ C-----------------------------------------------
 C     Off elements must be taken into account and sorting if necessart
 C-----------------------------------------------  
       DO I = 1, NUMELS
-        IF (ISOLOFF(I).NE.0) THEN
+        IF (ISOLOFF(I)/=0) THEN
           DTELEM(I+DT_INDEX(1)) = EP30
           FLAG_TRI(1) = 1
         ENDIF
       END DO
 C
       DO I = 1, NUMELQ
-        IF (IQUAOFF(I).NE.0) THEN
+        IF (IQUAOFF(I)/=0) THEN
           DTELEM(I+DT_INDEX(2)) = EP30
           FLAG_TRI(2) = 1
         ENDIF
       END DO
 C
       DO I = 1, NUMELC
-        IF (ISHEOFF(I).NE.0) THEN
+        IF (ISHEOFF(I)/=0) THEN
           DTELEM(I+DT_INDEX(3)) = EP30
           FLAG_TRI(3) = 1
         END IF
       END DO
 C
       DO I = 1, NUMELT
-        IF (ITRUOFF(I).NE.0) THEN
+        IF (ITRUOFF(I)/=0) THEN
           DTELEM(I+DT_INDEX(4)) = EP30
           FLAG_TRI(4) = 1
         END IF
       END DO
 C
       DO I = 1, NUMELP
-        IF (IPOUOFF(I).NE.0) THEN
+        IF (IPOUOFF(I)/=0) THEN
           DTELEM(I+DT_INDEX(5)) = EP30
           FLAG_TRI(5) = 1
         END IF
       END DO
 C
       DO I = 1, NUMELR
-        IF (IRESOFF(I).NE.0) THEN
+        IF (IRESOFF(I)/=0) THEN
           DTELEM(I+DT_INDEX(6)) = EP30
           FLAG_TRI(6) = 1
         END IF
       END DO
 C
       DO I = 1, NUMELTG
-        IF (ITRIOFF(I).NE.0) THEN
+        IF (ITRIOFF(I)/=0) THEN
           DTELEM(I+DT_INDEX(7)) = EP30
           FLAG_TRI(7) = 1
         END IF
       END DO
 C
       DO I=1,11
-        IF (FLAG_TRI(I).EQ.1) CALL TRIRAP(NUME(I),DTELEM(1+DT_INDEX(I)),NUMEL)
+        IF (FLAG_TRI(I)==1) CALL TRIRAP(NUME(I),DTELEM(1+DT_INDEX(I)),NUMEL)
       END DO
 
 C-----------------------------------------------
@@ -302,7 +302,7 @@ C-----------------------------------------------
       OPEN(UNIT=71,FILE=TMP_NAME(1:LEN_TMP_NAME),
      .     ACCESS='SEQUENTIAL',STATUS='OLD',IOSTAT=IO_ERR1)
 C
-      IF (IO_ERR1.NE.0) THEN
+      IF (IO_ERR1/=0) THEN
          FILNAM=ROOTNAM(1:ROOTLEN)//'D01'
          TMP_NAME=INFILE_NAME(1:INFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))    
          LEN_TMP_NAME = INFILE_NAME_LEN+LEN_TRIM(FILNAM)
@@ -310,131 +310,131 @@ C
      .        ACCESS='SEQUENTIAL',STATUS='OLD',IOSTAT=IO_ERR1)
       ENDIF      
 
-      IF (IO_ERR1.EQ.0) THEN
+      IF (IO_ERR1==0) THEN
 C
         FLG_CHK = 1
  10     READ(71,'(A)',END=20) KEYA
 C--
-        IF (KEYA(1:3).EQ.'/DT') THEN
+        IF (KEYA(1:3)=='/DT') THEN
           READ(71,'(A)',END=20) KEYA2 
-          IF(KEYA2(1:1).NE.'$'.AND.KEYA2(1:1).NE.'#') THEN
+          IF(KEYA2(1:1)/='$'.AND.KEYA2(1:1)/='#') THEN
             BACKSPACE(71)
           ENDIF
         ENDIF
 C
 C--     nodal time step--
-        IF(KEYA(1:8).EQ.'/DT/NODA') THEN
+        IF(KEYA(1:8)=='/DT/NODA') THEN
           READ(71,*,END=20) DTSCA,DTMINI 
           DTNODA = DTSCA*DTNODA
-          IF(KEYA(1:12).EQ.'/DT/NODA/CST') THEN
+          IF(KEYA(1:12)=='/DT/NODA/CST') THEN
             FLG_CTL = 1 
             DTNODA = MAX(DTNODA,DTMINI)
           ENDIF
 C--     solid element time step --
-        ELSEIF(KEYA(1:9).EQ.'/DT/BRICK') THEN
+        ELSEIF(KEYA(1:9)=='/DT/BRICK') THEN
           READ(71,*,END=20) DTSCA,DTMINI
           DTFAC1(1) = DTSCA 
-          IF (KEYA(10:13).EQ.'/DEL') THEN
+          IF (KEYA(10:13)=='/DEL') THEN
             DO I = 1,NUMELS
-              IF (DTSCA*DTELEM(DT_INDEX(1)+I).GT.DTMINI) THEN
+              IF (DTSCA*DTELEM(DT_INDEX(1)+I)>DTMINI) THEN
                 DT_MIN_ELEM(1) = DTELEM(DT_INDEX(1)+I)
                 EXIT
               ENDIF
             END DO
           ENDIF
 C--     quad element time step --
-        ELSEIF(KEYA(1:9).EQ.'/DT/QUAD') THEN
+        ELSEIF(KEYA(1:9)=='/DT/QUAD') THEN
           READ(71,*,END=20) DTSCA,DTMINI
           DTFAC1(2) = DTSCA 
-          IF (KEYA(10:13).EQ.'/DEL') THEN
+          IF (KEYA(10:13)=='/DEL') THEN
             DO I = 1,NUMELQ
-              IF (DTSCA*DTELEM(DT_INDEX(2)+I).GT.DTMINI) THEN
+              IF (DTSCA*DTELEM(DT_INDEX(2)+I)>DTMINI) THEN
                 DT_MIN_ELEM(2) = DTELEM(DT_INDEX(2)+I)
                 EXIT
               ENDIF
             END DO
           ENDIF
 C--     shell element time step --
-        ELSEIF(KEYA(1:9).EQ.'/DT/SHELL') THEN
+        ELSEIF(KEYA(1:9)=='/DT/SHELL') THEN
           READ(71,*,END=20) DTSCA,DTMINI
           DTFAC1(3) = DTSCA
-          IF ((KEYA(10:14).NE.'/STOP').AND.(KEYA(10:13).NE.'/CST')) THEN
+          IF ((KEYA(10:14)/='/STOP').AND.(KEYA(10:13)/='/CST')) THEN
             DO I = 1,NUMELC
-              IF (DTSCA*DTELEM(DT_INDEX(3)+I).GT.DTMINI) THEN
+              IF (DTSCA*DTELEM(DT_INDEX(3)+I)>DTMINI) THEN
                 DT_MIN_ELEM(3) = DTELEM(DT_INDEX(3)+I)
                 EXIT
               ENDIF
             END DO
           ENDIF
 C--     beam element time step --
-        ELSEIF (KEYA(1:8).EQ.'/DT/BEAM') THEN
+        ELSEIF (KEYA(1:8)=='/DT/BEAM') THEN
           READ(71,*,END=20) DTSCA,DTMINI
           DTFAC1(4) = DTSCA
-          IF (KEYA(9:12).EQ.'/DEL') THEN
+          IF (KEYA(9:12)=='/DEL') THEN
             DO I = 1,NUMELT
-              IF (DTSCA*DTELEM(DT_INDEX(4)+I).GT.DTMINI) THEN
+              IF (DTSCA*DTELEM(DT_INDEX(4)+I)>DTMINI) THEN
                 DT_MIN_ELEM(4) = DTELEM(DT_INDEX(4)+I)
                 EXIT
               ENDIF
             END DO
           ENDIF
 C--     truss element time step --
-        ELSEIF (KEYA(1:9).EQ.'/DT/TRUSS') THEN
+        ELSEIF (KEYA(1:9)=='/DT/TRUSS') THEN
           READ(71,*,END=20) DTSCA,DTMINI
           DTFAC1(5) = DTSCA 
-          IF (KEYA(10:13).EQ.'/DEL') THEN
+          IF (KEYA(10:13)=='/DEL') THEN
             DO I = 1,NUMELP
-              IF (DTSCA*DTELEM(DT_INDEX(5)+I).GT.DTMINI) THEN
+              IF (DTSCA*DTELEM(DT_INDEX(5)+I)>DTMINI) THEN
                 DT_MIN_ELEM(5) = DTELEM(DT_INDEX(5)+I)
                 EXIT
               ENDIF
             END DO
           ENDIF 
 C--     spring element time step --
-        ELSEIF (KEYA(1:10).EQ.'/DT/SPRING') THEN
+        ELSEIF (KEYA(1:10)=='/DT/SPRING') THEN
           READ(71,*,END=20) DTSCA,DTMINI
           DTFAC1(6) = DTSCA 
-          IF (KEYA(11:14).EQ.'/DEL') THEN
+          IF (KEYA(11:14)=='/DEL') THEN
             DO I = 1,NUMELR
-              IF (DTSCA*DTELEM(DT_INDEX(6)+I).GT.DTMINI) THEN
+              IF (DTSCA*DTELEM(DT_INDEX(6)+I)>DTMINI) THEN
                 DT_MIN_ELEM(6) = DTELEM(DT_INDEX(6)+I)
                 EXIT
               ENDIF
             END DO
           ENDIF
 C--     sh3n element time step --
-        ELSEIF(KEYA(1:9).EQ.'/DT/SH_3N') THEN
+        ELSEIF(KEYA(1:9)=='/DT/SH_3N') THEN
           READ(71,*,END=20) DTSCA,DTMINI
           DTFAC1(7) = DTSCA
-          IF ((KEYA(10:14).NE.'/STOP').AND.(KEYA(10:13).NE.'/CST')) THEN
+          IF ((KEYA(10:14)/='/STOP').AND.(KEYA(10:13)/='/CST')) THEN
             DO I = 1,NUMELTG
-              IF (DTSCA*DTELEM(DT_INDEX(7)+I).GT.DTMINI) THEN
+              IF (DTSCA*DTELEM(DT_INDEX(7)+I)>DTMINI) THEN
                 DT_MIN_ELEM(7) = DTELEM(DT_INDEX(7)+I)
                 EXIT
               ENDIF
             END DO
           ENDIF
 C--     sph particle time step --
-        ELSEIF (KEYA(1:10).EQ.'/DT/SPHCEL') THEN
+        ELSEIF (KEYA(1:10)=='/DT/SPHCEL') THEN
           READ(71,*,END=20) DTSCA,DTMINI
           DTFAC1(10) = DTSCA 
-          IF (KEYA(11:14).EQ.'/DEL') THEN
+          IF (KEYA(11:14)=='/DEL') THEN
             DO I = 1,NUMSPH
-              IF (DTSCA*DTELEM(DT_INDEX(10)+I).GT.DTMINI) THEN
+              IF (DTSCA*DTELEM(DT_INDEX(10)+I)>DTMINI) THEN
                 DT_MIN_ELEM(10) = DTELEM(DT_INDEX(10)+I)
                 EXIT
               ENDIF
             END DO
           ENDIF       
 C--     default time step --
-        ELSEIF(KEYA(1:4).EQ.'/DT ') THEN
+        ELSEIF(KEYA(1:4)=='/DT ') THEN
           FLG_CTL = 1
           READ(71,*,END=20) DTSCA,DTMINI
           DO I=1,11
             DTFAC1(I) = DTSCA
           END DO
 C--     max time step--
-        ELSEIF(KEYA(1:5).EQ.'/DTIX') THEN
+        ELSEIF(KEYA(1:5)=='/DTIX') THEN
           FLG_CTL = 1
           READ(71,*,END=20) DTINI,DTMAX      
         ENDIF
@@ -454,7 +454,7 @@ C-----------------------------------------------
         DT = MIN(DT,DTFAC1(I)*DT_MIN_ELEM(I))
       END DO
 C
-      IF (DTNODA.GT.ZERO) DT = DTNODA
+      IF (DTNODA>ZERO) DT = DTNODA
 C
       DT = MIN(DT,DTMAX)
                    

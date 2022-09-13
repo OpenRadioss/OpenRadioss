@@ -443,7 +443,7 @@ C
       CHARACTER*ncharline BUFMSG(2,100),BUFFMT(2,100)
 C
       WRITE(ISTDO,'(/A,I10)')'MESSAGE ID : ',MSGID
-      IF (IOUT.NE.0) THEN
+      IF (IOUT/=0) THEN
         WRITE(IOUT,'(/A,I10)')'MESSAGE ID : ',MSGID
       END IF
       IBUF=0
@@ -553,14 +553,14 @@ C
               I=1
               IOLD=1
 !               DO J0=1,LEN_TRIM(TMPLINE)
-!                 IF (TMPLINE(J0:J0).EQ.'/') THEN
+!                 IF (TMPLINE(J0:J0)=='/') THEN
 !                   TMPLINE(J0:J0)=CHAR(10)
 !                 END IF
 !               END DO
-              DO WHILE (I+1.LE.LEN_TRIM(TMPLINE))
-                IF (TMPLINE(I:I).EQ.achar(92)) then !'\') THEN
+              DO WHILE (I+1<=LEN_TRIM(TMPLINE))
+                IF (TMPLINE(I:I)==achar(92)) then !'\') THEN
                   I=I+1
-                  IF (I-2.GE.1) THEN
+                  IF (I-2>=1) THEN
                     WRITE(TMPBUF,'(A,A)')TMPLINE(IOLD:I-2),TMPLINE(I:I)
                     BUFLEN=I-2-IOLD+1+1
                   ELSE
@@ -569,38 +569,38 @@ C
                   END IF
                   I=I+1
                   IOLD=I
-                ELSE IF (TMPLINE(I:I).EQ.'%') THEN
+                ELSE IF (TMPLINE(I:I)=='%') THEN
                   I=I+1
-                  IF (I-2.GE.1) THEN
+                  IF (I-2>=1) THEN
                     WRITE(TMPBUF,'(A)')TMPLINE(IOLD:I-2)
                     BUFLEN=I-2-IOLD+1
-                    IF (BUFLEN.GT.0) THEN
+                    IF (BUFLEN>0) THEN
                       TMPOUT=TMPOUT(1:INDXTMPOUT)//TMPBUF(1:BUFLEN) 
                       INDXTMPOUT=INDXTMPOUT+BUFLEN
                       BUFLEN=0
                     END IF
                   END IF
-                  IF (TMPLINE(I:I).EQ.'d') THEN 
+                  IF (TMPLINE(I:I)=='d') THEN 
                     I=I+1
                     IOLD=I
                     MYFMT='(I10)'
-                    IF (INDXI.LT.10) INDXI=INDXI+1
+                    IF (INDXI<10) INDXI=INDXI+1
                     WRITE(TMPBUF,MYFMT)IBUF(INDXI)
                     TMPBUF=ADJUSTL(TMPBUF)
                     BUFLEN=LEN_TRIM(TMPBUF)
-                  ELSE IF (TMPLINE(I:I).EQ.'f') THEN
+                  ELSE IF (TMPLINE(I:I)=='f') THEN
                     I=I+1
                     IOLD=I
                     MYFMT='(1PG20.13)'
-                    IF (INDXR.LT.10) INDXR=INDXR+1
+                    IF (INDXR<10) INDXR=INDXR+1
                     WRITE(TMPBUF,MYFMT)RBUF(INDXR)
                     TMPBUF=ADJUSTL(TMPBUF)
                     BUFLEN=LEN_TRIM(TMPBUF)
-                  ELSE IF (TMPLINE(I:I).EQ.'s') THEN
+                  ELSE IF (TMPLINE(I:I)=='s') THEN
                     I=I+1
                     IOLD=I
                     MYFMT='(A)'
-                    IF (INDXC.LT.10) INDXC=INDXC+1 
+                    IF (INDXC<10) INDXC=INDXC+1 
                     WRITE(TMPBUF,MYFMT)CBUF(INDXC)
                     TMPBUF=ADJUSTL(TMPBUF)
                     BUFLEN=LEN_TRIM(TMPBUF)
@@ -608,29 +608,29 @@ C
                 ELSE
                   I=I+1
                 END IF
-                IF (BUFLEN.GT.0) THEN
+                IF (BUFLEN>0) THEN
                   TMPOUT=TMPOUT(1:INDXTMPOUT)//TMPBUF(1:BUFLEN)
                   INDXTMPOUT=INDXTMPOUT+BUFLEN
                   BUFLEN=0
                 END IF
               END DO
-              IF (IOLD.LE.I) THEN
+              IF (IOLD<=I) THEN
                 WRITE(TMPBUF,'(A)')
      .          TMPLINE(IOLD:LEN_TRIM(TMPLINE))
                 BUFLEN=LEN_TRIM(TMPLINE)-IOLD+1
-                IF (BUFLEN.GT.0) THEN
+                IF (BUFLEN>0) THEN
                   TMPOUT=TMPOUT(1:INDXTMPOUT)//TMPBUF(1:BUFLEN)
                   INDXTMPOUT=INDXTMPOUT+BUFLEN
                   BUFLEN=0
                 END IF
               END IF
 ! #include "lockon.inc"
-              IF (INDXTMPOUT.GT.0) THEN
+              IF (INDXTMPOUT>0) THEN
 C               do not write description on stdout in case ANINFO_BLIND
-                IF (ANMODE.NE.ANINFO_BLIND.OR.ITYPE.EQ.1) THEN
+                IF (ANMODE/=ANINFO_BLIND.OR.ITYPE==1) THEN
                   WRITE(ISTDO,'(A)')TMPOUT(1:INDXTMPOUT)
                 END IF
-                IF (IOUT.NE.0) THEN
+                IF (IOUT/=0) THEN
                   WRITE(IOUT,'(A)')TMPOUT(1:INDXTMPOUT)
                 END IF
               END IF

@@ -113,7 +113,7 @@ c
 c
         ! Filling the tables
         IF (NVAR == 0) THEN
-          IF (ITYP .NE. 107)
+          IF (ITYP /= 107)
      .      CALL ANCMSG(MSGID=1109,
      .           MSGTYPE=MSGERROR ,
      .           ANMODE=ANINFO_BLIND_1,
@@ -221,7 +221,7 @@ C=======================================================================
 C=======================================================================
 C PRINTOUT
 C=======================================================================
-          IF(IPRI.LT.1) RETURN
+          IF(IPRI<1) RETURN
 C
           N = ITHGRP(4)
           IAD1 = ITHGRP(5)

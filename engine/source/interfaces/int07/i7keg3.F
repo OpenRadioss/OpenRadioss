@@ -108,7 +108,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 Celdev021
 #include "sync_dir.inc"
-      IF (IRESP.EQ.1) THEN
+      IF (IRESP==1) THEN
            PREC = FIVEEM4
       ELSE
            PREC = EM10
@@ -116,7 +116,7 @@ Celdev021
 C--------------------------------------------------------
 C  CAS DES PAQUETS MIXTES
 C--------------------------------------------------------
-      IF (IMP_INT7.EQ.3) THEN
+      IF (IMP_INT7==3) THEN
        DO I=1,JLT
         D1 = SQRT(P1(I))
         P1(I) = FOURTH*GAPV(I) 
@@ -157,10 +157,10 @@ C
         N2(I) = A1*NY1(I) + A2*NY2(I) + A3*NY3(I) + A4*NY4(I) 
         N3(I) = A1*NZ1(I) + A2*NZ2(I) + A3*NZ3(I) + A4*NZ4(I) 
        ENDDO
-      ENDIF !(IMP_INT7.EQ.3) 
+      ENDIF !(IMP_INT7==3) 
 C
        DO I=1,JLT
-        IF(IX3(I).NE.IX4(I))THEN
+        IF(IX3(I)/=IX4(I))THEN
          PENE(I) = MAX(P1(I),P2(I),P3(I),P4(I))
 C
          LA1 = ONE - LB1(I) - LC1(I)
@@ -194,7 +194,7 @@ C
 C---------------------
 C     COURBURE FIXE
 C---------------------
-      IF(ICURV(1).EQ.1)THEN
+      IF(ICURV(1)==1)THEN
 C       spherique (que concave pour le moment)
         NA1 = ICURV(2)
         DO I=1,JLT
@@ -215,7 +215,7 @@ C
           RY = Y3(I)-A0Y
           RZ = Z3(I)-A0Z
           RR = MIN(RR , RX*RX + RY*RY + RZ*RZ)
-          IF(IX3(I).NE.IX4(I))THEN
+          IF(IX3(I)/=IX4(I))THEN
             RX = X4(I)-A0X
             RY = Y4(I)-A0Y
             RZ = Z4(I)-A0Z
@@ -226,17 +226,17 @@ C
           RZ = ZI(I)-A0Z
           RS = SQRT(RX*RX + RY*RY + RZ*RZ)
           RR = SQRT(RR)
-          IF(RS-RR+GAPV(I).LT.0.)THEN
+          IF(RS-RR+GAPV(I)<0.)THEN
             STIF(I) = 0.
             PENE(I) = 0.
-          ELSEIF(RS-RR+GAPV(I).LT.PENE(I))THEN
+          ELSEIF(RS-RR+GAPV(I)<PENE(I))THEN
             PENE(I) = RS-RR+GAPV(I)
           ENDIF
           N1(I) = -RX 
           N2(I) = -RY 
           N3(I) = -RZ 
         ENDDO
-      ELSEIF(ICURV(1).EQ.2)THEN
+      ELSEIF(ICURV(1)==2)THEN
 C       cylindrique (que concave pour le moment)
         NA1 = ICURV(2)
         NA2 = ICURV(3)
@@ -274,7 +274,7 @@ C
           RY = AAY - AAA * ANY 
           RZ = AAZ - AAA * ANZ 
           RR = MIN(RR , RX*RX + RY*RY + RZ*RZ)
-          IF(IX3(I).NE.IX4(I))THEN
+          IF(IX3(I)/=IX4(I))THEN
             AAX = X4(I)-A0X
             AAY = Y4(I)-A0Y
             AAZ = Z4(I)-A0Z
@@ -293,10 +293,10 @@ C
           RZ = AAZ - AAA * ANZ 
           RS = SQRT(RX*RX + RY*RY + RZ*RZ)
           RR = SQRT(RR)
-          IF(RS-RR+GAPV(I).LT.0.)THEN
+          IF(RS-RR+GAPV(I)<0.)THEN
             STIF(I) = 0.
             PENE(I) = 0.
-          ELSEIF(RS-RR+GAPV(I).LT.PENE(I))THEN
+          ELSEIF(RS-RR+GAPV(I)<PENE(I))THEN
             PENE(I) = RS-RR+GAPV(I)
             N1(I) = -RX 
             N2(I) = -RY 
@@ -326,7 +326,7 @@ C       correction hourglass
          H0 = -.25*(H1(I) - H2(I) + H3(I) - H4(I))
          H0 = MIN(H0,H2(I),H4(I))
          H0 = MAX(H0,-H1(I),-H3(I))
-         IF(IX3(I).EQ.IX4(I))H0 = ZERO
+         IF(IX3(I)==IX4(I))H0 = ZERO
          H1(I) = H1(I) + H0
          H2(I) = H2(I) - H0
          H3(I) = H3(I) + H0
@@ -335,40 +335,40 @@ C       correction hourglass
 C---------------------
 C      PENE INITIALE
 C---------------------
-      IF(INACTI.EQ.5)THEN
+      IF(INACTI==5)THEN
          DO I=1,JLT
            PENE(I)=MAX(ZERO,PENE(I)-CAND_P(INDEX(I)))
-           IF( PENE(I).EQ.ZERO )  STIF(I) = ZERO
+           IF( PENE(I)==ZERO )  STIF(I) = ZERO
            GAPV(I)=GAPV(I)-CAND_P(INDEX(I))
          ENDDO
-      ELSE IF(INACTI.EQ.6)THEN
+      ELSE IF(INACTI==6)THEN
          DO I=1,JLT
            CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),
      .        ( (ONE-FIVEEM2)*CAND_P(INDEX(I))
      .          +FIVEEM2*(PENE(I)+FIVEEM2*(GAPV(I)-PENE(I))))  )
            PENE(I)=MAX(ZERO,PENE(I)-CAND_P(INDEX(I)))
-           IF( PENE(I).EQ.ZERO )  STIF(I) = ZERO
+           IF( PENE(I)==ZERO )  STIF(I) = ZERO
            GAPV(I)=GAPV(I)-CAND_P(INDEX(I))
          ENDDO
       ENDIF
 C-------------------------------------------
 c      print *,'IMP_INT7=',IMP_INT7,jlt
-      IF(IMP_INT7.GE.2)THEN
+      IF(IMP_INT7>=2)THEN
       DO I=1,JLT
-       IF(STIGLO.LE.ZERO)THEN
+       IF(STIGLO<=ZERO)THEN
         STIF(I) = HALF*STIF(I) 
-       ELSEIF(STIF(I).NE.ZERO)THEN
+       ELSEIF(STIF(I)/=ZERO)THEN
         STIF(I) = STIGLO 
        ENDIF
       ENDDO
-      ELSEIF(IMP_INT7.EQ.1)THEN
+      ELSEIF(IMP_INT7==1)THEN
       DO I=1,JLT
        FAC = GAPV(I)/MAX( EM10,( GAPV(I)-PENE(I) ) )
-       IF( (GAPV(I)-PENE(I))/GAPV(I) .LT.PREC .AND. 
-     .     STIF(I).GT.0. ) STIF(I) = 0.
-       IF(STIGLO.LE.ZERO)THEN
+       IF( (GAPV(I)-PENE(I))/GAPV(I) <PREC .AND. 
+     .     STIF(I)>0. ) STIF(I) = 0.
+       IF(STIGLO<=ZERO)THEN
         STIF(I) = HALF*STIF(I) * FAC
-       ELSEIF(STIF(I).NE.ZERO)THEN
+       ELSEIF(STIF(I)/=ZERO)THEN
         STIF(I) = STIGLO * FAC
        ENDIF
       ENDDO
@@ -376,11 +376,11 @@ c      print *,'IMP_INT7=',IMP_INT7,jlt
 C
       DO I=1,JLT
        FAC = GAPV(I)/MAX( EM10,( GAPV(I)-PENE(I) ) )
-       IF( (GAPV(I)-PENE(I))/GAPV(I) .LT.PREC .AND. 
-     .     STIF(I).GT.0. ) STIF(I) = 0.
-       IF(STIGLO.LE.ZERO)THEN
+       IF( (GAPV(I)-PENE(I))/GAPV(I) <PREC .AND. 
+     .     STIF(I)>0. ) STIF(I) = 0.
+       IF(STIGLO<=ZERO)THEN
         STIF(I) = HALF*STIF(I) * FAC
-       ELSEIF(STIF(I).NE.ZERO)THEN
+       ELSEIF(STIF(I)/=ZERO)THEN
         STIF(I) = STIGLO * FAC
        ENDIF
       ENDDO
@@ -396,7 +396,7 @@ C    ----sans frottement d'abord---
         VTY = VY(I) -VN(I)*N2(I)
         VTZ = VZ(I) -VN(I)*N3(I)
         VT  = VTX*VTX+VTY*VTY+VTZ*VTZ
-        IF (VT.GT.EM20) THEN
+        IF (VT>EM20) THEN
          S2=ONE/SQRT(VT)
          Q(1,1,I)=VTX*S2
          Q(1,2,I)=VTY*S2
@@ -412,17 +412,17 @@ C    ----sans frottement d'abord---
          FACT(I)=ZERO
         ENDIF
       ENDDO
-      IF (SCALK.LT.0) THEN
+      IF (SCALK<0) THEN
        ISF=1
       ELSE
        ISF=0
       ENDIF
       FACF=ABS(SCALK)
-      IF (ISF.EQ.1) THEN
+      IF (ISF==1) THEN
        DO I=1,JLT
-        IF (VN(I).GT.ZERO) THEN
+        IF (VN(I)>ZERO) THEN
          FAC=STIF(I)/FACF
-        ELSEIF (VN(I).LT.ZERO) THEN
+        ELSEIF (VN(I)<ZERO) THEN
          FAC=STIF(I)*FACF
         ELSE
          FAC=STIF(I)
@@ -479,7 +479,7 @@ C    ----avec frottement ---
        DO J=1,3 
         DO K=J,3 
          DO I=1,JLT
-          IF (FACT(I).GT.ZERO) THEN
+          IF (FACT(I)>ZERO) THEN
            Q1 =Q(1,J,I)*Q(1,K,I)
            Q2 =Q(2,J,I)*Q(2,K,I)
            FAC=FACT(I)*(Q1+Q2)
@@ -524,7 +524,7 @@ C
        IF (INTP_D <= 0 .AND. NSPMD > 1) THEN
         JLTF = 0
         DO I=1,JLT
-         IF(NSVG(I).LT.0) THEN
+         IF(NSVG(I)<0) THEN
 	  NN=-NSVG(I)
           JLTF = JLTF + 1
 	  NE=SHF_INT(NIN) + JLTF +LREM
@@ -623,7 +623,7 @@ C-------------------------------------------
         VTY = VY(I) -VN(I)*N2(I)
         VTZ = VZ(I) -VN(I)*N3(I)
         VT  = VTX*VTX+VTY*VTY+VTZ*VTZ
-        IF (VT.GT.EM20) THEN
+        IF (VT>EM20) THEN
          S2=ONE/SQRT(VT)
          T1(I)=VTX*S2
          T2(I)=VTY*S2
@@ -640,17 +640,17 @@ C-------------------------------------------
        DT(I) = T1(I)*DX(I) + T2(I)*DY(I) + T3(I)*DZ(I)
        DTI(I) = T1(I)*DXI(I) + T2(I)*DYI(I) + T3(I)*DZI(I)
       ENDDO
-      IF (SCALK.LT.0) THEN
+      IF (SCALK<0) THEN
        ISF=1
       ELSE
        ISF=0
       ENDIF
       FACF=ABS(SCALK)
-      IF (ISF.EQ.1) THEN
+      IF (ISF==1) THEN
        DO I=1,JLT
-        IF (VN(I).GT.ZERO) THEN
+        IF (VN(I)>ZERO) THEN
          FACN(I)=STIF(I)*FACF
-        ELSEIF (VN(I).LT.ZERO) THEN
+        ELSEIF (VN(I)<ZERO) THEN
          FACN(I)=STIF(I)/FACF
         ELSE
          FACN(I)=STIF(I)
@@ -669,7 +669,7 @@ C--------partie NML-------
         FX=FN*N1(I)
         FY=FN*N2(I)
         FZ=FN*N3(I)
-        IF (FACT(I).NE.ZERO) THEN
+        IF (FACT(I)/=ZERO) THEN
          FT = -FACT(I)*DTI(I)
          FX = FX + FT*T1(I)
          FY = FY + FT*T2(I)
@@ -695,7 +695,7 @@ C--------partie NSL-------
         FFI(1,NI)=FFI(1,NI)+FNI*N1(I)
         FFI(2,NI)=FFI(2,NI)+FNI*N2(I)
         FFI(3,NI)=FFI(3,NI)+FNI*N3(I)
-        IF (FACT(I).NE.ZERO) THEN
+        IF (FACT(I)/=ZERO) THEN
          FTI = FACT(I)*DT(I)
          FFI(1,NI)=FFI(1,NI)+FTI*T1(I)
          FFI(2,NI)=FFI(2,NI)+FTI*T2(I)
@@ -797,7 +797,7 @@ C-----------------------------------------------
       INTEGER NA1,NA2
 C-----------------------------------------------
 #include "sync_dir.inc"
-      IF (IRESP.EQ.1) THEN
+      IF (IRESP==1) THEN
            PREC = FIVEEM4
       ELSE
            PREC = EM10
@@ -805,9 +805,9 @@ C-----------------------------------------------
 C---------------------
 C      PENE INITIALE
 C---------------------
-       IF(INACTI.EQ.5.OR.INACTI.EQ.6)THEN
+       IF(INACTI==5.OR.INACTI==6)THEN
         DO I=1,JLT
-          IF(STIF(I).EQ.ZERO)THEN
+          IF(STIF(I)==ZERO)THEN
             CAND_P(INDEX(I))=0
           ENDIF
         ENDDO
@@ -823,7 +823,7 @@ C
         D3 = MAX(ZERO, GAP2 - P3(I))
         D4 = MAX(ZERO, GAP2 - P4(I))
         PENE2 = MAX(D1,D2,D3,D4)
-        IF (PENE2.LE.ZERO) STIF(I) = ZERO
+        IF (PENE2<=ZERO) STIF(I) = ZERO
        ENDDO
 C--------------------------------------------------------
 C  CAS DES PAQUETS MIXTES
@@ -851,7 +851,7 @@ C
        ENDDO
 C
        DO I=1,JLT
-        IF(IX3(I).NE.IX4(I))THEN
+        IF(IX3(I)/=IX4(I))THEN
          PENE(I) = MAX(P1(I),P2(I),P3(I),P4(I))
 C
          LA1 = ONE - LB1(I) - LC1(I)
@@ -885,7 +885,7 @@ C
 C---------------------
 C     COURBURE FIXE
 C---------------------
-      IF(ICURV(1).EQ.1)THEN
+      IF(ICURV(1)==1)THEN
 C       spherique (que concave pour le moment)
         NA1 = ICURV(2)
         DO I=1,JLT
@@ -906,7 +906,7 @@ C
           RY = Y3(I)-A0Y
           RZ = Z3(I)-A0Z
           RR = MIN(RR , RX*RX + RY*RY + RZ*RZ)
-          IF(IX3(I).NE.IX4(I))THEN
+          IF(IX3(I)/=IX4(I))THEN
             RX = X4(I)-A0X
             RY = Y4(I)-A0Y
             RZ = Z4(I)-A0Z
@@ -917,17 +917,17 @@ C
           RZ = ZI(I)-A0Z
           RS = SQRT(RX*RX + RY*RY + RZ*RZ)
           RR = SQRT(RR)
-          IF(RS-RR+GAPV(I).LT.0.)THEN
+          IF(RS-RR+GAPV(I)<0.)THEN
             STIF(I) = 0.
             PENE(I) = 0.
-          ELSEIF(RS-RR+GAPV(I).LT.PENE(I))THEN
+          ELSEIF(RS-RR+GAPV(I)<PENE(I))THEN
             PENE(I) = RS-RR+GAPV(I)
           ENDIF
           N1(I) = -RX 
           N2(I) = -RY 
           N3(I) = -RZ 
         ENDDO
-      ELSEIF(ICURV(1).EQ.2)THEN
+      ELSEIF(ICURV(1)==2)THEN
 C       cylindrique (que concave pour le moment)
         NA1 = ICURV(2)
         NA2 = ICURV(3)
@@ -965,7 +965,7 @@ C
           RY = AAY - AAA * ANY 
           RZ = AAZ - AAA * ANZ 
           RR = MIN(RR , RX*RX + RY*RY + RZ*RZ)
-          IF(IX3(I).NE.IX4(I))THEN
+          IF(IX3(I)/=IX4(I))THEN
             AAX = X4(I)-A0X
             AAY = Y4(I)-A0Y
             AAZ = Z4(I)-A0Z
@@ -984,10 +984,10 @@ C
           RZ = AAZ - AAA * ANZ 
           RS = SQRT(RX*RX + RY*RY + RZ*RZ)
           RR = SQRT(RR)
-          IF(RS-RR+GAPV(I).LT.0.)THEN
+          IF(RS-RR+GAPV(I)<0.)THEN
             STIF(I) = 0.
             PENE(I) = 0.
-          ELSEIF(RS-RR+GAPV(I).LT.PENE(I))THEN
+          ELSEIF(RS-RR+GAPV(I)<PENE(I))THEN
             PENE(I) = RS-RR+GAPV(I)
             N1(I) = -RX 
             N2(I) = -RY 
@@ -1027,7 +1027,7 @@ C       correction hourglass
          H0 = -.25*(H1(I) - H2(I) + H3(I) - H4(I))
          H0 = MIN(H0,H2(I),H4(I))
          H0 = MAX(H0,-H1(I),-H3(I))
-         IF(IX3(I).EQ.IX4(I))H0 = ZERO
+         IF(IX3(I)==IX4(I))H0 = ZERO
          H1(I) = H1(I) + H0
          H2(I) = H2(I) - H0
          H3(I) = H3(I) + H0
@@ -1036,17 +1036,17 @@ C       correction hourglass
 C---------------------
 C      PENE INITIALE
 C---------------------
-      IF(INACTI.EQ.5)THEN
+      IF(INACTI==5)THEN
          DO I=1,JLT
 C REDUCTION DE LA PENE INITIALE
            CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),
      .            ((ONE-FIVEEM2)*CAND_P(INDEX(I))+FIVEEM2*PENE(I))  )
 C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
            PENE(I)=MAX(ZERO,PENE(I)-CAND_P(INDEX(I)))
-           IF( PENE(I).EQ.ZERO )  STIF(I) = ZERO
+           IF( PENE(I)==ZERO )  STIF(I) = ZERO
            GAPV(I)=GAPV(I)-CAND_P(INDEX(I))
          ENDDO
-      ELSE IF(INACTI.EQ.6)THEN
+      ELSE IF(INACTI==6)THEN
          DO I=1,JLT
 C REDUCTION DE LA PENE INITIALE
 C           CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),PENE(I))
@@ -1055,7 +1055,7 @@ C           CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),PENE(I))
      .          +FIVEEM2*(PENE(I)+FIVEEM2*(GAPV(I)-PENE(I))))  )
 C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
            PENE(I)=MAX(ZERO,PENE(I)-CAND_P(INDEX(I)))
-           IF( PENE(I).EQ.ZERO )  STIF(I) = ZERO
+           IF( PENE(I)==ZERO )  STIF(I) = ZERO
            GAPV(I)=GAPV(I)-CAND_P(INDEX(I))
          ENDDO
       ENDIF
@@ -1064,33 +1064,33 @@ C
         STIF0(I) = STIF(I)
        ENDDO
 C-------------------------------------------
-      IF(IMP_INT7.GE.2)THEN
+      IF(IMP_INT7>=2)THEN
        DO I=1,JLT
-        IF(STIGLO.LE.ZERO)THEN
+        IF(STIGLO<=ZERO)THEN
          STIF(I) = HALF*STIF(I) 
-        ELSEIF(STIF(I).NE.ZERO)THEN
+        ELSEIF(STIF(I)/=ZERO)THEN
          STIF(I) = STIGLO 
         ENDIF
        ENDDO
-      ELSEIF(IMP_INT7.EQ.1)THEN
+      ELSEIF(IMP_INT7==1)THEN
        DO I=1,JLT
         FAC = GAPV(I)/MAX( EM10,( GAPV(I)-PENE(I) ) )
-        IF( (GAPV(I)-PENE(I))/GAPV(I) .LT.PREC .AND. 
-     .     STIF(I).GT.0. ) STIF(I) = 0.
-        IF(STIGLO.LE.ZERO)THEN
+        IF( (GAPV(I)-PENE(I))/GAPV(I) <PREC .AND. 
+     .     STIF(I)>0. ) STIF(I) = 0.
+        IF(STIGLO<=ZERO)THEN
          STIF(I) = HALF*STIF(I) * FAC
-        ELSEIF(STIF(I).NE.ZERO)THEN
+        ELSEIF(STIF(I)/=ZERO)THEN
          STIF(I) = STIGLO * FAC
         ENDIF
        ENDDO
       ELSE
        DO I=1,JLT
         FAC = GAPV(I)/MAX( EM10,( GAPV(I)-PENE(I) ) )
-        IF( (GAPV(I)-PENE(I))/GAPV(I) .LT.PREC .AND. 
-     .     STIF(I).GT.0. ) STIF(I) = 0.
-        IF(STIGLO.LE.ZERO)THEN
+        IF( (GAPV(I)-PENE(I))/GAPV(I) <PREC .AND. 
+     .     STIF(I)>0. ) STIF(I) = 0.
+        IF(STIGLO<=ZERO)THEN
          STIF(I) = HALF*STIF(I) * FAC
-        ELSEIF(STIF(I).NE.ZERO)THEN
+        ELSEIF(STIF(I)/=ZERO)THEN
          STIF(I) = STIGLO * FAC
         ENDIF
        ENDDO
@@ -1098,7 +1098,7 @@ C-------------------------------------------
           STIF(I) = STIF(I) * GAPV(I) / 
      .            MAX((GAPV(I) - PENE(I)),EM10) 
        ENDDO
-      ENDIF ! (IMP_INT7.GE.2)
+      ENDIF ! (IMP_INT7>=2)
 C 
        FAC =   ABS(SCALK)   
        DO I=1,JLT
@@ -1114,12 +1114,12 @@ C------------------
 C---------------------------------
 C       NEW FRICTION MODELS
 C---------------------------------
-        IF (MFROT.EQ.0) THEN
+        IF (MFROT==0) THEN
 C---      Coulomb friction
           DO I=1,JLT
             XMU(I) = FRIC
           ENDDO
-        ELSEIF (MFROT.EQ.1) THEN
+        ELSEIF (MFROT==1) THEN
 C---      Viscous friction
           DO I=1,JLT
             IE=CE_LOC(I)
@@ -1142,7 +1142,7 @@ C---      Viscous friction
             XMU(I) = FRIC + (FROT_P(1) + FROT_P(4)*P ) * P 
      .             +(FROT_P(2) + FROT_P(3)*P) * VV + FROT_P(5)*V2
           ENDDO
-        ELSEIF(MFROT.EQ.2)THEN
+        ELSEIF(MFROT==2)THEN
 C---        Loi Darmstad
           DO I=1,JLT
             IE=CE_LOC(I)
@@ -1166,7 +1166,7 @@ C---        Loi Darmstad
      .             + FROT_P(3)*EXP(FROT_P(4)*VV)*P
      .             + FROT_P(5)*EXP(FROT_P(6)*VV)
           ENDDO
-        ELSEIF (MFROT.EQ.3) THEN
+        ELSEIF (MFROT==3) THEN
 C---        Loi Renard
           DO I=1,JLT
             AA = N1(I)*VX(I) + N2(I)*VY(I) + N3(I)*VZ(I)
@@ -1174,11 +1174,11 @@ C---        Loi Renard
      .         + (VY(I) - N2(I)*AA)**2 
      .         + (VZ(I) - N3(I)*AA)**2
             VV = SQRT(MAX(EM30,V2))
-            IF(VV.GE.0.AND.VV.LE.FROT_P(5)) THEN
+            IF(VV>=0.AND.VV<=FROT_P(5)) THEN
               DMU = FROT_P(3)-FROT_P(1)
               VV1 = VV / FROT_P(5)
               XMU(I) = FROT_P(1)+ DMU*VV1*(TWO-VV1)
-            ELSEIF(VV.GT.FROT_P(5).AND.VV.LT.FROT_P(6)) THEN
+            ELSEIF(VV>FROT_P(5).AND.VV<FROT_P(6)) THEN
               DMU = FROT_P(4)-FROT_P(3) 
               VV1 = (VV - FROT_P(5))/(FROT_P(6)-FROT_P(5))
               XMU(I) = FROT_P(3)+ DMU * (THREE-TWO*VV1)*VV1**2
@@ -1193,8 +1193,8 @@ C
 C---------------------------------
 C       INCREMENTAL (STIFFNESS) FORMULATION
 C---------------------------------
-        IF (IFQ.GE.10.AND.SCALK.LT.ZERO) THEN
-         IF (IFQ.EQ.13) THEN
+        IF (IFQ>=10.AND.SCALK<ZERO) THEN
+         IF (IFQ==13) THEN
             ALPHA = MAX(ONE,ALPHA0*DT12)
          ELSE
             ALPHA = ALPHA0
@@ -1226,7 +1226,7 @@ C-------      total force
 C---------------------------------
 C       TOTAL (VISCOUS) FORMULATION / NO FRICTION FILTERING 
 C---------------------------------
-         IF (FRIC.GT.0) THEN
+         IF (FRIC>0) THEN
           DO I=1,JLT
             VNX = N1(I)*DN0(I)
             VNY = N2(I)*DN0(I)
@@ -1272,7 +1272,7 @@ c
         A(3,IX4(I))=A(3,IX4(I))+FZ*H4(I)
        ENDDO
 C--------secnd part-------
-      IF(IMACH.NE.3) THEN
+      IF(IMACH/=3) THEN
         DO I=1,JLT
           IG=NSVG(I)
           A(1,IG)=A(1,IG)-FXI(I)
@@ -1282,7 +1282,7 @@ C--------secnd part-------
        ELSE 
         DO I=1,JLT
           IG=NSVG(I)
-          IF(IG.GT.0)THEN
+          IF(IG>0)THEN
            A(1,IG)=A(1,IG)-FXI(I)
            A(2,IG)=A(2,IG)-FYI(I)
            A(3,IG)=A(3,IG)-FZI(I)

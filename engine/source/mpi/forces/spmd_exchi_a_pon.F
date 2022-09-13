@@ -90,7 +90,7 @@ C
       L = 1
       IAD_RECV(1) = 1
       DO I = 1, NSPMD
-        IF(NBIRCP(I).GT.0) THEN
+        IF(NBIRCP(I)>0) THEN
           SIZ = (SIZI)*NBIRCP(I)
           MSGTYP = MSGOFF 
           NBIRECV = NBIRECV + 1
@@ -107,7 +107,7 @@ C Envoi interfaces
 C
       L = 1
       DO I=1,NSPMD
-       IF(NBISDP(I).GT.0) THEN
+       IF(NBISDP(I)>0) THEN
          L0 = L
          IDEB = IAD_ELEM(1,I)-1
 C
@@ -115,10 +115,10 @@ C
          IF(INTPLYXFEM == 0) THEN
 C           
            IF(INTHEAT == 0 )THEN
-            IF(NFSKYI.EQ.4)THEN
+            IF(NFSKYI==4)THEN
              DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                NOD = FR_ELEM(J)
-               IF(ITAGX(NOD).EQ.1)THEN
+               IF(ITAGX(NOD)==1)THEN
 #include "scalar.inc"
                  DO CC = ADSKYI(NOD-1),ADSKYI(NOD)-1
                    SBUF(L)   = J-IDEB
@@ -133,7 +133,7 @@ C
             ELSE
              DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                NOD = FR_ELEM(J)
-               IF(ITAGX(NOD).EQ.1)THEN
+               IF(ITAGX(NOD)==1)THEN
 #include "scalar.inc"
                  DO CC = ADSKYI(NOD-1),ADSKYI(NOD)-1
                    SBUF(L)   = J-IDEB
@@ -149,11 +149,11 @@ C
             END IF
 C + la th  ermique
            ELSE
-            IF(NFSKYI.EQ.4)THEN
+            IF(NFSKYI==4)THEN
              IF(NODADT_THERM == 1) THEN
               DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                NOD = FR_ELEM(J)
-               IF(ITAGX(NOD).EQ.1)THEN
+               IF(ITAGX(NOD)==1)THEN
 #include "scalar.inc"
                  DO CC = ADSKYI(NOD-1),ADSKYI(NOD)-1
                    SBUF(L)   = J-IDEB
@@ -170,7 +170,7 @@ C + la th  ermique
              ELSE
               DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                NOD = FR_ELEM(J)
-               IF(ITAGX(NOD).EQ.1)THEN
+               IF(ITAGX(NOD)==1)THEN
 #include "scalar.inc"
                  DO CC = ADSKYI(NOD-1),ADSKYI(NOD)-1
                    SBUF(L)   = J-IDEB
@@ -188,7 +188,7 @@ C + la th  ermique
              IF(NODADT_THERM == 1) THEN
               DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                NOD = FR_ELEM(J)
-               IF(ITAGX(NOD).EQ.1)THEN
+               IF(ITAGX(NOD)==1)THEN
 #include "scalar.inc"
                  DO CC = ADSKYI(NOD-1),ADSKYI(NOD)-1
                    SBUF(L)   = J-IDEB
@@ -206,7 +206,7 @@ C + la th  ermique
              ELSE
               DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                NOD = FR_ELEM(J)
-               IF(ITAGX(NOD).EQ.1)THEN
+               IF(ITAGX(NOD)==1)THEN
 #include "scalar.inc"
                  DO CC = ADSKYI(NOD-1),ADSKYI(NOD)-1
                    SBUF(L)   = J-IDEB
@@ -226,10 +226,10 @@ C + la th  ermique
          ELSE
 C for type24 + pxfem          
            IF(INTHEAT == 0 )THEN
-            IF(NFSKYI.EQ.4)THEN
+            IF(NFSKYI==4)THEN
              DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                NOD = FR_ELEM(J)
-               IF(ITAGX(NOD).EQ.1)THEN
+               IF(ITAGX(NOD)==1)THEN
 #include "scalar.inc"
                  DO CC = ADSKYI(NOD-1),ADSKYI(NOD)-1
                    SBUF(L)   = J-IDEB
@@ -250,7 +250,7 @@ C
             ELSE
              DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                NOD = FR_ELEM(J)
-               IF(ITAGX(NOD).EQ.1)THEN
+               IF(ITAGX(NOD)==1)THEN
 #include "scalar.inc"
                  DO CC = ADSKYI(NOD-1),ADSKYI(NOD)-1
                    SBUF(L)   = J-IDEB
@@ -272,11 +272,11 @@ C
             END IF
 C + la th  ermique
            ELSE
-            IF(NFSKYI.EQ.4)THEN
+            IF(NFSKYI==4)THEN
              IF(NODADT_THERM == 1) THEN
               DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                NOD = FR_ELEM(J)
-               IF(ITAGX(NOD).EQ.1)THEN
+               IF(ITAGX(NOD)==1)THEN
 #include "scalar.inc"
                  DO CC = ADSKYI(NOD-1),ADSKYI(NOD)-1
                    SBUF(L)   = J-IDEB
@@ -299,7 +299,7 @@ C
              ELSE
               DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                NOD = FR_ELEM(J)
-               IF(ITAGX(NOD).EQ.1)THEN
+               IF(ITAGX(NOD)==1)THEN
 #include "scalar.inc"
                  DO CC = ADSKYI(NOD-1),ADSKYI(NOD)-1
                    SBUF(L)   = J-IDEB
@@ -323,7 +323,7 @@ C
              IF(NODADT_THERM == 1) THEN
               DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                NOD = FR_ELEM(J)
-               IF(ITAGX(NOD).EQ.1)THEN
+               IF(ITAGX(NOD)==1)THEN
 #include "scalar.inc"
                  DO CC = ADSKYI(NOD-1),ADSKYI(NOD)-1
                    SBUF(L)   = J-IDEB
@@ -347,7 +347,7 @@ C
              ELSE
               DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                NOD = FR_ELEM(J)
-               IF(ITAGX(NOD).EQ.1)THEN
+               IF(ITAGX(NOD)==1)THEN
 #include "scalar.inc"
                  DO CC = ADSKYI(NOD-1),ADSKYI(NOD)-1
                    SBUF(L)   = J-IDEB
@@ -392,7 +392,7 @@ C
 C
         IF(INTPLYXFEM == 0) THEN
           IF(INTHEAT == 0 ) THEN
-           IF(NFSKYI.EQ.4)THEN
+           IF(NFSKYI==4)THEN
 #include "vectorize.inc"
             DO J = 1, NB_NOD
               JJ = NINT(RBUF(L))+IDEB
@@ -420,7 +420,7 @@ C
            ENDIF
 C + la thermique
           ELSE
-           IF(NFSKYI.EQ.4)THEN
+           IF(NFSKYI==4)THEN
             IF(NODADT_THERM == 1) THEN
 #include "vectorize.inc"
              DO J = 1, NB_NOD
@@ -485,7 +485,7 @@ C + la thermique
           ENDIF ! INTHEAT
       ELSE ! INTPLYXFEM > 0
           IF(INTHEAT == 0 ) THEN
-           IF(NFSKYI.EQ.4)THEN
+           IF(NFSKYI==4)THEN
 #include "vectorize.inc"
             DO J = 1, NB_NOD
               JJ = NINT(RBUF(L))+IDEB
@@ -525,7 +525,7 @@ C
            ENDIF
 C + la thermique
           ELSE
-           IF(NFSKYI.EQ.4)THEN
+           IF(NFSKYI==4)THEN
             IF(NODADT_THERM == 1) THEN
 #include "vectorize.inc"
              DO J = 1, NB_NOD
@@ -620,7 +620,7 @@ C
 Cel wait terminaison isend
 C
       DO I = 1, NSPMD
-        IF(NBISDP(I).GT.0)
+        IF(NBISDP(I)>0)
      .    CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
       ENDDO
       DEALLOCATE(RBUF)

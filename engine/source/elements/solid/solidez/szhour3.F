@@ -161,7 +161,7 @@ C
 C
       IF (IET > 1 .AND. MATVIS>0 ) THEN
        CALL SZETFAC(LFT,LLT,IET,MTN,ET,GG )
-      ELSEIF (MATVIS.EQ.1.AND.ISMSTR.LT.10) THEN
+      ELSEIF (MATVIS==1.AND.ISMSTR<10) THEN
        DO I=LFT,LLT
         FF=THIRD*(DXX(I)+DYY(I)+DZZ(I))
         DE =(DXX(I)-FF)*(DXX(I)-FF)+(DYY(I)-FF)*(DYY(I)-FF)+
@@ -184,7 +184,7 @@ C
        ENDDO
       ENDIF
 C
-      IF(INVSTR.GE.35)THEN
+      IF(INVSTR>=35)THEN
         MT = PID(LFT)
         DO I=LFT,LLT
           CAQ(I)=FOURTH*OFF(I)*GEO(13,MT)
@@ -222,14 +222,14 @@ C------ w/ Prony, use Icpre=0 anyway
         NU3(I) =TWO_THIRD*(ONE + NU)
         NU4(I) =NU
        ENDDO
-      ELSEIF(ICP.EQ.1)THEN
+      ELSEIF(ICP==1)THEN
        DO I=LFT,LLT
         NU1(I) =FOUR_OVER_3
         NU2(I) =-TWO_THIRD
         NU3(I) =ZEP444
         NU4(I) =ZERO
        ENDDO
-      ELSEIF(ICP.EQ.2)THEN
+      ELSEIF(ICP==2)THEN
        DO I=LFT,LLT
         FAC1 = SIGY(I)/E0(I)+DEFP(I)
         FAC2=ONE-DEFP(I)/FAC1
@@ -366,10 +366,10 @@ C         SIGY(I) = 1.0E+30
         FHOUR(I,3,3) = FHOUR(I,3,3)*OFF(I)
         FHOUR(I,3,4) = FHOUR(I,3,4)*OFF(I)
        ENDDO
-      IF (MATVIS.EQ.0) 
+      IF (MATVIS==0) 
      .   CALL SZSVM(JR0,JS0,JT0,FHOUR,SIGY,SIGOLD,NU4,SMO1,SMO2,NEL) 
       !-----------For energy calculation------------
-      IF(JLAG.EQ.1)THEN
+      IF(JLAG==1)THEN
        DO I=LFT,LLT
         FHOURT(1,1) = FHOUR(I,1,1)*JR0(I)+FCL(I)*HGX1(I)
         FHOURT(1,2) = FHOUR(I,1,2)*JR0(I)+FCL(I)*HGX2(I)
@@ -461,21 +461,21 @@ C
        FHOUR(I,3,3) = FHOUR(I,3,3) + DFHOUR(I,3,3)
        FHOUR(I,3,4) = FHOUR(I,3,4) + DFHOUR(I,3,4)
       ENDDO
-      IF (MATVIS.EQ.0) 
+      IF (MATVIS==0) 
      .    CALL SZSVM(JR0,JS0,JT0,FHOUR,SIGY,SIG0,NU4,SM1,SM2,NEL) 
       !-----------ELASTIC-PLASTIC yield criterion------------
-      IF (MATVIS.EQ.0) THEN
+      IF (MATVIS==0) THEN
       DO I=LFT,LLT
-        IF (SM1(I).GT.SIGY(I).AND.DEINT(I).GT.0) THEN
+        IF (SM1(I)>SIGY(I).AND.DEINT(I)>0) THEN
          SMO  = ZEP9*SMO1(I)+EM01*SMO2(I)
          FAC1 = SIGY(I)-SMO
          FAC2 = SM1(I)-SMO
-         IF (FAC2.LE.EM20) THEN
+         IF (FAC2<=EM20) THEN
            FAC=ZERO
          ELSE
            FAC = ONE - MAX(EM20,FAC1/FAC2)
          ENDIF
-         IF (SM2(I).LT.SIGY(I)) THEN
+         IF (SM2(I)<SIGY(I)) THEN
            FAC1 =(SM1(I)-SIGY(I))/MAX((SM1(I)-SM2(I)),EM20)
            FAC1 =HALF + SQRT(FAC1)
            FAC = MIN(FAC1,ONE)*FAC
@@ -598,7 +598,7 @@ C
         F36(I) =-(-HQ13P+HQ24N-FF)
       ENDDO
       !----hourglass energie est inclued in interal energie------
-      IF(JLAG.EQ.1)THEN
+      IF(JLAG==1)THEN
        DO I=LFT,LLT
         EINT(I)= EINT(I)+DT05*(
      .   NFHOUR(I,3,1)*HGZ1(I) + NFHOUR(I,3,2)*HGZ2(I) + 
@@ -676,7 +676,7 @@ C-----------------------------------------------
       DO I=LFT,LLT
        SVM1(I) = ZERO
        SVM2(I) = ZERO
-       IF (SIGY(I).LT.ZEP9EP30) THEN
+       IF (SIGY(I)<ZEP9EP30) THEN
         S1 =SIG0(I,1)-SIG0(I,2)
         S2 =SIG0(I,2)-SIG0(I,3)
         S3 =SIG0(I,1)-SIG0(I,3)
@@ -1061,7 +1061,7 @@ C----- sometimes GM is too small
        E0(I)=TWO*(ONE+NU)*GG(I)
       ENDDO
 C  +++ MAT Hydro---
-c      IF (MTN.EQ.3 .OR.MTN.EQ.4 .OR.MTN.EQ.6) THEN
+c      IF (MTN==3 .OR.MTN==4 .OR.MTN==6) THEN
 c       MX = MAT(LFT)
 c       DO I=LFT,LLT
 c        GG(I)=PM(22,MX)
@@ -1071,7 +1071,7 @@ c      ENDIF
 C
       IF (IET > 1 .AND. MATVIS>0 ) THEN
        CALL SZETFAC(LFT,LLT,IET,MTN,ET,GG )
-      ELSEIF (MATVIS.EQ.1.AND.ISMSTR.LT.10) THEN
+      ELSEIF (MATVIS==1.AND.ISMSTR<10) THEN
        DO I=LFT,LLT
         FF=THIRD*(DXX(I)+DYY(I)+DZZ(I))
         DE =(DXX(I)-FF)*(DXX(I)-FF)+(DYY(I)-FF)*(DYY(I)-FF)+
@@ -1094,7 +1094,7 @@ C
        ENDDO
       ENDIF
 C
-      IF(INVSTR.GE.35)THEN
+      IF(INVSTR>=35)THEN
         MT = PID(LFT)
         DO I=LFT,LLT
           CAQ(I)=FOURTH*OFF(I)*GEO(13,MT)
@@ -1125,7 +1125,7 @@ C------now when IHKT=2, w.r.t. Isolid=1, fac=0.2*0.006666 ~0.001
        ENDDO
       END IF
 C
-c      IF(ICP.EQ.1)THEN
+c      IF(ICP==1)THEN
 C-------!!!curieux!!!!!!!!
 c       DO I=LFT,LLT
 c        NU1(I) =FOUR_OVER_3
@@ -1133,7 +1133,7 @@ c        NU2(I) =-TWO_THIRD
 c        NU3(I) =ZEP444
 c        NU4(I) =ZERO
 c       ENDDO
-c      ELSEIF(ICP.EQ.2)THEN
+c      ELSEIF(ICP==2)THEN
 c       DO I=LFT,LLT
 c        FAC1 = SIGY(I)/E0(I)+DEFP(I)
 c        FAC2=ONE-DEFP(I)/FAC1
@@ -1151,11 +1151,11 @@ c        NU3(I) =TWO_THIRD*(ONE + NU)
 c        NU4(I) =NU
 c       ENDDO
 c      ENDIF
-      IF(ICP.EQ.1)THEN
+      IF(ICP==1)THEN
        DO I=LFT,LLT
         NUS(I) =ZEP499
        ENDDO
-      ELSEIF(ICP.EQ.2)THEN
+      ELSEIF(ICP==2)THEN
        DO I=LFT,LLT
         FAC1 = SIGY(I)/E0(I)+DEFP(I)
         FAC2 = DEFP(I)/FAC1
@@ -1289,10 +1289,10 @@ C         SIGY(I) = 1.0E+30
         FHOUR(I,3,3) = FHOUR(I,3,3)*OFF(I)
         FHOUR(I,3,4) = FHOUR(I,3,4)*OFF(I)
        ENDDO
-      IF (MATVIS.EQ.0) 
+      IF (MATVIS==0) 
      .   CALL SZSVM_OR(JR0,JS0,JT0,CC,CG,G33,FHOUR,SIGY,SIGOLD,NU,SMO1,SMO2,NEL) 
       !-----------For energy calculation------------
-      IF(JLAG.EQ.1)THEN
+      IF(JLAG==1)THEN
        CALL GFHOUR_OR(LFT,LLT,
      .   FHOUR,JR0,JS0,JT0,FCL,
      .   HGX1, HGX2, HGX3, HGX4,
@@ -1355,21 +1355,21 @@ C
        FHOUR(I,3,3) = FHOUR(I,3,3) + DFHOUR(I,3,3)
        FHOUR(I,3,4) = FHOUR(I,3,4) + DFHOUR(I,3,4)
       ENDDO
-      IF (MATVIS.EQ.0) 
+      IF (MATVIS==0) 
      .    CALL SZSVM_OR(JR0,JS0,JT0,CC,CG,G33,FHOUR,SIGY,SIG0,NU,SM1,SM2,NEL) 
       !-----------ELASTIC-PLASTIC yield criterion------------
-      IF (MATVIS.EQ.0) THEN
+      IF (MATVIS==0) THEN
       DO I=LFT,LLT
-        IF (SM1(I).GT.SIGY(I).AND.DEINT(I).GT.0) THEN
+        IF (SM1(I)>SIGY(I).AND.DEINT(I)>0) THEN
          SMO  = ZEP9*SMO1(I)+EM01*SMO2(I)
          FAC1 = SIGY(I)-SMO
          FAC2 = SM1(I)-SMO
-         IF (FAC2.LE.EM20) THEN
+         IF (FAC2<=EM20) THEN
            FAC=ZERO
          ELSE
            FAC = ONE - MAX(EM20,FAC1/FAC2)
          ENDIF
-         IF (SM2(I).LT.SIGY(I)) THEN
+         IF (SM2(I)<SIGY(I)) THEN
            FAC1 =(SM1(I)-SIGY(I))/MAX((SM1(I)-SM2(I)),EM20)
            FAC1 =HALF + SQRT(FAC1)
            FAC = MIN(FAC1,ONE)*FAC
@@ -1465,7 +1465,7 @@ C
         F36(I) =-(-HQ13P+HQ24N-FF)
       ENDDO
       !----hourglass energie est inclued in interal energie------
-      IF(JLAG.EQ.1)THEN
+      IF(JLAG==1)THEN
        DO I=LFT,LLT
         EINT(I)= EINT(I)+DT05*(
      .   NFHOUR(I,3,1)*HGZ1(I) + NFHOUR(I,3,2)*HGZ2(I) + 
@@ -1537,7 +1537,7 @@ C     REAL
      .   CC24(MVSIZ,3,3),C3(MVSIZ,3)
 C-----------------------------------------------
        CALL GETTRANSV(JFT,JLT,GAMA,QC,QCG,QGC,QG)
-       IF (MTN.EQ.14.OR.MTN.EQ.12) THEN
+       IF (MTN==14.OR.MTN==12) THEN
         DO I=JFT,JLT
          MX  =MAT(I)
          CC(I,1,1) =PM(40,MX)
@@ -1618,7 +1618,7 @@ C----- w/o armature :--> isotropic
           CG(I,1:3,1:3)=ZERO
          ENDDO
         END IF
-       ELSEIF (MTN.EQ.25) THEN
+       ELSEIF (MTN==25) THEN
         DO I=JFT,JLT
          MX  =MAT(I)
          NU12 =PM(35,MX)
@@ -1636,7 +1636,7 @@ C----- w/o armature :--> isotropic
         ENDDO
         CALL MSTIFORTHV(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
      .                  QG     ,CC    ,G3  ,G33  ,CG     ) 
-       ELSEIF (MTN.EQ.28.OR.MTN.EQ.50.OR.MTN.EQ.68) THEN
+       ELSEIF (MTN==28.OR.MTN==50.OR.MTN==68) THEN
         DO I=JFT,JLT
          MX  =MAT(I)
          CC(I,1,1) = UPARAM(1)
@@ -1651,7 +1651,7 @@ C----- w/o armature :--> isotropic
         ENDDO
         CALL MSTIFORTHV(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
      .                  QG     ,CC    ,G3  ,G33  ,CG     ) 
-       ELSEIF (MTN.EQ.53) THEN
+       ELSEIF (MTN==53) THEN
         DO I=JFT,JLT
          MX  =MAT(I)
          CC(I,1,1) = UPARAM(1)
@@ -1681,7 +1681,7 @@ C----- w/o armature :--> isotropic
         ENDDO
         CALL MSTIFORTHV(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
      .                  QG     ,CC    ,G3  ,G33  ,CG     )        
-       ELSEIF (MTN.EQ.107) THEN
+       ELSEIF (MTN==107) THEN
         DO I=JFT,JLT
           MX = MAT(I)
           NU12 = UPARAM(4)
@@ -1699,7 +1699,7 @@ C----- w/o armature :--> isotropic
         ENDDO
         CALL MSTIFORTHV(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
      .                  QG     ,CC    ,G3  ,G33  ,CG     )
-       ELSEIF (MTN.EQ.112) THEN
+       ELSEIF (MTN==112) THEN
         DO I=JFT,JLT
           MX = MAT(I)
           NU12 = UPARAM(4)
@@ -1815,7 +1815,7 @@ C
        ENDDO
        DO J= 1,3
         K = J+1
-        IF (K.GT.3) K = 1
+        IF (K>3) K = 1
         DO I=JFT,JLT
          QG(I,1,J)=E1(I,J)*E2(I,K)+E2(I,J)*E1(I,K)
          QG(I,2,J)=E2(I,J)*E3(I,K)+E3(I,J)*E2(I,K)
@@ -1988,7 +1988,7 @@ C-----------------------------------------------
       my_real
      .    K(MVSIZ,3,3)
 C-----------------------------------------------
-       IF (ISYM.EQ.1) THEN
+       IF (ISYM==1) THEN
         DO I=1,3 
         DO J=I,3 
          DO EP=JFT,JLT 
@@ -2149,7 +2149,7 @@ C         coef= (3*8*0.75)^2 coef1 =1/0.75
       DO I=LFT,LLT
        SVM1(I) = ZERO
        SVM2(I) = ZERO
-       IF (SIGY(I).LT.ZEP9EP30) THEN
+       IF (SIGY(I)<ZEP9EP30) THEN
         S1 =SIG0(I,1)-SIG0(I,2)
         S2 =SIG0(I,2)-SIG0(I,3)
         S3 =SIG0(I,1)-SIG0(I,3)

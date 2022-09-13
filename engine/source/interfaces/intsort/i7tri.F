@@ -180,13 +180,13 @@ C
       NB_EC = 0
       DO I=1,NRTM
 C on ne retient pas les facettes detruites
-        IF(STF(I).NE.ZERO)THEN
+        IF(STF(I)/=ZERO)THEN
           NB_EC = NB_EC + 1
           BPE(NB_EC) = I
         ENDIF
       ENDDO
 
-      IF(IGAP.EQ.3) THEN
+      IF(IGAP==3) THEN
         IADD = 10
       ENDIF
 C
@@ -196,11 +196,11 @@ C
       NB_NC = 0
       DO I=1,NSN
         J=NSV(I)
-        IF(STFN(I).NE.ZERO) THEN
+        IF(STFN(I)/=ZERO) THEN
 
-         IF(X(1,J).GE.XMIN.AND.X(1,J).LE.XMAX.AND.
-     .     X(2,J).GE.YMIN.AND.X(2,J).LE.YMAX.AND.
-     .     X(3,J).GE.ZMIN.AND.X(3,J).LE.ZMAX)THEN
+         IF(X(1,J)>=XMIN.AND.X(1,J)<=XMAX.AND.
+     .     X(2,J)>=YMIN.AND.X(2,J)<=YMAX.AND.
+     .     X(3,J)>=ZMIN.AND.X(3,J)<=ZMAX)THEN
 
           NB_NC=NB_NC+1
           BPN(NB_NC) = I
@@ -217,9 +217,9 @@ C
 C
 C En SPMD, pour inacti ou IFQ, retrouve ancienne numerotation des candidats non locaux
 C
-      IF(NSPMD.GT.1.AND.
-     +  (INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7.OR.IFQ.GT.0.OR.
-     +   ITIED.NE.0)) THEN
+      IF(NSPMD>1.AND.
+     +  (INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.IFQ>0.OR.
+     +   ITIED/=0)) THEN
         CALL SPMD_OLDNUMCD(RENUM,OLDNUM,ISZNSNR,NSNROLD)
       END IF
 C
@@ -239,9 +239,9 @@ C
 C    1- DETERMINER LA DIRECTION A DIVISER X,Y OU Z
 C
       DIR = 1
-      IF(DY.EQ.DSUP) THEN
+      IF(DY==DSUP) THEN
         DIR = 2
-      ELSE IF(DZ.EQ.DSUP) THEN
+      ELSE IF(DZ==DSUP) THEN
         DIR = 3
       ENDIF
       SMOINS = XYZM(DIR,I_ADD)
@@ -265,7 +265,7 @@ C         ON STOCKE DANS LE BAS DE LA PILE BP
           NB_NCN1 = NB_NCN1 + 1
           ADDNN = ADDNN + 1
           PN(ADDNN) = J
-          IF(IGAP .NE.0) GAPSMX = MAX(GAPSMX,GAP_S(J))
+          IF(IGAP /=0) GAPSMX = MAX(GAPSMX,GAP_S(J))
           SMOINS = MAX(SMOINS,XX)
         ENDIF
        ENDIF
@@ -280,7 +280,7 @@ C         ON STOCKE DANS LE BAS DE LA PILE BP
           NB_NCN1 = NB_NCN1 + 1
           ADDNN = ADDNN + 1
           PN(ADDNN) = J
-          IF(IGAP.NE.0) GAPSMX = MAX(GAPSMX,XREM(9,J-NSN))
+          IF(IGAP/=0) GAPSMX = MAX(GAPSMX,XREM(9,J-NSN))
           SMOINS = MAX(SMOINS,XX)
         ENDIF
        ENDIF
@@ -295,7 +295,7 @@ C         ON STOCKE DANS LE BAS DE LA PILE BP
 C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPN
           NB_NCN = NB_NCN + 1
           BPN(NB_NCN) = J
-          IF(IGAP.NE.0) BGAPSMX = MAX(BGAPSMX,GAP_S(J))
+          IF(IGAP/=0) BGAPSMX = MAX(BGAPSMX,GAP_S(J))
           SPLUS = MIN(SPLUS,XX)
         ENDIF
        ENDIF
@@ -309,7 +309,7 @@ C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPN
 C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPN
           NB_NCN = NB_NCN + 1
           BPN(NB_NCN) = J
-          IF(IGAP .NE. 0) BGAPSMX = MAX(BGAPSMX,XREM(9,J-NSN))
+          IF(IGAP /= 0) BGAPSMX = MAX(BGAPSMX,XREM(9,J-NSN))
           SPLUS = MIN(SPLUS,XX)
         ENDIF
        ENDIF
@@ -319,7 +319,7 @@ C    3- DIVISER LES ELEMENTS
 C
       NB_ECN= 0
       ADDNE= ADD(2,I_ADD)
-      IF(NB_NCN1.EQ.0) THEN
+      IF(NB_NCN1==0) THEN
 #include "vectorize.inc"
         DO I=1,NB_EC
          NE = BPE(I)
@@ -442,7 +442,7 @@ C
       NB_EC = NB_ECN
 C     on incremente le niveau de descente avant de sortir
       I_ADD = I_ADD + 1
-      IF(I_ADD+1.GE.I_ADD_MAX) THEN
+      IF(I_ADD+1>=I_ADD_MAX) THEN
 c       WRITE(6,*) __LINE__,__LINE__
         I_MEM = 3
         RETURN
@@ -460,7 +460,7 @@ C                    PLUS DE MEMOIRE DISPONIBLE
 C
 C-------------------TEST SUR MEMOIRE DEPASSEE------------
 C
-      IF(ADD(2,I_ADD)+NB_EC.GT.MAXSIZ) THEN
+      IF(ADD(2,I_ADD)+NB_EC>MAXSIZ) THEN
 C       PLUS DE PLACE DANS LA PILE DES ELEMENTS BOITES TROP PETITES
          WRITE(6,*) __LINE__,__LINE__
 
@@ -470,7 +470,7 @@ C       PLUS DE PLACE DANS LA PILE DES ELEMENTS BOITES TROP PETITES
 C
 C--------------------TEST SUR BOITE VIDES--------------
 C
-      IF(NB_EC.NE.0.AND.NB_NC.NE.0) THEN
+      IF(NB_EC/=0.AND.NB_NC/=0) THEN
 C
         DX = XYZM(4,I_ADD) - XYZM(1,I_ADD)
         DY = XYZM(5,I_ADD) - XYZM(2,I_ADD)
@@ -484,13 +484,13 @@ C
 C       NCAND_PROV=NB_EC*NB_NC
 Cel NCAND_PROV negatif qd NB_EC*NB_NC > 2e31
 C
-        IF(NB_EC+NB_NC.LE.NVECSZ) THEN
+        IF(NB_EC+NB_NC<=NVECSZ) THEN
           NCAND_PROV = NB_EC*NB_NC
         ELSE
           NCAND_PROV = NVECSZ+1
         ENDIF
-        IF(DSUP.LT.MINBOX.OR.(NB_NC.LE.NB_N_B)
-     &     .OR.(NCAND_PROV.LE.NVECSZ)) THEN
+        IF(DSUP<MINBOX.OR.(NB_NC<=NB_N_B)
+     &     .OR.(NCAND_PROV<=NVECSZ)) THEN
           NCAND_PROV = NB_EC*NB_NC
 
           IF(FLAGREMNODE==2) THEN
@@ -515,7 +515,7 @@ C
                ENDDO
              ENDIF
              JJ = BPN(J)
-             IF( JJ.LE.NSN ) THEN
+             IF( JJ<=NSN ) THEN
                IF( IGAP == 0 ) THEN
                  TZ = TZINF+CURV_MAX(NE)
                ELSEIF( IGAP == 3 ) THEN
@@ -555,16 +555,16 @@ C
              XX4=X(3, N4)
              ZMAX=MAX(XX1,XX2,XX3,XX4)+TZ
              ZMIN=MIN(XX1,XX2,XX3,XX4)-TZ
-             IF(JJ.LE.NSN) THEN
+             IF(JJ<=NSN) THEN
 
                IF(FLAGREMNODE==2) THEN
                  IF(TAGREMNODE(NSV(JJ)) == 1) CYCLE
                ENDIF
                NN=NSV(JJ)
-               IF(NN.NE.N1.AND.NN.NE.N2.AND.NN.NE.N3.AND.NN.NE.N4.AND.
-     &           X(1,NN).GT.XMIN.AND.X(1,NN).LT.XMAX.AND.
-     &           X(2,NN).GT.YMIN.AND.X(2,NN).LT.YMAX.AND.
-     &           X(3,NN).GT.ZMIN.AND.X(3,NN).LT.ZMAX ) THEN
+               IF(NN/=N1.AND.NN/=N2.AND.NN/=N3.AND.NN/=N4.AND.
+     &           X(1,NN)>XMIN.AND.X(1,NN)<XMAX.AND.
+     &           X(2,NN)>YMIN.AND.X(2,NN)<YMAX.AND.
+     &           X(3,NN)>ZMIN.AND.X(3,NN)<ZMAX ) THEN
                  J_STOK = J_STOK + 1
                  PROV_N(J_STOK) = JJ
                  PROV_E(J_STOK) = NE
@@ -578,14 +578,14 @@ C
                      EXIT
                    ENDIF
                  ENDDO
-                 IF(DELNOD .NE. 0) CYCLE
+                 IF(DELNOD /= 0) CYCLE
                ENDIF
-               IF(XREM(1,II).GT.XMIN.AND.
-     &            XREM(1,II).LT.XMAX.AND.
-     &            XREM(2,II).GT.YMIN.AND.
-     &            XREM(2,II).LT.YMAX.AND.
-     &            XREM(3,II).GT.ZMIN.AND.
-     &            XREM(3,II).LT.ZMAX ) THEN
+               IF(XREM(1,II)>XMIN.AND.
+     &            XREM(1,II)<XMAX.AND.
+     &            XREM(2,II)>YMIN.AND.
+     &            XREM(2,II)<YMAX.AND.
+     &            XREM(3,II)>ZMIN.AND.
+     &            XREM(3,II)<ZMAX ) THEN
                  J_STOK = J_STOK + 1
                  PROV_N(J_STOK) = JJ
                  PROV_E(J_STOK) = NE
@@ -593,7 +593,7 @@ C
              ENDIF
             ENDDO ! L=K,MIN(K-1+NVSIZ,NCAND_PROV)
 
-            IF(J_STOK.GE.NVSIZ)THEN
+            IF(J_STOK>=NVSIZ)THEN
               CALL I7STO(
      1             NVSIZ,IRECT   ,X     ,NSV   ,II_STOK,
      2             CAND_N,CAND_E ,MULNSN,NOINT ,MARGE  ,
@@ -603,7 +603,7 @@ C
      6             GAP_M ,GAPMIN ,GAPMAX,CURV_MAX,NIN  ,
      7             GAP_S_L,GAP_M_L,INTTH,DRAD,ITIED    ,
      8             CAND_F,DGAPLOAD)
-               IF(I_MEM.EQ.2) THEN
+               IF(I_MEM==2) THEN
                  RETURN
                ENDIF
                J_STOK = J_STOK-NVSIZ
@@ -627,7 +627,7 @@ C       FIN DE BRANCHE
 C       on decremente le niveau de descente avant de recommencer
 C-------------------------------------------------------------------------
       I_ADD = I_ADD - 1
-      IF (I_ADD.NE.0) THEN
+      IF (I_ADD/=0) THEN
 C-------------------------------------------------------------------------
 C         IL FAUT COPIER LES BAS DES PILES DANS BAS_DE_PILE CORRESPONDANTS
 C         AVANT DE REDESCENDRE DANS LA BRANCHE MITOYENNE
@@ -640,7 +640,7 @@ C=======================================================================
 C-------------------------------------------------------------------------
 C     FIN DU TRI
 C-------------------------------------------------------------------------
-      IF(J_STOK.NE.0)CALL I7STO(
+      IF(J_STOK/=0)CALL I7STO(
      1              J_STOK,IRECT  ,X     ,NSV   ,II_STOK,
      2              CAND_N,CAND_E ,MULNSN,NOINT ,MARGE  ,
      3              I_MEM ,PROV_N ,PROV_E,ESHIFT,INACTI ,

@@ -204,7 +204,7 @@ C       construit les pointeurs dans le tableau global WAP0
         CALL SPMD_RGATHER9_DP(WA,JJ,WAP0,SIZP0,LEN)
       END IF
 c------------------------------------------------------------
-      IF(ISPMD.EQ.0.AND.LEN.GT.0) THEN
+      IF(ISPMD==0.AND.LEN>0) THEN
         IPRT0=0
         DO N=1,STAT_NUMELS_G
 C         retrouve le nieme elt dans l'ordre d'id croissant
@@ -283,7 +283,7 @@ c
 !
                 IF (IRUPT == 0) CYCLE
 !
-                IF (IRUPT .NE. 0) THEN
+                IF (IRUPT /= 0) THEN
                  IF (IZIPSTRS == 0) THEN
                   WRITE(IUGEO,'(10I10)') ID,NLAY,NPTR,NPTS,NPTT,
      .                                IL,IRUPT,IRUPT_TYPE,NVAR_RUPT,
@@ -299,7 +299,7 @@ c
                   DO IR=1,NPTR
                    DO IS=1,NPTS
                     DO IT=1,NPTT
-                      IF (IRUPT .NE. 0) WRITE(IUGEO,'(1P3E20.13)')
+                      IF (IRUPT /= 0) WRITE(IUGEO,'(1P3E20.13)')
      .                    (WAP0(J + K),K=1,NVAR_RUPT)
                       J = J + NVAR_RUPT
                     ENDDO
@@ -309,7 +309,7 @@ c
                   DO IR=1,NPTR
                    DO IS=1,NPTS
                     DO IT=1,NPTT
-                      IF (IRUPT .NE. 0) 
+                      IF (IRUPT /= 0) 
      .                 CALL TAB_STRS_TXT50(WAP0(1),NVAR_RUPT,J,SIZP0,3)
                       J = J + NVAR_RUPT
                     ENDDO

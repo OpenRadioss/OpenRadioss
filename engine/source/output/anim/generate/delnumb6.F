@@ -79,10 +79,10 @@ C
 C-----------------------------------------------
 C       SOLIDES 16N
 C-----------------------------------------------
-        IF(ITY.EQ.1.AND.ISOLNOD.EQ.16)THEN
+        IF(ITY==1.AND.ISOLNOD==16)THEN
           DO I=LFT,LLT
            N = I + NFT
-           IF(EL2FA(NN2+N).NE.0)THEN
+           IF(EL2FA(NN2+N)/=0)THEN
                INUM(EL2FA(NN2+N)) = IXS(NIXS,N)
                INUM(EL2FA(NN2+N)+1) = IXS(NIXS,N)
                INUM(EL2FA(NN2+N)+2) = IXS(NIXS,N)
@@ -92,30 +92,30 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       AUTRES SOLIDES
 C-----------------------------------------------
-        ELSEIF(ITY.EQ.1)THEN
+        ELSEIF(ITY==1)THEN
           DO I=LFT,LLT
            N = I + NFT
-           IF(EL2FA(NN2+N).NE.0)THEN
+           IF(EL2FA(NN2+N)/=0)THEN
                INUM(EL2FA(NN2+N)) = IXS(NIXS,N)
            ENDIF
           ENDDO
-        ELSEIF(ISPH3D.EQ.1.AND.ITY.EQ.51)THEN
+        ELSEIF(ISPH3D==1.AND.ITY==51)THEN
 C-----------------------------------------------
 C TETRAS SPH.
 C-----------------------------------------------
           DO I=LFT,LLT
            N = I + NFT
-           IF(EL2FA(NN3+N).NE.0)THEN
+           IF(EL2FA(NN3+N)/=0)THEN
                INUM(EL2FA(NN3+N)) = KXSP(NISP,N)
            ENDIF
           ENDDO
-        ELSEIF(ITY.EQ.101)THEN
+        ELSEIF(ITY==101)THEN
 C-----------------------------------------------
 C ISO ELEMS
 C-----------------------------------------------
           DO I=LFT,LLT
            N = I + NFT
-           IF(EL2FA(NN4+N).NE.0)THEN
+           IF(EL2FA(NN4+N)/=0)THEN
             DO J=1,27
               INUM(EL2FA(NN4+N)+J-1) = 1000000000 + 27*(N-1) + J
             ENDDO
@@ -129,7 +129,7 @@ C-----------------------------------------------
         CALL WRITE_I_C(INUM,NBF)
       ELSE
 
-        IF (ISPMD.EQ.0) THEN
+        IF (ISPMD==0) THEN
           BUF = NUMELSG + 3*NUMELS16G + NUMSPHG + 27* NUMELIG3D
         ELSE 
           BUF = 1

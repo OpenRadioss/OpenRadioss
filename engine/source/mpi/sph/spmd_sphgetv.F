@@ -178,7 +178,7 @@ C
       DO P = 1, NSPMD
 ctmp+1
        NN = 0
-       IF(PSPHS(P).NE.0)THEN
+       IF(PSPHS(P)/=0)THEN
         DO N = 1, PSPHS(P)
           IF(ISORTSP == 1)THEN
             NN = NN + 1
@@ -191,7 +191,7 @@ ctmp+1
             BUFS(5,IDEB+NN) = V(3,INOD)
             BUFS(6,IDEB+NN) = KXSP(2,ICELL)
             BUFS(7,IDEB+NN) = IPARTSP(ICELL)
-          ELSEIF(ISPHS(IDEB+N).EQ.1) THEN
+          ELSEIF(ISPHS(IDEB+N)==1) THEN
             NN = NN + 1
             ICELL = LSPHS(IDEB+N)
             INOD = KXSP(3,ICELL)
@@ -237,7 +237,7 @@ C
       NN = 0
       DO P = 1, NSPMD
 
-        IF(PSPHR(P).NE.0)THEN
+        IF(PSPHR(P)/=0)THEN
          NN = 0
           DO N = 1, PSPHR(P)
             IF(ISORTSP == 1)THEN
@@ -249,7 +249,7 @@ C
               XSPHR(11,IDEB+N)= BUFR(5,IDEB+NN) 
 	          XSPHR(13,IDEB+N)= BUFR(6,IDEB+NN)
 	          XSPHR(14,IDEB+N)= BUFR(7,IDEB+NN)
-            ELSEIF(ISPHR(IDEB+N).EQ.1) THEN
+            ELSEIF(ISPHR(IDEB+N)==1) THEN
               NN = NN + 1
               XSPHR(7,IDEB+N) = BUFR(1,IDEB+NN)
               XSPHR(8,IDEB+N) = BUFR(2,IDEB+NN)
@@ -335,7 +335,7 @@ C Envoi flag cellules actives
 C      
       IDEB = 1
       DO P = 1, NSPMD
-        IF(PSPHR(P).NE.0)THEN
+        IF(PSPHR(P)/=0)THEN
           MSGTYP = MSGOFF
           CALL MPI_ISEND(
      S      ISPHR(IDEB),PSPHR(P),MPI_INTEGER,IT_SPMD(P),MSGTYP,
@@ -348,7 +348,7 @@ C Reception flag cellules actives
 C
       IDEB = 1
       DO P = 1, NSPMD
-        IF(PSPHS(P).NE.0)THEN
+        IF(PSPHS(P)/=0)THEN
           MSGTYP = MSGOFF
           CALL MPI_RECV(ISPHS(IDEB),PSPHS(P),MPI_INTEGER,IT_SPMD(P),
      .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
@@ -361,7 +361,7 @@ C
       IDEB = 0
       DO P = 1, NSPMD
 ctmp+1
-       IF(PSPHS(P).NE.0)THEN
+       IF(PSPHS(P)/=0)THEN
         NN = 0
         DO N = 1, PSPHS(P)
           IF(ISORTSP == 1)THEN
@@ -375,7 +375,7 @@ ctmp+1
             BUFS(5,NN+IDEB) = V(3,INOD)
             BUFS(6,NN+IDEB) = KXSP(2,ICELL)
             BUFS(7,NN+IDEB) = IPARTSP(ICELL)
-          ELSEIF(ISPHS(IDEB+N).EQ.1) THEN
+          ELSEIF(ISPHS(IDEB+N)==1) THEN
             NN = NN + 1
             ICELL = LSPHS(IDEB+N)
             INOD = KXSP(3,ICELL)
@@ -402,7 +402,7 @@ C
       IDEB = 0
       DO P = 1, NSPMD
 
-        IF(PSPHR(P).NE.0)THEN
+        IF(PSPHR(P)/=0)THEN
           MSGTYP = MSGOFF2
           CALL MPI_RECV(BUFR,7*PSPHR(P),REAL,IT_SPMD(P),
      .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
@@ -417,7 +417,7 @@ C
               XSPHR(11,IDEB+N)= BUFR(5,NN)     
 	      XSPHR(13,IDEB+N)= BUFR(6,NN) 
 	      XSPHR(14,IDEB+N)= BUFR(7,NN) 
-            ELSEIF(ISPHR(IDEB+N).EQ.1) THEN
+            ELSEIF(ISPHR(IDEB+N)==1) THEN
               NN = NN + 1
               XSPHR(7,IDEB+N) = BUFR(1,NN)
               XSPHR(8,IDEB+N) = BUFR(2,NN)
@@ -435,11 +435,11 @@ C
 C Wait terminaison
 C
       DO P = 1, NSPMD
-        IF(PSPHR(P).NE.0)THEN
+        IF(PSPHR(P)/=0)THEN
           CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
 ctmp+++
         END IF
-        IF(PSPHS(P).NE.0)THEN
+        IF(PSPHS(P)/=0)THEN
           CALL MPI_WAIT(REQ_SD2(P),STATUS,IERROR)
         END IF
       END DO

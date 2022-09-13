@@ -150,9 +150,9 @@ C----------------------------------
         SIGY(I) = 1.E30
       ENDDO
 C----------------------------------
-      IF(OFF_L.LT.ZERO)THEN
+      IF(OFF_L<ZERO)THEN
         DO I=JFT,JLT
-         IF(OFFG(I).LT.ZERO)THEN
+         IF(OFFG(I)<ZERO)THEN
            VL1(I,1)=ZERO
            VL1(I,2)=ZERO
            VL1(I,3)=ZERO

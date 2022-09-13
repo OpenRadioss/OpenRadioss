@@ -165,7 +165,7 @@ c     dev future: xminb plus grand que xmin...
 
   
 C En SPMD, retrouve ancienne numerotation des candidats non locaux
-      IF(NSPMD.GT.1) THEN
+      IF(NSPMD>1) THEN
         CALL SPMD_OLDNUMCD(RENUM,OLDNUM,ISZNSNR,NSNROLD)
       END IF 
 
@@ -412,7 +412,7 @@ c                   CALL I7STOVOX(
      4      IGAP     ,GAP  ,GAP_S      ,GAP_M   ,GAPMIN ,
      5      GAPMAX ,CURV_MAX ,MSR      ,NSN     ,OLDNUM ,
      6      NSNROLD,CAND_A   ,IFPEN    ,CAND_P  )
-                   IF(I_MEM.EQ.2)GOTO 100
+                   IF(I_MEM==2)GOTO 100
                    J_STOK = 0
                  ENDIF
 
@@ -434,8 +434,8 @@ cc             nnr0pelg = nnr0pelg + nnr0pelem
 C-------------------------------------------------------------------------
 C     FIN DU TRI
 C-------------------------------------------------------------------------
-c      IF(J_STOK.NE.0)CALL I7STOVOX(
-      IF(J_STOK.NE.0)CALL I23STO(
+c      IF(J_STOK/=0)CALL I7STOVOX(
+      IF(J_STOK/=0)CALL I23STO(
      1      J_STOK   ,IRECT  ,X        ,NSV     ,II_STOK,
      2      CAND_N ,CAND_E ,MULNSN     ,NOINT   ,MARGE  ,
      3      I_MEM  ,PROV_N ,PROV_E     ,ESHIFT  ,INACTI ,

@@ -55,7 +55,7 @@ C----------------------------------------------------------------
       DO 130 IZ=1,N
         DO 120 IS=1,N
 C PRACTICAL FOR RADIOSS (PASS ONLY LOWER DIAGONAL MATRIX)
-          IF(IZ.GT.IS) A(IS,IZ) = A(IZ,IS) 
+          IF(IZ>IS) A(IS,IZ) = A(IZ,IS) 
           EV(IZ,IS)=ZERO
   120   CONTINUE
         B(IZ)=A(IZ,IZ)
@@ -79,8 +79,8 @@ C SUM OF THE OFF DIAGONALS
   140     CONTINUE
   150   CONTINUE
  
-        IF (SUMRS .EQ.ZERO) GOTO 9000
-        IF (ITER .GT. 4)   THEN
+        IF (SUMRS ==ZERO) GOTO 9000
+        IF (ITER > 4)   THEN
           EPS = ZERO
         ELSE
           EPS = ONE_FIFTH*SUMRS/N**2
@@ -89,17 +89,17 @@ C SUM OF THE OFF DIAGONALS
         DO 220 IZ=1,N-1
           DO 210 IS=IZ+1,N
             G = 100. * ABS(A(IZ,IS))
-            IF (ITER.GT.4 .AND. ABS(EW(IZ))+G.EQ.ABS(EW(IZ))
-     &      .AND. ABS(EW(IS))+G.EQ.ABS(EW(IS))) THEN
+            IF (ITER>4 .AND. ABS(EW(IZ))+G==ABS(EW(IZ))
+     &      .AND. ABS(EW(IS))+G==ABS(EW(IS))) THEN
               A(IZ,IS)=ZERO
-            ELSE IF (ABS(A(IZ,IS)) .GT. EPS) THEN
+            ELSE IF (ABS(A(IZ,IS)) > EPS) THEN
               H = EW(IS)-EW(IZ)
-              IF (ABS(H)+G.EQ.ABS(H)) THEN
+              IF (ABS(H)+G==ABS(H)) THEN
                 T = A(IZ,IS)/H
               ELSE
                 THETA = HALF*H/A(IZ,IS)
                 T=ONE/(ABS(THETA)+SQRT(ONE+THETA**2))
-                IF (THETA .LT. ZERO) T=-T
+                IF (THETA < ZERO) T=-T
               ENDIF
               C=ONE/SQRT(ONE+T**2)
               S=T*C
@@ -174,19 +174,19 @@ C-----------------------------------------------
       INTEGER KEN,II,JJ
       INTEGER I,J,K,I1,J1
 C----------------------------------------------------------------
-      IF(II.LE.0) II=1
-      IF(JJ.LE.0) JJ=1
+      IF(II<=0) II=1
+      IF(JJ<=0) JJ=1
                        
       DO 20 I=1,3                                                               
         DO 20 J=1,3                                                               
           J1=JJ+J-1                                                                 
           X=0.0                                                                     
           DO 10 K=1,3                                                               
-C          IF(TR(K,I).EQ.ZERO) GOTO 10                                               
+C          IF(TR(K,I)==ZERO) GOTO 10                                               
            I1=K+II-1                                                                 
-C          IF(B(I1,J1).EQ.ZERO) GOTO 10                                             
-           IF(KEN.NE.1) X=X+TR(K,I)*B(I1,J1)                                                   
-           IF(KEN.EQ.1) X=X+TR(I,K)*B(I1,J1) 
+C          IF(B(I1,J1)==ZERO) GOTO 10                                             
+           IF(KEN/=1) X=X+TR(K,I)*B(I1,J1)                                                   
+           IF(KEN==1) X=X+TR(I,K)*B(I1,J1) 
  10       CONTINUE                                                                  
  20   LK(I,J)=X
                                                                  
@@ -194,10 +194,10 @@ C          IF(B(I1,J1).EQ.ZERO) GOTO 10
         DO 40 J=1,3                                                               
           X=ZERO                                                       
           DO 30 K=1,3                                                               
-C          IF(TR(K,J).EQ.ZERO) GOTO 30                                               
-C          IF(LK(I,K).EQ.ZERO) GOTO 30                                                
-           IF(KEN.NE.1) X=X+LK(I,K)*TR(K,J)                                                      
-           IF(KEN.EQ.1) X=X+LK(I,K)*TR(J,K)                                                      
+C          IF(TR(K,J)==ZERO) GOTO 30                                               
+C          IF(LK(I,K)==ZERO) GOTO 30                                                
+           IF(KEN/=1) X=X+LK(I,K)*TR(K,J)                                                      
+           IF(KEN==1) X=X+LK(I,K)*TR(J,K)                                                      
  30       CONTINUE                                                                  
  40   B(II+I-1,JJ+J-1)=X
                                                       
@@ -293,8 +293,8 @@ C
         VAL(2,NN) = STR(2,NN)-PR
         VAL(3,NN) = STR(3,NN)-PR
 C renforcement de precision en compression
-        IF(ABS(STR(3,NN)).GT.ABS(STR(1,NN))
-     &     .AND.AAA(NN).GT.NORMINF(NN)) THEN
+        IF(ABS(STR(3,NN))>ABS(STR(1,NN))
+     &     .AND.AAA(NN)>NORMINF(NN)) THEN
          AA=STR(1,NN)
          STR(1,NN)=STR(3,NN)
          STR(3,NN)=AA
@@ -345,14 +345,14 @@ C
       NINDEX2 = 0
       DO NN = 1, NEL
         XMAXV(NN)=MAX(XMAG(1,NN),XMAG(2,NN),XMAG(3,NN))
-        IF(XMAG(1,NN).EQ.XMAXV(NN)) THEN
+        IF(XMAG(1,NN)==XMAXV(NN)) THEN
           LMAXV(NN) = 1
-        ELSEIF(XMAG(2,NN).EQ.XMAXV(NN)) THEN
+        ELSEIF(XMAG(2,NN)==XMAXV(NN)) THEN
           LMAXV(NN) = 2
         ELSE
           LMAXV(NN) = 3
         ENDIF
-        IF(AAA(NN).LT.NORMINF(NN)) THEN
+        IF(AAA(NN)<NORMINF(NN)) THEN
           VAL(1,NN) = SIG(1,NN)
           VAL(2,NN) = SIG(2,NN)
           VAL(3,NN) = SIG(3,NN)
@@ -363,7 +363,7 @@ C
           V(2,2,NN) = ONE
           V(3,2,NN) = ZERO
 
-        ELSEIF(XMAXV(NN).GT.TOL1(NN)) THEN
+        ELSEIF(XMAXV(NN)>TOL1(NN)) THEN
           NINDEX1 = NINDEX1 + 1
           INDEX1(NINDEX1) = NN
         ELSE
@@ -403,9 +403,9 @@ C
 C #include      "vectorize.inc"
       DO N = 1, NINDEX1
         NN = INDEX1(N)
-        IF(XMAG(1,NN).EQ.XMAXV(NN)) THEN
+        IF(XMAG(1,NN)==XMAXV(NN)) THEN
           LMAXV(NN) = 1
-        ELSEIF(XMAG(2,NN).EQ.XMAXV(NN)) THEN
+        ELSEIF(XMAG(2,NN)==XMAXV(NN)) THEN
           LMAXV(NN) = 2
         ELSE
           LMAXV(NN) = 3
@@ -413,7 +413,7 @@ C #include      "vectorize.inc"
 C
         VMAG=SQRT(V(1,1,NN)**2+V(2,1,NN)**2)
         LMAX = LMAXV(NN)
-        IF(XMAXV(NN).GT.TOL2(NN))THEN
+        IF(XMAXV(NN)>TOL2(NN))THEN
           XMAXINV = ONE/XMAXV(NN)
           V(1,3,NN)=B(1,LMAX,NN)*XMAXINV
           V(2,3,NN)=B(2,LMAX,NN)*XMAXINV
@@ -425,7 +425,7 @@ C
           V(1,2,NN)=V(1,2,NN)*VMAG
           V(2,2,NN)=V(2,2,NN)*VMAG
           V(3,2,NN)=V(3,2,NN)*VMAG
-        ELSEIF(VMAG.GT.TOL2(NN))THEN
+        ELSEIF(VMAG>TOL2(NN))THEN
           V(1,2,NN)=-V(2,1,NN)/VMAG
           V(2,2,NN)=V(1,1,NN)/VMAG
           V(3,2,NN)=ZERO
@@ -450,9 +450,9 @@ C
 C #include      "vectorize.inc"
       DO N = 1, NINDEX2
         NN = INDEX2(N)
-        IF(XMAG(1,NN).EQ.XMAXV(NN)) THEN
+        IF(XMAG(1,NN)==XMAXV(NN)) THEN
           LMAXV(NN) = 1
-        ELSEIF(XMAG(2,NN).EQ.XMAXV(NN)) THEN
+        ELSEIF(XMAG(2,NN)==XMAXV(NN)) THEN
           LMAXV(NN) = 2
         ELSE
           LMAXV(NN) = 3
@@ -460,7 +460,7 @@ C #include      "vectorize.inc"
 C
         LMAX = LMAXV(NN)
         IF(MAX(ABS(A(3,1,NN)),ABS(A(3,2,NN)),ABS(A(3,3,NN)))
-     &       .LT.TOL2(NN))THEN
+     &       <TOL2(NN))THEN
           XMAXINV = ONE/XMAXV(NN)
           V(1,1,NN)= ZERO
           V(2,1,NN)= ZERO
@@ -469,7 +469,7 @@ C
           V(2,2,NN)= A(1,LMAX,NN)*XMAXINV
           V(3,2,NN)= ZERO
 C
-        ELSEIF(XMAXV(NN).GT.TOL2(NN))THEN
+        ELSEIF(XMAXV(NN)>TOL2(NN))THEN
           XMAXINV = ONE/XMAXV(NN)
           V(1,1,NN)=-A(2,LMAX,NN)*XMAXINV
           V(2,1,NN)= A(1,LMAX,NN)*XMAXINV
@@ -612,8 +612,8 @@ C
         VALDP(2,NN) = STR(2,NN)-PR
         VALDP(3,NN) = STR(3,NN)-PR
 C renforcement de precision en compression simple----
-        IF(ABS(STR(3,NN)).GT.ABS(STR(1,NN))
-     &     .AND.AAA(NN).GT.NORMINF(NN)) THEN
+        IF(ABS(STR(3,NN))>ABS(STR(1,NN))
+     &     .AND.AAA(NN)>NORMINF(NN)) THEN
          AA=STR(1,NN)
          STR(1,NN)=STR(3,NN)
          STR(3,NN)=AA
@@ -664,14 +664,14 @@ C
       NINDEX2 = 0
       DO NN = 1, NEL
         XMAXV(NN)=MAX(XMAG(1,NN),XMAG(2,NN),XMAG(3,NN))
-        IF(XMAG(1,NN).EQ.XMAXV(NN)) THEN
+        IF(XMAG(1,NN)==XMAXV(NN)) THEN
           LMAXV(NN) = 1
-        ELSEIF(XMAG(2,NN).EQ.XMAXV(NN)) THEN
+        ELSEIF(XMAG(2,NN)==XMAXV(NN)) THEN
           LMAXV(NN) = 2
         ELSE
           LMAXV(NN) = 3
         ENDIF
-        IF(AAA(NN).LT.NORMINF(NN)) THEN
+        IF(AAA(NN)<NORMINF(NN)) THEN
           VALDP(1,NN) = SIG(1,NN)
           VALDP(2,NN) = SIG(2,NN)
           VALDP(3,NN) = SIG(3,NN)
@@ -681,7 +681,7 @@ C
           V(1,2,NN) = ZERO
           V(2,2,NN) = ONE
           V(3,2,NN) = ZERO	  
-        ELSEIF(XMAXV(NN).GT.TOL1(NN)) THEN
+        ELSEIF(XMAXV(NN)>TOL1(NN)) THEN
           NINDEX1 = NINDEX1 + 1
           INDEX1(NINDEX1) = NN
         ELSE
@@ -721,9 +721,9 @@ C
 C #include      "vectorize.inc"
       DO N = 1, NINDEX1
         NN = INDEX1(N)
-        IF(XMAG(1,NN).EQ.XMAXV(NN)) THEN
+        IF(XMAG(1,NN)==XMAXV(NN)) THEN
           LMAXV(NN) = 1
-        ELSEIF(XMAG(2,NN).EQ.XMAXV(NN)) THEN
+        ELSEIF(XMAG(2,NN)==XMAXV(NN)) THEN
           LMAXV(NN) = 2
         ELSE
           LMAXV(NN) = 3
@@ -731,7 +731,7 @@ C #include      "vectorize.inc"
 C
         VMAG=SQRT(V(1,1,NN)**2+V(2,1,NN)**2)
         LMAX = LMAXV(NN)
-        IF(XMAXV(NN).GT.TOL2(NN))THEN
+        IF(XMAXV(NN)>TOL2(NN))THEN
           XMAXINV = ONE/XMAXV(NN)
           V(1,3,NN)=B(1,LMAX,NN)*XMAXINV
           V(2,3,NN)=B(2,LMAX,NN)*XMAXINV
@@ -743,7 +743,7 @@ C
           V(1,2,NN)=V(1,2,NN)*VMAG
           V(2,2,NN)=V(2,2,NN)*VMAG
           V(3,2,NN)=V(3,2,NN)*VMAG
-        ELSEIF(VMAG.GT.TOL2(NN))THEN
+        ELSEIF(VMAG>TOL2(NN))THEN
           V(1,2,NN)=-V(2,1,NN)/VMAG
           V(2,2,NN)=V(1,1,NN)/VMAG
           V(3,2,NN)=ZERO
@@ -768,9 +768,9 @@ C
 C #include      "vectorize.inc"
       DO N = 1, NINDEX2
         NN = INDEX2(N)
-        IF(XMAG(1,NN).EQ.XMAXV(NN)) THEN
+        IF(XMAG(1,NN)==XMAXV(NN)) THEN
           LMAXV(NN) = 1
-        ELSEIF(XMAG(2,NN).EQ.XMAXV(NN)) THEN
+        ELSEIF(XMAG(2,NN)==XMAXV(NN)) THEN
           LMAXV(NN) = 2
         ELSE
           LMAXV(NN) = 3
@@ -778,7 +778,7 @@ C #include      "vectorize.inc"
 C
         LMAX = LMAXV(NN)
         IF(MAX(ABS(A(3,1,NN)),ABS(A(3,2,NN)),ABS(A(3,3,NN)))
-     &       .LT.TOL2(NN))THEN
+     &       <TOL2(NN))THEN
           XMAXINV = ONE/XMAXV(NN)
           V(1,1,NN)= ZERO
           V(2,1,NN)= ZERO
@@ -787,7 +787,7 @@ C
           V(2,2,NN)= A(1,LMAX,NN)*XMAXINV
           V(3,2,NN)= ZERO
 C
-        ELSEIF(XMAXV(NN).GT.TOL2(NN))THEN
+        ELSEIF(XMAXV(NN)>TOL2(NN))THEN
           XMAXINV = ONE/XMAXV(NN)
           V(1,1,NN)=-A(2,LMAX,NN)*XMAXINV
           V(2,1,NN)= A(1,LMAX,NN)*XMAXINV

@@ -82,7 +82,7 @@ C Init Parith/ON
          FRL6(15,K) = ZERO
        END DO
 
-       IF(IC.EQ.0)GOTO 150
+       IF(IC==0)GOTO 150
 C
 c      AX  =ZERO
 c      AY  =ZERO
@@ -94,7 +94,7 @@ c      MASS=ZERO
 C
        DO I=1,NSN
         N = NOD(I)
-        IF(WEIGHT(N).EQ.1) THEN
+        IF(WEIGHT(N)==1) THEN
           F1(I)=MS(N)
           F2(I)=MS(N)*A(1,N)
           F3(I)=MS(N)*A(2,N)
@@ -124,7 +124,7 @@ C
        CALL SUM_6_FLOAT(1  ,NSN  ,F7, FRL6(7,1), 15)
 C
 C
-  150 IF(ICR.EQ.0)RETURN
+  150 IF(ICR==0)RETURN
 C
 c      AX  =ZERO
 c      AY  =ZERO
@@ -136,7 +136,7 @@ c      INER=ZERO
 C
       DO I=1,NSN
         N = NOD(I)
-        IF(WEIGHT(N).EQ.1) THEN
+        IF(WEIGHT(N)==1) THEN
           F1(I)=IN(N)
           F2(I)=IN(N)*AR(1,N)
           F3(I)=IN(N)*AR(2,N)
@@ -167,7 +167,7 @@ C
 C
       ELSEIF(IFLAG == 2)THEN
 C
-      IF(IC.EQ.0)GOTO 250
+      IF(IC==0)GOTO 250
        IC1=IC/4
        ICC=IC-4*IC1
        IC2=ICC/2
@@ -219,13 +219,13 @@ C
 C
        END DO
 
-  250  IF(ICR.EQ.0)RETURN
+  250  IF(ICR==0)RETURN
        IC1=ICR/4
        ICC=ICR-4*IC1
        IC2=ICC/2
        IC3=ICC-2*IC2
 
-       IF(INER.EQ.ZERO)RETURN
+       IF(INER==ZERO)RETURN
 C
        INER = FRL6(8,1)+FRL6(8,2)+FRL6(8,3)+
      +        FRL6(8,4)+FRL6(8,5)+FRL6(8,6)

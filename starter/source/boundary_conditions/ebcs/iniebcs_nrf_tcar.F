@@ -108,7 +108,7 @@ C-----------------------------------------------
            !UPRM => BUFMAT(IADBUF:IADBUF+275)                                                                            
            !TMP  = UPRM(31)                                                                                              
            !IFORM = NINT(TMP)                                                                                            
-           !IF(IFORM.GT.1)CYCLE                                                                                          
+           !IF(IFORM>1)CYCLE                                                                                          
            !SSP0 = UPRM(124) 
            !SSP0 = MAX(SSP0,UPRM(174))                                                                                   
            !SSP0 = MAX(SSP0,UPRM(224))                                                                                   

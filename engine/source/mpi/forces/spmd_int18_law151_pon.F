@@ -125,7 +125,7 @@ C
         !   1 value for the 
         LEN = 3*6 + 1  
 
-        IF(IFLAG.EQ.1)THEN
+        IF(IFLAG==1)THEN
 C
 C Partie 1 envoi et preparation buffer reception
 C
@@ -138,9 +138,9 @@ C Init
             ENDDO
             IALLOCS = LEN*IRLEN7
             IERROR=0
-            IF(IALLOCS.GT.0)
+            IF(IALLOCS>0)
      +      ALLOCATE(BBUFS(IALLOCS+NB_INT18*NSPMD*2),STAT=IERROR) ! nbintc*NSPMD*2 majorant place supplementaire bufs
-            IF(IERROR.NE.0) THEN
+            IF(IERROR/=0) THEN
                 CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                 CALL ARRET(2)
             END IF
@@ -148,9 +148,9 @@ C
             IALLOCR = LEN*ISLEN7
 
             IERROR=0
-            IF(IALLOCR.GT.0)
+            IF(IALLOCR>0)
      +      ALLOCATE(BBUFR(IALLOCR+NB_INT18*NSPMD*2),STAT=IERROR) ! nbintc*NSPMD*2 majorant place supplementaire bufs
-            IF(IERROR.NE.0) THEN
+            IF(IERROR/=0) THEN
                 CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                 CALL ARRET(2)
             END IF
@@ -162,7 +162,7 @@ C
                 ADD = L+1
                 ADDR(P) = ADD
                 SIZ = 0
-                IF(P.NE.LOC_PROC)THEN
+                IF(P/=LOC_PROC)THEN
 Cel test en plus pour savoir si com globale necessaire entre les 2 procs
                     DO II=1,MULTI_FVM%NUMBER_INT18
                         NIN = MULTI_FVM%INT18_LIST(II)
@@ -170,12 +170,12 @@ Cel test en plus pour savoir si com globale necessaire entre les 2 procs
                         NTY = IPARI(7,NIN)
                         LENI = LEN
 
-                        IF(NB.GT.0) THEN
+                        IF(NB>0) THEN
                             L = L + 1 + NB*LENI
                         ENDIF
                     ENDDO
                     SIZ = L+1-ADD
-                    IF(SIZ.GT.0)THEN
+                    IF(SIZ>0)THEN
                         MSGTYP = MSGOFF
                         CALL MPI_IRECV( BBUFR(ADD),SIZ,MPI_DOUBLE_PRECISION,
      .                                  IT_SPMD(P),MSGTYP,MPI_COMM_WORLD,REQ_RI(P),IERROR )
@@ -191,19 +191,19 @@ C
                 ADD = L+1
                 ADDS(P) = ADD
                 SIZ = 0
-                IF(P.NE.LOC_PROC)THEN
+                IF(P/=LOC_PROC)THEN
                     DO II=1,MULTI_FVM%NUMBER_INT18
                         NIN = MULTI_FVM%INT18_LIST(II)
                         IDEB = DEBUT(NIN)
                         NB = NSNFI(NIN)%P(P)
                         NTY  = IPARI(7,NIN)
                         LENI = LEN
-                        IF(NB.GT.0) THEN
+                        IF(NB>0) THEN
                             LL = L+1
                             L = L + 1
                             LL0 = LL
                             DO N = 1, NB
-                                IF(NSVFI(NIN)%P(IDEB+N).LT.0)THEN
+                                IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
                                     L = L + 1
                                     BBUFS(L) = -NSVFI(NIN)%P(IDEB+N)
                                     DO IJ=1,6
@@ -221,7 +221,7 @@ C
                     ENDDO ! ni = 1,ninter
 
                     SIZ = L+1-ADD
-                    IF(SIZ.GT.0)THEN
+                    IF(SIZ>0)THEN
                         MSGTYP = MSGOFF
                         CALL MPI_ISEND( BBUFS(ADD),SIZ,MPI_DOUBLE_PRECISION,IT_SPMD(P),
      .                                 MSGTYP,MPI_COMM_WORLD,REQ_SI(P),IERROR )
@@ -232,18 +232,18 @@ C
 C
 C Attente reception buffer et decompactage
 C
-        ELSEIF(IFLAG.EQ.2)THEN
+        ELSEIF(IFLAG==2)THEN
 C
 C Attente IRECV
 C
             DO P = 1, NSPMD
-                IF(ADDR(P+1)-ADDR(P).GT.0) THEN
+                IF(ADDR(P+1)-ADDR(P)>0) THEN
                     CALL MPI_WAIT(REQ_RI(P),STATUS,IERROR)
                     L = ADDR(P)
                     DO II=1,MULTI_FVM%NUMBER_INT18
                         NIN = MULTI_FVM%INT18_LIST(II)
                         NTY   =IPARI(7,NIN)
-                        IF(NSNSI(NIN)%P(P).GT.0)THEN
+                        IF(NSNSI(NIN)%P(P)>0)THEN
                             NB = NINT(BBUFR(L))                   
                             L = L + 1
                             DO IJ=1,NB
@@ -263,7 +263,7 @@ C
             ENDDO ! NSPMD
 
 C Deallocation R
-            IF(IALLOCR.GT.0) THEN
+            IF(IALLOCR>0) THEN
                 DEALLOCATE(BBUFR)
                 IALLOCR=0
             END IF
@@ -271,12 +271,12 @@ C
 C Attente ISEND
 C
             DO P = 1, NSPMD
-                IF(ADDS(P+1)-ADDS(P).GT.0) THEN
+                IF(ADDS(P+1)-ADDS(P)>0) THEN
                     CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
                 ENDIF
             ENDDO
 C Deallocation S
-            IF(IALLOCS.GT.0) THEN
+            IF(IALLOCS>0) THEN
                 DEALLOCATE(BBUFS)
                 IALLOCS=0
             END IF

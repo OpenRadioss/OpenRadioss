@@ -920,7 +920,7 @@ C-------------------------------------
       DO N=1,NRBYKIN
         NSL_XTRA = NPBY(14,N)+NPBY(15,N)+NPBY(16,N)
         K = NPBY(11,N)+NPBY(2,N)-NSL_XTRA
-        IF(NPBY(7,N).NE.0)THEN
+        IF(NPBY(7,N)/=0)THEN
          DO I=1,NSL_XTRA
           ITAG(LPBY(I+K))=1
          ENDDO

@@ -117,18 +117,18 @@ C-----------------------------------------------
 
       !INTERFACE 22 ONLY - OUTPUT---------------!
       debug_outp = .false.
-      if(ibug22_upwind.ne.0)then
-        if(ibug22_upwind.GT.0)then
+      if(ibug22_upwind/=0)then
+        if(ibug22_upwind>0)then
           do ib=nbf,nbl
             ie  = brick_list(nin,ib)%id
             mlw = brick_list(nin,ib)%mlw
-            if(ixs(11,ie).eq.ibug22_upwind)debug_outp=.true.
-            if(mlw.ne.51)debug_outp=.false.
+            if(ixs(11,ie)==ibug22_upwind)debug_outp=.true.
+            if(mlw/=51)debug_outp=.false.
           enddo
         elseif(ibug22_upwind==-1)then
           debug_outp = .true.
         endif
-        if(((itrimat.ne.ibug22_itrimat).and.(ibug22_itrimat.ne.-1)))debug_outp=.false.
+        if(((itrimat/=ibug22_itrimat).and.(ibug22_itrimat/=-1)))debug_outp=.false.
       endif
       if(debug_outp)then
              print *, "    |----ale51_upwind3_int22.F-----|"
@@ -149,10 +149,10 @@ C-----------------------------------------------
         MCELL             =  BRICK_LIST(NIN,IB)%MainID       
         ICELL             =  0  
         IDLOC             =  BRICK_LIST(NIN,IB)%IDLOC
-        IF(MLW.NE.51)CYCLE
-        DO WHILE (ICELL.LE.NCELL) ! loop on polyhedron {1:NCELL} U {9}
+        IF(MLW/=51)CYCLE
+        DO WHILE (ICELL<=NCELL) ! loop on polyhedron {1:NCELL} U {9}
           ICELL = ICELL +1
-          IF (ICELL>NCELL .AND. NCELL.NE.0)ICELL=9 
+          IF (ICELL>NCELL .AND. NCELL/=0)ICELL=9 
           !======================================================!
           !  MULTIMATERIAL UPWIND TREATMENT                      !          
           !======================================================!          
@@ -170,9 +170,9 @@ C-----------------------------------------------
               Jv     = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,5)              
               ICELLv = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_Cell(IADJ)
               cellFLUX(J,ICELL,IB) = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_UpwFLUX(IADJ)
-              IF(IDV.EQ.0)THEN
+              IF(IDV==0)THEN
                cellFLUX(J,ICELL,IB)=cellFLUX(J,ICELL,IB)*REDUC
-              ELSEIF(IDV.GT.0)THEN
+              ELSEIF(IDV>0)THEN
                NG      = BRICK_LIST(NIN,IB)%NG
                ISILENT = IPARG(64,NG)
                IF(ISILENT==1)THEN
@@ -183,7 +183,7 @@ C-----------------------------------------------
               BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_upwFLUX(IADJ) = cellFLUX(J,ICELL,IB)-UPWL(J)*ABS(cellFLUX(J,ICELL,IB))
               BRICK_LIST(NIN,IB)%POLY(ICELL)%Adjacent_FLU1 = 
      .        BRICK_LIST(NIN,IB)%POLY(ICELL)%Adjacent_FLU1 + cellFLUX(J,ICELL,IB)+UPWL(J)*ABS(cellFLUX(J,ICELL,IB))
-              IF(IFLG.EQ.10)THEN
+              IF(IFLG==10)THEN
                 DDVOL = DDVOL + cellFLUX(J,ICELL,IB)
 C                DDVOL = DDVOL + cellFLUX(J,ICELL,IB)+UPWL(J)*ABS(cellFLUX(J,ICELL,IB))                
 C                DDVOL = DDVOL + cellFLUX(J,ICELL,IB)-UPWL(J)*ABS(cellFLUX(J,ICELL,IB))   
@@ -197,7 +197,7 @@ C                DDVOL = DDVOL + cellFLUX(J,ICELL,IB)-UPWL(J)*ABS(cellFLUX(J,ICE
            !INTERFACE 22 ONLY - OUTPUT---------------!
 !#!include "lockon.inc"      
            if(debug_outp)then
-            if(ibug22_upwind.eq.ixs(11,ie) .OR. ibug22_upwind.eq.-1)then          
+            if(ibug22_upwind==ixs(11,ie) .OR. ibug22_upwind==-1)then          
              print *,                    "      brique         =", ixs(11,ie)
              print *,                    "      icell          =", ICELL 
             write (*,FMT='(A,1E26.14)') "       Flu1           =", BRICK_LIST(NIN,IB)%POLY(ICELL)%Adjacent_FLU1             
@@ -234,7 +234,7 @@ C                DDVOL = DDVOL + cellFLUX(J,ICELL,IB)-UPWL(J)*ABS(cellFLUX(J,ICE
      	MLW   =  BRICK_LIST(NIN,IB)%MLW 									       
      	NUM   = BRICK_LIST(NIN,IB)%SecndList%Num								       
      	MCELL = BRICK_LIST(NIN,IB)%mainID									       
-     	IF(MLW.NE.51)CYCLE											       
+     	IF(MLW/=51)CYCLE											       
      	DDVOL = ZERO												       
      	DO K=1,NUM												       
      	  IBV	 = BRICK_LIST(NIN,IB)%SecndList%IBV(K)  							       
@@ -243,7 +243,7 @@ C                DDVOL = DDVOL + cellFLUX(J,ICELL,IB)-UPWL(J)*ABS(cellFLUX(J,ICE
      	ENDDO													       
      	DDVOL = DDVOL + BRICK_LIST(NIN,IB)%POLY(MCELL)%DDVOL_upw						       
      	!updating law51 material buffer with computed stacked value						       
-     	IF(ITRIMAT.GT.0)THEN											       
+     	IF(ITRIMAT>0)THEN											       
      	  LFT	 =  1												       
      	  LLT	 =  IPARG(2,NG) 										       
      	  UVAR   => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR							       

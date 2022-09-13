@@ -254,11 +254,11 @@ C . . . . . . . . . . . . .
       ENDDO
 C
       I1 = 0
-      IF(N2D.NE.1) THEN
+      IF(N2D/=1) THEN
         DO I=LFT,LLT
-          IF (OFF(I).GE.ONE) THEN
+          IF (OFF(I)>=ONE) THEN
             ETEST= MAX(CRAK(I,1),CRAK(I,2),CRAK(I,3))
-            IF(ETEST.GE.EPSMAX)THEN
+            IF(ETEST>=EPSMAX)THEN
               OFF(I)=OFF(I)*FOUR_OVER_5
               I1 = I1 + 1
               INDEX1(I1) = I
@@ -267,11 +267,11 @@ C
         ENDDO
       ELSE
         DO I=LFT,LLT
-          IF(OFF(I).GE.ONE) THEN
+          IF(OFF(I)>=ONE) THEN
             PLUS=STRAIN(I,1)+STRAIN(I,2)
             DIFF=STRAIN(I,1)-STRAIN(I,2)
             ETEST=HALF*(PLUS+SQRT(DIFF**2+STRAIN(I,4)**2))
-            IF (ETEST.GE.EPSMAX)THEN
+            IF (ETEST>=EPSMAX)THEN
               OFF(I) = OFF(I)*FOUR_OVER_5
               I1 = I1 + 1
               INDEX1(I1) = I
@@ -280,7 +280,7 @@ C
         ENDDO
       ENDIF
 c-----------------------
-      IF (I1.NE.0) THEN
+      IF (I1/=0) THEN
         IDEL7NOK = 1
         DO J = 1, I1
           I = INDEX1(J)

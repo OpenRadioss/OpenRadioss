@@ -142,7 +142,7 @@ C
       IAD_KNOT = 0
       DO ITGEO=1,NUMGEO
         KLINE(1:1)=' '
-        DO WHILE(KLINE(1:1).NE.'/')
+        DO WHILE(KLINE(1:1)/='/')
           IREC=IREC+1
           READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
           KLINE=LINE
@@ -170,7 +170,7 @@ C
           IREC=IREC+1
           READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
           KLINE=LINE
-          DO WHILE(KLINE(1:1).NE.'/')
+          DO WHILE(KLINE(1:1)/='/')
             IREC=IREC+1
             SKNOT = SKNOT + 5
             READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
@@ -218,7 +218,7 @@ C--------------------------------------
       IAD_KNOT = 0
       DO ITGEO=1,NUMGEO
         KLINE(1:1)=' '
-        DO WHILE(KLINE(1:1).NE.'/')
+        DO WHILE(KLINE(1:1)/='/')
           IREC=IREC+1
           READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
           KLINE=LINE
@@ -306,7 +306,7 @@ c
       
 c  IL FAUT DIFFERENCIER LES PART IGE3D DES AUTRES
    
-      DO WHILE( LINE(1:1) .NE. '/' .OR. LINE(1:6) == '/IGE3D')
+      DO WHILE( LINE(1:1) /= '/' .OR. LINE(1:6) == '/IGE3D')
      
        IF (LINE(1:1) == '/')THEN  !  ON A ONE CHANGEMENT DE PART
          IREC=IREC+1
@@ -357,7 +357,7 @@ c
       IREC = KOPTAD(KCUR)
       IREC=IREC+1
       READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
-      DO WHILE( LINE(1:1) .NE. '/' .OR. LINE(1:6) == '/IGE3D')
+      DO WHILE( LINE(1:1) /= '/' .OR. LINE(1:6) == '/IGE3D')
       
        IF (LINE(1:1) == '/')THEN
          IREC=IREC+1
@@ -418,8 +418,8 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
-        IF(SUBID_NODES(I) .NE. 0)THEN
-          IF(ITAB(I) .NE. 0) ITAB(I) = ITAB(I) + OFF_NOD(SUBID_NODES(I))
+        IF(SUBID_NODES(I) /= 0)THEN
+          IF(ITAB(I) /= 0) ITAB(I) = ITAB(I) + OFF_NOD(SUBID_NODES(I))
         ENDIF
 	IF (ITAB(I) > ID_LIMIT_ADMESH
      .        .AND. (ITAB(I) <  IDFT_NODE_AUTO.OR.
@@ -438,7 +438,7 @@ C--------------------------------------------------
       DO I=1,NLINE(KCUR)+NSLASH(KCUR)                      
         IREC=IREC+1                                    
         READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
-        IF(LINE(1:1).EQ.'/')THEN                       
+        IF(LINE(1:1)=='/')THEN                       
           KLINE=LINE
         ELSE                                           
           N=N+1 
@@ -603,7 +603,7 @@ C
 C
       ADDSIXIG3D = 0
       NBNEWX_FINAL = 0
-      IF(ADDELIG3D.GT.0) THEN
+      IF(ADDELIG3D>0) THEN
         CALL PRERAFIG3D(KNOT,KNOTLOCPC,KNOTLOCEL,
      .                  KXIG3D,IXIG3D,IGEO,
      .                  IPARTIG3D,
@@ -614,14 +614,14 @@ C
       print*,'NBNEWX_FINAL',NBNEWX_FINAL
       print*,'ADDELIG3D',ADDELIG3D
       NUMELIG3D = NUMELIG3D + ADDELIG3D
-      IF(NBNEWX_FINAL.NE.0) THEN
+      IF(NBNEWX_FINAL/=0) THEN
        NADIGEMESH=1
       ENDIF
       FIRSTNOD_ISOGEO=NUMNOD+1
 C
 C-------------------------------------
       DO I=1,NBPART_IG3D
-        IF(TABCONPATCH(I)%L_TAB_IG3D.NE.0) DEALLOCATE(TABCONPATCH(I)%TAB_IG3D,TABCONPATCH(I)%INITIAL_CUT)
+        IF(TABCONPATCH(I)%L_TAB_IG3D/=0) DEALLOCATE(TABCONPATCH(I)%TAB_IG3D,TABCONPATCH(I)%INITIAL_CUT)
       ENDDO
 c
       DEALLOCATE(ITAB,ITABM1,IGEO,KXIG3D,IXIG3D,IPARTIG3D,KNOT,

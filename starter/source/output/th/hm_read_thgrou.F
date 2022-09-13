@@ -551,9 +551,9 @@ C
 C Definition of VARS6 : strain for /PROP/TYPE22
 C=======================================================================
       DO J=1,200
-        IF (J .LE. 9) THEN
+        IF (J <= 9) THEN
           WRITE(CHJ,'(I1.1)')J
-        ELSEIF (J .LE. 99) THEN
+        ELSEIF (J <= 99) THEN
           WRITE(CHJ,'(I2.2)')J
         ELSE
           WRITE(CHJ,'(I3.3)')J
@@ -577,9 +577,9 @@ C=======================================================================
       ENDDO
 C Definition of VARS7 : stress for /PROP/TYPE22
       DO J=1,200
-        IF (J .LE. 9) THEN
+        IF (J <= 9) THEN
           WRITE(CHJ,'(I1.1)')J
-        ELSEIF (J .LE. 99) THEN
+        ELSEIF (J <= 99) THEN
           WRITE(CHJ,'(I2.2)')J
         ELSE
           WRITE(CHJ,'(I3.3)')J
@@ -1111,9 +1111,9 @@ C
 c      DATA VARSG2
 C Definition of VARSG2 : strain for /PROP/TYPE22
       DO J=1,200
-        IF (J .LE. 9) THEN
+        IF (J <= 9) THEN
           WRITE(CHJ,'(I1.1)')J
-        ELSEIF (J .LE. 99) THEN
+        ELSEIF (J <= 99) THEN
           WRITE(CHJ,'(I2.2)')J
         ELSE
           WRITE(CHJ,'(I3.3)')J
@@ -1131,9 +1131,9 @@ C Definition of VARSG2 : strain for /PROP/TYPE22
 c      DATA VARSG3
 C Definition of VARSG3 : stress for /PROP/TYPE22
       DO J=1,200
-        IF (J .LE. 9) THEN
+        IF (J <= 9) THEN
           WRITE(CHJ,'(I1.1)')J
-        ELSEIF (J .LE. 99) THEN
+        ELSEIF (J <= 99) THEN
           WRITE(CHJ,'(I2.2)')J
         ELSE
           WRITE(CHJ,'(I3.3)')J
@@ -2076,7 +2076,7 @@ C
      3      NVARAC   ,VARAC    ,NACCELM      ,VARACG   ,
      4      NVARACG  ,IVARACG  ,NSNE   ,NVALL,ITHVAR   ,
      5      FLAGABF  ,NVARABF  ,NOM_OPT,IGS  ,LSUBMODEL,LITHBUFMX)
-          IF(IGS.NE.0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))
         ENDDO
       ENDIF
       !-------------------------------------------
@@ -2105,7 +2105,7 @@ C
      3      NVARIN   ,VARIN    ,NINTER+NINTSUB,VARING  ,NVARING  ,
      4      IVARING  ,NSNE     ,NVALL  ,ITHVAR,FLAGABF ,NVARABF   ,
      5      NOM_OPT  ,IGS      ,LSUBMODEL, LITHBUFMX)
-          IF(IGS.NE.0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))
         ENDDO
       ENDIF
       !-------------------------------------------
@@ -2132,7 +2132,7 @@ C
      3      NVARRW   ,VARRW    ,NRWALL ,VARRWG  ,NVARRWG  ,
      4      IVARRWG  ,NSNE     ,NVALL,ITHVAR  ,FLAGABF ,NVARABF  ,
      5      NOM_OPT  ,IGS      ,LSUBMODEL, LITHBUFMX)
-          IF(IGS.NE.0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))
         ENDDO
       ENDIF
       !-------------------------------------------
@@ -2159,7 +2159,7 @@ C
      3      NVARSE   ,VARSE    ,NSECT ,VARSEG ,NVARSEG ,
      4      IVARSEG  ,NSNE     ,NVALL ,ITHVAR ,FLAGABF ,NVARABF ,
      5      NOM_OPT  ,IGS      ,LSUBMODEL, LITHBUFMX)
-          IF(IGS.NE.0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))    
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))    
         ENDDO
       ENDIF
       !-------------------------------------------
@@ -2187,7 +2187,7 @@ C
      4      NVARCLUS ,VARCLUS ,NCLUSTER     ,VARCLUSG ,NVARCLUSG  ,
      5      IVARCLUSG,NSNE    ,NVALL ,ITHVAR,FLAGABF  ,NVARABF    ,
      6      NOM_OPT  ,IGS     ,LSUBMODEL, LITHBUFMX    )    
-          IF(IGS.NE.0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
         ENDDO
       ENDIF
       !-------------------------------------------
@@ -2212,7 +2212,7 @@ C
      4      NVARP ,VARP  ,NUMELP,VARPG ,NVARPG   ,
      5      IVARPG,NSELP,NVALL,IMERGE,ITHVAR   ,
      6      FLAGABF,NVARABF,RFI,LSUBMODEL,MAP_TABLES%IBEAMM, NUMELP)
-          IF(IGS.NE.0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
         ENDDO
       ENDIF  
       !-------------------------------------------
@@ -2237,7 +2237,7 @@ C
      4      NVART ,VART  ,NUMELT,VARTG ,NVARTG   ,         
      5      IVARTG,NSELT,NVALL,IMERGE,ITHVAR   ,           
      6      FLAGABF,NVARABF,RFI,LSUBMODEL,MAP_TABLES%ITRUSSM, NUMELT)                          
-          IF(IGS.NE.0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
         ENDDO
       ENDIF 
       !-------------------------------------------
@@ -2262,7 +2262,7 @@ C
      4      NVARR ,VARR  ,NUMELR,VARRG ,NVARRG   ,         
      5      IVARRG,NSELR,NVALL,IMERGE,ITHVAR   ,           
      6      FLAGABF,NVARABF,RFI,LSUBMODEL,MAP_TABLES%ISPRINGM, NUMELR)                           
-          IF(IGS.NE.0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
         ENDDO
       ENDIF 
       !-------------------------------------------
@@ -2287,7 +2287,7 @@ C
      4      NVARS ,VARS  ,NUMELS,VARSG ,NVARSG   ,
      5      IVARSG,NSELS,NVALL,IMERGE,ITHVAR   ,
      6      FLAGABF,NVARABF,RFI,LSUBMODEL,MAP_TABLES%ISOLM, NUMELS)
-          IF(IGS.NE.0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
         ENDDO
       ENDIF 
       !-------------------------------------------
@@ -2341,7 +2341,7 @@ C          decode les numeros de frames.
  110       CONTINUE                                                  
            IAD2=IAD2+1                                               
           ENDDO                                                      
-          IF(IGS.NE.0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
         ENDDO
       ENDIF 
       !-------------------------------------------
@@ -2395,7 +2395,7 @@ C          frame numbers user -> internal
  210       CONTINUE                                                     
            IAD2=IAD2+1                                                  
           ENDDO                                                         
-          IF(IGS.NE.0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
         ENDDO
       ENDIF 
       !-------------------------------------------
@@ -2449,7 +2449,7 @@ C          frame numbers user -> internal
  310       CONTINUE                                                            
            IAD2=IAD2+1                                                         
           ENDDO                                                                
-          IF(IGS.NE.0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
         ENDDO
       ENDIF  
       !-------------------------------------------
@@ -2474,7 +2474,7 @@ C          frame numbers user -> internal
      4          NVARRB ,VARRB  ,NRBODY       ,VARRBG   ,NVARRBG,
      5          IVARRBG,NSRBY  ,NVALL        ,ITHVAR   ,FLAGABF,NVARABF,
      6          NOM_OPT,IGS    ,NPBY         ,LSUBMODEL    )    
-          IF(IGS.NE.0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
         ENDDO
       ENDIF      
       !-------------------------------------------
@@ -2514,7 +2514,7 @@ C          frame numbers user -> internal
      4      NVARMVENT ,VARMVENT  ,NVOLU        ,VARMVENTG, NVARMVENTG,    
      5      IVARMVENTG,NSNE      ,NVALL        ,ITHVAR   , FLAGABF   ,NVARABF,         
      6      NOM_OPT   ,IGS       ,T_MONVOL     ,NVARMVENT, LSUBMODEL)                       
-          IF(IGS.NE.0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
         ENDDO
       ENDIF    
       !-------------------------------------------
@@ -2569,7 +2569,7 @@ C          frame numbers user -> internal
      4        NVARS ,VARS  ,NUMELQ,VARSG ,NVARSG   ,
      5        IVARSG,NSELQ,NVALL,IMERGE,ITHVAR   ,
      6        FLAGABF,NVARABF,RFI,LSUBMODEL,MAP_TABLES%IQUADM, NUMELQ) 
-          IF(IGS.NE.0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))    
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))    
         ENDDO
       ENDIF 
       !-------------------------------------------
@@ -2593,7 +2593,7 @@ C          frame numbers user -> internal
      4       NVARSPH,VARSPH,NUMSPH,VARSPG,NVARSPG ,
      5       IVARSPG,NSELSP,NVALL,IMERGE,ITHVAR   ,
      6       FLAGABF,NVARABF,RFI,LSUBMODEL,MAP_TABLES%ISPHM,NUMSPH) 
-          IF(IGS.NE.0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))    
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))    
         ENDDO
       ENDIF    
       !-------------------------------------------
@@ -2617,7 +2617,7 @@ C          frame numbers user -> internal
      3      NVARJO   ,VARJO    ,NJOINT,VARJOG,NVARJOG,
      4      IVARJOG  ,NSNE     ,NVALL ,ITHVAR ,FLAGABF ,NVARABF ,
      5      NOM_OPT  ,IGS      ,LSUBMODEL, LITHBUFMX)
-          IF(IGS.NE.0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))    
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))    
         ENDDO
       ENDIF    
       !-------------------------------------------
@@ -2641,7 +2641,7 @@ C          frame numbers user -> internal
      3      NVARFX   ,VARFX    ,NFXBODY       ,VARFXG  ,NVARFXG,
      4      IVARFXG  ,NSNE     ,NVALL ,ITHVAR ,FLAGABF ,NVARABF ,
      5      NOM_OPT  ,IGS      ,LSUBMODEL, LITHBUFMX )
-          IF(IGS.NE.0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))    
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))    
         ENDDO
       ENDIF   
       !-------------------------------------------
@@ -2665,7 +2665,7 @@ C          frame numbers user -> internal
      3      NVARFR   ,VARFR    ,NUMFRAM+1     ,VARFRG, NVARFRG  ,
      4      IVARFRG  ,NSNE     ,NVALL ,ITHVAR ,FLAGABF ,NVARABF ,
      5      NOM_OPT  ,IGS      ,LSUBMODEL, LITHBUFMX)
-          IF(IGS.NE.0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))    
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))    
         ENDDO
       ENDIF   
       !-------------------------------------------
@@ -2689,7 +2689,7 @@ C          frame numbers user -> internal
      3      NVARGAU  ,VARGAU   ,NBGAUGE       ,VARGAUG,NVARGAUG  ,
      4      IVARGAUG ,NSNE     ,NVALL ,ITHVAR ,FLAGABF ,NVARABF ,
      5      NOM_OPT  ,IGS      ,LSUBMODEL, LITHBUFMX)
-          IF(IGS.NE.0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))    
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))    
         ENDDO
       ENDIF                           
       !-------------------------------------------
@@ -2716,7 +2716,7 @@ C          frame numbers user -> internal
 C             error message if type of inout is not correct
               DO J=1,ITHGRP(4,IGS)
                 INOUT = ITHBUF(ITHGRP(5,IGS)+J-1)
-                IF (INOUT.GT.0) THEN
+                IF (INOUT>0) THEN
                   IF (ISPHIO(1,INOUT) == 1) THEN
                     CALL ANCMSG(MSGID=1111,
      .                     MSGTYPE=MSGERROR,
@@ -2727,7 +2727,7 @@ C             error message if type of inout is not correct
                   ENDIF
                 ENDIF
               END DO     
-          IF(IGS.NE.0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))    
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))    
         ENDDO
       ENDIF       
       !-------------------------------------------
@@ -2752,7 +2752,7 @@ C             error message if type of inout is not correct
      4          NVARNS ,VARNS ,VARNSG ,NVARNSG ,IVARNSG,
      5          NSELR  ,IVNS2R,NVALL  ,ID,TITR,
      6          ITHVAR,FLAGABF,NVARABF,LSUBMODEL)           
-          IF(IGS.NE.0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
         ENDDO
       ENDIF          
       !-------------------------------------------
@@ -2777,7 +2777,7 @@ C             error message if type of inout is not correct
      4          NVARSURF,VARSURF,NSURF,VARSURFG,NVARSURFG ,
      5          IVARSURFG,NSNE,NVALL,ITHVAR,FLAGABF,NVARABF,
      6          IGRSURF,IGS,LSUBMODEL)          
-          IF(IGS.NE.0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
         ENDDO
       ENDIF  
       !-------------------------------------------
@@ -2802,7 +2802,7 @@ C             error message if type of inout is not correct
      4      NVARS ,VARS  ,NUMELTG,VARSG ,NVARSG ,          
      5      IVARSG,NSELTG,NVALL,IMERGE,ITHVAR   ,          
      6      FLAGABF,NVARABF,RFI,LSUBMODEL,MAP_TABLES%ITRIAM, NUMELTG)        
-          IF(IGS.NE.0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
         ENDDO
       ENDIF
       !-------------------------------------------
@@ -2827,7 +2827,7 @@ C             error message if type of inout is not correct
      3      NVARSLIP ,VARSLIP  ,NSLIPRING  ,VARSLIPG,NVARSLIPG  ,
      4      IVARSLIPG,NSNE     ,NVALL ,ITHVAR ,FLAGABF ,NVARABF ,
      5      NOM_OPT  ,IGS      ,LSUBMODEL, LITHBUFMX)
-          IF(IGS.NE.0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))    
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))    
         ENDDO
       ENDIF
       !-------------------------------------------
@@ -2852,60 +2852,60 @@ C             error message if type of inout is not correct
      3      NVARRET  ,VARRET   ,NRETRACTOR  ,VARRETG,NVARRETG  ,
      4      IVARRETG ,NSNE     ,NVALL ,ITHVAR ,FLAGABF ,NVARABF ,
      5      NOM_OPT  ,IGS      ,LSUBMODEL, LITHBUFMX)
-          IF(IGS.NE.0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))    
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))    
         ENDDO
       ENDIF
 C
 C=======================================================================
-C NB of UNDEFINED TH SELECTED NODE FOR INVERS.GE.40
+C NB of UNDEFINED TH SELECTED NODE FOR INVERS>=40
 C ( for INVERS LT 40, REFER TO LECNOD )
 C=======================================================================
 c      CHNOD = 9
 c      CALL ANCHECK(CHNOD)
 C=======================================================================
-C NB of UNDEFINED TH SELECTED SHEL FOR INVERS.GE.40
+C NB of UNDEFINED TH SELECTED SHEL FOR INVERS>=40
 C ( for INVERS LT 40, REFER TO LEC16C )
 C=======================================================================
 c      CHELT = 19
 c      CALL ANCHECK(CHELT)
 C=======================================================================
-C NB of UNDEFINED TH SELECTED TRUSS FOR INVERS.GE.40
+C NB of UNDEFINED TH SELECTED TRUSS FOR INVERS>=40
 C ( for INVERS LT 40, REFER TO LEC16T )
 C=======================================================================
 c      CHELT = 25
 c      CALL ANCHECK(CHELT)
 C=======================================================================
-C NB of UNDEFINED TH SELECTED BEAM FOR INVERS.GE.40
+C NB of UNDEFINED TH SELECTED BEAM FOR INVERS>=40
 C ( for INVERS LT 40, REFER TO LEC16P )
 C=======================================================================
 c      CHELT = 32
 c      CALL ANCHECK(CHELT)
 C=======================================================================
-C NB of UNDEFINED TH SELECTED SPRING FOR INVERS.GE.40
+C NB of UNDEFINED TH SELECTED SPRING FOR INVERS>=40
 C ( for INVERS LT 40, REFER TO LECELR )
 C=======================================================================
 c      CHELT = 39
 c      CALL ANCHECK(CHELT)
 C=======================================================================
-C NB of UNDEFINED TH SELECTED SHELL3N FOR INVERS.GE.40
+C NB of UNDEFINED TH SELECTED SHELL3N FOR INVERS>=40
 C ( for INVERS LT 40, REFER TO C3LECEL )
 C=======================================================================
 c      CHELT = 46
 c      CALL ANCHECK(CHELT)
 C=======================================================================
-C NB of UNDEFINED TH SELECTED INTERFACE FOR INVERS.GE.40
+C NB of UNDEFINED TH SELECTED INTERFACE FOR INVERS>=40
 C ( for INVERS LT 40, REFER TO  )
 C=======================================================================
 c      CHELT = 62
 c      CALL ANCHECK(CHELT)
 C=======================================================================
-C NB of UNDEFINED TH SELECTED JOINT FOR INVERS.GE.40
+C NB of UNDEFINED TH SELECTED JOINT FOR INVERS>=40
 C ( for INVERS LT 40, REFER TO  )
 C=======================================================================
 c      CHELT = 84
 c      CALL ANCHECK(CHELT)
       DO N=1,NPART
-        IF(IPART(8,N).GT.0) NSMAT=NSMAT+1
+        IF(IPART(8,N)>0) NSMAT=NSMAT+1
       ENDDO
 C=======================================================================
 C Tag des groupes avec des parts dans les TH PART et SUBSET non DEF
@@ -2938,12 +2938,12 @@ C=======================================================================
         DO J=NFT+1,NFT+NEL
           IF(IPARG(80,NG) == 1) EXIT
           NUMPART = IPARTEL_P(J)
-          IF(IPARTH(NVPARTH,NUMPART).GT.0) THEN
+          IF(IPARTH(NVPARTH,NUMPART)>0) THEN
             NVAR =IPARTH(NVPARTH,NUMPART)       
             IAD  =IPARTH(NVPARTH+1,NUMPART)       
             DO N=IAD,IAD+NVAR-1
               K=ITHBUF(N)
-              IF(K.GT.7.AND.K.NE.28) THEN
+              IF(K>7.AND.K/=28) THEN
                 IPARG(80,NG) = 1
                 EXIT
               ENDIF

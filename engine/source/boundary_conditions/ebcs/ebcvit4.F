@@ -54,17 +54,17 @@ C
       IVX = EBCS%ivx
       IVY = EBCS%ivy
       IVZ = EBCS%ivz
-      IF(IVX.GT.0)THEN
+      IF(IVX>0)THEN
         VX=EBCS%vx*FV(IVX)
       ELSE
         VX=EBCS%vx
       ENDIF
-      IF(IVY.GT.0)THEN
+      IF(IVY>0)THEN
         VY=EBCS%vy*FV(IVY)
       ELSE
         VY=EBCS%vy
       ENDIF
-      IF(IVZ.GT.0)THEN
+      IF(IVZ>0)THEN
         VZ=EBCS%vz*FV(IVZ)
       ELSE
         VZ=EBCS%vz
@@ -72,10 +72,10 @@ C
       C=EBCS%c
       LCAR=EBCS%lcar
       ALP=ZERO
-      IF(LCAR.GT.ZERO)ALP=C/LCAR
+      IF(LCAR>ZERO)ALP=C/LCAR
       ALPDT=ALP*DT1
 C
-      IF(TT.EQ.ZERO)THEN
+      IF(TT==ZERO)THEN
      	  DO I=1,NOD
 	    N=LISTE(I)
 	    RESO(1,I)=A(1,N)
@@ -85,7 +85,7 @@ C
       ENDIF
 C
 c      write(6,*)'ebcvit4',VX,VY,VZ
-      IF(ALP.GT.ZERO)THEN
+      IF(ALP>ZERO)THEN
         DO I=1,NOD
           N=LISTE(I)
 c          write(6,*)'ebcvit5 N',N,' RESO',RESO(3,I),'A',A(3,N)

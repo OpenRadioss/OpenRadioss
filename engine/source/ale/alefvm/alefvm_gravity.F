@@ -106,13 +106,13 @@ C-----------------------------------------------
         !loop on vertexes
         DO J=1,8
           INOD       = IXS(1+J,I+NFT)
-          IF(VERTEX(4,INOD).EQ.ZERO) CYCLE
+          IF(VERTEX(4,INOD)==ZERO) CYCLE
           NVERTEX    = NVERTEX + 1
           ACCEL(1,I) = ACCEL(1,I) + VERTEX(1,INOD)
           ACCEL(2,I) = ACCEL(2,I) + VERTEX(2,INOD)
           ACCEL(3,I) = ACCEL(3,I) + VERTEX(3,INOD)                    
         ENDDO
-        IF(NVERTEX.GT.0)THEN
+        IF(NVERTEX>0)THEN
           ACCEL(1,I) = ACCEL(1,I) / NVERTEX
           ACCEL(2,I) = ACCEL(2,I) / NVERTEX
           ACCEL(3,I) = ACCEL(3,I) / NVERTEX 

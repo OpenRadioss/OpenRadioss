@@ -100,7 +100,7 @@ C    /---------------/
         NG = IGROUNC(IG)
 C
 C look for groups to awake (active particles plus cloud active particles)       
-        IF (IDDW.GT.0) CALL STARTIMEG(NG)
+        IF (IDDW>0) CALL STARTIMEG(NG)
         DO NELEM = 1,IPARG(2,NG),NVSIZ
           OFFSET = NELEM - 1
           NEL   =IPARG(2,NG)
@@ -109,27 +109,27 @@ C look for groups to awake (active particles plus cloud active particles)
           ITY   =IPARG(5,NG)
           LFT=1
           LLT=MIN(NVSIZ,NEL-NELEM+1)
-          IF(ITY.EQ.51) THEN
+          IF(ITY==51) THEN
 C-----------
             DO I=LFT,LLT
               NP=NFT+I
-              IF(KXSP(2,NP).GT.0) THEN
+              IF(KXSP(2,NP)>0) THEN
                 IPARG(8,NG)=0
                 WSPCLOUD(NP)=1
-              ELSEIF(KXSP(2,NP).LT.0) THEN
+              ELSEIF(KXSP(2,NP)<0) THEN
                 NVOIS=KXSP(4,NP)
                 DO J=1,NVOIS
                   JNOD=IXSP(J,NP)
-                  IF(JNOD.GT.0)THEN
+                  IF(JNOD>0)THEN
                     M=NOD2SP(JNOD)
-                    IF(KXSP(2,M).GT.0)THEN
+                    IF(KXSP(2,M)>0)THEN
                       IPARG(8,NG)=0
                       WSPCLOUD(NP)=1
                       EXIT
                     END IF
                   ELSE
                     NN = -JNOD
-                    IF(NINT(XSPHR(13,NN)).GT.0)THEN
+                    IF(NINT(XSPHR(13,NN))>0)THEN
                       IPARG(8,NG)=0
                       WSPCLOUD(NP)=1
                       EXIT
@@ -140,7 +140,7 @@ C-----------
             ENDDO
           END IF
         END DO
-        IF (IDDW.GT.0) CALL STOPTIMEG(NG)
+        IF (IDDW>0) CALL STOPTIMEG(NG)
 C--------
       END DO
 !$OMP END DO

@@ -544,12 +544,12 @@ c          i8_mant    = ior(iand(i8mask52,I8(I)),i8_deuxp52)
 cc          iexpo      = exponent(R8(I))-53
 cc          iexpo  = iand(ishft(I4(2,i),-20),i4mask11) - 1022 - 53  
 c          iexpo  = iand(ishft(I4(2,i),-20),i4mask11) - 1075  
-c          if(R8(I).lt.0.)then
+c          if(R8(I)<0.)then
 c           I8F(1,I) = -iand(i8mask63,ishft(i8_mant,iexpo))
 c           I8F(2,I) = -iand(i8mask43,ishft(i8_mant,iexpo+43))
 c           I8F(3,I) = -iand(i8mask43,ishft(i8_mant,iexpo+86))
 c     .                -iand(i8mask1 ,ishft(i8_mant,iexpo+87))
-c          elseif(R8(I).gt.0.)then
+c          elseif(R8(I)>0.)then
 c           I8F(1,I) =  iand(i8mask63,ishft(i8_mant,iexpo))
 c           I8F(2,I) =  iand(i8mask43,ishft(i8_mant,iexpo+43))
 c           I8F(3,I) =  iand(i8mask43,ishft(i8_mant,iexpo+86))
@@ -739,7 +739,7 @@ C-----------------------------------------------
       DATA R8DEUXPM46/'3D10000000000000'x/
 
       DO I= 1,A
-        IF(ISENSINT(I) .NE.0)THEN
+        IF(ISENSINT(I) /=0)THEN
          DO J= 1,B
    	    DO K=JFT,JLT
 

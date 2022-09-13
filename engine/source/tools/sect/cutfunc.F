@@ -106,7 +106,7 @@ C=======================================================================
       IL_OLD = -1
       DO IC=1,NUMEL
        IL = NC(5,IC)
-       IF(IL.NE.IL_OLD)THEN
+       IF(IL/=IL_OLD)THEN
          IL_OLD = IL
 C
          DO 490 NG=1,NGROUP
@@ -117,8 +117,8 @@ C
      5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
      6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
-          IF (ITY.NE.1)      GOTO 490
-          IF (NEL+NFT.LT.IL) GOTO 490
+          IF (ITY/=1)      GOTO 490
+          IF (NEL+NFT<IL) GOTO 490
 C-----------------------------------------------
 C         SOLID ELEMENT
 C-----------------------------------------------
@@ -137,7 +137,7 @@ C
            ENDDO
 !
 c-----------
-           IF (IFUNC.EQ.1 .AND. GBUF%G_PLA > 0) THEN
+           IF (IFUNC==1 .AND. GBUF%G_PLA > 0) THEN
              VALUE = GBUF%PLA(I)
 c-----------
            ELSEIF (IFUNC == 2) THEN
@@ -146,15 +146,15 @@ c-----------
            ELSEIF (IFUNC == 3) THEN
              VALUE = GBUF%EINT(I)
 c-----------
-           ELSEIF(IFUNC.EQ.4 .AND. JTHE > 0) THEN
+           ELSEIF(IFUNC==4 .AND. JTHE > 0) THEN
              VALUE = GBUF%TEMP(I)
 c-----------
-           ELSEIF(IFUNC.EQ.6.OR.IFUNC.EQ.7)THEN
+           ELSEIF(IFUNC==6.OR.IFUNC==7)THEN
              P = - (GBUF%SIG(II(1)+I)
      .            + GBUF%SIG(II(2)+I)
      .            + GBUF%SIG(II(3)+I)) / THREE
              VALUE = P    
-             IF (IFUNC.EQ.7) THEN
+             IF (IFUNC==7) THEN
                S1 = GBUF%SIG(II(1)+I) + P
                S2 = GBUF%SIG(II(2)+I) + P
                S3 = GBUF%SIG(II(3)+I) + P
@@ -166,32 +166,32 @@ c-----------
               VALUE = VONM
             ENDIF
 c-----------
-           ELSEIF (IFUNC.EQ.8 . AND. JTURB.NE.0) THEN
+           ELSEIF (IFUNC==8 . AND. JTURB/=0) THEN
 C            ENERGIE TURBULENTE     
              VALUE = GBUF%RK(I) 
-           ELSEIF (IFUNC.EQ.9) THEN
+           ELSEIF (IFUNC==9) THEN
 C           VISCOSITE TURBULENTE
-            IF((MLW.EQ.6 .OR. MLW.EQ.17).AND.JTURB.NE.0)THEN
+            IF((MLW==6 .OR. MLW==17).AND.JTURB/=0)THEN
                 MT=IXS(1,N)
                 VALUE=PM(81,MT)*GBUF%RK(I)**2/
      .                  MAX(EM15,GBUF%RE(I))
-               ELSEIF (MLW.EQ.46 .OR. MLW.EQ.47)THEN
+               ELSEIF (MLW==46 .OR. MLW==47)THEN
                  VALUE = MBUF%VAR(I)
                ELSE
               VALUE = ZERO
                ENDIF
 C
-           ELSEIF(IFUNC.EQ.10)THEN
+           ELSEIF(IFUNC==10)THEN
 C            VORTICITE
-             IF(MLW.EQ.6 .OR. MLW.EQ.17)THEN
+             IF(MLW==6 .OR. MLW==17)THEN
                VALUE = LBUF%VK(I)     
-             ELSEIF(MLW.EQ.46 .OR. MLW.EQ.47)THEN
+             ELSEIF(MLW==46 .OR. MLW==47)THEN
                VALUE = MBUF%VAR(I)      
              ELSE
                VALUE = ZERO
              ENDIF
 C
-           ELSEIF(IFUNC.GE.14.AND.IFUNC.LE.19)THEN
+           ELSEIF(IFUNC>=14.AND.IFUNC<=19)THEN
              VALUE = GBUF%SIG(II(IFUNC - 13) + I)
            ELSE
              VALUE = ZERO

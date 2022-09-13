@@ -351,23 +351,23 @@ C
 C
       ENDDO
 C
-C      IF(IDTMIN(1).EQ.1)THEN
+C      IF(IDTMIN(1)==1)THEN
 C ...
 C      ENDIF
 C
 C
       ICOR=0
       DO I=LFT,LLT
-          IF(OFF(I).EQ.ZERO)THEN
+          IF(OFF(I)==ZERO)THEN
               VOL(I)=1.
               VOLDP(I) = ONE
-          ELSEIF(VOL(I).LE.ZERO)THEN
+          ELSEIF(VOL(I)<=ZERO)THEN
               ICOR=1
           ENDIF
       ENDDO
-      IF(ICOR.NE.0)THEN
+      IF(ICOR/=0)THEN
        DO I=LFT,LLT
-          IF(VOL(I).LE.ZERO)THEN
+          IF(VOL(I)<=ZERO)THEN
             CALL ANCMSG(MSGID=170,ANMODE=ANINFO,
      .                  I1=NGL(I),I2=IR,I3=IS,I4=IT)
             CALL ARRET(2)

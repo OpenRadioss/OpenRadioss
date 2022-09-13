@@ -56,13 +56,13 @@ C     REAL
 C-----------------------------------------------
       S3000 = THREE1000
       IXNN = S3000
-      IF(FMT_ANI.EQ.4)IXNN=0
+      IF(FMT_ANI==4)IXNN=0
 C
 
       IF(NSPMD == 1) THEN
         DO I=1,NUMNOD
          S = SQRT(XNORM(1,I)**2 + XNORM(2,I)**2 + XNORM(3,I)**2)
-         IF(S.NE.ZERO)THEN
+         IF(S/=ZERO)THEN
            S = S3000 / S
            INORM(1) = XNORM(1,I) * S
            INORM(2) = XNORM(2,I) * S 
@@ -76,7 +76,7 @@ C
         END DO
 
       ELSE
-         IF(ISPMD.EQ.0) THEN
+         IF(ISPMD==0) THEN
            CALL SPMD_WRT_XYZNOR(XNORM,WEIGHT,NODGLOB,NUMNODG)
          ELSE
            CALL SPMD_WRT_XYZNOR(XNORM,WEIGHT,NODGLOB,1)

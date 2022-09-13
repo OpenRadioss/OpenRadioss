@@ -97,10 +97,10 @@ C----------------------------
        AL(I)=SQRT(R11(I)*R11(I)+R21(I)*R21(I)+R31(I)*R31(I))
        AL(I)=MAX(EM14,AL(I))
       ENDDO 
-      IF (IMP_CHK .GT. 0) THEN
+      IF (IMP_CHK > 0) THEN
        DO I=JFT,JLT
-        IF(OFFG(I).NE.ZERO)THEN
-         IF(AL(I).LE.EM14)THEN
+        IF(OFFG(I)/=ZERO)THEN
+         IF(AL(I)<=EM14)THEN
 #include "lockon.inc"
             WRITE(IOUT ,2001) NGL(I)
 #include "lockoff.inc"
@@ -112,7 +112,7 @@ C----------------------------
       ENDIF 
 C
       DO I=JFT, JLT
-       IF (AL(I).GT.EM14) THEN
+       IF (AL(I)>EM14) THEN
         NORM=ONE/AL(I)
         R11(I)=R11(I)*NORM
         R21(I)=R21(I)*NORM

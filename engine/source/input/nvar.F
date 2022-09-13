@@ -61,7 +61,7 @@ C-----------------------------------------------
       N=0
       DO 100 I=2,101
       J=I-1
-      IF(TEXT1(I:I).NE.' '.AND.TEXT1(J:J).EQ.' ') N=N+1
+      IF(TEXT1(I:I)/=' '.AND.TEXT1(J:J)==' ') N=N+1
   100 CONTINUE
       NVAR=N
       RETURN

@@ -63,11 +63,11 @@ C
 C
 C STOCKE DANS NOIADD(K) LE NOMBRE d'ELEMENTS CONNECTES AU NOEUD K-1
 C
-      IF(N2D.EQ.0)THEN
+      IF(N2D==0)THEN
         DO I=1,NUMELS
          DO J=2,9
           K=IWA(IXS(J,I))
-          IF(K.NE.0)
+          IF(K/=0)
      .       NOIADD(K+1)=NOIADD(K+1)+1
          ENDDO
         ENDDO
@@ -75,7 +75,7 @@ C
         DO I=1,NUMELQ
          DO J=2,5
           K=IWA(IXQ(J,I))
-          IF(K.NE.0)
+          IF(K/=0)
      .       NOIADD(K+1)=NOIADD(K+1)+1
          ENDDO
         ENDDO
@@ -123,7 +123,7 @@ C-----------------------------------------------
       INTEGER I,J,LENGTH,K,II
       INTEGER NG,NEL,ITY,NB2,NFT
 C-----------------------------------------------
-      IF(NNOISE.GT.0)THEN
+      IF(NNOISE>0)THEN
         ALLOCATE(KN(NNOISE))
       ENDIF
       DO I=1,NNOISE
@@ -134,7 +134,7 @@ C REMPLISSAGE DE ELNOI PAR LES ADRESSES DANS ELBUF
 C
       DO NG=1,NGROUP
         ITY   =IPARG(5,NG)
-        IF(ITY.EQ.1)THEN
+        IF(ITY==1)THEN
          NEL   =IPARG(2,NG)
          NB2   =IPARG(4,NG) + NEL
          NFT   =IPARG(3,NG)
@@ -142,14 +142,14 @@ C
           II=I+NFT
           DO J=2,9
             K=IWA(IXS(J,II))
-            IF(K .NE.0)THEN
+            IF(K /=0)THEN
               ELNOI(NOIADD(K)+KN(K))=I
               ELG(NOIADD(K)+KN(K))=NG
               KN(K)=KN(K)+1
             ENDIF
           ENDDO
          ENDDO
-        ELSEIF(ITY.EQ.2)THEN
+        ELSEIF(ITY==2)THEN
          NEL   =IPARG(2,NG)
          NB2   =IPARG(4,NG) + NEL
          NFT   =IPARG(3,NG)
@@ -157,7 +157,7 @@ C
           II=I+NFT
           DO J=2,5
             K=IWA(IXQ(J,II))
-            IF(K .NE.0)THEN
+            IF(K /=0)THEN
               ELNOI(NOIADD(K)+KN(K))=(I-1)*6
               ELG(NOIADD(K)+KN(K))=NG
               KN(K)=KN(K)+1
@@ -168,7 +168,7 @@ C
         
       ENDDO
 C
-      IF(NNOISE.GT.0)THEN
+      IF(NNOISE>0)THEN
         DEALLOCATE(KN)
       ENDIF
 C-----------

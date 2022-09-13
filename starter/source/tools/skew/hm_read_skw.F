@@ -123,7 +123,7 @@ C
       READPT=0
       CALL FRETITL(NOMSG,NOM_OPT(LNOPT1-LTITR+1,1),LTITR)
 C
-      IF(NUMSKW.EQ.0)GOTO 201
+      IF(NUMSKW==0)GOTO 201
 C--------------------------------------------------
 C START BROWSING MODEL PROPERTIES
 C--------------------------------------------------
@@ -155,13 +155,13 @@ C
           EXIT
         ENDIF
       ENDDO
-      IF (UID.NE.0.AND.IFLAGUNIT.EQ.0) THEN
+      IF (UID/=0.AND.IFLAGUNIT==0) THEN
         CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .              I2=UID,I1=ID,C1='SKEW SYSTEM',C2='SKEW SYSTEM',
      .              C3=TITR)
       ENDIF
 C
-      IF(KEY(1:3).EQ.'FIX')THEN
+      IF(KEY(1:3)=='FIX')THEN
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
@@ -177,7 +177,7 @@ C--------------------------------------------------
         CALL HM_GET_FLOATV('globalzaxisy',P(8),IS_AVAILABLE,LSUBMODEL,UNITAB)
         CALL HM_GET_FLOATV('globalzaxisz',P(9),IS_AVAILABLE,LSUBMODEL,UNITAB)
 
-      ELSEIF (KEY(1:4).EQ.'MOV2')THEN
+      ELSEIF (KEY(1:4)=='MOV2')THEN
         IMOV=2
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
@@ -283,7 +283,7 @@ C       CALCUL DE COLINEARITE DES VECTEURS N1N2 ET N1N3
 C----------------
 C     SKEW MOBILE (CALCUL DE LA POSITION INITIALE)
 C----------------
-      ELSEIF (IMOV.EQ.1) THEN
+      ELSEIF (IMOV==1) THEN
        N1=USR2SYS(N1,ITABM1,MESS,ID)
        N2=USR2SYS(N2,ITABM1,MESS,ID)
        CALL ANODSET(N1, CHECK_USED)
@@ -294,7 +294,7 @@ C----------------
 C-----------------
 C     CALCUL DE X' et Y0' (IDIR=1) CALCUL DE Y' et Z0' (IDIR=2) CALCUL DE Z' et X0' (IDIR=3)
 C-----------------
-       IF(N2D.EQ.0)THEN
+       IF(N2D==0)THEN
 c
         IF (IDIR == 1) THEN
           P(1)=X(1,N2)-X(1,N1)
@@ -347,7 +347,7 @@ C----------------
        IF (IDIR == 1) PNOR1=SQRT(P(1)*P(1)+P(2)*P(2)+P(3)*P(3))
        IF (IDIR == 2) PNOR1=SQRT(P(4)*P(4)+P(5)*P(5)+P(6)*P(6))
        IF (IDIR == 3) PNOR1=SQRT(P(7)*P(7)+P(8)*P(8)+P(9)*P(9))
-       IF(PNOR1.LT.1.E-20) THEN
+       IF(PNOR1<1.E-20) THEN
          CALL ANCMSG(MSGID=162,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
@@ -359,7 +359,7 @@ C     CALCUL DE COLINEARITE DES VECTEURS N1N2 ET N1N3
        IF (IDIR == 1) PNOR2=SQRT(P(4)*P(4)+P(5)*P(5)+P(6)*P(6))
        IF (IDIR == 2) PNOR2=SQRT(P(7)*P(7)+P(8)*P(8)+P(9)*P(9))
        IF (IDIR == 3) PNOR2=SQRT(P(1)*P(1)+P(2)*P(2)+P(3)*P(3))
-       IF(PNOR2.GT.1.E-20) THEN
+       IF(PNOR2>1.E-20) THEN
          PNORM1=1./(PNOR1*PNOR2)
          IF (IDIR == 1) THEN
            DET1=ABS((P(1)*P(5)-P(2)*P(4))*PNORM1)
@@ -378,25 +378,25 @@ C     CALCUL DE COLINEARITE DES VECTEURS N1N2 ET N1N3
        ELSE
          DET=ZERO
        ENDIF
-       IF(DET.LT.EM5) THEN
+       IF(DET<EM5) THEN
          CALL ANCMSG(MSGID=163,
      .               MSGTYPE=MSGWARNING,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=ID,C1=TITR)
          IF (IDIR == 1) THEN
-           IF(ABS(P(2)).GT.EM5) THEN
+           IF(ABS(P(2))>EM5) THEN
              P(4)=ABS(P(1))+TEN
            ELSE
              P(5)=TEN
            ENDIF
          ELSEIF (IDIR == 2) THEN
-           IF(ABS(P(5)).GT.EM5) THEN
+           IF(ABS(P(5))>EM5) THEN
              P(7)=ABS(P(4))+TEN
            ELSE
              P(8)=TEN
            ENDIF
          ELSEIF (IDIR == 3) THEN
-           IF(ABS(P(8)).GT.EM5) THEN
+           IF(ABS(P(8))>EM5) THEN
              P(1)=ABS(P(7))+TEN
            ELSE
              P(2)=TEN
@@ -445,8 +445,8 @@ C
        ISKN(3,I+1)=0
        ISKN(5,I+1)=0
 C
-       IF(P(4).EQ.ZERO.AND.P(6).EQ.ZERO) P(5)=SIGN(ONE,P(5))
-       IF(P(7).EQ.ZERO.AND.P(8).EQ.ZERO) P(9)=SIGN(ONE,P(9))
+       IF(P(4)==ZERO.AND.P(6)==ZERO) P(5)=SIGN(ONE,P(5))
+       IF(P(7)==ZERO.AND.P(8)==ZERO) P(9)=SIGN(ONE,P(9))
 C-----------------
 C     CALCUL DE X'
 C-----------------
@@ -460,14 +460,14 @@ C-----------------
        P(5)=P(9)*P(1)-P(7)*P(3)
        P(6)=P(7)*P(2)-P(8)*P(1)
 C
-       IF (SUB_ID .NE. 0)THEN
+       IF (SUB_ID /= 0)THEN
          X0(1:3) = ZERO
          DO J=1,NSUBMOD
            IF (LSUBMODEL(J)%NOSUBMOD == SUB_ID) IDSUB = J
          ENDDO
          CUR_SUBMOD = IDSUB
          SUB_LEVEL = LSUBMODEL(IDSUB)%LEVEL
-         DO WHILE (SUB_LEVEL .NE. 0)
+         DO WHILE (SUB_LEVEL /= 0)
            DO J=1,LSUBMODEL(CUR_SUBMOD)%NBTRANS
              ITY = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(J),2)
              IF( ITY == 2 .OR. ITY == 3 ) THEN
@@ -482,7 +482,7 @@ C
            SUB_LEVEL = SUB_LEVEL - 1
            CUR_SUBMOD = LSUBMODEL(CUR_SUBMOD)%IFATHER
          ENDDO
-         IF(LSUBMODEL(IDSUB)%NBTRANS .NE.0)
+         IF(LSUBMODEL(IDSUB)%NBTRANS /=0)
      .      CALL SUBROTPOINT(P(10),P(11),P(12),RTRANS,SUB_ID,LSUBMODEL)
        ENDIF
       ENDIF
@@ -516,7 +516,7 @@ C
       N1=ISKN(1,J)
       N2=ISKN(2,J)
       N3=ISKN(3,J)
-      IF(N1.NE.0)THEN
+      IF(N1/=0)THEN
        N1=ITAB(N1)
        N2=ITAB(N2)
        N3=ITAB(N3)
@@ -535,7 +535,7 @@ C
 C-------------------------------------------------------------
 C   building SKEWS for SPH KINEMATIC CONDITIONS ADDITION.
 C-------------------------------------------------------------
-      IF(NSPCOND.NE.0)THEN
+      IF(NSPCOND/=0)THEN
         DO J=(NUMSKW+1)+1,(NUMSKW+1)+NUMSPH
              DO K=1,LSKEW
               SKEW(K,J)=ZERO
@@ -553,11 +553,11 @@ C          not a user's defined skew.
 C-------------------------------------------------------------
 Csv begin   building SKEWS for SUBMODEL (Rotation Transformation)
 C-------------------------------------------------------------
-      IF(NSUBMOD.NE.0)THEN
+      IF(NSUBMOD/=0)THEN
         WRITE (IOUT,'(A)')TITRE(118)
         WRITE (IOUT,'(A)')TITRE(119)
         WRITE (IOUT,1001)
-        IF (NSPCOND.NE.0) THEN
+        IF (NSPCOND/=0) THEN
           J1 = (NUMSKW+1)+NUMSPH+1
           J2 = (NUMSKW+1)+NUMSPH+NSUBMOD
           NUMSPH_TMP = NUMSPH
@@ -582,7 +582,7 @@ C-------------------------------------------------------------
           SUB_LEVEL = LSUBMODEL(IDSUB)%LEVEL
           X0(1:3) = ZERO
 
-          DO WHILE (SUB_LEVEL .NE. 0)
+          DO WHILE (SUB_LEVEL /= 0)
             DO K=1,LSUBMODEL(CUR_SUBMOD)%NBTRANS
               ITY = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(K),2)
               IF( ITY == 2 .OR. ITY == 3 )THEN
@@ -597,7 +597,7 @@ C-------------------------------------------------------------
             SUB_LEVEL = SUB_LEVEL - 1
             CUR_SUBMOD = LSUBMODEL(CUR_SUBMOD)%IFATHER
           ENDDO
-          IF(LSUBMODEL(IDSUB)%NBTRANS .NE.0)
+          IF(LSUBMODEL(IDSUB)%NBTRANS /=0)
      .      CALL SUBROTPOINT(SKEW(10,J),SKEW(11,J),SKEW(12,J),
      .        RTRANS,LSUBMODEL(IDSUB)%NOSUBMOD,LSUBMODEL)
 Csv          not a user's defined skew.
@@ -611,7 +611,7 @@ C
 C-------------------------------------
 C Recherche des ID doubles
 C-------------------------------------
-      IF (NUMSKW.NE.0)
+      IF (NUMSKW/=0)
      .   CALL UDOUBLE(ISKN(4,1),LISKN,
      .        NUMSKW+1+MIN(IUN,NSPCOND)*NUMSPH+NSUBMOD,
      .        MESS,0,BID)

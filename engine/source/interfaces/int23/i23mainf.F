@@ -169,7 +169,7 @@ C
       NMN   =IPARI(6,NIN)
       NTY   =IPARI(7,NIN)
       IBC   =IPARI(11,NIN)
-      IF(IPARI(33,NIN).EQ.1) RETURN
+      IF(IPARI(33,NIN)==1) RETURN
       NOINT =IPARI(15,NIN)
       IGAP  =IPARI(21,NIN)
       INACTI=IPARI(22,NIN)
@@ -190,8 +190,8 @@ C
 C
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
 C  
       FRIC  =INTBUF_TAB%VARIABLES(1)
       GAP   =INTBUF_TAB%VARIABLES(2)
@@ -219,7 +219,7 @@ c      IP0 = 1
 c      IP1 = IP0 + NSN + 3
 cC     IP1 = IP0 + NSN + NSNROLD + 3
 c      IP2 = IP1 + I_STOK
-c      IF(JTASK.EQ.1)THEN
+c      IF(JTASK==1)THEN
 cC MWA = MWAG SUR TASK 0
 c        CALL I23TRCF(
 cC    1    NSN+NSNROLD  ,I_STOK       ,INBUF(KD(15)),INBUF(KD(14)),
@@ -227,7 +227,7 @@ c     1    NSN          ,I_STOK       ,INBUF(KD(15)),INBUF(KD(14)),
 c     3    MWAG(IP0)    ,MWAG(IP1)    ,INBUF(KD(27)))
 c      ENDIF
 cC
-c      IF(JTASK.EQ.1)THEN
+c      IF(JTASK==1)THEN
 c        ALLOCATE(IFPEN_SAV(I_STOK),CAND_P_SAV(I_STOK))
 c        IFPEN_SAV(1:I_STOK) =INBUF(KD(27):KD(27)+I_STOK-1)
 c        CAND_P_SAV(1:I_STOK)=BUFIN(JD(18):JD(18)+I_STOK-1)
@@ -240,7 +240,7 @@ C
 C----------------------------------------------------
 C decoupage statique
         NB_LOC = I_STOK / NTHREAD
-        IF (JTASK.EQ.NTHREAD) THEN
+        IF (JTASK==NTHREAD) THEN
           I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
         ELSE
           I_STOK_LOC = NB_LOC
@@ -249,13 +249,13 @@ C decoupage statique
 C
         I_STOK = 0
 C
-        IF (IMPL_S.EQ.1) THEN
+        IF (IMPL_S==1) THEN
           NUM_IMP = 0
           VISC  =ZERO
         ENDIF
 C
         DO I = DEBUT+1, DEBUT+I_STOK_LOC
-          IF(INTBUF_TAB%CAND_N(I).LT.0) THEN
+          IF(INTBUF_TAB%CAND_N(I)<0) THEN
             I_STOK = I_STOK + 1
             INDEX2(I_STOK) = I
 C inbuf == cand_n
@@ -270,7 +270,7 @@ C inbuf == cand_n
         ENDDO
 C
 c------------------------------------------------
-        IF (DEBUG(3).GE.1) THEN
+        IF (DEBUG(3)>=1) THEN
           NB_JLT = NB_JLT + I_STOK_LOC
           NB_STOK_N = NB_STOK_N + I_STOK
         ENDIF
@@ -281,7 +281,7 @@ C
             SFSAVPARIT = SFSAVPARIT + 1
           ENDIF
         ENDDO
-        IF (SFSAVPARIT .NE. 0) THEN
+        IF (SFSAVPARIT /= 0) THEN
           ALLOCATE(FSAVPARIT(NISUB+1,11,I_STOK),STAT=IERROR)
           IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
@@ -345,9 +345,9 @@ C
           JLT = JLT_NEW
           IF (IMONM > 0) CALL STARTIME(20,1)
 
-          IF(JLT_NEW.NE.0) THEN
+          IF(JLT_NEW/=0) THEN
             IPARI(29,NIN) = 1
-            IF (DEBUG(3).GE.1)
+            IF (DEBUG(3)>=1)
      .        NB_JLT_NEW = NB_JLT_NEW + JLT
 C 
 	    CALL I23FOR3(
@@ -372,7 +372,7 @@ C
      L  ISKYI_SMS    ,NSMS	   ,JTASK     ,ISENSINT ,FSAVPARIT    ,
      M  NISUB        ,NFT          ,H3D_DATA  )
 C
-            ENDIF ! JLT_NEW.NE.0
+            ENDIF ! JLT_NEW/=0
           IF (IMONM > 0) CALL STOPTIME(20,1)
 C
         ENDDO
@@ -386,6 +386,6 @@ C
       CALL MY_BARRIER
 C
 c      DEALLOCATE(ITAGP)
-c      IF(JTASK.EQ.1)DEALLOCATE(IFPEN_SAV,CAND_P_SAV)
+c      IF(JTASK==1)DEALLOCATE(IFPEN_SAV,CAND_P_SAV)
       RETURN
       END

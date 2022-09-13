@@ -122,7 +122,7 @@ C	   SZ(K)=SZ(K)/SN(K)
         ENDDO
         SNMAX=0
         DO K=1,3
-	  IF(SN(K).GT.SNMAX)THEN
+	  IF(SN(K)>SNMAX)THEN
 	     KMAX=K
 	     SNMAX=SN(K)
         SX(K)=SX(K)/SN(K)
@@ -141,7 +141,7 @@ C
      .      (X(3,J2)-X(3,J1))*SZ(KMAX)   )
         ENDDO
 C		
-	IF(H.LT.HTEST(I))THEN
+	IF(H<HTEST(I))THEN
           IX1=ICF1(1,KMAX)
           IX2=ICF1(2,KMAX)
           IX3=ICF1(3,KMAX)

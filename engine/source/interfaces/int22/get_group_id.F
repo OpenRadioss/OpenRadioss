@@ -65,7 +65,7 @@ C-----------------------------------------------
         DO NG_=1,NGROUP
           NEL=IPARG(2,NG_)
           NFL=IPARG(3,NG_)
-          IF((II.GT.NFL).AND.(II.LE.NFL+NEL))THEN
+          IF((II>NFL).AND.(II<=NFL+NEL))THEN
             IG    = II - NFL
             NG    = NG_
             DONE  =.TRUE.        

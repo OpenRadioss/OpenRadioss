@@ -255,11 +255,11 @@ C  ------due to the sigzz traitement----
         OFF(I)=OFFG(I)
         DDV = (DV+DVZ)*OFF(I)
         DVC(I) = DDV
-        IF (VOL(I).LE.ZERO.OR.DDV.GT.TOL) THEN
+        IF (VOL(I)<=ZERO.OR.DDV>TOL) THEN
          VOL(I)= EM20
          OFF(I)= ZERO
          DDV   = ZERO
-        ELSEIF(OFF(I).EQ.ZERO.OR.OFFS(I).EQ.TWO.OR.ISMDISP.GT.0)THEN
+        ELSEIF(OFF(I)==ZERO.OR.OFFS(I)==TWO.OR.ISMDISP>0)THEN
          VOLDP(I)=MAX(EM20,VOLDP(I))
          VOL(I)=MAX(EM20,VOL(I))
          DDV   =ZERO
@@ -269,7 +269,7 @@ C
         VOLO(I) = VOLO(I)*(ONE- DDV)
         EINT(I) = EINT(I)/(ONE- DDV)
 C	
-        IF(ISMDISP.GT.0.OR.OFFS(I).EQ.TWO) DVC(I) = DVZ
+        IF(ISMDISP>0.OR.OFFS(I)==TWO) DVC(I) = DVZ
       ENDDO
 C   +++ -----partie non constante------
       DO I=LFT,LLT
@@ -288,7 +288,7 @@ c        D6(I)=DC6(I)+ZI*DH6(I)
       ENDDO
 C-----------
       DT1D1=DT1
-      IF (ISMDISP.GT.0.AND.ISCAU.EQ.0) DT1D1=ZERO
+      IF (ISMDISP>0.AND.ISCAU==0) DT1D1=ZERO
       DT1D2=HALF*DT1D1
        DO I=LFT,LLT
         D4(I)   = DXY(I)+DYX(I)

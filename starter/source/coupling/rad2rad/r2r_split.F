@@ -150,7 +150,7 @@ C-------------------------------------------------------------------------------
 C-----------------------Premiere passe -> tag et comptage des donnees  ------------C
 C----------------------------------------------------------------------------------C
 
-      IF (FLAG.EQ.0) THEN
+      IF (FLAG==0) THEN
 
 C----------------------------------------------------------------------------------C
 C---------------------Allocation et Mize a zero des tableaux de tag----------------C
@@ -183,7 +183,7 @@ C-------------------------------------------------------------------------------
 C-----------------------------tag des donnees du subdomain-------------------------C
 C----------------------------------------------------------------------------------C
 
-       IF (IDDOM.NE.0) THEN
+       IF (IDDOM/=0) THEN
 	  ADD = ISUBDOM(3,IDDOM)       
 	  DO K=1,NPART
             DO I=1,ISUBDOM(1,IDDOM)          
@@ -228,14 +228,14 @@ Cmi   --- TAG_SUBS  ---> ATTENTION not used
 !        DO J=1,NSUBS
 !	  IAD3 = ISUBS(LISUB1*(J-1)+9)
 !          DO K=1,ISUBS(LISUB1*(J-1)+8)
-!	    IF (TAG_PART(BUF_NOD(IAD3)).GT.0) TAG_SUBS(J)=1
+!	    IF (TAG_PART(BUF_NOD(IAD3))>0) TAG_SUBS(J)=1
 !	    IAD3 = IAD3+1
 !	  END DO
 !        END DO
 !---
         DO J=1,NSUBS
           DO K=1,SUBSET(J)%NTPART
-	    IF (TAG_PART(SUBSET(J)%TPART(K)).GT.0) TAG_SUBS(J)=1
+	    IF (TAG_PART(SUBSET(J)%TPART(K))>0) TAG_SUBS(J)=1
 !
 	  ENDDO
         ENDDO
@@ -268,28 +268,28 @@ C---------------Tag des elements------------------------------------------------
 	SIPARTTH= 2*9*NPART+2*9*NTHPART
         L0 =SIPARTTH+SIPART0+1
 
-        IF (NUMELS.GT.0) CALL TAGELEM_R2R(NUMELS,IPART(L0),TAG_ELS,NPART)
+        IF (NUMELS>0) CALL TAGELEM_R2R(NUMELS,IPART(L0),TAG_ELS,NPART)
         L0 = L0+NUMELS
 
-        IF (NUMELQ.GT.0) CALL TAGELEM_R2R(NUMELQ,IPART(L0),TAG_ELQ,NPART)
+        IF (NUMELQ>0) CALL TAGELEM_R2R(NUMELQ,IPART(L0),TAG_ELQ,NPART)
         L0 = L0+NUMELQ
 
-        IF (NUMELC.GT.0) CALL TAGELEM_R2R(NUMELC,IPART(L0),TAG_ELC,NPART)
+        IF (NUMELC>0) CALL TAGELEM_R2R(NUMELC,IPART(L0),TAG_ELC,NPART)
         L0 = L0+NUMELC
 
-        IF (NUMELT.GT.0) CALL TAGELEM_R2R(NUMELT,IPART(L0),TAG_ELT,NPART)
+        IF (NUMELT>0) CALL TAGELEM_R2R(NUMELT,IPART(L0),TAG_ELT,NPART)
         L0 = L0+NUMELT
 
-        IF (NUMELP.GT.0) CALL TAGELEM_R2R(NUMELP,IPART(L0),TAG_ELP,NPART)
+        IF (NUMELP>0) CALL TAGELEM_R2R(NUMELP,IPART(L0),TAG_ELP,NPART)
         L0 = L0+NUMELP
 
-        IF (NUMELR.GT.0) CALL TAGELEM_R2R(NUMELR,IPART(L0),TAG_ELR,NPART)
+        IF (NUMELR>0) CALL TAGELEM_R2R(NUMELR,IPART(L0),TAG_ELR,NPART)
         L0 = L0+NUMELR
  
-        IF (NUMELTG.GT.0)CALL TAGELEM_R2R(NUMELTG,IPART(L0),TAG_ELG,NPART)
+        IF (NUMELTG>0)CALL TAGELEM_R2R(NUMELTG,IPART(L0),TAG_ELG,NPART)
         L0 = L0+NUMELTG+NUMELUR+NUMELX
 
-        IF (NUMSPH.GT.0) CALL TAGELEM_R2R(NUMSPH,IPART(L0),TAG_ELSP,NPART)
+        IF (NUMSPH>0) CALL TAGELEM_R2R(NUMSPH,IPART(L0),TAG_ELSP,NPART)
 
 C---------------Tag des injecteurs et de leur prop et mat--------------------------C
 
@@ -321,21 +321,21 @@ C-------------------------------------------------------------------------------
 
 C ---------> comptage des materiaux	-------------------------------------------C
         DO J=1,NUMMAT
-          IF (TAG_MAT(J).NE.0)THEN
+          IF (TAG_MAT(J)/=0)THEN
 	        SIZ_IPM_NEW = SIZ_IPM_NEW + NPROPMI
 	        SIZ_PM_NEW = SIZ_PM_NEW + NPROPM
           ENDIF
         ENDDO
 C ---------> comptage des proprits	-------------------------------------------C
         DO J=1,NUMGEO
-          IF (TAG_PROP(J).NE.0)THEN
+          IF (TAG_PROP(J)/=0)THEN
 	        SIZ_IGEO_NEW = SIZ_IGEO_NEW + NPROPGI
 	        SIZ_GEO_NEW = SIZ_GEO_NEW + NPROPG
           ENDIF
         ENDDO
 C ---------> comptage des noeuds et des noeuds deletes-----------------------------C
         DO J=1,NUMNOD
-          IF (TAGNO(J+NPART).GE.0)THEN
+          IF (TAGNO(J+NPART)>=0)THEN
 	        NNODN = NNODN+1
           ELSE
 	  	NODSUPR = NODSUPR+1
@@ -343,7 +343,7 @@ C ---------> comptage des noeuds et des noeuds deletes--------------------------
         ENDDO
 C ---------> comptage des parts	---------------------------------------------------C
         DO J=1,NPART
-          IF (TAG_PART(J).EQ.1) THEN
+          IF (TAG_PART(J)==1) THEN
 	        NPARN = NPARN+1
           ENDIF
         ENDDO
@@ -351,72 +351,72 @@ C ---------> Noeud poubelle	---------------------------------------------------C
 	NNODN = NNODN+1
 C ---------> comptage des shell	---------------------------------------------------C
         DO J=1,NUMELC
-          IF (TAG_ELC(J+NPART).NE.0) THEN
+          IF (TAG_ELC(J+NPART)/=0) THEN
 	        NELCN = NELCN+1
           ENDIF
         ENDDO
 C ---------> comptage des sh3n	---------------------------------------------------C
         DO J=1,NUMELTG
-          IF (TAG_ELG(J+NPART).NE.0) THEN
+          IF (TAG_ELG(J+NPART)/=0) THEN
 	        NELTGN = NELTGN+1
           ENDIF
         ENDDO
 C ---------> comptage des truss	---------------------------------------------------C
         DO J=1,NUMELT
-          IF (TAG_ELT(J+NPART).NE.0) THEN
+          IF (TAG_ELT(J+NPART)/=0) THEN
 	        NELTN = NELTN+1
           ENDIF
         ENDDO
 C ---------> comptage des springs--------------------------------------------------C
         DO J=1,NUMELR
-          IF (TAG_ELR(J+NPART).NE.0) THEN
+          IF (TAG_ELR(J+NPART)/=0) THEN
 	        NELRN = NELRN+1
           ENDIF
         ENDDO
 C ---------> comptage des beams----------------------------------------------------C
         DO J=1,NUMELP
-          IF (TAG_ELP(J+NPART).NE.0) THEN
+          IF (TAG_ELP(J+NPART)/=0) THEN
 	        NELPN = NELPN+1
           ENDIF
         ENDDO
 C ---------> comptage des quads----------------------------------------------------C
         DO J=1,NUMELQ
-          IF (TAG_ELQ(J+NPART).NE.0) THEN
+          IF (TAG_ELQ(J+NPART)/=0) THEN
 	        NELQN = NELQN+1
           ENDIF
         ENDDO
 C ---------> comptage des solides--------------------------------------------------C
         DO J=1,NUMELS
-          IF (TAG_ELS(J+NPART).NE.0) THEN
+          IF (TAG_ELS(J+NPART)/=0) THEN
 	        NELSN = NELSN+1
-		IF (EANI2(J).EQ.10) NELS10N = NELS10N+1
-		IF (EANI2(J).EQ.20) NELS20N = NELS20N+1
-		IF (EANI2(J).EQ.16) NELS16N = NELS16N+1
+		IF (EANI2(J)==10) NELS10N = NELS10N+1
+		IF (EANI2(J)==20) NELS20N = NELS20N+1
+		IF (EANI2(J)==16) NELS16N = NELS16N+1
           ENDIF
         ENDDO
 C ---------> comptage des particules SPH-------------------------------------------C
         DO J=1,NUMSPH
-          IF (TAG_ELSP(J+NPART).NE.0) THEN
+          IF (TAG_ELSP(J+NPART)/=0) THEN
 	        NSPHN = NSPHN+1
           ENDIF
         ENDDO
 C ---------> comptage des reserves de particules SPH-------------------------------C
         FIRST_CELL = FIRST_SPHRES
         DO J=1,NBPARTINLET
-          IF (TAG_ELSP(FIRST_CELL+NPART).NE.0) THEN
+          IF (TAG_ELSP(FIRST_CELL+NPART)/=0) THEN
             NINLETN = NINLETN + 1
           ENDIF
           FIRST_CELL = FIRST_CELL + RESERVEP(J)
         ENDDO
 
 C----------------------------------------------------------------------------------C
-      ENDIF ! IF (FLAG.EQ.0) THEN
+      ENDIF ! IF (FLAG==0) THEN
 
 C----------------------------------------------------------------------------------C
 C-------------------------Deuxieme passe -> split des tableaux  -------------------C
 C----------------------------------------------------------------------------------C
 
-      IF (FLAG.EQ.1) THEN
+      IF (FLAG==1) THEN
 
 C----------------------------------------------------------------------------------C
 C-------------On split les materiaux ----------------------------------------------C
@@ -441,7 +441,7 @@ C-------------Split-------------------------------------------------------------
           ALLOCATE(IPM(SIZ_IPM_NEW),PM(SIZ_PM_NEW))
           COMPT = 0
           DO J=1,NUMMAT
-            IF ((TAG_MAT(J).NE.0).OR.(J.EQ.NUMMAT)) THEN
+            IF ((TAG_MAT(J)/=0).OR.(J==NUMMAT)) THEN
 	         COMPT = COMPT+1
 		 CORESMA(J)=COMPT
                  DO K=1,NPROPMI
@@ -480,7 +480,7 @@ C-------------Split-------------------------------------------------------------
           COMPT = 0
 	  MAXANUS = 0
           DO J=1,NUMGEO
-            IF (TAG_PROP(J).NE.0) THEN
+            IF (TAG_PROP(J)/=0) THEN
 	         COMPT = COMPT+1
 		 CORESPRO(J)=COMPT
                  DO K=1,NPROPGI
@@ -529,10 +529,10 @@ C-------------Split-------------------------------------------------------------
 	  COMPTB = 0
 	  MAXN=0
           DO J=1,NUMNOD
-            IF (TAGNO(J+NPART).GE.0)THEN
+            IF (TAGNO(J+NPART)>=0)THEN
 	         COMPT = COMPT+1
 		 ITAB(COMPT)=ITAB_TEMP(J)
-		 IF (ITAB(COMPT).GT.MAXN) MAXN = ITAB(COMPT)
+		 IF (ITAB(COMPT)>MAXN) MAXN = ITAB(COMPT)
 		 CORESN(J)=COMPT
 		 X(3*(COMPT-1)+1)=X_TEMP(1,J)
 		 X(3*(COMPT-1)+2)=X_TEMP(2,J)
@@ -545,9 +545,9 @@ c		 FRONT_R2R(COMPT)=FRONT(J,1)
 c		 ELSE
 c		   FRONT_R2R(COMPT) = 0
 c		 ENDIF
-		 IF (TAGNO(J+NPART).GT.1) THEN
+		 IF (TAGNO(J+NPART)>1) THEN
 		    MS(COMPT)=1e-20
-		    IF (IRODDL.EQ.1) IN(COMPT)=1e-20
+		    IF (IRODDL==1) IN(COMPT)=1e-20
 		 ENDIF
             ELSE
 	         COMPTB = COMPTB+1
@@ -559,7 +559,7 @@ C -----------on update les skews------------------------------------------------
 
           DO J=1,NUMSKW
 	     DO K=1,3
-	        IF (ISKWN(LISKN*J+K).GT.0)
+	        IF (ISKWN(LISKN*J+K)>0)
      .              ISKWN(LISKN*J+K)=CORESN(ISKWN(LISKN*J+K))
 	     END DO
           ENDDO
@@ -567,10 +567,10 @@ C -----------on update les skews------------------------------------------------
 C -----------on update les frames--------------------------------------------------C
 
 	  JJ = SISKWN-SIFRAME
-          IF (NSPHN.EQ.NUMSPH) THEN
+          IF (NSPHN==NUMSPH) THEN
             DO J=1,NUMFRAM
 	      DO K=1,3
-	        IF (ISKWN(JJ+LISKN*J+K).GT.0)
+	        IF (ISKWN(JJ+LISKN*J+K)>0)
      .              ISKWN(JJ+LISKN*J+K)=CORESN(ISKWN(JJ+LISKN*J+K))
 	      END DO
             ENDDO
@@ -579,7 +579,7 @@ C--         on avance les frames si disparition des particules SPH
             JJB = SISKWN-SIFRAME-MIN(IUN,NSPCOND0)*(NUMSPH-NSPHN)*LISKN
             DO J=1,NUMFRAM 
 	      DO K=1,3
-                IF (ISKWN(JJ+LISKN*J+K).GT.0) THEN
+                IF (ISKWN(JJ+LISKN*J+K)>0) THEN
 	          ISKWN(JJB+LISKN*J+K)=CORESN(ISKWN(JJ+LISKN*J+K))
                 ENDIF
 	      END DO
@@ -599,7 +599,7 @@ C-------------Reconstitution de ITABM1------------------------------------------
           CALL CONSTIT(ITAB,PART1,NUMNOD)
 
 C-------------On cre une deuxime liste de noeuds supprims pour les detection d'erreures
-          IF (NODSUPR.NE.0) THEN
+          IF (NODSUPR/=0) THEN
           PART2  => ITABM1(2*NUMNOD+1:2*NUMNOD_OLD)
           CALL CONSTIT(ITAB_SUP,PART2,NODSUPR)
           DEALLOCATE(ITAB_SUP)
@@ -609,7 +609,7 @@ C-------------------------------------------------------------------------------
 C-------------On split NALE_R2R----------------------------------------------------C
 C----------------------------------------------------------------------------------C
 
-          IF (SNALE.GT.0) THEN
+          IF (SNALE>0) THEN
 C
             ALLOCATE(NALE_R2R_TEMP(SNALE))
             DO J=1,NUMNOD_OLD
@@ -620,7 +620,7 @@ C-------------Split-------------------------------------------------------------
             NALE_R2R(:) = 0
             COMPT = 0
             DO J=1,NUMNOD_OLD
-              IF (TAGNO(J+NPART).GE.0) THEN
+              IF (TAGNO(J+NPART)>=0) THEN
 	         COMPT = COMPT+1
                  NALE_R2R(COMPT) =  NALE_R2R_TEMP(J)           
               ENDIF
@@ -645,7 +645,7 @@ C-------------------------------------------------------------------------------
 	  SEANI = NTOT
 
           DO J=1,NUMELS
-             IF (TAG_ELS(J+NPART).NE.0) THEN
+             IF (TAG_ELS(J+NPART)/=0) THEN
 	     	COMPT = COMPT + 1
 	        EANI2(COMPT)=EANI_TEMP(J)
 	     ENDIF
@@ -653,7 +653,7 @@ C-------------------------------------------------------------------------------
 
           COMPT = NELSN+NELCN+NELQN
           DO J=1,NUMELTG
-             IF (TAG_ELG(J+NPART).NE.0) THEN
+             IF (TAG_ELG(J+NPART)/=0) THEN
 		COMPT = COMPT + 1
 	        EANI2(COMPT)=EANI_TEMP(NUMELS+NUMELQ+NUMELC+J)
 	     ENDIF
@@ -722,7 +722,7 @@ C-------------Split-------------------------------------------------------------
 	     IF (EANI_TEMP(J)==10) J10 = J10+1
 	     IF (EANI_TEMP(J)==20) J20 = J20+1
 	     IF (EANI_TEMP(J)==16) J16 = J16+1
-             IF (TAG_ELS(J+NPART).NE.0) THEN
+             IF (TAG_ELS(J+NPART)/=0) THEN
 	     	COMPT_IP=COMPT_IP+1
 	        COMPT = COMPT+1
 		CORESS(J)=COMPT
@@ -735,7 +735,7 @@ C-------------Split-------------------------------------------------------------
 	        DO K=2,9
 		  IXS(NIXS*(COMPT-1)+K)=CORESN(IX_TEMP(NIXS*(J-1)+K))
 		END DO
-                IF (TAG_ELSF2(J).GT.1) TAG_ELSF(COMPT) = 1
+                IF (TAG_ELSF2(J)>1) TAG_ELSF(COMPT) = 1
 		IF (EANI_TEMP(J)==10) THEN
 		  COMPT10 = COMPT10+1
 		  DO K=1,6
@@ -790,7 +790,7 @@ C-------------Split-------------------------------------------------------------
           COMPT = 0
           DO J=1,NUMELQ
 	     COMPT_IP_TMP=COMPT_IP_TMP+1
-             IF (TAG_ELQ(J+NPART).NE.0) THEN
+             IF (TAG_ELQ(J+NPART)/=0) THEN
 	     	COMPT_IP=COMPT_IP+1
 	        COMPT = COMPT+1
 		CORESQ(J)=COMPT
@@ -828,7 +828,7 @@ C-------------Split-------------------------------------------------------------
           COMPT = 0
           DO J=1,NUMELC
 	     COMPT_IP_TMP=COMPT_IP_TMP+1
-             IF (TAG_ELC(J+NPART).NE.0) THEN
+             IF (TAG_ELC(J+NPART)/=0) THEN
 	     	COMPT_IP=COMPT_IP+1
 	        COMPT = COMPT+1
 		CORESC(J)=COMPT
@@ -841,7 +841,7 @@ C-------------Split-------------------------------------------------------------
 	        DO K=2,5
 		  IXC(NIXC*(COMPT-1)+K)=CORESN(IX_TEMP(NIXC*(J-1)+K))
 		END DO
-                IF (TAG_ELCF2(J).GT.1) TAG_ELCF(COMPT) = 1                
+                IF (TAG_ELCF2(J)>1) TAG_ELCF(COMPT) = 1                
              ENDIF
           ENDDO
 
@@ -866,7 +866,7 @@ C-------------Split-------------------------------------------------------------
           COMPT = 0
           DO J=1,NUMELT
 	     COMPT_IP_TMP=COMPT_IP_TMP+1
-             IF (TAG_ELT(J+NPART).NE.0) THEN
+             IF (TAG_ELT(J+NPART)/=0) THEN
 	     	COMPT_IP=COMPT_IP+1
 	        COMPT = COMPT+1
 		COREST(J)=COMPT
@@ -904,7 +904,7 @@ C-------------Split-------------------------------------------------------------
           COMPT = 0
           DO J=1,NUMELP
 	     COMPT_IP_TMP=COMPT_IP_TMP+1
-             IF (TAG_ELP(J+NPART).NE.0) THEN
+             IF (TAG_ELP(J+NPART)/=0) THEN
 	     	COMPT_IP=COMPT_IP+1
 	        COMPT = COMPT+1
 		CORESP(J)=COMPT
@@ -942,9 +942,9 @@ C-------------Split-------------------------------------------------------------
           COMPTB = 0
           DO J=1,NUMELR
           ID_PROP = CORESPRO(IXR(NIXR*(J-1)+1)) 
-	    IF (IGEO(NPROPGI*(ID_PROP-1)+11).EQ.45) THEN
+	    IF (IGEO(NPROPGI*(ID_PROP-1)+11)==45) THEN
                COMPTB = COMPTB + 1                       
-               IF (TAG_ELR(J+NPART).NE.0) THEN
+               IF (TAG_ELR(J+NPART)/=0) THEN
                  COMPT = COMPT + 1
 	         DO K=1,3
 	           IXR_KJ(5*(COMPT-1)+K)=CORESN(IX_TEMP(5*(COMPTB-1)+K))
@@ -976,7 +976,7 @@ C-------------Split-------------------------------------------------------------
           COMPT = 0
           DO J=1,NUMELR
 	     COMPT_IP_TMP=COMPT_IP_TMP+1
-             IF (TAG_ELR(J+NPART).NE.0) THEN
+             IF (TAG_ELR(J+NPART)/=0) THEN
 	     	COMPT_IP=COMPT_IP+1
 	        COMPT = COMPT+1
 		CORESR(J)=COMPT
@@ -988,7 +988,7 @@ C-------------Split-------------------------------------------------------------
 	        DO K=2,3
 		  IXR(NIXR*(COMPT-1)+K)=CORESN(IX_TEMP(NIXR*(J-1)+K))
 		END DO
-		IF (IXR(NIXR*(COMPT-1)+4).NE.0) THEN
+		IF (IXR(NIXR*(COMPT-1)+4)/=0) THEN
 		  IXR(NIXR*(COMPT-1)+4)=CORESN(IX_TEMP(NIXR*(J-1)+4))
 		ENDIF
              ENDIF
@@ -1016,7 +1016,7 @@ C-------------Split-------------------------------------------------------------
           COMPT = 0
           DO J=1,NUMELTG
 	     COMPT_IP_TMP=COMPT_IP_TMP+1
-             IF (TAG_ELG(J+NPART).NE.0) THEN
+             IF (TAG_ELG(J+NPART)/=0) THEN
 	     	COMPT_IP=COMPT_IP+1
 	        COMPT = COMPT+1
 		CORESTG(J)=COMPT
@@ -1049,7 +1049,7 @@ C-------------Split-------------------------------------------------------------
           PART_RES = 0
           FIRST_CELL = FIRST_SPHRES
           DO J=1,NBPARTINLET
-            IF (TAG_ELSP(FIRST_CELL+NPART).NE.0) THEN
+            IF (TAG_ELSP(FIRST_CELL+NPART)/=0) THEN
               COMPT = COMPT + 1
               RESERVEP(COMPT) = RES_TEMP(J)
             ENDIF
@@ -1067,7 +1067,7 @@ C-------------On split les particules SPH---------------------------------------
 C----------------------------------------------------------------------------------C
 
           COEFF = 0
-          IF (NSPHN.GT.0) COEFF = 1
+          IF (NSPHN>0) COEFF = 1
           NUMSPHA = NUMSPH - NSPHRES
 C
           ALLOCATE(KXSP_TEMP(NISP*NUMSPH),CORESSP(NUMSPH))
@@ -1085,11 +1085,11 @@ C-------------Split-------------------------------------------------------------
           NSPHRESN = 0
           DO J=1,NUMSPH
 	     COMPT_IP_TMP=COMPT_IP_TMP+1
-             IF (TAG_ELSP(J+NPART).NE.0) THEN
+             IF (TAG_ELSP(J+NPART)/=0) THEN
 	     	COMPT_IP=COMPT_IP+1
 	        COMPT = COMPT+1
 		CORESSP(J)=COMPT
-                IF (J.GE.FIRST_SPHRES) NSPHRESN=NSPHRESN+1
+                IF (J>=FIRST_SPHRES) NSPHRESN=NSPHRESN+1
 		IPART(COMPT_IP)=IPART_TEMP(COMPT_IP_TMP)
 	        DO K=1,NISP
 		  KXSP(NISP*(COMPT-1)+K)=KXSP_TEMP(NISP*(J-1)+K)
@@ -1098,7 +1098,7 @@ C-------------Split-------------------------------------------------------------
                 NOD2SP(CORESN(KXSP_TEMP(NISP*(J-1)+3))) = COMPT
              ENDIF
           ENDDO
-          IF ((COMPT.NE.0).AND.(COMPT.NE.NUMSPH)) THEN
+          IF ((COMPT/=0).AND.(COMPT/=NUMSPH)) THEN
             CALL ANCMSG(MSGID=1061,
      .                    MSGTYPE=MSGWARNING,
      .                    ANMODE=ANINFO_BLIND_1)
@@ -1127,12 +1127,12 @@ C-------------Split-------------------------------------------------------------
 
 	  ALLOCATE(THKE(NUMELTG+NUMELC))
           DO J=1,NUMELC0
-             IF (TAG_ELC(J+NPART).NE.0) THEN
+             IF (TAG_ELC(J+NPART)/=0) THEN
 		THKE(CORESC(J))=THK_TMP(J)
              ENDIF
           ENDDO
           DO J=1,NUMELTG0
-             IF (TAG_ELG(J+NPART).NE.0) THEN
+             IF (TAG_ELG(J+NPART)/=0) THEN
 		THKE(CORESTG(J)+NUMELC)=THK_TMP(J+NUMELC0)
              ENDIF
           ENDDO
@@ -1155,10 +1155,10 @@ C             --> solides <--
             IGRBRIC(I)%R2R_SHARE = 0
             DO J=1,IGRBRIC(I)%NENTITY
 	      CUR_ID = IGRBRIC(I)%ENTITY(J)
-              IF (TAG_ELS(CUR_ID+NPART).NE.0)THEN
+              IF (TAG_ELS(CUR_ID+NPART)/=0)THEN
 	        COMPT = COMPT+1
                 IGRBRIC(I)%ENTITY(COMPT) = CORESS(CUR_ID)
-                IF (TAG_ELS(CUR_ID+NPART).GT.1)
+                IF (TAG_ELS(CUR_ID+NPART)>1)
      .               IGRBRIC(I)%R2R_SHARE = IGRBRIC(I)%R2R_SHARE + 1 
               ENDIF
             ENDDO
@@ -1171,10 +1171,10 @@ C             --> quads <--
             IGRQUAD(I)%R2R_SHARE = 0
             DO J=1,IGRQUAD(I)%NENTITY
 	      CUR_ID = IGRQUAD(I)%ENTITY(J)
-              IF (TAG_ELQ(CUR_ID+NPART).NE.0)THEN
+              IF (TAG_ELQ(CUR_ID+NPART)/=0)THEN
 	        COMPT = COMPT+1
                 IGRQUAD(I)%ENTITY(COMPT) = CORESQ(CUR_ID)
-                IF (TAG_ELQ(CUR_ID+NPART).GT.1)
+                IF (TAG_ELQ(CUR_ID+NPART)>1)
      .               IGRQUAD(I)%R2R_SHARE = IGRQUAD(I)%R2R_SHARE + 1 
               ENDIF
             ENDDO
@@ -1187,10 +1187,10 @@ C             --> sh4n <--
             IGRSH4N(I)%R2R_SHARE = 0
             DO J=1,IGRSH4N(I)%NENTITY
 	      CUR_ID = IGRSH4N(I)%ENTITY(J)
-              IF (TAG_ELC(CUR_ID+NPART).NE.0)THEN
+              IF (TAG_ELC(CUR_ID+NPART)/=0)THEN
 	        COMPT = COMPT+1
                 IGRSH4N(I)%ENTITY(COMPT) = CORESC(CUR_ID)
-                IF (TAG_ELC(CUR_ID+NPART).GT.1)
+                IF (TAG_ELC(CUR_ID+NPART)>1)
      .               IGRSH4N(I)%R2R_SHARE = IGRSH4N(I)%R2R_SHARE + 1 
               ENDIF
             ENDDO
@@ -1203,10 +1203,10 @@ C             --> truss <--
             IGRTRUSS(I)%R2R_SHARE = 0
             DO J=1,IGRTRUSS(I)%NENTITY
 	      CUR_ID = IGRTRUSS(I)%ENTITY(J)
-              IF (TAG_ELT(CUR_ID+NPART).NE.0)THEN
+              IF (TAG_ELT(CUR_ID+NPART)/=0)THEN
 	        COMPT = COMPT+1
                 IGRTRUSS(I)%ENTITY(COMPT) = COREST(CUR_ID)
-                IF (TAG_ELT(CUR_ID+NPART).GT.1)
+                IF (TAG_ELT(CUR_ID+NPART)>1)
      .               IGRTRUSS(I)%R2R_SHARE = IGRTRUSS(I)%R2R_SHARE + 1 
               ENDIF
             ENDDO
@@ -1219,10 +1219,10 @@ C             --> beams <--
             IGRBEAM(I)%R2R_SHARE = 0
             DO J=1,IGRBEAM(I)%NENTITY
 	      CUR_ID = IGRBEAM(I)%ENTITY(J)
-              IF (TAG_ELP(CUR_ID+NPART).NE.0)THEN
+              IF (TAG_ELP(CUR_ID+NPART)/=0)THEN
 	        COMPT = COMPT+1
                 IGRBEAM(I)%ENTITY(COMPT) = CORESP(CUR_ID)
-                IF (TAG_ELP(CUR_ID+NPART).GT.1)
+                IF (TAG_ELP(CUR_ID+NPART)>1)
      .               IGRBEAM(I)%R2R_SHARE = IGRBEAM(I)%R2R_SHARE + 1 
               ENDIF
             ENDDO
@@ -1235,10 +1235,10 @@ C             --> springs <--
             IGRSPRING(I)%R2R_SHARE = 0
             DO J=1,IGRSPRING(I)%NENTITY
 	      CUR_ID = IGRSPRING(I)%ENTITY(J)
-              IF (TAG_ELR(CUR_ID+NPART).NE.0)THEN
+              IF (TAG_ELR(CUR_ID+NPART)/=0)THEN
 	        COMPT = COMPT+1
                 IGRSPRING(I)%ENTITY(COMPT) = CORESR(CUR_ID)
-                IF (TAG_ELR(CUR_ID+NPART).GT.1)
+                IF (TAG_ELR(CUR_ID+NPART)>1)
      .               IGRSPRING(I)%R2R_SHARE = IGRSPRING(I)%R2R_SHARE + 1 
               ENDIF
             ENDDO
@@ -1251,10 +1251,10 @@ C             --> sh3n <--
             IGRSH3N(I)%R2R_SHARE = 0
             DO J=1,IGRSH3N(I)%NENTITY
 	      CUR_ID = IGRSH3N(I)%ENTITY(J)
-              IF (TAG_ELG(CUR_ID+NPART).NE.0)THEN
+              IF (TAG_ELG(CUR_ID+NPART)/=0)THEN
 	        COMPT = COMPT+1
                 IGRSH3N(I)%ENTITY(COMPT) = CORESTG(CUR_ID)
-                IF (TAG_ELG(CUR_ID+NPART).GT.1)
+                IF (TAG_ELG(CUR_ID+NPART)>1)
      .               IGRSH3N(I)%R2R_SHARE = IGRSH3N(I)%R2R_SHARE + 1 
               ENDIF
             ENDDO
@@ -1268,7 +1268,7 @@ C ---------> groupes de parts---------------------------------------------------
 	    COMPT = 0
             DO J=1,IGRPART(I)%NENTITY
 	       CUR_ID = IGRPART(I)%ENTITY(J)
-               IF (TAG_PART(CUR_ID).EQ.1)THEN
+               IF (TAG_PART(CUR_ID)==1)THEN
 	         COMPT = COMPT+1
 	         IGRPART(I)%ENTITY(COMPT) = CUR_ID
                ENDIF
@@ -1290,36 +1290,36 @@ C-------------------------------------------------------------------------------
               CUR_ID = IGRSURF(I)%ELEM(J)
               IF (IGRSURF(I)%ELTYP(J) == 1) THEN
 C---------------> cas face solide <--
-		IF (TAG_ELS(CUR_ID+NPART).NE.0) THEN
+		IF (TAG_ELS(CUR_ID+NPART)/=0) THEN
 		   NEW_ID = CORESS(CUR_ID)
 		   TAG = 1
 	        ENDIF
 	      ELSEIF (IGRSURF(I)%ELTYP(J) == 2) THEN
 C---------------> cas quad <--
-		IF (TAG_ELQ(CUR_ID+NPART).NE.0) THEN
+		IF (TAG_ELQ(CUR_ID+NPART)/=0) THEN
 		   NEW_ID = CORESQ(CUR_ID)
 		   TAG = 1
 		ENDIF
               ELSEIF (IGRSURF(I)%ELTYP(J) == 3) THEN
 C---------------> cas coque <--
-	        IF (TAG_ELC(CUR_ID+NPART).NE.0) THEN
+	        IF (TAG_ELC(CUR_ID+NPART)/=0) THEN
 	           NEW_ID = CORESC(CUR_ID)
 		   TAG = 1
 		ENDIF
               ELSEIF (IGRSURF(I)%ELTYP(J) == 7) THEN
 C---------------> cas triangle <--
-	        IF (TAG_ELG(CUR_ID+NPART).NE.0) THEN
+	        IF (TAG_ELG(CUR_ID+NPART)/=0) THEN
 	           NEW_ID = CORESTG(CUR_ID)
 		   TAG = 1
 		ENDIF
               ELSEIF (IGRSURF(I)%ELTYP(J) > 10) THEN
 C---------------> cas surface defini par segment avec elements associes <--
                  IF (IGRSURF(I)%ELTYP(J) == 11) THEN
-		   IF (TAG_ELS(CUR_ID+NPART).NE.0) TAG=1
+		   IF (TAG_ELS(CUR_ID+NPART)/=0) TAG=1
                  ELSEIF (IGRSURF(I)%ELTYP(J) == 13) THEN
-		   IF (TAG_ELC(CUR_ID+NPART).NE.0) TAG=1
+		   IF (TAG_ELC(CUR_ID+NPART)/=0) TAG=1
                  ELSEIF (IGRSURF(I)%ELTYP(J) == 17) THEN
-		   IF (TAG_ELG(CUR_ID+NPART).NE.0) TAG=1
+		   IF (TAG_ELG(CUR_ID+NPART)/=0) TAG=1
 		 ENDIF
 C                  ---> on remet le type de seg a zero pour <--
 		 IGRSURF(I)%ELTYP(J) = 0
@@ -1328,9 +1328,9 @@ C                  ---> on remet le type de seg a zero pour <--
 C---------------> cas surface defini par segment par noeuds <--
                 DO K=1,4
 	          NOD_ID = IGRSURF(I)%NODES(J,K)
-		  IF (TAGNO(NOD_ID+NPART).NE.-1) NB_NOD_CPL=NB_NOD_CPL+1
+		  IF (TAGNO(NOD_ID+NPART)/=-1) NB_NOD_CPL=NB_NOD_CPL+1
                 END DO
-                IF (NB_NOD_CPL.EQ.4) THEN
+                IF (NB_NOD_CPL==4) THEN
 		  TAG = 1
 		  NEW_ID = 0
                 ENDIF
@@ -1340,10 +1340,10 @@ C---------------> TAG = 1, on garde le segment, on update les noeuds <--
 	        NSEG = NSEG + 1
                 DO K=1,4
 	          CUR_ID = IGRSURF(I)%NODES(J,K)
-		  IF (TAGNO(CUR_ID+NPART).GT.1) NB_NOD_CPL=NB_NOD_CPL+1
+		  IF (TAGNO(CUR_ID+NPART)>1) NB_NOD_CPL=NB_NOD_CPL+1
                   IGRSURF(I)%NODES(NSEG,K) = CORESN(CUR_ID)
                 END DO
-		IF (NB_NOD_CPL.EQ.4) CCPL=CCPL+1
+		IF (NB_NOD_CPL==4) CCPL=CCPL+1
 		IGRSURF(I)%ELTYP(NSEG) = IGRSURF(I)%ELTYP(J)
 		IGRSURF(I)%ELEM(NSEG) = NEW_ID
               ENDIF
@@ -1362,56 +1362,56 @@ C-------------------------------------------------------------------------------
 	      NB_NOD_SUB=0
 	      TAG = 0
               CUR_ID = IGRSLIN(I)%ELEM(J)
-              IF (IGRSLIN(I)%ELTYP(J).EQ.1) THEN
+              IF (IGRSLIN(I)%ELTYP(J)==1) THEN
 C---------------> cas face solide <--
-		IF (TAG_ELS(CUR_ID+NPART).NE.0) THEN
+		IF (TAG_ELS(CUR_ID+NPART)/=0) THEN
 		   NEW_ID = CORESS(CUR_ID)
 		   TAG = 1
 	        ENDIF
-	      ELSEIF (IGRSLIN(I)%ELTYP(J).EQ.2) THEN
+	      ELSEIF (IGRSLIN(I)%ELTYP(J)==2) THEN
 C---------------> cas quad <--
-		IF (TAG_ELQ(CUR_ID+NPART).NE.0) THEN
+		IF (TAG_ELQ(CUR_ID+NPART)/=0) THEN
 		   NEW_ID = CORESQ(CUR_ID)
 		   TAG = 2
 		ENDIF
-              ELSEIF (IGRSLIN(I)%ELTYP(J).EQ.3) THEN
+              ELSEIF (IGRSLIN(I)%ELTYP(J)==3) THEN
 C---------------> cas coque <--
-	        IF (TAG_ELC(CUR_ID+NPART).NE.0) THEN
+	        IF (TAG_ELC(CUR_ID+NPART)/=0) THEN
 	           NEW_ID = CORESC(CUR_ID)
 		   TAG = 3
 		ENDIF
-              ELSEIF (IGRSLIN(I)%ELTYP(J).EQ.4) THEN
+              ELSEIF (IGRSLIN(I)%ELTYP(J)==4) THEN
 C---------------> cas truss <--
-	        IF (TAG_ELT(CUR_ID+NPART).NE.0) THEN
+	        IF (TAG_ELT(CUR_ID+NPART)/=0) THEN
 	           NEW_ID = COREST(CUR_ID)
 		   TAG = 4
 		ENDIF
-              ELSEIF (IGRSLIN(I)%ELTYP(J).EQ.5) THEN
+              ELSEIF (IGRSLIN(I)%ELTYP(J)==5) THEN
 C---------------> cas poutre <--
-	        IF (TAG_ELP(CUR_ID+NPART).NE.0) THEN
+	        IF (TAG_ELP(CUR_ID+NPART)/=0) THEN
 	           NEW_ID = CORESP(CUR_ID)
 		   TAG = 5
 		ENDIF
-              ELSEIF (IGRSLIN(I)%ELTYP(J).EQ.6) THEN
+              ELSEIF (IGRSLIN(I)%ELTYP(J)==6) THEN
 C---------------> cas spring <--
-	        IF (TAG_ELR(CUR_ID+NPART).NE.0) THEN
+	        IF (TAG_ELR(CUR_ID+NPART)/=0) THEN
 	           NEW_ID = CORESR(CUR_ID)
 		   TAG = 6
 		ENDIF
-              ELSEIF (IGRSLIN(I)%ELTYP(J).EQ.7) THEN
+              ELSEIF (IGRSLIN(I)%ELTYP(J)==7) THEN
 C---------------> cas triangle <--
-	        IF (TAG_ELG(CUR_ID+NPART).NE.0) THEN
+	        IF (TAG_ELG(CUR_ID+NPART)/=0) THEN
 	           NEW_ID = CORESTG(CUR_ID)
 		   TAG = 7
 		ENDIF
-              ELSEIF (IGRSLIN(I)%ELTYP(J).EQ.0) THEN
+              ELSEIF (IGRSLIN(I)%ELTYP(J)==0) THEN
 C---------------> Pas d'element, on compte les noeuds tags <--
                 NEW_ID = 0
                 DO K=1,2
 	          CUR_ID = IGRSLIN(I)%NODES(J,K)
-                  IF (TAGNO(CUR_ID+NPART).GE.0) NB_NOD_SUB=NB_NOD_SUB+1
+                  IF (TAGNO(CUR_ID+NPART)>=0) NB_NOD_SUB=NB_NOD_SUB+1
                 END DO
-		IF (NB_NOD_SUB.EQ.2) TAG = 8
+		IF (NB_NOD_SUB==2) TAG = 8
 	      ENDIF
 C---------------> TAG = 1, on garde le segment, on update les neouds <--
               IF (TAG > 0) THEN
@@ -1442,7 +1442,7 @@ C-------------------------------------------------------------------------------
               COMPT = COMPT + 1
               IGRNOD(I)%ENTITY(COMPT) = CORESN(CUR_ID)
             ENDIF
-            IF (TAGNO(CUR_ID+NPART).GT.1) CCPL=CCPL+1
+            IF (TAGNO(CUR_ID+NPART)>1) CCPL=CCPL+1
           ENDDO
           IGRNOD(I)%R2R_ALL   = IGRNOD(I)%NENTITY
           IGRNOD(I)%R2R_SHARE = CCPL
@@ -1465,7 +1465,7 @@ C-------------------------------------------------------------------------------
           END DO
           COMPT=0
           DO J=1,NUMNOD_OLD
-            IF (TAGNO_TEMP(J+NPART).GE.0)THEN
+            IF (TAGNO_TEMP(J+NPART)>=0)THEN
 		COMPT=COMPT+1
 		TAGNO(COMPT+NPART)=TAGNO_TEMP(J+NPART)
 		TAGNO(COMPT+NPART+NUMNOD)=TAGNO_TEMP(J+NPART+NUMNOD_OLD)
@@ -1487,10 +1487,10 @@ C-------------------------------------------------------------------------------
 
          COMPT = 0
          DO I=1,NBGAUGE
-           IF ((TAGGAU(I).GT.0).AND.(NUMELS.GT.0)) THEN
+           IF ((TAGGAU(I)>0).AND.(NUMELS>0)) THEN
 C---------------> Cas des GAUGES <--
              COMPT = COMPT + 1
-           ELSEIF ((TAGGAU(I).LT.0).AND.(NUMSPH.GT.0)) THEN
+           ELSEIF ((TAGGAU(I)<0).AND.(NUMSPH>0)) THEN
 C---------------> Cas des GAUGE/SPH <--
              TAGGAU(I) = ABS(TAGGAU(I))
              COMPT = COMPT + 1

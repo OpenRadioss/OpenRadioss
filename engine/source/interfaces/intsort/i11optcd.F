@@ -96,7 +96,7 @@ C-----------------------------------------------
       DO SG = FIRST,LAST,MSEG
        NSEG = MIN(MSEG,LAST-JS)
        NLS=0
-       IF(NSPMD.GT.1) THEN
+       IF(NSPMD>1) THEN
 C
 C Partage cand_n local / frontiere
 C
@@ -104,7 +104,7 @@ C
          NLS2 = NSEG+1
          DO IS = 1, NSEG
            I=JS+IS
-           IF(CAND_S(I).LE.NRTS)THEN
+           IF(CAND_S(I)<=NRTS)THEN
              NLS=NLS+1
              LISTI(NLS)=IS
            ELSE
@@ -112,7 +112,7 @@ C
              LISTI(NLS2) = IS
            ENDIF
          ENDDO
-         IF(IGAP.EQ.0)THEN
+         IF(IGAP==0)THEN
            DO LS = 1, NLS
              IS = LISTI(LS)
              GAPV(IS)=GAP
@@ -130,7 +130,7 @@ C
          ENDIF
        ELSE
          NLS = NSEG
-         IF(IGAP.EQ.0)THEN
+         IF(IGAP==0)THEN
           DO IS=1,NSEG
             GAPV(IS)=GAP
             LISTI(IS)=IS
@@ -156,13 +156,13 @@ C
          IS = LISTI(LS)
          I=JS+IS
          L  = CAND_S(I)
-         IF (STFS(L).NE.ZERO) THEN
+         IF (STFS(L)/=ZERO) THEN
            N1(IS)=IRECTS(1,L)
            Z1=X(3,N1(IS))
            N2(IS)=IRECTS(2,L)
            Z2=X(3,N2(IS))
            L  = CAND_M(I)
-           IF (STFM(L).NE.ZERO) THEN
+           IF (STFM(L)/=ZERO) THEN
 
             M1(IS)=IRECTM(1,L)
             Z3=X(3,M1(IS))
@@ -173,7 +173,7 @@ C
             ZMAXS = MAX(Z1,Z2)+GAPVD
             ZMINM = MIN(Z3,Z4)-GAPVD
             ZMAXM = MAX(Z3,Z4)+GAPVD
-            IF (ZMAXS.GE.ZMINM.AND.ZMAXM.GE.ZMINS) THEN
+            IF (ZMAXS>=ZMINM.AND.ZMAXM>=ZMINS) THEN
              NLS=NLS+1
              LIST(NLS)=IS
             ENDIF
@@ -202,7 +202,7 @@ C
           YMAXS = MAX(Y1,Y2)+GAPVD
           YMINM = MIN(Y3,Y4)-GAPVD
           YMAXM = MAX(Y3,Y4)+GAPVD
-          IF (YMAXS.GE.YMINM.AND.YMAXM.GE.YMINS) THEN
+          IF (YMAXS>=YMINM.AND.YMAXM>=YMINS) THEN
             NLS=NLS+1
             LIST(NLS)=IS
           ENDIF
@@ -227,16 +227,16 @@ C
           XMAXS = MAX(X1,X2)+GAPVD
           XMINM = MIN(X3,X4)-GAPVD
           XMAXM = MAX(X3,X4)+GAPVD
-          IF (XMAXS.GE.XMINM.AND.XMAXM.GE.XMINS) THEN
+          IF (XMAXS>=XMINM.AND.XMAXM>=XMINS) THEN
             CAND_S(I) = -CAND_S(I)
             COUNT_CAND = COUNT_CAND+1
           ENDIF
        ENDDO
 C
-       IF(NSPMD.GT.1)THEN
+       IF(NSPMD>1)THEN
          NLF = NLS2
          NLT = NSEG
-         IF(IGAP.EQ.0)THEN
+         IF(IGAP==0)THEN
           DO LS=NLF, NLT
             IS = LISTI(LS)
             GAPV(IS)=GAP
@@ -261,13 +261,13 @@ Cel conserver LISTI et LIST pour optimiser le code genere (IA64)
           IS = LISTI(LS)
           I=JS+IS
           II = CAND_S(I)-NRTS
-          IF (STIFI(NIN)%P(II).NE.ZERO) THEN
+          IF (STIFI(NIN)%P(II)/=ZERO) THEN
            NN1 = 2*(II-1)+1
            NN2 = 2*II
            Z1=XFI(NIN)%P(3,NN1)
            Z2=XFI(NIN)%P(3,NN2)
            L  = CAND_M(I)
-           IF (STFM(L).NE.ZERO) THEN
+           IF (STFM(L)/=ZERO) THEN
             M1(IS)=IRECTM(1,L)
             Z3=X(3,M1(IS))
             M2(IS)=IRECTM(2,L)
@@ -277,7 +277,7 @@ Cel conserver LISTI et LIST pour optimiser le code genere (IA64)
             ZMAXS = MAX(Z1,Z2)+GAPVD
             ZMINM = MIN(Z3,Z4)-GAPVD
             ZMAXM = MAX(Z3,Z4)+GAPVD
-            IF (ZMAXS.GE.ZMINM.AND.ZMAXM.GE.ZMINS) THEN
+            IF (ZMAXS>=ZMINM.AND.ZMAXM>=ZMINS) THEN
              NLS=NLS+1
              LIST(NLS)=IS
             ENDIF
@@ -307,7 +307,7 @@ C
           YMAXS = MAX(Y1,Y2)+GAPVD
           YMINM = MIN(Y3,Y4)-GAPVD
           YMAXM = MAX(Y3,Y4)+GAPVD
-          IF (YMAXS.GE.YMINM.AND.YMAXM.GE.YMINS) THEN
+          IF (YMAXS>=YMINM.AND.YMAXM>=YMINS) THEN
             NLS=NLS+1
             LIST(NLS)=IS
           ENDIF
@@ -332,7 +332,7 @@ C
           XMAXS = MAX(X1,X2)+GAPVD
           XMINM = MIN(X3,X4)-GAPVD
           XMAXM = MAX(X3,X4)+GAPVD
-          IF (XMAXS.GE.XMINM.AND.XMAXM.GE.XMINS) THEN
+          IF (XMAXS>=XMINM.AND.XMAXM>=XMINS) THEN
             CAND_S(I) = -CAND_S(I)
             COUNT_CAND = COUNT_CAND+1
             CT = CT+1

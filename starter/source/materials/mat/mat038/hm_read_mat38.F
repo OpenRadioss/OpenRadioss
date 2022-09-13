@@ -229,35 +229,35 @@ C----------------
 
       IF (PSCALE == ZERO) PSCALE = ONE
 
-      IF( VT       .LE. ZERO) VT =EM20
-      IF( VT       .GE.HALF ) VT =ZEP499
-      IF( VC       .GE.HALF ) VC =ZEP499
-      IF( ITOTAL   .GT. 3 ) ITOTAL = 0      
-      IF( BETA     .LE. ZERO) BETA =EM20         
-      IF( HYSTER   .LE. ZERO) HYSTER =ONE         
-      IF( RATEDAMP .LE. ZERO) RATEDAMP = HALF  
-      IF( KRECOVER .LE. 0 ) KRECOVER =0          
-      IF( KRECOVER .GT. 2 ) KRECOVER =0          
-      IF( KDECAY   .LE. 0 ) KDECAY =0            
-      IF( KDECAY   .GT. 2 ) KDECAY =0            
-      IF( THETA    .LE. ZERO) THETA =ZEP67
-      IF( RELAXP   .LE. ZERO) THEN      
+      IF( VT       <= ZERO) VT =EM20
+      IF( VT       >=HALF ) VT =ZEP499
+      IF( VC       >=HALF ) VC =ZEP499
+      IF( ITOTAL   > 3 ) ITOTAL = 0      
+      IF( BETA     <= ZERO) BETA =EM20         
+      IF( HYSTER   <= ZERO) HYSTER =ONE         
+      IF( RATEDAMP <= ZERO) RATEDAMP = HALF  
+      IF( KRECOVER <= 0 ) KRECOVER =0          
+      IF( KRECOVER > 2 ) KRECOVER =0          
+      IF( KDECAY   <= 0 ) KDECAY =0            
+      IF( KDECAY   > 2 ) KDECAY =0            
+      IF( THETA    <= ZERO) THETA =ZEP67
+      IF( RELAXP   <= ZERO) THEN      
          RELAXP= EM20                        
       ENDIF                             
-      IF( MAXPRES  .LE. ZERO) THEN      
+      IF( MAXPRES  <= ZERO) THEN      
          MAXPRES= INFINITY                    
       ENDIF                             
-      IF( FUNLOAD.LE.ZERO) FUNLOAD = ONE 
-      IF( EXPONAS.EQ.ZERO) EXPONAS = ONE 
-      IF( EXPONBS.EQ.ZERO) EXPONBS = ONE 
-      IF( MFUNC.GT.5  ) MFUNC=5
-      IF( TENSIONCUT.LE.ZERO) THEN
+      IF( FUNLOAD<=ZERO) FUNLOAD = ONE 
+      IF( EXPONAS==ZERO) EXPONAS = ONE 
+      IF( EXPONBS==ZERO) EXPONBS = ONE 
+      IF( MFUNC>5  ) MFUNC=5
+      IF( TENSIONCUT<=ZERO) THEN
          TENSIONCUT =INFINITY
       ENDIF   
-      IF(EPSFIN.LE.ZERO.OR.EPSFIN.GT.ZERO) EPSFIN=ONE
-      IF( LAMDA.LE.ZERO) LAMDA =ONE
-      IF( TOLERANCE .LE.ZERO) TOLERANCE = ONE
-      IF( VISCOSITY.LE.ZERO) THEN
+      IF(EPSFIN<=ZERO.OR.EPSFIN>ZERO) EPSFIN=ONE
+      IF( LAMDA<=ZERO) LAMDA =ONE
+      IF( TOLERANCE <=ZERO) TOLERANCE = ONE
+      IF( VISCOSITY<=ZERO) THEN
          VISCOSITY =INFINITY
       ENDIF
       IF (MFUNC < 1) THEN
@@ -268,7 +268,7 @@ C----------------
      .              C1=TITR)
       ENDIF
       
-      IF (EFINAL.LE.E) EFINAL = E
+      IF (EFINAL<=E) EFINAL = E
       !PSCALE = PSCALE * FAC_C
       !FUNLOAD = FUNLOAD * FAC_C
       UPARAM(2)=E
@@ -324,7 +324,7 @@ C----------------
         UPARAM(NUPARAM+MFUNC+I) = EPS_TAB(I)
       ENDDO
       DO I=1,MFUNC
-         IF(UPARAM(NUPARAM+I).LE.0.) UPARAM(NUPARAM+I)=ONE
+         IF(UPARAM(NUPARAM+I)<=0.) UPARAM(NUPARAM+I)=ONE
          UPARAM(NUPARAM+I) = UPARAM(NUPARAM+I) !* FAC_C
          UPARAM(NUPARAM+MFUNC+I) = UPARAM(NUPARAM+MFUNC+I) !/ FAC_T
       ENDDO
@@ -344,7 +344,7 @@ C----------------
      .                I2=MFUNC)
            EXIT
         ENDIF
-        IF(IFUNLOAD(J).LE.0)IFUNLOAD(J)=IFLOAD(1)
+        IF(IFUNLOAD(J)<=0)IFUNLOAD(J)=IFLOAD(1)
         IFUNC(J+MFUNC)=IFUNLOAD(J)
       ENDDO
 C-------to be consisting w/ dt in engine

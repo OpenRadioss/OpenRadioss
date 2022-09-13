@@ -101,7 +101,7 @@ C-----------------------------------------------
          ENDDO
          DO I=LFT,LLT
            ECOLD(I)=-THREE100*SPH
-           IF(MU(I).GT.ZERO) ECOLD(I)=ECOLD(I)*(ONE+(GAMMA-ONE)*MU(I)*(ONE-MU(I)))
+           IF(MU(I)>ZERO) ECOLD(I)=ECOLD(I)*(ONE+(GAMMA-ONE)*MU(I)*(ONE-MU(I)))
          ENDDO
 
       !----------------------------------------
@@ -138,7 +138,7 @@ C-----------------------------------------------
        TFEXT = TFEXT + TFEXTT
 #include "atomend.inc"
          DO I=LFT,LLT
-           IF(OFF(I).LT.ONE.OR.SPH.LE.ZERO) CYCLE
+           IF(OFF(I)<ONE.OR.SPH<=ZERO) CYCLE
            UNPMU   =  ONE+MU(I)
            RHO     = UNPMU*RHO0
            THETA(I) = (ONE/RHO-B)*(PNEW(I)+PSTAR)/Cv/(GAMMA-ONE)
@@ -164,7 +164,7 @@ C-----------------------------------------------
          RHO0         = PM(1 , MX)
          PC           = PM(37, MX)
           DO I=1, NEL
-             IF (VNEW(I) .GT. ZERO) THEN
+             IF (VNEW(I) > ZERO) THEN
                 UNPMU   =  ONE+MU(I)
                 DENOM   = (ONE-RHO0*b*UNPMU)
                 NUM     = (ESPE(I)-RHO0*q)

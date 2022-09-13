@@ -88,13 +88,13 @@ C-----------------------------------------------
 C-----------------------------------------------                        
 C       QUAD                                                            
 C-----------------------------------------------                        
-        IF(ITY.EQ.2)THEN                                                
+        IF(ITY==2)THEN                                                
           IALEL=(IPARG(7,NG)+IPARG(11,NG))                               
 C                                                                       
           DO I=LFT,LLT                                                   
                N = I + NFT                                              
                N_FA = I + NFT_FA                                        
-               IF(IALEL.EQ.0)THEN                                       
+               IF(IALEL==0)THEN                                       
                  MT=IXQ(1,N)                                            
                  VALUE = PM(89,MT)* GBUF%VOL(I)                     
                ELSE                                                     
@@ -106,7 +106,7 @@ C
 C-----------------------------------------------                        
 C       COQUES 4 N                                                      
 C-----------------------------------------------                        
-        ELSEIF(ITY.EQ.3)THEN                                            
+        ELSEIF(ITY==3)THEN                                            
 C                                                                       
           DO I=LFT,LLT                                                  
             N = I + NFT                                                 
@@ -132,7 +132,7 @@ C
 C-----------------------------------------------                        
 C       COQUES 3 N                                                      
 C-----------------------------------------------                        
-        ELSEIF(ITY.EQ.7)THEN                                            
+        ELSEIF(ITY==7)THEN                                            
 C                                                                       
           DO I=LFT,LLT                                                  
             N = I + NFT                                                 
@@ -158,7 +158,7 @@ C
 C-----------------------------------------------                        
 C       RNUR                                                            
 C-----------------------------------------------                        
-        ELSEIF(ITY.EQ.50)THEN                                           
+        ELSEIF(ITY==50)THEN                                           
          DO I=LFT,LLT                                                   
             N = I + NFT                                                 
             N_FA = I + NFT_FA                                           

@@ -88,7 +88,7 @@ C                  (taille)
           SZLOCRBE2(NGRBE) = 0
           NSN = IRBE2(5,I)
           DO N=1,NSN
-           IF (WEIGHT(LRBE2(IRBE2(1,I)+N)).EQ.1)
+           IF (WEIGHT(LRBE2(IRBE2(1,I)+N))==1)
      .       SZLOCRBE2(NGRBE) = SZLOCRBE2(NGRBE)  + 1
           ENDDO
           SBUFSIZ = SBUFSIZ + SZLOCRBE2(NGRBE)
@@ -149,7 +149,7 @@ C Envoi des noeuds secnds
         MAINNODS = 0
         DO I=1,NRBE2
           MN = IRBE2(3,I)
-	  IF(MN.NE.0)THEN
+	  IF(MN/=0)THEN
             IF (WEIGHT(MN)==1)THEN
               NGRBE = IRBE2(10,I)
               MAINNODS(NGRBE)=ITAB(MN)
@@ -162,7 +162,7 @@ C Envoi des Ids
         ID_RBE2 = 0
         DO I=1,NRBE2
           ID = IRBE2(2,I)
-	  IF(IRBE2(3,I).NE.0)THEN
+	  IF(IRBE2(3,I)/=0)THEN
             IF (WEIGHT(IRBE2(3,I))==1)THEN
               NGRBE = IRBE2(10,I)
               ID_RBE2(NGRBE)=ID
@@ -254,7 +254,7 @@ C Reception des Ids
         ID_RBE2 = 0
         DO I=1,NRBE2
           ID = IRBE2(2,I)
-	  IF(IRBE2(3,I).NE.0)THEN
+	  IF(IRBE2(3,I)/=0)THEN
             IF (WEIGHT(IRBE2(3,I))==1)THEN
               NGRBE = IRBE2(10,I)
               ID_RBE2(NGRBE)=ID

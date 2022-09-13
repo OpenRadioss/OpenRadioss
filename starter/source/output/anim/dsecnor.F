@@ -64,7 +64,7 @@ C
          N3=N2+NRWALL                                                   
          N4=N3+NRWALL                                                   
          ITYP= NPRW(N4)                                                 
-         IF(IABS(ITYP).EQ.1.OR.ITYP.EQ.4)THEN                           
+         IF(IABS(ITYP)==1.OR.ITYP==4)THEN                           
            NXX = THREE1000*RWBUF(1,N)                                   
            NYY = THREE1000*RWBUF(2,N)                                   
            NZZ = THREE1000*RWBUF(3,N)                                   
@@ -73,13 +73,13 @@ C
             CALL WRITE_S_C(NYY,1)                                       
             CALL WRITE_S_C(NZZ,1)                                       
            ENDDO                                                        
-         ELSEIF(ITYP.EQ.2)THEN                                          
+         ELSEIF(ITYP==2)THEN                                          
             CALL DNWALC(X,RWBUF(1,N),NPRW(N3))                          
-         ELSEIF(ITYP.EQ.3)THEN                                          
+         ELSEIF(ITYP==3)THEN                                          
             CALL DNWALS(X,RWBUF(1,N),NPRW(N3))                          
          ENDIF                                                          
          K=K+NPRW(N)                                                    
-         IF(NPRW(N4).EQ.-1)K=K+NINT(RWBUF(8,N))                         
+         IF(NPRW(N4)==-1)K=K+NINT(RWBUF(8,N))                         
       ENDDO                                                             
 C                                                                       
       RETURN                                                            

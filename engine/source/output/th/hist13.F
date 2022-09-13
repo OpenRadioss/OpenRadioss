@@ -104,7 +104,7 @@ C
       DO N=1,NTHGRP
           ITYP=ITHGRP(2,N)
           NN  =ITHGRP(4,N)
-          IF(ITYP.EQ.101)NINTERS = NINTERS + NN
+          IF(ITYP==101)NINTERS = NINTERS + NN
       ENDDO
 C
       FILNAM=ROOTNAM(1:ROOTLEN)//'T'//CHRUN_OLD
@@ -119,28 +119,28 @@ C
       LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN+3
       TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:ROOTLEN+3) 
 
-      IF(ITFORM.EQ.0)THEN
+      IF(ITFORM==0)THEN
        OPEN(UNIT=IUHIS,FILE=TMP_NAME(1:LEN_TMP_NAME),
      .     ACCESS='SEQUENTIAL',
      .     FORM='UNFORMATTED',STATUS='UNKNOWN')
-      ELSEIF(ITFORM.EQ.1.OR.ITFORM.EQ.2)THEN
+      ELSEIF(ITFORM==1.OR.ITFORM==2)THEN
        OPEN(UNIT=IUHIS,FILE=TMP_NAME(1:LEN_TMP_NAME),
      .     ACCESS='SEQUENTIAL',
      .     FORM='FORMATTED',STATUS='UNKNOWN')
-      ELSEIF(ITFORM.EQ.3)THEN
+      ELSEIF(ITFORM==3)THEN
        DO I=1,LEN_TMP_NAME
          IFILNAM(I)=ICHAR(TMP_NAME(I:I))
        ENDDO
        CALL CUR_FIL_C(1)
        CALL OPEN_C(IFILNAM,LEN_TMP_NAME,0)
-      ELSEIF(ITFORM.EQ.4)THEN
+      ELSEIF(ITFORM==4)THEN
        DO I=1,LEN_TMP_NAME
          IFILNAM(I)=ICHAR(TMP_NAME(I:I))
        ENDDO
        CALL CUR_FIL_C(1)
        CALL OPEN_C(IFILNAM,LEN_TMP_NAME,3)
        ITFORM=3
-      ELSEIF(ITFORM.EQ.5)THEN
+      ELSEIF(ITFORM==5)THEN
        DO I=1,LEN_TMP_NAME
          IFILNAM(I)=ICHAR(TMP_NAME(I:I))
        ENDDO
@@ -149,17 +149,17 @@ C
        ITFORM=3
       ENDIF
 C
-      IF(ITFORM.EQ.0)THEN
+      IF(ITFORM==0)THEN
         WRITE(IUHIS)ICODE,TITLE
-      ELSEIF(ITFORM.EQ.1)THEN
+      ELSEIF(ITFORM==1)THEN
         CH8=STRI(ICODE)
         WRITE(IUHIS,'(A)')FILNAM(1:ROOTLEN+3)
         WRITE(IUHIS,'(2A)')CH8,CARD(1:72)
-      ELSEIF(ITFORM.EQ.2)THEN
+      ELSEIF(ITFORM==2)THEN
         WRITE(IUHIS,'(2A)')FILNAM(1:ROOTLEN+3),' FORMAT'
         WRITE(IUHIS,'(A,I5,A,I5,A)')EOR,1,'I',72,'C'
         WRITE(IUHIS,'(I5,A)')ICODE,CARD(1:72)
-      ELSEIF(ITFORM.EQ.3)THEN
+      ELSEIF(ITFORM==3)THEN
        DO 5 I=1,80
  5     ITITLE(I)=ICHAR(CARD(I:I))
        CALL EOR_C(84)
@@ -168,13 +168,13 @@ C
        CALL EOR_C(84)
       ENDIF
 C
-      IF(NSMAT.NE.0.AND.INVSTR.LT.40) THEN
+      IF(NSMAT/=0.AND.INVSTR<40) THEN
 C  009        DO N=1,NPART
         DO N=1,NUMMAT-1
            IWA(N)=0
         ENDDO
         DO N=1,NPART
-          IF(IPART(8,N).GE.1) IWA(IPART(1,N))=1
+          IF(IPART(8,N)>=1) IWA(IPART(1,N))=1
         ENDDO
         NSMAT=0
         DO N=1,NUMMAT-1
@@ -227,7 +227,7 @@ C
       IWA(22)=NSRBY
       IWA(23)=NRBV
       IWA(24)=NSECT
-      IF (NSECT .EQ.0 ) IWA(24)=NSFLSW
+      IF (NSECT ==0 ) IWA(24)=NSFLSW
       IWA(25)=NSCV
       IWA(26)=NJOINT
       IWA(27)=NJOINV
@@ -243,15 +243,15 @@ C      IWA(32)=NSELUR
       IUNIT=IUHIS
       CALL WRTDES(IWA,IWA,35,ITFORM,0)
 C
-      IF(NSMAT.NE.0) THEN
-        IF(INVSTR.LT.40) THEN
+      IF(NSMAT/=0) THEN
+        IF(INVSTR<40) THEN
 C  009          DO N=1,NPART
           DO N=1,NUMMAT-1
            IWA(N)=0
           ENDDO
           II=0
           DO N=1,NPART
-           IF(IPART(8,N).GE.1)THEN
+           IF(IPART(8,N)>=1)THEN
              II=IPART(1,N)
              IWA(II)=IPART(5,N)
            ENDIF
@@ -259,7 +259,7 @@ C  009          DO N=1,NPART
           NSMAT=0
 C  009          DO N=1,NPART
           DO N=1,NUMMAT-1
-           IF(IWA(N).NE.0)THEN
+           IF(IWA(N)/=0)THEN
              NSMAT=NSMAT+1
              IWA(NSMAT)=IWA(N)
            ENDIF
@@ -271,17 +271,17 @@ C  009          DO N=1,NPART
         ENDIF
       ENDIF
 C
-      IF(NSMAT.NE.0) THEN
+      IF(NSMAT/=0) THEN
         CALL WRTDES(IWA,IWA,NSMAT,ITFORM,0)
       ENDIF
 C--------------------------------
-       IF(NINTERS.NE.0) THEN
+       IF(NINTERS/=0) THEN
         II=0
         DO N=1,NTHGRP
           ITYP=ITHGRP(2,N)
           NN  =ITHGRP(4,N)
           IAD =ITHGRP(5,N)
-          IF(ITYP.EQ.101)THEN
+          IF(ITYP==101)THEN
             DO J=IAD,IAD+NN-1
               I=ITHBUF(J)
               II=II+1
@@ -302,13 +302,13 @@ C
        ENDIF
 C
 C--------------------------------
-      IF(NSRBY.NE.0) THEN
+      IF(NSRBY/=0) THEN
         II=0
         DO N=1,NTHGRP
           ITYP=ITHGRP(2,N)
           NN  =ITHGRP(4,N)
           IAD =ITHGRP(5,N)
-          IF(ITYP.EQ.103)THEN
+          IF(ITYP==103)THEN
             DO J=IAD,IAD+NN-1
               I=ITHBUF(J)
               II=II+1
@@ -321,14 +321,14 @@ c              IWA(II)=ITHBUF(J)
       ENDIF
 C--------------------------------
 C
-       IF(NSECT.NE.0) THEN
+       IF(NSECT/=0) THEN
         II=0
         DO I=1,NSECT
             II=II+1
             IWA(II)=II
         ENDDO
         CALL WRTDES(IWA,IWA,NSECT,ITFORM,0)
-       ELSEIF(NSFLSW.NE.0) THEN
+       ELSEIF(NSFLSW/=0) THEN
         II=0
         DO I=1,NSFLSW
             II=II+1
@@ -337,7 +337,7 @@ C
         CALL WRTDES(IWA,IWA,NSFLSW,ITFORM,0)
        ENDIF
 C
-       IF(NJOINT.NE.0) THEN
+       IF(NJOINT/=0) THEN
         II=0
         DO I=1,NJOINT
             II=II+1
@@ -346,7 +346,7 @@ C
         CALL WRTDES(IWA,IWA,NJOINT,ITFORM,0)
        ENDIF
 C
-       IF(NRBAG+NVOLU.NE.0) THEN
+       IF(NRBAG+NVOLU/=0) THEN
         II=0
         DO I=1,NRBAG+NVOLU
             II=II+1
@@ -356,20 +356,20 @@ C
        ENDIF
 C
 C--------------------------------
-      IF(NACCELM.NE.0) THEN
+      IF(NACCELM/=0) THEN
        DO N=1,NACCELM
          IWA(N)=LACCELM(2,N)
        ENDDO
         CALL WRTDES(IWA,IWA,NACCELM,ITFORM,0)
       ENDIF
 C
-      IF(NSNOD.NE.0) THEN
+      IF(NSNOD/=0) THEN
         II=0
         DO N=1,NTHGRP
           ITYP=ITHGRP(2,N)
           NN  =ITHGRP(4,N)
           IAD =ITHGRP(5,N)
-          IF(ITYP.EQ.0)THEN
+          IF(ITYP==0)THEN
             DO J=IAD,IAD+NN-1
               I=ITHBUF(J)
               II=II+1
@@ -380,13 +380,13 @@ C
         CALL WRTDES(IWA,IWA,II,ITFORM,0)
       ENDIF
 C
-      IF (NSELS.GT.0) THEN
+      IF (NSELS>0) THEN
         II=0
         DO N=1,NTHGRP
           ITYP=ITHGRP(2,N)
           NN  =ITHGRP(4,N)
           IAD =ITHGRP(5,N)
-          IF(ITYP.EQ.1)THEN
+          IF(ITYP==1)THEN
             DO J=IAD,IAD+NN-1
               I=ITHBUF(J)
               MTN=NINT(PM(19,IXS(1,I)))
@@ -400,13 +400,13 @@ C
         CALL WRTDES(IWA,IWA,II,ITFORM,0)
       ENDIF
 C
-      IF (NSELQ.GT.0) THEN
+      IF (NSELQ>0) THEN
         II=0
         DO N=1,NTHGRP
           ITYP=ITHGRP(2,N)
           NN  =ITHGRP(4,N)
           IAD =ITHGRP(5,N)
-          IF(ITYP.EQ.2)THEN
+          IF(ITYP==2)THEN
             DO J=IAD,IAD+NN-1
               I=ITHBUF(J)
               MTN=NINT(PM(19,IXQ(1,I)))
@@ -420,13 +420,13 @@ C
         CALL WRTDES(IWA,IWA,II,ITFORM,0)
       ENDIF
 C
-      IF (NSELC.GT.0) THEN
+      IF (NSELC>0) THEN
         II=0
         DO N=1,NTHGRP
           ITYP=ITHGRP(2,N)
           NN  =ITHGRP(4,N)
           IAD =ITHGRP(5,N)
-          IF(ITYP.EQ.3)THEN
+          IF(ITYP==3)THEN
             DO J=IAD,IAD+NN-1
               I=ITHBUF(J)
               MTN=NINT(PM(19,IXC(1,I)))
@@ -440,13 +440,13 @@ C
         CALL WRTDES(IWA,IWA,II,ITFORM,0)
       ENDIF
 C
-      IF (NSELTG.GT.0) THEN
+      IF (NSELTG>0) THEN
         II=0
         DO N=1,NTHGRP
           ITYP=ITHGRP(2,N)
           NN  =ITHGRP(4,N)
           IAD =ITHGRP(5,N)
-          IF(ITYP.EQ.7)THEN
+          IF(ITYP==7)THEN
             DO J=IAD,IAD+NN-1
               I=ITHBUF(J)
               MTN=NINT(PM(19,IXTG(1,I)))
@@ -460,13 +460,13 @@ C
         CALL WRTDES(IWA,IWA,II,ITFORM,0)
       ENDIF
 C
-      IF (NSELT.GT.0) THEN
+      IF (NSELT>0) THEN
         II=0
         DO N=1,NTHGRP
           ITYP=ITHGRP(2,N)
           NN  =ITHGRP(4,N)
           IAD =ITHGRP(5,N)
-          IF(ITYP.EQ.4)THEN
+          IF(ITYP==4)THEN
             DO J=IAD,IAD+NN-1
               I=ITHBUF(J)
               MTN=NINT(PM(19,IXT(1,I)))
@@ -480,13 +480,13 @@ C
         CALL WRTDES(IWA,IWA,II,ITFORM,0)
       ENDIF
 C
-      IF (NSELP.GT.0) THEN
+      IF (NSELP>0) THEN
         II=0
         DO N=1,NTHGRP
           ITYP=ITHGRP(2,N)
           NN  =ITHGRP(4,N)
           IAD =ITHGRP(5,N)
-          IF(ITYP.EQ.5)THEN
+          IF(ITYP==5)THEN
             DO J=IAD,IAD+NN-1
               I=ITHBUF(J)
               MTN=NINT(PM(19,IXP(1,I)))
@@ -500,13 +500,13 @@ C
         CALL WRTDES(IWA,IWA,II,ITFORM,0)
       ENDIF
 C
-      IF (NSELR.GT.0) THEN
+      IF (NSELR>0) THEN
         II=0
         DO N=1,NTHGRP
           ITYP=ITHGRP(2,N)
           NN  =ITHGRP(4,N)
           IAD =ITHGRP(5,N)
-          IF(ITYP.EQ.6)THEN
+          IF(ITYP==6)THEN
             DO J=IAD,IAD+NN-1
               I=ITHBUF(J)
               II=II+1
@@ -514,7 +514,7 @@ C
               II=II+1
               IWA(II)=0
             ENDDO
-          ELSEIF(ITYP.EQ.100) THEN
+          ELSEIF(ITYP==100) THEN
             DO J=IAD,IAD+NN-1
               I=ITHBUF(J)
               II=II+1
@@ -527,14 +527,14 @@ C
         CALL WRTDES(IWA,IWA,II,ITFORM,0)
       ENDIF
 C
-C      IF (NSELUR.GT.0) THEN
-      IF (NSELU.GT.0) THEN
+C      IF (NSELUR>0) THEN
+      IF (NSELU>0) THEN
         II=0
         DO N=1,NTHGRP
           ITYP=ITHGRP(2,N)
           NN  =ITHGRP(4,N)
           IAD =ITHGRP(5,N)
-          IF(ITYP.EQ.50)THEN
+          IF(ITYP==50)THEN
             DO J=IAD,IAD+NN-1
               I=ITHBUF(J)
               II=II+1

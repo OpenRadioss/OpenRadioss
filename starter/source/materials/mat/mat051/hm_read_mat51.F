@@ -579,7 +579,7 @@ C-----------------------------------------------
      .                    C2=chain1)
         ENDIF
         DO I=1,MIP
-          IF(tAV(I).LT.ZERO .OR. tAV(I).GT.ONE)THEN
+          IF(tAV(I)<ZERO .OR. tAV(I)>ONE)THEN
               chain(1:20)='                    '
               write(chain(1:20),'(e20.14)')tAV(I)
               chain1='VOLUME FRACTION MUST BE BETWEEN 0.0 AND 1.0 , READ VALUE IS '// chain(1:20)
@@ -604,7 +604,7 @@ C-----------------------------------------------
           ENDIF
         ENDDO
         SUMVF = SUM(tAV(1:4))
-        IF(SUMVF.GT.ONE)THEN
+        IF(SUMVF>ONE)THEN
             chain(1:20)='                    '
             write(chain(1:20),'(F20.8)')SUMVF
             chain1='SUM OF VOLUME FRACTION MUST BE EQUAL TO 1.0, CURRENT SUM IS '// chain(1:20)
@@ -631,7 +631,7 @@ C-----------------------------------------------
       !============================!
       ! PLASTICITY DEFAULT         !
       !============================! 
-      IF(RATIO.LE.ZERO)THEN
+      IF(RATIO<=ZERO)THEN
         RATIO = 0.25D00   !ONE is for previous formulation (permitted large volume change)
       ENDIF
       IF(IPLA_>0)THEN
@@ -662,7 +662,7 @@ C-----------------------------------------------
         IF(IPLA(I) == 2)THEN 
           IF(A2(I)==ZERO.AND.A1(I)/=ZERO)THEN   !(A21=A11=ZERO => error message)
             PSTAR(I)=-A0(I)/A1(I) 
-          ELSEIF(A2(I).NE.ZERO)THEN
+          ELSEIF(A2(I)/=ZERO)THEN
             DELTA = A1(I)*A1(I)-FOUR*A0(I)*A2(I)
             !Si intersection avec l'axe
             IF(DELTA  >=  ZERO)THEN
@@ -700,7 +700,7 @@ C     !============================!
           N_LC=1000
         ENDIF
       ENDIF       
-      IF(ABCS.EQ.ZERO) ABCS=  ONE*FAC_UNIT_TIME
+      IF(ABCS==ZERO) ABCS=  ONE*FAC_UNIT_TIME
       PMIN = -PEXT  
       DO I=1,4
         ! RhoCp
@@ -813,7 +813,7 @@ C     !============================!
         DO I=1,3
           P0(I)    = C0(I)+C4(I)*E0(I)
           DPDMU(I) = (C1(I)+C5(I)*E0(I)) + C4(I)*(PEXT+P0(I)) 
-          IF(RHO0_(I) .NE. ZERO) SSP(I)  = SQRT( (DPDMU(I) + TWO_THIRD*GG(I)) / RHO0_(I) )   !achtung GG = 2*G   =>  TWO_THIRD*GG = FOUR_OVER_3*G
+          IF(RHO0_(I) /= ZERO) SSP(I)  = SQRT( (DPDMU(I) + TWO_THIRD*GG(I)) / RHO0_(I) )   !achtung GG = 2*G   =>  TWO_THIRD*GG = FOUR_OVER_3*G
         ENDDO
         P0(4)  = C0(4)
         SSP(4) = VDET
@@ -1081,8 +1081,8 @@ C     !============================!
       ENDIF  
       
       PM(38)=VDET    
-      IF(IFLG.EQ.12)RHO0=ONE    
-      IF(RHOR.EQ.ZERO)RHOR=RHO0
+      IF(IFLG==12)RHO0=ONE    
+      IF(RHOR==ZERO)RHOR=RHO0
       PM(1) =RHOR
       PM(89)=RHO0
       PM(91)=MAXVAL(RHO0_(1:4))

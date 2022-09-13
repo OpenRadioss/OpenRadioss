@@ -56,7 +56,7 @@ C=========================================================================
       KCUR           = KH3D
       NH3D = NSLASH(KCUR)
 c
-      IF (NH3D .NE. 0) THEN 
+      IF (NH3D /= 0) THEN 
         ALLOCATE(H3D_DATA%INPUT_LIST(10000))
         H3D_DATA%N_INPUT_H3D = 0
 c

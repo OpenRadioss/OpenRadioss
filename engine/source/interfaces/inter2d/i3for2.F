@@ -98,7 +98,7 @@ C
       ZM2=X(3,M)
       YS =X(2,I)
       ZS =X(3,I)
-      IF(N2D.EQ.1)THEN
+      IF(N2D==1)THEN
        AX=YS
       ELSE
        AX=ONE
@@ -117,19 +117,19 @@ C
 C
       ANS =N2*(YS-YM1)+N3*(ZS-ZM1)
       ANS =ANS-GAP
-      IF(ANS.GT.ZERO)GOTO 120
+      IF(ANS>ZERO)GOTO 120
       H(2)=T2*(YS-YM1)+T3*(ZS-ZM1)
       H(2)=H(2)/XL
       H(1)=ONE-H(2)
       SS=H(2)-H(1)
-      IF(SS.GT. ONEP05)GO TO 120
-      IF(SS.LT.-ONEP05)GO TO 120
+      IF(SS> ONEP05)GO TO 120
+      IF(SS<-ONEP05)GO TO 120
       SS= MAX(-ONE,SS)
       SS= MIN( ONE,SS)
 C
-      IF(NTY.EQ.5)THEN
+      IF(NTY==5)THEN
 C rajout test sur stifness cote secnd
-       IF (STFN(II).LT.ZERO) THEN
+       IF (STFN(II)<ZERO) THEN
          STIF = ZERO
        ELSE
          STIF=STF(L)
@@ -147,7 +147,7 @@ C-------------------------------------
       FSAV(2)=FSAV(2)+FYI*IMAST*DT12*AX
       FSAV(3)=FSAV(3)+FZI*IMAST*DT12*AX
 C
-      IF(IPARIT.EQ.0)THEN
+      IF(IPARIT==0)THEN
        DO 100 JJ=1,2
        J3=3*IX(JJ)
        J2=J3-1
@@ -163,7 +163,7 @@ C
 #include "lockoff.inc"
         IPAS = 1
 C
-        IF(KDTINT.EQ.0)THEN
+        IF(KDTINT==0)THEN
          FSKYI(NISKYL+1,1)= ZERO
          FSKYI(NISKYL+1,2)= FYI*H(1)
          FSKYI(NISKYL+1,3)= FZI*H(1)
@@ -205,9 +205,9 @@ C
         ENDIF
       ENDIF  
 C
-      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT.GT.0.AND.
-     .    (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.
-     .   (MANIM.GE.4.AND.MANIM.LE.15).OR. H3D_DATA%MH3D .NE. 0))THEN
+      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0.AND.
+     .    (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
          FCONT(2,IX(1)) =FCONT(2,IX(1)) + FYI*H(1)
          FCONT(3,IX(1)) =FCONT(3,IX(1)) + FZI*H(1)
          FCONT(2,IX(2)) =FCONT(2,IX(2)) + FYI*H(2)
@@ -217,9 +217,9 @@ c
          FCONT(3,I)=FCONT(3,I)- FZI
       ENDIF
 
-      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT.GT.0.AND.
-     .        (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D .OR.
-     .            (MANIM.GE.4.AND.MANIM.LE.15).OR.H3D_DATA%MH3D.NE.0))THEN
+      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
+     .        (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D .OR.
+     .            (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0))THEN
 
         FNCONT(2,IX(1)) =FNCONT(2,IX(1)) + FYI*H(1)
         FNCONT(3,IX(1)) =FNCONT(3,IX(1)) + FZI*H(1)
@@ -230,11 +230,11 @@ C
         FNCONT(3,I)=FNCONT(3,I)- FZI
       ENDIF
 
-      IF(IBC.NE.0)CALL IBCOFF(IBC,ICODT(I))
+      IF(IBC/=0)CALL IBCOFF(IBC,ICODT(I))
 C
  120  CONTINUE
-      IF(FRIC.EQ.ZERO)GO TO 500
-      IF(IMP.EQ.0) THEN
+      IF(FRIC==ZERO)GO TO 500
+      IF(IMP==0) THEN
        IRTLO(II)=0
        FRIC0(2,II)=ZERO
        FRIC0(3,II)=ZERO
@@ -242,7 +242,7 @@ C
       ENDIF
 C
       LOLD=IRTLO(II)
-      IF(LOLD.EQ.0)THEN
+      IF(LOLD==0)THEN
        IRTLO(II)=L
        CST(1,II)=SS
        GO TO 500
@@ -256,10 +256,10 @@ C
       STFRI=EM01*STIF
       FTI=FTI + ANST*STFRI
 C
-      IF(FTI.GT.FMAX)THEN
+      IF(FTI>FMAX)THEN
        FTI=FMAX
       ELSE
-       IF(FTI.LT.-FMAX)THEN
+       IF(FTI<-FMAX)THEN
         FTI=-FMAX
        ELSE
         FRIC0(1,II)=FTI
@@ -271,10 +271,10 @@ C
 c-------limit tangential force is ON : FT<= YIELD/(S*sqrt(3))
       FS   = PTMAX*AREAS(II)/SQRT(THREE)
       FT =FTI
-      IF(FS.GT.ZERO) THEN
-         IF(FTI.GT.FS)THEN
+      IF(FS>ZERO) THEN
+         IF(FTI>FS)THEN
             FT=FS
-         ELSEIF(FTI.LT.-FS)THEN
+         ELSEIF(FTI<-FS)THEN
             FT=-FS
          ENDIF
       ENDIF
@@ -287,7 +287,7 @@ C-------------------------------------
       FSAV(5)=FSAV(5)+FYI*IMAST*DT12*AX
       FSAV(6)=FSAV(6)+FZI*IMAST*DT12*AX
 C
-      IF(IPARIT.EQ.0)THEN
+      IF(IPARIT==0)THEN
        DO 400 JJ=1,2
        J3=3*IX(JJ)
        J2=J3-1
@@ -297,12 +297,12 @@ C
        E(I3)=E(I3)-FZI
       ELSE 
 C
-        IF(IPAS.EQ.0) THEN
+        IF(IPAS==0) THEN
 #include "lockon.inc"
           NISKYL = NISKY
           NISKY = NISKY + 3
 #include "lockoff.inc"
-         IF(KDTINT.EQ.0)THEN
+         IF(KDTINT==0)THEN
           FSKYI(NISKYL,1)= ZERO
           FSKYI(NISKYL+1,2)= FYI*H(1)
           FSKYI(NISKYL+1,3)= FZI*H(1)
@@ -355,9 +355,9 @@ C
         ENDIF
       ENDIF  
 C
-      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT.GT.0.AND.
-     .    (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.
-     .   (MANIM.GE.4.AND.MANIM.LE.15).OR. H3D_DATA%MH3D .NE. 0))THEN
+      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0.AND.
+     .    (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
           FCONT(2,IX(1)) =FCONT(2,IX(1)) + FYI*H(1)
           FCONT(3,IX(1)) =FCONT(3,IX(1)) + FZI*H(1)
           FCONT(2,IX(2)) =FCONT(2,IX(2)) + FYI*H(2)
@@ -366,9 +366,9 @@ c
           FCONT(2,I)=FCONT(2,I)- FYI
           FCONT(3,I)=FCONT(3,I)- FZI
       ENDIF
-      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT.GT.0.AND.
-     .        (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.
-     .            (MANIM.GE.4.AND.MANIM.LE.15).OR.H3D_DATA%MH3D.NE.0))THEN
+      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
+     .        (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .            (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0))THEN
         FTCONT(2,IX(1)) =FTCONT(2,IX(1)) + FYI*H(1)
         FTCONT(3,IX(1)) =FTCONT(3,IX(1)) + FZI*H(1)
         FTCONT(2,IX(2)) =FTCONT(2,IX(2)) + FYI*H(2)

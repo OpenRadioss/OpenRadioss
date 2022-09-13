@@ -95,7 +95,7 @@ C-----------------------------------------------
       LEN = 0
       REQ_R1(1:NSPMD) = MPI_REQUEST_NULL
       DO I = 1, NSPMD
-        IF(IRECV(I).GT.0) THEN
+        IF(IRECV(I)>0) THEN
           MSGTYP = MSGOFF2 
           CALL MPI_IRECV(
      .      BUFR(IDEB),IRECV(I),MPI_INTEGER,IT_SPMD(I),MSGTYP,
@@ -108,7 +108,7 @@ C-----------------------------------------------
 
 C Proc sends the same BUFS to everybody
       DO I = 1, NSPMD
-        IF(I.NE.LOC_PROC.AND.LBUFS.GT.0) THEN
+        IF(I/=LOC_PROC.AND.LBUFS>0) THEN
            MSGTYP = MSGOFF2
            CALL MPI_ISEND(
      C      BUFS,LBUFS,MPI_INTEGER,IT_SPMD(I),MSGTYP,
@@ -123,7 +123,7 @@ C Proc sends the same BUFS to everybody
 C Proc recieve only if IRECV(I) > 0
 C
       DO I = 1, NSPMD
-        IF(IRECV(I).GT.0) THEN
+        IF(IRECV(I)>0) THEN
           MSGTYP = MSGOFF2 
           CALL MPI_WAIT(REQ_R1(I),STATUS,IERROR)
           LEN = LEN+IRECV(I)
@@ -133,42 +133,42 @@ C
           DO NN = 1, NBEL
              N1 = SYSFUS2(BUFR(IDEB+4*(NN-1)+1),ITABM1,NUMNOD)
              BUFR(NN+IOFF) = 0
-             IF(N1.NE.0) THEN
+             IF(N1/=0) THEN
 
               N2 = SYSFUS2(BUFR(IDEB+4*(NN-1)+2),ITABM1,NUMNOD)
-              IF(N2.NE.0) THEN
+              IF(N2/=0) THEN
 
                N3 = SYSFUS2(BUFR(IDEB+4*(NN-1)+3),ITABM1,NUMNOD)
-               IF(N3.NE.0) THEN
+               IF(N3/=0) THEN
 
                 N4 = SYSFUS2(BUFR(IDEB+4*(NN-1)+4),ITABM1,NUMNOD)
-                IF(N4.NE.0) THEN
+                IF(N4/=0) THEN
 
                  DO J=ADDCNEL(N1),ADDCNEL(N1+1)-1
                   II = CNEL(J)
-                  IF(TAGEL(II).GT.0) THEN    !    elt actif found
+                  IF(TAGEL(II)>0) THEN    !    elt actif found
                     ITAGL(N1) = 0
                     ITAGL(N2) = 0
                     ITAGL(N3) = 0
                     ITAGL(N4) = 0
-                    IF(II.LE.OFC) THEN ! solide actif
+                    IF(II<=OFC) THEN ! solide actif
                       DO K = 2, 9
                        IX = IXS(K,II)
                        ITAGL(IX) = 1
                       END DO
-                    ELSEIF(II.GT.OFQ.AND.II.LE.OFC) THEN ! Quad actif
+                    ELSEIF(II>OFQ.AND.II<=OFC) THEN ! Quad actif
                       II = II - OFQ
                       DO K=2,5
                         IX = IXQ(K,II)
                         ITAGL(IX)=1
                       END DO
-                    ELSEIF(II.GT.OFC.AND.II.LE.OFT) THEN ! shell actif
+                    ELSEIF(II>OFC.AND.II<=OFT) THEN ! shell actif
                       II = II - OFC
                       DO K=2,5
                         IX = IXC(K,II)
                         ITAGL(IX)=1
                       END DO
-                    ELSEIF(II.GT.OFTG.AND.II.LE.OFUR)THEN  ! triangle actif
+                    ELSEIF(II>OFTG.AND.II<=OFUR)THEN  ! triangle actif
                       II = II - OFTG
                       DO K=2,4
                         IX = IXTG(K,II)
@@ -176,7 +176,7 @@ C
                       END DO
                     END IF
 
-                    IF(ITAGL(N1)+ITAGL(N2)+ITAGL(N3)+ITAGL(N4).EQ.4)THEN
+                    IF(ITAGL(N1)+ITAGL(N2)+ITAGL(N3)+ITAGL(N4)==4)THEN
                       BUFR(NN+IOFF) = 1
                       GOTO 410
                     ENDIF
@@ -203,7 +203,7 @@ C Envoi BUFR
 C
       IDEB = 1
       DO I = 1, NSPMD
-        IF(IRECV(I).GT.0) THEN
+        IF(IRECV(I)>0) THEN
           LEN = IRECV(I)
           MSGTYP = MSGOFF3
           CALL MPI_ISEND(
@@ -216,7 +216,7 @@ C
 C Test reception envoi BUFS
 C
       DO I = 1, NSPMD
-        IF(I.NE.LOC_PROC.AND.LBUFS.GT.0) THEN
+        IF(I/=LOC_PROC.AND.LBUFS>0) THEN
           CALL MPI_WAIT(REQ_S2(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -224,12 +224,12 @@ C
 C Reception BUFR dans BUFS2
 C
       ALLOCATE(BUFS2(LINDEX))
-      IF(LINDEX.GT.0) THEN
+      IF(LINDEX>0) THEN
         DO I = 1, LINDEX
           BUFS(I) = 0
         ENDDO
         DO I = 1, NSPMD
-          IF(I.NE.LOC_PROC.AND.LINDEX.GT.0) THEN
+          IF(I/=LOC_PROC.AND.LINDEX>0) THEN
             MSGTYP = MSGOFF3
             CALL MPI_RECV(
      .        BUFS2,LINDEX,MPI_INTEGER,IT_SPMD(I),MSGTYP,
@@ -246,7 +246,7 @@ C
 C Test reception envoi BUFR
 C
       DO I = 1, NSPMD
-        IF(IRECV(I).GT.0) THEN
+        IF(IRECV(I)>0) THEN
           CALL MPI_WAIT(REQ_S3(I),STATUS,IERROR)
         ENDIF
       ENDDO

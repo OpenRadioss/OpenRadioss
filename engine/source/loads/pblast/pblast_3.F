@@ -236,11 +236,11 @@ C-----------------------------------------------
          IF(TT<TDET)RETURN
          
          !Optimize later once formulation is frozen
-         ALLOCATE (   FX(ISIZ_SEG),STAT=IERR1); IF (IERR1.NE.0) GOTO 1000
-         ALLOCATE (   FY(ISIZ_SEG),STAT=IERR1); IF (IERR1.NE.0) GOTO 1000
-         ALLOCATE (   FZ(ISIZ_SEG),STAT=IERR1); IF (IERR1.NE.0) GOTO 1000             
-         ALLOCATE (  N(4,ISIZ_SEG),STAT=IERR1); IF (IERR1.NE.0) GOTO 1000
-         ALLOCATE (  NPt(ISIZ_SEG),STAT=IERR1); IF (IERR1.NE.0) GOTO 1000   
+         ALLOCATE (   FX(ISIZ_SEG),STAT=IERR1); IF (IERR1/=0) GOTO 1000
+         ALLOCATE (   FY(ISIZ_SEG),STAT=IERR1); IF (IERR1/=0) GOTO 1000
+         ALLOCATE (   FZ(ISIZ_SEG),STAT=IERR1); IF (IERR1/=0) GOTO 1000             
+         ALLOCATE (  N(4,ISIZ_SEG),STAT=IERR1); IF (IERR1/=0) GOTO 1000
+         ALLOCATE (  NPt(ISIZ_SEG),STAT=IERR1); IF (IERR1/=0) GOTO 1000   
          
          !---------------------------------------------
          !   LOOP ON SEGMENTS (4N or 3N)
@@ -251,7 +251,7 @@ C-----------------------------------------------
            N3=LLOADP(ILOADP(4,NL)+4*(I-1)+2)
            N4=LLOADP(ILOADP(4,NL)+4*(I-1)+3) 
            
-           IF(N4.EQ.0 .OR. N3.EQ.N4 )THEN
+           IF(N4==0 .OR. N3==N4 )THEN
              !3 NODE SEGEMENT 
              NPt(I)   = THREE 
              !Segment Zentrum
@@ -691,7 +691,7 @@ C-----------------------------------------------
                                                                                                                          
            !Coefficients for wave superimposition
            !PressureLoad = Reflected_Pressure * cos2X + IncidentPressure * (1 + cos2X -2 cosX)                            
-           IF(cos_theta.LE.ZERO)THEN                                                                                      
+           IF(cos_theta<=ZERO)THEN                                                                                      
              !Surface not facing the point of explosion                                                                   
              alpha_refl = ZERO                                                                                            
              alpha_inci = ONE                                                                                              
@@ -737,7 +737,7 @@ C-----------------------------------------------
         !   ASSEMBLY                                !
         !-------------------------------------------!
         ! SPMD/SMP Parith/OFF  
-        IF(IPARIT.EQ.0) THEN                     
+        IF(IPARIT==0) THEN                     
           DO I = 1,ISIZ_SEG                              
             N1=LLOADP(ILOADP(4,NL)+4*(I-1))
             N2=LLOADP(ILOADP(4,NL)+4*(I-1)+1)
@@ -785,8 +785,8 @@ C-----------------------------------------------
         !-------------------------------------------!
         !   ANIMATION FILE                          !
         !-------------------------------------------!
-        IF(IANIM.GT.0) THEN 
-          IF(IANIM .GT. 0) THEN                              
+        IF(IANIM>0) THEN 
+          IF(IANIM > 0) THEN                              
             DO I = 1,ISIZ_SEG                         
               N1=N(1,I)                                     
               N2=N(2,I)                                     
@@ -824,7 +824,7 @@ C-----------------------------------------------
       
 C-----------------------------------------------
  1000 CONTINUE
-       IF (IERR1.NE.0) THEN
+       IF (IERR1/=0) THEN
          WRITE(IOUT,*)' ** ERROR IN MEMORY ALLOCATION'
          WRITE(ISTDO,*)' ** ERROR IN MEMORY ALLOCATION'
          CALL ARRET(2)

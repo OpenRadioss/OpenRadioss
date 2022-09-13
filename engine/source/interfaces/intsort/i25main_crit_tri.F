@@ -82,17 +82,17 @@ C
 C
 C     STARTT=INTBUF_TAB%VARIABLES(3)
 C     STOPT =INTBUF_TAB%VARIABLES(11)
-C     IF(STARTT.GT.TT) RETURN
-C     IF(TT.GT.STOPT)  RETURN
+C     IF(STARTT>TT) RETURN
+C     IF(TT>STOPT)  RETURN
 C
 C     Look if interface is activated 
 C     ISENS = IPARI(64,NIN)  
-C     IF(ISENS.NE.0)  THEN         ! Interface activated by sensor
+C     IF(ISENS/=0)  THEN         ! Interface activated by sensor
 C        TS = SENSOR(2,ISENS)
 C     ELSE
 C        TS = TT
 C     ENDIF
-C     IF(TT.LT.TS) RETURN
+C     IF(TT<TS) RETURN
       ISENS = IPARI(64,NIN)  
       IF(ISENS == 0) THEN
          STOPT =INTBUF_TAB%VARIABLES(11)

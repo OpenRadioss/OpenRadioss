@@ -129,7 +129,7 @@ c
        DO J=1,NPERTURB
          IF(PERTURB(J) == 2)THEN
            DO I=LFT,LLT 
-             IF (RNOISE(J,I+NFT) .NE. ZERO) THEN
+             IF (RNOISE(J,I+NFT) /= ZERO) THEN
                DO IL=1,NLAY   
                  NFAIL =  ELBUF_STR%BUFLY(IL)%NFAIL
                  IMAT  =  ELBUF_STR%BUFLY(IL)%IMAT
@@ -289,7 +289,7 @@ c------------------------
        DO J=1,NPERTURB
          IF(PERTURB(J) == 2)THEN
            DO I=LFT,LLT 
-             IF (RNOISE(J,I+NFT) .NE. ZERO) THEN
+             IF (RNOISE(J,I+NFT) /= ZERO) THEN
                DO IL=1,NLAY   
                  NFAIL =  ELBUF_STR%BUFLY(IL)%NFAIL
                  IMAT  =  ELBUF_STR%BUFLY(IL)%IMAT

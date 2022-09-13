@@ -75,8 +75,8 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
       LOC_PROC = ISPMD+1
-      IF(IRCVFROM(NINTER+1,LOC_PROC).GT.0.OR.
-     +   ISENDTO(NINTER+1,LOC_PROC).GT.0) THEN
+      IF(IRCVFROM(NINTER+1,LOC_PROC)>0.OR.
+     +   ISENDTO(NINTER+1,LOC_PROC)>0) THEN
 
 !      need to define I_LEN contiguous blocks to avoid that intel mpi splits
 !      the buffers
@@ -110,7 +110,7 @@ C
           SBUF(L+J) = VMSR_L(J,NIN)
         END DO
         L = L + 6
-        IF(IPARI(7,NIN).NE.17)THEN
+        IF(IPARI(7,NIN)/=17)THEN
 C NEWFRONT
           SBUF(L+1) = NEWFRONT(NIN)
         ELSE     ! interface 17 avec courbure
@@ -148,8 +148,8 @@ C Unpack results
        L = 0
        DO KK=1,NINTC
          NIN = INTLIST(KK)
-         IF(IRCVFROM(NIN,LOC_PROC).NE.0.OR.
-     +        ISENDTO(NIN,LOC_PROC).NE.0)THEN
+         IF(IRCVFROM(NIN,LOC_PROC)/=0.OR.
+     +        ISENDTO(NIN,LOC_PROC)/=0)THEN
            DO J=1,18
             XSLV_L(J,NIN) = RBUF(L+J)
            END DO
@@ -166,7 +166,7 @@ C Unpack results
             VMSR_L(J,NIN) = RBUF(L+J)
            END DO
            L = L + 6
-           IF(IPARI(7,NIN).NE.17)THEN
+           IF(IPARI(7,NIN)/=17)THEN
              NEWFRONT(NIN) = NINT(RBUF(L+1))
            ELSE     ! interface 17 avec courbure
              SIZE_T(NIN) = RBUF(L+1)

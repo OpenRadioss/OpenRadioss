@@ -138,7 +138,7 @@ C
         ENDDO
        ENDIF
 !     ++++++++++
-       IF(ISPMD.EQ.0) THEN
+       IF(ISPMD==0) THEN
          RESP0 = 0
          DO NN=1,NSPGROUP
           COMPTEUR = 0
@@ -319,7 +319,7 @@ C
         ENDDO
        ENDIF
 !     ++++++++++
-       IF(ISPMD.EQ.0) THEN
+       IF(ISPMD==0) THEN
          DO NN=1,NSPGROUP
           COMPTEUR = 0
           DO K = 1,NSPMD
@@ -332,7 +332,7 @@ C
           ENDDO    ! k=1,nspmd
 
         JJ_OLD = COMPTEUR
-        IF(JJ_OLD.GT.0) THEN    
+        IF(JJ_OLD>0) THEN    
          IF (OUTYY_FMT == 2) THEN
            J = 1
            DO WHILE (J<JJ_OLD)
@@ -344,7 +344,7 @@ C
            ENDDO 
          ELSE
            J = 1
-           DO WHILE (J.LE.JJ_OLD)
+           DO WHILE (J<=JJ_OLD)
              WRITE(IUGEO,'(1P3E20.13)')(WAP0(J-1+K),K=1,3) ! j-1+k=1,...,3
              J=J+3 ! j = 4
              WRITE(IUGEO,'(1P6E20.13)')(WAP0(J-1+K),K=1,6) ! j-1+k = 4,...,9 

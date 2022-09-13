@@ -112,7 +112,7 @@ C=======================================================================
       ISORTH= 0
 C
       GEO(3)=ISMSTR
-      IF(ISMSTR==3.AND.IGTYP.NE.6.AND.IGTYP.NE.14)THEN
+      IF(ISMSTR==3.AND.IGTYP/=6.AND.IGTYP/=14)THEN
         GEO(5)=EP06
       ENDIF
 C  double stockage temporaire - supprimer GEO(12,I)=IGTYP apres tests

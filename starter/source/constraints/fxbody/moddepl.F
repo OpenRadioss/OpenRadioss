@@ -49,7 +49,7 @@ C-----------------------------------------------
       my_real
      .        VV(3,NSN), VT(6)
 C
-      IF (IFILE.EQ.0) THEN
+      IF (IFILE==0) THEN
          IAD=0
          DO I=1,NSN
             VV(1,I)=MOD(IAD+1)
@@ -58,7 +58,7 @@ C
             IAD=IAD+6
          ENDDO
          AMOD=AMOD+6*NSN
-      ELSEIF (IFILE.EQ.1) THEN
+      ELSEIF (IFILE==1) THEN
          IAD=0
          DO I=1,NSNI
             VV(1,I)=MOD(IAD+1)

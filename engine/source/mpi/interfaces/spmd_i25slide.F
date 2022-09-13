@@ -112,7 +112,7 @@ C-----------------------------------------------
       IF(MODE == 0) THEN        
       !SEND sizes
         DO P = 1, NSPMD
-          IF(P .NE. LOC_PROC .AND. COMM_PATTERN(P,NIN) == 1) THEN
+          IF(P /= LOC_PROC .AND. COMM_PATTERN(P,NIN) == 1) THEN
             MSGTYP = MSGOFF1 
             COMM_SIZ%SIZ(P,NIN) = 1
             COMM_SIZ%TAG(P,NIN) = MSGTYP 
@@ -126,7 +126,7 @@ C-----------------------------------------------
       ELSE IF(MODE == 1) THEN        
       !SEND
          DO P = 1, NSPMD
-           IF(P .NE. LOC_PROC .AND. COMM_PATTERN(P,NIN) == 1) THEN
+           IF(P /= LOC_PROC .AND. COMM_PATTERN(P,NIN) == 1) THEN
              IF(NB(P,NIN) > 0) THEN 
                LENGTH = NB(P,NIN)*RSIZ
                MSGTYP = MSGOFF2 
@@ -153,7 +153,7 @@ C-----------------------------------------------
        ELSEIF(MODE==2) THEN         
        !RECV SIZES
          DO P = 1, NSPMD
-            IF( P.NE.LOC_PROC .AND. COMM_PATTERN(P,NIN) == 1) THEN
+            IF( P/=LOC_PROC .AND. COMM_PATTERN(P,NIN) == 1) THEN
              MSGTYP = MSGOFF1 
              COMM_REAL%SIZ(P,NIN) = 1
 
@@ -171,11 +171,11 @@ C-----------------------------------------------
          DO P = 1,NSPMD
            COMM_REAL%SIZ(P,NIN) = 0 
            COMM_INT%SIZ(P,NIN) = 0 
-           IF(P.NE. LOC_PROC .AND. COMM_PATTERN(P,NIN) == 1) NBCOM = NBCOM + 1
+           IF(P/= LOC_PROC .AND. COMM_PATTERN(P,NIN) == 1) NBCOM = NBCOM + 1
          ENDDO
          
          DO PP = 1,NBCOM
-C          IF(P.NE. LOC_PROC .AND. COMM_PATTERN(P,NIN) == 1) THEN
+C          IF(P/= LOC_PROC .AND. COMM_PATTERN(P,NIN) == 1) THEN
 C            CALL MPI_WAIT(COMM_SIZ%RECV_RQ(P,NIN),STATUS,IERROR)
              CALL MPI_WAITANY(NSPMD,COMM_SIZ%RECV_RQ(1:NSPMD,NIN),P,STATUS,IERROR)
 
@@ -215,7 +215,7 @@ C          ENDIF
        ELSEIF(MODE == 5) THEN
          !CLEAN
          DO P = 1, NSPMD
-            IF(P .NE. LOC_PROC .AND. COMM_PATTERN(P,NIN) == 1) THEN
+            IF(P /= LOC_PROC .AND. COMM_PATTERN(P,NIN) == 1) THEN
              CALL MPI_WAIT(COMM_SIZ%SEND_RQ(P,NIN),STATUS,IERROR)
             ENDIF
             IF(NB(P,NIN) > 0 .AND. COMM_PATTERN(P,NIN) == 1) THEN
@@ -683,7 +683,7 @@ C  symmetric plane
 
 C
 C specific cases ../..
-          IF(IGAP.EQ.1 .OR. IGAP.EQ.2)THEN
+          IF(IGAP==1 .OR. IGAP==2)THEN
             NBLOCAL = 0
             DO J=1,NN
               I = IAUX(J)
@@ -699,7 +699,7 @@ C specific cases ../..
               END IF
             END DO
             RSHIFT = RSHIFT + 1    
-          ELSEIF(IGAP.EQ.3)THEN 
+          ELSEIF(IGAP==3)THEN 
             NBLOCAL = 0
             DO J = 1, NN
               I = IAUX(J)
@@ -721,7 +721,7 @@ C specific cases ../..
 C
 
 C thermic
-          IF(INTTH.GT.0)THEN
+          IF(INTTH>0)THEN
              NBLOCAL = 0
              DO J = 1, NN
                I = IAUX(J)
@@ -810,7 +810,7 @@ C
              END DO
              ISHIFT = ISHIFT + 2
         
-          ELSEIF(IDTMINS_INT.NE.0)THEN
+          ELSEIF(IDTMINS_INT/=0)THEN
              NBLOCAL = 0
              DO J = 1, NN
                I = IAUX(J)
@@ -1015,7 +1015,7 @@ C
           DEALLOCATE(IAUX,IAUX_LOCAL,IAUX_REV,IAUX_K,IAUX_L)
 
 
-        ENDIF !IF(NSNR_OLD.NE.0) 
+        ENDIF !IF(NSNR_OLD/=0) 
       ENDDO  ! end do NSPMD        	
 
 c ===============================================================
@@ -1023,7 +1023,7 @@ c                           TESTS
 c ==============================================================
 !      DO II = 1,NSPMD 
 !        IF(II == LOC_PROC) THEN
-!          IF(NSNR .NE. IDEB_NEW) WRITE(6,*) __FILE__,"NSNR = ",NSNR," --> ", IDEB_NEW
+!          IF(NSNR /= IDEB_NEW) WRITE(6,*) __FILE__,"NSNR = ",NSNR," --> ", IDEB_NEW
 !          J = 1
 !          DO P = 1,NSPMD
 !            WRITE(6,*) ispmd+1, "P = ",P
@@ -1086,7 +1086,7 @@ C
       DO I = 1, INTBUF_TAB%I_STOK(1)
         N = INTBUF_TAB%CAND_N(I)
         NN = N-NSN
-        IF(NN.GT.0)THEN
+        IF(NN>0)THEN
           INTBUF_TAB%CAND_N(I) = ABS(INDEX(NN))+NSN
         ENDIF
       ENDDO
@@ -1094,7 +1094,7 @@ C
       DO I = 1, INTBUF_TAB%I_STOK(2)
         N = INTBUF_TAB%CAND_OPT_N(I)
         NN = N-NSN
-        IF(NN.GT.0)THEN
+        IF(NN>0)THEN
           INTBUF_TAB%CAND_OPT_N(I) = ABS(INDEX(NN))+NSN
         ENDIF
       ENDDO
@@ -1197,9 +1197,9 @@ C-----------------------------------------------
        TMP%NODAMSFI%P=>NODAMSFI(NIN)%P
        TMP%PROCAMSFI%P=>PROCAMSFI(NIN)%P
       ENDIF 
-      IF(IGAP.NE.0) THEN
+      IF(IGAP/=0) THEN
         TMP%GAPFI%P=>GAPFI(NIN)%P
-        IF(IGAP.EQ.3) THEN
+        IF(IGAP==3) THEN
           TMP%GAP_LFI%P=>GAP_LFI(NIN)%P
         ENDIF
       ENDIF
@@ -1263,9 +1263,9 @@ C     WRITE(6,*) "NEW SIZE:",NEW_SIZE
        MY_ALLOCATE(NODAMSFI(NIN)%P,NEW_SIZE)
        MY_ALLOCATE(PROCAMSFI(NIN)%P,NEW_SIZE)
       ENDIF 
-      IF(IGAP.NE.0) THEN
+      IF(IGAP/=0) THEN
         MY_ALLOCATE(GAPFI(NIN)%P,NEW_SIZE)
-        IF(IGAP.EQ.3) THEN
+        IF(IGAP==3) THEN
           MY_ALLOCATE(GAP_LFI(NIN)%P,NEW_SIZE)
         ENDIF
       ENDIF
@@ -1373,9 +1373,9 @@ C-----------------------------------------------
        DEALLOCATE(TMP%NODAMSFI%P)
        DEALLOCATE(TMP%PROCAMSFI%P)
       ENDIF 
-      IF(IGAP.NE.0) THEN
+      IF(IGAP/=0) THEN
         DEALLOCATE(TMP%GAPFI%P)
-        IF(IGAP.EQ.3) THEN
+        IF(IGAP==3) THEN
           DEALLOCATE(TMP%GAP_LFI%P)
         ENDIF
       ENDIF
@@ -1467,7 +1467,7 @@ C-----------------------------------------------
 C
 C Allocation Parith/OFF
 C
-        IF(IPARIT.EQ.0) THEN
+        IF(IPARIT==0) THEN
          
           IF(ASSOCIATED(AFI(NIN)%P)) THEN
               DEALLOCATE(AFI(NIN)%P)
@@ -1478,8 +1478,8 @@ C
               NULLIFY(AFI(NIN)%P) 
           ENDIF
 
-          IF(NODFI.GT.0)ALLOCATE(AFI(NIN)%P(3,NODFI*NTHREAD),STAT=IERROR1)
-          IF(NODFI.GT.0)ALLOCATE(STNFI(NIN)%P(NODFI*NTHREAD),STAT=IERROR2)
+          IF(NODFI>0)ALLOCATE(AFI(NIN)%P(3,NODFI*NTHREAD),STAT=IERROR1)
+          IF(NODFI>0)ALLOCATE(STNFI(NIN)%P(NODFI*NTHREAD),STAT=IERROR2)
 C Init a 0
           DO I = 1, NODFI*NTHREAD
             AFI(NIN)%P(1,I) = ZERO
@@ -1488,9 +1488,9 @@ C Init a 0
             STNFI(NIN)%P(I) = ZERO
           ENDDO
 C
-          IF(KDTINT.NE.0)THEN
+          IF(KDTINT/=0)THEN
             IF(ASSOCIATED(VSCFI(NIN)%P)) DEALLOCATE(VSCFI(NIN)%P)
-            IF(NODFI.GT.0)ALLOCATE(VSCFI(NIN)%P(NODFI*NTHREAD),STAT=IERROR3)
+            IF(NODFI>0)ALLOCATE(VSCFI(NIN)%P(NODFI*NTHREAD),STAT=IERROR3)
 C Init a 0
             DO I = 1, NODFI*NTHREAD
               VSCFI(NIN)%P(I) = ZERO
@@ -1505,9 +1505,9 @@ C
           IF(ASSOCIATED(FSKYFI(NIN)%P)) DEALLOCATE(FSKYFI(NIN)%P)
           IF(ASSOCIATED(ISKYFI(NIN)%P)) DEALLOCATE(ISKYFI(NIN)%P)
           NLSKYFI(NIN) = LSKYFI
-          IF(LSKYFI.GT.0) THEN
+          IF(LSKYFI>0) THEN
             ALLOCATE(ISKYFI(NIN)%P(LSKYFI),STAT=IERROR1)
-            IF(KDTINT.EQ.0) THEN
+            IF(KDTINT==0) THEN
               ALLOCATE(FSKYFI(NIN)%P(4,LSKYFI),STAT=IERROR2)
             ELSE
               ALLOCATE(FSKYFI(NIN)%P(5,LSKYFI),STAT=IERROR2)
@@ -1518,17 +1518,17 @@ C
 C
 C Allocation Parith/OFF
 C
-        IF(IPARIT.EQ.0) THEN
+        IF(IPARIT==0) THEN
           IF(ASSOCIATED(AFI(NIN)%P)) DEALLOCATE(AFI(NIN)%P)
           IF(ASSOCIATED(STNFI(NIN)%P)) DEALLOCATE(STNFI(NIN)%P)
           IF(ASSOCIATED(FTHEFI(NIN)%P)) DEALLOCATE(FTHEFI(NIN)%P)
-          IF(NODFI.GT.0)ALLOCATE(AFI(NIN)%P(3,NODFI*NTHREAD),STAT=IERROR1)
-          IF(NODFI.GT.0)ALLOCATE(STNFI(NIN)%P(NODFI*NTHREAD),STAT=IERROR2)
-          IF(NODFI.GT.0)ALLOCATE(FTHEFI(NIN)%P(NODFI*NTHREAD),STAT=IERROR3)
+          IF(NODFI>0)ALLOCATE(AFI(NIN)%P(3,NODFI*NTHREAD),STAT=IERROR1)
+          IF(NODFI>0)ALLOCATE(STNFI(NIN)%P(NODFI*NTHREAD),STAT=IERROR2)
+          IF(NODFI>0)ALLOCATE(FTHEFI(NIN)%P(NODFI*NTHREAD),STAT=IERROR3)
 C
           IF(NODADT_THERM ==1) THEN
             IF(ASSOCIATED(CONDNFI(NIN)%P)) DEALLOCATE(CONDNFI(NIN)%P)
-            IF(NODFI.GT.0.AND.NODADT_THERM ==1)ALLOCATE(CONDNFI(NIN)%P(NODFI*NTHREAD),STAT=IERROR4)
+            IF(NODFI>0.AND.NODADT_THERM ==1)ALLOCATE(CONDNFI(NIN)%P(NODFI*NTHREAD),STAT=IERROR4)
           ENDIF
 C
 
@@ -1548,9 +1548,9 @@ C Init a 0
             ENDDO
           ENDIF
 C
-          IF(KDTINT.NE.0)THEN
+          IF(KDTINT/=0)THEN
             IF(ASSOCIATED(VSCFI(NIN)%P)) DEALLOCATE(VSCFI(NIN)%P)
-            IF(NODFI.GT.0)ALLOCATE(VSCFI(NIN)%P(NODFI),STAT=IERROR4)
+            IF(NODFI>0)ALLOCATE(VSCFI(NIN)%P(NODFI),STAT=IERROR4)
 C Init a 0
             DO I = 1, NODFI
               VSCFI(NIN)%P(I) = ZERO
@@ -1565,9 +1565,9 @@ C
           IF(ASSOCIATED(ISKYFI(NIN)%P)) DEALLOCATE(ISKYFI(NIN)%P)
           IF(ASSOCIATED(FTHESKYFI(NIN)%P)) DEALLOCATE(FTHESKYFI(NIN)%P)
           NLSKYFI(NIN) = LSKYFI
-          IF(LSKYFI.GT.0) THEN
+          IF(LSKYFI>0) THEN
             ALLOCATE(ISKYFI(NIN)%P(LSKYFI),STAT=IERROR1)
-            IF(KDTINT.EQ.0) THEN
+            IF(KDTINT==0) THEN
               ALLOCATE(FSKYFI(NIN)%P(4,LSKYFI),STAT=IERROR2)
               ALLOCATE(FTHESKYFI(NIN)%P(LSKYFI),STAT=IERROR3)
             ELSE
@@ -1579,26 +1579,26 @@ C
 C
           IF(NODADT_THERM ==1) THEN
             IF(ASSOCIATED(CONDNSKYFI(NIN)%P)) DEALLOCATE(CONDNSKYFI(NIN)%P)
-            IF(LSKYFI.GT.0) ALLOCATE(CONDNSKYFI(NIN)%P(LSKYFI),STAT=IERROR4)
+            IF(LSKYFI>0) ALLOCATE(CONDNSKYFI(NIN)%P(LSKYFI),STAT=IERROR4)
           ENDIF
 C
 
         ENDIF        
       ENDIF    
 C
-      IF(IERROR1+IERROR2+IERROR3+IERROR4.NE.0) THEN
+      IF(IERROR1+IERROR2+IERROR3+IERROR4/=0) THEN
         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
         CALL ARRET(2)
       ENDIF
 C
 C allocations conditionnelles output pression
 C
-      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT .GT.0)THEN
+      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT >0)THEN
         IF(ASSOCIATED(FNCONTI(NIN)%P)) DEALLOCATE(FNCONTI(NIN)%P)
         IF(ASSOCIATED(FTCONTI(NIN)%P)) DEALLOCATE(FTCONTI(NIN)%P)
         ALLOCATE(FNCONTI(NIN)%P(3,NODFI),STAT=IERROR1)
         ALLOCATE(FTCONTI(NIN)%P(3,NODFI),STAT=IERROR2)
-        IF(IERROR1+IERROR2.NE.0) THEN
+        IF(IERROR1+IERROR2/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
         ELSE

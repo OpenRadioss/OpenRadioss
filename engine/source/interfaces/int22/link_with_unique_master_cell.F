@@ -70,7 +70,7 @@ C-----------------------------------------------
 C   P r e - C o n d i t i o n
 C----------------------------------------------- 
       !IF(INT22==0)RETURN   !already checked
-      !IF(K.LT.2)  RETURN   !already checked
+      !IF(K<2)  RETURN   !already checked
 C-----------------------------------------------
 C   S o u r c e    L i n e s
 C----------------------------------------------- 
@@ -86,7 +86,7 @@ C-----------------------------------------------
       ENDIF
       
       MySum = SUM(SharedFACE(1:IPOS-1))
-      IF (IPOS.NE.6)THEN
+      IF (IPOS/=6)THEN
         MySUM = MySUM + SUM(SharedFACE(IPOS+1:6))
       ENDIF
       IF (MySUM == ZERO)THEN

@@ -69,7 +69,7 @@ C-----------------------------------------------
           N2= LLOADP(IAD+(J-1)*4+1)
           N3= LLOADP(IAD+(J-1)*4+2)
           N4= LLOADP(IAD+(J-1)*4+3)
-          IF(CEP(J+OFF).EQ.PROC) THEN
+          IF(CEP(J+OFF)==PROC) THEN
             LGRTMP(IADL+NLL) = NODLOCAL(N1)
             LGRTMP(IADL+NLL+1) = NODLOCAL(N2)
             LGRTMP(IADL+NLL+2) = NODLOCAL(N3)

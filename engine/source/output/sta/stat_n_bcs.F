@@ -64,7 +64,7 @@ C
         CALL SPMD_ISTAT_GATH(ICODE,NODGLOB,ICODEG)
         CALL SPMD_ISTAT_GATH(ISKEW,NODGLOB,ISKEWG)
         CALL SPMD_ISTAT_GATH(NODTAG,NODGLOB,NODTAGLOB)
-        IF (ISPMD.NE.0) RETURN
+        IF (ISPMD/=0) RETURN
       ENDIF
 
 
@@ -109,7 +109,7 @@ C
              ELSE
                 ITRA = 0    
              ENDIF
-             IF(IRODDL.GT.0)THEN 
+             IF(IRODDL>0)THEN 
                 IC2=(IC-512*IC1)/64
                 IF(IC2 == 7) THEN
                    ROT = '111'
@@ -132,7 +132,7 @@ C
                 IROT = 0        
              ENDIF
 C
-             IF(ITRA.NE.0.AND.IROT.NE.0)THEN
+             IF(ITRA/=0.AND.IROT/=0)THEN
                 ISK = ISKEW(N) -1
                 IF (IZIPSTRS == 0) THEN
                     WRITE(IUGEO,'(3X,A3,1X,A3,I10,I10)')
@@ -171,7 +171,7 @@ C
              ELSE
                 ITRA = 0    
              ENDIF
-             IF(IRODDL.GT.0)THEN 
+             IF(IRODDL>0)THEN 
                 IC2=(IC-512*IC1)/64
                 IF(IC2 == 7) THEN
                    ROT = '111'
@@ -194,7 +194,7 @@ C
                 IROT = 0        
              ENDIF
 C
-             IF(ITRA.NE.0.AND.IROT.NE.0)THEN
+             IF(ITRA/=0.AND.IROT/=0)THEN
                ISK = ISKEWG(N) -1
                IF (IZIPSTRS == 0) THEN
                  WRITE(IUGEO,'(3X,A3,1X,A3,I10,I10)')

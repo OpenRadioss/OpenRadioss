@@ -158,7 +158,7 @@ C ajout noeuds internes
             DO I=1,FVSPMD(IFV)%NNA_L
                I1=FVSPMD(IFV)%IBUFA_L(1,I)
                I2=FVSPMD(IFV)%IBUFA_L(2,I)
-               IF (I2 .LE. NUMNOD) THEN
+               IF (I2 <= NUMNOD) THEN
                   ! IF MESHGEMS IS USED, EXTRA NODES ARE NOT INCLUDED WITHIN THE NUMNOD NODES
                   XXXA(1,I1)=X(1,I2)
                   XXXA(2,I1)=X(2,I2)
@@ -168,7 +168,7 @@ C ajout noeuds internes
             DO I=1,FVSPMD(IFV)%NNSA_L
                I1=FVSPMD(IFV)%IBUFSA_L(1,I)
                I2=FVSPMD(IFV)%IBUFSA_L(2,I)
-               IF (I2 .LE. NUMNOD) THEN
+               IF (I2 <= NUMNOD) THEN
                   ! IF MESHGEMS IS USED, EXTRA NODES ARE NOT INCLUDED WITHIN THE NUMNOD NODES
                   XXXSA(1,I1)=X(1,I2)
                   XXXSA(2,I1)=X(2,I2)
@@ -242,7 +242,7 @@ C
                I1=FVSPMD(IFV)%IBUFA_L(1,I)
                I2=FVSPMD(IFV)%IBUFA_L(2,I)
                IBUF(IAD1-1+I)=I1
-               IF (I2 .LE. NUMNOD) THEN
+               IF (I2 <= NUMNOD) THEN
                   ! IF MESHGEMS IS USED, EXTRA NODES ARE NOT INCLUDED WITHIN THE NUMNOD NODES
                   RBUF(IAD2-1+3*(I-1)+1)=X(1,I2)
                   RBUF(IAD2-1+3*(I-1)+2)=X(2,I2)
@@ -255,7 +255,7 @@ C
                I1=FVSPMD(IFV)%IBUFSA_L(1,I)
                I2=FVSPMD(IFV)%IBUFSA_L(2,I)
                IBUF(IAD1-1+I)=I1
-               IF (I2 .LE. NUMNOD) THEN
+               IF (I2 <= NUMNOD) THEN
                   ! IF MESHGEMS IS USED, EXTRA NODES ARE NOT INCLUDED WITHIN THE NUMNOD NODES
                   RBUF(IAD2-1+3*(I-1)+1)=X(1,I2)
                   RBUF(IAD2-1+3*(I-1)+2)=X(2,I2)

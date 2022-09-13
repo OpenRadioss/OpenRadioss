@@ -215,7 +215,7 @@ C               Johnson-Cook
                 MT   = MAX(EM20,Z3(I))
                 TM   = Z4(I)
                 TSTAR= MAX(ZERO,(T(I)-TWOHUNDRED98)/(TM-TWOHUNDRED98))
-                IF (TSTAR.EQ.ZERO) THEN
+                IF (TSTAR==ZERO) THEN
                    Q(I) = (ONE + CC(I) * LOG(EPSP(I)/EPDR(I)))
                 ELSE
                    Q(I) = (ONE + CC(I) * LOG(EPSP(I)/EPDR(I)))
@@ -224,7 +224,7 @@ C               Johnson-Cook
                 Q(I)  = MAX(Q(I),EM20)
                 CA(I) = CA(I) * Q(I)
                 CB(I) = CB(I) * Q(I)
-                IF (ICC(I).EQ.1) YMAX(I) = YMAX(I) * Q(I)
+                IF (ICC(I)==1) YMAX(I) = YMAX(I) * Q(I)
               ELSE
 C               Zerilli-Armstrong
                 Q(I) = LOG(EPSP(I)/EPDR(I))

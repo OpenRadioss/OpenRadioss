@@ -179,7 +179,7 @@ C-----------------------------------------------
               ENDDO
            ENDIF
 c
-           IF( NFILSOL .NE. 0 .AND. GBUF%G_FILL .NE. 0 ) THEN
+           IF( NFILSOL /= 0 .AND. GBUF%G_FILL /= 0 ) THEN
              DO I=LFT,LLT
                EVAR(1,I) = EVAR(1,I) * GBUF%FILL(I)
                EVAR(2,I) = EVAR(2,I) * GBUF%FILL(I)
@@ -215,7 +215,7 @@ C             pour JHBE=14, valeurs moyennes est dans rep. corota.
              ENDIF
             ENDDO
 C
-           ELSE IF (KCVT /= 0 .AND. JHBE .NE. 16) THEN
+           ELSE IF (KCVT /= 0 .AND. JHBE /= 16) THEN
 C           STRESS TENSOR IN GLOBAL SYSTEM
             DO I=LFT,LLT
              N = I + NFT
@@ -267,7 +267,7 @@ c-----------
      .        JHBE /= 24.AND.JHBE /= 15.AND.JHBE /= 17 )THEN
 c-----------
               NVAUX =IPARG(18,NG)         
-              IF (MLW.GE.28) THEN
+              IF (MLW>=28) THEN
                 DO I=LFT,LLT
                   N = I + NFT
                   DO J=1,8
@@ -288,7 +288,7 @@ c-----------
               LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)                                           
               IF (ISORTH > 0) ISORTHG = 1
 c
-              IF (MLW.GE.28.AND.MLW /= 49) THEN
+              IF (MLW>=28.AND.MLW /= 49) THEN
                 DO I=LFT,LLT
                   N = I + NFT
                   EVAR(1,I) =  LBUF%STRA(JJ(1) + I)
@@ -319,7 +319,7 @@ c
                 ENDDO
                 IF (ISORTH > 0) KCVT = 2
               ELSEIF (ISTRAIN > 0) THEN
-                IF (MLW /= 14.AND.MLW /= 24.AND.MLW.LT.28.OR.
+                IF (MLW /= 14.AND.MLW /= 24.AND.MLW<28.OR.
      .              MLW == 49) THEN 
                   DO I=LFT,LLT
                     N = I + NFT  
@@ -370,7 +370,7 @@ c-----------
             ELSEIF(ISOLNOD == 16.OR.ISOLNOD == 20 .OR.
      .            (ISOLNOD == 8.AND.(JHBE == 14.OR.JHBE == 17)))THEN
 c-----------
-              IF (MLW.GE.28.AND.MLW /= 49)THEN        
+              IF (MLW>=28.AND.MLW /= 49)THEN        
                 DO I=LFT,LLT
                  N = I + NFT   
                  DO IL=1,NLAY                     
@@ -569,7 +569,7 @@ C       	        STRAIN TENSOR IN GLOBAL SYSTEM
                  ENDDO
                 ENDDO
               ELSEIF(ISTRAIN > 0)THEN
-                IF (MLW /= 14.AND.MLW /= 24.AND.MLW.LT.28)THEN               
+                IF (MLW /= 14.AND.MLW /= 24.AND.MLW<28)THEN               
                   DO I=LFT,LLT
                    N = I + NFT   
                    DO IL=1,NLAY                     
@@ -682,7 +682,7 @@ c---
                   IF (ISORTH > 0) KCVT = 2
                 ENDIF
               ENDIF
-              IF (KCVT /= 0 .AND.ICSIG == 0 .AND. JHBE .NE. 16) THEN
+              IF (KCVT /= 0 .AND.ICSIG == 0 .AND. JHBE /= 16) THEN
 C               STRAIN TENSOR IN GLOBAL SYSTEM
                 DO I=LFT,LLT					   
                   N = I + NFT					   
@@ -710,7 +710,7 @@ C               STRAIN TENSOR IN GLOBAL SYSTEM
 c-----------
             ELSEIF (ISOLNOD==10 .OR. (ISOLNOD==4 .AND. ISROT==1)) THEN
 c-----------
-              IF (MLW.GE.28.AND.MLW /= 49)THEN 
+              IF (MLW>=28.AND.MLW /= 49)THEN 
                 DO I=LFT,LLT
                   N = I + NFT  
                   DO IPT=1,NPT
@@ -747,7 +747,7 @@ c-----------
                   ENDDO
                 ENDDO
                ELSEIF(ISTRAIN > 0)THEN
-                IF (MLW /= 14.AND.MLW /= 24.AND.MLW.LT.28) THEN               
+                IF (MLW /= 14.AND.MLW /= 24.AND.MLW<28) THEN               
                   DO I=LFT,LLT
                     N = I + NFT  
                     DO IPT=1,NPT
@@ -799,7 +799,7 @@ C               STRAIN TENSOR IN GLOBAL SYSTEM
 c-----------
             ELSEIF((ISOLNOD == 6.OR.ISOLNOD == 8).AND.JHBE == 15)THEN
 c-----------
-               IF (MLW.GE.28.AND.MLW /= 49.AND.ISTRAIN > 0) THEN
+               IF (MLW>=28.AND.MLW /= 49.AND.ISTRAIN > 0) THEN
                 DO I=LFT,LLT                                               
                   N = I + NFT                                              
                   DO IL= 1,NLAY
@@ -847,7 +847,7 @@ c-----------
                   ENDDO                                                    
                 ENDDO                                                      
               ELSEIF (ISTRAIN > 0) THEN                                        
-                IF(MLW /= 14.AND.MLW /= 24.AND.MLW.LT.28) THEN                 
+                IF(MLW /= 14.AND.MLW /= 24.AND.MLW<28) THEN                 
                   DO I=LFT,LLT                                               
                     N = I + NFT                                              
                     DO IL= 1,NLAY
@@ -1322,7 +1322,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C          STRESS / integration point
 C-----------------------------------------------
-          ELSEIF (ITENS.GE.10.AND.ITENS.LE.1009)THEN
+          ELSEIF (ITENS>=10.AND.ITENS<=1009)THEN
             PTI = ITENS - 10
 c-----------
             IF (ISOLNOD == 8 .AND. IGTYP == 43) THEN
@@ -1517,7 +1517,7 @@ c-----------
                     ENDDO
                    ENDIF
                 ENDIF
-                IF (KCVT /= 0 .AND. JHBE .NE. 16) THEN
+                IF (KCVT /= 0 .AND. JHBE /= 16) THEN
 C                 STRESS TENSOR IN GLOBAL SYSTEM
                   DO I=LFT,LLT
                     N = I + NFT
@@ -1878,7 +1878,7 @@ C               STRESS TENSOR IN GLOBAL SYSTEM
             ENDIF
 c-----------
 c
-           IF( NFILSOL .NE. 0 .AND. GBUF%G_FILL .NE. 0 ) THEN
+           IF( NFILSOL /= 0 .AND. GBUF%G_FILL /= 0 ) THEN
              DO I=LFT,LLT
                EVAR(1,I) = EVAR(1,I) * GBUF%FILL(I)
                EVAR(2,I) = EVAR(2,I) * GBUF%FILL(I)
@@ -1890,7 +1890,7 @@ c
            ENDIF
 C-----------------------------------------------
 C         STRESS TENSOR / integration point more than 9 point in direction s
-          ELSEIF(ITENS.GE.2010.AND.ITENS.LE.22109) THEN
+          ELSEIF(ITENS>=2010.AND.ITENS<=22109) THEN
 C-------------- case NLAY>9
             PTI = ITENS - 2010
             IF ((ISOLNOD == 6 .OR. ISOLNOD == 8).AND.JHBE == 15) THEN
@@ -1986,7 +1986,7 @@ c----------- ISOLNOD=16 is not available w/ TYPE22 but keep here however
                     ENDDO
                   ENDIF                                
               ENDIF                                   
-              IF (KCVT /= 0 .AND. JHBE .NE. 16) THEN                     
+              IF (KCVT /= 0 .AND. JHBE /= 16) THEN                     
 C               STRESS TENSOR IN GLOBAL SYSTEM        
 C-------------- thick shells----only pid21,irep=0--works--------
                 SELECT CASE (ICSIG)                                             
@@ -2060,11 +2060,11 @@ C-------------- thick shells----only pid21,irep=0--works--------
                       ENDIF                                               
                     ENDDO                                                
                   END SELECT                                               
-              END IF !(KCVT /= 0 .AND. JHBE .NE. 16) THEN                     
+              END IF !(KCVT /= 0 .AND. JHBE /= 16) THEN                     
 c-----------
             ENDIF     ! ISOLNOD
 c
-           IF( NFILSOL .NE. 0 .AND. GBUF%G_FILL .NE. 0 ) THEN
+           IF( NFILSOL /= 0 .AND. GBUF%G_FILL /= 0 ) THEN
              DO I=LFT,LLT
                EVAR(1,I) = EVAR(1,I) * GBUF%FILL(I)
                EVAR(2,I) = EVAR(2,I) * GBUF%FILL(I)
@@ -2076,7 +2076,7 @@ c
            ENDIF
 C-----------------------------------------------
 C          STRAIN / integration point
-          ELSEIF (ITENS.GE.1010.AND.ITENS.LE.2009) THEN
+          ELSEIF (ITENS>=1010.AND.ITENS<=2009) THEN
 C-----------------------------------------------
             PTI = ITENS - 1010
 c-----------
@@ -2153,7 +2153,7 @@ c              NPTT=ONE
               IPT = IR + ( (IS-1) + (IT-1)*NPTS )*NPTR
               IF (IPT == 1 ) THEN          
                 LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)          
-                IF (MLW.GE.28.AND.MLW /= 49 .OR. MLW == 24) THEN 
+                IF (MLW>=28.AND.MLW /= 49 .OR. MLW == 24) THEN 
                   DO I=LFT,LLT
                     EVAR(1,I) = EVAR(1,I) + LBUF%STRA(JJ(1) + I)
                     EVAR(2,I) = EVAR(2,I) + LBUF%STRA(JJ(2) + I)
@@ -2169,7 +2169,7 @@ c              NPTT=ONE
                     EVAR(3,I) = EVAR(3,I) + LBUF%EPE(JJ(3) + I)        
                   ENDDO  
                 ELSEIF (ISTRAIN > 0)THEN 
-                  IF (MLW /= 14.AND.MLW /= 24.AND.MLW.LT.28.OR.
+                  IF (MLW /= 14.AND.MLW /= 24.AND.MLW<28.OR.
      .               MLW == 49) THEN                          
                     DO I=LFT,LLT 
                       EVAR(1,I) = EVAR(1,I) + LBUF%STRA(JJ(1) + I)
@@ -2256,7 +2256,7 @@ c-----------
                IOK = 1
              ENDIF                                          
            IF (IOK == 1 ) THEN
-             IF(MLW.GE.28.AND.MLW /= 49)THEN        
+             IF(MLW>=28.AND.MLW /= 49)THEN        
                DO I=LFT,LLT
 C                3*9*3 points d'integration (r*s*t)    
                   EVAR(1,I) = LBUF%STRA(JJ(1) + I)
@@ -2293,7 +2293,7 @@ C                   3*9*3 points d'integration (r*s*t)
                  EVAR(6,I) =  LBUF%STRA(JJ(6) + I) * HALF	  
 		               ENDDO  
                ELSEIF(ISTRAIN > 0)THEN
-                 IF(MLW /= 14.AND.MLW /= 24.AND.MLW.LT.28)THEN
+                 IF(MLW /= 14.AND.MLW /= 24.AND.MLW<28)THEN
                    DO I=LFT,LLT 
 C  3*9*3 points d'integration (r*s*t)    
                     EVAR(1,I) =  LBUF%STRA(JJ(1) + I)			    
@@ -2306,7 +2306,7 @@ C  3*9*3 points d'integration (r*s*t)
                  ENDIF
                ENDIF
 C
-               IF (KCVT >1 .AND. JHBE .NE. 16) THEN
+               IF (KCVT >1 .AND. JHBE /= 16) THEN
 C              STRAIN TENSOR IN GLOBAL SYSTEM
             	  ICSIG=IPARG(17,NG)  
             	  IF (JHBE == 14.AND.ICSIG > 0) THEN
@@ -2492,7 +2492,7 @@ c-----------
               IPT = MOD(ABS(PTI)/10,10)
               IF ( IPT > 0 .AND. IPT<=NLAY ) THEN
                 LBUF =>  ELBUF_TAB(NG)%BUFLY(IPT)%LBUF(1,1,1) 
-                IF(MLW.GE.28.AND.MLW /= 49)THEN        
+                IF(MLW>=28.AND.MLW /= 49)THEN        
                   DO I=LFT,LLT
                     EVAR(1,I) = LBUF%STRA(JJ(1) + I)
                     EVAR(2,I) = LBUF%STRA(JJ(2) + I)
@@ -2556,7 +2556,7 @@ c-----------
               IF (IR == 1 .AND. IS == 1 .AND. IT == 2) IPT = 4 
               IF ( IPT > 0) THEN
                 LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IPT,1,1)          
-                IF (MLW.GE.28.AND.MLW /= 49 .OR. MLW == 24) THEN 
+                IF (MLW>=28.AND.MLW /= 49 .OR. MLW == 24) THEN 
                   DO I=LFT,LLT
                     EVAR(1,I) = EVAR(1,I) + LBUF%STRA(JJ(1) + I)
                     EVAR(2,I) = EVAR(2,I) + LBUF%STRA(JJ(2) + I)
@@ -2572,7 +2572,7 @@ c-----------
                     EVAR(3,I) = EVAR(3,I) + LBUF%EPE(JJ(3) + I)       
                   ENDDO 
                 ELSEIF (ISTRAIN > 0) THEN
-                  IF (MLW /= 14.AND.MLW /= 24.AND.MLW.LT.28) THEN               
+                  IF (MLW /= 14.AND.MLW /= 24.AND.MLW<28) THEN               
                     DO I=LFT,LLT
                       EVAR(1,I) = EVAR(1,I) + LBUF%STRA(JJ(1) + I)
                       EVAR(2,I) = EVAR(2,I) + LBUF%STRA(JJ(2) + I)
@@ -2618,14 +2618,14 @@ c              ENDDO
 c-----------
 C-----------------------------------------------
 C        STRAIN TENSOR / integration point more than 9 point in direction s
-          ELSEIF (ITENS.GE.22110.AND.ITENS.LE.42209) THEN
+          ELSEIF (ITENS>=22110.AND.ITENS<=42209) THEN
 C-----------------------------------------------
             PTI = ITENS - 22110
             IF ((ISOLNOD == 6 .OR. ISOLNOD == 8).AND.JHBE == 15) THEN
               IPT = MOD(ABS(PTI)/10,201)
               IF ( IPT > 0 .AND. IPT<=NLAY.AND.NLAY>9) THEN
                 LBUF =>  ELBUF_TAB(NG)%BUFLY(IPT)%LBUF(1,1,1) 
-                IF(MLW.GE.28.AND.MLW /= 49)THEN        
+                IF(MLW>=28.AND.MLW /= 49)THEN        
                   DO I=LFT,LLT
                     EVAR(1,I) = LBUF%STRA(JJ(1) + I)
                     EVAR(2,I) = LBUF%STRA(JJ(2) + I)
@@ -2677,7 +2677,7 @@ C           STRAIN TENSOR IN GLOBAL SYSTEM
                 ENDIF 
               END IF
 c-----------
-	    ELSEIF (ISOLNOD.EQ.16.OR.(ISOLNOD.EQ.8.AND.JHBE.EQ.14)) THEN
+	    ELSEIF (ISOLNOD==16.OR.(ISOLNOD==8.AND.JHBE==14)) THEN
 c-----------
                  ICSIG = IPARG(17,NG) 
                  IR0=ABS(PTI)/2010
@@ -2711,7 +2711,7 @@ c-----------
                   LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)
                 ENDIF         
 c               LBUF =>  ELBUF_TAB(NG)%BUFLY(IT)%LBUF(IR,IS,1) ! TSHELL 
-               IF(MLW.GE.28.AND.MLW /= 49)THEN        
+               IF(MLW>=28.AND.MLW /= 49)THEN        
                  DO I=LFT,LLT
                    EVAR(1,I) = LBUF%STRA(JJ(1) + I)
                    EVAR(2,I) = LBUF%STRA(JJ(2) + I)
@@ -2745,7 +2745,7 @@ c               LBUF =>  ELBUF_TAB(NG)%BUFLY(IT)%LBUF(IR,IS,1) ! TSHELL
                    EVAR(6,I) = LBUF%STRA(JJ(6) + I) * HALF	  
                  ENDDO  
                ELSEIF(ISTRAIN > 0)THEN
-                 IF(MLW /= 14.AND.MLW /= 24.AND.MLW.LT.28)THEN
+                 IF(MLW /= 14.AND.MLW /= 24.AND.MLW<28)THEN
                    DO I=LFT,LLT 
                      EVAR(1,I) =  LBUF%STRA(JJ(1) + I)			      
                      EVAR(2,I) =  LBUF%STRA(JJ(2) + I)			      
@@ -2758,7 +2758,7 @@ c               LBUF =>  ELBUF_TAB(NG)%BUFLY(IT)%LBUF(IR,IS,1) ! TSHELL
                END IF
               END IF
 C
-              IF (KCVT /= 0 .AND. JHBE .NE. 16) THEN
+              IF (KCVT /= 0 .AND. JHBE /= 16) THEN
 C           STRAIN TENSOR IN GLOBAL SYSTEM
                ICSIG=IPARG(17,NG)  
                IF (JHBE == 14.AND.ICSIG > 0) THEN
@@ -3484,7 +3484,7 @@ C-----------------------------------------------
            ENDDO
           ENDIF
 C-----------------------------------------------
-        ELSEIF (ITY.EQ.101) THEN
+        ELSEIF (ITY==101) THEN
 C         ISOGEOMETRIC ELEMENT
 C-----------------------------------------------
            DO I=LFT,LLT
@@ -4295,7 +4295,7 @@ C----------
      .              ISOLNOD == 16 .OR. ISOLNOD == 20)THEN
 c
 c T_SHELL ( JHBE = 15/16 )
-          IF(NLAY > 1 .AND. JHBE .NE. 14) THEN
+          IF(NLAY > 1 .AND. JHBE /= 14) THEN
            DO I=LFT,LLT
              N = I + NFT
              IF (KCVT /= 0) THEN
@@ -4817,7 +4817,7 @@ C---------------------
         SZ(N)=X(3,IXC(4,I))+X(3,IXC(5,I))-X(3,IXC(2,I))-X(3,IXC(3,I))
        ENDDO 
        IREP = 0
-       IF (IHBE.LT.11) THEN
+       IF (IHBE<11) THEN
         IF (ISHFRAM == 1) THEN
 	        IREP = 2  
 	       ELSE       
@@ -4838,7 +4838,7 @@ C---------------------
         SZ(N)=X(3,IXTG(4,I))-X(3,IXTG(2,I))
        ENDDO
        IREP = 0
-       IF (IHBE.LT.11) IREP = 1
+       IF (IHBE<11) IREP = 1
       ENDIF
       CALL CLSKEW3(JFT,JLT,IREP,
      .   RX, RY, RZ, 
@@ -5121,7 +5121,7 @@ C----------
      .              ISOLNOD == 16 .OR. ISOLNOD == 20)THEN
 c
 c T_SHELL ( JHBE = 15/16 )
-          IF(NLAY > 1 .AND. JHBE .NE. 14) THEN
+          IF(NLAY > 1 .AND. JHBE /= 14) THEN
            DO I=LFT,LLT
              IF (ISKIN(I)==0) CYCLE
              N = I + NFT

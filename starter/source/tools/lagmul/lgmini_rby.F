@@ -74,17 +74,17 @@ C======================================================================|
         ID=NOM_OPT(1,NRBYKIN+N)
         CALL FRETITL2(TITR,
      .                NOM_OPT(LNOPT1-LTITR+1,NRBYKIN+N),LTITR)
-        IF(MASS(M).EQ.ZERO.OR.INER(M).EQ.ZERO) THEN
+        IF(MASS(M)==ZERO.OR.INER(M)==ZERO) THEN
            CALL ANCMSG(MSGID=273,
      .                 MSGTYPE=MSGWARNING,
      .                 ANMODE=ANINFO_BLIND_1,
      .                 I1=ID,
      .                 C1=TITR)
         ENDIF
-        IF(MASS(M).EQ.ZERO) MASS(M)= EM15
-        IF(INER(M).EQ.ZERO) INER(M)= EM15
+        IF(MASS(M)==ZERO) MASS(M)= EM15
+        IF(INER(M)==ZERO) INER(M)= EM15
 C-----  CORRECTION DE LA CENTRE DE GRAVITE DU MAIN
-        IF(ICDG.EQ.1)THEN
+        IF(ICDG==1)THEN
 C-----    CDG TOTAL
           MASRB = MASS(M)
           DO J=1,3
@@ -97,7 +97,7 @@ C-----    CDG TOTAL
             ENDDO
             MASRB   = MASRB+MASS(NN)
           ENDDO
-          IF(MASRB.LE.EM30) THEN
+          IF(MASRB<=EM30) THEN
             CALL ANCMSG(MSGID=273,
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_1,
@@ -108,7 +108,7 @@ C-----    CDG TOTAL
           DO J=1,3
             X(J,M)=X(J,M)/MASRB
           ENDDO
-        ELSEIF(ICDG.EQ.2)THEN
+        ELSEIF(ICDG==2)THEN
 C-----    CDG DES NOEUDS SECONDS
           MASRB=ZERO
           DO J=1,3
@@ -122,7 +122,7 @@ C-----    CDG DES NOEUDS SECONDS
             MASRB   = MASRB+MASS(NN)
           ENDDO
 C
-          IF(MASRB.LE.EM30) THEN
+          IF(MASRB<=EM30) THEN
             CALL ANCMSG(MSGID=273,
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_1,
@@ -135,7 +135,7 @@ C
           ENDDO
           MASRB=MASRB+MASS(M)
         ENDIF
-        IF(MASS(M).EQ.ZERO.OR.INER(M).EQ.ZERO) THEN
+        IF(MASS(M)==ZERO.OR.INER(M)==ZERO) THEN
            CALL ANCMSG(MSGID=679,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,

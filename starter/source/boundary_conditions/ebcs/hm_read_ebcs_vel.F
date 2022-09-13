@@ -117,18 +117,18 @@ C-----------------------------------------------
 
         ISU=0
         INGR2USR => IGRSURF(1:NSURF)%ID
-        IF (SURF.NE.0) ISU=NGR2USR(SURF,INGR2USR,NSURF)
+        IF (SURF/=0) ISU=NGR2USR(SURF,INGR2USR,NSURF)
         NSEG=0
-        IF (ISU.NE.0) NSEG=IGRSURF(ISU)%NSEG
-        IF(SURF.EQ.0)THEN
+        IF (ISU/=0) NSEG=IGRSURF(ISU)%NSEG
+        IF(SURF==0)THEN
            IERR=IERR+1
            WRITE(ISTDO,'(6X,A)')' ** A SURFACE SHOULD BE INPUT'  
            WRITE(IOUT, '(6X,A)')' ** A SURFACE SHOULD BE INPUT'       
-        ELSEIF(ISU.EQ.0)THEN
+        ELSEIF(ISU==0)THEN
            IERR=IERR+1
            WRITE(ISTDO,*)' ** ERROR SURFACE NOT FOUND, ID=',SURF
            WRITE(IOUT,*) ' ** ERROR SURFACE NOT FOUND, ID=',SURF        
-        ELSEIF(NSEG.EQ.0)THEN
+        ELSEIF(NSEG==0)THEN
            IERR=IERR+1
            WRITE(ISTDO,*)' ** ERROR EMPTY SURFACE',SURF
            WRITE(IOUT,*) ' ** ERROR EMPTY SURFACE',SURF
@@ -162,36 +162,36 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('rad_ebcs_r1',  R1  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('rad_ebcs_r2',  R2  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 
-      IF(SURF.NE.0 .AND. ISU.NE.0 .AND. NSEG.NE.0)THEN
+      IF(SURF/=0 .AND. ISU/=0 .AND. NSEG/=0)THEN
          WRITE(IOUT,1004)ID,TRIM(TITR)
          WRITE(IOUT,1103)SURF,NSEG,C,VX,IVX,VY,IVY,VZ,IVZ,RHO,IRHO,ENER,IENER,LCAR
       ENDIF        
       DO J=1,NFUNCT
-         IF(IRHO.NE.0 .AND. IRHO.EQ.NPC(J)) THEN 
+         IF(IRHO/=0 .AND. IRHO==NPC(J)) THEN 
             IRHO=J
             EXIT
          ENDIF
       ENDDO
       DO J=1,NFUNCT
-         IF(IENER.NE.0 .AND. IENER.EQ.NPC(J)) THEN
+         IF(IENER/=0 .AND. IENER==NPC(J)) THEN
             IENER=J
             EXIT
          ENDIF
       ENDDO
       DO J=1,NFUNCT
-         IF(IVX.NE.0 .AND. IVX.EQ.NPC(J)) THEN 
+         IF(IVX/=0 .AND. IVX==NPC(J)) THEN 
             IVX=J
             EXIT
          ENDIF
       ENDDO
       DO J=1,NFUNCT
-         IF(IVY.NE.0 .AND. IVY.EQ.NPC(J)) THEN
+         IF(IVY/=0 .AND. IVY==NPC(J)) THEN
             IVY=J
             EXIT
          ENDIF
       ENDDO
       DO J=1,NFUNCT
-         IF(IVZ.NE.0 .AND. IVZ.EQ.NPC(J)) THEN
+         IF(IVZ/=0 .AND. IVZ==NPC(J)) THEN
             IVZ=J
             EXIT
          ENDIF

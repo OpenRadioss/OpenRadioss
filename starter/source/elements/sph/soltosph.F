@@ -565,7 +565,7 @@ C
 C
        DET=ONE_OVER_512*(JAC1*JAC_59_68+JAC2*JAC_67_49+JAC3*JAC_48_57)
        VOL= WI*DET
-       IF(DET.LT.ZERO)
+       IF(DET<ZERO)
      . CALL ANCMSG(MSGID=1038,
      .             MSGTYPE=MSGERROR,
      .             ANMODE=ANINFO,
@@ -675,7 +675,7 @@ C
        WI = ONE/(SIX*NP)
 C
        VOL= WI*DET
-       IF(DET.LT.ZERO)
+       IF(DET<ZERO)
      . CALL ANCMSG(MSGID=1038,
      .             MSGTYPE=MSGERROR,
      .             ANMODE=ANINFO,

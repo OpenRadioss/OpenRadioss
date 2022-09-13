@@ -293,7 +293,7 @@ C-----------------------------------------------
       L = 1
       DO I=1,NSPMD
         SIZ = 2*(FR_RMS(I+1)-FR_RMS(I))
-        IF(SIZ.NE.0)THEN
+        IF(SIZ/=0)THEN
 c          print *,'irecv1',loc_proc,i,siz
           MSGTYP = MSGOFF 
           CALL MPI_IRECV(
@@ -324,7 +324,7 @@ C
 C   echange messages
 C
       DO I=1,NSPMD
-       IF(I/=LOC_PROC.AND.FR_SMS(I+1)-FR_SMS(I).GT.0)THEN
+       IF(I/=LOC_PROC.AND.FR_SMS(I+1)-FR_SMS(I)>0)THEN
           MSGTYP = MSGOFF 
           SIZ = 2*(FR_SMS(I+1)-FR_SMS(I))
 c          print *,'isend1',loc_proc,i,siz
@@ -336,7 +336,7 @@ c          print *,'isend1',loc_proc,i,siz
       ENDDO
 C
       DO I = 1, NSPMD
-        IF(FR_RMS(I+1)-FR_RMS(I).GT.0)THEN
+        IF(FR_RMS(I+1)-FR_RMS(I)>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
 
           L = 2*FR_RMS(I)-1
@@ -353,7 +353,7 @@ C
       END DO
 C
       DO I = 1, NSPMD
-        IF(I/=LOC_PROC.AND.FR_SMS(I+1)-FR_SMS(I).GT.0)THEN
+        IF(I/=LOC_PROC.AND.FR_SMS(I+1)-FR_SMS(I)>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       END DO
@@ -362,7 +362,7 @@ C  rby
       L = 1
       DO I=1,NSPMD
         SIZ = FR_SMS(I+1)-FR_SMS(I)
-        IF(I/=LOC_PROC.AND.SIZ.GT.0)THEN
+        IF(I/=LOC_PROC.AND.SIZ>0)THEN
 c          print *,'irecv2',loc_proc,i,siz
           MSGTYP = MSGOFF2                               
           CALL MPI_IRECV(
@@ -376,7 +376,7 @@ c          print *,'irecv2',loc_proc,i,siz
 C
       L = 1
       DO I=1,NSPMD
-        IF(FR_RMS(I+1)-FR_RMS(I).GT.0)THEN
+        IF(FR_RMS(I+1)-FR_RMS(I)>0)THEN
 #include      "vectorize.inc"
           DO J=FR_RMS(I),FR_RMS(I+1)-1
 C           LIST_RMS(J) ?= 0 
@@ -387,7 +387,7 @@ C           LIST_RMS(J) ?= 0
       ENDDO
 C
       DO I=1,NSPMD
-       IF(FR_RMS(I+1)-FR_RMS(I).GT.0)THEN
+       IF(FR_RMS(I+1)-FR_RMS(I)>0)THEN
           MSGTYP = MSGOFF2 
           SIZ = FR_RMS(I+1)-FR_RMS(I)
 c          print *,'isend2',loc_proc,i,siz
@@ -400,7 +400,7 @@ c          print *,'isend2',loc_proc,i,siz
 C
       M = 1
       DO I = 1, NSPMD
-        IF(I/=LOC_PROC.AND.FR_SMS(I+1)-FR_SMS(I).GT.0)THEN
+        IF(I/=LOC_PROC.AND.FR_SMS(I+1)-FR_SMS(I)>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
 
           L = FR_SMS(I)
@@ -416,7 +416,7 @@ C
       END DO
 C
       DO I = 1, NSPMD
-        IF(FR_RMS(I+1)-FR_RMS(I).GT.0)THEN
+        IF(FR_RMS(I+1)-FR_RMS(I)>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       END DO
@@ -476,7 +476,7 @@ C-----------------------------------------------
       L = 1
       DO I=1,NSPMD
         SIZ = FR_RMS(I+1)-FR_RMS(I)
-        IF(SIZ.NE.0)THEN
+        IF(SIZ/=0)THEN
           MSGTYP = MSGOFF 
 c          print *,'mij-irecv',loc_proc,i,siz
           CALL MPI_IRECV(
@@ -501,7 +501,7 @@ C
 C   echange messages
 C
       DO I=1,NSPMD
-       IF(I/=LOC_PROC.AND.FR_SMS(I+1)-FR_SMS(I).GT.0)THEN
+       IF(I/=LOC_PROC.AND.FR_SMS(I+1)-FR_SMS(I)>0)THEN
           MSGTYP = MSGOFF 
           SIZ = FR_SMS(I+1)-FR_SMS(I)
 c          print *,'mij-isend',loc_proc,i,siz
@@ -513,13 +513,13 @@ c          print *,'mij-isend',loc_proc,i,siz
       ENDDO
 C
       DO I = 1, NSPMD
-        IF(FR_RMS(I+1)-FR_RMS(I).GT.0)THEN
+        IF(FR_RMS(I+1)-FR_RMS(I)>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
         ENDIF
       END DO
 C
       DO I = 1, NSPMD
-        IF(I/=LOC_PROC.AND.FR_SMS(I+1)-FR_SMS(I).GT.0)THEN
+        IF(I/=LOC_PROC.AND.FR_SMS(I+1)-FR_SMS(I)>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -994,7 +994,7 @@ C
       END DO
 C
       ALLOCATE(SBUF(SIZ),STAT=IERROR)
-      IF(IERROR.NE.0) THEN
+      IF(IERROR/=0) THEN
         CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .              C1='FOR FSAI')
         CALL ARRET(2)
@@ -1009,7 +1009,7 @@ C
       END DO
 C
       ALLOCATE(RBUF(SIZ),STAT=IERROR)
-      IF(IERROR.NE.0) THEN
+      IF(IERROR/=0) THEN
         CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .              C1='FOR FSAI')
         CALL ARRET(2)
@@ -1147,7 +1147,7 @@ C-----------------------------------------------
       IAD_RECV(1) = 1
       DO I=1,NSPMD
         SIZ = SIZE*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
-        IF(SIZ.NE.0)THEN
+        IF(SIZ/=0)THEN
           MSGTYP = MSGOFF
           CALL MPI_IRECV(
      S      RBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
@@ -1178,7 +1178,7 @@ C
 C--------------------------------------------------------------------
 C envoi a N+I mod P
 Cel test si msg necessaire a envoyer a completer par test interface
-       IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0)THEN
+       IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
           MSGTYP = MSGOFF 
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
           L = IAD_SEND(I)
@@ -1194,7 +1194,7 @@ C
       DO I = 1, NSPMD
 Cel test si msg necessaire a envoyer a completer par test interface
         NB_NOD = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
-        IF(NB_NOD.GT.0)THEN
+        IF(NB_NOD>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
           L = IAD_RECV(I)
 #include        "vectorize.inc"
@@ -1212,7 +1212,7 @@ C
 Cel wait terminaison isend
 C
       DO I = 1, NSPMD
-        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0)THEN
+        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -1268,7 +1268,7 @@ C
       L = 0
       DO I = 1, NSPMD
         SIZ = IAD_M(I+1)-IAD_M(I)
-        IF(SIZ.GT.0) THEN
+        IF(SIZ>0) THEN
           L=L+1
           INDEXI(L)=I
           MSGTYP = MSGOFF                         

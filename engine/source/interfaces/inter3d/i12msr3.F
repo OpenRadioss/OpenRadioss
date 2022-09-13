@@ -61,15 +61,15 @@ C-----------------------------------------------
         BMAX=-EP30
         LSEG_NEW=0
 
-        IF(L.NE.0)THEN
+        IF(L/=0)THEN
           LSEG=L
           DO JJJ=1,4
             JJ=JJJ
-            IF(IRECT(JJ,L).EQ.JL) EXIT
+            IF(IRECT(JJ,L)==JL) EXIT
           ENDDO
           J1=KM1(JJ)
           J2=KN1(JJ)
-          IF(JJ.EQ.3.AND.IRECT(3,L).EQ.IRECT(4,L)) J1=1
+          IF(JJ==3.AND.IRECT(3,L)==IRECT(4,L)) J1=1
           M=IRECT(J1,L)
           N=IRECT(J2,L)
           CALL I12_NEAREST_SEG(XS, XM, IL, JL, M, N, LSEG, LSEG_NEW, BMIN, BMAX)
@@ -81,14 +81,14 @@ C-----------------------------------------------
         DO LL=LL1,LL2
           LG=LMSR(LL)
           LSEG=LG
-          IF(L.EQ.LG) CYCLE
+          IF(L==LG) CYCLE
           DO KKK=1,4
             KK=KKK
-            IF(IRECT(KK,LG).EQ.JL) EXIT
+            IF(IRECT(KK,LG)==JL) EXIT
           END DO
           K1=KM1(KK)
           K2=KN1(KK)
-          IF(KK.EQ.3.AND.IRECT(3,LG).EQ.IRECT(4,LG)) K1=1
+          IF(KK==3.AND.IRECT(3,LG)==IRECT(4,LG)) K1=1
           M=IRECT(K1,LG)
           N=IRECT(K2,LG)
           CALL I12_NEAREST_SEG(XS, XM, IL, JL, M, N, LSEG, LSEG_NEW, BMIN, BMAX)

@@ -533,7 +533,7 @@ C
      .              +NUMELQ+NUMELC+NUMELT+NUMELP),ISTYP,               
      .               ID,TITR)                                               
        
-       IF (NB_SEATBELT_SHELLS .NE.0) THEN
+       IF (NB_SEATBELT_SHELLS /=0) THEN
          SNSTRF1 = (SNSTRF-K8)/2
          NSEGR=NSEGR+ELEGROR_SEATBELT(IGUC,IGRSH4N,NGRSHEL,                    
      .               NSTRF(K8),2,SNSTRF1,NFRAM,TAGELEMS(1+NUMELS          

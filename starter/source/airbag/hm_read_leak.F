@@ -111,7 +111,7 @@ c
             EXIT                                
           ENDIF                                 
         ENDDO                                 
-        IF (UID.NE.0.AND.IFLAGUNIT.EQ.0) THEN
+        IF (UID/=0.AND.IFLAGUNIT==0) THEN
           CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I2=UID,I1=IMAT,
      .                C1='LEAK',C2='LEAK',
@@ -123,13 +123,13 @@ c
         ! Loop over all materials
         DO I=1,NUMMAT-1
           ! If the material exist, the reading pursue
-          IF(IPM(1,I).EQ.IMAT)THEN
+          IF(IPM(1,I)==IMAT)THEN
             IMID=IMAT
             WRITE(IOUT,1000)TRIM(TITR),IMID
             ILAW = IPM(2,I)
 c
             ! Material law must be /MAT/LAW19 or /MAT/LAW58
-            IF(ILAW.EQ.19.OR.ILAW.EQ.58)THEN
+            IF(ILAW==19.OR.ILAW==58)THEN
 c
               ! Read first card
               CALL HM_GET_INTV  ('Ileakage' ,ILEAKAGE  ,IS_AVAILABLE, LSUBMODEL)

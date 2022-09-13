@@ -489,9 +489,9 @@ C
         DO 100 I=2,NPT
         DX1 = -DX2
         DX2 = XC(I) - XX
-        IF(DX2.GE.0.0.OR.I.EQ.NPT)THEN
+        IF(DX2>=0.0.OR.I==NPT)THEN
           DERI = (YC(I) - YC(I-1)) / (XC(I) - XC(I-1))
-          IF(DX1.LE.DX2)THEN
+          IF(DX1<=DX2)THEN
             FINTER58 = YC(I-1) + DX1 * DERI
           ELSE
             FINTER58 = YC(I) - DX2 * DERI

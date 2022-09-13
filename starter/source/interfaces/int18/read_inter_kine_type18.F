@@ -158,7 +158,7 @@ c
             EXIT
           ENDIF
       ENDDO
-      IF (UID.NE.0.AND.IFLAGUNIT.EQ.0) THEN
+      IF (UID/=0.AND.IFLAGUNIT==0) THEN
           CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I2=UID,I1=NOINT,C1='INTERFACE',
      .                 C2='INTERFACE',
@@ -191,7 +191,7 @@ C  Card3
 C------------------------------------------------------------
        IREC=IREC+1
        READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
-       IF(LINE(1:1).NE."/" .AND. LINE(1:1).NE."#" .AND. LINE(1:1).NE."$")THEN
+       IF(LINE(1:1)/="/" .AND. LINE(1:1)/="#" .AND. LINE(1:1)/="$")THEN
           READ(LINE,ERR=999,FMT=FMT_5F)BID,BID,VISC,BID,BUMULT
        ENDIF
 
@@ -201,7 +201,7 @@ C------------------------------------------------------------
        ISU3_user=GRBRIC_ID
 
 !===CHECK STRUCTURE:ISU2=SURF_ID                                                                                                      
-       IF(ISU2.EQ.0) THEN                                                                                                                    
+       IF(ISU2==0) THEN                                                                                                                    
              MSGTITL='LAGRANGIAN SURFACE IS EMPTY (SURF_ID)'                                                                                    
              IF(IDDLEVEL==1)CALL ANCMSG(MSGID=1115,                                                                                                            
      .                   MSGTYPE=MSGERROR,                                                                                                      
@@ -215,7 +215,7 @@ C------------------------------------------------------------
             INGR2USR => IGRSURF(1:NSURF)%ID                                                                                                     
             ISU2=NGR2USR(ISU2,INGR2USR,NSURF) 
             MSGTITL='SURFACE CANNOT BE FOUND (SURF_ID)' 
-            IF(ISU2.EQ.0 .AND. IDDLEVEL==1)CALL ANCMSG(MSGID=1115,                                                                                                            
+            IF(ISU2==0 .AND. IDDLEVEL==1)CALL ANCMSG(MSGID=1115,                                                                                                            
      .                   MSGTYPE=MSGERROR,                                                                                                      
      .                   ANMODE=ANINFO,                                                                                                         
      .                   I1=NOINT,                                                                                                              
@@ -225,8 +225,8 @@ C------------------------------------------------------------
           
 !===CHECK ALE CELLS:ISU1=GRNOD_ID (old format) otherwise use Group of solids (GRBRIC_ID,GRQUAD_ID,GRTRIA_ID                           
           
-       IF(ISU1.NE.0 .AND. GRBRIC_ID.NE.0)GRBRIC_ID=0 ! Possible Istf flag defined in input (was removed from manuabecause Istf is always 1)  
-c          IF(ISU1.NE.0 .AND. GRBRIC_ID.NE.0)THEN                                                                                               
+       IF(ISU1/=0 .AND. GRBRIC_ID/=0)GRBRIC_ID=0 ! Possible Istf flag defined in input (was removed from manuabecause Istf is always 1)  
+c          IF(ISU1/=0 .AND. GRBRIC_ID/=0)THEN                                                                                               
 c             MSGTITL='YOU CANNOT DEFINE BOTH GRNOD_ID and GRBRIC_ID'                                                                           
 c             CALL ANCMSG(MSGID=1115,                                                                                                           
 c     .                   MSGTYPE=MSGERROR,                                                                                                     
@@ -235,12 +235,12 @@ c     .                   I1=NOINT,
 c     .                   C1=TITR,                                                                                                              
 c     .                   C2=MSGTITL)                                                                                                           
 c          ENDIF                                                                                                                                
-        IF(ISU1.NE.0)THEN                                                                                                                     
+        IF(ISU1/=0)THEN                                                                                                                     
             INGR2USR => IGRNOD(1:NGRNOD)%ID                                                                                                     
             ISU1=NGR2USR(ISU1,INGR2USR,NGRNOD)                                                                                                  
             IS1 =2  
              MSGTITL='GROUP OF NODES CANNOT BE FOUND (GRNOD_ID)' 
-             IF(ISU1.EQ.0 .AND. IDDLEVEL==1)CALL ANCMSG(MSGID=1115,                                                                                                            
+             IF(ISU1==0 .AND. IDDLEVEL==1)CALL ANCMSG(MSGID=1115,                                                                                                            
      .                   MSGTYPE=MSGERROR,                                                                                                      
      .                   ANMODE=ANINFO,                                                                                                         
      .                   I1=NOINT,                                                                                                              
@@ -248,12 +248,12 @@ c          ENDIF
      .                   C2=MSGTITL)                                                                                                                                          
         ELSE                                                                                                                                  
             !GRBRIC_ID,GRQUAD_ID,GRTRIA_ID                                                                                                      
-            IF(GRBRIC_ID.NE.0)THEN                                                                                                              
+            IF(GRBRIC_ID/=0)THEN                                                                                                              
               INGR2USR => IGRBRIC(1:NGRBRIC)%ID                                                                                                 
               GRBRIC_ID = NGR2USR(GRBRIC_ID,INGR2USR,NGRBRIC)                                                                                   
               IS1 = 5                                                                                                                           
             ENDIF                                                                                                                               
-            IF(GRBRIC_ID.EQ.0) THEN                                                                                                             
+            IF(GRBRIC_ID==0) THEN                                                                                                             
              MSGTITL='GROUP OF ALE CELLS IS EMPTY (GRBRIC_ID)'                                                                                  
              IF(IDDLEVEL==1)CALL ANCMSG(MSGID=1115,                                                                                                            
      .                   MSGTYPE=MSGERROR,                                                                                                      
@@ -266,7 +266,7 @@ c          ENDIF
             ENDIF                                                                                                                               
         ENDIF                                                                                                                                 
 !===CHECK STFAC                                                                                                                       
-        IF(STFAC.LE.ZERO)THEN                                                                                                                 
+        IF(STFAC<=ZERO)THEN                                                                                                                 
              MSGTITL='STIFFNESS VALUE MUST BE DEFINED (STFVAL)'                                                                                 
              IF(IDDLEVEL==1)CALL ANCMSG(MSGID=1115,                                                                                                            
      .                   MSGTYPE=MSGERROR,                                                                                                      
@@ -276,7 +276,7 @@ c          ENDIF
      .                   C2=MSGTITL)                                                                                                            
         ENDIF                                                                                                                                 
 !===CHECK GAP                                                                                                                         
-        IF(GAP.LE.ZERO)THEN                                                                                                                   
+        IF(GAP<=ZERO)THEN                                                                                                                   
              MSGTITL='GAP VALUE MUST BE DEFINED (GAP)'                                                                                          
              IF(IDDLEVEL==1)CALL ANCMSG(MSGID=1115,                                                                                                            
      .                   MSGTYPE=MSGERROR,                                                                                                      
@@ -287,9 +287,9 @@ c          ENDIF
         ENDIF                                                                                                                                 
 
 !===DEFAULT
-        IF(IBAG.LE.-1 .OR. IBAG.GE.4)IBAG=1
-        IF(IDEL7N.LE.-1 .OR. IDEL7N.GE.3)IDEL7N=0
-        IF(STFAC.EQ.ZERO)STFAC=ONE
+        IF(IBAG<=-1 .OR. IBAG>=4)IBAG=1
+        IF(IDEL7N<=-1 .OR. IDEL7N>=3)IDEL7N=0
+        IF(STFAC==ZERO)STFAC=ONE
         STFAC=-STFAC
           
 !===UNITS
@@ -334,7 +334,7 @@ C------------------------------------------------------------
         FRIGAP(1)=FRIC
         FRIGAP(2)=GAP
 
-        IF(BUMULT.EQ.ZERO)  BUMULT = BMUL0
+        IF(BUMULT==ZERO)  BUMULT = BMUL0
         FRIGAP(4)=BUMULT
 
 C FRIGAP(10) is initialized but used only in engine for storing number of couples candidates  
@@ -359,14 +359,14 @@ C
         DTMIN = ZERO
         WRITE(IOUT,3018)-STFAC,GAP,STARTT,STOPT, 
      .                 VISC,BUMULT,IBAG
-        IF(IDEL7N.NE.0) THEN
+        IF(IDEL7N/=0) THEN
            WRITE(IOUT,'(A,A,I5/)')'    DELETION FLAG ON FAILURE OF MAIN ELEMENT','  (1:YES-ALL/2:YES-ANY) : ',IDEL7N
            IF(IDELKEEP == 1)THEN
              WRITE(IOUT,'(A)')    '    IDEL: DO NOT REMOVE NON-CONNECTED NODES FROM SECONDARY SURFACE'
            ENDIF         
        ENDIF
 !==OUTPUTS USER IDS FOR MAIN/SECONDARY DEFINITION
-       IF(GRBRIC_ID.GT.0)THEN
+       IF(GRBRIC_ID>0)THEN
            WRITE(IOUT,6002)ISU3_user  !SECONDARY side from grbrick_id
        ELSE
            WRITE(IOUT,6001)ISU1_user  !SECONDARY side from grnod_id
@@ -374,28 +374,28 @@ C
        WRITE(IOUT,6003) ISU2_user   !MAIN side from surf_id     
 
 C--------------------------------------------------------------
-      IF(IS1.EQ.0)THEN
+      IF(IS1==0)THEN
         WRITE(IOUT,'(6X,A)')'NO SECONDARY SURFACE INPUT'
-      ELSEIF(IS1.EQ.1)THEN
+      ELSEIF(IS1==1)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS1.EQ.2)THEN
+      ELSEIF(IS1==2)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY NODES'
-      ELSEIF(IS1.EQ.3)THEN
+      ELSEIF(IS1==3)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS1.EQ.4 )THEN
+      ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
-      ELSEIF(IS1.EQ.5 )THEN
+      ELSEIF(IS1==5 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
       ENDIF
-      IF(IS2.EQ.0)THEN
+      IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'
-      ELSEIF(IS2.EQ.1)THEN
+      ELSEIF(IS2==1)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS2.EQ.2)THEN
+      ELSEIF(IS2==2)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY NODES'
-      ELSEIF(IS2.EQ.3)THEN
+      ELSEIF(IS2==3)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS2.EQ.4)THEN
+      ELSEIF(IS2==4)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE REFERS ',
      .                      'TO HYPER-ELLIPSOIDAL SURFACE'
       ENDIF
@@ -411,7 +411,7 @@ C------------
       RETURN
 
  3018 FORMAT(//
-     .    '    TYPE.EQ.18 ALE-LAGRANGE COUPLING' //,
+     .    '    TYPE==18 ALE-LAGRANGE COUPLING' //,
      .    '    STIFFNESS . . . . . . . . . . . . . . . . . ',1PG20.13/,
      .    '    GAP . . . . . . . . . . . . . . . . . . . . ',1PG20.13/,
      .    '    START TIME. . . . . . . . . . . . . . . . . ',1PG20.13/,

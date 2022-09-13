@@ -107,13 +107,13 @@ c
            V(I)=(MS(I)-MSINI(I))/MAX(EM20,MSINI(I))
          ENDDO
        ENDIF
-       IF (ISPMD.NE.0) THEN
+       IF (ISPMD/=0) THEN
 
          DO I=1,NUMNOD
-           IF (WEIGHT(I).EQ.1) THEN
+           IF (WEIGHT(I)==1) THEN
              FLAG = 0
              DO J=1,NUM
-               IF(V(I) .GT. MAXV0(J) .AND. FLAG == 0) THEN
+               IF(V(I) > MAXV0(J) .AND. FLAG == 0) THEN
                  DO K=1,NUM-J
                    IDNOD0(NUM-K+1) = IDNOD0(NUM-K)
                    MAXV0(NUM-K+1) = MAXV0(NUM-K) 
@@ -152,10 +152,10 @@ Csv de noeuds au max
 
        ELSE ! ISPMD == 0
           DO I=1,NUMNOD
-            IF (WEIGHT(I).EQ.1) THEN
+            IF (WEIGHT(I)==1) THEN
               FLAG = 0
               DO J=1,NUM
-                IF(V(I) .GT. MAXV(J) .AND. FLAG == 0) THEN
+                IF(V(I) > MAXV(J) .AND. FLAG == 0) THEN
                   DO K=1,NUM-J
                     IDNOD(NUM-K+1) = IDNOD(NUM-K)
                     MAXV(NUM-K+1) = MAXV(NUM-K) 
@@ -204,14 +204,14 @@ Csv Reception
             K = 1
             L = 1
             DO WHILE( J <= SIZ .AND. K <= SIZ .AND. L <= SIZ)
-                IF(MAXV(J) .GT. MAXV0(K))THEN
+                IF(MAXV(J) > MAXV0(K))THEN
                   MAXV_RES0(L) = MAXV(J)
                   IDNOD_RES(L) = IDNOD(J)
                   MAXV_RES1(L) = MAXV_1(J)
                   MAXV_RES2(L) = MAXV_2(J)
                   J = J + 1
                   L = L + 1
-                ELSEIF(MAXV0(K) .GT. MAXV(J))THEN
+                ELSEIF(MAXV0(K) > MAXV(J))THEN
                   MAXV_RES0(L) = MAXV0(K)
                   IDNOD_RES(L) = IDNOD0(K)
                   MAXV_RES1(L) = MAXV1(K)
@@ -242,7 +242,7 @@ Csv Reception
             WRITE(IOUT,2000)
             WRITE(IOUT,1001)
             DO I=1,NUM
-              IF(MAXV_RES0(I) .NE. ZERO)THEN
+              IF(MAXV_RES0(I) /= ZERO)THEN
                 WRITE(IOUT,1100) ITABG(IDNOD_RES(I)),MAXV_RES0(I),
      .               HALF*(MAXV_RES1(I))*MAXV_RES0(I)**2,
      .               MAXV_RES1(I),MAXV_RES2(I),
@@ -268,15 +268,15 @@ Csv Reception
           ELSEIF(IFLAG == 4 .AND. (IDTMIN(11) == 3 .OR.IDTMIN(11)==8))THEN
             ISMASSCHANGE = 0
             DO I=1,NUM
-              IF(MAXV_RES0(I) .NE.ZERO) ISMASSCHANGE = 1
+              IF(MAXV_RES0(I) /=ZERO) ISMASSCHANGE = 1
             ENDDO
-            IF(ISMASSCHANGE .NE. 0)THEN
+            IF(ISMASSCHANGE /= 0)THEN
               WRITE(IOUT,2000)
               WRITE(IOUT,1600)
               WRITE(IOUT,2000)
               WRITE(IOUT,1601)
               DO I=1,NUM
-               IF(MAXV_RES0(I) .NE. ZERO)
+               IF(MAXV_RES0(I) /= ZERO)
      .         WRITE(IOUT,1700) ITABG(IDNOD_RES(I)),MAXV_RES1(I),
      .                          MAXV_RES2(I),MAXV_RES0(I)
               ENDDO

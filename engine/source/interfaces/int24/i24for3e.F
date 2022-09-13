@@ -418,7 +418,7 @@ C---------left side
        IF (INEGA==-1) THEN
         DO J =1,4
          IX = IRTSE(J,IE)
-c         IF(IX .GT.NLSKYFI(NI))print*,ispmd,NI,'ERROR:',IX,NLSKYFI(NI)
+c         IF(IX >NLSKYFI(NI))print*,ispmd,NI,'ERROR:',IX,NLSKYFI(NI)
          FOR1(1,IX) = FOR1(1,IX) - FXS(J)
          FOR1(2,IX) = FOR1(2,IX) - FYS(J)
          FOR1(3,IX) = FOR1(3,IX) - FZS(J)
@@ -790,7 +790,7 @@ C-----------------------------------------------
          IEDGE4 = IPARI(59,N)
          TS  = INTBUF_TAB(N)%VARIABLES(3)
 
-         IF(NTY == 24.AND.IEDGE4>0.AND.TT.GE.TS)THEN
+         IF(NTY == 24.AND.IEDGE4>0.AND.TT>=TS)THEN
 
 C Move XFIC & VFIC to another place for SPMD coherency
             NFIC = 3   

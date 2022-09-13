@@ -376,7 +376,7 @@ C
           STIFN(IXS(9,N))=STIFN(IXS(9,N))+STIE
         ENDDO     
 C--------------------------------------
-      ELSEIF (ITY.EQ.3) THEN
+      ELSEIF (ITY==3) THEN
 C--------------------------------------
 C 4-nodes shell
         IMAT  = IXC(1,1+NFT)         ! material number
@@ -473,7 +473,7 @@ C
           IRIG_NODE(NC(4)) = 1
         ENDDO                             
 C--------------------------------------
-      ELSEIF(ITY.EQ.7)THEN
+      ELSEIF(ITY==7)THEN
 C--------------------------------------
 C 3-nodes shell
         IMAT  = IXTG(1,1+NFT)          ! material number

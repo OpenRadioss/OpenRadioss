@@ -111,11 +111,11 @@ C     REAL
 C
       NSN   =IPARI(5,NIN)
       NTY   =IPARI(7,NIN)
-      IF(IPARI(33,NIN).EQ.1) RETURN
+      IF(IPARI(33,NIN)==1) RETURN
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
       IGAP  =IPARI(21,NIN)
       INACTI=IPARI(22,NIN)
       STIGLO=-INTBUF_TAB%STFAC(1)
@@ -128,12 +128,12 @@ C
       KMIN  =INTBUF_TAB%VARIABLES(17)
       KMAX  =INTBUF_TAB%VARIABLES(18)
 C
-      IF(NTY.EQ.3)THEN
-      ELSEIF(NTY.EQ.4)THEN
-      ELSEIF(NTY.EQ.5)THEN
-      ELSEIF(NTY.EQ.6)THEN
+      IF(NTY==3)THEN
+      ELSEIF(NTY==4)THEN
+      ELSEIF(NTY==5)THEN
+      ELSEIF(NTY==6)THEN
 C
-      ELSEIF(NTY.EQ.7)THEN
+      ELSEIF(NTY==7)THEN
 C
         CALL FFIZERO(NUM_IMP    ,NIN   ,NSN     ,CAND_N     )
         I_STOK = NUM_IMP
@@ -180,7 +180,7 @@ C
      2                  X1     ,X2     ,X3     ,X4     ,Y1     ,
      3                  Y2     ,Y3     ,Y4     ,Z1     ,Z2     ,
      4                  Z3     ,Z4     ,XI     ,YI     ,ZI     )
-           IF (IMACH.EQ.3.AND.NSPMD.GT.1) THEN
+           IF (IMACH==3.AND.NSPMD>1) THEN
             LREM = LREM + JLT
             CALL ASS_SPMD(3        ,NSVG     ,IX1    ,IX2    ,IX3    ,       
      1         IX4      ,JLT       ,IDDL     ,K_DIAG    ,K_LT     ,
@@ -246,17 +246,17 @@ C
       IAD=1
       DO N = 1, NINTER
         NTY   =IPARI(7,N)
-        IF(NTY.EQ.7.OR.NTY.EQ.24) THEN
+        IF(NTY==7.OR.NTY==24) THEN
           CALL I7FORCF3( A    ,V     ,MS     ,X       ,D       ,
      1       IPARI     ,INTBUF_TAB(N) ,N       ,
      2       NUM_IMP(N),NS_IMP(IAD),NE_IMP(IAD)   )
           IAD=IAD+NUM_IMP(N)
-        ELSEIF(NTY.EQ.10) THEN
+        ELSEIF(NTY==10) THEN
           CALL I10FORCF3( A    ,V     ,MS     ,X       ,D       ,
      1       IPARI(1,N),INTBUF_TAB(N) ,N       ,
      2       NUM_IMP(N),NS_IMP(IAD),NE_IMP(IAD)   )
           IAD=IAD+NUM_IMP(N)
-        ELSEIF(NTY.EQ.11) THEN
+        ELSEIF(NTY==11) THEN
           CALL I11FORCF3( A    ,V     ,MS     ,X       ,D       ,
      1        IPARI(1,N),INTBUF_TAB(N) ,N       ,
      2        NUM_IMP(N),NS_IMP(IAD),NE_IMP(IAD)   )
@@ -329,19 +329,19 @@ C----------------------------------------------
 C
       NSN   =IPARI(5,NIN)
       NTY   =IPARI(7,NIN)
-      IF(IPARI(33,NIN).EQ.1) RETURN
+      IF(IPARI(33,NIN)==1) RETURN
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
       FRIC  =INTBUF_TAB%VARIABLES(1)
 C
-      IF(NTY.EQ.3)THEN
-      ELSEIF(NTY.EQ.4)THEN
-      ELSEIF(NTY.EQ.5)THEN
-      ELSEIF(NTY.EQ.6)THEN
+      IF(NTY==3)THEN
+      ELSEIF(NTY==4)THEN
+      ELSEIF(NTY==5)THEN
+      ELSEIF(NTY==6)THEN
 C
-      ELSEIF(NTY.EQ.7)THEN
+      ELSEIF(NTY==7)THEN
 C
         I_STOK = NUM_IMP
         L = 0
@@ -481,11 +481,11 @@ C     REAL
 C
       NSN   =IPARI(5,NIN)
       NTY   =IPARI(7,NIN)
-      IF(IPARI(33,NIN).EQ.1) RETURN
+      IF(IPARI(33,NIN)==1) RETURN
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
       IGAP  =IPARI(21,NIN)
       INACTI=IPARI(22,NIN)
       STIGLO=-INTBUF_TAB%STFAC(1)
@@ -497,25 +497,25 @@ C
       KMIN  =INTBUF_TAB%VARIABLES(17)
       KMAX  =INTBUF_TAB%VARIABLES(18)
 C
-      IF(NTY.EQ.3)THEN
-      ELSEIF(NTY.EQ.4)THEN
-      ELSEIF(NTY.EQ.5)THEN
-      ELSEIF(NTY.EQ.6)THEN
+      IF(NTY==3)THEN
+      ELSEIF(NTY==4)THEN
+      ELSEIF(NTY==5)THEN
+      ELSEIF(NTY==6)THEN
 C
-      ELSEIF(NTY.EQ.7)THEN
+      ELSEIF(NTY==7)THEN
 C
         I_STOK = INTBUF_TAB%I_STOK(1)
 C decoupage statique
-        IF(INACTI.NE.7.OR.IMACH.EQ.3)THEN
+        IF(INACTI/=7.OR.IMACH==3)THEN
           NB_LOC = I_STOK / NTHREAD
-          IF (JTASK.EQ.NTHREAD) THEN
+          IF (JTASK==NTHREAD) THEN
             I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
           ELSE
             I_STOK_LOC = NB_LOC
           ENDIF
           DEBUT = (JTASK-1)*NB_LOC
         ELSE ! INACTI = 7 et IMACH NE 3
-          IF(JTASK.EQ.1)THEN
+          IF(JTASK==1)THEN
             I_STOK_LOC = I_STOK
             DEBUT = 0
           ELSE
@@ -529,9 +529,9 @@ C
 C
 C recalcul du istok
 C
-        IF (INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7)THEN
+        IF (INACTI==5.OR.INACTI==6.OR.INACTI==7)THEN
           DO I = DEBUT+1, DEBUT+I_STOK_LOC
-            IF(INTBUF_TAB%CAND_N(I).LT.0) THEN
+            IF(INTBUF_TAB%CAND_N(I)<0) THEN
               I_STOK = I_STOK + 1
               INDEX2(I_STOK) = I
 C inbuf == cand_n
@@ -543,7 +543,7 @@ C remise a 0 de cand_p
           ENDDO
         ELSE
           DO I = DEBUT+1, DEBUT+I_STOK_LOC
-            IF(INTBUF_TAB%CAND_N(I).LT.0) THEN
+            IF(INTBUF_TAB%CAND_N(I)<0) THEN
               I_STOK = I_STOK + 1
               INDEX2(I_STOK) = I
 C inbuf == cand_n
@@ -685,16 +685,16 @@ C     REAL
      .    DXI(MVSIZ),DYI(MVSIZ),DZI(MVSIZ),
      .    MSI(MVSIZ)
 C   ---- A(3,I) input:D(3,I); output:Fint(3,I)----- 
-      IF(NUM_IMP.EQ.0) RETURN
+      IF(NUM_IMP==0) RETURN
 C
       NSN   =IPARI(5,NIN)
       NTY   =IPARI(7,NIN)
-      IF(NTY.NE.7)RETURN
-      IF(IPARI(33,NIN).EQ.1) RETURN
+      IF(NTY/=7)RETURN
+      IF(IPARI(33,NIN)==1) RETURN
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
       IGAP  =IPARI(21,NIN)
       INACTI=IPARI(22,NIN)
       STIGLO=-INTBUF_TAB%STFAC(1)
@@ -708,12 +708,12 @@ C
       MFROT =IPARI(30,NIN)
       IFQ =IPARI(31,NIN) 
 C
-      IF(NTY.EQ.3)THEN
-      ELSEIF(NTY.EQ.4)THEN
-      ELSEIF(NTY.EQ.5)THEN
-      ELSEIF(NTY.EQ.6)THEN
+      IF(NTY==3)THEN
+      ELSEIF(NTY==4)THEN
+      ELSEIF(NTY==5)THEN
+      ELSEIF(NTY==6)THEN
 C
-      ELSEIF(NTY.EQ.7)THEN
+      ELSEIF(NTY==7)THEN
 C
         I_STOK = NUM_IMP
 C
@@ -809,7 +809,7 @@ C-----------------------------------------------
 C--------------------------------------------------------
 C  Due to multi-contacts, zero initialization should be done globaly
 C--------------------------------------------------------
-       IF (NSPMD.GT.1) THEN
+       IF (NSPMD>1) THEN
         DO I=1,JLT
          NI = CAND_N(I)
          IF(NI > NSN)THEN

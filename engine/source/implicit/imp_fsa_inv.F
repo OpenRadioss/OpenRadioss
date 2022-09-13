@@ -98,7 +98,7 @@ C-----------------------------------------------
       my_real
      .  PSR
 C-----------------------------------------------
-      IF (IP.GE.4) THEN
+      IF (IP>=4) THEN
        IFSAI=1
        IOPT=IP-4
       ELSE
@@ -109,13 +109,13 @@ C------define sparse static pattern:----
       NNZM = 0
       IADM(1)=1
 C-------symetry firstly---
-      IF (MOD(IOPT,2).GT.0) THEN
+      IF (MOD(IOPT,2)>0) THEN
 C-------pre-filtrage----
        DO I=1,NDDL
         DO K =IADK(I),IADK(I+1)-1
          J=JDIK(K)
          PSR = PSI*SQRT(DIAG_K(I)*DIAG_K(J))
-         IF (ABS(LT_K(K)).GE.PSR) THEN
+         IF (ABS(LT_K(K))>=PSR) THEN
           NNZM = NNZM+1
           JDIM(NNZM)=J
          ENDIF
@@ -136,7 +136,7 @@ C
        NC(I)=0
       ENDDO 
 C
-      IF (IOPT.GT.1) THEN
+      IF (IOPT>1) THEN
        DO I=1,NDDL
 C------------avec diag----
         NC(I) = NC(I)+1
@@ -151,7 +151,7 @@ C------------avec diag----
        ENDDO 
        CALL SP_A2(NDDL,NC,JM,MAXC,IFSAI)
       ELSE
-       IF (IFSAI.EQ.1) THEN
+       IF (IFSAI==1) THEN
         DO I=1,NDDL
          NC(I) = NC(I)+1
          JM(NC(I),I)=I
@@ -160,7 +160,7 @@ C------------avec diag----
           NC(J) = NC(J)+1
           JM(NC(J),J)=I
          ENDDO 
-         IF (NC(I).GT.MAXC) THEN
+         IF (NC(I)>MAXC) THEN
           WRITE(*,*)'N>MAXB',NC(I),MAXC,I
           CALL ARRET(2)
          ENDIF 
@@ -176,7 +176,7 @@ C------------avec diag----
           NC(I) = NC(I)+1
           JM(NC(I),I)=J
          ENDDO 
-         IF (NC(I).GT.MAXC) THEN
+         IF (NC(I)>MAXC) THEN
           WRITE(*,*)'N>MAXB',NC(I),MAXC,I
           CALL ARRET(2)
          ENDIF 
@@ -227,15 +227,15 @@ C-----------------------------------------------
         JN(J,I)=JM(J,I)
        ENDDO 
       ENDDO 
-      IF (IFSAI.EQ.1) THEN
+      IF (IFSAI==1) THEN
        DO I=1,NDDL
         NC(I) = NC(I)+1
         JM(NC(I),I)=I
         DO J=I+1,NDDL
-         IF(INTAB2(NN(I),JN(1,I),NN(J),JN(1,J)).GT.0) THEN
+         IF(INTAB2(NN(I),JN(1,I),NN(J),JN(1,J))>0) THEN
           NC(J) = NC(J)+1
           JM(NC(J),J)=I
-          IF (NC(J).GT.MAXC) THEN
+          IF (NC(J)>MAXC) THEN
            WRITE(*,*)'N>MAXB',NC(J),MAXC,J
            CALL ARRET(2)
           ENDIF 
@@ -247,12 +247,12 @@ C-----------------------------------------------
         NC(I) = NC(I)+1
         JM(NC(I),I)=I
         DO J=I+1,NDDL
-         IF(INTAB2(NN(I),JN(1,I),NN(J),JN(1,J)).GT.0) THEN
+         IF(INTAB2(NN(I),JN(1,I),NN(J),JN(1,J))>0) THEN
           NC(I) = NC(I)+1
           JM(NC(I),I)=J
           NC(J) = NC(J)+1
           JM(NC(J),J)=I
-          IF (NC(I).GT.MAXC) THEN
+          IF (NC(I)>MAXC) THEN
            WRITE(*,*)'N>MAXB',NC(I),MAXC,I
            CALL ARRET(2)
           ENDIF 
@@ -366,7 +366,7 @@ C--------------------------------------------
         DO K=IADK(J),IADK(J+1)-1
          JJ=JDIK(K)
          N=INTAB0(NC,JM,JJ)
-         IF (N.GT.0) THEN
+         IF (N>0) THEN
           NNZA=NNZA+1
           JDIA(NNZA)=N
           LT_A(NNZA)=LT_K(K)
@@ -429,24 +429,24 @@ C--------------------------------------------
 #include      "vectorize.inc"
       DO I=1,NC
        J=JM(I)
-       IF (J.LE.IDLFT0) THEN
+       IF (J<=IDLFT0) THEN
         DIAG_A(I)=DIAG_M(J)
         DO K=IADK(J),IADK(J+1)-1
          JJ=JDIK(K)
          N=INTAB0(NC,JM,JJ)
-         IF (N.GT.0) THEN
+         IF (N>0) THEN
           NNZA=NNZA+1
           JDIA(NNZA)=N
           LT_A(NNZA)=LT_M(K)
          ENDIF
         ENDDO
-       ELSEIF (J.GT.IDLFT1) THEN
+       ELSEIF (J>IDLFT1) THEN
         DIAG_A(I)=DIAG_C(J-IDLFT1)
         DO K=IADK(J),IADK(J+1)-1
          JJ=JDIK(K)
-C         IF (JJ.GT.IDLFT1) THEN
+C         IF (JJ>IDLFT1) THEN
           N=INTAB0(NC,JM,JJ)
-          IF (N.GT.0) THEN
+          IF (N>0) THEN
            NNZA=NNZA+1
            JDIA(NNZA)=N
            LT_A(NNZA)=LT_C(K-K0)
@@ -458,7 +458,7 @@ C         ENDIF
         DO K=IADK(J),IADK(J+1)-1
          JJ=JDIK(K)
          N=INTAB0(NC,JM,JJ)
-         IF (N.GT.0) THEN
+         IF (N>0) THEN
           NNZA=NNZA+1
           JDIA(NNZA)=N
           LT_A(NNZA)=LT_K(K)
@@ -517,7 +517,7 @@ C--------------------------------------------
         DO K=IADK(J),IADK(J+1)-1
          JJ=JDIK(K)
          N=INTAB0(NC,JM,JJ)
-         IF (N.GT.0) THEN
+         IF (N>0) THEN
           NNZA=NNZA+1
           JDIA(NNZA)=N
           LT_A(NNZA)=LT_K(K)
@@ -558,17 +558,17 @@ C-----------------------------------------------
       INTEGER I,J
 C----6-----IC est deja en ordre croissante---------------------------7---------8
       INTAB0=0
-      IF (N.LT.IC(1).OR.N.GT.IC(NIC)) RETURN
-      IF (N.LT.NIC/2) THEN
+      IF (N<IC(1).OR.N>IC(NIC)) RETURN
+      IF (N<NIC/2) THEN
        DO I =1,NIC
-        IF (N.EQ.IC(I)) THEN
+        IF (N==IC(I)) THEN
          INTAB0=I
          RETURN
         ENDIF
        ENDDO 
       ELSE
        DO I =NIC,1,-1
-        IF (N.EQ.IC(I)) THEN
+        IF (N==IC(I)) THEN
          INTAB0=I
          RETURN
         ENDIF
@@ -605,11 +605,11 @@ C-----------------------------------------------
       INTEGER I,J
 C----6-----ICi est deja en ordre croissante--return indice dans IC1--7---------8
       INTAB2=0
-      IF (IC1(NIC1).LT.IC2(1).OR.IC2(NIC2).LT.IC1(1)) RETURN
-C      IF (NIC1.GT.NIC2) THEN
+      IF (IC1(NIC1)<IC2(1).OR.IC2(NIC2)<IC1(1)) RETURN
+C      IF (NIC1>NIC2) THEN
        DO I =1,NIC2
         INTAB2=INTAB0(NIC1,IC1,IC2(I))
-        IF (INTAB2.GT.0) RETURN
+        IF (INTAB2>0) RETURN
        ENDDO 
       RETURN
       END
@@ -664,7 +664,7 @@ C--- M->A^-1 LT_M  stricly lower in m.c.r.s. format
       my_real, DIMENSION(:),ALLOCATABLE :: LT_A
 C-----------------------------
        ALLOCATE(LT_A(MAX_A),STAT=IERR)
-        IF (IERR.NE.0) THEN
+        IF (IERR/=0) THEN
           CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .                C1='FOR IMPLICIT PRECONDITION')
           CALL ARRET(2)
@@ -689,12 +689,12 @@ C--------------copy la partie utile------
          MJ(J)=ZERO
         ENDDO
         MJ(NC)=ONE
-        IF (NC.GT.10000) THEN
+        IF (NC>10000) THEN
           MAX_L=MAX_A
           CALL IMP_PCG1( 
      1                    NC    ,MAX_L  ,IADA  ,JDIA  ,DIAG_A ,   
      2                    LT_A  ,MJ     ,IERR  )
-         IF (I_CHK.GT.0.AND.IERR.LT.0) NNE = I
+         IF (I_CHK>0.AND.IERR<0) NNE = I
         ELSE
         MAX_L=1+(NC*(NC-1))/2
         CALL IMP_FSAI(NC    ,IADA  ,JDIA  ,DIAG_A ,LT_A  ,
@@ -702,8 +702,8 @@ C--------------copy la partie utile------
         ENDIF 
 C------------filtrage----Diagonal est dans LT_M (last one)--
          DIAG_M(I)=MJ(NC)
-         IF (DIAG_M(I).LT.EM20) THEN
-          IF (NNE.EQ.0.AND.I_CHK.EQ.0) NNE = I
+         IF (DIAG_M(I)<EM20) THEN
+          IF (NNE==0.AND.I_CHK==0) NNE = I
           DIAG_M(I)=ABS(DIAG_M(I))
           DIAG_M(I)=MAX(EM20,DIAG_M(I))
          ENDIF
@@ -711,7 +711,7 @@ C------------filtrage----Diagonal est dans LT_M (last one)--
           M=IADK(I)+K-1
           LT_M(M)=MJ(K)/DIAG_M(I)
          ENDDO
-         IF (I_CHK.GT.0.AND.MJ(NC).LT.EM20) DIAG_M(I)=MJ(NC)
+         IF (I_CHK>0.AND.MJ(NC)<EM20) DIAG_M(I)=MJ(NC)
        ENDDO
        DEALLOCATE(LT_A)
 C 
@@ -803,10 +803,10 @@ C------X(I)=ZERO--------
        CALL PRODUT_V0(NDDL,P,Y,S)
        ALPHA = G0/S
        TOLS2=TOLS*TOLS
-       IF (ITOL.EQ.1) THEN
+       IF (ITOL==1) THEN
         CALL PRODUT_V0(NDDL,R,R,R02)
         R2 =R02
-       ELSEIF (ITOL.EQ.3) THEN
+       ELSEIF (ITOL==3) THEN
 C------ R2<TOL*TOL*ANORM2*XNORM2------
         R02=ABS(G0)
         R2 =R02
@@ -818,7 +818,7 @@ C        L_B2=R02
         A_OLD=L_A
         B_OLD=ZERO
         OLDB   = SQRT(R02)
-       ELSEIF (ITOL.EQ.4) THEN
+       ELSEIF (ITOL==4) THEN
         R02=ALPHA*ALPHA*ABS(G0)
         EPS(1)=R02
         R2=R02
@@ -826,7 +826,7 @@ C        L_B2=R02
         R02=ABS(G0)
         R2 =R02
        ENDIF
-       IF (R02.EQ.ZERO) GOTO 200
+       IF (R02==ZERO) GOTO 200
        TOLN=R02*TOLS2
 C-------pour etre coherent avec lanzos for linear
        IT=1
@@ -839,9 +839,9 @@ C-------pour etre coherent avec lanzos for linear
         ENDDO 
        CALL PRODUT_V0(NDDL,R,Z,G1)
        BETA=G1/G0
-       IF (ITOL.EQ.1) THEN
+       IF (ITOL==1) THEN
         CALL PRODUT_V0(NDDL,R,R,R2)
-       ELSEIF (ITOL.EQ.3) THEN
+       ELSEIF (ITOL==3) THEN
 C------ R2<TOL*TOL*ANORM2*XNORM2------
         R2=ABS(G1)
         L_B2=ABS(BETA)*A_OLD*A_OLD
@@ -857,15 +857,15 @@ C*     INITIALIZE OTHER QUANTITIES.
         GMIN   = GMAX
         OLDB2   = L_B2
         OLDB   = L_B
-       ELSEIF (ITOL.EQ.4) THEN
+       ELSEIF (ITOL==4) THEN
         R2=R02
        ELSE
         R2=ABS(G1)
        ENDIF
        G0 = G1
-       IF (ITOL.EQ.3) TOLN=TOLN*ANORM2
+       IF (ITOL==3) TOLN=TOLN*ANORM2
        ISTOP=CRIT_STOP(IT,R2,NLIM,TOLN)
-       DO WHILE (ISTOP.EQ.1)
+       DO WHILE (ISTOP==1)
         DO I=1,NDDL
          P(I) = Z(I) + BETA*P(I)
         ENDDO 
@@ -884,9 +884,9 @@ C*     INITIALIZE OTHER QUANTITIES.
         CALL PRODUT_V0(NDDL,R,Z,G1)
         BETA=G1/G0
         G0 = G1
-        IF (ITOL.EQ.1) THEN
+        IF (ITOL==1) THEN
          CALL PRODUT_V0(NDDL,R,R,R2)
-        ELSEIF (ITOL.EQ.3) THEN
+        ELSEIF (ITOL==3) THEN
          R2 =ABS(G1)
          S=ONE/ALPHA
          L_A=S+B_OLD*A_OLD
@@ -913,9 +913,9 @@ C----------L_B2 : beta(j-1)^2-A_OLD :1/alpha(j-1)-------
          TOLN=TOLS2*ANORM2*XNORM2
          OLDB2   = L_B2
          OLDB   = L_B
-        ELSEIF (ITOL.EQ.4) THEN
+        ELSEIF (ITOL==4) THEN
          TMP=ALPHA*ALPHA*ABS(G1)
-         IF (IT.GE.ND) THEN
+         IF (IT>=ND) THEN
           DO J=1,ND-1
            EPS(J)=EPS(J+1)
           ENDDO
@@ -935,7 +935,7 @@ C----------L_B2 : beta(j-1)^2-A_OLD :1/alpha(j-1)-------
         IT = IT +1
        ENDDO
  200   CONTINUE
-       IF(IT.GE.NLIM)THEN
+       IF(IT>=NLIM)THEN
         ISP =-1
        ELSE
         ISP = 0
@@ -1010,7 +1010,7 @@ C-----------------------------
        ALLOCATE(DIAG_A(MAXC))
        ALLOCATE(MJ(MAXC))
        ALLOCATE(LT_A(MAX_A),STAT=IERR)
-         IF (IERR.NE.0) THEN
+         IF (IERR/=0) THEN
            CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .                 C1='FOR IMPLICIT PRECONDITION')
            CALL ARRET(2)
@@ -1024,12 +1024,12 @@ C-----------------------------
          MJ(J)=ZERO
         ENDDO
         MJ(NC)=ONE
-        IF (NC.GT.10000) THEN
+        IF (NC>10000) THEN
           MAX_L=MAX_A
           CALL IMP_PCG1( 
      1                    NC    ,MAX_L  ,IADA  ,JDIA  ,DIAG_A ,   
      2                    LT_A  ,MJ     ,IERR  )
-         IF (I_CHK.GT.0.AND.IERR.LT.0) NNE = I
+         IF (I_CHK>0.AND.IERR<0) NNE = I
         ELSE
          MAX_L=1+(NC*(NC-1))/2
          CALL IMP_FSAI(NC    ,IADA  ,JDIA  ,DIAG_A ,LT_A  ,
@@ -1037,8 +1037,8 @@ C-----------------------------
         ENDIF
 C-----------------
          DIAG_M(I)=MJ(NC)
-         IF (DIAG_M(I).LT.EM20) THEN
-          IF (NNE.EQ.0.AND.I_CHK.EQ.0) NNE = I
+         IF (DIAG_M(I)<EM20) THEN
+          IF (NNE==0.AND.I_CHK==0) NNE = I
           DIAG_M(I)=ABS(DIAG_M(I))
           DIAG_M(I)=MAX(EM20,DIAG_M(I))
          ENDIF
@@ -1046,7 +1046,7 @@ C-----------------
           M=IADM(I)+K-1
           LT_M(M)=MJ(K)/DIAG_M(I)
          ENDDO
-         IF (I_CHK.GT.0.AND.MJ(NC).LT.EM20) DIAG_M(I)=MJ(NC)
+         IF (I_CHK>0.AND.MJ(NC)<EM20) DIAG_M(I)=MJ(NC)
        ENDDO
 C
        DEALLOCATE(IADA,JDIA)
@@ -1054,7 +1054,7 @@ C
        DEALLOCATE(DIAG_A,LT_A)
        DEALLOCATE(MJ)
        K = 1
-       IF (D_TOL.GT.ZERO)
+       IF (D_TOL>ZERO)
      .  CALL IMP_KFILTR(K     ,NDDL  ,IADM  ,JDIM  ,DIAG_M ,
      .                  LT_M  ,D_TOL ,P_MACH,DIAG_K)
 C
@@ -1112,7 +1112,7 @@ C--- M->A^-1 LT_M  stricly lower in m.c.r.s. format
       my_real, DIMENSION(:),ALLOCATABLE :: LT_A
 C-----------------------------
         ALLOCATE(LT_A(MAX_A),STAT=IERR)
-        IF (IERR.NE.0) THEN
+        IF (IERR/=0) THEN
           CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .                 C1='FOR IMPLICIT PRECONDITION')
           CALL ARRET(2)
@@ -1137,12 +1137,12 @@ C--------------copy la partie utile------
          MJ(J)=ZERO
         ENDDO
         MJ(NC)=ONE
-        IF (NC.GT.10000) THEN
+        IF (NC>10000) THEN
           MAX_L=MAX_A
           CALL IMP_PCG1( 
      1                    NC    ,MAX_L  ,IADA  ,JDIA  ,DIAG_A ,   
      2                    LT_A  ,MJ     ,IERR  )
-         IF (I_CHK.GT.0.AND.IERR.LT.0) NNE = I
+         IF (I_CHK>0.AND.IERR<0) NNE = I
         ELSE
          MAX_L=1+(NC*(NC-1))/2
          CALL IMP_FSAI(NC    ,IADA  ,JDIA  ,DIAG_A ,LT_A  ,
@@ -1150,8 +1150,8 @@ C--------------copy la partie utile------
         ENDIF 
 C------------Diagonal est dans LT_M (last one)--
          DIAG_M(I)=MJ(NC)
-         IF (DIAG_M(I).LT.EM20) THEN
-          IF (NNE.EQ.0.AND.I_CHK.EQ.0) NNE = I
+         IF (DIAG_M(I)<EM20) THEN
+          IF (NNE==0.AND.I_CHK==0) NNE = I
           DIAG_M(I)=ABS(DIAG_M(I))
           DIAG_M(I)=MAX(EM20,DIAG_M(I))
          ENDIF
@@ -1159,12 +1159,12 @@ C------------Diagonal est dans LT_M (last one)--
           M=IADM(I)+K-1
           LT_M(M)=MJ(K)/DIAG_M(I)
          ENDDO
-         IF (I_CHK.GT.0.AND.MJ(NC).LT.EM20) DIAG_M(I)=MJ(NC)
+         IF (I_CHK>0.AND.MJ(NC)<EM20) DIAG_M(I)=MJ(NC)
        ENDDO
 C
        DEALLOCATE(LT_A)
        K = IDLFT0+1
-       IF (D_TOL.GT.ZERO)
+       IF (D_TOL>ZERO)
      .  CALL IMP_KFILTR(K     ,NDDL  ,IADM  ,JDIM  ,DIAG_M ,
      .                  LT_M  ,D_TOL ,P_MACH,DIAG_K)
 C 
@@ -1225,10 +1225,10 @@ C-----------------------------
         ENDDO
         IADA(I+1) = 1
        ENDDO
-      IF (NZ.GT.0.AND.TOL.GT.ZERO) THEN
+      IF (NZ>0.AND.TOL>ZERO) THEN
        ALLOCATE(IADL(ND+1))
        ALLOCATE(JDIL(NZ),LT_L(NZ),STAT=IERR)
-         IF (IERR.NE.0) THEN
+         IF (IERR/=0) THEN
            CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .                 C1='FOR IMPLICIT PRECONDITION')
            CALL ARRET(2)
@@ -1252,7 +1252,7 @@ C------post-filtration------
         DO J  = IADL(I), IADL(I+1)-1
          MTOL = TOL*MIN(DIAG_A(JDIL(J)),DIAG_A(I))
          MTOL = MAX(E_PS,MTOL)
-         IF (ABS(LT_L(J)).GT.MTOL) THEN
+         IF (ABS(LT_L(J))>MTOL) THEN
 	      MNZ = MNZ + 1
 	      JDIA(MNZ) = JDIL(J)
 	      LT_A(MNZ) = LT_L(J)
@@ -1268,7 +1268,7 @@ c	print *,'mnz,nz=',mnz,nz,mtol
 C------retrun from M normalized------
       ENDIF 
       INORM = 0
-      IF (INORM.GT.ZERO) THEN
+      IF (INORM>ZERO) THEN
        DO I  = NDF, ND
 	    DIAG_A(I) = DIAG_A(I)/DIAG_K(I)
         DO J  = IADA(I), IADA(I+1)-1
@@ -1327,7 +1327,7 @@ C--------------------------------------------
         DO K=IADK(J),IADK(J+1)-1
          JJ=JDIK(K)
          N=INTAB0(NC,JM,JJ)
-         IF (N.GT.0) THEN
+         IF (N>0) THEN
 	  DD = SQRT(DIAG_K(J)*DIAG_K(JJ))
           NNZA=NNZA+1
           JDIA(NNZA)=N
@@ -1462,12 +1462,12 @@ C--- M->A^-1 LT_M  stricly lower in m.c.r.s. format
 C-----------------------------
        I_CHK = NNE
        NNE = 0
-       IF ((IDLFT0+1).GT.NDDL) RETURN
+       IF ((IDLFT0+1)>NDDL) RETURN
 C
        ALLOCATE(IADA(MAXC+1),DIAG_A(MAXC),MJ(MAXC),STAT=IER1)
        ALLOCATE(LT_A(MAX_A),JDIA(MAX_A),STAT=IERR)
  
-        IF ((IERR+IER1).NE.0) THEN
+        IF ((IERR+IER1)/=0) THEN
          IF (ITASK == 0 ) THEN
            CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .                 C1='FOR IMPLICIT PRECONDITION')
@@ -1501,13 +1501,13 @@ C
         ENDDO
         MJ(NC)=ONE
 C
-        IF (NC.GT.10000) THEN
+        IF (NC>10000) THEN
           MAX_L=MAX_A
           CALL IMP_PCG1( 
      1                    NC    ,MAX_L  ,IADA  ,JDIA  ,DIAG_A ,   
      2                    LT_A  ,MJ     ,IERR  )
 C
-         IF (I_CHK.GT.0.AND.IERR.LT.0) NNE = I
+         IF (I_CHK>0.AND.IERR<0) NNE = I
         ELSE
 C
          MAX_L=1+(NC*(NC-1))/2
@@ -1517,8 +1517,8 @@ C
         ENDIF 
 C------------filtrage----Diagonal est dans LT_M (last one)--
          DIAG_M(I)=MJ(NC)
-         IF (DIAG_M(I).LT.EM20) THEN
-          IF (NNE.EQ.0.AND.I_CHK.EQ.0) NNE = I
+         IF (DIAG_M(I)<EM20) THEN
+          IF (NNE==0.AND.I_CHK==0) NNE = I
           DIAG_M(I)=ABS(DIAG_M(I))
           DIAG_M(I)=MAX(EM20,DIAG_M(I))
          ENDIF
@@ -1527,7 +1527,7 @@ C------------filtrage----Diagonal est dans LT_M (last one)--
           LT_M(M)=MJ(K)/DIAG_M(I)
          ENDDO
 C
-         IF (I_CHK.GT.0.AND.MJ(NC).LT.EM20) DIAG_M(I)=MJ(NC)
+         IF (I_CHK>0.AND.MJ(NC)<EM20) DIAG_M(I)=MJ(NC)
        ENDDO
 
 !$OMP END DO
@@ -1591,12 +1591,12 @@ C--- M->A^-1 LT_M  stricly lower in m.c.r.s. format
 C-----------------------------
        I_CHK = NNE
        NNE = 0
-       IF ((IDLFT0+1).GT.NDDL) RETURN
+       IF ((IDLFT0+1)>NDDL) RETURN
 C       
        ALLOCATE(IADA(MAXC+1),DIAG_A(MAXC),MJ(MAXC),STAT=IER1)
        ALLOCATE(LT_A(MAX_A),JDIA(MAX_A),STAT=IERR)
 C-------- 
-        IF ((IERR+IER1).NE.0) THEN
+        IF ((IERR+IER1)/=0) THEN
          IF (ITASK == 0 ) THEN
            CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .                 C1='FOR IMPLICIT PRECONDITION')
@@ -1627,12 +1627,12 @@ C
          MJ(J)=ZERO
         ENDDO
         MJ(NC)=ONE
-        IF (NC.GT.10000) THEN
+        IF (NC>10000) THEN
           MAX_L=MAX_A
           CALL IMP_PCG1( 
      1                    NC    ,MAX_L  ,IADA  ,JDIA  ,DIAG_A ,   
      2                    LT_A  ,MJ     ,IERR  )
-         IF (I_CHK.GT.0.AND.IERR.LT.0) NNE = I
+         IF (I_CHK>0.AND.IERR<0) NNE = I
         ELSE
          MAX_L=1+(NC*(NC-1))/2
          CALL IMP_FSAI(NC    ,IADA  ,JDIA  ,DIAG_A ,LT_A  ,
@@ -1640,8 +1640,8 @@ C
         ENDIF 
 C------------Diagonal est dans LT_M (last one)--
          DIAG_M(I)=MJ(NC)
-         IF (DIAG_M(I).LT.EM20) THEN
-          IF (NNE.EQ.0.AND.I_CHK.EQ.0) NNE = I
+         IF (DIAG_M(I)<EM20) THEN
+          IF (NNE==0.AND.I_CHK==0) NNE = I
           DIAG_M(I)=ABS(DIAG_M(I))
           DIAG_M(I)=MAX(EM20,DIAG_M(I))
          ENDIF
@@ -1650,7 +1650,7 @@ C------------Diagonal est dans LT_M (last one)--
           LT_M(M)=MJ(K)/DIAG_M(I)
          ENDDO
 C
-         IF (I_CHK.GT.0.AND.MJ(NC).LT.EM20) DIAG_M(I)=MJ(NC)
+         IF (I_CHK>0.AND.MJ(NC)<EM20) DIAG_M(I)=MJ(NC)
        ENDDO
 C
 !$OMP END DO
@@ -1660,7 +1660,7 @@ C
 C
       IF (ITASK == 0 ) THEN
         K = IDLFT0+1
-       IF (D_TOL.GT.ZERO)
+       IF (D_TOL>ZERO)
      .  CALL IMP_KFILTR(K     ,NDDL  ,IADM  ,JDIM  ,DIAG_M ,
      .                  LT_M  ,D_TOL ,P_MACH,DIAG_K)
       END IF 
@@ -1780,7 +1780,7 @@ C
      1                    NC    ,MAX_L  ,IADA  ,JDIA  ,DIAG_A ,   
      2                    LT_A  ,MJ     ,IERR  )
 C
-         IF (I_CHK.GT.0.AND.IERR.LT.0) NNE = I
+         IF (I_CHK>0.AND.IERR<0) NNE = I
         ELSE
 C
          MAX_L=1+(NC*(NC-1))/2
@@ -1790,8 +1790,8 @@ C
         ENDIF 
 C------------filtrage----Diagonal est dans LT_M (last one)--
          DIAG_M(I)=MJ(NC)
-         IF (DIAG_M(I).LT.EM20) THEN
-          IF (NNE.EQ.0.AND.I_CHK.EQ.0) NNE = I
+         IF (DIAG_M(I)<EM20) THEN
+          IF (NNE==0.AND.I_CHK==0) NNE = I
           DIAG_M(I)=ABS(DIAG_M(I))
           DIAG_M(I)=MAX(EM20,DIAG_M(I))
          ENDIF
@@ -1799,7 +1799,7 @@ C------------filtrage----Diagonal est dans LT_M (last one)--
           M=IADM(I)+K-1
           LT_M(M)=MJ(K)/DIAG_M(I)
          ENDDO
-         IF (I_CHK.GT.0.AND.MJ(NC).LT.EM20) DIAG_M(I)=MJ(NC)
+         IF (I_CHK>0.AND.MJ(NC)<EM20) DIAG_M(I)=MJ(NC)
 C 
        DEALLOCATE(DIAG_A,MJ)
        DEALLOCATE(LT_A,JDIA)
@@ -1856,7 +1856,7 @@ C--- M->A^-1 LT_M  stricly lower in m.c.r.s. format
 C-----------------------------
        I_CHK = NNE
        NNE = 0
-       IF ((IDLFT0+1).GT.NDDL) RETURN
+       IF ((IDLFT0+1)>NDDL) RETURN
 C
 C--------------copy la partie utile------
        K=IADK(IDLFT1+1)-1
@@ -1948,7 +1948,7 @@ C--- M->A^-1 LT_M  stricly lower in m.c.r.s. format
 C-----------------------------
        I_CHK = NNE
        NNE = 0
-       IF ((IDLFT0+1).GT.NDDL) RETURN
+       IF ((IDLFT0+1)>NDDL) RETURN
 C       
 C--------------copy la partie utile------
        K=IADK(IDLFT1+1)-1
@@ -1983,7 +1983,7 @@ C
 C
 Citask0      IF (ITASK == 0 ) THEN
         K = IDLFT0+1
-       IF (D_TOL.GT.ZERO)
+       IF (D_TOL>ZERO)
      .  CALL IMP_KFILTR(K     ,NDDL  ,IADM  ,JDIM  ,DIAG_M ,
      .                  LT_M  ,D_TOL ,P_MACH,DIAG_K)
 Citask0      END IF 

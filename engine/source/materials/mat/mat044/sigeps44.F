@@ -223,24 +223,24 @@ c         yp= 3 x^2 + c
         EPST  = SQRT(-CD)
         EPST2 = EPST * EPST
         Y = (EPST2 + C)* EPST + D
-        IF(ABS(Y).GT.EM8)THEN
+        IF(ABS(Y)>EM8)THEN
           EPST = ONEP75 * EPST
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
            YP = THREE*EPST2 + C
-         IF(YP.NE.ZERO)EPST = EPST - Y/YP
+         IF(YP/=ZERO)EPST = EPST - Y/YP
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
           YP = THREE*EPST2 + C
-          IF(YP.NE.ZERO)EPST = EPST - Y/YP
+          IF(YP/=ZERO)EPST = EPST - Y/YP
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
           YP = THREE*EPST2 + C
-          IF(YP.NE.ZERO)EPST = EPST - Y/YP
+          IF(YP/=ZERO)EPST = EPST - Y/YP
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
           YP = THREE*EPST2 + C
-          IF(YP.NE.ZERO)EPST = EPST - Y/YP
+          IF(YP/=ZERO)EPST = EPST - Y/YP
           EPST = EPST + DAV
         ENDIF
 C
@@ -406,7 +406,7 @@ C
        SIGY(I) = MAX(SIGY(I),YLD(I))
       ENDDO
       DO I=1,NEL
-        IF(OFF(I).LT.ONE) IDEL7NOK = 1
+        IF(OFF(I)<ONE) IDEL7NOK = 1
       ENDDO
 C-----------
       RETURN

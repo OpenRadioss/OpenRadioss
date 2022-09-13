@@ -66,11 +66,11 @@ C=======================================================================
        ALLOCATE(BUFSR(NUMNODM), IBUF(NUMNODM))
        ALLOCATE(XGLOB(NUM))
     
-       IF (ISPMD.NE.0) THEN
+       IF (ISPMD/=0) THEN
 
          SIZ = 0
          DO I=1,NUMNOD
-           IF (WEIGHT(I).EQ.1) THEN
+           IF (WEIGHT(I)==1) THEN
              SIZ = SIZ + 1
              IBUF(SIZ) = NODGLOB(I)
              BUFSR(SIZ) = SBUF(I)
@@ -91,7 +91,7 @@ C   de noeuds au max
 
        ELSE
           DO I=1,NUMNOD
-            IF (WEIGHT(I).EQ.1) THEN
+            IF (WEIGHT(I)==1) THEN
               NG = NODGLOB(I)
               XGLOB(NG) = SBUF(I)
             ENDIF

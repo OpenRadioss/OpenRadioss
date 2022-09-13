@@ -134,7 +134,7 @@ C   dd-iad
         P = CEP(NFT+INDEX(1))
         NB = 1
         DO I = 2, NEL
-          IF (CEP(NFT+INDEX(I)).NE.P) THEN
+          IF (CEP(NFT+INDEX(I))/=P) THEN
             DD_IAD(P+1,NSPGROUP+N) = NB
             NB = 1
             P = CEP(NFT+INDEX(I))
@@ -163,7 +163,7 @@ C
         NFT = NFT + NEL
       ENDDO           
 C
-C RENUMEROTATION POUR SURFACE voir pour 100.EQ.ITYP
+C RENUMEROTATION POUR SURFACE voir pour 100==ITYP
 C
       DO I=1,NSURF
         NN=IGRSURF(I)%NSEG
@@ -182,7 +182,7 @@ cc       LB_L = LBUFEL
        DO P = 1, NSPMD
         NGP(P)=0
         NEL = DD_IAD(P+1,NSPGROUP+N)-DD_IAD(P,NSPGROUP+N)
-        IF (NEL.GT.0) THEN
+        IF (NEL>0) THEN
          NEL_PREC = DD_IAD(P,NSPGROUP+N)-DD_IAD(1,NSPGROUP+N)
          NGP(P)=NGROUP
          NG  = (NEL-1)/NVSIZ + 1
@@ -191,12 +191,12 @@ C xgroup global
           NGROUP=NGROUP+1
           II = EADD(N)+NFT
 C Multidomains - xelem not duplicated
-          IF (NSUBDOM.GT.0) IPARTR2R = 1
+          IF (NSUBDOM>0) IPARTR2R = 1
           PID =  KXX(2,II)
           innd = kxx(3,II)
           MTNN=GEO(8,PID)
           IGTYP=NINT(GEO(12,PID))
- 	  IF(IGTYP.LT.28.OR.IGTYP.GT.31) THEN
+ 	  IF(IGTYP<28.OR.IGTYP>31) THEN
       CALL ANCMSG(MSGID=413,
      .            MSGTYPE=MSGERROR,
      .            ANMODE=ANINFO_BLIND_1,
@@ -209,7 +209,7 @@ C Multidomains - xelem not duplicated
           ISSN=0
           IETYP = 100
           GEO(8,PID)=IETYP + EM01
-          IF(GEO(5,PID).NE.ZERO)ISSN=1
+          IF(GEO(5,PID)/=ZERO)ISSN=1
 
 C
           CALL ZEROIN(1,NPARG,IPARG(1,NGROUP))
@@ -226,7 +226,7 @@ c                                        other groups using old buffer
           IPARG(5,NGROUP) = IETYP
           IPARG(9,NGROUP) = ISSN
 C         flag for group of duplicated elements in multidomains
-          IF (NSUBDOM.GT.0) IPARG(77,NGROUP)= IPARTR2R
+          IF (NSUBDOM>0) IPARG(77,NGROUP)= IPARTR2R
 C
 cc          LBUFEL= IPARG(4,NGROUP)+NE1*
 cc     .            (NXVIE+NUVAR+INND*(NXVIN+NUVARN))-1  ! Cmi --> a virer

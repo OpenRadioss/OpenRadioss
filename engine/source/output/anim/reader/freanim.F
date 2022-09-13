@@ -91,7 +91,7 @@ C-----------------------------------------------
 C     Loop over /ANIM cards
 C-----------------------------------------------
       IXITKEY=0
-      IF(IKAD(IKEY).NE.IKAD(IKEY+1))THEN
+      IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        K=0
  1160  READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(A)')LINE
        CALL FREDEC_8KEY_I(LINE,KEY2,KEY3,KEY4,KEY5,KEY6,KEY7,KEY8,NBC)
@@ -102,7 +102,7 @@ C-----------------------------------------------
 C----------------------------
 C        THE FOLLOWING OPTIONS USE AN ADDITIONAL CARD
 C----------------------------
-         IF(KEY2(1:5).EQ.'DT   ')THEN
+         IF(KEY2(1:5)=='DT   ')THEN
            CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
 !!           READ(IUSC2,*,ERR=9990)TANIM0,DTANIM0
            READ(IUSC2,*,ERR=310,END=320)TANIM0,DTANIM0
@@ -115,10 +115,10 @@ C----------------------------
              CALL ARRET(0)
            ENDIF
 !
-         ELSEIF(KEY2(1:5).EQ.'SENSO')THEN
+         ELSEIF(KEY2(1:5)=='SENSO')THEN
            CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
            READ(IUSC2,*,ERR=9990)IANISENS,DTANISENS
-         ELSEIF(KEY2(1:5).EQ.'LSENS')THEN
+         ELSEIF(KEY2(1:5)=='LSENS')THEN
           DO I=1,NBC
              READ(IUSC1,REC=IKAD(IKEY)+K+I-1,FMT='(A)',ERR=9990)CARTE
              CALL WRIUSC2(IKAD(IKEY)+K+I-1,1,KEY0(IKEY))
@@ -127,7 +127,7 @@ C----------------------------
                NLSENS=NLSENS+1
              ENDDO
           ENDDO
-         ELSEIF(KEY2(1:5).EQ.'TITLE')THEN
+         ELSEIF(KEY2(1:5)=='TITLE')THEN
           DO I=1,NBC
              READ(IUSC1,REC=IKAD(IKEY)+K+I-1,FMT='(A)',ERR=9990)CARTE
              CALL WRIUSC2(IKAD(IKEY)+K+I-1,1,KEY0(IKEY))
@@ -136,7 +136,7 @@ C----------------------------
              NTITLETAB(NLTITLE)=NTITLE
              TITLETAB(NLTITLE)=TITLE2
           ENDDO
-         ELSEIF(KEY2(1:3).EQ.'CUT')THEN
+         ELSEIF(KEY2(1:3)=='CUT')THEN
           NCUTS=NCUTS+1
           READ(KEY3(1:4),'(I4)')ITYP
           CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
@@ -144,7 +144,7 @@ C----------------------------
           WRITE(IIN,'(I8,A)')ITYP,TITLE
           K=K+1
           CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
-          IF(ITYP.LT.3)THEN
+          IF(ITYP<3)THEN
             READ(IUSC2,*,ERR=9990,END=9990)X0,Y0,Z0,VNX,VNY,VNZ,V0
             WRITE(IIN,'(7E16.9)')X0,Y0,Z0,VNX,VNY,VNZ,V0
           ELSE
@@ -161,7 +161,7 @@ C----------------------------
          IF(IXITKEY/=0) GOTO 9990
        ENDIF
        K=K+NBC
-       IF(IKAD(IKEY)+K.NE.IKAD(IKEY+1))GO TO 1160
+       IF(IKAD(IKEY)+K/=IKAD(IKEY+1))GO TO 1160
       ENDIF
 C-----------------------------------------------
 C     This routine is resetting indexes in cas of /STRESS/ALL, /STRAIN/ALL, etc
@@ -192,20 +192,20 @@ C-----------------------------------------------
         NFT_ANI = NFT_ANI + ANIM_FT(I)
         NFE_ANI = NFE_ANI + ANIM_FE(I)
       ENDDO
-      IF(ANIM_V(12).EQ.1)NV_ANI=NV_ANI+1
+      IF(ANIM_V(12)==1)NV_ANI=NV_ANI+1
       IF(ANIM_V(4)==1.AND.ANIMCONT == 0) NV_ANI=NV_ANI-1
-      IF(ANIM_V(27).EQ.1)NV_ANI=NV_ANI+1
+      IF(ANIM_V(27)==1)NV_ANI=NV_ANI+1
 C-----------------------------------------------
 C     Anim Cut non portees en SPMD
-      IF (NCUTS.GT.0.AND.NSPMD.GT.1) THEN
+      IF (NCUTS>0.AND.NSPMD>1) THEN
        CALL ANCMSG(MSGID=191,ANMODE=ANINFO)
        IERR=IERR+1
       ENDIF
-      IF(ANIM_VERS.LT.40) THEN
+      IF(ANIM_VERS<40) THEN
         CALL ANCMSG(MSGID=192,ANMODE=ANINFO)
         IERR=IERR+1
       ENDIF
-      IF (ANIM_VERS.GE.50) THEN
+      IF (ANIM_VERS>=50) THEN
         CALL ANCMSG(MSGID=193,ANMODE=ANINFO)
         IERR=IERR+1
       ENDIF

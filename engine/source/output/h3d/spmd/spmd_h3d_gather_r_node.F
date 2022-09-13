@@ -144,13 +144,13 @@ C-----------------------------------------------
            VP0_TMP(3*(I-1)+3)=V(3*(K-1)+3)
         ENDDO
 
-       IF (LENP0 .GT. 0) THEN
+       IF (LENP0 > 0) THEN
         CALL MPI_REDUCE(VP0_TMP,V_TMP,LENP0,
      .                  MPI_REAL,MPI_SUM,IT_SPMD(1),
      .                  MPI_COMM_WORLD,IERROR)
 
        ENDIF
-       IF (ISPMD.EQ.0) THEN
+       IF (ISPMD==0) THEN
          DO I=1,LENP0
           VP0(I) = V_TMP(I)
          END DO
@@ -217,13 +217,13 @@ C-----------------------------------------------
            VP0_TMP(3*(I-1)+3)=V(3*(K-1)+3) 
         ENDDO
 
-       IF (LENP0 .GT. 0) THEN
+       IF (LENP0 > 0) THEN
         CALL MPI_REDUCE(VP0_TMP,V_TMP,LENP0,
      .                  REAL,MPI_SUM,IT_SPMD(1),
      .                  MPI_COMM_WORLD,IERROR)
 
        ENDIF
-       IF (ISPMD.EQ.0) THEN
+       IF (ISPMD==0) THEN
          DO I=1,LENP0
           VP0(I) = V_TMP(I)
          END DO

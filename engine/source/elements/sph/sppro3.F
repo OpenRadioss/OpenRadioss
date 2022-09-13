@@ -79,7 +79,7 @@ C       (COEF DE SECURITE CROISSANT).
 C-----------------
             NVOIS=KXSP(5,IL)
             TAB_DK(IL) = -ONE
-            IF(NVOIS.GT.KVOISPH)THEN
+            IF(NVOIS>KVOISPH)THEN
 
                 IREDUCE    =1 
                 KREDUCE(IL)=1 
@@ -97,7 +97,7 @@ C-----------------
 C Choix des cellules a conserver tq distance < DK pour eviter pb de parith/on
 	            NVOIS=0
 	            DO K=1,KXSP(5,IL)
-	                IF(DVOIS(K).LT.DK)THEN
+	                IF(DVOIS(K)<DK)THEN
 	                    NVOIS=NVOIS+1
 	                END IF
 	            END DO
@@ -110,7 +110,7 @@ C-----------------
                 JK=JVOIS(K)
                 DK=DVOIS(K)
 
-                IF(JK.LE.NUMSPH) THEN
+                IF(JK<=NUMSPH) THEN
                     JG       =KXSP(3,JK)
                 ELSE
                     JG = -JK+NUMSPH ! si voisin remote alors no noeud = - no cellule remote
@@ -150,7 +150,7 @@ C Choix des cellules a conserver tq distance < DK pour eviter pb de parith/on
                     ENDDO
 	                NVOIS=0
 	                DO K=1,KXSPR(IL-NUMSPH)
-	                    IF(DSTOR(K).LT.DK)THEN
+	                    IF(DSTOR(K)<DK)THEN
 	                        NVOIS=NVOIS+1
                             JVOIS(NVOIS)=JSTOR(K)
                             DVOIS(NVOIS)=DSTOR(K)
@@ -167,7 +167,7 @@ C-----------------
             DO K=1,NVOIS
                 JK=JVOIS(K)
                 DK=DVOIS(K)
-                    IF(JK.LE.NUMSPH) THEN
+                    IF(JK<=NUMSPH) THEN
                         JG=KXSP(3,JK)
                     ELSE
                         print *,'internal error'
@@ -184,7 +184,7 @@ C       (COEF DE SECURITE CROISSANT).
 
 C-----------------
             NVOIS=KXSP(5,IL)
-            IF(NVOIS.GT.KVOISPH)THEN
+            IF(NVOIS>KVOISPH)THEN
 
                 CALL MYQSORT(NVOIS,DVOIS,JPERM,IERROR)
                 DO K=1,NVOIS
@@ -198,7 +198,7 @@ C-----------------
 C Choix des cellules a conserver tq distance < DK pour eviter pb de parith/on
 	            NVOIS=0
 	            DO K=1,KXSP(5,IL)
-	                IF(DVOIS(K).LT.DK)THEN
+	                IF(DVOIS(K)<DK)THEN
 	                    NVOIS=NVOIS+1
 	                END IF
 	            END DO
@@ -211,14 +211,14 @@ C-----------------
             DO K=1,NVOIS
                 JK       =JVOIS(K)
                 DK       =DVOIS(K)
-                IF(JK.LE.NUMSPH) THEN
+                IF(JK<=NUMSPH) THEN
                     JG       =KXSP(3,JK)
                 ELSE
                     JG = -JK+NUMSPH ! si voisin remote alors no noeud = - no cellule remote
                     XSPHR(1,-JG) = -ABS(XSPHR(1,-JG)) ! reperage cell remote utile
                 END IF
 
-                IF(DK.LT.ONE)THEN
+                IF(DK<ONE)THEN
                     NVOIS1=NVOIS1+1
                     IXSP(NVOIS1,IL)=JG
                 ELSE

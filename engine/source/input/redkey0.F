@@ -50,21 +50,21 @@ C-----------------------------------------------
       KEY(1:5)='     '
 
       DO I=2,ncharline 
-      IF(CARTE(I:I).EQ.'/')EXIT
-      IF(CARTE(I:I).EQ.' ')CYCLE
+      IF(CARTE(I:I)=='/')EXIT
+      IF(CARTE(I:I)==' ')CYCLE
        J=J+1
-       IF(J.GT.5)EXIT
+       IF(J>5)EXIT
        KEY(J:J)=CARTE(I:I)
       ENDDO
 C
       DO I=1,NKEY
         IKEY=I
-        IF(KEY(1:5).EQ.KEY0(IKEY))THEN
+        IF(KEY(1:5)==KEY0(IKEY))THEN
           NSLASH(IKEY)=NSLASH(IKEY)+1
           EXIT
         ENDIF
       ENDDO
-      IF(KEY(1:5).NE.KEY0(IKEY))THEN
+      IF(KEY(1:5)/=KEY0(IKEY))THEN
         IKEY=0
         CALL ERRMSG(KEY)
       ENDIF

@@ -117,13 +117,13 @@ C-----------------------------------------------
       !-------------------------!
       !     ARRET DU CALCUL     !
       !-------------------------!
-      IF(N.EQ.2 .OR. N.EQ.3) THEN
+      IF(N==2 .OR. N==3) THEN
         WRITE(ISTDO,1000)
         WRITE(IOUT,1000)
  1000   FORMAT(//,' RADIOSS STOP DUE TO INPUT ERROR')
       ENDIF
       
-      IF(N/=3 .AND. IERR.GT.0)N=2
+      IF(N/=3 .AND. IERR>0)N=2
       
 C-----------------------------------------------
 C Summary Errors/Warnings
@@ -131,14 +131,14 @@ C-----------------------------------------------
       CALL SUMMSG()
 C-----------------------------------------------
 
-      IF(N.EQ.2) THEN
+      IF(N==2) THEN
         IERR=MAX0(IERR,1)
            WRITE(ISTDO,'(///A/A/,5X,I10,A)')TITRE(7)(1:40),TITRE(5),IERR,TITRE(7)(41:60)
            WRITE(IOUT ,'(///A/A/,5X,I10,A)')TITRE(7)(1:40),TITRE(5),IERR,TITRE(7)(41:60)
       ENDIF
       
-      IF(N.EQ.1.OR.IWARN.GT.0) THEN
-        IF(IWARN.EQ.0) THEN
+      IF(N==1.OR.IWARN>0) THEN
+        IF(IWARN==0) THEN
            WRITE(ISTDO,'(///A/A)')TITRE(6),TITRE(5)
            WRITE(IOUT ,'(///A/A)')TITRE(6),TITRE(5)
         ELSE

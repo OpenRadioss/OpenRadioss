@@ -51,7 +51,7 @@ C
       CHARACTER TITR1*40,ID_TITR1*2
 C
 Cel gather deja effectue, seul p0 ecrit 
-      IF (IMACH.NE.3.OR.ISPMD.EQ.0) THEN
+      IF (IMACH/=3.OR.ISPMD==0) THEN
         II = 0
         DO J=J1,J2
           DO L=L1,L2
@@ -74,22 +74,22 @@ c
                 K=ITHBUF(L) 
                 K1 = (K-101)/5+1
                 II=II+1
-                IF(K.LE.NTHVKI)THEN
+                IF(K<=NTHVKI)THEN
                   WA(II)=FSAV(K,I)
-                ELSEIF(K.GE.100)THEN
+                ELSEIF(K>=100)THEN
 C                 variables additionnelles AOUTi,BOUTi,UOUTi,MOUTi,HOUTi
                   KV=MOD(K-101,5)+1
                   IV=ID_VENT
                   IADVENT=IVOLU(16,I)
                   NVENT=IVOLU(11,I)
-                  IF (IV.LE.NVENT) THEN 
+                  IF (IV<=NVENT) THEN 
                     WA(II) =FSAVVENT(KV,IADVENT+IV)
                   END IF
                 END IF
               ENDDO
               IAD2 = IAD2 + 40
         ENDDO
-        IF(II.GT.0)CALL WRTDES(WA,WA,II,IFORM,1)
+        IF(II>0)CALL WRTDES(WA,WA,II,IFORM,1)
       ENDIF
 C
       RETURN

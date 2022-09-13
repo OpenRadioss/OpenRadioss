@@ -1241,7 +1241,7 @@ C ----------------------------------------
       C_II = 0
       DO K = 1, II_STOK
         E = INTBUF_TAB%CAND_E(K)
-        IF (TAG_SEGM2(E).NE.0) THEN
+        IF (TAG_SEGM2(E)/=0) THEN
           C_II = C_II + 1
           TAG_II(C_II) = K
         ENDIF
@@ -1435,7 +1435,7 @@ C ----------------------------------------
 
       CNRTM_L = 0
       DO K=1,NRTM
-        IF(TAG(K).EQ.1) THEN
+        IF(TAG(K)==1) THEN
             CNRTM_L = CNRTM_L + 1
             TAG_SEGM(CNRTM_L) = K
             TAG_SEGM2(K) = CNRTM_L
@@ -1456,7 +1456,7 @@ C ----------------------------------------
       DO K = 1, NMN
         N = INTBUF_TAB%MSR(K)
         IF( NODLOCAL( N )/=0.AND.NODLOCAL( N )<=NUMNOD_L ) THEN
-          IF(NBDDI2M.GT.0)ITABI2M(NODLOCAL(N)) = 1
+          IF(NBDDI2M>0)ITABI2M(NODLOCAL(N)) = 1
           CNMN_L = CNMN_L + 1
           TAG_IRTL(CNMN_L) = K
         ENDIF
@@ -1672,7 +1672,7 @@ C ----------------------------------------
       ENDIF
 
       CNSN_L = 0
-      IF (MULTI_FVM%IS_USED .AND. ABS(IPARI(22)) .EQ. 7) THEN
+      IF (MULTI_FVM%IS_USED .AND. ABS(IPARI(22)) == 7) THEN
 C     Interface type 18 law 151
          DO K=1, NSN0
             N=INTBUF_TAB%NSV(K)
@@ -1859,8 +1859,8 @@ C ----------------------------------------
       IBUF_N(1:MULTIMP*NCONT) = 0
       II_STOK_L = 0 !mandatory in case of inacti ne 5,6,7 
 
-      IF(ITYP.EQ.23.OR.INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7) THEN 
-        IF(NSN.GT.0) THEN
+      IF(ITYP==23.OR.INACTI==5.OR.INACTI==6.OR.INACTI==7) THEN 
+        IF(NSN>0) THEN
           ALLOCATE(NSNLOCAL(NSN))
           ALLOCATE(CPULOCAL(NSN))
           ALLOCATE(CANDR(NSN))
@@ -1872,9 +1872,9 @@ C ----------------------------------------
         PLIST(1:NSPMD) = -1
         DO K=1,NSN
           N = INTBUF_TAB%NSV(K)
-c          IF(N.GT.NUMNOD) CYCLE
+c          IF(N>NUMNOD) CYCLE
           NSNLOCAL(K) = 0
-          IF(TAG_SCRATCH(N).EQ.0) THEN 
+          IF(TAG_SCRATCH(N)==0) THEN 
             SPLIST=0 
             CALL PLIST_IFRONT(PLIST,N,SPLIST) 
             DO I=1,SPLIST
@@ -1910,14 +1910,14 @@ C
 
         DO K = 1, II_STOK
           E = INTBUF_TAB%CAND_E(K)
-          IF (TAG_SEGM2(E).NE.0) THEN
+          IF (TAG_SEGM2(E)/=0) THEN
             N = INTBUF_TAB%CAND_N(K)
-            IF(TAG_SCRATCH(N).EQ.0) THEN
+            IF(TAG_SCRATCH(N)==0) THEN
               TAG_SCRATCH(N) = 1
               NINDX_SCRT = NINDX_SCRT + 1
               INDX_SCRT(NINDX_SCRT) = N
               MY_NODE = INTBUF_TAB%NSV(N)
-c              IF(INTBUF_TAB%NSV(N).GT.NUMNOD) CYCLE
+c              IF(INTBUF_TAB%NSV(N)>NUMNOD) CYCLE
               IF( NODLOCAL( MY_NODE )==0.OR.NODLOCAL(MY_NODE)>NUMNOD_L ) THEN
                 C_NSNR = C_NSNR + 1
                 CANDR(C_NSNR) = N
@@ -1929,7 +1929,7 @@ c              IF(INTBUF_TAB%NSV(N).GT.NUMNOD) CYCLE
         !reflush TAG_SCRATCH to zero only when value has changes
 !        DO K=1, II_STOK  
 !         E = INTBUF_TAB%CAND_E(K)
-!          IF (TAG_SEGM2(E).NE.0) THEN
+!          IF (TAG_SEGM2(E)/=0) THEN
 !            N = INTBUF_TAB%CAND_N(K)
 !            TAG_SCRATCH(N) = 0
 !          ENDIF
@@ -1943,7 +1943,7 @@ c              IF(INTBUF_TAB%NSV(N).GT.NUMNOD) CYCLE
 C
 C Tris des candidats remote par proc et par nsv local croissant
 C
-        IF(C_NSNR.GT.0) THEN
+        IF(C_NSNR>0) THEN
           ALLOCATE(INDEX(2*C_NSNR))
           ALLOCATE(ITRI(2,C_NSNR))
         END IF
@@ -1966,12 +1966,12 @@ C
         C_NSNR = 0
         DO K = 1, II_STOK
           E = INTBUF_TAB%CAND_E(K)
-          IF (TAG_SEGM2(E).NE.0) THEN
+          IF (TAG_SEGM2(E)/=0) THEN
             II_STOK_L = II_STOK_L + 1
           END IF
         END DO
 
-        IF(II_STOK_L.GT.MULTIMP*NCONT)THEN
+        IF(II_STOK_L>MULTIMP*NCONT)THEN
           MULTOK= II_STOK_L/NCONT
           CALL ANCMSG(MSGID=626,
      .                MSGTYPE=MSGERROR,
@@ -1983,11 +1983,11 @@ C
 C
           DO K = 1, II_STOK
             E = INTBUF_TAB%CAND_E(K)
-            IF (TAG_SEGM2(E).NE.0) THEN
+            IF (TAG_SEGM2(E)/=0) THEN
               N = INTBUF_TAB%CAND_N(K)
               II_STOK_L = II_STOK_L + 1
               IBUF_E(II_STOK_L)=TAG_SEGM2(E)
-c              IF(INTBUF_TAB%NSV(N).GT.NUMNOD) CYCLE
+c              IF(INTBUF_TAB%NSV(N)>NUMNOD) CYCLE
               MY_NODE = INTBUF_TAB%NSV(N)
               IF( NODLOCAL( MY_NODE )/=0.AND.NODLOCAL(MY_NODE)<=NUMNOD_L ) THEN
                 IBUF_N(II_STOK_L)=NSNLOCAL(N)
@@ -2004,14 +2004,14 @@ c                IF(TAG(N)==0) THEN
                   IBUF_N(II_STOK_L) = TAG_SCRATCH(N)
                 END IF ! TAG(N)==0
               END IF ! NODLOCAL/=0
-            ENDIF !TAG_SEGM_2(E).NE.0
+            ENDIF !TAG_SEGM_2(E)/=0
           ENDDO !K = 1, II_STOK
-        END IF !II_STOK_L.GT.MULTIMP*NCONT
+        END IF !II_STOK_L>MULTIMP*NCONT
 
         !reflush TAG_SCRATCH to zero only when value has changes
 !        DO K=1, II_STOK  
 !         E = INTBUF_TAB%CAND_E(K)
-!          IF (TAG_SEGM2(E).NE.0) THEN
+!          IF (TAG_SEGM2(E)/=0) THEN
 !            N = INTBUF_TAB%CAND_N(K)
 !            TAG_SCRATCH(N) = 0
 !          ENDIF
@@ -2023,11 +2023,11 @@ c                IF(TAG(N)==0) THEN
         ENDDO
         NINDX_SCRT = 0
   
-        IF(NSN.GT.0) DEALLOCATE(NSNLOCAL,CPULOCAL,CANDR)
-        IF(C_NSNR.GT.0) DEALLOCATE(INDEX,ITRI)
+        IF(NSN>0) DEALLOCATE(NSNLOCAL,CPULOCAL,CANDR)
+        IF(C_NSNR>0) DEALLOCATE(INDEX,ITRI)
 
-c        IF(ITYP.EQ.23.OR.INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7.
-c     .          OR.IFQ.GT.0)IPARI_L(24,NI)= C_NRTSR
+c        IF(ITYP==23.OR.INACTI==5.OR.INACTI==6.OR.INACTI==7.
+c     .          OR.IFQ>0)IPARI_L(24,NI)= C_NRTSR
          
       ENDIF !END INACTI=5,6,7 
 
@@ -2110,7 +2110,7 @@ C ----------------------------------------
       SIZ_TMP(1:NRTM) = 0
 
       DO K=1,NRTM
-        IF(TAG_SEGM2(K) .NE. 0)THEN
+        IF(TAG_SEGM2(K) /= 0)THEN
           SIZ_TMP(TAG_SEGM2(K)) = INTBUF_TAB%KREMNODE(K+1)
      .              -INTBUF_TAB%KREMNODE(K)
         ENDIF
@@ -2123,7 +2123,7 @@ C ----------------------------------------
       SIZ1 = 0
       SIZ2 = 0
       DO K=1,NRTM
-        IF(TAG_SEGM2(K) .NE. 0)THEN
+        IF(TAG_SEGM2(K) /= 0)THEN
 
           SIZ = SIZ_TMP(TAG_SEGM2(K))
           IBUF1(1+2*TAG_SEGM2(K)) =IBUF1(1+2*(TAG_SEGM2(K)-1)) + SIZ
@@ -2664,7 +2664,7 @@ C ----------------------------------------
       SIZ_TMP(1:NRTM) = 0
 
       DO K=1,NRTM
-        IF(TAG_SEGM2(K) .NE. 0)THEN
+        IF(TAG_SEGM2(K) /= 0)THEN
           SIZ_TMP(TAG_SEGM2(K)) = INTBUF_TAB%KREMNODE(K+1)
      .              -INTBUF_TAB%KREMNODE(K)
         ENDIF
@@ -2677,7 +2677,7 @@ C ----------------------------------------
       SIZ1 = 0
       SIZ2 = 0
       DO K=1,NRTM
-        IF(TAG_SEGM2(K) .NE. 0)THEN
+        IF(TAG_SEGM2(K) /= 0)THEN
 
           SIZ = SIZ_TMP(TAG_SEGM2(K))
           IBUF1(1+2*TAG_SEGM2(K)) =IBUF1(1+2*(TAG_SEGM2(K)-1)) + SIZ
@@ -2737,7 +2737,7 @@ c   1st : reorganizing the tab : keep only local main segments
         DO N=1,NSN
 
            NS = TAG_NODE_2RY2(N)
-           IF(NS .NE. 0)THEN
+           IF(NS /= 0)THEN
               SIZ = INTBUF_TAB%KREMNOR(N+1)-INTBUF_TAB%KREMNOR(N)
 
               L=INTBUF_TAB%KREMNOR(N)
@@ -2745,7 +2745,7 @@ c   1st : reorganizing the tab : keep only local main segments
 c
              DO M=1,SIZ
                 I = INTBUF_TAB%REMNOR(L+M)
-                IF(TAG_SEGM2(I).NE.0) THEN
+                IF(TAG_SEGM2(I)/=0) THEN
                    NODDEL(SIZ1+1) = TAG_SEGM2(I)
                    SIZ1 = SIZ1+1
                 ENDIF
@@ -3106,16 +3106,16 @@ C NSN+NMN < NUMNOD
           TAG_SCRATCH(N) = 0
         ENDDO
         NINDX_SCRT = 0
-      IF (NSN+NMN.LE.NUMNOD)THEN
+      IF (NSN+NMN<=NUMNOD)THEN
 C NSN_L + NMN_L < NUMNOD_L
-       IF (NSN_L+NMN_L.LE.NUMNOD_L)THEN
+       IF (NSN_L+NMN_L<=NUMNOD_L)THEN
 C 1ere partie NSN
         NSN_L2 = 0
 !        TAG_SCRATCH(1:NUMNOD)=0
         DO K=1,NSN
           N=INTBUF_TAB%NSV(K)
           IF(NLOCAL(N,PROC+1)==1.AND.
-     .      TAG_SCRATCH(N).EQ.0) THEN
+     .      TAG_SCRATCH(N)==0) THEN
             RBUF(3*(NSN_L2)+1) =
      *                                   INTBUF_TAB%XSAV(3*(K-1)+1)
             RBUF(3*(NSN_L2)+2) =
@@ -3157,7 +3157,7 @@ C 1ere partie NSN
         DO K=1,NSN
           N = INTBUF_TAB%NSV(K)
           IF(NLOCAL(N,PROC+1)==1.AND.
-     .      TAG_SCRATCH(N).EQ.0) THEN
+     .      TAG_SCRATCH(N)==0) THEN
             N2 = NODLOCAL(N)
             RBUF(3*(N2-1)+1) =
      *                                   INTBUF_TAB%XSAV(3*(K-1)+1)
@@ -3410,7 +3410,7 @@ C ----------------------------------------
       ENDDO  
 
 C     WRITE(6,*) __FILE__,__LINE__,CNMN_L,CNRTM_L,NRTM
-c     IF(NI .EQ. 1) THEN
+c     IF(NI == 1) THEN
 c     DO I=1,NMN
 c       N = INTBUF_TAB%MSR(I)
 c       !if the node is local
@@ -3462,7 +3462,7 @@ C Compute TAG_LMSR,TAG_LMSR2,TAG_NSEG
       IF(NSPMD > 1) THEN
       ! renumber MAIN_ID locally 
        DO P2=1,NSPMD
-          IF(P2.NE.PROC + 1) THEN
+          IF(P2/=PROC + 1) THEN
           DO I = 1,T8%BUFFER(P2)%NBMAIN
              T8%BUFFER(P2)%MAIN_ID(I) =
      .       TAG_NODE_MSR2(T8%BUFFER(P2)%MAIN_ID(I)) 
@@ -3828,8 +3828,8 @@ C ----------------------------------------
 
       II_STOK_L = 0
 
-      IF(INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7) THEN 
-        IF(NRTS.GT.0) THEN
+      IF(INACTI==5.OR.INACTI==6.OR.INACTI==7) THEN 
+        IF(NRTS>0) THEN
           ALLOCATE(NRTSLOCAL(NRTS))
           ALLOCATE(CPULOCAL(NRTS))
           ALLOCATE(CANDR(NRTS))
@@ -3858,13 +3858,13 @@ C
         C_NRTSR = 0
         DO K = 1, II_STOK
           E = INTBUF_TAB%CAND_E(K)
-          IF (TAG_SEGM2(E).NE.0) THEN
+          IF (TAG_SEGM2(E)/=0) THEN
             N = INTBUF_TAB%CAND_N(K)
-            IF(TAG_SCRATCH(N).EQ.0) THEN
+            IF(TAG_SCRATCH(N)==0) THEN
               TAG_SCRATCH(N) = 1
               NINDX_SCRT = NINDX_SCRT + 1
               INDX_SCRT(NINDX_SCRT) = N
-              IF(NLOCAL(INTBUF_TAB%NSV(N),PROC+1).NE.1)THEN
+              IF(NLOCAL(INTBUF_TAB%NSV(N),PROC+1)/=1)THEN
                 C_NRTSR = C_NRTSR + 1
                 CANDR(C_NRTSR) = N
               END IF
@@ -3876,7 +3876,7 @@ C
 #include "vectorize.inc"
         DO K=1, NINDX_SCRT
 !         E = INTBUF_TAB%CAND_E(K)
-!          IF (TAG_SEGM2(E).NE.0) THEN
+!          IF (TAG_SEGM2(E)/=0) THEN
             N = INDX_SCRT(K)
             TAG_SCRATCH(N) = 0
 !          ENDIF
@@ -3886,7 +3886,7 @@ C
 C
 C Tris des candidats remote par proc et par nsv local croissant
 C
-        IF(C_NRTSR.GT.0) THEN
+        IF(C_NRTSR>0) THEN
           ALLOCATE(INDEX(2*C_NRTSR))
           ALLOCATE(ITRI(2,C_NRTSR))
         END IF
@@ -3909,7 +3909,7 @@ C
         C_NRTSR = 0
         DO K = 1, II_STOK
           E = INTBUF_TAB%CAND_E(K)
-          IF (TAG_SEGM2(E).NE.0) THEN
+          IF (TAG_SEGM2(E)/=0) THEN
             II_STOK_L = II_STOK_L + 1
             IBUF_E(II_STOK_L)=TAG_SEGM2(E)
             L = INTBUF_TAB%CAND_N(K)
@@ -3919,7 +3919,7 @@ C
               IBUF_N(II_STOK_L) = NRTSLOCAL(L)
             ELSE
 C noeud remote : numerotation pre calculee ci-dessus
-              IF(TAG_SCRATCH(L).EQ.0) THEN
+              IF(TAG_SCRATCH(L)==0) THEN
                 C_NRTSR =C_NRTSR + 1
                 IBUF_N(II_STOK_L) = INDEX(C_NRTSR)+NRTS_L
                 TAG_SCRATCH(L) = INDEX(C_NRTSR)+NRTS_L
@@ -3933,10 +3933,10 @@ C noeud remote : numerotation pre calculee ci-dessus
         ENDDO
 
      
-        IF(NRTS.GT.0) DEALLOCATE(NRTSLOCAL,CPULOCAL,CANDR)
-        IF(C_NRTSR.GT.0) DEALLOCATE(INDEX,ITRI)
+        IF(NRTS>0) DEALLOCATE(NRTSLOCAL,CPULOCAL,CANDR)
+        IF(C_NRTSR>0) DEALLOCATE(INDEX,ITRI)
 
-        IF(INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7)IPARI_L(24,NI)= C_NRTSR
+        IF(INACTI==5.OR.INACTI==6.OR.INACTI==7)IPARI_L(24,NI)= C_NRTSR
 
       ENDIF !END INACTI=5,6,7
 
@@ -4023,7 +4023,7 @@ C ----------------------------------------
       CNSN_L = 0
       DO K=1, NSN
         IE = IGRBRIC(IGN)%ENTITY(K)
-C       IF(CEP(IE).EQ.PROC) THEN
+C       IF(CEP(IE)==PROC) THEN
           CNSN_L = CNSN_L+1
           TAG_NODE_2RY(CNSN_L) = K
 C       ENDIF
@@ -4031,7 +4031,7 @@ C       ENDIF
       CNME_L = 0 
       DO K=1,NME
         IE = IGRBRIC(IGE)%ENTITY(K)
-C       IF(CEP(IE).EQ.PROC)THEN
+C       IF(CEP(IE)==PROC)THEN
           CNME_L = CNME_L + 1
           TAG_NODE_MSR(CNME_L) = K
 C       ENDIF
@@ -4227,29 +4227,29 @@ C
           TAG_NLINS(CNLINS_L) = K
           TAG_NLINS2(K) = CNLINS_L
 C comptage ligne active
-          IF(K.LE.NLINSA)CNLINSA_L = CNLINSA_L + 1
-          IF (TAG_SCRATCH(N1).EQ.0) THEN
+          IF(K<=NLINSA)CNLINSA_L = CNLINSA_L + 1
+          IF (TAG_SCRATCH(N1)==0) THEN
             CNSNE_L = CNSNE_L + 1
             TAG_NSNE(CNSNE_L) = N1
             TAG_NSVE(CNSNE_L) = N1L
             TAG_SCRATCH(N1) = 1
             NINDX_SCRT = NINDX_SCRT + 1
             INDX_SCRT(NINDX_SCRT) = N1
-            IF(TAG_NM(N1).EQ.0)THEN
+            IF(TAG_NM(N1)==0)THEN
               CNLN_L = CNLN_L + 1
               TAG_NM(N1) = 1
               NINDX_NM = NINDX_NM + 1
               INDX_NM(NINDX_NM) = N1
             END IF
           ENDIF
-          IF (TAG_SCRATCH(N2).EQ.0) THEN
+          IF (TAG_SCRATCH(N2)==0) THEN
             CNSNE_L = CNSNE_L + 1
             TAG_NSNE(CNSNE_L) = N2
             TAG_NSVE(CNSNE_L) = N2L
             TAG_SCRATCH(N2) = 1
             NINDX_SCRT = NINDX_SCRT + 1
             INDX_SCRT(NINDX_SCRT) = N2
-            IF(TAG_NM(N2).EQ.0)THEN
+            IF(TAG_NM(N2)==0)THEN
               CNLN_L = CNLN_L + 1
               TAG_NM(N2) = 1
               NINDX_NM = NINDX_NM + 1
@@ -4277,29 +4277,29 @@ C comptage ligne active
           TAG_NLINM(CNLINM_L) = K
           TAG_NLINM2(K) = CNLINM_L
 C comptage ligne active
-          IF(K.LE.NLINMA)CNLINMA_L = CNLINMA_L + 1
-          IF (TAG_SCRATCH(N1).EQ.0) THEN
+          IF(K<=NLINMA)CNLINMA_L = CNLINMA_L + 1
+          IF (TAG_SCRATCH(N1)==0) THEN
             CNMNE_L = CNMNE_L + 1
             TAG_NMNE(CNMNE_L) = N1
             TAG_MSRE(CNMNE_L) = N1L
             TAG_SCRATCH(N1) = 1
             NINDX_SCRT = NINDX_SCRT + 1
             INDX_SCRT(NINDX_SCRT) = N1
-            IF(TAG_NM(N1).EQ.0)THEN
+            IF(TAG_NM(N1)==0)THEN
               CNMN_L = CNMN_L + 1
               TAG_NM(N1) = 1
               NINDX_NM = NINDX_NM + 1
               INDX_NM(NINDX_NM) = N1
           END IF
           ENDIF
-          IF (TAG_SCRATCH(N2).EQ.0) THEN
+          IF (TAG_SCRATCH(N2)==0) THEN
             CNMNE_L = CNMNE_L + 1
             TAG_NMNE(CNMNE_L) = N2
             TAG_MSRE(CNMNE_L) = N2L
             TAG_SCRATCH(N2) = 1
             NINDX_SCRT = NINDX_SCRT + 1
             INDX_SCRT(NINDX_SCRT) = N2
-            IF(TAG_NM(N2).EQ.0)THEN
+            IF(TAG_NM(N2)==0)THEN
               CNMN_L = CNMN_L + 1
               TAG_NM(N2) = 1
               NINDX_NM = NINDX_NM + 1
@@ -4320,19 +4320,19 @@ C
 C Calcul de NCONT en prenant le max des edge et non edge
 C
       NCONT1 = 0
-      IF(NMN.NE.0) THEN
+      IF(NMN/=0) THEN
         RCONT = CNMN_L
         RCONT = RCONT/NMN
         NCONT = NINT(NSN*RCONT)
-        IF(CNMN_L.GT.0.AND.NSN.GT.0) NCONT1 = MAX(NCONT,1)
+        IF(CNMN_L>0.AND.NSN>0) NCONT1 = MAX(NCONT,1)
       ENDIF
 
       NCONT2 = 0
-      IF(NMNE.NE.0) THEN
+      IF(NMNE/=0) THEN
         RCONT = CNMNE_L
         RCONT = RCONT/NMNE
         NCONT = NINT(NSNE*RCONT)
-        IF(CNMNE_L.GT.0.AND.NSNE.GT.0) NCONT2 = MAX(NCONT,1)
+        IF(CNMNE_L>0.AND.NSNE>0) NCONT2 = MAX(NCONT,1)
       ENDIF
       NCONT = MAX(NCONT1,NCONT2)
 
@@ -4552,7 +4552,7 @@ C ----------------------------------------
       C_II = 0
       DO K = 1, II_STOK
         E = INTBUF_TAB%LCAND_N(K)
-        IF (TAG_NLINS2(E).NE.0) THEN
+        IF (TAG_NLINS2(E)/=0) THEN
           C_II = C_II + 1
           TAG_II(C_II) = K
         ENDIF
@@ -4630,8 +4630,8 @@ C ----------------------------------------
       IBUF_N(1:MULTIMP*NCONT) = 0
       II_STOK_L = 0 !mandatory in case of inacti ne 5,6,7 
 
-      IF(INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7) THEN 
-        IF(NSN.GT.0) THEN
+      IF(INACTI==5.OR.INACTI==6.OR.INACTI==7) THEN 
+        IF(NSN>0) THEN
           ALLOCATE(NSNLOCAL(NSN))
           ALLOCATE(CPULOCAL(NSN))
           ALLOCATE(CANDR(NSN))
@@ -4644,7 +4644,7 @@ C ----------------------------------------
         DO K=1,NSN
           N = INTBUF_TAB%NSV(K)
           NSNLOCAL(K) = 0
-          IF(TAG_SCRATCH(N).EQ.0) THEN 
+          IF(TAG_SCRATCH(N)==0) THEN 
             SPLIST=0 
             CALL PLIST_IFRONT(PLIST,N,SPLIST) 
             DO I=1,SPLIST
@@ -4680,13 +4680,13 @@ C
 
         DO K = 1, II_STOK
           E = INTBUF_TAB%CAND_E(K)
-          IF (TAG_SEGM2(E).NE.0) THEN
+          IF (TAG_SEGM2(E)/=0) THEN
             N = INTBUF_TAB%CAND_N(K)
-            IF(TAG_SCRATCH(N).EQ.0) THEN
+            IF(TAG_SCRATCH(N)==0) THEN
               TAG_SCRATCH(N) = 1
               NINDX_SCRT = NINDX_SCRT + 1
               INDX_SCRT(NINDX_SCRT) = N
-              IF(NLOCAL(INTBUF_TAB%NSV(N),PROC+1).NE.1)THEN
+              IF(NLOCAL(INTBUF_TAB%NSV(N),PROC+1)/=1)THEN
                 C_NSNR = C_NSNR + 1
                 CANDR(C_NSNR) = N
               END IF
@@ -4704,7 +4704,7 @@ C
 C
 C Tris des candidats remote par proc et par nsv local croissant
 C
-        IF(C_NSNR.GT.0) THEN
+        IF(C_NSNR>0) THEN
           ALLOCATE(INDEX(2*C_NSNR))
           ALLOCATE(ITRI(2,C_NSNR))
         END IF
@@ -4727,12 +4727,12 @@ C
         C_NSNR = 0
         DO K = 1, II_STOK
           E = INTBUF_TAB%CAND_E(K)
-          IF (TAG_SEGM2(E).NE.0) THEN
+          IF (TAG_SEGM2(E)/=0) THEN
             II_STOK_L = II_STOK_L + 1
           END IF
         END DO
 
-        IF(II_STOK_L.GT.MULTIMP*NCONT)THEN
+        IF(II_STOK_L>MULTIMP*NCONT)THEN
           MULTOK= II_STOK_L/NCONT
           CALL ANCMSG(MSGID=626,
      .                MSGTYPE=MSGERROR,
@@ -4744,7 +4744,7 @@ C
 C
           DO K = 1, II_STOK
             E = INTBUF_TAB%CAND_E(K)
-            IF (TAG_SEGM2(E).NE.0) THEN
+            IF (TAG_SEGM2(E)/=0) THEN
               N = INTBUF_TAB%CAND_N(K)
               II_STOK_L = II_STOK_L + 1
               IBUF_E(II_STOK_L)=TAG_SEGM2(E)
@@ -4764,9 +4764,9 @@ c                IF(TAG(N)==0) THEN
                   IBUF_N(II_STOK_L) = TAG_SCRATCH(N)
                 END IF ! TAG(N)==0
               END IF ! NLOCAL(INTBUF_TAB%NSV(N),PROC+1)==1
-            ENDIF !TAG_SEGM_2(E).NE.0
+            ENDIF !TAG_SEGM_2(E)/=0
           ENDDO !K = 1, II_STOK
-        END IF !II_STOK_L.GT.MULTIMP*NCONT
+        END IF !II_STOK_L>MULTIMP*NCONT
 
         !reflush TAG_SCRATCH to zero only when value has changes
 #include "vectorize.inc"
@@ -4776,10 +4776,10 @@ c                IF(TAG(N)==0) THEN
         ENDDO
         NINDX_SCRT = 0
   
-        IF(NSN.GT.0) DEALLOCATE(NSNLOCAL,CPULOCAL,CANDR)
-        IF(C_NSNR.GT.0) DEALLOCATE(INDEX,ITRI)
+        IF(NSN>0) DEALLOCATE(NSNLOCAL,CPULOCAL,CANDR)
+        IF(C_NSNR>0) DEALLOCATE(INDEX,ITRI)
 
-        IF(INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7)IPARI_L(24,NI)= C_NSNR
+        IF(INACTI==5.OR.INACTI==6.OR.INACTI==7)IPARI_L(24,NI)= C_NSNR
          
       ENDIF !END INACTI=5,6,7
 
@@ -4858,8 +4858,8 @@ C ----------------------------------------
       IBUF_N(1:MULTIMP*NCONTE) = 0
       II_STOKE_L = 0 !mandatory in case of inacti ne 5,6,7 
 
-      IF(INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7) THEN 
-        IF(NLINS.GT.0) THEN
+      IF(INACTI==5.OR.INACTI==6.OR.INACTI==7) THEN 
+        IF(NLINS>0) THEN
           ALLOCATE(NRTSLOCAL(NLINS))
           ALLOCATE(CPULOCAL(NLINS))
           ALLOCATE(CANDR(NLINS))
@@ -4880,9 +4880,9 @@ C ----------------------------------------
             CPULOCAL(K) = PROC+1
           END IF
           DO P = 1, NSPMD
-            IF(P.NE.PROC+1.AND.NLOCAL(N1,P)==1.AND.
+            IF(P/=PROC+1.AND.NLOCAL(N1,P)==1.AND.
      .         NLOCAL(N2,P)==1) THEN
-              IF(NRTSLOCAL(K).EQ.0) THEN
+              IF(NRTSLOCAL(K)==0) THEN
                 NUMP(P) = NUMP(P) + 1
                 NRTSLOCAL(K) = NUMP(P)
                 CPULOCAL(K) = P
@@ -4897,9 +4897,9 @@ C
         C_NLINSR = 0
         DO K = 1, II_STOKE
           E = INTBUF_TAB%LCAND_N(K)
-          IF (TAG_NLINS2(E).NE.0) THEN
+          IF (TAG_NLINS2(E)/=0) THEN
             N = INTBUF_TAB%LCAND_S(K)
-            IF(TAG_SCRATCH(N).EQ.0) THEN
+            IF(TAG_SCRATCH(N)==0) THEN
               TAG_SCRATCH(N) = 1
               NINDX_SCRT = NINDX_SCRT + 1
               INDX_SCRT(NINDX_SCRT) = N
@@ -4907,7 +4907,7 @@ C
               N2L = INTBUF_TAB%IXLINS(2*(N-1)+2)
               N1 =  INTBUF_TAB%NLG(N1L)
               N2 =  INTBUF_TAB%NLG(N2L)
-              IF(CPULOCAL(N).NE.PROC+1)THEN
+              IF(CPULOCAL(N)/=PROC+1)THEN
                 C_NLINSR = C_NLINSR + 1
                 CANDR(C_NLINSR) = N
               END IF
@@ -4925,7 +4925,7 @@ C
 C
 C Tris des candidats remote par proc et par nsv local croissant
 C
-        IF(C_NLINSR.GT.0) THEN
+        IF(C_NLINSR>0) THEN
           ALLOCATE(INDEX(2*C_NLINSR))
           ALLOCATE(ITRI(2,C_NLINSR))
         END IF
@@ -4949,7 +4949,7 @@ C
 C
         DO K = 1, II_STOKE
           E = INTBUF_TAB%LCAND_N(K)
-          IF (TAG_NLINS2(E).NE.0) THEN
+          IF (TAG_NLINS2(E)/=0) THEN
             II_STOKE_L = II_STOKE_L + 1
             IBUF_E(II_STOKE_L)=TAG_NLINS2(E)
             L = INTBUF_TAB%LCAND_N(K)
@@ -4961,7 +4961,7 @@ C
               IBUF_N(II_STOKE_L)=NRTSLOCAL(L)
             ELSE
 C noeud remote : numerotation pre calculee ci-dessus
-              IF(TAG_SCRATCH(L).EQ.0) THEN
+              IF(TAG_SCRATCH(L)==0) THEN
                 C_NLINSR = C_NLINSR + 1
                 IBUF_N(II_STOKE_L) = INDEX(C_NLINSR)+NLINS_L
                 TAG_SCRATCH(L) = INDEX(C_NLINSR)+NLINS_L
@@ -4971,7 +4971,7 @@ C noeud remote : numerotation pre calculee ci-dessus
                 IBUF_N(II_STOKE_L) = TAG_SCRATCH(L)
               END IF
             END IF
-          ENDIF !TAG_NLINS2(E).NE.0
+          ENDIF !TAG_NLINS2(E)/=0
         ENDDO !K = 1, II_STOKE
 
         !reflush TAG_SCRATCH to zero only when value has changes
@@ -4982,10 +4982,10 @@ C noeud remote : numerotation pre calculee ci-dessus
         ENDDO
         NINDX_SCRT = 0
   
-        IF(NLINS.GT.0) DEALLOCATE(NRTSLOCAL,CPULOCAL,CANDR)
-        IF(C_NLINSR.GT.0) DEALLOCATE(INDEX,ITRI)
+        IF(NLINS>0) DEALLOCATE(NRTSLOCAL,CPULOCAL,CANDR)
+        IF(C_NLINSR>0) DEALLOCATE(INDEX,ITRI)
 
-        IF(INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7) IPARI_L(57,NI)= C_NLINSR
+        IF(INACTI==5.OR.INACTI==6.OR.INACTI==7) IPARI_L(57,NI)= C_NLINSR
          
       ENDIF !END INACTI=5,6,7
 
@@ -5114,7 +5114,7 @@ C ----------------------------------------
       CNMN_L = 0 
       DO I=1,NMN
         N = INTBUF_TAB%MSR(I)
-        IF(NLOCAL(N,PROC+1)==1.AND.TAG_SCRATCH(N).EQ.0) THEN
+        IF(NLOCAL(N,PROC+1)==1.AND.TAG_SCRATCH(N)==0) THEN
           CNMN_L = CNMN_L + 1
           TAG_NODE_MSR(CNMN_L) = I
           TAG_SCRATCH(N)=1
@@ -5831,7 +5831,7 @@ C ----------------------------------------
       IBUF_N(1:MULTIMP*NCONT) = 0
       II_STOK_L = 0 !mandatory in case of inacti ne 5,6,7 
 
-        IF(NSN.GT.0) THEN
+        IF(NSN>0) THEN
           ALLOCATE(NSNLOCAL(NSN))
           ALLOCATE(CPULOCAL(NSN))
           ALLOCATE(CANDR(NSN))
@@ -5844,9 +5844,9 @@ C ----------------------------------------
         DO K=1,NSN
           N = INTBUF_TAB%NSV(K)
           NSNLOCAL(K) = 0
-          IF(TAG_SCRATCH(N).EQ.0) THEN 
+          IF(TAG_SCRATCH(N)==0) THEN 
             SPLIST=0 
-            IF(N.LE.NUMNOD)THEN
+            IF(N<=NUMNOD)THEN
               CALL PLIST_IFRONT(PLIST,N,SPLIST) 
               DO I=1,SPLIST
                 P=PLIST(I)
@@ -5891,14 +5891,14 @@ C
 
         DO K = 1, II_STOK
           E = INTBUF_TAB%CAND_E(K)
-          IF (TAG_SEGM2(E).NE.0) THEN
+          IF (TAG_SEGM2(E)/=0) THEN
             N = INTBUF_TAB%CAND_N(K)
 C            IF (INTBUF_TAB%NSV(N)> NUMNOD) CYCLE
-            IF(TAG_SCRATCH(N).EQ.0) THEN
+            IF(TAG_SCRATCH(N)==0) THEN
               TAG_SCRATCH(N) = 1
               NINDX_SCRT = NINDX_SCRT + 1
               INDX_SCRT(NINDX_SCRT) = N
-              IF(INTBUF_TAB%NSV(N) .LE. NUMNOD)THEN
+              IF(INTBUF_TAB%NSV(N) <= NUMNOD)THEN
                  MY_NODE = INTBUF_TAB%NSV(N)
                  IF( NODLOCAL( MY_NODE ) ==0.OR.NODLOCAL( MY_NODE )>NUMNOD_L ) THEN
                    C_NSNR = C_NSNR + 1
@@ -5908,7 +5908,7 @@ C            IF (INTBUF_TAB%NSV(N)> NUMNOD) CYCLE
                  NN = INTBUF_TAB%NSV(N) - NUMNOD
                  SE1 = INTBUF_TAB%IS2SE(2*(NN-1)+1)
                  P = INTERCEP2%P(SE1)
-                 IF(P.NE. (PROC+1) ) THEN
+                 IF(P/= (PROC+1) ) THEN
                     C_NSNR = C_NSNR + 1
                     CANDR(C_NSNR) = N
                  ENDIF
@@ -5927,7 +5927,7 @@ C            IF (INTBUF_TAB%NSV(N)> NUMNOD) CYCLE
 C
 C Tris des candidats remote par proc et par nsv local croissant
 C
-        IF(C_NSNR.GT.0) THEN
+        IF(C_NSNR>0) THEN
           ALLOCATE(INDEX(2*C_NSNR))
           ALLOCATE(ITRI(2,C_NSNR))
         END IF
@@ -5950,12 +5950,12 @@ C
         C_NSNR = 0
         DO K = 1, II_STOK
           E = INTBUF_TAB%CAND_E(K)
-          IF (TAG_SEGM2(E).NE.0) THEN
+          IF (TAG_SEGM2(E)/=0) THEN
             II_STOK_L = II_STOK_L + 1
           END IF
         END DO
 
-        IF(II_STOK_L.GT.MULTIMP*NCONT)THEN
+        IF(II_STOK_L>MULTIMP*NCONT)THEN
           MULTOK= II_STOK_L/NCONT
           CALL ANCMSG(MSGID=626,
      .                MSGTYPE=MSGERROR,
@@ -5967,7 +5967,7 @@ C
 C
           DO K = 1, II_STOK
             E = INTBUF_TAB%CAND_E(K)
-            IF (TAG_SEGM2(E).NE.0) THEN
+            IF (TAG_SEGM2(E)/=0) THEN
               N = INTBUF_TAB%CAND_N(K)
               II_STOK_L = II_STOK_L + 1
               IBUF_E(II_STOK_L)=TAG_SEGM2(E)
@@ -5997,9 +5997,9 @@ c                IF(TAG(N)==0) THEN
                   IBUF_N(II_STOK_L) = TAG_SCRATCH(N)
                 END IF ! TAG(N)==0
               END IF ! NLOCAL(INTBUF_TAB%NSV(N),PROC+1)==1
-            ENDIF !TAG_SEGM_2(E).NE.0
+            ENDIF !TAG_SEGM_2(E)/=0
           ENDDO !K = 1, II_STOK
-        END IF !II_STOK_L.GT.MULTIMP*NCONT
+        END IF !II_STOK_L>MULTIMP*NCONT
 
         !reflush TAG_SCRATCH to zero only when value has changes
 #include "vectorize.inc"
@@ -6009,8 +6009,8 @@ c                IF(TAG(N)==0) THEN
         ENDDO
         NINDX_SCRT = 0
   
-        IF(NSN.GT.0) DEALLOCATE(NSNLOCAL,CPULOCAL,CANDR)
-        IF(C_NSNR.GT.0) DEALLOCATE(INDEX,ITRI)
+        IF(NSN>0) DEALLOCATE(NSNLOCAL,CPULOCAL,CANDR)
+        IF(C_NSNR>0) DEALLOCATE(INDEX,ITRI)
 
          
       CALL WRITE_I_C(IBUF_E,MULTIMP*NCONT)
@@ -6874,7 +6874,7 @@ C ----------------------------------------
       IBUF_N(1:MULTIMP*NCONT) = 0
       II_STOK_L = 0 !mandatory in case of inacti ne 5,6,7 
 
-        IF(NSN.GT.0) THEN
+        IF(NSN>0) THEN
           ALLOCATE(NSNLOCAL(NSN))
           ALLOCATE(CPULOCAL(NSN))
           ALLOCATE(CANDR(NSN))
@@ -6887,7 +6887,7 @@ C ----------------------------------------
         DO K=1,NSN
           N = INTBUF_TAB%NSV(K)
           NSNLOCAL(K) = 0
-          IF(TAG_SCRATCH(N).EQ.0) THEN 
+          IF(TAG_SCRATCH(N)==0) THEN 
             SPLIST=0 
             CALL PLIST_IFRONT(PLIST,N,SPLIST) 
             DO I=1,SPLIST
@@ -6923,14 +6923,14 @@ C
 
         DO K = 1, II_STOK
           E = INTBUF_TAB%CAND_E(K)
-          IF (TAG_SEGM2(E).NE.0) THEN
+          IF (TAG_SEGM2(E)/=0) THEN
             N = INTBUF_TAB%CAND_N(K)
             IF (INTBUF_TAB%NSV(N)> NUMNOD) CYCLE
-            IF(TAG_SCRATCH(N).EQ.0) THEN
+            IF(TAG_SCRATCH(N)==0) THEN
               TAG_SCRATCH(N) = 1
               NINDX_SCRT = NINDX_SCRT + 1
               INDX_SCRT(NINDX_SCRT) = N
-              IF(NLOCAL(INTBUF_TAB%NSV(N),PROC+1).NE.1)THEN
+              IF(NLOCAL(INTBUF_TAB%NSV(N),PROC+1)/=1)THEN
                 C_NSNR = C_NSNR + 1
                 CANDR(C_NSNR) = N
               END IF
@@ -6948,7 +6948,7 @@ C
 C
 C Tris des candidats remote par proc et par nsv local croissant
 C
-C       IF(C_NSNR.GT.0) THEN
+C       IF(C_NSNR>0) THEN
           ALLOCATE(INDEX(2*C_NSNR))
           ALLOCATE(ITRI(2,C_NSNR))
 C       END IF
@@ -6971,12 +6971,12 @@ C
         C_NSNR = 0
         DO K = 1, II_STOK
           E = INTBUF_TAB%CAND_E(K)
-          IF (TAG_SEGM2(E).NE.0) THEN
+          IF (TAG_SEGM2(E)/=0) THEN
             II_STOK_L = II_STOK_L + 1
           END IF
         END DO
 
-        IF(II_STOK_L.GT.MULTIMP*NCONT)THEN
+        IF(II_STOK_L>MULTIMP*NCONT)THEN
           MULTOK= II_STOK_L/NCONT
           CALL ANCMSG(MSGID=626,
      .                MSGTYPE=MSGERROR,
@@ -6988,7 +6988,7 @@ C
 C
           DO K = 1, II_STOK
             E = INTBUF_TAB%CAND_E(K)
-            IF (TAG_SEGM2(E).NE.0) THEN
+            IF (TAG_SEGM2(E)/=0) THEN
               N = INTBUF_TAB%CAND_N(K)
               II_STOK_L = II_STOK_L + 1
               IBUF_E(II_STOK_L)=TAG_SEGM2(E)
@@ -7009,20 +7009,20 @@ c                IF(TAG(N)==0) THEN
                   IBUF_N(II_STOK_L) = TAG_SCRATCH(N)
                 END IF ! TAG(N)==0
               END IF ! NLOCAL(INTBUF_TAB%NSV(N),PROC+1)==1
-            ENDIF !TAG_SEGM_2(E).NE.0
+            ENDIF !TAG_SEGM_2(E)/=0
           ENDDO !K = 1, II_STOK
-        END IF !II_STOK_L.GT.MULTIMP*NCONT
+        END IF !II_STOK_L>MULTIMP*NCONT
 
         !reflush TAG_SCRATCH to zero only when value has changes
         DO K=1, II_STOK  
               E = INTBUF_TAB%CAND_E(K)
-          IF (TAG_SEGM2(E).NE.0) THEN
+          IF (TAG_SEGM2(E)/=0) THEN
             N = INTBUF_TAB%CAND_N(K)
             IF (INTBUF_TAB%NSV(N)<= NUMNOD) TAG_SCRATCH(N) = 0
           ENDIF
         ENDDO
   
-        IF(NSN.GT.0) DEALLOCATE(NSNLOCAL,CPULOCAL,CANDR)
+        IF(NSN>0) DEALLOCATE(NSNLOCAL,CPULOCAL,CANDR)
         DEALLOCATE(INDEX,ITRI)
 
          
@@ -7308,7 +7308,7 @@ C ----------------------------------------
       SIZ_TMP(1:NRTM) = 0
 
       DO K=1,NRTM
-        IF(TAG_SEGM2(K) .NE. 0)THEN
+        IF(TAG_SEGM2(K) /= 0)THEN
           SIZ_TMP(TAG_SEGM2(K)) = INTBUF_TAB%KREMNODE(K+1)
      .              -INTBUF_TAB%KREMNODE(K)
         ENDIF
@@ -7321,7 +7321,7 @@ C ----------------------------------------
       SIZ1 = 0
       SIZ2 = 0
       DO K=1,NRTM
-        IF(TAG_SEGM2(K) .NE. 0)THEN
+        IF(TAG_SEGM2(K) /= 0)THEN
 
           SIZ = SIZ_TMP(TAG_SEGM2(K))
           IBUF1(1+2*TAG_SEGM2(K)) =IBUF1(1+2*(TAG_SEGM2(K)-1)) + SIZ
@@ -7356,7 +7356,7 @@ c--------add if N<=NUMNOD else IS2ID(N-NUMNOD)
               SIZ2 = SIZ2+1
             ENDIF
            ELSE
-            IF(NLOCAL(N,PROC+1).NE.1) THEN
+            IF(NLOCAL(N,PROC+1)/=1) THEN
               NODDELREMOTE(SIZ2+1) = ITAB(N)
               SIZ2 = SIZ2+1
             ENDIF
@@ -7457,14 +7457,14 @@ C---  Split of KERMNODE -> IBUF1
       INDEX1 = 1
       CPT_L = 0
       DO K=1,NRTM
-        IF(TAG_SEGM2(K) .NE. 0)THEN
+        IF(TAG_SEGM2(K) /= 0)THEN
           SIZ = INTBUF_TAB%KREMNODE(K+1)-INTBUF_TAB%KREMNODE(K)
           L=INTBUF_TAB%KREMNODE(K)
           SIZ1 = 0
           SIZ2 = 0
           DO M=1,SIZ
             N = INTBUF_TAB%REMNODE(L+M-1)
-            IF (TAG_SEGS2(N).NE.0) THEN
+            IF (TAG_SEGS2(N)/=0) THEN
 C--           Local segment - local id is stored
               SIZ1 = SIZ1 + 1
             ELSE
@@ -7484,7 +7484,7 @@ C
 C---  Split of ERMNODE -> IBUF2
       CPT_L = 0
       DO K=1,NRTM
-        IF(TAG_SEGM2(K) .NE. 0)THEN
+        IF(TAG_SEGM2(K) /= 0)THEN
 C
           CPT_L = CPT_L + 1
           L=INTBUF_TAB%KREMNODE(K)
@@ -7494,7 +7494,7 @@ C
 C
           DO M=1,SIZ
             N = INTBUF_TAB%REMNODE(L+M-1)
-            IF (TAG_SEGS2(N).NE.0) THEN
+            IF (TAG_SEGS2(N)/=0) THEN
 C-- Local segment - local id is stored
               IBUF2(SIZ1) = TAG_SEGS2(N)
               SIZ1 = SIZ1+1
@@ -7586,11 +7586,11 @@ C---  Split of KERMNODE -> IBUF1
         K = TAG_EDGE(IK)
         EM1=INTBUF_TAB%LEDGE(1+(K-1)*NLEDGE)
         KM1=0
-        IF(EM1.NE..0) KM1=SEGLOC(EM1)
+        IF(EM1/=.0) KM1=SEGLOC(EM1)
         EM2=INTBUF_TAB%LEDGE(3+(K-1)*NLEDGE)
         KM2=0
-        IF(EM2.NE.0) KM2=SEGLOC(EM2)
-        IF(KM1 .NE. 0.OR.KM2.NE.0)THEN
+        IF(EM2/=0) KM2=SEGLOC(EM2)
+        IF(KM1 /= 0.OR.KM2/=0)THEN
           SIZ = INTBUF_TAB%KREMNODE_EDG(K+1)-INTBUF_TAB%KREMNODE_EDG(K)
           L=INTBUF_TAB%KREMNODE_EDG(K)
           SIZ1 = 0
@@ -7599,11 +7599,11 @@ C---  Split of KERMNODE -> IBUF1
             N = INTBUF_TAB%REMNODE_EDG(L+M-1)
             ES1=INTBUF_TAB%LEDGE(1+(N-1)*NLEDGE)
             KS1=0
-            IF(ES1.NE.0) KS1=SEGLOC(ES1)
+            IF(ES1/=0) KS1=SEGLOC(ES1)
             ES2=INTBUF_TAB%LEDGE(3+(N-1)*NLEDGE)
             KS2 = 0
-            IF(ES2.NE.0) KS2=SEGLOC(ES2)
-            IF (KM1 .NE. 0.AND.KM2.NE.0.AND.KS1.NE.0.AND.KS2.NE.0) THEN
+            IF(ES2/=0) KS2=SEGLOC(ES2)
+            IF (KM1 /= 0.AND.KM2/=0.AND.KS1/=0.AND.KS2/=0) THEN
 C--           Local segment - local id is stored
               SIZ1 = SIZ1 + 1
             ELSE
@@ -7627,11 +7627,11 @@ C---  Split of ERMNODE -> IBUF2
         K = TAG_EDGE(IK)
         EM1=INTBUF_TAB%LEDGE(1+(K-1)*NLEDGE)
         KM1=0
-        IF(EM1.NE.0) KM1=SEGLOC(EM1)
+        IF(EM1/=0) KM1=SEGLOC(EM1)
         EM2=INTBUF_TAB%LEDGE(3+(K-1)*NLEDGE)
         KM2=0
-        IF(EM2.NE.0) KM2=SEGLOC(EM2)
-        IF(KM1 .NE. 0.OR.KM2.NE.0)THEN
+        IF(EM2/=0) KM2=SEGLOC(EM2)
+        IF(KM1 /= 0.OR.KM2/=0)THEN
 C
           CPT_L = CPT_L + 1
           L=INTBUF_TAB%KREMNODE_EDG(K)
@@ -7643,11 +7643,11 @@ C
             N = INTBUF_TAB%REMNODE_EDG(L+M-1)
             KS1=0
             ES1=INTBUF_TAB%LEDGE(1+(N-1)*NLEDGE)
-            IF(ES1.NE.0) KS1=SEGLOC(ES1)
+            IF(ES1/=0) KS1=SEGLOC(ES1)
             ES2=INTBUF_TAB%LEDGE(3+(N-1)*NLEDGE)
             KS2 = 0
-            IF(ES2.NE.0) KS2=SEGLOC(ES2)
-            IF (KM1 .NE. 0.AND.KM2.NE.0.AND.KS1.NE.0.AND.KS2.NE.0) THEN
+            IF(ES2/=0) KS2=SEGLOC(ES2)
+            IF (KM1 /= 0.AND.KM2/=0.AND.KS1/=0.AND.KS2/=0) THEN
 C-- Local segment - local id is stored
               IBUF2(SIZ1) = TAG_EDGE2(N)
               SIZ1 = SIZ1+1

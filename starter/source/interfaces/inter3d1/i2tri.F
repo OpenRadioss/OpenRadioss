@@ -184,15 +184,15 @@ C                    PLUS DE MEMOIRE DISPONIBLE
 C
 C-----------------------------------------------------------
 C
-C      IF(MEMX.GT.ADD(2,1)+NB_EC)THEN
+C      IF(MEMX>ADD(2,1)+NB_EC)THEN
 C        WRITE(ISTDO,*)' *******MEM MAX=',MEMX
 C        MEMX=-1
-C      ELSEIF(MEMX.NE.-1)THEN
+C      ELSEIF(MEMX/=-1)THEN
 C        MEMX=ADD(2,1)+NB_EC
 C      ENDIF
 C--------------------TEST SUR BOITE VIDES-------------- 
 C
-      IF(NB_EC.EQ.0.OR.NB_NC.EQ.0) THEN
+      IF(NB_EC==0.OR.NB_NC==0) THEN
 C       write(6,*)" BOITE VIDE"
 C       IL FAUT COPIER LES BAS DES PILES DANS BAS_DE_PILE CORRESPONDANTS
 C       AVANT DE REDESCENDRE DANS LA BRANCHE MITOYENNE
@@ -207,9 +207,9 @@ C
       DZ = XYZM(6,I_ADD) - XYZM(3,I_ADD)
       DSUP= MAX(DX,DY,DZ)
 C
-      IF(ADD(2,1)+NB_EC.GE.MAXSIZ) THEN
+      IF(ADD(2,1)+NB_EC>=MAXSIZ) THEN
 C       PLUS DE PLACE DANS LA PILE DES ELEMENTS BOITES TROP PETITES
-        IF ( NB_N_B .EQ. NUMNOD) THEN
+        IF ( NB_N_B == NUMNOD) THEN
            CALL ANCMSG(MSGID=83,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO,
@@ -219,9 +219,9 @@ C       PLUS DE PLACE DANS LA PILE DES ELEMENTS BOITES TROP PETITES
         I_MEM = 1
         RETURN
       ENDIF
-      IF(DSUP.LT.MINBOX.OR.
-     .   NB_NC.LE.NB_N_B.AND.DSUP.LT.MAXBOX.OR.   
-     .   NB_NC.LE.NB_N_B.AND.NB_EC.EQ.1) THEN
+      IF(DSUP<MINBOX.OR.
+     .   NB_NC<=NB_N_B.AND.DSUP<MAXBOX.OR.   
+     .   NB_NC<=NB_N_B.AND.NB_EC==1) THEN
 C
 C       write(6,*)" NOUVELLE BOITE "
 C       1- STOCKAGE DU OU DES  NOEUD CANDIDAT ET DES ELTS CORRESP.
@@ -234,11 +234,11 @@ C       VIRER LES INUTILES
             N4=IRECT(4,NE) 
             DO 20 J=1,NB_NC
               NN=NSV(BPN(J))
-              IF(NN.NE.N1.AND.NN.NE.N2.AND.NN.NE.N3.AND.NN.NE.N4) THEN
+              IF(NN/=N1.AND.NN/=N2.AND.NN/=N3.AND.NN/=N4) THEN
                 J_STOK = J_STOK + 1
                 PROV_N(J_STOK) = BPN(J)
                 PROV_E(J_STOK) = NE
-                IF(J_STOK.EQ.NVSIZ) THEN
+                IF(J_STOK==NVSIZ) THEN
                   LFT = 1
                   LLT = NVSIZ
                   NFT = 0
@@ -310,9 +310,9 @@ C
 C    1- DETERMINER LA DIRECTION A DIVISER X,Y OU Z
 C
       DIR = 1
-      IF(DY.EQ.DSUP) THEN
+      IF(DY==DSUP) THEN
         DIR = 2
-      ELSE IF(DZ.EQ.DSUP) THEN
+      ELSE IF(DZ==DSUP) THEN
         DIR = 3
       ENDIF
       SEUIL =(XYZM(DIR+3,I_ADD)+XYZM(DIR,I_ADD))/2
@@ -324,7 +324,7 @@ C
       INF = 0
       SUP = 0
       DO 70 I=1,NB_NC
-        IF(X(DIR,NSV(BPN(I))).LT.SEUIL) THEN
+        IF(X(DIR,NSV(BPN(I)))<SEUIL) THEN
 C         ON STOCKE DANS LE BAS DE LA PILE BP
           ADDNN = ADDNN + 1
           PN(ADDNN) = BPN(I)
@@ -353,12 +353,12 @@ C
         XMN = MIN(X(DIR,IRECT(1,BPE(I))),X(DIR,IRECT(2,BPE(I))),
      .            X(DIR,IRECT(3,BPE(I))),X(DIR,IRECT(4,BPE(I))))
      .      - TZINF
-        IF(XMN.LT.SEUIL.AND.INF.EQ.1) THEN
+        IF(XMN<SEUIL.AND.INF==1) THEN
 C         ON STOCKE DANS LE BAS DE LA PILE BP
           ADDNE = ADDNE + 1
           PE(ADDNE) = BPE(I)
         ENDIF
-        IF(XMX.GE.SEUIL.AND.SUP.EQ.1) THEN
+        IF(XMX>=SEUIL.AND.SUP==1) THEN
 C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE
           NB_ECN = NB_ECN + 1
           BPE(NB_ECN) = BPE(I)
@@ -388,9 +388,9 @@ C
       NB_EC = NB_ECN
 C     on incremente le niveau de descente avant de sortir
       I_ADD = I_ADD + 1
-      IF(I_ADD.GE.1000) THEN
+      IF(I_ADD>=1000) THEN
 C       TROP NIVEAUX PILE ON VAS LES PRENDRE PLUS GRANDES...
-        IF ( NB_N_B .EQ. NUMNOD) THEN
+        IF ( NB_N_B == NUMNOD) THEN
            CALL ANCMSG(MSGID=83,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO,

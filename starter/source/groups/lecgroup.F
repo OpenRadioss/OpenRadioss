@@ -210,7 +210,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     SH_3N GROUP
 C-----------------------------------------------
-      IF (NGRSH3N > 0 .AND. N2D.EQ.0)THEN
+      IF (NGRSH3N > 0 .AND. N2D==0)THEN
         CALL HM_LECGRE(
      1      IGRSH3N   ,IXTG      ,
      2      3         ,NIXTG     ,NUMELTG   ,NGRSH3N       ,7       ,
@@ -223,7 +223,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     TRIA GROUP
 C-----------------------------------------------
-      IF (NGRSH3N > 0 .AND. N2D.NE.0)THEN
+      IF (NGRSH3N > 0 .AND. N2D/=0)THEN
         CALL HM_LECGRE(
      1      IGRSH3N   ,IXTG      ,
      2      3         ,NIXTG     ,NUMELTG   ,NGRSH3N      ,7        ,

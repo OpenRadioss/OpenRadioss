@@ -117,16 +117,16 @@ C
 C
         STARTT=INTBUF_TAB(N)%VARIABLES(3)
         STOPT =INTBUF_TAB(N)%VARIABLES(11)
-        IF(STARTT.GT.TT) CYCLE
-        IF(TT.GT.STOPT)  CYCLE
+        IF(STARTT>TT) CYCLE
+        IF(TT>STOPT)  CYCLE
 C
         ISENS = IPARI(64,N)  
-        IF(ISENS.NE.0)  THEN         ! Interface activated by sensor
+        IF(ISENS/=0)  THEN         ! Interface activated by sensor
            TS = SENSOR(2,ISENS)
         ELSE
            TS = TT
         ENDIF
-        IF(TT.LT.TS) CYCLE
+        IF(TT<TS) CYCLE
 C
         IF(JTASK == 1) THEN
 
@@ -134,15 +134,15 @@ C
 
          IEDGE  = IPARI(58,N)
          SOL_EDGE =0
-         IF(IEDGE .NE. 0) SOL_EDGE =IEDGE/10 ! solids
+         IF(IEDGE /= 0) SOL_EDGE =IEDGE/10 ! solids
 
          IF(SOL_EDGE/=0)THEN
           DO I = 1, NSPMD
-            IF(IAD_FRNOR(NI25,I+1)-IAD_FRNOR(NI25,I).GT.0) THEN
+            IF(IAD_FRNOR(NI25,I+1)-IAD_FRNOR(NI25,I)>0) THEN
               DO J=IAD_FRNOR(NI25,I),IAD_FRNOR(NI25,I+1)-1
                 NOD = ISHIFT + FR_NOR(J)
                 DO CC = ADDCSRECT(NOD),ADDCSRECT(NOD+1)-1
-                  IF(PROCNOR(CC).EQ.I) THEN
+                  IF(PROCNOR(CC)==I) THEN
                      SIZE_NODNOR_E2S = SIZE_NODNOR_E2S + 6
                   ENDIF
                 END DO
@@ -182,7 +182,7 @@ C
         IEDGE  = IPARI(58,N)
         NEDGE  = IPARI(68,N) ! Updated in i25normp
         SOL_EDGE =0
-        IF(IEDGE .NE. 0) SOL_EDGE =IEDGE/10 ! solids
+        IF(IEDGE /= 0) SOL_EDGE =IEDGE/10 ! solids
 
         CALL I25TAGN(NI25    ,N       ,NRTM     ,NSN         ,NSNR      ,
      2               JTASK   ,IAD_FRNOR ,FR_NOR  ,INTBUF_TAB(N)%IRTLM,INTBUF_TAB(N)%MSEGTYP24  ,
@@ -240,16 +240,16 @@ C     ALLOCATE(TAGSEG(1,1))
 C
         STARTT=INTBUF_TAB(N)%VARIABLES(3)
         STOPT =INTBUF_TAB(N)%VARIABLES(11)
-        IF(STARTT.GT.TT) CYCLE
-        IF(TT.GT.STOPT)  CYCLE
+        IF(STARTT>TT) CYCLE
+        IF(TT>STOPT)  CYCLE
 C
         ISENS = IPARI(64,N)  
-        IF(ISENS.NE.0)  THEN         ! Interface activated by sensor
+        IF(ISENS/=0)  THEN         ! Interface activated by sensor
            TS = SENSOR(2,ISENS)
         ELSE
            TS = TT
         ENDIF
-        IF(TT.LT.TS) CYCLE
+        IF(TT<TS) CYCLE
 
         NADMSR = IPARI(67,N)
         NRTM   = IPARI(4,N)
@@ -262,7 +262,7 @@ C
         IEDGE  = IPARI(58,N)
 C       NEDGE  = IPARI(68,N) ! Updated in i25normp
         SOL_EDGE =0
-        IF(IEDGE .NE. 0) SOL_EDGE =IEDGE/10 ! solids
+        IF(IEDGE /= 0) SOL_EDGE =IEDGE/10 ! solids
 
         CALL MY_BARRIER()
 
@@ -308,12 +308,12 @@ C
         IEDGE  = IPARI(58,N)
 C       NEDGE  = IPARI(68,N) ! Updated in i25normp
         SOL_EDGE =0
-        IF(IEDGE .NE. 0) SOL_EDGE =IEDGE/10 ! solids
+        IF(IEDGE /= 0) SOL_EDGE =IEDGE/10 ! solids
 
         IF(SOL_EDGE/=0)THEN
 
           ISENS = IPARI(64,N)  
-          IF(ISENS.NE.0)  THEN         ! Interface activated by sensor
+          IF(ISENS/=0)  THEN         ! Interface activated by sensor
              TS = SENSOR(2,ISENS)
           ELSE
              TS = TT

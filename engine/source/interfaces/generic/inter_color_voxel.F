@@ -19,7 +19,7 @@ Copyright>        Commercial Alternative: Altair Radioss Software
 Copyright>    
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
-Copyright>        commercial version may interest you: https://www.altair.com/radioss/.  
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
 Chd|  INTER_COLOR_VOXEL             source/interfaces/generic/inter_color_voxel.F
 Chd|-- called by -----------
@@ -124,7 +124,7 @@ C-----------------------------------------------
             NRTM_T = NRTM/NTHREAD
             ESHIFT = ITASK*NRTM_T
             ADRESS = 1 + ITASK*(IPARI(4,NIN)/NTHREAD)
-            IF(ITASK.EQ.NTHREAD-1) NRTM_T= NRTM - ADRESS + 1
+            IF(ITASK==NTHREAD-1) NRTM_T= NRTM - ADRESS + 1
             NB_LOCAL_CELL(ITASK+1) = 0
             
             TZINF = INTBUF_TAB(NIN)%VARIABLES(8)

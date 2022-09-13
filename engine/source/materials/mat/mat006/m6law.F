@@ -72,9 +72,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 
       !SAUVEGARDE VORTICITE SI ANIM
-      IF((ANIM_E(10).EQ.1 .OR. ANIM_SE(10).EQ.1).AND. DT1.NE.ZERO)THEN
+      IF((ANIM_E(10)==1 .OR. ANIM_SE(10)==1).AND. DT1/=ZERO)THEN
          FAC=FOUR/DT1
-        IF(N2D.EQ.0)THEN
+        IF(N2D==0)THEN
           DO 5 I=LFT,LLT
  5        VORTI(I)=FAC*SQRT(WXX(I)**2+WYY(I)**2+WZZ(I)**2)
         ELSE
@@ -110,8 +110,8 @@ C-----------------------------------------------
    10 CONTINUE
 
       !IF TURBULENT
-      IF(JTUR.NE.0)THEN
-        IF(JPOR.NE.2)THEN
+      IF(JTUR/=0)THEN
+        IF(JPOR/=2)THEN
           DO I=LFT,LLT
             TMU(I)=TMU(I)*RK(I)*RK(I) / MAX(EM15,(RE(I)*VNEW(I)))
             VIS(I)=VIS(I)+TMU(I)

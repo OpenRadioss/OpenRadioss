@@ -53,7 +53,7 @@ C-----------------------------------------------
 C
       IL=0
       DO I = 1, NFASOLFR
-        IF(CEP(FASOLFR(1,I)).EQ.P)THEN
+        IF(CEP(FASOLFR(1,I))==P)THEN
            IL=IL+1
            FASTMP(1,IL) = CEL(FASOLFR(1,I))
            FASTMP(2,IL) = FASOLFR(2,I)

@@ -159,7 +159,7 @@ c
       NLAY  = ELBUF_STR%NLAY
       L_SIGB= ELBUF_STR%BUFLY(1)%L_SIGB
       NF1=NFT+1
-      IF(MTN.GE.28)THEN
+      IF(MTN>=28)THEN
         NUVAR = IPM(8,IXS(1,NF1))
       ELSE
         NUVAR = 0
@@ -225,7 +225,7 @@ C----------------------------------------
 C----------------------------------------
 C     INITIALISATION DES MASSES
 C----------------------------------------
-      IF(JLAG+JALE+JEUL.NE.0) THEN
+      IF(JLAG+JALE+JEUL/=0) THEN
 C-------- case /INIBRIS/STRS_FGLO missed         
          IF (ISIGI /= 0 .AND. (JCVT/=0.OR.ISORTH/=0)) 
      .   CALL USTRSIN3(
@@ -271,7 +271,7 @@ C       assemblage des Volumes nodaux et Modules nodaux
 C       (pour rigidites d'interface)
 C------------------------------------------
 C       attention : IX1, IX2 ... IX4 sont sous la forme NC(MVSIZ,4)
-        IF(I7STIFS.NE.0)THEN
+        IF(I7STIFS/=0)THEN
           NCC=4
           IXT4(1:MVSIZ,1) = IX1(1:MVSIZ)
           IXT4(1:MVSIZ,2) = IX2(1:MVSIZ)
@@ -304,9 +304,9 @@ c
 C------------------------------------------
 c
       DO 10 I=LFT,LLT
-        IF(IXS(10,I+NFT).NE.0) THEN
-          IF(     IGTYP.NE.0 .AND.IGTYP.NE.6
-     .       .AND.IGTYP.NE.14.AND.IGTYP.NE.15)THEN
+        IF(IXS(10,I+NFT)/=0) THEN
+          IF(     IGTYP/=0 .AND.IGTYP/=6
+     .       .AND.IGTYP/=14.AND.IGTYP/=15)THEN
              IPID1=IXS(NIXS-1,I+NFT)
              CALL FRETITL2(TITR1,IGEO(NPROPGI-LTITR+1,IPID1),LTITR)
              CALL ANCMSG(MSGID=226,

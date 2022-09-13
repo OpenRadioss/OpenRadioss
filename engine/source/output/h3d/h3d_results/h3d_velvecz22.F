@@ -89,8 +89,8 @@ C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C----------------------------------------------- 
        NIN = 1
-       IF(INT22.EQ.0)        RETURN
-       IF(IPARI(82,NIN).EQ.0)RETURN
+       IF(INT22==0)        RETURN
+       IF(IPARI(82,NIN)==0)RETURN
 C-----------------------------------------------
 C   S o u r c e   C o d e
 C----------------------------------------------- 
@@ -110,13 +110,13 @@ C-----------------------------------------------
          IE                    = BRICK_LIST(NIN,IB)%ID
          ICELL                 =  0                                                                
          NCELL                 = BRICK_LIST(NIN,IB)%NBCUT                                                                                                          
-         DO WHILE (ICELL.LE.NCELL) ! loop on polyhedron {1:NCELL} U {9}                                                                            
+         DO WHILE (ICELL<=NCELL) ! loop on polyhedron {1:NCELL} U {9}                                                                            
            ICELL               = ICELL +1                                                                                                                        
            IF (ICELL>NCELL .AND. NCELL/=0)ICELL=9   
            IF(.NOT.lStillNode) CYCLE
           ! nFACE               = BRICK_LIST(NIN,IB)%NFACE_Cell(ICELL)                                                                               
            DO J=1, 6
-             IF(II.GT.NNODES)THEN
+             IF(II>NNODES)THEN
                lStillNode  = .FALSE. 
                print *, "** Warning inter22 : no more node in group to mark cell center"  
                EXIT                                                                                   

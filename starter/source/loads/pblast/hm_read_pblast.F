@@ -271,9 +271,9 @@ C-----------------------------------------------
             internal_SURF_ID =  NGR2USR(SURF_ID,INGR2USR,NSURF)
             internal_SURF_ID_GROUND =  NGR2USR(SURF_ID_GROUND,INGR2USR,NSURF)
                         
-            IF(ITA_SHIFT.EQ.0) ITA_SHIFT = 1
+            IF(ITA_SHIFT==0) ITA_SHIFT = 1
             IF(ITA_SHIFT < 0 .OR. ITA_SHIFT >= 3)ITA_SHIFT = 1
-            IF(ITA_SHIFT.EQ.2)TDET=ZERO
+            IF(ITA_SHIFT==2)TDET=ZERO
             
             ! IMODEL : flag for blast model
             !---1:Friedlander
@@ -298,7 +298,7 @@ C-----------------------------------------------
                   IBUFLOADP(IAD+4*(J-1)+1)  = IGRSURF(internal_SURF_ID)%NODES(J,2)
                   IBUFLOADP(IAD+4*(J-1)+2)  = IGRSURF(internal_SURF_ID)%NODES(J,3)
                   IBUFLOADP(IAD+4*(J-1)+3)  = IGRSURF(internal_SURF_ID)%NODES(J,4)
-                  IF(IGRSURF(internal_SURF_ID)%ELTYP(J).EQ.7)IBUFLOADP(IAD+4*(J-1)+3)  = 0
+                  IF(IGRSURF(internal_SURF_ID)%ELTYP(J)==7)IBUFLOADP(IAD+4*(J-1)+3)  = 0
                ENDDO
             ENDIF  
             

@@ -211,8 +211,8 @@ C
        NNU11 = NUX / (ONE - NUX)
        G31  = THREE*G1
 C       
-       IF (ISIGI.EQ.0) THEN
-        IF(TIME.EQ.ZERO)THEN
+       IF (ISIGI==0) THEN
+        IF(TIME==ZERO)THEN
          DO I=1,NEL
            UVAR(I,1)=ZERO
            UVAR(I,2)=ZERO
@@ -542,10 +542,10 @@ C projection radiale
              DEZZ=-(DEPSXX(I)+DEPSYY(I))*NNU11-NU31*DEZZ
              THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
            ENDIF
-           IF(R.LT.ONE) ETSE(I)= H(I)/(H(I)+E1)
+           IF(R<ONE) ETSE(I)= H(I)/(H(I)+E1)
          ENDDO
 C
-       ELSEIF(IFLAG(1).EQ.1)THEN
+       ELSEIF(IFLAG(1)==1)THEN
 C-------------------------
 C     CRITERE DE VON MISES
 C-------------------------
@@ -567,13 +567,13 @@ C     GATHER PLASTIC FLOW
 C-------------------------
          NINDX=0
          DO I=1,NEL
-           IF(SVM(I).GT.YLD(I).AND.OFF(I).EQ.ONE) THEN
+           IF(SVM(I)>YLD(I).AND.OFF(I)==ONE) THEN
              NINDX=NINDX+1
              INDEX(NINDX)=I
            ENDIF
          ENDDO
 C
-         IF(NINDX.NE.0) THEN
+         IF(NINDX/=0) THEN
 C---------------------------
 C    DEP EN CONTRAINTE PLANE
 C---------------------------
@@ -623,7 +623,7 @@ C
      .         *(E1-TWO*DR(I)*HI(I))/YLD_I
      .         -TWO*HI(I)*YLD_I
              DF = SIGN(MAX(ABS(DF),EM20),DF)
-             IF(DPLA_I(I).GT.ZERO) THEN
+             IF(DPLA_I(I)>ZERO) THEN
                DPLA_J(I)=MAX(ZERO,DPLA_I(I)-F/DF)
              ELSE
                DPLA_J(I)=ZERO
@@ -649,7 +649,7 @@ C------------------------------------------
           ENDDO
          ENDIF
 C-------------------------------------------
-       ELSEIF(IFLAG(1).EQ.2)THEN
+       ELSEIF(IFLAG(1)==2)THEN
 C-------------------------
 C     CRITERE DE VON MISES
 C-------------------------
@@ -671,13 +671,13 @@ C-------------------------
          NINDX=0
          DO I=1,NEL
            YLD2(I)=YLD(I)*YLD(I)
-           IF(SVM2(I).GT.YLD2(I).AND.OFF(I).EQ.ONE) THEN
+           IF(SVM2(I)>YLD2(I).AND.OFF(I)==ONE) THEN
              NINDX=NINDX+1
              INDEX(NINDX)=I
            ENDIF
          ENDDO
 C
-         IF(NINDX.NE.0) THEN
+         IF(NINDX/=0) THEN
 C-------------
 C   PROJ NORMALE AU CRITERE AVEC CALCUL APPROCHE DE LA NORMALE + RETOUR RADIAL
 C-------------

@@ -62,14 +62,14 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER P, IERROR, IERROR1
 C-----------------------------------------------
-      IF(IFLG.EQ.1)THEN
+      IF(IFLG==1)THEN
        NSPHR = 0
        NSPHS = 0
-       IF(NUMSPHG.GT.0.AND.IMACH.EQ.3.AND.NSPMD.GT.1)THEN
+       IF(NUMSPHG>0.AND.IMACH==3.AND.NSPMD>1)THEN
         ALLOCATE(PSPHR(NSPMD),STAT=IERROR)
         ALLOCATE(PSPHS(NSPMD),STAT=IERROR1)
         IERROR = IERROR + IERROR1
-        IF(IERROR.NE.0) THEN
+        IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
         END IF
@@ -83,21 +83,21 @@ C-----------------------------------------------
         END DO
         IERROR = 0
         IERROR1 = 0
-        IF(NSPHR.NE.0)ALLOCATE(ISPHR(NSPHR),STAT=IERROR)
-        IF(NSPHS.NE.0)THEN
+        IF(NSPHR/=0)ALLOCATE(ISPHR(NSPHR),STAT=IERROR)
+        IF(NSPHS/=0)THEN
           ALLOCATE(ISPHS(NSPHS),STAT=IERROR1)
           IERROR = IERROR + IERROR1
           ALLOCATE(LSPHS(NSPHS),STAT=IERROR1)
           IERROR = IERROR + IERROR1
-          IF(IERROR.NE.0) THEN
+          IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
           END IF
           CALL READ_I_C(LSPHS,NSPHS)
         END IF
-        IF(NSPCOND.GT.0)THEN
+        IF(NSPCOND>0)THEN
           ALLOCATE(ISPSYMR(NSPCOND,NSPHR),STAT=IERROR)
-          IF(IERROR.NE.0) THEN
+          IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
           END IF
@@ -105,12 +105,12 @@ C-----------------------------------------------
         END IF
        END IF
 C
-      ELSEIF(IFLG.EQ.2.AND.IMACH.EQ.3.AND.NSPMD.GT.1)THEN
-        IF(NSPHR.NE.0)THEN
+      ELSEIF(IFLG==2.AND.IMACH==3.AND.NSPMD>1)THEN
+        IF(NSPHR/=0)THEN
           ALLOCATE(XSPHR(SIZSPC,NSPHR),STAT=IERROR)
           ALLOCATE(WACOMPR(SIZSPW,NSPHR),STAT=IERROR1)
           IERROR = IERROR + IERROR1
-          IF(IERROR.NE.0) THEN
+          IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
           END IF
@@ -156,16 +156,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      IF(NUMSPH.GT.0.AND.IMACH.EQ.3.AND.NSPMD.GT.1)THEN
-        IF(IFLG.EQ.1)THEN
+      IF(NUMSPH>0.AND.IMACH==3.AND.NSPMD>1)THEN
+        IF(IFLG==1)THEN
           CALL WRITE_I_C(PSPHR,NSPMD)
           CALL WRITE_I_C(PSPHS,NSPMD)
-          IF(NSPHS.NE.0)
+          IF(NSPHS/=0)
      .      CALL WRITE_I_C(LSPHS,NSPHS)
-          IF(NSPCOND.NE.0.AND.NSPHR.NE.0)   
+          IF(NSPCOND/=0.AND.NSPHR/=0)   
      .      CALL WRITE_I_C(ISPSYMR,NSPCOND*NSPHR)
-        ELSEIF(IFLG.EQ.2)THEN
-          IF(NSPHR.NE.0)
+        ELSEIF(IFLG==2)THEN
+          IF(NSPHR/=0)
      .      CALL WRITE_DB(XSPHR,NSPHR*SIZSPC)
         END IF
       END IF

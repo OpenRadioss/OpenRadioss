@@ -61,7 +61,7 @@ C-----------------------------------------------
       IF (NSPMD > 1) THEN
         CALL SPMD_DSTAT_VGATH(X,NODGLOB,WEIGHT,VGLOB,NODTAG,
      .                        NODTAGLOB)
-        IF (ISPMD.NE.0) RETURN
+        IF (ISPMD/=0) RETURN
       ENDIF
 
       WRITE(IUGEO,'(A)')'/NODE'

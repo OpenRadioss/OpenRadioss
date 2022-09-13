@@ -146,12 +146,12 @@ C-----------------------------------------------
 C
 C-----------------------------------------------
 #include "sync_dir.inc"
-      IF (IRESP.EQ.1) THEN
+      IF (IRESP==1) THEN
            PREC = FIVEEM4
       ELSE
            PREC = EM10
       ENDIF
-      IF(DT1.GT.ZERO)THEN
+      IF(DT1>ZERO)THEN
         DT1INV = ONE/DT1
       ELSE
         DT1INV =ZERO
@@ -166,17 +166,17 @@ C      PENE INITIALE
 C---------------------
       IF(ILEV==0)THEN
        IF(IGAP<=1)THEN
-        IF(INACTI.EQ.5)THEN
+        IF(INACTI==5)THEN
          DO I=1,JLT
 C REDUCTION DE LA PENE INITIALE
            PENI(CAND_N_N(I))=MIN(PENI(CAND_N_N(I)),
      .            ((ONE-FIVEEM2)*PENI(CAND_N_N(I))+FIVEEM2*PENE(I))  )
 C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
            PENE(I)=MAX(ZERO,PENE(I)-PENI(CAND_N_N(I)))
-           IF( PENE(I).EQ.ZERO )  STIF(I) = ZERO
+           IF( PENE(I)==ZERO )  STIF(I) = ZERO
            GAPV(I)=GAPV(I)-PENI(CAND_N_N(I))
          ENDDO
-        ELSEIF(INACTI.EQ.6)THEN
+        ELSEIF(INACTI==6)THEN
          DO I=1,JLT
 C REDUCTION DE LA PENE INITIALE
            PENI(CAND_N_N(I))=MIN(PENI(CAND_N_N(I)),
@@ -184,16 +184,16 @@ C REDUCTION DE LA PENE INITIALE
      .          +FIVEEM2*(PENE(I)+FIVEEM2*(GAPV(I)-PENE(I))))  )
 C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
            PENE(I)=MAX(ZERO,PENE(I)-PENI(CAND_N_N(I)))
-           IF( PENE(I).EQ.ZERO )  STIF(I) = ZERO
+           IF( PENE(I)==ZERO )  STIF(I) = ZERO
            GAPV(I)=GAPV(I)-PENI(CAND_N_N(I))
          ENDDO
         ELSE
          DO I=1,JLT
-           IF( PENE(I).EQ.ZERO )  STIF(I) = ZERO
+           IF( PENE(I)==ZERO )  STIF(I) = ZERO
          ENDDO
         ENDIF
        ELSE
-        IF(INACTI.EQ.5)THEN
+        IF(INACTI==5)THEN
          DO I=1,JLT
 C REDUCTION DE LA PENE INITIALE
            PENX(I)=PENE(I)
@@ -203,11 +203,11 @@ C REDUCTION DE LA PENE INITIALE
      .            ((ONE-FIVEEM2)*PENI(CAND_N_N(I))+FIVEEM2*PENX(I))  )
 C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
            PENE(I)=MAX(ZERO,PENE(I)-PENI(CAND_N_N(I)))
-           IF( PENE(I).EQ.ZERO )  STIF(I) = ZERO
+           IF( PENE(I)==ZERO )  STIF(I) = ZERO
            GAPV(I)=GAPV(I)-PENI(CAND_N_N(I))
            GAP0(I)=GAP0(I)-PENI(CAND_N_N(I))
          ENDDO
-        ELSEIF(INACTI.EQ.6)THEN
+        ELSEIF(INACTI==6)THEN
          DO I=1,JLT
 C REDUCTION DE LA PENE INITIALE
            PENX(I)=PENE(I)
@@ -218,20 +218,20 @@ C REDUCTION DE LA PENE INITIALE
      .          +FIVEEM2*(PENX(I)+FIVEEM2*(GAP0(I)-PENX(I))))  )
 C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
            PENE(I)=MAX(ZERO,PENE(I)-PENI(CAND_N_N(I)))
-           IF( PENE(I).EQ.ZERO )  STIF(I) = ZERO
+           IF( PENE(I)==ZERO )  STIF(I) = ZERO
            GAPV(I)=GAPV(I)-PENI(CAND_N_N(I))
            GAP0(I)=GAP0(I)-PENI(CAND_N_N(I))
          ENDDO
         ELSE
          DO I=1,JLT
-           IF( PENE(I).EQ.ZERO )  STIF(I) = ZERO
+           IF( PENE(I)==ZERO )  STIF(I) = ZERO
          ENDDO
         ENDIF
        END IF
       ELSE
 C
 C----  ILEV=1
-       IF(INACTI.EQ.6)THEN
+       IF(INACTI==6)THEN
         DO I=1,JLT
 C REDUCTION DE LA PENE INITIALE
           PENI(CAND_N_N(I))=MIN(PENI(CAND_N_N(I)),
@@ -239,8 +239,8 @@ C REDUCTION DE LA PENE INITIALE
      .         +FIVEEM2*(PENE(I)+FIVEEM2*ABS(GAPV(I)-PENE(I))))  )
 C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
           PENE(I)=MAX(ZERO,PENE(I)-PENI(CAND_N_N(I)))
-          IF( PENE(I).EQ.ZERO .AND. 
-     .        ( IFPEN(CAND_N_N(I))/=1 .OR.TT.EQ.ZERO ) )  STIF(I) = ZERO
+          IF( PENE(I)==ZERO .AND. 
+     .        ( IFPEN(CAND_N_N(I))/=1 .OR.TT==ZERO ) )  STIF(I) = ZERO
         ENDDO
        ELSE
         DO I=1,JLT
@@ -249,9 +249,9 @@ C REDUCTION DE LA PENE INITIALE
      .           ((ONE-FIVEEM2)*PENI(CAND_N_N(I))+FIVEEM2*PENE(I))  )
 C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
           PENE(I)=MAX(ZERO,PENE(I)-PENI(CAND_N_N(I)))
-          IF( PENE(I).EQ.ZERO .AND. 
+          IF( PENE(I)==ZERO .AND. 
      .        (IFPEN(CAND_N_N(I))/=1 .OR.
-     .          (INACTI.EQ.5.AND.TT.EQ.ZERO) ) ) STIF(I) = ZERO
+     .          (INACTI==5.AND.TT==ZERO) ) ) STIF(I) = ZERO
         ENDDO
 
        END IF
@@ -268,15 +268,15 @@ C---------------------------------
       ECONVT = ZERO
       QFRICT = ZERO
       ECONTDT = ZERO
-      IF(IGAP.LE.1)THEN
+      IF(IGAP<=1)THEN
         DO I=1,JLT
          IG=NSVG(I)
-         IF(STIGLO.LE.ZERO)THEN
+         IF(STIGLO<=ZERO)THEN
            ECONTT  = ECONTT - HALF*STIGLO*STIF(I)*PENE(I)**2 
      .                              * WEIGHT(IG)
            STIF(I) = -STIGLO*STIF(I)
 
-         ELSEIF(STIF(I).NE.ZERO)THEN
+         ELSEIF(STIF(I)/=ZERO)THEN
            ECONTT = ECONTT + STIGLO**PENE(I)**2 * WEIGHT(IG)
            STIF(I) = STIGLO
          ENDIF
@@ -285,9 +285,9 @@ C---------------------------------
        ELSE
         DO I=1,JLT
          IG=NSVG(I)
-         IF(STIGLO.LE.ZERO)THEN
+         IF(STIGLO<=ZERO)THEN
            STIF(I) = -STIGLO*STIF(I)
-         ELSEIF(STIF(I).NE.ZERO)THEN
+         ELSEIF(STIF(I)/=ZERO)THEN
            STIF(I) = STIGLO
          ENDIF
          PA = AREA0(I)*PMAX
@@ -317,7 +317,7 @@ C---------------------------------
       ENDDO
 C-------------------------------------------------
 C
-C     IF(KDTINT.EQ.0.AND.IDTMINS/=2)THEN
+C     IF(KDTINT==0.AND.IDTMINS/=2)THEN
       IF(IDTMINS/=2.AND.IDTMINS_INT==0)THEN
         DO I=1,JLT
           VIS = VISC * SQRT(TWO * STIF(I) * MSI(I))
@@ -389,7 +389,7 @@ c
 C---------------------------------
 C     NEW FRICTION MODELS
 C---------------------------------
-      IF (IFRIC.NE.0) THEN ! Friction coef = f(Temp)
+      IF (IFRIC/=0) THEN ! Friction coef = f(Temp)
         DO I=1,JLT
           TH = XFRIC *(TEMPI(I)+TEMPM(I))/2
           FRICT(I)  = FRIC*FINTER(IFRIC,TH,NPC,TF,DYDX)     
@@ -400,12 +400,12 @@ C---------------------------------
         ENDDO    
 
       ENDIF
-      IF (MFROT.EQ.0) THEN
+      IF (MFROT==0) THEN
 C---    Coulomb friction
         DO I=1,JLT
           XMU(I) = FRICT(I)
         ENDDO
-      ELSEIF (MFROT.EQ.1) THEN
+      ELSEIF (MFROT==1) THEN
 C---    Viscous friction
         DO I=1,JLT
 C attention : normale <> normale a l'elt
@@ -422,7 +422,7 @@ C should be the current nodal surface instead of the initial one.
      .           +(FROT_P(2) + FROT_P(3)*P) * VV + FROT_P(5)*V2
           XMU(I) = MAX(XMU(I),EM30)
         ENDDO
-      ELSEIF(MFROT.EQ.2)THEN
+      ELSEIF(MFROT==2)THEN
 C---    Loi Darmstad
         DO I=1,JLT
 C attention : normale <> normale a l'elt
@@ -441,7 +441,7 @@ C should be the current nodal surface instead of the initial one.
      .           + FROT_P(5)*EXP(FROT_P(6)*VV)
           XMU(I) = MAX(XMU(I),EM30)
         ENDDO
-      ELSEIF (MFROT.EQ.3) THEN
+      ELSEIF (MFROT==3) THEN
 C---    Loi Renard
         DO I=1,JLT
 C attention : normale <> normale a l'elt
@@ -450,11 +450,11 @@ C attention : normale <> normale a l'elt
      .       + (VY(I) - NY(I)*AA)**2 
      .       + (VZ(I) - NZ(I)*AA)**2
           VV = SQRT(MAX(EM30,V2))
-          IF(VV.GE.0.AND.VV.LE.FROT_P(5)) THEN
+          IF(VV>=0.AND.VV<=FROT_P(5)) THEN
             DMU = FROT_P(3)-FROT_P(1)
             VV1 = VV / FROT_P(5)
             XMU(I) = FROT_P(1)+ DMU*VV1*(TWO-VV1)
-          ELSEIF(VV.GT.FROT_P(5).AND.VV.LT.FROT_P(6)) THEN
+          ELSEIF(VV>FROT_P(5).AND.VV<FROT_P(6)) THEN
             DMU = FROT_P(4)-FROT_P(3) 
             VV1 = (VV - FROT_P(5))/(FROT_P(6)-FROT_P(5))
             XMU(I) = FROT_P(3)+ DMU * (THREE-TWO*VV1)*VV1**2
@@ -480,7 +480,7 @@ C------------------
 C---------------------------------
 C     INCREMENTAL (STIFFNESS) FORMULATION
 C---------------------------------
-      IF (IFQ.EQ.13) THEN
+      IF (IFQ==13) THEN
         ALPHA = MAX(ONE,ALPHA0*DT12)
       ELSE
         ALPHA = ALPHA0
@@ -540,7 +540,7 @@ C---------------------------------
 C       CONTACT ENERGY CALCULATION
 C---------------------------------
         EFRICT(I) = ZERO
-        IF( INTTH > 0 .AND.BETA.NE.ZERO) THEN
+        IF( INTTH > 0 .AND.BETA/=ZERO) THEN
           EFRICT(I) = (FX-FXT(I))*FXT(I) + (FY-FYT(I))*FYT(I) + 
      .                (FZ-FZT(I))*FZT(I) ! FRICTIONAL ENERGY
           EFRICT(I) = EFRICT(I)/STIF0(I)
@@ -598,7 +598,7 @@ C---------------------------------
       ECONTV = ECONTV + ECONVT  ! Frictional Energy
       ECONT  = ECONT + ECONTT   ! Elatic Energy
       ECONTD = ECONTD + ECONTDT ! Damping Energy
-      IF (INTTH.NE.0) THEN
+      IF (INTTH/=0) THEN
          QFRIC = QFRIC + FHEAT*QFRICT ! FRICTIONAL HEAT ADDED TO INTERNAL ENERGY
          ECONTV = ECONTV - FHEAT*QFRICT ! FRICTIONAL HEAT REMOVED FROM CONTACT ENERGY
       ENDIF
@@ -617,27 +617,27 @@ C---------------------------------
       END IF
 C---------------------------------
 C
-c      IF(IDTMIN(10).EQ.1.OR.IDTMIN(10).EQ.2.OR.
-c     .   IDTMIN(10).EQ.5.OR.IDTMIN(10).EQ.6)THEN
-      IF(IDTMIN(10).EQ.1)THEN
+c      IF(IDTMIN(10)==1.OR.IDTMIN(10)==2.OR.
+c     .   IDTMIN(10)==5.OR.IDTMIN(10)==6)THEN
+      IF(IDTMIN(10)==1)THEN
        DTMI0 = EP20
         DO I=1,JLT
          DTMI(I) = EP20
          MAS2  = TWO * MSI(I)
          JG = NSVG(I)
-         IF(MAS2.GT.ZERO.AND.STIF(I).GT.ZERO.AND.
-     .     IRB(KINET(JG)).EQ.0.AND.IRB2(KINET(JG)).EQ.0)THEN
+         IF(MAS2>ZERO.AND.STIF(I)>ZERO.AND.
+     .     IRB(KINET(JG))==0.AND.IRB2(KINET(JG))==0)THEN
            DTMI(I) = MIN(DTMI(I),DTFAC1(10)*SQRT(MAS2/STIF(I)))
          ENDIF
          DTMI0 = MIN(DTMI0,DTMI(I))
         ENDDO
 
-       IF(DTMI0.LE.DTMIN1(10))THEN
+       IF(DTMI0<=DTMIN1(10))THEN
         DO I=1,JLT
-         IF(DTMI(I).LE.DTMIN1(10))THEN
+         IF(DTMI(I)<=DTMIN1(10))THEN
            JG = NSVG(I)
            NI = ITAB(JG)
-           IF(IDTMIN(10).EQ.1)THEN
+           IF(IDTMIN(10)==1)THEN
 #include "lockon.inc"
              WRITE(IOUT,'(A,E12.4,A,I10,A,E12.4,A)')
      .       ' **WARNING MINIMUM TIME STEP ',DTMI(I),
@@ -665,15 +665,15 @@ c     .         ITAB(IX1(I)),ITAB(IX2(I)),ITAB(IX3(I)),ITAB(IX4(I))
        ENDIF
       ENDIF
 C-----------------------------------------------------
-      IF(IBAG.NE.0.OR.IADM.NE.0)THEN
+      IF(IBAG/=0.OR.IADM/=0)THEN
        DO I=1,JLT
-        IF(PENE(I).NE.ZERO)THEN
+        IF(PENE(I)/=ZERO)THEN
           JG = NSVG(I)
           ICONTACT(JG)=1
         ENDIF
        ENDDO
       ENDIF
-      IF(IADM.NE.0)THEN
+      IF(IADM/=0)THEN
        DO I=1,JLT
          JG = NSVG(I)
 #include "lockon.inc"
@@ -681,7 +681,7 @@ C-----------------------------------------------------
 #include "lockoff.inc"
        END DO
       END IF
-      IF(IADM.GE.2)THEN
+      IF(IADM>=2)THEN
        DO I=1,JLT
          JG = NSVG(I)
 #include "lockon.inc"
@@ -691,13 +691,13 @@ C-----------------------------------------------------
        END DO
       END IF
 C
-      IF(IBCC.EQ.0) RETURN
+      IF(IBCC==0) RETURN
 C
       DO 400 I=1,JLT
-        IF(PENE(I).EQ.ZERO)GOTO 400
+        IF(PENE(I)==ZERO)GOTO 400
         IBCM = IBCC / 8
         IBCS = IBCC - 8 * IBCM
-        IF(IBCS.GT.0) THEN
+        IF(IBCS>0) THEN
           IG=NSVG(I)
           CALL IBCOFF(IBCS,ICODT(IG))
         ENDIF

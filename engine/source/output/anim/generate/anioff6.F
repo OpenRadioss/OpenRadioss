@@ -89,7 +89,7 @@ C
 C-----------------------------------------------
 C       SOLIDES 16N
 C-----------------------------------------------
-        IF(ITY.EQ.1.AND.ISOLNOD.EQ.16)THEN
+        IF(ITY==1.AND.ISOLNOD==16)THEN
           IF(MLW == 0 .OR. MLW == 13)THEN
             DO I=LFT,LLT
               N = NFT + I
@@ -111,7 +111,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       AUTRES SOLIDES
 C-----------------------------------------------
-        ELSEIF(ITY.EQ.1)THEN
+        ELSEIF(ITY==1)THEN
           IF(MLW == 0 .OR. MLW == 13)THEN
             DO I=LFT,LLT
               N = NFT + I
@@ -124,11 +124,11 @@ C-----------------------------------------------
               IOFF(EL2FA(NN2+N)) = NINT(MIN(GBUF%OFF(I),ONE))
             ENDDO
           ENDIF
-        ELSEIF(ISPH3D.EQ.1.AND.ITY.EQ.51)THEN
+        ELSEIF(ISPH3D==1.AND.ITY==51)THEN
 C-----------------------------------------------
 C         TETRAS SPH.
 C-----------------------------------------------
-          IF(MLW.EQ.0)THEN
+          IF(MLW==0)THEN
             DO I=LFT,LLT
               N = NFT + I
               IOFF(EL2FA(NN3+N)) = 0
@@ -140,11 +140,11 @@ C-----------------------------------------------
               IOFF(EL2FA(NN3+N)) = NINT(MIN(GBUF%OFF(I),ONE))
             ENDDO
           ENDIF
-        ELSEIF(ITY.EQ.101)THEN
+        ELSEIF(ITY==101)THEN
 C-----------------------------------------------
 C ISO GEO ELEMS
 C-----------------------------------------------
-          IF(MLW.EQ.0)THEN
+          IF(MLW==0)THEN
             DO I=LFT,LLT
               N = NFT + I
               IOFF(EL2FA(NN4+N)) = 0
@@ -163,13 +163,13 @@ C-----------------------------------------------
 C-----------------------------------------------
  490  CONTINUE
 C-----------------------------------------------
-      IF (NSPMD.EQ.1) THEN
+      IF (NSPMD==1) THEN
         CALL WRITE_C_C(IOFF,NBF)
       ELSE
         DO I = 1, NBF
           IOFFBUF(I) = IOFF(I)
         ENDDO
-        IF (ISPMD.EQ.0) THEN
+        IF (ISPMD==0) THEN
           RBUF = NUMELSG + 3*NUMELS16G + NUMSPHG
         ELSE
           RBUF = 1

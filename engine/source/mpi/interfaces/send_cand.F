@@ -96,16 +96,16 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
       LOC_PROC=ISPMD+1
-      IF(NSPMD.EQ.1.OR.(isendto(NIN,LOC_PROC).EQ.0.AND.
-     .   ircvfrom(NIN,LOC_PROC).EQ.0)) THEN
+      IF(NSPMD==1.OR.(isendto(NIN,LOC_PROC)==0.AND.
+     .   ircvfrom(NIN,LOC_PROC)==0)) THEN
         RETURN
       ENDIF
 C
 Cel determination du proc main (celui qui fait joue le role de P0)
 C
       DO K = 1, NSPMD
-        IF (isendto(NIN,K).NE.0.OR.
-     .      ircvfrom(NIN,K).NE.0) THEN
+        IF (isendto(NIN,K)/=0.OR.
+     .      ircvfrom(NIN,K)/=0) THEN
           PMAIN = K
           GOTO 110
         ENDIF
@@ -113,7 +113,7 @@ C
  110  CONTINUE
 C temporary change for exchange and cumul
       IF(INACTI < 0) INACTI=0
-      IF (LOC_PROC.NE.PMAIN) THEN
+      IF (LOC_PROC/=PMAIN) THEN
         MSGTYP=MSGOFF        
         CALL MPI_SEND(INACTI,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                MPI_COMM_WORLD,ierror)
@@ -122,8 +122,8 @@ C p0 envoi la liste des noeuds pour lesquels stfn=0
      .                MPI_COMM_WORLD,STATUS,ierror)
       ELSE
         DO K = 1, NSPMD
-          IF (K.NE.LOC_PROC.AND.(isendto(NIN,K).NE.0.OR.
-     .   ircvfrom(NIN,K).NE.0)) THEN
+          IF (K/=LOC_PROC.AND.(isendto(NIN,K)/=0.OR.
+     .   ircvfrom(NIN,K)/=0)) THEN
             MSGTYP=MSGOFF
             CALL MPI_RECV(INACTI_R,1,MPI_INTEGER,IT_SPMD(K),MSGTYP,  
      .                    MPI_COMM_WORLD,STATUS,ierror)
@@ -131,7 +131,7 @@ C p0 envoi la liste des noeuds pour lesquels stfn=0
           ENDIF
         ENDDO
 C
-        IF (INACTI.NE.0) THEN
+        IF (INACTI/=0) THEN
           INACTI=INACTII
         ELSE
 C pour le cas inacti passe en negatif sur tous les procs
@@ -139,8 +139,8 @@ C pour le cas inacti passe en negatif sur tous les procs
         END IF
 C
         DO K = 1, NSPMD
-          IF (K.NE.LOC_PROC.AND.(isendto(NIN,K).NE.0.OR.
-     .   ircvfrom(NIN,K).NE.0)) THEN
+          IF (K/=LOC_PROC.AND.(isendto(NIN,K)/=0.OR.
+     .   ircvfrom(NIN,K)/=0)) THEN
             MSGTYP=MSGOFF      
             CALL MPI_SEND(INACTI,1,MPI_INTEGER,IT_SPMD(K),MSGTYP,
      .                  MPI_COMM_WORLD,ierror)
@@ -215,8 +215,8 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
       LOC_PROC=ISPMD+1
-      IF(NSPMD.EQ.1.OR.(ISENDTO(NIN,LOC_PROC).EQ.0.AND.
-     .   IRCVFROM(NIN,LOC_PROC).EQ.0)) THEN
+      IF(NSPMD==1.OR.(ISENDTO(NIN,LOC_PROC)==0.AND.
+     .   IRCVFROM(NIN,LOC_PROC)==0)) THEN
         NEWFRONT = 0
         RETURN
       ENDIF
@@ -224,8 +224,8 @@ C
 Cel determination du proc main (celui qui fait joue le role de P0)
 C
       DO K = 1, NSPMD
-        IF (ISENDTO(NIN,K).NE.0.OR.
-     .      IRCVFROM(NIN,K).NE.0) THEN
+        IF (ISENDTO(NIN,K)/=0.OR.
+     .      IRCVFROM(NIN,K)/=0) THEN
           PMAIN = K
           GOTO 110
         ENDIF
@@ -234,18 +234,18 @@ C
 C
       LEN = 0
 C traitement sur tout NSN pour le cas shooting nodes
-      IF(IDEL7NG.GE.1)THEN
+      IF(IDEL7NG>=1)THEN
         DO I = 1, NSN
-          IF(STFN(I).LT.ZERO) THEN
+          IF(STFN(I)<ZERO) THEN
             LEN = LEN + 1
           ENDIF
         ENDDO
         IDEB = 0
         DO P = 1, NSPMD
-          IF(P.NE.LOC_PROC)THEN
+          IF(P/=LOC_PROC)THEN
             NB = NSNFI(NIN)%P(P)
             DO I = IDEB+1, IDEB+NB
-              IF(STIFI(NIN)%P(I).LT.ZERO) THEN
+              IF(STIFI(NIN)%P(I)<ZERO) THEN
                 LEN = LEN + 1
               END IF
             END DO
@@ -254,20 +254,20 @@ C traitement sur tout NSN pour le cas shooting nodes
         END DO
       ELSE
         DO I = 1, I_STOK
-          IF(CAND_N(I).LE.NSN) THEN
+          IF(CAND_N(I)<=NSN) THEN
 Candidat interne
-            IF(STFN(CAND_N(I)).LT.ZERO) THEN
+            IF(STFN(CAND_N(I))<ZERO) THEN
               LEN = LEN + 1
             ENDIF
 Candidat frontiere
-          ELSEIF(STIFI(NIN)%P(CAND_N(I)-NSN).LT.ZERO) THEN
+          ELSEIF(STIFI(NIN)%P(CAND_N(I)-NSN)<ZERO) THEN
             LEN = LEN + 1
           END IF
         END DO
       END IF
       IENVOI(LOC_PROC) = LEN
 C
-      IF (LOC_PROC.NE.PMAIN) THEN
+      IF (LOC_PROC/=PMAIN) THEN
 Cel pack des candidats ayant stifness negative
 C
         MSGTYP=MSGOFF        
@@ -280,8 +280,8 @@ Calcul taille totale
         LENX = LEN
         DO K = 1, NSPMD
           IENVOI(K) = 0
-          IF (K.NE.LOC_PROC.AND.(ISENDTO(NIN,K).NE.0.OR.
-     .        IRCVFROM(NIN,K).NE.0)) THEN            
+          IF (K/=LOC_PROC.AND.(ISENDTO(NIN,K)/=0.OR.
+     .        IRCVFROM(NIN,K)/=0)) THEN            
             MSGTYP=MSGOFF
             CALL MPI_RECV(LENR,1,MPI_INTEGER,IT_SPMD(K),MSGTYP,  
      .                    MPI_COMM_WORLD,STATUS,IERROR)
@@ -291,8 +291,8 @@ Calcul taille totale
         ENDDO
 C
         DO K = 1, NSPMD
-          IF (K.NE.LOC_PROC.AND.(ISENDTO(NIN,K).NE.0.OR.
-     .   IRCVFROM(NIN,K).NE.0)) THEN
+          IF (K/=LOC_PROC.AND.(ISENDTO(NIN,K)/=0.OR.
+     .   IRCVFROM(NIN,K)/=0)) THEN
           MSGTYP=MSGOFF      
           CALL MPI_SEND(LENX,1,MPI_INTEGER,IT_SPMD(K),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
@@ -371,8 +371,8 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
       LOC_PROC=ISPMD+1
-      IF(NSPMD.EQ.1.OR.(ISENDTO(NIN,LOC_PROC).EQ.0.AND.
-     .   IRCVFROM(NIN,LOC_PROC).EQ.0)) THEN
+      IF(NSPMD==1.OR.(ISENDTO(NIN,LOC_PROC)==0.AND.
+     .   IRCVFROM(NIN,LOC_PROC)==0)) THEN
         NEWFRONT = 0
         RETURN
       ENDIF
@@ -380,8 +380,8 @@ C
 Cel determination du proc main (celui qui fait joue le role de P0)
 C
       DO K = 1, NSPMD
-        IF (ISENDTO(NIN,K).NE.0.OR.
-     .      IRCVFROM(NIN,K).NE.0) THEN
+        IF (ISENDTO(NIN,K)/=0.OR.
+     .      IRCVFROM(NIN,K)/=0) THEN
           PMAIN = K
           GOTO 110
         ENDIF
@@ -391,16 +391,16 @@ C
       LEN = 0
 C traitement sur tout NSN pour les nds precedemment impactes (ne figurent pas dans I_STOK)
       DO I = 1, NSN
-        IF(STFN(I).LT.ZERO) THEN
+        IF(STFN(I)<ZERO) THEN
           LEN = LEN + 1
         ENDIF
       ENDDO
       IDEB = 0
       DO P = 1, NSPMD
-        IF(P.NE.LOC_PROC)THEN
+        IF(P/=LOC_PROC)THEN
           NB = NSNFI(NIN)%P(P)
           DO I = IDEB+1, IDEB+NB
-            IF(STIFI(NIN)%P(I).LT.ZERO) THEN
+            IF(STIFI(NIN)%P(I)<ZERO) THEN
               LEN = LEN + 1
             END IF
           END DO
@@ -409,7 +409,7 @@ C traitement sur tout NSN pour les nds precedemment impactes (ne figurent pas da
       END DO
       IENVOI(LOC_PROC) = LEN
 C
-      IF (LOC_PROC.NE.PMAIN) THEN
+      IF (LOC_PROC/=PMAIN) THEN
 Cel pack des candidats ayant stifness negative
 C
         MSGTYP=MSGOFF        
@@ -422,8 +422,8 @@ Calcul taille totale
         LENX = LEN
         DO K = 1, NSPMD
           IENVOI(K) = 0
-          IF (K.NE.LOC_PROC.AND.(ISENDTO(NIN,K).NE.0.OR.
-     .        IRCVFROM(NIN,K).NE.0)) THEN            
+          IF (K/=LOC_PROC.AND.(ISENDTO(NIN,K)/=0.OR.
+     .        IRCVFROM(NIN,K)/=0)) THEN            
             MSGTYP=MSGOFF
             CALL MPI_RECV(LENR,1,MPI_INTEGER,IT_SPMD(K),MSGTYP,  
      .                    MPI_COMM_WORLD,STATUS,IERROR)
@@ -433,8 +433,8 @@ Calcul taille totale
         ENDDO
 C
         DO K = 1, NSPMD
-          IF (K.NE.LOC_PROC.AND.(ISENDTO(NIN,K).NE.0.OR.
-     .   IRCVFROM(NIN,K).NE.0)) THEN
+          IF (K/=LOC_PROC.AND.(ISENDTO(NIN,K)/=0.OR.
+     .   IRCVFROM(NIN,K)/=0)) THEN
           MSGTYP=MSGOFF      
           CALL MPI_SEND(LENX,1,MPI_INTEGER,IT_SPMD(K),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
@@ -514,8 +514,8 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
       LOC_PROC=ISPMD+1
-      IF(NSPMD.EQ.1.OR.(ISENDTO(NIN,LOC_PROC).EQ.0.AND.
-     .   IRCVFROM(NIN,LOC_PROC).EQ.0)) THEN
+      IF(NSPMD==1.OR.(ISENDTO(NIN,LOC_PROC)==0.AND.
+     .   IRCVFROM(NIN,LOC_PROC)==0)) THEN
         NEWFRONT = 0
         RETURN
       ENDIF
@@ -523,8 +523,8 @@ C
 Cel determination du proc main (celui qui fait joue le role de P0)
 C
       DO K = 1, NSPMD
-        IF (ISENDTO(NIN,K).NE.0.OR.
-     .      IRCVFROM(NIN,K).NE.0) THEN
+        IF (ISENDTO(NIN,K)/=0.OR.
+     .      IRCVFROM(NIN,K)/=0) THEN
           PMAIN = K
           GOTO 110
         ENDIF
@@ -533,18 +533,18 @@ C
 C
       LEN = 0
 C traitement sur tout NSN pour le cas shooting nodes
-      IF(IDEL7NG.GE.1)THEN
+      IF(IDEL7NG>=1)THEN
         DO I = 1, NSN
-          IF(STFA(NSV(I)).LT.ZERO) THEN
+          IF(STFA(NSV(I))<ZERO) THEN
             LEN = LEN + 1
           ENDIF
         ENDDO
         IDEB = 0
         DO P = 1, NSPMD
-          IF(P.NE.LOC_PROC)THEN
+          IF(P/=LOC_PROC)THEN
             NB = NSNFI(NIN)%P(P)
             DO I = IDEB+1, IDEB+NB
-              IF(STIFI(NIN)%P(I).LT.ZERO) THEN
+              IF(STIFI(NIN)%P(I)<ZERO) THEN
                 LEN = LEN + 1
               END IF
             END DO
@@ -553,20 +553,20 @@ C traitement sur tout NSN pour le cas shooting nodes
         END DO
       ELSE
         DO I = 1, I_STOK
-          IF(CAND_N(I).LE.NSN) THEN
+          IF(CAND_N(I)<=NSN) THEN
 Candidat interne
-            IF(STFA(NSV(CAND_N(I))).LT.ZERO) THEN
+            IF(STFA(NSV(CAND_N(I)))<ZERO) THEN
               LEN = LEN + 1
             ENDIF
 Candidat frontiere
-          ELSEIF(STIFI(NIN)%P(CAND_N(I)-NSN).LT.ZERO) THEN
+          ELSEIF(STIFI(NIN)%P(CAND_N(I)-NSN)<ZERO) THEN
             LEN = LEN + 1
           END IF
         END DO
       END IF
       IENVOI(LOC_PROC) = LEN
 C
-      IF (LOC_PROC.NE.PMAIN) THEN
+      IF (LOC_PROC/=PMAIN) THEN
 Cel pack des candidats ayant stifness negative
 C
         MSGTYP=MSGOFF        
@@ -579,8 +579,8 @@ Calcul taille totale
         LENX = LEN
         DO K = 1, NSPMD
           IENVOI(K) = 0
-          IF (K.NE.LOC_PROC.AND.(ISENDTO(NIN,K).NE.0.OR.
-     .        IRCVFROM(NIN,K).NE.0)) THEN            
+          IF (K/=LOC_PROC.AND.(ISENDTO(NIN,K)/=0.OR.
+     .        IRCVFROM(NIN,K)/=0)) THEN            
             MSGTYP=MSGOFF
             CALL MPI_RECV(LENR,1,MPI_INTEGER,IT_SPMD(K),MSGTYP,  
      .                    MPI_COMM_WORLD,STATUS,IERROR)
@@ -590,8 +590,8 @@ Calcul taille totale
         ENDDO
 C
         DO K = 1, NSPMD
-          IF (K.NE.LOC_PROC.AND.(ISENDTO(NIN,K).NE.0.OR.
-     .   IRCVFROM(NIN,K).NE.0)) THEN
+          IF (K/=LOC_PROC.AND.(ISENDTO(NIN,K)/=0.OR.
+     .   IRCVFROM(NIN,K)/=0)) THEN
           MSGTYP=MSGOFF      
           CALL MPI_SEND(LENX,1,MPI_INTEGER,IT_SPMD(K),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
@@ -671,8 +671,8 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
       LOC_PROC=ISPMD+1
-      IF(NSPMD.EQ.1.OR.(ISENDTO(NIN,LOC_PROC).EQ.0.AND.
-     .   IRCVFROM(NIN,LOC_PROC).EQ.0)) THEN
+      IF(NSPMD==1.OR.(ISENDTO(NIN,LOC_PROC)==0.AND.
+     .   IRCVFROM(NIN,LOC_PROC)==0)) THEN
         NEWFRONT = 0
         RETURN
       ENDIF
@@ -680,8 +680,8 @@ C
 Cel determination du proc main (celui qui fait joue le role de P0)
 C
       DO K = 1, NSPMD
-        IF (ISENDTO(NIN,K).NE.0.OR.
-     .      IRCVFROM(NIN,K).NE.0) THEN
+        IF (ISENDTO(NIN,K)/=0.OR.
+     .      IRCVFROM(NIN,K)/=0) THEN
           PMAIN = K
           GOTO 110
         ENDIF
@@ -690,18 +690,18 @@ C
 C
       LEN = 0
 C traitement sur tout NRTS pour le cas shooting nodes
-      IF(IDEL7NG.GE.1)THEN
+      IF(IDEL7NG>=1)THEN
         DO I = 1, NRTS
-          IF(STFS(I).LT.ZERO) THEN
+          IF(STFS(I)<ZERO) THEN
             LEN = LEN + 2
           ENDIF
         ENDDO
         IDEB = 0
         DO P = 1, NSPMD
-          IF(P.NE.LOC_PROC)THEN
+          IF(P/=LOC_PROC)THEN
             NB = NSNFI(NIN)%P(P)
             DO I = IDEB+1, IDEB+NB
-              IF(STIFI(NIN)%P(I).LT.ZERO) THEN
+              IF(STIFI(NIN)%P(I)<ZERO) THEN
                 LEN = LEN + 2
               END IF
             END DO
@@ -710,20 +710,20 @@ C traitement sur tout NRTS pour le cas shooting nodes
         END DO
       ELSE
         DO I = 1, I_STOK
-          IF(CAND_S(I).LE.NRTS) THEN
+          IF(CAND_S(I)<=NRTS) THEN
 Candidat interne
-            IF(STFS(CAND_S(I)).LT.ZERO) THEN
+            IF(STFS(CAND_S(I))<ZERO) THEN
               LEN = LEN + 2
             ENDIF
 Candidat frontiere
-          ELSEIF(STIFI(NIN)%P(CAND_S(I)-NRTS).LT.ZERO) THEN
+          ELSEIF(STIFI(NIN)%P(CAND_S(I)-NRTS)<ZERO) THEN
             LEN = LEN + 2
           ENDIF
         ENDDO
       END IF
       IENVOI(LOC_PROC) = LEN
 C
-      IF (LOC_PROC.NE.PMAIN) THEN
+      IF (LOC_PROC/=PMAIN) THEN
 Cel pack des candidats ayant stifness negative
 C
         MSGTYP=MSGOFF        
@@ -736,8 +736,8 @@ Calcul taille totale
         LENX = LEN
         DO K = 1, NSPMD
           IENVOI(K) = 0
-          IF (K.NE.LOC_PROC.AND.(ISENDTO(NIN,K).NE.0.OR.
-     .        IRCVFROM(NIN,K).NE.0)) THEN            
+          IF (K/=LOC_PROC.AND.(ISENDTO(NIN,K)/=0.OR.
+     .        IRCVFROM(NIN,K)/=0)) THEN            
             MSGTYP=MSGOFF
             CALL MPI_RECV(LENR,1,MPI_INTEGER,IT_SPMD(K),MSGTYP,  
      .                    MPI_COMM_WORLD,STATUS,IERROR)
@@ -747,8 +747,8 @@ Calcul taille totale
         ENDDO
 C
         DO K = 1, NSPMD
-          IF (K.NE.LOC_PROC.AND.(ISENDTO(NIN,K).NE.0.OR.
-     .   IRCVFROM(NIN,K).NE.0)) THEN
+          IF (K/=LOC_PROC.AND.(ISENDTO(NIN,K)/=0.OR.
+     .   IRCVFROM(NIN,K)/=0)) THEN
           MSGTYP=MSGOFF      
           CALL MPI_SEND(LENX,1,MPI_INTEGER,IT_SPMD(K),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
@@ -828,8 +828,8 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
       LOC_PROC=ISPMD+1
-      IF(NSPMD.EQ.1.OR.(ISENDTO(NIN,LOC_PROC).EQ.0.AND.
-     .   IRCVFROM(NIN,LOC_PROC).EQ.0)) THEN
+      IF(NSPMD==1.OR.(ISENDTO(NIN,LOC_PROC)==0.AND.
+     .   IRCVFROM(NIN,LOC_PROC)==0)) THEN
         NEWFRONT = 0
         RETURN
       ENDIF
@@ -837,8 +837,8 @@ C
 Cel determination du proc main (celui qui fait joue le role de P0)
 C
       DO K = 1, NSPMD
-        IF (ISENDTO(NIN,K).NE.0.OR.
-     .      IRCVFROM(NIN,K).NE.0) THEN
+        IF (ISENDTO(NIN,K)/=0.OR.
+     .      IRCVFROM(NIN,K)/=0) THEN
           PMAIN = K
           GOTO 110
         ENDIF
@@ -847,18 +847,18 @@ C
 C
       LEN = 0
 C traitement sur tout NLINSA pour le cas shooting nodes
-      IF(IDEL7NG.GE.1)THEN
+      IF(IDEL7NG>=1)THEN
         DO I = 1,  NLINSA
-          IF(STFS(I).LT.ZERO) THEN
+          IF(STFS(I)<ZERO) THEN
             LEN = LEN + 2
           ENDIF
         ENDDO
         IDEB = 0
         DO P = 1, NSPMD
-          IF(P.NE.LOC_PROC)THEN
+          IF(P/=LOC_PROC)THEN
             NB = NSNFIE(NIN)%P(P)
             DO I = IDEB+1, IDEB+NB
-              IF(STIFIE(NIN)%P(I).LT.ZERO) THEN
+              IF(STIFIE(NIN)%P(I)<ZERO) THEN
                 LEN = LEN + 2
               END IF
             END DO
@@ -867,20 +867,20 @@ C traitement sur tout NLINSA pour le cas shooting nodes
         END DO
       ELSE
         DO I = 1, I_STOK
-          IF(CAND_S(I).LE. NLINSA) THEN
+          IF(CAND_S(I)<= NLINSA) THEN
 Candidat interne
-            IF(STFS(CAND_S(I)).LT.ZERO) THEN
+            IF(STFS(CAND_S(I))<ZERO) THEN
               LEN = LEN + 2
             ENDIF
 Candidat frontiere
-          ELSEIF(STIFIE(NIN)%P(CAND_S(I)-NLINSA).LT.ZERO) THEN
+          ELSEIF(STIFIE(NIN)%P(CAND_S(I)-NLINSA)<ZERO) THEN
             LEN = LEN + 2
           ENDIF
         ENDDO
       END IF
       IENVOI(LOC_PROC) = LEN
 C
-      IF (LOC_PROC.NE.PMAIN) THEN
+      IF (LOC_PROC/=PMAIN) THEN
 Cel pack des candidats ayant stifness negative
 C
         MSGTYP=MSGOFF        
@@ -893,8 +893,8 @@ Calcul taille totale
         LENX = LEN
         DO K = 1, NSPMD
           IENVOI(K) = 0
-          IF (K.NE.LOC_PROC.AND.(ISENDTO(NIN,K).NE.0.OR.
-     .        IRCVFROM(NIN,K).NE.0)) THEN            
+          IF (K/=LOC_PROC.AND.(ISENDTO(NIN,K)/=0.OR.
+     .        IRCVFROM(NIN,K)/=0)) THEN            
             MSGTYP=MSGOFF
             CALL MPI_RECV(LENR,1,MPI_INTEGER,IT_SPMD(K),MSGTYP,  
      .                    MPI_COMM_WORLD,STATUS,IERROR)
@@ -904,8 +904,8 @@ Calcul taille totale
         ENDDO
 C
         DO K = 1, NSPMD
-          IF (K.NE.LOC_PROC.AND.(ISENDTO(NIN,K).NE.0.OR.
-     .   IRCVFROM(NIN,K).NE.0)) THEN
+          IF (K/=LOC_PROC.AND.(ISENDTO(NIN,K)/=0.OR.
+     .   IRCVFROM(NIN,K)/=0)) THEN
           MSGTYP=MSGOFF      
           CALL MPI_SEND(LENX,1,MPI_INTEGER,IT_SPMD(K),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
@@ -985,19 +985,19 @@ C-----------------------------------------------
 C
       LEN = 0
 C traitement sur tout NSN pour le cas shooting nodes
-      IF(IDEL7NG.GE.1)THEN
+      IF(IDEL7NG>=1)THEN
         DO I = 1, NSN
-          IF(STFN(I).LT.ZERO) THEN
+          IF(STFN(I)<ZERO) THEN
             LEN = LEN + 1
             IBUFFER(LEN) = ITAB(NSV(I))
           ENDIF
         ENDDO
         IDEB = 0
         DO P = 1, NSPMD
-          IF(P.NE.LOC_PROC)THEN
+          IF(P/=LOC_PROC)THEN
             NB = NSNFI(NIN)%P(P)
             DO I = IDEB+1, IDEB+NB
-              IF(STIFI(NIN)%P(I).LT.ZERO) THEN
+              IF(STIFI(NIN)%P(I)<ZERO) THEN
                 LEN = LEN + 1
                 IBUFFER(LEN) = ITAFI(NIN)%P(I)
               END IF
@@ -1007,25 +1007,25 @@ C traitement sur tout NSN pour le cas shooting nodes
         END DO
       ELSE
         DO I = 1, I_STOK
-          IF(CAND_N(I).LE.NSN) THEN
+          IF(CAND_N(I)<=NSN) THEN
 Candidat interne
-            IF(STFN(CAND_N(I)).LT.ZERO) THEN
+            IF(STFN(CAND_N(I))<ZERO) THEN
               LEN = LEN + 1
               IBUFFER(LEN) = ITAB(NSV(CAND_N(I)))
             ENDIF
 Candidat frontiere
-          ELSEIF(STIFI(NIN)%P(CAND_N(I)-NSN).LT.ZERO) THEN
+          ELSEIF(STIFI(NIN)%P(CAND_N(I)-NSN)<ZERO) THEN
             LEN = LEN + 1
             IBUFFER(LEN) = ITAFI(NIN)%P(CAND_N(I)-NSN)
           ENDIF
         ENDDO
       END IF
 C
-      IF (LOC_PROC.NE.PMAIN) THEN
+      IF (LOC_PROC/=PMAIN) THEN
 Cel pack des candidats ayant stifness negative
 C
         MSGTYP=MSGOFF        
-        IF(LEN.GT.0) THEN
+        IF(LEN>0) THEN
           CALL MPI_SEND(IBUFFER,LEN,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
         ENDIF
@@ -1035,7 +1035,7 @@ C
 Calcul taille totale
         LENR = LEN
         DO K = 1, NSPMD
-          IF (IENVOI(K).NE.0) THEN            
+          IF (IENVOI(K)/=0) THEN            
             MSGTYP=MSGOFF
             CALL MPI_RECV(
      .        IBUFFER(LENR+1),IENVOI(K),MPI_INTEGER,IT_SPMD(K),MSGTYP,
@@ -1045,8 +1045,8 @@ Calcul taille totale
         ENDDO
 C
         DO K = 1, NSPMD
-          IF (K.NE.LOC_PROC.AND.(ISENDTO(NIN,K).NE.0.OR.
-     .   IRCVFROM(NIN,K).NE.0)) THEN
+          IF (K/=LOC_PROC.AND.(ISENDTO(NIN,K)/=0.OR.
+     .   IRCVFROM(NIN,K)/=0)) THEN
           MSGTYP=MSGOFF      
           CALL MPI_SEND(IBUFFER,LENX,MPI_INTEGER,IT_SPMD(K),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
@@ -1059,17 +1059,17 @@ C
         NUSER = IBUFFER(I)
 C noeud interne
         DO K = 1, NSN
-          IF(ITAB(NSV(K)).EQ.NUSER) THEN
+          IF(ITAB(NSV(K))==NUSER) THEN
             STFN(K) = ZERO
           ENDIF
         ENDDO
 Candidat frontiere
         IDEB = 0
         DO P = 1, NSPMD
-          IF(P.NE.LOC_PROC)THEN
+          IF(P/=LOC_PROC)THEN
             NB = NSNFI(NIN)%P(P)
             DO K = IDEB+1, IDEB+NB
-              IF(ITAFI(NIN)%P(K).EQ.NUSER) THEN
+              IF(ITAFI(NIN)%P(K)==NUSER) THEN
                STIFI(NIN)%P(K) = ZERO
               END IF
             END DO
@@ -1145,17 +1145,17 @@ C
       LEN = 0
 C traitement sur tout NSN pour les nds precedemment impactes (ne figurent pas dans I_STOK)
       DO I = 1, NSN
-        IF(STFN(I).LT.ZERO) THEN
+        IF(STFN(I)<ZERO) THEN
           LEN = LEN + 1
           IBUFFER(LEN) = ITAB(NSV(I))
         ENDIF
       ENDDO
       IDEB = 0
       DO P = 1, NSPMD
-        IF(P.NE.LOC_PROC)THEN
+        IF(P/=LOC_PROC)THEN
           NB = NSNFI(NIN)%P(P)
           DO I = IDEB+1, IDEB+NB
-            IF(STIFI(NIN)%P(I).LT.ZERO) THEN
+            IF(STIFI(NIN)%P(I)<ZERO) THEN
               LEN = LEN + 1
               IBUFFER(LEN) = ITAFI(NIN)%P(I)
             END IF
@@ -1164,11 +1164,11 @@ C traitement sur tout NSN pour les nds precedemment impactes (ne figurent pas da
         END IF
       END DO
 C
-      IF (LOC_PROC.NE.PMAIN) THEN
+      IF (LOC_PROC/=PMAIN) THEN
 Cel pack des candidats ayant stifness negative
 C
         MSGTYP=MSGOFF        
-        IF(LEN.GT.0) THEN
+        IF(LEN>0) THEN
           CALL MPI_SEND(IBUFFER,LEN,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
         ENDIF
@@ -1178,7 +1178,7 @@ C
 Calcul taille totale
         LENR = LEN
         DO K = 1, NSPMD
-          IF (IENVOI(K).NE.0) THEN            
+          IF (IENVOI(K)/=0) THEN            
             MSGTYP=MSGOFF
             CALL MPI_RECV(
      .        IBUFFER(LENR+1),IENVOI(K),MPI_INTEGER,IT_SPMD(K),MSGTYP,
@@ -1188,8 +1188,8 @@ Calcul taille totale
         ENDDO
 C
         DO K = 1, NSPMD
-          IF (K.NE.LOC_PROC.AND.(ISENDTO(NIN,K).NE.0.OR.
-     .   IRCVFROM(NIN,K).NE.0)) THEN
+          IF (K/=LOC_PROC.AND.(ISENDTO(NIN,K)/=0.OR.
+     .   IRCVFROM(NIN,K)/=0)) THEN
           MSGTYP=MSGOFF      
           CALL MPI_SEND(IBUFFER,LENX,MPI_INTEGER,IT_SPMD(K),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
@@ -1202,17 +1202,17 @@ C
         NUSER = IBUFFER(I)
 C noeud interne
         DO K = 1, NSN
-          IF(ITAB(NSV(K)).EQ.NUSER) THEN
+          IF(ITAB(NSV(K))==NUSER) THEN
             STFN(K) = ZERO
           ENDIF
         ENDDO
 Candidat frontiere
         IDEB = 0
         DO P = 1, NSPMD
-          IF(P.NE.LOC_PROC)THEN
+          IF(P/=LOC_PROC)THEN
             NB = NSNFI(NIN)%P(P)
             DO K = IDEB+1, IDEB+NB
-              IF(ITAFI(NIN)%P(K).EQ.NUSER) THEN
+              IF(ITAFI(NIN)%P(K)==NUSER) THEN
                STIFI(NIN)%P(K) = ZERO
               END IF
             END DO
@@ -1287,19 +1287,19 @@ C-----------------------------------------------
 C
       LEN = 0
 C traitement sur tout NSN pour le cas shooting nodes
-      IF(IDEL7NG.GE.1)THEN
+      IF(IDEL7NG>=1)THEN
         DO I = 1, NSN
-          IF(STFA(NSV(I)).LT.ZERO) THEN
+          IF(STFA(NSV(I))<ZERO) THEN
             LEN = LEN + 1
             IBUFFER(LEN) = ITAB(NLG(NSV(I)))
           ENDIF
         ENDDO
         IDEB = 0
         DO P = 1, NSPMD
-          IF(P.NE.LOC_PROC)THEN
+          IF(P/=LOC_PROC)THEN
             NB = NSNFI(NIN)%P(P)
             DO I = IDEB+1, IDEB+NB
-              IF(STIFI(NIN)%P(I).LT.ZERO) THEN
+              IF(STIFI(NIN)%P(I)<ZERO) THEN
                 LEN = LEN + 1
                 IBUFFER(LEN) = ITAFI(NIN)%P(I)
               END IF
@@ -1309,25 +1309,25 @@ C traitement sur tout NSN pour le cas shooting nodes
         END DO
       ELSE
         DO I = 1, I_STOK
-          IF(CAND_N(I).LE.NSN) THEN
+          IF(CAND_N(I)<=NSN) THEN
 Candidat interne
-            IF(STFA(NSV(CAND_N(I))).LT.ZERO) THEN
+            IF(STFA(NSV(CAND_N(I)))<ZERO) THEN
               LEN = LEN + 1
               IBUFFER(LEN) = ITAB(NLG(NSV(CAND_N(I))))
             ENDIF
 Candidat frontiere
-          ELSEIF(STIFI(NIN)%P(CAND_N(I)-NSN).LT.ZERO) THEN
+          ELSEIF(STIFI(NIN)%P(CAND_N(I)-NSN)<ZERO) THEN
             LEN = LEN + 1
             IBUFFER(LEN) = ITAFI(NIN)%P(CAND_N(I)-NSN)
           ENDIF
         ENDDO
       END IF
 C
-      IF (LOC_PROC.NE.PMAIN) THEN
+      IF (LOC_PROC/=PMAIN) THEN
 Cel pack des candidats ayant stifness negative
 C
         MSGTYP=MSGOFF        
-        IF(LEN.GT.0) THEN
+        IF(LEN>0) THEN
           CALL MPI_SEND(IBUFFER,LEN,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
         ENDIF
@@ -1337,7 +1337,7 @@ C
 Calcul taille totale
         LENR = LEN
         DO K = 1, NSPMD
-          IF (IENVOI(K).NE.0) THEN            
+          IF (IENVOI(K)/=0) THEN            
             MSGTYP=MSGOFF
             CALL MPI_RECV(
      .        IBUFFER(LENR+1),IENVOI(K),MPI_INTEGER,IT_SPMD(K),MSGTYP,
@@ -1347,8 +1347,8 @@ Calcul taille totale
         ENDDO
 C
         DO K = 1, NSPMD
-          IF (K.NE.LOC_PROC.AND.(ISENDTO(NIN,K).NE.0.OR.
-     .        IRCVFROM(NIN,K).NE.0)) THEN
+          IF (K/=LOC_PROC.AND.(ISENDTO(NIN,K)/=0.OR.
+     .        IRCVFROM(NIN,K)/=0)) THEN
           MSGTYP=MSGOFF      
           CALL MPI_SEND(IBUFFER,LENX,MPI_INTEGER,IT_SPMD(K),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
@@ -1361,17 +1361,17 @@ C
         NUSER = IBUFFER(I)
 C noeud interne
         DO K = 1, NSN
-          IF(ITAB(NLG(NSV(K))).EQ.NUSER) THEN
+          IF(ITAB(NLG(NSV(K)))==NUSER) THEN
             STFA(NSV(K)) = ZERO
           ENDIF
         ENDDO
 Candidat frontiere
         IDEB = 0
         DO P = 1, NSPMD
-          IF(P.NE.LOC_PROC)THEN
+          IF(P/=LOC_PROC)THEN
             NB = NSNFI(NIN)%P(P)
             DO K = IDEB+1, IDEB+NB
-              IF(ITAFI(NIN)%P(K).EQ.NUSER) THEN
+              IF(ITAFI(NIN)%P(K)==NUSER) THEN
                STIFI(NIN)%P(K) = ZERO
               END IF
             END DO
@@ -1446,9 +1446,9 @@ C-----------------------------------------------
 C
       LEN = 0
 C traitement sur tout NSN pour le cas shooting nodes
-      IF(IDEL7NG.GE.1)THEN
+      IF(IDEL7NG>=1)THEN
         DO I = 1, NRTS
-          IF(STFS(I).LT.ZERO) THEN
+          IF(STFS(I)<ZERO) THEN
             N1 = IRECTS(1,I)
             N2 = IRECTS(2,I)
             IBUFFER(LEN+1) = ITAB(N1)
@@ -1458,10 +1458,10 @@ C traitement sur tout NSN pour le cas shooting nodes
         END DO
         IDEB = 0
         DO P = 1, NSPMD
-          IF(P.NE.LOC_PROC)THEN
+          IF(P/=LOC_PROC)THEN
             NB = NSNFI(NIN)%P(P)
             DO I = IDEB+1, IDEB+NB
-              IF(STIFI(NIN)%P(I).LT.ZERO) THEN
+              IF(STIFI(NIN)%P(I)<ZERO) THEN
                 N1 = 2*(I-1)+1
                 N2 = 2*I
                 IBUFFER(LEN+1) = ITAFI(NIN)%P(N1)
@@ -1474,9 +1474,9 @@ C traitement sur tout NSN pour le cas shooting nodes
         END DO
       ELSE
         DO I = 1, I_STOK
-          IF(CAND_S(I).LE.NRTS) THEN
+          IF(CAND_S(I)<=NRTS) THEN
 Candidat interne
-            IF(STFS(CAND_S(I)).LT.ZERO) THEN
+            IF(STFS(CAND_S(I))<ZERO) THEN
               N1 = IRECTS(1,CAND_S(I))
               N2 = IRECTS(2,CAND_S(I))
               IBUFFER(LEN+1) = ITAB(N1)
@@ -1484,7 +1484,7 @@ Candidat interne
               LEN = LEN + 2
             ENDIF
 Candidat frontiere
-          ELSEIF(STIFI(NIN)%P(CAND_S(I)-NRTS).LT.ZERO) THEN
+          ELSEIF(STIFI(NIN)%P(CAND_S(I)-NRTS)<ZERO) THEN
             NI = CAND_S(I)-NRTS
             N1 = 2*(NI-1)+1
             N2 = 2*NI
@@ -1495,11 +1495,11 @@ Candidat frontiere
         ENDDO
       ENDIF
 C
-      IF (LOC_PROC.NE.PMAIN) THEN
+      IF (LOC_PROC/=PMAIN) THEN
 Cel pack des candidats ayant stifness negative
 C
         MSGTYP=MSGOFF        
-        IF(LEN.GT.0) THEN
+        IF(LEN>0) THEN
           CALL MPI_SEND(IBUFFER,LEN,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
         ENDIF
@@ -1509,7 +1509,7 @@ C
 Calcul taille totale
         LENR = LEN
         DO K = 1, NSPMD
-          IF (IENVOI(K).NE.0) THEN            
+          IF (IENVOI(K)/=0) THEN            
             MSGTYP=MSGOFF
             CALL MPI_RECV(
      .        IBUFFER(LENR+1),IENVOI(K),MPI_INTEGER,IT_SPMD(K),MSGTYP,
@@ -1519,8 +1519,8 @@ Calcul taille totale
         ENDDO
 C
         DO K = 1, NSPMD
-          IF (K.NE.LOC_PROC.AND.(ISENDTO(NIN,K).NE.0.OR.
-     .   IRCVFROM(NIN,K).NE.0)) THEN
+          IF (K/=LOC_PROC.AND.(ISENDTO(NIN,K)/=0.OR.
+     .   IRCVFROM(NIN,K)/=0)) THEN
           MSGTYP=MSGOFF      
           CALL MPI_SEND(IBUFFER,LENX,MPI_INTEGER,IT_SPMD(K),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
@@ -1536,20 +1536,20 @@ C arete interne
         DO K = 1, NRTS
           N1 = IRECTS(1,K)
           N2 = IRECTS(2,K)
-          IF(ITAB(N1).EQ.NUSER1.AND.ITAB(N2).EQ.NUSER2) THEN
+          IF(ITAB(N1)==NUSER1.AND.ITAB(N2)==NUSER2) THEN
             STFS(K) = ZERO
           END IF
         END DO
 Candidat frontiere
         IDEB = 0
         DO P = 1, NSPMD
-          IF(P.NE.LOC_PROC)THEN
+          IF(P/=LOC_PROC)THEN
             NB = NSNFI(NIN)%P(P)
             DO K = IDEB+1, IDEB+NB
               N1 = 2*(K-1)+1
               N2 = 2*K
-              IF(ITAFI(NIN)%P(N1).EQ.NUSER1.AND.
-     .           ITAFI(NIN)%P(N2).EQ.NUSER2) THEN
+              IF(ITAFI(NIN)%P(N1)==NUSER1.AND.
+     .           ITAFI(NIN)%P(N2)==NUSER2) THEN
                 STIFI(NIN)%P(K) = ZERO
               END IF
             END DO
@@ -1624,9 +1624,9 @@ C-----------------------------------------------
 C
       LEN = 0
 C traitement sur tout NSN pour le cas shooting nodes
-      IF(IDEL7NG.GE.1)THEN
+      IF(IDEL7NG>=1)THEN
         DO I = 1, NLINSA
-          IF(STFS(I).LT.ZERO) THEN
+          IF(STFS(I)<ZERO) THEN
             N1L = IXLINS(1,I)
             N2L = IXLINS(2,I)
             N1 = NLG(N1L)
@@ -1638,10 +1638,10 @@ C traitement sur tout NSN pour le cas shooting nodes
         END DO
         IDEB = 0
         DO P = 1, NSPMD
-          IF(P.NE.LOC_PROC)THEN
+          IF(P/=LOC_PROC)THEN
             NB = NSNFIE(NIN)%P(P)
             DO I = IDEB+1, IDEB+NB
-              IF(STIFIE(NIN)%P(I).LT.ZERO) THEN
+              IF(STIFIE(NIN)%P(I)<ZERO) THEN
                 N1 = 2*(I-1)+1
                 N2 = 2*I
                 IBUFFER(LEN+1) = ITAFIE(NIN)%P(N1)
@@ -1654,9 +1654,9 @@ C traitement sur tout NSN pour le cas shooting nodes
         END DO
       ELSE
         DO I = 1, I_STOK
-          IF(CAND_S(I).LE.NLINSA) THEN
+          IF(CAND_S(I)<=NLINSA) THEN
 Candidat interne
-            IF(STFS(CAND_S(I)).LT.ZERO) THEN
+            IF(STFS(CAND_S(I))<ZERO) THEN
               N1L = IXLINS(1,CAND_S(I))
               N2L = IXLINS(2,CAND_S(I))
               N1 = NLG(N1L)
@@ -1666,7 +1666,7 @@ Candidat interne
               LEN = LEN + 2
             ENDIF
 Candidat frontiere
-          ELSEIF(STIFIE(NIN)%P(CAND_S(I)-NLINSA).LT.ZERO) THEN
+          ELSEIF(STIFIE(NIN)%P(CAND_S(I)-NLINSA)<ZERO) THEN
             NI = CAND_S(I)-NLINSA
             N1 = 2*(NI-1)+1
             N2 = 2*NI
@@ -1677,11 +1677,11 @@ Candidat frontiere
         ENDDO
       ENDIF
 C
-      IF (LOC_PROC.NE.PMAIN) THEN
+      IF (LOC_PROC/=PMAIN) THEN
 Cel pack des candidats ayant stifness negative
 C
         MSGTYP=MSGOFF        
-        IF(LEN.GT.0) THEN
+        IF(LEN>0) THEN
           CALL MPI_SEND(IBUFFER,LEN,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
         ENDIF
@@ -1691,7 +1691,7 @@ C
 Calcul taille totale
         LENR = LEN
         DO K = 1, NSPMD
-          IF (IENVOI(K).NE.0) THEN            
+          IF (IENVOI(K)/=0) THEN            
             MSGTYP=MSGOFF
             CALL MPI_RECV(
      .        IBUFFER(LENR+1),IENVOI(K),MPI_INTEGER,IT_SPMD(K),MSGTYP,
@@ -1701,8 +1701,8 @@ Calcul taille totale
         ENDDO
 C
         DO K = 1, NSPMD
-          IF (K.NE.LOC_PROC.AND.(ISENDTO(NIN,K).NE.0.OR.
-     .   IRCVFROM(NIN,K).NE.0)) THEN
+          IF (K/=LOC_PROC.AND.(ISENDTO(NIN,K)/=0.OR.
+     .   IRCVFROM(NIN,K)/=0)) THEN
           MSGTYP=MSGOFF      
           CALL MPI_SEND(IBUFFER,LENX,MPI_INTEGER,IT_SPMD(K),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
@@ -1720,20 +1720,20 @@ C arete interne
           N2L = IXLINS(2,K)
           N1 = NLG(N1L)
           N2 = NLG(N2L)
-          IF(ITAB(N1).EQ.NUSER1.AND.ITAB(N2).EQ.NUSER2) THEN
+          IF(ITAB(N1)==NUSER1.AND.ITAB(N2)==NUSER2) THEN
             STFS(K) = ZERO
           END IF
         END DO
 Candidat frontiere
         IDEB = 0
         DO P = 1, NSPMD
-          IF(P.NE.LOC_PROC)THEN
+          IF(P/=LOC_PROC)THEN
             NB = NSNFIE(NIN)%P(P)
             DO K = IDEB+1, IDEB+NB
               N1 = 2*(K-1)+1
               N2 = 2*K
-              IF(ITAFIE(NIN)%P(N1).EQ.NUSER1.AND.
-     .           ITAFIE(NIN)%P(N2).EQ.NUSER2) THEN
+              IF(ITAFIE(NIN)%P(N1)==NUSER1.AND.
+     .           ITAFIE(NIN)%P(N2)==NUSER2) THEN
                 STIFIE(NIN)%P(K) = ZERO
               END IF
             END DO
@@ -1827,7 +1827,7 @@ C     REAL
       my_real
      .   STARTT,STOPT,DIST,TS
 C-----------------------------------------------
-      IF(NSPMD.EQ.1) RETURN
+      IF(NSPMD==1) RETURN
 C
       LOC_PROC = ISPMD+1
 C
@@ -1846,19 +1846,19 @@ C------------------------------------------------------------------------------
          NIN = INTSTAMP(NI)%NOINTER
          ISENS = IPARI(64,NIN)  ! IF an interface sensor is defined
          INTERACT = 0
-         IF(ISENS.NE.0) THEN             ! Sensor ID  
+         IF(ISENS/=0) THEN             ! Sensor ID  
            TS = SENSOR(2,ISENS)
-           IF (TT.GE.TS) INTERACT = 1
+           IF (TT>=TS) INTERACT = 1
          ELSE
            STARTT=INTBUF_TAB(NIN)%VARIABLES(3)
            STOPT =INTBUF_TAB(NIN)%VARIABLES(11)
-           IF (STARTT.LE.TT.AND.TT.LE.STOPT) INTERACT = 1
+           IF (STARTT<=TT.AND.TT<=STOPT) INTERACT = 1
          ENDIF          
 C
          IFLAGLOADP = 0 !IPARI(95,NIN)
          INTTH = IPARI(47,NIN)
 
-         IF (RETRI(NIN)== 1.AND.INTERACT.NE.0.AND.(INTTH==2.OR.IFLAGLOADP > 0))THEN  
+         IF (RETRI(NIN)== 1.AND.INTERACT/=0.AND.(INTTH==2.OR.IFLAGLOADP > 0))THEN  
              NIACTIF = NIACTIF + 1
              INTERACTIF(NIACTIF) = NIN
              NODFI(NIACTIF) = 0
@@ -1875,12 +1875,12 @@ C------------------------------------------------------------------------------
       IF(NIACTIF /= 0) THEN
 C alloc comm structure 
         ALLOCATE(IBUFS(NIACTIF*NSPMD),STAT=IERROR)
-        IF(IERROR.NE.0) THEN
+        IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
         ENDIF
         ALLOCATE(IBUFR(NIACTIF*NSPMD),STAT=IERROR)
-        IF(IERROR.NE.0) THEN
+        IF(IERROR/=0) THEN
            CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
            CALL ARRET(2)
          ENDIF
@@ -1955,7 +1955,7 @@ C alloc comm structure
 
          ALLOCATE(IBUFS(NSPMD*NODFITOTS),STAT=IERROR)
 
-         IF(IERROR.NE.0) THEN
+         IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
          ENDIF
@@ -1963,7 +1963,7 @@ C alloc comm structure
          IF(ALLOCATED(IBUFR)) DEALLOCATE(IBUFR)
          ALLOCATE(IBUFR(NSPMD*NODFITOTR),STAT=IERROR)
 
-         IF(IERROR.NE.0) THEN
+         IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
          ENDIF
@@ -2061,13 +2061,13 @@ C alloc comm structure
           ENDDO
 
           ALLOCATE(RBUFS(NSPMD*NODFITOTR),STAT=IERROR)
-          IF(IERROR.NE.0) THEN
+          IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
           ENDIF
 
           ALLOCATE(RBUFR(NSPMD*NODFITOTS),STAT=IERROR)
-          IF(IERROR.NE.0) THEN
+          IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
           ENDIF
@@ -2214,7 +2214,7 @@ C     REAL
       my_real
      .   STARTT,STOPT,DIST,TS
 C------------------------------------------------------------------------
-      IF(NSPMD.EQ.1) RETURN
+      IF(NSPMD==1) RETURN
 C
       LOC_PROC = ISPMD+1
 C
@@ -2228,18 +2228,18 @@ C
          NIN = INTSTAMP(NI)%NOINTER
          ISENS = IPARI(64,NIN)  ! IF an interface sensor is defined
          INTERACT = 0
-         IF(ISENS.NE.0) THEN             ! Sensor ID  
+         IF(ISENS/=0) THEN             ! Sensor ID  
            TS = SENSOR(2,ISENS)
-           IF (TT.GE.TS) INTERACT = 1
+           IF (TT>=TS) INTERACT = 1
          ELSE
            STARTT=INTBUF_TAB(NIN)%VARIABLES(3)
            STOPT =INTBUF_TAB(NIN)%VARIABLES(11)
-           IF (STARTT.LE.TT.AND.TT.LE.STOPT) INTERACT = 1
+           IF (STARTT<=TT.AND.TT<=STOPT) INTERACT = 1
          ENDIF
 C
          INTTH = IPARI(47,NIN)
 C
-         IF (INTERACT.NE.0.AND.INTTH==2)THEN  
+         IF (INTERACT/=0.AND.INTTH==2)THEN  
              NIACTIF = NIACTIF + 1
              INTERACTIF(NIACTIF) = NIN
              NODSI(NIACTIF) = 0
@@ -2258,13 +2258,13 @@ C
        IF(NIACTIF /= 0 ) THEN 
 C alloc comm structure      
          ALLOCATE(RBUFS(NSPMD*NODSITOT),STAT=IERROR)
-         IF(IERROR.NE.0) THEN
+         IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
          ENDIF
 
          ALLOCATE(RBUFR(NSPMD*NODFITOT),STAT=IERROR)
-         IF(IERROR.NE.0) THEN
+         IF(IERROR/=0) THEN
            CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
            CALL ARRET(2)
          ENDIF
@@ -2424,7 +2424,7 @@ C     REAL
       my_real
      .   STARTT,STOPT,DIST,TS
 C------------------------------------------------------------------------
-      IF(NSPMD.EQ.1) RETURN
+      IF(NSPMD==1) RETURN
 C
       LOC_PROC = ISPMD+1
 C
@@ -2435,25 +2435,25 @@ C
       LENS(1:NSPMD) = 0   
       LENR(1:NSPMD) = 0  
       LENR2(1:NSPMD) = 0  
-      IF(IPARIT.EQ.0) THEN
+      IF(IPARIT==0) THEN
        DO NI = 1, NINTSTAMP
          NIN = INTSTAMP(NI)%NOINTER
          ISENS = IPARI(64,NIN)  ! IF an interface sensor is defined
          INTERACT = 0
 
-         IF(ISENS.NE.0) THEN             ! Sensor ID  
+         IF(ISENS/=0) THEN             ! Sensor ID  
            TS = SENSOR(2,ISENS)
-           IF (TT.GE.TS) INTERACT = 1
+           IF (TT>=TS) INTERACT = 1
          ELSE
            STARTT=INTBUF_TAB(NIN)%VARIABLES(3)
            STOPT =INTBUF_TAB(NIN)%VARIABLES(11)
-           IF (STARTT.LE.TT.AND.TT.LE.STOPT) INTERACT = 1
+           IF (STARTT<=TT.AND.TT<=STOPT) INTERACT = 1
          ENDIF
 C
          INTTH = IPARI(47,NIN)
          IFORM = IPARI(48,NIN)
 C
-         IF (INTERACT.NE.0.AND.INTTH==2.AND.IFORM/=0)THEN  
+         IF (INTERACT/=0.AND.INTTH==2.AND.IFORM/=0)THEN  
              NIACTIF = NIACTIF + 1
              INTERACTIF(NIACTIF) = NIN
              NODSI(NIACTIF) = 0
@@ -2471,13 +2471,13 @@ C
         IF(NIACTIF /= 0 ) THEN 
 C alloc comm structure      
          ALLOCATE(RBUFS(2*NSPMD*NODFITOT),STAT=IERROR)
-         IF(IERROR.NE.0) THEN
+         IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
          ENDIF
 
          ALLOCATE(RBUFR(2*NSPMD*NODSITOT),STAT=IERROR)
-         IF(IERROR.NE.0) THEN
+         IF(IERROR/=0) THEN
            CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
            CALL ARRET(2)
          ENDIF
@@ -2563,19 +2563,19 @@ C
          NIN = INTSTAMP(NI)%NOINTER
          ISENS = IPARI(64,NIN)  ! IF an interface sensor is defined
 
-         IF(ISENS.NE.0) THEN             ! Sensor ID  
+         IF(ISENS/=0) THEN             ! Sensor ID  
            TS = SENSOR(2,ISENS)
-           IF (TT.GE.TS) INTERACT = 1
+           IF (TT>=TS) INTERACT = 1
          ELSE
            STARTT=INTBUF_TAB(NIN)%VARIABLES(3)
            STOPT =INTBUF_TAB(NIN)%VARIABLES(11)
-           IF (STARTT.LE.TT.AND.TT.LE.STOPT) INTERACT = 1
+           IF (STARTT<=TT.AND.TT<=STOPT) INTERACT = 1
          ENDIF
 C
          INTTH = IPARI(47,NIN)
          IFORM = IPARI(48,NIN)
 C
-         IF (INTERACT.NE.0.AND.INTTH==2.AND.IFORM/=0)THEN  
+         IF (INTERACT/=0.AND.INTTH==2.AND.IFORM/=0)THEN  
              NIACTIF = NIACTIF + 1
              INTERACTIF(NIACTIF) = NIN
              NODSI(NIACTIF) = 0
@@ -2600,9 +2600,9 @@ C
           ISIZRCV(2,P)=0
           ISIZENV(1,P) = 0
           ISIZENV(2,P) = 0
-          IF(P.NE.LOC_PROC)THEN
+          IF(P/=LOC_PROC)THEN
             SIZ = LENS(P)
-            IF(SIZ.GT.0)THEN
+            IF(SIZ>0)THEN
               MSGTYP = MSGOFF 
               CALL MPI_IRECV(
      .          ISIZRCV(1,P),2,MPI_INTEGER,IT_SPMD(P),MSGTYP,
@@ -2617,18 +2617,18 @@ C
         DO NI = 1, NIACTIF
           NIN = INTERACTIF(NI)
           NIF = NISKYFI(NIN)
-          IF(NIF.GT.0) THEN
+          IF(NIF>0) THEN
             INTTH = IPARI(47,NIN)
      
               ALLOCATE(INDEX(NIF),STAT=IERROR)
-              IF(IERROR.NE.0) THEN
+              IF(IERROR/=0) THEN
                 CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                 CALL ARRET(2)
               END IF
 
               ALLOCATE( TEMPO(NIF),STAT=IERROR)
                            
-              IF(IERROR.NE.0) THEN
+              IF(IERROR/=0) THEN
                 CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                 CALL ARRET(2)
               END IF
@@ -2648,7 +2648,7 @@ C precomptage du nombre de contacts par processeur+calcul nsnfi total
               CALL INTCONTP(
      +      NIF,ISKYFI(NIN)%P(1),NMNFI(NIN)%P(1),ISIZENV,LENR2,2)
 
-             IF (NIF .GT. 0 ) THEN
+             IF (NIF > 0 ) THEN
                DEALLOCATE(TEMPO,INDEX)
 	     ENDIF
           ENDIF
@@ -2658,7 +2658,7 @@ C
 C alloc comm structure      
         IALLOCS = 0
         DO P = 1, NSPMD
-          IF(P.NE.LOC_PROC.AND.LENR(P).GT.0) THEN
+          IF(P/=LOC_PROC.AND.LENR(P)>0) THEN
             MSGTYP = MSGOFF
             CALL MPI_ISEND(
      .        ISIZENV(1,P),2,MPI_INTEGER,IT_SPMD(P),MSGTYP,
@@ -2667,9 +2667,9 @@ C alloc comm structure
           ENDIF
         END DO
         IERROR=0
-        IF(IALLOCS.GT.0)
+        IF(IALLOCS>0)
      +    ALLOCATE(RBUFS(IALLOCS+NIACTIF*NSPMD*2),STAT=IERROR) ! nbintc*NIACTIF*2 majorant place supplementaire bufs
-        IF(IERROR.NE.0) THEN
+        IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
         END IF
@@ -2699,8 +2699,8 @@ C FILL comm structure
                   DO I = 1,LEN 
 C noeud generant une force
                       NOD = NMVFI(NIN)%P(IDEB+I)
-                      IF(IDEB2.LE.NISKYFI(NIN)) THEN
-                        ITEST = ISKYFI(NIN)%P(IDEB2).EQ.IDEB+I
+                      IF(IDEB2<=NISKYFI(NIN)) THEN
+                        ITEST = ISKYFI(NIN)%P(IDEB2)==IDEB+I
                       ELSE
                         ITEST = .FALSE.
                       ENDIF
@@ -2709,8 +2709,8 @@ C noeud generant une force
                          RBUFS(L+2)= FTHESKYFI(NIN)%P(IDEB2)
                          L = L + 2
                          IDEB2= IDEB2 +1
-                        IF(IDEB2.LE.NISKYFI(NIN)) THEN
-                          ITEST = ISKYFI(NIN)%P(IDEB2).EQ.IDEB+I
+                        IF(IDEB2<=NISKYFI(NIN)) THEN
+                          ITEST = ISKYFI(NIN)%P(IDEB2)==IDEB+I
                         ELSE
                           ITEST = .FALSE.
                         ENDIF
@@ -2744,7 +2744,7 @@ C Receive 1er message : taille communication
 C
         IALLOCR = 0
         DO P = 1, NSPMD
-          IF(P.NE.LOC_PROC.AND.LENS(P).GT.0)THEN
+          IF(P/=LOC_PROC.AND.LENS(P)>0)THEN
             CALL MPI_WAIT(REQ_R(P),STATUS,IERROR)
             IALLOCR = MAX(IALLOCR,ISIZRCV(1,P))   ! pour comm bloquantes
 c           IALLOCR = IALLOCR + ISIZRCV(P)     ! pour comm non bloquantes
@@ -2752,9 +2752,9 @@ c           IALLOCR = IALLOCR + ISIZRCV(P)     ! pour comm non bloquantes
         END DO
 C
         IERROR=0
-        IF(IALLOCR.GT.0)
+        IF(IALLOCR>0)
      .    ALLOCATE(RBUFR(IALLOCR+NIACTIF*2),STAT=IERROR)
-        IF(IERROR.NE.0) THEN
+        IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
         ENDIF
@@ -2798,11 +2798,11 @@ C
 
 C WAITING for receiving msg
         DO P = 1, NSPMD
-          IF(P.NE.LOC_PROC)THEN
-            IF(LENR(P).GT.0) THEN
+          IF(P/=LOC_PROC)THEN
+            IF(LENR(P)>0) THEN
               CALL MPI_WAIT(REQ_S(P),STATUS,IERROR)
             END IF
-            IF(ISIZENV(1,P).GT.0)THEN
+            IF(ISIZENV(1,P)>0)THEN
               CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
             END IF
           END IF
@@ -2877,7 +2877,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-      IF(NSPMD.EQ.1) RETURN
+      IF(NSPMD==1) RETURN
         LENS = 0
         LENR = 0
         DO P = 1, NSPMD
@@ -2885,12 +2885,12 @@ C
           LENR = LENR + NSNSI(NIN)%P(P)
         END DO
         LENSR = MAX(LENS,LENR)
-        IF(LENSR.GT.0)THEN
+        IF(LENSR>0)THEN
           IERROR=0
           ALLOCATE(BUFS(LENSR),STAT=IERROR)
           IERROR1=0
           ALLOCATE(BUFR(LENSR),STAT=IERROR1)
-          IF(IERROR+IERROR1.NE.0) THEN
+          IF(IERROR+IERROR1/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
           END IF
@@ -2901,12 +2901,12 @@ C Envoi PENIS(2)
 C
         IDEB = 0
         DO P = 1, NSPMD
-          IF(P.NE.LOC_PROC)THEN
+          IF(P/=LOC_PROC)THEN
             NB = NSNFI(NIN)%P(P)
             DO N = 1, NB
               BUFS(IDEB+N) = PENFI(NIN)%P(2,IDEB+N)
             END DO
-            IF(NB.GT.0)THEN
+            IF(NB>0)THEN
               MSGTYP = MSGOFF
               CALL MPI_ISEND(
      .          BUFS(IDEB+1),NB,REAL     ,IT_SPMD(P),MSGTYP,
@@ -2920,9 +2920,9 @@ C Recep PENIS(2) remote et maj PENIS
 C
         IDEB = 0
         DO P = 1, NSPMD
-          IF(P.NE.LOC_PROC)THEN
+          IF(P/=LOC_PROC)THEN
             NB = NSNSI(NIN)%P(P)
-            IF(NB.GT.0)THEN
+            IF(NB>0)THEN
               MSGTYP = MSGOFF 
               CALL MPI_RECV(
      .          BUFR,NB,REAL  ,IT_SPMD(P),MSGTYP,
@@ -2939,9 +2939,9 @@ C
 C Attente reception 1er envoi
 C
         DO P = 1, NSPMD
-          IF(P.NE.LOC_PROC)THEN
+          IF(P/=LOC_PROC)THEN
             NB = NSNFI(NIN)%P(P)
-            IF(NB.GT.0)THEN
+            IF(NB>0)THEN
               CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
             ENDIF      
           END IF
@@ -2952,13 +2952,13 @@ C Renvoi PENIS(2) update
 C
         IDEB =0
         DO P = 1, NSPMD
-          IF(P.NE.LOC_PROC)THEN
+          IF(P/=LOC_PROC)THEN
             NB = NSNSI(NIN)%P(P)
             DO N = 1, NB
               NOD = NSVSI(NIN)%P(IDEB+N)
               BUFS(IDEB+N) = PENIS(2,NOD)
             END DO
-            IF(NB.GT.0)THEN
+            IF(NB>0)THEN
               MSGTYP = MSGOFF2
               CALL MPI_ISEND(
      .          BUFS(IDEB+1),NB,REAL     ,IT_SPMD(P),MSGTYP,
@@ -2972,9 +2972,9 @@ C Reception PENIS(2) update dans PENFI et maj PENFI (cf i11buce_crit)
 C
         IDEB =0
         DO P = 1, NSPMD
-          IF(P.NE.LOC_PROC)THEN
+          IF(P/=LOC_PROC)THEN
             NB = NSNFI(NIN)%P(P)
-            IF(NB.GT.0)THEN
+            IF(NB>0)THEN
               MSGTYP = MSGOFF2
               CALL MPI_RECV(
      .          BUFR,NB,REAL     ,IT_SPMD(P),MSGTYP,
@@ -2992,15 +2992,15 @@ C
 C Attente reception 2eme envoi
 C
         DO P = 1, NSPMD
-          IF(P.NE.LOC_PROC)THEN
+          IF(P/=LOC_PROC)THEN
             NB = NSNSI(NIN)%P(P)
-            IF(NB.GT.0)THEN
+            IF(NB>0)THEN
               CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
             ENDIF      
           END IF
         END DO
 C
-        IF(LENSR.GT.0)THEN
+        IF(LENSR>0)THEN
           DEALLOCATE(BUFR)
           DEALLOCATE(BUFS)
         END IF
@@ -3071,7 +3071,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-      IF(NSPMD.EQ.1) RETURN
+      IF(NSPMD==1) RETURN
         LENS = 0
         LENR = 0
         DO P = 1, NSPMD
@@ -3079,12 +3079,12 @@ C
           LENR = LENR + 2*NSNSI(NIN)%P(P)+ 3*NSNSIE(NIN)%P(P)
         END DO
         LENSR = MAX(LENS,LENR)
-        IF(LENSR.GT.0)THEN
+        IF(LENSR>0)THEN
           IERROR=0
           ALLOCATE(BUFS(LENSR),STAT=IERROR)
           IERROR1=0
           ALLOCATE(BUFR(LENSR),STAT=IERROR1)
-          IF(IERROR+IERROR1.NE.0) THEN
+          IF(IERROR+IERROR1/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
           END IF
@@ -3097,7 +3097,7 @@ C
         IDEB1= 0
         IDEB2= 0
         DO P = 1, NSPMD
-          IF(P.NE.LOC_PROC)THEN
+          IF(P/=LOC_PROC)THEN
             NB1 = NSNFI(NIN)%P(P)
             DO N = 1, NB1
               BUFS(IDEB+N)    = PENFI(NIN)%P(2,IDEB1+N)
@@ -3113,7 +3113,7 @@ C
             END DO
             IDEB2 = IDEB2 + NB2
             NB=2*NB1+3*NB2
-            IF(NB.GT.0)THEN
+            IF(NB>0)THEN
               MSGTYP = MSGOFF 
               CALL MPI_ISEND(
      .          BUFS(IDEB+1),NB,REAL     ,IT_SPMD(P),MSGTYP,
@@ -3128,11 +3128,11 @@ C
         IDEB1 = 0
         IDEB2 = 0
         DO P = 1, NSPMD
-          IF(P.NE.LOC_PROC)THEN
+          IF(P/=LOC_PROC)THEN
             NB1 = NSNSI(NIN)%P(P)
             NB2 = NSNSIE(NIN)%P(P)
             NB=2*NB1+3*NB2
-            IF(NB.GT.0)THEN
+            IF(NB>0)THEN
               MSGTYP = MSGOFF
               CALL MPI_RECV(
      .          BUFR,NB,REAL  ,IT_SPMD(P),MSGTYP,
@@ -3160,9 +3160,9 @@ C
 C Attente reception 1er envoi
 C
         DO P = 1, NSPMD
-          IF(P.NE.LOC_PROC)THEN
+          IF(P/=LOC_PROC)THEN
             NB = NSNFI(NIN)%P(P)+NSNFIE(NIN)%P(P)
-            IF(NB.GT.0)THEN
+            IF(NB>0)THEN
               CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
             ENDIF      
           END IF
@@ -3175,7 +3175,7 @@ C
         IDEB1 =0
         IDEB2 =0
         DO P = 1, NSPMD
-          IF(P.NE.LOC_PROC)THEN
+          IF(P/=LOC_PROC)THEN
             NB1 = NSNSI(NIN)%P(P)
             DO N = 1, NB1
               II = NSVSI(NIN)%P(IDEB1+N)
@@ -3195,7 +3195,7 @@ C
             END DO
             IDEB2 = IDEB2 + NB2
             NB=2*NB1+3*NB2            
-            IF(NB.GT.0)THEN
+            IF(NB>0)THEN
               MSGTYP = MSGOFF2
               CALL MPI_ISEND(
      .          BUFS(IDEB+1),NB,REAL     ,IT_SPMD(P),MSGTYP,
@@ -3210,11 +3210,11 @@ C
         IDEB1 =0
         IDEB2 =0
         DO P = 1, NSPMD
-          IF(P.NE.LOC_PROC)THEN
+          IF(P/=LOC_PROC)THEN
             NB1 = NSNFI(NIN)%P(P)
             NB2 = NSNFIE(NIN)%P(P)
             NB=2*NB1+3*NB2            
-            IF(NB.GT.0)THEN
+            IF(NB>0)THEN
               MSGTYP = MSGOFF2 
               CALL MPI_RECV(
      .          BUFR,NB,REAL     ,IT_SPMD(P),MSGTYP,
@@ -3249,15 +3249,15 @@ C
 C Attente reception 2eme envoi
 C
         DO P = 1, NSPMD
-          IF(P.NE.LOC_PROC)THEN
+          IF(P/=LOC_PROC)THEN
             NB = NSNSI(NIN)%P(P)+NSNSIE(NIN)%P(P)
-            IF(NB.GT.0)THEN
+            IF(NB>0)THEN
               CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
             ENDIF      
           END IF
         END DO
 C
-        IF(LENSR.GT.0)THEN
+        IF(LENSR>0)THEN
           DEALLOCATE(BUFR)
           DEALLOCATE(BUFS)
         END IF

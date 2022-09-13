@@ -75,7 +75,7 @@ C=======================================================================
      .       +ABS(FILL(IX2))
      .       +ABS(FILL(IX3))
      .       +ABS(FILL(IX4))
-        IF(ALPHD.GT.EM20)ALPH(I)=ALPHN/ALPHD
+        IF(ALPHD>EM20)ALPH(I)=ALPHN/ALPHD
         VOL(I)=ALPH(I)*VOLT(I)
       ENDDO
 C-----------

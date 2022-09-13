@@ -85,7 +85,7 @@ C-----------------------------------------------
 
       DO NG=1,NGROUP
        ITY   =IPARG(5,NG)
-       IF(ITY.EQ.3) THEN
+       IF(ITY==3) THEN
          GBUF => ELBUF_TAB(NG)%GBUF   
          MLW   =IPARG(1,NG)
          NEL   =IPARG(2,NG)
@@ -101,7 +101,7 @@ C-----------------------------------------------
           IF(IPART_STATE(IPRT)==0)CYCLE
 
           JJ = JJ + 1
-          IF (MLW .NE. 0 .AND. MLW .NE. 13) THEN
+          IF (MLW /= 0 .AND. MLW /= 13) THEN
             WA(JJ) = GBUF%OFF(I) 
           ELSE
             WA(JJ) = ZERO
@@ -109,7 +109,7 @@ C-----------------------------------------------
           JJ = JJ + 1
           WA(JJ) = IXC(NIXC,N)
           JJ = JJ + 1
-          IF (MLW .NE. 0 .AND. MLW .NE. 13) THEN
+          IF (MLW /= 0 .AND. MLW /= 13) THEN
            IF (ITHK >0 ) THEN
             WA(JJ) = GBUF%THK(I)
            ELSE
@@ -134,7 +134,7 @@ C-----------------------------------------------
         CALL SPMD_RGATHER9_DP(WA,JJ,WAP0,SIZP0,LEN)
       END IF
 
-      IF(ISPMD.EQ.0.AND.LEN.GT.0) THEN
+      IF(ISPMD==0.AND.LEN>0) THEN
          IF (IZIPSTRS == 0) THEN
            WRITE(IUGEO,'(A)')'/INISHE/THICK'
            WRITE(IUGEO,'(A)')
@@ -173,7 +173,7 @@ C-----------------------------------------------
 
       DO NG=1,NGROUP
        ITY   =IPARG(5,NG)
-       IF(ITY.EQ.7) THEN
+       IF(ITY==7) THEN
          GBUF => ELBUF_TAB(NG)%GBUF   
          MLW   =IPARG(1,NG)
          NEL   =IPARG(2,NG)
@@ -189,7 +189,7 @@ C-----------------------------------------------
           IF(IPART_STATE(IPRT)==0)CYCLE
 
           JJ = JJ + 1
-          IF (MLW .NE. 0 .AND. MLW .NE. 13) THEN
+          IF (MLW /= 0 .AND. MLW /= 13) THEN
             WA(JJ) = GBUF%OFF(I)
           ELSE
             WA(JJ) = ZERO
@@ -197,7 +197,7 @@ C-----------------------------------------------
           JJ = JJ + 1
           WA(JJ) = IXTG(NIXTG,N)
           JJ = JJ + 1
-          IF (MLW .NE. 0 .AND. MLW .NE. 13) THEN
+          IF (MLW /= 0 .AND. MLW /= 13) THEN
            IF (ITHK >0 ) THEN
             WA(JJ) = GBUF%THK(I)
            ELSE
@@ -222,7 +222,7 @@ C-----------------------------------------------
         CALL SPMD_RGATHER9_DP(WA,JJ,WAP0,SIZP0,LEN)
       END IF
 
-      IF(ISPMD.EQ.0.AND.LEN.GT.0) THEN
+      IF(ISPMD==0.AND.LEN>0) THEN
         IF (IZIPSTRS == 0) THEN
           WRITE(IUGEO,'(A)')'/INISH3/THICK'
           WRITE(IUGEO,'(A)')

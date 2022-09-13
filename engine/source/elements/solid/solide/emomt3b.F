@@ -98,19 +98,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------       
-      IF(UPWM.EQ.0.AND.IPARG1(64)==1)RETURN   !silent boundary
+      IF(UPWM==0.AND.IPARG1(64)==1)RETURN   !silent boundary
              
 C-----------------------------------------------
 C     Forces de transports calcul es par volume fini
 C-----------------------------------------------
 C   DMi = 0.5*DT1*QMV(i,I)  masse entrant par la face i
-      IF(MTN.EQ.51 .AND. UPWM.NE.3 .AND. IPARG1(64)==0)THEN
+      IF(MTN==51 .AND. UPWM/=3 .AND. IPARG1(64)==0)THEN
         IADBUF = NINT(PM(27,MAT(1)))
         IFLG = NINT(BUFMAT(31+IADBUF-1))
 C
-        IF(IFLG.GT.1)RETURN
+        IF(IFLG>1)RETURN
 C
-        IF(UPWM.EQ.0.)THEN
+        IF(UPWM==0.)THEN
          MX = MAT(LFT)
          DO I=LFT,LLT
           GAM(I)= PM(15,MX)

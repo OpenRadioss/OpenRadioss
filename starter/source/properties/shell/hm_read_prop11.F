@@ -188,7 +188,7 @@ C--------------------------------------------------
 C----------------------
 C Apply submodel offsets units submodel transform to V (VX,VY,VZ) if needed
 C
-      IF (SUB_ID .NE. 0)
+      IF (SUB_ID /= 0)
      .         CALL SUBROTVECT(VX,VY,VZ,RTRANS,SUB_ID,LSUBMODEL)
 C----------------------
 
@@ -239,7 +239,7 @@ C-------to have DR----
       IF (ISMSTR==10.AND.ISROT>0.AND.IDROT==0) IDROT = 1
 c
       IF(ISMSTR==0) ISMSTR=2
-      IF(ISMSTR==3.AND.IHBE.NE.0.AND.IHBE.NE.2) THEN
+      IF(ISMSTR==3.AND.IHBE/=0.AND.IHBE/=2) THEN
         ISMSTR = 2
         CALL ANCMSG(MSGID=319,
      .              MSGTYPE=MSGWARNING,
@@ -258,12 +258,12 @@ C
         IF(GEO(13)==ZERO)GEO(13)=EM01
         IF(GEO(14)==ZERO)GEO(14)=EM01
         IF(GEO(15)==ZERO)GEO(15)=EM02
-      ELSEIF(IHBE.LT.10)THEN
+      ELSEIF(IHBE<10)THEN
         IF(GEO(13)==ZERO)GEO(13)=EM02
         IF(GEO(14)==ZERO)GEO(14)=EM02
         IF(GEO(15)==ZERO)GEO(15)=EM02
       ENDIF
-      IF (IHBE.GT.11.AND.IHBE.LT.29) THEN
+      IF (IHBE>11.AND.IHBE<29) THEN
         GEO(13)=GEO(17)
         GEO(17)=CVIS
       ENDIF
@@ -275,7 +275,7 @@ C
       IF(NLY == 1) GEO(38)= ZERO
       AN=SQRT(VX*VX+VY*VY+VZ*VZ)
 C---- error out w/ IRP=22,23      
-      IF(AN .LT. EM10)THEN
+      IF(AN < EM10)THEN
         VX=ONE
         VY=ZERO
         VZ=ZERO
@@ -295,7 +295,7 @@ C---- error out w/ IRP=22,23
         VZ=VZ/AN
       ENDIF
       ISK = 0
-      IF (IDSK.NE.0) THEN
+      IF (IDSK/=0) THEN
         DO J=0,NUMSKW+MIN(IUN,NSPCOND)*NUMSPH+NSUBMOD
           IF(IDSK == ISKN(4,J+1)) THEN
             ISK=J+1
@@ -353,7 +353,7 @@ C-----------------------------------------------------------------
      &    5X,'CONFIDENTIAL DATA'//)
       ELSE
        IF(ISK == 0)THEN
-        IF (IHBE.GT.11.AND.IHBE.LT.29) THEN
+        IF (IHBE>11.AND.IHBE<29) THEN
           WRITE(IOUT,2112)IG,NLY,ISTRAIN,GEO(1),ISS,IHBE,
      .               ISH3N,IGEO(20),
      .               GEO(16),GEO(13),GEO(38),GEO(42),ISHEAR,ITHK,
@@ -366,7 +366,7 @@ C-----------------------------------------------------------------
      .               GEO(7),GEO(8),GEO(9),IGEO(14)
          ENDIF
        ELSE
-        IF (IHBE.GT.11.AND.IHBE.LT.29) THEN
+        IF (IHBE>11.AND.IHBE<29) THEN
           WRITE(IOUT,2113)IG,NLY,ISTRAIN,GEO(1),ISS,IHBE,
      .               ISH3N,IGEO(20),
      .               GEO(16),GEO(13),GEO(38),GEO(42),ISHEAR,ITHK,
@@ -388,7 +388,7 @@ C---
      .               I1=IG,
      .               C1=TITR)
       ENDIF
-      IF (NLY.GT.NLYMAX) THEN
+      IF (NLY>NLYMAX) THEN
          CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1),LTITR)
          CALL ANCMSG(MSGID=28,
      .               MSGTYPE=MSGERROR,
@@ -456,7 +456,7 @@ C---      calcul automatique de position des couches
       ENDIF
 C---  Test validite epaisseur
       IERREL=NINT(ABS((THICKT-GEO(1))/GEO(1))*EP02)
-      IF(IERREL.GT.10) THEN
+      IF(IERREL>10) THEN
         PID1=IGEO(1)
         CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1),LTITR)
         CALL ANCMSG(MSGID=29,
@@ -476,7 +476,7 @@ C-------LAYER 1
             IF(MLAWLY1 == 25) GO TO 250
             IF(MLAWLY1 == 27) GO TO 250
             IF(MLAWLY1 == 15) GO TO 250
-            IF(MLAWLY1.GE.29) GO TO 250
+            IF(MLAWLY1>=29) GO TO 250
             CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1),LTITR)
             CALL FRETITL2(TITR1,IPM(NPROPMI-LTITR+1,J),LTITR)
             CALL ANCMSG(MSGID=30,
@@ -506,7 +506,7 @@ C-----OTHER LAYERS
              IGEO(IPMAT+N) = J
              IF(NINT(PM(19,J)) == MLAWLY1) GO TO 350
              WRITE(LAW_ID,'(I2)')MLAWLY1
-             IF (MLAWLY1.EQ.99) LAW_ID='USER'
+             IF (MLAWLY1==99) LAW_ID='USER'
              CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1),LTITR)
              CALL FRETITL2(TITR1,IPM(NPROPMI-LTITR+1,J),LTITR)
              CALL ANCMSG(MSGID=334,
@@ -557,7 +557,7 @@ C-----------------------------
         GEO(171)=1
       ELSEIF(IHBE==2)THEN
         GEO(171)=0
-      ELSEIF(IHBE.GE.3.AND.IHBE.LT.100.AND.IHBE.NE.4)THEN
+      ELSEIF(IHBE>=3.AND.IHBE<100.AND.IHBE/=4)THEN
         GEO(171)=IHBE-1
       ENDIF
 

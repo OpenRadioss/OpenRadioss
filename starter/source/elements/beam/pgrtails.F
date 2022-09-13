@@ -155,7 +155,7 @@ C dd-iad
         P = CEP(NFT+INDEX(1))
         NB = 1
         DO I = 2, NEL
-          IF (CEP(NFT+INDEX(I)).NE.P) THEN
+          IF (CEP(NFT+INDEX(I))/=P) THEN
             DD_IAD(P+1,NSPGROUP+N) = NB
             NB = 1
             P = CEP(NFT+INDEX(I))
@@ -227,7 +227,7 @@ cc       LB_L = LBUFEL
        DO P = 1, NSPMD
         NGP(P)=0
         NEL = DD_IAD(P+1,NSPGROUP+N)-DD_IAD(P,NSPGROUP+N)
-        IF (NEL.GT.0) THEN
+        IF (NEL>0) THEN
          NEL_PREC = DD_IAD(P,NSPGROUP+N)-DD_IAD(1,NSPGROUP+N)
          NGP(P)=NGROUP
          NG  = (NEL-1)/NVSIZ + 1
@@ -238,9 +238,9 @@ cc       LB_L = LBUFEL
           MID= IXP(1,II)
           MLN= PM(19,MID)
           PID= IXP(5,II)
-          IF (NSUBDOM.GT.0) IPARTR2R = TAG_MAT(MID)
+          IF (NSUBDOM>0) IPARTR2R = TAG_MAT(MID)
           ISSN=0
-          IF(GEO(5,PID).NE.ZERO)ISSN=1
+          IF(GEO(5,PID)/=ZERO)ISSN=1
           NIP  = 1
           IGTYP = IGEO(11,PID)
           IF (IGTYP == 18) NIP = IGEO(3,PID)
@@ -296,7 +296,7 @@ c                                        other groups using old buffer
           !---reperage groupe/processeur
           IPARG(32,NGROUP)= P-1
 C         flag for group of duplicated elements in multidomains
-          IF (NSUBDOM.GT.0) IPARG(77,NGROUP)= IPARTR2R
+          IF (NSUBDOM>0) IPARG(77,NGROUP)= IPARTR2R
 C        thermal material expansion 
          IPARG(49,NGROUP) = 0
          IF(IPM(218,MID) > 0 .AND. MLN /= 0 .AND. MLN /=13) THEN

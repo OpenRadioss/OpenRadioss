@@ -49,10 +49,10 @@ C-----------------------------------------------
       INTEGER I, M
       my_real DT1, DT2, D1, D2
 C-----------------------------------------------
-      IF (TT-TF(1,NPOINT).GT.ZERO) GO TO 50
+      IF (TT-TF(1,NPOINT)>ZERO) GO TO 50
       DO 20 I=2,NPOINT
       M=I
-      IF (TT-TF(1,M).LE.ZERO) GO TO 30
+      IF (TT-TF(1,M)<=ZERO) GO TO 30
    20 CONTINUE
    50 F=ZERO
       TG=ZERO
@@ -64,7 +64,7 @@ C-----------------------------------------------
       TG=ZERO
       IF(D1/=ZERO)TG=D2/D1
       !TEST POUR PRECISION DU CALCUL
-      IF(DT1.LE.DT2)THEN
+      IF(DT1<=DT2)THEN
        F =TF(2,M-1)+DT1*TG
       ELSE
        F =TF(2,M)-DT2*TG

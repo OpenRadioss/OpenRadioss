@@ -88,18 +88,18 @@ C
           CALP1=(ONE -ALPV(JM,II))*VOL(II)
 
           ALPD=ALPD1+ALPD2
-          IF(ALPD.EQ.ZERO)THEN
+          IF(ALPD==ZERO)THEN
            ALPH=ONE
           ELSE
            ALPH=(ALPN1+ALPN2)/ALPD
           ENDIF
           FLUB1(I)=FLUX1(I)*ALPH
-          IF(FLUX1(I).GE.ZERO)THEN
+          IF(FLUX1(I)>=ZERO)THEN
            FLUB1(I)= MAX(FLUB1(I),FLUX1(I)-CALP1)
            FLUB1(I)= MIN(FLUB1(I),ALP1)
           ELSE
            JJ=ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
-           IF(JJ.EQ.0)JJ=II
+           IF(JJ==0)JJ=II
            ALP2 =ALPV(JM,JJ)       *VOL(JJ)
            CALP2=(ONE - ALPV(JM,JJ))*VOL(JJ)
            FLUB1(I)=-MAX(-FLUB1(I),-FLUX1(I)-CALP2)
@@ -107,18 +107,18 @@ C
           ENDIF
 
           ALPD=ALPD2+ALPD3
-          IF(ALPD.EQ.ZERO)THEN
+          IF(ALPD==ZERO)THEN
            ALPH=ONE
           ELSE
            ALPH=(ALPN2+ALPN3)/ALPD
           ENDIF
           FLUB2(I)=FLUX2(I)*ALPH
-          IF(FLUX2(I).GE.ZERO)THEN
+          IF(FLUX2(I)>=ZERO)THEN
            FLUB2(I)= MAX(FLUB2(I),FLUX2(I)-CALP1)
            FLUB2(I)= MIN(FLUB2(I),ALP1)
           ELSE
            JJ=ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
-           IF(JJ.EQ.0)JJ=II
+           IF(JJ==0)JJ=II
            ALP2 =ALPV(JM,JJ)     *VOL(JJ)
            CALP2=(ONE-ALPV(JM,JJ))*VOL(JJ)
            FLUB2(I)=-MAX(-FLUB2(I),-FLUX2(I)-CALP2)
@@ -126,18 +126,18 @@ C
           ENDIF
 
           ALPD=ALPD3+ALPD4
-          IF(ALPD.EQ.ZERO)THEN
+          IF(ALPD==ZERO)THEN
            ALPH=ONE
           ELSE
            ALPH=(ALPN3+ALPN4)/ALPD
           ENDIF
           FLUB3(I)=FLUX3(I)*ALPH
-          IF(FLUX3(I).GE.ZERO)THEN
+          IF(FLUX3(I)>=ZERO)THEN
            FLUB3(I)= MAX(FLUB3(I),FLUX3(I)-CALP1)
            FLUB3(I)= MIN(FLUB3(I),ALP1)
           ELSE
            JJ=ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
-           IF(JJ.EQ.0)JJ=II
+           IF(JJ==0)JJ=II
            ALP2 =ALPV(JM,JJ)     *VOL(JJ)
            CALP2=(ONE-ALPV(JM,JJ))*VOL(JJ)
            FLUB3(I)=-MAX(-FLUB3(I),-FLUX3(I)-CALP2)
@@ -145,18 +145,18 @@ C
           ENDIF
 
           ALPD=ALPD4+ALPD1
-          IF(ALPD.EQ.ZERO)THEN
+          IF(ALPD==ZERO)THEN
            ALPH=ONE
           ELSE
            ALPH=(ALPN4+ALPN1)/ALPD
           ENDIF
           FLUB4(I)=FLUX4(I)*ALPH
-          IF(FLUX4(I).GE.ZERO)THEN
+          IF(FLUX4(I)>=ZERO)THEN
            FLUB4(I)= MAX(FLUB4(I),FLUX4(I)-CALP1)
            FLUB4(I)= MIN(FLUB4(I),ALP1)
           ELSE
            JJ=ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
-           IF(JJ.EQ.0)JJ=II
+           IF(JJ==0)JJ=II
            ALP2 =ALPV(JM,JJ)     *VOL(JJ)
            CALP2=(ONE-ALPV(JM,JJ))*VOL(JJ)
            FLUB4(I)=-MAX(-FLUB4(I),-FLUX4(I)-CALP2)

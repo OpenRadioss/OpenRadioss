@@ -58,7 +58,7 @@ C--------------------------
       WRITE(IOUT,1000)
       DO I=1,NEL
          IFOUND=ELTG(I)
-         IF (IFOUND.GT.NUMELQ.AND.IFOUND.LE.NUMELQ+NUMELC) THEN
+         IF (IFOUND>NUMELQ.AND.IFOUND<=NUMELQ+NUMELC) THEN
             IF (IFLAG == 0.AND.ITAGEL(I) == 0.AND.ILVOUT >= 2) THEN
                 WRITE(IOUT,1100) I,IXC(NIXC,IFOUND-NUMELQ)
             ELSEIF (ITAGEL(I) > 0) THEN
@@ -72,7 +72,7 @@ C--------------------------
                    WRITE(IOUT,1103) I,IXC(NIXC,IFOUND-NUMELQ),IVENT
                 ENDIF
             ENDIF
-         ELSEIF (IFOUND.GT.NUMELQ+NUMELC) THEN
+         ELSEIF (IFOUND>NUMELQ+NUMELC) THEN
             IF (IFLAG == 0.AND.ITAGEL(I) == 0.AND.ILVOUT >= 2) THEN
                 WRITE(IOUT,1110) I,IXTG(NIXTG,IFOUND-NUMELQ-NUMELC)
             ELSEIF (ITAGEL(I) > 0) THEN

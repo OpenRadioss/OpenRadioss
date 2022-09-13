@@ -46,16 +46,16 @@ C----------------------------------------------------------
       my_real
      .   R,RH,RH2,RH3,RHM,RHM3
 C=======================================================================
-      IF (H.EQ.ZERO) STOP
+      IF (H==ZERO) STOP
 C-----
       R =SQRT((XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ))
 C-----
-      IF (R.LE.H) THEN
+      IF (R<=H) THEN
         RH  =R/H
         RH2 =RH*RH
         RH3 =RH2*RH
         W   =(ONE - THREE_HALF*RH2+THREE_OVER_4*RH3)*INVPI/(H*H*H)
-      ELSEIF (R.LE.TWO*H) THEN
+      ELSEIF (R<=TWO*H) THEN
         RHM =TWO-R/H
         RHM =RHM/H
         RHM3=RHM*RHM*RHM
@@ -92,18 +92,18 @@ C----------------------------------------------------------
       my_real
      .   R,RH,RH2,RH3,IH3,RHM,RHM2,RHM3,WPRIMR
 C=======================================================================
-      IF (H.EQ.ZERO) STOP
+      IF (H==ZERO) STOP
 C-----
       R =SQRT((XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ))
 C-----
-      IF (R.LE.H) THEN
+      IF (R<=H) THEN
         RH  =R/H
         RH2 =RH*RH
         RH3 =RH2*RH
         IH3 =INVPI/(H*H*H)
         W      =(ONE - THREE_HALF*RH2+THREE_OVER_4*RH3)*IH3
         WPRIMR =(-THREE+TWOP25*RH)*IH3/(H*H)
-      ELSEIF (R.LE.TWO*H) THEN
+      ELSEIF (R<=TWO*H) THEN
         RHM =TWO - R/H
         RHM =RHM/H
         RHM2=RHM*RHM*INVPI

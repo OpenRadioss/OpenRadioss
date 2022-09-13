@@ -140,7 +140,7 @@ C SET INITIAL MATERIAL CONSTANTS
 C =2.* GROUND STATE SHEAR MODULE  (2MU)
 C
 C     ([F]=[M_F]+[1]) -----
-c      IF(ISMSTR.EQ.10) THEN
+c      IF(ISMSTR==10) THEN
 cC--------- [B]=[F][F]^t strain-----
 c      DO I=1,NEL
 c       EPSXX(I)=MFXX(I)*(TWO+MFXX(I))+
@@ -168,7 +168,7 @@ C
       ENDDO
 C         Eigenvalues needed to be calculated in double precision
 C         for a simple precision executing
-      IF (IRESP.EQ.1) THEN
+      IF (IRESP==1) THEN
         CALL VALPVECDP(AV,EVV,DIRPRV,NEL)
       ELSE
         CALL VALPVEC(AV,EVV,DIRPRV,NEL)
@@ -179,12 +179,12 @@ C         for a simple precision executing
 *ISMSTR=3-NO SMALL STRAIN OPTION:STRESS IS BIOT
 
       DO I=1,NEL
-        IF(ISMSTR.EQ.0.OR.ISMSTR.EQ.2.OR.ISMSTR.EQ.4) THEN
+        IF(ISMSTR==0.OR.ISMSTR==2.OR.ISMSTR==4) THEN
 * ISMSTR = 0 OR 3 (STRAIN IS LOGARITHMIC)
           EV(1,I)=EXP(EVV(1,I))
           EV(2,I)=EXP(EVV(2,I))
           EV(3,I)=EXP(EVV(3,I))
-        ELSEIF(ISMSTR.EQ.10.OR.ISMSTR.EQ.12) THEN
+        ELSEIF(ISMSTR==10.OR.ISMSTR==12) THEN
           EV(1,I)=SQRT(EVV(1,I)+ ONE)
           EV(2,I)=SQRT(EVV(2,I)+ ONE)
           EV(3,I)=SQRT(EVV(3,I)+ ONE)
@@ -207,7 +207,7 @@ C         for a simple precision executing
         EVM(1,I)=EV(1,I)*RV(I)**(-THIRD)
         EVM(2,I)=EV(2,I)*RV(I)**(-THIRD)
         EVM(3,I)=EV(3,I)*RV(I)**(-THIRD)
-        IF(KFP.NE.0) THEN
+        IF(KFP/=0) THEN
 * READ BULK MODULE FROM FUNCTION
           P(I)=RBULK*FFAC*FINTER(KFP,RV(I),NPF,TF,DPDMU)
         ELSE
@@ -257,11 +257,11 @@ C         for a simple precision executing
 * TENSION CUT
       DO I=1,NEL
           DO J=1,3
-          IF(OFF(I).EQ.ZERO.OR.T1(J,I).GT.ABS(TENSIONCUT))THEN
+          IF(OFF(I)==ZERO.OR.T1(J,I)>ABS(TENSIONCUT))THEN
             SIGPRV(1,I)=ZERO
             SIGPRV(2,I)=ZERO
             SIGPRV(3,I)=ZERO
-C           IF(OFF(I).NE.ZERO) IDEL7NOK = 1
+C           IF(OFF(I)/=ZERO) IDEL7NOK = 1
             OFF(I)=ZERO
           ENDIF
           ENDDO

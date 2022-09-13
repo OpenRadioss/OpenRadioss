@@ -189,16 +189,16 @@ C
 
              CALL HM_GET_INT_ARRAY_INDEX('PartIds1',ID_IP,I,IS_AVAILABLE,LSUBMODEL)
 
-             IF(ID_IP.NE.0)THEN
+             IF(ID_IP/=0)THEN
                 IP=0
                 DO J=1,NPART
-                  IF(IPART(1,J).EQ.ID_IP)THEN
+                  IF(IPART(1,J)==ID_IP)THEN
                     IP=J
                     GOTO 100
                   END IF
                 END DO
  100            CONTINUE
-                IF(IP.NE.0)THEN
+                IF(IP/=0)THEN
                   IPART(4,IP)=LEVELMAX
                 ELSE
                   CALL ANCMSG(MSGID=646,
@@ -256,17 +256,17 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      SUBMODEL OFFSET
 C-------------------------------------------------
-        IF(SUBID_SHELL(I) .NE. 0)THEN
-          IF(IPARTC(I) .NE. 0) IPARTC(I) = IPARTC(I) + OFF_DEF(SUBID_SHELL(I))
-          IF(IXC(NIXC,I) .NE. 0) IXC(NIXC,I) = IXC(NIXC,I) + OFF_EL(SUBID_SHELL(I))
+        IF(SUBID_SHELL(I) /= 0)THEN
+          IF(IPARTC(I) /= 0) IPARTC(I) = IPARTC(I) + OFF_DEF(SUBID_SHELL(I))
+          IF(IXC(NIXC,I) /= 0) IXC(NIXC,I) = IXC(NIXC,I) + OFF_EL(SUBID_SHELL(I))
           DO J=2,5
-            IF(IXC(J,I) .NE. 0) IXC(J,I) = IXC(J,I) + OFF_NOD(SUBID_SHELL(I))
+            IF(IXC(J,I) /= 0) IXC(J,I) = IXC(J,I) + OFF_NOD(SUBID_SHELL(I))
           ENDDO
         ENDIF
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
-        IF( IPARTC(I) .NE. IP0)THEN
+        IF( IPARTC(I) /= IP0)THEN
           DO J=1,NPART
             IF(IPARTC(I) == IPART(1,J))THEN
               IP = J
@@ -320,17 +320,17 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
-        IF(SUBID_SH3N(I) .NE. 0)THEN
-          IF(IPARTTG(I) .NE. 0) IPARTTG(I) = IPARTTG(I) + OFF_DEF(SUBID_SH3N(I))
-          IF(IXTG(NIXTG,I) .NE. 0) IXTG(NIXTG,I) = IXTG(NIXTG,I) + OFF_EL(SUBID_SH3N(I))
+        IF(SUBID_SH3N(I) /= 0)THEN
+          IF(IPARTTG(I) /= 0) IPARTTG(I) = IPARTTG(I) + OFF_DEF(SUBID_SH3N(I))
+          IF(IXTG(NIXTG,I) /= 0) IXTG(NIXTG,I) = IXTG(NIXTG,I) + OFF_EL(SUBID_SH3N(I))
           DO J=2,4
-            IF(IXTG(J,I) .NE. 0) IXTG(J,I) = IXTG(J,I) + OFF_NOD(SUBID_SH3N(I))
+            IF(IXTG(J,I) /= 0) IXTG(J,I) = IXTG(J,I) + OFF_NOD(SUBID_SH3N(I))
           ENDDO
         ENDIF
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
-        IF( IPARTTG(I) .NE. IP0)THEN
+        IF( IPARTTG(I) /= IP0)THEN
           DO J=1,NPART
             IF(IPARTTG(I) == IPART(1,J))THEN
               IP = J
@@ -375,8 +375,8 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
-        IF(SUBID_NODES(I) .NE. 0)THEN
-          IF(ITAB(I) .NE. 0) ITAB(I) = ITAB(I) + OFF_NOD(SUBID_NODES(I))
+        IF(SUBID_NODES(I) /= 0)THEN
+          IF(ITAB(I) /= 0) ITAB(I) = ITAB(I) + OFF_NOD(SUBID_NODES(I))
         ENDIF
 	IF (ITAB(I) > ID_LIMIT_ADMESH
      .        .AND. (ITAB(I) <  IDFT_NODE_AUTO.OR.
@@ -395,7 +395,7 @@ C------
 C     4-node shells
 C------			  
       DO I=1,NUMELC
-	  IF (IXC(NIXC,I).GT.ID_LIMIT_ADMESH) THEN	     
+	  IF (IXC(NIXC,I)>ID_LIMIT_ADMESH) THEN	     
             CALL ANCMSG(MSGID=1069,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .            I1=IXC(NIXC,I),C1=LINE,C2='/SHELL') 
 	  ENDIF
@@ -408,7 +408,7 @@ C------
       IF(ALLOCATED(SH_THK)) DEALLOCATE (SH_THK)
 C------			  
       DO I=1,NUMELTG
-	  IF (IXTG(NIXTG,I).GT.ID_LIMIT_ADMESH) THEN	     
+	  IF (IXTG(NIXTG,I)>ID_LIMIT_ADMESH) THEN	     
             CALL ANCMSG(MSGID=1069,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .            I1=IXTG(NIXTG,I),C1=LINE,C2='/SH3N')
 	  ENDIF
@@ -471,7 +471,7 @@ C------
 	IF(NLEV/=0) THEN
          NUMNOD=NUMNOD+(2**NLEV-1)*(2**NLEV-1)
          DO I=1,4
-           IF(TAG(I,N).LT.NLEV)THEN
+           IF(TAG(I,N)<NLEV)THEN
              NUMNOD=NUMNOD+(2**NLEV-1)-(2**(TAG(I,N))-1)
              TAG(I,N)=NLEV
 
@@ -479,11 +479,11 @@ C------
              NJ=IXC(MOD(I,4)+2,N)
              DO K=KNOD2SH(NI-1)+1,KNOD2SH(NI)
                P=NOD2SH(K)
-               IF(P.NE.N)THEN
+               IF(P/=N)THEN
          	DO L=KNOD2SH(NJ-1)+1,KNOD2SH(NJ)
          	  Q=NOD2SH(L)
          	  IF(Q==P)THEN
-         	     IF(Q.LE.NUMELC0)THEN
+         	     IF(Q<=NUMELC0)THEN
          	       DO J=1,4
                          NK=IXC(J+1,Q)
                          NL=IXC(MOD(J,4)+2,Q)
@@ -521,7 +521,7 @@ C
 	IF(NLEV/=0) THEN
          NUMNOD =NUMNOD+(2**(NLEV-1)+1)*(2**NLEV+1)-3*(2**NLEV)
 	 DO I=1,3
-	   IF(TAG(I,N+NUMELC0).LT.NLEV)THEN
+	   IF(TAG(I,N+NUMELC0)<NLEV)THEN
 	     NUMNOD=NUMNOD+(2**NLEV-1)-(2**(TAG(I,N+NUMELC0))-1)
 	     TAG(I,N+NUMELC0)=NLEV
 
@@ -529,11 +529,11 @@ C
 	     NJ=IXTG(MOD(I,3)+2,N)
 	     DO K=KNOD2SH(NI-1)+1,KNOD2SH(NI)
 	       P=NOD2SH(K)
-	       IF(P.NE.N+NUMELC0)THEN
+	       IF(P/=N+NUMELC0)THEN
 	 	 DO L=KNOD2SH(NJ-1)+1,KNOD2SH(NJ)
 	 	   Q=NOD2SH(L)
 	 	   IF(Q==P)THEN
-	 	     IF(Q.LE.NUMELC0)THEN
+	 	     IF(Q<=NUMELC0)THEN
 	 	       DO J=1,4
                          NK=IXC(J+1,Q)
                          NL=IXC(MOD(J,4)+2,Q)

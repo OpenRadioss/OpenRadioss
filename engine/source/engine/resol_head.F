@@ -172,7 +172,7 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
 C   mis au debut de resol_head a cause de trace Back
-C      IF (NTHREAD.GT.1) PARALLEL_SECTION = 1
+C      IF (NTHREAD>1) PARALLEL_SECTION = 1
 C=======================================================================
       IOCLOSE = 0
 C-----------------------------------------------

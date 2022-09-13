@@ -67,7 +67,7 @@ C-----------------------------------------------
       INTEGER BUFF_I(4)
       my_real BUFF_R(5)      
 
-       IF (ISPMD.NE.0) THEN
+       IF (ISPMD/=0) THEN
          BUFF_I(1) = STATE_INIMAP_BUF(1)%NUM_CENTROIDS
          BUFF_I(2) = STATE_INIMAP_BUF(1)%NUM_POINTS
          BUFF_I(3) = STATE_INIMAP_BUF(1)%MLW

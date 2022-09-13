@@ -84,24 +84,24 @@ C     REAL
        IBID = 0
        BID = ZERO
 C-----------------------------------------------
-      IF(ISUB.EQ.1)THEN
+      IF(ISUB==1)THEN
 C-------------------------------
 C       DT PAR GROUPE D'ELEMENT
 C-------------------------------
-        IF(DT1.NE.0.0)THEN
-         IF(T0(1)+DTC(1).GT.TT + 1.2*DT1)THEN
+        IF(DT1/=0.0)THEN
+         IF(T0(1)+DTC(1)>TT + 1.2*DT1)THEN
 C
           IFLAG=MOD(NCYCLE,NCPRI)
-          IF(IFLAG.EQ.0.OR.TT.GE.THIS.OR.TT.GE.TDES.
-     +        OR.TT.GE.TPAT.OR.MDESS.NE.0.
-     +   OR.TT.GE.THIS1(1).OR.TT.GE.THIS1(2).
-     +   OR.TT.GE.THIS1(3).OR.TT.GE.THIS1(4).OR.TT.GE.THIS1(5).
-     +   OR.TT.GE.THIS1(6).OR.TT.GE.THIS1(7).OR.TT.GE.THIS1(8).
-     +   OR.TT.GE.THIS1(9).OR.NTH.NE.0.OR.NANIM.NE.0          .
-     +   OR.TT.GE.TABFIS(1).OR.TT.GE.TABFIS(2).
-     +   OR.TT.GE.TABFIS(3).OR.TT.GE.TABFIS(4).OR.TT.GE.TABFIS(5).
-     +   OR.TT.GE.TABFIS(6).OR.TT.GE.TABFIS(7).OR.TT.GE.TABFIS(8).
-     +   OR.TT.GE.TABFIS(10))THEN
+          IF(IFLAG==0.OR.TT>=THIS.OR.TT>=TDES.
+     +        OR.TT>=TPAT.OR.MDESS/=0.
+     +   OR.TT>=THIS1(1).OR.TT>=THIS1(2).
+     +   OR.TT>=THIS1(3).OR.TT>=THIS1(4).OR.TT>=THIS1(5).
+     +   OR.TT>=THIS1(6).OR.TT>=THIS1(7).OR.TT>=THIS1(8).
+     +   OR.TT>=THIS1(9).OR.NTH/=0.OR.NANIM/=0          .
+     +   OR.TT>=TABFIS(1).OR.TT>=TABFIS(2).
+     +   OR.TT>=TABFIS(3).OR.TT>=TABFIS(4).OR.TT>=TABFIS(5).
+     +   OR.TT>=TABFIS(6).OR.TT>=TABFIS(7).OR.TT>=TABFIS(8).
+     +   OR.TT>=TABFIS(10))THEN
             DO I=JFT,JLT
               MAT(I)=IXC(1,I)
             ENDDO
@@ -116,8 +116,8 @@ C
      9                  Y4  ,Z1   ,Z2   ,Z3  ,Z4   ,
      A                  IBID,IBID ,BID  ,ITASK)
           ENDIF
-          IF(IPARIT.NE.0)THEN
-           IF (IVECTOR.EQ.1) THEN
+          IF(IPARIT/=0)THEN
+           IF (IVECTOR==1) THEN
 #include "vectorize.inc"
             DO I=JFT,JLT
              FSKYV(IADC(1,I),1)=ZERO
@@ -206,33 +206,33 @@ C
 C
          ENDIF
         ENDIF
-      ELSEIF(ISUB.EQ.2)THEN
+      ELSEIF(ISUB==2)THEN
 C-------------------------
 C       DT PAR ELEMENT
 C-------------------------
-        IF(DT1.NE.0.0)THEN
+        IF(DT1/=0.0)THEN
           JFTN = MVSIZ
           JLTN = 0
           TTN = TT + 1.2*DT1
           DO I=JFT,JLT
-           IF(T0(I)+DTC(I).LE.TTN)THEN
+           IF(T0(I)+DTC(I)<=TTN)THEN
             JFTN = MIN(JFTN,I)
             JLTN = I
            ENDIF
           ENDDO
 C
           IFLAG=MOD(NCYCLE,NCPRI)
-          IF(IFLAG.EQ.0.OR.TT.GE.THIS.OR.TT.GE.TDES.OR.TT.GE.TPAT.
-     +   OR.MDESS.NE.0.OR.TT.GE.THIS1(1).OR.TT.GE.THIS1(2).
-     +   OR.TT.GE.THIS1(3).OR.TT.GE.THIS1(4).OR.TT.GE.THIS1(5).
-     +   OR.TT.GE.THIS1(6).OR.TT.GE.THIS1(7).OR.TT.GE.THIS1(8).
-     +   OR.TT.GE.THIS1(9).OR.NTH.NE.0.OR.NANIM.NE.0          .
-     +   OR.TT.GE.TABFIS(1).OR.TT.GE.TABFIS(2).
-     .   OR.TT.GE.TABFIS(3).OR.TT.GE.TABFIS(4).OR.TT.GE.TABFIS(5).
-     .   OR.TT.GE.TABFIS(6).OR.TT.GE.TABFIS(7).OR.TT.GE.TABFIS(8).
-     .   OR.TT.GE.TABFIS(10))THEN
+          IF(IFLAG==0.OR.TT>=THIS.OR.TT>=TDES.OR.TT>=TPAT.
+     +   OR.MDESS/=0.OR.TT>=THIS1(1).OR.TT>=THIS1(2).
+     +   OR.TT>=THIS1(3).OR.TT>=THIS1(4).OR.TT>=THIS1(5).
+     +   OR.TT>=THIS1(6).OR.TT>=THIS1(7).OR.TT>=THIS1(8).
+     +   OR.TT>=THIS1(9).OR.NTH/=0.OR.NANIM/=0          .
+     +   OR.TT>=TABFIS(1).OR.TT>=TABFIS(2).
+     .   OR.TT>=TABFIS(3).OR.TT>=TABFIS(4).OR.TT>=TABFIS(5).
+     .   OR.TT>=TABFIS(6).OR.TT>=TABFIS(7).OR.TT>=TABFIS(8).
+     .   OR.TT>=TABFIS(10))THEN
 C
-            IF(JLTN.LT.JFTN)THEN
+            IF(JLTN<JFTN)THEN
               DO I=JFT,JLT
                 MAT(I)=IXC(1,I)
               ENDDO
@@ -247,7 +247,7 @@ C
      9                  Y4  ,Z1   ,Z2   ,Z3  ,Z4   ,
      A                  IBID,IBID ,BID  ,ITASK)
             ELSE
-             IF(JFTN.GT.JFT)THEN
+             IF(JFTN>JFT)THEN
               DO I=JFT,JFTN-1
                 MAT(I)=IXC(1,I)
               ENDDO
@@ -263,7 +263,7 @@ C
      A                  IBID,IBID ,BID  ,ITASK)
              ENDIF
 C
-             IF(JLT .GT.JLTN)THEN
+             IF(JLT >JLTN)THEN
               DO I=JLTN+1,JLT
                 MAT(I)=IXC(1,I)
               ENDDO
@@ -284,7 +284,7 @@ C
 C
           JFT = JFTN
           JLT = JLTN
-          IF(JLT.LT.JFT) RETURN
+          IF(JLT<JFT) RETURN
         ENDIF
       ENDIF
 C
@@ -320,7 +320,7 @@ C
        SIGY(I) = EP30
       ENDDO
 C
-      IF(DT1.EQ.ZERO)THEN
+      IF(DT1==ZERO)THEN
         DO I=JFT,JLT
          IXCTMP2=IXC(2,I)
          IXCTMP3=IXC(3,I)
@@ -354,7 +354,7 @@ C
          DT1C(I) = ZERO
          DT2C(I) = EP06
         ENDDO
-      ELSEIF(ISUB.EQ.1)THEN
+      ELSEIF(ISUB==1)THEN
 C-------------------------------
 C       DT PAR GROUPE D'ELEMENT
 C-------------------------------
@@ -362,7 +362,7 @@ C-------------------------------
         DT2C(1) = ONEP1*DTC(1)
         NDT(1)  = NINT(DT1C(1) / DT1)
         T0(1)   = TT
-        IF(NDT(1).EQ.1)THEN
+        IF(NDT(1)==1)THEN
          DO I=JFT,JLT
           IXCTMP2=IXC(2,I)
           IXCTMP3=IXC(3,I)
@@ -476,13 +476,13 @@ C-------------------------------
           DR0(I,3,4) =  DR(3,IXCTMP5)
          ENDDO
         ENDIF
-      ELSEIF(ISUB.EQ.2)THEN
+      ELSEIF(ISUB==2)THEN
 C-------------------------
 C       DT PAR ELEMENT
 C-------------------------
         TTN = TT + SIX_OVER_5*DT1
         DO I=JFT,JLT
-         IF(T0(I)+DTC(I).LE.TTN)THEN
+         IF(T0(I)+DTC(I)<=TTN)THEN
           IXCTMP2=IXC(2,I)
           IXCTMP3=IXC(3,I)
           IXCTMP4=IXC(4,I)

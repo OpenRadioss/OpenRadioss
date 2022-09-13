@@ -63,7 +63,7 @@ C
 C
       DO I = 1, NUMELS10                                               
         DO J=1,6                                                      
-          IF(IXS10(J,I).NE.0)THEN                                   
+          IF(IXS10(J,I)/=0)THEN                                   
             IF (LSHSUB(IXS10(J,I) ) < 2)                             
      .          LSHSUB(IXS10(J,I)) = LSHSUB(IXS10(J,I))+2                
           ENDIF                                                       
@@ -72,7 +72,7 @@ C
 C
       DO I = 1, NUMELS20                                               
         DO J=1,12                      
-          IF(IXS20(J,I).NE.0)THEN                                   
+          IF(IXS20(J,I)/=0)THEN                                   
             IF (LSHSUB(IXS20(J,I)) < 2)                            
      .          LSHSUB(IXS20(J,I)) = LSHSUB(IXS20(J,I))+2               
           ENDIF                                                       
@@ -81,7 +81,7 @@ C
 C
       DO I = 1, NUMELS16                                               
         DO J=1,8                      
-          IF(IXS16(J,I).NE.0)THEN                                   
+          IF(IXS16(J,I)/=0)THEN                                   
             IF (LSHSUB(IXS16(J,I)) < 2)                            
      .          LSHSUB(IXS16(J,I)) = LSHSUB(IXS16(J,I))+2               
           ENDIF                                                       

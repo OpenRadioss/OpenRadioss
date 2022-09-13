@@ -55,7 +55,7 @@ C-----------------------------------------------
       INTEGER I, IE
       DO I=1,N
         IE=ANTN(M1,I)
-        IF(IE.EQ.IEXT)THEN
+        IF(IE==IEXT)THEN
           NINTRI=I
           RETURN
         ENDIF
@@ -113,7 +113,7 @@ C-----------------------
         K=1
         NOLD = INDEX(NLIST+1)
         DO I=1,NLIST
-          IF(NOLD.NE.INDEX(NLIST+I))K=K+1
+          IF(NOLD/=INDEX(NLIST+I))K=K+1
           LIST(K) = INDEX(NLIST+I)
           NOLD    = INDEX(NLIST+I)
         ENDDO
@@ -121,7 +121,7 @@ C-----------------------
 C-----------------------
 C TRI DE IX EN ORDRE CROISSANT si KK = 0
 C-----------------------
-        IF(KK.EQ.0)THEN
+        IF(KK==0)THEN
           DO I=1,NUMEL
             IX2(I) = IX(NIX,I)
           ENDDO
@@ -140,10 +140,10 @@ C-----------------------
         I=1
         J=1
         DO I=1,NEL
-          DO WHILE(LIST(I).GT.IX1(J).AND.J.LT.NUMEL)
+          DO WHILE(LIST(I)>IX1(J).AND.J<NUMEL)
             J=J+1
           ENDDO
-          IF(LIST(I).EQ.IX1(J))THEN
+          IF(LIST(I)==IX1(J))THEN
             LIST(I)=IX2(J)
           ELSE
              CALL ANCMSG(MSGID=70,
@@ -203,7 +203,7 @@ C-----------------------
 C-----------------------
 C TRI DE IX EN ORDRE CROISSANT si KK = 0
 C-----------------------
-        IF(KK.EQ.0)THEN
+        IF(KK==0)THEN
           DO I=1,NUMEL
             IX2(I) = IX(NIX,I)
           ENDDO
@@ -222,10 +222,10 @@ C-----------------------
         I=1
         J=1
         DO I=1,NLIST
-          DO WHILE(LIST(INDEXL(I)).GT.IX1(J).AND.J.LT.NUMEL)
+          DO WHILE(LIST(INDEXL(I))>IX1(J).AND.J<NUMEL)
             J=J+1
           ENDDO
-          IF(LIST(INDEXL(I)).EQ.IX1(J))THEN
+          IF(LIST(INDEXL(I))==IX1(J))THEN
             LIST(INDEXL(I))=IX2(J)
           ELSEIF(LIST(INDEXL(I))/=0)THEN
 C            WRITE(IOUT,*)MESS
@@ -339,18 +339,18 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s 
 C-----------------------------------------------          
       NGR2USR=0
-      IF(IU.EQ.0)THEN
+      IF(IU==0)THEN
         NGR2USR=0
         RETURN
       ENDIF
       DO I=1,NGR
         IE=IGR(I)
-        IF(IE.EQ.IU)THEN
+        IF(IE==IU)THEN
           NGR2USR=I
           RETURN
         ENDIF
       ENDDO
-      IF(ISKIP_NGR2USR_ERROR.EQ.0)CALL FREERR(3)
+      IF(ISKIP_NGR2USR_ERROR==0)CALL FREERR(3)
       ISKIP_NGR2USR_ERROR = 0
       RETURN
       END
@@ -758,23 +758,23 @@ C-----------------------------------------------
       INTEGER I, J, JINF, JSUP
 C-----------------------
 
-      IF (LAST.EQ.0) THEN
+      IF (LAST==0) THEN
         USER2SYS=0
         RETURN
       END IF
       JINF=CUR
       JSUP=LAST
       J=MIN(CUR,(LAST+CUR)/2)
-   10 IF(JSUP.LE.JINF.AND.(IU-IXX_S(J)).NE.0) THEN
+   10 IF(JSUP<=JINF.AND.(IU-IXX_S(J))/=0) THEN
 C     >CAS ELEM non trouve
         USER2SYS=0
         RETURN
       ENDIF
-      IF((IU-IXX_S(J)).EQ.0)THEN
+      IF((IU-IXX_S(J))==0)THEN
 C     >CAS IU=TABM FIN DE LA RECHERCHE
          USER2SYS=J
          RETURN
-      ELSE IF (IU-IXX_S(J).LT.0) THEN
+      ELSE IF (IU-IXX_S(J)<0) THEN
 C     >CAS IU<TABM
          JSUP=J-1
       ELSE
@@ -841,7 +841,7 @@ C-----------------------
         K=1
         NOLD = INDEX(NLIST+1)
         DO I=1,NLIST
-          IF(NOLD.NE.INDEX(NLIST+I))K=K+1
+          IF(NOLD/=INDEX(NLIST+I))K=K+1
           LIST(K) = INDEX(NLIST+I)
           NOLD    = INDEX(NLIST+I)
         ENDDO
@@ -904,7 +904,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       DO I=1,NGR
         IE=IGR(I)%ID
-        IF(IE.EQ.IEXT)THEN
+        IF(IE==IEXT)THEN
           NINTRIGR=I
           RETURN
         ENDIF

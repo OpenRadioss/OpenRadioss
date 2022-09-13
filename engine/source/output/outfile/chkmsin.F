@@ -51,7 +51,7 @@ C-----------------------------------------------
 C
 C     NEGMAS=0
       DO N=NODFT,NODLT
-        IF(MS(N).LT.ZERO)THEN
+        IF(MS(N)<ZERO)THEN
 #include "lockon.inc"
           NEGMAS=NEGMAS+1
           WRITE(ISTDO,*) ' NEGATIVE MASS ON NODE ID=',ITAB(N)
@@ -59,9 +59,9 @@ C     NEGMAS=0
 #include "lockoff.inc"
         ENDIF
       ENDDO
-      IF(IRODDL.NE.0)THEN
+      IF(IRODDL/=0)THEN
         DO N=NODFT,NODLT
-          IF(IN(N).LT.ZERO)THEN
+          IF(IN(N)<ZERO)THEN
 #include "lockon.inc"
             NEGMAS=NEGMAS+1
             WRITE(ISTDO,*) ' NEGATIVE INERTIA ON NODE ID=',ITAB(N)

@@ -141,22 +141,22 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
-          IF(SUB_TRUSS(I) .NE. 0)THEN
-            IF(IPARTT(I) .NE. 0) IPARTT(I) = IPARTT(I) + OFF_PART(SUB_TRUSS(I)) 
-            IF(IXT(NIXT,I) .NE. 0) IXT(NIXT,I) = IXT(NIXT,I) + OFF_EL(SUB_TRUSS(I))
+          IF(SUB_TRUSS(I) /= 0)THEN
+            IF(IPARTT(I) /= 0) IPARTT(I) = IPARTT(I) + OFF_PART(SUB_TRUSS(I)) 
+            IF(IXT(NIXT,I) /= 0) IXT(NIXT,I) = IXT(NIXT,I) + OFF_EL(SUB_TRUSS(I))
             DO J=2,3
-              IF(IXT(J,I) .NE. 0) IXT(J,I) = IXT(J,I) + OFF_NOD(SUB_TRUSS(I))
+              IF(IXT(J,I) /= 0) IXT(J,I) = IXT(J,I) + OFF_NOD(SUB_TRUSS(I))
             ENDDO
           ENDIF
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
-          IF( IPART(4,INDEX_PART) .NE. IPARTT(I) )THEN  
+          IF( IPART(4,INDEX_PART) /= IPARTT(I) )THEN  
             DO J=1,NPART                            
-              IF(IPART(4,J).EQ. IPARTT(I) ) INDEX_PART = J
+              IF(IPART(4,J)== IPARTT(I) ) INDEX_PART = J
             ENDDO  
           ENDIF
-          IF( IPART(4,INDEX_PART) .NE. IPARTT(I) ) THEN
+          IF( IPART(4,INDEX_PART) /= IPARTT(I) ) THEN
             CALL ANCMSG(MSGID=402,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_1,
@@ -172,7 +172,7 @@ C--------------------------------------------------
           IXT(1,I)=MT
           IXT(4,I)=IPID 
 
-          IF (IXT(5,I).GT.ID_LIMIT) THEN
+          IF (IXT(5,I)>ID_LIMIT) THEN
             CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I1=IXT(5,I),C1=LINE,C2='/TRUSS')
           ENDIF
@@ -210,7 +210,7 @@ C
          WRITE (IOUT,'(6(I10,1X))') I,IXT(5,I),MID,PID,
      .                    ITAB(IXT(2,I)),ITAB(IXT(3,I))
       ENDDO
-      IF(I2.EQ.NUMELT)GOTO 200
+      IF(I2==NUMELT)GOTO 200
       I1=I1+50
       I2=MIN0(I2+50,NUMELT)
       GOTO 90

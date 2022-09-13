@@ -58,7 +58,7 @@ C--------------------------------------------------
         lFOUND = .FALSE.
         DO NG=1,NGROUP
          ITY=IPARG(5,NG)
-         IF(ITY.NE.2) CYCLE !NG
+         IF(ITY/=2) CYCLE !NG
          NFT=IPARG(3,NG)
          NEL=IPARG(2,NG)
          DO I=1,NEL
@@ -84,12 +84,12 @@ C---------------------------------
         N1 = IXQ(I+1,NE1)
         DO J=1,4
           N2 = IXQ(J+1,NE2)
-          IF(N1.EQ.N2)THEN
-            IF(NFOUND.EQ.0)THEN
+          IF(N1==N2)THEN
+            IF(NFOUND==0)THEN
               NS1 = N1
               NFOUND = 1
               EXIT !J
-            ELSEIF(NFOUND.EQ.1)THEN
+            ELSEIF(NFOUND==1)THEN
               NS2 = N1
               GOTO 160
             ENDIF

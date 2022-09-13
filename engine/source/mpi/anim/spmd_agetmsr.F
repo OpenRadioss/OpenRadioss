@@ -68,9 +68,9 @@ C-----------------------------------------------
        DATA MSGOFF/7032/
 
        P = FR_WALL(NSPMD+2)
-       IF (P.EQ.1.OR.P.EQ.0) THEN
-         IF (ISPMD.EQ.0) THEN
-           IF (MSR.EQ.0) THEN
+       IF (P==1.OR.P==0) THEN
+         IF (ISPMD==0) THEN
+           IF (MSR==0) THEN
               XWL = RWL(4) 
               YWL = RWL(5)
               ZWL = RWL(6)
@@ -81,8 +81,8 @@ C-----------------------------------------------
            END IF
          END IF
        ELSE
-         IF (P.EQ.ISPMD+1) THEN
-           IF (MSR.EQ.0) THEN
+         IF (P==ISPMD+1) THEN
+           IF (MSR==0) THEN
              XWL = RWL(4) 
              YWL = RWL(5)
              ZWL = RWL(6)
@@ -96,7 +96,7 @@ C-----------------------------------------------
            CALL MPI_SEND(XYZWL,3,REAL,IT_SPMD(1),MSGTYP,
      .     MPI_COMM_WORLD,ierror)
          END IF
-         IF (ISPMD.EQ.0) THEN
+         IF (ISPMD==0) THEN
             MSGTYP = MSGOFF 
             CALL MPI_RECV(XYZWL,3,REAL,IT_SPMD(P),MSGTYP,
      .              MPI_COMM_WORLD,STATUS,ierror)

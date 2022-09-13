@@ -446,10 +446,10 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      ID OFFSETS FOR //SUBMODEL 
 C--------------------------------------------------
-        IF(SUB_ID .NE. 0 .AND. UID .NE. 0)THEN
+        IF(SUB_ID /= 0 .AND. UID /= 0)THEN
           UID = UID + LSUBMODEL(SUB_ID)%OFF_DEF
-        ELSEIF(SUB_ID .NE. 0 )THEN
-          IF(LSUBMODEL(SUB_ID)%UID .NE. 0)THEN
+        ELSEIF(SUB_ID /= 0 )THEN
+          IF(LSUBMODEL(SUB_ID)%UID /= 0)THEN
             UID = LSUBMODEL(SUB_ID)%UID
           ENDIF
         ENDIF
@@ -469,9 +469,9 @@ C--------------------------------------------------
             EXIT                              
           ENDIF        
         ENDDO
-        IF (FAC_M  .NE. ZERO) FAC = FAC * (FAC_M ** MASS_DIM  )
-        IF (FAC_L  .NE. ZERO) FAC = FAC * (FAC_L ** LENGTH_DIM)
-        IF (FAC_T  .NE. ZERO) FAC = FAC * (FAC_T ** TIME_DIM  )     
+        IF (FAC_M  /= ZERO) FAC = FAC * (FAC_M ** MASS_DIM  )
+        IF (FAC_L  /= ZERO) FAC = FAC * (FAC_L ** LENGTH_DIM)
+        IF (FAC_T  /= ZERO) FAC = FAC * (FAC_T ** TIME_DIM  )     
 C-------------------------------------------------- 
         RVAL  = DVAL *  FAC
 c        print *,'real value=',NAME(1:LEN_TRIM(NAME)),RVAL,LENGTH_DIM,MASS_DIM,TIME_DIM

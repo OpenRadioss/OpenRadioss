@@ -111,8 +111,8 @@ C--------------------------------------------------------
             IF(ITAG(N1) == 0.OR.ITAG(N2) == 0.OR.
      +         ITAG(N3) == 0.OR.ITAG(N4) == 0) THEN ! IF ALL SURROUNDED ELEMENTS ARE OFF
                IB(8,NL) = 1
-            ELSEIF(ITAG(NUMNOD+N1).GE.1.AND.ITAG(NUMNOD+N2).GE.1.AND.
-     +             ITAG(NUMNOD+N3).GE.1.AND.ITAG(NUMNOD+N4).GE.1) THEN ! IF ALL NODES BELONGING TO 1 ACTIF ELEMENT
+            ELSEIF(ITAG(NUMNOD+N1)>=1.AND.ITAG(NUMNOD+N2)>=1.AND.
+     +             ITAG(NUMNOD+N3)>=1.AND.ITAG(NUMNOD+N4)>=1) THEN ! IF ALL NODES BELONGING TO 1 ACTIF ELEMENT
                NIND = NIND + 1
                NINDL(1,NIND) = NL
             ENDIF
@@ -141,8 +141,8 @@ C
               IF(ITAG(N1) == 0.OR.ITAG(N2) == 0.OR.
      +           ITAG(N3) == 0.OR.ITAG(N4) == 0) THEN ! IF ALL SURROUNDED ELEMENTS ARE OFF
                  LOADP_TAGDEL(NUMPRESLOAD) = 1
-              ELSEIF(ITAG(NUMNOD+N1).GE.1.AND.ITAG(NUMNOD+N2).GE.1.AND.
-     +             ITAG(NUMNOD+N3).GE.1.AND.ITAG(NUMNOD+N4).GE.1) THEN ! IF ALL NODES BELONGING TO 1 ACTIF ELEMENT
+              ELSEIF(ITAG(NUMNOD+N1)>=1.AND.ITAG(NUMNOD+N2)>=1.AND.
+     +             ITAG(NUMNOD+N3)>=1.AND.ITAG(NUMNOD+N4)>=1) THEN ! IF ALL NODES BELONGING TO 1 ACTIF ELEMENT
                  NIND = NIND + 1
                  NINDL(1,NIND) = IAD+4*(N-1)
                  NINDL(2,NIND) = NUMPRESLOAD
@@ -176,42 +176,42 @@ C
            ITAGL(N2) = 0
            ITAGL(N3) = 0
            ITAGL(N4) = 0
-           IF(II.LE.OFQ) THEN ! Solid Actif
+           IF(II<=OFQ) THEN ! Solid Actif
              DO K = 2, 9
                IX = IXS(K,II)
                ITAGL(IX) = 1
              END DO
-           ELSEIF(II > OFQ.AND.II.LE.OFC) THEN ! Quad actif
+           ELSEIF(II > OFQ.AND.II<=OFC) THEN ! Quad actif
              II = II - OFQ
              DO K=2,5
                IX = IXQ(K,II)
                ITAGL(IX)=1
              END DO
-           ELSEIF(II > OFC.AND.II.LE.OFT) THEN ! shell actif
+           ELSEIF(II > OFC.AND.II<=OFT) THEN ! shell actif
              II = II - OFC
              DO K=2,5
                IX = IXC(K,II)
                ITAGL(IX)=1
              END DO
-           ELSEIF(II > OFTG.AND.II.LE.OFUR)THEN ! triangle actif
+           ELSEIF(II > OFTG.AND.II<=OFUR)THEN ! triangle actif
              II = II - OFTG
              DO K=2,4
                IX = IXTG(K,II)
                ITAGL(IX) = 1
              END DO
-           ELSEIF(II > OFT.AND.II.LE.OFP)THEN ! truss actif
+           ELSEIF(II > OFT.AND.II<=OFP)THEN ! truss actif
              II = II - OFT
              DO K=2,3
                IX = IXT(K,II)
                ITAGL(IX) = 1
              ENDDO
-           ELSEIF(II > OFP.AND.II.LE.OFR)THEN ! Beam actif
+           ELSEIF(II > OFP.AND.II<=OFR)THEN ! Beam actif
              II = II - OFP
              DO K=2,3
                IX = IXP(K,II)
                ITAGL(IX) = 1
              ENDDO
-           ELSEIF(II > OFR.AND.II.LE.OFTG)THEN ! Spring actif
+           ELSEIF(II > OFR.AND.II<=OFTG)THEN ! Spring actif
              II = II - OFR
              DO K=2,3
                IX = IXR(K,II)

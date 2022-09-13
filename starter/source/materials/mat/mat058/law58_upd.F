@@ -79,9 +79,9 @@ C     SENSOR NUMBERING CHECK
 C----------------------------
       IOK = 0
       ISENS = UPARAM(25)
-      IF(ISENS.NE.0) THEN
+      IF(ISENS/=0) THEN
         DO I=1,NSENSOR
-          IF(ISENS.EQ.LSENSOR(1,I)) IOK = 1
+          IF(ISENS==LSENSOR(1,I)) IOK = 1
         ENDDO
         IF (IOK == 0)  
      .    CALL ANCMSG(MSGID=1240,ANMODE=ANINFO,MSGTYPE=MSGWARNING,

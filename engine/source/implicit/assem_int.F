@@ -135,7 +135,7 @@ C-----------------------------------------------
 C
        NINDEX=0
        DO I=1,NEL
-        IF (NS(I).GT.0) THEN
+        IF (NS(I)>0) THEN
          NINDEX=NINDEX+1
          INDEX(NINDEX)=I
         ELSE
@@ -160,7 +160,7 @@ c------------------------------------------------------------------[0 Dm]-
      .             KI11(1,3,I)+KJ11(1,3,I)+KK11(1,3,I)+KL11(1,3,I)
 	 DFI(3,NN)=DFI(3,NN) +
      .             KI11(2,3,I)+KJ11(2,3,I)+KK11(2,3,I)+KL11(2,3,I)
-         IF (INTP_D.GT.0) THEN
+         IF (INTP_D>0) THEN
 C-------NS,N1----
           IDI = IDDL_SI(NN)
           IDJ = IDDL(N1(I))
@@ -178,7 +178,7 @@ C-------NS,N1----
         ENDIF 
         ENDIF
        ENDDO
-       IF (NINDEX.LT.NEL) THEN
+       IF (NINDEX<NEL) THEN
         DO I=1,NINDEX
          N1(I)= N1(INDEX(I))
          N2(I)= N2(INDEX(I))
@@ -317,7 +317,7 @@ C-----------------------------------------------
 C
        NINDEX=0
        DO I=1,NEL
-        IF (NS(I).LE.NRTS) THEN
+        IF (NS(I)<=NRTS) THEN
          NINDEX=NINDEX+1
          INDEX(NINDEX)=I
         ELSE
@@ -344,7 +344,7 @@ c------------------------------------------------------------------[0 Dm]-
 	 DFI(1,NN2)=DFI(1,NN2) +K2I11(1,2,I)+K2J11(1,2,I)
 	 DFI(2,NN2)=DFI(2,NN2) +K2I11(1,3,I)+K2J11(1,3,I)
 	 DFI(3,NN2)=DFI(3,NN2) +K2I11(2,3,I)+K2J11(2,3,I)
-         IF (INTP_D.GT.0) THEN
+         IF (INTP_D>0) THEN
           IDI = IDDL_SI(NN1)
           IDJ = IDDL(M1(I))
           CALL ASSFR_KIJ(IDI    ,IDJ   ,IAD_SI  ,JDI_SI,LT_SI  ,
@@ -361,7 +361,7 @@ c------------------------------------------------------------------[0 Dm]-
         ENDIF 
         ENDIF
        ENDDO
-       IF (NINDEX.LT.NEL) THEN
+       IF (NINDEX<NEL) THEN
         DO I=1,NINDEX
          N1(I)= N1(INDEX(I))
          N2(I)= N2(INDEX(I))

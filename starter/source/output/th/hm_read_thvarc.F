@@ -117,8 +117,8 @@ c
                 TAG(I)=1                             
                 OK=1                                 
 C---------Multidomaines : pour les subsets, on stocke des infos en plus dans le th pour merge---------                      
-	          IF ((NSUBDOM.GT.0).AND.(SUB_FLAG.EQ.1002)) THEN                                        
-                    IF (I.GE.9) THEN                                                                     
+	          IF ((NSUBDOM>0).AND.(SUB_FLAG==1002)) THEN                                        
+                    IF (I>=9) THEN                                                                     
                       TAG(3) = 1                                                                         
                       TAG(4) = 1                                                                         
                       TAG(5) = 1                                                                         
@@ -127,7 +127,7 @@ C---------Multidomaines : pour les subsets, on stocke des infos en plus dans le 
                       TAG(10) = 1                                                                        
                       TAG(11) = 1                                                                        
                     ENDIF                                                                                
-                    IF (I.EQ.23) THEN                                                                    
+                    IF (I==23) THEN                                                                    
                       DO J=12,20                                                                         
                         TAG(J)=1                                                                         
                       ENDDO                                                                              
@@ -139,7 +139,7 @@ C---------  --------------------------------------------------------------------
             ENDDO      
           ENDIF                         
                                               
-          IF(OK.EQ.0)THEN                     
+          IF(OK==0)THEN                     
              CALL ANCMSG(MSGID=260,           
      .                   MSGTYPE=MSGERROR,    
      .                   ANMODE=ANINFO,       

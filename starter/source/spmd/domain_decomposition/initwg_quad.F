@@ -85,12 +85,12 @@ C-----------------------------------------------
         MID= IXQ(1,I)
         PID= IXQ(6,I)
         MLN = NINT(PM(19,ABS(MID)))
-c        IF(MID.LT.0)THEN
-c          IF(MLN.EQ.6.AND.JPOR.NE.2)MLN=17
-c          IF(MLN.EQ.46)MLN=47
+c        IF(MID<0)THEN
+c          IF(MLN==6.AND.JPOR/=2)MLN=17
+c          IF(MLN==46)MLN=47
 c        ENDIF
 C   test elem delete
-        IF (WD(I+OFF).EQ.0.)
+        IF (WD(I+OFF)==0.)
      .    WD(I+OFF) = WTYPE(2)
       ENDDO
     

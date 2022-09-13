@@ -101,7 +101,7 @@ C-----------------------------------------------
 C-----------------------------------------------
        FRIC =ONE
        FAC10 = TEN
-      IF (IMP_INT7.EQ.3) THEN
+      IF (IMP_INT7==3) THEN
        DO I=1,JLT
         D1 = SQRT(P1(I))
         P1(I) = FOURTH*GAPV(I) 
@@ -127,10 +127,10 @@ C
         D4 = SQRT(P4(I))
         P4(I) = MAX(ZERO, GAPV(I) - D4)
        ENDDO
-      ENDIF !(IMP_INT7.EQ.3) 
+      ENDIF !(IMP_INT7==3) 
 C
        DO I=1,JLT
-        IF(IX3(I).NE.IX4(I))THEN
+        IF(IX3(I)/=IX4(I))THEN
          PENE(I) = MAX(P1(I),P2(I),P3(I),P4(I))
 C
          LA1 = ONE - LB1(I) - LC1(I)
@@ -171,7 +171,7 @@ C        ENDDO
 C
       DO I=1,JLT
 C       correction hourglass
-        IF(IX3(I).NE.IX4(I))THEN
+        IF(IX3(I)/=IX4(I))THEN
           H0 = -FOURTH*(H1(I) - H2(I) + H3(I) - H4(I))
           H0 = MIN(H0,H2(I),H4(I))
           H0 = MAX(H0,-H1(I),-H3(I))
@@ -184,7 +184,7 @@ C       correction hourglass
 C-------------------------------------------
       DO I=1,JLT
        II = INDEX(I)
-       IF(CAND_F(1,II).EQ.ZERO)THEN
+       IF(CAND_F(1,II)==ZERO)THEN
 C------------------------------------
 C       1ER IMPACT ou PAS d'IMPACT
 C------------------------------------
@@ -242,7 +242,7 @@ C
       ENDDO
 C
       DO I=1,JLT
-      IF(PENE(I).EQ.ZERO.AND.CAND_F(1,INDEX(I)).EQ.ZERO)THEN
+      IF(PENE(I)==ZERO.AND.CAND_F(1,INDEX(I))==ZERO)THEN
 C------------------------------------
 C       PAS ENCORE D'IMPACT OU REBOND
 C------------------------------------
@@ -258,8 +258,8 @@ C
       ENDDO
 C
       DO 100 I=1,JLT
-      IF(ITIED.EQ.0)THEN
-          IF(CAND_F(1,INDEX(I))*FNI(I).LT.ZERO)THEN
+      IF(ITIED==0)THEN
+          IF(CAND_F(1,INDEX(I))*FNI(I)<ZERO)THEN
 C------------------------------------
 C           REBOND
 C------------------------------------
@@ -280,7 +280,7 @@ C
 C---------------------------------
 C    ----sans frottement d'abord--- 
       DO I=1,JLT
-        IF (ABS(VT1(I)).GT.ZERO.OR.ABS(VT2(I)).GT.ZERO) THEN
+        IF (ABS(VT1(I))>ZERO.OR.ABS(VT2(I))>ZERO) THEN
          Q(1,1,I)=T1X(I)
          Q(1,2,I)=T1Y(I)
          Q(1,3,I)=T1Z(I)
@@ -295,17 +295,17 @@ C    ----sans frottement d'abord---
          FACT(I)=ZERO
         ENDIF
       ENDDO
-      IF (SCALK.LT.0) THEN
+      IF (SCALK<0) THEN
        ISF=1
       ELSE
        ISF=0
       ENDIF
       FACF=FAC10*ABS(SCALK)
-      IF (ISF.EQ.1) THEN
+      IF (ISF==1) THEN
        DO I=1,JLT
-        IF (VN(I).GT.ZERO) THEN
+        IF (VN(I)>ZERO) THEN
          FAC=STIF(I)*FACF
-        ELSEIF (VN(I).LT.ZERO) THEN
+        ELSEIF (VN(I)<ZERO) THEN
          FAC=STIF(I)/FACF
         ELSE
          FAC=STIF(I)
@@ -362,7 +362,7 @@ C    ----avec frottement ---
        DO J=1,3 
         DO K=J,3 
          DO I=1,JLT
-          IF (FACT(I).GT.ZERO) THEN
+          IF (FACT(I)>ZERO) THEN
            Q1 =Q(1,J,I)*Q(1,K,I)
            Q2 =Q(2,J,I)*Q(2,K,I)
            FAC=FACT(I)*(Q1+Q2)
@@ -403,10 +403,10 @@ C
        DO I=1,JLT
         OFF(I)=ONE
        ENDDO
-       IF (IMACH.EQ.3.AND.NSPMD.GT.1) THEN
-       IF ((INTP_D).GT.0) THEN
+       IF (IMACH==3.AND.NSPMD>1) THEN
+       IF ((INTP_D)>0) THEN
         DO I=1,JLT
-         IF(NSVG(I).LT.0) THEN
+         IF(NSVG(I)<0) THEN
 	  NN=-NSVG(I)
 	  NS=IND_INT(NIN)%P(NN)
 C---------pour diag_ss---
@@ -421,7 +421,7 @@ C---------pour diag_ss---
        ELSE
         JLTF = 0
         DO I=1,JLT
-         IF(NSVG(I).LT.0) THEN
+         IF(NSVG(I)<0) THEN
 	  NN=-NSVG(I)
           JLTF = JLTF + 1
 	  NE=SHF_INT(NIN) + JLTF +LREM
@@ -535,17 +535,17 @@ C-------------------------------------------
         DTI1(I) = T1X(I)*DXI(I) + T1Y(I)*DYI(I) + T1Z(I)*DZI(I)
         DTI2(I) = T2X(I)*DXI(I) + T2Y(I)*DYI(I) + T2Z(I)*DZI(I)
       ENDDO
-      IF (SCALK.LT.0) THEN
+      IF (SCALK<0) THEN
        ISF=1
       ELSE
        ISF=0
       ENDIF
       FACF=FAC10*ABS(SCALK)
-      IF (ISF.EQ.1) THEN
+      IF (ISF==1) THEN
        DO I=1,JLT
-        IF (VN(I).GT.ZERO) THEN
+        IF (VN(I)>ZERO) THEN
          FACN(I)=STIF(I)*FACF
-        ELSEIF (VN(I).LT.ZERO) THEN
+        ELSEIF (VN(I)<ZERO) THEN
          FACN(I)=STIF(I)/FACF
         ELSE
          FACN(I)=STIF(I)
@@ -700,7 +700,7 @@ C
         D3 = MAX(ZERO, GAP2 - P3(I))
         D4 = MAX(ZERO, GAP2 - P4(I))
         PENE2 = MAX(D1,D2,D3,D4)
-        IF (PENE2.LE.ZERO) STIF(I) = ZERO
+        IF (PENE2<=ZERO) STIF(I) = ZERO
        ENDDO
 C--------------------------------------------------------
 C  CAS DES PAQUETS MIXTES
@@ -720,7 +720,7 @@ C
        ENDDO
 C
        DO I=1,JLT
-        IF(IX3(I).NE.IX4(I))THEN
+        IF(IX3(I)/=IX4(I))THEN
          PENE(I) = MAX(P1(I),P2(I),P3(I),P4(I))
 C
          LA1 = ONE - LB1(I) - LC1(I)
@@ -754,7 +754,7 @@ C
 C      
       DO I=1,JLT
 C       correction hourglass
-        IF(IX3(I).NE.IX4(I))THEN
+        IF(IX3(I)/=IX4(I))THEN
           H0 = -FOURTH*(H1(I) - H2(I) + H3(I) - H4(I))
           H0 = MIN(H0,H2(I),H4(I))
           H0 = MAX(H0,-H1(I),-H3(I))
@@ -776,7 +776,7 @@ C
 C       
       DO I=1,JLT
        II = INDEX(I)
-       IF(CAND_F(1,II).EQ.ZERO)THEN
+       IF(CAND_F(1,II)==ZERO)THEN
 C------------------------------------
 C       1ER IMPACT ou PAS d'IMPACT
 C------------------------------------
@@ -826,7 +826,7 @@ C
        ENDDO
 C
       DO I=1,JLT
-       IF(PENE(I).EQ.ZERO.AND.CAND_F(1,INDEX(I)).EQ.ZERO)THEN
+       IF(PENE(I)==ZERO.AND.CAND_F(1,INDEX(I))==ZERO)THEN
 C------------------------------------
 C       PAS ENCORE D'IMPACT OU REBOND
 C------------------------------------
@@ -842,8 +842,8 @@ C
       ENDDO
 C
       DO 100 I=1,JLT
-      IF(ITIED.EQ.0)THEN
-          IF(CAND_F(1,INDEX(I))*FNI(I).LT.ZERO)THEN
+      IF(ITIED==0)THEN
+          IF(CAND_F(1,INDEX(I))*FNI(I)<ZERO)THEN
 C------------------------------------
 C           REBOND
 C------------------------------------
@@ -890,7 +890,7 @@ C--------main part-------
         A(3,IX4(I))=A(3,IX4(I))+FZ*H4(I)
        ENDDO
 C--------secnd part-------
-      IF(IMACH.NE.3) THEN
+      IF(IMACH/=3) THEN
         DO I=1,JLT
           IG=NSVG(I)
           A(1,IG)=A(1,IG)-FXI(I)
@@ -900,7 +900,7 @@ C--------secnd part-------
        ELSE 
         DO I=1,JLT
           IG=NSVG(I)
-          IF(IG.GT.0)THEN
+          IF(IG>0)THEN
            A(1,IG)=A(1,IG)-FXI(I)
            A(2,IG)=A(2,IG)-FYI(I)
            A(3,IG)=A(3,IG)-FZI(I)

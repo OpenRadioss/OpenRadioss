@@ -97,7 +97,7 @@ C               POUR ISIGI = 5 OU -5
 C     CHANGEMENT DE REPERE DE FZERO POUR TT=DT1
 C          REPERE GLOBAL ---> REPERE LOCAL
 C-----------------------------------------------
-      IF(IABS(ISIGI).EQ.5.AND.NCYCLE.EQ.1.AND.IRUN.EQ.1) THEN
+      IF(IABS(ISIGI)==5.AND.NCYCLE==1.AND.IRUN==1) THEN
         DO I=JFT,JLT
           DO J=1,4
             TEMP1=FZERO(1,J,I)
@@ -117,11 +117,11 @@ C               POUR ISIGI = 5 OU -5
 C     PRISE EN COMPTE DES FORCES D EQUILIBRAGE
 C      DANS L EVALUATION DES EFFORTS INTERNES
 C-----------------------------------------------
-      IF((IABS(ISIGI).EQ.5.AND.NCYCLE.GE.1.AND.IRUN.EQ.1).OR.
-     .   (IABS(ISIGI).EQ.5.AND.IRUN.GT.1)) THEN
+      IF((IABS(ISIGI)==5.AND.NCYCLE>=1.AND.IRUN==1).OR.
+     .   (IABS(ISIGI)==5.AND.IRUN>1)) THEN
        IFINI = 1
 C
-       IF(IVECTOR.EQ.1)THEN
+       IF(IVECTOR==1)THEN
        CALL CZPROJV(
      1            JFT    ,JLT    ,VQN    ,VQ     ,VF    ,
      2            VM     ,PLAT   ,
@@ -145,13 +145,13 @@ C
      8            Z1     ,COREL  ,DI     ,DB     ,IFINI ,
      9            IDRIL  ,DIZ    ,VMZ    )
 C
-       END IF !IF(IVECTOR.EQ.1)THEN
+       END IF !IF(IVECTOR==1)THEN
       ENDIF
 C
-      IF(IABS(ISIGI).NE.5.OR.TT.EQ.0) THEN
+      IF(IABS(ISIGI)/=5.OR.TT==0) THEN
 
        IFINI = 0
-       IF(IVECTOR.EQ.1)THEN
+       IF(IVECTOR==1)THEN
        CALL CZPROJV(
      1            JFT    ,JLT    ,VQN    ,VQ     ,VF    ,
      2            VM     ,PLAT   ,
@@ -175,7 +175,7 @@ C
      8            Z1     ,COREL  ,DI     ,DB     ,IFINI ,
      9            IDRIL  ,DIZ    ,VMZ    )
 C
-       END IF !IF(IVECTOR.EQ.1)THEN
+       END IF !IF(IVECTOR==1)THEN
       ENDIF
 C
       RETURN
@@ -422,7 +422,7 @@ C        I=3
          F34(K)= VQ(K,3,1)*FL(1,4)+VQ(K,3,2)*FL(2,4)+VQ(K,3,3)*FL(3,4)
          M34(K)= VQ(K,3,1)*ML(1,4)+VQ(K,3,2)*ML(2,4)
 C         
-         IF (IDRIL.GT.0) THEN
+         IF (IDRIL>0) THEN
           M11(K)= M11(K)+ VQ(K,1,3)*VMZ(K,1)
           M21(K)= M21(K)+ VQ(K,2,3)*VMZ(K,1)
           M31(K)= M31(K)+ VQ(K,3,3)*VMZ(K,1)
@@ -441,7 +441,7 @@ C
          END IF
 C
       ELSE
-       IF (IMPL_S.GT.0.AND.IKPROJ.LE.0) THEN
+       IF (IMPL_S>0.AND.IKPROJ<=0) THEN
 C-------------------------------------
 C     DRILLING RE-PROJECTION ONLY
 C-------------------------------------
@@ -475,7 +475,7 @@ C        J=4
      1                VQN(K,1,4)*VQN(K,2,4) *ML(1,4)
          MM(3,4)=    -VQN(K,1,4)*VQN(K,3,4) *ML(1,4)-
      1                VQN(K,2,4)*VQN(K,3,4) *ML(2,4)
-         IF (IDRIL.GT.0) THEN
+         IF (IDRIL>0) THEN
           DO J=1,4
            MM(1,J)=MM(1,J)+ VQN(K,1,J)*VMZ(K,J)
            MM(2,J)=MM(2,J)+ VQN(K,2,J)*VMZ(K,J)
@@ -528,12 +528,12 @@ C
           ALD(4) = AD(4)+VQN(K,1,4)*DBAD(1)+VQN(K,2,4)*DBAD(2)
      1            +VQN(K,3,4)*DBAD(3)
      2            -DB(K,1,4)*AR(1)-DB(K,2,4)*AR(2)-DB(K,3,4)*AR(3)
-         IF (IDRIL.GT.0) THEN
+         IF (IDRIL>0) THEN
           ARZ = VMZ(K,1)+VMZ(K,2)+VMZ(K,3)+VMZ(K,4)
           ALR(1) =ALR(1)+DIZ(K,1)*ARZ
           ALR(2) =ALR(2)+DIZ(K,2)*ARZ
           ALR(3) =ALR(3)+DIZ(K,3)*ARZ
-         END IF !(IDRIL.GT.0) THEN
+         END IF !(IDRIL>0) THEN
 C
           C1 =Z1(K)*ALR(2)
           FL(1,1)= FL(1,1)-C1+CORELV(K,2,1)*ALR(3)
@@ -554,13 +554,13 @@ C
           MM(3,J)=        -ALR(3)-VQN(K,3,J)*ALD(J)
          ENDDO
 C
-         IF (IDRIL.GT.0) THEN
+         IF (IDRIL>0) THEN
           DO J=1,4
            MM(3,J)= MM(3,J) + VMZ(K,J)
           ENDDO
-         END IF !(IDRIL.GT.0) THEN
+         END IF !(IDRIL>0) THEN
 
-       END IF !((IMPL_S.GT.0.AND.IKPROJ.LT.0).OR.IDRIL.GT.0) THEN
+       END IF !((IMPL_S>0.AND.IKPROJ<0).OR.IDRIL>0) THEN
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C        J=1
 C        I=1
@@ -689,7 +689,7 @@ C        I=3
          F34(K)= VQ(K,3,1)*FL(1,4)+VQ(K,3,2)*FL(2,4)+VQ(K,3,3)*FL(3,4)
          M34(K)= VQ(K,3,1)*ML(1,4)+VQ(K,3,2)*ML(2,4)
 C         
-         IF (IDRIL.GT.0) THEN
+         IF (IDRIL>0) THEN
           M11(K)= M11(K)+ VQ(K,1,3)*VMZ(K,1)
           M21(K)= M21(K)+ VQ(K,2,3)*VMZ(K,1)
           M31(K)= M31(K)+ VQ(K,3,3)*VMZ(K,1)
@@ -708,7 +708,7 @@ C
          END IF
 C
       ELSE
-       IF (IMPL_S.GT.0.AND.IKPROJ.LE.0) THEN
+       IF (IMPL_S>0.AND.IKPROJ<=0) THEN
 C-------------------------------------
 C     DRILLING RE-PROJECTION ONLY
 C-------------------------------------
@@ -742,7 +742,7 @@ C        J=4
      1                VQN(K,1,4)*VQN(K,2,4) *ML(1,4)
          MM(3,4)=    -VQN(K,1,4)*VQN(K,3,4) *ML(1,4)-
      1                VQN(K,2,4)*VQN(K,3,4) *ML(2,4)
-         IF (IDRIL.GT.0) THEN
+         IF (IDRIL>0) THEN
           DO J=1,4
            MM(1,J)=MM(1,J)+ VQN(K,1,J)*VMZ(K,J)
            MM(2,J)=MM(2,J)+ VQN(K,2,J)*VMZ(K,J)
@@ -794,12 +794,12 @@ CC
           ALD(4) = AD(4)+VQN(K,1,4)*DBAD(1)+VQN(K,2,4)*DBAD(2)
      1            +VQN(K,3,4)*DBAD(3)
      2            -DB(K,1,4)*AR(1)-DB(K,2,4)*AR(2)-DB(K,3,4)*AR(3)
-         IF (IDRIL.GT.0) THEN
+         IF (IDRIL>0) THEN
           ARZ = VMZ(K,1)+VMZ(K,2)+VMZ(K,3)+VMZ(K,4)
           ALR(1) =ALR(1)+DIZ(K,1)*ARZ
           ALR(2) =ALR(2)+DIZ(K,2)*ARZ
           ALR(3) =ALR(3)+DIZ(K,3)*ARZ
-         END IF !(IDRIL.GT.0) THEN
+         END IF !(IDRIL>0) THEN
 C
           C1 =Z1(K)*ALR(2)
           FL(1,1)= FL(1,1)-C1+CORELV(K,2,1)*ALR(3)
@@ -820,12 +820,12 @@ C
           MM(3,J)=        -ALR(3)-VQN(K,3,J)*ALD(J)
         ENDDO
 C        
-         IF (IDRIL.GT.0) THEN
+         IF (IDRIL>0) THEN
           DO J=1,4
            MM(3,J)= MM(3,J)+VMZ(K,J)
           ENDDO
-         END IF !(IDRIL.GT.0) THEN
-       END IF !((IMPL_S.GT.0.AND.IKPROJ.LT.0).OR.IDRIL.GT.0) THEN
+         END IF !(IDRIL>0) THEN
+       END IF !((IMPL_S>0.AND.IKPROJ<0).OR.IDRIL>0) THEN
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C        J=1
 C        I=1
@@ -1026,7 +1026,7 @@ C        I=3
          F34(K)= VQ(K,3,1)*FL(1,4)+VQ(K,3,2)*FL(2,4)+VQ(K,3,3)*FL(3,4)
          M34(K)= VQ(K,3,1)*ML(1,4)+VQ(K,3,2)*ML(2,4)
 C         
-         IF (IDRIL.GT.0) THEN
+         IF (IDRIL>0) THEN
           M11(K)= M11(K)+ VQ(K,1,3)*VMZ(K,1)
           M21(K)= M21(K)+ VQ(K,2,3)*VMZ(K,1)
           M31(K)= M31(K)+ VQ(K,3,3)*VMZ(K,1)
@@ -1045,7 +1045,7 @@ C
          END IF
 C---------warped element------------
       ELSE
-       IF (IMPL_S.GT.0.AND.IKPROJ.LE.0) THEN
+       IF (IMPL_S>0.AND.IKPROJ<=0) THEN
 C-------------------------------------
 C     DRILLING RE-PROJECTION ONLY
 C-------------------------------------
@@ -1079,7 +1079,7 @@ C        J=4
      1                VQN(K,1,4)*VQN(K,2,4) *ML(1,4)
          MM(3,4)=    -VQN(K,1,4)*VQN(K,3,4) *ML(1,4)-
      1                VQN(K,2,4)*VQN(K,3,4) *ML(2,4)
-         IF (IDRIL.GT.0) THEN
+         IF (IDRIL>0) THEN
           DO J=1,4
            MM(1,J)=MM(1,J)+ VQN(K,1,J)*VMZ(K,J)
            MM(2,J)=MM(2,J)+ VQN(K,2,J)*VMZ(K,J)
@@ -1130,12 +1130,12 @@ CC
           ALD(4) = AD(4)+VQN(K,1,4)*DBAD(1)+VQN(K,2,4)*DBAD(2)
      1            +VQN(K,3,4)*DBAD(3)
      2            -DB(K,1,4)*AR(1)-DB(K,2,4)*AR(2)-DB(K,3,4)*AR(3)
-         IF (IDRIL.GT.0) THEN
+         IF (IDRIL>0) THEN
           ARZ = VMZ(K,1)+VMZ(K,2)+VMZ(K,3)+VMZ(K,4)
           ALR(1) =ALR(1)+DIZ(K,1)*ARZ
           ALR(2) =ALR(2)+DIZ(K,2)*ARZ
           ALR(3) =ALR(3)+DIZ(K,3)*ARZ
-         END IF !(IDRIL.GT.0) THEN
+         END IF !(IDRIL>0) THEN
 C
           C1 =Z1(K)*ALR(2)
           FL(1,1)= FL(1,1)-C1+COREL(K,2,1)*ALR(3)
@@ -1156,12 +1156,12 @@ C
           MM(3,J)=        -ALR(3)-VQN(K,3,J)*ALD(J)
          ENDDO
 C         
-         IF (IDRIL.GT.0) THEN
+         IF (IDRIL>0) THEN
           DO J=1,4
            MM(3,J)= MM(3,J)+VMZ(K,J)
           ENDDO
-         END IF !(IDRIL.GT.0) THEN
-       END IF !((IMPL_S.GT.0.AND.IKPROJ.LT.0).OR.IDRIL.GT.0) THEN
+         END IF !(IDRIL>0) THEN
+       END IF !((IMPL_S>0.AND.IKPROJ<0).OR.IDRIL>0) THEN
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C        J=1
 C        I=1
@@ -1290,7 +1290,7 @@ C        I=3
          F34(K)= VQ(K,3,1)*FL(1,4)+VQ(K,3,2)*FL(2,4)+VQ(K,3,3)*FL(3,4)
          M34(K)= VQ(K,3,1)*ML(1,4)+VQ(K,3,2)*ML(2,4)
 C         
-         IF (IDRIL.GT.0) THEN
+         IF (IDRIL>0) THEN
           M11(K)= M11(K)+ VQ(K,1,3)*VMZ(K,1)
           M21(K)= M21(K)+ VQ(K,2,3)*VMZ(K,1)
           M31(K)= M31(K)+ VQ(K,3,3)*VMZ(K,1)
@@ -1309,7 +1309,7 @@ C
          END IF
 C
       ELSE
-       IF (IMPL_S.GT.0.AND.IKPROJ.LE.0) THEN
+       IF (IMPL_S>0.AND.IKPROJ<=0) THEN
 C-------------------------------------
 C     DRILLING RE-PROJECTION ONLY
 C-------------------------------------
@@ -1343,7 +1343,7 @@ C        J=4
      1                VQN(K,1,4)*VQN(K,2,4) *ML(1,4)
          MM(3,4)=    -VQN(K,1,4)*VQN(K,3,4) *ML(1,4)-
      1                VQN(K,2,4)*VQN(K,3,4) *ML(2,4)
-         IF (IDRIL.GT.0) THEN
+         IF (IDRIL>0) THEN
           DO J=1,4
            MM(1,J)=MM(1,J)+ VQN(K,1,J)*VMZ(K,J)
            MM(2,J)=MM(2,J)+ VQN(K,2,J)*VMZ(K,J)
@@ -1394,12 +1394,12 @@ CC
           ALD(4) = AD(4)+VQN(K,1,4)*DBAD(1)+VQN(K,2,4)*DBAD(2)
      1            +VQN(K,3,4)*DBAD(3)
      2            -DB(K,1,4)*AR(1)-DB(K,2,4)*AR(2)-DB(K,3,4)*AR(3)
-         IF (IDRIL.GT.0) THEN
+         IF (IDRIL>0) THEN
           ARZ = VMZ(K,1)+VMZ(K,2)+VMZ(K,3)+VMZ(K,4)
           ALR(1) =ALR(1)+DIZ(K,1)*ARZ
           ALR(2) =ALR(2)+DIZ(K,2)*ARZ
           ALR(3) =ALR(3)+DIZ(K,3)*ARZ
-         END IF !(IDRIL.GT.0) THEN
+         END IF !(IDRIL>0) THEN
 C
           C1 =Z1(K)*ALR(2)
           FL(1,1)= FL(1,1)-C1+COREL(K,2,1)*ALR(3)
@@ -1420,13 +1420,13 @@ C
           MM(3,J)=        -ALR(3)-VQN(K,3,J)*ALD(J)
          ENDDO
 C         
-         IF (IDRIL.GT.0) THEN
+         IF (IDRIL>0) THEN
           DO J=1,4
            MM(3,J)= MM(3,J)+VMZ(K,J)
           ENDDO
-         END IF !(IDRIL.GT.0) THEN
+         END IF !(IDRIL>0) THEN
 C         
-       END IF !((IMPL_S.GT.0.AND.IKPROJ.LT.0).OR.IDRIL.GT.0) THEN
+       END IF !((IMPL_S>0.AND.IKPROJ<0).OR.IDRIL>0) THEN
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C        J=1
 C        I=1

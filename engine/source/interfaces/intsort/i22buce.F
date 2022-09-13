@@ -213,17 +213,17 @@ c       stop 678
 C     I_MEM = 1 ==> PAS ASSEZ DE MEMOIRE PILE
 C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
 C     I_MEM = 3 ==> TROP NIVEAUX PILE 
-      IF(I_MEM.EQ.1)THEN
+      IF(I_MEM==1)THEN
         NB_N_B = NB_N_B + 1
-        IF ( NB_N_B .GT. NCONT) THEN
+        IF ( NB_N_B > NCONT) THEN
           CALL ANCMSG(MSGID=85,ANMODE=ANINFO,
      .            I1=NOINT)
           CALL ARRET(2)          
         ENDIF
         ILD = 1
         ISKIP=1
-      ELSEIF(I_MEM.EQ.2) THEN
-        IF(DEBUG(1).GE.1) THEN
+      ELSEIF(I_MEM==2) THEN
+        IF(DEBUG(1)>=1) THEN
           IWARN = IWARN+1
 #include "lockon.inc"
           WRITE(ISTDO,*)' **WARNING INTERFACE/MEMORY'
@@ -236,9 +236,9 @@ C     I_MEM = 3 ==> TROP NIVEAUX PILE
 C        TZINF = THREE_OVER_4*TZINF   !non sinon on perd les candidates voisines
         ILD = 1
         ISKIP=1
-      ELSEIF(I_MEM.EQ.3)THEN
+      ELSEIF(I_MEM==3)THEN
         NB_N_B = NB_N_B + 1
-        IF ( NB_N_B .GT. NCONT) THEN
+        IF ( NB_N_B > NCONT) THEN
           CALL ANCMSG(MSGID=100,ANMODE=ANINFO,
      .            I1=NOINT)
           CALL ARRET(2)
@@ -262,7 +262,7 @@ C        TZINF = THREE_OVER_4*TZINF   !non sinon on perd les candidates voisines
         order=0
         !CALL QUICKSORT_I2 !(ORDER,II_STOK,VALUE)
         DO I=1,II_STOK
-          if(CAND_E(ORDER(I)).GT.0)then
+          if(CAND_E(ORDER(I))>0)then
             print *,I,IXS(11,bufbric(CAND_B(ORDER(I)))),
      .           "avec+",NINT(IRECT_L(1:4,IABS(CAND_E(ORDER(I)))))   !negative value means that there is no intersection at all for this couple.
           else

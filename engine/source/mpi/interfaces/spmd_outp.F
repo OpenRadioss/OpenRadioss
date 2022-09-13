@@ -313,7 +313,7 @@ C-----------------------------------------------
      . .OR.OUTP_CT( 4) == 1.OR.OUTP_CT( 5) == 1.OR.OUTP_CT( 6) == 1
      . .OR.OUTP_CT( 7) == 1.OR.OUTP_CT( 8) == 1.OR.OUTP_CT(91) == 1
      . .OR.OUTP_CT(92) == 1.OR.OUTP_CT(93) == 1.OR.OUTP_CT(94) == 1
-     . .OR.COUNT.GT.0.OR.OUTP_CT(95)==1.OR.OUTP_CT(96)==1)   THEN
+     . .OR.COUNT>0.OR.OUTP_CT(95)==1.OR.OUTP_CT(96)==1)   THEN
 
 
         CALL MPI_REDUCE(SZP0,RSZP0,3*NSPGROUP+3,
@@ -349,7 +349,7 @@ C-----------------------------------------------
      . .OR.OUTP_CT( 4) == 1.OR.OUTP_CT( 5) == 1.OR.OUTP_CT( 6) == 1
      . .OR.OUTP_CT( 7) == 1.OR.OUTP_CT( 8) == 1.OR.OUTP_CT(91) == 1
      . .OR.OUTP_CT(92) == 1.OR.OUTP_CT(93) == 1.OR.OUTP_CT(94) == 1
-     . .OR.COUNT.GT.0) THEN
+     . .OR.COUNT>0) THEN
          IF (ISPMD == 0) THEN
            WASZP(1) = RSZP0(3*NSPGROUP+1)
            DO I=1,NSPGROUP
@@ -742,7 +742,7 @@ C-----------------------------------------------
       INTEGER IBUF(NUMNODM)
 C   Tableau utilise par proc 0
          
-       IF (ISPMD.NE.0) THEN
+       IF (ISPMD/=0) THEN
 
          SIZ = 0
          DO I=1,NUMNOD
@@ -857,7 +857,7 @@ C-----------------------------------------------
       INTEGER IBUF(NUMNODM)
 C   Tableau utilise par proc 0
          
-       IF (ISPMD.NE.0) THEN
+       IF (ISPMD/=0) THEN
 
          SIZ = 0
          DO I=1,NUMNOD
@@ -1109,7 +1109,7 @@ C-----------------------------------------------
 
        INTEGER BUFSR(2,NUMNODM)
          
-       IF (ISPMD.NE.0) THEN
+       IF (ISPMD/=0) THEN
 
          SIZ = 0
          DO I=1,NUMNOD

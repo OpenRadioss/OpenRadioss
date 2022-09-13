@@ -58,7 +58,7 @@ C
       NB_L = 0
 C
       DO I = 1, NCONLD
-        IF(CEP(I+OFF).EQ.PROC) THEN
+        IF(CEP(I+OFF)==PROC) THEN
           NB_L = NB_L + 1
           N1 = IBCL(1,I)
           N2 = IBCL(2,I)
@@ -68,10 +68,10 @@ C
           DO J = 2, NIBCLD
             IBTMP(J,NB_L) = IBCL(J,I)
           END DO
-          IF(N4.NE.-1) THEN
+          IF(N4/=-1) THEN
             IBTMP(2,NB_L) = NODLOCAL(N2)
-            IF(N3.NE.0)IBTMP(3,NB_L) = NODLOCAL(N3)
-            IF(N4.NE.0)IBTMP(4,NB_L) = NODLOCAL(N4)
+            IF(N3/=0)IBTMP(3,NB_L) = NODLOCAL(N3)
+            IF(N4/=0)IBTMP(4,NB_L) = NODLOCAL(N4)
           END IF
         END IF
       END DO

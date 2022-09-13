@@ -66,8 +66,8 @@ C-----------------------------------------------
 C
       DO I=1,NFVBAG
          PMAIN=FVSPMD(I)%PMAIN
-         IF (ISPMD.EQ.0) THEN
-            IF (ISPMD.EQ.PMAIN-1) THEN
+         IF (ISPMD==0) THEN
+            IF (ISPMD==PMAIN-1) THEN
                DO J=1,FVDATA(I)%NNS_ANIM
                   R4=FVDATA(I)%NOD_ANIM(1,J)
                   CALL WRITE_R_C(R4,1)
@@ -95,7 +95,7 @@ C
                DEALLOCATE(RBUF)
             ENDIF
          ELSE
-            IF (ISPMD.EQ.PMAIN-1) THEN
+            IF (ISPMD==PMAIN-1) THEN
                ITAG=MSGOFF
                CALL MPI_SEND(FVDATA(I)%NNS_ANIM, 1, MPI_INTEGER,
      .                       IT_SPMD(1), ITAG, MPI_COMM_WORLD, 

@@ -164,28 +164,28 @@ C-----------------------------------------------
          IRUP2 = 3
         ENDIF
 
-        IF (MLN.EQ.2.OR.MLN.EQ.3) THEN
+        IF (MLN==2.OR.MLN==3) THEN
           CC = PM(43,MID)
-          IF (CC.NE.0) THEN
+          IF (CC/=0) THEN
            INDI = 2
           ELSE
            INDI = 1
           ENDIF
-        ELSEIF ((MLN.EQ.25).AND.(ABS(NPN)>0)) THEN
+        ELSEIF ((MLN==25).AND.(ABS(NPN)>0)) THEN
           IFLAG = NINT( PM(40,MID))
-          IF (IFLAG.NE.0) THEN
+          IF (IFLAG/=0) THEN
            INDI = 2
           ELSE
            INDI = 1
           ENDIF
 C loi 36+86 en fonction des fct
-        ELSEIF (MLN.EQ.36.OR.(MLN.EQ.86).AND.(ABS(NPN)>0)) THEN
+        ELSEIF (MLN==36.OR.(MLN==86).AND.(ABS(NPN)>0)) THEN
           NFUNC = NINT(PM(40,MID))
-          IF (NFUNC.LE.2) THEN
+          IF (NFUNC<=2) THEN
            INDI = 1
-          ELSEIF (NFUNC.GT.2.AND.NFUNC.LE.7) THEN
+          ELSEIF (NFUNC>2.AND.NFUNC<=7) THEN
            INDI = 2
-          ELSEIF (NFUNC.GT.7) THEN
+          ELSEIF (NFUNC>7) THEN
            INDI = 3
           ENDIF
         ELSEIF((MLN==42).OR.(MLN==62).OR.(MLN==69)) THEN
@@ -308,17 +308,17 @@ C loi 36+86 en fonction des fct
             ENDIF
 !           --------------
          ELSE
-          IF(ITHK.EQ.2)THEN
+          IF(ITHK==2)THEN
             ITHK = 0
-          ELSEIF(MLN.EQ.32)THEN
+          ELSEIF(MLN==32)THEN
             ITHK = 1
           ENDIF
           ISTRAIN = NINT(GEO(11,PID))
-          IF(MLN.EQ.19.OR.MLN.GE.25)ISTRAIN = 1
+          IF(MLN==19.OR.MLN>=25)ISTRAIN = 1
           ISSN = NINT(GEO(3,PID))
 !       ow test elem delete
-          IF (WD_LOCAL.EQ.0.) THEN
-           IF(ABS(NPN).GT.0) THEN
+          IF (WD_LOCAL==0.) THEN
+           IF(ABS(NPN)>0) THEN
               TABX(1) = 1.
               TABX(2) = 3.
               TABX(3) = 5.
@@ -361,7 +361,7 @@ C loi 36+86 en fonction des fct
             ENDIF
           ENDIF
          ENDIF
-         IF(MLN.NE.0)THEN
+         IF(MLN/=0)THEN
               TELT = TRITELT(1) 
          ENDIF
         ENDIF   !   fin TRITNL_OLD(MID,PID)
@@ -369,7 +369,7 @@ C loi 36+86 en fonction des fct
 
         ! --------------------
         IF(RECHERCHE==0) THEN
-         IF((WD_LOCAL.EQ.0.).AND.(MLN.NE.0))THEN
+         IF((WD_LOCAL==0.).AND.(MLN/=0))THEN
           POIDS = (TELT + TIMMAT + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3) ) * INVTREF
           WD(I+OFF) = POIDS
 

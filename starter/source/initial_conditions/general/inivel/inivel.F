@@ -121,21 +121,21 @@ C=======================================================================
 C--------------------------------------------------
 C     V INI DANS FICHIER Ynn
 C--------------------------------------------------
-      IF (ISIGI.EQ.3.OR.ISIGI.EQ.4.OR.ISIGI.EQ.5) THEN
+      IF (ISIGI==3.OR.ISIGI==4.OR.ISIGI==5) THEN
   120   READ(IIN4,FMT='(A)',END=199,ERR=199)LLINE
-  122   IF(LLINE(1:31).NE.'/NODAL     /VECTOR    /VELOCITY')GOTO 120
+  122   IF(LLINE(1:31)/='/NODAL     /VECTOR    /VELOCITY')GOTO 120
         READ(IIN4,FMT='(A)',END=199,ERR=199)LLINE
 C
   125   READ(IIN4,FMT='(A)',END=130,ERR=199)LLINE
-        IF(LLINE(1:1).EQ.'#')GOTO 125
-        IF(LLINE(1:1).EQ.'/')GOTO 130
-          IF (IOUTP_FMT.EQ.2) THEN
+        IF(LLINE(1:1)=='#')GOTO 125
+        IF(LLINE(1:1)=='/')GOTO 130
+          IF (IOUTP_FMT==2) THEN
             READ(LLINE,'(I8,3F16.0)')N,V1,V2,V3
           ELSE
             READ(LLINE,'(I10,3F20.0)')N,V1,V2,V3
           ENDIF
           I = USRTOS(N,ITABM1)
-          IF(I.NE.0)THEN
+          IF(I/=0)THEN
             V(1,I) = V1
             V(2,I) = V2
             V(3,I) = V3
@@ -156,19 +156,19 @@ C
         REWIND(IIN4)
 C-------------------
   220   READ(IIN4,FMT='(A)',END=299,ERR=299)LLINE
-  222   IF(LLINE(1:31).NE.'/NODAL     /VECTOR    /VELO_ROT')GOTO 220
+  222   IF(LLINE(1:31)/='/NODAL     /VECTOR    /VELO_ROT')GOTO 220
         READ(IIN4,FMT='(A)',END=299,ERR=299)LLINE
 C
   225   READ(IIN4,FMT='(A)',END=230,ERR=299)LLINE
-        IF(LLINE(1:1).EQ.'#')GOTO 225
-        IF(LLINE(1:1).EQ.'/')GOTO 230
-          IF (IOUTP_FMT.EQ.2) THEN
+        IF(LLINE(1:1)=='#')GOTO 225
+        IF(LLINE(1:1)=='/')GOTO 230
+          IF (IOUTP_FMT==2) THEN
             READ(LLINE,'(I8,3F16.0)')N,V1,V2,V3
           ELSE
             READ(LLINE,'(I10,3F20.0)')N,V1,V2,V3
           ENDIF
           I = USRTOS(N,ITABM1)
-          IF(I.NE.0)THEN
+          IF(I/=0)THEN
             VR(1,I) = V1
             VR(2,I) = V2
             VR(3,I) = V3
@@ -199,7 +199,7 @@ C--------------------------------------------------
         KLINE=' '
         JREC=JREC+2
         N = 0
-        DO WHILE(KLINE(1:1).NE.'/')
+        DO WHILE(KLINE(1:1)/='/')
           READ(IIN,REC=JREC,ERR=999,FMT='(A)')KLINE
           JREC=JREC+1
           N = N + 1
@@ -240,7 +240,7 @@ C--------------------------------------------------
             EXIT
           ENDIF
         ENDDO
-        IF (UID.NE.0.AND.IFLAGUNIT.EQ.0) THEN
+        IF (UID/=0.AND.IFLAGUNIT==0) THEN
           CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I2=UID,I1=ID,C1='INITIAL VELOCITY',
      .                 C2='INITIAL VELOCITY',
@@ -250,7 +250,7 @@ C
         IREC=IREC+1
 C
        
-        IF(KEY(1:4).EQ.'NODE')THEN
+        IF(KEY(1:4)=='NODE')THEN
           ITYPE=6
         ELSE
           GOTO 999
@@ -365,7 +365,7 @@ C     Finite volume velocity
         ELSEIF (IFRA > 0) THEN
           DO K=1,NUMFRAM
             J=K+1
-            IF(IFRA.EQ.IFRAME(4,J)) THEN
+            IF(IFRA==IFRAME(4,J)) THEN
               V1 = XFRAME(1,J)*VL1+XFRAME(4,J)*VL2+XFRAME(7,J)*VL3
               V2 = XFRAME(2,J)*VL1+XFRAME(5,J)*VL2+XFRAME(8,J)*VL3
               V3 = XFRAME(3,J)*VL1+XFRAME(6,J)*VL2+XFRAME(9,J)*VL3
@@ -399,15 +399,15 @@ C     /INIVEL type 5 : FVM
               IDGRBRICK_LOC = -1
               IDGRQUAD_LOC  = -1
               IDGRSH3N_LOC  = -1
-              IF (IDGRBRICK + IDGRQUAD + IDGRSH3N .EQ. 0) THEN
+              IF (IDGRBRICK + IDGRQUAD + IDGRSH3N == 0) THEN
                  CALL ANCMSG(MSGID=1553, MSGTYPE=MSGWARNING, ANMODE=ANINFO,
      .                C1='IN /INIVEL OPTION')
               ELSE
-                 IF (IDGRBRICK .NE. 0) THEN
+                 IF (IDGRBRICK /= 0) THEN
                     DO J = 1,NGRBRIC
                        IF (IDGRBRICK == IGRBRIC(J)%ID) IDGRBRICK_LOC = J
                     ENDDO
-                    IF (IDGRBRICK_LOC .EQ. -1) THEN
+                    IF (IDGRBRICK_LOC == -1) THEN
                        CALL ANCMSG(MSGID=1554,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO,
@@ -415,11 +415,11 @@ C     /INIVEL type 5 : FVM
      .                      I1=IDGRBRICK)
                     ENDIF
                  ENDIF
-                 IF (IDGRQUAD .NE. 0) THEN
+                 IF (IDGRQUAD /= 0) THEN
                     DO J = 1,NGRQUAD
                        IF (IDGRQUAD == IGRQUAD(J)%ID) IDGRQUAD_LOC = J
                     ENDDO    
-                    IF (IDGRQUAD_LOC .EQ. -1) THEN
+                    IF (IDGRQUAD_LOC == -1) THEN
                        CALL ANCMSG(MSGID=1554,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO,
@@ -427,11 +427,11 @@ C     /INIVEL type 5 : FVM
      .                      I1=IDGRQUAD)
                     ENDIF
                  ENDIF
-                 IF (IDGRSH3N .NE. 0) THEN
+                 IF (IDGRSH3N /= 0) THEN
                     DO J = 1,NGRSH3N
                        IF (IDGRSH3N == IGRSH3N(J)%ID) IDGRSH3N_LOC = J
                     ENDDO      
-                    IF (IDGRSH3N_LOC .EQ. -1) THEN
+                    IF (IDGRSH3N_LOC == -1) THEN
                        CALL ANCMSG(MSGID=1554,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO,
@@ -473,13 +473,13 @@ C---
       CALL UDOUBLE(INIVIDS,1,NBVEL,MESS,0,BID)
 C
 C--- RAZ vitesses for SPH Reserve particles
-      IF (NSPHRES.GT.0) THEN
+      IF (NSPHRES>0) THEN
         DO N=1,NSPHRES
           INOD = KXSP(3,FIRST_SPHRES+N-1)
           V(1,INOD) = ZERO
           V(2,INOD) = ZERO
           V(3,INOD) = ZERO
-          IF (IRODDL.GT.0) THEN
+          IF (IRODDL>0) THEN
             VR(1,INOD) = ZERO
             VR(2,INOD) = ZERO
             VR(3,INOD) = ZERO
@@ -492,10 +492,10 @@ C--------------------------------------------------
       IF (NINVEL_FILE > 0) THEN
       J=0
       NODINIVEL=0
-      IF(IPRI.GE.2)THEN
-       IF(IALE.NE.0) THEN
+      IF(IPRI>=2)THEN
+       IF(IALE/=0) THEN
          WRITE(IOUT,2100)
-       ELSEIF(KROT.EQ.0) THEN
+       ELSEIF(KROT==0) THEN
          WRITE(IOUT,2000)
        ELSE
          WRITE(IOUT,2200)
@@ -504,22 +504,22 @@ C--------------------------------------------------
        DO 340 N=1,NUMNOD,50
        J=J+50
        J=MIN(J,NUMNOD)
-       IF(IALE.EQ.0) THEN
+       IF(IALE==0) THEN
         DO 330 I=N,J
-          IF(KPRI.GE.50) THEN
-            IF(KROT.EQ.0) THEN
+          IF(KPRI>=50) THEN
+            IF(KROT==0) THEN
               WRITE(IOUT,2000)
             ELSE
               WRITE(IOUT,2200)
             ENDIF
             KPRI=0
           ENDIF
-          IF(IRODDL.NE.0) THEN
-            IF (V(1,I).NE.ZERO.OR.V(2,I).NE.ZERO.OR.V(3,I).NE.ZERO.OR.
-     .        VR(1,I).NE.ZERO.OR.VR(2,I).NE.ZERO.OR.VR(3,I).NE.ZERO)THEN
+          IF(IRODDL/=0) THEN
+            IF (V(1,I)/=ZERO.OR.V(2,I)/=ZERO.OR.V(3,I)/=ZERO.OR.
+     .        VR(1,I)/=ZERO.OR.VR(2,I)/=ZERO.OR.VR(3,I)/=ZERO)THEN
               NODINIVEL=NODINIVEL+1
-              IF (VR(1,I).NE.ZERO.OR.VR(2,I).NE.ZERO.OR.
-     .            VR(3,I).NE.ZERO) THEN
+              IF (VR(1,I)/=ZERO.OR.VR(2,I)/=ZERO.OR.
+     .            VR(3,I)/=ZERO) THEN
                 WRITE(IOUT,'(3X,I10,8X,1P6G20.13)')
      .              ITAB(I),V(1,I),V(2,I),V(3,I),VR(1,I),VR(2,I),VR(3,I)
               ELSE
@@ -528,7 +528,7 @@ C--------------------------------------------------
               ENDIF
               KPRI=KPRI+1
             ENDIF
-         ELSEIF(V(1,I).NE.ZERO.OR.V(2,I).NE.ZERO.OR.V(3,I).NE.ZERO) THEN
+         ELSEIF(V(1,I)/=ZERO.OR.V(2,I)/=ZERO.OR.V(3,I)/=ZERO) THEN
            NODINIVEL=NODINIVEL+1
            WRITE(IOUT,'(3X,I10,8X,1P6G20.13)')
      .           ITAB(I),V(1,I),V(2,I),V(3,I)
@@ -537,12 +537,12 @@ C--------------------------------------------------
  330    CONTINUE
        ELSE
         DO 335 I=N,J
-          IF(KPRI.EQ.50) THEN
+          IF(KPRI==50) THEN
             WRITE(IOUT,2100)
             KPRI=0
           ENDIF
-        IF(V(1,I).NE.ZERO.OR.V(2,I).NE.ZERO.OR.V(3,I).NE.ZERO.OR.
-     .     W(1,I).NE.ZERO.OR.W(2,I).NE.ZERO.OR.W(3,I).NE.ZERO) THEN
+        IF(V(1,I)/=ZERO.OR.V(2,I)/=ZERO.OR.V(3,I)/=ZERO.OR.
+     .     W(1,I)/=ZERO.OR.W(2,I)/=ZERO.OR.W(3,I)/=ZERO) THEN
           NODINIVEL=NODINIVEL+1
           WRITE(IOUT,'(5X,I10,8X,1P6G20.13)') ITAB(I),
      +                        V(1,I),V(2,I),V(3,I),W(1,I),W(2,I),W(3,I)

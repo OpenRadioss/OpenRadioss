@@ -59,7 +59,7 @@ C     DO 420 I = NODFT,NODLT,1024
 C       DO 400 N=I,MIN(NODLT,I+1023)
         DO 400 J=I,MIN(NODLAST,I+1023)
           N=INDX1(J)
-          IF (ICODT(N).NE.0)THEN
+          IF (ICODT(N)/=0)THEN
             NINDX = NINDX + 1
             INDX(NINDX) = N
           ENDIF
@@ -108,26 +108,26 @@ C-----------------------------------------------
         L = INDX(K)
         ISK =ISKEW(L)
         LCOD=ICODT(L)
-        IF(ISK.EQ.1) THEN
+        IF(ISK==1) THEN
 C------------------
 C     REPERE GLOBAL
 C------------------
-      IF(LCOD.EQ.1)THEN
+      IF(LCOD==1)THEN
       A(3,L)=ZERO
-      ELSEIF(LCOD.EQ.2)THEN
+      ELSEIF(LCOD==2)THEN
       A(2,L)=ZERO
-      ELSEIF(LCOD.EQ.3)THEN
+      ELSEIF(LCOD==3)THEN
       A(2,L)=ZERO
       A(3,L)=ZERO
-      ELSEIF(LCOD.EQ.4)THEN
+      ELSEIF(LCOD==4)THEN
       A(1,L)=ZERO
-      ELSEIF(LCOD.EQ.5)THEN
+      ELSEIF(LCOD==5)THEN
       A(1,L)=ZERO
       A(3,L)=ZERO
-      ELSEIF(LCOD.EQ.6)THEN
+      ELSEIF(LCOD==6)THEN
       A(1,L)=ZERO
       A(2,L)=ZERO
-      ELSEIF(LCOD.EQ.7)THEN
+      ELSEIF(LCOD==7)THEN
       A(1,L)=ZERO
       A(2,L)=ZERO
       A(3,L)=ZERO
@@ -137,17 +137,17 @@ C
 C-------------------
 C     REPERE OBLIQUE
 C-------------------
-      IF(LCOD.EQ.1)THEN
+      IF(LCOD==1)THEN
       AA  =SKEW(7,ISK)*A(1,L)+SKEW(8,ISK)*A(2,L)+SKEW(9,ISK)*A(3,L)
       A(1,L)=A(1,L)-SKEW(7,ISK)*AA
       A(2,L)=A(2,L)-SKEW(8,ISK)*AA
       A(3,L)=A(3,L)-SKEW(9,ISK)*AA
-      ELSEIF(LCOD.EQ.2)THEN
+      ELSEIF(LCOD==2)THEN
       AA  =SKEW(4,ISK)*A(1,L)+SKEW(5,ISK)*A(2,L)+SKEW(6,ISK)*A(3,L)
       A(1,L)=A(1,L)-SKEW(4,ISK)*AA
       A(2,L)=A(2,L)-SKEW(5,ISK)*AA
       A(3,L)=A(3,L)-SKEW(6,ISK)*AA
-      ELSEIF(LCOD.EQ.3)THEN
+      ELSEIF(LCOD==3)THEN
       AA  =SKEW(7,ISK)*A(1,L)+SKEW(8,ISK)*A(2,L)+SKEW(9,ISK)*A(3,L)
       A(1,L)=A(1,L)-SKEW(7,ISK)*AA
       A(2,L)=A(2,L)-SKEW(8,ISK)*AA
@@ -156,12 +156,12 @@ C-------------------
       A(1,L)=A(1,L)-SKEW(4,ISK)*AA
       A(2,L)=A(2,L)-SKEW(5,ISK)*AA
       A(3,L)=A(3,L)-SKEW(6,ISK)*AA
-      ELSEIF(LCOD.EQ.4)THEN
+      ELSEIF(LCOD==4)THEN
       AA  =SKEW(1,ISK)*A(1,L)+SKEW(2,ISK)*A(2,L)+SKEW(3,ISK)*A(3,L)
       A(1,L)=A(1,L)-SKEW(1,ISK)*AA
       A(2,L)=A(2,L)-SKEW(2,ISK)*AA
       A(3,L)=A(3,L)-SKEW(3,ISK)*AA
-      ELSEIF(LCOD.EQ.5)THEN
+      ELSEIF(LCOD==5)THEN
       AA  =SKEW(7,ISK)*A(1,L)+SKEW(8,ISK)*A(2,L)+SKEW(9,ISK)*A(3,L)
       A(1,L)=A(1,L)-SKEW(7,ISK)*AA
       A(2,L)=A(2,L)-SKEW(8,ISK)*AA
@@ -170,7 +170,7 @@ C-------------------
       A(1,L)=A(1,L)-SKEW(1,ISK)*AA
       A(2,L)=A(2,L)-SKEW(2,ISK)*AA
       A(3,L)=A(3,L)-SKEW(3,ISK)*AA
-      ELSEIF(LCOD.EQ.6)THEN
+      ELSEIF(LCOD==6)THEN
       AA  =SKEW(1,ISK)*A(1,L)+SKEW(2,ISK)*A(2,L)+SKEW(3,ISK)*A(3,L)
       A(1,L)=A(1,L)-SKEW(1,ISK)*AA
       A(2,L)=A(2,L)-SKEW(2,ISK)*AA
@@ -179,7 +179,7 @@ C-------------------
       A(1,L)=A(1,L)-SKEW(4,ISK)*AA
       A(2,L)=A(2,L)-SKEW(5,ISK)*AA
       A(3,L)=A(3,L)-SKEW(6,ISK)*AA
-      ELSEIF(LCOD.EQ.7)THEN
+      ELSEIF(LCOD==7)THEN
       A(1,L)=ZERO
       A(2,L)=ZERO
       A(3,L)=ZERO

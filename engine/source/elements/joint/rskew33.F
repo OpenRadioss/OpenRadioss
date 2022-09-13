@@ -97,7 +97,7 @@ C
       IERR = 0
       ISENS = 0
       JTYP  = NINT(GET_U_GEO(1,IPROP))
-      IF (IGTYP.EQ.33) THEN
+      IF (IGTYP==33) THEN
 C----------------   skew initialisation for kjoints      
         IDSK1 = NINT(GET_U_GEO(2,IPROP))
         IDSK2 = NINT(GET_U_GEO(3,IPROP))
@@ -109,17 +109,17 @@ C----------------   skew initialisation for kjoints
 C----------------   sensor check for kjoints2
 	USENS = NINT(GET_U_GEO(2,IPROP))
 	ISENS_ACT = 0
-	IF (USENS.GT.0) THEN
+	IF (USENS>0) THEN
 	  ISENS_OLD = NINT(UVAR(16,JFT))      
           DO K=1,NSENSOR
-            IF(USENS.EQ.LSENSOR(1,K)) INSENS=K
+            IF(USENS==LSENSOR(1,K)) INSENS=K
           ENDDO
 C      
-          IF (TT.GT.SENSOR(2,INSENS)) THEN
+          IF (TT>SENSOR(2,INSENS)) THEN
             ISENS = 1
 	    UVAR(16,JFT) = ISENS
           ENDIF
-	  IF (ISENS.NE.ISENS_OLD) ISENS_ACT = 1
+	  IF (ISENS/=ISENS_OLD) ISENS_ACT = 1
         ENDIF
       ENDIF	
 C            	
@@ -129,8 +129,8 @@ C
 C
 C----------------   initizialisation at time 0
 C
-	IF ((NCYCLE.EQ.0).AND.(TT.EQ.0)) THEN
-          IF (IGTYP.EQ.33) THEN
+	IF ((NCYCLE==0).AND.(TT==0)) THEN
+          IF (IGTYP==33) THEN
             DO J=1,9
               A0(J)= UVAR(3+J,I)
             END DO
@@ -143,7 +143,7 @@ C
 C
 C----------------   stockage of displacements if sensor is activated 
 C
-        IF ((IGTYP.EQ.45).AND.(ISENS_ACT.EQ.1)) THEN	
+        IF ((IGTYP==45).AND.(ISENS_ACT==1)) THEN	
           UVAR(4,I) = DX(I)
           UVAR(5,I) = DY(I) 
           UVAR(6,I) = DZ(I)
@@ -154,11 +154,11 @@ C
 C
 C----------------   local frame 
 C
-        IF (JTYP.EQ.5) THEN
+        IF (JTYP==5) THEN
 C---------------------------------------------		
 C----   universal joint - orthogonalized  ----
 C---------------------------------------------	
-          IF (IGTYP.EQ.45) THEN  
+          IF (IGTYP==45) THEN  
 C-------------------- nod 1		 	     
              DT(1)= VR(1,NC1(I))*DT1
              DT(2)= VR(2,NC1(I))*DT1
@@ -167,7 +167,7 @@ C-------------------- nod 1
              U(2)=UVAR(11,I) - UVAR(12,I)*DT(1)+UVAR(10,I)*DT(3)
              U(3)=UVAR(12,I) - UVAR(10,I)*DT(2)+UVAR(11,I)*DT(1)
 	     NR =SQRT(U(1)*U(1)+U(2)*U(2)+U(3)*U(3))
-	     IF (NR.GT.0) THEN
+	     IF (NR>0) THEN
 	       U(1)=U(1)/NR
 	       U(2)=U(2)/NR
 	       U(3)=U(3)/NR
@@ -185,7 +185,7 @@ C-------------------- nod 2
              V(2)=UVAR(14,I) - UVAR(15,I)*DT(1)+UVAR(13,I)*DT(3)
              V(3)=UVAR(15,I) - UVAR(13,I)*DT(2)+UVAR(14,I)*DT(1)
 	     NR =SQRT(V(1)*V(1)+V(2)*V(2)+V(3)*V(3))
-	     IF (NR.GT.0) THEN
+	     IF (NR>0) THEN
 	       V(1)=V(1)/NR
 	       V(2)=V(2)/NR
 	       V(3)=V(3)/NR
@@ -238,7 +238,7 @@ C-----
 C---------------------------	  
         ELSE
 C---------------------------
-          IF (SKFLG.EQ.1) THEN
+          IF (SKFLG==1) THEN
 C---------------------------------------------	  
 C----   first skew is used as mean skew  -----
 C---------------------------------------------
@@ -253,7 +253,7 @@ C----   mean skew is calculated  -----
 C-------------------------------------
 	    
 C----- Initialisation de EXPREC
-            IF ((NCYCLE.EQ.0).AND.(TT.EQ.0).AND.(IGTYP.EQ.33)) THEN
+            IF ((NCYCLE==0).AND.(TT==0).AND.(IGTYP==33)) THEN
                CALL PROD_AB(U,A0,A)	      
                DO J=1,9
 	          EXPREC(J) = A(J)
@@ -273,7 +273,7 @@ C----- Calcul de DEX
             DT(3)=EXPREC(7)*X21(I)+EXPREC(8)*Y21(I)+EXPREC(9)*Z21(I)
 C----- 	  	  
 	    NR =SQRT(DT(1)*DT(1)+DT(2)*DT(2)+DT(3)*DT(3))
-	    IF (NR.GT.0) THEN
+	    IF (NR>0) THEN
 	       DT(1)=DT(1)/NR
 	       DT(2)=DT(2)/NR
 	       DT(3)=DT(3)/NR
@@ -423,12 +423,12 @@ C---   first skew rotation
        C = MAX(C,-ONE)
        KSI = ACOS(C)
        S   = SIN(KSI)
-       IF(S.NE.ZERO) S = HALF / S
+       IF(S/=ZERO) S = HALF / S
        T(1) = (E32 - E23) * S
        T(2) = (E13 - E31) * S
        T(3) = (E21 - E12) * S
        NR = SQRT(T(1)*T(1)+T(2)*T(2)+T(3)*T(3))
-       IF (NR.NE.ZERO) NR = ONE/NR
+       IF (NR/=ZERO) NR = ONE/NR
        T(1) = T(1)*NR
        T(2) = T(2)*NR 
        T(3) = T(3)*NR 
@@ -477,12 +477,12 @@ C---   first skew rotation
        C = MAX(C,-ONE)
        KSI = ACOS(C)
        S   = SIN(KSI)
-       IF(S.NE.ZERO) S  = HALF / S
+       IF(S/=ZERO) S  = HALF / S
        RVEC(1) = (E32 - E23) * S
        RVEC(2) = (E13 - E31) * S
        RVEC(3) = (E21 - E12) * S
        NR = SQRT(RVEC(1)*RVEC(1)+RVEC(2)*RVEC(2)+RVEC(3)*RVEC(3))
-       IF (NR.NE.ZERO) NR = ONE/NR
+       IF (NR/=ZERO) NR = ONE/NR
        RVEC(1) = RVEC(1)*NR
        RVEC(2) = RVEC(2)*NR 
        RVEC(3) = RVEC(3)*NR 

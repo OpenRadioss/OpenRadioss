@@ -83,7 +83,7 @@ C     REAL
      .   R, CTH, STH, SKDIR(3), FMDIR(3), HX, HY, HZ, COEF,
      .   ER(3),ET(3),ALPHA, NOR1, NOR2, NOR3, YIMP
 C-----------------------------------------------
-      IF(N2D.EQ.1)THEN
+      IF(N2D==1)THEN
        AX=ONE
       ELSE
        AX=ZERO
@@ -95,32 +95,32 @@ C------------------
       IDEB = 0
 C
       DO NN=1,NFXVEL,NVSIZ
-        IF (IBFV(8,NN).EQ.1) GOTO 100
+        IF (IBFV(8,NN)==1) GOTO 100
         IC = 0
-        IF (NSENSOR.GT.0) THEN
+        IF (NSENSOR>0) THEN
           DO 10 II = 1, MIN(NFXVEL-IDEB,NVSIZ)
             N = II+IDEB
             STARTT = VEL(2,N)
             STOPT  = VEL(3,N)
             FACX   = VEL(5,N)
-            IF(TT.LT.STARTT)GOTO 10
-            IF(TT.GT.STOPT) GOTO 10
+            IF(TT<STARTT)GOTO 10
+            IF(TT>STOPT) GOTO 10
             I=IABS(IBFV(1,N))
 C
             IF(NODNX_SMS(I)==0) CYCLE
             ISENS=0
             DO K=1,NSENSOR
-              IF(IBFV(4,N).EQ.LSENSOR(1,K))ISENS=K
+              IF(IBFV(4,N)==LSENSOR(1,K))ISENS=K
             ENDDO
-            IF(ISENS.EQ.0)THEN
+            IF(ISENS==0)THEN
               TS=TT
             ELSE
               TS = TT-SENSOR(2,ISENS)
-              IF(TS.LT.0.0)GOTO 10
+              IF(TS<0.0)GOTO 10
             ENDIF
             IC = IC + 1
             INDEX(IC) = N
-            IF(IBFV(7,N).EQ.1) THEN
+            IF(IBFV(7,N)==1) THEN
               TSC(IC) = (TS+HALF*DT2)*FACX
             ELSE
               TSC(IC) = (TS+DT2)*FACX
@@ -133,14 +133,14 @@ C         sans sensor
             STARTT = VEL(2,N)
             STOPT  = VEL(3,N)
             FACX   = VEL(5,N)
-            IF(TT.LT.STARTT)GOTO 20
-            IF(TT.GT.STOPT) GOTO 20
+            IF(TT<STARTT)GOTO 20
+            IF(TT>STOPT) GOTO 20
             I=IABS(IBFV(1,N))
 C
             IF(NODNX_SMS(I)==0) CYCLE
             IC = IC + 1
             INDEX(IC) = N
-            IF(IBFV(7,N).EQ.1) THEN
+            IF(IBFV(7,N)==1) THEN
               TSC(IC) = (TT + HALF*DT2)*FACX
             ELSE
               TSC(IC) = (TT+DT2)*FACX
@@ -148,7 +148,7 @@ C
  20       CONTINUE
         ENDIF
 C
-        IF (CPTREAC.NE.0) THEN
+        IF (CPTREAC/=0) THEN
           DO II=1,IC
             N = INDEX(II)
             I=IABS(IBFV(1,N))
@@ -160,7 +160,7 @@ C
 C
         IDEB = IDEB + MIN(NFXVEL-IDEB,NVSIZ)
 C-------
-        IF(NCYCLE.EQ.0)THEN
+        IF(NCYCLE==0)THEN
          DO II=1,IC
           N = INDEX(II)
           L = IBFV(3,N)
@@ -180,7 +180,7 @@ C-------
          ENDDO
         ENDIF
         CALL VINTER(TF,IADC,IPOSC,ILENC,IC,TSC,DYDXC,YC)
-        IF(IVECTOR.EQ.0) THEN
+        IF(IVECTOR==0) THEN
          DO II=1,IC
           N = INDEX(II)
           I=IABS(IBFV(1,N))
@@ -201,17 +201,17 @@ c          VEL(6,N) = YC(II)
           SKDIR=ZERO
           FMDIR=ZERO
           R=ONE
-          IF (IFM.LE.1) J=J-10*ISK
-          IF(J.LE.3)THEN
+          IF (IFM<=1) J=J-10*ISK
+          IF(J<=3)THEN
             AXI=ONE-AX+AX*X(2,I)
-            IF(ISK.LE.1.AND.IFM.LE.1.AND.ICOOR.EQ.0)THEN
-              IF(IBFV(7,N).EQ.2) YC(II)=(YC(II)-D(J,I))/DT2
-              IF(IBFV(7,N).GE.1) YC(II)=(YC(II)-V(J,I))/DT12
+            IF(ISK<=1.AND.IFM<=1.AND.ICOOR==0)THEN
+              IF(IBFV(7,N)==2) YC(II)=(YC(II)-D(J,I))/DT2
+              IF(IBFV(7,N)>=1) YC(II)=(YC(II)-V(J,I))/DT12
               AOLD=A(J,I)
               A(J,I)=DIAG_SMS(I)*YC(II)
               DW = FOURTH*AXI*WEIGHT(I) *
      .             (YC(II)*DT12 + TWO*V(J,I))*(MS(I)*YC(II)-AOLD)
-            ELSEIF (ISK.GT.1.AND.ICOOR.EQ.0) THEN
+            ELSEIF (ISK>1.AND.ICOOR==0) THEN
               K1=3*J-2
               K2=3*J-1
               K3=3*J
@@ -224,8 +224,8 @@ c          VEL(6,N) = YC(II)
               A0 = SKEW(K1,ISK)*A(1,I) +
      .             SKEW(K2,ISK)*A(2,I) +
      .             SKEW(K3,ISK)*A(3,I)
-              IF(IBFV(7,N).EQ.2) YC(II)=(YC(II)-DD)/DT2
-              IF(IBFV(7,N).GE.1) YC(II)=(YC(II)-VV)/DT12
+              IF(IBFV(7,N)==2) YC(II)=(YC(II)-DD)/DT2
+              IF(IBFV(7,N)>=1) YC(II)=(YC(II)-VV)/DT12
               AA = DIAG_SMS(I)*YC(II) - A0
               A(1,I)=A(1,I)+SKEW(K1,ISK)*AA
               A(2,I)=A(2,I)+SKEW(K2,ISK)*AA
@@ -233,8 +233,8 @@ c          VEL(6,N) = YC(II)
 c ?
               DW = FOURTH*AXI*WEIGHT(I) *
      .             (YC(II)*DT12+TWO*VV)*(MS(I)*YC(II)-A0)
-            ELSEIF ((ISK.LE.1.AND.IFM.LE.1.AND.ICOOR.EQ.1) .OR.
-     &               (ISK.GT.1 .AND. ICOOR.EQ.1)) THEN
+            ELSEIF ((ISK<=1.AND.IFM<=1.AND.ICOOR==1) .OR.
+     &               (ISK>1 .AND. ICOOR==1)) THEN
               COEF = (SKEW(10,ISK)-X(1,I))*SKEW(7,ISK) +
      &               (SKEW(11,ISK)-X(2,I))*SKEW(8,ISK) +
      &               (SKEW(12,ISK)-X(3,I))*SKEW(9,ISK)
@@ -242,18 +242,18 @@ c ?
               HY = COEF*SKEW(8,ISK)+X(2,I)-SKEW(11,ISK)
               HZ = COEF*SKEW(9,ISK)+X(3,I)-SKEW(12,ISK)
               R  = SQRT(HX*HX+HY*HY+HZ*HZ)
-              IF(R.LE.EM20) THEN
+              IF(R<=EM20) THEN
                 CTH = ZERO
                 STH = ZERO
               ELSE
                 CTH = (SKEW(1,ISK)*HX+SKEW(2,ISK)*HY+SKEW(3,ISK)*HZ)/R
                 STH = (SKEW(4,ISK)*HX+SKEW(5,ISK)*HY+SKEW(6,ISK)*HZ)/R
               ENDIF
-              IF (J.EQ.1) THEN
+              IF (J==1) THEN
                 SKDIR(1) =CTH*SKEW(1,ISK)+ STH*SKEW(4,ISK)
                 SKDIR(2) =CTH*SKEW(2,ISK)+ STH*SKEW(5,ISK)
                 SKDIR(3) =CTH*SKEW(3,ISK)+ STH*SKEW(6,ISK)
-              ELSEIF(J.EQ.2) THEN
+              ELSEIF(J==2) THEN
                 ER(1) =CTH*SKEW(1,ISK)+ STH*SKEW(4,ISK)
                 ER(2) =CTH*SKEW(2,ISK)+ STH*SKEW(5,ISK)
                 ER(3) =CTH*SKEW(3,ISK)+ STH*SKEW(6,ISK)
@@ -269,11 +269,11 @@ c-----------------vitesse angulaire imposee---------
 c-----------------sinon-----------------------------
 c                ALPHA=-YC(II)*DT2/(TWO*R)
                 SKDIR=ALPHA*ER+ET
-              ELSEIF(J.EQ.3) THEN
+              ELSEIF(J==3) THEN
                 SKDIR(1)=SKEW(7,ISK)
                 SKDIR(2)=SKEW(8,ISK)
                 SKDIR(3)=SKEW(9,ISK)
-                IF(IBFV(7,N).EQ.2) YIMP= SKDIR(1)*D(1,I) +
+                IF(IBFV(7,N)==2) YIMP= SKDIR(1)*D(1,I) +
      &                                   SKDIR(2)*D(2,I) +
      &                                   SKDIR(3)*D(3,I)
               ENDIF
@@ -283,9 +283,9 @@ c                ALPHA=-YC(II)*DT2/(TWO*R)
               SKDIR=SKDIR/MAX(NOR3,EM20)
               VV = V(1,I)*SKDIR(1) + V(2,I)*SKDIR(2) + V(3,I)*SKDIR(3)
               A0 = A(1,I)*SKDIR(1) + A(2,I)*SKDIR(2) + A(3,I)*SKDIR(3)
-              IF(IBFV(7,N).EQ.2) YC(II)=(YC(II)-YIMP)/DT2
-              IF(IBFV(7,N).GE.1) THEN
-                IF (J.EQ.2) THEN
+              IF(IBFV(7,N)==2) YC(II)=(YC(II)-YIMP)/DT2
+              IF(IBFV(7,N)>=1) THEN
+                IF (J==2) THEN
 c                 YC(II)=(YC(II)-VV)/DT12
 c-----------------vitesse angulaire imposee--------
                   YC(II)=(R*YC(II)-VV)/DT12
@@ -295,13 +295,13 @@ c----------------------------------------------------
                 ENDIF
               ENDIF
               AA = DIAG_SMS(I)*YC(II) - A0
-              IF(R.LE.EM20) AA=ZERO
+              IF(R<=EM20) AA=ZERO
               A(1,I)=A(1,I)+SKDIR(1)*AA
               A(2,I)=A(2,I)+SKDIR(2)*AA
               A(3,I)=A(3,I)+SKDIR(3)*AA
               DW = FOURTH*AXI*WEIGHT(I) *
      .             (YC(II)*DT12+TWO*VV)*(MS(I)*YC(II)-A0)
-            ELSEIF (IFM.GT.1.AND.ICOOR.EQ.0) THEN
+            ELSEIF (IFM>1.AND.ICOOR==0) THEN
 C             Fixed velocity in moving frame (transl)
               K1=3*J-2
               K2=3*J-1
@@ -329,7 +329,7 @@ C             Fixed velocity in moving frame (transl)
 c ?
               DW = FOURTH*AXI*WEIGHT(I) *
      .             (YC(II)*DT12+TWO*VV)*(MS(I)*YC(II)-A0)
-            ELSEIF (IFM.GT.1.AND.ICOOR.EQ.1) THEN
+            ELSEIF (IFM>1.AND.ICOOR==1) THEN
               COEF = (XFRAME(10,IFM)-X(1,I))*XFRAME(7,IFM) +
      &               (XFRAME(11,IFM)-X(2,I))*XFRAME(8,IFM) +
      &               (XFRAME(12,IFM)-X(3,I))*XFRAME(9,IFM)
@@ -337,7 +337,7 @@ c ?
               HY = COEF*XFRAME(8,IFM)+X(2,I)-XFRAME(11,IFM)
               HZ = COEF*XFRAME(9,IFM)+X(3,I)-XFRAME(12,IFM)
               R  = SQRT(HX*HX+HY*HY+HZ*HZ)
-              IF(R.LE.EM20) THEN
+              IF(R<=EM20) THEN
                 CTH = ZERO
                 STH = ZERO
               ELSE
@@ -348,11 +348,11 @@ c ?
      &                 XFRAME(5,IFM)*HY +
      &                 XFRAME(6,IFM)*HZ)/R
               ENDIF
-              IF (J.EQ.1) THEN
+              IF (J==1) THEN
                 FMDIR(1) =CTH*XFRAME(1,IFM)+ STH*XFRAME(4,IFM)
                 FMDIR(2) =CTH*XFRAME(2,IFM)+ STH*XFRAME(5,IFM)
                 FMDIR(3) =CTH*XFRAME(3,IFM)+ STH*XFRAME(6,IFM)
-              ELSEIF (J.EQ.2) THEN
+              ELSEIF (J==2) THEN
                 ER(1) =CTH*XFRAME(1,IFM)+ STH*XFRAME(4,IFM)
                 ER(2) =CTH*XFRAME(2,IFM)+ STH*XFRAME(5,IFM)
                 ER(3) =CTH*XFRAME(3,IFM)+ STH*XFRAME(6,IFM)
@@ -368,7 +368,7 @@ c---------------vitesse angulaire imposee--------
 c-----------------------------------------------
 c                ALPHA=-YC(II)*DT2/(TWO*R)
                 FMDIR=ALPHA*ER+ET
-              ELSEIF (J.EQ.3) THEN
+              ELSEIF (J==3) THEN
                 FMDIR(1)=XFRAME(7,IFM)
                 FMDIR(2)=XFRAME(8,IFM)
                 FMDIR(3)=XFRAME(9,IFM)
@@ -386,7 +386,7 @@ c                ALPHA=-YC(II)*DT2/(TWO*R)
               VV = FMDIR(1)*V(1,I) + FMDIR(2)*V(2,I) + FMDIR(3)*V(3,I)
               VF = FMDIR(1)*VFX + FMDIR(2)*VFY + FMDIR(3)*VFZ
               A0 = FMDIR(1)*A(1,I) + FMDIR(2)*A(2,I) + FMDIR(3)*A(3,I)
-              IF (J.EQ.2) THEN
+              IF (J==2) THEN
 c               YC(II)=(YC(II)-VV+VF)/DT12
 c---------------vitesse angulaire imposee--------
                 YC(II)=(R*YC(II)-VV+VF)/DT12
@@ -395,21 +395,21 @@ c-------------------------------------------------
                 YC(II)=(YC(II)-VV+VF)/DT12
               ENDIF
               AA = DIAG_SMS(I)*YC(II) - A0
-              IF(R.LE.EM20) AA=ZERO
+              IF(R<=EM20) AA=ZERO
               A(1,I)=A(1,I)+FMDIR(1)*AA
               A(2,I)=A(2,I)+FMDIR(2)*AA
               A(3,I)=A(3,I)+FMDIR(3)*AA
               DW = FOURTH*AXI*WEIGHT(I) *
      .             (YC(II)*DT12+TWO*VV)*(MS(I)*YC(II)-A0)
             ENDIF
-          ELSEIF(J.LE.6)THEN
+          ELSEIF(J<=6)THEN
             J = J - 3
-            IF(ISK.LE.1.AND.IFM.LE.1.AND.ICOOR.EQ.0)THEN
-              IF(IBFV(7,N).EQ.2) YC(II)=(YC(II)-DR(J,I))/DT2
-              IF(IBFV(7,N).GE.1) YC(II)=(YC(II)-VR(J,I))/DT12
+            IF(ISK<=1.AND.IFM<=1.AND.ICOOR==0)THEN
+              IF(IBFV(7,N)==2) YC(II)=(YC(II)-DR(J,I))/DT2
+              IF(IBFV(7,N)>=1) YC(II)=(YC(II)-VR(J,I))/DT12
               AOLD   = AR(J,I)
               AR(J,I)= IN(I)*YC(II)
-              IF(IBFV(6,N).EQ.0)THEN
+              IF(IBFV(6,N)==0)THEN
                 DW=FOURTH *
      .           (YC(II)*DT12 + TWO*VR(J,I))*(AR(J,I)-AOLD) *
      .           WEIGHT(I)
@@ -419,11 +419,11 @@ c-------------------------------------------------
      .          (YC(II)*DT12 + TWO*VR(J,I))*WEIGHT(I)*(AR(J,I)-AOLD)*
      .          (RBY(16+J,NR) + RBY(19+J,NR) + RBY(22+J,NR))/MAX(IN(I),EM30)
               ENDIF
-            ELSEIF (ISK.GT.1.AND.ICOOR.EQ.0) THEN
+            ELSEIF (ISK>1.AND.ICOOR==0) THEN
               K1=3*J-2
               K2=3*J-1
               K3=3*J
-              IF(IBFV(7,N).EQ.2) THEN
+              IF(IBFV(7,N)==2) THEN
               DD = SKEW(K1,ISK)*DR(1,I) +
      .             SKEW(K2,ISK)*DR(2,I) +
      .             SKEW(K3,ISK)*DR(3,I)
@@ -434,13 +434,13 @@ c-------------------------------------------------
               A0 = SKEW(K1,ISK)*AR(1,I) +
      .             SKEW(K2,ISK)*AR(2,I) +
      .             SKEW(K3,ISK)*AR(3,I)
-              IF(IBFV(7,N).EQ.2) YC(II)=(YC(II)-DD)/DT2
-              IF(IBFV(7,N).GE.1) YC(II)=(YC(II)-VV)/DT12
+              IF(IBFV(7,N)==2) YC(II)=(YC(II)-DD)/DT2
+              IF(IBFV(7,N)>=1) YC(II)=(YC(II)-VV)/DT12
               AA = IN(I)*YC(II) - A0
               AR(1,I)=AR(1,I)+SKEW(K1,ISK)*AA
               AR(2,I)=AR(2,I)+SKEW(K2,ISK)*AA
               AR(3,I)=AR(3,I)+SKEW(K3,ISK)*AA
-              IF(IBFV(6,N).EQ.0)THEN
+              IF(IBFV(6,N)==0)THEN
                 DW= FOURTH*(YC(II)*DT12+TWO*VV)*AA*WEIGHT(I)
               ELSE
                 NR = IBFV(6,N)
@@ -456,8 +456,8 @@ c-------------------------------------------------
      .              +RBY(25,NR)*SKEW(K3,ISK))*SKEW(K3,ISK))
      .             /MAX(IN(I),EM30)
               ENDIF
-            ELSEIF ((ISK.LE.1.AND.IFM.LE.1.AND.ICOOR.EQ.1) .OR.
-     &               (ISK.GT.1.AND.ICOOR.EQ.1)) THEN
+            ELSEIF ((ISK<=1.AND.IFM<=1.AND.ICOOR==1) .OR.
+     &               (ISK>1.AND.ICOOR==1)) THEN
               COEF = (SKEW(10,ISK)-X(1,I))*SKEW(7,ISK) +
      &               (SKEW(11,ISK)-X(2,I))*SKEW(8,ISK) +
      &               (SKEW(12,ISK)-X(3,I))*SKEW(9,ISK)
@@ -465,26 +465,26 @@ c-------------------------------------------------
               HY = COEF*SKEW(8,ISK)+X(2,I)-SKEW(11,ISK)
               HZ = COEF*SKEW(9,ISK)+X(3,I)-SKEW(12,ISK)
               R  = SQRT(HX*HX+HY*HY+HZ*HZ)
-              IF(R.LE.EM20) THEN
+              IF(R<=EM20) THEN
                 CTH = ZERO
                 STH = ZERO
               ELSE
                 CTH = (SKEW(1,ISK)*HX+SKEW(2,ISK)*HY+SKEW(3,ISK)*HZ)/R
                 STH = (SKEW(4,ISK)*HX+SKEW(5,ISK)*HY+SKEW(6,ISK)*HZ)/R
               ENDIF
-              IF (J.EQ.1) THEN
+              IF (J==1) THEN
                 SKDIR(1) =CTH*SKEW(1,ISK)+ STH*SKEW(4,ISK)
                 SKDIR(2) =CTH*SKEW(2,ISK)+ STH*SKEW(5,ISK)
                 SKDIR(3) =CTH*SKEW(3,ISK)+ STH*SKEW(6,ISK)
-              ELSEIF(J.EQ.2) THEN
+              ELSEIF(J==2) THEN
                 SKDIR(1) =CTH*SKEW(4,ISK)- STH*SKEW(1,ISK)
                 SKDIR(2) =CTH*SKEW(5,ISK)- STH*SKEW(2,ISK)
                 SKDIR(3) =CTH*SKEW(6,ISK)- STH*SKEW(3,ISK)
-              ELSEIF(J.EQ.3) THEN
+              ELSEIF(J==3) THEN
                 SKDIR(1)=SKEW(7,ISK)
                 SKDIR(2)=SKEW(8,ISK)
                 SKDIR(3)=SKEW(9,ISK)
-                IF(IBFV(7,N).EQ.2) YIMP= SKDIR(1)*DR(1,I) +
+                IF(IBFV(7,N)==2) YIMP= SKDIR(1)*DR(1,I) +
      &                                   SKDIR(2)*DR(2,I) +
      &                                   SKDIR(3)*DR(3,I)
               ENDIF
@@ -492,16 +492,16 @@ c-------------------------------------------------
      &                   +SKDIR(2)*SKDIR(2)
      &                   +SKDIR(3)*SKDIR(3))
               SKDIR=SKDIR/MAX(NOR3,EM20)
-              IF(IBFV(7,N).EQ.2) YC(II)=(YC(II)-YIMP)/DT2
+              IF(IBFV(7,N)==2) YC(II)=(YC(II)-YIMP)/DT2
               VV =VR(1,I)*SKDIR(1)+ VR(2,I)*SKDIR(2)+ VR(3,I)*SKDIR(3)
               A0 =AR(1,I)*SKDIR(1)+ AR(2,I)*SKDIR(2)+ AR(3,I)*SKDIR(3)
-              IF(IBFV(7,N).GE.1) YC(II)=(YC(II)-VV)/DT12
+              IF(IBFV(7,N)>=1) YC(II)=(YC(II)-VV)/DT12
               AA = IN(I)*YC(II) - A0
-              IF(R.LE.EM20) AA=ZERO
+              IF(R<=EM20) AA=ZERO
               AR(1,I)=AR(1,I)+SKDIR(1)*AA
               AR(2,I)=AR(2,I)+SKDIR(2)*AA
               AR(3,I)=AR(3,I)+SKDIR(3)*AA
-              IF(IBFV(6,N).EQ.0)THEN
+              IF(IBFV(6,N)==0)THEN
                 DW= FOURTH*(YC(II)*DT12+TWO*VV)*AA*WEIGHT(I)
               ELSE
                 NR = IBFV(6,N)
@@ -517,7 +517,7 @@ c-------------------------------------------------
      &               +RBY(25,NR)*SKDIR(3))*SKDIR(3))
      .             /MAX(IN(I),EM30)
               ENDIF
-            ELSEIF (IFM.GT.1.AND.ICOOR.EQ.0) THEN
+            ELSEIF (IFM>1.AND.ICOOR==0) THEN
 C             Fixed velocity in moving frame (rota)
               K1=3*J-2
               K2=3*J-1
@@ -535,7 +535,7 @@ C             Fixed velocity in moving frame (rota)
               AR(1,I)=AR(1,I)+XFRAME(K1,IFM)*AA
               AR(2,I)=AR(2,I)+XFRAME(K2,IFM)*AA
               AR(3,I)=AR(3,I)+XFRAME(K3,IFM)*AA
-              IF(IBFV(6,N).EQ.0)THEN
+              IF(IBFV(6,N)==0)THEN
                 DW= FOURTH*(YC(II)+VV)*AA*WEIGHT(I)
               ELSE
                 NR = IBFV(6,N)
@@ -551,7 +551,7 @@ C             Fixed velocity in moving frame (rota)
      .              +RBY(25,NR)*XFRAME(K3,IFM))*XFRAME(K3,IFM))
      .             /MAX(IN(I),EM30)
               ENDIF
-            ELSEIF (IFM.GT.1.AND.ICOOR.EQ.1) THEN
+            ELSEIF (IFM>1.AND.ICOOR==1) THEN
               COEF = (XFRAME(10,IFM)-X(1,I))*XFRAME(7,IFM) +
      &               (XFRAME(11,IFM)-X(2,I))*XFRAME(8,IFM) +
      &               (XFRAME(12,IFM)-X(3,I))*XFRAME(9,IFM)
@@ -559,7 +559,7 @@ C             Fixed velocity in moving frame (rota)
               HY = COEF*XFRAME(8,IFM)+X(2,I)-XFRAME(11,IFM)
               HZ = COEF*XFRAME(9,IFM)+X(3,I)-XFRAME(12,IFM)
               R  = SQRT(HX*HX+HY*HY+HZ*HZ)
-              IF(R.LE.EM20) THEN
+              IF(R<=EM20) THEN
                 CTH = ZERO
                 STH = ZERO
               ELSE
@@ -570,15 +570,15 @@ C             Fixed velocity in moving frame (rota)
      &                 XFRAME(5,IFM)*HY +
      &                 XFRAME(6,IFM)*HZ)/R
               ENDIF
-              IF (J.EQ.1) THEN
+              IF (J==1) THEN
                 FMDIR(1) =CTH*XFRAME(1,IFM)+ STH*XFRAME(4,IFM)
                 FMDIR(2) =CTH*XFRAME(2,IFM)+ STH*XFRAME(5,IFM)
                 FMDIR(3) =CTH*XFRAME(3,IFM)+ STH*XFRAME(6,IFM)
-              ELSEIF (J.EQ.2) THEN
+              ELSEIF (J==2) THEN
                 FMDIR(1) =CTH*XFRAME(4,IFM)- STH*XFRAME(1,IFM)
                 FMDIR(2) =CTH*XFRAME(5,IFM)- STH*XFRAME(2,IFM)
                 FMDIR(3) =CTH*XFRAME(6,IFM)- STH*XFRAME(3,IFM)
-              ELSEIF (J.EQ.3) THEN
+              ELSEIF (J==3) THEN
                 FMDIR(1)=XFRAME(7,IFM)
                 FMDIR(2)=XFRAME(8,IFM)
                 FMDIR(3)=XFRAME(9,IFM)
@@ -597,11 +597,11 @@ C             Fixed velocity in moving frame (rota)
      &             FMDIR(2)*AR(2,I) +
      &             FMDIR(3)*AR(3,I)
               AA = IN(I)*(YC(II)-VV+VF)/DT12 - A0
-              IF(R.LE.EM20) AA=ZERO
+              IF(R<=EM20) AA=ZERO
               AR(1,I)=AR(1,I)+FMDIR(1)*AA
               AR(2,I)=AR(2,I)+FMDIR(2)*AA
               AR(3,I)=AR(3,I)+FMDIR(3)*AA
-              IF(IBFV(6,N).EQ.0)THEN
+              IF(IBFV(6,N)==0)THEN
                 DW= FOURTH*(YC(II)+VV)*AA*WEIGHT(I)
               ELSE
                 NR = IBFV(6,N)
@@ -631,14 +631,14 @@ C       partie vectorielle
            IFM = IBFV(9,N)
            ISK = IBFV(2,N)/10
            ICOOR=IBFV(10,N)
-           IF (IFM.GT.1) THEN
+           IF (IFM>1) THEN
              NFK = 1
-           ELSEIF (ISK.GT.1) THEN
+           ELSEIF (ISK>1) THEN
              NSK=1
            ENDIF
          ENDDO
 
-         IF(NSK.EQ.0.AND.NFK.EQ.0.AND.ICOOR.EQ.0)THEN
+         IF(NSK==0.AND.NFK==0.AND.ICOOR==0)THEN
 #include "vectorize.inc"
           DO II=1,IC
            N = INDEX(II)
@@ -650,21 +650,21 @@ C       partie vectorielle
            YC(II) = YC(II) * FAC
            ISK=IBFV(2,N)/10
            J=IBFV(2,N)-10*ISK
-           IF(J.LE.3)THEN
+           IF(J<=3)THEN
               AXI=ONE-AX+AX*X(2,I)
-              IF(IBFV(7,N).EQ.2) YC(II)=(YC(II)-D(J,I))/DT2
-              IF(IBFV(7,N).GE.1) YC(II)=(YC(II)-V(J,I))/DT12
+              IF(IBFV(7,N)==2) YC(II)=(YC(II)-D(J,I))/DT2
+              IF(IBFV(7,N)>=1) YC(II)=(YC(II)-V(J,I))/DT12
               AOLD=A(J,I)
               A(J,I)=DIAG_SMS(I)*YC(II)
               DW = FOURTH*AXI*WEIGHT(I) *
      .             (YC(II)*DT12 + TWO*V(J,I))*(MS(I)*YC(II)-AOLD)
-           ELSEIF(J.LE.6)THEN
+           ELSEIF(J<=6)THEN
              J = J - 3
-             IF(IBFV(7,N).EQ.2) YC(II)=(YC(II)-DR(J,I))/DT2
-             IF(IBFV(7,N).GE.1) YC(II)=(YC(II)-VR(J,I))/DT12
+             IF(IBFV(7,N)==2) YC(II)=(YC(II)-DR(J,I))/DT2
+             IF(IBFV(7,N)>=1) YC(II)=(YC(II)-VR(J,I))/DT12
              AOLD=AR(J,I)
              AR(J,I)= IN(I)*YC(II)
-             IF(IBFV(6,N).EQ.0)THEN
+             IF(IBFV(6,N)==0)THEN
                DW=FOURTH *
      .         (AR(J,I)*DT12+TWO*VR(J,I))*(AR(J,I)-AOLD) *
      .          WEIGHT(I)
@@ -679,7 +679,7 @@ C       partie vectorielle
            TFEXT=TFEXT + DT1*DW
            VEL(4,N) = DT2*DW
           ENDDO
-         ELSEIF (NSK.EQ.1.AND.NFK.EQ.0.AND.ICOOR.EQ.0) THEN
+         ELSEIF (NSK==1.AND.NFK==0.AND.ICOOR==0) THEN
            DO K=1,3
 #include "vectorize.inc"
            DO II=1,IC
@@ -687,7 +687,7 @@ C       partie vectorielle
            I=IABS(IBFV(1,N))
            ISK=IBFV(2,N)/10
            J=IBFV(2,N)-10*ISK
-           IF(J.EQ.K)THEN
+           IF(J==K)THEN
              IBFV(5,N) = IPOSC(II)
              FAC  = VEL(1,N)
              DW   = VEL(4,N)
@@ -706,8 +706,8 @@ C       partie vectorielle
              A0 = SKEW(K1,ISK)*A(1,I) +
      .            SKEW(K2,ISK)*A(2,I) +
      .            SKEW(K3,ISK)*A(3,I)
-             IF(IBFV(7,N).EQ.2) YC(II)=(YC(II)-DD)/DT2
-             IF(IBFV(7,N).GE.1) YC(II)=(YC(II)-VV)/DT12
+             IF(IBFV(7,N)==2) YC(II)=(YC(II)-DD)/DT2
+             IF(IBFV(7,N)>=1) YC(II)=(YC(II)-VV)/DT12
              AA = DIAG_SMS(I)*YC(II) - A0
              A(1,I)=A(1,I)+SKEW(K1,ISK)*AA
              A(2,I)=A(2,I)+SKEW(K2,ISK)*AA
@@ -720,14 +720,14 @@ c ?
            ENDIF
            ENDDO
            ENDDO
-           IF (IRODDL.GE.0)THEN
+           IF (IRODDL>=0)THEN
              DO K=4,3+3*IRODDL
 #include "vectorize.inc"
                DO II=1,IC
                  N = INDEX(II)
                  ISK=IBFV(2,N)/10
                  J=IBFV(2,N)-10*ISK
-                 IF(J.EQ.K)THEN
+                 IF(J==K)THEN
                    IBFV(5,N) = IPOSC(II)
                    FAC  = VEL(1,N)
                    DW   = VEL(4,N)
@@ -738,7 +738,7 @@ c ?
                    K1=3*J-2
                    K2=3*J-1
                    K3=3*J
-                   IF(IBFV(7,N).EQ.2) THEN
+                   IF(IBFV(7,N)==2) THEN
                      DD = SKEW(K1,ISK)*DR(1,I) +
      .                    SKEW(K2,ISK)*DR(2,I) +
      .                    SKEW(K3,ISK)*DR(3,I)
@@ -749,13 +749,13 @@ c ?
                    A0 = SKEW(K1,ISK)*AR(1,I) +
      .                  SKEW(K2,ISK)*AR(2,I) +
      .                  SKEW(K3,ISK)*AR(3,I)
-                   IF(IBFV(7,N).EQ.2) YC(II)=(YC(II)-DD)/DT2
-                   IF(IBFV(7,N).GE.1) YC(II)=(YC(II)-VV)/DT12
+                   IF(IBFV(7,N)==2) YC(II)=(YC(II)-DD)/DT2
+                   IF(IBFV(7,N)>=1) YC(II)=(YC(II)-VV)/DT12
                    AA = IN(I)*YC(II) - A0
                    AR(1,I)=AR(1,I)+SKEW(K1,ISK)*AA
                    AR(2,I)=AR(2,I)+SKEW(K2,ISK)*AA
                    AR(3,I)=AR(3,I)+SKEW(K3,ISK)*AA
-                   IF(IBFV(6,N).EQ.0)THEN
+                   IF(IBFV(6,N)==0)THEN
                      DW= FOURTH*(YC(II)*DT12+TWO*VV)*AA*WEIGHT(I)
                    ELSE
                      NR = IBFV(6,N)
@@ -777,8 +777,8 @@ c ?
                ENDDO
              ENDDO
            ENDIF
-         ELSEIF ((NSK.EQ.0.AND.NFK.EQ.0.AND.ICOOR.EQ.1).OR.
-     &         (NSK.EQ.1.AND.NFK.EQ.0.AND.ICOOR.EQ.1)) THEN
+         ELSEIF ((NSK==0.AND.NFK==0.AND.ICOOR==1).OR.
+     &         (NSK==1.AND.NFK==0.AND.ICOOR==1)) THEN
            DO K=1,3
 #include "vectorize.inc"
            DO II=1,IC
@@ -788,7 +788,7 @@ c ?
            J=IBFV(2,N)-10*ISK
            SKDIR=ZERO
            R=ONE
-           IF(J.EQ.K)THEN
+           IF(J==K)THEN
              IBFV(5,N) = IPOSC(II)
              FAC  = VEL(1,N)
              YIMP   = VEL(6,N)
@@ -805,7 +805,7 @@ c             VEL(6,N) = YC(II)
              HY = COEF*SKEW(8,ISK)+X(2,I)-SKEW(11,ISK)
              HZ = COEF*SKEW(9,ISK)+X(3,I)-SKEW(12,ISK)
              R  = SQRT(HX*HX+HY*HY+HZ*HZ)
-             IF(R.LE.EM20) THEN
+             IF(R<=EM20) THEN
                CTH = ZERO
                STH = ZERO
              ELSE
@@ -816,11 +816,11 @@ c             VEL(6,N) = YC(II)
      &                SKEW(5,ISK)*HY +
      &                SKEW(6,ISK)*HZ)/R
              ENDIF
-             IF (J.EQ.1) THEN
+             IF (J==1) THEN
                SKDIR(1) =CTH*SKEW(1,ISK)+ STH*SKEW(4,ISK)
                SKDIR(2) =CTH*SKEW(2,ISK)+ STH*SKEW(5,ISK)
                SKDIR(3) =CTH*SKEW(3,ISK)+ STH*SKEW(6,ISK)
-             ELSEIF(J.EQ.2) THEN
+             ELSEIF(J==2) THEN
                ER(1) =CTH*SKEW(1,ISK)+ STH*SKEW(4,ISK)
                ER(2) =CTH*SKEW(2,ISK)+ STH*SKEW(5,ISK)
                ER(3) =CTH*SKEW(3,ISK)+ STH*SKEW(6,ISK)
@@ -836,11 +836,11 @@ c-----------------vitesse angulaire imposee---------
 c-----------------sinon-----------------------------
 c                  ALPHA=-YC(II)*DT2/(TWO*R)
                SKDIR=ALPHA*ER+ET
-             ELSEIF(J.EQ.3) THEN
+             ELSEIF(J==3) THEN
                SKDIR(1)=SKEW(7,ISK)
                SKDIR(2)=SKEW(8,ISK)
                SKDIR(3)=SKEW(9,ISK)
-               IF(IBFV(7,N).EQ.2) YIMP= SKDIR(1)*D(1,I) +
+               IF(IBFV(7,N)==2) YIMP= SKDIR(1)*D(1,I) +
      &                                  SKDIR(2)*D(2,I) +
      &                                  SKDIR(3)*D(3,I)
              ENDIF
@@ -854,9 +854,9 @@ c                  ALPHA=-YC(II)*DT2/(TWO*R)
              A0 = A(1,I)*SKDIR(1) +
      &            A(2,I)*SKDIR(2) +
      &            A(3,I)*SKDIR(3)
-             IF(IBFV(7,N).EQ.2) YC(II)=(YC(II)-YIMP)/DT2
-             IF(IBFV(7,N).GE.1) THEN
-               IF (J.EQ.2) THEN
+             IF(IBFV(7,N)==2) YC(II)=(YC(II)-YIMP)/DT2
+             IF(IBFV(7,N)>=1) THEN
+               IF (J==2) THEN
 c                  YC(II)=(YC(II)-VV)/DT12
 c------------------vitesse angulaire imposee--------
                    YC(II)=(R*YC(II)-VV)/DT12
@@ -866,7 +866,7 @@ c----------------------------------------------------
                ENDIF
              ENDIF
              AA = DIAG_SMS(I)*YC(II) - A0
-             IF(R.LE.EM20) AA=ZERO
+             IF(R<=EM20) AA=ZERO
              A(1,I)=A(1,I)+SKDIR(1)*AA
              A(2,I)=A(2,I)+SKDIR(2)*AA
              A(3,I)=A(3,I)+SKDIR(3)*AA
@@ -877,7 +877,7 @@ c----------------------------------------------------
            ENDIF
            ENDDO
            ENDDO
-           IF (IRODDL.GE.0)THEN
+           IF (IRODDL>=0)THEN
              DO K=4,3+3*IRODDL
 #include "vectorize.inc"
                DO II=1,IC
@@ -886,7 +886,7 @@ c----------------------------------------------------
                  J=IBFV(2,N)-10*ISK
                  SKDIR=ZERO
                  R=ONE
-                 IF(J.EQ.K)THEN
+                 IF(J==K)THEN
                    IBFV(5,N) = IPOSC(II)
                    FAC  = VEL(1,N)
                    YIMP   = VEL(6,N)
@@ -904,7 +904,7 @@ c----------------------------------------------------
                    HY = COEF*SKEW(8,ISK)+X(2,I)-SKEW(11,ISK)
                    HZ = COEF*SKEW(9,ISK)+X(3,I)-SKEW(12,ISK)
                    R  = SQRT(HX*HX+HY*HY+HZ*HZ)
-                   IF(R.LE.EM20) THEN
+                   IF(R<=EM20) THEN
                      CTH = ZERO
                      STH = ZERO
                    ELSE
@@ -915,19 +915,19 @@ c----------------------------------------------------
      &                      SKEW(5,ISK)*HY +
      &                      SKEW(6,ISK)*HZ)/R
                    ENDIF
-                   IF (J.EQ.1) THEN
+                   IF (J==1) THEN
                      SKDIR(1) =CTH*SKEW(1,ISK)+ STH*SKEW(4,ISK)
                      SKDIR(2) =CTH*SKEW(2,ISK)+ STH*SKEW(5,ISK)
                      SKDIR(3) =CTH*SKEW(3,ISK)+ STH*SKEW(6,ISK)
-                   ELSEIF(J.EQ.2) THEN
+                   ELSEIF(J==2) THEN
                      SKDIR(1) =CTH*SKEW(4,ISK)- STH*SKEW(1,ISK)
                      SKDIR(2) =CTH*SKEW(5,ISK)- STH*SKEW(2,ISK)
                      SKDIR(3) =CTH*SKEW(6,ISK)- STH*SKEW(3,ISK)
-                   ELSEIF(J.EQ.3) THEN
+                   ELSEIF(J==3) THEN
                      SKDIR(1)=SKEW(7,ISK)
                      SKDIR(2)=SKEW(8,ISK)
                      SKDIR(3)=SKEW(9,ISK)
-                     IF(IBFV(7,N).EQ.2) YIMP= SKDIR(1)*DR(1,I) +
+                     IF(IBFV(7,N)==2) YIMP= SKDIR(1)*DR(1,I) +
      &                                        SKDIR(2)*DR(2,I) +
      &                                        SKDIR(3)*DR(3,I)
                     ENDIF
@@ -935,20 +935,20 @@ c----------------------------------------------------
      &                         +SKDIR(2)*SKDIR(2)
      &                        +SKDIR(3)*SKDIR(3))
                     SKDIR=SKDIR/MAX(NOR3,EM20)
-                    IF(IBFV(7,N).EQ.2) YC(II)=(YC(II)-YIMP)/DT2
+                    IF(IBFV(7,N)==2) YC(II)=(YC(II)-YIMP)/DT2
                     VV = VR(1,I)*SKDIR(1) +
      &                   VR(2,I)*SKDIR(2) +
      &                   VR(3,I)*SKDIR(3)
                     A0 = AR(1,I)*SKDIR(1) +
      &                   AR(2,I)*SKDIR(2) +
      &                   AR(3,I)*SKDIR(3)
-                    IF(IBFV(7,N).GE.1) YC(II)=(YC(II)-VV)/DT12
+                    IF(IBFV(7,N)>=1) YC(II)=(YC(II)-VV)/DT12
                     AA = IN(I)*YC(II) - A0
-                    IF(R.LE.EM20) AA=ZERO
+                    IF(R<=EM20) AA=ZERO
                     AR(1,I)=AR(1,I)+SKDIR(1)*AA
                     AR(2,I)=AR(2,I)+SKDIR(2)*AA
                     AR(3,I)=AR(3,I)+SKDIR(3)*AA
-                    IF(IBFV(6,N).EQ.0)THEN
+                    IF(IBFV(6,N)==0)THEN
                       DW= FOURTH*(YC(II)*DT12+TWO*VV)*AA*WEIGHT(I)
                     ELSE
                       NR = IBFV(6,N)
@@ -970,16 +970,16 @@ c----------------------------------------------------
                 ENDDO
               ENDDO
             ENDIF
-         ELSEIF (NFK.EQ.1.AND.ICOOR.EQ.0) THEN
+         ELSEIF (NFK==1.AND.ICOOR==0) THEN
            DO K=1,3
 #include "vectorize.inc"
            DO II=1,IC
            N = INDEX(II)
            IFM = IBFV(9,N)
            I=IABS(IBFV(1,N))
-           IF (IFM.GT.1) THEN
+           IF (IFM>1) THEN
              J = IBFV(2,N)
-             IF(J.EQ.K)THEN
+             IF(J==K)THEN
                IBFV(5,N) = IPOSC(II)
                FAC  = VEL(1,N)
                DW   = VEL(4,N)
@@ -1021,7 +1021,7 @@ c ?
            ELSE
              ISK=IBFV(2,N)/10
              J=IBFV(2,N)-10*ISK
-             IF(J.EQ.K)THEN
+             IF(J==K)THEN
                IBFV(5,N) = IPOSC(II)
                FAC  = VEL(1,N)
                DW   = VEL(4,N)
@@ -1041,8 +1041,8 @@ c ?
                A0 = SKEW(K1,ISK)*A(1,I) +
      .              SKEW(K2,ISK)*A(2,I) +
      .              SKEW(K3,ISK)*A(3,I)
-               IF(IBFV(7,N).EQ.2) YC(II)=(YC(II)-DD)/DT2
-               IF(IBFV(7,N).GE.1) YC(II)=(YC(II)-VV)/DT12
+               IF(IBFV(7,N)==2) YC(II)=(YC(II)-DD)/DT2
+               IF(IBFV(7,N)>=1) YC(II)=(YC(II)-VV)/DT12
                AA = DIAG_SMS(I)*YC(II) - A0
                A(1,I)=A(1,I)+SKEW(K1,ISK)*AA
                A(2,I)=A(2,I)+SKEW(K2,ISK)*AA
@@ -1056,15 +1056,15 @@ c ?
            ENDIF
          ENDDO
          ENDDO
-           IF (IRODDL.GE.0)THEN
+           IF (IRODDL>=0)THEN
              DO K=4,3+3*IRODDL
 #include "vectorize.inc"
                DO II=1,IC
                  N = INDEX(II)
                  IFM = IBFV(9,N)
-                 IF (IFM.GT.1) THEN
+                 IF (IFM>1) THEN
                    J=IBFV(2,N)
-                   IF(J.EQ.K)THEN
+                   IF(J==K)THEN
                      IBFV(5,N) = IPOSC(II)
                      FAC  = VEL(1,N)
                      DW   = VEL(4,N)
@@ -1088,7 +1088,7 @@ c ?
                      AR(1,I)=AR(1,I)+XFRAME(K1,IFM)*AA
                      AR(2,I)=AR(2,I)+XFRAME(K2,IFM)*AA
                      AR(3,I)=AR(3,I)+XFRAME(K3,IFM)*AA
-                     IF(IBFV(6,N).EQ.0)THEN
+                     IF(IBFV(6,N)==0)THEN
                        DW= FOURTH*(YC(II)+VV)*AA*WEIGHT(I)
                      ELSE
                        NR = IBFV(6,N)
@@ -1110,7 +1110,7 @@ c ?
                  ELSE
                    ISK=IBFV(2,N)/10
                    J=IBFV(2,N)-10*ISK
-                   IF(J.EQ.K)THEN
+                   IF(J==K)THEN
                      IBFV(5,N) = IPOSC(II)
                      FAC  = VEL(1,N)
                      DW   = VEL(4,N)
@@ -1121,7 +1121,7 @@ c ?
                      K1=3*J-2
                      K2=3*J-1
                      K3=3*J
-                     IF(IBFV(7,N).EQ.2) THEN
+                     IF(IBFV(7,N)==2) THEN
                      DD = SKEW(K1,ISK)*DR(1,I) +
      .                    SKEW(K2,ISK)*DR(2,I) +
      .                    SKEW(K3,ISK)*DR(3,I)
@@ -1132,13 +1132,13 @@ c ?
                      A0 = SKEW(K1,ISK)*AR(1,I) +
      .                    SKEW(K2,ISK)*AR(2,I) +
      .                    SKEW(K3,ISK)*AR(3,I)
-                     IF(IBFV(7,N).EQ.2) YC(II)=(YC(II)-DD)/DT2
-                     IF(IBFV(7,N).GE.1) YC(II)=(YC(II)-VV)/DT12
+                     IF(IBFV(7,N)==2) YC(II)=(YC(II)-DD)/DT2
+                     IF(IBFV(7,N)>=1) YC(II)=(YC(II)-VV)/DT12
                      AA = IN(I)*YC(II) - A0
                      AR(1,I)=AR(1,I)+SKEW(K1,ISK)*AA
                      AR(2,I)=AR(2,I)+SKEW(K2,ISK)*AA
                      AR(3,I)=AR(3,I)+SKEW(K3,ISK)*AA
-                     IF(IBFV(6,N).EQ.0)THEN
+                     IF(IBFV(6,N)==0)THEN
                        DW=FOURTH*(YC(II)*DT12+TWO*VV)*AA*WEIGHT(I)
                      ELSE
                        NR = IBFV(6,N)
@@ -1161,18 +1161,18 @@ c ?
                ENDDO
              ENDDO
            ENDIF
-         ELSEIF (NFK.EQ.1.AND.ICOOR.EQ.1) THEN
+         ELSEIF (NFK==1.AND.ICOOR==1) THEN
            DO K=1,3
 #include "vectorize.inc"
            DO II=1,IC
            N = INDEX(II)
            IFM = IBFV(9,N)
            I=IABS(IBFV(1,N))
-           IF (IFM.GT.1) THEN
+           IF (IFM>1) THEN
              J = IBFV(2,N)
              FMDIR=ZERO
              R=ONE
-             IF(J.EQ.K)THEN
+             IF(J==K)THEN
                IBFV(5,N) = IPOSC(II)
                FAC  = VEL(1,N)
                DW   = VEL(4,N)
@@ -1186,7 +1186,7 @@ c ?
                HY = COEF*XFRAME(8,IFM)+X(2,I)-XFRAME(11,IFM)
                HZ = COEF*XFRAME(9,IFM)+X(3,I)-XFRAME(12,IFM)
                R  = SQRT(HX*HX+HY*HY+HZ*HZ)
-               IF(R.LE.EM20) THEN
+               IF(R<=EM20) THEN
                  CTH = ZERO
                  STH = ZERO
                ELSE
@@ -1197,11 +1197,11 @@ c ?
      &                  XFRAME(5,IFM)*HY +
      &                  XFRAME(6,IFM)*HZ)/R
                ENDIF
-               IF (J.EQ.1) THEN
+               IF (J==1) THEN
                  FMDIR(1) =CTH*XFRAME(1,IFM)+ STH*XFRAME(4,IFM)
                  FMDIR(2) =CTH*XFRAME(2,IFM)+ STH*XFRAME(5,IFM)
                  FMDIR(3) =CTH*XFRAME(3,IFM)+ STH*XFRAME(6,IFM)
-               ELSEIF (J.EQ.2) THEN
+               ELSEIF (J==2) THEN
                  ER(1) =CTH*XFRAME(1,IFM)+ STH*XFRAME(4,IFM)
                  ER(2) =CTH*XFRAME(2,IFM)+ STH*XFRAME(5,IFM)
                  ER(3) =CTH*XFRAME(3,IFM)+ STH*XFRAME(6,IFM)
@@ -1217,7 +1217,7 @@ c--------------------vitesse angulaire imposee--------
 c-----------------------------------------------
 c                    ALPHA=-YC(II)*DT2/(TWO*R)
                  FMDIR=ALPHA*ER+ET
-               ELSEIF (J.EQ.3) THEN
+               ELSEIF (J==3) THEN
                  FMDIR(1)=XFRAME(7,IFM)
                  FMDIR(2)=XFRAME(8,IFM)
                  FMDIR(3)=XFRAME(9,IFM)
@@ -1242,7 +1242,7 @@ c                    ALPHA=-YC(II)*DT2/(TWO*R)
                A0 = FMDIR(1)*A(1,I) +
      &              FMDIR(2)*A(2,I) +
      &              FMDIR(3)*A(3,I)
-               IF (J.EQ.2) THEN
+               IF (J==2) THEN
 c                  YC(II)=(YC(II)-VV+VF)/DT12
 c------------------vitesse angulaire imposee--------
                  YC(II)=(R*YC(II)-VV+VF)/DT12
@@ -1251,7 +1251,7 @@ c-------------------------------------------------
                  YC(II)=(YC(II)-VV+VF)/DT12
                ENDIF
                AA = DIAG_SMS(I)*YC(II) - A0
-               IF(R.LE.EM20) AA=ZERO
+               IF(R<=EM20) AA=ZERO
                A(1,I)=A(1,I)+FMDIR(1)*AA
                A(2,I)=A(2,I)+FMDIR(2)*AA
                A(3,I)=A(3,I)+FMDIR(3)*AA
@@ -1265,7 +1265,7 @@ c-------------------------------------------------
              J=IBFV(2,N)-10*ISK
              SKDIR=ZERO
              R=ONE
-             IF(J.EQ.K)THEN
+             IF(J==K)THEN
                IBFV(5,N) = IPOSC(II)
                FAC  = VEL(1,N)
                YIMP   = VEL(6,N)
@@ -1283,7 +1283,7 @@ c               VEL(6,N) = YC(II)
                HY = COEF*SKEW(8,ISK)+X(2,I)-SKEW(11,ISK)
                HZ = COEF*SKEW(9,ISK)+X(3,I)-SKEW(12,ISK)
                R  = SQRT(HX*HX+HY*HY+HZ*HZ)
-               IF(R.LE.EM20) THEN
+               IF(R<=EM20) THEN
                  CTH = ZERO
                  STH = ZERO
                ELSE
@@ -1294,11 +1294,11 @@ c               VEL(6,N) = YC(II)
      &                  SKEW(5,ISK)*HY +
      &                  SKEW(6,ISK)*HZ)/R
                ENDIF
-               IF (J.EQ.1) THEN
+               IF (J==1) THEN
                  SKDIR(1) =CTH*SKEW(1,ISK)+ STH*SKEW(4,ISK)
                  SKDIR(2) =CTH*SKEW(2,ISK)+ STH*SKEW(5,ISK)
                  SKDIR(3) =CTH*SKEW(3,ISK)+ STH*SKEW(6,ISK)
-               ELSEIF(J.EQ.2) THEN
+               ELSEIF(J==2) THEN
                  ER(1) =CTH*SKEW(1,ISK)+ STH*SKEW(4,ISK)
                  ER(2) =CTH*SKEW(2,ISK)+ STH*SKEW(5,ISK)
                  ER(3) =CTH*SKEW(3,ISK)+ STH*SKEW(6,ISK)
@@ -1314,11 +1314,11 @@ c-----------------vitesse angulaire imposee---------
 c-----------------sinon-----------------------------
 c                  ALPHA=-YC(II)*DT2/(TWO*R)
                 SKDIR=ALPHA*ER+ET
-               ELSEIF(J.EQ.3) THEN
+               ELSEIF(J==3) THEN
                  SKDIR(1)=SKEW(7,ISK)
                  SKDIR(2)=SKEW(8,ISK)
                  SKDIR(3)=SKEW(9,ISK)
-                 IF(IBFV(7,N).EQ.2) YIMP= SKDIR(1)*D(1,I) +
+                 IF(IBFV(7,N)==2) YIMP= SKDIR(1)*D(1,I) +
      &                                    SKDIR(2)*D(2,I) +
      &                                    SKDIR(3)*D(3,I)
                ENDIF
@@ -1332,9 +1332,9 @@ c                  ALPHA=-YC(II)*DT2/(TWO*R)
                A0 = A(1,I)*SKDIR(1) +
      &              A(2,I)*SKDIR(2) +
      &              A(3,I)*SKDIR(3)
-               IF(IBFV(7,N).EQ.2) YC(II)=(YC(II)-YIMP)/DT2
-               IF(IBFV(7,N).GE.1) THEN
-                 IF (J.EQ.2) THEN
+               IF(IBFV(7,N)==2) YC(II)=(YC(II)-YIMP)/DT2
+               IF(IBFV(7,N)>=1) THEN
+                 IF (J==2) THEN
 c                  YC(II)=(YC(II)-VV)/DT12
 c------------------vitesse angulaire imposee--------
                      YC(II)=(R*YC(II)-VV)/DT12
@@ -1344,7 +1344,7 @@ c----------------------------------------------------
                  ENDIF
                ENDIF
                AA = DIAG_SMS(I)*YC(II) - A0
-               IF(R.LE.EM20) AA=ZERO
+               IF(R<=EM20) AA=ZERO
                A(1,I)=A(1,I)+SKDIR(1)*AA
                A(2,I)=A(2,I)+SKDIR(2)*AA
                A(3,I)=A(3,I)+SKDIR(3)*AA
@@ -1356,17 +1356,17 @@ c----------------------------------------------------
            ENDIF
          ENDDO
          ENDDO
-         IF (IRODDL.GE.0)THEN
+         IF (IRODDL>=0)THEN
            DO K=4,3+3*IRODDL
 #include "vectorize.inc"
             DO II=1,IC
               N = INDEX(II)
               IFM = IBFV(9,N)
-              IF (IFM.GT.1) THEN
+              IF (IFM>1) THEN
                 J=IBFV(2,N)
                 FMDIR=ZERO
                 R=ONE
-                IF(J.EQ.K)THEN
+                IF(J==K)THEN
                   IBFV(5,N) = IPOSC(II)
                   FAC  = VEL(1,N)
                   DW   = VEL(4,N)
@@ -1381,7 +1381,7 @@ c----------------------------------------------------
                   HY = COEF*XFRAME(8,IFM)+X(2,I)-XFRAME(11,IFM)
                   HZ = COEF*XFRAME(9,IFM)+X(3,I)-XFRAME(12,IFM)
                   R  = SQRT(HX*HX+HY*HY+HZ*HZ)
-                  IF(R.LE.EM20) THEN
+                  IF(R<=EM20) THEN
                     CTH = ZERO
                     STH = ZERO
                   ELSE
@@ -1392,15 +1392,15 @@ c----------------------------------------------------
      &                     XFRAME(5,IFM)*HY +
      &                     XFRAME(6,IFM)*HZ)/R
                   ENDIF
-                  IF (J.EQ.1) THEN
+                  IF (J==1) THEN
                     FMDIR(1) =CTH*XFRAME(1,IFM)+ STH*XFRAME(4,IFM)
                     FMDIR(2) =CTH*XFRAME(2,IFM)+ STH*XFRAME(5,IFM)
                     FMDIR(3) =CTH*XFRAME(3,IFM)+ STH*XFRAME(6,IFM)
-                  ELSEIF (J.EQ.2) THEN
+                  ELSEIF (J==2) THEN
                     FMDIR(1) =CTH*XFRAME(4,IFM)- STH*XFRAME(1,IFM)
                     FMDIR(2) =CTH*XFRAME(5,IFM)- STH*XFRAME(2,IFM)
                     FMDIR(3) =CTH*XFRAME(6,IFM)- STH*XFRAME(3,IFM)
-                  ELSEIF (J.EQ.3) THEN
+                  ELSEIF (J==3) THEN
                     FMDIR(1)=XFRAME(7,IFM)
                     FMDIR(2)=XFRAME(8,IFM)
                     FMDIR(3)=XFRAME(9,IFM)
@@ -1419,11 +1419,11 @@ c----------------------------------------------------
      &                 FMDIR(2)*AR(2,I) +
      &                 FMDIR(3)*AR(3,I)
                   AA = IN(I)*(YC(II)-VV+VF)/DT12 - A0
-                  IF(R.LE.EM20) AA=ZERO
+                  IF(R<=EM20) AA=ZERO
                   AR(1,I)=AR(1,I)+FMDIR(1)*AA
                   AR(2,I)=AR(2,I)+FMDIR(2)*AA
                   AR(3,I)=AR(3,I)+FMDIR(3)*AA
-                  IF(IBFV(6,N).EQ.0)THEN
+                  IF(IBFV(6,N)==0)THEN
                     DW= FOURTH*(YC(II)+VV)*AA*WEIGHT(I)
                   ELSE
                     NR = IBFV(6,N)
@@ -1447,7 +1447,7 @@ c----------------------------------------------------
                 J=IBFV(2,N)-10*ISK
                 SKDIR=ZERO
                 R=ONE
-                IF(J.EQ.K)THEN
+                IF(J==K)THEN
                   IBFV(5,N) = IPOSC(II)
                   FAC  = VEL(1,N)
                   YIMP   = VEL(6,N)
@@ -1465,7 +1465,7 @@ c----------------------------------------------------
                   HY = COEF*SKEW(8,ISK)+X(2,I)-SKEW(11,ISK)
                   HZ = COEF*SKEW(9,ISK)+X(3,I)-SKEW(12,ISK)
                   R  = SQRT(HX*HX+HY*HY+HZ*HZ)
-                  IF(R.LE.EM20) THEN
+                  IF(R<=EM20) THEN
                     CTH = ZERO
                     STH = ZERO
                   ELSE
@@ -1476,19 +1476,19 @@ c----------------------------------------------------
      &                     SKEW(5,ISK)*HY +
      &                     SKEW(6,ISK)*HZ)/R
                   ENDIF
-                  IF (J.EQ.1) THEN
+                  IF (J==1) THEN
                     SKDIR(1) =CTH*SKEW(1,ISK)+ STH*SKEW(4,ISK)
                     SKDIR(2) =CTH*SKEW(2,ISK)+ STH*SKEW(5,ISK)
                     SKDIR(3) =CTH*SKEW(3,ISK)+ STH*SKEW(6,ISK)
-                  ELSEIF(J.EQ.2) THEN
+                  ELSEIF(J==2) THEN
                     SKDIR(1) =CTH*SKEW(4,ISK)- STH*SKEW(1,ISK)
                     SKDIR(2) =CTH*SKEW(5,ISK)- STH*SKEW(2,ISK)
                     SKDIR(3) =CTH*SKEW(6,ISK)- STH*SKEW(3,ISK)
-                  ELSEIF(J.EQ.3) THEN
+                  ELSEIF(J==3) THEN
                     SKDIR(1)=SKEW(7,ISK)
                     SKDIR(2)=SKEW(8,ISK)
                     SKDIR(3)=SKEW(9,ISK)
-                    IF(IBFV(7,N).EQ.2) YIMP= SKDIR(1)*DR(1,I) +
+                    IF(IBFV(7,N)==2) YIMP= SKDIR(1)*DR(1,I) +
      &                                       SKDIR(2)*DR(2,I) +
      &                                       SKDIR(3)*DR(3,I)
                    ENDIF
@@ -1497,20 +1497,20 @@ c----------------------------------------------------
      &                        +SKDIR(3)*SKDIR(3))
                    SKDIR=SKDIR/MAX(NOR3,EM20)
 
-                   IF(IBFV(7,N).EQ.2) YC(II)=(YC(II)-YIMP)/DT2
+                   IF(IBFV(7,N)==2) YC(II)=(YC(II)-YIMP)/DT2
                    VV = VR(1,I)*SKDIR(1) +
      &                  VR(2,I)*SKDIR(2) +
      &                  VR(3,I)*SKDIR(3)
                    A0 = AR(1,I)*SKDIR(1) +
      &                  AR(2,I)*SKDIR(2) +
      &                  AR(3,I)*SKDIR(3)
-                   IF(IBFV(7,N).GE.1) YC(II)=(YC(II)-VV)/DT12
+                   IF(IBFV(7,N)>=1) YC(II)=(YC(II)-VV)/DT12
                    AA = IN(I)*YC(II) - A0
-                   IF(R.LE.EM20) AA=ZERO
+                   IF(R<=EM20) AA=ZERO
                    AR(1,I)=AR(1,I)+SKDIR(1)*AA
                    AR(2,I)=AR(2,I)+SKDIR(2)*AA
                    AR(3,I)=AR(3,I)+SKDIR(3)*AA
-                   IF(IBFV(6,N).EQ.0)THEN
+                   IF(IBFV(6,N)==0)THEN
                      DW= FOURTH*(YC(II)*DT12+TWO*VV)*
      &                   AA*WEIGHT(I)
                    ELSE
@@ -1537,11 +1537,11 @@ c----------------------------------------------------
          ENDIF
         ENDIF
 C
-        IF (CPTREAC.NE.0) THEN
+        IF (CPTREAC/=0) THEN
           DO II=1,IC
             N = INDEX(II)
             I=IABS(IBFV(1,N))
-            IF (NODREAC(I).NE.0) THEN
+            IF (NODREAC(I)/=0) THEN
               FTHREAC(1,NODREAC(I)) = FTHREAC(1,NODREAC(I)) + (A(1,I) -
      &                                AOLD0(1,II))*DT12
               FTHREAC(2,NODREAC(I)) = FTHREAC(2,NODREAC(I)) + (A(2,I) -
@@ -1560,28 +1560,28 @@ C------------------
       IDEB = 0
 C
       DO NN=1,NFXVEL,NVSIZ
-        IF (IBFV(8,NN).EQ.1) GOTO 200
+        IF (IBFV(8,NN)==1) GOTO 200
         IC = 0
-        IF (NSENSOR.GT.0) THEN
+        IF (NSENSOR>0) THEN
           DO 210 II = 1, MIN(NFXVEL-IDEB,NVSIZ)
             N = II+IDEB
             STARTT = VEL(2,N)
             STOPT  = VEL(3,N)
             FACX   = VEL(5,N)
-            IF(TT.LT.STARTT)GOTO 210
-            IF(TT.GT.STOPT) GOTO 210
+            IF(TT<STARTT)GOTO 210
+            IF(TT>STOPT) GOTO 210
             I=IABS(IBFV(1,N))
 C
             IF(NODNX_SMS(I)==0) CYCLE
             ISENS=0
             DO K=1,NSENSOR
-              IF(IBFV(4,N).EQ.LSENSOR(1,K))ISENS=K
+              IF(IBFV(4,N)==LSENSOR(1,K))ISENS=K
             ENDDO
-            IF(ISENS.EQ.0)THEN
+            IF(ISENS==0)THEN
               TS=TT
             ELSE
               TS = TT-SENSOR(2,ISENS)
-              IF(TS.LT.0.0)GOTO 210
+              IF(TS<0.0)GOTO 210
             ENDIF
             IC = IC + 1
             INDEX(IC) = N
@@ -1593,8 +1593,8 @@ C         sans sensor
             STARTT = VEL(2,N)
             STOPT  = VEL(3,N)
             FACX   = VEL(5,N)
-            IF(TT.LT.STARTT)GOTO 220
-            IF(TT.GT.STOPT) GOTO 220
+            IF(TT<STARTT)GOTO 220
+            IF(TT>STOPT) GOTO 220
             I=IABS(IBFV(1,N))
 C
             IF(NODNX_SMS(I)==0) CYCLE
@@ -1603,7 +1603,7 @@ C
 220       CONTINUE
         ENDIF
 C
-        IF (CPTREAC.NE.0) THEN
+        IF (CPTREAC/=0) THEN
           DO II=1,IC
             N = INDEX(II)
             I=IABS(IBFV(1,N))
@@ -1615,7 +1615,7 @@ C
 C
         IDEB = IDEB + MIN(NFXVEL-IDEB,NVSIZ)
 C-------
-        IF(IVECTOR.EQ.0) THEN
+        IF(IVECTOR==0) THEN
          DO II=1,IC
           N = INDEX(II)
           FAC  = VEL(1,N)
@@ -1628,11 +1628,11 @@ C-------
           SKDIR=ZERO
           FMDIR=ZERO
           R=ONE
-          IF (IFM.LE.1) J=J-10*ISK
-          IF(J.LE.3)THEN
-            IF(ISK.LE.1.AND.IFM.LE.1.AND.ICOOR.EQ.0)THEN
+          IF (IFM<=1) J=J-10*ISK
+          IF(J<=3)THEN
+            IF(ISK<=1.AND.IFM<=1.AND.ICOOR==0)THEN
               A(J,I)=ZERO
-            ELSEIF (ISK.GT.1.AND.ICOOR.EQ.0) THEN
+            ELSEIF (ISK>1.AND.ICOOR==0) THEN
               K1=3*J-2
               K2=3*J-1
               K3=3*J
@@ -1643,8 +1643,8 @@ C-------
               A(1,I)=A(1,I)+SKEW(K1,ISK)*AA
               A(2,I)=A(2,I)+SKEW(K2,ISK)*AA
               A(3,I)=A(3,I)+SKEW(K3,ISK)*AA
-            ELSEIF ((ISK.LE.1.AND.IFM.LE.1.AND.ICOOR.EQ.1) .OR.
-     &               (ISK.GT.1 .AND. ICOOR.EQ.1)) THEN
+            ELSEIF ((ISK<=1.AND.IFM<=1.AND.ICOOR==1) .OR.
+     &               (ISK>1 .AND. ICOOR==1)) THEN
               COEF = (SKEW(10,ISK)-X(1,I))*SKEW(7,ISK) +
      &               (SKEW(11,ISK)-X(2,I))*SKEW(8,ISK) +
      &               (SKEW(12,ISK)-X(3,I))*SKEW(9,ISK)
@@ -1652,7 +1652,7 @@ C-------
               HY = COEF*SKEW(8,ISK)+X(2,I)-SKEW(11,ISK)
               HZ = COEF*SKEW(9,ISK)+X(3,I)-SKEW(12,ISK)
               R  = SQRT(HX*HX+HY*HY+HZ*HZ)
-              IF(R.LE.EM20) THEN
+              IF(R<=EM20) THEN
                 CTH = ZERO
                 STH = ZERO
               ELSE
@@ -1663,15 +1663,15 @@ C-------
      &                 SKEW(5,ISK)*HY +
      &                 SKEW(6,ISK)*HZ)/R
               ENDIF
-              IF (J.EQ.1) THEN
+              IF (J==1) THEN
                 SKDIR(1) =CTH*SKEW(1,ISK)+ STH*SKEW(4,ISK)
                 SKDIR(2) =CTH*SKEW(2,ISK)+ STH*SKEW(5,ISK)
                 SKDIR(3) =CTH*SKEW(3,ISK)+ STH*SKEW(6,ISK)
-              ELSEIF(J.EQ.2) THEN
+              ELSEIF(J==2) THEN
                 SKDIR(1) =CTH*SKEW(4,ISK)- STH*SKEW(1,ISK)
                 SKDIR(2) =CTH*SKEW(5,ISK)- STH*SKEW(2,ISK)
                 SKDIR(3) =CTH*SKEW(6,ISK)- STH*SKEW(3,ISK)
-              ELSEIF(J.EQ.3) THEN
+              ELSEIF(J==3) THEN
                 SKDIR(1)=SKEW(7,ISK)
                 SKDIR(2)=SKEW(8,ISK)
                 SKDIR(3)=SKEW(9,ISK)
@@ -1684,11 +1684,11 @@ C-------
      &             A(2,I)*SKDIR(2) +
      &             A(3,I)*SKDIR(3)
               AA = - A0
-              IF(R.LE.EM20) AA=ZERO
+              IF(R<=EM20) AA=ZERO
               A(1,I)=A(1,I)+SKDIR(1)*AA
               A(2,I)=A(2,I)+SKDIR(2)*AA
               A(3,I)=A(3,I)+SKDIR(3)*AA
-            ELSEIF (IFM.GT.1.AND.ICOOR.EQ.0) THEN
+            ELSEIF (IFM>1.AND.ICOOR==0) THEN
 C             Fixed velocity in moving frame (transl)
               K1=3*J-2
               K2=3*J-1
@@ -1700,7 +1700,7 @@ C             Fixed velocity in moving frame (transl)
               A(1,I)=A(1,I)+XFRAME(K1,IFM)*AA
               A(2,I)=A(2,I)+XFRAME(K2,IFM)*AA
               A(3,I)=A(3,I)+XFRAME(K3,IFM)*AA
-            ELSEIF (IFM.GT.1.AND.ICOOR.EQ.1) THEN
+            ELSEIF (IFM>1.AND.ICOOR==1) THEN
               COEF = (XFRAME(10,IFM)-X(1,I))*XFRAME(7,IFM) +
      &               (XFRAME(11,IFM)-X(2,I))*XFRAME(8,IFM) +
      &               (XFRAME(12,IFM)-X(3,I))*XFRAME(9,IFM)
@@ -1708,7 +1708,7 @@ C             Fixed velocity in moving frame (transl)
               HY = COEF*XFRAME(8,IFM)+X(2,I)-XFRAME(11,IFM)
               HZ = COEF*XFRAME(9,IFM)+X(3,I)-XFRAME(12,IFM)
               R  = SQRT(HX*HX+HY*HY+HZ*HZ)
-              IF(R.LE.EM20) THEN
+              IF(R<=EM20) THEN
                 CTH = ZERO
                 STH = ZERO
               ELSE
@@ -1719,15 +1719,15 @@ C             Fixed velocity in moving frame (transl)
      &                 XFRAME(5,IFM)*HY +
      &                 XFRAME(6,IFM)*HZ)/R
               ENDIF
-              IF (J.EQ.1) THEN
+              IF (J==1) THEN
                 FMDIR(1) =CTH*XFRAME(1,IFM)+ STH*XFRAME(4,IFM)
                 FMDIR(2) =CTH*XFRAME(2,IFM)+ STH*XFRAME(5,IFM)
                 FMDIR(3) =CTH*XFRAME(3,IFM)+ STH*XFRAME(6,IFM)
-              ELSEIF (J.EQ.2) THEN
+              ELSEIF (J==2) THEN
                 FMDIR(1) =CTH*XFRAME(4,IFM)- STH*XFRAME(1,IFM)
                 FMDIR(2) =CTH*XFRAME(5,IFM)- STH*XFRAME(2,IFM)
                 FMDIR(3) =CTH*XFRAME(6,IFM)- STH*XFRAME(3,IFM)
-              ELSEIF (J.EQ.3) THEN
+              ELSEIF (J==3) THEN
                 FMDIR(1)=XFRAME(7,IFM)
                 FMDIR(2)=XFRAME(8,IFM)
                 FMDIR(3)=XFRAME(9,IFM)
@@ -1740,12 +1740,12 @@ C             Fixed velocity in moving frame (transl)
      &             FMDIR(2)*A(2,I) +
      &             FMDIR(3)*A(3,I)
               AA = - A0
-              IF(R.LE.EM20) AA=ZERO
+              IF(R<=EM20) AA=ZERO
               A(1,I)=A(1,I)+FMDIR(1)*AA
               A(2,I)=A(2,I)+FMDIR(2)*AA
               A(3,I)=A(3,I)+FMDIR(3)*AA
             ENDIF
-          ELSEIF(J.LE.6)THEN
+          ELSEIF(J<=6)THEN
             CYCLE
           ENDIF
          ENDDO
@@ -1758,13 +1758,13 @@ C       partie vectorielle
            IFM = IBFV(9,N)
            ISK = IBFV(2,N)/10
            ICOOR=IBFV(10,N)
-           IF (IFM.GT.1) THEN
+           IF (IFM>1) THEN
              NFK = 1
-           ELSEIF (ISK.GT.1) THEN
+           ELSEIF (ISK>1) THEN
              NSK=1
            ENDIF
          ENDDO
-         IF(NSK.EQ.0.AND.NFK.EQ.0.AND.ICOOR.EQ.0)THEN
+         IF(NSK==0.AND.NFK==0.AND.ICOOR==0)THEN
 #include "vectorize.inc"
           DO II=1,IC
            N = INDEX(II)
@@ -1772,20 +1772,20 @@ C       partie vectorielle
            I=IABS(IBFV(1,N))
            ISK=IBFV(2,N)/10
            J=IBFV(2,N)-10*ISK
-           IF(J.LE.3)THEN
+           IF(J<=3)THEN
               A(J,I)=ZERO
-           ELSEIF(J.LE.6)THEN
+           ELSEIF(J<=6)THEN
               CYCLE
            ENDIF
           ENDDO
-         ELSEIF (NSK.EQ.1.AND.NFK.EQ.0.AND.ICOOR.EQ.0) THEN
+         ELSEIF (NSK==1.AND.NFK==0.AND.ICOOR==0) THEN
           DO K=1,3
 #include "vectorize.inc"
           DO II=1,IC
            N = INDEX(II)
            ISK=IBFV(2,N)/10
            J=IBFV(2,N)-10*ISK
-           IF(J.EQ.K)THEN
+           IF(J==K)THEN
             IBFV(5,N) = IPOSC(II)
             YC(II) = ZERO
             I=IABS(IBFV(1,N))
@@ -1803,8 +1803,8 @@ C       partie vectorielle
            ENDIF
           ENDDO
           ENDDO
-         ELSEIF ((NSK.EQ.0.AND.NFK.EQ.0.AND.ICOOR.EQ.1).OR.
-     &     (NSK.EQ.1.AND.NFK.EQ.0.AND.ICOOR.EQ.1)) THEN
+         ELSEIF ((NSK==0.AND.NFK==0.AND.ICOOR==1).OR.
+     &     (NSK==1.AND.NFK==0.AND.ICOOR==1)) THEN
          DO K=1,3
 #include "vectorize.inc"
           DO II=1,IC
@@ -1813,7 +1813,7 @@ C       partie vectorielle
            J=IBFV(2,N)-10*ISK
            SKDIR=ZERO
            R=ONE
-           IF(J.EQ.K)THEN
+           IF(J==K)THEN
             IBFV(5,N) = IPOSC(II)
             YC(II) = ZERO
             I=IABS(IBFV(1,N))
@@ -1825,7 +1825,7 @@ C       partie vectorielle
             HY = COEF*SKEW(8,ISK)+X(2,I)-SKEW(11,ISK)
             HZ = COEF*SKEW(9,ISK)+X(3,I)-SKEW(12,ISK)
             R  = SQRT(HX*HX+HY*HY+HZ*HZ)
-            IF(R.LE.EM20) THEN
+            IF(R<=EM20) THEN
               CTH = ZERO
               STH = ZERO
             ELSE
@@ -1836,15 +1836,15 @@ C       partie vectorielle
      &               SKEW(5,ISK)*HY +
      &               SKEW(6,ISK)*HZ)/R
             ENDIF
-            IF (J.EQ.1) THEN
+            IF (J==1) THEN
               SKDIR(1) =CTH*SKEW(1,ISK)+ STH*SKEW(4,ISK)
               SKDIR(2) =CTH*SKEW(2,ISK)+ STH*SKEW(5,ISK)
               SKDIR(3) =CTH*SKEW(3,ISK)+ STH*SKEW(6,ISK)
-            ELSEIF(J.EQ.2) THEN
+            ELSEIF(J==2) THEN
               SKDIR(1) =CTH*SKEW(4,ISK)- STH*SKEW(1,ISK)
               SKDIR(2) =CTH*SKEW(5,ISK)- STH*SKEW(2,ISK)
               SKDIR(3) =CTH*SKEW(6,ISK)- STH*SKEW(3,ISK)
-            ELSEIF(J.EQ.3) THEN
+            ELSEIF(J==3) THEN
               SKDIR(1)=SKEW(7,ISK)
               SKDIR(2)=SKEW(8,ISK)
               SKDIR(3)=SKEW(9,ISK)
@@ -1857,22 +1857,22 @@ C       partie vectorielle
      &           A(2,I)*SKDIR(2) +
      &           A(3,I)*SKDIR(3)
             AA = - A0
-            IF(R.LE.EM20) AA=ZERO
+            IF(R<=EM20) AA=ZERO
             A(1,I)=A(1,I)+SKDIR(1)*AA
             A(2,I)=A(2,I)+SKDIR(2)*AA
             A(3,I)=A(3,I)+SKDIR(3)*AA
            ENDIF
           ENDDO
           ENDDO
-         ELSEIF (NFK.EQ.1.AND.ICOOR.EQ.0) THEN
+         ELSEIF (NFK==1.AND.ICOOR==0) THEN
            DO K=1,3
 #include "vectorize.inc"
              DO II=1,IC
                N = INDEX(II)
                IFM = IBFV(9,N)
-               IF (IFM.GT.1) THEN
+               IF (IFM>1) THEN
                  J = IBFV(2,N)
-                 IF(J.EQ.K)THEN
+                 IF(J==K)THEN
                    IBFV(5,N) = IPOSC(II)
                    YC(II) = ZERO
                    I=IABS(IBFV(1,N))
@@ -1890,7 +1890,7 @@ C       partie vectorielle
                ELSE
                  ISK=IBFV(2,N)/10
                  J=IBFV(2,N)-10*ISK
-                 IF(J.EQ.K)THEN
+                 IF(J==K)THEN
                    IBFV(5,N) = IPOSC(II)
                    YC(II) = ZERO
                    I=IABS(IBFV(1,N))
@@ -1908,17 +1908,17 @@ C       partie vectorielle
                ENDIF
              ENDDO
            ENDDO
-         ELSEIF (NFK.EQ.1.AND.ICOOR.EQ.1) THEN
+         ELSEIF (NFK==1.AND.ICOOR==1) THEN
            DO K=1,3
 #include "vectorize.inc"
              DO II=1,IC
                N = INDEX(II)
                IFM = IBFV(9,N)
-               IF (IFM.GT.1) THEN
+               IF (IFM>1) THEN
                  J = IBFV(2,N)
                  FMDIR=ZERO
                  R=ONE
-                 IF(J.EQ.K)THEN
+                 IF(J==K)THEN
                    IBFV(5,N) = IPOSC(II)
                    YC(II) = ZERO
                    I=IABS(IBFV(1,N))
@@ -1929,7 +1929,7 @@ C       partie vectorielle
                    HY = COEF*XFRAME(8,IFM)+X(2,I)-XFRAME(11,IFM)
                    HZ = COEF*XFRAME(9,IFM)+X(3,I)-XFRAME(12,IFM)
                    R  = SQRT(HX*HX+HY*HY+HZ*HZ)
-                   IF(R.LE.EM20) THEN
+                   IF(R<=EM20) THEN
                      CTH = ZERO
                      STH = ZERO
                    ELSE
@@ -1940,15 +1940,15 @@ C       partie vectorielle
      &                      XFRAME(5,IFM)*HY +
      &                      XFRAME(6,IFM)*HZ)/R
                    ENDIF
-                   IF (J.EQ.1) THEN
+                   IF (J==1) THEN
                      FMDIR(1) =CTH*XFRAME(1,IFM)+ STH*XFRAME(4,IFM)
                      FMDIR(2) =CTH*XFRAME(2,IFM)+ STH*XFRAME(5,IFM)
                      FMDIR(3) =CTH*XFRAME(3,IFM)+ STH*XFRAME(6,IFM)
-                   ELSEIF (J.EQ.2) THEN
+                   ELSEIF (J==2) THEN
                      FMDIR(1) =CTH*XFRAME(4,IFM)- STH*XFRAME(1,IFM)
                      FMDIR(2) =CTH*XFRAME(5,IFM)- STH*XFRAME(2,IFM)
                      FMDIR(3) =CTH*XFRAME(6,IFM)- STH*XFRAME(3,IFM)
-                   ELSEIF (J.EQ.3) THEN
+                   ELSEIF (J==3) THEN
                      FMDIR(1)=XFRAME(7,IFM)
                      FMDIR(2)=XFRAME(8,IFM)
                      FMDIR(3)=XFRAME(9,IFM)
@@ -1961,7 +1961,7 @@ C       partie vectorielle
      &                  FMDIR(2)*A(2,I) +
      &                  FMDIR(3)*A(3,I)
                    AA = - A0
-                   IF(R.LE.EM20) AA=ZERO
+                   IF(R<=EM20) AA=ZERO
                    A(1,I)=A(1,I)+FMDIR(1)*AA
                    A(2,I)=A(2,I)+FMDIR(2)*AA
                    A(3,I)=A(3,I)+FMDIR(3)*AA
@@ -1971,7 +1971,7 @@ C       partie vectorielle
                  J=IBFV(2,N)-10*ISK
                  SKDIR=ZERO
                  R=ONE
-                 IF(J.EQ.K)THEN
+                 IF(J==K)THEN
                    IBFV(5,N) = IPOSC(II)
                    YC(II) = ZERO
                    I=IABS(IBFV(1,N))
@@ -1982,7 +1982,7 @@ C       partie vectorielle
                    HY = COEF*SKEW(8,ISK)+X(2,I)-SKEW(11,ISK)
                    HZ = COEF*SKEW(9,ISK)+X(3,I)-SKEW(12,ISK)
                    R  = SQRT(HX*HX+HY*HY+HZ*HZ)
-                   IF(R.LE.EM20) THEN
+                   IF(R<=EM20) THEN
                      CTH = ZERO
                      STH = ZERO
                    ELSE
@@ -1993,15 +1993,15 @@ C       partie vectorielle
      &                      SKEW(5,ISK)*HY +
      &                      SKEW(6,ISK)*HZ)/R
                    ENDIF
-                   IF (J.EQ.1) THEN
+                   IF (J==1) THEN
                      SKDIR(1) =CTH*SKEW(1,ISK)+ STH*SKEW(4,ISK)
                      SKDIR(2) =CTH*SKEW(2,ISK)+ STH*SKEW(5,ISK)
                      SKDIR(3) =CTH*SKEW(3,ISK)+ STH*SKEW(6,ISK)
-                   ELSEIF(J.EQ.2) THEN
+                   ELSEIF(J==2) THEN
                      SKDIR(1) =CTH*SKEW(4,ISK)- STH*SKEW(1,ISK)
                      SKDIR(2) =CTH*SKEW(5,ISK)- STH*SKEW(2,ISK)
                      SKDIR(3) =CTH*SKEW(6,ISK)- STH*SKEW(3,ISK)
-                   ELSEIF(J.EQ.3) THEN
+                   ELSEIF(J==3) THEN
                      SKDIR(1)=SKEW(7,ISK)
                      SKDIR(2)=SKEW(8,ISK)
                      SKDIR(3)=SKEW(9,ISK)
@@ -2014,7 +2014,7 @@ C       partie vectorielle
      &                  A(2,I)*SKDIR(2) +
      &                  A(3,I)*SKDIR(3)
                    AA = YC(II) - A0
-                   IF(R.LE.EM20) AA=ZERO
+                   IF(R<=EM20) AA=ZERO
                    A(1,I)=A(1,I)+SKDIR(1)*AA
                    A(2,I)=A(2,I)+SKDIR(2)*AA
                    A(3,I)=A(3,I)+SKDIR(3)*AA
@@ -2025,11 +2025,11 @@ C       partie vectorielle
          ENDIF
         ENDIF
 
-        IF (CPTREAC.NE.0 .AND. IT.GT.0) THEN
+        IF (CPTREAC/=0 .AND. IT>0) THEN
           DO II=1,IC
             N = INDEX(II)
             I=IABS(IBFV(1,N))
-            IF (NODREAC(I).NE.0) THEN
+            IF (NODREAC(I)/=0) THEN
               FTHREAC(1,NODREAC(I)) = FTHREAC(1,NODREAC(I)) + (A(1,I) -
      &                                AOLD0(1,II))*MS(I)*DT12
               FTHREAC(2,NODREAC(I)) = FTHREAC(2,NODREAC(I)) + (A(2,I) -

@@ -47,16 +47,16 @@ C
       DX2 = TF(NPF(IFUNC)) - XX
 C
 C     constant function
-      IF ((NPF(IFUNC+1)-NPF(IFUNC)).EQ.2) THEN
+      IF ((NPF(IFUNC+1)-NPF(IFUNC))==2) THEN
         FINTER = TF(NPF(IFUNC)+1)
         RETURN
       ELSE
         DO 100 I=NPF(IFUNC)+2,NPF(IFUNC+1)-2,2
         DX1 = -DX2
         DX2 = TF(I) - XX
-        IF(DX2.GE.ZERO.OR.I.EQ.NPF(IFUNC+1)-2)THEN
+        IF(DX2>=ZERO.OR.I==NPF(IFUNC+1)-2)THEN
           DERI = (TF(I+1) - TF(I-1)) / (TF(I) - TF(I-2))
-          IF(DX1.LE.DX2)THEN
+          IF(DX1<=DX2)THEN
             FINTER = TF(I-1) + DX1 * DERI
           ELSE
             FINTER = TF(I+1) - DX2 * DERI

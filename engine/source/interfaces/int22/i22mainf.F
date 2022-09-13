@@ -223,14 +223,14 @@ C
       !-------------------------------!
       !UNPLUG CONDITIONS              !
       !-------------------------------!      
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
 
       !-------------------------------!
       !STATIC CUTTING                 !
       !-------------------------------!
           NB_LOC = I_STOK / NTHREAD
-          IF (JTASK.EQ.NTHREAD) THEN
+          IF (JTASK==NTHREAD) THEN
             I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
           ELSE
             I_STOK_LOC = NB_LOC
@@ -242,7 +242,7 @@ C
       !RECALCULATE DU I_STOK          !
       !-------------------------------!
           DO I = DEBUT+1, DEBUT+I_STOK_LOC
-            IF(INTBUF_TAB%CAND_N(I).NE.0) THEN
+            IF(INTBUF_TAB%CAND_N(I)/=0) THEN
               I_STOK = I_STOK + 1
               INDEX2(I_STOK) = I
             ENDIF
@@ -251,14 +251,14 @@ C
       !-------------------------------!
       !/DEBUG/CAND/NN                 !
       !-------------------------------!          
-        IF (DEBUG(3).GE.1) THEN
+        IF (DEBUG(3)>=1) THEN
           NB_JLT    = NB_JLT + I_STOK_LOC
           NB_STOK_N = NB_STOK_N + I_STOK
         ENDIF
         
 c------------------------------------------------
       CALL MY_BARRIER()
-      IF(JTASK.EQ.1)THEN
+      IF(JTASK==1)THEN
        ALLOCATE(SURF(3,NRTMDIM))
        ALLOCATE(PRES(NRTMDIM))
        DO I = 1, NRTM
@@ -270,7 +270,7 @@ c------------------------------------------------
 
 !PARITH/ON    TO BE DONE LATER
 
-!       IF(IPARIT.NE.0)THEN
+!       IF(IPARIT/=0)THEN
 !       !C sort depending on user node ids
 !       !C calculate parith/on pressure
 !       !C for a given face, node order must be the same one
@@ -289,7 +289,7 @@ C
             SFSAVPARIT = SFSAVPARIT + 1
           ENDIF
         ENDDO
-        IF (SFSAVPARIT .NE. 0) THEN
+        IF (SFSAVPARIT /= 0) THEN
           ALLOCATE(FSAVPARIT(NISUB+1,11,I_STOK),STAT=IERROR)
           IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
@@ -367,10 +367,10 @@ C
         !-------!
         
         IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(20,1)
-        IF(JLT_NEW.NE.0) THEN
+        IF(JLT_NEW/=0) THEN
           IPARI(29,NIN) = 1
-          IF (DEBUG(3).GE.1)NB_JLT_NEW = NB_JLT_NEW + JLT_NEW
-          IF (SFSAVPARIT .NE. 0) pFSAVparit => FSAVPARIT(1,1,NFT+1)
+          IF (DEBUG(3)>=1)NB_JLT_NEW = NB_JLT_NEW + JLT_NEW
+          IF (SFSAVPARIT /= 0) pFSAVparit => FSAVPARIT(1,1,NFT+1)
           CALL I22FOR3(
      1    JLT                ,A                 ,V                 ,IBC               ,ICODT              ,
      2    FSAV               ,GAP               ,FRIC              ,MS                ,VISC               ,
@@ -410,9 +410,9 @@ c
       ENDIF
       IF (ALLOCATED(FSAVPARIT)) DEALLOCATE (FSAVPARIT)
 C
-      IF(INACTI==7.AND.IBAG.NE.0)THEN                         
+      IF(INACTI==7.AND.IBAG/=0)THEN                         
         CALL MY_BARRIER()                                     
-        IF(JTASK.EQ.1) THEN                                   
+        IF(JTASK==1) THEN                                   
 !            CALL ASS18(NRTM  ,INTBUF_TAB%IRECTM,A   ,X   ,SURF   ,
 !     2                 PRES  ,FCONT        ,IBAG,FSAV,FSAVBAG,
 !     3                 FR_I18,ISKY         ,FSKYI    )      

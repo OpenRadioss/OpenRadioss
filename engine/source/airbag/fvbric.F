@@ -91,7 +91,7 @@ c         ENDDO
       ELSE
          CALL SPMD_FVB_GATH(IFV, X, XXX, RBID, RBID,
      .                      1  )
-         IF (ISPMD.NE.FVSPMD(IFV)%PMAIN-1) RETURN
+         IF (ISPMD/=FVSPMD(IFV)%PMAIN-1) RETURN
       ENDIF
       VX3=RVOLU(35)
       VY3=RVOLU(36)
@@ -208,17 +208,17 @@ C
          ENDDO
          NV=0
          DO J=1,NBRIC
-            IF (J.EQ.I) CYCLE
+            IF (J==I) CYCLE
             NALL=0
             NC=0
             DO K=1,8
-               IF (ITAG(FVDATA(IFV)%BRIC(K,J)).EQ.1) THEN
+               IF (ITAG(FVDATA(IFV)%BRIC(K,J))==1) THEN
                   NC=NC+1
                   TNC(NC)=FVDATA(IFV)%BRIC(K,J)
                ENDIF
                NALL=NALL+ITAG(FVDATA(IFV)%BRIC(K,J))
             ENDDO
-            IF (NALL.NE.4) CYCLE
+            IF (NALL/=4) CYCLE
             NV=NV+1
             TNV(1,NV)=J
             TNV(2,NV)=TNC(1)
@@ -239,7 +239,7 @@ C
                DO L=1,4
                   NALL=NALL*ITAG(TNV(1+L,K))
                ENDDO
-               IF (NALL.EQ.1) FVDATA(IFV)%TBRIC(J,I)=TNV(1,K)
+               IF (NALL==1) FVDATA(IFV)%TBRIC(J,I)=TNV(1,K)
             ENDDO
             DO K=1,4
                KK=FAC(K,J)
@@ -271,7 +271,7 @@ C
      .              FVDATA(IFV)%XB(3,N5)+FVDATA(IFV)%XB(3,N6)+
      .              FVDATA(IFV)%XB(3,N7)+FVDATA(IFV)%XB(3,N8))
 C
-         IF (I.EQ.1) THEN
+         IF (I==1) THEN
             VX1=FVDATA(IFV)%XB(1,N2)-FVDATA(IFV)%XB(1,N1)
             VY1=FVDATA(IFV)%XB(2,N2)-FVDATA(IFV)%XB(2,N1)
             VZ1=FVDATA(IFV)%XB(3,N2)-FVDATA(IFV)%XB(3,N1)
@@ -335,7 +335,7 @@ C
             VY=YC-YCF
             VZ=ZC-ZCF
             SS=VX*NX+VY*NY+VZ*NZ
-            IF (SS.LE.ZERO) THEN
+            IF (SS<=ZERO) THEN
                FVDATA(IFV)%SFAC(J,2,I)=NX/RR
                FVDATA(IFV)%SFAC(J,3,I)=NY/RR
                FVDATA(IFV)%SFAC(J,4,I)=NZ/RR

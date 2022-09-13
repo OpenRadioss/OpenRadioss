@@ -224,7 +224,7 @@ C------------------------
       !--------------------------------!
       ! Calculation of BFRAC in [0,1]  !
       !--------------------------------!
-c$$$      IF (ITER .EQ. 1) THEN
+c$$$      IF (ITER == 1) THEN
 c$$$      IF(BFRAC < ONE) THEN
 c$$$        BFRAC = ZERO
 c$$$        IF(IBFRAC/=1 .AND. TIME > -TBURN)THEN
@@ -243,9 +243,9 @@ c$$$      ENDIF
       AA       = W1*MUP1/V10 !W1/V1    same digits this way                                 
       AA       = AA                                        
       BB       = HALF*(V1-V1OLD)                         
-      IF (FLAG .EQ. 1) EINT1    = EINT1 - (P1OLD+PEXT+PEXT)*BB     
+      IF (FLAG == 1) EINT1    = EINT1 - (P1OLD+PEXT+PEXT)*BB     
       P0       = B1*(ONE-W1/R1M)*ER1M + B2*(ONE-W1/R2M)*ER2M 
-      IF (FLAG .EQ. 1) THEN
+      IF (FLAG == 1) THEN
          P1       = ( P0-PEXT + AA*EINT1 )  /  (ONE+AA*BB)   
       ELSE
          P1 = P0 - PEXT + AA * EINT1
@@ -264,8 +264,8 @@ c$$$      ENDIF
       Pgas     = MAX(Pgas,Pgas_min)
 
       P1       = BFRAC*Pgas + (ONE-BFRAC)*Psol
-      IF (FLAG .EQ. 1) EINT1    = EINT1 - P1*BB
-      IF (FLAG .EQ. 1) EINT1    = MAX(EINT1, ZERO)
+      IF (FLAG == 1) EINT1    = EINT1 - P1*BB
+      IF (FLAG == 1) EINT1    = MAX(EINT1, ZERO)
 
       !--------------------------------!
       ! Sound Speed                    !
@@ -288,7 +288,7 @@ c$$$      ENDIF
       DPDV1_UNREACTED  = -C11*MUP1/V1
       DPDV1            = BFRAC*DPDV1_REACTED + (ONE-BFRAC)*DPDV1_UNREACTED
       
-      IF(ABS(DPDV1).LT.EM20)THEN
+      IF(ABS(DPDV1)<EM20)THEN
         DVDP1 = ZERO 
       ELSE
         DVDP1 = ONE/DPDV1
@@ -296,15 +296,15 @@ c$$$      ENDIF
 
       
 c     dvdp < 0
-c      IF(DVDP1.LT.TWO*DVDP1I)THEN
+c      IF(DVDP1<TWO*DVDP1I)THEN
 c        DVDP1 = TWO*DVDP1I
-c      ELSEIF(DVDP1.GT.ZERO)THEN
+c      ELSEIF(DVDP1>ZERO)THEN
 c        DVDP1 = TWO*DVDP1I
-c      ELSEIF(DVDP1.GT.HALF*DVDP1I)THEN
+c      ELSEIF(DVDP1>HALF*DVDP1I)THEN
 c        DVDP1 = HALF*DVDP1I
 c      ENDIF
 
-!      IF(DVDP1.NE.ZERO)THEN
+!      IF(DVDP1/=ZERO)THEN
 !         DPDV1 = ONE / DVDP1
 !      ENDIF
 
@@ -427,7 +427,7 @@ C=======================================================================
 !        DPDV1 = -BFRAC*(B1*(R1M - W1 + W1/R1M)*ER1M+B2*(R2M - W1 + W1/R2M)*ER2M+W1*(EINT1/V1)) / V1
 !      ENDIF
 
-      IF(ABS(DPDV1).LT.EM20)THEN
+      IF(ABS(DPDV1)<EM20)THEN
         DVDP1 = ZERO 
       ELSE
         DVDP1 = ONE/DPDV1
@@ -511,7 +511,7 @@ c$$$        ENDIF
 c$$$      ENDIF
       !!! BFRAC is an input
 
-      IF (BFRAC .EQ. ZERO) THEN
+      IF (BFRAC == ZERO) THEN
          GRUN = ZERO
          RETURN
       ELSE

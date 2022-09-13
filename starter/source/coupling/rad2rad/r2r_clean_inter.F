@@ -76,14 +76,14 @@ C-----------------------------------------------
 
       DO NI=1,NINTER
         NTYP = IPARI2(7,NI)
-        IF ((NTYP.EQ.7).OR.(NTYP.EQ.18).OR.(NTYP.EQ.10).OR.(NTYP.EQ.24)) THEN
+        IF ((NTYP==7).OR.(NTYP==18).OR.(NTYP==10).OR.(NTYP==24)) THEN
      	  NSN   =IPARI2(5,NI)
      	  NRTS  =IPARI2(3,NI)
      	  NRTM  =IPARI2(4,NI)
 C------------------------>   check of secondary nodes  <----------C
           DO J=1,NSN   
 	    CUR_ID = INTBUF_TAB(NI)%NSV(J)
-            IF ((TAGNO(CUR_ID+NPART).EQ.2).AND.(TAGNO(CUR_ID+NPART+NUMNOD).EQ.-1)) THEN
+            IF ((TAGNO(CUR_ID+NPART)==2).AND.(TAGNO(CUR_ID+NPART+NUMNOD)==-1)) THEN
               INTBUF_TAB(NI)%STFNS(J) = ZERO      
             ENDIF 		   		       	
           ENDDO
@@ -94,9 +94,9 @@ C------------------------>   check of main elements <--------------C
             FACE(2) = INTBUF_TAB(NI)%IRECTM(4*(J-1)+2)
             FACE(3) = INTBUF_TAB(NI)%IRECTM(4*(J-1)+3)
             FACE(4) = INTBUF_TAB(NI)%IRECTM(4*(J-1)+4)
-            IF (FACE(4).EQ.0) FACE(4)=FACE(3)         
+            IF (FACE(4)==0) FACE(4)=FACE(3)         
             CALL R2R_CHECK_SEG(ELTAG,FACE,IPARTC,IPARTG,IPARTS,ISOLNOD)
-            IF (ELTAG.EQ.0) INTBUF_TAB(NI)%STFM(J) = ZERO
+            IF (ELTAG==0) INTBUF_TAB(NI)%STFM(J) = ZERO
           ENDDO
 
         ENDIF

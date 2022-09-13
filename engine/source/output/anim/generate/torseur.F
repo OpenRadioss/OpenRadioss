@@ -88,7 +88,7 @@ C
       NN10= NN9
 C
        DO 490 NG=1,NGROUP
-C       IF(ANIM_K.EQ.0.AND.IPARG(8,NG).EQ.1)GOTO 490
+C       IF(ANIM_K==0.AND.IPARG(8,NG)==1)GOTO 490
         MLW   =IPARG(1,NG)
         NEL   =IPARG(2,NG)
         NFT   =IPARG(3,NG)
@@ -100,7 +100,7 @@ C       IF(ANIM_K.EQ.0.AND.IPARG(8,NG).EQ.1)GOTO 490
 C-----------------------------------------------
 C       TRUSS
 C-----------------------------------------------
-        IF(ITY.EQ.4)THEN
+        IF(ITY==4)THEN
            DO I=LFT,LLT
                  N = I + NFT
                  TENS(1,EL2FA(NN6+N)) = TORS(1,N)
@@ -116,7 +116,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       POUTRES
 C-----------------------------------------------
-        ELSEIF(ITY.EQ.5)THEN
+        ELSEIF(ITY==5)THEN
            DO I=LFT,LLT
                  N = I + NFT
                  M = N+NUMELT
@@ -133,14 +133,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       RESSORTS
 C-----------------------------------------------
-        ELSEIF(ITY.EQ.6)THEN
+        ELSEIF(ITY==6)THEN
            DO I=LFT,LLT
                 N = I + NFT
                 M = N+NUMELT+NUMELP
                 TENS(1,EL2FA(NN8+N)) = TORS(1,M)
                 TENS(2,EL2FA(NN8+N)) = TORS(2,M)
                 TENS(3,EL2FA(NN8+N)) = TORS(3,M)
-                IF(MLW.EQ.3)THEN
+                IF(MLW==3)THEN
                   TENS(4,EL2FA(NN8+N)) = ZERO
                   TENS(5,EL2FA(NN8+N)) = ZERO
                   TENS(6,EL2FA(NN8+N)) = ZERO
@@ -196,7 +196,7 @@ C-----------------------------------------------
           WAL(9*N-1) = TENS(8,N)
           WAL(9*N  ) = TENS(9,N)
         ENDDO
-        IF (ISPMD.EQ.0) THEN
+        IF (ISPMD==0) THEN
           BUF = 9*NB1DG
         ELSE
           BUF = 1

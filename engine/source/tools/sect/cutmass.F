@@ -75,7 +75,7 @@ C
         XX=Y13*Z24-Z13*Y24
         YY=Z13*X24-X13*Z24
         ZZ=X13*Y24-Y13*X24
-        IF(N3.EQ.N4)THEN
+        IF(N3==N4)THEN
            S= UN6
         ELSE
            S=ONE_OVER_8
@@ -84,7 +84,7 @@ C        S=S*SQRT(XX**2+YY**2+ZZ**2)
         AL(N1)=AL(N1)+S*(V(1,N1)*XX+V(2,N1)*YY+V(3,N1)*ZZ)
         AL(N2)=AL(N2)+S*(V(1,N2)*XX+V(2,N2)*YY+V(3,N2)*ZZ)
         AL(N3)=AL(N3)+S*(V(1,N3)*XX+V(2,N3)*YY+V(3,N3)*ZZ)
-        IF(N3.NE.N4)AL(N4)=AL(N4)+S*(V(1,N4)*XX+V(2,N4)*YY+V(3,N4)*ZZ)
+        IF(N3/=N4)AL(N4)=AL(N4)+S*(V(1,N4)*XX+V(2,N4)*YY+V(3,N4)*ZZ)
  20   CONTINUE
       DO 30 I=1,NODCUT
          R4 =     AL(I)

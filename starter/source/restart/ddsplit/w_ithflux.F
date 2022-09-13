@@ -61,7 +61,7 @@ C
       NB_L = 0
 C
       DO I = 1, NFXFLUX
-        IF(CEP(I+OFF).EQ.PROC) THEN
+        IF(CEP(I+OFF)==PROC) THEN
            NB_L = NB_L + 1
            IF(IBFFLUX(10,I) == 0) THEN ! SURFACE FLUX
              N1 = IBFFLUX(1,I)

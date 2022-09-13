@@ -411,7 +411,7 @@ C | PXZ P32 PZX|
         KIJ(2,3,I)=KIJ(2,3,I)+
      .        G(I)*(PYZI(I)*PZYJ(I)+P32I(I)*PZXJ(I))
        ENDDO
-      IF (IS.EQ.0) THEN
+      IF (IS==0) THEN
        DO I=LFT,LLT
         KIJ(2,1,I)=KIJ(2,1,I)+
      .        G(I)*(PXYJ(I)*PYXI(I)+P21J(I)*PYZI(I)+PXZJ(I)*P32I(I))

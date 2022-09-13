@@ -278,7 +278,7 @@ C-----------------------------------------------
            ! -----------------   
         ENDIF        ! i_sotk > 0
         ! -----------------    
-        IF(IERROR.NE.0) THEN
+        IF(IERROR/=0) THEN
            CALL ARRET(2)
         ENDIF 
       RETURN

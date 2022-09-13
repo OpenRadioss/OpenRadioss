@@ -124,7 +124,7 @@ C IWIOUT est utilise pour connaitre le nb max de characteres a echanger
 Cel traitement special pour eliminer les blancs de fin de chaine
                 I = LEN
                 IBLANC = ICHAR(' ')
-                DO WHILE (IWA(DISPLACEMENT(INDX)+N+I).eq.IBLANC.AND.I.GT.1)
+                DO WHILE (IWA(DISPLACEMENT(INDX)+N+I)==IBLANC.AND.I>1)
                     I = I-1
                 ENDDO
                 LNEW = I
@@ -144,9 +144,9 @@ C rewind fait ds check        REWIND(UNIT=IOUT)
             IOS = 0
             SIZ = 1
             !   ------------------
-            DO WHILE(IOS.EQ.0)
+            DO WHILE(IOS==0)
               READ(UNIT=IOUT,IOSTAT=IOS,FMT='(A)') LINE
-              IF(IOS.EQ.0) THEN
+              IF(IOS==0) THEN
                 DO I = 1, LEN
                   IWA(SIZ+I) = ICHAR(LINE(I:I))
                 ENDDO

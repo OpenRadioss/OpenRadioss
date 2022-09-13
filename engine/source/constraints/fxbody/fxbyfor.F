@@ -93,13 +93,13 @@ C-----------------------------------------------
 C=======================================================================
       N2=NINTER+NRWALL+NRBODY+NSECT+NJOINT+NRBAG+NVOLU
       ITN=0
-      IF(TT.LT.TANIM) ITN=1
+      IF(TT<TANIM) ITN=1
       NCYCLP1=NCYCLE+1
-      IF((NCYCLP1/NCRST)*NCRST.EQ.NCYCLP1.OR.MREST.NE.0) ITN=0
+      IF((NCYCLP1/NCRST)*NCRST==NCYCLP1.OR.MREST/=0) ITN=0
       DO I=1,LENVAR
          MFEXTP(I)=ZERO
       ENDDO
-      IF (IPARIT.NE.0) THEN
+      IF (IPARIT/=0) THEN
          NSNT=0
          NMMAX=0
          DO NFX=1,NFXBODY
@@ -130,7 +130,7 @@ C=======================================================================
          ASIG=FXBIPM(20,NFX)
          NSN=FXBIPM(18,NFX)
          ANOD2=ANOD+FXBIPM(3,NFX)
-         IF (NSN+FXBIPM(3,NFX).GT.0) 
+         IF (NSN+FXBIPM(3,NFX)>0) 
      .CALL FXBODFP1(
      .FXBIPM(1,NFX),FXBRPM(ARPM),FXBNOD(ANOD),FXBMOD(AMOD),FXBDEP(AVAR),
      .FXBVIT(AVAR) ,FXBACC(AVAR),A           ,AR          ,NME         ,
@@ -140,7 +140,7 @@ C=======================================================================
      .FSKYFXB      ,IAD(NFX)    ,FXBNOD(ANOD2),ELBUF_TAB  )
       ENDDO
 C
-      IF (IPARIT.EQ.0) THEN
+      IF (IPARIT==0) THEN
          IF(NSPMD > 1) CALL SPMD_FXB_FOR(FXBIPM, MFEXTP)
       ELSE
          CALL SPMD_FXB_FOR_PON(FXBIPM, MFEXTP, FSKYFXB, NSNT, IAD)
@@ -164,8 +164,8 @@ C
          AGRVI=FXBIPM(26,NFX)
          AGRVR=FXBIPM(27,NFX)
          PMAIN=FXBIPM(39,NFX)
-         IF (ISPMD.EQ.PMAIN) THEN
-            IF (DT2T.GT.DTFAC1(11)*FXBRPM(ARPM)) THEN
+         IF (ISPMD==PMAIN) THEN
+            IF (DT2T>DTFAC1(11)*FXBRPM(ARPM)) THEN
                 DT2T=DTFAC1(11)*FXBRPM(ARPM)
                 ITYPTST=11
                 NELTST=FXBIPM(2,NFX)

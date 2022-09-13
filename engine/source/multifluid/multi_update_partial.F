@@ -87,12 +87,12 @@ C     Mass * e specifique
          TMP3 = MULTI_FVM%PHASE_EINT(IMAT, I)
          
 C     Filtrage
-         IF (TMP4 / GBUF%VOL(II) .LT. EM08) THEN
+         IF (TMP4 / GBUF%VOL(II) < EM08) THEN
             MULTI_FVM%PHASE_ALPHA(IMAT, I) = ZERO
             MULTI_FVM%PHASE_RHO(IMAT, I) = RHO0
             MULTI_FVM%PHASE_EINT(IMAT, I) = E0
          ELSE
-            IF (TMP2 .LT. ZERO) THEN
+            IF (TMP2 < ZERO) THEN
                MULTI_FVM%PHASE_RHO(IMAT, I) = LBUF%RHO(II)
                MULTI_FVM%PHASE_EINT(IMAT, I) = LBUF%EINT(II)
                MULTI_FVM%PHASE_ALPHA(IMAT, I) = TMP4 / VOLNEW(II)

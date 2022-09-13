@@ -106,7 +106,7 @@ C-----------------------------------------------
       !-------------------------------------------------------------!      
       DO I=LFT,LLT
         IB            = NINT(IAD22(I))
-        IF(IB.LE.0)CYCLE
+        IF(IB<=0)CYCLE
         II            = I+NFT
         NVERTEX       = 0
         ACCEL(1:3,I)  = ZERO
@@ -117,13 +117,13 @@ C-----------------------------------------------
         DO K=1,MNOD
           J           = BRICK_LIST(NIN,IB)%POLY(MCELL)%ListNodID(K)
           INOD        = IXS(1+J,I+NFT)
-          IF(VERTEX(4,INOD).EQ.ZERO) CYCLE
+          IF(VERTEX(4,INOD)==ZERO) CYCLE
           NVERTEX     = NVERTEX + 1
           ACCEL(1,I)  = ACCEL(1,I) + VERTEX(1,INOD)
           ACCEL(2,I)  = ACCEL(2,I) + VERTEX(2,INOD)
           ACCEL(3,I)  = ACCEL(3,I) + VERTEX(3,INOD) 
         ENDDO        
-        IF(NVERTEX.GT.0)THEN
+        IF(NVERTEX>0)THEN
           ACCEL(1,I) = ACCEL(1,I) / NVERTEX
           ACCEL(2,I) = ACCEL(2,I) / NVERTEX
           ACCEL(3,I) = ACCEL(3,I) / NVERTEX 
@@ -136,7 +136,7 @@ C-----------------------------------------------
 
       DO I=LFT,LLT
         IB          = NINT(IAD22(I))
-        IF(IB.LE.0)CYCLE      
+        IF(IB<=0)CYCLE      
         II          = I + NFT
         FCELL(1,II) = FCELL(1,II) + M_CELL(I) * ACCEL(1,I)
         FCELL(2,II) = FCELL(2,II) + M_CELL(I) * ACCEL(2,I)
@@ -171,7 +171,7 @@ C-----------------------------------------------
           do i=idbf,idbl
             ii = nft + i
             IB = NINT(IAD22(I))
-            IF(IB.LE.0)CYCLE            
+            IF(IB<=0)CYCLE            
             print *,                    "      brique=", ixs(11,nft+i)
             write(*,FMT='(A24,1A26)')   "                        ",             
      .                                  "#--------- cell----------#"          

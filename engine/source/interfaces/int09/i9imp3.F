@@ -65,7 +65,7 @@ C-----------------------------------------------
       DO I=LFT,LLT
         IL=I+NFT
         ANS(I)= MIN(ZERO,(ANS(I)*XFACE(I)-THK(I)))
-        IF(ANS(I)*XFACE(I).EQ.ZERO)ILOC(IL)=-ILOC(IL)
+        IF(ANS(I)*XFACE(I)==ZERO)ILOC(IL)=-ILOC(IL)
       ENDDO
 
       DO I=LFT,LLT

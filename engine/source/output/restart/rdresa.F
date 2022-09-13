@@ -106,23 +106,23 @@ C     LECTURE DE L'ENTETE
 C-----------------------------------------------
         CALL READ_I_C(LHEADER,1)
 C       warning to radioss developpers :
-C       IF(LHEADER.GT.LMXHEAD)THEN
+C       IF(LHEADER>LMXHEAD)THEN
 C         WRITE(*,*) ' ** RADIOSS INTERNAL ERROR'
 C         CALL ARRET(7)
 C       ENDIF
         CALL READ_I_C(TABHEAD,LHEADER)
 C       RADIOSS FILE R/W
       PRADIOS=TABHEAD(1)
-      IF(PRADIOS.NE.IRADIOS)RETURN
+      IF(PRADIOS/=IRADIOS)RETURN
 C       RESTART FILE
       PRESFIL=TABHEAD(2)
-      IF(PRESFIL.NE.IRESFIL)RETURN
+      IF(PRESFIL/=IRESFIL)RETURN
 C       ITESTV
       ITESTV =TABHEAD(3)
       ITESTV = IABS(ITESTV)
 C itestv +/- suivant ir4r8 courant
-      IF (IR4R8.EQ.2) ITESTV = -ITESTV
-      IF(ITESTV.NE.ITSTV1.AND.DEBUG(2).LT.2)RETURN
+      IF (IR4R8==2) ITESTV = -ITESTV
+      IF(ITESTV/=ITSTV1.AND.DEBUG(2)<2)RETURN
 C-----
 C     PREVIOUS RUN NUMBER
       PIRUN  =TABHEAD(4)
@@ -149,7 +149,7 @@ C
       LVARREA= TABHEAD(15)
 C ------------------------------------------
 
-      IF(LVARINT.GT.LMXVINT)THEN
+      IF(LVARINT>LMXVINT)THEN
         CALL ANCMSG(MSGID=31,ANMODE=ANINFO,I1=LVARINT,I2=LMXVINT)
         CALL ARRET(2)
       ENDIF
@@ -158,7 +158,7 @@ C-----------------------------------------------
 C     LECTURE DES VARIABLES ENTIERES.
 C-----------------------------------------------
 C      warning to radioss developpers :
-C      IF(LVARINT.GT.LMXVINT)THEN
+C      IF(LVARINT>LMXVINT)THEN
 C        WRITE(*,*) ' ** RADIOSS INTERNAL ERROR'
 C        CALL ARRET(7)
 C      ENDIF
@@ -260,15 +260,15 @@ C-----------------------------------------------
 C
       PINCH_DATA%SAPINCH = 0
 C ipari0 defini dans le starter
-      IF(IPARIT.EQ.-1)IPARIT=IPARI0
+      IF(IPARIT==-1)IPARIT=IPARI0
 C
       IF(ICRACK3D > 0)THEN
         IF(IPARIT /= 1) IPARIT = IPARI0
       ENDIF
 C
       NUMELUR=SIXUR/NIXUR
-      IF(IMACH.EQ.3.AND.IPARI0.EQ.0.AND.IPARIT.EQ.1) THEN
-        IF(ISPMD.EQ.0)THEN
+      IF(IMACH==3.AND.IPARI0==0.AND.IPARIT==1) THEN
+        IF(ISPMD==0)THEN
 C Parith/on necessite Parith/ON anterieur en SPMD (structures de donnees additionnelles)
           WRITE(ISTDO,*)' **WARNING PARALLEL ARITHMETIC DISABLED'
           WRITE(IOUT,*)' **WARNING PREVIOUS RUN WITHOUT PARITH/ON'
@@ -282,7 +282,7 @@ C calcul de NISKY0 dans ts les cas
      .         2*NUMELP   + 3*NUMELR    + 3*NUMELTG  + 4*NUMELUR +
      .         6*NUMELS10 + 12*NUMELS20 + 8*NUMELS16 + 3*NUMELTG6
       LCNEL = NISKY0
-      IF(IMACH.EQ.3) THEN
+      IF(IMACH==3) THEN
 C rajout des surfaces de MV comme des elts pour parith/on SPMD
           NISKY0 = NISKY0 + 4*NSKYMV0
 C rajout des pressure loads calculee comme des elts pour parith/on SPMD
@@ -293,10 +293,10 @@ C rajout des flux thermiques
       END IF
 C
 C Parith/ON en SPMD
-      IF(NUMSPH.NE.0.AND.IMACH.NE.3) IPARIT=0
+      IF(NUMSPH/=0.AND.IMACH/=3) IPARIT=0
 C
-      IF(IMACH.EQ.3.AND.IPARIT.GE.1) IPARIT=1
-      IF( LWAMP*LWANMP.NE.0)THEN
+      IF(IMACH==3.AND.IPARIT>=1) IPARIT=1
+      IF( LWAMP*LWANMP/=0)THEN
         LWAMP    = MAX(LWAMP,2*MVSIZ*100)
         LENWA    = MAX( NTHREAD * LWAMP,LWANMP)
       ENDIF
@@ -311,10 +311,10 @@ C AR=AM(M73) PLACE RECUPERABLE SI IRODDL=0 A CONDITION DE VERIFIER
 C LES ROUTINES DE FORCES CONCENTEES ET DE VITESSES IMPOSEES
 C
       NPSAV_OLD = NPSAV
-      IF(NPSAV.EQ.0)NPSAV_OLD = 23
+      IF(NPSAV==0)NPSAV_OLD = 23
       NPSAV = 28
 
-      IF(IPARIT.EQ.3)THEN
+      IF(IPARIT==3)THEN
         SA  = 3*NUMNOD+9*NUMNOD*NTHREAD
         SAR = 3*NUMNOD+9*NUMNOD*NTHREAD
         SSTIFN = NUMNOD+3*NUMNOD*NTHREAD
@@ -352,7 +352,7 @@ C non supported option w/IPARIT=3
         SADDCNCND = 0
         SPROCNCND = 0
         SIADCND   = 0
-      ELSEIF(IPARIT.NE.0)THEN
+      ELSEIF(IPARIT/=0)THEN
         SA  = 3*NUMNOD
         SAR = 3*NUMNOD
         SSTIFN = NUMNOD
@@ -373,13 +373,13 @@ C pxfem
 C xfem for layered shell (cracks)
         LSKYCRKXFEM = LCNECRKXFEM
 C FSKY MASSE
-        IF(IALE+IEULER+ITHERM+IALELAG.NE.0) THEN
+        IF(IALE+IEULER+ITHERM+IALELAG/=0) THEN
            SFSKYM = LCNE0
         ELSE
            SFSKYM = 0
         ENDIF
 C FSKY DMASS
-        IF(SOL2SPH_FLAG.NE.0) THEN
+        IF(SOL2SPH_FLAG/=0) THEN
            SFSKYD = LCNE0
         ELSE
            SFSKYD = 0
@@ -400,11 +400,11 @@ C  INDEX VECTOR
         SPROCNE  = LCNE0
         SPROCNE_PXFE  = LCNEPXFEM
         SPROCNE_CRKXFE  = LCNECRKXFEM
-C  si I2NSNT.GT.0 (tableau addresse connectivite interface type 2)
-        IF (I2NSNT.GT.0) THEN
+C  si I2NSNT>0 (tableau addresse connectivite interface type 2)
+        IF (I2NSNT>0) THEN
            SADDCNI2 = NUMNOD+1
 C Rajout numnod pour index machine vectorielle
-           IF(IVECTOR.EQ.1) SADDCNI2 = SADDCNI2 + NUMNOD
+           IF(IVECTOR==1) SADDCNI2 = SADDCNI2 + NUMNOD
         ELSE
            SADDCNI2 = 0
         ENDIF
@@ -491,7 +491,7 @@ C
        END IF
 
 C Si quasi compressible variables non necessaires
-      IF(INCOMP.EQ.0)THEN
+      IF(INCOMP==0)THEN
 
         SVAL2=
      +  MAX(IALE,ITHERM,IEULER,IALELAG)*(NUMELS+NUMELQ+NUMELTG+NSVOIS+NQVOIS+NTGVOIS)
@@ -510,14 +510,14 @@ C-------------------------------------------
 C     LINK
 C-------------------------------------------
       SILINK=4*NRLINK
-      IF(IMACH.EQ.3) THEN
+      IF(IMACH==3) THEN
          SFR_RL = (NSPMD+2)*NRLINK
       ELSE
          SFR_RL = 0
       ENDIF
 
       SLLINK=LLLINK
-      IF(IMACH.EQ.3.AND.IPARIT.NE.0) THEN
+      IF(IMACH==3.AND.IPARIT/=0) THEN
          SIADRL = LLLINK
       ELSE
          SIADRL = 0
@@ -563,19 +563,19 @@ C     Work Array private to sph : WAPSH(LWASPH)
       SWASPH = LWASPH
 C
       M16STAK = 0
-      IF(NUMELS16.NE.0)THEN
+      IF(NUMELS16/=0)THEN
         NPE = 16
         NIPMAX = 81
         M16STAK = (11*NIPMAX+15*NPE+3*NIPMAX*NPE)*MVSIZ
       ENDIF
-      IF(NUMELS20.NE.0)THEN
+      IF(NUMELS20/=0)THEN
         NPE = 20
         NIPMAX = 81
         M16STAK = MAX(M16STAK,(10*NIPMAX+15*NPE+3*NIPMAX*NPE)*MVSIZ)
       ENDIF
       NPSAV = NPSAV_OLD
 C     NPSAV remis a la bonne valeur dans rdresb
-      IF(NUMELS8A.GT.0)THEN
+      IF(NUMELS8A>0)THEN
         NIPMAX = 729
         M16STAK = MAX(M16STAK,12*NIPMAX*MVSIZ)
       ENDIF
@@ -587,7 +587,7 @@ C---------------------------------------------------------
 C---------------------------------------------------------
 C     tableaux spmd additionnels alloues dans am en v40
 C---------------------------------------------------------
-      IF(IMACH.EQ.3) THEN
+      IF(IMACH==3) THEN
         SDRETRIO = 5*NINTER
       ELSE
         SDRETRIO = 0
@@ -596,11 +596,11 @@ C---------------------------------------------------------
 C---------------------------------------------------------
 C Stockages facultatifs
 C---------------------------------------------------------
-      IF(NNOISE.EQ.0)THEN
+      IF(NNOISE==0)THEN
          NNOISE=NNOISER*RNOI
          NVAR=NCNOIS*RNOI
       ELSE
-         IF((NOISEV+NOISEA+NOISEP).EQ.0) NOISEV = 1
+         IF((NOISEV+NOISEA+NOISEP)==0) NOISEV = 1
          NVAR=3*NOISEV+3*NOISEA+NOISEP
       ENDIF
       IF01=1
@@ -609,7 +609,7 @@ C---------------------------------------------------------
       MFIF=MF01
       SINOISE = 0
       SFNOISE = 0
-      IF(NNOISE.GT.0)THEN
+      IF(NNOISE>0)THEN
        IFIF = (2*NNOISE+10)
        MFIF = (6*NVAR*NNOISE+1)
        SINOISE = 2*NNOISE+10

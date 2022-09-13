@@ -66,7 +66,7 @@ c          IF(LINE(1:6) == '/IGE3D') IREC = IREC + 1
 c        ENDDO
         IREC=IREC+1
         READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
-        DO WHILE( LINE(1:1) .NE. '/' .OR. LINE(1:6) == '/IGE3D')
+        DO WHILE( LINE(1:1) /= '/' .OR. LINE(1:6) == '/IGE3D')
          IF (LINE(1:6) == '/IGE3D')THEN
            IREC=IREC+1
            READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE

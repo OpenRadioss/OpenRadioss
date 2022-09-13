@@ -200,7 +200,7 @@ C....* CHECKS And Storage IPARI FRIGAP  *.............
       END IF
       IPARI(61)=IDELKEEP
 
-      IF (IDEL23.GT.2.OR.N2D.EQ.1) IDEL23 = 0
+      IF (IDEL23>2.OR.N2D==1) IDEL23 = 0
       IPARI(17)=IDEL23
 
       IS1=1
@@ -211,7 +211,7 @@ C....* CHECKS And Storage IPARI FRIGAP  *.............
 
       IPARI(34)=IGSTI
 
-      IF (IBAG.NE.0.AND.NVOLU.EQ.0 .AND. IALELAG == 0) THEN
+      IF (IBAG/=0.AND.NVOLU==0 .AND. IALELAG == 0) THEN
         CALL ANCMSG(MSGID=614,
      .              MSGTYPE=MSGWARNING,
      .              ANMODE=ANINFO_BLIND_2,
@@ -228,8 +228,8 @@ C.......* *........
       KCONTACT =MAX(KCONTACT,IBAG,IADM)
       IPARI(32) = IBAG
 
-      IF(MULTIMP.EQ.0)THEN
-        IF(IMACH.NE.3)THEN
+      IF(MULTIMP==0)THEN
+        IF(IMACH/=3)THEN
 C set MULTIMP default value = 4 for SMP
           MULTIMP=4
         ELSE
@@ -240,13 +240,13 @@ C set MULTIMP default value = 12 for SPMD
       IPARI(23)=MULTIMP
 C
       FRIGAP(16) = GAPMAX
-      IF(GAPSCALE.EQ.ZERO.OR.IGAP.EQ.0)GAPSCALE=ONE
+      IF(GAPSCALE==ZERO.OR.IGAP==0)GAPSCALE=ONE
       FRIGAP(19) = GAPSCALE
       IF (FPENMAX == ZERO) FPENMAX = ONE
       FRIGAP(27) = FPENMAX
 C
 
-      IF(STMAX.EQ.ZERO)STMAX=EP30
+      IF(STMAX==ZERO)STMAX=EP30
       FRIGAP(17) = STMIN
       FRIGAP(18) = STMAX
       IF(IGSTI==0)I7STIFS=1
@@ -254,7 +254,7 @@ C
       SCAL_T=ONE           ! SCAL_T is not read anymore 
       FRIGAP(33)=SCAL_T
 C
-      IF(STFAC.EQ.ZERO) THEN
+      IF(STFAC==ZERO) THEN
         STFAC=ONE
       ENDIF
       IF(IGSTI==1)STFAC=-STFAC
@@ -272,28 +272,28 @@ C
       FRIGAP(14)=VISC
 
 C BUMULT is increased for big models
-      IF(BUMULT.EQ.ZERO) BUMULT = BMUL0
+      IF(BUMULT==ZERO) BUMULT = BMUL0
 
       FRIGAP(4)=BUMULT
 C
-      IF (ALPHA.EQ.0.) IFQ = 0
+      IF (ALPHA==0.) IFQ = 0
 C
       MODFR=2
       IFQ = IFQ + 10
 
-      IF (IFQ.GT.0) THEN
-        IF (IFQ.EQ.10) XFILTR = ONE
-        IF (MOD(IFQ,10).EQ.1) XFILTR = ALPHA
-        IF (MOD(IFQ,10).EQ.2) XFILTR=FOUR*ATAN2(ONE,ZERO) / ALPHA
-        IF (MOD(IFQ,10).EQ.3) XFILTR=FOUR*ATAN2(ONE,ZERO) * ALPHA
-        IF (XFILTR.LT.ZERO) THEN
+      IF (IFQ>0) THEN
+        IF (IFQ==10) XFILTR = ONE
+        IF (MOD(IFQ,10)==1) XFILTR = ALPHA
+        IF (MOD(IFQ,10)==2) XFILTR=FOUR*ATAN2(ONE,ZERO) / ALPHA
+        IF (MOD(IFQ,10)==3) XFILTR=FOUR*ATAN2(ONE,ZERO) * ALPHA
+        IF (XFILTR<ZERO) THEN
           CALL ANCMSG(MSGID=554,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=NOINT,
      .                C1=TITR,
      .                R1=ALPHA)
-        ELSEIF (XFILTR.GT.1.AND.MOD(IFQ,10).LE.2) THEN
+        ELSEIF (XFILTR>1.AND.MOD(IFQ,10)<=2) THEN
           CALL ANCMSG(MSGID=554,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
@@ -354,19 +354,19 @@ C
      .                FRIC,IGAP,GAP,GAPMAX,GAPSCALE,STARTT,STOPT,
      .                BUMULT,INACTI,VISC,MULTIMP,IBAG
       WRITE(IOUT,1520)MOD(IFQ,10), XFILTR
-      IF(MFROT.EQ.0)THEN
+      IF(MFROT==0)THEN
         WRITE(IOUT,1524) FRIC
-      ELSEIF(MFROT.EQ.1)THEN
+      ELSEIF(MFROT==1)THEN
         WRITE(IOUT,1515)FRIC_P(1),FRIC_P(2),FRIC_P(3),
      .  FRIC_P(4),FRIC_P(5)
-      ELSEIF(MFROT.EQ.2)THEN
+      ELSEIF(MFROT==2)THEN
         WRITE(IOUT,1522)FRIC,FRIC_P(1),FRIC_P(2),FRIC_P(3),
      .  FRIC_P(4),FRIC_P(5),FRIC_P(6)
-      ELSEIF(MFROT.EQ.3)THEN
+      ELSEIF(MFROT==3)THEN
         WRITE(IOUT,1523)FRIC_P(1),FRIC_P(2),FRIC_P(3),
      .  FRIC_P(4),FRIC_P(5),FRIC_P(6)
       ENDIF
-      IF(IDEL23.NE.0) THEN
+      IF(IDEL23/=0) THEN
         WRITE(IOUT,'(A,I5/)')
      .  '    DELETION FLAG ON FAILURE (1:YES) : ',IDEL23
         IF(IDELKEEP == 1)THEN
@@ -376,28 +376,28 @@ C
       ENDIF
 
 C--------------------------------------------------------------
-      IF(IS1.EQ.0)THEN
+      IF(IS1==0)THEN
         WRITE(IOUT,'(6X,A)')'NO SECONDARY SURFACE INPUT'
-      ELSEIF(IS1.EQ.1)THEN
+      ELSEIF(IS1==1)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS1.EQ.2)THEN
+      ELSEIF(IS1==2)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY NODES'
-      ELSEIF(IS1.EQ.3)THEN
+      ELSEIF(IS1==3)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS1.EQ.4 )THEN
+      ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
-      ELSEIF(IS1.EQ.5 )THEN
+      ELSEIF(IS1==5 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
       ENDIF
-      IF(IS2.EQ.0)THEN
+      IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'
-      ELSEIF(IS2.EQ.1)THEN
+      ELSEIF(IS2==1)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS2.EQ.2)THEN
+      ELSEIF(IS2==2)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY NODES'
-      ELSEIF(IS2.EQ.3)THEN
+      ELSEIF(IS2==3)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS2.EQ.4)THEN
+      ELSEIF(IS2==4)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE REFERS ',
      .                      'TO HYPER-ELLIPSOIDAL SURFACE'
       ENDIF
@@ -454,7 +454,7 @@ C------------
      .    '    FILTERING FACTOR . . . . . . . . . . . . ',1PG20.13)
 C----------     
  2301 FORMAT(//
-     .       '    TYPE.EQ.23   PARALLEL/AUTO IMPACTING        ' //,
+     .       '    TYPE==23   PARALLEL/AUTO IMPACTING        ' //,
      .       '    BOUND. COND. DELETED AFTER IMPACT IN X DIR  ',I1/,
      .       '       SECONDARY NODE  (1:YES 0:NO)          Y DIR  ',I1/,
      .       '                                         Z DIR  ',I1/,

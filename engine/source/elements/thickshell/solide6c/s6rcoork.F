@@ -162,10 +162,10 @@ C-----------
 C-----------
 C     PASSAGE AU REPERE CONVECTE.
 C-----------
-      IF((ISMSTR.EQ.1.OR.ISMSTR.EQ.3).OR.
-     .   (ISMSTR.EQ.2.AND.IDTMIN(1).EQ.3))THEN
+      IF((ISMSTR==1.OR.ISMSTR==3).OR.
+     .   (ISMSTR==2.AND.IDTMIN(1)==3))THEN
        DO I=LFT,LLT
-       IF(OFFG(I).EQ.TWO)THEN
+       IF(OFFG(I)==TWO)THEN
         X1(I)=SAV(I,1)
         Y1(I)=SAV(I,2)
         Z1(I)=SAV(I,3)

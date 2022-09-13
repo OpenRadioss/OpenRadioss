@@ -79,7 +79,7 @@ C
             N3=IRECT(3,IS)
             N4=IRECT(4,IS)
 
-            IF(N4.EQ.0 .OR. N4.EQ.N3) THEN
+            IF(N4==0 .OR. N4==N3) THEN
               FAC=ONE_OVER_6*ORIENT
               N4=N3
             ELSE
@@ -111,7 +111,7 @@ c
             LA(2,N3)=LA(2,N3)+NY
             LA(3,N3)=LA(3,N3)+NZ 
 C 
-            IF(N4.NE.N3) THEN
+            IF(N4/=N3) THEN
               LA(1,N4)=LA(1,N4)+NX
               LA(2,N4)=LA(2,N4)+NY
               LA(3,N4)=LA(3,N4)+NZ
@@ -134,7 +134,7 @@ c         pression voisin
             KTY = IPARG(5,N)
             KLT = IPARG(2,N)
             MFT = IPARG(3,N)
-            IF (KTY.EQ.1 .AND. ESEG.LE.KLT+MFT) GOTO 60
+            IF (KTY==1 .AND. ESEG<=KLT+MFT) GOTO 60
           ENDDO
  60       CONTINUE
 !
@@ -153,7 +153,7 @@ c
           N2=IRECT(2,IS)
           N3=IRECT(3,IS)
           N4=IRECT(4,IS)
-          IF(N4.EQ.0 .OR. N4.EQ.N3) THEN
+          IF(N4==0 .OR. N4==N3) THEN
             FAC=ONE_OVER_6*ORIENT
             N4=N3
           ELSE
@@ -178,7 +178,7 @@ c
           P0(N1)=P0(N1)+P*(NX*LA(1,N1)+NY*LA(2,N1)+NZ*LA(3,N1))
           P0(N2)=P0(N2)+P*(NX*LA(1,N2)+NY*LA(2,N2)+NZ*LA(3,N2))
           P0(N3)=P0(N3)+P*(NX*LA(1,N3)+NY*LA(2,N3)+NZ*LA(3,N3))
-          IF(N4.NE.N3) THEN
+          IF(N4/=N3) THEN
             P0(N4)=P0(N4)+P*(NX*LA(1,N4)+NY*LA(2,N4)+NZ*LA(3,N4))
           ENDIF
         ENDDO

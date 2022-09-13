@@ -230,7 +230,7 @@ C-----------------------------------------------
      .        TSTAT(MPI_STATUS_SIZE,2)
 C
       DO I=1,NSPMD
-         IF (ISPMD.EQ.I-1) THEN
+         IF (ISPMD==I-1) THEN
             RBUF(1,I)=SBUF(1,I)
             RBUF(2,I)=SBUF(2,I)
          ELSE
@@ -292,7 +292,7 @@ C-----------------------------------------------
      .       , DIMENSION(:), ALLOCATABLE :: VAL
 C
       DO I=1,NSPMD
-         IF (ISPMD.EQ.I-1) THEN
+         IF (ISPMD==I-1) THEN
             IADC=IADS(I)
             LEN=IADS(I+1)-IADS(I)
             DO J=1,LEN
@@ -383,7 +383,7 @@ C-----------------------------------------------
      .       , DIMENSION(:,:), ALLOCATABLE :: VAL, VALS
 C
       DO I=1,NSPMD
-         IF (ISPMD.EQ.I-1) THEN
+         IF (ISPMD==I-1) THEN
             IADC=IADS(I)
             LEN=IADS(I+1)-IADS(I)
             DO J=1,NV
@@ -397,7 +397,7 @@ C Reception
             LEN=IADR(I+1)-IADR(I)
             LENR=LEN
             II=0
-            IF (LEN.GT.0) THEN
+            IF (LEN>0) THEN
                ALLOCATE(IROW(LEN), VAL(LEN,NV))
                ITAG=MSGOFF + NSPMD*2*(I-1) + ISPMD+1
                II=II+1
@@ -412,7 +412,7 @@ C Reception
 C Envoi
             IADC=IADS(I)
             LEN=IADS(I+1)-IADS(I)
-            IF (LEN.GT.0) THEN
+            IF (LEN>0) THEN
                ITAG=MSGOFF + NSPMD*2*ISPMD + I
                II=II+1
                CALL MPI_ISEND(IEXCH(IADC), LEN, MPI_INTEGER, IT_SPMD(I),
@@ -430,7 +430,7 @@ C Envoi
      .                        ITAG, MPI_COMM_WORLD, REQ(II), IERR)
             ENDIF
 C
-            IF (II.GT.0) CALL MPI_WAITALL(II, REQ, TSTAT, IERR)
+            IF (II>0) CALL MPI_WAITALL(II, REQ, TSTAT, IERR)
 C
             DO J=1,NV
                DO K=1,LENR
@@ -438,8 +438,8 @@ C
                   VECT(IR,J)=VECT(IR,J)+VAL(K,J)
                ENDDO
             ENDDO
-            IF (LEN.GT.0) DEALLOCATE(VALS)
-            IF (LENR.GT.0) DEALLOCATE(IROW, VAL)
+            IF (LEN>0) DEALLOCATE(VALS)
+            IF (LENR>0) DEALLOCATE(IROW, VAL)
          ENDIF
       ENDDO
 C
@@ -487,7 +487,7 @@ C-----------------------------------------------
       my_real
      .       , DIMENSION(:,:), ALLOCATABLE :: VP
 C
-      IF (ISPMD.NE.0.AND.MOD(ISPMD,DSNCOL).EQ.0) THEN
+      IF (ISPMD/=0.AND.MOD(ISPMD,DSNCOL)==0) THEN
          ITAG=MSGOFF + ISPMD
          CALL MPI_SEND(NLOC, 1, MPI_INTEGER, IT_SPMD(1), ITAG,
      .                 MPI_COMM_WORLD, IERR)
@@ -498,9 +498,9 @@ C
      .                 MPI_COMM_WORLD, IERR)
       ENDIF
 C
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
          DO I=1,DSNROW
-            IF (I.EQ.1) THEN
+            IF (I==1) THEN
                NPLOC=NLOC
                ALLOCATE(VP(NPLOC,NDEPL))
                DO J=1,NDEPL
@@ -527,7 +527,7 @@ C
                DO K=1,NPLOC
                   IAD1=IAD1+1
                   KK=KK+1
-                  IF (KK.GT.DSNBLOC) THEN
+                  IF (KK>DSNBLOC) THEN
                      IAD1=IAD1+DSNBLOC*(DSNROW-1)
                      KK=1
                   ENDIF
@@ -588,7 +588,7 @@ C-----------------------------------------------
      .        ISTAT(MPI_STATUS_SIZE), IERR, J, JJ, N
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: LDDLP
 C
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
          DO I=1,NDDLT
             ITAG(1,I)=0
          ENDDO
@@ -619,7 +619,7 @@ C
 C
          N=0
          DO I=1,NDDLT
-            IF (ITAG(1,I).EQ.1) THEN
+            IF (ITAG(1,I)==1) THEN
                N=N+1
                ITAG(2,I)=N
             ENDIF

@@ -71,12 +71,12 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD + 1
-      IF (LOC_PROC.EQ.1) THEN
+      IF (LOC_PROC==1) THEN
         IDEB = 1
         NBIRECV = 0
         DO I = 2, NSPMD
           IAD_RECV(I) = IDEB
-          IF(NGAUP(I).GT.0)THEN
+          IF(NGAUP(I)>0)THEN
             NBIRECV = NBIRECV + 1
             IRINDEX(NBIRECV) = I
             NN = NGAUP(I)
@@ -105,7 +105,7 @@ C
       ELSE
         K = 0
         DO N = 1, NBGAUGE
-         IF(IGAUP(N).EQ.LOC_PROC)THEN
+         IF(IGAUP(N)==LOC_PROC)THEN
            K = K + 1
            BUF(1,K) = N
            DO J = 1, LLGAUGE
@@ -113,7 +113,7 @@ C
            END DO
          END IF
         END DO
-        IF(K.GT.0)THEN
+        IF(K>0)THEN
           SIZ = (LLGAUGE+1)*K
           MSGTYP=MSGOFF
           CALL MPI_SEND(

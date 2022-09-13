@@ -75,7 +75,7 @@ C
 C
       DO I=1,NDDL
          II=ITAG(I)
-         IF (II.NE.0.AND.II.LE.NDF) THEN
+         IF (II/=0.AND.II<=NDF) THEN
             DO J=1,NBD
                ITAGD(J)=0
             ENDDO
@@ -87,7 +87,7 @@ C
             ENDDO
             DO J=IADK(I),IADK(I+1)-1
                JJ=ITAG(JDIK(J))
-               IF (JJ.NE.0.AND.JJ.LE.NDF) THEN
+               IF (JJ/=0.AND.JJ<=NDF) THEN
                   ND=IFAC(1,JJ)
                   FAC2=0
                   DO K=1,ND
@@ -96,26 +96,26 @@ C
                   ENDDO
                   KL(II,JJ)=K_LT(J)/FAC2
                   KL(JJ,II)=K_LT(J)/FAC2
-               ELSEIF (JJ.NE.0) THEN
+               ELSEIF (JJ/=0) THEN
                   KL(II,JJ)=K_LT(J)
                   KL(JJ,II)=K_LT(J)
                ENDIF
             ENDDO
-            IF (IOPT.EQ.2) ML(II)=MASS(I)/IFACM(II)
-         ELSEIF (II.NE.0) THEN
+            IF (IOPT==2) ML(II)=MASS(I)/IFACM(II)
+         ELSEIF (II/=0) THEN
             KL(II,II)=K_DIAG(I)
             DO J=IADK(I),IADK(I+1)-1
                JJ=ITAG(JDIK(J))
-               IF (JJ.NE.0) THEN
+               IF (JJ/=0) THEN
                   KL(II,JJ)=K_LT(J)
                   KL(JJ,II)=K_LT(J)
                ENDIF
             ENDDO
-            IF (IOPT.EQ.2) ML(II)=MASS(I)
+            IF (IOPT==2) ML(II)=MASS(I)
          ENDIF
       ENDDO
 C
-      IF (IOPT.EQ.2) RETURN
+      IF (IOPT==2) RETURN
 C
       DO I=1,NSCM
          DO J=1,NDI
@@ -123,11 +123,11 @@ C
             BL(I,J)=B(I,JJ)
          ENDDO
       ENDDO
-      IF (NDDLI7.GT.0) THEN
+      IF (NDDLI7>0) THEN
         DO I=1,NDDLI7
             II=I7TOK(I)
             II=ITAG(II)
-            IF (II.NE.0.AND.II.LE.NDF) THEN
+            IF (II/=0.AND.II<=NDF) THEN
                DO J=1,NBD
                   ITAGD(J)=0
                ENDDO
@@ -140,7 +140,7 @@ C
                DO J=IADI7(I),IADI7(I+1)-1
                   JJ=I7TOK(JDII7(J))
                   JJ=ITAG(JJ)
-                  IF (JJ.NE.0.AND.JJ.LE.NDF) THEN
+                  IF (JJ/=0.AND.JJ<=NDF) THEN
                      ND=IFAC(1,JJ)
                      FAC2=0
                      DO K=1,ND
@@ -149,17 +149,17 @@ C
                      ENDDO
                      KL(II,JJ)=KL(II,JJ)+I7_LT(J)/FAC2
                      KL(JJ,II)=KL(JJ,II)+I7_LT(J)/FAC2
-                  ELSEIF (JJ.NE.0) THEN
+                  ELSEIF (JJ/=0) THEN
                      KL(II,JJ)=KL(II,JJ)+I7_LT(J)
                      KL(JJ,II)=KL(JJ,II)+I7_LT(J)
                   ENDIF
                ENDDO
-            ELSEIF (II.NE.0) THEN
+            ELSEIF (II/=0) THEN
                KL(II,II)=KL(II,II)+I7_DIAG(I)
                DO J=IADI7(I),IADI7(I+1)-1
                   JJ=I7TOK(JDII7(J))
                   JJ=ITAG(JJ)
-                  IF (JJ.NE.0) THEN
+                  IF (JJ/=0) THEN
                      KL(II,JJ)=KL(II,JJ)+I7_LT(J)
                      KL(JJ,II)=KL(JJ,II)+I7_LT(J)
                   ENDIF
@@ -215,7 +215,7 @@ C
             KL(I,J)=ZERO
          ENDDO
       ENDDO
-      IF (IOPT.EQ.2) THEN
+      IF (IOPT==2) THEN
          DO I=1,N
             DO J=1,N
                ML(I,J)=ZERO
@@ -230,7 +230,7 @@ C
          II=GRAPHE(IPROC)%DGRAPH(IDOM)%DDLS(I)
          ITAG(II)=I
       ENDDO
-      IF (IOPT.EQ.1) THEN
+      IF (IOPT==1) THEN
          DO I=1,NSCM
             DO J=1,NDI
                JJ=GRAPHE(IPROC)%DGRAPH(IDOM)%DDLS(NDF+J)
@@ -257,7 +257,7 @@ C Chargement de la matrice de rigidite
             IREC=IREC+1
          ENDDO
          NR=LEN-(LEN/10)*10
-         IF (NR.GT.0) READ(IFILE,REC=IREC) (KLC(IKC+J),J=1,NR)
+         IF (NR>0) READ(IFILE,REC=IREC) (KLC(IKC+J),J=1,NR)
          DO I=1,NDFC
             II=GRAPHE(IPROC)%DGRAPH(ISC)%DDLS(I)
             II=ITAG(II)
@@ -292,13 +292,13 @@ C Chargement de la matrice de rigidite
          ENDDO
          DEALLOCATE(KLC)
 C
-         IF (IOPT.EQ.1) THEN
+         IF (IOPT==1) THEN
 C Seconds membres si resolution statique
             DO I=1,NSCM
                DO J=1,NDFC
                   JJ=GRAPHE(IPROC)%DGRAPH(ISC)%DDLS(J)
                   JJ=ITAG(JJ)
-                  IF (JJ.GT.NDF) THEN
+                  IF (JJ>NDF) THEN
                      BL(I,JJ-NDF)=BL(I,JJ-NDF)
      .                           +GRAPHE(IPROC)%DGRAPH(ISC)%B(I,J)
                   ELSE
@@ -320,7 +320,7 @@ C Chargement de la matrice de masse
             IREC=IREC+1
          ENDDO
          NR=LEN-(LEN/10)*10
-         IF (NR.GT.0) READ(IFILE,REC=IREC) (MLC(IMC+J),J=1,NR)
+         IF (NR>0) READ(IFILE,REC=IREC) (MLC(IMC+J),J=1,NR)
          DO I=1,NDFC
             II=GRAPHE(IPROC)%DGRAPH(ISC)%DDLS(I)
             II=ITAG(II)
@@ -448,7 +448,7 @@ C
 C
       DO I=1,NDDL
          II=ITAG(I)
-         IF (II.NE.0.AND.II.LE.NDF) THEN
+         IF (II/=0.AND.II<=NDF) THEN
             DO J=1,NBD
                ITAGD(J)=0
             ENDDO
@@ -460,7 +460,7 @@ C
             ENDDO
             DO J=IADK(I),IADK(I+1)-1
                JJ=ITAG(JDIK(J))
-               IF (JJ.NE.0.AND.JJ.LE.NDF) THEN
+               IF (JJ/=0.AND.JJ<=NDF) THEN
                   ND=IFAC(1,JJ)
                   FAC2=0
                   DO K=1,ND
@@ -469,16 +469,16 @@ C
                   ENDDO
                   KL(II,JJ)=K_LT(J)/FAC2
                   KL(JJ,II)=K_LT(J)/FAC2
-               ELSEIF (JJ.NE.0) THEN
+               ELSEIF (JJ/=0) THEN
                   KL(II,JJ)=K_LT(J)
                   KL(JJ,II)=K_LT(J)
                ENDIF
             ENDDO
-         ELSEIF (II.NE.0) THEN
+         ELSEIF (II/=0) THEN
             KL(II,II)=K_DIAG(I)
             DO J=IADK(I),IADK(I+1)-1
                JJ=ITAG(JDIK(J))
-               IF (JJ.NE.0) THEN
+               IF (JJ/=0) THEN
                   KL(II,JJ)=K_LT(J)
                   KL(JJ,II)=K_LT(J)
                ENDIF
@@ -561,7 +561,7 @@ C Chargement de la matrice de rigidite
             IREC=IREC+1
          ENDDO
          NR=LEN-(LEN/10)*10
-         IF (NR.GT.0) READ(IFILE,REC=IREC) (KLC(IKC+J),J=1,NR)
+         IF (NR>0) READ(IFILE,REC=IREC) (KLC(IKC+J),J=1,NR)
          DO I=1,NDFC
             II=GRAPHE(IPROC)%DGRAPH(ISC)%DDLS(I)
             II=ITAG(II)

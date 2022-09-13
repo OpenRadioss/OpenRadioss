@@ -58,12 +58,12 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
       NIVPIL=0
-      IF(N-1.GT.SEUIL) THEN
+      IF(N-1>SEUIL) THEN
           I=1
           J=N
  100      CONTINUE
              SEPAR=IPARTI(I,J,TAB,N2)
-             IF(SEPAR-I.LE.J-SEPAR) THEN
+             IF(SEPAR-I<=J-SEPAR) THEN
                 ISUIV=SEPAR+1
                 JSUIV=J
                 J=SEPAR-1
@@ -72,13 +72,13 @@ C
                 JSUIV=SEPAR-1
                 I=SEPAR+1
               ENDIF
-              IF(JSUIV-ISUIV.GT.SEUIL) THEN
+              IF(JSUIV-ISUIV>SEUIL) THEN
                 NIVPIL=NIVPIL+2
                 PILE(NIVPIL)=ISUIV
                 PILE(NIVPIL-1)=JSUIV
              ENDIF
-             IF(J-I.GT.SEUIL) GO TO 100
-             IF(NIVPIL.NE.0) THEN
+             IF(J-I>SEUIL) GO TO 100
+             IF(NIVPIL/=0) THEN
                 I=PILE(NIVPIL)
                 J=PILE(NIVPIL-1)
                 NIVPIL=NIVPIL-2

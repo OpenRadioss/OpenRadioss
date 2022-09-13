@@ -88,9 +88,9 @@ C
       IADL = IAD-1+(ITASK+1)*NN/NTHREAD
       IFRA = ICFIELD(7,NL)
       N1FRAM = 0
-      IF(IFRA .NE. 0) N1FRAM = IFRAME(1,IFRA+1)
+      IF(IFRA /= 0) N1FRAM = IFRAME(1,IFRA+1)
       IMOVFRAM = 0
-      IF (N1FRAM .NE. 0) THEN
+      IF (N1FRAM /= 0) THEN
         VN1FRAM(1) = V(1,N1FRAM)
         VN1FRAM(2) = V(2,N1FRAM)
         VN1FRAM(3) = V(3,N1FRAM)
@@ -109,11 +109,11 @@ C
       IFLAG=ICFIELD(8,NL)
 C 
       ISENS=ICFIELD(6,NL)
-      IF(ISENS.EQ.0)THEN
+      IF(ISENS==0)THEN
           TS=TT
       ELSE
           TS = TT-SENSOR(2,ISENS)
-          IF(TS.LT.ZERO)CYCLE
+          IF(TS<ZERO)CYCLE
       ENDIF
 C
       VROT  = FAC(1,NL)*FINTER(IFUNC,TS*FAC(2,NL),NPC,TF,DYDX)
@@ -160,7 +160,7 @@ C
            A(1,N1)=A(1,N1)+AREL(1)
            A(2,N1)=A(2,N1)+AREL(2)
            A(3,N1)=A(3,N1)+AREL(3)
-           IF(IB(J).GT.0)THEN
+           IF(IB(J)>0)THEN
              VMX=V(1,N1)+HALF*DT2*A(1,N1) ! Supposing A will be no more modified...
              VMY=V(2,N1)+HALF*DT2*A(2,N1)
              VMZ=V(3,N1)+HALF*DT2*A(3,N1) 
@@ -191,7 +191,7 @@ C
            A(1,N1)=A(1,N1)+AREL(1)
            A(2,N1)=A(2,N1)+AREL(2)
            A(3,N1)=A(3,N1)+AREL(3)
-           IF(IB(J).GT.0)THEN
+           IF(IB(J)>0)THEN
              VMX=V(1,N1)+HALF*DT2*A(1,N1) ! Supposing A will be no more modified...
              VMY=V(2,N1)+HALF*DT2*A(2,N1)
              VMZ=V(3,N1)+HALF*DT2*A(3,N1) 
@@ -217,7 +217,7 @@ C
            A(1,N1)=A(1,N1)+AREL(1)
            A(2,N1)=A(2,N1)+AREL(2)
            A(3,N1)=A(3,N1)+AREL(3)
-           IF(IB(J).GT.0)THEN
+           IF(IB(J)>0)THEN
              VMX=V(1,N1)+HALF*DT2*A(1,N1) ! Supposing A will be no more modified...
              VMY=V(2,N1)+HALF*DT2*A(2,N1)
              VMZ=V(3,N1)+HALF*DT2*A(3,N1) 
@@ -241,7 +241,7 @@ C
            A(1,N1)=A(1,N1)+AREL(1)
            A(2,N1)=A(2,N1)+AREL(2)
            A(3,N1)=A(3,N1)+AREL(3)
-           IF(IB(J).GT.0)THEN
+           IF(IB(J)>0)THEN
              VMX=V(1,N1)+HALF*DT2*A(1,N1) ! Supposing A will be no more modified...
              VMY=V(2,N1)+HALF*DT2*A(2,N1)
              VMZ=V(3,N1)+HALF*DT2*A(3,N1) 

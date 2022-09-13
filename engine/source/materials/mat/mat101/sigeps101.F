@@ -294,7 +294,7 @@ C     USER VARIABLES INITIALIZATION
 C----------------------------------------------- 
  
 
-      IF ( (TIME .EQ. ZERO) ) THEN
+      IF ( (TIME == ZERO) ) THEN
  
 C
 C     LOOP THROUGH ALL BLOCKS
@@ -333,7 +333,7 @@ C
         UVAR(IE,18) = ZERO  !DGAMV
         UVAR(IE,19) = ZERO  !GAMVEQ
         UVAR(IE,20) = THETAI
-        IF (ABS(D_THETA_OPT-ONE) .LT. EM06) THEN
+        IF (ABS(D_THETA_OPT-ONE) < EM06) THEN
             UVAR(IE,20)  = TEMP(IE)
         ENDIF
         UVAR(IE,21) = ZERO !THETADOT (ADIABATIC)
@@ -447,7 +447,7 @@ C
 C
         CALL EIGSRT(DCE1, VCE1, 3, 3) 
 C
-        IF (IER.EQ.1) THEN
+        IF (IER==1) THEN
         CALL ERR_TPU('ERROR IN EIG VAL')
         ENDIF
        !EIGENVALUES (AND ASSOC EIGENVECTORS) ARE ORDERED FROM 
@@ -460,7 +460,7 @@ C
        !HANDED BY EXCHANGING 1 AND 2.
         SIGN=-ONE
         CALL DET_TPU(VCE1, DET_VCE1)
-        IF(DET_VCE1 .LE. ZERO) SIGN=ONE
+        IF(DET_VCE1 <= ZERO) SIGN=ONE
            DO I=1,3
               EXCHANGE=VCE1(I,1)
               VCE1(I,1)=VCE1(I,2)
@@ -551,7 +551,7 @@ C-------    SIGMA_Q(I,J)
 C
       RETURN
 C
-      ENDIF ! ( (TIME .EQ. ZERO) )
+      ENDIF ! ( (TIME == ZERO) )
 C
  
 C
@@ -585,7 +585,7 @@ C
         GAMVEQ   = UVAR(IE, 19)
         THETA    = UVAR(IE, 20)
         THETADOT = UVAR(IE, 21)
-        IF (ABS(D_THETA_OPT-ONE) .LT. SMALL) THETA=TEMP(IE)
+        IF (ABS(D_THETA_OPT-ONE) < SMALL) THETA=TEMP(IE)
 C
 C-----  SETUP F0; U0; F1; U1; 
         CALL ST_TPU(F0, ZERO, 3*3)  
@@ -683,7 +683,7 @@ C
         CALL AXB_TPU(F1,  TENSOR1, ROT1, 3)                         
 C
 C------- TEMPERATURE DEPENDENCE OF PARAMETERS                      -
-        IF (COEFF2 .LT. SMALL) THEN                                 
+        IF (COEFF2 < SMALL) THEN                                 
             COEFF2 = EM04                                           
         ENDIF                                                       
 C
@@ -746,7 +746,7 @@ C
         ENDDO
         CALL VALPROP_TPU(A, 3, 3, DCE0, VCE0, NROT, IER)
         CALL EIGSRT(DCE0, VCE0, 3, 3)
-        IF (IER.EQ.1) THEN
+        IF (IER==1) THEN
           CALL ERR_TPU('ERROR IN EIG VAL')
         ENDIF
        !EIGENVALUES (AND ASSOC EIGENVECTORS) ARE ORDERED FROM LARGER 
@@ -757,7 +757,7 @@ C
        !RIGHT HANDED BY EXCHANGING 1 AND 2.
         SIGN=-ONE
         CALL DET_TPU(VCE0, DET_VCE0)
-        IF(DET_VCE0 .LE. ZERO) SIGN=ONE
+        IF(DET_VCE0 <= ZERO) SIGN=ONE
         DO I=1,3                                               
           EXCHANGE=VCE0(I,1)                                   
           VCE0(I,1)=VCE0(I,2)                                  
@@ -842,7 +842,7 @@ C
 C
            !DETERMINATION OF GAMVDOT
 C
-        IF (EQSTRESS .LT. SMALL) THEN                                 
+        IF (EQSTRESS < SMALL) THEN                                 
             DGAMV_ITER = ZERO                                         
 C           WRITE(0 ,*) '!!!NO VISCOSITY!!!! ', DGAMV_ITER            
         ELSE                                                          
@@ -852,8 +852,8 @@ C
             GAMV0      = GAMV_REF*EXP(-DQ/(DR*THETA))                 
             DGAMV_ITER = GAMV0*DTIME*                                 
      &                   (SINH(EQSTRESS*DV1/(TWO*DKB*THETA)))**DM     
-            IF (DGAMV_ITER .GT. EP06) THEN                            
-                 CALL ERR_TPU('PLASTICITY .GT. 1.0D6!!!')             
+            IF (DGAMV_ITER > EP06) THEN                            
+                 CALL ERR_TPU('PLASTICITY > 1.0D6!!!')             
              ENDIF                                                    
 C
         ENDIF                                                         
@@ -903,12 +903,12 @@ C
         ENDDO                                                                  
         CALL VALPROP_TPU(A, 3, 3, DCE1, VCE1, NROT, IER)                       
         CALL EIGSRT(DCE1, VCE1, 3, 3)                                          
-        IF (IER.EQ.1) THEN                                                     
+        IF (IER==1) THEN                                                     
           CALL ERR_TPU('ERROR IN EIG VAL')                                     
         ENDIF                                                                  
         SIGN=-ONE                                                               
         CALL DET_TPU(VCE1, DET_VCE1)                                           
-        IF(DET_VCE1.LE.0.) SIGN=ONE                                             
+        IF(DET_VCE1<=0.) SIGN=ONE                                             
         DO I=1,3                                                                   
            EXCHANGE=VCE1(I,1)                                                      
            VCE1(I,1)=VCE1(I,2)                                                     
@@ -965,7 +965,7 @@ C
         ENDDO                                                             
         CALL VALPROP_TPU(A, 3, 3, DCE1, VCE1, NROT, IER)                                
         CALL EIGSRT(DCE1, VCE1, 3, 3)                                                   
-        IF (IER.EQ.1) THEN                                                              
+        IF (IER==1) THEN                                                              
           CALL ERR_TPU('ERROR IN EIG VAL')                                              
         ENDIF                                                                           
         !*** EIGENVALUES (AND ASSOC EIGENVECTORS) ARE ORDERED FROM LARGER TO SMALLER.  !
@@ -975,7 +975,7 @@ C
         !   HANDED BY EXCHANGING 1 AND 2.                                             !
         SIGN=-ONE                                                                       
         CALL DET_TPU(VCE1, DET_VCE1)                                                    
-        IF(DET_VCE1.LE.ZERO) SIGN=ONE                                                   
+        IF(DET_VCE1<=ZERO) SIGN=ONE                                                   
         DO I=1,3                                                                        
            EXCHANGE=VCE1(I,1)                                                           
            VCE1(I,1)=VCE1(I,2)                                                          
@@ -1044,8 +1044,8 @@ C
 C
 C-------TEMPERATURE, ASSUMING ADIABATIC CONDITIONS            ----
 C
-        IF (ABS(D_THETA_OPT-ZERO) .LT. SMALL .OR.                 
-     &      ABS(D_THETA_OPT-ONE)  .LT. SMALL) FACTOR = ZERO       
+        IF (ABS(D_THETA_OPT-ZERO) < SMALL .OR.                 
+     &      ABS(D_THETA_OPT-ONE)  < SMALL) FACTOR = ZERO       
 C
         CALL ST_TPU(XM_VEC,  ZERO, 6)                             
 C
@@ -1325,7 +1325,7 @@ Chd|====================================================================
 C
 C---------------------------------------------------------------------72
 C
-      IF (N .NE. 3)
+      IF (N /= 3)
      &   CALL ERR_TPU('TRACEOFTENSOR: N =! 3')
 C
       TR_TENSOR = TENSOR(1) + TENSOR(5) + TENSOR(9)
@@ -1475,7 +1475,7 @@ Chd|====================================================================
 C
 C---------------------------------------------------------------------72
 C
-      IF (N .NE. 3)
+      IF (N /= 3)
      &   CALL ERR_TPU('DEVIATORICTENSOR: N =! 3')
 C
       CALL TR_TPU(TENSOR, TR_TENSOR, N)
@@ -1572,10 +1572,10 @@ Chd|====================================================================
 C
 C---------------------------------------------------------------------72
 C
-      IF ((N .NE. 2) .AND. (N .NE. 3))
+      IF ((N /= 2) .AND. (N /= 3))
      &   CALL ERR_TPU('SYM_TPU: N =! 2 OR 3')
 C
-      IF (N .EQ. 2) THEN
+      IF (N == 2) THEN
          SYMMTENSOR(1) = TENSOR(1)
          SYMMTENSOR(4) = TENSOR(4)
          SYMMTENSOR(3) = HALF*(TENSOR(3) + TENSOR(2))
@@ -1616,12 +1616,12 @@ Chd|====================================================================
 C
 C---------------------------------------------------------------------72
 C
-      IF ((N .NE. 2) .AND. (N .NE. 3))
+      IF ((N /= 2) .AND. (N /= 3))
      &   CALL ERR_TPU('SKW_TPU: N =! 2 OR 3')
 C
       CALL ST_TPU(SKEWTENSOR,ZERO, N*N)
 C
-      IF (N .EQ. 2) THEN
+      IF (N == 2) THEN
          SKEWTENSOR(3) = HALF*(TENSOR(3) - TENSOR(2))
          SKEWTENSOR(2) = - SKEWTENSOR(3)
       ELSE   ! N = 3
@@ -1858,12 +1858,12 @@ Chd|====================================================================
 14        CONTINUE
 15      CONTINUE
 C
-        IF(SM.EQ.0.)THEN
+        IF(SM==0.)THEN
         IER=0
         RETURN
         ENDIF
 C
-        IF(I.LT.4)THEN
+        IF(I<4)THEN
           TRESH=0.2D0*SM/N**2
         ELSE
           TRESH=ZERO
@@ -1871,18 +1871,18 @@ C
         DO 22 IP=1,N-1
           DO 21 IQ=IP+1,N
             G=HUNDRED*ABS(A(IP,IQ))
-            IF((I.GT.4).AND.(ABS(D(IP))+
-     *G.EQ.ABS(D(IP))).AND.(ABS(D(IQ))+G.EQ.ABS(D(IQ))))THEN
+            IF((I>4).AND.(ABS(D(IP))+
+     *G==ABS(D(IP))).AND.(ABS(D(IQ))+G==ABS(D(IQ))))THEN
               A(IP,IQ)=0.
-            ELSE IF(ABS(A(IP,IQ)).GT.TRESH)THEN
+            ELSE IF(ABS(A(IP,IQ))>TRESH)THEN
               H=D(IQ)-D(IP)
-              IF(ABS(H)+G.EQ.ABS(H))THEN
+              IF(ABS(H)+G==ABS(H))THEN
                 T=A(IP,IQ)/H
 C
               ELSE
                 THETA=HALF*H/A(IP,IQ)
                 T=ONE/(ABS(THETA)+SQRT(ONE+THETA**2))
-                IF(THETA.LT.ZERO)T=-T
+                IF(THETA<ZERO)T=-T
               ENDIF
               C=ONE/SQRT(ONE+T**2)
               S=T*C
@@ -1958,12 +1958,12 @@ Chd|====================================================================
         K=I
         P=D(I)
         DO 11 J=I+1,N
-          IF(D(J).GE.P)THEN
+          IF(D(J)>=P)THEN
             K=J
             P=D(J)
           ENDIF
 11      CONTINUE
-        IF(K.NE.I)THEN
+        IF(K/=I)THEN
           D(K)=D(I)
           D(I)=P
           DO 12 J=1,N
@@ -2062,7 +2062,7 @@ C
         B    = INV2 - (INV1**TWO)/THREE
         C    = -(TWO/27.D0)*(INV1**THREE) + INV1*INV2/THREE - INV3
 C
-        IF ( ABS(B) .LT. EM04) THEN
+        IF ( ABS(B) < EM04) THEN
                 X1 = -ABS(C)**(THIRD)
                 X2 = X1
                 X3 = X1
@@ -2070,9 +2070,9 @@ C
                 M  = TWO*SQRT(-B/THREE)
                 N  = THREE*C/(M*B)
 C
-                IF (N .LT. -ONE) THEN
+                IF (N < -ONE) THEN
                         N = -ONE
-                ELSE IF (N .GT. ONE) THEN
+                ELSE IF (N > ONE) THEN
                         N = ONE
                 ENDIF
 C
@@ -2148,9 +2148,9 @@ C
 C---------------------------------------------------------------------72
 C
       ARG = A / B
-      IF ( ABS(ARG) .LT. 0.84136D0) THEN
+      IF ( ABS(ARG) < 0.84136D0) THEN
         C = 1.31446D0 * TAN(1.58986D0*ARG) + 0.91209D0 * ARG
-      ELSE IF (ABS(ARG) .GE. 0.84136D0 .AND. ABS(ARG) .LT. ONE) THEN
+      ELSE IF (ABS(ARG) >= 0.84136D0 .AND. ABS(ARG) < ONE) THEN
         CALL SIGNUM_TPU(ARG, SARG)
         C = ONE / (SARG - ARG)
       ELSE
@@ -2181,9 +2181,9 @@ c
 C
 C---------------------------------------------------------------------72
 C
-       IF (A .GT. 0.0) THEN
+       IF (A > 0.0) THEN
          B = ONE
-       ELSE IF (A .LT.ZERO) THEN
+       ELSE IF (A <ZERO) THEN
          B = -ONE
        ELSE
          B =ZERO

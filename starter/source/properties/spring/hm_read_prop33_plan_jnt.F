@@ -138,28 +138,28 @@ C--------------------------------------------------
       CALL HM_GET_FLOATV('Crx',CRX,IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF(.NOT.IS_AVAILABLE) OFLAG = OFLAG + 1
 C-----------------------
-      IF (IDSK1.LE.0.OR.IDSK1.LE.0) THEN
+      IF (IDSK1<=0.OR.IDSK1<=0) THEN
          CALL ANCMSG(MSGID=386,
      .  	     MSGTYPE=MSGERROR,
      .  	     ANMODE=ANINFO_BLIND_1,
      .  	     I1=ID,
      .  	     C1=TITR)
       ENDIF
-      IF (KNN.EQ.0.) THEN
+      IF (KNN==0.) THEN
          CALL ANCMSG(MSGID=387,
      .  	     MSGTYPE=MSGERROR,
      .  	     ANMODE=ANINFO_BLIND_1,
      .  	     I1=ID,
      .  	     C1=TITR)
       ENDIF
-      IF (CR.LT.ZERO.OR.CR.GT.1.) THEN
+      IF (CR<ZERO.OR.CR>1.) THEN
          CALL ANCMSG(MSGID=388,
      .  	     MSGTYPE=MSGERROR,
      .  	     ANMODE=ANINFO_BLIND_1,
      .  	     I1=ID,
      .  	     C1=TITR)
       ENDIF
-      IF (CR.EQ.ZERO) CR = FIVEEM2
+      IF (CR==ZERO) CR = FIVEEM2
 C
       XTYP = ITYP
       XFLG = SKFLAG
@@ -168,12 +168,12 @@ C
       MASS = ZERO
       INER = ZERO
 C
-      IF(KYY.EQ.ZERO.AND.IFUN_YY.NE.0) KYY = ONE
-      IF(KZZ.EQ.ZERO.AND.IFUN_ZZ.NE.0) KZZ = ONE
-      IF(KRX.EQ.ZERO.AND.IFUN_RX.NE.0) KRX = ONE
-      IF(CYY.EQ.ZERO.AND.IFUN_CYY.NE.0)CYY = ONE
-      IF(CZZ.EQ.ZERO.AND.IFUN_CZZ.NE.0)CZZ = ONE
-      IF(CRX.EQ.ZERO.AND.IFUN_CRX.NE.0)CRX = ONE
+      IF(KYY==ZERO.AND.IFUN_YY/=0) KYY = ONE
+      IF(KZZ==ZERO.AND.IFUN_ZZ/=0) KZZ = ONE
+      IF(KRX==ZERO.AND.IFUN_RX/=0) KRX = ONE
+      IF(CYY==ZERO.AND.IFUN_CYY/=0)CYY = ONE
+      IF(CZZ==ZERO.AND.IFUN_CZZ/=0)CZZ = ONE
+      IF(CRX==ZERO.AND.IFUN_CRX/=0)CRX = ONE
 C-----------------------
       IF (IFUN_YY  /= 0) KYY = KYY * FAC_FF 
       IF (IFUN_ZZ  /= 0) KZZ = KZZ * FAC_FF
@@ -231,7 +231,7 @@ C-----------------------
       IF(IS_CRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-       IF (OFLAG.EQ.6) THEN
+       IF (OFLAG==6) THEN
         WRITE(IOUT,1001) IDSK1,IDSK2,XK,CR,KNN,KYY,KZZ,KRX,
      .  		 IFUN_YY,IFUN_ZZ,IFUN_RX
        ELSE

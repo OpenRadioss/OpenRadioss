@@ -76,7 +76,7 @@ C-----------------------------------------------
       ALP = TWOEM2
       DO II=1,NSN
         I=NSV(II)
-        IF ((NTY.EQ.1).OR.((NTY.EQ.2).AND.(ILEV /= 25 .and. ILEV /= 26 .and. ILEV /= 27 .and. ILEV /= 28))) THEN
+        IF ((NTY==1).OR.((NTY==2).AND.(ILEV /= 25 .and. ILEV /= 26 .and. ILEV /= 27 .and. ILEV /= 28))) THEN
           CALL KINSET(2,ITAB(I),IKINE(I),1,0,IKINE1(I))
           CALL KINSET(2,ITAB(I),IKINE(I),2,0,IKINE1(I))
           CALL KINSET(2,ITAB(I),IKINE(I),3,0,IKINE1(I))
@@ -97,10 +97,10 @@ C-----------------------------------------------
         YS1=X(2,I)
         ZS1=X(3,I)
         CALL INIST3(N1,N2,N3,SS,TT,IER,ALP)
-        IF(IPRI.GE.1)WRITE(IOUT,FMT=FMW_7I_2F)
+        IF(IPRI>=1)WRITE(IOUT,FMT=FMW_7I_2F)
      .        ITAB(I),ITAB(K),
      .        L,(ITAB(MSR(IRECT(JJ,L))),JJ=1,4),SS,TT
-         IF(IER.EQ.-1)THEN
+         IF(IER==-1)THEN
             CALL ANCMSG(MSGID=85,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO,
@@ -113,7 +113,7 @@ C-----------------------------------------------
      .                  I6=ITAB(NSV(IRECT(2,L))),
      .                  I7=ITAB(NSV(IRECT(3,L))),
      .                  I8=ITAB(NSV(IRECT(4,L))))
-         ELSE IF(IER.EQ.1)THEN
+         ELSE IF(IER==1)THEN
             CALL ANCMSG(MSGID=86,
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_2,

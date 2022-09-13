@@ -84,13 +84,13 @@ C----------------------
         IFA = NELW(IE) - 10*II
         N1  = IXQ(IFACE(1,IFA),II)
         N2  = IXQ(IFACE(2,IFA),II)
-        IF(NTAG(N1).GT.0) NTAG(N1) = NTAG(N1) + 1
-        IF(NTAG(N2).GT.0) NTAG(N2) = NTAG(N2) + 1
+        IF(NTAG(N1)>0) NTAG(N1) = NTAG(N1) + 1
+        IF(NTAG(N2)>0) NTAG(N2) = NTAG(N2) + 1
  100  CONTINUE
 C
 C Comm SPMD NTAG : cumul aux points frontiere + prise en compte tag initial
 C
-      IF(IMACH.EQ.3.AND.NSPMD.GT.1)THEN
+      IF(IMACH==3.AND.NSPMD>1)THEN
         LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
         CALL SPMD_EXTAG(NTAG,IAD_ELEM,FR_ELEM,LENR)
       END IF
@@ -102,7 +102,7 @@ C----------------------
         IFA = NELW(IE)-10*II
         N1  = IXQ(IFACE(1,IFA),II)
         N2  = IXQ(IFACE(2,IFA),II)
-        IF(NTAG(N1)+NTAG(N2).GT.0)THEN
+        IF(NTAG(N1)+NTAG(N2)>0)THEN
 C---------------------------------
 C         RECHERCHE DE L'ELEMENT DANS LE BUFFER
 C---------------------------------
@@ -114,10 +114,10 @@ C---------------------------------
      5            NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL , 
      6            IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   , 
      7            ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
-            IF(ITY.NE.2)          GO TO 200
-            IF(II.GT.NFT+LLT)     GO TO 200
-            IF(IPARG(8,NG).EQ.1)  GO TO 600
-            IF(JTHE.NE.1)         GO TO 600
+            IF(ITY/=2)          GO TO 200
+            IF(II>NFT+LLT)     GO TO 200
+            IF(IPARG(8,NG)==1)  GO TO 600
+            IF(JTHE/=1)         GO TO 600
             I = II - NFT
             GOTO 250
   200     CONTINUE
@@ -133,8 +133,8 @@ C
 C----------------------
 C     ENERGIE DE FROTTEMENT
 C----------------------
-          IF(NTAG(N1).GT.1) EE = EE + E(N1) / (NTAG(N1)-1)
-          IF(NTAG(N2).GT.1) EE = EE + E(N2) / (NTAG(N2)-1)
+          IF(NTAG(N1)>1) EE = EE + E(N1) / (NTAG(N1)-1)
+          IF(NTAG(N2)>1) EE = EE + E(N2) / (NTAG(N2)-1)
 C----------------------
 C     CONDUCTION
 C----------------------
@@ -165,7 +165,7 @@ C         CALCUL DU GRADIENT * SURFACE
 C---------------------------------
             GRAD = FOUR*(DY*NY+DZ*NZ) / MAX(EM15,DD)
             MAT  =IXQ(1,IE)
-            IF(TEMPE.LE.PM(80,MAT))THEN
+            IF(TEMPE<=PM(80,MAT))THEN
              COEF=PM(75,MAT)+PM(76,MAT)*TEMPE
             ELSE
              COEF=PM(77,MAT)+PM(78,MAT)*TEMPE

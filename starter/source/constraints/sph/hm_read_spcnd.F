@@ -100,8 +100,8 @@ C-----------------------------------------------
         DO I=1,NSPCOND
           NY=NY+1
 C----------Multidomaines --> on ignore les BCS SPH non tagees-----------
-          IF(NSUBDOM.GT.0)THEN
-	    IF(TAGSPHBCS(NY).EQ.0)CALL HM_SZ_R2R(TAGSPHBCS,NY,LSUBMODEL)
+          IF(NSUBDOM>0)THEN
+	    IF(TAGSPHBCS(NY)==0)CALL HM_SZ_R2R(TAGSPHBCS,NY,LSUBMODEL)
           END IF
 C--------------------------------------------------
 C EXTRACT DATAS OF /SPHBCS/... LINE
@@ -112,9 +112,9 @@ C--------------------------------------------------
      .                         KEYWORD2 = KEY)
           NOM_OPT(1,I)=ID
           CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
-          IF (KEY(1:5).EQ.'SLIDE')THEN
+          IF (KEY(1:5)=='SLIDE')THEN
            ISPCOND(5,I)=1
-          ELSEIF (KEY(1:4).EQ.'TIED')THEN
+          ELSEIF (KEY(1:4)=='TIED')THEN
            ISPCOND(5,I)=0
           ELSE
              CALL ANCMSG(MSGID=398,
@@ -134,14 +134,14 @@ C EXTRACT DATAS (STRING)
 C--------------------------------------------------
           CALL HM_GET_STRING('rad_dir',DIR,ncharfield,IS_AVAILABLE)
 C
-          IF(DIR(1:1).EQ.'X')THEN
+          IF(DIR(1:1)=='X')THEN
             IC=1
-          ELSEIF(DIR(1:1).EQ.'Y')THEN
+          ELSEIF(DIR(1:1)=='Y')THEN
             IC=2
-          ELSEIF(DIR(1:1).EQ.'Z')THEN
+          ELSEIF(DIR(1:1)=='Z')THEN
             IC=3
           ENDIF
-          IF(ILEV.NE.0.AND.ILEV.NE.1)THEN
+          IF(ILEV/=0.AND.ILEV/=1)THEN
              CALL ANCMSG(MSGID=399,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO_BLIND_1,
@@ -149,12 +149,12 @@ C
           ENDIF
           ISPCOND(1,I)=ILEV
           ISPCOND(2,I)=IC
-          IF (IS.EQ.0)THEN
+          IF (IS==0)THEN
            ISPCOND(3,I)=1
            GOTO 111
           ELSE
            DO J=1,NUMFRAM
-            IF (IFRAME(4,J+1).EQ.IS)THEN
+            IF (IFRAME(4,J+1)==IS)THEN
              ISPCOND(3,I)=J+1
              GOTO 111
             ENDIF
@@ -172,7 +172,7 @@ C
 C
           DO NOSYS=1,NUMNOD
               NCELL=NOD2SP(NOSYS)
-              IF (NCELL.EQ.0) THEN
+              IF (NCELL==0) THEN
               ELSE
               ENDIF
           ENDDO

@@ -94,11 +94,11 @@ C-----------------------------------------------
       JJ = 0
       II = 0
 
-      IF(NUMELC.NE.0)THEN
+      IF(NUMELC/=0)THEN
 
        DO NG=1,NGROUP
         ITY   =IPARG(5,NG)
-        IF(ITY.EQ.3) THEN
+        IF(ITY==3) THEN
           NEL   =IPARG(2,NG)
           NFT	=IPARG(3,NG)
           GBUF => ELBUF_TAB(NG)%GBUF   
@@ -126,7 +126,7 @@ C-----------------------------------------------
            NPC(JJ+7) = NINT(GBUF%OFF(I))
            NPC(JJ+8) = IGTYP
            II = II + 1
-           IF (MLW .NE. 0 .AND. MLW .NE. 13) THEN
+           IF (MLW /= 0 .AND. MLW /= 13) THEN
              IF (ITHK >0 ) THEN
                  THKC(II) = GBUF%THK(I)
              ELSE
@@ -168,10 +168,10 @@ C     3-NODE SHELLS
 C-----------------------------------------------
       JJ = 0
       II = 0
-      IF(NUMELTG.NE.0)THEN
+      IF(NUMELTG/=0)THEN
        DO NG=1,NGROUP
         ITY   =IPARG(5,NG)
-        IF(ITY.EQ.7) THEN
+        IF(ITY==7) THEN
           NEL	=IPARG(2,NG)
           NFT	=IPARG(3,NG)
           GBUF => ELBUF_TAB(NG)%GBUF   
@@ -198,7 +198,7 @@ C
            NPTG(JJ+6) = NINT(GBUF%OFF(I))
            NPTG(JJ+7) = IGTYP
            II = II + 1
-           IF (MLW .NE. 0 .AND. MLW .NE. 13) THEN
+           IF (MLW /= 0 .AND. MLW /= 13) THEN
              IF (ITHK >0 ) THEN
                  THKTG(II) = GBUF%THK(I)
              ELSE

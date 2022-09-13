@@ -137,8 +137,8 @@ C
       DO I=1,NRBE2
         NRB=NRB+1
 C----------Multidomaines --> on ignore les rbe3 non tages---------
-        IF(NSUBDOM.GT.0)THEN
-	     IF(TAGRB2(NRB).EQ.0)CALL HM_SZ_R2R(TAGRB2,NRB,LSUBMODEL)
+        IF(NSUBDOM>0)THEN
+	     IF(TAGRB2(NRB)==0)CALL HM_SZ_R2R(TAGRB2,NRB,LSUBMODEL)
 	    END IF
 C-----------------------------------------------------------------
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
@@ -167,7 +167,7 @@ C
         IC1=J6(1)*4 +J6(2)*2 +J6(3)
         IC2=J6(4)*4 +J6(5)*2 +J6(6)
         IC =IC1*512+IC2*64
-        IF (IC.EQ.0) IC =7*512+7*64
+        IF (IC==0) IC =7*512+7*64
         IRBE2(3,I) = M
         IRBE2(4,I) = IC
         IRBE2(1,I) = IAD
@@ -188,7 +188,7 @@ C
 	 END IF
         END IF
         ISKS = 0
-        IF ((J6(1)+J6(2)+J6(3)+J6(4)+J6(5)+J6(6)).EQ.0) THEN
+        IF ((J6(1)+J6(2)+J6(3)+J6(4)+J6(5)+J6(6))==0) THEN
          J6(1)=1
          J6(2)=1
          J6(3)=1
@@ -196,9 +196,9 @@ C
          J6(5)=1
          J6(6)=1
         ENDIF
-        IF (ISK.NE.0) THEN
+        IF (ISK/=0) THEN
          DO JJ=0,NUMSKW+MIN(1,NSPCOND)*NUMSPH+NSUBMOD
-          IF(ISK.EQ.ISKN(4,JJ+1)) THEN
+          IF(ISK==ISKN(4,JJ+1)) THEN
             ISKS=JJ+1
             GO TO 10
           ENDIF
@@ -283,7 +283,7 @@ C--------for decompo
           FMAIN(1:NSPMD) = 0
           DO P = 1, NSPMD
             DO J = 1, NS
-              IF (NLOCAL(LRBE2(IAD+J),P).NE.0)THEN
+              IF (NLOCAL(LRBE2(IAD+J),P)/=0)THEN
                 FMAIN(P) = 1
                 GO TO 85
               ENDIF
@@ -292,7 +292,7 @@ C--------for decompo
           END DO
 C  noeud main sur les procs ayant au moins 1 SECONDARY
           DO P = 1, NSPMD
-            IF (FMAIN(P).EQ.1) THEN
+            IF (FMAIN(P)==1) THEN
 	      CALL IFRONTPLUS(M,P)
             ENDIF
           ENDDO
@@ -368,7 +368,7 @@ C-----------------------------------------------
 C========================================================================|
       LNUM  = 0
       LREAL  = 0
-      IF (NRBE2.EQ.0) RETURN
+      IF (NRBE2==0) RETURN
 
       NRB = 0
 
@@ -376,8 +376,8 @@ C========================================================================|
       DO I=1,NRBE2
         NRB=NRB+1
 C----------Multidomaines --> on ignore les rbe2 non tages---------
-        IF(NSUBDOM.GT.0)THEN
-	  IF(TAGRB2(NRB).EQ.0)CALL HM_SZ_R2R(TAGRB2,NRB,LSUBMODEL)
+        IF(NSUBDOM>0)THEN
+	  IF(TAGRB2(NRB)==0)CALL HM_SZ_R2R(TAGRB2,NRB,LSUBMODEL)
         END IF
 C-----------------------------------------------------------------
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
@@ -444,7 +444,7 @@ C--------if same node as several IND. of /RBE2----------------------------------
       NZ=0
       DO I=1,NRBE2
        M = IRBE2(3,I)
-       IF (ITAG(M).EQ.0) THEN
+       IF (ITAG(M)==0) THEN
         ITAG(M)=I
        ELSE
         NZ=NZ+1
@@ -459,13 +459,13 @@ C---------  if hierarchy
         NSL = IRBE2(5,I)
         DO J =1,NSL
          NS = LRBE2(IAD+J)
-         IF (ITAG(NS).GT.I) NC=NC+1
+         IF (ITAG(NS)>I) NC=NC+1
          DO K=IAD_N(NS),IAD_N(NS+1)-1
-          IF (ITAG1(K).GT.I) NC=NC+1
+          IF (ITAG1(K)>I) NC=NC+1
          ENDDO
         ENDDO
       ENDDO
-      IF (NC.EQ.0) RETURN
+      IF (NC==0) RETURN
 C---------
       DO I=1,NRBE2
        IORDER(I) = I
@@ -483,11 +483,11 @@ C---------   ite=
        NSL = IRBE2(5,I)
        DO J =1,NSL
         NS = LRBE2(IAD+J)
-        IF (ITAG(NS).EQ.0) CYCLE
+        IF (ITAG(NS)==0) CYCLE
         IC=INDICE(ITAG(NS))
         I1=INDICE(I)
 C-----
-         IF (IC.GT.I1) THEN
+         IF (IC>I1) THEN
           NC = NC+1
 C-------exchange IORDER(IC) & IORDER(I) --
           I0 = IORDER(I1)
@@ -496,12 +496,12 @@ C-------exchange IORDER(IC) & IORDER(I) --
           IC0 = INDICE(I)
           INDICE(I) = IC
           INDICE(ITAG(NS)) = I1
-              IF (IT.EQ.NIT) IERR1 = IRBE2(2,I)
+              IF (IT==NIT) IERR1 = IRBE2(2,I)
          ENDIF
          DO K=IAD_N(NS),IAD_N(NS+1)-1
           IC=INDICE(ITAG1(K))
           I1=INDICE(I)
-           IF (IC.GT.I1) THEN
+           IF (IC>I1) THEN
                NC = NC+1
 C--exchange IORDER(IC) & IORDER(I) --
            I0 = IORDER(I1)
@@ -514,11 +514,11 @@ C--exchange IORDER(IC) & IORDER(I) --
         ENDDO
       ENDDO
        II = NC -II
-       IF (II.LE.0) GOTO 100
+       IF (II<=0) GOTO 100
       ENDDO
  100  CONTINUE
 C
-      IF (IERR1.GT.0) NC=-IERR1
+      IF (IERR1>0) NC=-IERR1
 C----------copy---
       DO I=1,NRBE2
         IAD = IRBE2(1,I)
@@ -592,11 +592,11 @@ C========================================================================|
       NM =0
       IAD_N(1)=1
       DO N=1,NUMNOD
-       IF (ITAG(N).GT.0) THEN
+       IF (ITAG(N)>0) THEN
         DO J=1,NZ
          I = IADM(J)
          M = IRBE2(3,I)
-         IF (M.EQ.N) THEN
+         IF (M==N) THEN
           NM=NM+1
           IADM_CP(NM)=I
          ENDIF
@@ -656,7 +656,7 @@ C--------if same node as several MAINs---------------------------------------
       NZ=0
       DO I=1,NRBE2
        M = IRBE2(3,I)
-       IF (ITAG(M).EQ.0) THEN
+       IF (ITAG(M)==0) THEN
         ITAG(M)=I
        ELSE
             NZ=NZ+1
@@ -671,7 +671,7 @@ C--------------------------------------------
        NSL = IRBE2(5,I)
        DO J =1,NSL
         NS = LRBE2(IAD+J)
-        IF (ITAG(NS).GT.0) THEN
+        IF (ITAG(NS)>0) THEN
          IM1=ITAG(NS)
          IH1 = IRBE2(9,IM1)+1
          IRBE2(9,I) = MAX(IRBE2(9,I),IH1)
@@ -688,7 +688,7 @@ C--------------------------------------------
        NHRBE2 = MAX(NHRBE2,IRBE2(9,I))
        M = IRBE2(3,I)
       ENDDO
-      IF (NHRBE2.EQ.0) RETURN
+      IF (NHRBE2==0) RETURN
 C-------reordering according hiera---
        DO I=1,NRBE2
        IAD = IRBE2(1,I)
@@ -706,7 +706,7 @@ C----------reodering---
       II = 0
       DO N=0,NHRBE2
        DO I=1,NRBE2
-        IF (ICOPY(9,I).NE.N) CYCLE
+        IF (ICOPY(9,I)/=N) CYCLE
         II = II + 1
         IAD = ICOPY(1,I)
         M  = ICOPY(3,I)
@@ -781,15 +781,15 @@ C========================================================================|
       CALL RBE2_MERGE(IRBE2  ,LRBE2  )
       CALL REORBE2(IRBE2  ,LRBE2  ,NC )
       CALL HIERARBE2(IRBE2  ,LRBE2  )
-      IF (NC.LT.0) THEN
+      IF (NC<0) THEN
        ID= -NC
         CALL ANCMSG(MSGID=803,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO,
      .              I1=ID)
-      ELSEIF(NHRBE2.GT.0) THEN
+      ELSEIF(NHRBE2>0) THEN
         WRITE(IOUT,1200) NHRBE2
-       IF (IPRI.GE.5) THEN
+       IF (IPRI>=5) THEN
              WRITE(IOUT,1000)
         DO I=1,NRBE2
          M = ITAB(IRBE2(3,I))
@@ -856,7 +856,7 @@ C
        IC=IRBE2(4,I)
        IRAD = IRBE2(11,I)
        ICT=IC/512
-       IF (ICT.GT.0) THEN
+       IF (ICT>0) THEN
         IF (NS10E>0) THEN
          DO J =1,NSL
           NS = LRBE2(IAD+J)
@@ -873,16 +873,16 @@ C
         END IF !(NS10E>0) THEN
        ENDIF
        ICR=(IC-512*(ICT))/64
-       IF (IRODDL.EQ.0) ICR =0
-        IF (ICR.GT.0.OR.IRAD.EQ.0) THEN
-         IF (ICR.GT.0) THEN
+       IF (IRODDL==0) ICR =0
+        IF (ICR>0.OR.IRAD==0) THEN
+         IF (ICR>0) THEN
           DO J =1,NSL
            NS = LRBE2(IAD+J)
            IN(M) = IN(M)+IN(NS)
            STIFR(M)= STIFR(M)+STIFR(NS)
           ENDDO
          END IF
-         IF (ICT.GT.0) THEN
+         IF (ICT>0) THEN
           IF (NS10E>0) THEN
            DO J =1,NSL
             NS = LRBE2(IAD+J)
@@ -895,7 +895,7 @@ C
             IZZ=XX+YY
             INS = (IXX+IYY+IZZ)*MS(NS)
             IN(M) = IN(M)+ INS
-            IF (ICT.EQ.7) INRB = INRB+INS
+            IF (ICT==7) INRB = INRB+INS
             DD = XX+YY+ZZ
             STIFR(M)= STIFR(M)+DD*STIFN(NS)
            ENDDO
@@ -910,7 +910,7 @@ C
            IZZ=XX+YY
            INS = (IXX+IYY+IZZ)*MS(NS)
            IN(M) = IN(M)+ INS
-           IF (ICT.EQ.7) INRB = INRB+INS
+           IF (ICT==7) INRB = INRB+INS
            DD = XX+YY+ZZ
            STIFR(M)= STIFR(M)+DD*STIFN(NS)
           ENDDO
@@ -925,7 +925,7 @@ C-----Correction -only for the case 111---
        NSL = IRBE2(5,I)
        IC=IRBE2(4,I)
        ICT=IC/512
-       IF (ICT.EQ.7) THEN
+       IF (ICT==7) THEN
         DO J =1,NSL
          NS = LRBE2(IAD+J)
          STIFN(NS)= EM20
@@ -948,7 +948,7 @@ C-----Correction -only for the case 111---
         ENDDO
        ENDIF
         ICR=(IC-512*(ICT))/64
-        IF (ICR.EQ.7.AND.IRODDL.GT.0) THEN
+        IF (ICR==7.AND.IRODDL>0) THEN
          DO J =1,NSL
           NS = LRBE2(IAD+J)
           STIFR(NS)= EM20
@@ -968,7 +968,7 @@ C
      .                 NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
 
         M = IRBE2(3,I)
-        IF(MS(M).LE.1.0E-25) THEN
+        IF(MS(M)<=1.0E-25) THEN
            CALL ANCMSG(MSGID=804,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,
@@ -976,7 +976,7 @@ C
      .                   C1=TITR)
            RETURN
         ENDIF
-       IF (IPRI.GE.3) THEN
+       IF (IPRI>=3) THEN
         WRITE(IOUT,1300)
         IF (IRODDL==0) THEN
          WRITE(IOUT,1600) IRBE2(2,I),ITAB(IRBE2(3,I)),MS(M)
@@ -1079,7 +1079,7 @@ C
         CALL HM_GET_INTV('dependentnodeset',INGU,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV('Iflag',IRAD,IS_AVAILABLE,LSUBMODEL)
 C
-        IF ((J6(1)+J6(2)+J6(3)+J6(4)+J6(5)+J6(6)).EQ.0) THEN
+        IF ((J6(1)+J6(2)+J6(3)+J6(4)+J6(5)+J6(6))==0) THEN
          J6(4)=1
          J6(5)=1
          J6(6)=1
@@ -1146,8 +1146,8 @@ C-----------------------------------------------
 C-----------------------
 C     MISE DE OFF A -OFF
 C======================================================================|
-      IF (NRBE2.EQ.0) RETURN
-      IF(IPRI.GE.5) THEN
+      IF (NRBE2==0) RETURN
+      IF(IPRI>=5) THEN
         WRITE(IOUT,*)' '
 
         WRITE(IOUT,*)' LIST OF DEACTIVATED ELEMENTS FROM RBE2'
@@ -1161,7 +1161,7 @@ C
         IG = IGRNRB2(NR)
         M  = IRBE2(3,NR)
         IC = IRBE2(4,NR)
-        IF(IG.GT.0.AND.IC.EQ.IC0)THEN
+        IF(IG>0.AND.IC==IC0)THEN
           NSN = IGRNOD(IG)%NENTITY
           DO I=1,NUMNOD
             ITAG(I)=0
@@ -1173,21 +1173,21 @@ C
 C
           DO II = 1, NUMELT
             NALL = ITAG(IXT(2,II)) * ITAG(IXT(3,II))
-            IF(NALL.NE.0)THEN
+            IF(NALL/=0)THEN
               ITRUOFF(II) = IRBYON
             END IF
           END DO
 C
           DO II = 1, NUMELP
             NALL = ITAG(IXP(2,II)) * ITAG(IXP(3,II))
-            IF(NALL.NE.0)THEN
+            IF(NALL/=0)THEN
               IPOUOFF(II) = IRBYON
             END IF
           END DO
 C
           DO II = 1, NUMELR
             NALL = ITAG(IXR(2,II)) * ITAG(IXR(3,II))
-            IF(NALL.NE.0)THEN
+            IF(NALL/=0)THEN
               IRESOFF(II) = IRBYON
             END IF
           END DO
@@ -1260,7 +1260,7 @@ C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER USR2SYS,NODGRNR,NGR2USR
 C-----------------------------------
-      IF (NRBE2.EQ.0) RETURN
+      IF (NRBE2==0) RETURN
 C
       CALL HM_OPTION_START('/RBE2')
       IRBYON = 20
@@ -1298,7 +1298,7 @@ C
           DO II = 1, NUMELC
             NALL = ITAG(IXC(2,II)) * ITAG(IXC(3,II)) *
      +             ITAG(IXC(4,II)) * ITAG(IXC(5,II))
-            IF(NALL.NE.0)THEN
+            IF(NALL/=0)THEN
               ISHEOFF(II) = IRBYON
             END IF
           END DO
@@ -1306,7 +1306,7 @@ C
           DO II = 1, NUMELTG
             NALL = ITAG(IXTG(2,II)) * ITAG(IXTG(3,II)) *
      +             ITAG(IXTG(4,II))
-            IF(NALL.NE.0)THEN
+            IF(NALL/=0)THEN
               ITRIOFF(II) = IRBYON
             END IF
           END DO
@@ -1352,7 +1352,7 @@ C
      +             ITAG(IXS(4,II)) * ITAG(IXS(5,II)) *
      +             ITAG(IXS(6,II)) * ITAG(IXS(7,II)) *
      +             ITAG(IXS(8,II)) * ITAG(IXS(9,II))
-            IF(NALL.NE.0)THEN
+            IF(NALL/=0)THEN
               ISOLOFF(II) = IRBYON
             END IF
           END DO

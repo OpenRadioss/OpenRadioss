@@ -178,7 +178,7 @@ c
           PFAC(I)  =  ONE
         ENDDO
 c
-        IF (IPFLAG == NEL.AND.(IMACH.NE.3.OR.IPARIT == 0)) THEN
+        IF (IPFLAG == NEL.AND.(IMACH/=3.OR.IPARIT == 0)) THEN
           DO I=1,NEL
             IPOSP(I) = VARTMP(I,2)
             IADP(I)  = NPF(IPFUN) / 2 + 1
@@ -234,7 +234,7 @@ c     ... temporarily stores elastic predictor
           syz = SIGNYZ(I)
           szx = SIGNZX(I)
 c
-          IF(i_bilin.ne.1 )THEN !..  general, nonlinear hardening
+          IF(i_bilin/=1 )THEN !..  general, nonlinear hardening
 c
             XSI = ZERO ! .. plastic strain rate multiplier ..
 c
@@ -379,7 +379,7 @@ C          -- update equivalent plastic strain --
 c
 c
 c          -- convergence criterion should be stringent --           
-              IF( ABS(DXSI).LT.EM10 ) GO TO 90
+              IF( ABS(DXSI)<EM10 ) GO TO 90
 c
  80         CONTINUE ! -- ITER --
 c          --  we need a warning here --
@@ -407,7 +407,7 @@ c
               SIGNYZ(I) = SIGNYZ(I) * ALPHA_RADIAL
               SIGNZX(I) = SIGNZX(I) * ALPHA_RADIAL
 c
-            ELSEIF(FISOKIN > ZERO.and.FISOKIN.LE.ONE)then
+            ELSEIF(FISOKIN > ZERO.and.FISOKIN<=ONE)then
 c
 c          -- update "fractional" equivalent plastic strain --  
               PLAM(I) = (ONE - FISOKIN)*PLA(I) !. for mixed hardeneing
@@ -476,7 +476,7 @@ c           --adds the back stresses  to shifted stresses
              SIGNYZ(I) = SIGNYZ(I) + SIGBYZ(I) 
              SIGNZX(I) = SIGNZX(I) + SIGBZX(I) 
 c
-            ENDIF ! ..FISOKIN > ZERO.and.FISOKIN.LE.ONE .. 
+            ENDIF ! ..FISOKIN > ZERO.and.FISOKIN<=ONE .. 
 c
 c
 c        .. updates yield stress.

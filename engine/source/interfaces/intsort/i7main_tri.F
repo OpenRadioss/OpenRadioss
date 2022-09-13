@@ -159,8 +159,8 @@ C
       TYPE18=.FALSE.
       IF(NTY==7 .AND. INACTI==7)TYPE18=.TRUE.
 
-      IF(INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7.OR.IFQ.GT.0.OR.
-     .   NUM_IMP.GT.0.OR.ITIED.NE.0)THEN
+      IF(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.IFQ>0.OR.
+     .   NUM_IMP>0.OR.ITIED/=0)THEN
         NSNROLD = IPARI(24,NIN)
       ELSE
         NSNROLD = 0
@@ -168,8 +168,8 @@ C
 
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
       GAP    =INTBUF_TAB%VARIABLES(2)
       GAPMIN=INTBUF_TAB%VARIABLES(13)
       GAPMAX=INTBUF_TAB%VARIABLES(16)
@@ -181,7 +181,7 @@ C
 C -------------------------------------------------------------
 C
       DIST = INTBUF_TAB%VARIABLES(5)
-      IF (DIST.GT.ZERO) RETURN
+      IF (DIST>ZERO) RETURN
       RETRI = 1
 C
 C -------------------------------------------------------------
@@ -212,12 +212,12 @@ C Barriere dans tous les cas pour bminma [et cur_max_max]
 C
       CALL MY_BARRIER
 C
-      IF(INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7.OR.IFQ.GT.0.OR.
-     .   NUM_IMP.GT.0.OR.ITIED.NE.0)THEN
-        IF(ITASK.EQ.0)THEN
+      IF(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.IFQ>0.OR.
+     .   NUM_IMP>0.OR.ITIED/=0)THEN
+        IF(ITASK==0)THEN
           INACTII=INACTI
-          IF (NUM_IMP.GT.0.AND.
-     .        (INACTI.NE.5.AND.INACTI.NE.6.AND.IFQ.LE.0)) THEN
+          IF (NUM_IMP>0.AND.
+     .        (INACTI/=5.AND.INACTI/=6.AND.IFQ<=0)) THEN
             INACIMP = 0
           ELSE
             INACIMP = 1
@@ -233,10 +233,10 @@ C MWA = MWAG SUR TASK 0
      4      NUM_IMP          ,IND_IMP          ,INTBUF_TAB%STFNS ,NIN              ,
      5      NSN ,ITIED,INTBUF_TAB%CAND_F )
 C stockage INACTI en negatif
-          IF(I_SK_OLD.EQ.0)INACTI=-ABS(INACTI)
+          IF(I_SK_OLD==0)INACTI=-ABS(INACTI)
           INTBUF_TAB%I_STOK(1)=I_SK_OLD
-          IF(INACTII.NE.7.AND.INACIMP.GT.0)THEN
-            IF (NSPMD.GT.1) THEN
+          IF(INACTII/=7.AND.INACIMP>0)THEN
+            IF (NSPMD>1) THEN
               CALL SPMD_GET_INACTI7(INACTI,IPARI(22,NIN),NIN,ISENDTO,
      .                              IRCVFROM,INACTII)
             ELSE
@@ -289,10 +289,10 @@ C BARRIER II_STOK et RESULT
       CALL MY_BARRIER
 C a conserver pour cas inacti est modifie sur p0
       INACTI=IPARI(22,NIN)
-      IF(ITASK.EQ.0)THEN
-        IF(ABS(BMINMA(6)-BMINMA(3)).GT.2*EP30.OR.
-     +     ABS(BMINMA(5)-BMINMA(2)).GT.2*EP30.OR.
-     +     ABS(BMINMA(4)-BMINMA(1)).GT.2*EP30)THEN
+      IF(ITASK==0)THEN
+        IF(ABS(BMINMA(6)-BMINMA(3))>2*EP30.OR.
+     +     ABS(BMINMA(5)-BMINMA(2))>2*EP30.OR.
+     +     ABS(BMINMA(4)-BMINMA(1))>2*EP30)THEN
           CALL ANCMSG(MSGID=87,ANMODE=ANINFO,
      .                I1=NOINT,C1='(I7BUCE)')
           CALL ARRET(2)
@@ -354,7 +354,7 @@ C
 
       IF(NSPMD > 1) THEN
 
-        IF(ITASK.EQ.0) CRVOXEL(0:LRVOXEL,0:LRVOXEL,LOC_PROC)=0
+        IF(ITASK==0) CRVOXEL(0:LRVOXEL,0:LRVOXEL,LOC_PROC)=0
 
         CALL MY_BARRIER
 
@@ -368,11 +368,11 @@ C
         CALL MY_BARRIER
         IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(26,1)
 
-        IF(ITASK.EQ.0)THEN
+        IF(ITASK==0)THEN
 C
 C recuperation des noeuds remote NSNR stockes dans XREM
 C    
-           IF (MULTI_FVM%IS_USED .AND. NTY .EQ. 7 .AND. INACTI .EQ. 7) THEN
+           IF (MULTI_FVM%IS_USED .AND. NTY == 7 .AND. INACTI == 7) THEN
 C     Interface type 18 and law151
               CALL SPMD_TRI18_151VOX(
      1             INTBUF_TAB%NSV,NSN     ,X            ,V        ,MS  ,
@@ -399,8 +399,8 @@ C     Interface type 18 and law151
 C
 C renumerotation locale des anciens candidats
 C
-          IF(INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7.OR.
-     +       IFQ.GT.0.OR.NUM_IMP.GT.0.OR.ITIED.NE.0)THEN
+          IF(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.
+     +       IFQ>0.OR.NUM_IMP>0.OR.ITIED/=0)THEN
             CALL SPMD_RNUMCD(
      1        INTBUF_TAB%CAND_N,RENUM  ,INTBUF_TAB%I_STOK(1), NIN,NSN,
      2        NSNFIOLD     ,NSNROLD)
@@ -535,9 +535,9 @@ C
 C--------------------------------------------------------------
 C--------------------------------------------------------------
       CALL MY_BARRIER
-      IF (RESULT.NE.0) THEN
+      IF (RESULT/=0) THEN
         CALL MY_BARRIER
-        IF (ITASK.EQ.0) THEN
+        IF (ITASK==0) THEN
 C utile si on revient
           INTBUF_TAB%I_STOK(1) = I_SK_OLD
           RESULT = 0
@@ -550,7 +550,7 @@ C utile si on revient
         GOTO 50
       ENDIF
 C mise a - de dist temporairement pour reperage dans partie frontiere
-      IF(NSPMD.GT.1)THEN
+      IF(NSPMD>1)THEN
 C mono tache
 !$OMP SINGLE
         IF (IMONM > 0) CALL STARTIME(26,1)
@@ -563,7 +563,7 @@ C
      4      MULTI_FVM)
         IPARI(24,NIN) = NSNR
 C
-        IF (NUM_IMP.GT.0) 
+        IF (NUM_IMP>0) 
      .     CALL IMP_RNUMCD(INTBUF_TAB%CAND_N,NIN,NSN,NUM_IMP,IND_IMP )
 C
         IF (IMONM > 0) CALL STOPTIME(26,1)

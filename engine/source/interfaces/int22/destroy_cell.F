@@ -100,7 +100,7 @@ C-----------------------------------------------
         endif
         endif
         
-        IF(NCELL.EQ.0 .OR. (NBCUT>1.AND.ICELL_TARGET==9) )THEN
+        IF(NCELL==0 .OR. (NBCUT>1.AND.ICELL_TARGET==9) )THEN
           print *, "**error inter22 : unexpected situation, elem id=", IXS(11,ID)
         ENDIF        
         
@@ -254,7 +254,7 @@ c          bFOUND = .FALSE.
 c          DO IADJ=1,NADJ
 c            IF (BRICK_LIST(NIN,IBv)%POLY(1)%FACE(J)%Adjacent_Cell(IADJ)/=ICELL_TARGET) EXIT
 c          ENDDO  
-c          IF(IADJ.LE.NADJ)THEN
+c          IF(IADJ<=NADJ)THEN
 c          !traiter ici l'adjacence en 3D : boucler sur toutes les voisines de toutes les faces, si = 1ou 9 selon ICELL_TARGET, mettre   jour
 c          a
 c            BRICK_LIST(NIN,IB)%POLY(1)%FACE(J)%Adjacent_Cell(IADJ) = ICELLv
@@ -278,7 +278,7 @@ c          ENDIF
           !---STEP 1
           ICELL = ICELL_TARGET - 1
           !---STEP 2
-          DO WHILE (ICELL.LE.NCELL) ! loop on polyhedron {1:NCELL} \ {9}
+          DO WHILE (ICELL<=NCELL) ! loop on polyhedron {1:NCELL} \ {9}
             ICELL = ICELL +1
             IF (ICELL>=NCELL)EXIT
             BRICK_LIST(NIN,IB)%SECID_Cell(ICELL)                        = BRICK_LIST(NIN,IB)%SECID_Cell(ICELL+1)                                         

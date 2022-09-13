@@ -75,9 +75,9 @@ C
       IWKLI=0
       NDDLI7=0
 C Condensation statique
-      IF (IPRINT.NE.0) THEN
-         IF (IMACH.EQ.3.AND.ISPMD.EQ.0) WRITE(ISTDO,*)
-         IF (IMACH.NE.3.OR.ISPMD.EQ.0) THEN
+      IF (IPRINT/=0) THEN
+         IF (IMACH==3.AND.ISPMD==0) WRITE(ISTDO,*)
+         IF (IMACH/=3.OR.ISPMD==0) THEN
             WRITE(ISTDO,'(A)') ' * MULTI-LEVEL STATIC CONDENSATION *'
             WRITE(IOUT,'(A)') ' * MULTI-LEVEL STATIC CONDENSATION *'
          ENDIF
@@ -88,15 +88,15 @@ C Condensation statique
      .            IBID,   IBID,   RBID,  IBID,  ITAB,
      .            IWKLI,  NDDLI7, IADI7, JDII7, I7_DIAG,
      .            I7_LT,  I7TOK )
-      IF (IMACH.EQ.3.AND.ICONDP.EQ.1)
+      IF (IMACH==3.AND.ICONDP==1)
      .   CALL DSPGRID(GRAPHE(1), GRAPHE(1)%NDDL_GLOB, NDDLC, 2)
 #endif
 C Resolution
       NDDLG=NDDL
       IPRI=GRAPHE(1)%IPRI
-      IF (IMACH.EQ.3.AND.ISPMD.EQ.0) NDDLG=GRAPHE(1)%NDDL_GLOB
+      IF (IMACH==3.AND.ISPMD==0) NDDLG=GRAPHE(1)%NDDL_GLOB
 #ifndef MPI
-C     IF (IMACH.NE.3.OR.ICONDP.EQ.0) THEN
+C     IF (IMACH/=3.OR.ICONDP==0) THEN
          LTITR1=42
          TITRE=' * CONDENSED PROBLEM SEQUENTIAL SOLUTION *'
 #ifndef WITHOUT_LINALG
@@ -120,9 +120,9 @@ C     ELSE
 #endif
 C     ENDIF
 C Redescente
-      IF (IPRINT.NE.0) THEN
-         IF (IMACH.EQ.3.AND.ISPMD.EQ.0) WRITE(ISTDO,*)
-         IF (IMACH.NE.3.OR.ISPMD.EQ.0) THEN
+      IF (IPRINT/=0) THEN
+         IF (IMACH==3.AND.ISPMD==0) WRITE(ISTDO,*)
+         IF (IMACH/=3.OR.ISPMD==0) THEN
             WRITE(ISTDO,'(A)') ' * STATIC SOLUTION EXPANSION *'
             WRITE(IOUT,'(A)') ' * STATIC SOLUTION EXPANSION *'
          ENDIF
@@ -134,9 +134,9 @@ C Recuperation du vecteur solution
      .            0     )     
 #endif
 C
-      IF (IMACH.EQ.3.AND.IPRI.LT.0) THEN
+      IF (IMACH==3.AND.IPRI<0) THEN
          CALL SPMD_BARRIER()
-         IF (ISPMD.EQ.0) WRITE(ISTDO,*)
+         IF (ISPMD==0) WRITE(ISTDO,*)
       ENDIF
 C
       RETURN
@@ -198,10 +198,10 @@ C
       IOPT=1
       IWKLI=1
 C Condensation statique si necessaire
-      IF (IDSC.EQ.1) THEN
-         IF (IPRINT.NE.0) THEN
-            IF (IMACH.EQ.3.AND.ISPMD.EQ.0) WRITE(ISTDO,*)
-            IF (IMACH.NE.3.OR.ISPMD.EQ.0) 
+      IF (IDSC==1) THEN
+         IF (IPRINT/=0) THEN
+            IF (IMACH==3.AND.ISPMD==0) WRITE(ISTDO,*)
+            IF (IMACH/=3.OR.ISPMD==0) 
      .         WRITE(ISTDO,'(A)') ' * MULTI-LEVEL STATIC CONDENSATION *'
             WRITE(IOUT,'(A)') ' * MULTI-LEVEL STATIC CONDENSATION *'
          ENDIF
@@ -211,16 +211,16 @@ C Condensation statique si necessaire
      .               IBID,   IBID,   RBID,  IBID,  ITAB,
      .               IWKLI,  NDDLI7, IADI7, JDII7, I7_DIAG,
      .               I7_LT,  I7TOK )
-         IF (IMACH.EQ.3.AND.ICONDP.EQ.1) THEN
+         IF (IMACH==3.AND.ICONDP==1) THEN
             CALL DSPGRID(GRAPHE(1), GRAPHE(1)%NDDL_GLOB, NDDLC, 2)
             GRAPHE(1)%NDDLC=NDDLC
          ENDIF
 #endif
       ELSE
 C Condensation du vecteur des forces seul
-         IF (IPRINT.NE.0) THEN
-            IF (IMACH.EQ.3.AND.ISPMD.EQ.0) WRITE(ISTDO,*)
-            IF (IMACH.NE.3.OR.ISPMD.EQ.0) 
+         IF (IPRINT/=0) THEN
+            IF (IMACH==3.AND.ISPMD==0) WRITE(ISTDO,*)
+            IF (IMACH/=3.OR.ISPMD==0) 
      .         WRITE(ISTDO,'(A)') ' * MULTI-LEVEL FORCES CONDENSATION *'
             WRITE(IOUT,'(A)') ' * MULTI-LEVEL FORCES CONDENSATION *'
          ENDIF
@@ -231,8 +231,8 @@ C Condensation du vecteur des forces seul
 C Resolution
       NDDLG=NDDL
       IPRI=GRAPHE(1)%IPRI
-      IF (IMACH.EQ.3.AND.ISPMD.EQ.0) NDDLG=GRAPHE(1)%NDDL_GLOB
-      IF (IMACH.NE.3.OR.ICONDP.EQ.0) THEN
+      IF (IMACH==3.AND.ISPMD==0) NDDLG=GRAPHE(1)%NDDL_GLOB
+      IF (IMACH/=3.OR.ICONDP==0) THEN
          LTITR1=42
          TITRE=' * CONDENSED PROBLEM SEQUENTIAL SOLUTION *'
 #ifndef WITHOUT_LINALG
@@ -252,8 +252,8 @@ C Resolution
 #endif
       ENDIF
 C Redescente
-      IF (IPRINT.NE.0) THEN
-         IF (IMACH.NE.3.OR.ISPMD.EQ.0) 
+      IF (IPRINT/=0) THEN
+         IF (IMACH/=3.OR.ISPMD==0) 
      .      WRITE(ISTDO,'(A)') ' * STATIC SOLUTION EXPANSION *'
          WRITE(IOUT,'(A)') ' * STATIC SOLUTION EXPANSION *'
       ENDIF
@@ -264,9 +264,9 @@ C Recuperation du vecteur solution
      .            0     )     
 C
 #endif
-      IF (IMACH.EQ.3.AND.IPRI.LT.0) THEN
+      IF (IMACH==3.AND.IPRI<0) THEN
          CALL SPMD_BARRIER()
-         IF (ISPMD.EQ.0) WRITE(ISTDO,*)
+         IF (ISPMD==0) WRITE(ISTDO,*)
       ENDIF
 C
       RETURN

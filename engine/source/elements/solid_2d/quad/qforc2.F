@@ -433,7 +433,7 @@ C
 C------------------------
 C     FORCES DE TRANSPORT
 C------------------------
-       IF(JALE.GT.0.AND.MTN/=11)
+       IF(JALE>0.AND.MTN/=11)
      .   CALL AMOMT2(PM,V,W,GBUF%RHO,
      .   Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
      .   T11, T12, T13, T14, T21, T22, T23 , T24, 
@@ -441,7 +441,7 @@ C------------------------
      .   VY1, VY2, VY3, VY4, VZ1, VZ2, VZ3, VZ4,
      .   EYY, EZZ, DYZ, DZY,
      .   NC1,NC2,NC3,NC4,MAT,GBUF%OFF,QMV,BUFMAT, DELTAX, VIS)
-       IF(JEUL.GT.0.)
+       IF(JEUL>0.)
      .   CALL EMOMT2(PM,GBUF%RHO,
      .   Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
      .   VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,

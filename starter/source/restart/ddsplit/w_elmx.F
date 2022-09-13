@@ -65,7 +65,7 @@ C
       NB_L = 0
 C
       DO I = 1, NUMELX
-        IF(CEP(OFF+I).EQ.PROC) THEN
+        IF(CEP(OFF+I)==PROC) THEN
           NNOD  = KXX(3,I)
           IAD   = KXX(4,I)
 C

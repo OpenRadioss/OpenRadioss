@@ -49,14 +49,14 @@ C     REAL
      .   RANGE, ANORM, ANRMX, THR, X, Y, SINX, SINX2, COSX, COSX2,
      .   SINCS
       RANGE = 1.0E-7
-      IF (MV-1.EQ.0)GOTO 50
+      IF (MV-1==0)GOTO 50
    20 IQ = -N
       DO 40 J = 1,N
       IQ = IQ+N
       DO 40 I = 1,N
       IJ = IQ+I
       R(IJ) = ZERO
-      IF (I-J.NE.0)GOTO 40
+      IF (I-J/=0)GOTO 40
    30 R(IJ) = ONE
    40 CONTINUE
    50 ANORM = ZERO
@@ -83,9 +83,9 @@ C     REAL
       MM = M+MQ
       X = HALF*(A(LL)-A(MM))
       Y = -A(LM)/SQRT(A(LM)*A(LM)+X*X)
-      IF (X.LT.ZERO) THEN
+      IF (X<ZERO) THEN
        Y = -Y
-      ELSEIF(X.EQ.ZERO)THEN
+      ELSEIF(X==ZERO)THEN
        Y = -ONE
       ENDIF
       SINX = Y/SQRT(TWO*(ONE+(SQRT(ONE-Y*Y))))
@@ -141,11 +141,11 @@ C
       DO 370 J = I,N
       JQ = JQ+N
       MM = J+(J*J-J)/2
-      IF (A(LL).GE.A(MM)) GOTO 370
+      IF (A(LL)>=A(MM)) GOTO 370
        X = A(LL)
        A(LL) = A(MM)
        A(MM) = X
-       IF (MV.EQ.1) GOTO 370
+       IF (MV==1) GOTO 370
         DO 360 K = 1,N
          ILR = IQ+K
          IMR = JQ+K

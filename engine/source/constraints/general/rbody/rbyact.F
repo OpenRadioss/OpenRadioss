@@ -89,7 +89,7 @@ C
       MASRB=MS(M)
       NONOD=ITAB(M)
 C
-c      IF(NSPMD.GT.1) THEN
+c      IF(NSPMD>1) THEN
 c        RBY(1)=RBY(1)*WEIGHT(M)
 c        RBY(5)=RBY(5)*WEIGHT(M)
 c        RBY(9)=RBY(9)*WEIGHT(M)
@@ -102,7 +102,7 @@ C     DE SOUS RBY (NOEUD MAIN PARMI LES SECONDS)
 C---------------------------------
       DO I=1,NSL
          N=LSN(I)
-         IF(IWA(N).GT.0)THEN
+         IF(IWA(N)>0)THEN
            K=0
            DO NI=1,IWA(N)-1
              NSLI=NPBYI(2,NI)
@@ -111,7 +111,7 @@ C---------------------------------
            NSLI=NPBYI(2,IWA(N))
            DO II=1,NSLI
              NI=LSNI(K+II)
-             IF(IWA(NI).EQ.0)IWA(NI)=-1
+             IF(IWA(NI)==0)IWA(NI)=-1
            ENDDO
          ENDIF
       ENDDO
@@ -131,7 +131,7 @@ C       ANALYSE 2D
 C
       DO I=1,NSL
         N=LSN(I)
-        IF(IWA(N).GE.0.AND.WEIGHT(N).EQ.1)THEN
+        IF(IWA(N)>=0.AND.WEIGHT(N)==1)THEN
           F1(I) =  X(1,N)*MS(N)
           F2(I) =  X(2,N)*MS(N)
           F3(I) =  X(3,N)*MS(N)
@@ -164,7 +164,7 @@ C
       CALL SUM_6_FLOAT(1  ,NSL  ,F5, RBF6(5,1), 5)
 
       
-      IF(NSPMD.GT.1) THEN
+      IF(NSPMD>1) THEN
         CALL SPMD_EXCH_FR6(ICOMM,RBF6,5*6)
       ENDIF
 
@@ -183,8 +183,8 @@ C
       INERT   =RBF6(5,1)+RBF6(5,2)+RBF6(5,3)+
      +         RBF6(5,4)+RBF6(5,5)+RBF6(5,6)
 
-      IF(MASRB.LE.ZERO)THEN
-        IF (ISPMD+1.EQ.PMAIN) THEN
+      IF(MASRB<=ZERO)THEN
+        IF (ISPMD+1==PMAIN) THEN
           CALL ANCMSG(MSGID=109,ANMODE=ANINFO,
      .            I1=NONOD)
         ENDIF
@@ -223,7 +223,7 @@ C
         DO I=1,NSL
           N=LSN(I)
           NI=IWA(N)
-         IF(NI.EQ.0.AND.WEIGHT(N).EQ.1)THEN
+         IF(NI==0.AND.WEIGHT(N)==1)THEN
            XX=(X(1,N)-X(1,M))*(X(1,N)-X(1,M))
            XY=(X(1,N)-X(1,M))*(X(2,N)-X(2,M))
            XZ=(X(1,N)-X(1,M))*(X(3,N)-X(3,M))
@@ -239,7 +239,7 @@ C
            F7(I)=-XZ*MS(N)
            F8(I)=-YZ*MS(N)
            F9(I)=(XX+YY)*MS(N)
-         ELSEIF(NI.GT.0.AND.WEIGHT(N).EQ.1)THEN
+         ELSEIF(NI>0.AND.WEIGHT(N)==1)THEN
 C main DE SOUS RBY
            RBY(1)=RBY(1)-IN(N)
            RBY(5)=RBY(5)-IN(N)
@@ -310,7 +310,7 @@ C
         DO I=1,NSL
           N=LSN(I)
           NI=IWA(N)
-         IF(NI.EQ.0.AND.WEIGHT(N).EQ.1)THEN
+         IF(NI==0.AND.WEIGHT(N)==1)THEN
            YY=(X(2,N)-X(2,M))*(X(2,N)-X(2,M))
            YZ=(X(2,N)-X(2,M))*(X(3,N)-X(3,M))
            ZZ=(X(3,N)-X(3,M))*(X(3,N)-X(3,M))
@@ -323,7 +323,7 @@ C
            F7(I)=ZERO
            F8(I)=-YZ*MS(N)
            F9(I)=YY*MS(N)
-         ELSEIF(NI.GT.0.AND.WEIGHT(N).EQ.1)THEN
+         ELSEIF(NI>0.AND.WEIGHT(N)==1)THEN
 C main DE SOUS RBY
            RBY(1)=RBY(1)-IN(N)
            RBY(5)=RBY(5)-IN(N)
@@ -396,7 +396,7 @@ C
       CALL SUM_6_FLOAT(1  ,NSL  ,F9, RBFB6(9,1), 9)
 
 
-      IF(NSPMD.GT.1) THEN
+      IF(NSPMD>1) THEN
         CALL SPMD_EXCH_FR6(ICOMM,RBFB6,9*6)
       ENDIF
 
@@ -421,7 +421,7 @@ C
 C----------------------------------------------
 C     MISE A ZERO DES MASSES ET INERTIES SECNDS voir up
 C----------------------------------------------
-      IF (ISPMD+1.EQ.PMAIN) THEN
+      IF (ISPMD+1==PMAIN) THEN
         WRITE(IOUT,1000)
         WRITE(IOUT,1100) NONOD,X(1,M),X(2,M),X(3,M),
      .        MASRB,RBY(1),RBY(5),RBY(9),RBY(2),RBY(3),RBY(6)

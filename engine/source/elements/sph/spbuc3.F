@@ -149,7 +149,7 @@ C (en // SMP il y a possibilite de redondance de traitement mais no pb)
       ENDDO
       INIVOXEL = MAX(INIVOXEL,(NBX+2)*(NBY+2)*(NBZ+2)+1)
 
-      IF(ITASK.EQ.0)THEN
+      IF(ITASK==0)THEN
         ALLOCATE(KXSPR(NSNR),IXSPR(KVOISPH,NSNR),STAT=IERROR)
         IF(IERROR/=0)THEN
           CALL ANCMSG(MSGID=248,ANMODE=ANINFO_BLIND)
@@ -174,7 +174,7 @@ C--------------------------------------------------
 C     SYMETRISE VOISINS
 C--------------------------------------------------
 c     CALL MY_BARRIER fait dans SPTRIVOX
-      IF(ITASK.EQ.0)THEN
+      IF(ITASK==0)THEN
 
         ALLOCATE(NV(NUMSPH*NTHREAD),IV(NUMSPH*NTHREAD),IVS(NUMSPH),
      .           KV(NUMSPH),IAUX(KVOISPH*(NUMSPH+NSNR)),
@@ -241,7 +241,7 @@ C
       CALL MY_BARRIER
 C
 C-------        
-      IF(ITASK.EQ.0)THEN
+      IF(ITASK==0)THEN
 
         IV(1)=1
         DO NS=1,NSP2SORT-1
@@ -357,7 +357,7 @@ C a faire : symetrie parfaite <=> X(hmin)-X(hmax)
           NVOISS=NVOISS+NV((JTASK-1)*NUMSPH+NS)
         END DO
         NVOIS=NVOIS+NVOISS
-        IF(NVOIS.GT.KVOISPH)THEN
+        IF(NVOIS>KVOISPH)THEN
           IREDUCE=1
           KREDUCE(N)=1
         END IF
@@ -408,7 +408,7 @@ C-----------------
 C Choix des cellules a conserver tq distance < DK pour eviter pb de parith/on
            NVOIS=0
            DO K=1,KVOISPH
-            IF(DVOIS(K).LT.DK)THEN
+            IF(DVOIS(K)<DK)THEN
               NVOIS=NVOIS+1
             END IF
            END DO
@@ -432,7 +432,7 @@ C Choix des cellules a conserver tq distance < DK pour eviter pb de parith/on
          END IF
         ENDDO
         KXSP(4,N)=NVOIS1
-        IF(NVOIS1.GT.LVOISPH)IREDUCE=1
+        IF(NVOIS1>LVOISPH)IREDUCE=1
 
       END DO      
 C-------        

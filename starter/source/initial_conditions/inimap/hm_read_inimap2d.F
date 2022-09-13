@@ -98,7 +98,7 @@ C-----------------------------------------------
       CHARACTER MSG_DESCRIPTION*32
       LOGICAL :: IS_AVAILABLE
 
-      IF (NINIMAP2D .GT. 0) THEN
+      IF (NINIMAP2D > 0) THEN
          WRITE(IOUT, 2000)
       ENDIF
 
@@ -116,13 +116,13 @@ C-----------------------------------------------
          INIMAP2D(KK)%ID = ID
          INIMAP2D(KK)%FILE = .FALSE.
                      
-         IF (KEY2(1:2) .EQ. 'VP') THEN
+         IF (KEY2(1:2) == 'VP') THEN
             INIMAP2D(KK)%FORMULATION = 1
             WRITE(IOUT, 2010)
-         ELSE IF (KEY2(1:2) .EQ. 'VE') THEN
+         ELSE IF (KEY2(1:2) == 'VE') THEN
             INIMAP2D(KK)%FORMULATION = 2
             WRITE(IOUT, 2020)
-         ELSE IF (KEY2(1:5) .EQ. 'FILE ') THEN
+         ELSE IF (KEY2(1:5) == 'FILE ') THEN
             INIMAP2D(KK)%FORMULATION = 1
             INIMAP2D(KK)%FILE = .TRUE.
             WRITE(IOUT, 2025)
@@ -144,14 +144,14 @@ C     Error message here
 C     ==============
 C     Check if found
 C     ==============
-         IF (INIMAP2D(KK)%GRBRICID + INIMAP2D(KK)%GRQUADID + INIMAP2D(KK)%GRSH3NID .EQ. 0) THEN
+         IF (INIMAP2D(KK)%GRBRICID + INIMAP2D(KK)%GRQUADID + INIMAP2D(KK)%GRSH3NID == 0) THEN
             CALL ANCMSG(MSGID=1554, MSGTYPE=MSGWARNING, ANMODE=ANINFO, 
      .           C1='IN /INIMAP2D OPTION')
          ELSE
             GRBRICID_LOC = -1
             GRQUADID_LOC = -1
             GRSH3NID_LOC = -1
-            IF (INIMAP2D(KK)%GRBRICID .NE. 0) THEN
+            IF (INIMAP2D(KK)%GRBRICID /= 0) THEN
                DO J = 1,NGRBRIC
                   IF (INIMAP2D(KK)%GRBRICID == IGRBRIC(J)%ID) THEN
                      GRBRICID_LOC  = J
@@ -159,7 +159,7 @@ C     ==============
                      EXIT
                   ENDIF
                ENDDO
-               IF (GRBRICID_LOC .EQ. -1) THEN
+               IF (GRBRICID_LOC == -1) THEN
                   CALL ANCMSG(MSGID=1554,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO,
@@ -167,7 +167,7 @@ C     ==============
      .                 I1=INIMAP2D(KK)%GRBRICID)
                ENDIF
             ENDIF
-            IF (INIMAP2D(KK)%GRQUADID .NE. 0) THEN
+            IF (INIMAP2D(KK)%GRQUADID /= 0) THEN
                DO J = 1,NGRQUAD
                   IF (INIMAP2D(KK)%GRQUADID == IGRQUAD(J)%ID) THEN
                      GRQUADID_LOC = J
@@ -175,7 +175,7 @@ C     ==============
                      EXIT
                   ENDIF
                ENDDO
-               IF (GRQUADID_LOC .EQ. -1) THEN
+               IF (GRQUADID_LOC == -1) THEN
                   CALL ANCMSG(MSGID=1554,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO,
@@ -183,7 +183,7 @@ C     ==============
      .                 I1=INIMAP2D(KK)%GRQUADID)
                ENDIF
             ENDIF
-            IF (INIMAP2D(KK)%GRSH3NID .NE. 0) THEN
+            IF (INIMAP2D(KK)%GRSH3NID /= 0) THEN
                DO J = 1,NGRSH3N
                   IF (INIMAP2D(KK)%GRSH3NID == IGRSH3N(J)%ID) THEN
                      GRSH3NID_LOC = J
@@ -191,7 +191,7 @@ C     ==============
                      EXIT
                   ENDIF
                ENDDO
-               IF (GRSH3NID_LOC .EQ. -1) THEN
+               IF (GRSH3NID_LOC == -1) THEN
                   CALL ANCMSG(MSGID=1554,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO,
@@ -317,20 +317,20 @@ C     ==============
            CALL LEC_INIMAP2D_FILE(INIMAP2D(KK), FILENAME, ID, TITR )
         ENDIF
 
-         IF (INIMAP2D(KK)%NODEID1 .GT. 0) THEN
+         IF (INIMAP2D(KK)%NODEID1 > 0) THEN
             LNODID1 = USR2SYS(INIMAP2D(KK)%NODEID1, ITABM1, MESS, INIMAP2D(KK)%NODEID1)
             INIMAP2D(KK)%NODEID1 = LNODID1
          ENDIF
-         IF (INIMAP2D(KK)%NODEID2 .GT. 0) THEN
+         IF (INIMAP2D(KK)%NODEID2 > 0) THEN
             LNODID2 = USR2SYS(INIMAP2D(KK)%NODEID2, ITABM1, MESS, INIMAP2D(KK)%NODEID2)
             INIMAP2D(KK)%NODEID2 = LNODID2
          ENDIF
-         IF (INIMAP2D(KK)%NODEID3 .GT. 0) THEN
+         IF (INIMAP2D(KK)%NODEID3 > 0) THEN
             LNODID3 = USR2SYS(INIMAP2D(KK)%NODEID3, ITABM1, MESS, INIMAP2D(KK)%NODEID3)
             INIMAP2D(KK)%NODEID3 = LNODID3
          ENDIF
 
-         IF (LNODID1 * LNODID2 * LNODID3 .EQ. 0) THEN
+         IF (LNODID1 * LNODID2 * LNODID3 == 0) THEN
 C       Error here, we need 3 nodes to define a plane
          ELSE
             X0(1:3) = XGRID(1:3, LNODID1)

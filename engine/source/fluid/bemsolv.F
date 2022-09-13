@@ -63,9 +63,9 @@ C 1- Assemblage
 C---------------------------------------------------
 #if defined(MYREAL8) && !defined(WITHOUT_LINALG) 
       IF (L_ASSEMB) THEN
-         IF (ILVOUT.GE.1) WRITE(ISTDO,'(A)') 
+         IF (ILVOUT>=1) WRITE(ISTDO,'(A)') 
      .   ' ** BEMSOLV : ASSEMBLY OF INTEGRAL OPERATORS'
-         IF (IFORM.EQ.1) THEN
+         IF (IFORM==1) THEN
 C Collocation BEM - Elements lineaires en potentiel, constants en flux
             DO IN=1,NN
                DO JN=1,NN
@@ -77,7 +77,7 @@ C Collocation BEM - Elements lineaires en potentiel, constants en flux
                GBEM(IN,NEL+1)=ZERO
             ENDDO
             DO IEL=1,NEL
-               IF (ILVOUT.EQ.2) CALL PROGBAR_C(IEL,NEL)
+               IF (ILVOUT==2) CALL PROGBAR_C(IEL,NEL)
                N1=TBEMTG(1,IEL)
                N2=TBEMTG(2,IEL)
                N3=TBEMTG(3,IEL)
@@ -125,11 +125,11 @@ C Collocation BEM - Elements lineaires en potentiel, constants en flux
             DO IN=1,NN
                RSUM=ZERO
                DO JN=1,NN
-                  IF (IN.NE.JN) RSUM=RSUM+HBEM(IN,JN)
+                  IF (IN/=JN) RSUM=RSUM+HBEM(IN,JN)
                ENDDO
                HBEM(IN,IN)=-RSUM
             ENDDO
-         ELSEIF (IFORM.EQ.2) THEN
+         ELSEIF (IFORM==2) THEN
 C Galerkin BEM - Elements lineaires en potentiel, constants en flux
             DO IN=1,NN
                DO JN=1,NN
@@ -141,7 +141,7 @@ C Galerkin BEM - Elements lineaires en potentiel, constants en flux
                GBEM(IN,NEL+1)=ZERO
             ENDDO
             DO IEL=1,NEL
-               IF (ILVOUT.EQ.2) CALL PROGBAR_C(IEL,NEL)
+               IF (ILVOUT==2) CALL PROGBAR_C(IEL,NEL)
                N1=TBEMTG(1,IEL)
                N2=TBEMTG(2,IEL)
                N3=TBEMTG(3,IEL)
@@ -182,17 +182,17 @@ C
 C---------------------------------------------------
 C 2- Resolution
 C---------------------------------------------------
-      IF (ILVOUT.GE.1) WRITE(ISTDO,'(A)') 
+      IF (ILVOUT>=1) WRITE(ISTDO,'(A)') 
      .' ** BEMSOLV : LINEAR SYSTEM SOLUTION'
       CALL DGEMV('N',   NN, NEL+1, ONE,   GBEM, 
      .           NN,    Q,  1,     ZERO, S,
      .           1    )
 C
-      IF (IFORM.EQ.1) THEN
+      IF (IFORM==1) THEN
          DO IN=1,NN
             S(IN)=S(IN)-PHI_INF(IN)
          ENDDO
-      ELSEIF (IFORM.EQ.2) THEN
+      ELSEIF (IFORM==2) THEN
          DO IEL=1,NEL
             N1=TBEMTG(1,IEL)
             N2=TBEMTG(2,IEL)
@@ -388,27 +388,27 @@ C DISTANCE A LA SOURCE
       ZS=X(3,NNJ)
       R2=(X0-XS)**2+(Y0-YS)**2+(Z0-ZS)**2
 C NOMBRE DE POINTS DE GAUSS
-      IF (R2.GT.HUNDRED*D2) THEN
+      IF (R2>HUNDRED*D2) THEN
          NPG=1
          IAD=1
-      ELSEIF (R2.GT.TWENTY5*D2) THEN
+      ELSEIF (R2>TWENTY5*D2) THEN
          NPG=4
          IAD=2
-      ELSEIF (R2.GT.FOUR*D2) THEN
+      ELSEIF (R2>FOUR*D2) THEN
          NPG=7
          IAD=6
       ELSE
          NPG=13
          IAD=13
       ENDIF
-      IF (NN1.EQ.NNJ) NPG=-1
-      IF (NN2.EQ.NNJ) NPG=-1           
-      IF (NN3.EQ.NNJ) NPG=-1
+      IF (NN1==NNJ) NPG=-1
+      IF (NN2==NNJ) NPG=-1           
+      IF (NN3==NNJ) NPG=-1
 C INTEGRATION
       RVAL(1)=ZERO
       RVAL(2)=ZERO
       RVAL(3)=ZERO
-      IF (NPG.LT.0) RETURN           
+      IF (NPG<0) RETURN           
       IAD2=2*(IAD-1)+1
       DO IP=1,NPG
          W=WPG(IAD)
@@ -423,7 +423,7 @@ C INTEGRATION
          YG=VAL1*Y1+VAL2*Y2+VAL3*Y3
          ZG=VAL1*Z1+VAL2*Z2+VAL3*Z3
          R2=(XG-XS)**2+(YG-YS)**2+(ZG-ZS)**2
-         IF(R2.GT.EM20)THEN
+         IF(R2>EM20)THEN
            VALPHI=-FOURTH/PI/(R2**THREE_HALF)
      .            *(NRX*(XG-XS)+NRY*(YG-YS)+NRZ*(ZG-ZS))
            RVAL(1)=RVAL(1)+HALF*W*VAL1*VALPHI
@@ -551,13 +551,13 @@ C DISTANCE A LA SOURCE
       ZS=X(3,NNJ)
       R2=(X0-XS)**2+(Y0-YS)**2+(Z0-ZS)**2
 C NOMBRE DE POINTS DE GAUSS
-      IF (R2.GT.HUNDRED*D2) THEN
+      IF (R2>HUNDRED*D2) THEN
          NPG=1
          IAD=1
-      ELSEIF (R2.GT.TWENTY5*D2) THEN
+      ELSEIF (R2>TWENTY5*D2) THEN
          NPG=4
          IAD=2
-      ELSEIF (R2.GT.FOUR*D2) THEN
+      ELSEIF (R2>FOUR*D2) THEN
          NPG=7
          IAD=6
       ELSE
@@ -580,7 +580,7 @@ C INTEGRATION
          YG=VAL1*Y1+VAL2*Y2+VAL3*Y3
          ZG=VAL1*Z1+VAL2*Z2+VAL3*Z3
          R2=(XG-XS)**2+(YG-YS)**2+(ZG-ZS)**2
-         IF(R2.GT.EM20)THEN
+         IF(R2>EM20)THEN
            VALPHI=FOURTH/PI/SQRT(R2)
            RVAL(1)=RVAL(1)+HALF*W*VALPHI*JAC
          ENDIF
@@ -841,7 +841,7 @@ C
       I2=ZERO
       I3=ZERO
 C INTEGRALE DOUBLE COUCHE
-      IF (ZLS.NE.ZERO) THEN
+      IF (ZLS/=ZERO) THEN
          DO I=1,3
             I1=I1
      .   +ATAN((DETA(I)*((XLS-KSI(I))**2+ZLS**2)
@@ -858,7 +858,7 @@ C INTEGRALE SIMPLE COUCHE
          YC=YLS-ETA(I)
          V=XC*DETA(I)/S(I)-YC*DKSI(I)/S(I)
          ARG=(R(I)+R(I+1)-S(I))/(R(I)+R(I+1)+S(I))
-         IF (ARG.GT.ZERO) THEN
+         IF (ARG>ZERO) THEN
             FLN=-LOG(ARG)
             RVLG=RVLG+V*FLN
          ENDIF
@@ -873,7 +873,7 @@ C MOMENTS D'ORDRE 1 POUR DOUBLE COUCHE
          XC=XLS-KSI(I)
          YC=YLS-ETA(I)
          ARG=(R(I)+R(I+1)-S(I))/(R(I)+R(I+1)+S(I))
-         IF (ARG.GT.ZERO) THEN
+         IF (ARG>ZERO) THEN
             FLN=-LOG(ARG)
             I2=I2+ZLS*FLN*DETA(I)/S(I)
             I3=I3-ZLS*FLN*DKSI(I)/S(I)

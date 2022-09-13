@@ -70,51 +70,51 @@ C----   IMPLICIT
         DO IEL=1,NUMELS
            DO J=1,8
               N=IXS(J+1,IEL)
-              IF(N.NE.0)NDOF(N)=3
+              IF(N/=0)NDOF(N)=3
            ENDDO
         ENDDO
         DO IEL=1,NUMELT
            DO J=1,2
               N=IXT(J+1,IEL)
-              IF(N.NE.0)NDOF(N)=3
+              IF(N/=0)NDOF(N)=3
            ENDDO
         ENDDO
         DO IEL=1,NUMELC
            DO J=1,4
               N=IXC(J+1,IEL)
-              IF(N.NE.0)NDOF(N)=6
+              IF(N/=0)NDOF(N)=6
            ENDDO
         ENDDO
         DO IEL=1,NUMELTG
            DO J=1,3
               N=IXTG(J+1,IEL)
-              IF(N.NE.0)NDOF(N)=6
+              IF(N/=0)NDOF(N)=6
            ENDDO
         ENDDO
         DO IEL=1,NUMELP
            DO J=1,2
               N=IXP(J+1,IEL)
-              IF(N.NE.0)NDOF(N)=6
+              IF(N/=0)NDOF(N)=6
            ENDDO
         ENDDO
         DO IEL=1,NUMELR
            IGTYP= NINT(GEO(12,IXR(1,IEL)))
-           IF (IGTYP.EQ.8.OR.IGTYP.EQ.13 .OR. IGTYP == 23) THEN
+           IF (IGTYP==8.OR.IGTYP==13 .OR. IGTYP == 23) THEN
               DO J=1,2
                  N=IXR(J+1,IEL)
-                 IF(N.NE.0)NDOF(N)=6
+                 IF(N/=0)NDOF(N)=6
               ENDDO
-           ELSEIF (IGTYP.EQ.4) THEN
+           ELSEIF (IGTYP==4) THEN
               DO J=1,2
                  N=IXR(J+1,IEL)
-                 IF(N.NE.0)NDOF(N)=MAX(NDOF(N),3)
+                 IF(N/=0)NDOF(N)=MAX(NDOF(N),3)
               ENDDO
            ENDIF
         ENDDO
 C
 C      DO I=1,NRBYKIN
 C         N=NPBY(1,I)
-C         IF(N.NE.0)NDOF(N)=6
+C         IF(N/=0)NDOF(N)=6
 C      ENDDO
 C
       ELSE
@@ -122,12 +122,12 @@ C----   AMS
         DO IEL=1,NUMELS
           DO J=1,8                               
             N = IXS(J+1,IEL) 
-            IF(N.NE.0)TAG8(N)=0
+            IF(N/=0)TAG8(N)=0
           ENDDO
           NN=0                           
           DO J=1,8                               
             N = IXS(J+1,IEL) 
-            IF(N.NE.0)THEN
+            IF(N/=0)THEN
               IF(TAG8(N)==0)THEN
                 NN=NN+1
                 TAG8(N)=1
@@ -136,11 +136,11 @@ C----   AMS
           ENDDO                                    
           DO J=1,8                               
             N = IXS(J+1,IEL) 
-            IF(N.NE.0)TAG8(N)=0
+            IF(N/=0)TAG8(N)=0
           ENDDO                                    
           DO J=1,8                               
             N = IXS(J+1,IEL) 
-            IF(N.NE.0)THEN
+            IF(N/=0)THEN
               IF(TAG8(N)==0)THEN
                 NDOF(N)=NN-1
                 TAG8(N)=1
@@ -151,38 +151,38 @@ C----   AMS
         DO IEL=1,NUMELT
            DO J=1,2
               N=IXT(J+1,IEL)
-              IF(N.NE.0)NDOF(N)=1
+              IF(N/=0)NDOF(N)=1
            ENDDO
         ENDDO
         DO IEL=1,NUMELC
            DO J=1,4
               N=IXC(J+1,IEL)
-              IF(N.NE.0)NDOF(N)=3
+              IF(N/=0)NDOF(N)=3
            ENDDO
         ENDDO
         DO IEL=1,NUMELTG
            DO J=1,3
               N=IXTG(J+1,IEL)
-              IF(N.NE.0)NDOF(N)=2
+              IF(N/=0)NDOF(N)=2
            ENDDO
         ENDDO
         DO IEL=1,NUMELP
            DO J=1,2
               N=IXP(J+1,IEL)
-              IF(N.NE.0)NDOF(N)=1
+              IF(N/=0)NDOF(N)=1
            ENDDO
         ENDDO
         DO IEL=1,NUMELR
            IGTYP= NINT(GEO(12,IXR(1,IEL)))
-           IF (IGTYP.EQ.8.OR.IGTYP.EQ.13 .OR. IGTYP == 23) THEN
+           IF (IGTYP==8.OR.IGTYP==13 .OR. IGTYP == 23) THEN
               DO J=1,2
                  N=IXR(J+1,IEL)
-                 IF(N.NE.0)NDOF(N)=1
+                 IF(N/=0)NDOF(N)=1
               ENDDO
-           ELSEIF (IGTYP.EQ.4) THEN
+           ELSEIF (IGTYP==4) THEN
               DO J=1,2
                  N=IXR(J+1,IEL)
-                 IF(N.NE.0)NDOF(N)=1
+                 IF(N/=0)NDOF(N)=1
               ENDDO
            ENDIF
         ENDDO
@@ -225,7 +225,7 @@ C Remplissage de NDOF partie RBY (cf DIM_GLOB_K dans ENGINE)
 C
       DO I=1,NRBYKIN
         N=NPBY(1,I)
-        IF(N.NE.0)NDOF(N)=6
+        IF(N/=0)NDOF(N)=6
       ENDDO
 C
       RETURN
@@ -280,30 +280,30 @@ C
      .              NSVMAX, CUTFREQ, DSARCH, NSPRI, 
      .              DSANIM
       VERSDD=0
-      IF (DSANIM.LT.0) THEN
+      IF (DSANIM<0) THEN
          DSANIM=-DSANIM
          VERSDD=ANIM_VERS
       ENDIF
-      IF (DSANIM.NE.1) DSANIM=0
-      IF (DSARCH.EQ.0) DSARCH=IBUILTIN
-      IF (IMACH.EQ.3) THEN
+      IF (DSANIM/=1) DSANIM=0
+      IF (DSARCH==0) DSARCH=IBUILTIN
+      IF (IMACH==3) THEN
 C Le traitement parallele du probleme condense est le defaut
          ICONDP=1
-         IF (NSPROC.LT.0) ICONDP=0
+         IF (NSPROC<0) ICONDP=0
          NSPROC=NSPMD
       ENDIF
 C
-      IF (NSVMAX.EQ.0) NSVMAX=100
+      IF (NSVMAX==0) NSVMAX=100
       NSBMAX=1
       NSVMAXT=1
-      IF (CUTFREQ.EQ.ZERO) CUTFREQ=EP30/FAC_TIME
+      IF (CUTFREQ==ZERO) CUTFREQ=EP30/FAC_TIME
 C 
-      IF (NEIG.GT.0) THEN
+      IF (NEIG>0) THEN
          IAD=1
          NNBM=0
          DO I=1,NEIG
             IMLS=EIGIPM(IAD+16)
-            IF (IMLS.EQ.0) CYCLE
+            IF (IMLS==0) CYCLE
             ID=EIGIPM(IAD)
             NN1=EIGIPM(IAD+9)
             NN2=EIGIPM(IAD+10)
@@ -316,12 +316,12 @@ C
 C
 C Remplissage de NDOF (cf DIM_GLOB_K dans ENGINE)
 C Traitement pour les RNUR et XELEM a faire
-      IF (NUMELUR.NE.0) WRITE(ISTDO,'(A)') 
+      IF (NUMELUR/=0) WRITE(ISTDO,'(A)') 
      . ' ** WARNING : NO IMPLICIT TREATMENT OF RNUR ELEMENTS BY NOW'
-      IF (NUMELX.NE.0) WRITE(ISTDO,'(A)') 
+      IF (NUMELX/=0) WRITE(ISTDO,'(A)') 
      . ' ** WARNING : NO IMPLICIT TREATMENT OF XELEM ELEMENTS BY NOW'
 C
-      IF (NSDEC.LE.1) THEN
+      IF (NSDEC<=1) THEN
        WRITE(ISTDO,'(A)') 
      . ' ** WARNING : Nchild should be bigger than 1, set to 2'
         NSDEC = 2
@@ -386,7 +386,7 @@ C-----------------------------------------------
 C
       NINT2=0
       DO I=1,NINTER
-         IF (IPARI(7,I).EQ.2) THEN
+         IF (IPARI(7,I)==2) THEN
             NINT2=NINT2+1
             IINT2(NINT2)=I
          ENDIF
@@ -427,10 +427,10 @@ C
             OFFEL=0
             DO I=1,NUMELSL
                IEL=ELDOM(IPROC,1,OFFEL+I)
-               IF (ELDOM(IPROC,2,OFFEL+I).EQ.ISD) THEN
+               IF (ELDOM(IPROC,2,OFFEL+I)==ISD) THEN
                   DO J=1,8
                      N=IXS(1+J,IEL)
-                     IF (ITAG(N).NE.ISD+OFF) NISD(N)=NISD(N)+1
+                     IF (ITAG(N)/=ISD+OFF) NISD(N)=NISD(N)+1
                      ITAG(N)=ISD+OFF
                   ENDDO
                ENDIF
@@ -439,10 +439,10 @@ C
 C
             DO I=1,NUMELQL
                IEL=ELDOM(IPROC,1,OFFEL+I)
-               IF (ELDOM(IPROC,2,OFFEL+I).EQ.ISD) THEN
+               IF (ELDOM(IPROC,2,OFFEL+I)==ISD) THEN
                   DO J=1,4
                      N=IXQ(1+J,IEL)
-                     IF (ITAG(N).NE.ISD+OFF) NISD(N)=NISD(N)+1
+                     IF (ITAG(N)/=ISD+OFF) NISD(N)=NISD(N)+1
                      ITAG(N)=ISD+OFF
                   ENDDO
                ENDIF
@@ -451,10 +451,10 @@ C
 C
             DO I=1,NUMELCL
                IEL=ELDOM(IPROC,1,OFFEL+I)
-               IF (ELDOM(IPROC,2,OFFEL+I).EQ.ISD) THEN
+               IF (ELDOM(IPROC,2,OFFEL+I)==ISD) THEN
                   DO J=1,4
                      N=IXC(1+J,IEL)
-                     IF (ITAG(N).NE.ISD+OFF) NISD(N)=NISD(N)+1
+                     IF (ITAG(N)/=ISD+OFF) NISD(N)=NISD(N)+1
                      ITAG(N)=ISD+OFF
                   ENDDO
                ENDIF
@@ -463,10 +463,10 @@ C
 C
             DO I=1,NUMELTL
                IEL=ELDOM(IPROC,1,OFFEL+I)
-               IF (ELDOM(IPROC,2,OFFEL+I).EQ.ISD) THEN
+               IF (ELDOM(IPROC,2,OFFEL+I)==ISD) THEN
                   DO J=1,2
                      N=IXT(1+J,IEL)
-                     IF (ITAG(N).NE.ISD+OFF) NISD(N)=NISD(N)+1
+                     IF (ITAG(N)/=ISD+OFF) NISD(N)=NISD(N)+1
                      ITAG(N)=ISD+OFF
                   ENDDO
                ENDIF
@@ -475,10 +475,10 @@ C
 C
             DO I=1,NUMELPL
                IEL=ELDOM(IPROC,1,OFFEL+I)
-               IF (ELDOM(IPROC,2,OFFEL+I).EQ.ISD) THEN
+               IF (ELDOM(IPROC,2,OFFEL+I)==ISD) THEN
                   DO J=1,2
                      N=IXP(1+J,IEL)
-                     IF (ITAG(N).NE.ISD+OFF) NISD(N)=NISD(N)+1
+                     IF (ITAG(N)/=ISD+OFF) NISD(N)=NISD(N)+1
                      ITAG(N)=ISD+OFF
                   ENDDO
                ENDIF
@@ -487,10 +487,10 @@ C
 C
             DO I=1,NUMELRL
                IEL=ELDOM(IPROC,1,OFFEL+I)
-               IF (ELDOM(IPROC,2,OFFEL+I).EQ.ISD) THEN
+               IF (ELDOM(IPROC,2,OFFEL+I)==ISD) THEN
                   DO J=1,2
                      N=IXR(1+J,IEL)
-                     IF (ITAG(N).NE.ISD+OFF) NISD(N)=NISD(N)+1
+                     IF (ITAG(N)/=ISD+OFF) NISD(N)=NISD(N)+1
                      ITAG(N)=ISD+OFF
                   ENDDO
                ENDIF
@@ -499,10 +499,10 @@ C
 C
             DO I=1,NUMELTGL
                IEL=ELDOM(IPROC,1,OFFEL+I)
-               IF (ELDOM(IPROC,2,OFFEL+I).EQ.ISD) THEN
+               IF (ELDOM(IPROC,2,OFFEL+I)==ISD) THEN
                   DO J=1,3
                      N=IXTG(1+J,IEL)
-                     IF (ITAG(N).NE.ISD+OFF) NISD(N)=NISD(N)+1
+                     IF (ITAG(N)/=ISD+OFF) NISD(N)=NISD(N)+1
                      ITAG(N)=ISD+OFF
                   ENDDO
                ENDIF
@@ -516,10 +516,10 @@ C Noeuds main de RBODY
                NSN=NPBY(2,I)
                J=0
                INDEX=0
-               DO WHILE (J.LT.NSN.AND.INDEX.EQ.0)
+               DO WHILE (J<NSN.AND.INDEX==0)
                   J=J+1
-                  IF (ITAG(LPBY(IAD+J)).EQ.ISD+OFF) THEN
-                     IF (ITAG(N).NE.ISD+OFF) NISD(N)=NISD(N)+1
+                  IF (ITAG(LPBY(IAD+J))==ISD+OFF) THEN
+                     IF (ITAG(N)/=ISD+OFF) NISD(N)=NISD(N)+1
                      ITAG(N)=ISD+OFF
                      INDEX=1
                   ENDIF
@@ -536,11 +536,11 @@ C Noeuds main d'interface type 2
 C
 C
                DO J=1,NSN
-                  IF (ITAG(INTBUF_TAB(N)%NSV(J)).EQ.ISD+OFF) THEN
+                  IF (ITAG(INTBUF_TAB(N)%NSV(J))==ISD+OFF) THEN
                      IFAC=INTBUF_TAB(N)%IRTLM(J)
                      DO K=1,4
                         INM=INTBUF_TAB(N)%IRECTM(4*(IFAC-1)+K)
-                        IF (ITAG(INM).NE.ISD+OFF) NISD(INM)=NISD(INM)+1
+                        IF (ITAG(INM)/=ISD+OFF) NISD(INM)=NISD(INM)+1
                         ITAG(INM)=ISD+OFF
                      ENDDO
                   ENDIF

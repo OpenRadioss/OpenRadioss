@@ -185,13 +185,13 @@ c-----
               EVAR(I) = SQRT(VONM2)                         
             ENDDO                                                       
 c-----
-          ELSEIF(IFUNC.GE.14 .and. IFUNC.LE.15)THEN                       
+          ELSEIF(IFUNC>=14 .and. IFUNC<=15)THEN                       
             IUS = IFUNC-13
             DO I=LFT,LLT                                                
               EVAR(I) = GBUF%FOR(II(IUS)+I)
             ENDDO                                                       
 c-----
-          ELSEIF(IFUNC.GE.17 .and. IFUNC.LE.19)THEN                       
+          ELSEIF(IFUNC>=17 .and. IFUNC<=19)THEN                       
             IUS = IFUNC-14
             DO I=LFT,LLT                                                
               EVAR(I) = GBUF%FOR(II(IUS)+I)

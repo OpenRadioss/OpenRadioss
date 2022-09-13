@@ -198,7 +198,7 @@ C
       Q2    = UPARAM(IADBUFV+9)
       Q3    = UPARAM(IADBUFV+10)
       SN    = UPARAM(IADBUFV+11)
-      IF(SN.EQ.ZERO)SN = EP20 
+      IF(SN==ZERO)SN = EP20 
       EPSN  = UPARAM(IADBUFV+12)
       FI    = UPARAM(IADBUFV+13)
       FN    = UPARAM(IADBUFV+14)
@@ -218,11 +218,11 @@ C
         C2(I)  = C1(I)*NU/(ONE - NU)
       ENDDO   
 C
-      IF(TIME.EQ.0.0)THEN
+      IF(TIME==0.0)THEN
         DO I=1,NEL
           EPSP1(I)=ZERO
           EPSM(I)=ZERO
-          IF(N.LT.ONE)EPSM(I)=EM20        
+          IF(N<ONE)EPSM(I)=EM20        
           UVAR(I,1)=EPSM(I)
           UVAR(I,2)=FI
           UVAR(I,3)=YEILD0(I)
@@ -263,7 +263,7 @@ C
          SIGNXY(I)=SIGOXY(I) +   G(I)*DEPSXY(I)
          SIGNYZ(I)=SIGOYZ(I) +   G(I)*DEPSYZ(I)
          SIGNZX(I)=SIGOZX(I) +   G(I)*DEPSZX(I)
-        IF(OFF(I).EQ.ZERO) THEN
+        IF(OFF(I)==ZERO) THEN
            SIGNXX(I)=ZERO
            SIGNYY(I)=ZERO
            SIGNZZ(I)=ZERO
@@ -278,13 +278,13 @@ C-------------------
 C     STRAIN RATE
 C-------------------
 C VISCOPLASTIC
-      IF(IFLAG.EQ.0)THEN
+      IF(IFLAG==0)THEN
 C-------------
 C  IFLAG = 0, 
 C-----------
        DO I=1,NEL
-        IF(OFF(I).EQ.ONE)THEN
-         IF(F(I).LE.FC)THEN
+        IF(OFF(I)==ONE)THEN
+         IF(F(I)<=FC)THEN
           FSTAR(I) = F(I)
           DF       = ONE 
          ELSE
@@ -325,7 +325,7 @@ C
           DP12 = ZERO
           DP13 = ZERO
           DP23 = ZERO   
-          IF(F(I).EQ.ONE)THEN
+          IF(F(I)==ONE)THEN
            A21 = EP20
           ELSE             
            A21 =  SIGM1 /(ONE - F(I))     
@@ -352,7 +352,7 @@ C
 C
            DCRF=-SIGM(I)*(Q3*FSTAR(I)*DF-Q1*COH*DF)*VA1
            DCRM= - VA - THREE*VA11*PN(I)*SIGM1
-           IF(N.EQ.1)THEN
+           IF(N==1)THEN
             DSEPP = ET*(ONE+ ( EPSP(I)*CSD)**VISP(I))
            ELSE
             DSEPP = ET * N * EPSM(I) ** (N - 1)*
@@ -365,7 +365,7 @@ C
 C
            LAM1= DCD - DCRM* DSEPP*A2 - 
      .           DCRF*((ONE - F(I))*(D11+D22+D33) + A1*A2)              
-           IF(LAM1.NE.ZERO) LAMDA(I) =  MAX(ZERO,(VM - YLD))/LAM1
+           IF(LAM1/=ZERO) LAMDA(I) =  MAX(ZERO,(VM - YLD))/LAM1
 C  PLASTIC DEFORMATION          
            DP11 = DP11 + LAMDA(I) * D11
            DP22 = DP22 + LAMDA(I) * D22
@@ -400,7 +400,7 @@ C....... AMISSIBLE PLASTIC DEFORMATION.
            VA   = ONE + Q3*FSTAR(I)**2 - TWO*Q1*FSTAR(I)*COH
            VA = SQRT(MAX(ZERO,VA))
            YLD  = SIGM(I) * VA
-C           IF(CONV.LT.1E-3)GO TO 100
+C           IF(CONV<1E-3)GO TO 100
           ENDDO ! ITER
 C 
           FG      = (ONE -F(I))*(DP11+DP22+DP33) 
@@ -408,15 +408,15 @@ C
           FN1     = A1*EPSP1(I) 
           EPSM(I) = EPSM(I) + EPSP1(I)         
           F(I)    = F(I) + FG + FN1                    
-          IF(Q1.EQ.ZERO.and.Q2.EQ.ZERO.and.Q3.EQ.ZERO)F(I)=ZERO
-          IF(F(I).LT.ZERO) F(I)=ZERO
+          IF(Q1==ZERO.and.Q2==ZERO.and.Q3==ZERO)F(I)=ZERO
+          IF(F(I)<ZERO) F(I)=ZERO
           SIGM(I) = (YEILD0(I) + ET * EPSM(I) ** N)*
      .             (ONE+ (EPSP(I)*CSD) ** VISP(I))           
 C....COMPUTE F*.....
-          IF(F(I).LE.FC)THEN
+          IF(F(I)<=FC)THEN
            FSTAR(I) = F(I)
           ELSE
-           IF(FF.EQ.FC)THEN
+           IF(FF==FC)THEN
             FSTAR(I) = EP20
            ELSE
             FSTAR(I) = FC+ (FU-FC)/(FF-FC)*(F(I)-FC)
@@ -428,25 +428,25 @@ C....COMPUTE F*.....
           UVAR(I,4) = F(I)
           UVAR(I,5) = EPSP(I)          
          ENDIF 
-         IF(OFF(I).EQ.ONE.AND.FSTAR(I).GE.FF)THEN
+         IF(OFF(I)==ONE.AND.FSTAR(I)>=FF)THEN
           OFF(I)=FOUR_OVER_5
           IDEL7NOK = 1
           WRITE(IOUT, 1000) NGL(I)
           WRITE(ISTDO,1100) NGL(I),TT
          ENDIF
         ELSE         
-         IF(OFF(I).LT.EM01)OFF(I)=ZERO
+         IF(OFF(I)<EM01)OFF(I)=ZERO
          OFF(I)=OFF(I)*FOUR_OVER_5
         ENDIF
        ENDDO
-      ELSEIF(IFLAG.EQ.1)THEN
+      ELSEIF(IFLAG==1)THEN
 C----------
 C IFLAG set to 1
 C..........
        DO I=1,NEL
-        IF(OFF(I).EQ.ONE)THEN
+        IF(OFF(I)==ONE)THEN
 C
-         IF(F(I).LE.FC)THEN
+         IF(F(I)<=FC)THEN
           FSTAR(I) = F(I)
           DF       = ONE
          ELSE
@@ -467,7 +467,7 @@ C
          VAR = EXP(VAR)
          COH   = HALF*(VAR + ONE/MAX(EM20,VAR))
          SIH   = HALF*(VAR - ONE/MAX(EM20,VAR))
-         IF(PN(I).LE.ZERO) THEN
+         IF(PN(I)<=ZERO) THEN
           VA = ONE +Q3*FSTAR(I)**2 - TWO*Q1*FSTAR(I)
          ELSE
           VA= ONE +Q3*FSTAR(I)**2 - TWO*Q1*FSTAR(I)*COH
@@ -489,7 +489,7 @@ C
           SIGZX(I) = SIGNZX(I)
           SIGYZ(I) = SIGNYZ(I)
 C 
-          IF(F(I).EQ.ONE)THEN
+          IF(F(I)==ONE)THEN
            A21 = EP20
           ELSE             
            A21 =  SIGM1 /(ONE - F(I))     
@@ -503,7 +503,7 @@ C
           DP13 = ZERO
           DP23 = ZERO         
           DO ITER=1,5
-           IF(PN(I).LE.ZERO)THEN
+           IF(PN(I)<=ZERO)THEN
             D11 = (TWO*SIGNXX(I) - SIGNYY(I) - SIGNZZ(I))*SIGM2
             D22 = (TWO*SIGNYY(I) - SIGNXX(I) - SIGNZZ(I))*SIGM2
             D33 = (TWO*SIGNZZ(I) - SIGNXX(I) - SIGNYY(I))*SIGM2
@@ -528,7 +528,7 @@ C
      .      TWO*(D12 * SIGNXY(I) + D13 * SIGNZX(I) + D23 * SIGNYZ(I) ) 
            A2 = A2 * A21
 C
-           IF(N.EQ.1)THEN
+           IF(N==1)THEN
            DSEPP = ET*(ONE+ ( EPSP(I)*CSD)**VISP(I))
            ELSE
             DSEPP = ET * N * EPSM(I) ** (N - 1)*
@@ -539,7 +539,7 @@ C
      .           TWO*G(I) *(D12**2 + D13**2 + D23**2)
            LAM1  = DCD - DCRM  *  DSEPP * A2 - 
      .           DCRF * ((ONE - F(I)) * (D11 + D22 + D33) + A1*A2)
-           IF(LAM1.NE.ZERO) LAMDA(I) =  MAX(ZERO,(VM * SIGM2 - VA))/LAM1
+           IF(LAM1/=ZERO) LAMDA(I) =  MAX(ZERO,(VM * SIGM2 - VA))/LAM1
 C
 C  PLASTIC DEFORMATION          
 C
@@ -574,7 +574,7 @@ C
            VAR = EXP(VAR)
            COH  = HALF * (VAR + ONE/MAX(EM20,VAR))
            SIH  = HALF * (VAR - ONE/MAX(EM20,VAR))
-           IF(PN(I).LE.ZERO) THEN
+           IF(PN(I)<=ZERO) THEN
             VA = ONE + Q3*FSTAR(I)**2 - TWO*Q1*FSTAR(I)
            ELSE
             VA = ONE + Q3*FSTAR(I)**2 - TWO*Q1*FSTAR(I)*COH
@@ -587,14 +587,14 @@ C
           FN1     = A1 * EPSP1(I) 
           EPSM(I) = EPSM(I) + EPSP1(I)         
           F(I)    = F(I) + FG + FN1                    
-          IF(F(I).LT.ZERO) F(I)=ZERO
+          IF(F(I)<ZERO) F(I)=ZERO
           SIGM(I)= (YEILD0(I) + ET * EPSM(I)**N)*(ONE + 
      .            (EPSP(I)*CSD)**VISP(I))     
 C....COMPUTE F*.....
-          IF(F(I).LE.FC)THEN
+          IF(F(I)<=FC)THEN
            FSTAR(I) = F(I)
           ELSE
-           IF(FF.EQ.FC)THEN 
+           IF(FF==FC)THEN 
             FSTAR(I) = EP20
            ELSE
             FSTAR(I) = FC+ (FU-FC)*(F(I)-FC)/(FF-FC)
@@ -608,25 +608,25 @@ C
           UVAR(I , 5) = EPSP(I)          
 C
          ENDIF 
-         IF(OFF(I).EQ.ONE.AND.FSTAR(I).GE.FF)THEN
+         IF(OFF(I)==ONE.AND.FSTAR(I)>=FF)THEN
           OFF(I)=FOUR_OVER_5
           IDEL7NOK = 1
           WRITE(IOUT, 1000) NGL(I)
           WRITE(ISTDO,1100) NGL(I),TT
          ENDIF        
         ELSE         
-         IF(OFF(I).LT.EM01)OFF(I)=ZERO
+         IF(OFF(I)<EM01)OFF(I)=ZERO
          OFF(I)=OFF(I)*FOUR_OVER_5      
         ENDIF
        ENDDO
-      ELSEIF(IFLAG.EQ.2) THEN
+      ELSEIF(IFLAG==2) THEN
 C----------
 C IFLAG set to 2
 C..........
        DO I=1,NEL
-        IF(OFF(I).EQ.ONE)THEN
+        IF(OFF(I)==ONE)THEN
 C
-         IF(F(I).LE.FC)THEN
+         IF(F(I)<=FC)THEN
           FSTAR(I) = F(I)
           DF       = ONE
          ELSE
@@ -648,7 +648,7 @@ C
          VAR = EXP(VAR)
          COH   = HALF*(VAR + ONE/MAX(EM20,VAR))
          SIH   = HALF*(VAR - ONE/MAX(EM20,VAR))
-         IF(PN(I).LE.ZERO) THEN
+         IF(PN(I)<=ZERO) THEN
           VA = ONE +Q3*FSTAR(I)**2 - TWO*Q1*FSTAR(I)
          ELSE
           VA= ONE+Q3*FSTAR(I)**2 - TWO*Q1*FSTAR(I)*COH
@@ -667,7 +667,7 @@ C
           SIGZX(I) = SIGNZX(I)
           SIGYZ(I) = SIGNYZ(I) 
 C
-          IF(F(I).EQ.ONE)THEN
+          IF(F(I)==ONE)THEN
            A21 = EP20
           ELSE             
            A21 =  SIGM1 /(ONE - F(I))     
@@ -683,7 +683,7 @@ C
           DP23 = ZERO         
 C
           DO ITER=1,5
-           IF(PN(I).LE.ZERO)THEN
+           IF(PN(I)<=ZERO)THEN
             D11 = (TWO*SIGNXX(I) - SIGNYY(I) - SIGNZZ(I))*SIGM2
             D22 = (TWO*SIGNYY(I) - SIGNXX(I) - SIGNZZ(I))*SIGM2
             D33 = (TWO*SIGNZZ(I) - SIGNXX(I) - SIGNYY(I))*SIGM2
@@ -708,7 +708,7 @@ C
      .      TWO*(D12 * SIGNXY(I) + D13 * SIGNZX(I) + D23 * SIGNYZ(I) ) 
            A2 = A2 * A21
 C
-           IF(N.EQ.1)THEN
+           IF(N==1)THEN
             DSEPP = ET*(ONE + ( EPSP(I)*CSD)**VISP(I))
            ELSE
             DSEPP = ET * N * EPSM(I) ** (N - ONE)*
@@ -719,7 +719,7 @@ C
      .           TWO*G(I) *(D12**2 + D13**2 + D23**2)
            LAM1  = DCD - DCRM  *  DSEPP * A2 - 
      .           DCRF * ((ONE - F(I)) * (D11 + D22 + D33) + A1*A2)
-           IF(LAM1.NE.ZERO) LAMDA(I) =  MAX(ZERO,(VM * SIGM2 - VA))/LAM1
+           IF(LAM1/=ZERO) LAMDA(I) =  MAX(ZERO,(VM * SIGM2 - VA))/LAM1
 C
 C  PLASTIC DEFORMATION          
 C
@@ -755,7 +755,7 @@ C
            VAR = EXP(VAR)
            COH  = HALF * (VAR + ONE/MAX(EM20,VAR))
            SIH  = HALF * (VAR - ONE/MAX(EM20,VAR))
-           IF(PN(I).LE.ZERO) THEN
+           IF(PN(I)<=ZERO) THEN
             VA = ONE + Q3*FSTAR(I)**2 - TWO*Q1*FSTAR(I)
            ELSE
             VA = ONE + Q3*FSTAR(I)**2 - TWO*Q1*FSTAR(I)*COH
@@ -767,17 +767,17 @@ C
           SIGY(I) = SIGM(I)*SQRT(MAX(ZERO,VA))
           FN1 = ZERO
           PN(I)= (SIGNXX(I)+SIGNYY(I)+SIGNZZ(I))*THIRD
-          IF(PN(I).GE.ZERO)FN1= A1 * EPSP1(I)          
+          IF(PN(I)>=ZERO)FN1= A1 * EPSP1(I)          
           EPSM(I) = EPSM(I) + EPSP1(I)         
           F(I)    = F(I) + FG + FN1                    
-          IF(F(I).LT.ZERO) F(I)=ZERO
+          IF(F(I)<ZERO) F(I)=ZERO
           SIGM(I)= (YEILD0(I) + ET * EPSM(I)**N)*(ONE+ 
      .            (EPSP(I)*CSD)**VISP(I))
 C....COMPUTE F*.....
-          IF(F(I).LE.FC)THEN
+          IF(F(I)<=FC)THEN
            FSTAR(I) = F(I)
           ELSE
-           IF(FF.EQ.FC)THEN 
+           IF(FF==FC)THEN 
             FSTAR(I) = EP20
            ELSE
             FSTAR(I) = FC+ (FU-FC)*(F(I)-FC)/(FF-FC)
@@ -792,7 +792,7 @@ C
 C
          ENDIF 
 CCsm41w11 +++
-         IF(OFF(I).EQ.ONE.AND.FSTAR(I).GE.FF)THEN
+         IF(OFF(I)==ONE.AND.FSTAR(I)>=FF)THEN
           OFF(I)=FOUR_OVER_5
           IDEL7NOK = 1
           WRITE(IOUT, 1000) NGL(I)
@@ -800,7 +800,7 @@ CCsm41w11 +++
          ENDIF
         ELSE 
 
-         IF(OFF(I).LT.EM01)OFF(I)=ZERO
+         IF(OFF(I)<EM01)OFF(I)=ZERO
          OFF(I)=OFF(I)*FOUR_OVER_5
         ENDIF
        ENDDO 
@@ -812,8 +812,8 @@ C-------------
 C 
 C-----------
        DO I=1,NEL
-        IF(OFF(I).EQ.ONE)THEN
-         IF(F(I).LE.FC)THEN
+        IF(OFF(I)==ONE)THEN
+         IF(F(I)<=FC)THEN
           FSTAR(I) = F(I)
           DF       = ONE
          ELSE
@@ -857,7 +857,7 @@ C
           DP13 = ZERO
           DP23 = ZERO   
 C
-          IF(F(I).EQ.ONE)THEN
+          IF(F(I)==ONE)THEN
            A21 = EP20
           ELSE             
            A21 =  SIGM1 /(ONE - F(I))     
@@ -885,7 +885,7 @@ C
 C
            DCRF=-SIGM(I)*(Q3*FSTAR(I)*DF-Q1*COH*DF)*VA1
            DCRM= - VA - THREE*VA11*PN(I)*SIGM1
-           IF(N.EQ.1)THEN
+           IF(N==1)THEN
             DSEPP = ET*(ONE + ( EPSP(I)*CSD)**VISP(I))
            ELSE
             DSEPP = ET * N * EPSM(I) ** (N - ONE)*
@@ -897,7 +897,7 @@ C
 
            LAM1= DCD - DCRM* DSEPP*A2 - 
      .             DCRF*((ONE-F(I))*(D11+D22+D33) + A1*A2)
-           IF(LAM1.NE.ZERO) LAMDA(I) =  MAX(ZERO,(VM - YLD))/LAM1
+           IF(LAM1/=ZERO) LAMDA(I) =  MAX(ZERO,(VM - YLD))/LAM1
 C  PLASTIC DEFORMATION          
            DP11 = DP11 + LAMDA(I) * D11
            DP22 = DP22 + LAMDA(I) * D22
@@ -937,19 +937,19 @@ C
           PN(I) = (SIGXX(I) + SIGYY(I) + SIGZZ(I))*THIRD
           SIGY(I) = YLD 
           FN1     = ZERO
-          IF(PN(I).GE.ZERO) FN1 = A1*EPSP1(I) 
+          IF(PN(I)>=ZERO) FN1 = A1*EPSP1(I) 
            EPSM(I) = EPSM(I) + EPSP1(I)         
            F(I)    = F(I) + FG + FN1                    
-          IF(Q1.EQ.ZERO.and.
-     .     Q2.EQ.ZERO.and.Q3.EQ.ZERO) F(I)= ZERO
-          IF(F(I).LT.ZERO) F(I)=ZERO
+          IF(Q1==ZERO.and.
+     .     Q2==ZERO.and.Q3==ZERO) F(I)= ZERO
+          IF(F(I)<ZERO) F(I)=ZERO
           SIGM(I) = (YEILD0(I) + ET * EPSM(I) ** N)*
      .             (ONE + (EPSP(I)*CSD) ** VISP(I))          
 C....COMPUTE F*.....
-          IF(F(I).LE.FC)THEN
+          IF(F(I)<=FC)THEN
            FSTAR(I) = F(I)
           ELSE
-           IF(FF.EQ.FC)THEN
+           IF(FF==FC)THEN
             FSTAR(I) = EP20
            ELSE
             FSTAR(I) = FC+ (FU-FC)/(FF-FC)*(F(I)-FC)
@@ -961,14 +961,14 @@ C....COMPUTE F*.....
           UVAR(I,4) = F(I)
           UVAR(I,5) = EPSP(I)          
          ENDIF
-         IF(OFF(I).EQ.ONE.AND.FSTAR(I).GE.FF)THEN
+         IF(OFF(I)==ONE.AND.FSTAR(I)>=FF)THEN
           OFF(I)=FOUR_OVER_5
           IDEL7NOK = 1
           WRITE(IOUT, 1000) NGL(I)
           WRITE(ISTDO,1100) NGL(I),TT
          ENDIF
         ELSE 
-         IF(OFF(I).LT.EM01)OFF(I)=ZERO
+         IF(OFF(I)<EM01)OFF(I)=ZERO
          OFF(I)=OFF(I)*FOUR_OVER_5
         ENDIF
        ENDDO

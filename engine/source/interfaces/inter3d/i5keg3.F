@@ -111,7 +111,7 @@ C
        KL11(3,3,I)=KN(4,I)*Q33
       ENDDO
 C    ----avec frottement --- 
-      IF (FRIC.GT.ZERO) THEN
+      IF (FRIC>ZERO) THEN
 C    ----tangent vector --- 
        FAC= FRIC*SCALK
        DO I=LFT,LLT
@@ -144,7 +144,7 @@ C
          ENDDO
         ENDDO
        ENDDO
-      END IF !(FRIC.GT.ZERO) THEN
+      END IF !(FRIC>ZERO) THEN
 C
        DO J=1,3 
         DO K=J,3 
@@ -253,12 +253,12 @@ C
        STIF(I)=HALF*STFM(L)
       ENDDO
 C      
-      IF (FRIC.EQ.ZERO) RETURN
+      IF (FRIC==ZERO) RETURN
 C      
       DO 300 I=LFT,LLT
        IL=I_N(I)
        LOLD=IABS(IRTLO(IL))
-       IF(LOLD.EQ.0)THEN
+       IF(LOLD==0)THEN
 C-------------------------------
 C       POINT NON IMPACTE PRECEDEMENT:::diff than explicit
 C-------------------------------
@@ -267,7 +267,7 @@ c        TN2=ZERO
 c        TN3=ZERO
          TN3=ZERO
          TN=SQRT(N1(I)*N1(I)+N2(I)*N2(I))
-         IF(TN.NE.ZERO)THEN
+         IF(TN/=ZERO)THEN
           TN2=-N1(I)/TN
           TN1=N2(I)/TN
          ELSE
@@ -319,12 +319,12 @@ C
         FYI(I)=FYI(I) + ANSY*STF
         FZI(I)=FZI(I) + ANSZ*STF
           IFQ = IPARI(31)
-          IF (IFQ.GT.0) THEN
-	    IF (IFQ.EQ.3) FREQ = MAX(ONE,FREQ*DT12)
+          IF (IFQ>0) THEN
+	    IF (IFQ==3) FREQ = MAX(ONE,FREQ*DT12)
             ALPHA = FREQ
             ALPHI = ONE - ALPHA
             K = 3*(IL-1)
-	    IF (FNI(I).NE.ZERO) THEN
+	    IF (FNI(I)/=ZERO) THEN
               FXI(I)= ALPHA*FXI(I) + ALPHI*FTSAV(K+1)
               FYI(I)= ALPHA*FYI(I) + ALPHI*FTSAV(K+2)
               FZI(I)= ALPHA*FZI(I) + ALPHI*FTSAV(K+3)
@@ -337,14 +337,14 @@ C
         TN2=FYI(I)-N2(I)*FN
         TN3=FZI(I)-N3(I)*FN
         TN=SQRT(TN1*TN1+TN2*TN2+TN3*TN3)
-        IF(TN.NE.ZERO)THEN
+        IF(TN/=ZERO)THEN
          TN1=TN1/TN
          TN2=TN2/TN
          TN3=TN3/TN
         ELSE
          TN3=ZERO
          TN=SQRT(N1(I)*N1(I)+N2(I)*N2(I))
-         IF(TN.NE.ZERO)THEN
+         IF(TN/=ZERO)THEN
           TN2=-N1(I)/TN
           TN1=N2(I)/TN
          ELSE

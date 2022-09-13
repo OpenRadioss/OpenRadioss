@@ -120,7 +120,7 @@ C
      .                R1=TZINF,
      .                I1=ITAB(I) ,
      .                PRMOD=MSG_CUMU)
-        ELSEIF (L == 0 .AND. IGNORE .GE. 2 .AND. DSEARCH == 0) THEN
+        ELSEIF (L == 0 .AND. IGNORE >= 2 .AND. DSEARCH == 0) THEN
           CALL ANCMSG(MSGID=1071,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND_1,
@@ -253,7 +253,7 @@ C
      .                PRMOD=MSG_PRINT )
 
       IF(CPT == NSN) THEN
-        IF (L == 0 .AND. IGNORE .GE. 2 .AND. DSEARCH == 0) THEN
+        IF (L == 0 .AND. IGNORE >= 2 .AND. DSEARCH == 0) THEN
         CALL ANCMSG(MSGID=1217,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND_1,
@@ -423,7 +423,7 @@ C---    Projection on edges is used only for the distribution of masses and iner
         DO II= 1,NSN
           IF (TAGS(II) == 1) THEN
            J = IRTL(II)
-           IF (IRECT(3,J).NE.IRECT(4,J)) THEN
+           IF (IRECT(3,J)/=IRECT(4,J)) THEN
 C--        square
              STB(1,II)= MIN(ONE,MAX(-1*ONE,ST(1,II)))
              STB(2,II)= MIN(ONE,MAX(-1*ONE,ST(2,II)))
@@ -498,7 +498,7 @@ C---    Projection on edges - used only for retrocompatibility with old iproj=1 
         DO II= 1,NSN
           IF (TAGS(II) == 1) THEN
            J = IRTL(II)
-           IF (IRECT(3,J).NE.IRECT(4,J)) THEN
+           IF (IRECT(3,J)/=IRECT(4,J)) THEN
 C--        square
              ST(1,II)= MIN(ONE,MAX(-1*ONE,ST(1,II)))
              ST(2,II)= MIN(ONE,MAX(-1*ONE,ST(2,II)))

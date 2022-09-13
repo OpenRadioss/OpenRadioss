@@ -109,8 +109,8 @@ C
            ID1=NOM_OPT(1,NINTER+JSUB)
            CALL FRETITL2(TITR1,
      .          NOM_OPT(LNOPT1-LTITR+1,NINTER+JSUB),LTITR)
-           IF(NOM_OPT(2,NINTER+JSUB).EQ.NOINT
-     .         .AND.NOM_OPT(5,NINTER+JSUB).EQ.1)THEN
+           IF(NOM_OPT(2,NINTER+JSUB)==NOINT
+     .         .AND.NOM_OPT(5,NINTER+JSUB)==1)THEN
                KSUB=KSUB+1
 C
 C      LISUB(KSUB)=JSUB no interne de la sous-interface
@@ -120,7 +120,7 @@ C
 C      prepare ADDSUBS (K29), LISUBS (K31) : 
 C      LISUBS(ADDSUBS(IS):ADDSUBS(IS+1)-1) SS. INTERF CONTENANT LE ND SECOND. IS
 C
-               IF (NT19.EQ.0) THEN
+               IF (NT19==0) THEN
 C--   Interface type7
                   JGRN =NOM_OPT(4,NINTER+JSUB)
                   NNE  =IGRNOD(JGRN)%NENTITY
@@ -128,7 +128,7 @@ C
                   DO I=1,NNE
                     ISV=IGRNOD(JGRN)%ENTITY(I)
                     IS =NOD2NSV(ISV)
-                    IF(IS.EQ.0)THEN
+                    IF(IS==0)THEN
                       CALL ANCMSG(MSGID=580,
      .                          MSGTYPE=MSGERROR,
      .                          ANMODE=ANINFO_BLIND_1,
@@ -144,7 +144,7 @@ C
 C
                ELSE
 C--   Interface type7 of type19 - based on input SECONDARY surface
-                  IF (NT19.EQ.-1) THEN
+                  IF (NT19==-1) THEN
                     ISU  =NOM_OPT(4,NINTER+JSUB)
                   ELSE
 C                   sym type7 of type19
@@ -159,17 +159,17 @@ C
                     DO J=1,4
                       IN = IGRSURF(ISU)%NODES(I,J)
                       IS = NOD2NSV(IN)
-                      IF (IS.EQ.0) THEN
+                      IF (IS==0) THEN
                         KM = 0
                       ELSE
-                        IF (TAGNOD(IN).EQ.0) THEN
+                        IF (TAGNOD(IN)==0) THEN
                           INTBUF_TAB(NI)%ADDSUBS(IS) = INTBUF_TAB(NI)%ADDSUBS(IS)+1
                           TAGNOD(IN) = 1
                         ENDIF                       
                       ENDIF
                     END DO
 C
-                    IF ((KM.EQ.0).AND.(NT19.EQ.-1)) THEN
+                    IF ((KM==0).AND.(NT19==-1)) THEN
                       CALL ANCMSG(MSGID=1198,
      .                          MSGTYPE=MSGERROR,
      .                          ANMODE=ANINFO_BLIND_1,
@@ -208,7 +208,7 @@ C
                    DO K=1,4
                      IN=IGRSURF(ISU2)%NODES(I,K)
                      IS =NOD2NSV(IN)
-                     IF(IS.NE.0.AND.TAGNOD(IN).EQ.0) THEN 
+                     IF(IS/=0.AND.TAGNOD(IN)==0) THEN 
                       INTBUF_TAB(NI)%ADDSUBS(IS) = 
      .                         INTBUF_TAB(NI)%ADDSUBS(IS)+1
                       TAGNOD(IN) = 1
@@ -225,7 +225,7 @@ C
                    DO K=1,4
                      IN=IGRSURF(ISU1)%NODES(I,K)
                      IS =NOD2NSV(IN)
-                     IF(IS.NE.0.AND.TAGNOD(IN).EQ.0) THEN 
+                     IF(IS/=0.AND.TAGNOD(IN)==0) THEN 
                       INTBUF_TAB(NI)%ADDSUBS(IS) = 
      .                         INTBUF_TAB(NI)%ADDSUBS(IS)+1
                       TAGNOD(IN) = 1
@@ -260,21 +260,21 @@ C  Secondary side : After ADRESS STORE SUBINTER in INTBUF_TAB(NI)%LISUBS
 C---------------------------------------------
          KSUB=0
          DO JSUB=1,NINTSUB
-            IF(NOM_OPT(2,NINTER+JSUB).EQ.NOINT
-     .         .AND.NOM_OPT(5,NINTER+JSUB).EQ.1)THEN
+            IF(NOM_OPT(2,NINTER+JSUB)==NOINT
+     .         .AND.NOM_OPT(5,NINTER+JSUB)==1)THEN
                KSUB=KSUB+1
 C
 C      prepare LISUBS (K31) : 
 C      LISUBS(ADDSUBS(IS):ADDSUBS(IS+1)-1) SS. INTERF CONTENANT LE ND SECOND. IS
 C
-               IF (NT19.EQ.0) THEN
+               IF (NT19==0) THEN
 C--   Interface type7
                   JGRN =NOM_OPT(4,NINTER+JSUB)
                   NNE  =IGRNOD(JGRN)%NENTITY
                   DO I=1,NNE
                     ISV=IGRNOD(JGRN)%ENTITY(I)
                     IS =NOD2NSV(ISV)
-                    IF(IS.NE.0)THEN
+                    IF(IS/=0)THEN
                       INTBUF_TAB(NI)%LISUBS(KAD(IS))=KSUB
                       KAD(IS)=KAD(IS)+1
                     END IF
@@ -282,7 +282,7 @@ C--   Interface type7
 C
                 ELSE
 C--   Interface type7 of type19 - based on input SECONDARY surface
-                  IF (NT19.EQ.-1) THEN
+                  IF (NT19==-1) THEN
                     ISU  =NOM_OPT(4,NINTER+JSUB)
                   ELSE
 C                   sym type7 of type19
@@ -295,7 +295,7 @@ C
                     DO J=1,4
                       IN = IGRSURF(ISU)%NODES(I,J)
                       IS = NOD2NSV(IN)
-                      IF ((IS.NE.0).AND.(TAGNOD(IN).EQ.0)) THEN
+                      IF ((IS/=0).AND.(TAGNOD(IN)==0)) THEN
                         INTBUF_TAB(NI)%LISUBS(KAD(IS))=KSUB
                         KAD(IS)=KAD(IS)+1
                         TAGNOD(IN) = 1                     
@@ -324,8 +324,8 @@ C
                    DO K=1,4
                      IN=IGRSURF(ISU2)%NODES(I,K)
                      IS =NOD2NSV(IN)
-                     IF (IS.NE.0)THEN
-                        IF(TAGNOD(IN).EQ.0) THEN
+                     IF (IS/=0)THEN
+                        IF(TAGNOD(IN)==0) THEN
                           INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS))=
      .                      BITSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)),0)
                           INTBUF_TAB(NI)%LISUBS(KAD(IS))=KSUB
@@ -348,8 +348,8 @@ C
                    DO K=1,4
                      IN=IGRSURF(ISU1)%NODES(I,K)
                      IS =NOD2NSV(IN)
-                     IF (IS.NE.0)THEN
-                       IF(TAGNOD(IN).EQ.0) THEN
+                     IF (IS/=0)THEN
+                       IF(TAGNOD(IN)==0) THEN
                           INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS))=
      .                      BITSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)),1)
                           INTBUF_TAB(NI)%LISUBS(KAD(IS))=KSUB
@@ -421,13 +421,13 @@ C      prepare ADDSUBM (K30) :
              CALL FRETITL2(TITR1,
      .                NOM_OPT(LNOPT1-LTITR+1,NINTER+JSUB),LTITR)
 
-             IF(NOM_OPT(2,NINTER+JSUB).EQ.NOINT
-     .           .AND.NOM_OPT(5,NINTER+JSUB).EQ.1)THEN
+             IF(NOM_OPT(2,NINTER+JSUB)==NOINT
+     .           .AND.NOM_OPT(5,NINTER+JSUB)==1)THEN
                 KSUB=KSUB+1
 C
                 TAGRTM(1:NRTM0) = 0
 C
-                IF (NT19.LT.1) THEN
+                IF (NT19<1) THEN
                   ISU  =NOM_OPT(3,NINTER+JSUB)
                 ELSE
 C                 sym type7 of type19
@@ -443,11 +443,11 @@ C
                     IM = NOD2RTM(JAD)
                     DO 100 J=1,4
                       II=IGRSURF(ISU)%NODES(I,J)
-                      IF(J.EQ.4.AND.II.EQ.0)THEN
+                      IF(J==4.AND.II==0)THEN
                         GO TO 100
                       ELSE
                         DO K=1,4
-                           IF(INTBUF_TAB(NI)%IRECTM(4*(IM-1)+K).EQ.II) GOTO 100
+                           IF(INTBUF_TAB(NI)%IRECTM(4*(IM-1)+K)==II) GOTO 100
                         END DO
                         GOTO 110
                       END IF
@@ -456,8 +456,8 @@ C
                     GO TO 120
   110             CONTINUE
   120             CONTINUE
-                  IF(KM.EQ.0)THEN
-                    IF (NT19.EQ.0) THEN
+                  IF(KM==0)THEN
+                    IF (NT19==0) THEN
                       CALL ANCMSG(MSGID=581,
      .                          MSGTYPE=MSGERROR,
      .                          ANMODE=ANINFO_BLIND_1,
@@ -468,7 +468,7 @@ C
      .                          I4=ITAB(IGRSURF(ISU)%NODES(I,3)),
      .                          I5=ITAB(IGRSURF(ISU)%NODES(I,4)),
      .                          I6=NOINT)
-                    ELSEIF (NT19.EQ.-1) THEN
+                    ELSEIF (NT19==-1) THEN
                       CALL ANCMSG(MSGID=1198,
      .                          MSGTYPE=MSGERROR,
      .                          ANMODE=ANINFO_BLIND_1,
@@ -512,9 +512,9 @@ C
                        IFNRT = 0
                        DO J=1,4
                          II=IGRSURF(ISU1)%NODES(I,J)
-                         IF(J.NE.4.OR.II.NE.0)THEN
+                         IF(J/=4.OR.II/=0)THEN
                            DO K=1,4
-                              IF(INTBUF_TAB(NI)%IRECTM(4*(IM-1)+K).EQ.II) IFNRT = IFNRT + 1
+                              IF(INTBUF_TAB(NI)%IRECTM(4*(IM-1)+K)==II) IFNRT = IFNRT + 1
                            END DO
                          ENDIF
                        ENDDO
@@ -526,7 +526,7 @@ C
 
                     ENDDO
 
-                    IF(KM.NE.0.AND.TAGRTM(KM)==0)THEN
+                    IF(KM/=0.AND.TAGRTM(KM)==0)THEN
                       INTBUF_TAB(NI)%ADDSUBM(KM)=INTBUF_TAB(NI)%ADDSUBM(KM)+1
                       TAGRTM(KM)=1
                     END IF
@@ -549,9 +549,9 @@ C
                        IFNRT = 0
                        DO J=1,4
                          II=IGRSURF(ISU2)%NODES(I,J)
-                         IF(J.NE.4.OR.II.NE.0)THEN
+                         IF(J/=4.OR.II/=0)THEN
                            DO K=1,4
-                              IF(INTBUF_TAB(NI)%IRECTM(4*(IM-1)+K).EQ.II) IFNRT = IFNRT + 1
+                              IF(INTBUF_TAB(NI)%IRECTM(4*(IM-1)+K)==II) IFNRT = IFNRT + 1
                            END DO
                          ENDIF
                        ENDDO
@@ -563,7 +563,7 @@ C
 
                     ENDDO
 
-                    IF(KM.NE.0)THEN
+                    IF(KM/=0)THEN
                       IF(TAGRTM(KM)==0)THEN
                         INTBUF_TAB(NI)%ADDSUBM(KM)=INTBUF_TAB(NI)%ADDSUBM(KM)+1
                         TAGRTM(KM)=1
@@ -597,14 +597,14 @@ C      LISUBM(ADDSUBM(IM):ADDSUBM(IM+1)-1) SS. INTERF CONTENANT LE SEG.MAIN IM
           KSUB=0
           DO JSUB=1,NINTSUB
 
-             IF(NOM_OPT(2,NINTER+JSUB).EQ.NOINT
-     .           .AND.NOM_OPT(5,NINTER+JSUB).EQ.1)THEN
+             IF(NOM_OPT(2,NINTER+JSUB)==NOINT
+     .           .AND.NOM_OPT(5,NINTER+JSUB)==1)THEN
 
                 KSUB=KSUB+1
 C
                 TAGRTM(1:NRTM0) = 0
 C
-                IF (NT19.LT.1) THEN
+                IF (NT19<1) THEN
                   ISU  =NOM_OPT(3,NINTER+JSUB)
                 ELSE
 C                 sym type7 of type19
@@ -618,11 +618,11 @@ C                 sym type7 of type19
                     IM = NOD2RTM(JAD)
                     DO 200 J=1,4
                       II=IGRSURF(ISU)%NODES(I,J)
-                      IF(J.EQ.4.AND.II.EQ.0)THEN
+                      IF(J==4.AND.II==0)THEN
                         GO TO 200
                       ELSE
                         DO K=1,4
-                          IF(INTBUF_TAB(NI)%IRECTM(4*(IM-1)+K).EQ.II) GOTO 200
+                          IF(INTBUF_TAB(NI)%IRECTM(4*(IM-1)+K)==II) GOTO 200
                         END DO
                         GOTO 210
                       END IF
@@ -631,7 +631,7 @@ C                 sym type7 of type19
                     GOTO 220
   210             CONTINUE
   220             CONTINUE
-                  IF(KM.NE.0.AND.TAGRTM(IM)==0)THEN
+                  IF(KM/=0.AND.TAGRTM(IM)==0)THEN
                     INTBUF_TAB(NI)%LISUBM(KAD(IM))=KSUB
                     KAD(IM)=KAD(IM)+1
                     TAGRTM(IM)=1
@@ -661,9 +661,9 @@ C
                       IFNRT = 0
                       DO J=1,4
                         II=IGRSURF(ISU1)%NODES(I,J)
-                        IF(J.NE.4.OR.II.NE.0)THEN
+                        IF(J/=4.OR.II/=0)THEN
                           DO K=1,4
-                             IF(INTBUF_TAB(NI)%IRECTM(4*(IM-1)+K).EQ.II) IFNRT = IFNRT + 1
+                             IF(INTBUF_TAB(NI)%IRECTM(4*(IM-1)+K)==II) IFNRT = IFNRT + 1
                           END DO
                         ENDIF
                       ENDDO
@@ -673,7 +673,7 @@ C
                       ENDIF
                     ENDDO
 
-                    IF(KM.NE.0)THEN
+                    IF(KM/=0)THEN
                       IF(TAGRTM(IM)==0)THEN
                         INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM))=
      .                    BITSET(INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM)),1)
@@ -700,9 +700,9 @@ C
                       IFNRT = 0
                       DO J=1,4
                         II=IGRSURF(ISU2)%NODES(I,J)
-                        IF(J.NE.4.OR.II.NE.0)THEN
+                        IF(J/=4.OR.II/=0)THEN
                           DO K=1,4
-                             IF(INTBUF_TAB(NI)%IRECTM(4*(IM-1)+K).EQ.II) IFNRT = IFNRT + 1
+                             IF(INTBUF_TAB(NI)%IRECTM(4*(IM-1)+K)==II) IFNRT = IFNRT + 1
                           END DO
                         ENDIF
                       ENDDO
@@ -712,7 +712,7 @@ C
                       ENDIF
                     ENDDO
 
-                    IF(KM.NE.0)THEN
+                    IF(KM/=0)THEN
                       IF(TAGRTM(IM)==0)THEN
                         INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM))=
      .                    BITSET(INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM)),0)

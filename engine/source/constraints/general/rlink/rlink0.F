@@ -67,14 +67,14 @@ C
       IDROT=ICR
       NLIK =NSN
       DO 10 I=0,NUMSKW
-      IF(ISK.NE.ISKWN(4,I+1))GOTO 10
+      IF(ISK/=ISKWN(4,I+1))GOTO 10
        ISKW=I+1
        GOTO 20
   10  CONTINUE
 C
   20  CONTINUE
 C
-      IF(IC.EQ.0)GOTO 150
+      IF(IC==0)GOTO 150
       IC1=IC/4
       ICC=IC-4*IC1
       IC2=ICC/2
@@ -87,7 +87,7 @@ C
 C
       DO I=1,NSN
         N = NOD(I)
-        IF(WEIGHT(N).EQ.1) THEN
+        IF(WEIGHT(N)==1) THEN
           F1(I)=MS(N)
           F2(I)=MS(N)*V(1,N)
           F3(I)=MS(N)*V(2,N)
@@ -112,8 +112,8 @@ C
       CALL SUM_6_FLOAT(1  ,NSN  ,F2, FRL6(2,1), 4)
       CALL SUM_6_FLOAT(1  ,NSN  ,F3, FRL6(3,1), 4)
       CALL SUM_6_FLOAT(1  ,NSN  ,F4, FRL6(4,1), 4)
-      IF(NSPMD.GT.1) THEN
-        IF(FR_RL(ISPMD+1).NE.0) THEN
+      IF(NSPMD>1) THEN
+        IF(FR_RL(ISPMD+1)/=0) THEN
           CALL SPMD_EXCH_FR6(FR_RL,FRL6,4*6)
         END IF
       END IF
@@ -145,7 +145,7 @@ C
         V(3,N) =V(3,N)-VVX*SKEW(3)-VVY*SKEW(6)-VVZ*SKEW(9)
       ENDDO
 C
-  150 IF(ICR.EQ.0)RETURN
+  150 IF(ICR==0)RETURN
       IC1=ICR/4
       ICC=ICR-4*IC1
       IC2=ICC/2
@@ -158,7 +158,7 @@ C
 C
       DO I=1,NSN
         N = NOD(I)
-        IF(WEIGHT(N).EQ.1) THEN
+        IF(WEIGHT(N)==1) THEN
           F1(I)=IN(N)
           F2(I)=IN(N)*VR(1,N)
           F3(I)=IN(N)*VR(2,N)
@@ -183,8 +183,8 @@ C
       CALL SUM_6_FLOAT(1  ,NSN  ,F2, FRL6(2,1), 4)
       CALL SUM_6_FLOAT(1  ,NSN  ,F3, FRL6(3,1), 4)
       CALL SUM_6_FLOAT(1  ,NSN  ,F4, FRL6(4,1), 4)
-      IF(NSPMD.GT.1) THEN
-        IF(FR_RL(ISPMD+1).NE.0) THEN
+      IF(NSPMD>1) THEN
+        IF(FR_RL(ISPMD+1)/=0) THEN
           CALL SPMD_EXCH_FR6(FR_RL,FRL6,4*6)
         END IF
       END IF
@@ -197,7 +197,7 @@ C
       VZ = FRL6(4,1)+FRL6(4,2)+FRL6(4,3)+
      +     FRL6(4,4)+FRL6(4,5)+FRL6(4,6)
 C
-      IF(INER.EQ.ZERO)RETURN
+      IF(INER==ZERO)RETURN
 C
       VX=VX/INER
       VY=VY/INER

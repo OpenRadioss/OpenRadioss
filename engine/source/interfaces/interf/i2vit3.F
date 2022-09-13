@@ -56,11 +56,11 @@ C     REAL
      .   H(4), SS, TT, AMX, AMY, AMZ, VMX, VMY, VMZ,SP,SM,TP,TM,MAS
 C-----------------------------------------------
       NIR=2
-      IF(N2D.EQ.0)NIR=4
+      IF(N2D==0)NIR=4
 C
       DO II=1,NSN
         I=NSV(II)
-        IF(I.GT.0)THEN
+        IF(I>0)THEN
           L=IRTL(II)
 C
           SS=CRST(1,II)
@@ -144,11 +144,11 @@ C     REAL
      .   H(4), SS, TT, AMX, AMY, AMZ, VMX, VMY, VMZ,SP,SM,TP,TM,MAS
 C-----------------------------------------------
       NIR=2
-      IF(N2D.EQ.0)NIR=4
+      IF(N2D==0)NIR=4
 C
       DO 70 II=1,NSN
        I=NSV(II)
-       IF(I.GT.0)THEN
+       IF(I>0)THEN
         L=IRTL(II)
 C
         SS=CRST(1,II)
@@ -244,7 +244,7 @@ C-----------------------------------------------
 C
       DO 70 II=1,NSN
        I=NSV(II)
-       IF(I.GT.0)THEN
+       IF(I>0)THEN
         L=IRTL(II)
 C
         SS=CRST(1,II)
@@ -350,7 +350,7 @@ C     REAL
      .   XMSI     
 C-----------------------------------------------
       NIR=2
-      IF(N2D.EQ.0)NIR=4
+      IF(N2D==0)NIR=4
 CFP (RESET MASSE MAIN)
 C      DO II=1,NSN
 C        I=NSV(II)
@@ -377,7 +377,7 @@ C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
       DO II=1,NSN
        I=NSV(II)
-       IF(I.GT.0)THEN
+       IF(I>0)THEN
         L=IRTL(II)
 C          J1=MSR(IRECT(1,L))
 C          J2=MSR(IRECT(2,L))
@@ -563,7 +563,7 @@ C
       DO 70 II=1,NSN
        I=NSV(II)
 C
-       IF(I.GT.0)THEN
+       IF(I>0)THEN
         L=IRTL(II)
 C
         SS=CRST(1,II)
@@ -766,11 +766,11 @@ C     REAL
      .   H(4), SS, TT, AMX, AMY, AMZ, VMX, VMY, VMZ,SP,SM,TP,TM,MAS
 C-----------------------------------------------
       NIR=2
-      IF(N2D.EQ.0)NIR=4
+      IF(N2D==0)NIR=4
 C
       DO II=1,NSN
         I=NSV(II)
-        IF(I.GT.0)THEN
+        IF(I>0)THEN
           L=IRTL(II)
 C
           SS=CRST(1,II)

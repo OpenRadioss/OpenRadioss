@@ -50,7 +50,7 @@ C-----------------------------------------------
      .   NSN, II(2)
 C-----------------------------------------------
 C seul le proc 0 effectue le traitement
-      IF (ISPMD.NE.0) GOTO 100
+      IF (ISPMD/=0) GOTO 100
 C
       K=0
       DO I=1,NRBYKIN

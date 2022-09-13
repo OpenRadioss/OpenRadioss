@@ -60,7 +60,7 @@ C-----------------------------------------------
       YMAX = -EP30
       ZMAX = -EP30      
 C
-c      IF (IMACH.NE.3) THEN
+c      IF (IMACH/=3) THEN
 
 c       DO N=1,NUMNOD
 c          XMIN = MIN(XMIN,(X(1,N)-D(1,N)))
@@ -74,7 +74,7 @@ c       END DO
 c      ELSE
 
        DO N=1,NUMNOD
-         IF (WEIGHT(N).EQ.1) THEN
+         IF (WEIGHT(N)==1) THEN
           XMIN = MIN(XMIN,(X(1,N)-D(1,N)))
           YMIN = MIN(YMIN,(X(2,N)-D(2,N)))
           ZMIN = MIN(ZMIN,(X(3,N)-D(3,N)))

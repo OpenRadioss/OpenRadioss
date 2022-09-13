@@ -336,7 +336,7 @@ C-------------------------------------
 C inlets, pre-computes surface of segments.
 C-------------------------------------
       DO N=1,NSPHIO
-       IF(ISPHIO(1,N).EQ.1)THEN
+       IF(ISPHIO(1,N)==1)THEN
         IVAD=ISPHIO(4,N)+5
         ISU =ISPHIO(3,N)
         NSEG=IGRSURF(ISU)%NSEG
@@ -364,7 +364,7 @@ C-------------------------------------
           NY=Z12*X13-X12*Z13
           NZ=X12*Y13-Y12*X13
           NN =SQRT(NX*NX+NY*NY+NZ*NZ)
-          IF(IN4.NE.IN3)THEN
+          IF(IN4/=IN3)THEN
            X4=X(1,IN4)
            Y4=X(2,IN4)
            Z4=X(3,IN4)
@@ -388,7 +388,7 @@ C-------------------------------------
 C inlets, outlets : necessary work space (cf engine).
 C-------------------------------------
       DO N=1,NSPHIO
-        IF(ISPHIO(12,N).EQ.0)THEN
+        IF(ISPHIO(12,N)==0)THEN
         IVAD=ISPHIO(4,N)
         ISU =ISPHIO(3,N)
         NSEG=IGRSURF(ISU)%NSEG
@@ -443,7 +443,7 @@ C-------------------------------------
           DBUCS=MAX(DBUCS,ABS(Y3-Y1))
           DBUCS=MAX(DBUCS,ABS(Z3-Z1))
           IN4=IGRSURF(ISU)%NODES(J,4)
-          IF(IN4.NE.IN3)THEN
+          IF(IN4/=IN3)THEN
            X4=X(1,IN4)
            Y4=X(2,IN4)
            Z4=X(3,IN4)
@@ -486,14 +486,14 @@ C-------------------------------------
       WRITE(IOUT,1000)
       DO N=1,NSPHIO
          IVAD=ISPHIO(4,N)
-         IF(ISPHIO(1,N).EQ.1)THEN
+         IF(ISPHIO(1,N)==1)THEN
            WRITE(IOUT,1100) ISPHIO(NISPHIO,N),
      .     IPART(4,ISPHIO(2,N)),IGRSURF(ISPHIO(3,N))%ID,
      .     ISPHIO(5,N),VSPHIO(IVAD),ISPHIO(7,N),
      .     VSPHIO(IVAD+2),ISPHIO(8,N),VSPHIO(IVAD+3)
          ELSE
-           IF(ISPHIO(1,N).EQ.2)THEN
-             IF (ISPHIO(12,N).EQ.0) THEN
+           IF(ISPHIO(1,N)==2)THEN
+             IF (ISPHIO(12,N)==0) THEN
                WRITE(IOUT,1200) ISPHIO(NISPHIO,N),
      .         IPART(4,ISPHIO(2,N)),IGRSURF(ISPHIO(3,N))%ID,
      .         ISPHIO(6,N),VSPHIO(IVAD+1),VSPHIO(IVAD+3)
@@ -501,34 +501,34 @@ C-------------------------------------
                WRITE(IOUT,1400) ISPHIO(NISPHIO,N),
      .         IPART(4,ISPHIO(2,N)),ISPHIO(6,N),VSPHIO(IVAD+1),VSPHIO(IVAD+3)
              ENDIF
-           ELSEIF(ISPHIO(1,N).EQ.3)THEN
-             IF (ISPHIO(12,N).EQ.0) THEN
+           ELSEIF(ISPHIO(1,N)==3)THEN
+             IF (ISPHIO(12,N)==0) THEN
                WRITE(IOUT,1300) ISPHIO(NISPHIO,N),
      .         IPART(4,ISPHIO(2,N)),IGRSURF(ISPHIO(3,N))%ID,VSPHIO(IVAD+3),
      .         ISPHIO(6,N),VSPHIO(IVAD+1),VSPHIO(IVAD+2)
-             ELSEIF (ISPHIO(12,N).EQ.1) THEN
+             ELSEIF (ISPHIO(12,N)==1) THEN
                WRITE(IOUT,1500) ISPHIO(NISPHIO,N),IPART(4,ISPHIO(2,N)),
      .         ISPHIO(6,N),VSPHIO(IVAD+1),VSPHIO(IVAD+2)
              ENDIF
-           ELSEIF(ISPHIO(1,N).EQ.4)THEN
-             IF (ISPHIO(12,N).EQ.0) THEN
+           ELSEIF(ISPHIO(1,N)==4)THEN
+             IF (ISPHIO(12,N)==0) THEN
                WRITE(IOUT,1600) ISPHIO(NISPHIO,N),IPART(4,ISPHIO(2,N)),
      .         IGRSURF(ISPHIO(3,N))%ID
              ELSE
                WRITE(IOUT,1700) ISPHIO(NISPHIO,N),IPART(4,ISPHIO(2,N))
              ENDIF
            ENDIF
-           IF (ISPHIO(12,N).EQ.1) THEN
+           IF (ISPHIO(12,N)==1) THEN
 C            input by coordinates
              IVAD=ISPHIO(4,N)
              WRITE(IOUT,2100) VSPHIO(IVAD+4),VSPHIO(IVAD+5),VSPHIO(IVAD+6),
      .       VSPHIO(IVAD+7),VSPHIO(IVAD+8),VSPHIO(IVAD+9),VSPHIO(IVAD+10),
      .       VSPHIO(IVAD+11),VSPHIO(IVAD+12) 
-           ELSEIF (ISPHIO(12,N).EQ.2) THEN
+           ELSEIF (ISPHIO(12,N)==2) THEN
 C            input by node ID
              WRITE(IOUT,2200) ITAB(ISPHIO(13,N)),ITAB(ISPHIO(14,N)),ITAB(ISPHIO(15,N))
            ENDIF
-           IF (VSPHIO(IVAD+15).GT.EM20) WRITE(IOUT,2300) VSPHIO(IVAD+15)
+           IF (VSPHIO(IVAD+15)>EM20) WRITE(IOUT,2300) VSPHIO(IVAD+15)
          ENDIF
       ENDDO
 C-------------------------------------

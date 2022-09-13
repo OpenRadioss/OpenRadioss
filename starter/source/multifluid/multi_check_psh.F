@@ -52,18 +52,18 @@ C-----------------------------------------------
       INTEGER :: I, II, J, MATID
 
       DO I = 1, NUMMAT
-         IF (IPM(2, I) .EQ. 151) THEN
+         IF (IPM(2, I) == 151) THEN
             MATID = IPM(21, I)
             DO J = 1, NUMMAT
-               IF (IPM(1, J) .EQ. MATID) EXIT
+               IF (IPM(1, J) == MATID) EXIT
             ENDDO
             MULTI_FVM%PRES_SHIFT = PM(88, J)
             DO II = 2, IPM(20, I)
                MATID = IPM(20 + II, I)
                DO J = 1, NUMMAT
-                  IF (IPM(1, J) .EQ. MATID) EXIT
+                  IF (IPM(1, J) == MATID) EXIT
                ENDDO
-               IF (MULTI_FVM%PRES_SHIFT .NE. PM(88, J)) THEN
+               IF (MULTI_FVM%PRES_SHIFT /= PM(88, J)) THEN
                   CALL ANCMSG(MSGID = 1626, ANMODE = ANINFO, MSGTYPE = MSGERROR,
      .                        I1=IPM(1, I),
      .                        I2=II,

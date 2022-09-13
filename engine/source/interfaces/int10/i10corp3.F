@@ -81,7 +81,7 @@ C
         DO I=1,JLT
          NI = CAND_N(I)
          L  = CAND_E(I)
-         IF(NI.GT.NSN)THEN
+         IF(NI>NSN)THEN
            NN = NI - NSN
            JLT_NEW = JLT_NEW + 1
            VXI(JLT_NEW)= VFI(NIN)%P(1,NN)

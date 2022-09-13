@@ -131,7 +131,7 @@ C-----------------------------------------
       IS_AVAILABLE = .FALSE.
       GLOB         = .FALSE.
 !
-      IF (ISIGI.EQ.-3.OR.ISIGI.EQ.-4.OR.ISIGI.EQ.-5) THEN
+      IF (ISIGI==-3.OR.ISIGI==-4.OR.ISIGI==-5) THEN
 
 
 C------------------------------------
@@ -338,7 +338,7 @@ C------------------------------------
                   CALL HM_GET_INT_ARRAY_INDEX('nb_integr',NIP,J,IS_AVAILABLE,LSUBMODEL)
                   CALL HM_GET_INT_ARRAY_INDEX('npg',NPG,J,IS_AVAILABLE,LSUBMODEL)
 !
-                  IF (NIP .EQ. 0) THEN
+                  IF (NIP == 0) THEN
                     NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
                   ELSE
                     NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*MAX(1,NPG)*6)
@@ -357,7 +357,7 @@ C------------------------------------
                     CALL HM_GET_INT_ARRAY_INDEX('nb_integr',NIP,J,IS_AVAILABLE,LSUBMODEL)
                     CALL HM_GET_INT_ARRAY_INDEX('npg',NPG,J,IS_AVAILABLE,LSUBMODEL)
 !
-                    IF (NIP .EQ. 0) THEN
+                    IF (NIP == 0) THEN
                       NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*13)
                     ELSE
                       NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*MAX(1,NPG)*8)
@@ -375,7 +375,7 @@ C------------------------------------
                     CALL HM_GET_INT_ARRAY_INDEX('nb_integr',NIP,J,IS_AVAILABLE,LSUBMODEL)
                     CALL HM_GET_INT_ARRAY_INDEX('npg',NPG,J,IS_AVAILABLE,LSUBMODEL)
 !
-                    IF (NIP .EQ. 0) THEN
+                    IF (NIP == 0) THEN
                       NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
                     ELSE
                       NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*MAX(1,NPG)*6)
@@ -435,7 +435,7 @@ C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1
                 DO J=1,NB_ELEMENTS
                   CALL HM_GET_INT_ARRAY_INDEX('nb_integr',NIP,J,IS_AVAILABLE,LSUBMODEL)
 !
-                  IF (NIP.EQ.0) THEN
+                  IF (NIP==0) THEN
                     NVAR_SHELL = MAX(NVAR_SHELL, 9)
                   ELSE
                     NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*24)
@@ -456,7 +456,7 @@ C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1
                   CALL HM_GET_INT_ARRAY_INDEX('npg',NPG,J,IS_AVAILABLE,LSUBMODEL)
                   CALL HM_GET_INT_ARRAY_INDEX('ndir',NDIR,J,IS_AVAILABLE,LSUBMODEL)
 !
-                  IF (NIP.EQ.0) THEN
+                  IF (NIP==0) THEN
                     NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
                   ELSE
                     NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*24)
@@ -475,7 +475,7 @@ C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1
                   CALL HM_GET_INT_ARRAY_INDEX('nb_integr',NIP,J,IS_AVAILABLE,LSUBMODEL)
                   CALL HM_GET_INT_ARRAY_INDEX('npg',NPG,J,IS_AVAILABLE,LSUBMODEL)
 !
-                  IF (NIP.EQ.0) THEN
+                  IF (NIP==0) THEN
                     NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
                   ELSE
                     NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*MAX(1,NPG)*6)
@@ -493,7 +493,7 @@ C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1
                   CALL HM_GET_INT_ARRAY_INDEX('npg',NPG,J,IS_AVAILABLE,LSUBMODEL)
                   CALL HM_GET_INT_ARRAY_INDEX('nvars',NUVAR,J,IS_AVAILABLE,LSUBMODEL)
 !
-                  IF (NIP.EQ.0) THEN
+                  IF (NIP==0) THEN
                     NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
                   ELSE
                     NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*24)
@@ -557,7 +557,7 @@ C------------------------------------
                   CALL HM_GET_INT_ARRAY_INDEX('nb_integr',NIP,J,IS_AVAILABLE,LSUBMODEL)
                   CALL HM_GET_INT_ARRAY_INDEX('npg',NPG,J,IS_AVAILABLE,LSUBMODEL)
 !
-                  IF (NIP .EQ. 0) THEN
+                  IF (NIP == 0) THEN
                     NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
                   ELSE
                     NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*MAX(1,NPG)*6)
@@ -577,7 +577,7 @@ C------------------------------------
                     CALL HM_GET_INT_ARRAY_INDEX('nb_integr',NIP,J,IS_AVAILABLE,LSUBMODEL)
                     CALL HM_GET_INT_ARRAY_INDEX('npg',NPG,J,IS_AVAILABLE,LSUBMODEL)
 !
-                    IF (NIP .EQ. 0) THEN
+                    IF (NIP == 0) THEN
                       NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*13)
                     ELSE
                       NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*MAX(1,NPG)*8)
@@ -596,7 +596,7 @@ C------------------------------------
                     CALL HM_GET_INT_ARRAY_INDEX('nb_integr',NIP,J,IS_AVAILABLE,LSUBMODEL)
                     CALL HM_GET_INT_ARRAY_INDEX('npg',NPG,J,IS_AVAILABLE,LSUBMODEL)
 !
-                    IF (NIP .EQ. 0) THEN
+                    IF (NIP == 0) THEN
                       NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
                     ELSE
                       NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*MAX(1,NPG)*6)
@@ -656,7 +656,7 @@ C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1
                 DO J=1,NB_ELEMENTS
                   CALL HM_GET_INT_ARRAY_INDEX('nb_integr',NIP,J,IS_AVAILABLE,LSUBMODEL)
 !
-                  IF (NIP.EQ.0) THEN
+                  IF (NIP==0) THEN
                     NVAR_SHELL = MAX(NVAR_SHELL, 9)
                   ELSE
                     NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*24)
@@ -677,7 +677,7 @@ C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1
                   CALL HM_GET_INT_ARRAY_INDEX('npg',NPG,J,IS_AVAILABLE,LSUBMODEL)
                   CALL HM_GET_INT_ARRAY_INDEX('ndir',NDIR,J,IS_AVAILABLE,LSUBMODEL)
 !
-                  IF (NIP.EQ.0) THEN
+                  IF (NIP==0) THEN
                     NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
                   ELSE
                     NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*24)
@@ -696,7 +696,7 @@ C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1
                   CALL HM_GET_INT_ARRAY_INDEX('nb_integr',NIP,J,IS_AVAILABLE,LSUBMODEL)
                   CALL HM_GET_INT_ARRAY_INDEX('npg',NPG,J,IS_AVAILABLE,LSUBMODEL)
 !
-                  IF (NIP.EQ.0) THEN
+                  IF (NIP==0) THEN
                     NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
                   ELSE
                     NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*MAX(1,NPG)*6)
@@ -714,7 +714,7 @@ C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1
                   CALL HM_GET_INT_ARRAY_INDEX('npg',NPG,J,IS_AVAILABLE,LSUBMODEL)
                   CALL HM_GET_INT_ARRAY_INDEX('nvars',NUVAR,J,IS_AVAILABLE,LSUBMODEL)
 !
-                  IF (NIP.EQ.0) THEN
+                  IF (NIP==0) THEN
                     NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
                   ELSE
                     NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*24)
@@ -949,7 +949,7 @@ C------------------------------------
 
 
 !---
-      ENDIF ! IF (ISIGI.EQ.-3.OR.ISIGI.EQ.-4.OR.ISIGI.EQ.-5)
+      ENDIF ! IF (ISIGI==-3.OR.ISIGI==-4.OR.ISIGI==-5)
 !
       RETURN
  399  CONTINUE

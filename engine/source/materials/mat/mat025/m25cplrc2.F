@@ -205,7 +205,7 @@ C
         IF (WVEC(I) > FYLD .AND. OFF(I) == ONE) COEF(I) = ONE
        WVEC(I)=ONE
        CNN=CN(I)-ONE
-       IF(WPLA(I).GT.ZERO) WVEC(I)=EPSP(I)*WPLA(I)**CNN
+       IF(WPLA(I)>ZERO) WVEC(I)=EPSP(I)*WPLA(I)**CNN
        YLD(I) = FYLD
       ENDDO
 C

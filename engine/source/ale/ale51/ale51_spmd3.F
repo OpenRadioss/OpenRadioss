@@ -105,7 +105,7 @@ C-----------------------------------------------
               DO L=1,4
                 TAG(NI(L)) = 0                    
               ENDDO
-              IF(NN.EQ.4)THEN
+              IF(NN==4)THEN
                 FLUX(K,I)=-FLUX_VOIS(IV,KK)
                 EXIT !KK
               ENDIF

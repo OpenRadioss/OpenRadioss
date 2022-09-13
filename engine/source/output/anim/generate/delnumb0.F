@@ -68,13 +68,13 @@ C
         LFT=1
         LLT=NEL
 C-----------------------------------------------
-        IF(ITY.EQ.51)THEN
+        IF(ITY==51)THEN
 C-----------------------------------------------
 C         PARTICULES SPH.
 C-----------------------------------------------
           DO I=LFT,LLT
            N = I + NFT
-           IF(EL2FA(NN1+N).NE.0)THEN
+           IF(EL2FA(NN1+N)/=0)THEN
                INUM(EL2FA(NN1+N)) = KXSP(NISP,N)
            ENDIF
           ENDDO
@@ -85,7 +85,7 @@ C-----------------------------------------------
       IF (NSPMD == 1) THEN
         CALL WRITE_I_C(INUM,NBF)
       ELSE
-        IF (ISPMD.EQ.0) THEN
+        IF (ISPMD==0) THEN
           BUF = NUMSPHG
         ELSE 
           BUF = 1

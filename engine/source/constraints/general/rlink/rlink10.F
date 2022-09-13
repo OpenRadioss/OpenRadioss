@@ -76,7 +76,7 @@ C boucle parallele sur les threads SMP
             K1=4*N-3
             K = KIND(N)
             ISK=NLINK(K1+3)
-            IF(ISK.EQ.1)THEN
+            IF(ISK==1)THEN
               CALL RLINK1(
      1          MS         ,IN         ,A       ,AR    ,NLINK(K1) ,
      2          NLINK(K1+1),NLINK(K1+2),LLINK(K),WEIGHT,FRL6(1,1,N),
@@ -97,7 +97,7 @@ C routine appelee rlink par rlink a optimiser si besoin
 
             DO N=1,NRLINK
 C routine de calcul Parith/ON de A AR MS IN rigid link
-              IF(FR_RL(ISPMD+1,N).NE.0)
+              IF(FR_RL(ISPMD+1,N)/=0)
      +          CALL SPMD_EXCH_FR6(FR_RL(1,N),FRL6(1,1,N),15*6)
             END DO
 
@@ -113,7 +113,7 @@ c            DO I=1,N-1
 c              K=K+NLINK(4*I-3)
 c            ENDDO
             ISK=NLINK(K1+3)
-            IF(ISK.EQ.1)THEN
+            IF(ISK==1)THEN
               CALL RLINK1(
      1          MS         ,IN         ,A       ,AR    ,NLINK(K1) ,
      2          NLINK(K1+1),NLINK(K1+2),LLINK(K),WEIGHT,FRL6(1,1,N),
@@ -194,12 +194,12 @@ c            ENDDO
             IPOL=NNLINK(6,N)
             K = KIND(N)
             IPOL=NNLINK(6,N)
-            IF(IPOL.EQ.1)THEN
+            IF(IPOL==1)THEN
                CALL RLINK3(
      1      MS       ,IN           ,X          ,A          ,AR         ,
      2      V        ,VR           ,NNLINK(1,N),NNLINK(3,N),NNLINK(4,N),
      3      LLLINK(K),XFRAME(1,ISK),WEIGHT     ,FRL6(1,1,N),1          )
-            ELSEIF(ISK.EQ.1)THEN
+            ELSEIF(ISK==1)THEN
                CALL RLINK1(
      1      MS         ,IN         ,A        ,AR     ,NNLINK(1,N),
      2      NNLINK(3,N),NNLINK(4,N),LLLINK(K),WEIGHT ,FRL6(1,1,N),
@@ -220,7 +220,7 @@ C routine appelee rlink par rlink a optimiser si besoin
 
             DO N=1,NLINK
 C routine de calcul Parith/ON de A AR MS IN rigid link
-              IF(FR_LL(ISPMD+1,N).NE.0)
+              IF(FR_LL(ISPMD+1,N)/=0)
      +          CALL SPMD_EXCH_FR6(FR_LL(1,N),FRL6(1,1,N),15*6)
             END DO
 
@@ -234,12 +234,12 @@ C boucle parallele sur les threads SMP
             IPOL=NNLINK(6,N)
             K = KIND(N)
             IPOL=NNLINK(6,N)
-            IF(IPOL.EQ.1)THEN
+            IF(IPOL==1)THEN
                CALL RLINK3(
      1      MS       ,IN           ,X          ,A          ,AR         ,
      2      V        ,VR           ,NNLINK(1,N),NNLINK(3,N),NNLINK(4,N),
      3      LLLINK(K),XFRAME(1,ISK),WEIGHT     ,FRL6(1,1,N),2          )
-            ELSEIF(ISK.EQ.1)THEN
+            ELSEIF(ISK==1)THEN
               CALL RLINK1(
      1      MS         ,IN         ,A        ,AR     ,NNLINK(1,N),
      2      NNLINK(3,N),NNLINK(4,N),LLLINK(K),WEIGHT ,FRL6(1,1,N),
@@ -369,7 +369,7 @@ C-----------------------------------------------------------------------
         V(1,N) = RX * AX + RY * AY + RZ * AZ
         V(2,N) = SX * AX + SY * AY + SZ * AZ
         V(3,N) = (TX * AX + TY * AY + TZ * AZ) / R
-        IF(IRODDL.NE.0)THEN
+        IF(IRODDL/=0)THEN
           AX = AR(1,N)
           AY = AR(2,N)
           AZ = AR(3,N)
@@ -383,7 +383,7 @@ C-----------------------------------------------------------------------
           VR(2,N) = SX * AX + SY * AY + SZ * AZ
           VR(3,N) = TX * AX + TY * AY + TZ * AZ
         ENDIF
-        IF(WEIGHT(N).EQ.1) THEN
+        IF(WEIGHT(N)==1) THEN
           F1(I) = R*R*MS(N)
           F2(I) = R*R*MS(N)*V(3,N)
           F3(I) = R*R*MS(N)*A(3,N)
@@ -397,7 +397,7 @@ c          ATMR2 = ATMR2 + R*R*MS(N)*A(3,N)
         ENDIF
        ENDDO
 C
-       IF(IC.NE.0)THEN
+       IF(IC/=0)THEN
 C
 C Traitement Parith/ON avant echange
 C
@@ -415,7 +415,7 @@ C-----------------------------------------------------------------------
         MASS=ZERO
         DO I=1,NSN
           N = NOD(I)
-          IF(WEIGHT(N).EQ.1) THEN
+          IF(WEIGHT(N)==1) THEN
             F1(I)=MS(N)
             F2(I)=MS(N)*A(1,N)
             F3(I)=MS(N)*A(2,N)
@@ -441,7 +441,7 @@ C
 C-----------------------------------------------------------------------
 C     DDL de rotation
 C-----------------------------------------------------------------------
-       IF(IRODDL.NE.0.AND.ICR.NE.0)THEN
+       IF(IRODDL/=0.AND.ICR/=0)THEN
 C-----------------------------------------------------------------------
 C       inertie quantite de mouvement
 C-----------------------------------------------------------------------
@@ -455,7 +455,7 @@ c        INER=ZERO
 C
         DO I=1,NSN
           N = NOD(I)
-          IF(WEIGHT(N).EQ.1) THEN
+          IF(WEIGHT(N)==1) THEN
             F1(I)=IN(N)
             F2(I)=IN(N)*AR(1,N)
             F3(I)=IN(N)*AR(2,N)
@@ -490,7 +490,7 @@ C
        OY = XFRAME(11)
        OZ = XFRAME(12)
 C
-       IF(IC.NE.0)THEN
+       IF(IC/=0)THEN
          IC1=IC/4
          ICC=IC-4*IC1
          IC2=ICC/2
@@ -537,7 +537,7 @@ C
 C-----------------------------------------------------------------------
 C     DDL de rotation
 C-----------------------------------------------------------------------
-       IF(IRODDL.NE.0.AND.ICR.NE.0)THEN
+       IF(IRODDL/=0.AND.ICR/=0)THEN
          IC1=ICR/4
          ICC=ICR-4*IC1
          IC2=ICC/2
@@ -557,7 +557,7 @@ C
      +         FRL6(14,4)+FRL6(14,5)+FRL6(14,6)
          VZ  = FRL6(15,1)+FRL6(15,2)+FRL6(15,3)+
      +         FRL6(15,4)+FRL6(15,5)+FRL6(15,6)
-         IF(INER.NE.ZERO)THEN
+         IF(INER/=ZERO)THEN
            AX=AX/INER
            AY=AY/INER
            AZ=AZ/INER
@@ -615,7 +615,7 @@ C-----------------------------------------------------------------------
         V(1,N) = AX
         V(2,N) = AY
         V(3,N) = AZ
-        IF(IRODDL.NE.0)THEN
+        IF(IRODDL/=0)THEN
           AX = RX * AR(1,N) + SX * AR(2,N) + TX * AR(3,N)
           AY = RY * AR(1,N) + SY * AR(2,N) + TY * AR(3,N)
           AZ = RZ * AR(1,N) + SZ * AR(2,N) + TZ * AR(3,N)

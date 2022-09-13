@@ -61,14 +61,14 @@ C
          NN2_L=0
          DO I=1,NN1
             II=NODLOCAL(EIGIBUF(IADB+I))
-            IF (II.NE.0) THEN
+            IF (II/=0) THEN
                NN1_L=NN1_L+1
                EIGIBUF_L(IADB_L+NN1_L)=II
             ENDIF
          ENDDO
          DO I=1,NN2
             II=NODLOCAL(EIGIBUF(IADB+NN1+I))
-            IF (II.NE.0) THEN
+            IF (II/=0) THEN
                NN2_L=NN2_L+1
                EIGIBUF_L(IADB_L+NN1_L+NN2_L)=II
             ENDIF

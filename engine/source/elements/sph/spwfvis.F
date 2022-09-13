@@ -72,7 +72,7 @@ C=======================================================================
       DT05=HALF*DT2
       DO NS=1,NSPHACT
         N=WASPACT(NS)
-        IF (KXSP(2,N).GT.0)THEN
+        IF (KXSP(2,N)>0)THEN
 C         pour sorties par cellule.
           SPBUF(10,N)=SPBUF(10,N)+DT05*SPBUF(11,N)
 C         le travail des forces de viscosite artificielle est 

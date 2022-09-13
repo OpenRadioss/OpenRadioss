@@ -58,12 +58,12 @@ C
       LEN=0
       DO 10 IC=1,NCUTS
       ITYP=ICUT(1,IC)
-      IF(ITYP.EQ.1)THEN
+      IF(ITYP==1)THEN
        DD=DTANIM*XCUT(7,IC)
        XCUT(1,IC)=XCUT(1,IC)+DD*XCUT(4,IC)
        XCUT(2,IC)=XCUT(2,IC)+DD*XCUT(5,IC)
        XCUT(3,IC)=XCUT(3,IC)+DD*XCUT(6,IC)   
-      ELSEIF(ITYP.EQ.3)THEN
+      ELSEIF(ITYP==3)THEN
        XCUT(1,IC)=XYZ0(1,ICUT(2,IC))
        XCUT(2,IC)=XYZ0(2,ICUT(2,IC))
        XCUT(3,IC)=XYZ0(3,ICUT(2,IC))
@@ -77,7 +77,7 @@ C
        VNY=DZ1*DX2-DZ2*DX1
        VNZ=DX1*DY2-DX2*DY1
        DD=SQRT(VNX**2+VNY**2+VNZ**2)
-       IF(DD.GT.EM10)THEN
+       IF(DD>EM10)THEN
          XCUT(4,IC)=VNX/DD
          XCUT(5,IC)=VNY/DD
          XCUT(6,IC)=VNZ/DD
@@ -95,7 +95,7 @@ C
           X=XYZ0(1,K)
           Y=XYZ0(2,K)
           Z=XYZ0(3,K)
-          IF(ITYP.EQ.2)THEN
+          IF(ITYP==2)THEN
             X=X-D(1,K)
             Y=Y-D(2,K)
             Z=Z-D(3,K)
@@ -103,7 +103,7 @@ C
           DIST=X*XCUT(4,IC)+Y*XCUT(5,IC)+Z*XCUT(6,IC)-DIST0
           DISTMIN=MIN(DIST,DISTMIN)
  110      DISTMAX=MAX(DIST,DISTMAX)
-        IF(DISTMIN*DISTMAX.LE. ZERO)LEN=LEN+1
+        IF(DISTMIN*DISTMAX<= ZERO)LEN=LEN+1
  100  CONTINUE
 C
   10  CONTINUE

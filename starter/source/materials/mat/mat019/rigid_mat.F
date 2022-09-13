@@ -115,7 +115,7 @@ C-----CDG DES NOEUDS SECONDS
          ENDDO
         
 C
-          IF(MASRB.LE.EM30) THEN
+          IF(MASRB<=EM30) THEN
 c            CALL ANSTCKI(RBYID)
             CALL ANCMSG(MSGID=679,
      .                  MSGTYPE=MSGERROR,
@@ -178,8 +178,8 @@ c          ELSE
             INMIN = MIN(RBY(10),RBY(11),RBY(12))
 c          ENDIF
 cc          WRITE(IOUT,1400) RBY(10),RBY(11),RBY(12)
-          IF(RBY(10).GE.RBY(11).AND.RBY(10).GE.RBY(12))THEN
-            IF(RBY(10).GT.(RBY(11)+RBY(12))*TOL)THEN
+          IF(RBY(10)>=RBY(11).AND.RBY(10)>=RBY(12))THEN
+            IF(RBY(10)>(RBY(11)+RBY(12))*TOL)THEN
              CALL ANCMSG(MSGID=542,
      .                   MSGTYPE=MSGWARNING,
      .                   ANMODE=ANINFO_BLIND_1,
@@ -189,8 +189,8 @@ cc          WRITE(IOUT,1400) RBY(10),RBY(11),RBY(12)
      .                   R2=RBY(11),
      .                   R3=RBY(12))
             ENDIF
-          ELSEIF(RBY(11).GE.RBY(10).AND.RBY(11).GE.RBY(12))THEN
-            IF(RBY(11).GT.(RBY(10)+RBY(12))*TOL)THEN
+          ELSEIF(RBY(11)>=RBY(10).AND.RBY(11)>=RBY(12))THEN
+            IF(RBY(11)>(RBY(10)+RBY(12))*TOL)THEN
              CALL ANCMSG(MSGID=542,
      .                   MSGTYPE=MSGWARNING,
      .                   ANMODE=ANINFO_BLIND_1,
@@ -200,8 +200,8 @@ cc          WRITE(IOUT,1400) RBY(10),RBY(11),RBY(12)
      .                   R2=RBY(10),
      .                   R3=RBY(12))
             ENDIF
-          ELSEIF(RBY(12).GE.RBY(10).AND.RBY(12).GE.RBY(11))THEN
-            IF(RBY(12).GT.(RBY(10)+RBY(11))*TOL)THEN
+          ELSEIF(RBY(12)>=RBY(10).AND.RBY(12)>=RBY(11))THEN
+            IF(RBY(12)>(RBY(10)+RBY(11))*TOL)THEN
              CALL ANCMSG(MSGID=542,
      .                   MSGTYPE=MSGWARNING,
      .                   ANMODE=ANINFO_BLIND_1,
@@ -212,14 +212,14 @@ cc          WRITE(IOUT,1400) RBY(10),RBY(11),RBY(12)
      .                   R3=RBY(11))
             ENDIF
           ENDIF
-          IF(INMIN.LE.0.0)THEN
+          IF(INMIN<=0.0)THEN
 C             CALL ANSTCKI(RBYID)
              CALL ANCMSG(MSGID=274,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO_BLIND_1,
      .                   I1=ID,
      .                   C1=TITR)
-          ELSEIF(INMIN.LE.1.E-10*MAX(RBY(10),RBY(11),RBY(12)))THEN
+          ELSEIF(INMIN<=1.E-10*MAX(RBY(10),RBY(11),RBY(12)))THEN
 c             CALL ANSTCKI(RBYID)
              CALL ANCMSG(MSGID=275,
      .                   MSGTYPE=MSGWARNING,

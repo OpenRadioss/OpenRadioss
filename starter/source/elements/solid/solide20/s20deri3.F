@@ -344,7 +344,7 @@ C
         DET(I) = DETDP
         VOLDP(I) = W * DET(I)
         VOL(I) = VOLDP(I)
-        IF(VOL(I).LE.ZERO)THEN
+        IF(VOL(I)<=ZERO)THEN
          CALL ANCMSG(MSGID=484,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -353,7 +353,7 @@ C
 C
       ENDDO
 C
-C      IF(IDTMIN(1).EQ.1)THEN
+C      IF(IDTMIN(1)==1)THEN
 C ...
 C      ENDIF
 C
@@ -448,7 +448,7 @@ C
 C
 C
 C
-      IF(IP.EQ.1)THEN
+      IF(IP==1)THEN
         DO N=1,20
           DO I=LFT,LLT
             UL(I,N) = ZERO
@@ -469,7 +469,7 @@ C
           VOLG(I) = VOLG(I) + VOL(I)
       ENDDO
 C
-      IF(IP.EQ.NIP)THEN
+      IF(IP==NIP)THEN
        DO I=LFT,LLT
         AA = MAX(UL(I,1),UL(I,2),UL(I,3),UL(I,4),
      .           UL(I,5),UL(I,6),UL(I,7),UL(I,8))

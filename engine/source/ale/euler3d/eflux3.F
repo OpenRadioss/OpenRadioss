@@ -206,9 +206,9 @@ C-----------------------------------------------
       !INTERFACE 22 ONLY - OUTPUT---------------! OBSOLETE
       IF(INT22>0)THEN
         debug_outp = .false.
-        if(ibug22_flux.ne.0)then
+        if(ibug22_flux/=0)then
           debug_outp = .false.
-          if(ibug22_flux.GT.0)then
+          if(ibug22_flux>0)then
             do i=lft,llt
               if(ixs(11,I+nft) == ibug22_flux)then
                 if(tag22(i)==zero)then

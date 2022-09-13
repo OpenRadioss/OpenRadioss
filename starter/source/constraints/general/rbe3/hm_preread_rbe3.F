@@ -96,13 +96,13 @@ CC
       LNUM  = 0
       LREAL  = 0
       NRB = 0
-      IF (NRBE3.EQ.0) RETURN
+      IF (NRBE3==0) RETURN
 C
       DO I=1,NRBE3
         NRB=NRB+1
 C----------Multidomaines --> on ignore les rbe3 non tages---------
-        IF(NSUBDOM.GT.0)THEN
-          IF(TAGRB3(NRB).EQ.0)CALL HM_SZ_R2R(TAGRB3,NRB,LSUBMODEL)
+        IF(NSUBDOM>0)THEN
+          IF(TAGRB3(NRB)==0)CALL HM_SZ_R2R(TAGRB3,NRB,LSUBMODEL)
         END IF
 C--------------------------------------------------
 C EXTRACT DATAS OF /RBE3/... LINE

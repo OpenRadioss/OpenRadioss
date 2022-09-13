@@ -58,10 +58,10 @@ C-----------------------------------------------
       EXTERNAL TRACE_PILE
       INTEGER NIVEAU_PILE
 C-----------------------------------------------
-      IF(ITRACE.NE.1)RETURN
+      IF(ITRACE/=1)RETURN
       WRITE(LINE1,'(A)')MY_CHAR(1:MIN(ILEN,ncharline))
       NIVEAU_PILE = TRACE_PILE(1)
-      IF(NIVEAU_PILE.GE.NIVEAU_MAX)THEN
+      IF(NIVEAU_PILE>=NIVEAU_MAX)THEN
         WRITE(IOUT,'(A)')
      .' +=============================================================+'
         WRITE(IOUT,'(A,A)')
@@ -300,14 +300,14 @@ c      1234567890123456789012345678901234567890
      1   1, 1, 1, 1, 1,
      .   1, 1, 1, 1/
 C-----------------------------------------------
-      IF(ITRACE.NE.1)RETURN
+      IF(ITRACE/=1)RETURN
       NIVEAU_PILE = TRACE_PILE(1)
-      IF(NIVEAU_PILE.GE.NIVEAU_MAX-1)THEN
+      IF(NIVEAU_PILE>=NIVEAU_MAX-1)THEN
          CALL TRACE_PRINT(LINE1,-2,1)
          RETURN
       ENDIF
 C-----------------------------------------------
-      IF(NSUB.LE.0.OR.NSUB.GT. NSUB_MAX )THEN
+      IF(NSUB<=0.OR.NSUB> NSUB_MAX )THEN
           LINE1=' ?????? '  
       ELSE
         GOTO(1,2,3)TYP(NSUB)
@@ -355,7 +355,7 @@ C-----------------------------------------------
       EXTERNAL TRACE_PILE
       INTEGER NIVEAU_PILE
 C-----------------------------------------------
-      IF(ITRACE.NE.1)RETURN
+      IF(ITRACE/=1)RETURN
       LINE1(1:ncharline)=' '
       CALL TRACE_PRINT(LINE1,NSUB,-1)
       NIVEAU_PILE = TRACE_PILE(-1)
@@ -393,10 +393,10 @@ C-----------------------------------------------
       CHARACTER(LEN=ncharline) :: LINE1
 C-----------------------------------------------
       LINE1(1:ncharline)=' '
-      IF(ITRACE.NE.1)RETURN
+      IF(ITRACE/=1)RETURN
       NIVEAU_PILE = TRACE_PILE(-1)
       NSUB=TRACE_PILE(0)
-      IF (NIVEAU_PILE.LT.0) THEN
+      IF (NIVEAU_PILE<0) THEN
         WRITE(IOUT,'(A)')
      .' +=============================================================+'
         WRITE(IOUT,'(A)')
@@ -531,7 +531,7 @@ C-----------------------------------------------
 c            123456789012345678901234567890
       NIVEAU_PILE = TRACE_PILE(0)
 C
-      IF(IW.EQ.0) THEN
+      IF(IW==0) THEN
 C------------------------------------------------------------------------
 C       Ajout d'une ligne a TEXT (1 ou plusieurs X par descente de pile)
 C------------------------------------------------------------------------
@@ -539,11 +539,11 @@ C------------------------------------------------------------------------
         TEXT(NIVEAU_PILE)(NIVEAU_PILE+1:ncharline)=
      .            LINE1(1:ncharline-NIVEAU_PILE)
         CHECK_PILE(NIVEAU_PILE) = NS_SIGNAL
-      ELSEIF(IW.EQ.-1) THEN
+      ELSEIF(IW==-1) THEN
 C------------------------------------------
 C       remonte de pile 
 C------------------------------------------
-        IF(NS_SIGNAL.EQ.CHECK_PILE(NIVEAU_PILE))THEN
+        IF(NS_SIGNAL==CHECK_PILE(NIVEAU_PILE))THEN
           TEXT(NIVEAU_PILE+1)=BLANC
         ELSE
           NS_SIGNAL = -1
@@ -551,29 +551,29 @@ C------------------------------------------
         ENDIF
       ENDIF
 C
-      IF(IW.GT.0) THEN
+      IF(IW>0) THEN
 C------------------------------------------
 C       Ecriture du Trace Back et Arret
 C------------------------------------------
-        IF(NIVEAU_PILE.LE.0)CALL MY_EXIT(3)
+        IF(NIVEAU_PILE<=0)CALL MY_EXIT(3)
 C
         WRITE(IOUT,'(A)')
      .' +=============================================================+'
         WRITE(IOUT,'(A)')
      .' |     ABNORMAL END                                            |'
-        IF(NS_SIGNAL.EQ.-1)THEN
+        IF(NS_SIGNAL==-1)THEN
           WRITE(IOUT,'(A)')
      .' |          Trace back error (pile)                            |'
-        ELSEIF(NS_SIGNAL.EQ.-2)THEN
+        ELSEIF(NS_SIGNAL==-2)THEN
           WRITE(IOUT,'(A)')
      .' |          Trace back error (pile level)                      |'
-        ELSEIF(NS_SIGNAL.EQ.1)THEN
+        ELSEIF(NS_SIGNAL==1)THEN
           WRITE(IOUT,'(A)')
      .' |          Bus Error                                          |'
-        ELSEIF(NS_SIGNAL.EQ.2)THEN
+        ELSEIF(NS_SIGNAL==2)THEN
           WRITE(IOUT,'(A)')
      .' |          Floating Point Exception                           |'
-        ELSEIF(NS_SIGNAL.EQ.3)THEN
+        ELSEIF(NS_SIGNAL==3)THEN
           WRITE(IOUT,'(A)')
      .' |          Segmentation Violation                             |'
         ENDIF

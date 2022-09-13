@@ -460,10 +460,10 @@ C
 C------------------------------
 C       8: /inibri/stres/full
 C------------------------------
-      IF (STAT_S(4).EQ.1 .OR. STAT_S(8).EQ.1) THEN
+      IF (STAT_S(4)==1 .OR. STAT_S(8)==1) THEN
         DO NG=1,NGROUP
           ITY	   =IPARG(5,NG)
-          IF(ITY.EQ.1) THEN
+          IF(ITY==1) THEN
             NEL	   =IPARG(2,NG)
             NLAY = ELBUF_TAB(NG)%NLAY
             NPTR = ELBUF_TAB(NG)%NPTR
@@ -486,10 +486,10 @@ c
 C------------------------------
 C       9: /inibri/strai/full
 C------------------------------
-      IF (STAT_S(5).EQ.1 .OR. STAT_S(9).EQ.1) THEN
+      IF (STAT_S(5)==1 .OR. STAT_S(9)==1) THEN
         DO NG=1,NGROUP
           ITY	 =IPARG(5,NG)
-          IF(ITY.EQ.1) THEN
+          IF(ITY==1) THEN
             NEL	 =IPARG(2,NG)
             NLAY = ELBUF_TAB(NG)%NLAY
             NPTR = ELBUF_TAB(NG)%NPTR
@@ -513,10 +513,10 @@ c
 C------------------------------
 C      10: /inibri/aux/full
 C------------------------------
-      IF (STAT_S(6).EQ.1) THEN
+      IF (STAT_S(6)==1) THEN
         DO NG=1,NGROUP
           ITY =IPARG(5,NG)
-          IF(ITY.EQ.1) THEN
+          IF(ITY==1) THEN
             NEL	 =IPARG(2,NG)
             NFT	 =IPARG(3,NG)
             NLAY = ELBUF_TAB(NG)%NLAY
@@ -544,10 +544,10 @@ c
 C------------------------------
 C      11: /inibri/ortho
 C------------------------------
-      IF (STAT_S(7).EQ.1.OR.STAT_S(10).EQ.1) THEN
+      IF (STAT_S(7)==1.OR.STAT_S(10)==1) THEN
         DO NG=1,NGROUP
           ITY =IPARG(5,NG)
-          IF(ITY.EQ.1) THEN
+          IF(ITY==1) THEN
             NEL	 =IPARG(2,NG)
             NLAY = ELBUF_TAB(NG)%NLAY
             NPTR = ELBUF_TAB(NG)%NPTR
@@ -571,7 +571,7 @@ c
 C------------------------------
 C      12: /inibri/fail
 C------------------------------
-      IF (STAT_S(11).EQ.1) THEN
+      IF (STAT_S(11)==1) THEN
         NVARF = 0
         NFAIL = 0
         DO NG=1,NGROUP
@@ -587,7 +587,7 @@ C------------------------------
 !
         DO NG=1,NGROUP
           ITY =IPARG(5,NG)
-          IF(ITY.EQ.1) THEN
+          IF(ITY==1) THEN
             NEL	 =IPARG(2,NG)
             NFT	 =IPARG(3,NG)
             NLAY = ELBUF_TAB(NG)%NLAY
@@ -757,12 +757,12 @@ C------------------------------
 C------------------------------
 C      17: /inibri/eref
 C------------------------------
-      IF (STAT_S(13).EQ.1) THEN
+      IF (STAT_S(13)==1) THEN
         DO NG=1,NGROUP
           ITY	 =IPARG(5,NG)
           ISOLNOD=IPARG(28,NG)
           ISMSTR =IPARG(9,NG)
-          IF(ITY.EQ.1) THEN
+          IF(ITY==1) THEN
             NEL	 =IPARG(2,NG)
 c
             WASZ2 = WASZ2 + NEL * 6

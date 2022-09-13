@@ -143,7 +143,7 @@ C-----------------------------------------------
         !    SPMD EXCHANGE OF ADJACENT ELEMS 
         !--------------------
         LENCOM = NERCVOIS(NSPMD+1)+NESDVOIS(NSPMD+1)
-        IF (NSPMD.GT.1) THEN
+        IF (NSPMD>1) THEN
           ! Partie non parallele smt
           CALL SPMD_E1VOIS(WA_L     ,NERCVOIS,NESDVOIS,LERCVOIS,
      2                     LESDVOIS,LENCOM  )
@@ -151,9 +151,9 @@ C-----------------------------------------------
         END IF    
         !In Case of Inter12, additional surface adjacent elems must beaken into account (3D only)        
         IOFF = 0
-        IF(NSEGFLU.GT.0)THEN
+        IF(NSEGFLU>0)THEN
           IOFF = NUMELS
-          IF(NSPMD.GT.1) THEN
+          IF(NSPMD>1) THEN
             IOFF = IOFF + NSVOIS
           ENDIF
         ENDIF           
@@ -192,7 +192,7 @@ C-----------
            IF (IFUNC == 1 .AND. GBUF%G_PLA > 0) THEN
              DO I=LFT,LLT
                N = I + NFT
-               IF (EL2FA(NN1+N).NE.0) THEN
+               IF (EL2FA(NN1+N)/=0) THEN
                  FUNC(EL2FA(NN1+N)) = GBUF%PLA(I)
                ENDIF
              ENDDO
@@ -225,7 +225,7 @@ c-----------
            ELSEIF(IFUNC == 6 .OR. IFUNC == 7)THEN
             DO I=LFT,LLT
              N = I + NFT
-             IF(EL2FA(NN1+N).NE.0)THEN
+             IF(EL2FA(NN1+N)/=0)THEN
                 P = - (GBUF%SIG(II(1) + I)                
      .               + GBUF%SIG(II(2) + I)                
      .               + GBUF%SIG(II(3) + I) ) * THIRD
@@ -245,11 +245,11 @@ c-----------
              ENDIF
             ENDDO
 c-----------
-           ELSEIF(IFUNC == 8 .AND. JTURB.NE.0)THEN
+           ELSEIF(IFUNC == 8 .AND. JTURB/=0)THEN
 C           ENERGIE TURBULENTE
             DO I=LFT,LLT
              NN = EL2FA(NN1 + I + NFT)
-             IF(NN.NE.0)THEN
+             IF(NN/=0)THEN
                FUNC(NN) = GBUF%RK(I)
              ENDIF
             ENDDO
@@ -259,8 +259,8 @@ C           VISCOSITE TURBULENTE
             DO I=LFT,LLT
              N = I + NFT
              NN = EL2FA(NN1 + I + NFT)
-             IF(NN.NE.0)THEN
-               IF(MLW == 6.AND.JTURB.NE.0)THEN
+             IF(NN/=0)THEN
+               IF(MLW == 6.AND.JTURB/=0)THEN
                  IPRT=IPARTSP(N)
                  MT  =IPART(1,IPRT)
                  VALUE = PM(81,MT)*GBUF%RK(I)**2 / MAX(EM15,GBUF%RE(I))
@@ -275,7 +275,7 @@ c-----------
 C           VORTICITE
             DO I=LFT,LLT
              NN = EL2FA(NN1 + I + NFT)
-             IF(NN.NE.0)THEN
+             IF(NN/=0)THEN
                IF(MLW == 6 .OR. MLW == 17)THEN
                  VALUE = LBUF%VK(I)
                ELSEIF(MLW == 46 .OR. MLW == 47)THEN
@@ -295,19 +295,19 @@ C            dam 1 2 3
                FUNC(EL2FA(NN1+N)) = LBUF%DAM(II(IFUNC-10) + I)
              ENDDO
 c-----------
-           ELSEIF(IFUNC.GE.14.AND.IFUNC.LE.19)THEN
+           ELSEIF(IFUNC>=14.AND.IFUNC<=19)THEN
             DO I=LFT,LLT
               N = I + NFT
-              IF(EL2FA(NN1+N).NE.0)THEN
+              IF(EL2FA(NN1+N)/=0)THEN
                 FUNC(EL2FA(NN1+N)) = GBUF%SIG(II(IFUNC-13) + I)
               ENDIF
             ENDDO
 c-----------
-           ELSEIF(IFUNC.GE.20.AND.IFUNC.LE.24)THEN
+           ELSEIF(IFUNC>=20.AND.IFUNC<=24)THEN
             IUS = IFUNC - 20                               
             DO I=LFT,LLT
              N = I + NFT
-             IF(EL2FA(NN1+N).NE.0)THEN
+             IF(EL2FA(NN1+N)/=0)THEN
                IF ( (IUS + 1) < NUVAR) THEN
                  VALUE = MBUF%VAR(I+IUS*NEL)
                ELSE
@@ -320,7 +320,7 @@ c-----------
             ELSEIF(IFUNC == 25)THEN
              DO I=LFT,LLT
               N = I + NFT
-              IF(EL2FA(NN1+N).NE.0)THEN
+              IF(EL2FA(NN1+N)/=0)THEN
 C                 FUNC(EL2FA(NN1+N)) = EHOUR(N)
                   VALUE=0.
                   FUNC(EL2FA(NN1+N)) = VALUE
@@ -390,7 +390,7 @@ c-----------
            ELSEIF(IFUNC == 4930 )THEN   !/ANIM/ELEM/TDET
             DO I=LFT,LLT
              N = I + NFT
-             IF(EL2FA(NN1+N).NE.0)THEN
+             IF(EL2FA(NN1+N)/=0)THEN
                 FUNC(EL2FA(NN1+N)) = -GBUF%TB(I)
              ENDIF
             ENDDO    
@@ -398,53 +398,53 @@ c-----------
             IF(GBUF%G_DT>0)THEN
               DO I=LFT,LLT
                N = I + NFT
-               IF(EL2FA(NN1+N).NE.0)THEN
+               IF(EL2FA(NN1+N)/=0)THEN
                   FUNC(EL2FA(NN1+N)) = GBUF%DT(I)
                ENDIF
               ENDDO
             ENDIF   
 c-----------
-           ELSEIF(IFUNC.GE.4938 .AND. IFUNC.LE.4944)THEN  
+           ELSEIF(IFUNC>=4938 .AND. IFUNC<=4944)THEN  
              IF(GBUF%G_MOM>0 )THEN
-               IF(IFUNC.GE.4938.AND.IFUNC.LE.4940)THEN
+               IF(IFUNC>=4938.AND.IFUNC<=4940)THEN
                  DO I=LFT,LLT
                   N = I + NFT
-                  IF(EL2FA(NN1+N).NE.0)THEN
+                  IF(EL2FA(NN1+N)/=0)THEN
                      FUNC(EL2FA(NN1+N)) =        GBUF%MOM( II((IFUNC-4937) + I ) ) 
                   ENDIF
                  ENDDO
-               ELSEIF(IFUNC.EQ.4941)THEN
+               ELSEIF(IFUNC==4941)THEN
                  DO I=LFT,LLT
                   N     = I + NFT
 !                  IAD0  = (I-1)*3
-                  IF(EL2FA(NN1+N).NE.0)THEN
+                  IF(EL2FA(NN1+N)/=0)THEN
                      FUNC(EL2FA(NN1+N)) = SQRT( GBUF%MOM(II(1) + I)+GBUF%MOM(II(1) + I) 
      +                                         +GBUF%MOM(II(2) + I)+GBUF%MOM(II(2) + I) )  
                   ENDIF
                  ENDDO 
-               ELSEIF(IFUNC.EQ.4942)THEN
+               ELSEIF(IFUNC==4942)THEN
                  DO I=LFT,LLT
                   N     = I + NFT
 !                  IAD0  = (I-1)*3
-                  IF(EL2FA(NN1+N).NE.0)THEN
+                  IF(EL2FA(NN1+N)/=0)THEN
                      FUNC(EL2FA(NN1+N)) = SQRT( GBUF%MOM(II(2) + I)+GBUF%MOM(II(2) + I)
      +                                         +GBUF%MOM(II(3) + I)+GBUF%MOM(II(3) + I) )  
                   ENDIF
                  ENDDO                 
-               ELSEIF(IFUNC.EQ.4943)THEN
+               ELSEIF(IFUNC==4943)THEN
                  DO I=LFT,LLT
                   N     = I + NFT
 !                  IAD0  = (I-1)*3
-                  IF(EL2FA(NN1+N).NE.0)THEN
+                  IF(EL2FA(NN1+N)/=0)THEN
                      FUNC(EL2FA(NN1+N)) = SQRT( GBUF%MOM(II(1) + I)+GBUF%MOM(II(1) + I) 
      +                                         +GBUF%MOM(II(3) + I)+GBUF%MOM(II(3) + I) )  
                   ENDIF
                  ENDDO 
-               ELSEIF(IFUNC.EQ.4944)THEN
+               ELSEIF(IFUNC==4944)THEN
                  DO I=LFT,LLT
                   N     = I + NFT
 !                  IAD0  = (I-1)*3
-                  IF(EL2FA(NN1+N).NE.0)THEN
+                  IF(EL2FA(NN1+N)/=0)THEN
                      FUNC(EL2FA(NN1+N)) = SQRT( GBUF%MOM(II(1) + I)+GBUF%MOM(II(1) + I) 
      +                                         +GBUF%MOM(II(2) + I)+GBUF%MOM(II(2) + I)
      +                                         +GBUF%MOM(II(3) + I)+GBUF%MOM(II(3) + I) )		     
@@ -453,47 +453,47 @@ c-----------
                ENDIF
              ENDIF                             
 c-----------
-           ELSEIF(IFUNC.GE.4945 .AND. IFUNC.LE.4951)THEN  
+           ELSEIF(IFUNC>=4945 .AND. IFUNC<=4951)THEN  
              IF(GBUF%G_MOM>0 )THEN
-               IF(IFUNC.GE.4945.AND.IFUNC.LE.4947)THEN
+               IF(IFUNC>=4945.AND.IFUNC<=4947)THEN
                  DO I=LFT,LLT
                   N = I + NFT
-                  IF(EL2FA(NN1+N).NE.0)THEN
+                  IF(EL2FA(NN1+N)/=0)THEN
                      FUNC(EL2FA(NN1+N)) =        GBUF%MOM( II(IFUNC-4944) + I )           / GBUF%RHO(I)
                   ENDIF
                  ENDDO
-               ELSEIF(IFUNC.EQ.4948)THEN
+               ELSEIF(IFUNC==4948)THEN
                  DO I=LFT,LLT
                   N     = I + NFT
 !                  IAD0  = (I-1)*3
-                  IF(EL2FA(NN1+N).NE.0)THEN
+                  IF(EL2FA(NN1+N)/=0)THEN
                      FUNC(EL2FA(NN1+N)) = SQRT( GBUF%MOM(II(1) + I)+GBUF%MOM(II(1) + I) 
      +                                         +GBUF%MOM(II(2) + I)+GBUF%MOM(II(2) + I) )  / GBUF%RHO(I)		  
                   ENDIF
                  ENDDO 
-               ELSEIF(IFUNC.EQ.4949)THEN
+               ELSEIF(IFUNC==4949)THEN
                  DO I=LFT,LLT
                   N     = I + NFT
 !                  IAD0  = (I-1)*3
-                  IF(EL2FA(NN1+N).NE.0)THEN
+                  IF(EL2FA(NN1+N)/=0)THEN
                      FUNC(EL2FA(NN1+N)) = SQRT( GBUF%MOM(II(2) + I)+GBUF%MOM(II(2) + I) 
      +                                         +GBUF%MOM(II(3) + I)+GBUF%MOM(II(3) + I) )  / GBUF%RHO(I)		  
                   ENDIF
                  ENDDO                 
-               ELSEIF(IFUNC.EQ.4950)THEN
+               ELSEIF(IFUNC==4950)THEN
                  DO I=LFT,LLT
                   N     = I + NFT
 !                  IAD0  = (I-1)*3
-                  IF(EL2FA(NN1+N).NE.0)THEN
+                  IF(EL2FA(NN1+N)/=0)THEN
                      FUNC(EL2FA(NN1+N)) = SQRT( GBUF%MOM(II(1) + I)+GBUF%MOM(II(1) + I) 
      +                                         +GBUF%MOM(II(3) + I)+GBUF%MOM(II(3) + I) )  / GBUF%RHO(I)		  
                   ENDIF
                  ENDDO 
-               ELSEIF(IFUNC.EQ.4951)THEN
+               ELSEIF(IFUNC==4951)THEN
                  DO I=LFT,LLT
                   N     = I + NFT
 !                  IAD0  = (I-1)*3
-                  IF(EL2FA(NN1+N).NE.0)THEN
+                  IF(EL2FA(NN1+N)/=0)THEN
                      FUNC(EL2FA(NN1+N)) = SQRT( GBUF%MOM(II(1) + I)+GBUF%MOM(II(1) + I) 
      +                                         +GBUF%MOM(II(2) + I)+GBUF%MOM(II(2) + I)
      +                                         +GBUF%MOM(II(3) + I)+GBUF%MOM(II(3) + I) )  / GBUF%RHO(I)		  
@@ -503,44 +503,44 @@ c-----------
              ENDIF 
 c-----------
               !/ANIM/ELEM/FINT || FINTX || FINTY || FINXY || FINYZ || FINXZ
-              ELSEIF (IFUNC.GE.4952 .AND. IFUNC.LE.4958)THEN                                                                                
+              ELSEIF (IFUNC>=4952 .AND. IFUNC<=4958)THEN                                                                                
                 IALEFVM_FLG = IALEFVM_IFORM                                                                    
-                IF(IALEFVM_FLG .GE. 2)THEN                                                                   
-                  IF(IFUNC.GE.4952 .AND. IFUNC.LE.4954)THEN                                                                                             
+                IF(IALEFVM_FLG >= 2)THEN                                                                   
+                  IF(IFUNC>=4952 .AND. IFUNC<=4954)THEN                                                                                             
                     DO I=LFT,LLT                                                                                                                        
                       N      = I+NFT  
-                      IF(EL2FA(NN1+ N).NE.0)THEN                                                                                                                 
+                      IF(EL2FA(NN1+ N)/=0)THEN                                                                                                                 
                       FUNC(EL2FA(NN1+ N)) =         FINT_CELL(IFUNC-4951, N) 
                       ENDIF                                                                                        
                     ENDDO                                                                                                                               
-                  ELSEIF(IFUNC.EQ.4955)THEN                                                                                                             
+                  ELSEIF(IFUNC==4955)THEN                                                                                                             
                     DO I=LFT,LLT                                                                                                                        
                        N      = I+NFT 
-                      IF(EL2FA(NN1+ N).NE.0)THEN                                                                                                                                                                           
+                      IF(EL2FA(NN1+ N)/=0)THEN                                                                                                                                                                           
                       FUNC(EL2FA(NN1+ N)) = SQRT (  FINT_CELL(1, N)* FINT_CELL(1, N)+                                                                               
      +                                              FINT_CELL(2, N)* FINT_CELL(2, N) ) 
                       ENDIF                                                                             
                     ENDDO                                                                                                                               
-                  ELSEIF(IFUNC.EQ.4956)THEN                                                                                                             
+                  ELSEIF(IFUNC==4956)THEN                                                                                                             
                     DO I=LFT,LLT                                                                                                                        
                        N      = I+NFT  
-                      IF(EL2FA(NN1+ N).NE.0)THEN                                                                                                                                        
+                      IF(EL2FA(NN1+ N)/=0)THEN                                                                                                                                        
                       FUNC(EL2FA(NN1+ N)) = SQRT ( FINT_CELL(2, N)* FINT_CELL(2, N)+                                                                                
      +                                             FINT_CELL(3, N)* FINT_CELL(3, N) )
                       ENDIF 
                     ENDDO                                                                                                                               
-                  ELSEIF(IFUNC.EQ.4957)THEN                                                                                                             
+                  ELSEIF(IFUNC==4957)THEN                                                                                                             
                     DO I=LFT,LLT                                                                                                                        
                        N      = I+NFT   
-                      IF(EL2FA(NN1+ N).NE.0)THEN                                                                                                                
+                      IF(EL2FA(NN1+ N)/=0)THEN                                                                                                                
                       FUNC(EL2FA(NN1+ N)) = SQRT ( FINT_CELL(1, N)* FINT_CELL(1,N)+                                                                                
      +                                             FINT_CELL(3, N)* FINT_CELL(3,N) )
                       ENDIF                                                                               
                     ENDDO                                                                                                                               
-                  ELSEIF(IFUNC.EQ.4958)THEN                                                                                                             
+                  ELSEIF(IFUNC==4958)THEN                                                                                                             
                     DO I=LFT,LLT                                                                                                                        
                        N      = I+NFT   
-                      IF(EL2FA(NN1+ N).NE.0)THEN                                                                                                                
+                      IF(EL2FA(NN1+ N)/=0)THEN                                                                                                                
                       FUNC(EL2FA(NN1+ N)) = SQRT ( FINT_CELL(1, N)* FINT_CELL(1, N)+                                                                                
      +                                             FINT_CELL(2, N)* FINT_CELL(2, N)+                                                                                
      +                                             FINT_CELL(3, N)* FINT_CELL(3, N) )
@@ -549,13 +549,13 @@ c-----------
                   ENDIF                                                                                                                                 
                 ELSE
                   EVAR(LFT:LLT)=ZERO                                                                      
-                ENDIF!IF(IALEFVM_FLG .GE. 2)
+                ENDIF!IF(IALEFVM_FLG >= 2)
 c-----------
            ELSEIF(IFUNC == 4959)THEN   !/ANIM/ELEM/AMS
             IF(GBUF%G_ISMS>0)THEN
               DO I=LFT,LLT
                N = I + NFT
-               IF(EL2FA(NN1+N).NE.0)THEN
+               IF(EL2FA(NN1+N)/=0)THEN
                   FUNC(EL2FA(NN1+N)) = GBUF%ISMS(I)
                ENDIF
               ENDDO
@@ -578,7 +578,7 @@ c-----------
            ELSE
             DO I=LFT,LLT
              N = I + NFT
-             IF(EL2FA(NN1+N).NE.0)THEN
+             IF(EL2FA(NN1+N)/=0)THEN
                  FUNC(EL2FA(NN1+N)) = ZERO
              ENDIF
             ENDDO

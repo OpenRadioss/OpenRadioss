@@ -495,12 +495,12 @@ C=======================================================================
       NRBE3T = NRBE3G
 
       LOC_PROC = ISPMD+1
-      IF(ANIM_VERS.GE.47)THEN
+      IF(ANIM_VERS>=47)THEN
         LTITL = 80
       ELSE
         LTITL = 40
       ENDIF
-      IF(ANIM_VERS.LT.44)THEN
+      IF(ANIM_VERS<44)THEN
        ISPH3D=1
       ELSE
        ISPH3D=0
@@ -526,12 +526,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   OPEN FILE
 C-----------------------------------------------
-      IF(ISPMD.EQ.0) THEN
-       IF(ANIM_VERS.LT.50)THEN
-        IF(IANIM.GE.1000)THEN
+      IF(ISPMD==0) THEN
+       IF(ANIM_VERS<50)THEN
+        IF(IANIM>=1000)THEN
           IANIM_TMP = IANIM 
           CPT = 1
-          DO WHILE(IANIM_TMP .NE. 0)
+          DO WHILE(IANIM_TMP /= 0)
             IANIM_TMP = IANIM_TMP / 10
             CPT = CPT + 1
           ENDDO
@@ -567,8 +567,8 @@ C-----------------------------------------------
           FILEN = ROOTLEN + 4
         ENDIF
        ENDIF
-       IF(ANIM_VERS.GE.50)THEN
-        IF(IANIM.GE.10000)IANIM=1
+       IF(ANIM_VERS>=50)THEN
+        IF(IANIM>=10000)IANIM=1
         WRITE(CHANIM1,'(I4.4)')IANIM
         FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHANIM1//'.ani'
         FILEN = ROOTLEN + 9
@@ -580,11 +580,11 @@ C
          CTEXT(I)=ICHAR(TMP_NAME(I:I))
         ENDDO
         CALL CUR_FIL_C(0)
-        IF(IZIP.EQ.0)THEN
+        IF(IZIP==0)THEN
           CALL OPEN_C(CTEXT,LEN_TMP_NAME,0)
-        ELSEIF(IZIP.EQ.1)THEN
+        ELSEIF(IZIP==1)THEN
           CALL OPEN_C(CTEXT,LEN_TMP_NAME,3)
-        ELSEIF(IZIP.EQ.2)THEN
+        ELSEIF(IZIP==2)THEN
           CALL OPEN_C(CTEXT,LEN_TMP_NAME,6)
         ENDIF
       ENDIF
@@ -593,7 +593,7 @@ C  USER ROUTINE RETURNS ALL NEEDED INFORMATION FOR ALL X-ELEMENTS.
 C-----------------------------------------------
 C    NFACPTX must not be accessed to if NUMELX==0.
       NANIM1D_L = 0
-      IF (NUMELXG.GT.0) THEN
+      IF (NUMELXG>0) THEN
 
        DO I=1,NPART
         NFACPTX(1,I)=0
@@ -612,7 +612,7 @@ C-----------------------------------------------
 C ISO GEO ELEMS __1.
 C-----------------------------------------------
       NANIM3D_L = 0
-      IF (NUMELIG3D.GT.0) THEN
+      IF (NUMELIG3D>0) THEN
        BID_TEMP(:,:) = ZERO  ! MIS A ZERO POUR LES VALEURS VECTORIELLES QUI NE SONT PAS CALCULEES
        FIRST_NODE_IG3D = 1000000000  ! ATTENTION SI ON CREE DES POINTS AUTRE PART, ON RISQUE DE DEBORDER DES 1000000000
        CALL ANIMIG3D(ELBUF_TAB,IPARG    ,X     ,D     ,V      ,A ,
@@ -630,15 +630,15 @@ C     dans le starter on calcul NB1DG et NSKEWAG
         NB1D  =NUMELP + NUMELT + NUMELR
 C
         DO I=1,NUMELR
-          IF(IGEO(11,IXR(1,I)).EQ.12)THEN
+          IF(IGEO(11,IXR(1,I))==12)THEN
             NB1D = NB1D+1
           ENDIF
         ENDDO
            NSKEWA = NSKEWAG
-      IF(NSPMD.GT.1.AND.NFVBAG.GT.0)
+      IF(NSPMD>1.AND.NFVBAG>0)
      .   CALL SPMD_FVB_AMON(MONVOL, VOLMON)
 C
-           IF (ANIM_V(10).GT.0) THEN
+           IF (ANIM_V(10)>0) THEN
               DO I=1,3
                  DO J=1,NUMNOD
                     VFLU_ALE(I,J)=ZERO
@@ -660,7 +660,7 @@ C
                  NCA=MONVOL(K1+2)
                  NJET=MONVOL(K1+7)
                  NVENT=MONVOL(K1+10)
-                 IF (ITYP.EQ.6.OR.ITYP.EQ.8) THEN
+                 IF (ITYP==6.OR.ITYP==8) THEN
                     IFV=MONVOL(K1-1+45)             
                     NNS=MONVOL(K1-1+32)
                     NTG=MONVOL(K1-1+33)
@@ -692,7 +692,7 @@ C
            IADR=0
            DO I=1,NFLOW
               ITYP=IFLOW(IADI+2)
-              IF (ITYP.EQ.1) THEN
+              IF (ITYP==1) THEN
                  NINOUT=IFLOW(IADI+4)
                  NNO=IFLOW(IADI+5)
                  NEL=IFLOW(IADI+6)
@@ -732,22 +732,22 @@ C-----------------------------------------------
           NEL   =IPARG(2,NG)
           NFT   =IPARG(3,NG)
           ITY   =IPARG(5,NG)
-          IF(ITY.EQ.2)THEN
+          IF(ITY==2)THEN
             DO I = 1, NEL
               N = I + NFT
               MATER(IPARTQ(N)) = 1
             ENDDO
-          ELSEIF(ITY.EQ.3)THEN
+          ELSEIF(ITY==3)THEN
             DO I = 1, NEL
               N = I + NFT
               MATER(IPARTC(N)) = 1
             ENDDO
-          ELSEIF(ITY.EQ.7)THEN
+          ELSEIF(ITY==7)THEN
             DO I = 1, NEL
               N = I + NFT
               MATER(IPARTTG(N)) = 1
             ENDDO
-          ELSEIF(ITY.EQ.50)THEN
+          ELSEIF(ITY==50)THEN
             DO I = 1, NEL
               N = I + NFT
               MATER(IPARTUR(N)) = 1
@@ -758,7 +758,7 @@ C     2D geometry is not yet treated.
 C
         IF(NSPMD > 1)CALL SPMD_GLOB_ISUM9(MATER,NPART)
         DO I=1,NPART
-          IF(MATER(I).GT.1)MATER(I) = 1
+          IF(MATER(I)>1)MATER(I) = 1
         ENDDO
         IF(NSPMD > 1)CALL SPMD_IBCAST(MATER,MATER,NPART,1,0,2)
 C
@@ -933,11 +933,11 @@ C-----------------------------------------------
       MAC1=1
       MAC2=1
       MAC3=1
-      IF(NCUTS.GT.0)THEN
+      IF(NCUTS>0)THEN
           CALL CUTCNT (ICUT,XCUT,IXS,X,D,LENCUT)
           LENCUT = MAX(LENCUT,NCUTS)
-          IF(LENCUT.GT.LENCUTO)THEN
-            IF(LENCUTO.GT.0)THEN
+          IF(LENCUT>LENCUTO)THEN
+            IF(LENCUTO>0)THEN
               DEALLOCATE(CBUF)
               DEALLOCATE(ICBUF)
             ENDIF
@@ -945,7 +945,7 @@ C-----------------------------------------------
             LENI=28*LENCUT+2*NCUTS
             ALLOCATE(CBUF(LENR),STAT=oui)
             ALLOCATE(ICBUF(LENI),STAT=oui)
-            IF(oui.NE.0) THEN
+            IF(oui/=0) THEN
                CALL ANCMSG(MSGID=29,ANMODE=ANINFO)
                CALL ARRET(2)
             ENDIF
@@ -973,7 +973,7 @@ C  pour avoir une unification des tests en SPH
       NERWL = 0
       NNWL  = 0
       NESBW2= 0
-      IF(NSECT+NRWALL.GT.0) THEN
+      IF(NSECT+NRWALL>0) THEN
          CALL DSECCNT(NESCT,NERWL,NESBW2,NSTRF,
      1                RWBUF ,NPRW,NNWL,IXS)
       END IF
@@ -981,7 +981,7 @@ C  pour avoir une unification des tests en SPH
       NESRG=0
       NNSRG=0
       NSURG=0
-      IF (NSURF.GT.0)
+      IF (NSURF>0)
      . CALL DSRGCNT(IGRSURF, NSURG,NESRG,NNSRG,NESBW2)
       NESMD=0
       NNSMD=0
@@ -989,7 +989,7 @@ C  pour avoir une unification des tests en SPH
       NESPH=0
       NNSPH=0
       NNSPHG = 0
-      IF (ISPH3D.EQ.1.AND.NUMSPH_T+MAXPJET.GT.0)
+      IF (ISPH3D==1.AND.NUMSPH_T+MAXPJET>0)
      .  CALL DSPHCNT(NESPH,NNSPH,NESPHG,NNSPHG)
 C-----------------------------------------------
 C   MAILLAGE VOLUMES FINIS POUR FVMBAG
@@ -1009,14 +1009,14 @@ C traitement equivalent en mono
       ENDIF
 C
       IF (NSPMD == 1) THEN
-         IF (NFVBAG.GT.0.OR. ANIM_PLY > 0) THEN
+         IF (NFVBAG>0.OR. ANIM_PLY > 0) THEN
             IDMAX=0
             DO I=1,NUMNOD
                IDMAX=MAX(IDMAX,ITAB(I))
             ENDDO
          ENDIF
 C
-         IF (IFVANI.EQ.1) THEN
+         IF (IFVANI==1) THEN
             DO I=1,NFVBAG
                NFVTR=NFVTR+FVDATA(I)%NNTR
                FVOFF(1,I)=NUMNOD+NODCUT+NSECT+NRWALL+NNWL
@@ -1028,12 +1028,12 @@ C
             ENDDO
          ENDIF
       ELSE
-         IF (IFVANI.EQ.1)
+         IF (IFVANI==1)
      .      CALL SPMD_FVB_ADIM(NFVTR, FVOFF,  NFVNOD, NFVPART, NFVSUBS,
      .                         IDMAX, ITAB,   NODCUT, NNWL,    NNSRG,
      .                         NNSMD, NNSPHG)
       ENDIF
-      IF (ISPMD.EQ.0.AND.NFVTR.GT.0)
+      IF (ISPMD==0.AND.NFVTR>0)
      .   ALLOCATE(FVEL2FA(NFVTR), FVINUM(NFVTR))
 C
 c--------------------------------------------------------------------      
@@ -1059,13 +1059,13 @@ C
       NUMELR_T = NUMELRG
       NUMELP_T = NUMELPG
 
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
 C             0x542b
         MAGIC = 21548
         CALL WRITE_I_C(MAGIC,1)
 C
         R4 = TT
-        IF (NEIG.EQ.0) THEN
+        IF (NEIG==0) THEN
            CALL WRITE_R_C(R4,1)
            CALL ANI_TXT('Time=',5)
            KKT=0
@@ -1081,7 +1081,7 @@ C
              CALL ANI_TXT('ModAnim',7)
            ENDIF
         ELSE
-           IF (R4.GE.ZERO) THEN
+           IF (R4>=ZERO) THEN
               CALL WRITE_R_C(R4,1)
               CALL ANI_TXT('Frequency=',10)
               CALL ANI_TXT('Eigenmode',9)
@@ -1096,7 +1096,7 @@ C
         CALL WRITE_I_C(ANIM_M,1)
         CALL WRITE_I_C(1,1)
 
-        IF(NUMELS_T+ISPH3D*(NUMSPH_T+MAXPJET)+NUMELIG3D.EQ.0) THEN
+        IF(NUMELS_T+ISPH3D*(NUMSPH_T+MAXPJET)+NUMELIG3D==0) THEN
           CALL WRITE_I_C(0,1)
         ELSE
           CALL WRITE_I_C(1,1)
@@ -1104,7 +1104,7 @@ C
 
         IFLAG1D = NUMELT_T+NUMELP_T+NUMELR_T+NANIM1D+NRBODY+
      .            NRBE2T+NRBE3T
-        IF (IFLAG1D.NE.0) IFLAG1D = 1
+        IF (IFLAG1D/=0) IFLAG1D = 1
         CALL WRITE_I_C(IFLAG1D,1)
 
 C HIERARCHIE
@@ -1113,26 +1113,26 @@ C TH
         CALL WRITE_I_C(0,1)
 C REP. SHELL
 
-        IF(ISHFRAM.EQ.1)THEN
+        IF(ISHFRAM==1)THEN
           CALL WRITE_I_C(0,1)
         ELSE
           CALL WRITE_I_C(1,1)
         ENDIF
 
-        IF(ISPH3D.EQ.0.AND.
-     .     (NUMSPH_T+MAXPJET.NE.0))THEN
+        IF(ISPH3D==0.AND.
+     .     (NUMSPH_T+MAXPJET/=0))THEN
          CALL WRITE_I_C(1,1)
         ELSE
          CALL WRITE_I_C(0,1)
         ENDIF
 
-        IF(ANIM_VERS.GE.47)THEN
+        IF(ANIM_VERS>=47)THEN
           CALL WRITE_I_C(1,1)
         ELSE
           CALL WRITE_I_C(0,1)
         ENDIF
         CALL WRITE_I_C(0,1)
-        IF (NFVNOD.GT.0) THEN
+        IF (NFVNOD>0) THEN
            NFVNODT=NFVNOD+3
         ELSE
            NFVNODT=0
@@ -1153,14 +1153,14 @@ C crack xfem
      .       +NCRKPARTW,1)
         CALL WRITE_I_C(NN_ANI,1)
         IF(NBF+NELCUT+NESBW2+NFVTR+NBF_PXFEMG
-     .        +NBF_CRKXFEMG.EQ.0)THEN
+     .        +NBF_CRKXFEMG==0)THEN
           CALL WRITE_I_C(0,1)
         ELSE
           CALL WRITE_I_C(NCE_ANI,1)
         ENDIF
         CALL WRITE_I_C(NV_ANI,1)
         IF(NBF+NELCUT+NESBW2+NFVTR+NBF_PXFEMG
-     .        +NBF_CRKXFEMG.EQ.0)THEN
+     .        +NBF_CRKXFEMG==0)THEN
           CALL WRITE_I_C(0,1)
         ELSE
           CALL WRITE_I_C(NCT_ANI,1)
@@ -1171,7 +1171,7 @@ C crack xfem
 C-----------------------------------------------
 C      SKEW
 C-----------------------------------------------
-       IF (ISPMD.EQ.0) THEN
+       IF (ISPMD==0) THEN
           BUFL = NB1DG*6
        ELSE
           BUFL = NB1D*6
@@ -1186,20 +1186,20 @@ C-----------------------------------------------
 C
       CALL XYZNOD(X,X_TEMP,NODGLOB,WEIGHT)
 
-      IF(NODCUT.GT.0)CALL XYZCUT(CBUF,NODCUT)
+      IF(NODCUT>0)CALL XYZCUT(CBUF,NODCUT)
 C
-      IF(NSECT+NRWALL.GT.0) CALL DXYZSECT(
+      IF(NSECT+NRWALL>0) CALL DXYZSECT(
      2                  NSTRF,RWBUF,NPRW  ,X,XMIN,
      3                  YMIN,ZMIN,XMAX,YMAX,ZMAX,
      4                  FR_SEC,FR_WALL,WEIGHT,ITAB)
 
-      IF (NSURG.GT.0) CALL DXYZSRG(NESRG,IGRSURF,BUFSF)
+      IF (NSURG>0) CALL DXYZSRG(NESRG,IGRSURF,BUFSF)
 
       SNNSPHG = NNSPHG
-      IF (ISPH3D*(NUMSPH_T+MAXPJET).GT.0)
+      IF (ISPH3D*(NUMSPH_T+MAXPJET)>0)
      .   CALL DXYZSPH(NESPH,KXSP,X,SPBUF,SNNSPHG,NNSPH)
          SZ16 = NUMELS16G
-      IF (SZ16.GT.0)
+      IF (SZ16>0)
      2   CALL XYZ16(IXS,IXS10,IXS20,IXS16,X)
 C ply xfem
       IF(ANIM_PLY > 0)THEN
@@ -1230,7 +1230,7 @@ c     xfem crack for layered shells
       ENDIF
 c--------------------------------------------------------------------      
 c
-      IF (NFVNOD.GT.0) THEN
+      IF (NFVNOD>0) THEN
 C traitement equivalent mono
          IF (NSPMD == 1) THEN
             DO I=1,NFVBAG
@@ -1246,7 +1246,7 @@ C traitement equivalent mono
          ELSE
             CALL SPMD_FVB_ANOD()
          ENDIF
-         IF (ISPMD.EQ.0) THEN
+         IF (ISPMD==0) THEN
             R4=EM10
             CALL WRITE_R_C(R4,1)
             R4=ZERO
@@ -1284,21 +1284,21 @@ C
 
 C pour la version spmd il faut mettre a jour XNORM
 
-      IF (NSPMD.GT.1) THEN
+      IF (NSPMD>1) THEN
         LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
         CALL SPMD_EXCH_N(XNORM,IAD_ELEM,FR_ELEM,LENR)
       ENDIF
 
          BUF = SECTIOM*4
 
-      IF(NCUTS.GT.0)CALL PARCUT(ICBUF,NELCUT)
+      IF(NCUTS>0)CALL PARCUT(ICBUF,NELCUT)
 
-      IF(NSECT+NRWALL.GT.0) CALL DPARRWS(
+      IF(NSECT+NRWALL>0) CALL DPARRWS(
      1            NESBW2,NSTRF, IXC  ,
      2            IXTG ,X    ,NODCUT,RWBUF,NPRW,
      3            NODGLOB,BUF,IXS)
 
-      IF (NSURG.GT.0) CALL DPARSRG(NSURG,NNWL,NODCUT)
+      IF (NSURG>0) CALL DPARSRG(NSURG,NNWL,NODCUT)
 
 C ply xfem
       IF (ANIM_PLY > 0) THEN
@@ -1323,7 +1323,7 @@ c--------------------------------------------------------------------
 C traitement mono equivalent
       IF (NSPMD == 1) THEN
          II=0
-         IF (IFVANI.EQ.1) THEN
+         IF (IFVANI==1) THEN
             ELOFF=0
             DO I=1,NFVBAG
                ALLOCATE(ITAGT(FVDATA(I)%NNTR))
@@ -1338,7 +1338,7 @@ C
                      DO N=FVDATA(I)%IFVTADR_ANIM(KK),
      .                         FVDATA(I)%IFVTADR_ANIM(KK+1)-1
                         NN=FVDATA(I)%IFVPOLY_ANIM(N)
-                        IF (ITAGT(NN).EQ.1) CYCLE
+                        IF (ITAGT(NN)==1) CYCLE
                         INOD(1)=FVOFF(1,I)+FVDATA(I)%IFVTRI_ANIM(1,NN)-1
                         INOD(2)=FVOFF(1,I)+FVDATA(I)%IFVTRI_ANIM(2,NN)-1
                         INOD(3)=FVOFF(1,I)+FVDATA(I)%IFVTRI_ANIM(3,NN)-1
@@ -1346,10 +1346,10 @@ C
                         II=II+1
 C Nombre de noeuds distincts de la coque (apres fusion dans FVMESH)
                         NND=1
-                        IF (INOD(2).NE.INOD(1)) NND=NND+1
-                        IF (INOD(3).NE.INOD(1).AND.
-     .                      INOD(3).NE.INOD(2)) NND=NND+1
-                        IF (NND.NE.3) THEN
+                        IF (INOD(2)/=INOD(1)) NND=NND+1
+                        IF (INOD(3)/=INOD(1).AND.
+     .                      INOD(3)/=INOD(2)) NND=NND+1
+                        IF (NND/=3) THEN
                            INOD(1)=NBID1-1
                            INOD(2)=NBID2-1
                            INOD(3)=NBID3-1
@@ -1368,7 +1368,7 @@ C
             ENDDO
          ENDIF
       ELSE
-         IF (IFVANI.EQ.1)
+         IF (IFVANI==1)
      .      CALL SPMD_FVB_ATR(NBID1, NBID2, NBID3, FVEL2FA, FVINUM,
      .                        FVOFF)
       ENDIF
@@ -1379,7 +1379,7 @@ C-----------------------------------------------
      .             IAD  ,NBF_L,NBPART,IADG,NODGLOB ,
      .             IPART,IPARTC,IPARTTG)
 
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
             DO J=1,NESBW2+NELCUT
               CALL WRITE_C_C(1,1)
             ENDDO
@@ -1403,7 +1403,7 @@ C
       ENDIF 
 C
       IF (NSPMD == 1) THEN
-         IF (IFVANI.EQ.1) THEN
+         IF (IFVANI==1) THEN
             ALLOCATE(OFFTR(NFVTR))
             DO I=1,NFVTR
                OFFTR(I)=0
@@ -1416,16 +1416,16 @@ C
                      DO N=FVDATA(I)%IFVTADR(KK),
      .                         FVDATA(I)%IFVTADR(KK+1)-1
                         NN=FVDATA(I)%IFVPOLY(N)
-                        IF (NN.GT.0) THEN
+                        IF (NN>0) THEN
                            N1=FVDATA(I)%IFVTRI_ANIM(1,NN)
                            N2=FVDATA(I)%IFVTRI_ANIM(2,NN)
                            N3=FVDATA(I)%IFVTRI_ANIM(3,NN)
                            NND=1
-                           IF (N2.NE.N1) NND=NND+1
-                           IF (N3.NE.N2.AND.N3.NE.N1) NND=NND+1
+                           IF (N2/=N1) NND=NND+1
+                           IF (N3/=N2.AND.N3/=N1) NND=NND+1
 C
                            NN=FVEL2FA(ELOFF+NN)
-                           IF (NND.EQ.3) OFFTR(NN)=1
+                           IF (NND==3) OFFTR(NN)=1
                         ENDIF
                      ENDDO
                   ENDDO
@@ -1437,12 +1437,12 @@ C
             DEALLOCATE(OFFTR)
          ENDIF
       ELSE
-         IF (IFVANI.EQ.1) CALL SPMD_FVB_AOFF(FVEL2FA)
+         IF (IFVANI==1) CALL SPMD_FVB_AOFF(FVEL2FA)
       ENDIF
 C-----------------------------------------------
 C   PART ADD
 C-----------------------------------------------
-        IF (ISPMD.EQ.0) THEN
+        IF (ISPMD==0) THEN
           DO I = 1, NBPART
             BUFFERP(I) = 0
             DO K = 1, NSPMD
@@ -1451,8 +1451,8 @@ C-----------------------------------------------
           ENDDO
           CALL WRITE_I_C(BUFFERP,NBPART)
         ENDIF
-      IF (ISPMD.EQ.0) THEN
-       IF(NCUTS.GT.0)THEN
+      IF (ISPMD==0) THEN
+       IF(NCUTS>0)THEN
         CALL WRITE_I_C(ICBUF(MIC4),NCUTS)
        ENDIF
       ENDIF
@@ -1463,19 +1463,19 @@ C  a faire sur tous les procs en spmd
        DO ISECT=1,NSECT
         CALL DONESEC(ISECT,NESCT1,NSTRF,IXS)
 
-        IF (ISPMD.EQ.0) THEN
+        IF (ISPMD==0) THEN
          CALL WRITE_I_C(NELCUT+NBF+NESCT1,1)
         endif
        END DO
-       IF (NFVPART.GT.0) THEN
-          IF (ISPMD.EQ.0) ALLOCATE(FVPBUF(NFVPART))
+       IF (NFVPART>0) THEN
+          IF (ISPMD==0) ALLOCATE(FVPBUF(NFVPART))
           NESMD1=0
           IF(NSPMD > 1)
      .     CALL SPMD_FVB_APAR(NELCUT, NBF,    NESCT, NERWL, NESRG,
      .                       NESMD1, FVPBUF)
        ENDIF
 C
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
        NERWL1=0
        DO IRWL=1,NRWALL
         CALL DONERWL(IRWL,NERWL1,NPRW)
@@ -1569,7 +1569,7 @@ c            CALL WRITE_I_C(IAD_LAY(ILAY),1)
 c------------------------------------------------------------------
 C
         IF (NSPMD == 1 ) THEN
-           IF (IFVANI.EQ.1) THEN
+           IF (IFVANI==1) THEN
               FVIAD=NELCUT+NBF+NESCT+NERWL+NESRG+NESMD1
               DO I=1,NFVBAG
                  ALLOCATE(ITAGT(FVDATA(I)%NNTR))
@@ -1584,7 +1584,7 @@ ccC
                        DO N=FVDATA(I)%IFVTADR_ANIM(KK),
      .                            FVDATA(I)%IFVTADR_ANIM(KK+1)-1
                           NN=FVDATA(I)%IFVPOLY_ANIM(N)
-                          IF (ITAGT(NN).EQ.0) THEN
+                          IF (ITAGT(NN)==0) THEN
                              FVIAD=FVIAD+1
                              ITAGT(NN)=1
                           ENDIF
@@ -1597,7 +1597,7 @@ ccC
              DEALLOCATE(FVPBUF)
            ENDIF
         ELSE
-           IF (IFVANI.EQ.1.AND.NFVPART.GT.0) THEN
+           IF (IFVANI==1.AND.NFVPART>0) THEN
               DO I=1,NFVPART
                  FVIAD=FVPBUF(I)
                  CALL WRITE_I_C(FVIAD,1)
@@ -1610,7 +1610,7 @@ C   PART HEAD
 C-----------------------------------------------
        MAXPART = 0
        DO I=1,NPART
-        IF(MATER(I).NE.0)THEN
+        IF(MATER(I)/=0)THEN
           WRITE(STR,'(I9,A1)')IPART(4,I),':'
           DO J=1,10
             CTEXT(J)=ICHAR(STR(J:J))
@@ -1618,7 +1618,7 @@ C-----------------------------------------------
           IB = 10
           CALL FRETITL2(TITL,IPART(LIPART1-LTITR+1,I),40)
           DO J=1,LTITL
-            IF(TITL(J:J).NE.' ') IB = J+10
+            IF(TITL(J:J)/=' ') IB = J+10
             CTEXT(J+10)=ICHAR(TITL(J:J))
           ENDDO
           CTEXT(IB+1)=0
@@ -1629,7 +1629,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     CUTS PART
 C-----------------------------------------------
-       IF(NCUTS.GT.0)THEN
+       IF(NCUTS>0)THEN
         DO I=1,NCUTS
           WRITE(STR,'(9H     CUT:)')
           DO J=1,9
@@ -1639,14 +1639,14 @@ C-----------------------------------------------
           DO J=1,40
             IAUX = ICUT(44*(I-1)+J)
             CAUX(1:1) = CHAR(IAUX)
-            IF(CAUX(1:1).NE.' ') IB = J+9
+            IF(CAUX(1:1)/=' ') IB = J+9
             CTEXT(J+9)=ICUT(44*(I-1)+4+J)
           ENDDO
           CTEXT(IB+1)=0
           CALL WRITE_C_C(CTEXT,10+LTITL)
         ENDDO
        ENDIF
-       IF (INVSTR.LT.40) THEN
+       IF (INVSTR<40) THEN
         DO ISECT=1,NSECT
          WRITE(STR,'(I9,A2,A7)') ISECT,': ','Section'
           DO J=1,18
@@ -1672,7 +1672,7 @@ C-----------------------------------------------
           CALL WRITE_C_C(CTEXT,10+LTITL)
         END DO
        END IF
-       IF (INVSTR.LT.40) THEN
+       IF (INVSTR<40) THEN
         DO IRWL=1,NRWALL
           WRITE(STR,'(I9,A2,A10)') IRWL,': ','Rigid Wall'
           DO J=1,21
@@ -1701,7 +1701,7 @@ C-----------------------------------------------
 C
        ISRG=1
        DO ISRF=1,NSURF
-         IF (IGRSURF(ISRF)%TYPE.EQ.101) THEN
+         IF (IGRSURF(ISRF)%TYPE==101) THEN
 C         RADIOSS'S ellipsoid.
           WRITE(STR,'(I9,A1)') ISRG,':'
           DO J=1,10
@@ -1710,7 +1710,7 @@ C         RADIOSS'S ellipsoid.
           IB=10
           TITL = IGRSURF(ISRF)%TITLE
           DO J=1,LTITL
-            IF(TITL(J:J).NE.' ') IB = J+10
+            IF(TITL(J:J)/=' ') IB = J+10
             CTEXT(J+10)=ICHAR(TITL(J:J))
           END DO
           CTEXT(IB+1)=0
@@ -1758,7 +1758,7 @@ C xfem crack for layered shells +++
       ENDIF
 C xfem crack for layered shells ---
       IF (NSPMD == 1) THEN
-         IF (IFVANI.EQ.1) THEN
+         IF (IFVANI==1) THEN
             DO I=1,NFVBAG
                DO J=1,FVDATA(I)%NPOLH_ANIM
                   WRITE(STR,'(I9,A1)') MAXPART + J,':'
@@ -1776,7 +1776,7 @@ C xfem crack for layered shells ---
             ENDDO
          ENDIF
       ELSE
-         IF (IFVANI.EQ.1) CALL SPMD_FVB_ATIT(CTEXT, STR, TITL, LTITL,
+         IF (IFVANI==1) CALL SPMD_FVB_ATIT(CTEXT, STR, TITL, LTITL,
      *                                       MAXPART    )
       ENDIF
 C
@@ -1785,21 +1785,21 @@ C   NORMAL
 C-----------------------------------------------
       CALL XYZNOR(XNORM,NODGLOB,WEIGHT)
 
-      IF(NODCUT.GT.0)THEN
+      IF(NODCUT>0)THEN
         CALL NORCUT(XCUT,ICBUF(MIC5))
       ENDIF
       CALL DSECNOR(X    ,RWBUF,NPRW)
-      IF (NSURG.GT.0) CALL DSRGNOR(IGRSURF,BUFSF)
+      IF (NSURG>0) CALL DSRGNOR(IGRSURF,BUFSF)
 
-         IF (ISPMD.EQ.0) THEN
+         IF (ISPMD==0) THEN
               SNNSPHG= NNSPHG
          ELSE
               SNNSPHG= NNSPH
          ENDIF
 
-      IF (ISPH3D*(NUMSPH_T+MAXPJET).GT.0)
+      IF (ISPH3D*(NUMSPH_T+MAXPJET)>0)
      .   CALL DSPHNOR(KXSP,X,SPBUF,NNSPHG)
-        IF (ISPMD.EQ.0.AND.NUMELS16G.GT.0)
+        IF (ISPMD==0.AND.NUMELS16G>0)
      .   CALL XYZNOR16(IXS,IXS10,IXS20,IXS16,X)
 
       IF(ANIM_PLY > 0) THEN
@@ -1817,15 +1817,15 @@ C
         ENDDO
       END IF
 C
-      IF (ISPMD.EQ.0) THEN
-         IF (IFVANI.EQ.1) THEN
+      IF (ISPMD==0) THEN
+         IF (IFVANI==1) THEN
             DO I=1,NFVNOD
                INORM(1) = 0
                INORM(2) = 0
                INORM(3) = 0
                CALL WRITE_S_C(INORM,3)
             ENDDO
-            IF (NFVNOD.GT.0) THEN
+            IF (NFVNOD>0) THEN
                DO I=1,3
                   INORM(1) = 0
                   INORM(2) = 0
@@ -1838,8 +1838,8 @@ C
 C-----------------------------------------------
 C   ELEMENT MASS FOR MAS & FUNC
 C-----------------------------------------------
-      IF(ANIM_M.EQ.1.OR.ANIM_CE(3).EQ.1.OR.
-     .   ANIM_CE(25).EQ.1)THEN
+      IF(ANIM_M==1.OR.ANIM_CE(3)==1.OR.
+     .   ANIM_CE(25)==1)THEN
          CALL DMASANIC(ELBUF_TAB,X    ,D    ,GEO  ,IPARG,
      .               IXQ  ,IXC  ,IXTG ,MAS  ,PM   ,
      .               EL2FA,NBF  ,IXUR ,IGEO , STACK )
@@ -1847,155 +1847,155 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   N FUNC TEXT
 C-----------------------------------------------
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
        CTEXT(81)=0
-       IF(ANIM_N(01).EQ.1) CALL ANI_TXT('Time Step',9)
-       IF(ANIM_N(02).EQ.1) CALL ANI_TXT('Mass Change',11)
-       IF(ANIM_N(03).EQ.1) CALL ANI_TXT('Nodal Pressure',14)
-       IF(ANIM_N(04).EQ.1) CALL ANI_TXT('Nodal Density',13)
-       IF(ANIM_N(05).EQ.1) CALL ANI_TXT('Nodal Specific Energy',21)
-       IF(ANIM_N(06).EQ.1) CALL ANI_TXT('Nodal Temperature',17)
-       IF(ANIM_N(07).EQ.1) CALL ANI_TXT('Nodal Variable 1',16)
-       IF(ANIM_N(08).EQ.1) CALL ANI_TXT('Nodal Variable 2',16)
-       IF(ANIM_N(09).EQ.1) CALL ANI_TXT('Nodal Variable 3',16)
-       IF(ANIM_N(10).EQ.1) CALL ANI_TXT('Nodal Variable 4',16)
-       IF(ANIM_N(11).EQ.1) CALL ANI_TXT('Nodal Variable 5',16)
-       IF(ANIM_N(12).EQ.1) CALL ANI_TXT('Inertia Change',14)
-       IF(ANIM_N(13).EQ.1) CALL ANI_TXT('Nodal Potential',15)
-       IF(ANIM_N(14).EQ.1) CALL ANI_TXT('Non Diagonal Mass Change',24)
-       IF(ANIM_N(15).EQ.1) CALL ANI_TXT('%damage(type2 interface) / Normal',33)          
-       IF(ANIM_N(16).EQ.1) CALL ANI_TXT('%damage(type2 interface) / Tangent',34)
-       IF(ANIM_N(17).EQ.1) CALL ANI_TXT('Nodal Schlieren',15)
-       IF(ANIM_N(18).EQ.1) CALL ANI_TXT('Nodal Rotational Stiffness',26)
-       IF(ANIM_N(19).EQ.1) CALL ANI_TXT('Nodal Stiffness',15)
-       IF(ANIM_N(20).EQ.1) CALL ANI_TXT('Nodal Volumetric Fraction - 1',29)       
-       IF(ANIM_N(21).EQ.1) CALL ANI_TXT('Nodal Volumetric Fraction - 2',29)       
-       IF(ANIM_N(22).EQ.1) CALL ANI_TXT('Nodal Volumetric Fraction - 3',29)       
-       IF(ANIM_N(23).EQ.1) CALL ANI_TXT('Nodal Volumetric Fraction - 4',29)    
-       IF(ANIM_N(24).EQ.1) CALL ANI_TXT('Centroid Volumetric Fraction - 1',32)   !inter22     
-       IF(ANIM_N(25).EQ.1) CALL ANI_TXT('Centroid Volumetric Fraction - 2',32)   !inter22        
-       IF(ANIM_N(26).EQ.1) CALL ANI_TXT('Centroid Volumetric Fraction - 3',32)   !inter22        
-       IF(ANIM_N(27).EQ.1) CALL ANI_TXT('Centroid Volumetric Fraction - 4',32)   !inter22                                       
-       IF(ANIM_N(28).EQ.1) CALL ANI_TXT('Centroid New Volume',19)                !inter22                                             
-       IF(ANIM_N(29).EQ.1) CALL ANI_TXT('Centroid Old Volume',19)                !inter22          
-       IF(ANIM_N(30).EQ.1) CALL ANI_TXT('Nodal Sound Speed',17)                  !FVMBAG
+       IF(ANIM_N(01)==1) CALL ANI_TXT('Time Step',9)
+       IF(ANIM_N(02)==1) CALL ANI_TXT('Mass Change',11)
+       IF(ANIM_N(03)==1) CALL ANI_TXT('Nodal Pressure',14)
+       IF(ANIM_N(04)==1) CALL ANI_TXT('Nodal Density',13)
+       IF(ANIM_N(05)==1) CALL ANI_TXT('Nodal Specific Energy',21)
+       IF(ANIM_N(06)==1) CALL ANI_TXT('Nodal Temperature',17)
+       IF(ANIM_N(07)==1) CALL ANI_TXT('Nodal Variable 1',16)
+       IF(ANIM_N(08)==1) CALL ANI_TXT('Nodal Variable 2',16)
+       IF(ANIM_N(09)==1) CALL ANI_TXT('Nodal Variable 3',16)
+       IF(ANIM_N(10)==1) CALL ANI_TXT('Nodal Variable 4',16)
+       IF(ANIM_N(11)==1) CALL ANI_TXT('Nodal Variable 5',16)
+       IF(ANIM_N(12)==1) CALL ANI_TXT('Inertia Change',14)
+       IF(ANIM_N(13)==1) CALL ANI_TXT('Nodal Potential',15)
+       IF(ANIM_N(14)==1) CALL ANI_TXT('Non Diagonal Mass Change',24)
+       IF(ANIM_N(15)==1) CALL ANI_TXT('%damage(type2 interface) / Normal',33)          
+       IF(ANIM_N(16)==1) CALL ANI_TXT('%damage(type2 interface) / Tangent',34)
+       IF(ANIM_N(17)==1) CALL ANI_TXT('Nodal Schlieren',15)
+       IF(ANIM_N(18)==1) CALL ANI_TXT('Nodal Rotational Stiffness',26)
+       IF(ANIM_N(19)==1) CALL ANI_TXT('Nodal Stiffness',15)
+       IF(ANIM_N(20)==1) CALL ANI_TXT('Nodal Volumetric Fraction - 1',29)       
+       IF(ANIM_N(21)==1) CALL ANI_TXT('Nodal Volumetric Fraction - 2',29)       
+       IF(ANIM_N(22)==1) CALL ANI_TXT('Nodal Volumetric Fraction - 3',29)       
+       IF(ANIM_N(23)==1) CALL ANI_TXT('Nodal Volumetric Fraction - 4',29)    
+       IF(ANIM_N(24)==1) CALL ANI_TXT('Centroid Volumetric Fraction - 1',32)   !inter22     
+       IF(ANIM_N(25)==1) CALL ANI_TXT('Centroid Volumetric Fraction - 2',32)   !inter22        
+       IF(ANIM_N(26)==1) CALL ANI_TXT('Centroid Volumetric Fraction - 3',32)   !inter22        
+       IF(ANIM_N(27)==1) CALL ANI_TXT('Centroid Volumetric Fraction - 4',32)   !inter22                                       
+       IF(ANIM_N(28)==1) CALL ANI_TXT('Centroid New Volume',19)                !inter22                                             
+       IF(ANIM_N(29)==1) CALL ANI_TXT('Centroid Old Volume',19)                !inter22          
+       IF(ANIM_N(30)==1) CALL ANI_TXT('Nodal Sound Speed',17)                  !FVMBAG
 C----------------------------
 C    GPS TEXT
 C----------------------------
        IADGPS = IAD_GPS
-       IF(ANIM_N(IADGPS+1).EQ.1) CALL ANI_TXT('GPS1 Pressure',13)
-       IF(ANIM_N(IADGPS+2).EQ.1) CALL ANI_TXT('GPS1 Von Mises',14)
-       IF(ANIM_N(IADGPS+3).EQ.1) CALL ANI_TXT('GPS1 SIGXX',10)
-       IF(ANIM_N(IADGPS+4).EQ.1) CALL ANI_TXT('GPS1 SIGYY',10)
-       IF(ANIM_N(IADGPS+5).EQ.1) CALL ANI_TXT('GPS1 SIGZZ',10)
-       IF(ANIM_N(IADGPS+6).EQ.1) CALL ANI_TXT('GPS1 SIGXY',10)
-       IF(ANIM_N(IADGPS+7).EQ.1) CALL ANI_TXT('GPS1 SIGZY',10)
-       IF(ANIM_N(IADGPS+8).EQ.1) CALL ANI_TXT('GPS1 SIGXZ',10)
-       IF(ANIM_N(IADGPS+9).EQ.1) CALL ANI_TXT('GPS1 SIGXX_U',12)
-       IF(ANIM_N(IADGPS+10).EQ.1) CALL ANI_TXT('GPS1 SIGYY_U',12)
-       IF(ANIM_N(IADGPS+11).EQ.1) CALL ANI_TXT('GPS1 SIGZZ_U',12)
-       IF(ANIM_N(IADGPS+12).EQ.1) CALL ANI_TXT('GPS1 SIGXY_U',12)
-       IF(ANIM_N(IADGPS+13).EQ.1) CALL ANI_TXT('GPS1 SIGZY_U',12)
-       IF(ANIM_N(IADGPS+14).EQ.1) CALL ANI_TXT('GPS1 SIGXZ_U',12)
-       IF(ANIM_N(IADGPS+15).EQ.1) CALL ANI_TXT('GPS1 SIGXX_L',12)
-       IF(ANIM_N(IADGPS+16).EQ.1) CALL ANI_TXT('GPS1 SIGYY_L',12)
-       IF(ANIM_N(IADGPS+17).EQ.1) CALL ANI_TXT('GPS1 SIGZZ_L',12)
-       IF(ANIM_N(IADGPS+18).EQ.1) CALL ANI_TXT('GPS1 SIGXY_L',12)
-       IF(ANIM_N(IADGPS+19).EQ.1) CALL ANI_TXT('GPS1 SIGZY_L',12)
-       IF(ANIM_N(IADGPS+20).EQ.1) CALL ANI_TXT('GPS1 SIGXZ_L',12)
+       IF(ANIM_N(IADGPS+1)==1) CALL ANI_TXT('GPS1 Pressure',13)
+       IF(ANIM_N(IADGPS+2)==1) CALL ANI_TXT('GPS1 Von Mises',14)
+       IF(ANIM_N(IADGPS+3)==1) CALL ANI_TXT('GPS1 SIGXX',10)
+       IF(ANIM_N(IADGPS+4)==1) CALL ANI_TXT('GPS1 SIGYY',10)
+       IF(ANIM_N(IADGPS+5)==1) CALL ANI_TXT('GPS1 SIGZZ',10)
+       IF(ANIM_N(IADGPS+6)==1) CALL ANI_TXT('GPS1 SIGXY',10)
+       IF(ANIM_N(IADGPS+7)==1) CALL ANI_TXT('GPS1 SIGZY',10)
+       IF(ANIM_N(IADGPS+8)==1) CALL ANI_TXT('GPS1 SIGXZ',10)
+       IF(ANIM_N(IADGPS+9)==1) CALL ANI_TXT('GPS1 SIGXX_U',12)
+       IF(ANIM_N(IADGPS+10)==1) CALL ANI_TXT('GPS1 SIGYY_U',12)
+       IF(ANIM_N(IADGPS+11)==1) CALL ANI_TXT('GPS1 SIGZZ_U',12)
+       IF(ANIM_N(IADGPS+12)==1) CALL ANI_TXT('GPS1 SIGXY_U',12)
+       IF(ANIM_N(IADGPS+13)==1) CALL ANI_TXT('GPS1 SIGZY_U',12)
+       IF(ANIM_N(IADGPS+14)==1) CALL ANI_TXT('GPS1 SIGXZ_U',12)
+       IF(ANIM_N(IADGPS+15)==1) CALL ANI_TXT('GPS1 SIGXX_L',12)
+       IF(ANIM_N(IADGPS+16)==1) CALL ANI_TXT('GPS1 SIGYY_L',12)
+       IF(ANIM_N(IADGPS+17)==1) CALL ANI_TXT('GPS1 SIGZZ_L',12)
+       IF(ANIM_N(IADGPS+18)==1) CALL ANI_TXT('GPS1 SIGXY_L',12)
+       IF(ANIM_N(IADGPS+19)==1) CALL ANI_TXT('GPS1 SIGZY_L',12)
+       IF(ANIM_N(IADGPS+20)==1) CALL ANI_TXT('GPS1 SIGXZ_L',12)
        IADGPS = IAD_GPS+100
-       IF(ANIM_N(IADGPS+1).EQ.1) CALL ANI_TXT('GPS2 Pressure',13)
-       IF(ANIM_N(IADGPS+2).EQ.1) CALL ANI_TXT('GPS2 Von Mises',14)
-       IF(ANIM_N(IADGPS+3).EQ.1) CALL ANI_TXT('GPS2 SIGXX',10)
-       IF(ANIM_N(IADGPS+4).EQ.1) CALL ANI_TXT('GPS2 SIGYY',10)
-       IF(ANIM_N(IADGPS+5).EQ.1) CALL ANI_TXT('GPS2 SIGZZ',10)
-       IF(ANIM_N(IADGPS+6).EQ.1) CALL ANI_TXT('GPS2 SIGXY',10)
-       IF(ANIM_N(IADGPS+7).EQ.1) CALL ANI_TXT('GPS2 SIGZY',10)
-       IF(ANIM_N(IADGPS+8).EQ.1) CALL ANI_TXT('GPS2 SIGXZ',10)
-       IF(ANIM_N(IADGPS+9).EQ.1) CALL ANI_TXT('GPS2 SIGXX_U',12)
-       IF(ANIM_N(IADGPS+10).EQ.1) CALL ANI_TXT('GPS2 SIGYY_U',12)
-       IF(ANIM_N(IADGPS+11).EQ.1) CALL ANI_TXT('GPS2 SIGZZ_U',12)
-       IF(ANIM_N(IADGPS+12).EQ.1) CALL ANI_TXT('GPS2 SIGXY_U',12)
-       IF(ANIM_N(IADGPS+13).EQ.1) CALL ANI_TXT('GPS2 SIGZY_U',12)
-       IF(ANIM_N(IADGPS+14).EQ.1) CALL ANI_TXT('GPS2 SIGXZ_U',12)
-       IF(ANIM_N(IADGPS+15).EQ.1) CALL ANI_TXT('GPS2 SIGXX_L',12)
-       IF(ANIM_N(IADGPS+16).EQ.1) CALL ANI_TXT('GPS2 SIGYY_L',12)
-       IF(ANIM_N(IADGPS+17).EQ.1) CALL ANI_TXT('GPS2 SIGZZ_L',12)
-       IF(ANIM_N(IADGPS+18).EQ.1) CALL ANI_TXT('GPS2 SIGXY_L',12)
-       IF(ANIM_N(IADGPS+19).EQ.1) CALL ANI_TXT('GPS2 SIGZY_L',12)
-       IF(ANIM_N(IADGPS+20).EQ.1) CALL ANI_TXT('GPS2 SIGXZ_L',12)
+       IF(ANIM_N(IADGPS+1)==1) CALL ANI_TXT('GPS2 Pressure',13)
+       IF(ANIM_N(IADGPS+2)==1) CALL ANI_TXT('GPS2 Von Mises',14)
+       IF(ANIM_N(IADGPS+3)==1) CALL ANI_TXT('GPS2 SIGXX',10)
+       IF(ANIM_N(IADGPS+4)==1) CALL ANI_TXT('GPS2 SIGYY',10)
+       IF(ANIM_N(IADGPS+5)==1) CALL ANI_TXT('GPS2 SIGZZ',10)
+       IF(ANIM_N(IADGPS+6)==1) CALL ANI_TXT('GPS2 SIGXY',10)
+       IF(ANIM_N(IADGPS+7)==1) CALL ANI_TXT('GPS2 SIGZY',10)
+       IF(ANIM_N(IADGPS+8)==1) CALL ANI_TXT('GPS2 SIGXZ',10)
+       IF(ANIM_N(IADGPS+9)==1) CALL ANI_TXT('GPS2 SIGXX_U',12)
+       IF(ANIM_N(IADGPS+10)==1) CALL ANI_TXT('GPS2 SIGYY_U',12)
+       IF(ANIM_N(IADGPS+11)==1) CALL ANI_TXT('GPS2 SIGZZ_U',12)
+       IF(ANIM_N(IADGPS+12)==1) CALL ANI_TXT('GPS2 SIGXY_U',12)
+       IF(ANIM_N(IADGPS+13)==1) CALL ANI_TXT('GPS2 SIGZY_U',12)
+       IF(ANIM_N(IADGPS+14)==1) CALL ANI_TXT('GPS2 SIGXZ_U',12)
+       IF(ANIM_N(IADGPS+15)==1) CALL ANI_TXT('GPS2 SIGXX_L',12)
+       IF(ANIM_N(IADGPS+16)==1) CALL ANI_TXT('GPS2 SIGYY_L',12)
+       IF(ANIM_N(IADGPS+17)==1) CALL ANI_TXT('GPS2 SIGZZ_L',12)
+       IF(ANIM_N(IADGPS+18)==1) CALL ANI_TXT('GPS2 SIGXY_L',12)
+       IF(ANIM_N(IADGPS+19)==1) CALL ANI_TXT('GPS2 SIGZY_L',12)
+       IF(ANIM_N(IADGPS+20)==1) CALL ANI_TXT('GPS2 SIGXZ_L',12)
 c stress gps
        IADGPS = IAD_GPS+200
-       IF(ANIM_N(IADGPS+1).EQ.1) CALL ANI_TXT('GPS SIGXX',9)
-       IF(ANIM_N(IADGPS+2).EQ.1) CALL ANI_TXT('GPS SIGYY',9)
-       IF(ANIM_N(IADGPS+3).EQ.1) CALL ANI_TXT('GPS SIGZZ',9)
-       IF(ANIM_N(IADGPS+4).EQ.1) CALL ANI_TXT('GPS SIGXY',9)
-       IF(ANIM_N(IADGPS+5).EQ.1) CALL ANI_TXT('GPS SIGZY',9)
-       IF(ANIM_N(IADGPS+6).EQ.1) CALL ANI_TXT('GPS SIGXZ',9)
+       IF(ANIM_N(IADGPS+1)==1) CALL ANI_TXT('GPS SIGXX',9)
+       IF(ANIM_N(IADGPS+2)==1) CALL ANI_TXT('GPS SIGYY',9)
+       IF(ANIM_N(IADGPS+3)==1) CALL ANI_TXT('GPS SIGZZ',9)
+       IF(ANIM_N(IADGPS+4)==1) CALL ANI_TXT('GPS SIGXY',9)
+       IF(ANIM_N(IADGPS+5)==1) CALL ANI_TXT('GPS SIGZY',9)
+       IF(ANIM_N(IADGPS+6)==1) CALL ANI_TXT('GPS SIGXZ',9)
 c stress isogeo
        IADISO = IAD_GPS+300
-       IF(ANIM_N(IADISO+1).EQ.1) CALL ANI_TXT('STRESS ISOGEO SIGXX',20)
-       IF(ANIM_N(IADISO+2).EQ.1) CALL ANI_TXT('STRESS ISOGEO SIGYY',20)
-       IF(ANIM_N(IADISO+3).EQ.1) CALL ANI_TXT('STRESS ISOGEO SIGZZ',20)
-       IF(ANIM_N(IADISO+4).EQ.1) CALL ANI_TXT('STRESS ISOGEO SIGXY',20)
-       IF(ANIM_N(IADISO+5).EQ.1) CALL ANI_TXT('STRESS ISOGEO SIGZY',20)
-       IF(ANIM_N(IADISO+6).EQ.1) CALL ANI_TXT('STRESS ISOGEO SIGXZ',20)
+       IF(ANIM_N(IADISO+1)==1) CALL ANI_TXT('STRESS ISOGEO SIGXX',20)
+       IF(ANIM_N(IADISO+2)==1) CALL ANI_TXT('STRESS ISOGEO SIGYY',20)
+       IF(ANIM_N(IADISO+3)==1) CALL ANI_TXT('STRESS ISOGEO SIGZZ',20)
+       IF(ANIM_N(IADISO+4)==1) CALL ANI_TXT('STRESS ISOGEO SIGXY',20)
+       IF(ANIM_N(IADISO+5)==1) CALL ANI_TXT('STRESS ISOGEO SIGZY',20)
+       IF(ANIM_N(IADISO+6)==1) CALL ANI_TXT('STRESS ISOGEO SIGXZ',20)
 c strain gps
        IADGPS = IAD_GPS+400
-       IF(ANIM_N(IADGPS+1).EQ.1) CALL ANI_TXT('GPSTRAIN EPSXX',14)
-       IF(ANIM_N(IADGPS+2).EQ.1) CALL ANI_TXT('GPSTRAIN EPSYY',14)
-       IF(ANIM_N(IADGPS+3).EQ.1) CALL ANI_TXT('GPSTRAIN EPSZZ',14)
-       IF(ANIM_N(IADGPS+4).EQ.1) CALL ANI_TXT('GPSTRAIN EPSXY',14)
-       IF(ANIM_N(IADGPS+5).EQ.1) CALL ANI_TXT('GPSTRAIN EPSZY',14)
-       IF(ANIM_N(IADGPS+6).EQ.1) CALL ANI_TXT('GPSTRAIN EPSXZ',14)
+       IF(ANIM_N(IADGPS+1)==1) CALL ANI_TXT('GPSTRAIN EPSXX',14)
+       IF(ANIM_N(IADGPS+2)==1) CALL ANI_TXT('GPSTRAIN EPSYY',14)
+       IF(ANIM_N(IADGPS+3)==1) CALL ANI_TXT('GPSTRAIN EPSZZ',14)
+       IF(ANIM_N(IADGPS+4)==1) CALL ANI_TXT('GPSTRAIN EPSXY',14)
+       IF(ANIM_N(IADGPS+5)==1) CALL ANI_TXT('GPSTRAIN EPSZY',14)
+       IF(ANIM_N(IADGPS+6)==1) CALL ANI_TXT('GPSTRAIN EPSXZ',14)
 C-----------------------------------------------
 C   E(quad+shell+truss+..) FUNC TEXT
 C-----------------------------------------------
-       IF(NBF+NELCUT+NESBW2.NE.0)THEN
-        IF(ANIM_CE(1).EQ.1) CALL ANI_TXT('Plastic Strain',14)
-        IF(ANIM_CE(2).EQ.1) CALL ANI_TXT('Density',7)
-        IF(ANIM_CE(3).EQ.1) CALL ANI_TXT('Specific Energy',15)
-        IF(ANIM_CE(4).EQ.1) CALL ANI_TXT('Temperature',11)
-        IF(ANIM_CE(5).EQ.1) CALL ANI_TXT('Thickness',9)
-        IF(ANIM_CE(6).EQ.1) CALL ANI_TXT('Pressure',8)
-        IF(ANIM_CE(7).EQ.1) CALL ANI_TXT('Von Mises',9)
-        IF(ANIM_CE(8).EQ.1) CALL ANI_TXT('Turbulent Energy',16)
-        IF(ANIM_CE(9).EQ.1) CALL ANI_TXT('Turbulent Viscosity',19)
-        IF(ANIM_CE(10).EQ.1) CALL ANI_TXT('Vorticity-X',11)
-        IF(ANIM_CE(11).EQ.1) CALL ANI_TXT('Damage 1',8)
-        IF(ANIM_CE(12).EQ.1) CALL ANI_TXT('Damage 2',8)
-        IF(ANIM_CE(13).EQ.1) CALL ANI_TXT('Damage 3',8)
-        IF(ANIM_CE(14).EQ.1) CALL ANI_TXT('Stress X ',9)
-        IF(ANIM_CE(15).EQ.1) CALL ANI_TXT('Stress Y ',9)
-        IF(ANIM_CE(16).EQ.1) CALL ANI_TXT('Stress Z ',9)
-        IF(ANIM_CE(17).EQ.1) CALL ANI_TXT('Stress XY',9)
-        IF(ANIM_CE(18).EQ.1) CALL ANI_TXT('Stress YZ',9)
-        IF(ANIM_CE(19).EQ.1) CALL ANI_TXT('Stress ZX',9)
-        IF(ANIM_CE(20).EQ.1) CALL ANI_TXT('User Var 1',10)
-        IF(ANIM_CE(21).EQ.1) CALL ANI_TXT('User Var 2',10)
-        IF(ANIM_CE(22).EQ.1) CALL ANI_TXT('User Var 3',10)
-        IF(ANIM_CE(23).EQ.1) CALL ANI_TXT('User Var 4',10)
-        IF(ANIM_CE(24).EQ.1) CALL ANI_TXT('User Var 5',10)
-        IF(ANIM_CE(25).EQ.1) CALL ANI_TXT('Hourglass Energy',16)
-        IF(ANIM_CE(26).EQ.1) CALL ANI_TXT('Strain Rate',11)
-        IF(ANIM_CE(27).EQ.1) CALL ANI_TXT('User Var 6',10)
-        IF(ANIM_CE(28).EQ.1) CALL ANI_TXT('User Var 7',10)
-        IF(ANIM_CE(29).EQ.1) CALL ANI_TXT('User Var 8',10)
-        IF(ANIM_CE(30).EQ.1) CALL ANI_TXT('User Var 9',10)
-        IF(ANIM_CE(31).EQ.1) CALL ANI_TXT('User Var 10',11)
-        IF(ANIM_CE(32).EQ.1) CALL ANI_TXT('User Var 11',11)
-        IF(ANIM_CE(33).EQ.1) CALL ANI_TXT('User Var 12',11)
-        IF(ANIM_CE(34).EQ.1) CALL ANI_TXT('User Var 13',11)
-        IF(ANIM_CE(35).EQ.1) CALL ANI_TXT('User Var 14',11)
-        IF(ANIM_CE(36).EQ.1) CALL ANI_TXT('User Var 15',11)
-        IF(ANIM_CE(37).EQ.1) CALL ANI_TXT('User Var 16',11)
-        IF(ANIM_CE(38).EQ.1) CALL ANI_TXT('User Var 17',11)
-        IF(ANIM_CE(39).EQ.1) CALL ANI_TXT('User Var 18',11)
+       IF(NBF+NELCUT+NESBW2/=0)THEN
+        IF(ANIM_CE(1)==1) CALL ANI_TXT('Plastic Strain',14)
+        IF(ANIM_CE(2)==1) CALL ANI_TXT('Density',7)
+        IF(ANIM_CE(3)==1) CALL ANI_TXT('Specific Energy',15)
+        IF(ANIM_CE(4)==1) CALL ANI_TXT('Temperature',11)
+        IF(ANIM_CE(5)==1) CALL ANI_TXT('Thickness',9)
+        IF(ANIM_CE(6)==1) CALL ANI_TXT('Pressure',8)
+        IF(ANIM_CE(7)==1) CALL ANI_TXT('Von Mises',9)
+        IF(ANIM_CE(8)==1) CALL ANI_TXT('Turbulent Energy',16)
+        IF(ANIM_CE(9)==1) CALL ANI_TXT('Turbulent Viscosity',19)
+        IF(ANIM_CE(10)==1) CALL ANI_TXT('Vorticity-X',11)
+        IF(ANIM_CE(11)==1) CALL ANI_TXT('Damage 1',8)
+        IF(ANIM_CE(12)==1) CALL ANI_TXT('Damage 2',8)
+        IF(ANIM_CE(13)==1) CALL ANI_TXT('Damage 3',8)
+        IF(ANIM_CE(14)==1) CALL ANI_TXT('Stress X ',9)
+        IF(ANIM_CE(15)==1) CALL ANI_TXT('Stress Y ',9)
+        IF(ANIM_CE(16)==1) CALL ANI_TXT('Stress Z ',9)
+        IF(ANIM_CE(17)==1) CALL ANI_TXT('Stress XY',9)
+        IF(ANIM_CE(18)==1) CALL ANI_TXT('Stress YZ',9)
+        IF(ANIM_CE(19)==1) CALL ANI_TXT('Stress ZX',9)
+        IF(ANIM_CE(20)==1) CALL ANI_TXT('User Var 1',10)
+        IF(ANIM_CE(21)==1) CALL ANI_TXT('User Var 2',10)
+        IF(ANIM_CE(22)==1) CALL ANI_TXT('User Var 3',10)
+        IF(ANIM_CE(23)==1) CALL ANI_TXT('User Var 4',10)
+        IF(ANIM_CE(24)==1) CALL ANI_TXT('User Var 5',10)
+        IF(ANIM_CE(25)==1) CALL ANI_TXT('Hourglass Energy',16)
+        IF(ANIM_CE(26)==1) CALL ANI_TXT('Strain Rate',11)
+        IF(ANIM_CE(27)==1) CALL ANI_TXT('User Var 6',10)
+        IF(ANIM_CE(28)==1) CALL ANI_TXT('User Var 7',10)
+        IF(ANIM_CE(29)==1) CALL ANI_TXT('User Var 8',10)
+        IF(ANIM_CE(30)==1) CALL ANI_TXT('User Var 9',10)
+        IF(ANIM_CE(31)==1) CALL ANI_TXT('User Var 10',11)
+        IF(ANIM_CE(32)==1) CALL ANI_TXT('User Var 11',11)
+        IF(ANIM_CE(33)==1) CALL ANI_TXT('User Var 12',11)
+        IF(ANIM_CE(34)==1) CALL ANI_TXT('User Var 13',11)
+        IF(ANIM_CE(35)==1) CALL ANI_TXT('User Var 14',11)
+        IF(ANIM_CE(36)==1) CALL ANI_TXT('User Var 15',11)
+        IF(ANIM_CE(37)==1) CALL ANI_TXT('User Var 16',11)
+        IF(ANIM_CE(38)==1) CALL ANI_TXT('User Var 17',11)
+        IF(ANIM_CE(39)==1) CALL ANI_TXT('User Var 18',11)
          DO I=40,2039
-           IF(ANIM_CE(I).EQ.1)THEN
+           IF(ANIM_CE(I)==1)THEN
             II = (I - 39)/100 + 1
             IUS = MOD ((I - 39), 100)
-            IF(IUS.EQ.0)THEN
+            IF(IUS==0)THEN
               IUS = 100
               II = II -1
             ENDIF
@@ -2004,44 +2004,44 @@ C-----------------------------------------------
            CALL ANI_TXT(MES,20)
            ENDIF
          ENDDO
-        IF(ANIM_CE(2040).EQ.1) CALL ANI_TXT('Plastic Strain Upper',20)
-        IF(ANIM_CE(2041).EQ.1) CALL ANI_TXT('Plastic Strain Lower',20)
+        IF(ANIM_CE(2040)==1) CALL ANI_TXT('Plastic Strain Upper',20)
+        IF(ANIM_CE(2041)==1) CALL ANI_TXT('Plastic Strain Lower',20)
         DO I=2042,2141
-           IF(ANIM_CE(I).EQ.1)THEN
+           IF(ANIM_CE(I)==1)THEN
              IUS = MOD ((I - 2041), 100)
-             IF(IUS.EQ.0)IUS = 100
+             IF(IUS==0)IUS = 100
              WRITE(MES,'(A,I3,A)')
      .       'Plast Strn Layer ',IUS, ' '
                CALL ANI_TXT(MES,21)
             END IF
         END DO
-        IF(ANIM_CE(2142).EQ.1) CALL ANI_TXT('Nb of Failed layers',19)
-        IF(ANIM_CE(2143).EQ.1) CALL ANI_TXT('Airbag crossing mass',20)
-        IF(ANIM_CE(2144).EQ.1)
+        IF(ANIM_CE(2142)==1) CALL ANI_TXT('Nb of Failed layers',19)
+        IF(ANIM_CE(2143)==1) CALL ANI_TXT('Airbag crossing mass',20)
+        IF(ANIM_CE(2144)==1)
      .     CALL ANI_TXT('Airbag crossing velocity',24)
-        IF(ANIM_CE(2145).EQ.1) CALL ANI_TXT('FVMBAG - Mass',13)
-        IF(ANIM_CE(2146).EQ.1) CALL ANI_TXT('FVMBAG - Pressure',17)
-        IF(ANIM_CE(2147).EQ.1)
+        IF(ANIM_CE(2145)==1) CALL ANI_TXT('FVMBAG - Mass',13)
+        IF(ANIM_CE(2146)==1) CALL ANI_TXT('FVMBAG - Pressure',17)
+        IF(ANIM_CE(2147)==1)
      .     CALL ANI_TXT('FVMBAG - Fluid velocity X',26)
-        IF(ANIM_CE(2148).EQ.1)
+        IF(ANIM_CE(2148)==1)
      .     CALL ANI_TXT('FVMBAG - Fluid velocity Y',26)
-        IF(ANIM_CE(2149).EQ.1)
+        IF(ANIM_CE(2149)==1)
      .     CALL ANI_TXT('FVMBAG - Fluid velocity Z',26)
-        IF(ANIM_CE(2150).EQ.1) CALL ANI_TXT('FVMBAG - Density',16)
-        IF(ANIM_CE(2151).EQ.1)
+        IF(ANIM_CE(2150)==1) CALL ANI_TXT('FVMBAG - Density',16)
+        IF(ANIM_CE(2151)==1)
      .     CALL ANI_TXT('FVMBAG - Specific Energy',25)
-        IF(ANIM_CE(2152).EQ.1) CALL ANI_TXT('FVMBAG - Sound Speed',20)
-        IF(ANIM_CE(2153).EQ.1) CALL ANI_TXT('FVMBAG - Gama',13)
-        IF(ANIM_CE(2154).EQ.1)
+        IF(ANIM_CE(2152)==1) CALL ANI_TXT('FVMBAG - Sound Speed',20)
+        IF(ANIM_CE(2153)==1) CALL ANI_TXT('FVMBAG - Gama',13)
+        IF(ANIM_CE(2154)==1)
      .     CALL ANI_TXT('FVMBAG - Visu Polyhedra',23)
-        IF(ANIM_CE(2155).EQ.1) CALL ANI_TXT('%Thinning',9)
-        IF(ANIM_CE(2156).EQ.1)
+        IF(ANIM_CE(2155)==1) CALL ANI_TXT('%Thinning',9)
+        IF(ANIM_CE(2156)==1)
      .    CALL ANI_TXT('Estimated Error on Thickness',28)
          DO I=2240,10139
-           IF(ANIM_CE(I).EQ.1)THEN
+           IF(ANIM_CE(I)==1)THEN
             II = (I - 2239)/100 + 21
             IUS = MOD ((I - 2239), 100)
-            IF(IUS.EQ.0)THEN
+            IF(IUS==0)THEN
               IUS = 100
               II = II -1
             ENDIF
@@ -2052,94 +2052,94 @@ C-----------------------------------------------
          ENDDO
 C
         DO I=10140,10239
-           IF(ANIM_CE(I).EQ.1)THEN
+           IF(ANIM_CE(I)==1)THEN
             II = I - 10139
             WRITE(MES,'(A,I3,A)')
      .       'PHI,(Layer ',II,')'
             CALL ANI_TXT(MES,16)
            ENDIF
         ENDDO
-        IF(ANIM_CE(10240).EQ.1) CALL  ANI_TXT('INTER PLY - MIN-DAMAGE',22)     
-        IF(ANIM_CE(10241).EQ.1) CALL  ANI_TXT('INTER PLY -SIGZZ',17) 
-        IF(ANIM_CE(10242).EQ.1) CALL  ANI_TXT('INTER PLY -SIGYZ',17) 
-        IF(ANIM_CE(10243).EQ.1) CALL  ANI_TXT('INTER PLY -SIGXZ',17)    
-        IF(ANIM_CE(10244).EQ.1) CALL  ANI_TXT('INTER PLY -EPSZZ',17) 
-        IF(ANIM_CE(10245).EQ.1) CALL  ANI_TXT('INTER PLY -EPSYZ',17) 
-        IF(ANIM_CE(10246).EQ.1) CALL  ANI_TXT('INTER PLY -EPSXZ',17) 
-        IF(ANIM_CE(10247).EQ.1) CALL  ANI_TXT('INTER PLY -EINT',16)
+        IF(ANIM_CE(10240)==1) CALL  ANI_TXT('INTER PLY - MIN-DAMAGE',22)     
+        IF(ANIM_CE(10241)==1) CALL  ANI_TXT('INTER PLY -SIGZZ',17) 
+        IF(ANIM_CE(10242)==1) CALL  ANI_TXT('INTER PLY -SIGYZ',17) 
+        IF(ANIM_CE(10243)==1) CALL  ANI_TXT('INTER PLY -SIGXZ',17)    
+        IF(ANIM_CE(10244)==1) CALL  ANI_TXT('INTER PLY -EPSZZ',17) 
+        IF(ANIM_CE(10245)==1) CALL  ANI_TXT('INTER PLY -EPSYZ',17) 
+        IF(ANIM_CE(10246)==1) CALL  ANI_TXT('INTER PLY -EPSXZ',17) 
+        IF(ANIM_CE(10247)==1) CALL  ANI_TXT('INTER PLY -EINT',16)
        
-        IF(ANIM_CE(10248).EQ.1) CALL ANI_TXT('Volumetric Fraction 1',21)
-        IF(ANIM_CE(10249).EQ.1) CALL ANI_TXT('Volumetric Fraction 2',21)
-        IF(ANIM_CE(10250).EQ.1) CALL ANI_TXT('Volumetric Fraction 3',21)
-        IF(ANIM_CE(10251).EQ.1) CALL ANI_TXT('Volumetric Fraction 4',21)
-        IF(ANIM_CE(10252).EQ.1) CALL ANI_TXT('Burn Fraction',13)
+        IF(ANIM_CE(10248)==1) CALL ANI_TXT('Volumetric Fraction 1',21)
+        IF(ANIM_CE(10249)==1) CALL ANI_TXT('Volumetric Fraction 2',21)
+        IF(ANIM_CE(10250)==1) CALL ANI_TXT('Volumetric Fraction 3',21)
+        IF(ANIM_CE(10251)==1) CALL ANI_TXT('Volumetric Fraction 4',21)
+        IF(ANIM_CE(10252)==1) CALL ANI_TXT('Burn Fraction',13)
 C-----------------------------------------------
 C   ELEMENT FAILURE COEFFECIENT : NXT CRITRIA
 C-----------------------------------------------
-        IF(ANIM_CE(10253).EQ.1) CALL  ANI_TXT('NXT FAILURE FACTOR',19)
-        IF(ANIM_CE(10254).EQ.1) CALL  ANI_TXT('SIGMA1/h',9)
-        IF(ANIM_CE(10255).EQ.1) CALL  ANI_TXT('SIGMA2/h',9)
+        IF(ANIM_CE(10253)==1) CALL  ANI_TXT('NXT FAILURE FACTOR',19)
+        IF(ANIM_CE(10254)==1) CALL  ANI_TXT('SIGMA1/h',9)
+        IF(ANIM_CE(10255)==1) CALL  ANI_TXT('SIGMA2/h',9)
 C-----------------------------------------------
 C   DAMAGE FACTOR : MAX of ALL CRITRIA BY LAYER
 C-----------------------------------------------
 C 
-        IF(ANIM_CE(10256).EQ.1) CALL ANI_TXT('MAX DAMAGE ELEMENT',18)
-        IF(ANIM_CE(10257).EQ.1) CALL ANI_TXT('MAX DAMAGE UPPER',18)
-        IF(ANIM_CE(10258).EQ.1) CALL ANI_TXT('MAX DAMAGE LOWER',18)
-        IF(ANIM_CE(10259).EQ.1) CALL ANI_TXT('MAX DAMAGE MEMBRANE',21)
+        IF(ANIM_CE(10256)==1) CALL ANI_TXT('MAX DAMAGE ELEMENT',18)
+        IF(ANIM_CE(10257)==1) CALL ANI_TXT('MAX DAMAGE UPPER',18)
+        IF(ANIM_CE(10258)==1) CALL ANI_TXT('MAX DAMAGE LOWER',18)
+        IF(ANIM_CE(10259)==1) CALL ANI_TXT('MAX DAMAGE MEMBRANE',21)
         DO I=10260,10359
-           IF(ANIM_CE(I).EQ.1)THEN
+           IF(ANIM_CE(I)==1)THEN
             II = I - 10259
             WRITE(MES,'(A,I3,A)')
      .       'DAMAGE,(Layer ',II,')'
             CALL ANI_TXT(MES,20)
            ENDIF
         ENDDO   
-        IF(ANIM_CE(10360).EQ.1) CALL ANI_TXT('NXT FAILURE FACTOR UPPER',25)
-        IF(ANIM_CE(10361).EQ.1) CALL ANI_TXT('NXT FAILURE FACTOR LOWER',25)
-        IF(ANIM_CE(10362).EQ.1) CALL ANI_TXT('NXT FAILURE FACTOR MEMBRANE',28)
+        IF(ANIM_CE(10360)==1) CALL ANI_TXT('NXT FAILURE FACTOR UPPER',25)
+        IF(ANIM_CE(10361)==1) CALL ANI_TXT('NXT FAILURE FACTOR LOWER',25)
+        IF(ANIM_CE(10362)==1) CALL ANI_TXT('NXT FAILURE FACTOR MEMBRANE',28)
         DO I=10363,10462
-           IF(ANIM_CE(I).EQ.1)THEN
+           IF(ANIM_CE(I)==1)THEN
             II = I - 10362
             WRITE(MES,'(A,I3,A)')
      .       'NXT FAILURE FACTOR,(Layer ',II,')'
             CALL ANI_TXT(MES,32)
            ENDIF
         ENDDO  
-        IF(ANIM_CE(10463).EQ.1) CALL ANI_TXT('SIGMA1/h UPPER',15)
-        IF(ANIM_CE(10464).EQ.1) CALL ANI_TXT('SIGMA1/h LOWER',15)
-        IF(ANIM_CE(10465).EQ.1) CALL ANI_TXT('SIGMA1/h MEMBRANE',18)
+        IF(ANIM_CE(10463)==1) CALL ANI_TXT('SIGMA1/h UPPER',15)
+        IF(ANIM_CE(10464)==1) CALL ANI_TXT('SIGMA1/h LOWER',15)
+        IF(ANIM_CE(10465)==1) CALL ANI_TXT('SIGMA1/h MEMBRANE',18)
         DO I=10466,10565
-           IF(ANIM_CE(I).EQ.1)THEN
+           IF(ANIM_CE(I)==1)THEN
             II = I - 10465
             WRITE(MES,'(A,I3,A)')
      .       'SIGMA1/h,(Layer ',II,')'
             CALL ANI_TXT(MES,22)
            ENDIF
         ENDDO 
-        IF(ANIM_CE(10566).EQ.1) CALL ANI_TXT('SIGMA2/h UPPER',15)
-        IF(ANIM_CE(10567).EQ.1) CALL ANI_TXT('SIGMA2/h LOWER',15)
-        IF(ANIM_CE(10568).EQ.1) CALL ANI_TXT('SIGMA2/h MEMBRANE',18)
+        IF(ANIM_CE(10566)==1) CALL ANI_TXT('SIGMA2/h UPPER',15)
+        IF(ANIM_CE(10567)==1) CALL ANI_TXT('SIGMA2/h LOWER',15)
+        IF(ANIM_CE(10568)==1) CALL ANI_TXT('SIGMA2/h MEMBRANE',18)
         DO I=10569,10668
-           IF(ANIM_CE(I).EQ.1)THEN
+           IF(ANIM_CE(I)==1)THEN
             II = I - 10568
             WRITE(MES,'(A,I3,A)')
      .       'SIGMA2/h,(Layer ',II,')'
             CALL ANI_TXT(MES,22)
            ENDIF
         ENDDO 
-        IF(ANIM_CE(10669).EQ.1)CALL ANI_TXT('INTER PLY - MAX-DAMAGE',22)
-        IF(ANIM_CE(10670).EQ.1)CALL ANI_TXT('TIME DELETION ELEMENT',21)
-        IF(ANIM_CE(10671).EQ.1)CALL ANI_TXT('Sound Speed',11)        
-        IF(ANIM_CE(10672).EQ.1)CALL ANI_TXT('Schlieren',9)    
-        IF(ANIM_CE(10673).EQ.1)CALL ANI_TXT('phi MEMBRANE',12)         
-        IF(ANIM_CE(10674).EQ.1)CALL ANI_TXT('phi UPPER',9)       
-        IF(ANIM_CE(10675).EQ.1)CALL ANI_TXT('phi LOWER',9)        
-        IF(ANIM_CE(10676).EQ.1)CALL ANI_TXT('Domain',6)                  
+        IF(ANIM_CE(10669)==1)CALL ANI_TXT('INTER PLY - MAX-DAMAGE',22)
+        IF(ANIM_CE(10670)==1)CALL ANI_TXT('TIME DELETION ELEMENT',21)
+        IF(ANIM_CE(10671)==1)CALL ANI_TXT('Sound Speed',11)        
+        IF(ANIM_CE(10672)==1)CALL ANI_TXT('Schlieren',9)    
+        IF(ANIM_CE(10673)==1)CALL ANI_TXT('phi MEMBRANE',12)         
+        IF(ANIM_CE(10674)==1)CALL ANI_TXT('phi UPPER',9)       
+        IF(ANIM_CE(10675)==1)CALL ANI_TXT('phi LOWER',9)        
+        IF(ANIM_CE(10676)==1)CALL ANI_TXT('Domain',6)                  
 C-----------------------------------------------
 C   element equivalent stress criteria
 C-----------------------------------------------
-        IF(ANIM_CE(10677).EQ.1)CALL ANI_TXT('Equiv stress',12)
+        IF(ANIM_CE(10677)==1)CALL ANI_TXT('Equiv stress',12)
 C-----------------------------------------------
 C   Plastic Strain output (all NPTT) for new PID51 composite shell
 C-----------------------------------------------
@@ -2147,7 +2147,7 @@ C  upper for PID51
         DO I=10678,10777
            IF (ANIM_CE(I) == 1) THEN
              IUS = MOD ((I - 10677), 100)
-             IF(IUS.EQ.0) IUS = 100
+             IF(IUS==0) IUS = 100
              WRITE(MES,'(A,I3,A)')
      .       'Plastic Strain Upper Layer',IUS, ' '
                CALL ANI_TXT(MES,30)
@@ -2157,7 +2157,7 @@ C  lower for PID51
         DO I=10778,10877
            IF (ANIM_CE(I) == 1) THEN
              IUS = MOD ((I - 10777), 100)
-             IF(IUS.EQ.0) IUS = 100
+             IF(IUS==0) IUS = 100
              WRITE(MES,'(A,I3,A)')
      .       'Plastic Strain Lower Layer',IUS, ' '
                CALL ANI_TXT(MES,30)
@@ -2179,61 +2179,61 @@ C all NPTT for PID51
 C-----------------------------------------------
 C   Artificial Viscosity
 C-----------------------------------------------
-        IF(ANIM_CE(11888).EQ.1)CALL ANI_TXT('Artificial Viscosity',20)  !previous PID uses ANIM_CE(10678:11887)
-        IF(ANIM_CE(11889).EQ.1)CALL ANI_TXT('Detonation Time',15) 
+        IF(ANIM_CE(11888)==1)CALL ANI_TXT('Artificial Viscosity',20)  !previous PID uses ANIM_CE(10678:11887)
+        IF(ANIM_CE(11889)==1)CALL ANI_TXT('Detonation Time',15) 
         
         !multumaterial law 20 ouptus
-        IF(ANIM_CE(11890).EQ.1)CALL ANI_TXT('Density-1',15) 
-        IF(ANIM_CE(11891).EQ.1)CALL ANI_TXT('Density-2',15) 
-        IF(ANIM_CE(11892).EQ.1)CALL ANI_TXT('Density-3',15) 
-        IF(ANIM_CE(11893).EQ.1)CALL ANI_TXT('Density-4',15)                         
+        IF(ANIM_CE(11890)==1)CALL ANI_TXT('Density-1',15) 
+        IF(ANIM_CE(11891)==1)CALL ANI_TXT('Density-2',15) 
+        IF(ANIM_CE(11892)==1)CALL ANI_TXT('Density-3',15) 
+        IF(ANIM_CE(11893)==1)CALL ANI_TXT('Density-4',15)                         
 
-        IF(ANIM_CE(11894).EQ.1)CALL ANI_TXT('Specific Energy-1',17)                         
-        IF(ANIM_CE(11895).EQ.1)CALL ANI_TXT('Specific Energy-2',17)                         
-        IF(ANIM_CE(11896).EQ.1)CALL ANI_TXT('Specific Energy-3',17)                         
-        IF(ANIM_CE(11897).EQ.1)CALL ANI_TXT('Specific Energy-4',17)                         
+        IF(ANIM_CE(11894)==1)CALL ANI_TXT('Specific Energy-1',17)                         
+        IF(ANIM_CE(11895)==1)CALL ANI_TXT('Specific Energy-2',17)                         
+        IF(ANIM_CE(11896)==1)CALL ANI_TXT('Specific Energy-3',17)                         
+        IF(ANIM_CE(11897)==1)CALL ANI_TXT('Specific Energy-4',17)                         
 
-        IF(ANIM_CE(11898).EQ.1)CALL ANI_TXT('Temperature-1',13)     
-        IF(ANIM_CE(11899).EQ.1)CALL ANI_TXT('Temperature-2',13)     
-        IF(ANIM_CE(11900).EQ.1)CALL ANI_TXT('Temperature-3',13)     
-        IF(ANIM_CE(11901).EQ.1)CALL ANI_TXT('Temperature-4',13)                             
+        IF(ANIM_CE(11898)==1)CALL ANI_TXT('Temperature-1',13)     
+        IF(ANIM_CE(11899)==1)CALL ANI_TXT('Temperature-2',13)     
+        IF(ANIM_CE(11900)==1)CALL ANI_TXT('Temperature-3',13)     
+        IF(ANIM_CE(11901)==1)CALL ANI_TXT('Temperature-4',13)                             
         
-        IF(ANIM_CE(11902).EQ.1)CALL ANI_TXT('Pressure-1',10)                             
-        IF(ANIM_CE(11903).EQ.1)CALL ANI_TXT('Pressure-2',10)                             
-        IF(ANIM_CE(11904).EQ.1)CALL ANI_TXT('Pressure-3',10)                             
-        IF(ANIM_CE(11905).EQ.1)CALL ANI_TXT('Pressure-4',10)                                                     
+        IF(ANIM_CE(11902)==1)CALL ANI_TXT('Pressure-1',10)                             
+        IF(ANIM_CE(11903)==1)CALL ANI_TXT('Pressure-2',10)                             
+        IF(ANIM_CE(11904)==1)CALL ANI_TXT('Pressure-3',10)                             
+        IF(ANIM_CE(11905)==1)CALL ANI_TXT('Pressure-4',10)                                                     
 
-        IF(ANIM_CE(11906).EQ.1)CALL ANI_TXT('Plastic Strain-1',16) 
-        IF(ANIM_CE(11907).EQ.1)CALL ANI_TXT('Plastic Strain-2',16) 
-        IF(ANIM_CE(11908).EQ.1)CALL ANI_TXT('Plastic Strain-3',16) 
-        IF(ANIM_CE(11909).EQ.1)CALL ANI_TXT('Plastic Strain-4',16) 
+        IF(ANIM_CE(11906)==1)CALL ANI_TXT('Plastic Strain-1',16) 
+        IF(ANIM_CE(11907)==1)CALL ANI_TXT('Plastic Strain-2',16) 
+        IF(ANIM_CE(11908)==1)CALL ANI_TXT('Plastic Strain-3',16) 
+        IF(ANIM_CE(11909)==1)CALL ANI_TXT('Plastic Strain-4',16) 
 
-        IF(ANIM_CE(11910).EQ.1)CALL ANI_TXT('Sound Speed-1',13) 
-        IF(ANIM_CE(11911).EQ.1)CALL ANI_TXT('Sound Speed-2',13) 
-        IF(ANIM_CE(11912).EQ.1)CALL ANI_TXT('Sound Speed-3',13) 
-        IF(ANIM_CE(11913).EQ.1)CALL ANI_TXT('Sound Speed-4',13)                         
+        IF(ANIM_CE(11910)==1)CALL ANI_TXT('Sound Speed-1',13) 
+        IF(ANIM_CE(11911)==1)CALL ANI_TXT('Sound Speed-2',13) 
+        IF(ANIM_CE(11912)==1)CALL ANI_TXT('Sound Speed-3',13) 
+        IF(ANIM_CE(11913)==1)CALL ANI_TXT('Sound Speed-4',13)                         
         
-        IF(ANIM_CE(11914).EQ.1)CALL ANI_TXT('Volume-1',8)                                 
-        IF(ANIM_CE(11915).EQ.1)CALL ANI_TXT('Volume-2',8)                                 
-        IF(ANIM_CE(11916).EQ.1)CALL ANI_TXT('Volume-3',8)                                 
-        IF(ANIM_CE(11917).EQ.1)CALL ANI_TXT('Volume-4',8)                                                                 
+        IF(ANIM_CE(11914)==1)CALL ANI_TXT('Volume-1',8)                                 
+        IF(ANIM_CE(11915)==1)CALL ANI_TXT('Volume-2',8)                                 
+        IF(ANIM_CE(11916)==1)CALL ANI_TXT('Volume-3',8)                                 
+        IF(ANIM_CE(11917)==1)CALL ANI_TXT('Volume-4',8)                                                                 
 
-        IF(ANIM_CE(11918).EQ.1)CALL ANI_TXT('Mass-1',6)                                 
-        IF(ANIM_CE(11919).EQ.1)CALL ANI_TXT('Mass-2',6)                                 
-        IF(ANIM_CE(11920).EQ.1)CALL ANI_TXT('Mass-3',6)                                 
-        IF(ANIM_CE(11921).EQ.1)CALL ANI_TXT('Mass-4',6)                   
+        IF(ANIM_CE(11918)==1)CALL ANI_TXT('Mass-1',6)                                 
+        IF(ANIM_CE(11919)==1)CALL ANI_TXT('Mass-2',6)                                 
+        IF(ANIM_CE(11920)==1)CALL ANI_TXT('Mass-3',6)                                 
+        IF(ANIM_CE(11921)==1)CALL ANI_TXT('Mass-4',6)                   
         
-        IF(ANIM_CE(11922).EQ.1)CALL ANI_TXT('Artificial Viscosity-1',22) 
-        IF(ANIM_CE(11923).EQ.1)CALL ANI_TXT('Artificial Viscosity-2',22) 
-        IF(ANIM_CE(11924).EQ.1)CALL ANI_TXT('Artificial Viscosity-3',22)                         
-        IF(ANIM_CE(11925).EQ.1)CALL ANI_TXT('Artificial Viscosity-4',22)  
+        IF(ANIM_CE(11922)==1)CALL ANI_TXT('Artificial Viscosity-1',22) 
+        IF(ANIM_CE(11923)==1)CALL ANI_TXT('Artificial Viscosity-2',22) 
+        IF(ANIM_CE(11924)==1)CALL ANI_TXT('Artificial Viscosity-3',22)                         
+        IF(ANIM_CE(11925)==1)CALL ANI_TXT('Artificial Viscosity-4',22)  
 
 
 C
 C /ANIM/SHELL/IDPLY/
 C
         DO I=1,MX_PLY_ANIM 
-          IF(ANIM_CE(11925+I) .EQ. 1) THEN
+          IF(ANIM_CE(11925+I) == 1) THEN
              WRITE(MES,'(A,I10)')
      .        'PLY_ID ',PLY_ANIM( 3 * (I - 1) + 1)
               CALL ANI_TXT(MES,17)
@@ -2243,7 +2243,7 @@ C
 C /ANIM/SHELL/IDPLY/PHI
 C
         DO I=1,MX_PLY_ANIM 
-          IF(ANIM_CE( (11925+MX_PLY_ANIM) +I) .EQ. 1) THEN
+          IF(ANIM_CE( (11925+MX_PLY_ANIM) +I) == 1) THEN
             WRITE(MES,'(A,I10,A)')
      .       'PHI,(Ply_id ',PLY_ANIM_PHI( 3 * (I - 1) + 1),')'
               CALL ANI_TXT(MES,23)
@@ -2253,7 +2253,7 @@ C
 C /ANIM/SHELL/IDPLY/EPSP
 C
         DO I=1,MX_PLY_ANIM 
-          IF(ANIM_CE( (11925+2*MX_PLY_ANIM) +I) .EQ. 1) THEN
+          IF(ANIM_CE( (11925+2*MX_PLY_ANIM) +I) == 1) THEN
             WRITE(MES,'(A,I10,A,I3)')
      .       'Plas Str PLY/IPT',PLY_ANIM_EPSP( 3 * (I - 1) + 1),
      .        ' ',PLY_ANIM_EPSP( 3 * (I - 1) + 3)
@@ -2264,7 +2264,7 @@ C
 C /ANIM/SHELL/IDPLY/DAMA
 C
         DO I=1,MX_PLY_ANIM 
-          IF(ANIM_CE( (11925+3*MX_PLY_ANIM) +I) .EQ. 1) THEN
+          IF(ANIM_CE( (11925+3*MX_PLY_ANIM) +I) == 1) THEN
             WRITE(MES,'(A,I10,A,I3)')
      .       'DAMAGE PLY/IPT',PLY_ANIM_DAMA( 3 * (I - 1) + 1),
      .        ' ',PLY_ANIM_DAMA( 3 * (I - 1) + 3)
@@ -2339,27 +2339,27 @@ C all NPTT through all layers for PID_51, 52
 C
         !/ANIM/ELEM/DT
         IDX = 4*MX_PLY_ANIM 
-        IF(ANIM_CE(IDX+13242).EQ.1)CALL ANI_TXT('Element Time Step',17)
+        IF(ANIM_CE(IDX+13242)==1)CALL ANI_TXT('Element Time Step',17)
 C
         !/ANIM/ELEM/AMS
         IDX = 4*MX_PLY_ANIM 
-        IF(ANIM_CE(IDX+13242+1).EQ.1)CALL ANI_TXT('AMS selection',13) 
+        IF(ANIM_CE(IDX+13242+1)==1)CALL ANI_TXT('AMS selection',13) 
 C
         !/ANIM/ELEM/EINT
         IDX = 4*MX_PLY_ANIM 
-        IF(ANIM_CE(IDX+13242+2).EQ.1)CALL ANI_TXT('Internal Energy',15)
+        IF(ANIM_CE(IDX+13242+2)==1)CALL ANI_TXT('Internal Energy',15)
         !/ANIM/ELEM/WPLA
         IDX = 4*MX_PLY_ANIM 
-        IF(ANIM_CE(IDX+13242+3).EQ.1)CALL ANI_TXT('Plastic Work',12)
+        IF(ANIM_CE(IDX+13242+3)==1)CALL ANI_TXT('Plastic Work',12)
 !!!
         IDX = 13245 + 4*MX_PLY_ANIM
-        IF(ANIM_CE(IDX + 1).EQ.1) CALL ANI_TXT('Plastic Work Upper',18)
-        IF(ANIM_CE(IDX + 1).EQ.1) CALL ANI_TXT('Plastic Work Lower',18)
+        IF(ANIM_CE(IDX + 1)==1) CALL ANI_TXT('Plastic Work Upper',18)
+        IF(ANIM_CE(IDX + 1)==1) CALL ANI_TXT('Plastic Work Lower',18)
         IDX = 13247 + 4*MX_PLY_ANIM
         DO I=1,100
-           IF(ANIM_CE(IDX + I).EQ.1)THEN
+           IF(ANIM_CE(IDX + I)==1)THEN
              IUS = I
-             IF(IUS.EQ.0)IUS = 100
+             IF(IUS==0)IUS = 100
              WRITE(MES,'(A,I3,A)')
      .       'Plast Work Layer ',IUS, ' '
                CALL ANI_TXT(MES,21)
@@ -2374,7 +2374,7 @@ C  upper for PID51
         DO I=1,100
            IF (ANIM_CE(IDX + I) == 1) THEN
              IUS = I
-             IF(IUS.EQ.0) IUS = 100
+             IF(IUS==0) IUS = 100
              WRITE(MES,'(A,I3,A)')
      .       'Plastic Work Upper Layer',IUS, ' '
                CALL ANI_TXT(MES,28)
@@ -2385,7 +2385,7 @@ C  lower for PID51
         DO I=1,100
            IF (ANIM_CE(IDX + I) == 1) THEN
              IUS = I
-             IF(IUS.EQ.0) IUS = 100
+             IF(IUS==0) IUS = 100
              WRITE(MES,'(A,I3,A)')
      .       'Plastic Work Lower Layer',IUS, ' '
                CALL ANI_TXT(MES,28)
@@ -2420,12 +2420,12 @@ C all NPTT for PID51
         IF(ANIM_CE(IDX) == 1) CALL ANI_TXT('Color Function',14)  
         
         IDX = 13547 + 4*MX_PLY_ANIM +1000 +4
-        IF(ANIM_CE(IDX).EQ.1) CALL ANI_TXT('Damage (Mean value)',19)
-        IF(ANIM_CE(IDX+1).EQ.1) CALL ANI_TXT('Damage (Upper value)',20)
-        IF(ANIM_CE(IDX+2).EQ.1) CALL ANI_TXT('Damage (Lower value)',20)
-        IF(ANIM_CE(IDX+3).EQ.1) CALL ANI_TXT('Damage (Membrane value)',23)
+        IF(ANIM_CE(IDX)==1) CALL ANI_TXT('Damage (Mean value)',19)
+        IF(ANIM_CE(IDX+1)==1) CALL ANI_TXT('Damage (Upper value)',20)
+        IF(ANIM_CE(IDX+2)==1) CALL ANI_TXT('Damage (Lower value)',20)
+        IF(ANIM_CE(IDX+3)==1) CALL ANI_TXT('Damage (Membrane value)',23)
         DO I=IDX+3+1,IDX+3+11
-           IF(ANIM_CE(I).EQ.1)THEN
+           IF(ANIM_CE(I)==1)THEN
             II = I - (IDX+3)
             WRITE(MES,'(A,I3,A)')
      .       'Damage (Thck. point ',II,' value)'
@@ -2443,9 +2443,9 @@ C all NPTT for PID51
         !---NEXT ANIM
         !IDX=IDX+1   ! => IDX = 4*MX_PLY_ANIM + 14563
   
-       ENDIF !  (NBF+NELCUT+NESBW2.NE.0)
+       ENDIF !  (NBF+NELCUT+NESBW2/=0)
 !
-      ENDIF !  IF (ISPMD.EQ.0)
+      ENDIF !  IF (ISPMD==0)
 C-----------------------------------------------
 C   NODAL FUNC
 C-----------------------------------------------
@@ -2456,39 +2456,39 @@ C-----------------------------------------------
       IAD_GP4=IAD_ISO+100
       DO I = 1,MX_ANI
         IFUNC = I
-        IF (I.EQ.(IAD_GPS+3).OR.I.EQ.(IAD_GPS+9).OR.I.EQ.(IAD_GPS+15)
-     .      .OR.I.EQ.(IAD_GP2+3).OR.I.EQ.(IAD_GP2+9)
-     .      .OR.I.EQ.(IAD_GP2+15) .OR.I.EQ.(IAD_GP3+1).OR.I.EQ.(IAD_ISO+1) )  
+        IF (I==(IAD_GPS+3).OR.I==(IAD_GPS+9).OR.I==(IAD_GPS+15)
+     .      .OR.I==(IAD_GP2+3).OR.I==(IAD_GP2+9)
+     .      .OR.I==(IAD_GP2+15) .OR.I==(IAD_GP3+1).OR.I==(IAD_ISO+1) )  
      .             IFIRST=0
-        IF(ANIM_N(I).NE.1) CYCLE
+        IF(ANIM_N(I)/=1) CYCLE
           DO N=1,NUMNOD
             WA4(N) = ZERO
           ENDDO
-          IF(I.LT.3.OR.I.EQ.12)THEN
+          IF(I<3.OR.I==12)THEN
             DO N=1,NUMNOD
              WA4(N)=ANIN(N+K)
             ENDDO
             K = K + NUMNOD
-          ELSEIF(I.GE.3.AND.I.LE.11 .OR. I.EQ.30) THEN
+          ELSEIF(I>=3.AND.I<=11 .OR. I==30) THEN
            IF(I == 6 .AND. (ITHERM_FE  > 0  )) THEN
              DO N=1,NUMNOD
               WA4(N)=TEMP(N)
              ENDDO
            ELSE
              !ALE Nodal Pressure
-             IF (I.EQ.3) THEN
-               IF(N2D.EQ.0)CALL NODALP(I, WA4, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,ITAB,NV46)
-               IF(N2D.NE.0)CALL NODALP(I, WA4, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXQ,NIXQ,ITAB,NV46)
+             IF (I==3) THEN
+               IF(N2D==0)CALL NODALP(I, WA4, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,ITAB,NV46)
+               IF(N2D/=0)CALL NODALP(I, WA4, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXQ,NIXQ,ITAB,NV46)
              ENDIF
              !ALE Nodal Density
-             IF (I.EQ.4) THEN
-               IF(N2D.EQ.0)CALL NODALD(I, WA4, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,ITAB,NV46) 
-               IF(N2D.NE.0)CALL NODALD(I, WA4, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXQ,NIXQ,ITAB,NV46) 
+             IF (I==4) THEN
+               IF(N2D==0)CALL NODALD(I, WA4, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,ITAB,NV46) 
+               IF(N2D/=0)CALL NODALD(I, WA4, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXQ,NIXQ,ITAB,NV46) 
              ENDIF
              !ALE Nodal Temperature
-             IF (I.EQ.6) THEN
-               IF(N2D.EQ.0)CALL NODALT(I, WA4, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,ITAB,NV46)
-               IF(N2D.NE.0)CALL NODALT(I, WA4, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXQ,NIXQ,ITAB,NV46)
+             IF (I==6) THEN
+               IF(N2D==0)CALL NODALT(I, WA4, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,ITAB,NV46)
+               IF(N2D/=0)CALL NODALT(I, WA4, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXQ,NIXQ,ITAB,NV46)
              ENDIF
 
              !Then Monitored Volumes (Pressure,Density,Temperature,Sound Speed)
@@ -2496,7 +2496,7 @@ C-----------------------------------------------
            ENDIF
 
           !Nodal Potential
-          ELSEIF (I.EQ.13) THEN
+          ELSEIF (I==13) THEN
             CALL NODALP(I, WA4, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,ITAB,NV46)
      
 C------------ams : diagonale mass change
@@ -2522,7 +2522,7 @@ C------------dama type2 : % damage inter type2 with pena
           ELSEIF(I==17)THEN
              CALL NODAL_SCHLIEREN(WA4,X,IXS,IXQ,ITAB,IPARG,0,ELBUF_TAB,ALE_CONNECTIVITY)  
           ELSEIF(I==18)THEN
-            IF(IRODDL.NE.0)THEN
+            IF(IRODDL/=0)THEN
               DO N=1,NUMNOD
                 WA4(N)=STIFR(N)
               ENDDO
@@ -2535,18 +2535,18 @@ C------------dama type2 : % damage inter type2 with pena
             DO N=1,NUMNOD
               WA4(N)=STIFN(N)
             ENDDO
-          ELSEIF(I.GE.20 .AND. I.LE.23)THEN            
+          ELSEIF(I>=20 .AND. I<=23)THEN            
              !ALE Nodal Volumetric Fraction (multimaterial only)
-             IF(N2D.EQ.0)CALL NODALVFRAC(I, WA4, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,ITAB,NV46)
-             IF(N2D.NE.0)CALL NODALVFRAC(I, WA4, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXQ,NIXQ,ITAB,NV46)
-          ELSEIF(I.GE.24 .AND. I.LE.27)THEN            
+             IF(N2D==0)CALL NODALVFRAC(I, WA4, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,ITAB,NV46)
+             IF(N2D/=0)CALL NODALVFRAC(I, WA4, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXQ,NIXQ,ITAB,NV46)
+          ELSEIF(I>=24 .AND. I<=27)THEN            
              !ALE Nodal Volumetric Fraction (multimaterial only)
-             !IF(N2D.EQ.0)CALL NODALZVFRAC(I, WA4, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,ITAB,NV46) 
-          ELSEIF(I.EQ.28.OR.I.EQ.29)THEN            
+             !IF(N2D==0)CALL NODALZVFRAC(I, WA4, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,ITAB,NV46) 
+          ELSEIF(I==28.OR.I==29)THEN            
              !inter22 polyhedra volumes (new & old)
-             IF(N2D.EQ.0)CALL NODALZVOL(I, WA4, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,ITAB,NV46)                                         
+             IF(N2D==0)CALL NODALZVOL(I, WA4, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,ITAB,NV46)                                         
 C------------gps1 part
-          ELSEIF (I.GT.IAD_GPS.AND.I.LT.(IAD_GPS+3)) THEN
+          ELSEIF (I>IAD_GPS.AND.I<(IAD_GPS+3)) THEN
             DO N=1,NUMNOD
              ITAGPS(N) = 0
              WGPS(N) = ZERO
@@ -2567,11 +2567,11 @@ C------------gps1 part
             ! --------------------------
 
              DO N=1,NUMNOD
-              IF (ITAGPS(N).GT.0) WA4(N)=WGPS(N)/ITAGPS(N)
+              IF (ITAGPS(N)>0) WA4(N)=WGPS(N)/ITAGPS(N)
              ENDDO
-          ELSEIF (I.GT.(IAD_GPS+2).AND.I.LT.(IAD_GPS+9)) THEN
+          ELSEIF (I>(IAD_GPS+2).AND.I<(IAD_GPS+9)) THEN
                   IFIRST=IFIRST+1
-           IF (IFIRST.EQ.1) THEN
+           IF (IFIRST==1) THEN
             DO N=1,NUMNOD
              ITAGPS(N) = 0
             ENDDO
@@ -2590,8 +2590,8 @@ C------------gps1 part
            ! --------------------------
            IF(NSPMD > 1)THEN
             LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
-            IF (IFIRST.EQ.1) CALL SPMD_EXCH_NODAREAI(ITAGPS,IAD_ELEM,FR_ELEM,LENR,WEIGHT)
-            IF (J.LE.3) THEN
+            IF (IFIRST==1) CALL SPMD_EXCH_NODAREAI(ITAGPS,IAD_ELEM,FR_ELEM,LENR,WEIGHT)
+            IF (J<=3) THEN
              CALL SPMD_EXCH_NODAREA2(VFLU,IAD_ELEM,FR_ELEM,LENR,WEIGHT,J)
             ELSE
              CALL SPMD_EXCH_NODAREA2(AFLU,IAD_ELEM,FR_ELEM,LENR,WEIGHT,J-3)
@@ -2599,19 +2599,19 @@ C------------gps1 part
            ENDIF     
            ! --------------------------     
 
-           IF (J.LE.3) THEN
+           IF (J<=3) THEN
             DO N=1,NUMNOD
-             IF (ITAGPS(N).GT.0) WA4(N)=VFLU(J,N)/ITAGPS(N)
+             IF (ITAGPS(N)>0) WA4(N)=VFLU(J,N)/ITAGPS(N)
             ENDDO
            ELSE
             DO N=1,NUMNOD
-             IF (ITAGPS(N).GT.0) WA4(N)=AFLU(J-3,N)/ITAGPS(N)
+             IF (ITAGPS(N)>0) WA4(N)=AFLU(J-3,N)/ITAGPS(N)
             ENDDO
            ENDIF
 C
-          ELSEIF (I.GT.(IAD_GPS+8).AND.I.LT.(IAD_GPS+15)) THEN
+          ELSEIF (I>(IAD_GPS+8).AND.I<(IAD_GPS+15)) THEN
                   IFIRST=IFIRST+1
-           IF (IFIRST.EQ.1) THEN
+           IF (IFIRST==1) THEN
                    IUL = 1
             DO N=1,NUMNOD
              ITAGPS(N) = 0
@@ -2629,8 +2629,8 @@ C
            ! --------------------------
            IF(NSPMD > 1)THEN
             LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
-            IF (IFIRST.EQ.1) CALL SPMD_EXCH_NODAREAI(ITAGPS,IAD_ELEM,FR_ELEM,LENR,WEIGHT)
-            IF (J.LE.3) THEN
+            IF (IFIRST==1) CALL SPMD_EXCH_NODAREAI(ITAGPS,IAD_ELEM,FR_ELEM,LENR,WEIGHT)
+            IF (J<=3) THEN
              CALL SPMD_EXCH_NODAREA2(VFLU,IAD_ELEM,FR_ELEM,LENR,WEIGHT,J)
             ELSE
              CALL SPMD_EXCH_NODAREA2(AFLU,IAD_ELEM,FR_ELEM,LENR,WEIGHT,J-3)
@@ -2638,18 +2638,18 @@ C
            ENDIF
            ! --------------------------
 
-           IF (J.LE.3) THEN
+           IF (J<=3) THEN
             DO N=1,NUMNOD
-             IF (ITAGPS(N).GT.0) WA4(N)=VFLU(J,N)/ITAGPS(N)
+             IF (ITAGPS(N)>0) WA4(N)=VFLU(J,N)/ITAGPS(N)
             ENDDO
            ELSE
             DO N=1,NUMNOD
-             IF (ITAGPS(N).GT.0) WA4(N)=AFLU(J-3,N)/ITAGPS(N)
+             IF (ITAGPS(N)>0) WA4(N)=AFLU(J-3,N)/ITAGPS(N)
             ENDDO
            ENDIF
-          ELSEIF (I.GT.(IAD_GPS+14).AND.I.LT.(IAD_GPS+21)) THEN
+          ELSEIF (I>(IAD_GPS+14).AND.I<(IAD_GPS+21)) THEN
                   IFIRST=IFIRST+1
-           IF (IFIRST.EQ.1) THEN
+           IF (IFIRST==1) THEN
                    IUL = 2
             DO N=1,NUMNOD
              ITAGPS(N) = 0
@@ -2667,8 +2667,8 @@ C
            ! --------------------------
            IF(NSPMD > 1)THEN
             LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
-            IF (IFIRST.EQ.1) CALL SPMD_EXCH_NODAREAI(ITAGPS,IAD_ELEM,FR_ELEM,LENR,WEIGHT)
-            IF (J.LE.3) THEN
+            IF (IFIRST==1) CALL SPMD_EXCH_NODAREAI(ITAGPS,IAD_ELEM,FR_ELEM,LENR,WEIGHT)
+            IF (J<=3) THEN
              CALL SPMD_EXCH_NODAREA2(VFLU,IAD_ELEM,FR_ELEM,LENR,WEIGHT,J)
             ELSE
              CALL SPMD_EXCH_NODAREA2(AFLU,IAD_ELEM,FR_ELEM,LENR,WEIGHT,J-3)
@@ -2676,17 +2676,17 @@ C
            ENDIF
            ! --------------------------
 
-           IF (J.LE.3) THEN
+           IF (J<=3) THEN
             DO N=1,NUMNOD
-             IF (ITAGPS(N).GT.0) WA4(N)=VFLU(J,N)/ITAGPS(N)
+             IF (ITAGPS(N)>0) WA4(N)=VFLU(J,N)/ITAGPS(N)
             ENDDO
            ELSE
             DO N=1,NUMNOD
-             IF (ITAGPS(N).GT.0) WA4(N)=AFLU(J-3,N)/ITAGPS(N)
+             IF (ITAGPS(N)>0) WA4(N)=AFLU(J-3,N)/ITAGPS(N)
             ENDDO
            ENDIF
 C------------gps2 part
-          ELSEIF (I.GT.IAD_GP2.AND.I.LT.(IAD_GP2+3)) THEN
+          ELSEIF (I>IAD_GP2.AND.I<(IAD_GP2+3)) THEN
             DO N=1,NUMNOD
              VGPS(N) = ZERO
              WGPS(N) = ZERO
@@ -2706,11 +2706,11 @@ C------------gps2 part
             ! --------------------------
 
              DO N=1,NUMNOD
-              IF (VGPS(N).GT.ZERO) WA4(N)=WGPS(N)/VGPS(N)
+              IF (VGPS(N)>ZERO) WA4(N)=WGPS(N)/VGPS(N)
              ENDDO
-          ELSEIF (I.GT.(IAD_GP2+2).AND.I.LT.(IAD_GP2+9)) THEN
+          ELSEIF (I>(IAD_GP2+2).AND.I<(IAD_GP2+9)) THEN
                   IFIRST=IFIRST+1
-           IF (IFIRST.EQ.1) THEN
+           IF (IFIRST==1) THEN
             DO N=1,NUMNOD
              VGPS(N) = ZERO
             ENDDO
@@ -2730,8 +2730,8 @@ C------------gps2 part
            ! --------------------------
            IF(NSPMD > 1)THEN
             LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
-            IF (IFIRST.EQ.1) CALL SPMD_EXCH_NODAREAI(VGPS,IAD_ELEM,FR_ELEM,LENR,WEIGHT)
-            IF (J.LE.3) THEN
+            IF (IFIRST==1) CALL SPMD_EXCH_NODAREAI(VGPS,IAD_ELEM,FR_ELEM,LENR,WEIGHT)
+            IF (J<=3) THEN
              CALL SPMD_EXCH_NODAREA2(VFLU,IAD_ELEM,FR_ELEM,LENR,WEIGHT,J)
             ELSE
              CALL SPMD_EXCH_NODAREA2(AFLU,IAD_ELEM,FR_ELEM,LENR,WEIGHT,J-3)
@@ -2739,19 +2739,19 @@ C------------gps2 part
            ENDIF
            ! --------------------------
 
-           IF (J.LE.3) THEN
+           IF (J<=3) THEN
             DO N=1,NUMNOD
-             IF (VGPS(N).GT.ZERO) WA4(N)=VFLU(J,N)/VGPS(N)
+             IF (VGPS(N)>ZERO) WA4(N)=VFLU(J,N)/VGPS(N)
             ENDDO
            ELSE
             DO N=1,NUMNOD
-             IF (VGPS(N).GT.ZERO) WA4(N)=AFLU(J-3,N)/VGPS(N)
+             IF (VGPS(N)>ZERO) WA4(N)=AFLU(J-3,N)/VGPS(N)
             ENDDO
            ENDIF
 C
-          ELSEIF (I.GT.(IAD_GP2+8).AND.I.LT.(IAD_GP2+15)) THEN
+          ELSEIF (I>(IAD_GP2+8).AND.I<(IAD_GP2+15)) THEN
                   IFIRST=IFIRST+1
-           IF (IFIRST.EQ.1) THEN
+           IF (IFIRST==1) THEN
                    IUL = 1
             DO N=1,NUMNOD
              VGPS(N) = ZERO
@@ -2770,26 +2770,26 @@ C
            ! --------------------------
            IF(NSPMD > 1)THEN
             LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
-            IF (IFIRST.EQ.1) CALL SPMD_EXCH_NODAREAI(VGPS,IAD_ELEM,FR_ELEM,LENR,WEIGHT)
-            IF (J.LE.3) THEN
+            IF (IFIRST==1) CALL SPMD_EXCH_NODAREAI(VGPS,IAD_ELEM,FR_ELEM,LENR,WEIGHT)
+            IF (J<=3) THEN
              CALL SPMD_EXCH_NODAREA2(VFLU,IAD_ELEM,FR_ELEM,LENR,WEIGHT,J)
             ELSE
              CALL SPMD_EXCH_NODAREA2(AFLU,IAD_ELEM,FR_ELEM,LENR,WEIGHT,J-3)
             ENDIF
            ENDIF
            ! --------------------------
-           IF (J.LE.3) THEN
+           IF (J<=3) THEN
             DO N=1,NUMNOD
-             IF (VGPS(N).GT.ZERO) WA4(N)=VFLU(J,N)/VGPS(N)
+             IF (VGPS(N)>ZERO) WA4(N)=VFLU(J,N)/VGPS(N)
             ENDDO
            ELSE
             DO N=1,NUMNOD
-             IF (VGPS(N).GT.ZERO) WA4(N)=AFLU(J-3,N)/VGPS(N)
+             IF (VGPS(N)>ZERO) WA4(N)=AFLU(J-3,N)/VGPS(N)
             ENDDO
            ENDIF
-          ELSEIF (I.GT.(IAD_GP2+14).AND.I.LT.(IAD_GP2+21)) THEN
+          ELSEIF (I>(IAD_GP2+14).AND.I<(IAD_GP2+21)) THEN
                   IFIRST=IFIRST+1
-           IF (IFIRST.EQ.1) THEN
+           IF (IFIRST==1) THEN
                    IUL = 2
             DO N=1,NUMNOD
              VGPS(N) = ZERO
@@ -2808,8 +2808,8 @@ C
            ! --------------------------
            IF(NSPMD > 1)THEN
             LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
-            IF (IFIRST.EQ.1) CALL SPMD_EXCH_NODAREAI(VGPS,IAD_ELEM,FR_ELEM,LENR,WEIGHT)
-            IF (J.LE.3) THEN
+            IF (IFIRST==1) CALL SPMD_EXCH_NODAREAI(VGPS,IAD_ELEM,FR_ELEM,LENR,WEIGHT)
+            IF (J<=3) THEN
              CALL SPMD_EXCH_NODAREA2(VFLU,IAD_ELEM,FR_ELEM,LENR,WEIGHT,J)
             ELSE
              CALL SPMD_EXCH_NODAREA2(AFLU,IAD_ELEM,FR_ELEM,LENR,WEIGHT,J-3)
@@ -2817,20 +2817,20 @@ C
            ENDIF
            ! --------------------------
 
-           IF (J.LE.3) THEN
+           IF (J<=3) THEN
             DO N=1,NUMNOD
-             IF (VGPS(N).GT.ZERO) WA4(N)=VFLU(J,N)/VGPS(N)
+             IF (VGPS(N)>ZERO) WA4(N)=VFLU(J,N)/VGPS(N)
             ENDDO
            ELSE
             DO N=1,NUMNOD
-             IF (VGPS(N).GT.ZERO) WA4(N)=AFLU(J-3,N)/VGPS(N)
+             IF (VGPS(N)>ZERO) WA4(N)=AFLU(J-3,N)/VGPS(N)
             ENDDO
            ENDIF
-          ELSEIF (I.GT.(IAD_GP3).AND.I.LT.(IAD_GP3+7)) THEN
+          ELSEIF (I>(IAD_GP3).AND.I<(IAD_GP3+7)) THEN
                     
 C------------gps part
             IFIRST=IFIRST+1
-            IF (IFIRST.EQ.1) THEN
+            IF (IFIRST==1) THEN
              DO N=1,NUMNOD
               ITAGPS(N) = 0
              ENDDO
@@ -2849,8 +2849,8 @@ C------------gps part
           ! --------------------------
             IF(NSPMD > 1)THEN
               LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
-              IF (IFIRST.EQ.1) CALL SPMD_EXCH_NODAREAI(ITAGPS,IAD_ELEM,FR_ELEM,LENR,WEIGHT)
-              IF (J.LE.3) THEN
+              IF (IFIRST==1) CALL SPMD_EXCH_NODAREAI(ITAGPS,IAD_ELEM,FR_ELEM,LENR,WEIGHT)
+              IF (J<=3) THEN
                CALL SPMD_EXCH_NODAREA2(VFLU,IAD_ELEM,FR_ELEM,LENR,WEIGHT,J)
               ELSE
                CALL SPMD_EXCH_NODAREA2(AFLU,IAD_ELEM,FR_ELEM,LENR,WEIGHT,J-3)
@@ -2858,25 +2858,25 @@ C------------gps part
             ENDIF
           ! --------------------------
 
-            IF (J.LE.3) THEN
+            IF (J<=3) THEN
              DO N=1,NUMNOD
-              IF (ITAGPS(N).GT.0) WA4(N)=VFLU(J,N)/ITAGPS(N)
+              IF (ITAGPS(N)>0) WA4(N)=VFLU(J,N)/ITAGPS(N)
              ENDDO
             ELSE
              DO N=1,NUMNOD
-              IF (ITAGPS(N).GT.0) WA4(N)=AFLU(J-3,N)/ITAGPS(N)
+              IF (ITAGPS(N)>0) WA4(N)=AFLU(J-3,N)/ITAGPS(N)
              ENDDO
             ENDIF
-          ELSEIF (I.GT.(IAD_ISO).AND.I.LT.(IAD_ISO+7)) THEN
+          ELSEIF (I>(IAD_ISO).AND.I<(IAD_ISO+7)) THEN
 C------------iso geo stress
            DO N=1,64*NUMELIG3D
             WA4(NUMNOD + N)=TABSTRESL(I-IAD_ISO,N)
            ENDDO
-          ELSEIF (I.GT.(IAD_GP4).AND.I.LT.(IAD_GP4+7)) THEN
+          ELSEIF (I>(IAD_GP4).AND.I<(IAD_GP4+7)) THEN
                     
 C------------gps part
            IFIRST=IFIRST+1
-           IF (IFIRST.EQ.1) THEN
+           IF (IFIRST==1) THEN
             DO N=1,NUMNOD
              ITAGPS(N) = 0
             ENDDO
@@ -2895,8 +2895,8 @@ C------------gps part
           ! --------------------------
           IF(NSPMD > 1)THEN
             LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
-            IF (IFIRST.EQ.1) CALL SPMD_EXCH_NODAREAI(ITAGPS,IAD_ELEM,FR_ELEM,LENR,WEIGHT)
-            IF (J.LE.3) THEN
+            IF (IFIRST==1) CALL SPMD_EXCH_NODAREAI(ITAGPS,IAD_ELEM,FR_ELEM,LENR,WEIGHT)
+            IF (J<=3) THEN
              CALL SPMD_EXCH_NODAREA2(VFLU,IAD_ELEM,FR_ELEM,LENR,WEIGHT,J)
             ELSE
              CALL SPMD_EXCH_NODAREA2(AFLU,IAD_ELEM,FR_ELEM,LENR,WEIGHT,J-3)
@@ -2904,13 +2904,13 @@ C------------gps part
           ENDIF
           ! --------------------------
 
-           IF (J.LE.3) THEN
+           IF (J<=3) THEN
             DO N=1,NUMNOD
-             IF (ITAGPS(N).GT.0) WA4(N)=VFLU(J,N)/ITAGPS(N)
+             IF (ITAGPS(N)>0) WA4(N)=VFLU(J,N)/ITAGPS(N)
             ENDDO
            ELSE
             DO N=1,NUMNOD
-             IF (ITAGPS(N).GT.0) WA4(N)=AFLU(J-3,N)/ITAGPS(N)
+             IF (ITAGPS(N)>0) WA4(N)=AFLU(J-3,N)/ITAGPS(N)
             ENDDO
            ENDIF
           ENDIF
@@ -2926,15 +2926,15 @@ c----------------------------------------
               ENDDO
             ENDIF
           ELSE
-               IF (ISPMD.EQ.0) THEN
+               IF (ISPMD==0) THEN
                   CALL SPMD_GATHERF(WA4,WEIGHT,NODGLOB,NUMNODG)
                ELSE
                   CALL SPMD_GATHERF(WA4,WEIGHT,NODGLOB,1)
                END IF
           END IF
           R4 = ZERO
-          IF(NCUTS.GT.0) THEN
-             IF (I.LT.3.OR.I.EQ.12) THEN
+          IF(NCUTS>0) THEN
+             IF (I<3.OR.I==12) THEN
                 CALL CUTFUNC(ANIN(K+1),ICBUF(MIC2),CBUF(MAC2),NODCUT)
              ELSE
                 DO N=1,NODCUT
@@ -2942,7 +2942,7 @@ c----------------------------------------
                 ENDDO
              ENDIF
           ENDIF
-            IF (ISPMD.EQ.0) THEN
+            IF (ISPMD==0) THEN
               DO N=1,NSECT+NRWALL+NNWL+NNSRG+NNSMD+NNSPHG+2*NUMELS16G
                  CALL WRITE_R_C(R4,1)
               ENDDO
@@ -2963,7 +2963,7 @@ C xfem crack for layered shells +++
           ENDIF
 C xfem crack for layered shells ---
 C
-          IF (ISPMD.EQ.0.AND.NFVNOD.GT.0) THEN
+          IF (ISPMD==0.AND.NFVNOD>0) THEN
              R4=ZERO
              DO N=1,NFVNOD+3
                 CALL WRITE_R_C(R4,1)
@@ -2977,7 +2977,7 @@ C-----------------------------------------------
      .              +MIN(1,ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS)
      .              +MIN(1,ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER))
 C traitement equivalent monoproc
-      IF (NSPMD == 1 .AND. NFVTR.GT.0) THEN
+      IF (NSPMD == 1 .AND. NFVTR>0) THEN
          ALLOCATE(FVMASS(NFVTR),FVPRES(NFVTR), FVQX(NFVTR),
      .            FVQY(NFVTR), FVQZ(NFVTR), FVRHO(NFVTR),
      .            FVENER(NFVTR), FVCSON(NFVTR), FVGAMA(NFVTR),
@@ -2997,7 +2997,7 @@ C traitement equivalent monoproc
 C
          ELOFF=0
          DO I=1,NFVBAG
-            IF (FVDATA(I)%NPOLH_ANIM.GT.0) THEN
+            IF (FVDATA(I)%NPOLH_ANIM>0) THEN
 C
                DO J=1,FVDATA(I)%NPOLH
                   GAMA=FVDATA(I)%GPOLH(J)
@@ -3009,7 +3009,7 @@ C
      .                         FVDATA(I)%IFVTADR(KK+1)-1
                         NN=FVDATA(I)%IFVPOLY(N)
                         FAC=ONE
-                        IF (FVDATA(I)%IFVTRI(4,NN).GT.0) THEN
+                        IF (FVDATA(I)%IFVTRI(4,NN)>0) THEN
                            IDP=FVDATA(I)%IDPOLH(J)
                            FVVISU(FVEL2FA(ELOFF+NN))=IDP-(IDP/8)*8+1
                         ELSE
@@ -3019,7 +3019,7 @@ C
                         NN=FVEL2FA(ELOFF+NN)
                         FVMASS(NN)=FVMASS(NN)+FAC*FVDATA(I)%MPOLH(J)
                         FVPRES(NN)=FVPRES(NN)+FAC*FVDATA(I)%PPOLH(J)
-                        IF (FVDATA(I)%MPOLH(J).GT.ZERO) THEN
+                        IF (FVDATA(I)%MPOLH(J)>ZERO) THEN
                            FVQX(NN)=FVQX(NN)+FAC*FVDATA(I)%QPOLH(1,J)/
      .                                           FVDATA(I)%MPOLH(J)
                            FVQY(NN)=FVQY(NN)+FAC*FVDATA(I)%QPOLH(2,J)/
@@ -3038,8 +3038,8 @@ C
                ELOFF=ELOFF+FVDATA(I)%NNTR
             ENDIF
          ENDDO
-      ELSEIF(NFVTR.GT.0) THEN
-         IF (ISPMD.EQ.0) THEN
+      ELSEIF(NFVTR>0) THEN
+         IF (ISPMD==0) THEN
             ALLOCATE(FVMASS(NFVTR),FVPRES(NFVTR), FVQX(NFVTR),
      .               FVQY(NFVTR), FVQZ(NFVTR), FVRHO(NFVTR),
      .               FVENER(NFVTR), FVCSON(NFVTR), FVGAMA(NFVTR),
@@ -3065,9 +3065,9 @@ C
 C  en spmd localement NBF = 0 mais pas la somme sur pi !
        DO I = 1,MX_ANI
         IFUNC = I
-        IF(ANIM_CE(I).EQ.1)THEN
-          IF(I.LE.2142 .OR. I.EQ.2155 .OR. I.EQ.2156 .OR. (I.GE.2239.AND.I.LE.10251) .OR. 
-     .      (I.GE.10253.AND.I.LE.10675) .OR. (I >= 10676 .AND. I <= 1000000)) THEN
+        IF(ANIM_CE(I)==1)THEN
+          IF(I<=2142 .OR. I==2155 .OR. I==2156 .OR. (I>=2239.AND.I<=10251) .OR. 
+     .      (I>=10253.AND.I<=10675) .OR. (I >= 10676 .AND. I <= 1000000)) THEN
             CALL DFUNCC(ELBUF_TAB ,WAFT        ,IFUNC         ,IPARG,GEO    ,
      .                  IXQ       ,IXC         ,IXTG          ,MAS          ,PM         ,
      .                  EL2FA     ,NBF         ,IXUR          ,IAD          ,
@@ -3076,9 +3076,9 @@ C  en spmd localement NBF = 0 mais pas la somme sur pi !
      .                  INVERT    ,X           ,V             ,W            ,ALE_CONNECTIVITY,
      .                  NV46      ,NERCVOIS    ,NESDVOIS      ,LERCVOIS     ,LESDVOIS   ,
      .                  STACK     ,BUFMAT      ,MULTI_FVM)
-            IF(NCUTS.GT.0)
+            IF(NCUTS>0)
      .      CALL CUTFUNCE(ICBUF,NELCUT,ELBUF_TAB,IFUNC,IPARG,PM,IXS)
-            IF (ISPMD.EQ.0) THEN
+            IF (ISPMD==0) THEN
               R4 = ZERO
               DO J=1,NESBW2
                 CALL WRITE_R_C(R4,1)
@@ -3105,16 +3105,16 @@ C ply information
             ENDIF
 C
 
-            IF (ISPMD.EQ.0.AND.NFVTR.GT.0) THEN
+            IF (ISPMD==0.AND.NFVTR>0) THEN
                R4=ZERO
                DO J=1,NFVTR
                   CALL WRITE_R_C(R4,1)
                ENDDO
             ENDIF
-          ELSEIF (I.EQ.2143.OR.I.EQ.2144) THEN
+          ELSEIF (I==2143.OR.I==2144) THEN
              CALL ANIMCALE(I,      MONVOL, VOLMON, NBF, EL2FA,
      .                     NBPART, IADG,   NBF_L )
-             IF (ISPMD.EQ.0) THEN
+             IF (ISPMD==0) THEN
                 R4 = ZERO
                 DO J=1,NESBW2
                    CALL WRITE_R_C(R4,1)
@@ -3128,74 +3128,74 @@ C
                 ENDDO
              ENDIF
 C xfem crack for layered shells +++
-             IF(ISPMD.EQ.0 .AND. ANIM_CRK > 0)THEN
+             IF(ISPMD==0 .AND. ANIM_CRK > 0)THEN
                R4=ZERO
                 DO J=1,NBF_CRKXFEMG
                   CALL WRITE_R_C(R4,1)
                 ENDDO
              ENDIF
 C xfem crack for layered shells ---
-             IF (ISPMD.EQ.0.AND.NFVTR.GT.0) THEN
+             IF (ISPMD==0.AND.NFVTR>0) THEN
                 R4=ZERO
                 DO J=1,NFVTR
                    CALL WRITE_R_C(R4,1)
                 ENDDO
              ENDIF
 
-          ELSEIF (I.GE.2145.AND.I.LE.2154) THEN
-             IF (ISPMD.EQ.0) THEN
+          ELSEIF (I>=2145.AND.I<=2154) THEN
+             IF (ISPMD==0) THEN
                 R4=ZERO
                 DO J=1,NBF+NELCUT+NESBW2+NBF_PXFEMG+NBF_CRKXFEMG
                    CALL WRITE_R_C(R4,1)
                 ENDDO
              ENDIF
-             IF (ISPMD.EQ.0.AND.NFVTR.GT.0) THEN
-                IF (I.EQ.2145) THEN
+             IF (ISPMD==0.AND.NFVTR>0) THEN
+                IF (I==2145) THEN
                    DO J=1,NFVTR
                       R4=FVMASS(J)
                       CALL WRITE_R_C(R4,1)
                    ENDDO
-                ELSEIF (I.EQ.2146) THEN
+                ELSEIF (I==2146) THEN
                    DO J=1,NFVTR
                       R4=FVPRES(J)
                       CALL WRITE_R_C(R4,1)
                    ENDDO
-                ELSEIF (I.EQ.2147) THEN
+                ELSEIF (I==2147) THEN
                    DO J=1,NFVTR
                       R4=FVQX(J)
                       CALL WRITE_R_C(R4,1)
                    ENDDO
-                ELSEIF (I.EQ.2148) THEN
+                ELSEIF (I==2148) THEN
                    DO J=1,NFVTR
                       R4=FVQY(J)
                       CALL WRITE_R_C(R4,1)
                    ENDDO
-                ELSEIF (I.EQ.2149) THEN
+                ELSEIF (I==2149) THEN
                    DO J=1,NFVTR
                       R4=FVQZ(J)
                       CALL WRITE_R_C(R4,1)
                    ENDDO
-                ELSEIF (I.EQ.2150) THEN
+                ELSEIF (I==2150) THEN
                    DO J=1,NFVTR
                       R4=FVRHO(J)
                       CALL WRITE_R_C(R4,1)
                    ENDDO
-                ELSEIF (I.EQ.2151) THEN
+                ELSEIF (I==2151) THEN
                    DO J=1,NFVTR
                       R4=FVENER(J)
                       CALL WRITE_R_C(R4,1)
                    ENDDO
-                ELSEIF (I.EQ.2152) THEN
+                ELSEIF (I==2152) THEN
                    DO J=1,NFVTR
                       R4=FVCSON(J)
                       CALL WRITE_R_C(R4,1)
                    ENDDO
-                ELSEIF (I.EQ.2153) THEN
+                ELSEIF (I==2153) THEN
                    DO J=1,NFVTR
                       R4=FVGAMA(J)
                       CALL WRITE_R_C(R4,1)
                    ENDDO
-                ELSEIF (I.EQ.2154) THEN
+                ELSEIF (I==2154) THEN
                    DO J=1,NFVTR
                       R4=FVVISU(J)
                       CALL WRITE_R_C(R4,1)
@@ -3203,44 +3203,44 @@ C xfem crack for layered shells ---
                 ENDIF
              ENDIF 
            ENDIF!I values
-         ENDIF !IF(ANIM_CE(I).EQ.1)THEN
+         ENDIF !IF(ANIM_CE(I)==1)THEN
        ENDDO !next I
-      IF (ISPMD.EQ.0.AND.NFVTR.GT.0)
+      IF (ISPMD==0.AND.NFVTR>0)
      .   DEALLOCATE(FVMASS, FVPRES, FVQX, FVQY, FVQZ, FVRHO, FVENER,
      .              FVCSON, FVGAMA)
 C-----------------------------------------------
 C   VECT TEXT
 C-----------------------------------------------
-      IF (ISPMD.EQ.0) THEN
-        IF(ANIM_V(1).EQ.1) CALL ANI_TXT('Velocity',8)
-        IF(ANIM_V(2).EQ.1) CALL ANI_TXT('Displacement',12)
-        IF(ANIM_V(3).EQ.1) CALL ANI_TXT('Acceleration',12)
-        IF(ANIM_V(4).EQ.1.AND.ANIMCONT.EQ.1) CALL ANI_TXT('Contact Forces',14)
-        IF(ANIM_V(5).EQ.1) CALL ANI_TXT('Internal Forces',15)
-        IF(ANIM_V(6).EQ.1) CALL ANI_TXT('External Forces',15)
-        IF(ANIM_V(7).EQ.1) CALL ANI_TXT('Sect.RBY,Wall F.',16)
-        IF(ANIM_V(8).EQ.1) CALL ANI_TXT('Sect.RBY Moments',16)
-        IF(ANIM_V(9).EQ.1) CALL ANI_TXT('Rotational Velocity',19)
-        IF(ANIM_V(10).EQ.1) CALL ANI_TXT('Fluid velocity',14)
-        IF(ANIM_V(11).EQ.1) CALL ANI_TXT('Residual Forces',15)
-        IF(ANIM_V(12).EQ.1) THEN
+      IF (ISPMD==0) THEN
+        IF(ANIM_V(1)==1) CALL ANI_TXT('Velocity',8)
+        IF(ANIM_V(2)==1) CALL ANI_TXT('Displacement',12)
+        IF(ANIM_V(3)==1) CALL ANI_TXT('Acceleration',12)
+        IF(ANIM_V(4)==1.AND.ANIMCONT==1) CALL ANI_TXT('Contact Forces',14)
+        IF(ANIM_V(5)==1) CALL ANI_TXT('Internal Forces',15)
+        IF(ANIM_V(6)==1) CALL ANI_TXT('External Forces',15)
+        IF(ANIM_V(7)==1) CALL ANI_TXT('Sect.RBY,Wall F.',16)
+        IF(ANIM_V(8)==1) CALL ANI_TXT('Sect.RBY Moments',16)
+        IF(ANIM_V(9)==1) CALL ANI_TXT('Rotational Velocity',19)
+        IF(ANIM_V(10)==1) CALL ANI_TXT('Fluid velocity',14)
+        IF(ANIM_V(11)==1) CALL ANI_TXT('Residual Forces',15)
+        IF(ANIM_V(12)==1) THEN
           CALL ANI_TXT('Contact Pressure / Normal',25)
           CALL ANI_TXT('Contact Pressure / Tangent',26)
         END IF
-        IF(ANIM_V(13).EQ.1) CALL ANI_TXT('Tied Contact Forces',19)
-        IF(ANIM_V(14).EQ.1) CALL ANI_TXT('Rotational DOF',14)
-        IF(ANIM_V(16).EQ.1) CALL ANI_TXT('Gaz Velocity',12)
-        IF(ANIM_V(17).EQ.1) CALL ANI_TXT('Reaction Forces',15)
-        IF(ANIM_V(18).EQ.1) CALL ANI_TXT('Reaction Moments',16)
-        IF(ANIM_V(19).EQ.1) CALL ANI_TXT('Cluster Forces',16)
-        IF(ANIM_V(20).EQ.1) CALL ANI_TXT('Cluster Moments',16)
-        IF(ANIM_V(21).EQ.1) CALL ANI_TXT('inter22 - Centroid Velocity',27)       !inter22  
-        IF(ANIM_V(22).EQ.1) CALL ANI_TXT('inter22 - Faces Velocity',24)          !inter22                
-        IF(ANIM_V(23).EQ.1) CALL ANI_TXT('inter22 - Centroid Momentum Density',35)        !inter22         
-        IF(ANIM_V(24).EQ.1) CALL ANI_TXT('inter22 - Faces Pressure Froces',31) !inter22                 
-        IF(ANIM_V(25).EQ.1) CALL ANI_TXT('inter22 - Centroid Internal Force',33) !inter22  
-        IF(ANIM_V(26).EQ.1) CALL ANI_TXT('Maximum Contact Forces Over Time',32)   
-        IF(ANIM_V(27).EQ.1) THEN
+        IF(ANIM_V(13)==1) CALL ANI_TXT('Tied Contact Forces',19)
+        IF(ANIM_V(14)==1) CALL ANI_TXT('Rotational DOF',14)
+        IF(ANIM_V(16)==1) CALL ANI_TXT('Gaz Velocity',12)
+        IF(ANIM_V(17)==1) CALL ANI_TXT('Reaction Forces',15)
+        IF(ANIM_V(18)==1) CALL ANI_TXT('Reaction Moments',16)
+        IF(ANIM_V(19)==1) CALL ANI_TXT('Cluster Forces',16)
+        IF(ANIM_V(20)==1) CALL ANI_TXT('Cluster Moments',16)
+        IF(ANIM_V(21)==1) CALL ANI_TXT('inter22 - Centroid Velocity',27)       !inter22  
+        IF(ANIM_V(22)==1) CALL ANI_TXT('inter22 - Faces Velocity',24)          !inter22                
+        IF(ANIM_V(23)==1) CALL ANI_TXT('inter22 - Centroid Momentum Density',35)        !inter22         
+        IF(ANIM_V(24)==1) CALL ANI_TXT('inter22 - Faces Pressure Froces',31) !inter22                 
+        IF(ANIM_V(25)==1) CALL ANI_TXT('inter22 - Centroid Internal Force',33) !inter22  
+        IF(ANIM_V(26)==1) CALL ANI_TXT('Maximum Contact Forces Over Time',32)   
+        IF(ANIM_V(27)==1) THEN
           CALL ANI_TXT('Tied Contact Pressure / Normal',30)
           CALL ANI_TXT('Tied Contact Pressure / Tangent',31)
         END IF    
@@ -3250,19 +3250,19 @@ C    VECT
 C-----------------------------------------------
 c        NNNSRG=NNSRG+NNSMD+NNSPH+2*NUMELS16
         NNNSRG=NNSRG+NNSMD+NNSPHG+2*NUMELS16G
-      IF(ANIM_V(1).EQ.1)
+      IF(ANIM_V(1)==1)
      . CALL VELVEC(V,V_TEMP,ICBUF(MIC2),CBUF(MAC2),NODCUT,NNWL,
      .       NNNSRG,NODGLOB,WEIGHT,NFVNOD,1,
      .       NFNOD_PXFEM,NOD_PXFEM,INDX_PLY,NFNOD_CRKXFEMG,ITAB)
-      IF(ANIM_V(2).EQ.1)
+      IF(ANIM_V(2)==1)
      . CALL VELVEC(D,D_TEMP,ICBUF(MIC2),CBUF(MAC2),NODCUT,NNWL,
      .       NNNSRG,NODGLOB,WEIGHT,NFVNOD,2,
      .       NFNOD_PXFEM,NOD_PXFEM,INDX_PLY,NFNOD_CRKXFEMG,ITAB)
-      IF(ANIM_V(3).EQ.1)
+      IF(ANIM_V(3)==1)
      . CALL VELVEC(A,A_TEMP,ICBUF(MIC2),CBUF(MAC2),NODCUT,NNWL,
      .       NNNSRG,NODGLOB,WEIGHT,NFVNOD,3,
      .       NFNOD_PXFEM,NOD_PXFEM,INDX_PLY,NFNOD_CRKXFEMG,ITAB)
-      IF(ANIM_V(4).EQ.1.AND.ANIMCONT.EQ.1)THEN
+      IF(ANIM_V(4)==1.AND.ANIMCONT==1)THEN
        IF(NINTSTAMP==0)THEN
          CALL VELVECC(CONT,CONT_TEMP,ICBUF(MIC2),CBUF(MAC2),NODCUT,NNWL,
      .       NNNSRG,NODGLOB,WEIGHT,NFVNOD,NFNOD_PXFEM,NFNOD_PXFEMG,
@@ -3274,20 +3274,20 @@ c        NNNSRG=NNSRG+NNSMD+NNSPH+2*NUMELS16
        END IF
       END IF
 
-      IF(ANIM_V(5).EQ.1)
+      IF(ANIM_V(5)==1)
      . CALL VELVEC(FINT,FINT_TEMP,ICBUF(MIC2),CBUF(MAC2),NODCUT,NNWL,
      .       NNNSRG,NODGLOB,WEIGHT,NFVNOD,5,
      .       NFNOD_PXFEM,NOD_PXFEM,INDX_PLY,NFNOD_CRKXFEMG,ITAB)
-      IF(ANIM_V(6).EQ.1)
+      IF(ANIM_V(6)==1)
      . CALL VELVECC(FEXT,FEXT_TEMP,ICBUF(MIC2),CBUF(MAC2),NODCUT,NNWL,
      .       NNNSRG,NODGLOB,WEIGHT,NFVNOD,NFNOD_PXFEM,NFNOD_PXFEMG,
      .       NFNOD_CRKXFEMG)
 
-      IF(ANIM_V(7).EQ.1) CALL VELVEC2(ICBUF(MIC2),BID_TEMP,CBUF(MAC2),
+      IF(ANIM_V(7)==1) CALL VELVEC2(ICBUF(MIC2),BID_TEMP,CBUF(MAC2),
      .    NODCUT,FOPT(1,1),NPBY,NNWL,NNNSRG,IXUR,
      .    NODGLOB,WEIGHT,FR_SEC,NFVNOD,NFNOD_PXFEM,NFNOD_PXFEMG,
      .    NFNOD_CRKXFEMG)
-      IF(ANIM_V(8).EQ.1) CALL VELVEC2(ICBUF(MIC2),BID_TEMP,CBUF(MAC2),
+      IF(ANIM_V(8)==1) CALL VELVEC2(ICBUF(MIC2),BID_TEMP,CBUF(MAC2),
      .    NODCUT,FOPT(4,1),NPBY,NNWL,NNNSRG,IXUR,
      .    NODGLOB,WEIGHT,FR_SEC,NFVNOD,NFNOD_PXFEM,NFNOD_PXFEMG,
      .    NFNOD_CRKXFEMG)
@@ -3324,7 +3324,7 @@ c     .                 IRODDL/=0) THEN
           ENDDO
         ENDIF
       ENDIF
-      IF (ANIM_V(10).EQ.1) THEN
+      IF (ANIM_V(10)==1) THEN
 cc            CALL VELVEC(VFLU,BID_TEMP,ICBUF(MIC2),CBUF(MAC2),
 c     .                  NODCUT,NNWL,NNNSRG,NODGLOB,WEIGHT,0,ANIM_V(10),
 c     .       NFNOD_PXFEM,NOD_PXFEM,INDX_PLY,VFLU_ALE)
@@ -3332,7 +3332,7 @@ C avoir pour anim ply en spmd
             CALL VELVEC3(VFLU,BID_TEMP,VFLU_ALE,ICBUF(MIC2),CBUF(MAC2),
      .                 NODCUT,NNWL,NNNSRG,NODGLOB,WEIGHT,0,NFNOD_PXFEM,
      .                 NFNOD_PXFEMG,NFNOD_CRKXFEMG)
-         IF (NFVNOD.GT.0) THEN
+         IF (NFVNOD>0) THEN
             IF (NSPMD == 1) THEN
                CALL ALEVEC()
             ELSE
@@ -3340,10 +3340,10 @@ C avoir pour anim ply en spmd
             ENDIF
          ENDIF
       ENDIF
-      IF (ANIM_V(11).EQ.1) THEN
+      IF (ANIM_V(11)==1) THEN
        IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
          FAC=ONE
-         IF (IMPL_S.GT.0.AND.IDYNA.EQ.0)FAC=ZERO 
+         IF (IMPL_S>0.AND.IDYNA==0)FAC=ZERO 
           DO J=1,3
           DO N=1,NUMNOD
            VFLU(J,N)=FEXT(J,N)+FINT(J,N)-FAC*MS(N)*A(J,N)
@@ -3358,7 +3358,7 @@ C avoir pour anim ply en spmd
      .          NFNOD_PXFEM,NOD_PXFEM,INDX_PLY,NFNOD_CRKXFEMG,ITAB)
         END IF
       ENDIF
-      IF(ANIM_V(12).EQ.1) THEN
+      IF(ANIM_V(12)==1) THEN
        IF(NINTSTAMP==0)THEN
         CALL VELVECC(FNCONT,BID_TEMP,ICBUF(MIC2),CBUF(MAC2),NODCUT,NNWL,
      .       NNNSRG,NODGLOB,WEIGHT,NFVNOD,NFNOD_PXFEM,NFNOD_PXFEMG,
@@ -3376,7 +3376,7 @@ C avoir pour anim ply en spmd
        END IF
       END IF
 C
-      IF(ANIM_V(13).EQ.1) THEN
+      IF(ANIM_V(13)==1) THEN
         CALL VELVECC(FNCONT2,BID_TEMP,ICBUF(MIC2),CBUF(MAC2),NODCUT,NNWL,
      .       NNNSRG,NODGLOB,WEIGHT,NFVNOD,NFNOD_PXFEM,NFNOD_PXFEMG,
      .       NFNOD_CRKXFEMG)
@@ -3395,11 +3395,11 @@ C
      .               NNNSRG,NODGLOB,WEIGHT,NFVNOD,NFNOD_PXFEM,
      .               NFNOD_PXFEMG,NFNOD_CRKXFEMG)
       ENDIF
-      IF(ANIM_V(16).EQ.1 .AND. IALELAG  > 0 ) THEN
+      IF(ANIM_V(16)==1 .AND. IALELAG  > 0 ) THEN
         CALL VELVEC(VGAZ,BID_TEMP,ICBUF(MIC2),CBUF(MAC2),NODCUT,NNWL,
      .       NNNSRG,NODGLOB,WEIGHT,NFVNOD,16,
      .       NFNOD_PXFEM,NOD_PXFEM,INDX_PLY,NFNOD_CRKXFEMG,ITAB)
-      ELSEIF(ANIM_V(16).EQ.1 .AND. IALELAG  == 0 ) THEN
+      ELSEIF(ANIM_V(16)==1 .AND. IALELAG  == 0 ) THEN
         IF (ISPMD == 0) THEN
           DO I=1,NUMNODG
             R4 = ZERO
@@ -3409,7 +3409,7 @@ C
           ENDDO
         ENDIF
       ENDIF
-      IF(ANIM_V(17).EQ.1) THEN
+      IF(ANIM_V(17)==1) THEN
         DO N=1,NUMNOD
          FANREACT(1,N)=FANREAC(1,N)
          FANREACT(2,N)=FANREAC(2,N)
@@ -3419,7 +3419,7 @@ C
      .       NNNSRG,NODGLOB,WEIGHT,NFVNOD,17,
      .       NFNOD_PXFEM,NOD_PXFEM,INDX_PLY,NFNOD_CRKXFEMG,ITAB)
       ENDIF
-      IF(ANIM_V(18).EQ.1) THEN
+      IF(ANIM_V(18)==1) THEN
         DO N=1,NUMNOD
          FANREACR(1,N)=FANREAC(4,N)
          FANREACR(2,N)=FANREAC(5,N)
@@ -3472,7 +3472,7 @@ c       interface 22, centroid rho.vel
         CALL VELVECC22(ELBUF_TAB,IPARG,3,IXS,IXQ,ITAB)
       ENDIF 
 
-      IF(ANIM_V(26).EQ.1)THEN
+      IF(ANIM_V(26)==1)THEN
 
         IF(NINTSTAMP==0)THEN
            CALL VELVECC(FCONT_MAX,BID_TEMP,ICBUF(MIC2),CBUF(MAC2),NODCUT,NNWL,
@@ -3484,7 +3484,7 @@ c       interface 22, centroid rho.vel
         ENDIF
       END IF    
 
-      IF(ANIM_V(27).EQ.1) THEN
+      IF(ANIM_V(27)==1) THEN
         CALL VELVECC(FNCONTP2,BID_TEMP,ICBUF(MIC2),CBUF(MAC2),NODCUT,NNWL,
      .       NNNSRG,NODGLOB,WEIGHT,NFVNOD,NFNOD_PXFEM,NFNOD_PXFEMG,
      .       NFNOD_CRKXFEMG)
@@ -3497,33 +3497,33 @@ C   2D TENSOR TEXT
 C-----------------------------------------------
 C  en spmd localement NBF = 0 mais pas la somme sur p0 !
 C  sur p0 nbf global
-       IF(ISPMD.EQ.0.AND.NBF+NELCUT+NESBW2.NE.0)THEN
-        IF(ANIM_CT(1).EQ.1) CALL ANI_TXT('Stress (membrane)',17)
-        IF(ANIM_CT(2).EQ.1) CALL ANI_TXT('Stress (moment/t^2)',19)
-        IF(ANIM_CT(3).EQ.1) CALL ANI_TXT('Stress (upper)',14)
-        IF(ANIM_CT(4).EQ.1) CALL ANI_TXT('Stress (lower)',14)
-        IF(ANIM_CT(5).EQ.1) CALL ANI_TXT('Strain (membrane)',17)
-        IF(ANIM_CT(6).EQ.1) CALL ANI_TXT('Strain (Curvature)',18)
-        IF(ANIM_CT(7).EQ.1) CALL ANI_TXT('Strain (upper)',14)
-        IF(ANIM_CT(8).EQ.1) CALL ANI_TXT('Strain (lower)',14)
-        IF(ANIM_CT(91).EQ.1)CALL ANI_TXT('Strn rate (membrane)',20)
-        IF(ANIM_CT(92).EQ.1)CALL ANI_TXT('Strn rate (Curvature)',21)
-        IF(ANIM_CT(93).EQ.1)CALL ANI_TXT('Strn rate (upper)',17)
-        IF(ANIM_CT(94).EQ.1)CALL ANI_TXT('Strn rate (lower)',17)
+       IF(ISPMD==0.AND.NBF+NELCUT+NESBW2/=0)THEN
+        IF(ANIM_CT(1)==1) CALL ANI_TXT('Stress (membrane)',17)
+        IF(ANIM_CT(2)==1) CALL ANI_TXT('Stress (moment/t^2)',19)
+        IF(ANIM_CT(3)==1) CALL ANI_TXT('Stress (upper)',14)
+        IF(ANIM_CT(4)==1) CALL ANI_TXT('Stress (lower)',14)
+        IF(ANIM_CT(5)==1) CALL ANI_TXT('Strain (membrane)',17)
+        IF(ANIM_CT(6)==1) CALL ANI_TXT('Strain (Curvature)',18)
+        IF(ANIM_CT(7)==1) CALL ANI_TXT('Strain (upper)',14)
+        IF(ANIM_CT(8)==1) CALL ANI_TXT('Strain (lower)',14)
+        IF(ANIM_CT(91)==1)CALL ANI_TXT('Strn rate (membrane)',20)
+        IF(ANIM_CT(92)==1)CALL ANI_TXT('Strn rate (Curvature)',21)
+        IF(ANIM_CT(93)==1)CALL ANI_TXT('Strn rate (upper)',17)
+        IF(ANIM_CT(94)==1)CALL ANI_TXT('Strn rate (lower)',17)
         DO I=1,100
-         IF(ANIM_CT(100+I).EQ.1)THEN
+         IF(ANIM_CT(100+I)==1)THEN
            WRITE(MES,'(A,I3,A)')'Stress (layer',I,')'
            CALL ANI_TXT(MES,18)
          ENDIF
         ENDDO
         DO I=1,100
-         IF(ANIM_CT(200+I).EQ.1)THEN
+         IF(ANIM_CT(200+I)==1)THEN
             WRITE(MES,'(A,I3,A)')'Strain (layer',I,')'
             CALL ANI_TXT(MES,18)
          ENDIF
         ENDDO
         DO I=1,100
-         IF(ANIM_CT(300+I).EQ.1)THEN
+         IF(ANIM_CT(300+I)==1)THEN
             WRITE(MES,'(A,I3,A)')'Strn rate (layer',I,')'
             CALL ANI_TXT(MES,21)
          ENDIF
@@ -3537,7 +3537,7 @@ C
         DO I=401,500
            IF (ANIM_CT(I) == 1) THEN
              IUS = MOD ((I - 400), 100)
-             IF(IUS.EQ.0) IUS = 100
+             IF(IUS==0) IUS = 100
              WRITE(MES,'(A,I3,A)')'Stress (UPPER/LAYER',IUS,')'
              CALL ANI_TXT(MES,24)
             END IF
@@ -3548,7 +3548,7 @@ C
         DO I=501,600
            IF (ANIM_CT(I) == 1) THEN
              IUS = MOD ((I - 500), 100)
-             IF(IUS.EQ.0) IUS = 100
+             IF(IUS==0) IUS = 100
              WRITE(MES,'(A,I3,A)')'Stress (LOWER/LAYER',IUS,')'
              CALL ANI_TXT(MES,24)
             END IF
@@ -3676,18 +3676,18 @@ C-----------------------------------------------
           ENDDO
         ENDDO
 !
-       ENDIF  ! IF(ISPMD.EQ.0.AND.NBF+NELCUT+NESBW2.NE.0)
+       ENDIF  ! IF(ISPMD==0.AND.NBF+NELCUT+NESBW2/=0)
 C-----------------------------------------------
 C   2D TENSOR
 C-----------------------------------------------
        DO I = 1,MX_ANI
          IFUNC = I
-         IF(ANIM_CT(I).EQ.1)THEN
+         IF(ANIM_CT(I)==1)THEN
            CALL TENSORC(ELBUF_TAB,IPARG ,IFUNC ,INVERT,NELCUT,
      .                  EL2FA    ,NBF   ,WAFT  ,TANI  ,IAD   ,
      .                  NBF_L    ,NBPART,IADG  ,X     ,IXC   ,
      .                  IGEO     ,IXTG  ,IPM   ,STACK )
-           IF (ISPMD.EQ.0) THEN
+           IF (ISPMD==0) THEN
              R4 = ZERO
              DO J=1,NESBW2
               CALL WRITE_R_C(R4,1)
@@ -3714,7 +3714,7 @@ C
      .                CRKEDGE  ,INDX_CRK )
           ENDIF
 C
-          IF (ISPMD.EQ.0.AND.NFVTR.GT.0) THEN
+          IF (ISPMD==0.AND.NFVTR>0) THEN
               R4=ZERO
               DO J=1,NFVTR
                  CALL WRITE_R_C(R4,1)
@@ -3728,7 +3728,7 @@ C
 C-----------------------------------------------
 C   ELEMENT MASS
 C-----------------------------------------------
-      IF(ANIM_M.EQ.1)THEN
+      IF(ANIM_M==1)THEN
 C traitement equivalent monoproc
        IF(NSPMD == 1) THEN
          DO I=1,NBF
@@ -3747,7 +3747,7 @@ C xfem crack for layered shells ---
          DO I = 1, NBF_L
            MAS4(I) = MAS(I)
          ENDDO
-         IF(ISPMD.EQ.0) THEN
+         IF(ISPMD==0) THEN
            BUF = (NUMELQG+NUMELCG+NUMELTGG+NUMELURG)
          ELSE
            BUF=1
@@ -3755,7 +3755,7 @@ C xfem crack for layered shells ---
          CALL SPMD_R4GET_PARTN(1,NBF_L,NBPART,IADG,MAS4,BUF)
        ENDIF
 
-       IF (ISPMD.EQ.0) THEN
+       IF (ISPMD==0) THEN
          R4 = 0.
          DO J=1,NESBW2+NELCUT
           CALL WRITE_R_C(R4,1)
@@ -3776,7 +3776,7 @@ C xfem crack for layered shells +++
            ENDDO
        ENDIF
 C xfem crack for layered shells ---
-       IF (ISPMD.EQ.0.AND.NFVTR.GT.0) THEN
+       IF (ISPMD==0.AND.NFVTR>0) THEN
          R4=ZERO
          DO J=1,NFVTR
             CALL WRITE_R_C(R4,1)
@@ -3787,7 +3787,7 @@ C-----------------------------------------------
 C   NODAL MASS (FLUX FOR CUT)
 C-----------------------------------------------
          DO I=1,NUMNOD
-           IF (WEIGHT_MD(I).EQ.1) THEN
+           IF (WEIGHT_MD(I)==1) THEN
               WA4(I)=MS(I)
            ELSE
               WA4(I)=ZERO
@@ -3796,7 +3796,7 @@ C-----------------------------------------------
 C
          DO N=1,NRBYKIN
            M=NPBY(1,N)
-           IF (M.GT.0) THEN
+           IF (M>0) THEN
              WA4(M)=WA4(M)+(RBY(15,N)-MS(M))* WEIGHT_MD(M)
            ENDIF
          ENDDO
@@ -3807,7 +3807,7 @@ C traitement equivalent mono
              CALL WRITE_R_C(R4,1)
            ENDDO
          ELSE
-           IF (ISPMD.EQ.0) THEN
+           IF (ISPMD==0) THEN
              BUF = NUMNODG
            ELSE
              BUF = 1
@@ -3816,10 +3816,10 @@ C traitement equivalent mono
          ENDIF
 
        R4 = ZERO
-       IF(NODCUT.GT.0)
+       IF(NODCUT>0)
      . CALL CUTMASS(ICBUF,CBUF,CBUF(MAC2),NODCUT,NELCUT,
      .   V,CBUF(MAC3),ICBUF(MIC2))
-       IF (ISPMD.EQ.0) THEN
+       IF (ISPMD==0) THEN
          R4 = 0.
 c           SZ16 = NUMELS16
 c           SZNNSPH = NNSPH
@@ -3830,21 +3830,21 @@ c           SZNNSPH = NNSPH
          ENDDO
        ENDIF
 C nodal/ply mass is not computed for anim is always zero
-       IF(ISPMD.EQ.0 .AND. ANIM_PLY > 0 ) THEN
+       IF(ISPMD==0 .AND. ANIM_PLY > 0 ) THEN
           R4=ZERO
           DO I=1,NFNOD_PXFEMG
               CALL WRITE_R_C(R4,1)  
           ENDDO
        ENDIF
 C xfem crack for layered shells +++
-       IF(ISPMD.EQ.0 .AND. ANIM_CRK > 0)THEN
+       IF(ISPMD==0 .AND. ANIM_CRK > 0)THEN
           R4=ZERO
           DO I=1,NFNOD_CRKXFEMG
             CALL WRITE_R_C(R4,1)  
           ENDDO
        ENDIF
 C xfem crack for layered shells ---
-       IF (ISPMD.EQ.0.AND.NFVNOD.GT.0) THEN
+       IF (ISPMD==0.AND.NFVNOD>0) THEN
           R4=ZERO
           DO N=1,NFVNOD+3
              CALL WRITE_R_C(R4,1)
@@ -3857,13 +3857,13 @@ C-----------------------------------------------
 C traitement equivalent monoproc
       IF (NSPMD == 1) THEN
         CALL WRITE_I_C(ITAB,NUMNOD)
-        IF (NUMELIG3D.GT.0) THEN
+        IF (NUMELIG3D>0) THEN
           DO I=1,64*NUMELIG3D
             CALL WRITE_I_C(FIRST_NODE_IG3D+I,1)
           ENDDO
         ENDIF
       ELSE
-        IF (ISPMD.EQ.0) THEN
+        IF (ISPMD==0) THEN
           BUF = NUMNODG
         ELSE
           BUF = 1
@@ -3876,7 +3876,7 @@ c         SZNNSPH = NNSPH
          SZ16 = NUMELS16G
          SZNNSPH = NNSPHG
 
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
          DO I=1,NODCUT+NSECT+NRWALL+NNWL+NNSRG+NNSMD+SZNNSPH+2*SZ16
           CALL WRITE_I_C(0,1)
          ENDDO
@@ -3948,9 +3948,9 @@ C xfem crack for layerd shells +++
        ENDIF
 C xfem crack for layerd shells ---
 C  Traitment equivalent monoproc
-      IF (NSPMD == 1 .AND. NFVNOD.GT.0) THEN
+      IF (NSPMD == 1 .AND. NFVNOD>0) THEN
          DO I=1,NFVBAG
-            IF (FVDATA(I)%NPOLH_ANIM.GT.0) THEN
+            IF (FVDATA(I)%NPOLH_ANIM>0) THEN
                DO J=1,FVDATA(I)%NNS_ANIM
                   JJ=FVOFF(2,I)+J
                   CALL WRITE_I_C(JJ,1)
@@ -3960,7 +3960,7 @@ C  Traitment equivalent monoproc
          CALL WRITE_I_C(IDMAX+NFVNOD+1,1)
          CALL WRITE_I_C(IDMAX+NFVNOD+2,1)
          CALL WRITE_I_C(IDMAX+NFVNOD+3,1)
-      ELSEIF(NFVNOD.GT.0) THEN
+      ELSEIF(NFVNOD>0) THEN
          CALL SPMD_FVB_ANUM(FVOFF, IDMAX, NFVNOD)
       ENDIF
 C
@@ -3968,7 +3968,7 @@ C
      .             EL2FA,NBF  ,WAFT ,NELCUT,
      .             IXUR       ,DD_IAD,IAD ,NBF_L,
      .             NBPART,IADG,NODGLOB,IDCMAX)
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
          DO J=1,NESBW2
           CALL WRITE_I_C(0,1)
          ENDDO
@@ -3990,7 +3990,7 @@ C
      .         EL2FA_CRK,IAD_CRKG ,NBF_CRKXFEM,NBF_CRKXFEMG,INDX_CRK)
        ENDIF
 C
-      IF (ISPMD.EQ.0.AND.NFVTR.GT.0) THEN
+      IF (ISPMD==0.AND.NFVTR>0) THEN
          DO I=1,NFVTR
             CALL WRITE_I_C(IDCMAX+FVINUM(I),1)
          ENDDO
@@ -3999,8 +3999,8 @@ C
 C-----------------------------------------------
 C   HIERARCHIE
 C-----------------------------------------------
-       IF (NFVPART.GT.0) THEN
-          IF (ISPMD.EQ.0) ALLOCATE(FVPBUF(NFVPART))
+       IF (NFVPART>0) THEN
+          IF (ISPMD==0) ALLOCATE(FVPBUF(NFVPART))
           II=NSUBS
      .        +MIN(1,NSECT)+MIN(1,NRBODY+ NRBE2T+NRBE3T)+MIN(1,NRWALL)
      .        +MIN(1,NSURG+NSMAD) + MIN(1,NPLYPARTW)
@@ -4008,7 +4008,7 @@ C-----------------------------------------------
           IF(NSPMD > 1) CALL SPMD_FVB_ASUB1(II, FVPBUF)
        ENDIF
 C
-       IF (ISPMD.EQ.0) THEN
+       IF (ISPMD==0) THEN
 C       Transmis a ANIM ::
 clm      Subset Rbodies  == NSUBS
 Cclm     Subset Sections == NSUBS+MIN(1,NRBODY+NRBE2+NRBE3)
@@ -4017,8 +4017,8 @@ C       Subset Surfaces == NSUBS+MIN(1,NSECT)+MIN(1,NRBODY+NRBE2+NRBE3)+MIN(1,NR
 clm      Subset global   == NSUBS+MIN(1,NSECT)+MIN(1,NRBODY+NRBE2+NRBE3)+MIN(1,NRWALL)
 C                                +MIN(1,NSURG+NSMAD) + MIN(1,NPLYPART)
          DO I=1,NPART
-           IF(MATER(I).EQ.1) THEN
-            IF (IPART(3,I).LT.NSUBS) THEN
+           IF(MATER(I)==1) THEN
+            IF (IPART(3,I)<NSUBS) THEN
              CALL WRITE_I_C(IPART(3,I)-1,1)
             ELSE
              CALL WRITE_I_C(NSUBS
@@ -4073,25 +4073,25 @@ c xfem crack for layered shells +++
          ENDIF
 C xfem crack for layered shells ---
 C traitement equivalent monoproc
-         IF (NSPMD == 1.AND.NFVTR.GT.0) THEN
+         IF (NSPMD == 1.AND.NFVTR>0) THEN
             II=NSUBS
      .          +MIN(1,NSECT)+MIN(1,NRBODY+NRBE2T+NRBE3T)+MIN(1,NRWALL)
      .          +MIN(1,NSURG+NSMAD) +MIN(NPLYPARTW,1)
      .          +MIN(1,NCRKPARTW)-1
             DO I=1,NFVBAG
-               IF (FVDATA(I)%NPOLH_ANIM.GT.0) THEN
+               IF (FVDATA(I)%NPOLH_ANIM>0) THEN
                   II=II+1
                   DO J=1,FVDATA(I)%NPOLH_ANIM
                      CALL WRITE_I_C(II-1,1)
                   ENDDO
                ENDIF
             ENDDO
-         ELSEIF (NFVPART.GT.0) THEN
+         ELSEIF (NFVPART>0) THEN
             CALL WRITE_I_C(FVPBUF, NFVPART)
             DEALLOCATE(FVPBUF)
          ENDIF
          DO I=1,NPART
-           IF(MATER(I).EQ.1)CALL WRITE_I_C(IPART(1,I),1)
+           IF(MATER(I)==1)CALL WRITE_I_C(IPART(1,I),1)
          ENDDO
          DO I=1,NCUTS+NRWALL+NSECT+NSURG+NSMAD+NPLYPARTW+NCRKPARTW
              CALL WRITE_I_C(0,1)
@@ -4102,7 +4102,7 @@ C
          ENDDO
 C
          DO I=1,NPART
-           IF(MATER(I).EQ.1)CALL WRITE_I_C(IPART(2,I),1)
+           IF(MATER(I)==1)CALL WRITE_I_C(IPART(2,I),1)
          ENDDO
          DO I=1,NCUTS+NRWALL+NSECT+NSURG+NSMAD+NPLYPARTW+NCRKPARTW
            CALL WRITE_I_C(0,1)
@@ -4116,7 +4116,7 @@ C
 C      BRICKS
 C
 C=======================================================================
-      IF(NUMELS_T+NUMELS16_T+ISPH3D*(NUMSPH_T+MAXPJET)+NUMELIG3D.EQ.0)
+      IF(NUMELS_T+NUMELS16_T+ISPH3D*(NUMSPH_T+MAXPJET)+NUMELIG3D==0)
      .     GOTO 400
 C-----------------------------------------------
 C   PART COUNT
@@ -4131,18 +4131,18 @@ C
           NEL   =IPARG(2,NG)
           NFT   =IPARG(3,NG)
           ITY   =IPARG(5,NG)
-          IF(ITY.EQ.1)THEN
+          IF(ITY==1)THEN
             DO I = 1, NEL
               N = I + NFT
               MATER(IPARTS(N))=2
             ENDDO
 C     3D geometry is not yet treated.
-          ELSEIF (ISPH3D.EQ.1.AND.ITY.EQ.51)THEN
+          ELSEIF (ISPH3D==1.AND.ITY==51)THEN
             DO I = 1, NEL
               N = I + NFT
               MATER(IPARTSP(N))=2
             ENDDO
-          ELSEIF (ITY.EQ.101)THEN
+          ELSEIF (ITY==101)THEN
             DO I = 1, NEL
               N = I + NFT
               MATER(IPARTIG3D(N))=2
@@ -4152,7 +4152,7 @@ C     3D geometry is not yet treated.
 C
         IF(NSPMD > 1) CALL SPMD_GLOB_ISUM9(MATER,NPART)
         DO I=1,NPART
-          IF(MATER(I).GT.2) MATER(I) = 2
+          IF(MATER(I)>2) MATER(I) = 2
         ENDDO
         IF(NSPMD > 1) CALL SPMD_IBCAST(MATER,MATER,NPART,1,0,2)
         DO I=1,NPART
@@ -4168,7 +4168,7 @@ C
 C-----------------------------------------------
 C   WRITE CONTROL
 C-----------------------------------------------
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
         CALL WRITE_I_C(NUMELS_T+3*NUMELS16G+ISPH3D*NUMSPHG+27*NUMELIG3D,1)
         CALL WRITE_I_C(NBPART,1)
         CALL WRITE_I_C(NSE_ANI,1)
@@ -4200,7 +4200,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   PART ADD
 C-----------------------------------------------
-        IF (ISPMD.EQ.0) THEN
+        IF (ISPMD==0) THEN
           DO I = 1, NBPART
             BUFFERP(I) = 0
             DO K = 1, NSPMD
@@ -4213,9 +4213,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   PART HEAD
 C-----------------------------------------------
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
        DO I=1,NPART
-        IF(MATER(I).EQ.2)THEN
+        IF(MATER(I)==2)THEN
           WRITE(STR,'(I9,A1)')IPART(4,I),':'
           DO J=1,10
             CTEXT(J)=ICHAR(STR(J:J))
@@ -4223,7 +4223,7 @@ C-----------------------------------------------
           IB = 10
             CALL FRETITL2(TITL,IPART(LIPART1-LTITR+1,I),40)
             DO J=1,LTITL
-              IF(TITL(J:J).NE.' ') IB = J+10
+              IF(TITL(J:J)/=' ') IB = J+10
               CTEXT(J+10)=ICHAR(TITL(J:J))
             END DO
             CTEXT(IB+1)=0
@@ -4235,7 +4235,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   ELEMENT MASS FOR MAS & FUNC
 C-----------------------------------------------
-      IF(ANIM_M.EQ.1.OR.ANIM_SE(3).EQ.1.OR.ANIM_SE(25).EQ.1)THEN
+      IF(ANIM_M==1.OR.ANIM_SE(3)==1.OR.ANIM_SE(25)==1)THEN
         CALL DMASANIS(ELBUF_TAB,X       ,D       ,GEO     ,IPARG   ,
      .                IXS      ,MAS     ,PM      ,EL2FA   ,NUMELS  ,
      .                IPART    ,IPARTSP ,ISPH3D )
@@ -4243,91 +4243,91 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   BRICK FUNC TEXT
 C-----------------------------------------------
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
        CTEXT(81)=0
-       IF(ANIM_SE(1).EQ.1) CALL ANI_TXT('Plastic Strain',14)
-       IF(ANIM_SE(2).EQ.1) CALL ANI_TXT('Density',7)
-       IF(ANIM_SE(3).EQ.1) CALL ANI_TXT('Specific Energy',15)
-       IF(ANIM_SE(4).EQ.1) CALL ANI_TXT('Temperature',11)
-       IF(ANIM_SE(6).EQ.1) CALL ANI_TXT('Pressure',8)
-       IF(ANIM_SE(7).EQ.1) CALL ANI_TXT('Von Mises',9)
-       IF(ANIM_SE(8).EQ.1) CALL ANI_TXT('Turbulent Energy',16)
-       IF(ANIM_SE(9).EQ.1) CALL ANI_TXT('Turbulent Viscosity',19)
-       IF(ANIM_SE(10).EQ.1) CALL ANI_TXT('Vorticity-X',11)
-       IF(ANIM_SE(11).EQ.1) CALL ANI_TXT('Damage 1',8)
-       IF(ANIM_SE(12).EQ.1) CALL ANI_TXT('Damage 2',8)
-       IF(ANIM_SE(13).EQ.1) CALL ANI_TXT('Damage 3',8)
-       IF(ANIM_SE(14).EQ.1) CALL ANI_TXT('Stress X ',9)
-       IF(ANIM_SE(15).EQ.1) CALL ANI_TXT('Stress Y ',9)
-       IF(ANIM_SE(16).EQ.1) CALL ANI_TXT('Stress Z ',9)
-       IF(ANIM_SE(17).EQ.1) CALL ANI_TXT('Stress XY',9)
-       IF(ANIM_SE(18).EQ.1) CALL ANI_TXT('Stress YZ',9)
-       IF(ANIM_SE(19).EQ.1) CALL ANI_TXT('Stress ZX',9)
-       IF(ANIM_SE(20).EQ.1) CALL ANI_TXT('User Var 1',10)
-       IF(ANIM_SE(21).EQ.1) CALL ANI_TXT('User Var 2',10)
-       IF(ANIM_SE(22).EQ.1) CALL ANI_TXT('User Var 3',10)
-       IF(ANIM_SE(23).EQ.1) CALL ANI_TXT('User Var 4',10)
-       IF(ANIM_SE(24).EQ.1) CALL ANI_TXT('User Var 5',10)       
-       IF(ANIM_SE(25).EQ.1) CALL ANI_TXT('Hourglass Energy',16)
-       IF(ANIM_SE(26).EQ.1) CALL ANI_TXT('Strain Rate',11)
-       IF(ANIM_SE(27).EQ.1) CALL ANI_TXT('User Var 6',10)
-       IF(ANIM_SE(28).EQ.1) CALL ANI_TXT('User Var 7',10)
-       IF(ANIM_SE(29).EQ.1) CALL ANI_TXT('User Var 8',10)
-       IF(ANIM_SE(30).EQ.1) CALL ANI_TXT('User Var 9',10)
-       IF(ANIM_SE(31).EQ.1) CALL ANI_TXT('User Var 10',11)
-       IF(ANIM_SE(32).EQ.1) CALL ANI_TXT('User Var 11',11)
-       IF(ANIM_SE(33).EQ.1) CALL ANI_TXT('User Var 12',11)
-       IF(ANIM_SE(34).EQ.1) CALL ANI_TXT('User Var 13',11)
-       IF(ANIM_SE(35).EQ.1) CALL ANI_TXT('User Var 14',11)
-       IF(ANIM_SE(36).EQ.1) CALL ANI_TXT('User Var 15',11)
-       IF(ANIM_SE(37).EQ.1) CALL ANI_TXT('User Var 16',11)
-       IF(ANIM_SE(38).EQ.1) CALL ANI_TXT('User Var 17',11)
-       IF(ANIM_SE(39).EQ.1) CALL ANI_TXT('User Var 18',11)
-       IF(ANIM_SE(40).EQ.1) CALL ANI_TXT('User Var 19',11)
-       IF(ANIM_SE(41).EQ.1) CALL ANI_TXT('User Var 20',11)
-       IF(ANIM_SE(42).EQ.1) CALL ANI_TXT('User Var 21',11)
-       IF(ANIM_SE(43).EQ.1) CALL ANI_TXT('User Var 22',11)
-       IF(ANIM_SE(44).EQ.1) CALL ANI_TXT('User Var 23',11)
-       IF(ANIM_SE(45).EQ.1) CALL ANI_TXT('User Var 24',11)
-       IF(ANIM_SE(46).EQ.1) CALL ANI_TXT('User Var 25',11)
-       IF(ANIM_SE(47).EQ.1) CALL ANI_TXT('User Var 26',11)
-       IF(ANIM_SE(48).EQ.1) CALL ANI_TXT('User Var 27',11)
-       IF(ANIM_SE(49).EQ.1) CALL ANI_TXT('User Var 28',11)
-       IF(ANIM_SE(50).EQ.1) CALL ANI_TXT('User Var 29',11)
-       IF(ANIM_SE(51).EQ.1) CALL ANI_TXT('User Var 30',11)
-       IF(ANIM_SE(52).EQ.1) CALL ANI_TXT('User Var 31',11)
-       IF(ANIM_SE(53).EQ.1) CALL ANI_TXT('User Var 32',11)
-       IF(ANIM_SE(54).EQ.1) CALL ANI_TXT('User Var 33',11)
-       IF(ANIM_SE(55).EQ.1) CALL ANI_TXT('User Var 34',11)
-       IF(ANIM_SE(56).EQ.1) CALL ANI_TXT('User Var 35',11)
-       IF(ANIM_SE(57).EQ.1) CALL ANI_TXT('User Var 36',11)
-       IF(ANIM_SE(58).EQ.1) CALL ANI_TXT('User Var 37',11)
-       IF(ANIM_SE(59).EQ.1) CALL ANI_TXT('User Var 38',11)
-       IF(ANIM_SE(60).EQ.1) CALL ANI_TXT('User Var 39',11)
-       IF(ANIM_SE(61).EQ.1) CALL ANI_TXT('User Var 40',11)
-       IF(ANIM_SE(62).EQ.1) CALL ANI_TXT('User Var 41',11)
-       IF(ANIM_SE(63).EQ.1) CALL ANI_TXT('User Var 42',11)
-       IF(ANIM_SE(64).EQ.1) CALL ANI_TXT('User Var 43',11)
-       IF(ANIM_SE(65).EQ.1) CALL ANI_TXT('User Var 44',11)
-       IF(ANIM_SE(66).EQ.1) CALL ANI_TXT('User Var 45',11)
-       IF(ANIM_SE(67).EQ.1) CALL ANI_TXT('User Var 46',11)
-       IF(ANIM_SE(68).EQ.1) CALL ANI_TXT('User Var 47',11)
-       IF(ANIM_SE(69).EQ.1) CALL ANI_TXT('User Var 48',11)
-       IF(ANIM_SE(70).EQ.1) CALL ANI_TXT('User Var 49',11)
-       IF(ANIM_SE(71).EQ.1) CALL ANI_TXT('User Var 50',11)
-       IF(ANIM_SE(72).EQ.1) CALL ANI_TXT('User Var 51',11)
-       IF(ANIM_SE(73).EQ.1) CALL ANI_TXT('User Var 52',11)
-       IF(ANIM_SE(74).EQ.1) CALL ANI_TXT('User Var 53',11)
-       IF(ANIM_SE(75).EQ.1) CALL ANI_TXT('User Var 54',11)
-       IF(ANIM_SE(76).EQ.1) CALL ANI_TXT('User Var 55',11)
-       IF(ANIM_SE(77).EQ.1) CALL ANI_TXT('User Var 56',11)
-       IF(ANIM_SE(78).EQ.1) CALL ANI_TXT('User Var 57',11)
-       IF(ANIM_SE(79).EQ.1) CALL ANI_TXT('User Var 58',11)
-       IF(ANIM_SE(80).EQ.1) CALL ANI_TXT('User Var 59',11)
-       IF(ANIM_SE(81).EQ.1) CALL ANI_TXT('User Var 60',11)
+       IF(ANIM_SE(1)==1) CALL ANI_TXT('Plastic Strain',14)
+       IF(ANIM_SE(2)==1) CALL ANI_TXT('Density',7)
+       IF(ANIM_SE(3)==1) CALL ANI_TXT('Specific Energy',15)
+       IF(ANIM_SE(4)==1) CALL ANI_TXT('Temperature',11)
+       IF(ANIM_SE(6)==1) CALL ANI_TXT('Pressure',8)
+       IF(ANIM_SE(7)==1) CALL ANI_TXT('Von Mises',9)
+       IF(ANIM_SE(8)==1) CALL ANI_TXT('Turbulent Energy',16)
+       IF(ANIM_SE(9)==1) CALL ANI_TXT('Turbulent Viscosity',19)
+       IF(ANIM_SE(10)==1) CALL ANI_TXT('Vorticity-X',11)
+       IF(ANIM_SE(11)==1) CALL ANI_TXT('Damage 1',8)
+       IF(ANIM_SE(12)==1) CALL ANI_TXT('Damage 2',8)
+       IF(ANIM_SE(13)==1) CALL ANI_TXT('Damage 3',8)
+       IF(ANIM_SE(14)==1) CALL ANI_TXT('Stress X ',9)
+       IF(ANIM_SE(15)==1) CALL ANI_TXT('Stress Y ',9)
+       IF(ANIM_SE(16)==1) CALL ANI_TXT('Stress Z ',9)
+       IF(ANIM_SE(17)==1) CALL ANI_TXT('Stress XY',9)
+       IF(ANIM_SE(18)==1) CALL ANI_TXT('Stress YZ',9)
+       IF(ANIM_SE(19)==1) CALL ANI_TXT('Stress ZX',9)
+       IF(ANIM_SE(20)==1) CALL ANI_TXT('User Var 1',10)
+       IF(ANIM_SE(21)==1) CALL ANI_TXT('User Var 2',10)
+       IF(ANIM_SE(22)==1) CALL ANI_TXT('User Var 3',10)
+       IF(ANIM_SE(23)==1) CALL ANI_TXT('User Var 4',10)
+       IF(ANIM_SE(24)==1) CALL ANI_TXT('User Var 5',10)       
+       IF(ANIM_SE(25)==1) CALL ANI_TXT('Hourglass Energy',16)
+       IF(ANIM_SE(26)==1) CALL ANI_TXT('Strain Rate',11)
+       IF(ANIM_SE(27)==1) CALL ANI_TXT('User Var 6',10)
+       IF(ANIM_SE(28)==1) CALL ANI_TXT('User Var 7',10)
+       IF(ANIM_SE(29)==1) CALL ANI_TXT('User Var 8',10)
+       IF(ANIM_SE(30)==1) CALL ANI_TXT('User Var 9',10)
+       IF(ANIM_SE(31)==1) CALL ANI_TXT('User Var 10',11)
+       IF(ANIM_SE(32)==1) CALL ANI_TXT('User Var 11',11)
+       IF(ANIM_SE(33)==1) CALL ANI_TXT('User Var 12',11)
+       IF(ANIM_SE(34)==1) CALL ANI_TXT('User Var 13',11)
+       IF(ANIM_SE(35)==1) CALL ANI_TXT('User Var 14',11)
+       IF(ANIM_SE(36)==1) CALL ANI_TXT('User Var 15',11)
+       IF(ANIM_SE(37)==1) CALL ANI_TXT('User Var 16',11)
+       IF(ANIM_SE(38)==1) CALL ANI_TXT('User Var 17',11)
+       IF(ANIM_SE(39)==1) CALL ANI_TXT('User Var 18',11)
+       IF(ANIM_SE(40)==1) CALL ANI_TXT('User Var 19',11)
+       IF(ANIM_SE(41)==1) CALL ANI_TXT('User Var 20',11)
+       IF(ANIM_SE(42)==1) CALL ANI_TXT('User Var 21',11)
+       IF(ANIM_SE(43)==1) CALL ANI_TXT('User Var 22',11)
+       IF(ANIM_SE(44)==1) CALL ANI_TXT('User Var 23',11)
+       IF(ANIM_SE(45)==1) CALL ANI_TXT('User Var 24',11)
+       IF(ANIM_SE(46)==1) CALL ANI_TXT('User Var 25',11)
+       IF(ANIM_SE(47)==1) CALL ANI_TXT('User Var 26',11)
+       IF(ANIM_SE(48)==1) CALL ANI_TXT('User Var 27',11)
+       IF(ANIM_SE(49)==1) CALL ANI_TXT('User Var 28',11)
+       IF(ANIM_SE(50)==1) CALL ANI_TXT('User Var 29',11)
+       IF(ANIM_SE(51)==1) CALL ANI_TXT('User Var 30',11)
+       IF(ANIM_SE(52)==1) CALL ANI_TXT('User Var 31',11)
+       IF(ANIM_SE(53)==1) CALL ANI_TXT('User Var 32',11)
+       IF(ANIM_SE(54)==1) CALL ANI_TXT('User Var 33',11)
+       IF(ANIM_SE(55)==1) CALL ANI_TXT('User Var 34',11)
+       IF(ANIM_SE(56)==1) CALL ANI_TXT('User Var 35',11)
+       IF(ANIM_SE(57)==1) CALL ANI_TXT('User Var 36',11)
+       IF(ANIM_SE(58)==1) CALL ANI_TXT('User Var 37',11)
+       IF(ANIM_SE(59)==1) CALL ANI_TXT('User Var 38',11)
+       IF(ANIM_SE(60)==1) CALL ANI_TXT('User Var 39',11)
+       IF(ANIM_SE(61)==1) CALL ANI_TXT('User Var 40',11)
+       IF(ANIM_SE(62)==1) CALL ANI_TXT('User Var 41',11)
+       IF(ANIM_SE(63)==1) CALL ANI_TXT('User Var 42',11)
+       IF(ANIM_SE(64)==1) CALL ANI_TXT('User Var 43',11)
+       IF(ANIM_SE(65)==1) CALL ANI_TXT('User Var 44',11)
+       IF(ANIM_SE(66)==1) CALL ANI_TXT('User Var 45',11)
+       IF(ANIM_SE(67)==1) CALL ANI_TXT('User Var 46',11)
+       IF(ANIM_SE(68)==1) CALL ANI_TXT('User Var 47',11)
+       IF(ANIM_SE(69)==1) CALL ANI_TXT('User Var 48',11)
+       IF(ANIM_SE(70)==1) CALL ANI_TXT('User Var 49',11)
+       IF(ANIM_SE(71)==1) CALL ANI_TXT('User Var 50',11)
+       IF(ANIM_SE(72)==1) CALL ANI_TXT('User Var 51',11)
+       IF(ANIM_SE(73)==1) CALL ANI_TXT('User Var 52',11)
+       IF(ANIM_SE(74)==1) CALL ANI_TXT('User Var 53',11)
+       IF(ANIM_SE(75)==1) CALL ANI_TXT('User Var 54',11)
+       IF(ANIM_SE(76)==1) CALL ANI_TXT('User Var 55',11)
+       IF(ANIM_SE(77)==1) CALL ANI_TXT('User Var 56',11)
+       IF(ANIM_SE(78)==1) CALL ANI_TXT('User Var 57',11)
+       IF(ANIM_SE(79)==1) CALL ANI_TXT('User Var 58',11)
+       IF(ANIM_SE(80)==1) CALL ANI_TXT('User Var 59',11)
+       IF(ANIM_SE(81)==1) CALL ANI_TXT('User Var 60',11)
        !-------------------------------------------------------------!
        DO I=82,281
-         IF(ANIM_SE(I).EQ.1)THEN
+         IF(ANIM_SE(I)==1)THEN
            II = I - 81
            WRITE(MES,'(A,I3)')
      .         'WPLA layer',II
@@ -4335,64 +4335,64 @@ C-----------------------------------------------
          ENDIF
        ENDDO
        !-------------------------------------------------------------!
-       IF(ANIM_SE(282).EQ.1) CALL ANI_TXT('Failed layers',13)
+       IF(ANIM_SE(282)==1) CALL ANI_TXT('Failed layers',13)
        !-------------------------------------------------------------!
        !283 to 286 : VOLUMETRIC FRACTION FOR ALE MULTIMATERIAL LAWS
        !  radioss2.F: check consistancy with engine keyword and occurence material law. ANIM_SE(.) flag is enabled only if consistent
        !  dfunc6.F : corresponding value (in MBUF%VAR) is stored in this function according material law number
-       IF(ANIM_SE(283).EQ.1) CALL ANI_TXT('Volumetric Fraction 1',21)        !law51 & law37 & law20
-       IF(ANIM_SE(284).EQ.1) CALL ANI_TXT('Volumetric Fraction 2',21)        !law37 & law37 & law20
-       IF(ANIM_SE(285).EQ.1) CALL ANI_TXT('Volumetric Fraction 3',21)        !law51       
-       IF(ANIM_SE(286).EQ.1) CALL ANI_TXT('Volumetric Fraction 4',21)        !law51      
+       IF(ANIM_SE(283)==1) CALL ANI_TXT('Volumetric Fraction 1',21)        !law51 & law37 & law20
+       IF(ANIM_SE(284)==1) CALL ANI_TXT('Volumetric Fraction 2',21)        !law37 & law37 & law20
+       IF(ANIM_SE(285)==1) CALL ANI_TXT('Volumetric Fraction 3',21)        !law51       
+       IF(ANIM_SE(286)==1) CALL ANI_TXT('Volumetric Fraction 4',21)        !law51      
        !-------------------------------------------------------------!     
          
        DO I=1,200
-        IF(ANIM_SE(286+3*(I-1)+1).EQ.1)THEN
+        IF(ANIM_SE(286+3*(I-1)+1)==1)THEN
           WRITE(MES,'(A,I3,A)')'Psi (layer',I,')'
           CALL ANI_TXT(MES,15)
         ENDIF
-        IF(ANIM_SE(286+3*(I-1)+2).EQ.1)THEN
+        IF(ANIM_SE(286+3*(I-1)+2)==1)THEN
           WRITE(MES,'(A,I3,A)')'Teta (layer',I,')'
           CALL ANI_TXT(MES,16)
         ENDIF
-        IF(ANIM_SE(286+3*(I-1)+3).EQ.1)THEN
+        IF(ANIM_SE(286+3*(I-1)+3)==1)THEN
           WRITE(MES,'(A,I3,A)')'Phi (layer',I,')'
           CALL ANI_TXT(MES,15)
         ENDIF
        ENDDO
  
-       IF(ANIM_SE(887).EQ.1) CALL ANI_TXT('Burn Fraction',13)        !law51                
-       IF(ANIM_SE(888).EQ.1) CALL ANI_TXT('Damage variable1',16)                       
-       IF(ANIM_SE(889).EQ.1) CALL ANI_TXT('Damage variable2',16)                       
-       IF(ANIM_SE(890).EQ.1) CALL ANI_TXT('Damage variable3',16)  
+       IF(ANIM_SE(887)==1) CALL ANI_TXT('Burn Fraction',13)        !law51                
+       IF(ANIM_SE(888)==1) CALL ANI_TXT('Damage variable1',16)                       
+       IF(ANIM_SE(889)==1) CALL ANI_TXT('Damage variable2',16)                       
+       IF(ANIM_SE(890)==1) CALL ANI_TXT('Damage variable3',16)  
        DO I=1, 999
-        IF(ANIM_SE(890+I).EQ.1)THEN
+        IF(ANIM_SE(890+I)==1)THEN
           WRITE(MES,'(A,I3,A)')'Damage var1 Intg Point (',I,')'
           CALL ANI_TXT(MES,30)
         ENDIF
        ENDDO                     
        DO I=1, 999
-        IF(ANIM_SE(1890+I).EQ.1)THEN
+        IF(ANIM_SE(1890+I)==1)THEN
           WRITE(MES,'(A,I3,A)')'Damage var2 Intg Point (',I,')'
           CALL ANI_TXT(MES,30)
         ENDIF
        ENDDO                     
        DO I=1, 999
-        IF(ANIM_SE(2890+I).EQ.1)THEN
+        IF(ANIM_SE(2890+I)==1)THEN
           WRITE(MES,'(A,I3,A)')'Damage var3 Intg Point (',I,')'          
           CALL ANI_TXT(MES,30)
         ENDIF
        ENDDO   
-       IF(ANIM_SE(3890).EQ.1) CALL ANI_TXT('MAX DAMAGE ELEMENT',18) 
+       IF(ANIM_SE(3890)==1) CALL ANI_TXT('MAX DAMAGE ELEMENT',18) 
 
        DO I=1, 999
-        IF(ANIM_SE(3890+I).EQ.1)THEN
+        IF(ANIM_SE(3890+I)==1)THEN
           WRITE(MES,'(A,I3,A)')'MAX DAMAGE Intg Point (',I,')'          
           CALL ANI_TXT(MES,30)
         ENDIF
        ENDDO  
        DO I=1, 4010
-        IF(ANIM_SE(5910+I).EQ.1)THEN
+        IF(ANIM_SE(5910+I)==1)THEN
             II = I +5910-3890
             WRITE(MES,'(A,3I3)')
      .          'MAX DAMAGE Intg Pt ',ABS(II)/2010,
@@ -4400,112 +4400,112 @@ C-----------------------------------------------
           CALL ANI_TXT(MES,28)
         ENDIF
        ENDDO  
-       IF(ANIM_SE(4890).EQ.1) CALL ANI_TXT('TIME DELETION ELEMENT',21)                     
-       IF(ANIM_SE(4891).EQ.1) CALL ANI_TXT('Sound Speed',11)                            
-       IF(ANIM_SE(4892).EQ.1) CALL ANI_TXT('Schlieren',9)                               
-       IF(ANIM_SE(4893).EQ.1) CALL ANI_TXT('Domain',6)         
-       IF(ANIM_SE(4894).EQ.1) CALL ANI_TXT('Filling percentage',18)         
+       IF(ANIM_SE(4890)==1) CALL ANI_TXT('TIME DELETION ELEMENT',21)                     
+       IF(ANIM_SE(4891)==1) CALL ANI_TXT('Sound Speed',11)                            
+       IF(ANIM_SE(4892)==1) CALL ANI_TXT('Schlieren',9)                               
+       IF(ANIM_SE(4893)==1) CALL ANI_TXT('Domain',6)         
+       IF(ANIM_SE(4894)==1) CALL ANI_TXT('Filling percentage',18)         
 C-----------------------------------------------
 C   element equivalent stress criteria
 C-----------------------------------------------
-        IF(ANIM_SE(4895).EQ.1)CALL ANI_TXT('Equiv stress',12)
-        IF(ANIM_SE(4896).EQ.1)CALL ANI_TXT('Artificial Viscosity',20) 
+        IF(ANIM_SE(4895)==1)CALL ANI_TXT('Equiv stress',12)
+        IF(ANIM_SE(4896)==1)CALL ANI_TXT('Artificial Viscosity',20) 
 
 C-----------------------------------------------
 C   LAW51 OUTPUTS
 C-----------------------------------------------
-        IF(ANIM_SE(4897).EQ.1)CALL ANI_TXT('Density-1',15) 
-        IF(ANIM_SE(4898).EQ.1)CALL ANI_TXT('Density-2',15) 
-        IF(ANIM_SE(4899).EQ.1)CALL ANI_TXT('Density-3',15) 
-        IF(ANIM_SE(4900).EQ.1)CALL ANI_TXT('Density-4',15)                         
+        IF(ANIM_SE(4897)==1)CALL ANI_TXT('Density-1',15) 
+        IF(ANIM_SE(4898)==1)CALL ANI_TXT('Density-2',15) 
+        IF(ANIM_SE(4899)==1)CALL ANI_TXT('Density-3',15) 
+        IF(ANIM_SE(4900)==1)CALL ANI_TXT('Density-4',15)                         
 
-        IF(ANIM_SE(4901).EQ.1)CALL ANI_TXT('Specific Energy-1',17)                         
-        IF(ANIM_SE(4902).EQ.1)CALL ANI_TXT('Specific Energy-2',17)                         
-        IF(ANIM_SE(4903).EQ.1)CALL ANI_TXT('Specific Energy-3',17)                         
-        IF(ANIM_SE(4904).EQ.1)CALL ANI_TXT('Specific Energy-4',17)                         
+        IF(ANIM_SE(4901)==1)CALL ANI_TXT('Specific Energy-1',17)                         
+        IF(ANIM_SE(4902)==1)CALL ANI_TXT('Specific Energy-2',17)                         
+        IF(ANIM_SE(4903)==1)CALL ANI_TXT('Specific Energy-3',17)                         
+        IF(ANIM_SE(4904)==1)CALL ANI_TXT('Specific Energy-4',17)                         
 
-        IF(ANIM_SE(4905).EQ.1)CALL ANI_TXT('Temperature-1',13)     
-        IF(ANIM_SE(4906).EQ.1)CALL ANI_TXT('Temperature-2',13)     
-        IF(ANIM_SE(4907).EQ.1)CALL ANI_TXT('Temperature-3',13)     
-        IF(ANIM_SE(4908).EQ.1)CALL ANI_TXT('Temperature-4',13)                             
+        IF(ANIM_SE(4905)==1)CALL ANI_TXT('Temperature-1',13)     
+        IF(ANIM_SE(4906)==1)CALL ANI_TXT('Temperature-2',13)     
+        IF(ANIM_SE(4907)==1)CALL ANI_TXT('Temperature-3',13)     
+        IF(ANIM_SE(4908)==1)CALL ANI_TXT('Temperature-4',13)                             
         
-        IF(ANIM_SE(4909).EQ.1)CALL ANI_TXT('Pressure-1',10)                             
-        IF(ANIM_SE(4910).EQ.1)CALL ANI_TXT('Pressure-2',10)                             
-        IF(ANIM_SE(4911).EQ.1)CALL ANI_TXT('Pressure-3',10)                             
-        IF(ANIM_SE(4912).EQ.1)CALL ANI_TXT('Pressure-4',10)                                                     
+        IF(ANIM_SE(4909)==1)CALL ANI_TXT('Pressure-1',10)                             
+        IF(ANIM_SE(4910)==1)CALL ANI_TXT('Pressure-2',10)                             
+        IF(ANIM_SE(4911)==1)CALL ANI_TXT('Pressure-3',10)                             
+        IF(ANIM_SE(4912)==1)CALL ANI_TXT('Pressure-4',10)                                                     
 
-        IF(ANIM_SE(4913).EQ.1)CALL ANI_TXT('Plastic Strain-1',16) 
-        IF(ANIM_SE(4914).EQ.1)CALL ANI_TXT('Plastic Strain-2',16) 
-        IF(ANIM_SE(4915).EQ.1)CALL ANI_TXT('Plastic Strain-3',16) 
-        IF(ANIM_SE(4916).EQ.1)CALL ANI_TXT('Plastic Strain-4',16) 
+        IF(ANIM_SE(4913)==1)CALL ANI_TXT('Plastic Strain-1',16) 
+        IF(ANIM_SE(4914)==1)CALL ANI_TXT('Plastic Strain-2',16) 
+        IF(ANIM_SE(4915)==1)CALL ANI_TXT('Plastic Strain-3',16) 
+        IF(ANIM_SE(4916)==1)CALL ANI_TXT('Plastic Strain-4',16) 
 
-        IF(ANIM_SE(4917).EQ.1)CALL ANI_TXT('Sound Speed-1',13) 
-        IF(ANIM_SE(4918).EQ.1)CALL ANI_TXT('Sound Speed-2',13) 
-        IF(ANIM_SE(4919).EQ.1)CALL ANI_TXT('Sound Speed-3',13) 
-        IF(ANIM_SE(4920).EQ.1)CALL ANI_TXT('Sound Speed-4',13)                         
+        IF(ANIM_SE(4917)==1)CALL ANI_TXT('Sound Speed-1',13) 
+        IF(ANIM_SE(4918)==1)CALL ANI_TXT('Sound Speed-2',13) 
+        IF(ANIM_SE(4919)==1)CALL ANI_TXT('Sound Speed-3',13) 
+        IF(ANIM_SE(4920)==1)CALL ANI_TXT('Sound Speed-4',13)                         
         
-        IF(ANIM_SE(4921).EQ.1)CALL ANI_TXT('Volume',6)  !THIS ONE IS A GLOBAL OUTPUT                               
+        IF(ANIM_SE(4921)==1)CALL ANI_TXT('Volume',6)  !THIS ONE IS A GLOBAL OUTPUT                               
 
-        IF(ANIM_SE(4922).EQ.1)CALL ANI_TXT('Volume-1',8)                                 
-        IF(ANIM_SE(4923).EQ.1)CALL ANI_TXT('Volume-2',8)                                 
-        IF(ANIM_SE(4924).EQ.1)CALL ANI_TXT('Volume-3',8)                                 
-        IF(ANIM_SE(4925).EQ.1)CALL ANI_TXT('Volume-4',8)                                                                 
+        IF(ANIM_SE(4922)==1)CALL ANI_TXT('Volume-1',8)                                 
+        IF(ANIM_SE(4923)==1)CALL ANI_TXT('Volume-2',8)                                 
+        IF(ANIM_SE(4924)==1)CALL ANI_TXT('Volume-3',8)                                 
+        IF(ANIM_SE(4925)==1)CALL ANI_TXT('Volume-4',8)                                                                 
 
-        IF(ANIM_SE(4926).EQ.1)CALL ANI_TXT('Mass-1',6)                                 
-        IF(ANIM_SE(4927).EQ.1)CALL ANI_TXT('Mass-2',6)                                 
-        IF(ANIM_SE(4928).EQ.1)CALL ANI_TXT('Mass-3',6)                                 
-        IF(ANIM_SE(4929).EQ.1)CALL ANI_TXT('Mass-4',6)                   
+        IF(ANIM_SE(4926)==1)CALL ANI_TXT('Mass-1',6)                                 
+        IF(ANIM_SE(4927)==1)CALL ANI_TXT('Mass-2',6)                                 
+        IF(ANIM_SE(4928)==1)CALL ANI_TXT('Mass-3',6)                                 
+        IF(ANIM_SE(4929)==1)CALL ANI_TXT('Mass-4',6)                   
                                                       
-        IF(ANIM_SE(4930).EQ.1)CALL ANI_TXT('Detonation Time',15) 
+        IF(ANIM_SE(4930)==1)CALL ANI_TXT('Detonation Time',15) 
         
-        IF(ANIM_SE(4931).EQ.1)CALL ANI_TXT('Artificial Viscosity-1',22) 
-        IF(ANIM_SE(4932).EQ.1)CALL ANI_TXT('Artificial Viscosity-2',22) 
-        IF(ANIM_SE(4933).EQ.1)CALL ANI_TXT('Artificial Viscosity-3',22)                         
-        IF(ANIM_SE(4934).EQ.1)CALL ANI_TXT('Artificial Viscosity-4',22)  
+        IF(ANIM_SE(4931)==1)CALL ANI_TXT('Artificial Viscosity-1',22) 
+        IF(ANIM_SE(4932)==1)CALL ANI_TXT('Artificial Viscosity-2',22) 
+        IF(ANIM_SE(4933)==1)CALL ANI_TXT('Artificial Viscosity-3',22)                         
+        IF(ANIM_SE(4934)==1)CALL ANI_TXT('Artificial Viscosity-4',22)  
 
-        IF(ANIM_SE(4935).EQ.1)CALL ANI_TXT('Density of Liquid - (law37)',27)                         
-        IF(ANIM_SE(4936).EQ.1)CALL ANI_TXT('Density of Gas    - (law37)',27)  
+        IF(ANIM_SE(4935)==1)CALL ANI_TXT('Density of Liquid - (law37)',27)                         
+        IF(ANIM_SE(4936)==1)CALL ANI_TXT('Density of Gas    - (law37)',27)  
 
-        IF(ANIM_SE(4937).EQ.1)CALL ANI_TXT('Element Time Step',17)
+        IF(ANIM_SE(4937)==1)CALL ANI_TXT('Element Time Step',17)
         
-        IF(ANIM_SE(4938).EQ.1)CALL ANI_TXT('Momentum Density X  ',20)
-        IF(ANIM_SE(4939).EQ.1)CALL ANI_TXT('Momentum Density Y  ',20)
-        IF(ANIM_SE(4940).EQ.1)CALL ANI_TXT('Momentum Density Z  ',20)
-        IF(ANIM_SE(4941).EQ.1)CALL ANI_TXT('Momentum Density XY ',20)
-        IF(ANIM_SE(4942).EQ.1)CALL ANI_TXT('Momentum Density YZ ',20)
-        IF(ANIM_SE(4943).EQ.1)CALL ANI_TXT('Momentum Density XZ ',20)  
-        IF(ANIM_SE(4944).EQ.1)CALL ANI_TXT('Momentum Density ABS',20) 
+        IF(ANIM_SE(4938)==1)CALL ANI_TXT('Momentum Density X  ',20)
+        IF(ANIM_SE(4939)==1)CALL ANI_TXT('Momentum Density Y  ',20)
+        IF(ANIM_SE(4940)==1)CALL ANI_TXT('Momentum Density Z  ',20)
+        IF(ANIM_SE(4941)==1)CALL ANI_TXT('Momentum Density XY ',20)
+        IF(ANIM_SE(4942)==1)CALL ANI_TXT('Momentum Density YZ ',20)
+        IF(ANIM_SE(4943)==1)CALL ANI_TXT('Momentum Density XZ ',20)  
+        IF(ANIM_SE(4944)==1)CALL ANI_TXT('Momentum Density ABS',20) 
         
-        IF(ANIM_SE(4945).EQ.1)CALL ANI_TXT('Velocity X  ',12)
-        IF(ANIM_SE(4946).EQ.1)CALL ANI_TXT('Velocity Y  ',12)
-        IF(ANIM_SE(4947).EQ.1)CALL ANI_TXT('Velocity Z  ',12)
-        IF(ANIM_SE(4948).EQ.1)CALL ANI_TXT('Velocity XY ',12)
-        IF(ANIM_SE(4949).EQ.1)CALL ANI_TXT('Velocity YZ ',12)
-        IF(ANIM_SE(4950).EQ.1)CALL ANI_TXT('Velocity XZ ',12)  
-        IF(ANIM_SE(4951).EQ.1)CALL ANI_TXT('Velocity ABS',12) 
+        IF(ANIM_SE(4945)==1)CALL ANI_TXT('Velocity X  ',12)
+        IF(ANIM_SE(4946)==1)CALL ANI_TXT('Velocity Y  ',12)
+        IF(ANIM_SE(4947)==1)CALL ANI_TXT('Velocity Z  ',12)
+        IF(ANIM_SE(4948)==1)CALL ANI_TXT('Velocity XY ',12)
+        IF(ANIM_SE(4949)==1)CALL ANI_TXT('Velocity YZ ',12)
+        IF(ANIM_SE(4950)==1)CALL ANI_TXT('Velocity XZ ',12)  
+        IF(ANIM_SE(4951)==1)CALL ANI_TXT('Velocity ABS',12) 
         
-        IF(ANIM_SE(4952).EQ.1)CALL ANI_TXT('Internal Force X  ',18)
-        IF(ANIM_SE(4953).EQ.1)CALL ANI_TXT('Internal Froce Y  ',18)
-        IF(ANIM_SE(4954).EQ.1)CALL ANI_TXT('Internal Force Z  ',18)
-        IF(ANIM_SE(4955).EQ.1)CALL ANI_TXT('Internal Force XY ',18)
-        IF(ANIM_SE(4956).EQ.1)CALL ANI_TXT('Internal Froce YZ ',18)
-        IF(ANIM_SE(4957).EQ.1)CALL ANI_TXT('Internal Force XY ',18)                                             
-        IF(ANIM_SE(4958).EQ.1)CALL ANI_TXT('Internal Force ABS',18)
+        IF(ANIM_SE(4952)==1)CALL ANI_TXT('Internal Force X  ',18)
+        IF(ANIM_SE(4953)==1)CALL ANI_TXT('Internal Froce Y  ',18)
+        IF(ANIM_SE(4954)==1)CALL ANI_TXT('Internal Force Z  ',18)
+        IF(ANIM_SE(4955)==1)CALL ANI_TXT('Internal Force XY ',18)
+        IF(ANIM_SE(4956)==1)CALL ANI_TXT('Internal Froce YZ ',18)
+        IF(ANIM_SE(4957)==1)CALL ANI_TXT('Internal Force XY ',18)                                             
+        IF(ANIM_SE(4958)==1)CALL ANI_TXT('Internal Force ABS',18)
 C
-        IF(ANIM_SE(4959).EQ.1)CALL ANI_TXT('AMS selection',13)         
+        IF(ANIM_SE(4959)==1)CALL ANI_TXT('AMS selection',13)         
         
-        IF(ANIM_SE(4960).EQ.1) CALL ANI_TXT('Vorticity-Y',11)
-        IF(ANIM_SE(4961).EQ.1) CALL ANI_TXT('Vorticity-Z',11)
-        IF(ANIM_SE(4962).EQ.1) CALL ANI_TXT('Vorticity',9) 
-        IF(ANIM_SE(4963).EQ.1) CALL ANI_TXT('Internal Energy',15)                                      
+        IF(ANIM_SE(4960)==1) CALL ANI_TXT('Vorticity-Y',11)
+        IF(ANIM_SE(4961)==1) CALL ANI_TXT('Vorticity-Z',11)
+        IF(ANIM_SE(4962)==1) CALL ANI_TXT('Vorticity',9) 
+        IF(ANIM_SE(4963)==1) CALL ANI_TXT('Internal Energy',15)                                      
          !/ANIM/ELEM/WPLA
-        IF(ANIM_SE(4964).EQ.1)CALL ANI_TXT('Plastic Work',12) 
-        IF(ANIM_SE(4965).EQ.1)CALL ANI_TXT('Element status',14)
-        IF(ANIM_SE(4966).EQ.1)CALL ANI_TXT('Mach Number',11)
-        IF(ANIM_SE(4967).EQ.1)CALL ANI_TXT('Color Function',14)
-        IF(ANIM_SE(4968).EQ.1)CALL ANI_TXT('Damage',6)
+        IF(ANIM_SE(4964)==1)CALL ANI_TXT('Plastic Work',12) 
+        IF(ANIM_SE(4965)==1)CALL ANI_TXT('Element status',14)
+        IF(ANIM_SE(4966)==1)CALL ANI_TXT('Mach Number',11)
+        IF(ANIM_SE(4967)==1)CALL ANI_TXT('Color Function',14)
+        IF(ANIM_SE(4968)==1)CALL ANI_TXT('Damage',6)
 C-----------------------------------------------                                         
-      ENDIF !(ISPMD.EQ.0)
+      ENDIF !(ISPMD==0)
 
 C-----------------------------------------------
 C   ELEMENT FUNC (brick)
@@ -4516,7 +4516,7 @@ C-----------------------------------------------
       NNN = NUMELS+ISPH3D*(NUMSPH+MAXPJET)+3*NUMELS16+27*NUMELIG3D
       DO I = 1,MX_ANI
         IFUNC = I
-        IF(ANIM_SE(I).EQ.1) THEN
+        IF(ANIM_SE(I)==1) THEN
           CALL DFUNCS(
      1              ELBUF_TAB ,WAFT      ,IFUNC       ,IPARG       ,GEO          ,
      2              IXS       ,MAS       ,PM          ,EL2FA       ,NNN          ,
@@ -4530,15 +4530,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   3D TENSOR TEXT
 C-----------------------------------------------
-      IF (ISPMD.EQ.0) THEN
-        IF(ANIM_ST(1).EQ.1) CALL ANI_TXT('Stress',6)
-        IF(ANIM_ST(2).EQ.1) CALL ANI_TXT('Strain',6)
-        IF(ANIM_ST(3).EQ.1) CALL ANI_TXT('Strn rate',9)
-        IF(ANIM_ST(4).EQ.1) CALL ANI_TXT('Damage',6)
-        IF(ANIM_ST(5).EQ.1) CALL ANI_TXT('Plastic strain tensor',21)
+      IF (ISPMD==0) THEN
+        IF(ANIM_ST(1)==1) CALL ANI_TXT('Stress',6)
+        IF(ANIM_ST(2)==1) CALL ANI_TXT('Strain',6)
+        IF(ANIM_ST(3)==1) CALL ANI_TXT('Strn rate',9)
+        IF(ANIM_ST(4)==1) CALL ANI_TXT('Damage',6)
+        IF(ANIM_ST(5)==1) CALL ANI_TXT('Plastic strain tensor',21)
 !
         DO I=10,1009
-          IF(ANIM_ST(I).EQ.1)THEN
+          IF(ANIM_ST(I)==1)THEN
             II = I - 10
             WRITE(MES,'(A,I3)')
      .          'Strs Intg Point',II
@@ -4546,7 +4546,7 @@ C-----------------------------------------------
           ENDIF
         ENDDO
         DO I=1010,2009
-          IF(ANIM_ST(I).EQ.1)THEN
+          IF(ANIM_ST(I)==1)THEN
             II = I - 1010
                WRITE(MES,'(A,I3)')
      .          'Stra Intg Point',II
@@ -4554,7 +4554,7 @@ C-----------------------------------------------
           ENDIF
         ENDDO
         DO I=2010,22109
-          IF(ANIM_ST(I).EQ.1)THEN
+          IF(ANIM_ST(I)==1)THEN
             II = I - 2010
             WRITE(MES,'(A,3I3)')
      .          'Strs In Pt',ABS(II)/2010,
@@ -4563,7 +4563,7 @@ C-----------------------------------------------
           ENDIF
         ENDDO
         DO I=22110,42209
-          IF(ANIM_ST(I).EQ.1)THEN
+          IF(ANIM_ST(I)==1)THEN
             II = I - 22110
             WRITE(MES,'(A,3I3)')
      .          'Stra In Pt',ABS(II)/2010,
@@ -4573,7 +4573,7 @@ C-----------------------------------------------
         ENDDO
 !
         DO I=42210,43209
-          IF(ANIM_ST(I).EQ.1)THEN
+          IF(ANIM_ST(I)==1)THEN
             II = I - 42210
                WRITE(MES,'(A,I3)')
      .          'Plastic Strn Intg Point',II
@@ -4582,7 +4582,7 @@ C-----------------------------------------------
         ENDDO
 !
         DO I=43210,63309
-          IF(ANIM_ST(I).EQ.1)THEN
+          IF(ANIM_ST(I)==1)THEN
             II = I - 43210
             WRITE(MES,'(A,3I3)')
      .          'Plastic Strn In Pt',ABS(II)/2010,
@@ -4596,7 +4596,7 @@ C   3D TENSOR
 C-----------------------------------------------
       DO I = 1,MX_ANI
        IFUNC = I
-       IF(ANIM_ST(I).EQ.1)THEN
+       IF(ANIM_ST(I)==1)THEN
            CALL TENSORS(ELBUF_TAB,IPARG   ,IFUNC   ,IXS     ,PM      ,
      2                  EL2FA    ,NNN     ,WAFT    ,TANI    ,
      3                  NBPART   ,X       ,IADG    ,IPART   ,
@@ -4606,7 +4606,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   ELEMENT MASS
 C-----------------------------------------------
-      IF(ANIM_M.EQ.1)THEN
+      IF(ANIM_M==1)THEN
        IF(NSPMD == 1) THEN
          DO I=1,NNN
             R4 = MAS(I)
@@ -4617,7 +4617,7 @@ C---- Mass stored here only if sph particles are tetra - if not it's done later
          DO I = 1,NNN
            MAS4(I) = MAS(I)
          ENDDO
-         IF(ISPMD.EQ.0) THEN
+         IF(ISPMD==0) THEN
            BUF = NUMELSG+3*NUMELS16G+NUMSPHG+27*NUMELIG3D
          ELSE
            BUF=1
@@ -4635,10 +4635,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   HIERARCHIE
 C-----------------------------------------------
-       IF (ISPMD.EQ.0) THEN
+       IF (ISPMD==0) THEN
          DO I=1,NPART
-          IF(MATER(I).EQ.2)THEN
-            IF (IPART(3,I).LT.NSUBS) THEN
+          IF(MATER(I)==2)THEN
+            IF (IPART(3,I)<NSUBS) THEN
              CALL WRITE_I_C(IPART(3,I)-1,1)
             ELSE
              CALL WRITE_I_C(NSUBS
@@ -4648,10 +4648,10 @@ C-----------------------------------------------
           END IF
          ENDDO
          DO I=1,NPART
-           IF(MATER(I).EQ.2)CALL WRITE_I_C(IPART(1,I),1)
+           IF(MATER(I)==2)CALL WRITE_I_C(IPART(1,I),1)
          ENDDO
          DO I=1,NPART
-           IF(MATER(I).EQ.2)CALL WRITE_I_C(IPART(2,I),1)
+           IF(MATER(I)==2)CALL WRITE_I_C(IPART(2,I),1)
          ENDDO
        ENDIF
 C=======================================================================
@@ -4663,18 +4663,18 @@ C     + RBODIES
 C
 C=======================================================================
       NERBY = 0
-      IF (NRBODY.GT.0)
+      IF (NRBODY>0)
      .    CALL DRBYCNT(NERBY,NPBY,FR_RBY2)
       NERBE2 = 0
-      IF (NRBE2T.GT.0)
+      IF (NRBE2T>0)
      .    CALL DRBE2CNT(NERBE2,IRBE2,LRBE2,WEIGHT)
       NERBE3 = 0
 
-      IF (NRBE3T.GT.0)
+      IF (NRBE3T>0)
      .    CALL DRBE3CNT(NERBE3,IRBE3,LRBE3,WEIGHT)
           NB1D_T = NB1DG
 
-      IF(NB1DG+NRBODY+NRBE2T+NRBE3T+NANIM1D.EQ.0) GOTO 600
+      IF(NB1DG+NRBODY+NRBE2T+NRBE3T+NANIM1D==0) GOTO 600
 C-----------------------------------------------
 C   PART COUNT
 C-----------------------------------------------
@@ -4687,26 +4687,26 @@ C
           NEL   =IPARG(2,NG)
           NFT   =IPARG(3,NG)
           ITY   =IPARG(5,NG)
-          IF(ITY.EQ.4)THEN
+          IF(ITY==4)THEN
             DO I = 1, NEL
               N = I + NFT
               MATER(IPARTT(N))=3
             ENDDO
-          ELSEIF(ITY.EQ.5)THEN
+          ELSEIF(ITY==5)THEN
             DO I = 1, NEL
               N = I + NFT
               MATER(IPARTP(N))=3
             ENDDO
-          ELSEIF(ITY.EQ.6)THEN
+          ELSEIF(ITY==6)THEN
             DO I = 1, NEL
               N = I + NFT
               MATER(IPARTR(N))=3
             ENDDO
-          ELSEIF(ITY.EQ.100)THEN
+          ELSEIF(ITY==100)THEN
             DO I=1,NEL
               N = I+NFT
               IPRT=IPARTX(N)
-              IF (NFACPTX(1,IPRT).GT.0) THEN
+              IF (NFACPTX(1,IPRT)>0) THEN
                MATER(IPRT)=3
               ELSE
                MATER(IPRT)=0
@@ -4717,7 +4717,7 @@ C
 C
         IF(NSPMD > 1) CALL SPMD_GLOB_ISUM9(MATER,NPART)
         DO I=1,NPART
-          IF(MATER(I).GT.3) MATER(I) = 3
+          IF(MATER(I)>3) MATER(I) = 3
         ENDDO
         IF(NSPMD > 1)CALL SPMD_IBCAST(MATER,MATER,NPART,1,0,2)
         DO I=1,NPART
@@ -4735,7 +4735,7 @@ C
 C-----------------------------------------------
 C   WRITE CONTROL
 C-----------------------------------------------
-      IF(ISPMD.EQ.0) THEN
+      IF(ISPMD==0) THEN
         CALL WRITE_I_C(NB1D_T+NANIM1D+NERBY+NERBE2+NERBE3,1)
         CALL WRITE_I_C(NBPART+NRBODY+NRBE2T+NRBE3T,1)
         CALL WRITE_I_C(NFE_ANI,1)
@@ -4753,7 +4753,7 @@ C-----------------------------------------------
      .             DD_IAD ,IADG  ,IPARTT ,IPARTP,IPARTR  ,
      .             NFACPTX,IXEDGE,NODGLOB,NB1D  ,NANIM1D_L,
      .             IPART  ,IGEO  ,IADG_TPR,SIADG)
-      IF(NRBODY.GT.0) THEN
+      IF(NRBODY>0) THEN
 C test equivalent monoproc
           IF (NSPMD > 1) THEN
              SBUFSPM=0
@@ -4769,11 +4769,11 @@ C test equivalent monoproc
                SBUFRECVM = SBUFRECVM + 2*NRBYKIN*NSPMD
              DO I=1,NRBYKIN
 
-               IF ((ISPMD+1).EQ.ABS(FR_RBY2(3,I)))
+               IF ((ISPMD+1)==ABS(FR_RBY2(3,I)))
      .           SBUFSPO = SBUFSPO + FR_RBY2(2,I)
              ENDDO
              SBUFSPO = SBUFSPO + NRBYKIN*2
-             IF (ISPMD.EQ.0) THEN
+             IF (ISPMD==0) THEN
                SPORBY = NERBY+NRBYKIN*2
              ELSE
                SPORBY=1
@@ -4785,7 +4785,7 @@ C test equivalent monoproc
             CALL DPARRBY(LPBY ,NPBY )
           ENDIF
       ENDIF
-      IF(NRBE2T.GT.0) THEN
+      IF(NRBE2T>0) THEN
           IF (NSPMD>1) THEN
             CALL SPMD_DPARRBE2(LRBE2, IRBE2,NODGLOB,WEIGHT,NERBE2,
      *                         NERBE2T)
@@ -4793,7 +4793,7 @@ C test equivalent monoproc
             CALL DPARRBE2(LRBE2 ,IRBE2 )
           ENDIF
       ENDIF
-      IF(NRBE3T.GT.0) THEN
+      IF(NRBE3T>0) THEN
           IF (NSPMD>1) THEN
             CALL SPMD_DPARRBE3(LRBE3, IRBE3,NODGLOB,WEIGHT,NERBE3,
      *                         NERBE3T)
@@ -4807,7 +4807,7 @@ C-----------------------------------------------
       CALL ANIOFFF(ELBUF_TAB,      IPARG ,WAFT,EL2FA ,
      .             NB1D     ,IAD  ,NBPART,IADG,IOFFX1,
      .             NANIM1D_L)
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
         DO J=1,NERBY+NERBE2+NERBE3
           CALL WRITE_C_C(1,1)
         ENDDO
@@ -4815,7 +4815,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   PART ADD
 C-----------------------------------------------
-        IF (ISPMD.EQ.0) THEN
+        IF (ISPMD==0) THEN
           DO I = 1, NBPART
             BUFFERP(I) = 0
             DO K = 1, NSPMD
@@ -4830,12 +4830,12 @@ C  il faut un gather de toutes les tailles de RB sur le P0
       ENDDO
         DO I=1,NRBODY
           PROC=ABS(FR_RBY2(3,I))
-          IF (PROC.EQ.LOC_PROC) THEN
+          IF (PROC==LOC_PROC) THEN
              NERBT(I)=FR_RBY2(2,I)
           ENDIF
         ENDDO
         IF(NSPMD > 1) CALL SPMD_GLOB_ISUM9(NERBT,NRBODY)
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
        NERBY1=0
        NERBE2_1 = 0
        NERBE3_1 = 0
@@ -4857,7 +4857,7 @@ C-----------------------------------------------
 
 
        DO I=1,NPART
-        IF(MATER(I).EQ.3)THEN
+        IF(MATER(I)==3)THEN
           WRITE(STR,'(I9,A1)')IPART(4,I),':'
           DO J=1,10
             CTEXT(J)=ICHAR(STR(J:J))
@@ -4866,7 +4866,7 @@ C-----------------------------------------------
 
             CALL FRETITL2(TITL,IPART(LIPART1-LTITR+1,I),40)
             DO J=1,LTITL
-              IF(TITL(J:J).NE.' ') IB = J+10
+              IF(TITL(J:J)/=' ') IB = J+10
               CTEXT(J+10)=ICHAR(TITL(J:J))
             END DO
             CTEXT(IB+1)=0
@@ -4875,7 +4875,7 @@ C-----------------------------------------------
         ENDIF
        ENDDO
 
-       IF (INVSTR.LT.40) THEN
+       IF (INVSTR<40) THEN
         DO IRBY=1,NRBODY
           WRITE(STR,'(I9,A2,A10)') IRBY,': ','Rigid Body'
           DO J=1,21
@@ -4955,7 +4955,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   ELEMENT MASS FOR MAS & FUNC
 C-----------------------------------------------
-      IF(ANIM_M.EQ.1.OR.ANIM_FE(3).EQ.1)THEN
+      IF(ANIM_M==1.OR.ANIM_FE(3)==1)THEN
         CALL DMASANIF(ELBUF_TAB, X    ,D    ,GEO  ,IPARG,
      .                IXT      ,IXP   ,IXR  ,MAS  ,PM   ,
      .                EL2FA    ,NB1D  )
@@ -4963,34 +4963,34 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E(truss+..) FUNC TEXT
 C-----------------------------------------------
-      IF (ISPMD.EQ.0) THEN
-       IF(ANIM_FE(1).EQ.1) CALL ANI_TXT('Plastic Strain',14)
-       IF(ANIM_FE(3).EQ.1) CALL ANI_TXT('Specific Energy',15)
-       IF(ANIM_FE(7).EQ.1) CALL ANI_TXT('Von Mises',9)
-       IF(ANIM_FE(11).EQ.1) CALL ANI_TXT('Damage 1',8)
-       IF(ANIM_FE(12).EQ.1) CALL ANI_TXT('Damage 2',8)
-       IF(ANIM_FE(13).EQ.1) CALL ANI_TXT('Damage 3',8)
-       IF(ANIM_FE(14).EQ.1) CALL ANI_TXT('Stress X ',9)
-       IF(ANIM_FE(15).EQ.1) CALL ANI_TXT('Stress Y ',9)
-       IF(ANIM_FE(16).EQ.1) CALL ANI_TXT('Stress Z ',9)
-       IF(ANIM_FE(17).EQ.1) CALL ANI_TXT('Stress XY',9)
-       IF(ANIM_FE(18).EQ.1) CALL ANI_TXT('Stress YZ',9)
-       IF(ANIM_FE(19).EQ.1) CALL ANI_TXT('Stress ZX',9)
-       IF(ANIM_FE(20).EQ.1) CALL ANI_TXT('Element Time Step',17)
-       IF(ANIM_FE(21).EQ.1) CALL ANI_TXT('AMS selection',13)
-       IF(ANIM_FE(22).EQ.1) CALL ANI_TXT('Element status',14)
+      IF (ISPMD==0) THEN
+       IF(ANIM_FE(1)==1) CALL ANI_TXT('Plastic Strain',14)
+       IF(ANIM_FE(3)==1) CALL ANI_TXT('Specific Energy',15)
+       IF(ANIM_FE(7)==1) CALL ANI_TXT('Von Mises',9)
+       IF(ANIM_FE(11)==1) CALL ANI_TXT('Damage 1',8)
+       IF(ANIM_FE(12)==1) CALL ANI_TXT('Damage 2',8)
+       IF(ANIM_FE(13)==1) CALL ANI_TXT('Damage 3',8)
+       IF(ANIM_FE(14)==1) CALL ANI_TXT('Stress X ',9)
+       IF(ANIM_FE(15)==1) CALL ANI_TXT('Stress Y ',9)
+       IF(ANIM_FE(16)==1) CALL ANI_TXT('Stress Z ',9)
+       IF(ANIM_FE(17)==1) CALL ANI_TXT('Stress XY',9)
+       IF(ANIM_FE(18)==1) CALL ANI_TXT('Stress YZ',9)
+       IF(ANIM_FE(19)==1) CALL ANI_TXT('Stress ZX',9)
+       IF(ANIM_FE(20)==1) CALL ANI_TXT('Element Time Step',17)
+       IF(ANIM_FE(21)==1) CALL ANI_TXT('AMS selection',13)
+       IF(ANIM_FE(22)==1) CALL ANI_TXT('Element status',14)
 !
        DO I=23,122
          IF (ANIM_FE(I) == 1) THEN
            IUS = MOD ((I - 22), 100)
-           IF (IUS.EQ.0) IUS = 100
+           IF (IUS==0) IUS = 100
            WRITE(MES,'(A,I3,A)') 'Plast Strn IPT ',IUS, ' '
            CALL ANI_TXT(MES,21)
          END IF
        ENDDO
 !
        ! For TRUSS element only
-       IF (ANIM_FE(123).EQ.1) CALL ANI_TXT('Strain X ',9)
+       IF (ANIM_FE(123)==1) CALL ANI_TXT('Strain X ',9)
 !
       ENDIF
 C-----------------------------------------------
@@ -5001,13 +5001,13 @@ C-----------------------------------------------
      .              +MIN(1,ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER))
       DO I = 1,MX_ANI
         IFUNC = I
-        IF(ANIM_FE(I).EQ.1) THEN
+        IF(ANIM_FE(I)==1) THEN
 
           CALL DFUNCF(ELBUF_TAB    ,WAFT   ,IFUNC  ,IPARG    ,GEO  ,
      .                IXT          ,IXP    ,IXR    ,MAS      ,PM   ,
      .                EL2FA        ,NB1D   ,IAD    ,NBPART   ,EANI ,
      .                ANIN(NDMA2+1),IADG   ,XFUNC1 ,NANIM1D_L,IGEO )
-          IF (ISPMD.EQ.0) THEN
+          IF (ISPMD==0) THEN
             R4 = 0.
             DO J=1,NERBY+NERBE2+NERBE3
               CALL WRITE_R_C(R4,1)
@@ -5018,19 +5018,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   TORSEUR TEXT
 C-----------------------------------------------
-      IF (ISPMD.EQ.0) THEN
-        IF(ANIM_FT(1).EQ.1) CALL ANI_TXT('Force & Moment ',15)
+      IF (ISPMD==0) THEN
+        IF(ANIM_FT(1)==1) CALL ANI_TXT('Force & Moment ',15)
       ENDIF
 C-----------------------------------------------
 C   TORSEUR
 C-----------------------------------------------
       DO I = 1,MX_ANI
          IFUNC = I
-         IF(ANIM_FT(I).EQ.1)THEN
+         IF(ANIM_FT(I)==1)THEN
            CALL TORSEUR(IADG_TPR  ,IPARG,IFUNC ,IXT  ,IXP  ,
      .                  IXR   ,EL2FA,NB1D  ,WAFT ,TORS ,
      .                  NBPART)
-         IF (ISPMD.EQ.0) THEN
+         IF (ISPMD==0) THEN
              R4 = 0.
              DO J=1,NANIM1D
               CALL WRITE_R_C(R4,1)
@@ -5045,7 +5045,7 @@ C-----------------------------------------------
              ENDDO
          ENDIF
 C
-         IF (ISPMD.EQ.0) THEN
+         IF (ISPMD==0) THEN
              R4 = 0.
              DO J=1,NERBY+NERBE2+NERBE3
               CALL WRITE_R_C(R4,1)
@@ -5065,17 +5065,17 @@ C-----------------------------------------------
 C   SKEW
 C-----------------------------------------------
         CALL CNTSKEW(IPARG,LRBUF,LRBUFG)
-        IF (ISPMD.EQ.0) LRBUF=LRBUFG
+        IF (ISPMD==0) LRBUF=LRBUFG
 c        LRBUF = 0
 
       CALL ANISKEWF(GEO,SKEW,IPARG,IXR,DD_IAD,LRBUF)
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
 C       GLOBAL SKEW FOR X-ELEMENTS.
          DO I=1,NANIM1D
           CALL WRITE_I_C(0,1)
          ENDDO
       ENDIF
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
          DO J=1,NERBY+NERBE2+NERBE3
           CALL WRITE_I_C(0,1)
          ENDDO
@@ -5083,7 +5083,7 @@ C       GLOBAL SKEW FOR X-ELEMENTS.
 C-----------------------------------------------
 C   ELEMENT MASS
 C-----------------------------------------------
-      IF(ANIM_M.EQ.1)THEN
+      IF(ANIM_M==1)THEN
        IF(NSPMD == 1) THEN
          DO I=1,NB1D
             R4 = MAS(I)
@@ -5094,7 +5094,7 @@ C-----------------------------------------------
             CALL WRITE_R_C(R4,1)
          ENDDO
        ELSE
-         IF (ISPMD.EQ.0) THEN
+         IF (ISPMD==0) THEN
            BUF = NB1DG+NANIM1D
          ELSE
            BUF = 1
@@ -5107,7 +5107,7 @@ C-----------------------------------------------
          ENDDO
          CALL SPMD_R4GET_PARTN(1,NB1D+NANIM1D_L,NBPART,IADG,MAS4,BUF)
        ENDIF
-       IF (ISPMD.EQ.0) THEN
+       IF (ISPMD==0) THEN
          R4 = 0.
          DO J=1,NERBY+NERBE2+NERBE3
           CALL WRITE_R_C(R4,1)
@@ -5120,7 +5120,7 @@ C-----------------------------------------------
       CALL DELNUMBF(IPARG  ,IXT   ,IXP      ,IXR  ,EL2FA ,
      .              NB1D   ,WAFT  ,DD_IAD   ,IAD  ,NBPART,
      .              IADG   ,INUMX1,NANIM1D_L)
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
          DO J=1,NERBY+NERBE2+NERBE3
           CALL WRITE_I_C(0,1)
          ENDDO
@@ -5128,10 +5128,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   HIERARCHIE
 C-----------------------------------------------
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
        DO I=1,NPART
-          IF(MATER(I).EQ.3)THEN
-            IF (IPART(3,I).LT.NSUBS) THEN
+          IF(MATER(I)==3)THEN
+            IF (IPART(3,I)<NSUBS) THEN
              CALL WRITE_I_C(IPART(3,I)-1,1)
             ELSE
              CALL WRITE_I_C(NSUBS
@@ -5145,13 +5145,13 @@ clm    Subset Rbodies  == NSUBS
            CALL WRITE_I_C(NSUBS-1,1)
        END DO
        DO I=1,NPART
-         IF(MATER(I).EQ.3)CALL WRITE_I_C(IPART(1,I),1)
+         IF(MATER(I)==3)CALL WRITE_I_C(IPART(1,I),1)
        ENDDO
        DO I=1,NRBODY+NRBE2T+NRBE3T
            CALL WRITE_I_C(0,1)
        ENDDO
        DO I=1,NPART
-         IF(MATER(I).EQ.3)CALL WRITE_I_C(IPART(2,I),1)
+         IF(MATER(I)==3)CALL WRITE_I_C(IPART(2,I),1)
        ENDDO
        DO I=1,NRBODY+NRBE2T+NRBE3T
            CALL WRITE_I_C(0,1)
@@ -5164,10 +5164,10 @@ C
 C   HIERARCHIE
 C
 C=======================================================================
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
         J=0
         DO I=1,NPART
-          IF(MATER(I).EQ.1)THEN
+          IF(MATER(I)==1)THEN
             J=J+1
             MATER(I)=J
           ELSE
@@ -5178,14 +5178,14 @@ C=======================================================================
         J=J+NCUTS+NRWALL+NSECT+NSURG+NSMAD+NPLYPARTW+NCRKPARTW
         M1=J
         DO I=1,NPART
-          IF(MATER(I).EQ.-2)THEN
+          IF(MATER(I)==-2)THEN
             J=J+1
             MATER(I)=J
           ENDIF
         ENDDO
         M2=J
         DO I=1,NPART
-          IF(MATER(I).EQ.-3)THEN
+          IF(MATER(I)==-3)THEN
             J=J+1
             MATER(I)=J
           ENDIF
@@ -5208,7 +5208,7 @@ C xfem crack for layered shells +++
         NCRKSUBS= 0
       ENDIF
 C  xfem crack for layered shells ---
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
         CALL WRITE_I_C(NSUBS
      .       +MIN(1,NSECT)+MIN(1,NRBODY+NRBE2T+NRBE3T)
      .       +MIN(1,NRWALL)+MIN(1,NSURG+NSMAD)+NFVSUBS+ NPLYSUBS
@@ -5218,14 +5218,14 @@ C-----------------------------------------------
 C   SUBSET HEAD/PARENT/
 C-----------------------------------------------
       IF (NFVSUBS > 0 .AND. NSPMD > 1) CALL SPMD_FVB_ASUB2()
-      IF (ISPMD.EQ.0) THEN
-       IF (NSUBS.EQ.1) THEN
+      IF (ISPMD==0) THEN
+       IF (NSUBS==1) THEN
 C ONE SEUL SUBSET OU INPUT V31
           MXSUBS=1
 C-----------------
 C SUBSET RBODIES
 C-----------------
-          IF (NRBODY+NRBE2T+NRBE3T.GT.0) THEN
+          IF (NRBODY+NRBE2T+NRBE3T>0) THEN
            WRITE(STR,'(I8,A28)')MXSUBS+1,':RBODIES & RBE2 & RBE3 MODEL'
            DO J=1,36
             CTEXT(J)=ICHAR(STR(J:J))
@@ -5257,7 +5257,7 @@ C PARTS FILLES 1D
 C-----------------
 C SUBSET SECTIONS
 C-----------------
-          IF (NSECT.GT.0) THEN
+          IF (NSECT>0) THEN
            WRITE(STR,'(I8,A15)')MXSUBS
      .                 +MIN(1,NRBODY+NRBE2T+NRBE3T)+1,':SECTIONS MODEL'
            DO J=1,23
@@ -5291,7 +5291,7 @@ C PARTS FILLES 1D
 C-----------------
 C SUBSET RWALLS
 C-----------------
-          IF (NRWALL.GT.0) THEN
+          IF (NRWALL>0) THEN
            WRITE(STR,'(I8,A13)')MXSUBS
      .              +MIN(1,NSECT)+MIN(1,NRBODY+NRBE2T+NRBE3T)+1,
      .             ':RWALLS MODEL'
@@ -5326,7 +5326,7 @@ C PARTS FILLES 1D
 C-----------------
 C SUBSET SURFACES
 C-----------------
-          IF (NSURG+NSMAD.GT.0) THEN
+          IF (NSURG+NSMAD>0) THEN
            WRITE(STR,'(I8,A15)')MXSUBS
      .              +MIN(1,NSECT)+MIN(1,NRBODY+NRBE2T+NRBE3T)
      .              +MIN(1,NRWALL)+1,':SURFACES MODEL'
@@ -5360,7 +5360,7 @@ C PARTS FILLES 1D
 C-----------------
 C SUBSETS ply
 C-----------------
-          IF (NPLYSUBS.GT.0) THEN
+          IF (NPLYSUBS>0) THEN
              II= MXSUBS
      .         +MIN(1,NSECT)+MIN(1,NRBODY+NRBE2T+NRBE3T)+MIN(1,NRWALL)
      .         +MIN(1,NSURG+NSMAD) + 1
@@ -5398,7 +5398,7 @@ C xfem crack sor layered shells +++
 C-----------------
 C SUBSETS crk
 C-----------------
-          IF (NCRKSUBS.GT.0) THEN
+          IF (NCRKSUBS>0) THEN
              II= MXSUBS
      .         +MIN(1,NSECT)+MIN(1,NRBODY+NRBE2T+NRBE3T)+MIN(1,NRWALL)
      .         +MIN(1,NSURG+NSMAD) + 1
@@ -5435,14 +5435,14 @@ C xfem crack sor layered shells ---
 C-----------------
 C SUBSETS FVMBAG
 C-----------------
-          IF (NFVSUBS.GT.0) THEN
+          IF (NFVSUBS>0) THEN
              II=NSUBS
      .         +MIN(1,NSECT)+MIN(1,NRBODY+NRBE2T+NRBE3T)
      .         +MIN(1,NRWALL)+MIN(1,NSURG+NSMAD)+ NPLYSUBS
      .         +NCRKSUBS-1
              OFFPART=NBPART2D + NPLYSUBS + NCRKSUBS
              DO I=1,NFVBAG
-                IF (FVDATA(I)%NPOLH_ANIM.GT.0) THEN
+                IF (FVDATA(I)%NPOLH_ANIM>0) THEN
                    II=II+1
                    WRITE(STR,'(I8,A11,I8)')
      .                 II,':FVMBAG ID ',FVDATA(I)%ID
@@ -5487,29 +5487,29 @@ C #SUBSETS FILS
      .                  +MIN(1,NRWALL)+MIN(1,NSURG+NSMAD)+NFVSUBS
      .                  +NPLYSUBS+NCRKSUBS,1)
 C SUBSETS FILS
-          IF (NRBODY+NRBE2T+NRBE3T.GT.0)
+          IF (NRBODY+NRBE2T+NRBE3T>0)
      .      CALL WRITE_I_C(NSUBS-1,1)
-          IF (NSECT.GT.0)
+          IF (NSECT>0)
      .      CALL WRITE_I_C(NSUBS+MIN(1,NRBODY+NRBE2T+NRBE3T)-1,1)
-          IF (NRWALL.GT.0)
+          IF (NRWALL>0)
      .      CALL WRITE_I_C(NSUBS+MIN(1,NSECT)
      .                +MIN(1,NRBODY+NRBE2T+NRBE3T)-1,1)
-          IF (NSURG+NSMAD.GT.0)
+          IF (NSURG+NSMAD>0)
      .     CALL WRITE_I_C(NSUBS+MIN(1,NSECT)+MIN(1,NRBODY+NRBE2T+
      .                          NRBE3T)+MIN(1,NRWALL)-1,1)
-          IF (ISPMD.EQ.0 .AND.NPLYSUBS > 0) THEN
+          IF (ISPMD==0 .AND.NPLYSUBS > 0) THEN
              II=NSUBS+MIN(1,NSECT)+MIN(1,NRBODY+NRBE2T+NRBE3T)
      .                  +MIN(1,NRWALL)+MIN(1,NSURG+NSMAD) - 1
              CALL WRITE_I_C(II,1)
           ENDIF
 C xfem crack for layered shells +++
-          IF (ISPMD.EQ.0 .AND.NCRKSUBS > 0) THEN
+          IF (ISPMD==0 .AND.NCRKSUBS > 0) THEN
              II=NSUBS+MIN(1,NSECT)+MIN(1,NRBODY+NRBE2T+NRBE3T)
      .                  +MIN(1,NRWALL)+MIN(1,NSURG+NSMAD) - 1 
              CALL WRITE_I_C(II,1)
           ENDIF
 C xfem crack for layered shells ---
-          IF (ISPMD.EQ.0.AND.NFVSUBS.GT.0) THEN
+          IF (ISPMD==0.AND.NFVSUBS>0) THEN
              II=MIN(1,NSECT)+MIN(1,NRBODY+NRBE2T+NRBE3T)+MIN(1,NRWALL)
      .                   +MIN(1,NSURG+NSMAD)+1
              DO I=1,NFVBAG
@@ -5522,11 +5522,11 @@ C #PARTS FILLES
           N2=0
           N3=0
           DO K=1,NPART
-            IF(MATER(K).GT.0.AND.MATER(K).LE.M01)THEN
+            IF(MATER(K)>0.AND.MATER(K)<=M01)THEN
                N1=N1+1
-            ELSEIF(MATER(K).GT.M1.AND.MATER(K).LE.M2)THEN
+            ELSEIF(MATER(K)>M1.AND.MATER(K)<=M2)THEN
                N2=N2+1
-            ELSEIF(MATER(K).GT.M2)THEN
+            ELSEIF(MATER(K)>M2)THEN
                N3=N3+1
             ENDIF
           ENDDO
@@ -5535,7 +5535,7 @@ C CUTS DANS LE SUBSET GLOBAL
 C PARTS FILLES 2D
           CALL WRITE_I_C(N1,1)
           DO K=1,NPART
-            IF(MATER(K).GT.0.AND.MATER(K).LE.M01)
+            IF(MATER(K)>0.AND.MATER(K)<=M01)
      .         CALL WRITE_I_C(MATER(K)-1,1)
           ENDDO
 C CUTS DANS LE SUBSET GLOBAL
@@ -5546,13 +5546,13 @@ C CUTS DANS LE SUBSET GLOBAL
 C PARTS FILLES 3D
           CALL WRITE_I_C(N2,1)
           DO K=1,NPART
-            IF(MATER(K).GT.M1.AND.MATER(K).LE.M2)
+            IF(MATER(K)>M1.AND.MATER(K)<=M2)
      .          CALL WRITE_I_C(MATER(K)-M1-1,1)
           ENDDO
 C PARTS FILLES 1D
           CALL WRITE_I_C(N3,1)
           DO K=1,NPART
-            IF(MATER(K).GT.M2)CALL WRITE_I_C(MATER(K)-M2-1,1)
+            IF(MATER(K)>M2)CALL WRITE_I_C(MATER(K)-M2-1,1)
           ENDDO
        ELSE
 C----------------
@@ -5560,7 +5560,7 @@ C +SIEURS SUBSET ET INPUT V4.X
 C----------------
         MXSUBS=0
         DO I=1,NSUBS-1
-          IF (SUBSET(I)%ID .GT. MXSUBS) MXSUBS=SUBSET(I)%ID
+          IF (SUBSET(I)%ID > MXSUBS) MXSUBS=SUBSET(I)%ID
           WRITE(STR,'(I9,A1)') SUBSET(I)%ID,':'
           DO J=1,10
             CTEXT(J)=ICHAR(STR(J:J))
@@ -5568,13 +5568,13 @@ C----------------
           IB = 10
           TITL(1:LTITL) = SUBSET(I)%TITLE(1:LTITL)
           DO J=1,LTITL
-            IF(TITL(J:J).NE.' ') IB = J+10
+            IF(TITL(J:J)/=' ') IB = J+10
             CTEXT(J+10)=ICHAR(TITL(J:J))
           ENDDO
           CTEXT(IB+1)=0
           CALL WRITE_C_C(CTEXT,10+LTITL)
 C SUBSET PARENT
-          IF (SUBSET(I)%PARENT .LT. NSUBS) THEN
+          IF (SUBSET(I)%PARENT < NSUBS) THEN
            CALL WRITE_I_C(SUBSET(I)%PARENT-1,1)
           ELSE
            CALL WRITE_I_C(SUBSET(I)%PARENT
@@ -5594,11 +5594,11 @@ C #PARTS FILLES
           N3=0
           DO J=1,SUBSET(I)%NPART
             K = SUBSET(I)%PART(J)
-            IF(MATER(K).GT.0.AND.MATER(K).LE.M01)THEN
+            IF(MATER(K)>0.AND.MATER(K)<=M01)THEN
                N1=N1+1
-            ELSEIF(MATER(K).GT.M1.AND.MATER(K).LE.M2)THEN
+            ELSEIF(MATER(K)>M1.AND.MATER(K)<=M2)THEN
                N2=N2+1
-            ELSEIF(MATER(K).GT.M2)THEN
+            ELSEIF(MATER(K)>M2)THEN
                N3=N3+1
             ENDIF
           ENDDO
@@ -5606,27 +5606,27 @@ C PARTS FILLES 2D
           CALL WRITE_I_C(N1,1)
           DO J=1,SUBSET(I)%NPART
             K = SUBSET(I)%PART(J)
-            IF(MATER(K).GT.0.AND.MATER(K).LE.M01)
+            IF(MATER(K)>0.AND.MATER(K)<=M01)
      .         CALL WRITE_I_C(MATER(K)-1,1)
           ENDDO
 C PARTS FILLES 3D
           CALL WRITE_I_C(N2,1)
           DO J=1,SUBSET(I)%NPART
             K = SUBSET(I)%PART(J)
-            IF(MATER(K).GT.M1.AND.MATER(K).LE.M2)
+            IF(MATER(K)>M1.AND.MATER(K)<=M2)
      .          CALL WRITE_I_C(MATER(K)-M1-1,1)
           ENDDO
 C PARTS FILLES 1D
           CALL WRITE_I_C(N3,1)
           DO J=1,SUBSET(I)%NPART
             K = SUBSET(I)%PART(J)
-            IF(MATER(K).GT.M2)CALL WRITE_I_C(MATER(K)-M2-1,1)
+            IF(MATER(K)>M2)CALL WRITE_I_C(MATER(K)-M2-1,1)
           ENDDO
         ENDDO
 C-----------------
 C SUBSET RBODIES
 C-----------------
-          IF (NRBODY+NRBE2T+NRBE3T.GT.0) THEN
+          IF (NRBODY+NRBE2T+NRBE3T>0) THEN
            WRITE(STR,'(I8,A14)')MXSUBS+1,':RBODIES MODEL'
            DO J=1,22
             CTEXT(J)=ICHAR(STR(J:J))
@@ -5658,7 +5658,7 @@ C PARTS FILLES 1D
 C-----------------
 C SUBSET SECTIONS
 C-----------------
-          IF (NSECT.GT.0) THEN
+          IF (NSECT>0) THEN
            WRITE(STR,'(I8,A15)')MXSUBS+MIN(1,NRBODY+NRBE2T+NRBE3T)
      .                 +1,':SECTIONS MODEL'
            DO J=1,23
@@ -5692,7 +5692,7 @@ C PARTS FILLES 1D
 C-----------------
 C SUBSET RWALLS
 C-----------------
-          IF (NRWALL.GT.0) THEN
+          IF (NRWALL>0) THEN
            WRITE(STR,'(I8,A13)')MXSUBS
      .              +MIN(1,NSECT)+MIN(1,NRBODY+NRBE2T+NRBE3T)
      .              +1,':RWALLS MODEL'
@@ -5727,7 +5727,7 @@ C PARTS FILLES 1D
 C-----------------
 C SUBSET SURFACES
 C-----------------
-          IF (NSURG+NSMAD.GT.0) THEN
+          IF (NSURG+NSMAD>0) THEN
            WRITE(STR,'(I8,A15)')MXSUBS
      .              +MIN(1,NSECT)+MIN(1,NRBODY+NRBE2T+NRBE3T)
      .              +MIN(1,NRWALL)+1,':SURFACES MODEL'
@@ -5761,7 +5761,7 @@ C PARTS FILLES 1D
 C-----------------
 C SUBSETS PLY
 C-----------------
-          IF (NPLYSUBS.GT.0) THEN
+          IF (NPLYSUBS>0) THEN
              II=MXSUBS
      .         +MIN(1,NSECT)+MIN(1,NRBODY+NRBE2T+NRBE3T)+MIN(1,NRWALL)
      .         +MIN(1,NSURG+NSMAD)+1
@@ -5798,7 +5798,7 @@ C xfem crack for layered shells +++
 C-----------------
 C SUBSETS CRK
 C-----------------
-          IF (NCRKSUBS.GT.0) THEN
+          IF (NCRKSUBS>0) THEN
              II=MXSUBS
      .         +MIN(1,NSECT)+MIN(1,NRBODY+NRBE2T+NRBE3T)+MIN(1,NRWALL)
      .         +MIN(1,NSURG+NSMAD)+1
@@ -5835,14 +5835,14 @@ C xfem crack for layered shells ---
 C-----------------
 C SUBSETS FVMBAG
 C-----------------
-          IF (NFVSUBS.GT.0) THEN
+          IF (NFVSUBS>0) THEN
              II=NSUBS
      .         +MIN(1,NSECT)+MIN(1,NRBODY+NRBE2T+NRBE3T)
      .         +MIN(1,NRWALL)+MIN(1,NSURG+NSMAD)+ NPLYSUBS
      .         +NCRKSUBS-1
              OFFPART=NBPART2D+ NPLYSUBS+NCRKSUBS
              DO I=1,NFVBAG
-                IF (FVDATA(I)%NPOLH_ANIM.GT.0) THEN
+                IF (FVDATA(I)%NPOLH_ANIM>0) THEN
                    II=II+1
                    WRITE(STR,'(I8,A11,I8)')
      .                 II,':FVMBAG ID ',FVDATA(I)%ID
@@ -5881,7 +5881,7 @@ C--------------
           IB = 10
           TITL(1:LTITL) = SUBSET(I)%TITLE(1:LTITL)
           DO J=1,LTITL
-            IF(TITL(J:J).NE.' ') IB = J+10
+            IF(TITL(J:J)/=' ') IB = J+10
             CTEXT(J+10)=ICHAR(TITL(J:J))
           ENDDO
           CTEXT(IB+1)=0
@@ -5897,29 +5897,29 @@ C SUBSETS FILS
           DO J=1,SUBSET(NSUBS)%NCHILD
             CALL WRITE_I_C(SUBSET(NSUBS)%CHILD(J)-1,1)
           ENDDO
-          IF (NRBODY+NRBE2T+NRBE3T.GT.0)
+          IF (NRBODY+NRBE2T+NRBE3T>0)
      .      CALL WRITE_I_C(NSUBS-1,1)
-          IF (NSECT.GT.0)
+          IF (NSECT>0)
      .      CALL WRITE_I_C(NSUBS+MIN(1,NRBODY+NRBE2T+NRBE3T)-1,1)
-          IF (NRWALL.GT.0)
+          IF (NRWALL>0)
      .     CALL WRITE_I_C(NSUBS+MIN(1,NSECT)+MIN(1,NRBODY+NRBE2T+
      .      NRBE3T)-1,1)
-          IF (NSURG+NSMAD.GT.0)
+          IF (NSURG+NSMAD>0)
      .     CALL WRITE_I_C(NSUBS+MIN(1,NSECT)+MIN(1,NRBODY+NRBE2T+
      .                          NRBE3T)+MIN(1,NRWALL)-1,1)
-           IF (ISPMD.EQ.0.AND.NPLYSUBS.GT.0) THEN
+           IF (ISPMD==0.AND.NPLYSUBS>0) THEN
               II=NSUBS+MIN(1,NSECT)+MIN(1,NRBODY+NRBE2T+NRBE3T)
      .                +MIN(1,NRWALL)+MIN(1,NSURG+NSMAD) - 1
               CALL WRITE_I_C(II,1)
           ENDIF
 C xfem crack for layered shells +++
-           IF (ISPMD.EQ.0.AND.NCRKSUBS.GT.0) THEN
+           IF (ISPMD==0.AND.NCRKSUBS>0) THEN
               II=NSUBS+MIN(1,NSECT)+MIN(1,NRBODY+NRBE2T+NRBE3T)
      .                +MIN(1,NRWALL)+MIN(1,NSURG+NSMAD) - 1 
               CALL WRITE_I_C(II,1)
           ENDIF
 C xfem crack for layered shells ---
-          IF (ISPMD.EQ.0.AND.NFVSUBS.GT.0) THEN
+          IF (ISPMD==0.AND.NFVSUBS>0) THEN
              II=NSUBS+MIN(1,NSECT)+MIN(1,NRBODY+NRBE2T+NRBE3T)
      .                   +MIN(1,NRWALL)+MIN(1,NSURG+NSMAD)
              DO I=1,NFVBAG
@@ -5933,11 +5933,11 @@ C #PARTS FILLES
           N3=0
           DO J=1,SUBSET(I)%NPART
             K = SUBSET(I)%PART(J)
-            IF(MATER(K).GT.0.AND.MATER(K).LE.M01)THEN
+            IF(MATER(K)>0.AND.MATER(K)<=M01)THEN
                N1=N1+1
-            ELSEIF(MATER(K).GT.M1.AND.MATER(K).LE.M2)THEN
+            ELSEIF(MATER(K)>M1.AND.MATER(K)<=M2)THEN
                N2=N2+1
-            ELSEIF(MATER(K).GT.M2)THEN
+            ELSEIF(MATER(K)>M2)THEN
                N3=N3+1
             ENDIF
           ENDDO
@@ -5947,7 +5947,7 @@ C PARTS FILLES 2D
           CALL WRITE_I_C(N1,1)
           DO J=1,SUBSET(I)%NPART
             K = SUBSET(I)%PART(J)
-            IF(MATER(K).GT.0.AND.MATER(K).LE.M01)
+            IF(MATER(K)>0.AND.MATER(K)<=M01)
      .         CALL WRITE_I_C(MATER(K)-1,1)
           ENDDO
 C CUTS DANS LE SUBSET GLOBAL
@@ -5959,28 +5959,28 @@ C PARTS FILLES 3D
           CALL WRITE_I_C(N2,1)
           DO J=1,SUBSET(I)%NPART
             K = SUBSET(I)%PART(J)
-            IF(MATER(K).GT.M1.AND.MATER(K).LE.M2)
+            IF(MATER(K)>M1.AND.MATER(K)<=M2)
      .          CALL WRITE_I_C(MATER(K)-M1-1,1)
           ENDDO
 C PARTS FILLES 1D
           CALL WRITE_I_C(N3,1)
           DO J=1,SUBSET(I)%NPART
             K = SUBSET(I)%PART(J)
-            IF(MATER(K).GT.M2)CALL WRITE_I_C(MATER(K)-M2-1,1)
+            IF(MATER(K)>M2)CALL WRITE_I_C(MATER(K)-M2-1,1)
           ENDDO
        ENDIF
       ENDIF
 C-----------------------------------------------
 C   WRITE CONTROL
 C-----------------------------------------------
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
         CALL WRITE_I_C(NUMMAT+1,1)
         CALL WRITE_I_C(NUMGEO+1,1)
       ENDIF
 C-----------------------------------------------
 C   MAT HEAD
 C-----------------------------------------------
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
        CALL ANI_TXT50('Dummy Material',14)
        DO I=1,NUMMAT
           WRITE(STR,'(I9,A1)') IPM(1,I),':'
@@ -5990,7 +5990,7 @@ C-----------------------------------------------
           IB = 10
           CALL FRETITL2(TITL,IPM(NPROPMI-LTITR+1,I),40)
           DO J=1,LTITL
-            IF(TITL(J:J).NE.' ') IB = J+10
+            IF(TITL(J:J)/=' ') IB = J+10
             CTEXT(J+10)=ICHAR(TITL(J:J))
           ENDDO
           CTEXT(IB+1)=0
@@ -6000,7 +6000,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   MAT TYPE
 C-----------------------------------------------
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
        CALL WRITE_I_C(0,1)
        DO I=1,NUMMAT
          CALL WRITE_I_C(NINT(PM(19,I)),1)
@@ -6009,7 +6009,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   PROP HEAD
 C-----------------------------------------------
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
        CALL ANI_TXT50('Dummy Property',14)
        DO I=1,NUMGEO
           WRITE(STR,'(I9,A1)') IGEO(1,I),':'
@@ -6019,7 +6019,7 @@ C-----------------------------------------------
           IB = 10
           CALL FRETITL2(TITL,IGEO(NPROPGI-LTITR+1,I),40)
           DO J=1,LTITL
-            IF(TITL(J:J).NE.' ') IB = J+10
+            IF(TITL(J:J)/=' ') IB = J+10
             CTEXT(J+10)=ICHAR(TITL(J:J))
           ENDDO
           CTEXT(IB+1)=0
@@ -6029,7 +6029,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   PROP TYPE
 C-----------------------------------------------
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
        CALL WRITE_I_C(0,1)
        DO I=1,NUMGEO
          CALL WRITE_I_C(NINT(GEO(12,I)),1)
@@ -6040,11 +6040,11 @@ C
 C     Additional particles description, case of /ANIM/VERS/44 only.
 C
 C=======================================================================
-      IF(ISPH3D.EQ.1.OR.NUMSPH_T+MAXPJET.EQ.0) GOTO 700
+      IF(ISPH3D==1.OR.NUMSPH_T+MAXPJET==0) GOTO 700
 C-----------------------------------------------
 C   prepare sorties SUBSET : PART FILLES meshless
 C-----------------------------------------------
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
         DO I=1,NPART
           MATER(I)=-MATER(I)
         ENDDO
@@ -6061,7 +6061,7 @@ C-----------------------------------------------
           NEL   =IPARG(2,NG)
           NFT   =IPARG(3,NG)
           ITY   =IPARG(5,NG)
-          IF(ITY.EQ.51)THEN
+          IF(ITY==51)THEN
             DO I = 1, NEL
               N = I + NFT
               MATER(IPARTSP(N))=4
@@ -6070,7 +6070,7 @@ C-----------------------------------------------
         ENDDO
         IF(NSPMD > 1) CALL SPMD_GLOB_ISUM9(MATER,NPART)
         DO I=1,NPART
-          IF(MATER(I).GT.4) MATER(I) = 4
+          IF(MATER(I)>4) MATER(I) = 4
         ENDDO
         IF(NSPMD > 1) CALL SPMD_IBCAST(MATER,MATER,NPART,1,0,2)
         DO I=1,NPART
@@ -6079,12 +6079,12 @@ C-----------------------------------------------
 C
       NBPART = 0
       DO I=1,NPART
-        IF(MATER(I).EQ.4)NBPART = NBPART + 1
+        IF(MATER(I)==4)NBPART = NBPART + 1
       ENDDO
 C-----------------------------------------------
 C   WRITE CONTROL
 C-----------------------------------------------
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
         CALL WRITE_I_C(NUMSPHG+MAXPJET,1)
         CALL WRITE_I_C(NBPART,1)
         CALL WRITE_I_C(NSE_ANI+1,1)
@@ -6105,7 +6105,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   PART ADD
 C-----------------------------------------------
-        IF (ISPMD.EQ.0) THEN
+        IF (ISPMD==0) THEN
           DO I = 1, NBPART
             BUFFERP(I) = 0
             DO K = 1, NSPMD
@@ -6117,9 +6117,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   PART HEAD
 C-----------------------------------------------
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
        DO I=1,NPART
-        IF(MATER(I).EQ.4)THEN
+        IF(MATER(I)==4)THEN
           WRITE(STR,'(I9,A1)')IPART(4,I),':'
           DO J=1,10
             CTEXT(J)=ICHAR(STR(J:J))
@@ -6127,7 +6127,7 @@ C-----------------------------------------------
           IB = 10
           CALL FRETITL2(TITL,IPART(LIPART1-LTITR+1,I),40)
           DO J=1,LTITL
-            IF(TITL(J:J).NE.' ') IB = J+10
+            IF(TITL(J:J)/=' ') IB = J+10
             CTEXT(J+10)=ICHAR(TITL(J:J))
           ENDDO
           CTEXT(IB+1)=0
@@ -6138,101 +6138,101 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   ELEMENT MASS FOR MAS & FUNC
 C-----------------------------------------------
-      IF(ANIM_M.EQ.1.OR.ANIM_SE(3).EQ.1.OR.
-     .   ANIM_SE(25).EQ.1)THEN
+      IF(ANIM_M==1.OR.ANIM_SE(3)==1.OR.
+     .   ANIM_SE(25)==1)THEN
          CALL DMASANI0(X ,D       ,ELBUF_TAB,GEO     ,IPARG   ,
      2           MAS     ,PM      ,EL2FA   ,IPART   ,IPARTSP )
       ENDIF
 C-----------------------------------------------
 C   FUNC TEXT
 C-----------------------------------------------
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
        CTEXT(81)=0
 C     diameter is compulsory.
        CALL ANI_TXT('Diameter',8)
 C
-       IF(ANIM_SE(1).EQ.1) CALL ANI_TXT('Plastic Strain',14)
-       IF(ANIM_SE(2).EQ.1) CALL ANI_TXT('Density',7)
-       IF(ANIM_SE(3).EQ.1) CALL ANI_TXT('Specific Energy',15)
-       IF(ANIM_SE(4).EQ.1) CALL ANI_TXT('Temperature',11)
-       IF(ANIM_SE(6).EQ.1) CALL ANI_TXT('Pressure',8)
-       IF(ANIM_SE(7).EQ.1) CALL ANI_TXT('Von Mises',9)
-       IF(ANIM_SE(8).EQ.1) CALL ANI_TXT('Turbulent Energy',16)
-       IF(ANIM_SE(9).EQ.1) CALL ANI_TXT('Turbulent Viscosity',19)
-       IF(ANIM_SE(10).EQ.1) CALL ANI_TXT('Vorticity',9)
-       IF(ANIM_SE(11).EQ.1) CALL ANI_TXT('Damage 1',8)
-       IF(ANIM_SE(12).EQ.1) CALL ANI_TXT('Damage 2',8)
-       IF(ANIM_SE(13).EQ.1) CALL ANI_TXT('Damage 3',8)
-       IF(ANIM_SE(14).EQ.1) CALL ANI_TXT('Stress X ',9)
-       IF(ANIM_SE(15).EQ.1) CALL ANI_TXT('Stress Y ',9)
-       IF(ANIM_SE(16).EQ.1) CALL ANI_TXT('Stress Z ',9)
-       IF(ANIM_SE(17).EQ.1) CALL ANI_TXT('Stress XY',9)
-       IF(ANIM_SE(18).EQ.1) CALL ANI_TXT('Stress YZ',9)
-       IF(ANIM_SE(19).EQ.1) CALL ANI_TXT('Stress ZX',9)
-       IF(ANIM_SE(20).EQ.1) CALL ANI_TXT('User Var 1',10)
-       IF(ANIM_SE(21).EQ.1) CALL ANI_TXT('User Var 2',10)
-       IF(ANIM_SE(22).EQ.1) CALL ANI_TXT('User Var 3',10)
-       IF(ANIM_SE(23).EQ.1) CALL ANI_TXT('User Var 4',10)
-       IF(ANIM_SE(24).EQ.1) CALL ANI_TXT('User Var 5',10)
-       IF(ANIM_SE(25).EQ.1) CALL ANI_TXT('Hourglass Energy',16)
-       IF(ANIM_SE(26).EQ.1) CALL ANI_TXT('Strain Rate',11)
-       IF(ANIM_SE(27).EQ.1) CALL ANI_TXT('User Var 6',10)
-       IF(ANIM_SE(28).EQ.1) CALL ANI_TXT('User Var 7',10)
-       IF(ANIM_SE(29).EQ.1) CALL ANI_TXT('User Var 8',10)
-       IF(ANIM_SE(30).EQ.1) CALL ANI_TXT('User Var 9',10)
-       IF(ANIM_SE(31).EQ.1) CALL ANI_TXT('User Var 10',11)
-       IF(ANIM_SE(32).EQ.1) CALL ANI_TXT('User Var 11',11)
-       IF(ANIM_SE(33).EQ.1) CALL ANI_TXT('User Var 12',11)
-       IF(ANIM_SE(34).EQ.1) CALL ANI_TXT('User Var 13',11)
-       IF(ANIM_SE(35).EQ.1) CALL ANI_TXT('User Var 14',11)
-       IF(ANIM_SE(36).EQ.1) CALL ANI_TXT('User Var 15',11)
-       IF(ANIM_SE(37).EQ.1) CALL ANI_TXT('User Var 16',11)
-       IF(ANIM_SE(38).EQ.1) CALL ANI_TXT('User Var 17',11)
-       IF(ANIM_SE(39).EQ.1) CALL ANI_TXT('User Var 18',11)
-       IF(ANIM_SE(40).EQ.1) CALL ANI_TXT('User Var 19',11)
-       IF(ANIM_SE(41).EQ.1) CALL ANI_TXT('User Var 20',11)
-       IF(ANIM_SE(42).EQ.1) CALL ANI_TXT('User Var 21',11)
-       IF(ANIM_SE(43).EQ.1) CALL ANI_TXT('User Var 22',11)
-       IF(ANIM_SE(44).EQ.1) CALL ANI_TXT('User Var 23',11)
-       IF(ANIM_SE(45).EQ.1) CALL ANI_TXT('User Var 24',11)
-       IF(ANIM_SE(46).EQ.1) CALL ANI_TXT('User Var 25',11)
-       IF(ANIM_SE(47).EQ.1) CALL ANI_TXT('User Var 26',11)
-       IF(ANIM_SE(48).EQ.1) CALL ANI_TXT('User Var 27',11)
-       IF(ANIM_SE(49).EQ.1) CALL ANI_TXT('User Var 28',11)
-       IF(ANIM_SE(50).EQ.1) CALL ANI_TXT('User Var 29',11)
-       IF(ANIM_SE(51).EQ.1) CALL ANI_TXT('User Var 30',11)
-       IF(ANIM_SE(52).EQ.1) CALL ANI_TXT('User Var 31',11)
-       IF(ANIM_SE(53).EQ.1) CALL ANI_TXT('User Var 32',11)
-       IF(ANIM_SE(54).EQ.1) CALL ANI_TXT('User Var 33',11)
-       IF(ANIM_SE(55).EQ.1) CALL ANI_TXT('User Var 34',11)
-       IF(ANIM_SE(56).EQ.1) CALL ANI_TXT('User Var 35',11)
-       IF(ANIM_SE(57).EQ.1) CALL ANI_TXT('User Var 36',11)
-       IF(ANIM_SE(58).EQ.1) CALL ANI_TXT('User Var 37',11)
-       IF(ANIM_SE(59).EQ.1) CALL ANI_TXT('User Var 38',11)
-       IF(ANIM_SE(60).EQ.1) CALL ANI_TXT('User Var 39',11)
-       IF(ANIM_SE(61).EQ.1) CALL ANI_TXT('User Var 40',11)
-       IF(ANIM_SE(62).EQ.1) CALL ANI_TXT('User Var 41',11)
-       IF(ANIM_SE(63).EQ.1) CALL ANI_TXT('User Var 42',11)
-       IF(ANIM_SE(64).EQ.1) CALL ANI_TXT('User Var 43',11)
-       IF(ANIM_SE(65).EQ.1) CALL ANI_TXT('User Var 44',11)
-       IF(ANIM_SE(66).EQ.1) CALL ANI_TXT('User Var 45',11)
-       IF(ANIM_SE(67).EQ.1) CALL ANI_TXT('User Var 46',11)
-       IF(ANIM_SE(68).EQ.1) CALL ANI_TXT('User Var 47',11)
-       IF(ANIM_SE(69).EQ.1) CALL ANI_TXT('User Var 48',11)
-       IF(ANIM_SE(70).EQ.1) CALL ANI_TXT('User Var 49',11)
-       IF(ANIM_SE(71).EQ.1) CALL ANI_TXT('User Var 50',11)
-       IF(ANIM_SE(72).EQ.1) CALL ANI_TXT('User Var 51',11)
-       IF(ANIM_SE(73).EQ.1) CALL ANI_TXT('User Var 52',11)
-       IF(ANIM_SE(74).EQ.1) CALL ANI_TXT('User Var 53',11)
-       IF(ANIM_SE(75).EQ.1) CALL ANI_TXT('User Var 54',11)
-       IF(ANIM_SE(76).EQ.1) CALL ANI_TXT('User Var 55',11)
-       IF(ANIM_SE(77).EQ.1) CALL ANI_TXT('User Var 56',11)
-       IF(ANIM_SE(78).EQ.1) CALL ANI_TXT('User Var 57',11)
-       IF(ANIM_SE(79).EQ.1) CALL ANI_TXT('User Var 58',11)
-       IF(ANIM_SE(80).EQ.1) CALL ANI_TXT('User Var 59',11)
-       IF(ANIM_SE(81).EQ.1) CALL ANI_TXT('User Var 60',11)
+       IF(ANIM_SE(1)==1) CALL ANI_TXT('Plastic Strain',14)
+       IF(ANIM_SE(2)==1) CALL ANI_TXT('Density',7)
+       IF(ANIM_SE(3)==1) CALL ANI_TXT('Specific Energy',15)
+       IF(ANIM_SE(4)==1) CALL ANI_TXT('Temperature',11)
+       IF(ANIM_SE(6)==1) CALL ANI_TXT('Pressure',8)
+       IF(ANIM_SE(7)==1) CALL ANI_TXT('Von Mises',9)
+       IF(ANIM_SE(8)==1) CALL ANI_TXT('Turbulent Energy',16)
+       IF(ANIM_SE(9)==1) CALL ANI_TXT('Turbulent Viscosity',19)
+       IF(ANIM_SE(10)==1) CALL ANI_TXT('Vorticity',9)
+       IF(ANIM_SE(11)==1) CALL ANI_TXT('Damage 1',8)
+       IF(ANIM_SE(12)==1) CALL ANI_TXT('Damage 2',8)
+       IF(ANIM_SE(13)==1) CALL ANI_TXT('Damage 3',8)
+       IF(ANIM_SE(14)==1) CALL ANI_TXT('Stress X ',9)
+       IF(ANIM_SE(15)==1) CALL ANI_TXT('Stress Y ',9)
+       IF(ANIM_SE(16)==1) CALL ANI_TXT('Stress Z ',9)
+       IF(ANIM_SE(17)==1) CALL ANI_TXT('Stress XY',9)
+       IF(ANIM_SE(18)==1) CALL ANI_TXT('Stress YZ',9)
+       IF(ANIM_SE(19)==1) CALL ANI_TXT('Stress ZX',9)
+       IF(ANIM_SE(20)==1) CALL ANI_TXT('User Var 1',10)
+       IF(ANIM_SE(21)==1) CALL ANI_TXT('User Var 2',10)
+       IF(ANIM_SE(22)==1) CALL ANI_TXT('User Var 3',10)
+       IF(ANIM_SE(23)==1) CALL ANI_TXT('User Var 4',10)
+       IF(ANIM_SE(24)==1) CALL ANI_TXT('User Var 5',10)
+       IF(ANIM_SE(25)==1) CALL ANI_TXT('Hourglass Energy',16)
+       IF(ANIM_SE(26)==1) CALL ANI_TXT('Strain Rate',11)
+       IF(ANIM_SE(27)==1) CALL ANI_TXT('User Var 6',10)
+       IF(ANIM_SE(28)==1) CALL ANI_TXT('User Var 7',10)
+       IF(ANIM_SE(29)==1) CALL ANI_TXT('User Var 8',10)
+       IF(ANIM_SE(30)==1) CALL ANI_TXT('User Var 9',10)
+       IF(ANIM_SE(31)==1) CALL ANI_TXT('User Var 10',11)
+       IF(ANIM_SE(32)==1) CALL ANI_TXT('User Var 11',11)
+       IF(ANIM_SE(33)==1) CALL ANI_TXT('User Var 12',11)
+       IF(ANIM_SE(34)==1) CALL ANI_TXT('User Var 13',11)
+       IF(ANIM_SE(35)==1) CALL ANI_TXT('User Var 14',11)
+       IF(ANIM_SE(36)==1) CALL ANI_TXT('User Var 15',11)
+       IF(ANIM_SE(37)==1) CALL ANI_TXT('User Var 16',11)
+       IF(ANIM_SE(38)==1) CALL ANI_TXT('User Var 17',11)
+       IF(ANIM_SE(39)==1) CALL ANI_TXT('User Var 18',11)
+       IF(ANIM_SE(40)==1) CALL ANI_TXT('User Var 19',11)
+       IF(ANIM_SE(41)==1) CALL ANI_TXT('User Var 20',11)
+       IF(ANIM_SE(42)==1) CALL ANI_TXT('User Var 21',11)
+       IF(ANIM_SE(43)==1) CALL ANI_TXT('User Var 22',11)
+       IF(ANIM_SE(44)==1) CALL ANI_TXT('User Var 23',11)
+       IF(ANIM_SE(45)==1) CALL ANI_TXT('User Var 24',11)
+       IF(ANIM_SE(46)==1) CALL ANI_TXT('User Var 25',11)
+       IF(ANIM_SE(47)==1) CALL ANI_TXT('User Var 26',11)
+       IF(ANIM_SE(48)==1) CALL ANI_TXT('User Var 27',11)
+       IF(ANIM_SE(49)==1) CALL ANI_TXT('User Var 28',11)
+       IF(ANIM_SE(50)==1) CALL ANI_TXT('User Var 29',11)
+       IF(ANIM_SE(51)==1) CALL ANI_TXT('User Var 30',11)
+       IF(ANIM_SE(52)==1) CALL ANI_TXT('User Var 31',11)
+       IF(ANIM_SE(53)==1) CALL ANI_TXT('User Var 32',11)
+       IF(ANIM_SE(54)==1) CALL ANI_TXT('User Var 33',11)
+       IF(ANIM_SE(55)==1) CALL ANI_TXT('User Var 34',11)
+       IF(ANIM_SE(56)==1) CALL ANI_TXT('User Var 35',11)
+       IF(ANIM_SE(57)==1) CALL ANI_TXT('User Var 36',11)
+       IF(ANIM_SE(58)==1) CALL ANI_TXT('User Var 37',11)
+       IF(ANIM_SE(59)==1) CALL ANI_TXT('User Var 38',11)
+       IF(ANIM_SE(60)==1) CALL ANI_TXT('User Var 39',11)
+       IF(ANIM_SE(61)==1) CALL ANI_TXT('User Var 40',11)
+       IF(ANIM_SE(62)==1) CALL ANI_TXT('User Var 41',11)
+       IF(ANIM_SE(63)==1) CALL ANI_TXT('User Var 42',11)
+       IF(ANIM_SE(64)==1) CALL ANI_TXT('User Var 43',11)
+       IF(ANIM_SE(65)==1) CALL ANI_TXT('User Var 44',11)
+       IF(ANIM_SE(66)==1) CALL ANI_TXT('User Var 45',11)
+       IF(ANIM_SE(67)==1) CALL ANI_TXT('User Var 46',11)
+       IF(ANIM_SE(68)==1) CALL ANI_TXT('User Var 47',11)
+       IF(ANIM_SE(69)==1) CALL ANI_TXT('User Var 48',11)
+       IF(ANIM_SE(70)==1) CALL ANI_TXT('User Var 49',11)
+       IF(ANIM_SE(71)==1) CALL ANI_TXT('User Var 50',11)
+       IF(ANIM_SE(72)==1) CALL ANI_TXT('User Var 51',11)
+       IF(ANIM_SE(73)==1) CALL ANI_TXT('User Var 52',11)
+       IF(ANIM_SE(74)==1) CALL ANI_TXT('User Var 53',11)
+       IF(ANIM_SE(75)==1) CALL ANI_TXT('User Var 54',11)
+       IF(ANIM_SE(76)==1) CALL ANI_TXT('User Var 55',11)
+       IF(ANIM_SE(77)==1) CALL ANI_TXT('User Var 56',11)
+       IF(ANIM_SE(78)==1) CALL ANI_TXT('User Var 57',11)
+       IF(ANIM_SE(79)==1) CALL ANI_TXT('User Var 58',11)
+       IF(ANIM_SE(80)==1) CALL ANI_TXT('User Var 59',11)
+       IF(ANIM_SE(81)==1) CALL ANI_TXT('User Var 60',11)
        DO I=82,281
-         IF(ANIM_SE(I).EQ.1)THEN
+         IF(ANIM_SE(I)==1)THEN
            II = I - 81
            WRITE(MES,'(A,I3)')
      .         'WPLA layer',II
@@ -6240,28 +6240,28 @@ C
          ENDIF
        ENDDO
        DO I=1,200
-        IF(ANIM_SE(286+3*(I-1)+1).EQ.1)THEN
+        IF(ANIM_SE(286+3*(I-1)+1)==1)THEN
           WRITE(MES,'(A,I3,A)')'Psi (layer',I,')'
           CALL ANI_TXT(MES,15)
         ENDIF
-        IF(ANIM_SE(286+3*(I-1)+2).EQ.1)THEN
+        IF(ANIM_SE(286+3*(I-1)+2)==1)THEN
           WRITE(MES,'(A,I3,A)')'Teta (layer',I,')'
           CALL ANI_TXT(MES,16)
         ENDIF
-        IF(ANIM_SE(286+3*(I-1)+3).EQ.1)THEN
+        IF(ANIM_SE(286+3*(I-1)+3)==1)THEN
           WRITE(MES,'(A,I3,A)')'Phi (layer',I,')'
           CALL ANI_TXT(MES,15)
         ENDIF
        ENDDO    
-       IF(ANIM_SE(3890).EQ.1) CALL ANI_TXT('MAX DAMAGE ELEMENT',18)                        
-       IF(ANIM_SE(4893).EQ.1) CALL ANI_TXT('Domain',6) 
-       IF(ANIM_SE(4937).EQ.1) CALL ANI_TXT('Element Time Step',17)
-       IF(ANIM_SE(4959).EQ.1) CALL ANI_TXT('AMS selection',13)    
-       IF(ANIM_SE(4965).EQ.1) CALL ANI_TXT('Element status',14) 
+       IF(ANIM_SE(3890)==1) CALL ANI_TXT('MAX DAMAGE ELEMENT',18)                        
+       IF(ANIM_SE(4893)==1) CALL ANI_TXT('Domain',6) 
+       IF(ANIM_SE(4937)==1) CALL ANI_TXT('Element Time Step',17)
+       IF(ANIM_SE(4959)==1) CALL ANI_TXT('AMS selection',13)    
+       IF(ANIM_SE(4965)==1) CALL ANI_TXT('Element status',14) 
 C-----------------------------------------------
 C   element equivalent stress criteria
 C-----------------------------------------------
-       IF(ANIM_SE(4895).EQ.1)CALL ANI_TXT('Equiv stress',12)
+       IF(ANIM_SE(4895)==1)CALL ANI_TXT('Equiv stress',12)
       ENDIF
 C-----------------------------------------------
 C   ELEMENT FUNC (SPH)
@@ -6284,15 +6284,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   3D TENSOR TEXT
 C-----------------------------------------------
-      IF (ISPMD.EQ.0) THEN
-        IF(ANIM_ST(1).EQ.1) CALL ANI_TXT('Stress',6)
-        IF(ANIM_ST(2).EQ.1) CALL ANI_TXT('Strain',6)
-        IF(ANIM_ST(3).EQ.1) CALL ANI_TXT('Strn rate',9)
-        IF(ANIM_ST(4).EQ.1) CALL ANI_TXT('Damage',6)
-        IF(ANIM_ST(5).EQ.1) CALL ANI_TXT('Plastic Strain Tensor',21)
+      IF (ISPMD==0) THEN
+        IF(ANIM_ST(1)==1) CALL ANI_TXT('Stress',6)
+        IF(ANIM_ST(2)==1) CALL ANI_TXT('Strain',6)
+        IF(ANIM_ST(3)==1) CALL ANI_TXT('Strn rate',9)
+        IF(ANIM_ST(4)==1) CALL ANI_TXT('Damage',6)
+        IF(ANIM_ST(5)==1) CALL ANI_TXT('Plastic Strain Tensor',21)
 !
         DO I=10,1009
-          IF(ANIM_ST(I).EQ.1)THEN
+          IF(ANIM_ST(I)==1)THEN
             II = I - 10
             WRITE(MES,'(A,I3)')
      .          'Strs Intg Point',II
@@ -6300,7 +6300,7 @@ C-----------------------------------------------
           ENDIF
         ENDDO
         DO I=1010,2009
-          IF(ANIM_ST(I).EQ.1)THEN
+          IF(ANIM_ST(I)==1)THEN
             II = I - 1010
                WRITE(MES,'(A,I3)')
      .          'Stra Intg Point',II
@@ -6308,7 +6308,7 @@ C-----------------------------------------------
           ENDIF
         ENDDO
         DO I=2010,22109
-          IF(ANIM_ST(I).EQ.1)THEN
+          IF(ANIM_ST(I)==1)THEN
             II = I - 2010
             WRITE(MES,'(A,3I3)')
      .          'Strs In Pt',ABS(II)/2010,
@@ -6317,7 +6317,7 @@ C-----------------------------------------------
           ENDIF
         ENDDO
         DO I=22110,42209
-          IF(ANIM_ST(I).EQ.1)THEN
+          IF(ANIM_ST(I)==1)THEN
             II = I - 22110
             WRITE(MES,'(A,3I3)')
      .          'Stra In Pt',ABS(II)/2010,
@@ -6327,7 +6327,7 @@ C-----------------------------------------------
         ENDDO
 !
         DO I=42210,43209
-          IF(ANIM_ST(I).EQ.1)THEN
+          IF(ANIM_ST(I)==1)THEN
             II = I - 42210
                WRITE(MES,'(A,I3)')
      .          'Plastic Strn Intg Point',II
@@ -6336,7 +6336,7 @@ C-----------------------------------------------
         ENDDO
 !
         DO I=43210,63309
-          IF(ANIM_ST(I).EQ.1)THEN
+          IF(ANIM_ST(I)==1)THEN
             II = I - 43210
             WRITE(MES,'(A,3I3)')
      .          'Plastic Strn In Pt',ABS(II)/2010,
@@ -6350,7 +6350,7 @@ C   3D TENSOR (SPH)
 C-----------------------------------------------
       DO I = 1,MX_ANI
        IFUNC = I
-       IF(ANIM_ST(I).EQ.1)THEN
+       IF(ANIM_ST(I)==1)THEN
            CALL TENSOR0(ELBUF_TAB,IPARG   ,IFUNC   ,PM      ,EL2FA   ,
      2                NNN     ,WAFT    ,TANI          ,IAD     ,
      3                NBPART  ,X       ,IADG    ,IPART   ,IPARTSP ,
@@ -6360,7 +6360,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   ELEMENT MASS (SPH)
 C-----------------------------------------------
-      IF(ANIM_M.EQ.1)THEN
+      IF(ANIM_M==1)THEN
        IF(NSPMD == 1) THEN
          DO I=1,NNN
             R4 = MAS(I)
@@ -6370,7 +6370,7 @@ C-----------------------------------------------
          DO I = 1,NNN
            MAS4(I) = MAS(I)
          ENDDO
-         IF(ISPMD.EQ.0) THEN
+         IF(ISPMD==0) THEN
            BUF = NUMSPHG
          ELSE
            BUF=1
@@ -6386,10 +6386,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   HIERARCHIE
 C-----------------------------------------------
-       IF (ISPMD.EQ.0) THEN
+       IF (ISPMD==0) THEN
          DO I=1,NPART
-          IF(MATER(I).EQ.4)THEN
-            IF (IPART(3,I).LT.NSUBS) THEN
+          IF(MATER(I)==4)THEN
+            IF (IPART(3,I)<NSUBS) THEN
              CALL WRITE_I_C(IPART(3,I)-1,1)
             ELSE
              CALL WRITE_I_C(NSUBS
@@ -6399,36 +6399,36 @@ C-----------------------------------------------
           END IF
          ENDDO
          DO I=1,NPART
-           IF(MATER(I).EQ.4)CALL WRITE_I_C(IPART(1,I),1)
+           IF(MATER(I)==4)CALL WRITE_I_C(IPART(1,I),1)
          ENDDO
          DO I=1,NPART
-           IF(MATER(I).EQ.4)CALL WRITE_I_C(IPART(2,I),1)
+           IF(MATER(I)==4)CALL WRITE_I_C(IPART(2,I),1)
          ENDDO
        ENDIF
 C-----------------------------------------------
 C   SUBSET : PART FILLES MESHLESS
 C-----------------------------------------------
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
         J=M3
         DO I=1,NPART
-          IF(MATER(I).EQ.4)THEN
+          IF(MATER(I)==4)THEN
             J=J+1
             MATER(I)=J
           ENDIF
         ENDDO
         M4=J
-        IF (NSUBS.EQ.1) THEN
+        IF (NSUBS==1) THEN
 C #PARTS FILLES meshless
           N0=0
           DO K=1,NPART
-            IF(MATER(K).GT.M3)THEN
+            IF(MATER(K)>M3)THEN
                N0=N0+1
             ENDIF
           ENDDO
 C PARTS FILLES meshless
           CALL WRITE_I_C(N0,1)
           DO K=1,NPART
-            IF(MATER(K).GT.M3)
+            IF(MATER(K)>M3)
      .         CALL WRITE_I_C(MATER(K)-M3-1,1)
           ENDDO
         ELSE
@@ -6440,7 +6440,7 @@ C #PARTS FILLES meshless
           N0=0
           DO J=1,SUBSET(I)%NPART
             K = SUBSET(I)%PART(J)
-            IF(MATER(K).GT.M3)THEN
+            IF(MATER(K)>M3)THEN
                N0=N0+1
             ENDIF
           ENDDO
@@ -6448,7 +6448,7 @@ C PARTS FILLES meshless
           CALL WRITE_I_C(N0,1)
          DO J=1,SUBSET(I)%NPART
             K = SUBSET(I)%PART(J)
-            IF(MATER(K).GT.M3)
+            IF(MATER(K)>M3)
      .         CALL WRITE_I_C(MATER(K)-M3-1,1)
           ENDDO
         ENDDO
@@ -6459,7 +6459,7 @@ C #PARTS FILLES meshless
           N0=0
           DO J=1,SUBSET(I)%NPART
             K = SUBSET(I)%PART(J)
-            IF(MATER(K).GT.M3)THEN
+            IF(MATER(K)>M3)THEN
                N0=N0+1
             ENDIF
           ENDDO
@@ -6467,19 +6467,19 @@ C PARTS FILLES meshless
           CALL WRITE_I_C(N0,1)
           DO J=1,SUBSET(I)%NPART
             K = SUBSET(I)%PART(J)
-            IF(MATER(K).GT.M3)
+            IF(MATER(K)>M3)
      .         CALL WRITE_I_C(MATER(K)-M3-1,1)
           ENDDO
         ENDIF
 C--------------
         DO I=1,NPART
-          IF(MATER(I).LT.0)MATER(I)=-MATER(I)
+          IF(MATER(I)<0)MATER(I)=-MATER(I)
         ENDDO
       ENDIF
 C=======================================================================
  700  CONTINUE
 C=======================================================================
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
 
         CALL FILE_SIZE(ANIMSIZE)
         CALL CLOSE_C()
@@ -6565,10 +6565,10 @@ C-----------------------------------------------
         N6 = IXS16(2,J)
         N7 = IXS16(3,J)
         N8 = IXS16(4,J)
-        IF(N5.EQ.0)N5=N1
-        IF(N6.EQ.0)N6=N2
-        IF(N7.EQ.0)N7=N3
-        IF(N8.EQ.0)N8=N4
+        IF(N5==0)N5=N1
+        IF(N6==0)N6=N2
+        IF(N7==0)N7=N3
+        IF(N8==0)N8=N4
         XX = HALF *(X(1,N5)+X(1,N6)+X(1,N7)+X(1,N8))
      .      -FOURTH*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))
         YY = HALF *(X(2,N5)+X(2,N6)+X(2,N7)+X(2,N8))
@@ -6595,10 +6595,10 @@ C-----------------------------------------------
         N6 = IXS16(6,J)
         N7 = IXS16(7,J)
         N8 = IXS16(8,J)
-        IF(N5.EQ.0)N5=N1
-        IF(N6.EQ.0)N6=N2
-        IF(N7.EQ.0)N7=N3
-        IF(N8.EQ.0)N8=N4
+        IF(N5==0)N5=N1
+        IF(N6==0)N6=N2
+        IF(N7==0)N7=N3
+        IF(N8==0)N8=N4
         XX = HALF *(X(1,N5)+X(1,N6)+X(1,N7)+X(1,N8))
      .      -FOURTH*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))
         YY = HALF *(X(2,N5)+X(2,N6)+X(2,N7)+X(2,N8))
@@ -6620,7 +6620,7 @@ C-----------------------------------------------
         ENDIF
       ENDDO
       IF (NSPMD > 1) THEN
-        IF (ISPMD.EQ.0) THEN
+        IF (ISPMD==0) THEN
           BUF = 6*NUMELS16G
         ELSE
           BUF=1
@@ -6744,7 +6744,7 @@ C
       IFV=0
       DO I=1,NVOLU
         ITYP=MONVOL(K1+1)
-        IF(ITYP.EQ.6.OR.ITYP.EQ.8)THEN
+        IF(ITYP==6.OR.ITYP==8)THEN
           IFV=MONVOL(K1-1+45)
           NNS=MONVOL(K1-1+32)
           NTG=MONVOL(K1-1+33)
@@ -6761,13 +6761,13 @@ C
           KRA2=KRA1+NNA
           KRA3=KRA2+NNA          
           KRA8=KRA1+12*NNA+NTGI
-          IF (IAN.EQ.3) THEN
+          IF (IAN==3) THEN
 C pression
              IF (NSPMD > 1)THEN
                CALL SPMD_FVB_SCAT_NUM_NODA(IFV,VOLMON(KRA1),NNA)
                CALL SPMD_FVB_SCAT_NUM_NODA(IFV,VOLMON(KR1),NNT)
              ENDIF
-             IF(IOPT.EQ.2)THEN
+             IF(IOPT==2)THEN
                DO N=1,FVSPMD(IFV)%NNA_L
                   N1=FVSPMD(IFV)%IBUFA_L(1,N)
                   N2=FVSPMD(IFV)%IBUFA_L(2,N)
@@ -6780,13 +6780,13 @@ C
                 N2=FVSPMD(IFV)%IBUF_L(2,N)
                 WA4(N2)=VOLMON(KR1-1+N1)
              ENDDO
-          ELSEIF (IAN.EQ.4) THEN
+          ELSEIF (IAN==4) THEN
 C densite
              IF (NSPMD > 1)THEN
                CALL SPMD_FVB_SCAT_NUM_NODA(IFV,VOLMON(KRA2),NNA)
                CALL SPMD_FVB_SCAT_NUM_NODA(IFV,VOLMON(KR2),NNT)
              ENDIF
-             IF(IOPT.EQ.2)THEN
+             IF(IOPT==2)THEN
                DO N=1,FVSPMD(IFV)%NNA_L
                   N1=FVSPMD(IFV)%IBUFA_L(1,N)
                   N2=FVSPMD(IFV)%IBUFA_L(2,N)
@@ -6799,13 +6799,13 @@ C
                 N2=FVSPMD(IFV)%IBUF_L(2,N)
                 WA4(N2)=VOLMON(KR2-1+N1)
              ENDDO
-          ELSEIF (IAN.EQ.6) THEN
+          ELSEIF (IAN==6) THEN
 C temperature
              IF (NSPMD > 1)THEN
                CALL SPMD_FVB_SCAT_NUM_NODA(IFV,VOLMON(KRA3),NNA)
                CALL SPMD_FVB_SCAT_NUM_NODA(IFV,VOLMON(KR3),NNT)
              ENDIF
-             IF(IOPT.EQ.2)THEN
+             IF(IOPT==2)THEN
                DO N=1,FVSPMD(IFV)%NNA_L
                   N1=FVSPMD(IFV)%IBUFA_L(1,N)
                   N2=FVSPMD(IFV)%IBUFA_L(2,N)
@@ -6818,13 +6818,13 @@ C
                 N2=FVSPMD(IFV)%IBUF_L(2,N)
                 WA4(N2)=VOLMON(KR3-1+N1)
              ENDDO
-          ELSEIF (IAN.EQ.30) THEN
+          ELSEIF (IAN==30) THEN
 C ssp:sound speed
              IF (NSPMD > 1)THEN
                CALL SPMD_FVB_SCAT_NUM_NODA(IFV,VOLMON(KRA8),NNA)
                CALL SPMD_FVB_SCAT_NUM_NODA(IFV,VOLMON(KR9),NNT)
              ENDIF
-             IF(IOPT.EQ.2)THEN
+             IF(IOPT==2)THEN
                DO N=1,FVSPMD(IFV)%NNA_L
                   N1=FVSPMD(IFV)%IBUFA_L(1,N)
                   N2=FVSPMD(IFV)%IBUFA_L(2,N)
@@ -6889,7 +6889,7 @@ C
       ENDIF
 
 
-      IF (KMESH(IFV) .LT. 2) THEN
+      IF (KMESH(IFV) < 2) THEN
          DO N=1,FVSPMD(IFV)%NNA_L
             N1=FVSPMD(IFV)%IBUFA_L(1,N)
             N2=FVSPMD(IFV)%IBUFA_L(2,N)
@@ -7045,7 +7045,7 @@ C
       KRBALE=KRBHOL + LRBAGHOL
       DO I=1,NVOLU
          ITYP=MONVOL(K1-1+2)
-         IF (ITYP.EQ.8) THEN
+         IF (ITYP==8) THEN
             NNS=MONVOL(K1-1+32)
             NTG=MONVOL(K1-1+33)
             NNI =MONVOL(K1-1+68)
@@ -7057,17 +7057,17 @@ C
             KR1=KRBALE+MONVOL(K1-1+34)
             KR1=KR1+6*NNT+NTGT
             KR2=KR1+NTGT
-            IF (IANIM.EQ.2143) THEN
+            IF (IANIM==2143) THEN
                DO J=1,NTGT
                   JJ=MONVOL(KI1-1+J)
-                  IF (JJ.EQ.0) CYCLE
+                  IF (JJ==0) CYCLE
                   JJ=EL2FA(1+JJ)
                   WA(JJ)=VOLMON(KR1-1+J)
                ENDDO
-            ELSEIF (IANIM.EQ.2144) THEN
+            ELSEIF (IANIM==2144) THEN
                DO J=1,NTGT
                   JJ=MONVOL(KI1-1+J)
-                  IF (JJ.EQ.0) CYCLE
+                  IF (JJ==0) CYCLE
                   JJ=EL2FA(1+JJ)
                   WA(JJ)=VOLMON(KR2-1+J)
                ENDDO
@@ -7080,7 +7080,7 @@ C
            CALL WRITE_R_C(R4,1)
         ENDDO
       ELSE
-        IF (ISPMD.EQ.0) THEN
+        IF (ISPMD==0) THEN
            BUF = (NUMELQG+NUMELCG+NUMELTGG+NUMELURG)*4
         ELSE
            BUF=1
@@ -7146,7 +7146,7 @@ C
             VV(3,J)=ZERO
          ENDDO
          DO J=1,FVDATA(I)%NPOLH
-            IF (FVDATA(I)%MPOLH(J).EQ.ZERO) CYCLE
+            IF (FVDATA(I)%MPOLH(J)==ZERO) CYCLE
             DO K=FVDATA(I)%IFVPADR(J),FVDATA(I)%IFVPADR(J+1)-1
                KK=FVDATA(I)%IFVPOLH(K)
                DO L=FVDATA(I)%IFVTADR(KK),FVDATA(I)%IFVTADR(KK+1)-1
@@ -7168,7 +7168,7 @@ C
             NPN(N1)=NPN(N1)+1
             NPN(N2)=NPN(N2)+1
             NPN(N3)=NPN(N3)+1
-            IF (NPTR(J).NE.0) THEN
+            IF (NPTR(J)/=0) THEN
                VVT(1)=VTR(1,J)/NPTR(J)
                VVT(2)=VTR(2,J)/NPTR(J)
                VVT(3)=VTR(3,J)/NPTR(J)

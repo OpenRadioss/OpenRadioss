@@ -179,7 +179,7 @@ C       CALL SET_KISC(NDDL,NDDLI,IADI,JDII,ITOK,LT_I,IADI0,JDII0,LT_I0)
 C----------------------
 c      CALL MY_BARRIER
 C---------------------
-      IF (IQSTAT.GT.1.AND.(ILINTF.EQ.0.OR.ILINTF.EQ.NCYCLE)) THEN
+      IF (IQSTAT>1.AND.(ILINTF==0.OR.ILINTF==NCYCLE)) THEN
        ITQ = 1
        CALL PRODUT_HP(NDDL,L_F0,L_F0,W_DDL,R2)
 C----------------------
@@ -188,8 +188,8 @@ C---------------------
        QTOL = EM04*R2
       ENDIF
  100  CONTINUE
-      IF ((ISOLV.LT.3.OR.ISOLV.GT.6)
-     .     .AND.(IPREC.GT.1.OR.INTP_C.GE.0)) THEN
+      IF ((ISOLV<3.OR.ISOLV>6)
+     .     .AND.(IPREC>1.OR.INTP_C>=0)) THEN
 !$OMP PARALLEL PRIVATE(ITSK,F_DDLI ,L_DDLI,I,J)
          CALL IMP_SMPINI(ITSK   ,F_DDLI ,L_DDLI ,NDDLI   )
          DO I=F_DDLI,L_DDLI
@@ -197,28 +197,28 @@ C---------------------
           DIAG_T(J)=DIAG_T(J)+DIAG_I(I)
          ENDDO
 !$OMP END PARALLEL
-       IF (ILINTF.GT.0) CALL DIAG_KIF(DIAG_T)
+       IF (ILINTF>0) CALL DIAG_KIF(DIAG_T)
       ENDIF
 C
 !$OMP PARALLEL PRIVATE(ITSK,F_DDL ,L_DDL)
       CALL IMP_SMPINI(ITSK   ,F_DDL ,L_DDL ,NDDL   )
-      IF (INSOLV.EQ.2) CALL BFGS_H1(F_DDL,L_DDL,W_DDL,F,A2,IT,ITSK)
+      IF (INSOLV==2) CALL BFGS_H1(F_DDL,L_DDL,W_DDL,F,A2,IT,ITSK)
 C
-      IF (INSOLV.EQ.3) CALL BFGS_H1P(F_DDL,L_DDL,W_DDL,F,A2,IT,ITSK)
+      IF (INSOLV==3) CALL BFGS_H1P(F_DDL,L_DDL,W_DDL,F,A2,IT,ITSK)
 !$OMP END PARALLEL
 C----------------------
 c      CALL MY_BARRIER
 C---------------------
-       IF (ISPMD.EQ.0) THEN
+       IF (ISPMD==0) THEN
         IPRINT=LPRINT
        ELSE
         IPRINT=0
        ENDIF
-      IF (IMON.GT.0) CALL STARTIME(33,1)
-      IF (NSPMD.EQ.1.AND.(ISOLV.EQ.3.OR.ISOLV.EQ.4).AND.IMUMPSV==0)THEN 
+      IF (IMON>0) CALL STARTIME(33,1)
+      IF (NSPMD==1.AND.(ISOLV==3.OR.ISOLV==4).AND.IMUMPSV==0)THEN 
 C-----------BCS,DS
-citask0       IF (ITASK.EQ.0) THEN
-         IF (IDSC.GT.0) IT_BCS = IT_BCS + 1
+citask0       IF (ITASK==0) THEN
+         IF (IDSC>0) IT_BCS = IT_BCS + 1
          CALL LIN_SOLV2(
      1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_T ,   
      2                    LT_K  ,NDDLI ,ITOK  ,IADI  ,JDII   ,
@@ -228,10 +228,10 @@ citask0       IF (ITASK.EQ.0) THEN
      6                    IDSC  )
 citask0       END IF 
       ELSE
-C     IF (NSPMD.GT.1 .OR. iterative,Mix except Isolv=2 -> Mumps
-       IF (ISOLV.EQ.3.OR.ISOLV.EQ.4) THEN
+C     IF (NSPMD>1 .OR. iterative,Mix except Isolv=2 -> Mumps
+       IF (ISOLV==3.OR.ISOLV==4) THEN
 citask0        IF (ITASK == 0) THEN
-        IF (ISPMD.EQ.0.AND.IDSC.GT.0) IT_BCS = IT_BCS + 1
+        IF (ISPMD==0.AND.IDSC>0) IT_BCS = IT_BCS + 1
         CALL LIN_SOLVP2(GRAPHE, F,      NDDL,  IAD_ELEM,  FR_ELEM,
      1                  DIAG_K, LT_K,   IADK,  JDIK,      L_U, 
      2                  ITAB,   IPRINT, NDDLI, IADI,      JDII,
@@ -240,8 +240,8 @@ citask0        IF (ITASK == 0) THEN
      5                  ISOLV,  IDSC,   IDDL,  IKC,       INLOC,
      6                  NDOF  , ITASK )
 citask0        END IF !(ITASK == 0) THEN
-       ELSEIF (ISOLV.EQ.5.OR.ISOLV.EQ.6) THEN
-         IF (IDSC.GT.0.AND.ITASK.EQ.0) IT_BCS = IT_BCS + 1
+       ELSEIF (ISOLV==5.OR.ISOLV==6) THEN
+         IF (IDSC>0.AND.ITASK==0) IT_BCS = IT_BCS + 1
            CALL LIN_SOLVHM(TOL  ,
      1                    NDDL  ,NNZ     ,IADK   ,JDIK  ,DIAG_T ,
      2                    LT_K  ,NDDLI   ,ITOK   ,IADI  ,JDII   ,
@@ -259,7 +259,7 @@ citask0        END IF !(ITASK == 0) THEN
      J                    ILINE ,ILINTF,IND_IMP,XI_C    ,L_F0   ,
      K                    NDDLI_G,INTP_C,IRBE3  ,LRBE3  ,IRBE2  ,
      L                    LRBE2  ,IT_PCG ,IMUMPSV)
-       ELSEIF (N_PAT.GT.1) THEN 
+       ELSEIF (N_PAT>1) THEN 
         CALL LIN_SOLVIH2( TOL   ,N_PAT ,MAXB1 ,
      1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_T ,   
      2                    LT_K  ,NDDLI ,ITOK  ,IADI  ,JDII   ,
@@ -275,7 +275,7 @@ citask0        END IF !(ITASK == 0) THEN
      C                    VOLMON,IBFV  ,SKEW  ,XFRAME ,IND_IMP,
      D                    DIAG_I,XI_C  ,L_F0   ,NDDLI_G,INTP_C,
      E                    IRBE3  ,LRBE3,IRBE2  ,LRBE2 )
-       ELSEIF (IPREC.EQ.1) THEN 
+       ELSEIF (IPREC==1) THEN 
         CALL LIN_SOLVH0(   TOL   ,
      1                    NDDL  ,NNZ     ,IADK   ,JDIK  ,DIAG_T ,   
      2                    LT_K  ,NDDLI   ,ITOK   ,IADI  ,JDII   ,
@@ -289,7 +289,7 @@ citask0        END IF !(ITASK == 0) THEN
      F                    VOLMON,IBFV    ,SKEW   ,XFRAME ,IND_IMP,
      G                    XI_C  ,L_F0    ,NDDLI_G,INTP_C ,IRBE3  ,
      H                    LRBE3 ,IRBE2   ,LRBE2  )
-       ELSEIF (IPREC.GT.1.AND.IPREC.LT.10) THEN
+       ELSEIF (IPREC>1.AND.IPREC<10) THEN
         CALL LIN_SOLVH1( TOL   ,MAX_L  ,
      1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_T ,   
      2                    LT_K  ,NDDLI ,ITOK  ,IADI  ,JDII   ,
@@ -309,47 +309,47 @@ citask0        END IF !(ITASK == 0) THEN
 C----------------------
 c      CALL MY_BARRIER
 C---------------------
-      IF (IMON.GT.0) CALL STOPTIME(33,1)
+      IF (IMON>0) CALL STOPTIME(33,1)
 C
-       IF (IMP_CHK.GT.0.OR.(ISTOP.GT.0.AND.IMPDEB.EQ.0)) GOTO 200
+       IF (IMP_CHK>0.OR.(ISTOP>0.AND.IMPDEB==0)) GOTO 200
 C---------------------------------
 !$OMP PARALLEL PRIVATE(ITSK,F_DDL ,L_DDL)
        CALL IMP_SMPINI(ITSK   ,F_DDL ,L_DDL ,NDDL   )
-       IF (INSOLV.EQ.2) THEN
+       IF (INSOLV==2) THEN
         CALL BFGS_H2(F_DDL,L_DDL,W_DDL,L_U,L_F0,A2,IT,N_LIM,ITSK)
 C
-       ELSEIF (INSOLV.EQ.3) THEN
+       ELSEIF (INSOLV==3) THEN
         CALL BFGS_H2P(F_DDL,L_DDL,W_DDL,L_U,L_F0,A2,IT,N_LIM,ITSK)
        ENDIF
 !$OMP END PARALLEL 
 C----------------------
 c      CALL MY_BARRIER
 C---------------------
-      IF (IQSTAT.GT.1.AND.(ILINTF.EQ.0.OR.ILINTF.EQ.NCYCLE))THEN
+      IF (IQSTAT>1.AND.(ILINTF==0.OR.ILINTF==NCYCLE))THEN
        CALL QSTAT_IT(NDDL   ,F      ,L_U      )
 C----------------------
 C      CALL MY_BARRIER
 C---------------------
        CALL PRODUT_HP(NDDL,F,F,W_DDL,R2)
 C---------------------
-       IF (R2.GT.QTOL.AND.ITQ.LE.IQSTAT) THEN
+       IF (R2>QTOL.AND.ITQ<=IQSTAT) THEN
         ITQ = ITQ  + 1
             IDSC = 0
             ICPREC = 0
             GOTO 100
        ELSE
         CALL QSTAT_END(NDDL   ,L_U      )
-        IF(LPRINT.NE.0)THEN
+        IF(LPRINT/=0)THEN
          R2 = EM02*SQRT(R2/QTOL)
          WRITE(IOUT,1002)ITQ,R2
-         IF(LPRINT.LT.0) THEN
+         IF(LPRINT<0) THEN
           WRITE(ISTDO,1002)ITQ,R2
          ENDIF
         ENDIF
-       ENDIF !IF (R2.GT.QTOL.AND.ITQ.LE.IQSTAT)
-      ENDIF !IF (IQSTAT.GT.1.AND.(ILINTF.EQ
-      IF (ILINE.GT.0.AND.LPRINT.NE.0.AND.(ISOLV.EQ.3.OR.ISOLV.EQ.4))THEN
-       IF (ILINTF.EQ.0.OR.ILINTF.EQ.NCYCLE)THEN
+       ENDIF !IF (R2>QTOL.AND.ITQ<=IQSTAT)
+      ENDIF !IF (IQSTAT>1.AND.(ILINTF.EQ
+      IF (ILINE>0.AND.LPRINT/=0.AND.(ISOLV==3.OR.ISOLV==4))THEN
+       IF (ILINTF==0.OR.ILINTF==NCYCLE)THEN
 C--------BCS hase done already inside imp_r2bcs---------  
         IF (IMUMPSV>0 .AND. NDDLI>0)THEN
 !$OMP PARALLEL PRIVATE(ITSK,F_DDL,L_DDL,I,J)
@@ -388,8 +388,8 @@ C---------------------
         CALL PRODUT_HP(NDDL,L_F0,L_F0,W_DDL,QTOL)
 citask0        IF (ITASK == 0) THEN
          R2 = SQRT(R2/QTOL)
-         IF(IPRINT.NE.0) WRITE(IOUT,1003)R2
-         IF(IPRINT.LT.0) WRITE(ISTDO,1003)R2
+         IF(IPRINT/=0) WRITE(IOUT,1003)R2
+         IF(IPRINT<0) WRITE(ISTDO,1003)R2
 citask0        END IF !(ITASK == 0) THEN
        ENDIF
       ENDIF
@@ -397,10 +397,10 @@ C--------POUR F*X--------
        CALL PRODUT_HP(NDDL,L_U,L_F0,W_DDL,F_U)
 citask0      IF (ITASK == 0) THEN
 C---------
-       IF (NMONV.GT.0.AND.ILINE.EQ.1) THEN
+       IF (NMONV>0.AND.ILINE==1) THEN
         CALL RECU_KDIS(NDOF   ,D     )
        ENDIF 
-       IF (INTP_C.LT.0.AND.NDDLI.GT.0) THEN
+       IF (INTP_C<0.AND.NDDLI>0) THEN
         CALL RECU_KDIS0(NDOF   ,D     )
        ENDIF 
        CALL RECUDIS(NDDL  ,IDDL  ,NDOF  ,IKC   ,L_U     ,
@@ -480,14 +480,14 @@ C-----------------------------------------------
 C------------------------------------------
 C     [K]:matrice de rigidite [KI]:matrice de contact
 C------------------------------------------
-C       IF (IMON.GT.0) CALL STARTIME(33,ITASK+1)
-C      IF (ISOLV.EQ.3) THEN
+C       IF (IMON>0) CALL STARTIME(33,ITASK+1)
+C      IF (ISOLV==3) THEN
 C        WRITE(6,*) "BCS Solver not available" 
 C        CALL FLUSH(6)
 C        CALL ARRET(5)
-C       IF (ISOLV.EQ.4) THEN
+C       IF (ISOLV==4) THEN
         NF=1
-        IF (INSOLV.EQ.0) THEN
+        IF (INSOLV==0) THEN
            CALL IMP_DSOLV(GRAPHE, DIAG_K, LT_K, IADK, JDIK,
      .                    NDDL,   NF,     F,    X,    ITAB,
      .                    IPRINT, NDDLI,  IADI, JDII, DIAG_I,
@@ -501,7 +501,7 @@ C       IF (ISOLV.EQ.4) THEN
            IDSC=0
         ENDIF
 C      ENDIF
-C      IF (IMON.GT.0) CALL STOPTIME(33,ITASK+1)
+C      IF (IMON>0) CALL STOPTIME(33,ITASK+1)
       RETURN
       END
 
@@ -562,21 +562,21 @@ C-----------------------------------------------
       my_real
      .        F1(NDDL)
 C---------------------------------------
-C      IF (IMON.GT.0) CALL STARTIME(33,ITASK+1)
-      IF (ISOLV.EQ.3) THEN
+C      IF (IMON>0) CALL STARTIME(33,ITASK+1)
+      IF (ISOLV==3) THEN
         CALL MUMPSLB(F     ,F1    , NDDL , IAD_ELEM , FR_ELEM,
      1               IDDL  , IKC  , INLOC    ,NDOF    ,ITAG   )
 C
         CALL IMP_MUMPS2(MUMPS_PAR, CDDLP, F1 , X, NDDL)
 C
-      ELSEIF (ISOLV.EQ.4) THEN
+      ELSEIF (ISOLV==4) THEN
          NF=1
 C Division des forces exterieures sur les ddls de la frontiere par le nombre 
 C de processeurs auxquels ils appartiennent (elles sont reassemblees dans DSRESOL)
          CALL IMP_DSFEXT(GRAPHE , NF, F, NDDL, IAD_ELEM,
      .                   FR_ELEM)
 C
-         IF (INSOLV.EQ.0) THEN
+         IF (INSOLV==0) THEN
             CALL IMP_DSOLV(GRAPHE, DIAG_K, LT_K, IADK, JDIK,
      .                     NDDL,   NF,     F,    X,    ITAB,
      .                     IPRINT, NDDLI,  IADI, JDII, DIAG_I,
@@ -589,8 +589,8 @@ C
      .                          ITOK  )
          ENDIF
       ENDIF
-      IF (INSOLV.NE.0) IDSC=0
-C      IF (IMON.GT.0) CALL STOPTIME(33,ITASK+1)
+      IF (INSOLV/=0) IDSC=0
+C      IF (IMON>0) CALL STOPTIME(33,ITASK+1)
 C
       RETURN
       END
@@ -673,7 +673,7 @@ C---------------------------------
         N = IN_KN(I)
         DO J = 1, 3
          ND = ID_KN(J,I)
-         IF (ND.LT.0) THEN
+         IF (ND<0) THEN
           D(J,N) = ZERO
          ENDIF 
         ENDDO
@@ -768,7 +768,7 @@ c     isolv=2 => P.LANCZOS
 c     isolv=4 => direct multi-condensation
 C------------------------------------------
       NNZM = 0
-C      IF (IMON.GT.0) CALL STARTIME(33,1)
+C      IF (IMON>0) CALL STARTIME(33,1)
 c      IF (ITASK == 0) THEN
        CALL SET_KSYM(NDDL,IADK,JDIK,LT_K,IADK0,JDIK0,LT_K0)
 c      END IF !(ITASK == 0) THEN
@@ -777,7 +777,7 @@ c      CALL MY_BARRIER
 C---------------------
 !$OMP PARALLEL PRIVATE(ITSK)
        ITSK = OMP_GET_THREAD_NUM()
-       IF (ISOLV.EQ.1.OR.ISOLV.GT.6) THEN
+       IF (ISOLV==1.OR.ISOLV>6) THEN
         CALL IMP_PCGH( IPREC ,
      1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,   
      2                    LT_K  ,NDDLI ,ITOK  ,IADI  ,JDII   ,
@@ -815,7 +815,7 @@ C---------------------
      G                    IBID  ,IBID  ,IBID  ,IND_IMP,XI_C ,
      H                    F0    ,NDDLI_G,INTP_C,IRBE3 ,LRBE3,
      I                    IRBE2 ,LRBE2  )
-       ELSEIF (ISOLV.EQ.2.AND.ITSK.EQ.0) THEN
+       ELSEIF (ISOLV==2.AND.ITSK==0) THEN
         SHIFT=ZERO
         CALL IMP_LANZP(IPREC ,
      1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,   
@@ -835,7 +835,7 @@ C---------------------
        ENDIF
 !$OMP END PARALLEL 
 C
-C       IF (IMON.GT.0) CALL STOPTIME(33,1)
+C       IF (IMON>0) CALL STOPTIME(33,1)
       RETURN
       END
 C  |---- version Hybrid------------
@@ -948,33 +948,33 @@ C     [K]:matrice de rigidite [M]:matrice de preconditionnement
        NNZM = NNZ
        ISTOP = INEGA
 C
-      IF (IPREC.EQ.2) NNZM=0 
-      IF (IMON.GT.0) CALL STARTIME(32,1)
-      IF (ICPREC.EQ.1) THEN
-       IF (IPREC.EQ.2) THEN
+      IF (IPREC==2) NNZM=0 
+      IF (IMON>0) CALL STARTIME(32,1)
+      IF (ICPREC==1) THEN
+       IF (IPREC==2) THEN
         DO I=1,NDDL
          DIAG_M(I) = DIAG_K(I)
         ENDDO 
-        IF (NSL.GT.0) 
+        IF (NSL>0) 
      .   CALL IMP_DIAGS(DIAG_M ,NDOF,NSL,IPARI,INTBUF_TAB,IRBE3,LRBE3,IRBE2)
-        IF (NMONV.GT.0) 
+        IF (NMONV>0) 
      .    CALL MONV_DIAG(DIAG_M,NDOF,IPARI,INTBUF_TAB,IRBE3 ,LRBE3 ,IRBE2,0)
-        IF (NSPMD.GT.1) CALL SPMD_SUMF_V(DIAG_M)
+        IF (NSPMD>1) CALL SPMD_SUMF_V(DIAG_M)
 C-------------to add //         
         DO I=1,NDDL
-         IF (DIAG_M(I).LT.EM20) THEN
+         IF (DIAG_M(I)<EM20) THEN
           NNE=NNE+1
           DIAG_M(I)=ABS(DIAG_M(I))
           DIAG_M(I)=MAX(EM20,DIAG_M(I))
          ENDIF
          DIAG_M(I) = W_DDL(I)/DIAG_M(I)
         ENDDO 
-        IF (NNE.GT.0.AND.ISOLV.NE.2) ISTOP=NNE
-       ELSEIF (IPREC.EQ.3) THEN
-       ELSEIF (IPREC.EQ.5) THEN
+        IF (NNE>0.AND.ISOLV/=2) ISTOP=NNE
+       ELSEIF (IPREC==3) THEN
+       ELSEIF (IPREC==5) THEN
 C     ----- approx. (by each colonne of L_T) inverse ---------
 C     ----- utilise d'abord la place de [M] pour la matrice assemblee ---------
-         IF (NSPMD.EQ.1) THEN
+         IF (NSPMD==1) THEN
              IDLFT0=0
              IDLFT1=0
              ELSE
@@ -982,9 +982,9 @@ C     ----- utilise d'abord la place de [M] pour la matrice assemblee ---------
              ENDIF
 citask0       IF (ITASK == 0) THEN
 C---------
-        IF (NSL.GT.0) 
+        IF (NSL>0) 
      .   CALL IMP_DIAGS(DIAG_K ,NDOF,NSL,IPARI,INTBUF_TAB,IRBE3,LRBE3,IRBE2)
-        IF (NMONV.GT.0) 
+        IF (NMONV>0) 
      .    CALL MONV_DIAG(DIAG_K,NDOF,IPARI,INTBUF_TAB,IRBE3 ,LRBE3 ,IRBE2,0)
         DO I=1,IDLFT0
          DIAG_M(I) = DIAG_K(I)
@@ -999,14 +999,14 @@ C---------
          ENDDO 
         ENDDO 
 C
-        IF (NSPMD.GT.1) CALL SPMD_SUMF_K(DIAG_M   ,LT_M     )
+        IF (NSPMD>1) CALL SPMD_SUMF_K(DIAG_M   ,LT_M     )
 C---------------------
 citask0       END IF !(ITASK == 0) THEN
 C----------------------
 c      CALL MY_BARRIER
 C---------------------
         MAXC=MAXB
-        IF (MAXC.GT.10000) then
+        IF (MAXC>10000) then
           MAXA = MAX_L
         ELSE
           MAXA = 1+(MAXC*(MAXC-1))/2
@@ -1029,12 +1029,12 @@ C---------------------
          ENDDO 
         ENDDO 
         IG = INEGA
-        IF (NSPMD.GT.1) CALL SPMD_MAX_I(INEGA)
-        IF (INEGA.GT.0.AND.ISOLV.NE.2.AND.NCYCLE.GT.1)ISTOP=INEGA
-        IF (NSL.GT.0) 
+        IF (NSPMD>1) CALL SPMD_MAX_I(INEGA)
+        IF (INEGA>0.AND.ISOLV/=2.AND.NCYCLE>1)ISTOP=INEGA
+        IF (NSL>0) 
      .   CALL IMP_DIAGSN(DIAG_K,NDOF,NSL,IPARI,INTBUF_TAB,IRBE3,LRBE3,IRBE2)
         INEGA = IG
-        IF (NMONV.GT.0) 
+        IF (NMONV>0) 
      .   CALL MONV_DIAG(DIAG_K,NDOF,IPARI,INTBUF_TAB,IRBE3,LRBE3,IRBE2,1)
         ELSE
 C       WRITE()''      
@@ -1044,15 +1044,15 @@ citask0       END IF !(ITASK == 0) THEN
 
       ENDIF
 C
-      IF(NNE .GT. 0)THEN
+      IF(NNE > 0)THEN
        WRITE(IOUT,2001)NNE
        WRITE(ISTDO,2001)NNE
       ENDIF
-      IF (IMON.GT.0) CALL STOPTIME(32,1)
-      IF (ISTOP.GT.0) RETURN
+      IF (IMON>0) CALL STOPTIME(32,1)
+      IF (ISTOP>0) RETURN
 C
 citask0      IF (ITASK == 0) THEN
-       IF (INTP_C.LT.0) THEN
+       IF (INTP_C<0) THEN
          DO I=1,NDDLI
           J=ITOK(I)
           DIAG_K(J)=DIAG_K(J)-DIAG_I(I)
@@ -1066,10 +1066,10 @@ citask0      END IF !(ITASK == 0) THEN
 C----------------------
 c      CALL MY_BARRIER
 C---------------------
-C      IF (IMON.GT.0) CALL STARTIME(33,1)
+C      IF (IMON>0) CALL STARTIME(33,1)
 !$OMP PARALLEL PRIVATE(ITSK)
        ITSK = OMP_GET_THREAD_NUM()
-       IF (ISOLV.EQ.1.OR.ISOLV.EQ.7.OR.ISOLV.EQ.8) THEN
+       IF (ISOLV==1.OR.ISOLV==7.OR.ISOLV==8) THEN
         CALL IMP_PCGH( IPREC ,
      1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,   
      2                    LT_K  ,NDDLI ,ITOK  ,IADI  ,JDII   ,
@@ -1107,7 +1107,7 @@ C      IF (IMON.GT.0) CALL STARTIME(33,1)
      G                    IBID  ,IBID  ,IBID  ,IND_IMP,XI_C ,
      H                    F0    ,NDDLI_G,INTP_C,IRBE3 ,LRBE3,
      I                    IRBE2 ,LRBE2  )
-       ELSEIF (ISOLV.EQ.2.AND.ITSK.EQ.0) THEN
+       ELSEIF (ISOLV==2.AND.ITSK==0) THEN
         SHIFT=ZERO
         CALL IMP_LANZP(IPREC ,
      1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,   
@@ -1127,7 +1127,7 @@ C      IF (IMON.GT.0) CALL STARTIME(33,1)
        ENDIF
 !$OMP END PARALLEL 
 C
-C       IF (IMON.GT.0) CALL STOPTIME(33,1)
+C       IF (IMON>0) CALL STOPTIME(33,1)
 C--------------------------------------------
  1002 FORMAT(3X,'PRECONDITION METHOD : JACOBIEN '/)
  1003 FORMAT(3X,'PRECONDITION METHOD : Ic0 ')
@@ -1246,12 +1246,12 @@ C------------------------------------------
 C     [K]:matrice de rigidite [M]:matrice de preconditionnement
       ISTOP = INEGA
 C
-      IF (IMON.GT.0.AND.ITASK.EQ.0) CALL STARTIME(32,1)
-      IF (ICPREC.EQ.1) THEN
-       IF (IPREC.EQ.5) THEN
+      IF (IMON>0.AND.ITASK==0) CALL STARTIME(32,1)
+      IF (ICPREC==1) THEN
+       IF (IPREC==5) THEN
 C     ----- approx. (by each colonne of L_T) inverse ---------
 C     ----- utilise d'abord la place de [M] pour la matrice assemblee ---------
-        IF (NSPMD.EQ.1) THEN
+        IF (NSPMD==1) THEN
              IDLFT0=0
              IDLFT1=0
         ELSE
@@ -1259,9 +1259,9 @@ C     ----- utilise d'abord la place de [M] pour la matrice assemblee ---------
         ENDIF
 citask0       IF (ITASK == 0) THEN
 C-------use [M] for [K] assemblage--------------
-        IF (NSL.GT.0) 
+        IF (NSL>0) 
      .   CALL IMP_DIAGS(DIAG_K ,NDOF,NSL,IPARI,INTBUF_TAB,IRBE3,LRBE3,IRBE2)
-        IF (NMONV.GT.0) 
+        IF (NMONV>0) 
      .    CALL MONV_DIAG(DIAG_K,NDOF,IPARI,INTBUF_TAB,IRBE3 ,LRBE3 ,IRBE2,0)
         DO I=1,IDLFT0
          DIAG_M(I) = DIAG_K(I)
@@ -1276,7 +1276,7 @@ C-------use [M] for [K] assemblage--------------
          ENDDO 
         ENDDO 
 C
-        IF (NSPMD.GT.1) CALL SPMD_SUMF_K(DIAG_M   ,LT_M     )
+        IF (NSPMD>1) CALL SPMD_SUMF_K(DIAG_M   ,LT_M     )
 C       
        CALL IND_SPAN(N_PAT,IDLFT0,NDDL,IADK,JDIK,IADM,JDIM,W_MAXL,MAXB1)
 citask0       END IF !(ITASK == 0) THEN
@@ -1284,7 +1284,7 @@ C----------------------
 c      CALL MY_BARRIER
 C---------------------
         MAXC = W_MAXL
-        IF (MAXC.GT.10000) THEN
+        IF (MAXC>10000) THEN
           MAXA = MAX_L
         ELSE
           MAXA = 1+(MAXC*(MAXC-1))/2
@@ -1309,12 +1309,12 @@ C-------
          ENDDO 
         ENDDO 
         IG = INEGA
-        IF (NSPMD.GT.1) CALL SPMD_MAX_I(INEGA)
-        IF (INEGA.GT.0.AND.ISOLV.NE.2.AND.NCYCLE.GT.1)ISTOP=INEGA
-        IF (NSL.GT.0) 
+        IF (NSPMD>1) CALL SPMD_MAX_I(INEGA)
+        IF (INEGA>0.AND.ISOLV/=2.AND.NCYCLE>1)ISTOP=INEGA
+        IF (NSL>0) 
      .   CALL IMP_DIAGSN(DIAG_K,NDOF,NSL,IPARI,INTBUF_TAB,IRBE3,LRBE3,IRBE2)
         INEGA = IG
-        IF (NMONV.GT.0) 
+        IF (NMONV>0) 
      .   CALL MONV_DIAG(DIAG_K,NDOF,IPARI,INTBUF_TAB,IRBE3,LRBE3,IRBE2,1)
         ELSE
 C       WRITE()''      
@@ -1324,20 +1324,20 @@ citask0       END IF !(ITASK == 0) THEN
 
       ENDIF
 C
-      IF (IMON.GT.0) CALL STOPTIME(32,1)
-      IF (ISTOP.GT.0) RETURN
+      IF (IMON>0) CALL STOPTIME(32,1)
+      IF (ISTOP>0) RETURN
 C
 citask0      IF (ITASK == 0) THEN
 C-------
        NNZM = IADM(NDDL+1)-IADM(1)
        FAC=ONE*NNZM/NNZ/NSPMD
        IF (NSPMD > 1) CALL SPMD_SUM_S(FAC)
-       IF (ISPMD.EQ.0.AND.IPRINT.NE.0) THEN
+       IF (ISPMD==0.AND.IPRINT/=0) THEN
         WRITE(IOUT,1002)FAC
-        IF (IPRINT.LT.0) WRITE(ISTDO,1002)FAC
+        IF (IPRINT<0) WRITE(ISTDO,1002)FAC
        ENDIF
 C
-       IF (INTP_C.LT.0) THEN
+       IF (INTP_C<0) THEN
          DO I=1,NDDLI
           J=ITOK(I)
           DIAG_K(J)=DIAG_K(J)-DIAG_I(I)
@@ -1353,7 +1353,7 @@ c      CALL MY_BARRIER
 C---------------------
 !$OMP PARALLEL PRIVATE(ITSK)
       ITSK = OMP_GET_THREAD_NUM()
-      IF (ISOLV.EQ.1.OR.ISOLV.EQ.7.OR.ISOLV.EQ.8) THEN
+      IF (ISOLV==1.OR.ISOLV==7.OR.ISOLV==8) THEN
         CALL IMP_PCGH( IPREC ,
      1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,   
      2                    LT_K  ,NDDLI ,ITOK  ,IADI  ,JDII   ,
@@ -1391,7 +1391,7 @@ C---------------------
      G                    IBID  ,IBID  ,IBID  ,IND_IMP,XI_C ,
      H                    F0    ,NDDLI_G,INTP_C,IRBE3 ,LRBE3,
      I                    IRBE2 ,LRBE2  )
-      ELSEIF (ISOLV.EQ.2.AND.ITSK.EQ.0) THEN
+      ELSEIF (ISOLV==2.AND.ITSK==0) THEN
         SHIFT=ZERO
         CALL IMP_LANZP(IPREC ,
      1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,   
@@ -1411,7 +1411,7 @@ C---------------------
        ENDIF
 !$OMP END PARALLEL
 C
-C       IF (IMON.GT.0) CALL STOPTIME(33,1)
+C       IF (IMON>0) CALL STOPTIME(33,1)
  1002 FORMAT(3X,'END PRECONDITION WITH RELATIVE DENSITY =',E11.4/)
 C--------------------------------------------
       RETURN
@@ -1510,17 +1510,17 @@ C-----------------------------------------------
       ISOL = ISOLV-2
 C------to avoid the modif of IDSC with LIN_SOLV2,LIN_SOLVP2 :issue oof nt>1     
       IDS = IDSC
-C      IF (IMON.GT.0) CALL STARTIME(33,1)
-      IF (IDSC.EQ.0) THEN
-citask0       IF (ITASK.EQ.0) THEN
-        IF (INTP_C.GE.0) THEN
+C      IF (IMON>0) CALL STARTIME(33,1)
+      IF (IDSC==0) THEN
+citask0       IF (ITASK==0) THEN
+        IF (INTP_C>=0) THEN
          DO I=1,NDDLI
           J=ITOK(I)
           DIAG_K(J)=DIAG_K(J)+DIAG_I(I)
          ENDDO
         ENDIF 
         CALL SET_KSYM(NDDL,IADK,JDIK,LT_K,IADK0,JDIK0,LT_K0)
-citask0       END IF !(ITASK.EQ.0) THEN
+citask0       END IF !(ITASK==0) THEN
 C----------------------
 c      CALL MY_BARRIER
 C---------------------
@@ -1547,7 +1547,7 @@ C---------------------
 !$OMP END PARALLEL 
        ELSE
 citask0        IF (ITASK == 0) THEN
-         IF (IMON.GT.0) CALL STARTIME(32,1)
+         IF (IMON>0) CALL STARTIME(32,1)
          IF (NSPMD == 1.AND.IMUMPSV==0) THEN
          CALL LIN_SOLV2(
      1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,   
@@ -1565,19 +1565,19 @@ citask0        IF (ITASK == 0) THEN
      5                  ISOL ,  IDS ,   IDDL,  IKC,       INLOC,
      6                  NDOF  , ITASK )
          END IF 
-         IF (IMON.GT.0) CALL STOPTIME(32,1)
-citask0        END IF !(ITASK.EQ.0) THEN
+         IF (IMON>0) CALL STOPTIME(32,1)
+citask0        END IF !(ITASK==0) THEN
 Cas --imcompabilite avec MONVOL-----
-        IF (NMONV.GT.0)THEN
-         IF (ILINE.EQ.0.OR.(ILINE.GT.0.AND.ILINTF.EQ.0) )THEN
-citask0         IF (ITASK.EQ.0) THEN
-          IF (INTP_C.GE.0) THEN
+        IF (NMONV>0)THEN
+         IF (ILINE==0.OR.(ILINE>0.AND.ILINTF==0) )THEN
+citask0         IF (ITASK==0) THEN
+          IF (INTP_C>=0) THEN
            DO I=1,NDDLI
             J=ITOK(I)
             DIAG_K(J)=DIAG_K(J)+DIAG_I(I)
            ENDDO
           ENDIF 
-citask0         END IF !(ITASK.EQ.0) THEN
+citask0         END IF !(ITASK==0) THEN
 C----------------------
 c      CALL MY_BARRIER
 C---------------------
@@ -1610,7 +1610,7 @@ C----------------------
 c      CALL MY_BARRIER
 C---------------------
 citask0      IF (ITASK == 0) THEN
-       IF (IT_PCG.LT.0) THEN
+       IF (IT_PCG<0) THEN
         IDSC = 1
         IT_PCG = -IT_PCG
        ELSE
@@ -1620,7 +1620,7 @@ citask0      END IF !(ITASK == 0) THEN
 C----------------------
 c      CALL MY_BARRIER
 C---------------------
-C      IF (IMON.GT.0) CALL STOPTIME(33,1)
+C      IF (IMON>0) CALL STOPTIME(33,1)
       RETURN
       END
 Chd|====================================================================
@@ -1675,7 +1675,7 @@ C----6------------------
 C-----------true with initial lower-triang  (default)   
       DO I0 = 1,NDDL
         I = KTOI(I0)
-            IF (I.EQ.0) CYCLE
+            IF (I==0) CYCLE
         DO J=IADI(I),IADI(I+1)-1
          JD = ITOK(JDII(J))
              K=IADK0(I0)+J-IADI(I)
@@ -1729,7 +1729,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  IERR,LNZ
 C----6------------------
-        IF (NDDLI.LE.0) RETURN
+        IF (NDDLI<=0) RETURN
 C       
         IF(ALLOCATED(IADI0)) DEALLOCATE(IADI0)
         IF(ALLOCATED(JDII0)) DEALLOCATE(JDII0)
@@ -1739,7 +1739,7 @@ C--- KI0 with global id is still not completely validated
 C---    LNZ=2*(IADI(NDDLI+1)-IADI(1))
         ALLOCATE(IADI0(NDDLI+1),JDII0(LNZ),LT_I0(LNZ),STAT=IERR)
 C       
-        IF (IERR.NE.0) THEN
+        IF (IERR/=0) THEN
           CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .                C1='FOR IMPLICIT SOLVER W/ CONTACT')
           CALL ARRET(2)

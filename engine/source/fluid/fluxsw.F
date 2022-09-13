@@ -200,7 +200,7 @@ C
         FLSW(9,IS) = FLSW(9,IS)/SRT
 C
         FLSW(3,IS) = SQRT( SV2/SRT - (FLVM/SRT)**2 )
-        IF(FLSW(4,IS).EQ.ZERO)THEN
+        IF(FLSW(4,IS)==ZERO)THEN
          FLSW(3,IS)=ZERO         
         ELSE
          FLSW(3,IS)=FLSW(3,IS)/FLSW(4,IS)

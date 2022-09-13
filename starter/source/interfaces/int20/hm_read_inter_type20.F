@@ -225,14 +225,14 @@ C
 C
       CALL HM_GET_FLOATV('Xfreq',ALPHA,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
-      IF (MFROT.GT.0) THEN
+      IF (MFROT>0) THEN
          CALL HM_GET_FLOATV('C1',C1,IS_AVAILABLE,LSUBMODEL,UNITAB)
          CALL HM_GET_FLOATV('C2',C2,IS_AVAILABLE,LSUBMODEL,UNITAB)
          CALL HM_GET_FLOATV('C3',C3,IS_AVAILABLE,LSUBMODEL,UNITAB)
          CALL HM_GET_FLOATV('C4',C4,IS_AVAILABLE,LSUBMODEL,UNITAB)
          CALL HM_GET_FLOATV('C5',C5,IS_AVAILABLE,LSUBMODEL,UNITAB)
       ENDIF
-      IF (MFROT.GT.1) THEN
+      IF (MFROT>1) THEN
         CALL HM_GET_FLOATV('C6',C6,IS_AVAILABLE,LSUBMODEL,UNITAB)
       ENDIF
 
@@ -319,10 +319,10 @@ C
           IDEL7N=ABS(IDEL7N)
         END IF
         IPARI(61)=IDELKEEP
-        IF (IDEL7N.GT.2.OR.N2D.EQ.1) IDEL7N = 0
+        IF (IDEL7N>2.OR.N2D==1) IDEL7N = 0
         IPARI(17)=IDEL7N
 
-        IF (IBAG.NE.0.AND.NVOLU.EQ.0 .AND. IALELAG == 0 ) THEN
+        IF (IBAG/=0.AND.NVOLU==0 .AND. IALELAG == 0 ) THEN
              CALL ANCMSG(MSGID=614,
      .                   MSGTYPE=MSGWARNING,
      .                   ANMODE=ANINFO_BLIND_2,
@@ -341,13 +341,13 @@ C
 C....* Card4  *.............
 C
 
-       IF(IGAP.EQ.2)THEN
-          IF(GAPSCALE.EQ.ZERO)GAPSCALE=ONE
+       IF(IGAP==2)THEN
+          IF(GAPSCALE==ZERO)GAPSCALE=ONE
           FRIGAP(13) = GAPSCALE
           FRIGAP(16) = GAPMAX
         END IF
 
-        IF(FRIGAP(16).EQ.ZERO)THEN
+        IF(FRIGAP(16)==ZERO)THEN
            GAPMAX=EP30
            FRIGAP(16)=GAPMAX
         END IF
@@ -358,9 +358,9 @@ C
 C
 C....* Card6  *.............
 C
-        IF(IGSTI.GT.1)THEN
+        IF(IGSTI>1)THEN
             I7STIFS=1
-            IF(STMAX.EQ.ZERO)STMAX=EP30
+            IF(STMAX==ZERO)STMAX=EP30
             FRIGAP(17) = STMIN
             FRIGAP(18) = STMAX
         ELSE
@@ -368,7 +368,7 @@ C
             STMAX = EP30
         END IF
 
-        IF(STFAC.EQ.ZERO.AND.IGSTI.NE.1) THEN
+        IF(STFAC==ZERO.AND.IGSTI/=1) THEN
           STFAC=ONE
         ENDIF
         IF (STFAC == ZERO )STFAC = ONE_FIFTH
@@ -386,13 +386,13 @@ C....* Card7  *.............
 C
 
 C Hidden flag no more read using HM reader
-c        IF (BCFLAGM(LFIELD-2:LFIELD-2).EQ. '1') IBC1M = 1
-c        IF (BCFLAGM(LFIELD-1:LFIELD-1).EQ. '1') IBC2M = 1
-c        IF (BCFLAGM(LFIELD  :LFIELD  ).EQ. '1') IBC3M = 1
+c        IF (BCFLAGM(LFIELD-2:LFIELD-2)== '1') IBC1M = 1
+c        IF (BCFLAGM(LFIELD-1:LFIELD-1)== '1') IBC2M = 1
+c        IF (BCFLAGM(LFIELD  :LFIELD  )== '1') IBC3M = 1
 
-        IF(FRIC.NE.ZERO.AND.VISCF.EQ.ZERO)VISCF=ONE
-          IF(VISC.EQ.ZERO)THEN
-            IF(IVIS2.EQ.5)THEN
+        IF(FRIC/=ZERO.AND.VISCF==ZERO)VISCF=ONE
+          IF(VISC==ZERO)THEN
+            IF(IVIS2==5)THEN
               VISC=ONE
             ELSE
               VISC=FIVEEM2
@@ -406,27 +406,27 @@ C
 C....* Card8 : FRICTION data *.............
 C
 
-         IF (MFROT.NE.0.AND.VISCF.EQ.0.0) VISCF=ONE
+         IF (MFROT/=0.AND.VISCF==0.0) VISCF=ONE
 
-         IF (ALPHA.EQ.0.) IFQ = 0
+         IF (ALPHA==0.) IFQ = 0
 
-         IF (MODFR.EQ.0) MODFR = 2
-         IF (MODFR.EQ.2.AND.IFQ.LT.10) IFQ = IFQ + 10
-         IF(MODFR.EQ.2)VISCF=ZERO
+         IF (MODFR==0) MODFR = 2
+         IF (MODFR==2.AND.IFQ<10) IFQ = IFQ + 10
+         IF(MODFR==2)VISCF=ZERO
 
-         IF (IFQ.GT.0) THEN
-             IF (IFQ.EQ.10) XFILTR = ONE
-             IF (MOD(IFQ,10).EQ.1) XFILTR = ALPHA
-             IF (MOD(IFQ,10).EQ.2) XFILTR=FOUR*ATAN2(ONE,ZERO) / ALPHA
-             IF (MOD(IFQ,10).EQ.3) XFILTR=FOUR*ATAN2(ONE,ZERO) * ALPHA
-             IF (XFILTR.LT.ZERO) THEN
+         IF (IFQ>0) THEN
+             IF (IFQ==10) XFILTR = ONE
+             IF (MOD(IFQ,10)==1) XFILTR = ALPHA
+             IF (MOD(IFQ,10)==2) XFILTR=FOUR*ATAN2(ONE,ZERO) / ALPHA
+             IF (MOD(IFQ,10)==3) XFILTR=FOUR*ATAN2(ONE,ZERO) * ALPHA
+             IF (XFILTR<ZERO) THEN
                CALL ANCMSG(MSGID=554,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO_BLIND_1,
      .                     I1=NOINT,
      .                     C1=TITR,
      .                     R1=ALPHA)
-         ELSEIF (XFILTR.GT.1.AND.MOD(IFQ,10).LE.2) THEN
+         ELSEIF (XFILTR>1.AND.MOD(IFQ,10)<=2) THEN
                 CALL ANCMSG(MSGID=554,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO_BLIND_1,
@@ -464,7 +464,7 @@ C------------------------------------------------------------
         FRIGAP(25)=CADM
 
 C BUMULT is increased for big models
-      IF(BUMULT.EQ.ZERO) THEN
+      IF(BUMULT==ZERO) THEN
         BUMULT = BMUL0
         IF(NUMNOD > 2500000) THEN
           BUMULT = BMUL0*TWO
@@ -495,28 +495,28 @@ C
 
 C        
 C--------------------------------------------------------------
-      IF(IS1.EQ.0)THEN
+      IF(IS1==0)THEN
         WRITE(IOUT,'(6X,A)')'NO SECONDARY SURFACE INPUT'
-      ELSEIF(IS1.EQ.1)THEN
+      ELSEIF(IS1==1)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS1.EQ.2)THEN
+      ELSEIF(IS1==2)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY NODES'
-      ELSEIF(IS1.EQ.3)THEN
+      ELSEIF(IS1==3)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS1.EQ.4 )THEN
+      ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
-      ELSEIF(IS1.EQ.5 )THEN
+      ELSEIF(IS1==5 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
       ENDIF
-      IF(IS2.EQ.0)THEN
+      IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'
-      ELSEIF(IS2.EQ.1)THEN
+      ELSEIF(IS2==1)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS2.EQ.2)THEN
+      ELSEIF(IS2==2)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY NODES'
-      ELSEIF(IS2.EQ.3)THEN
+      ELSEIF(IS2==3)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS2.EQ.4)THEN
+      ELSEIF(IS2==4)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE REFERS ',
      .                      'TO HYPER-ELLIPSOIDAL SURFACE'
       ENDIF
@@ -530,7 +530,7 @@ C------------
  999  CALL FREERR(3)
       RETURN
  3507 FORMAT(//
-     .    '    TYPE.EQ.20  PARALLEL/AUTO IMPACTING           ' //,
+     .    '    TYPE==20  PARALLEL/AUTO IMPACTING           ' //,
      .    '    FIRST SURFACE ID. . . . . . . . . . . . . ',I10/,
      .    '    SECOND SURFACE ID . . . . . . . . . . . . ',I10/,
      .    '    SYMMETRY FLAG . . . . . . . . . . . . . . ',I10/,

@@ -131,9 +131,9 @@ C-----------------------------------------------
 
       CALL HM_GET_INTV  ('Line_count'     ,COUNT    ,IS_AVAILABLE, LSUBMODEL)
 
-      IF(INVERS_INIT.GE.2018)THEN
+      IF(INVERS_INIT>=2018)THEN
         EOS_EMBEDDED=.FALSE.
-      ELSEIF(INVERS_INIT.GE.110)THEN
+      ELSEIF(INVERS_INIT>=110)THEN
         IF(COUNT==3)EOS_EMBEDDED=.TRUE.
       ELSE
         EOS_EMBEDDED=.TRUE.
@@ -144,7 +144,7 @@ C-----------------------------------------------
         ! MAKES IT  COMPATIBLE + WARNING                                                                               
         !----------------------------------------------------                                                          
       IF(EOS_EMBEDDED)THEN                                                                          
-        IF(INVERS_INIT.GE.140) THEN                                                                 
+        IF(INVERS_INIT>=140) THEN                                                                 
           CALL ANCMSG(MSGID=1072,                                                                   
      .                MSGTYPE=MSGERROR,                                                             
      .                ANMODE=ANINFO,                                                                
@@ -173,8 +173,8 @@ C-----------------------------------------------
         IPM(4) = IEOS
        ENDIF                                                                                        
      
-      IF (PMIN.EQ.ZERO) PMIN=-EP20
-      IF (RHOR.EQ.ZERO) RHOR=RHO0
+      IF (PMIN==ZERO) PMIN=-EP20
+      IF (RHOR==ZERO) RHOR=RHO0
       PM(1) = RHOR
       PM(89)= RHO0      
  
@@ -202,7 +202,7 @@ C-----------------------------------------------
       IF(CM == ZERO)   CM    = ONE
       IF(TMELT == ZERO)TMELT = EP20
       IF(TMAX == ZERO) TMAX  = EP20
-      IF(T0.LE.ZERO) T0    = THREE100
+      IF(T0<=ZERO) T0    = THREE100
       G=YOUNG/(TWO*(ONE + ANU))
       IF(.NOT.EOS_EMBEDDED)BULK=YOUNG/(THREE*(ONE - TWO*ANU))
 C

@@ -718,7 +718,7 @@ C-----------------------------------------------
          I4 = SURF%NODES(J,4)
          ISH34 = SURF%ELTYP(J)
          I = SURF%ELEM(J)
-         IF(ISH34.EQ.7)I4 = I3
+         IF(ISH34==7)I4 = I3
          XX =HALF*(NODE_COORD(1,I1)+NODE_COORD(1,I2))
          YY =HALF*(NODE_COORD(2,I1)+NODE_COORD(2,I2))
          ZZ =HALF*(NODE_COORD(3,I1)+NODE_COORD(3,I2))
@@ -738,9 +738,9 @@ C-----------------------------------------------
          SZ = SZ + NZ
          DS = SQRT(NX*NX+NY*NY+NZ*NZ)
          SA = SA + DS
-         IF(ISH34.EQ.3)THEN
+         IF(ISH34==3)THEN
             ROT = ROT + PM(1,IXC(1,I))*GEO(1,IXC(6,I))*DS
-         ELSEIF(ISH34.EQ.7)THEN
+         ELSEIF(ISH34==7)THEN
             ROT = ROT + PM(1,IXTG(1,I))*GEO(1,IXTG(5,I))*DS
          ENDIF
       ENDDO
@@ -1555,7 +1555,7 @@ C-----------------------------------------------
                IF (JJ <= NSEG) THEN
                   II(1:4) = SURF%NODES(JJ,1:4)                   
                   ISH34 = SURF%ELTYP(JJ)                  
-                  IF(ISH34.EQ.3.AND.II(3)/=II(4))THEN 
+                  IF(ISH34==3.AND.II(3)/=II(4))THEN 
                      EDGES_A(1:5)=(/ II(1:4), II(1) /)
                      NPT_A=4                                   
                   ELSE
@@ -1593,7 +1593,7 @@ C-----------------------------------------------
                IF (KK <= NSEG) THEN
                   II(1:4) = SURF%NODES(KK,1:4)                   
                   ISH34 = SURF%ELTYP(KK)                  
-                  IF(ISH34.EQ.3.AND.II(3)/=II(4))THEN 
+                  IF(ISH34==3.AND.II(3)/=II(4))THEN 
                      EDGES_B(1:5)=(/ II(1:4), II(1) /)
                      NPT_B=4                                   
                   ELSE
@@ -1716,7 +1716,7 @@ C-----------------------------------------------
           JJ=1+PATHS(IELEM)
           II(1:4) = SURF%NODES(JJ,1:4)
           ISH34 = SURF%ELTYP(JJ)                  
-          IF(ISH34.EQ.3.AND.II(3)/=II(4))THEN 
+          IF(ISH34==3.AND.II(3)/=II(4))THEN 
             db_path(JJ) = IXC(7,SURF%ELEM((JJ)))
           else
             db_path(JJ) = IXTG(6,SURF%ELEM((JJ)))
@@ -1740,7 +1740,7 @@ C-----------------------------------------------
           ISH34 = SURF%ELTYP(JJ)     
           IF(CHECK_FLAG_ELEM(JJ)==-1)THEN
             idx=idx+1
-            IF(ISH34.EQ.3.AND.II(3)/=II(4))THEN 
+            IF(ISH34==3.AND.II(3)/=II(4))THEN 
               db_reversed(IDX) = IXC(7,SURF%ELEM((JJ)))
             else
               db_reversed(IDX) = IXTG(6,SURF%ELEM((JJ)))

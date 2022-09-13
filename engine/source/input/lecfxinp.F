@@ -66,17 +66,17 @@ C
          READ(IIN,'(I10,F20.0,I10)') ID, KSI, ITYP
          J=0
          II=0
-         DO WHILE (J.LE.NEIG.AND.II.EQ.0) 
+         DO WHILE (J<=NEIG.AND.II==0) 
             J=J+1
             IDD=EIGIPM(1,J)
-            IF (IDD.EQ.ID) THEN
+            IF (IDD==ID) THEN
                II=J
                EIGIPM(1,J)=-IDD
                EIGRPM(2,J)=KSI
                EIGIPM(16,J)=ITYP
             ENDIF
          ENDDO
-         IF (II.EQ.0) THEN
+         IF (II==0) THEN
             WRITE(ISTDO,*)' ** ERROR:  INPUT ERROR IN OPTION FXINPUT'
             WRITE(IOUT,* )' ** ERROR:  INPUT ERROR IN OPTION FXINPUT'
             WRITE(IOUT,*) '    UNKNOWN EIGENPROBLEM ID'
@@ -87,10 +87,10 @@ C
          ENDIF
       ENDDO
 C
-      IF (IMACH.NE.3.OR.ISPMD.EQ.0) THEN
+      IF (IMACH/=3.OR.ISPMD==0) THEN
          WRITE(IOUT,'(A)') ' INPUT FILES FOR FLEXIBLE BODIES'
          DO I=1,NEIG
-            IF (CIEIG(I).GT.0) 
+            IF (CIEIG(I)>0) 
      .         WRITE(IOUT,'(A14,I10,A17,1PG20.13)') 
      .   ' EIGENPROBLEM ',CIEIG(I),' CRITICAL DAMPING ',CFEIG(I)
          ENDDO

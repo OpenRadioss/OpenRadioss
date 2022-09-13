@@ -87,17 +87,17 @@ C
       DO I=JFT,JLT
         ALMIN(I)= MIN(AL1(I),AL2(I),AL4(I))
         ALQUAD  = MIN(AL3(I),AL5(I),AL6(I))
-        IF(AL3(I).NE.ZERO) ALMIN(I)= MIN(ALMIN(I),ALQUAD)
+        IF(AL3(I)/=ZERO) ALMIN(I)= MIN(ALMIN(I),ALQUAD)
         DTDYN= AREA(I)*AREA(I) / MAX(AL5(I),AL6(I),EM20)
         ALDT(I)= MAX( DTDYN , ALMIN(I) )
       ENDDO
 C---------------------------------------------------------
 C     DT COMPATIBLE AVEC FONCTIONS DE FORMES SUR HOURGLASS
 C---------------------------------------------------------
-        IF(IHBE.NE.0)THEN
+        IF(IHBE/=0)THEN
             MX = MAT(JFT)
             DO  I=JFT,JLT
-                IF(INVSTR.GE.35)THEN
+                IF(INVSTR>=35)THEN
                     IPID=PID(I)
                     H1 =GEO(13,IPID)
                     H2 =GEO(14,IPID)
@@ -107,12 +107,12 @@ C---------------------------------------------------------
                 ENDIF
             DTHOUR = HALF * (ALMIN(I)+ALDT(I)) / MAX(H1,H2)
 C Bug HP            ALDT(I)  = MIN(ALDT(I),DTHOUR)
-            IF (DTHOUR.LT.ALDT(I)) ALDT(I)=DTHOUR
+            IF (DTHOUR<ALDT(I)) ALDT(I)=DTHOUR
           ENDDO
         ELSE
           MX = MAT(JFT)
           DO  I=JFT,JLT
-          IF(INVSTR.GE.35)THEN
+          IF(INVSTR>=35)THEN
            IPID=PID(I)
            H1 =GEO(13,IPID)
            H2 =GEO(14,IPID)

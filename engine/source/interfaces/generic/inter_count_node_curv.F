@@ -19,7 +19,7 @@ Copyright>        Commercial Alternative: Altair Radioss Software
 Copyright>    
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
-Copyright>        commercial version may interest you: https://www.altair.com/radioss/.  
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
 Chd|  INTER_COUNT_NODE_CURV         source/interfaces/generic/inter_count_node_curv.F
 Chd|-- called by -----------
@@ -179,7 +179,7 @@ C-----------------------------------------------
         NRTM_T = NRTM/NTHREAD
         ESHIFT = ITASK*NRTM_T
         ADRESS = 1 + ITASK*(IPARI(4,NIN)/NTHREAD)
-        IF(ITASK.EQ.NTHREAD-1) NRTM_T= NRTM - ADRESS + 1
+        IF(ITASK==NTHREAD-1) NRTM_T= NRTM - ADRESS + 1
         CURV_MAX_LOCAL = ZERO
         CALL INTER_CURV_COMPUTATION(ICURV,NRTM_T,
      .            INTBUF_TAB(NIN)%IRECTM(1+4*ESHIFT),CURV_MAX_LOCAL,
@@ -209,10 +209,10 @@ C-----------------------------------------------
         !   ------------------
         CALL MY_BARRIER
 
-        IF(ITASK.EQ.0)THEN
-            IF(ABS(INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(6)-INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(3)).GT.2*EP30.OR.
-     +             ABS(INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(5)-INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(2)).GT.2*EP30.OR.
-     +             ABS(INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(4)-INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(1)).GT.2*EP30)THEN
+        IF(ITASK==0)THEN
+            IF(ABS(INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(6)-INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(3))>2*EP30.OR.
+     +             ABS(INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(5)-INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(2))>2*EP30.OR.
+     +             ABS(INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(4)-INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(1))>2*EP30)THEN
                 NOINT = IPARI(15,NIN)
                 CALL ANCMSG(MSGID=87,ANMODE=ANINFO,
      .                        I1=NOINT,C1='(I7BUCE)')

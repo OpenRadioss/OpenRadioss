@@ -129,7 +129,7 @@ C
       ENDDO
 C
       DO I=1,NEL
-        IF(DET(I).GT.ZERO) CYCLE
+        IF(DET(I)>ZERO) CYCLE
         CALL ANCMSG(MSGID=245,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO,
@@ -156,12 +156,12 @@ C
       DO I=1,NEL
         ATEST(I)=EM4*AREAM(I)
         NFAC=0
-        IF(AREA(1,I).LT.ATEST(I)) NFAC=NFAC+1
-        IF(AREA(2,I).LT.ATEST(I)) NFAC=NFAC+1
-        IF(AREA(3,I).LT.ATEST(I)) NFAC=NFAC+1
-        IF(AREA(4,I).LT.ATEST(I)) NFAC=NFAC+1
-        IF(AREA(5,I).LT.ATEST(I)) NFAC=NFAC+1
-        IF(NFAC.GE.2) XIOFF(I)=EP03
+        IF(AREA(1,I)<ATEST(I)) NFAC=NFAC+1
+        IF(AREA(2,I)<ATEST(I)) NFAC=NFAC+1
+        IF(AREA(3,I)<ATEST(I)) NFAC=NFAC+1
+        IF(AREA(4,I)<ATEST(I)) NFAC=NFAC+1
+        IF(AREA(5,I)<ATEST(I)) NFAC=NFAC+1
+        IF(NFAC>=2) XIOFF(I)=EP03
       ENDDO
       DO I=1,NEL
          DELTAX(I)=FOUR*DET(I)*XIOFF(I)/SQRT(AREAM(I))

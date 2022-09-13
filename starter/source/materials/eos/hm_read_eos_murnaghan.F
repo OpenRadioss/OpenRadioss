@@ -109,7 +109,7 @@ C-----------------------------------------------
      .               C2='K0 MUST BE POSITIVE')
       ENDIF
 
-!      IF(K1.LE.ZERO)THEN
+!      IF(K1<=ZERO)THEN
 !         CALL ANCMSG(MSGID=67,
 !     .               MSGTYPE=MSGERROR,
 !     .               ANMODE=ANINFO,

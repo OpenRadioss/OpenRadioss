@@ -48,7 +48,7 @@ C
       INTEGER I,J,L,II
 C
 Cel gather deja effectue, seul p0 ecrit 
-      IF (IMACH.NE.3.OR.ISPMD.EQ.0) THEN
+      IF (IMACH/=3.OR.ISPMD==0) THEN
         II = 0
         DO J=J1,J2
               I=ITHBUF(J)
@@ -58,7 +58,7 @@ Cel gather deja effectue, seul p0 ecrit
                 WA(II)=FSAV(K,I)
               ENDDO
         ENDDO
-        IF(II.GT.0)CALL WRTDES(WA,WA,II,IFORM,1)
+        IF(II>0)CALL WRTDES(WA,WA,II,IFORM,1)
       ENDIF
 C
       RETURN

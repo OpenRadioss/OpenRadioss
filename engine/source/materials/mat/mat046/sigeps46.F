@@ -102,7 +102,7 @@ C
 C
 C INITIALISATION
 C
-      IF(TIME.EQ.ZERO .AND. INCOMP.EQ.1)THEN
+      IF(TIME==ZERO .AND. INCOMP==1)THEN
        DO I=1,NEL
         SIGOXX(I)=THIRD*(SIGOXX(I)+SIGOYY(I)+SIGOZZ(I))
         SIGOYY(I)=SIGOXX(I)
@@ -110,7 +110,7 @@ C
        ENDDO
       ENDIF
 C
-      IF(TIME.EQ.ZERO .AND. MTN.EQ.47)THEN
+      IF(TIME==ZERO .AND. MTN==47)THEN
        DO I=1,NEL
         UVAR(I,1)=YPM
        ENDDO
@@ -127,7 +127,7 @@ C-----------------------------------------------
 C
 C PRESSION
 C
-      IF(INCOMP.EQ.1)THEN
+      IF(INCOMP==1)THEN
        DO I=1,NEL
         SIGNXX(I)=SIGOXX(I)+C1*(DEPSXX(I)+DEPSYY(I)+DEPSZZ(I))
         SIGNYY(I)=SIGNXX(I)
@@ -168,9 +168,9 @@ C        SS(I)=SQRT(TWO*(DXX(I)**2+DYY(I)**2+DZZ(I)**2+
         DZZ(I)=EPSPZZ(I)-DAV(I)
       ENDDO
 C PARTIE COURANTE
-      IF(MTN.EQ.46)THEN
-        IF(N2D.EQ.0)THEN
-          IF(ISGS.EQ.3)THEN
+      IF(MTN==46)THEN
+        IF(N2D==0)THEN
+          IF(ISGS==3)THEN
              DO I=1,NEL
               DELTA(I)=DELTAX(I)**2
              ENDDO
@@ -180,7 +180,7 @@ C PARTIE COURANTE
              ENDDO
             ENDIF
         ELSE
-          IF(ISGS.EQ.3)THEN
+          IF(ISGS==3)THEN
              DO I=1,NEL
               DELTA(I)=DELTAX(I)**2
              ENDDO
@@ -198,7 +198,7 @@ C PARTIE COURANTE
       ELSE
 C PAROI
         DO I=1,NEL
-         IF(ISGS.NE.0)THEN
+         IF(ISGS/=0)THEN
 C         C=SS(I)*KAPA*DELTA(I)/VIS(I)
          C=SS(I)*KAPA*DELTAX(I)*DELTAX(I)/VIS
 c         Y2P=12
@@ -213,9 +213,9 @@ c          VIS1O=VIS1N
           Y2P=MAX(Y2P,YPM)
           VIS1N=KAPA*Y2P/LOG(E*Y2P)
           VIS2N=ZERO
-          IF(ISGS.GE.2)VIS2N=KAPA*Y2P
-c          IF(ABS(VIS1O-VIS1N).LT.0.01)GOTO20
-c          IF(K.GT.10)THEN
+          IF(ISGS>=2)VIS2N=KAPA*Y2P
+c          IF(ABS(VIS1O-VIS1N)<0.01)GOTO20
+c          IF(K>10)THEN
 c           WRITE(ISTDO,*)' *** WARNING WALL ELEMENT ',NGL(I)
 c           GOTO 20
 c          ENDIF
@@ -253,11 +253,11 @@ C        SIGVZZ(I)=VIS1(I)*DZZ(I)
 C
 C STOCKAGE VORTICITE
 C
-      IF((ANIM_E(10).EQ.1 .OR. ANIM_SE(10).EQ.1)
-     .                                 .AND. TIMESTEP.NE.0.)THEN
-c      IF(ANIM_E(10).EQ.1 .AND. TIMESTEP.NE.0.)THEN
+      IF((ANIM_E(10)==1 .OR. ANIM_SE(10)==1)
+     .                                 .AND. TIMESTEP/=0.)THEN
+c      IF(ANIM_E(10)==1 .AND. TIMESTEP/=0.)THEN
         FAC=FOUR/TIMESTEP
-        IF(N2D.EQ.0)THEN
+        IF(N2D==0)THEN
          DO  I=1,NEL
           UVAR(I,2)=FAC*SQRT(WXX(I)**2+WYY(I)**2+WZZ(I)**2)
          ENDDO

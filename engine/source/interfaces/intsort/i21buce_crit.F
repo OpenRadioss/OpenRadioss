@@ -95,7 +95,7 @@ C
        DO I=NSNF,NSNL
          J=NSV(I)
 C stfn = 0 <=> shooting nodes
-         IF(STFN(I).NE.ZERO) THEN
+         IF(STFN(I)/=ZERO) THEN
 c xloc in main local frame
            XLOC(1,I)=X(1,J)-INTSTAMP%XG(1)
            XLOC(2,I)=X(2,J)-INTSTAMP%XG(2)
@@ -107,7 +107,7 @@ c xloc in main local frame
        DO I=NSNF,NSNL
          J=NSV(I)
 C stfn = 0 <=> shooting nodes
-         IF(STFN(I).NE.ZERO) THEN
+         IF(STFN(I)/=ZERO) THEN
 c xloc in main local frame
            XX=X(1,J)-INTSTAMP%XG(1)
            YY=X(2,J)-INTSTAMP%XG(2)
@@ -131,7 +131,7 @@ C
 #include "vectorize.inc"
       DO I=NSNF,NSNL
         J=NSV(I)
-        IF(STFN(I).NE.ZERO) THEN
+        IF(STFN(I)/=ZERO) THEN
           XSLV(1)=MAX(XSLV(1),X(1,J)-XSAV(1,I))
           XSLV(2)=MAX(XSLV(2),X(2,J)-XSAV(2,I))
           XSLV(3)=MAX(XSLV(3),X(3,J)-XSAV(3,I))
@@ -216,7 +216,7 @@ C
 
 C dist calcule une fois pour toutes les interfaces dans I21_ICRIT
 C
-      IF(NSPMD.EQ.1) THEN
+      IF(NSPMD==1) THEN
 C traitement deplace dans SPMD_GET_STIF en SPMD
         DO I=NSNF,NSNL
           STFN(I)=MAX(STFN(I),ZERO)

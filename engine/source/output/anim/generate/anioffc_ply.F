@@ -194,7 +194,7 @@ C     .                       + MAX(NPG,1)*NUVARD*NPT*NEL
 C-----------------------------------------------
 C       COQUES 3 N
 C-----------------------------------------------
-           ELSEIF(ITY.EQ.7)THEN
+           ELSEIF(ITY==7)THEN
 c it's not available for T3  
              NBX = NBX+16*NEL
            ENDIF
@@ -284,7 +284,7 @@ C
            IOFFBUF(I) = IOFF(I)
          ENDDO
 
-        IF (ISPMD.EQ.0) THEN
+        IF (ISPMD==0) THEN
           RBUF = NBF_PXFEMG
           CALL SPMD_IGET_PARTN(1,NBF_L,IOFFBUF,NPLYPART,IADG,RBUF,2)
         ELSE

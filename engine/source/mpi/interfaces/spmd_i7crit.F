@@ -87,7 +87,7 @@ C Test succes du tri ?
 C
       NODFI = 0
       LSKYFI= 0
-      IF(RESULT.EQ.0) THEN
+      IF(RESULT==0) THEN
 C
 C Reperage des candidats
 C
@@ -95,8 +95,8 @@ C
         DO I = 1, I_STOK
           N = CAND_N(I)
           NN = N-NSN
-          IF(NN.GT.0)THEN
-            IF(XREM(4,NN).GT.0)THEN
+          IF(NN>0)THEN
+            IF(XREM(4,NN)>0)THEN
               NODFI = NODFI + 1
               XREM(4,NN) = -XREM(4,NN) 
             ENDIF
@@ -159,11 +159,11 @@ C
          IF(ASSOCIATED(PROCAMSFI(NIN)%P)) DEALLOCATE(PROCAMSFI(NIN)%P)
          ALLOCATE(PROCAMSFI(NIN)%P(NODFI),STAT=IERROR14)
         ENDIF 
-        IF(IGAP.NE.0) THEN
+        IF(IGAP/=0) THEN
           IF(ASSOCIATED(GAPFI(NIN)%P)) DEALLOCATE(GAPFI(NIN)%P)
           ALLOCATE(GAPFI(NIN)%P(NODFI),STAT=IERROR7)
         ENDIF
-        IF(INACTI.EQ.5.OR.INACTI.EQ.6) THEN
+        IF(INACTI==5.OR.INACTI==6) THEN
           IF(ASSOCIATED(PENFI(NIN)%P)) DEALLOCATE(PENFI(NIN)%P)
           ALLOCATE(PENFI(NIN)%P(2,NODFI),STAT=IERROR15)
           IF(ASSOCIATED(PENFIA(NIN)%P)) DEALLOCATE(PENFIA(NIN)%P)
@@ -172,7 +172,7 @@ C
         IF(ASSOCIATED(DIAG_SMSFI(NIN)%P)) DEALLOCATE(DIAG_SMSFI(NIN)%P)
         ALLOCATE(DIAG_SMSFI(NIN)%P(NODFI),STAT=IERROR17)
 
-      IF(ITY.EQ.20) THEN
+      IF(ITY==20) THEN
         IF(ASSOCIATED(DAANC6FI(NIN)%P)) DEALLOCATE(DAANC6FI(NIN)%P)    
         ALLOCATE(DAANC6FI(NIN)%P(3,6,NODFI),STAT=IERROR1)
         IF(ASSOCIATED(DXANCFI(NIN)%P)) DEALLOCATE(DXANCFI(NIN)%P)    
@@ -184,7 +184,7 @@ C
         IF(IERROR1+IERROR2+IERROR3+IERROR4+IERROR5+
      +     IERROR6+IERROR7+IERROR8 + IERROR9 + IERROR0 + 
      +     IERROR11+IERROR12+IERROR13+IERROR14+IERROR15+
-     +     IERROR16+IERROR17 .NE. 0) THEN
+     +     IERROR16+IERROR17 /= 0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
         ENDIF
@@ -193,17 +193,17 @@ C Compactage des candidats
 C
         IDEB = 0
         NN = 0
-        IF(INACTI.NE.5.AND.INACTI.NE.6) THEN
+        IF(INACTI/=5.AND.INACTI/=6) THEN
          IF(INTTH == 0 ) THEN 
           DO P = 1, NSPMD
            OLDNSNR = NSNFI(NIN)%P(P)
-           IF(OLDNSNR.NE.0) THEN
+           IF(OLDNSNR/=0) THEN
             NNP = NN
             IF(IDTMINS/=2 .AND. IDTMINS_INT == 0)THEN
-             IF(IGAP.EQ.0)THEN
+             IF(IGAP==0)THEN
               IF(IDTMINS==0)THEN
                DO I = 1, OLDNSNR
-                IF(XREM(4,I+IDEB).LT.0) THEN
+                IF(XREM(4,I+IDEB)<0) THEN
                  NN = NN + 1
                  INDEX(I+IDEB) = NN
                  NSVFI(NIN)%P(NN) = NINT(-XREM(4,I+IDEB))
@@ -233,7 +233,7 @@ C
 C /DT/NODA/AMS
               ELSE
                DO I = 1, OLDNSNR
-                IF(XREM(4,I+IDEB).LT.0) THEN
+                IF(XREM(4,I+IDEB)<0) THEN
                  NN = NN + 1
                  INDEX(I+IDEB) = NN
                  NSVFI(NIN)%P(NN) = NINT(-XREM(4,I+IDEB))
@@ -266,7 +266,7 @@ C fin /DT/NODA/AMS
              ELSE
               IF(IDTMINS==0)THEN
                DO I = 1, OLDNSNR
-                IF(XREM(4,I+IDEB).LT.0) THEN
+                IF(XREM(4,I+IDEB)<0) THEN
                  NN = NN + 1
                  INDEX(I+IDEB) = NN
                  NSVFI(NIN)%P(NN) = NINT(-XREM(4,I+IDEB))
@@ -297,7 +297,7 @@ C fin /DT/NODA/AMS
 C /DT/NODA/AMS
               ELSE
                DO I = 1, OLDNSNR
-                IF(XREM(4,I+IDEB).LT.0) THEN
+                IF(XREM(4,I+IDEB)<0) THEN
                  NN = NN + 1
                  INDEX(I+IDEB) = NN
                  NSVFI(NIN)%P(NN) = NINT(-XREM(4,I+IDEB))
@@ -331,9 +331,9 @@ C fin /DT/NODA/AMS
              END IF
             ELSEIF(IDTMINS==2)THEN
 C /DT/AMS
-             IF(IGAP.EQ.0)THEN
+             IF(IGAP==0)THEN
                DO I = 1, OLDNSNR
-                IF(XREM(4,I+IDEB).LT.0) THEN
+                IF(XREM(4,I+IDEB)<0) THEN
                  NN = NN + 1
                  INDEX(I+IDEB) = NN
                  NSVFI(NIN)%P(NN) = NINT(-XREM(4,I+IDEB))
@@ -366,7 +366,7 @@ C /DT/AMS
                ENDDO
              ELSE
                DO I = 1, OLDNSNR
-                IF(XREM(4,I+IDEB).LT.0) THEN
+                IF(XREM(4,I+IDEB)<0) THEN
                  NN = NN + 1
                  INDEX(I+IDEB) = NN
                  NSVFI(NIN)%P(NN) = NINT(-XREM(4,I+IDEB))
@@ -402,9 +402,9 @@ C /DT/AMS
 C fin /DT/AMS
             ELSE ! IDTMINS_INT/=0
 C /DT/INTER/AMS
-             IF(IGAP.EQ.0)THEN
+             IF(IGAP==0)THEN
                DO I = 1, OLDNSNR
-                IF(XREM(4,I+IDEB).LT.0) THEN
+                IF(XREM(4,I+IDEB)<0) THEN
                  NN = NN + 1
                  INDEX(I+IDEB) = NN
                  NSVFI(NIN)%P(NN) = NINT(-XREM(4,I+IDEB))
@@ -436,7 +436,7 @@ C /DT/INTER/AMS
                ENDDO
              ELSE
                DO I = 1, OLDNSNR
-                IF(XREM(4,I+IDEB).LT.0) THEN
+                IF(XREM(4,I+IDEB)<0) THEN
                  NN = NN + 1
                  INDEX(I+IDEB) = NN
                  NSVFI(NIN)%P(NN) = NINT(-XREM(4,I+IDEB))
@@ -478,13 +478,13 @@ C
          ELSE  ! thermique
           DO P = 1, NSPMD
            OLDNSNR = NSNFI(NIN)%P(P)
-           IF(OLDNSNR.NE.0) THEN
+           IF(OLDNSNR/=0) THEN
             NNP = NN     
             IF(IDTMINS/=2 .AND. IDTMINS_INT == 0)THEN
-             IF(IGAP.EQ.0)THEN
+             IF(IGAP==0)THEN
               IF(IDTMINS==0)THEN
                DO I = 1, OLDNSNR
-                IF(XREM(4,I+IDEB).LT.0) THEN
+                IF(XREM(4,I+IDEB)<0) THEN
                  NN = NN + 1
                  INDEX(I+IDEB) = NN
                  NSVFI(NIN)%P(NN) = NINT(-XREM(4,I+IDEB))
@@ -517,7 +517,7 @@ C
 C /DT/NODA/AMS
               ELSE
                DO I = 1, OLDNSNR
-                IF(XREM(4,I+IDEB).LT.0) THEN
+                IF(XREM(4,I+IDEB)<0) THEN
                  NN = NN + 1
                  INDEX(I+IDEB) = NN
                  NSVFI(NIN)%P(NN) = NINT(-XREM(4,I+IDEB))
@@ -553,7 +553,7 @@ C fin /DT/NODA/AMS
              ELSE
               IF(IDTMINS==0)THEN
                DO I = 1, OLDNSNR
-                IF(XREM(4,I+IDEB).LT.0) THEN
+                IF(XREM(4,I+IDEB)<0) THEN
                  NN = NN + 1
                  INDEX(I+IDEB) = NN
                  NSVFI(NIN)%P(NN) = NINT(-XREM(4,I+IDEB))
@@ -587,7 +587,7 @@ C fin /DT/NODA/AMS
 C /DT/NODA/AMS
               ELSE
                DO I = 1, OLDNSNR
-                IF(XREM(4,I+IDEB).LT.0) THEN
+                IF(XREM(4,I+IDEB)<0) THEN
                  NN = NN + 1
                  INDEX(I+IDEB) = NN
                  NSVFI(NIN)%P(NN) = NINT(-XREM(4,I+IDEB))
@@ -624,9 +624,9 @@ C fin /DT/NODA/AMS
              ENDIF
             ELSEIF(IDTMINS==2)THEN
 C /DT/AMS
-             IF(IGAP.EQ.0)THEN
+             IF(IGAP==0)THEN
                DO I = 1, OLDNSNR
-                IF(XREM(4,I+IDEB).LT.0) THEN
+                IF(XREM(4,I+IDEB)<0) THEN
                  NN = NN + 1
                  INDEX(I+IDEB) = NN
                  NSVFI(NIN)%P(NN) = NINT(-XREM(4,I+IDEB))
@@ -662,7 +662,7 @@ C /DT/AMS
                ENDDO
              ELSE
                DO I = 1, OLDNSNR
-                IF(XREM(4,I+IDEB).LT.0) THEN
+                IF(XREM(4,I+IDEB)<0) THEN
                  NN = NN + 1
                  INDEX(I+IDEB) = NN
                  NSVFI(NIN)%P(NN) = NINT(-XREM(4,I+IDEB))
@@ -701,9 +701,9 @@ C /DT/AMS
 C fin /DT/AMS
             ELSE ! IDTMINS_INT/=0
 C /DT/INTER/AMS
-             IF(IGAP.EQ.0)THEN
+             IF(IGAP==0)THEN
                DO I = 1, OLDNSNR
-                IF(XREM(4,I+IDEB).LT.0) THEN
+                IF(XREM(4,I+IDEB)<0) THEN
                  NN = NN + 1
                  INDEX(I+IDEB) = NN
                  NSVFI(NIN)%P(NN) = NINT(-XREM(4,I+IDEB))
@@ -737,7 +737,7 @@ C /DT/INTER/AMS
                ENDDO
              ELSE
                DO I = 1, OLDNSNR
-                IF(XREM(4,I+IDEB).LT.0) THEN
+                IF(XREM(4,I+IDEB)<0) THEN
                  NN = NN + 1
                  INDEX(I+IDEB) = NN
                  NSVFI(NIN)%P(NN) = NINT(-XREM(4,I+IDEB))
@@ -782,13 +782,13 @@ C fin /DT/INTER/AMS
          IF(INTTH == 0 ) THEN 
           DO P = 1, NSPMD
            OLDNSNR = NSNFI(NIN)%P(P)
-           IF(OLDNSNR.NE.0) THEN
+           IF(OLDNSNR/=0) THEN
             NNP = NN
             IF(IDTMINS/=2 .AND. IDTMINS_INT == 0)THEN
-             IF(IGAP.EQ.0)THEN
+             IF(IGAP==0)THEN
               IF(IDTMINS==0)THEN
                DO I = 1, OLDNSNR
-                IF(XREM(4,I+IDEB).LT.0) THEN
+                IF(XREM(4,I+IDEB)<0) THEN
                  NN = NN + 1
                  INDEX(I+IDEB) = NN
                  NSVFI(NIN)%P(NN) = NINT(-XREM(4,I+IDEB))
@@ -825,7 +825,7 @@ C fin /DT/INTER/AMS
 C /DT/NODA/AMS
               ELSE
                DO I = 1, OLDNSNR
-                IF(XREM(4,I+IDEB).LT.0) THEN
+                IF(XREM(4,I+IDEB)<0) THEN
                  NN = NN + 1
                  INDEX(I+IDEB) = NN
                  NSVFI(NIN)%P(NN) = NINT(-XREM(4,I+IDEB))
@@ -865,7 +865,7 @@ C fin /DT/NODA/AMS
              ELSE
               IF(IDTMINS==0)THEN
                DO I = 1, OLDNSNR
-                IF(XREM(4,I+IDEB).LT.0) THEN
+                IF(XREM(4,I+IDEB)<0) THEN
                  NN = NN + 1
                  INDEX(I+IDEB) = NN
                  NSVFI(NIN)%P(NN) = NINT(-XREM(4,I+IDEB))
@@ -903,7 +903,7 @@ C fin /DT/NODA/AMS
 C /DT/NODA/AMS
               ELSE
                DO I = 1, OLDNSNR
-                IF(XREM(4,I+IDEB).LT.0) THEN
+                IF(XREM(4,I+IDEB)<0) THEN
                  NN = NN + 1
                  INDEX(I+IDEB) = NN
                  NSVFI(NIN)%P(NN) = NINT(-XREM(4,I+IDEB))
@@ -944,9 +944,9 @@ C fin /DT/NODA/AMS
              ENDIF
             ELSEIF(IDTMINS==2)THEN
 C /DT/AMS
-             IF(IGAP.EQ.0)THEN
+             IF(IGAP==0)THEN
                DO I = 1, OLDNSNR
-                IF(XREM(4,I+IDEB).LT.0) THEN
+                IF(XREM(4,I+IDEB)<0) THEN
                  NN = NN + 1
                  INDEX(I+IDEB) = NN
                  NSVFI(NIN)%P(NN) = NINT(-XREM(4,I+IDEB))
@@ -986,7 +986,7 @@ C /DT/AMS
                ENDDO
              ELSE
                DO I = 1, OLDNSNR
-                IF(XREM(4,I+IDEB).LT.0) THEN
+                IF(XREM(4,I+IDEB)<0) THEN
                  NN = NN + 1
                  INDEX(I+IDEB) = NN
                  NSVFI(NIN)%P(NN) = NINT(-XREM(4,I+IDEB))
@@ -1029,9 +1029,9 @@ C /DT/AMS
 C fin /DT/AMS
             ELSE ! IDTMINS_INT/=0
 C /DT/INTER/AMS
-             IF(IGAP.EQ.0)THEN
+             IF(IGAP==0)THEN
                DO I = 1, OLDNSNR
-                IF(XREM(4,I+IDEB).LT.0) THEN
+                IF(XREM(4,I+IDEB)<0) THEN
                  NN = NN + 1
                  INDEX(I+IDEB) = NN
                  NSVFI(NIN)%P(NN) = NINT(-XREM(4,I+IDEB))
@@ -1069,7 +1069,7 @@ C /DT/INTER/AMS
                ENDDO
              ELSE
                DO I = 1, OLDNSNR
-                IF(XREM(4,I+IDEB).LT.0) THEN
+                IF(XREM(4,I+IDEB)<0) THEN
                  NN = NN + 1
                  INDEX(I+IDEB) = NN
                  NSVFI(NIN)%P(NN) = NINT(-XREM(4,I+IDEB))
@@ -1117,13 +1117,13 @@ C
          ELSE  ! thermique
           DO P = 1, NSPMD
            OLDNSNR = NSNFI(NIN)%P(P)
-           IF(OLDNSNR.NE.0) THEN
+           IF(OLDNSNR/=0) THEN
             NNP = NN     
             IF(IDTMINS/=2 .AND. IDTMINS_INT == 0)THEN
-             IF(IGAP.EQ.0)THEN
+             IF(IGAP==0)THEN
               IF(IDTMINS==0)THEN
                DO I = 1, OLDNSNR
-                IF(XREM(4,I+IDEB).LT.0) THEN
+                IF(XREM(4,I+IDEB)<0) THEN
                  NN = NN + 1
                  INDEX(I+IDEB) = NN
                  NSVFI(NIN)%P(NN) = NINT(-XREM(4,I+IDEB))
@@ -1163,7 +1163,7 @@ C
 C /DT/NODA/AMS
               ELSE
                DO I = 1, OLDNSNR
-                IF(XREM(4,I+IDEB).LT.0) THEN
+                IF(XREM(4,I+IDEB)<0) THEN
                  NN = NN + 1
                  INDEX(I+IDEB) = NN
                  NSVFI(NIN)%P(NN) = NINT(-XREM(4,I+IDEB))
@@ -1206,7 +1206,7 @@ C fin /DT/NODA/AMS
              ELSE
               IF(IDTMINS==0)THEN
                DO I = 1, OLDNSNR
-                IF(XREM(4,I+IDEB).LT.0) THEN
+                IF(XREM(4,I+IDEB)<0) THEN
                  NN = NN + 1
                  INDEX(I+IDEB) = NN
                  NSVFI(NIN)%P(NN) = NINT(-XREM(4,I+IDEB))
@@ -1247,7 +1247,7 @@ C fin /DT/NODA/AMS
 C /DT/NODA/AMS
               ELSE
                DO I = 1, OLDNSNR
-                IF(XREM(4,I+IDEB).LT.0) THEN
+                IF(XREM(4,I+IDEB)<0) THEN
                  NN = NN + 1
                  INDEX(I+IDEB) = NN
                  NSVFI(NIN)%P(NN) = NINT(-XREM(4,I+IDEB))
@@ -1291,9 +1291,9 @@ C fin /DT/NODA/AMS
              ENDIF
             ELSEIF(IDTMINS==2)THEN
 C /DT/AMS
-             IF(IGAP.EQ.0)THEN
+             IF(IGAP==0)THEN
                DO I = 1, OLDNSNR
-                IF(XREM(4,I+IDEB).LT.0) THEN
+                IF(XREM(4,I+IDEB)<0) THEN
                  NN = NN + 1
                  INDEX(I+IDEB) = NN
                  NSVFI(NIN)%P(NN) = NINT(-XREM(4,I+IDEB))
@@ -1336,7 +1336,7 @@ C /DT/AMS
                ENDDO
              ELSE
                DO I = 1, OLDNSNR
-                IF(XREM(4,I+IDEB).LT.0) THEN
+                IF(XREM(4,I+IDEB)<0) THEN
                  NN = NN + 1
                  INDEX(I+IDEB) = NN
                  NSVFI(NIN)%P(NN) = NINT(-XREM(4,I+IDEB))
@@ -1382,9 +1382,9 @@ C /DT/AMS
 C fin /DT/AMS
             ELSE ! IDTMINS_INT/=0
 C /DT/INTER/AMS
-             IF(IGAP.EQ.0)THEN
+             IF(IGAP==0)THEN
                DO I = 1, OLDNSNR
-                IF(XREM(4,I+IDEB).LT.0) THEN
+                IF(XREM(4,I+IDEB)<0) THEN
                  NN = NN + 1
                  INDEX(I+IDEB) = NN
                  NSVFI(NIN)%P(NN) = NINT(-XREM(4,I+IDEB))
@@ -1425,7 +1425,7 @@ C /DT/INTER/AMS
                ENDDO
              ELSE
                DO I = 1, OLDNSNR
-                IF(XREM(4,I+IDEB).LT.0) THEN
+                IF(XREM(4,I+IDEB)<0) THEN
                  NN = NN + 1
                  INDEX(I+IDEB) = NN
                  NSVFI(NIN)%P(NN) = NINT(-XREM(4,I+IDEB))
@@ -1494,11 +1494,11 @@ C
 C
 C Allocation Parith/OFF
 C
-       IF(IPARIT.EQ.0) THEN
+       IF(IPARIT==0) THEN
         IF(ASSOCIATED(AFI(NIN)%P)) DEALLOCATE(AFI(NIN)%P)
         IF(ASSOCIATED(STNFI(NIN)%P)) DEALLOCATE(STNFI(NIN)%P)
-        IF(NODFI.GT.0)ALLOCATE(AFI(NIN)%P(3,NODFI*NTHREAD),STAT=IERROR1)
-        IF(NODFI.GT.0)ALLOCATE(STNFI(NIN)%P(NODFI*NTHREAD),STAT=IERROR2)
+        IF(NODFI>0)ALLOCATE(AFI(NIN)%P(3,NODFI*NTHREAD),STAT=IERROR1)
+        IF(NODFI>0)ALLOCATE(STNFI(NIN)%P(NODFI*NTHREAD),STAT=IERROR2)
 C Init a 0
         DO I = 1, NODFI*NTHREAD
           AFI(NIN)%P(1,I) = ZERO
@@ -1507,9 +1507,9 @@ C Init a 0
           STNFI(NIN)%P(I) = ZERO
         ENDDO
 C
-        IF(KDTINT.NE.0)THEN
+        IF(KDTINT/=0)THEN
           IF(ASSOCIATED(VSCFI(NIN)%P)) DEALLOCATE(VSCFI(NIN)%P)
-          IF(NODFI.GT.0)ALLOCATE(VSCFI(NIN)%P(NODFI*NTHREAD),STAT=IERROR3)
+          IF(NODFI>0)ALLOCATE(VSCFI(NIN)%P(NODFI*NTHREAD),STAT=IERROR3)
 C Init a 0
           DO I = 1, NODFI*NTHREAD
             VSCFI(NIN)%P(I) = ZERO
@@ -1523,9 +1523,9 @@ C
         IF(ASSOCIATED(FSKYFI(NIN)%P)) DEALLOCATE(FSKYFI(NIN)%P)
         IF(ASSOCIATED(ISKYFI(NIN)%P)) DEALLOCATE(ISKYFI(NIN)%P)
         NLSKYFI(NIN) = LSKYFI
-        IF(LSKYFI.GT.0) THEN
+        IF(LSKYFI>0) THEN
           ALLOCATE(ISKYFI(NIN)%P(LSKYFI),STAT=IERROR1)
-          IF(KDTINT.EQ.0) THEN
+          IF(KDTINT==0) THEN
             ALLOCATE(FSKYFI(NIN)%P(4,LSKYFI),STAT=IERROR2)
           ELSE
             ALLOCATE(FSKYFI(NIN)%P(5,LSKYFI),STAT=IERROR2)
@@ -1536,13 +1536,13 @@ C
 C
 C Allocation Parith/OFF
 C
-       IF(IPARIT.EQ.0) THEN
+       IF(IPARIT==0) THEN
         IF(ASSOCIATED(AFI(NIN)%P)) DEALLOCATE(AFI(NIN)%P)
         IF(ASSOCIATED(STNFI(NIN)%P)) DEALLOCATE(STNFI(NIN)%P)
         IF(ASSOCIATED(FTHEFI(NIN)%P)) DEALLOCATE(FTHEFI(NIN)%P)
-        IF(NODFI.GT.0)ALLOCATE(AFI(NIN)%P(3,NODFI*NTHREAD),STAT=IERROR1)
-        IF(NODFI.GT.0)ALLOCATE(STNFI(NIN)%P(NODFI*NTHREAD),STAT=IERROR2)
-        IF(NODFI.GT.0)ALLOCATE(FTHEFI(NIN)%P(NODFI*NTHREAD),STAT=IERROR3)
+        IF(NODFI>0)ALLOCATE(AFI(NIN)%P(3,NODFI*NTHREAD),STAT=IERROR1)
+        IF(NODFI>0)ALLOCATE(STNFI(NIN)%P(NODFI*NTHREAD),STAT=IERROR2)
+        IF(NODFI>0)ALLOCATE(FTHEFI(NIN)%P(NODFI*NTHREAD),STAT=IERROR3)
         
 C Init a 0
         DO I = 1, NODFI*NTHREAD
@@ -1553,9 +1553,9 @@ C Init a 0
           FTHEFI(NIN)%P(I) = ZERO
         ENDDO
 C
-        IF(KDTINT.NE.0)THEN
+        IF(KDTINT/=0)THEN
           IF(ASSOCIATED(VSCFI(NIN)%P)) DEALLOCATE(VSCFI(NIN)%P)
-          IF(NODFI.GT.0)ALLOCATE(VSCFI(NIN)%P(NODFI),STAT=IERROR4)
+          IF(NODFI>0)ALLOCATE(VSCFI(NIN)%P(NODFI),STAT=IERROR4)
 C Init a 0
           DO I = 1, NODFI
             VSCFI(NIN)%P(I) = ZERO
@@ -1570,9 +1570,9 @@ C
         IF(ASSOCIATED(ISKYFI(NIN)%P)) DEALLOCATE(ISKYFI(NIN)%P)
         IF(ASSOCIATED(FTHESKYFI(NIN)%P)) DEALLOCATE(FTHESKYFI(NIN)%P)
         NLSKYFI(NIN) = LSKYFI
-        IF(LSKYFI.GT.0) THEN
+        IF(LSKYFI>0) THEN
           ALLOCATE(ISKYFI(NIN)%P(LSKYFI),STAT=IERROR1)
-          IF(KDTINT.EQ.0) THEN
+          IF(KDTINT==0) THEN
             ALLOCATE(FSKYFI(NIN)%P(4,LSKYFI),STAT=IERROR2)
             ALLOCATE(FTHESKYFI(NIN)%P(LSKYFI),STAT=IERROR3)
           ELSE
@@ -1583,19 +1583,19 @@ C
        ENDIF        
       ENDIF    
 C
-      IF(IERROR1+IERROR2+IERROR3+IERROR4.NE.0) THEN
+      IF(IERROR1+IERROR2+IERROR3+IERROR4/=0) THEN
         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
         CALL ARRET(2)
       ENDIF
 C
 C allocations conditionnelles output pression
 C
-      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT .GT.0)THEN
+      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT >0)THEN
         IF(ASSOCIATED(FNCONTI(NIN)%P)) DEALLOCATE(FNCONTI(NIN)%P)
         IF(ASSOCIATED(FTCONTI(NIN)%P)) DEALLOCATE(FTCONTI(NIN)%P)
         ALLOCATE(FNCONTI(NIN)%P(3,NODFI),STAT=IERROR1)
         ALLOCATE(FTCONTI(NIN)%P(3,NODFI),STAT=IERROR2)
-        IF(IERROR1+IERROR2.NE.0) THEN
+        IF(IERROR1+IERROR2/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
         ELSE
@@ -1612,13 +1612,13 @@ C
 C
 C allocations additionnelles pour interface type20
 C
-      IF(ITY.EQ.20) THEN
+      IF(ITY==20) THEN
         IF(ASSOCIATED(ALPHAKFI(NIN)%P)) DEALLOCATE(ALPHAKFI(NIN)%P)    
         ALLOCATE(ALPHAKFI(NIN)%P(NODFI),STAT=IERROR4)
         IF(ASSOCIATED(DAANCFI(NIN)%P)) DEALLOCATE(DAANCFI(NIN)%P)    
         ALLOCATE(DAANCFI(NIN)%P(3,NODFI),STAT=IERROR4)
 
-        IF(IERROR1+IERROR2+IERROR3+IERROR4.NE.0) THEN
+        IF(IERROR1+IERROR2+IERROR3+IERROR4/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
         ENDIF
@@ -1639,7 +1639,7 @@ C
       DO I = 1, I_STOK
         N = CAND_N(I)
         NN = N-NSN
-        IF(NN.GT.0)THEN
+        IF(NN>0)THEN
           CAND_N(I) = INDEX(NN)+NSN
         ENDIF
       ENDDO
@@ -1721,7 +1721,7 @@ C Test succes du tri ?
 C
       SEGFI = 0
       LSKYFI= 0
-      IF(RESULT.EQ.0) THEN
+      IF(RESULT==0) THEN
 C
 C Reperage des candidats
 C
@@ -1729,8 +1729,8 @@ C
         DO I = 1, I_STOK
           N = CAND_S(I)
           NN = N-NRTS
-          IF(NN.GT.0)THEN
-            IF(XREM(1,NN).GT.0)THEN
+          IF(NN>0)THEN
+            IF(XREM(1,NN)>0)THEN
               SEGFI = SEGFI + 1
               XREM(1,NN) = -XREM(1,NN)
             ENDIF
@@ -1754,14 +1754,14 @@ C
         ALLOCATE(STIFIE(NIN)%P(SEGFI),STAT=IERROR5)
         IF(ASSOCIATED(ITAFIE(NIN)%P)) DEALLOCATE(ITAFIE(NIN)%P)
         ALLOCATE(ITAFIE(NIN)%P(NODFI),STAT=IERROR6)
-        IF(IGAP.NE.0) THEN
+        IF(IGAP/=0) THEN
           IF(ASSOCIATED(GAPFIE(NIN)%P)) DEALLOCATE(GAPFIE(NIN)%P)
           ALLOCATE(GAPFIE(NIN)%P(SEGFI),STAT=IERROR7)
         ELSE
           IERROR7 = 0
         END IF
 
-        IF(INACTI.EQ.5.OR.INACTI.EQ.6) THEN
+        IF(INACTI==5.OR.INACTI==6) THEN
           IF(ASSOCIATED(PENFIE(NIN)%P)) DEALLOCATE(PENFIE(NIN)%P)
           ALLOCATE(PENFIE(NIN)%P(2,SEGFI),STAT=IERROR8)
           IF(ASSOCIATED(PENFIAE(NIN)%P)) DEALLOCATE(PENFIAE(NIN)%P)
@@ -1794,7 +1794,7 @@ C
 C
         IF(IERROR1+IERROR2+IERROR3+IERROR4+IERROR5+
      +     IERROR6+IERROR7+IERROR8+IERROR9+IERROR0+
-     +     IERROR11+IERROR12+IERROR13.NE.0) THEN
+     +     IERROR11+IERROR12+IERROR13/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
         ENDIF
@@ -1806,14 +1806,14 @@ C
         NN = 0
         DO P = 1, NSPMD
          OLDNRTSR = NSNFIE(NIN)%P(P)
-         IF(OLDNRTSR.NE.0) THEN
+         IF(OLDNRTSR/=0) THEN
           NNP = NN
           IF(IDTMINS/=2 .AND. IDTMINS_INT == 0)THEN
-           IF(INACTI.NE.5.AND.INACTI.NE.6) THEN
-            IF(IGAP.NE.0) THEN
+           IF(INACTI/=5.AND.INACTI/=6) THEN
+            IF(IGAP/=0) THEN
              IF(IDTMINS==0)THEN
               DO I = 1, OLDNRTSR
-               IF(XREM(1,I+IDEB).LT.0) THEN
+               IF(XREM(1,I+IDEB)<0) THEN
                 NN = NN + 1
                 INDEX(I+IDEB) = NN
                 N1 = 2*(NN-1)+1
@@ -1850,7 +1850,7 @@ C
 C /DT/NODA/AMS
              ELSE
               DO I = 1, OLDNRTSR
-               IF(XREM(1,I+IDEB).LT.0) THEN
+               IF(XREM(1,I+IDEB)<0) THEN
                 NN = NN + 1
                 INDEX(I+IDEB) = NN
                 N1 = 2*(NN-1)+1
@@ -1891,7 +1891,7 @@ C fin /DT/NODA/AMS
             ELSE
              IF(IDTMINS==0)THEN
               DO I = 1, OLDNRTSR
-               IF(XREM(1,I+IDEB).LT.0) THEN
+               IF(XREM(1,I+IDEB)<0) THEN
                 NN = NN + 1
                 INDEX(I+IDEB) = NN
                 N1 = 2*(NN-1)+1
@@ -1927,7 +1927,7 @@ C fin /DT/NODA/AMS
 C /DT/NODA/AMS
              ELSE
               DO I = 1, OLDNRTSR
-               IF(XREM(1,I+IDEB).LT.0) THEN
+               IF(XREM(1,I+IDEB)<0) THEN
                 NN = NN + 1
                 INDEX(I+IDEB) = NN
                 N1 = 2*(NN-1)+1
@@ -1966,10 +1966,10 @@ C fin /DT/NODA/AMS
              ENDIF
             END IF
            ELSE
-            IF(IGAP.NE.0) THEN
+            IF(IGAP/=0) THEN
              IF(IDTMINS==0)THEN
               DO I = 1, OLDNRTSR
-               IF(XREM(1,I+IDEB).LT.0) THEN
+               IF(XREM(1,I+IDEB)<0) THEN
                 NN = NN + 1
                 INDEX(I+IDEB) = NN
                 N1 = 2*(NN-1)+1
@@ -2018,7 +2018,7 @@ C fin /DT/NODA/AMS
 C /DT/NODA/AMS
              ELSE
               DO I = 1, OLDNRTSR
-               IF(XREM(1,I+IDEB).LT.0) THEN
+               IF(XREM(1,I+IDEB)<0) THEN
                 NN = NN + 1
                 INDEX(I+IDEB) = NN
                 N1 = 2*(NN-1)+1
@@ -2071,7 +2071,7 @@ C fin /DT/NODA/AMS
             ELSE
              IF(IDTMINS==0)THEN
               DO I = 1, OLDNRTSR
-               IF(XREM(1,I+IDEB).LT.0) THEN
+               IF(XREM(1,I+IDEB)<0) THEN
                 NN = NN + 1
                 INDEX(I+IDEB) = NN
                 N1 = 2*(NN-1)+1
@@ -2119,7 +2119,7 @@ C fin /DT/NODA/AMS
 C /DT/NODA/AMS
              ELSE
               DO I = 1, OLDNRTSR
-               IF(XREM(1,I+IDEB).LT.0) THEN
+               IF(XREM(1,I+IDEB)<0) THEN
                 NN = NN + 1
                 INDEX(I+IDEB) = NN
                 N1 = 2*(NN-1)+1
@@ -2172,10 +2172,10 @@ C fin /DT/NODA/AMS
            END IF
           ELSEIF(IDTMINS==2)THEN
 C /DT/AMS
-           IF(INACTI.NE.5.AND.INACTI.NE.6) THEN
-            IF(IGAP.NE.0) THEN
+           IF(INACTI/=5.AND.INACTI/=6) THEN
+            IF(IGAP/=0) THEN
               DO I = 1, OLDNRTSR
-               IF(XREM(1,I+IDEB).LT.0) THEN
+               IF(XREM(1,I+IDEB)<0) THEN
                 NN = NN + 1
                 INDEX(I+IDEB) = NN
                 N1 = 2*(NN-1)+1
@@ -2219,7 +2219,7 @@ C /DT/AMS
               END DO
             ELSE
               DO I = 1, OLDNRTSR
-               IF(XREM(1,I+IDEB).LT.0) THEN
+               IF(XREM(1,I+IDEB)<0) THEN
                 NN = NN + 1
                 INDEX(I+IDEB) = NN
                 N1 = 2*(NN-1)+1
@@ -2262,9 +2262,9 @@ C /DT/AMS
               END DO
             END IF
            ELSE
-            IF(IGAP.NE.0) THEN
+            IF(IGAP/=0) THEN
               DO I = 1, OLDNRTSR
-               IF(XREM(1,I+IDEB).LT.0) THEN
+               IF(XREM(1,I+IDEB)<0) THEN
                 NN = NN + 1
                 INDEX(I+IDEB) = NN
                 N1 = 2*(NN-1)+1
@@ -2320,7 +2320,7 @@ C /DT/AMS
               ENDDO
             ELSE
               DO I = 1, OLDNRTSR
-               IF(XREM(1,I+IDEB).LT.0) THEN
+               IF(XREM(1,I+IDEB)<0) THEN
                 NN = NN + 1
                 INDEX(I+IDEB) = NN
                 N1 = 2*(NN-1)+1
@@ -2378,10 +2378,10 @@ C /DT/AMS
 C fin /DT/AMS
           ELSE ! IDTMINS_INT/=0
 C /DT/INTER/AMS
-           IF(INACTI.NE.5.AND.INACTI.NE.6) THEN
-            IF(IGAP.NE.0) THEN
+           IF(INACTI/=5.AND.INACTI/=6) THEN
+            IF(IGAP/=0) THEN
               DO I = 1, OLDNRTSR
-               IF(XREM(1,I+IDEB).LT.0) THEN
+               IF(XREM(1,I+IDEB)<0) THEN
                 NN = NN + 1
                 INDEX(I+IDEB) = NN
                 N1 = 2*(NN-1)+1
@@ -2423,7 +2423,7 @@ C /DT/INTER/AMS
               END DO
             ELSE
               DO I = 1, OLDNRTSR
-               IF(XREM(1,I+IDEB).LT.0) THEN
+               IF(XREM(1,I+IDEB)<0) THEN
                 NN = NN + 1
                 INDEX(I+IDEB) = NN
                 N1 = 2*(NN-1)+1
@@ -2464,9 +2464,9 @@ C /DT/INTER/AMS
               END DO
             END IF
            ELSE
-            IF(IGAP.NE.0) THEN
+            IF(IGAP/=0) THEN
               DO I = 1, OLDNRTSR
-               IF(XREM(1,I+IDEB).LT.0) THEN
+               IF(XREM(1,I+IDEB)<0) THEN
                 NN = NN + 1
                 INDEX(I+IDEB) = NN
                 N1 = 2*(NN-1)+1
@@ -2520,7 +2520,7 @@ C /DT/INTER/AMS
               ENDDO
             ELSE
               DO I = 1, OLDNRTSR
-               IF(XREM(1,I+IDEB).LT.0) THEN
+               IF(XREM(1,I+IDEB)<0) THEN
                 NN = NN + 1
                 INDEX(I+IDEB) = NN
                 N1 = 2*(NN-1)+1
@@ -2599,11 +2599,11 @@ C
 C
 C Allocation Parith/OFF
 C
-      IF(IPARIT.EQ.0) THEN
+      IF(IPARIT==0) THEN
         IF(ASSOCIATED(AFIE(NIN)%P)) DEALLOCATE(AFIE(NIN)%P)
         IF(ASSOCIATED(STNFIE(NIN)%P)) DEALLOCATE(STNFIE(NIN)%P)
-        IF(NODFI.GT.0)ALLOCATE(AFIE(NIN)%P(3,NODFI*NTHREAD),STAT=IERROR1)
-        IF(NODFI.GT.0)ALLOCATE(STNFIE(NIN)%P(NODFI*NTHREAD),STAT=IERROR2)
+        IF(NODFI>0)ALLOCATE(AFIE(NIN)%P(3,NODFI*NTHREAD),STAT=IERROR1)
+        IF(NODFI>0)ALLOCATE(STNFIE(NIN)%P(NODFI*NTHREAD),STAT=IERROR2)
 C Init a 0
         DO I = 1, NODFI*NTHREAD
           AFIE(NIN)%P(1,I) = ZERO
@@ -2612,9 +2612,9 @@ C Init a 0
           STNFIE(NIN)%P(I) = ZERO
         ENDDO
 C
-        IF(KDTINT.NE.0)THEN
+        IF(KDTINT/=0)THEN
           IF(ASSOCIATED(VSCFIE(NIN)%P)) DEALLOCATE(VSCFIE(NIN)%P)
-          IF(NODFI.GT.0)ALLOCATE(VSCFIE(NIN)%P(NODFI*NTHREAD),STAT=IERROR3)
+          IF(NODFI>0)ALLOCATE(VSCFIE(NIN)%P(NODFI*NTHREAD),STAT=IERROR3)
 C Init a 0
           DO I = 1, NODFI*NTHREAD
             VSCFIE(NIN)%P(I) = ZERO
@@ -2630,9 +2630,9 @@ C
         IF(ASSOCIATED(FSKYFIE(NIN)%P)) DEALLOCATE(FSKYFIE(NIN)%P)
         IF(ASSOCIATED(ISKYFIE(NIN)%P)) DEALLOCATE(ISKYFIE(NIN)%P)
         NLSKYFIE(NIN) = LSKYFI
-        IF(LSKYFI.GT.0) THEN
+        IF(LSKYFI>0) THEN
           ALLOCATE(ISKYFIE(NIN)%P(LSKYFI),STAT=IERROR1)
-          IF(KDTINT.EQ.0) THEN
+          IF(KDTINT==0) THEN
 C facteur 2 pour stocker les 2 noeuds
             ALLOCATE(FSKYFIE(NIN)%P(8,LSKYFI),STAT=IERROR2)
           ELSE
@@ -2654,7 +2654,7 @@ C
       IF(ASSOCIATED(DAANCFIE(NIN)%P)) DEALLOCATE(DAANCFIE(NIN)%P)    
       ALLOCATE(DAANCFIE(NIN)%P(3,NODFI),STAT=IERROR4)
 
-      IF(IERROR1+IERROR2+IERROR3+IERROR4.NE.0) THEN
+      IF(IERROR1+IERROR2+IERROR3+IERROR4/=0) THEN
         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
         CALL ARRET(2)
       ENDIF
@@ -2669,7 +2669,7 @@ C
 
       DAANCFIE(NIN)%P(1:3,1:NODFI) = ZERO
 C
-      IF(IERROR1+IERROR2+IERROR3.NE.0) THEN
+      IF(IERROR1+IERROR2+IERROR3/=0) THEN
         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
         CALL ARRET(2)
       ENDIF
@@ -2679,7 +2679,7 @@ C
       DO I = 1, I_STOK
         N = CAND_S(I)
         NN = N-NRTS
-        IF(NN.GT.0)THEN
+        IF(NN>0)THEN
           CAND_S(I) = INDEX(NN)+NRTS
         ENDIF
       ENDDO
@@ -2746,15 +2746,15 @@ C
 C Test succes du tri ?
 C
       ELEMFI = 0
-      IF(RESULT.EQ.0) THEN
+      IF(RESULT==0) THEN
 C
 C Reperage des candidats
 C
         DO I = 1, I_STOK
           N = CAND_N(I)
           NN = N-NMES
-          IF(NN.GT.0)THEN
-            IF(XREM(7,NN).GT.0)THEN
+          IF(NN>0)THEN
+            IF(XREM(7,NN)>0)THEN
               ELEMFI = ELEMFI + 1
               XREM(7,NN) = -XREM(7,NN)
             ENDIF
@@ -2776,7 +2776,7 @@ C
         IF(ASSOCIATED(EMINXFI(NIN)%P)) DEALLOCATE(EMINXFI(NIN)%P)
         ALLOCATE(EMINXFI(NIN)%P(6,ELEMFI),STAT=IERROR6)
 C
-        IF(IERROR1+IERROR2+IERROR3+IERROR4+IERROR5+IERROR6.NE.0) THEN
+        IF(IERROR1+IERROR2+IERROR3+IERROR4+IERROR5+IERROR6/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
         ENDIF
@@ -2787,10 +2787,10 @@ C
         NN = 0
         DO P = 1, NSPMD
           OLDNRTSR = NSNFI(NIN)%P(P)
-          IF(OLDNRTSR.NE.0) THEN
+          IF(OLDNRTSR/=0) THEN
             NNP = NN
             DO I = 1, OLDNRTSR
-              IF(XREM(7,I+IDEB).LT.0) THEN
+              IF(XREM(7,I+IDEB)<0) THEN
                 NN = NN + 1
                 INDEX(I+IDEB) = NN
                 EMINXFI(NIN)%P(1,NN) = XREM(1,I+IDEB)
@@ -2932,11 +2932,11 @@ C
 C
 C Allocation Parith/OFF
 C
-      IF(IPARIT.EQ.0) THEN
+      IF(IPARIT==0) THEN
         IF(ASSOCIATED(AFI17(NIN)%P)) DEALLOCATE(AFI17(NIN)%P)
         IF(ASSOCIATED(STNFI17(NIN)%P)) DEALLOCATE(STNFI17(NIN)%P)
-        IF(ELEMFI.GT.0)ALLOCATE(AFI17(NIN)%P(3,16,ELEMFI),STAT=IERROR1)
-        IF(ELEMFI.GT.0)ALLOCATE(STNFI17(NIN)%P(16,ELEMFI),STAT=IERROR2)
+        IF(ELEMFI>0)ALLOCATE(AFI17(NIN)%P(3,16,ELEMFI),STAT=IERROR1)
+        IF(ELEMFI>0)ALLOCATE(STNFI17(NIN)%P(16,ELEMFI),STAT=IERROR2)
 C Init a 0
         DO I = 1, ELEMFI
           AFI17(NIN)%P(1,1,I) = ZERO
@@ -3017,13 +3017,13 @@ C
         IF(ASSOCIATED(FSKYFI(NIN)%P)) DEALLOCATE(FSKYFI(NIN)%P)
         IF(ASSOCIATED(ISKYFI(NIN)%P)) DEALLOCATE(ISKYFI(NIN)%P)
         NLSKYFI(NIN) = LSKYFI
-        IF(LSKYFI.GT.0) THEN
+        IF(LSKYFI>0) THEN
           ALLOCATE(ISKYFI(NIN)%P(LSKYFI),STAT=IERROR1)
           ALLOCATE(FSKYFI(NIN)%P(40,LSKYFI),STAT=IERROR2)
         ENDIF
       ENDIF
 C
-      IF(IERROR1+IERROR2+IERROR3.NE.0) THEN
+      IF(IERROR1+IERROR2+IERROR3/=0) THEN
         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
         CALL ARRET(2)
       ENDIF
@@ -3033,7 +3033,7 @@ C
       DO I = 1, I_STOK
         N = CAND_N(I)
         NN = N-NMES
-        IF(NN.GT.0)THEN
+        IF(NN>0)THEN
           CAND_N(I) = INDEX(NN)+NMES
         ENDIF
       ENDDO

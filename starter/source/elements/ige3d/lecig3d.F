@@ -115,7 +115,7 @@ c
         IREC = KOPTAD(KCUR)
         IREC=IREC+1
         READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
-        DO WHILE( LINE(1:1) .NE. '/' .OR. LINE(1:6) == '/IGE3D')
+        DO WHILE( LINE(1:1) /= '/' .OR. LINE(1:6) == '/IGE3D')
         
          IF (LINE(1:1) == '/')THEN  ! CHANGEMENT DE PART
           IREC=IREC+1
@@ -241,7 +241,7 @@ C
      .    (ITAB(IXIG3D(IAD)),IAD=KXIG3D(4,I),KXIG3D(4,I)+KXIG3D(3,I)-1)
 c      call flush(IOUT)
   100 CONTINUE
-      IF(I2.EQ.NUMELIG3D0)GOTO 200
+      IF(I2==NUMELIG3D0)GOTO 200
       I1=I1+50
       I2=MIN0(I2+50,NUMELIG3D0)
       GOTO 90

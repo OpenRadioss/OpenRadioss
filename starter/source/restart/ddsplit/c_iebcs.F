@@ -71,18 +71,18 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------   
       ALLOCATE(LOCALID(NUMEL))
-      IF (N2D .EQ. 0) THEN
+      IF (N2D == 0) THEN
          IX => IXS(1:NIXS, 1:NUMELS)
-      ELSEIF(NUMELQ .NE. 0) THEN
+      ELSEIF(NUMELQ /= 0) THEN
          IX => IXQ(1:NIXQ, 1:NUMELQ)
-      ELSEIF (NUMELTG .NE. 0 .AND. MULTI_FVM_IS_USED) THEN
+      ELSEIF (NUMELTG /= 0 .AND. MULTI_FVM_IS_USED) THEN
          IX => IXTG(1:NIXTG, 1:NUMELTG)
       ENDIF
          
       
       IELEM = 0
       DO I = 1, NUMEL
-         IF (CEP(I) .EQ. PROC) THEN
+         IF (CEP(I) == PROC) THEN
             IELEM = IELEM + 1
             LOCALID(I) = IELEM
          ENDIF
@@ -100,8 +100,8 @@ C-----------------------------------------------
                IELEM = EBCS_TAB%tab(i)%poly%ielem(ISEG)
                DP0=ZERO
                IF(EBCS_TAB%tab(i)%poly%has_dp0) DP0 = EBCS_TAB%tab(i)%poly%dp0(ISEG)
-               !IF (IPM(2, IX(1, IELEM)) .EQ. 151) THEN
-                  IF (CEP(IELEM)  .EQ. PROC) THEN
+               !IF (IPM(2, IX(1, IELEM)) == 151) THEN
+                  IF (CEP(IELEM)  == PROC) THEN
                      NSEG_L = NSEG_L + 1
                      IF(FLAG == 1) THEN
                        IEBCS_LISTELEM_L(LENGTH + NSEG_L) = LOCALID(IELEM)

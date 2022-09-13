@@ -152,7 +152,7 @@ C
       LI15 = LI14+LSIZE(15)
 C
       NGDONE = 1
-      IF (IMON.GT.0) CALL STARTIME(31,ITASK+1)
+      IF (IMON>0) CALL STARTIME(31,ITASK+1)
       CALL IMP_GLOB_K(
      1   PM        ,GEO       ,IPM       ,IGEO      ,ELBUF     ,
      2   IXS       ,IXQ       ,IXC       ,IXT       ,IXP       ,
@@ -163,7 +163,7 @@ C
      7   WA        ,IDDL      ,NDOF      ,DIAG_K    ,LT_K      ,
      8   IADK      ,JDIK      ,IKG       ,ETAG      ,ELBUF_TAB ,
      9   STACK     ,DRAPE_Q4, DRAPE_T3        )
-C      IF (IMON.GT.0) CALL STOPTIME(25,ITASK+1)
+C      IF (IMON>0) CALL STOPTIME(25,ITASK+1)
 C    /---------------/
       CALL MY_BARRIER
 C    /---------------/
@@ -181,12 +181,12 @@ C    /---------------/
      B   NMC2      ,IKINW(LI12),NT_RW    ,RBID      ,IBID3     ,
      C   IRBE3     ,LRBE3     ,FRBE3     ,IKINW(LI13),IRBE2    ,
      D   LRBE2     ,IKINW(LI14),IKINW(LI15))
-      IF (IMACH.EQ.3.AND.NSPMD.GT.1) THEN
+      IF (IMACH==3.AND.NSPMD>1) THEN
           CALL UPD_FR_K(
      1    IADK     ,JDIK     ,NDOF      ,IKC      ,IDDL     ,
      2    INLOC    ,FR_ELEM  ,IAD_ELEM  ,NDDL     )
       ENDIF
-      IF (IMON.GT.0) CALL STOPTIME(31,ITASK+1)
+      IF (IMON>0) CALL STOPTIME(31,ITASK+1)
 C
       NNMAX=LSIZE(9)
       NKMAX=LSIZE(10)

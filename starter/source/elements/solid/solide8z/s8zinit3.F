@@ -515,7 +515,7 @@ c
 C
          IF(JTHE /=0) CALL ATHERI(MAT,PM,LBUF%TEMP)
 C
-         IF(MTN.GE.28)THEN
+         IF(MTN>=28)THEN
            NUVAR = IPM(8,IXS(1,NFT+1))
            IDEF =1
          ELSE
@@ -583,7 +583,7 @@ C     assemblage des Volumes nodaux et Modules nodaux
 C     (pour rigidites d'interface)
 C------------------------------------------
 C     attention : IX1, IX2 ... IX8 sont sous la forme NC(MVSIZ,8)
-      IF(I7STIFS.NE.0)THEN
+      IF(I7STIFS/=0)THEN
         NCC=8
         CALL SBULK3(VOLU  ,IX1    ,NCC,MAT,PM ,
      2              VOLNOD,BVOLNOD,VNS(1,NF1),BNS(1,NF1),BID(1),
@@ -598,8 +598,8 @@ C------------------------------------------
      .       VOLU, DTX,IGEO)
 c
        DO 10 I=LFT,LLT
-        IF(IXS(10,I+NFT).NE.0.AND.INVERS.GT.14) THEN
-          IF (IGTYP.NE.0.AND.IGTYP.NE.6.AND.IGTYP.NE.14.AND.IGTYP.NE.15)
+        IF(IXS(10,I+NFT)/=0.AND.INVERS>14) THEN
+          IF (IGTYP/=0.AND.IGTYP/=6.AND.IGTYP/=14.AND.IGTYP/=15)
      .      THEN
              IPID1=IXS(NIXS-1,I+NFT)
              CALL FRETITL2(TITR1,IGEO(NPROPGI-LTITR+1,IPID1),LTITR)

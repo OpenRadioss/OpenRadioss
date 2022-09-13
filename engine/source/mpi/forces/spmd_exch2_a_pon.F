@@ -161,7 +161,7 @@ C
       DO I = 1, NSPMD
         NBISDP(I)=0
         NBIRCP(I) = 0
-        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0) THEN
+        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0) THEN
           SIZ = SIZE*FR_NBCC(2,I)+1
           IF(IPLYXFEM > 0) SIZ = SIZ + 4*NPLYMAX*FR_NBCC1(2,I)
           IF(ICRACK3D > 0) SIZ = SIZ + 
@@ -181,7 +181,7 @@ C
 C
 C Pre Traitement interfaces
 C
-      IF(NISKY.NE.0) THEN
+      IF(NISKY/=0) THEN
         DO I = 1, NUMNOD
           ITAGX(I) = 0
         ENDDO
@@ -189,10 +189,10 @@ C
           ITAGX(ISKY(I)) = -1
         ENDDO
         DO I = 1, NSPMD
-          IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0) THEN
+          IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0) THEN
             DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
               NOD = FR_ELEM(J)
-              IF(ITAGX(NOD).EQ.-1)THEN
+              IF(ITAGX(NOD)==-1)THEN
                 ITAGX(NOD) = 1
               ENDIF
             ENDDO
@@ -203,9 +203,9 @@ C NISKYF : forces d'interfaces frontiere a echanger
 C
         IF(INTPLYXFEM == 0) THEN
          IF(INTHEAT == 0 ) THEN
-          IF(NFSKYI.EQ.4) THEN
+          IF(NFSKYI==4) THEN
            DO I = 1, NISKY
-             IF(ITAGX(ISKY(I)).EQ.1)THEN
+             IF(ITAGX(ISKY(I))==1)THEN
                NISKYF=NISKYF+1
                ISKYF(NISKYF) = ISKY(I)
                FSKYIF(1,NISKYF) = FSKYI(I,1)
@@ -216,7 +216,7 @@ C
            ENDDO
           ELSE
            DO I = 1, NISKY
-             IF(ITAGX(ISKY(I)).EQ.1)THEN
+             IF(ITAGX(ISKY(I))==1)THEN
                NISKYF=NISKYF+1
                ISKYF(NISKYF) = ISKY(I)
                FSKYIF(1,NISKYF) = FSKYI(I,1)
@@ -230,9 +230,9 @@ C
 C + la t hermique
          ELSE
           IF(NODADT_THERM == 1) THEN
-           IF(NFSKYI.EQ.4) THEN
+           IF(NFSKYI==4) THEN
             DO I = 1, NISKY
-             IF(ITAGX(ISKY(I)).EQ.1)THEN
+             IF(ITAGX(ISKY(I))==1)THEN
                NISKYF=NISKYF+1
                ISKYF(NISKYF) = ISKY(I)
                FSKYIF(1,NISKYF) = FSKYI(I,1)
@@ -245,7 +245,7 @@ C + la t hermique
             ENDDO
            ELSE
             DO I = 1, NISKY
-             IF(ITAGX(ISKY(I)).EQ.1)THEN
+             IF(ITAGX(ISKY(I))==1)THEN
                NISKYF=NISKYF+1
                ISKYF(NISKYF) = ISKY(I)
                FSKYIF(1,NISKYF) = FSKYI(I,1)
@@ -259,9 +259,9 @@ C + la t hermique
             ENDDO
            ENDIF
           ELSE
-           IF(NFSKYI.EQ.4) THEN
+           IF(NFSKYI==4) THEN
             DO I = 1, NISKY
-             IF(ITAGX(ISKY(I)).EQ.1)THEN
+             IF(ITAGX(ISKY(I))==1)THEN
                NISKYF=NISKYF+1
                ISKYF(NISKYF) = ISKY(I)
                FSKYIF(1,NISKYF) = FSKYI(I,1)
@@ -273,7 +273,7 @@ C + la t hermique
             ENDDO
            ELSE
             DO I = 1, NISKY
-             IF(ITAGX(ISKY(I)).EQ.1)THEN
+             IF(ITAGX(ISKY(I))==1)THEN
                NISKYF=NISKYF+1
                ISKYF(NISKYF) = ISKY(I)
                FSKYIF(1,NISKYF) = FSKYI(I,1)
@@ -290,9 +290,9 @@ C + la t hermique
 C! + Plyxfem + type 24        
         ELSE
          IF(INTHEAT == 0 ) THEN
-          IF(NFSKYI.EQ.4) THEN
+          IF(NFSKYI==4) THEN
            DO I = 1, NISKY
-             IF(ITAGX(ISKY(I)).EQ.1)THEN
+             IF(ITAGX(ISKY(I))==1)THEN
                NISKYF=NISKYF+1
                ISKYF(NISKYF) = ISKY(I)
                FSKYIF(1,NISKYF) = FSKYI(I,1)
@@ -309,7 +309,7 @@ C
            ENDDO
           ELSE
            DO I = 1, NISKY
-             IF(ITAGX(ISKY(I)).EQ.1)THEN
+             IF(ITAGX(ISKY(I))==1)THEN
                NISKYF=NISKYF+1
                ISKYF(NISKYF) = ISKY(I)
                FSKYIF(1,NISKYF) = FSKYI(I,1)
@@ -329,9 +329,9 @@ C
 C + la t hermique
          ELSE
           IF(NODADT_THERM == 1) THEN
-           IF(NFSKYI.EQ.4) THEN
+           IF(NFSKYI==4) THEN
             DO I = 1, NISKY
-             IF(ITAGX(ISKY(I)).EQ.1)THEN
+             IF(ITAGX(ISKY(I))==1)THEN
                NISKYF=NISKYF+1
                ISKYF(NISKYF) = ISKY(I)
                FSKYIF(1,NISKYF) = FSKYI(I,1)
@@ -350,7 +350,7 @@ C
             ENDDO
            ELSE
             DO I = 1, NISKY
-             IF(ITAGX(ISKY(I)).EQ.1)THEN
+             IF(ITAGX(ISKY(I))==1)THEN
                NISKYF=NISKYF+1
                ISKYF(NISKYF) = ISKY(I)
                FSKYIF(1,NISKYF) = FSKYI(I,1)
@@ -370,9 +370,9 @@ C
             ENDDO
            ENDIF
           ELSE
-           IF(NFSKYI.EQ.4) THEN
+           IF(NFSKYI==4) THEN
             DO I = 1, NISKY
-             IF(ITAGX(ISKY(I)).EQ.1)THEN
+             IF(ITAGX(ISKY(I))==1)THEN
                NISKYF=NISKYF+1
                ISKYF(NISKYF) = ISKY(I)
                FSKYIF(1,NISKYF) = FSKYI(I,1)
@@ -390,7 +390,7 @@ C
             ENDDO
            ELSE
             DO I = 1, NISKY
-             IF(ITAGX(ISKY(I)).EQ.1)THEN
+             IF(ITAGX(ISKY(I))==1)THEN
                NISKYF=NISKYF+1
                ISKYF(NISKYF) = ISKY(I)
                FSKYIF(1,NISKYF) = FSKYI(I,1)
@@ -494,7 +494,7 @@ C
       ELSE
 C tag a 0 de itagx sur noeud frontiere
         DO I = 1, NSPMD
-          IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0) THEN
+          IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0) THEN
             DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
               NOD = FR_ELEM(J)
               ITAGX(NOD) = 0
@@ -516,7 +516,7 @@ C
 
       DO I=1,NSPMD
 
-       IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0) THEN
+       IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0) THEN
         L0 = L
 C
 C a optimiser
@@ -532,11 +532,11 @@ C a optimiser
 
         IF(IALELAG == 0) THEN
          IF(ITHERM_FE == 0 .AND. INTHEAT == 0 ) THEN
-          IF(IFSUBM.EQ.0)THEN
+          IF(IFSUBM==0)THEN
 C prepar  ation envoi a proc I partie fixe (elem)
-           IF(IVECTOR.EQ.1) THEN
+           IF(IVECTOR==1) THEN
 Cel cas 3D seul possible
-             IF(IRODDL.NE.0) THEN
+             IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
                  CC = ISENDP(J)
@@ -564,7 +564,7 @@ Cel cas 3D seul possible
            ELSE
 Cel ivec  tor = 0
 Cel cas   3D seul possible
-             IF(IRODDL.NE.0) THEN
+             IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
                  CC = ISENDP(J)
@@ -597,9 +597,9 @@ C
 C
 C prepar  ation envoi partie fixe (elem) a proc I
 C
-           IF(IVECTOR.EQ.1) THEN
+           IF(IVECTOR==1) THEN
 Cel cas   3D seul possible
-             IF(IRODDL.NE.0) THEN
+             IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
                  CC = ISENDP(J)
@@ -629,7 +629,7 @@ Cel cas   3D seul possible
            ELSE
 Cel ivec  tor = 0
 Cel cas   3D seul possible
-             IF(IRODDL.NE.0) THEN
+             IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
                  CC = ISENDP(J)
@@ -662,11 +662,11 @@ C
 C --- plus la thermque
 C
         ELSE
-          IF(IFSUBM.EQ.0)THEN
+          IF(IFSUBM==0)THEN
 C prepar  ation envoi a proc I partie fixe (elem)
-           IF(IVECTOR.EQ.1) THEN
+           IF(IVECTOR==1) THEN
 Cel cas 3D seul possible
-             IF(IRODDL.NE.0) THEN
+             IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
                  CC = ISENDP(J)
@@ -695,7 +695,7 @@ Cel cas 3D seul possible
              ENDIF
            ELSE
             IF(NODADT_THERM == 1) THEN
-             IF(IRODDL.NE.0) THEN
+             IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
                  CC = ISENDP(J)
@@ -725,7 +725,7 @@ Cel cas 3D seul possible
                END DO
              ENDIF
             ELSE
-             IF(IRODDL.NE.0) THEN
+             IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
                  CC = ISENDP(J)
@@ -761,8 +761,8 @@ C
 C
 C prepar  ation envoi partie fixe (elem) a proc I
 C
-           IF(IVECTOR.EQ.1) THEN
-             IF(IRODDL.NE.0) THEN
+           IF(IVECTOR==1) THEN
+             IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
                  CC = ISENDP(J)
@@ -793,7 +793,7 @@ C
              ENDIF
            ELSE
             IF(NODADT_THERM == 1) THEN
-             IF(IRODDL.NE.0) THEN
+             IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
                  CC = ISENDP(J)
@@ -825,7 +825,7 @@ C
                END DO
              ENDIF
             ELSE
-             IF(IRODDL.NE.0) THEN
+             IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
                  CC = ISENDP(J)
@@ -863,11 +863,11 @@ C
 C + ale + lag
 C
         IF(ITHERM_FE == 0 .AND. INTHEAT == 0 ) THEN
-          IF(IFSUBM.EQ.0)THEN
+          IF(IFSUBM==0)THEN
 C prepar  ation envoi a proc I partie fixe (elem)
-           IF(IVECTOR.EQ.1) THEN
+           IF(IVECTOR==1) THEN
 Cel cas 3D seul possible
-             IF(IRODDL.NE.0) THEN
+             IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
                  CC = ISENDP(J)
@@ -905,7 +905,7 @@ C
            ELSE
 Cel ivec  tor = 0
 Cel cas   3D seul possible
-             IF(IRODDL.NE.0) THEN
+             IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
                  CC = ISENDP(J)
@@ -948,9 +948,9 @@ C
 C
 C prepar  ation envoi partie fixe (elem) a proc I
 C
-           IF(IVECTOR.EQ.1) THEN
+           IF(IVECTOR==1) THEN
 Cel cas   3D seul possible
-             IF(IRODDL.NE.0) THEN
+             IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
                  CC = ISENDP(J)
@@ -990,7 +990,7 @@ cc                 SBUF(L+8) = FSKYM(CC)
            ELSE
 Cel ivec  tor = 0
 Cel cas   3D seul possible
-             IF(IRODDL.NE.0) THEN
+             IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
                  CC = ISENDP(J)
@@ -1031,11 +1031,11 @@ C
 C --- plus la thermque
 C
         ELSE
-          IF(IFSUBM.EQ.0)THEN
+          IF(IFSUBM==0)THEN
 C prepar  ation envoi a proc I partie fixe (elem)
-           IF(IVECTOR.EQ.1) THEN
+           IF(IVECTOR==1) THEN
 Cel cas 3D seul possible
-             IF(IRODDL.NE.0) THEN
+             IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
                  CC = ISENDP(J)
@@ -1074,7 +1074,7 @@ C
              ENDIF
            ELSE
             IF(NODADT_THERM == 1) THEN 
-             IF(IRODDL.NE.0) THEN
+             IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
                  CC = ISENDP(J)
@@ -1116,7 +1116,7 @@ C
                END DO
              ENDIF
             ELSE
-             IF(IRODDL.NE.0) THEN
+             IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
                  CC = ISENDP(J)
@@ -1162,8 +1162,8 @@ C
 C
 C prepar  ation envoi partie fixe (elem) a proc I
 C
-           IF(IVECTOR.EQ.1) THEN
-             IF(IRODDL.NE.0) THEN
+           IF(IVECTOR==1) THEN
+             IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
                  CC = ISENDP(J)
@@ -1202,7 +1202,7 @@ C
              ENDIF
            ELSE
             IF(NODADT_THERM == 1) THEN
-             IF(IRODDL.NE.0) THEN
+             IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
                  CC = ISENDP(J)
@@ -1244,7 +1244,7 @@ C
                END DO
              ENDIF
             ELSE
-             IF(IRODDL.NE.0) THEN
+             IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
                  CC = ISENDP(J)
@@ -1347,7 +1347,7 @@ C
       ENDIF
 
 C --- /CONT/MAX output
-      IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX .NE.0.AND.NINTSTAMP==0) THEN
+      IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX /=0.AND.NINTSTAMP==0) THEN
 #include      "vectorize.inc"
           DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
              NOD = FR_ELEM(J)
@@ -1361,11 +1361,11 @@ C --- /CONT/MAX output
 
 C partie interface : calcul et envoi du nb de noeuds a envoyer
         nbi = 0
-        IF(NISKYF.NE.0) THEN
+        IF(NISKYF/=0) THEN
 #include "vectorize.inc"
           DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
             NOD = FR_ELEM(J)
-            IF(ITAGX(NOD).EQ.1)THEN
+            IF(ITAGX(NOD)==1)THEN
               nbi = nbi +  ADSKYI(NOD)-ADSKYI(NOD-1)
             END IF
           END DO
@@ -1420,10 +1420,10 @@ C a optimiser
 C
         IF(IALELAG == 0) THEN
          IF(ITHERM_FE == 0 .AND. INTHEAT == 0  ) THEN
-           IF(IFSUBM.EQ.0)THEN
-             IF(IVECTOR.EQ.1) THEN
+           IF(IFSUBM==0)THEN
+             IF(IVECTOR==1) THEN
 C cas 3D    seul possible
-               IF(IRODDL.NE.0) THEN
+               IF(IRODDL/=0) THEN
 #include    "vectorize.inc"
                  DO J=IADRCP(I),IADRCP(I+1)-1
                   CC = IRECVP(J)
@@ -1450,7 +1450,7 @@ C cas 3D    seul possible
                ENDIF
              ELSE         ! ivector = 0
 C cas 3D    seul possible
-               IF(IRODDL.NE.0) THEN
+               IF(IRODDL/=0) THEN
 #include    "vectorize.inc"
                  DO J=IADRCP(I),IADRCP(I+1)-1
                   CC = IRECVP(J)
@@ -1477,10 +1477,10 @@ C cas 3D    seul possible
                ENDIF
              ENDIF
            ELSE
-Cel46b5    N2D.EQ.0 .AND. IFSUBM.EQ.1
-             IF(IVECTOR.EQ.1) THEN
+Cel46b5    N2D==0 .AND. IFSUBM==1
+             IF(IVECTOR==1) THEN
 C cas 3D    seul possible
-               IF(IRODDL.NE.0) THEN
+               IF(IRODDL/=0) THEN
 #include    "vectorize.inc"
                  DO J=IADRCP(I),IADRCP(I+1)-1
                   CC = IRECVP(J)
@@ -1509,7 +1509,7 @@ C cas 3D    seul possible
                ENDIF
              ELSE          ! ivector = 0
 C cas 3D    seul possible
-               IF(IRODDL.NE.0) THEN
+               IF(IRODDL/=0) THEN
 #include    "vectorize.inc"
                  DO J=IADRCP(I),IADRCP(I+1)-1
                   CC = IRECVP(J)
@@ -1542,10 +1542,10 @@ C
 C--- plus la thermique
 C
          ELSE
-          IF(IFSUBM.EQ.0)THEN
-           IF(IVECTOR.EQ.1) THEN
+          IF(IFSUBM==0)THEN
+           IF(IVECTOR==1) THEN
 C cas 3D seul possible
-            IF(IRODDL.NE.0) THEN
+            IF(IRODDL/=0) THEN
 #include "vectorize.inc"
               DO J=IADRCP(I),IADRCP(I+1)-1
                CC = IRECVP(J)
@@ -1575,7 +1575,7 @@ C cas 3D seul possible
           ELSE         ! ivector = 0
 C cas 3D seul possible
            IF(NODADT_THERM == 1) THEN 
-            IF(IRODDL.NE.0) THEN
+            IF(IRODDL/=0) THEN
 #include "vectorize.inc"
               DO J=IADRCP(I),IADRCP(I+1)-1
                CC = IRECVP(J)
@@ -1605,7 +1605,7 @@ C cas 3D seul possible
               END DO
             ENDIF
            ELSE
-            IF(IRODDL.NE.0) THEN
+            IF(IRODDL/=0) THEN
 #include "vectorize.inc"
               DO J=IADRCP(I),IADRCP(I+1)-1
                CC = IRECVP(J)
@@ -1635,9 +1635,9 @@ C cas 3D seul possible
            ENDIF
           ENDIF
         ELSE
-          IF(IVECTOR.EQ.1) THEN
+          IF(IVECTOR==1) THEN
 C cas 3D seul possible
-            IF(IRODDL.NE.0) THEN
+            IF(IRODDL/=0) THEN
 #include "vectorize.inc"
               DO J=IADRCP(I),IADRCP(I+1)-1
                CC = IRECVP(J)
@@ -1669,7 +1669,7 @@ C cas 3D seul possible
           ELSE          ! ivector = 0
 C cas 3D seul possible
            IF(NODADT_THERM == 1) THEN
-            IF(IRODDL.NE.0) THEN
+            IF(IRODDL/=0) THEN
 #include "vectorize.inc"
               DO J=IADRCP(I),IADRCP(I+1)-1
                CC = IRECVP(J)
@@ -1701,7 +1701,7 @@ C cas 3D seul possible
               END DO
             ENDIF
            ELSE
-            IF(IRODDL.NE.0) THEN
+            IF(IRODDL/=0) THEN
 #include "vectorize.inc"
               DO J=IADRCP(I),IADRCP(I+1)-1
                CC = IRECVP(J)
@@ -1739,10 +1739,10 @@ C
 C ialelag > 0
 C
       IF(ITHERM_FE == 0 .AND. INTHEAT == 0  ) THEN
-           IF(IFSUBM.EQ.0)THEN
-             IF(IVECTOR.EQ.1) THEN
+           IF(IFSUBM==0)THEN
+             IF(IVECTOR==1) THEN
 C cas 3D    seul possible
-               IF(IRODDL.NE.0) THEN
+               IF(IRODDL/=0) THEN
 #include    "vectorize.inc"
                  DO J=IADRCP(I),IADRCP(I+1)-1
                   CC = IRECVP(J)
@@ -1779,7 +1779,7 @@ C
                ENDIF
              ELSE         ! ivector = 0
 C cas 3D    seul possible
-               IF(IRODDL.NE.0) THEN
+               IF(IRODDL/=0) THEN
 #include    "vectorize.inc"
                  DO J=IADRCP(I),IADRCP(I+1)-1
                   CC = IRECVP(J)
@@ -1816,10 +1816,10 @@ C
                ENDIF
              ENDIF
            ELSE
-Cel46b5    N2D.EQ.0 .AND. IFSUBM.EQ.1
-             IF(IVECTOR.EQ.1) THEN
+Cel46b5    N2D==0 .AND. IFSUBM==1
+             IF(IVECTOR==1) THEN
 C cas 3D    seul possible
-               IF(IRODDL.NE.0) THEN
+               IF(IRODDL/=0) THEN
 #include    "vectorize.inc"
                  DO J=IADRCP(I),IADRCP(I+1)-1
                   CC = IRECVP(J)
@@ -1856,7 +1856,7 @@ C
                ENDIF
              ELSE          ! ivector = 0
 C cas 3D    seul possible
-               IF(IRODDL.NE.0) THEN
+               IF(IRODDL/=0) THEN
 #include    "vectorize.inc"
                  DO J=IADRCP(I),IADRCP(I+1)-1
                   CC = IRECVP(J)
@@ -1897,10 +1897,10 @@ C
 C--- plus la thermique
 C
          ELSE
-          IF(IFSUBM.EQ.0)THEN
-           IF(IVECTOR.EQ.1) THEN
+          IF(IFSUBM==0)THEN
+           IF(IVECTOR==1) THEN
 C cas 3D seul possible
-            IF(IRODDL.NE.0) THEN
+            IF(IRODDL/=0) THEN
 #include "vectorize.inc"
               DO J=IADRCP(I),IADRCP(I+1)-1
                CC = IRECVP(J)
@@ -1940,7 +1940,7 @@ C
           ELSE         ! ivector = 0
 C cas 3D seul possible
            IF(NODADT_THERM == 1) THEN
-            IF(IRODDL.NE.0) THEN
+            IF(IRODDL/=0) THEN
 #include "vectorize.inc"
               DO J=IADRCP(I),IADRCP(I+1)-1
                CC = IRECVP(J)
@@ -1982,7 +1982,7 @@ C
               END DO
             ENDIF
            ELSE
-            IF(IRODDL.NE.0) THEN
+            IF(IRODDL/=0) THEN
 #include "vectorize.inc"
               DO J=IADRCP(I),IADRCP(I+1)-1
                CC = IRECVP(J)
@@ -2022,9 +2022,9 @@ C
            ENDIF
           ENDIF
         ELSE
-          IF(IVECTOR.EQ.1) THEN
+          IF(IVECTOR==1) THEN
 C cas 3D seul possible
-            IF(IRODDL.NE.0) THEN
+            IF(IRODDL/=0) THEN
 #include "vectorize.inc"
               DO J=IADRCP(I),IADRCP(I+1)-1
                CC = IRECVP(J)
@@ -2065,7 +2065,7 @@ C
           ELSE          ! ivector = 0
 C cas 3D seul possible
            IF(NODADT_THERM == 1) THEN
-            IF(IRODDL.NE.0) THEN
+            IF(IRODDL/=0) THEN
 #include "vectorize.inc"
               DO J=IADRCP(I),IADRCP(I+1)-1
                CC = IRECVP(J)
@@ -2108,7 +2108,7 @@ C
               END DO
             ENDIF
            ELSE
-            IF(IRODDL.NE.0) THEN
+            IF(IRODDL/=0) THEN
 #include "vectorize.inc"
               DO J=IADRCP(I),IADRCP(I+1)-1
                CC = IRECVP(J)
@@ -2211,7 +2211,7 @@ C
       ENDIF
 
 C --- /CONT/MAX output
-      IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX .NE.0.AND.NINTSTAMP==0) THEN
+      IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX /=0.AND.NINTSTAMP==0) THEN
 #include      "vectorize.inc"
           DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
              NOD = FR_ELEM(J)
@@ -2244,7 +2244,7 @@ C SFSKYI : FSKYI size (LSKYI*NFSKYI)
 C
 C Traitement interface si concerne le proc
 C
-      IF(NBIRCT.GT.0.OR.NBISDT.GT.0) THEN
+      IF(NBIRCT>0.OR.NBISDT>0) THEN
         CALL SPMD_EXCHI_A_PON(
      1    IAD_ELEM,FR_ELEM,SIZI     ,ISKY  ,FSKYI ,
      2    FSKYIF  ,ITAGX  ,ADSKYI(0),NBIRCT,NBISDT,
@@ -2255,7 +2255,7 @@ C
 Cel wait terminaison isend
 C
       DO I = 1, NSPMD
-        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0)
+        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)
      .    CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
       ENDDO
 

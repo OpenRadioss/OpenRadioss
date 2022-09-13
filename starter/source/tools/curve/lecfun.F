@@ -67,7 +67,7 @@ C======================================================================|
       L=L+1   
       NPTS=NPC(L)-NPC(L-1)
       IDFUNCT=NPC(NFUNCT+L)  
-      IF(NPTS.LT.2)THEN
+      IF(NPTS<2)THEN
        CALL ANCMSG(MSGID=604,
      .             MSGTYPE=MSGERROR,
      .             ANMODE=ANINFO_BLIND_2,

@@ -112,8 +112,8 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
-        IF(SUB_XELEM(I) .NE. 0)THEN
-          IF(IGU(I) .NE. 0) IGU(I) = IGU(I) + OFF_DEF(SUB_XELEM(I)) 
+        IF(SUB_XELEM(I) /= 0)THEN
+          IF(IGU(I) /= 0) IGU(I) = IGU(I) + OFF_DEF(SUB_XELEM(I)) 
         ENDIF
       ENDDO
 C--------------------------------------------------

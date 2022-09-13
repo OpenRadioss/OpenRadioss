@@ -74,7 +74,7 @@ C     REAL
      .        RFAC,RFAT,R1,R2,R3,S1,S2,S3,T1,T2,T3,RS1,RS2,RS3,
      .        R12,S12,R22,S22,R3R3,S3S3,E11,E22,EMIN,K58I
 C-----------------------------------------------
-      IF(ITHK.GT.0.AND.ISMDISP.EQ.0)THEN
+      IF(ITHK>0.AND.ISMDISP==0)THEN
         DO I=JFT,JLT
           THK0(I)=MAX(EM20,THK(I))
         ENDDO
@@ -85,7 +85,7 @@ C-----------------------------------------------
       ENDIF
 C------explicit KFAC=1.0e-3 for quad 1.0e-2 for T3(could be 1.0e-2 fro all)--
 C------implicit KFAC=0.1 for all----
-      IF(IMPL_S.GT.0)THEN
+      IF(IMPL_S>0)THEN
        KFAC= EM01*MIN(ONE,KZ_TOL*2000)
       ELSE
        KFAC= EM03
@@ -227,7 +227,7 @@ C----- used in mem damping
                KRZ(I) =KFAC*G(I)
           ENDDO
       ENDIF
-      IF(NPT.EQ.1) THEN
+      IF(NPT==1) THEN
         DO I=JFT,JLT
          SHF(I)=ZERO
          SHFSR(I)=ZERO
@@ -242,7 +242,7 @@ C----- used in mem damping
          GS(I)=G(I)*SHF(I)
       ENDDO
       IF(MTN == 58 ) THEN
-      ELSEIF(MTN.GE.24)THEN
+      ELSEIF(MTN>=24)THEN
         DO I=JFT,JLT
           A12(I)  =NU(I)*A11(I)
           A12SR(I)=NUSR(I)*A11SR(I)
@@ -310,7 +310,7 @@ C-----------------------------------------------
 C     REAL
       my_real FSH,VISCDEF,FAC1TMP,KFAC,DN      
 C-----------------------------------------------
-      IF(ITHK.GT.0.AND.ISMDISP.EQ.0)THEN
+      IF(ITHK>0.AND.ISMDISP==0)THEN
         DO I=JFT,JLT
           THK0(I)=THK(I)
         ENDDO
@@ -320,7 +320,7 @@ C-----------------------------------------------
         ENDDO
       ENDIF
 C      
-      IF(IMPL_S.GT.0)THEN
+      IF(IMPL_S>0)THEN
        KFAC= EM01*MIN(ONE,KZ_TOL*2000)
       ELSE
        KFAC= EM03
@@ -380,7 +380,7 @@ C
            ENDDO
           
       ENDIF
-      IF(NPT.EQ.1) THEN
+      IF(NPT==1) THEN
         DO I=JFT,JLT
          SHF(I)=ZERO
         ENDDO
@@ -392,7 +392,7 @@ C
       DO I=JFT,JLT
          GS(I)=G(I)*SHF(I)
       ENDDO
-      IF(MTN.GE.24)THEN
+      IF(MTN>=24)THEN
         DO I=JFT,JLT
           A12(I)  =NU(I)*A11(I)
         ENDDO
@@ -451,7 +451,7 @@ C-----------------------------------------------
 C     REAL
       my_real KFAC ,LMAX
 C-----------------------------------------------
-      IF(IMPL_S.GT.0)THEN
+      IF(IMPL_S>0)THEN
         KFAC= EM01*MIN(ONE,KZ_TOL*2000)
       ELSE
         KFAC= EM02
@@ -819,10 +819,10 @@ C-----------
                   IPT_ALL = IPT_ALL + NPTT
                 ENDDO  !  DO ILAY=1,NLAY
               ENDIF ! igmat + igtyp == 11
-            END IF !(IGTYP.EQ.10)
+            END IF !(IGTYP==10)
           END SELECT
-        ENDIF !IF (MTN.EQ.19)
-      ENDIF    ! IF (IORTH.EQ.1) THEN
+        ENDIF !IF (MTN==19)
+      ENDIF    ! IF (IORTH==1) THEN
 C
       RETURN
       END

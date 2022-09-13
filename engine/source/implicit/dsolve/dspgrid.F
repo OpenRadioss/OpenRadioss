@@ -64,7 +64,7 @@ C-----------------------------------------------
       INTEGER MSGOFF
       DATA MSGOFF  /200000/ 
 C
-      IF (ISPMD.NE.0) THEN
+      IF (ISPMD/=0) THEN
          LENBUF(1)=PGRAPH%DGRAPH(1)%NDDL_F+2
          IRQTAG=MSGOFF + ISPMD
          CALL SPMD_DS_ISEND(LENBUF(1), 1, IRQTAG, 1)
@@ -117,7 +117,7 @@ C
          N=0
          DO I=1,NDDL
             N=N+MIN(1,ITAG(1,I))
-            IF (ITAG(1,I).NE.0) ITAG(2,I)=N
+            IF (ITAG(1,I)/=0) ITAG(2,I)=N
          ENDDO
          NN=N
          N=N+NMOD
@@ -129,10 +129,10 @@ C
             IBUF(2)=N
             JJ=0
             DO J=1,NDDL
-               IF (ITAG(1,J).NE.0) THEN
+               IF (ITAG(1,J)/=0) THEN
                   NP=ITAG(1,J)
                   DO IP=1,NP
-                     IF (ITAG(2+IP,J).EQ.I+1) THEN
+                     IF (ITAG(2+IP,J)==I+1) THEN
                         JJ=JJ+1
                         IBUF(2+JJ)=ITAG(2,J)
                      ENDIF
@@ -151,9 +151,9 @@ C
          IBUF(2)=N
          II=0
          DO I=1,NDDL
-            IF (ITAG(1,I).NE.0) THEN
+            IF (ITAG(1,I)/=0) THEN
                DO J=1,ITAG(1,I)
-                  IF (ITAG(2+J,I).EQ.1) THEN
+                  IF (ITAG(2+J,I)==1) THEN
                      II=II+1
                      IBUF(2+II)=ITAG(2,I)
                   ENDIF
@@ -167,22 +167,22 @@ C
       DSNROW=0
       DSNCOL=0
 C
-      IF (ITYP.EQ.1) THEN
+      IF (ITYP==1) THEN
 C Process grid unidimensionnelle pour PARPACK
          DSNROW=NSPMD
          DSNCOL=1
          DSNBLOC=NDDLC/NSPMD+1
-      ELSEIF (ITYP.EQ.2) THEN
+      ELSEIF (ITYP==2) THEN
 C Progress grid bi-dimensionnelle pour resolution statique
          RNSPMD=NSPMD
          NRMAX=INT(SQRT(RNSPMD))
          DO NR=1,NRMAX
-            IF (MOD(NSPMD,NR).EQ.0) THEN
+            IF (MOD(NSPMD,NR)==0) THEN
                DSNROW=NR
                DSNCOL=NSPMD/NR
             ENDIF
          ENDDO
-         IF (NDDLC.LT.1000) THEN
+         IF (NDDLC<1000) THEN
             NBLOCMAX=32
          ELSE
             NBLOCMAX=64
@@ -210,18 +210,18 @@ C
       DO I=1,NDDLC
          IRL=IRL+1
          ICL=ICL+1
-         IF (IRL.GT.DSNBLOC) THEN
+         IF (IRL>DSNBLOC) THEN
             IRL=1
             IPR=IPR+1
-            IF (IPR.GT.DSNROW) IPR=1
+            IF (IPR>DSNROW) IPR=1
          ENDIF
          IROW(1,I)=IPR
          IADR(IPR)=IADR(IPR)+1
          IROW(2,I)=IADR(IPR)
-         IF (ICL.GT.DSNBLOC) THEN
+         IF (ICL>DSNBLOC) THEN
             ICL=1
             IPC=IPC+1
-            IF (IPC.GT.DSNCOL) IPC=1
+            IF (IPC>DSNCOL) IPC=1
          ENDIF
          ICOL(1,I)=IPC
          IADC(IPC)=IADC(IPC)+1
@@ -287,12 +287,12 @@ C
       RNSPMD=NSPMD
       NRMAX=INT(SQRT(RNSPMD))
       DO NR=1,NRMAX
-         IF (MOD(NSPMD,NR).EQ.0) THEN
+         IF (MOD(NSPMD,NR)==0) THEN
             NROW=NR
             NCOL=NSPMD/NR
          ENDIF
       ENDDO
-      IF (NDDLC.LT.1000) THEN
+      IF (NDDLC<1000) THEN
          NBLOCMAX=32
       ELSE
          NBLOCMAX=64
@@ -310,11 +310,11 @@ C
       NN=0
       IIR=0
       IIC=0
-      DO WHILE (NN.LT.NDDLC)
+      DO WHILE (NN<NDDLC)
          IIR=IIR+1
          IIC=IIC+1
-         IF (IIR.EQ.NROW+1) IIR=1
-         IF (IIC.EQ.NCOL+1) IIC=1
+         IF (IIR==NROW+1) IIR=1
+         IF (IIC==NCOL+1) IIC=1
          NN2=MIN(NN+NBLOC,NDDLC)
          NNR(IIR)=NNR(IIR)+NN2-NN
          NNC(IIC)=NNC(IIC)+NN2-NN

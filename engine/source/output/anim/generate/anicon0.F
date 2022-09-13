@@ -46,7 +46,7 @@ C-----------------------------------------------
       INTEGER N
       INTEGER I, J
 C
-CC      IF(TT.GE.TANIM.OR.TT.GE.TOUTP.OR.MANIM.GE.4) THEN
+CC      IF(TT>=TANIM.OR.TT>=TOUTP.OR.MANIM>=4) THEN
 
 #include "lockon.inc"
 C

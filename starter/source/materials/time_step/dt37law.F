@@ -95,21 +95,21 @@ C-----------------------------------------------
       ENDDO
 
       DO I=LFT,LLT
-       IF(GAM*C1.GE.EM30)THEN !if Liquid and gas correctly defined
+       IF(GAM*C1>=EM30)THEN !if Liquid and gas correctly defined
          RHO1(I) = RHO10
          RHO2(I) = RHO20
        ENDIF 
       ENDDO
                 
-      IF (ISOLVER.EQ.2) THEN
+      IF (ISOLVER==2) THEN
         DO I=LFT,LLT
           MAS1 = A1 * VOL(I)
-          IF (A1 .LT. EM10)THEN
+          IF (A1 < EM10)THEN
             MAS1=ZERO
             VFRAC1=ZERO
             VFRAC2=ONE
           ENDIF
-          IF (ONE-A1 .LT. EM10)THEN
+          IF (ONE-A1 < EM10)THEN
             MAS2=ZERO
             RHO1=MAS(I)/VOL(I)
             VFRAC1=ONE
@@ -117,17 +117,17 @@ C-----------------------------------------------
           ENDIF
           A = (RHO0(I)-RHO2(I))/(RHO1(I)-RHO2(I))
           VFRAC1=A
-          IF(VFRAC1.LT.EM20)VFRAC1=ZERO
+          IF(VFRAC1<EM20)VFRAC1=ZERO
           VFRAC2 = ONE-VFRAC1
           SSP1=C1
           SSP2=GAM*P0*(RHO2(I)/RHO20)**GAM
           UVAR1=A*RHO1(I)
-          IF(SSP1.GT.ZERO)THEN
+          IF(SSP1>ZERO)THEN
             SSP1 = VFRAC1 / SSP1
           ELSE
             SSP1=ZERO
           ENDIF
-          IF(SSP2.GT.ZERO)THEN
+          IF(SSP2>ZERO)THEN
             SSP2 = VFRAC2 / SSP2
           ELSE
             SSP2=ZERO
@@ -150,7 +150,7 @@ C-----------------------------------------------
       !----------------------------------------------!
       !  ELEMENTARY TIME STEP (ARTIFICIAL VISCOSITY) !
       !----------------------------------------------!
-      IF(JSPH.EQ.0)THEN
+      IF(JSPH==0)THEN
        CALL DTEL(SSP,PM,GEO,PID,MAT, RHO0, VIS, DELTAX, AIRE, VOL, DTX)
       ELSE
        CALL DTSPH(SSP,PM,GEO,PID,MAT, RHO0, VIS, DELTAX, VOL, DTX)

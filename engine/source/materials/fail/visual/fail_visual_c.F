@@ -127,7 +127,7 @@ c!  ***********************
 c!  *** NEW ... 03.07.2019  
 c!  ***********************      
         DO I=1,NEL
-         IF (UVAR(I,1) .LT. 1.0d0 .AND. OFF(I) .EQ. ONE)THEN
+         IF (UVAR(I,1) < 1.0d0 .AND. OFF(I) == ONE)THEN
            
            IF (TYPE_MAX == 1) THEN  
 
@@ -256,7 +256,7 @@ c!           UVAR(I,2)  = E11
            UVAR(I,1)    =  MAX(UVAR(I,1),DAMAGE)
            DFMAX(I)     =  UVAR(I,1)
 
-           IF (UVAR(I,1) .GE. ONE) THEN
+           IF (UVAR(I,1) >= ONE) THEN
              NINDX       = NINDX+1
              INDX(NINDX) = I              
            ENDIF

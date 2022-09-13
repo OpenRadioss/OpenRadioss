@@ -47,12 +47,12 @@ C-----------------------------------------------
       I2=LLT-1
       NVCI=0
       DO 20 I=LFT,I2
-      IF(NVCI.NE.0) GO TO 20
+      IF(NVCI/=0) GO TO 20
       J1=I+1
       II=IXI(I)
       DO 10 J=J1,LLT
       IJ=IXI(J)
-      IF(IJ.NE.II) GO TO 10
+      IF(IJ/=II) GO TO 10
       NVCI=1
    10 CONTINUE
    20 CONTINUE

@@ -340,7 +340,7 @@ C
         VOLDP(I) = W * DETDP
         VOL(I) = VOLDP(I)
 C
-        IF(VOL(I).LE.ZERO)THEN
+        IF(VOL(I)<=ZERO)THEN
          CALL ANCMSG(MSGID=483,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -348,7 +348,7 @@ C
         ENDIF
       ENDDO
 C
-C      IF(IDTMIN(1).EQ.1)THEN
+C      IF(IDTMIN(1)==1)THEN
 C ...
 C      ENDIF
 C

@@ -61,7 +61,7 @@ C
       DATA KM1/2,3,4,1/
       DATA KN1/4,1,2,3/
 C-------------------------------------------------------------------------------------
-      IF(NRT.EQ.0) RETURN
+      IF(NRT==0) RETURN
 C
       DO II=1,NSN
         I=NSV(II)
@@ -73,19 +73,19 @@ C
         J2=NSEG(J+1)-1
         DO JJ=J1,J2
           LL=LMSR(JJ)
-          IF(J.EQ.IRECT(1,LL)) THEN
+          IF(J==IRECT(1,LL)) THEN
             L=IRECT(2,LL)
             M=IRECT(3,LL)
             N=IRECT(4,LL)
-          ELSEIF(J.EQ.IRECT(2,LL)) THEN
+          ELSEIF(J==IRECT(2,LL)) THEN
             L=IRECT(1,LL)
             M=IRECT(3,LL)
             N=IRECT(4,LL)
-          ELSEIF(J.EQ.IRECT(3,LL)) THEN
+          ELSEIF(J==IRECT(3,LL)) THEN
             L=IRECT(1,LL)
             M=IRECT(2,LL)
             N=IRECT(4,LL)
-          ELSEIF(J.EQ.IRECT(4,LL)) THEN
+          ELSEIF(J==IRECT(4,LL)) THEN
             L=IRECT(1,LL)
             M=IRECT(2,LL)
             N=IRECT(3,LL)
@@ -110,17 +110,17 @@ C
           DMS=(X(1,I)-X(1,LG))**2+(X(2,I)-X(2,LG))**2+(X(3,I)-X(3,LG))**2
           EMS=(X(1,I)-X(1,MG))**2+(X(2,I)-X(2,MG))**2+(X(3,I)-X(3,MG))**2
           FMS=(X(1,I)-X(1,NG))**2+(X(2,I)-X(2,NG))**2+(X(3,I)-X(3,NG))**2
-          IF(DMS.LE.CMS) THEN
+          IF(DMS<=CMS) THEN
             CMS=DMS
             JNEW=L
             K=LG
           ENDIF
-          IF(EMS.LE.CMS) THEN
+          IF(EMS<=CMS) THEN
             CMS=EMS
             JNEW=M
             K=MG
           ENDIF
-          IF(FMS.LE.CMS) THEN
+          IF(FMS<=CMS) THEN
             CMS=FMS
             JNEW=N
             K=NG
@@ -133,15 +133,15 @@ C
         BMAX=-EP30
         LSEG_NEW=0
         L=IRTL(II)
-        IF(L.EQ.0) GO TO 100
+        IF(L==0) GO TO 100
         LSEG=L
         DO KKK=1,4
           KK=KKK
-          IF(IRECT(KK,L).EQ.J) EXIT
+          IF(IRECT(KK,L)==J) EXIT
         ENDDO
         J1=KM1(KK)
         J2=KN1(KK)
-        IF(KK.EQ.3.AND.IRECT(3,L).EQ.IRECT(4,L)) J1=1
+        IF(KK==3.AND.IRECT(3,L)==IRECT(4,L)) J1=1
         M=MSR(IRECT(J1,L))
         N=MSR(IRECT(J2,L))
         CALL NEAREST_SEG(X, I, K, M, N, LSEG, LSEG_NEW, BMIN, BMAX)
@@ -153,14 +153,14 @@ C
         DO JJ=J1,J2
           LL=LMSR(JJ)
           LSEG=LL
-          IF(L.EQ.LL) CYCLE
+          IF(L==LL) CYCLE
           DO KKK=1,4
             KK=KKK
-            IF(IRECT(KK,LL).EQ.J) EXIT
+            IF(IRECT(KK,LL)==J) EXIT
           ENDDO
           K1=KM1(KK)
           K2=KN1(KK)
-          IF(KK.EQ.3.AND.IRECT(3,LL).EQ.IRECT(4,LL)) K1=1
+          IF(KK==3.AND.IRECT(3,LL)==IRECT(4,LL)) K1=1
           M=MSR(IRECT(K1,LL))
           N=MSR(IRECT(K2,LL))
           CALL NEAREST_SEG(X, I, K, M, N, LSEG, LSEG_NEW, BMIN, BMAX)

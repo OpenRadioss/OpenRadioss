@@ -97,7 +97,7 @@ C-----------------------------------------------
       PARAMETER (KPROP=33)
 C=======================================================================
       DT = DT1
-      IF (DT.EQ.ZERO) DT = EP30
+      IF (DT==ZERO) DT = EP30
       JTYP = NINT(GET_U_GEO(1,IPROP))
 C
       CR   = GET_U_GEO(12,IPROP)  
@@ -121,7 +121,7 @@ C
       FAC_CTX = FAC_LOC_T / FAC_LOC_L
       FAC_CRX = FAC_LOC_T
 C
-      IF (IGTYP.EQ.45) THEN
+      IF (IGTYP==45) THEN
         IFUN_FMX = GET_U_PNU(13,IPROP,KFUNC) 
         IFUN_FMY = GET_U_PNU(14,IPROP,KFUNC) 
         IFUN_FMZ = GET_U_PNU(15,IPROP,KFUNC) 
@@ -173,11 +173,11 @@ C
         KRZ(I) = UVAR(33,I)
 	KNN(I) = UVAR(17,I)
 	KRR(I) = UVAR(18,I)
-        IF ((IGTYP.EQ.45).AND.(ISENS.EQ.1)) THEN
+        IF ((IGTYP==45).AND.(ISENS==1)) THEN
 	  DO K=1,6
             DXSK(K) = UVAR(4+K-1,I)	    
-	    IF (ABS(SMA(K)).GT.EM20) DXSK(K) = MIN(DXSK(K),SMA(K))
-	    IF (ABS(SMI(K)).GT.EM20) DXSK(K) = MAX(DXSK(K),SMI(K))	    
+	    IF (ABS(SMA(K))>EM20) DXSK(K) = MIN(DXSK(K),SMA(K))
+	    IF (ABS(SMI(K))>EM20) DXSK(K) = MAX(DXSK(K),SMI(K))	    
 	  END DO
 	  DXS(I) = DXSK(1)	  
 	  DYS(I) = DXSK(2)
@@ -263,7 +263,7 @@ C--------      ELASTIC
        CALL XDDL33(NEL, RZ, ZMOM, KRZ, IFUN_RZ, XKR,FAC_R)
 
 C--------      STOP DISPLACEMENT / ANGLE + FRICTION
-       IF (IGTYP.EQ.45) THEN       
+       IF (IGTYP==45) THEN       
          CALL STDPL(NEL,DX,VX,FX,KNX,KNN,KF(1),CR,CR1,SMI(1),SMA(1),
      .              XKM,FM(1),UVAR(10,1),IFUN_FMX,ICOMBT,DEQ,FCOMB(1),XCENT(1),FAC_X)
          CALL STDPL(NEL,DY,VY,FY,KNY,KNN,KF(2),CR,CR2,SMI(2),SMA(2),
@@ -279,7 +279,7 @@ C--------      STOP DISPLACEMENT / ANGLE + FRICTION
      .              XKR,FM(6),UVAR(15,1),IFUN_FMRZ,ICOMBR,REQ,FCOMB(6),XCENT(6),FAC_R)
        ENDIF
 C--------      JOINT BLOCKED BY SENSOR ACTIVATION
-       IF ((IGTYP.EQ.45).AND.(ISENS.EQ.1)) THEN       
+       IF ((IGTYP==45).AND.(ISENS==1)) THEN       
          CALL SENS_BLOCK(NEL,DX,FX,KNX,KNN,CR,CR1,DXS,FDOF(1),XKM)
          CALL SENS_BLOCK(NEL,DY,FY,KNY,KNN,CR,CR2,DYS,FDOF(2),XKM)
          CALL SENS_BLOCK(NEL,DZ,FZ,KNZ,KNN,CR,CR3,DZS,FDOF(3),XKM)
@@ -291,9 +291,9 @@ C--------      CRITICAL DAMPING
        DO I=1,NEL
          MS = ZERO
          IN = ZERO
-         IF((UVAR(34,I)+UVAR(35,I)).NE.ZERO)
+         IF((UVAR(34,I)+UVAR(35,I))/=ZERO)
      .              MS = (UVAR(34,I)*UVAR(35,I))/(UVAR(34,I)+UVAR(35,I))
-         IF((UVAR(36,I)+UVAR(37,I)).NE.ZERO)
+         IF((UVAR(36,I)+UVAR(37,I))/=ZERO)
      .              IN = (UVAR(36,I)*UVAR(37,I))/(UVAR(36,I)+UVAR(37,I))
          CX = MAX(CR1,CR2,CR3,CR4,CR5,CR6)
          XCM(I) = CX*SQRT(XKM(I)*MS)
@@ -356,7 +356,7 @@ C----------------------------------------------------------
       my_real FX0
 C-------------------------------------------------------------------------
       DO I=1,NEL
-        IF(IFUN.EQ.0) THEN
+        IF(IFUN==0) THEN
           FX(I) = KX(I)*DX(I)
           KMX(I)= MAX(KMX(I),KX(I))
         ELSE
@@ -394,9 +394,9 @@ C----------------------------------------------------------
      .        GET_U_FUNC 
       EXTERNAL GET_U_FUNC 
 C-------------------------------------------------------------------------
-      IF (KX.NE.ZERO) THEN
+      IF (KX/=ZERO) THEN
         DO I=1,NEL
-          IF(IFUN.EQ.0) THEN
+          IF(IFUN==0) THEN
             FX(I) = FX(I) + KX*DX(I)
             KMX(I)= MAX(KMX(I),KX)
           ELSE
@@ -436,7 +436,7 @@ C----------------------------------------------------------
       EXTERNAL GET_U_FUNC                
 C-------------------------------------------------------------------------
 C
-      IF ((KF.GT.EM20).AND.((FM.GT.EM20).OR.(IFUN.GT.0))) THEN      
+      IF ((KF>EM20).AND.((FM>EM20).OR.(IFUN>0))) THEN      
 C------Friction-----------------------------------------------------------     
         DO I=1,NEL
 	  DFR = KF*VX(I)*DT12
@@ -444,7 +444,7 @@ C------Friction-----------------------------------------------------------
           FT = MAX(FR*FR,EM30)
           DELTAX = ZERO
 C
-          IF (IFUN.GT.0) THEN
+          IF (IFUN>0) THEN
 	    FFM = FM*GET_U_FUNC(IFUN,DX(I)*FAC_X,DERI)
 	    KTMAX = MAX(KF,ABS((FM*FAC_X)*DERI))
 	  ELSE
@@ -456,15 +456,15 @@ C
 C
           IF (ICOMB <= 1) THEN
 C-    stopping displacment/ angle
-	    IF ((DX(I).GT.0).AND.(DXMA.GT.0)) DELTAX = MAX(ZERO,DX(I)-DXMA)
-            IF ((DX(I).LT.0).AND.(DXMI.LT.0)) DELTAX = MIN(ZERO,DX(I)-DXMI)
-	    IF (ABS(DELTAX).GT.EM20) BETA = ONE
+	    IF ((DX(I)>0).AND.(DXMA>0)) DELTAX = MAX(ZERO,DX(I)-DXMA)
+            IF ((DX(I)<0).AND.(DXMI<0)) DELTAX = MIN(ZERO,DX(I)-DXMI)
+	    IF (ABS(DELTAX)>EM20) BETA = ONE
           ELSE
 C-    combined stopping displacment/ angle
             RADIUS = HALF*(DXMA-DXMI)
-            IF ((DEQ(I).GT.0).AND.(RADIUS.GT.0)) DELTAX = MAX(ZERO,DEQ(I)-RADIUS)
+            IF ((DEQ(I)>0).AND.(RADIUS>0)) DELTAX = MAX(ZERO,DEQ(I)-RADIUS)
             FR = FRP(I)
-	    IF (ABS(DELTAX).GT.EM20) THEN
+	    IF (ABS(DELTAX)>EM20) THEN
               DFR = DFR*FCOMB*ABS(DX(I)-XCENT)/DEQ(I)
               BETA = ONE
               FR = FRP(I) + DFR
@@ -483,40 +483,40 @@ C
           KMX(I)= MAX(KMX(I),KLOC)
         ENDDO      
 
-      ELSEIF (((ABS(DXMI)+DXMA).GT.0).AND.(ICOMB <= 1)) THEN      
+      ELSEIF (((ABS(DXMI)+DXMA)>0).AND.(ICOMB <= 1)) THEN      
 C------Stopping Angles / displacements only--------------------------------      
         DO I=1,NEL
           DELTAX = ZERO
 	  KLOC = KNN(I)
-	  IF (KF.GT.EM20) KLOC = KF
-          IF ((DX(I).GT.0).AND.(DXMA.GT.0)) DELTAX = MAX(ZERO,DX(I)-DXMA)
-          IF ((DX(I).LT.0).AND.(DXMI.LT.0)) DELTAX = MIN(ZERO,DX(I)-DXMI)
-	  IF (ABS(DELTAX).GT.EM20) THEN
+	  IF (KF>EM20) KLOC = KF
+          IF ((DX(I)>0).AND.(DXMA>0)) DELTAX = MAX(ZERO,DX(I)-DXMA)
+          IF ((DX(I)<0).AND.(DXMI<0)) DELTAX = MIN(ZERO,DX(I)-DXMI)
+	  IF (ABS(DELTAX)>EM20) THEN
              FX(I) = FX(I) + KLOC*DELTAX
 	     KX(I) = KX(I) + KLOC
 	     CRX = CR	  
              KMX(I)= MAX(KMX(I),KX(I))
-	  ELSEIF (ABS((DX(I)-DXMA)/DXMA).LT.0.001) THEN
+	  ELSEIF (ABS((DX(I)-DXMA)/DXMA)<0.001) THEN
 	     KX(I) = KX(I) + KLOC
 	     CRX = CR	  
              KMX(I)= MAX(KMX(I),KX(I))	        
 	  ENDIF   
         ENDDO
 C
-      ELSEIF (((ABS(DXMI)+DXMA).GT.0).AND.(ICOMB > 1)) THEN      
+      ELSEIF (((ABS(DXMI)+DXMA)>0).AND.(ICOMB > 1)) THEN      
 C------Combined stopping Angles / displacements only--------------------------------      
         DO I=1,NEL
           DELTAX = ZERO
 	  KLOC = KNN(I)
           RADIUS = HALF*(DXMA-DXMI)
-	  IF (KF.GT.EM20) KLOC = KF
-          IF ((DEQ(I).GT.0).AND.(RADIUS.GT.0)) DELTAX = MAX(ZERO,DEQ(I)-RADIUS)
-	  IF (ABS(DELTAX).GT.EM20) THEN
+	  IF (KF>EM20) KLOC = KF
+          IF ((DEQ(I)>0).AND.(RADIUS>0)) DELTAX = MAX(ZERO,DEQ(I)-RADIUS)
+	  IF (ABS(DELTAX)>EM20) THEN
              FX(I) = FX(I) + KLOC*DELTAX*(FCOMB*(DX(I)-XCENT)/DEQ(I))
 	     KX(I) = KX(I) + KLOC
 	     CRX = CR	  
              KMX(I)= MAX(KMX(I),KX(I))
-	  ELSEIF (ABS((DEQ(I)-RADIUS)/RADIUS).LT.0.001) THEN
+	  ELSEIF (ABS((DEQ(I)-RADIUS)/RADIUS)<0.001) THEN
 	     KX(I) = KX(I) + KLOC
 	     CRX = CR	  
              KMX(I)= MAX(KMX(I),KX(I))	        
@@ -551,7 +551,7 @@ C----------------------------------------------------------
       my_real DERI, KX(*), DX(*), FX(*), KMX(*), 
      .         CRX,CR,DELTAX,KNN(*),DXS(*)       
 C-------------------------------------------------------------------------
-      IF (FLAG.EQ.0) GOTO 350
+      IF (FLAG==0) GOTO 350
 C      
       DO I=1,NEL
          DELTAX = DX(I)-DXS(I)
@@ -588,25 +588,25 @@ C-------------------------------------------------------------------------
 
       FDOF = 0
 
-      IF (JTYP.EQ.1) THEN
+      IF (JTYP==1) THEN
         FDOF(4) = 1
         FDOF(5) = 1
         FDOF(6) = 1		
-      ELSEIF (JTYP.EQ.2) THEN
+      ELSEIF (JTYP==2) THEN
         FDOF(4) = 1		
-      ELSEIF (JTYP.EQ.3) THEN
+      ELSEIF (JTYP==3) THEN
         FDOF(1) = 1
         FDOF(4) = 1
-      ELSEIF (JTYP.EQ.4) THEN
+      ELSEIF (JTYP==4) THEN
         FDOF(2) = 1
         FDOF(3) = 1
         FDOF(4) = 1   		
-      ELSEIF (JTYP.EQ.6) THEN
+      ELSEIF (JTYP==6) THEN
         FDOF(1) = 1
-      ELSEIF (JTYP.EQ.7) THEN
+      ELSEIF (JTYP==7) THEN
         FDOF(2) = 1
         FDOF(3) = 1
-      ELSEIF (JTYP.EQ.9) THEN
+      ELSEIF (JTYP==9) THEN
         FDOF(1) = 1
         FDOF(2) = 1
         FDOF(3) = 1

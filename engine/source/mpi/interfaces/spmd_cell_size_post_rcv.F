@@ -19,7 +19,7 @@ Copyright>        Commercial Alternative: Altair Radioss Software
 Copyright>    
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
-Copyright>        commercial version may interest you: https://www.altair.com/radioss/.  
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
 Chd|  SPMD_CELL_SIZE_POST_RCV       source/mpi/interfaces/spmd_cell_size_post_rcv.F
 Chd|-- called by -----------
@@ -95,7 +95,7 @@ C-----------------------------------------------
         
         !   --------------------------------
         LOC_PROC = ISPMD + 1
-        IF(IRCVFROM(NIN,LOC_PROC).NE.0) THEN  !   local nmn>0
+        IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN  !   local nmn>0
             !   -----------------------
             !   loop over the proc of the interface
             DO P_LOC = 1,SORT_COMM(NIN)%PROC_NUMBER
@@ -103,8 +103,8 @@ C-----------------------------------------------
                 NSNFI(NIN)%P(P) = 0
                 !   -----------------------  
                 !   prepare the reception : only for proc with main node & remote proc with secondary nodes     
-                IF(ISENDTO(NIN,P).NE.0) THEN  !   remote nsn>0
-                    IF(LOC_PROC.NE.P) THEN
+                IF(ISENDTO(NIN,P)/=0) THEN  !   remote nsn>0
+                    IF(LOC_PROC/=P) THEN
                         NEED_TO_RCV = .TRUE.
                         IF(SORT_COMM(NIN)%PROC_NUMBER>NSPMD/2) THEN
                             IF(.NOT.SORT_COMM(NIN)%KEEP_PROC(P_LOC)) THEN

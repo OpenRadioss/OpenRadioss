@@ -92,7 +92,7 @@ C======================================================================|
 C
       IF (IGTYP == 1) THEN
 C       non orthotropic property
-          IF( ELBUF_STR%BUFLY(1)%LY_DIRA  .NE. 0) THEN
+          IF( ELBUF_STR%BUFLY(1)%LY_DIRA  /= 0) THEN
             DIR1 => ELBUF_STR%BUFLY(1)%DIRA 
             DO I=LFT,LLT
               DIR1(I) = ONE
@@ -179,7 +179,7 @@ C
               CSP=COS(PHI1(IL,I))
               SNP=SIN(PHI1(IL,I))
               IF(IGTYP == 17) THEN
-                IF(STACK%IGEO(2+IL,ISUBSTACK) .NE. 0) THEN
+                IF(STACK%IGEO(2+IL,ISUBSTACK) /= 0) THEN
                   IF (IGEO(49,STACK%IGEO(2+IL,ISUBSTACK)) == 1) THEN
                     DIR1(I)     = CSP
                     DIR1(I+NEL) = SNP
@@ -224,7 +224,7 @@ C
               W2X = -U2X/DET
               DO IL=1,NLAY
                 DIR1 => ELBUF_STR%BUFLY(IL)%DIRA    
-                IF ( IORTHLOC(I) .NE. 0 ) THEN
+                IF ( IORTHLOC(I) /= 0 ) THEN
                   DIR1(I)     = COOR1(IL,I) 
                   DIR1(I+NEL) = COOR2(IL,I) 
                 ENDIF
@@ -245,7 +245,7 @@ C-------
             DO I=LFT,LLT
               CSP=COS(PHI1(IL,I))
               SNP=SIN(PHI1(IL,I))
-              IF(IGTYP == 51 .AND. STACK%IGEO(2+IL,ISUBSTACK) .NE. 0)THEN
+              IF(IGTYP == 51 .AND. STACK%IGEO(2+IL,ISUBSTACK) /= 0)THEN
                 IF (IGEO(49,STACK%IGEO(2+IL,ISUBSTACK)) == 1) THEN
                   DIR1(I)     = CSP
                   DIR1(I+NEL) = SNP

@@ -82,7 +82,7 @@ C=========================================================================
       ENDDO
 c
       H3D_DATA%INPUT_LIST(H3D_DATA%N_INPUT_H3D)%NB_PART = N_H3D_PART
-      IF (N_H3D_PART .NE. 0 )
+      IF (N_H3D_PART /= 0 )
      .       ALLOCATE(H3D_DATA%INPUT_LIST(H3D_DATA%N_INPUT_H3D)%PART_LIST(N_H3D_PART))
 c
       N_H3D_PART = 0
@@ -115,23 +115,23 @@ C--------------------------------------------------
       KEY3_GLOB = ''
       DO I=1,ncharkey
         IF ( KEY3(I:I) == '=' ) IS_CHAR_KEY3 = 0
-        IF ( KEY3(I:I) .NE. ' ' ) IS_EMPTY_KEY3 = 0
+        IF ( KEY3(I:I) /= ' ' ) IS_EMPTY_KEY3 = 0
         IF ( KEY4(I:I) == '=' ) IS_CHAR_KEY4 = 0
-        IF ( KEY4(I:I) .NE. ' ' ) IS_EMPTY_KEY4 = 0
+        IF ( KEY4(I:I) /= ' ' ) IS_EMPTY_KEY4 = 0
         IF ( KEY5(I:I) == '=' ) IS_CHAR_KEY5 = 0
-        IF ( KEY5(I:I) .NE. ' ' ) IS_EMPTY_KEY5 = 0
+        IF ( KEY5(I:I) /= ' ' ) IS_EMPTY_KEY5 = 0
         IF ( KEY6(I:I) == '=' ) IS_CHAR_KEY6 = 0
-        IF ( KEY6(I:I) .NE. ' ' ) IS_EMPTY_KEY6 = 0
+        IF ( KEY6(I:I) /= ' ' ) IS_EMPTY_KEY6 = 0
         IF ( KEY7(I:I) == '=' ) IS_CHAR_KEY7 = 0
-        IF ( KEY7(I:I) .NE. ' ' ) IS_EMPTY_KEY7 = 0
+        IF ( KEY7(I:I) /= ' ' ) IS_EMPTY_KEY7 = 0
         IF ( KEY8(I:I) == '=' ) IS_CHAR_KEY8 = 0
-        IF ( KEY8(I:I) .NE. ' ' ) IS_EMPTY_KEY8 = 0
+        IF ( KEY8(I:I) /= ' ' ) IS_EMPTY_KEY8 = 0
       ENDDO
 C-------------------------------------------------- 
       CPT = 0
       IF ( IS_CHAR_KEY3 == 1 .AND. IS_EMPTY_KEY3 == 0) THEN
         DO I=1,ncharkey
-          IF ( KEY3(I:I) .NE. ' ' ) THEN 
+          IF ( KEY3(I:I) /= ' ' ) THEN 
             CPT = CPT + 1
             KEY3_GLOB(CPT:CPT) = KEY3(I:I)
           ENDIF
@@ -141,7 +141,7 @@ C--------------------------------------------------
         CPT = CPT + 1
         KEY3_GLOB(CPT:CPT) = '/'
         DO I=1,ncharkey
-          IF ( KEY4(I:I) .NE. ' ' ) THEN 
+          IF ( KEY4(I:I) /= ' ' ) THEN 
             CPT = CPT + 1
             KEY3_GLOB(CPT:CPT) = KEY4(I:I)
           ENDIF
@@ -151,7 +151,7 @@ C--------------------------------------------------
         CPT = CPT + 1
         KEY3_GLOB(CPT:CPT) = '/'
         DO I=1,ncharkey
-          IF ( KEY5(I:I) .NE. ' ' ) THEN 
+          IF ( KEY5(I:I) /= ' ' ) THEN 
             CPT = CPT + 1
             KEY3_GLOB(CPT:CPT) = KEY5(I:I)
           ENDIF
@@ -161,7 +161,7 @@ C--------------------------------------------------
         CPT = CPT + 1
         KEY3_GLOB(CPT:CPT) = '/'
         DO I=1,ncharkey
-          IF ( KEY6(I:I) .NE. ' ' ) THEN 
+          IF ( KEY6(I:I) /= ' ' ) THEN 
             CPT = CPT + 1
             KEY3_GLOB(CPT:CPT) = KEY6(I:I)
           ENDIF
@@ -171,7 +171,7 @@ C--------------------------------------------------
         CPT = CPT + 1
         KEY3_GLOB(CPT:CPT) = '/'
         DO I=1,ncharkey
-          IF ( KEY7(I:I) .NE. ' ' ) THEN 
+          IF ( KEY7(I:I) /= ' ' ) THEN 
             CPT = CPT + 1
             KEY3_GLOB(CPT:CPT) = KEY7(I:I)
           ENDIF
@@ -181,7 +181,7 @@ C--------------------------------------------------
         CPT = CPT + 1
         KEY3_GLOB(CPT:CPT) = '/'
         DO I=1,ncharkey
-          IF ( KEY8(I:I) .NE. ' ' ) THEN 
+          IF ( KEY8(I:I) /= ' ' ) THEN 
             CPT = CPT + 1
             KEY3_GLOB(CPT:CPT) = KEY8(I:I)
           ENDIF

@@ -92,7 +92,7 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       RHON_OLD(LFT:LLT)=RHON(LFT:LLT)
-      IF(INCOMP.EQ.1 .AND. JEUL+JALE.EQ.1)THEN
+      IF(INCOMP==1 .AND. JEUL+JALE==1)THEN
         MX            = MAT(LFT)
         RHO0          = PM(1,MX)
         E0            = PM(23,MX)
@@ -104,7 +104,7 @@ C-----------------------------------------------
           EINT(I)     = EINT(I)*VOLO(I)-E0*DVV*VAVG
         ENDDO
       ELSE
-        IF(JLAG.NE.0)THEN
+        IF(JLAG/=0)THEN
           MX          = MAT(LFT)
           RHO0        = PM(1,MX)
 C--- due to /INIBRI/EREF        
@@ -113,11 +113,11 @@ C--- due to /INIBRI/EREF
             VOLO(LFT:LLT)=VOLN(LFT:LLT)
            ELSEIF(ISMSTR==1) THEN
             DO I=LFT,LLT
-              IF(OFFG(I).GT.ONE) VOLO(I)=VOLN(I)
+              IF(OFFG(I)>ONE) VOLO(I)=VOLN(I)
             ENDDO
            END IF
           END IF
-          IF (IMPL_S.GT.0.AND.ILINE.GT.0) THEN
+          IF (IMPL_S>0.AND.ILINE>0) THEN
             DO I=LFT,LLT
               RHON(I) = RHO0
               EINT(I) = EINT(I)*VOLN(I)
@@ -137,22 +137,22 @@ C--- due to /INIBRI/EREF
               ENDDO            
             ENDIF
           ENDIF
-        ELSEIF(JALE.NE.0)THEN                                                                                              
+        ELSEIF(JALE/=0)THEN                                                                                              
           DO I=LFT,LLT                                                                                                     
            RHON(I)    = RHON(I)/VOLN(I)                                                                                    
            DVOL(I)    = VOLN(I)-VOLO(I)+HALF*DT1*(FLU1(I)+FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I)+FLUX(5,I)+FLUX(6,I))   
            VOLO(I)    = VOLN(I)                                                                                            
          ENDDO                                                                                                             
-        ELSEIF(JEUL.NE.0)THEN                                                                                              
+        ELSEIF(JEUL/=0)THEN                                                                                              
          DO I=LFT,LLT                                                                                                      
           RHON(I)     = RHON(I)/VOLN(I)                                                                                    
           DVOL(I)     = HALF*DT1*(FLU1(I)+FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I)+FLUX(5,I)+FLUX(6,I))                   
          ENDDO                                                                                                             
-        ENDIF!(JLAG.NE.0) 
+        ENDIF!(JLAG/=0) 
         
         !---interface22---!
-        IF(INT22.NE.0)THEN
-          IF(JEUL+JALE.NE.0)THEN      
+        IF(INT22/=0)THEN
+          IF(JEUL+JALE/=0)THEN      
            NIN        = 1
            DO I=LFT,LLT         
              IB       = NINT(TAG22(I))
@@ -160,7 +160,7 @@ C--- due to /INIBRI/EREF
              MCELL    = BRICK_LIST(NIN,IB)%mainID
              DDVOL    = BRICK_LIST(NIN,IB)%POLY(MCELL)%DDVOL
              DVOL(I)  = DT1 * DDVOL
-             IF(JEUL.NE.0)THEN
+             IF(JEUL/=0)THEN
                RHON(I) = RHON(I) * VOLN(I) / brick_list(nin,ib)%vnew_scell
              ENDIF
              VOLN(I)  = brick_list(nin,ib)%vnew_scell   
@@ -171,18 +171,18 @@ C--- due to /INIBRI/EREF
              brick_list(nin,ib)%vold_scell  = VOLN(I) !for convection during next cycle : aconve() 
 C             write(*,FMT='(A,I10,A,F30.16)') "brick id =", NGL(I), "   mass= ", RHON(I)*VOLN(I)
            ENDDO!next I
-          ENDIF!(JEUL+JALE.NE.0)        
+          ENDIF!(JEUL+JALE/=0)        
         ENDIF!INT22 
         !-----------------!        
                                                                                                                      
-      ENDIF!IF(INCOMP.EQ.1 .AND. JEUL+JALE.EQ.1)THEN
+      ENDIF!IF(INCOMP==1 .AND. JEUL+JALE==1)THEN
 
-      IF(JALE+JEUL.NE.0)THEN
+      IF(JALE+JEUL/=0)THEN
        COUNT=0
        DO I=LFT,LLT
-         IF(IS_MAT_BCS.EQ. 1)CYCLE
-         IF(RHON(I).GT. ZERO)CYCLE
-         IF(OFF(I).EQ. ZERO )CYCLE
+         IF(IS_MAT_BCS== 1)CYCLE
+         IF(RHON(I)> ZERO)CYCLE
+         IF(OFF(I)== ZERO )CYCLE
            COUNT       = COUNT + 1
            LIST(COUNT) = I
        ENDDO
@@ -206,7 +206,7 @@ C---------VOLN(I)=VOLO(I) for small strain excepting initial stat case
        ENDDO
       ELSEIF ((ISMSTR<=4.OR.ISMSTR==12).AND.JLAG>0) THEN
        DO I=LFT,LLT
-        IF(OFFG(I).GT.ONE) THEN
+        IF(OFFG(I)>ONE) THEN
          DVDP  = DIVDE(I)
          RHOREF = RHON(I)
          RHON(I) = RHON_OLD(I) - RHOREF*DVDP
@@ -222,7 +222,7 @@ C
        IF(IRESP==1)THEN
 C------VOLDP doesn't change after switching to small strain,modifying VOL0DP to      
         DO I=LFT,LLT
-         IF(OFFG(I).GT.ONE) THEN
+         IF(OFFG(I)>ONE) THEN
           DVDP = DIVDE(I)*(VOLO(I)/VOLN(I))
           VOL0DP(I)=VOL0DP(I)-DVDP*VOLDP(I)
          ELSEIF(OFFG(I)==ZERO) THEN

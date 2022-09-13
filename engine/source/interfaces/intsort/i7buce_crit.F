@@ -94,7 +94,7 @@ C
 !#include "simd.inc" --> this loop can't be vectorized because there are somes dependencies 
         DO I=NSNF,NSNL
           J=NSV(I)
-          IF(STFN(I).NE.ZERO) THEN
+          IF(STFN(I)/=ZERO) THEN
 
             XSLV(1)=MAX(XSLV(1),X(1,J)-XSAV(1,I))
             XSLV(2)=MAX(XSLV(2),X(2,J)-XSAV(2,I))
@@ -116,7 +116,7 @@ C
         DO I=NMNF,NMNL
           II = I+NSN
           J=MSR(I)
-          IF(J.GT.0) THEN
+          IF(J>0) THEN
             XMSR(1)=MAX(XMSR(1),X(1,J)-XSAV(1,II))
             XMSR(2)=MAX(XMSR(2),X(2,J)-XSAV(2,II))
             XMSR(3)=MAX(XMSR(3),X(3,J)-XSAV(3,II))
@@ -137,7 +137,7 @@ C
 !#include "simd.inc" --> this loop can't be vectorized because there are somes dependencies 
         DO I=NSNF,NSNL
           J=NSV(I)
-          IF(STFN(I).NE.ZERO) THEN
+          IF(STFN(I)/=ZERO) THEN
 
             XSLV(1)=MAX(XSLV(1),X(1,J)-XSAV(1,J))
             XSLV(2)=MAX(XSLV(2),X(2,J)-XSAV(2,J))
@@ -158,7 +158,7 @@ C
 !#include "simd.inc" --> this loop can't be vectorized because there are somes dependencies 
         DO I=NMNF,NMNL
           J=MSR(I)
-          IF(J.GT.0) THEN
+          IF(J>0) THEN
             XMSR(1)=MAX(XMSR(1),X(1,J)-XSAV(1,J))
             XMSR(2)=MAX(XMSR(2),X(2,J)-XSAV(2,J))
             XMSR(3)=MAX(XMSR(3),X(3,J)-XSAV(3,J))
@@ -177,7 +177,7 @@ C
       ENDIF       
 C dist calcule une fois pour toutes les interfaces dans COMCRIT (ci-dessous)
 C
-      IF(NSPMD.EQ.1) THEN
+      IF(NSPMD==1) THEN
 C traitement deplace dans SPMD_GET_STIF en SPMD
         DO I=NSNF,NSNL
           STFN(I)=MAX(STFN(I),ZERO)

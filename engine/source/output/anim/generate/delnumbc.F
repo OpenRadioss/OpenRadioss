@@ -86,7 +86,7 @@ C
 C-----------------------------------------------
 C       QUAD
 C-----------------------------------------------
-        IF(ITY.EQ.2)THEN
+        IF(ITY==2)THEN
          DO I=LFT,LLT
           N = I + NFT
           INUM(EL2FA(NN3+N)) = IXQ(NIXQ,N)
@@ -94,7 +94,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       COQUES
 C-----------------------------------------------
-        ELSEIF(ITY.EQ.3)THEN
+        ELSEIF(ITY==3)THEN
          DO I=LFT,LLT
           N = I + NFT
           INUM(EL2FA(NN4+N)) = IXC(NIXC,N)
@@ -102,7 +102,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       COQUES 3 NOEUDS
 C-----------------------------------------------
-        ELSEIF(ITY.EQ.7)THEN
+        ELSEIF(ITY==7)THEN
          DO I=LFT,LLT
           N = I + NFT
           INUM(EL2FA(NN5+N)) = IXTG(NIXTG,N)
@@ -110,7 +110,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       RNUR
 C-----------------------------------------------
-        ELSEIF(ITY.EQ.50)THEN
+        ELSEIF(ITY==50)THEN
          DO I=LFT,LLT
           N = I + NFT
           INUM(EL2FA(NN9+N)) = IXUR(NIXUR,N)
@@ -135,7 +135,7 @@ C-----------------------------------------------
            IDCMAXL=MAX(IDCMAXL,INUM(I))
         ENDDO
         CALL SPMD_FVB_AMAX(IDCMAX, IDCMAXL)
-        IF (ISPMD.EQ.0) THEN
+        IF (ISPMD==0) THEN
            BUF = NUMELQG+NUMELCG+NUMELTGG+NUMELURG
         ELSE 
            BUF = 1

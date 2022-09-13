@@ -179,7 +179,7 @@ c     dev future: xminb plus grand que xmin...
 c!!!!!!!!!!!!!!! A VERIFIER !!!!!!!!!!!!!!!  
 C En SPMD, pour IFQ, retrouve ancienne numerotation des candidats non locaux
 c INUTIL POUR INT 24 !!!!!!!!!!!!!!!!!
-      IF(NSPMD.GT.1) THEN
+      IF(NSPMD>1) THEN
         CALL SPMD_OLDNUMCD(RENUM,OLDNUM,ISZNSNR,NSNROLD)
       END IF 
 
@@ -491,7 +491,7 @@ cc             nnrpelem = nnrpelem + 1
      5                PENE_OLD,NBINFLG  ,MBINFLG,ILEV,MSEGTYP,
      6                EDGE_L2,IEDGE,ISEADD ,ISEDGE ,CAND_T,ITAB,
      7                CAND_A,OLDNUM,NSNROLD,DGAPLOAD)
-                   IF(I_MEM.EQ.2)GOTO 100
+                   IF(I_MEM==2)GOTO 100
                    J_STOK = 0
                  ENDIF
 
@@ -520,7 +520,7 @@ cc             nnr0pelg = nnr0pelg + nnr0pelem
 C-------------------------------------------------------------------------
 C     FIN DU TRI
 C-------------------------------------------------------------------------
-      IF(J_STOK.NE.0)CALL I24STO(
+      IF(J_STOK/=0)CALL I24STO(
      1              J_STOK,IRECT  ,X     ,NSV   ,II_STOK,
      2              CAND_N,CAND_E ,MULNSN,NOINT ,MARGE  ,
      3              I_MEM ,PROV_N ,PROV_E,ESHIFT,V      ,

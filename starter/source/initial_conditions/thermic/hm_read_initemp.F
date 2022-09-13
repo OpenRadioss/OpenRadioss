@@ -195,7 +195,7 @@ C--------------------------------------------------
      .                    I1=ID,  
      .                    I2=NOD)
             ENDIF
-            IF (NODSYS .NE. 0) TEMP(NODSYS)= LIST_TEMP0(J)
+            IF (NODSYS /= 0) TEMP(NODSYS)= LIST_TEMP0(J)
           ENDDO 
         ENDIF 
         IF(ALLOCATED(LIST_TEMP0)) DEALLOCATE(LIST_TEMP0) 

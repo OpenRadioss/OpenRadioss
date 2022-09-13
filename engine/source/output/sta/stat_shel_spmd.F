@@ -88,7 +88,7 @@ C en spmd il faut envoyer l'info meme qd on a 0 elem local
       II = 0
       DO NG=1,NGROUP
        ITY   =IPARG(5,NG)
-       IF(ITY.EQ.3) THEN
+       IF(ITY==3) THEN
          NEL   =IPARG(2,NG)
          NFT   =IPARG(3,NG)
          GBUF => ELBUF_TAB(NG)%GBUF   
@@ -110,7 +110,7 @@ C en spmd il faut envoyer l'info meme qd on a 0 elem local
           NP(JJ+6) = IPRT
           NP(JJ+7) = IABS(NINT(GBUF%OFF(I)))
           II = II + 1
-          IF (MLW .NE. 0 .AND. MLW .NE. 13) THEN
+          IF (MLW /= 0 .AND. MLW /= 13) THEN
             IF (ITHK >0 ) THEN
                 THK(II) = GBUF%THK(I)
             ELSE
@@ -138,7 +138,7 @@ C-----
       CALL SPMD_RGATHER9_DP(THK,II,THK0,SIZP0,LEN)
 
 C-----
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
         DO N=1,STAT_NUMELC_G
           STAT_INDXC(N)=N
           CLEF(1,N)=NPGLOB(7*(N-1)+7)
@@ -175,7 +175,7 @@ C en spmd il faut envoyer l'info meme qd on a 0 elem local
       II = 0
       DO NG=1,NGROUP
        ITY   =IPARG(5,NG)
-       IF(ITY.EQ.7) THEN
+       IF(ITY==7) THEN
          NEL   =IPARG(2,NG)
          NFT   =IPARG(3,NG)
          GBUF => ELBUF_TAB(NG)%GBUF   
@@ -197,7 +197,7 @@ C
           NP(JJ+5) = IPRT
           NP(JJ+6) = IABS(NINT(GBUF%OFF(I)))
           II = II + 1
-          IF (MLW .NE. 0 .AND. MLW .NE. 13) THEN
+          IF (MLW /= 0 .AND. MLW /= 13) THEN
             IF (ITHK >0 ) THEN
                 THK(II) = GBUF%THK(I)
             ELSE
@@ -224,7 +224,7 @@ C-----
       LEN = 0
       CALL SPMD_RGATHER9_DP(THK,II,THK0,SIZP0,LEN)
 C-----
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
         DO N=1,STAT_NUMELTG_G
           STAT_INDXTG(N)=N
           CLEF(1,N)=NPGLOB(6*(N-1)+6)

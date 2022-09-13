@@ -76,7 +76,7 @@ C
        NEL=IPARG(2,NG)
        NFT=IPARG(3,NG)
        NBX=IPARG(4,NG) -1
-       IF (ITY.EQ.1) THEN
+       IF (ITY==1) THEN
         DO I=1,NEL
          II=I+NFT
          NALL = ITAG(IXS(2,II)) * ITAG(IXS(3,II)) *
@@ -85,44 +85,44 @@ C
      +          ITAG(IXS(8,II)) * ITAG(IXS(9,II)) 
            IF (NALL == 0) ELBUF_TAB(NG)%GBUF%OFF(I) = ZERO
         ENDDO
-       ELSEIF (ITY.EQ.3) THEN
+       ELSEIF (ITY==3) THEN
         DO I=1,NEL
          II=I+NFT
          NALL = ITAG(IXC(2,II)) * ITAG(IXC(3,II)) *
      +          ITAG(IXC(4,II)) * ITAG(IXC(5,II)) 
            IF (NALL == 0) ELBUF_TAB(NG)%GBUF%OFF(I) = ZERO
         ENDDO
-       ELSEIF (ITY.EQ.7) THEN
+       ELSEIF (ITY==7) THEN
         DO I=1,NEL
          II=I+NFT
          NALL = ITAG(IXTG(2,II)) * ITAG(IXTG(3,II)) *
      +          ITAG(IXTG(4,II))
            IF (NALL == 0) ELBUF_TAB(NG)%GBUF%OFF(I) = ZERO
         ENDDO
-       ELSEIF (ITY.EQ.50) THEN
+       ELSEIF (ITY==50) THEN
         DO I=1,NEL
          BUFEL0(NBX+I)=ZERO
         ENDDO
-       ELSEIF (ITY.EQ.4) THEN
+       ELSEIF (ITY==4) THEN
         DO I=1,NEL
          II=I+NFT
          NALL = ITAG(IXT(2,II)) * ITAG(IXT(3,II)) 
          IF (NALL == 0) ELBUF_TAB(NG)%GBUF%OFF(I) = ZERO
-cc         IF (NALL.EQ.0) BUFEL0(NBX+I)=ZERO  
+cc         IF (NALL==0) BUFEL0(NBX+I)=ZERO  
         ENDDO
-       ELSEIF (ITY.EQ.5) THEN
+       ELSEIF (ITY==5) THEN
         DO I=1,NEL
          II=I+NFT
          NALL = ITAG(IXP(2,II)) * ITAG(IXP(3,II)) 
          IF (NALL == 0) ELBUF_TAB(NG)%GBUF%OFF(I) = ZERO
-cc         IF (NALL.EQ.0) BUFEL0(NBX+I)=ZERO  
+cc         IF (NALL==0) BUFEL0(NBX+I)=ZERO  
         ENDDO
-       ELSEIF (ITY.EQ.6) THEN             
+       ELSEIF (ITY==6) THEN             
         DO I=1,NEL
          II=I+NFT
          NALL = ITAG(IXR(2,II)) * ITAG(IXR(3,II)) 
          IF (NALL == 0) ELBUF_TAB(NG)%GBUF%OFF(I) = ZERO
-cc         IF (NALL.EQ.0) BUFEL0(NBX+I)=ZERO 
+cc         IF (NALL==0) BUFEL0(NBX+I)=ZERO 
         ENDDO
        ENDIF
       ENDDO

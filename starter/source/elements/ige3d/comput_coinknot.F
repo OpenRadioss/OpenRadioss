@@ -114,7 +114,7 @@ C----------------------------------------------------------------------
 C     INITIALISATION DES VARIABLES EN FONCTION DE LA DIRECTION DE COUPE
 C----------------------------------------------------------------------
 C
-      IF(DIR.EQ.1) THEN
+      IF(DIR==1) THEN
         DIRTANG1 = 2
         DIRTANG2 = 3
         IDNBCUT=12
@@ -126,7 +126,7 @@ C
         OFFSET_KNOT = IAD_KNOT
         OFFSET_TANG1 = IAD_KNOT + NKNOT1
         OFFSET_TANG2 = IAD_KNOT + NKNOT1 + NKNOT2
-      ELSEIF(DIR.EQ.2) THEN
+      ELSEIF(DIR==2) THEN
         DIRTANG1 = 3
         DIRTANG2 = 1
         IDNBCUT=13
@@ -138,7 +138,7 @@ C
         OFFSET_KNOT = IAD_KNOT + NKNOT1
         OFFSET_TANG1 = IAD_KNOT + NKNOT1 + NKNOT2
         OFFSET_TANG2 = IAD_KNOT
-      ELSEIF(DIR.EQ.3) THEN
+      ELSEIF(DIR==3) THEN
         DIRTANG1 = 1
         DIRTANG2 = 2
         IDNBCUT=14
@@ -194,7 +194,7 @@ c
       COINENGLOB(2,2)= MAX(COIN(2),COINENGLOB(2,2))
       COIN_TMP(1,L_TAB_COINKNOT) = KNOT(OFFSET_TANG1+KXIG3D(ID1KNOT1,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
       COIN_TMP(2,L_TAB_COINKNOT) = KNOT(OFFSET_TANG2+KXIG3D(ID1KNOT2,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
-      IF(FLAG.EQ.1) THEN
+      IF(FLAG==1) THEN
         TAB_COINKNOT(1,L_TAB_COINKNOT) = KNOT(OFFSET_TANG1+KXIG3D(ID1KNOT1,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
         TAB_COINKNOT(2,L_TAB_COINKNOT) = KNOT(OFFSET_TANG2+KXIG3D(ID1KNOT2,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
       ENDIF
@@ -208,17 +208,17 @@ C----------------------------------------------------------------------
 c
       DIRECTION = 1
 
-      DO WHILE (DIRECTION.EQ.1) 
+      DO WHILE (DIRECTION==1) 
 
 c     PROLONGATION DU SEGMENT VERS LE HAUT
 
         IDNEXTD=MESHIGE(COIN(1),COIN(2),IDMESHIGE)
-        IF(KXIG3D(IDNBCUT,IDNEXTD).EQ.1) THEN 
+        IF(KXIG3D(IDNBCUT,IDNEXTD)==1) THEN 
           IDCUT_VOISIN = 0
         ELSE
           IDCUT_VOISIN = TAB_OLDIDCUT(DIR,IDNEXTD)-KXIG3D(IDNBCUT,IDNEXTD)+1
         ENDIF
-        IF(IDCUT_VOISIN.NE.IDCUT) THEN
+        IF(IDCUT_VOISIN/=IDCUT) THEN
           DIRECTION=2 ! on doit tourner a droite
           CYCLE
         ELSE
@@ -226,15 +226,15 @@ c     PROLONGATION DU SEGMENT VERS LE HAUT
           TABWORKEL(L_TABWORKEL) = IDNEXTD
         ENDIF
 
-        IF(COIN(2).LT.NELTANG2) THEN
-          IF(COIN(1).GT.1) THEN 
+        IF(COIN(2)<NELTANG2) THEN
+          IF(COIN(1)>1) THEN 
            IDNEXTG=MESHIGE(COIN(1)-1,COIN(2),IDMESHIGE)
-        IF(KXIG3D(IDNBCUT,IDNEXTG).EQ.1) THEN 
+        IF(KXIG3D(IDNBCUT,IDNEXTG)==1) THEN 
           IDCUT_VOISIN = 0
         ELSE
           IDCUT_VOISIN = TAB_OLDIDCUT(DIR,IDNEXTG)-KXIG3D(IDNBCUT,IDNEXTG)+1
         ENDIF
-           IF(IDCUT_VOISIN.EQ.IDCUT) THEN
+           IF(IDCUT_VOISIN==IDCUT) THEN
              DIRECTION=4  ! On doit tourner a gauche
              CYCLE
            ELSE
@@ -244,14 +244,14 @@ c     PROLONGATION DU SEGMENT VERS LE HAUT
            COIN(2) = COIN(2)+1 ! on monte
           ENDIF
         ELSE
-          IF(COIN(1).GT.1) THEN 
+          IF(COIN(1)>1) THEN 
            IDNEXTG=MESHIGE(COIN(1)-1,COIN(2),IDMESHIGE)
-        IF(KXIG3D(IDNBCUT,IDNEXTG).EQ.1) THEN 
+        IF(KXIG3D(IDNBCUT,IDNEXTG)==1) THEN 
           IDCUT_VOISIN = 0
         ELSE
           IDCUT_VOISIN = TAB_OLDIDCUT(DIR,IDNEXTG)-KXIG3D(IDNBCUT,IDNEXTG)+1
         ENDIF
-           IF(IDCUT_VOISIN.EQ.IDCUT) THEN
+           IF(IDCUT_VOISIN==IDCUT) THEN
              DIRECTION=4  ! On doit tourner a gauche
              CYCLE
            ELSE
@@ -277,39 +277,39 @@ c
       COINENGLOB(2,1)= MIN(COIN(2),COINENGLOB(2,1))
       COINENGLOB(1,2)= MAX(COIN(1),COINENGLOB(1,2))
       COINENGLOB(2,2)= MAX(COIN(2),COINENGLOB(2,2))
-      IF(BORDHAUT.EQ.0) THEN
+      IF(BORDHAUT==0) THEN
         COIN_TMP(1,L_TAB_COINKNOT) = KNOT(OFFSET_TANG1+KXIG3D(ID1KNOT1,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
         COIN_TMP(2,L_TAB_COINKNOT) = KNOT(OFFSET_TANG2+KXIG3D(ID1KNOT2,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
-        IF(FLAG.EQ.1) THEN
+        IF(FLAG==1) THEN
           TAB_COINKNOT(1,L_TAB_COINKNOT) = KNOT(OFFSET_TANG1+KXIG3D(ID1KNOT1,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
           TAB_COINKNOT(2,L_TAB_COINKNOT) = KNOT(OFFSET_TANG2+KXIG3D(ID1KNOT2,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
         ENDIF
       ELSE
         COIN_TMP(1,L_TAB_COINKNOT) = KNOT(OFFSET_TANG1+KXIG3D(ID1KNOT1,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
         COIN_TMP(2,L_TAB_COINKNOT) = KNOT(OFFSET_TANG2+KXIG3D(ID2KNOT2,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
-        IF(FLAG.EQ.1) THEN
+        IF(FLAG==1) THEN
           TAB_COINKNOT(1,L_TAB_COINKNOT) = KNOT(OFFSET_TANG1+KXIG3D(ID1KNOT1,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
           TAB_COINKNOT(2,L_TAB_COINKNOT) = KNOT(OFFSET_TANG2+KXIG3D(ID2KNOT2,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
         ENDIF
       ENDIF
 C
-      DO WHILE (.NOT.(COIN(1).EQ.COINDEP(1).AND.COIN(2).EQ.COINDEP(2)).OR.L_TAB_COINKNOT.LT.5)
+      DO WHILE (.NOT.(COIN(1)==COINDEP(1).AND.COIN(2)==COINDEP(2)).OR.L_TAB_COINKNOT<5)
     
         SELECT CASE (DIRECTION)
 
           CASE(1)
 
-            DO WHILE (DIRECTION.EQ.1) 
+            DO WHILE (DIRECTION==1) 
 
 c     PROLONGATION DU SEGMENT VERS LE HAUT
 
               IDNEXTD=MESHIGE(COIN(1),COIN(2),IDMESHIGE)
-              IF(KXIG3D(IDNBCUT,IDNEXTD).EQ.1) THEN 
+              IF(KXIG3D(IDNBCUT,IDNEXTD)==1) THEN 
                 IDCUT_VOISIN = 0
               ELSE
                 IDCUT_VOISIN = TAB_OLDIDCUT(DIR,IDNEXTD)-KXIG3D(IDNBCUT,IDNEXTD)+1
               ENDIF
-              IF(IDCUT_VOISIN.EQ.IDCUT) THEN
+              IF(IDCUT_VOISIN==IDCUT) THEN
                 L_TABWORKEL = L_TABWORKEL + 1
                 TABWORKEL(L_TABWORKEL) = IDNEXTD
               ELSE
@@ -317,16 +317,16 @@ c     PROLONGATION DU SEGMENT VERS LE HAUT
                 CYCLE
               ENDIF
                 
-              IF(COIN(2).LT.NELTANG2) THEN
+              IF(COIN(2)<NELTANG2) THEN
 
-                IF(COIN(1).GT.1) THEN 
+                IF(COIN(1)>1) THEN 
                  IDNEXTG=MESHIGE(COIN(1)-1,COIN(2),IDMESHIGE)
-        IF(KXIG3D(IDNBCUT,IDNEXTG).EQ.1) THEN 
+        IF(KXIG3D(IDNBCUT,IDNEXTG)==1) THEN 
           IDCUT_VOISIN = 0
         ELSE
           IDCUT_VOISIN = TAB_OLDIDCUT(DIR,IDNEXTG)-KXIG3D(IDNBCUT,IDNEXTG)+1
         ENDIF
-                 IF(IDCUT_VOISIN.EQ.IDCUT) THEN
+                 IF(IDCUT_VOISIN==IDCUT) THEN
                    DIRECTION=4 ! On doit tourner a gauche
                    CYCLE
                  ELSE
@@ -336,14 +336,14 @@ c     PROLONGATION DU SEGMENT VERS LE HAUT
                  COIN(2) = COIN(2)+1
                 ENDIF
               ELSE
-                IF(COIN(1).GT.1) THEN 
+                IF(COIN(1)>1) THEN 
                  IDNEXTG=MESHIGE(COIN(1)-1,COIN(2),IDMESHIGE)
-        IF(KXIG3D(IDNBCUT,IDNEXTG).EQ.1) THEN 
+        IF(KXIG3D(IDNBCUT,IDNEXTG)==1) THEN 
           IDCUT_VOISIN = 0
         ELSE
           IDCUT_VOISIN = TAB_OLDIDCUT(DIR,IDNEXTG)-KXIG3D(IDNBCUT,IDNEXTG)+1
         ENDIF
-                 IF(IDCUT_VOISIN.EQ.IDCUT) THEN
+                 IF(IDCUT_VOISIN==IDCUT) THEN
                    DIRECTION=4  ! On doit tourner a gauche
                    CYCLE
                  ELSE
@@ -365,17 +365,17 @@ c
       NBSEGMENTS = NBSEGMENTS + 1
       L_TAB_COINKNOT = L_TAB_COINKNOT + 1
 
-      IF(BORDHAUT.EQ.0) THEN
+      IF(BORDHAUT==0) THEN
         COIN_TMP(1,L_TAB_COINKNOT) = KNOT(OFFSET_TANG1+KXIG3D(ID1KNOT1,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
         COIN_TMP(2,L_TAB_COINKNOT) = KNOT(OFFSET_TANG2+KXIG3D(ID1KNOT2,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
-        IF(FLAG.EQ.1) THEN
+        IF(FLAG==1) THEN
           TAB_COINKNOT(1,L_TAB_COINKNOT) = KNOT(OFFSET_TANG1+KXIG3D(ID1KNOT1,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
           TAB_COINKNOT(2,L_TAB_COINKNOT) = KNOT(OFFSET_TANG2+KXIG3D(ID1KNOT2,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
         ENDIF
       ELSE
         COIN_TMP(1,L_TAB_COINKNOT) = KNOT(OFFSET_TANG1+KXIG3D(ID1KNOT1,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
         COIN_TMP(2,L_TAB_COINKNOT) = KNOT(OFFSET_TANG2+KXIG3D(ID2KNOT2,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
-        IF(FLAG.EQ.1) THEN
+        IF(FLAG==1) THEN
           TAB_COINKNOT(1,L_TAB_COINKNOT) = KNOT(OFFSET_TANG1+KXIG3D(ID1KNOT1,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
           TAB_COINKNOT(2,L_TAB_COINKNOT) = KNOT(OFFSET_TANG2+KXIG3D(ID2KNOT2,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
         ENDIF
@@ -383,25 +383,25 @@ c
 c
           CASE(2)
 
-            DO WHILE (DIRECTION.EQ.2) 
+            DO WHILE (DIRECTION==2) 
 
 c     PROLONGATION DU SEGMENT VERS LA DROITE
 
-              IF(BORDHAUT.EQ.1) THEN ! Si on est au bord haut
+              IF(BORDHAUT==1) THEN ! Si on est au bord haut
                IDNEXTG=MESHIGE(COIN(1),COIN(2),IDMESHIGE)
-        IF(KXIG3D(IDNBCUT,IDNEXTG).EQ.1) THEN 
+        IF(KXIG3D(IDNBCUT,IDNEXTG)==1) THEN 
           IDCUT_VOISIN = 0
         ELSE
           IDCUT_VOISIN = TAB_OLDIDCUT(DIR,IDNEXTG)-KXIG3D(IDNBCUT,IDNEXTG)+1
         ENDIF
-               IF(IDCUT_VOISIN.EQ.IDCUT) THEN
+               IF(IDCUT_VOISIN==IDCUT) THEN
                  L_TABWORKEL = L_TABWORKEL + 1
                  TABWORKEL(L_TABWORKEL) = IDNEXTG
                ELSE
                  DIRECTION=3 ! On doit tourner en bas
                  CYCLE
                ENDIF
-               IF(COIN(1).LT.NELTANG1) THEN ! si on n'est pas au bord droit
+               IF(COIN(1)<NELTANG1) THEN ! si on n'est pas au bord droit
                  COIN(1)=COIN(1)+1
                  CYCLE
                ELSE
@@ -411,16 +411,16 @@ c     PROLONGATION DU SEGMENT VERS LA DROITE
                ENDIF
               ENDIF
 
-              IF(BORDHAUT.EQ.0) THEN
+              IF(BORDHAUT==0) THEN
 
-               IF(COIN(2).GT.1) THEN
+               IF(COIN(2)>1) THEN
                 IDNEXTD=MESHIGE(COIN(1),COIN(2)-1,IDMESHIGE)
-                IF(KXIG3D(IDNBCUT,IDNEXTD).EQ.1) THEN 
+                IF(KXIG3D(IDNBCUT,IDNEXTD)==1) THEN 
                   IDCUT_VOISIN = 0
                 ELSE
                   IDCUT_VOISIN = TAB_OLDIDCUT(DIR,IDNEXTD)-KXIG3D(IDNBCUT,IDNEXTD)+1
                 ENDIF
-                IF(IDCUT_VOISIN.EQ.IDCUT) THEN
+                IF(IDCUT_VOISIN==IDCUT) THEN
                   L_TABWORKEL = L_TABWORKEL + 1
                   TABWORKEL(L_TABWORKEL) = IDNEXTD
                 ELSE
@@ -428,14 +428,14 @@ c     PROLONGATION DU SEGMENT VERS LA DROITE
                   CYCLE
                 ENDIF
 
-                IF(COIN(1).LT.NELTANG1) THEN ! si on n'est pas au bord droit
+                IF(COIN(1)<NELTANG1) THEN ! si on n'est pas au bord droit
                   IDNEXTG=MESHIGE(COIN(1),COIN(2),IDMESHIGE)
-        IF(KXIG3D(IDNBCUT,IDNEXTG).EQ.1) THEN 
+        IF(KXIG3D(IDNBCUT,IDNEXTG)==1) THEN 
           IDCUT_VOISIN = 0
         ELSE
           IDCUT_VOISIN = TAB_OLDIDCUT(DIR,IDNEXTG)-KXIG3D(IDNBCUT,IDNEXTG)+1
         ENDIF
-                  IF(IDCUT_VOISIN.EQ.IDCUT) THEN
+                  IF(IDCUT_VOISIN==IDCUT) THEN
                     L_TABWORKEL = L_TABWORKEL + 1
                     TABWORKEL(L_TABWORKEL) = IDNEXTG  
                     DIRECTION=1 ! On doit tourner en haut
@@ -446,12 +446,12 @@ c     PROLONGATION DU SEGMENT VERS LA DROITE
                   ENDIF
                 ELSE ! Si on est au bord droit
                   IDNEXTG=MESHIGE(COIN(1),COIN(2),IDMESHIGE)
-        IF(KXIG3D(IDNBCUT,IDNEXTG).EQ.1) THEN 
+        IF(KXIG3D(IDNBCUT,IDNEXTG)==1) THEN 
           IDCUT_VOISIN = 0
         ELSE
           IDCUT_VOISIN = TAB_OLDIDCUT(DIR,IDNEXTG)-KXIG3D(IDNBCUT,IDNEXTG)+1
         ENDIF
-                  IF(IDCUT_VOISIN.EQ.IDCUT) THEN
+                  IF(IDCUT_VOISIN==IDCUT) THEN
                     L_TABWORKEL = L_TABWORKEL + 1
                     TABWORKEL(L_TABWORKEL) = IDNEXTG  
                     DIRECTION=1 ! On doit tourner en bas
@@ -474,34 +474,34 @@ c
       NBSEGMENTS = NBSEGMENTS + 1
       L_TAB_COINKNOT = L_TAB_COINKNOT + 1
 
-       IF(BORDDROIT.EQ.0) THEN
-         IF(BORDHAUT.EQ.0) THEN
+       IF(BORDDROIT==0) THEN
+         IF(BORDHAUT==0) THEN
            COIN_TMP(1,L_TAB_COINKNOT) = KNOT(OFFSET_TANG1+KXIG3D(ID1KNOT1,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
            COIN_TMP(2,L_TAB_COINKNOT) = KNOT(OFFSET_TANG2+KXIG3D(ID1KNOT2,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
-           IF(FLAG.EQ.1) THEN
+           IF(FLAG==1) THEN
              TAB_COINKNOT(1,L_TAB_COINKNOT) = KNOT(OFFSET_TANG1+KXIG3D(ID1KNOT1,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
              TAB_COINKNOT(2,L_TAB_COINKNOT) = KNOT(OFFSET_TANG2+KXIG3D(ID1KNOT2,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
            ENDIF
          ELSE
            COIN_TMP(1,L_TAB_COINKNOT) = KNOT(OFFSET_TANG1+KXIG3D(ID1KNOT1,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
            COIN_TMP(2,L_TAB_COINKNOT) = KNOT(OFFSET_TANG2+KXIG3D(ID2KNOT2,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
-           IF(FLAG.EQ.1) THEN
+           IF(FLAG==1) THEN
              TAB_COINKNOT(1,L_TAB_COINKNOT) = KNOT(OFFSET_TANG1+KXIG3D(ID1KNOT1,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
              TAB_COINKNOT(2,L_TAB_COINKNOT) = KNOT(OFFSET_TANG2+KXIG3D(ID2KNOT2,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
            ENDIF
          ENDIF
        ELSE
-         IF(BORDHAUT.EQ.0) THEN
+         IF(BORDHAUT==0) THEN
            COIN_TMP(1,L_TAB_COINKNOT) = KNOT(OFFSET_TANG1+KXIG3D(ID2KNOT1,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
            COIN_TMP(2,L_TAB_COINKNOT) = KNOT(OFFSET_TANG2+KXIG3D(ID1KNOT2,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
-           IF(FLAG.EQ.1) THEN
+           IF(FLAG==1) THEN
              TAB_COINKNOT(1,L_TAB_COINKNOT) = KNOT(OFFSET_TANG1+KXIG3D(ID2KNOT1,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
              TAB_COINKNOT(2,L_TAB_COINKNOT) = KNOT(OFFSET_TANG2+KXIG3D(ID1KNOT2,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
            ENDIF
          ELSE
            COIN_TMP(1,L_TAB_COINKNOT) = KNOT(OFFSET_TANG1+KXIG3D(ID2KNOT1,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
            COIN_TMP(2,L_TAB_COINKNOT) = KNOT(OFFSET_TANG2+KXIG3D(ID2KNOT2,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
-           IF(FLAG.EQ.1) THEN
+           IF(FLAG==1) THEN
              TAB_COINKNOT(1,L_TAB_COINKNOT) = KNOT(OFFSET_TANG1+KXIG3D(ID2KNOT1,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
              TAB_COINKNOT(2,L_TAB_COINKNOT) = KNOT(OFFSET_TANG2+KXIG3D(ID2KNOT2,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
            ENDIF
@@ -510,16 +510,16 @@ c
 c
           CASE(3)
 
-            DO WHILE (DIRECTION.EQ.3) 
+            DO WHILE (DIRECTION==3) 
 
 c     PROLONGATION DU SEGMENT VERS LE BAS
 
-             IF(BORDHAUT.EQ.1) THEN
-               IF(BORDDROIT.EQ.1) THEN
+             IF(BORDHAUT==1) THEN
+               IF(BORDDROIT==1) THEN
                  BORDHAUT=0
                  CYCLE
                ELSE
-                 IF(COIN(2).GT.1) THEN
+                 IF(COIN(2)>1) THEN
                    BORDHAUT=0
                    CYCLE
                  ELSE
@@ -530,15 +530,15 @@ c     PROLONGATION DU SEGMENT VERS LE BAS
                ENDIF
              ELSE
              
-              IF(BORDDROIT.EQ.1) THEN
-                IF(COIN(2).GT.1) THEN
+              IF(BORDDROIT==1) THEN
+                IF(COIN(2)>1) THEN
                   IDNEXTG=MESHIGE(COIN(1),COIN(2)-1,IDMESHIGE)
-        IF(KXIG3D(IDNBCUT,IDNEXTG).EQ.1) THEN 
+        IF(KXIG3D(IDNBCUT,IDNEXTG)==1) THEN 
           IDCUT_VOISIN = 0
         ELSE
           IDCUT_VOISIN = TAB_OLDIDCUT(DIR,IDNEXTG)-KXIG3D(IDNBCUT,IDNEXTG)+1
         ENDIF
-                  IF(IDCUT_VOISIN.EQ.IDCUT) THEN
+                  IF(IDCUT_VOISIN==IDCUT) THEN
                     L_TABWORKEL = L_TABWORKEL + 1
                     TABWORKEL(L_TABWORKEL) = IDNEXTG
                     COIN(2)=COIN(2)-1
@@ -553,15 +553,15 @@ c     PROLONGATION DU SEGMENT VERS LE BAS
                 ENDIF
               ENDIF
 
-              IF(COIN(2).GT.1) THEN 
-                IF(COIN(1).GT.1) THEN
+              IF(COIN(2)>1) THEN 
+                IF(COIN(1)>1) THEN
                   IDNEXTD=MESHIGE(COIN(1)-1,COIN(2)-1,IDMESHIGE)
-                  IF(KXIG3D(IDNBCUT,IDNEXTD).EQ.1) THEN 
+                  IF(KXIG3D(IDNBCUT,IDNEXTD)==1) THEN 
                     IDCUT_VOISIN = 0
                   ELSE
                     IDCUT_VOISIN = TAB_OLDIDCUT(DIR,IDNEXTD)-KXIG3D(IDNBCUT,IDNEXTD)+1
                   ENDIF
-                  IF(IDCUT_VOISIN.EQ.IDCUT) THEN
+                  IF(IDCUT_VOISIN==IDCUT) THEN
                     L_TABWORKEL = L_TABWORKEL + 1
                     TABWORKEL(L_TABWORKEL) = IDNEXTD
                   ELSE
@@ -569,13 +569,13 @@ c     PROLONGATION DU SEGMENT VERS LE BAS
                     CYCLE
                   ENDIF
                   IDNEXTG=MESHIGE(COIN(1),COIN(2)-1,IDMESHIGE)
-        IF(KXIG3D(IDNBCUT,IDNEXTG).EQ.1) THEN 
+        IF(KXIG3D(IDNBCUT,IDNEXTG)==1) THEN 
           IDCUT_VOISIN = 0
         ELSE
           IDCUT_VOISIN = TAB_OLDIDCUT(DIR,IDNEXTG)-KXIG3D(IDNBCUT,IDNEXTG)+1
         ENDIF
-                  IF(IDCUT_VOISIN.EQ.IDCUT) THEN
-                    IF(BORDDROIT.EQ.0) THEN
+                  IF(IDCUT_VOISIN==IDCUT) THEN
+                    IF(BORDDROIT==0) THEN
                       DIRECTION=2 ! On doit tourner vers la droite
                       CYCLE
                     ELSE
@@ -590,12 +590,12 @@ c     PROLONGATION DU SEGMENT VERS LE BAS
                   ENDIF
                 ELSE ! on est au bord gauche
                   IDNEXTG=MESHIGE(COIN(1),COIN(2)-1,IDMESHIGE)
-        IF(KXIG3D(IDNBCUT,IDNEXTG).EQ.1) THEN 
+        IF(KXIG3D(IDNBCUT,IDNEXTG)==1) THEN 
           IDCUT_VOISIN = 0
         ELSE
           IDCUT_VOISIN = TAB_OLDIDCUT(DIR,IDNEXTG)-KXIG3D(IDNBCUT,IDNEXTG)+1
         ENDIF
-                  IF(IDCUT_VOISIN.NE.IDCUT) THEN
+                  IF(IDCUT_VOISIN/=IDCUT) THEN
                     DIRECTION=2 ! On doit tourner vers la droite
                     CYCLE
                   ELSE
@@ -614,17 +614,17 @@ c
       NBSEGMENTS = NBSEGMENTS + 1
       L_TAB_COINKNOT = L_TAB_COINKNOT + 1
 
-       IF(BORDDROIT.EQ.0) THEN
+       IF(BORDDROIT==0) THEN
          COIN_TMP(1,L_TAB_COINKNOT) = KNOT(OFFSET_TANG1+KXIG3D(ID1KNOT1,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
          COIN_TMP(2,L_TAB_COINKNOT) = KNOT(OFFSET_TANG2+KXIG3D(ID1KNOT2,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
-         IF(FLAG.EQ.1) THEN
+         IF(FLAG==1) THEN
            TAB_COINKNOT(1,L_TAB_COINKNOT) = KNOT(OFFSET_TANG1+KXIG3D(ID1KNOT1,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
            TAB_COINKNOT(2,L_TAB_COINKNOT) = KNOT(OFFSET_TANG2+KXIG3D(ID1KNOT2,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
          ENDIF
        ELSE
          COIN_TMP(1,L_TAB_COINKNOT) = KNOT(OFFSET_TANG1+KXIG3D(ID2KNOT1,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
          COIN_TMP(2,L_TAB_COINKNOT) = KNOT(OFFSET_TANG2+KXIG3D(ID1KNOT2,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
-         IF(FLAG.EQ.1) THEN
+         IF(FLAG==1) THEN
            TAB_COINKNOT(1,L_TAB_COINKNOT) = KNOT(OFFSET_TANG1+KXIG3D(ID2KNOT1,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
            TAB_COINKNOT(2,L_TAB_COINKNOT) = KNOT(OFFSET_TANG2+KXIG3D(ID1KNOT2,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
          ENDIF
@@ -632,12 +632,12 @@ c
 c
           CASE(4)
 
-            DO WHILE (DIRECTION.EQ.4) 
+            DO WHILE (DIRECTION==4) 
 
 c     PROLONGATION DU SEGMENT VERS LA GAUCHE
 
-              IF(BORDDROIT.EQ.1) THEN
-                IF(COIN(1).GT.1) THEN
+              IF(BORDDROIT==1) THEN
+                IF(COIN(1)>1) THEN
                   BORDDROIT=0
                   CYCLE
                 ELSE
@@ -647,14 +647,14 @@ c     PROLONGATION DU SEGMENT VERS LA GAUCHE
                 ENDIF
               ENDIF
               
-              IF(COIN(1).GT.1) THEN 
+              IF(COIN(1)>1) THEN 
                 IDNEXTD=MESHIGE(COIN(1)-1,COIN(2),IDMESHIGE)
-                IF(KXIG3D(IDNBCUT,IDNEXTD).EQ.1) THEN 
+                IF(KXIG3D(IDNBCUT,IDNEXTD)==1) THEN 
                   IDCUT_VOISIN = 0
                 ELSE
                   IDCUT_VOISIN = TAB_OLDIDCUT(DIR,IDNEXTD)-KXIG3D(IDNBCUT,IDNEXTD)+1
                 ENDIF
-                IF(IDCUT_VOISIN.EQ.IDCUT) THEN
+                IF(IDCUT_VOISIN==IDCUT) THEN
                   L_TABWORKEL = L_TABWORKEL + 1
                   TABWORKEL(L_TABWORKEL) = IDNEXTD
                 ELSE
@@ -662,14 +662,14 @@ c     PROLONGATION DU SEGMENT VERS LA GAUCHE
                   CYCLE
                 ENDIF
 
-                IF(COIN(2).GT.1) THEN 
+                IF(COIN(2)>1) THEN 
                  IDNEXTG=MESHIGE(COIN(1)-1,COIN(2)-1,IDMESHIGE)
-        IF(KXIG3D(IDNBCUT,IDNEXTG).EQ.1) THEN 
+        IF(KXIG3D(IDNBCUT,IDNEXTG)==1) THEN 
           IDCUT_VOISIN = 0
         ELSE
           IDCUT_VOISIN = TAB_OLDIDCUT(DIR,IDNEXTG)-KXIG3D(IDNBCUT,IDNEXTG)+1
         ENDIF
-                 IF(IDCUT_VOISIN.EQ.IDCUT) THEN
+                 IF(IDCUT_VOISIN==IDCUT) THEN
                    DIRECTION=3 ! On doit tourner vers le bas
                    CYCLE
                  ELSE
@@ -693,7 +693,7 @@ c
 
       COIN_TMP(1,L_TAB_COINKNOT) = KNOT(OFFSET_TANG1+KXIG3D(ID1KNOT1,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
       COIN_TMP(2,L_TAB_COINKNOT) = KNOT(OFFSET_TANG2+KXIG3D(ID1KNOT2,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
-      IF(FLAG.EQ.1) THEN
+      IF(FLAG==1) THEN
         TAB_COINKNOT(1,L_TAB_COINKNOT) = KNOT(OFFSET_TANG1+KXIG3D(ID1KNOT1,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
         TAB_COINKNOT(2,L_TAB_COINKNOT) = KNOT(OFFSET_TANG2+KXIG3D(ID1KNOT2,MESHIGE(COIN(1),COIN(2),IDMESHIGE)))
       ENDIF
@@ -720,23 +720,23 @@ C----------------------------------------------------------------------
 
       DEALLOCATE(INDEX)
 
-      IF(FLAG.EQ.0) THEN
+      IF(FLAG==0) THEN
         DO I=1,L_TABWORK
-          IF(TABWORKELTRI(I).EQ.EP06)  EXIT
-          IF(I.NE.1) THEN
-            IF(TABWORKELTRI(I-1).EQ.TABWORKELTRI(I)) CYCLE
+          IF(TABWORKELTRI(I)==EP06)  EXIT
+          IF(I/=1) THEN
+            IF(TABWORKELTRI(I-1)==TABWORKELTRI(I)) CYCLE
           ENDIF
 c
           NB_NEWFILS=0
 c
-          IF(NEWKNOT.GE.KNOTLOCEL(1,DIR,TABWORKELTRI(I)).AND.
-     .       NEWKNOT.LE.KNOTLOCEL(2,DIR,TABWORKELTRI(I))) THEN
+          IF(NEWKNOT>=KNOTLOCEL(1,DIR,TABWORKELTRI(I)).AND.
+     .       NEWKNOT<=KNOTLOCEL(2,DIR,TABWORKELTRI(I))) THEN
             L_TAB_ELCUT = L_TAB_ELCUT + 1
             L_TAB_NEWEL = L_TAB_NEWEL + 1
           ENDIF
           DO J=1,IDFILS(1,TABWORKELTRI(I))-NB_NEWFILS
-            IF(NEWKNOT.GE.KNOTLOCEL(1,DIR,IDFILS(J+1,TABWORKELTRI(I))).AND.
-     .         NEWKNOT.LE.KNOTLOCEL(2,DIR,IDFILS(J+1,TABWORKELTRI(I)))) THEN
+            IF(NEWKNOT>=KNOTLOCEL(1,DIR,IDFILS(J+1,TABWORKELTRI(I))).AND.
+     .         NEWKNOT<=KNOTLOCEL(2,DIR,IDFILS(J+1,TABWORKELTRI(I)))) THEN
               L_TAB_ELCUT = L_TAB_ELCUT + 1
               L_TAB_NEWEL = L_TAB_NEWEL + 1
             ENDIF
@@ -745,15 +745,15 @@ c
         ENDDO
       ELSE
         DO I=1,L_TABWORK
-          IF(TABWORKELTRI(I).EQ.EP06)  EXIT
-          IF(I.NE.1) THEN
-            IF(TABWORKELTRI(I-1).EQ.TABWORKELTRI(I)) CYCLE
+          IF(TABWORKELTRI(I)==EP06)  EXIT
+          IF(I/=1) THEN
+            IF(TABWORKELTRI(I-1)==TABWORKELTRI(I)) CYCLE
           ENDIF
 c
           NB_NEWFILS=0
 c
-          IF(NEWKNOT.GE.KNOTLOCEL(1,DIR,TABWORKELTRI(I)).AND.
-     .       NEWKNOT.LE.KNOTLOCEL(2,DIR,TABWORKELTRI(I))) THEN
+          IF(NEWKNOT>=KNOTLOCEL(1,DIR,TABWORKELTRI(I)).AND.
+     .       NEWKNOT<=KNOTLOCEL(2,DIR,TABWORKELTRI(I))) THEN
             L_TAB_ELCUT = L_TAB_ELCUT + 1
             TAB_ELCUT(L_TAB_ELCUT) = TABWORKELTRI(I)
 
@@ -792,8 +792,8 @@ C  Comptage les nouveaux fils
 
 C  Boucle sur les anciens fils de cet element
           DO J=1,IDFILS(1,TABWORKELTRI(I))-NB_NEWFILS
-            IF(NEWKNOT.GE.KNOTLOCEL(1,DIR,IDFILS(J+1,TABWORKELTRI(I))).AND.
-     .         NEWKNOT.LE.KNOTLOCEL(2,DIR,IDFILS(J+1,TABWORKELTRI(I)))) THEN
+            IF(NEWKNOT>=KNOTLOCEL(1,DIR,IDFILS(J+1,TABWORKELTRI(I))).AND.
+     .         NEWKNOT<=KNOTLOCEL(2,DIR,IDFILS(J+1,TABWORKELTRI(I)))) THEN
               L_TAB_ELCUT = L_TAB_ELCUT + 1
               TAB_ELCUT(L_TAB_ELCUT) = IDFILS(J+1,TABWORKELTRI(I))
 
@@ -847,12 +847,12 @@ C----------------------------------------------------------------------
           IDNEXTEL=MESHIGE(I,J,IDMESHIGE)
           NEXT = 0
           DO K=1,L_TABWORK ! Verifie que l'element n'est pas deja liste
-            IF(IDNEXTEL.EQ.TABWORKELTRI(K)) THEN
+            IF(IDNEXTEL==TABWORKELTRI(K)) THEN
               NEXT = 1
               EXIT
             ENDIF
           ENDDO
-          IF(NEXT.EQ.1) CYCLE
+          IF(NEXT==1) CYCLE
 
           IOUT = 0
 
@@ -882,40 +882,40 @@ C----------------------------------------------------------------------
               YD=COIN_TMP(2,L+1)
 
               DET = (XB-XA(K))*(YC-YD) - (XC-XD)*(YB-YA(K))
-              IF(DET.EQ.0) THEN
+              IF(DET==0) THEN
               ELSE
                 T1 = ((XC-XA(K))*(YC-YD)-(XC-XD)*(YC-YA(K)))/DET
                 T2 = ((XB-XA(K))*(YC-YA(K))-(XC-XA(K))*(YB-YA(K)))/DET
-                IF(T1.GT.1.OR.T1.LT.0.OR.T2.GT.1.OR.T2.LE.0) THEN 
+                IF(T1>1.OR.T1<0.OR.T2>1.OR.T2<=0) THEN 
                 ELSE
                   INTERSEC = INTERSEC + 1
                 ENDIF
               ENDIF
             ENDDO
-            IF(MOD(INTERSEC,2).EQ.0) IOUT=1
+            IF(MOD(INTERSEC,2)==0) IOUT=1
           ENDDO
 
-          IF(IOUT.EQ.1) CYCLE
+          IF(IOUT==1) CYCLE
 
-          IF(KXIG3D(IDNBCUT,IDNEXTEL).EQ.1) THEN 
+          IF(KXIG3D(IDNBCUT,IDNEXTEL)==1) THEN 
             IDCUT_VOISIN = 0
           ELSE
             IDCUT_VOISIN = TAB_OLDIDCUT(DIR,IDNEXTEL)-KXIG3D(IDNBCUT,IDNEXTEL)+1
           ENDIF
-          IF(IDCUT_VOISIN.EQ.IDCUT) THEN
+          IF(IDCUT_VOISIN==IDCUT) THEN
 
-            IF(FLAG.EQ.0) THEN
+            IF(FLAG==0) THEN
 
               NB_NEWFILS=0
 
-              IF(NEWKNOT.GE.KNOTLOCEL(1,DIR,IDNEXTEL).AND.
-     .           NEWKNOT.LE.KNOTLOCEL(2,DIR,IDNEXTEL)) THEN
+              IF(NEWKNOT>=KNOTLOCEL(1,DIR,IDNEXTEL).AND.
+     .           NEWKNOT<=KNOTLOCEL(2,DIR,IDNEXTEL)) THEN
                 L_TAB_ELCUT = L_TAB_ELCUT + 1
                 L_TAB_NEWEL = L_TAB_NEWEL + 1
               ENDIF
               DO K=1,IDFILS(1,IDNEXTEL)-NB_NEWFILS
-                IF(NEWKNOT.GE.KNOTLOCEL(1,DIR,IDFILS(K+1,IDNEXTEL)).AND.
-     .             NEWKNOT.LE.KNOTLOCEL(2,DIR,IDFILS(K+1,IDNEXTEL))) THEN
+                IF(NEWKNOT>=KNOTLOCEL(1,DIR,IDFILS(K+1,IDNEXTEL)).AND.
+     .             NEWKNOT<=KNOTLOCEL(2,DIR,IDFILS(K+1,IDNEXTEL))) THEN
                   L_TAB_ELCUT = L_TAB_ELCUT + 1
                   L_TAB_NEWEL = L_TAB_NEWEL + 1
                 ENDIF
@@ -925,8 +925,8 @@ C----------------------------------------------------------------------
 
               NB_NEWFILS=0
 
-              IF(NEWKNOT.GE.KNOTLOCEL(1,DIR,IDNEXTEL).AND.
-     .           NEWKNOT.LE.KNOTLOCEL(2,DIR,IDNEXTEL)) THEN
+              IF(NEWKNOT>=KNOTLOCEL(1,DIR,IDNEXTEL).AND.
+     .           NEWKNOT<=KNOTLOCEL(2,DIR,IDNEXTEL)) THEN
                 L_TAB_ELCUT = L_TAB_ELCUT + 1
                 TAB_ELCUT(L_TAB_ELCUT) = IDNEXTEL
 
@@ -964,8 +964,8 @@ C----------------------------------------------------------------------
               ENDIF
 
               DO K=1,IDFILS(1,IDNEXTEL)-NB_NEWFILS
-                IF(NEWKNOT.GE.KNOTLOCEL(1,DIR,IDFILS(K+1,IDNEXTEL)).AND.
-     .             NEWKNOT.LE.KNOTLOCEL(2,DIR,IDFILS(K+1,IDNEXTEL))) THEN
+                IF(NEWKNOT>=KNOTLOCEL(1,DIR,IDFILS(K+1,IDNEXTEL)).AND.
+     .             NEWKNOT<=KNOTLOCEL(2,DIR,IDFILS(K+1,IDNEXTEL))) THEN
                   L_TAB_ELCUT = L_TAB_ELCUT + 1
                   TAB_ELCUT(L_TAB_ELCUT) = IDFILS(K+1,IDNEXTEL)
 

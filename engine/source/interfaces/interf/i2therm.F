@@ -77,7 +77,7 @@ C-----------------------------------------------
       DO II=1,NSN
          I=NSV(II)
 C
-         IF(I.GT.0)THEN
+         IF(I>0)THEN
            L=IRTL(II)
 C
            W = WEIGHT(I)
@@ -92,7 +92,7 @@ C
            IX2 = IRECT(2,L)                                       
            IX3 = IRECT(3,L)                                       
            IX4 = IRECT(4,L)  
-           IF(IX3.EQ.IX4) THEN
+           IF(IX3==IX4) THEN
               H1=TM*SM                                         
               H2=TM*SP  
               H3=ONE-H1-H2

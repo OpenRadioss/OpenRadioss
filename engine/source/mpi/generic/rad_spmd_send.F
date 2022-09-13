@@ -70,7 +70,7 @@ C wait for acknoledge
       CALL MPI_RECV(A,0,MPI_BYTE,IT_SPMD(ISPMD+1),MSGTAG,
      .              MPI_COMM_WORLD,status,ierror)
 
-      IF (SIZ_I.GT.0) GO TO 1
+      IF (SIZ_I>0) GO TO 1
 #endif
       RETURN
       END

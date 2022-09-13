@@ -106,7 +106,7 @@ C-----------------------------------------------
      .   VZ3478, VZ2358, VZ1467, VZ1256
 C-----------------------------------------------
       
-      IF(IPARG1(64)==1 .OR. (MTN.EQ.17 .AND. UPWM.LT.2) .OR. INT22>0 .OR. IFVM_SKIP.EQ.1)THEN
+      IF(IPARG1(64)==1 .OR. (MTN==17 .AND. UPWM<2) .OR. INT22>0 .OR. IFVM_SKIP==1)THEN
 C
        DO I=LFT,LLT
 
@@ -141,7 +141,7 @@ C
        RETURN
       ENDIF
 C
-      IF(INVSTR.GE.35)THEN
+      IF(INVSTR>=35)THEN
         MT = PID(LFT)
         DO I=LFT,LLT
           CAQ(I)=FOURTH*OFF(I)*GEO(13,MT)
@@ -155,11 +155,11 @@ C
 C
       FLUID=IPARG1(63)
 C MATERIAUX FLUIDES 
-      IF(FLUID.EQ.1)THEN
-       IF(UPWM.GT.1 .OR. JLAG.EQ.1)THEN
+      IF(FLUID==1)THEN
+       IF(UPWM>1 .OR. JLAG==1)THEN
 #include "simd.inc"
         DO I=LFT,LLT
-         IF(VIS(I).GT.ZERO)THEN
+         IF(VIS(I)>ZERO)THEN
           FCQ(I)=ZERO
           FCL(I)=TEN*CAQ(I)*VIS(I)*DELTAX(I)
          ELSE
@@ -167,12 +167,12 @@ C MATERIAUX FLUIDES
           FCL(I)=CAQ(I)*RHO(I)*CXX(I)*DELTAX(I)**2
          ENDIF
         ENDDO
-       ELSEIF(UPWM.EQ.0)THEN
+       ELSEIF(UPWM==0)THEN
         DO I=LFT,LLT
           FCL(I)=CAQ(I)*RHO(I)*CXX(I)*VOL(I)**TWO_THIRD
           FCQ(I)=ZERO
         ENDDO
-       ELSEIF(UPWM.EQ.1)THEN
+       ELSEIF(UPWM==1)THEN
         DO I=LFT,LLT
           FCL(I)=CAQ(I)*RHO(I)*DELTAX(I)**2
           FCL(I)=MIN(FCL(I)*CXX(I),
@@ -195,12 +195,12 @@ C MATERIAUX NON FLUIDES
        ELSEIF(ISMSTR == 2) THEN
          MX = MAT (LFT) 
          DO I=LFT,LLT
-          IF(OFFG(I) .GT. ONE) THEN
+          IF(OFFG(I) > ONE) THEN
            RHO0(I) = PM(1,MX)
           END IF
          END DO
          DO I=LFT,LLT
-          IF(OFFG(I) .GT. ONE) THEN
+          IF(OFFG(I) > ONE) THEN
            AA = RHO0(I)*VOL0(I)/MAX(EM20,VOL(I))
            FCL(I)=CAQ(I)*AA*VOL(I)**TWO_THIRD
            FCQ(I)=FCL(I)*CAQ(I)*HUNDRED
@@ -220,14 +220,14 @@ C MATERIAUX NON FLUIDES
        ENDIF
       END IF
 C FP 12/97 IMPL NON SUPPORTE 
-C      IF(IMPL.NE.0.)THEN
+C      IF(IMPL/=0.)THEN
 C       DO I=LFT,LLT
 C        FCQ(I)=0.
 C       ENDDO
 C      ENDIF
 C
 C
-      IF(JHBE.EQ.0)THEN
+      IF(JHBE==0)THEN
        DO I=LFT,LLT
         VX3478=VX3(I)-VX4(I)-VX7(I)+VX8(I)
         VX2358=VX2(I)-VX3(I)-VX5(I)+VX8(I)
@@ -305,7 +305,7 @@ C
         F37(I) =-HZ1(I)-HZ2(I)-HZ3(I)+HZ4(I)
         F38(I) = HZ1(I)-HZ2(I)+HZ3(I)-HZ4(I)
        ENDDO
-      ELSEIF(JHBE.GE.1) THEN
+      ELSEIF(JHBE>=1) THEN
        DO I=LFT,LLT
         G11(I)= ONE-PX1H1(I)
         G21(I)=-ONE-PX2H1(I)
@@ -439,9 +439,9 @@ C FP 12/97
 C DANS LE CAS ALE ET EULERIEN, LE TRANSPORT DE l'ENERGIE d'HOURGLAS
 C N'EST PAS CALCULE, L'ENERGIE d'HOURGLASS CUMULE N'A PAS DE SENS
 C
-      IF(JLAG.EQ.1)THEN
+      IF(JLAG==1)THEN
 C
-        IF (IVECTOR.EQ.0) THEN
+        IF (IVECTOR==0) THEN
           DO I=LFT,LLT
             MX = IPARTS(I)
             PARTSAV(8,MX)=PARTSAV(8,MX) + EHOU(I)
@@ -450,7 +450,7 @@ C
           IC=1
           JST(IC)=LFT
           DO J=LFT+1,LLT
-            IF (IPARTS(J).NE.IPARTS(J-1)) THEN
+            IF (IPARTS(J)/=IPARTS(J-1)) THEN
               IC=IC+1
               JST(IC)=J
             ENDIF
@@ -458,7 +458,7 @@ C
           JST(IC+1)=LLT+1                 
           DO II=1,IC
             MX=IPARTS(JST(II))
-            IF (JST(II+1)-JST(II).GT.15) THEN
+            IF (JST(II+1)-JST(II)>15) THEN
 #include "vectorize.inc"
               DO J=JST(II),JST(II+1)-1
                 PARTSAV(8,MX)=PARTSAV(8,MX) + EHOU(J)
@@ -475,7 +475,7 @@ C
 #include "atomend.inc"
       ENDIF
 C
-       IF((ANIM_E(25).EQ.1).OR.(OUTP_CS(25).EQ.1))THEN
+       IF((ANIM_E(25)==1).OR.(OUTP_CS(25)==1))THEN
 #include "vectorize.inc"
         DO I=LFT,LLT
           EANI(NFT+I) = EANI(NFT+I)+EHOU(I)/MAX(EM30,RHO(I)*VOL(I))

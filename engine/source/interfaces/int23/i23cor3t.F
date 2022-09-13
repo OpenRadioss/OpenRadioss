@@ -75,14 +75,14 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I ,J  ,IL, L, NN, IG,JFT
 C-----------------------------------------------
-      IF(IGAP.EQ.0)THEN
+      IF(IGAP==0)THEN
         DO I=1,JLT
           GAPV(I)=GAP
         END DO
       ELSE
         DO I=1,JLT
           J = CAND_N(I)
-          IF(J.LE.NSN) THEN
+          IF(J<=NSN) THEN
             GAPV(I)=GAP_S(J)+GAP_M(CAND_E(I))
           ELSE
             IG = J-NSN
@@ -99,7 +99,7 @@ C
 C
       DO I=1,JLT
        J = CAND_N(I)
-       IF(J.LE.NSN) THEN
+       IF(J<=NSN) THEN
          IG = NSV(J)
          XI(I) = X(1,IG)
          YI(I) = X(2,IG)

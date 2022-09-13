@@ -94,7 +94,7 @@ C
      .                (I2==IXS(IPERM1(K),N10).AND.
      .                 I1==IXS(IPERM2(K),N10)))THEN
                        I3=IXS10(IPERM3(K),J)
-                     IF(I3.NE.0)THEN
+                     IF(I3/=0)THEN
                IXS10(IPERM3(K),N10)=-ABS(IXS10(IPERM3(K),N10))
                      END IF
         	   END IF
@@ -115,24 +115,24 @@ C
             IXS10(IPERM3(K),J)=0
           END IF
         ENDDO 
-        IF(IW.EQ.1)THEN
+        IF(IW==1)THEN
              IDEGEN=0
-             IF(IXS10(1,J).NE.0)THEN
+             IF(IXS10(1,J)/=0)THEN
               IDEGEN(1)=ITAB(IXS10(1,J))
              ENDIF
-             IF(IXS10(2,J).NE.0)THEN
+             IF(IXS10(2,J)/=0)THEN
               IDEGEN(2)=ITAB(IXS10(2,J))
              ENDIF
-             IF(IXS10(3,J).NE.0)THEN
+             IF(IXS10(3,J)/=0)THEN
               IDEGEN(3)=ITAB(IXS10(3,J))
              ENDIF
-             IF(IXS10(4,J).NE.0)THEN
+             IF(IXS10(4,J)/=0)THEN
               IDEGEN(4)=ITAB(IXS10(4,J))
              ENDIF
-             IF(IXS10(5,J).NE.0)THEN
+             IF(IXS10(5,J)/=0)THEN
               IDEGEN(5)=ITAB(IXS10(5,J))
              ENDIF
-             IF(IXS10(6,J).NE.0)THEN
+             IF(IXS10(6,J)/=0)THEN
               IDEGEN(6)=ITAB(IXS10(6,J))
              ENDIF
              CALL ANCMSG(MSGID=344,

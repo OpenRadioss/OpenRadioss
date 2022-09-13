@@ -85,7 +85,7 @@ C-------------------------
             NVAR=ITHGRP(6,N)
             IADV=ITHGRP(7,N)
             IF(ITYP==0)THEN
-                IF(IRODDL.NE.0)THEN
+                IF(IRODDL/=0)THEN
                     II=0
                     DO J=IAD,IAD+NN-1
                         I=ITHBUF(J)
@@ -94,11 +94,11 @@ C-------------------------
                         IF(.NOT. CONDITION) CONDITION = (WEIGHT(I) == 0)
                         IF (CONDITION) THEN
                         !   not for me!
-                        ELSEIF(ISK.EQ.1)THEN
+                        ELSEIF(ISK==1)THEN
 C---------
 C               output with respect to the global SKEW.
                           WA_SIZE = WA_SIZE + NVAR + 1
-                        ELSEIF(ISK.LE.NUMSKW+1+NSUBMOD)THEN
+                        ELSEIF(ISK<=NUMSKW+1+NSUBMOD)THEN
 !                       output with respect to a (non global) SKEW.
                           WA_SIZE = WA_SIZE + NVAR + 1
                         ELSE    ! ISK==
@@ -117,10 +117,10 @@ C
                         IF(.NOT. CONDITION) CONDITION = (WEIGHT(I) == 0)
                         IF (CONDITION) THEN
                        !   not for me!
-                        ELSEIF(ISK.EQ.1)THEN
+                        ELSEIF(ISK==1)THEN
 C               output with respect to the global SKEW.
                             WA_SIZE = WA_SIZE + NVAR + 1
-                        ELSEIF(ISK.LE.NUMSKW+1+NSUBMOD)THEN
+                        ELSEIF(ISK<=NUMSKW+1+NSUBMOD)THEN
 C---------
 C               output with respect to a (non global) SKEW.
                             WA_SIZE = WA_SIZE + NVAR + 1

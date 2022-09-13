@@ -66,7 +66,7 @@ C======================================================================|
         NSN = IRBE2(5,N)
         ISK = IRBE2(7,N)
         IRAD = IRBE2(11,N)
-	IF (ISK.GT.1) THEN
+	IF (ISK>1) THEN
            CALL RBE2VL1(NSN   ,LRBE2(IAD+1),X     ,A     ,AR    ,
      1                  V     ,VR    ,JT(1,N),JR(1,N),M     ,
      2                  SKEW(1,ISK),IRAD  )
@@ -115,7 +115,7 @@ C     REAL
      .     XS, YS, ZS,VRM(3)
 C======================================================================|
         DO J = 1,3
-	 IF (JT(J).NE.0) THEN
+	 IF (JT(J)/=0) THEN
           DO I=1,NSL
            NS = ISL(I)
 C	   V(J,NS)= V(J,M)
@@ -123,9 +123,9 @@ C	   V(J,NS)= V(J,M)
 	  ENDDO
          ENDIF
         ENDDO
-       IF ((JR(1)+JR(2)+JR(3)).GT.0) THEN
+       IF ((JR(1)+JR(2)+JR(3))>0) THEN
         DO J = 1,3
-	 IF (JR(J).NE.0) THEN
+	 IF (JR(J)/=0) THEN
           DO I=1,NSL
            NS = ISL(I)
 C	   VR(J,NS)= VR(J,M)
@@ -197,7 +197,7 @@ C======================================================================|
         A(2,NS) =A(2,NS)-VVX*SKEW(2)-VVY*SKEW(5)-VVZ*SKEW(8)
         A(3,NS) =A(3,NS)-VVX*SKEW(3)-VVY*SKEW(6)-VVZ*SKEW(9)
       ENDDO
-      IF ((JR(1)+JR(2)+JR(3)).GT.0) THEN
+      IF ((JR(1)+JR(2)+JR(3))>0) THEN
        DO I=1,NSN
         NS = ISL(I)
         XS=X(1,NS)-X(1,M)
@@ -282,8 +282,8 @@ C======================================================================|
         NSL = IRBE2(5,N)
         ISK = IRBE2(7,N)
         IRAD= IRBE2(11,N)
-	  IF (ISK.GT.1) THEN
-	    IF( IMP_LR .EQ. 0 ) THEN
+	  IF (ISK>1) THEN
+	    IF( IMP_LR == 0 ) THEN
             CALL RBE2DL2(NSL   ,LRBE2(IAD+1),X     ,D     ,DR    ,
      1                 JT(1,N),JR(1,N),M     ,SKEW(1,ISK),IRAD  )
           ELSE
@@ -338,16 +338,16 @@ C     REAL
      .     XS, YS, ZS,VRM(3),LSM(3),VS(3)
 C======================================================================|
         DO J = 1,3
-	 IF (JT(J).NE.0) THEN
+	 IF (JT(J)/=0) THEN
           DO I=1,NSL
            NS = ISL(I)
 	   V(J,NS)= V(J,M)
 	  ENDDO
          ENDIF
         ENDDO
-       IF ((JR(1)+JR(2)+JR(3)).GT.0) THEN
+       IF ((JR(1)+JR(2)+JR(3))>0) THEN
         DO J = 1,3
-	 IF (JR(J).NE.0) THEN
+	 IF (JR(J)/=0) THEN
           DO I=1,NSL
            NS = ISL(I)
 	   VR(J,NS)= VR(J,M)
@@ -356,7 +356,7 @@ C======================================================================|
         ENDDO
        END IF
 C
-       IF (IRAD.EQ.0) THEN
+       IF (IRAD==0) THEN
         DO J = 1,3
 	 VRM(J)= VR(J,M)
         ENDDO
@@ -365,21 +365,21 @@ C
          XS=X(1,NS)-X(1,M)
          YS=X(2,NS)-X(2,M)
          ZS=X(3,NS)-X(3,M)
-         IF( IMP_LR .EQ. 0)THEN
-           IF (JT(1).NE.0) V(1,NS)=V(1,NS)+VRM(2)*ZS-VRM(3)*YS
-           IF (JT(2).NE.0) V(2,NS)=V(2,NS)-VRM(1)*ZS+VRM(3)*XS
-           IF (JT(3).NE.0) V(3,NS)=V(3,NS)+VRM(1)*YS-VRM(2)*XS
+         IF( IMP_LR == 0)THEN
+           IF (JT(1)/=0) V(1,NS)=V(1,NS)+VRM(2)*ZS-VRM(3)*YS
+           IF (JT(2)/=0) V(2,NS)=V(2,NS)-VRM(1)*ZS+VRM(3)*XS
+           IF (JT(3)/=0) V(3,NS)=V(3,NS)+VRM(1)*YS-VRM(2)*XS
          ELSE
            LSM(1) = XS
            LSM(2) = YS
            LSM(3) = ZS
            CALL VELROT(VRM, LSM,VS)
-           IF (JT(1).NE.0) V(1,NS)=V(1,NS) + VS(1)
-           IF (JT(2).NE.0) V(2,NS)=V(2,NS) + VS(2)
-           IF (JT(3).NE.0) V(3,NS)=V(3,NS) + VS(3)
+           IF (JT(1)/=0) V(1,NS)=V(1,NS) + VS(1)
+           IF (JT(2)/=0) V(2,NS)=V(2,NS) + VS(2)
+           IF (JT(3)/=0) V(3,NS)=V(3,NS) + VS(3)
          END IF
         ENDDO
-       ELSEIF ((JR(1)+JR(2)+JR(3)).GT.0) THEN
+       ELSEIF ((JR(1)+JR(2)+JR(3))>0) THEN
         DO J = 1,3
 	 VRM(J)= VR(J,M)*JR(J)
         ENDDO
@@ -388,7 +388,7 @@ C
          XS=X(1,NS)-X(1,M)
          YS=X(2,NS)-X(2,M)
          ZS=X(3,NS)-X(3,M)
-         IF( IMP_LR .EQ. 0 ) THEN
+         IF( IMP_LR == 0 ) THEN
            V(1,NS)=V(1,NS)+VRM(2)*ZS-VRM(3)*YS
            V(2,NS)=V(2,NS)-VRM(1)*ZS+VRM(3)*XS
            V(3,NS)=V(3,NS)+VRM(1)*YS-VRM(2)*XS
@@ -455,7 +455,7 @@ C======================================================================|
         V(2,NS) =V(2,NS)-VVX*SKEW(2)-VVY*SKEW(5)-VVZ*SKEW(8)
         V(3,NS) =V(3,NS)-VVX*SKEW(3)-VVY*SKEW(6)-VVZ*SKEW(9)
       ENDDO
-      IF ((JR(1)+JR(2)+JR(3)).GT.0) THEN
+      IF ((JR(1)+JR(2)+JR(3))>0) THEN
        DO I=1,NSN
         NS = ISL(I)
         XS=X(1,NS)-X(1,M)
@@ -537,10 +537,10 @@ C======================================================================|
         NR=JR(1)+JR(2)+JR(3)
         ICT=JT(1)*4 +JT(2)*2 +JT(3)
         ICR=JR(1)*4 +JR(2)*2 +JR(3)
-      IF (NT.GT.0.AND.NT.LT.3) THEN
+      IF (NT>0.AND.NT<3) THEN
        CALL RBE2D_BCL(ICT  ,NSN   ,ISL   ,M     ,V     ,
      1               SKEW  )
-      ELSEIF (NT.EQ.3) THEN
+      ELSEIF (NT==3) THEN
        DO I=1,NSN
         NS = ISL(I)
         V(1,NS)=V(1,M)
@@ -549,11 +549,11 @@ C======================================================================|
        ENDDO
       ENDIF
 C
-      IF (NR.GT.0) THEN
-       IF (NR.LT.3) THEN
+      IF (NR>0) THEN
+       IF (NR<3) THEN
         CALL RBE2D_BCL(ICR  ,NSN   ,ISL   ,M     ,VR    ,
      1                 SKEW )
-       ELSEIF (NR.EQ.3) THEN
+       ELSEIF (NR==3) THEN
         DO I=1,NSN
          NS = ISL(I)
          VR(1,NS)=VR(1,M)
@@ -563,7 +563,7 @@ C
        ENDIF
       END IF
 C
-      IF (IRAD.EQ.0.OR.NR.GT.0) THEN
+      IF (IRAD==0.OR.NR>0) THEN
        DO I=1,NSN
         NS = ISL(I)
         RX=VR(1,M)
@@ -626,7 +626,7 @@ C----------------------------------------
         VLM(2)  =SKEW(4)*VV(1)+SKEW(5)*VV(2)+SKEW(6)*VV(3)
         VLM(3)  =SKEW(7)*VV(1)+SKEW(8)*VV(2)+SKEW(9)*VV(3)
 C-------------------100---------------------
-      IF (ICT .EQ. 4 ) THEN
+      IF (ICT == 4 ) THEN
           EJ(1)=SKEW(1)
           EJ(2)=SKEW(2)
           EJ(3)=SKEW(3)
@@ -634,7 +634,7 @@ C-------------------100---------------------
 	  J1=0
           CALL DIR_RBE2(J    ,J1    ,K     )
 C-------------------010---------------------
-       ELSEIF (ICT .EQ. 2) THEN
+       ELSEIF (ICT == 2) THEN
           EJ(1)=SKEW(4)
           EJ(2)=SKEW(5)
           EJ(3)=SKEW(6)
@@ -642,7 +642,7 @@ C-------------------010---------------------
 	  J1=0
           CALL DIR_RBE2(J    ,J1    ,K     )
 C-------------------001---------------------
-       ELSEIF (ICT .EQ. 1) THEN
+       ELSEIF (ICT == 1) THEN
           EJ(1)=SKEW(7)
           EJ(2)=SKEW(8)
           EJ(3)=SKEW(9)
@@ -650,7 +650,7 @@ C-------------------001---------------------
 	  J1=0
           CALL DIR_RBE2(J    ,J1    ,K     )
 C-------------------011---------------------
-       ELSEIF (ICT .EQ. 3) THEN
+       ELSEIF (ICT == 3) THEN
           EJ(1)=SKEW(7)
           EJ(2)=SKEW(8)
           EJ(3)=SKEW(9)
@@ -659,20 +659,20 @@ C-------------------011---------------------
           EJ1(2)=SKEW(5)
           EJ1(3)=SKEW(6)
           CALL L_DIR(EJ1,J1)
-          IF (J1.EQ.J) THEN
+          IF (J1==J) THEN
            EJ1(J)=ZERO
            CALL L_DIR(EJ1,J1)
           ENDIF
           VLS(3)=VLM(3)
           VLS(2)=VLM(2)
           CALL DIR_RBE2(J    ,J1    ,K     )
-	  IF (ABS(VQ(1,K)).LT.EM20) THEN
+	  IF (ABS(VQ(1,K))<EM20) THEN
 	   S= ZERO
 	  ELSE
 	   S= ONE/VQ(1,K)
 	  ENDIF
 C-------------------101---------------------
-       ELSEIF (ICT .EQ. 5) THEN
+       ELSEIF (ICT == 5) THEN
           EJ(1)=SKEW(7)
           EJ(2)=SKEW(8)
           EJ(3)=SKEW(9)
@@ -681,20 +681,20 @@ C-------------------101---------------------
           EJ1(2)=SKEW(2)
           EJ1(3)=SKEW(3)
           CALL L_DIR(EJ1,J1)
-          IF (J1.EQ.J) THEN
+          IF (J1==J) THEN
            EJ1(J)=ZERO
            CALL L_DIR(EJ1,J1)
           ENDIF
           VLS(3)=VLM(3)
           VLS(1)=VLM(1)
           CALL DIR_RBE2(J    ,J1    ,K     )
-	  IF (ABS(VQ(2,K)).LT.EM20) THEN
+	  IF (ABS(VQ(2,K))<EM20) THEN
 	   S= ZERO
 	  ELSE
 	   S= ONE/VQ(2,K)
 	  ENDIF
 C-------------------110---------------------
-       ELSEIF (ICT .EQ. 6) THEN
+       ELSEIF (ICT == 6) THEN
           EJ(1)=SKEW(4)
           EJ(2)=SKEW(5)
           EJ(3)=SKEW(6)
@@ -703,14 +703,14 @@ C-------------------110---------------------
           EJ1(2)=SKEW(2)
           EJ1(3)=SKEW(3)
           CALL L_DIR(EJ1,J1)
-          IF (J1.EQ.J) THEN
+          IF (J1==J) THEN
            EJ1(J)=ZERO
            CALL L_DIR(EJ1,J1)
           ENDIF
           VLS(2)=VLM(2)
           VLS(1)=VLM(1)
           CALL DIR_RBE2(J    ,J1    ,K     )
-	  IF (ABS(VQ(3,K)).LT.EM20) THEN
+	  IF (ABS(VQ(3,K))<EM20) THEN
 	   S= ZERO
 	  ELSE
 	   S= ONE/VQ(3,K)
@@ -719,28 +719,28 @@ C-------------------110---------------------
        DO I=1,NSN
         NS = ISL(I)
 C-------------------100---------------------
-         IF (ICT .EQ. 4 ) THEN
+         IF (ICT == 4 ) THEN
           V(J,NS) = VLM(1)/SKEW(J)-EJ(J1)*V(J1,NS)-EJ(K)*V(K,NS)
 C-------------------010---------------------
-         ELSEIF (ICT .EQ. 2) THEN
+         ELSEIF (ICT == 2) THEN
           V(J,NS) = VLM(2)/SKEW(3+J)-EJ(J1)*V(J1,NS)-EJ(K)*V(K,NS)
 C-------------------001---------------------
-         ELSEIF (ICT .EQ. 1) THEN
+         ELSEIF (ICT == 1) THEN
           V(J,NS) = VLM(3)/SKEW(6+J)-EJ(J1)*V(J1,NS)-EJ(K)*V(K,NS)
 C-------------------011---------------------
-         ELSEIF (ICT .EQ. 3) THEN
+         ELSEIF (ICT == 3) THEN
           VLS(1)=(V(K,NS)-VLS(3)*VQ(3,K)-VLS(2)*VQ(2,K))*S
           V(1,NS) =VLS(1)*SKEW(1)+VLS(2)*SKEW(4)+VLS(3)*SKEW(7)
           V(2,NS) =VLS(1)*SKEW(2)+VLS(2)*SKEW(5)+VLS(3)*SKEW(8)
           V(3,NS) =VLS(1)*SKEW(3)+VLS(2)*SKEW(6)+VLS(3)*SKEW(9)
 C-------------------101---------------------
-         ELSEIF (ICT .EQ. 5) THEN
+         ELSEIF (ICT == 5) THEN
           VLS(2)=(V(K,NS)-VLS(3)*VQ(3,K)-VLS(1)*VQ(1,K))*S
           V(1,NS) =VLS(1)*SKEW(1)+VLS(2)*SKEW(4)+VLS(3)*SKEW(7)
           V(2,NS) =VLS(1)*SKEW(2)+VLS(2)*SKEW(5)+VLS(3)*SKEW(8)
           V(3,NS) =VLS(1)*SKEW(3)+VLS(2)*SKEW(6)+VLS(3)*SKEW(9)
 C-------------------110---------------------
-         ELSEIF (ICT .EQ. 6) THEN
+         ELSEIF (ICT == 6) THEN
           VLS(3)=(V(K,NS)-VLS(2)*VQ(2,K)-VLS(1)*VQ(1,K))*S
           V(1,NS) =VLS(1)*SKEW(1)+VLS(2)*SKEW(4)+VLS(3)*SKEW(7)
           V(2,NS) =VLS(1)*SKEW(2)+VLS(2)*SKEW(5)+VLS(3)*SKEW(8)
@@ -789,13 +789,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       K = J + 1
-      IF (K.GT.3) K = K - 3
-      IF (J1.EQ.0) THEN
+      IF (K>3) K = K - 3
+      IF (J1==0) THEN
        J1 = J + 2
-       IF (J1.GT.3) J1 = J1 - 3
-      ELSEIF (K.EQ.J1) THEN
+       IF (J1>3) J1 = J1 - 3
+      ELSEIF (K==J1) THEN
        K = J + 2
-       IF (K.GT.3) K = K - 3
+       IF (K>3) K = K - 3
       ENDIF
 C
       RETURN
@@ -843,7 +843,7 @@ C======================================================================|
 C-------change As=Am to Vs=Vm------
         USDT = ONE/DT12
         DO J = 1,3
-	 IF (JT(J).NE.0) THEN
+	 IF (JT(J)/=0) THEN
           DO I=1,NSL
            NS = ISL(I)
 	   A(J,NS)= A(J,M)+(V(J,M)-V(J,NS))*USDT
@@ -851,10 +851,10 @@ C-------change As=Am to Vs=Vm------
          ENDIF
         ENDDO
 C
-       IF ((JR(1)+JR(2)+JR(3)).GT.0.OR.IRAD.EQ.0) THEN
+       IF ((JR(1)+JR(2)+JR(3))>0.OR.IRAD==0) THEN
         DO J = 1,3
          VG(J)=VR(J,M)+AR(J,M)*DT12
-	 IF (JR(J).NE.0) THEN
+	 IF (JR(J)/=0) THEN
           DO I=1,NSL
            NS = ISL(I)
            AR(J,NS)= (VG(J)-VR(J,NS)) * USDT
@@ -863,7 +863,7 @@ C
         ENDDO
        END IF
 C
-       IF (IRAD.EQ.0) THEN
+       IF (IRAD==0) THEN
         DT05 = HALF*DT2
         DO I=1,NSL
          NS = ISL(I)
@@ -877,14 +877,14 @@ C
          VX1=V2X3-V3X2
          VX2=V3X1-V1X3
          VX3=V1X2-V2X1
-	 IF (JT(1).NE.0)
+	 IF (JT(1)/=0)
      .   A(1,NS)= A(1,NS)+(VX1+DT05*(VG(2)*VX3-VG(3)*VX2))*USDT
-	 IF (JT(2).NE.0)
+	 IF (JT(2)/=0)
      .   A(2,NS)= A(2,NS)+(VX2+DT05*(VG(3)*VX1-VG(1)*VX3))*USDT
-	 IF (JT(3).NE.0)
+	 IF (JT(3)/=0)
      .   A(3,NS)= A(3,NS)+(VX3+DT05*(VG(1)*VX2-VG(2)*VX1))*USDT
         ENDDO
-       ELSEIF ((JR(1)+JR(2)+JR(3)).GT.0) THEN
+       ELSEIF ((JR(1)+JR(2)+JR(3))>0) THEN
         DT05 = HALF*DT2
         DO J = 1,3
          VG(J)=JR(J)*VG(J)
@@ -1022,7 +1022,7 @@ C
          VRG(J)=VR(J,M)+AR(J,M)*DT12
        ENDDO
        DT05 = HALF*DT2
-       IF (IRAD.EQ.0) THEN
+       IF (IRAD==0) THEN
         DO J = 1,3
          USDT1(J)=USDT*JT(J)
         ENDDO
@@ -1096,7 +1096,7 @@ C======================================================================|
         NR=JR(1)+JR(2)+JR(3)
         ICT=JT(1)*4 +JT(2)*2 +JT(3)
         ICR=JR(1)*4 +JR(2)*2 +JR(3)
-	IF (ISK.GT.1) THEN
+	IF (ISK>1) THEN
 	 DO K=1,LSKEW
 	  SKEW(K)=SKEW0(K)
 	 ENDDO
@@ -1108,31 +1108,31 @@ C======================================================================|
 	  SKEW(5)=ONE
 	  SKEW(9)=ONE
         ENDIF
-      IF (NT.GT.0.AND.NT.LT.3) THEN
+      IF (NT>0.AND.NT<3) THEN
        NSN=1
        ISL(1)=NS
        CALL RBE2D_BCL(ICT  ,NSN   ,ISL   ,M     ,V     ,
      1               SKEW  )
-      ELSEIF (NT.EQ.3) THEN
+      ELSEIF (NT==3) THEN
         V(1,NS)=V(1,M)
         V(2,NS)=V(2,M)
         V(3,NS)=V(3,M)
       ENDIF
 C
-      IF (NR.GT.0) THEN
-       IF (NR.LT.3) THEN
+      IF (NR>0) THEN
+       IF (NR<3) THEN
         NSN=1
         ISL(1)=NS
         CALL RBE2D_BCL(ICR  ,NSN   ,ISL   ,M     ,VR    ,
      1                 SKEW )
-       ELSEIF (NR.EQ.3) THEN
+       ELSEIF (NR==3) THEN
          VR(1,NS)=VR(1,M)
          VR(2,NS)=VR(2,M)
          VR(3,NS)=VR(3,M)
        END IF
       END IF
 C
-      IF (IRAD.EQ.0.OR.NR.GT.0) THEN
+      IF (IRAD==0.OR.NR>0) THEN
         RX=VR(1,M)
         RY=VR(2,M)
         RZ=VR(3,M)
@@ -1201,7 +1201,7 @@ C-----------------------------------------------
         L = L + LSM(I)*LSM(I)
       END DO
       L = SQRT(L)
-      IF( L .LT. EM20) THEN
+      IF( L < EM20) THEN
 C SECND NODE COINCIDE WITH main NODE, NO VELICITY IS CAUSED BY ROTATION
         RETURN
       END IF
@@ -1211,7 +1211,7 @@ C SECND NODE COINCIDE WITH main NODE, NO VELICITY IS CAUSED BY ROTATION
         ANGELV = ANGELV + VRM(I)*VRM(I)
       END DO
       ANGELV = SQRT(ANGELV)
-      IF( ANGELV .LE. EM20) THEN
+      IF( ANGELV <= EM20) THEN
 C NO ROTATION VELOCITY
         RETURN
       END IF
@@ -1230,7 +1230,7 @@ C NO ROTATION VELOCITY
         L = L + LOCALX(I)*LOCALX(I)
       END DO
       L = SQRT(L)
-      IF( L .LE. EM20 )THEN
+      IF( L <= EM20 )THEN
 C ROTATION AXIS COINCIDIE WITH THE VECTOR POINTING FROM main TO SECND.
 C SO NO VELOCITY WILL BE CAUSED BY THIS ROTATION
         RETURN
@@ -1413,12 +1413,12 @@ C       transform vector pointing from main node to secnd node to local coordina
           VRLS(J) = VRLM(J) * JR(J)
         END DO
 
-        IF( IRAD .EQ. 0) THEN ! NASTRAN FORMAT
+        IF( IRAD == 0) THEN ! NASTRAN FORMAT
            CALL VELROT(VRLM, LOCALSM,VSROT)
-           IF( JT(1) .NE. 0 ) VLS(1) = VLS(1) + VSROT(1)
-           IF( JT(2) .NE. 0 ) VLS(2) = VLS(2) + VSROT(2)
-           IF( JT(3) .NE. 0 ) VLS(3) = VLS(3) + VSROT(3)
-        ELSE IF( (JR(1)+JR(2)+JR(3)).GT.0) THEN ! RIGID LINK
+           IF( JT(1) /= 0 ) VLS(1) = VLS(1) + VSROT(1)
+           IF( JT(2) /= 0 ) VLS(2) = VLS(2) + VSROT(2)
+           IF( JT(3) /= 0 ) VLS(3) = VLS(3) + VSROT(3)
+        ELSE IF( (JR(1)+JR(2)+JR(3))>0) THEN ! RIGID LINK
           DO J = 1, 3
             VRTEMP(J) = VRLM(J) * JR(J)
           END DO
@@ -1427,7 +1427,7 @@ C       transform vector pointing from main node to secnd node to local coordina
             VLS(J) = VLS(J) + VSROT(J)
           END DO
 
-        END IF ! IRAD .EQ. 0
+        END IF ! IRAD == 0
 
 C       update dependent DOF(s) by independent DOF(s)
 
@@ -1465,7 +1465,7 @@ C WORK VARIABLE
      .        EJ(3), EJ1(3)
 
 C-------------------100---------------------
-      IF (ICT .EQ. 4 ) THEN
+      IF (ICT == 4 ) THEN
           EJ(1)=SKEW(1)
           EJ(2)=SKEW(2)
           EJ(3)=SKEW(3)
@@ -1473,7 +1473,7 @@ C-------------------100---------------------
 	    J1=0
           CALL DIR_RBE2(J    ,J1    ,K     )
 C-------------------010---------------------
-       ELSEIF (ICT .EQ. 2) THEN
+       ELSEIF (ICT == 2) THEN
           EJ(1)=SKEW(4)
           EJ(2)=SKEW(5)
           EJ(3)=SKEW(6)
@@ -1481,7 +1481,7 @@ C-------------------010---------------------
           J1=0
           CALL DIR_RBE2(J    ,J1    ,K     )
 C-------------------001---------------------
-       ELSEIF (ICT .EQ. 1) THEN
+       ELSEIF (ICT == 1) THEN
           EJ(1)=SKEW(7)
           EJ(2)=SKEW(8)
           EJ(3)=SKEW(9)
@@ -1489,7 +1489,7 @@ C-------------------001---------------------
 	    J1=0
           CALL DIR_RBE2(J    ,J1    ,K     )
 C-------------------011---------------------
-       ELSEIF (ICT .EQ. 3) THEN
+       ELSEIF (ICT == 3) THEN
           EJ(1)=SKEW(7)
           EJ(2)=SKEW(8)
           EJ(3)=SKEW(9)
@@ -1498,13 +1498,13 @@ C-------------------011---------------------
           EJ1(2)=SKEW(5)
           EJ1(3)=SKEW(6)
           CALL L_DIR(EJ1,J1)
-          IF (J1.EQ.J) THEN
+          IF (J1==J) THEN
            EJ1(J)=ZERO
            CALL L_DIR(EJ1,J1)
           ENDIF
           CALL DIR_RBE2(J    ,J1    ,K     )
 C-------------------101---------------------
-       ELSEIF (ICT .EQ. 5) THEN
+       ELSEIF (ICT == 5) THEN
          EJ(1)=SKEW(7)
          EJ(2)=SKEW(8)
          EJ(3)=SKEW(9)
@@ -1513,13 +1513,13 @@ C-------------------101---------------------
          EJ1(2)=SKEW(2)
          EJ1(3)=SKEW(3)
          CALL L_DIR(EJ1,J1)
-         IF (J1.EQ.J) THEN
+         IF (J1==J) THEN
           EJ1(J)=ZERO
           CALL L_DIR(EJ1,J1)
          ENDIF
          CALL DIR_RBE2(J    ,J1    ,K     )
 C-------------------110---------------------
-       ELSEIF (ICT .EQ. 6) THEN
+       ELSEIF (ICT == 6) THEN
           EJ(1)=SKEW(4)
           EJ(2)=SKEW(5)
           EJ(3)=SKEW(6)
@@ -1528,7 +1528,7 @@ C-------------------110---------------------
           EJ1(2)=SKEW(2)
           EJ1(3)=SKEW(3)
           CALL L_DIR(EJ1,J1)
-          IF (J1.EQ.J) THEN
+          IF (J1==J) THEN
            EJ1(J)=ZERO
            CALL L_DIR(EJ1,J1)
           ENDIF
@@ -1569,19 +1569,19 @@ C  WORK VARIABLE
       END DO
 
 C-------------------100---------------------
-      IF (ICT .EQ. 4 ) THEN
+      IF (ICT == 4 ) THEN
         V(J,NS) = ONE/SKEW1(1,J)*(VLS(1)-SKEW1(1,J1)*V(J1,NS)
      .            -SKEW1(1,K)*V(K,NS ))
 C-------------------010---------------------
-      ELSEIF (ICT .EQ. 2) THEN
+      ELSEIF (ICT == 2) THEN
         V(J,NS) = ONE/SKEW1(2,J)*(VLS(2)-SKEW1(2,J1)*V(J1,NS)
      .            -SKEW1(2,K)*V(K,NS ))
 C-------------------001---------------------
-      ELSEIF (ICT .EQ. 1) THEN
+      ELSEIF (ICT == 1) THEN
         V(J,NS) = ONE/SKEW1(3,J)*(VLS(3)-SKEW1(3,J1)*V(J1,NS)
      .            -SKEW1(3,K)*V(K,NS ))
 C-------------------011---------------------
-      ELSEIF (ICT .EQ. 3) THEN
+      ELSEIF (ICT == 3) THEN
 
         ARRAY1(1) = VLS(2) - SKEW1(2,K) * V(K,NS)
         ARRAY1(2) = VLS(3) - SKEW1(3,K) * V(K,NS)
@@ -1596,7 +1596,7 @@ C-------------------011---------------------
         V(J1,NS) = ARRAY2(2,1) * ARRAY1(1) + ARRAY2(2,2) * ARRAY1(2)
 
 C-------------------101---------------------
-      ELSEIF (ICT .EQ. 5) THEN
+      ELSEIF (ICT == 5) THEN
 
         ARRAY1(1) = VLS(1) - SKEW1(1,K) * V(K,NS)
         ARRAY1(2) = VLS(3) - SKEW1(3,K) * V(K,NS)
@@ -1611,7 +1611,7 @@ C-------------------101---------------------
         V(J1,NS) = ARRAY2(2,1) * ARRAY1(1) + ARRAY2(2,2) * ARRAY1(2)
 
 C-------------------110---------------------
-      ELSEIF (ICT .EQ. 6) THEN
+      ELSEIF (ICT == 6) THEN
         ARRAY1(1) = VLS(2) - SKEW1(2,K) * V(K,NS)
         ARRAY1(2) = VLS(1) - SKEW1(1,K) * V(K,NS)
 
@@ -1625,7 +1625,7 @@ C-------------------110---------------------
         V(J1,NS) = ARRAY2(2,1) * ARRAY1(1) + ARRAY2(2,2) * ARRAY1(2)
 
 C-------------------110---------------------
-      ELSEIF( ICT .EQ. 7 ) THEN
+      ELSEIF( ICT == 7 ) THEN
         DO M = 1 , 3
           V(M,NS) = ZERO
           DO N = 1 , 3

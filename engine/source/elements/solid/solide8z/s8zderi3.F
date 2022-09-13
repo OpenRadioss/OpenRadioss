@@ -190,28 +190,28 @@ C
       ICOR = 0
       DO I=LFT,LLT
         OFF(I)=OFFG(I)
-        IF(OFF(I).EQ.ZERO)THEN
+        IF(OFF(I)==ZERO)THEN
          DET(I)=ONE
-         IF (VOL(I).LE.ZERO) VOL(I)=ONE
-        ELSEIF (VOL(I).LE.ZERO ) THEN
+         IF (VOL(I)<=ZERO) VOL(I)=ONE
+        ELSEIF (VOL(I)<=ZERO ) THEN
          VOL(I)= EM20
          OFF(I) =ZERO
           ICOR=1
         ENDIF
       ENDDO
 C
-      IF (ICOR.GT.0.AND.IMPL_S.GT.0) THEN
+      IF (ICOR>0.AND.IMPL_S>0) THEN
         DO I=LFT,LLT
-          IF(VOL(I).LE.ZERO.AND.OFF(I).NE.ZERO)THEN
+          IF(VOL(I)<=ZERO.AND.OFF(I)/=ZERO)THEN
             VOL(I)= EM20
             OFF(I) =ZERO 
-           IF (IMP_CHK.GT.0) THEN
+           IF (IMP_CHK>0) THEN
 #include "lockon.inc"
             WRITE(IOUT ,2001) NGL(I)
 #include "lockoff.inc"
             IDEL7NOK = 1
             IMP_IR = IMP_IR + 1
-           ELSEIF (IMCONV.EQ.1) THEN
+           ELSEIF (IMCONV==1) THEN
 #include "lockon.inc"
             WRITE(ISTDO,2000) NGL(I)
             WRITE(IOUT ,2000) NGL(I)
@@ -1232,7 +1232,7 @@ C----surface max mediane-- *16
      .            +JAC_15_24(I)*JAC_15_24(I))
        ENDDO
        DO I=LFT,LLT
-         IF(SMAX(I).LE.ZERO)THEN
+         IF(SMAX(I)<=ZERO)THEN
            CALL ANCMSG(MSGID=173,ANMODE=ANINFO,
      .                 I1=NGL(I))
            CALL ARRET(2)
@@ -1476,7 +1476,7 @@ C----surface max mediane-- *16
      .            +JAC_15_24(I)*JAC_15_24(I))
        ENDDO
        DO I=LFT,LLT
-         IF(SMAX(I).LE.ZERO)THEN
+         IF(SMAX(I)<=ZERO)THEN
            CALL ANCMSG(MSGID=173,ANMODE=ANINFO,
      .                 I1=NGL(I))
            CALL ARRET(2)
@@ -1597,11 +1597,11 @@ C
 C
       ICOR = 0
       DO I=LFT,LLT
-        IF(OFFG(I).EQ.ZERO)THEN
+        IF(OFFG(I)==ZERO)THEN
          DET(I)=ONE
-         IF (VOL(I).LE.ZERO) VOL(I)=ONE
-         IF (VOLDP(I).LE.ZERO) VOLDP(I)=ONE
-        ELSEIF (VOL(I).LE.ZERO ) THEN
+         IF (VOL(I)<=ZERO) VOL(I)=ONE
+         IF (VOLDP(I)<=ZERO) VOLDP(I)=ONE
+        ELSEIF (VOL(I)<=ZERO ) THEN
           ICOR=1
         ENDIF
       ENDDO
@@ -1615,13 +1615,13 @@ C
        ENDDO
       END IF
 C
-      IF (ICOR.GT.0.AND.IMPL_S.GT.0) THEN
+      IF (ICOR>0.AND.IMPL_S>0) THEN
         DO I=LFT,LLT
-          IF(VOL(I).LE.ZERO)THEN
+          IF(VOL(I)<=ZERO)THEN
             VOL(I)= EM20
             VOLDP(I) = EM20
             DET(I)= EM20
-           IF (IMP_CHK.GT.0) THEN
+           IF (IMP_CHK>0) THEN
 #include "lockon.inc"
             WRITE(IOUT ,2001) NGL(I)
 #include "lockoff.inc"
@@ -3913,7 +3913,7 @@ C----surface max mediane-- *16
      .            +JAC_15_24*JAC_15_24)
        ENDDO
        DO I=LFT,LLT
-         IF(SMAX(I).LE.ZERO)THEN
+         IF(SMAX(I)<=ZERO)THEN
            CALL ANCMSG(MSGID=173,ANMODE=ANINFO,
      .                 I1=NGL(I))
            CALL ARRET(2)
@@ -4086,28 +4086,28 @@ C
       ICOR = 0
       DO I=LFT,LLT
         OFF(I)=OFFG(I)
-        IF(OFF(I).EQ.ZERO)THEN
+        IF(OFF(I)==ZERO)THEN
          DET(I)=ONE
-         IF (VOL(I).LE.ZERO) VOL(I)=ONE
-        ELSEIF (VOL(I).LE.ZERO ) THEN
+         IF (VOL(I)<=ZERO) VOL(I)=ONE
+        ELSEIF (VOL(I)<=ZERO ) THEN
          VOL(I)= EM20
          OFF(I) =ZERO
           ICOR=1
         ENDIF
       ENDDO
 C
-      IF (ICOR.GT.0.AND.IMPL_S.GT.0) THEN
+      IF (ICOR>0.AND.IMPL_S>0) THEN
         DO I=LFT,LLT
-          IF(VOL(I).LE.ZERO.AND.OFF(I).NE.ZERO)THEN
+          IF(VOL(I)<=ZERO.AND.OFF(I)/=ZERO)THEN
             VOL(I)= EM20
             OFF(I) =ZERO 
-           IF (IMP_CHK.GT.0) THEN
+           IF (IMP_CHK>0) THEN
 #include "lockon.inc"
             WRITE(IOUT ,2001) NGL(I)
 #include "lockoff.inc"
             IDEL7NOK = 1
             IMP_IR = IMP_IR + 1
-           ELSEIF (IMCONV.EQ.1) THEN
+           ELSEIF (IMCONV==1) THEN
 #include "lockon.inc"
             WRITE(ISTDO,2000) NGL(I)
             WRITE(IOUT ,2000) NGL(I)

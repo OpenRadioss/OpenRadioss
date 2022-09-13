@@ -117,21 +117,21 @@ C-----------------------------------------------
        DVC(I) =ZERO
       ENDDO
 C-------------Volume traitement------
-      IF (ICP.EQ.2) THEN
+      IF (ICP==2) THEN
        DO I=LFT,LLT
         DVC(I)=(DSV(I)-DVC(I))*FAC(I)*DT1
        ENDDO
-      ELSEIF (ICP.EQ.1) THEN
+      ELSEIF (ICP==1) THEN
        DO I=LFT,LLT
         DVC(I)=(DSV(I)-DVC(I))*DT1
        ENDDO
       ENDIF 
-      IF ((ICP.GT.0.AND.ISMSTR/=10.AND.ISMSTR/=12).OR.I_SH>1) THEN
+      IF ((ICP>0.AND.ISMSTR/=10.AND.ISMSTR/=12).OR.I_SH>1) THEN
        DO I=LFT,LLT
         DV =DVC(I)*OFF(I)
         IF(IDEGE(I)>10) DV = ZERO
         SDV(I) =DV
-        IF (DV.GT.TOL) THEN
+        IF (DV>TOL) THEN
           DV =ZERO
         ENDIF
         IF(OFFS(I)==TWO.OR.ISMSTR==11) CYCLE
@@ -147,7 +147,7 @@ c        ENDIF
       ENDIF 
 C
       DT1D2=HALF*DT1
-      IF (ISCAU.GT.0)DT1D2=DT1
+      IF (ISCAU>0)DT1D2=DT1
       DT1D=TWO*DT1D2
        DO I=LFT,LLT
         D4(I)=DXY(I)+DYX(I)
@@ -508,21 +508,21 @@ C-----------------------------------------------
         DVC(I) =ZERO        
       ENDDO
 C-------------Volume traitement------
-      IF (ICP.EQ.2) THEN
+      IF (ICP==2) THEN
        DO I=LFT,LLT
         DVC(I)=(DSV(I)-DVC(I))*FAC(I)*DT1
        ENDDO
-      ELSEIF (ICP.EQ.1) THEN
+      ELSEIF (ICP==1) THEN
        DO I=LFT,LLT
         DVC(I)=(DSV(I)-DVC(I))*DT1
        ENDDO
       ENDIF 
-      IF ((ICP.GT.0.AND.ISMSTR/=10.AND.ISMSTR/=12).OR.I_SH>1) THEN
+      IF ((ICP>0.AND.ISMSTR/=10.AND.ISMSTR/=12).OR.I_SH>1) THEN
        DO I=LFT,LLT
         DV =DVC(I)*OFF(I)
         IF(IDEGE(I)>10) DV = ZERO
         SDV(I) =DV
-        IF (DV.GT.TOL) THEN
+        IF (DV>TOL) THEN
           DV =ZERO
         ENDIF
         IF(OFFS(I)==TWO.OR.ISMSTR==11) CYCLE
@@ -538,7 +538,7 @@ c        ENDIF
       ENDIF 
 C
       DT1D2=HALF*DT1
-      IF (ISCAU.GT.0)DT1D2=DT1
+      IF (ISCAU>0)DT1D2=DT1
       DT1D=TWO*DT1D2
        UDT1 = ONE     ! sb a supprimer, si je garde la vitesse pour ce calcul
        IF (DT1 > ZERO) UDT1 = ONE/DT1

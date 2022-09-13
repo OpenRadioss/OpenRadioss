@@ -150,7 +150,7 @@ C dd-iad
         P = CEP(NFT+INDEX(1))
         NB = 1
         DO I = 2, NEL
-          IF (CEP(NFT+INDEX(I)).NE.P) THEN
+          IF (CEP(NFT+INDEX(I))/=P) THEN
             DD_IAD(P+1,NSPGROUP+N) = NB
             NB = 1
             P = CEP(NFT+INDEX(I))
@@ -246,7 +246,7 @@ cc       LB_L = LBUFEL
        DO P = 1, NSPMD
         NGP(P)=0
         NEL = DD_IAD(P+1,NSPGROUP+N)-DD_IAD(P,NSPGROUP+N)
-        IF (NEL.GT.0) THEN
+        IF (NEL>0) THEN
          NEL_PREC = DD_IAD(P,NSPGROUP+N)-DD_IAD(1,NSPGROUP+N)
          NGP(P)=NGROUP
          NG  = (NEL-1)/NVSIZ + 1
@@ -256,11 +256,11 @@ C ngroup global
           II = EADD(N)+NFT
           PID= IXR(1,II)
 C Multidomains - spring not duplicated
-          IF (NSUBDOM.GT.0) IPARTR2R = 1
+          IF (NSUBDOM>0) IPARTR2R = 1
           MTNN = NINT(GEO(8,PID))
           IGTYP= IGEO(11,PID)
           ISSN=0
-          IF(GEO(5,PID).NE.0.)ISSN=1
+          IF(GEO(5,PID)/=0.)ISSN=1
           IF(IGTYP == 23) THEN
              MID  = IXR(5,II)
              MTNN = IPM(2,MID)
@@ -280,7 +280,7 @@ C reperage groupe/processeur
           IPARG(32,NGROUP)= P-1
           IPARG(38,NGROUP)= IGTYP
 C         flag for group of duplicated elements in multidomains
-          IF (NSUBDOM.GT.0) IPARG(77,NGROUP)= IPARTR2R
+          IF (NSUBDOM>0) IPARG(77,NGROUP)= IPARTR2R
 C
           JSMS=0
           IF(ISMS/=0)THEN

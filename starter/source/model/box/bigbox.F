@@ -240,7 +240,7 @@ C-------
       YP2  = IBOX(ISU)%Y2
       ZP2  = IBOX(ISU)%Z2
 C
-      IF(IDBX.NE.0)THEN
+      IF(IDBX/=0)THEN
         DO I=1,NUMNOD
           OK = 0
           NODINB(1) = X(1,I)
@@ -362,7 +362,7 @@ C---
           BOXNODS = IBOX(IBS)%NENTITY  ! nodes of sub-box
           JAD     = IBOX(IBS)%BOXIAD  ! address of nodes
 C---
-          IF(IDBX.NE.0 .and. J > 0)THEN
+          IF(IDBX/=0 .and. J > 0)THEN
             DO I=1,BOXNODS
               N = IBUFBOX(JAD+I-1)
               IF(TAGPOS(N) == 0)THEN
@@ -381,7 +381,7 @@ C---
           BOXNODS = IBOX(IBS)%NENTITY  ! nodes of sub-box
           JAD     = IBOX(IBS)%BOXIAD  ! address of nodes
 C---
-          IF(IDBX.NE.0 .and. J < 0)THEN
+          IF(IDBX/=0 .and. J < 0)THEN
             DO I=1,BOXNODS
               N = IBUFBOX(JAD+I-1)
               IF(TAGNEG(N) == 0)THEN
@@ -493,7 +493,7 @@ C---
           BOXELE0 = IBOX(IBS)%NENTITY  ! elements of sub-box
           JAD     = IBOX(IBS)%BOXIAD  ! address of nodes
 C---
-          IF(IDBX.NE.0 .and. J > 0)THEN
+          IF(IDBX/=0 .and. J > 0)THEN
             DO I=1,BOXELE0
               JJ = IBUFBOX(JAD+I-1)
               IF(TAGPOS(JJ) == 0)THEN
@@ -512,7 +512,7 @@ C---
           BOXELE0 = IBOX(IBS)%NENTITY  ! elements of sub-box
           JAD     = IBOX(IBS)%BOXIAD  ! address of nodes
 C---
-          IF(IDBX.NE.0 .and. J < 0)THEN
+          IF(IDBX/=0 .and. J < 0)THEN
             DO I=1,BOXELE0
               JJ = IBUFBOX(JAD+I-1)
               IF(TAGNEG(JJ) == 0)THEN
@@ -645,7 +645,7 @@ C---
           BOXSEG0 = IBOX(IBS)%NENTITY  ! elements of sub-box
           JAD     = IBOX(IBS)%BOXIAD  ! address of elements
 C---
-          IF(IDBX.NE.0 .and. J > 0)THEN
+          IF(IDBX/=0 .and. J > 0)THEN
             DO I=1,BOXSEG0
 !!              JJ = IBUFBOX(JAD+DIF_NIX-1) ! tag element
               KAD = JAD - 1 + DIF_NIX - POS_IEXT
@@ -668,7 +668,7 @@ C---
           BOXSEG0 = IBOX(IBS)%NENTITY  ! elements of sub-box
           JAD     = IBOX(IBS)%BOXIAD  ! address of elements
 C---
-          IF(IDBX.NE.0 .and. J < 0)THEN
+          IF(IDBX/=0 .and. J < 0)THEN
             DO I=1,BOXSEG0
 !!              JJ = IBUFBOX(JAD+DIF_NIX-1) ! tag element
               KAD = JAD - 1 + DIF_NIX - POS_IEXT
@@ -846,7 +846,7 @@ C---
           BOXSEG0 = IBOX(IBS)%NENTITY  ! faces of sub-box
           JAD     = IBOX(IBS)%SURFIAD  ! address of faces
 C---
-          IF(IDBX.NE.0 .and. J > 0)THEN
+          IF(IDBX/=0 .and. J > 0)THEN
             DO I=1,BOXSEG0
 !!              JJ = IBUFBOX(JAD+DIF_NIX-1) ! tag element
               KAD = JAD - 1 + DIF_NIX - POS_IEXT
@@ -916,7 +916,7 @@ C---
           BOXSEG0 = IBOX(IBS)%NENTITY  ! faces of sub-box
           JAD     = IBOX(IBS)%SURFIAD  ! address of faces
 C---
-          IF(IDBX.NE.0 .and. J < 0)THEN
+          IF(IDBX/=0 .and. J < 0)THEN
             DO I=1,BOXSEG0
 !!              JJ = IBUFBOX(JAD+DIF_NIX-1) ! tag element
               KAD = JAD - 1 + DIF_NIX - POS_IEXT
@@ -1097,7 +1097,7 @@ C-------
             YP2  = IBOX(ISU)%Y2
             ZP2  = IBOX(ISU)%Z2
 C--------------------------------
-            IF(IDBX.NE.0)THEN
+            IF(IDBX/=0)THEN
 C---
               IF(NADMESH==0)THEN
                 IF (BOXTYPE == 2) THEN
@@ -1495,7 +1495,7 @@ C-------
             YP2  = IBOX(ISU)%Y2
             ZP2  = IBOX(ISU)%Z2
 C
-            IF(IDBX.NE.0)THEN
+            IF(IDBX/=0)THEN
               IF (BOXTYPE == 2) THEN
                 DO JJ=1,NUMEL
                   OK=0
@@ -1556,7 +1556,7 @@ C
 C---count lines within BOX
 C
       IF (FLAG == 0) THEN
-        IF(IDBX.NE.0)THEN
+        IF(IDBX/=0)THEN
           DO I=1,NUMEL
             IF(TAGSHELLBOX(I) == 1)THEN
               IF(ISURF0 == 1)THEN
@@ -1898,7 +1898,7 @@ C-------
       YP2  = IBOX(ISU)%Y2
       ZP2  = IBOX(ISU)%Z2
 C-------
-       IF(IDBX.NE.0)THEN
+       IF(IDBX/=0)THEN
 C---
          IF (BOXTYPE == 2) THEN
           DO JS=1,NUMELS
@@ -2061,7 +2061,7 @@ C-------
         IF(IDB == IBOX(I)%ID) ISU=I
       END DO
 C---
-      IF(ISU .LE. 0)THEN
+      IF(ISU <= 0)THEN
        IF(FLAG == 0)THEN
         CALL ANCMSG(MSGID=800,
      .              MSGTYPE=MSGERROR,
@@ -2363,7 +2363,7 @@ C--------------------------
 C
 C--------------------------
       DO JS=1,NUMELS8
-        IF(ELSTAG(JS).GT.0)THEN
+        IF(ELSTAG(JS)>0)THEN
           DO JJ=1,6
             IF(MOD(ELSTAG(JS),PWR(JJ+1))/PWR(JJ)/=0 .AND.
      .         MOD(FASTAG(JS),PWR(JJ+1))/PWR(JJ)==0)THEN
@@ -2502,7 +2502,7 @@ C
 C--------------------------
       DO J=1,NUMELS10
         JS = J+NUMELS8
-        IF(ELSTAG(JS).GT.0)THEN
+        IF(ELSTAG(JS)>0)THEN
           DO JJ=3,6
             IF(MOD(ELSTAG(JS),PWR(JJ+1))/PWR(JJ)/=0 .AND.
      .         MOD(FASTAG(JS),PWR(JJ+1))/PWR(JJ)==0)THEN

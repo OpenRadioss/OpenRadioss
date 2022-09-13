@@ -78,7 +78,7 @@ C---------------------
         NGASES   = IGEO(23,I_INJ)
 C
         ISENS    = IBAGJET(4,IJ)
-        IF(ISENS.EQ.0)THEN
+        IF(ISENS==0)THEN
          TSTART=ZERO
         ELSE
          TSTART=SENSOR(2,ISENS)
@@ -97,15 +97,15 @@ C
         GMOL_OLD=RBAGJET(20,IJ)
 C
         DO IK=1,NGASES
-         IF (I_TYPINJ.EQ.1) THEN
+         IF (I_TYPINJ==1) THEN
            FMASS=GEO(208+(IK-1)*2+1,I_INJ)
-           IF (IFLU.EQ.1)FMASS=FMASS/ASTIME
+           IF (IFLU==1)FMASS=FMASS/ASTIME
            FTEMP=GEO(208+(IK-1)*2+2,I_INJ)
            IMASS=IGEO(100+(IK-1)*3+2,I_INJ)
            ITEMP=IGEO(100+(IK-1)*3+3,I_INJ)
-         ELSE IF (I_TYPINJ.EQ.2) THEN
+         ELSE IF (I_TYPINJ==2) THEN
            FMASS=GEO(209,I_INJ)
-           IF (IFLU.EQ.1)FMASS=FMASS/ASTIME
+           IF (IFLU==1)FMASS=FMASS/ASTIME
            FTEMP=GEO(210,I_INJ)
            MOLFR=GEO(211+(IK-1)+1,I_INJ)
            IMASS=IGEO(25,I_INJ)
@@ -113,9 +113,9 @@ C
            IMOL =IGEO(100+(IK-1)*2+2,I_INJ)
          END IF
 C
-         IF (I_TYPINJ.EQ.1) THEN
+         IF (I_TYPINJ==1) THEN
            I_GAS=IGEO(100+(IK-1)*3+1,I_INJ)
-         ELSE IF (I_TYPINJ.EQ.2) THEN
+         ELSE IF (I_TYPINJ==2) THEN
            I_GAS=IGEO(100+(IK-1)*2+1,I_INJ)
          END IF
          MW   =PM(20,I_GAS)
@@ -125,10 +125,10 @@ C
          CPD  =PM(24,I_GAS)
          CPE  =PM(25,I_GAS)
          CPF  =PM(26,I_GAS)
-         IF(TT.GE.TSTART)THEN
+         IF(TT>=TSTART)THEN
           TSG = (TT-TSTART)/ASTIME
 C
-          IF(ITEMP.GT.0) THEN
+          IF(ITEMP>0) THEN
             TEMP=FTEMP*FINTER(ITEMP,TSG,NPC,TF,DYDX)
           ELSE
             TEMP=FTEMP
@@ -145,31 +145,31 @@ C
          DMOL_MIX=ZERO
          DMASSG_MIX=ZERO
 
-         IF(TT.GE.TSTART)THEN
+         IF(TT>=TSTART)THEN
             DTEPS=DT1/ASTIME
-            IF (DT1.EQ.ZERO) DTEPS=EM15
+            IF (DT1==ZERO) DTEPS=EM15
 C
-            IF (I_TYPINJ.EQ.1) THEN
+            IF (I_TYPINJ==1) THEN
 C --- calcul masse  Cette boucle devrait etre faite en dehors de la boucle IK
               DO IL=1,NGASES
 C
                I_GAS1=IGEO(100+(IL-1)*3+1,I_INJ)
                IMASS1=IGEO(100+(IL-1)*3+2,I_INJ)
                FMASS1=GEO(208+(IL-1)*2+1,I_INJ)
-               IF (IFLU.EQ.1) FMASS1=FMASS1/ASTIME
+               IF (IFLU==1) FMASS1=FMASS1/ASTIME
                MW1=PM(20,I_GAS1)
 C
-               IF(IMASS1.GT.0) THEN
+               IF(IMASS1>0) THEN
                  GMASS=FMASS1*FINTER(IMASS1,TSG,NPC,TF,DYDX)
                ELSE
                  GMASS=FMASS1
                END IF
 C
-               IF (IFLU.EQ.1) THEN
+               IF (IFLU==1) THEN
                 DMASS_MIX=DMASS_MIX+GMASS
                 DMOL_MIX=DMOL_MIX+GMASS/MW1
-               ELSEIF (IFLU.EQ.0) THEN
-                IF(IMASS1.GT.0) THEN
+               ELSEIF (IFLU==0) THEN
+                IF(IMASS1>0) THEN
                   GMASS_DT=FMASS1*FINTER(IMASS1,TSG+DTEPS,NPC,TF,DYDX)
                 ELSE
                   GMASS_DT=FMASS1
@@ -179,21 +179,21 @@ C
                END IF
               END DO ! end boucle sur IL
 C
-              IF(IMASS.GT.0) THEN
+              IF(IMASS>0) THEN
                 GMASS=FMASS*FINTER(IMASS,TSG,NPC,TF,DYDX)
               ELSE
                 GMASS=FMASS
               END IF
               DMASSG_MIX=GMASS
-              IF (IFLU.EQ.0) THEN
-                IF(IMASS.GT.0) THEN
+              IF (IFLU==0) THEN
+                IF(IMASS>0) THEN
                   GMASS_DT=FMASS*FINTER(IMASS,TSG+DTEPS,NPC,TF,DYDX)
                 ELSE
                   GMASS_DT=FMASS
                 END IF
                 DMASSG_MIX=GMASS_DT-GMASS
               END IF
-            ELSE IF (I_TYPINJ.EQ.2) THEN
+            ELSE IF (I_TYPINJ==2) THEN
 C --- MASS_MIX correspond sert uniquement au calcul de GMASS
 C --- c est un cumul pour retrouver la fonction d input de masse
 C
@@ -208,13 +208,13 @@ C
                I_GAS1=IGEO(100+(IL-1)*2+1,I_INJ)
                IMASS1=IGEO(25,I_INJ)
                FMASS1=GEO(209,I_INJ)
-               IF (IFLU.EQ.1) FMASS1=FMASS1/ASTIME
+               IF (IFLU==1) FMASS1=FMASS1/ASTIME
                MW1=PM(20,I_GAS1)
 C
                IMOL1=IGEO(100+(IL-1)*2+2,I_INJ)
                MOLFR1=GEO(211+(IL-1)+1,I_INJ)
 C
-               IF (IMOL1.EQ.0) THEN
+               IF (IMOL1==0) THEN
                 GMASS=MOLFR1
      .                *MW1
                ELSE
@@ -222,14 +222,14 @@ C
      .                *FINTER(IMOL1,TSG,NPC,TF,DYDX)
      .                *MW1
                END IF
-               IF (IFLU.EQ.1) THEN
+               IF (IFLU==1) THEN
                  DMASS_MIX=DMASS_MIX+GMASS
                  DMOL_MIX=DMOL_MIX+GMASS/MW1
 C
                  MASS_MIX=MASS_MIX+GMASS
 C
-               ELSEIF (IFLU.EQ.0) THEN
-                 IF (IMOL1.EQ.0) THEN
+               ELSEIF (IFLU==0) THEN
+                 IF (IMOL1==0) THEN
                   GMASS_DT=MOLFR1
      .                     *MW1
                  ELSE
@@ -247,7 +247,7 @@ C
                END IF
               END DO
 C --- Somme de masse (masse x masse_molaire)/masse_mixture
-              IF (IMOL.EQ.0) THEN
+              IF (IMOL==0) THEN
                 GMASS=FMASS*MOLFR
      .                     *MW
               ELSE
@@ -262,8 +262,8 @@ C --- Somme de masse (masse x masse_molaire)/masse_mixture
               DMOL_MIX =FMASS*DMOL_MIX
      .              *FINTER(IMASS,TSG,NPC,TF,DYDX)/MASS_MIX
               DMASSG_MIX=GMASS
-              IF (IFLU.EQ.0) THEN
-               IF (IMOL.EQ.0) THEN
+              IF (IFLU==0) THEN
+               IF (IMOL==0) THEN
                  GMASS_DT=FMASS*MOLFR
      .                         *MW
                ELSE
@@ -277,7 +277,7 @@ C --- pas de recalcul de DMASSG_MIX avec DTEPS
               END IF
             END IF
 C
-            IF (DMASS_MIX.NE.ZERO)THEN
+            IF (DMASS_MIX/=ZERO)THEN
              MWMIX_NEW     =DMASS_MIX/DMOL_MIX
              CPA_NEW =CPA_NEW +CPA*DMASSG_MIX/DMASS_MIX
              CPB_NEW =CPB_NEW +CPB*DMASSG_MIX/DMASS_MIX
@@ -288,7 +288,7 @@ C
             END IF
 C
             KK=20+(IK-1)*4
-            IF(IFLU.EQ.1) THEN
+            IF(IFLU==1) THEN
               GMASS_OLD = RBAGJET(KK+1,IJ)
               GMASS =GMASS*DT1 + GMASS_OLD
               DGMASS=MAX(ZERO,GMASS-GMASS_OLD)
@@ -303,20 +303,20 @@ C
           GMASS =ZERO
          ENDIF !TT >= TSTART
 C
-         IF(DMASS_MIX.NE.ZERO) THEN
+         IF(DMASS_MIX/=ZERO) THEN
            DATAINJ(4,IJ)=DATAINJ(4,IJ)+EFAC*DMASSG_MIX/DMASS_MIX
          ENDIF
 C
         END DO
 C Fin de boucle sur les gas inject s
 C
-        IF (DT1.GT.ZERO) THEN
+        IF (DT1>ZERO) THEN
            DATAINJ(2,IJ)=DGMASSI/DT1
         ELSE
            DATAINJ(2,IJ)=ZERO
         ENDIF
 C
-        IF (DMASS_MIX.NE.ZERO)THEN
+        IF (DMASS_MIX/=ZERO)THEN
          MWMIX=MWMIX_NEW
          RBAGJET(2 ,IJ)=CPA_NEW
          RBAGJET(3 ,IJ)=CPB_NEW
@@ -332,7 +332,7 @@ C
         CPD = RBAGJET(16,IJ)
         CPE = RBAGJET(17,IJ)
         CPF = RBAGJET(18,IJ)
-        IF (DMASS_MIX.NE.ZERO)THEN
+        IF (DMASS_MIX/=ZERO)THEN
           RMWG=R_IGC1/MWMIX
           RBAGJET(1,IJ)=RMWG
         ELSE

@@ -178,7 +178,7 @@ c       NLOCAL = 1 => noeud sur frontiere entre des procs
      .     (NLOCAL(IC2,PROC)==1))THEN
           DO I = 1,NSPMD
             EDGEPROC = 0
-            IF(I.NE.PROC)THEN
+            IF(I/=PROC)THEN
               IF(NLOCAL(IC1,I)==1.AND.
      .           NLOCAL(IC2,I)==1)THEN   ! arrete commune antre deux procs
                  NBDDEDGE_L = NBDDEDGE_L + 1

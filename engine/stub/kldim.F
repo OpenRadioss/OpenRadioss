@@ -58,55 +58,55 @@ C
       DO I=1,6
          BDOF(I)=0
       ENDDO
-      IF (ICT.EQ.1) THEN
+      IF (ICT==1) THEN
          BDOF(3)=1
          NBDOF=1
-      ELSEIF (ICT.EQ.2) THEN
+      ELSEIF (ICT==2) THEN
          BDOF(2)=1
          NBDOF=1
-      ELSEIF (ICT.EQ.3) THEN
+      ELSEIF (ICT==3) THEN
          BDOF(2)=1
          BDOF(3)=1
          NBDOF=2
-      ELSEIF (ICT.EQ.4) THEN
+      ELSEIF (ICT==4) THEN
          BDOF(1)=1
          NBDOF=1
-      ELSEIF (ICT.EQ.5) THEN
+      ELSEIF (ICT==5) THEN
          BDOF(1)=1
          BDOF(3)=1
          NBDOF=2
-      ELSEIF (ICT.EQ.6) THEN
+      ELSEIF (ICT==6) THEN
          BDOF(1)=1
          BDOF(2)=1
          NBDOF=2
-      ELSEIF (ICT.EQ.7) THEN
+      ELSEIF (ICT==7) THEN
          BDOF(1)=1
          BDOF(2)=1
          BDOF(3)=1
          NBDOF=3
       ENDIF    
-      IF (ICR.EQ.1) THEN
+      IF (ICR==1) THEN
          BDOF(6)=1
          NBDOF=NBDOF+1
-      ELSEIF (ICR.EQ.2) THEN
+      ELSEIF (ICR==2) THEN
          BDOF(5)=1
          NBDOF=NBDOF+1
-      ELSEIF (ICR.EQ.3) THEN
+      ELSEIF (ICR==3) THEN
          BDOF(5)=1
          BDOF(6)=1
          NBDOF=NBDOF+2
-      ELSEIF (ICR.EQ.4) THEN
+      ELSEIF (ICR==4) THEN
          BDOF(4)=1
          NBDOF=NBDOF+1
-      ELSEIF (ICR.EQ.5) THEN
+      ELSEIF (ICR==5) THEN
          BDOF(4)=1
          BDOF(6)=1
          NBDOF=NBDOF+2
-      ELSEIF (ICR.EQ.6) THEN
+      ELSEIF (ICR==6) THEN
          BDOF(4)=1
          BDOF(5)=1
          NBDOF=NBDOF+2
-      ELSEIF (ICR.EQ.7) THEN
+      ELSEIF (ICR==7) THEN
          BDOF(4)=1
          BDOF(5)=1
          BDOF(6)=1
@@ -132,18 +132,18 @@ C
       DO I=1,NUMNOD
          N=INLOC(I)
          II=IDDL(N)
-         IF (ITAGN(N).EQ.1) THEN
+         IF (ITAGN(N)==1) THEN
             DO J=1,NDOF(N)
                ITAG(II+J)=1
             ENDDO
-         ELSEIF (ITAGN(N).EQ.2) THEN
+         ELSEIF (ITAGN(N)==2) THEN
             DO J=1,NDOF(N)
-               IF (IKC(II+J).LT.1.AND.BDOF(J).EQ.1) NMS=NMS+1
+               IF (IKC(II+J)<1.AND.BDOF(J)==1) NMS=NMS+1
                ITAG(II+J)=BDOF(J)+1
             ENDDO
          ENDIF
          DO J=1,NDOF(N)
-            IF (IKC(II+J).GE.1) ITAG(II+J)=-1
+            IF (IKC(II+J)>=1) ITAG(II+J)=-1
          ENDDO
       ENDDO
 C Elimination des ddls bloques dans la liste
@@ -153,7 +153,7 @@ C Elimination des ddls bloques dans la liste
       ENDDO
       II=0
       DO I=1,NDDL
-         IF (ITAG2(I).GE.0) THEN
+         IF (ITAG2(I)>=0) THEN
             II=II+1
             ITAG(II)=ITAG2(I)
          ENDIF
@@ -166,15 +166,15 @@ C
       LJDIK=0
       LJDIK2=0
       DO I=1,NDDL
-         IF (ITAG(I).GE.1) THEN
+         IF (ITAG(I)>=1) THEN
             LDIAG=LDIAG+1
             DO J=IADK(I),IADK(I+1)-1
                JD=JDIK(J)
-               IF (ITAG(JD).GE.1) THEN
+               IF (ITAG(JD)>=1) THEN
                   LJDIK=LJDIK+1
-                  IF (ITAG(JD).EQ.2.AND.ITAG(I).EQ.1) 
+                  IF (ITAG(JD)==2.AND.ITAG(I)==1) 
      .                              IND_IB(I)=IND_IB(I)+1
-                  IF (ITAG(JD).EQ.1.AND.ITAG(I).EQ.2) 
+                  IF (ITAG(JD)==1.AND.ITAG(I)==2) 
      .                              IND_IB(JD)=IND_IB(JD)+1
                ENDIF
             ENDDO

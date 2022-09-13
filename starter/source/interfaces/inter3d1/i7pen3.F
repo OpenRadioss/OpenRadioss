@@ -101,19 +101,19 @@ C
 C
        DO I=LFT,LLT
         PENE(I) = MAX(P1(I),P2(I),P3(I),P4(I))
-        if(P1(I).eq.PENE(I))then
+        if(P1(I)==PENE(I))then
          N1(I) = NX1(I)
          N2(I) = NY1(I) 
          N3(I) = NZ1(I) 
-        elseif(P2(I).eq.PENE(I))then
+        elseif(P2(I)==PENE(I))then
          N1(I) = NX2(I)
          N2(I) = NY2(I) 
          N3(I) = NZ2(I) 
-        elseif(P3(I).eq.PENE(I))then
+        elseif(P3(I)==PENE(I))then
          N1(I) = NX3(I)
          N2(I) = NY3(I) 
          N3(I) = NZ3(I) 
-        elseif(P4(I).eq.PENE(I))then
+        elseif(P4(I)==PENE(I))then
          N1(I) = NX4(I)
          N2(I) = NY4(I) 
          N3(I) = NZ4(I) 

@@ -175,7 +175,7 @@ C-----------------------------------------------------------------
      .              PID      ,DT2T    ,NELTST   ,ITYPTST  ,GBUF%OFF,
      .              MSSA     ,DMELS   ,BUFLY    ,SSP      )
       ELSEIF (MTN == 41) THEN
-      ELSEIF (MTN.GE.28) THEN
+      ELSEIF (MTN>=28) THEN
 c     user-type laws
         NUVAR = 0
         NUVARR = 0        
@@ -205,7 +205,7 @@ C       Failure Model
 C --------------------------
       IF ((ITASK==0).AND.((IMON_MAT==1)))CALL STARTIME(121,1)
       IF (IFAILURE == 1)THEN
-       IF(MTN.LT.28)THEN
+       IF(MTN<28)THEN
         NUMBER_FAILURE = IPM(220, MAT(1)) 
         NVARG = 0 
         NUVARR = 0        
@@ -219,7 +219,7 @@ c
           IFAIL(IC) = IPM(111 +IP ,MAT(1))
           MATF(IC) = MAT(1)
           DO I=LFT +1 ,LLT
-            IF(IPM(111 +IP ,MAT(I)).NE.IPM(111 +IP,MAT(I-1)))THEN
+            IF(IPM(111 +IP ,MAT(I))/=IPM(111 +IP,MAT(I-1)))THEN
               IC = IC+1
               MATF(IC)  = MAT(I)
               IFAIL(IC) = IPM(111 +IP,MAT(I))
@@ -367,7 +367,7 @@ c
        ENDIF  
       ENDIF
       IF ((ITASK==0).AND.((IMON_MAT==1)))CALL STOPTIME(121,1)      
-      IF (IMPL_S.GT.0) CALL PUT_ETFAC(NEL     ,ET    ,MTN  )
+      IF (IMPL_S>0) CALL PUT_ETFAC(NEL     ,ET    ,MTN  )
 C-----------                
       RETURN
       END

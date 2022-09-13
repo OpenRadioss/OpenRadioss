@@ -116,7 +116,7 @@ C
       FZI(I)=ZERO
       IL=I+NFT
       ECONVT = ZERO
-      IF(XFACE(I).EQ.ZERO) THEN
+      IF(XFACE(I)==ZERO) THEN
 C-------------------------------
 C      POINT NON IMPACTE
 C-------------------------------
@@ -127,7 +127,7 @@ C-------------------------------
       ELSE
 C
        LOLD=IABS(IRTLO(IL))
-       IF(LOLD.EQ.0)THEN
+       IF(LOLD==0)THEN
 C-------------------------------
 C       POINT NON IMPACTE PRECEDEMENT
 C-------------------------------
@@ -185,14 +185,14 @@ C
         TN2=FYI(I)-N2(I)*FN
         TN3=FZI(I)-N3(I)*FN
         TN=SQRT(TN1*TN1+TN2*TN2+TN3*TN3)
-        IF(TN.NE.ZERO)THEN
+        IF(TN/=ZERO)THEN
          TN1=TN1/TN
          TN2=TN2/TN
          TN3=TN3/TN
         ELSE
          TN3=ZERO
          TN=SQRT(N1(I)*N1(I)+N2(I)*N2(I))
-         IF(TN.NE.ZERO)THEN
+         IF(TN/=ZERO)THEN
           TN2=-N1(I)/TN
           TN1=N2(I)/TN
          ELSE
@@ -201,7 +201,7 @@ C
          ENDIF
         ENDIF
 C
-        IF(FTI.GT.FMAX)THEN
+        IF(FTI>FMAX)THEN
 C-------------------------------
 C        POINT GLISSANT
 C-------------------------------
@@ -262,7 +262,7 @@ C
       FZ4(I)=FZI(I)*H4(I)
  400  CONTINUE
 C
-      IF(IPARIT.EQ.0)THEN
+      IF(IPARIT==0)THEN
 C---------------------------------
 C     FRICTION MAIN
 C---------------------------------
@@ -315,7 +315,7 @@ C
          NISKY = NISKY + 5 * LLT
 #include "lockoff.inc"
 C
-        IF(KDTINT.EQ.0)THEN
+        IF(KDTINT==0)THEN
          DO 440 I=LFT,LLT
           NISKYL = NISKYL + 1
           FSKYI(NISKYL,1)=FX1(I)
@@ -391,9 +391,9 @@ C
         ENDIF
       ENDIF
 C
-      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT.GT.0.AND.
-     .    (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.
-     .   (MANIM.GE.4.AND.MANIM.LE.15).OR. H3D_DATA%MH3D .NE. 0))THEN
+      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0.AND.
+     .    (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
 #include "lockon.inc"
            DO I=1,LLT
             FCONT(1,IX1(I)) =FCONT(1,IX1(I)) + FX1(I)
@@ -515,7 +515,7 @@ C
 !      EQUIVALENCE (FX4,BV(1,53)),(FY4,BV(1,54)),(FZ4,BV(1,55))         --> local
 !      EQUIVALENCE (AREA,BV(1,71))
 C------for implicit run---save previous values-
-      IF (INCONV.NE.1) THEN
+      IF (INCONV/=1) THEN
        DO I=LFT,LLT
         IL=I+NFT
         IRTLO_I(I)=IRTLO(IL)
@@ -530,7 +530,7 @@ C------for implicit run---save previous values-
       FZI(I)=ZERO
       IL=I+NFT
       ECONVT = ZERO
-      IF(XFACE(I).EQ.ZERO) THEN
+      IF(XFACE(I)==ZERO) THEN
 C-------------------------------
 C      POINT NON IMPACTE
 C-------------------------------
@@ -541,7 +541,7 @@ C-------------------------------
       ELSE
 C
        LOLD=IABS(IRTLO(IL))
-       IF(LOLD.EQ.0)THEN
+       IF(LOLD==0)THEN
 C-------------------------------
 C       POINT NON IMPACTE PRECEDEMENT
 C-------------------------------
@@ -590,14 +590,14 @@ C
         FYI(I)=FYI(I) + ANSY*STF
         FZI(I)=FZI(I) + ANSZ*STF
 C----        Filtrage du frottement
-        IF (CODVERS.GE.44) THEN
+        IF (CODVERS>=44) THEN
           IFQ = IPARI(31)
-          IF (IFQ.GT.0) THEN
-	      IF (IFQ.EQ.3) FREQ = MAX(ONE,FREQ*DT12)
+          IF (IFQ>0) THEN
+	      IF (IFQ==3) FREQ = MAX(ONE,FREQ*DT12)
             ALPHA = FREQ
             ALPHI = ONE - ALPHA
             K = 3*(IL-1)
-	      IF (FNI(I).EQ.0) THEN
+	      IF (FNI(I)==0) THEN
               FTSAV(K+1) = ZERO
               FTSAV(K+2) = ZERO
               FTSAV(K+3) = ZERO
@@ -605,7 +605,7 @@ C----        Filtrage du frottement
               FXI(I)= ALPHA*FXI(I) + ALPHI*FTSAV(K+1)
               FYI(I)= ALPHA*FYI(I) + ALPHI*FTSAV(K+2)
               FZI(I)= ALPHA*FZI(I) + ALPHI*FTSAV(K+3)
-	     IF (INCONV.EQ.1) THEN
+	     IF (INCONV==1) THEN
               FTSAV(K+1) = FXI(I) 
               FTSAV(K+2) = FYI(I) 
               FTSAV(K+3) = FZI(I) 
@@ -620,14 +620,14 @@ C
         TN2=FYI(I)-N2(I)*FN
         TN3=FZI(I)-N3(I)*FN
         TN =SQRT(TN1*TN1+TN2*TN2+TN3*TN3)
-        IF(TN.NE.ZERO)THEN
+        IF(TN/=ZERO)THEN
           TN1=TN1/TN
           TN2=TN2/TN
           TN3=TN3/TN
         ELSE
           TN3=ZERO
           TN=SQRT(N1(I)*N1(I)+N2(I)*N2(I))
-          IF(TN.NE.ZERO)THEN
+          IF(TN/=ZERO)THEN
             TN2=-N1(I)/TN
             TN1= N2(I)/TN
           ELSE
@@ -638,12 +638,12 @@ C
 C
         P = -FNI(I)/AREA(I)
         XMU = FRIC
-        IF(CODVERS.GE.44) THEN
+        IF(CODVERS>=44) THEN
 C---------------------------------
 C       NEW FRICTION MODELS
 C---------------------------------
           MFROT = IPARI(30)
-          IF(MFROT.GE.1) THEN
+          IF(MFROT>=1) THEN
             IG=NSV(IL)
             VX = V(1,IG) - H(1)*V(1,IX1(I)) - H(2)*V(1,IX2(I))
      .                   - H(3)*V(1,IX3(I)) - H(4)*V(1,IX4(I))
@@ -659,22 +659,22 @@ C---        vitesse tangentielle
             V2 = VX*VX + VY*VY + VZ*VZ
             VV = SQRT(MAX(EM30, V2))
           ENDIF
-          IF(MFROT.EQ.1)THEN
+          IF(MFROT==1)THEN
             XMU = FRIC + (FROT_P(1) + FROT_P(4)*P ) * P 
      .           +(FROT_P(2) + FROT_P(3)*P) * VV + FROT_P(5)*V2
-          ELSEIF(MFROT.EQ.2)THEN
+          ELSEIF(MFROT==2)THEN
 C---         Loi Darmstad
             XMU = FRIC
      .           + FROT_P(1)*EXP(FROT_P(2)*VV)*P**2
      .           + FROT_P(3)*EXP(FROT_P(4)*VV)*P
      .           + FROT_P(5)*EXP(FROT_P(6)*VV)
-          ELSEIF(MFROT.EQ.3)THEN
+          ELSEIF(MFROT==3)THEN
 C---         Loi Renard
-            IF(VV.GE.0.AND.VV.LE.FROT_P(5)) THEN
+            IF(VV>=0.AND.VV<=FROT_P(5)) THEN
 	          DMU = FROT_P(3)-FROT_P(1)
               VV1 = VV / FROT_P(5)
               XMU = FROT_P(1)+ DMU*VV1*(TWO-VV1)
-            ELSEIF(VV.GT.FROT_P(5).AND.VV.LT.FROT_P(6)) THEN
+            ELSEIF(VV>FROT_P(5).AND.VV<FROT_P(6)) THEN
 	          DMU  = FROT_P(4)-FROT_P(3) 
               VV1  = (VV - FROT_P(5))/(FROT_P(6)-FROT_P(5))
               XMU = FROT_P(3)+ DMU * (THREE-TWO*VV1)*VV1**2
@@ -685,7 +685,7 @@ C---         Loi Renard
 	        ENDIF
 	      ENDIF
           FMAX = -MIN(XMU*FNI(I),ZERO)
-          IF(FTI.GT.FMAX)THEN
+          IF(FTI>FMAX)THEN
 C---        sliding
             FXI(I)=TN1*FMAX
             FYI(I)=TN2*FMAX
@@ -717,7 +717,7 @@ C-----------------------------------------------------
             XMU  = FRIC + ( CF(1) + CF(4)*P ) * P 
      .           + ( CF(2) + CF(3)*P ) * SQRT(VV) + CF(5)*VV
             FMAX= -MIN(XMU*FNI(I),ZERO)
-          IF(FTI.GT.FMAX)THEN
+          IF(FTI>FMAX)THEN
 C  054------------------------------------------------
 C        POINT GLISSANT
 C-------------------------------
@@ -745,7 +745,7 @@ C-------------------------------
 C
  300  CONTINUE
 C
-      IF (INCONV.EQ.1) THEN
+      IF (INCONV==1) THEN
 #include "atomic.inc"
         ECONTV = ECONTV + ECONVT ! Frictional contact energy
         FSAV(27) = FSAV(27) + ECONVT
@@ -759,7 +759,7 @@ C---------------------------------
       FSAV(5)=FSAV(5)+FYI(I)*DTM
       FSAV(6)=FSAV(6)+FZI(I)*DTM
  350  CONTINUE
-      END IF !(INCONV.EQ.1) THEN
+      END IF !(INCONV==1) THEN
 C
       DO 400 I=LFT,LLT
       FX1(I)=FXI(I)*H1(I)
@@ -779,7 +779,7 @@ C
       FZ4(I)=FZI(I)*H4(I)
  400  CONTINUE
 C
-      IF(IPARIT.EQ.0)THEN
+      IF(IPARIT==0)THEN
 C---------------------------------
 C     FRICTION MAIN
 C---------------------------------
@@ -832,7 +832,7 @@ C
          NISKY = NISKY + 5 * LLT
 #include "lockoff.inc"
 C
-        IF(KDTINT.EQ.0)THEN
+        IF(KDTINT==0)THEN
          DO 440 I=LFT,LLT
           NISKYL = NISKYL + 1
           FSKYI(NISKYL,1)=FX1(I)
@@ -908,7 +908,7 @@ C
         ENDIF
       ENDIF
 C------for implicit run---restore previous values-
-      IF (INCONV.NE.1) THEN
+      IF (INCONV/=1) THEN
        DO I=LFT,LLT
         IL=I+NFT
         IRTLO(IL)=IRTLO_I(I)
@@ -919,9 +919,9 @@ C------for implicit run---restore previous values-
        RETURN
       ENDIF
 C
-      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT.GT.0 .AND.
-     .    (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.
-     .   (MANIM.GE.4.AND.MANIM.LE.15).OR. H3D_DATA%MH3D .NE. 0))THEN
+      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0 .AND.
+     .    (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
 #include "lockon.inc"
            DO I=1,LLT
             FCONT(1,IX1(I)) =FCONT(1,IX1(I)) + FX1(I)
@@ -943,9 +943,9 @@ C
 #include "lockoff.inc"
       ENDIF
 C
-      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT.GT.0.AND.
-     .    (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D .OR.
-     .   (MANIM.GE.4.AND.MANIM.LE.15).OR.H3D_DATA%MH3D.NE.0))THEN
+      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
+     .    (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D .OR.
+     .   (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0))THEN
 #include "lockon.inc"
            DO I=1,LLT
             FTCONT(1,IX1(I)) =FTCONT(1,IX1(I)) + FX1(I)

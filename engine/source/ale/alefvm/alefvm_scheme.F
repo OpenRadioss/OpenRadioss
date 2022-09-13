@@ -92,7 +92,7 @@ C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------      
       IF(IALEFVM==0)    RETURN
-      IF(IALEFVM_FLG .LE. 1)RETURN  
+      IF(IALEFVM_FLG <= 1)RETURN  
       IMAT = IXS(1,LFT+NFT)
       ILAW = IPM(2,IMAT)
 
@@ -107,7 +107,7 @@ C-----------------------------------------------
         DO I=LFT,LLT
           II          = I + NFT
           DMOM(1:3,I) = FCELL(1:3,II)
-          IF(DT1.EQ.ZERO)THEN
+          IF(DT1==ZERO)THEN
             DMOM(1:3,I) = HALF*DT2 * DMOM(1:3,I)          
           ELSE
             DMOM(1:3,I) =        DT2 * DMOM(1:3,I)                    
@@ -202,7 +202,7 @@ C-----------------------------------------------
         DO I=LFT,LLT
           II = I+NFT
           IB = NINT(IAD22(I))
-          IF (IB.GT.0)THEN
+          IF (IB>0)THEN
             BRICK_LIST(NIN,IB)%FCELL(1:3) = FCELL(1:3,II)
           ENDIF
         ENDDO

@@ -77,8 +77,8 @@ C======================================================================|
 C ---------------------
         NTY   = IPARI(7,NINT)
         ILAGM = IPARI(33,NINT)
-        IF(NTY.EQ.2 .AND. ILAGM.EQ.1)THEN
-          IF(ISPMD.EQ.0 .AND. NSPMD > 1)THEN
+        IF(NTY==2 .AND. ILAGM==1)THEN
+          IF(ISPMD==0 .AND. NSPMD > 1)THEN
             CALL ANCMSG(MSGID=113,ANMODE=ANINFO,
      .                  C1='INT 2')
             CALL ARRET(2)
@@ -154,17 +154,17 @@ C-----------------------------------------------
         DO JJ=1,NIR
           INOD(JJ) = IRECT(JJ,L)
         ENDDO
-        IF(INOD(4).EQ.INOD(3)) NIR=3
+        IF(INOD(4)==INOD(3)) NIR=3
         FACT = ONE / NIR
         INOD(NIR+1) = NSV(II)
         NDL = 3*NIR+1
         NC_INI  = NC
         COMFLAG = 0
         DO JJ=1,NIR+1
-          IF (COMNTAG(INOD(JJ)).GT.1) COMFLAG = 1
+          IF (COMNTAG(INOD(JJ))>1) COMFLAG = 1
         ENDDO
 C------------------------------
-        IF (NIR.EQ.4) THEN
+        IF (NIR==4) THEN
           X1=X(1,INOD(1))
           Y1=X(2,INOD(1))
           Z1=X(3,INOD(1))
@@ -224,7 +224,7 @@ C------------------------------
           XY=X1*Y1 + X2*Y2 + X3*Y3 + X4*Y4
           YZ=Y1*Z1 + Y2*Z2 + Y3*Z3 + Y4*Z4
           ZX=Z1*X1 + Z2*X2 + Z3*X3 + Z4*X4
-        ELSEIF (NIR.EQ.3) THEN
+        ELSEIF (NIR==3) THEN
           X1=X(1,INOD(1))
           Y1=X(2,INOD(1))
           Z1=X(3,INOD(1))
@@ -503,7 +503,7 @@ C---    Solving local Lagrange multipliers
      1           IADLL    ,LLL      ,JLL      ,XLL      ,LTSM     ,
      2           V        ,VR       ,A        ,AR       ,MS       ,
      3           IN       ,NC_INI   ,NCL      )
-        IF (COMFLAG.EQ.0) THEN
+        IF (COMFLAG==0) THEN
           ISKIP   = ISKIP + NCL
           NC = NC_INI
         ELSE

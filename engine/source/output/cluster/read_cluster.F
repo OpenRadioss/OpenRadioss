@@ -64,10 +64,10 @@ C=======================================================================
       RLCLUSTER_MAX = 0
       ILCLUSTER_MAX = 0
       DO I = 1, NCLUSTER
-        IF ( RLCLUSTER_MAX .LT. RLCLUSTER(I) ) THEN 
+        IF ( RLCLUSTER_MAX < RLCLUSTER(I) ) THEN 
           RLCLUSTER_MAX = RLCLUSTER(I)
         ENDIF 
-        IF ( ILCLUSTER_MAX .LT. ILCLUSTER(I) ) THEN 
+        IF ( ILCLUSTER_MAX < ILCLUSTER(I) ) THEN 
           ILCLUSTER_MAX = ILCLUSTER(I)
         ENDIF 
       ENDDO

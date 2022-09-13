@@ -66,7 +66,7 @@ C======================================================================|
       IFR = 0
 C---  main
       NS = LPBYL(MSL)
-      IF (COMNTAG(NS).EQ.1) THEN
+      IF (COMNTAG(NS)==1) THEN
         NFIX = NFIX + 1
         LPBYL(MSL+NFIX)  = NS
       ELSE
@@ -76,7 +76,7 @@ C---  main
 C---  and secnds
       DO N=1,MSL-1
         NS = LPBYL(N)
-        IF (COMNTAG(NS).EQ.1) THEN
+        IF (COMNTAG(NS)==1) THEN
           NFIX = NFIX + 1
           LPBYL(MSL+NFIX)  = NS
         ELSE
@@ -84,9 +84,9 @@ C---  and secnds
           LPBYL(MSL2+NFRE) = NS
         ENDIF
       ENDDO
-      IF (NFIX.LE.1) NFIX = 0
+      IF (NFIX<=1) NFIX = 0
 C--------------------------------------
-      IF (NFIX.NE.0) THEN
+      IF (NFIX/=0) THEN
         IFX  = LPBYL(MSL+1)
         JXX  = ZERO
         JYY  = ZERO
@@ -188,7 +188,7 @@ C
         ARM(2)= AG(1)*C3 + AG(2)*B2 + AG(3)*C1
         ARM(3)= AG(1)*C2 + AG(2)*C1 + AG(3)*B3        
 C-----------------------------        
-        IF (NFRE.EQ.0) THEN
+        IF (NFRE==0) THEN
 C---      Total condensation => direct solution + decondensation
           USDT = ONE / DT12
           DDT  = HALF * DT12
@@ -328,7 +328,7 @@ C======================================================================|
         IFX  = NPBYL(7,IR)
         NFIX = NPBYL(4,IR)
         NFRE = NPBYL(5,IR)
-        IF (NFIX.GT.0.AND.NFRE.GT.0) THEN
+        IF (NFIX>0.AND.NFRE>0) THEN
 C---      calculate acceleration of condensed node: a = ao + [M]-1[L]t la
           DO K = 1,3
             IC = IC + 1
@@ -336,20 +336,20 @@ C---      calculate acceleration of condensed node: a = ao + [M]-1[L]t la
               I = LLL(IK)
               J = JLL(IK)
               XLL(IK) = XLL(IK)*LAMBDA(IC)
-              IF (J.LE.3) THEN
+              IF (J<=3) THEN
 c                A(J,I)  = A(J,I)  - XLL(IK)/MASS(I)
                 CALL ANCMSG(MSGID=117,ANMODE=ANINFO,
      .                    I1=I) 
                 CALL ARRET(2)
-              ELSEIF(I.NE.IFX) THEN
+              ELSEIF(I/=IFX) THEN
                 J = J-3
                 AR(J,I) = AR(J,I) - XLL(IK)/INER(I)
-              ELSEIF (XLL(IK).NE.0.) THEN
-                IF(J.EQ.4) THEN
+              ELSEIF (XLL(IK)/=0.) THEN
+                IF(J==4) THEN
                   AR(1,IFX) = AR(1,IFX) - XLL(IK)*RBYL(1,IR)
                   AR(2,IFX) = AR(2,IFX) - XLL(IK)*RBYL(6,IR)
                   AR(3,IFX) = AR(3,IFX) - XLL(IK)*RBYL(5,IR)
-                ELSEIF(J.EQ.5) THEN
+                ELSEIF(J==5) THEN
                   AR(1,IFX) = AR(1,IFX) - XLL(IK)*RBYL(6,IR)
                   AR(2,IFX) = AR(2,IFX) - XLL(IK)*RBYL(2,IR)
                   AR(3,IFX) = AR(3,IFX) - XLL(IK)*RBYL(4,IR)

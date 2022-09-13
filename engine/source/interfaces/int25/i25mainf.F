@@ -268,7 +268,7 @@ C
       NTY   =IPARI(7,NIN)
       IBC   =IPARI(11,NIN)
       IVIS2 =IPARI(14,NIN)
-      IF(IPARI(33,NIN).EQ.1) RETURN
+      IF(IPARI(33,NIN)==1) RETURN
       NOINT =IPARI(15,NIN)
       IGAP  =IPARI(21,NIN)
       INACTI=IPARI(22,NIN)
@@ -301,8 +301,8 @@ C
       STIGLO=-INTBUF_TAB%STFAC(1)
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
 C  
       FRIC  =INTBUF_TAB%VARIABLES(1)
       GAP   =INTBUF_TAB%VARIABLES(2)
@@ -361,7 +361,7 @@ c         IFQ      =   INTBUF_FRIC_TAB(INTFRIC)%IFFILTER
          TABCOEF_FRIC  => TABCOEF_FRIC_BID 
          ADPARTS_FRIC   => ADPARTS_FRIC_BID
          IFRICORTH   => IFRICORTH_BID
-         IF (IFQ.NE.0) XFILTR_FRIC = INTBUF_TAB%XFILTR(1)
+         IF (IFQ/=0) XFILTR_FRIC = INTBUF_TAB%XFILTR(1)
       ENDIF
       EFRICT = ZERO
 C
@@ -372,8 +372,8 @@ c----------------------------------------------------
 c   Rayon de courbure : calcul des normales nodales (normees)
 C   IADM!=0 + Icurv!=0 non available (starter error).
 c----------------------------------------------------
-      IF(IADM.NE.0)THEN
-      END IF!(IADM.NE.0)
+      IF(IADM/=0)THEN
+      END IF!(IADM/=0)
 C-----Press-fit 
        IF (STARTT>ZERO.AND.T_PFIT==ZERO) THEN
         T_PFIT=10000*DT12
@@ -492,7 +492,7 @@ C-----------------------------------------------------------------------
       I_STOK_GLO = INTBUF_TAB%I_STOK(2)
 C
       NB_LOC = I_STOK_GLO / NTHREAD
-      IF (JTASK.EQ.NTHREAD) THEN
+      IF (JTASK==NTHREAD) THEN
         I_STOK_LOC = I_STOK_GLO-NB_LOC*(NTHREAD-1)
       ELSE
         I_STOK_LOC = NB_LOC
@@ -501,7 +501,7 @@ C
 
       I_STOK=0
       DO I = DEBUT+1, DEBUT+I_STOK_LOC
-        IF(INTBUF_TAB%CAND_OPT_N(I).GT.0) THEN
+        IF(INTBUF_TAB%CAND_OPT_N(I)>0) THEN
           I_STOK = I_STOK + 1
           INDEX2(I_STOK) = I
         ENDIF
@@ -524,7 +524,7 @@ C
       I_STOK_GLO = INTBUF_TAB%I_STOK(2)
 C
       NB_LOC = I_STOK_GLO / NTHREAD
-      IF (JTASK.EQ.NTHREAD) THEN
+      IF (JTASK==NTHREAD) THEN
         I_STOK_LOC = I_STOK_GLO-NB_LOC*(NTHREAD-1)
       ELSE
         I_STOK_LOC = NB_LOC
@@ -536,7 +536,7 @@ C
 C recalcul du istok
 C
       DO I = JTASK, I_STOK_GLO, NTHREAD
-        IF(INTBUF_TAB%CAND_OPT_N(I).GT.0) THEN
+        IF(INTBUF_TAB%CAND_OPT_N(I)>0) THEN
           I_STOK = I_STOK + 1
           INDEX2(I_STOK) = I
         ENDIF
@@ -548,7 +548,7 @@ C-----------------------------------------------------------------------
           SFSAVPARIT = SFSAVPARIT + 1
         ENDIF
       ENDDO
-      IF (SFSAVPARIT .NE. 0) THEN
+      IF (SFSAVPARIT /= 0) THEN
         ALLOCATE(FSAVPARIT(NISUB+1,11,I_STOK),STAT=IERROR)
         IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
@@ -641,7 +641,7 @@ C
           IF(INTTH==0.AND.JLT_NEW == 0.AND.(NINLOADP == 0.OR.DGAPLOADPMAX==ZERO))CYCLE
           IPARI(29,NIN) = 1
 C
-          IF (DEBUG(3).GE.1) NB_IMPCT = NB_IMPCT + JLT_NEW
+          IF (DEBUG(3)>=1) NB_IMPCT = NB_IMPCT + JLT_NEW
           IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(20,1) 
 
 C-------------------------------------------------------------------------------
@@ -776,7 +776,7 @@ C
 C  cette partie est effectuee en // apres le calcul des forces des elem.
 C decoupage statique
       NB_LOC = I_STOK / NTHREAD
-      IF (JTASK.EQ.NTHREAD) THEN
+      IF (JTASK==NTHREAD) THEN
         I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
       ELSE
         I_STOK_LOC = NB_LOC
@@ -824,7 +824,7 @@ C
             SFSAVPARIT = SFSAVPARIT + 1
           ENDIF
         ENDDO
-        IF (SFSAVPARIT .NE. 0) THEN
+        IF (SFSAVPARIT /= 0) THEN
           ALLOCATE(FSAVPARIT(NISUB+1,11,I_STOK))
           DO J=1,I_STOK
             DO I=1,11
@@ -889,10 +889,10 @@ C
 
 
           JLT = JLT_NEW
-          IF(JLT_NEW.NE.0) THEN
+          IF(JLT_NEW/=0) THEN
             IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(20,1)
             IPARI(29,NIN) = 1
-            IF (DEBUG(3).GE.1) NB_IMPCT = NB_IMPCT + JLT
+            IF (DEBUG(3)>=1) NB_IMPCT = NB_IMPCT + JLT
 
 C-------------------------------------------------------------------------------
 C Friction model : computation of friction coefficients based on Material of connected Parts
@@ -959,7 +959,7 @@ C
 C  cette partie est effectuee en // apres le calcul des forces des elem.
 C decoupage statique
       NB_LOC = I_STOK / NTHREAD
-      IF (JTASK.EQ.NTHREAD) THEN
+      IF (JTASK==NTHREAD) THEN
         I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
       ELSE
         I_STOK_LOC = NB_LOC
@@ -1006,7 +1006,7 @@ C
             SFSAVPARIT = SFSAVPARIT + 1
           ENDIF
         ENDDO
-        IF (SFSAVPARIT .NE. 0) THEN
+        IF (SFSAVPARIT /= 0) THEN
           ALLOCATE(FSAVPARIT(NISUB+1,11,I_STOK))
           DO J=1,I_STOK
             DO I=1,11
@@ -1064,10 +1064,10 @@ C
           ASSERT(4*JLT>=JLT_NEW)
 
           JLT=JLT_NEW
-          IF(JLT_NEW.NE.0) THEN
+          IF(JLT_NEW/=0) THEN
             IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(20,1)
             IPARI(29,NIN) = 1
-            IF (DEBUG(3).GE.1) NB_IMPCT = NB_IMPCT + JLT
+            IF (DEBUG(3)>=1) NB_IMPCT = NB_IMPCT + JLT
 
 C-------------------------------------------------------------------------------
 C Friction model : computation of friction coefficients based on Material of connected Parts

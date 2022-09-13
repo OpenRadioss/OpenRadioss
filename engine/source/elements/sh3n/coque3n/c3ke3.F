@@ -158,7 +158,7 @@ C
      7               MF11,MF12,MF13,MF22,MF23,MF33, 
      8               FM12,FM13,FM23,OFF ,NEL) 
 
-      IF (IREP.GT.0) THEN
+      IF (IREP>0) THEN
        CALL CMATC3(JFT    ,JLT       ,PM     ,MAT     ,GEO      ,
      1             PID    ,AREA      ,THK0   ,THK02   ,GBUF%THK ,
      2             THKE   ,VOL0      ,MTN    ,NPT     ,ITHK     ,
@@ -210,7 +210,7 @@ C----------------------------
      5                      FM12,FM13,FM23,IKGEO,GBUF%FOR,GBUF%MOM, 
      6                      IORTH,HMOR,HFOR,HMFOR,IDRIL,
      7                      NEL) 
-      IF (IDRIL.GT.0) THEN
+      IF (IDRIL>0) THEN
        DO I=JFT,JLT
         Y2(I)=ZERO
        END DO
@@ -238,7 +238,7 @@ C----------------------------
      7                     IORTH)
      
      
-              IF (NEIG.GT.0) CALL C3EOFF(
+              IF (NEIG>0) CALL C3EOFF(
      1                   JFT, JLT, IXTG, ETAG, OFF)
               CALL ASSEM_C3(
      1         IXTG      ,NEL      ,IDDL      ,NDOF      ,K_DIAG    ,

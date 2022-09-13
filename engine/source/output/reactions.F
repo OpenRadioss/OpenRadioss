@@ -121,7 +121,7 @@ C-----------------------------------------------
         FREAC(3,N) = A(3,N) 
       ENDDO
 
-      IF (IRODDL.NE.0) THEN
+      IF (IRODDL/=0) THEN
         DO N=NODFT,NODLT
           FREAC(4,N) = AR(1,N)
           FREAC(5,N) = AR(2,N)
@@ -175,7 +175,7 @@ C-----------------------------------------------
         FREAC(3,N) = FREAC(3,N) + IFLAG * MS(N)*A(3,N)
       ENDDO
 
-      IF (IRODDL.NE.0) THEN
+      IF (IRODDL/=0) THEN
         DO N=NODFT,NODLT
           FREAC(4,N) = FREAC(4,N) + IFLAG * IN(N)*AR(1,N) 
           FREAC(5,N) = FREAC(5,N) + IFLAG * IN(N)*AR(2,N) 
@@ -229,7 +229,7 @@ C-----------------------------------------------
         FREAC(3,N) = MS(N)*A(3,N) - FREAC(3,N) 
       ENDDO
 
-      IF (IRODDL.NE.0) THEN
+      IF (IRODDL/=0) THEN
         DO N=NODFT,NODLT
           FREAC(4,N) = IN(N)*AR(1,N) - FREAC(4,N)
           FREAC(5,N) = IN(N)*AR(2,N) - FREAC(5,N)

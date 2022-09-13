@@ -72,7 +72,7 @@ C calcul mass initiale en arithmetique // pour le spmd
           MSQ(I)=MSQ(I)+MASS(I)
         ENDDO
 
-      IF(JALE.GT.0 .AND. NWALE.EQ.4)THEN
+      IF(JALE>0 .AND. NWALE==4)THEN
         DO I=LFT,LLT
           WMA(IX1(I))=WMA(IX1(I))+ONE
           WMA(IX2(I))=WMA(IX2(I))+ONE

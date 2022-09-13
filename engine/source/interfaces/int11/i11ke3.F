@@ -102,7 +102,7 @@ C     REAL
      .     K2J11(9,MVSIZ),K1I12(9,MVSIZ),K1J12(9,MVSIZ),
      .     K2I12(9,MVSIZ),K2J12(9,MVSIZ),OFF(MVSIZ),BID(MVSIZ)
 C-----------------------------------------------
-      IF(NUM_IMP.EQ.0) RETURN
+      IF(NUM_IMP==0) RETURN
       IBID=0
 C
       NRTS  =IPARI(3)
@@ -113,8 +113,8 @@ C
       STIGLO=-INTBUF_TAB%STFAC(1)
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
 C
       FRIC =INTBUF_TAB%VARIABLES(1)
       GAP  =INTBUF_TAB%VARIABLES(2)
@@ -170,7 +170,7 @@ C
      A  K2J12        ,N1           ,N2       ,NIN     ,LREM         ,
      B  OFF          ,SK_INT       ,IDESAC   )
 C
-           IF (IMACH.EQ.3.AND.NSPMD.GT.1) THEN
+           IF (IMACH==3.AND.NSPMD>1) THEN
             LREM = LREM + JLT
             CALL ASS_SPMD11(3      ,N1       ,N2        ,M1       ,         
      1         M2       ,JLT       ,IDDL     ,K_DIAG    ,K_LT     ,
@@ -186,7 +186,7 @@ C
      A         OFF      )
         ENDDO
 C
-        IF(IDESAC.GT.0)  GAP_IMP=-NOINT
+        IF(IDESAC>0)  GAP_IMP=-NOINT
 C
       RETURN
       END
@@ -251,14 +251,14 @@ C     REAL
 C-----------------------------------------------
 C     REAL
 C----------------------------------------------
-      IF(NUM_IMP.EQ.0) RETURN
+      IF(NUM_IMP==0) RETURN
 C
       NRTS  =IPARI(3)
       NTY   =IPARI(7)
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
       FRIC  =INTBUF_TAB%VARIABLES(1)
 C
         I_STOK = NUM_IMP
@@ -372,7 +372,7 @@ C     REAL
      .     MS1(MVSIZ),  MS2(MVSIZ),  MM1(MVSIZ),  MM2(MVSIZ),
      .     BID(MVSIZ)
 C-----------------------------------------------
-      IF(NUM_IMP.EQ.0) RETURN
+      IF(NUM_IMP==0) RETURN
 C
       IBID=0
 C
@@ -384,8 +384,8 @@ C
       STIGLO=-INTBUF_TAB%STFAC(1)
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
 C
       FRIC =INTBUF_TAB%VARIABLES(1)
       GAP  =INTBUF_TAB%VARIABLES(2)
@@ -396,7 +396,7 @@ C
         I_STOK = INTBUF_TAB%I_STOK(1)
 C decoupage statique
         NB_LOC = I_STOK / NTHREAD
-        IF (JTASK.EQ.NTHREAD) THEN
+        IF (JTASK==NTHREAD) THEN
           I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
         ELSE
           I_STOK_LOC = NB_LOC
@@ -407,7 +407,7 @@ C
         NUM_IMP = 0
 C recalcul du istok
         DO I = DEBUT+1, DEBUT+I_STOK_LOC
-          IF(INTBUF_TAB%CAND_N(I).LT.0) THEN
+          IF(INTBUF_TAB%CAND_N(I)<0) THEN
             I_STOK = I_STOK + 1
             INDEX2(I_STOK) = I
 C inbuf == cand_S
@@ -538,7 +538,7 @@ C     REAL
      .     DXS1(MVSIZ),DYS1(MVSIZ),DZS1(MVSIZ),
      .     DXS2(MVSIZ),DYS2(MVSIZ),DZS2(MVSIZ),BID(MVSIZ)
 C-----------------------------------------------
-      IF(NUM_IMP.EQ.0) RETURN
+      IF(NUM_IMP==0) RETURN
 C
       IBID=0
 C
@@ -549,8 +549,8 @@ C
       STIGLO=-INTBUF_TAB%STFAC(1)
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
 C
       FRIC =INTBUF_TAB%VARIABLES(1)
       GAP  =INTBUF_TAB%VARIABLES(2)

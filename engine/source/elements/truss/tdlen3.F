@@ -80,30 +80,30 @@ C-----------------------------------------------
          DT(I)=DTFAC1(4)*AL(I)/SSP(I)
        ENDDO
        
-       IF(NODADT.NE.0.AND.IDTMIN(4).EQ.0)RETURN
+       IF(NODADT/=0.AND.IDTMIN(4)==0)RETURN
 
        DO I=JFT,JLT
-         IF(OFF(I).LT.ONE.OR.OFFG(I).LT.ZERO) CYCLE
-         IF(IDTMIN(4).EQ.1.AND.DT(I).LT.DTMIN1(4))THEN
+         IF(OFF(I)<ONE.OR.OFFG(I)<ZERO) CYCLE
+         IF(IDTMIN(4)==1.AND.DT(I)<DTMIN1(4))THEN
            TSTOP = TT
 #include "lockon.inc"
            WRITE(IOUT,*) ' **ERROR : TIME STEP LESS OR EQUAL DTMIN FOR TRUSS ELEMENT'
            WRITE(ISTDO,*)' **ERROR : TIME STEP LESS OR EQUAL DTMIN FOR TRUSS ELEMENT'
 #include "lockoff.inc"
-         ELSEIF(IDTMIN(4).EQ.5.AND.DT(I).LT.DTMIN1(4))THEN
+         ELSEIF(IDTMIN(4)==5.AND.DT(I)<DTMIN1(4))THEN
            MSTOP = 2
 #include "lockon.inc"
            WRITE(IOUT,*) ' **ERROR : TIME STEP LESS OR EQUAL DTMIN FOR TRUSS ELEMENT'
            WRITE(ISTDO,*)' **ERROR : TIME STEP LESS OR EQUAL DTMIN FOR TRUSS ELEMENT'
 #include "lockoff.inc"
-         ELSEIF(IDTMIN(4).EQ.2.AND.DT(I).LT.DTMIN1(4))THEN
+         ELSEIF(IDTMIN(4)==2.AND.DT(I)<DTMIN1(4))THEN
            OFF(I) = ZERO
 #include "lockon.inc"
            WRITE(IOUT,*) '-- DELETE  OF TRUSS ELEMENT NUMBER',NGL(I)
 #include "lockoff.inc"
            IDEL7NOK = 1
          ENDIF
-         IF(NODADT.NE.0.OR.DT(I).GE.DT2T) CYCLE
+         IF(NODADT/=0.OR.DT(I)>=DT2T) CYCLE
          DT2T=DT(I)
          NELTST =NGL(I)
          ITYPTST=4
@@ -115,13 +115,13 @@ C----
          DT(I)=AL(I)/SSP(I)
        END DO
        DO I=JFT,JLT
-         IF(OFF(I).LT.ONE.OR.OFFG(I).LT.ZERO) CYCLE
+         IF(OFF(I)<ONE.OR.OFFG(I)<ZERO) CYCLE
           DMELTR(I) = MAX(DMELTR(I) , MSTR(I)*((DTMINS/(DTFACS*DT(I)))**2 - ONE))
           DT(I)     = DTFACS*SQRT(ONE+DMELTR(I)/MSTR(I))*DT(I)
        END DO
        DO I=JFT,JLT
-         IF(OFF(I).LT.ONE.OR.OFFG(I).LT.ZERO) CYCLE
-          IF(DT(I).LT.DT2T)THEN
+         IF(OFF(I)<ONE.OR.OFFG(I)<ZERO) CYCLE
+          IF(DT(I)<DT2T)THEN
             DT2T    = DT(I)
             NELTST  = NGL(I)
             ITYPTST = 4
@@ -129,7 +129,7 @@ C----
         END DO         
       END IF!(IDTMINS/=2.OR.JSMS==0)
 C-----------------------------------------------           
-      IF(G_DT.NE.ZERO)THEN
+      IF(G_DT/=ZERO)THEN
         DO I=LFT,LLT
           DTEL(I) = DT(I)
         ENDDO

@@ -106,23 +106,23 @@ C-----------------------------------------------
       IDEL=0
       IDEV=0
       SCALE = ZERO
-      IF(IFLAG.EQ.1)THEN
+      IF(IFLAG==1)THEN
         IDEL=1
-      ELSEIF(IFLAG.EQ.2)THEN
+      ELSEIF(IFLAG==2)THEN
        IDEV =1
       END IF
 C...
-      IF(IDEL.EQ.1)THEN
+      IF(IDEL==1)THEN
         DO I=1,NEL
-          IF(OFF(I).LT.0.1) OFF(I)=0.0
-          IF(OFF(I).LT.1.0) OFF(I)=OFF(I)*0.8
+          IF(OFF(I)<0.1) OFF(I)=0.0
+          IF(OFF(I)<1.0) OFF(I)=OFF(I)*0.8
         END DO
       END IF
 C      
-      IF(IDEL.EQ.1)THEN
+      IF(IDEL==1)THEN
        NINDX=0  
        DO I=1,NEL
-        IF(IFLAG.EQ.1.AND.OFF(I).EQ.ONE)THEN
+        IF(IFLAG==1.AND.OFF(I)==ONE)THEN
          IF(DPLA(I)/=ZERO)THEN
            P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
            SXX = SIGNXX(I) - P
@@ -136,9 +136,9 @@ C
      .             D2*EXP(EPSF))*(ONE 
      .                    + D4*LOG(MAX(ONE,EPSP(I)/EPSP0)))
      .                      *(ONE + D5*TSTAR(I))
-           IF(EPSF.GT.ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF
+           IF(EPSF>ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF
          ENDIF
-         IF(DFMAX(I).GE.ONE.AND.OFF(I).EQ.ONE) THEN
+         IF(DFMAX(I)>=ONE.AND.OFF(I)==ONE) THEN
           OFF(I)=FOUR_OVER_5
           NINDX=NINDX+1
           INDX(NINDX)=I
@@ -147,7 +147,7 @@ C
          ENDIF
         ENDIF 
        ENDDO
-       IF(NINDX.GT.0.AND.IMCONV.EQ.1)THEN
+       IF(NINDX>0.AND.IMCONV==1)THEN
         DO J=1,NINDX
 #include "lockon.inc"
          WRITE(IOUT, 1000) NGL(INDX(J))
@@ -157,12 +157,12 @@ C
        END IF         
       ENDIF
 Cc deviatoric will be vanished      
-      IF(IDEV.EQ.1)THEN
+      IF(IDEV==1)THEN
        NINDX=0 
        NINDEX = 0 
        DO I=1,NEL 
-        IF(IFLAG.EQ.2.AND.OFF(I).EQ.ONE)THEN 
-         IF(DFMAX(I).LT.ONE.AND.DPLA(I)/=ZERO)THEN
+        IF(IFLAG==2.AND.OFF(I)==ONE)THEN 
+         IF(DFMAX(I)<ONE.AND.DPLA(I)/=ZERO)THEN
           P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
           SXX = SIGNXX(I) - P
           SYY = SIGNYY(I) - P
@@ -175,8 +175,8 @@ Cc deviatoric will be vanished
      .           D2*EXP(EPSF))*(ONE 
      .                  + D4*LOG(MAX(ONE,EPSP(I)/EPSP0)))
      .                    *(ONE + D5*TSTAR(I))
-          IF(EPSF.GT.ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF
-          IF(DFMAX(I).GE.ONE.AND.OFF(I).EQ.ONE) THEN
+          IF(EPSF>ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF
+          IF(DFMAX(I)>=ONE.AND.OFF(I)==ONE) THEN
            NINDX=NINDX+1
            INDX(NINDX)=I
            SIGNXX(I) =   P
@@ -187,7 +187,7 @@ Cc deviatoric will be vanished
            SIGNZX(I) = ZERO                 
           ENDIF
 c       
-         ELSEIF(DFMAX(I).GE.ONE)THEN
+         ELSEIF(DFMAX(I)>=ONE)THEN
           P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
           SIGNXX(I) =   P
           SIGNYY(I) =   P
@@ -198,7 +198,7 @@ c
          ENDIF
         ENDIF  
        ENDDO
-       IF(NINDX.GT.0.AND.IMCONV.EQ.1)THEN
+       IF(NINDX>0.AND.IMCONV==1)THEN
         DO J=1,NINDX
          I = INDX(J)
 #include "lockon.inc"

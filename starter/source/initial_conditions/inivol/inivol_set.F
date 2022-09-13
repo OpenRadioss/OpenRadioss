@@ -84,7 +84,7 @@ C-----------------------------------------------
        IF(IPART(I+NFT) /= IDP)CYCLE
         PASSED = .TRUE.
         SUMVF = SUM(KVOL(1:NBSUBMAT,I))
-        IF(SUMVF.GT.ONE+EM06)THEN
+        IF(SUMVF>ONE+EM06)THEN
           !not expected, user input must be checked : error message
           SUMVF = SUM(KVOL(2:NBSUBMAT,I))
           IF(SUMVF <= ONE .AND. SUMVF > ZERO)THEN
@@ -96,10 +96,10 @@ C-----------------------------------------------
             KVOL(1:NBSUBMAT,I)=RATIO*KVOL(1:NBSUBMAT,I)          
             PASSED=.TRUE.
           ENDIF
-        ELSEIF(SUMVF.LT.ONE-EM06)THEN
+        ELSEIF(SUMVF<ONE-EM06)THEN
           !fill unoccupied subvolume with phase-1
           KVOL(1,I) = KVOL(1,I) + ONE-SUMVF
-        ELSEIF(SUMVF.GE.ONE-EM06 .AND. SUMVF.LE.ONE+EM06)THEN
+        ELSEIF(SUMVF>=ONE-EM06 .AND. SUMVF<=ONE+EM06)THEN
           !get rid of precision issue so that sumvf is exactly 1.000000
           RATIO=ONE/SUMVF
           KVOL(1:NBSUBMAT,I)=RATIO*KVOL(1:NBSUBMAT,I)
@@ -116,7 +116,7 @@ C-----------------------------------------------
      .                   )
        ELSE 
         !---set initial volumetric fraction using KVOL array    
-        IF(MLW.EQ.51)THEN
+        IF(MLW==51)THEN
           DO IMAT=1,4
             KK = N0PHAS + (IMAT-1)*NVPHAS        
             DO I=1,NEL
@@ -139,13 +139,13 @@ C-----------------------------------------------
             P   = KVOL(1,I)*P1 + KVOL(2,I)*P2 + KVOL(3,I)*P3 + KVOL(4,I)*P4
             UVAR(I,4) = P
           ENDDO
-        ELSEIF(MLW.EQ.37)THEN    
+        ELSEIF(MLW==37)THEN    
           DO I=1,NEL 
             IF(IPART(I+NFT) /= IDP)CYCLE                         
             UVAR(I,4)  = KVOL(1,I)  
             UVAR(I,5)  = KVOL(2,I)  
           ENDDO
-        ELSEIF(MLW.EQ.151)THEN 
+        ELSEIF(MLW==151)THEN 
           GBUF => ELBUF_TAB(NG)%GBUF
           DO IMAT=1,MULTI_FVM%NBMAT   
             LBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)   

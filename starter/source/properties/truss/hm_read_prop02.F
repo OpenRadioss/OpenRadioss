@@ -114,7 +114,7 @@ C        Double stockage temporaire - supprimer GEO(12,I)=IGTYP apres tests
          WRITE(IOUT,1299)IG
       ENDIF
 
-      IF (GEO(1).LE.ZERO) THEN
+      IF (GEO(1)<=ZERO) THEN
           CALL ANCMSG(MSGID=497,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,

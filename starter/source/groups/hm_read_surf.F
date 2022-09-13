@@ -324,7 +324,7 @@ C             tag des SURFACES DE SURFACES
                     CALL HM_GET_INT_ARRAY_INDEX('N4',N4,KK,IS_AVAILABLE,LSUBMODEL)                
                     IF(N2D == 0) THEN
                         N3 = USR2SYS(N3,ITABM1,MESS,ID)
-                        IF(N4.NE.0) THEN
+                        IF(N4/=0) THEN
                             N4 = USR2SYS(N4,ITABM1,MESS,ID)
                         ELSE
                             N4 = N3
@@ -441,19 +441,19 @@ C-------------------------------------
 C=======================================================================
 C BOX (OLD)
 C=======================================================================
-      IF (IT3.NE.0)THEN
+      IF (IT3/=0)THEN
         !no longer supported with new reader based on CFG files
       ENDIF
 C=======================================================================
 C BOX (parallelepiped, cylindrical, spherical) - old one (10SA1)
 C=======================================================================
-      IF (IT7.NE.0)THEN
+      IF (IT7/=0)THEN
         !no longer supported with new reader based on CFG files
       ENDIF
 C=======================================================================
 C NEW BOX OPTION (MULTI BOX COMBINATION)
 C=======================================================================
-      IF (IT8.NE.0) THEN
+      IF (IT8/=0) THEN
         ALLOCATE(TAGSHELLBOXC(NUMELC),STAT=stat)
         ALLOCATE(TAGSHELLBOXG(NUMELTG),STAT=stat)
         TAGSHELLBOXC(1:NUMELC) = 0
@@ -489,7 +489,7 @@ C
                 EXIT                                                   
               ENDIF                                                    
             ENDDO                                                      
-            IF (UID.NE.0.AND.IFLAGUNIT.EQ.0) THEN
+            IF (UID/=0.AND.IFLAGUNIT==0) THEN
               CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,    
      .                    I2=UID,I1=ID,C1='SURFACE',                   
      .               C2='SURFACE',                                     
@@ -564,7 +564,7 @@ C---
         ENDDO
         IF(ALLOCATED(BUFBOX))DEALLOCATE(BUFBOX)
         DEALLOCATE(TAGSHELLBOXC,TAGSHELLBOXG)
-      ENDIF  ! IT8.NE.0
+      ENDIF  ! IT8/=0
 C
 C=======================================================================
 C groupes de SUBSETS,PART,MAT,PROP,BRIC
@@ -579,7 +579,7 @@ C=======================================================================
      3                     SURF_ELM,MODE )
       ENDIF
 
-      IF(IT2.NE.0)THEN
+      IF(IT2/=0)THEN
         NINDX_SOL = 0
         NINDX_SOL10 = 0
         ALLOCATE( INDX_SOL(NUMELS) )
@@ -667,7 +667,7 @@ C=======================================================================
               MY_ALLOCATE(IGRSURF(IGS)%ELEM,NSEG0)           
               IGRSURF(IGS)%ELEM(1:NSEG0) = 0                 
 !
-              IF (NVOLU + NMONVOL .GT. 0) THEN               
+              IF (NVOLU + NMONVOL > 0) THEN               
                  NSEG0 = IGRSURF(IGS)%NSEG                   
                  !Keep track of the "reversed surface" -> when /SURF/PART comes
                  !with a negative part_id
@@ -738,7 +738,7 @@ C=======================================================================
      5                    IXC     ,IXTG    ,IPARTC   ,IPARTTG ,NINDX,          
      6                    NINDX_SOL, NINDX_SOL10, INDX, INDX_SOL, INDX_SOL10,  
      7                    SURF_ELM)                                            
-            IF(NUMELIG3D.NE.0) THEN                                            
+            IF(NUMELIG3D/=0) THEN                                            
               CALL SSURFTAGIGEO(IXIG3D,IPARTIG3D,KXIG3D,                       
      2                          BUFTMP ,NSEG   ,                               
      3                          IEXT  ,FLAG     ,IFRE   ,KEY    ,              
@@ -801,7 +801,7 @@ C=======================================================================
               IGRSURF(IGS)%ELTYP(1:NSEG0) = 0                                      
               MY_ALLOCATE(IGRSURF(IGS)%ELEM,NSEG0)                                 
               IGRSURF(IGS)%ELEM(1:NSEG0) = 0                                       
-              IF (NVOLU + NMONVOL .GT. 0) THEN                                     
+              IF (NVOLU + NMONVOL > 0) THEN                                     
                  NSEG0 = IGRSURF(IGS)%NSEG                                         
                  !Keep track of the "reversed surface" -> when /SURF/PART comes    
                  !with a negative part_id                                          
@@ -912,7 +912,7 @@ C-----------                                              --
               MY_ALLOCATE(IGRSURF(IGS)%ELEM,NSEG0)          
               IGRSURF(IGS)%ELEM(1:NSEG0) = 0                
 !
-              IF (NVOLU + NMONVOL .GT. 0) THEN              
+              IF (NVOLU + NMONVOL > 0) THEN              
                  NSEG0 = IGRSURF(IGS)%NSEG                  
                  !     Keep track of the "reversed surface" -> when /SURF/PART comes
                  !     with a negative part_id
@@ -945,7 +945,7 @@ C---
               MY_ALLOCATE(IGRSURF(IGS)%ELEM,NSEG0)                                      
               IGRSURF(IGS)%ELEM(1:NSEG0) = 0                                            
 !
-              IF (NVOLU + NMONVOL .GT. 0) THEN                                          
+              IF (NVOLU + NMONVOL > 0) THEN                                          
                  NSEG0 = IGRSURF(IGS)%NSEG                                              
                  !     Keep track of the "reversed surface" -> when /SURF/PART comes    
                  !     with a negative part_id                                          
@@ -1058,7 +1058,7 @@ C
             ELSEIF (DGR1==0) THEN                                            
              DGR1=DGR                                                        
             ENDIF                                                            
-c            IF (DGR1.LT.2) THEN                                              
+c            IF (DGR1<2) THEN                                              
 c               CALL ANCMSG(MSGID=186,                                        
 c     .                     MSGTYPE=MSGERROR,                                 
 c     .                     ANMODE=ANINFO,                                    
@@ -1109,7 +1109,7 @@ C=======================================================================
                 EXIT
               ENDIF
             ENDDO
-            IF (UID.NE.0.AND.IFLAGUNIT.EQ.0) THEN
+            IF (UID/=0.AND.IFLAGUNIT==0) THEN
               CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                    I2=UID,I1=ID,C1='SURFACE',
      .                 C2='SURFACE',
@@ -1151,7 +1151,7 @@ C=======================================================================
               VECTY = (YP2-YP1)*(YP2-YP1)
               VECTZ = (ZP2-ZP1)*(ZP2-ZP1)
               VECT  = SQRT(VECTX+VECTY+VECTZ)
-              IF(VECT .LE. EM10)THEN
+              IF(VECT <= EM10)THEN
                 CALL ANCMSG(MSGID=891,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO,

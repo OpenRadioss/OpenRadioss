@@ -228,8 +228,8 @@ C--------------------------------------------------
         ENDDO
         DO N=1,NRBODY
           I = NPBY(1,N)
-          IF (I.GT.0) THEN
-            IF (WEIGHT(I).EQ.1) THEN
+          IF (I>0) THEN
+            IF (WEIGHT(I)==1) THEN
               VALUE(1) = FOPT(1,NSECT+N)
               VALUE(2) = FOPT(2,NSECT+N)
               VALUE(3) = FOPT(3,NSECT+N)
@@ -255,8 +255,8 @@ C--------------------------------------------------
         ENDDO
         DO N=1,NRBODY
           I = NPBY(1,N)
-          IF (I.GT.0) THEN
-            IF (WEIGHT(I).EQ.1) THEN
+          IF (I>0) THEN
+            IF (WEIGHT(I)==1) THEN
               VALUE(1) = FOPT(4,NSECT+N)
               VALUE(2) = FOPT(5,NSECT+N)
               VALUE(3) = FOPT(6,NSECT+N)
@@ -295,7 +295,7 @@ c            CALL VELVEC3(VFLU,BID_TEMP,VFLU_ALE,ICBUF(MIC2),CBUF(MAC2),
 c     .                 NODCUT,NNWL,NNNSRG,NODGLOB,WEIGHT,0,NFNOD_PXFEM,
 c     .                 NFNOD_PXFEMG,NFNOD_CRKXFEMG)
 
-c         IF (NFVNOD.GT.0) THEN
+c         IF (NFVNOD>0) THEN
 
 c            IF (NSPMD == 1) THEN
 c               CALL ALEVEC()
@@ -310,7 +310,7 @@ C--------------------------------------------------
 c      IF (KEYWORD == 'FRES') THEN
 c       IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
 c         FAC=ONE
-c         IF (IMPL_S.GT.0.AND.IDYNA.EQ.0)FAC=ZERO 
+c         IF (IMPL_S>0.AND.IDYNA==0)FAC=ZERO 
 c          DO J=1,3
 c          DO N=1,NUMNOD
 c           VFLU(J,N)=FEXT(J,N)+FINT(J,N)-FAC*MS(N)*A(J,N)

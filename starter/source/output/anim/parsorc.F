@@ -97,11 +97,11 @@ C
 C-----------------------------------------------
 C     PART
 C-----------------------------------------------
-      IF(NUMELQ + NUMELC + NUMELTG + NUMELUR.NE.0)THEN
+      IF(NUMELQ + NUMELC + NUMELTG + NUMELUR/=0)THEN
       JJ = 0
 
       DO 500 IPRT=1,NPART
-       IF(MATER(IPRT).EQ.0)GOTO 500
+       IF(MATER(IPRT)==0)GOTO 500
        NPAR = NPAR + 1
        DO 490 NG=1,NGROUP
         MTN   =IPARG(1,NG)
@@ -114,10 +114,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       QUAD
 C-----------------------------------------------
-        IF(ITY.EQ.2)THEN
+        IF(ITY==2)THEN
          DO 20 I=LFT,LLT
           N = I + NFT
-          IF(IPARTQ(N).NE.IPRT) GOTO 20
+          IF(IPARTQ(N)/=IPRT) GOTO 20
           IF (MTN/=0 .AND. MTN/=13) OFF=ELBUF_TAB(NG)%GBUF%OFF(I)
              II(1) = IXQ(2,N)
              II(2) = IXQ(3,N)
@@ -140,15 +140,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       COQUES
 C-----------------------------------------------
-        ELSEIF(ITY.EQ.3)THEN
+        ELSEIF(ITY==3)THEN
          KPT   =IPARG(6,NG)
          IHBE = IPARG(23,NG)
          SH_IH = 16
-          IF (IHBE.GE.21.AND.IHBE.LE.29) SH_IH = 17
-          IF (IHBE.EQ.22) SH_IH = SH_IH + 6
+          IF (IHBE>=21.AND.IHBE<=29) SH_IH = 17
+          IF (IHBE==22) SH_IH = SH_IH + 6
          DO 130 I=LFT,LLT
           N = I + NFT
-          IF(IPARTC(N).NE.IPRT)GOTO 130
+          IF(IPARTC(N)/=IPRT)GOTO 130
           IF (MTN/=0 .AND. MTN/=13) OFF=ELBUF_TAB(NG)%GBUF%OFF(I)
              II(1) = IXC(2,N)
              II(2) = IXC(3,N)
@@ -169,11 +169,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       COQUES 3 NOEUDS
 C-----------------------------------------------
-        ELSEIF(ITY.EQ.7)THEN
+        ELSEIF(ITY==7)THEN
          KPT   =IPARG(6,NG)
          DO 170 I=LFT,LLT
           N = I + NFT
-          IF(IPARTTG(N).NE.IPRT)GOTO 170
+          IF(IPARTTG(N)/=IPRT)GOTO 170
           IF (MTN/=0 .AND. MTN/=13) OFF=ELBUF_TAB(NG)%GBUF%OFF(I)
              II(1) = IXTG(2,N)
              II(2) = IXTG(3,N)
@@ -192,10 +192,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       RNUR
 C-----------------------------------------------
-        ELSEIF(ITY.EQ.50)THEN
+        ELSEIF(ITY==50)THEN
          DO 199 I=LFT,LLT
           N = I + NFT
-          IF(IPARTUR(N).NE.IPRT)GOTO 199
+          IF(IPARTUR(N)/=IPRT)GOTO 199
           OFF = BUFEL(IAD+I-1)
           II(1) = IXUR(2,N)-1
           II(2) = IXUR(3,N)-1

@@ -55,11 +55,11 @@ C-----------------------------------------------
       INTEGER ISU
 C-----------------------------------------------
 C seul le proc 0 effectue le traitement
-      IF (ISPMD.NE.0) GOTO 100
+      IF (ISPMD/=0) GOTO 100
 C
       NSURG=0
       DO ISU=1,NSURF
-        IF (IGRSURF(ISU)%TYPE.EQ.101) THEN
+        IF (IGRSURF(ISU)%TYPE==101) THEN
           NSURG=NSURG+1
           NESRG = NESRG + 294
           NNSRG = NNSRG + 384

@@ -145,7 +145,7 @@ C--------------------------
 C-----------------------------------------------
 C GATHERING VECTEURS LOCAUX
 C-----------------------------------------------
-      IF (JCVT.EQ.0) THEN
+      IF (JCVT==0) THEN
        CALL S8COOR3(GBUF%OFF,OFF,X,V,IXS(LCO),
      .             XLOC,YLOC,ZLOC,VXLOC,VYLOC,VZLOC,
      .             MXT,NC,NGL,PID)
@@ -202,13 +202,13 @@ C--------------------------
         IFLAG=MOD(NCYCLE,NCPRI)
         IF(IOUTPRT>0)THEN       
 c           NB3S = NB3
-c           IF (MTN.EQ.11) NB3S = NB14
+c           IF (MTN==11) NB3S = NB14
           IF (MTN == 11) THEN                                    
             EINT => ELBUF_STR%GBUF%EINS(1:NEL)                   
           ELSE                                                   
             EINT => ELBUF_STR%GBUF%EINT(1:NEL)                   
           ENDIF                                                  
-           IF (JCVT.EQ.0)THEN
+           IF (JCVT==0)THEN
             CALL S8BILAN(PARTSAV,EINT,GBUF%RHO,GBUF%RK,GBUF%VOL,
      .                  VOLN,VXLOC,VYLOC,VZLOC,IPARTS,
      .                  GRESAV,GRTH,IGRTH,XLOC,YLOC,ZLOC,ITASK,IPARG(1,NG))
@@ -233,7 +233,7 @@ C----------------------------
 C----------------------------
 C     CONVECTE --> GLOBAL.
 C----------------------------
-      IF (JCVT.EQ.1) THEN
+      IF (JCVT==1) THEN
        CALL SRROTA3(
      .   R11, R21, R31, R12, R22, R32, R13, R23, R33,
      .   F11, F12, F13, F14, F15, F16, F17, F18,
@@ -243,7 +243,7 @@ C----------------------------
 C-------------------------
 C     ASSEMBLE
 C-------------------------
-      IF(IPARIT.EQ.0)THEN
+      IF(IPARIT==0)THEN
           CALL S8CUMU3(GBUF%OFF,A,NC,STIFN,STI,
      .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
      .   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38)

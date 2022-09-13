@@ -115,8 +115,8 @@ C
       DO I=1,NJOINT
         NY=NY+1
 C----------Multidomaines --> on ignore les cyljoint non tags----------
-        IF(NSUBDOM.GT.0)THEN
-	        IF(TAGCYL(NY).EQ.0)CALL HM_SZ_R2R(TAGCYL,NY,LSUBMODEL)
+        IF(NSUBDOM>0)THEN
+	        IF(TAGCYL(NY)==0)CALL HM_SZ_R2R(TAGCYL,NY,LSUBMODEL)
         END IF
 C----------------------------------------------------------------------	
         CALL HM_OPTION_READ_KEY(LSUBMODEL,

@@ -740,7 +740,7 @@ C-----------------------------
 C-----------------------------
       IF (IOFFS == 1)THEN
         DO I=1,NEL
-          IF (OFFS(I).LE.TWO) GBUF%OFF(I)=OFFS(I)
+          IF (OFFS(I)<=TWO) GBUF%OFF(I)=OFFS(I)
         END DO
         DO ILAY=1,NLAY
           LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)

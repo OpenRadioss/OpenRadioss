@@ -366,7 +366,7 @@ C
 C-----------------------------------------------------------------------
 C     CALCUL DES CONTRAINTES INITIALES
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-      IF (ISIGSH.NE.0 .OR. ITHKSHEL == 2) THEN
+      IF (ISIGSH/=0 .OR. ITHKSHEL == 2) THEN
 C to be checked for IGTYP = 51 : ok
         IF (MPT>0) THEN
            CALL LAYINI1(

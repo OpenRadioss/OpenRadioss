@@ -205,7 +205,7 @@ C-----------------------------------------------
      .                  )                                                                   
            GBUF => ELBUF_TAB(NG)%GBUF                                                      
            IF (IPARG(8,NG) == 1) CYCLE                                                      
-           IF (JLAG == 1 .OR. ITY.GT.2) CYCLE                                               
+           IF (JLAG == 1 .OR. ITY>2) CYCLE                                               
            NSG           = IPARG(10,NG)                                                     
            NVC           = IPARG(19,NG)                                                     
            ISOLNOD       = IPARG(28,NG)                                                     
@@ -223,7 +223,7 @@ C-----------------------------------------------
              LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)                                                      
              IMAT        = IXS(1,NFT+LFT) !all elem in group does have same material id.    
              IALEFVM_FLG = IPM(251,IMAT)                                                    
-             IF (IALEFVM_FLG .LE. 1) CYCLE                                                  
+             IF (IALEFVM_FLG <= 1) CYCLE                                                  
              CALL ALEFVM_SFINT3(                                                            
      1                          IXS     , NV46    ,  ALE_CONNECT   , IALEFVM_FLG, ITASK,          
      2                          IPM     , IPARG   ,  NG      , NALE       , A    ,          
@@ -256,13 +256,13 @@ C-----------------------------------------------
 #include "vectorize.inc"
         !---TRANSLATIONS---!
        DO N=NODFT,NODLT
-         IF(MSNF(N).LE.ZERO)CYCLE
+         IF(MSNF(N)<=ZERO)CYCLE
          IF(NALE(N)==0)CYCLE
          V(1,N)    = V(1,N) / MSNF(N)
          V(2,N)    = V(2,N) / MSNF(N)
          V(3,N)    = V(3,N) / MSNF(N)
        ENDDO
-       IF (IRODDL.NE.0) THEN
+       IF (IRODDL/=0) THEN
 #include "vectorize.inc"
          !---TROTATIONS---!
          DO N=NODFT,NODLT

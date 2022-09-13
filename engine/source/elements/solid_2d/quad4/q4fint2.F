@@ -91,7 +91,7 @@ C     REAL
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      IF(N2D.EQ.1 .AND. JHBE.EQ.17) THEN
+      IF(N2D==1 .AND. JHBE==17) THEN
         DO I=LFT,LLT
           FAC(I) = AIR(I)
         ENDDO
@@ -103,7 +103,7 @@ C-----------------------------------------------
 C
 C     ADD VISCOUS STRESSES "SVIS" & "QVIS" INTO THE TOTAL ONES
 C     REMOVE PRESSURE FROM STRESSES FOR THE CONSTANT PRESSURE CASE
-      IF(ICP.EQ.1) THEN
+      IF(ICP==1) THEN
         DO I=LFT,LLT
           P(I)=THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3)+
      .                SVIS(I,1)+SVIS(I,2)+SVIS(I,3))
@@ -128,8 +128,8 @@ C
         FZ4(I) = FZ4(I) - S2(I)*PZ4(I)- S1(I)*BYZ4(I)
       ENDDO
 C
-      IF(N2D.EQ.1.AND.JHBE.EQ.17) THEN
-         IF(ICP.EQ.1) THEN
+      IF(N2D==1.AND.JHBE==17) THEN
+         IF(ICP==1) THEN
           DO I=LFT,LLT
             S3(I)=(SIG(I,3)+SVIS(I,3)-P(I))*FAC(I)
             S4(I)=(SIG(I,4)+SVIS(I,4))*FAC(I)
@@ -140,7 +140,7 @@ C
             S4(I)=(SIG(I,4)+SVIS(I,4))*FAC(I)
           ENDDO
 	 END IF
-         IF(JCVT.NE.0) THEN
+         IF(JCVT/=0) THEN
             DO I=LFT,LLT
               T1=S1(I)*R22(I)+S4(I)*R23(I)
               T2=S4(I)*R32(I)+S2(I)*R33(I)

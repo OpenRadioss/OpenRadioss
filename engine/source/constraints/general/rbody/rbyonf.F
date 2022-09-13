@@ -96,23 +96,23 @@ C
       DO N=1,NRBYKIN
         ISENS=NPBY(4,N)
         IACTI=NPBY(7,N)
-        IF(ISENS.EQ.0.AND.IACTI.EQ.1.AND.NPBY(1,N).GT.0)
+        IF(ISENS==0.AND.IACTI==1.AND.NPBY(1,N)>0)
      .    ITAG(NPBY(1,N)+NUMNOD)=N
       ENDDO
 C
       DO I=1,(NRBYNF+9)/10
           READ(IIN,'(10I10)')(ITEMP(J),J=1,10)
           DO 120 J=1,10
-           IF(ITEMP(J).EQ.0) GOTO 120
+           IF(ITEMP(J)==0) GOTO 120
            K = 1
            DO  N=1,NRBYKIN
-              IF(NPBY(1,N).GT.0) THEN
-                IF(ITEMP(J).EQ.ITAB(NPBY(1,N))) GOTO 110
+              IF(NPBY(1,N)>0) THEN
+                IF(ITEMP(J)==ITAB(NPBY(1,N))) GOTO 110
               ENDIF
               K=K+NPBY(2,N)
            ENDDO
 C
-c           IF(IMACH.NE.3) THEN
+c           IF(IMACH/=3) THEN
 c             GOTO 120
 c           ELSE
              N = 0
@@ -120,7 +120,7 @@ c           END IF
  110       CONTINUE
 C En SPMD, il faut communiquer le RB concerne si N<>0 sur un proc
 C si rigid body present sur le proc N = rb trouve
-              IF(N.NE.0) N = N*WEIGHT(NPBY(1,N))
+              IF(N/=0) N = N*WEIGHT(NPBY(1,N))
 C reduction pour retrouver la valeur de N (N = 0 partout sauf sur le proc main)
               IF(NSPMD > 1) THEN
                 CALL SPMD_GLOB_ISUM9(N,1)
@@ -128,24 +128,24 @@ C broadcast de N sur tous les procs
                 CALL SPMD_IBCAST(N,N,1,1,0,2)
               ENDIF
 C si N = 0, alors le rby n avait ete trouve sur aucun proc
-              IF(N.EQ.0) GOTO 120
+              IF(N==0) GOTO 120
 C
-              IF(ONOF.EQ.0)THEN
-               IF(ISPMD.EQ.0)
+              IF(ONOF==0)THEN
+               IF(ISPMD==0)
      .         WRITE(IOUT,'(/A,I9,A)')' RIGID BODY:',ITEMP(J),' SET OFF'
               ELSE
-               IF(ISPMD.EQ.0)
+               IF(ISPMD==0)
      .         WRITE(IOUT,'(/A,I9,A)')' RIGID BODY:',ITEMP(J),' SET ON'
               ENDIF
 C
               ISENS=NPBY(4,N)
               IACTI=NPBY(7,N)
-              IF(ISENS.NE.0)THEN
-               IF(IACTI.GT.1)THEN
+              IF(ISENS/=0)THEN
+               IF(IACTI>1)THEN
 C               body waiting for deactivation, override sensor request.
                 IACTI=1
                 NPBY(7,N)=IACTI
-               ELSEIF(IACTI.LT.0)THEN
+               ELSEIF(IACTI<0)THEN
 C               body waiting for activation, override sensor request.
                 IACTI=0
                 NPBY(7,N)=IACTI
@@ -182,7 +182,7 @@ C
       DO N=1,NRBYKIN
         ONOF1=NPBY(7,N)
         NSL=NPBY(2,N)
-        IF(ONOF1.GE.1)THEN
+        IF(ONOF1>=1)THEN
           DO I=1,NSL
             TAGSLV_RBY(LPBY(I+K))=N
           ENDDO
@@ -306,7 +306,7 @@ C
       DO N=1,NRBYKIN
         ISENS = NPBY(4,N)
         IACTI = NPBY(7,N)
-        IF(ISENS.EQ.0 .AND. IACTI.EQ.1 .AND. NPBY(1,N).GT.0)
+        IF(ISENS==0 .AND. IACTI==1 .AND. NPBY(1,N)>0)
      .    ITAG(NPBY(1,N)+NUMNOD)=N
       ENDDO
 C-------------------------------------------
@@ -320,13 +320,13 @@ C-------------------------------------------
         IACTI = NPBY(7,N)
         IFAIL = NPBY(18,N)
         CRIT  = RBY(30,N)
-        IF(ISENS.NE.0 .AND. (IFAIL/=1 .OR. CRIT < ONE))THEN
-          IF(IACTI.EQ.0.AND. TT.LE.SENSOR(2,ISENS))THEN
+        IF(ISENS/=0 .AND. (IFAIL/=1 .OR. CRIT < ONE))THEN
+          IF(IACTI==0.AND. TT<=SENSOR(2,ISENS))THEN
 C
 C           - rbody is activated and elements are deactivated at the same time
 C           - unless failure criteria has been reached already
 C
-            IF (ISPMD.EQ.0) THEN
+            IF (ISPMD==0) THEN
              WRITE(IOUT,'(/A,I9,A)')' RIGID BODY:',
      .         NPBY(6,N),' SET ON'
              WRITE(ISTDO,'(/A,I9,A)')' RIGID BODY:',
@@ -345,7 +345,7 @@ C
      8                    IPART(K3),NPBY(2,N)   ,ELBUF_TAB)
             ONOF1 = 1 ! at least 1 rbody is activated or deactivated
             NPBY(7,N)=1
-          ELSEIF(IACTI.GT.1.AND. TT.LE.SENSOR(2,ISENS))THEN
+          ELSEIF(IACTI>1.AND. TT<=SENSOR(2,ISENS))THEN
 C
 C          - rbody is waiting for deactivation :
 C              Sensor status changes again => override previous request unless failure criteria was already reached.
@@ -365,7 +365,7 @@ C
         ENDIF
         K=K+NPBY(2,N)
       ENDDO
-      IF(ONFELT.EQ.0.AND.IPARIT.NE.0)THEN ! reset forces of deactivated elements.
+      IF(ONFELT==0.AND.IPARIT/=0)THEN ! reset forces of deactivated elements.
         DO I=1,8*LSKY
           FSKY(I)=0.0
         ENDDO
@@ -380,12 +380,12 @@ C-------------------------------------------
         ISENS=NPBY(4,N)
         IFAIL = NPBY(18,N)
         CRIT  = RBY(30,N)
-        IF(ISENS.NE.0 .AND. (IFAIL/=1 .OR. CRIT < ONE) )THEN
-         IF(IACTI.EQ.1.AND. TT.GT.SENSOR(2,ISENS))THEN
-           IF(TT.GT.0.)THEN
+        IF(ISENS/=0 .AND. (IFAIL/=1 .OR. CRIT < ONE) )THEN
+         IF(IACTI==1.AND. TT>SENSOR(2,ISENS))THEN
+           IF(TT>0.)THEN
              IACTI=4
              NPBY(7,N)=IACTI
-             IF (ISPMD.EQ.0) THEN
+             IF (ISPMD==0) THEN
                WRITE(IOUT,'(/A,I9,A)')' RIGID BODY:',
      .           NPBY(6,N),' WILL BE SET OFF WITHIN 2 CYCLES'
                WRITE(ISTDO,'(/A,I9,A)')' RIGID BODY:',
@@ -402,8 +402,8 @@ C
      6                     IXTG     ,NPBY  ,RBY  ,LPBY    ,1        ,
      7                     FR_RBY2  ,N     ,ONFELT,WEIGHT ,PARTSAV  ,
      8                     IPART(K3),NPBY(2,N)   ,ELBUF_TAB)
-           ELSE ! IF(TT.GT.0.)THEN
-             IF (ISPMD.EQ.0) THEN
+           ELSE ! IF(TT>0.)THEN
+             IF (ISPMD==0) THEN
               WRITE(IOUT,'(/A,I9,A)')' RIGID BODY:',
      .          NPBY(6,N),' SET OFF'
               WRITE(ISTDO,'(/A,I9,A)')' RIGID BODY:',
@@ -423,12 +423,12 @@ C
              NPBY(7,N)=0
              ONOF1 = 1 ! at least 1 rbody is activated or deactivated
            ENDIF
-         ELSEIF(IACTI.EQ.2)THEN
+         ELSEIF(IACTI==2)THEN
 C
 C          Sensor has activated or Failure criteria has been reached ::
 C          Last cycle wrt rbody deactivation <=> the rbody is deactivated (nothing wrt elements)
 C
-           IF (ISPMD.EQ.0) THEN
+           IF (ISPMD==0) THEN
             WRITE(IOUT,'(/A,I9,A)')' RIGID BODY:',
      .        NPBY(6,N),' SET OFF'
             WRITE(ISTDO,'(/A,I9,A)')' RIGID BODY:',
@@ -464,10 +464,10 @@ C-------------------------------------------
         CRIT  = RBY(30,N)
         IF(IACTI >= 1.AND.IFAIL == 1.AND.CRIT >= ONE)THEN ! If rbody is active
          IF(IACTI==1)THEN ! and failure is detected 
-           IF(TT.GT.0.)THEN
+           IF(TT>0.)THEN
              IACTI=4
              NPBY(7,N)=IACTI
-             IF (ISPMD.EQ.0) THEN
+             IF (ISPMD==0) THEN
                WRITE(IOUT,'(/A,I9,A)')' RIGID BODY FAILURE : RIGID BODY:',
      .           NPBY(6,N),' WILL BE SET OFF WITHIN 2 CYCLES'
                WRITE(ISTDO,'(/A,I9,A)')' RIGID BODY FAILURE : RIGID BODY:',
@@ -484,8 +484,8 @@ C
      6                     IXTG     ,NPBY  ,RBY  ,LPBY    ,1        ,
      7                     FR_RBY2  ,N     ,ONFELT,WEIGHT ,PARTSAV  ,
      8                     IPART(K3),NPBY(2,N)   ,ELBUF_TAB)
-           ELSE ! IF(TT.GT.0.)THEN (Failure most probably does not occur at time zero)
-             IF (ISPMD.EQ.0) THEN
+           ELSE ! IF(TT>0.)THEN (Failure most probably does not occur at time zero)
+             IF (ISPMD==0) THEN
               WRITE(IOUT,'(/A,I9,A)')' RIGID BODY FAILURE : RIGID BODY:',
      .          NPBY(6,N),' SET OFF'
               WRITE(ISTDO,'(/A,I9,A)')' RIGID BODY FAILURE : RIGID BODY:',
@@ -505,12 +505,12 @@ C
              NPBY(7,N)=0
              ONOF1 = 1 ! at least 1 rbody is activated or deactivated
            ENDIF
-         ELSEIF(IACTI.EQ.2)THEN
+         ELSEIF(IACTI==2)THEN
 C
 C          Sensor has activated or Failure criteria has been reached ::
 C          Last cycle wrt rbody deactivation <=> the rbody is deactivated (nothing wrt elements)
 C
-           IF (ISPMD.EQ.0) THEN
+           IF (ISPMD==0) THEN
             WRITE(IOUT,'(/A,I9,A)')' RIGID BODY FAILURE : RIGID BODY:',
      .        NPBY(6,N),' SET OFF'
             WRITE(ISTDO,'(/A,I9,A)')' RIGID BODY FAILURE : RIGID BODY:',
@@ -536,7 +536,7 @@ C
 C-------------------------------------------
       DO N=1,NRBYKIN
         IACTI=NPBY(7,N)
-        IF(IACTI.GT.1)THEN
+        IF(IACTI>1)THEN
          IACTI=IACTI-1
         ENDIF
         NPBY(7,N)=IACTI
@@ -553,7 +553,7 @@ C
       DO N=1,NRBYKIN
        ONOF1=NPBY(7,N)
        NSL=NPBY(2,N)
-       IF(ONOF1.GE.1)THEN
+       IF(ONOF1>=1)THEN
          DO I=1,NSL
            TAGSLV_RBY(LPBY(I+K))=N
          ENDDO

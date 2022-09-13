@@ -107,7 +107,7 @@ C
        ENDDO
 C-----frotement---
        DO EP=JFT,JLT
-        IF (DKX(EP).GT.ZERO) THEN
+        IF (DKX(EP)>ZERO) THEN
          DO I=1,3 
           DO J=I,3 
            KE11(I,J,EP)=KE11(I,J,EP)+DKX(EP)*K1(I,J,EP)

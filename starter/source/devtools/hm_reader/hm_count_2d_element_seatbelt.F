@@ -101,7 +101,7 @@ c
 C-----------------------------------------------
 C   Search Parts with Mat 119 
 C-----------------------------------------------
-      IF (NB_MAT_119 .NE. 0) THEN
+      IF (NB_MAT_119 /= 0) THEN
         ALLOCATE(MAT119_IDS(NB_MAT_119))
         MAT119_IDS(1:NB_MAT_119) = 0
         J = 0
@@ -141,7 +141,7 @@ c
       CALL HM_OPTION_START('/PART')
       DO I=1,NB_PART
         CALL HM_OPTION_NEXT()
-        IF(PART_MAT119(I) .NE. 0) THEN
+        IF(PART_MAT119(I) /= 0) THEN
           CALL CPP_COUNT_ELEMENTS_IN_PART(NB_SHELLS_PART)
           NB_SHELLS = NB_SHELLS + NB_SHELLS_PART
         ENDIF

@@ -155,7 +155,7 @@ C-----------
      +                  E1Y,E2Y ,E3Y ,E1Z,E2Z,E3Z)
       ENDIF
 c
-       IF (MTN.GE.28) THEN
+       IF (MTN>=28) THEN
         IADBUF = IPM(7,MXT(1))
        ELSE
         IADBUF = 0
@@ -180,7 +180,7 @@ c
 C----------------------------
 C     geometrical stiffness (membrane only)
 C----------------------------
-      IF (IKGEO.GT.0) THEN
+      IF (IKGEO>0) THEN
        CALL S4KGEO3(GBUF%SIG,VOLN ,
      .   PX1, PX2, PX3, PX4,
      .   PY1, PY2, PY3, PY4,
@@ -189,7 +189,7 @@ C----------------------------
      .   K24,K33,K34,K44,NEL)
       ENDIF 
       
-      IF (NEIG.GT.0) CALL S8EOFF(
+      IF (NEIG>0) CALL S8EOFF(
      1   LFT, LLT, IXS(1,NF1), ETAG, OFF)
       CALL ASSEM_S4(
      1   IXS(1,NF1),NEL   ,IDDL  ,NDOF  ,K_DIAG,

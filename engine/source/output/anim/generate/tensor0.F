@@ -116,7 +116,7 @@ C          STRESS
 C-----------------------------------------------
            DO I=LFT,LLT
              N  = I + NFT
-             IF(EL2FA(NN1+N).NE.0)THEN
+             IF(EL2FA(NN1+N)/=0)THEN
                TENS(1,EL2FA(NN1+N)) = GBUF%SIG(JJ(1) + I)
                TENS(2,EL2FA(NN1+N)) = GBUF%SIG(JJ(2) + I)
                TENS(3,EL2FA(NN1+N)) = GBUF%SIG(JJ(3) + I)
@@ -187,7 +187,7 @@ C-----------------------------------------------
             ISTRAIN= IPARG(44,NG)    
             NUVAR  = IPM(8,MT1)
             NUVARR = IPM(221,MT1) 
-            IF (MLW.GE.28.AND.MLW.NE.49)THEN
+            IF (MLW>=28.AND.MLW/=49)THEN
               DO I=LFT,LLT
                N = I + NFT
                TENS(1,EL2FA(NN1+N)) =  LBUF%STRA(JJ(1) + I)
@@ -218,7 +218,7 @@ C-----------------------------------------------
                TENS(6,EL2FA(NN1+N)) = LBUF%STRA(JJ(6) + I)*HALF   
               ENDDO
             ELSEIF(ISTRAIN == 1)THEN
-              IF(MLW.NE.14.AND.MLW.NE.24.AND.MLW.LT.28.OR.
+              IF(MLW/=14.AND.MLW/=24.AND.MLW<28.OR.
      .            MLW == 49)THEN               
                 DO I=LFT,LLT
                   N  = I + NFT  
@@ -262,7 +262,7 @@ C
 C-----------------------------------------------
            DO I=LFT,LLT
              N = I + NFT
-             IF(EL2FA(NN1+N).NE.0)THEN
+             IF(EL2FA(NN1+N)/=0)THEN
                TENS(1,EL2FA(NN1+N)) = ZERO
                TENS(2,EL2FA(NN1+N)) = ZERO
                TENS(3,EL2FA(NN1+N)) = ZERO

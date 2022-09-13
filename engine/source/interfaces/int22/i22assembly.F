@@ -194,12 +194,12 @@ C-----------------------------------------------
       NISKYFI  = NISKYFI
 #include "lockoff.inc"
 C
-      IF (NISKYL+NISKYL1 .GT. LSKYI) THEN
+      IF (NISKYL+NISKYL1 > LSKYI) THEN
          !CALL ANCMSG(MSGID=26,ANMODE=ANINFO)
          print *, "** ERROR INTER22 : force assembly issue with PARITH/ON option"
          CALL ARRET(2)
       ENDIF
-      IF (NISKYFIL .GT. NLSKYFI(NIN)) THEN
+      IF (NISKYFIL > NLSKYFI(NIN)) THEN
         CALL ANCMSG(MSGID=26,ANMODE=ANINFO)
         CALL ARRET(2)
       ENDIF

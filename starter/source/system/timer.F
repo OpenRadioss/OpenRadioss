@@ -174,7 +174,7 @@ C-----------------------------------------------
       CALL SYSTEM_CLOCK(COUNT=CLOCK1, COUNT_RATE=CLOCKRATE,
      +                  COUNT_MAX=NBMAX                   )
       SECS = CLOCK1-CLOCKINI(EVENT,ITASK)    ! diff temps courant - temps initial
-      IF(SECS.LT.ZERO) SECS = SECS + NBMAX   ! cas depassement nb de periode maximum
+      IF(SECS<ZERO) SECS = SECS + NBMAX   ! cas depassement nb de periode maximum
       SECS = SECS/CLOCKRATE
 #endif
       REALTIME(EVENT,ITASK)=REALTIME(EVENT,ITASK)+SECS
@@ -407,7 +407,7 @@ C-----------------------------------------------
         ELAPSED = SECS
 #else    
         SECS = CLOCK1-CLOCK0         ! diff temps courant - temps initial (qui peut ne pas etre 0 !)
-        IF(SECS.LT.ZERO) SECS = SECS + NBMAX   ! cas depassement nb de periode maximum
+        IF(SECS<ZERO) SECS = SECS + NBMAX   ! cas depassement nb de periode maximum
         SECS = SECS/CLOCKRATE
         ELAPSED = ELAPSED + SECS
 #endif

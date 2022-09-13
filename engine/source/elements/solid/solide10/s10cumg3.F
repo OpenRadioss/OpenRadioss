@@ -113,7 +113,7 @@ C                                                                     12
      .            PX(1,10),PY(1,10),PZ(1,10),PX(1,10),PY(1,10),PZ(1,10),
      .             DD, K00,IS)
 C
-      IF (IKSUP.EQ.0) THEN
+      IF (IKSUP==0) THEN
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,1),PX(1,1),PZ(1,1),PX(1,1),PZ(1,1),PY(1,1),
      .             PY(1,1),PX(1,1),PZ(1,1),PX(1,1),PZ(1,1),PY(1,1),
@@ -293,7 +293,7 @@ C  -------non symm------
      .             PX(1,9),PY(1,9),PZ(1,9),PX(1,10),PY(1,10),PZ(1,10),
      .              DD, K90,IS)
 C
-      IF (IKSUP.EQ.0) THEN
+      IF (IKSUP==0) THEN
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,1),PX(1,1),PZ(1,1),PX(1,1),PZ(1,1),PY(1,1),
      .             PY(1,2),PX(1,2),PZ(1,2),PX(1,2),PZ(1,2),PY(1,2),

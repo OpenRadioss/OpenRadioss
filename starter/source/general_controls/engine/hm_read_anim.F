@@ -154,7 +154,7 @@ C-----------------------------------------------
         NFT_ANI = NFT_ANI + ANIM_FT(I)
         NFE_ANI = NFE_ANI + ANIM_FE(I)
       ENDDO
-      IF(ANIM_V(12).EQ.1)NV_ANI=NV_ANI+1
+      IF(ANIM_V(12)==1)NV_ANI=NV_ANI+1
 C
       RETURN
       END

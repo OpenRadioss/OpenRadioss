@@ -123,7 +123,7 @@ C
             DO II=1,NSN        
               J = INTBUF_TAB(N)%NSV(II)
 C-- Only secnds nodes with AMS are checked
-              IF (NATIV_SMS(J).NE.0) TAGHIER(J) = ONE
+              IF (NATIV_SMS(J)/=0) TAGHIER(J) = ONE
             ENDDO
           ENDIF
         ENDDO

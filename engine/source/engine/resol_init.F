@@ -378,7 +378,7 @@ C
           IROTG=MAX(IROTG,IRBE3(6,I))
         ENDDO
         CALL SPMD_MAX_I(IROTG)
-        IF(IROTG.EQ.0) THEN
+        IF(IROTG==0) THEN
           R3SIZE = 5
         ELSE
           R3SIZE = 10
@@ -393,16 +393,16 @@ C---------RBE2----
                IF (IRBE2(11,I)==0) IROTG =1
         ENDDO
         CALL SPMD_MAX_I(IROTG)
-        IF(IROTG.EQ.0) THEN
+        IF(IROTG==0) THEN
           R2SIZE = 4
         ELSE
           R2SIZE = 8
         ENDIF
                NS = NRBE2
         CALL SPMD_MAX_I(NS)
-               IF (NS.EQ.0) R2SIZE = 0
+               IF (NS==0) R2SIZE = 0
         NFR = IAD_RBE2(NSPMD+1)-IAD_RBE2(1)
-        IF (NSPMD.EQ.1) THEN
+        IF (NSPMD==1) THEN
           R3SIZE = 0
           R2SIZE = 0
         ENDIF
@@ -420,7 +420,7 @@ C
      8       NRBYKIN_L,KINDRBY,SENSOR  ,LBUFIDEL24, INTBUF_TAB,
      9       SORT_COMM)
 C
-        IF(IDEL7NG.GT.0.OR.IRAD2R.GT.0.OR.IALEMUSCL.GT.0.OR.PDEL.GT.0) THEN
+        IF(IDEL7NG>0.OR.IRAD2R>0.OR.IALEMUSCL>0.OR.PDEL>0) THEN
            CALL CHKINIT(
      2       IXS        ,IXQ       ,IXC       ,IXT         ,IXP       ,
      3       IXR        ,IXTG      ,IXUR      ,IXS10       ,IXS20     ,
@@ -450,16 +450,16 @@ C
         NDIN = NDMA +NUMNOD*MIN(1,ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS)
         NDMA2 = NDIN+NUMNOD*MIN(1,ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER)
         NDAMA2 = NDMA2+NUMELR*(ANIM_FE(11)+ANIM_FE(12)+ANIM_FE(13))
-        IF(IRODDL.NE.0)THEN
+        IF(IRODDL/=0)THEN
           DO NG=1,NINTER
             ITY = IPARI(7,NG)
-            IF(ITY.EQ.2) THEN
+            IF(ITY==2) THEN
               NMN=IPARI(6,NG)
               DO II = 1, NMN
                 I = INTBUF_TAB(NG)%MSR(II)
                 INTBUF_TAB(NG)%NMAS(NMN+II) = IN(I)
 C               For multidomains inertia of main nodes on multidomains interface msut be non zero
-                IF (IRAD2R.EQ.1) IN(I)=MAX(EM20,IN(I))
+                IF (IRAD2R==1) IN(I)=MAX(EM20,IN(I))
               END DO
             END IF
           END DO
@@ -467,8 +467,8 @@ C               For multidomains inertia of main nodes on multidomains interface
         DMAS = ZERO
         DINER = ZERO
 C
-        IF(MCHECK.EQ.0)NCYCLE=  0
-        IF(MCHECK.EQ.0)NCYCLSH=0
+        IF(MCHECK==0)NCYCLE=  0
+        IF(MCHECK==0)NCYCLSH=0
         I7KGLO = 0
         NABFWR = 0
 C
@@ -517,14 +517,14 @@ C
 C---------------------------- 
         MAXNX=0
         DO I=1,NUMELX
-          IF (KXX(3,I).GT.MAXNX) MAXNX=KXX(3,I)
+          IF (KXX(3,I)>MAXNX) MAXNX=KXX(3,I)
         ENDDO
 C---------------------------- 
         DO I=1,NPART
           PARTSAV(8,I)=PARTS0(I)
         ENDDO
 C---------------------------- 
-        IF (ISPMD.EQ.0)THEN
+        IF (ISPMD==0)THEN
           CALL DATE_AND_TIME(STARTDATE, STARTTIME, ZONE, VALUES)
           WRITE(ISTDO,'(A,I2.2,A,I2.2,A,I4.4)') 
      *     ' ',VALUES(3),'/',VALUES(2),'/',VALUES(1)
@@ -537,8 +537,8 @@ C
         MSTOP = 0
         ICTLSTOP = 0
         H3D_DATA%MH3D = 0
-        IF(DTIN.NE.0. .AND. MCHECK.EQ.0)THEN   !go on with previous time step in case of checkpoint restart (/CHKPT)
-          IF(DT2OLD.EQ.ZERO)THEN
+        IF(DTIN/=0. .AND. MCHECK==0)THEN   !go on with previous time step in case of checkpoint restart (/CHKPT)
+          IF(DT2OLD==ZERO)THEN
             DT2OLD=DTIN/ONEP1
           ELSE
             DT2OLD= MIN(DT2OLD,DTIN/ONEP1)
@@ -547,7 +547,7 @@ C
 C------------------------
 C      PARAL. ARITH.
 C------------------------
-        IF(IPARIT.EQ.3) THEN
+        IF(IPARIT==3) THEN
           DO I=1,NUMNOD
             I8A(1,1,I) = 0
             I8A(2,1,I) = 0
@@ -562,7 +562,7 @@ C------------------------
             I8STIFN(2,I) = 0
             I8STIFN(3,I) = 0
           ENDDO
-          IF(IRODDL.NE.0)THEN
+          IF(IRODDL/=0)THEN
            DO I=1,NUMNOD
             I8AR(1,1,I) = 0
             I8AR(2,1,I) = 0
@@ -578,18 +578,18 @@ C------------------------
             I8STIFR(3,I) = 0
            ENDDO
           ENDIF
-          IF(KDTINT.NE.0)THEN
+          IF(KDTINT/=0)THEN
            DO I=1,NUMNOD
             I8VISCN(1,I) = 0
             I8VISCN(2,I) = 0
             I8VISCN(3,I) = 0
            ENDDO
           ENDIF
-        ELSEIF(IPARIT.NE.0) THEN
+        ELSEIF(IPARIT/=0) THEN
 C
 C parith/on
 C
-          IF(IVECTOR.EQ.1)THEN
+          IF(IVECTOR==1)THEN
             IAD1 = NUMNOD+2
           ELSE
             IAD1 = 1
@@ -628,7 +628,7 @@ C--------------------------
 C----------------------------------------------------------
 C   ON TAGUE TOUS LES NOEUDS DE TOUTES LES SECTIONS
 C----------------------------------------------------------
-        IF(ISECUT.NE.0)THEN
+        IF(ISECUT/=0)THEN
           K0=NSTRF(25)
           DO I=1,NSECT
             NNOD=NSTRF(K0+6)
@@ -637,7 +637,7 @@ C----------------------------------------------------------
              SECFCUM(4,NSTRF(K2S),I)=1.
              K2S=K2S+1
             ENDDO
-            IF (NSTRF(K0) .GE. 100 ) ISECTR = I
+            IF (NSTRF(K0) >= 100 ) ISECTR = I
             K0=NSTRF(K0+24)
           ENDDO
           CALL SECT_INI(NSTRF,SECBUF,NOM_SECT,ISECTR,NSECT,IOLDSECT)
@@ -656,7 +656,7 @@ C-----------------------------------------------------
 C-----------------------------------------------------
 C   Calcul optionel SQRT(G), SQRT(A11) SQRT(A12), SQRT(NU), SQRT(SHF) pour ancien restart
 C-----------------------------------------------------
-        IF(PMINVER.LT.6)THEN
+        IF(PMINVER<6)THEN
           DO I = 1, NUMGEO
             GEO(100,I) = SQRT(GEO(38,I))      ! SHFSR
           END DO
@@ -671,7 +671,7 @@ C-----------------------------------------------------
 C----------------------------------------------------------
 C   INIT FLEX BODY
 C----------------------------------------------------------
-       IF (NFXBODY.GT.0) THEN
+       IF (NFXBODY>0) THEN
           DO I=1,LENVAR
              FXBFP(I)=ZERO
              FXBGRP(I)=ZERO
@@ -690,7 +690,7 @@ C----------------------------------------------------------
        LWRBEM=0
        DO I=1,NVOLU
           ITYP=MONVOL(IAD+2)
-          IF (ITYP.EQ.7) THEN
+          IF (ITYP==7) THEN
              NNBEM=MONVOL(IAD+32)
              LWIBEM=LWIBEM+1+NNBEM
              LWRBEM=LWRBEM+NNBEM**2
@@ -714,11 +714,11 @@ C----------------------------------------------------------
 C----------------------------------------------------------
 C   Domain Decomposition Weight computation
 C----------------------------------------------------------
-       IF(IDDW.GT.0) CALL INITIMEG(NGROUP)
+       IF(IDDW>0) CALL INITIMEG(NGROUP)
 C----------------------------------------------------------
 C   INIT ADAPTIVE MESHING (sequentielle)
 C----------------------------------------------------------
-       IF(NADMESH.NE.0)THEN
+       IF(NADMESH/=0)THEN
          CALL ADMINI(IXC ,IPART(I15C),IXTG   ,IPART(I15H),IPART,
      .               IGEO,IPM        ,IPARG  ,X       ,MS      ,
      .               IN  ,ELBUF_TAB  ,SH4TREE,IPADMESH,MSC     ,
@@ -729,7 +729,7 @@ C----------------------------------------------------------
          IADMESH=0
          NGDONE=1
        END IF
-       IF(ISTATCND.NE.0)THEN
+       IF(ISTATCND/=0)THEN
 C        ADAPTIVE MESHING + STATIC CONDENSATION
          CALL CNDORDR(IPART,IPART(I15C),IPART(I15H),SH4TREE,SH3TREE)
        END IF
@@ -743,7 +743,7 @@ C compatibilisation des options non supportees si NSPMD > 1
            IF(IPARI(33,I)/=0)LAG_SEC=1
          END DO
          DO I = 1, NRWALL
-           IF(NPRW(I+5*NRWALL).EQ.1)LAG_SEC=1
+           IF(NPRW(I+5*NRWALL)==1)LAG_SEC=1
          END DO
          IF(NBCSLAG+NGJOINT+NRBYLAG > 0)LAG_SEC=1
 C NUMMPC + NFVLAG : ok (parallele SPMD)
@@ -780,7 +780,7 @@ C-----------------------
 !      DO I=1,NINTER
 !         !NBRIC_G = IPARI(32,I)
 !         !NBRIC_L = IGRN(2, IPARI(45,I) )
-!         IF(IPARI(7,I).EQ.22)THEN
+!         IF(IPARI(7,I)==22)THEN
 !           II=II+1
 !           J = MAX( J , IGRN(2,IPARI(45,I)) )     
 !         END IF
@@ -816,7 +816,7 @@ C-----------------------
           NISUB =IPARI(36,N)
           ISENSINT(1,N) = TABSENSOR(N+1 + NSECT) - TABSENSOR(N + NSECT)
 C
-          IF (IPARI(71,N).GT.0) THEN
+          IF (IPARI(71,N)>0) THEN
 C--         sensor associated to all interfaces of type19
             ISENSINT(1,N) = ISENSINT(1,IPARI(71,N))
           ENDIF
@@ -861,19 +861,19 @@ C
 C--- // --------------------------------------
 C         INITIALISATION DES FORCES ET MOMENTS
 C---------------------------------------------
-      IF(NINTER.NE.0.AND.ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT .GT.0) 
+      IF(NINTER/=0.AND.ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0) 
      .               CALL ZEROR(FANI(1,NODFT),NUMNTHREAD)
-      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT.GT.0) THEN
+      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0) THEN
         CALL ZEROR(FANI(1,NFNCA+NODFT),NUMNTHREAD)
         CALL ZEROR(FANI(1,NFTCA+NODFT),NUMNTHREAD)
       END IF
-      IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS .GT.0)THEN
+      IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS >0)THEN
 #include      "vectorize.inc"
         DO I=NODFT,NODLT
           ANIN(I+NDMA) = ZERO
         ENDDO
       ENDIF
-      IF(ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER .GT.0)THEN
+      IF(ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0)THEN
 #include      "vectorize.inc"
         DO I=NODFT,NODLT
           ANIN(I+NDIN) = ZERO
@@ -895,19 +895,19 @@ C-----------------------------------------------
       ZMAX_GLOB = -EP30
 C-----------------------------------------------
 C  RESTARTING RADIOSS ENGINE.
-        IF (IPARIT.EQ.0) THEN
+        IF (IPARIT==0) THEN
           CALL ZEROR(A(1,NDTASK),NUMNOD)
-          IF(IRODDL.NE.0)CALL ZEROR(AR(1,NDTASK),NUMNOD)
+          IF(IRODDL/=0)CALL ZEROR(AR(1,NDTASK),NUMNOD)
           DO I=NDTASK,NDTASK+NUMNOD-1
             STIFN(I)=EM20
           ENDDO
-          IF(IRODDL.NE.0)THEN
+          IF(IRODDL/=0)THEN
             DO I=NDTASK,NDTASK+NUMNOD-1
               STIFR(I)=EM20
             ENDDO
           ENDIF
 C
-          IF(KDTINT.NE.0)THEN
+          IF(KDTINT/=0)THEN
             CALL ZERO1(VISCN(NDTASK),NUMNOD)
           ENDIF
 C
@@ -915,7 +915,7 @@ C
               CALL ZERO1(FTHE(NDTASK),NUMNOD)
            ENDIF  
 C
-          IF(SOL2SPH_FLAG.NE.0)THEN
+          IF(SOL2SPH_FLAG/=0)THEN
             CALL ZERO1(DMSPH(NDTASK),NUMNOD)
           ENDIF
 
@@ -929,18 +929,18 @@ C
               PINCH_DATA%STIFPINCH(I)=EM20
             ENDDO
           ENDIF   
-        ELSE    ! IPARIT.GT.0
+        ELSE    ! IPARIT>0
           CALL ZEROR(A(1,NODFT),NUMNTHREAD)
-          IF(IRODDL.NE.0)CALL ZEROR(AR(1,NODFT),NUMNTHREAD)
+          IF(IRODDL/=0)CALL ZEROR(AR(1,NODFT),NUMNTHREAD)
           DO I=NODFT,NODLT
             STIFN(I)=EM20
           ENDDO
-          IF(IRODDL.NE.0)THEN 
+          IF(IRODDL/=0)THEN 
             DO I=NODFT,NODLT
               STIFR(I)=EM20
             ENDDO
           ENDIF
-          IF(KDTINT.NE.0)THEN
+          IF(KDTINT/=0)THEN
             CALL ZERO1(VISCN(NODFT),NUMNTHREAD)
           ENDIF
 C
@@ -948,7 +948,7 @@ C
             CALL ZERO1(FTHE(NODFT),NUMNTHREAD)
           ENDIF 
 C
-          IF(NSPHSOL.NE.0)THEN
+          IF(NSPHSOL/=0)THEN
             CALL ZERO1(DMSPH(NODFT),NUMNTHREAD)
           ENDIF
 
@@ -965,8 +965,8 @@ C
           ENDIF
 
 C
-      IF(IPARIT.EQ.0) THEN
-        IF(IRODDL.EQ.0) THEN
+      IF(IPARIT==0) THEN
+        IF(IRODDL==0) THEN
           DO I = NODFT, NODLT
             STIFN(I) = STIFN(I)*WEIGHT(I)
           ENDDO
@@ -985,7 +985,7 @@ C --default values----
 C----------------------------------------------------------
 C   INIT ADAPTIVE MESHING //
 C----------------------------------------------------------
-      IF(NADMESH.NE.0)THEN
+      IF(NADMESH/=0)THEN
         IFLGADM=0
         CALL ADMGVID(
      1    IPARG     ,ELBUF_TAB ,FSKY   ,FSKY  ,FTHESKY,
@@ -1279,7 +1279,7 @@ C
 
        DO NG = 1, NGROUP
          ITY   =IPARG(5,NG)
-         IF(ITY.EQ.3.OR.ITY.EQ.7)THEN
+         IF(ITY==3.OR.ITY==7)THEN
            NGROUC = NGROUC + 1
            IGROUC(NGROUC)=NG
            IF(ITY==3) THEN  
@@ -1539,7 +1539,7 @@ C
 C
        NPARTL = 0
        DO I = 1, NPART
-         IF(IPARTL(I).GT.0)THEN
+         IF(IPARTL(I)>0)THEN
            NPARTL = NPARTL + 1
            IPARTL(NPARTL) = I
          END IF
@@ -1604,7 +1604,7 @@ C
       GREFTSK = 1+ITSK*NPSAV*NGPE/ NTHREAD
       GRELTSK = (ITSK+1)*NPSAV*NGPE/NTHREAD
 c     NWALTSK = (ITSK+1)*LENWA_T     
-c     LOUT = ISPMD.EQ.0.AND.ITSK.EQ.0
+c     LOUT = ISPMD==0.AND.ITSK==0
 C
       RETURN
       END
@@ -1662,7 +1662,7 @@ C-------------------------------------------
       K=0
       DO N=1,NRBYKIN
        NSN=NPBY(2,N)
-       IF(NPBY(7,N).GE.1)THEN
+       IF(NPBY(7,N)>=1)THEN
          DO I=1,NSN
            TAGSLV_RBY(LPBY(I+K))=N
          ENDDO

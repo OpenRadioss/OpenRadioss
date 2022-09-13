@@ -106,8 +106,8 @@ C
 C
             K=K+NPRW(N)
             IFQ = NINT(RWBUF(15,N))
-            IF (IFQ.GT.0) ISL=ISL+NPRW(N)*3
-            IF(NPRW(N4).EQ.-1)K=K+NINT(RWBUF(8,N))
+            IF (IFQ>0) ISL=ISL+NPRW(N)*3
+            IF(NPRW(N4)==-1)K=K+NINT(RWBUF(8,N))
           END DO
 C
 
@@ -134,22 +134,22 @@ C
             ITYP= NPRW(N4)
 C
             NSMS= NPRW(N7)
-            IF(ITYP.EQ.1.AND.NSMS.NE.0)THEN
+            IF(ITYP==1.AND.NSMS/=0)THEN
               CALL SMS_RGWALL_IMPACT(
      +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K), 
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
      +          RWSAV(ISL),NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K))
-            ELSEIF(ITYP.EQ.2.AND.NSMS.NE.0)THEN
+            ELSEIF(ITYP==2.AND.NSMS/=0)THEN
               CALL SMS_RGWALC_IMPACT(
      +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K), 
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
      +          NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K))
-            ELSEIF(ITYP.EQ.3.AND.NSMS.NE.0)THEN
+            ELSEIF(ITYP==3.AND.NSMS/=0)THEN
               CALL SMS_RGWALS_IMPACT(
      +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K), 
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
      +          NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K))
-            ELSEIF(ITYP.EQ.4.AND.NSMS.NE.0)THEN
+            ELSEIF(ITYP==4.AND.NSMS/=0)THEN
               CALL SMS_RGWALP_IMPACT(
      +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K), 
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
@@ -179,22 +179,22 @@ C
             ITYP= NPRW(N4)
 C
             NSMS= NPRW(N7)
-            IF(ITYP.EQ.1.AND.NSMS.NE.0)THEN
+            IF(ITYP==1.AND.NSMS/=0)THEN
               CALL SMS_RGWALL_BCS_0(
      +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K), 
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
      +          RWSAV(ISL),NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K))
-            ELSEIF(ITYP.EQ.2.AND.NSMS.NE.0)THEN
+            ELSEIF(ITYP==2.AND.NSMS/=0)THEN
               CALL SMS_RGWALC_BCS_0(
      +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K), 
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
      +          NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K)   )
-            ELSEIF(ITYP.EQ.3.AND.NSMS.NE.0)THEN
+            ELSEIF(ITYP==3.AND.NSMS/=0)THEN
               CALL SMS_RGWALS_BCS_0(
      +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K), 
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
      +          NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K))
-            ELSEIF(ITYP.EQ.4.AND.NSMS.NE.0)THEN
+            ELSEIF(ITYP==4.AND.NSMS/=0)THEN
               CALL SMS_RGWALP_BCS_0(
      +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K), 
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
@@ -221,22 +221,22 @@ C
             ITYP= NPRW(N4)
 C
             NSMS= NPRW(N7)
-            IF(ITYP.EQ.1.AND.NSMS.NE.0)THEN
+            IF(ITYP==1.AND.NSMS/=0)THEN
               CALL SMS_RGWALL_BCS_1(
      +          X       ,RES         ,V           ,RWBUF(1,N),LPRW(K), 
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
      +          RWSAV(ISL),NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K))
-            ELSEIF(ITYP.EQ.2.AND.NSMS.NE.0)THEN
+            ELSEIF(ITYP==2.AND.NSMS/=0)THEN
               CALL SMS_RGWALC_BCS_1(
      +          X       ,RES         ,V           ,RWBUF(1,N),LPRW(K), 
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
      +          NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K))
-            ELSEIF(ITYP.EQ.3.AND.NSMS.NE.0)THEN
+            ELSEIF(ITYP==3.AND.NSMS/=0)THEN
               CALL SMS_RGWALS_BCS_1(
      +          X       ,RES         ,V           ,RWBUF(1,N),LPRW(K), 
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
      +          NPRW(N8),IRWL_WORK(K),NSMS  , NRWL_SMS(K))
-            ELSEIF(ITYP.EQ.4.AND.NSMS.NE.0)THEN
+            ELSEIF(ITYP==4.AND.NSMS/=0)THEN
               CALL SMS_RGWALP_BCS_1(
      +          X       ,RES         ,V           ,RWBUF(1,N),LPRW(K), 
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
@@ -263,25 +263,25 @@ C
             ITYP= NPRW(N4)
 C
             NSMS= NPRW(N7)
-            IF(ITYP.EQ.1.AND.NSMS.NE.0)THEN
+            IF(ITYP==1.AND.NSMS/=0)THEN
               CALL SMS_RGWALL_FRIC(
      +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K), 
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
      +          RWSAV(ISL),NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K), 
      +          FSAV(1,N),FOPT(1,N),RES         ,R     ,FREA       )
-            ELSEIF(ITYP.EQ.2.AND.NSMS.NE.0)THEN
+            ELSEIF(ITYP==2.AND.NSMS/=0)THEN
               CALL SMS_RGWALC_FRIC(
      +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K), 
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
      +          NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K),FSAV(1,N), 
      +          FOPT(1,N),RES      ,R       ,FREA       )
-            ELSEIF(ITYP.EQ.3.AND.NSMS.NE.0)THEN
+            ELSEIF(ITYP==3.AND.NSMS/=0)THEN
               CALL SMS_RGWALS_FRIC(
      +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K), 
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
      +          NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K),FSAV(1,N), 
      +          FOPT(1,N),RES      ,R       ,FREA       )
-            ELSEIF(ITYP.EQ.4.AND.NSMS.NE.0)THEN
+            ELSEIF(ITYP==4.AND.NSMS/=0)THEN
               CALL SMS_RGWALP_FRIC(
      +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K), 
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
@@ -315,25 +315,25 @@ C
             END DO
 C
             NSMS= NPRW(N7)
-            IF(ITYP.EQ.1.AND.NSMS.NE.0)THEN
+            IF(ITYP==1.AND.NSMS/=0)THEN
               CALL SMS_RGWALL_BILAN(
      +          X       ,FREA        ,V           ,RWBUF(1,N),LPRW(K), 
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT  ,
      +          RWSAV(ISL),NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K), 
      +          FSAV(1,N),FOPT(1,N),FRWL6(1,1,N),A     )
-            ELSEIF(ITYP.EQ.2.AND.NSMS.NE.0)THEN
+            ELSEIF(ITYP==2.AND.NSMS/=0)THEN
               CALL SMS_RGWALC_BILAN(
      +          X       ,FREA      ,V           ,RWBUF(1,N),LPRW(K), 
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
      +          NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K),FSAV(1,N), 
      +          FOPT(1,N),FRWL6(1,1,N),A    )
-            ELSEIF(ITYP.EQ.3.AND.NSMS.NE.0)THEN
+            ELSEIF(ITYP==3.AND.NSMS/=0)THEN
               CALL SMS_RGWALS_BILAN(
      +          X       ,FREA        ,V           ,RWBUF(1,N),LPRW(K), 
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
      +          NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K),FSAV(1,N), 
      +          FOPT(1,N),FRWL6(1,1,N),A    )
-            ELSEIF(ITYP.EQ.4.AND.NSMS.NE.0)THEN
+            ELSEIF(ITYP==4.AND.NSMS/=0)THEN
               CALL SMS_RGWALP_BILAN(
      +          X       ,FREA        ,V           ,RWBUF(1,N),LPRW(K), 
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
@@ -358,7 +358,7 @@ C
               IF(NPRW(N3) /= 0) THEN
                 IF(NSPMD > 1) THEN
 Cel si proc concerne par le rgwall
-                  IF(FR_WALL(ISPMD+1,N).NE.0) THEN
+                  IF(FR_WALL(ISPMD+1,N)/=0) THEN
                     CALL SPMD_EXCH_FR6(FR_WALL(1,N),FRWL6(1,1,N),7*6)
                   ENDIF
                   PMAIN = FR_WALL(NSPMD+2,N)

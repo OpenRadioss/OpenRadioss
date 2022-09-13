@@ -78,7 +78,7 @@ C     REAL
      .   VYG(MVSIZ),VY,VZ,Y,Z
 C-----------------------------------------------
 C
-C     JCVT.NE.0 Lagrangian case only
+C     JCVT/=0 Lagrangian case only
       DO I=LFT,LLT
         VY1(I)=V(2,NC1(I))
         VZ1(I)=V(3,NC1(I))
@@ -125,7 +125,7 @@ C
 C AUTRE FORMULE AIREM(I)=2.*(PZ2(I)*PY1(I)-PZ1(I)*PY2(I))
       END DO
 C
-      IF(N2D.EQ.1)THEN
+      IF(N2D==1)THEN
         DO I=LFT,LLT
           Y =Y1(I)+Y2(I)+Y3(I)+Y4(I)
           Z =Z1(I)+Z2(I)+Z3(I)+Z4(I)
@@ -141,7 +141,7 @@ C
       END DO
 C
       DO I=LFT,LLT
-        IF(AIREM(I).GT.ZERO) THEN
+        IF(AIREM(I)>ZERO) THEN
           EYY(I)=(PY1(I)*VY13(I)+PY2(I)*VY24(I))/AIREM(I)
           EZZ(I)=(PZ1(I)*VZ13(I)+PZ2(I)*VZ24(I))/AIREM(I)
           ETT(I)=ZERO
@@ -160,9 +160,9 @@ C
         END IF
       END DO
 C
-      IF(N2D.EQ.1) THEN
+      IF(N2D==1) THEN
         DO I=LFT,LLT
-          IF (YAVG(I).GT.ZERO)THEN
+          IF (YAVG(I)>ZERO)THEN
             VY=VY1(I)+VY2(I)+VY3(I)+VY4(I)
             VZ=VZ1(I)+VZ2(I)+VZ3(I)+VZ4(I)
             VYG(I) =R22(I)*VY+R23(I)*VZ

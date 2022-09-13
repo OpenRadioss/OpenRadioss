@@ -79,11 +79,11 @@ C
 
 C----- Check if Id of subdomains-----------------------------------C
 
-        IF (NSUBDOM.GT.0) THEN
+        IF (NSUBDOM>0) THEN
          DO N=1,NSUBDOM-1
            IGR = ISUBDOM(2,N)
 	       DO I=N+1,NSUBDOM
-	         IF (IGR.EQ.ISUBDOM(2,I)) THEN 
+	         IF (IGR==ISUBDOM(2,I)) THEN 
                 CALL ANCMSG(MSGID=792,
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO,
@@ -105,7 +105,7 @@ C----- Check of parts of subdomains-------------------------------C
             DO I=1,ISUBDOM(1,N)
               IF(K == ISUBDOM_PART(I+ADD))THEN
                   TAGPART(K)=TAGPART(K)+1
-		    IF (TAGPART(K).GT.1) THEN 
+		    IF (TAGPART(K)>1) THEN 
                    CALL ANCMSG(MSGID=827,
      .                         MSGTYPE=MSGERROR,
      .                         ANMODE=ANINFO,I1=ISUBDOM(1,N),
@@ -135,7 +135,7 @@ C----- Check of multidomains node groups-----------------------------C
            IGR = IEXTER(1,N)
            IGRS = GRFIND(IGR,IGRNOD,MESS)
            IEXTER(1,N) = IGRS	   
-           IF (IGRS.EQ.0) IERR=IERR+1
+           IF (IGRS==0) IERR=IERR+1
 	END DO
 
 C--------------------------------------------------------------------C

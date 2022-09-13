@@ -110,7 +110,7 @@ C-----------------------------------------------
         USENS=IGEO(3,MGN(I))
         IFL=NINT(GEO(80,MGN(I)))
         DO K=1,NSENSOR
-          IF(ABS(USENS).EQ.LSENSOR(1,K))ISENS=K
+          IF(ABS(USENS)==LSENSOR(1,K))ISENS=K
         ENDDO
         IF( IFL == 2) THEN
 C
@@ -148,7 +148,7 @@ C  OFF     1.
 C            \_  rupture eventuelle du ressort => 0. 
 C
 C
-            IF(TT.GT.SENSOR(2,ISENS)) OFF(I) = ZERO
+            IF(TT>SENSOR(2,ISENS)) OFF(I) = ZERO
         ENDIF
       ENDDO
 C

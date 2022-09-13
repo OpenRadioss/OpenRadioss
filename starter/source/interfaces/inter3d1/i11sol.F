@@ -63,24 +63,24 @@ C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
 C
       NEL=0
-      IF(NUMELS.EQ.0) RETURN
+      IF(NUMELS==0) RETURN
        NUSERM = -1
        DO 230 IAD=KNOD2ELS(IRECT(1,I))+1,KNOD2ELS(IRECT(1,I)+1)
           N = NOD2ELS(IAD)
           DO 220 JJ=1,2
             II=IRECT(JJ,I)
             DO K=1,8
-              IF(IXS(K+1,N).EQ.II) GOTO 220
+              IF(IXS(K+1,N)==II) GOTO 220
             ENDDO
             IF(N > NUMELS8 .AND. N <= NUMELS8+NUMELS10 )THEN
               DO K=1,6
-                IF(IXS10(K,N-NUMELS8).EQ.II) GOTO 220
+                IF(IXS10(K,N-NUMELS8)==II) GOTO 220
               ENDDO
             ENDIF
             GOTO 230
   220     CONTINUE
           NUSER = IXS(11,N)
-          IF (NUSER.GT.NUSERM) THEN
+          IF (NUSER>NUSERM) THEN
             NEL = N
             NUSERM = NUSER
           ENDIF

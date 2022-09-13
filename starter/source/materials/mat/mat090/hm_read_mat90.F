@@ -151,7 +151,7 @@ C-----------------------------------------------
      .                C1=TITR,
      .                I2=IFUNC(I))
         ENDIF
-        IF(YFAC(I) .EQ. ZERO) YFAC(I) = YFAC_DIM(I) * ONE
+        IF(YFAC(I) == ZERO) YFAC(I) = YFAC_DIM(I) * ONE
       ENDDO
       HYS = ABS(HYS)
       IF (NFUNC > 0  .AND. HYS == ZERO) IFLAG = 1     
@@ -159,7 +159,7 @@ C-----------------------------------------------
       IF (SHAPE == ZERO) SHAPE = ONE
       IF (ALPHA == ZERO) ALPHA = ONE
       IF (HYS  == ZERO) HYS = ONE
-      IF (RHOR.EQ.ZERO) RHOR=RHO0
+      IF (RHOR==ZERO) RHOR=RHO0
       IF (FCUT == ZERO ) THEN
         CALL HM_GET_FLOATV_DIM('Fcut'      , FCUT_UNIT   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         FCUT = EP03*FCUT_UNIT

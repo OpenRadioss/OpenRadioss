@@ -139,40 +139,40 @@ C
           I10 = I8-NUMELS8
           I20 = I10-NUMELS10
           I16 = I20-NUMELS20
-          IF(I16.GE.1.AND.I16.LE.NUMELS16)THEN
+          IF(I16>=1.AND.I16<=NUMELS16)THEN
             LLT16=LLT16+1
             INDEX16(LLT16)=I
-            IF(LLT16.EQ.MVSIZ-1)THEN
+            IF(LLT16==MVSIZ-1)THEN
               CALL I16BOX(
      1            LFT16,LLT16  ,NELEM,EMINX,NMEF ,NMEL  ,
      2            X    ,V      ,A    ,IXS  ,IXS16,SIZE_T,
      3            XMSR ,INDEX16,XSAV  )
               LLT16=0
             ENDIF
-          ELSEIF(I20.GE.1.AND.I20.LE.NUMELS20)THEN
+          ELSEIF(I20>=1.AND.I20<=NUMELS20)THEN
             LLT20=LLT20+1
             INDEX20(LLT20)=I
-            IF(LLT20.EQ.MVSIZ-1)THEN
+            IF(LLT20==MVSIZ-1)THEN
               CALL I20BOX(
      1            LFT20,LLT20  ,NELEM,EMINX,NMEF ,NMEL  ,
      2            X    ,V      ,A    ,IXS  ,IXS20,SIZE_T,
      3            XMSR ,INDEX20,XSAV  )
               LLT20=0
             ENDIF
-          ELSEIF(I10.GE.1)THEN
+          ELSEIF(I10>=1)THEN
             LLT10=LLT10+1
             INDEX10(LLT10)=I
-            IF(LLT10.EQ.MVSIZ-1)THEN
+            IF(LLT10==MVSIZ-1)THEN
               CALL I10BOX(
      1            LFT10,LLT10  ,NELEM,EMINX,NMEF ,NMEL  ,
      2            X    ,V      ,A    ,IXS  ,IXS10,SIZE_T,
      3            XMSR ,INDEX10,XSAV  )
               LLT10=0
             ENDIF
-          ELSEIF(I8.GE.1)THEN
+          ELSEIF(I8>=1)THEN
             LLT8=LLT8+1
             INDEX8(LLT8)=I
-            IF(LLT8.EQ.MVSIZ-1)THEN
+            IF(LLT8==MVSIZ-1)THEN
               CALL I8BOX(
      1            LFT8 ,LLT8   ,NELEM,EMINX,NMEF ,NMEL  ,
      2            X    ,V      ,A    ,IXS  ,SIZE_T,
@@ -181,19 +181,19 @@ C
             ENDIF
           ENDIF
       END DO
-      IF(LLT16.GT.0)CALL I16BOX(
+      IF(LLT16>0)CALL I16BOX(
      1            LFT16,LLT16  ,NELEM,EMINX,NMEF ,NMEL  ,
      2            X    ,V      ,A    ,IXS  ,IXS16,SIZE_T,
      3            XMSR ,INDEX16,XSAV  )
-      IF(LLT20.GT.0)CALL I20BOX(
+      IF(LLT20>0)CALL I20BOX(
      1            LFT20,LLT20  ,NELEM,EMINX,NMEF ,NMEL  ,
      2            X    ,V      ,A    ,IXS  ,IXS20,SIZE_T,
      3            XMSR ,INDEX20,XSAV  )
-      IF(LLT8.GT.0)CALL I8BOX(
+      IF(LLT8>0)CALL I8BOX(
      1            LFT8 ,LLT8   ,NELEM,EMINX,NMEF ,NMEL  ,
      2            X    ,V      ,A    ,IXS  ,SIZE_T,
      3            XMSR ,INDEX8 ,XSAV  )
-      IF(LLT10.GT.0)CALL I10BOX(
+      IF(LLT10>0)CALL I10BOX(
      1            LFT10,LLT10  ,NELEM,EMINX,NMEF ,NMEL  ,
      2            X    ,V      ,A    ,IXS  ,IXS10,SIZE_T,
      3            XMSR ,INDEX10,XSAV  )
@@ -616,7 +616,7 @@ C-----------------------------------------------------------------------
             XMSR(IDIR+3)=MIN(XMSR(IDIR+3),X8-XSAV(IDIR,J))
 C
             J = IXS20(1,N20)
-            IF(J.NE.0)THEN	
+            IF(J/=0)THEN	
               X9  = X(IDIR,J)+DT2*(V(IDIR,J)+DT12*A(IDIR,J))
               XMSR(IDIR)  =MAX(XMSR(IDIR)  ,X9-XSAV(IDIR,J))
               XMSR(IDIR+3)=MIN(XMSR(IDIR+3),X9-XSAV(IDIR,J))
@@ -624,7 +624,7 @@ C
 	      X9=0.5*(X(IDIR,IXS(2,NE))+X(IDIR,IXS(3,NE)))
 	    ENDIF
             J = IXS20(2,N20)
-            IF(J.NE.0)THEN
+            IF(J/=0)THEN
               X10 = X(IDIR,J)+DT2*(V(IDIR,J)+DT12*A(IDIR,J))
               XMSR(IDIR)  =MAX(XMSR(IDIR)  ,X10-XSAV(IDIR,J))
               XMSR(IDIR+3)=MIN(XMSR(IDIR+3),X10-XSAV(IDIR,J))
@@ -632,7 +632,7 @@ C
 	      X10=0.5*(X(IDIR,IXS(3,NE))+X(IDIR,IXS(4,NE)))
 	    ENDIF
             J = IXS20(3,N20)
-            IF(J.NE.0)THEN
+            IF(J/=0)THEN
              X11 = X(IDIR,J)+DT2*(V(IDIR,J)+DT12*A(IDIR,J))
              XMSR(IDIR)  =MAX(XMSR(IDIR)  ,X11-XSAV(IDIR,J))
              XMSR(IDIR+3)=MIN(XMSR(IDIR+3),X11-XSAV(IDIR,J))
@@ -640,7 +640,7 @@ C
 	      X11=0.5*(X(IDIR,IXS(4,NE))+X(IDIR,IXS(5,NE)))
 	    ENDIF
             J = IXS20(4,N20)
-            IF(J.NE.0)THEN	
+            IF(J/=0)THEN	
              X12 = X(IDIR,J)+DT2*(V(IDIR,J)+DT12*A(IDIR,J))
              XMSR(IDIR)  =MAX(XMSR(IDIR)  ,X12-XSAV(IDIR,J))
              XMSR(IDIR+3)=MIN(XMSR(IDIR+3),X12-XSAV(IDIR,J))
@@ -648,7 +648,7 @@ C
 	      X12=0.5*(X(IDIR,IXS(5,NE))+X(IDIR,IXS(2,NE)))
 	    ENDIF
             J = IXS20(5,N20)
-            IF(J.NE.0)THEN	
+            IF(J/=0)THEN	
              X13 = X(IDIR,J)+DT2*(V(IDIR,J)+DT12*A(IDIR,J))
              XMSR(IDIR)  =MAX(XMSR(IDIR)  ,X13-XSAV(IDIR,J))
              XMSR(IDIR+3)=MIN(XMSR(IDIR+3),X13-XSAV(IDIR,J))
@@ -656,7 +656,7 @@ C
 	      X13=0.5*(X(IDIR,IXS(2,NE))+X(IDIR,IXS(6,NE)))
 	    ENDIF  	   
             J = IXS20(6,N20)
-            IF(J.NE.0)THEN	
+            IF(J/=0)THEN	
              X14 = X(IDIR,J)+DT2*(V(IDIR,J)+DT12*A(IDIR,J))
              XMSR(IDIR)  =MAX(XMSR(IDIR)  ,X14-XSAV(IDIR,J))
              XMSR(IDIR+3)=MIN(XMSR(IDIR+3),X14-XSAV(IDIR,J))
@@ -664,7 +664,7 @@ C
 	      X14=0.5*(X(IDIR,IXS(3,NE))+X(IDIR,IXS(6,NE)))
 	    ENDIF
             J = IXS20(7,N20)
-            IF(J.NE.0)THEN	
+            IF(J/=0)THEN	
              X15 = X(IDIR,J)+DT2*(V(IDIR,J)+DT12*A(IDIR,J))
              XMSR(IDIR)  =MAX(XMSR(IDIR)  ,X15-XSAV(IDIR,J))
              XMSR(IDIR+3)=MIN(XMSR(IDIR+3),X15-XSAV(IDIR,J))
@@ -672,7 +672,7 @@ C
 	      X15=0.5*(X(IDIR,IXS(4,NE))+X(IDIR,IXS(8,NE)))
 	    ENDIF
             J = IXS20(8,N20)
-            IF(J.NE.0)THEN
+            IF(J/=0)THEN
              X16 = X(IDIR,J)+DT2*(V(IDIR,J)+DT12*A(IDIR,J))
              XMSR(IDIR)  =MAX(XMSR(IDIR)  ,X16-XSAV(IDIR,J))
              XMSR(IDIR+3)=MIN(XMSR(IDIR+3),X16-XSAV(IDIR,J))
@@ -680,7 +680,7 @@ C
 	      X16=0.5*(X(IDIR,IXS(5,NE))+X(IDIR,IXS(9,NE)))
 	    ENDIF
             J = IXS20(9,N20)
-            IF(J.NE.0)THEN	
+            IF(J/=0)THEN	
              X17 = X(IDIR,J)+DT2*(V(IDIR,J)+DT12*A(IDIR,J))
              XMSR(IDIR)  =MAX(XMSR(IDIR)  ,X17-XSAV(IDIR,J))
              XMSR(IDIR+3)=MIN(XMSR(IDIR+3),X17-XSAV(IDIR,J))
@@ -688,7 +688,7 @@ C
 	      X17=0.5*(X(IDIR,IXS(6,NE))+X(IDIR,IXS(7,NE)))
 	    ENDIF
             J = IXS20(10,N20)
-            IF(J.NE.0)THEN
+            IF(J/=0)THEN
              X18 = X(IDIR,J)+DT2*(V(IDIR,J)+DT12*A(IDIR,J))
              XMSR(IDIR)  =MAX(XMSR(IDIR)  ,X18-XSAV(IDIR,J))
              XMSR(IDIR+3)=MIN(XMSR(IDIR+3),X18-XSAV(IDIR,J))
@@ -696,7 +696,7 @@ C
 	      X18=0.5*(X(IDIR,IXS(7,NE))+X(IDIR,IXS(8,NE)))
 	    ENDIF
             J = IXS20(11,N20)
-            IF(J.NE.0)THEN	
+            IF(J/=0)THEN	
              X19 = X(IDIR,J)+DT2*(V(IDIR,J)+DT12*A(IDIR,J))
              XMSR(IDIR)  =MAX(XMSR(IDIR)  ,X19-XSAV(IDIR,J))
              XMSR(IDIR+3)=MIN(XMSR(IDIR+3),X19-XSAV(IDIR,J))
@@ -704,7 +704,7 @@ C
 	      X19=0.5*(X(IDIR,IXS(8,NE))+X(IDIR,IXS(9,NE)))
 	    ENDIF
             J = IXS20(12,N20)
-            IF(J.NE.0)THEN
+            IF(J/=0)THEN
              X20 = X(IDIR,J)+DT2*(V(IDIR,J)+DT12*A(IDIR,J))
              XMSR(IDIR)  =MAX(XMSR(IDIR)  ,X20-XSAV(IDIR,J))
              XMSR(IDIR+3)=MIN(XMSR(IDIR+3),X20-XSAV(IDIR,J))

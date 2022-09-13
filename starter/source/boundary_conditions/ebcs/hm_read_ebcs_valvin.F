@@ -113,18 +113,18 @@ C-----------------------------------------------
     
         ISU=0
         INGR2USR => IGRSURF(1:NSURF)%ID
-        IF (SURF.NE.0) ISU=NGR2USR(SURF,INGR2USR,NSURF)
+        IF (SURF/=0) ISU=NGR2USR(SURF,INGR2USR,NSURF)
         NSEG=0
-        IF (ISU.NE.0) NSEG=IGRSURF(ISU)%NSEG
-        IF(SURF.EQ.0)THEN
+        IF (ISU/=0) NSEG=IGRSURF(ISU)%NSEG
+        IF(SURF==0)THEN
            IERR=IERR+1
            WRITE(ISTDO,'(6X,A)')' ** A SURFACE SHOULD BE INPUT'  
            WRITE(IOUT, '(6X,A)')' ** A SURFACE SHOULD BE INPUT'       
-        ELSEIF(ISU.EQ.0)THEN
+        ELSEIF(ISU==0)THEN
            IERR=IERR+1
            WRITE(ISTDO,*)' ** ERROR SURFACE NOT FOUND, ID=',SURF
            WRITE(IOUT,*) ' ** ERROR SURFACE NOT FOUND, ID=',SURF        
-        ELSEIF(NSEG.EQ.0)THEN
+        ELSEIF(NSEG==0)THEN
            IERR=IERR+1
            WRITE(ISTDO,*)' ** ERROR EMPTY SURFACE',SURF
            WRITE(IOUT,*) ' ** ERROR EMPTY SURFACE',SURF
@@ -149,24 +149,24 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('rad_ebcs_r1',  R1  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('rad_ebcs_r2',  R2  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       
-        IF(SURF.NE.0 .AND. ISU.NE.0 .AND. NSEG.NE.0)THEN
+        IF(SURF/=0 .AND. ISU/=0 .AND. NSEG/=0)THEN
          WRITE(IOUT,1002)ID,TRIM(TITR)
          WRITE(IOUT,1101)SURF,NSEG,C,PRES,IPRES,RHO,IRHO,ENER,IENER,LCAR,R1,R2
         ENDIF        
         DO J=1,NFUNCT
-          IF(IPRES.NE.0 .AND. IPRES.EQ.NPC(J)) THEN 
+          IF(IPRES/=0 .AND. IPRES==NPC(J)) THEN 
              IPRES=J
              EXIT
           ENDIF
         ENDDO
         DO J=1,NFUNCT
-           IF(IRHO.NE.0 .AND. IRHO.EQ.NPC(J)) THEN 
+           IF(IRHO/=0 .AND. IRHO==NPC(J)) THEN 
               IRHO=J
               EXIT
            ENDIF
         ENDDO
         DO J=1,NFUNCT
-           IF(IENER.NE.0 .AND. IENER.EQ.NPC(J)) THEN
+           IF(IENER/=0 .AND. IENER==NPC(J)) THEN
               IENER=J
               EXIT
            ENDIF

@@ -189,12 +189,12 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('MLAW97_RL5'  ,RL(5)  ,IS_AVAILABLE, LSUBMODEL, UNITAB)      
 
       !========== DEFAULT VALUES=============!              
-      IF(RHOR.EQ.ZERO)RHOR=RHO0
+      IF(RHOR==ZERO)RHOR=RHO0
       PM(1) =RHOR
       PM(89)=RHO0
 
       !========== PARAMETER CHECK============!              
-      IF(W.EQ.ZERO)THEN
+      IF(W==ZERO)THEN
           CALL ANCMSG(
      .                MSGID   = 77          ,
      .                MSGTYPE = MSGERROR    ,

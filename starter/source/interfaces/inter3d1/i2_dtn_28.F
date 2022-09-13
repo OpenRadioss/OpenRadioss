@@ -224,8 +224,8 @@ C
         MR=DET*INX*MAX(MRX,MRY,MRZ)
 C
         FACT = ONE
-        IF (IRODDL.EQ.1) THEN
-        IF (IN(J1).GT.ZERO.AND.IN(J2).GT.ZERO.AND.IN(J3).GT.ZERO.AND.IN(J4).GT.ZERO) THEN
+        IF (IRODDL==1) THEN
+        IF (IN(J1)>ZERO.AND.IN(J2)>ZERO.AND.IN(J3)>ZERO.AND.IN(J4)>ZERO) THEN
 C--       Inertie transmise sous forme d'inertie
           FACT = ZERO
         ENDIF
@@ -251,7 +251,7 @@ C
         STIFN(J3)=STIFN(J3) + STF
         STIFN(J4)=STIFN(J4) + STF
 C
-        IF (IRODDL.EQ.1) THEN
+        IF (IRODDL==1) THEN
           IN(J1)=IN(J1)+INX*FOURTH*(ONE-FACT)
           IN(J2)=IN(J2)+INX*FOURTH*(ONE-FACT)
           IN(J3)=IN(J3)+INX*FOURTH*(ONE-FACT)
@@ -261,7 +261,7 @@ C
         MS(I)=ZERO
         STIFN(I)=EM20
 C  
-        IF (IRODDL.EQ.1) THEN
+        IF (IRODDL==1) THEN
           IN(I)=ZERO
           STIFR(I)=EM20
         ENDIF

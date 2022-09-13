@@ -324,7 +324,7 @@ C------------------------
         ENDDO
        ENDIF
 !     ++++++++++
-       IF(ISPMD.EQ.0) THEN
+       IF(ISPMD==0) THEN
          RESP0 = 0
          DO NN=1,NSPGROUP
           COMPTEUR = 0
@@ -338,7 +338,7 @@ C------------------------
           ENDDO    ! k=1,nspmd
 
           JJ_OLD = COMPTEUR+RESP0
-          IF(JJ_OLD.GT.0) THEN
+          IF(JJ_OLD>0) THEN
             RES=MOD(JJ_OLD,6)
             WRTLEN=JJ_OLD-RES
             IF (WRTLEN > 0) THEN
@@ -446,7 +446,7 @@ C-----------------------------------------------
      .      '#(NPG=Surface Quadratue Points; For QEPH,QBAT,DKT18: NPG>1) '
             IF (OUTYY_FMT == 2) THEN
               WRITE(IUGEO,'(A)')
-     .        '#FORMAT: (IF NPT.GT.0) (2I8/1P6E12.5/6E12.5) '
+     .        '#FORMAT: (IF NPT>0) (2I8/1P6E12.5/6E12.5) '
               WRITE(IUGEO,'(A)')
      .        '#NPT,NPG,THICK,EM,EB,H1,H2,H3'
               WRITE(IUGEO,'(2A)')
@@ -461,7 +461,7 @@ C-----------------------------------------------
      .        'K=1,NPG),I=1,NUMSHL)'
             ELSE
               WRITE(IUGEO,'(A)')
-     .        '#FORMAT: (IF NPT.GT.0) (2I10/1P6E20.13/6E20.13) '
+     .        '#FORMAT: (IF NPT>0) (2I10/1P6E20.13/6E20.13) '
               WRITE(IUGEO,'(A)')
      .        '#NPT,NPG,THICK,EM,EB,H1,H2,H3'
               WRITE(IUGEO,'(2A)')
@@ -805,7 +805,7 @@ C-----------------------------------------------------------------------
         ENDDO
        ENDIF
 !     ++++++++++
-       IF(ISPMD.EQ.0) THEN
+       IF(ISPMD==0) THEN
          DO NN=1,NSPGROUP
           COMPTEUR = 0
           DO K = 1,NSPMD
@@ -819,7 +819,7 @@ C-----------------------------------------------------------------------
            
 
           JJ_OLD = COMPTEUR
-          IF(JJ_OLD.GT.0) THEN
+          IF(JJ_OLD>0) THEN
 
             IF (ITENS == 95) THEN
               J = 1
@@ -995,7 +995,7 @@ C-----------------------------------------------
      . .OR.OUTP_CT( 4) == 1.OR.OUTP_CT( 5) == 1.OR.OUTP_CT( 6) == 1
      . .OR.OUTP_CT( 7) == 1.OR.OUTP_CT( 8) == 1.OR.OUTP_CT(91) == 1
      . .OR.OUTP_CT(92) == 1.OR.OUTP_CT(93) == 1.OR.OUTP_CT(94) == 1
-     . .OR.COUNT.GT.0 )   THEN
+     . .OR.COUNT>0 )   THEN
 
         NGF = 1
         NGL = 0

@@ -90,7 +90,7 @@ C
 C SHELL 4-NODES
 C
        NUMSHEL0=NUMSHEL
-       IF(NUMSHEL.GT.0)THEN
+       IF(NUMSHEL>0)THEN
 C        tri des elts du Y000 par ID croissant
          DO ISYS = 1, NUMSHEL
            ITRI(ISYS) =ID_SIGSH(ISYS)
@@ -104,9 +104,9 @@ C        checking INISHE : search for multiply define
            JE  =ID_SIGSH(JSYS)
            IF(JE == IE)THEN
              DO K=2,NSIGSH
-               IF(SIGSH(K,JSYS).NE.ZERO)THEN
-                 IF(SIGSH(K,ISYS).NE.ZERO.AND.
-     .            SIGSH(K,ISYS).NE.SIGSH(K,JSYS))THEN
+               IF(SIGSH(K,JSYS)/=ZERO)THEN
+                 IF(SIGSH(K,ISYS)/=ZERO.AND.
+     .            SIGSH(K,ISYS)/=SIGSH(K,JSYS))THEN
                    CALL ANCMSG(MSGID=595,
      .                         MSGTYPE=MSGERROR,
      .                         ANMODE=ANINFO_BLIND_1,
@@ -126,9 +126,9 @@ C        checking INISHE : search for multiply define
          COMPT=0
          DO J=1,NUMSHEL
            IE=ID_SIGSH(J)
-           IF(IE.NE.0)THEN
+           IF(IE/=0)THEN
              COMPT=COMPT+1
-             IF(COMPT.LT.J)THEN
+             IF(COMPT<J)THEN
                DO K=1,NSIGSH
                  SIGSH(K,COMPT)=SIGSH(K,J)
                END DO
@@ -142,7 +142,7 @@ C        checking INISHE : search for multiply define
          NUMSHEL=COMPT
        ENDIF
 C
-       IF(NUMSHEL.GT.0)THEN
+       IF(NUMSHEL>0)THEN
 C        tri des elts du Y000 par ID croissant
          DO ISYS = 1, NUMSHEL
            ITRI(ISYS) = ID_SIGSH(ISYS)
@@ -163,7 +163,7 @@ C        Nos systeme dans le Y000, des elts du D00
 C
 C SHELL 3-NODES
 C
-       IF(NUMSH3N.GT.0)THEN
+       IF(NUMSH3N>0)THEN
 C        tri des elts du Y000 par ID croissant
          DO ISYS = 1, NUMSH3N
            II=NUMSHEL0+ISYS
@@ -178,9 +178,9 @@ C
            JE  =ID_SIGSH(JSYS)
            IF(JE == IE)THEN
              DO K=2,NSIGSH
-               IF(SIGSH(K,JSYS).NE.ZERO)THEN
-                IF(SIGSH(K,ISYS).NE.ZERO.AND.
-     .            SIGSH(K,ISYS).NE.SIGSH(K,JSYS))THEN
+               IF(SIGSH(K,JSYS)/=ZERO)THEN
+                IF(SIGSH(K,ISYS)/=ZERO.AND.
+     .            SIGSH(K,ISYS)/=SIGSH(K,JSYS))THEN
                  CALL ANCMSG(MSGID=596,
      .                       MSGTYPE=MSGERROR,
      .                       ANMODE=ANINFO_BLIND_1,
@@ -200,9 +200,9 @@ C
          COMPT=0
          DO J=1,NUMSH3N
            IE=ID_SIGSH(NUMSHEL0+J)
-           IF(IE.NE.0)THEN
+           IF(IE/=0)THEN
              COMPT=COMPT+1
-             IF(NUMSHEL+COMPT.LT.NUMSHEL0+J)THEN
+             IF(NUMSHEL+COMPT<NUMSHEL0+J)THEN
                DO K=1,NSIGSH
                  SIGSH(K,NUMSHEL+COMPT)=SIGSH(K,NUMSHEL0+J)
                END DO
@@ -240,8 +240,8 @@ C        Nos systeme dans le Y000, des elts du D00
 C
 C BRICK
 C
-!!       IF(NSLASH(KINIBRI).NE.0)THEN
-       IF(NUMSOL.GT.0)THEN
+!!       IF(NSLASH(KINIBRI)/=0)THEN
+       IF(NUMSOL>0)THEN
 C
 C        tri des elts de SIGI par ID croissant
          DO ISYS = 1, NUMSOL
@@ -257,9 +257,9 @@ C        checking (search for multiply define) and compacting INISOL
            JE  =ID_SOLID_SIGI(JSYS)
            IF(JE == IE)THEN
              DO K=1,6
-               IF((SIGI(K,JSYS).NE.ZERO) .AND.
-     .            (SIGI(K,ISYS).NE.SIGI(K,JSYS))   )THEN
-                 IF(SIGI(K,ISYS).NE.ZERO)THEN
+               IF((SIGI(K,JSYS)/=ZERO) .AND.
+     .            (SIGI(K,ISYS)/=SIGI(K,JSYS))   )THEN
+                 IF(SIGI(K,ISYS)/=ZERO)THEN
                    CALL ANCMSG(MSGID=597,
      .                         MSGTYPE=MSGERROR,
      .                         ANMODE=ANINFO_BLIND_1,
@@ -270,9 +270,9 @@ C        checking (search for multiply define) and compacting INISOL
                END IF
              END DO
              DO K=8,10
-               IF(SIGI(K,JSYS).NE.ZERO .AND.
-     .            (SIGI(K,ISYS).NE.SIGI(K,JSYS))   )THEN
-                 IF(SIGI(K,ISYS).NE.ZERO)THEN
+               IF(SIGI(K,JSYS)/=ZERO .AND.
+     .            (SIGI(K,ISYS)/=SIGI(K,JSYS))   )THEN
+                 IF(SIGI(K,ISYS)/=ZERO)THEN
                    CALL ANCMSG(MSGID=597,
      .                         MSGTYPE=MSGERROR,
      .                         ANMODE=ANINFO_BLIND_1,
@@ -283,9 +283,9 @@ C        checking (search for multiply define) and compacting INISOL
                END IF
              END DO
              DO K=1,NSIGI
-               IF(SIGSP(K,JSYS).NE.ZERO .AND.
-     .            (SIGSP(K,ISYS).NE.SIGSP(K,JSYS))   )THEN
-                 IF(SIGSP(K,ISYS).NE.ZERO)THEN
+               IF(SIGSP(K,JSYS)/=ZERO .AND.
+     .            (SIGSP(K,ISYS)/=SIGSP(K,JSYS))   )THEN
+                 IF(SIGSP(K,ISYS)/=ZERO)THEN
                    CALL ANCMSG(MSGID=597,
      .                         MSGTYPE=MSGERROR,
      .                         ANMODE=ANINFO_BLIND_1,
@@ -304,9 +304,9 @@ C        checking (search for multiply define) and compacting INISOL
          COMPT=0
          DO J=1,NUMSOL
            IE=ID_SOLID_SIGI(J)
-           IF(IE.NE.0)THEN
+           IF(IE/=0)THEN
              COMPT=COMPT+1
-             IF(COMPT.LT.J)THEN
+             IF(COMPT<J)THEN
                DO K=1,6
                  SIGI(K,COMPT)=SIGI(K,J)
                END DO
@@ -324,7 +324,7 @@ C        checking (search for multiply define) and compacting INISOL
          NUMSOL=COMPT
        END IF
 C
-       IF(NUMSOL.GT.0)THEN
+       IF(NUMSOL>0)THEN
 C
 C        tri des elts du Y000 par ID croissant
          DO ISYS = 1, NUMSOL
@@ -346,8 +346,8 @@ C        Nos systeme dans le Y000, des elts du D00
 C
 C QUAD 2D
 C
-!!       IF(NSLASH(KINIQUA).NE.0)THEN
-       IF(NUMQUAD.GT.0)THEN
+!!       IF(NSLASH(KINIQUA)/=0)THEN
+       IF(NUMQUAD>0)THEN
 C
 C        tri des elts de SIGI par ID croissant
          DO ISYS = 1, NUMQUAD
@@ -363,8 +363,8 @@ C        checking (search for multiply define) and compacting INIQUA
            JE  =ID_QUAD_SIGI(JSYS)
            IF(JE == IE)THEN
              DO K=1,6
-               IF(SIGI(K,JSYS).NE.ZERO)THEN
-                 IF(SIGI(K,ISYS).NE.ZERO)THEN
+               IF(SIGI(K,JSYS)/=ZERO)THEN
+                 IF(SIGI(K,ISYS)/=ZERO)THEN
                    CALL ANCMSG(MSGID=598,
      .                         MSGTYPE=MSGERROR,
      .                         ANMODE=ANINFO_BLIND_1,
@@ -375,8 +375,8 @@ C        checking (search for multiply define) and compacting INIQUA
                END IF
              END DO
              DO K=8,10
-               IF(SIGI(K,JSYS).NE.ZERO)THEN
-                 IF(SIGI(K,ISYS).NE.ZERO)THEN
+               IF(SIGI(K,JSYS)/=ZERO)THEN
+                 IF(SIGI(K,ISYS)/=ZERO)THEN
                    CALL ANCMSG(MSGID=598,
      .                         MSGTYPE=MSGERROR,
      .                         ANMODE=ANINFO_BLIND_1,
@@ -395,9 +395,9 @@ C        checking (search for multiply define) and compacting INIQUA
          COMPT=0
          DO J=1,NUMQUAD
            IE=ID_QUAD_SIGI(J)
-           IF(IE.NE.0)THEN
+           IF(IE/=0)THEN
              COMPT=COMPT+1
-             IF(COMPT.LT.J)THEN
+             IF(COMPT<J)THEN
                DO K=1,6
                  SIGI(K,COMPT)=SIGI(K,J)
                END DO
@@ -412,7 +412,7 @@ C        checking (search for multiply define) and compacting INIQUA
          NUMQUAD=COMPT
        END IF
 C
-       IF(NUMQUAD.GT.0)THEN
+       IF(NUMQUAD>0)THEN
 C
 C        tri des elts du Y000 par ID croissant
          DO ISYS = 1, NUMQUAD
@@ -436,7 +436,7 @@ C
 C
 C SPH
 C
-      IF(NUMSPHY.GT.0)THEN
+      IF(NUMSPHY>0)THEN
 C
 C       tri des elts du Y000 par ID croissant
         DO ISYS = 1, NUMSPHY
@@ -457,7 +457,7 @@ C       Nos systeme dans le Y000, des elts du D00
       END IF
 C
 C Bizarement place (FA)
-      IF (ABS(ISIGI).LT.3) THEN
+      IF (ABS(ISIGI)<3) THEN
         KSIGSH3=1+NUMELC
       ELSE
         KSIGSH3=1+NUMSHEL

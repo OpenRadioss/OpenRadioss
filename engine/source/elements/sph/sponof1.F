@@ -133,7 +133,7 @@ C      loop over active particles related to IPRT.
 C-----------------------------------------------
       DO I=1,NSPHIO
       ITYPE=ISPHIO(1,I)
-      IF(ITYPE.EQ.1)THEN
+      IF(ITYPE==1)THEN
        IPRT   =ISPHIO(2,I)
 C------
 C      general inlet.
@@ -142,19 +142,19 @@ C      general inlet.
 C
        IFVITS=ISPHIO(8,I)
        VN    =ZERO
-       IF(IFVITS.NE.0)THEN
+       IF(IFVITS/=0)THEN
         NPF = (NPC(IFVITS+1)-NPC(IFVITS))/2
         II  = NPC(IFVITS)
-        IF (T05.LE.PLD(II)) THEN
+        IF (T05<=PLD(II)) THEN
           PENTV=(PLD(II+3)-PLD(II+1))/(PLD(II+2)-PLD(II))
           VN   =PLD(II+1)+PENTV*(T05-PLD(II))
-        ELSEIF (T05.GE.PLD(II+2*(NPF-1))) THEN
+        ELSEIF (T05>=PLD(II+2*(NPF-1))) THEN
           JJ=II+2*(NPF-1)
           PENTV=(PLD(JJ+1)-PLD(JJ-1))/(PLD(JJ)-PLD(JJ-2))
           VN   =PLD(JJ+1)+MAX(-PLD(JJ+1),PENTV*(T05-PLD(JJ)))
         ELSE
           DO IPT=1,NPF-1
-           IF (PLD(II).LE.T05.AND.T05.LE.PLD(II+2)) THEN
+           IF (PLD(II)<=T05.AND.T05<=PLD(II+2)) THEN
             PENTV=(PLD(II+3)-PLD(II+1))/(PLD(II+2)-PLD(II))
             VN   =PLD(II+1)+PENTV*(T05-PLD(II))
             GOTO 20
@@ -169,21 +169,21 @@ C------
        VT =VV*VV
 C------
        IFDENS=ISPHIO(5,I)
-       IF(IFDENS.EQ.0)THEN
+       IF(IFDENS==0)THEN
         RHON=VSPHIO(IVAD)
        ELSE
         NPF = (NPC(IFDENS+1)-NPC(IFDENS))/2
         II  = NPC(IFDENS)
-        IF (TT.LE.PLD(II)) THEN
+        IF (TT<=PLD(II)) THEN
           PENTR=(PLD(II+3)-PLD(II+1))/(PLD(II+2)-PLD(II))
           RHON =PLD(II+1)+PENTR*(TT-PLD(II))
-        ELSEIF (TT.GE.PLD(II+2*(NPF-1))) THEN
+        ELSEIF (TT>=PLD(II+2*(NPF-1))) THEN
           JJ=II+2*(NPF-1)
           PENTR=(PLD(JJ+1)-PLD(JJ-1))/(PLD(JJ)-PLD(JJ-2))
           RHON =PLD(JJ+1)+MAX(-PLD(JJ+1),PENTR*(TT-PLD(JJ)))
         ELSE
           DO IPT=1,NPF-1
-           IF (PLD(II).LE.TT.AND.TT.LE.PLD(II+2)) THEN
+           IF (PLD(II)<=TT.AND.TT<=PLD(II+2)) THEN
             PENTR=(PLD(II+3)-PLD(II+1))/(PLD(II+2)-PLD(II))
             RHON =PLD(II+1)+PENTR*(TT-PLD(II))
             GOTO 30
@@ -196,21 +196,21 @@ C------
        ENDIF
 C------
        IFENER=ISPHIO(7,I)
-       IF(IFENER.EQ.0)THEN
+       IF(IFENER==0)THEN
         EN=VSPHIO(IVAD+2)
        ELSE
         NPF = (NPC(IFENER+1)-NPC(IFENER))/2
         II  = NPC(IFENER)
-        IF (TT.LE.PLD(II)) THEN
+        IF (TT<=PLD(II)) THEN
           PENTE=(PLD(II+3)-PLD(II+1))/(PLD(II+2)-PLD(II))
           EN   =PLD(II+1)+PENTE*(TT-PLD(II))
-        ELSEIF (TT.GE.PLD(II+2*(NPF-1))) THEN
+        ELSEIF (TT>=PLD(II+2*(NPF-1))) THEN
           JJ=II+2*(NPF-1)
           PENTE=(PLD(JJ+1)-PLD(JJ-1))/(PLD(JJ)-PLD(JJ-2))
           EN   =PLD(JJ+1)+MAX(-PLD(JJ+1),PENTE*(TT-PLD(JJ)))
         ELSE
           DO IPT=1,NPF-1
-           IF (PLD(II).LE.TT.AND.TT.LE.PLD(II+2)) THEN
+           IF (PLD(II)<=TT.AND.TT<=PLD(II+2)) THEN
             PENTE=(PLD(II+3)-PLD(II+1))/(PLD(II+2)-PLD(II))
             EN   =PLD(II+1)+PENTE*(TT-PLD(II))
             GOTO 50
@@ -230,7 +230,7 @@ C      specific energy related to V0=MP/RHO0.
        EI   =EN*(RHO0/RHON)
        
 c default value        
-       IF(DIAM.EQ.ZERO) THEN
+       IF(DIAM==ZERO) THEN
          MP  = GET_U_GEO(1,IPROP)
          VOL = MP/RHO0
          DIAM= (SQR2*VOL)**THIRD
@@ -288,7 +288,7 @@ c call of SPHREQS with IBUFSSG_IO
           XBMAX=MAX(XBMAX,XP)
           YBMAX=MAX(YBMAX,YP)
           ZBMAX=MAX(ZBMAX,ZP)
-          IF(IN4.NE.IN3)THEN
+          IF(IN4/=IN3)THEN
            XP=X(1,IN4)
            YP=X(2,IN4)
            ZP=X(3,IN4)
@@ -314,8 +314,8 @@ C------
         XI=X(1,INOD)
         YI=X(2,INOD)
         ZI=X(3,INOD)
-        IF(     XI.GT.XBMIN.AND.YI.GT.YBMIN.AND.ZI.GT.ZBMIN
-     .     .AND.XI.LT.XBMAX.AND.YI.LT.YBMAX.AND.ZI.LT.ZBMAX)THEN
+        IF(     XI>XBMIN.AND.YI>YBMIN.AND.ZI>ZBMIN
+     .     .AND.XI<XBMAX.AND.YI<YBMAX.AND.ZI<ZBMAX)THEN
          NP2SORT=NP2SORT+1
          MWA(NP2SORT)=IACTIVE
         ENDIF
@@ -346,7 +346,7 @@ C      bucket.
           DBUCS=MAX(DBUCS,ABS(X3-X1))
           DBUCS=MAX(DBUCS,ABS(Y3-Y1))
           DBUCS=MAX(DBUCS,ABS(Z3-Z1))
-          IF(IN4.NE.IN3)THEN
+          IF(IN4/=IN3)THEN
            X4=X(1,IN4)
            Y4=X(2,IN4)
            Z4=X(3,IN4)
@@ -394,7 +394,7 @@ C------
 C      check active particles within distance / re-impose kinematic condition.
        DO KP=1,NP2SORT
         DPS=WA(KP)
-        IF(DPS.GE.0..AND.DPS.LT.DMAX)THEN
+        IF(DPS>=0..AND.DPS<DMAX)THEN
          IACTIVE=MWA(KP)
          N=LONFSPH(IACTIVE)
          INOD=KXSP(3,N)
@@ -420,17 +420,17 @@ c multiple count of cells to enter and to activate in SPMD
        DO J=0,(NSEGB-1)
         SSEG =VSPHIO(IX+1)
         VSPHIO(IX)=VSPHIO(IX)+RHON*SSEG*VV*DT1
-        IF(VSPHIO(IX).GE.MP)THEN
+        IF(VSPHIO(IX)>=MP)THEN
          N2ENTER=N2ENTER+1
         ENDIF
         IX=IX+2
        ENDDO
 C------
-       IF(N2ENTER.GT.0)THEN
+       IF(N2ENTER>0)THEN
         ISPHBUC=1
 C       find N2ENTER inactive particles related to same part.
         INACTIV=LPRTSPH(2,IPRT)-LPRTSPH(1,IPRT)
-        IF(INACTIV.LT.N2ENTER)THEN
+        IF(INACTIV<N2ENTER)THEN
           CALL ANCMSG(MSGID=175,ANMODE=ANINFO,
      .            I1=ISPHIO(NISPHIO,I))
           CALL ARRET(2)
@@ -441,7 +441,7 @@ C       enter N2ENTER particles.
         IX=IVAD+4
         IACTIVE=LPRTSPH(1,IPRT)
         DO J=0,(NSEGB-1)
-        IF(VSPHIO(IX).GE.MP)THEN
+        IF(VSPHIO(IX)>=MP)THEN
 C--------
          IACTIVE=IACTIVE+1
           N     =LONFSPH(IACTIVE)
@@ -465,7 +465,7 @@ c          IN4=IBUFSSG_IO(IAD2+NIBSPH*(J-1)+3)
           X3=X(1,IN3)
           Y3=X(2,IN3)
           Z3=X(3,IN3)
-         IF(IN4.NE.IN3)THEN
+         IF(IN4/=IN3)THEN
           X4=X(1,IN4)
           Y4=X(2,IN4)
           Z4=X(3,IN4)
@@ -502,7 +502,7 @@ C--------
          X(1,INOD)=XP
          X(2,INOD)=YP
          X(3,INOD)=ZP
-         IF (IRESP.EQ.1) THEN
+         IF (IRESP==1) THEN
            XDP(1,INOD)=XP
            XDP(2,INOD)=YP
            XDP(3,INOD)=ZP
@@ -514,7 +514,7 @@ C--------
          V(1,INOD)=VN*NX
          V(2,INOD)=VN*NY
          V(3,INOD)=VN*NZ
-         IF (R2R_SIU.NE.0)  OFF_SPH_R2R(INOD) = 2
+         IF (R2R_SIU/=0)  OFF_SPH_R2R(INOD) = 2
 C--------
           NG=-KXSP(2,N)
           IPARG(8,NG) =0

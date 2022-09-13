@@ -200,14 +200,14 @@ C
       CALL HM_GET_FLOATV('Xfreq',ALPHA,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('Ptlim',PTMAX,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
-      IF (MFROT.GT.0) THEN
+      IF (MFROT>0) THEN
          CALL HM_GET_FLOATV('C1',C1,IS_AVAILABLE,LSUBMODEL,UNITAB)
          CALL HM_GET_FLOATV('C2',C2,IS_AVAILABLE,LSUBMODEL,UNITAB)
          CALL HM_GET_FLOATV('C3',C3,IS_AVAILABLE,LSUBMODEL,UNITAB)
          CALL HM_GET_FLOATV('C4',C4,IS_AVAILABLE,LSUBMODEL,UNITAB)
          CALL HM_GET_FLOATV('C5',C5,IS_AVAILABLE,LSUBMODEL,UNITAB)
       ENDIF
-      IF (MFROT.GT.1) THEN
+      IF (MFROT>1) THEN
         CALL HM_GET_FLOATV('C6',C6,IS_AVAILABLE,LSUBMODEL,UNITAB)
       ENDIF
 
@@ -237,7 +237,7 @@ C
            IDEL5=ABS(IDEL5)
         END IF
         IPARI(61)=IDELKEEP
-        IF (IDEL5.GT.2.OR.N2D.EQ.1) IDEL5 = 0
+        IF (IDEL5>2.OR.N2D==1) IDEL5 = 0
         IPARI(17)=IDEL5
 
         IF (IBAG/=0.AND.NVOLU==0.AND.IALELAG==0.AND.NSPHSOL==0) THEN
@@ -251,7 +251,7 @@ C
         IPARI(32)=IBAG
 
 C         Iadm has not been implemented for TYPE5 yet.
-        IF (IADM.NE.0.AND.NADMESH.EQ.0) THEN
+        IF (IADM/=0.AND.NADMESH==0) THEN
              CALL ANCMSG(MSGID=647,
      .                   MSGTYPE=MSGWARNING,
      .                   ANMODE=ANINFO_BLIND_2,
@@ -291,12 +291,12 @@ C
         IF(PTMAX==ZERO) PTMAX=EP30
         FRIGAP(16)=PTMAX
 
-       IF (ALPHA.EQ.0) IFQ = 0
-       IF (IFQ.GT.0) THEN
-          IF (IFQ.EQ.1) XFILTR = ALPHA
-          IF (IFQ.EQ.2) XFILTR = FOUR*ATAN2(ONE,ZERO) / ALPHA
-          IF (IFQ.EQ.3) XFILTR = FOUR*ATAN2(ONE,ZERO) * ALPHA
-          IF (XFILTR.LT.0.OR.(IFQ.LE.2.AND.XFILTR.GT.1.)) THEN
+       IF (ALPHA==0) IFQ = 0
+       IF (IFQ>0) THEN
+          IF (IFQ==1) XFILTR = ALPHA
+          IF (IFQ==2) XFILTR = FOUR*ATAN2(ONE,ZERO) / ALPHA
+          IF (IFQ==3) XFILTR = FOUR*ATAN2(ONE,ZERO) * ALPHA
+          IF (XFILTR<0.OR.(IFQ<=2.AND.XFILTR>1.)) THEN
                CALL ANCMSG(MSGID=554,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO_BLIND_1,
@@ -334,13 +334,13 @@ C------------------------------------------------------------
 C     PRINTOUT
 C------------------------------------------------------------
 C
-        IF(IDSENS.NE.0) THEN
+        IF(IDSENS/=0) THEN
            WRITE(IOUT,1505)IBC1,IBC2,IBC3,STFAC,GAP,IDSENS,IRM,PTMAX
         ELSE
            WRITE(IOUT,1516)IBC1,IBC2,IBC3,STFAC,GAP,STARTT,STOPT,IRM,PTMAX 
         ENDIF
         WRITE(IOUT,4000)INACTI
-        IF(IDEL5.NE.0) THEN
+        IF(IDEL5/=0) THEN
           WRITE(IOUT,'(A,A,I5/)')
      . '    DELETION FLAG ON FAILURE OF MAIN ELEMENT',
      . ' (1:YES-ALL/2:YES-ANY) SET TO ',IDEL5
@@ -350,22 +350,22 @@ C
           ENDIF         
         ENDIF
         WRITE(IOUT,1520)IFQ, XFILTR
-        IF(MFROT.EQ.0)THEN
+        IF(MFROT==0)THEN
           WRITE(IOUT,1524) FRIC
-        ELSEIF(MFROT.EQ.1)THEN
+        ELSEIF(MFROT==1)THEN
           WRITE(IOUT,1515)FRIC_P(1),FRIC_P(2),FRIC_P(3),
      .    FRIC_P(4),FRIC_P(5)
-        ELSEIF(MFROT.EQ.2)THEN
+        ELSEIF(MFROT==2)THEN
           WRITE(IOUT,1522)FRIC,FRIC_P(1),FRIC_P(2),FRIC_P(3),
      .    FRIC_P(4),FRIC_P(5),FRIC_P(6)
-        ELSEIF(MFROT.EQ.3)THEN
+        ELSEIF(MFROT==3)THEN
           WRITE(IOUT,1523)FRIC_P(1),FRIC_P(2),FRIC_P(3),
      .    FRIC_P(4),FRIC_P(5),FRIC_P(6)
         ENDIF
-        IF(IBAG.NE.0) THEN
+        IF(IBAG/=0) THEN
           WRITE(IOUT,*)'    AIRBAG POROSITY COUPLING ON   '
         ENDIF
-        IF(IADM.NE.0) THEN
+        IF(IADM/=0) THEN
           WRITE(IOUT,*)'    MESH REFINMENT CASE OF CONTACT',
      .' (0:NO/1:DUE TO CURVATURE/2:DUE TO CURVATURE OR PENETRATION)',
      .' SET TO ',IADM
@@ -375,28 +375,28 @@ C
         ENDIF
 
 C--------------------------------------------------------------
-      IF(IS1.EQ.0)THEN
+      IF(IS1==0)THEN
         WRITE(IOUT,'(6X,A)')'NO SECONDARY SURFACE INPUT'
-      ELSEIF(IS1.EQ.1)THEN
+      ELSEIF(IS1==1)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS1.EQ.2)THEN
+      ELSEIF(IS1==2)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY NODES'
-      ELSEIF(IS1.EQ.3)THEN
+      ELSEIF(IS1==3)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS1.EQ.4 )THEN
+      ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
-      ELSEIF(IS1.EQ.5 )THEN
+      ELSEIF(IS1==5 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
       ENDIF
-      IF(IS2.EQ.0)THEN
+      IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'
-      ELSEIF(IS2.EQ.1)THEN
+      ELSEIF(IS2==1)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS2.EQ.2)THEN
+      ELSEIF(IS2==2)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY NODES'
-      ELSEIF(IS2.EQ.3)THEN
+      ELSEIF(IS2==3)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS2.EQ.4)THEN
+      ELSEIF(IS2==4)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE REFERS ',
      .                      'TO HYPER-ELLIPSOIDAL SURFACE'
       ENDIF
@@ -410,7 +410,7 @@ C------------
 
 C------------
  1505 FORMAT(//
-     .    '    TYPE.EQ.5  SLIDING AND VOIDS(NON SYMETRIC)' //,
+     .    '    TYPE==5  SLIDING AND VOIDS(NON SYMETRIC)' //,
      .    '    BOUND. COND. DELETED AFTER IMPACT IN X DIR  ',I1/,
      .    '       (1:YES 0:NO)                      Y DIR  ',I1/,
      .    '                                         Z DIR  ',I1/,
@@ -420,7 +420,7 @@ C------------
      .    '    MAIN SURFACE REORDERING FLAG. . . . . . . ',I1/,
      .    '    TANGENTIAL PRESSURE LIMIT. . .. . . . . . . ',1PG20.13/)
  1516 FORMAT(//
-     .    '    TYPE.EQ.5  SLIDING AND VOIDS(NON SYMETRIC)' //,
+     .    '    TYPE==5  SLIDING AND VOIDS(NON SYMETRIC)' //,
      .    '    BOUND. COND. DELETED AFTER IMPACT IN X DIR  ',I1/,
      .    '       (1:YES 0:NO)                      Y DIR  ',I1/,
      .    '                                         Z DIR  ',I1/,

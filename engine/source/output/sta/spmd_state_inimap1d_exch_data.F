@@ -71,7 +71,7 @@ C-----------------------------------------------
       !------------------------!                                                              
       !---EXCAHNGE DATA CELL                                                                  
       !------------------------!                                                              
-      IF (ISPMD.NE.0) THEN                                                                    
+      IF (ISPMD/=0) THEN                                                                    
         NCELL = STATE_INIMAP_BUF(1)%NUM_CENTROIDS                                             
         NBMAT = STATE_INIMAP_BUF(1)%NSUBMAT                                                   
         ALLOCATE (BUFF_R(NCELL, 1 + 4*NBMAT))                                                 

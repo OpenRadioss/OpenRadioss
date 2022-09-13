@@ -72,10 +72,10 @@ C
         WA(I)=WA(I)+ GBUF%SIG(IEL) + GBUF%SIG(IEL+NEL) + GBUF%SIG(IEL+2*NEL)
        ENDDO       
       ENDDO
-      IF(IMACH.NE.3.OR.NSPMD.EQ.1) THEN
+      IF(IMACH/=3.OR.NSPMD==1) THEN
         DO I=1,NNOISE
           K=NOIADD(I+1)-NOIADD(I)
-          IF(K.GT.0)WA(I)=WA(I)/THREE/FLOAT(K)
+          IF(K>0)WA(I)=WA(I)/THREE/FLOAT(K)
         ENDDO
       ELSE
         CALL SPMD_GLOB_DSUM9(WA,NNOISE)
@@ -83,9 +83,9 @@ C
           IWA(I) = NOIADD(I+1)-NOIADD(I)
         ENDDO
         CALL SPMD_GLOB_ISUM9(IWA,NNOISE)
-        IF(ISPMD.EQ.0) THEN
+        IF(ISPMD==0) THEN
           DO I=1,NNOISE
-            IF(IWA(I).GT.0)WA(I)=WA(I)/THREE/FLOAT(IWA(I))
+            IF(IWA(I)>0)WA(I)=WA(I)/THREE/FLOAT(IWA(I))
           ENDDO
         ENDIF
       ENDIF

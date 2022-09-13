@@ -75,12 +75,12 @@ C
 C
       IADSIG=1
       DO IM=1,NML
-        IF (IFILE.EQ.0) THEN
+        IF (IFILE==0) THEN
            IADMOD=NSN*6*(IM-1)+1
            DO I=1,NSN*6
               VMOD(I)=FXBMOD(IADMOD+I-1)
            ENDDO
-        ELSEIF (IFILE.EQ.1) THEN
+        ELSEIF (IFILE==1) THEN
            IADMOD=NSNI*6*(IM-1)+1
            DO I=1,NSNI*6
               VMOD(I)=FXBMOD(IADMOD+I-1)
@@ -98,34 +98,34 @@ C
 C   1. Solid elements
         IADEL=1
         IADS=1
-        IF (NELS.GT.0) CALL FSIGSINI(
+        IF (NELS>0) CALL FSIGSINI(
      .     FXBELM(IADEL), IPARG, X,          PM,   IXS, 
      .     GEO,           VMOD,  VSIG(IADS), RINI, NELS)
 C   2. 4-nodes shell elements
         IADEL=IADEL+NELS*13
         IADS=IADS+NELS*7             
-        IF (NELC.GT.0) CALL FSIGCINI(
+        IF (NELC>0) CALL FSIGCINI(
      .     FXBELM(IADEL), IPARG, X,          PM,   IXC, 
      .     GEO,           VMOD,  VSIG(IADS), RINI, NELC)
 C   3. Truss elements
         IADEL=IADEL+NELC*10
         IADS=IADS+NELC*10
-        IF (NELT.GT.0) CALL FSIGTRINI(
+        IF (NELT>0) CALL FSIGTRINI(
      .     FXBELM(IADEL), IPARG, X,         PM,   IXT,
      .     GEO,           VMOD,  VSIG(IADS),NELT)
 C   4. Beam elements
         IADEL=IADEL+NELT*7
         IADS=IADS+NELT*2
-        IF (NELP.GT.0) CALL FSIGPINI(
+        IF (NELP>0) CALL FSIGPINI(
      .     FXBELM(IADEL), IPARG, X,          PM,   IXP, 
      .     GEO,           VMOD,  VSIG(IADS), RINI, NELP)
 C   5. 3-nodes shell elements
         IADEL=IADEL+NELP*9
         IADS=IADS+NELP*8             
-        IF (NELTG.GT.0) CALL FSIGTINI(
+        IF (NELTG>0) CALL FSIGTINI(
      .     FXBELM(IADEL), IPARG, X,          PM,   IXTG, 
      .     GEO,           VMOD,  VSIG(IADS), RINI, NELTG)
-        IF (IFILE.EQ.0) THEN
+        IF (IFILE==0) THEN
            DO I=1,LVSIG
               FXBSIG(IADSIG+I-1)=VSIG(I)
            ENDDO
@@ -137,7 +137,7 @@ C   5. 3-nodes shell elements
               IAD=IAD+6
            ENDDO
            II=LVSIG-(LVSIG/6)*6
-           IF (II.NE.0) THEN
+           IF (II/=0) THEN
               IRCS=IRCS+1
               WRITE(IFXS,REC=IRCS) (VSIG(IAD+J),J=1,II),(ZERO,J=II+1,6)
            ENDIF

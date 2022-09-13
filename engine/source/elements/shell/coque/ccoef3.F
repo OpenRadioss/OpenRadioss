@@ -75,7 +75,7 @@ C     REAL
      .   FAC1(MVSIZ),FSH, FAC1TMP,
      .   RHO_1, YM_1, NU_1, G_1, A11_1, A12_1, SSP_1      
 C=======================================================================
-      IF(ITHK.GT.0.AND.ISMSTR.NE.3)THEN
+      IF(ITHK>0.AND.ISMSTR/=3)THEN
         DO I=JFT,JLT
           ALPE(I)=ONE
 C --- A CORRIGER : VOL00(I) = THK0(I)*AREA0(I)
@@ -154,7 +154,7 @@ C
        SRH3(I)=GEO(20,IPID)
       ENDDO
 C    
-      IF(NPT.EQ.1) THEN
+      IF(NPT==1) THEN
         DO I=JFT,JLT
          SHF(I)=ZERO
         ENDDO

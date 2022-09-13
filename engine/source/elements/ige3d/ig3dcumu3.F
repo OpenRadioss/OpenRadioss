@@ -64,9 +64,9 @@ C-----------------------------------------------
       DO I=LFT,LLT
         OFF_L = MIN(OFF_L,OFFG(I))
       ENDDO
-      IF(OFF_L.LT.ZERO)THEN
+      IF(OFF_L<ZERO)THEN
         DO I=LFT,LLT
-         IF(OFFG(I).LT.ZERO)THEN
+         IF(OFFG(I)<ZERO)THEN
            DO J=1,NCTRL    
             FX(I,J)=ZERO
             FY(I,J)=ZERO

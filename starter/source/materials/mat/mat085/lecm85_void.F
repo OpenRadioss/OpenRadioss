@@ -81,11 +81,11 @@ C
       A12 = E * NU / (ONE + NU) / (ONE - TWO*NU)
       A44 = E / TWO / (ONE+NU)
 C
-      IF(NU.LT.ZERO.OR.NU.GE.HALF)THEN
+      IF(NU<ZERO.OR.NU>=HALF)THEN
          WRITE(IOUT,*)' ** ERROR : WRONG NU VALUE'
       ENDIF
       NUPARAM = 7
-      IF(NUPARAM.GT.MAXUPARAM)THEN
+      IF(NUPARAM>MAXUPARAM)THEN
         WRITE(IOUT,*)' ** ERROR : NUPARAM GT MAXUPARAM'
         WRITE(IOUT,*)'      NUPARAM =',NUPARAM,
      .                ' MAXUPARAM =',MAXUPARAM

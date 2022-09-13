@@ -104,11 +104,11 @@ C-----------------------------------------------
           TB=-TBURN(I)
           BFRAC1 = ZERO
 	  BFRAC2 = ZERO
-          IF(IBFRAC_1/=1 .AND. TT.GT.TB) BFRAC1=VDET(I)*(TT-TB)/THREE_HALF/DELTAX(I)   !time control
+          IF(IBFRAC_1/=1 .AND. TT>TB) BFRAC1=VDET(I)*(TT-TB)/THREE_HALF/DELTAX(I)   !time control
           IF(IBFRAC_1/=2)BFRAC2=BHE(I)*(ONE-DF(I))                                 !volumetric control
           BFRAC(I) = MAX(BFRAC1,BFRAC2)
-          IF(BFRAC(I).LT.EM04) BFRAC(I)=ZERO
-          IF(BFRAC(I).GT.ONE   ) THEN
+          IF(BFRAC(I)<EM04) BFRAC(I)=ZERO
+          IF(BFRAC(I)>ONE   ) THEN
             BFRAC(I) = ONE
           ENDIF
         ENDIF
@@ -124,7 +124,7 @@ C-----------------------------------------------
         ER2V(I)  = EXP(-R2(I)*DF(I))
       ENDDO
 
-      IF (BULK .EQ. ZERO) THEN
+      IF (BULK == ZERO) THEN
          DO I=LFT,LLT
             P(I)     =  P0(I) - PSH(I) + (WDR1V(I)*ER1V(I)+WDR2V(I)*ER2V(I)+DR1V(I))
 !!! Taking -PSH(I) as minimum value for pressure
@@ -146,7 +146,7 @@ C-----------------------------------------------
         SSP(I)   = SSP(I) * DF(I)
       ENDDO
 
-      IF (BULK .EQ. ZERO) THEN
+      IF (BULK == ZERO) THEN
          DO I=LFT,LLT
             SSP(I)   = SQRT(ABS(SSP(I))/RHO0(I))
             SSP(I)   = MAX(SSP(I),VDET(I)*(ONE-BFRAC(I)))

@@ -73,8 +73,8 @@ C-----------------------------------------------
 C-----------------------------------------------
       DO 100 N=1,NRBYKIN
         ISU=NPBY(8,N)
-        IF (ISU.EQ.0) GOTO 100
-        IF (IGRSURF(ISU)%NB_MADYMO.NE.0) GOTO 999
+        IF (ISU==0) GOTO 100
+        IF (IGRSURF(ISU)%NB_MADYMO/=0) GOTO 999
 C
         IGRSURF(ISU)%NB_MADYMO=N
         IGRSURF(ISU)%TYPE_MADYMO=1

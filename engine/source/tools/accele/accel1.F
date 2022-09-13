@@ -63,7 +63,7 @@ C
       VS(1) = VS(1)+AS(1)*DT12
       VS(2) = VS(2)+AS(2)*DT12
       VS(3) = VS(3)+AS(3)*DT12
-      IF(FF.EQ.ZERO)RETURN
+      IF(FF==ZERO)RETURN
 C
       F = MIN(FF,ZEP4/DT2)
 C-----------------------------------------------

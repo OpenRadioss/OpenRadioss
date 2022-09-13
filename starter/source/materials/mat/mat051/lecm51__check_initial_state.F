@@ -105,12 +105,12 @@ C===============================================|
       TEST8=0    !
       TEST9=0    !
 
-      IF(IFLG.EQ.6)THEN
+      IF(IFLG==6)THEN
         SUM=0
         DO I=1,IMAX
           SUM=SUM+AV(I)*R0(I)
         END DO
-        IF(SUM.NE.ZERO)THEN
+        IF(SUM/=ZERO)THEN
           RHO0=SUM
           RHOR=RHO0
         ELSE
@@ -123,7 +123,7 @@ C===============================================|
       ! Initial Volume fraction checked : must be between 0 and 1
       ! Otherwise : error
       DO I=1,IMAX
-        IF ((AV(I).LT.ZERO).OR.(AV(I).GT.ONE)) THEN
+        IF ((AV(I)<ZERO).OR.(AV(I)>ONE)) THEN
          chain='SUBMAT-0'
          write(chain(8:8),'(i1.1)')I
          chain1='INITIAL VOLUMETRIC FRACTION MUST BE BETWEEN 0 AND 1 FOR '//chain
@@ -144,11 +144,11 @@ C===============================================|
       ! Otherwise : warning
       ! if TEST1/=0 it is useless to do this test)
       SUM=ZERO
-      IF (TEST1.EQ.0) THEN
+      IF (TEST1==0) THEN
         DO I=1,IMAX
           SUM=SUM+AV(I)  ! AV(I) in [0,1], SUM=0 <=> AV(I)=0 , i=1..4
         END DO
-        IF(SUM.EQ.ZERO)THEN
+        IF(SUM==ZERO)THEN
          AV(1)=1 
          CALL ANCMSG(MSGID=98,
      .               MSGTYPE=MSGWARNING,
@@ -157,7 +157,7 @@ C===============================================|
      .               C1=TITR,
      .   C2=
      .   'INITIAL VOLUMETRIC FRACTIONS ARE NULL , SUBMAT-1 SET TO 100%')
-        ELSEIF (abs(1-SUM).GT.EM03) THEN
+        ELSEIF (abs(1-SUM)>EM03) THEN
          CALL ANCMSG(MSGID=99,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
@@ -175,7 +175,7 @@ C===============================================|
       ! No negative density
       ! If AV>0 THEN R0 must be >0
       DO I=1,IMAX
-        IF (   ((R0(I).LT.ZERO).OR.((AV(I).GT.ZERO).AND.(R0(I).LE.ZERO)))  ) THEN
+        IF (   ((R0(I)<ZERO).OR.((AV(I)>ZERO).AND.(R0(I)<=ZERO)))  ) THEN
          chain='SUBMAT-0'
          write(chain(8:8),'(i1.1)')I
          !print *,"chain(1:8) =", chain(1:8)
@@ -194,21 +194,21 @@ C===============================================|
       
       !TEST4 (quel que soit iflg)
       !Unbalanced Pressure, material are checked two by two (Cnp couples)
-      !IF (TEST1+TEST2+TEST3.EQ.0) THEN !If no error
+      !IF (TEST1+TEST2+TEST3==0) THEN !If no error
         SUM=ZERO
         IF(IMAX==4)P0a(4) = C0(4)
         DO I=1,IMAX-1
-        if (R0(I).EQ.ZERO)CYCLE !si phase vide eventuelle, autorisee
+        if (R0(I)==ZERO)CYCLE !si phase vide eventuelle, autorisee
         P0a(I)=C0(I)+C4(I)*E0(I)
           DO J=I,IMAX
-          IF (R0(J).EQ.ZERO)cycle !si phase vide eventuelle, autorisee
+          IF (R0(J)==ZERO)cycle !si phase vide eventuelle, autorisee
           !On compare Pi(t=0) avec Pj(t=0)
             P0b=C0(J)+C4(J)*E0(J)
             Err=abs(P0a(I)-P0b)
-          IF (Err.LE.EM20) Err=ZERO  !eviter epsilon machine si P0a ou P0b est nul
-          IF (Err.NE.ZERO) THEN  ! JWL under pressure may detonate.
+          IF (Err<=EM20) Err=ZERO  !eviter epsilon machine si P0a ou P0b est nul
+          IF (Err/=ZERO) THEN  ! JWL under pressure may detonate.
             IF (Err/max(abs(P0a(I)),abs(P0b))>EM06) THEN
-                IF (J.EQ.4) THEN
+                IF (J==4) THEN
                   TEST4=1
                   CALL ANCMSG(MSGID=98,
      .                        MSGTYPE=MSGWARNING,
@@ -232,14 +232,14 @@ C===============================================|
             END IF
             END IF
           END DO !next J
-          IF(TEST4.EQ.1)EXIT
+          IF(TEST4==1)EXIT
         END DO !next I
       !END IF
       
       
       !TEST5 (quel que soit iflg)
       !Check the consistency between global density and materials densities.
-      !IF(TEST1+TEST2+TEST3.EQ.0)THEN !If no error
+      !IF(TEST1+TEST2+TEST3==0)THEN !If no error
         SUM=0
         DO I=1,IMAX
           SUM=SUM+AV(I)*R0(I)
@@ -254,7 +254,7 @@ C===============================================|
       ! Check if C1>=0, C4>=0, C5>=0
       ! Otherwise : error
       DO I=1,3
-        IF ((C1(I).LT.ZERO)) THEN
+        IF ((C1(I)<ZERO)) THEN
          chain='SUBMAT-0'
          write(chain(8:8),'(i1.1)')I
          chain1=
@@ -269,7 +269,7 @@ C===============================================|
          !exit
         END IF
 
-        IF ((C2(I).LT.ZERO)) THEN
+        IF ((C2(I)<ZERO)) THEN
          chain='SUBMAT-0'
          write(chain(8:8),'(i1.1)')I
          chain1=
@@ -284,7 +284,7 @@ C===============================================|
          !exit
         END IF
         
-        IF ((C3(I).LT.ZERO)) THEN
+        IF ((C3(I)<ZERO)) THEN
          chain='SUBMAT-0'
          write(chain(8:8),'(i1.1)')I
          chain1=
@@ -299,7 +299,7 @@ C===============================================|
          !exit
         END IF        
 
-        IF ((C4(I).LT.ZERO)) THEN
+        IF ((C4(I)<ZERO)) THEN
          chain='SUBMAT-0'
          write(chain(8:8),'(i1.1)')I
          chain1=
@@ -314,7 +314,7 @@ C===============================================|
          !exit
         END IF        
 
-        IF ((C5(I).LT.ZERO)) THEN
+        IF ((C5(I)<ZERO)) THEN
          chain='SUBMAT-0'
          write(chain(8:8),'(i1.1)')I
          chain1=
@@ -332,16 +332,16 @@ C===============================================|
       
           
       !check pressure cut-off pressure for perfect gas
-      IF(IFLG.LE.1)THEN
+      IF(IFLG<=1)THEN
         DO I=1,3
         IF(IPLA(I)>0)CYCLE
         P0a(I) = PEXT+C0(I)+C4(I)*E0(I)
-          IF(((PEXT+C0(I)).EQ.C1(I)).AND.(C2(I).EQ.ZERO).AND.
-     .    (C3(I).EQ.ZERO).AND.(C4(I).EQ.C5(I)).AND.
-     .    (C4(I).GT.ZERO).AND.(P0a(I).GT.ZERO))THEN
+          IF(((PEXT+C0(I))==C1(I)).AND.(C2(I)==ZERO).AND.
+     .    (C3(I)==ZERO).AND.(C4(I)==C5(I)).AND.
+     .    (C4(I)>ZERO).AND.(P0a(I)>ZERO))THEN
            !we have a perfect gas
-           IF(PM(I).NE.ZERO .AND. PEXT.NE.ZERO)THEN
-             IF(abs(PM(I)+PEXT).GT.EM06)THEN
+           IF(PM(I)/=ZERO .AND. PEXT/=ZERO)THEN
+             IF(abs(PM(I)+PEXT)>EM06)THEN
                !PM(I)=-PEXT 
                chain='SUBMAT-0'
                write(chain(8:8),'(i1.1)')I           
@@ -357,10 +357,10 @@ C===============================================|
            ENDIF
          END IF
         END DO !next I
-      END IF !(IFLG.LE.1)
+      END IF !(IFLG<=1)
       
       !check Drucker Prager Yield Surface
-      IF(IFLG.LE.1)THEN
+      IF(IFLG<=1)THEN
         DO I=1,3
           chain='SUBMAT-0'
           write(chain(8:8),'(i1.1)')I           
@@ -389,7 +389,7 @@ C===============================================|
           ENDIF                                                                  
           !
         END DO !next I
-      END IF !(IFLG.LE.1)      
+      END IF !(IFLG<=1)      
       
       RETURN
       END

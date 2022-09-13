@@ -61,7 +61,7 @@ C
       DO I=1,NDDL
          ITAG(I)=0
       ENDDO
-      IF (IMACH.NE.3) THEN
+      IF (IMACH/=3) THEN
          DO I=1,NSPROC
             DO J=1,GRAPHE(I)%DGRAPH(1)%NDDL_F
                JJ=GRAPHE(I)%DGRAPH(1)%DDLS(J)
@@ -73,7 +73,7 @@ C
             N=N+ITAG(I)
          ENDDO
       ELSE
-         IF (ISPMD.EQ.0) THEN
+         IF (ISPMD==0) THEN
             NDFMAX=0
             DO I=1,NSPMD-1
                IRQTAG=MSGOFF + I
@@ -117,7 +117,7 @@ C
             DEALLOCATE(PDDLS)
          ENDIF
 C Broadcast du nombre de modes statiques total
-         IF (NSPMD.GT.1) 
+         IF (NSPMD>1) 
      .      CALL SPMD_IBCAST(N, N, 1, 1, 0, 2)
       ENDIF
 C

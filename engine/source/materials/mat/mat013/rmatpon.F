@@ -118,7 +118,7 @@ C
 C
 C phase 2 : 
 C
-      ELSEIF (IFLAG.EQ.2) THEN
+      ELSEIF (IFLAG==2) THEN
 C     
 C Traitement Parith/ON apres echange
 C

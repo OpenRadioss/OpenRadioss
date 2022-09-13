@@ -59,13 +59,13 @@ C
              IF(II == 1 ) IBC_PLY(N) = -1
          ENDDO
       ENDIF 
-      IF(IRODDL.GT.0)THEN
+      IF(IRODDL>0)THEN
        DO 20 N=1,NUMNOD
        ICODR(N)=(ICODE(N)-512*(ICODE(N)/512))/64
    20  CONTINUE
       END IF
 C
-      IF(IALE.GT.0) THEN
+      IF(IALE>0) THEN
       DO 30 N=1,NUMNOD
       M=N+NUMNOD
       ICODT(M)=(ICODE(N)-64*(ICODE(N)/64))/8

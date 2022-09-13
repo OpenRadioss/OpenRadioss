@@ -93,7 +93,7 @@ C
           XI=XYZ0(1,K)
           YI=XYZ0(2,K)
           ZI=XYZ0(3,K)
-          IF(ITYP.EQ.2)THEN
+          IF(ITYP==2)THEN
             XI=XI-D(1,K)
             YI=YI-D(2,K)
             ZI=ZI-D(3,K)
@@ -103,21 +103,21 @@ C
             DISTMIN=MIN(DIST(J),DISTMIN)
  110        DISTMAX=MAX(DIST(J),DISTMAX)
 C
-          IF(DISTMIN*DISTMAX.GT. ZERO)GOTO100
+          IF(DISTMIN*DISTMAX> ZERO)GOTO100
 C-------------------------------------------------------------
 C NODEL NOEUDS INTERSECTIONS AVEC LES ARETES DE CHAQUE ELEMENT
 C-------------------------------------------------------------
           DO 120 K=1,12
             N1=IARETE(1,K)
             N2=IARETE(2,K)
-            IF(DIST(N1)*DIST(N2).GT. ZERO) GOTO 120
+            IF(DIST(N1)*DIST(N2)> ZERO) GOTO 120
             X1  = XYZ0(1,IXS(N1+1,I))
             Y1  = XYZ0(2,IXS(N1+1,I))
             Z1  = XYZ0(3,IXS(N1+1,I))
             X2  = XYZ0(1,IXS(N2+1,I))
             Y2  = XYZ0(2,IXS(N2+1,I))
             Z2  = XYZ0(3,IXS(N2+1,I))
-            IF(ITYP.EQ.2)THEN
+            IF(ITYP==2)THEN
               X1  =X1  - D(1,IXS(N1+1,I))
               Y1  =Y1  - D(2,IXS(N1+1,I))
               Z1  =Z1  - D(3,IXS(N1+1,I))
@@ -125,7 +125,7 @@ C-------------------------------------------------------------
               Y2  =Y2  - D(2,IXS(N2+1,I))
               Z2  =Z2  - D(3,IXS(N2+1,I))
             ENDIF
-            IF(ABS(DIST(N1)-DIST(N2)).LT.TOL)THEN
+            IF(ABS(DIST(N1)-DIST(N2))<TOL)THEN
               NODEL=NODEL+1
               XC(NODEL)  = X1
               YC(NODEL)  = Y1
@@ -157,7 +157,7 @@ C
 C------------------------------------------------
 C ELIMINATION DES NOEUDS DOUBLES
 C------------------------------------------------
-          IF(NODEL.GT.2)THEN
+          IF(NODEL>2)THEN
             K=1
             NAC(1)=1
             DO 124 L=2,NODEL
@@ -165,7 +165,7 @@ C------------------------------------------------
                 DIS=ABS(XC(L)-XC(J))+
      &              ABS(YC(L)-YC(J))+
      &              ABS(ZC(L)-ZC(J))
-                IF(DIS.LE.TOL)THEN
+                IF(DIS<=TOL)THEN
                    NAC(L)=NAC(J)
                    GOTO 124
                 ENDIF
@@ -184,8 +184,8 @@ C------------------------------------------------
             NODEL=K
           ENDIF
 C
-          IF(NODEL.LE.2)GOTO100
-          IF(NODEL.GT.6)GOTO100
+          IF(NODEL<=2)GOTO100
+          IF(NODEL>6)GOTO100
 C------------------------------------------------
 C MISE EN ORDRE DES NOEUDS SELON LEUR COSINUS
 C------------------------------------------------
@@ -201,7 +201,7 @@ C
             Y1=YC(1)-YM
             Z1=ZC(1)-ZM
             V1=SQRT(X1**2+Y1**2+Z1**2)
-            IF(V1.LT.TOL) GOTO100
+            IF(V1<TOL) GOTO100
             X1=X1/V1
             Y1=Y1/V1
             Z1=Z1/V1
@@ -212,14 +212,14 @@ C
               YI=YC(K)-YM
               ZI=ZC(K)-ZM
               VI=SQRT(XI**2+YI**2+ZI**2)
-              IF(VI.LT.TOL)  GOTO100
+              IF(VI<TOL)  GOTO100
               XI=XI/VI
               YI=YI/VI
               ZI=ZI/VI
               CSI=X1*XI+Y1*YI+Z1*ZI
               CSI=MAX(CSI,UNM)
               CSI=MIN(CSI,ONE)
-C              IF(ABS(CSI).LT.1.E-8)CSI=0.
+C              IF(ABS(CSI)<1.E-8)CSI=0.
               XI1=Y1*ZI-YI*Z1
               YI1=Z1*XI-ZI*X1
               ZI1=X1*YI-XI*Y1
@@ -231,7 +231,7 @@ C
             DO 150 K=1,NODEL
               TETMIN=EP30
               DO 151 L=1,NODEL
-                IF(TET(L).LT.TETMIN)THEN
+                IF(TET(L)<TETMIN)THEN
                   LMIN=L
                   TETMIN=TET(L)
                 ENDIF
@@ -246,10 +246,10 @@ C------------------------------------------------------------------
             KB=0
             DO 155 K=1,NODEL
               N1=NCA(NODEL)
-              IF(K.GT.1) N1=NCA(K-1)
+              IF(K>1) N1=NCA(K-1)
               N2=NCA(K)
               N3=NCA(1)
-              IF(K.LT.NODEL)N3=NCA(K+1)
+              IF(K<NODEL)N3=NCA(K+1)
 C
               X12=XC(N2)-XC(N1)
               Y12=YC(N2)-YC(N1)
@@ -262,8 +262,8 @@ C
               YI1=(Z12*X23-Z23*X12)/V12
               ZI1=(X12*Y23-X23*Y12)/V12
               SSI=XI1*VN(1)+YI1*VN(2)+ZI1*VN(3)
-              IF(SSI.GT.EM30)THEN
-                IF(KB.EQ.4)THEN
+              IF(SSI>EM30)THEN
+                IF(KB==4)THEN
                   KB=KB+1
                   NCB(KB)=NCB(1)
                   KB=KB+1
@@ -271,11 +271,11 @@ C
                 ENDIF
                 KB=KB+1
                 NCB(KB)=NCA(K)+NUMNEW
-C                IF(KB.EQ.4.OR.KB.EQ.8)NEWL=NEWL+1
+C                IF(KB==4.OR.KB==8)NEWL=NEWL+1
               ENDIF
   155       CONTINUE
 C
-            IF(KB.EQ.3.OR.KB.EQ.7)THEN
+            IF(KB==3.OR.KB==7)THEN
               KB=KB+1
               NCB(KB)=NCB(KB-1)
 C              NEWL=NEWL+1
@@ -293,7 +293,7 @@ C              NEWL=NEWL+1
 C--------------------------------
 C AFFECTATION DES VALEURS NODALES
 C--------------------------------
-          IF(ITYP.EQ.2)THEN
+          IF(ITYP==2)THEN
             DO260 K=1,NODEL
               N1=NVC(1,K)
               N2=NVC(2,K)
@@ -325,7 +325,7 @@ C--------------------------------
           DIS=ABS(XYZ(1,I)-XYZ(1,J))+
      &        ABS(XYZ(2,I)-XYZ(2,J))+
      &        ABS(XYZ(3,I)-XYZ(3,J))
-          IF(DIS.LE.TOL)THEN
+          IF(DIS<=TOL)THEN
             NA(I)=NA(J)
             GOTO 1240
           ENDIF
@@ -350,12 +350,12 @@ C
         NC(3,K)=NA(NC(3,K))+NODCUT
         NC(4,K)=NA(NC(4,K))+NODCUT
       ENDDO
-      IF(NUMEL.EQ.0)THEN
+      IF(NUMEL==0)THEN
       X1=0.
       Y1=-VN(3)
       Z1= VN(2)
       V1=SQRT(Y1**2+Z1**2)
-      IF(V1.GT.EM10)THEN
+      IF(V1>EM10)THEN
         V1=EP04*TOL/V1
         Y1=Y1*V1
         Z1=Z1*V1

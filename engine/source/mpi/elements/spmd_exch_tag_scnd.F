@@ -71,7 +71,7 @@ C-----------------------------------------------
       LOC_PROC = ISPMD + 1
       DO I=1,NSPMD
         SIZ = IAD_CNDS(I+1)-IAD_CNDS(I)
-        IF(SIZ.GT.0)THEN
+        IF(SIZ>0)THEN
          L = IAD_CNDS(I)
           MSGTYP = MSGOFF 
           CALL MPI_IRECV(
@@ -97,7 +97,7 @@ C   echange messages
 C--------------------------------------------------------------------
       DO I=1,NSPMD
         SIZ = IAD_CNDS(I+1)-IAD_CNDS(I)
-        IF(SIZ.GT.0)THEN
+        IF(SIZ>0)THEN
           L = IAD_CNDS(I)
           MSGTYP = MSGOFF 
           CALL MPI_ISEND(
@@ -110,7 +110,7 @@ C assemblage
 C--------------------------------------------------------------------
       DO I=1,NSPMD
         SIZ = IAD_CNDS(I+1)-IAD_CNDS(I)
-       IF(SIZ.GT.0)THEN
+       IF(SIZ>0)THEN
         CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
         DO J=IAD_CNDS(I),IAD_CNDS(I+1)-1
          NOD =  FR_CNDS(J)
@@ -127,7 +127,7 @@ C--------------------------------------------------------------------
 C
 C--------------------------------------------------------------------
       DO I = 1, NSPMD
-        IF((IAD_CNDS(I+1)-IAD_CNDS(I)).GT.0)THEN
+        IF((IAD_CNDS(I+1)-IAD_CNDS(I))>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO

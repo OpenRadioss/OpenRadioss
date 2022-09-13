@@ -206,7 +206,7 @@ C-----------------------------------------------
         MIN_GAP = 20
         DX2 = TF(NPF(IFUNC)) - XX
         !       -----------------------------
-        IF ((NPF(IFUNC+1)-NPF(IFUNC)).EQ.2) THEN
+        IF ((NPF(IFUNC+1)-NPF(IFUNC))==2) THEN
         !       constant function
                 FINTER = TF(NPF(IFUNC)+1)
                 RETURN
@@ -224,12 +224,12 @@ C-----------------------------------------------
                         DO I=NPF(IFUNC)+2,NPF(IFUNC+1)-2,2
                                 DX1 = -DX2
                                 DX2 = TF(I) - XX
-                                IF(DX2.GE.ZERO.OR.I.EQ.NPF(IFUNC+1)-2)THEN
+                                IF(DX2>=ZERO.OR.I==NPF(IFUNC+1)-2)THEN
                                         DIV0 = TF(I) - TF(I-2)
                                         DIV = MAX(ABS(DIV0),EM16)
                                         DIV = SIGN(DIV,DIV0)
                                         DERI = (TF(I+1) - TF(I-1)) / DIV
-                                        IF(DX1.LE.DX2)THEN
+                                        IF(DX1<=DX2)THEN
                                                 FINTER = TF(I-1) + DX1 * DERI
                                         ELSE
                                                 FINTER = TF(I+1) - DX2 * DERI
@@ -247,12 +247,12 @@ C-----------------------------------------------
                         I=NPF(IFUNC)+2
                         DX1 = -DX2
                         DX2 = TF(I) - XX
-                        IF(DX2.GE.ZERO.OR.I.EQ.NPF(IFUNC+1)-2)THEN
+                        IF(DX2>=ZERO.OR.I==NPF(IFUNC+1)-2)THEN
                                 DIV0 = TF(I) - TF(I-2)
                                 DIV = MAX(ABS(DIV0),EM16)
                                 DIV = SIGN(DIV,DIV0)
                                 DERI = (TF(I+1) - TF(I-1)) / DIV
-                                IF(DX1.LE.DX2)THEN
+                                IF(DX1<=DX2)THEN
                                         FINTER = TF(I-1) + DX1 * DERI
                                 ELSE
                                         FINTER = TF(I+1) - DX2 * DERI 
@@ -272,7 +272,7 @@ C-----------------------------------------------
                                 DERI = (TF(I+1) - TF(I-1)) / DIV
                                 IF(DX1 == ZERO .AND. DX2 == ZERO) THEN
                                   FINTER = TF(I+1)
-                                ELSEIF(DX1.LE.DX2)THEN
+                                ELSEIF(DX1<=DX2)THEN
                                         FINTER = TF(I-1) + DX1 * DERI
                                 ELSE
                                         FINTER = TF(I+1) - DX2 * DERI
@@ -339,7 +339,7 @@ C-----------------------------------------------
                                         DIV = SIGN(DIV,DIV0)
 
                                         DERI = (TF(I+1) - TF(I-1)) / DIV
-                                        IF(DX1.LE.DX2)THEN
+                                        IF(DX1<=DX2)THEN
                                                 FINTER = TF(I-1) + DX1 * DERI
                                         ELSE
                                                 FINTER = TF(I+1) - DX2 * DERI

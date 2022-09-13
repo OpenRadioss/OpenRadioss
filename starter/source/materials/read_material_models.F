@@ -242,7 +242,7 @@ c-------------------------------------------------------------------
               PM(72,I) =ONEP1                         
               PM(92,I) =FLRD  
               IPM(251,I)= IALEFVM_FLG                
-              IF(IALEFVM_FLG.GE.2)THEN               
+              IF(IALEFVM_FLG>=2)THEN               
                 WRITE(IOUT,2011)ID,IALEFVM_FLG, FLRD  
                 IALEFVM = 1                          
               ELSE                                   
@@ -277,7 +277,7 @@ c-------------------------------------------------------------------
               PM(72,I)  = TWOP1                         
               PM(92,I)  = FLRD      
               IPM(251,I)= IALEFVM_FLG                    
-              IF(IALEFVM_FLG.GE.2)THEN                   
+              IF(IALEFVM_FLG>=2)THEN                   
                 WRITE(IOUT,2021)ID,IALEFVM_FLG, FLRD      
                 IALEFVM = 1                              
               ELSE                                       
@@ -296,7 +296,7 @@ c-------------------------------------------------------------------
       DO I=1,NUMMAT-1
         TITR =MATPARAM_TAB(I)%TITLE        
         ILAW   = IPM(2,I)
-        IF(ILAW.NE.51)CYCLE
+        IF(ILAW/=51)CYCLE
         IADBUF = IPM(7,I)
         NPAR   = IPM(9,I)
         IADBUF = MAX(1,IADBUF)
@@ -304,7 +304,7 @@ c-------------------------------------------------------------------
         IFORM = NINT(UPARAM(31))
         IPM(62, I) = IFORM
         MAT_ID=IPM(1,I)
-        IF(IFORM.EQ.12)THEN
+        IF(IFORM==12)THEN
           CALL FILL_BUFFER_51( IPM, PM, UPARAM, BUFMAT, MAT_ID, TITR, I) 
           PM(38,I) = UPARAM(42)
         ENDIF
@@ -336,39 +336,39 @@ c-------------------------------------------------------------------
         ILAW = IPM(2,I)          
         JALE = NINT(PM(72,I))          
         IF(JALE /=0)THEN               
-          IF(ILAW.EQ.1 .OR.
-     .       ILAW.EQ.2 .OR.
-     .       ILAW.EQ.3 .OR.
-     .       ILAW.EQ.4 .OR.
-     .       ILAW.EQ.5 .OR.
-     .       ILAW.EQ.6 .OR.
-     .       ILAW.EQ.7 .OR.
-     .       ILAW.EQ.8 .OR.
-     .       ILAW.EQ.9 .OR.
-     .       ILAW.EQ.10 .OR.
-     .       ILAW.EQ.11 .OR.
-     .       ILAW.EQ.13 .OR.
-     .       ILAW.EQ.16 .OR.
-     .       ILAW.EQ.17 .OR.
-     .       ILAW.EQ.18 .OR.
-     .       ILAW.EQ.20 .OR.
-     .       ILAW.EQ.21 .OR.
-     .       ILAW.EQ.22 .OR.
-     .       ILAW.EQ.23 .OR.
-     .       ILAW.EQ.26 .OR.
-     .       ILAW.EQ.29 .OR.
-     .       ILAW.EQ.30 .OR.
-     .       ILAW.EQ.31 .OR.
-     .       ILAW.EQ.36 .OR.
-     .       ILAW.EQ.37 .OR.
-     .       ILAW.EQ.41 .OR.
-     .       ILAW.EQ.44 .OR.
-     .       ILAW.EQ.46 .OR.
-     .       ILAW.EQ.47 .OR.
-     .       ILAW.EQ.49 .OR.
-     .       ILAW.GE.50     )THEN     
+          IF(ILAW==1 .OR.
+     .       ILAW==2 .OR.
+     .       ILAW==3 .OR.
+     .       ILAW==4 .OR.
+     .       ILAW==5 .OR.
+     .       ILAW==6 .OR.
+     .       ILAW==7 .OR.
+     .       ILAW==8 .OR.
+     .       ILAW==9 .OR.
+     .       ILAW==10 .OR.
+     .       ILAW==11 .OR.
+     .       ILAW==13 .OR.
+     .       ILAW==16 .OR.
+     .       ILAW==17 .OR.
+     .       ILAW==18 .OR.
+     .       ILAW==20 .OR.
+     .       ILAW==21 .OR.
+     .       ILAW==22 .OR.
+     .       ILAW==23 .OR.
+     .       ILAW==26 .OR.
+     .       ILAW==29 .OR.
+     .       ILAW==30 .OR.
+     .       ILAW==31 .OR.
+     .       ILAW==36 .OR.
+     .       ILAW==37 .OR.
+     .       ILAW==41 .OR.
+     .       ILAW==44 .OR.
+     .       ILAW==46 .OR.
+     .       ILAW==47 .OR.
+     .       ILAW==49 .OR.
+     .       ILAW>=50     )THEN     
                MLAW_TAG(I)%L_SSP    = 1 
-               IF(ILAW.EQ.20)THEN
+               IF(ILAW==20)THEN
                  uID1                  = NINT(PM(21,I))
                  uID2                  = NINT(PM(22,I))
                  MID1                  = NINTRI(uID1,IPM,NPROPMI,NUMMAT,1)
@@ -387,7 +387,7 @@ c-------------------------------------------------------------------
       DO I=1,LCONV
         CODV(I)=0
       ENDDO
-      IF(IALE+IEULER.NE.0.AND.ICONVCP == 1)THEN
+      IF(IALE+IEULER/=0.AND.ICONVCP == 1)THEN
         WRITE(IOUT,2008)
       END IF
       ! mass and energy convection for ALE/EULER laws
@@ -398,44 +398,44 @@ c-------------------------------------------------------------------
         JALE = NINT(PM(72,I))
         CODCONV=0
         CODREZO=0
-        IF(JALE.GT.0)THEN
-          IF(ILAW.EQ.1 .OR.
-     .       ILAW.EQ.2 .OR.
-     .       ILAW.EQ.3 .OR.
-     .       ILAW.EQ.4 .OR.
-     .       ILAW.EQ.5 .OR.
-     .       ILAW.EQ.6 .OR.
-     .       ILAW.EQ.7 .OR.
-     .       ILAW.EQ.8 .OR.
-     .       ILAW.EQ.9 .OR.
-     .       ILAW.EQ.10 .OR.
-     .       ILAW.EQ.11 .OR.
-     .       ILAW.EQ.13 .OR.
-     .       ILAW.EQ.16 .OR.
-     .       ILAW.EQ.17 .OR.
-     .       ILAW.EQ.18 .OR.
-     .       ILAW.EQ.20 .OR.
-     .       ILAW.EQ.21 .OR.
-     .       ILAW.EQ.22 .OR.
-     .       ILAW.EQ.23 .OR.
-     .       ILAW.EQ.26 .OR.
-     .       ILAW.EQ.29 .OR.
-     .       ILAW.EQ.30 .OR.
-     .       ILAW.EQ.31 .OR.
-     .       ILAW.EQ.36 .OR.
-     .       ILAW.EQ.37 .OR.
-     .       ILAW.EQ.41 .OR.
-     .       ILAW.EQ.44 .OR.
-     .       ILAW.EQ.46 .OR.
-     .       ILAW.EQ.47 .OR.
-     .       ILAW.EQ.49 .OR.
-     .       ILAW.GE.50     )THEN
+        IF(JALE>0)THEN
+          IF(ILAW==1 .OR.
+     .       ILAW==2 .OR.
+     .       ILAW==3 .OR.
+     .       ILAW==4 .OR.
+     .       ILAW==5 .OR.
+     .       ILAW==6 .OR.
+     .       ILAW==7 .OR.
+     .       ILAW==8 .OR.
+     .       ILAW==9 .OR.
+     .       ILAW==10 .OR.
+     .       ILAW==11 .OR.
+     .       ILAW==13 .OR.
+     .       ILAW==16 .OR.
+     .       ILAW==17 .OR.
+     .       ILAW==18 .OR.
+     .       ILAW==20 .OR.
+     .       ILAW==21 .OR.
+     .       ILAW==22 .OR.
+     .       ILAW==23 .OR.
+     .       ILAW==26 .OR.
+     .       ILAW==29 .OR.
+     .       ILAW==30 .OR.
+     .       ILAW==31 .OR.
+     .       ILAW==36 .OR.
+     .       ILAW==37 .OR.
+     .       ILAW==41 .OR.
+     .       ILAW==44 .OR.
+     .       ILAW==46 .OR.
+     .       ILAW==47 .OR.
+     .       ILAW==49 .OR.
+     .       ILAW>=50     )THEN
                 CODCONV = 11
                 CODV(1) = 01
                 CODV(2) = 01
           ENDIF
         ENDIF
-        IF(JTUR.GT.0) THEN
+        IF(JTUR>0) THEN
           CODCONV=CODCONV + 1100
           CODV(3)=1
           CODV(4)=1
@@ -444,7 +444,7 @@ c-------------------------------------------------------------------
           CODCONV=CODCONV+10000
           CODV(5)=1
         ENDIF
-        IF(JALE.GT.0 .AND.(
+        IF(JALE>0 .AND.(
      .     ILAW == 2  .OR.
      .     ILAW == 3  .OR.
      .     ILAW == 4  .OR.
@@ -467,7 +467,7 @@ c-------------------------------------------------------------------
      .     ILAW == 97       )  )THEN
              CODREZO=11
            ENDIF
-         IF(JALE.GT.0 .AND. ILAW == 1)THEN
+         IF(JALE>0 .AND. ILAW == 1)THEN
             CODREZO=1
          ENDIF
          
@@ -481,7 +481,7 @@ c-------------------------------------------------------------------
         ENDIF
         
         !Seems no longer used since nothing was planned for NVAR=6 
-        IF(JALE.GT.0 .AND. ICONVCP == 1 .AND.(
+        IF(JALE>0 .AND. ICONVCP == 1 .AND.(
      .     ILAW == 11 .OR.
      .     ILAW == 67      ) )THEN
          !ts 12feb2016 : nothing was done in aconve for nvar=6,7,8,9,  law67 may be re-plugged later

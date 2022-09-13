@@ -180,7 +180,7 @@ C     Switch according to input type
       CASE (3)
          CALL HM_GET_FLOATV('MAT_C0', SSP, IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('h', CARL, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         IF(CARL*SSP.EQ.ZERO)THEN
+         IF(CARL*SSP==ZERO)THEN
             CALL ANCMSG(MSGID=304,
      .           MSGTYPE=MSGERROR,
      .           ANMODE=ANINFO,
@@ -200,8 +200,8 @@ C     Switch according to input type
 C----------------------
 C     DEFAULT VALUES
 C----------------------
-      IF(CARL.EQ.ZERO)CARL = EM01 * FAC_LENGTH_
-      IF(T0.EQ.ZERO)  T0   = THREE100
+      IF(CARL==ZERO)CARL = EM01 * FAC_LENGTH_
+      IF(T0==ZERO)  T0   = THREE100
       IF(TSCAL == ZERO) TSCAL = ONE * FAC_TIME_
       SELECT CASE(ITYP)
       CASE (0)
@@ -223,7 +223,7 @@ C----------------------
          GAM1 = ONE
          SSP2 = SSP**2
       CASE (3)
-         IF(CARL.GT.ZERO)ALP0=HALF*SSP/CARL
+         IF(CARL>ZERO)ALP0=HALF*SSP/CARL
          RHOC=RHO0*SSP
       CASE DEFAULT
 C     Already exited at input reading
@@ -279,7 +279,7 @@ C----------------------
       PM(37)  = EF
       PM(40)  = ONE/TSCAL
       PM(50)  = ITYP
-      PM(51)  = INOD ! USR2SYS APRES FSDCOD, IF(IFORM8.EQ.2) INOD=USR2SYS(INOD,ITABM1,MESS)
+      PM(51)  = INOD ! USR2SYS APRES FSDCOD, IF(IFORM8==2) INOD=USR2SYS(INOD,ITABM1,MESS)
       PM(79)  = T0
       PM(80)  = EP30
       PM(88)  = PSH

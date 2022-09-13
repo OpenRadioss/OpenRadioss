@@ -135,7 +135,7 @@ C     REAL
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      IF(IPARI(33,NIN).EQ.0)RETURN
+      IF(IPARI(33,NIN)==0)RETURN
 C -------------------
       CALL MY_BARRIER
 C -------------------
@@ -164,12 +164,12 @@ C
       IADM =IPARI(44,NIN) 
       STARTT=INTBUF_TAB(NIN)%VARIABLES(3)
       STOPT =INTBUF_TAB(NIN)%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
       GAP   =INTBUF_TAB(NIN)%VARIABLES(2)
       GAPMIN=INTBUF_TAB(NIN)%VARIABLES(13)
 C
-c      IF(NTY.EQ.7)THEN
+c      IF(NTY==7)THEN
 C
       I_STOK = INTBUF_TAB(NIN)%I_STOK(1)
       MAXBOX = INTBUF_TAB(NIN)%VARIABLES(9)
@@ -186,7 +186,7 @@ C
 C     cette partie est effectuee en // apres le calcul des forces des elem.
 C     decoupage statique
       NB_LOC = I_STOK / NTHREAD
-      IF (JTASK.EQ.NTHREAD) THEN
+      IF (JTASK==NTHREAD) THEN
           I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
       ELSE
           I_STOK_LOC = NB_LOC
@@ -194,11 +194,11 @@ C     decoupage statique
       DEBUT = (JTASK-1)*NB_LOC
       I_STOK = 0
 C recalcul du istok
-      IF (INACTI.EQ.5.OR.INACTI.EQ.6)THEN
+      IF (INACTI==5.OR.INACTI==6)THEN
           DO I = DEBUT+1, DEBUT+I_STOK_LOC
-            IF(INTBUF_TAB(NIN)%CAND_N(I).LT.0) THEN
+            IF(INTBUF_TAB(NIN)%CAND_N(I)<0) THEN
 Ctmp+++
-              IF(I_STOK + 1.GT.4*NUMNOD) THEN
+              IF(I_STOK + 1>4*NUMNOD) THEN
                 CALL ANCMSG(MSGID=97,ANMODE=ANINFO)
                 CALL ARRET(2)
               ENDIF
@@ -214,9 +214,9 @@ Cel remise a 0 de cand_p
           ENDDO
       ELSE
           DO I = DEBUT+1, DEBUT+I_STOK_LOC
-            IF(INTBUF_TAB(NIN)%CAND_N(I).LT.0) THEN
+            IF(INTBUF_TAB(NIN)%CAND_N(I)<0) THEN
 Ctmp+++
-              IF(I_STOK + 1.GT.4*NUMNOD) THEN
+              IF(I_STOK + 1>4*NUMNOD) THEN
                 CALL ANCMSG(MSGID=97,ANMODE=ANINFO)
                 CALL ARRET(2)
               ENDIF
@@ -229,7 +229,7 @@ C inbuf == cand_n
           ENDDO
       ENDIF
 C
-      IF (DEBUG(3).GE.1) THEN
+      IF (DEBUG(3)>=1) THEN
           NB_JLT = NB_JLT + I_STOK_LOC
           NB_STOK_N = NB_STOK_N + I_STOK
       ENDIF
@@ -286,9 +286,9 @@ C cand_n et cand_e remplace par cand_n_n et cand_e_n
 
 
           JLT = JLT_NEW
-          IF(JLT_NEW.NE.0) THEN
+          IF(JLT_NEW/=0) THEN
             IPARI(29,NIN) = 1
-            IF (DEBUG(3).GE.1)
+            IF (DEBUG(3)>=1)
      .        NB_JLT_NEW = NB_JLT_NEW + JLT_NEW
             CALL I7LAGM(LLL,JLL,SLL      ,XLL     ,IADLL      ,
      2        N_MUL_MX,ITASK   ,NIN     ,NKMAX      , 

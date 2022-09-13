@@ -124,7 +124,7 @@ C---+----1
       CB = PM(76,MX)
 C
       DO I=1,NEL
-         IF(OFF(I).EQ.ZERO.OR.OFFG(I).LE.ZERO) CYCLE
+         IF(OFF(I)==ZERO.OR.OFFG(I)<=ZERO) CYCLE
          TEMP1 = TEMP(NC(I,1))
          TEMP2 = TEMP(NC(I,2))
          TEMP3 = TEMP(NC(I,3))

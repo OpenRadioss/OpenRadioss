@@ -101,7 +101,7 @@ C      coordonnes sont deja dans X
 !         DY = ABS (X1(2,I)-X1(2,ID_LIST(I)))
 !         DZ = ABS (X1(3,I)-X1(3,ID_LIST(I)))
 !         DMIN = SQRT(DX*DX+DY*DY+DZ*DZ)
-!         IF (DMIN .NE. DIST(I) .OR. (DIST(I) < EPS)) THEN
+!         IF (DMIN /= DIST(I) .OR. (DIST(I) < EPS)) THEN
 !           WRITE(6,*) "ERROR",DMIN,DIST(I),I,ID_LIST(I)
 !         ENDIF
 !         DO J = 1,SIZE_X2
@@ -116,7 +116,7 @@ C      coordonnes sont deja dans X
 !         ENDDO
 !       ENDDO
 c      DO J = 1,SIZE_X2
-c        IF(ID_LIST(ID_X2(J)) .NE. ID_X2(J)) WRITE(6,*) "problem"
+c        IF(ID_LIST(ID_X2(J)) /= ID_X2(J)) WRITE(6,*) "problem"
 c      ENDDO
 !---
       DO I = 1,SIZE_X1

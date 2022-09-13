@@ -93,19 +93,19 @@ C
         DEBUG_E2E(EIDS == D_ES,CAND_P(3,I))
         DEBUG_E2E(EIDS == D_ES,CAND_P(4,I))
 
-C       IF(NN.LE.NEDGE_L)THEN
+C       IF(NN<=NEDGE_L)THEN
         IF (IFQ == 0) THEN
-          IF(CAND_P(1,I).EQ.ZERO.AND.
-     .       CAND_P(2,I).EQ.ZERO.AND.
-     .       CAND_P(3,I).EQ.ZERO.AND.
-     .       CAND_P(4,I).EQ.ZERO)THEN
+          IF(CAND_P(1,I)==ZERO.AND.
+     .       CAND_P(2,I)==ZERO.AND.
+     .       CAND_P(3,I)==ZERO.AND.
+     .       CAND_P(4,I)==ZERO)THEN
             CAND_S(I) = NEDGE+1
           ENDIF
         ELSE
-         IF(IFPEN(I)==0.AND.CAND_P(1,I).EQ.ZERO.AND.
-     .       CAND_P(2,I).EQ.ZERO.AND.
-     .       CAND_P(3,I).EQ.ZERO.AND.
-     .       CAND_P(4,I).EQ.ZERO)THEN
+         IF(IFPEN(I)==0.AND.CAND_P(1,I)==ZERO.AND.
+     .       CAND_P(2,I)==ZERO.AND.
+     .       CAND_P(3,I)==ZERO.AND.
+     .       CAND_P(4,I)==ZERO)THEN
             CAND_S(I) = NEDGE+1
           ENDIF 
         ENDIF

@@ -102,7 +102,7 @@ C-----------------------------------------------
       NG  = SH3TREE(4,N)
       MLW = IPARG(1,NG)
 c
-C     IF (MLW.EQ.0) GOTO 250
+C     IF (MLW==0) GOTO 250
 C---
       NEL  = IPARG(2,NG)
       NFT  = IPARG(3,NG)
@@ -200,7 +200,7 @@ c
 c
 c       Uvar
 c
-        IF (MLW.GE.28 .AND. MLW.NE.32) THEN
+        IF (MLW>=28 .AND. MLW/=32) THEN
           DO IL=1,NLAY
           DO IR=1,NPTR
           DO IS=1,NPTS
@@ -338,7 +338,7 @@ c
 c
 c     Uvar                                               
 c
-      IF (MLW.GE.28 .AND. MLW.NE.32) THEN                               
+      IF (MLW>=28 .AND. MLW/=32) THEN                               
         DO IL=1,NLAY                                                    
         DO IR=1,NPTR                                                    
         DO IS=1,NPTS                                                    

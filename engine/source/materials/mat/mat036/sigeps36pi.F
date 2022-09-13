@@ -269,7 +269,7 @@ ctmp        ENDDO
 ctmpC       plastic flow                                                
 ctmp        NINDX=0                                                     
 ctmp        DO I=1,NEL                                                 
-ctmp          IF(SVM(I).GT.YLD(I).AND.OFF(I).EQ.1.) THEN                
+ctmp          IF(SVM(I)>YLD(I).AND.OFF(I)==1.) THEN                
 ctmp            NINDX = NINDX+1                                         
 ctmp            INDEX(NINDX) = I                                        
 ctmp          ENDIF                                                     

@@ -116,7 +116,7 @@ C
           EPLASM(LFT:LLT)=ZERO
       ENDIF
 
-      IF(ISMSTR.EQ.1.OR.(ISMSTR.EQ.2.AND.IDTMIN(1).EQ.3).OR.ISMSTR.EQ.11)THEN
+      IF(ISMSTR==1.OR.(ISMSTR==2.AND.IDTMIN(1)==3).OR.ISMSTR==11)THEN
           WXXG(LFT:LLT)=ZERO
           WYYG(LFT:LLT)=ZERO
           WZZG(LFT:LLT)=ZERO
@@ -140,7 +140,7 @@ C
           NC(LFT:LLT,10)=0
       ENDIF
 C
-      IF (JLAG.EQ.0)THEN
+      IF (JLAG==0)THEN
           VDX(LFT:LLT)=ZERO
           VDY(LFT:LLT)=ZERO
           VDZ(LFT:LLT)=ZERO  
@@ -153,7 +153,7 @@ C----------------------------
 C--
            DO I=LFT,LLT
             NN = NC(I,N)
-            IF(ABS(OFFG(I)).GT.ONE)THEN
+            IF(ABS(OFFG(I))>ONE)THEN
               XX(I,N)=SAV(I,N)
               YY(I,N)=SAV(I,N+10)
               ZZ(I,N)=SAV(I,N+20)
@@ -202,7 +202,7 @@ C
           IF(ISROT==0.OR.ISROT==2)THEN
 C--
            DO I=LFT,LLT
-            IF(ABS(OFFG(I)).GT.ONE)THEN
+            IF(ABS(OFFG(I))>ONE)THEN
               XX(I,N)=SAV(I,N)
               YY(I,N)=SAV(I,N+10)
               ZZ(I,N)=SAV(I,N+20)
@@ -238,7 +238,7 @@ C             SAV(I,N+20)=ZZ(I,N)
 c
 C--        
            DO I=LFT,LLT
-            IF(ABS(OFFG(I)).GT.ONE)THEN
+            IF(ABS(OFFG(I))>ONE)THEN
               XX(I,N)=SAV(I,N)
               YY(I,N)=SAV(I,N+10)
               ZZ(I,N)=SAV(I,N+20)
@@ -388,9 +388,9 @@ C
             FY(I,N)=ZERO
             FZ(I,N)=ZERO    
         ENDDO
-        IF(OFF_L.LT.ZERO)THEN
+        IF(OFF_L<ZERO)THEN
           DO I=LFT,LLT
-            IF(OFFG(I).LT.ZERO)THEN
+            IF(OFFG(I)<ZERO)THEN
               VX(I,N)=ZERO
               VY(I,N)=ZERO
               VZ(I,N)=ZERO
@@ -398,16 +398,16 @@ C
           ENDDO
         ENDIF
 C
-        IF (JLAG.EQ.0)THEN
+        IF (JLAG==0)THEN
 C
-          IF(JALE.NE.0)THEN
+          IF(JALE/=0)THEN
             DO I=LFT,LLT
               NN = MAX(IUN,NC(I,N))
               VDXX(I,N)=VX(I,N)-W(1,NN)
               VDYY(I,N)=VY(I,N)-W(2,NN)
               VDZZ(I,N)=VZ(I,N)-W(3,NN)
             ENDDO
-          ELSEIF(JEUL.NE.0)THEN
+          ELSEIF(JEUL/=0)THEN
             DO I=LFT,LLT
               VDXX(I,N)=VX(I,N)
               VDYY(I,N)=VY(I,N)
@@ -423,7 +423,7 @@ C
         ENDIF
       ENDDO
 C
-      IF (JLAG.EQ.0)THEN
+      IF (JLAG==0)THEN
         DO I=LFT,LLT
           VDX(I)=FOURTH*VDX(I)
           VDY(I)=FOURTH*VDY(I)
@@ -437,7 +437,7 @@ C
           N1=IPERM1(N)
           N2=IPERM2(N)
           DO I=LFT,LLT
-            IF(NC(I,N).EQ.0)THEN
+            IF(NC(I,N)==0)THEN
               VX(I,N) = HALF*(VX(I,N1)+VX(I,N2))
               VY(I,N) = HALF*(VY(I,N1)+VY(I,N2))
               VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2))    
@@ -598,7 +598,7 @@ C----------------------------
         ENDDO
        ENDDO 
 C---   w/ /DT/BRICK/CST    
-      IF (ISMSTR == 12.AND.IDTMIN(1).EQ.3) THEN
+      IF (ISMSTR == 12.AND.IDTMIN(1)==3) THEN
         DO I=LFT,LLT
          OFF0(I)=OFF(I)
         ENDDO
@@ -648,7 +648,7 @@ C---   w/ /DT/BRICK/CST
           ENDDO
          ENDDO
        END IF !(MTN==1) THEN
-      END IF !(ISMSTR == 10.AND.IDTMIN(1).EQ.3) THEN
+      END IF !(ISMSTR == 10.AND.IDTMIN(1)==3) THEN
 C
       RETURN
       END
@@ -1022,7 +1022,7 @@ C
         ENDDO
       ENDIF
 
-      IF(ISMSTR.EQ.1.OR.(ISMSTR.EQ.2.AND.IDTMIN(1).EQ.3))THEN
+      IF(ISMSTR==1.OR.(ISMSTR==2.AND.IDTMIN(1)==3))THEN
         DO I=LFT,LLT
           WXXG(I)=ZERO
           WYYG(I)=ZERO
@@ -1050,7 +1050,7 @@ C
         ENDDO
       ENDIF
 C
-      IF (JLAG.EQ.0)THEN
+      IF (JLAG==0)THEN
         DO I=LFT,LLT
           VDX(I)=ZERO
           VDY(I)=ZERO
@@ -1136,7 +1136,7 @@ C----------------------------
         IF((ISMSTR<=4.AND.JLAG>0).OR.(ISMSTR==12.AND.IDTMIN(1)==3)) THEN
 C--
            DO I=LFT,LLT
-            IF(ABS(OFFG(I)).GT.ONE)THEN
+            IF(ABS(OFFG(I))>ONE)THEN
               XX(I,N)=SAV(I,N)
               YY(I,N)=SAV(I,N+10)
               ZZ(I,N)=SAV(I,N+20)
@@ -1169,7 +1169,7 @@ C
           IF(ISROT==0.OR.ISROT==2)THEN
 C--
            DO I=LFT,LLT
-            IF(ABS(OFFG(I)).GT.ONE)THEN
+            IF(ABS(OFFG(I))>ONE)THEN
               XX(I,N)=SAV(I,N)
               YY(I,N)=SAV(I,N+10)
               ZZ(I,N)=SAV(I,N+20)
@@ -1195,7 +1195,7 @@ C--
 c
 C--        
            DO I=LFT,LLT
-            IF(ABS(OFFG(I)).GT.ONE)THEN
+            IF(ABS(OFFG(I))>ONE)THEN
               XX(I,N)=SAV(I,N)
               YY(I,N)=SAV(I,N+10)
               OFF(I) = ABS(OFFG(I))-ONE
@@ -1271,9 +1271,9 @@ C
      .   R11, R12, R13, R21, R22, R23, R31, R32, R33  ,
      .   VX, VY, VZ)
       DO N=1,10
-        IF(OFF_L.LT.ZERO)THEN
+        IF(OFF_L<ZERO)THEN
           DO I=LFT,LLT
-            IF(OFFG(I).LT.ZERO)THEN
+            IF(OFFG(I)<ZERO)THEN
               VX(I,N)=ZERO
               VY(I,N)=ZERO
               VZ(I,N)=ZERO
@@ -1281,16 +1281,16 @@ C
           ENDDO
         ENDIF
 C
-        IF (JLAG.EQ.0)THEN
+        IF (JLAG==0)THEN
 C
-          IF(JALE.NE.0)THEN
+          IF(JALE/=0)THEN
             DO I=LFT,LLT
               NN = MAX(IUN,NC(I,N))
               VDXX(I,N)=VX(I,N)-W(1,NN)
               VDYY(I,N)=VY(I,N)-W(2,NN)
               VDZZ(I,N)=VZ(I,N)-W(3,NN)
             ENDDO
-          ELSEIF(JEUL.NE.0)THEN
+          ELSEIF(JEUL/=0)THEN
             DO I=LFT,LLT
               VDXX(I,N)=VX(I,N)
               VDYY(I,N)=VY(I,N)
@@ -1306,7 +1306,7 @@ C
         ENDIF
       ENDDO
 C
-      IF (JLAG.EQ.0)THEN
+      IF (JLAG==0)THEN
         DO I=LFT,LLT
           VDX(I)=FOURTH*VDX(I)
           VDY(I)=FOURTH*VDY(I)
@@ -1320,7 +1320,7 @@ C
           N1=IPERM1(N)
           N2=IPERM2(N)
           DO I=LFT,LLT
-            IF(NC(I,N).EQ.0)THEN
+            IF(NC(I,N)==0)THEN
               VX(I,N) = HALF*(VX(I,N1)+VX(I,N2))
               VY(I,N) = HALF*(VY(I,N1)+VY(I,N2))
               VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2))    

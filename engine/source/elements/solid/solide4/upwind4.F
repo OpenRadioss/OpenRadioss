@@ -63,7 +63,7 @@ C-----------------------------------------------
       !-------------!
       !   /UPWM/TG  !
       !-------------!
-      IF(UPWM.EQ.2)THEN
+      IF(UPWM==2)THEN
         FAC=CUPWM*HALF*DT1
         DO I=LFT,LLT
           GAM(I)=FAC
@@ -72,7 +72,7 @@ C-----------------------------------------------
       !-------------!
       !  /UPWM/SUPG !
       !-------------!
-      ELSEIF(UPWM.EQ.3)THEN
+      ELSEIF(UPWM==3)THEN
         DO  I=LFT,LLT
           V(I)=VDX(I)**2+VDY(I)**2+VDZ(I)**2
           D1=ABS(R(I,1)*VDX(I)+R(I,2)*VDY(I)+R(I,3)*VDZ(I)) 
@@ -89,9 +89,9 @@ C-----------------------------------------------
         DO  I=LFT,LLT
           FAC=HALF*RHO(I)/MAX(EM20,VIS(I))
           PE=FAC*GAM(I)
-          IF(PE.LE.EM3)THEN
+          IF(PE<=EM3)THEN
             GAM(I)=ZERO
-          ELSEIF(PE.LT.THREE)THEN
+          ELSEIF(PE<THREE)THEN
             GAM(I)=CH1*FAC*GAM(I)**2/V(I)
           ELSE
             GAM(I)=CH2*GAM(I)/V(I)

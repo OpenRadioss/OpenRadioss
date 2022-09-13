@@ -102,7 +102,7 @@ C Check activation flag for FVM momentum
 
         IALEL = IPARG1(7)+IPARG1(11)
         IF(IALEL == 0)RETURN
-        IF(IALEFVM.EQ.0)RETURN !global unplug if option not present in input file
+        IF(IALEFVM==0)RETURN !global unplug if option not present in input file
                 
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
@@ -113,16 +113,16 @@ C-----------------------------------------------
       !-----------------------------------------      
       !automatic FVM SOLVER for ALE
       IF(INT22>0)THEN
-        IF(I_ALE_SOLVER.LE.1) THEN
+        IF(I_ALE_SOLVER<=1) THEN
           I_ALE_SOLVER=5
-          IF(IALEFVM_IPRINT_1.EQ.0)THEN
+          IF(IALEFVM_IPRINT_1==0)THEN
             !print *, "** WARNING INT22 : UNDEFINED /ALE/SOLVER CARD"
             !print *, "                   ENABLING IT AUTOMATICALLY WITH IMOM_VEL=5"
             IALEFVM_IPRINT_1 = 1
           ENDIF
-        ELSEIF(I_ALE_SOLVER.NE.5)THEN
+        ELSEIF(I_ALE_SOLVER/=5)THEN
           I_ALE_SOLVER=5
-          IF(IALEFVM_IPRINT_2.EQ.0)THEN
+          IF(IALEFVM_IPRINT_2==0)THEN
             print *, "** WARNING INT22 : /ALE/SOLVER CARD"
             print *, "                   RECOMMENDED VALUE IS IMOM_VEL=5"
             IALEFVM_IPRINT_2 = 1
@@ -130,7 +130,7 @@ C-----------------------------------------------
         ENDIF
       ENDIF
       
-      IF(I_ALE_SOLVER.GT.0)THEN
+      IF(I_ALE_SOLVER>0)THEN
         IPM(251,MAT(1)) = I_ALE_SOLVER
         ! 0: Default = 1 expect if /ALE/MAT or /EULER/MAT has IFROM flag defined.
         ! 1 : FEM
@@ -150,7 +150,7 @@ C-----------------------------------------------
 
         DO  I=LFT,LLT
 c          IALEFVM_FLG = IPM(251,MAT(I))
-c          IF(IALEFVM_FLG.EQ.0)CYCLE       
+c          IF(IALEFVM_FLG==0)CYCLE       
           II          = I+NFT
           !---nod-1
           VX1(I)      = V(1,IXS(2,II))
@@ -225,19 +225,19 @@ c          IF(IALEFVM_FLG.EQ.0)CYCLE
         IF(ITYP == 2)THEN
           T0 = ZERO
           
-          IF(IVxFUN.GT.0)THEN
+          IF(IVxFUN>0)THEN
             Vx = Vx0*FINTER(IVxFUN,T0,NPF,TF,DYDX)
           ELSE
             Vx = Vx0
           ENDIF  
 
-          IF(IVyFUN.GT.0)THEN
+          IF(IVyFUN>0)THEN
             Vy = Vy0*FINTER(IVyFUN,T0,NPF,TF,DYDX)
           ELSE
             Vy = Vy0
           ENDIF  
 
-          IF(IVzFUN.GT.0)THEN
+          IF(IVzFUN>0)THEN
             Vz = Vz0*FINTER(IVzFUN,T0,NPF,TF,DYDX)
           ELSE
             Vz = Vz0

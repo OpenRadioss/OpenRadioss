@@ -53,7 +53,7 @@ C
       NEL1_L = 1
 C            
       DO I = 1,NUMEL
-        IF(CEP(I).EQ.P)THEN
+        IF(CEP(I)==P)THEN
           II = IEL_CRKXFEM(I)
           IF(IDIM == 3)II = II - ECRKXFEC
           IF(II  > 0)THEN

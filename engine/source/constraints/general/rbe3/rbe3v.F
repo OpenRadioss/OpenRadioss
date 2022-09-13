@@ -71,7 +71,7 @@ C======================================================================|
       IADS = SLRBE3/2
       CALL PRERBE3(IRBE3 ,MAX_M , IROTG,JT  ,JR   )
       ALLOCATE(FDSTNB(3,6,MAX_M))
-      IF (IROTG.GT.0) ALLOCATE(MDSTNB(3,6,MAX_M))
+      IF (IROTG>0) ALLOCATE(MDSTNB(3,6,MAX_M))
       DO N= NRBE3,1,-1
         IAD = IRBE3(1,N)
         NS  = IRBE3(3,N)
@@ -98,7 +98,7 @@ C======================================================================|
 	  ENDDO
 	 ENDDO
         ENDDO
-        IF (IROT.GT.0) THEN
+        IF (IROT>0) THEN
          DO I=1,NML
           M = LRBE3(IAD+I)
           DO J = 1,3
@@ -115,7 +115,7 @@ C======================================================================|
 	 V(J,NS) = VS(J) *JT(J,N)
 	 A(J,NS) = AS(J) *JT(J,N)
 	ENDDO
-        IF ((JR(1,N)+JR(2,N)+JR(3,N)).GT.0) THEN
+        IF ((JR(1,N)+JR(2,N)+JR(3,N))>0) THEN
          DO J = 1,3
 	  VR(J,NS) = VRS(J) *JR(J,N)
 	  AR(J,NS) = ARS(J) *JR(J,N)
@@ -124,7 +124,7 @@ C======================================================================|
       ENDDO
 C      
       DEALLOCATE(FDSTNB)
-      IF (IROTG.GT.0) DEALLOCATE(MDSTNB)
+      IF (IROTG>0) DEALLOCATE(MDSTNB)
 C---
       RETURN
       END
@@ -178,11 +178,11 @@ C======================================================================|
       IADS = SLRBE3/2
       CALL PRERBE3(IRBE3 ,MAX_M , IROTG,JT  ,JR   )
       ALLOCATE(FDSTNB(3,6,MAX_M))
-      IF (IROTG.GT.0) ALLOCATE(MDSTNB(3,6,MAX_M))
+      IF (IROTG>0) ALLOCATE(MDSTNB(3,6,MAX_M))
       DO N=1,NRBE3
         IAD = IRBE3(1,N)
         NS  = IRBE3(3,N)
-        IF (NS.EQ.0) CYCLE
+        IF (NS==0) CYCLE
         NML = IRBE3(5,N)
 	IROT =MIN(IRBE3(6,N),IRODDL)
         CALL RBE3CL(LRBE3(IAD+1),LRBE3(IADS+IAD+1),NS     ,X    ,
@@ -201,7 +201,7 @@ C======================================================================|
 	  ENDDO
 	 ENDDO
         ENDDO
-        IF (IROT.GT.0) THEN
+        IF (IROT>0) THEN
          DO I=1,NML
           M = LRBE3(IAD+I)
           DO J = 1,3
@@ -215,7 +215,7 @@ C======================================================================|
         DO J = 1,3
 	 D(J,NS) = VS(J) *JT(J,N)
 	ENDDO
-        IF ((JR(1,N)+JR(2,N)+JR(3,N)).GT.0) THEN
+        IF ((JR(1,N)+JR(2,N)+JR(3,N))>0) THEN
          DO J = 1,3
 	  DR(J,NS) = VRS(J) *JR(J,N)
 	 ENDDO
@@ -223,7 +223,7 @@ C======================================================================|
       ENDDO
 C      
       DEALLOCATE(FDSTNB)
-      IF (IROTG.GT.0) DEALLOCATE(MDSTNB)
+      IF (IROTG>0) DEALLOCATE(MDSTNB)
 C---
       RETURN
       END
@@ -277,7 +277,7 @@ C======================================================================|
 	  ENDDO
 	 ENDDO
         ENDDO
-        IF (IROT.GT.0) THEN
+        IF (IROT>0) THEN
          DO I=1,NML
           M = IML(I)
           DO J = 1,3
@@ -291,7 +291,7 @@ C======================================================================|
         DO J = 1,3
 	 D(J,NS) = VS(J) *JT(J)
 	ENDDO
-        IF ((JR(1)+JR(2)+JR(3)).GT.0) THEN
+        IF ((JR(1)+JR(2)+JR(3))>0) THEN
          DO J = 1,3
 	  DR(J,NS) = VRS(J) *JR(J)
 	 ENDDO

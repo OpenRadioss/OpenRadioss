@@ -206,9 +206,9 @@ C
        ENDDO
        NU  = UPARAM(IADBUF+6)
        EPSMAX= UPARAM(IADBUF+15)
-       IF(EPSMAX.EQ.ZERO)THEN
+       IF(EPSMAX==ZERO)THEN
 c      NXK=SIZE(TABLE(ITABLE)%X(1)%VALUES)
-c      IF(TABLE(ITABLE)%Y%VALUES(NXK).EQ.ZERO)THEN
+c      IF(TABLE(ITABLE)%Y%VALUES(NXK)==ZERO)THEN
 c       EPSMAX = TABLE(ITABLE)%X(1)%VALUES(NXK)
 c      ELSE
         EPSMAX = EP30
@@ -244,9 +244,9 @@ C
        YFAC  =UPARAM(IADBUF+14)
 C
        EPSR1 =UPARAM(IADBUF+16)
-       IF(EPSR1.EQ.ZERO)EPSR1=EP30
+       IF(EPSR1==ZERO)EPSR1=EP30
        EPSR2 =UPARAM(IADBUF+17)
-       IF(EPSR2.EQ.ZERO)EPSR2=TWOEP30
+       IF(EPSR2==ZERO)EPSR2=TWOEP30
 C
       FF        = UPARAM(IADBUF+7)
       GG        = UPARAM(IADBUF+8)
@@ -255,8 +255,8 @@ C
       MM        = UPARAM(IADBUF+11)
       NN        = UPARAM(IADBUF+12)
 C
-      IF (ISIGI.EQ.0) THEN
-        IF(TIME.EQ.ZERO)THEN
+      IF (ISIGI==0) THEN
+        IF(TIME==ZERO)THEN
           DO I=1,NEL
             UVAR(I,1)=ZERO
             UVAR(I,2)=ZERO
@@ -271,7 +271,7 @@ C
 C------------------------------------------
 C     ECROUISSAGE CINE
 C------------------------------------------
-      IF (FISOKIN.NE.ZERO) THEN
+      IF (FISOKIN/=ZERO) THEN
         DO I=1,NEL
           SIGOXX(I) = SIGOXX(I) - UVAR(I,5)
           SIGOYY(I) = SIGOYY(I) - UVAR(I,6)
@@ -335,24 +335,24 @@ c         yp= 3 x^2 + c
         EPST = SQRT(-CC)
         EPST2 = EPST * EPST
         Y = (EPST2 + C)* EPST + D
-        IF(ABS(Y).GT.EM8)THEN
+        IF(ABS(Y)>EM8)THEN
           EPST = ONEP75 * EPST
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
           YP = THREE*EPST2 + C
-          IF(YP.NE.ZERO)EPST = EPST - Y/YP
+          IF(YP/=ZERO)EPST = EPST - Y/YP
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
           YP = THREE*EPST2 + C
-          IF(YP.NE.ZERO)EPST = EPST - Y/YP
+          IF(YP/=ZERO)EPST = EPST - Y/YP
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
           YP = THREE*EPST2 + C
-          IF(YP.NE.ZERO)EPST = EPST - Y/YP
+          IF(YP/=ZERO)EPST = EPST - Y/YP
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
           YP = THREE*EPST2 + C
-          IF(YP.NE.ZERO)EPST = EPST - Y/YP
+          IF(YP/=ZERO)EPST = EPST - Y/YP
         ENDIF
         EPST = EPST + DAV
 C-------------------
@@ -462,7 +462,7 @@ C          ECROUISSAGE CINEMATIQUE
 C-------------------
 C     PROJECTION
 C-------------------
-      IF(IPLA.EQ.0)THEN
+      IF(IPLA==0)THEN
        DO I=1,NEL
         CRI(I) = 
      .    FF*(SIGNYY(I) - SIGNZZ(I))**2 + GG*(SIGNZZ(I) - SIGNXX(I))**2
@@ -482,7 +482,7 @@ c        P = C11(I) * (RHO(I)/RHO0(I)- ONE)
         UVAR(I,1)=PLA(I)
         DPLA(I) = (ONE - R)*CRI(I)/MAX(G31(I)+H(I),EM20)         
        ENDDO
-      ELSEIF(IPLA.EQ.2)THEN
+      ELSEIF(IPLA==2)THEN
        DO I=1,NEL
         CRI(I) = 
      .    FF*(SIGNYY(I) - SIGNZZ(I))**2 + GG*(SIGNZZ(I) - SIGNXX(I))**2
@@ -502,7 +502,7 @@ c        P = C11(I) * (RHO(I)/RHO0(I)-ONE)
         UVAR(I,1)=PLA(I)
         DPLA(I) =  (ONE-R)*CRI(I)/MAX(G31(I),EM20)       
        ENDDO
-      ELSEIF(IPLA.EQ.1)THEN
+      ELSEIF(IPLA==1)THEN
        DO I=1,NEL
         CRI(I) = 
      .    FF*(SIGNYY(I) - SIGNZZ(I))**2 + GG*(SIGNZZ(I) - SIGNXX(I))**2
@@ -531,7 +531,7 @@ c        P = C11(I) * (RHO(I)/RHO0(I)-ONE)
 C------------------------------------------
 C     ECROUISSAGE CINE
 C------------------------------------------
-      IF (FISOKIN.NE.ZERO) THEN
+      IF (FISOKIN/=ZERO) THEN
         DO I=1,NEL
 c         P = C11(I) * (RHO(I)/RHO0(I)-ONE)
          P = C11(I) * AMU(I)
@@ -567,11 +567,11 @@ C
        ENDDO
       ENDIF
 
-      IF (IMPL_S.GT.0) THEN
+      IF (IMPL_S>0) THEN
        DO I=1,NEL
-         IF(DPLA(I).GT.0) ETSE(I)= H(I)/G21(I)
+         IF(DPLA(I)>0) ETSE(I)= H(I)/G21(I)
        ENDDO
-c       IF (IKT.EQ.4)
+c       IF (IKT==4)
 c     .     CALL PUT_SIGE0(NEL,SIGEXX,SIGEYY,SIGEZZ,SIGEXY,
 c     .                   SIGEYZ,SIGEZX,DPLA,G   ,H     )
       ENDIF
@@ -587,9 +587,9 @@ c     .                   SIGEYZ,SIGEZX,DPLA,G   ,H     )
       NU  = UPARAM(IADBUF+6)
       C1  = UPARAM(IADBUF+20)
       EPSMAX= UPARAM(IADBUF+15)
-      IF(EPSMAX.EQ.ZERO)THEN
+      IF(EPSMAX==ZERO)THEN
 c      NXK=SIZE(TABLE(ITABLE)%X(1)%VALUES)
-c      IF(TABLE(ITABLE)%Y%VALUES(NXK).EQ.ZERO)THEN
+c      IF(TABLE(ITABLE)%Y%VALUES(NXK)==ZERO)THEN
 c       EPSMAX = TABLE(ITABLE)%X(1)%VALUES(NXK)
 c      ELSE
         EPSMAX = EP30
@@ -600,9 +600,9 @@ C
       YFAC  =UPARAM(IADBUF+14)
 C
       EPSR1 =UPARAM(IADBUF+16)
-      IF(EPSR1.EQ.ZERO)EPSR1=EP30
+      IF(EPSR1==ZERO)EPSR1=EP30
       EPSR2 =UPARAM(IADBUF+17)
-      IF(EPSR2.EQ.ZERO)EPSR2=TWOEP30
+      IF(EPSR2==ZERO)EPSR2=TWOEP30
 C
       FF        = UPARAM(IADBUF+7)
       GG        = UPARAM(IADBUF+8)
@@ -611,8 +611,8 @@ C
       MM        = UPARAM(IADBUF+11)
       NN        = UPARAM(IADBUF+12)
 C
-      IF (ISIGI.EQ.0) THEN
-        IF(TIME.EQ.ZERO)THEN
+      IF (ISIGI==0) THEN
+        IF(TIME==ZERO)THEN
           DO I=1,NEL
             UVAR(I,1)=ZERO
             UVAR(I,2)=ZERO
@@ -627,7 +627,7 @@ C
 C------------------------------------------
 C     ECROUISSAGE CINE
 C------------------------------------------
-      IF (FISOKIN.NE.ZERO) THEN
+      IF (FISOKIN/=ZERO) THEN
         DO I=1,NEL
           SIGOXX(I) = SIGOXX(I) - UVAR(I,5)
           SIGOYY(I) = SIGOYY(I) - UVAR(I,6)
@@ -691,24 +691,24 @@ c         yp= 3 x^2 + c
         EPST = SQRT(-CC)
         EPST2 = EPST * EPST
         Y = (EPST2 + C)* EPST + D
-        IF(ABS(Y).GT.EM8)THEN
+        IF(ABS(Y)>EM8)THEN
           EPST = ONEP75 * EPST
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
           YP = THREE*EPST2 + C
-          IF(YP.NE.ZERO)EPST = EPST - Y/YP
+          IF(YP/=ZERO)EPST = EPST - Y/YP
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
           YP = THREE*EPST2 + C
-          IF(YP.NE.ZERO)EPST = EPST - Y/YP
+          IF(YP/=ZERO)EPST = EPST - Y/YP
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
           YP = THREE*EPST2 + C
-          IF(YP.NE.ZERO)EPST = EPST - Y/YP
+          IF(YP/=ZERO)EPST = EPST - Y/YP
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
           YP = THREE*EPST2 + C
-          IF(YP.NE.ZERO)EPST = EPST - Y/YP
+          IF(YP/=ZERO)EPST = EPST - Y/YP
         ENDIF
         EPST = EPST + DAV
 C-------------------
@@ -818,7 +818,7 @@ C          ECROUISSAGE CINEMATIQUE
 C-------------------
 C     PROJECTION
 C-------------------
-      IF(IPLA.EQ.0)THEN
+      IF(IPLA==0)THEN
        DO I=1,NEL
         CRI(I) = 
      .    FF*(SIGNYY(I) - SIGNZZ(I))**2 + GG*(SIGNZZ(I) - SIGNXX(I))**2
@@ -838,7 +838,7 @@ c        P = C1 * (RHO(I)/RHO0(I)- ONE)
         UVAR(I,1)=PLA(I)
         DPLA(I) = (ONE - R)*CRI(I)/MAX(G3+H(I),EM20)         
        ENDDO
-      ELSEIF(IPLA.EQ.2)THEN
+      ELSEIF(IPLA==2)THEN
        DO I=1,NEL
         CRI(I) = 
      .    FF*(SIGNYY(I) - SIGNZZ(I))**2 + GG*(SIGNZZ(I) - SIGNXX(I))**2
@@ -858,7 +858,7 @@ c        P = C1 * (RHO(I)/RHO0(I)-ONE)
         UVAR(I,1)=PLA(I)
         DPLA(I) =  (ONE-R)*CRI(I)/MAX(G3,EM20)       
        ENDDO
-      ELSEIF(IPLA.EQ.1)THEN
+      ELSEIF(IPLA==1)THEN
        DO I=1,NEL
         CRI(I) = 
      .    FF*(SIGNYY(I) - SIGNZZ(I))**2 + GG*(SIGNZZ(I) - SIGNXX(I))**2
@@ -887,7 +887,7 @@ c        P = C1 * (RHO(I)/RHO0(I)-ONE)
 C------------------------------------------
 C     ECROUISSAGE CINE
 C------------------------------------------
-      IF (FISOKIN.NE.ZERO) THEN
+      IF (FISOKIN/=ZERO) THEN
         DO I=1,NEL
          P = C1 * (RHO(I)/RHO0(I)-ONE)
          DSXX = SIGEXX(I) - SIGNXX(I) - P 
@@ -922,11 +922,11 @@ C
        ENDDO
       ENDIF
 
-      IF (IMPL_S.GT.0) THEN
+      IF (IMPL_S>0) THEN
        DO I=1,NEL
-         IF(DPLA(I).GT.0) ETSE(I)= H(I)/G2
+         IF(DPLA(I)>0) ETSE(I)= H(I)/G2
        ENDDO
-c       IF (IKT.EQ.4)
+c       IF (IKT==4)
 c     .     CALL PUT_SIGE0(NEL,SIGEXX,SIGEYY,SIGEZZ,SIGEXY,
 c     .                   SIGEYZ,SIGEZX,DPLA,G   ,H     )
       ENDIF
@@ -934,20 +934,20 @@ c
       ENDIF ! opte==1 CE/=0
 C-------------------
       DO I=1,NEL
-        IF(OFF(I).LT.EM01) OFF(I)=ZERO
-        IF(OFF(I).LT.ONE) OFF(I)=OFF(I)*FOUR_OVER_5
+        IF(OFF(I)<EM01) OFF(I)=ZERO
+        IF(OFF(I)<ONE) OFF(I)=OFF(I)*FOUR_OVER_5
       ENDDO
 C
       NINDX=0
       DO I=1,NEL
-        IF(PLA(I).GT.EPSMAX.AND.OFF(I).EQ.ONE) THEN
+        IF(PLA(I)>EPSMAX.AND.OFF(I)==ONE) THEN
           OFF(I)=FOUR_OVER_5
           NINDX=NINDX+1
           INDX(NINDX)=I
           IDEL7NOK = 1
         ENDIF
       ENDDO
-      IF(NINDX.GT.0.AND.IMCONV.EQ.1)THEN
+      IF(NINDX>0.AND.IMCONV==1)THEN
         DO J=1,NINDX
 #include "lockon.inc"
         WRITE(IOUT, 1000) NGL(INDX(J))

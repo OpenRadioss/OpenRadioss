@@ -74,7 +74,7 @@ C-----------------------------------------------
       DATA LAST /0/
       SAVE ENCINO,LAST
 C
-      IF(ISTATG.LT.0)THEN
+      IF(ISTATG<0)THEN
         ISTATG=NGR2USR(-ISTATG,IGRNOD,NGRNOD)
       ENDIF
       ISTAT2=0
@@ -100,10 +100,10 @@ C
            A(2,I)  = -DOMEGA*V(2,I)  + UOMEGA*A(2,I)
            A(3,I)  = -DOMEGA*V(3,I)  + UOMEGA*A(3,I)
         ENDDO
-        IF (ISPMD.EQ.0) TFEXT = TFEXT - ENCINT + ENCINN
+        IF (ISPMD==0) TFEXT = TFEXT - ENCINT + ENCINN
        END IF !(IDTMINS==0) THEN
 C	   
-        IF(IRODDL.NE.0)THEN
+        IF(IRODDL/=0)THEN
          ENCINT = ENROT
          ENCINN = ENCINT * OMEGA2
           DO I = 1, NUMNOD
@@ -111,15 +111,15 @@ C
            AR(2,I) = -DOMEGA*VR(2,I) + UOMEGA*AR(2,I)
            AR(3,I) = -DOMEGA*VR(3,I) + UOMEGA*AR(3,I)
           ENDDO
-         IF (ISPMD.EQ.0) TFEXT = TFEXT - ENCINT + ENCINN
+         IF (ISPMD==0) TFEXT = TFEXT - ENCINT + ENCINN
         ENDIF
 C
       ELSEIF(ISTAT2==1.AND.ISTATG==0)THEN
 C
        LAST = LAST+1
        ENCINT = ENCIN+ENROT
-       IF(ENCINT.LT.ENCINO)THEN
-        IF (IMACH.NE.3.OR.(IMACH.EQ.3.AND.ISPMD.EQ.0))
+       IF(ENCINT<ENCINO)THEN
+        IF (IMACH/=3.OR.(IMACH==3.AND.ISPMD==0))
      .   TFEXT = TFEXT - ENCINT 
         ENCINO=ZERO
         LAST=0
@@ -128,7 +128,7 @@ C
          DO I = 1, NUMNOD
            V(J,I) = ZERO
          ENDDO
-         IF(IRODDL.NE.0)THEN
+         IF(IRODDL/=0)THEN
            DO I = 1, NUMNOD
              VR(J,I) = ZERO
            ENDDO
@@ -160,7 +160,7 @@ C
        ENDDO
        END IF !(IDTMINS==0) THEN
 C	   
-        IF(IRODDL.NE.0)THEN
+        IF(IRODDL/=0)THEN
          DO J=1,3
 #include "vectorize.inc"
           DO N=1,IGRNOD(ISTATG)%NENTITY
@@ -176,15 +176,15 @@ C
        ENCGRPR = HALF*ENCGRPR
        ENCGRPN = ENCGRP * OMEGA2
        ENCGRPRN = ENCGRPR * OMEGA2
-       IF (IMACH.NE.3.OR.(IMACH.EQ.3.AND.ISPMD.EQ.0))
+       IF (IMACH/=3.OR.(IMACH==3.AND.ISPMD==0))
      .  TFEXT = TFEXT + ENCGRPN - ENCGRP + ENCGRPRN - ENCGRPR
 C
       ELSEIF(ISTAT2==1.AND.ISTATG/=0)THEN
 C
        LAST = LAST+1
        ENCINT = ENCIN+ENROT
-       IF(ENCINT.LT.ENCINO)THEN
-        IF (IMACH.NE.3.OR.(IMACH.EQ.3.AND.ISPMD.EQ.0))
+       IF(ENCINT<ENCINO)THEN
+        IF (IMACH/=3.OR.(IMACH==3.AND.ISPMD==0))
      .   TFEXT = TFEXT - ENCINT 
         ENCINO=ZERO
         LAST=0
@@ -195,7 +195,7 @@ C
            I=IGRNOD(ISTATG)%ENTITY(N)
            V(J,I) = ZERO
          ENDDO
-         IF(IRODDL.NE.0)THEN
+         IF(IRODDL/=0)THEN
 #include "vectorize.inc"
            DO N=1,IGRNOD(ISTATG)%NENTITY
             I=IGRNOD(ISTATG)%ENTITY(N)
@@ -293,7 +293,7 @@ C
        PINT = PINT +DT1
        PIMAX = MAX(PIMAX,PINT)
        PCMAX = MAX(PCMAX,PCIN)
-       IF(ENCINT.LT.ENCIN_0.AND.ENCINT>=ZERO)THEN
+       IF(ENCINT<ENCIN_0.AND.ENCINT>=ZERO)THEN
         ENCIN_0=ZERO
         PCIN = ZERO
         IPC = 1
@@ -305,7 +305,7 @@ C
         EINT_0=ZERO
         PINT = ZERO
         IPI = -2
-       ELSEIF(EINT.LT.EINT_0.AND.EINT>=ZERO)THEN
+       ELSEIF(EINT<EINT_0.AND.EINT>=ZERO)THEN
         EINT_0=ZERO
         PINT = ZERO
         IPI = 1

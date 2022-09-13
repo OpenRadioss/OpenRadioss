@@ -84,7 +84,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       DO I=JFT,JLT
         IF (IGRTH(I) /= IGRTH(I+1)) THEN
-          IF(OFF(I) .NE. ZERO)THEN
+          IF(OFF(I) /= ZERO)THEN
             DO J = IGRTH(I),IGRTH(I+1)-1
               GRESAV(1,GRTH(J)) = GRESAV(1,GRTH(J)) + EI(I)
               GRESAV(2,GRTH(J)) = GRESAV(2,GRTH(J)) + EK(I)

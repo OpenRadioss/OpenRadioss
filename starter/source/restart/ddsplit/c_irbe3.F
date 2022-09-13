@@ -77,13 +77,13 @@ C
           ENDIF
        ENDDO
 C--------------pour exchange,meme sans node secnd----
-       IF (NLOCAL(M,PROC+1)==1.OR.ILP.GT.0)THEN
+       IF (NLOCAL(M,PROC+1)==1.OR.ILP>0)THEN
         NRBE3_L = NRBE3_L+1
        END IF
        SLMN_L = SLMN_L + ILP
       ENDDO
 C
-      IF(IPARI0.NE.0) NSKYRBE3_L = SLMN_L*0
+      IF(IPARI0/=0) NSKYRBE3_L = SLMN_L*0
 C-------------pour main nodes---------
       DO I = 1, NUMNOD
         TAGI(I) = 0
@@ -91,7 +91,7 @@ C-------------pour main nodes---------
       DO I = 1, SLRBE3/2
           N = LRBE3(I)
             IF(NLOCAL(N,PROC+1)==1) THEN
-              IF(TAGI(N).EQ.0) THEN
+              IF(TAGI(N)==0) THEN
 C decompte des frontieres de main nodes
                 DO P = 1, NSPMD
                   IF(NLOCAL(N,P)==1)THEN

@@ -312,7 +312,7 @@ C Computing cross product :
 
           PEDG = XM12(EJ,I) *XS12(EJ,I) + YM12(EJ,I) *YS12(EJ,I) + ZM12(EJ,I) *ZS12(EJ,I)
           NEDG = SQRT(XM2(EJ,I)) * SQRT(XS2(EJ,I))
-          IF(ABS(PEDG).GT.(ONE-EM04)*NEDG) THEN
+          IF(ABS(PEDG)>(ONE-EM04)*NEDG) THEN
             PENE2(EJ,I)=ZERO
             CYCLE  ! no contact
           END IF
@@ -417,7 +417,7 @@ C---------------------------------------
           XA4(I)=X(1,IX4(I))
           YA4(I)=X(2,IX4(I))
           ZA4(I)=X(3,IX4(I))
-          IF(IX3(I).NE.IX4(I))THEN
+          IF(IX3(I)/=IX4(I))THEN
            XA0(I) = FOURTH*(XA1(I)+XA2(I)+XA3(I)+XA4(I))
            YA0(I) = FOURTH*(YA1(I)+YA2(I)+YA3(I)+YA4(I))
            ZA0(I) = FOURTH*(ZA1(I)+ZA2(I)+ZA3(I)+ZA4(I)) 
@@ -556,7 +556,7 @@ C---------------------------------------
           YA(4,I)=X(2,IX4(I))
           ZA(4,I)=X(3,IX4(I))
 
-          IF(IX3(I).NE.IX4(I))THEN
+          IF(IX3(I)/=IX4(I))THEN
             XA(5,I) = FOURTH*(XA(1,I)+XA(2,I)+XA(3,I)+XA(4,I))
             YA(5,I) = FOURTH*(YA(1,I)+YA(2,I)+YA(3,I)+YA(4,I))
             ZA(5,I) = FOURTH*(ZA(1,I)+ZA(2,I)+ZA(3,I)+ZA(4,I)) 
@@ -946,7 +946,7 @@ C
             DEBUG_E2E(EDGE_ID(1,I)==D_EM .AND. EDGE_ID(2,I) ==  D_ES,NSMS(EJ,I))
 
 
-             IF( STIF(EJ,I).NE.ZERO.AND.PENE2(EJ,I)/=ZERO)THEN
+             IF( STIF(EJ,I)/=ZERO.AND.PENE2(EJ,I)/=ZERO)THEN
                JLT_NEW = JLT_NEW + 1
                EJ_NEW=EJ_NEW+1
                IF(EJ_NEW > 4)THEN
@@ -990,8 +990,8 @@ C
                MM2(EJ_NEW,I_NEW)  = MM2(EJ,I)
                INDX1(JLT_NEW)     =INDEX(I)
                INDX2(JLT_NEW)     =EJ
-               IF(INTFRIC_LOC .NE. 0)  IPARTFRIC_ES(EJ_NEW,I_NEW)=IPARTFRIC_ES(EJ,I)
-               IF(INTFRIC_LOC .NE. 0)  IPARTFRIC_EM(EJ_NEW,I_NEW)=IPARTFRIC_EM(EJ,I)
+               IF(INTFRIC_LOC /= 0)  IPARTFRIC_ES(EJ_NEW,I_NEW)=IPARTFRIC_ES(EJ,I)
+               IF(INTFRIC_LOC /= 0)  IPARTFRIC_EM(EJ_NEW,I_NEW)=IPARTFRIC_EM(EJ,I)
                IF(IDTMINS_LOC == 2) NSMS(EJ_NEW,I_NEW) = NSMS(EJ,I)
 C#ifdef WITH_ASSERT
 C               WRITE(6,*) EJ_NEW,I_NEW,NSMS(EJ_NEW,I_NEW)

@@ -250,7 +250,7 @@ C       construit les pointeurs dans le tableau global WAP0
         LEN = 0
         CALL SPMD_RGATHER9_DP(WA,JJ,WAP0,SIZP0,LEN)
       END IF
-      IF(ISPMD.EQ.0.AND.LEN.GT.0) THEN
+      IF(ISPMD==0.AND.LEN>0) THEN
         IPRT0=0
         DO N=1,STAT_NUMELS_G
 C         retrouve le nieme elt dans l'ordre d'id croissant
@@ -271,10 +271,10 @@ c
           IOFF  = NINT(WAP0(J + 11))
           IF(IDEL==0.OR.(IDEL==1.AND.IOFF >=1))THEN
 c
-            IF(IPRT /= IPRT0 .AND. ISORTH .NE. 0)THEN 
+            IF(IPRT /= IPRT0 .AND. ISORTH /= 0)THEN 
              IF (IZIPSTRS == 0) THEN
                WRITE(IUGEO,'(A)') DELIMIT
-               IF(IGLOB.EQ.1.) THEN
+               IF(IGLOB==1.) THEN
                   WRITE(IUGEO,'(A)')'/INIBRI/ORTHO_FGLO'
                ELSE
                   WRITE(IUGEO,'(A)')'/INIBRI/ORTHO'
@@ -283,7 +283,7 @@ c
      .      '#  BRICKID    NLAY  ISOLNOD  IGTYP  JJHBE' 
                WRITE(IUGEO,'(A)')
      .'#------------------------ REPEAT --------------------------' 
-              IF(IGLOB.EQ.1.OR.(IGTYP .NE. 21 .AND. IGTYP .NE. 22)) THEN
+              IF(IGLOB==1.OR.(IGTYP /= 21 .AND. IGTYP /= 22)) THEN
                 WRITE(IUGEO,'(A)')
      .            '#  X1, Y1, Z1, X2, Y2' 
                 WRITE(IUGEO,'(A)')
@@ -298,7 +298,7 @@ c
              ELSE
                WRITE(LINE,'(A)') DELIMIT
                CALL STRS_TXT50(LINE,100) 
-               IF(IGLOB.EQ.1.) THEN
+               IF(IGLOB==1.) THEN
                   WRITE(LINE,'(A)')'/INIBRI/ORTHO_FGLO'
                ELSE
                   WRITE(LINE,'(A)')'/INIBRI/ORTHO'
@@ -310,7 +310,7 @@ c
                WRITE(LINE,'(A)')
      .      '#  BRICKID    NLAY  ISOLNOD  IGTYP  JJHBE' 
                CALL STRS_TXT50(LINE,100) 
-              IF(IGTYP .NE. 21 .AND. IGTYP .NE. 22) THEN
+              IF(IGTYP /= 21 .AND. IGTYP /= 22) THEN
                 WRITE(LINE,'(A)')
      .            '#  X1, Y1, Z1, X2, Y2' 
                CALL STRS_TXT50(LINE,100)
@@ -338,7 +338,7 @@ c
                 CALL STRS_TXT50(LINE,100)
               ENDIF
               J = J + 11
-              IF(IGLOB.EQ.1.OR.(IGTYP .NE. 21 .AND. IGTYP .NE. 22)) THEN
+              IF(IGLOB==1.OR.(IGTYP /= 21 .AND. IGTYP /= 22)) THEN
                 JJ = J
                 DO I=1,NLAY
                   IF (IZIPSTRS == 0) THEN

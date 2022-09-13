@@ -73,7 +73,7 @@ C---  Node 1 skew
       UX(1) = UX(1)*NORM
       UY(1) = UY(1)*NORM
       UZ(1) = UZ(1)*NORM
-      IF (ABS(UX(1)).GT.ZEP99) THEN
+      IF (ABS(UX(1))>ZEP99) THEN
         WX(1) =-UZ(1)
         WY(1) = ZERO
         WZ(1) = UX(1)
@@ -97,7 +97,7 @@ C---  Node 2 skew
       UX(2) = UX(2)*NORM
       UY(2) = UY(2)*NORM
       UZ(2) = UZ(2)*NORM
-      IF (ABS(UX(2)).GT.ZEP99) THEN
+      IF (ABS(UX(2))>ZEP99) THEN
         WX(2) =-UZ(2)
         WY(2) = ZERO
         WZ(2) = UX(2)
@@ -121,7 +121,7 @@ C---  Node 3 skew
       UX(3) = UX(3)*NORM
       UY(3) = UY(3)*NORM
       UZ(3) = UZ(3)*NORM
-      IF (ABS(UX(3)).GT.ZEP99) THEN
+      IF (ABS(UX(3))>ZEP99) THEN
         WX(3) =-UZ(3)
         WY(3) = ZERO
         WZ(3) = UX(3)

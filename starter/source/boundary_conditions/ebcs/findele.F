@@ -76,14 +76,14 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
       TURBU=0
       NEIGH=0
-      IF(IPRI.GE.1)WRITE(IOUT,1000)ID,IDSU
+      IF(IPRI>=1)WRITE(IOUT,1000)ID,IDSU
 
       DO  J=1,NSEG
         DO K=1,4
           IRECT(K)=SURF_NODES(J,K)
         ENDDO
-        IF (IRECT(3) .EQ. 0) IRECT(3) = IRECT(2)
-        IF(IRECT(4).EQ.0) IRECT(4)=IRECT(3)
+        IF (IRECT(3) == 0) IRECT(3) = IRECT(2)
+        IF(IRECT(4)==0) IRECT(4)=IRECT(3)
 
         NEL=0
         DO 230 IAD=IADD(IRECT(1)),IADD(IRECT(1)+1)-1
@@ -94,7 +94,7 @@ C-----------------------------------------------
           DO 220 JJ=1,4
             II=IRECT(JJ)
             DO K=1,NNODE
-              IF(IX(K+1,N).EQ.II)THEN
+              IF(IX(K+1,N)==II)THEN
                 IP(K)=1
                 GOTO 220
               ENDIF
@@ -102,22 +102,22 @@ C-----------------------------------------------
             GOTO 230
   220     CONTINUE
 
-          IF (N2D .EQ. 0) THEN
+          IF (N2D == 0) THEN
              ! 3D case (8 nodes)
              NF=IFACE(IP,CON)
-             IF (IP(1) * IP(3) * IP(6) .NE. 0) THEN
+             IF (IP(1) * IP(3) * IP(6) /= 0) THEN
                 NF = 5
-             ELSEIF (IP(1) * IP(3) * IP(5) .NE. 0) THEN
+             ELSEIF (IP(1) * IP(3) * IP(5) /= 0) THEN
                 NF = 6
-             ELSEIF (IP(3) * IP(6) * IP(5) .NE. 0) THEN
+             ELSEIF (IP(3) * IP(6) * IP(5) /= 0) THEN
                 NF = 2
-             ELSEIF (IP(6) * IP(5) * IP(1) .NE. 0) THEN
+             ELSEIF (IP(6) * IP(5) * IP(1) /= 0) THEN
                 NF = 4
              ENDIF
-          ELSEIF (NNODE .EQ. 4) THEN
+          ELSEIF (NNODE == 4) THEN
              ! 2D case (4 nodes : QUADS)
              NF = IFACE2(IP, CON)
-          ELSEIF (NNODE .EQ. 3) THEN
+          ELSEIF (NNODE == 3) THEN
              ! 2D case (3 nodes : TRIANGLES)
              NF = IFACE2T(IP, CON)
           ENDIF
@@ -125,7 +125,7 @@ C-----------------------------------------------
 
   230   CONTINUE
 
-        IF (NEL.EQ.0) THEN
+        IF (NEL==0) THEN
           IERR=IERR+1
           NEIGH=NEIGH+1
           WRITE(IOUT,*)' ** ERROR EBCS ',ID,' CANNOT FIND NEIGHBORING BRICK FOR SEGMENT',J,' OF SURFACE',IDSU
@@ -145,7 +145,7 @@ C-----------------------------------------------
           ZS1=ZS1+FOURTH*X(3,NN)
         ENDDO
 
-        IF (N2D .EQ. 0) THEN               
+        IF (N2D == 0) THEN               
            CALL NORMA1(N1,N2,N3,AREA)      
         ELSE                               
            N1 = ZERO                       
@@ -170,7 +170,7 @@ C-----------------------------------------------
         ZC=ZC/NNODE
 
         DDS=N1*(XC-XS1)+N2*(YC-YS1)+N3*(ZC-ZS1)
-        IF(DDS.GT.0)THEN
+        IF(DDS>0)THEN
           IS=-1
         ELSE
           IS=1
@@ -178,7 +178,7 @@ C-----------------------------------------------
  
         IELE(J)=NEL
         ITYPE(J)=NNODE
-        IF (TYPE .EQ. 8 .OR. TYPE .EQ. 9 .OR. TYPE .EQ. 10) THEN
+        IF (TYPE == 8 .OR. TYPE == 9 .OR. TYPE == 10) THEN
            IFAC(J) = NF
         ENDIF
         M=IX(1,NEL)
@@ -186,25 +186,25 @@ C-----------------------------------------------
         JALE_FROM_MAT = INT(PM(72,M))
         JALE_FROM_PROP = IGEO(62,PP)
         ALE = JALE_FROM_MAT + JALE_FROM_PROP 
-        IF(ALE.NE.0)THEN
+        IF(ALE/=0)THEN
           SEGINDX = SEGINDX+1
           ISEG(J) = IS*SEGINDX
           IAD = ALE_CONNECTIVITY%ee_connect%iad_connect(NEL)
           ALE_CONNECTIVITY%ee_connect%connected(iad + NF - 1) = -SEGINDX   !NEGATIVE VALUE => STORAGE OF SEGMENT ID
-          IF(IPRI.GE.1)WRITE(IOUT,FMT=FMW_10I)J,IX(NIX,NEL),NF,ISEG(J)
+          IF(IPRI>=1)WRITE(IOUT,FMT=FMW_10I)J,IX(NIX,NEL),NF,ISEG(J)
         ELSE
-          IF(IPRI.GE.1)WRITE(IOUT,FMT=FMW_10I)J,IX(NIX,NEL),0,0
+          IF(IPRI>=1)WRITE(IOUT,FMT=FMW_10I)J,IX(NIX,NEL),0,0
         ENDIF
         TURBU=MAX(TURBU,INT(PM(70,M)))
  500    CONTINUE
       ENDDO
       
-      IF(TURBU.NE.0)THEN
+      IF(TURBU/=0)THEN
         IERR=IERR+1
         WRITE(ISTDO,*)' ** ERROR EBCS ',ID,' TURBULENCE NOT YET SUPPORTED'
         WRITE(IOUT,*)' ** ERROR EBCS ',ID,' TURBULENCE NOT YET SUPPORTED'
       ENDIF
-      IF(NEIGH.NE.0)THEN
+      IF(NEIGH/=0)THEN
         WRITE(ISTDO,*)' ** ERROR EBCS ',ID,NEIGH,' SEGMENTS NOT FACING A BRICK '
       ENDIF
 

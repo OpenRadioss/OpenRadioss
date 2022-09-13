@@ -147,7 +147,7 @@ C--------------------------
       GBUF => ELBUF_STR%GBUF
       IUN = 1
       NEL=JLT-JFT+IUN
-      IF (MTN.EQ.1) NPT=0
+      IF (MTN==1) NPT=0
       MPT=IABS(NPT)
       IDRIL = IPARG(41)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
@@ -188,7 +188,7 @@ C
      3                     MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33, 
      4                     MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34) 
 C
-      IF (IREP.GT.0) THEN
+      IF (IREP>0) THEN
       CALL CMATC3(JFT    ,JLT     ,PM     ,MAT     ,GEO     ,
      1            PID    ,AREA    ,THK0   ,THK2    ,GBUF%THK,
      2            THKE   ,VOLG    ,MTN    ,NPT     ,ITHK    ,
@@ -207,7 +207,7 @@ C
      6            STACK  ,ELBUF_STR,NLAY  ,DRAPE  , NFT      ,
      7            NEL    )
       ENDIF
-      IF (IDRIL.GT.0) THEN
+      IF (IDRIL>0) THEN
         CALL CBADERIRZ(JFT  ,JLT  ,AREA ,X13 ,X24   ,
      2                 Y13  ,Y24  ,BM0RZ,BMKRZ,BMERZ,
      3                 VCORE,NPLAT,IPLAT,ISMSTR)
@@ -255,7 +255,7 @@ C----------------------------
      6                      MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34,
      7                      IORTH,HMOR,HFOR,IDRIL,HMFOR,
      8                      X13  ,X24  ,Y13  ,Y24,NEL)
-          IF (IDRIL.GT.0) THEN
+          IF (IDRIL>0) THEN
            CALL CBABER3(JFT ,JLT  ,BM0RZ,BMKRZ,BMERZ  ,
      2                       BMRZ ,BRZ  ,BM   ,NPLAT  ,IPLAT,
      3                       NG   )
@@ -273,7 +273,7 @@ C----------------------------
        ENDDO
 C---------FIN DE BOUCLE DE 4 POINTS DE GAUSS------------
 C-------------membrane shear traitement--------------------
-        IF (IDRIL.EQ.0) THEN
+        IF (IDRIL==0) THEN
          CALL CBALKEC3(JFT,JLT,VOLG  ,X13  ,X24  ,Y13  ,Y24, HM,
      1                    K11,K12,K13,K14,K22,K23,K24,K33,K34,K44,
      2                    NPLAT,IPLAT,IKGEO,GBUF%FOR,M11,M22,M33,M44,
@@ -291,7 +291,7 @@ C----------------------------
      6                     KE11,KE22,KE33,KE44,KE12,KE13,KE14,KE23,
      7                     KE24,KE34,VCORE,IDRIL,IORTH)
      
-             IF (NEIG.GT.0) CALL C4EOFF(
+             IF (NEIG>0) CALL C4EOFF(
      1                   JFT, JLT, IXC, ETAG, OFF)
 C
              CALL ASSEM_C4(

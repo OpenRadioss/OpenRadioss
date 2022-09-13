@@ -71,7 +71,7 @@ C
          AVAR=FXBIPM(13,NFX)
          PMAIN=FXBIPM(39,NFX)
          IAD=IADN(NFX)
-         IF (ISPMD.EQ.PMAIN) THEN
+         IF (ISPMD==PMAIN) THEN
             NSNT=FXBIPM(40,NFX)
             ALLOCATE(FSKYL(NSNT,NME+NMOD))
             DO I=1,NME+NMOD
@@ -83,7 +83,7 @@ C
 C
             II=0
             DO I=1,NSPMD
-               IF (ISPMD.EQ.I-1) CYCLE
+               IF (ISPMD==I-1) CYCLE
                II=II+1
                ITAG=MSGOFF
                CALL MPI_IRECV(NSNP(II), 1, MPI_INTEGER, IT_SPMD(I),
@@ -98,7 +98,7 @@ C
             ALLOCATE(FSKYP(NSNPMAX*(1+NME+NMOD),NSPMD-1))
             II=0
             DO I=1,NSPMD
-               IF (ISPMD.EQ.I-1) CYCLE
+               IF (ISPMD==I-1) CYCLE
                II=II+1
                ITAG=MSGOFF
                LEN=NSNP(II)*(1+NME+NMOD)

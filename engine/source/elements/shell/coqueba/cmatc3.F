@@ -125,8 +125,8 @@ C     REAL
 C-----------------------------------------------
       COEF =EM01
       NEL = JLT-JFT+1
-C      IF (IHBE.GE.21.AND.IHBE.LE.29) COEF =EM03 
-      IF(ITHK.GT.0.AND.ISMDISP.EQ.0)THEN
+C      IF (IHBE>=21.AND.IHBE<=29) COEF =EM03 
+      IF(ITHK>0.AND.ISMDISP==0)THEN
         DO I=JFT,JLT
           THK0(I)=THK(I)
         ENDDO
@@ -163,7 +163,7 @@ C
           A12(I) =PM(25,MX)
         ENDDO
       END IF
-      IF(NPT.EQ.1) THEN
+      IF(NPT==1) THEN
         DO I=JFT,JLT
          SHF(I)=0.
         ENDDO
@@ -176,7 +176,7 @@ C
          GS(I)=G(I)*SHF(I)
       ENDDO
 C----this will do only for QEPH and change also in CNCOEF!!!look at starter first      
-      IF(MTN.GE.24)THEN
+      IF(MTN>=24)THEN
         DO I=JFT,JLT
           A12(I)  =NU(I)*A11(I)
         ENDDO
@@ -189,12 +189,12 @@ C----this will do only for QEPH and change also in CNCOEF!!!look at starter firs
             A12(I)=SFAC(I)*A12(I)
           ENDDO
       ENDIF
-      IF (MTN.EQ.19.OR.MTN.EQ.15.OR.MTN.EQ.25) THEN
+      IF (MTN==19.OR.MTN==15.OR.MTN==25) THEN
        IORTH=1
       ELSE
        IORTH=0
       ENDIF
-      IF (IORTH.EQ.1) THEN
+      IF (IORTH==1) THEN
         DO I=JFT,JLT
          HMFOR(I,1)=ZERO
          HMFOR(I,2)=ZERO
@@ -203,7 +203,7 @@ C----this will do only for QEPH and change also in CNCOEF!!!look at starter firs
          HMFOR(I,5)=ZERO
          HMFOR(I,6)=ZERO
         ENDDO
-       IF (MTN.EQ.19) THEN
+       IF (MTN==19) THEN
         CALL GEPM_LC(JFT,JLT,MAT,PM,SHF,HM,HC)
         CALL CCTOGLOB(JFT,JLT,HM,HC,HMOR,DIR,NEL)
         DO I=JFT,JLT
@@ -215,8 +215,8 @@ C----this will do only for QEPH and change also in CNCOEF!!!look at starter firs
          HFOR(I,2)=ONE_OVER_12*HMOR(I,2)
          HZ(I)= MAX(HF(I,1),HF(I,2),HF(I,4))*KZ_TOL
         ENDDO
-       ELSEIF (MTN.EQ.15.OR.MTN.EQ.25) THEN
-        IF (IGTYP.EQ.9) THEN
+       ELSEIF (MTN==15.OR.MTN==25) THEN
+        IF (IGTYP==9) THEN
          CALL GEPM_LC(JFT,JLT,MAT,PM,SHF,HM,HC)
          CALL CCTOGLOB(JFT,JLT,HM,HC,HMOR,DIR,NEL)
          DO I=JFT,JLT
@@ -252,7 +252,7 @@ C         INTEGRATION PAR COUCHES
            HFOR(I,1)=ZERO
            HFOR(I,2)=ZERO
          ENDDO
-        IF(IGTYP.EQ.10)THEN
+        IF(IGTYP==10)THEN
          DO J=1,NPT
           J2=1+(J-1)*JLT
           J3=1+(J-1)*JLT*2
@@ -309,7 +309,7 @@ C         INTEGRATION PAR COUCHES
            HMFOR(I,6)=HMFOR(I,6)+WM*HMORLY(I,2)
           ENDDO
          ENDDO 
-        END IF !(IGTYP.EQ.10)
+        END IF !(IGTYP==10)
          DO I=JFT,JLT
           HZ(I)= MAX(HF(I,1),HF(I,2),HF(I,4))*KZ_TOL
          ENDDO
@@ -367,14 +367,14 @@ C
         ENDDO
        END IF !(MTN == 27) THEN
       ENDIF
-       IF (IDRIL.GT.0) THEN
+       IF (IDRIL>0) THEN
           FACG = COEF*MIN(ONE,KZ_TOL*2000)
          DO I=JFT,JLT
 C-------allows changing module by KZ_TOL----
           HZ(I)= G(I)*FACG
 C          HZ(I)= HM(I,4)*FACG
          ENDDO
-       END IF !(IDRIL.GT.0) THEN
+       END IF !(IDRIL>0) THEN
 C
       RETURN
       END
@@ -665,7 +665,7 @@ C
        G  =PM(22,MX)
        A11 =PM(24,MX)
        A12 =PM(25,MX)
-       IF(MTN.GE.24)THEN
+       IF(MTN>=24)THEN
           A12  =NU*A11
        ENDIF
 C---------- or IORTH=2 in this case to dispense HMFOR
@@ -905,7 +905,7 @@ C
         ENDDO
       END IF
 C----this will do only for QEPH and change also in CNCOEF!!!look at starter first
-      IF(MTN.GE.24)THEN
+      IF(MTN>=24)THEN
         DO I=JFT,JLT
           A12(I)  =NU(I)*A11(I)
         ENDDO
@@ -924,14 +924,14 @@ C-----------elastic only------------
          HZ(I)= ONE_OVER_12*A11(I)*KZ_TOL
        ENDDO
 C
-       IF (IDRIL.GT.0) THEN
+       IF (IDRIL>0) THEN
           COEF=EM01
           FACG = COEF*MIN(ONE,KZ_TOL*2000)
          DO I=JFT,JLT
 C-------elastic only; allows changing module by KZ_TOL----
           HZ(I)= G(I)*FACG
          ENDDO
-       END IF !(IDRIL.GT.0) THEN
+       END IF !(IDRIL>0) THEN
 C
       RETURN
       END

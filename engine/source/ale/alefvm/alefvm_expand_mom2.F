@@ -105,7 +105,7 @@ C-----------------------------------------------
         !IBORDER(1:6) = 0 !0=not a border face. 1:otherwise
         !DO J=1,NV46
         !  IV = IVOIS(J,II)
-        !  IF(IV.EQ.0)IBORDER(J) = 1
+        !  IF(IV==0)IBORDER(J) = 1
         !ENDDO
         !NF_BORDER    = SUM(IBORDER(:))   !number of border faces
         !NF_INTERNAL  = NV46 - NF_BORDER  !number of internal face

@@ -153,31 +153,31 @@ C-----------------------------------------------
       ENDDO
 
        DO I=LFT,LLT
-       IF(ALPH(I).LT.ONE
-     .   .AND.ALPH(I).GT.ZERO
-     .   .AND.ALPHC(I).EQ.ZERO
-     .   .AND.DT1.GT.ZERO)THEN
+       IF(ALPH(I)<ONE
+     .   .AND.ALPH(I)>ZERO
+     .   .AND.ALPHC(I)==ZERO
+     .   .AND.DT1>ZERO)THEN
 
          FF1=FILL(NC1(I))
          FF2=FILL(NC2(I))
          FF3=FILL(NC3(I))
          FF4=FILL(NC4(I))
 C  1
-        IF(FF1.LT.ZERO)THEN
+        IF(FF1<ZERO)THEN
          NV=0
          DVY=ZERO
          DVZ=ZERO
-         IF(FF2.GT.ZERO)THEN
+         IF(FF2>ZERO)THEN
           NV=NV+1
           DVY=DVY+(V(2,NC2(I))-V(2,NC1(I)))
           DVZ=DVZ+(V(3,NC2(I))-V(3,NC1(I)))
          ENDIF
-         IF(FF4.GT.ZERO)THEN
+         IF(FF4>ZERO)THEN
           NV=NV+1
           DVY=DVY+(V(2,NC4(I))-V(2,NC1(I)))
           DVZ=DVZ+(V(3,NC4(I))-V(3,NC1(I)))
          ENDIF
-         IF(NV.EQ.0.AND.FF3.GT.ZERO)THEN
+         IF(NV==0.AND.FF3>ZERO)THEN
           NV=NV+1
           DVY=DVY+(V(2,NC3(I))-V(2,NC1(I)))
           DVZ=DVZ+(V(3,NC3(I))-V(3,NC1(I)))
@@ -186,21 +186,21 @@ C  1
          B21(I)=B21(I)-XMS(I)*DVZ/MAX(1,NV)
         ENDIF
 C  2
-        IF(FF2.LT.ZERO)THEN
+        IF(FF2<ZERO)THEN
          NV=0
          DVY=ZERO
          DVZ=ZERO
-         IF(FF3.GT.ZERO)THEN
+         IF(FF3>ZERO)THEN
           NV=NV+1
           DVY=DVY+(V(2,NC3(I))-V(2,NC2(I)))
           DVZ=DVZ+(V(3,NC3(I))-V(3,NC2(I)))
          ENDIF
-         IF(FF1.GT.ZERO)THEN
+         IF(FF1>ZERO)THEN
           NV=NV+1
           DVY=DVY+(V(2,NC1(I))-V(2,NC2(I)))
           DVZ=DVZ+(V(3,NC1(I))-V(3,NC2(I)))
          ENDIF
-         IF(NV.EQ.0.AND.FF4.GT.ZERO)THEN
+         IF(NV==0.AND.FF4>ZERO)THEN
           NV=NV+1
           DVY=DVY+(V(2,NC4(I))-V(2,NC2(I)))
           DVZ=DVZ+(V(3,NC4(I))-V(3,NC2(I)))
@@ -209,21 +209,21 @@ C  2
          B22(I)=B22(I)-XMS(I)*DVZ/MAX(1,NV)
         ENDIF
 C  3
-        IF(FF3.LT.ZERO)THEN
+        IF(FF3<ZERO)THEN
          NV=0
          DVY=ZERO
          DVZ=ZERO
-         IF(FF4.GT.ZERO)THEN	 
+         IF(FF4>ZERO)THEN	 
           NV=NV+1
           DVY=DVY+(V(2,NC4(I))-V(2,NC3(I)))
           DVZ=DVZ+(V(3,NC4(I))-V(3,NC3(I)))
          ENDIF
-         IF(FF2.GT.ZERO)THEN
+         IF(FF2>ZERO)THEN
           NV=NV+1
           DVY=DVY+(V(2,NC2(I))-V(2,NC3(I)))
           DVZ=DVZ+(V(3,NC2(I))-V(3,NC3(I)))
          ENDIF
-         IF(NV.EQ.0.AND.FF1.GT.ZERO)THEN
+         IF(NV==0.AND.FF1>ZERO)THEN
           NV=NV+1
           DVY=DVY+(V(2,NC1(I))-V(2,NC3(I)))
           DVZ=DVZ+(V(3,NC1(I))-V(3,NC3(I)))
@@ -232,21 +232,21 @@ C  3
          B23(I)=B23(I)-XMS(I)*DVZ/MAX(1,NV)
         ENDIF
 C  4
-        IF(FF4.LT.ZERO)THEN
+        IF(FF4<ZERO)THEN
          NV=0
          DVY=ZERO
          DVZ=ZERO
-         IF(FF1.GT.ZERO)THEN
+         IF(FF1>ZERO)THEN
           NV=NV+1
           DVY=DVY+(V(2,NC1(I))-V(2,NC4(I)))
           DVZ=DVZ+(V(3,NC1(I))-V(3,NC4(I)))
          ENDIF
-         IF(FF3.GT.ZERO)THEN
+         IF(FF3>ZERO)THEN
           NV=NV+1
           DVY=DVY+(V(2,NC3(I))-V(2,NC4(I)))
           DVZ=DVZ+(V(3,NC3(I))-V(3,NC4(I)))
          ENDIF
-         IF(NV.EQ.0.AND.FF2.GT.ZERO)THEN
+         IF(NV==0.AND.FF2>ZERO)THEN
           NV=NV+1
           DVY=DVY+(V(2,NC2(I))-V(2,NC4(I)))
           DVZ=DVZ+(V(3,NC2(I))-V(3,NC4(I)))

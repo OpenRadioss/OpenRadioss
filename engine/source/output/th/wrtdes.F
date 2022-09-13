@@ -74,21 +74,21 @@ C-----------------------------------------------
 C-----------------------------------------------
       EXTERNAL STRR,STRI
       DATA EOR/'ZZZZZEOR'/
-      IF(L.EQ.0)RETURN
+      IF(L==0)RETURN
 C
-      IF (IFORM.EQ.0)THEN
-       IF (IR.EQ.1)THEN
+      IF (IFORM==0)THEN
+       IF (IR==1)THEN
         WRITE(IUNIT) (A(I),I=1,L)
        ELSE
         WRITE(IUNIT) (IA(I),I=1,L)
        ENDIF
 C
-      ELSEIF (IFORM.EQ.1)THEN
+      ELSEIF (IFORM==1)THEN
        L1=1
        L2=1000
    1   L2=MIN(L,L2)
        II=0
-       IF(IR.EQ.1)THEN
+       IF(IR==1)THEN
         DO 10 I=L1,L2
         II=II+1
  10     CH8(II)=STRR(A(I))
@@ -97,20 +97,20 @@ C
         II=II+1
  20     CH8(II)=STRI(IA(I))
        ENDIF
-       IF(L2.LT.L)THEN
+       IF(L2<L)THEN
         WRITE(IUNIT,'(10A8)') (CH8(I),I=1,II)
         L1=L1+1000
         L2=L2+1000
         GOTO 1
-       ELSEIF(II.LT.1000) THEN
+       ELSEIF(II<1000) THEN
         WRITE(IUNIT,'(10A8)') (CH8(I),I=1,II),EOR
        ELSE
         WRITE(IUNIT,'(10A8)') (CH8(I),I=1,II)
         WRITE(IUNIT,'(10A8)') EOR
        ENDIF
 C
-      ELSEIF (IFORM.EQ.2)THEN
-       IF(IR.EQ.1)THEN
+      ELSEIF (IFORM==2)THEN
+       IF(IR==1)THEN
         WRITE(IUNIT,'(A,I5,A)')EOR,L,'R'
         WRITE(IUNIT,'((5(1X,1PE15.8)))')(A(I),I=1,L)
        ELSE
@@ -118,9 +118,9 @@ C
         WRITE(IUNIT,'(16I10)')          (IA(I),I=1,L)
        ENDIF
 C
-      ELSEIF (IFORM.EQ.3)THEN
+      ELSEIF (IFORM==3)THEN
        CALL EOR_C(4*L)
-       IF(IR.EQ.1)THEN
+       IF(IR==1)THEN
         DO 100 I=1,L
         R4 = A(I)
  100    CALL WRITE_R_C(R4,1)

@@ -101,7 +101,7 @@ C-----------------------------------------------
 
       PSHIFT = MULTI_FVM%PRES_SHIFT
 
-      IF (MULTI_FVM%NBMAT .GT. 1) THEN
+      IF (MULTI_FVM%NBMAT > 1) THEN
 !DIR$ NOVECTOR
          DO IMAT = 1, MULTI_FVM%NBMAT
             LBUFS(IMAT)%LBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1, 1, 1)
@@ -109,14 +109,14 @@ C-----------------------------------------------
       ENDIF
       DO IMAT = 1, MULTI_FVM%NBMAT
 
-         IF (MULTI_FVM%SYM .EQ. 0) THEN
+         IF (MULTI_FVM%SYM == 0) THEN
             NB_FACE = 6
             LOCAL_MATID = IPM(20 + IMAT, IXS(1, 1 + NFT))
-         ELSEIF (ITY .EQ. 2) THEN
+         ELSEIF (ITY == 2) THEN
 C     QUADS
             NB_FACE = 4
             LOCAL_MATID = IPM(20 + IMAT, IXQ(1, 1 + NFT))
-         ELSEIF (ITY .EQ. 7) THEN
+         ELSEIF (ITY == 7) THEN
 C     TRIANGLES
             NB_FACE = 3
             LOCAL_MATID = IPM(20 + IMAT, IXTG(1, 1 + NFT))
@@ -127,7 +127,7 @@ C     UPDATE
          DO II = 1, NEL
             I = II + NFT
 C     Fluxes sum
-            IF (MULTI_FVM%SYM .EQ. 0 .AND. ISOLNOD .NE. 4) THEN
+            IF (MULTI_FVM%SYM == 0 .AND. ISOLNOD /= 4) THEN
 C     Volume flux
                SUMFLUX(1) = MULTI_FVM%SUBVOL_FLUXES(IMAT, 1, I) + MULTI_FVM%SUBVOL_FLUXES(IMAT, 2, I) + 
      .              MULTI_FVM%SUBVOL_FLUXES(IMAT, 3, I) + MULTI_FVM%SUBVOL_FLUXES(IMAT, 4, I) +
@@ -140,7 +140,7 @@ C     Energy flux
                SUMFLUX(3) = MULTI_FVM%SUBENER_FLUXES(IMAT, 1, I) + MULTI_FVM%SUBENER_FLUXES(IMAT, 2, I) + 
      .              MULTI_FVM%SUBENER_FLUXES(IMAT, 3, I) + MULTI_FVM%SUBENER_FLUXES(IMAT, 4, I) +
      .              MULTI_FVM%SUBENER_FLUXES(IMAT, 5, I) + MULTI_FVM%SUBENER_FLUXES(IMAT, 6, I)
-            ELSEIF (ISOLNOD .EQ. 4) THEN
+            ELSEIF (ISOLNOD == 4) THEN
 C     Volume flux
                SUMFLUX(1) = MULTI_FVM%SUBVOL_FLUXES(IMAT, 5, I) + MULTI_FVM%SUBVOL_FLUXES(IMAT, 6, I) + 
      .              MULTI_FVM%SUBVOL_FLUXES(IMAT, 2, I) + MULTI_FVM%SUBVOL_FLUXES(IMAT, 4, I)
@@ -161,7 +161,7 @@ C     Mass flux
 C     Energy flux
                SUMFLUX(3) = MULTI_FVM%SUBENER_FLUXES(IMAT, 1, I) + MULTI_FVM%SUBENER_FLUXES(IMAT, 2, I) + 
      .              MULTI_FVM%SUBENER_FLUXES(IMAT, 3, I)
-               IF (ITY .EQ. 2) THEN
+               IF (ITY == 2) THEN
 C     QUADS
 C     Volume flux
                   SUMFLUX(1) = SUMFLUX(1) + MULTI_FVM%SUBVOL_FLUXES(IMAT, 4, I)
@@ -173,7 +173,7 @@ C     Energy flux
             ENDIF         
             
             SUM_NORMALVEL = ZERO
-            IF (MULTI_FVM%SYM .EQ. 0 .AND. ISOLNOD .EQ. 4) THEN
+            IF (MULTI_FVM%SYM == 0 .AND. ISOLNOD == 4) THEN
                KFACE = 5
                NORMAL_VEL = MULTI_FVM%FLUXES(6, KFACE, I)
                SUM_NORMALVEL = SUM_NORMALVEL + NORMAL_VEL

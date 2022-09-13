@@ -1730,7 +1730,7 @@ C
         ITYPTST=6
       ENDDO
 C------------------------------
-        IF(G_DT.NE.ZERO)THEN
+        IF(G_DT/=ZERO)THEN
            DO I=JFT,JLT
              DTEL(I) = DT(I)
            ENDDO

@@ -108,7 +108,7 @@ C-----------------------------------------------
       !-------------------------------------------------!
       ! ISFINT=3 : surface integration for SIG_total    !
       !-------------------------------------------------!  
-      IF(ISFINT.EQ.3 .AND. JALE+JEUL.NE.0)THEN
+      IF(ISFINT==3 .AND. JALE+JEUL/=0)THEN
         !------------------------------!
         !    TOTAL STRESS TENSOR       ! 
         !------------------------------!  
@@ -198,7 +198,7 @@ C-----------------------------------------------
       ! ISFINT=1 : volume integration for SIG_total     !
       ! ISFINT=2 : volume integration for SIG_dev only  !
       !-------------------------------------------------!       
-      IF((ICAA.EQ.1.OR.ISFINT.EQ.2) .AND. JALE+JEUL.NE.0)THEN
+      IF((ICAA==1.OR.ISFINT==2) .AND. JALE+JEUL/=0)THEN
         DO I=LFT,LLT
          QVIS_LOC = QVIS(I)
          VOL_LOC = VOL(I) 
@@ -246,7 +246,7 @@ C-----------------------------------------------
           F28(I)=F28(I)-P(I)*(      +N2Y(I)+N3Y(I)              +N6Y(I))
           F38(I)=F38(I)-P(I)*(      +N2Z(I)+N3Z(I)              +N6Z(I)) 
         ENDDO
-      ELSE !IF(ICAA .EQ. 0 .OR. JALE+JEUL.EQ.0 )
+      ELSE !IF(ICAA == 0 .OR. JALE+JEUL==0 )
         DO I=LFT,LLT
          QVIS_LOC = QVIS(I)
          VOL_LOC = VOL(I) 
@@ -257,7 +257,7 @@ C-----------------------------------------------
          S5(I)=(SIG(I,5)+SVIS(I,5))*VOL_LOC
          S6(I)=(SIG(I,6)+SVIS(I,6))*VOL_LOC 
         ENDDO
-        IF(IALEFVM.NE.0)THEN
+        IF(IALEFVM/=0)THEN
           DO I=LFT,LLT
             Pbak(I) =0.125 * (S1(I)+S2(I)+S3(I))/THREE/VOL(I)
           ENDDO
@@ -269,7 +269,7 @@ C-----------------------------------------------
         !  /CAA or /INTER/TYPE22 : deviatoric stress tensor            !
         !  otherwise             : total stress tensor                 !      
         !--------------------------------------------------------------!
-        IF(JEUL.EQ.0 .OR. (JEUL.EQ.1.AND.INTEG8.EQ.0))THEN
+        IF(JEUL==0 .OR. (JEUL==1.AND.INTEG8==0))THEN
          DO I=LFT,LLT
           !shape functions hypothesis : phi1=-phi7, phi2=-phi8, phi3=-phi5, phi4=-phi6
           !---nodes 1-7 ---!
@@ -485,7 +485,7 @@ C
 C
       goto 111
 C correction des moments pour eviter une instabilite
-      IF(ISMSTR.EQ.1.OR.ISMSTR.EQ.2.OR.ISMSTR.EQ.3)THEN
+      IF(ISMSTR==1.OR.ISMSTR==2.OR.ISMSTR==3)THEN
        DO I=LFT,LLT
         MX(I) = X(2,NC1(I))*F31(I) - X(3,NC1(I))*F21(I)
      .        + X(2,NC2(I))*F32(I) - X(3,NC2(I))*F22(I)

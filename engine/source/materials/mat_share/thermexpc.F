@@ -104,7 +104,7 @@ C-------- 1st Step : Elasticity matrix-----------------------
       IORTH= -1! not activated
       IF(IGTYP == 11 .OR. IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
         IORTH_LAY = 1
-      ELSEIF (MTN.EQ.19.OR.MTN.EQ.15.OR.MTN.EQ.25) THEN
+      ELSEIF (MTN==19.OR.MTN==15.OR.MTN==25) THEN
         IORTH=1
       ELSE
         IORTH=0

@@ -90,7 +90,7 @@ C-----------------------------------------------
       YS1=X(2,I)
       ZS1=X(3,I)
       CALL INIST3(N1,N2,N3,CST(1,II),CST(2,II),IER,ALP)
-      IF(IER.EQ.-1)THEN
+      IF(IER==-1)THEN
          CALL ANCMSG(MSGID=85,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -103,12 +103,12 @@ C-----------------------------------------------
      .               I6=ITAB(MSR(IRECT(2,L))),
      .               I7=ITAB(MSR(IRECT(3,L))),
      .               I8=ITAB(MSR(IRECT(4,L))))
-      ELSE IF(IER.EQ.1)THEN
-       IF(IPRI.GE.1)WRITE(IOUT,FMT=FMW_7I)ITAB(I),ITAB(K),L,
+      ELSE IF(IER==1)THEN
+       IF(IPRI>=1)WRITE(IOUT,FMT=FMW_7I)ITAB(I),ITAB(K),L,
      .                    (ITAB(MSR(IRECT(JJ,L))),JJ=1,4)
       ELSE
         PEN = N1*(XS1-XC)+N2*(YS1-YC)+N3*(ZS1-ZC) - GAP
-        IF (PEN.LE.ZERO) IRTL0(II)=L
+        IF (PEN<=ZERO) IRTL0(II)=L
         IF (PEN < ZERO) THEN
           PENI = MIN(PEN,PENI)
           CALL ANCMSG(MSGID=346,
@@ -126,7 +126,7 @@ c            PEN = MIN(ZERO, PEN + ZEP05 * (GAP - PEN))
           ENDIF
           IWPENE=IWPENE+1
         ENDIF
-       IF(IPRI.GE.1)WRITE(IOUT,FMT=FMW_7I_2F)
+       IF(IPRI>=1)WRITE(IOUT,FMT=FMW_7I_2F)
      .  ITAB(I),ITAB(K),L,
      .  (ITAB(MSR(IRECT(JJ,L))),JJ=1,4),CST(1,II),CST(2,II)
       ENDIF

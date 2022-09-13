@@ -97,7 +97,7 @@ C
        ZI(I) = X(3,IG)
       ENDDO
 C
-      IF(IGAP.EQ.0)THEN
+      IF(IGAP==0)THEN
         DO I=LFT,LLT
          GAPV(I) = MAX(GAP+DGAPLOAD,DRAD)         
         ENDDO
@@ -113,7 +113,7 @@ C
         ENDDO
       ENDIF
 C
-      IF(ISTF.NE.0)THEN
+      IF(ISTF/=0)THEN
         DO I=LFT,LLT
           STIF(I)=STF(CAND_E(I))*STFN(CAND_N(I))
         ENDDO

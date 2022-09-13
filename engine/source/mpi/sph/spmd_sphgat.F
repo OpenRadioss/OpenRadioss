@@ -94,12 +94,12 @@ C
       IDEB = 0
       NN = 0
       DO P = 1, NSPMD
-        IF(P.NE.LOC_PROC)THEN
+        IF(P/=LOC_PROC)THEN
           SBUFCOM(1,P) = IREDUCE
           NSP = PSPHR(P)
           NN0 = NN
           DO I = 1, NSP
-            IF(XSPHR(1,I+IDEB).LT.ZERO)THEN
+            IF(XSPHR(1,I+IDEB)<ZERO)THEN
               NN = NN + 1
               INDEX(I+IDEB) = NN
               XSPHTMP(1,NN) = -XSPHR(1,I+IDEB)
@@ -143,20 +143,20 @@ C reallocation des tags cellule active a recevoir
          
       ALLOCATE(ISPHR(NSPHR),STAT=IERROR1)
       IERROR = IERROR + IERROR1
-      IF(NSPCOND.GT.0) THEN
+      IF(NSPCOND>0) THEN
 C reallocation du tableau gerant les particules symetrisees
         IF(ALLOCATED(ISPSYMR))DEALLOCATE(ISPSYMR)
         ALLOCATE(ISPSYMR(NSPCOND,NSPHR),STAT=IERROR1)
         IERROR = IERROR + IERROR1
       END IF
-      IF(IERROR.NE.0) THEN
+      IF(IERROR/=0) THEN
         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
         CALL ARRET(2)
       END IF
       XSPHR = 0
 
 C recopie + init
-      IF(NSPCOND.GT.0)THEN
+      IF(NSPCOND>0)THEN
 C si condition de symetrie alors pas d'optimisation sur particules active
 C car particule symetrique de particule inactive eventuellement active
         INITV = 1
@@ -180,7 +180,7 @@ C
         NVOIS1 = KXSP(4,N)
         NVOIS2 = KXSP(5,N)
         DO NN = 1, NVOIS1
-          IF(IXSP(NN,N).LT.ZERO) THEN
+          IF(IXSP(NN,N)<ZERO) THEN
 C renumerotation
             IXSP(NN,N) = -INDEX(-IXSP(NN,N))
 C flag differenciant les cellules actives des autres
@@ -188,7 +188,7 @@ C flag differenciant les cellules actives des autres
           END IF
         END DO
         DO NN = NVOIS1+1,NVOIS2
-          IF(IXSP(NN,N).LT.ZERO) THEN
+          IF(IXSP(NN,N)<ZERO) THEN
 C renumerotation
             IXSP(NN,N) = -INDEX(-IXSP(NN,N))
           END IF
@@ -203,7 +203,7 @@ C
         NVOIS1 = KXSP(4,N)
         NVOIS2 = KXSP(5,N)
         DO NN = 1, NVOIS1
-          IF(IXSP(NN,N).LT.ZERO) THEN
+          IF(IXSP(NN,N)<ZERO) THEN
 C renumerotation
             IXSP(NN,N) = -INDEX(-IXSP(NN,N))
 C flag differenciant les cellules actives des autres
@@ -211,7 +211,7 @@ C flag differenciant les cellules actives des autres
           END IF
         END DO
         DO NN = NVOIS1+1,NVOIS2
-          IF(IXSP(NN,N).LT.ZERO) THEN
+          IF(IXSP(NN,N)<ZERO) THEN
 C renumerotation
             IXSP(NN,N) = -INDEX(-IXSP(NN,N))
           END IF
@@ -223,7 +223,7 @@ C
       IDEB = 0
       DO P = 1, NSPMD
         NSP = PSPHR(P)
-        IF(LOC_PROC.NE.P.AND.NSP.GT.0)THEN
+        IF(LOC_PROC/=P.AND.NSP>0)THEN
           DO I = 1, NSP
             INDEX(IDEB+I) = NINT(XSPHR(1,I+IDEB))
           END DO
@@ -248,7 +248,7 @@ C
 
       NSPHS = 0
       DO P = 1, NSPMD
-        IF(P.NE.LOC_PROC)THEN
+        IF(P/=LOC_PROC)THEN
           MSGTYP = MSGOFF
           IREDUCE = MAX(IREDUCE,NINT(BUFCOM(1,P)))
           PSPHS(P) = NINT(BUFCOM(2,P))
@@ -262,13 +262,13 @@ C reallocation des tags cellule active a envoyer
       IF(ALLOCATED(ISPHS))DEALLOCATE(ISPHS)
       ALLOCATE(ISPHS(NSPHS),STAT=IERROR1)
       IERROR = IERROR + IERROR1
-      IF(IERROR.NE.0) THEN
+      IF(IERROR/=0) THEN
         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
         CALL ARRET(2)
       END IF
       IDEB = 1
       DO P = 1, NSPMD
-        IF(P.NE.LOC_PROC.AND.PSPHS(P).GT.0)THEN
+        IF(P/=LOC_PROC.AND.PSPHS(P)>0)THEN
           MSGTYP = MSGOFF2 
           IDEB = IDEB + PSPHS(P)
         END IF
@@ -409,12 +409,12 @@ C
       IDEB = 0
       NN = 0
       DO P = 1, NSPMD
-        IF(P.NE.LOC_PROC)THEN
+        IF(P/=LOC_PROC)THEN
           BUFCOM(1,P) = IREDUCE
           NSP = PSPHR(P)
           NN0 = NN
           DO I = 1, NSP
-            IF(XSPHR(1,I+IDEB).LT.ZERO)THEN
+            IF(XSPHR(1,I+IDEB)<ZERO)THEN
               NN = NN + 1
               INDEX(I+IDEB) = NN
               XSPHTMP(1,NN) = -XSPHR(1,I+IDEB)
@@ -451,20 +451,20 @@ C reallocation des tags cellule active a recevoir
          
       ALLOCATE(ISPHR(NSPHR),STAT=IERROR1)
       IERROR = IERROR + IERROR1
-      IF(NSPCOND.GT.0) THEN
+      IF(NSPCOND>0) THEN
 C reallocation du tableau gerant les particules symetrisees
         IF(ALLOCATED(ISPSYMR))DEALLOCATE(ISPSYMR)
         ALLOCATE(ISPSYMR(NSPCOND,NSPHR),STAT=IERROR1)
         IERROR = IERROR + IERROR1
       END IF
-      IF(IERROR.NE.0) THEN
+      IF(IERROR/=0) THEN
         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
         CALL ARRET(2)
       END IF
       XSPHR = 0
 
 C recopie + init
-      IF(NSPCOND.GT.0)THEN
+      IF(NSPCOND>0)THEN
 C si condition de symetrie alors pas d'optimisation sur particules active
 C car particule symetrique de particule inactive eventuellement active
         INITV = 1
@@ -488,7 +488,7 @@ C
         NVOIS1 = KXSP(4,N)
         NVOIS2 = KXSP(5,N)
         DO NN = 1, NVOIS1
-          IF(IXSP(NN,N).LT.ZERO) THEN
+          IF(IXSP(NN,N)<ZERO) THEN
 C renumerotation
             IXSP(NN,N) = -INDEX(-IXSP(NN,N))
 C flag differenciant les cellules actives des autres
@@ -496,7 +496,7 @@ C flag differenciant les cellules actives des autres
           END IF
         END DO
         DO NN = NVOIS1+1,NVOIS2
-          IF(IXSP(NN,N).LT.ZERO) THEN
+          IF(IXSP(NN,N)<ZERO) THEN
 C renumerotation
             IXSP(NN,N) = -INDEX(-IXSP(NN,N))
           END IF
@@ -511,7 +511,7 @@ C
         NVOIS1 = KXSP(4,N)
         NVOIS2 = KXSP(5,N)
         DO NN = 1, NVOIS1
-          IF(IXSP(NN,N).LT.ZERO) THEN
+          IF(IXSP(NN,N)<ZERO) THEN
 C renumerotation
             IXSP(NN,N) = -INDEX(-IXSP(NN,N))
 C flag differenciant les cellules actives des autres
@@ -519,7 +519,7 @@ C flag differenciant les cellules actives des autres
           END IF
         END DO
         DO NN = NVOIS1+1,NVOIS2
-          IF(IXSP(NN,N).LT.ZERO) THEN
+          IF(IXSP(NN,N)<ZERO) THEN
 C renumerotation
             IXSP(NN,N) = -INDEX(-IXSP(NN,N))
           END IF
@@ -531,7 +531,7 @@ C
       IDEB = 0
       DO P = 1, NSPMD
         NSP = PSPHR(P)
-        IF(LOC_PROC.NE.P.AND.NSP.GT.0)THEN
+        IF(LOC_PROC/=P.AND.NSP>0)THEN
           DO I = 1, NSP
             INDEX(IDEB+I) = NINT(XSPHR(1,I+IDEB))
           END DO
@@ -547,7 +547,7 @@ C Reception
 C
       NSPHS = 0
       DO P = 1, NSPMD
-        IF(P.NE.LOC_PROC)THEN
+        IF(P/=LOC_PROC)THEN
           MSGTYP = MSGOFF
           CALL MPI_RECV(BUFCOM(1,LOC_PROC),2,REAL,IT_SPMD(P),
      .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
@@ -563,13 +563,13 @@ C reallocation des tags cellule active a envoyer
       IF(ALLOCATED(ISPHS))DEALLOCATE(ISPHS)
       ALLOCATE(ISPHS(NSPHS),STAT=IERROR1)
       IERROR = IERROR + IERROR1
-      IF(IERROR.NE.0) THEN
+      IF(IERROR/=0) THEN
         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
         CALL ARRET(2)
       END IF
       IDEB = 1
       DO P = 1, NSPMD
-        IF(P.NE.LOC_PROC.AND.PSPHS(P).GT.0)THEN
+        IF(P/=LOC_PROC.AND.PSPHS(P)>0)THEN
           MSGTYP = MSGOFF2 
           CALL MPI_RECV(LSPHS(IDEB),PSPHS(P),MPI_INTEGER,IT_SPMD(P),
      .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
@@ -580,9 +580,9 @@ C
 C Wait terminaison
 C
       DO P = 1, NSPMD
-        IF(P.NE.LOC_PROC)THEN
+        IF(P/=LOC_PROC)THEN
           CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
-          IF(PSPHR(P).NE.0)THEN
+          IF(PSPHR(P)/=0)THEN
             CALL MPI_WAIT(REQ_SD2(P),STATUS,IERROR)
           END IF
         END IF

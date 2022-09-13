@@ -164,7 +164,7 @@ c
       ENDDO
 C
 C
-      IF(NPT.EQ.5)THEN
+      IF(NPT==5)THEN
         IP = 5
 C
         DO I=LFT,LLT
@@ -205,17 +205,17 @@ C
       ICOR=0
       DO IP=1,NPT
         DO I=LFT,LLT
-          IF(OFF(I).EQ.0.)THEN
+          IF(OFF(I)==0.)THEN
               VOL(I,IP)=ONE
           ELSEIF(OFF(I)> ONE)THEN
-          ELSEIF(VOL(I,IP).LE.ZERO)THEN
+          ELSEIF(VOL(I,IP)<=ZERO)THEN
               ICOR=1
           ENDIF
         ENDDO
       ENDDO
 C-------------attention, /STOP /DEL are not implemented
       IF(JLAG/=0)THEN
-       IF(ICOR.NE.0.AND.INCONV.EQ.1)THEN
+       IF(ICOR/=0.AND.INCONV==1)THEN
        DO IP=1,NPT
         DO I=LFT,LLT
           IF(OFF(I) == ZERO.OR.OFFG(I) > ONE)THEN
@@ -235,7 +235,7 @@ C-------------attention, /STOP /DEL are not implemented
           ENDIF
         ENDDO
        ENDDO
-       END IF!(ICOR.NE.0.AND.INCONV.EQ.1)THEN
+       END IF!(ICOR/=0.AND.INCONV==1)THEN
       ENDIF !(JLAG/=0)
 C     
       IF(NNEGA >0 )THEN
@@ -320,7 +320,7 @@ C
        ENDDO
        
        
-       IF(NPT.EQ.5)THEN
+       IF(NPT==5)THEN
          IP = 5
        
 #include "vectorize.inc"
@@ -517,7 +517,7 @@ c
       ENDDO
 C
 C
-      IF(NPT.EQ.5)THEN
+      IF(NPT==5)THEN
         IP = 5
 C
         DO I=LFT,LLT
@@ -672,7 +672,7 @@ c
       ENDDO
 C
 C
-      IF(NPT.EQ.5)THEN
+      IF(NPT==5)THEN
         IP = 5
         LBUF => ELBUF_STR%BUFLY(1)%LBUF(IP,1,1)
          CALL S10JACOBT(ALPH(IP),BETA(IP),WIP(IP),

@@ -202,8 +202,8 @@ C        A02(I) = UPARAM(8)
 C
         NNU1(I)   = NU(I) / (ONE - NU(I))
        ENDDO
-       IF(EPSMAX.EQ.ZERO)THEN
-         IF(TF(NPF(IFUNC(1)+1)-1).EQ.ZERO)THEN
+       IF(EPSMAX==ZERO)THEN
+         IF(TF(NPF(IFUNC(1)+1)-1)==ZERO)THEN
           EPSMAX=TF(NPF(IFUNC(1)+1)-2)
          ELSE
           EPSMAX= EP30
@@ -250,8 +250,8 @@ c------------------------------------------------------
 c--------------------------------------------------------------
       ENDIF
 C
-      IF (ISIGI.EQ.0) THEN
-        IF(TIME.EQ.ZERO)THEN
+      IF (ISIGI==0) THEN
+        IF(TIME==ZERO)THEN
           DO I=1,NEL
            UVAR(I,1)=ZERO
            UVAR(I,2)=ZERO
@@ -310,7 +310,7 @@ C-------------------
       ENDDO
       DO J=2,NRATE-1
         DO I=1,NEL
-          IF(EPSP(I).GE.UPARAM(NS+J)) JJ(I) = J
+          IF(EPSP(I)>=UPARAM(NS+J)) JJ(I) = J
         ENDDO
       ENDDO
 #include "vectorize.inc"
@@ -397,12 +397,12 @@ C-------------------------
       NINDX=0
 
       DO I=1,NEL
-      IF(SVM(I).GT.YLDN(I).AND.OFF(I).EQ.ONE) THEN
+      IF(SVM(I)>YLDN(I).AND.OFF(I)==ONE) THEN
         NINDX=NINDX+1
         INDEX(NINDX)=I
       ENDIF
       ENDDO
-      IF(NINDX.GT.0) THEN
+      IF(NINDX>0) THEN
        NINC = NMAX
        IF (IMPL_S>0 .OR. IDTMINS>0) NINC = NMAX+1
 C---------------------------
@@ -489,7 +489,7 @@ c         DR0 = FOUR_OVER_3*HK(I)
 C
 C
       DO I=1,NEL
-        IF(PLA(I).GT.EPSMAX.AND.OFF(I).EQ.ONE)OFF(I)=ZEP80
+        IF(PLA(I)>EPSMAX.AND.OFF(I)==ONE)OFF(I)=ZEP80
       ENDDO
       ENDIF
 #include "vectorize.inc"
@@ -777,7 +777,7 @@ C----------------------------------------------------------------------------
        DETA_3(I) = B(I,1,2)*B(I,2,3)-B(I,2,2)*B(I,1,3)
        DETA(I) = B(I,1,1)*DETA_1(I)+B(I,1,2)*DETA_2(I)+
      .              B(I,1,3)*DETA_3(I)
-       IF(ABS(DETA(I)).LE.EM20) THEN
+       IF(ABS(DETA(I))<=EM20) THEN
           DETA(I) = EM20
        ELSE
           DETA(I) = ONE/DETA(I)

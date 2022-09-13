@@ -81,15 +81,15 @@ C
 C
       ANS =N2*(YS-YM1)+N3*(ZS-ZM1)
       ANS =ANS-GAP
-      IF(ANS.GT.ZERO)THEN
+      IF(ANS>ZERO)THEN
         ILOC(II)=-ILOC(II)
       ELSE
         H(2)=T2*(YS-YM1)+T3*(ZS-ZM1)
         H(2)=H(2)/XL
         H(1)=ONE - H(2)
         SS=H(2)-H(1)
-        IF(SS.GT. ONEP05)ILOC(II)=-ILOC(II)
-        IF(SS.LT.-ONEP05)ILOC(II)=-ILOC(II)
+        IF(SS> ONEP05)ILOC(II)=-ILOC(II)
+        IF(SS<-ONEP05)ILOC(II)=-ILOC(II)
         SS= MAX(-ONE,SS)
         SS= MIN( ONE,SS)
         NOR(2,II)=N2

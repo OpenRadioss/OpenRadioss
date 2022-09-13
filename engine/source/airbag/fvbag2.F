@@ -121,7 +121,7 @@ C Node input
             DO J=1,FVSPMD(IFV)%NN_L+FVSPMD(IFV)%NNI_L
               N21=FVSPMD(IFV)%IBUF_L(1,J)
               N22=FVSPMD(IFV)%IBUF_L(2,J)
-              IF(N22.NE.N1) CYCLE
+              IF(N22/=N1) CYCLE
               GAUGE(30,I)=FVSPMD(IFV)%GGG(1,N21)
               GAUGE(31,I)=FVSPMD(IFV)%GGG(2,N21)
               GAUGE(32,I)=FVSPMD(IFV)%GGG(3,N21)
@@ -130,7 +130,7 @@ C Node input
             DO J=1,FVSPMD(IFV)%NNA_L
               N21=FVSPMD(IFV)%IBUFA_L(1,J)
               N22=FVSPMD(IFV)%IBUFA_L(2,J)
-              IF(N22.NE.N1) CYCLE
+              IF(N22/=N1) CYCLE
               GAUGE(30,I)=FVSPMD(IFV)%GGA(1,N21)
               GAUGE(31,I)=FVSPMD(IFV)%GGA(2,N21)
               GAUGE(32,I)=FVSPMD(IFV)%GGA(3,N21)
@@ -161,7 +161,7 @@ C Shell input
          A(2,I2)=A(2,I2)+FVSPMD(IFV)%AAA(2,I1)
          A(3,I2)=A(3,I2)+FVSPMD(IFV)%AAA(3,I1)
          IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT
-     .     +ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT .GT.0) THEN
+     .     +ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT >0) THEN
            FEXT(1,I2) = FEXT(1,I2)+FVSPMD(IFV)%AAA(1,I1)
            FEXT(2,I2) = FEXT(2,I2)+FVSPMD(IFV)%AAA(2,I1)
            FEXT(3,I2) = FEXT(3,I2)+FVSPMD(IFV)%AAA(3,I1)
@@ -182,7 +182,7 @@ C----------------------------
      .         FVSPMD(IFV)%MPI_COMM)
      
         ENDIF 
-        IF (KMESH(IFV) .LT. 2) THEN
+        IF (KMESH(IFV) < 2) THEN
            DO I=1,FVSPMD(IFV)%NNA_L
               I1=FVSPMD(IFV)%IBUFA_L(1,I)
               IF(NCONA(2,I1) /= 0) CYCLE
@@ -212,8 +212,8 @@ C -------------------
       ENDIF
       IF (IVOLU(74) > 0) THEN
 C     Automatic switch to uniform pressure when dispersion of pressure is low
-         AUTO_SWITCH = (FVDATA(IFV)%PDISP .LT. FVDATA(IFV)%PDISP_OLD) .AND. 
-     .        (FVDATA(IFV)%PDISP .LT. RVOLU(73))
+         AUTO_SWITCH = (FVDATA(IFV)%PDISP < FVDATA(IFV)%PDISP_OLD) .AND. 
+     .        (FVDATA(IFV)%PDISP < RVOLU(73))
          UP_SWITCH = TT-TTF >= RVOLU(70)
          UP_SWITCH = UP_SWITCH .OR. AUTO_SWITCH
          FVDATA(IFV)%PDISP_OLD = FVDATA(IFV)%PDISP

@@ -137,7 +137,7 @@ C   PMAX
       PRES = MIN(PRES,PMAX)
       Q = ZERO
 
-      IF (ISPMD+1.EQ.PMAIN) THEN
+      IF (ISPMD+1==PMAIN) THEN
         DV=VOL-VOLD
         TFEXT=TFEXT+(HALF*(Q+QOLD+PRES+POLD))*DV
         FSAV(1)=GMASS

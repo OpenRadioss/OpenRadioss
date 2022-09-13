@@ -85,7 +85,7 @@ C Tableau des parents
             NBSD=NBSD*NSDEC
          ENDDO
          IPRIB=GRAPHE(I)%IPRI
-         IF (IPRIB.LT.0) THEN
+         IF (IPRIB<0) THEN
             IPRIB=1
          ELSE
             IPRIB=0
@@ -101,7 +101,7 @@ C
                NDF=GRAPHE(I)%DGRAPH(ISD)%NDDL_F
                NDM=GRAPHE(I)%DGRAPH(ISD)%NDDL_M
                NMDYN=GRAPHE(I)%DGRAPH(ISD)%NMDYN
-               IF (ILVL.GT.1) THEN
+               IF (ILVL>1) THEN
 C Remplissage des ddls d'interface a partir du parent
                   IPD=PARENT(ISD)
                   DO K=1,NDDL
@@ -137,7 +137,7 @@ C
                   ENDDO
                ENDDO
 C
-               IF (IOPT.EQ.1) THEN
+               IF (IOPT==1) THEN
                   DO K=1,NDI
                      DO L=1,NSCM
                         GRAPHE(I)%DGRAPH(ISD)%D(L,NDF+K)=
@@ -157,7 +157,7 @@ C Chargement des modes statiques
                      IAD=IAD+10
                   ENDDO
                   NR=LEN-(LEN/10)*10
-                  IF (NR.GT.0) THEN
+                  IF (NR>0) THEN
                      READ(IFILE,REC=IREC) (VS(K,IAD+M),M=1,NR)
                      IREC=IREC+1
                   ENDIF
@@ -174,7 +174,7 @@ C
                      DB(K,L)=GRAPHE(I)%DGRAPH(ISD)%D(K,L)
                   ENDDO
                ENDDO
-               IF (NDF.GT.0)
+               IF (NDF>0)
      .            CALL DGEMM('N',  'N', NSCM, NDI+NDM, NDF,
      .                       ONE,   DB,  NSCM, VS,      NDF,
      .                       ZERO, DI,  NSCM)
@@ -185,7 +185,7 @@ C
                   ENDDO
                ENDDO
                DEALLOCATE(VS, DB, DI)
-               IF (IOPT.EQ.2) THEN
+               IF (IOPT==2) THEN
 C Chargement des modes dynamiques
                   ALLOCATE(VD(NMDYN,LEN))
                   DO K=1,NMDYN
@@ -196,7 +196,7 @@ C Chargement des modes dynamiques
                         IAD=IAD+10
                      ENDDO
                      NR=LEN-(LEN/10)*10
-                     IF (NR.GT.0) THEN
+                     IF (NR>0) THEN
                         READ(IFILE,REC=IREC) (VD(K,IAD+M),M=1,NR)
                         IREC=IREC+1
                      ENDIF
@@ -207,7 +207,7 @@ C Chargement des modes dynamiques
                         DB(K,L)=GRAPHE(I)%DGRAPH(ISD)%DM(K,L)
                      ENDDO
                   ENDDO
-                  IF (NMDYN.GT.0)
+                  IF (NMDYN>0)
      .               CALL DGEMM('N',  'N', NSCM, NDI+NDM, NMDYN,
      .                          ONE,   DB,  NSCM, VD,      NMDYN, 
      .                          ZERO, DI,  NSCM)
@@ -222,14 +222,14 @@ C Chargement des modes dynamiques
 C
                ISUPEL=ISUPEL+1
                ISTEP=0
-               IF (IMACH.NE.3.AND.IPRIB.EQ.1) THEN
+               IF (IMACH/=3.AND.IPRIB==1) THEN
                  CALL PROGCOND_C(ISUPEL, GRAPHE(I)%NSUPEL, I, ILVL, ISD,
      .                           ISTEP)
-               ELSEIF (IPRIB.EQ.1) THEN
+               ELSEIF (IPRIB==1) THEN
 C On fait un affichage interactif de l'avancement des procs si NSPMD
 C est inferieur a 16 
 C On affiche rien sinon
-                  IF (NSPMD.LE.16) 
+                  IF (NSPMD<=16) 
      .          CALL PROGCONDP_C(ISUPEL, GRAPHE(I)%NSUPEL, ISPMD+1, ISD)
                ENDIF
             ENDDO

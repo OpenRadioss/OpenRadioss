@@ -83,26 +83,26 @@ C--------------------------------------------------------
 C     SHELLS SUB-CYCLING SUITE
 C--------------------------------------------------------
 C
-      IF(ITASK.EQ.0)THEN
-       IF(DT2SOLD.NE.ZERO)DT2S=MIN(DT2S,1.1*DT2SOLD)
+      IF(ITASK==0)THEN
+       IF(DT2SOLD/=ZERO)DT2S=MIN(DT2S,1.1*DT2SOLD)
        DT2SOLD=DT2S
        DT1    =DT1SAVC
 C
-       IF(ISPMD.EQ.0)THEN
+       IF(ISPMD==0)THEN
         IPRI=MOD(NCYCLSH,IABS(NCPRISH))
-        IF(IPRI.EQ.0)THEN
+        IF(IPRI==0)THEN
 C
-         IF(NODADT.EQ.0)THEN
+         IF(NODADT==0)THEN
           WRITE(IOUT,1000)' NC=',NCYCLE,' T=',TT,
      .   ' DTSUB',DT2S,' SH',NELTS,' SUBCYCLE=',NCYCLSH
-          IF(NCPRISH.LT.0)THEN
+          IF(NCPRISH<0)THEN
            WRITE(ISTDO,1000)' NC=',NCYCLE,' T=',TT,
      .   ' DTSUB=',DT2S,' SH',NELTS,' SUBCYCLE=',NCYCLSH
           END IF
          ELSE
           WRITE(IOUT,1000)' NC=',NCYCLE,' T=',TT,
      .   ' DTSUB=',DT2S,' NODE',NELTS,' SUBCYCLE=',NCYCLSH
-          IF(NCPRISH.LT.0)THEN
+          IF(NCPRISH<0)THEN
            WRITE(ISTDO,1000)' NC=',NCYCLE,' T=',TT,
      .   ' DTSUB=',DT2S,' NODE',NELTS,' SUBCYCLE=',NCYCLSH
           END IF
@@ -114,9 +114,9 @@ C
         NCYCLSH=NCYCLSH+1
 C
         LASTSH=LASTSH+1
-        IF(LASTSH.GE.NCTRLSH)THEN
+        IF(LASTSH>=NCTRLSH)THEN
           ISHSUB=0
-          IF(ISPMD.EQ.0)THEN
+          IF(ISPMD==0)THEN
            WRITE(IOUT,'(A,I8,A,1PE11.4,I8,A,/,A)')
      .     ' NC=',NCYCLE,'T=',TT,
      .     LASTSH,' CONSECUTIVE CYCLES WHILE COMPUTING SHELLS :',
@@ -132,8 +132,8 @@ C
           DO I=1,NPART
             IG   =IPART(2,I)
             IGTYP=NINT(GEO(12,IG))
-            IF(    IGTYP.EQ.1.OR.IGTYP.EQ.9.OR.IGTYP.EQ.10
-     .         .OR.IGTYP.EQ.11.OR.IGTYP.EQ.16)THEN
+            IF(    IGTYP==1.OR.IGTYP==9.OR.IGTYP==10
+     .         .OR.IGTYP==11.OR.IGTYP==16)THEN
               PARTSAV(26,I) = ZERO
             END IF
           END DO
@@ -141,8 +141,8 @@ C
           DO I=1,NPART
             IG   =IPART(2,I)
             IGTYP=NINT(GEO(12,IG))
-            IF(    IGTYP.EQ.1.OR.IGTYP.EQ.9.OR.IGTYP.EQ.10
-     .         .OR.IGTYP.EQ.11.OR.IGTYP.EQ.16)THEN
+            IF(    IGTYP==1.OR.IGTYP==9.OR.IGTYP==10
+     .         .OR.IGTYP==11.OR.IGTYP==16)THEN
               PARTSAV(26,I) = PARTSAV(1,I)
               PARTSAV(1,I)  = ZERO
             END IF
@@ -152,8 +152,8 @@ C
 C
       CALL MY_BARRIER
 C
-      IF(NODADT.EQ.0)THEN
-        IF(DT2T.GE.DT2SAVE)THEN
+      IF(NODADT==0)THEN
+        IF(DT2T>=DT2SAVE)THEN
           DT2T   =DT2SAVE
           NELTST =NELTSA
           ITYPTST=ITYPTSA
@@ -186,7 +186,7 @@ C SAUVEGARDE DES DEPLACEMENTS NOEUDS FRONTIERES
         DRSAVE(3,N)=DR(3,N)
       ENDDO
 C
-      IF(IPARIT.GT.0)THEN
+      IF(IPARIT>0)THEN
          DO N=NODFT,NODLT
             AX=A(1,N)
             AY=A(2,N)

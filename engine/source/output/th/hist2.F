@@ -182,27 +182,27 @@ C=======================================================================
       SEEK_ID = IUNIT-29
       IF (IUNIT == 3) SEEK_ID = 1                   
 C--------Multidomains : control of time history for subdomains-----------
-      IF ((IRAD2R.EQ.1).AND.(R2R_SIU.EQ.1)) THEN
+      IF ((IRAD2R==1).AND.(R2R_SIU==1)) THEN
         R2R_TH_FLAG(SEEK_ID) = 0
         IF (IDDOM == 0) THEN
           R2R_TH_MAIN(SEEK_ID) = 0
         ELSE
-          IF (R2R_TH_MAIN(SEEK_ID).EQ.0) THEN
+          IF (R2R_TH_MAIN(SEEK_ID)==0) THEN
             THISC = EP30
             SIZE_MES = 0
-          ELSEIF (R2R_TH_MAIN(SEEK_ID).EQ.1) THEN
+          ELSEIF (R2R_TH_MAIN(SEEK_ID)==1) THEN
             THISC = TT-EM20
             SIZE_MES = 1
           ENDIF
         ENDIF
       ENDIF      
 C-----------------------------------------------------------------------    
-      IF (TT.GE.THISC) THEN
+      IF (TT>=THISC) THEN
 C---------------------------
         IF (IDDOM == 0) R2R_TH_MAIN(SEEK_ID) = 1
         R2R_TH_FLAG(SEEK_ID) = 1          
 C---------------------------
-        IF (IMPL_S.GT.0) THEN
+        IF (IMPL_S>0) THEN
           THIS0=MAX(TT,THIS0+MAX(DTHIS0,DT1))
           THIS0=MIN(TSTOP,THIS0)
         ELSE
@@ -221,8 +221,8 @@ C Heat Outputs
 C       dans version spmd seul process 0 ecrit
         IF (ISPMD==0) THEN
 C--------Multidomains : offset for th file------------------------------
-          IF ((IRAD2R.EQ.1).AND.(R2R_SIU.EQ.1)) THEN
-            IF (SEEK_FLAG(SEEK_ID).EQ.1) THEN     
+          IF ((IRAD2R==1).AND.(R2R_SIU==1)) THEN
+            IF (SEEK_FLAG(SEEK_ID)==1) THEN     
               CALL FSEEK_C(SEEK0(SEEK_ID))
               SEEK_FLAG(SEEK_ID) = 0
             ELSE
@@ -265,11 +265,11 @@ C         NGLOBTH depends on /TH/VERS
 C-----------------------------
 C       VARIABLES PAR PART
 C-----------------------------
-        IF(NPART.GT.0) THEN
-         IF(NSPMD > 1 .AND. NTHPART .GT. 0)
+        IF(NPART>0) THEN
+         IF(NSPMD > 1 .AND. NTHPART > 0)
      .       CALL SPMD_GLOB_DSUM9(GRESAV,NPSAV*NGPE)
          IF(NSPMD>1) CALL SPMD_GLOB_DSUM9(PARTSAV,NPSAV*(NPART+NTHPART))
-         IF(ISPMD.NE.0) THEN
+         IF(ISPMD/=0) THEN
            DO M=1,NPSAV                                  
              DO I=1,NPART+NTHPART                         
                PARTSAV(M,I) = ZERO
@@ -283,13 +283,13 @@ C-----------------------------
           DO I=1,NPART+NTHPART                  
             NVAR=IPARTH(NVPARTH,I)               
             IAD =IPARTH(NVPARTH+1,I)             
-            IF (I .GT. NPART) THEN               
+            IF (I > NPART) THEN               
               DO J=1,NPSAV                       
                 PARTSAV(J,I) = GRESAV(J,I-NPART) 
               ENDDO                              
             ENDIF                                
-            IF(NVAR.GT.0)THEN
-              IF(NPSAV.GE.22)THEN
+            IF(NVAR>0)THEN
+              IF(NPSAV>=22)THEN
 C---------------------------------------
 C               CALCUL DU CG
 C               CALCUL DES QUANTITES DE MOUVEMENT / CG
@@ -311,7 +311,7 @@ C---------------------------------------
                 IXY = PARTSAV(18,I)+PARTSAV( 9,I)*YCG
                 IYZ = PARTSAV(19,I)+PARTSAV(10,I)*ZCG
                 IZX = PARTSAV(20,I)+PARTSAV(11,I)*XCG
-              ENDIF  ! NPSAV.GE.22
+              ENDIF  ! NPSAV>=22
               DO N=IAD,IAD+NVAR-1
                 II=II+1
                 IF(N <= SITHBUF) THEN
@@ -391,15 +391,15 @@ C                                    [Izx Iyz Izz]   {ZZMOM}
                   WA(II) = 0
                 ENDIF  !  K == 
               ENDDO    !  N=IAD,IAD+NVAR-1
-            ENDIF      !  NVAR.GT.0
+            ENDIF      !  NVAR>0
           ENDDO        !  I=1,NPART+NTHPART 
-          IF (II.NE.0) CALL WRTDES(WA,WA,II,ITTYP,1)
-         ENDIF         !  ISPMD.NE.0
-        ENDIF          !  NPART.GT.0
+          IF (II/=0) CALL WRTDES(WA,WA,II,ITTYP,1)
+         ENDIF         !  ISPMD/=0
+        ENDIF          !  NPART>0
 C-----------------------------
 C     VARIABLES PAR SUBSET
 C-----------------------------
-       IF(NSUBS.GT.0.AND.ISPMD==0) THEN
+       IF(NSUBS>0.AND.ISPMD==0) THEN
          II=0
          DO I=1,NSUBS
 !!           NVAR=ISUBTH(NVSUBTH,I)
@@ -409,7 +409,7 @@ C-----------------------------
 !!           NP  =ISUBS(8,I)
 !!           IP  =ISUBS(9,I)
            NP = SUBSET(I)%NTPART
-           IF(NVAR.GT.0)THEN
+           IF(NVAR>0)THEN
              DO K=1,NPSAV
                  SUBSAV(K)=ZERO
              ENDDO
@@ -419,7 +419,7 @@ C-----------------------------
                  SUBSAV(K)=SUBSAV(K)+PARTSAV(K,JJ)
                ENDDO
              ENDDO
-             IF(NPSAV.GE.22)THEN
+             IF(NPSAV>=22)THEN
                AA  = ONE/MAX(EM20,SUBSAV(6))
                XCG = SUBSAV( 9)*AA
                YCG = SUBSAV(10)*AA
@@ -436,7 +436,7 @@ C-----------------------------
                IXY = SUBSAV(18)+SUBSAV( 9)*YCG
                IYZ = SUBSAV(19)+SUBSAV(10)*ZCG
                IZX = SUBSAV(20)+SUBSAV(11)*XCG
-               IF ((IRAD2R.EQ.1).AND.(R2R_SIU.EQ.1)) THEN
+               IF ((IRAD2R==1).AND.(R2R_SIU==1)) THEN
                  XXMOM = SUBSAV(12)
                  YYMOM = SUBSAV(13)
                  ZZMOM = SUBSAV(14)
@@ -520,7 +520,7 @@ C                                    [Izx Iyz Izz]   {ZZMOM}
              ENDDO
            ENDIF
          ENDDO
-         IF(II.NE.0)CALL WRTDES(WA,WA,II,ITTYP,1)
+         IF(II/=0)CALL WRTDES(WA,WA,II,ITTYP,1)
        ENDIF
 C-------------------------------------------------------
 C      TH GROUP KINE SPMD
@@ -531,17 +531,17 @@ C-------------------------------------------------------
        IF (NSPMD > 1) THEN
          CALL SPMD_GLOB_DSUM9(
      .        FSAV,NTHVKI*(NINTER+NRWALL+NRBODY+NSECT+NJOINT))
-         IF((NVOLU+NRBAG).GT.0)
+         IF((NVOLU+NRBAG)>0)
      .        CALL SPMD_GLOB_DSUM9(
      .        FSAV(1,1+NINTER+NRWALL+NRBODY+NSECT+NJOINT),
      .        NTHVKI*(NVOLU+NRBAG))
-         IF(NINTSUB.GT.0)
+         IF(NINTSUB>0)
      .        CALL SPMD_GLOB_DSUM9(
      .  FSAV(1,1+NINTER+NRWALL+NRBODY+NSECT+NJOINT+NVOLU+NRBAG),
      .  NTHVKI*NINTSUB)
        ENDIF
-       IF(FSAVMAX.GT.0) THEN
-         IF (ISPMD.NE.0) THEN
+       IF(FSAVMAX>0) THEN
+         IF (ISPMD/=0) THEN
             DO I=1,FSAVMAX
               DO J=1,NTHVKI
                 FSAV(J,I) = ZERO
@@ -550,7 +550,7 @@ C-------------------------------------------------------
          ENDIF
        ENDIF
 C
-       IF(NINTER+NINTSUB.NE.0.AND.ISPMD==0)THEN
+       IF(NINTER+NINTSUB/=0.AND.ISPMD==0)THEN
          DO J=1,NTHVKI
            DO N=1,NINTER
              FSAVINT(J,N)=FSAV(J,N)
@@ -561,7 +561,7 @@ C
            END DO
          END DO
        END IF
-       IF(NVENTTOT.GT.0)THEN
+       IF(NVENTTOT>0)THEN
 C
 C        vide les donnees de Volmon dans Buffer Fsavvent.
          DO I=1,NVENTTOT
@@ -600,7 +600,7 @@ C
 C--------------------------------------------
 C      PRE TRAITEMENT RIVETS SPMD ONLY
 C--------------------------------------------
-       IF(NRIVF.GT.1.AND.NSPMD > 1.AND.NRIVET.GT.0) THEN
+       IF(NRIVF>1.AND.NSPMD > 1.AND.NRIVET>0) THEN
         DO K = 1, NRIVET
           I = ABS(LRIVET(2,K))
 C sauvegarde flag off
@@ -608,7 +608,7 @@ C sauvegarde flag off
           RIVET_BOOL=.FALSE.
           IF(LRIVET(2,K) <1)  RIVET_BOOL=.TRUE.
           IF(RIVET_BOOL.EQV..FALSE.) THEN
-            IF (WEIGHT(I).NE.1) RIVET_BOOL=.TRUE.
+            IF (WEIGHT(I)/=1) RIVET_BOOL=.TRUE.
           ENDIF
           IF(RIVET_BOOL) THEN
             DO N = 1, NRIVF
@@ -625,14 +625,14 @@ C restitution flag off
 C--------------------------------------------
 C      PRE TRAITEMENT ACCELEROMETRES SPMD ONLY
 C--------------------------------------------
-       IF(NACCELM.GT.0 .AND. NSPMD > 1)THEN
+       IF(NACCELM>0 .AND. NSPMD > 1)THEN
 C gather sur p0 des valeurs a jour pour les accelerometres
          CALL SPMD_SD_ACC(ACCELM,IACCP,NACCP)
        END IF
 C--------------------------------------------
 C      PRE TRAITEMENT GAUGES SPMD ONLY
 C--------------------------------------------
-       IF(NBGAUGE.GT.0 .AND. NSPMD > 1)THEN
+       IF(NBGAUGE>0 .AND. NSPMD > 1)THEN
 C gather sur p0 des valeurs a jour pour les gauges
          CALL SPMD_SD_GAU(GAUGE,IGAUP,NGAUP)
        END IF
@@ -852,7 +852,7 @@ C-------------------------------------------------------
             !   all the stuff already done, PROC0 writes its data             
             IF(ISPMD==0) CALL WRITE_TH(N,NSPMD,NN,NVAR,ITTYP,
      1                      SOL_STRUCT(ID_HIST),WA_SOL_P0(ID_HIST))
-          ELSEIF( NANALY .NE. 0 .AND. (ITYP==2.OR.ITYP==117) )THEN
+          ELSEIF( NANALY /= 0 .AND. (ITYP==2.OR.ITYP==117) )THEN
             !   all the stuff already done, PROC0 writes its data     
             IF(ISPMD==0) CALL WRITE_TH(N,NSPMD,NN,NVAR,ITTYP,
      1                      QUAD_STRUCT(ID_HIST),WA_QUAD_P0(ID_HIST))
@@ -950,9 +950,9 @@ Cel en spmd seul p0 ecrit accelerometres
                   WA(II)=ACCELM(19+K,I)
                 ENDDO
               ENDDO
-              IF(II.GT.0)CALL WRTDES(WA,WA,II,ITTYP,1)
+              IF(II>0)CALL WRTDES(WA,WA,II,ITTYP,1)
             ENDIF
-          ELSEIF(ITYP==109.AND.NRIVF.GT.1) THEN
+          ELSEIF(ITYP==109.AND.NRIVF>1) THEN
 C-----------------------------
 C           RIVET
 C-----------------------------
@@ -966,7 +966,7 @@ C-----------------------------
                   WA(II)=RIVET(K,I)
                 ENDDO
               ENDDO
-              IF(II.GT.0)CALL WRTDES(WA,WA,II,ITTYP,1)
+              IF(II>0)CALL WRTDES(WA,WA,II,ITTYP,1)
             ENDIF
           ELSEIF(ITYP==110) THEN
 C-----------------------------
@@ -1034,7 +1034,7 @@ C                fixed frame
                 ENDDO
                ELSE
 C               moving frame
-                IF(NXFRAME.LT.36)THEN
+                IF(NXFRAME<36)THEN
                  DO L=IADV,IADV+NVAR-1
                   K=ITHBUF(L)
                   II=II+1
@@ -1145,7 +1145,7 @@ C               moving frame
                 ENDIF
                ENDIF
               ENDDO
-              IF(II.GT.0)CALL WRTDES(WA,WA,II,ITTYP,1)
+              IF(II>0)CALL WRTDES(WA,WA,II,ITTYP,1)
             ENDIF
           ELSEIF(ITYP==111)THEN
 C-----------------------------
@@ -1190,7 +1190,7 @@ C-----------------------------
                   ENDIF
                 ENDDO
               ENDDO
-              IF(II.GT.0)CALL WRTDES(WA,WA,II,ITTYP,1)
+              IF(II>0)CALL WRTDES(WA,WA,II,ITTYP,1)
             ENDIF
           ELSEIF (ITYP==114) THEN
 C-----------------------------
@@ -1209,8 +1209,8 @@ C-----------------------------
               II=II+1
               WA(II)=VSPHIO(ISPHIO(4,I)+16)
             ENDDO
-            IF(NSPMD.GT.1) CALL SPMD_GLOB_DSUM9(WA,II)
-            IF((ISPMD.EQ.0).AND.(II.GT.0)) CALL WRTDES(WA,WA,II,ITTYP,1)
+            IF(NSPMD>1) CALL SPMD_GLOB_DSUM9(WA,II)
+            IF((ISPMD==0).AND.(II>0)) CALL WRTDES(WA,WA,II,ITTYP,1)
           ELSEIF (ITYP==116) THEN
 C-----------------------------
 C           SURF
@@ -1244,7 +1244,7 @@ C-----------------------------
                   ENDIF
                 ENDDO
               ENDDO
-              IF(II.GT.0)CALL WRTDES(WA,WA,II,ITTYP,1)
+              IF(II>0)CALL WRTDES(WA,WA,II,ITTYP,1)
             ENDIF
 C
           ELSEIF (ITYP==119) THEN
@@ -1267,16 +1267,16 @@ C-----------------------------
                   ENDIF
                 ENDDO
               ENDDO
-              IF(II.GT.0)CALL WRTDES(WA,WA,II,ITTYP,1)
+              IF(II>0)CALL WRTDES(WA,WA,II,ITTYP,1)
             ENDIF
           ENDIF
        ENDDO
 C-------------------------------------------------------
 C     SECTIONS FLUIDES
 C-------------------------------------------------------
-       IF (NSFLSW.GT. 0 .AND. NABFILE==0)THEN
+       IF (NSFLSW> 0 .AND. NABFILE==0)THEN
          IF (NSPMD > 1)CALL SPMD_GLOB_DSUM9(FLSW,9*NSFLSW)
-         IF (ISPMD.NE.0) THEN
+         IF (ISPMD/=0) THEN
              DO I=1,NSFLSW
                FLSW(1,I) = ZERO
                FLSW(2,I) = ZERO
@@ -1312,8 +1312,8 @@ C---------------------------------------
             DO M=1,NPART+NTHPART
 C remise a zero apres gather sur toute les parts ou on ne cumule pas
               DO I=1,NPSAV
-                IF((I.LT.23.OR.I.GT.26).AND.I.NE.8 .AND. NABFILE==0
-     .               .AND. (MSTOP .NE. 1 .OR. ICTLSTOP == 1) )
+                IF((I<23.OR.I>26).AND.I/=8 .AND. NABFILE==0
+     .               .AND. (MSTOP /= 1 .OR. ICTLSTOP == 1) )
      .            PARTSAV(I,M)=0
               END DO
             END DO
@@ -1323,7 +1323,7 @@ C remise a zero apres gather sur toute les parts ou on ne cumule pas
 C-------------------------
       REINT=ZERO
       IF(IUNIT==3)THEN
-        ICOND = TT+2.*DT2.GE.T1S+DT2S
+        ICOND = TT+2.*DT2>=T1S+DT2S
         DO II=1,NPARTL
           ! zeroing on current PART on local domain
           M = IPARTL(II) !local parts (present on current domain)
@@ -1334,27 +1334,27 @@ C-------------------------
           JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP)
           IF(JALE == 0 .OR. (JALE > 0 .AND. ICOND))THEN
             DO I=1,NPSAV
-              IF((I < 23.OR.I > 26) .AND. I /= 8 .AND. NABFILE==0 .AND.(MSTOP .NE. 1 .OR. ICTLSTOP == 1) ) THEN
+              IF((I < 23.OR.I > 26) .AND. I /= 8 .AND. NABFILE==0 .AND.(MSTOP /= 1 .OR. ICTLSTOP == 1) ) THEN
                 PARTSAV(I,M)=0
               ENDIF
             END DO
           END IF
         END DO
-c      ELSEIF(IMACH.NE.3.AND.IUNIT==3)THEN
-c        ICOND = TT+2.*DT2.GE.T1S+DT2S
+c      ELSEIF(IMACH/=3.AND.IUNIT==3)THEN
+c        ICOND = TT+2.*DT2>=T1S+DT2S
 c        DO M=1,NPART
 C remise a zero sur part active du processeur en spmd
 c          JALE= NINT(PM(72,IPART(1,M)))
-c          IF(JALE==0.OR.(JALE.GT.0.AND.ICOND))THEN
+c          IF(JALE==0.OR.(JALE>0.AND.ICOND))THEN
 c            DO I=1,NPSAV
-c              IF((I.LT.23.OR.I.GT.26).AND.I.NE.8)
+c              IF((I<23.OR.I>26).AND.I/=8)
 c     .          PARTSAV(I,M)=0
 c            END DO
 c          END IF
 c        END DO
       END IF
 C remise a zero du tableau GRESAV
-      IF (NTHPART .GT. 0) THEN
+      IF (NTHPART > 0) THEN
         DO I=1,NPSAV
           DO J = 1,NTHPART
             GRESAV(I,J) = ZERO
@@ -1399,7 +1399,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       DO N=1,NVOLU
         ITYP	=IVOLU(2,N)
-        IF(ITYP.GE.4.AND.ITYP.LE.9)THEN
+        IF(ITYP>=4.AND.ITYP<=9)THEN
           PMAIN = FR_MV(NSPMD+2,N)
           IF(ISPMD+1==PMAIN)THEN
             NVENT   =IVOLU(11,N)

@@ -80,11 +80,11 @@ C
       ENDDO
 C
         DO 100 I=LFT,LLT
-          IF(IPRI.GE.1)THEN
+          IF(IPRI>=1)THEN
             WRITE(IOUT,FMT=FMW_4I)
      2       ITAB(N1(I)),ITAB(N2(I)),ITAB(M1(I)),ITAB(M2(I))
           ENDIF
-          IF(PENE(I).GT.ZERO)THEN
+          IF(PENE(I)>ZERO)THEN
             WRITE(IOUT,1000)PENE(I)
             WRITE(IOUT,FMT=FMW_I_3F)ITAB(N1(I)),
      .                                  XANEW(1,N1(I))+PENE(I)*NX(I),
@@ -103,19 +103,19 @@ C               DESACTIVATION DES NOEUDS
      .                ' MAX INITIAL PENETRATION ',PENMAX,' IS REACHED'
                 WRITE(IOUT,'(A)')' SECONDARY STIFFNESS IS SET TO ZERO'
                 STFS(CAND_S(I)) = ZERO
-            ELSE IF(INACTI.EQ.2) THEN
+            ELSE IF(INACTI==2) THEN
 C               DESACTIVATION DES ELEMENTS
                 WRITE(IOUT,'(A)')'MAIN STIFFNESS IS SET TO ZERO'
                 STFM(CAND_M(I)) = ZERO
-            ELSE IF(INACTI.EQ.6) THEN
-C             INACTI.EQ.6
+            ELSE IF(INACTI==6) THEN
+C             INACTI==6
 C               CHANGE LES COORDONNEES DES NOEUDS SECONDARY
                 WRITE(IOUT,'(A)')'NODE COORD IS CHANGED AS PROPOSED'
                 PS2 = HALF*PENE(I)
                 PENEOLD = SQRT( (XANEW(1,N1(I))-X(1,N1(I)))**2 +
      .                          (XANEW(2,N1(I))-X(2,N1(I)))**2 +
      .                          (XANEW(3,N1(I))-X(3,N1(I)))**2 )
-                IF(PS2.GT.PENEOLD) THEN
+                IF(PS2>PENEOLD) THEN
                   XANEW(1,N1(I)) = X(1,N1(I))+PS2*NX(I)
                   XANEW(2,N1(I)) = X(2,N1(I))+PS2*NY(I)
                   XANEW(3,N1(I)) = X(3,N1(I))+PS2*NZ(I)
@@ -123,7 +123,7 @@ C               CHANGE LES COORDONNEES DES NOEUDS SECONDARY
                 PENEOLD = SQRT( (XANEW(1,N2(I))-X(1,N2(I)))**2 +
      .                          (XANEW(2,N2(I))-X(2,N2(I)))**2 +
      .                          (XANEW(3,N2(I))-X(3,N2(I)))**2 )
-                IF(PS2.GT.PENEOLD) THEN
+                IF(PS2>PENEOLD) THEN
                   XANEW(1,N2(I)) = X(1,N2(I))+PS2*NX(I)
                   XANEW(2,N2(I)) = X(2,N2(I))+PS2*NY(I)
                   XANEW(3,N2(I)) = X(3,N2(I))+PS2*NZ(I)
@@ -133,7 +133,7 @@ C               CHANGE LES COORDONNEES DES NOEUDS MAIN
                 PENEOLD = SQRT( (XANEW(1,M1(I))-X(1,M1(I)))**2 +
      .                          (XANEW(2,M1(I))-X(2,M1(I)))**2 +
      .                          (XANEW(3,M1(I))-X(3,M1(I)))**2 )
-                IF(PS2.GT.PENEOLD) THEN
+                IF(PS2>PENEOLD) THEN
                   XANEW(1,M1(I)) = X(1,M1(I))-PS2*NX(I)
                   XANEW(2,M1(I)) = X(2,M1(I))-PS2*NY(I)
                   XANEW(3,M1(I)) = X(3,M1(I))-PS2*NZ(I)
@@ -142,7 +142,7 @@ C
                 PENEOLD = SQRT( (XANEW(1,M2(I))-X(1,M2(I)))**2 +
      .                          (XANEW(2,M2(I))-X(2,M2(I)))**2 +
      .                          (XANEW(3,M2(I))-X(3,M2(I)))**2 )
-                IF(PS2.GT.PENEOLD) THEN
+                IF(PS2>PENEOLD) THEN
                   XANEW(1,M2(I)) = X(1,M2(I))-PS2*NX(I)
                   XANEW(2,M2(I)) = X(2,M2(I))-PS2*NY(I)
                   XANEW(3,M2(I)) = X(3,M2(I))-PS2*NZ(I)
@@ -233,27 +233,27 @@ C
 !      EQUIVALENCE (PENE,BV(1,22))
 C=======================================================================
         DO 100 I=LFT,LLT
-          IF(IPRI.GE.1.AND.PENE(I).GT.ZERO)THEN
+          IF(IPRI>=1.AND.PENE(I)>ZERO)THEN
             WRITE(IOUT,FMT=FMW_5I)
      1       ITAB(NSVG(I)),
      2       ITAB(IX1(I)),ITAB(IX2(I)),ITAB(IX3(I)),ITAB(IX4(I))
-          ELSEIF(IPRI.GE.6)THEN
+          ELSEIF(IPRI>=6)THEN
             WRITE(IOUT,FMT=FMW_5I)
      1       ITAB(NSVG(I)),
      2       ITAB(IX1(I)),ITAB(IX2(I)),ITAB(IX3(I)),ITAB(IX4(I))
           ENDIF
           PENMAX = FPENMAX*GAPV(I)
 C
-          IF(PENE(I).GT.ZERO)THEN
+          IF(PENE(I)>ZERO)THEN
             TAG(NSVG(I))=TAG(NSVG(I))+1
             DN=N1(I)*N1(I)+N2(I)*N2(I)+N3(I)*N3(I)
-            IF(DN.LE.EM30) THEN
+            IF(DN<=EM30) THEN
                WRITE(IOUT,1100)PENE(I),ITAB(NSVG(I))
-               IF(NTY.NE.10.OR.ITIED.EQ.0)THEN
-                 IF (INACTI.NE.1.AND.INACTI.NE.2.AND.
-     .               PENE(I).LE.PENMAX) THEN
+               IF(NTY/=10.OR.ITIED==0)THEN
+                 IF (INACTI/=1.AND.INACTI/=2.AND.
+     .               PENE(I)<=PENMAX) THEN
 
-                   IF (INACTI.EQ.0) THEN
+                   IF (INACTI==0) THEN
                      CALL ANCMSG(MSGID=612,
      .                           MSGTYPE=MSGERROR,
      .                           ANMODE=ANINFO_BLIND_1,
@@ -272,7 +272,7 @@ C
                   ENDIF
                  ENDIF
                END IF
-            ELSEIF (PENE(I) .LE. PENMAX) THEN
+            ELSEIF (PENE(I) <= PENMAX) THEN
               WRITE(IOUT,1000)PENE(I)
               PENE(I) = PENE(I) + EM8*PENE(I)
               WRITE(IOUT,FMT=FMW_I_3F)ITAB(NSVG(I)),
@@ -288,28 +288,28 @@ C               DESACTIVATION DES NOEUDS
      .                ' : MAX INITIAL PENETRATION ',PENMAX,' IS REACHED'
                 WRITE(IOUT,'(A)')' SECONDARY STIFFNESS IS SET TO ZERO'
                 STFN(CAND_N(I)) = ZERO
-            ELSE IF(INACTI.EQ.2) THEN
+            ELSE IF(INACTI==2) THEN
 C               DESACTIVATION DES ELEMENTS
                 WRITE(IOUT,'(A)')'ELEMENT STIFFNESS IS SET TO ZERO'
                 STF(CAND_E(I)) = ZERO
-            ELSE IF(INACTI.EQ.3) THEN
+            ELSE IF(INACTI==3) THEN
 C               CHANGE LES COORDONNEES DES NOEUDS SECONDARY
                 WRITE(IOUT,'(A)')'NODE COORD IS CHANGED AS PROPOSED'
                 PENEOLD = SQRT( (XANEW(1,NSV(CAND_N(I)))-XI(I))**2 +
      .                          (XANEW(2,NSV(CAND_N(I)))-YI(I))**2 +
      .                          (XANEW(3,NSV(CAND_N(I)))-ZI(I))**2 )
-                IF(PENE(I).GT.PENEOLD) THEN
+                IF(PENE(I)>PENEOLD) THEN
                   XANEW(1,NSV(CAND_N(I))) = XI(I)+PENE(I)*N1(I)
                   XANEW(2,NSV(CAND_N(I))) = YI(I)+PENE(I)*N2(I)
                   XANEW(3,NSV(CAND_N(I))) = ZI(I)+PENE(I)*N3(I)
                 ENDIF
-            ELSE IF(INACTI.EQ.4) THEN
+            ELSE IF(INACTI==4) THEN
 C               CHANGE LES COORDONNEES DES NOEUDS MAIN
                 WRITE(IOUT,'(A)')'SEG. COORD IS CHANGED AS PROPOSED'
                 PENEOLD = SQRT( (XANEW(1,IX1(I))-X1(I))**2 +
      .                          (XANEW(2,IX1(I))-Y1(I))**2 +
      .                          (XANEW(3,IX1(I))-Z1(I))**2 )
-                IF(PENE(I).GT.PENEOLD) THEN
+                IF(PENE(I)>PENEOLD) THEN
                   XANEW(1,IX1(I)) = X1(I)-PENE(I)*N1(I)
                   XANEW(2,IX1(I)) = Y1(I)-PENE(I)*N2(I)
                   XANEW(3,IX1(I)) = Z1(I)-PENE(I)*N3(I)
@@ -318,7 +318,7 @@ C
                 PENEOLD = SQRT( (XANEW(1,IX2(I))-X2(I))**2 +
      .                          (XANEW(2,IX2(I))-Y2(I))**2 +
      .                          (XANEW(3,IX2(I))-Z2(I))**2 )
-                IF(PENE(I).GT.PENEOLD) THEN
+                IF(PENE(I)>PENEOLD) THEN
                   XANEW(1,IX2(I)) = X2(I)-PENE(I)*N1(I)
                   XANEW(2,IX2(I)) = Y2(I)-PENE(I)*N2(I)
                   XANEW(3,IX2(I)) = Z2(I)-PENE(I)*N3(I)
@@ -327,7 +327,7 @@ C
                 PENEOLD = SQRT( (XANEW(1,IX3(I))-X3(I))**2 +
      .                          (XANEW(2,IX3(I))-Y3(I))**2 +
      .                          (XANEW(3,IX3(I))-Z3(I))**2 )
-                IF(PENE(I).GT.PENEOLD) THEN
+                IF(PENE(I)>PENEOLD) THEN
                   XANEW(1,IX3(I)) = X3(I)-PENE(I)*N1(I)
                   XANEW(2,IX3(I)) = Y3(I)-PENE(I)*N2(I)
                   XANEW(3,IX3(I)) = Z3(I)-PENE(I)*N3(I)
@@ -336,7 +336,7 @@ C
                 PENEOLD = SQRT( (XANEW(1,IX4(I))-X4(I))**2 +
      .                          (XANEW(2,IX4(I))-Y4(I))**2 +
      .                          (XANEW(3,IX4(I))-Z4(I))**2 )
-                IF(PENE(I).GT.PENEOLD) THEN
+                IF(PENE(I)>PENEOLD) THEN
                   XANEW(1,IX4(I)) = X4(I)-PENE(I)*N1(I)
                   XANEW(2,IX4(I)) = Y4(I)-PENE(I)*N2(I)
                   XANEW(3,IX4(I)) = Z4(I)-PENE(I)*N3(I)
@@ -349,7 +349,7 @@ C               CHANGE LES COORDONNEES DES NOEUDS SECONDARY
                 PENEOLD = SQRT( (XANEW(1,NSV(CAND_N(I)))-XI(I))**2 +
      .                          (XANEW(2,NSV(CAND_N(I)))-YI(I))**2 +
      .                          (XANEW(3,NSV(CAND_N(I)))-ZI(I))**2 )
-                IF(PS2.GT.PENEOLD) THEN
+                IF(PS2>PENEOLD) THEN
                   XANEW(1,NSV(CAND_N(I))) = XI(I)+PS2*N1(I)
                   XANEW(2,NSV(CAND_N(I))) = YI(I)+PS2*N2(I)
                   XANEW(3,NSV(CAND_N(I))) = ZI(I)+PS2*N3(I)
@@ -359,7 +359,7 @@ C               CHANGE LES COORDONNEES DES NOEUDS MAIN
                 PENEOLD = SQRT( (XANEW(1,IX1(I))-X1(I))**2 +
      .                          (XANEW(2,IX1(I))-Y1(I))**2 +
      .                          (XANEW(3,IX1(I))-Z1(I))**2 )
-                IF(PS2.GT.PENEOLD) THEN
+                IF(PS2>PENEOLD) THEN
                   XANEW(1,IX1(I)) = X1(I)-PS2*N1(I)
                   XANEW(2,IX1(I)) = Y1(I)-PS2*N2(I)
                   XANEW(3,IX1(I)) = Z1(I)-PS2*N3(I)
@@ -368,7 +368,7 @@ C
                 PENEOLD = SQRT( (XANEW(1,IX2(I))-X2(I))**2 +
      .                          (XANEW(2,IX2(I))-Y2(I))**2 +
      .                          (XANEW(3,IX2(I))-Z2(I))**2 )
-                IF(PS2.GT.PENEOLD) THEN
+                IF(PS2>PENEOLD) THEN
                   XANEW(1,IX2(I)) = X2(I)-PS2*N1(I)
                   XANEW(2,IX2(I)) = Y2(I)-PS2*N2(I)
                   XANEW(3,IX2(I)) = Z2(I)-PS2*N3(I)
@@ -377,7 +377,7 @@ C
                 PENEOLD = SQRT( (XANEW(1,IX3(I))-X3(I))**2 +
      .                          (XANEW(2,IX3(I))-Y3(I))**2 +
      .                          (XANEW(3,IX3(I))-Z3(I))**2 )
-                IF(PS2.GT.PENEOLD) THEN
+                IF(PS2>PENEOLD) THEN
                   XANEW(1,IX3(I)) = X3(I)-PS2*N1(I)
                   XANEW(2,IX3(I)) = Y3(I)-PS2*N2(I)
                   XANEW(3,IX3(I)) = Z3(I)-PS2*N3(I)
@@ -386,7 +386,7 @@ C
                 PENEOLD = SQRT( (XANEW(1,IX4(I))-X4(I))**2 +
      .                          (XANEW(2,IX4(I))-Y4(I))**2 +
      .                          (XANEW(3,IX4(I))-Z4(I))**2 )
-                IF(PS2.GT.PENEOLD) THEN
+                IF(PS2>PENEOLD) THEN
                   XANEW(1,IX4(I)) = X4(I)-PS2*N1(I)
                   XANEW(2,IX4(I)) = Y4(I)-PS2*N2(I)
                   XANEW(3,IX4(I)) = Z4(I)-PS2*N3(I)
@@ -477,24 +477,24 @@ C=======================================================================
           IM=CAND_E(I)     
           IF(STFN(IS)==ZERO) CYCLE
 C
-          IF(IPRI.GE.1.AND.PENE(I).GT.ZERO)THEN
+          IF(IPRI>=1.AND.PENE(I)>ZERO)THEN
             WRITE(IOUT,FMT=FMW_5I)
      1       ITAB(NSVG(I)),
      2       ITAB(IX1(I)),ITAB(IX2(I)),ITAB(IX3(I)),ITAB(IX4(I))
-          ELSEIF(IPRI.GE.6)THEN
+          ELSEIF(IPRI>=6)THEN
             WRITE(IOUT,FMT=FMW_5I)
      1       ITAB(NSVG(I)),
      2       ITAB(IX1(I)),ITAB(IX2(I)),ITAB(IX3(I)),ITAB(IX4(I))
           ENDIF
-          IF(PENE(I).GT.ZERO)THEN
+          IF(PENE(I)>ZERO)THEN
             TAG(NSVG(I))=TAG(NSVG(I))+1
             DN=N1(I)*N1(I)+N2(I)*N2(I)+N3(I)*N3(I)
-            IF(DN.LE.EM30) THEN
+            IF(DN<=EM30) THEN
                WRITE(IOUT,1100)PENE(I),ITAB(NSVG(I))
-               IF(NTY.NE.10.OR.ITIED.EQ.0)THEN
-                 IF(INACTI.NE.1.AND.INACTI.NE.2) THEN
+               IF(NTY/=10.OR.ITIED==0)THEN
+                 IF(INACTI/=1.AND.INACTI/=2) THEN
 
-                   IF (INACTI.EQ.0) THEN
+                   IF (INACTI==0) THEN
                      CALL ANCMSG(MSGID=612,
      .                           MSGTYPE=MSGERROR,
      .                           ANMODE=ANINFO_BLIND_1,
@@ -622,11 +622,11 @@ C
 C
         DO 100 I=LFT,LLT
           IF(STFS(CAND_S(I))==ZERO) CYCLE
-          IF(IPRI.GE.1)THEN
+          IF(IPRI>=1)THEN
             WRITE(IOUT,FMT=FMW_4I)
      2       ITAB(N1(I)),ITAB(N2(I)),ITAB(M1(I)),ITAB(M2(I))
           ENDIF
-          IF(PENE(I).GT.ZERO)THEN
+          IF(PENE(I)>ZERO)THEN
             WRITE(IOUT,1000)PENE(I)
             WRITE(IOUT,FMT=FMW_I_3F)ITAB(N1(I)),
      .                                  X(1,N1(I))+PENE(I)*NX(I),
@@ -638,8 +638,8 @@ C
      .                                  X(3,N2(I))+PENE(I)*NZ(I)
             PENE(I) = PENE(I) + EM8*PENE(I)
             IF(INACTI == 5.or.INACTI == 6) THEN
-C             INACTI.EQ.6
-              IF(PENE(I).GE.GAPV(I)*ZEP995)THEN
+C             INACTI==6
+              IF(PENE(I)>=GAPV(I)*ZEP995)THEN
                 WRITE(IOUT,'(A)')' *** PENETRATION > GAP - 0.5% !! '
                 WRITE(IOUT,'(A)')'SECONDARY STIFFNESS IS SET TO ZERO'
                 PENE(I)=GAPV(I)

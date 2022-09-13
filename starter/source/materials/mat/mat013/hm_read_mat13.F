@@ -103,7 +103,7 @@ C     Get input values
      .        I1=MAT_ID,
      .        C1=TITR)
       ENDIF
-      IF(ANU.EQ.HALF)ANU=ZEP499
+      IF(ANU==HALF)ANU=ZEP499
       
       G=YOUNG/(TWO*(ONE+ANU))
       C1=YOUNG/(THREE*(ONE-TWO*ANU))

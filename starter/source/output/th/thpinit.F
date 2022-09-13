@@ -65,7 +65,7 @@ C-----------------------------------------------
       INTEGER
      &        P,NT,NG,I,K,NNE,IAD,ITYP,IH,NFT,ITY,NEL,N1,N2
 C-----------------------------------------------
-      IF(IFLAG.EQ.0) THEN
+      IF(IFLAG==0) THEN
 C
 C Initialisation de nft0 = nft
 C
@@ -76,40 +76,40 @@ C
 C
 C Mise a jour de PROC dans ITHBUF en fonction de la domdec
 C
-      IF (IMACH.EQ.3.AND.NSPMD.GT.1) THEN
+      IF (IMACH==3.AND.NSPMD>1) THEN
 C traitement de p1 a pmaxporc-1 (p0 par defaut)
         DO NT = 1, NTHGRP2
           ITYP=ITHGRP(2,NT)
           NNE =ITHGRP(4,NT)
           IAD =ITHGRP(5,NT)            
-          IF((ITYP.GE.1.AND.ITYP.LE.7).OR.
-     .        ITYP.EQ.50.OR.ITYP.EQ.51.OR.ITYP.EQ.100)THEN
+          IF((ITYP>=1.AND.ITYP<=7).OR.
+     .        ITYP==50.OR.ITYP==51.OR.ITYP==100)THEN
             DO IH = 1, NNE
               K = ITHBUF(IAD-1+IH)
               DO NG = 1, NGROUP
                 ITY = IPARG(5,NG)
-                IF(ITY.EQ.ITYP) THEN
+                IF(ITY==ITYP) THEN
                   NEL = IPARG(2,NG)
                   NFT = IPARG(3,NG)
                   P   = IPARG(32,NG)
-                  IF (K.GT.NFT.AND.K.LE.NFT+NEL) THEN
+                  IF (K>NFT.AND.K<=NFT+NEL) THEN
                     ITHBUF(IAD+NNE-1+IH) = P
                   ENDIF
                 ENDIF
               ENDDO
             ENDDO
-          ELSEIF (ITYP.EQ.0) THEN
+          ELSEIF (ITYP==0) THEN
 c            DO IH = 1, NNE
 c              K = ITHBUF(IAD-1+IH)
 c              DO P = 1, NSPMD
-c                IF(MOD(FRONT(K,P),10).EQ.1) THEN
+c                IF(MOD(FRONT(K,P),10)==1) THEN
 c                  ITHBUF(IAD+NNE-1+IH) = P-1
 c                  GOTO 209
 c                ENDIF
 c              ENDDO
 c 209          CONTINUE
 c            ENDDO
-          ELSEIF (ITYP.EQ.109) THEN
+          ELSEIF (ITYP==109) THEN
             DO IH = 1, NNE
               K = ITHBUF(IAD-1+IH)
               N1 = IXRI(2,K)

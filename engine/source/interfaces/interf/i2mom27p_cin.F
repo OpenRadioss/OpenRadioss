@@ -75,7 +75,7 @@ C     REAL
 C=======================================================================
       I0BASE = I0
 C     MINER(II) initialise a MS(J) dans resol_init
-      IF(ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER .GT.0) THEN
+      IF(ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0) THEN
         DO II=1,NMN
           J=MSR(II)
           ADI(J) = ADI(J)*MINER(II)
@@ -93,7 +93,7 @@ C
        IF (K == 0) CYCLE
        I = NSV(K)
        IF (I > 0) THEN
-        IF (WEIGHT(I).EQ.1) THEN
+        IF (WEIGHT(I)==1) THEN
          L=IRTL(II)
 C
          IF (IRECT(3,L) == IRECT(4,L)) THEN
@@ -161,7 +161,7 @@ C
          INS = IN(I) + AA * MS(I)
          STF = STIFR(I) + AA * STIFN(I)
 C
-         IF (ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER .GT.0) THEN
+         IF (ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0) THEN
            AI=AA * MS(I)
            ADI(IRECT(1,L))=ADI(IRECT(1,L))+AI*H(1)
            ADI(IRECT(2,L))=ADI(IRECT(2,L))+AI*H(2)
@@ -197,17 +197,17 @@ C
          ENDDO
         ENDIF
         STIFR(I)=EM20
-        IF(IDEL2.NE.0.AND.IN(I).NE.0.)SINER(II)=IN(I)
+        IF(IDEL2/=0.AND.IN(I)/=0.)SINER(II)=IN(I)
         IN(I)=ZERO
         STIFN(I)=EM20
-        IF(IDEL2.NE.0.AND.MS(I).NE.0.)SMASS(II)=MS(I)
+        IF(IDEL2/=0.AND.MS(I)/=0.)SMASS(II)=MS(I)
         MS(I)=ZERO
         A(1,I)=ZERO
         A(2,I)=ZERO
         A(3,I)=ZERO
 c
 C       stokage ZERO pour noeuds delete par idel2
-        ELSEIF(WEIGHT(-I).EQ.1) THEN
+        ELSEIF(WEIGHT(-I)==1) THEN
           I0 = I0BASE + IADX(K)
           NN = IADI2(1,I0)
           FSKYI2(6,NN) = ZERO
@@ -236,7 +236,7 @@ C       stokage ZERO pour noeuds delete par idel2
        ENDIF
       ENDDO
 C
-      IF(ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER .GT.0) THEN
+      IF(ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0) THEN
 #include "vectorize.inc"
         DO II=1,NMN
           J=MSR(II)

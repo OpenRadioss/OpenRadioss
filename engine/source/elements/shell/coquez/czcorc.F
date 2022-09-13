@@ -438,7 +438,7 @@ C---------Facteur pour longueur caracteristique---
 C----------------------------
        FACDT = FIVE_OVER_4
 C-------same than QBAT       
-       IF (IDT1SH.GT.0) FACDT =FOUR_OVER_3
+       IF (IDT1SH>0) FACDT =FOUR_OVER_3
        DO I=JFT,JLT
         RX(I)=XL2(I)+XL3(I)-XL4(I)
         RY(I)=YL2(I)+YL3(I)-YL4(I)
@@ -461,7 +461,7 @@ C
         S1 = MAX(S1,EM10)
         LL(I) = AREA(I)/S1
        ENDDO
-C       IF (IDRIL.GT.0) THEN
+C       IF (IDRIL>0) THEN
 C        DO I=JFT,JLT
 C	     S1=ONE/SQRT(MAX(L13(I),L24(I)))
 C	     FAC1=0.95*S1*SQRT(ONE_OVER_6*(AREA(I)+THK(I)*THK(I)))
@@ -471,7 +471,7 @@ C         LL(I) = MIN(LL(I),SL)
 C        ENDDO
 C       END IF 
 C-------cas thk >>L----
-       IF (IMPL_S.GT.0) THEN
+       IF (IMPL_S>0) THEN
         DO I=JFT,JLT
 	     S1=EM01*THK(I)*THK(I)
          LM(I)=MAX(LM(I),S1)
@@ -625,7 +625,7 @@ C
        ENDDO
        END IF
 C--------------------------
-       IF (IDRIL.GT.0) THEN
+       IF (IDRIL>0) THEN
         IF(IXFEM==0)THEN
         DO I=JFT,JLT
          K=IXC(2,I)
@@ -661,7 +661,7 @@ C         K=IXC(5,I)
 C--------------------------
 C-------Correction 2nd order rigid rotation due a V(t+dt/2),X(t+dt)----
 C--------------------------
-       IF (ISHV51.GT.51.AND.(IMPL_S == 0.OR.IMP_LR.GT.0)) THEN
+       IF (ISHV51>51.AND.(IMPL_S == 0.OR.IMP_LR>0)) THEN
         DT05 = HALF*DT1
         DT025 =FOURTH*DT1
         DO I=JFT,JLT
@@ -884,7 +884,7 @@ C-----------------------------------------------
 C-----------------------------------------------
        DO I=JFT,JLT
          Z2(I)=Z1(I)*Z1(I)
-        IF (Z2(I).LT.LL(I)*TOL.OR.NPT == 1) THEN
+        IF (Z2(I)<LL(I)*TOL.OR.NPT == 1) THEN
          Z1(I)=ZERO
          PLAT(I)=.TRUE.
         ELSE
@@ -990,7 +990,7 @@ C
          D(2)= XX+ZZ+4-BTB(2)
          D(3)= -XY+BTB(3)
          DETA = D(1)*D(2)-D(3)*D(3)
-        IF (DETA.LE.EM20) THEN
+        IF (DETA<=EM20) THEN
          Z1(I)=ZERO
          PLAT(I)=.TRUE.
         ELSE         
@@ -1054,7 +1054,7 @@ C
           RLXYZV(I,2,4)= RRXYZ(2,4)-ALR(2)-VQN(I,2,4)*ALD(4)
         ENDIF 
 C
-        END IF !IF(Z2(I).LT.LL(I)*TOL.OR.NPT == 1)
+        END IF !IF(Z2(I)<LL(I)*TOL.OR.NPT == 1)
 C
        ENDDO
 C
@@ -1111,7 +1111,7 @@ C-----------------------------------------------
 C----------------------------------
       DO I=JFT,JLT
          Z2(I)=Z1(I)*Z1(I)
-       IF (Z2(I).LT.LL(I)*TOL.OR.NPT == 1) THEN
+       IF (Z2(I)<LL(I)*TOL.OR.NPT == 1) THEN
          Z1(I)=ZERO
          PLAT(I)=.TRUE.
        ELSE
@@ -1218,7 +1218,7 @@ C
         D(2)= XX+ZZ+4-BTB(2)
         D(3)= -XY+BTB(3)
         DETA = D(1)*D(2)-D(3)*D(3)
-       IF (DETA.LE.EM20) THEN
+       IF (DETA<=EM20) THEN
          Z1(I)=ZERO
          PLAT(I)=.TRUE.
        ELSE         
@@ -1344,7 +1344,7 @@ C-----------------------------------------------
 C----------------------------------
       DO I=JFT,JLT
          Z2(I)=Z1(I)*Z1(I)
-       IF (Z2(I).LT.LL(I)*TOL.OR.NPT == 1) THEN
+       IF (Z2(I)<LL(I)*TOL.OR.NPT == 1) THEN
          Z1(I)=ZERO
          PLAT(I)=.TRUE.
        ELSE
@@ -1450,7 +1450,7 @@ C
         D(2)= XX+ZZ+4-BTB(2)
         D(3)= -XY+BTB(3)
         DETA = D(1)*D(2)-D(3)*D(3)
-       IF (DETA.LE.EM20) THEN
+       IF (DETA<=EM20) THEN
          Z1(I)=ZERO
          PLAT(I)=.TRUE.
        ELSE         
@@ -1575,7 +1575,7 @@ C-----------------------------------------------
 C-----------------------------------------------
        DO I=JFT,JLT
          Z2(I)=Z1(I)*Z1(I)
-        IF (Z2(I).LT.LL(I)*TOL.OR.NPT == 1) THEN
+        IF (Z2(I)<LL(I)*TOL.OR.NPT == 1) THEN
          Z1(I)=ZERO
          PLAT(I)=.TRUE.
         ELSE
@@ -1643,11 +1643,11 @@ C
           RRXYZ(2,4) =RLXYZV(I,2,4)
           RRXYZ(3,4) =VQ(I,1,3)*VR(1,K)+VQ(I,2,3)*VR(2,K)
      1               +VQ(I,3,3)*VR(3,K)
-       IF (IMPL_S.GT.0.AND.IKPROJ.LT.0) THEN
+       IF (IMPL_S>0.AND.IKPROJ<0) THEN
 C-------------------------------------
 C     DRILLING PROJECTION ONLY
 C-------------------------------------
-        IF (IDRIL.GT.0) THEN
+        IF (IDRIL>0) THEN
          RLZ(I,1)=AREA_I(I)*(VQN(I,1,1)*RRXYZ(1,1)+
      1            VQN(I,2,1)*RRXYZ(2,1)+VQN(I,3,1)*RRXYZ(3,1))
          RLZ(I,2)=AREA_I(I)*(VQN(I,1,2)*RRXYZ(1,2)+
@@ -1807,7 +1807,7 @@ C
           RLXYZV(I,2,2)= RRXYZ(2,2)-ALR(2)-VQN(I,2,2)*ALD(2)
           RLXYZV(I,2,3)= RRXYZ(2,3)-ALR(2)-VQN(I,2,3)*ALD(3)
           RLXYZV(I,2,4)= RRXYZ(2,4)-ALR(2)-VQN(I,2,4)*ALD(4)
-         IF (IDRIL.GT.0) THEN
+         IF (IDRIL>0) THEN
           D(1)= YY+ZZ+FOUR
           D(2)= XX+ZZ+FOUR
           D(3)= XX+YY+FOUR
@@ -1836,9 +1836,9 @@ C
           RLZ(I,2)=RLZ(I,2)-ALRZ
           RLZ(I,3)=RLZ(I,3)-ALRZ
           RLZ(I,4)=RLZ(I,4)-ALRZ
-         END IF !IF (IDRIL.GT.0) THEN
+         END IF !IF (IDRIL>0) THEN
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-       END IF !((IMPL_S.GT.0.AND.IKPROJ.LT.0).OR.IDRIL.GT.0) THEN
+       END IF !((IMPL_S>0.AND.IKPROJ<0).OR.IDRIL>0) THEN
 C
        ENDIF
 C
@@ -1900,7 +1900,7 @@ C-----------------------------------------------
 C----------------------------------
        DO I=JFT,JLT
          Z2(I)=Z1(I)*Z1(I)
-        IF (Z2(I).LT.LL(I)*TOL.OR.NPT == 1) THEN
+        IF (Z2(I)<LL(I)*TOL.OR.NPT == 1) THEN
          Z1(I)=ZERO
          PLAT(I)=.TRUE.
         ELSE
@@ -1969,11 +1969,11 @@ C
           RRXYZ(3,4) =VQ(I,1,3)*VR(1,K)+VQ(I,2,3)*VR(2,K)
      1               +VQ(I,3,3)*VR(3,K)
 
-       IF (IMPL_S.GT.0.AND.IKPROJ.LE.0) THEN
+       IF (IMPL_S>0.AND.IKPROJ<=0) THEN
 C-------------------------------------
 C     DRILLING PROJECTION ONLY
 C-------------------------------------
-        IF (IDRIL.GT.0.0 ) THEN
+        IF (IDRIL>0.0 ) THEN
          RLZ(I,1)=AREA_I(I)*(VQN(I,1,1)*RRXYZ(1,1)+
      1            VQN(I,2,1)*RRXYZ(2,1)+VQN(I,3,1)*RRXYZ(3,1))
          RLZ(I,2)=AREA_I(I)*(VQN(I,1,2)*RRXYZ(1,2)+
@@ -2131,7 +2131,7 @@ C
           RLXYZ(I,2,2)= RRXYZ(2,2)-ALR(2)-VQN(I,2,2)*ALD(2)
           RLXYZ(I,2,3)= RRXYZ(2,3)-ALR(2)-VQN(I,2,3)*ALD(3)
           RLXYZ(I,2,4)= RRXYZ(2,4)-ALR(2)-VQN(I,2,4)*ALD(4)
-         IF (IDRIL.GT.0) THEN
+         IF (IDRIL>0) THEN
           D(1)= YY+ZZ+FOUR
           D(2)= XX+ZZ+FOUR
           D(3)= XX+YY+FOUR
@@ -2160,9 +2160,9 @@ C
           RLZ(I,2)=RLZ(I,2)-ALRZ
           RLZ(I,3)=RLZ(I,3)-ALRZ
           RLZ(I,4)=RLZ(I,4)-ALRZ
-         END IF !IF (IDRIL.GT.0) THEN
+         END IF !IF (IDRIL>0) THEN
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-       END IF !((IMPL_S.GT.0.AND.IKPROJ.LT.0).OR.IDRIL.GT.0) THEN
+       END IF !((IMPL_S>0.AND.IKPROJ<0).OR.IDRIL>0) THEN
 C
        END IF 
       ENDDO
@@ -2228,7 +2228,7 @@ C-----------------------------------------------
 C=======================================================================
        DO I=JFT,JLT
          Z2(I)=Z1(I)*Z1(I)
-        IF (Z2(I).LT.LL(I)*TOL.OR.NPT == 1) THEN
+        IF (Z2(I)<LL(I)*TOL.OR.NPT == 1) THEN
          Z1(I)=ZERO
          PLAT(I)=.TRUE.
         ELSE
@@ -2296,7 +2296,7 @@ C
           RRXYZ(2,4) =RLXYZ(I,2,4)
           RRXYZ(3,4) =VQ(I,1,3)*VRX4(I)+VQ(I,2,3)*VRY4(I)
      1               +VQ(I,3,3)*VRZ4(I)
-       IF (IMPL_S.GT.0.AND.IKPROJ.LT.0) THEN
+       IF (IMPL_S>0.AND.IKPROJ<0) THEN
 C-------------------------------------
 C     DRILLING PROJECTION ONLY
 C-------------------------------------
@@ -2449,7 +2449,7 @@ C
           RLXYZ(I,2,3)= RRXYZ(2,3)-ALR(2)-VQN(I,2,3)*ALD(3)
           RLXYZ(I,2,4)= RRXYZ(2,4)-ALR(2)-VQN(I,2,4)*ALD(4)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-       END IF !(IMPL_S.GT.0.AND.IKPROJ.LT.0) THEN
+       END IF !(IMPL_S>0.AND.IKPROJ<0) THEN
 C
        ENDIF
       ENDDO
@@ -2709,14 +2709,14 @@ C
        ENDDO
 C----------------------------
 C-------cas thk >>L----
-       IF (IMPL_S.GT.0) THEN
+       IF (IMPL_S>0) THEN
         DO I=JFT,JLT
 	     S1=EM01*THK(I)*THK(I)
          LM(I)=MAX(LM(I),S1)
         ENDDO
        END IF 
 C--------------------------
-       IF (IDRIL.GT.0) THEN
+       IF (IDRIL>0) THEN
         DO I=JFT,JLT
          RLXYZ(I,1) =VQ(I,1,3)*AXYZ(I,1,1)+VQ(I,2,3)*AXYZ(I,2,1)
      1                +VQ(I,3,3)*AXYZ(I,3,1)
@@ -2733,7 +2733,7 @@ C--------------------------
 C--------------------------
        DO I=JFT,JLT
          Z2(I)=Z1(I)*Z1(I)
-        IF (Z2(I).LT.LM(I)*TOL.OR.NPT == 1) THEN
+        IF (Z2(I)<LM(I)*TOL.OR.NPT == 1) THEN
          Z1(I)=ZERO
         ELSE
 C--------------------------------------------------
@@ -2745,7 +2745,7 @@ C
 C-------------------------------------
 C     DRILLING PROJECTION ONLY
 C-------------------------------------
-        IF (IDRIL.GT.0.0 ) THEN
+        IF (IDRIL>0.0 ) THEN
          RRXYZ(1,1) =VQ(I,1,1)*AXYZ(I,1,1)+VQ(I,2,1)*AXYZ(I,2,1)
      +                +VQ(I,3,1)*AXYZ(I,3,1)
          RRXYZ(1,2) =VQ(I,1,1)*AXYZ(I,1,2)+VQ(I,2,1)*AXYZ(I,2,2)
@@ -2780,9 +2780,9 @@ C
         OFF_L  = MIN(OFF_L,OFFG(I))
       ENDDO
 C       
-      IF(OFF_L.LT.ZERO)THEN
+      IF(OFF_L<ZERO)THEN
         DO I=JFT,JLT
-         IF(OFFG(I).LT.ZERO)THEN
+         IF(OFFG(I)<ZERO)THEN
           V13(I,1:2)= ZERO
           V24(I,1:2)= ZERO
           RLXYZ(I,1:4)= ZERO
@@ -3027,7 +3027,7 @@ C
 C--------------------------
        DO I=JFT,JLT
          Z2(I)=Z1(I)*Z1(I)
-        IF (Z2(I).LT.LM(I)*TOL.OR.NPT == 1) THEN
+        IF (Z2(I)<LM(I)*TOL.OR.NPT == 1) THEN
          Z1(I)=ZERO
         END IF 
        ENDDO

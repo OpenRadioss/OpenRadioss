@@ -164,7 +164,7 @@ C EXTRACT DATAS (REAL VALUES) :
           CALL HM_GET_FLOAT_ARRAY_INDEX('vz',VZ,NL,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOAT_ARRAY_INDEX('phi',PHI,NL,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C--------------------
-          IF (SUB_ID .NE. 0)
+          IF (SUB_ID /= 0)
      .           CALL SUBROTVECT(VX,VY,VZ,RTRANS,SUB_ID,LSUBMODEL)
 
 C
@@ -221,7 +221,7 @@ C
 C   Vect orhotrope
 
           AN=SQRT(VX*VX+VY*VY+VZ*VZ)
-          IF(AN .LT. EM10)THEN
+          IF(AN < EM10)THEN
              VX=ONE
              VY=ZERO
              VZ=ZERO
@@ -232,7 +232,7 @@ C   Vect orhotrope
           ENDIF
 
           ISK = 0
-          IF (IDSK.NE.0) THEN
+          IF (IDSK/=0) THEN
               IERRR = 0
               DO J=0,NUMSKW+NSUBMOD
                  IF(IDSK == ISKN(4,J+1)) THEN

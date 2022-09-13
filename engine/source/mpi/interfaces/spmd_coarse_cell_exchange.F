@@ -19,7 +19,7 @@ Copyright>        Commercial Alternative: Altair Radioss Software
 Copyright>    
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
-Copyright>        commercial version may interest you: https://www.altair.com/radioss/.  
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
 Chd|  SPMD_COARSE_CELL_EXCHANGE     source/mpi/interfaces/spmd_coarse_cell_exchange.F
 Chd|-- called by -----------
@@ -109,7 +109,7 @@ C-----------------------------------------------
             NIN = LIST_INTER_SORTED(KK)
             ARRAY_REQUEST_COARSE_CELL(KK) = MPI_REQUEST_NULL
             IF(SORT_COMM(NIN)%PROC_NUMBER>NSPMD/2) THEN
-                IF(IRECVFROM(NIN,LOC_PROC).EQ.0.AND.ISENDTO(NIN,LOC_PROC).EQ.0) CYCLE
+                IF(IRECVFROM(NIN,LOC_PROC)==0.AND.ISENDTO(NIN,LOC_PROC)==0) CYCLE
 
                 IF(.NOT.ALLOCATED(SORT_COMM(NIN)%SEND_SIZE_COARSE_CELL)) THEN
                     MY_SIZE = SORT_COMM(NIN)%PROC_NUMBER

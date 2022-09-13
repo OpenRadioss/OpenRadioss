@@ -65,15 +65,15 @@ C======================================================================|
 C---
 C     SAUVEGARDE DES FORCES D'ANIM
 C---
-      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT .GT.0.AND.
-     .          (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.
-     .              (MANIM.GE.4.AND.MANIM.LE.15).OR. H3D_DATA%MH3D .NE. 0))THEN
+      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
+     .          (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .              (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
 #include "lockon.inc"
           DO IC=1,NC
             DO IK=IADLL(IC),IADLL(IC+1)-1
               I = LLL(IK)
               J = JLL(IK)
-              IF(J.LE.3) FANI(J,I) = FANI(J,I) - XLL(IK)
+              IF(J<=3) FANI(J,I) = FANI(J,I) - XLL(IK)
             ENDDO
           ENDDO
 #include "lockoff.inc"
@@ -85,7 +85,7 @@ C---
         DO IC=1,NC
           DO IK=IADLL(IC),IADLL(IC+1)-1
             NIN = SLL(IK)
-            IF(NIN.NE.0)THEN
+            IF(NIN/=0)THEN
               J = JLL(IK)
               FSAV(J,NIN)=FSAV(J,NIN) + XLL(IK)*DT12
             ENDIF
@@ -149,10 +149,10 @@ C======================================================================|
 C---
 C     SAUVEGARDE DES FORCES D'ANIM
 C---
-      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT.GT.0.AND.
-     .          (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.
-     .              (MANIM.GE.4.AND.MANIM.LE.15).OR. H3D_DATA%MH3D .NE. 0))THEN
-        IF(ISPMD.EQ.0)THEN
+      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0.AND.
+     .          (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .              (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
+        IF(ISPMD==0)THEN
           DO I = 1, NBNODL
             FANIG(1,I) = ZERO
             FANIG(2,I) = ZERO
@@ -163,7 +163,7 @@ C---
 C              I = LLL(IK)
               I = INDEXLAG(LLL(IK))
               J = JLL(IK)
-              IF(J.LE.3) FANIG(J,I) = FANIG(J,I) - XLL(IK)
+              IF(J<=3) FANIG(J,I) = FANIG(J,I) - XLL(IK)
             ENDDO
           ENDDO
         END IF
@@ -185,7 +185,7 @@ C---
         DO IC=1,NC
           DO IK=IADLL(IC),IADLL(IC+1)-1
             NIN = SLL(IK)
-            IF(NIN.NE.0)THEN
+            IF(NIN/=0)THEN
               J = JLL(IK)
               FSAV(J,NIN)=FSAV(J,NIN) + XLL(IK)*DT12
             ENDIF

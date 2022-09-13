@@ -85,7 +85,7 @@ C=======================================================================
 C     LES NOEUDS DELETES DEVIENNENT NSN+1 
 C=======================================================================
 C------for travelling nodes detected in imp_solv----- 
-      IF(NUM_IMP.GT.0)THEN
+      IF(NUM_IMP>0)THEN
         DO I=1,I_STOK
          IPUT(I)=0
         END DO
@@ -93,10 +93,10 @@ C------for travelling nodes detected in imp_solv-----
 	  I= IND_IMP(N)
           IPUT(I)=1
         END DO
-       IF(IFQ.GT.0)THEN
+       IF(IFQ>0)THEN
 C
-        IF((INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7)
-     .     .AND.TT.EQ.ZERO)THEN
+        IF((INACTI==5.OR.INACTI==6.OR.INACTI==7)
+     .     .AND.TT==ZERO)THEN
           DO I=1,I_STOK
             IFPEN(I)=1
           END DO
@@ -105,11 +105,11 @@ C
         DO I=1,I_STOK
           IF(IFPEN(I) == 0.AND.IPUT(I)==0) THEN  
             CAND_N(I) = NSN+1     
-          ELSEIF(TT.GT.ZERO)THEN
+          ELSEIF(TT>ZERO)THEN
             !case IDEL>0 + IFQ if element is deleted 
             !at previous cycle IFEN should be updated 
             NI = CAND_N(I)
-            IF(NI.GT.NSNL) THEN
+            IF(NI>NSNL) THEN
               !remote node
               NI = NI-NSNL 
               IF((STIFI(NIN)%P(NI) == 0.0).AND.IPUT(I)==0)THEN
@@ -125,9 +125,9 @@ C
             ENDIF
           ENDIF
         ENDDO
-       ELSEIF(INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7)THEN
+       ELSEIF(INACTI==5.OR.INACTI==6.OR.INACTI==7)THEN
         DO I=1,I_STOK
-          IF(CAND_P(I).EQ.ZERO.AND.IPUT(I)==0)THEN
+          IF(CAND_P(I)==ZERO.AND.IPUT(I)==0)THEN
             CAND_N(I) = NSN+1
           ENDIF
         ENDDO
@@ -138,10 +138,10 @@ C
           ENDIF
         ENDDO
        ENDIF
-      ELSEIF(IFQ.GT.0)THEN
+      ELSEIF(IFQ>0)THEN
 C
-        IF((INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7)
-     .     .AND.TT.EQ.ZERO)THEN
+        IF((INACTI==5.OR.INACTI==6.OR.INACTI==7)
+     .     .AND.TT==ZERO)THEN
           DO I=1,I_STOK
             IFPEN(I)=1
           END DO
@@ -152,11 +152,11 @@ C
 
             IF(IFPEN(I) == 0) THEN  
               CAND_N(I) = NSN+1     
-            ELSEIF(TT.GT.ZERO)THEN
+            ELSEIF(TT>ZERO)THEN
               !case IDEL>0 + IFQ if element is deleted   
               !at previous cycle IFEN should be updated 
               NI = CAND_N(I)
-              IF(NI.GT.NSNL) THEN
+              IF(NI>NSNL) THEN
 	  	    !remote node
           	NI = NI-NSNL
           	IF(STIFI(NIN)%P(NI) == ZERO)THEN
@@ -177,11 +177,11 @@ C
 
             IF(IFPEN(I) == 0 .AND. CAND_F(1,I) == ZERO) THEN  
               CAND_N(I) = NSN+1     
-            ELSEIF(TT.GT.ZERO)THEN
+            ELSEIF(TT>ZERO)THEN
               !case IDEL>0 + IFQ if element is deleted   
               !at previous cycle IFEN should be updated 
               NI = CAND_N(I)
-              IF(NI.GT.NSNL) THEN
+              IF(NI>NSNL) THEN
 	  	    !remote node
           	NI = NI-NSNL
           	IF(STIFI(NIN)%P(NI) == ZERO)THEN
@@ -201,22 +201,22 @@ C
           ENDDO
         END IF
 
-      ELSEIF(INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7)THEN
+      ELSEIF(INACTI==5.OR.INACTI==6.OR.INACTI==7)THEN
         IF(ITIED == 0)THEN
           DO I=1,I_STOK
-            IF(CAND_P(I).EQ.ZERO)THEN
+            IF(CAND_P(I)==ZERO)THEN
               CAND_N(I) = NSN+1
             ENDIF
           ENDDO
         ELSE
           DO I=1,I_STOK
-            IF(CAND_P(I).EQ.ZERO .AND. CAND_F(1,I) == ZERO)THEN
+            IF(CAND_P(I)==ZERO .AND. CAND_F(1,I) == ZERO)THEN
               CAND_N(I) = NSN+1
-            ELSEIF(TT.GT.ZERO)THEN
+            ELSEIF(TT>ZERO)THEN
               !case IDEL>0 + ITIED if element is deleted   
               !at previous cycle CAND_F should be updated 
               NI = CAND_N(I)
-              IF(NI.GT.NSNL) THEN
+              IF(NI>NSNL) THEN
 	  	    !remote node
           	NI = NI-NSNL
           	IF(STIFI(NIN)%P(NI) == ZERO)THEN
@@ -233,15 +233,15 @@ C
             ENDIF
           ENDDO
         END IF
-      ELSEIF(ITIED.NE.0)THEN
+      ELSEIF(ITIED/=0)THEN
         DO I=1,I_STOK
-          IF(CAND_F(1,I).EQ.ZERO)THEN
+          IF(CAND_F(1,I)==ZERO)THEN
             CAND_N(I) = NSN+1
-          ELSEIF(TT.GT.ZERO)THEN
+          ELSEIF(TT>ZERO)THEN
             !case IDEL>0 + ITIED if element is deleted   
             !at previous cycle CAND_F should be updated 
             NI = CAND_N(I)
-            IF(NI.GT.NSNL) THEN
+            IF(NI>NSNL) THEN
 	          !remote node
               NI = NI-NSNL
               IF(STIFI(NIN)%P(NI) == ZERO)THEN
@@ -302,7 +302,7 @@ C=======================================================================
        IND_IMP(N)=I
       END DO
 
-      IF(IFQ.GT.0.AND.(INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7).AND.ITIED.NE.0)THEN
+      IF(IFQ>0.AND.(INACTI==5.OR.INACTI==6.OR.INACTI==7).AND.ITIED/=0)THEN
         DO K=1,I_STOK
           I = IGET(K)
 C
@@ -369,7 +369,7 @@ C
           IPUT(I) = IPUT(K)
           IGET(IPUT(I)) = I
         ENDDO
-       ELSEIF(IFQ.GT.0.AND.(INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7))THEN
+       ELSEIF(IFQ>0.AND.(INACTI==5.OR.INACTI==6.OR.INACTI==7))THEN
         DO K=1,I_STOK
           I = IGET(K)
 C
@@ -404,7 +404,7 @@ C
           IPUT(I) = IPUT(K)
           IGET(IPUT(I)) = I
         ENDDO
-       ELSEIF(IFQ.GT.0.AND.ITIED.NE.0)THEN
+       ELSEIF(IFQ>0.AND.ITIED/=0)THEN
         DO K=1,I_STOK
           I = IGET(K)
 C
@@ -467,7 +467,7 @@ C
           IPUT(I) = IPUT(K)
           IGET(IPUT(I)) = I
         ENDDO
-       ELSEIF(IFQ.GT.0)THEN
+       ELSEIF(IFQ>0)THEN
         DO K=1,I_STOK
           I = IGET(K)
 C
@@ -497,7 +497,7 @@ C
           IPUT(I) = IPUT(K)
           IGET(IPUT(I)) = I
         ENDDO
-      ELSEIF((INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7).AND.ITIED.NE.0)THEN
+      ELSEIF((INACTI==5.OR.INACTI==6.OR.INACTI==7).AND.ITIED/=0)THEN
         DO K=1,I_STOK
           I = IGET(K)
 C
@@ -548,7 +548,7 @@ C
           IPUT(I) = IPUT(K)
           IGET(IPUT(I)) = I
         ENDDO
-      ELSEIF(INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7)THEN
+      ELSEIF(INACTI==5.OR.INACTI==6.OR.INACTI==7)THEN
         DO K=1,I_STOK
           I = IGET(K)
 C
@@ -567,7 +567,7 @@ C
           IPUT(I) = IPUT(K)
           IGET(IPUT(I)) = I
         ENDDO
-      ELSEIF(ITIED.NE.0)THEN
+      ELSEIF(ITIED/=0)THEN
         DO K=1,I_STOK
           I = IGET(K)
 C
@@ -614,7 +614,7 @@ C
           IPUT(I) = IPUT(K)
           IGET(IPUT(I)) = I
         ENDDO
-      ELSEIF(NUM_IMP.GT.0)THEN
+      ELSEIF(NUM_IMP>0)THEN
         DO K=1,I_STOK
           I = IGET(K)
 C
@@ -728,7 +728,7 @@ C On solids, the symmetric is the same
            SYM_SURF = MSEGLO(E)
         ENDIF
 
-        IF(NN.LE.NSNL)THEN
+        IF(NN<=NSNL)THEN
           IF( IABS(IRTLM(1,NN))/=MSEGLO(E) .AND. IABS(IRTLM(1,NN)) /= SYM_SURF ) THEN
             CAND_N(I) = NSN+1
           ELSE

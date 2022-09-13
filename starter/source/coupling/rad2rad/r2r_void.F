@@ -91,13 +91,13 @@ C---------Remplissage de PM_R2R--------------------------------C
         PM_R2R(I) = PM(NPROPM*(I-1)+20)      
       END DO
       
-      IF (IPID.EQ.0) NSUBDOM = 1
+      IF (IPID==0) NSUBDOM = 1
 
 C---------Pr   tag des parts externes----------------------------C
 
       DO P=1,NSUBDOM
         N = P
-        IF (IPID.EQ.0) N = IDDOM
+        IF (IPID==0) N = IDDOM
         ADD = ISUBDOM(3,N)
 	DO K=1,NPART
           DO I=1,ISUBDOM(1,N)        
@@ -108,7 +108,7 @@ C---------Pr   tag des parts externes----------------------------C
         END DO	         	
       END DO
       
-      IF (IPID.EQ.0) THEN
+      IF (IPID==0) THEN
       DO P=1,NPART
         IF (TAG_PART(P)==1) THEN
 	   TAG_PART(P)=0
@@ -127,17 +127,17 @@ C--------------------------------------------------------------C
         IPART_R2R(2,K) = IPARTL(5,K) !user_mat_id
         IPART_R2R(3,K) = 0		     
         IPART_R2R(4,K) = IPARTL(2,K) !prop_id       
-        IF (TAG_PART(K).EQ.1) THEN
+        IF (TAG_PART(K)==1) THEN
 	  COMPT=COMPT+1
           IGTYP = IGEO(NPROPGI*(IPARTL(2,K)-1)+11)
-          IF ((IGTYP.EQ.11).OR.(IGTYP.EQ.16)) THEN
+          IF ((IGTYP==11).OR.(IGTYP==16)) THEN
 C-- Multilayer shells
              TAG_PART(K) = 2
           ENDIF
 	ENDIF
       END DO
       
-      IF (COMPT.EQ.0) GOTO 150
+      IF (COMPT==0) GOTO 150
 
       WRITE(IOUT,1200)
       
@@ -200,18 +200,18 @@ C
 C--------------- offset numero user des futurs mate void-------C
       NUM = 0
       DO I=1,NUMMAT
-        IF (NUM.LE.IPM_TEMP(1,I)) NUM=IPM_TEMP(1,I)
+        IF (NUM<=IPM_TEMP(1,I)) NUM=IPM_TEMP(1,I)
       END DO
 
 C---------------Creation des nouveaux materiaux VOID--------------C
 
       DO K=1,NPART      
-        IF (TAG_PART(K).GE.1) THEN
+        IF (TAG_PART(K)>=1) THEN
 
           NUM = NUM+1
           NUMMAT = NUMMAT+1
 
-          IF (TAG_PART(K).EQ.1) THEN
+          IF (TAG_PART(K)==1) THEN
 C--> standard elements 
             F2 = IPARTL(1,K)         
             PM_TEMP(1,NUMMAT)= 1e-20	  
@@ -312,7 +312,7 @@ C--------------------------------------------------------------C
 C--------------------------------------------------------------C
 
       DO K=1,NPART      
-      IF (TAG_PART(K).EQ.2) THEN
+      IF (TAG_PART(K)==2) THEN
       
 C---------Allocation des tableaux temporaires------------------C
       
@@ -347,7 +347,7 @@ C---------Transfert tableau prop dans tableau temporaire-------C
 C----------- offset numero user des futurs prop shell ---------C
       NUM = 0
       DO I=1,NUMGEO
-        IF (NUM.LE.IGEO_TEMP(1,I)) NUM=IGEO_TEMP(1,I)+1
+        IF (NUM<=IGEO_TEMP(1,I)) NUM=IGEO_TEMP(1,I)+1
       END DO
 
 C-----------------Creation de la prop shell VOID---------------C
@@ -480,8 +480,8 @@ C-----------------------------------------------
       IMAT = IPARTL(1,ID_PART)
       
 C---------------Si part deja traitee ou mat non void on saute---C      
-      IF (IPART_R2R(3,ID_PART).EQ.1) GOTO 150
-      IF (IPM(NPROPMI*(IMAT-1)+2).NE.0) GOTO 150
+      IF (IPART_R2R(3,ID_PART)==1) GOTO 150
+      IF (IPM(NPROPMI*(IMAT-1)+2)/=0) GOTO 150
         
 C---------------On recupere l'id du materiau original-----------C      
       IMAT0 = IPART_R2R(1,ID_PART)

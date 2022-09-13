@@ -81,7 +81,7 @@ C
 C taille Matrice connectivite locale (interface type 2)
 C
       LCNI2_L = 0
-      IF(I2NSNT.GT.0) THEN
+      IF(I2NSNT>0) THEN
         DO I = 1, NUMNOD_L
           N = NODGLOB(I)
           LCNI2_L = LCNI2_L + ADDCNI2(N+1)-ADDCNI2(N)
@@ -101,7 +101,7 @@ C
       ENDIF
 C-----Itet2 S10      
       LCNCND_L = 0
-      IF(NS10E.GT.0) THEN
+      IF(NS10E>0) THEN
         DO I = 1, NUMNOD_L
           N = NODGLOB(I)
           LCNCND_L = LCNCND_L + ADDCNCND(N+1)-ADDCNCND(N)
@@ -143,10 +143,10 @@ C
         DO J = 1, NN
           ITY = IGRSURF(IS)%ELTYP(J)
           I   = IGRSURF(IS)%ELEM(J)
-          IF (ITY.EQ.3) THEN
-            IF(CEP(OFFC+I).EQ.PROC) NN_L = NN_L + 1
-          ELSEIF (ITY.EQ.7) THEN
-            IF(CEP(OFFTG+I).EQ.PROC) NN_L = NN_L + 1
+          IF (ITY==3) THEN
+            IF(CEP(OFFC+I)==PROC) NN_L = NN_L + 1
+          ELSEIF (ITY==7) THEN
+            IF(CEP(OFFTG+I)==PROC) NN_L = NN_L + 1
           ELSE
           ENDIF
         ENDDO
@@ -154,17 +154,17 @@ C
         IF(ITYP==3.OR.ITYP==4.OR.ITYP==5.OR.ITYP==7.OR.ITYP==9) THEN
           DO IV = 1, NVENT
             IPVENT = MONVOL(IADHOL+NIBHOL*(IV-1)+2-1)
-            IF(IPVENT.NE.0) THEN
+            IF(IPVENT/=0) THEN
               NNC=IGRSURF(IPVENT)%NSEG
               DO J = 1, NNC
                 ITY = IGRSURF(IPVENT)%ELTYP(J)
                 I   = IGRSURF(IPVENT)%ELEM(J)
-                IF (ITY.EQ.3) THEN
-                  IF(CEP(I+OFFC).EQ.PROC) THEN
+                IF (ITY==3) THEN
+                  IF(CEP(I+OFFC)==PROC) THEN
                     K0 = K0 + 1
                   END IF
-                ELSEIF (ITY.EQ.7) THEN
-                  IF(CEP(I+OFFTG).EQ.PROC) THEN
+                ELSEIF (ITY==7) THEN
+                  IF(CEP(I+OFFTG)==PROC) THEN
                     K0 = K0 + 1
                   END IF
                 END IF
@@ -175,17 +175,17 @@ C
         IF(ITYP==4.OR.ITYP==5.OR.ITYP==7.OR.ITYP==9)THEN
           DO IV = 1, NAV
             IPVENT = MONVOL(K2+NICBAG*(IV-1)+2-1)
-            IF(IPVENT.NE.0) THEN
+            IF(IPVENT/=0) THEN
               NNC=IGRSURF(IPVENT)%NSEG
               DO J = 1, NNC
                 ITY = IGRSURF(IPVENT)%ELTYP(J)
                 I   = IGRSURF(IPVENT)%ELEM(J)
-                IF (ITY.EQ.3) THEN
-                  IF(CEP(I+OFFC).EQ.PROC) THEN
+                IF (ITY==3) THEN
+                  IF(CEP(I+OFFC)==PROC) THEN
                     K0 = K0 + 1
                   END IF
-                ELSEIF (ITY.EQ.7) THEN
-                  IF(CEP(I+OFFTG).EQ.PROC) THEN
+                ELSEIF (ITY==7) THEN
+                  IF(CEP(I+OFFTG)==PROC) THEN
                     K0 = K0 + 1
                   END IF
                 END IF

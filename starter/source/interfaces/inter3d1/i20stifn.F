@@ -92,7 +92,7 @@ C-----------------------------------------------
 
       DO I=1,NLN
         J=NLG(I)
-        IF(STFA(I).NE.ZERO)STFA(I) = STIFINT(J)
+        IF(STFA(I)/=ZERO)STFA(I) = STIFINT(J)
       ENDDO
 C
       RETURN

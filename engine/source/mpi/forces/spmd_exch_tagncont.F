@@ -82,7 +82,7 @@ C-----------------------------------------------
       ALLOCATE( SBUF(NLOADP_HYD_INTER*LENR),STAT=IERROR2)
       IERROR = IERROR + IERROR2
               
-      IF(IERROR.NE.0) THEN
+      IF(IERROR/=0) THEN
          CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
          CALL ARRET(2)
       END IF   
@@ -90,7 +90,7 @@ C-----------------------------------------------
       IAD_RECV(1) = 1
       DO I=1,NSPMD
         SIZ = NLOADP_HYD_INTER*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
-        IF(SIZ.NE.0)THEN
+        IF(SIZ/=0)THEN
           MSGTYP = MSGOFF
           CALL MPI_IRECV(
      S      RBUF(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
@@ -123,7 +123,7 @@ C
 C--------------------------------------------------------------------
 C Send to N+I mod P 
 C-------------------------------------------------------------------
-       IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0)THEN
+       IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
           MSGTYP = MSGOFF 
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
           L = IAD_SEND(I)
@@ -141,7 +141,7 @@ C
       DO I = 1, NSPMD
 C
         NB_NOD = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
-        IF(NB_NOD.GT.0)THEN
+        IF(NB_NOD>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
           L = IAD_RECV(I)
 
@@ -164,7 +164,7 @@ Cel wait terminaison isend
 C
 
       DO I = 1, NSPMD
-        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0)THEN
+        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -253,7 +253,7 @@ C     REAL
       my_real
      .   STARTT,STOPT,DIST,TS
 C------------------------------------------------------------------------
-      IF(NSPMD.EQ.1) RETURN
+      IF(NSPMD==1) RETURN
 C
       LOC_PROC = ISPMD+1
 C
@@ -269,18 +269,18 @@ C
          ISENS = IPARI(64,NIN)  ! IF an interface sensor is defined
          INTERACT = 0
 
-         IF(ISENS.NE.0) THEN             ! Sensor ID  
+         IF(ISENS/=0) THEN             ! Sensor ID  
            TS = SENSOR(2,ISENS)
-           IF (TT.GE.TS) INTERACT = 1
+           IF (TT>=TS) INTERACT = 1
          ELSE
            STARTT=INTBUF_TAB(NIN)%VARIABLES(3)
            STOPT =INTBUF_TAB(NIN)%VARIABLES(11)
-           IF (STARTT.LE.TT.AND.TT.LE.STOPT) INTERACT = 1
+           IF (STARTT<=TT.AND.TT<=STOPT) INTERACT = 1
          ENDIF
 C
          IFLAGLOADP = IPARI(95,NIN)
 C
-         IF (INTERACT.NE.0.AND.IFLAGLOADP > 0)THEN  
+         IF (INTERACT/=0.AND.IFLAGLOADP > 0)THEN  
              NIACTIF = NIACTIF + 1
              INTERACTIF(NIACTIF) = NIN
              NODSI(NIACTIF) = 0
@@ -299,13 +299,13 @@ C
       IF(NIACTIF /= 0 ) THEN 
 C alloc comm structure      
          ALLOCATE(RBUFS(2*NSPMD*NODFITOT),STAT=IERROR)
-         IF(IERROR.NE.0) THEN
+         IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
          ENDIF
 
          ALLOCATE(RBUFR(2*NSPMD*NODSITOT),STAT=IERROR)
-         IF(IERROR.NE.0) THEN
+         IF(IERROR/=0) THEN
            CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
            CALL ARRET(2)
          ENDIF

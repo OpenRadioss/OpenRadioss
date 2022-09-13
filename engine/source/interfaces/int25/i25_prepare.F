@@ -82,7 +82,7 @@ C-----------------------------------------------
         SZFRI25 = 0
       
         DO P = 1, NSPMD
-          IF(IAD_ELEM(1,P+1)-IAD_ELEM(1,P).GT.0) THEN
+          IF(IAD_ELEM(1,P+1)-IAD_ELEM(1,P)>0) THEN
             DO J=IAD_ELEM(1,P),IAD_ELEM(1,P+1)-1
               NOD = FR_ELEM(J)
               ITAG(NOD)=1
@@ -117,7 +117,7 @@ C-----------------------------------------------
         IAD_I25(1,1)=1
         IAFR25=0
         DO P = 1, NSPMD
-          IF(IAD_ELEM(1,P+1)-IAD_ELEM(1,P).GT.0) THEN
+          IF(IAD_ELEM(1,P+1)-IAD_ELEM(1,P)>0) THEN
             DO J=IAD_ELEM(1,P),IAD_ELEM(1,P+1)-1
               NOD = FR_ELEM(J)
               ITAG(NOD)=1
@@ -151,7 +151,7 @@ C Flush ITAG to zero again for next CPU
             DO I=2,NBINTC+1
 	      IAD_I25(I,P)=IAD_I25(1,P)
 	    ENDDO	  
-          ENDIF    ! IF(IAD_ELEM(1,P+1)-IAD_ELEM(1,P).GT.0)
+          ENDIF    ! IF(IAD_ELEM(1,P+1)-IAD_ELEM(1,P)>0)
 	  IF(P<NSPMD)IAD_I25(1,P+1)=IAD_I25(NBINTC+1,P)
         ENDDO
       ENDIF

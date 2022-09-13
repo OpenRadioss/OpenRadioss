@@ -99,13 +99,13 @@ C noeuds
             NNOD_S_L = NNOD_S_L + 1
           END IF
         END DO
-        IF(ISECUT.EQ.1) THEN
+        IF(ISECUT==1) THEN
 C section cut
-          IF (TYP_S.GE.1)THEN
+          IF (TYP_S>=1)THEN
             NNODL_L = NNODL_L + NNOD_S_L
           ENDIF
 C section cut type 1 et superieur sur p0
-          IF(PROC.EQ.0.AND.TYP_S.GE.1) THEN
+          IF(PROC==0.AND.TYP_S>=1) THEN
             NNODT_L = NNODT_L + NNOD_S_L
             DO P = 2, NSPMD
               DO J = 1, NNOD_S
@@ -125,7 +125,7 @@ C
 C solides
         DO J = 1, NSELS_S
           K = NSTRF(IP + J*2 - 1)
-          IF(CEP(K+OFF).EQ.PROC) NSELS_S_L = NSELS_S_L + 1
+          IF(CEP(K+OFF)==PROC) NSELS_S_L = NSELS_S_L + 1
         END DO
         NSTRF_L = NSTRF_L + 2*NSELS_S_L
         IP = IP + 2*NSELS_S
@@ -133,7 +133,7 @@ C solides
 C quad
         DO J = 1, NSELQ_S
           K = NSTRF(IP + J*2 - 1)
-          IF(CEP(K+OFF).EQ.PROC) NSELQ_S_L = NSELQ_S_L + 1
+          IF(CEP(K+OFF)==PROC) NSELQ_S_L = NSELQ_S_L + 1
         END DO
         NSTRF_L = NSTRF_L + 2*NSELQ_S_L
         IP = IP + 2*NSELQ_S
@@ -141,7 +141,7 @@ C quad
 C shell
         DO J = 1, NSELC_S
           K = NSTRF(IP + J*2 - 1)
-          IF(CEP(K+OFF).EQ.PROC) NSELC_S_L = NSELC_S_L + 1
+          IF(CEP(K+OFF)==PROC) NSELC_S_L = NSELC_S_L + 1
         END DO
         NSTRF_L = NSTRF_L + 2*NSELC_S_L
         IP = IP + 2*NSELC_S
@@ -149,7 +149,7 @@ C shell
 C truss
         DO J = 1, NSELT_S
           K = NSTRF(IP + J*2 - 1)
-          IF(CEP(K+OFF).EQ.PROC) NSELT_S_L = NSELT_S_L + 1
+          IF(CEP(K+OFF)==PROC) NSELT_S_L = NSELT_S_L + 1
         END DO
         NSTRF_L = NSTRF_L + 2*NSELT_S_L
         IP = IP + 2*NSELT_S
@@ -157,7 +157,7 @@ C truss
 C poutre
         DO J = 1, NSELP_S
           K = NSTRF(IP + J*2 - 1)
-          IF(CEP(K+OFF).EQ.PROC) NSELP_S_L = NSELP_S_L + 1
+          IF(CEP(K+OFF)==PROC) NSELP_S_L = NSELP_S_L + 1
         END DO
         NSTRF_L = NSTRF_L + 2*NSELP_S_L
         IP = IP + 2*NSELP_S
@@ -165,7 +165,7 @@ C poutre
 C ressort
         DO J = 1, NSELR_S
           K = NSTRF(IP + J*2 - 1)
-          IF(CEP(K+OFF).EQ.PROC) NSELR_S_L = NSELR_S_L + 1
+          IF(CEP(K+OFF)==PROC) NSELR_S_L = NSELR_S_L + 1
         END DO
         NSTRF_L = NSTRF_L + 2*NSELR_S_L
         IP = IP + 2*NSELR_S
@@ -173,16 +173,16 @@ C ressort
 C triangle
         DO J = 1, NSELTG_S
           K = NSTRF(IP + J*2 - 1)
-          IF(CEP(K+OFF).EQ.PROC) NSELTG_S_L = NSELTG_S_L + 1
+          IF(CEP(K+OFF)==PROC) NSELTG_S_L = NSELTG_S_L + 1
         END DO
         NSTRF_L = NSTRF_L + 2*NSELTG_S_L
         IP = IP + 2*NSELTG_S
         OFF = OFF + NUMELTG
 C cut
         LSECBUF_L=LSECBUF_L+10
-        IF(TYP_S.GE.100)LSECBUF_L=LSECBUF_L+12*NNOD_S_L
-        IF(TYP_S.GE.101)LSECBUF_L=LSECBUF_L+12*NNOD_S_L
-        IF(TYP_S.GE.102)LSECBUF_L=LSECBUF_L+6*NNOD_S_L
+        IF(TYP_S>=100)LSECBUF_L=LSECBUF_L+12*NNOD_S_L
+        IF(TYP_S>=101)LSECBUF_L=LSECBUF_L+12*NNOD_S_L
+        IF(TYP_S>=102)LSECBUF_L=LSECBUF_L+6*NNOD_S_L
 C.
       ENDDO
 C

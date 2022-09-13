@@ -65,7 +65,7 @@ C
       IE_L = 0
 C
       DO I = 1, NUMSPH
-        IF(CEPSP(I).EQ.PROC) THEN
+        IF(CEPSP(I)==PROC) THEN
           IE_L = IE_L + 1
           DO J = 1, NSPBUF
             SPBUF_L(J,IE_L) = SPBUF(J,I)

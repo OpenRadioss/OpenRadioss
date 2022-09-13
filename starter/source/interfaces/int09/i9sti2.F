@@ -76,7 +76,7 @@ C
         CALL INRCH2(X, IRECT, IXQ, II, NEL,
      .              NINT, NOINT, YM1, YM2, ZM1,
      .              ZM2 ,YE, ZE, ID, TITR)
-        IF(NEL.NE.0) THEN
+        IF(NEL/=0) THEN
          CALL INARE2(AREA, YE, ZE)
          XL2=(YM2-YM1)**2+(ZM2-ZM1)**2
          IELE(I) = NEL

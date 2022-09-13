@@ -67,8 +67,8 @@ C
       ELOFF=0
       DO I=1,NFVBAG
          PMAIN=FVSPMD(I)%PMAIN
-         IF (ISPMD.EQ.0) THEN
-            IF (ISPMD.EQ.PMAIN-1) THEN
+         IF (ISPMD==0) THEN
+            IF (ISPMD==PMAIN-1) THEN
                ALLOCATE(OFFTR(FVDATA(I)%NNTR))
                DO J=1,FVDATA(I)%NNTR
                   OFFTR(J)=0
@@ -79,16 +79,16 @@ C
                      DO N=FVDATA(I)%IFVTADR(KK),
      .                         FVDATA(I)%IFVTADR(KK+1)-1
                         NN=FVDATA(I)%IFVPOLY(N)
-                        IF (NN.GT.0) THEN
+                        IF (NN>0) THEN
                            N1=FVDATA(I)%IFVTRI_ANIM(1,NN)
                            N2=FVDATA(I)%IFVTRI_ANIM(2,NN)
                            N3=FVDATA(I)%IFVTRI_ANIM(3,NN)
                            NND=1
-                           IF (N2.NE.N1) NND=NND+1
-                           IF (N3.NE.N2.AND.N3.NE.N1) NND=NND+1
+                           IF (N2/=N1) NND=NND+1
+                           IF (N3/=N2.AND.N3/=N1) NND=NND+1
 C
                            NN=FVEL2FA(ELOFF+NN)-ELOFF
-                           IF (NND.EQ.3) OFFTR(NN)=1
+                           IF (NND==3) OFFTR(NN)=1
                         ENDIF
                      ENDDO
                   ENDDO
@@ -113,7 +113,7 @@ C
                JJ=0
                DO J=1,NNTR
                   NN=IBUF(JJ+1)
-                  IF (NN .NE.0 ) THEN
+                  IF (NN /=0 ) THEN
                     NN=FVEL2FA(ELOFF+NN)-ELOFF
                     OFFTR(NN)=IBUF(JJ+2)
                   ENDIF
@@ -124,7 +124,7 @@ C
                DEALLOCATE(IBUF, OFFTR)
             ENDIF
          ELSE
-            IF (ISPMD.EQ.PMAIN-1) THEN
+            IF (ISPMD==PMAIN-1) THEN
                ITAG=MSGOFF
                CALL MPI_SEND(FVDATA(I)%NNTR, 1, MPI_INTEGER,
      .                       IT_SPMD(1), ITAG, MPI_COMM_WORLD,
@@ -145,16 +145,16 @@ C
                      DO N=FVDATA(I)%IFVTADR(KK),
      .                         FVDATA(I)%IFVTADR(KK+1)-1
                         NN=FVDATA(I)%IFVPOLY(N)
-                        IF (NN.GT.0.AND.ITAGT(NN).EQ.0) THEN
+                        IF (NN>0.AND.ITAGT(NN)==0) THEN
                            N1=FVDATA(I)%IFVTRI_ANIM(1,NN)
                            N2=FVDATA(I)%IFVTRI_ANIM(2,NN)
                            N3=FVDATA(I)%IFVTRI_ANIM(3,NN)
                            NND=1
-                           IF (N2.NE.N1) NND=NND+1
-                           IF (N3.NE.N2.AND.N3.NE.N1) NND=NND+1
+                           IF (N2/=N1) NND=NND+1
+                           IF (N3/=N2.AND.N3/=N1) NND=NND+1
 C
                            IBUF(IAD+1)=NN
-                           IF (NND.EQ.3) IBUF(IAD+2)=1
+                           IF (NND==3) IBUF(IAD+2)=1
                            IAD=IAD+2
                            ITAGT(NN)=1
                         ENDIF

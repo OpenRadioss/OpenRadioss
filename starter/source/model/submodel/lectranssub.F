@@ -115,7 +115,7 @@ C=======================================================================
       TAGNODSUB = 0
       NUMNUSR = 0
 
-      IF(IS_DYNA .NE. 0)THEN
+      IF(IS_DYNA /= 0)THEN
         CALL CPP_NODE_COUNT(NUMNUSR)
         ALLOCATE( INDEX(2*NUMNUSR) )
         DO I=1,2*NUMNUSR
@@ -140,7 +140,7 @@ C=======================================================================
 C--------------------------------------------------
 C      TAG SUBMODEL NODES DYNA
 C-------------------------------------------------- 
-      IF(IS_DYNA .NE. 0)THEN
+      IF(IS_DYNA /= 0)THEN
         CALL CPP_NODE_SUB_TAG_DYNA(TAGNODSUB_TMP,IDNODSUB)
 
         CALL MY_ORDERS( 0, WORK, IDNODSUB, INDEX, NUMNUSR , 1)
@@ -200,7 +200,7 @@ c---------------------
         END IF
         RTRANS(I,1) = ITRANSSUB
 c---------------------
-        IF(IGU .NE. 0 .AND. ID_TRANSSUB .NE. 0) THEN
+        IF(IGU /= 0 .AND. ID_TRANSSUB /= 0) THEN
           CALL ANCMSG(MSGID=914,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -635,7 +635,7 @@ c
         ENDIF
       ENDDO
 C-------------------------
-      IF(IS_DYNA .NE. 0)THEN
+      IF(IS_DYNA /= 0)THEN
         IF (ALLOCATED(INDEX)) DEALLOCATE(INDEX)
         IF (ALLOCATED(INDEX1)) DEALLOCATE(INDEX1)
         IF (ALLOCATED(TAGNODSUB_TMP)) DEALLOCATE(TAGNODSUB_TMP)

@@ -77,14 +77,14 @@ c                                  123456789012345678901234567890
       DATA TYP/ 1, 3, 2, 2, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1,-1,-1/
           
 C-----------------------------------------------
-      IF(ITRACE.NE.1)RETURN
+      IF(ITRACE/=1)RETURN
       NIVEAU_PILE = TRACE_PILE(1)
-      IF(NIVEAU_PILE.GE.NIVEAU_MAX-1)THEN
+      IF(NIVEAU_PILE>=NIVEAU_MAX-1)THEN
          CALL TRACE_PRINT(LINE,-2,1)
          RETURN
       ENDIF
 C-----------------------------------------------
-      IF(NSUB.LE.0.OR.NSUB.GT. NSUB_MAX )THEN
+      IF(NSUB<=0.OR.NSUB> NSUB_MAX )THEN
           LINE=' ?????? '  
       ELSE
         GOTO(1,2,3)TYP(NSUB)
@@ -92,7 +92,7 @@ C-----------------------------------------------
           LINE=LINES(NSUB)
           GOTO 999
  2      CONTINUE
-          IF (PARALLEL_SECTION .EQ. 1) THEN
+          IF (PARALLEL_SECTION == 1) THEN
 #include "lockon.inc"
            WRITE(LINE,'(A,I5,A1,I5)')LINES(NSUB)(1:LL(NSUB)),ITAB(1)
 #include "lockoff.inc"
@@ -101,7 +101,7 @@ C-----------------------------------------------
           ENDIF
           GOTO 999
  3      CONTINUE
-          IF (PARALLEL_SECTION .EQ. 1) THEN
+          IF (PARALLEL_SECTION == 1) THEN
 #include "lockon.inc"
            WRITE(LINE,'(A,I5,A1,I5)')LINES(NSUB)(1:LL(NSUB)),
      .                              ITAB(1)+1,'/',ITAB(2)
@@ -148,7 +148,7 @@ C-----------------------------------------------
       INTEGER NIVEAU_PILE
       CHARACTER*132 BLANC
 C-----------------------------------------------
-      IF(ITRACE.NE.1)RETURN
+      IF(ITRACE/=1)RETURN
       BLANC=' '
       CALL TRACE_PRINT(BLANC,NSUB,-1)
       NIVEAU_PILE = TRACE_PILE(-1)
@@ -187,7 +187,7 @@ C-----------------------------------------------
       INTEGER NIVEAU_PILE(PARASIZ),IT
       DATA NIVEAU_PILE/PARASIZ*0/
       SAVE NIVEAU_PILE
-      IF(ITASKP1.EQ.0)THEN
+      IF(ITASKP1==0)THEN
         IT = 1
       ELSE
         IT = ITASKP1
@@ -275,13 +275,13 @@ C-----------------------------------------------
       LAST_IN = NIVEAU_PILE
       NS_SIGNAL1=NS_SIGNAL
       IW1=IW
-      IF(ITASKP1_DEF.EQ.0)THEN
+      IF(ITASKP1_DEF==0)THEN
         IT = 1
       ELSE
         IT = ITASKP1
       ENDIF
 C
-      IF(IW1.EQ.0) THEN
+      IF(IW1==0) THEN
 C------------------------------------------------------------------------
 C       Ajout d'une ligne a TEXT (1 ou plusieurs X par descente de pile)
 C------------------------------------------------------------------------
@@ -293,11 +293,11 @@ C------------------------------------------------------------------------
         TEXT(NLIGNES,IT)(1:NIVEAU_PILE)    =BLANC(1:NIVEAU_PILE)
         TEXT(NLIGNES,IT)(NIVEAU_PILE+1:132)=LINE(1:132-NIVEAU_PILE)
         CHECK_PILE(NIVEAU_PILE,IT) = NS_SIGNAL
-      ELSEIF(IW1.EQ.-1) THEN
+      ELSEIF(IW1==-1) THEN
 C------------------------------------------
 C       remonte de pile 
 C------------------------------------------
-        IF(NS_SIGNAL1.EQ.CHECK_PILE(NIVEAU_PILE,IT))THEN
+        IF(NS_SIGNAL1==CHECK_PILE(NIVEAU_PILE,IT))THEN
           NLIGNES_PILE(NIVEAU_PILE,IT) 
      .           = NLIGNES_PILE(NIVEAU_PILE-1,IT)
         ELSE
@@ -306,25 +306,25 @@ C------------------------------------------
         ENDIF
       ENDIF
 C
-      IF(IW1.GT.0) THEN
+      IF(IW1>0) THEN
 C------------------------------------------
 C       Ecriture du Trace Back et Arret
 C------------------------------------------
-        IF(NIVEAU_PILE.LE.0)STOP
+        IF(NIVEAU_PILE<=0)STOP
         NLIGNES = NLIGNES_PILE(NIVEAU_PILE,IT)
         NIVEAU_PILE = TRACE_PILE(-9999)
 C
-        IF(NS_SIGNAL1.EQ.-1)THEN
+        IF(NS_SIGNAL1==-1)THEN
           CALL ANCMSG(MSGID=40,ANMODE=ANINFO)
-        ELSEIF(NS_SIGNAL1.EQ.-2)THEN
+        ELSEIF(NS_SIGNAL1==-2)THEN
           CALL ANCMSG(MSGID=41,ANMODE=ANINFO)
-        ELSEIF(NS_SIGNAL1.EQ.1)THEN
+        ELSEIF(NS_SIGNAL1==1)THEN
           CALL ANCMSG(MSGID=42,ANMODE=ANINFO)
-        ELSEIF(NS_SIGNAL1.EQ.2)THEN
+        ELSEIF(NS_SIGNAL1==2)THEN
           CALL ANCMSG(MSGID=43,ANMODE=ANINFO)
-        ELSEIF(NS_SIGNAL1.EQ.3)THEN
+        ELSEIF(NS_SIGNAL1==3)THEN
           CALL ANCMSG(MSGID=44,ANMODE=ANINFO)
-        ELSEIF(NS_SIGNAL1.EQ.4)THEN
+        ELSEIF(NS_SIGNAL1==4)THEN
           CALL ANCMSG(MSGID=45,ANMODE=ANINFO,
      .                I1=NS_SIGNAL,
      .                I2=LAST_IN)
@@ -338,7 +338,7 @@ C
         ENDDO
         WRITE(IOUT,'(A,A)')'      ',
      .'+=============================================================+'
-        IF (NS_SIGNAL1.NE.4) THEN
+        IF (NS_SIGNAL1/=4) THEN
           CALL ARRET(6)
         END IF
       ENDIF

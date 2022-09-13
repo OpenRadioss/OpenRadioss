@@ -132,7 +132,7 @@ C
         XK       = XK0  * RHOA2 * (Z / HNUK)**3 / SQRT(TE)
         XKZZ     = XK * (ONE - EXP(-HNUK/TE)) * ZZ
         RHOA2    = ((RHO-RHO0)/ATOM)**2
-        IF(TE.LE.EP04) XKZZ = XKZZ + DAR * RHOA2 * ZZ
+        IF(TE<=EP04) XKZZ = XKZZ + DAR * RHOA2 * ZZ
 C
         DDFI     = (ONE - EXP(-XKZZ)) 
         DFI      = FI * DDFI
@@ -151,7 +151,7 @@ C-------------------------------------------------------------
 C ABSORPTION DE LA LUMIERE LASER DANS LA CIBLE => VAPORISATION
 C-------------------------------------------------------------
 C
-       IF(IAFUNC.GT.0)THEN
+       IF(IAFUNC>0)THEN
         NP1    = NPF(IAFUNC)
         NPOINT =(NPF(IAFUNC+1)-NP1)/2
         T      = TE*TSCAL
@@ -204,7 +204,7 @@ c
        D        = (DFI+DFI1) / (RHOC*CHALEUR)
 
        VM       = D * AIRE * RHOC * FOURTH
-       IF(ZMC.GT.ZM) VM = -VM
+       IF(ZMC>ZM) VM = -VM
        WA(3,N1) = WA(3,N1) + VM
        WA(3,N2) = WA(3,N2) + VM
 C-------------------------
@@ -337,7 +337,7 @@ C-------------------------------------------------------------
         VOL  = GBUF%VOL(I)
         TE   = GBUF%TEMP(I)
         RHO0 = PM(1,MX)
-        IF(ENER.LT.ENERLIM)THEN
+        IF(ENER<ENERLIM)THEN
           Z1           = X(3,IXQ(2,II))
           Z2           = X(3,IXQ(3,II))
           Z3           = X(3,IXQ(4,II))

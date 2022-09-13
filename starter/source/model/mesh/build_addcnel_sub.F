@@ -85,20 +85,20 @@ C
           ! Number of the element
           NUMG = CNEL(ADDCNEL(NG+1)+I-1)
           ! Treatment according to element type
-          IF (NUMG.LE.NUMELS) THEN  
+          IF (NUMG<=NUMELS) THEN  
             K = K + 1
-          ELSEIF (NUMG.LE.NUMELS+NUMELQ) THEN
+          ELSEIF (NUMG<=NUMELS+NUMELQ) THEN
             CONTINUE
-          ELSEIF (NUMG.LE.NUMELS+NUMELQ+NUMELC) THEN
+          ELSEIF (NUMG<=NUMELS+NUMELQ+NUMELC) THEN
             K = K + 1
-          ELSEIF (NUMG.LE.NUMELS+NUMELQ+NUMELC+NUMELT) THEN
+          ELSEIF (NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT) THEN
             CONTINUE
-          ELSEIF (NUMG.LE.NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP) THEN
+          ELSEIF (NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP) THEN
             CONTINUE
-          ELSEIF (NUMG.LE.NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+          !   If the element is a triangle shell
+          ELSEIF (NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+          !   If the element is a triangle shell
      .            NUMELR) THEN
             CONTINUE
-          ELSEIF (NUMG.LE.NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+          !   If the element is a triangle shell
+          ELSEIF (NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+          !   If the element is a triangle shell
      .            NUMELR+NUMELTG) THEN
             K = K + 1
           ELSE

@@ -85,7 +85,7 @@ C
      .                             MSGTYPE=MSGERROR,
      .                         C1='IXSP_L')
 c inlet outl spmd
-      IF(NSPHIO.GT.0)THEN
+      IF(NSPHIO>0)THEN
         ALLOCATE(LONFSPH_L(SLONFSPH_L)    ,STAT=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
@@ -128,7 +128,7 @@ c
         SOL2SPH_TYPL (1:NUMELS8_L)= 0
       END IF
 c
-      IF(NSPCOND.GT.0)THEN
+      IF(NSPCOND>0)THEN
         ALLOCATE(ISPSYM(NUMSPH_L*NSPCOND)    ,STAT=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
@@ -137,7 +137,7 @@ c
 c
       NG_L = 0
       DO NG = 1, NGROUP
-        IF(IPARG(32,NG).EQ.PROC) THEN
+        IF(IPARG(32,NG)==PROC) THEN
           NG_L = NG_L + 1
           NGLOCAL(NG) = NG_L
         ELSE
@@ -157,7 +157,7 @@ C
       IE_L = 0
 C
       DO I = 1, NUMSPH
-        IF(CEPSP(I).EQ.PROC) THEN
+        IF(CEPSP(I)==PROC) THEN
           IE_L = IE_L + 1
 c num locale des cellules SPH
           DO J = 1, NISP
@@ -188,7 +188,7 @@ C
       LEN_IA = LEN_IA + (NUMSPH_L+NBGAUGE)*NISP 
      .                + (NUMSPH_L+NBGAUGE)*KVOISPH + NUMNOD_L
 C
-      IF(NSPCOND.GT.0)THEN
+      IF(NSPCOND>0)THEN
         DO I = 1, NSPCOND*NUMSPH_L
           ISPSYM(I) = 0
         END DO
@@ -203,7 +203,7 @@ c SLPRTSPH_L is already set to SLPRTSPH
         SUIVSPH_L = 0
         DO IPRT=1,NPART
          DO N=1,NUMSPH
-          IF(CEPSP(N).EQ.PROC.AND.IPARTSP(N).EQ.IPRT.AND.
+          IF(CEPSP(N)==PROC.AND.IPARTSP(N)==IPRT.AND.
      .          (KXSP(2,N) > 0 .OR. (KXSP(2,N)/=0.AND.
      .           N >= FIRST_SPHSOL .AND. N < FIRST_SPHSOL+NSPHSOL)))THEN
            SUIVSPH_L=SUIVSPH_L+1
@@ -212,7 +212,7 @@ c SLPRTSPH_L is already set to SLPRTSPH
          ENDDO
          LPRTSPH_L((IPRT-1)*2+1+2)=SUIVSPH_L
          DO N=1,NUMSPH
-          IF(CEPSP(N).EQ.PROC.AND.IPARTSP(N).EQ.IPRT.AND.
+          IF(CEPSP(N)==PROC.AND.IPARTSP(N)==IPRT.AND.
      .       (KXSP(2,N) < 0.AND. 
      .           (N < FIRST_SPHSOL .OR. N >= FIRST_SPHSOL+NSPHSOL)))THEN
            SUIVSPH_L=SUIVSPH_L+1
@@ -232,7 +232,7 @@ c on passe ISPHIO en local pour les outlet definies par noeuds
           DO N=1,NISPHIO
             ISPHIO_L(NISPHIO*(I-1)+N) = ISPHIO(NISPHIO*(I-1)+N)
           END DO   
-          IF (ISPHIO(NISPHIO*(I-1)+12).EQ.2) THEN
+          IF (ISPHIO(NISPHIO*(I-1)+12)==2) THEN
             ISPHIO_L(NISPHIO*(I-1)+13) = NODLOCAL(ISPHIO(NISPHIO*(I-1)+13))
             ISPHIO_L(NISPHIO*(I-1)+14) = NODLOCAL(ISPHIO(NISPHIO*(I-1)+14))
             ISPHIO_L(NISPHIO*(I-1)+15) = NODLOCAL(ISPHIO(NISPHIO*(I-1)+15))
@@ -253,7 +253,7 @@ C
 
         IE_L = 0
         DO I = 1, NSPHSOL
-          IF(CEPSP(FIRST_SPHSOL+I-1).EQ.PROC) THEN
+          IF(CEPSP(FIRST_SPHSOL+I-1)==PROC) THEN
             IE_L = IE_L + 1
             IF(CEP(SPH2SOL(FIRST_SPHSOL+I-1))/=PROC)THEN
               write(6,'(A)') 
@@ -272,7 +272,7 @@ c
 C
         IE_L = 0
         DO I=1,NUMELS8
-          IF(CEP(I).EQ.PROC)THEN
+          IF(CEP(I)==PROC)THEN
             IE_L = IE_L + 1
 C           SOL2SPH(1,N)+1<=I<=SOLSPH(2,N) <=> N==SPH2SOL(I)
             SOL2SPH_L(1,IE_L)=CELSPH(SOL2SPH(1,I)+1)-1

@@ -60,16 +60,16 @@ C-----------------------------------------------
      .   VDT
       DOUBLE PRECISION VDT2
 C
-      IF(N2D.EQ.1)THEN
+      IF(N2D==1)THEN
 #include      "vectorize.inc"
  	DO I=NODFT,NODLT
- 	  IF(X(2,I)+DT2*V(2,I).LT.ZERO) V(2,I)=ZERO
+ 	  IF(X(2,I)+DT2*V(2,I)<ZERO) V(2,I)=ZERO
  	ENDDO
       ENDIF
 C-------------------------------------------------------------
 C         CALCUL DES  DEPLACEMENTS TRANSLATIONS PUIS ROTATIONS
 C-------------------------------------------------------------
-      IF (IRESP.EQ.1) THEN
+      IF (IRESP==1) THEN
 #include      "vectorize.inc"
         DO N=NODFT,NODLT
           VDT2 = DT2*V(1,N)
@@ -104,8 +104,8 @@ C-------------------------------------------------------------
           X(3,N)=X(3,N)+VDT
         ENDDO
       ENDIF 
-      IF((ISUB.GT.0.OR.ISECUT.GT.0.OR.IISROT.GT.0.OR.ISHSUB.NE.0.OR.
-     .  IMPOSE_DR.NE.0 .OR. IDROT.EQ.1) .AND. IRODDL.NE.0) THEN
+      IF((ISUB>0.OR.ISECUT>0.OR.IISROT>0.OR.ISHSUB/=0.OR.
+     .  IMPOSE_DR/=0 .OR. IDROT==1) .AND. IRODDL/=0) THEN
 #include      "vectorize.inc"
         DO N=NODFT,NODLT
           DR(1,N)=DR(1,N)+DT2*VR(1,N)

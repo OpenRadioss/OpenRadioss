@@ -155,7 +155,7 @@ C
         IF(ILAW == 11) THEN
 C
 C         CHANGEMENT DU NO DE NOEUD
-          IF(NINT(PM(51,I)).NE.0)THEN
+          IF(NINT(PM(51,I))/=0)THEN
             PM(51,I) = USR2SYS(NINT(PM(51,I)),ITABM1,MESS,ID)+PUN
           ENDIF
 C
@@ -163,7 +163,7 @@ C
             ISERV(J)=IPM(10+J,I)
           ENDDO!next J
           DO 230 K=1,10
-            IF(ISERV(K).NE.0) THEN
+            IF(ISERV(K)/=0) THEN
               DO J=1,NFUNCT
                 IF(ISERV(K) == NPC1(J)) THEN
                   IPM(10+K,I)=J
@@ -184,7 +184,7 @@ C
          NF=IPM(10,I)
          DO 250 K=1,NF
           IS=IPM(10+K,I)
-          IF(IS.NE.0)THEN
+          IF(IS/=0)THEN
            DO J=1,NFUNCT
             IF(IS == NPC1(J))  THEN
               IPM(10+K,I)=J
@@ -204,7 +204,7 @@ c
          NF=IPM(10,I)+IPM(6,I)
          DO 240 K=1,NF
           IS=IPM(10+K,I)
-          IF(IS.NE.0)THEN
+          IF(IS/=0)THEN
            DO J=1,NFUNCT
             IF(IS == NPC1(J))  THEN
               IPM(10+K,I)=J
@@ -223,7 +223,7 @@ C
         ELSE IF(ILAW == 21) THEN
 C
           IS=IPM(11,I)
-          IF(IS.NE.0) THEN
+          IF(IS/=0) THEN
             DO 260 J=1,NFUNCT
               IF(IS == NPC1(J))  THEN
                 IPM(11,I)=J
@@ -245,7 +245,7 @@ C-------
          IF(IPM(10+NF,I) /= 0)EFUNC=1
          DO 243 K=1,NF
           IS=IPM(10+K,I)
-          IF(IS.NE.0)THEN
+          IF(IS/=0)THEN
            DO J=1,NFUNCT
             IF(IS == NPC1(J))  THEN
               IPM(10+K,I)=J
@@ -281,7 +281,7 @@ C law 52
         ELSE IF (ILAW == 52) THEN
            DO 52 K = 1,IPM(226,I)!NTABLE
             ITABLE = IPM(226+k,I)
-            IF(ITABLE.NE.0)THEN
+            IF(ITABLE/=0)THEN
              DO J=1,NTABLE
               IF(ITABLE == TABLE(J)%NOTABLE)  THEN
                 IPM(226+k,I)=J
@@ -304,7 +304,7 @@ C
          IF(IPM(10+NF,I) /= 0)EFUNC=1
          DO 257 K=1,NF
           IS=IPM(10+K,I)
-          IF(IS.NE.0)THEN
+          IF(IS/=0)THEN
            DO J=1,NFUNCT
             IF(IS == NPC1(J))  THEN
               IPM(10+K,I)=J
@@ -415,7 +415,7 @@ C
          ENDIF
          DO 287 K=1,NF
           IS=IPM(10+K,I)
-          IF(IS.NE.0)THEN
+          IF(IS/=0)THEN
            DO J=1,NFUNCT
             IF(IS == NPC1(J))  THEN
               IPM(10+K,I)=J
@@ -807,7 +807,7 @@ c
               NF=IPM(115 +IP ,I)
               DO 291 K=1,NF
                 IS=IPM(115 + IP + K,I)
-                IF(IS.NE.0)THEN
+                IF(IS/=0)THEN
                   DO 292 J=1,NFUNCT
                     IF(IS == NPC1(J))  THEN
                      IPM(115+ IP + K ,I)=J
@@ -914,7 +914,7 @@ C
           ISERV(6)=18
           H = GEO(7,I)
           DO 330 K=1,3
-            IF(ISERV(K).NE.0) THEN
+            IF(ISERV(K)/=0) THEN
               DO 320 J=1,NFUNCT
                 IF(ISERV(K) == NPC1(J)) THEN
                   GEO(ISERV(K+3),I)=J+PUN
@@ -1036,7 +1036,7 @@ C
           ISERV(3)=IGEO(103,I)
           H = GEO(7,I)
           DO 331 K=1,3
-            IF(ISERV(K).NE.0) THEN
+            IF(ISERV(K)/=0) THEN
               DO J=1,NFUNCT
                 IF(ISERV(K) == NPC1(J)) THEN
                   IGEO(100+K,I)=J
@@ -1700,7 +1700,7 @@ C
 C     3) FIXED VELOCITIES
 C
 c      DO 745 I=1,NFXVEL
-c        IF (IBFV(9,I).GT.0) THEN
+c        IF (IBFV(9,I)>0) THEN
 c          IS=IBFV(9,I)
 c          JJ=(NUMSKW+1)+MIN(IUN,NSPCOND)*NUMSPH+1
 c          DO J=1,NUMFRAM
@@ -1798,7 +1798,7 @@ c      DO 780 I=1,NUMGEO
 c        IGTYP=IGEO(11,I)
 c        IF (IGTYP == 6 .OR. IGTYP == 21 .OR. IGTYP == 22) THEN
 c          IS=-IGEO(2,I)
-c          IF(IS.GE.0) THEN
+c          IF(IS>=0) THEN
 c            DO K=0,NUMSKW
 c              IF(IS == ISKN(4,K+1)) THEN
 c                IGEO(2,I)=-(K+1)
@@ -1811,7 +1811,7 @@ c          CALL ANCERR(137,ANINFO_BLIND_1)
 c          ENDIF
 c        ELSEIF(IGTYP == 34)THEN
 c          IS=NINT(GEO(2,I))
-c          IF (IS.NE.0)THEN
+c          IF (IS/=0)THEN
 c           DO 758 K=0,NUMSKW
 c            IF(IS == ISKN(4,K+1)) THEN
 c              GEO(2,I)=(K+1)+PUN
@@ -1826,7 +1826,7 @@ c           CALL ANCERR(137,ANINFO_BLIND_1)
 c          ENDIF
 
 c        ELSEIF(IGTYP == 8.OR.IGTYP == 13.OR.IGTYP == 25.OR.
-c     .                      (IGTYP.GE.29.AND.IGTYP.LT.50)) THEN
+c     .                      (IGTYP>=29.AND.IGTYP<50)) THEN
 c          IS=IGEO(2,I)
 c          DO 760 K=0,NUMSKW
 c            IF(IS == ISKN(4,K+1)) THEN
@@ -1913,7 +1913,7 @@ c 890  CONTINUE
 C
 C     Raileigh DAMPING
 C
-c      IF(NRDAMP.GE.15)THEN
+c      IF(NRDAMP>=15)THEN
 c       DO 670 I=1,NDAMP
 c        NOSKEW=NINT(DAMPR(15,I))
 c        DO 675 J=0,NUMSKW
@@ -1964,7 +1964,7 @@ C  CONVECTIVE HEAT FLUX
 C-------------------------
        DO I=1,NUMCONV
           ISENS = IBCV(6,I)
-          IF(ISENS.NE.0) THEN
+          IF(ISENS/=0) THEN
             DO J=1,NSENSOR
               IF(ISENS == LSENSOR(1,J)) THEN
                  IBCV(6,I) = J
@@ -1981,7 +1981,7 @@ C  RADIATIVE HEAT FLUX
 C------------------------
        DO I=1,NUMRADIA
           ISENS = IBCR(6,I)
-          IF(ISENS.NE.0) THEN
+          IF(ISENS/=0) THEN
             DO J=1,NSENSOR
               IF(ISENS == LSENSOR(1,J)) THEN
                  IBCR(6,I) = J
@@ -1998,7 +1998,7 @@ C  IMPOSED HEAT FLUX
 C---------------------
        DO I=1,NFXFLUX
           ISENS = IBFFLUX(6,I)
-          IF(ISENS.NE.0) THEN
+          IF(ISENS/=0) THEN
             DO J=1,NSENSOR
               IF(ISENS == LSENSOR(1,J)) THEN
                  IBFFLUX(6,I) = J
@@ -2025,7 +2025,7 @@ C
         CALL FRETITL2(TITR,IPM(NPROPMI-LTITR+1,I),LTITR)
         IF(ILAW == 73) THEN
           ITABLE=IPM(227,I)
-          IF(ITABLE.NE.0)THEN
+          IF(ITABLE/=0)THEN
            DO J=1,NTABLE
             IF(ITABLE == TABLE(J)%NOTABLE)  THEN
               IPM(227,I)=J
@@ -2070,7 +2070,7 @@ c -- young evolution
 
         ELSEIF(ILAW == 74)THEN
           ITABLE=IPM(227,I)
-          IF(ITABLE.NE.0)THEN
+          IF(ITABLE/=0)THEN
            DO J=1,NTABLE
             IF(ITABLE == TABLE(J)%NOTABLE)  THEN
               IPM(227,I)=J
@@ -2118,7 +2118,7 @@ c -- young evolution
           DO 980 K = 1,IPM(226,I)!NTABLE
           ITABLE= IPM(226+k,I)
           IADD  = IPM(7,I) - 1
-          IF(ITABLE.NE.0)THEN
+          IF(ITABLE/=0)THEN
            DO J=1,NTABLE
             IF(ITABLE == TABLE(J)%NOTABLE)  THEN
               IPM(226+k,I)=J
@@ -2255,7 +2255,7 @@ C
           DO K=1,2
             PASSED=.TRUE.          
             IS=NINT(PM(20+K,I))
-            IF(IS.NE.0) THEN
+            IF(IS/=0) THEN
               DO J=1,NUMMAT
                 IF(IS == IPM(1,J))  THEN
                   PM(20+K,I)=J+PUN
@@ -2287,7 +2287,7 @@ C
           ENDDO !next K
           PM(91,I)=RHO_MAX
 
-        ELSE IF (ILAW .EQ. 151) THEN
+        ELSE IF (ILAW == 151) THEN
            ID=IPM(1,I)
            CALL FRETITL2(TITR,IPM(NPROPMI-LTITR+1,I),LTITR)
            NF = IPM(20, I) ! Number of submaterials
@@ -2295,7 +2295,7 @@ C
            DO K = 1, NF
               IS = IPM(20 + K, I)
               DO J = 1, NUMMAT
-                 IF (IS .EQ. IPM(1, J)) THEN
+                 IF (IS == IPM(1, J)) THEN
                     IPM(20 + K, I) = J
                     ILAWk = IPM(2,J)            
                     MTAG  => MLAW_TAG(I)   

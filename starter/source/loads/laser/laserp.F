@@ -88,7 +88,7 @@ C--------------------------------------------------
       DO IL=1,NL+1
         NEXT = LAS(1,IL)
         DO II = 1, NUMELQ
-          IF(IXQ(7,II).EQ.NEXT) THEN
+          IF(IXQ(7,II)==NEXT) THEN
 C           LAS(1,IL) = NG
 C           LAS(2,IL) = I
 Cel46d11 on force les elements laser sur p0
@@ -170,7 +170,7 @@ C--------------------------------------------------
        NG = LAS(1,IL)
        NG_L = 0
        DO NN = 1, NG
-         IF(IPARG(32,NN).EQ.0) NG_L = NG_L + 1
+         IF(IPARG(32,NN)==0) NG_L = NG_L + 1
        ENDDO
        LAS(1,IL) = NG_L
 C

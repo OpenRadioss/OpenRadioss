@@ -157,9 +157,9 @@ c-------------------------------
                WA(JJ)= SQRT(VONM2)
              ENDDO                  
 c-------------------------------
-           ELSEIF(NBX.GE.20.AND.NBX.LE.24) THEN
+           ELSEIF(NBX>=20.AND.NBX<=24) THEN
 C            variable user 1:5
-            IF(MLW.GE.28) THEN
+            IF(MLW>=28) THEN
               DO I=LFT,LLT
                 NUVAR  = MAX(NUVAR,IPM(8,IXS(1,I+NFT)))
               ENDDO
@@ -320,7 +320,7 @@ c-------------------------------
         ENDDO
        ENDIF
 !     ++++++++++
-       IF(ISPMD.EQ.0) THEN
+       IF(ISPMD==0) THEN
          RESP0 = 0 
 
          DO NN=1,NSPGROUP
@@ -338,7 +338,7 @@ c-------------------------------
          IF(JJ_OLD>0) THEN
           IF( NBX == 26) THEN
            J = 0
-           DO WHILE(J.LT.JJ_OLD)
+           DO WHILE(J<JJ_OLD)
             ISOLNOD= NINT(WAP0(J + 1)) 
             NPT    = NINT(WAP0(J + 2)) 
             NUVAR  = NINT(WAP0(J + 3)) 
@@ -349,7 +349,7 @@ c-------------------------------
             ELSE
              WRITE(IUGEO,'(4I10)')ISOLNOD,NPT,NUVAR,JHBE
             ENDIF               
-              IF (NUVAR.NE.0) THEN
+              IF (NUVAR/=0) THEN
                DO I = 1,NPT               
                   IF(OUTYY_FMT == 2)THEN
                  WRITE(IUGEO,'(1P6E12.5)')(WAP0(J + K),K=1,NUVAR)
@@ -363,7 +363,7 @@ c-------------------------------
           ELSE
             RES=MOD(JJ_OLD,6)
             WRTLEN=JJ_OLD-RES
-            IF (WRTLEN.GT.0) THEN
+            IF (WRTLEN>0) THEN
              IF (OUTYY_FMT == 2) THEN
                WRITE(IUGEO,'(1P6E12.5)')(WAP0(J),J=1,WRTLEN)
              ELSE

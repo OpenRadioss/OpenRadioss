@@ -146,7 +146,7 @@ C
       XYZM(6,I_ADD) = BMINMA(3)
       I_MEM = 0
 C
-      IF (IFORM .NE. 2) THEN
+      IF (IFORM /= 2) THEN
         ISZNSNR = 0
         DO I=1,NRTM
           ADDCM(I)=0
@@ -160,7 +160,7 @@ C-----DEBUT DE LA PHASE DE TRI
    
       MARGE = TZINF - MAX(MAXGAP+DGAPLOAD,DRAD)
 
-      IF( NMN .NE.  0 ) THEN
+      IF( NMN /=  0 ) THEN
         AAA = SQRT(NMN /
      .           ((BMINMA(1)-BMINMA(4))*(BMINMA(2)-BMINMA(5))
      .           +(BMINMA(2)-BMINMA(5))*(BMINMA(3)-BMINMA(6))
@@ -254,16 +254,16 @@ c     ENDIF
 
       IF (I_MEM == 2) RETURN
 
-      IF(I_MEM.EQ.1)THEN
+      IF(I_MEM==1)THEN
         NB_N_B = NB_N_B + 1
-        IF ( NB_N_B .GT. MAX(NRTM,NRTS)) THEN
+        IF ( NB_N_B > MAX(NRTM,NRTS)) THEN
           CALL ANCMSG(MSGID=85,ANMODE=ANINFO,
      .                I1=NOINT)
           CALL ARRET(2)
         ENDIF
         ILD = 1
-      ELSEIF(I_MEM.EQ.2) THEN
-        IF(DEBUG(1).GE.1) THEN
+      ELSEIF(I_MEM==2) THEN
+        IF(DEBUG(1)>=1) THEN
           IWARN = IWARN+1
 #include "lockon.inc"
           WRITE(ISTDO,*)' **WARNING INTERFACE/MEMORY'
@@ -277,15 +277,15 @@ c     ENDIF
 C ne pas dimunuer la taille des boite
 C        MINBOX= THREE_OVER_4*MINBOX
 C        MAXBOX= THREE_OVER_4*MAXBOX
-        IF( TZINF.LE.MAX(MAXGAP+DGAPLOAD,DRAD) ) THEN
+        IF( TZINF<=MAX(MAXGAP+DGAPLOAD,DRAD) ) THEN
           CALL ANCMSG(MSGID=98,ANMODE=ANINFO,
      .            I1=NOINT,C1='(I11BUCE)')
           CALL ARRET(2)
         ENDIF
         ILD = 1
-      ELSEIF(I_MEM.EQ.3)THEN
+      ELSEIF(I_MEM==3)THEN
         NB_N_B = NB_N_B + 1
-        IF ( NB_N_B .GT. MAX(NRTM,NRTS)) THEN
+        IF ( NB_N_B > MAX(NRTM,NRTS)) THEN
           CALL ANCMSG(MSGID=99,ANMODE=ANINFO,
      .            I1=NOINT,C1='(I11BUCE)')
           CALL ARRET(2)
@@ -414,7 +414,7 @@ C --- --- ---       XYZM(5,I_ADD) = BMINMA(2)
 C --- --- ---       XYZM(6,I_ADD) = BMINMA(3)
 C --- --- ---       I_MEM = 0
 C --- --- --- C
-C --- --- ---       IF (IFORM .NE. 2) THEN
+C --- --- ---       IF (IFORM /= 2) THEN
 C --- --- ---         ISZNSNR = 0
 C --- --- ---         DO I=1,NRTM
 C --- --- ---           ADDCM(I)=0
@@ -510,16 +510,16 @@ C --- --- --- C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
 C --- --- --- C     I_MEM = 3 ==> N/A
 C --- --- --- 
 C --- --- ---       IF (I_MEM == 2) RETURN
-C --- --- ---       IF(I_MEM.EQ.1)THEN
+C --- --- ---       IF(I_MEM==1)THEN
 C --- --- ---         NB_N_B = NB_N_B + 1
-C --- --- ---         IF ( NB_N_B .GT. MAX(NRTM,NRTS)) THEN
+C --- --- ---         IF ( NB_N_B > MAX(NRTM,NRTS)) THEN
 C --- --- ---           CALL ANCMSG(MSGID=85,ANMODE=ANINFO,
 C --- --- ---      .                I1=NOINT)
 C --- --- ---           CALL ARRET(2)
 C --- --- ---         ENDIF
 C --- --- ---         ILD = 1
-C --- --- ---       ELSEIF(I_MEM.EQ.2) THEN
-C --- --- ---         IF(DEBUG(1).GE.1) THEN
+C --- --- ---       ELSEIF(I_MEM==2) THEN
+C --- --- ---         IF(DEBUG(1)>=1) THEN
 C --- --- ---           IWARN = IWARN+1
 C --- --- --- #include "lockon.inc"
 C --- --- ---           WRITE(ISTDO,*)' **WARNING INTERFACE/MEMORY'
@@ -533,15 +533,15 @@ C --- --- ---         TZINF = THREE_OVER_4*TZINF
 C --- --- --- C ne pas dimunuer la taille des boite
 C --- --- --- C        MINBOX= THREE_OVER_4*MINBOX
 C --- --- --- C        MAXBOX= THREE_OVER_4*MAXBOX
-C --- --- ---         IF( TZINF.LE.MAX(GAP,DRAD) ) THEN
+C --- --- ---         IF( TZINF<=MAX(GAP,DRAD) ) THEN
 C --- --- ---           CALL ANCMSG(MSGID=98,ANMODE=ANINFO,
 C --- --- ---      .            I1=NOINT,C1='(I11BUCE)')
 C --- --- ---           CALL ARRET(2)
 C --- --- ---         ENDIF
 C --- --- ---         ILD = 1
-C --- --- ---       ELSEIF(I_MEM.EQ.3)THEN
+C --- --- ---       ELSEIF(I_MEM==3)THEN
 C --- --- ---         NB_N_B = NB_N_B + 1
-C --- --- ---         IF ( NB_N_B .GT. MAX(NRTM,NRTS)) THEN
+C --- --- ---         IF ( NB_N_B > MAX(NRTM,NRTS)) THEN
 C --- --- ---           CALL ANCMSG(MSGID=99,ANMODE=ANINFO,
 C --- --- ---      .            I1=NOINT,C1='(I11BUCE)')
 C --- --- ---           CALL ARRET(2)

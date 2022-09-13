@@ -61,13 +61,13 @@ C-----------------------------------------------
 C
       IKEY=KDELIN
       IDEL7=0
-      IF(IKAD(IKEY).NE.IKAD(IKEY+1))THEN
+      IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        K=0
        READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A)',
      .      ERR=9990)KEY2
-       IF(KEY2.EQ.'ON')THEN
+       IF(KEY2=='ON')THEN
         IDEL7=2
-       ELSEIF(KEY2.EQ.'OFF')THEN
+       ELSEIF(KEY2=='OFF')THEN
         IDEL7=1
        ELSE
         CALL ERRMSG(KEY2)

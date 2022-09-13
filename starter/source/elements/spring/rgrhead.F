@@ -128,7 +128,7 @@ C
         INUM(9,I)=R_SKEW(I)
       ENDDO
 
-      IF (IMACH.EQ.3) THEN
+      IF (IMACH==3) THEN
         DO I=1,NUMELR
           XEP(I)=CEP(I)
         ENDDO
@@ -141,7 +141,7 @@ C
         PID= IXR(1,II)
         MTN= NINT(GEO(8,PID))
         ISSN = 0
-        IF(GEO(5,PID).NE.ZERO) ISSN=1
+        IF(GEO(5,PID)/=ZERO) ISSN=1
         IGTYP = IGEO(11,PID)
         IFLAG_GTYP = 0
         IF(IGTYP == 23)THEN
@@ -184,7 +184,7 @@ C
         R_SKEW(I)=INUM(9,INDEX(I))
       ENDDO
 C
-      IF (IMACH.EQ.3) THEN
+      IF (IMACH==3) THEN
         DO I=1,NUMELR
           CEP(I)=XEP(INDEX(I))
         ENDDO
@@ -263,8 +263,8 @@ C
         JJ4=ITRI(4,INDEX(I-1))
 
         MTN = NINT(GEO(8,II2))       
-        IF(II.NE.JJ.OR.(II2.NE.JJ2 .AND.MTN.EQ.5).OR.(II3.NE.JJ3) .OR.
-     .                                                II4.NE.JJ4) THEN
+        IF(II/=JJ.OR.(II2/=JJ2 .AND.MTN==5).OR.(II3/=JJ3) .OR.
+     .                                                II4/=JJ4) THEN
           ND=ND+1
           EADD(ND)=I
         ENDIF

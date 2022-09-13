@@ -98,7 +98,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   F u n c t i o n s
 C-----------------------------------------------
-      IF(DEBUG(3).GE.1) THEN
+      IF(DEBUG(3)>=1) THEN
           DELTA_PMAX_GAP_SAV(1:NINTER)=DELTA_PMAX_GAP(1:NINTER)
           DELTA_PMAX_GAP_NOD=0
       ENDIF
@@ -116,16 +116,16 @@ C
         ISENS = 0
         IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 21.OR.
      .     NTY == 5.OR.NTY == 19.OR.NTY == 25) ISENS = IPARI(64,I)      
-        IF(ISENS.NE.0) THEN             
+        IF(ISENS/=0) THEN             
            TS = SENSOR(2,ISENS)
-           IF (TT.GE.TS) INTERACT = 1
+           IF (TT>=TS) INTERACT = 1
         ELSE
            STARTT = INTBUF_TAB(I)%VARIABLES(3)
            STOPT = INTBUF_TAB(I)%VARIABLES(11)
-           IF (STARTT.LE.TT.AND.TT.LE.STOPT) INTERACT = 1
+           IF (STARTT<=TT.AND.TT<=STOPT) INTERACT = 1
         ENDIF
 C
-        IF(INTERACT.NE.0.OR.(NTY==25 .AND. TT <= STOPT)) THEN
+        IF(INTERACT/=0.OR.(NTY==25 .AND. TT <= STOPT)) THEN
            NBNEW = NBNEW + 1
            LISTNEW(NBNEW) = I
            TZINF(NBNEW) = INTBUF_TAB(I)%VARIABLES(8)
@@ -144,7 +144,7 @@ C
 C
 C Communication si SPMD
 C
-      IF(NSPMD.GT.1)THEN
+      IF(NSPMD>1)THEN
         IF (IMONM > 0) CALL STARTIME(27,1)
         CALL SPMD_SYNC_MMXG2(
      1    ISENDTO,IRCVFROM,NEWFRONT,XSLV  ,XMSR  ,
@@ -162,21 +162,21 @@ C
 C
 C Comm supplementaire sur partie stiffness
 C
-        IF(NSPMD.GT.1) THEN
-          IF (NEWFRONT(I).LT.0)THEN
-            IF(NTY.EQ.7.OR.NTY.EQ.10.OR.NTY.EQ.23.OR.NTY.EQ.24) THEN
+        IF(NSPMD>1) THEN
+          IF (NEWFRONT(I)<0)THEN
+            IF(NTY==7.OR.NTY==10.OR.NTY==23.OR.NTY==24) THEN
               CALL SPMD_GET_STIF(
      1          NEWFRONT(I)  ,INTBUF_TAB(I)%I_STOK(1) ,
      2          INTBUF_TAB(I)%CAND_N,INTBUF_TAB(I)%STFNS,
      3          IPARI(5,I),I,ISENDTO,IRCVFROM,INTBUF_TAB(I)%NSV,
      4          ITAB)
-            ELSEIF(NTY.EQ.11) THEN
+            ELSEIF(NTY==11) THEN
               CALL SPMD_GET_STIF11(
      1          NEWFRONT(I)  ,INTBUF_TAB(I)%I_STOK(1), 
      2          INTBUF_TAB(I)%CAND_N,   INTBUF_TAB(I)%STFS,
      3          IPARI(3,I),I,ISENDTO,IRCVFROM,INTBUF_TAB(I)%IRECTS,
      4          ITAB)
-            ELSEIF(NTY.EQ.20) THEN
+            ELSEIF(NTY==20) THEN
               CALL SPMD_GET_STIF20(
      1          NEWFRONT(I)  ,INTBUF_TAB(I)%I_STOK(1) ,
      2          INTBUF_TAB(I)%CAND_N,INTBUF_TAB(I)%STFA,
@@ -187,7 +187,7 @@ C
      2          INTBUF_TAB(I)%LCAND_S,INTBUF_TAB(I)%STFS,
      3          IPARI(53,I),I,ISENDTO,IRCVFROM,INTBUF_TAB(I)%IXLINS,
      4          ITAB, INTBUF_TAB(I)%NLG )
-            ELSEIF(NTY.EQ.25) THEN
+            ELSEIF(NTY==25) THEN
               CALL SPMD_GET_STIF25(
      1          NEWFRONT(I)  ,INTBUF_TAB(I)%I_STOK(1) ,
      2          INTBUF_TAB(I)%CAND_N,INTBUF_TAB(I)%STFNS,
@@ -223,10 +223,10 @@ C
 C
 C      Te st sur pas de temps sur l'interface
 C
-          IF(DIST0.GE.TZINF(KK)**2.OR.KFORSMS/=0) THEN
+          IF(DIST0>=TZINF(KK)**2.OR.KFORSMS/=0) THEN
 C           DIST = -1
             INTBUF_TAB(I)%VARIABLES(5)= -INTBUF_TAB(I)%VARIABLES(5)
-            IF(DEBUG(3).GE.1.AND.NCYCLE.NE.0) THEN
+            IF(DEBUG(3)>=1.AND.NCYCLE/=0) THEN
               WRITE(ISTDO,'(A,I10,A,I8,A,I4)')
      .          '** NEW SORT FOR INTERFACE NUMBER ',
      .          IPARI(15,I), ' AT CYCLE ',NCYCLE,' ON PROC',ISPMD+1
@@ -300,12 +300,12 @@ c (no need to communicate VMAXDT in SPMD)
 
          INTBUF_TAB(I)%VARIABLES(5) = DIST0
 
-         IF(DIST0.LE.ZERO.OR.KFORSMS/=0) THEN
+         IF(DIST0<=ZERO.OR.KFORSMS/=0) THEN
 C DIST = -1
            INTBUF_TAB(I)%VARIABLES(5) = -ONE
 c
 
-           IF(DEBUG(3).GE.1) THEN
+           IF(DEBUG(3)>=1) THEN
 
             IF(DELTA_PMAX_GAP_SAV(I) == DELTA_PMAX_GAP(I)) DELTA_PMAX_GAP_NOD=DELTA_PMAX_GAP_NODE(I)
            
@@ -387,11 +387,11 @@ c (no need to communicate VMAXDT in SPMD)
 
          INTBUF_TAB(I)%VARIABLES(5) = DIST0
 
-         IF(DIST0.LE.ZERO.OR.KFORSMS/=0) THEN
+         IF(DIST0<=ZERO.OR.KFORSMS/=0) THEN
 C DIST = -1
            INTBUF_TAB(I)%VARIABLES(5) = -ONE
 c
-           IF(DEBUG(3).GE.1) THEN
+           IF(DEBUG(3)>=1) THEN
 
             WRITE(ISTDO,'(A,I10,A,I8,A,F20.10,A,F20.10,A,F20.10,A,
      .       F20.10,A,F14.7,A,I4)')
@@ -438,11 +438,11 @@ C
 C
 C Test sur pas de temps sur l'interface
 C
-         IF (VV.NE.ZERO) THEN
+         IF (VV/=ZERO) THEN
              GAPINF =INTBUF_TAB(I)%VARIABLES(6)
-             IF (GAPINF.EQ.ZERO) GAPINF = INTBUF_TAB(I)%VARIABLES(2)
+             IF (GAPINF==ZERO) GAPINF = INTBUF_TAB(I)%VARIABLES(2)
              DTI = ZEP9*GAPINF/VV
-             IF(DTI.LT.DT2T) THEN
+             IF(DTI<DT2T) THEN
                DT2T    = DTI
                NELTST  = IPARI(15,I)
                ITYPTST = 10
@@ -450,10 +450,10 @@ C
          ENDIF
 C--------
 
-         IF(DIST0.LE.ZERO.OR.KFORSMS/=0) THEN
+         IF(DIST0<=ZERO.OR.KFORSMS/=0) THEN
 C DIST = -1
            INTBUF_TAB(I)%VARIABLES(5) = -ONE
-            IF(DEBUG(3).GE.1.AND.NCYCLE.NE.0) THEN
+            IF(DEBUG(3)>=1.AND.NCYCLE/=0) THEN
               WRITE(ISTDO,'(A,I10,A,I4,A,I8,A,I4,A,I4,A,F20.10,A,F20.10,A,F20.10)') 
      .          '** NEW SORT FOR INTERFACE NUMBER ',
      .          IPARI(15,I),' TYPE ',NTY, 

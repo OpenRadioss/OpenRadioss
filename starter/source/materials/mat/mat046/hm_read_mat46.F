@@ -120,20 +120,20 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('MAT_CO1'      ,CPS      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 
       !===DEFAULT                
-      IF(RHOR.EQ.ZERO)RHOR=RHO0
+      IF(RHOR==ZERO)RHOR=RHO0
       PM(1) =RHOR
       PM(89)=RHO0  
-      IF(ISGS.EQ.0)SMAG2=ZERO
-      IF(ISGS.GE.1)THEN
-       IF(SMAG.EQ.ZERO)THEN
+      IF(ISGS==0)SMAG2=ZERO
+      IF(ISGS>=1)THEN
+       IF(SMAG==ZERO)THEN
         SMAG=EM01
         SMAG2=EM02
        ELSE
         SMAG2=SMAG**2
        ENDIF
       ENDIF
-      IF(ISGS.GE.2)THEN
-        IF(CPS.EQ.0)CPS=SMAG
+      IF(ISGS>=2)THEN
+        IF(CPS==0)CPS=SMAG
         CA=(CPS/SMAG)**2
       ELSE
         CA=ZERO
@@ -156,9 +156,9 @@ C-----------------------------------------------
         WRITE(IOUT,'(5X,A,//)')'  ---------'
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-        IF(ISGS.EQ.0)WRITE(IOUT,1000)RHO0,RHOR,SSP,VIS
-        IF(ISGS.EQ.1)WRITE(IOUT,1100)RHO0,RHOR,SSP,VIS,SMAG
-        IF(ISGS.GE.2)WRITE(IOUT,1200)RHO0,RHOR,SSP,VIS,SMAG,CPS
+        IF(ISGS==0)WRITE(IOUT,1000)RHO0,RHOR,SSP,VIS
+        IF(ISGS==1)WRITE(IOUT,1100)RHO0,RHOR,SSP,VIS,SMAG
+        IF(ISGS>=2)WRITE(IOUT,1200)RHO0,RHOR,SSP,VIS,SMAG,CPS
       ENDIF
       
 c-----------

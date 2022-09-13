@@ -90,7 +90,7 @@ C
       CALL WRITE_I_C(ICNDS10_L,L)
       LEN_IA = LEN_IA + L
 C      
-      IF(NBDDCNDM.GT.0) THEN
+      IF(NBDDCNDM>0) THEN
           ITABCNDM(1:NUMNOD_L) = 0
           ILP=0
           DO N = 1, N_L

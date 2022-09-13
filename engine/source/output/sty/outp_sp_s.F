@@ -203,7 +203,7 @@ c---
         ENDDO
        ENDIF
 !     ++++++++++
-       IF(ISPMD.EQ.0) THEN
+       IF(ISPMD==0) THEN
          RESP0 = 0
          DO NN=1,NSPGROUP
           COMPTEUR = 0
@@ -218,7 +218,7 @@ c---
 
          JJ_OLD = COMPTEUR+RESP0
 c---
-         IF(JJ_OLD.GT.0) THEN
+         IF(JJ_OLD>0) THEN
            RES = MOD(JJ_OLD,6)
            WRTLEN = JJ_OLD-RES
           IF (WRTLEN > 0) THEN

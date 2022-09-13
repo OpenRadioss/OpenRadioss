@@ -215,7 +215,7 @@ C-----------------------------------------------
              CONDITION1(NINDX) = IPT
            ENDIF
            
-           IF (DAM2 >= ONE .AND. UVAR(I,1) .EQ. ZERO .AND. FOFF(I) == 1)THEN  
+           IF (DAM2 >= ONE .AND. UVAR(I,1) == ZERO .AND. FOFF(I) == 1)THEN  
              UVAR(I,1) = ONE           
              UEL(I) = UEL(I) + ONE
              IF (INT(UEL(I)+1e-6) == NPTOT) THEN   ! rupture due localized necking !!!

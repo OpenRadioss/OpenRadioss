@@ -76,19 +76,19 @@ C-----------------------------------------------
      &                             +(XS(3,IL)-XM(3,M))**2
           FMS=(XS(1,IL)-XM(1,N))**2+(XS(2,IL)-XM(2,N))**2
      &                             +(XS(3,IL)-XM(3,N))**2
-          IF(CMS.LT.GMS) THEN
+          IF(CMS<GMS) THEN
             GMS=CMS
             JLNEW=J
           ENDIF
-          IF(DMS.LT.GMS) THEN
+          IF(DMS<GMS) THEN
             GMS=DMS
             JLNEW=K
           ENDIF
-          IF(EMS.LT.GMS) THEN
+          IF(EMS<GMS) THEN
             GMS=EMS
             JLNEW=M
           ENDIF
-          IF(FMS.LT.GMS) THEN
+          IF(FMS<GMS) THEN
             GMS=FMS
             JLNEW=N
           ENDIF

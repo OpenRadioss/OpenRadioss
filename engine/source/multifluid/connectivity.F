@@ -76,7 +76,7 @@ C-----------------------------------------------
 
       DO NG = ITASK + 1, NGROUP, NTHREAD
          MATLAW = IPARG(1, NG)
-         IF (MATLAW .EQ. 151) THEN
+         IF (MATLAW == 151) THEN
             NEL = IPARG(2, NG)
             NFT = IPARG(3, NG)
             ITY = IPARG(5, NG)
@@ -85,11 +85,11 @@ C-----------------------------------------------
                NB_FACE = 6
                NUMEL_SPMD = NUMELS
             CASE (1, 2)
-               IF (ITY .EQ. 2) THEN
+               IF (ITY == 2) THEN
 C     QUADS
                   NB_FACE = 4
                   NUMEL_SPMD = NUMELQ
-               ELSEIF (ITY .EQ. 7) THEN
+               ELSEIF (ITY == 7) THEN
 C     TRIANGLES
                   NB_FACE = 3
                   NUMEL_SPMD = NUMELTG
@@ -104,7 +104,7 @@ C     TRIANGLES
      .              ALE_CONNECTIVITY%ee_connect%iad_connect(I)
                DO KFACE = 1, LGTH
                   J = ALE_CONNECTIVITY%ee_connect%connected(IAD + KFACE - 1)
-                  IF (J .GT. 0 .AND. J .LE. NUMEL_SPMD) THEN
+                  IF (J > 0 .AND. J <= NUMEL_SPMD) THEN
                      IAD2 = ALE_CONNECTIVITY%ee_connect%iad_connect(J)
                      LGTH2 = ALE_CONNECTIVITY%ee_connect%iad_connect(J+1) - 
      .                    ALE_CONNECTIVITY%ee_connect%iad_connect(J)
@@ -125,7 +125,7 @@ C     Verification (debug only)
       IF (IDBG) THEN
          DO NG = ITASK + 1, NGROUP, NTHREAD
             MATLAW = IPARG(1, NG)
-            IF (MATLAW .EQ. 151) THEN
+            IF (MATLAW == 151) THEN
                NEL = IPARG(2, NG)
                NFT = IPARG(3, NG)
                ITY = IPARG(5, NG)
@@ -134,11 +134,11 @@ C     Verification (debug only)
                   NB_FACE = 6
                   NUMEL_SPMD = NUMELS
                CASE (1, 2)
-                  IF (ITY .EQ. 2) THEN
+                  IF (ITY == 2) THEN
 C     QUADS
                      NB_FACE = 4
                      NUMEL_SPMD = NUMELQ
-                  ELSEIF (ITY .EQ. 7) THEN
+                  ELSEIF (ITY == 7) THEN
 C     TRIANGLES
                      NB_FACE = 3
                      NUMEL_SPMD = NUMELTG
@@ -153,7 +153,7 @@ C     TRIANGLES
      .                 ALE_CONNECTIVITY%ee_connect%iad_connect(I)
                   DO KFACE = 1, LGTH
                      J = ALE_CONNECTIVITY%ee_connect%connected(IAD + KFACE - 1)
-                     IF (J.GT. 0 .AND. J .LE. NUMEL_SPMD) THEN
+                     IF (J> 0 .AND. J <= NUMEL_SPMD) THEN
                         IAD2 = ALE_CONNECTIVITY%ee_connect%iad_connect(J)
                         KFACE2 = MULTI_FVM%FVM_CONNECTIVITY%KVOIS(NB_FACE * (I - 1) + KFACE)
                         IF (ALE_CONNECTIVITY%ee_connect%connected(IAD2 + KFACE2 - 1) /= I) THEN

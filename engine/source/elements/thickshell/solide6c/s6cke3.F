@@ -215,11 +215,11 @@ C----------------------
         E0(I) =THREE*(ONE-TWO*NU(I))*C1
        ENDDO
 C
-        IF (ICP.EQ.1) THEN
+        IF (ICP==1) THEN
           DO I=LFT,LLT
            NU1(I)=HALF
           ENDDO
-        ELSEIF (ICP.EQ.2) THEN
+        ELSEIF (ICP==2) THEN
           CALL S8ZSIGP3(LFT  ,LLT       ,GBUF%SIG,E0,GBUF%PLA,
      2                  FAC  ,GBUF%G_PLA,NEL     )
           DO I=LFT,LLT
@@ -245,7 +245,7 @@ C
      .   JI33,B1X,B1Y,B2Y,B2X,B1122,B1221,B2212,B1121,
      .   B1XH,B1YH,B2XH,B2YH,B1122H,B1221H,B2212H,B1121H,
      .   VZL,VOLG,GBUF%SMSTR,GBUF%OFF,NEL)
-      IF (MTN.GE.28) THEN
+      IF (MTN>=28) THEN
        IADBUF = IPM(7,MXT(1))
       ELSE
        IADBUF = 0
@@ -286,7 +286,7 @@ C-----------Begin integrating points----
 C----------------------------
 C     geometrical stiffness (membrane only)
 C----------------------------
-      IF (IKGEO.GT.0) THEN
+      IF (IKGEO>0) THEN
        CALL S6CKGEO3(GBUF%SIG,VOLG ,
      .   PXC1, PXC2, PXC3, PXC4,
      .   PYC1, PYC2, PYC3, PYC4,
@@ -307,7 +307,7 @@ C----------------------------
      .   Y1, Y2, Y3, Y4, Y5, Y6, 
      .   Z1, Z2, Z3, Z4, Z5, Z6) 
      
-      IF (NEIG.GT.0) CALL S8EOFF(
+      IF (NEIG>0) CALL S8EOFF(
      1   LFT, LLT, IXS(1,NF1), ETAG, OFFG)
       CALL ASSEM_S6(
      1                   IXS(1,NF1),NEL   ,IDDL  ,NDOF  ,K_DIAG,
@@ -984,11 +984,11 @@ C----------------------
         E0(I) =THREE*(ONE-TWO*NU(I))*C1
        ENDDO
 C
-        IF (ICP.EQ.1) THEN
+        IF (ICP==1) THEN
           DO I=LFT,LLT
            NU1(I)=HALF
           ENDDO
-        ELSEIF (ICP.EQ.2) THEN
+        ELSEIF (ICP==2) THEN
 C          CALL S8ZSIGP3(LFT,LLT,EV(NB2),E0,EV(NB10),FAC)
           DO I=LFT,LLT
            FAC(I)=ONE
@@ -1014,7 +1014,7 @@ C          CALL S8ZSIGP3(LFT,LLT,EV(NB2),E0,EV(NB10),FAC)
      .   JI33,B1X,B1Y,B2Y,B2X,B1122,B1221,B2212,B1121,
      .   B1XH,B1YH,B2XH,B2YH,B1122H,B1221H,B2212H,B1121H,
      .   VZL,VOLG,SAV(1,1+OFFSET),OFFG,NEL)
-      IF (MTN.GE.28) THEN
+      IF (MTN>=28) THEN
        IADBUF = IPM(7,MXT(1))
       ELSE
        IADBUF = 0
@@ -1054,7 +1054,7 @@ c       CALL SBUFAD(IAD,NEL,MTN)
 C----------------------------
 C     geometrical stiffness (membrane only)
 C----------------------------
-      IF (IKGEO.GT.0) THEN
+      IF (IKGEO>0) THEN
        CALL S6CKGEO3(EV(NB02),VOLG ,
      .   PXC1, PXC2, PXC3, PXC4,
      .   PYC1, PYC2, PYC3, PYC4,

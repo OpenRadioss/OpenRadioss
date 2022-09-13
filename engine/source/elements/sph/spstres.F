@@ -172,7 +172,7 @@ C-----------
 C     LAGRANGIAN ONLY.
 C   do not enter spvol3 case thermal only material.
 C  (actually only Lagrangian case is available , not Ale neither Euler)
-      IF(JLAG+JALE+JEUL.NE.0)THEN
+      IF(JLAG+JALE+JEUL/=0)THEN
         CALL SPVOL3(OFF,PM,GBUF%VOL,GBUF%EINT,RHOO,
      .            GBUF%RHO,VOLN,DVOL,NGL,MXT)
       END IF
@@ -216,7 +216,7 @@ C     LAW 11 uses IELVS=IBIDON and IXS=IBIDON should not be used.
      I           BID    ,BID    ,BID    ,IPARG(1,NG),IGEO    ,BID  ,
      J           ITASK  ,NLOC_DMG,VARNL ,MATPARAM_TAB,H3D_STRAIN)
 C-----------------------------
-      IF(ISTRAIN.EQ.1)THEN 
+      IF(ISTRAIN==1)THEN 
         CALL SSTRA3(DXX,DYY      ,DZZ ,D4  ,D5  ,
      .              D6 ,LBUF%STRA,WXX ,WYY ,WZZ ,
      .              OFF,NEL      )
@@ -229,12 +229,12 @@ C--------------------------
 C     BILANS PAR MATERIAU
 C--------------------------
       IFLAG=MOD(NCYCLE,NCPRI)
-      IF(IFLAG.EQ.0.OR.TT.GE.THIS.OR.TT.GE.TDES.
-     .   OR.TT.GE.TPAT.OR.MDESS.NE.0 .OR.TT.GE.TABFIS(1).
-     .   OR.TT.GE.TABFIS(2).OR.TT.GE.TABFIS(3).OR.TT.GE.TABFIS(4).
-     .   OR.TT.GE.TABFIS(5).OR.TT.GE.TABFIS(6).OR.TT.GE.TABFIS(7).
-     .   OR.TT.GE.TABFIS(8).OR.TT.GE.TABFIS(9).OR.TT.GE.TABFIS(10))THEN
-C    .   OR.(IALESUB.EQ.1.AND.T1S+DT2S.GE.THIS))THEN
+      IF(IFLAG==0.OR.TT>=THIS.OR.TT>=TDES.
+     .   OR.TT>=TPAT.OR.MDESS/=0 .OR.TT>=TABFIS(1).
+     .   OR.TT>=TABFIS(2).OR.TT>=TABFIS(3).OR.TT>=TABFIS(4).
+     .   OR.TT>=TABFIS(5).OR.TT>=TABFIS(6).OR.TT>=TABFIS(7).
+     .   OR.TT>=TABFIS(8).OR.TT>=TABFIS(9).OR.TT>=TABFIS(10))THEN
+C    .   OR.(IALESUB==1.AND.T1S+DT2S>=THIS))THEN
          IF (MTN == 11) THEN                                     
            EINT => ELBUF_TAB(NG)%GBUF%EINS(1:NEL)                    
          ELSE                                                    

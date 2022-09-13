@@ -333,7 +333,7 @@ C-------------------------------------------------
         I2 = ABS(ADMSR(2,N))
         I3 = ABS(ADMSR(3,N))
         I4 = ABS(ADMSR(4,N))
-        IF(IRECT(3,N).NE.IRECT(4,N))THEN
+        IF(IRECT(3,N)/=IRECT(4,N))THEN
           IADNOR(1,N)=ADSKYN(I1)
           ADSKYN(I1) = ADSKYN(I1)+1
           IADNOR(2,N)=ADSKYN(I2)
@@ -860,14 +860,14 @@ C
 
           LL  =ADDSUBN(I1)
           KK  =ADDSUBN(I2)
-          DO WHILE(LL.LT.ADDSUBN(I1+1))
+          DO WHILE(LL<ADDSUBN(I1+1))
             JSUB=LISUBN(LL)
-            DO WHILE(KK.LT.ADDSUBN(I2+1))
+            DO WHILE(KK<ADDSUBN(I2+1))
               KSUB=LISUBN(KK)   
-              IF(KSUB.EQ.JSUB)THEN
+              IF(KSUB==JSUB)THEN
                 ADDSUBE(NE)=ADDSUBE(NE)+1
                 KK=KK+1
-              ELSE IF(KSUB.LT.JSUB)THEN
+              ELSE IF(KSUB<JSUB)THEN
                 KK=KK+1
               ELSE
                 GO TO 100
@@ -897,15 +897,15 @@ C       utilise KAD(1:NEDGE) pour remplir LISUBE, INFLG_SUBE
 
           LL  =ADDSUBN(I1)
           KK  =ADDSUBN(I2)
-          DO WHILE(LL.LT.ADDSUBN(I1+1))
+          DO WHILE(LL<ADDSUBN(I1+1))
             JSUB=LISUBN(LL)
             IMS1 = BITGET(INFLG_SUBN(LL),0)
             IMS2 = BITGET(INFLG_SUBN(LL),1)
-            DO WHILE(KK.LT.ADDSUBN(I2+1))
+            DO WHILE(KK<ADDSUBN(I2+1))
               KSUB=LISUBN(KK)   
               IMS3 = BITGET(INFLG_SUBN(KK),0)
               IMS4 = BITGET(INFLG_SUBN(KK),1)
-              IF(KSUB.EQ.JSUB)THEN
+              IF(KSUB==JSUB)THEN
                 LISUBE(KAD(NE))=JSUB
                 IF(IMS1==1.AND.IMS3==1) ! edge belongs to S1 is I1 and I2 belong to S1
      .           INFLG_SUBE(KAD(NE))=
@@ -915,7 +915,7 @@ C       utilise KAD(1:NEDGE) pour remplir LISUBE, INFLG_SUBE
      .                BITSET(INFLG_SUBE(KAD(NE)),1)
                 KAD(NE)   =KAD(NE)+1
                 KK=KK+1
-              ELSE IF(KSUB.LT.JSUB)THEN
+              ELSE IF(KSUB<JSUB)THEN
                 KK=KK+1
               ELSE
                 GO TO 200
@@ -928,7 +928,7 @@ C       utilise KAD(1:NEDGE) pour remplir LISUBE, INFLG_SUBE
 
         DEALLOCATE (MLOC,KAD,ADDSUBN_TMP,ADDSUBN,LISUBN,INFLG_SUBN,IXSUB)
 C-------------------------------------
-        IF(IPRI.GE.6) THEN
+        IF(IPRI>=6) THEN
           WRITE(IOUT,1000)
           WRITE(IOUT,1010)NOINT
           WRITE(IOUT,'(10I10)')
@@ -937,7 +937,7 @@ C-------------------------------------
           DO NE=1,NEDGE
             JSUB=ADDSUBE(NE)
             N   =ADDSUBE(NE+1)-ADDSUBE(NE)
-            IF(N.GT.0)THEN
+            IF(N>0)THEN
               WRITE(IOUT,'(3I10)')NE,ITAB(LEDGE(5,NE)),ITAB(LEDGE(6,NE))
               WRITE(IOUT,'(30X,2I10)')
      .          (LISUBE(JSUB-1+K),INFLG_SUBE(JSUB-1+K),K=1,N)
@@ -1013,9 +1013,9 @@ C------------------------------------
          MG=IXC(6,I)
          IGTYP = IGEO(11,MG)
          IP = IPARTC(I)
-         IF ( THK_PART(IP) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
+         IF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
            DX=HALF*THK_PART(IP)
-         ELSEIF ( THK(I) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
+         ELSEIF ( THK(I) /= ZERO .AND. IINTTHICK == 0) THEN
            DX=HALF*THK(I)
          ELSEIF(IGTYP == 17) THEN
            DX=HALF*THK(I)
@@ -1032,9 +1032,9 @@ C
          MG=IXTG(5,I)
          IGTYP = IGEO(11,MG)
          IP = IPARTTG(I)
-         IF ( THK_PART(IP) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
+         IF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
            DX=HALF*THK_PART(IP)
-         ELSEIF ( THK(NUMELC+I) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
+         ELSEIF ( THK(NUMELC+I) /= ZERO .AND. IINTTHICK == 0) THEN
            DX=HALF*THK(NUMELC+I)
          ELSEIF(IGTYP == 17) THEN
            DX=HALF*THK(NUMELC+I)

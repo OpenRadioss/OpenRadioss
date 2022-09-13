@@ -80,14 +80,14 @@ C
        NOSYS=SYSFUS2(NUSR,ITABM1,NUMNOD)
        NOSYSV = NOSYS
        IF(NSPMD > 1) CALL SPMD_GLOB_ISUM9(NOSYSV,1)
-       IF(ISPMD.EQ.0) THEN
-         IF(NOSYSV.EQ.0) THEN
+       IF(ISPMD==0) THEN
+         IF(NOSYSV==0) THEN
            CALL ANCMSG(MSGID=202,ANMODE=ANINFO,
      .                 I1=NUSR)
            IERR=IERR+1
          END IF
        END IF
-       IF(NOSYS.EQ.0)GOTO 10
+       IF(NOSYS==0)GOTO 10
 C
        ICO=ICODE(NOSYS)
        ICO1=ICO/512
@@ -108,9 +108,9 @@ C
        JO(12)=(ICO4-4*JO(10)-2*JO(11))
 C
        DO 5 I=1,12
-       IF(JJ(I).EQ.0)THEN
+       IF(JJ(I)==0)THEN
         JJ(I)=JO(I)
-       ELSEIF(JJ(I).EQ.2)THEN
+       ELSEIF(JJ(I)==2)THEN
         JJ(I)=0
        ENDIF
  5     CONTINUE
@@ -122,14 +122,14 @@ C
        IC=IC1*512+IC2*64+IC3*8+IC4
        ICODE(NOSYS)=IC
        DO 7 LL=0,NUMSKW
- 7       IF(IS.EQ.ISKWN(4,LL+1)) ISKEW(NOSYS)=LL+1
+ 7       IF(IS==ISKWN(4,LL+1)) ISKEW(NOSYS)=LL+1
 C       ISKEW(NOSYS)=IS
    10  CONTINUE
 C
-       IF(ISPMD.EQ.0) WRITE(IOUT,1300)
+       IF(ISPMD==0) WRITE(IOUT,1300)
        DO 500 N=1,NUMNOD
        IC=ICODE(N)
-       IF (IC.EQ.0) GO TO 500
+       IF (IC==0) GO TO 500
        IC1=IC/512
        IC2=(IC-512*IC1)/64
        IC3=(IC-512*IC1-64*IC2)/8
@@ -146,7 +146,7 @@ C
        JJ(10)=IC4/4
        JJ(11)=(IC4-4*JJ(10))/2
        JJ(12)=(IC4-4*JJ(10)-2*JJ(11))
-       IF(WEIGHT(N).EQ.1)
+       IF(WEIGHT(N)==1)
      .   WRITE(IOUT,'(1X,I10,4(1X,3I2),3X,I10)')ITAB(N),JJ,
      .                                        ISKWN(4,ISKEW(N))
  500   CONTINUE

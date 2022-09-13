@@ -76,9 +76,9 @@ C
 
       DO ISU=1,NSURF
 
-       IF ( IGRSURF(ISU)%TYPE.EQ.101 ) THEN
+       IF ( IGRSURF(ISU)%TYPE==101 ) THEN
         NRBOD=IGRSURF(ISU)%NB_MADYMO
-        IF ( NRBOD.NE.0 ) THEN
+        IF ( NRBOD/=0 ) THEN
 C         ISURF(9,ISU)==1 (RIGID BODIES) !
 C         A chaque instant (et a TT=0. dans le Starter), 
 C         le Rigid Body transmet la position et les vitesses du noeud main 

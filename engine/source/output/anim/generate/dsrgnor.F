@@ -80,10 +80,10 @@ C-----------------------------------------------
       DATA Z0 /-3.5, 3.5, 3.5,-3.5,-3.5, 3.5/
 C-----------------------------------------------
       I3000 = 3000
-      IF (ISPMD.NE.0) GOTO 100
+      IF (ISPMD/=0) GOTO 100
 C
       DO 200 N=1,NSURF
-       IF (IGRSURF(N)%TYPE.NE.101) GOTO 200
+       IF (IGRSURF(N)%TYPE/=101) GOTO 200
        ADRBUF=IGRSURF(N)%IAD_BUFR
 C-------------------------------------------------------
 c      Parametres de l'ellipsoide.
@@ -147,11 +147,11 @@ C
         ZL=ZL/E
 C
         NXL=XL**(DGR-1)/AN
-        IF (XL*NXL.LT.ZERO) NXL=-NXL
+        IF (XL*NXL<ZERO) NXL=-NXL
         NYL=YL**(DGR-1)/BN
-        IF (YL*NYL.LT.ZERO) NYL=-NYL
+        IF (YL*NYL<ZERO) NYL=-NYL
         NZL=ZL**(DGR-1)/CN
-        IF (ZL*NZL.LT.ZERO) NZL=-NZL
+        IF (ZL*NZL<ZERO) NZL=-NZL
         NX  =ROT(1)*NXL+ROT(4)*NYL+ROT(7)*NZL
         NY  =ROT(2)*NXL+ROT(5)*NYL+ROT(8)*NZL
         NZ  =ROT(3)*NXL+ROT(6)*NYL+ROT(9)*NZL

@@ -71,7 +71,7 @@ C-----------------------------------------------
       my_real
      . FAC  
 C      
-      IF(DT1.EQ.ZERO)RETURN
+      IF(DT1==ZERO)RETURN
       DO I=LFT,LLT
         FAC=-ONE_OVER_8*HH(I)*RHO(I)*VOLN(I)/DT1
  	F11(I) = F11(I) + FAC*VX1(I)

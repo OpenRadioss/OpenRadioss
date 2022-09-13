@@ -194,7 +194,7 @@ c     lagopt=0 => sans norme
 c     lagopt=1 => norme L1 (diagonal)
 c     lagopt=2 => norme L2 (columns)
 C------------------------------------------
-      IF (LAGOPT.EQ.1) THEN
+      IF (LAGOPT==1) THEN
         DD = ZERO
         DO IC=1,NC
           DD = DD + DIAG_H(IC)*DIAG_H(IC)
@@ -202,7 +202,7 @@ C------------------------------------------
         DO IC=1,NC
           Z(IC) = DD
         ENDDO
-      ELSEIF (LAGOPT.EQ.2) THEN
+      ELSEIF (LAGOPT==2) THEN
         DO IC=1,NC
           Z(IC) = DIAG_H(IC)*DIAG_H(IC)
         ENDDO
@@ -216,7 +216,7 @@ C------------------------------------------
         ENDDO
       ENDIF
 C---
-      IF (LAGOPT.GT.0) THEN
+      IF (LAGOPT>0) THEN
         DO IC=1,NC
           Z(IC) = SCALE/SQRT(SQRT(Z(IC)))
         ENDDO
@@ -239,9 +239,9 @@ C------------------------------------------
 C     Factorisation de [H] : Cholesky incomplet + shift iteratif
 C------------------------------------------
       NITER_CHL  = 0
-      IF (LAGMOD.EQ.1) THEN
+      IF (LAGMOD==1) THEN
         ALPHA = LAG_ALPH
-        IF (LAG_ALPHS.EQ.ZERO) THEN
+        IF (LAG_ALPHS==ZERO) THEN
           DO IC=1,NC
             DIAG_L(IC) =  DIAG_H(IC)
           ENDDO
@@ -251,7 +251,7 @@ C------------------------------------------
           ENDDO
         ENDIF
         IP    = 1
-        DO WHILE (IP.GT.0)
+        DO WHILE (IP>0)
           DO IH=1,LENH
             HL(IH) =  HH(IH)
           ENDDO
@@ -259,17 +259,17 @@ C------------------------------------------
           NITER_CHL  = NITER_CHL+1  
           ALPHA = ALPHA*2
           AS    = ALPHA + LAG_ALPHS
-          IF (AS.GT.ASMAX) THEN
+          IF (AS>ASMAX) THEN
             IP = 0
             WRITE(IOUT,*) '***WARNING (LAGMULT : FACTORISATION FAILED )'
             WRITE(ISTDO,*)'***WARNING (LAGMULT : FACTORISATION FAILED )'
-          ELSEIF (IP.GT.0) THEN
+          ELSEIF (IP>0) THEN
             DO IC=1,NC
               DIAG_L(IC) =  DIAG_H(IC) + ALPHA + LAG_ALPHS
             ENDDO
           ENDIF
         ENDDO
-        IF (NITER_CHL.GT.1) print*,'FACTOR ITERATIONS = ',NITER_CHL
+        IF (NITER_CHL>1) print*,'FACTOR ITERATIONS = ',NITER_CHL
        ENDIF
 C=======================================================================
 C     calcul de  b (r=b)
@@ -278,7 +278,7 @@ C=======================================================================
         DO IK=IADLL(IC),IADLL(IC+1)-1
           I = LLL(IK)
           J = JLL(IK)
-          IF (J.GT.3) THEN
+          IF (J>3) THEN
             J = J-3
             R(IC) = R(IC) + XLL(IK)*(VR(J,I)/DT12+AR(J,I))
           ELSE
@@ -307,16 +307,16 @@ C=======================================================================
       ITERMAX = NC
       ITER    = 0
       NITER   = 0
-      DO WHILE(ITER.LT.ITERMAX)
+      DO WHILE(ITER<ITERMAX)
         ITER  = ITER+1
         NITER = ITER
 C--------------------
 C       preconditionnement  z = inv(H) r
 C--------------------
-        IF (LAGMOD.EQ.1) THEN
+        IF (LAGMOD==1) THEN
 C---    preconditionnement de Cholesky
           CALL PRECHOL(Z,DIAG_L,HL,R,NC,IADH,JCIH)
-        ELSEIF(LAGMOD.EQ.2) THEN
+        ELSEIF(LAGMOD==2) THEN
 C---    preconditionnement polynomial :  H=I-B,  z = [I+B] r    
           DO IC=1,NC
             Z(IC) = R(IC) + R(IC)
@@ -338,7 +338,7 @@ C--------------------
           Q(IC) = ZERO
         ENDDO
 C--------------------
-        IF(ITER.EQ.1)THEN
+        IF(ITER==1)THEN
           DO IC=1,NC
             P(IC) = Z(IC)
           ENDDO
@@ -367,7 +367,7 @@ C-----------------------------------------------------------------------
           PQ = PQ + P(IC)*Q(IC)
         ENDDO
 C-----------------------------------------------------------------------
-        IF(PQ.EQ.ZERO)THEN
+        IF(PQ==ZERO)THEN
           ITER = ITERMAX
         ELSE
           ALPHA = R2NEW/PQ
@@ -379,7 +379,7 @@ C-----------------------------------------------------------------------
           ENDDO
 C--------- test convergence --------------------------------------------
           LAG_ERSQ2 = LAG_ERSQ2/MAX(EM30,RNORM)
-          IF(LAG_ERSQ2.LT.LAGM_TOL)THEN
+          IF(LAG_ERSQ2<LAGM_TOL)THEN
             ITER = ITERMAX
           ENDIF
         ENDIF
@@ -396,7 +396,7 @@ C---
           I = LLL(IK)
           J = JLL(IK)
           XLL(IK) = XLL(IK)*LAMBDA(IC)
-          IF(J.GT.3) THEN
+          IF(J>3) THEN
             J = J-3
             AR(J,I) = AR(J,I) - XLL(IK)/IN(I)
           ELSE         
@@ -584,7 +584,7 @@ c     lagopt=0 => sans norme
 c     lagopt=1 => norme L1 (diagonal)
 c     lagopt=2 => norme L2 (columns)
 C------------------------------------------
-      IF (LAGOPT.EQ.1) THEN
+      IF (LAGOPT==1) THEN
         DD = ZERO
         DO IC=1,NC
           DD = DD + DIAG_H(IC)*DIAG_H(IC)
@@ -592,7 +592,7 @@ C------------------------------------------
         DO IC=1,NC
           Z(IC) = DD
         ENDDO
-      ELSEIF (LAGOPT.EQ.2) THEN
+      ELSEIF (LAGOPT==2) THEN
         DO IC=1,NC
           Z(IC) = DIAG_H(IC)*DIAG_H(IC)
         ENDDO
@@ -606,7 +606,7 @@ C------------------------------------------
         ENDDO
       ENDIF
 C---
-      IF (LAGOPT.GT.0) THEN
+      IF (LAGOPT>0) THEN
         DO IC=1,NC
           Z(IC) = SCALE/SQRT(SQRT(Z(IC)))
         ENDDO
@@ -629,9 +629,9 @@ C------------------------------------------
 C     Factorisation de [H] : Cholesky incomplet + shift iteratif
 C------------------------------------------
       NITER_CHL  = 0
-      IF (LAGMOD.EQ.1) THEN
+      IF (LAGMOD==1) THEN
         ALPHA = LAG_ALPH
-        IF (LAG_ALPHS.EQ.ZERO) THEN
+        IF (LAG_ALPHS==ZERO) THEN
           DO IC=1,NC
             DIAG_L(IC) =  DIAG_H(IC)
           ENDDO
@@ -641,7 +641,7 @@ C------------------------------------------
           ENDDO
         ENDIF
         IP    = 1
-        DO WHILE (IP.GT.0)
+        DO WHILE (IP>0)
           DO IH=1,LENH
             HL(IH) =  HH(IH)
           ENDDO
@@ -649,17 +649,17 @@ C------------------------------------------
           NITER_CHL  = NITER_CHL+1  
           ALPHA = ALPHA*2
           AS    = ALPHA + LAG_ALPHS
-          IF (AS.GT.ASMAX) THEN
+          IF (AS>ASMAX) THEN
             IP = 0
             WRITE(IOUT,*) '***WARNING (LAGMULT : FACTORISATION FAILED )'
             WRITE(ISTDO,*)'***WARNING (LAGMULT : FACTORISATION FAILED )'
-          ELSEIF (IP.GT.0) THEN
+          ELSEIF (IP>0) THEN
             DO IC=1,NC
               DIAG_L(IC) =  DIAG_H(IC) + ALPHA + LAG_ALPHS
             ENDDO
           ENDIF
         ENDDO
-        IF (NITER_CHL.GT.1) print*,'FACTOR ITERATIONS = ',NITER_CHL
+        IF (NITER_CHL>1) print*,'FACTOR ITERATIONS = ',NITER_CHL
        ENDIF
 C=======================================================================
 C     calcul de  b (r=b)
@@ -668,7 +668,7 @@ C=======================================================================
         DO IK=IADLL(IC),IADLL(IC+1)-1
           I = INDEXLAG(LLL(IK))
           J = JLL(IK)
-          IF (J.GT.3) THEN
+          IF (J>3) THEN
             J = J-3
             R(IC) = R(IC) + XLL(IK)*(VR(J,I)/DT12+AR(J,I))
           ELSE
@@ -696,16 +696,16 @@ C     iterations
 C=======================================================================
       ITERMAX = NC
       ITER    = 0
-      DO WHILE(ITER.LT.ITERMAX)
+      DO WHILE(ITER<ITERMAX)
         ITER  = ITER+1
         NITER = ITER
 C--------------------
 C       preconditionnement  z = inv(H) r
 C--------------------
-        IF (LAGMOD.EQ.1) THEN
+        IF (LAGMOD==1) THEN
 C---    preconditionnement de Cholesky
           CALL PRECHOL(Z,DIAG_L,HL,R,NC,IADH,JCIH)
-        ELSEIF(LAGMOD.EQ.2) THEN
+        ELSEIF(LAGMOD==2) THEN
 C---    preconditionnement polynomial :  H=I-B,  z = [I+B] r    
           DO IC=1,NC
             Z(IC) = R(IC) + R(IC)
@@ -727,7 +727,7 @@ C--------------------
           Q(IC) = ZERO
         ENDDO
 C--------------------
-        IF(ITER.EQ.1)THEN
+        IF(ITER==1)THEN
           DO IC=1,NC
             P(IC) = Z(IC)
           ENDDO
@@ -756,7 +756,7 @@ C-----------------------------------------------------------------------
           PQ = PQ + P(IC)*Q(IC)
         ENDDO
 C-----------------------------------------------------------------------
-        IF(PQ.EQ.ZERO)THEN
+        IF(PQ==ZERO)THEN
           ITER = ITERMAX
         ELSE
           ALPHA = R2NEW/PQ
@@ -768,7 +768,7 @@ C-----------------------------------------------------------------------
           ENDDO
 C--------- test convergence --------------------------------------------
           LAG_ERSQ2 = LAG_ERSQ2/MAX(EM30,RNORM)
-          IF(LAG_ERSQ2.LT.LAGM_TOL)THEN
+          IF(LAG_ERSQ2<LAGM_TOL)THEN
             ITER = ITERMAX
           ENDIF
         ENDIF
@@ -785,7 +785,7 @@ C---
           I = INDEXLAG(LLL(IK))
           J = JLL(IK)
           XLL(IK) = XLL(IK)*LAMBDA(IC)
-          IF(J.GT.3) THEN
+          IF(J>3) THEN
             J = J-3
             AR(J,I) = AR(J,I) - XLL(IK)/IN(I)
           ELSE         
@@ -964,7 +964,7 @@ C        r(i)  = r(i-1)  - alpha q(i)
 C     end
 C======================================================================|
 #ifdef MUMPS5
-      IF(ISPMD.EQ.0) THEN
+      IF(ISPMD==0) THEN
        SCALE = THREE_OVER_4
        ASMAX = ZEP6
        R2NEW = ZERO      
@@ -982,7 +982,7 @@ c     lagopt=0 => sans norme
 c     lagopt=1 => norme L1 (diagonal)
 c     lagopt=2 => norme L2 (columns)
 C------------------------------------------
-       IF (LAGOPT.EQ.1) THEN
+       IF (LAGOPT==1) THEN
         DD = ZERO
         DO IC=1,NC
           DD = DD + DIAG_H(IC)*DIAG_H(IC)
@@ -990,7 +990,7 @@ C------------------------------------------
         DO IC=1,NC
           Z(IC) = DD
         ENDDO
-       ELSEIF (LAGOPT.EQ.2) THEN
+       ELSEIF (LAGOPT==2) THEN
         DO IC=1,NC
           Z(IC) = DIAG_H(IC)*DIAG_H(IC)
         ENDDO
@@ -1004,7 +1004,7 @@ C------------------------------------------
         ENDDO
        ENDIF
 C---
-       IF (LAGOPT.GT.0) THEN
+       IF (LAGOPT>0) THEN
         DO IC=1,NC
           Z(IC) = SCALE/SQRT(SQRT(Z(IC)))
         ENDDO
@@ -1027,9 +1027,9 @@ C------------------------------------------
 C     Factorisation de [H] : Cholesky incomplet + shift iteratif
 C------------------------------------------
 C      NITER_CHL  = 0
-C      IF (LAGMOD.EQ.1) THEN
+C      IF (LAGMOD==1) THEN
 C        ALPHA = LAG_ALPH
-C        IF (LAG_ALPHS.EQ.ZERO) THEN
+C        IF (LAG_ALPHS==ZERO) THEN
 C          DO IC=1,NC
 C            DIAG_L(IC) =  DIAG_H(IC)
 C          ENDDO
@@ -1039,7 +1039,7 @@ C            DIAG_L(IC) =  DIAG_H(IC) + LAG_ALPHS
 C          ENDDO
 C        ENDIF
 C        IP    = 1
-C        DO WHILE (IP.GT.0)
+C        DO WHILE (IP>0)
 C          DO IH=1,LENH
 C            HL(IH) =  HH(IH)
 C          ENDDO
@@ -1047,17 +1047,17 @@ C          IP = CHOLFACT(NC,DIAG_L,HL,IADH,JCIH,WORK1,WORK2,WORK3)
 C          NITER_CHL  = NITER_CHL+1  
 C          ALPHA = ALPHA*2
 C          AS    = ALPHA + LAG_ALPHS
-C          IF (AS.GT.ASMAX) THEN
+C          IF (AS>ASMAX) THEN
 C            IP = 0
 C            WRITE(IOUT,*) '***WARNING (LAGMULT : FACTORISATION FAILED )'
 C            WRITE(ISTDO,*)'***WARNING (LAGMULT : FACTORISATION FAILED )'
-C          ELSEIF (IP.GT.0) THEN
+C          ELSEIF (IP>0) THEN
 C            DO IC=1,NC
 C              DIAG_L(IC) =  DIAG_H(IC) + ALPHA + LAG_ALPHS
 C            ENDDO
 C          ENDIF
 C        ENDDO
-C        IF (NITER_CHL.GT.1) print*,'FACTOR ITERATIONS = ',NITER_CHL
+C        IF (NITER_CHL>1) print*,'FACTOR ITERATIONS = ',NITER_CHL
 C       ENDIF
       END IF ! fin proc0
 C=======================================================================
@@ -1070,7 +1070,7 @@ C
       MUMPS_PAR%ICNTL(18) = 0            ! donnees centralisees sur p0
 C flag output
       MUMPS_PAR%ICNTL(3)=-1              ! ou iout par exemple si sorties voulues
-      IF(ISPMD.EQ.0) THEN ! structure de stockage sur p0
+      IF(ISPMD==0) THEN ! structure de stockage sur p0
         MUMPS_PAR%N         = NC               ! valid sur proc0 uniquement
         MUMPS_PAR%NZ        = NC+IADH(NC+1)-1     ! valid sur proc0 uniquement
         ALLOCATE(MUMPS_PAR%A(MUMPS_PAR%NZ))
@@ -1098,7 +1098,7 @@ C
           DO IK=IADLL(IC),IADLL(IC+1)-1
             I = INDEXLAG(LLL(IK))
             J = JLL(IK)
-            IF (J.GT.3) THEN
+            IF (J>3) THEN
               J = J-3
               R(IC) = R(IC) + XLL(IK)*(VR(J,I)/DT12+AR(J,I))
             ELSE
@@ -1120,7 +1120,7 @@ C
 C
 C Resultat sur p0
 C 
-      IF(ISPMD.EQ.0) THEN 
+      IF(ISPMD==0) THEN 
         DO IC=1,NC
           LAMBDA(IC) = MUMPS_PAR%RHS(IC)
         ENDDO
@@ -1149,16 +1149,16 @@ C     iterations
 C=======================================================================
 C      ITERMAX = NC
 C      ITER    = 0
-C      DO WHILE(ITER.LT.ITERMAX)
+C      DO WHILE(ITER<ITERMAX)
 C        ITER  = ITER+1
 C        NITER = ITER
 CC--------------------
 CC       preconditionnement  z = inv(H) r
 CC--------------------
-C        IF (LAGMOD.EQ.1) THEN
+C        IF (LAGMOD==1) THEN
 CC---    preconditionnement de Cholesky
 C          CALL PRECHOL(Z,DIAG_L,HL,R,NC,IADH,JCIH)
-C        ELSEIF(LAGMOD.EQ.2) THEN
+C        ELSEIF(LAGMOD==2) THEN
 CC---    preconditionnement polynomial :  H=I-B,  z = [I+B] r    
 C          DO IC=1,NC
 C            Z(IC) = R(IC) + R(IC)
@@ -1180,7 +1180,7 @@ C          R2NEW = R2NEW + R(IC)*Z(IC)
 C          Q(IC) = ZERO
 C        ENDDO
 CC--------------------
-C        IF(ITER.EQ.1)THEN
+C        IF(ITER==1)THEN
 C          DO IC=1,NC
 C            P(IC) = Z(IC)
 C          ENDDO
@@ -1209,7 +1209,7 @@ C        DO IC=1,NC
 C          PQ = PQ + P(IC)*Q(IC)
 C        ENDDO
 CC-----------------------------------------------------------------------
-C        IF(PQ.EQ.ZERO)THEN
+C        IF(PQ==ZERO)THEN
 C          ITER = ITERMAX
 C        ELSE
 C          ALPHA = R2NEW/PQ
@@ -1221,7 +1221,7 @@ C            LAG_ERSQ2  = LAG_ERSQ2  + R(IC)*R(IC)
 C          ENDDO
 CC--------- test convergence --------------------------------------------
 C          LAG_ERSQ2 = LAG_ERSQ2/MAX(EM30,RNORM)
-C          IF(LAG_ERSQ2.LT.LAGM_TOL)THEN
+C          IF(LAG_ERSQ2<LAGM_TOL)THEN
 C            ITER = ITERMAX
 C          ENDIF
 C        ENDIF
@@ -1233,13 +1233,13 @@ C      NITER_GC = NITER
 C---
 C     a = ao + [M]-1[L]t la  
 C---
-      IF(ISPMD.EQ.0) THEN 
+      IF(ISPMD==0) THEN 
        DO IC=1,NCR
         DO IK=IADLL(IC),IADLL(IC+1)-1
           I = INDEXLAG(LLL(IK))
           J = JLL(IK)
           XLL(IK) = XLL(IK)*LAMBDA(IC)
-          IF(J.GT.3) THEN
+          IF(J>3) THEN
             J = J-3
             AR(J,I) = AR(J,I) - XLL(IK)/IN(I)
           ELSE         

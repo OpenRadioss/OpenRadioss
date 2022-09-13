@@ -79,15 +79,15 @@ C-----------------------------------------------
 
                 II=0
                 IH=IADR                          
-                DO WHILE((ITHBUF(IH+NN).NE.ISPMD).AND.(IH.LT.IADR+NN))               
+                DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.(IH<IADR+NN))               
                     IH = IH + 1                           
                 ENDDO                                   
-                IF (IH.GE.IADR+NN) GOTO 666               
+                IF (IH>=IADR+NN) GOTO 666               
 C-------------------
                 DO NG=1,NGROUP
                     ITY=IPARG(5,NG)
 c
-                    IF(ITY.EQ.51.OR.ITY.EQ.52) THEN
+                    IF(ITY==51.OR.ITY==52) THEN
                         NEL = IPARG(2,NG)  
                         NFT = IPARG(3,NG) 
                         DO I=1,6
@@ -100,18 +100,18 @@ c
                             K=ITHBUF(IH)
                             IP=ITHBUF(IH+NN)
 C      
-                            IF (K.EQ.N)THEN
+                            IF (K==N)THEN
                                 IH=IH+1
                                 !---spmd specific treatment---!
-                                IF (IMACH.EQ.3) THEN
+                                IF (IMACH==3) THEN
                                     !---search for ii---!
                                     II = ((IH-1) - IADR)*NVAR
-                                    DO WHILE((ITHBUF(IH+NN).NE.ISPMD).AND.(IH.LT.IADR+NN))
+                                    DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.(IH<IADR+NN))
                                         IH = IH + 1
                                     ENDDO
                                 ENDIF
 C
-                                IF(IH.GT.IADR+NN) GOTO 666
+                                IF(IH>IADR+NN) GOTO 666
                                 WA_SIZE = WA_SIZE + NVAR + 1
                             ENDIF
                         ENDDO

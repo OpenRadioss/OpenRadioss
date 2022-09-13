@@ -1178,43 +1178,43 @@ C
               IF (ILINE>1) CTYPE=''
               TMPOUT=' '
               TMPBUF=' '
-              IF (MESSAGES(ITYPE,MSGID)%SMESSAGE.NE.0) THEN
+              IF (MESSAGES(ITYPE,MSGID)%SMESSAGE/=0) THEN
               TMPLINE=MESSAGES(ITYPE,MSGID)%MESSAGE(ILINE)
               BUFLEN=0
               I=2
               IOLD=1
-              DO WHILE (I+1.LE.LEN_TRIM(TMPLINE))
+              DO WHILE (I+1<=LEN_TRIM(TMPLINE))
                 INDXTMPOUT=0
-                IF (TMPLINE(I:I).EQ.'%') THEN
+                IF (TMPLINE(I:I)=='%') THEN
                   I=I+1
-                  IF (TMPLINE(I:I).EQ.'d') THEN          ! %d (integer) replaced with its value
+                  IF (TMPLINE(I:I)=='d') THEN          ! %d (integer) replaced with its value
                     I=I+1
                     IOLD=I
                     MYFMT='(I10,X)'
-                    IF (INDXI.LE.20) INDXI=INDXI+1
+                    IF (INDXI<=20) INDXI=INDXI+1
                     WRITE(TMPBUF,MYFMT)IBUF(INDXI)
                     TMPBUF=ADJUSTL(TMPBUF)
                     BUFLEN=LEN_TRIM(TMPBUF)+1
 
-                  ELSE IF (TMPLINE(I:I).EQ.'f') THEN     ! %f (float) replaced with its value
+                  ELSE IF (TMPLINE(I:I)=='f') THEN     ! %f (float) replaced with its value
                     I=I+1
                     IOLD=I
                     MYFMT='(1PG20.13,X)'
-                    IF (INDXR.LT.10) INDXR=INDXR+1
+                    IF (INDXR<10) INDXR=INDXR+1
                     WRITE(TMPBUF,MYFMT)RBUF(INDXR)
                     TMPBUF=ADJUSTL(TMPBUF)
                     BUFLEN=LEN_TRIM(TMPBUF)+1
 
-                  ELSE IF (TMPLINE(I:I).EQ.'s') THEN     ! %s (string) replaced with its value
+                  ELSE IF (TMPLINE(I:I)=='s') THEN     ! %s (string) replaced with its value
                     I=I+1
                     IOLD=I
                     MYFMT='(A),X'
-                    IF (INDXC.LT.10) INDXC=INDXC+1
+                    IF (INDXC<10) INDXC=INDXC+1
                     WRITE(TMPBUF,MYFMT)CBUF(INDXC)
                     TMPBUF=ADJUSTL(TMPBUF)
                     BUFLEN=LEN_TRIM(TMPBUF)+1
 
-                  ELSEIF (TMPLINE(I:I).EQ.'i') THEN      ! New format %ixxx be computed - for test add fmt
+                  ELSEIF (TMPLINE(I:I)=='i') THEN      ! New format %ixxx be computed - for test add fmt
                     ISAV=I
                     I=I+1
                     IF (DYNA_MESSAGE == 1) THEN          ! Treatment ignored when DYNA_MESSAGE=0 / Native Rd Deck
@@ -1235,12 +1235,12 @@ C
                 ELSE
                   I=I+1
                 END IF
-                IF (BUFLEN.GT.0) THEN
+                IF (BUFLEN>0) THEN
                   TMPOUT=TMPOUT(1:INDXTMPOUT)//TMPBUF(1:BUFLEN)
                   INDXTMPOUT=INDXTMPOUT+BUFLEN
                   BUFLEN=0
                 END IF
-                IF (INDXTMPOUT.GT.0) THEN
+                IF (INDXTMPOUT>0) THEN
                   WRITE(RES_MES,'(A)')TMPOUT(1:INDXTMPOUT)
                 END IF
               END DO
@@ -1266,7 +1266,7 @@ C
 c---------------------------------
 c        RES_CHECK = 123499
 c        OPEN (UNIT=RES_CHECK,STATUS='UNKNOWN',FORM='FORMATTED',FILE='fort.1')
-        DO WHILE(IEND.NE.1)
+        DO WHILE(IEND/=1)
           READ(RES_MES,'(A)',END=110) TMPIN
           WRITE(RES_CHECK,'(A)') TMPIN(1:LEN_TRIM(TMPIN))
         ENDDO
@@ -1285,23 +1285,23 @@ C          Message is parsed, format tags are count
 C         ------------------------------------------
           IF (ALLOCATED(MESSAGES(ITYPE,MSGID)%MESSAGE)) THEN
             DO ILINE=1,MESSAGES(ITYPE,MSGID)%SMESSAGE
-              IF (MESSAGES(ITYPE,MSGID)%SMESSAGE.NE.0) THEN
+              IF (MESSAGES(ITYPE,MSGID)%SMESSAGE/=0) THEN
               TMPLINE=MESSAGES(ITYPE,MSGID)%MESSAGE(ILINE)
               I=2
               IOLD=1
-              DO WHILE (I+1.LE.LEN_TRIM(TMPLINE))
-          	IF (TMPLINE(I:I).EQ.'%') THEN
+              DO WHILE (I+1<=LEN_TRIM(TMPLINE))
+          	IF (TMPLINE(I:I)=='%') THEN
           	  I=I+1
-          	  IF (TMPLINE(I:I).EQ.'d') THEN       ! %d format
+          	  IF (TMPLINE(I:I)=='d') THEN       ! %d format
           	    I=I+1
           	    INDXI_INC=INDXI_INC+1
-          	  ELSE IF (TMPLINE(I:I).EQ.'f') THEN  ! %f format
+          	  ELSE IF (TMPLINE(I:I)=='f') THEN  ! %f format
           	    I=I+1
           	    INDXR_INC=INDXR_INC+1
-          	  ELSE IF (TMPLINE(I:I).EQ.'s') THEN  ! %s format
+          	  ELSE IF (TMPLINE(I:I)=='s') THEN  ! %s format
           	    I=I+1
           	    INDXC_INC=INDXC_INC+1
-                  ELSE IF (TMPLINE(I:I).EQ.'i') THEN  ! %ixxx format
+                  ELSE IF (TMPLINE(I:I)=='i') THEN  ! %ixxx format
           	    I=I+1
                     IF(DYNA_MESSAGE == 1) THEN
           	      INDXD_INC=INDXD_INC+1
@@ -1319,7 +1319,7 @@ C  Message file is read
 C  catch all message info from MSGID
 C -----------------------------------
         READ(RES_MES,'(A)',END=120) TMPIN
-        DO WHILE(IEND.NE.1)
+        DO WHILE(IEND/=1)
 
           IF(TMPIN(1:3)== 'ID=')THEN
             READ(TMPIN(4:14),'(I10)') MSGID_R 
@@ -1331,13 +1331,13 @@ C -----------------------------------
               INDXD = INDXD + INDXD_INC
 
               READ(RES_MES,'(A)',END=120) TMPIN
-              DO WHILE(IEND.NE.1 .AND. TMPIN(1:3) .NE. 'ID=')  ! skip to next message
+              DO WHILE(IEND/=1 .AND. TMPIN(1:3) /= 'ID=')  ! skip to next message
                 READ(RES_MES,'(A)',END=120) TMPIN
               ENDDO
             ELSE                                ! Message ID is different / skip to next message
               WRITE(RES_TMP,'(A)') TMPIN(1:LEN_TRIM(TMPIN))
               READ(RES_MES,'(A)',END=120) TMPIN
-              DO WHILE(IEND.NE.1 .AND. TMPIN(1:3) .NE. 'ID=')
+              DO WHILE(IEND/=1 .AND. TMPIN(1:3) /= 'ID=')
                 WRITE(RES_TMP,'(A)') TMPIN(1:LEN_TRIM(TMPIN))
                 READ(RES_MES,'(A)',END=120) TMPIN
               ENDDO
@@ -1363,7 +1363,7 @@ c
         TMP_I=' '
         TMP_CHAR=' '
         
-        IF(NBREPET .NE. 0) THEN
+        IF(NBREPET /= 0) THEN
         NBREPET_0 = NBREPET
         NBREPET = 0
         IEND = 0
@@ -1376,7 +1376,7 @@ c
 C ----------------------
 C  Re-read message file
 C ----------------------
-        DO WHILE(IEND.NE.1)
+        DO WHILE(IEND/=1)
           READ(RES_MES,'(A)',END=130) TMPIN
           IF(TMPIN(1:3)== 'ID=')THEN
             READ(TMPIN(4:14),'(I10)') MSGID_R
@@ -1387,15 +1387,15 @@ c
               ITYPE = 4 
                IF (ALLOCATED(MESSAGES(ITYPE,MSGID)%MESSAGE)) THEN          ! Parsing the message and their formats
                 DO ILINE=1,MESSAGES(ITYPE,MSGID)%SMESSAGE
-                  IF (MESSAGES(ITYPE,MSGID)%SMESSAGE.NE.0) THEN
+                  IF (MESSAGES(ITYPE,MSGID)%SMESSAGE/=0) THEN
                     TMPLINE=MESSAGES(ITYPE,MSGID)%MESSAGE(ILINE)
                     I=2
                     IOLD=1
                     NO_PRINT=0
-                    DO WHILE (I+1.LE.LEN_TRIM(TMPLINE))
-                      IF (TMPLINE(I:I).EQ.'%') THEN
+                    DO WHILE (I+1<=LEN_TRIM(TMPLINE))
+                      IF (TMPLINE(I:I)=='%') THEN
                 	I=I+1
-                	IF (TMPLINE(I:I).EQ.'d') THEN
+                	IF (TMPLINE(I:I)=='d') THEN
                 	  I=I+1
                 	  IOLD=I
                 	  INDXI=INDXI+1
@@ -1405,21 +1405,21 @@ c
                 	  TMP_INTEGER(INDXI) = INT_TMP
                           ITRI(CPT,NBREPET) = INT_TMP
                 	  IF(CPT == INDXI_INC) CPT = 0
-                	ELSE IF (TMPLINE(I:I).EQ.'f') THEN
+                	ELSE IF (TMPLINE(I:I)=='f') THEN
                 	  I=I+1
                 	  IOLD=I
                 	  INDXR=INDXR+1
                           READ(RES_MES,'(A)',END=130) TMPIN
                           READ(TMPIN,*) REAL_TMP
                 	  TMP_REAL(INDXR) = REAL_TMP
-                	ELSE IF (TMPLINE(I:I).EQ.'s') THEN
+                	ELSE IF (TMPLINE(I:I)=='s') THEN
                 	  I=I+1
                           IOLD=I
                           INDXC=INDXC+1
                           READ(RES_MES,'(A)',END=130) TMPIN
                           READ(TMPIN,'(A)') CHAR_TMP
                           TMP_CHAR(INDXC) = CHAR_TMP
-                        ELSE IF (TMPLINE(I:I).EQ.'i') THEN
+                        ELSE IF (TMPLINE(I:I)=='i') THEN
                           I=I+1
                           IF(DYNA_MESSAGE == 1) THEN
                             IOLD=I
@@ -1473,16 +1473,16 @@ c
           INDEX(J) = J
         ENDDO
         CALL MY_ORDERS( MODE, WORK, ITRI,INDEX,NBREPET_0,INDXI_INC)
-        IF (NBREPET_0 .NE. 0) MES_DOUBLE(INDEX(1)) = 0
+        IF (NBREPET_0 /= 0) MES_DOUBLE(INDEX(1)) = 0
         DO J=2,NBREPET_0
           ITAG = 0
           DO K=1,INDXI_INC
-            IF(ITRI(K,INDEX(J)) .NE. 
+            IF(ITRI(K,INDEX(J)) /= 
      .         ITRI(K,INDEX(J-1)))THEN
               ITAG = ITAG + 1
             ENDIF
           ENDDO
-          IF (ITAG .NE. 0) MES_DOUBLE(INDEX(J)) = 0
+          IF (ITAG /= 0) MES_DOUBLE(INDEX(J)) = 0
         ENDDO
         NB_MESSAGES = 0
         DO J=1,NBREPET_0
@@ -1519,13 +1519,13 @@ c
 	WRITE(RES_CHECK,MYFMT) 'NB_REPET=',NBREPET
 C
         CMSGTYPE=' '
-        IF (MSGTYPE.EQ.0) THEN
+        IF (MSGTYPE==0) THEN
           CMSGTYPE='MESSAGE'
           IMSG=IMSG+1
-        ELSE IF (MSGTYPE.EQ.1) THEN 
+        ELSE IF (MSGTYPE==1) THEN 
           CMSGTYPE='WARNING'
           IWARN=IWARN+1
-        ELSE IF (MSGTYPE.EQ.2) THEN
+        ELSE IF (MSGTYPE==2) THEN
           CMSGTYPE='ERROR'
           IERR=IERR+1
         END IF
@@ -1540,7 +1540,7 @@ C
      .                            CMSGTYPE(1:LEN_TRIM(CMSGTYPE)),
      .                            ' ID = ',
      .                            MSGID
-            IF (IOUT.NE.0) THEN
+            IF (IOUT/=0) THEN
               WRITE(IOUT,'(A,A,A,I6)')'CALL TO UNEXISTING ',
      .                              CMSGTYPE(1:LEN_TRIM(CMSGTYPE)),
      .                              ' ID = ',
@@ -1548,12 +1548,12 @@ C
             END IF
             RETURN
           END IF
-        IF (ANMODE.NE.ANINFO_BLIND_2) THEN
+        IF (ANMODE/=ANINFO_BLIND_2) THEN
             WRITE(ISTDO,'(/A,I6)')CMSGTYPE(1:LEN_TRIM(CMSGTYPE))
      *                      //' ID : ',MSGID
         END IF
-        IF (ISTDO.NE.IOUT) THEN
-          IF (IOUT.NE.0) THEN
+        IF (ISTDO/=IOUT) THEN
+          IF (IOUT/=0) THEN
           WRITE(IOUT,'(/A,I6)')CMSGTYPE(1:LEN_TRIM(CMSGTYPE))
      *                        //' ID : ',MSGID
           ELSE
@@ -1584,17 +1584,17 @@ C                WRITE(CTYPE,'(A,/)')"DESCRIPTION : "
               IF (ILINE>1) CTYPE=''
               TMPOUT=' '
               TMPBUF=' '
-              IF (MESSAGES(ITYPE,MSGID)%SMESSAGE.NE.0 ) THEN
+              IF (MESSAGES(ITYPE,MSGID)%SMESSAGE/=0 ) THEN
               TMPLINE=MESSAGES(ITYPE,MSGID)%MESSAGE(ILINE)
               BUFLEN=0
               INDXTMPOUT=0
               I=1
               IOLD=1
               NO_PRINT = 0
-              DO WHILE (I+1.LE.LEN_TRIM(TMPLINE))  ! loop over all characters from TMPLINE
+              DO WHILE (I+1<=LEN_TRIM(TMPLINE))  ! loop over all characters from TMPLINE
                 IF (TMPLINE(I:I) == '\' ) THEN
                   I=I+1
-                  IF (I-2.GE.1) THEN
+                  IF (I-2>=1) THEN
                     WRITE(TMPBUF,'(A,A)')TMPLINE(IOLD:I-2),TMPLINE(I:I)
                     BUFLEN=I-2-IOLD+1+1
                   ELSE
@@ -1603,18 +1603,18 @@ C                WRITE(CTYPE,'(A,/)')"DESCRIPTION : "
                   END IF
                   I=I+1
                   IOLD=I
-                ELSE IF (TMPLINE(I:I).EQ.'%') THEN
+                ELSE IF (TMPLINE(I:I)=='%') THEN
                   I=I+1
-                  IF (I-2.GE.1) THEN
+                  IF (I-2>=1) THEN
                     WRITE(TMPBUF,'(A)')TMPLINE(IOLD:I-2)
                     BUFLEN=I-2-IOLD+1
-                    IF (BUFLEN.GT.0) THEN
+                    IF (BUFLEN>0) THEN
                       TMPOUT=TMPOUT(1:INDXTMPOUT)//TMPBUF(1:BUFLEN)
                       INDXTMPOUT=INDXTMPOUT+BUFLEN
                       BUFLEN=0
                     END IF
                   END IF
-                  IF (TMPLINE(I:I).EQ.'d') THEN
+                  IF (TMPLINE(I:I)=='d') THEN
                     I=I+1
                     IOLD=I
                     MYFMT='(I10)'
@@ -1628,7 +1628,7 @@ C                WRITE(CTYPE,'(A,/)')"DESCRIPTION : "
                       TMPBUF=ADJUSTL(TMPBUF)
                       BUFLEN=LEN_TRIM(TMPBUF)
                     ENDIF
-                  ELSE IF (TMPLINE(I:I).EQ.'f') THEN
+                  ELSE IF (TMPLINE(I:I)=='f') THEN
                     I=I+1
                     IOLD=I
                     MYFMT='(1pg20.13)'
@@ -1642,7 +1642,7 @@ C                WRITE(CTYPE,'(A,/)')"DESCRIPTION : "
                       TMPBUF=ADJUSTL(TMPBUF)
                       BUFLEN=LEN_TRIM(TMPBUF)
                     ENDIF
-                  ELSE IF (TMPLINE(I:I).EQ.'s') THEN
+                  ELSE IF (TMPLINE(I:I)=='s') THEN
                     I=I+1
                     IOLD=I
                     MYFMT='(A)'
@@ -1654,14 +1654,14 @@ C                WRITE(CTYPE,'(A,/)')"DESCRIPTION : "
                     ENDIF
                     TMPBUF=ADJUSTL(TMPBUF)
                     BUFLEN=LEN_TRIM(TMPBUF)
-                  ELSE IF (TMPLINE(I:I).EQ.'r') THEN
+                  ELSE IF (TMPLINE(I:I)=='r') THEN
                     I=I+1
                     IOLD=I
                     MYFMT='(I10)'
                     WRITE(TMPBUF,MYFMT)NB_MESSAGES
                     TMPBUF=ADJUSTL(TMPBUF)
                     BUFLEN=LEN_TRIM(TMPBUF)
-                  ELSE IF (TMPLINE(I:I).EQ.'i') THEN
+                  ELSE IF (TMPLINE(I:I)=='i') THEN
                     ISAV=I
                     I=I+1
                     IF(DYNA_MESSAGE == 1) THEN
@@ -1693,39 +1693,39 @@ C                WRITE(CTYPE,'(A,/)')"DESCRIPTION : "
                 ELSE
                   I=I+1
                 END IF
-                IF (BUFLEN.GT.0) THEN
+                IF (BUFLEN>0) THEN
                   TMPOUT=TMPOUT(1:INDXTMPOUT)//TMPBUF(1:BUFLEN)
                   INDXTMPOUT=INDXTMPOUT+BUFLEN
                   BUFLEN=0
                 END IF
               END DO
-              IF (IOLD.LE.I) THEN
+              IF (IOLD<=I) THEN
                 WRITE(TMPBUF,'(A)')
      *          TMPLINE(IOLD:LEN_TRIM(TMPLINE))
                 BUFLEN=LEN_TRIM(TMPLINE)-IOLD+1
-                IF (BUFLEN.GT.0) THEN
+                IF (BUFLEN>0) THEN
                   TMPOUT=TMPOUT(1:INDXTMPOUT)//TMPBUF(1:BUFLEN)
                   INDXTMPOUT=INDXTMPOUT+BUFLEN
                   BUFLEN=0
                 END IF
               END IF
-              IF (INDXTMPOUT.GT.0.AND.
+              IF (INDXTMPOUT>0.AND.
      .            MES_DOUBLE(CPT) == 0) THEN
 C               do not write title on stdo in case ANINFO_BLIND_2
                IF ( NO_PRINT == 0 ) THEN       ! Line with %i should not be print in case of native format.
-                IF (ITYPE.EQ.1) THEN
-                  IF (ANMODE.EQ.ANINFO.OR.
-     *                ANMODE.EQ.ANINFO_BLIND_1) THEN
+                IF (ITYPE==1) THEN
+                  IF (ANMODE==ANINFO.OR.
+     *                ANMODE==ANINFO_BLIND_1) THEN
                       WRITE(ISTDO,'(A)')TMPOUT(1:INDXTMPOUT)
                   END IF
-                  IF (ISTDO.NE.IOUT) THEN
-                    IF (IOUT.NE.0) THEN
+                  IF (ISTDO/=IOUT) THEN
+                    IF (IOUT/=0) THEN
                       WRITE(IOUT,'(A)')TMPOUT(1:INDXTMPOUT)
                     ELSE
 C                         do not lose information
                       WRITE(ISTDO,'(A)')TMPOUT(1:INDXTMPOUT)
                     END IF
-C                  IF (IOUTMSG.NE.0) THEN
+C                  IF (IOUTMSG/=0) THEN
 C                    WRITE(IOUTMSG,'(A)')TMPOUT(1:INDXTMPOUT)
 C                  ELSE
 CC                       do not lose information
@@ -1734,19 +1734,19 @@ C                  END IF
                   END IF
                 ELSE
 C               other informations written on stdo only in case ANINFO
-                  IF (ILINE.EQ.1) THEN
-                    IF (ANMODE.EQ.ANINFO) THEN
-                      IF(ITYPE .NE. 4) WRITE(ISTDO,'(A)')CTYPE
+                  IF (ILINE==1) THEN
+                    IF (ANMODE==ANINFO) THEN
+                      IF(ITYPE /= 4) WRITE(ISTDO,'(A)')CTYPE
                     END IF
-                    IF (ISTDO.NE.IOUT) THEN
-                      IF (IOUT.NE.0) THEN
-                        IF(ITYPE .NE. 4) WRITE(IOUT,'(A)')CTYPE
+                    IF (ISTDO/=IOUT) THEN
+                      IF (IOUT/=0) THEN
+                        IF(ITYPE /= 4) WRITE(IOUT,'(A)')CTYPE
                       ELSE
 C                       do not lose information
-                        IF(ITYPE .NE. 4) WRITE(ISTDO,'(A)')CTYPE
+                        IF(ITYPE /= 4) WRITE(ISTDO,'(A)')CTYPE
                       END IF
                     END IF
-C                    IF (IOUTMSG.NE.0) THEN
+C                    IF (IOUTMSG/=0) THEN
 C                      WRITE(IOUTMSG,'(A)')CTYPE
 C                    ELSE
 CC                       do not lose information
@@ -1754,18 +1754,18 @@ C                      WRITE(ISTDO,'(A)')CTYPE
 C                    END IF
                   END IF
 
-                  IF (ANMODE.EQ.ANINFO) THEN
+                  IF (ANMODE==ANINFO) THEN
                       WRITE(ISTDO,'(A)')TMPOUT(1:INDXTMPOUT)
                   END IF
-                  IF (ISTDO.NE.IOUT) THEN
-                    IF (IOUT.NE.0) THEN
+                  IF (ISTDO/=IOUT) THEN
+                    IF (IOUT/=0) THEN
                       WRITE(IOUT,'(A)')TMPOUT(1:INDXTMPOUT)
                     ELSE
 C                       do not lose information
                       WRITE(ISTDO,'(A)')TMPOUT(1:INDXTMPOUT)
                     END IF
                   END IF
-C                  IF (IOUTMSG.NE.0) THEN
+C                  IF (IOUTMSG/=0) THEN
 C                    WRITE(IOUTMSG,'(A)')TMPOUT(1:INDXTMPOUT)
 C                  ELSE
 CC                       do not lose information
@@ -1774,7 +1774,7 @@ C                  END IF
                 END IF
                END IF    ! IF NO_PRINT == 1
               END IF
-C             IF (ITYPE.EQ.3.AND.LEN_TRIM(TMPLINE).EQ.0) THEN
+C             IF (ITYPE==3.AND.LEN_TRIM(TMPLINE)==0) THEN
               END IF
             END DO
            ENDDO
@@ -1789,7 +1789,7 @@ c        OPEN (UNIT=RES_MES,STATUS='SCRATCH',FORM='FORMATTED')
 c        REWIND(RES_TMP)
 c
 c        IEND = 0
-c        DO WHILE(IEND.NE.1)
+c        DO WHILE(IEND/=1)
 c          READ(RES_TMP,'(A)',END=140) TMPIN
 c          WRITE(RES_MES,'(A)') TMPIN
 c        ENDDO
@@ -1834,13 +1834,13 @@ c-----------------------------------------------------------
 	WRITE(RES_CHECK,MYFMT) 'NB_REPET=',1
 C   
         CMSGTYPE=' '
-        IF (MSGTYPE.EQ.0) THEN
+        IF (MSGTYPE==0) THEN
           CMSGTYPE='MESSAGE'
           IMSG=IMSG+1
-        ELSE IF (MSGTYPE.EQ.1) THEN 
+        ELSE IF (MSGTYPE==1) THEN 
           CMSGTYPE='WARNING'
           IWARN=IWARN+1
-        ELSE IF (MSGTYPE.EQ.2) THEN
+        ELSE IF (MSGTYPE==2) THEN
           CMSGTYPE='ERROR'
           IERR=IERR+1
         END IF
@@ -1855,7 +1855,7 @@ C
      .                            CMSGTYPE(1:LEN_TRIM(CMSGTYPE)),
      .                            ' ID = ',
      .                            MSGID
-            IF (IOUT.NE.0) THEN
+            IF (IOUT/=0) THEN
               WRITE(IOUT,'(A,A,A,I6)')'CALL TO UNEXISTING ',
      .                              CMSGTYPE(1:LEN_TRIM(CMSGTYPE)),
      .                              ' ID = ',
@@ -1863,11 +1863,11 @@ C
             END IF
             RETURN
           END IF
-        IF (ANMODE.NE.ANINFO_BLIND_2) THEN
+        IF (ANMODE/=ANINFO_BLIND_2) THEN
             WRITE(ISTDO,'(/A,I6)')CMSGTYPE(1:LEN_TRIM(CMSGTYPE))//' ID : ',MSGID
         END IF
-        IF (ISTDO.NE.IOUT) THEN
-          IF (IOUT.NE.0) THEN
+        IF (ISTDO/=IOUT) THEN
+          IF (IOUT/=0) THEN
             WRITE(IOUT,'(/A,I6)')CMSGTYPE(1:LEN_TRIM(CMSGTYPE))//' ID : ',MSGID
           ELSE
             WRITE(ISTDO,'(/A,I6)')CMSGTYPE(1:LEN_TRIM(CMSGTYPE))//' ID : ',MSGID
@@ -2018,15 +2018,15 @@ C                WRITE(CTYPE,'(A,/)')"DESCRIPTION : "
               IF (ILINE>1) CTYPE=''
               TMPOUT=' '
               TMPBUF=' '
-C             IF (ITYPE.EQ.3.AND.LEN_TRIM(TMPLINE).EQ.0) THEN
-              IF (MESSAGES(ITYPE,MSGID)%SMESSAGE.NE.0) THEN
+C             IF (ITYPE==3.AND.LEN_TRIM(TMPLINE)==0) THEN
+              IF (MESSAGES(ITYPE,MSGID)%SMESSAGE/=0) THEN
               TMPLINE=MESSAGES(ITYPE,MSGID)%MESSAGE(ILINE)
               BUFLEN=0
               INDXTMPOUT=0
               I=1
               IOLD=1
 !               DO J0=1,LEN_TRIM(TMPLINE)
-!                 IF (TMPLINE(J0:J0).EQ.'/') THEN
+!                 IF (TMPLINE(J0:J0)=='/') THEN
 !                   TMPLINE(J0:J0)=CHAR(10)
 !                 END IF
 !               END DO
@@ -2036,22 +2036,22 @@ c HM_READER messages ( line with error sent by reader)
                 I=I+1
                 IOLD=I
                 MYFMT='(A)'
-                IF (INDXC.LT.10) INDXC=INDXC+1
+                IF (INDXC<10) INDXC=INDXC+1
                 WRITE(TMPBUF,MYFMT)CBUF(INDXC)
                 TMPBUF=ADJUSTL(TMPBUF)
                 BUFLEN=LEN_TRIM(TMPBUF)
-                IF (BUFLEN.GT.0) THEN
+                IF (BUFLEN>0) THEN
                   TMPOUT=TMPBUF(1:BUFLEN)
                   INDXTMPOUT=INDXTMPOUT+BUFLEN
                   BUFLEN=0
                 END IF
                 ILINE = MESSAGES(ITYPE,MSGID)%SMESSAGE+1
-              ELSEIF ( MSGID > 200000 .AND. ITYPE .NE. 1 ) THEN 
+              ELSEIF ( MSGID > 200000 .AND. ITYPE /= 1 ) THEN 
 c CONVERTER messages ( line with error sent by onverter)
-                DO WHILE (I+1.LE.LEN_TRIM(TMPLINE))
+                DO WHILE (I+1<=LEN_TRIM(TMPLINE))
                   IF (TMPLINE(I:I) == '\') THEN
                     I=I+1
-                    IF (I-2.GE.1) THEN
+                    IF (I-2>=1) THEN
                       WRITE(TMPBUF,'(A,A)')TMPLINE(IOLD:I-2),TMPLINE(I:I)
                       BUFLEN=I-2-IOLD+1+1
                     ELSE
@@ -2064,22 +2064,22 @@ c CONVERTER messages ( line with error sent by onverter)
                     I=I+1
                     IOLD=I
                     MYFMT='(A)'
-                    IF (INDXC.LT.10) INDXC=INDXC+1
+                    IF (INDXC<10) INDXC=INDXC+1
                     WRITE(TMPBUF,MYFMT)CBUF(INDXC)
                     TMPBUF=ADJUSTL(TMPBUF)
                     BUFLEN=LEN_TRIM(TMPBUF)
                   END IF
-                  IF (BUFLEN.GT.0) THEN
+                  IF (BUFLEN>0) THEN
                     TMPOUT=TMPOUT(1:INDXTMPOUT)//TMPBUF(1:BUFLEN)
                     INDXTMPOUT=INDXTMPOUT+BUFLEN
                     BUFLEN=0
                   END IF
                 END DO
               ELSE                                 ! IF ( (MSGID >= 100000 .AND. ILINE >= 3)) THEN  !                         !
-                DO WHILE (I+1.LE.LEN_TRIM(TMPLINE))
-                  IF (TMPLINE(I:I).EQ.'\') THEN
+                DO WHILE (I+1<=LEN_TRIM(TMPLINE))
+                  IF (TMPLINE(I:I)=='\') THEN
                     I=I+1
-                    IF (I-2.GE.1) THEN
+                    IF (I-2>=1) THEN
                       WRITE(TMPBUF,'(A,A)')TMPLINE(IOLD:I-2),TMPLINE(I:I)
                       BUFLEN=I-2-IOLD+1+1
                     ELSE
@@ -2088,46 +2088,46 @@ c CONVERTER messages ( line with error sent by onverter)
                     END IF
                     I=I+1
                     IOLD=I
-                  ELSE IF (TMPLINE(I:I).EQ.'%') THEN
+                  ELSE IF (TMPLINE(I:I)=='%') THEN
                     I=I+1
-                    IF (I-2.GE.1) THEN
+                    IF (I-2>=1) THEN
                       WRITE(TMPBUF,'(A)')TMPLINE(IOLD:I-2)
                       BUFLEN=I-2-IOLD+1
-                      IF (BUFLEN.GT.0) THEN
+                      IF (BUFLEN>0) THEN
                         TMPOUT=TMPOUT(1:INDXTMPOUT)//TMPBUF(1:BUFLEN)
                         INDXTMPOUT=INDXTMPOUT+BUFLEN
                         BUFLEN=0
                       END IF
                     END IF
 
-                    IF (TMPLINE(I:I).EQ.'d') THEN             ! %d (integer) replaced with its value
+                    IF (TMPLINE(I:I)=='d') THEN             ! %d (integer) replaced with its value
                       I=I+1
                       IOLD=I
                       MYFMT='(I10)'
-                      IF (INDXI.LE.20) INDXI=INDXI+1
+                      IF (INDXI<=20) INDXI=INDXI+1
                       WRITE(TMPBUF,MYFMT)IBUF(INDXI)
                       TMPBUF=ADJUSTL(TMPBUF)
                       BUFLEN=LEN_TRIM(TMPBUF)
 
-                    ELSE IF (TMPLINE(I:I).EQ.'f') THEN        ! %f (float) replaced with its value
+                    ELSE IF (TMPLINE(I:I)=='f') THEN        ! %f (float) replaced with its value
                       I=I+1
                       IOLD=I
                       MYFMT='(1pg20.13)'
-                      IF (INDXR.LT.10) INDXR=INDXR+1
+                      IF (INDXR<10) INDXR=INDXR+1
                       WRITE(TMPBUF,MYFMT)RBUF(INDXR)
                       TMPBUF=ADJUSTL(TMPBUF)
                       BUFLEN=LEN_TRIM(TMPBUF)
 
-                    ELSE IF (TMPLINE(I:I).EQ.'s') THEN        ! %s (string) replaced with its value
+                    ELSE IF (TMPLINE(I:I)=='s') THEN        ! %s (string) replaced with its value
                       I=I+1
                       IOLD=I
                       MYFMT='(A)'
-                      IF (INDXC.LT.10) INDXC=INDXC+1
+                      IF (INDXC<10) INDXC=INDXC+1
                       WRITE(TMPBUF,MYFMT)CBUF(INDXC)
                       TMPBUF=ADJUSTL(TMPBUF)
                       BUFLEN=LEN_TRIM(TMPBUF)
 
-                    ELSEIF (TMPLINE(I:I).EQ.'i') THEN      ! New format %ixxx be computed - for test add fmt
+                    ELSEIF (TMPLINE(I:I)=='i') THEN      ! New format %ixxx be computed - for test add fmt
                       ISAV=I
                       I=I+1
                       IF(DYNA_MESSAGE == 1) THEN
@@ -2152,18 +2152,18 @@ c CONVERTER messages ( line with error sent by onverter)
                   ELSE
                     I=I+1
                   END IF
-                  IF (BUFLEN.GT.0) THEN
+                  IF (BUFLEN>0) THEN
                     TMPOUT=TMPOUT(1:INDXTMPOUT)//TMPBUF(1:BUFLEN)
                     INDXTMPOUT=INDXTMPOUT+BUFLEN
                     BUFLEN=0
                     INDXTMPOUT=MIN(INDXTMPOUT,ncharline)
                   END IF
                 END DO                
-                IF (IOLD.LE.I) THEN
+                IF (IOLD<=I) THEN
                   WRITE(TMPBUF,'(A)')
      *            TMPLINE(IOLD:LEN_TRIM(TMPLINE))
                   BUFLEN=LEN_TRIM(TMPLINE)-IOLD+1
-                  IF (BUFLEN.GT.0) THEN
+                  IF (BUFLEN>0) THEN
                     TMPOUT=TMPOUT(1:INDXTMPOUT)//TMPBUF(1:BUFLEN)
                     INDXTMPOUT=INDXTMPOUT+BUFLEN
                     BUFLEN=0
@@ -2172,22 +2172,22 @@ c CONVERTER messages ( line with error sent by onverter)
                 END IF
               ENDIF
               INDXTMPOUT=MIN(INDXTMPOUT,ncharline)
-              IF (INDXTMPOUT.GT.0) THEN
+              IF (INDXTMPOUT>0) THEN
 C               do not write title on stdo in case ANINFO_BLIND_2
                IF(NO_PRINT == 0)THEN                              ! NO_PRINT is set to 1 when %i is found & 
-                IF (ITYPE.EQ.1) THEN
-                  IF (ANMODE.EQ.ANINFO.OR.
-     *                ANMODE.EQ.ANINFO_BLIND_1) THEN
+                IF (ITYPE==1) THEN
+                  IF (ANMODE==ANINFO.OR.
+     *                ANMODE==ANINFO_BLIND_1) THEN
                       WRITE(ISTDO,'(A)')TMPOUT(1:INDXTMPOUT)
                   END IF
-                  IF (ISTDO.NE.IOUT) THEN
-                    IF (IOUT.NE.0) THEN
+                  IF (ISTDO/=IOUT) THEN
+                    IF (IOUT/=0) THEN
                       WRITE(IOUT,'(A)')TMPOUT(1:INDXTMPOUT)
                     ELSE
 C                         do not lose information
                       WRITE(ISTDO,'(A)')TMPOUT(1:INDXTMPOUT)
                     END IF
-C                  IF (IOUTMSG.NE.0) THEN
+C                  IF (IOUTMSG/=0) THEN
 C                    WRITE(IOUTMSG,'(A)')TMPOUT(1:INDXTMPOUT)
 C                  ELSE
 CC                       do not lose information
@@ -2196,37 +2196,37 @@ C                  END IF
                   END IF
                 ELSE
 C               other informations written on stdo only in case ANINFO
-                  IF (ILINE.EQ.1) THEN
-                    IF (ANMODE.EQ.ANINFO) THEN
+                  IF (ILINE==1) THEN
+                    IF (ANMODE==ANINFO) THEN
                       WRITE(ISTDO,'(A)')CTYPE
                     END IF
-                    IF (ISTDO.NE.IOUT) THEN
-                      IF (IOUT.NE.0) THEN
+                    IF (ISTDO/=IOUT) THEN
+                      IF (IOUT/=0) THEN
                         WRITE(IOUT,'(A)')CTYPE
                       ELSE
 C                       do not lose information
                         WRITE(ISTDO,'(A)')CTYPE
                       END IF
                     END IF
-C                    IF (IOUTMSG.NE.0) THEN
+C                    IF (IOUTMSG/=0) THEN
 C                      WRITE(IOUTMSG,'(A)')CTYPE
 C                    ELSE
 CC                       do not lose information
 C                      WRITE(ISTDO,'(A)')CTYPE
 C                    END IF
                   END IF
-                  IF (ANMODE.EQ.ANINFO) THEN
+                  IF (ANMODE==ANINFO) THEN
                       WRITE(ISTDO,'(A)')TMPOUT(1:INDXTMPOUT)
                   END IF
-                  IF (ISTDO.NE.IOUT) THEN
-                    IF (IOUT.NE.0) THEN
+                  IF (ISTDO/=IOUT) THEN
+                    IF (IOUT/=0) THEN
                       WRITE(IOUT,'(A)')TMPOUT(1:INDXTMPOUT)
                     ELSE
 C                       do not lose information
                       WRITE(ISTDO,'(A)')TMPOUT(1:INDXTMPOUT)
                     END IF
                   END IF
-C                  IF (IOUTMSG.NE.0) THEN
+C                  IF (IOUTMSG/=0) THEN
 C                    WRITE(IOUTMSG,'(A)')TMPOUT(1:INDXTMPOUT)
 C                  ELSE
 CC                       do not lose information
@@ -2235,15 +2235,15 @@ C                  END IF
                 END IF
                END IF  ! NO_PRINT is set to 1 when %i is found & 
               END IF
-C             IF (ITYPE.EQ.3.AND.LEN_TRIM(TMPLINE).EQ.0) THEN
+C             IF (ITYPE==3.AND.LEN_TRIM(TMPLINE)==0) THEN
               END IF
             END DO
           END IF
         END DO
       ENDIF
 c
-      IF (ANMODE .EQ. ANSTOP .AND. PRESENT(PRMODE)) THEN
-        IF (PRMODE == 1 .AND. NBREPET .NE. 0) THEN
+      IF (ANMODE == ANSTOP .AND. PRESENT(PRMODE)) THEN
+        IF (PRMODE == 1 .AND. NBREPET /= 0) THEN
 C Care MSGID is ERROR TRAPPED -> Exit code must be 3
            IF(MSGID == 760) THEN
               CALL ARRET(3)
@@ -2251,7 +2251,7 @@ C Care MSGID is ERROR TRAPPED -> Exit code must be 3
               CALL ARRET(2)
            ENDIF
         ENDIF
-      ELSEIF (ANMODE .EQ. ANSTOP) THEN
+      ELSEIF (ANMODE == ANSTOP) THEN
 C Care MSGID is ERROR TRAPPED -> Exit code must be 3
         IF(MSGID == 760) THEN
           CALL ARRET(3)
@@ -2304,7 +2304,7 @@ C-----------------------------------------------
       KEY_LEN=0
       EQUAL_FOUND=0
 
-      DO WHILE( BRACKETS_COUNT /= 2 .AND. I.LE.LINE_SIZE)
+      DO WHILE( BRACKETS_COUNT /= 2 .AND. I<=LINE_SIZE)
 
         IF(TMPLINE(I) == '"') THEN
            BRACKETS_COUNT=BRACKETS_COUNT+1

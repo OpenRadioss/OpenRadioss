@@ -91,7 +91,7 @@ C-----------------------------
       T2=YM2-YM1
       T3=ZM2-ZM1
       XL=SQRT(T2**2+T3**2)
-      IF(XL.EQ.0.0)THEN
+      IF(XL==0.0)THEN
 C       WRITE(IOUT,1100)L,(ITAB(MSR(IRECT(JJ,L))),JJ=1,2)
 C       CALL ARRET(2)
          CALL ANCMSG(MSGID=80,
@@ -108,15 +108,15 @@ C       CALL ARRET(2)
       N2= T3
       N3=-T2
       PEN=N2*(YS-YM1)+N3*(ZS-ZM1)-GAP
-      IF(PEN.GT.0.0)THEN
+      IF(PEN>0.0)THEN
        GOTO 110
       ENDIF
       SS=T2*(YS-YM1)+T3*(ZS-ZM1)
       SS=SS/XL
       SS=TWO*SS-ONE
-      IF(SS.GT. ONEP05)GO TO 110
-      IF(SS.LT.-ONEP05)GO TO 110
-      IF(PEN.LT.ZERO)THEN
+      IF(SS> ONEP05)GO TO 110
+      IF(SS<-ONEP05)GO TO 110
+      IF(PEN<ZERO)THEN
 C       WRITE(IOUT,1000)PEN
        IWPENE=IWPENE+1
        CALL ANCMSG(MSGID=346,
@@ -126,7 +126,7 @@ C       WRITE(IOUT,1000)PEN
      .             C1=TITR,
      .             R1=PEN)
       ENDIF
-      IF(IPRI.GE.1)THEN
+      IF(IPRI>=1)THEN
 Cst013   format I5 remplace par I8
 Cst013   WRITE(IOUT,'(I5,2I9,2I5,F10.6)')
 C     . ITAB(I),ITAB(K),L,
@@ -136,12 +136,12 @@ C     . ITAB(MSR(IRECT(1,L))),ITAB(MSR(IRECT(2,L))),SS
      . ITAB(MSR(IRECT(1,L))),ITAB(MSR(IRECT(2,L))),SS
       ENDIF
 C
-      IF(FRIC.EQ.0.0) GO TO 150
+      IF(FRIC==0.0) GO TO 150
       IRTLO(II)=L
       CST(1,II)=SS
       GO TO 150
  110  CONTINUE
-      IF(IPRI.GE.1)THEN
+      IF(IPRI>=1)THEN
 Cst013       WRITE(IOUT,'(I5,2I9,2I5)')ITAB(I),ITAB(K),L,
 C     .       ITAB(MSR(IRECT(1,L))),ITAB(MSR(IRECT(2,L)))
 C  121       WRITE(IOUT,'(I8,2I9,2I8)')ITAB(I),ITAB(K),L,
