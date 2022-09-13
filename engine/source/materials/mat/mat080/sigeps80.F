@@ -149,6 +149,7 @@ C-----------------------------------------------
      .   UVAR(NEL,NUVAR),EPSP(NEL),
      .   OFF(NEL),THK(NEL),YLD(NEL),EINTTH(NEL)
       INTEGER :: VARTMP(NEL,NVARTMP)
+
       TYPE(TTABLE) TABLE(*)
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
@@ -377,7 +378,7 @@ c
       NPFG(1)=1
       NPFG(2)=13                            
       ITERK  =5
-      ITERK2 =5
+      ITERK2 =4
       CUN = THIRD/(ONE-TWO*NU)
       CDEUX = HALF/(ONE+NU)
       CTROIS = NU/(ONE+NU)/(ONE-TWO*NU)     
@@ -598,7 +599,6 @@ C
         IPOS5(I,1) = VARTMP(I,13)
         IPOS5(I,2) = VARTMP(I,14)
         IPOS5(I,3) = VARTMP(I,15)
-
 C 
         XX1(I,1)=PLA1(I)
         XX1(I,2)=TEMPEL(I)
@@ -819,6 +819,7 @@ c        STRIAL_ij deviator of sigma_n+1=sigm_n+ELa DEPS
         IF (SVMTR(I) <= YLDOLD(I)) THEN !.AND.HEATFLAG==0
           ! LOCAL YIELD ALGORITHM
           !----------------------
+
           IF (TOTFRAC(I)==ZERO)THEN
             LOGZ = ONE
           ELSE
@@ -883,7 +884,7 @@ c        STRIAL_ij deviator of sigma_n+1=sigm_n+ELa DEPS
           DO K2= 1,ITERK2 ! ESF ITERATION 
           !---------------------------------
            T1 = ZERO
-           IF(SVM(I)>UVAR(I,15).AND.NORMDEV(I)> EM15) ! svm is not saved in uvar if it decreases
+           IF(SVM(I)>UVAR(I,15).AND.NORMDEV(I)> EM15 .AND.TOTFRAC(I) > TOTFRACOLD(I)) 
      .     T1 = (ONE-TOTFRAC(I))*GZ(I)*(SVM(I)-SVMO)/E(I) ! SVMI
            !compute dpla depending on the value of H
 
@@ -1163,7 +1164,7 @@ c----------------------------------------------
                  
          UVAR(I,23)= FRAC2(I)/XEQ2       !X2(I)
          UVAR(I,24)= FRAC3(I)/(ONE-XEQ2)  !X3(I)
-         UVAR(I,25)= FRAC4(I)/MAX(EM20,ONE- (FRAC2(I)/XEQ2))!X4(I)
+         UVAR(I,25)= FRAC4(I)/(ONE-XEQ2)!X4(I)
          UVAR(I,44)= FRAC5(I)/MAX(EM20,XGAMA(I))
 
          UVAR(I,2)= FRAC1(I)
@@ -1258,9 +1259,9 @@ C-----------------------------------------------
      .        FGRAIN,QR2,QR3,QR4,KPER,KBAIN,XEQ2,XEQ4,YX
 C-----------------------------------------------
         my_real
-     .        FRAC1(*),FRAC2(*),FRAC3(*),FRAC4(*),FRAC5(*)
+     .        FRAC1(NEL0),FRAC2(NEL0),FRAC3(NEL0),FRAC4(NEL0),FRAC5(NEL0)
         my_real
-     .        X2(*),X3(*),X4(*),X5(*),TOTFRAC(*),XGAMA(*)
+     .        X2(NEL0),X3(NEL0),X4(NEL0),X5(NEL0),TOTFRAC(NEL0),XGAMA(NEL0)
         my_real
      .        FTEMP,UX,VX,UDOT,VDOT,F,CONST,FDOT,X2OLD(NEL0),
      .        X3OLD(NEL0),X4OLD(NEL0),GX,GDOT,DTI
@@ -1313,28 +1314,6 @@ c---------------------------------
 c            FRAC3(I)=X3(I)*(ONE-X2(I))
             FRAC3(I)=X3(I)*(ONE-XEQ2)
             FRAC1(I)=ONE-FRAC2(I)-FRAC3(I)-FRAC4(I)-FRAC5(I)
-            ! CHECK IF FERRITE FORMATION
-c            IF (X2(I)<0.99)THEN !X3(I)<0.01 .AND.
-c              ! FERRITE EVOLUTION
-c              X2OLD(I)=X2(I)
-c              IF(X2(I)==ZERO)X2(I)=EM10
-c              FTEMP=EXP(-QR2/TEMPEL(I)) *ABS(TEMPEL(I)-AE3)**3
-c              CONST=FTEMP*FGRAIN*FCFER
-c              DO K=1,3
-c                YX= (ONE-X2(I))/MAX(EM10,X2(I))
-c                UX=X2(I)**(TWO_THIRD*(ONE-X2(I)))
-c                VX=(ONE-X2(I))**(TWO_THIRD*X2(I))
-c                F =(X2(I)-X2OLD(I))*DTI-CONST*UX*VX
-cc                UDOT=TWO_THIRD*UX*((ONE-X2(I))/MAX(EM10,X2(I))-
-cc     .              LOG(MAX(EM10,X2(I))))
-cc                VDOT=TWO_THIRD*VX*(LOG(ONE-X2(I))-X2(I)/(ONE-X2(I)))
-cc                FDOT=DTI-CONST*(UDOT*VX+VDOT*UX)
-c                FDOT=DTI-CONST*TWO_THIRD*UX*VX*(YX-ONE/YX+LOG(YX))
-c                X2(I)=MAX(EM20,X2(I)-F/FDOT)
-c              ENDDO           
-c              FRAC2(I)=X2(I)*XEQ2
-c              FRAC1(I)=ONE-FRAC2(I)-FRAC3(I)
-c            ENDIF
           ENDIF
 c---------------------------------                    
         ELSEIF(TEMPEL(I)>MS)THEN
@@ -1346,7 +1325,7 @@ c---------------------------------
             FTEMP=EXP(-QR4/TEMPEL(I)) *(TEMPEL(I)-BS)**2
             CONST=FTEMP*FGRAIN*FCBAI
             DO K=1,4
-              YX= (ONE-X2(I))/MAX(EM10,X2(I))
+              YX= (ONE-X4(I))/MAX(EM10,X4(I))
               UX=X4(I)**(TWO_THIRD*(ONE-X4(I)))
               VX=(ONE-X4(I))**(TWO_THIRD*X4(I)) 
               GX=EXP(KBAIN*X4(I)*X4(I))
@@ -1359,7 +1338,7 @@ c---------------------------------
               FDOT=DTI-CONST*((UDOT*VX+VDOT*UX)*GX-UX*VX*GDOT)/GX/GX
               X4(I)=MAX(EM20,X4(I)-F/FDOT)
            ENDDO
-            FRAC4(I)=X4(I)*(ONE-X2(I))
+            FRAC4(I)=X4(I)*(ONE-XEQ2)
             FRAC1(I)=ONE-FRAC2(I)-FRAC3(I)-FRAC4(I)-FRAC5(I)
           ENDIF
             
