@@ -408,6 +408,12 @@ C
 C--         Scale factor on stress intialised 
             GBUF%INTVAR(I) = ONE
 C
+C--         Initial length of fram 1/2 and fram 4/3
+            DIST1 = (X(1,N2)-X(1,N1))**2+(X(2,N2)-X(2,N1))**2+(X(3,N2)-X(3,N1))**2
+            DIST2 = (X(1,N3)-X(1,N4))**2+(X(2,N3)-X(2,N4))**2+(X(3,N3)-X(3,N4))**2
+            GBUF%INTVAR(I+2*NEL) = SQRT(DIST1)
+            GBUF%INTVAR(I+3*NEL) = SQRT(DIST2)
+C
             DO M=2,5
 CCC-        Find node after node i
 C

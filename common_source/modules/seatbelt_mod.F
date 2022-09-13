@@ -73,6 +73,7 @@ c
         my_real  MATERIAL_FLOW
         my_real  DFS
         my_real  RESIDUAL_LENGTH(2)
+        my_real  CURRENT_LENGTH(2)
         my_real  RINGSLIP
         my_real  BETA
         my_real  GAMMA
