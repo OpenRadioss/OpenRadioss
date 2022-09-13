@@ -1670,7 +1670,6 @@ Chd|        HM_READ_PROP09                source/properties/shell/hm_read_prop09
 Chd|        HM_READ_PROP11                source/properties/shell/hm_read_prop11.F
 Chd|        HM_READ_PROP12                source/properties/spring/hm_read_prop12.F
 Chd|        HM_READ_PROP13                source/properties/spring/hm_read_prop13.F
-Chd|        HM_READ_PROP14                source/properties/solid/hm_read_prop14.F
 Chd|        HM_READ_PROP14F               source/properties/solid/hm_read_prop14.F
 Chd|        HM_READ_PROP15                source/properties/solid/hm_read_prop15.F
 Chd|        HM_READ_PROP16                source/properties/shell/hm_read_prop16.F
