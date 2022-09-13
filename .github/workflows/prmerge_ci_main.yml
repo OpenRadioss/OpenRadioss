@@ -164,7 +164,7 @@ jobs:
 
       # Upload artifact
       - name: Upload built artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: bins-${{ matrix.os }}-${{ matrix.precision }}
           path: ${{ steps.set_workdir.outputs.value }}/exec
@@ -427,7 +427,8 @@ jobs:
         do
           cp -p $file exec/
         done
-        
+        chmod 755 exec/*
+
     - name: Provide ALL binaries
       run: |
         # Prepare tree architecture
