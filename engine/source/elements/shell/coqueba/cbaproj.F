@@ -144,7 +144,7 @@ C        I=3
 C
        ENDDO
 C--------------QBAT has not simplification w/ wi -> don't need drilling dof projection        
-       IF (ISROT.GT.0) THEN
+       IF (ISROT>0) THEN
 #include "vectorize.inc"
         DO EP=JFT,NPLAT
          K =IPLAT(EP)
@@ -181,7 +181,7 @@ C
          MLZ(EP,3,J)= ZERO
         ENDDO
         ENDDO
-       END IF !(ISROT.GT.0) THEN
+       END IF !(ISROT>0) THEN
 C       
        DO EP=NPLAT+1,JLT 
         K=IPLAT(EP)

@@ -123,7 +123,7 @@ C  Arrival time
          ENDIF
       ENDDO 	  
 
-      IF(ILVOUT.GE.2) THEN
+      IF(ILVOUT>=2) THEN
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----1----+----2----+----3--
          WRITE (IOUT,'(//7X,2A)') 'ELEMENT   ARRIVAL TIME        AREA     DISTANCE   DIR.COSINE     ',
      .                            'NORMAL-X     NORMAL-Y     NORMAL-Z'

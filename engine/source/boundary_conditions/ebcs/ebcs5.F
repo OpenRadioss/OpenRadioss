@@ -69,17 +69,17 @@ C-----------------------------------------------
       IVIMP=EBCS%ivimp
       IRHO=EBCS%irho
       IENER=EBCS%iener
-      IF(IVIMP.GT.0)THEN
+      IF(IVIMP>0)THEN
         VIMP=EBCS%vimp*FV(IVIMP)
       ELSE
         VIMP=EBCS%vimp
       ENDIF
-      IF(IRHO.GT.0)THEN
+      IF(IRHO>0)THEN
         RHO=EBCS%rho*FV(IRHO)
       ELSE
         RHO=EBCS%rho
       ENDIF
-      IF(IENER.GT.0)THEN
+      IF(IENER>0)THEN
         ENER=EBCS%ener*FV(IENER)
       ELSE
         ENER=EBCS%ener
@@ -103,7 +103,7 @@ C SURFACE NORMALE NODALES
         N2=IRECT(2,IS)
         N3=IRECT(3,IS)
         N4=IRECT(4,IS)
-        IF(N4.EQ.0 .OR. N4.EQ.N3) THEN
+        IF(N4==0 .OR. N4==N3) THEN
           FAC=ONE_OVER_6*ORIENT
           N4=N3
         ELSE
@@ -138,7 +138,7 @@ C
         VMX=V(1,NG1)+V(1,NG2)+V(1,NG3)
         VMY=V(2,NG1)+V(2,NG2)+V(2,NG3)
         VMZ=V(3,NG1)+V(3,NG2)+V(3,NG3)
-        IF(N4.NE.N3) THEN
+        IF(N4/=N3) THEN
            LA(1,N4)=LA(1,N4)+NX
            LA(2,N4)=LA(2,N4)+NY
            LA(3,N4)=LA(3,N4)+NZ
@@ -165,7 +165,7 @@ C
         SEGVAR%EINT(KSEG)=ENER
       ENDDO
 C
-      IF(TT.EQ.0)THEN
+      IF(TT==0)THEN
         DO I=1,NOD
           N=LISTE(I)
           FAC=VIMP/SQRT(LA(1,I)**2+LA(2,I)**2+LA(3,I)**2)

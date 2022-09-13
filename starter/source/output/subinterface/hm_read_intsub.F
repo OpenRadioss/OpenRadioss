@@ -119,7 +119,7 @@ C
 C
          NB = NB+1
 C----------Multidomaines --> on ignore les interfaces et sous-interfaces non tagees--- 
-         IF (NSUBDOM.GT.0) THEN
+         IF (NSUBDOM>0) THEN
            IF(TAGINT(NB)==0) CALL HM_SZ_R2R(TAGINT,NB,LSUBMODEL)
          ENDIF
 C------------------------------------------------------------------
@@ -133,7 +133,7 @@ C--------------------------------------------------
      .                       OPTION_TITR = TITR,
      .                       KEYWORD2 = KEY)
 
-        IF(KEY(1:LEN_TRIM(KEY)).NE.'SUB') THEN
+        IF(KEY(1:LEN_TRIM(KEY))/='SUB') THEN
           NI=NI+1
           INDEX_NOM_OPT=INDEX_NOM_OPT+1
 C
@@ -148,13 +148,13 @@ C--       read of type19 flag
 c comment to plug t19 convert
            CASE ('TYPE7','TYPE10','TYPE24')
               FLAG_INTER(NI)    =0
-              IF (ID_TYPE19.NE.0) THEN
+              IF (ID_TYPE19/=0) THEN
 C--             type7 interface generated from type19
                 FLAG_INTER(NI)    =2
               ENDIF
            CASE ('TYPE11')
               FLAG_INTER(NI)    =1
-              IF (ID_TYPE19.NE.0) THEN
+              IF (ID_TYPE19/=0) THEN
 C--             type11 interface generated from type19
                 FLAG_INTER(NI)    =2
               ENDIF
@@ -184,7 +184,7 @@ C
 C
         NB = NB+1
 C----------Multidomaines --> on ignore les interfaces et sous-interfaces non tagees--- 
-        IF (NSUBDOM.GT.0) THEN
+        IF (NSUBDOM>0) THEN
           IF(TAGINT(NB)==0) CALL HM_SZ_R2R(TAGINT,NB,LSUBMODEL)
         ENDIF
 C------------------------------------------------------------------
@@ -199,7 +199,7 @@ C--------------------------------------------------
      .                       SUBMODEL_INDEX = SUB_ID,
      .                       KEYWORD2 = KEY)
 
-        IF(KEY(1:LEN_TRIM(KEY)).EQ.'SUB') THEN
+        IF(KEY(1:LEN_TRIM(KEY))=='SUB') THEN
           NISUB=NISUB+1
           NOM_OPT(1,NINTER+NISUB)=ID
           CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,
@@ -247,7 +247,7 @@ C-------------------------------------
           INTSUB_TYP(I) = 2
  320      CONTINUE
 C
-          IF(FLAG_INTER(NI).EQ.-1)THEN
+          IF(FLAG_INTER(NI)==-1)THEN
               CALL ANCMSG(MSGID=579,
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO,
@@ -263,7 +263,7 @@ C     decodage de INTSUB (nos internes des surfaces, groupes de noeuds).
 C-------------------------------------
       DO I=1,NINTSUB
 C
-        IF (INTSUB_TYP(I).EQ.25 )THEN
+        IF (INTSUB_TYP(I)==25 )THEN
 C
 C--     Interf 25
 C
@@ -272,7 +272,7 @@ C
           CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,
      .                          NINTER+I),LTITR)
           DO J=1,NSURF
-            IF(IGRSURF(J)%ID.EQ.IDSURF)THEN
+            IF(IGRSURF(J)%ID==IDSURF)THEN
               NOM_OPT(3,NINTER+I)=J
               GO TO 400
             END IF
@@ -288,7 +288,7 @@ C
           IDGRN=NOM_OPT(4,NINTER+I)
           IF(IDGRN/=0)THEN
             DO J=1,NGRNOD
-              IF (IGRNOD(J)%ID.EQ.IDGRN) THEN
+              IF (IGRNOD(J)%ID==IDGRN) THEN
                 NOM_OPT(4,NINTER+I)=J
                 GO TO 410
               END IF
@@ -305,7 +305,7 @@ C
           IDSURF=NOM_OPT(6,NINTER+I)
           IF(IDSURF/=0)THEN
             DO J=1,NSURF
-              IF(IGRSURF(J)%ID.EQ.IDSURF)THEN
+              IF(IGRSURF(J)%ID==IDSURF)THEN
                 NOM_OPT(6,NINTER+I)=J
                 GO TO 420
               END IF
@@ -343,7 +343,7 @@ C
      .                I1=ID,
      .                C1=TITR)
           ENDIF
-        ELSEIF (INTSUB_TYP(I).EQ.0 )THEN
+        ELSEIF (INTSUB_TYP(I)==0 )THEN
 C
 C--     Interf 7,10,20,24
 C
@@ -352,7 +352,7 @@ C
           CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,
      .                          NINTER+I),LTITR)
           DO J=1,NSURF
-            IF(IGRSURF(J)%ID.EQ.IDSURF)THEN
+            IF(IGRSURF(J)%ID==IDSURF)THEN
               NOM_OPT(3,NINTER+I)=J
               GO TO 300
             END IF
@@ -366,7 +366,7 @@ C
  300      CONTINUE
           IDGRN=NOM_OPT(4,NINTER+I)
           DO J=1,NGRNOD
-            IF (IGRNOD(J)%ID.EQ.IDGRN) THEN
+            IF (IGRNOD(J)%ID==IDGRN) THEN
               NOM_OPT(4,NINTER+I)=J
               GO TO 310
             END IF
@@ -379,7 +379,7 @@ C
      .                I2=IDGRN)
  310      CONTINUE
 C
-        ELSEIF (INTSUB_TYP(I).EQ.1) THEN
+        ELSEIF (INTSUB_TYP(I)==1) THEN
 C
 C--     Interf 11
 C
@@ -395,7 +395,7 @@ C
           NOM_OPT(3,NINTER+I)=ISLIN1
           NOM_OPT(4,NINTER+I)=ISLIN2
 C
-          IF (ISLIN1.EQ.0) THEN
+          IF (ISLIN1==0) THEN
             CALL ANCMSG(MSGID=1187,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -404,7 +404,7 @@ C
      .                I2=ISU1)
           ENDIF
 C
-          IF (ISLIN2.EQ.0) THEN
+          IF (ISLIN2==0) THEN
             CALL ANCMSG(MSGID=1187,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -413,7 +413,7 @@ C
      .                I2=ISU2)
           ENDIF
 C
-        ELSEIF (INTSUB_TYP(I).EQ.2) THEN
+        ELSEIF (INTSUB_TYP(I)==2) THEN
 C
 C--     Interf 19         
 C
@@ -424,9 +424,9 @@ C
      .                          NINTER+I),LTITR)
 C
 C    ------   If one of the 2 surface is empty then type7 is symetric ------
-          IF ((ISU1.EQ.0).AND.(ISU2.NE.0)) THEN
+          IF ((ISU1==0).AND.(ISU2/=0)) THEN
             ISU1 = ISU2
-          ELSEIF ((ISU1.NE.0).AND.(ISU2.EQ.0)) THEN
+          ELSEIF ((ISU1/=0).AND.(ISU2==0)) THEN
             ISU2 = ISU1                 
           ENDIF 
 C
@@ -436,7 +436,7 @@ C
           NOM_OPT(3,NINTER+I)=ISURF1
           NOM_OPT(4,NINTER+I)=ISURF2
 C
-          IF (ISURF1.EQ.0) THEN
+          IF (ISURF1==0) THEN
             CALL ANCMSG(MSGID=1197,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -445,7 +445,7 @@ C
      .                I2=ISU1)
           ENDIF
 C
-          IF (ISURF2.EQ.0) THEN
+          IF (ISURF2==0) THEN
             CALL ANCMSG(MSGID=1197,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -454,7 +454,7 @@ C
      .                I2=ISU2)
           ENDIF
 C
-        ELSEIF (INTSUB_TYP(I).EQ.100 )THEN
+        ELSEIF (INTSUB_TYP(I)==100 )THEN
 C
 C--     Interf 0 : adding all contacts
 C
@@ -465,7 +465,7 @@ C
      .                          NINTER+I),LTITR)
           OKSURF = 0 
           DO J=1,NSURF
-            IF(IGRSURF(J)%ID.EQ.IDSURF)THEN
+            IF(IGRSURF(J)%ID==IDSURF)THEN
               NOM_OPT(6,NINTER+I)=J
               OKSURF = 1
             END IF
@@ -483,7 +483,7 @@ C
           IF(IDSURF/=0)THEN
             OKSURF = 0 
             DO J=1,NSURF
-              IF(IGRSURF(J)%ID.EQ.IDSURF)THEN
+              IF(IGRSURF(J)%ID==IDSURF)THEN
                 NOM_OPT(3,NINTER+I)=J
                 OKSURF = 1
               END IF
@@ -519,7 +519,7 @@ C-------------------------------------
           DO IVAR=1,IDSMAX
             CALL HM_GET_INT_ARRAY_INDEX('ids',N,IVAR,IS_AVAILABLE,LSUBMODEL) 
             DO K=1,NINTSUB
-              IF(N.EQ.NOM_OPT(1,NINTER+K))THEN
+              IF(N==NOM_OPT(1,NINTER+K))THEN
                 NOM_OPT(5,NINTER+K)=1
                 EXIT
               END IF
@@ -534,22 +534,22 @@ C-------------------------------------
         ID    =NOM_OPT(1,NINTER+I)
         IDINT =NOM_OPT(2,NINTER+I)
         ITH   =NOM_OPT(5,NINTER+I)
-        IF (INTSUB_TYP(I).EQ.25) THEN
+        IF (INTSUB_TYP(I)==25) THEN
           IDSURF1=IGRSURF(NOM_OPT(3,NINTER+I))%ID
           IDGRN  =NOM_OPT(4,NINTER+I)
           IF(IDGRN/=0) IDGRN  =IGRNOD(IDGRN)%ID
           IDSURF2=NOM_OPT(6,NINTER+I)
           IF(IDSURF2/=0)IDSURF2=IGRSURF(IDSURF2)%ID
           WRITE(IOUT,1125) ID,IDINT,IDSURF1,IDSURF2,IDGRN,ITH
-        ELSEIF (INTSUB_TYP(I).EQ.0) THEN
+        ELSEIF (INTSUB_TYP(I)==0) THEN
           IDSURF=IGRSURF(NOM_OPT(3,NINTER+I))%ID
           IDGRN =IGRNOD(NOM_OPT(4,NINTER+I))%ID
           WRITE(IOUT,1100) ID,IDINT,IDSURF,IDGRN,ITH
-        ELSEIF (INTSUB_TYP(I).EQ.1) THEN
+        ELSEIF (INTSUB_TYP(I)==1) THEN
           ISU1 = IGRSLIN(NOM_OPT(3,NINTER+I))%ID
           ISU2 = IGRSLIN(NOM_OPT(4,NINTER+I))%ID
           WRITE(IOUT,1200) ID,IDINT,ISU1,ISU2,ITH
-        ELSEIF (INTSUB_TYP(I).EQ.2) THEN
+        ELSEIF (INTSUB_TYP(I)==2) THEN
           ISURF1 = IGRSURF(NOM_OPT(3,NINTER+I))%ID
           ISURF2 = IGRSURF(NOM_OPT(4,NINTER+I))%ID
           WRITE(IOUT,1300) ID,IDINT,ISU1,ISU2,ITH

@@ -132,7 +132,7 @@ c        DELTA_PMAX_GAP = MAX((PENEmax(i)-GAP)-(PENEmax_Tri(i)-GAP)
 c
 C=============================================================================
 
-      IF( NMN .NE. 0) THEN
+      IF( NMN /= 0) THEN
         AAA = SQRT(NMN /
      .           ((BMINMA(1)-BMINMA(4))*(BMINMA(2)-BMINMA(5))
      .           +(BMINMA(2)-BMINMA(5))*(BMINMA(3)-BMINMA(6))

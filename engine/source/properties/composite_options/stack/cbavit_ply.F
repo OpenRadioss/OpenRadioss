@@ -155,7 +155,7 @@ C
      
          ENDDO 
 C ---
-       IF (ISHV51.GT.51.AND.IMPL_S.EQ.0) THEN
+       IF (ISHV51>51.AND.IMPL_S==0) THEN
           DT05 = HALF*DT1
           DT025 =FOURTH*DT1
           DO I=JFT,JLT
@@ -167,12 +167,12 @@ C ---
              V24X = V24(I,1)
              VHIX = VHI(I,1)
              DDRZ1=DT025*(V13(I,2)-V24(I,2))/(X13_T(I)-X24_T(I))
-            IF (ABS(X13_T(I)-X24_T(I)).LT.EM10) DDRZ1 = ZERO
+            IF (ABS(X13_T(I)-X24_T(I))<EM10) DDRZ1 = ZERO
              V13(I,1) = V13(I,1)-DDRY*V13(I,3)-DDRZ1*V13(I,2)
              V24(I,1) = V24(I,1)-DDRY*V24(I,3)-DDRZ1*V24(I,2)
              VHI(I,1) = VHI(I,1)-DDRY*VHI(I,3)-DDRZ1*VHI(I,2)
              DDRZ2=DT025*(V13X+V24X)/(Y13_T(I)+Y24_T(I))
-            IF (ABS(Y13_T(I)+Y24_T(I)).LT.EM10) DDRZ2 = ZERO
+            IF (ABS(Y13_T(I)+Y24_T(I))<EM10) DDRZ2 = ZERO
              V13(I,2) = V13(I,2)-DDRX*V13(I,3)-DDRZ2*V13X
              V24(I,2) = V24(I,2)-DDRX*V24(I,3)-DDRZ2*V24X
              VHI(I,2) = VHI(I,2)-DDRX*VHI(I,3)-DDRZ2*VHIX

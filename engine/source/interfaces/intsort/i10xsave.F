@@ -86,7 +86,7 @@ C
       IF(NSN+NMN < NUMNOD)THEN
         DO I=NSNF,NSNL
           J=NSV(I)
-          IF(J.GT.0)THEN
+          IF(J>0)THEN
             XSAV(1,I)=X(1,J)
             XSAV(2,I)=X(2,J)
             XSAV(3,I)=X(3,J)
@@ -96,7 +96,7 @@ C
           II = I+NSN
           J=MSR(I)
 C msr < 0 <=> shooting nodes
-          IF(J.GT.0) THEN 
+          IF(J>0) THEN 
             XMIN= MIN(XMIN,X(1,J))
             YMIN= MIN(YMIN,X(2,J))
             ZMIN= MIN(ZMIN,X(3,J))
@@ -112,7 +112,7 @@ C msr < 0 <=> shooting nodes
 C
         DO I=NSNF,NSNL
           J=NSV(I)
-          IF(J.GT.0)THEN
+          IF(J>0)THEN
             XSAV(1,J)=X(1,J)
             XSAV(2,J)=X(2,J)
             XSAV(3,J)=X(3,J)
@@ -121,7 +121,7 @@ C
         DO I=NMNF,NMNL
           J=MSR(I)
 C msr < 0 <=> shooting nodes
-          IF(J.GT.0) THEN 
+          IF(J>0) THEN 
             XMIN= MIN(XMIN,X(1,J))
             YMIN= MIN(YMIN,X(2,J))
             ZMIN= MIN(ZMIN,X(3,J))

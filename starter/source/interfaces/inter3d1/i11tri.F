@@ -159,15 +159,15 @@ C                    PLUS DE MEMOIRE DISPONIBLE
 C
 C-----------------------------------------------------------
 C
-C      IF(MEMX.GT.ADD(2,1)+NB_MC)THEN
+C      IF(MEMX>ADD(2,1)+NB_MC)THEN
 C        WRITE(ISTDO,*)' *******MEM MAX=',MEMX
 C        MEMX=-1
-C      ELSEIF(MEMX.NE.-1)THEN
+C      ELSEIF(MEMX/=-1)THEN
 C        MEMX=ADD(2,1)+NB_MC
 C      ENDIF
 C--------------------TEST SUR BOITE VIDES-------------- 
 C
-      IF(NB_MC.EQ.0.OR.NB_SC.EQ.0) THEN
+      IF(NB_MC==0.OR.NB_SC==0) THEN
 C       write(6,*)" BOITE VIDE"
 C       IL FAUT COPIER LES BAS DES PILES DANS BAS_DE_PILE CORRESPONDANTS
 C       AVANT DE REDESCENDRE DANS LA BRANCHE MITOYENNE
@@ -183,11 +183,11 @@ C
       DZ = XYZM(6,I_ADD) - XYZM(3,I_ADD)
       DSUP= MAX(DX,DY,DZ)
 C
-C  006      IF(ADD(1,I_ADD)+NB_SC.GE.MAXSIZ.OR.ADD(2,1)+NB_MC.GE.MAXSIZ) THEN
-      IF(ADD(1,I_ADD)+NB_SC.GE.MAXSIZ.OR.
-     .   ADD(2,I_ADD)+NB_MC.GE.MAXSIZ) THEN
+C  006      IF(ADD(1,I_ADD)+NB_SC>=MAXSIZ.OR.ADD(2,1)+NB_MC>=MAXSIZ) THEN
+      IF(ADD(1,I_ADD)+NB_SC>=MAXSIZ.OR.
+     .   ADD(2,I_ADD)+NB_MC>=MAXSIZ) THEN
 C       PLUS DE PLACE DANS LA PILE DES ELEMENTS BOITES TROP PETITES
-        IF ( NB_N_B .EQ. MAXSIZ/3) THEN
+        IF ( NB_N_B == MAXSIZ/3) THEN
 C          WRITE(IOUT,*)'***ERROR INFINITE LOOP DETECTED '
 C          WRITE(ISTDO,*)'***ERROR INFINITE LOOP DETECTED '
 C          CALL ARRET(2)
@@ -201,11 +201,11 @@ C          CALL ARRET(2)
         RETURN
       ENDIF
       NCAND_PROV=NB_MC*NB_SC
-      IF(DSUP.LT.MINBOX.OR.ISTOP.EQ.1.OR.
-     .   (NB_SC.LE.NB_N_B.AND.DSUP.LT.MAXBOX).OR.   
-     .   (NB_SC.LE.NB_N_B.AND.NB_MC.EQ.1).OR.
-     .   (NB_MC.LE.NB_N_B.AND.DSUP.LT.MAXBOX).OR.   
-     .   (NB_MC.LE.NB_N_B.AND.NB_SC.EQ.1)) THEN
+      IF(DSUP<MINBOX.OR.ISTOP==1.OR.
+     .   (NB_SC<=NB_N_B.AND.DSUP<MAXBOX).OR.   
+     .   (NB_SC<=NB_N_B.AND.NB_MC==1).OR.
+     .   (NB_MC<=NB_N_B.AND.DSUP<MAXBOX).OR.   
+     .   (NB_MC<=NB_N_B.AND.NB_SC==1)) THEN
           ISTOP = 0
 C
 C       write(6,*)" NOUVELLE BOITE "
@@ -218,27 +218,27 @@ C       VIRER LES INUTILES
               NE = BPE(I)
               NN = BPN(J)
 CCctmp
-CC       if(idb1.eq.nn.and.idb2.eq.ne)then
+CC       if(idb1==nn.and.idb2==ne)then
 CC          idb3=-1
 CC       endif
               N1=IRECTM(1,NE)
               N2=IRECTM(2,NE)
               NN1=IRECTS(1,NN)
               NN2=IRECTS(2,NN)
-              IF(NN1.NE.N1.AND.NN1.NE.N2.AND.
-     .           NN2.NE.N1.AND.NN2.NE.N2) THEN
+              IF(NN1/=N1.AND.NN1/=N2.AND.
+     .           NN2/=N1.AND.NN2/=N2) THEN
                 J_STOK = J_STOK + 1
                 PROV_S(J_STOK) = NN
                 PROV_M(J_STOK) = NE
               ENDIF
             ENDDO
-            IF(J_STOK.GE.NVSIZ)THEN
+            IF(J_STOK>=NVSIZ)THEN
               CALL I11STO(
      1              NVSIZ,IRECTS,IRECTM,X     ,II_STOK,
      2              CAND_S,CAND_M,NSN   ,NOINT ,TZINF ,
      3              I_MEM ,PROV_S,PROV_M,MULTIMP,ADDCM,
      4              CHAINE,IADFIN)
-              IF(I_MEM.EQ.2)RETURN
+              IF(I_MEM==2)RETURN
               J_STOK = J_STOK-NVSIZ
               DO J=1,J_STOK
                 PROV_S(J) = PROV_S(J+NVSIZ)
@@ -266,9 +266,9 @@ C
 C    1- DETERMINER LA DIRECTION A DIVISER X,Y OU Z
 C
       DIR = 1
-      IF(DY.EQ.DSUP) THEN
+      IF(DY==DSUP) THEN
         DIR = 2
-      ELSE IF(DZ.EQ.DSUP) THEN
+      ELSE IF(DZ==DSUP) THEN
         DIR = 3
       ENDIF
       SEUIL =(XYZM(DIR+3,I_ADD)+XYZM(DIR,I_ADD))/2
@@ -284,29 +284,29 @@ C  006      ADDNN= ADD(1,1)
       SUP = 0
       DO 70 I=1,NB_SC
         NN = BPN(I)
-CC        if(nn.eq.idb1)then
+CC        if(nn==idb1)then
 CC          idb3=0
 CC        endif
         XX1=X(DIR, IRECTS(1,NN))
         XX2=X(DIR, IRECTS(2,NN))
         XMAX=MAX(XX1,XX2)+TZINF
         XMIN=MIN(XX1,XX2)-TZINF
-        IF(XMIN.LT.SEUIL) THEN
+        IF(XMIN<SEUIL) THEN
 C         ON STOCKE DANS LE BAS DE LA PILE BP
           NB_SCN1 = NB_SCN1 + 1
           ADDNN = ADDNN + 1
           PN(ADDNN) = BPN(I)
           INF = 1
-CC        if(BPN(I).eq.idb1)then
+CC        if(BPN(I)==idb1)then
 CC          idb4=-1
 CC        endif
         ENDIF
-        IF(XMAX.GE.SEUIL) THEN
+        IF(XMAX>=SEUIL) THEN
           NB_SCN = NB_SCN + 1
           BPN(NB_SCN) = BPN(I)
 C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPN
           SUP = 1
-CC        if(BPN(I).eq.idb1)then
+CC        if(BPN(I)==idb1)then
 CC          idb4=-1
 CC        endif
         ENDIF
@@ -324,28 +324,28 @@ C  006      ADDNE= ADD(2,1)
         XX2=X(DIR, IRECTM(2,NN))
         XMAX=MAX(XX1,XX2)+TZINF
         XMIN=MIN(XX1,XX2)-TZINF
-CC        if(nn.eq.idb2)then
-CC          if(idb3.eq.0)then
+CC        if(nn==idb2)then
+CC          if(idb3==0)then
 CC            idb4=-1
 CC          endif
 CC        endif
-        IF(XMIN.LT.SEUIL.AND.INF.EQ.1) THEN
+        IF(XMIN<SEUIL.AND.INF==1) THEN
 C         ON STOCKE DANS LE BAS DE LA PILE BP
           NB_MCN1 = NB_MCN1 + 1
           ADDNE = ADDNE + 1
           PE(ADDNE) = BPE(I)
-CC        if(nn.eq.idb2)then
-CC          if(idb3.eq.0)then
+CC        if(nn==idb2)then
+CC          if(idb3==0)then
 CC            idb4=-1
 CC          endif
 CC        endif
         ENDIF
-        IF(XMAX.GE.SEUIL.AND.SUP.EQ.1) THEN
+        IF(XMAX>=SEUIL.AND.SUP==1) THEN
 C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE
           NB_MCN = NB_MCN + 1
           BPE(NB_MCN) = BPE(I)
-CC        if(nn.eq.idb2)then
-CC          if(idb3.eq.0)then
+CC        if(nn==idb2)then
+CC          if(idb3==0)then
 CC            idb4=-1
 CC          endif
 CC        endif
@@ -373,18 +373,18 @@ C     soit XMAX soit le max de la boite
       XYZM(DIR,I_ADD+1) = SEUIL
       XYZM(DIR+3,I_ADD) = SEUIL
 C
-      IF( ((NB_SCN.EQ.NB_SC .AND. NB_MCN1.EQ.NB_MC) .OR.
-     .    (NB_SCN1.EQ.NB_SC .AND. NB_MCN.EQ.NB_MC)) .AND.
-     .   MIN(NB_SCN,NB_SCN1).GT.0.AND.
-     .   MIN(NB_MCN,NB_MCN1).GT.0) ISTOP = ISTOP + 1
+      IF( ((NB_SCN==NB_SC .AND. NB_MCN1==NB_MC) .OR.
+     .    (NB_SCN1==NB_SC .AND. NB_MCN==NB_MC)) .AND.
+     .   MIN(NB_SCN,NB_SCN1)>0.AND.
+     .   MIN(NB_MCN,NB_MCN1)>0) ISTOP = ISTOP + 1
 C
       NB_SC = NB_SCN
       NB_MC = NB_MCN
 C     on incremente le niveau de descente avant de sortir
       I_ADD = I_ADD + 1
-      IF(I_ADD.GE.1000) THEN
+      IF(I_ADD>=1000) THEN
 C       TROP NIVEAUX PILE ON VAS LES PRENDRE PLUS GRANDES...
-        IF ( NB_N_B .EQ. MAXSIZ/3) THEN
+        IF ( NB_N_B == MAXSIZ/3) THEN
 C          WRITE(IOUT,*)'***COMPUTATION STOPED WHILE INFINITELY LOOPING'
 C          WRITE(ISTDO,*)'***COMPUTATION STOPED WHILE INFINITELY LOOPING'
 C          CALL ARRET(2)

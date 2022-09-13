@@ -104,7 +104,7 @@ C
        CALL CBATRAN2(JFT,NPLAT,Q,K23,Q,IAS)
        CALL CBATRAN2(JFT,NPLAT,Q,K24,Q,IAS)
        CALL CBATRAN2(JFT,NPLAT,Q,K34,Q,IAS)
-       IF (IORTH .GT.0 .AND.IDRIL.GT.0) THEN
+       IF (IORTH >0 .AND.IDRIL>0) THEN
         CALL CBATRAN3(JFT,NPLAT,Q,M11,Q,IS)
         CALL CBATRAN3(JFT,NPLAT,Q,M22,Q,IS)
         CALL CBATRAN3(JFT,NPLAT,Q,M33,Q,IS)
@@ -126,8 +126,8 @@ C
         CALL CBATRAN2(JFT,NPLAT,Q,M23,Q,IAS)
         CALL CBATRAN2(JFT,NPLAT,Q,M24,Q,IAS)
         CALL CBATRAN2(JFT,NPLAT,Q,M34,Q,IAS)
-       END IF !(IORTH .GT.0.AND.IDRIL.GT.0)
-      IF (IORTH .GT.0) THEN
+       END IF !(IORTH >0.AND.IDRIL>0)
+      IF (IORTH >0) THEN
         CALL CBATRAN3(JFT,NPLAT,Q,MF11,Q,IAS)
         CALL CBATRAN3(JFT,NPLAT,Q,MF12,Q,IAS)
         CALL CBATRAN3(JFT,NPLAT,Q,MF13,Q,IAS)
@@ -144,7 +144,7 @@ C
         CALL CBATRAN3(JFT,NPLAT,Q,FM23,Q,IAS)
         CALL CBATRAN3(JFT,NPLAT,Q,FM24,Q,IAS)
         CALL CBATRAN3(JFT,NPLAT,Q,FM34,Q,IAS)
-      ELSEIF (IDRIL .GT.0) THEN
+      ELSEIF (IDRIL >0) THEN
        CALL CBATRAN233(JFT,NPLAT,Q,MF11,Q)
        CALL CBATRAN233(JFT,NPLAT,Q,MF12,Q)
        CALL CBATRAN233(JFT,NPLAT,Q,MF13,Q)
@@ -299,7 +299,7 @@ C        PP(3,3,J,M)=VQN(3,J,EP)
        ENDDO
        ENDDO
 C
-       IF (IDRIL .GT.0) THEN
+       IF (IDRIL >0) THEN
        DO J=1,4 
        DO M=NF,JLT 
         EP=IPLAT(M)
@@ -317,7 +317,7 @@ C
         PP(3,2,J,M)=PP(2,3,J,M)
        ENDDO
        ENDDO
-       END IF !(IDRIL .GT.0) THEN
+       END IF !(IDRIL >0) THEN
 C
 C       DO J=1,4 
 C#include "vectorize.inc"
@@ -423,7 +423,7 @@ C
         CALL CBATRAN3(NF,JLT,Q2,FM24,Q,IAS)
         CALL CBATRAN3(NF,JLT,Q3,FM34,Q,IAS)
        END IF  !IF (IDRIL==0.O.AND.IORTH==0) THEN
-       END IF !(IPROJF.EQ.1) THEN
+       END IF !(IPROJF==1) THEN
 C---------------------------------------
 C   ASSEMBLAGE
 C---------------------------------------
@@ -532,7 +532,7 @@ C-----------------------------------------------
       my_real
      .    K(3,3,MVSIZ)
 C-----------------------------------------------
-       IF (ISYM.EQ.1) THEN
+       IF (ISYM==1) THEN
         DO I=1,3 
         DO J=I,3 
          DO EP=JFT,JLT 
@@ -598,7 +598,7 @@ C-----------------------------------------------
       my_real
      .    K(3,3,MVSIZ)
 C----nouvelle routine---- QI^tKQJ avec K13=K23=0--K33 traite diff-----
-       IF (ISYM.EQ.1) THEN
+       IF (ISYM==1) THEN
         DO I=1,3 
         DO J=I,3 
          DO EP=JFT,JLT 
@@ -1554,7 +1554,7 @@ C-----------------------------------------------
       my_real
      .    K(6,6)
 C--------------QI(6,7)KK(7,7)QJ^t(7,6)---------------------------------
-       IF (ISYM.EQ.1) THEN
+       IF (ISYM==1) THEN
         DO I=1,6 
         DO J=I,6 
          DO EP=JFT,JLT 
@@ -1624,7 +1624,7 @@ C-----------------------------------------------
      .  DIMENSION(:,:,:), ALLOCATABLE:: KD
 C--------------QI^tKKQJ---------------------------------
         ALLOCATE(KD(ND,ND,MVSIZ))
-       IF (ISYM.EQ.1) THEN
+       IF (ISYM==1) THEN
         DO I=1,ND 
         DO J=I,ND 
          DO EP=JFT,JLT 
@@ -1703,7 +1703,7 @@ C--------------KL=1-KL--------------------------
          ENDDO
         ENDDO
         ENDDO
-       IF (IS.EQ.1) THEN
+       IF (IS==1) THEN
         DO I=1,6 
          DO EP=JFT,JLT 
           KL(I,I,EP)= KL(I,I,EP) + ONE
@@ -1744,7 +1744,7 @@ C--------------KQ=KL*VQ-------IT=0-> KQ=KL^t*VQ--------------------------
         ENDDO
         ENDDO
 C        
-       IF (IT.EQ.1) THEN
+       IF (IT==1) THEN
         DO I=1,3 
         DO J=1,3 
          DO EP=JFT,JLT 
@@ -1797,7 +1797,7 @@ C-----------------------------------------------
      .    K(3,3,MVSIZ)
 C----nouvelle routine---- QI^tKQJ K33 =0-----
 C-----------------------------------------------
-       IF (ISYM.EQ.1) THEN
+       IF (ISYM==1) THEN
         DO I=1,3 
         DO J=I,3 
          DO EP=JFT,JLT 
@@ -2989,7 +2989,7 @@ C----------------------------|0  VQN|---------------------
         ENDDO
         ENDDO
 C        
-       IF (IT.EQ.1) THEN
+       IF (IT==1) THEN
         DO I=1,3 
         DO J=1,3 
          DO EP=JFT,JLT 

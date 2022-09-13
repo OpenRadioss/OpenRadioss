@@ -190,8 +190,8 @@ C
       SIGY = UPARAM(IADBUF +13 + 2*MFUNC) 
       VP   = NINT(UPARAM(IADBUF +14 + 2*MFUNC))
 C
-      IF (ISIGI.EQ.0) THEN
-        IF(TIME.EQ.ZERO)THEN
+      IF (ISIGI==0) THEN
+        IF(TIME==ZERO)THEN
           DO I=1,NEL
             UVAR(I,1)=ZERO
             UVAR(I,2)=ZERO
@@ -506,7 +506,7 @@ C 1 + cp*ln(epep/epsp0)
 C-------------------
 C     PROJECTION
 C-------------------
-      IF(IPLA.EQ.0)THEN
+      IF(IPLA==0)THEN
 C
         IF(VP > 0 ) THEN
           DTINV = TIMESTEP/MAX(EM20, TIMESTEP**2)
@@ -543,7 +543,7 @@ C
         UVAR(I,1)=PLA(I)
         DPLA1(I) = (ONE - R)*VM/MAX(G3+H(I),EM20)         
        ENDDO
-      ELSEIF(IPLA.EQ.2)THEN
+      ELSEIF(IPLA==2)THEN
 C
          IF(VP > 0 ) THEN
           DTINV = TIMESTEP/MAX(EM20, TIMESTEP**2)

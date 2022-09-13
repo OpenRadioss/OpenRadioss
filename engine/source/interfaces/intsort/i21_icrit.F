@@ -107,16 +107,16 @@ C
 C
           INTERACT = 0
           ISENS = IPARI(64,I)
-          IF(ISENS.NE.0) THEN             
+          IF(ISENS/=0) THEN             
             TS = SENSOR(2,ISENS)
-            IF (TT.GE.TS) INTERACT = 1
+            IF (TT>=TS) INTERACT = 1
           ELSE
             STARTT = INTBUF_TAB(I)%VARIABLES(3)
             STOPT  = INTBUF_TAB(I)%VARIABLES(11)
-            IF (STARTT.LE.TT.AND.TT.LE.STOPT) INTERACT = 1
+            IF (STARTT<=TT.AND.TT<=STOPT) INTERACT = 1
           ENDIF
 C
-          IF(INTERACT.NE.0) THEN
+          IF(INTERACT/=0) THEN
 C
               XX = MAX(XSLV(1,I)-XMSR(4,I),
      .                 XMSR(1,I)-XSLV(4,I),ZERO)
@@ -128,9 +128,9 @@ C
               DIST0(KK) = INTBUF_TAB(I)%VARIABLES(5)
      -                   - SQRT(XX**2 +  XY**2 + XZ**2 )
      -           - SQRT(X21MSR(1,KK)**2+X21MSR(2,KK)**2+X21MSR(3,KK)**2)
-              IF(DIST0(KK).LE.ZERO) THEN
+              IF(DIST0(KK)<=ZERO) THEN
                 INTBUF_TAB(I)%VARIABLES(5) = -ONE
-                IF(DEBUG(3).GE.1.AND.NCYCLE.NE.0) THEN
+                IF(DEBUG(3)>=1.AND.NCYCLE/=0) THEN
                  WRITE(ISTDO,'(A,I10,A,I10,I10)')
      .             '** NEW SORT FOR INTERFACE NUMBER ',
      .             IPARI(15,I), ' AT CYCLE ',NCYCLE,ISPMD+1
@@ -155,15 +155,15 @@ C
       END DO
 C
 C test sur pas de temps sur l'interface (parith on spmd)
-      IF(NSPMD.GT.1) THEN
+      IF(NSPMD>1) THEN
        CALL SPMD_I21CRIT(CRITERL,VX,VY,VZ,DIST0)
-       IF(NBINTC21.GT.0) THEN
+       IF(NBINTC21>0) THEN
          DO I=1,NBINTC21
            J = INTLIST21(I)
            KK = INTSTAMP(J)%NOINTER
-           IF(DIST0(J).LE.ZERO) THEN
+           IF(DIST0(J)<=ZERO) THEN
               INTBUF_TAB(KK)%VARIABLES(5) = -ONE
-                IF(DEBUG(3).GE.1.AND.NCYCLE.NE.0) THEN
+                IF(DEBUG(3)>=1.AND.NCYCLE/=0) THEN
                  WRITE(ISTDO,'(A,I10,A,I10,I10)')
      .             '** NEW SORT FOR INTERFACE NUMBER ',
      .             IPARI(15,I), ' AT CYCLE ',NCYCLE,ISPMD+1
@@ -182,14 +182,14 @@ C test sur pas de temps sur l'interface (parith on spmd)
             VV(KK) = SQRT(VX(KK)**2+VY(KK)**2+VZ(KK)**2)
      .            +SQRT(V21MSR(1,KK)**2+V21MSR(2,KK)**2+V21MSR(3,KK)**2)
 
-            IF(VV(KK).NE.ZERO) THEN
+            IF(VV(KK)/=ZERO) THEN
               DTI = ZEP9*CRITERL(KK)/VV(KK)
-              IF(DTI.LT.DT2T) THEN
+              IF(DTI<DT2T) THEN
                 DT2T    = DTI
                 NELTST  = IPARI(15,I)
                 ITYPTST = 10
               END IF
-              IF(DTI <= DTMIN1(10) .AND. IDTMIN(10).EQ.1)THEN
+              IF(DTI <= DTMIN1(10) .AND. IDTMIN(10)==1)THEN
                 WRITE(IOUT,'(A,E12.4,A,I10)')
      .          ' **WARNING MINIMUM TIME STEP ',DTI,
      .          ' IN INTERFACE ID=',IPARI(15,I)
@@ -199,10 +199,10 @@ C test sur pas de temps sur l'interface (parith on spmd)
             END IF
           END IF
       END DO
-      IF(NSPMD.GT.1)
+      IF(NSPMD>1)
      .  CALL SPMD_GLOB_ISUM9(IMESS,1)
 C
-      IF(IMESS/=0.AND.ISPMD.EQ.0)THEN
+      IF(IMESS/=0.AND.ISPMD==0)THEN
         WRITE(ISTDO,'(A)')
      . 'The run encountered a problem in an interface Type 21:'
         WRITE(ISTDO,'(A)')'You may need to check if there is enou'//

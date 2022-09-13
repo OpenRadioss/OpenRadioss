@@ -65,9 +65,9 @@ C-----------------------------------------------
       my_real    , DIMENSION(:),ALLOCATABLE :: RWSAV_L
       my_real    , DIMENSION(:,:),ALLOCATABLE :: RWL_L
 C
-      IF(NRWALL.GT.0) THEN
+      IF(NRWALL>0) THEN
         ALLOCATE(RWL_L(NRWLP,NRWALL))
-        IF(LWSAV_L.GT.0) ALLOCATE(RWSAV_L(3*LWSAV_L))
+        IF(LWSAV_L>0) ALLOCATE(RWSAV_L(3*LWSAV_L))
         K = 0
         KSAV = 0
         KSAV_L = 0
@@ -79,7 +79,7 @@ C
           NSL = NPRW(N)
 C
           IFQ = NINT(RWL(15,N))
-          IF(IFQ.GT.0) THEN
+          IF(IFQ>0) THEN
             NSL_L = 0
             DO KK = 1, NSL
               NN = LPRW(K+KK)
@@ -97,14 +97,14 @@ C
           K = K + NSL
 C
           N4 = N + 3*NRWALL
-          IF(NPRW(N4).EQ.-1) THEN
+          IF(NPRW(N4)==-1) THEN
 C RW ALE TH
            NE = NINT(RWL(8,N))
-           IF(NE.GT.0)THEN
+           IF(NE>0)THEN
             ILP = 0
             DO J = 1, NE
               IE = LPRW(K+J)/10
-              IF(CEP(IE).EQ.PROC) THEN
+              IF(CEP(IE)==PROC) THEN
                 ILP = ILP + 1
               ENDIF
             ENDDO
@@ -117,7 +117,7 @@ C
         CALL WRITE_DB(RWL_L,NRWLP*NRWALL)
         LEN_AM = LEN_AM + NRWLP*NRWALL
         DEALLOCATE(RWL_L)
-        IF(LWSAV_L.GT.0) THEN
+        IF(LWSAV_L>0) THEN
           CALL WRITE_DB(RWSAV_L,LWSAV_L*3)
           LEN_AM = LEN_AM + LWSAV_L*3
           DEALLOCATE(RWSAV_L)

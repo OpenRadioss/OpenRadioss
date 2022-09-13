@@ -923,7 +923,7 @@ C
                 DLIM = RX(I) / (DMN(I) - VFAIL)
               ENDIF
             ELSEIF (IFAIL2(I) == 2) THEN
-              IF(XMOM(I).GT.0.)THEN
+              IF(XMOM(I)>0.)THEN
                 DLIM = XMOM(I)/(DMX(I) + VFAIL)
               ELSE
                 DLIM = XMOM(I)/(DMN(I) - VFAIL)

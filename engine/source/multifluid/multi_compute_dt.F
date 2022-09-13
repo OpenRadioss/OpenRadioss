@@ -96,7 +96,7 @@ C     Time step
 
       DO NG = ITASK + 1, NGROUP, NTHREAD
          MATLAW = IPARG(1, NG)         
-         IF (MATLAW .EQ. 151) THEN
+         IF (MATLAW == 151) THEN
             NEL = IPARG(2, NG)
             NFT = IPARG(3, NG)
             ITY = IPARG(5, NG)
@@ -106,9 +106,9 @@ C     DELTAX is to be kept
             GBUF%DELTAX(1:NEL) = ZERO
 C     Number of faces in an element
             NB_FACE = 6 
-            IF (ITY .EQ. 2) THEN
+            IF (ITY == 2) THEN
                NB_FACE = 4
-            ELSEIF (ITY .EQ. 7) THEN
+            ELSEIF (ITY == 7) THEN
                NB_FACE = 3
             ENDIF
             
@@ -138,18 +138,18 @@ C     Globalize time step for this group
 C----------------------
             l_FOUND_LOWER=.FALSE.
             DO II = 1, NEL
-               IF(DTEL(II).GT.ZERO)GBUF%DT(II) = ONE/DTEL(II)
-               IF (DTEL(II) .GT. DT2T) THEN
+               IF(DTEL(II)>ZERO)GBUF%DT(II) = ONE/DTEL(II)
+               IF (DTEL(II) > DT2T) THEN
                   l_FOUND_LOWER=.TRUE.
                   DT2T = DTEL(II)
                   ITYPTST = ITY
-                  IF (MULTI_FVM%SYM .EQ. 0) THEN
+                  IF (MULTI_FVM%SYM == 0) THEN
                      NELTST = IXS(NIXS, II + NFT)
                   ELSE
-                     IF (ITY .EQ. 2) THEN
+                     IF (ITY == 2) THEN
 C     QUADS
                         NELTST = IXQ(NIXQ, II + NFT)
-                     ELSEIF (ITY .EQ. 7) THEN
+                     ELSEIF (ITY == 7) THEN
 C     TRIANGLES
                         NELTST = IXTG(NIXTG, II + NFT)
                      ENDIF
@@ -158,8 +158,8 @@ C     TRIANGLES
             ENDDO
             
             !CHECK IF LOWER THAN DTMIN
-            IF(l_FOUND_LOWER .AND. DT2T.NE.ZERO)THEN
-              IF(ONE/DT2T.LT.DTMIN1(102))THEN
+            IF(l_FOUND_LOWER .AND. DT2T/=ZERO)THEN
+              IF(ONE/DT2T<DTMIN1(102))THEN
                 TSTOP = TT
 #include "lockon.inc"
                 WRITE(IOUT,*) ' **ERROR : TIME STEP LESS OR EQUAL DTMIN FOR ALE/EULER CELL',NELTST
@@ -173,7 +173,7 @@ C     TRIANGLES
 C----------------------
 C     Global time step
 C----------------------
-      IF (DT2T .GT. ZERO) THEN
+      IF (DT2T > ZERO) THEN
          DT2T = ONE / DT2T
       ELSE
          DT2T = EP30

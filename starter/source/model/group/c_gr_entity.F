@@ -282,8 +282,8 @@ C-----------------------------------------------
           NOD = IGR(IGU)%ENTITY(J)
           IF (NOD > 0) THEN
 !---------multidomaines -> modif domdec
-            IF ((NSUBDOM.GT.0).AND.(IDDOM.EQ.0)) THEN
-              IF (FRONTB_R2R(NOD,PROC+1).EQ.IGU) CYCLE
+            IF ((NSUBDOM>0).AND.(IDDOM==0)) THEN
+              IF (FRONTB_R2R(NOD,PROC+1)==IGU) CYCLE
             ENDIF
 !---------
              IF( NODLOCAL(NOD)/=0.AND.NODLOCAL(NOD)<=NUMNOD_L ) THEN

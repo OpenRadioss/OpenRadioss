@@ -71,7 +71,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       ALLOCATE(RECBUF(SBUF))
 
-      IF (ISPMD.NE.0) THEN
+      IF (ISPMD/=0) THEN
          MSGTYP= MSGOFF
          CALL MPI_SEND(IAD,NBPART,MPI_INTEGER,IT_SPMD(1),MSGTYP,
      .                MPI_COMM_WORLD,ierror)

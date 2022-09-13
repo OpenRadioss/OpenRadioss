@@ -136,7 +136,7 @@ C--------------------------------------------------
 C----------------------
 Capply submodel transform to V (VX,VY,VZ) 
 C
-      IF (SUB_ID .NE. 0)
+      IF (SUB_ID /= 0)
      .         CALL SUBROTVECT(VX,VY,VZ,RTRANS,SUB_ID,LSUBMODEL)
 
 C-----------------------
@@ -231,9 +231,9 @@ C
       IF (IHBE /= 14) IP = 3
 C
       ISK = 0
-      IF (IDSK.NE.0) THEN
+      IF (IDSK/=0) THEN
         DO J=0,NUMSKW
-          IF(IDSK.EQ.ISKN(4,J+1)) THEN
+          IF(IDSK==ISKN(4,J+1)) THEN
             ISK=J+1
             GO TO 10
           ENDIF
@@ -248,7 +248,7 @@ C
      .              I2=IDSK)
  10     CONTINUE
       ENDIF
-      IF (IP .LE. 0) THEN
+      IF (IP <= 0) THEN
         DO J=0,NUMSKW
           IF(ISK == ISKN(4,J+1)) THEN
             IP=-(J+1)

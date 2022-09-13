@@ -83,7 +83,7 @@ C-----------------------------------------------
       IDEBS = 1
       DO I = 1, NSPMD
         IAD_RECV(I) = IDEBR
-        IF(IAD_RBM(2,I).GT.0) THEN
+        IF(IAD_RBM(2,I)>0) THEN
           MSGTYP = MSGOFF
           NBIRECV = NBIRECV + 1
           IRINDEX(NBIRECV) = I
@@ -94,7 +94,7 @@ C-----------------------------------------------
           IDEBR = IDEBR + SIZ
         ENDIF
         IAD_SEND(I) = IDEBS
-        IF(IAD_RBM(1,I).GT.0) THEN
+        IF(IAD_RBM(1,I)>0) THEN
           NBISEND = NBISEND + 1
           ISINDEX(NBISEND) = I
           SIZ = IAD_RBM(1,I)*A_AR
@@ -108,7 +108,7 @@ C
       DO N = 1, NIBVEL
         PMAIN = FR_RBM(3,N)
         NBNOD = FR_RBM(1,N)
-        IF(PMAIN.GT.0.AND.LOC_PROC.NE.PMAIN) THEN
+        IF(PMAIN>0.AND.LOC_PROC/=PMAIN) THEN
           L = IAD_STMP(PMAIN)
           DO K = 1, NBNOD
             SBUF(L)   = FSKYRBM(1,IDEB+K)
@@ -210,7 +210,7 @@ C Calcul des forces aux noeuds main sur proc main
 C
       IDEB = 0
       DO N = 1, NIBVEL
-        IF(LOC_PROC.EQ.ABS(FR_RBM(3,N)))THEN
+        IF(LOC_PROC==ABS(FR_RBM(3,N)))THEN
           NBNOD = FR_RBM(2,N)
           DO II = 1, NBNOD
             LBVRS(1,N) =  LBVRS(1,N) + FSKYRBMG(1,IDEB+II)
@@ -248,7 +248,7 @@ C
       IDEBR = 1
       DO I = 1, NSPMD
         IAD_RECV(I) = IDEBR
-        IF(IAD_RBM(4,I).GT.0) THEN
+        IF(IAD_RBM(4,I)>0) THEN
           MSGTYP = MSGOFF2 
           NBIRECV = NBIRECV + 1
           IRINDEX(NBIRECV) = I
@@ -260,10 +260,10 @@ C
         ENDIF
       ENDDO
 C
-      IF(IAD_RBM(3,NSPMD+1).GT.0) THEN
+      IF(IAD_RBM(3,NSPMD+1)>0) THEN
         L = 0
         DO N = 1, NIBVEL
-          IF(LOC_PROC.EQ.FR_RBM(3,N)) THEN
+          IF(LOC_PROC==FR_RBM(3,N)) THEN
             SBUF(L+1) = N
             SBUF(L+2) = LBVRS(1,N)
             SBUF(L+3) = LBVRS(2,N)
@@ -291,7 +291,7 @@ C
 C
         NBISEND = 0
         DO I = 1, NSPMD
-          IF(IAD_RBM(3,I).GT.0) THEN
+          IF(IAD_RBM(3,I)>0) THEN
             MSGTYP = MSGOFF2 
             NBISEND = NBISEND + 1
             ISINDEX(NBISEND) = I
@@ -310,7 +310,7 @@ C
         DO J = 1, NBNOD
           N = NINT(RBUF(L))
 C rby non utile
-          IF(FR_RBM(2,N).NE.0)THEN
+          IF(FR_RBM(2,N)/=0)THEN
             LBVRS(1,N) = RBUF(L+1)
             LBVRS(2,N) = RBUF(L+2)
             LBVRS(3,N) = RBUF(L+3)

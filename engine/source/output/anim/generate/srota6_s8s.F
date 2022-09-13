@@ -77,7 +77,7 @@ C----------------------------
 C-----------
 C     ORTHOTROPIC ELEMENTS : Rotation from ORHTOROPIC FRAME TO LOCAL FRAME
 C-----------
-      IF (KCVT.EQ.2) THEN
+      IF (KCVT==2) THEN
         IF (ISORTH > 0) THEN
         G11=GAMA(1)
         G21=GAMA(2)

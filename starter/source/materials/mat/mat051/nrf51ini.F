@@ -180,10 +180,10 @@ C=======================================================================
             IVMAT              = ABS(IX(1,IEV))
             MLN                = NINT(PM(19,IVMAT))
             IFLGv              = 0
-            IF(MLN.NE.51)lFOUND_other = lFOUND_other + 1
+            IF(MLN/=51)lFOUND_other = lFOUND_other + 1
             IADBUF             = IPM(7,IVMAT)
             IFLGv              = NINT(BUFMAT(IADBUF-1+31))            
-            IF(IFLGv.GE.2 .AND. IFLGv.LE.6 )CYCLE
+            IF(IFLGv>=2 .AND. IFLGv<=6 )CYCLE
             lFOUND_51          = lFOUND_51 + 1
             !-----------------------------------------!
             ! GET ADJACENT LAW51 PARAMETER            !
@@ -244,20 +244,20 @@ C=======================================================================
             GG1v    = BUFMAT(IADBUF-1+28)
             GG2v    = BUFMAT(IADBUF-1+29)
             GG3v    = BUFMAT(IADBUF-1+30)                                                          
-            IF(RHO01v .NE. ZERO) SSP1v  = SQRT( (DPDMU1v + TWO_THIRD*GG1v) / RHO01v )   !achtung GG1v = 2*G1v   =>  TWO_THIRD*GG = FOUR_OVER_3*G
-            IF(RHO02v .NE. ZERO) SSP2v  = SQRT( (DPDMU2v + TWO_THIRD*GG2v) / RHO02v )
-            IF(RHO03v .NE. ZERO) SSP3v  = SQRT( (DPDMU3v + TWO_THIRD*GG3v) / RHO03v )
+            IF(RHO01v /= ZERO) SSP1v  = SQRT( (DPDMU1v + TWO_THIRD*GG1v) / RHO01v )   !achtung GG1v = 2*G1v   =>  TWO_THIRD*GG = FOUR_OVER_3*G
+            IF(RHO02v /= ZERO) SSP2v  = SQRT( (DPDMU2v + TWO_THIRD*GG2v) / RHO02v )
+            IF(RHO03v /= ZERO) SSP3v  = SQRT( (DPDMU3v + TWO_THIRD*GG3v) / RHO03v )
                                  SSP4v  = BUFMAT(IADBUF-1+42)  !VDETv            
             !-----------------------------------------!
             ! SET AUTOMATIC LAW51 PARAMETERS          !
             !-----------------------------------------!
             UVAR(I,4)  =  P0_NRF
             P0_NRFv    =  AV1v*P01v + AV2v*P02v + AV3v*P03v + AV4v*P04v
-            IF(P0_NRF.EQ.ZERO)UVAR(I,4)  =  P0_NRFv
+            IF(P0_NRF==ZERO)UVAR(I,4)  =  P0_NRFv
             
 
             AVSUM = AV1+AV2+AV3+AV4            
-            IF(AVSUM.EQ.ZERO) THEN
+            IF(AVSUM==ZERO) THEN
                AV(1) = AV1v
                AV(2) = AV2v
                AV(3) = AV3v
@@ -298,7 +298,7 @@ C=======================================================================
             !WARNING : initial state must be updated later in case of /LOAD/HYDRO or /INITIA : it will no longer be in UPARAM but in UVAR
 
             K=N0PHAS+(1-1)*NVPHAS                          
-            IF(RHO01.EQ.ZERO)THEN
+            IF(RHO01==ZERO)THEN
               UVAR(I,K+09)= RHO01v
               UVAR(I,K+12)= RHO01v
               UVAR(I,K+20)= RHO01v
@@ -308,19 +308,19 @@ C=======================================================================
               UVAR(I,K+12)= RHO01
               UVAR(I,K+20)= RHO01
             ENDIF
-            IF(E01.EQ.ZERO)THEN
+            IF(E01==ZERO)THEN
               UVAR(I,K+08)= E01v
               UVAR(I,K+21)= E01v
             ELSE
               UVAR(I,K+08)= E01
               UVAR(I,K+21)= E01
             ENDIF
-            IF(C01.EQ.ZERO)THEN
+            IF(C01==ZERO)THEN
               UVAR(I,K+18)= P01v
             ELSE
               UVAR(I,K+18)= P01
             ENDIF
-            IF(SSP1.EQ.ZERO)THEN
+            IF(SSP1==ZERO)THEN
               UVAR(I,K+22)= SSP1v
               SSP1 = SSP1v
               SSP0 = MAX(SSP0,SSP1)
@@ -330,7 +330,7 @@ C=======================================================================
             ENDIF
 
             K=N0PHAS+(2-1)*NVPHAS                          
-            IF(RHO02.EQ.ZERO)THEN
+            IF(RHO02==ZERO)THEN
               UVAR(I,K+09)= RHO02v
               UVAR(I,K+12)= RHO02v
               UVAR(I,K+20)= RHO02v
@@ -340,19 +340,19 @@ C=======================================================================
               UVAR(I,K+12)= RHO02
               UVAR(I,K+20)= RHO02
             ENDIF
-            IF(E02.EQ.ZERO)THEN
+            IF(E02==ZERO)THEN
               UVAR(I,K+08)= E02v
               UVAR(I,K+21)= E02v
             ELSE
               UVAR(I,K+08)= E02
               UVAR(I,K+21)= E02
             ENDIF
-            IF(C02.EQ.ZERO)THEN
+            IF(C02==ZERO)THEN
               UVAR(I,K+18)= P02v
             ELSE
               UVAR(I,K+18)= P02
             ENDIF
-            IF(SSP2.EQ.ZERO)THEN
+            IF(SSP2==ZERO)THEN
               UVAR(I,K+22)= SSP2v
               SSP2 = SSP2v
               SSP0 = MAX(SSP0,SSP2)
@@ -362,7 +362,7 @@ C=======================================================================
             ENDIF         
 
             K=N0PHAS+(3-1)*NVPHAS                          
-            IF(RHO03.EQ.ZERO)THEN
+            IF(RHO03==ZERO)THEN
               UVAR(I,K+09)= RHO03v
               UVAR(I,K+12)= RHO03v
               UVAR(I,K+20)= RHO03v
@@ -372,19 +372,19 @@ C=======================================================================
               UVAR(I,K+12)= RHO03
               UVAR(I,K+20)= RHO03
             ENDIF
-            IF(E03.EQ.ZERO)THEN
+            IF(E03==ZERO)THEN
               UVAR(I,K+08)= E03v
               UVAR(I,K+21)= E03v
             ELSE
               UVAR(I,K+08)= E03
               UVAR(I,K+21)= E03
             ENDIF
-            IF(C03.EQ.ZERO)THEN
+            IF(C03==ZERO)THEN
               UVAR(I,K+18)= P03v
             ELSE
               UVAR(I,K+18)= P03
             ENDIF
-            IF(SSP3.EQ.ZERO)THEN
+            IF(SSP3==ZERO)THEN
               UVAR(I,K+22)= SSP3v
               SSP3 = SSP3v
               SSP0 = MAX(SSP0,SSP3)
@@ -394,7 +394,7 @@ C=======================================================================
             ENDIF 
 
             K=N0PHAS+(4-1)*NVPHAS                          
-            IF(RHO04.EQ.ZERO)THEN
+            IF(RHO04==ZERO)THEN
               UVAR(I,K+09)= RHO04v
               UVAR(I,K+12)= RHO04v
               UVAR(I,K+20)= RHO04v
@@ -404,19 +404,19 @@ C=======================================================================
               UVAR(I,K+12)= RHO04
               UVAR(I,K+20)= RHO04
             ENDIF
-            IF(E04.EQ.ZERO)THEN
+            IF(E04==ZERO)THEN
               UVAR(I,K+08)= E04v
               UVAR(I,K+21)= E04v
             ELSE
               UVAR(I,K+08)= E04
               UVAR(I,K+21)= E04
             ENDIF
-            IF(C04.EQ.ZERO)THEN
+            IF(C04==ZERO)THEN
               UVAR(I,K+18)= P04v
             ELSE
               UVAR(I,K+18)= P04
             ENDIF
-            IF(SSP4.EQ.ZERO)THEN
+            IF(SSP4==ZERO)THEN
               UVAR(I,K+22)= SSP4v
               SSP4 = SSP4v
               SSP0 = MAX(SSP0,SSP4)
@@ -465,10 +465,10 @@ C=======================================================================
               MLN        = NINT(PM(19,IVMAT))
               IFLGv      = 0
               IVMAT      = ABS(IX(1,IEV))              
-              IF(MLN.NE.51 )lFOUND_other = lFOUND_other + 1
+              IF(MLN/=51 )lFOUND_other = lFOUND_other + 1
               IADBUF     = IPM(7,IVMAT)
               IFLGv      = NINT(BUFMAT(IADBUF-1+31))
-              IF(IFLGv.GE.2 .AND. IFLGv.LE.6 )CYCLE 
+              IF(IFLGv>=2 .AND. IFLGv<=6 )CYCLE 
               lFOUND_51  = lFOUND_51 + 1
             ENDIF
           ENDDO
@@ -488,7 +488,7 @@ C=======================================================================
      .                    I1      = IID     ,
      .                    C1      = "HAS NO ADJACENT FACE IN COMPUTATION DOMAIN" )
           ENDIF              
-          IF(lFOUND_51 .GE. 2)THEN
+          IF(lFOUND_51 >= 2)THEN
               CALL ANCMSG(MSGID   = 122     ,
      .                    MSGTYPE = MSGERROR,
      .                    ANMODE  = ANINFO  ,
@@ -514,16 +514,16 @@ C=======================================================================
        ! CALCUL DE SSP0MAX           !
        !-----------------------------!
        IF(ILOOP_NRF51==0)THEN
-         !!IF(SSP0MAX .EQ. ZERO)THEN
+         !!IF(SSP0MAX == ZERO)THEN
           DO I=1,NUMELS+NUMELQ
             IMAT   = IX(1,I)
             MLN    = IPM(2,IMAT)
             IADBUF = IPM(7,IMAT)
-            IF(MLN.NE.51)CYCLE
+            IF(MLN/=51)CYCLE
             UPRM => BUFMAT(IADBUF:IADBUF+275)
             TMP  = UPRM(31)
             IFORM = NINT(TMP)
-            IF(IFORM.GT.1)CYCLE
+            IF(IFORM>1)CYCLE
             SSP0 = UPRM(124)
               !  pointer sur uvar si c'est un ssp par elem, ou alors sur UPARAM mais pas de materiau frontiere (cycle)
             SSP0 = MAX(SSP0,UPRM(174))
@@ -537,7 +537,7 @@ C=======================================================================
        !-----------------------------!
        ! ESTIMATEUR DE LC            !
        !-----------------------------!
-       IF(LC0MAX.EQ.ZERO)THEN
+       IF(LC0MAX==ZERO)THEN
         Xmin   = X(1,1)
         Ymin   = X(2,1)
         Zmin   = X(3,1)
@@ -562,7 +562,7 @@ C=======================================================================
        !-----------------------------!       
        TCP_REF    = LC0MAX/TWO/SSP0MAX/LOG(TWO)       
        !Si Tcp=0 alors calcul automatique
-       IF(UPARAM(70).EQ.ZERO)THEN
+       IF(UPARAM(70)==ZERO)THEN
          UPARAM(70) = TCP_REF
          lSET = 1
        ELSE

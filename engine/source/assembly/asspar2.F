@@ -97,7 +97,7 @@ Cel attention 8192 = VSIZE  == taille vecteurs travail boucle interface
      .        FF, FSKYT(NISKY)
       COMMON /ASSP2/ LDONE, IDONE, IBAR
 C----------------------------------------------- 
-      IF(NISKY.GT.LSKYI)THEN
+      IF(NISKY>LSKYI)THEN
         WRITE(IOUT,*) ' **ERROR** : MEMORY PROBLEM IN PARITH OPTION'
         WRITE(IOUT,*)
      .    ' PLEASE, INCREASE MULTIMP FOR INTERFACES 7, 10 AND 11'
@@ -120,7 +120,7 @@ C
       LDONE = 0
       IBAR  = 0
       INTDONE  = 1
-      IF (IVECTOR.EQ.0) NBDONE(1)=0
+      IF (IVECTOR==0) NBDONE(1)=0
       DO  L=1,NBLOC
        NBDONE(L) =  0
       ENDDO
@@ -128,9 +128,9 @@ C
 C-----------------------------------------------
 C     FORCES D'INTERFACES
 C-----------------------------------------------
-      IF (NISKY.NE.0) THEN
+      IF (NISKY/=0) THEN
        CALL IDP_LOCK(1)
-       IF(IDONE.NE.0)THEN
+       IF(IDONE/=0)THEN
          CALL IDP_FREE(1)
        ELSE
         IDONE = 1
@@ -169,7 +169,7 @@ C
 C-----------------------------------------------
 C     FORCES D'ELEMENTS 
 C-----------------------------------------------
-      IF(IVECTOR.EQ.1) THEN
+      IF(IVECTOR==1) THEN
       I0=0
       DO  L=1,NBLOC
        LMOD=MOD(l,INTSEG)
@@ -180,7 +180,7 @@ C
        CALL IDP_LOCK(7+LMOD)
          IFT = NBDONE(L)
          NBDONE(L) = IFT + NVSIZ
-         IF(IFT.GE.NL)THEN
+         IF(IFT>=NL)THEN
            CALL IDP_FREE(7+LMOD)
            GOTO 301
          ENDIF
@@ -190,9 +190,9 @@ C
        I   = I0 + IFT
        KFT = ADBLOC(L) + IFT*NC
        KLT = ADBLOC(L) + ILT*NC
-       IF(NC.EQ.1)THEN
+       IF(NC==1)THEN
          IF(ITHERM_FE == 0 ) THEN
-           IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+           IF(N2D/=0.OR.IFSUBM==0)THEN
 #include    "vectorize.inc"
             DO  K1=KFT,KLT,NC
              I=I+1
@@ -224,7 +224,7 @@ C
            ENDIF
 C la thermique
           ELSE
-           IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+           IF(N2D/=0.OR.IFSUBM==0)THEN
 #include    "vectorize.inc"
             DO  K1=KFT,KLT,NC
              I=I+1
@@ -257,9 +257,9 @@ C la thermique
             ENDDO
            ENDIF           
          ENDIF
-       ELSEIF(NC.EQ.2)THEN
+       ELSEIF(NC==2)THEN
         IF(ITHERM_FE == 0 ) THEN
-         IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+         IF(N2D/=0.OR.IFSUBM==0)THEN
 #include "vectorize.inc"
          DO  K1=KFT,KLT,NC
           I=I+1
@@ -309,7 +309,7 @@ C la thermique
           ENDDO
          ENDIF
         ELSE
-         IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+         IF(N2D/=0.OR.IFSUBM==0)THEN
 #include "vectorize.inc"
          DO  K1=KFT,KLT,NC
           I=I+1
@@ -361,9 +361,9 @@ C la thermique
           ENDDO
          ENDIF          
         ENDIF
-       ELSEIF(NC.EQ.3)THEN
+       ELSEIF(NC==3)THEN
         IF(ITHERM_FE == 0 ) THEN
-          IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+          IF(N2D/=0.OR.IFSUBM==0)THEN
 #include "vectorize.inc"
             DO  K1=KFT,KLT,NC
              I=I+1
@@ -415,7 +415,7 @@ C la thermique
             ENDDO
            ENDIF
         ELSE
-          IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+          IF(N2D/=0.OR.IFSUBM==0)THEN
 #include "vectorize.inc"
             DO  K1=KFT,KLT,NC
              I=I+1
@@ -472,9 +472,9 @@ C la thermique
            ENDIF        
          
         ENDIF
-       ELSEIF(NC.EQ.4)THEN
+       ELSEIF(NC==4)THEN
         IF(ITHERM_FE == 0 ) THEN
-          IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+          IF(N2D/=0.OR.IFSUBM==0)THEN
 #include "vectorize.inc"
              DO  K1=KFT,KLT,NC
               I=I+1
@@ -530,7 +530,7 @@ C la thermique
              ENDDO
             ENDIF
          ELSE
-          IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+          IF(N2D/=0.OR.IFSUBM==0)THEN
 #include "vectorize.inc"
              DO  K1=KFT,KLT,NC
               I=I+1
@@ -591,9 +591,9 @@ C la thermique
             ENDIF           
          ENDIF  
 C
-       ELSEIF(NC.EQ.5)THEN
+       ELSEIF(NC==5)THEN
         IF(ITHERM_FE == 0 ) THEN
-         IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN                                    
+         IF(N2D/=0.OR.IFSUBM==0)THEN                                    
 #include "vectorize.inc" 
           DO  K1=KFT,KLT,NC                                                 
            I=I+1                                                            
@@ -649,7 +649,7 @@ C
           ENDDO                                                             
          ENDIF                                                              
         ELSE
-         IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN                                   
+         IF(N2D/=0.OR.IFSUBM==0)THEN                                   
 #include "vectorize.inc"
           DO  K1=KFT,KLT,NC                                                
            I=I+1                                                           
@@ -712,9 +712,9 @@ C
          ENDIF                                                             
         
         ENDIF
-       ELSEIF(NC.EQ.6)THEN
+       ELSEIF(NC==6)THEN
         IF(ITHERM_FE == 0) THEN
-         IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN                                  
+         IF(N2D/=0.OR.IFSUBM==0)THEN                                  
 #include  "vectorize.inc"                                                 
           DO  K1=KFT,KLT,NC                                               
            I=I+1                                                          
@@ -789,7 +789,7 @@ C
            ENDDO
           ENDIF
         ELSE
-         IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN                                  
+         IF(N2D/=0.OR.IFSUBM==0)THEN                                  
 #include  "vectorize.inc"                                                 
           DO  K1=KFT,KLT,NC                                               
            I=I+1                                                          
@@ -870,9 +870,9 @@ C
            ENDDO
           ENDIF          
         ENDIF
-       ELSEIF(NC.EQ.7)THEN
+       ELSEIF(NC==7)THEN
         IF(ITHERM_FE == 0 ) THEN
-         IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN                                  
+         IF(N2D/=0.OR.IFSUBM==0)THEN                                  
 #include "vectorize.inc"                                                 
           DO  K1=KFT,KLT,NC                                               
            I=I+1                                                          
@@ -949,7 +949,7 @@ C
           ENDDO                                                           
          ENDIF                                                            
         ELSE
-         IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN                                  
+         IF(N2D/=0.OR.IFSUBM==0)THEN                                  
 #include "vectorize.inc"                                                 
           DO  K1=KFT,KLT,NC                                               
            I=I+1                                                          
@@ -1034,9 +1034,9 @@ C
           ENDDO                                                           
          ENDIF
         ENDIF
-       ELSEIF(NC.EQ.8)THEN
+       ELSEIF(NC==8)THEN
         IF(ITHERM_FE == 0 ) THEN
-         IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+         IF(N2D/=0.OR.IFSUBM==0)THEN
 #include "vectorize.inc"
           DO  K1=KFT,KLT,NC
            I=I+1
@@ -1115,7 +1115,7 @@ C
           ENDDO
          ENDIF
         ELSE
-         IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+         IF(N2D/=0.OR.IFSUBM==0)THEN
 #include "vectorize.inc"
           DO  K1=KFT,KLT,NC
            I=I+1
@@ -1202,9 +1202,9 @@ C
           ENDDO
          ENDIF          
         ENDIF
-       ELSEIF(NC.EQ.9)THEN
+       ELSEIF(NC==9)THEN
         IF(ITHERM_FE == 0 ) THEN
-         IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+         IF(N2D/=0.OR.IFSUBM==0)THEN
 #include "vectorize.inc"
           DO  K1=KFT,KLT,NC
            I=I+1
@@ -1285,7 +1285,7 @@ C
           ENDDO
          ENDIF
         ELSE
-         IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+         IF(N2D/=0.OR.IFSUBM==0)THEN
 #include "vectorize.inc"
           DO  K1=KFT,KLT,NC
            I=I+1
@@ -1377,9 +1377,9 @@ C
          ENDIF        
         
         ENDIF
-       ELSEIF(NC.EQ.10)THEN
+       ELSEIF(NC==10)THEN
         IF(ITHERM_FE == 0 ) THEN
-         IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+         IF(N2D/=0.OR.IFSUBM==0)THEN
 #include "vectorize.inc"
           DO  K1=KFT,KLT,NC
            I=I+1
@@ -1462,7 +1462,7 @@ C
           ENDDO
          ENDIF
         ELSE
-         IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+         IF(N2D/=0.OR.IFSUBM==0)THEN
 #include "vectorize.inc"
           DO  K1=KFT,KLT,NC
            I=I+1
@@ -1555,9 +1555,9 @@ C
           ENDDO
          ENDIF
         ENDIF
-       ELSEIF (NC.EQ.11) THEN
+       ELSEIF (NC==11) THEN
         IF(ITHERM_FE == 0) THEN
-          IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+          IF(N2D/=0.OR.IFSUBM==0)THEN
 #include   "vectorize.inc"
            DO  K1=KFT,KLT,NC
             I=I+1
@@ -1594,7 +1594,7 @@ C
            ENDDO
           ENDIF
          ELSE
-          IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+          IF(N2D/=0.OR.IFSUBM==0)THEN
 #include   "vectorize.inc"
            DO  K1=KFT,KLT,NC
             I=I+1
@@ -1634,9 +1634,9 @@ C
           ENDIF           
          
          ENDIF
-       ELSEIF (NC.EQ.12) THEN
+       ELSEIF (NC==12) THEN
         IF(ITHERM_FE == 0 ) THEN
-          IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+          IF(N2D/=0.OR.IFSUBM==0)THEN
 #include "vectorize.inc"
            DO  K1=KFT,KLT,NC
             I=I+1
@@ -1673,7 +1673,7 @@ C
            ENDDO
           ENDIF
         ELSE
-           IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+           IF(N2D/=0.OR.IFSUBM==0)THEN
 #include "vectorize.inc"
            DO  K1=KFT,KLT,NC
             I=I+1
@@ -1712,9 +1712,9 @@ C
            ENDDO
           ENDIF       
         ENDIF
-       ELSEIF (NC.EQ.13) THEN
+       ELSEIF (NC==13) THEN
         IF(ITHERM_FE == 0 ) THEN
-         IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+         IF(N2D/=0.OR.IFSUBM==0)THEN
 #include  "vectorize.inc"
           DO  K1=KFT,KLT,NC
            I=I+1
@@ -1751,7 +1751,7 @@ C
           ENDDO
          ENDIF
         ELSE
-         IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+         IF(N2D/=0.OR.IFSUBM==0)THEN
 #include  "vectorize.inc"
           DO  K1=KFT,KLT,NC
            I=I+1
@@ -1790,9 +1790,9 @@ C
           ENDDO
          ENDIF           
         ENDIF
-       ELSEIF (NC.EQ.14) THEN
+       ELSEIF (NC==14) THEN
         IF(ITHERM_FE == 0) THEN
-           IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+           IF(N2D/=0.OR.IFSUBM==0)THEN
 #include "vectorize.inc"
             DO  K1=KFT,KLT,NC
              I=I+1
@@ -1829,7 +1829,7 @@ C
             ENDDO
            ENDIF
         ELSE
-           IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+           IF(N2D/=0.OR.IFSUBM==0)THEN
 #include "vectorize.inc"
             DO  K1=KFT,KLT,NC
              I=I+1
@@ -1869,9 +1869,9 @@ C
            ENDIF         
         
         ENDIF
-       ELSEIF (NC.EQ.15) THEN
+       ELSEIF (NC==15) THEN
         IF(ITHERM_FE == 0 ) THEN
-           IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+           IF(N2D/=0.OR.IFSUBM==0)THEN
 #include "vectorize.inc"
             DO  K1=KFT,KLT,NC
              I=I+1
@@ -1908,7 +1908,7 @@ C
             ENDDO
            ENDIF
         ELSE
-           IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+           IF(N2D/=0.OR.IFSUBM==0)THEN
 #include "vectorize.inc"
             DO  K1=KFT,KLT,NC
              I=I+1
@@ -1947,9 +1947,9 @@ C
             ENDDO
            ENDIF          
         ENDIF
-       ELSEIF (NC.EQ.16) THEN
+       ELSEIF (NC==16) THEN
         IF(ITHERM_FE == 0 ) THEN
-           IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+           IF(N2D/=0.OR.IFSUBM==0)THEN
 #include "vectorize.inc"
             DO  K1=KFT,KLT,NC
              I=I+1
@@ -1986,7 +1986,7 @@ C
             ENDDO
            ENDIF
          ELSE
-           IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+           IF(N2D/=0.OR.IFSUBM==0)THEN
 #include "vectorize.inc"
             DO  K1=KFT,KLT,NC
              I=I+1
@@ -2025,9 +2025,9 @@ C
             ENDDO
            ENDIF
          ENDIF
-       ELSEIF (NC.EQ.17) THEN
+       ELSEIF (NC==17) THEN
         IF(ITHERM_FE == 0) THEN
-          IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+          IF(N2D/=0.OR.IFSUBM==0)THEN
 #include   "vectorize.inc"
            DO  K1=KFT,KLT,NC
             I=I+1
@@ -2064,7 +2064,7 @@ C
            ENDDO
           ENDIF
         ELSE
-          IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+          IF(N2D/=0.OR.IFSUBM==0)THEN
 #include   "vectorize.inc"
            DO  K1=KFT,KLT,NC
             I=I+1
@@ -2103,9 +2103,9 @@ C
            ENDDO
           ENDIF          
         ENDIF
-       ELSEIF (NC.EQ.18) THEN
+       ELSEIF (NC==18) THEN
         IF(ITHERM_FE == 0 ) THEN
-            IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+            IF(N2D/=0.OR.IFSUBM==0)THEN
 #include  "vectorize.inc"
              DO  K1=KFT,KLT,NC
               I=I+1
@@ -2142,7 +2142,7 @@ C
              ENDDO
             ENDIF
         ELSE
-            IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+            IF(N2D/=0.OR.IFSUBM==0)THEN
 #include  "vectorize.inc"
              DO  K1=KFT,KLT,NC
               I=I+1
@@ -2181,9 +2181,9 @@ C
              ENDDO
             ENDIF           
         ENDIF
-       ELSEIF (NC.EQ.19) THEN
+       ELSEIF (NC==19) THEN
         IF(ITHERM_FE == 0 ) THEN
-            IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+            IF(N2D/=0.OR.IFSUBM==0)THEN
 #include "vectorize.inc"
              DO  K1=KFT,KLT,NC
               I=I+1
@@ -2220,7 +2220,7 @@ C
              ENDDO
             ENDIF
         ELSE
-             IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+             IF(N2D/=0.OR.IFSUBM==0)THEN
 #include "vectorize.inc"
              DO  K1=KFT,KLT,NC
               I=I+1
@@ -2259,9 +2259,9 @@ C
              ENDDO
             ENDIF         
         ENDIF
-       ELSEIF (NC.EQ.20) THEN
+       ELSEIF (NC==20) THEN
         IF(ITHERM_FE == 0) THEN
-          IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+          IF(N2D/=0.OR.IFSUBM==0)THEN
 #include "vectorize.inc"
            DO  K1=KFT,KLT,NC
             I=I+1
@@ -2298,7 +2298,7 @@ C
            ENDDO
           ENDIF
         ELSE
-          IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+          IF(N2D/=0.OR.IFSUBM==0)THEN
 #include "vectorize.inc"
            DO  K1=KFT,KLT,NC
             I=I+1
@@ -2339,7 +2339,7 @@ C
         ENDIF
        ELSE
         IF(ITHERM_FE == 0 ) THEN
-          IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+          IF(N2D/=0.OR.IFSUBM==0)THEN
            DO  KK=KFT,KLT,NC
             I=I+1
             N=INDSKY(I)
@@ -2372,7 +2372,7 @@ C
            ENDDO
           ENDIF
          ELSE 
-          IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+          IF(N2D/=0.OR.IFSUBM==0)THEN
            DO  KK=KFT,KLT,NC
             I=I+1
             N=INDSKY(I)
@@ -2415,7 +2415,7 @@ C
       ELSE
 C else ivector machine scalaire
        IF(ITHERM_FE == 0 )THEN
-         IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+         IF(N2D/=0.OR.IFSUBM==0)THEN
           DO N = IDEB(ITASK+1), IFIN(ITASK+1)
            NCT = INDSKY(N)-1
            NC = INDSKY(N+1)-INDSKY(N)
@@ -2448,7 +2448,7 @@ C else ivector machine scalaire
           ENDDO
          ENDIF
        ELSE
-         IF(N2D.NE.0.OR.IFSUBM.EQ.0)THEN
+         IF(N2D/=0.OR.IFSUBM==0)THEN
           DO N = IDEB(ITASK+1), IFIN(ITASK+1)
            NCT = INDSKY(N)-1
            NC = INDSKY(N+1)-INDSKY(N)
@@ -2499,14 +2499,14 @@ C
            ENDDO
           ENDDO
         ENDIF
-      IF(N2D.NE.0) THEN
+      IF(N2D/=0) THEN
         CALL MY_BARRIER
            DO I = NODFT, NODLT
              MS(I) = A(1,I)
              A(1,I) = ZERO
            ENDDO
         CALL MY_BARRIER
-      ELSEIF(IFSUBM.EQ.1)THEN
+      ELSEIF(IFSUBM==1)THEN
         CALL MY_BARRIER
         DO I = NODFT, NODLT
           MS(I) = MS(I) + MSNF(I)
@@ -2523,15 +2523,15 @@ C     LE CALL BARRIER EST FAIT SUR TOUS LES PROCES.
 C     SI ET SEULEMENT SI LA TACHE IDONE N'EST PAS FAITE 
 C     QUAND LE PREMIER DES PROCES. ARRIVE ICI
 C-----------------------------------------------
-      IF (NISKY.NE.0) THEN
+      IF (NISKY/=0) THEN
        CALL IDP_LOCK(4)
-        IF(IDONE.NE.2)IBAR = 1
+        IF(IDONE/=2)IBAR = 1
        CALL IDP_FREE(4)
-       IF(IBAR.EQ.1)CALL MY_BARRIER
+       IF(IBAR==1)CALL MY_BARRIER
 C-----------------------------------------------
  400   CONTINUE
        CALL IDP_LOCK(5)
-       IF(LDONE.GT.NFSKYI-1)THEN
+       IF(LDONE>NFSKYI-1)THEN
         CALL IDP_FREE(5)
         GO TO 401
        ELSE
@@ -2570,14 +2570,14 @@ C adsKy est decale de 1
 C-----------------------------------------------
 C     FORCES D'INTERFACES
 C-----------------------------------------------
-       IF (IVECTOR.EQ.0) THEN
+       IF (IVECTOR==0) THEN
          IVSIZE = 1024
        ELSE
          IVSIZE = VSIZE
        ENDIF
  600   CONTINUE
        CALL IDP_LOCK(6)
-       IF(INTDONE.GT.NUMNOD)THEN
+       IF(INTDONE>NUMNOD)THEN
         CALL IDP_FREE(6)
         GO TO 601
        ELSE
@@ -2593,14 +2593,14 @@ C-----------------------------------------------
        DO N=NDFT,NDLT
          NN = N-1
          DIFFADD = ADSKYI(N)-1-ADSKYI(NN)
-         IF(DIFFADD.EQ.0) THEN
+         IF(DIFFADD==0) THEN
            VIND1(NDFT+K1) = N
            K1 = K1 + 1
 Cel 20 valeur seuil pour appel a qsort (20 = NBCC)
-         ELSEIF(DIFFADD.GE.1.AND.DIFFADD.LT.NBCC) THEN
+         ELSEIF(DIFFADD>=1.AND.DIFFADD<NBCC) THEN
            VIND2(NDFT+K2) = N
            K2 = K2 + 1
-         ELSEIF(DIFFADD.GE.NBCC) THEN
+         ELSEIF(DIFFADD>=NBCC) THEN
            VIND3(NDFT+K3) = N
            K3 = K3 + 1
          ENDIF
@@ -2610,7 +2610,7 @@ C une seule contribution
 C
        NEWN = K1
        IF(INTHEAT == 0 ) THEN
-         IF(KDTINT.EQ.0)THEN
+         IF(KDTINT==0)THEN
 #include "vectorize.inc"
           DO IJK=NDFT,NDFT+NEWN-1
            N = VIND1(IJK)
@@ -2634,7 +2634,7 @@ C
          ENDIF
 C  + la thermique 
         ELSE
-         IF(KDTINT.EQ.0)THEN
+         IF(KDTINT==0)THEN
 #include "vectorize.inc"
           DO IJK=NDFT,NDFT+NEWN-1
            N = VIND1(IJK)
@@ -2672,7 +2672,7 @@ C
 C pas plus de 20 contributions
 C
        NEWN = K2
-       IF (IVECTOR.EQ.0) THEN
+       IF (IVECTOR==0) THEN
         DO 800 IJK=NDFT,NDFT+NEWN-1
          N = VIND2(IJK)
          NN = N-1
@@ -2685,7 +2685,7 @@ C-----------------------------------------------
          DO 500 K=JJ1,JJ2-1
            DO 500 KK=K+1,JJ2
              DO 500 L=1,NFSKYI
-               IF(FSKYI(KK,L).GT.FSKYI(K,L))THEN
+               IF(FSKYI(KK,L)>FSKYI(K,L))THEN
                  FF = FSKYI(KK,L)
                  FSKYI(KK,L) = FSKYI(K,L)
                  FSKYI(K,L)  = FF
@@ -2695,7 +2695,7 @@ C-----------------------------------------------
           DO  K=JJ1,JJ2-1
            DO  KK=K+1,JJ2
              DO  L=1,NFSKYI
-               IF(FSKYI(KK,L).GT.FSKYI(K,L))THEN
+               IF(FSKYI(KK,L)>FSKYI(K,L))THEN
                  FF = FSKYI(KK,L)
                  FSKYI(KK,L) = FSKYI(K,L)
                  FSKYI(K,L)  = FF
@@ -2714,7 +2714,7 @@ C-----------------------------------------------
 C       ASSEMBLAGE DES FORCES 
 C-----------------------------------------------
         IF(INTHEAT == 0 ) THEN
-         IF(KDTINT.EQ.0)THEN
+         IF(KDTINT==0)THEN
           DO K=JJ1,JJ2
            A(1,N)  = A(1,N)  + FSKYI(K,1)
            A(2,N)  = A(2,N)  + FSKYI(K,2)
@@ -2732,7 +2732,7 @@ C-----------------------------------------------
          ENDIF
 C  + la thermique 
          ELSE
-          IF(KDTINT.EQ.0)THEN
+          IF(KDTINT==0)THEN
            DO K=JJ1,JJ2
             A(1,N)  = A(1,N)  + FSKYI(K,1)
             A(2,N)  = A(2,N)  + FSKYI(K,2)
@@ -2764,7 +2764,7 @@ C     DECIDE WHICH TREATMENT SHALL BE USED
 C       USE OLD TREATMENT FOR NEWN < 100
 C       USE NEW TREATMENT AND DECIDE WHERE TO USE NEW LOOP
 C           AND WHERE TO STAY WITH OLD LOOP 
-         IF (NEWN.LT.100) THEN
+         IF (NEWN<100) THEN
            KSPLIT=1
            DO I=1,NEWN
               IARRAY(I)=I
@@ -2780,7 +2780,7 @@ C           AND WHERE TO STAY WITH OLD LOOP
               JJ1=ADSKYI(N-1)
               JJ2=ADSKYI(N)-1
               LJ=JJ2-JJ1+1
-              IF(LJ.GT.KMAX) KMAX=LJ
+              IF(LJ>KMAX) KMAX=LJ
               NN_A(I)=LJ
            ENDDO
 
@@ -2789,7 +2789,7 @@ C           AND WHERE TO STAY WITH OLD LOOP
 C
            KSPLIT=1
            DO I=2,KMAX
-              IF(NEWN-IC(I).GT.NBCC) KSPLIT=I
+              IF(NEWN-IC(I)>NBCC) KSPLIT=I
            ENDDO
         ENDIF
 
@@ -2805,32 +2805,32 @@ C --- ORDERING LOOP
                  J=ADSKYI(N-1)+K-1
                  JJ=ADSKYI(N-1)+KK-1
 C L=1
-                 IF (FSKYI(JJ,1).GT.FSKYI(J,1)) THEN
+                 IF (FSKYI(JJ,1)>FSKYI(J,1)) THEN
                     FF=FSKYI(JJ,1)
                     FSKYI(JJ,1)=FSKYI(J,1)
                     FSKYI(J,1) =FF
                  ENDIF
 C L=2
-                 IF (FSKYI(JJ,2).GT.FSKYI(J,2)) THEN
+                 IF (FSKYI(JJ,2)>FSKYI(J,2)) THEN
                     FF=FSKYI(JJ,2)
                     FSKYI(JJ,2)=FSKYI(J,2)
                     FSKYI(J,2) =FF
                  ENDIF
 C L=3
-                 IF (FSKYI(JJ,3).GT.FSKYI(J,3)) THEN
+                 IF (FSKYI(JJ,3)>FSKYI(J,3)) THEN
                     FF=FSKYI(JJ,3)
                     FSKYI(JJ,3)=FSKYI(J,3)
                     FSKYI(J,3) =FF
                  ENDIF
 C L=4
-                 IF (FSKYI(JJ,4).GT.FSKYI(J,4)) THEN
+                 IF (FSKYI(JJ,4)>FSKYI(J,4)) THEN
                     FF=FSKYI(JJ,4)
                     FSKYI(JJ,4)=FSKYI(J,4)
                     FSKYI(J,4) =FF
                  ENDIF
 C
                  IF(INTHEAT > 0) THEN 
-                  IF (FTHESKYI(JJ).GT.FTHESKYI(J)) THEN
+                  IF (FTHESKYI(JJ)>FTHESKYI(J)) THEN
                     FF=FTHESKYI(JJ)
                     FTHESKYI(JJ)=FTHESKYI(J)
                     FTHESKYI(J) =FF
@@ -2841,7 +2841,7 @@ C
            ENDDO
         ENDDO
 C L=5
-        IF(KDTINT.NE.0)THEN
+        IF(KDTINT/=0)THEN
          KKEND=IC(KSPLIT+1)-1
          DO K=1,KSPLIT-1
            DO KK=K+1,KSPLIT
@@ -2852,7 +2852,7 @@ C L=5
                  N=VIND2(IJK)
                  J=ADSKYI(N-1)+K-1
                  JJ=ADSKYI(N-1)+KK-1
-                 IF (FSKYI(JJ,5).GT.FSKYI(J,5)) THEN
+                 IF (FSKYI(JJ,5)>FSKYI(J,5)) THEN
                     FF=FSKYI(JJ,5)
                     FSKYI(JJ,5)=FSKYI(J,5)
                     FSKYI(J,5) =FF
@@ -2863,7 +2863,7 @@ C L=5
         ENDIF
 C --- FILL ARRAY A
        IF(INTHEAT == 0 ) THEN
-        IF(KDTINT.EQ.0)THEN
+        IF(KDTINT==0)THEN
          DO K=1,KSPLIT
            KKSTART=IC(K)
 #include "vectorize.inc"
@@ -2895,7 +2895,7 @@ C --- FILL ARRAY A
         ENDIF
 C + la thermique 
        ELSE
-        IF(KDTINT.EQ.0)THEN
+        IF(KDTINT==0)THEN
          DO K=1,KSPLIT
            KKSTART=IC(K)
 #include "vectorize.inc"
@@ -2951,7 +2951,7 @@ C --- DO THE REST IN OLD WAY - SUM UP ALL CONTRIBUTIONS PER NODE
             DO 501 K=JJ1,JJ2-1
               DO 501 KK=K+1,JJ2
                DO 501 L=1,NFSKYI
-                 IF(FSKYI(KK,L).GT.FSKYI(K,L)) THEN
+                 IF(FSKYI(KK,L)>FSKYI(K,L)) THEN
                    FF=FSKYI(KK,L)
                    FSKYI(KK,L)=FSKYI(K,L)
                    FSKYI(K,L)=FF
@@ -2961,13 +2961,13 @@ C --- DO THE REST IN OLD WAY - SUM UP ALL CONTRIBUTIONS PER NODE
             DO  K=JJ1,JJ2-1
               DO  KK=K+1,JJ2
                DO  L=1,NFSKYI
-                 IF(FSKYI(KK,L).GT.FSKYI(K,L)) THEN
+                 IF(FSKYI(KK,L)>FSKYI(K,L)) THEN
                    FF=FSKYI(KK,L)
                    FSKYI(KK,L)=FSKYI(K,L)
                    FSKYI(K,L)=FF
                  ENDIF
                ENDDO
-               IF(FTHESKYI(KK).GT.FTHESKYI(K)) THEN
+               IF(FTHESKYI(KK)>FTHESKYI(K)) THEN
                    FF=FTHESKYI(KK)
                    FTHESKYI(KK)=FTHESKYI(K)
                    FTHESKYI(K)=FF
@@ -2977,7 +2977,7 @@ C --- DO THE REST IN OLD WAY - SUM UP ALL CONTRIBUTIONS PER NODE
            ENDIF
 C
         IF(INTHEAT == 0 )THEN  
-          IF(KDTINT.EQ.0)THEN
+          IF(KDTINT==0)THEN
 #include "scalar.inc"
              DO K=JJ1,JJ2
                 A(1,N) = A(1,N) + FSKYI(K,1)
@@ -2996,7 +2996,7 @@ C
              ENDDO        
           ENDIF        
          ELSE
-          IF(KDTINT.EQ.0)THEN
+          IF(KDTINT==0)THEN
 #include "scalar.inc"
              DO K=JJ1,JJ2
                 A(1,N) = A(1,N) + FSKYI(K,1)
@@ -3046,7 +3046,7 @@ C-----------------------------------------------
 C       ASSEMBLAGE DES FORCES 
 C-----------------------------------------------
         IF(INTHEAT == 0 ) THEN
-          IF(KDTINT.EQ.0)THEN
+          IF(KDTINT==0)THEN
            DO K=JJ1,JJ2
              A(1,N)  = A(1,N)  + FSKYI(K,1)
              A(2,N)  = A(2,N)  + FSKYI(K,2)
@@ -3064,7 +3064,7 @@ C-----------------------------------------------
           ENDIF
 C + la thermique
         ELSE
-          IF(KDTINT.EQ.0)THEN
+          IF(KDTINT==0)THEN
            DO K=JJ1,JJ2
              A(1,N)  = A(1,N)  + FSKYI(K,1)
              A(2,N)  = A(2,N)  + FSKYI(K,2)
@@ -3092,7 +3092,7 @@ C contact stiffness (static condensation)
        ENDDO
        GOTO 600
  601   CONTINUE
-C fin nisky.ne.0
+C fin nisky/=0
       ENDIF
 C-----------------------------------------------
 C
@@ -3175,15 +3175,15 @@ C-----------------------------------------------
       INTEGER MINNN, MAXNN, NN, I, IC0
       INTEGER DIFFNN, DIVNN, DELNN
 C-----------------------------------------------
-      IF(MAXNN_GLB.LT.MINNN_GLB .OR. N.EQ.0) RETURN
+      IF(MAXNN_GLB<MINNN_GLB .OR. N==0) RETURN
 C
-      IF(N .EQ. 1) THEN
+      IF(N == 1) THEN
         DO NN = MINNN_GLB, MAXNN_GLB
           IC(NN) = 1
         END DO
         IARRAY(1) = 1
         RETURN
-      ELSE IF(MAXNN_GLB .EQ. MINNN_GLB) THEN
+      ELSE IF(MAXNN_GLB == MINNN_GLB) THEN
         IC(MAXNN_GLB) = 1
         DO I = 1, N
           IARRAY(I) = I
@@ -3192,16 +3192,16 @@ C
       END IF
 C
       DIFFNN = MAXNN_GLB - MINNN_GLB
-      IF(DIFFNN .LE. 4) THEN
+      IF(DIFFNN <= 4) THEN
         CALL SHORT_ORDER_V(N, MINNN_GLB, MAXNN_GLB, NN_A, IARRAY, IC)
       ELSE
-        IF(DIFFNN .GT. 2**16) THEN
+        IF(DIFFNN > 2**16) THEN
           DIVNN = 16
-        ELSE IF(DIFFNN .GT. 2**15) THEN
+        ELSE IF(DIFFNN > 2**15) THEN
           DIVNN = 8
-        ELSE IF(DIFFNN .GT. 2**14) THEN
+        ELSE IF(DIFFNN > 2**14) THEN
           DIVNN = 4
-        ELSE IF(DIFFNN .GT. 2**13) THEN
+        ELSE IF(DIFFNN > 2**13) THEN
           DIVNN = 2
         ELSE
           DIVNN = 1
@@ -3246,7 +3246,7 @@ C
       DO NN = MINNN, MAXNN
         IC(NN) = COUNT + 1
         DO I = 1, N
-          IF(NN_A(I) .EQ. NN) THEN
+          IF(NN_A(I) == NN) THEN
             COUNT = COUNT + 1
             IARRAY(COUNT) = I
           END IF
@@ -3293,7 +3293,7 @@ CCCCCCCCCCCCCCCCCCCC!cdir nodep
       DO I = 1, N
         IV = MOD(I-1,256) + 1
         NN = NN_A(I)
-        IF(NN.GE.MINNN .AND. NN.LE.MAXNN)
+        IF(NN>=MINNN .AND. NN<=MAXNN)
      &       IC_V(IV,NN) = IC_V(IV,NN) + 1
       END DO
 
@@ -3337,7 +3337,7 @@ CCCCCCCCCCCCCCC!cdir nodep
       DO I = 1, N
         IV = MOD(I-1,256) + 1
         NN = NN_A(I)
-        IF(NN.GE.MINNN .AND. NN.LE.MAXNN) THEN
+        IF(NN>=MINNN .AND. NN<=MAXNN) THEN
           IARRAY(IC_V(IV,NN)) = I
           IC_V(IV,NN) = IC_V(IV,NN) + 1
         END IF

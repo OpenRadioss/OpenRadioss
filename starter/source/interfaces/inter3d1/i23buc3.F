@@ -171,7 +171,7 @@ C calcul de TZINF en fct de la marge et non le contraire
 C MARGE_ST : marge independante du BUMULT en input pour trouver les memes pene initiales (cas delete ou chgt coord.)
       MARGE_ST = BMUL0*SQRT(THREE)*DD
 C Si IMACH = 3 et IDDLEVEL = 0, alors 1er passage ici, avec la MARGE de l'ENGINE pour trouver les memes candidats
-      IF(IDDLEVEL.EQ.0) MARGE_ST = MARGE
+      IF(IDDLEVEL==0) MARGE_ST = MARGE
       TZINF_ST = MARGE_ST + SQRT(THREE)*GAP
 
 C      MAXBOX= ZEP9*(DD - TZINF)
@@ -332,15 +332,15 @@ C------------------
       ENDIF
 C     I_MEM = 1 ==> PAS ASSEZ DE MEMOIRE PILE
 C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
-      IF(I_MEM.EQ.1)THEN
+      IF(I_MEM==1)THEN
         NB_N_B = NB_N_B + 1
         I_MEM = 0
         GO TO 100
-      ELSE IF(I_MEM.EQ.2) THEN
+      ELSE IF(I_MEM==2) THEN
         MARGE_ST = THREE_OVER_4*MARGE_ST
         TZINF_ST = MARGE_ST + SQRT(THREE)*GAP
         I_MEM = 0
-        IF(MARGE_ST.LT.EM03) THEN
+        IF(MARGE_ST<EM03) THEN
 C             WRITE(ISTDO,*)' ***ERROR INFINITE LOOP DETECTED(I7BUC)'
 C             WRITE(IOUT,*)' **ERROR INFINITE LOOP DETECTED(I7BUC)'
 C             CALL ARRET(2)
@@ -360,10 +360,10 @@ C             CALL ARRET(2)
         ENDIF
         GO TO 100
       ENDIF
-      IF(I_ADD.NE.0) GO TO 200
+      IF(I_ADD/=0) GO TO 200
 C     FIN BOUCLE TANT QUE
 C---------------------------------
-      IF(J_STOK.NE.0)THEN
+      IF(J_STOK/=0)THEN
          LFT = 1
          LLT = J_STOK
 
@@ -391,14 +391,14 @@ C---------------------------------
      3                  NX4  ,NY4 ,NZ4,P1 ,P2 ,
      4                  P3   ,P4)
 
-         IF(I_STOK+J_STOK.LT.MULTIMP*NSN) THEN
+         IF(I_STOK+J_STOK<MULTIMP*NSN) THEN
           CALL I7CMP3(I_STOK,CAND_E  ,CAND_N,1,PENE,
      1                  PROV_N,PROV_E)
          ELSE
           I_BID = 0
           CALL I7CMP3(I_BID,CAND_E,CAND_N,0,PENE,
      1                  PROV_N,PROV_E)
-          IF(I_STOK+I_BID.LT.MULTIMP*NSN) THEN
+          IF(I_STOK+I_BID<MULTIMP*NSN) THEN
             CALL I7CMP3(I_STOK,CAND_E,CAND_N,1,PENE,
      1                  PROV_N,PROV_E)
           ELSE
@@ -410,7 +410,7 @@ C ne pas dimunuer la taille des boite
 C            MINBOX= THREE_OVER_4*MINBOX
 C            MAXBOX= THREE_OVER_4*MAXBOX
 	    I_MEM = 0
-            IF(MARGE_ST.LT.EM03) THEN
+            IF(MARGE_ST<EM03) THEN
 C             WRITE(ISTDO,*)' ***ERROR INFINITE LOOP DETECTED(I7BUC)'
 C             WRITE(IOUT,*)' **ERROR INFINITE LOOP DETECTED(I7BUC)'
 C             CALL ARRET(2)
@@ -433,7 +433,7 @@ C             CALL ARRET(2)
         ENDIF
       ENDIF
 C
-      IF(NSN.NE.0)THEN
+      IF(NSN/=0)THEN
       WRITE(IOUT,*)' POSSIBLE IMPACT NUMBER:',I_STOK,' (<=',
      . 1+(I_STOK-1)/NSN,'*NSN)'
 C

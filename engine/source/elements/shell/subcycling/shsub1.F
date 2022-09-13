@@ -75,7 +75,7 @@ C-----------------------------------------------
      . FAC, VMX, VMY, VMZ
 C-----------------------------------------------
         FAC=ZERO
-        IF(DT1.GT.ZERO)FAC=ONE/DT1
+        IF(DT1>ZERO)FAC=ONE/DT1
 C       stockage temporaire, JUSQU'A L'ASSEMBLAGE DES FORCES SHELLS
         DO N=NODFT,NODLT
            ASAVE(1,N) =A(1,N)
@@ -131,7 +131,7 @@ C
          END DO
         END DO
 C
-        IF(IPARIT.GT.0)THEN
+        IF(IPARIT>0)THEN
           NISKFT =  1+ITASK*8*LSKY/NTHREAD
           NISKLT = (ITASK+1)*8*LSKY/NTHREAD
           DO  I=NISKFT,NISKLT

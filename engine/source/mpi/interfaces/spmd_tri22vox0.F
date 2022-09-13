@@ -119,7 +119,7 @@ C=======================================================================
       DZ = ZMAXB-ZMINB
  
       !test interection entre domaines (FLUIDE LOCAL / LAG DISTANTS)    
-      IF ( (DX.LE.ZERO).OR.(DY.LE.ZERO).OR.(DZ.LE.ZERO) ) THEN
+      IF ( (DX<=ZERO).OR.(DY<=ZERO).OR.(DZ<=ZERO) ) THEN
         IS_CONTACT = .FALSE.
         RETURN
       ELSE

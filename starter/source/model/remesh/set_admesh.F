@@ -171,18 +171,18 @@ C
 
              CALL HM_GET_INT_ARRAY_INDEX('PartIds1',ID_IP,I,IS_AVAILABLE,LSUBMODEL)
 
-             IF(ID_IP.NE.0)THEN
+             IF(ID_IP/=0)THEN
                 IP=0
                 DO J=1,NPART
-                  IF(IPART(4,J).EQ.ID_IP)THEN
+                  IF(IPART(4,J)==ID_IP)THEN
                     IP=J
                     GOTO 50
                   END IF
                 END DO
  50            CONTINUE
 C
-          	IF(IP.NE.0)THEN
-          	  IF(IPART(10,IP).NE.0)THEN
+          	IF(IP/=0)THEN
+          	  IF(IPART(10,IP)/=0)THEN
                     CALL ANCMSG(MSGID=644,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO,

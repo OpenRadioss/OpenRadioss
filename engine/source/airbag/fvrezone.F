@@ -65,10 +65,10 @@ C
       IFV=0
       DO N=1,NVOLU
          ITYP=MONVOL(K1-1+2)
-         IF (ITYP.EQ.6.OR.ITYP.EQ.8) THEN
+         IF (ITYP==6.OR.ITYP==8) THEN
            IFV=MONVOL(K1-1+45)
            IMESH=MONVOL(K1-1+56)
-           IF (IMESH.NE.0) THEN
+           IF (IMESH/=0) THEN
 C
             NNS=MONVOL(K1-1+32)
             NTG=MONVOL(K1-1+33)
@@ -241,7 +241,7 @@ c         ENDDO
       ELSE
          CALL SPMD_FVB_GATH(IFV, X, XXX, XXXA, XXXSA,
      .                      2  )
-         IF (ISPMD.NE.FVSPMD(IFV)%PMAIN-1) RETURN
+         IF (ISPMD/=FVSPMD(IFV)%PMAIN-1) RETURN
       ENDIF
 C Critere pour test d'interiorite
       CRIT=TEN
@@ -250,7 +250,7 @@ C Preliminaires
 C---------------------------------------------------
 C Coordonnees des noeuds 
       DO I=1,NNS0
-         IF (IFVNOD0(1,I).EQ.1) THEN
+         IF (IFVNOD0(1,I)==1) THEN
             IEL=IFVNOD0(2,I)
             KSI=RFVNOD0(1,I)
             ETA=RFVNOD0(2,I)
@@ -270,7 +270,7 @@ C
             PX0(1,I)=(ONE-KSI-ETA)*X1+KSI*X2+ETA*X3
             PX0(2,I)=(ONE-KSI-ETA)*Y1+KSI*Y2+ETA*Y3
             PX0(3,I)=(ONE-KSI-ETA)*Z1+KSI*Z2+ETA*Z3
-         ELSEIF (IFVNOD0(1,I).EQ.2) THEN
+         ELSEIF (IFVNOD0(1,I)==2) THEN
             II=IFVNOD0(2,I)
 c            IF (NSPMD == 1) THEN
 c               PX0(1,I)=X(1,II)
@@ -284,7 +284,7 @@ c            ENDIF
          ENDIF
       ENDDO
       DO I=1,NNS0
-         IF (IFVNOD0(1,I).EQ.3) THEN
+         IF (IFVNOD0(1,I)==3) THEN
             I1=IFVNOD0(2,I)
             I2=IFVNOD0(3,I)
             FAC=RFVNOD0(1,I)
@@ -295,7 +295,7 @@ c            ENDIF
       ENDDO
 C
       DO I=1,NNS1
-         IF (IFVNOD1(1,I).EQ.1) THEN
+         IF (IFVNOD1(1,I)==1) THEN
             IEL=IFVNOD1(2,I)
             KSI=RFVNOD1(1,I)
             ETA=RFVNOD1(2,I)
@@ -315,7 +315,7 @@ C
             PX1(1,I)=(ONE-KSI-ETA)*X1+KSI*X2+ETA*X3
             PX1(2,I)=(ONE-KSI-ETA)*Y1+KSI*Y2+ETA*Y3
             PX1(3,I)=(ONE-KSI-ETA)*Z1+KSI*Z2+ETA*Z3
-         ELSEIF (IFVNOD1(1,I).EQ.2) THEN
+         ELSEIF (IFVNOD1(1,I)==2) THEN
             II=IFVNOD1(2,I)
 c            IF (NSPMD == 1) THEN
 c               PX1(1,I)=X(1,II)
@@ -329,7 +329,7 @@ c            ENDIF
          ENDIF
       ENDDO
       DO I=1,NNS1
-         IF (IFVNOD1(1,I).EQ.3) THEN
+         IF (IFVNOD1(1,I)==3) THEN
             I1=IFVNOD1(2,I)
             I2=IFVNOD1(3,I)
             FAC=RFVNOD1(1,I)
@@ -364,7 +364,7 @@ C Normale et aire des triangles
          NRZ=X12*Y13-Y12*X13
          AREA2=SQRT(NRX**2+NRY**2+NRZ**2)
          TAREA0(I)=HALF*AREA2
-         IF (AREA2.GT.0) THEN
+         IF (AREA2>0) THEN
             NORM0(1,I)=NRX/AREA2
             NORM0(2,I)=NRY/AREA2
             NORM0(3,I)=NRZ/AREA2
@@ -399,7 +399,7 @@ C
          NRZ=X12*Y13-Y12*X13
          AREA2=SQRT(NRX**2+NRY**2+NRZ**2)
          TAREA1(I)=HALF*AREA2
-         IF (AREA2.GT.1) THEN
+         IF (AREA2>1) THEN
             NORM1(1,I)=NRX/AREA2
             NORM1(2,I)=NRY/AREA2
             NORM1(3,I)=NRZ/AREA2
@@ -420,16 +420,16 @@ C Boucle sur les triangles du polygone
                KK=IFVPOLY0(K)
                AREA=TAREA0(KK)
                IEL=IFVTRI0(4,KK)
-               IF (IEL.GT.0) THEN
+               IF (IEL>0) THEN
                   NX=NORM0(1,KK)
                   NY=NORM0(2,KK)
                   NZ=NORM0(3,KK)
                ELSE
-                  IF (IFVTRI0(5,KK).EQ.I) THEN
+                  IF (IFVTRI0(5,KK)==I) THEN
                      NX=NORM0(1,KK)
                      NY=NORM0(2,KK)
                      NZ=NORM0(3,KK)
-                  ELSEIF (IFVTRI0(6,KK).EQ.I) THEN
+                  ELSEIF (IFVTRI0(6,KK)==I) THEN
                      NX=-NORM0(1,KK)
                      NY=-NORM0(2,KK)
                      NZ=-NORM0(3,KK)
@@ -454,16 +454,16 @@ C Boucle sur les triangles du polygone
                KK=IFVPOLY1(K)
                AREA=TAREA1(KK)
                IEL=IFVTRI1(4,KK)
-               IF (IEL.GT.0) THEN
+               IF (IEL>0) THEN
                   NX=NORM1(1,KK)
                   NY=NORM1(2,KK)
                   NZ=NORM1(3,KK)
                ELSE
-                  IF (IFVTRI1(5,KK).EQ.I) THEN
+                  IF (IFVTRI1(5,KK)==I) THEN
                      NX=NORM1(1,KK)
                      NY=NORM1(2,KK)
                      NZ=NORM1(3,KK)
-                  ELSEIF (IFVTRI1(6,KK).EQ.I) THEN
+                  ELSEIF (IFVTRI1(6,KK)==I) THEN
                      NX=-NORM1(1,KK)
                      NY=-NORM1(2,KK)
                      NZ=-NORM1(3,KK)
@@ -571,7 +571,7 @@ C---------------------------------------------------
          ENDDO
       ENDDO
 C
-      IF (ILVOUT.NE.0) WRITE(ISTDO,'(A25,I8,A14)') 
+      IF (ILVOUT/=0) WRITE(ISTDO,'(A25,I8,A14)') 
      .' ** MONITORED VOLUME ID: ',ID,' - REZONING **'
       NNB=(NSTEP+1)**3
       DO I=1,NPOLH1
@@ -601,15 +601,15 @@ C
             DO K=IFVTADR1(JJ),IFVTADR1(JJ+1)-1
                NNT=NNT+1
                KK=IFVPOLY1(K)
-               IF (IFVTRI1(4,KK).GT.0) THEN
+               IF (IFVTRI1(4,KK)>0) THEN
                   PTRI1(1,NNT)=IFVTRI1(1,KK)
                   PTRI1(2,NNT)=IFVTRI1(2,KK)
                   PTRI1(3,NNT)=IFVTRI1(3,KK)
-               ELSEIF (IFVTRI1(5,KK).EQ.I) THEN
+               ELSEIF (IFVTRI1(5,KK)==I) THEN
                   PTRI1(1,NNT)=IFVTRI1(1,KK)
                   PTRI1(2,NNT)=IFVTRI1(2,KK)
                   PTRI1(3,NNT)=IFVTRI1(3,KK)
-               ELSEIF (IFVTRI1(6,KK).EQ.I) THEN
+               ELSEIF (IFVTRI1(6,KK)==I) THEN
                   PTRI1(1,NNT)=IFVTRI1(1,KK)
                   PTRI1(2,NNT)=IFVTRI1(3,KK)
                   PTRI1(3,NNT)=IFVTRI1(2,KK)
@@ -650,8 +650,8 @@ C
             ZMIN0=BBOX0(5,J)
             ZMAX0=BBOX0(6,J)
 C
-            IF (XMAX1.LT.XMIN0.OR.YMAX1.LT.YMIN0.OR.ZMAX1.LT.ZMIN0.OR.
-     .          XMIN1.GT.XMAX0.OR.YMIN1.GT.YMAX0.OR.ZMIN1.GT.ZMAX0)
+            IF (XMAX1<XMIN0.OR.YMAX1<YMIN0.OR.ZMAX1<ZMIN0.OR.
+     .          XMIN1>XMAX0.OR.YMIN1>YMAX0.OR.ZMIN1>ZMAX0)
      .         CYCLE
 C
             NNT0=PNTR0(J)
@@ -662,15 +662,15 @@ C
                DO L=IFVTADR0(KK),IFVTADR0(KK+1)-1
                   NNT=NNT+1
                   LL=IFVPOLY0(L)
-                  IF (IFVTRI0(4,LL).GT.0) THEN
+                  IF (IFVTRI0(4,LL)>0) THEN
                      PTRI0(1,NNT)=IFVTRI0(1,LL)
                      PTRI0(2,NNT)=IFVTRI0(2,LL)
                      PTRI0(3,NNT)=IFVTRI0(3,LL)
-                  ELSEIF (IFVTRI0(5,LL).EQ.J) THEN
+                  ELSEIF (IFVTRI0(5,LL)==J) THEN
                      PTRI0(1,NNT)=IFVTRI0(1,LL)
                      PTRI0(2,NNT)=IFVTRI0(2,LL)
                      PTRI0(3,NNT)=IFVTRI0(3,LL)
-                  ELSEIF (IFVTRI0(6,LL).EQ.J) THEN
+                  ELSEIF (IFVTRI0(6,LL)==J) THEN
                      PTRI0(1,NNT)=IFVTRI0(1,LL)
                      PTRI0(2,NNT)=IFVTRI0(3,LL)
                      PTRI0(3,NNT)=IFVTRI0(2,LL)
@@ -694,7 +694,7 @@ C
                   LL=BB(L,K)
                   NN=NN+INB_TMP(LL)
                ENDDO
-               IF (NN.GT.0) THEN
+               IF (NN>0) THEN
                   NBI=NBI+1
                   LISTB(NBI)=K
                ENDIF
@@ -720,7 +720,7 @@ C
 C
          DEALLOCATE(PTRI1, XB, INB)
 C
-         IF (ILVOUT.LT.0) CALL PROGBAR_C(I,NPOLH1)
+         IF (ILVOUT<0) CALL PROGBAR_C(I,NPOLH1)
       ENDDO
       DEALLOCATE(BB)
 C
@@ -830,9 +830,9 @@ C
          ZZ=XB(3,I)
          IN(I)=0
 C
-         IF (XX.LT.XMIN.OR.XX.GT.XMAX.OR.
-     .       YY.LT.YMIN.OR.YY.GT.YMAX.OR.
-     .       ZZ.LT.ZMIN.OR.ZZ.GT.ZMAX) CYCLE
+         IF (XX<XMIN.OR.XX>XMAX.OR.
+     .       YY<YMIN.OR.YY>YMAX.OR.
+     .       ZZ<ZMIN.OR.ZZ>ZMAX) CYCLE
 C
          ST=ZERO
          DO IEL=1,NEL
@@ -873,12 +873,12 @@ C
             SS1=-(NX1*NX2+NY1*NY2+NZ1*NZ2)/RR1/RR2
             SS2=-(NX2*NX3+NY2*NY3+NZ2*NZ3)/RR2/RR3
             SS3=-(NX3*NX1+NY3*NY1+NZ3*NZ1)/RR3/RR1
-            IF (SS1.GT.ONE) SS1=ONE
-            IF (SS1.LT.-ONE) SS1=-ONE
-            IF (SS2.GT.ONE) SS2=ONE
-            IF (SS2.LT.-ONE) SS2=-ONE
-            IF (SS3.GT.ONE) SS3=ONE
-            IF (SS3.LT.-ONE) SS3=-ONE
+            IF (SS1>ONE) SS1=ONE
+            IF (SS1<-ONE) SS1=-ONE
+            IF (SS2>ONE) SS2=ONE
+            IF (SS2<-ONE) SS2=-ONE
+            IF (SS3>ONE) SS3=ONE
+            IF (SS3<-ONE) SS3=-ONE
             SAREA=ACOS(SS1)+ACOS(SS2)+ACOS(SS3)-PI
 C
             VX1=X2-X1
@@ -894,11 +894,11 @@ C
             YC=THIRD*(Y1+Y2+Y3)
             ZC=THIRD*(Z1+Z2+Z3)
             SS=NX*(XC-XX)+NY*(YC-YY)+NZ*(ZC-ZZ)
-            IF (SS.LT.ZERO) SAREA=-SAREA
+            IF (SS<ZERO) SAREA=-SAREA
             ST=ST+SAREA
          ENDDO
 C
-         IF (ABS(ST).GT.TOLE) IN(I)=1        
+         IF (ABS(ST)>TOLE) IN(I)=1        
       ENDDO
 C
       RETURN

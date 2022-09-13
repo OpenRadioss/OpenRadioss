@@ -108,72 +108,72 @@ C      Boite englobante de l'ellipsoide dans le repere global.
        XG   =ROT(1)*XLMAX+ROT(4)*YLMIN+ROT(7)*ZLMIN
        YG   =ROT(2)*XLMAX+ROT(5)*YLMIN+ROT(8)*ZLMIN
        ZG   =ROT(3)*XLMAX+ROT(6)*YLMIN+ROT(9)*ZLMIN
-       IF (XG.LT.XGMIN) XGMIN=XG
-       IF (XG.GT.XGMAX) XGMAX=XG
-       IF (YG.LT.YGMIN) YGMIN=YG
-       IF (YG.GT.YGMAX) YGMAX=YG
-       IF (ZG.LT.ZGMIN) ZGMIN=ZG
-       IF (ZG.GT.ZGMAX) ZGMAX=ZG
+       IF (XG<XGMIN) XGMIN=XG
+       IF (XG>XGMAX) XGMAX=XG
+       IF (YG<YGMIN) YGMIN=YG
+       IF (YG>YGMAX) YGMAX=YG
+       IF (ZG<ZGMIN) ZGMIN=ZG
+       IF (ZG>ZGMAX) ZGMAX=ZG
        XG   =ROT(1)*XLMIN+ROT(4)*YLMAX+ROT(7)*ZLMIN
        YG   =ROT(2)*XLMIN+ROT(5)*YLMAX+ROT(8)*ZLMIN
        ZG   =ROT(3)*XLMIN+ROT(6)*YLMAX+ROT(9)*ZLMIN
-       IF (XG.LT.XGMIN) XGMIN=XG
-       IF (XG.GT.XGMAX) XGMAX=XG
-       IF (YG.LT.YGMIN) YGMIN=YG
-       IF (YG.GT.YGMAX) YGMAX=YG
-       IF (ZG.LT.ZGMIN) ZGMIN=ZG
-       IF (ZG.GT.ZGMAX) ZGMAX=ZG
+       IF (XG<XGMIN) XGMIN=XG
+       IF (XG>XGMAX) XGMAX=XG
+       IF (YG<YGMIN) YGMIN=YG
+       IF (YG>YGMAX) YGMAX=YG
+       IF (ZG<ZGMIN) ZGMIN=ZG
+       IF (ZG>ZGMAX) ZGMAX=ZG
        XG   =ROT(1)*XLMIN+ROT(4)*YLMIN+ROT(7)*ZLMAX
        YG   =ROT(2)*XLMIN+ROT(5)*YLMIN+ROT(8)*ZLMAX
        ZG   =ROT(3)*XLMIN+ROT(6)*YLMIN+ROT(9)*ZLMAX
-       IF (XG.LT.XGMIN) XGMIN=XG
-       IF (XG.GT.XGMAX) XGMAX=XG
-       IF (YG.LT.YGMIN) YGMIN=YG
-       IF (YG.GT.YGMAX) YGMAX=YG
-       IF (ZG.LT.ZGMIN) ZGMIN=ZG
-       IF (ZG.GT.ZGMAX) ZGMAX=ZG
+       IF (XG<XGMIN) XGMIN=XG
+       IF (XG>XGMAX) XGMAX=XG
+       IF (YG<YGMIN) YGMIN=YG
+       IF (YG>YGMAX) YGMAX=YG
+       IF (ZG<ZGMIN) ZGMIN=ZG
+       IF (ZG>ZGMAX) ZGMAX=ZG
        XG   =ROT(1)*XLMAX+ROT(4)*YLMAX+ROT(7)*ZLMIN
        YG   =ROT(2)*XLMAX+ROT(5)*YLMAX+ROT(8)*ZLMIN
        ZG   =ROT(3)*XLMAX+ROT(6)*YLMAX+ROT(9)*ZLMIN
-       IF (XG.LT.XGMIN) XGMIN=XG
-       IF (XG.GT.XGMAX) XGMAX=XG
-       IF (YG.LT.YGMIN) YGMIN=YG
-       IF (YG.GT.YGMAX) YGMAX=YG
-       IF (ZG.LT.ZGMIN) ZGMIN=ZG
-       IF (ZG.GT.ZGMAX) ZGMAX=ZG
+       IF (XG<XGMIN) XGMIN=XG
+       IF (XG>XGMAX) XGMAX=XG
+       IF (YG<YGMIN) YGMIN=YG
+       IF (YG>YGMAX) YGMAX=YG
+       IF (ZG<ZGMIN) ZGMIN=ZG
+       IF (ZG>ZGMAX) ZGMAX=ZG
        XG   =ROT(1)*XLMAX+ROT(4)*YLMIN+ROT(7)*ZLMAX
        YG   =ROT(2)*XLMAX+ROT(5)*YLMIN+ROT(8)*ZLMAX
        ZG   =ROT(3)*XLMAX+ROT(6)*YLMIN+ROT(9)*ZLMAX
-       IF (XG.LT.XGMIN) XGMIN=XG
-       IF (XG.GT.XGMAX) XGMAX=XG
-       IF (YG.LT.YGMIN) YGMIN=YG
-       IF (YG.GT.YGMAX) YGMAX=YG
-       IF (ZG.LT.ZGMIN) ZGMIN=ZG
-       IF (ZG.GT.ZGMAX) ZGMAX=ZG
+       IF (XG<XGMIN) XGMIN=XG
+       IF (XG>XGMAX) XGMAX=XG
+       IF (YG<YGMIN) YGMIN=YG
+       IF (YG>YGMAX) YGMAX=YG
+       IF (ZG<ZGMIN) ZGMIN=ZG
+       IF (ZG>ZGMAX) ZGMAX=ZG
        XG   =ROT(1)*XLMIN+ROT(4)*YLMAX+ROT(7)*ZLMAX
        YG   =ROT(2)*XLMIN+ROT(5)*YLMAX+ROT(8)*ZLMAX
        ZG   =ROT(3)*XLMIN+ROT(6)*YLMAX+ROT(9)*ZLMAX
-       IF (XG.LT.XGMIN) XGMIN=XG
-       IF (XG.GT.XGMAX) XGMAX=XG
-       IF (YG.LT.YGMIN) YGMIN=YG
-       IF (YG.GT.YGMAX) YGMAX=YG
-       IF (ZG.LT.ZGMIN) ZGMIN=ZG
-       IF (ZG.GT.ZGMAX) ZGMAX=ZG
+       IF (XG<XGMIN) XGMIN=XG
+       IF (XG>XGMAX) XGMAX=XG
+       IF (YG<YGMIN) YGMIN=YG
+       IF (YG>YGMAX) YGMAX=YG
+       IF (ZG<ZGMIN) ZGMIN=ZG
+       IF (ZG>ZGMAX) ZGMAX=ZG
        XG   =ROT(1)*XLMAX+ROT(4)*YLMAX+ROT(7)*ZLMAX
        YG   =ROT(2)*XLMAX+ROT(5)*YLMAX+ROT(8)*ZLMAX
        ZG   =ROT(3)*XLMAX+ROT(6)*YLMAX+ROT(9)*ZLMAX
-       IF (XG.LT.XGMIN) XGMIN=XG
-       IF (XG.GT.XGMAX) XGMAX=XG
-       IF (YG.LT.YGMIN) YGMIN=YG
-       IF (YG.GT.YGMAX) YGMAX=YG
-       IF (ZG.LT.ZGMIN) ZGMIN=ZG
-       IF (ZG.GT.ZGMAX) ZGMAX=ZG
+       IF (XG<XGMIN) XGMIN=XG
+       IF (XG>XGMAX) XGMAX=XG
+       IF (YG<YGMIN) YGMIN=YG
+       IF (YG>YGMAX) YGMAX=YG
+       IF (ZG<ZGMIN) ZGMIN=ZG
+       IF (ZG>ZGMAX) ZGMAX=ZG
 C----------------------------------
        NSC=0
        NTC=0
 C------------------------
        DO 110 I=1,NSI
-        IF (IACTIV(I).EQ.-1) GOTO 110
+        IF (IACTIV(I)==-1) GOTO 110
         IN1=KSI(1,I)
         X1=X(1,IN1)-XM
         Y1=X(2,IN1)-YM
@@ -187,7 +187,7 @@ C------------------------
         Y3=X(2,IN3)-YM
         Z3=X(3,IN3)-ZM
         IN4=KSI(4,I)
-        IF (IN4.NE.IN3) THEN
+        IF (IN4/=IN3) THEN
          X4=X(1,IN4)-XM
          Y4=X(2,IN4)-YM
          Z4=X(3,IN4)-ZM
@@ -197,27 +197,27 @@ C------------------------
          YRMAX=Y1
          ZRMIN=Z1
          ZRMAX=Z1
-         IF (X2.LT.XRMIN) XRMIN=X2
-         IF (X2.GT.XRMAX) XRMAX=X2
-         IF (Y2.LT.YRMIN) YRMIN=Y2
-         IF (Y2.GT.YRMAX) YRMAX=Y2
-         IF (Z2.LT.ZRMIN) ZRMIN=Z2
-         IF (Z2.GT.ZRMAX) ZRMAX=Z2
-         IF (X3.LT.XRMIN) XRMIN=X3
-         IF (X3.GT.XRMAX) XRMAX=X3
-         IF (Y3.LT.YRMIN) YRMIN=Y3
-         IF (Y3.GT.YRMAX) YRMAX=Y3
-         IF (Z3.LT.ZRMIN) ZRMIN=Z3
-         IF (Z3.GT.ZRMAX) ZRMAX=Z3
-         IF (X4.LT.XRMIN) XRMIN=X4
-         IF (X4.GT.XRMAX) XRMAX=X4
-         IF (Y4.LT.YRMIN) YRMIN=Y4
-         IF (Y4.GT.YRMAX) YRMAX=Y4
-         IF (Z4.LT.ZRMIN) ZRMIN=Z4
-         IF (Z4.GT.ZRMAX) ZRMAX=Z4
-         IF ( .NOT.(    XRMAX.LT.XGMIN.OR.XRMIN.GT.XGMAX
-     .                 .OR.YRMAX.LT.YGMIN.OR.YRMIN.GT.YGMAX
-     .                 .OR.ZRMAX.LT.ZGMIN.OR.ZRMIN.GT.ZGMAX) ) THEN
+         IF (X2<XRMIN) XRMIN=X2
+         IF (X2>XRMAX) XRMAX=X2
+         IF (Y2<YRMIN) YRMIN=Y2
+         IF (Y2>YRMAX) YRMAX=Y2
+         IF (Z2<ZRMIN) ZRMIN=Z2
+         IF (Z2>ZRMAX) ZRMAX=Z2
+         IF (X3<XRMIN) XRMIN=X3
+         IF (X3>XRMAX) XRMAX=X3
+         IF (Y3<YRMIN) YRMIN=Y3
+         IF (Y3>YRMAX) YRMAX=Y3
+         IF (Z3<ZRMIN) ZRMIN=Z3
+         IF (Z3>ZRMAX) ZRMAX=Z3
+         IF (X4<XRMIN) XRMIN=X4
+         IF (X4>XRMAX) XRMAX=X4
+         IF (Y4<YRMIN) YRMIN=Y4
+         IF (Y4>YRMAX) YRMAX=Y4
+         IF (Z4<ZRMIN) ZRMIN=Z4
+         IF (Z4>ZRMAX) ZRMAX=Z4
+         IF ( .NOT.(    XRMAX<XGMIN.OR.XRMIN>XGMAX
+     .                 .OR.YRMAX<YGMIN.OR.YRMIN>YGMAX
+     .                 .OR.ZRMAX<ZGMIN.OR.ZRMIN>ZGMAX) ) THEN
               NSC=NSC+1
               KSC(NSC)=I
          ENDIF
@@ -231,21 +231,21 @@ C---------------------------------
          YRMAX=Y1
          ZRMIN=Z1
          ZRMAX=Z1
-         IF (X2.LT.XRMIN) XRMIN=X2
-         IF (X2.GT.XRMAX) XRMAX=X2
-         IF (Y2.LT.YRMIN) YRMIN=Y2
-         IF (Y2.GT.YRMAX) YRMAX=Y2
-         IF (Z2.LT.ZRMIN) ZRMIN=Z2
-         IF (Z2.GT.ZRMAX) ZRMAX=Z2
-         IF (X3.LT.XRMIN) XRMIN=X3
-         IF (X3.GT.XRMAX) XRMAX=X3
-         IF (Y3.LT.YRMIN) YRMIN=Y3
-         IF (Y3.GT.YRMAX) YRMAX=Y3
-         IF (Z3.LT.ZRMIN) ZRMIN=Z3
-         IF (Z3.GT.ZRMAX) ZRMAX=Z3
-         IF ( .NOT.( XRMAX.LT.XGMIN.OR.XRMIN.GT.XGMAX
-     .                .OR.YRMAX.LT.YGMIN.OR.YRMIN.GT.YGMAX
-     .                .OR.ZRMAX.LT.ZGMIN.OR.ZRMIN.GT.ZGMAX) ) THEN
+         IF (X2<XRMIN) XRMIN=X2
+         IF (X2>XRMAX) XRMAX=X2
+         IF (Y2<YRMIN) YRMIN=Y2
+         IF (Y2>YRMAX) YRMAX=Y2
+         IF (Z2<ZRMIN) ZRMIN=Z2
+         IF (Z2>ZRMAX) ZRMAX=Z2
+         IF (X3<XRMIN) XRMIN=X3
+         IF (X3>XRMAX) XRMAX=X3
+         IF (Y3<YRMIN) YRMIN=Y3
+         IF (Y3>YRMAX) YRMAX=Y3
+         IF (Z3<ZRMIN) ZRMIN=Z3
+         IF (Z3>ZRMAX) ZRMAX=Z3
+         IF ( .NOT.( XRMAX<XGMIN.OR.XRMIN>XGMAX
+     .                .OR.YRMAX<YGMIN.OR.YRMIN>YGMAX
+     .                .OR.ZRMAX<ZGMIN.OR.ZRMIN>ZGMAX) ) THEN
               NTC=NTC+1
               KTC(NTC)=I
          ENDIF

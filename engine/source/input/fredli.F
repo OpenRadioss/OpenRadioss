@@ -65,19 +65,19 @@ C
       DO N=1,NDEL
         READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,1X,A,31X,I10)',
      .     ERR=9990)KEY2,KEY3,NBC
-        IF(KEY2.EQ.'INTER'.AND.
-     .   KEY3(1:3).NE.'NOD'.AND.KEY3(1:3).NE.'SEG')
+        IF(KEY2=='INTER'.AND.
+     .   KEY3(1:3)/='NOD'.AND.KEY3(1:3)/='SEG')
      .   CALL READ10P(IKAD(IKEY)+K+1,NBC,KEY0(IKEY),IV2,JJ)
         K=K+NBC+1
       ENDDO
-      IF(JJ.NE.0)WRITE(IIN,'(10I10)')(IV2(J),J=1,JJ)
+      IF(JJ/=0)WRITE(IIN,'(10I10)')(IV2(J),J=1,JJ)
 C
       K=0
       JJ = 0
       DO N=1,NDEL
         READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,1X,A,31X,I10)',
      .     ERR=9990)KEY2,KEY3,NBC
-        IF(KEY2.EQ.'INTER'.AND.KEY3(1:3).EQ.'NOD')THEN
+        IF(KEY2=='INTER'.AND.KEY3(1:3)=='NOD')THEN
           CALL WRIUSC2(IKAD(IKEY)+K+1,1,KEY0(IKEY))
           READ(IUSC2,*,ERR=9990,END=9990)INT
           WRITE(IIN,'(2I8)')INT,NBC-1
@@ -85,14 +85,14 @@ C
         ENDIF
         K=K+NBC+1
       ENDDO
-      IF(JJ.NE.0)WRITE(IIN,'(10I10)')(IV2(J),J=1,JJ)
+      IF(JJ/=0)WRITE(IIN,'(10I10)')(IV2(J),J=1,JJ)
 C
       K=0
       JJ = 0
       DO N=1,NDEL
         READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,1X,A,31X,I10)',
      .     ERR=9990)KEY2,KEY3,NBC
-        IF(KEY2.EQ.'INTER'.AND.KEY3(1:3).EQ.'SEG')THEN
+        IF(KEY2=='INTER'.AND.KEY3(1:3)=='SEG')THEN
           CALL WRIUSC2(IKAD(IKEY)+K+1,1,KEY0(IKEY))
           READ(IUSC2,*,ERR=9990,END=9990)INT
           WRITE(IIN,'(2I8)')INT,NBC-1
@@ -100,7 +100,7 @@ C
         ENDIF
         K=K+NBC+1
       ENDDO
-      IF(JJ.NE.0)WRITE(IIN,'(10I10)')(IV2(J),J=1,JJ)
+      IF(JJ/=0)WRITE(IIN,'(10I10)')(IV2(J),J=1,JJ)
 C
       RETURN
 C

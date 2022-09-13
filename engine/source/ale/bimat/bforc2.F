@@ -205,7 +205,7 @@ C------------
 C------------
 C      A.L.E.
 C------------
-      IF (JALE.NE.0) THEN
+      IF (JALE/=0) THEN
        CALL QVOLU2(GBUF%OFF,AIRE,VOLN,NGL,
      .             Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
      .             BID,BID)
@@ -237,7 +237,7 @@ C------------
 C-----------
 C      EULER
 C-----------
-      ELSEIF(JEUL.NE.0)THEN
+      ELSEIF(JEUL/=0)THEN
        CALL EDEFO2(GBUF%VOL,V,VEUL,
      .                  Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
      .                  VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,
@@ -335,7 +335,7 @@ C pour le fluide en SPMD : BUFVOIS LOI11
 C----------------------------------
 C     PETROV-GALERKIN PSEUDO MASSES ET MASSES ALE
 C----------------------------------
-      IF (IPARIT.EQ.0) THEN
+      IF (IPARIT==0) THEN
         CALL QMASS2(LBUF%OFF,LBUF%RHO,MS,
      .                  AIRE,NC1,NC2,NC3,NC4)
       ELSE
@@ -366,16 +366,16 @@ C--------------------------
 C     BILANS PAR MATERIAU
 C--------------------------
       IFLAG=MOD(NCYCLE,NCPRI)
-      IF(IFLAG.EQ.0.OR.TT.GE.THIS.OR.TT.GE.TDES
-     .  .OR.TT.GE.TPAT.OR.MDESS.NE.0.
-     .   OR.TT.GE.THIS1(1).OR.TT.GE.THIS1(2).
-     .   OR.TT.GE.THIS1(3).OR.TT.GE.THIS1(4).OR.TT.GE.THIS1(5).
-     .   OR.TT.GE.THIS1(6).OR.TT.GE.THIS1(7).OR.TT.GE.THIS1(8).
-     .   OR.TT.GE.THIS1(9).OR.NTH.NE.0.OR.NANIM.NE.0          .
-     .   OR.TT.GE.TABFIS(1).OR.TT.GE.TABFIS(2).
-     .   OR.TT.GE.TABFIS(3).OR.TT.GE.TABFIS(4).OR.TT.GE.TABFIS(5).
-     .   OR.TT.GE.TABFIS(6).OR.TT.GE.TABFIS(7).OR.TT.GE.TABFIS(8).
-     .   OR.TT.GE.TABFIS(10))
+      IF(IFLAG==0.OR.TT>=THIS.OR.TT>=TDES
+     .  .OR.TT>=TPAT.OR.MDESS/=0.
+     .   OR.TT>=THIS1(1).OR.TT>=THIS1(2).
+     .   OR.TT>=THIS1(3).OR.TT>=THIS1(4).OR.TT>=THIS1(5).
+     .   OR.TT>=THIS1(6).OR.TT>=THIS1(7).OR.TT>=THIS1(8).
+     .   OR.TT>=THIS1(9).OR.NTH/=0.OR.NANIM/=0          .
+     .   OR.TT>=TABFIS(1).OR.TT>=TABFIS(2).
+     .   OR.TT>=TABFIS(3).OR.TT>=TABFIS(4).OR.TT>=TABFIS(5).
+     .   OR.TT>=TABFIS(6).OR.TT>=TABFIS(7).OR.TT>=TABFIS(8).
+     .   OR.TT>=TABFIS(10))
      . CALL QBILAN(PARTSAV,LBUF%OFF,LBUF%EINT,LBUF%RHO,LBUF%RK,LBUF%VOL,
      .             VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,VOLN,IPARTQ,EHOU,
      .             BID,BID,BID,BID,GRESAV,GRTH,IGRTH,IBID,BID,ITASK)
@@ -390,12 +390,12 @@ C--------------------
 C------------------------
 C     FORCES DE TRANSPORT
 C------------------------
-      IF (JALE.GT.0.AND.MTN.NE.11)
+      IF (JALE>0.AND.MTN/=11)
      .  CALL BAMOM2(PM,V,W,LBUF%RHO,LBUF1%FRAC,LBUF2%FRAC,FILL(1,1),
      .                  B11,B12,B13,B14,B21,B22,B23,B24,
      .                  PY1, PY2, PZ1, PZ2, AIRE, 
      .                  MAT, NC1, NC2, NC3, NC4)
-      IF (JEUL.GT.0.AND.MTN.NE.11)
+      IF (JEUL>0.AND.MTN/=11)
      .  CALL BEMOM2(PM,V,LBUF%RHO,LBUF1%FRAC,LBUF2%FRAC,FILL(1,1),
      .                  B11,B12,B13,B14,B21,B22,B23,B24,
      .                  PY1, PY2, PZ1, PZ2, AIRE, 
@@ -410,7 +410,7 @@ C--------------
      4                                      BIDM,BIDM,BIDM,BIDM,GBUF%OFF,
      5                                      LFT,LLT,NEL)
 
-      IF (IPARIT.EQ.0) THEN
+      IF (IPARIT==0) THEN
       CALL BCUMU2 (LBUF1%FRAC,LBUF2%FRAC,A,FILL(1,1),
      .             LBUF%SIG,LBUF%EINT,LBUF%RHO,LBUF%QVIS,GBUF%QVIS,
      .             GBUF%SIG,GBUF%EINT,GBUF%RHO,GBUF%TEMP,LBUF%TEMP,
@@ -442,7 +442,7 @@ C     MULTIMATERIAUX 2
 C-----------------------------------------------------
 C     NB1:OFF /NB2:SIG(6)/NB3:ENERGIE/NB4:RHO/NB5: Q /
 C-----------------------------------------------------
-      IF(IMULT.GT.1)THEN
+      IF(IMULT>1)THEN
 c
       JMULT=2
       LBUF => ELBUF_TAB(NG)%BUFLY(JMULT)%LBUF(1,1,1)  ! buffer mat 2
@@ -511,7 +511,7 @@ C-----------------------------------------------------
 C----------------------------------
 C     PETROV-GALERKIN PSEUDO MASSES ET MASSES ALE
 C----------------------------------
-      IF (IPARIT.EQ.0) THEN
+      IF (IPARIT==0) THEN
       CALL QMASS2(LBUF%OFF,LBUF%RHO,MS,
      .                  AIRE,NC1,NC2,NC3,NC4)
       ELSE
@@ -542,16 +542,16 @@ C--------------------------
 C     BILANS PAR MATERIAU
 C--------------------------
       IFLAG=MOD(NCYCLE,NCPRI)
-      IF(IFLAG.EQ.0.OR.TT.GE.THIS.OR.TT.GE.TDES
-     .  .OR.TT.GE.TPAT.OR.MDESS.NE.0.
-     .   OR.TT.GE.THIS1(1).OR.TT.GE.THIS1(2).
-     .   OR.TT.GE.THIS1(3).OR.TT.GE.THIS1(4).OR.TT.GE.THIS1(5).
-     .   OR.TT.GE.THIS1(6).OR.TT.GE.THIS1(7).OR.TT.GE.THIS1(8).
-     .   OR.TT.GE.THIS1(9).OR.NTH.NE.0.OR.NANIM.NE.0          .
-     .   OR.TT.GE.TABFIS(1).OR.TT.GE.TABFIS(2).
-     .   OR.TT.GE.TABFIS(3).OR.TT.GE.TABFIS(4).OR.TT.GE.TABFIS(5).
-     .   OR.TT.GE.TABFIS(6).OR.TT.GE.TABFIS(7).OR.TT.GE.TABFIS(8).
-     .   OR.TT.GE.TABFIS(10))
+      IF(IFLAG==0.OR.TT>=THIS.OR.TT>=TDES
+     .  .OR.TT>=TPAT.OR.MDESS/=0.
+     .   OR.TT>=THIS1(1).OR.TT>=THIS1(2).
+     .   OR.TT>=THIS1(3).OR.TT>=THIS1(4).OR.TT>=THIS1(5).
+     .   OR.TT>=THIS1(6).OR.TT>=THIS1(7).OR.TT>=THIS1(8).
+     .   OR.TT>=THIS1(9).OR.NTH/=0.OR.NANIM/=0          .
+     .   OR.TT>=TABFIS(1).OR.TT>=TABFIS(2).
+     .   OR.TT>=TABFIS(3).OR.TT>=TABFIS(4).OR.TT>=TABFIS(5).
+     .   OR.TT>=TABFIS(6).OR.TT>=TABFIS(7).OR.TT>=TABFIS(8).
+     .   OR.TT>=TABFIS(10))
 c
      . CALL QBILAN(PARTSAV,LBUF%OFF,LBUF%EINT,LBUF%RHO,LBUF%RK,
      .             LBUF%VOL,VY1,VY2,VY3,VY4,VZ1,
@@ -567,12 +567,12 @@ C--------------------
 C------------------------
 C       FORCES DE TRANSPORT
 C------------------------
-        IF(JALE.GT.0.AND.MTN.NE.11)
+        IF(JALE>0.AND.MTN/=11)
      .    CALL BAMOM2(PM,V,W,LBUF%RHO,LBUF2%FRAC,LBUF1%FRAC,FILL(1,2),
      .                  B11,B12,B13,B14,B21,B22,B23,B24,
      .                  PY1, PY2, PZ1, PZ2, AIRE, 
      .                  MAT, NC1, NC2, NC3, NC4)
-        IF(JEUL.GT.0.AND.MTN.NE.11)
+        IF(JEUL>0.AND.MTN/=11)
      .    CALL BEMOM2(PM,V,LBUF%RHO,LBUF2%FRAC,LBUF1%FRAC,FILL(1,2),
      .                  B11,B12,B13,B14,B21,B22,B23,B24,
      .                  PY1, PY2, PZ1, PZ2, AIRE, 
@@ -586,7 +586,7 @@ C--------------
      3                                      BIDM,BIDM,BIDM,BIDM,BIDM,
      4                                      BIDM,BIDM,BIDM,BIDM,GBUF%OFF,
      5                                      LFT,LLT,NEL)
-        IF(IPARIT.EQ.0)THEN
+        IF(IPARIT==0)THEN
           CALL BCUMU2(LBUF2%FRAC,LBUF1%FRAC,A,FILL(1,2),
      .             LBUF%SIG,LBUF%EINT,LBUF%RHO,LBUF%QVIS,GBUF%QVIS,
      .             GBUF%SIG,GBUF%EINT,GBUF%RHO,GBUF%TEMP,LBUF%TEMP,

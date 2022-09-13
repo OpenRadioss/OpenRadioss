@@ -81,7 +81,7 @@ C-----------------------------------------------
         VZA(I)=VZ1(I)+VZ2(I)+VZ3(I)+VZ4(I)
       ENDDO
 
-      IF(JCVT.NE.0)THEN
+      IF(JCVT/=0)THEN
         DO I=LFT,LLT
           VY=R22(I)*VYA(I)+R23(I)*VZA(I)
           VZ=R32(I)*VYA(I)+R33(I)*VZA(I)
@@ -128,14 +128,14 @@ C-----------------------------------------------
         PARTSAV(6,M)=PARTSAV(6,M) + XMAS(I)
       ENDDO
 
-      IF(JTUR.NE.0)THEN
+      IF(JTUR/=0)THEN
        DO I=LFT,LLT
          M=IPARTQ(I)
          PARTSAV(7,M)=PARTSAV(7,M) + RK(I)*VOL(I)*OFF(I)
        ENDDO
       ENDIF
 
-      IF(IEXPAN.NE.0)THEN
+      IF(IEXPAN/=0)THEN
        DO I=LFT,LLT
         M=IPARTQ(I)
         PARTSAV(27,M)=PARTSAV(27,M) + EINTTH(I)*VOL(I)*OFF(I)

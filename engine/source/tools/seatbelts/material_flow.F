@@ -95,7 +95,7 @@ C
 C---------------------------------------------------------
 C
       DT11 = DT1
-      IF(DT11.EQ.ZERO) DT11 = EP30
+      IF(DT11==ZERO) DT11 = EP30
 C
 C----------------------------------------------------------
 C-    MATERIAL FLOW COMPUTATION FOR SLIPRING AND RETRACTOR

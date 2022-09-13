@@ -151,7 +151,7 @@ c
         VL(3,3,I) = (VL(3,3,I) - Z3(I))*FAC
       ENDDO
 c--------------------------------------------------------
-      IF (ISMSTR.NE.1) THEN
+      IF (ISMSTR/=1) THEN
         DO NT=1,NITRS
           FAC = FLOAT(NT) - ONE
 C

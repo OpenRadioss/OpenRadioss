@@ -101,7 +101,7 @@ c     filtrage des vitesses
         DV0(I) =  DV(I)
       ENDDO
 C
-      IF(IANI.NE.0)THEN
+      IF(IANI/=0)THEN
         DO I=LFT,LLT
           J =I+NFT
           DAMP=DX(I)/MAX(DMX(I),EM15)

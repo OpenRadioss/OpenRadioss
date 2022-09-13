@@ -137,27 +137,27 @@ C-----------------------------------------------
       IDEL=0
       IDEV=0
       SCALE = ZERO
-      IF(IFLAG.EQ.1)THEN
+      IF(IFLAG==1)THEN
          IDEL=1
-      ELSEIF(IFLAG.EQ.2)THEN
+      ELSEIF(IFLAG==2)THEN
          IDEV =1
       END IF
 C...
-      IF(IDEL.EQ.1)THEN
+      IF(IDEL==1)THEN
         DO I=1,NEL
-          IF(OFF(I).LT.0.1) OFF(I)=0.0
-          IF(OFF(I).LT.1.0) OFF(I)=OFF(I)*0.8
+          IF(OFF(I)<0.1) OFF(I)=0.0
+          IF(OFF(I)<1.0) OFF(I)=OFF(I)*0.8
         END DO
       END IF
 C      
-      IF(IDEL.EQ.1)THEN
+      IF(IDEL==1)THEN
        NINDX=0 
 C-------------------------------
 C     RUPTURE DUCTILE
 C-------------------------------
 C      Tuler Butcher
        DO I=1,NEL
-        IF(IFLAG.EQ.1.AND.OFF(I).EQ.1.)THEN
+        IF(IFLAG==1.AND.OFF(I)==1.)THEN
 C-------------------
 C     STREES principal 1, 4 newton iterations 
 C-------------------
@@ -184,30 +184,30 @@ c         yp= 3 x^2 + c
          SIGMAX = SQRT(-CC1)
          EPST2 = SIGMAX * SIGMAX
          Y = (EPST2 + C)* SIGMAX + D
-         IF(ABS(Y).GT.EM8)THEN
+         IF(ABS(Y)>EM8)THEN
           SIGMAX = 1.75 * SIGMAX
           EPST2 = SIGMAX * SIGMAX
           Y = (EPST2 + C)* SIGMAX + D
           YP = THREE*EPST2 + C
-          IF(YP.NE.ZERO)SIGMAX = SIGMAX - Y/YP
+          IF(YP/=ZERO)SIGMAX = SIGMAX - Y/YP
           EPST2 = SIGMAX * SIGMAX
           Y = (EPST2 + C)* SIGMAX + D
           YP = THREE*EPST2 + C
-          IF(YP.NE.ZERO)SIGMAX = SIGMAX - Y/YP
+          IF(YP/=ZERO)SIGMAX = SIGMAX - Y/YP
           EPST2 = SIGMAX * SIGMAX
           Y = (EPST2 + C)* SIGMAX + D
           YP = THREE*EPST2 + C
-          IF(YP.NE.ZERO)SIGMAX = SIGMAX - Y/YP
+          IF(YP/=ZERO)SIGMAX = SIGMAX - Y/YP
           EPST2 = SIGMAX * SIGMAX
           Y = (EPST2 + C)* SIGMAX + D
           YP = THREE*EPST2 + C
-          IF(YP.NE.ZERO)SIGMAX = SIGMAX - Y/YP
+          IF(YP/=ZERO)SIGMAX = SIGMAX - Y/YP
          ENDIF 
          SIGMAX = SIGMAX + P  
-         IF(SIGMAX.GE.SIGR)            	 
+         IF(SIGMAX>=SIGR)            	 
      .    UVAR(I,1)=UVAR(I,1) + TIMESTEP*(SIGMAX - SIGR)**TBA  
 cc          UVAR(I,2)=UVAR(I,2) + TIMESTEP  
-         IF (UVAR(I,1).GT.TBK) THEN
+         IF (UVAR(I,1)>TBK) THEN
           OFF(I) = FOUR_OVER_5
           IDEL7NOK = 1
           NINDX=NINDX+1
@@ -216,7 +216,7 @@ cc          UVAR(I,2)=UVAR(I,2) + TIMESTEP
          ENDIF
 	ENDIF
        ENDDO
-       IF(NINDX.GT.0.AND.IMCONV.EQ.1)THEN
+       IF(NINDX>0.AND.IMCONV==1)THEN
         DO J=1,NINDX
          I=INDX(J)
 #include "lockon.inc"
@@ -229,11 +229,11 @@ C      end Tuler Butcher
       END IF
 
 Cc deviatoric will be vanished      
-      IF(IDEV.EQ.1)THEN
+      IF(IDEV==1)THEN
        NINDX=0 
        DO I=1,NEL
-        IF(IFLAG.EQ.2.AND.OFF(I).EQ.1.)THEN 
-         IF(UVAR(I,1).LT.TBK)THEN
+        IF(IFLAG==2.AND.OFF(I)==1.)THEN 
+         IF(UVAR(I,1)<TBK)THEN
           P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
           E1 = SIGNXX(I) - P
           E2 = SIGNYY(I) - P
@@ -257,30 +257,30 @@ c         yp= 3 x^2 + c
           SIGMAX = SQRT(-CC1)
           EPST2 = SIGMAX * SIGMAX
           Y = (EPST2 + C)* SIGMAX + D
-          IF(ABS(Y).GT.EM8)THEN
+          IF(ABS(Y)>EM8)THEN
            SIGMAX = 1.75 * SIGMAX
            EPST2 = SIGMAX * SIGMAX
            Y = (EPST2 + C)* SIGMAX + D
            YP = THREE*EPST2 + C
-           IF(YP.NE.ZERO)SIGMAX = SIGMAX - Y/YP
+           IF(YP/=ZERO)SIGMAX = SIGMAX - Y/YP
            EPST2 = SIGMAX * SIGMAX
            Y = (EPST2 + C)* SIGMAX + D
            YP = THREE*EPST2 + C
-           IF(YP.NE.ZERO)SIGMAX = SIGMAX - Y/YP
+           IF(YP/=ZERO)SIGMAX = SIGMAX - Y/YP
            EPST2 = SIGMAX * SIGMAX
            Y = (EPST2 + C)* SIGMAX + D
            YP = THREE*EPST2 + C
-           IF(YP.NE.ZERO)SIGMAX = SIGMAX - Y/YP
+           IF(YP/=ZERO)SIGMAX = SIGMAX - Y/YP
            EPST2 = SIGMAX * SIGMAX
            Y = (EPST2 + C)* SIGMAX + D
            YP = THREE*EPST2 + C
-           IF(YP.NE.ZERO)SIGMAX = SIGMAX - Y/YP
+           IF(YP/=ZERO)SIGMAX = SIGMAX - Y/YP
           ENDIF   
           SIGMAX = SIGMAX + P          
-          IF(SIGMAX.GE.SIGR)            	 
+          IF(SIGMAX>=SIGR)            	 
      .     UVAR(I,1)=UVAR(I,1) + TIMESTEP*(SIGMAX - SIGR)**TBA    
 cc          UVAR(I,2)=UVAR(I,2) + TIMESTEP  
-          IF(UVAR(I,1).GT.TBK) THEN	  
+          IF(UVAR(I,1)>TBK) THEN	  
            NINDX=NINDX+1
            INDX(NINDX)=I
            SIGNXX(I) =   P
@@ -302,7 +302,7 @@ C uvar> tbk
          ENDIF
         ENDIF 
        ENDDO
-       IF(NINDX.GT.0.AND.IMCONV.EQ.1)THEN
+       IF(NINDX>0.AND.IMCONV==1)THEN
         DO J=1,NINDX
          I = INDX(J)
 #include "lockon.inc"

@@ -266,7 +266,7 @@ C----------------------------
         YCDG = YCDG_GLOBAL
         ZCDG = ZCDG_GLOBAL
 
-        IF (MASSE.GT.ZERO) THEN
+        IF (MASSE>ZERO) THEN
             XCDG=XCDG/MASSE
             YCDG=YCDG/MASSE
             ZCDG=ZCDG/MASSE
@@ -453,22 +453,22 @@ C
 #include "lockoff.inc"
         ENDIF
         !   --------------------
-        IF (MASSE.GT.ZERO) THEN
+        IF (MASSE>ZERO) THEN
             AX=AX/MASSE
             AY=AY/MASSE
             AZ=AZ/MASSE
         ENDIF
-        IF (INER.GT.ZERO) THEN
+        IF (INER>ZERO) THEN
             AXX=AXX/INER
             AYY=AYY/INER
             AZZ=AZZ/INER
         ENDIF
-        IF (MASSE.GT.ZERO) THEN
+        IF (MASSE>ZERO) THEN
             VX=VX/MASSE
             VY=VY/MASSE
             VZ=VZ/MASSE
         ENDIF
-        IF (INER.GT.ZERO) THEN
+        IF (INER>ZERO) THEN
             VXX=VXX/INER
             VYY=VYY/INER
             VZZ=VZZ/INER

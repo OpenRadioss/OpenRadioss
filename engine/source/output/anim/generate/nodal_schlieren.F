@@ -154,12 +154,12 @@ C-----------------------------------------------
                 IV(4)=ALE_CONNECTIVITY%ee_connect%connected(IAD2 + 4 - 1)
                 IV(5)=ALE_CONNECTIVITY%ee_connect%connected(IAD2 + 5 - 1)
                 IV(6)=ALE_CONNECTIVITY%ee_connect%connected(IAD2 + 6 - 1)
-                IF(IV(1).LE.0)IV(1)=IE
-                IF(IV(2).LE.0)IV(2)=IE
-                IF(IV(3).LE.0)IV(3)=IE
-                IF(IV(4).LE.0)IV(4)=IE
-                IF(IV(5).LE.0)IV(5)=IE
-                IF(IV(6).LE.0)IV(6)=IE
+                IF(IV(1)<=0)IV(1)=IE
+                IF(IV(2)<=0)IV(2)=IE
+                IF(IV(3)<=0)IV(3)=IE
+                IF(IV(4)<=0)IV(4)=IE
+                IF(IV(5)<=0)IV(5)=IE
+                IF(IV(6)<=0)IV(6)=IE
                 DPHI(I) = ZERO
 !     .           (PHI(IV(1))-PHI(IE))*GRAD(1,I) 
 !     .          +(PHI(IV(2))-PHI(IE))*GRAD(2,I) 

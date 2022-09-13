@@ -467,9 +467,9 @@ C------------------------------------
          MG=IXC(6,I)
          IGTYP = IGEO(11,MG)
          IP = IPARTC(I)
-         IF ( THK_PART(IP) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
+         IF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
            DX=HALF*THK_PART(IP)
-         ELSEIF ( THK(I) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
+         ELSEIF ( THK(I) /= ZERO .AND. IINTTHICK == 0) THEN
            DX=HALF*THK(I)
          ELSEIF(IGTYP == 17) THEN
            DX=HALF*THK(I)
@@ -486,9 +486,9 @@ C
          MG=IXTG(5,I)
          IGTYP = IGEO(11,MG)
          IP = IPARTTG(I)
-         IF ( THK_PART(IP) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
+         IF ( THK_PART(IP) /= ZERO .AND. IINTTHICK == 0) THEN
            DX=HALF*THK_PART(IP)
-         ELSEIF ( THK(NUMELC+I) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
+         ELSEIF ( THK(NUMELC+I) /= ZERO .AND. IINTTHICK == 0) THEN
            DX=HALF*THK(NUMELC+I)
          ELSEIF(IGTYP == 17) THEN
            DX=HALF*THK(NUMELC+I)

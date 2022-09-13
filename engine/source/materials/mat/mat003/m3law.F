@@ -125,17 +125,17 @@ C---------------------
 C-----------------------
 C     MODULE ECROUISSAGE
 C-----------------------
-      IF(CN11.EQ.ONE)THEN
+      IF(CN11==ONE)THEN
         DO I=LFT,LLT
           QH(I)= CB11
         ENDDO   
-      ELSEIF(CN11.GT.ONE)THEN
+      ELSEIF(CN11>ONE)THEN
         DO I=LFT,LLT
           QH(I)= CB11*CN11*MAX(ZERO,EPSEQ(I))**(CN11- ONE)
         ENDDO    
       ELSE
         DO I=LFT,LLT
-          IF(EPSEQ(I).NE.ZERO)THEN
+          IF(EPSEQ(I)/=ZERO)THEN
            QH(I)= CB11*CN11/MAX(ZERO,EPSEQ(I))**(ONE-CN11)
           ELSE
            QH(I)=ZERO
@@ -157,12 +157,12 @@ C---------------------------------
       K=0
       ! sublist to avoir CYCLE on YLD(I)==ZERO
       DO I=LFT,LLT
-        IF(YLD(I).NE.ZERO)THEN
+        IF(YLD(I)/=ZERO)THEN
           K=K+1
           LIST(K)=I
         ENDIF
       ENDDO
-      IF(IPLA.EQ.0)THEN
+      IF(IPLA==0)THEN
        DO II=1,K
         I=LIST(II)
         SCALE= MIN(ONE,YLD(I)/ MAX(SJ2(I),EM15))
@@ -175,7 +175,7 @@ C---------------------------------
         DPLA1(I) = (ONE -SCALE)*SJ2(I)/MAX(THREE*G11+QH(I),EM15)    
         EPSEQ(I)=EPSEQ(I)+ DPLA1(I)
        ENDDO
-      ELSEIF(IPLA.EQ.2)THEN
+      ELSEIF(IPLA==2)THEN
       DO II=1,K
         I=LIST(II)
         SCALE= MIN(ONE,YLD(I)/ MAX(SJ2(I),EM15))
@@ -188,7 +188,7 @@ C---------------------------------
         DPLA1(I) = (ONE -SCALE)*SJ2(I)/MAX(THREE*G11,EM15)     
         EPSEQ(I)=EPSEQ(I)+DPLA1(I)
        ENDDO
-      ELSEIF(IPLA.EQ.1)THEN
+      ELSEIF(IPLA==1)THEN
       DO II=1,K
         I=LIST(II)
         SCALE= MIN(ONE,YLD(I)/ MAX(SJ2(I),EM15))
@@ -211,11 +211,11 @@ C----------------------------
 C     TEST DE RUPTURE DUCTILE
 C---------------------------
       DO I=LFT,LLT
-       IF(OFF(I).LT.EM01) OFF(I)=ZERO
-       IF(OFF(I).LT.ONE) OFF(I)=OFF(I)*FOUR_OVER_5
+       IF(OFF(I)<EM01) OFF(I)=ZERO
+       IF(OFF(I)<ONE) OFF(I)=OFF(I)*FOUR_OVER_5
       ENDDO
       DO I=LFT,LLT
-       IF(EPMX11.EQ.ZERO .OR. OFF(I).LT.ONE .OR. EPSEQ(I).LT.EPMX11) CYCLE
+       IF(EPMX11==ZERO .OR. OFF(I)<ONE .OR. EPSEQ(I)<EPMX11) CYCLE
        OFF(I)=OFF(I)*FOUR_OVER_5
        II=I+NFT
 #include "lockon.inc"

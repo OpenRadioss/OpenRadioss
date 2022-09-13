@@ -65,16 +65,16 @@ C-----------------------------------------------
 C======================================================================= 
       DO N=1,NINTER
         NTY   =IPARI(7,N)
-        IF(NTY.EQ.12)THEN
+        IF(NTY==12)THEN
           CALL INTTI12A(
      .     IPARI(1,N),X      ,WA   ,ITAB,
      .     SEGVAR,TEST,SKEW,ISKWN,INTBUF_TAB(N))
         ENDIF
       ENDDO
 C
-      IF(NINTER.GT.0)THEN
+      IF(NINTER>0)THEN
         IPRI=MOD(NCYCLE,IABS(NCPRI))
-        IF(IPRI.EQ.0 .AND.TEST.NE.0)
+        IF(IPRI==0 .AND.TEST/=0)
      .  WRITE(ISTDO,'(A,A)')
      . ' *** WARNING FLUID INTERFACES SOME SECONDARY NODES',
      . ' LIE OUTSIDE OF MAIN SEGMENT'

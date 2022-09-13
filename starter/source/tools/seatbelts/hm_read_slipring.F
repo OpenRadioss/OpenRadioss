@@ -224,7 +224,7 @@ C
           SLIPRING(I)%FAC_S(2) = XSCALE4
           SLIPRING(I)%FAC_S(3) = YSCALE4    
 C
-          IF (KEY(1:6).EQ.'SPRING') THEN
+          IF (KEY(1:6)=='SPRING') THEN
 C
 C---------- SLIPRING/SPRING------------------------------------------------------------------
 C
@@ -428,7 +428,7 @@ C
 C
             ENDIF
 C
-          ELSEIF (KEY(1:5).EQ.'SHELL') THEN
+          ELSEIF (KEY(1:5)=='SHELL') THEN
 C
 C---------  SLIPRING/SHELL --------------------------------------------------------
 C

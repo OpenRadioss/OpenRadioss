@@ -104,7 +104,7 @@ C-------------------------
           DO K=1,NSUBMOD                                                                                                         
             CUR_SUBMOD = K                                                                                                       
             ISELECT = 0                                                                                                          
-            DO WHILE (CUR_SUBMOD .NE. 0 .AND. ISELECT .EQ. 0)                                                                    
+            DO WHILE (CUR_SUBMOD /= 0 .AND. ISELECT == 0)                                                                    
               IF (LSUBMODEL(CUR_SUBMOD)%NOSUBMOD == JJ) ISELECT = 1                                                              
               IF (LSUBMODEL(CUR_SUBMOD)%NOSUBMOD == -JJ) ISELECT = -1                                                            
               CUR_SUBMOD = LSUBMODEL(CUR_SUBMOD)%IFATHER                                                                         
@@ -146,7 +146,7 @@ C--------------------------------------------------
         SUB_INDEX = IPART(9,I)
         CUR_SUBMOD = SUB_INDEX
         IF(TAGBUF(I)==0 .AND. CUR_SUBMOD > 0)THEN
-          IF(TAGS(CUR_SUBMOD) .NE.0 )THEN
+          IF(TAGS(CUR_SUBMOD) /=0 )THEN
             TAGBUF(I)=TAGS(CUR_SUBMOD)
             NINDX=NINDX+1
             INDX(NINDX)=I

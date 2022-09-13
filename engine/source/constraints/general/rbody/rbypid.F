@@ -150,7 +150,7 @@ C
          XXMOM = VR(1,M)*IN(M)
          YYMOM = VR(2,M)*IN(M)
          ZZMOM = VR(3,M)*IN(M)
-       ELSEIF(N2D.EQ.1) THEN
+       ELSEIF(N2D==1) THEN
 C        ANALYSE 2D : Axisymetry
          XMOM = ZERO
          YMOM = V(2,M)*MS(M)
@@ -159,7 +159,7 @@ C
          XXMOM = ZERO
          YYMOM = ZERO
          ZZMOM = VR(3,M)*IN(M)   
-       ELSEIF(N2D.EQ.2) THEN
+       ELSEIF(N2D==2) THEN
 C        ANALYSE 2D : Plane strain
          XMOM = ZERO
          YMOM = V(2,M)*MS(M)
@@ -560,7 +560,7 @@ C----------------------------------------
 C-----------------------
 C     4. ELEMENTS TRUSS
 C-----------------------
-       ELSEIF(ITY == 4.AND.(IACTS == 1.OR.CODVERS.GE.44))THEN
+       ELSEIF(ITY == 4.AND.(IACTS == 1.OR.CODVERS>=44))THEN
         OFFG => ELBUF_TAB(NG)%GBUF%OFF
         DO I=1,NEL
          II=I+NFT
@@ -587,7 +587,7 @@ C        IPARG(8,NG) = IGOF
 C-----------------------
 C     5. ELEMENTS POUTRES
 C-----------------------
-       ELSEIF(ITY == 5.AND.(IACTS == 1.OR.CODVERS.GE.44))THEN
+       ELSEIF(ITY == 5.AND.(IACTS == 1.OR.CODVERS>=44))THEN
         OFFG => ELBUF_TAB(NG)%GBUF%OFF
         DO I=1,NEL
          II=I+NFT
@@ -614,7 +614,7 @@ C-----------------------
 C     6. ELEMENTS RESSORTS
 C-----------------------
        ELSEIF(ITY == 6.AND.MLW /= 3.AND.
-     .        (IACTS == 1.OR.CODVERS.GE.44))THEN
+     .        (IACTS == 1.OR.CODVERS>=44))THEN
         OFFG => ELBUF_TAB(NG)%GBUF%OFF
         DO I=1,NEL
          II=I+NFT

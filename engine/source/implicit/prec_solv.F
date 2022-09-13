@@ -84,8 +84,8 @@ C-----------------------------
       my_real
      .        RBID
 C-----------------------------
-      IF (IPREC.EQ.1) THEN
-       IF (ISOLV.GT.2) THEN
+      IF (IPREC==1) THEN
+       IF (ISOLV>2) THEN
         NI0= 0
         NNZK = IADK(NDDL+1)-IADK(1)
 #ifdef MUMPS5
@@ -106,19 +106,19 @@ C-----------------------------
          Z(I)=V(I)
         ENDDO
        ENDIF
-      ELSEIF (IPREC.EQ.5) THEN
+      ELSEIF (IPREC==5) THEN
        CALL PRECIC_SOLV(NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,   
      1                  LT_M  ,V     ,Z     ) 
-      ELSEIF (IPREC.EQ.14) THEN
+      ELSEIF (IPREC==14) THEN
        CALL PRECIC_SOLV(NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,   
      1                  LT_M  ,V     ,Z     ) 
-      ELSEIF (IPREC.EQ.15) THEN
+      ELSEIF (IPREC==15) THEN
        CALL PRECIC_SOLV(NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,   
      1                  LT_M  ,V     ,Z     )
-      ELSEIF (IPREC.GE.16.AND.IPREC.LE.19) THEN
+      ELSEIF (IPREC>=16.AND.IPREC<=19) THEN
        CALL MAV_LT1( NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,   
      2               LT_M  ,V     ,Z     )
-      ELSEIF (IPREC.GE.20.AND.IPREC.LE.23) THEN
+      ELSEIF (IPREC>=20.AND.IPREC<=23) THEN
        CALL PRECIC_SOLV(NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,   
      1                  LT_M  ,V     ,Z     ) 
       ELSE 
@@ -187,8 +187,8 @@ C-----------------------------
       my_real
      .        RBID
 C-----------------------------
-      IF (IPREC.EQ.1) THEN
-       IF (ISOLV.GT.2) THEN
+      IF (IPREC==1) THEN
+       IF (ISOLV>2) THEN
         NI0= 0
 #ifdef MUMPS5
           CALL LIN_SOLVP2(GRAPHE, V     , NDDL , IAD_ELEM , FR_ELEM,
@@ -208,7 +208,7 @@ C-----------------------------
          Z(I)=V(I)
         ENDDO
        ENDIF 
-      ELSEIF (IPREC.EQ.5) THEN
+      ELSEIF (IPREC==5) THEN
        CALL PRECIC_SOLV(NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,   
      1                  LT_M  ,V     ,Z     ) 
        CALL SPMD_SUMF_V(Z)
@@ -259,7 +259,7 @@ C-----------------------------
       DO I=1,NDDL
        Z(I)=V(I)
       ENDDO
-      IF (NNZ.GT.0) THEN
+      IF (NNZ>0) THEN
 C --------Forword---[LT_M]^t[D]{z}={v}----
        DO I=1,NDDL
         DO J =IADM(I),IADM(I+1)-1
@@ -650,11 +650,11 @@ C-----------------------------
       my_real
      .        RBID
 C-----------------------------
-      IF (IPREC.EQ.1) THEN
-       IF (ISOLV.GT.2.AND.ISOLV.LT.7) THEN
+      IF (IPREC==1) THEN
+       IF (ISOLV>2.AND.ISOLV<7) THEN
 #ifdef MUMPS5
-        IF (ITASK.EQ.0) THEN
-         IF (NSPMD.GT.1) THEN
+        IF (ITASK==0) THEN
+         IF (NSPMD>1) THEN
 
           NI0= 0
           CALL LIN_SOLVP2(GRAPHE, V     , NDDL , IAD_ELEM , FR_ELEM,
@@ -674,7 +674,7 @@ C-----------------------------
      4                    ISOLV ,IBID  ,GRAPHE,ITAB  ,INSOLV ,
      5                    IT    ,FAC_K ,IPIV_K,NK    ,RBID   ,
      6                    IDSC  )
-         END IF !(NSPMD.GT.1) THEN
+         END IF !(NSPMD>1) THEN
         END IF 
 #else
       WRITE(6,*) "Fatal error: MUMPS required"
@@ -689,23 +689,23 @@ C---------------------
          Z(I)=V(I)
         ENDDO
        ENDIF 
-      ELSEIF (IPREC.EQ.2) THEN
+      ELSEIF (IPREC==2) THEN
        CALL PREC2H_SOLV(
      1                  F_DDL ,L_DDL ,DIAG_M ,V     ,Z     )
-      ELSEIF (IPREC.EQ.5) THEN
+      ELSEIF (IPREC==5) THEN
        CALL PREC5HC_SOLV(NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,   
      1                   LT_M  ,V     ,Z     ,F_DDL ,L_DDL ) 
       ELSE 
-       IF (ITASK.EQ.0) THEN
+       IF (ITASK==0) THEN
         CALL PREC0_SOLV(NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,   
      1                 LT_M  ,V     ,Z     )
        ENDIF 
       ENDIF
 C
-      IF (IPREC.GT.1) THEN
+      IF (IPREC>1) THEN
 C----------------------
       CALL MY_BARRIER
-       IF (ITASK.EQ.0.AND.NSPMD.GT.1) THEN
+       IF (ITASK==0.AND.NSPMD>1) THEN
          IF(IMONM > 0) CALL STARTIME(66,1)
          CALL SPMD_SUMF_V(Z)
          IF(IMONM > 0) CALL STOPTIME(66,1)
@@ -758,24 +758,24 @@ C-----------------------------
       my_real
      .        RBID
 C-----------------------------
-      IF (IPREC.EQ.1) THEN
+      IF (IPREC==1) THEN
         DO I = F_DDL  ,L_DDL
          Z(I)=V(I)
         ENDDO
-      ELSEIF (IPREC.EQ.2) THEN
+      ELSEIF (IPREC==2) THEN
        CALL PREC2H_SOLV(
      1                  F_DDL ,L_DDL ,DIAG_M ,V     ,Z     )
-      ELSEIF (IPREC.EQ.5) THEN
+      ELSEIF (IPREC==5) THEN
        NNZ=IADM(NDDL+1)-IADM(1)
        CALL PREC5HC_SOLV(NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,   
      1                   LT_M  ,V     ,Z     ,F_DDL ,L_DDL ) 
       ENDIF
 C
-      IF (IPREC.GT.1) THEN
+      IF (IPREC>1) THEN
 C----------------------
       CALL MY_BARRIER
 C---------------------
-       IF (ITASK.EQ.0.AND.NSPMD.GT.1) CALL SPMD_SUMF_V(Z)
+       IF (ITASK==0.AND.NSPMD>1) CALL SPMD_SUMF_V(Z)
       ENDIF
 C--------------------------------------------
       RETURN

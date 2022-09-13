@@ -159,7 +159,7 @@ C
             EXIT
           ENDIF
         ENDDO
-        IF (UID.NE.0.AND.IFLAGUNIT.EQ.0) THEN
+        IF (UID/=0.AND.IFLAGUNIT==0) THEN
           CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I2=UID,I1=ID,C1='INITIAL VELOCITY',
      .                 C2='INITIAL VELOCITY',
@@ -168,15 +168,15 @@ C
 
         FVM_INIVEL(I)%FLAG = .FALSE.
 C
-        IF(KEY(1:3).EQ.'TRA')THEN
+        IF(KEY(1:3)=='TRA')THEN
           ITYPE=0
-        ELSEIF(KEY(1:3).EQ.'ROT')THEN
+        ELSEIF(KEY(1:3)=='ROT')THEN
           ITYPE=1
-        ELSEIF(KEY(1:3).EQ.'T+G')THEN
+        ELSEIF(KEY(1:3)=='T+G')THEN
           ITYPE=2
-        ELSEIF(KEY(1:3).EQ.'GRI')THEN
+        ELSEIF(KEY(1:3)=='GRI')THEN
           ITYPE=3
-        ELSEIF(KEY(1:4).EQ.'AXIS')THEN
+        ELSEIF(KEY(1:4)=='AXIS')THEN
           IF(INVERS < 120) CALL ANCMSG(MSGID=2046,
      .                                 ANMODE=ANINFO,
      .                                 MSGTYPE=MSGERROR,
@@ -186,7 +186,7 @@ C
         ELSEIF(KEY(1:3) == 'FVM') THEN
           ITYPE = 5
           FVM_INIVEL(I)%FLAG = .TRUE.
-        ELSEIF(KEY(1:4).EQ.'NODE')THEN
+        ELSEIF(KEY(1:4)=='NODE')THEN
           ITYPE=6
         ELSE
           GOTO 999
@@ -204,7 +204,7 @@ C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
           CALL HM_GET_INTV('entityid',IGR,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('inputsystem',ISK,IS_AVAILABLE,LSUBMODEL)
-          IF(ISK == 0 .AND. SUB_INDEX .NE. 0 ) ISK = LSUBMODEL(SUB_INDEX)%SKEW
+          IF(ISK == 0 .AND. SUB_INDEX /= 0 ) ISK = LSUBMODEL(SUB_INDEX)%SKEW
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
@@ -233,11 +233,11 @@ C
 C  UTILISER LEN_TRIM A LA PLACE DE XYZSIZE : XYZ(1:LEN_TRIM(XYZ))
 C
           XYZSIZE=1
-          IF(XYZ(1:XYZSIZE).EQ.'X') THEN
+          IF(XYZ(1:XYZSIZE)=='X') THEN
             IDIR=1
-          ELSEIF(XYZ(1:XYZSIZE).EQ.'Y') THEN
+          ELSEIF(XYZ(1:XYZSIZE)=='Y') THEN
             IDIR=2
-          ELSEIF(XYZ(1:XYZSIZE).EQ.'Z') THEN
+          ELSEIF(XYZ(1:XYZSIZE)=='Z') THEN
             IDIR=3
           ELSE
             CALL ANCMSG(MSGID=933,
@@ -313,7 +313,7 @@ C
           ISK = 0
         ENDIF
 C
-        IF (ITYPE .NE. 6) THEN
+        IF (ITYPE /= 6) THEN
           IF (ISK > 0) THEN
               DO J=0,NUMSKW+MIN(IUN,NSPCOND)*NUMSPH+NSUBMOD
                 IF (ISK == ISKN(4,J+1)) THEN
@@ -336,7 +336,7 @@ C
           ELSEIF (IFRA > 0) THEN
             DO K=1,NUMFRAM
               J=K+1
-              IF(IFRA.EQ.IFRAME(4,J)) THEN
+              IF(IFRA==IFRAME(4,J)) THEN
                 V1 = XFRAME(1,J)*VL1+XFRAME(4,J)*VL2+XFRAME(7,J)*VL3
                 V2 = XFRAME(2,J)*VL1+XFRAME(5,J)*VL2+XFRAME(8,J)*VL3
                 V3 = XFRAME(3,J)*VL1+XFRAME(6,J)*VL2+XFRAME(9,J)*VL3
@@ -369,15 +369,15 @@ C
               IDGRBRICK_LOC = -1
               IDGRQUAD_LOC  = -1
               IDGRSH3N_LOC  = -1
-              IF (IDGRBRICK + IDGRQUAD + IDGRSH3N .EQ. 0) THEN
+              IF (IDGRBRICK + IDGRQUAD + IDGRSH3N == 0) THEN
                  CALL ANCMSG(MSGID=1553, MSGTYPE=MSGWARNING, ANMODE=ANINFO,
      .                C1='IN /INIVEL OPTION')
               ELSE
-                 IF (IDGRBRICK .NE. 0) THEN
+                 IF (IDGRBRICK /= 0) THEN
                     DO J = 1,NGRBRIC
                        IF (IDGRBRICK == IGRBRIC(J)%ID) IDGRBRICK_LOC = J
                     ENDDO
-                    IF (IDGRBRICK_LOC .EQ. -1) THEN
+                    IF (IDGRBRICK_LOC == -1) THEN
                        CALL ANCMSG(MSGID=1554,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO,
@@ -385,11 +385,11 @@ C
      .                      I1=IDGRBRICK)
                     ENDIF
                  ENDIF
-                 IF (IDGRQUAD .NE. 0) THEN
+                 IF (IDGRQUAD /= 0) THEN
                     DO J = 1,NGRQUAD
                        IF (IDGRQUAD == IGRQUAD(J)%ID) IDGRQUAD_LOC = J
                     ENDDO    
-                    IF (IDGRQUAD_LOC .EQ. -1) THEN
+                    IF (IDGRQUAD_LOC == -1) THEN
                        CALL ANCMSG(MSGID=1554,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO,
@@ -397,11 +397,11 @@ C
      .                      I1=IDGRQUAD)
                     ENDIF
                  ENDIF
-                 IF (IDGRSH3N .NE. 0) THEN
+                 IF (IDGRSH3N /= 0) THEN
                     DO J = 1,NGRSH3N
                        IF (IDGRSH3N == IGRSH3N(J)%ID) IDGRSH3N_LOC = J
                     ENDDO      
-                    IF (IDGRSH3N_LOC .EQ. -1) THEN
+                    IF (IDGRSH3N_LOC == -1) THEN
                        CALL ANCMSG(MSGID=1554,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO,
@@ -454,7 +454,7 @@ C
                     ENDIF
                  ELSEIF(ITYPE == 1) THEN
                     KROT = 1
-                    IF (IRODDL.GT.0) THEN
+                    IF (IRODDL>0) THEN
                       VR(1,NOSYS)=V1
                       VR(2,NOSYS)=V2
                       VR(3,NOSYS)=V3
@@ -514,23 +514,23 @@ C
                        NIXJ(4)=XFRAME(K3,IFM)*(X(2,NOSYS)-OY)
                        NIXJ(5)=XFRAME(K3,IFM)*(X(1,NOSYS)-OX)
                        NIXJ(6)=XFRAME(K1,IFM)*(X(3,NOSYS)-OZ)
-                       IF (IRODDL.GT.0) THEN
+                       IF (IRODDL>0) THEN
                           VR(1,NOSYS)= VRA*XFRAME(K1,IFM)
                           VR(2,NOSYS)= VRA*XFRAME(K2,IFM)
                           VR(3,NOSYS)= VRA*XFRAME(K3,IFM)
                        END IF
                     ELSE
-                       IF(IDIR.EQ.1) THEN
+                       IF(IDIR==1) THEN
                           NIXJ(1)=X(2,NOSYS)
                           NIXJ(6)=X(3,NOSYS)
-                       ELSEIF(IDIR.EQ.2) THEN
+                       ELSEIF(IDIR==2) THEN
                           NIXJ(2)=X(1,NOSYS)
                           NIXJ(3)=X(3,NOSYS)
-                       ELSEIF(IDIR.EQ.3) THEN
+                       ELSEIF(IDIR==3) THEN
                           NIXJ(4)=X(2,NOSYS)
                           NIXJ(5)=X(1,NOSYS)
                        ENDIF
-                       IF (IRODDL.GT.0) THEN
+                       IF (IRODDL>0) THEN
                           VR(1,NOSYS)= ZERO !VRA*XFRAME(K1,IFM)
                           VR(2,NOSYS)= ZERO !VRA*XFRAME(K2,IFM)
                           VR(3,NOSYS)= ZERO !VRA*XFRAME(K3,IFM)
@@ -559,7 +559,7 @@ C--                 /INIVEL/AXIS -> data must be stored to update initial veloci
                         RBY_INIAXIS(2,TAGNO_RBY(NOSYS)) = V(1,NOSYS)
                         RBY_INIAXIS(3,TAGNO_RBY(NOSYS)) = V(2,NOSYS)
                         RBY_INIAXIS(4,TAGNO_RBY(NOSYS)) = V(3,NOSYS)
-                        IF (IRODDL.GT.0) THEN
+                        IF (IRODDL>0) THEN
                           RBY_INIAXIS(5,TAGNO_RBY(NOSYS)) = VR(1,NOSYS)
                           RBY_INIAXIS(6,TAGNO_RBY(NOSYS)) = VR(2,NOSYS)
                           RBY_INIAXIS(7,TAGNO_RBY(NOSYS)) = VR(3,NOSYS)
@@ -585,13 +585,13 @@ C---
       CALL UDOUBLE(INIVIDS,1,NBVEL,MESS,0,BID)
 C
 C--- RAZ vitesses for SPH Reserve particles
-      IF (NSPHRES.GT.0) THEN
+      IF (NSPHRES>0) THEN
         DO N=1,NSPHRES
           INOD = KXSP(3,FIRST_SPHRES+N-1)
           V(1,INOD) = ZERO
           V(2,INOD) = ZERO
           V(3,INOD) = ZERO
-          IF (IRODDL.GT.0) THEN
+          IF (IRODDL>0) THEN
             VR(1,INOD) = ZERO
             VR(2,INOD) = ZERO
             VR(3,INOD) = ZERO
@@ -605,10 +605,10 @@ C--------------------------------------------------
 
       J=0
       NODINIVEL=0
-      IF(IPRI.GE.2)THEN
-       IF(IALE.NE.0) THEN
+      IF(IPRI>=2)THEN
+       IF(IALE/=0) THEN
          WRITE(IOUT,2100)
-       ELSEIF(KROT.EQ.0) THEN
+       ELSEIF(KROT==0) THEN
          WRITE(IOUT,2000)
        ELSE
          WRITE(IOUT,2200)
@@ -617,22 +617,22 @@ C--------------------------------------------------
        DO 340 N=1,NUMNOD,50
        J=J+50
        J=MIN(J,NUMNOD)
-       IF(IALE.EQ.0) THEN
+       IF(IALE==0) THEN
         DO 330 I=N,J
-          IF(KPRI.GE.50) THEN
-            IF(KROT.EQ.0) THEN
+          IF(KPRI>=50) THEN
+            IF(KROT==0) THEN
               WRITE(IOUT,2000)
             ELSE
               WRITE(IOUT,2200)
             ENDIF
             KPRI=0
           ENDIF
-          IF(IRODDL.NE.0) THEN
-            IF (V(1,I).NE.ZERO.OR.V(2,I).NE.ZERO.OR.V(3,I).NE.ZERO.OR.
-     .        VR(1,I).NE.ZERO.OR.VR(2,I).NE.ZERO.OR.VR(3,I).NE.ZERO)THEN
+          IF(IRODDL/=0) THEN
+            IF (V(1,I)/=ZERO.OR.V(2,I)/=ZERO.OR.V(3,I)/=ZERO.OR.
+     .        VR(1,I)/=ZERO.OR.VR(2,I)/=ZERO.OR.VR(3,I)/=ZERO)THEN
               NODINIVEL=NODINIVEL+1
-              IF (VR(1,I).NE.ZERO.OR.VR(2,I).NE.ZERO.OR.
-     .            VR(3,I).NE.ZERO) THEN
+              IF (VR(1,I)/=ZERO.OR.VR(2,I)/=ZERO.OR.
+     .            VR(3,I)/=ZERO) THEN
                 WRITE(IOUT,'(3X,I10,8X,1P6G20.13)')
      .              ITAB(I),V(1,I),V(2,I),V(3,I),VR(1,I),VR(2,I),VR(3,I)
               ELSE
@@ -641,7 +641,7 @@ C--------------------------------------------------
               ENDIF
               KPRI=KPRI+1
             ENDIF
-         ELSEIF(V(1,I).NE.ZERO.OR.V(2,I).NE.ZERO.OR.V(3,I).NE.ZERO) THEN
+         ELSEIF(V(1,I)/=ZERO.OR.V(2,I)/=ZERO.OR.V(3,I)/=ZERO) THEN
            NODINIVEL=NODINIVEL+1
            WRITE(IOUT,'(3X,I10,8X,1P6G20.13)')
      .           ITAB(I),V(1,I),V(2,I),V(3,I)
@@ -650,12 +650,12 @@ C--------------------------------------------------
  330    CONTINUE
        ELSE
         DO 335 I=N,J
-          IF(KPRI.EQ.50) THEN
+          IF(KPRI==50) THEN
             WRITE(IOUT,2100)
             KPRI=0
           ENDIF
-        IF(V(1,I).NE.ZERO.OR.V(2,I).NE.ZERO.OR.V(3,I).NE.ZERO.OR.
-     .     W(1,I).NE.ZERO.OR.W(2,I).NE.ZERO.OR.W(3,I).NE.ZERO) THEN
+        IF(V(1,I)/=ZERO.OR.V(2,I)/=ZERO.OR.V(3,I)/=ZERO.OR.
+     .     W(1,I)/=ZERO.OR.W(2,I)/=ZERO.OR.W(3,I)/=ZERO) THEN
           NODINIVEL=NODINIVEL+1
           WRITE(IOUT,'(5X,I10,8X,1P6G20.13)') ITAB(I),
      +                        V(1,I),V(2,I),V(3,I),W(1,I),W(2,I),W(3,I)

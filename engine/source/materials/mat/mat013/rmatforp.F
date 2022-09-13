@@ -98,13 +98,13 @@ C-------------------------------------
 
         IF (NSPMD > 1) THEN
 !$OMP SINGLE
-          IF (IMON.GT.0) CALL STARTIME(11,1)
+          IF (IMON>0) CALL STARTIME(11,1)
 C
 C Comm non multi-thread
 C
           CALL SPMD_EXCH_A_RM6(
      1         IAD_RBY,FR_RBM,IAD_RBY(NSPMD+1),RBYM6 )
-          IF (IMON.GT.0) CALL STOPTIME(11,1)
+          IF (IMON>0) CALL STOPTIME(11,1)
 !$OMP END SINGLE
 
         END IF

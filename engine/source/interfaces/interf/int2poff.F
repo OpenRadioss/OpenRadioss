@@ -185,7 +185,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, II
 C-----------------------------------------------
-      IF((ILEV == 1.OR.ILEV == 3).AND.IRODDL.NE.0)THEN
+      IF((ILEV == 1.OR.ILEV == 3).AND.IRODDL/=0)THEN
 #include "vectorize.inc"
         DO II=1,NMN
           I=MSR(II)
@@ -388,7 +388,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, II
 C-----------------------------------------------
-      IF((ILEV == 1.OR.ILEV == 3).AND.IRODDL.NE.0)THEN
+      IF((ILEV == 1.OR.ILEV == 3).AND.IRODDL/=0)THEN
 #include "vectorize.inc"
         DO II=1,NMN
           I=MSR(II)

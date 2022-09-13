@@ -55,7 +55,7 @@ C compatibilisation des options non supportees si NSPMD > 1
         IF(IPARI(33,I)/=0)LAG_SEC=1
       END DO
       DO I = 1, NRWALL
-        IF(NPRW(I+5*NRWALL).EQ.1)LAG_SEC=1
+        IF(NPRW(I+5*NRWALL)==1)LAG_SEC=1
       END DO
       IF(NBCSLAG+NGJOINT+NRBYLAG > 0)LAG_SEC=1
 C NUMMPC + NFVLAG : ok (parallele SPMD)

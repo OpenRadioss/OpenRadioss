@@ -88,10 +88,10 @@ C-----------------------------------------------
       IREDUCE=0
       WREDUCE(1:NUMSPH)=0
 C-----------------------------------------------      
-      IF(NSPHIO.EQ.0)THEN
+      IF(NSPHIO==0)THEN
         NSPHACT=0
         DO N=1,NUMSPH
-          IF(KXSP(2,N).NE.0)THEN
+          IF(KXSP(2,N)/=0)THEN
             NSPHACT=NSPHACT+1
             WASPACT(NSPHACT)=N
           ENDIF
@@ -171,7 +171,7 @@ C     /---------------/
 C      CALL MY_BARRIER
 C     /---------------/
 C#include "lockon.inc"
-      IF(MYSPATRUE.LT.SPATRUE)SPATRUE=MYSPATRUE
+      IF(MYSPATRUE<SPATRUE)SPATRUE=MYSPATRUE
 C#include "lockoff.inc"
 
       RETURN

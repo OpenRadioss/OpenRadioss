@@ -125,7 +125,7 @@ C--------------------------------------------------
 C----------------------
 C
 C----------------------
-        IF(N2D.GT.0.AND.IHBE.NE.0.AND.IHBE.NE.2)THEN
+        IF(N2D>0.AND.IHBE/=0.AND.IHBE/=2)THEN
           IHBE_OLD=IHBE
           IHBE=0
           CALL ANCMSG(MSGID=321,
@@ -146,7 +146,7 @@ C  double stockage temporaire - supprimer GEO(12)=IGTYP apres tests
         GEO(12) =IGTYP+PUN
         GEO(171)=IHBE
 C
-        IF (IHBE.GT.11.AND.IHBE.LT.29) THEN
+        IF (IHBE>11.AND.IHBE<29) THEN
 C---------GEO(13,I) est utilise pour porte dn;GEO(17),CVIS se change ----
           GEO(13)=GEO(17)
           GEO(17)=CVIS
@@ -168,13 +168,13 @@ C
         GEO(9)= 1.1-IR1Z
         GEO(10)=1.1-IR2Y
         GEO(11)=1.1-IR2Z
-        IF(ISHEAR.NE.0) THEN
+        IF(ISHEAR/=0) THEN
           GEO(37)=ONE
         ELSE
           GEO(37)=ZERO
         ENDIF
 C
-        IF (GEO(1).LE.ZERO) THEN
+        IF (GEO(1)<=ZERO) THEN
           CALL ANCMSG(MSGID=314,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO_BLIND_1,
@@ -182,7 +182,7 @@ C
      .                   C1=IDTITL,
      .                   R1=GEO(1))
         ENDIF
-        IF (GEO(2).LE.ZERO) THEN
+        IF (GEO(2)<=ZERO) THEN
           CALL ANCMSG(MSGID=315,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO_BLIND_1,
@@ -190,7 +190,7 @@ C
      .                   C1=IDTITL,
      .                   R1=GEO(2))
         ENDIF
-        IF (GEO(18).LE.ZERO) THEN
+        IF (GEO(18)<=ZERO) THEN
            CALL ANCMSG(MSGID=316,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO_BLIND_1,
@@ -198,7 +198,7 @@ C
      .                   C1=IDTITL,
      .                   R1=GEO(18))
         ENDIF
-        IF (GEO(4).LE.ZERO) THEN
+        IF (GEO(4)<=ZERO) THEN
            CALL ANCMSG(MSGID=317,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO_BLIND_1,

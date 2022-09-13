@@ -170,9 +170,9 @@ C
 C----------------------------
 C     SMALL STRAIN
 C----------------------------
-      IF(ISMSTR.EQ.1.OR.ISMSTR.EQ.2)THEN
+      IF(ISMSTR==1.OR.ISMSTR==2)THEN
         DO I=JFT,JLT
-          IF(ABS(OFFG(I)).EQ.TWO)THEN
+          IF(ABS(OFFG(I))==TWO)THEN
             XL2(I)=SMSTR(II(1)+I)
             YL2(I)=SMSTR(II(2)+I)
             XL3(I)=SMSTR(II(3)+I)
@@ -193,9 +193,9 @@ C----------------------------
          ENDIF
         ENDDO
       ENDIF
-      IF(ISMSTR.EQ.1)THEN
+      IF(ISMSTR==1)THEN
         DO I=JFT,JLT
-            IF(OFFG(I).EQ.ONE)OFFG(I)=TWO
+            IF(OFFG(I)==ONE)OFFG(I)=TWO
         ENDDO
       ENDIF
 C----------------------------
@@ -241,7 +241,7 @@ C
 	       S1=EM01*THK(I)*THK(I)
         LL(I)=MAX(LL(I),S1)
       ENDDO
-      IF (IMP_CHK .GT. 0) THEN
+      IF (IMP_CHK > 0) THEN
        S1 =.577350269189626
        DO I=JFT,JLT
         J1=(MX23(I)*MY13(I)-MX13(I)*MY23(I))*S1
@@ -251,9 +251,9 @@ C
         XX2=J0+J2+J1
         XX3=J0-J2+J1
         XX4=J0-J2-J1
-        IF(OFFG(I).NE.ZERO)THEN
-         IF(XX1.LE.ZERO.OR.XX2.LE.ZERO.OR.
-     .      XX3.LE.ZERO.OR.XX4.LE.ZERO)THEN
+        IF(OFFG(I)/=ZERO)THEN
+         IF(XX1<=ZERO.OR.XX2<=ZERO.OR.
+     .      XX3<=ZERO.OR.XX4<=ZERO)THEN
 #include "lockon.inc"
             WRITE(IOUT ,2001) NGL(I)
 #include "lockoff.inc"
@@ -266,7 +266,7 @@ C
 C--------------------------
       DO I=JFT,JLT
        Z2(I)=Z1(I)*Z1(I)
-       IF (Z2(I).LT.LL(I)*TOL.OR.NPT.EQ.1) THEN
+       IF (Z2(I)<LL(I)*TOL.OR.NPT==1) THEN
          Z1(I)=ZERO
 c         PLAT(I)=.TRUE.
        ELSE
@@ -320,7 +320,7 @@ C
       NPLAT=JFT-1
       SPLAT= 0
       DO I=JFT,JLT
-       IF (Z1(I).EQ.ZERO) THEN
+       IF (Z1(I)==ZERO) THEN
         NPLAT=NPLAT+1
         IPLAT(NPLAT)=I
        ELSE

@@ -162,11 +162,11 @@ C----------------------
 C
       WRITE(IOUT,1100) IG
 
-      IF(QA.EQ.ZERO)QA=TWO
-      IF(QB.EQ.ZERO)QB=ONE
-      IF (ZSTAB.GT.0) NSPBUF=13
+      IF(QA==ZERO)QA=TWO
+      IF(QB==ZERO)QB=ONE
+      IF (ZSTAB>0) NSPBUF=13
 C
-      IF(ISK .NE. 0)THEN
+      IF(ISK /= 0)THEN
         DO K=1,NUMSKW
           IF(ISK == ISKN(4,K+1)) THEN
             PARGEO(1)=(K+1)+PUN
@@ -183,16 +183,16 @@ C
         K = 1
       ENDIF
 C------
-      IF(NSPMD > 1 .AND. IORDER.EQ.1)THEN
+      IF(NSPMD > 1 .AND. IORDER==1)THEN
         CALL ANCMSG(MSGID=755,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO,
      .              C1='SPH CORRECTION ORDER 1')
       END IF
 C
-      IF (IFLG_H_1D.EQ.0) THEN
+      IF (IFLG_H_1D==0) THEN
         RFLG_H_1D = THIRD
-      ELSEIF (IFLG_H_1D.EQ.1) THEN
+      ELSEIF (IFLG_H_1D==1) THEN
         RFLG_H_1D = ONE
       ELSE
         RFLG_H_1D = ZERO
@@ -201,19 +201,19 @@ C
       IF(IS_CRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'  CONFIDENTIAL DATA'
       ELSE
-        IF(DIST.EQ.ZERO)THEN
+        IF(DIST==ZERO)THEN
          WRITE(IOUT,1000)MP,QA,QB,ALPCS,ZSTAB,ISK,IORDER
         ELSE
          WRITE(IOUT,1001)MP,QA,QB,ALPCS,ZSTAB,ISK,IORDER,DIST
         ENDIF
-        IF (IFLG_H_1D.EQ.1) THEN
+        IF (IFLG_H_1D==1) THEN
           WRITE(IOUT,1002)
-        ELSEIF (IFLG_H_1D.EQ.2) THEN
+        ELSEIF (IFLG_H_1D==2) THEN
           WRITE(IOUT,1003)
         END IF
       ENDIF
         
-      IF(MP.LE.ZERO)THEN
+      IF(MP<=ZERO)THEN
         CALL ANCMSG(MSGID=138,ANMODE=ANINFO,MSGTYPE=MSGWARNING,
      .              C1=TITR,I1=IG)
         MP=ONE

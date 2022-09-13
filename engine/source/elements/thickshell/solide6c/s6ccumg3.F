@@ -106,7 +106,7 @@ C
         YYXZ2 = RTR(2)*RTR(5)*RTR(5)
         ZZXY2 = RTR(3)*RTR(4)*RTR(4)
         DETA = ABC + TWO*RTR(4)*RTR(5)*RTR(6)-XXYZ2-YYXZ2-ZZXY2
-        IF (DETA.LT.EM20) THEN
+        IF (DETA<EM20) THEN
          DETA=ONE
         ELSE
          DETA=ONE/DETA

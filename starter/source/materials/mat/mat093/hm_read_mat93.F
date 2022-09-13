@@ -261,7 +261,7 @@ C
       ! Checking input
       DETC= C11*C22*C33-C11*C23*C23-C12*C12*C33+C12*C13*C23
      +     +C13*C12*C23-C13*C22*C13
-      IF(DETC.LE.ZERO) THEN
+      IF(DETC<=ZERO) THEN
          CALL ANCMSG(MSGID=307,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,

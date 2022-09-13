@@ -466,7 +466,7 @@ C         compactage de LSH4ACT
           NSH4ACT=0
           DO NN=1,NTMP
             N=LSH4ACT(NN)
-            IF(N.NE.0)THEN
+            IF(N/=0)THEN
               NSH4ACT=NSH4ACT+1
               LSH4ACT(NSH4ACT)=N
             END IF
@@ -490,7 +490,7 @@ C-----------------------------------------------
         MYLEV=SH4TREE(3,N)
         IP=IPARTC(N)
         INILEV=IPADMESH(1,IP)
-        IF(MYLEV.LT.INILEV)THEN
+        IF(MYLEV<INILEV)THEN
           IADMESH=1
           KINILEV=1
  
@@ -601,7 +601,7 @@ C     compactage de LSH4ACT
         NSH4ACT=0
         DO NN=1,NTMP
           N=LSH4ACT(NN)
-          IF(N.NE.0)THEN
+          IF(N/=0)THEN
             NSH4ACT=NSH4ACT+1
             LSH4ACT(NSH4ACT)=N
           END IF
@@ -767,7 +767,7 @@ C         compactage de LSH4ACT
           NSH3ACT=0
           DO NN=1,NTMP
             N=LSH3ACT(NN)
-            IF(N.NE.0)THEN
+            IF(N/=0)THEN
               NSH3ACT=NSH3ACT+1
               LSH3ACT(NSH3ACT)=N
             END IF
@@ -790,7 +790,7 @@ C-----------------------------------------------
         MYLEV=SH3TREE(3,N)
         IP   =IPARTTG(N)
         INILEV=IPADMESH(1,IP)
-        IF(MYLEV.LT.INILEV)THEN
+        IF(MYLEV<INILEV)THEN
           IADMESH=1
           KINILEV=1
 
@@ -884,7 +884,7 @@ C     compactage de LSH4ACT
         NSH3ACT=0
         DO NN=1,NTMP
           N=LSH3ACT(NN)
-          IF(N.NE.0)THEN
+          IF(N/=0)THEN
             NSH3ACT=NSH3ACT+1
             LSH3ACT(NSH3ACT)=N
           END IF
@@ -893,7 +893,7 @@ C     compactage de LSH4ACT
       END IF
 C
 C     Tag element that are inactifs and one of its sons is actif for Idel in interface
-       IF(NADMESH.NE.0.AND.IDEL7NG.GE.1)THEN
+       IF(NADMESH/=0.AND.IDEL7NG>=1)THEN
          TAGTRIMC(1:NUMELC) = 0 
          TAGTRIMTG(1:NUMELTG) = 0 
          DO N=1,NUMELC

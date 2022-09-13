@@ -74,7 +74,7 @@ C-----------------------------------------------
       USDT=ONE/DT12
 C
 C     allocation tag
-      IF(ITASK.EQ.0)THEN
+      IF(ITASK==0)THEN
         TAGNOD=0
       END IF
 C
@@ -99,7 +99,7 @@ C
 C
           MC=IXC(3,SON+3)
 
-          IF(TAGNOD(MC).EQ.0)THEN
+          IF(TAGNOD(MC)==0)THEN
             TAGNOD(MC)=1
             DO J=1,3
               VV= FOURTH*(V(J,N1)+V(J,N2)+V(J,N3)+V(J,N4)
@@ -120,7 +120,7 @@ C
           M(3)=IXC(5,SON+2)
           M(4)=IXC(2,SON+3)
 
-          IF(TAGNOD(M(1)).EQ.0)THEN
+          IF(TAGNOD(M(1))==0)THEN
             TAGNOD(M(1))=1
             NA=MIN(N1,N2)
             NB=MAX(N1,N2)
@@ -136,7 +136,7 @@ C
      .        TEMP(M(1))=HALF*(TEMP(NA)+TEMP(NB))
           END IF
 
-          IF(TAGNOD(M(2)).EQ.0)THEN
+          IF(TAGNOD(M(2))==0)THEN
             TAGNOD(M(2))=1
             NA=MIN(N2,N3)
             NB=MAX(N2,N3)
@@ -152,7 +152,7 @@ C
      .        TEMP(M(2))=HALF*(TEMP(NA)+TEMP(NB))
           END IF
 
-          IF(TAGNOD(M(3)).EQ.0)THEN
+          IF(TAGNOD(M(3))==0)THEN
             TAGNOD(M(3))=1
             NA=MIN(N3,N4)
             NB=MAX(N3,N4)
@@ -168,7 +168,7 @@ C
      .        TEMP(M(3))=HALF*(TEMP(NA)+TEMP(NB))
           END IF
 
-          IF(TAGNOD(M(4)).EQ.0)THEN
+          IF(TAGNOD(M(4))==0)THEN
             TAGNOD(M(4))=1
             NA=MIN(N4,N1)
             NB=MAX(N4,N1)
@@ -202,7 +202,7 @@ C
           M(2)=IXTG(2,SON+3)
           M(3)=IXTG(3,SON+3)
 
-          IF(TAGNOD(M(1)).EQ.0)THEN
+          IF(TAGNOD(M(1))==0)THEN
             TAGNOD(M(1))=1
             NA=MIN(N1,N2)
             NB=MAX(N1,N2)
@@ -218,7 +218,7 @@ C
      .        TEMP(M(1))=HALF*(TEMP(NA)+TEMP(NB))
           END IF
 
-          IF(TAGNOD(M(2)).EQ.0)THEN
+          IF(TAGNOD(M(2))==0)THEN
             TAGNOD(M(2))=1
             NA=MIN(N2,N3)
             NB=MAX(N2,N3)
@@ -234,7 +234,7 @@ C
      .        TEMP(M(2))=HALF*(TEMP(NA)+TEMP(NB))
           END IF
 
-          IF(TAGNOD(M(3)).EQ.0)THEN
+          IF(TAGNOD(M(3))==0)THEN
             TAGNOD(M(3))=1
             NA=MIN(N3,N1)
             NB=MAX(N3,N1)

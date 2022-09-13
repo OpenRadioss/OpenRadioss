@@ -114,15 +114,15 @@ C
             PMAIN = FR_RBY2(3,J)
             NBNOD =  FR_RBY2(1,J)
 
-            IF ( NBNOD.NE.0  .AND.
-     .          ABS(PMAIN).EQ.I .AND. LOC_PROC.NE.I) THEN
+            IF ( NBNOD/=0  .AND.
+     .          ABS(PMAIN)==I .AND. LOC_PROC/=I) THEN
 
                BUFSPM(L) = J
                BUFSPM(L+1) = NBNOD
                L = L + 2
                NR = 1
                DO K=1,NPBY(2,J)
-                 IF (WEIGHT(LPBY(K+S-1)).EQ.1) THEN
+                 IF (WEIGHT(LPBY(K+S-1))==1) THEN
                    BUFSPM(L+NR-1) = ITAB(LPBY(K+S-1))-1
                    NR = NR +1
                  ENDIF
@@ -137,7 +137,7 @@ C
 C   Envoi du buffer BUFSPM vers les differents procs
         DO I=1,NSPMD
   
-          IF (IAD_RBY2(1,I).GT.0) THEN
+          IF (IAD_RBY2(1,I)>0) THEN
 
             MSGTYP = MSGOFF
             B = BUFSEND(I)
@@ -156,7 +156,7 @@ C   differents processeurs
         DO I = 1, NSPMD
 
           BUFRECP(I)=L
-          IF (IAD_RBY2(2,I).GT.0) THEN
+          IF (IAD_RBY2(2,I)>0) THEN
 
             MSGTYP = MSGOFF
             CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
@@ -174,7 +174,7 @@ C   differents processeurs
 C  52d19+++
         DO I=1,NSPMD
   
-          IF (IAD_RBY2(1,I).GT.0) THEN
+          IF (IAD_RBY2(1,I)>0) THEN
             CALL MPI_WAIT(ISD(I),STATUS,IERROR)
           ENDIF
         ENDDO
@@ -189,7 +189,7 @@ C   Il faut tout compacter dans le tableau d'envoi vers proc0
         DO I=1,NRBYKIN
           PMAIN = FR_RBY2(3,I)
 
-          IF (ABS(PMAIN).EQ.LOC_PROC) THEN
+          IF (ABS(PMAIN)==LOC_PROC) THEN
 
 C   on recopie du proc main les noeuds secnds
                NBNOD = FR_RBY2(1,I)
@@ -201,11 +201,11 @@ C   sauvegarde du ptr pour mettre la taille du RB
                DO J = 1,NPBY(2,I)
 C   des RBY qui on un PMAIN n  gatif n'ont pas forcement tous leur noeuds
 C   avec weight(I)=1
-                 IF (PMAIN.LE.0) THEN
+                 IF (PMAIN<=0) THEN
                     BUFSPO(L+NR)=ITAB(LPBY(K+J-1))-1
                     NR = NR+1
                  ELSE
-                   IF (WEIGHT(LPBY(K+J-1)) .EQ.1) THEN
+                   IF (WEIGHT(LPBY(K+J-1)) ==1) THEN
                       BUFSPO(L+NR)=ITAB(LPBY(K+J-1))-1
                       NR = NR+1
                    ENDIF
@@ -218,14 +218,14 @@ C   avec weight(I)=1
 
 C   le rb n'est pas local, on parcours les procs pour savoir s'il n a
 C   pas des bouts de RB.
-             IF (PMAIN.GT.0) THEN
+             IF (PMAIN>0) THEN
                DO P=1,NSPMD
 
-                IF (IAD_RBY2(2,P).GT.0) THEN
+                IF (IAD_RBY2(2,P)>0) THEN
 C   pointeur courrant de la pile du proc 
                   M = BUFRECP(P)
 C   numero du RB
-                  IF (BUFRECVM(M).EQ.I) THEN
+                  IF (BUFRECVM(M)==I) THEN
 
                     NBNOD=BUFRECVM(M+1)
                     BUFRECP(P)=BUFRECP(P)+2
@@ -250,7 +250,7 @@ C   mise a jour du pointeur pour le RB suivant
 
         ENDDO
 C   envoi tableau vers proc 0
-        IF (ISPMD.NE.0 .AND .L.GT.0) THEN
+        IF (ISPMD/=0 .AND .L>0) THEN
 
           MSGTYP = MSGOFF2
           CALL MPI_SEND(BUFSPO,L,MPI_INTEGER,IT_SPMD(1),MSGTYP,
@@ -259,7 +259,7 @@ C   envoi tableau vers proc 0
 
 
 C   je recois des messages des procs qui ont un noeud main de RB
-        IF (ISPMD.EQ.0) THEN
+        IF (ISPMD==0) THEN
           DO I=1,NSPMD
             RECOISDE(I)=0
           ENDDO
@@ -277,7 +277,7 @@ C   Je remplis ma file pour PO
           
           DO I=2,NSPMD
 
-            IF (RECOISDE(I).EQ.1) THEN
+            IF (RECOISDE(I)==1) THEN
 ccc             
               MSGTYP = MSGOFF2
               PTRPO(I) = LPO

@@ -84,7 +84,7 @@ C-----------------------------------------------
       ! COMPUTE ELEMENTARY MASS AND ITS DISTRIBUTION ON NODES.                   !
       ! FOR CUT CELL TNOD(1:8,I) ENABLE TO DISTRIBUTE MASS TO RELATED NODES ONLY !
       !--------------------------------------------------------------------------!
-      IF(IFLAG.NE.1)THEN
+      IF(IFLAG/=1)THEN
         IF(INT22==0)THEN  
         !DEFAULT FORMULATION    
          TNOD(LFT:LLT,1:8) = ONE
@@ -95,7 +95,7 @@ C-----------------------------------------------
         ELSE
          DO I=LFT,LLT
           IB = NINT(TAG22(I))
-          IF(IB.GT.0)THEN
+          IF(IB>0)THEN
             NCELL = BRICK_LIST(NIN,IB)%NBCUT
             IF(NCELL==0)THEN
               TNOD(I,1:8) = ONE
@@ -106,7 +106,7 @@ C-----------------------------------------------
             MCELL = BRICK_LIST(NIN,IB)%mainID
             IF(MCELL==0)CYCLE ! next Main Cell            
             FAC = BRICK_LIST(NIN,IB)%POLY(MCELL)%NumNOD
-            IF(FAC.GT.0)THEN
+            IF(FAC>0)THEN
               FAC=ONE/FAC
               DO J=1,8                                                                                        
                 ICELL=BRICK_LIST(NIN,IB)%NODE(J)%WhichCell                                                    
@@ -126,7 +126,7 @@ C-----------------------------------------------
       ENDIF!IFLAG=1
 C
 #include "lockon.inc"
-      IF(IFLAG.NE.0)THEN
+      IF(IFLAG/=0)THEN
         DO  I=LFT,LLT
          DMASS(I)=RHO(I)*VOLGP(1,I)*OFF(I)
         ENDDO
@@ -135,7 +135,7 @@ C
       !---------------------------------------------!
       ! NODAL MASS : ELEMENTARY MASS IS DISTRIBUTED !
       !---------------------------------------------!
-      IF(NVC1.EQ.0)THEN
+      IF(NVC1==0)THEN
 #include "vectorize.inc"
        DO I=LFT,LLT
          MS(NC1(I))   = MS(NC1(I))   + TNOD(I,1)*DMASS(I)                !by default all nodes are tagged. For cut cells only nodes defining the polyhedron is tagged
@@ -148,12 +148,12 @@ C
        ENDDO
       ENDIF
 C
-      IF(IFLAG.NE.0)THEN
+      IF(IFLAG/=0)THEN
         DO  I=LFT,LLT
          DMASS(I)=RHO(I)*VOLGP(2,I)*OFF(I)
         ENDDO
       ENDIF
-      IF(NVC2.EQ.0)THEN
+      IF(NVC2==0)THEN
 #include "vectorize.inc"
        DO I=LFT,LLT
          MS(NC2(I))   = MS(NC2(I))   + TNOD(I,2)*DMASS(I)
@@ -166,12 +166,12 @@ C
        ENDDO
       ENDIF
 C
-      IF(IFLAG.NE.0)THEN
+      IF(IFLAG/=0)THEN
         DO  I=LFT,LLT
          DMASS(I)=RHO(I)*VOLGP(3,I)*OFF(I)
         ENDDO
       ENDIF
-      IF(NVC3.EQ.0)THEN
+      IF(NVC3==0)THEN
 #include "vectorize.inc"
        DO I=LFT,LLT
          MS(NC3(I))   = MS(NC3(I))   + TNOD(I,3)*DMASS(I)
@@ -184,12 +184,12 @@ C
        ENDDO
       ENDIF
 C
-      IF(IFLAG.NE.0)THEN
+      IF(IFLAG/=0)THEN
         DO  I=LFT,LLT
          DMASS(I)=RHO(I)*VOLGP(4,I)*OFF(I)
         ENDDO
       ENDIF
-      IF(NVC4.EQ.0)THEN
+      IF(NVC4==0)THEN
 #include "vectorize.inc"
        DO I=LFT,LLT
          MS(NC4(I))   = MS(NC4(I))   + TNOD(I,4)*DMASS(I)
@@ -202,12 +202,12 @@ C
        ENDDO
       ENDIF
 C
-      IF(IFLAG.NE.0)THEN
+      IF(IFLAG/=0)THEN
         DO  I=LFT,LLT
          DMASS(I)=RHO(I)*VOLGP(5,I)*OFF(I)
         ENDDO
       ENDIF
-      IF(NVC5.EQ.0)THEN
+      IF(NVC5==0)THEN
 #include "vectorize.inc"
        DO I=LFT,LLT
          MS(NC5(I))   = MS(NC5(I))   + TNOD(I,5)*DMASS(I)
@@ -220,12 +220,12 @@ C
        ENDDO
       ENDIF
 C
-      IF(IFLAG.NE.0)THEN
+      IF(IFLAG/=0)THEN
         DO  I=LFT,LLT
          DMASS(I)=RHO(I)*VOLGP(6,I)*OFF(I)
         ENDDO
       ENDIF
-      IF(NVC6.EQ.0)THEN
+      IF(NVC6==0)THEN
 #include "vectorize.inc"
        DO I=LFT,LLT
          MS(NC6(I))   = MS(NC6(I))   + TNOD(I,6)*DMASS(I)
@@ -238,12 +238,12 @@ C
        ENDDO
       ENDIF
 C
-      IF(IFLAG.NE.0)THEN
+      IF(IFLAG/=0)THEN
         DO  I=LFT,LLT
          DMASS(I)=RHO(I)*VOLGP(7,I)*OFF(I)
         ENDDO
       ENDIF
-      IF(NVC7.EQ.0)THEN
+      IF(NVC7==0)THEN
 #include "vectorize.inc"
        DO I=LFT,LLT
          MS(NC7(I))   = MS(NC7(I))   + TNOD(I,7)*DMASS(I)
@@ -256,12 +256,12 @@ C
        ENDDO
       ENDIF
 C
-      IF(IFLAG.NE.0)THEN
+      IF(IFLAG/=0)THEN
        DO  I=LFT,LLT
          DMASS(I)=RHO(I)*VOLGP(8,I)*OFF(I)
         ENDDO
       ENDIF
-      IF(NVC8.EQ.0)THEN
+      IF(NVC8==0)THEN
 #include "vectorize.inc"
        DO I=LFT,LLT
          MS(NC8(I))   = MS(NC8(I))   + TNOD(I,8)*DMASS(I)
@@ -328,7 +328,7 @@ C-----------------------------------------------
       ! COMPUTE ELEMENTARY MASS AND ITS DISTRIBUTION ON NODES.                   !
       ! FOR CUT CELL TNOD(1:8,I) ENABLE TO DISTRIBUTE MASS TO RELATED NODES ONLY !
       !--------------------------------------------------------------------------!
-      IF(IFLAG.NE.1)THEN
+      IF(IFLAG/=1)THEN
         IF(INT22==0)THEN  
         !DEFAULT FORMULATION    
          TNOD(LFT:LLT,1:8) = ONE
@@ -339,7 +339,7 @@ C-----------------------------------------------
         ELSE
          DO I=LFT,LLT
           IB = NINT(TAG22(I))
-          IF(IB.GT.0)THEN
+          IF(IB>0)THEN
             NCELL = BRICK_LIST(NIN,IB)%NBCUT
             IF(NCELL==0)THEN
               TNOD(I,1:8) = ONE
@@ -350,7 +350,7 @@ C-----------------------------------------------
             MCELL = BRICK_LIST(NIN,IB)%mainID
             IF(MCELL==0)CYCLE ! next Main Cell            
             FAC = BRICK_LIST(NIN,IB)%POLY(MCELL)%NumNOD
-            IF(FAC.GT.0)THEN
+            IF(FAC>0)THEN
               FAC=ONE/FAC
               DO J=1,8                                                                                        
                 ICELL=BRICK_LIST(NIN,IB)%NODE(J)%WhichCell                                                    
@@ -374,7 +374,7 @@ C-----------------------------------------------
       !---------------------------------------------!
       ! NODAL MASS : ELEMENTARY MASS IS DISTRIBUTED !
       !---------------------------------------------!      
-      IF(IFLAG.EQ.1)THEN
+      IF(IFLAG==1)THEN
        TNOD(LFT:LLT,1:8) = ONE       
        DO  I=LFT,LLT
         DMASS(I)=RHO(I)*VOLGP(1,I)*OFF(I)
@@ -386,7 +386,7 @@ C-----------------------------------------------
         FSKYM(K)= TNOD(I,1)*DMASS(I)                                        !by default all nodes are tagged. For cut cells only nodes defining the polyhedron is tagged
       ENDDO
 C
-      IF(IFLAG.EQ.1)THEN
+      IF(IFLAG==1)THEN
        DO  I=LFT,LLT
         DMASS(I)=RHO(I)*VOLGP(2,I)*OFF(I)
        ENDDO
@@ -397,7 +397,7 @@ C
         FSKYM(K)= TNOD(I,2)*DMASS(I)
       ENDDO
 C
-      IF(IFLAG.EQ.1)THEN
+      IF(IFLAG==1)THEN
        DO  I=LFT,LLT
         DMASS(I)=RHO(I)*VOLGP(3,I)*OFF(I)
        ENDDO
@@ -408,7 +408,7 @@ C
         FSKYM(K)= TNOD(I,3)*DMASS(I)
       ENDDO
 C
-      IF(IFLAG.EQ.1)THEN
+      IF(IFLAG==1)THEN
        DO  I=LFT,LLT
         DMASS(I)=RHO(I)*VOLGP(4,I)*OFF(I)
        ENDDO
@@ -419,7 +419,7 @@ C
         FSKYM(K)= TNOD(I,4)*DMASS(I)
       ENDDO
 C
-      IF(IFLAG.EQ.1)THEN
+      IF(IFLAG==1)THEN
        DO  I=LFT,LLT
         DMASS(I)=RHO(I)*VOLGP(5,I)*OFF(I)
        ENDDO
@@ -430,7 +430,7 @@ C
         FSKYM(K)= TNOD(I,5)*DMASS(I)
       ENDDO
 C
-      IF(IFLAG.EQ.1)THEN
+      IF(IFLAG==1)THEN
        DO  I=LFT,LLT
         DMASS(I)=RHO(I)*VOLGP(6,I)*OFF(I)
        ENDDO
@@ -441,7 +441,7 @@ C
         FSKYM(K)= TNOD(I,6)*DMASS(I)
       ENDDO
 C
-      IF(IFLAG.EQ.1)THEN
+      IF(IFLAG==1)THEN
        DO  I=LFT,LLT
         DMASS(I)=RHO(I)*VOLGP(7,I)*OFF(I)
        ENDDO
@@ -452,7 +452,7 @@ C
         FSKYM(K)= TNOD(I,7)*DMASS(I)
       ENDDO
 C
-      IF(IFLAG.EQ.1)THEN
+      IF(IFLAG==1)THEN
        DO  I=LFT,LLT
         DMASS(I)=RHO(I)*VOLGP(8,I)*OFF(I)
        ENDDO

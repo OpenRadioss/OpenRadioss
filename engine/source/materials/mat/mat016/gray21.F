@@ -80,7 +80,7 @@ C-----------------------------------------------
         XJ           = ONE-RHO0(I)*VJ
         
         !--------------------------------------
-        IF(X(I).LT.XJ.AND.XIST0(I).NE.FIVE)THEN
+        IF(X(I)<XJ.AND.XIST0(I)/=FIVE)THEN
         !--------------------
         !      LIQUIDE-VAPEUR
         !--------------------
@@ -102,7 +102,7 @@ C-----------------------------------------------
           A2         = FOUR*(D3-C3*FE)
           BB         = RP3(I)+TWO*D2
           CC         = TWO*(D1+C1*FE-ESPE(I)-APY*Z/VB)
-          IF(A2.EQ.ZERO)THEN
+          IF(A2==ZERO)THEN
             TEMP(I)  = -CC/BB
           ELSE
            TEMP(I)   =(-BB+SQRT(BB**2- TWO*A2*CC))/A2
@@ -114,7 +114,7 @@ C-----------------------------------------------
           P1(I)      = ZERO
           PCR(I)     = P(I)*TWO/RHO(I)
 
-         ELSEIF(ESPE(I).LE.EM1(I).OR.XIST0(I).EQ.FIVE) THEN
+         ELSEIF(ESPE(I)<=EM1(I).OR.XIST0(I)==FIVE) THEN
          !--------------------
          !      SOLIDE
          !--------------------
@@ -122,7 +122,7 @@ C-----------------------------------------------
            A2        = GP(I)
            BB        = RP3(I)
            CC        = -EM0(I)
-           IF(A2.EQ.ZERO)THEN
+           IF(A2==ZERO)THEN
              TEMP(I) = -CC/BB
              PCR(I)  = ZERO
            ELSE
@@ -130,7 +130,7 @@ C-----------------------------------------------
              PCR(I)  = GEAX(I)*TEMP(I)**2
            ENDIF
 
-         ELSEIF(ESPE(I).LT.EM2(I)) THEN
+         ELSEIF(ESPE(I)<EM2(I)) THEN
          !--------------------
          !      FUSION 2 PHASES
          !--------------------
@@ -140,7 +140,7 @@ C-----------------------------------------------
            A2        = GP(I)
            BB        = RP3(I)+XNU(I)*V1
            CC        = -(EM0(I)+XNU(I)**2*DELT(I)*V1)
-           IF(A2.EQ.ZERO)THEN
+           IF(A2==ZERO)THEN
              TEMP(I) = -CC/BB
              PCR(I)  = -TWO*XNU(I)*V1*(XLAM(I)*TM(I)+(TEMP(I)-XNU(I)*DELT(I))*G0AX(I))
            ELSE
@@ -148,7 +148,7 @@ C-----------------------------------------------
              PCR(I)  = GEAX(I)*TEMP(I)**2-TWO*XNU(I)*V1*(XLAM(I)*TM(I)+(TEMP(I)-XNU(I)*DELT(I))*G0AX(I))
            ENDIF
 
-         ELSEIF(ESPE(I).LE.EGG(I)) THEN
+         ELSEIF(ESPE(I)<=EGG(I)) THEN
          !--------------------
          !      LIQUIDE
          !--------------------
@@ -156,7 +156,7 @@ C-----------------------------------------------
            A2        = GP(I)-ALP(I)/TM(I)
            BB        = RP3(I)
            CC        = -(EM0(I)-TM(I)*(DSP(I)-HALF*ALP(I)))
-           IF(A2.EQ.ZERO)THEN
+           IF(A2==ZERO)THEN
              TEMP(I) = -CC/BB
              PCR(I)  = -TM(I)*(XLAM(I)+G0AX(I))*(TWO*DSP(I)-ALP(I)*(ONE+TEMP(I)**2/TM(I)**2))
            ELSE
@@ -172,7 +172,7 @@ C-----------------------------------------------
            A2        = GP(I)
            BB        = RP3(I)-XM*ALP(I)
            CC        = -(EM0(I)-TM(I)*(DSP(I)-HALF*ALP(I)*UNMM2))
-           IF(A2.EQ.ZERO)THEN
+           IF(A2==ZERO)THEN
              TEMP(I) = -CC/BB
              PCR(I)  = -TM(I)*( TWO*DSP(I)-ALP(I)*(UNMM2+TWO*XM*TEMP(I)/TM(I)) )*(XLAM(I)+G0AX(I))
            ELSE

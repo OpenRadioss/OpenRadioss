@@ -65,11 +65,11 @@ C     REAL
      .   XWL0, YWL0, ZWL0, DP0, XC0, YC0, ZC0, TOL, VN, VNOLD, 
      .   DP0DT, DVX, DVY, DVZ, PREC, XPREC
 C-----------------------------------------------
-      IF(IRESP.EQ.1)THEN
+      IF(IRESP==1)THEN
         PREC=EM07
       END IF
 C
-      IF(MSR.EQ.0)THEN
+      IF(MSR==0)THEN
        XWL=RWL(4)
        YWL=RWL(5)
        ZWL=RWL(6)
@@ -125,7 +125,7 @@ C
         UX=X(N1)+VX*DT2
         UY=X(N2)+VY*DT2
         UZ=X(N3)+VZ*DT2
-        IF(N2D.EQ.1)THEN
+        IF(N2D==1)THEN
          AX=X(N2)
         ELSE
          AX=ONE
@@ -141,13 +141,13 @@ C
         TOL=TWO*DT1*MAX(
      .  ABS( (VX-VXW)*RWL(1)+(VY-VYW)*RWL(2)+(VZ-VZW)*RWL(3) ),
      .  ABS(VN-VNOLD) )
-        IF(IRESP.EQ.1)THEN
+        IF(IRESP==1)THEN
           XPREC=PREC*MAX(ABS(XWL),ABS(YWL),ABS(ZWL),
      .              ABS(X(N1)),ABS(X(N2)),ABS(X(N3)),
      .              ABS(X(N1)-XWL),ABS(X(N2)-YWL),ABS(X(N3)-ZWL))
           TOL=MAX(TOL,XPREC)
         END IF
-        IF(DP.GT.ZERO.OR.DP0.LE.-TOL)GOTO 20
+        IF(DP>ZERO.OR.DP0<=-TOL)GOTO 20
 C
         XCP=XC-DP*RWL(1)
         YCP=YC-DP*RWL(2)
@@ -158,25 +158,25 @@ C
         SZ1M=XL1*YCP-YL1*XCP
         PS=SX12*SX1M+SY12*SY1M+SZ12*SZ1M
 C
-        IF(PS.LT.ZERO) GOTO 20
+        IF(PS<ZERO) GOTO 20
 C
         SM1=SX1M**2+SY1M**2+SZ1M**2
 C
-        IF(SM1.GT.S12) GOTO 20
+        IF(SM1>S12) GOTO 20
 C
         SXM2=YCP*ZL2-ZCP*YL2
         SYM2=ZCP*XL2-XCP*ZL2
         SZM2=XCP*YL2-YCP*XL2
         PS=SX12*SXM2+SY12*SYM2+SZ12*SZM2
 C
-        IF(PS.LT.ZERO) GOTO 20
+        IF(PS<ZERO) GOTO 20
 C
         SM2=SXM2**2+SYM2**2+SZM2**2
 C
-        IF(SM2.GT.S12) GOTO 20
+        IF(SM2>S12) GOTO 20
 C
-        IF((VX-VXW)*RWL(1)+(VY-VYW)*RWL(2)+(VZ-VZW)*RWL(3).GT.ZERO
-     .     .AND.DP0.GT.ZERO)GOTO 20
+        IF((VX-VXW)*RWL(1)+(VY-VYW)*RWL(2)+(VZ-VZW)*RWL(3)>ZERO
+     .     .AND.DP0>ZERO)GOTO 20
         NIMPACT = NIMPACT+1
         IMPACT(NIMPACT) = I
  20   CONTINUE
@@ -234,7 +234,7 @@ C     REAL
      .   FXN, FYN, FZN, FXT, FYT, FZT
 C-----------------------------------------------
 C
-      IF(MSR.EQ.0)THEN
+      IF(MSR==0)THEN
        XWL0=RWL(4)
        YWL0=RWL(5)
        ZWL0=RWL(6)
@@ -358,7 +358,7 @@ C     REAL
      .   DV, DA, DVT, DP0DT, DVX, DVY, DVZ
 C-----------------------------------------------
 C
-      IF(MSR.EQ.0)THEN
+      IF(MSR==0)THEN
        XWL0=RWL(4)
        YWL0=RWL(5)
        ZWL0=RWL(6)
@@ -383,7 +383,7 @@ C
        ZWL=X(M3)+VZW*DT2
       ENDIF
 C     
-      IF(ITIED.EQ.0)THEN
+      IF(ITIED==0)THEN
 C
        DO 40 J = 1,NIMPACT
         I = IMPACT(J)
@@ -407,7 +407,7 @@ C
         A(N3)=A(N3)-DA*RWL(3)
  40    CONTINUE
 C
-      ELSEIF(ITIED.EQ.1)THEN
+      ELSEIF(ITIED==1)THEN
 C
        DO 60 J = 1,NIMPACT
         I = IMPACT(J)
@@ -512,7 +512,7 @@ C-----------------------------------------------
 C
 C     fixed wall only.
 C
-      IF(ITIED.EQ.0)THEN
+      IF(ITIED==0)THEN
 C
        DO 40 J = 1,NIMPACT
         I = IMPACT(J)
@@ -527,7 +527,7 @@ C
         A(N3)=A(N3)-DA*RWL(3)
  40    CONTINUE
 C
-      ELSEIF(ITIED.EQ.1)THEN
+      ELSEIF(ITIED==1)THEN
 C
        DO 60 J = 1,NIMPACT
         I = IMPACT(J)
@@ -617,7 +617,7 @@ C     REAL
      .   F1(NSN), F2(NSN), F3(NSN), F4(NSN), F5(NSN), F6(NSN), F7(NSN)
 C-----------------------------------------------
 C
-      IF(MSR.EQ.0)THEN
+      IF(MSR==0)THEN
        VXW=ZERO
        VYW=ZERO
        VZW=ZERO
@@ -633,7 +633,7 @@ C TFEXT only <=> dt12/2.
 C
       TFXT=ZERO
 C     
-      IF(ITIED.EQ.0)THEN
+      IF(ITIED==0)THEN
 C
        DO 40 J = 1,NIMPACT
         I = IMPACT(J)
@@ -704,7 +704,7 @@ c!$OMP ATOMIC ne marche pas
       TFEXT=TFEXT+TFXT
 #include "lockoff.inc"
 C
-C     IF (MSR.NE.0) THEN
+C     IF (MSR/=0) THEN
       CALL SUM_6_FLOAT(1, NIMPACT, F1, FRWL6(1,1), 7)
       CALL SUM_6_FLOAT(1, NIMPACT, F2, FRWL6(2,1), 7)
       CALL SUM_6_FLOAT(1, NIMPACT, F3, FRWL6(3,1), 7)

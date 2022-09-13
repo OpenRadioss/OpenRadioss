@@ -85,14 +85,14 @@ C     REAL
 C-----------------------------------------------
       M    =NBY(1)
 C optimisation spmd
-      IF (M.LT.0) RETURN
+      IF (M<0) RETURN
       NSN  =NBY(2)
 C en spmd il ne faut sommer qu'une fois la vitesse du centre d'inertie
       FS(7)=FS(7)+VR(1,M)*DT2*WEIGHT(M)
       FS(8)=FS(8)+VR(2,M)*DT2*WEIGHT(M)
       FS(9)=FS(9)+VR(3,M)*DT2*WEIGHT(M)
 C
-      IF(DT2*DT2*(VR(1,M)**2+VR(2,M)**2+VR(3,M)**2).GT.1.0)THEN
+      IF(DT2*DT2*(VR(1,M)**2+VR(2,M)**2+VR(3,M)**2)>1.0)THEN
          CALL ANCMSG(MSGID=110,ANMODE=ANINFO,
      .            I1=ID)
          CALL ARRET(2)
@@ -109,9 +109,9 @@ C
         AM1 = A(1,M)
         AM2 = A(2,M)
         AM3 = A(3,M)
-Cel vectorisation si nsn.ge.10 ou si p/on active
+Cel vectorisation si nsn>=10 ou si p/on active
 Cel sinon attention aux differences en mode vectoriel !
-        IF (NSN.GE.10.OR.IPARIT.GT.0) THEN
+        IF (NSN>=10.OR.IPARIT>0) THEN
           DO I=1,NSN
             N = NOD(I)
             AR(1,N)= (VG(1)-VR(1,N)) * USDT
@@ -172,9 +172,9 @@ C
         AM1 = ZERO
         AM2 = A(2,M)
         AM3 = A(3,M)
-Cel vectorisation si nsn.ge.10 ou si p/on active
+Cel vectorisation si nsn>=10 ou si p/on active
 Cel sinon attention aux differences en mode vectoriel !
-        IF (NSN.GE.10.OR.IPARIT.GT.0) THEN
+        IF (NSN>=10.OR.IPARIT>0) THEN
          DO I=1,NSN
            N = NOD(I)
            AR(1,N)= ZERO
@@ -214,9 +214,9 @@ C
         AM1 = ZERO
         AM2 = A(2,M)
         AM3 = A(3,M)
-Cel vectorisation si nsn.ge.10 ou si p/on active
+Cel vectorisation si nsn>=10 ou si p/on active
 Cel sinon attention aux differences en mode vectoriel !
-        IF (NSN.GE.10.OR.IPARIT.GT.0) THEN
+        IF (NSN>=10.OR.IPARIT>0) THEN
          DO I=1,NSN
            N = NOD(I)
            AR(1,N)= (VG(1)-VR(1,N)) * USDT

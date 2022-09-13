@@ -90,7 +90,7 @@ C
          PRES = PRES * (V0-VINC) / (VOL-VINC)
       ENDIF
       Q = ZERO
-      IF (ISPMD+1.EQ.PMAIN) THEN
+      IF (ISPMD+1==PMAIN) THEN
         DV=VOL-VOLD
         TFEXT=TFEXT+(HALF*(Q+QOLD+PRES+POLD))*DV
         FSAV(1)=ZERO

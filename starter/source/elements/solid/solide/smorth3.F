@@ -89,15 +89,15 @@ C     GAMA(1)= TG11 , GAMA(2) = TG12, TG13..., TG21..., TG22..., TG23...
 C=======================================================================
 C---- tag elm /w /INIBRI/ORTHO
       INIORTH(LFT:LLT)=0
-      IF (NVSOLID3 .NE. 0) THEN
+      IF (NVSOLID3 /= 0) THEN
         IIS= NVSOLID1  + NVSOLID2 +  4 +NUSOLID 
         DO I=LFT,LLT
          JJ=PT(NFT+I)
          IF(JJ ==0 ) CYCLE
          IF(
-     .   SIGSP(IIS+1,JJ) .NE. ZERO .OR. SIGSP(IIS+2,JJ) .NE.ZERO .OR.
-     .   SIGSP(IIS+3,JJ) .NE. ZERO .OR. SIGSP(IIS+4,JJ) .NE.ZERO .OR.
-     .   SIGSP(IIS+5,JJ) .NE. ZERO .OR. SIGSP(IIS+6,JJ) .NE.ZERO )THEN
+     .   SIGSP(IIS+1,JJ) /= ZERO .OR. SIGSP(IIS+2,JJ) /=ZERO .OR.
+     .   SIGSP(IIS+3,JJ) /= ZERO .OR. SIGSP(IIS+4,JJ) /=ZERO .OR.
+     .   SIGSP(IIS+5,JJ) /= ZERO .OR. SIGSP(IIS+6,JJ) /=ZERO )THEN
              INIORTH(I) = 1
          ENDIF         
         ENDDO
@@ -721,17 +721,17 @@ C
       ENDIF
 C
 C---
-      IF (NVSOLID3 .NE. 0) THEN
+      IF (NVSOLID3 /= 0) THEN
        IIS= NVSOLID1  + NVSOLID2 + 4 + NUSOLID
        DO I=LFT,LLT
           II=NFT+I
           JJ=PT(II)
           IFLAGINI = 1
-          IF(JJ.EQ.0)IFLAGINI = 0
+          IF(JJ==0)IFLAGINI = 0
           IF(IFLAGINI == 1 .AND.
-     .   ( SIGSP(IIS+1,JJ) .NE. ZERO.OR.SIGSP(IIS+2,JJ).NE.ZERO.OR.
-     .   SIGSP(IIS+3,JJ) .NE. ZERO .OR. SIGSP(IIS+4,JJ) .NE. ZERO .OR.
-     .   SIGSP(IIS+5,JJ) .NE. ZERO .OR. SIGSP(IIS+6,JJ) .NE. ZERO) )THEN
+     .   ( SIGSP(IIS+1,JJ) /= ZERO.OR.SIGSP(IIS+2,JJ)/=ZERO.OR.
+     .   SIGSP(IIS+3,JJ) /= ZERO .OR. SIGSP(IIS+4,JJ) /= ZERO .OR.
+     .   SIGSP(IIS+5,JJ) /= ZERO .OR. SIGSP(IIS+6,JJ) /= ZERO) )THEN
             G11 = SIGSP(IIS+1,JJ)
             G21 = SIGSP(IIS+2,JJ)
             G31 = SIGSP(IIS+3,JJ)

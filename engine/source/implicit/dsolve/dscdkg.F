@@ -69,7 +69,7 @@ C-----------------------------------------------
 C
       DO I=1,NSPROC
          IPRIM=GRAPHE(I)%IPRI
-         IF (IPRIM.LT.0) THEN
+         IF (IPRIM<0) THEN
             IPRIM=ABS(IPRIM)-1
             IPRIB=1
          ELSE
@@ -94,17 +94,17 @@ C
 C
                ISUPEL=ISUPEL+1
                ISTEP=1
-               IF (IMACH.NE.3.AND.IPRIB.EQ.1) THEN
+               IF (IMACH/=3.AND.IPRIB==1) THEN
                   CALL PROGCOND_C(ISUPEL, DSLEN, I, 
      .                            NSLEVEL-ILVL+1, ISD, ISTEP)
-               ELSEIF (IPRIB.EQ.1) THEN
+               ELSEIF (IPRIB==1) THEN
 C On fait un affichage interactif de l'avancement des procs si NSPMD
 C est inferieur a 16 
 C On affiche rien sinon
-                  IF (NSPMD.LE.16) 
+                  IF (NSPMD<=16) 
      .               CALL PROGCONDP_C(ISUPEL, DSLEN, ISPMD+1, ISD)
                ENDIF
-               IF (ILVL.EQ.1) THEN         
+               IF (ILVL==1) THEN         
 C Condensation au niveau le plus bas : extraction de la rigidite geometrique
                   LEN1=NDDL_I+NDDL_F
                   ALLOCATE(KL(LEN1,LEN1))
@@ -138,7 +138,7 @@ C
                DEALLOCATE(KL)
 C
                ISTEP=3
-               IF (IMACH.NE.3.AND.IPRIB.EQ.1) 
+               IF (IMACH/=3.AND.IPRIB==1) 
      .            CALL PROGCOND_C(ISUPEL, DSLEN, I, 
      .                            NSLEVEL-ILVL+1, ISD, ISTEP)
 C Chargement des modes
@@ -153,7 +153,7 @@ C Chargement des modes
                      IREC=IREC+1
                   ENDDO
                   NR=NDDL_I2-(NDDL_I2/10)*10
-                  IF (NR.GT.0) THEN
+                  IF (NR>0) THEN
                      READ(IFILE,REC=IREC) (VS(IAD+K,II),K=1,NR)
                      IREC=IREC+1
                   ENDIF
@@ -166,7 +166,7 @@ C Chargement des modes
                      IREC=IREC+1
                   ENDDO
                   NR=NDDL_I2-(NDDL_I2/10)*10
-                  IF (NR.GT.0) THEN
+                  IF (NR>0) THEN
                      READ(IFILE,REC=IREC) (VD(IAD+K,II),K=1,NR)
                      IREC=IREC+1
                   ENDIF
@@ -227,17 +227,17 @@ C
          ENDDO
       ENDDO
 C
-      IF (NDI.GT.0) THEN
-         IF (NDF.GT.0)
+      IF (NDI>0) THEN
+         IF (NDF>0)
      .   CALL DGEMM('N',  'N',  NDI, NDF, NDI,
      .              ONE,   KLI,  NDI, VS,  NDI,
      .              ZERO, KTMP, NRT)
-         IF (NDF.GT.0)
+         IF (NDF>0)
      .   CALL DGEMM('T', 'N', NDF, NDF,  NDI,
      .              ONE,  VS,  NDI, KTMP, NRT,
      .              ONE,  KPS, NDF)
 C
-         IF (NDF.GT.0)
+         IF (NDF>0)
      .   CALL DGEMM('N',  'N',  NDF, NDF, NDI,
      .              ONE,   KLC,  NDF, VS,  NDI,
      .              ZERO, KTMP, NRT)
@@ -247,7 +247,7 @@ C
             ENDDO
          ENDDO
 C
-         IF (NDF.GT.0)
+         IF (NDF>0)
      .   CALL DGEMM('N',   'N', NDF, NVD, NDI,
      .              ONE,    KLC, NDF, VD,  NDI,
      .              ZERO,  KPC, NDF)
@@ -255,11 +255,11 @@ C
          CALL DGEMM('N',  'N',  NDI, NVD, NDI,
      .              ONE,   KLI,  NDI, VD,  NDI,
      .              ZERO, KTMP, NRT)
-         IF (NDF.GT.0)
+         IF (NDF>0)
      .   CALL DGEMM('T', 'N', NDF, NVD,  NDI,
      .              ONE,  VS,  NDI, KTMP, NRT,
      .              ONE,  KPC, NDF)
-         IF (NVD.GT.0) 
+         IF (NVD>0) 
      .   CALL DGEMM('T',  'N', NVD, NVD,  NDI,
      .              ONE,   VD,  NDI, KTMP, NRT,
      .              ZERO, KPI, NVD)
@@ -290,7 +290,7 @@ C
          IREC=IREC+1
       ENDDO
       NR=LEN-(LEN/10)*10
-      IF (NR.GT.0) THEN
+      IF (NR>0) THEN
          WRITE(IFILE,REC=IREC) (KP(IAD+J),J=1,NR)
          IREC=IREC+1
       ENDIF

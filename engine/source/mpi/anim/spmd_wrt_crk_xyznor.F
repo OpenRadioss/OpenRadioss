@@ -78,9 +78,9 @@ C-----------------------------------------------
 
       S3000 = THREE1000
       IXNN = S3000
-      IF(FMT_ANI.EQ.4)IXNN=0
+      IF(FMT_ANI==4)IXNN=0
 C---
-       IF (ISPMD.NE.0) THEN
+       IF (ISPMD/=0) THEN
 
         SIZ = 0
         DO I=1,CRKNOD(ICRK)%CRKNUMNODS
@@ -123,7 +123,7 @@ C
            SIZ0 = SIZ0 + 1
 c           S = SQRT(XNORM(1,I)**2 + XNORM(2,I)**2 + XNORM(3,I)**2)
            S = ZERO
-           IF(S.NE.ZERO)THEN
+           IF(S/=ZERO)THEN
              S = S3000 / S
 c             XN1 = XNORM(1,I) * S
 c             XN2 = XNORM(2,I) * S

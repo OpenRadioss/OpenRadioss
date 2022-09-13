@@ -68,13 +68,13 @@ C=======================================================================
 C     I.1 INLET/OUTLET CONDITIONS
 C=======================================================================
       DO N=1,NSPHIO
-        IF (ISPHIO(1,N).EQ.4) CYCLE
+        IF (ISPHIO(1,N)==4) CYCLE
         ID=NOM_OPT(1,N)
         CALL FRETITL2(TITR,
      .                NOM_OPT(LNOPT1-LTITR+1,N),LTITR)
-            IF(ISPHIO(5,N).NE.0)THEN
+            IF(ISPHIO(5,N)/=0)THEN
               DO J=1,NFUNCT
-                IF(ISPHIO(5,N).EQ.NPC(J)) THEN
+                IF(ISPHIO(5,N)==NPC(J)) THEN
                   ISPHIO(5,N)=J
                   GOTO 110
                 ENDIF
@@ -91,9 +91,9 @@ C     .        ' FUNCTION ID FOR DENSITY:',ISPHIO(5,N)
 C              IERR=IERR+1
  110          CONTINUE
             ENDIF
-            IF(ISPHIO(6,N).NE.0)THEN
+            IF(ISPHIO(6,N)/=0)THEN
               DO J=1,NFUNCT
-                IF(ISPHIO(6,N).EQ.NPC(J)) THEN
+                IF(ISPHIO(6,N)==NPC(J)) THEN
                   ISPHIO(6,N)=J
                   GOTO 120
                 ENDIF
@@ -110,9 +110,9 @@ C     .        ' FUNCTION ID FOR PRESSURE:',ISPHIO(6,N)
 C              IERR=IERR+1
  120          CONTINUE
             ENDIF
-            IF(ISPHIO(7,N).NE.0)THEN
+            IF(ISPHIO(7,N)/=0)THEN
               DO J=1,NFUNCT
-                IF(ISPHIO(7,N).EQ.NPC(J)) THEN
+                IF(ISPHIO(7,N)==NPC(J)) THEN
                   ISPHIO(7,N)=J
                   GOTO 130
                 ENDIF
@@ -129,9 +129,9 @@ C     .        ' FUNCTION ID FOR ENERGY:',ISPHIO(7,N)
 C              IERR=IERR+1
  130          CONTINUE
             ENDIF
-            IF(ISPHIO(8,N).NE.0)THEN
+            IF(ISPHIO(8,N)/=0)THEN
               DO J=1,NFUNCT
-                IF(ISPHIO(8,N).EQ.NPC(J)) THEN
+                IF(ISPHIO(8,N)==NPC(J)) THEN
                   ISPHIO(8,N)=J
                   GOTO 140
                 ENDIF

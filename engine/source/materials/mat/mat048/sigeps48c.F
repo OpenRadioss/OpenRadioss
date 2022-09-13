@@ -165,7 +165,7 @@ C-----------------------------------------------
 C
       DATA NMAX/3/
 C=======================================================================
-       IF(TIME.EQ.ZERO)THEN
+       IF(TIME==ZERO)THEN
          DO I=1,NEL0
            UVAR(I,1)=ZERO
            UVAR(I,2)=ZERO
@@ -233,7 +233,7 @@ C-------------------
 C     STRAIN RATE
 C-------------------
 C
-         IF (ISRATE .EQ. 0) EPSP(I) = 
+         IF (ISRATE == 0) EPSP(I) = 
      .     HALF*( ABS(EPSPXX(I)+EPSPYY(I))
      .   + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
      .                 + EPSPXY(I)*EPSPXY(I) ) )
@@ -251,42 +251,42 @@ C     CURRENT YIELD AND HARDENING
 C-------------------
 C
        DO I=1,NEL0
-        IF(PLA(I).LE.ZERO) THEN
+        IF(PLA(I)<=ZERO) THEN
          PA=YD1
         ELSE
          PA=YD1+HC1*PLA(I)**CN1
         ENDIF
-        IF(EPSP(I).LE.EPS01) THEN
+        IF(EPSP(I)<=EPS01) THEN
          PB=0.
-        ELSEIF(PLA(I).LE.ZERO) THEN
+        ELSEIF(PLA(I)<=ZERO) THEN
          PB=C11*LOG(EPSP(I)/EPS01)
         ELSE
          PB=(C11-C21*PLA(I)**CM1)*LOG(EPSP(I)/EPS01)
         ENDIF
-        IF(EPSP(I).LE.ZERO) THEN
+        IF(EPSP(I)<=ZERO) THEN
          PC=ZERO
         ELSE
          PC=C31*EPSP(I)**CL1
         ENDIF
 C-----
-        IF(PLA(I).GT.ZERO. AND .CN1.GE.ONE) THEN
+        IF(PLA(I)>ZERO. AND .CN1>=ONE) THEN
          PDA = HC1*CN1*PLA(I)**(CN1-ONE)
-        ELSEIF(PLA(I).GT.ZERO. AND .CN1.LT.ONE)THEN
+        ELSEIF(PLA(I)>ZERO. AND .CN1<ONE)THEN
          PDA = HC1*CN1*PLA(I)**(ONE -CN1)
         ELSE
          PDA = E1
         ENDIF
-        IF(PLA(I).LE.0. OR .EPSP(I).LE.EPS01) THEN
+        IF(PLA(I)<=0. OR .EPSP(I)<=EPS01) THEN
         PDB = ZERO
-        ELSEIF(CM1.GE.ONE) THEN
+        ELSEIF(CM1>=ONE) THEN
          PDB = C21*CM1*PLA(I)**(CM1 - ONE)*LOG(EPSP(I)/EPS01)
         ELSE
          PDB = C21*CM1*PLA(I)**(ONE-CM1)*LOG(EPSP(I)/EPS01)
         ENDIF
 C
-c         IF (ICC1.NE.1.AND.CN1.NE.ZERO)
+c         IF (ICC1/=1.AND.CN1/=ZERO)
 c     &      EPSGM1=((SIGM1/RQ-YD1)/HC1)**(1./CN1)
-c         IF (PLA(I).GE.EPSGM1) THEN
+c         IF (PLA(I)>=EPSGM1) THEN
 c            YLD(I) = SIGM1
 c            HS(I) = ZERO
 c         ENDIF
@@ -295,18 +295,18 @@ C----
         YY    = PA + PB + PC
         HS(I) = PDA + PDB
         YLD(I)= MIN(SIGM1+PC, YY)
-        IF (YLD(I).LT.YY) HS(I)  = ZERO
+        IF (YLD(I)<YY) HS(I)  = ZERO
         HS(I)  = FAIL(I)*HS(I)
         YLD(I) = FAIL(I)*YLD(I)
       ENDDO
 C       
 C---  KINEMATIC HARDENING
 C
-      IF (FISOKIN1.EQ.ONE) THEN
+      IF (FISOKIN1==ONE) THEN
         DO I=1,NEL0
           YLD(I) = FAIL(I)*YLO(I)
         ENDDO
-      ELSEIF (FISOKIN1.GT.ZERO) THEN
+      ELSEIF (FISOKIN1>ZERO) THEN
         DO I=1,NEL0
           YLD(I) = (ONE-FISOKIN1)*YLD(I) + FISOKIN1*FAIL(I)*YLO(I)
         ENDDO        
@@ -316,7 +316,7 @@ C-------------------------
 C      PROJECTION IFLAG = 0  (projection radiale)
 C-------------------------
 C
-      IF(IFLAG(1).EQ.0) THEN
+      IF(IFLAG(1)==0) THEN
           DO I=1,NEL0
            SVM(I)=SQRT(SIGNXX(I)*SIGNXX(I)
      .             +SIGNYY(I)*SIGNYY(I)
@@ -341,7 +341,7 @@ C-------------------------
 C      PROJECTION IFLAG = 1 
 C-------------------------
 C
-       ELSEIF(IFLAG(1).EQ.1)THEN
+       ELSEIF(IFLAG(1)==1)THEN
 C
 C---     CRITERE DE VON MISES
 C
@@ -362,7 +362,7 @@ C---     GATHER PLASTIC FLOW
 C
          NINDX=0
          DO I=1,NEL0
-           IF(SVM(I).GT.YLD(I).AND.OFF(I).EQ.ONE) THEN
+           IF(SVM(I)>YLD(I).AND.OFF(I)==ONE) THEN
              NINDX=NINDX+1
              INDEX(NINDX)=I
            ENDIF
@@ -370,7 +370,7 @@ C
 C
 C---    DEP EN CONTRAINTE PLANE
 C
-         IF(NINDX.NE.0) THEN
+         IF(NINDX/=0) THEN
           DO J=1,NINDX
            I=INDEX(J)
            HS(I)  = MAX(ZERO,HS(I))
@@ -394,7 +394,7 @@ C
              DF    =-(AA(I)*NU11*P2*PP(I)+THREE*BB(I)*NU21*Q2*QQ(I))
      .         *(E1-TWO*DR(I)*H(I))/YLD_I
      .         -TWO*H(I)*YLD_I
-             IF(DPLA_I(I).GT.ZERO) THEN
+             IF(DPLA_I(I)>ZERO) THEN
                DPLA_J(I) = MAX(ZERO,DPLA_I(I)-F/DF)
              ELSE
                DPLA_J(I) = ZERO
@@ -428,7 +428,7 @@ C projection elastique en z => sig33 = 0
 C le coef. de reduction du critere est tel que 
 C l'on se trouve sur le critere apres les 2 projections
 C
-       ELSEIF(IFLAG(1).EQ.2)THEN
+       ELSEIF(IFLAG(1)==2)THEN
 C
          DO I=1,NEL0
            P   = -(SIGNXX(I)+SIGNYY(I))*THIRD
@@ -461,17 +461,17 @@ C proj.   signzz    = 0.
              DEZZ=-(DEPSXX(I)+DEPSYY(I))*NNU11-NU31*DEZZ
              THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
            ENDIF
-           IF(R.LT.ONE) ETSE(I)= HS(I)/(HS(I)+E1)
+           IF(R<ONE) ETSE(I)= HS(I)/(HS(I)+E1)
          ENDDO
        ENDIF
 C
        DO I=1,NEL0
-         IF(PLA(I).GT.EPSM1.AND.OFF(I).EQ.ONE)OFF(I)=FOUR_OVER_5
+         IF(PLA(I)>EPSM1.AND.OFF(I)==ONE)OFF(I)=FOUR_OVER_5
        ENDDO
 C
 C---     KINEMATIC HARDENING
 C
-       IF (FISOKIN1.NE.ZERO) THEN
+       IF (FISOKIN1/=ZERO) THEN
         DO I=1,NEL0
           DSXX = SIGEXX(I) - SIGNXX(I)
           DSYY = SIGEYY(I) - SIGNYY(I)

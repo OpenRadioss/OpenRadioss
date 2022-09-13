@@ -131,7 +131,7 @@ C     Triangle interne appuye sur element solide
             N1=FVDATA(IFV)%IFVNOD(1,I1)
             N2=FVDATA(IFV)%IFVNOD(1,I2)
             N3=FVDATA(IFV)%IFVNOD(1,I3)
-            IF(N1.EQ.2.AND.N2.EQ.2.AND.N3.EQ.2) THEN
+            IF(N1==2.AND.N2==2.AND.N3==2) THEN
                I1=FVDATA(IFV)%IFVNOD(2,I1)
                I2=FVDATA(IFV)%IFVNOD(2,I2)
                I3=FVDATA(IFV)%IFVNOD(2,I3)
@@ -175,8 +175,8 @@ C TAG elements of internal surface
       DO I=1,NSEG
         ITY=SURF_ELTYP(I)
         II =SURF_ELEM(I)
-        IF(ITY.EQ.3) ITAGC(II)=1
-        IF(ITY.EQ.7) ITAGTG(II)=1
+        IF(ITY==3) ITAGC(II)=1
+        IF(ITY==7) ITAGTG(II)=1
       ENDDO
 C
       ICMAX=0
@@ -189,7 +189,7 @@ C
          CNS(I,1)=0
       ENDDO
       DO I=1,NUMELC
-      IF(ITAGC(I).EQ.0) CYCLE
+      IF(ITAGC(I)==0) CYCLE
          DO J=1,4
             JJ=IXC(1+J,I)
             NC=CNS(JJ,1)
@@ -200,7 +200,7 @@ C
          ENDDO
       ENDDO   
       DO I=1,NUMELTG
-      IF(ITAGTG(I).EQ.0) CYCLE
+      IF(ITAGTG(I)==0) CYCLE
          DO J=1,3
             JJ=IXTG(1+J,I)
             NC=CNS(JJ,1)
@@ -227,31 +227,31 @@ C     Triangle interne appuye sur element solide
             N1=FVDATA(IFV)%IFVNOD(1,I1)
             N2=FVDATA(IFV)%IFVNOD(1,I2)
             N3=FVDATA(IFV)%IFVNOD(1,I3)
-            IF(N1.EQ.2.AND.N2.EQ.2.AND.N3.EQ.2) THEN
+            IF(N1==2.AND.N2==2.AND.N3==2) THEN
                I1=FVDATA(IFV)%IFVNOD(2,I1)
                I2=FVDATA(IFV)%IFVNOD(2,I2)
                I3=FVDATA(IFV)%IFVNOD(2,I3)
                DO J=1,CNS(I1,1)
                   ITY=CNS(I1,1+2*(J-1)+1)
                   JJ=CNS(I1,1+2*(J-1)+2)
-                  IF (ITY.EQ.1) THEN
+                  IF (ITY==1) THEN
                      DO K=1,4
                         KK=IXC(1+K,JJ)
                         ITAG(KK)=1
                      ENDDO
-                     IF (ITAG(I1).EQ.1.AND.ITAG(I2).EQ.1.AND.ITAG(I3).EQ.1) THEN
+                     IF (ITAG(I1)==1.AND.ITAG(I2)==1.AND.ITAG(I3)==1) THEN
                         IFOUND=JJ
                      ENDIF
                      DO K=1,4
                         KK=IXC(1+K,JJ)
                         ITAG(KK)=0
                      ENDDO
-                  ELSEIF (ITY.EQ.2) THEN
+                  ELSEIF (ITY==2) THEN
                      DO K=1,3
                         KK=IXTG(1+K,JJ)
                         ITAG(KK)=1
                      ENDDO
-                     IF (ITAG(I1).EQ.1.AND.ITAG(I2).EQ.1.AND.ITAG(I3).EQ.1) THEN
+                     IF (ITAG(I1)==1.AND.ITAG(I2)==1.AND.ITAG(I3)==1) THEN
                         IFOUND=NUMELC+JJ
                      ENDIF
                      DO K=1,3
@@ -263,7 +263,7 @@ C     Triangle interne appuye sur element solide
                      EXIT
                   ENDIF
                ENDDO
-               IF(IFOUND.NE.0) THEN 
+               IF(IFOUND/=0) THEN 
                   FVDATA(IFV)%IFVTRI(4,I)=-IFOUND
                   NNT_TMP = NNT_TMP + 1
                ENDIF
@@ -280,7 +280,7 @@ C
       II=0
       DO I=1,FVDATA(IFV)%NNTR
          IFOUND=FVDATA(IFV)%IFVTRI(4,I)
-         IF(IFOUND.LT.0) THEN
+         IF(IFOUND<0) THEN
            I1=FVDATA(IFV)%IFVTRI(1,I)
            I2=FVDATA(IFV)%IFVTRI(2,I)
            I3=FVDATA(IFV)%IFVTRI(3,I)
@@ -306,11 +306,11 @@ C
       IF(ILVOUT >= 1) WRITE(IOUT,1000)
       DO I=1,NTGI
            IEL=ELTG(NTG+I)
-           IF (IEL.LE.NUMELC) THEN
+           IF (IEL<=NUMELC) THEN
              MAT =IXC(1,IEL)
              KK  =IXC(NIXC,IEL)
              TITL='SHELL:'
-           ELSEIF (IEL.GT.NUMELC) THEN
+           ELSEIF (IEL>NUMELC) THEN
              JJ=IEL-NUMELC
              MAT =IXTG(1,JJ)
              KK  =IXTG(NIXTG,JJ)

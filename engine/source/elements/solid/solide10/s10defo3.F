@@ -100,7 +100,7 @@ c          VOLN(I)=VOLP(I)
 C
       DT1D2=HALF*DT1
 C
-      IF(JHBE.GE.2)THEN
+      IF(JHBE>=2)THEN
         DO I=LFT,LLT
          DXX(I)  = DXX(I)
      .            -DT1D2*(DXX(I)*DXX(I)+DYX(I)*DYX(I)+DZX(I)*DZX(I))
@@ -134,7 +134,7 @@ C
          WXX(I)=DT1*(PZZ2*DZY(I)-PYY2*DYZ(I))/(PYY2+PZZ2)
          WYY(I)=DT1*(PXX2*DXZ(I)-PZZ2*DZX(I))/(PZZ2+PXX2)
         ENDDO
-      ELSE !IF(JHBE.GE.2)
+      ELSE !IF(JHBE>=2)
         DO I=LFT,LLT
          D4(I)   =DXY(I)+DYX(I)
          D5(I)   =DYZ(I)+DZY(I)

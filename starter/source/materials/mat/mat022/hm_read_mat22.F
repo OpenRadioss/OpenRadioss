@@ -205,7 +205,7 @@ C
         WRITE(IOUT,1800)EPSL,EL
       ENDIF
 C
-      IF(CA.LE.ZERO) THEN
+      IF(CA<=ZERO) THEN
          CALL ANCMSG(MSGID=301,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -213,7 +213,7 @@ C
      .               I2=ID,
      .               C1=TITR)
       ENDIF
-      IF(CN.GT.ONE) THEN
+      IF(CN>ONE) THEN
          CALL ANCMSG(MSGID=213,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -221,7 +221,7 @@ C
      .               I2=ID,
      .               C1=TITR)
       ENDIF
-      IF(EPS0.EQ.ZERO) THEN
+      IF(EPS0==ZERO) THEN
          CALL ANCMSG(MSGID=298,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -229,7 +229,7 @@ C
      .               I2=ID,
      .               C1=TITR)
       ENDIF
-      IF(EL.GT.ZERO.OR.EL.LE.-YOUNG.OR.EL.LE.-THREE*G) THEN
+      IF(EL>ZERO.OR.EL<=-YOUNG.OR.EL<=-THREE*G) THEN
          CALL ANCMSG(MSGID=308,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,

@@ -156,7 +156,7 @@ C-----------------------------------------------
       IFRWV   =TABVINT(35)
 C-----
         ITESTV = IABS(ITESTV)
-        IF (IR4R8.EQ.2) ITESTV = -ITESTV
+        IF (IR4R8==2) ITESTV = -ITESTV
 C       ITESTV = IABS(ITESTV)
 C-----
 C   -------- Tailles des tableaux entiers --------
@@ -475,29 +475,29 @@ C-----
       INTBAG=TABVINT(425)
       IBAGSURF=TABVINT(426)
       NRVOLU  =TABVINT(427)
-      IF(NRVOLU.EQ.0)NRVOLU=24
+      IF(NRVOLU==0)NRVOLU=24
       NUMELS10  =TABVINT(428)
       NUMELS20  =TABVINT(429)
       IDAMPG=TABVINT(430)
       ICLOSE=TABVINT(431)
       NSENSI = TABVINT(432)
       NSENSR = TABVINT(433)
-      IF(NSENSI.EQ.0) NSENSI = 15
-      IF(NSENSR.EQ.0) NSENSR = 20
+      IF(NSENSI==0) NSENSI = 15
+      IF(NSENSR==0) NSENSR = 20
       NIBVEL=TABVINT(434)
       LWASPH=TABVINT(435)
-      IF(LWASPH.EQ.0)LWASPH=16*NUMSPH
+      IF(LWASPH==0)LWASPH=16*NUMSPH
 C     from version 4.4c :
       LWASPH44C=17*NUMSPH
-      IF(LWASPH.LT.LWASPH44C)LWASPH=LWASPH44C
+      IF(LWASPH<LWASPH44C)LWASPH=LWASPH44C
 C-----
       NUMELS16  =TABVINT(436)
       NUMELS8   =TABVINT(437)
 C test pour compatibilite avec anciens restarts
-      IF(NUMELS8.EQ.0)NUMELS8 =
+      IF(NUMELS8==0)NUMELS8 =
      .             NUMELS - (NUMELS10+NUMELS20+NUMELS16)
       NRIVF = TABVINT(438)
-      IF (NRIVF.EQ.0) NRIVF = 1
+      IF (NRIVF==0) NRIVF = 1
       NXFRAME=TABVINT(439)
       NSPHIO   =TABVINT(440)
       NISPHIO  =TABVINT(441)
@@ -514,10 +514,10 @@ C test pour compatibilite avec anciens restarts
 C-----
       NICBAG=TABVINT(452)
 C     versions 4.4X, X <= D :
-      IF(NICBAG.EQ.0)NICBAG=3
+      IF(NICBAG==0)NICBAG=3
       NRCBAG=TABVINT(453)
 C     versions 4.4X, X <= D :
-      IF(NRCBAG.EQ.0)NRCBAG=3
+      IF(NRCBAG==0)NRCBAG=3
 C     not available for version <= 4.4D :
       LICBAG  =TABVINT(454)
       LRCBAG  =TABVINT(455)
@@ -564,7 +564,7 @@ C
       
       NEXT = 493
 
-      !output data must be read in case of mcheck.ne.0 (dynamic size)
+      !output data must be read in case of mcheck/=0 (dynamic size)
       !otherwise LVARINT is increased to skip related range in TABVINT
       CALL READ_ARRAY(OUTP_V ,TABVINT, NEXT, MCHECK)
       CALL READ_ARRAY(OUTP_SS,TABVINT, NEXT, MCHECK)
@@ -586,7 +586,7 @@ C
       CALL READ_ARRAY(ANIM_ST,TABVINT, NEXT, MCHECK)
       CALL READ_ARRAY(ANIM_FT,TABVINT, NEXT, MCHECK) 
       
-      IF(MCHECK.NE.0)THEN
+      IF(MCHECK/=0)THEN
         NEXT=NEXT+1
         ANIM_M    = TABVINT(NEXT)
         NEXT=NEXT+1        
@@ -645,7 +645,7 @@ C-----
       NEXT = NEXT+1
       NUMELTG6 =TABVINT(NEXT)
 C--------------------------------------
-      IF(MCHECK.NE.0)THEN
+      IF(MCHECK/=0)THEN
         DO I=1,12
          IDTMIN(I)= TABVINT(NEXT + I)
         ENDDO
@@ -838,7 +838,7 @@ C
 C--------------------------------------
       NEXT = NEXT+1
       IROOTYY = TABVINT(NEXT)
-      IF(MCHECK.NE.0)THEN
+      IF(MCHECK/=0)THEN
        INVERS     = TABVINT(NEXT + 1)
        NCRST      = TABVINT(NEXT + 2)
        IRLTYP     = TABVINT(NEXT + 3)
@@ -890,7 +890,7 @@ C partie commun spmd cfd
       ISPHBUC=TABVINT(NEXT)
       NEXT = NEXT+1
       NRDAMP=TABVINT(NEXT)
-      IF(NRDAMP.EQ.0) NRDAMP=4
+      IF(NRDAMP==0) NRDAMP=4
       NEXT=NEXT+1
       NSPROC=TABVINT(NEXT)
       NEXT=NEXT+1
@@ -997,7 +997,7 @@ C .sta files
       MX_STAT0 = TABVINT(NEXT)
       NEXT   = NEXT + 1
       ISTATF = TABVINT(NEXT)
-      IF(MCHECK.NE.0)THEN
+      IF(MCHECK/=0)THEN
         DO I=1, MX_STAT0
          NEXT   = NEXT + 1
          STAT_C(I) = TABVINT(NEXT)
@@ -1008,7 +1008,7 @@ C .sta files
 C .dyain files
       NEXT   = NEXT + 1
       IDYNAINF = TABVINT(NEXT)
-      IF(MCHECK.NE.0)THEN
+      IF(MCHECK/=0)THEN
         DO I=1, MX_DYNAIN
          NEXT   = NEXT + 1
          DYNAIN_C(I) = TABVINT(NEXT)
@@ -1517,7 +1517,7 @@ C SOL2SPH flag
       ITSOL2SPH  = TABVINT(NEXT)
 C ISFINT flag
       NEXT       = NEXT + 1
-      IF(ISFINT.EQ.0)THEN
+      IF(ISFINT==0)THEN
         !no engine keyword (/ALE/SOLVER) affecting ISFINT, then use starter setting
         ISFINT   = TABVINT(NEXT)      
       ENDIF  
@@ -1541,7 +1541,7 @@ C SMS auto switch
       NEXT = NEXT + 1
       ISUSED = TABVINT(NEXT)
       MULTI_FVM%IS_USED = .FALSE.
-      IF (ISUSED .EQ. 1) THEN
+      IF (ISUSED == 1) THEN
          MULTI_FVM%IS_USED = .TRUE.
          MULTI_FVM%BETA = I_BETA
       ENDIF
@@ -1606,7 +1606,7 @@ C Friction interface
       NEXT    = NEXT + 1                      
       LENISLIN = TABVINT(NEXT)
 !
-      IF(MCHECK.NE.0)THEN
+      IF(MCHECK/=0)THEN
         NEXT    = NEXT + 1 
         IDTS6   =  TABVINT(NEXT)                    
         NEXT    = NEXT + 1                      
@@ -1639,7 +1639,7 @@ C  Pinching
 
 !
       NEXT=NEXT+1
-      IF(I_SUPG_ON_OFF.EQ.0) I_SUPG_ON_OFF = TABVINT(NEXT)
+      IF(I_SUPG_ON_OFF==0) I_SUPG_ON_OFF = TABVINT(NEXT)
 
       NEXT       = NEXT + 1
       NLEDGE     = TABVINT(NEXT) 
@@ -1807,7 +1807,7 @@ C-----------------------------------------------
         INTEGER I,RVARINT,J
 C-----------------------------------------------
 C      warning to radioss developpers :
-C      IF(LVARREA.GT.LMXVREA)THEN
+C      IF(LVARREA>LMXVREA)THEN
 C        WRITE(*,*) ' ** RADIOSS INTERNAL ERROR'
 C        CALL ARRET(7)
 C      ENDIF
@@ -1870,7 +1870,7 @@ C     read/write next real variable at TABVREA(LVR44A+1) if LVARREA > LVR44A,
 C                                      else, set its value to zero.
 C           (whatever the real common to store the variable).
 C--------------------------------------
-       IF(MCHECK.NE.0)THEN
+       IF(MCHECK/=0)THEN
          DO I=1,12
           DTFAC1(I) = TABVREA(63 + I)
           DTMIN1(I) = TABVREA(63 + 12 +I)

@@ -268,7 +268,7 @@ C       old density storage.
           WA(KWASPH*(N-1)+10)=SPBUF(2,N)
         ENDDO
 
-        IF( (ITHERM.NE.0).OR.(ITHERM_FE.NE.0)) THEN
+        IF( (ITHERM/=0).OR.(ITHERM_FE/=0)) THEN
          IF(ITASK==0)THEN
            ALLOCATE(WT(NUMSPH), WGRADT(3*NUMSPH), WLAPLT(NUMSPH),
      .              LAMBDA(NUMSPH), WGRADTSM(3*NSPHSYM))
@@ -280,7 +280,7 @@ C       /---------------/
 C
  50      CONTINUE
 #include "lockon.inc"
-         IF(NGDONE.GT.NGROUP) THEN
+         IF(NGDONE>NGROUP) THEN
 #include "lockoff.inc"
           GOTO 51
          ENDIF
@@ -288,8 +288,8 @@ C
          NGDONE = NG + 1
 #include "lockoff.inc"
 C--------
-          IF(IPARG(8,NG).EQ.1)GOTO 50
-          IF (IDDW.GT.0) CALL STARTIMEG(NG)
+          IF(IPARG(8,NG)==1)GOTO 50
+          IF (IDDW>0) CALL STARTIMEG(NG)
           DO NELEM = 1,IPARG(2,NG),NVSIZ
             OFFSET = NELEM - 1
             NSG   =IPARG(10,NG)
@@ -303,16 +303,16 @@ C--------
      7         ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
             LFT=1
             LLT=MIN(NVSIZ,NEL-NELEM+1)
-            IF(ITY.EQ.51) THEN
+            IF(ITY==51) THEN
 C-----------------------------------------------
               GBUF => ELBUF_TAB(NG)%GBUF
               IF(JTHE > 0)THEN
                DO I=LFT,LLT
                 N=NFT+I
-                IF(KXSP(2,N).GT.0)THEN
+                IF(KXSP(2,N)>0)THEN
                   WT(N)=GBUF%TEMP(I)
                   MX   =IPART(1,IPARTSP(N))
-                  IF(WT(N).LE.PM(80,MX))THEN
+                  IF(WT(N)<=PM(80,MX))THEN
                     LAMBDA(N)=PM(75,MX)+PM(76,MX)*WT(N)
                   ELSE
                     LAMBDA(N)=PM(77,MX)+PM(78,MX)*WT(N)
@@ -322,11 +322,11 @@ C-----------------------------------------------
               ELSEIF (JTHE < 0) THEN
                DO I=LFT,LLT
                 N=NFT+I
-                IF(KXSP(2,N).GT.0)THEN
+                IF(KXSP(2,N)>0)THEN
                   INOD = KXSP(3,N)
                   WT(N)=TEMP(INOD)
                   MX   =IPART(1,IPARTSP(N))
-                  IF(WT(N).LE.PM(80,MX))THEN
+                  IF(WT(N)<=PM(80,MX))THEN
                     LAMBDA(N)=PM(75,MX)+PM(76,MX)*WT(N)
                   ELSE
                     LAMBDA(N)=PM(77,MX)+PM(78,MX)*WT(N)
@@ -343,17 +343,17 @@ C-----------------------------------------------
               END IF
 C-----------------------------------------------
             ENDIF
-            IF (IDDW.GT.0) CALL STOPTIMEG(NG)
+            IF (IDDW>0) CALL STOPTIMEG(NG)
           END DO
          GOTO 50
 C-------
  51      CONTINUE
 C
-         IF(NSPMD.GT.1) THEN
+         IF(NSPMD>1) THEN
 C         /---------------/
            CALL MY_BARRIER
 C         /---------------/
-           IF(ITASK.EQ.0) THEN
+           IF(ITASK==0) THEN
              CALL STARTIME(93,1)
              CALL SPMD_SPHGETT(WT,WTR,LAMBDA,LAMBDR)
              CALL STOPTIME(93,1)
@@ -372,7 +372,7 @@ C       /---------------/
 C
  60      CONTINUE
 #include "lockon.inc"
-         IF(NGDONE.GT.NGROUP) THEN
+         IF(NGDONE>NGROUP) THEN
 #include "lockoff.inc"
           GOTO 61
          ENDIF
@@ -380,8 +380,8 @@ C
          NGDONE = NG + 1
 #include "lockoff.inc"
 C--------
-          IF(IPARG(8,NG).EQ.1)GOTO 60
-          IF (IDDW.GT.0) CALL STARTIMEG(NG)
+          IF(IPARG(8,NG)==1)GOTO 60
+          IF (IDDW>0) CALL STARTIMEG(NG)
           DO NELEM = 1,IPARG(2,NG),NVSIZ
             OFFSET = NELEM - 1
             NSG   =IPARG(10,NG)
@@ -395,7 +395,7 @@ C--------
      7         ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
             LFT=1
             LLT=MIN(NVSIZ,NEL-NELEM+1)
-            IF(ITY.EQ.51.AND.JTHE.NE.0) THEN
+            IF(ITY==51.AND.JTHE/=0) THEN
 C-----------------------------------------------
               CALL SPGRADT(
      1    X         ,MS        ,SPBUF     ,KXSP      ,IXSP      ,
@@ -403,7 +403,7 @@ C-----------------------------------------------
      3    WT        ,WTR       ,WGRADT    )
 C-----------------------------------------------
             ENDIF
-            IF (IDDW.GT.0) CALL STOPTIMEG(NG)
+            IF (IDDW>0) CALL STOPTIMEG(NG)
           END DO
          GOTO 60
 C-------
@@ -413,8 +413,8 @@ C       /---------------/
          CALL MY_BARRIER
 C       /---------------/
 C
-         IF(NSPMD.GT.1) THEN
-           IF(ITASK.EQ.0) THEN
+         IF(NSPMD>1) THEN
+           IF(ITASK==0) THEN
              CALL STARTIME(93,1)
              CALL SPMD_SPHGETG(WGRADT,WASPH,WGR)
              CALL STOPTIME(93,1)
@@ -444,7 +444,7 @@ C       /---------------/
 C
  70      CONTINUE
 #include "lockon.inc"
-         IF(NGDONE.GT.NGROUP) THEN
+         IF(NGDONE>NGROUP) THEN
 #include "lockoff.inc"
           GOTO 71
          ENDIF
@@ -452,8 +452,8 @@ C
          NGDONE = NG + 1
 #include "lockoff.inc"
 C--------
-          IF(IPARG(8,NG).EQ.1)GOTO 70
-          IF (IDDW.GT.0) CALL STARTIMEG(NG)
+          IF(IPARG(8,NG)==1)GOTO 70
+          IF (IDDW>0) CALL STARTIMEG(NG)
           DO NELEM = 1,IPARG(2,NG),NVSIZ
             OFFSET = NELEM - 1
             NSG   =IPARG(10,NG)
@@ -467,7 +467,7 @@ C--------
      7         ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
             LFT=1
             LLT=MIN(NVSIZ,NEL-NELEM+1)
-            IF(ITY.EQ.51.AND.JTHE.EQ.1) THEN
+            IF(ITY==51.AND.JTHE==1) THEN
 C-----------------------------------------------
               CALL SPLAPLT(
      1    X         ,MS        ,SPBUF     ,KXSP      ,IXSP      ,
@@ -478,7 +478,7 @@ C-----------------------------------------------
               GBUF => ELBUF_TAB(NG)%GBUF
               DO I=LFT,LLT
                 N=NFT+I
-                IF(KXSP(2,N).GT.0)THEN
+                IF(KXSP(2,N)>0)THEN
                   INOD =KXSP(3,N)
                   RHOI =SPBUF(2,N)
                   VI   =SPBUF(12,N)/MAX(EM20,RHOI)
@@ -486,7 +486,7 @@ C-----------------------------------------------
      .                         + VI*WLAPLT(N)*DT1/MAX(EM20,GBUF%VOL(I))
                 END IF
               END DO
-            ELSEIF(ITY.EQ.51.AND.JTHE.EQ.-1)THEN
+            ELSEIF(ITY==51.AND.JTHE==-1)THEN
 C-----------------------------------------------
               CALL SPLAPLT(
      1    X         ,MS        ,SPBUF     ,KXSP      ,IXSP      ,
@@ -497,7 +497,7 @@ C-----------------------------------------------
               GBUF => ELBUF_TAB(NG)%GBUF
               DO I=LFT,LLT
                 N=NFT+I
-                IF(KXSP(2,N).GT.0)THEN
+                IF(KXSP(2,N)>0)THEN
                   MYADRN  =KWASPH*(N-1)
                   INOD =KXSP(3,N)
                   RHOI =SPBUF(2,N)
@@ -507,7 +507,7 @@ C-----------------------------------------------
               END DO
 C-----------------------------------------------
             ENDIF
-            IF (IDDW.GT.0) CALL STOPTIMEG(NG)
+            IF (IDDW>0) CALL STOPTIMEG(NG)
           END DO
          GOTO 70
 C-------
@@ -531,7 +531,7 @@ C
 C-------
 100     CONTINUE
 #include "lockon.inc"
-        IF(NGDONE.GT.NGROUP) THEN
+        IF(NGDONE>NGROUP) THEN
 #include "lockoff.inc"
           GOTO 101
         ENDIF
@@ -539,8 +539,8 @@ C-------
         NGDONE = NG + 1
 #include "lockoff.inc"
 C--------
-          IF(IPARG(8,NG).EQ.1)GOTO 100
-          IF (IDDW.GT.0) CALL STARTIMEG(NG)
+          IF(IPARG(8,NG)==1)GOTO 100
+          IF (IDDW>0) CALL STARTIMEG(NG)
           DO NELEM = 1,IPARG(2,NG),NVSIZ
             OFFSET = NELEM - 1
             NEL   =IPARG(2,NG)
@@ -550,13 +550,13 @@ C--------
             LFT=1
             LLT=MIN(NVSIZ,NEL-NELEM+1)
             ISPH2SOL=IPARG(69,NG)
-            IF(ITY.EQ.51) THEN
+            IF(ITY==51) THEN
              CALL SPDENS(
      1    X         ,V         ,MS        ,SPBUF     ,ITAB      ,
      2    KXSP      ,IXSP      ,NOD2SP    ,ISPSYM    ,XSPSYM    ,
      3    VSPSYM    ,IPARG     ,WA        ,WASPH     )
             ENDIF
-            IF (IDDW.GT.0) CALL STOPTIMEG(NG)
+            IF (IDDW>0) CALL STOPTIMEG(NG)
           END DO
         GOTO 100
  101    CONTINUE
@@ -565,15 +565,15 @@ C      /---------------/
         CALL MY_BARRIER
 C      /---------------/
 C
-        IF(ITASK.EQ.0)THEN
+        IF(ITASK==0)THEN
 C-------
 C-----------------------------------------------
 C       Inlets/outlets : Re-impose rho.
 C-----------------------------------------------
-          IF(NSPHIO.NE.0)THEN
+          IF(NSPHIO/=0)THEN
 C Comm WA et WACOMP sur cellules remotes avant traitement part. sym.
 C on a besoin potentiellement de WA remote
-            IF(NSPMD.GT.1)THEN
+            IF(NSPMD>1)THEN
               CALL STARTIME(93,1)
               CALL SPMD_SPHGETWA(WA,WAR2,KXSP)
               CALL STOPTIME(93,1)
@@ -598,7 +598,7 @@ C     Pression=f(densite) : lois materiaux.
 C-----------------------------------------------
 250     CONTINUE
 #include "lockon.inc"
-        IF(NGDONE.GT.NGROUP) THEN
+        IF(NGDONE>NGROUP) THEN
 #include "lockoff.inc"
           GOTO 251
         ENDIF
@@ -606,8 +606,8 @@ C-----------------------------------------------
         NGDONE = NG + 1
 #include "lockoff.inc"
 C--------
-          IF(IPARG(8,NG).EQ.1)GOTO 250
-          IF (IDDW.GT.0) CALL STARTIMEG(NG)
+          IF(IPARG(8,NG)==1)GOTO 250
+          IF (IDDW>0) CALL STARTIMEG(NG)
           DO NELEM = 1,IPARG(2,NG),NVSIZ
             OFFSET = NELEM - 1
             NSG   =IPARG(10,NG)
@@ -621,7 +621,7 @@ C--------
      7         ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
             LFT=1
             LLT=MIN(NVSIZ,NEL-NELEM+1)
-            IF(ITY.EQ.51) THEN
+            IF(ITY==51) THEN
              JSPH=1
              JCVT=0
 C            full plasticity correction (radial return) by default.
@@ -646,7 +646,7 @@ C-----------------------------------------------
      8    IGEO      ,IEXPAN    ,TEMP      ,ITASK     ,SPH2SOL   ,
      9    MATPARAM_TAB,IBID)
             ENDIF
-            IF (IDDW.GT.0) CALL STOPTIMEG(NG)
+            IF (IDDW>0) CALL STOPTIMEG(NG)
           END DO
         GOTO 250
 C-------
@@ -691,11 +691,11 @@ C-------
 C
 C Comm WA et WACOMP sur cellules remotes avant traitement part. sym.
 C
-       IF(NSPMD.GT.1)THEN
+       IF(NSPMD>1)THEN
 C       /---------------/
          CALL MY_BARRIER
 C       /---------------/
-         IF(ITASK.EQ.0)THEN
+         IF(ITASK==0)THEN
            CALL STARTIME(93,1)
            CALL SPMD_SPHGETW(SPBUF,WASPH,WA,WAR)
 C a optimiser (1 seule comm)
@@ -706,8 +706,8 @@ C a optimiser (1 seule comm)
 C-----------------------------------------------
 C        Outlets : Re-impose P,E.
 C-----------------------------------------------
-       IF(ITASK.EQ.0)THEN
-          IF(NSPHIO.NE.0)THEN
+       IF(ITASK==0)THEN
+          IF(NSPHIO/=0)THEN
             CALL SPONFPRS(X ,V        ,A       ,MS      ,
      2              SPBUF   ,ITAB     ,KXSP    ,IXSP    ,NOD2SP  ,
      3              ISPHIO  ,VSPHIO   ,NPC     ,PLD     ,PM      ,
@@ -715,7 +715,7 @@ C-----------------------------------------------
      5              WASPH(KVNORM),WA  ,SPHVELN ,WAR)
 
 c on doit mettre a jour wa(1),wa(2),wa(3) suite a sponfprs
-            IF(NSPMD.GT.1) THEN
+            IF(NSPMD>1) THEN
               CALL STARTIME(93,1)
               CALL SPMD_SPHGETW(SPBUF,WASPH,WA,WAR)
               CALL STOPTIME(93,1)
@@ -725,7 +725,7 @@ c on doit mettre a jour wa(1),wa(2),wa(3) suite a sponfprs
 C-----------------------------------------------
 C        PREPARE SYMMETRIC PARTICLES STRESSES.
 C-----------------------------------------------
-        IF(ITASK.EQ.0)THEN
+        IF(ITASK==0)THEN
           CALL SPSGSYM(ISPCOND ,XFRAME    ,ISPSYM ,XSPSYM  ,VSPSYM  ,
      2                WA      ,WASIGSM,WASPACT,WAR     )
         ENDIF
@@ -744,7 +744,7 @@ C
 C-----------------------------------------------
 C        PREPARE KERNEL CORRECTIONS FOR SYMMETRIC PARTICLES.
 C-----------------------------------------------
-        IF(ITHERM.EQ.0)
+        IF(ITHERM==0)
      .    CALL SPSCOMP(
      1      ISPSYM  ,WASPH   ,ISPCOND ,XFRAME  ,WSMCOMP,
      2      GEO     ,IPART   ,IPARTSP ,WASPACT ,ITASK         )
@@ -782,7 +782,7 @@ C      /---------------/
 C-------
  350    CONTINUE
 #include "lockon.inc"
-          IF(NGDONE.GT.NGROUP) THEN
+          IF(NGDONE>NGROUP) THEN
 #include "lockoff.inc"
             GOTO 351
           ENDIF
@@ -791,8 +791,8 @@ C-------
 #include "lockoff.inc"
 C--------
 C Solids to SPH, particles must be computed when cloud active
-          IF(IPARG(8,NG).EQ.1)GOTO 350
-          IF (IDDW.GT.0) CALL STARTIMEG(NG)
+          IF(IPARG(8,NG)==1)GOTO 350
+          IF (IDDW>0) CALL STARTIMEG(NG)
           DO NELEM = 1,IPARG(2,NG),NVSIZ
             OFFSET = NELEM - 1
             NEL   =IPARG(2,NG)
@@ -803,7 +803,7 @@ C Solids to SPH, particles must be computed when cloud active
             IPARTSPH=0
             LFT=1
             LLT=MIN(NVSIZ,NEL-NELEM+1)
-            IF(ITY.EQ.51) THEN
+            IF(ITY==51) THEN
 C-----------
              CALL SPFORCP(
      1    PM        ,GEO        ,X         ,V         ,MS        ,
@@ -814,7 +814,7 @@ C-----------
      6    XSPSYM    ,VSPSYM     ,WA        ,WASIGSM,WASPH     ,
      7    WSMCOMP,WASPACT,WAR       ,STAB)
             ENDIF
-            IF (IDDW.GT.0) CALL STOPTIMEG(NG)
+            IF (IDDW>0) CALL STOPTIMEG(NG)
           END DO
           GOTO 350
 C--------
@@ -827,7 +827,7 @@ C      /---------------/
 C--------
         IF(NSPHSOL==0)THEN
           IF(ITHERM_FE > 0)THEN
-           IF(IPARIT.EQ.0)THEN
+           IF(IPARIT==0)THEN
              DO NS=ITASK+1,NSPHACT,NTHREAD
                N=WASPACT(NS)
                MYADRN  =KWASPH*(N-1)
@@ -850,10 +850,10 @@ C--------
                FTHESKYI(NISKY_L+NS)=WA(MYADRN+15)
                ISKY(NISKY_L+NS)   =INOD
              ENDDO
-             IF(ITASK.EQ.0) NISKY = NISKY + NSPHACT
+             IF(ITASK==0) NISKY = NISKY + NSPHACT
            ENDIF
           ELSE
-           IF(IPARIT.EQ.0)THEN
+           IF(IPARIT==0)THEN
              DO NS=ITASK+1,NSPHACT,NTHREAD
                N=WASPACT(NS)
                MYADRN  =KWASPH*(N-1)
@@ -874,11 +874,11 @@ C--------
                FSKYI(NISKY_L+NS,4)=WA(MYADRN+7)
                ISKY(NISKY_L+NS)   =INOD
              ENDDO
-             IF(ITASK.EQ.0) NISKY = NISKY + NSPHACT
+             IF(ITASK==0) NISKY = NISKY + NSPHACT
            ENDIF
           ENDIF
         ELSE
-         IF(IPARIT.EQ.0)THEN
+         IF(IPARIT==0)THEN
           DO NS=ITASK+1,NSPHACT,NTHREAD
             N=WASPACT(NS)
             MYADRN  =KWASPH*(N-1)
@@ -888,7 +888,7 @@ C--------
               A(2,INOD)=A(2,INOD)+WA(MYADRN+11)
               A(3,INOD)=A(3,INOD)+WA(MYADRN+12)
               STIFN(INOD)=STIFN(INOD)+WA(MYADRN+7)
-            ELSEIF (SOL2SPH_TYP(SPH2SOL(N)).EQ.4) THEN
+            ELSEIF (SOL2SPH_TYP(SPH2SOL(N))==4) THEN
 C---------------
 C------ Tetra -- 
 C---------------
@@ -1022,7 +1022,7 @@ C
               FSKYI(NISKY_L+NSKI,3)=WA(MYADRN+12)
               FSKYI(NISKY_L+NSKI,4)=WA(MYADRN+7)
               ISKY(NISKY_L+NSKI)   =INOD
-            ELSEIF (SOL2SPH_TYP(SPH2SOL(N)).EQ.4) THEN
+            ELSEIF (SOL2SPH_TYP(SPH2SOL(N))==4) THEN
 C---------------
 C------ Tetra -- 
 C---------------
@@ -1178,13 +1178,13 @@ C
         END IF
 C
 C--------
-        IF(NODADT.EQ.1.AND.
-     .     (IDTMIN(51).EQ.1
-     .     .OR.IDTMIN(51).EQ.2
-     .     .OR.IDTMIN(51).EQ.5))THEN
+        IF(NODADT==1.AND.
+     .     (IDTMIN(51)==1
+     .     .OR.IDTMIN(51)==2
+     .     .OR.IDTMIN(51)==5))THEN
 400       CONTINUE
 #include "lockon.inc"
-          IF(NGDONE.GT.NGROUP) THEN
+          IF(NGDONE>NGROUP) THEN
 #include "lockoff.inc"
             GOTO 401
           ENDIF
@@ -1192,8 +1192,8 @@ C--------
           NGDONE = NG + 1
 #include "lockoff.inc"
 C--------
-          IF(IPARG(8,NG).EQ.1)GOTO 400
-          IF (IDDW.GT.0) CALL STARTIMEG(NG)
+          IF(IPARG(8,NG)==1)GOTO 400
+          IF (IDDW>0) CALL STARTIMEG(NG)
           DO NELEM = 1,IPARG(2,NG),NVSIZ
             OFFSET = NELEM - 1
             CALL INITBUF (IPARG    ,NG      ,                    
@@ -1205,16 +1205,16 @@ C--------
      7         ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
             LFT=1
             LLT=MIN(NVSIZ,NEL-NELEM+1)
-            IF(ITY.EQ.51) THEN
+            IF(ITY==51) THEN
               GBUF => ELBUF_TAB(NG)%GBUF
               DO 500 K=LFT,LLT
                 N=NFT+K
-                IF(KXSP(2,N).LE.0)GOTO 500
+                IF(KXSP(2,N)<=0)GOTO 500
                 INOD=KXSP(3,N)
                 ADRN=KWASPH*(N-1)+7
                 DTX =DTFAC1(51)*SQRT(TWO*MS(INOD)/MAX(EM20,WA(ADRN)))
-                IF(DTX.GT.DTMIN1(51)) GO TO 500
-                IF(IDTMIN(51).EQ.1)THEN
+                IF(DTX>DTMIN1(51)) GO TO 500
+                IF(IDTMIN(51)==1)THEN
                   TSTOP = TT
 #include "lockon.inc"
                   WRITE(IOUT,*)
@@ -1222,8 +1222,8 @@ C--------
                   WRITE(ISTDO,*)
      . ' **ERROR : TIME STEP LESS OR EQUAL DTMIN FOR SPH PARTICLE'
 #include "lockoff.inc"
-                ELSEIF(IDTMIN(51).EQ.2)THEN
-                  IF (GBUF%OFF(K).NE.ZERO)THEN
+                ELSEIF(IDTMIN(51)==2)THEN
+                  IF (GBUF%OFF(K)/=ZERO)THEN
                     GBUF%OFF(K) = ZERO
                     KXSP(2,N)    = 0
 #include "lockon.inc"
@@ -1235,7 +1235,7 @@ C--------
      . ' -- DELETE SPH PARTICLE',KXSP(NISP,N)
 #include "lockoff.inc"
                   END IF
-                ELSEIF(IDTMIN(51).EQ.5)THEN
+                ELSEIF(IDTMIN(51)==5)THEN
                   MSTOP=2
 #include "lockon.inc"
                   WRITE(IOUT,*)
@@ -1247,7 +1247,7 @@ C--------
  500          CONTINUE
             ENDIF
            END DO
-          IF (IDDW.GT.0) CALL STOPTIMEG(NG)
+          IF (IDDW>0) CALL STOPTIMEG(NG)
           GOTO 400
 C--------
  401      CONTINUE

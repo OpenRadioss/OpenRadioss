@@ -46,10 +46,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-c      IF (IMACH.NE.3) THEN
+c      IF (IMACH/=3) THEN
 c        NERBY = NERBY + NPBY(2,IRBY)
 c      ELSE
-        IF (ISPMD.EQ.0) THEN
+        IF (ISPMD==0) THEN
             NERBY = NERBY + NERBT(IRBY)
         ENDIF
 c      ENDIF

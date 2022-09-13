@@ -100,15 +100,15 @@ C=======================================================================
         DO I = 1,NSEG_SURF
           DO J1=1,4
             J2=IPERM(J1)
-            IF (CLAUSE%SURF_NODES(I,J2) .NE. 0 .AND.
-     .          CLAUSE%SURF_NODES(I,J1) .GT. CLAUSE%SURF_NODES(I,J2)) THEN
+            IF (CLAUSE%SURF_NODES(I,J2) /= 0 .AND.
+     .          CLAUSE%SURF_NODES(I,J1) > CLAUSE%SURF_NODES(I,J2)) THEN
               K=K+1
               IW1(K)=CLAUSE%SURF_NODES(I,J2)
               IW2(K)=CLAUSE%SURF_NODES(I,J1)
               IW5(K)=CLAUSE%SURF_ELTYP(I)
               IW6(K)=CLAUSE%SURF_ELEM(I)
-            ELSEIF (CLAUSE%SURF_NODES(I,J1) .NE. 0 .AND.
-     .              CLAUSE%SURF_NODES(I,J1) .LT. CLAUSE%SURF_NODES(I,J2)) THEN
+            ELSEIF (CLAUSE%SURF_NODES(I,J1) /= 0 .AND.
+     .              CLAUSE%SURF_NODES(I,J1) < CLAUSE%SURF_NODES(I,J2)) THEN
               K=K+1
               IW1(K)=CLAUSE%SURF_NODES(I,J1)
               IW2(K)=CLAUSE%SURF_NODES(I,J2)
@@ -136,8 +136,8 @@ C-----------------------------------------------
           LINE_ORD(3,NSEG) = IW5(INDEX(1))
           LINE_ORD(4,NSEG) = IW6(INDEX(1))
           DO I=2,K
-            IF (IW1(INDEX(I-1)) .NE. IW1(INDEX(I)).OR.
-     .          IW2(INDEX(I-1)) .NE. IW2(INDEX(I))) THEN
+            IF (IW1(INDEX(I-1)) /= IW1(INDEX(I)).OR.
+     .          IW2(INDEX(I-1)) /= IW2(INDEX(I))) THEN
               NSEG = NSEG + 1
               LINE_ORD(1,NSEG) = IW1(INDEX(I))
               LINE_ORD(2,NSEG) = IW2(INDEX(I))

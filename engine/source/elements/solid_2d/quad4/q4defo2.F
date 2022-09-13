@@ -108,7 +108,7 @@ Ccw>>>
 C
 C     STRAIN RATE AFTER CORRECTION AND INTRINSIC ROTATION
       DT1D2=HALF*DT1
-      IF(JCVT.EQ.0) THEN
+      IF(JCVT==0) THEN
         DO I=LFT,LLT
           WXX(I)=DT1D2*(DZY(I)-DYZ(I))
         ENDDO
@@ -135,16 +135,16 @@ C
 C
 Ccw<<<
 C     MODIFY NORMAL STRAIN RATE FOR CONSTANT PRESSURE CASE
-c      IF(ICP.GT.0) THEN
+c      IF(ICP>0) THEN
 c       IF(N2D==1) THEN
-c        IF(ICP.EQ.2) THEN
+c        IF(ICP==2) THEN
 c          DO I=LFT,LLT
 c            DVC(I)=FAC(I)*THIRD*(DSV(I)-DVC(I))
 c            EYY(I)=EYY(I)+DVC(I)
 c            EZZ(I)=EZZ(I)+DVC(I)
 c            EXX(I)=EXX(I)+DVC(I)
 c          ENDDO
-c        ELSEIF(ICP.EQ.1) THEN
+c        ELSEIF(ICP==1) THEN
 c          DO I=LFT,LLT
 c            DVC(I)=THIRD*(DSV(I)-DVC(I))
 c            EYY(I)=EYY(I)+DVC(I)
@@ -153,13 +153,13 @@ c            EXX(I)=EXXC(I)+DVC(I)
 c          ENDDO
 c        ENDIF
 c       ELSE
-c        IF(ICP.EQ.2) THEN
+c        IF(ICP==2) THEN
 c          DO I=LFT,LLT
 c            DVC(I)=FAC(I)*HALF*(DSV(I)-DVC(I))
 c            EYY(I)=EYY(I)+DVC(I)
 c            EZZ(I)=EZZ(I)+DVC(I)
 c          ENDDO
-c        ELSEIF(ICP.EQ.1) THEN
+c        ELSEIF(ICP==1) THEN
 c          DO I=LFT,LLT
 c            DVC(I)=HALF*(DSV(I)-DVC(I))
 c            EYY(I)=EYY(I)+DVC(I)
@@ -174,7 +174,7 @@ c	 DV1 = ONE- DVC(I)*DT1
 c         VOLO(I) = VOLO(I)*DV1
 c         EINT(I) = EINT(I)/DV1
 c       ENDDO
-c      END IF!(ICP.GT.0) THEN
+c      END IF!(ICP>0) THEN
 Ccw>>>
 C
       RETURN

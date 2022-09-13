@@ -107,7 +107,7 @@ c     REAL ou REAL*8
      . EDECAL2(MVSIZ),EDECAL3(MVSIZ),ECROU(MVSIZ),DDXT,DDXC
 C=======================================================================
       DT11 = DT1
-      IF(DT11.EQ.ZERO)DT11 = EP30
+      IF(DT11==ZERO)DT11 = EP30
       DO I=LFT,LLT
         DX(I)=DX(I)/XL0(I)
         DXOLD(I)=DXOLD(I)/XL0(I)
@@ -124,7 +124,7 @@ C
    80 CONTINUE
 C
 C
-      IF(IANI.NE.0)THEN
+      IF(IANI/=0)THEN
         DO I=LFT,LLT
           II=I+NFT
           DAMP=DX(I)/MAX(DMX(I),EM15)
@@ -158,31 +158,31 @@ C
          JECROU(9) = JECROU(9) + 1
        ELSEIF(IECROU(I) == 11)THEN
          JECROU(11) = JECROU(11) + 1
-       ELSEIF(IFUNC(I).EQ.0)THEN  ! ifunc =IGEO(101)-FCT_id1
+       ELSEIF(IFUNC(I)==0)THEN  ! ifunc =IGEO(101)-FCT_id1
          JECROU(-1) = JECROU(-1) + 1
 c modif pour vectorisation
-       ELSEIF(IECROU(I).EQ.0)THEN
+       ELSEIF(IECROU(I)==0)THEN
          JECROU(0) = JECROU(0) + 1
          INTERP = 1
-       ELSEIF(IECROU(I).EQ.1)THEN
+       ELSEIF(IECROU(I)==1)THEN
          JECROU(1) = JECROU(1) + 1
          INTERP = 1
-       ELSEIF(IECROU(I).EQ.2)THEN
+       ELSEIF(IECROU(I)==2)THEN
          JECROU(2) = JECROU(2) + 1
          INTERP = 1
-       ELSEIF(IECROU(I).EQ.3)THEN
+       ELSEIF(IECROU(I)==3)THEN
          JECROU(3) = JECROU(3) + 1
          INTERP = 1
-       ELSEIF(IECROU(I).EQ.4)THEN
+       ELSEIF(IECROU(I)==4)THEN
          JECROU(4) = JECROU(4) + 1
          INTERP = 1
-       ELSEIF(IECROU(I).EQ.5)THEN
+       ELSEIF(IECROU(I)==5)THEN
          JECROU(5) = JECROU(5) + 1
          INTERP = 1
-       ELSEIF(IECROU(I).EQ.6)THEN
+       ELSEIF(IECROU(I)==6)THEN
          JECROU(6) = JECROU(6) + 1
          INTERP = 1
-       ELSEIF(IECROU(I).EQ.7)THEN
+       ELSEIF(IECROU(I)==7)THEN
          JECROU(7) = JECROU(7) + 1
          INTERP = 1
        ELSEIF(IECROU(I) == 8)THEN
@@ -192,11 +192,11 @@ c modif pour vectorisation
          JECROU(10) = JECROU(10) + 1
          INTERP = 1
        ENDIF
-       IF(IFV(I).NE.0) JDMP = JDMP + 1
-       IF(IFUNC3(I).NE.0) J2DMP = J2DMP + 1
+       IF(IFV(I)/=0) JDMP = JDMP + 1
+       IF(IFUNC3(I)/=0) J2DMP = J2DMP + 1
       ENDDO
 C
-      IF(INTERP.GT.0)THEN
+      IF(INTERP>0)THEN
         DO I=LFT,LLT
           JPOS(I)  = NINT(POS(1,I))
           JPOS2(I) = NINT(POS(2,I))
@@ -234,13 +234,13 @@ C-------------------------------------
 C        NON LINEAIRE ELASTIQUE
 C        NL ELASTO PLASTIQUE (TENSION COMPRESSION DECOUPLEE)
 C-------------------------------------
-      IF(JECROU(0)+JECROU(2).EQ.LLT)THEN
+      IF(JECROU(0)+JECROU(2)==LLT)THEN
         DO I=LFT,LLT
           XX(I)=DX(I)
         ENDDO
-      ELSEIF(JECROU(0)+JECROU(2).GT.0)THEN
+      ELSEIF(JECROU(0)+JECROU(2)>0)THEN
         DO I=LFT,LLT
-          IF(IFUNC(I).NE.0.AND.(IECROU(I).EQ.0.OR.IECROU(I).EQ.2))THEN
+          IF(IFUNC(I)/=0.AND.(IECROU(I)==0.OR.IECROU(I)==2))THEN
             XX(I)=DX(I)
           ENDIF
         ENDDO
@@ -249,20 +249,20 @@ C-------------------------------------
 C        ELASTO PLASTIQUE (ISOTROPE)
 C        ELASTO PLASTIQUE (TENSION COMPRESSION COUPLEE 6 DOF COUPLES)
 C-------------------------------------
-      IF(JECROU(1)+JECROU(3).EQ.LLT)THEN
+      IF(JECROU(1)+JECROU(3)==LLT)THEN
         DO I=LFT,LLT
            FX(I)=FXEP(I)+XK(I)*DDX(I)
-           IF(FX(I).GE.0.)THEN
+           IF(FX(I)>=0.)THEN
              XX(I)=DPX(I)+FX(I)/XK(I)
            ELSE
              XX(I)=-DPX(I)+FX(I)/XK(I)
            ENDIF
         ENDDO
-      ELSEIF(JECROU(1)+JECROU(3).GT.0)THEN
+      ELSEIF(JECROU(1)+JECROU(3)>0)THEN
         DO I=LFT,LLT
-         IF(IFUNC(I).NE.0.AND.(IECROU(I).EQ.1.OR.IECROU(I).EQ.3))THEN
+         IF(IFUNC(I)/=0.AND.(IECROU(I)==1.OR.IECROU(I)==3))THEN
            FX(I)=FXEP(I)+XK(I)*DDX(I)
-           IF(FX(I).GE.ZERO)THEN
+           IF(FX(I)>=ZERO)THEN
              XX(I)=DPX(I)+FX(I)/XK(I)
            ELSE
              XX(I)=-DPX(I)+FX(I)/XK(I)
@@ -273,15 +273,15 @@ C-------------------------------------
 C-------------------------------------
 C        ELASTO PLASTIQUE (ECOUISSAGE CINEMATIQUE)
 C-------------------------------------
-      IF(JECROU(4).EQ.LLT)THEN
+      IF(JECROU(4)==LLT)THEN
         DO I=LFT,LLT
            INTERP = MAX(2,INTERP)
            XX(I) =DX(I)
            XX2(I)=DX(I)
         ENDDO
-      ELSEIF(JECROU(4).GT.0)THEN
+      ELSEIF(JECROU(4)>0)THEN
         DO I=LFT,LLT
-         IF(IFUNC(I).NE.0.AND.IECROU(I).EQ.4)THEN
+         IF(IFUNC(I)/=0.AND.IECROU(I)==4)THEN
            INTERP = MAX(2,INTERP)
            XX(I) =DX(I)
            XX2(I)=DX(I)
@@ -293,14 +293,14 @@ C        ELASTO PLASTIQUE (TENSION COMPRESSION DECOUPLEE)
 C         (D/R)ECHARGEMENT NON LINEAIRE
 C         DPX = DEPLACEMENT MAXIMUM (ET NON PLASTIQUE)
 C-------------------------------------
-      IF(JECROU(5).EQ.LLT)THEN
+      IF(JECROU(5)==LLT)THEN
         DO I=LFT,LLT
            XX(I)=DX(I)
-           IF(DX(I).GT.ZERO)THEN
+           IF(DX(I)>ZERO)THEN
              INTERP = MAX(3,INTERP)
              XX2(I)=DPX(I)
              XX3(I)=DPX(I)
-           ELSEIF(DX(I).LT.ZERO)THEN
+           ELSEIF(DX(I)<ZERO)THEN
              INTERP = MAX(3,INTERP)
              XX2(I)=DPX2(I)
              XX3(I)=DPX2(I)
@@ -308,15 +308,15 @@ C-------------------------------------
              INTERP = MAX(1,INTERP)
            ENDIF
         ENDDO
-      ELSEIF(JECROU(5).GT.0)THEN
+      ELSEIF(JECROU(5)>0)THEN
         DO I=LFT,LLT
-         IF(IFUNC(I).NE.0.AND.IECROU(I).EQ.5)THEN
+         IF(IFUNC(I)/=0.AND.IECROU(I)==5)THEN
            XX(I)=DX(I)
-           IF(DX(I).GT.ZERO)THEN
+           IF(DX(I)>ZERO)THEN
              INTERP = MAX(3,INTERP)
              XX2(I)=DPX(I)
              XX3(I)=DPX(I)
-           ELSEIF(DX(I).LT.ZERO)THEN
+           ELSEIF(DX(I)<ZERO)THEN
              INTERP = MAX(3,INTERP)
              XX2(I)=DPX2(I)
              XX3(I)=DPX2(I)
@@ -366,7 +366,7 @@ C
         ENDDO
       ELSEIF(JECROU(6)>0)THEN
         DO I=LFT,LLT
-         IF(IFUNC(I).NE.0.AND.IECROU(I)== 6)THEN
+         IF(IFUNC(I)/=0.AND.IECROU(I)== 6)THEN
           FUND = IFUNC2(I)                                                                  
           NP2  = (NPF(FUND+1)-NPF(FUND))*HALF                       
           AN3Y0(I)= ZERO 
@@ -404,15 +404,15 @@ C
 c-------------------------------------
 c      ELASTO PLASTIC TWO CURVES FOR LOAD AND UNLOAD
 c-------------------------------------
-      IF(JECROU(7).EQ.LLT)THEN
+      IF(JECROU(7)==LLT)THEN
         DO I=LFT,LLT
            INTERP = MAX(2,INTERP)
            XX(I) =DX(I)
            XX2(I)=DX(I)
         ENDDO
-      ELSEIF(JECROU(7).GT.0)THEN
+      ELSEIF(JECROU(7)>0)THEN
         DO I=LFT,LLT
-         IF(IFUNC(I).NE.0.AND.IECROU(I).EQ.7)THEN
+         IF(IFUNC(I)/=0.AND.IECROU(I)==7)THEN
            INTERP = MAX(2,INTERP)
            XX(I) =DX(I)
            XX2(I)=DX(I)
@@ -505,7 +505,7 @@ C--- Compression - perfectly plastic behavior
         ENDDO
       ELSEIF(JECROU(10)>0)THEN
         DO I=LFT,LLT
-         IF(IFUNC(I).NE.0.AND.IECROU(I)== 10)THEN
+         IF(IFUNC(I)/=0.AND.IECROU(I)== 10)THEN
           FUND = IFUNC2(I)     ! courbe N3 de unload                                                             
           NP2  = (NPF(FUND+1)-NPF(FUND))*HALF                       
           AN3Y0(I)= ZERO
@@ -603,22 +603,22 @@ C-------------------------------------
         XX3(I) = XX3(I)*LSCALE(I)                   
       ENDDO                          
 C----s---1----+----2----+----3----+----4----+----5----+----6----+----7--
-      IF (IRESP.EQ.1) THEN
-        IF(INTERP.GE.1)
+      IF (IRESP==1) THEN
+        IF(INTERP>=1)
      .      CALL VINTER2DP(TF,JAD ,JPOS ,JLEN ,LLT,XX ,DYDX ,YY)
-        IF(INTERP.GE.2)
+        IF(INTERP>=2)
      .      CALL VINTER2DP(TF,JAD2,JPOS2,JLEN2,LLT,XX2,DYDX2,YY2)
-        IF(INTERP.GE.3)
+        IF(INTERP>=3)
      .      CALL VINTER2DP(TF,JAD ,JPOS3,JLEN3,LLT,XX3,DYDX3,YY3)
       ELSE
-        IF(INTERP.GE.1)
+        IF(INTERP>=1)
      .      CALL VINTER2(TF,JAD ,JPOS ,JLEN ,LLT,XX ,DYDX ,YY )
-        IF(INTERP.GE.2)
+        IF(INTERP>=2)
      .      CALL VINTER2(TF,JAD2,JPOS2,JLEN2,LLT,XX2,DYDX2,YY2)
-        IF(INTERP.GE.3)
+        IF(INTERP>=3)
      .      CALL VINTER2(TF,JAD ,JPOS3,JLEN3,LLT,XX3,DYDX3,YY3)
       ENDIF
-      IF(INTERP.GT.0)THEN
+      IF(INTERP>0)THEN
         DO I=LFT,LLT
           POS(1,I) = JPOS(I)
           POS(2,I) = JPOS2(I)
@@ -628,13 +628,13 @@ C----s---1----+----2----+----3----+----4----+----5----+----6----+----7--
 C-------------------------------------
 C        LINEAIRE ELASTIQUE
 C-------------------------------------
-      IF(JECROU(-1).EQ.LLT)THEN
+      IF(JECROU(-1)==LLT)THEN
         DO I=LFT,LLT
            FX(I)=XK(I)*DX(I)
         ENDDO
-      ELSEIF(JECROU(-1).GT.0)THEN
+      ELSEIF(JECROU(-1)>0)THEN
         DO I=LFT,LLT
-          IF(IFUNC(I).EQ.0)THEN
+          IF(IFUNC(I)==0)THEN
             FX(I)=XK(I)*DX(I)
           ENDIF
         ENDDO
@@ -654,36 +654,36 @@ C-------------------------------------
 C-------------------------------------
 C        NON LINEAIRE ELASTIQUE
 C-------------------------------------
-      IF(JECROU(0).EQ.LLT)THEN
+      IF(JECROU(0)==LLT)THEN
         DO I=LFT,LLT
            FX(I)=YY(I)
         ENDDO
-      ELSEIF(JECROU(0).GT.0)THEN
+      ELSEIF(JECROU(0)>0)THEN
         DO I=LFT,LLT
-           IF(IFUNC(I).NE.0.AND.IECROU(I).EQ.0) FX(I)=YY(I)
+           IF(IFUNC(I)/=0.AND.IECROU(I)==0) FX(I)=YY(I)
         ENDDO
       ENDIF
 C-------------------------------------
 C        ELASTO PLASTIQUE (ISOTROPE)
 C-------------------------------------
-      IF(JECROU(1).EQ.LLT)THEN
+      IF(JECROU(1)==LLT)THEN
         DO I=LFT,LLT
-           IF(FX(I).GE.ZERO.AND.FX(I).GT.YY(I))THEN
+           IF(FX(I)>=ZERO.AND.FX(I)>YY(I))THEN
              DPX(I)=DPX(I)+(FX(I)-YY(I))/XK(I)
              FX(I)=YY(I)
-           ELSEIF(FX(I).LT.ZERO.AND.FX(I).LT.YY(I))THEN
+           ELSEIF(FX(I)<ZERO.AND.FX(I)<YY(I))THEN
              DPX(I)=DPX(I)+(YY(I)-FX(I))/XK(I)
              FX(I)=YY(I)
            ENDIF
            FXEP(I)=FX(I)
         ENDDO
-      ELSEIF(JECROU(1).GT.0)THEN
+      ELSEIF(JECROU(1)>0)THEN
         DO I=LFT,LLT
-         IF(IFUNC(I).NE.0.AND.IECROU(I).EQ.1)THEN
-           IF(FX(I).GE.ZERO.AND.FX(I).GT.YY(I))THEN
+         IF(IFUNC(I)/=0.AND.IECROU(I)==1)THEN
+           IF(FX(I)>=ZERO.AND.FX(I)>YY(I))THEN
              DPX(I)=DPX(I)+(FX(I)-YY(I))/XK(I)
              FX(I)=YY(I)
-           ELSEIF(FX(I).LT.ZERO.AND.FX(I).LT.YY(I))THEN
+           ELSEIF(FX(I)<ZERO.AND.FX(I)<YY(I))THEN
              DPX(I)=DPX(I)+(YY(I)-FX(I))/XK(I)
              FX(I)=YY(I)
            ENDIF
@@ -694,14 +694,14 @@ C-------------------------------------
 C-------------------------------------
 C        ELASTO PLASTIQUE (TENSION COMPRESSION DECOUPLEE)
 C-------------------------------------
-      IF(JECROU(2).EQ.LLT)THEN
+      IF(JECROU(2)==LLT)THEN
         DO I=LFT,LLT
-           IF(DX(I).GT.DPX(I))THEN
+           IF(DX(I)>DPX(I))THEN
              FX(I)  = XK(I) * (DX(I)-DPX(I))
              FXEP(I)= YY(I)
              FX(I)  = MIN(FX(I),FXEP(I))
              DPX(I) = DX(I) - FX(I) / XK(I) 
-           ELSEIF(DX(I).LT.DPX2(I))THEN
+           ELSEIF(DX(I)<DPX2(I))THEN
              FX(I)   = XK(I) * (DX(I)-DPX2(I))
              FXEP(I) = YY(I)
              FX(I)   = MAX(FX(I),FXEP(I))
@@ -710,15 +710,15 @@ C-------------------------------------
              FX(I)   = ZERO
            ENDIF
         ENDDO
-      ELSEIF(JECROU(2).GT.0)THEN
+      ELSEIF(JECROU(2)>0)THEN
         DO I=LFT,LLT
-         IF(IFUNC(I).NE.0.AND.IECROU(I).EQ.2)THEN
-           IF(DX(I).GT.DPX(I))THEN
+         IF(IFUNC(I)/=0.AND.IECROU(I)==2)THEN
+           IF(DX(I)>DPX(I))THEN
              FX(I)  = XK(I) * (DX(I)-DPX(I))
              FXEP(I)= YY(I)
              FX(I)  = MIN(FX(I),FXEP(I))
              DPX(I) = DX(I) - FX(I) / XK(I) 
-           ELSEIF(DX(I).LT.DPX2(I))THEN
+           ELSEIF(DX(I)<DPX2(I))THEN
              FX(I)   = XK(I) * (DX(I)-DPX2(I))
              FXEP(I) = YY(I)
              FX(I)   = MAX(FX(I),FXEP(I))
@@ -732,24 +732,24 @@ C-------------------------------------
 C-------------------------------------
 C        ELASTO PLASTIQUE (TENSION COMPRESSION COUPLEE 6 DOF COUPLES)
 C-------------------------------------
-      IF(JECROU(3).EQ.LLT)THEN
+      IF(JECROU(3)==LLT)THEN
         DO I=LFT,LLT
-           IF(FX(I).GE.ZERO.AND.FX(I).GT.YY(I))THEN
+           IF(FX(I)>=ZERO.AND.FX(I)>YY(I))THEN
                EPLA(I)=EPLA(I)+ABS(YY(I)*(FX(I)-YY(I))/XK(I))
                FX(I)=YY(I)
-           ELSEIF(FX(I).LT.ZERO.AND.FX(I).LT.YY(I))THEN
+           ELSEIF(FX(I)<ZERO.AND.FX(I)<YY(I))THEN
                EPLA(I)=EPLA(I)+ABS(YY(I)*(YY(I)-FX(I))/XK(I))
                FX(I)=YY(I)
            ENDIF
            FXEP(I)=FX(I)
         ENDDO
-      ELSEIF(JECROU(3).GT.0)THEN
+      ELSEIF(JECROU(3)>0)THEN
         DO I=LFT,LLT
-         IF(IFUNC(I).NE.0.AND.IECROU(I).EQ.3)THEN
-           IF(FX(I).GE.ZERO.AND.FX(I).GT.YY(I))THEN
+         IF(IFUNC(I)/=0.AND.IECROU(I)==3)THEN
+           IF(FX(I)>=ZERO.AND.FX(I)>YY(I))THEN
                EPLA(I)=EPLA(I)+ABS(YY(I)*(FX(I)-YY(I))/XK(I))
                FX(I)=YY(I)
-           ELSEIF(FX(I).LT.ZERO.AND.FX(I).LT.YY(I))THEN
+           ELSEIF(FX(I)<ZERO.AND.FX(I)<YY(I))THEN
                EPLA(I)=EPLA(I)+ABS(YY(I)*(YY(I)-FX(I))/XK(I))
                FX(I)=YY(I)
            ENDIF
@@ -760,15 +760,15 @@ C-------------------------------------
 C-------------------------------------
 C        ELASTO PLASTIQUE (ECOUISSAGE CINEMATIQUE)
 C-------------------------------------
-      IF(JECROU(4).EQ.LLT)THEN
+      IF(JECROU(4)==LLT)THEN
         DO I=LFT,LLT
           FX(I) = FXEP(I) + XK(I)*DDX(I)
           IC2(I)= 0
-          IF(FX(I).GT.YY(I))THEN
+          IF(FX(I)>YY(I))THEN
             IC2(I)=1
             FX(I) = YY(I)
           ENDIF
-          IF(FX(I).LT.YY2(I))THEN
+          IF(FX(I)<YY2(I))THEN
             IC2(I)=2
             FX(I) = YY2(I)
           ENDIF
@@ -777,23 +777,23 @@ C-------------------------------------
           FXEP(I)=FX(I)
           DPX(I) = DX(I) - FX(I) / XK(I) 
         ENDDO
-      ELSEIF(JECROU(4).GT.0)THEN
+      ELSEIF(JECROU(4)>0)THEN
         DO I=LFT,LLT
-          IF(IFUNC(I).NE.0.AND.IECROU(I).EQ.4)THEN
+          IF(IFUNC(I)/=0.AND.IECROU(I)==4)THEN
             FX(I) = FXEP(I) + XK(I)*DDX(I)
             IC2(I)= 0
-            IF(FX(I).GT.YY(I))THEN
+            IF(FX(I)>YY(I))THEN
               IC2(I)=1
               FX(I) = YY(I)
             ENDIF
-            IF(FX(I).LT.YY2(I))THEN
+            IF(FX(I)<YY2(I))THEN
               IC2(I)=2
               FX(I) = YY2(I)
             ENDIF
           ENDIF
         ENDDO
         DO I=LFT,LLT
-          IF(IFUNC(I).NE.0.AND.IECROU(I).EQ.4)THEN
+          IF(IFUNC(I)/=0.AND.IECROU(I)==4)THEN
             FXEP(I)=FX(I)
             DPX(I) = DX(I) - FX(I) / XK(I) 
           ENDIF
@@ -804,15 +804,15 @@ C        ELASTO PLASTIQUE (TENSION COMPRESSION DECOUPLEE)
 C         (D/R)ECHARGEMENT NON LINEAIRE
 C         DPX = DEPLACEMENT MAXIMUM (ET NON PLASTIQUE)
 C-------------------------------------
-      IF(JECROU(5).EQ.LLT)THEN
+      IF(JECROU(5)==LLT)THEN
         DO I=LFT,LLT
-           IF(DX(I).GT.DPX(I))THEN
+           IF(DX(I)>DPX(I))THEN
              FX(I)=YY(I)
              DPX(I) = DX(I)
-           ELSEIF(DX(I).GT.ZERO)THEN
+           ELSEIF(DX(I)>ZERO)THEN
              DPERM(I)=MAX(YY2(I),ZERO)
              TMP1(I) = DPERM(I)
-             IF(DX(I).GT.DPERM(I).AND.YY3(I).NE.ZERO)THEN
+             IF(DX(I)>DPERM(I).AND.YY3(I)/=ZERO)THEN
                FMAX(I)=YY3(I)/LSCALE(I)
                TMP2(I) = FMAX(I)
                DPERM(I)=MIN(DPERM(I),DPX(I)- FMAX(I) / XK(I))
@@ -826,13 +826,13 @@ C-------------------------------------
              ELSE
                FX(I) = ZERO
              ENDIF
-           ELSEIF(DX(I).LT.DPX2(I))THEN
+           ELSEIF(DX(I)<DPX2(I))THEN
              FX(I)=YY(I)
              DPX2(I) = DX(I)
-           ELSEIF(DX(I).LT.ZERO)THEN
+           ELSEIF(DX(I)<ZERO)THEN
              DPERM(I)=MIN(YY2(I),ZERO)
              TMP1(I) = DPERM(I)
-             IF(DX(I).LT.DPERM(I).AND.YY3(I).NE.ZERO)THEN
+             IF(DX(I)<DPERM(I).AND.YY3(I)/=ZERO)THEN
                FMAX(I)=YY3(I)/LSCALE(I)
                TMP2(I) = FMAX(I)
                DPERM(I)=MAX(DPERM(I),DPX2(I)- FMAX(I) / XK(I))
@@ -849,15 +849,15 @@ C-------------------------------------
            ENDIF
            FXEP(I)=FX(I)
         ENDDO
-      ELSEIF(JECROU(5).GT.0)THEN
+      ELSEIF(JECROU(5)>0)THEN
         DO I=LFT,LLT
-         IF(IFUNC(I).NE.0.AND.IECROU(I).EQ.5)THEN
-           IF(DX(I).GT.DPX(I))THEN
+         IF(IFUNC(I)/=0.AND.IECROU(I)==5)THEN
+           IF(DX(I)>DPX(I))THEN
              FX(I)=YY(I)
              DPX(I) = DX(I)
-           ELSEIF(DX(I).GT.ZERO)THEN
+           ELSEIF(DX(I)>ZERO)THEN
              DPERM(I)=MAX(YY2(I),ZERO)
-             IF(DX(I).GT.DPERM(I).AND.YY3(I).NE.ZERO)THEN
+             IF(DX(I)>DPERM(I).AND.YY3(I)/=ZERO)THEN
                FMAX(I)=YY3(I)/LSCALE(I)
                DPERM(I)=MIN(DPERM(I),DPX(I)- FMAX(I) / XK(I))
 C              y = a (x-x1)^b
@@ -871,13 +871,13 @@ C              y = a (x-x1)^b
              ELSE
                FX(I) = ZERO
              ENDIF
-           ELSEIF(DX(I).LT.DPX2(I))THEN
+           ELSEIF(DX(I)<DPX2(I))THEN
              FX(I)=YY(I)
              DPX2(I) = DX(I)
-           ELSEIF(DX(I).LT.ZERO)THEN
+           ELSEIF(DX(I)<ZERO)THEN
              DPERM(I)=YY2(I)
              DPERM(I)=MIN(DPERM(I),ZERO)
-             IF(DX(I).LT.DPERM(I).AND.YY3(I).NE.ZERO)THEN
+             IF(DX(I)<DPERM(I).AND.YY3(I)/=ZERO)THEN
                FMAX(I)=YY3(I)/LSCALE(I)
                DPERM(I)=MAX(DPERM(I),DPX2(I)- FMAX(I) / XK(I))
 C              y = a (x-x1)^b
@@ -899,7 +899,7 @@ C              y = a (x-x1)^b
 C-------------------------------------
 C        ELASTO PLASTIQUE (ECOUISSAGE ISOTROPE)
 C-------------------------------------
-      IF(JECROU(6).EQ.LLT)THEN
+      IF(JECROU(6)==LLT)THEN
         CALL VINTER2(TF,JAD ,JPOS ,JLEN ,LLT,XX ,DYDX ,YY )
         DO I=LFT,LLT
            IF(FX(I)>= ZERO.AND.FX(I)>YIELD(I))THEN
@@ -924,7 +924,7 @@ C-- ECR variable for hardening/softening - always incremented with positive valu
            ENDIF
            FXEP(I)=FX(I)
         ENDDO
-      ELSEIF(JECROU(6).GT.0)THEN
+      ELSEIF(JECROU(6)>0)THEN
         CALL VINTER2(TF,JAD ,JPOS ,JLEN ,LLT,XX ,DYDX ,YY )
         DO I=LFT,LLT
          IF(IFUNC(I)/= 0.AND.IECROU(I)== 6)THEN
@@ -975,7 +975,7 @@ C-------------------------------------
         ENDDO
       ELSEIF (JECROU(7) > 0) THEN
         DO I=LFT,LLT
-          IF (IFUNC(I).NE.0 .AND. IECROU(I)==7) THEN
+          IF (IFUNC(I)/=0 .AND. IECROU(I)==7) THEN
             FX(I) = FXEP(I) + XK(I)*DDX(I)
             IF (DX(I)>= DXOLD(I) .AND. DX(I)>=0) THEN
               IF (FX(I)>YY(I)) FX(I) = YY(I)                     
@@ -994,7 +994,7 @@ C-------------------------------------
 C-------------------------------------
 C     SEATBELT - ELASTO PERFECLTY PLASTIQUE (ECOUISSAGE ISOTROPE) - input by values
 C-------------------------------------
-      IF(JECROU(9).EQ.LLT)THEN
+      IF(JECROU(9)==LLT)THEN
         DO I=LFT,LLT
 C
            IF (ABS(XK(I)*XX(I)) > FX_MAX(I)) THEN
@@ -1026,7 +1026,7 @@ C-- ECR variable for hardening/softening - always incremented with positive valu
            ENDIF
            FXEP(I)=FX(I)
         ENDDO
-      ELSEIF(JECROU(9).GT.0)THEN
+      ELSEIF(JECROU(9)>0)THEN
         DO I=LFT,LLT
          IF(IECROU(I)== 9)THEN
 C
@@ -1065,7 +1065,7 @@ C-- ECR variable for hardening/softening - always incremented with positive valu
 C-------------------------------------
 C     SEATBELT - ELASTO PLASTIQUE (ECOUISSAGE ISOTROPE) in tension - perfleclty plastic in compression
 C-------------------------------------
-      IF(JECROU(10).EQ.LLT)THEN
+      IF(JECROU(10)==LLT)THEN
         CALL VINTER2(TF,JAD ,JPOS ,JLEN ,LLT,XX ,DYDX ,YY )
         DO I=LFT,LLT
            IF(FX(I)> ZERO.AND.FX(I)>YIELD(I))THEN
@@ -1084,7 +1084,7 @@ C-- COMPUTE PLASTIC DEFORMATION (TOTAL)
           ENDIF
           FXEP(I)=FX(I)
         ENDDO
-      ELSEIF(JECROU(10).GT.0)THEN
+      ELSEIF(JECROU(10)>0)THEN
         CALL VINTER2(TF,JAD ,JPOS ,JLEN ,LLT,XX ,DYDX ,YY )
         DO I=LFT,LLT
          IF(IFUNC(I)/= 0.AND.IECROU(I)== 10)THEN
@@ -1109,7 +1109,7 @@ C-- COMPUTE PLASTIC DEFORMATION (TOTAL)
 C-------------------------------------
 C     SEATBELT - LINEAR ELASTIC in tension - perfleclty plastic in compression
 C-------------------------------------
-      IF(JECROU(11).EQ.LLT)THEN
+      IF(JECROU(11)==LLT)THEN
         DO I=LFT,LLT
           IF(FX(I)<= -FX_MAX(I))THEN
             YY(I) = -FX_MAX(I)
@@ -1119,7 +1119,7 @@ C-- COMPUTE PLASTIC DEFORMATION (TOTAL)
           ENDIF
           FXEP(I)=FX(I)
         ENDDO
-      ELSEIF(JECROU(11).GT.0)THEN
+      ELSEIF(JECROU(11)>0)THEN
         DO I=LFT,LLT
           IF(IECROU(I)== 11)THEN
             IF(FX(I)<= -FX_MAX(I))THEN
@@ -1135,8 +1135,8 @@ C-- COMPUTE PLASTIC DEFORMATION (TOTAL)
 C--------------------------------------------------------------------
 C     NON LINEAR DAMPING
 C--------------------------------------------------------------------
-      IF(IMPL_S.EQ.0.OR.IDYNA.GT.0) THEN
-        IF(JDMP.GT.0)THEN
+      IF(IMPL_S==0.OR.IDYNA>0) THEN
+        IF(JDMP>0)THEN
           DO I=LFT,LLT
            JPOS(I) = NINT(POS(4,I))
            JFUNC=MAX(IFV(I),1)
@@ -1151,7 +1151,7 @@ C
           ENDDO
         ENDIF
 c---------------------------G * funct_id_4
-        IF(J2DMP.GT.0)THEN
+        IF(J2DMP>0)THEN
           DO I=LFT,LLT
            J2POS(I) = NINT(POS(5,I))
            J2FUNC=MAX(IFUNC3(I),1)
@@ -1165,14 +1165,14 @@ c---------------------------G * funct_id_4
          ENDDO
         ENDIF
 c-------------------------        
-        IF(JDMP.NE.LLT)THEN
+        IF(JDMP/=LLT)THEN
           DO I=LFT,LLT
-           IF(IFV(I).EQ.0) GX(I)=ZERO
+           IF(IFV(I)==0) GX(I)=ZERO
           ENDDO
         ENDIF
-        IF(J2DMP.NE.LLT)THEN 
+        IF(J2DMP/=LLT)THEN 
           DO I=LFT,LLT            
-           IF(IFUNC3(I).EQ.0) GX2(I)=ZERO
+           IF(IFUNC3(I)==0) GX2(I)=ZERO
           ENDDO
         ENDIF
 

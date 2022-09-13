@@ -95,9 +95,9 @@ C null if irot=0
           BUFS6(K,8,NN)=INTSTAMP(NN)%STR6(K)
          END DO
         END DO
-        IF(NSPMD.GT.1)
+        IF(NSPMD>1)
      .    CALL SPMD_GLOB_DPSUM9(BUFS6,48*NINTSTAMP)
-        IF(ISPMD.EQ.0)THEN
+        IF(ISPMD==0)THEN
           DO NN=1,NINTSTAMP
             DO KDIR=1,8
               BUFS(KDIR,NN)=BUFS6(1,KDIR,NN)
@@ -109,7 +109,7 @@ C null if irot=0
             END DO
           END DO
         END IF
-        IF(NSPMD.GT.1)
+        IF(NSPMD>1)
      .    CALL SPMD_RBCAST(BUFS,BUFS,8*NINTSTAMP,1,0,2)
         DO NN=1,NINTSTAMP
           DO KDIR=1,3
@@ -125,7 +125,7 @@ C null if irot=0
           END IF
         END DO
       ELSE
-        IF(NSPMD.GT.1)THEN
+        IF(NSPMD>1)THEN
           DO NN=1,NINTSTAMP
             DO KDIR=1,3
               BUFS(KDIR,NN)=INTSTAMP(NN)%FC(KDIR)

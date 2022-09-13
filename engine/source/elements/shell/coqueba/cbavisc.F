@@ -56,7 +56,7 @@ C-----------------------------------------------
      .   DTINV,VISC(MVSIZ),GG,GS,FAC,FX,FY,FXY,DV(MVSIZ)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C
-        IF (NPT .EQ. 1.AND.MTN .NE. 1) THEN
+        IF (NPT == 1.AND.MTN /= 1) THEN
           FAC =ZERO
         ELSE
           FAC =ONE
@@ -74,7 +74,7 @@ C
           MX = IPARTC(I)
           EVIS(8,MX)=EVIS(8,MX)+(FX*VDEF(I,1)+FY*VDEF(I,2))*DV(I)
         ENDDO
-        IF (NPT .NE. 1) THEN
+        IF (NPT /= 1) THEN
          DO I=JFT,JLT
           VISC(I)    =ZEP3*THK(I)*VISC(I)
           GG =HALF/(ONE+NU(I))

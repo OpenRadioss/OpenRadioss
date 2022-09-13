@@ -76,7 +76,7 @@ C SYSFUS2 retourne 0 si noeud non trouve
 C Denombrement nb de noeuds locaux (ie nb de noeuds N<>0
       NSN_L=0
       DO I=1,NSN
-        IF(NODTMP(I).NE.0) THEN
+        IF(NODTMP(I)/=0) THEN
           NSN_L = NSN_L+1
           NOD(NSN_L) = NODTMP(I)
         END IF
@@ -86,9 +86,9 @@ C sauvegarde nb de noeuds totaux
       FR_RL(NSPMD+1)=NSN
 C Verification des ID user avec comm globale
       IF(NSPMD > 1) CALL SPMD_GLOB_ISUM9(NODTMP,NSN)
-      IF(ISPMD.EQ.0) THEN
+      IF(ISPMD==0) THEN
        DO I = 1, NSN
-        IF(NODTMP(I).EQ.0) THEN
+        IF(NODTMP(I)==0) THEN
           CALL ANCMSG(MSGID=186,ANMODE=ANINFO_BLIND,
      .                I1=NODU(I),C1='RIGID LINK')
           IERR=IERR+1
@@ -107,7 +107,7 @@ C determination du pmain
       IMAX = 0
       PMAIN = 1
       DO P = 1, NSPMD
-        IF(FR_RL(P).GT.IMAX)THEN
+        IF(FR_RL(P)>IMAX)THEN
           PMAIN = P
           IMAX = FR_RL(P)
         END IF
@@ -174,7 +174,7 @@ C-----------------------------------------------
 C
 C Recherche du no de noeuds internes
 C
-      IF(ITAG.GT.0)THEN !ALE LINK DEFINED BY A NODE LIST
+      IF(ITAG>0)THEN !ALE LINK DEFINED BY A NODE LIST
         NSN=ITAG
         NODU(NSN+1)=M1
         NODU(NSN+2)=M2
@@ -187,29 +187,29 @@ C
         END DO
         !Denombrement nb de noeuds locaux (ie nb de noeuds N<>0)
         DO I=1,NSN
-          IF(NODTMP(I).NE.0) THEN
+          IF(NODTMP(I)/=0) THEN
             NOD(I) = NODTMP(I)
           ELSE
             NOD(I) = -NODU(I)
           END IF
         END DO
         ! si noeuds non present alors tag en - pour M1 et M2
-        IF(NODTMP(NSN+1).EQ.0)THEN
+        IF(NODTMP(NSN+1)==0)THEN
           M1=-M1
         ELSE
           M1=NODTMP(NSN+1)
         END IF
-        IF(NODTMP(NSN+2).EQ.0)THEN
+        IF(NODTMP(NSN+2)==0)THEN
           M2=-M2
         ELSE
           M2=NODTMP(NSN+2)
         END IF
         ! Verification des ID user avec comm globale
         IF(NSPMD > 1) CALL SPMD_GLOB_ISUM9(NODTMP,NSN+2)
-        IF(ISPMD.EQ.0) THEN  
+        IF(ISPMD==0) THEN  
          !stop if main nodes not found
          DO I = NSN+1, NSN+2
-          IF(NODTMP(I).EQ.0) THEN
+          IF(NODTMP(I)==0) THEN
             CALL ANCMSG(MSGID=186,ANMODE=ANINFO_BLIND,
      .                  I1=NODU(I),C1='ALE LINK')
             IERR=IERR+1
@@ -218,7 +218,7 @@ C
          END DO
          !stop if a SECONDARY node is not found   
          DO I = 1, NSN
-          IF(NODTMP(I).EQ.0) THEN
+          IF(NODTMP(I)==0) THEN
             CALL ANCMSG(MSGID=186,ANMODE=ANINFO_BLIND,
      .                  I1=NODU(I),C1='ALE LINK')
             IERR=IERR+1
@@ -234,22 +234,22 @@ C
         NODTMP(NSN+1) = SYSFUS2(M1,ITABM1,NUMNOD)
         NODTMP(NSN+2) = SYSFUS2(M2,ITABM1,NUMNOD)
         ! si noeuds non present alors tag en - pour M1 et M2
-        IF(NODTMP(NSN+1).EQ.0)THEN
+        IF(NODTMP(NSN+1)==0)THEN
           M1=-M1
         ELSE
           M1=NODTMP(NSN+1)
         END IF
-        IF(NODTMP(NSN+2).EQ.0)THEN
+        IF(NODTMP(NSN+2)==0)THEN
           M2=-M2
         ELSE
           M2=NODTMP(NSN+2)
         END IF
         ! Verification des ID user avec comm globale
         IF(NSPMD > 1) CALL SPMD_GLOB_ISUM9(NODTMP,NSN+2)        
-        IF(ISPMD.EQ.0) THEN  
+        IF(ISPMD==0) THEN  
          !stop if main nodes not found
          DO I = NSN+1, NSN+2
-          IF(NODTMP(I).EQ.0) THEN
+          IF(NODTMP(I)==0) THEN
             CALL ANCMSG(MSGID=186,ANMODE=ANINFO_BLIND,
      .                  I1=NODU(I),C1='ALE LINK')
             IERR=IERR+1
@@ -260,7 +260,7 @@ C
         
         !CHECK EXISTENS OF GRNOD_ID  
 
-      ENDIF !(ITAG.GT.0) 
+      ENDIF !(ITAG>0) 
      
       RETURN
       END

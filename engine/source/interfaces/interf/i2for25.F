@@ -331,7 +331,7 @@ C------------------------------------------------
           FLZ = DX(3,II) * STFN(II)
           VISCL = VISC
 C
-          IF (IVISC.EQ.1) THEN
+          IF (IVISC==1) THEN
 C--  Old visc formulation from Radioss V14 --
            MHARM = MS_PENA(I)          
           ELSEIF(MS_PENA(I)==ZERO.OR.MS_PENA(IX1(K))==ZERO.OR.
@@ -397,7 +397,7 @@ c          A(3,I) = A(3,I) + FSZ
           SAV_FOR_PENA(2,I)= SAV_FOR_PENA(2,I)+FSY
           SAV_FOR_PENA(3,I)= SAV_FOR_PENA(3,I)+FSZ
 C
-          IF (IVISC.EQ.1) THEN
+          IF (IVISC==1) THEN
 C--  Old visc formulation from Radioss V14 --
           DTINV = ZERO
           IF (DT1 > ZERO) DTINV=ONE/DT1
@@ -475,7 +475,7 @@ C
             FNCONT(3,IX4(K)) = FNCONT(3,IX4(K)) + FZ(4)*W
           ENDIF
 
-          IF(ANIM_V(27)+H3D_DATA%N_VECT_PCONT2.GT.0) THEN ! Normal/Tangential forces output
+          IF(ANIM_V(27)+H3D_DATA%N_VECT_PCONT2>0) THEN ! Normal/Tangential forces output
             FNCONTP(1,I) = FNCONTP(1,I)  - FN(1) * W
             FNCONTP(2,I) = FNCONTP(2,I)  - FN(2) * W
             FNCONTP(3,I) = FNCONTP(3,I)  - FN(3) * W
@@ -534,7 +534,7 @@ C
          CALL I2SMS25(LLT   ,IX1   ,IX2  ,IX3  ,IX4   ,
      2                NSVG  ,H     ,STIF ,NOINT,DMINT2(1,KK),
      3                NODNX_SMS ,VIS   ,STIFM  ,DTI)
-         IF(DTI.LT.DT2T)THEN
+         IF(DTI<DT2T)THEN
            DT2T    = DTI
            NELTST  = NOINT
            ITYPTST = 10

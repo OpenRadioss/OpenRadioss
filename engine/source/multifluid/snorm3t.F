@@ -77,7 +77,7 @@ C     Node coordinates
          X4(1:3) = XGRID(1:3, NODE4)
 
          XC(1:3) = FOURTH * (X1(1:3) + X2(1:3) + X3(1:3) + X4(1:3))
-         IF (JALE .NE. 0) THEN
+         IF (JALE /= 0) THEN
 C     Node grid velocities
             W1(1:3) = WGRID(3 * (NODE1 - 1) + 1 : 3 * (NODE1 - 1) + 3)
             W2(1:3) = WGRID(3 * (NODE2 - 1) + 1 : 3 * (NODE2 - 1) + 3)
@@ -107,7 +107,7 @@ C     Face 1 -> nodes 1 2 3
          NY = -NY / SURF(KFACE, II)
          NZ = -NZ / SURF(KFACE, II)
          XF(1:3) = THIRD * (X1 + X2 + X3)
-         IF ((XF(1) - XC(1)) * NX + (XF(2) - XC(2)) * NY + (XF(3) - XC(3)) * NZ .LT. ZERO) THEN
+         IF ((XF(1) - XC(1)) * NX + (XF(2) - XC(2)) * NY + (XF(3) - XC(3)) * NZ < ZERO) THEN
             CALL ARRET(2)
          ENDIF
 C     Face 2
@@ -126,7 +126,7 @@ C     Face 2
          NY = -NY / SURF(KFACE, II)
          NZ = -NZ / SURF(KFACE, II) 
          XF(1:3) = THIRD * (X1 + X2 + X4)
-         IF ((XF(1) - XC(1)) * NX + (XF(2) - XC(2)) * NY + (XF(3) - XC(3)) * NZ .LT. ZERO) THEN
+         IF ((XF(1) - XC(1)) * NX + (XF(2) - XC(2)) * NY + (XF(3) - XC(3)) * NZ < ZERO) THEN
             CALL ARRET(2)
          ENDIF
 C     Face 3
@@ -145,7 +145,7 @@ C     Face 3
          NY = -NY / SURF(KFACE, II)
          NZ = -NZ / SURF(KFACE, II)
          XF(1:3) = THIRD * (X4 + X2 + X3)
-         IF ((XF(1) - XC(1)) * NX + (XF(2) - XC(2)) * NY + (XF(3) - XC(3)) * NZ .LT. ZERO) THEN
+         IF ((XF(1) - XC(1)) * NX + (XF(2) - XC(2)) * NY + (XF(3) - XC(3)) * NZ < ZERO) THEN
             CALL ARRET(2)
          ENDIF
 C     Face 4
@@ -164,7 +164,7 @@ C     Face 4
          NY = -NY / SURF(KFACE, II)
          NZ = -NZ / SURF(KFACE, II)
          XF(1:3) = THIRD * (X1 + X4 + X3)
-         IF ((XF(1) - XC(1)) * NX + (XF(2) - XC(2)) * NY + (XF(3) - XC(3)) * NZ .LT. ZERO) THEN
+         IF ((XF(1) - XC(1)) * NX + (XF(2) - XC(2)) * NY + (XF(3) - XC(3)) * NZ < ZERO) THEN
             CALL ARRET(2)
          ENDIF
 C     Face grid velocity 1

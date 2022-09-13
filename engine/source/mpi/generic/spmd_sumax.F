@@ -66,7 +66,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      IF (ISPMD.NE.0) THEN
+      IF (ISPMD/=0) THEN
         MSGTYP=MSGOFF
         CALL MPI_SEND(V,LEN,REAL,IT_SPMD(1),MSGTYP,
      .                MPI_COMM_WORLD,IERROR)
@@ -76,7 +76,7 @@ C-----------------------------------------------
           CALL MPI_RECV(VTMP,LEN,REAL,IT_SPMD(K),MSGTYP,
      .                  MPI_COMM_WORLD,STATUS,IERROR)
           DO I=1,LEN1
-            IF(ABS(V(I)).LT.ABS(VTMP(I))) THEN
+            IF(ABS(V(I))<ABS(VTMP(I))) THEN
               V(I) = VTMP(I)
             ENDIF
           ENDDO

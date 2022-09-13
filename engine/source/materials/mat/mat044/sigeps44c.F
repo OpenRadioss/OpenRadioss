@@ -302,7 +302,7 @@ C--------------------
          DO I=1,NEL0
              IF(CC1 /= ZERO) RQ = ONE + (CC1*EPSP(I))**CP1
              YLO(I) = YLO(I) * RQ
-           IF (PLA(I).GT.ZERO) THEN
+           IF (PLA(I)>ZERO) THEN
              YLD(I) = YSCALE * YLD(I) * RQ
              HS(I)  = YSCALE * DFDPLA(I) * RQ
            ELSE
@@ -316,13 +316,13 @@ C--------------------
          DO I=1,NEL0
            IF(CC1 /= ZERO) RQ = ONE + (CC1*EPSP(I))**CP1
            YLO(I) = YLO(I) + CA1 * (RQ-ONE)
-           IF (PLA(I).GT.ZERO) THEN
+           IF (PLA(I)>ZERO) THEN
              IF (CN1 == ONE) THEN
                YLD(I) = YSCALE * YLD(I) + (CA1 + CB1*PLA(I)) * (RQ-ONE)
                HS(I)  = YSCALE * DFDPLA(I) + CB1 * (RQ-ONE)
              ELSE
                YLD(I) = YSCALE * YLD(I) + (CA1 + CB1*PLA(I)**CN1) * (RQ-ONE)
-               IF (CN1.GT.ONE) THEN
+               IF (CN1>ONE) THEN
                  HS(I) = YSCALE * DFDPLA(I) + CN1*CB1*(RQ-ONE) * (PLA(I)**(CN1-ONE))
                ELSE 
                  HS(I) = YSCALE * DFDPLA(I) + CN1*CB1*(RQ-ONE) / ((PLA(I)**(ONE-CN1)))
@@ -338,13 +338,13 @@ C--------------------
          DO I=1,NEL0
            IF(CC1 /= ZERO) RQ = ONE + (CC1*EPSP(I))**CP1
            YLO(I) = CA1 * RQ
-           IF (PLA(I).GT.ZERO) THEN
+           IF (PLA(I)>ZERO) THEN
              IF (CN1 == ONE) THEN
                YLD(I) = (CA1 + CB1*PLA(I)) * RQ
                HS(I)  = CB1 * RQ
              ELSE
                YLD(I) = (CA1 + CB1*PLA(I)**CN1) * RQ
-               IF (CN1.GT.ONE) THEN
+               IF (CN1>ONE) THEN
                  HS(I) = CN1*CB1*RQ * (PLA(I)**(CN1-ONE))
                ELSE
                  HS(I) = CN1*CB1*RQ / ((PLA(I)**(ONE-CN1)))
@@ -362,7 +362,7 @@ C--------------------
            IF(ICC1 == 1) SIGM(I) = SIGM(I) * RQ
            IF (ICC1 /= 1 .and. CN1 /= ZERO .and. CB1 /= ZERO)
      &        EPSGM(I)=((SIGM(I)/RQ-CA1)/CB1)**(ONE/CN1)
-           IF (PLA(I).GE.EPSGM(I)) THEN
+           IF (PLA(I)>=EPSGM(I)) THEN
               YLD(I) = SIGM(I)
               HS(I)  = ZERO
            ENDIF
@@ -461,7 +461,7 @@ C
      .         *(E1-TWO*DR(I)*H(I))/YLD_I
      .         -TWO*H(I)*YLD_I
              DF = SIGN(MAX(ABS(DF),EM20),DF)
-             IF(DPLA_I(I).GT.ZERO) THEN
+             IF(DPLA_I(I)>ZERO) THEN
                DPLA_J(I)=MAX(ZERO,DPLA_I(I)-F/DF)
              ELSE
                DPLA_J(I)=ZERO

@@ -106,7 +106,7 @@ C----
      .                            KNOD2ELTG         ,NOD2ELC ,NOD2ELTG,THK,NTY,IGEO,
      .                            PM_STACK          , IWORKSH)
 
-                     IF(NELTG.NE.0) THEN    
+                     IF(NELTG/=0) THEN    
                         IP= IPARTTG(NELTG)
                         IE = NELTG
                         IGTYP = IGEO(11,IXTG(NIXTG-1,IE))

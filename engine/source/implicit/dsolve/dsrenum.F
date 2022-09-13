@@ -67,14 +67,14 @@ C
          DO J=1,NDDL
             INO=GRAPHE(I)%LSDDL_INI(1,J)
             IDL=GRAPHE(I)%LSDDL_INI(2,J)
-            IF (NDOF(INO).NE.0) NDDL1=NDDL1+1
+            IF (NDOF(INO)/=0) NDDL1=NDDL1+1
             JJ=IDDL(INO)+IDL
             RENUM(J)=JJ
             LDDLN(1,JJ)=INO
             LDDLN(2,JJ)=IDL
             LDDLG(JJ)=GRAPHE(I)%LSDDL_GLOB_INI(J)
          ENDDO
-         IF (NDDL1.NE.NDDL0) THEN 
+         IF (NDDL1/=NDDL0) THEN 
             CALL ANCMSG(MSGID=61,ANMODE=ANINFO)
             CALL ARRET(2)
          ENDIF

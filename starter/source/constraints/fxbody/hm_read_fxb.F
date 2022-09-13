@@ -1052,9 +1052,9 @@ C-----------------------------------------------
       INTEGER ISTOP     
 C
       ISTOP=0
-      DO WHILE (ISTOP.EQ.0)
+      DO WHILE (ISTOP==0)
          READ(IFIC,'(A)',END=999) NWLINE
-         IF ((NWLINE(1:1).NE.'#').AND.((NWLINE(1:1).NE.'$')).AND.((LEN_TRIM(NWLINE)/=0))) ISTOP=1
+         IF ((NWLINE(1:1)/='#').AND.((NWLINE(1:1)/='$')).AND.((LEN_TRIM(NWLINE)/=0))) ISTOP=1
       ENDDO
 C
       RETURN

@@ -68,7 +68,7 @@ C
               IF (K == 620 .OR. K == 621 .OR. K == 622 .OR.
      &            K == 623 .OR. K == 624 .OR. K == 625) THEN
                 CPTREAC = CPTREAC + 1
-                IF (ITHBUF(J).GT.0)  NODREAC(ITHBUF(J)) = CPTREAC
+                IF (ITHBUF(J)>0)  NODREAC(ITHBUF(J)) = CPTREAC
                 EXIT
               ENDIF
 

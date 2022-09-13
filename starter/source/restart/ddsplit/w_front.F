@@ -382,7 +382,7 @@ C
          !SPLITS is the number of SPMD domains on which node I is sticked         
           DO J=1,SPLIST
             P = PLIST(J)
-            IF(P.NE.PROC)THEN         
+            IF(P/=PROC)THEN         
               NBDDNOD = NBDDNOD + 1
               DD_ELEM(NBDDNOD) = I
               PROC_REM(NBDDNOD) = P
@@ -431,7 +431,7 @@ C
 C
 C-- Domdec Multidomaines hmpp      
 
-      IF ((NSUBDOM.GT.0).AND.(IDDOM.EQ.0)) THEN
+      IF ((NSUBDOM>0).AND.(IDDOM==0)) THEN
         COMPTS = 0
         COMPTR = 0
         ISOM_R2R_S = 0
@@ -439,13 +439,13 @@ C-- Domdec Multidomaines hmpp
         DO I = 1, NBDDNOD
           P =  PROC_REM(I)
           N = NODGLOB(DD_ELEM(I))
-          IF (FRONTB_R2R(N,PROC).EQ.-1) THEN
-            IF (FRONTB_R2R(N,P).GT.0) THEN          
+          IF (FRONTB_R2R(N,PROC)==-1) THEN
+            IF (FRONTB_R2R(N,P)>0) THEN          
              ISOM_R2R_S(P) = ISOM_R2R_S(P) + 1
              COMPTS = COMPTS + 1
             ENDIF 
-          ELSEIF (FRONTB_R2R(N,PROC).GT.0) THEN
-            IF (FRONTB_R2R(N,P).EQ.-1) THEN  
+          ELSEIF (FRONTB_R2R(N,PROC)>0) THEN
+            IF (FRONTB_R2R(N,P)==-1) THEN  
               ISOM_R2R_R(P) = ISOM_R2R_R(P) + 1
               COMPTR = COMPTR + 1
             ENDIF             
@@ -469,13 +469,13 @@ C-- Domdec Multidomaines hmpp
         DO I = 1, NBDDNOD
           N = NODGLOB(DD_ELEM(I))
           P =  PROC_REM(I)        
-          IF (FRONTB_R2R(N,PROC).EQ.-1) THEN
-            IF (FRONTB_R2R(N,P).GT.0) THEN          
+          IF (FRONTB_R2R(N,PROC)==-1) THEN
+            IF (FRONTB_R2R(N,P)>0) THEN          
               COMPTS = COMPTS+1
               DD_R2R_ELEM(COMPTS) = DD_ELEM(I)
             ENDIF  
-          ELSEIF (FRONTB_R2R(N,PROC).GT.0) THEN
-            IF (FRONTB_R2R(N,P).EQ.-1) THEN            
+          ELSEIF (FRONTB_R2R(N,PROC)>0) THEN
+            IF (FRONTB_R2R(N,P)==-1) THEN            
               COMPTR = COMPTR+1
               DD_R2R_ELEM(OFFSET+COMPTR) = DD_ELEM(I)
             ENDIF  
@@ -483,15 +483,15 @@ C-- Domdec Multidomaines hmpp
         ENDDO     
       ENDIF      
 C
-      IF (NSPMD.GT.1.AND.(NBDDACC+NBDDKIN).GT.0) THEN
+      IF (NSPMD>1.AND.(NBDDACC+NBDDKIN)>0) THEN
        DO P = 1, NSPMD
          I = IAD_ELEM(1,P)
          ISKIN = 0
-         DO WHILE (ISKIN.EQ.0.AND.I.LT.IAD_ELEM(1,P+1))
+         DO WHILE (ISKIN==0.AND.I<IAD_ELEM(1,P+1))
            ISKIN = ACCKIN(I)
            I = I + 1
          ENDDO
-         IF(ISKIN.EQ.1) THEN
+         IF(ISKIN==1) THEN
                IAD_ELEM(2,P) = I-1
          ELSE
                IAD_ELEM(2,P) = IAD_ELEM(1,P+1)
@@ -501,7 +501,7 @@ C
       ENDIF
       NBDDPROC = 0
       DO P = 1, NSPMD
-        IF(ISOM(P).GT.0)NBDDPROC=NBDDPROC+1
+        IF(ISOM(P)>0)NBDDPROC=NBDDPROC+1
       ENDDO
 C
       DO I = 1, NUMNOD_L
@@ -521,7 +521,7 @@ C
         M=NPBY(1,N)
         IF(NLOCAL(M,PROC)==1)THEN       
           DO P = 1, NSPMD
-            IF(P.NE.PROC) THEN
+            IF(P/=PROC) THEN
               IF(NLOCAL(M,P)==1) THEN
                 NBRB = NBRB + 1
                 DD_RBY(NBRB) = M
@@ -565,10 +565,10 @@ C
       NBRB = 0
       DO N = 1, NRBYM
         M=IRBYM(1,N)
-        IF(MOD(FRONT_RM(M,PROC),10).EQ.1)THEN
+        IF(MOD(FRONT_RM(M,PROC),10)==1)THEN
           DO P = 1, NSPMD
-            IF(P.NE.PROC) THEN
-              IF(MOD(FRONT_RM(M,P),10).EQ.1) THEN
+            IF(P/=PROC) THEN
+              IF(MOD(FRONT_RM(M,P),10)==1) THEN
                 NBRB = NBRB + 1
                 DD_RBYM(NBRB) = M
                 PROC_REM1(NBRB) = P
@@ -611,7 +611,7 @@ C
         N3 = 2*NRWALL+N
         NSL=NPRW(N)
         MSR = NPRW(N3)
-        IF(MSR.NE.0) THEN
+        IF(MSR/=0) THEN
           ISO = 0
           IMAX = 0
           PMAIN = 1
@@ -624,10 +624,10 @@ C
                 ENDIF
               ENDDO
               ISO = ISO + DD_WALL(P,N)
-              IF(DD_WALL(P,N).GT.IMAX)THEN
+              IF(DD_WALL(P,N)>IMAX)THEN
                 PMAIN = P
                 IMAX = DD_WALL(P,N)
-              ELSEIF(DD_WALL(P,N).EQ.0)THEN
+              ELSEIF(DD_WALL(P,N)==0)THEN
 C cas noeud MSR sur proc sans noeud secnd
                 DD_WALL(P,N) = -1
                 if (NSL==0) PMAIN = P
@@ -664,7 +664,7 @@ C
                 IF(IFRONT%P(1,IFRONT%IENTRY(NN)) >= P)  DD_P(P) = DD_P(P) + 1
               ENDIF
             ENDDO
-            IF(DD_P(P).GT.IMAX)THEN
+            IF(DD_P(P)>IMAX)THEN
               PMAIN = P
               IMAX = DD_P(P)
             ENDIF
@@ -677,13 +677,13 @@ C
           DD_RBY2(1,N) = DD_P(PROC)
           DD_RBY2(2,N) = NSL
           DD_RBY2(3,N) = PMAIN
-          IF(PMAIN.NE.PROC) THEN
+          IF(PMAIN/=PROC) THEN
             IAD_RBY2(1,PMAIN) = IAD_RBY2(1,PMAIN) + DD_P(PROC)
             IAD_RBY2(4,PMAIN) = IAD_RBY2(4,PMAIN) + 1
           ELSE
             DO P = 1, NSPMD
-              IF(P.NE.PROC) THEN
-                IF(DD_P(P).NE.-1) THEN
+              IF(P/=PROC) THEN
+                IF(DD_P(P)/=-1) THEN
                   IAD_RBY2(2,P) = IAD_RBY2(2,P) + DD_P(P)
                   IAD_RBY2(3,P) = IAD_RBY2(3,P) + 1
                 ENDIF
@@ -699,14 +699,14 @@ C cas aucun noeuds de rby
 C
         ISLOCAL = 0
         DO P = 1, NSPMD
-          IF(P.NE.PMAIN) THEN
-            IF(DD_P(P).NE.-1) THEN
+          IF(P/=PMAIN) THEN
+            IF(DD_P(P)/=-1) THEN
               ISLOCAL = 1
             ENDIF
           ENDIF
         ENDDO
 Cel tag DD_RBY(3) a negatif pour reperage des rb sans echange.
-        IF(ISLOCAL.EQ.0) DD_RBY2(3,N) = -PMAIN
+        IF(ISLOCAL==0) DD_RBY2(3,N) = -PMAIN
 C
         K = K + NSL
       ENDDO
@@ -719,13 +719,13 @@ C
       DO N = 1, NRBYKIN
         PMAIN = DD_RBY2(3,N)
 C si rby decoupe
-        IF(PMAIN.GT.0) DD_P(PMAIN) = DD_P(PMAIN)+1
+        IF(PMAIN>0) DD_P(PMAIN) = DD_P(PMAIN)+1
       ENDDO
       DO P = 1, NSPMD
-        IF(IAD_RBY2(3,P).NE.0)THEN
+        IF(IAD_RBY2(3,P)/=0)THEN
           IAD_RBY2(3,P) = DD_P(PROC)
         ENDIF
-        IF(IAD_RBY2(4,P).NE.0)THEN
+        IF(IAD_RBY2(4,P)/=0)THEN
           IAD_RBY2(4,P) = DD_P(P)
         ENDIF
       ENDDO
@@ -754,7 +754,7 @@ C
         PMAIN = 1
         DO P = 1, NSPMD
           DD_P(P) = 0
-          IF(MOD(FRONT_RM(MSR,P),10).EQ.1) THEN
+          IF(MOD(FRONT_RM(MSR,P),10)==1) THEN
             DO KK = 1, NSL
               NN = LCRBYM(K+KK)
               IF(NLOCAL(NN,P)==1)THEN         
@@ -767,7 +767,7 @@ C
  111            CONTINUE
               ENDIF
             ENDDO
-            IF(DD_P(P).GT.IMAX)THEN
+            IF(DD_P(P)>IMAX)THEN
               PMAIN = P
               IMAX = DD_P(P)
             ENDIF
@@ -777,18 +777,18 @@ C
         ENDDO
 C
 C
-        IF(MOD(FRONT_RM(MSR,PROC),10).EQ.1) THEN
+        IF(MOD(FRONT_RM(MSR,PROC),10)==1) THEN
           DD_RBYM2(1,N) = DD_P(PROC)
           DD_RBYM2(2,N) = NSL
           DD_RBYM2(3,N) = PMAIN
 
-          IF(PMAIN.NE.PROC) THEN
+          IF(PMAIN/=PROC) THEN
             IAD_RBYM2(1,PMAIN) = IAD_RBYM2(1,PMAIN) + DD_P(PROC)
             IAD_RBYM2(4,PMAIN) = IAD_RBYM2(4,PMAIN) + 1
           ELSE
             DO P = 1, NSPMD
-              IF(P.NE.PROC) THEN
-                IF(DD_P(P).NE.-1) THEN
+              IF(P/=PROC) THEN
+                IF(DD_P(P)/=-1) THEN
                   IAD_RBYM2(2,P) = IAD_RBYM2(2,P) + DD_P(P)
                   IAD_RBYM2(3,P) = IAD_RBYM2(3,P) + 1
                 ENDIF
@@ -804,15 +804,15 @@ C cas aucun noeuds rigid material
 C
         ISLOCAL = 0
         DO P = 1, NSPMD
-          IF(P.NE.PMAIN) THEN
-            IF(DD_P(P).NE.-1) THEN
+          IF(P/=PMAIN) THEN
+            IF(DD_P(P)/=-1) THEN
               ISLOCAL = 1
             ENDIF
           ENDIF
         ENDDO
 
 Cel tag DD_RBY(3) a negatif pour reperage des r material sans echange.
-        IF(ISLOCAL.EQ.0) DD_RBYM2(3,N) = -PMAIN
+        IF(ISLOCAL==0) DD_RBYM2(3,N) = -PMAIN
         K = K + NSL
       ENDDO
 C
@@ -824,13 +824,13 @@ C
       DO N = 1, NRBYM
         PMAIN = DD_RBYM2(3,N)
 C si rigid material decoupe
-        IF(PMAIN.GT.0) DD_P(PMAIN) = DD_P(PMAIN)+1
+        IF(PMAIN>0) DD_P(PMAIN) = DD_P(PMAIN)+1
       ENDDO
       DO P = 1, NSPMD
-        IF(IAD_RBYM2(3,P).NE.0)THEN
+        IF(IAD_RBYM2(3,P)/=0)THEN
           IAD_RBYM2(3,P) = DD_P(PROC)
         ENDIF
-        IF(IAD_RBYM2(4,P).NE.0)THEN
+        IF(IAD_RBYM2(4,P)/=0)THEN
           IAD_RBYM2(4,P) = DD_P(P)
         ENDIF
       ENDDO
@@ -846,21 +846,21 @@ C Specifique interface type 2 : on utilise les frontieres
       DO P = 1, NSPMD+1
         IAD_I2M(P) = 0
       ENDDO
-      IF(NBDDI2M.GT.0) THEN
+      IF(NBDDI2M>0) THEN
         N = 1
         DO P = 1, NSPMD
           IDEB = IAD_ELEM(1,P)
           IFIN = IAD_ELEM(1,P+1)-1
           IAD_I2M(P) = N
           DO I = IDEB, IFIN
-            IF(ITABI2M(DD_ELEM(I)).EQ.1) THEN
+            IF(ITABI2M(DD_ELEM(I))==1) THEN
               DD_I2M(N) = DD_ELEM(I)
               N = N + 1
             ENDIF
           ENDDO
         ENDDO
         IAD_I2M(NSPMD+1) = N
-        if(n-1.ne.NBDDI2M)then
+        if(n-1/=NBDDI2M)then
             print*,'error decomp I2',n-1,NBDDI2M
         endif
       ENDIF
@@ -882,10 +882,10 @@ C
         DO J = 1, NN
           ITY = IGRSURF(IS)%ELTYP(J)
           I   = IGRSURF(IS)%ELEM(J)
-          IF (ITY.EQ.3) THEN
+          IF (ITY==3) THEN
             P = CEP(I+OFFC) + 1
             DD_MV(P,N) = DD_MV(P,N) + 1
-          ELSEIF (ITY.EQ.7) THEN
+          ELSEIF (ITY==7) THEN
             P = CEP(I+OFFTG) + 1
             DD_MV(P,N) = DD_MV(P,N) + 1
           ELSE
@@ -894,7 +894,7 @@ C
         IMAX = 0
         PMAIN = 1
         DO P = 1, NSPMD
-          IF(DD_MV(P,N).GT.IMAX)THEN
+          IF(DD_MV(P,N)>IMAX)THEN
             PMAIN = P
             IMAX = DD_MV(P,N)
           END IF
@@ -905,7 +905,7 @@ C
 c specific case for FVMBAG AND FVMBAG1, get PMAIN directly
 c from PMAIN computed in C_FVBAG
         ITY=MONVOL(K1-1+2)
-        IF (ITY.EQ.6.OR.ITY.EQ.8) THEN
+        IF (ITY==6.OR.ITY==8) THEN
           IFV = IFV+1    
           PMAIN = FVSPMD(IFV)%PMAIN  
           DD_MV(NSPMD+2,N) = PMAIN
@@ -937,7 +937,7 @@ C
         IMAX = 0
         PMAIN = 1
         DO P = 1, NSPMD
-          IF(DD_LL(P,I).GT.IMAX)THEN
+          IF(DD_LL(P,I)>IMAX)THEN
             PMAIN = P
             IMAX = DD_LL(P,I)
           END IF
@@ -964,7 +964,7 @@ C
         NSN=LJOINT(K)
         DO J = 1, NSN
           M = LJOINT(K+J)
-          IF(PROC.NE.1) THEN
+          IF(PROC/=1) THEN
 C proc <> 0, frontiere si noeud sur le proc
             IF(NLOCAL(M,PROC)==1)THEN       
               NBCJ = NBCJ + 1
@@ -1016,7 +1016,7 @@ C
       NBRB = 0
       IAD_RBM(1) = 1
       DO P = 1, NSPMD
-        IF (P.NE.PROC) THEN
+        IF (P/=PROC) THEN
           DO N = 1, NIBVEL
             M=IBVEL(4,N)
              IF(NLOCAL(M,PROC)==1.AND.
@@ -1059,7 +1059,7 @@ C
  1000           CONTINUE
               ENDIF
             ENDDO
-            IF(DD_P(P).GT.IMAX)THEN
+            IF(DD_P(P)>IMAX)THEN
               PMAIN = P
               IMAX = DD_P(P)
             ENDIF
@@ -1072,13 +1072,13 @@ C
           DD_RBM2(1,N) = DD_P(PROC)
           DD_RBM2(2,N) = NSL
           DD_RBM2(3,N) = PMAIN
-          IF(PMAIN.NE.PROC) THEN
+          IF(PMAIN/=PROC) THEN
             IAD_RBM2(1,PMAIN) = IAD_RBM2(1,PMAIN) + DD_P(PROC)
             IAD_RBM2(4,PMAIN) = IAD_RBM2(4,PMAIN) + 1
           ELSE
             DO P = 1, NSPMD
-              IF(P.NE.PROC) THEN
-                IF(DD_P(P).NE.-1) THEN
+              IF(P/=PROC) THEN
+                IF(DD_P(P)/=-1) THEN
                   IAD_RBM2(2,P) = IAD_RBM2(2,P) + DD_P(P)
                   IAD_RBM2(3,P) = IAD_RBM2(3,P) + 1
                 ENDIF
@@ -1094,14 +1094,14 @@ C cas aucun noeuds de rby
 C
         ISLOCAL = 0
         DO P = 1, NSPMD
-          IF(P.NE.PMAIN) THEN
-            IF(DD_P(P).NE.-1) THEN
+          IF(P/=PMAIN) THEN
+            IF(DD_P(P)/=-1) THEN
               ISLOCAL = 1
             ENDIF
           ENDIF
         ENDDO
 Cel tag DD_RBY(3) a negatif pour reperage des rb sans echange.
-        IF(ISLOCAL.EQ.0) DD_RBM2(3,N) = -PMAIN
+        IF(ISLOCAL==0) DD_RBM2(3,N) = -PMAIN
 C
         K = K + NSL
       ENDDO
@@ -1114,13 +1114,13 @@ C
       DO N = 1, NIBVEL
         PMAIN = DD_RBM2(3,N)
 C si rbm decoupe
-        IF(PMAIN.GT.0) DD_P(PMAIN) = DD_P(PMAIN)+1
+        IF(PMAIN>0) DD_P(PMAIN) = DD_P(PMAIN)+1
       ENDDO
       DO P = 1, NSPMD
-        IF(IAD_RBM2(3,P).NE.0)THEN
+        IF(IAD_RBM2(3,P)/=0)THEN
           IAD_RBM2(3,P) = DD_P(PROC)
         ENDIF
-        IF(IAD_RBM2(4,P).NE.0)THEN
+        IF(IAD_RBM2(4,P)/=0)THEN
           IAD_RBM2(4,P) = DD_P(P)
         ENDIF
       ENDDO
@@ -1137,14 +1137,14 @@ C
       DO P = 1, NSPMD+1
         IAD_RBE3M(P) = 0
       ENDDO
-      IF(NBDDRBE3M.GT.0) THEN
+      IF(NBDDRBE3M>0) THEN
         N = 1
         DO P = 1, NSPMD
           IDEB = IAD_ELEM(1,P)
           IFIN = IAD_ELEM(1,P+1)-1
           IAD_RBE3M(P) = N
           DO I = IDEB, IFIN
-            IF(ITABRBE3M(DD_ELEM(I)).GT.0) THEN
+            IF(ITABRBE3M(DD_ELEM(I))>0) THEN
               DD_RBE3M(N) = DD_ELEM(I)
               DP_RBE3M(N) = ITABRBE3M(DD_ELEM(I))
               N = N + 1
@@ -1152,7 +1152,7 @@ C
           ENDDO
         ENDDO
         IAD_RBE3M(NSPMD+1) = N
-        if(n-1.ne.NBDDRBE3M)then
+        if(n-1/=NBDDRBE3M)then
             print*,'error decomp RBE3',n-1,NBDDRBE3M
         endif
       ENDIF
@@ -1162,21 +1162,21 @@ C
       DO P = 1, NSPMD+1
         IAD_RBE2(P) = 1
       ENDDO
-      IF(NBDDRBE2.GT.0) THEN
+      IF(NBDDRBE2>0) THEN
         N = 1
         DO P = 1, NSPMD
           IDEB = IAD_ELEM(1,P)
           IFIN = IAD_ELEM(1,P+1)-1
           IAD_RBE2(P) = N
           DO I = IDEB, IFIN
-            IF(ITABRBE2M(DD_ELEM(I)).GT.0) THEN
+            IF(ITABRBE2M(DD_ELEM(I))>0) THEN
               DD_RBE2(N) = ITABRBE2M(DD_ELEM(I))
               N = N + 1
             ENDIF
           ENDDO
         ENDDO
         IAD_RBE2(NSPMD+1) = N
-        if(n-1.ne.NBDDRBE2)then
+        if(n-1/=NBDDRBE2)then
             print*,'error decomp RBE2',n-1,NBDDRBE2
         endif
       ENDIF
@@ -1186,14 +1186,14 @@ C
       DO P = 1, NSPMD+1
         IAD_CNDM(P) = 0
       ENDDO
-      IF(NBDDCNDM.GT.0) THEN
+      IF(NBDDCNDM>0) THEN
         N = 1
         DO P = 1, NSPMD
           IDEB = IAD_ELEM(1,P)
           IFIN = IAD_ELEM(1,P+1)-1
           IAD_CNDM(P) = N
           DO I = IDEB, IFIN
-            IF(ITABCNDM(DD_ELEM(I)).GT.0) THEN
+            IF(ITABCNDM(DD_ELEM(I))>0) THEN
                DD_CNDM(N) = DD_ELEM(I)
 c              DD_CNDM(N) = ITABCNDM(DD_ELEM(I))
                N = N + 1
@@ -1201,7 +1201,7 @@ c              DD_CNDM(N) = ITABCNDM(DD_ELEM(I))
           ENDDO
         ENDDO
         IAD_CNDM(NSPMD+1) = N
-        if(n-1.ne.NBDDCNDM)then
+        if(n-1/=NBDDCNDM)then
             print*,'error decomp Itet2 of S10',n-1,NBDDCNDM
         endif
       ENDIF
@@ -1210,12 +1210,12 @@ C Section specifique
 C
       NNL_L = 0
       NNT_L = 0
-      IF (NSECT.GT.0)  K0=NSTRF(25)
+      IF (NSECT>0)  K0=NSTRF(25)
       DO I = 1, NSECT
         DO P = 1, NSPMD+1
           DD_SEC(P,I) = 0
         ENDDO
-        IF(ISECUT*ISP0.EQ.1)THEN
+        IF(ISECUT*ISP0==1)THEN
           DO P = 1, NSPMD+2
             IAD_CUT(P,I) = 0
           ENDDO
@@ -1228,8 +1228,8 @@ C
         NNOD = NSTRF(K0+6)
         IFRAM = NSTRF(K0+26)
         K2 = K0+30+NSTRF(K0+14)
-        IF (IFRAM.LE.10.OR.N1.NE.0) THEN
-          IF(N1.GT.0) THEN
+        IF (IFRAM<=10.OR.N1/=0) THEN
+          IF(N1>0) THEN
             DO P = 1, NSPMD
               IF (NLOCAL(N1,P)==1)THEN        
                 DD_SEC(P,I) = DD_SEC(P,I) + 1
@@ -1238,7 +1238,7 @@ C
             END DO
  2001       CONTINUE
           END IF
-          IF(N2.GT.0) THEN
+          IF(N2>0) THEN
             DO P = 1, NSPMD
               IF (NLOCAL(N2,P)==1)THEN        
                 DD_SEC(P,I) = DD_SEC(P,I) + 1
@@ -1247,7 +1247,7 @@ C
             END DO
  2002       CONTINUE
           END IF
-          IF(N3.GT.0) THEN
+          IF(N3>0) THEN
             DO P = 1, NSPMD
               IF (NLOCAL(N3,P)==1)THEN        
                 DD_SEC(P,I) = DD_SEC(P,I) + 1
@@ -1257,7 +1257,7 @@ C
  2003       CONTINUE
           END IF
         END IF
-        IF(MOD(IFRAM,10).EQ.1.OR.MOD(IFRAM,10).EQ.2) THEN
+        IF(MOD(IFRAM,10)==1.OR.MOD(IFRAM,10)==2) THEN
           DO P = 1, NSPMD
             SECVU(P) = 0
           END DO
@@ -1275,8 +1275,8 @@ C
           END DO
         END IF
 C cut
-        IF(ISECUT.EQ.1) THEN
-         IF (TYP.GE.1)THEN
+        IF(ISECUT==1) THEN
+         IF (TYP>=1)THEN
           DO NN = 1, NNOD
             IF (NLOCAL(NSTRF(K2+NN-1),PROC)==1)THEN         
               NNL_L = NNL_L + 1
@@ -1284,8 +1284,8 @@ C cut
             END IF
           END DO
          ENDIF
-          IF(PROC.EQ.1) THEN
-            IF(TYP.GE.1) THEN
+          IF(PROC==1) THEN
+            IF(TYP>=1) THEN
               DO P = 1, NSPMD
                 NN_L = 0
                 DO NN = 1, NNOD
@@ -1309,7 +1309,7 @@ C
         IMAX = 0
         PMAIN = 1
         DO P = 1, NSPMD
-          IF(DD_SEC(P,I).GT.IMAX)THEN
+          IF(DD_SEC(P,I)>IMAX)THEN
             PMAIN = P
             IMAX = DD_SEC(P,I)
           END IF
@@ -1326,9 +1326,9 @@ C
 C noeuds N1, N2, N3 NNODE a echanger
       DO I = 1, NSECT
         PMAIN = DD_SEC(NSPMD+1,I)
-        IF(PROC.EQ.PMAIN) THEN
+        IF(PROC==PMAIN) THEN
           DO P = 1, NSPMD
-            IF(P.NE.PMAIN) THEN
+            IF(P/=PMAIN) THEN
               IAD_SEC(2,P) = IAD_SEC(2,P) + DD_SEC(P,I)
             END IF
           END DO
@@ -1361,64 +1361,64 @@ C
         PMAIN = DD_SEC(NSPMD+1,I)
 C determination du nombre de noeuds a echange
         DD_P(PMAIN) = DD_P(PMAIN) + 1
-        IF(PROC.EQ.PMAIN) THEN
+        IF(PROC==PMAIN) THEN
           DO P = 1, NSPMD
             IP = IP0
-            IF(P.NE.PMAIN) THEN
+            IF(P/=PMAIN) THEN
               IMAX = 0
               OFF = 0
               DO J = 1, NSELS_S
                 K = NSTRF(IP + J*2 - 1)
-                IF(CEP(K+OFF)+1.EQ.P) IMAX = 1
+                IF(CEP(K+OFF)+1==P) IMAX = 1
               END DO
-              IF(IMAX.EQ.1) GO TO 3000
+              IF(IMAX==1) GO TO 3000
               IP = IP + 2*NSELS_S
               OFF = OFF+NUMELS
               DO J = 1, NSELQ_S
                 K = NSTRF(IP + J*2 - 1)
-                IF(CEP(K+OFF)+1.EQ.P) IMAX = 1
+                IF(CEP(K+OFF)+1==P) IMAX = 1
               END DO
-              IF(IMAX.EQ.1) GO TO 3000
+              IF(IMAX==1) GO TO 3000
               IP = IP + 2*NSELQ_S
               OFF = OFF+NUMELQ
 
               DO J = 1, NSELC_S
                 K = NSTRF(IP + J*2 - 1)
-                IF(CEP(K+OFF)+1.EQ.P) IMAX = 1
+                IF(CEP(K+OFF)+1==P) IMAX = 1
               END DO
-              IF(IMAX.EQ.1) GO TO 3000
+              IF(IMAX==1) GO TO 3000
               IP = IP + 2*NSELC_S
               OFF = OFF + NUMELC
               DO J = 1, NSELT_S
                 K = NSTRF(IP + J*2 - 1)
-                IF(CEP(K+OFF)+1.EQ.P) IMAX = 1
+                IF(CEP(K+OFF)+1==P) IMAX = 1
               END DO
-              IF(IMAX.EQ.1) GO TO 3000
+              IF(IMAX==1) GO TO 3000
               IP = IP + 2*NSELT_S
               OFF = OFF + NUMELT
               DO J = 1, NSELP_S
                 K = NSTRF(IP + J*2 - 1)
-                IF(CEP(K+OFF)+1.EQ.P) IMAX = 1
+                IF(CEP(K+OFF)+1==P) IMAX = 1
               END DO
-              IF(IMAX.EQ.1) GO TO 3000
+              IF(IMAX==1) GO TO 3000
               IP = IP + 2*NSELP_S
               OFF = OFF + NUMELP
               DO J = 1, NSELR_S
                 K = NSTRF(IP + J*2 - 1)
-                IF(CEP(K+OFF)+1.EQ.P) IMAX = 1
+                IF(CEP(K+OFF)+1==P) IMAX = 1
               END DO
-              IF(IMAX.EQ.1) GO TO 3000
+              IF(IMAX==1) GO TO 3000
               IP = IP + 2*NSELR_S
               OFF = OFF + NUMELR
               DO J = 1, NSELTG_S
                 K = NSTRF(IP + J*2 - 1)
-                IF(CEP(K+OFF)+1.EQ.P) IMAX = 1
+                IF(CEP(K+OFF)+1==P) IMAX = 1
               END DO
               IP = IP + 2*NSELTG_S
  3000         CONTINUE
 C si element de la section present sur le proc
-c              IF(IMAX.EQ.1) THEN
-              IF(IMAX.EQ.1.OR.ISECUT.EQ.1) THEN
+c              IF(IMAX==1) THEN
+              IF(IMAX==1.OR.ISECUT==1) THEN
 c                IAD_SEC(3,P) = IAD_SEC(3,P) + NN
                 IAD_SEC(3,P) = IAD_SEC(3,P) + 1
               END IF
@@ -1430,54 +1430,54 @@ c                IAD_SEC(3,P) = IAD_SEC(3,P) + NN
           OFF = 0
           DO J = 1, NSELS_S
             K = NSTRF(IP + J*2 - 1)
-            IF(CEP(K+OFF)+1.EQ.PROC) IMAX = 1
+            IF(CEP(K+OFF)+1==PROC) IMAX = 1
           END DO
-          IF(IMAX.EQ.1) GO TO 4000
+          IF(IMAX==1) GO TO 4000
           IP = IP + 2*NSELS_S
           OFF = OFF + NUMELS
           DO J = 1, NSELQ_S
             K = NSTRF(IP + J*2 - 1)
-            IF(CEP(K+OFF)+1.EQ.PROC) IMAX = 1
+            IF(CEP(K+OFF)+1==PROC) IMAX = 1
           END DO
-          IF(IMAX.EQ.1) GO TO 4000
+          IF(IMAX==1) GO TO 4000
           IP = IP + 2*NSELQ_S
           OFF = OFF + NUMELQ
           DO J = 1, NSELC_S
             K = NSTRF(IP + J*2 - 1)
-            IF(CEP(K+OFF)+1.EQ.PROC) IMAX = 1
+            IF(CEP(K+OFF)+1==PROC) IMAX = 1
           END DO
-          IF(IMAX.EQ.1) GO TO 4000
+          IF(IMAX==1) GO TO 4000
           IP = IP + 2*NSELC_S
           OFF = OFF + NUMELC
           DO J = 1, NSELT_S
             K = NSTRF(IP + J*2 - 1)
-            IF(CEP(K+OFF)+1.EQ.PROC) IMAX = 1
+            IF(CEP(K+OFF)+1==PROC) IMAX = 1
           END DO
-          IF(IMAX.EQ.1) GO TO 4000
+          IF(IMAX==1) GO TO 4000
           IP = IP + 2*NSELT_S
           OFF = OFF + NUMELT
           DO J = 1, NSELP_S
             K = NSTRF(IP + J*2 - 1)
-            IF(CEP(K+OFF)+1.EQ.PROC) IMAX = 1
+            IF(CEP(K+OFF)+1==PROC) IMAX = 1
           END DO
-          IF(IMAX.EQ.1) GO TO 4000
+          IF(IMAX==1) GO TO 4000
           IP = IP + 2*NSELP_S
           OFF = OFF + NUMELP
           DO J = 1, NSELR_S
             K = NSTRF(IP + J*2 - 1)
-            IF(CEP(K+OFF)+1.EQ.PROC) IMAX = 1
+            IF(CEP(K+OFF)+1==PROC) IMAX = 1
           END DO
-          IF(IMAX.EQ.1) GO TO 4000
+          IF(IMAX==1) GO TO 4000
           IP = IP + 2*NSELR_S
           OFF = OFF + NUMELR
           DO J = 1, NSELTG_S
             K = NSTRF(IP + J*2 - 1)
-            IF(CEP(K+OFF)+1.EQ.PROC) IMAX = 1
+            IF(CEP(K+OFF)+1==PROC) IMAX = 1
           END DO
           IP = IP + 2*NSELTG_S
  4000     CONTINUE
 C si element de la section present sur le proc
-          IF(IMAX.EQ.1.OR.ISECUT.EQ.1) THEN
+          IF(IMAX==1.OR.ISECUT==1) THEN
             IAD_SEC(4,PMAIN) = IAD_SEC(4,PMAIN) + 1
 
           END IF
@@ -1487,10 +1487,10 @@ C si element de la section present sur le proc
       END DO
 C
       DO P = 1, NSPMD
-        IF(IAD_SEC(3,P).NE.0)THEN
+        IF(IAD_SEC(3,P)/=0)THEN
           IAD_SEC(3,P) = DD_P(PROC)
         ENDIF
-        IF(IAD_SEC(4,P).NE.0)THEN
+        IF(IAD_SEC(4,P)/=0)THEN
           IAD_SEC(4,P) = DD_P(P)
         ENDIF
       ENDDO
@@ -1515,7 +1515,7 @@ C
         DD_MAD(5,1) = NCONX
         DD_MAD(5,NSPMD+1) = NCONX
 C
-        IF(NEXMAD.NE.0) THEN
+        IF(NEXMAD/=0) THEN
 C
 C ELEM shell4
 C
@@ -1525,7 +1525,7 @@ C
             NMAD_L = 0
             DO I = 1, NMADSH4
               K = IEXMAD(IDEB+I-1)
-              IF(CEP(K+ESHIFT).EQ.P-1) THEN
+              IF(CEP(K+ESHIFT)==P-1) THEN
                 NMAD_L = NMAD_L+1
               END IF
             END DO
@@ -1538,7 +1538,7 @@ C
             NMAD_L = 0
             DO I = 1, NMADSH3
               K = IEXMAD(IDEB+I-1)
-              IF(CEP(K+ESHIFT).EQ.P-1) THEN
+              IF(CEP(K+ESHIFT)==P-1) THEN
                 NMAD_L = NMAD_L+1
               END IF
             END DO
@@ -1551,7 +1551,7 @@ C
             NMAD_L = 0
             DO I = 1, NMADSOL
               K = IEXMAD(IDEB+I-1)
-              IF(CEP(K+ESHIFT).EQ.P-1) THEN
+              IF(CEP(K+ESHIFT)==P-1) THEN
                 NMAD_L = NMAD_L+1
               END IF
             END DO
@@ -1587,7 +1587,7 @@ C
 C
 C Frontieres CFD
 C    
-      IF(IALE+IEULER+ITHERM+IALELAG.NE.0)THEN
+      IF(IALE+IEULER+ITHERM+IALELAG/=0)THEN
 C
 C Partie nodale LNRCVOIS
 C
@@ -1611,7 +1611,7 @@ C
         END DO
 C
         DO P = 1, NSPMD
-          IF(P.NE.PROC)THEN
+          IF(P/=PROC)THEN
             DO I = 1, NUMEL_L
               TAGE_L(P,I) = 0
             END DO
@@ -1628,14 +1628,14 @@ C
           JTUR=IPARG(12,NG)
           JTHE=IPARG(13,NG)
 Cel test agrad0
-          IF(IPARG(32,NG)+1.EQ.PROC) THEN
+          IF(IPARG(32,NG)+1==PROC) THEN
             NEL = IPARG(2,NG)
             NFT = IPARG(3,NG)
             ITY = IPARG(5,NG)
 Cel voir autres types solides
             ISOLNOD = IPARG(28,NG)
 Cel 3D
-            IF(ITY.EQ.1) THEN
+            IF(ITY==1) THEN
               DO I = 1, NEL
                 IE = I+NFT
                 IE_LOC = CEL(IE)
@@ -1644,10 +1644,10 @@ Cel IVOIS
                 LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(IE+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
                 DO J = 1, LGTH
                   IV = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + J - 1)
-                  IF (IV.GT.0) THEN
+                  IF (IV>0) THEN
                     PROC2  = CEP(IV)+1
-                    IF(PROC2.NE.PROC) THEN
-                      IF(TAGE(IV).EQ.0) THEN
+                    IF(PROC2/=PROC) THEN
+                      IF(TAGE(IV)==0) THEN
                         II = II + 1
                         TAGER(II)=IV
                         CPULOCALER(II)=PROC2
@@ -1656,7 +1656,7 @@ C no elt frontiere > no elt interne
                         TAGE(IV) = PROC2
                         NERCVOIS(PROC2) = NERCVOIS(PROC2)+1
                       END IF
-                      IF(TAGE_L(PROC2,IE_LOC).EQ.0)THEN
+                      IF(TAGE_L(PROC2,IE_LOC)==0)THEN
                         JJ = JJ+1
                         TAGES(JJ)=IE
                         CPULOCALES(JJ)=PROC2
@@ -1665,9 +1665,9 @@ C no elt frontiere > no elt interne
                         NESDVOIS(PROC2) = NESDVOIS(PROC2)+1
                       END IF
                     END IF
-                  ELSEIF(PROC.NE.1.AND.IV.LT.0)THEN
+                  ELSEIF(PROC/=1.AND.IV<0)THEN
 C IV < 0 : SEGMENT INT12
-                    IF(TAGS(1,-IV).EQ.0)THEN
+                    IF(TAGS(1,-IV)==0)THEN
                       NF_L = NF_L + 1
                       LSEGCOM(NF_L) = -IV
                       CPULOCALF(NF_L)=1
@@ -1678,7 +1678,7 @@ C IV < 0 : SEGMENT INT12
                 END DO
               END DO
 Cel 2D
-            ELSEIF(ITY.EQ.2) THEN
+            ELSEIF(ITY==2) THEN
               DO I = 1, NEL
                 IE = I+NFT
                 IE_LOC = CEL(IE)
@@ -1687,10 +1687,10 @@ Cel 2D
 Cel IVOIS
                 DO J = 1, LGTH
                   IV = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + J - 1)
-                  IF (IV.GT.0) THEN
+                  IF (IV>0) THEN
                     PROC2  = CEP(IV)+1
-                    IF(PROC2.NE.PROC) THEN
-                      IF(TAGE(IV).EQ.0) THEN
+                    IF(PROC2/=PROC) THEN
+                      IF(TAGE(IV)==0) THEN
                         II = II + 1
                         TAGER(II)=IV
                         CPULOCALER(II)=PROC2
@@ -1699,7 +1699,7 @@ C no elt frontiere > no elt interne
                         TAGE(IV) = PROC2
                         NERCVOIS(PROC2) = NERCVOIS(PROC2)+1
                       END IF
-                      IF(TAGE_L(PROC2,IE_LOC).EQ.0)THEN
+                      IF(TAGE_L(PROC2,IE_LOC)==0)THEN
                         JJ = JJ+1
                         TAGES(JJ)=IE
                         CPULOCALES(JJ)=PROC2
@@ -1712,7 +1712,7 @@ C no elt frontiere > no elt interne
                 END DO
               END DO
 Cel 2D -> triangles
-            ELSEIF(ITY.EQ.7 .AND. (N2D .NE. 0 .AND. MULTI_FVM%IS_USED)) THEN
+            ELSEIF(ITY==7 .AND. (N2D /= 0 .AND. MULTI_FVM%IS_USED)) THEN
               DO I = 1, NEL
                 IE = I+NFT
                 IE_LOC = CEL(IE)
@@ -1721,10 +1721,10 @@ Cel 2D -> triangles
 Cel IVOIS
                 DO J = 1, LGTH
                   IV = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + J - 1)
-                  IF (IV.GT.0) THEN
+                  IF (IV>0) THEN
                     PROC2  = CEP(IV)+1
-                    IF(PROC2.NE.PROC) THEN
-                      IF(TAGE(IV).EQ.0) THEN
+                    IF(PROC2/=PROC) THEN
+                      IF(TAGE(IV)==0) THEN
                         II = II + 1
                         TAGER(II)=IV
                         CPULOCALER(II)=PROC2
@@ -1733,7 +1733,7 @@ C no elt frontiere > no elt interne
                         TAGE(IV) = PROC2
                         NERCVOIS(PROC2) = NERCVOIS(PROC2)+1
                       END IF
-                      IF(TAGE_L(PROC2,IE_LOC).EQ.0)THEN
+                      IF(TAGE_L(PROC2,IE_LOC)==0)THEN
                         JJ = JJ+1
                         TAGES(JJ)=IE
                         CPULOCALES(JJ)=PROC2
@@ -1747,16 +1747,16 @@ C no elt frontiere > no elt interne
               END DO
             END IF
 C
-          ELSEIF(SEGINDX.GT.0.AND.PROC.EQ.1)THEN      ! IPARG(32,NG)+1.NE.PROC
+          ELSEIF(SEGINDX>0.AND.PROC==1)THEN      ! IPARG(32,NG)+1/=PROC
             NEL = IPARG(2,NG)
             NFT = IPARG(3,NG)
             ITY = IPARG(5,NG)
             P = IPARG(32,NG)+1
-            IF(P.NE.PROC) THEN
+            IF(P/=PROC) THEN
 Cel voir autres types solides
              ISOLNOD = IPARG(28,NG)
 Cel 3D
-             IF(ITY.EQ.1) THEN
+             IF(ITY==1) THEN
               DO I = 1, NEL
                 IE = I+NFT
 Cel IVOIS
@@ -1764,9 +1764,9 @@ Cel IVOIS
                 LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(IE+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(IE)
                 DO J = 1, LGTH
                   IV = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + J - 1)
-                  IF(IV.LT.0)THEN
+                  IF(IV<0)THEN
 C IV < 0 : SEGMENT INT12
-                    IF(TAGS(P,-IV).EQ.0)THEN
+                    IF(TAGS(P,-IV)==0)THEN
                       NF_L = NF_L + 1
                       LSEGCOM(NF_L) = -IV
                       CPULOCALF(NF_L)=P
@@ -1794,7 +1794,7 @@ C
                 LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(I+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(I)
                DO K=1,LGTH
                   IE = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + K - 1)
-                  IF (IE.GT.0) THEN
+                  IF (IE>0) THEN
                    DO L = 1,8
                      N = IXS(L+1,IE)
                      IF(TAG(N)==0) THEN 
@@ -1810,12 +1810,12 @@ C                      loop over all processors that have node N
 C                      Two iterations max because of GOTO 
                        DO WHILE(PSEARCH)  
                         PROC2 = IFRONT%P(1,IAD)
-                        IF(PROC2.NE.PROC)THEN
+                        IF(PROC2/=PROC)THEN
                           CPULOCALR(NR_L) = PROC2
                           NBRCVOIS(PROC2) = NBRCVOIS(PROC2)+1
                           PSEARCH = .FALSE.
                         ENDIF ! proc2/=proc
-                        IF(IFRONT%P(2,IAD).EQ.0) PSEARCH = .FALSE.
+                        IF(IFRONT%P(2,IAD)==0) PSEARCH = .FALSE.
                         IAD = IFRONT%P(2,IAD)
                        END DO
                       ENDIF    ! nlocal(n,proc)=0
@@ -1835,11 +1835,11 @@ C                      Two iterations max because of GOTO
             NS = IXS(J+1,I)
             DO K=1,LGTH
               SOLV = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + K - 1)
-              IF (SOLV.GT.0) THEN
+              IF (SOLV>0) THEN
                DO L=1,8
                  N = IXS(L+1,SOLV)               
                  IF ( (NODLOCAL(N)/=0).AND.(NODLOCAL(N)<=NUMNOD_L) ) THEN                    
-                  IF( IFRONT%IENTRY(N) .NE.0) THEN
+                  IF( IFRONT%IENTRY(N) /=0) THEN
                     IF( IFRONT%P(1,IFRONT%IENTRY(N)) < PROC) GOTO 1111
                   ENDIF
 
@@ -1849,7 +1849,7 @@ C                      Two iterations max because of GOTO
                   DO WHILE(PSEARCH)  
                     P = IFRONT%P(1,IAD)
                    IF(P/=PROC) THEN
-                    IF(TAG_L(P,NODLOCAL(N)).EQ.0) THEN
+                    IF(TAG_L(P,NODLOCAL(N))==0) THEN
                       IF(NLOCAL(N,P)==0) THEN
                        NS_L = NS_L + 1
                        LNSDVOIS(NS_L) = N
@@ -1859,7 +1859,7 @@ C                      Two iterations max because of GOTO
                       END IF ! nlocal(n,p) = 0
                     ENDIF   ! tag_l = 0
                    ENDIF   ! p/=proc
-                    IF(IFRONT%P(2,IAD).EQ.0) PSEARCH = .FALSE.
+                    IF(IFRONT%P(2,IAD)==0) PSEARCH = .FALSE.
                     IAD = IFRONT%P(2,IAD)
                   END DO
  1111             CONTINUE
@@ -1877,7 +1877,7 @@ C                      Two iterations max because of GOTO
              IF ( (NODLOCAL(NS)/=0).AND.(NODLOCAL(NS)<=NUMNOD_L) ) THEN
                DO K=1,LGTH
                   IE = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + K - 1)
-                  IF (IE.GT.0) THEN
+                  IF (IE>0) THEN
                    DO L = 1,4
                      N = IXQ(L+1,IE)
                      IF(TAG(N)==0) THEN         
@@ -1886,7 +1886,7 @@ C                      Two iterations max because of GOTO
                        LNRCVOIS(NR_L) = N
                        TAG(N) = 1
                        DO PROC2 = 1, NSPMD
-                        IF(PROC2.NE.PROC) THEN
+                        IF(PROC2/=PROC) THEN
                          IF(NLOCAL(N,PROC2)==1) THEN     
                           CPULOCALR(NR_L) = PROC2
                           NBRCVOIS(PROC2) = NBRCVOIS(PROC2)+1
@@ -1907,7 +1907,7 @@ C                      Two iterations max because of GOTO
             NS = IXQ(J+1,I)
             DO K=1,LGTH
               SOLV = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + K - 1)
-              IF (SOLV.GT.0) THEN
+              IF (SOLV>0) THEN
                DO L=1,4
                  N = IXQ(L+1,SOLV)      
                  IF ( (NODLOCAL(N)/=0).AND.(NODLOCAL(N)<=NUMNOD_L) ) THEN        
@@ -1916,7 +1916,7 @@ C                      Two iterations max because of GOTO
                   END DO
                   DO P = 1, NSPMD
                    IF(P/=PROC) THEN
-                    IF(TAG_L(P,NODLOCAL(N)).EQ.0) THEN
+                    IF(TAG_L(P,NODLOCAL(N))==0) THEN
                      IF(NLOCAL(NS,P)==1) THEN
                       IF(NLOCAL(N,P)==0) THEN
                        NS_L = NS_L + 1
@@ -1937,7 +1937,7 @@ C                      Two iterations max because of GOTO
           END DO
         ENDDO
 C 2D --> triangles
-        IF (N2D .NE. 0 .AND. MULTI_FVM%IS_USED) THEN
+        IF (N2D /= 0 .AND. MULTI_FVM%IS_USED) THEN
         DO I=1,NUMELTG
            IAD1 = ALE_CONNECTIVITY%ee_connect%iad_connect(I)
            LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(I+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(I)
@@ -1946,7 +1946,7 @@ C 2D --> triangles
              IF ( (NODLOCAL(NS)/=0).AND.(NODLOCAL(NS)<=NUMNOD_L) ) THEN
                DO K=1,LGTH
                   IE = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + K - 1)
-                  IF (IE.GT.0) THEN
+                  IF (IE>0) THEN
                    DO L = 1,3
                      N = IXTG(L+1,IE)
                      IF(TAG(N)==0) THEN         
@@ -1955,7 +1955,7 @@ C 2D --> triangles
                        LNRCVOIS(NR_L) = N
                        TAG(N) = 1
                        DO PROC2 = 1, NSPMD
-                        IF(PROC2.NE.PROC) THEN
+                        IF(PROC2/=PROC) THEN
                          IF(NLOCAL(N,PROC2)==1) THEN     
                           CPULOCALR(NR_L) = PROC2
                           NBRCVOIS(PROC2) = NBRCVOIS(PROC2)+1
@@ -1976,7 +1976,7 @@ C 2D --> triangles
             NS = IXTG(J+1,I)
             DO K=1,LGTH
               SOLV = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + K - 1)
-              IF (SOLV.GT.0) THEN
+              IF (SOLV>0) THEN
                DO L=1,3
                  N = IXTG(L+1,SOLV)
                  IF ( (NODLOCAL(N)/=0).AND.(NODLOCAL(N)<=NUMNOD_L) ) THEN        
@@ -1985,7 +1985,7 @@ C 2D --> triangles
                   END DO
                   DO P = 1, NSPMD
                    IF(P/=PROC) THEN
-                    IF(TAG_L(P,NODLOCAL(N)).EQ.0) THEN
+                    IF(TAG_L(P,NODLOCAL(N))==0) THEN
                      IF(NLOCAL(NS,P)==1) THEN
                       IF(NLOCAL(N,P)==0) THEN
                        NS_L = NS_L + 1
@@ -2009,7 +2009,7 @@ C 2D --> triangles
 C
 C Tris LNRCVOIS + renumerotation locale
 C
-        if(nr_l.ne.NRCVVOIS)print*,'error cfd node boundaries:',nr_l,
+        if(nr_l/=NRCVVOIS)print*,'error cfd node boundaries:',nr_l,
      .  NRCVVOIS
         DO I = 1, NRCVVOIS
           ITRI4(1,I) = CPULOCALR(I)
@@ -2023,7 +2023,7 @@ C
 C
 C Tris LNSDVOIS + renumerotation locale
 C
-        if(ns_l.ne.NSNDVOIS)print*,'error cfd node boundaries :',ns_l,
+        if(ns_l/=NSNDVOIS)print*,'error cfd node boundaries :',ns_l,
      .  NSNDVOIS
         DO I = 1, NSNDVOIS
           ITRI4(1,I) = CPULOCALS(I)
@@ -2038,7 +2038,7 @@ C
 C
 C Tris LERCVOIS
 C
-        if(ii.ne.NERVOIS)print*,'error cfd elem boundaries:',ii,
+        if(ii/=NERVOIS)print*,'error cfd elem boundaries:',ii,
      .  NERVOIS
         DO I = 1, NERVOIS
           ITRI4(1,I) = CPULOCALER(I)
@@ -2054,7 +2054,7 @@ C
 C
 C Tris LESDVOIS
 C
-        if(jj.ne.NESVOIS)print*,'error cfd elem boundaries :',jj,
+        if(jj/=NESVOIS)print*,'error cfd elem boundaries :',jj,
      .    NESVOIS
         DO I = 1, NESVOIS
           ITRI4(1,I) = CPULOCALES(I)
@@ -2070,7 +2070,7 @@ C
 C
 C Tris LSEGCOM
 C
-        if(nf_l.ne.NSEGFL_L)print*,'error cfd segment boundaries:',nf_l,
+        if(nf_l/=NSEGFL_L)print*,'error cfd segment boundaries:',nf_l,
      .    NSEGFL_L
         DO I = 1, NSEGFL_L
           ITRI4(1,I) = CPULOCALF(I)
@@ -2092,14 +2092,14 @@ C
 C
 C Porosite
 C
-        IF(NUMPOR.GT.0)THEN
+        IF(NUMPOR>0)THEN
           NAD=0
           NAD_L=0
           DO IG = 1, NUMGEO
             NPORGEO(IG)=0
-            IF(INT(GEO(12,IG)).EQ.15)THEN
+            IF(INT(GEO(12,IG))==15)THEN
               N=INT(GEO(31,IG))
-              IF(N.GT.0)THEN
+              IF(N>0)THEN
                 NN_L = 0
                 DO J = NAD+1, NAD+N
                   NN = PORNOD(J)
@@ -2119,12 +2119,12 @@ C
 C
 C Interface 18
 C
-      IF(NBI18_L.GT.0)THEN
+      IF(NBI18_L>0)THEN
         NN = 0
         DO N=1,NINTER
           ITY = IPARI(7,N)
           INACTI = IPARI(22,N)
-          IF((ITY.EQ.7.OR.ITY.EQ.22).AND.INACTI.EQ.7)THEN  ! interface 18
+          IF((ITY==7.OR.ITY==22).AND.INACTI==7)THEN  ! interface 18
             NN = NN + 1
             DO P = 1, NSPMD
               DD_I18(P,NN) = 0
@@ -2156,7 +2156,7 @@ C nb total de segments
 C PMAIN
             PMAIN = 1
             DO P = 2, NSPMD
-              IF(DD_I18(P,NN).GT.DD_I18(PMAIN,NN))THEN
+              IF(DD_I18(P,NN)>DD_I18(PMAIN,NN))THEN
                 PMAIN = P
               END IF
             END DO
@@ -2165,7 +2165,7 @@ C PMAIN
         END DO
       END IF 
 C
-      IF ((NR2RLNK.GT.0).AND.(NSUBDOM.EQ.0)) THEN
+      IF ((NR2RLNK>0).AND.(NSUBDOM==0)) THEN
         DO N=1,NR2RLNK
           NN   = IEXLNK(1,N)
           NNG  = IGRNOD(NN)%NENTITY
@@ -2197,7 +2197,7 @@ C
         DD_LAGF(3,P) = 0
       END DO
 C
-      IF(LAG_NCF.GT.0) THEN
+      IF(LAG_NCF>0) THEN
         DO N = 1, NUMNOD
           TAG(N) = 0
         END DO
@@ -2207,12 +2207,12 @@ c        NLAGF = 0
           IKN = IADLL(IC+1)-1
           DO IK = IK0,IKN
             N = LLL(IK)
-            IF(TAG(N).EQ.0) THEN
+            IF(TAG(N)==0) THEN
               TAG(N) = 1
               DO P = 1, NSPMD
                 IF(NLOCAL(N,P)==1)THEN          
                   DD_LAGF(3,P) = DD_LAGF(3,P) + 1
-                  IF(P.EQ.PROC)THEN
+                  IF(P==PROC)THEN
                     LLAGF(DD_LAGF(3,P)) = NODLOCAL(N)
                   END IF
                   GOTO 5000
@@ -2222,7 +2222,7 @@ c        NLAGF = 0
             END IF
           END DO
         END DO
-        IF(DD_LAGF(3,PROC).NE.NLAGF_L)print*,
+        IF(DD_LAGF(3,PROC)/=NLAGF_L)print*,
      +    'error : wrong lag mult decomposition !'
         DO P = 1, NSPMD
           DD_LAGF(3,NSPMD+1) = DD_LAGF(3,NSPMD+1)+DD_LAGF(3,P)
@@ -2314,7 +2314,7 @@ cc            IF(EDGELOCAL(IED_GL) > 0.AND.IEDGE_TMP(1,IED_GL) > 1)THEN
               N2 = NODEDGE(2,IED_GL)
               IF((NLOCAL(N1,PROC)==1).AND.
      .           (NLOCAL(N2,PROC)==1))THEN
-                IF(P.NE.PROC)THEN
+                IF(P/=PROC)THEN
                   IF((NLOCAL(N1,P)==1).AND.
      .               (NLOCAL(N2,P)==1))THEN
 C---
@@ -2697,23 +2697,23 @@ C
       CALL WRITE_I_C(IAD_FREDG,(NSPMD+1)*NINTER25)
       LEN_IA = LEN_IA + (NSPMD+1)*NINTER25
 C
-      IF(NUMSKW.GT.0)THEN
+      IF(NUMSKW>0)THEN
         CALL WRITE_I_C(ISKWP,NUMSKW+1)
         CALL WRITE_I_C(NSKWP,NSPMD)
         CALL WRITE_I_C(ISKWP_L,NSKWP(PROC))
         LEN_IA = LEN_IA + NSPMD + NUMSKW+1 + NSKWP(PROC)
       END IF
-      IF(NSENSOR.GT.0)THEN
+      IF(NSENSOR>0)THEN
         CALL WRITE_I_C(ISENSP,2*NSENSOR)
         CALL WRITE_I_C(NSENSP,NSPMD)
         LEN_IA = LEN_IA + 2*NSENSOR + NSPMD
       END IF
-      IF(NACCELM.GT.0)THEN
+      IF(NACCELM>0)THEN
         CALL WRITE_I_C(IACCP,NACCELM)
         CALL WRITE_I_C(NACCP,NSPMD)
         LEN_IA = LEN_IA +NACCELM +NSPMD
       END IF
-      IF(NBGAUGE.GT.0)THEN
+      IF(NBGAUGE>0)THEN
         CALL WRITE_I_C(IGAUP,NBGAUGE)
         CALL WRITE_I_C(NGAUP,NSPMD)
         LEN_IA = LEN_IA +NBGAUGE +NSPMD
@@ -2726,7 +2726,7 @@ C
 C
 C Ecriture frontiere ALE/CFD
 C
-      IF(IALE+IEULER+ITHERM+IALELAG.NE.0)THEN
+      IF(IALE+IEULER+ITHERM+IALELAG/=0)THEN
         CALL WRITE_I_C(NBRCVOIS,NSPMD+1)
         LEN_IA = LEN_IA + NSPMD+1
         CALL WRITE_I_C(LNRCVOIS,NRCVVOIS)
@@ -2743,13 +2743,13 @@ C
         LEN_IA = LEN_IA + NSPMD+1
         CALL WRITE_I_C(LESDVOIS,NESVOIS)
         LEN_IA = LEN_IA + NESVOIS
-        IF(SEGINDX.GT.0) THEN
+        IF(SEGINDX>0) THEN
           CALL WRITE_I_C(NPSEGCOM,NSPMD+1)
           LEN_IA = LEN_IA + NSPMD+1
           CALL WRITE_I_C(LSEGCOM,NSEGFL_L)
           LEN_IA = LEN_IA + NSEGFL_L
         END IF
-        IF(NUMPOR.GT.0)THEN
+        IF(NUMPOR>0)THEN
           CALL WRITE_I_C(NPORGEO,NUMGEO)
           LEN_IA = LEN_IA + NUMGEO
           CALL WRITE_I_C(LNODPOR,NUMPOR_L)
@@ -2760,7 +2760,7 @@ C
       CALL WRITE_I_C(LLAGF,NLAGF_L)
       LEN_IA = LEN_IA + NLAGF_L
 C
-      IF ((NSUBDOM.GT.0).AND.(IDDOM.EQ.0)) THEN
+      IF ((NSUBDOM>0).AND.(IDDOM==0)) THEN
         DEALLOCATE(DD_R2R_ELEM)      
       ENDIF
       IF (IUSERWI /=0)THEN

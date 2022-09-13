@@ -53,13 +53,13 @@ C-----------------------------------------------
       KEY2=' '
       JK=0
       DO 10 I=1,ncharline 
-      IF(CARTE(I:I).EQ.'/')THEN
+      IF(CARTE(I:I)=='/')THEN
        JK=JK+1
        J=0
-      ELSEIF(CARTE(I:I).NE.' '.AND.JK.EQ.1)THEN
+      ELSEIF(CARTE(I:I)/=' '.AND.JK==1)THEN
        J=J+1
        KEY1(J:J)=CARTE(I:I)
-      ELSEIF(CARTE(I:I).NE.' '.AND.JK.EQ.2)THEN
+      ELSEIF(CARTE(I:I)/=' '.AND.JK==2)THEN
        J=J+1
        LK2=J
        KEY2(J:J)=CARTE(I:I)
@@ -67,7 +67,7 @@ C-----------------------------------------------
  10   CONTINUE
 C
       DO 100 IKEY=1,NKEY
- 100  IF(KEY1.EQ.KEY0(IKEY))RETURN
+ 100  IF(KEY1==KEY0(IKEY))RETURN
       IKEY=0
 C
       RETURN

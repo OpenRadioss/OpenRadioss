@@ -61,18 +61,18 @@ C
       JSUP=NUMNOD
 C  045      J=NUMNOD/2
       J=MIN(1,NUMNOD/2)
-   10 IF(JSUP.LE.JINF.AND.(IU-ITABM1(J)).NE.0) THEN
+   10 IF(JSUP<=JINF.AND.(IU-ITABM1(J))/=0) THEN
         CALL ANCMSG(MSGID=187,ANMODE=ANINFO,
      .            I1=IU,C1=MESS)
         IERR=IERR+1
         SYSFUS=1.1
         RETURN
       ENDIF
-      IF((IU-ITABM1(J)).EQ.0)THEN
+      IF((IU-ITABM1(J))==0)THEN
 C     >CAS IU=TABM FIN DE LA RECHERCHE
          SYSFUS=ITABM1(J+NUMNOD)+0.1
          RETURN
-      ELSE IF (IU-ITABM1(J).LT.0) THEN
+      ELSE IF (IU-ITABM1(J)<0) THEN
 C     >CAS IU<TABM
          JSUP=J-1
       ELSE
@@ -123,23 +123,23 @@ C-----------------------------------------------
       INTEGER JINF, JSUP, J
 C-----------------------------------------------
 C
-      IF ((NUMNOD.EQ.0).OR.(IU-ITABM1(1)<0)) THEN
+      IF ((NUMNOD==0).OR.(IU-ITABM1(1)<0)) THEN
         SYSFUS2=0
         RETURN
       END IF
       JINF=1
       JSUP=NUMNOD
       J=MIN(1,NUMNOD/2)
-   10 IF(JSUP.LE.JINF.AND.(IU-ITABM1(J)).NE.0) THEN
+   10 IF(JSUP<=JINF.AND.(IU-ITABM1(J))/=0) THEN
 C     >CAS NOEUD non trouve
         SYSFUS2=0
         RETURN
       ENDIF
-      IF((IU-ITABM1(J)).EQ.0)THEN
+      IF((IU-ITABM1(J))==0)THEN
 C     >CAS IU=TABM FIN DE LA RECHERCHE
          SYSFUS2=ITABM1(J+NUMNOD)
          RETURN
-      ELSE IF (IU-ITABM1(J).LT.0) THEN
+      ELSE IF (IU-ITABM1(J)<0) THEN
 C     >CAS IU<TABM
          JSUP=J-1
       ELSE

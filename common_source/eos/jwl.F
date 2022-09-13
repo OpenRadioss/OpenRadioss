@@ -109,7 +109,7 @@ C-----------------------------------------------
          ENDDO    
                                               
          DO I=1, NEL                                                                                        
-            IF (VNEW(I) .GT. ZERO) THEN                                                                     
+            IF (VNEW(I) > ZERO) THEN                                                                     
               R1DF = R1*DF(I)                                                                               
               R2DF = R2*DF(I)                                                                               
               ER1DF = EXP(-R1DF)                                                                            

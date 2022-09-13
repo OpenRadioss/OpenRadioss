@@ -65,7 +65,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C
       DO 20 I=JFT,JLT
-        IF(OFF(I).LT.1.)OFFG(I) = OFF(I)
+        IF(OFF(I)<1.)OFFG(I) = OFF(I)
  20   CONTINUE
 C
 C      NVC1= NVC/8
@@ -119,7 +119,7 @@ C---------sans voisins----------------------
        DO EP=NVS+1,JLT
         I =IVS(EP)
         NCJ = IXTG1(1,I)
-        IF (NCJ .GT. 0) THEN
+        IF (NCJ > 0) THEN
          F(1,NCJ)=F(1,NCJ)-F14(I)
          F(2,NCJ)=F(2,NCJ)-F24(I)
          F(3,NCJ)=F(3,NCJ)-F34(I)
@@ -128,7 +128,7 @@ C---------sans voisins----------------------
        DO EP=NVS+1,JLT
         I =IVS(EP)
         NCJ = IXTG1(2,I)
-        IF (NCJ .GT. 0) THEN
+        IF (NCJ > 0) THEN
          F(1,NCJ)=F(1,NCJ)-F15(I)
          F(2,NCJ)=F(2,NCJ)-F25(I)
          F(3,NCJ)=F(3,NCJ)-F35(I)
@@ -137,7 +137,7 @@ C---------sans voisins----------------------
        DO EP=NVS+1,JLT
         I =IVS(EP)
         NCJ = IXTG1(3,I)
-        IF (NCJ .GT. 0) THEN
+        IF (NCJ > 0) THEN
          F(1,NCJ)=F(1,NCJ)-F16(I)
          F(2,NCJ)=F(2,NCJ)-F26(I)
          F(3,NCJ)=F(3,NCJ)-F36(I)
@@ -188,10 +188,10 @@ C-----------------------------------------------
       INTEGER I, II, K
 C-----------------------------------------------
       DO 20 I=JFT,JLT
-        IF(OFF(I).LT.1.)OFFG(I) = OFF(I)
+        IF(OFF(I)<1.)OFFG(I) = OFF(I)
  20   CONTINUE
 C
-      IF (IVECTOR.EQ.1) THEN
+      IF (IVECTOR==1) THEN
 #include "vectorize.inc"
         DO I=JFT,JLT
           K = IADTG(1,I)
@@ -212,19 +212,19 @@ C
         ENDDO
         DO I=JFT,JLT
           K = IADTG1(1,I)
-          IF (K.GT.0) THEN
+          IF (K>0) THEN
            FSKYV(K,1)=-F14(I)
            FSKYV(K,2)=-F24(I)
            FSKYV(K,3)=-F34(I)
           ENDIF 
           K = IADTG1(2,I)
-          IF (K.GT.0) THEN
+          IF (K>0) THEN
            FSKYV(K,1)=-F15(I)
            FSKYV(K,2)=-F25(I)
            FSKYV(K,3)=-F35(I)
           ENDIF 
           K = IADTG1(3,I)
-          IF (K.GT.0) THEN
+          IF (K>0) THEN
            FSKYV(K,1)=-F16(I)
            FSKYV(K,2)=-F26(I)
            FSKYV(K,3)=-F36(I)
@@ -250,19 +250,19 @@ C
         ENDDO
         DO I=JFT,JLT
           K = IADTG1(1,I)
-          IF (K.GT.0) THEN
+          IF (K>0) THEN
            FSKY(1,K)=-F14(I)
            FSKY(2,K)=-F24(I)
            FSKY(3,K)=-F34(I)
           ENDIF 
           K = IADTG1(2,I)
-          IF (K.GT.0) THEN
+          IF (K>0) THEN
            FSKY(1,K)=-F15(I)
            FSKY(2,K)=-F25(I)
            FSKY(3,K)=-F35(I)
           ENDIF 
           K = IADTG1(3,I)
-          IF (K.GT.0) THEN
+          IF (K>0) THEN
            FSKY(1,K)=-F16(I)
            FSKY(2,K)=-F26(I)
            FSKY(3,K)=-F36(I)

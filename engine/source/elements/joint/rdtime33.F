@@ -70,7 +70,7 @@ C     REAL
 C=======================================================================
 C     nodal time step
 C--------------------------------------------
-      IF((IDTMINS/=2).AND.(JNTYP.EQ.33)) NODADT = 1
+      IF((IDTMINS/=2).AND.(JNTYP==33)) NODADT = 1
 C
       DO I=JFT,JLT
         STI(1,I) = XKM(I) 
@@ -83,9 +83,9 @@ C-------- Masse harmonique --------------
         IN = (UVAR(36,I)*UVAR(37,I))/MAX(EM20,UVAR(36,I)+UVAR(37,I))
 				
 C-------- Node 1--------------
-	IF (MS.GT.EM15)
+	IF (MS>EM15)
      .    STI(1,I) = ((XCM(I)+SQRT(XCM(I)**2+XKM(I)*MS))**2)/MS		
-	IF (IN.GT.EM15)
+	IF (IN>EM15)
      .    STIR(1,I) = ((XCR(I)+SQRT(XCR(I)**2+XKR(I)*IN))**2)/IN
      
 C-------- Node 2--------------					
@@ -99,7 +99,7 @@ C
         DTA=DTMINS/DTFACS
         DTB=DTA*DTA
         DO I=JFT,JLT
-         IF(OFF(I).LE.ZERO) CYCLE
+         IF(OFF(I)<=ZERO) CYCLE
           XKM(I)   = MAX(EM15,XKM(I))
           DMELRT(I)=MAX(DMELRT(I),
      .      XCM(I)*DTA+HALF*XKM(I)*DTB-HALF*MSRT(I))
@@ -112,8 +112,8 @@ C         MX2 = 2*(Mn+2*DeltaM)
         ENDDO
 C
         DO I=JFT,JLT
-         IF(OFF(I).LE.ZERO) CYCLE
-         IF(DT(I).LT.DT2T) THEN
+         IF(OFF(I)<=ZERO) CYCLE
+         IF(DT(I)<DT2T) THEN
           DT2T=DT(I)
           NELTST =IXR(NIXR,I)
           ITYPTST=6

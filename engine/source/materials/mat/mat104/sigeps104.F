@@ -223,7 +223,7 @@ c--------------------------
             ENDIF
           ENDDO
         ENDIF
-        IF((NINDX.GT.0).AND.(IMCONV.EQ.1))THEN
+        IF((NINDX>0).AND.(IMCONV==1))THEN
           DO J=1,NINDX
 #include "lockon.inc"
             WRITE(IOUT, 1000) NGL(INDX(J)),IPG

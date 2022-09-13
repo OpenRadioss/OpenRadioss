@@ -99,7 +99,7 @@ C
        ENDDO  
       ENDIF 
 C     mass init en parith/on si spmd
-      IF (IMACH.NE.3) THEN
+      IF (IMACH/=3) THEN
        DO I=LFT,LLT
         I1 = NC1(I)
         I2 = NC2(I)
@@ -273,7 +273,7 @@ c
        ENDDO
       ENDIF
 C
-      IF(JALE+JEUL.GT.0)THEN
+      IF(JALE+JEUL>0)THEN
        DO I=LFT,LLT
         I1 = NC1(I)
         I2 = NC2(I)
@@ -445,7 +445,7 @@ C   de M_element/8. et non pas des masses associees aux noeuds.
      .     +V(1,I8)*V(1,I8)+V(2,I8)*V(2,I8)+V(3,I8)*V(3,I8))
        ENDDO
 C
-      IF(JALE+JEUL.GT.0)THEN
+      IF(JALE+JEUL>0)THEN
        DO I=LFT,LLT
         I1 = NC1(I)
         I2 = NC2(I)
@@ -482,7 +482,7 @@ C
        ENDIF
       ENDIF
 C
-      IF(JALE.GT.0 .AND. NWALE.EQ.4)THEN
+      IF(JALE>0 .AND. NWALE==4)THEN
         DO I=LFT,LLT
           I1 = NC1(I)
           I2 = NC2(I)

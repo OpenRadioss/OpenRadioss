@@ -94,7 +94,7 @@ C-------------------------
         DO J=1,2
           IF(USRTOS(J2(J),ITABM1) /= 0) FAC = FAC + 1
         ENDDO
-        IF(FAC.LT.2)GOTO 100
+        IF(FAC<2)GOTO 100
           XP1 = X(1,USR2SYS(J2(1),ITABM1,MESS,ID))
           YP1 = X(2,USR2SYS(J2(1),ITABM1,MESS,ID))
           ZP1 = X(3,USR2SYS(J2(1),ITABM1,MESS,ID))
@@ -106,7 +106,7 @@ C-------------------------
         FAC = 0
         IF((XP1 == ZERO.and.YP1 == ZERO.and.ZP1 == ZERO).and.
      .     (XP2 == ZERO.and.YP2 == ZERO.and.ZP2 == ZERO))FAC = FAC + 1
-         IF(FAC .EQ. 1)THEN
+         IF(FAC == 1)THEN
            CALL ANCMSG(MSGID=752,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO,
@@ -181,7 +181,7 @@ C-------------------------
         DO J=1,2
           IF(USRTOS(J2(J),ITABM1) /= 0) FAC = FAC + 1
         ENDDO
-        IF(FAC.LT.2)GOTO 300
+        IF(FAC<2)GOTO 300
           XP1 = X(1,USR2SYS(J2(1),ITABM1,MESS,ID))
           YP1 = X(2,USR2SYS(J2(1),ITABM1,MESS,ID))
           ZP1 = X(3,USR2SYS(J2(1),ITABM1,MESS,ID))
@@ -193,7 +193,7 @@ C-------------------------
         FAC = 0
         IF((XP1 == ZERO.and.YP1 == ZERO.and.ZP1 == ZERO).and.
      .     (XP2 == ZERO.and.YP2 == ZERO.and.ZP2 == ZERO))FAC = FAC + 1
-         IF(FAC .EQ. 1)THEN
+         IF(FAC == 1)THEN
            CALL ANCMSG(MSGID=752,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO,
@@ -267,7 +267,7 @@ C  spherical box selection
 C-------------------------
         FAC = 0
         IF(USRTOS(J2(1),ITABM1) /= 0) FAC = FAC + 1
-        IF(FAC.LT.1)GOTO 500
+        IF(FAC<1)GOTO 500
           XP1 = X(1,USR2SYS(J2(1),ITABM1,MESS,ID))
           YP1 = X(2,USR2SYS(J2(1),ITABM1,MESS,ID))
           ZP1 = X(3,USR2SYS(J2(1),ITABM1,MESS,ID))
@@ -276,7 +276,7 @@ C-------------------------
         FAC = 0
         IF(XP1 == ZERO.and.YP1 == ZERO.and.ZP1 == ZERO)
      .     FAC = FAC + 1
-         IF(FAC .EQ. 1)THEN
+         IF(FAC == 1)THEN
            CALL ANCMSG(MSGID=753,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO,

@@ -259,7 +259,7 @@ C-----------------------------------------------
                   OFF = MIN(GBUF%OFF(I),ONE)
                   MASS(I)=GBUF%RHO(I)*GBUF%VOL(I)*OFF
                 ENDIF
-                IF( NFILSOL .NE. 0 .AND. GBUF%G_FILL .NE. 0 ) 
+                IF( NFILSOL /= 0 .AND. GBUF%G_FILL /= 0 ) 
      .            MASS(I) = MASS(I) * GBUF%FILL(I)
               ENDDO
             ENDIF
@@ -411,7 +411,7 @@ C--------------------------------------------------
      .              	   HALF*(S1*S1 + S2*S2  + S3*S3) )
                     VONM= SQRT(VONM2)
                     VALUE(I) = VONM
-                    IF( NFILSOL .NE. 0 .AND. GBUF%G_FILL .NE. 0 ) 
+                    IF( NFILSOL /= 0 .AND. GBUF%G_FILL /= 0 ) 
      .                VALUE(I) = VALUE(I) * GBUF%FILL(I) 
                     IS_WRITTEN_VALUE(I) = 1
                   ENDDO 
@@ -429,7 +429,7 @@ C--------------------------------------------------
 C               VISCOSITE TURBULENTE
                 DO I=1,NEL 
                    N = I + NFT                                      
-                   IF((MLW == 6 .OR. MLW == 17).AND.JTURB.NE.0)THEN 
+                   IF((MLW == 6 .OR. MLW == 17).AND.JTURB/=0)THEN 
                      MT=IXS(1,N)                                    
                      VALUE(I) = PM(81,MT) * GBUF%RK(I)**2              
      .                                 / MAX(EM15,GBUF%RE(I))  
@@ -605,7 +605,7 @@ C--------------------------------------------------
                  DO I=1,NEL
                     VALUE(I) = GBUF%SIG(JJ(1) + I)
                     IS_WRITTEN_VALUE(I) = 1 
-                    IF( NFILSOL .NE. 0 .AND. GBUF%G_FILL .NE. 0 ) 
+                    IF( NFILSOL /= 0 .AND. GBUF%G_FILL /= 0 ) 
      .                    VALUE(I) = VALUE(I) * GBUF%FILL(I) 
                     IF(IVISC > 0) THEN
                       VALUE(I) = VALUE(I) + LBUF%VISC(JJ(1)+I)
@@ -617,7 +617,7 @@ C--------------------------------------------------
                  DO I=1,NEL
                     VALUE(I) = GBUF%SIG(JJ(2) + I)
                     IS_WRITTEN_VALUE(I) = 1 
-                    IF( NFILSOL .NE. 0 .AND. GBUF%G_FILL .NE. 0 ) 
+                    IF( NFILSOL /= 0 .AND. GBUF%G_FILL /= 0 ) 
      .                    VALUE(I) = VALUE(I) * GBUF%FILL(I) 
                     IF(IVISC > 0) THEN
                       VALUE(I) = VALUE(I) + LBUF%VISC(JJ(2)+I)
@@ -629,7 +629,7 @@ C--------------------------------------------------
                  DO I=1,NEL
                     VALUE(I) = GBUF%SIG(JJ(3) + I)
                     IS_WRITTEN_VALUE(I) = 1 
-                    IF( NFILSOL .NE. 0 .AND. GBUF%G_FILL .NE. 0 ) 
+                    IF( NFILSOL /= 0 .AND. GBUF%G_FILL /= 0 ) 
      .                    VALUE(I) = VALUE(I) * GBUF%FILL(I) 
                     IF(IVISC > 0) THEN
                       VALUE(I) = VALUE(I) + LBUF%VISC(JJ(3)+I)
@@ -641,7 +641,7 @@ C--------------------------------------------------
                  DO I=1,NEL
                     VALUE(I) = GBUF%SIG(JJ(4) + I)
                     IS_WRITTEN_VALUE(I) = 1 
-                    IF( NFILSOL .NE. 0 .AND. GBUF%G_FILL .NE. 0 ) 
+                    IF( NFILSOL /= 0 .AND. GBUF%G_FILL /= 0 ) 
      .                    VALUE(I) = VALUE(I) * GBUF%FILL(I) 
                     IF(IVISC > 0) THEN
                       VALUE(I) = VALUE(I) + LBUF%VISC(JJ(4)+I)
@@ -653,7 +653,7 @@ C--------------------------------------------------
                  DO I=1,NEL
                     VALUE(I) = GBUF%SIG(JJ(5) + I)
                     IS_WRITTEN_VALUE(I) = 1 
-                    IF( NFILSOL .NE. 0 .AND. GBUF%G_FILL .NE. 0 ) 
+                    IF( NFILSOL /= 0 .AND. GBUF%G_FILL /= 0 ) 
      .                    VALUE(I) = VALUE(I) * GBUF%FILL(I) 
                     IF(IVISC > 0) THEN
                       VALUE(I) = VALUE(I) + LBUF%VISC(JJ(5)+I)
@@ -665,14 +665,14 @@ C--------------------------------------------------
                  DO I=1,NEL
                     VALUE(I) = GBUF%SIG(JJ(6) + I)
                     IS_WRITTEN_VALUE(I) = 1 
-                    IF( NFILSOL .NE. 0 .AND. GBUF%G_FILL .NE. 0 ) 
+                    IF( NFILSOL /= 0 .AND. GBUF%G_FILL /= 0 ) 
      .                    VALUE(I) = VALUE(I) * GBUF%FILL(I) 
                     IF(IVISC > 0) THEN
                       VALUE(I) = VALUE(I) + LBUF%VISC(JJ(6)+I)
                     ENDIF 
                  ENDDO
 C--------------------------------------------------
-              ELSEIF((KEYWORD == 'USER' .AND. MLW.GE.28 .AND. MLW.NE.51) .OR. KEYWORD == 'MDS') THEN  
+              ELSEIF((KEYWORD == 'USER' .AND. MLW>=28 .AND. MLW/=51) .OR. KEYWORD == 'MDS') THEN  
 C--------------------------------------------------    
 c UVAR=IUVAR
                 IMAT = IXS(1,NFT+1)
@@ -910,9 +910,9 @@ C--------------------------------------------------
 C--------------------------------------------------
               ELSEIF(KEYWORD(1:9) == 'M151VFRAC') THEN
 C--------------------------------------------------
-                 IF (MLW == 151 .AND. MULTI_FVM%NBMAT .GT. 1) THEN 
+                 IF (MLW == 151 .AND. MULTI_FVM%NBMAT > 1) THEN 
                     READ(KEYWORD, '(A9,I10)') BUFF, IMAT
-                    IF (IMAT .GT. 0 .AND. IMAT .LE. NLAY) THEN
+                    IF (IMAT > 0 .AND. IMAT <= NLAY) THEN
                        DO I=1,NEL
                           VALUE(I) = MULTI_FVM%PHASE_ALPHA(IMAT, I + NFT)
                           IS_WRITTEN_VALUE(I) = 1           
@@ -922,9 +922,9 @@ C--------------------------------------------------
 C--------------------------------------------------
               ELSEIF(KEYWORD(1:8) == 'M151ENER') THEN
 C--------------------------------------------------
-                 IF (MLW == 151 .AND. MULTI_FVM%NBMAT .GT. 1) THEN 
+                 IF (MLW == 151 .AND. MULTI_FVM%NBMAT > 1) THEN 
                     READ(KEYWORD, '(A8,I10)') BUFF, IMAT
-                    IF (IMAT .GT. 0 .AND. IMAT .LE. NLAY) THEN
+                    IF (IMAT > 0 .AND. IMAT <= NLAY) THEN
                        DO I=1,NEL
                           IF (MULTI_FVM%PHASE_RHO(IMAT, I + NFT) > 0) THEN
                              VALUE(I) = MULTI_FVM%PHASE_EINT(IMAT, I + NFT) / 
@@ -939,9 +939,9 @@ C--------------------------------------------------
 C--------------------------------------------------
               ELSEIF(KEYWORD(1:8) == 'M151PRES') THEN
 C--------------------------------------------------
-                 IF (MLW == 151 .AND. MULTI_FVM%NBMAT .GT. 1) THEN 
+                 IF (MLW == 151 .AND. MULTI_FVM%NBMAT > 1) THEN 
                     READ(KEYWORD, '(A8,I10)') BUFF, IMAT
-                    IF (IMAT .GT. 0 .AND. IMAT .LE. NLAY) THEN
+                    IF (IMAT > 0 .AND. IMAT <= NLAY) THEN
                        DO I=1,NEL
                           VALUE(I) = MULTI_FVM%PHASE_PRES(IMAT, I + NFT)
                           IS_WRITTEN_VALUE(I) = 1           
@@ -951,9 +951,9 @@ C--------------------------------------------------
 C--------------------------------------------------
               ELSEIF(KEYWORD(1:8) == 'M151DENS') THEN
 C--------------------------------------------------
-                 IF (MLW == 151 .AND. MULTI_FVM%NBMAT .GT. 1) THEN 
+                 IF (MLW == 151 .AND. MULTI_FVM%NBMAT > 1) THEN 
                     READ(KEYWORD, '(A8,I10)') BUFF, IMAT
-                    IF (IMAT .GT. 0 .AND. IMAT .LE. NLAY) THEN
+                    IF (IMAT > 0 .AND. IMAT <= NLAY) THEN
                        DO I=1,NEL
                           VALUE(I) = MULTI_FVM%PHASE_RHO(IMAT, I + NFT)
                           IS_WRITTEN_VALUE(I) = 1           
@@ -1000,7 +1000,7 @@ C--------
                    	T13=T21*T32-T31*T22
                    	T23=T31*T12-T11*T32
                    	T33=T11*T22-T21*T12
-                   	IF (ABS(T31) - ONE  .LT. EM20)THEN
+                   	IF (ABS(T31) - ONE  < EM20)THEN
                    	  PSI  = ATAN2(T32/COS(THETA),T33/COS(THETA))
                    	ELSE
                    	  IF(T31 == -ONE)THEN
@@ -1055,7 +1055,7 @@ C--------
                    	T13=T21*T32-T31*T22
                    	T23=T31*T12-T11*T32
                    	T33=T11*T22-T21*T12
-                   	IF (ABS(T31) - ONE  .LT. EM20)THEN
+                   	IF (ABS(T31) - ONE  < EM20)THEN
                    	  THETA = -ASIN(T31)
                    	ELSE
                    	  IF(T31 == -ONE)THEN
@@ -1110,7 +1110,7 @@ C--------
                    	T13=T21*T32-T31*T22
                    	T23=T31*T12-T11*T32
                    	T33=T11*T22-T21*T12
-                   	IF (ABS(T31) - ONE  .LT. EM20)THEN
+                   	IF (ABS(T31) - ONE  < EM20)THEN
                    	  PHI  = ATAN2(T21/COS(THETA),T11/COS(THETA))
                    	ELSE
                    	  PHI = ZERO
@@ -1126,7 +1126,7 @@ C--------------------------------------------------
 C-------------------------------------------------- 
               !BURN FRACTION explosive EOS 
                 IF(GBUF%G_BFRAC > 0) THEN
-                  IF (MLW.EQ.151)THEN
+                  IF (MLW==151)THEN
                     DO I=1,NEL
                       VALUE(I)=-EP30
                     ENDDO
@@ -1421,7 +1421,7 @@ C--------------------------------------------------
                     ENDDO
                  ELSE
                     L = ELBUF_TAB(NG)%BUFLY(1)%L_SSP              
-                    IF(L .NE. 0)THEN
+                    IF(L /= 0)THEN
                        DO I=1,NEL
                           VALUE(I) = LBUF%SSP(I) 
                           IS_WRITTEN_VALUE(I) = 1	
@@ -1437,7 +1437,7 @@ C--------------------------------------------------
                        MT = IXS(1,NFT+1)
                        DO I=1,NEL
                 	 VALUE(I) = PM(1,MT)*GBUF%VOL(I)
-                	 IF(GBUF%RHO(I).GT.ZERO)VALUE(I) = VALUE(I)/GBUF%RHO(I)
+                	 IF(GBUF%RHO(I)>ZERO)VALUE(I) = VALUE(I)/GBUF%RHO(I)
                          IS_WRITTEN_VALUE(I) = 1	
                        ENDDO  
                   ELSE
@@ -1451,7 +1451,7 @@ C--------------------------------------------------
               ELSEIF(KEYWORD == 'SCHLIEREN') THEN  
 C-------------------------------------------------- 
                  IALEL=IPARG(7,NG)+IPARG(11,NG)
-                 IF(IALEL .NE. 0)THEN
+                 IF(IALEL /= 0)THEN
                    CALL SCHLIEREN(
      1                            EVAR    ,IXS    , X          , V      ,W,
      2                            IPARG   ,WA_L   ,ELBUF_TAB   ,ALE_CONNECT   ,GBUF%VOL,
@@ -1583,7 +1583,7 @@ C--------------------------------------------------
 C--------------------------------------------------          
                 MT          = IXS(1,NFT+1)                            
                 IALEFVM_FLG = IPM(251,MT)                             
-                IF(IALEFVM_FLG .GE. 2)THEN                            
+                IF(IALEFVM_FLG >= 2)THEN                            
                   IF (ISOLNOD == 8)THEN 								      
                     DO I=1,NEL									   
                       VALUE(I) = GBUF%MOM(JJ(1) + I)
@@ -1596,7 +1596,7 @@ C--------------------------------------------------
 C--------------------------------------------------          
                 MT          = IXS(1,NFT+1)                            
                 IALEFVM_FLG = IPM(251,MT)                             
-                IF(IALEFVM_FLG .GE. 2)THEN                            
+                IF(IALEFVM_FLG >= 2)THEN                            
                   IF (ISOLNOD == 8)THEN 								      
                     DO I=1,NEL									   
                       VALUE(I) = GBUF%MOM(JJ(2) + I)
@@ -1609,7 +1609,7 @@ C--------------------------------------------------
 C--------------------------------------------------          
                 MT          = IXS(1,NFT+1)                            
                 IALEFVM_FLG = IPM(251,MT)                             
-                IF(IALEFVM_FLG .GE. 2)THEN                            
+                IF(IALEFVM_FLG >= 2)THEN                            
                   IF (ISOLNOD == 8)THEN 								      
                     DO I=1,NEL									   
                       VALUE(I) = GBUF%MOM(JJ(3) + I)
@@ -1622,7 +1622,7 @@ C--------------------------------------------------
 C--------------------------------------------------          
                 MT          = IXS(1,NFT+1)                            
                 IALEFVM_FLG = IPM(251,MT)                             
-                IF(IALEFVM_FLG .GE. 2)THEN                            
+                IF(IALEFVM_FLG >= 2)THEN                            
                   IF (ISOLNOD == 8)THEN 
                     DO I=1,NEL   																					  
                       VALUE(I) = SQRT ( GBUF%MOM(JJ(1)+I)*GBUF%MOM(JJ(1)+I)+ 
@@ -1636,7 +1636,7 @@ C--------------------------------------------------
 C--------------------------------------------------          
                 MT          = IXS(1,NFT+1)                            
                 IALEFVM_FLG = IPM(251,MT)                             
-                IF(IALEFVM_FLG .GE. 2)THEN                            
+                IF(IALEFVM_FLG >= 2)THEN                            
                   IF (ISOLNOD == 8)THEN 
                     DO I=1,NEL   																						    
                       VALUE(I) = SQRT ( GBUF%MOM(JJ(1)+I)*GBUF%MOM(JJ(1)+I)+ 
@@ -1650,7 +1650,7 @@ C--------------------------------------------------
 C--------------------------------------------------          
                 MT          = IXS(1,NFT+1)                            
                 IALEFVM_FLG = IPM(251,MT)                             
-                IF(IALEFVM_FLG .GE. 2)THEN                            
+                IF(IALEFVM_FLG >= 2)THEN                            
                   IF (ISOLNOD == 8)THEN 
                     DO I=1,NEL   																						    
                       VALUE(I) = SQRT ( GBUF%MOM(JJ(1)+I)*GBUF%MOM(JJ(1)+I)+ 
@@ -1664,7 +1664,7 @@ C--------------------------------------------------
 C--------------------------------------------------          
                 MT          = IXS(1,NFT+1)
                 IALEFVM_FLG = IPM(251,MT)
-                IF(IALEFVM_FLG .GE. 2)THEN
+                IF(IALEFVM_FLG >= 2)THEN
                   IF (ISOLNOD == 8)THEN 
                     DO I=1,NEL   														    
                       VALUE(I) = SQRT ( GBUF%MOM(JJ(1)+I)*GBUF%MOM(JJ(1)+I)+ 
@@ -1679,7 +1679,7 @@ C--------------------------------------------------
 C--------------------------------------------------          
                 MT          = IXS(1,NFT+1)                            
                 IALEFVM_FLG = IPM(251,MT)                             
-                IF(IALEFVM_FLG .GE. 2)THEN                            
+                IF(IALEFVM_FLG >= 2)THEN                            
                   IF (ISOLNOD == 8)THEN 								      
                     DO I=1,NEL									   
                       VALUE(I) = GBUF%MOM(JJ(1) + I) / GBUF%RHO(I) 
@@ -1692,7 +1692,7 @@ C--------------------------------------------------
 C--------------------------------------------------          
                 MT          = IXS(1,NFT+1)                            
                 IALEFVM_FLG = IPM(251,MT)                             
-                IF(IALEFVM_FLG .GE. 2)THEN                            
+                IF(IALEFVM_FLG >= 2)THEN                            
                   IF (ISOLNOD == 8)THEN 								      
                     DO I=1,NEL									   
                       VALUE(I) = GBUF%MOM(JJ(2) + I) / GBUF%RHO(I) 
@@ -1705,7 +1705,7 @@ C--------------------------------------------------
 C--------------------------------------------------          
                 MT          = IXS(1,NFT+1)                            
                 IALEFVM_FLG = IPM(251,MT)                             
-                IF(IALEFVM_FLG .GE. 2)THEN                            
+                IF(IALEFVM_FLG >= 2)THEN                            
                   IF (ISOLNOD == 8)THEN 								      
                     DO I=1,NEL									   
                       VALUE(I) = GBUF%MOM(JJ(3) + I) / GBUF%RHO(I) 
@@ -1718,7 +1718,7 @@ C--------------------------------------------------
 C--------------------------------------------------          
                 MT          = IXS(1,NFT+1)                            
                 IALEFVM_FLG = IPM(251,MT)                             
-                IF(IALEFVM_FLG .GE. 2)THEN                            
+                IF(IALEFVM_FLG >= 2)THEN                            
                   IF (ISOLNOD == 8)THEN 
                     DO I=1,NEL   																					  
                       VALUE(I) = SQRT ( GBUF%MOM(JJ(1)+I)*GBUF%MOM(JJ(1)+I)+ 
@@ -1732,7 +1732,7 @@ C--------------------------------------------------
 C--------------------------------------------------          
                 MT          = IXS(1,NFT+1)                            
                 IALEFVM_FLG = IPM(251,MT)                             
-                IF(IALEFVM_FLG .GE. 2)THEN                            
+                IF(IALEFVM_FLG >= 2)THEN                            
                   IF (ISOLNOD == 8)THEN 
                     DO I=1,NEL   																						    
                       VALUE(I) = SQRT ( GBUF%MOM(JJ(1)+I)*GBUF%MOM(JJ(1)+I)+ 
@@ -1746,7 +1746,7 @@ C--------------------------------------------------
 C--------------------------------------------------          
                 MT          = IXS(1,NFT+1)                            
                 IALEFVM_FLG = IPM(251,MT)                             
-                IF(IALEFVM_FLG .GE. 2)THEN                            
+                IF(IALEFVM_FLG >= 2)THEN                            
                   IF (ISOLNOD == 8)THEN 
                     DO I=1,NEL   																						    
                       VALUE(I) = SQRT ( GBUF%MOM(JJ(1)+I)*GBUF%MOM(JJ(1)+I)+ 
@@ -1760,7 +1760,7 @@ C--------------------------------------------------
 C--------------------------------------------------          
                 MT          = IXS(1,NFT+1)                            
                 IALEFVM_FLG = IPM(251,MT)                             
-                IF(IALEFVM_FLG .GE. 2)THEN                            
+                IF(IALEFVM_FLG >= 2)THEN                            
                   IF (ISOLNOD == 8)THEN 
                     DO I=1,NEL   														    
                       VALUE(I) = SQRT ( GBUF%MOM(JJ(1)+I)*GBUF%MOM(JJ(1)+I)+ 
@@ -1783,7 +1783,7 @@ C--------------------------------------------------
               ELSEIF (KEYWORD == 'EINTM' .OR. KEYWORD == 'ENER')THEN
 C-------------------------------------------------- 
                !LAG: GBUF%VOL = V0,    GBUF%EINT=rho0.e
-               IF (MLW .EQ. 151) THEN
+               IF (MLW == 151) THEN
                   DO I = 1, NEL
                      VALUE(I) = MULTI_FVM%EINT(I + NFT) / MULTI_FVM%RHO(I)  !
                      IS_WRITTEN_VALUE(I) = 1
@@ -1804,7 +1804,7 @@ C--------------------------------------------------
 C-------------------------------------------------- 
               ELSEIF (KEYWORD == 'EINTV')THEN
 C-------------------------------------------------- 
-               IF (MLW .EQ. 151) THEN
+               IF (MLW == 151) THEN
                   DO I = 1, NEL
                      VALUE(I) = MULTI_FVM%EINT(I + NFT)
                      IS_WRITTEN_VALUE(I) = 1
@@ -1825,7 +1825,7 @@ C--------------------------------------------------
 C-------------------------------------------------- 
               ELSEIF (KEYWORD == 'EINT')THEN
 C-------------------------------------------------- 
-              IF (MLW .EQ. 151) THEN
+              IF (MLW == 151) THEN
                   DO I = 1, NEL
                      VALUE(I) = MULTI_FVM%EINT(I + NFT) * GBUF%VOL(I)
                      IS_WRITTEN_VALUE(I) = 1
@@ -1858,7 +1858,7 @@ C--------------------------------------------------
                ENDIF    
                !GBUF%EINT is rho.e           
                IF(KEYWORD == 'ENTH')THEN
-                 IF (MLW .EQ. 151) THEN
+                 IF (MLW == 151) THEN
                      DO I = 1, NEL
                         VALUE(I) = MULTI_FVM%EINT(I + NFT) / MULTI_FVM%RHO(I + NFT) + PRES(I)*GBUF%VOL(I) !
                         IS_WRITTEN_VALUE(I) = 1
@@ -1879,7 +1879,7 @@ C--------------------------------------------------
                      ENDDO
                   ENDIF                
                ELSEIF(KEYWORD == 'ENTHV')THEN
-                 IF (MLW .EQ. 151) THEN
+                 IF (MLW == 151) THEN
                      DO I = 1, NEL
                         VALUE(I) = MULTI_FVM%EINT(I + NFT) / MULTI_FVM%RHO(I + NFT)/GBUF%VOL(I) + PRES(I) !
                         IS_WRITTEN_VALUE(I) = 1
@@ -1900,7 +1900,7 @@ C--------------------------------------------------
                      ENDDO
                   ENDIF                                
                ELSEIF(KEYWORD == 'ENTHM')THEN
-                 IF (MLW .EQ. 151) THEN
+                 IF (MLW == 151) THEN
                      DO I = 1, NEL
                         MASS(I) = MULTI_FVM%RHO(I + NFT)*GBUF%VOL(I)
                         VALUE(I) = (MULTI_FVM%EINT(I + NFT) / MULTI_FVM%RHO(I + NFT) + PRES(I)*GBUF%VOL(I))/MASS(I) !
@@ -1951,9 +1951,9 @@ C--------------------------------------------------
                       VALUE(I) = VEL(0)/MULTI_FVM%SOUND_SPEED(I + NFT)
                       IS_WRITTEN_VALUE(I) = 1                             
                    ENDDO
-                ELSEIF(I_ALE_SOLVER.GT.1)THEN
+                ELSEIF(I_ALE_SOLVER>1)THEN
                      L = ELBUF_TAB(NG)%BUFLY(1)%L_SSP                        
-                     IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP .NE. 0)THEN              
+                     IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN              
                         LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)            
                         DO  I=1,NEL     
                            VEL(1) = GBUF%MOM(JJ(1) + I) / GBUF%RHO(I) 
@@ -1966,7 +1966,7 @@ C--------------------------------------------------
                      ENDIF      
                 ELSE  
                   L = ELBUF_TAB(NG)%BUFLY(1)%L_SSP              
-                  IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP .NE. 0)THEN   
+                  IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN   
                     LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)    
                     IF(IS_ALE /= 0)THEN  
                     !ale
@@ -2209,7 +2209,7 @@ C--------------------------------------------------
                 NFRAC=0
                 !VFRAC(1:NEL,1:21)=ZERO     
               ENDIF 
-              IF(NFRAC.GT.0)THEN
+              IF(NFRAC>0)THEN
                 DO I=1,NEL
                   VALUE(I)=ZERO
                   DO IMAT=1,NFRAC

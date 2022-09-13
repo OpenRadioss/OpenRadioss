@@ -98,7 +98,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      IF(INTEG8.EQ.0)THEN
+      IF(INTEG8==0)THEN
        DO  I=LFT,LLT
         II=I+NFT
         PX1(I)=VEUL(1,II)
@@ -153,8 +153,8 @@ C-----------------------------------------------
        DELTAX(I)=VEUL(13,II)
        DET(I)=VOL(I)
       ENDDO
-      IF(JHBE.NE.0)THEN
-       IF(INTEG8.EQ.0)THEN
+      IF(JHBE/=0)THEN
+       IF(INTEG8==0)THEN
         DO I=LFT,LLT
          PMX1(I)=PX1(I)
          PMY1(I)=PY1(I)
@@ -217,7 +217,7 @@ C-----------------------------------------------
         ENDDO
       ENDIF
 
-      IF(ICAA.NE.0 .OR. IALEFVM.NE.0 .OR. ISFINT.GE.2)THEN
+      IF(ICAA/=0 .OR. IALEFVM/=0 .OR. ISFINT>=2)THEN
         DO I=LFT,LLT
           II=I+NFT
           N1X(I)=VEUL(14,II)

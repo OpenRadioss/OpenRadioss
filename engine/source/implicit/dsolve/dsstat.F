@@ -71,7 +71,7 @@ C-----------------------
 C     FACTORISATION DE LA MATRICE DE RIGIDITE SUR DDLS INTERNES
 C-----------------------
       INFFAC=0
-      IF (NDI.GT.0) THEN
+      IF (NDI>0) THEN
 C Block size query
          LFACW=-1
          CALL DSYTRF('U', NDI, KLI, NDI, IPIV, RLFACW, LFACW, INFFAC)
@@ -80,12 +80,12 @@ C Block size query
 C Factorization
          CALL DSYTRF('U', NDI, KLI, NDI, IPIV, FACW, LFACW, INFFAC)
       ENDIF
-      IF (INFFAC.GT.0) RETURN
+      IF (INFFAC>0) RETURN
 C-----------------------
 C     RESOLUTIONS
 C-----------------------
       NRHS=NDF
-      IF (NDI.GT.0) 
+      IF (NDI>0) 
      .   CALL DSYTRS('U', NDI, NRHS, KLI, NDI, IPIV, F, NDI, INFRES)
       DO I=1,NDI
          DO J=1,NDF
@@ -93,14 +93,14 @@ C-----------------------
          ENDDO
       ENDDO
 C
-      IF (IPRI.GT.0) THEN
+      IF (IPRI>0) THEN
          WRITE(IOUT,*)
          WRITE(IOUT,'(A25,I8)') ' NUMBER OF STATIC MODES: ',NDF
          WRITE(IOUT,*)
       ENDIF
 C
-      IF (IOPT.EQ.2) THEN
-         IF (NDI.GT.0) DEALLOCATE(FACW)
+      IF (IOPT==2) THEN
+         IF (NDI>0) DEALLOCATE(FACW)
          RETURN
       ENDIF
 C
@@ -110,7 +110,7 @@ C
          ENDDO
       ENDDO
       NRHS=NSCM
-      IF (NDI.GT.0)
+      IF (NDI>0)
      .   CALL DSYTRS('U', NDI, NRHS, KLI, NDI, IPIV, F, NDI, INFRES)
       DO I=1,NDI
          DO J=1,NSCM
@@ -119,7 +119,7 @@ C
       ENDDO
 C
       DEALLOCATE(F)
-      IF (NDI.GT.0) DEALLOCATE(FACW)
+      IF (NDI>0) DEALLOCATE(FACW)
       RETURN
       END
           

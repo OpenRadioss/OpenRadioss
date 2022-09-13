@@ -57,7 +57,7 @@ C-----------------------------------------------
      .        CR(6,NME), SR(6), MT(DMT,DMT), ST(DMT), ALPHA, FAC,
      .        DT05, VITN(NME+NMOD), GLM(NME,NME), ECIN, DWDAMP
 C
-      IF (IBLO.EQ.1) THEN
+      IF (IBLO==1) THEN
          DO I=1,NME
             FXBACC(I)=ZERO
          ENDDO
@@ -85,7 +85,7 @@ C
          ENDDO
          ST(NME+I)=-SR(I)
       ENDDO
-      IF (ISH.GT.0) CALL SPLINK(MT, ST, DT1, FXBRPM, FXBVIT,
+      IF (ISH>0) CALL SPLINK(MT, ST, DT1, FXBRPM, FXBVIT,
      .                          DMT)
 C
       CALL FXBSYS(MT,ST,DMT)      
@@ -98,11 +98,11 @@ C
 C
       ALPHA=FXBRPM(13)
       FAC=ONE+HALF*DT2*ALPHA
-      IF (NMOD.GT.0) THEN
+      IF (NMOD>0) THEN
          DO I=1,NMOD
             FXBACC(NME+I)=SV(I)/FXBLM(I)/FAC
          ENDDO
-         IF (IBLO.EQ.0) THEN
+         IF (IBLO==0) THEN
             DO I=1,NME
                IAD=NMOD*(I-1)
                DO II=1,NMOD
@@ -122,7 +122,7 @@ C
          DO II=I,NME
             IAD=IAD+1
             GLM(I,II)=FXBGLM(IAD)
-            IF (I.NE.II) GLM(II,I)=GLM(I,II)
+            IF (I/=II) GLM(II,I)=GLM(I,II)
          ENDDO
       ENDDO
       ECIN=ZERO
@@ -203,7 +203,7 @@ C
          VT(1,I)=ZERO
          VT(2,I)=ZERO
          VT(3,I)=ZERO
-         IF (ISH.GT.0) THEN
+         IF (ISH>0) THEN
             VTR(1,I)=ZERO
             VTR(2,I)=ZERO
             VTR(3,I)=ZERO
@@ -218,7 +218,7 @@ C
          DO II=1,LMOD
             VMOD(II)=FXBMOD(IAD+II)
          ENDDO
-         IF (IFILE.EQ.1.AND.NSN.GT.NSNI) THEN
+         IF (IFILE==1.AND.NSN>NSNI) THEN
             IAD=NSNI*6
             DO II=1,NSN-NSNI
                IRCM=IRCM+1
@@ -237,13 +237,13 @@ C
             IAD=IAD+6
          ENDDO
       ENDDO
-      IF (ISH.GT.0) THEN
+      IF (ISH>0) THEN
          DO I=13,NME
             IAD=(I-1)*LMOD
             DO II=1,LMOD
                VMOD(II)=FXBMOD(IAD+II)
             ENDDO
-            IF (IFILE.EQ.1.AND.NSN.GT.NSNI) THEN
+            IF (IFILE==1.AND.NSN>NSNI) THEN
                IAD=NSNI*6
                DO II=1,NSN-NSNI
                   IRCM=IRCM+1
@@ -264,13 +264,13 @@ C
          ENDDO
       ENDIF   
 C     
-      IF (NMOD.GT.0) THEN
+      IF (NMOD>0) THEN
          DO I=1,NMOD
             IAD=(NME+I-1)*LMOD
             DO II=1,LMOD
                VMOD(II)=FXBMOD(IAD+II)
             ENDDO
-            IF (IFILE.EQ.1.AND.NSN.GT.NSNI) THEN
+            IF (IFILE==1.AND.NSN>NSNI) THEN
                IAD=NSNI*6
                DO II=1,NSN-NSNI
                   IRCM=IRCM+1
@@ -313,7 +313,7 @@ C
       DO I=1,NUMNOD
          IFAC(I)=1
       ENDDO
-      IF (NSPMD.GT.1) THEN
+      IF (NSPMD>1) THEN
          DO I=1,NSPMD
             DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                JJ=FR_ELEM(J)
@@ -356,12 +356,12 @@ C
          ECBIDT=ECBIDT+HALF*MS(N)*(VX*VX+VY*VY+VZ*VZ)/IFAC(N)
          ECBIDR=ECBIDR+HALF*IN(N)*(VRX*VRX+VRY*VRY+VRZ*VRZ)/IFAC(N)
       ENDDO
-      IF (PMAIN.NE.ISPMD) FXBRPM(12)=ZERO  
+      IF (PMAIN/=ISPMD) FXBRPM(12)=ZERO  
       FXBRPM(12)=FXBRPM(12)-ECBIDT-ECBIDR
 C-----------------------------------------------
 C   RESTITUTION SUR LE MAIN
 C-----------------------------------------------
-      IF (IDMAST.NE.0) THEN
+      IF (IDMAST/=0) THEN
          A(1,IDMAST)=FXBACC(10)
          A(2,IDMAST)=FXBACC(11)
          A(3,IDMAST)=FXBACC(12)

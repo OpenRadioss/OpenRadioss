@@ -61,7 +61,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: KNOD2SEG
       INTEGER, DIMENSION(:), ALLOCATABLE :: NOD2SEG
 C-----------------------------------------------
-      IF(NRT.EQ.0) RETURN
+      IF(NRT==0) RETURN
 C=======================================================================
       NEXT_NOD = 0
       IIX = 0
@@ -196,7 +196,7 @@ C=======================================================================
                YS = X(2,NN)
                ZS = X(3,NN)
                DIST = (X1-XS)**2+(Y1-YS)**2+(Z1-ZS)**2
-               IF( DIST .LT. MINDIST )  THEN
+               IF( DIST < MINDIST )  THEN
                  ILOC(NE)=JJ
                  MINDIST = DIST
                ENDIF
@@ -252,7 +252,7 @@ C=======================================================================
                YS = X(2,NN)
                ZS = X(3,NN)
                DIST = (X1-XS)**2+(Y1-YS)**2+(Z1-ZS)**2
-               IF( DIST .LT. MINDIST )  THEN
+               IF( DIST < MINDIST )  THEN
                  ILOC(NE)=JJ
                  MINDIST = DIST
                ENDIF
@@ -307,7 +307,7 @@ C----------------------------------------------------------------
         DO J=KNOD2SEG(K)+1,KNOD2SEG(K+1)
           SEG1 = NOD2SEG(J)
           DO L=1,4
-            IF (IRECT(L,SEG1) .NE. K)THEN
+            IF (IRECT(L,SEG1) /= K)THEN
               II=II+1
               LCSEG(II)=SEG1
               EXIT

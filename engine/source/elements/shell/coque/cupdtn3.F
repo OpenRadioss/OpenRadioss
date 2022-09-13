@@ -81,12 +81,12 @@ C cumul de l'energie des elements deletes AU moment du delete
             
       IOFF=0
       DO I=JFT,JLT
-        IF(OFF(I).EQ.ZERO.AND.OFFG(I).GT.ZERO)IOFF=1
+        IF(OFF(I)==ZERO.AND.OFFG(I)>ZERO)IOFF=1
       ENDDO
-      IF(IOFF.EQ.1)THEN
+      IF(IOFF==1)THEN
        MT = MAT(JFT)
        DO I=JFT,JLT
-        IF(OFF(I).EQ.ZERO.AND.OFFG(I).GT.ZERO)THEN
+        IF(OFF(I)==ZERO.AND.OFFG(I)>ZERO)THEN
            MX = IPARTC(I)
            PARTSAV(24,MX)=PARTSAV(24,MX) + EINT(I,1) + EINT(I,2)
            PARTSAV(25,MX)=PARTSAV(25,MX) + PM(1,MT)*AREA(I)*THK(I)
@@ -95,12 +95,12 @@ C cumul de l'energie des elements deletes AU moment du delete
       ENDIF
       OFF_L = ZERO
       DO I=JFT,JLT
-        IF(OFF(I).LT.ONE)OFFG(I) = OFF(I)
+        IF(OFF(I)<ONE)OFFG(I) = OFF(I)
         OFF_L = MIN(OFF_L,OFFG(I))
       ENDDO
-      IF(OFF_L.LT.ZERO)THEN
+      IF(OFF_L<ZERO)THEN
         DO I=JFT,JLT
-         IF(OFFG(I).LT.ZERO)THEN
+         IF(OFFG(I)<ZERO)THEN
            F11(I)=ZERO
            F21(I)=ZERO
            F31(I)=ZERO
@@ -138,7 +138,7 @@ C
       NVC3=(NVC-NVC1*8-NVC2*4)/2
       NVC4=(NVC-NVC1*8-NVC2*4-NVC3*2)
 C
-      IF(NVC1.EQ.0)THEN
+      IF(NVC1==0)THEN
        IF(JTHE == 0 ) THEN
 #include "vectorize.inc"
           DO I=JFT,JLT
@@ -225,7 +225,7 @@ C
        ENDIF
       ENDIF
 C
-      IF(NVC2.EQ.0)THEN
+      IF(NVC2==0)THEN
        IF(JTHE == 0 ) THEN
 #include "vectorize.inc"
          DO I=JFT,JLT
@@ -312,7 +312,7 @@ C
 C     
       ENDIF
 C
-      IF(NVC3.EQ.0)THEN
+      IF(NVC3==0)THEN
         IF(JTHE == 0) THEN
 #include "vectorize.inc"
          DO I=JFT,JLT
@@ -399,7 +399,7 @@ C
 C       
       ENDIF
 C
-      IF(NVC4.EQ.0)THEN
+      IF(NVC4==0)THEN
        IF(JTHE == 0) THEN
 #include "vectorize.inc"
            DO I=JFT,JLT
@@ -555,12 +555,12 @@ C-----------------------------------------------
 C cumul de l'energie des elements deletes AU moment du delete 
       IOFF=0
       DO I=JFT,JLT
-        IF(OFF(I).EQ.ZERO.AND.OFFG(I).GT.ZERO)IOFF=1
+        IF(OFF(I)==ZERO.AND.OFFG(I)>ZERO)IOFF=1
       ENDDO
-      IF(IOFF.EQ.1)THEN
+      IF(IOFF==1)THEN
        MT = MAT(JFT)
        DO I=JFT,JLT
-        IF(OFF(I).EQ.ZERO.AND.OFFG(I).GT.ZERO)THEN
+        IF(OFF(I)==ZERO.AND.OFFG(I)>ZERO)THEN
            MX = IPARTC(I)
            PARTSAV(24,MX)=PARTSAV(24,MX) + EINT(I,1) + EINT(I,2)
            PARTSAV(25,MX)=PARTSAV(25,MX) + PM(1,MT)*AREA(I)*THK(I)
@@ -569,12 +569,12 @@ C cumul de l'energie des elements deletes AU moment du delete
       ENDIF
       OFF_L = ZERO
       DO I=JFT,JLT
-        IF(OFF(I).LT.ONE)OFFG(I) = OFF(I)
+        IF(OFF(I)<ONE)OFFG(I) = OFF(I)
         OFF_L = MIN(OFF_L,OFFG(I))
       ENDDO
-      IF(OFF_L.LT.ZERO)THEN
+      IF(OFF_L<ZERO)THEN
         DO I=JFT,JLT
-         IF(OFFG(I).LT.ZERO)THEN
+         IF(OFFG(I)<ZERO)THEN
            F11(I)=ZERO
            F21(I)=ZERO
            F31(I)=ZERO
@@ -606,7 +606,7 @@ C cumul de l'energie des elements deletes AU moment du delete
         ENDDO
       ENDIF
 
-      IF (IVECTOR.EQ.1) THEN
+      IF (IVECTOR==1) THEN
 #include "vectorize.inc"
        DO I=JFT,JLT
           FSKYV(IADC(1,I),1)=-F11(I)

@@ -67,7 +67,7 @@ C
       DATA MSGOFF/186/
       DATA MSGOFF2/187/
 C
-      IF (ISPMD.NE.0) THEN
+      IF (ISPMD/=0) THEN
          ITAG=MSGOFF
          CALL MPI_ISEND(LSUM, LEN, REAL, IT_SPMD(1), ITAG,
      .                  MPI_COMM_WORLD, REQ(1), IERR)

@@ -630,7 +630,7 @@ C               inside M36ITER_IMP, IPOS1=0
      .                          NVARTMP ,
      .                          SIGBXX,SIGBYY,SIGBZZ,SIGBXY,SIGBYZ,SIGBZX)
 C
-          ENDIF ! -- IMPL_S.LE.0
+          ENDIF ! -- IMPL_S<=0
 c
         ENDIF ! -- IPLA --      
 C=======================================================================
@@ -1406,7 +1406,7 @@ c          ..gets stresses from shifted stresses and back stresses
              SIGNZX(I) = SIGNZX(I) + SIGBZX(I) 
           ENDDO
         ENDIF ! ..FISOKIN 
-      END IF !(IPLA.NE.1.OR.IMPL_S.LE.0 ) THEN
+      END IF !(IPLA/=1.OR.IMPL_S<=0 ) THEN
 
 c   ..adds pressure to the deviatoric stress
       DO I=1,NEL

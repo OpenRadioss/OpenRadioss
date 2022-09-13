@@ -66,11 +66,11 @@ C      SKEW
 C-----------------------------------------------
       ISK=NUMSKW-1
 Cel spmd
-c      IF (IMACH.EQ.3) THEN
+c      IF (IMACH==3) THEN
         II = 0
 Cel pb sur ISK : incremente par pour ts les elem !
         MSGTAG = 1000
-        IF (NSPMD > 1 .AND. ISPMD.NE.0) THEN
+        IF (NSPMD > 1 .AND. ISPMD/=0) THEN
 
           CALL RAD_SPMD_RECV(ISK,INTSIZE,ISPMD-1,
      .                       IT_SPMD,MSGTAG+ISPMD,INTSIZE)
@@ -93,10 +93,10 @@ C
 C-----------------------------------------------
 C      TRUSS
 C-----------------------------------------------
-        IF(ITY.EQ.4)THEN
+        IF(ITY==4)THEN
             DO I=LFT,LLT
               ISK=ISK+1
-c              IF (IMACH.NE.3) THEN
+c              IF (IMACH/=3) THEN
 c                CALL WRITE_I_C(ISK,1)
 c              ELSE
                 II = II + 1
@@ -106,10 +106,10 @@ c              ENDIF
 C-----------------------------------------------
 C       POUTRES
 C-----------------------------------------------
-        ELSEIF(ITY.EQ.5)THEN
+        ELSEIF(ITY==5)THEN
             DO I=LFT,LLT
               ISK=ISK+1
-c              IF (IMACH.NE.3) THEN
+c              IF (IMACH/=3) THEN
 c                CALL WRITE_I_C(ISK,1)
 c              ELSE
                 II = II + 1
@@ -119,31 +119,31 @@ c              ENDIF
 C-----------------------------------------------
 C       RESSORTS
 C-----------------------------------------------
-        ELSEIF(ITY.EQ.6)THEN
-          IF(MLW.EQ.1.OR.MLW.EQ.7)THEN
+        ELSEIF(ITY==6)THEN
+          IF(MLW==1.OR.MLW==7)THEN
             DO I=LFT,LLT
               ISK=ISK+1
-c              IF (IMACH.NE.3) THEN
+c              IF (IMACH/=3) THEN
 c                CALL WRITE_I_C(ISK,1)
 c              ELSE
                 II = II + 1
                 SRBUF(II) = ISK
 c              ENDIF
             ENDDO
-          ELSEIF(MLW.EQ.2)THEN
+          ELSEIF(MLW==2)THEN
             DO I=LFT,LLT
               N=I+NFT
               ISKK=NINT(GEO(2,IXR(1,N)))-1
-c              IF (IMACH.NE.3) THEN
+c              IF (IMACH/=3) THEN
 c                CALL WRITE_I_C(ISKK,1)
 c              ELSE
                 II = II + 1
                 SRBUF(II) = ISKK
 c              ENDIF
             ENDDO
-          ELSEIF(MLW.EQ.3)THEN
+          ELSEIF(MLW==3)THEN
             DO I=LFT,LLT
-c              IF (IMACH.NE.3) THEN
+c              IF (IMACH/=3) THEN
 c                ISK=ISK+1
 c                CALL WRITE_I_C(ISK,1)
 c                ISK=ISK+1
@@ -160,7 +160,7 @@ c              ENDIF
           ELSEIF((MLW >= 4 .AND. MLW <= 6 ) .OR. IGTYP == 23)THEN
             DO I=LFT,LLT
               ISK=ISK+1
-c              IF (IMACH.NE.3) THEN
+c              IF (IMACH/=3) THEN
 c                CALL WRITE_I_C(ISK,1)
 c              ELSE
                 II = II + 1
@@ -173,9 +173,9 @@ C
         ENDIF
       ENDDO
 C
-c      IF (IMACH.EQ.3) THEN
+c      IF (IMACH==3) THEN
       IF (NSPMD > 1) THEN
-        IF (ISPMD.NE.NSPMD-1) THEN
+        IF (ISPMD/=NSPMD-1) THEN
           CALL RAD_SPMD_SEND(ISK,INTSIZE,ISPMD+1,
      .                       IT_SPMD,MSGTAG+ISPMD+1,INTSIZE)
         ENDIF
@@ -184,7 +184,7 @@ C
       ELSE
         LEN = II
       END IF
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
         CALL WRITE_I_C(SRBUF,LEN)
       ENDIF
 c      ENDIF
@@ -230,8 +230,8 @@ C-----------------------------------------------
          NEL   =IPARG(2,NG)
          ITY   =IPARG(5,NG)
 
-         IF (ITY.EQ.4.OR.ITY.EQ.5.OR.ITY.EQ.6) THEN
-           IF (MLW.EQ.3) THEN
+         IF (ITY==4.OR.ITY==5.OR.ITY==6) THEN
+           IF (MLW==3) THEN
             CNT=CNT+2*NEL
            ELSE
             CNT = CNT+NEL

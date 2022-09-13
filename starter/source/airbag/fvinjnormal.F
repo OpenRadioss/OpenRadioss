@@ -64,7 +64,7 @@ C-----------------------------------------------------------------------
          I3=IBUF(I3)
          IEL=ELTG(I)
          IREVERSE=0
-         IF (IEL.LE.NUMELC) THEN
+         IF (IEL<=NUMELC) THEN
             N1  =IXC(2,IEL)
             N2  =IXC(3,IEL)
             N3  =IXC(4,IEL)
@@ -96,7 +96,7 @@ C-----------------------------------------------------------------------
                    IREVERSE=1
                ENDIF
             ENDIF
-          ELSEIF (IEL.GT.NUMELC) THEN
+          ELSEIF (IEL>NUMELC) THEN
                J=IEL-NUMELC
                N1  =IXTG(2,J)
                N2  =IXTG(3,J)

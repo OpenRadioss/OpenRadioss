@@ -83,9 +83,9 @@ C-----------------------------------------------
         MLN= PM(19,MID)
         PID= IXT(4,I)
         ISSN = 0
-        IF(GEO(5,PID).NE.ZERO) ISSN=1
+        IF(GEO(5,PID)/=ZERO) ISSN=1
 C   test elem delete
-        IF (WD(I+OFF).EQ.0.)
+        IF (WD(I+OFF)==0.)
      .    WD(I+OFF) = WTYPE(4)
       ENDDO
       RETURN

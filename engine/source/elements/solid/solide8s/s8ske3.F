@@ -249,7 +249,7 @@ C      CALL GET_GAMA(MTN,NEL,NBGAMA,JCVT,PM,IXS(1,NF1),IGTYP)
         HH(2,I)=GG*HALF
       ENDDO
       ICPG = ICP
-      IF (JHBE.NE.14.AND.JHBE.NE.17.AND.JHBE.NE.24) THEN
+      IF (JHBE/=14.AND.JHBE/=17.AND.JHBE/=24) THEN
        ICPG = 1
       ENDIF 
 c
@@ -314,7 +314,7 @@ C-------------
 C----------------------------
 C     CONVECTE --> GLOBAL.
 C----------------------------     
-      IF (NEIG.GT.0) CALL S8EOFF(
+      IF (NEIG>0) CALL S8EOFF(
      1   LFT, LLT, IXS(1,NF1), ETAG, OFFG)
      
       DO K=LFT,LLT

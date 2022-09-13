@@ -78,22 +78,22 @@ C-----------------------------------------------
           NEL   =IPARG(2,NG)
           NFT   =IPARG(3,NG)
           ITY   =IPARG(5,NG)
-          IF(ITY.EQ.2)THEN
+          IF(ITY==2)THEN
             DO I = 1, NEL
               N = I + NFT
               MATER(IPARTQ(N)) = 1
             ENDDO
-          ELSEIF(ITY.EQ.3)THEN
+          ELSEIF(ITY==3)THEN
             DO I = 1, NEL
               N = I + NFT
               MATER(IPARTC(N)) = 1
             ENDDO
-          ELSEIF(ITY.EQ.7)THEN
+          ELSEIF(ITY==7)THEN
             DO I = 1, NEL
               N = I + NFT
               MATER(IPARTTG(N)) = 1
             ENDDO
-          ELSEIF(ITY.EQ.50)THEN
+          ELSEIF(ITY==50)THEN
             DO I = 1, NEL
               N = I + NFT
               MATER(IPARTUR(N)) = 1
@@ -146,14 +146,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       COQUES
 C-----------------------------------------------
-               IF(ITY.EQ.3)THEN
+               IF(ITY==3)THEN
                  NPT   =IPARG(6,NG)
                  IHBE = IPARG(23,NG)
                  ISUBSTACK = IPARG(71,NG)
                  IPPID = 2
                  DO 130 I=LFT,LLT
                    N = I + NFT
-                   IF(IPARTC(N).NE.IPRT)GOTO 130
+                   IF(IPARTC(N)/=IPRT)GOTO 130
                     IPID = IXC(6,N)
                     DO IPT=1,NPT
                       JPID = STACK%IGEO(IPPID + IPT, ISUBSTACK)
@@ -176,7 +176,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       COQUES 3 NOEUDS
 C-----------------------------------------------
-               ELSEIF(ITY.EQ.7)THEN
+               ELSEIF(ITY==7)THEN
 C
                ENDIF
              ENDIF

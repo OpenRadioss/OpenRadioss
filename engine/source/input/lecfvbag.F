@@ -68,9 +68,9 @@ C-----------------------------------------------
 C
       DO I=1,NFVMESH
          READ(IIN,'(I10)') IFVI
-         IF (IFVI.EQ.1) THEN
+         IF (IFVI==1) THEN
             READ(IIN,'(2I10)') ID, NSTEP
-            IF (NSTEP.EQ.0) NSTEP=20
+            IF (NSTEP==0) NSTEP=20
             READ(IIN,'(3F20.0)') VX3, VY3, VZ3
             READ(IIN,'(3F20.0)') VX1, VY1, VZ1
             READ(IIN,'(3F20.0)') DX0, DY0, DZ0
@@ -84,9 +84,9 @@ C
             KIBALE=KIBHOL+LIBAGHOL
             KK1=1
             DO N=1,NVOLU
-               IF (MONVOL(K1).EQ.ID) THEN
+               IF (MONVOL(K1)==ID) THEN
                   ITYP=MONVOL(K1-1+2)
-                  IF (ITYP.NE.6) THEN
+                  IF (ITYP/=6) THEN
                      WRITE(IOUT,'(A33,I8,A38)') 
      . ' /FVMBAG/REMESH : MON. VOLUME ID ',ID,' IS NOT OF TYPE FVMBAG'//
      . ' - IT IS IGNORED'
@@ -94,7 +94,7 @@ C
                   ENDIF
 C
                   NORM=SQRT(VX3**2+VY3**2+VZ3**2)
-                  IF (NORM.EQ.ZERO) THEN
+                  IF (NORM==ZERO) THEN
                      VX3=VOLMON(KK1-1+35)
                      VY3=VOLMON(KK1-1+36)
                      VZ3=VOLMON(KK1-1+37)
@@ -104,7 +104,7 @@ C
                   VVY3=VY3/NORM
                   VVZ3=VZ3/NORM
                   NORM2=VX1**2+VY1**2+VZ1**2
-                  IF (NORM2.EQ.ZERO) THEN
+                  IF (NORM2==ZERO) THEN
                      VX1=VOLMON(KK1-1+38)
                      VY1=VOLMON(KK1-1+39)
                      VZ1=VOLMON(KK1-1+40)
@@ -112,19 +112,19 @@ C
                   X0=VOLMON(KK1-1+41)+DX0
                   Y0=VOLMON(KK1-1+42)+DY0
                   Z0=VOLMON(KK1-1+43)+DZ0
-                  IF (LX.EQ.ZERO) LX=VOLMON(KK1-1+44)
-                  IF (LY.EQ.ZERO) LY=VOLMON(KK1-1+45)
-                  IF (LZ.EQ.ZERO) LZ=VOLMON(KK1-1+53)
-                  IF (NBX.EQ.0) NBX=MONVOL(K1-1+54)
-                  IF (NBY.EQ.0) NBY=MONVOL(K1-1+55)
-                  IF (NBZ.EQ.0) NBZ=MONVOL(K1-1+65)
+                  IF (LX==ZERO) LX=VOLMON(KK1-1+44)
+                  IF (LY==ZERO) LY=VOLMON(KK1-1+45)
+                  IF (LZ==ZERO) LZ=VOLMON(KK1-1+53)
+                  IF (NBX==0) NBX=MONVOL(K1-1+54)
+                  IF (NBY==0) NBY=MONVOL(K1-1+55)
+                  IF (NBZ==0) NBZ=MONVOL(K1-1+65)
 C Verifications
                   SS=VX1*VVX3+VY1*VVY3+VZ1*VVZ3
                   VVX1=VX1-SS*VVX3
                   VVY1=VY1-SS*VVY3
                   VVZ1=VZ1-SS*VVZ3
                   NORM=SQRT(VVX1**2+VVY1**2+VVZ1**2)
-                  IF (NORM.EQ.ZERO) THEN
+                  IF (NORM==ZERO) THEN
                      WRITE(ISTDO,'(A)') 
      .                       ' ** ERROR IN FVMBAG MESHING DATA '
                      WRITE(IOUT,'(A)') 
@@ -147,7 +147,7 @@ C
                   NN=MONVOL(K1-1+32)
                   KI1=KIBALE+MONVOL(K1-1+31)
 C
-                  IF (IMACH.NE.3) THEN
+                  IF (IMACH/=3) THEN
                      DO J=1,NN
                         JJ=MONVOL(KI1-1+J)
                         XX=X(1,JJ)
@@ -166,7 +166,7 @@ C
                      ALLOCATE(XXX(3,NN))
                      CALL SPMD_FVB_GATH(IFV, X, XXX, RBID, RBID,
      .                                  1  )
-                     IF (ISPMD.EQ.FVSPMD(IFV)%PMAIN-1) THEN
+                     IF (ISPMD==FVSPMD(IFV)%PMAIN-1) THEN
                         DO J=1,NN
                            XX=XXX(1,J)
                            YY=XXX(2,J)
@@ -182,7 +182,7 @@ C
                      DEALLOCATE(XXX)
                   ENDIF
 C
-                  IF (LXMAX.GT.LX) THEN
+                  IF (LXMAX>LX) THEN
                      WRITE(IOUT,'(A14,I8,A9)') 
      .                        ' ** MONVOL ID ',ID,' (FVMBAG)'
                      WRITE(IOUT,'(A)') '    IN LOCAL FRAME DIRECTION 1'
@@ -192,7 +192,7 @@ C
                      LX=LXMAX*ONEP01
                      WRITE(IOUT,'(A20,G11.4)') '    IT IS RESET TO ',LX
                   ENDIF
-                  IF (LYMAX.GT.LY) THEN
+                  IF (LYMAX>LY) THEN
                      WRITE(IOUT,'(A14,I8,A9)') 
      .                        ' ** MONVOL ID ',ID,' (FVMBAG)'
                      WRITE(IOUT,'(A)') '    IN LOCAL FRAME DIRECTION 2'
@@ -203,7 +203,7 @@ C
                      WRITE(IOUT,'(A20,G11.4)') '    IT IS RESET TO ',LY
                   ENDIF
 C On autorise le decoupage horizontal d'une bande du maillage uniquement
-C                  IF (LZMAX.GT.LZ) THEN
+C                  IF (LZMAX>LZ) THEN
 C                     WRITE(IOUT,'(A14,I8,A9)') 
 C     .                        ' ** MONVOL ID ',ID,' (ALEBAG)'
 C                     WRITE(IOUT,'(A)') '    IN LOCAL FRAME DIRECTION 3'

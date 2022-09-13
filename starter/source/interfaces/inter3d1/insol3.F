@@ -74,8 +74,8 @@ C-----------------------------------------------
 C
       NEL=0
       IC=0
-      IF(NUMELS.EQ.0) RETURN
-       IF(IRECT(1,I).GT.NUMNOD) RETURN
+      IF(NUMELS==0) RETURN
+       IF(IRECT(1,I)>NUMNOD) RETURN
        NUSERM = -1
        DO 230 IAD=KNOD2ELS(IRECT(1,I))+1,KNOD2ELS(IRECT(1,I)+1)
         N = NOD2ELS(IAD)
@@ -83,7 +83,7 @@ C
           DO 210 JJ=1,4
             II=IRECT(JJ,I)
             DO K=1,8
-              IF(IXS(K+1,N).EQ.II) GOTO 210
+              IF(IXS(K+1,N)==II) GOTO 210
             ENDDO
             GOTO 230
   210     CONTINUE
@@ -91,10 +91,10 @@ C
           DO 220 JJ=1,4
             II=IRECT(JJ,I)
             DO K=1,8
-              IF(IXS(K+1,N).EQ.II) GOTO 220
+              IF(IXS(K+1,N)==II) GOTO 220
             ENDDO
             DO K=1,6
-              IF(IXS10(K,N-NUMELS8).EQ.II) GOTO 220
+              IF(IXS10(K,N-NUMELS8)==II) GOTO 220
             ENDDO
             GOTO 230
   220     CONTINUE
@@ -102,10 +102,10 @@ C
           DO 222 JJ=1,4
             II=IRECT(JJ,I)
             DO K=1,8
-              IF(IXS(K+1,N).EQ.II) GOTO 222
+              IF(IXS(K+1,N)==II) GOTO 222
             ENDDO
             DO K=1,12
-              IF(IXS20(K,N-NUMELS8-NUMELS10).EQ.II) GOTO 222
+              IF(IXS20(K,N-NUMELS8-NUMELS10)==II) GOTO 222
             ENDDO
             GOTO 230
   222     CONTINUE
@@ -113,10 +113,10 @@ C
           DO 224 JJ=1,4
             II=IRECT(JJ,I)
             DO K=1,8
-              IF(IXS(K+1,N).EQ.II) GOTO 224
+              IF(IXS(K+1,N)==II) GOTO 224
             ENDDO
             DO K=1,8
-              IF(IXS16(K,N-NUMELS8-NUMELS10-NUMELS20).EQ.II) GOTO 224
+              IF(IXS16(K,N-NUMELS8-NUMELS10-NUMELS20)==II) GOTO 224
             ENDDO
             GOTO 230
   224     CONTINUE
@@ -125,12 +125,12 @@ C
         END IF
         IC=IC+1
         NUSER = IXS(11,N)
-        IF (NUSER.GT.NUSERM) THEN
+        IF (NUSER>NUSERM) THEN
           NEL = N
           NUSERM = NUSER
         ENDIF
   230  CONTINUE
-       IF (NUSERM.EQ.-1) RETURN
+       IF (NUSERM==-1) RETURN
 C-----------------------------------------------
 C     VERIFICATION DE L'ORIENTATION DES SEGMENTS
 C-----------------------------------------------
@@ -160,19 +160,19 @@ C
        XC=XC*ONE_OVER_8
        YC=YC*ONE_OVER_8
        ZC=ZC*ONE_OVER_8
-       IF(IR.NE.0) RETURN
-       IF(IC.GE.2)RETURN
+       IF(IR/=0) RETURN
+       IF(IC>=2)RETURN
        DDS=N1*(XC-XS1)+N2*(YC-YS1)+N3*(ZC-ZS1)
-       IF(DDS.LT.ZERO) RETURN
-       IF(IY(3).EQ.IY(4)) THEN
+       IF(DDS<ZERO) RETURN
+       IF(IY(3)==IY(4)) THEN
         IRECT(1,I)=IY(2)
         IRECT(2,I)=IY(1)
        ELSE
         DO 120 KK=1,4
   120   IRECT(KK,I)=IY(4-KK+1)
        ENDIF
-       IF(NINT.GT.0) WRITE (IOUT,1300) I,NOINT
-       IF(NINT.LT.0) WRITE (IOUT,1400) I,NOINT
+       IF(NINT>0) WRITE (IOUT,1300) I,NOINT
+       IF(NINT<0) WRITE (IOUT,1400) I,NOINT
        RETURN
 C
  1300 FORMAT(' NODE NUMBERING OF SECONDARY  SEGMENT',I5,' OF INTERFACE',I10,
@@ -237,8 +237,8 @@ C-----------------------------------------------
 C
       NEL=0
       IC=0
-      IF(NUMELS.EQ.0) RETURN
-       IF(IRECT(1,I).GT.NUMNOD) RETURN
+      IF(NUMELS==0) RETURN
+       IF(IRECT(1,I)>NUMNOD) RETURN
        NUSERM = -1
        DO 230 IAD=KNOD2ELS(IRECT(1,I))+1,KNOD2ELS(IRECT(1,I)+1)
         N = NOD2ELS(IAD)
@@ -246,13 +246,13 @@ C
           DO 210 JJ=1,4
             II=IRECT(JJ,I)
             DO K=1,8
-              IF(IXS(K+1,N).EQ.II) GOTO 210
+              IF(IXS(K+1,N)==II) GOTO 210
             ENDDO
             GOTO 230
   210     CONTINUE
           IC=IC+1
           NUSER = IXS(11,N)
-          IF (NUSER.GT.NUSERM) THEN
+          IF (NUSER>NUSERM) THEN
             NEL = N
             NUSERM = NUSER
           ENDIF
@@ -260,16 +260,16 @@ C
           DO 220 JJ=1,4
             II=IRECT(JJ,I)
             DO K=1,8
-              IF(IXS(K+1,N).EQ.II) GOTO 220
+              IF(IXS(K+1,N)==II) GOTO 220
             ENDDO
             DO K=1,6
-              IF(IXS10(K,N-NUMELS8).EQ.II) GOTO 220
+              IF(IXS10(K,N-NUMELS8)==II) GOTO 220
             ENDDO
             GOTO 230
   220     CONTINUE
           IC=IC+1
           NUSER = IXS(11,N)
-          IF (NUSER.GT.NUSERM) THEN
+          IF (NUSER>NUSERM) THEN
             NEL = N
             NUSERM = NUSER
           ENDIF
@@ -277,16 +277,16 @@ C
           DO 222 JJ=1,4
             II=IRECT(JJ,I)
             DO K=1,8
-              IF(IXS(K+1,N).EQ.II) GOTO 222
+              IF(IXS(K+1,N)==II) GOTO 222
             ENDDO
             DO K=1,12
-              IF(IXS20(K,N-NUMELS8-NUMELS10).EQ.II) GOTO 222
+              IF(IXS20(K,N-NUMELS8-NUMELS10)==II) GOTO 222
             ENDDO
             GOTO 230
   222     CONTINUE
           IC=IC+1
           NUSER = IXS(11,N)
-          IF (NUSER.GT.NUSERM) THEN
+          IF (NUSER>NUSERM) THEN
             NEL = N
             NUSERM = NUSER
           ENDIF
@@ -294,16 +294,16 @@ C
           DO 224 JJ=1,4
             II=IRECT(JJ,I)
             DO K=1,8
-              IF(IXS(K+1,N).EQ.II) GOTO 224
+              IF(IXS(K+1,N)==II) GOTO 224
             ENDDO
             DO K=1,8
-              IF(IXS16(K,N-NUMELS8-NUMELS10-NUMELS20).EQ.II) GOTO 224
+              IF(IXS16(K,N-NUMELS8-NUMELS10-NUMELS20)==II) GOTO 224
             ENDDO
             GOTO 230
   224     CONTINUE
           IC=IC+1
           NUSER = IXS(11,N)
-          IF (NUSER.GT.NUSERM) THEN
+          IF (NUSER>NUSERM) THEN
             NEL = N
             NUSERM = NUSER
           ENDIF
@@ -311,7 +311,7 @@ C
           GOTO 230
         END IF
   230  CONTINUE
-       IF (NUSERM.EQ.-1) RETURN
+       IF (NUSERM==-1) RETURN
 C-----------------------------------------------
 C     VERIFICATION DE L'ORIENTATION DES SEGMENTS
 C-----------------------------------------------
@@ -341,19 +341,19 @@ C
        XC=XC*ONE_OVER_8
        YC=YC*ONE_OVER_8
        ZC=ZC*ONE_OVER_8
-       IF(IR.NE.0) RETURN
-       IF(IC.GE.2)RETURN
+       IF(IR/=0) RETURN
+       IF(IC>=2)RETURN
        DDS=N1*(XC-XS1)+N2*(YC-YS1)+N3*(ZC-ZS1)
-       IF(DDS.LT.ZERO) RETURN
-       IF(IY(3).EQ.IY(4)) THEN
+       IF(DDS<ZERO) RETURN
+       IF(IY(3)==IY(4)) THEN
         IRECT(1,I)=IY(2)
         IRECT(2,I)=IY(1)
        ELSE
         DO 120 KK=1,4
   120   IRECT(KK,I)=IY(4-KK+1)
        ENDIF
-       IF(NINT.GT.0) WRITE (IOUT,1300) I,NOINT
-       IF(NINT.LT.0) WRITE (IOUT,1400) I,NOINT
+       IF(NINT>0) WRITE (IOUT,1300) I,NOINT
+       IF(NINT<0) WRITE (IOUT,1400) I,NOINT
        RETURN
  1300 FORMAT(' NODE NUMBERING OF SECONDARY  SEGMENT',I5,' OF INTERFACE',I10,
      + ' REVERSED')
@@ -420,20 +420,20 @@ C
       IBID = 0
       NEL=0
       IC=0
-      IF(NUMELS.EQ.0) RETURN
-       IF(IRECT(1,I).GT.NUMNOD) RETURN
+      IF(NUMELS==0) RETURN
+       IF(IRECT(1,I)>NUMNOD) RETURN
        NUSERM = -1
        DO 230 IAD=IADD(IRECT(1,I)),IADD(IRECT(1,I)+1)-1
        DO K=1,8
           IP(K)=0
        ENDDO
         N = INVC(IAD)
-        IF(N.GT.NUMELC+NUMELTG.AND.N.LE.NUMELC+NUMELTG+NUMELS)THEN
+        IF(N>NUMELC+NUMELTG.AND.N<=NUMELC+NUMELTG+NUMELS)THEN
           N=N-NUMELC-NUMELTG
           DO 220 JJ=1,4
             II=IRECT(JJ,I)
             DO K=1,8
-              IF(IXS(K+1,N).EQ.II) THEN
+              IF(IXS(K+1,N)==II) THEN
                 IP(K)=1
                 GOTO 220
               ENDIF
@@ -443,14 +443,14 @@ C
           IC=IC+1
           NF=IFACE(IP,CON)
           NUSER = IXS(11,N)
-          IF (NUSER.GT.NUSERM) THEN
+          IF (NUSER>NUSERM) THEN
             NEL = N
             NUSERM = NUSER
           ENDIF
         ENDIF
   230  CONTINUE
-       IF (NUSERM.EQ.-1) RETURN
-       IF(NEL.GT.NUMELS8.AND.NEL.LE.NUMELS8+NUMELS10) THEN
+       IF (NUSERM==-1) RETURN
+       IF(NEL>NUMELS8.AND.NEL<=NUMELS8+NUMELS10) THEN
          DO K=1,NEL-NUMELS8
           MSEGTYP(K)=10
          ENDDO
@@ -459,17 +459,17 @@ C
      2     IRECT(1,I),NOINT,NEL-NUMELS8,ITAB,
      3     KNOD2ELS,NOD2ELS,NTY,IBID,MSEGTYP,
      4     ID,TITR)
-       END IF !(NEL.GT.NUMELS8.AND.NEL.LE.NUMELS8+NUMELS10) THEN
+       END IF !(NEL>NUMELS8.AND.NEL<=NUMELS8+NUMELS10) THEN
 C
 C 2 Elements connects  1 facette !
 C
-       IF(IC.GE.2)THEN
-         IF(NINT.GT.0) CALL ANCMSG(MSGID=1245,
+       IF(IC>=2)THEN
+         IF(NINT>0) CALL ANCMSG(MSGID=1245,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND,
      .                  I1=I,
      .                  PRMOD=MSG_CUMU)
-         IF(NINT.LT.0) CALL ANCMSG(MSGID=1246,
+         IF(NINT<0) CALL ANCMSG(MSGID=1246,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND,
      .                  I1=I,
@@ -507,16 +507,16 @@ C
        YC=YC*ONE_OVER_8
        ZC=ZC*ONE_OVER_8
        DDS=N1*(XC-XS1)+N2*(YC-YS1)+N3*(ZC-ZS1)
-       IF(DDS.LT.0) RETURN
-       IF(IY(3).EQ.IY(4)) THEN
+       IF(DDS<0) RETURN
+       IF(IY(3)==IY(4)) THEN
         IRECT(1,I)=IY(2)
         IRECT(2,I)=IY(1)
        ELSE
         DO 120 KK=1,4
   120   IRECT(KK,I)=IY(4-KK+1)
        ENDIF
-       IF(NINT.GT.0) WRITE (IOUT,1300) I,NOINT
-       IF(NINT.LT.0) WRITE (IOUT,1400) I,NOINT
+       IF(NINT>0) WRITE (IOUT,1300) I,NOINT
+       IF(NINT<0) WRITE (IOUT,1400) I,NOINT
 
        RETURN
 

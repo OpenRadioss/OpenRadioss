@@ -91,12 +91,12 @@ C       MX(I)=GEO(53,MGN(I))*MX(I)
 C       MY(I)=GEO(57,MGN(I))*MY(I)
 C       MZ(I)=GEO(61,MGN(I))*MZ(I)
        ILENG=NINT(GEO(93,MGN(I)))
-       IF(ILENG.NE.0) ILEN = 1
+       IF(ILENG/=0) ILEN = 1
       ENDDO
-      IF(ILEN.NE.0) THEN
+      IF(ILEN/=0) THEN
        DO I=JFT,JLT
         ILENG=NINT(GEO(93,MGN(I)))
-        IF(ILENG.NE.0)THEN
+        IF(ILENG/=0)THEN
          ALI = ONE/AL0(I)
          KX(I)=KX(I)*ALI
          KY(I)=KY(I)*ALI
@@ -107,7 +107,7 @@ C       MZ(I)=GEO(61,MGN(I))*MZ(I)
         ENDIF
        ENDDO
       ENDIF
-      IF (ISMDISP.GT.0.OR.ISPRN.EQ.1) THEN
+      IF (ISMDISP>0.OR.ISPRN==1) THEN
 C-----------KX------------
        DO I=JFT,JLT
         IECROU(I)=NINT(GEO(7,MGN(I)))

@@ -83,7 +83,7 @@ C
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(L_BUFEL_) ,POINTER :: LBUF
 C======================================================================|
-      IF(NPT.EQ.0)THEN
+      IF(NPT==0)THEN
         IMID=IX(1,1)
         IPID = IX(NIX-1,1)
         PID = IGEO(1,IPID)
@@ -139,7 +139,7 @@ C
       IPTHK = 300
       IPPOS = 400
       IPMAT = 100
-      IF(IGTYP.NE.11 .AND. IGTYP.NE.17 . AND. IGTYP.NE.51) THEN
+      IF(IGTYP/=11 .AND. IGTYP/=17 . AND. IGTYP/=51) THEN
         THKL = ONE / NPT
         POS0 =-HALF*(ONE + THKL)
         DO N=1,NPT                                                

@@ -99,13 +99,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      IF(IGAP.EQ.0)THEN
+      IF(IGAP==0)THEN
         DO I=1,JLT
           GAPV(I)=GAP
         ENDDO
       ELSE
         DO I=1,JLT
-          IF(CAND_N(I).LE.NSN) THEN
+          IF(CAND_N(I)<=NSN) THEN
             GAPV(I)=GAP_S(CAND_N(I))+GAP_M(CAND_E(I)) 
           ELSE
             GAPV(I)=GAPFI(NIN)%P(CAND_N(I)-NSN)+GAP_M(CAND_E(I))
@@ -113,7 +113,7 @@ C-----------------------------------------------
         ENDDO!next I
         IF(IGAP==3)THEN
           DO I=1,JLT
-            IF(CAND_N(I).LE.NSN) THEN
+            IF(CAND_N(I)<=NSN) THEN
               GAPV(I)=MIN(GAP_S_L(CAND_N(I))+GAP_M_L(CAND_E(I)),GAPV(I))
             ELSE
               GAPV(I)= MIN(GAP_LFI(NIN)%P(CAND_N(I)-NSN)+GAP_M_L(CAND_E(I)),GAPV(I))
@@ -126,12 +126,12 @@ C-----------------------------------------------
         ENDDO      
       ENDIF
 
-      IF(ITY.EQ.7) THEN
+      IF(ITY==7) THEN
         IF(INTTH == 0 )THEN
           DO I=1,JLT
            NI = CAND_N(I)
            L  = CAND_E(I)
-           IF(NI.LE.NSN)THEN
+           IF(NI<=NSN)THEN
              IG = NSV(NI)
              NSVG(I) = IG
              KINI(I) = KINET(IG)
@@ -184,7 +184,7 @@ C
           DO I=1,JLT
            NI = CAND_N(I)
            L  = CAND_E(I)
-           IF(NI.LE.NSN)THEN
+           IF(NI<=NSN)THEN
              IG = NSV(NI)
              NSVG(I) = IG
              KINI(I) = KINET(IG)
@@ -241,22 +241,22 @@ C
 C
           END DO
         ENDIF 
-        IF(IGSTI.LE.1)THEN
+        IF(IGSTI<=1)THEN
          DO I=1,JLT
           L  = CAND_E(I)
           NI = CAND_N(I)
-          IF(NI.LE.NSN)THEN
+          IF(NI<=NSN)THEN
             STIF(I)=STF(L)*ABS(STFN(NI))
           ELSE
             NN = NI - NSN
             STIF(I)=STF(L)*ABS(STIFI(NIN)%P(NN))
           END IF
          ENDDO
-        ELSEIF(IGSTI.EQ.2)THEN
+        ELSEIF(IGSTI==2)THEN
          DO I=1,JLT
           L  = CAND_E(I)
           NI = CAND_N(I)
-          IF(NI.LE.NSN)THEN
+          IF(NI<=NSN)THEN
             STIF(I)=ABS(STFN(NI))
           ELSE
             NN = NI - NSN
@@ -265,11 +265,11 @@ C
           STIF(I)=HALF*(STF(L)+STIF(I))
           STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
          ENDDO
-        ELSEIF(IGSTI.EQ.3)THEN
+        ELSEIF(IGSTI==3)THEN
          DO I=1,JLT
           L  = CAND_E(I)
           NI = CAND_N(I)
-          IF(NI.LE.NSN)THEN
+          IF(NI<=NSN)THEN
             STIF(I)=ABS(STFN(NI))
           ELSE
             NN = NI - NSN
@@ -278,11 +278,11 @@ C
           STIF(I)=MAX(STF(L),STIF(I))
           STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
          ENDDO
-        ELSEIF(IGSTI.EQ.4)THEN
+        ELSEIF(IGSTI==4)THEN
          DO I=1,JLT
           L  = CAND_E(I)
           NI = CAND_N(I)
-          IF(NI.LE.NSN)THEN
+          IF(NI<=NSN)THEN
             STIF(I)=ABS(STFN(NI))
           ELSE
             NN = NI - NSN
@@ -291,11 +291,11 @@ C
           STIF(I)=MIN(STF(L),STIF(I))
           STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
          ENDDO
-        ELSEIF(IGSTI.EQ.5)THEN
+        ELSEIF(IGSTI==5)THEN
          DO I=1,JLT
           L  = CAND_E(I)
           NI = CAND_N(I)
-          IF(NI.LE.NSN)THEN
+          IF(NI<=NSN)THEN
             STIF(I)=ABS(STFN(NI))
           ELSE
             NN = NI - NSN
@@ -309,7 +309,7 @@ C
           DO I=1,JLT
            NI = CAND_N(I)
            L  = CAND_E(I)
-           IF(NI.LE.NSN)THEN
+           IF(NI<=NSN)THEN
              IPARTFRICSI(I)= IPARTFRICS(NI)
            ELSE
              NN = NI - NSN
@@ -330,7 +330,7 @@ C type7 KINET en -
           DO I=1,JLT
            NI = CAND_N(I)
            L  = CAND_E(I)
-           IF(NI.LE.NSN)THEN
+           IF(NI<=NSN)THEN
              IG = NSV(NI)
              NSVG(I) = IG
 C             KINI(I) = KINET(IG)
@@ -385,7 +385,7 @@ C
           DO I=1,JLT
            NI = CAND_N(I)
            L  = CAND_E(I)
-           IF(NI.LE.NSN)THEN
+           IF(NI<=NSN)THEN
              IG = NSV(NI)
              NSVG(I) = IG
              XI(I) = X(1,IG)
@@ -446,7 +446,7 @@ C
 C
       IF(IDTMINS==2)THEN
        DO I=1,JLT
-        IF(NSVG(I).GT.0)THEN
+        IF(NSVG(I)>0)THEN
           NSMS(I)=NODNX_SMS(NSVG(I))
      .                       +NODNX_SMS(IX1(I))+NODNX_SMS(IX2(I))
      .                       +NODNX_SMS(IX3(I))+NODNX_SMS(IX4(I))
@@ -459,7 +459,7 @@ C
        ENDDO
        IF(IDTMINS_INT/=0)THEN
          DO I=1,JLT
-          IF(NSMS(I).EQ.0)NSMS(I)=-1
+          IF(NSMS(I)==0)NSMS(I)=-1
          ENDDO
        END IF
       ELSEIF(IDTMINS_INT/=0)THEN
@@ -468,7 +468,7 @@ C
         ENDDO
       ENDIF
 C
-      IF(IADM.NE.0)THEN
+      IF(IADM/=0)THEN
         DO I=1,JLT
          L  = CAND_E(I)
          RCURVI(I)=RCURV(L)

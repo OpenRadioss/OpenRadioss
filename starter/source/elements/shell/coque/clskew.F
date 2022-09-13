@@ -75,13 +75,13 @@ C---------E3------------
        E3Z(I) = E3Z(I) * CC 
       ENDDO 
 C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      IF (IREP.EQ.2) THEN
+      IF (IREP==2) THEN
        DO I=JFT,JLT
         E1X(I) = RX(I)
         E1Y(I) = RY(I)
         E1Z(I) = RZ(I)
        ENDDO 
-      ELSEIF (IREP.EQ.1) THEN
+      ELSEIF (IREP==1) THEN
        DO I=JFT,JLT
         C2 = SQRT(SX(I)*SX(I) + SY(I)*SY(I) + SZ(I)*SZ(I))
         E1X(I) = RX(I)*C2+(SY(I)*E3Z(I)-SZ(I)*E3Y(I))
@@ -100,7 +100,7 @@ C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
        DO I=JFT,JLT
         C1 = SQRT(E1X(I)*E1X(I) + E1Y(I)*E1Y(I) + E1Z(I)*E1Z(I))
-        IF (C1.NE.ZERO) C1 = ONE / C1
+        IF (C1/=ZERO) C1 = ONE / C1
         E1X(I) = E1X(I)*C1
         E1Y(I) = E1Y(I)*C1
         E1Z(I) = E1Z(I)*C1

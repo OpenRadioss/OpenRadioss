@@ -62,19 +62,19 @@ C-----------------------------------------------
       
       IF(.NOT.ALLOCATED(LIST_B_OLD))THEN   
         ALLOCATE(LIST_B_OLD(INT22,I22LEN),STAT=IERR1)
-        IF (IERR1.NE.0) GOTO 1000        
+        IF (IERR1/=0) GOTO 1000        
         LIST_B_OLD(:,:) = 0
       ENDIF   
       
       IF(.NOT.ALLOCATED(NBOLD))THEN   
         ALLOCATE(NBOLD(INT22)            ,STAT=IERR1)
-        IF (IERR1.NE.0) GOTO 1000       
+        IF (IERR1/=0) GOTO 1000       
         NBOLD(:) = 0
       ENDIF        
       
       IF(.NOT.ALLOCATED(BRICK_LIST))THEN
         ALLOCATE(BRICK_LIST(INT22,I22LEN),STAT=IERR1)
-        IF (IERR1.NE.0) GOTO 1000 
+        IF (IERR1/=0) GOTO 1000 
         
         BRICK_LIST(:,:)%ID                                = -1
         BRICK_LIST(:,:)%NG                                = -2
@@ -553,7 +553,7 @@ C-----------------------------------------------
                    CALL WRITE_DB ( BRICK_LIST(NIN,1:I22LEN)%bakMAT%ssp                          , I22LEN) 
         ISIZ = MAX (I22LAW37, I22LAW51)
         BID  = ZERO
-        IF(ISIZ.NE.0)THEN
+        IF(ISIZ/=0)THEN
           DO K=1,I22LEN
           DO I=1,ISIZ 
                    !CALL WRITE_DB ( BRICK_LIST(NIN,K)%bakMAT%UVAR(I)                      , I22LEN)
@@ -588,7 +588,7 @@ C-----------------------------------------------
 C----------------------------------------------- 
  1000 CONTINUE
 
-        IF (IERR1.NE.0) THEN
+        IF (IERR1/=0) THEN
           WRITE(IOUT,*)' ** ERROR IN MEMORY ALLOCATION (INTER22)'
           WRITE(ISTDO,*)' ** ERROR IN MEMORY ALLOCATION (INTER22)'
           CALL ARRET(2)

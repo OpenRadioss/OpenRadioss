@@ -74,8 +74,8 @@ C-----------------------------------------------
      .        ERR=9990) KEY2,NBC
       K=K+1
 C-----------------------------------------------
-      IF (KEY2.EQ.'ON'.OR.KEY2.EQ.'ON2'.OR.KEY2.EQ.'MPP') THEN
-        IF (NBC.NE.NBCCON) THEN
+      IF (KEY2=='ON'.OR.KEY2=='ON2'.OR.KEY2=='MPP') THEN
+        IF (NBC/=NBCCON) THEN
           CALL ANCMSG(MSGID=73,ANMODE=ANINFO,
      .                C1=KEY0(IKEY))
           CALL ARRET(0)

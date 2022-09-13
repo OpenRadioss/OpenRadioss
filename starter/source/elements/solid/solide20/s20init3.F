@@ -264,7 +264,7 @@ C
      .                LBUF%OFF, LBUF%SIG, LBUF%EINT, DTX        , NEL    ,
      .                GBUF%OFF, GBUF%SIG, GBUF%EINT, GBUF%RHO   , WI/EIGHT)
 C----------------------------------------
-         IF (MTN.GE.28)THEN
+         IF (MTN>=28)THEN
            NUVAR  = IPM(8,IXS(1,NF1))
            IDEF =1
           ELSE
@@ -321,7 +321,7 @@ C------------------------------------------
 C     assemblage des Volumes nodaux et Modules nodaux
 C     (pour rigidites d'interface)
 C------------------------------------------
-      IF(I7STIFS.NE.0)THEN
+      IF(I7STIFS/=0)THEN
         NCC=20
         CALL SBULK3(GBUF%VOL ,NC     ,NCC      ,MAT        ,PM         ,
      2              VOLNOD   ,BVOLNOD,VNS(1,NF1),BNS(1,NF1),VNSX(1,NF1),
@@ -329,9 +329,9 @@ C------------------------------------------
       ENDIF
 C------------------------------------------
       DO I=LFT,LLT
-        IF(IXS(10,I+NFT).NE.0) THEN
-          IF(     IGTYP.NE.0 .AND.IGTYP.NE.6
-     .       .AND.IGTYP.NE.14.AND.IGTYP.NE.15)THEN
+        IF(IXS(10,I+NFT)/=0) THEN
+          IF(     IGTYP/=0 .AND.IGTYP/=6
+     .       .AND.IGTYP/=14.AND.IGTYP/=15)THEN
              IPID1=IXS(NIXS-1,I+NFT)
              CALL FRETITL2(TITR1,IGEO(NPROPGI-LTITR+1,IPID1),LTITR)
              CALL ANCMSG(MSGID=226,

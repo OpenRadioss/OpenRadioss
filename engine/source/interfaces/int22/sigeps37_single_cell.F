@@ -151,7 +151,7 @@ C-----------------------------------------------
              MAS2 = MAS - MAS1                                                            
              RHO2 = UVAR( 2)                                                              
              RHO1 = UVAR( 3)                                                              
-             IF (MAS1 / MAS .LT. EM10) THEN                                               
+             IF (MAS1 / MAS < EM10) THEN                                               
                 !! Phase 2 seule presente                                                 
                 UVAR( 1) = ZERO                                                           
                 UVAR( 4) = ZERO                                                           
@@ -159,7 +159,7 @@ C-----------------------------------------------
                 RHO2 = MAS / VOL                                                          
                 UVAR( 2) = RHO2                                                           
                 P = P0 * (RHO2/RHO20)**GAM                                                
-             ELSEIF (MAS2 / MAS .LT. EM10) THEN                                           
+             ELSEIF (MAS2 / MAS < EM10) THEN                                           
                 !! Phase 1 seule presente                                                 
                 RHO1 = MAS / VOL                                                          
                 UVAR( 1) = RHO1                                                           
@@ -170,7 +170,7 @@ C-----------------------------------------------
              ELSE                                                                         
                 ERROR = EP30                                                              
                 ITER  = 1                                                                 
-                DO WHILE(ITER .LT. NITER .AND. ERROR .GT. TOL)                            
+                DO WHILE(ITER < NITER .AND. ERROR > TOL)                            
                    P1 = R1 * RHO1 - C1 + P0                                               
                    P2 = P0 * (RHO2/RHO20)**GAM                                            
                    F1 = MAS1 / RHO1 + MAS2 / RHO2 - VOL                                   
@@ -189,10 +189,10 @@ C-----------------------------------------------
                    ERROR = ABS(DRHO1 / RHO1) + ABS(DRHO2 / RHO2)                          
                    ITER = ITER + 1                                                        
                 ENDDO                                                                     
-                IF (ABS(P1 - P2) .GT. 1.D-5) THEN                                         
+                IF (ABS(P1 - P2) > 1.D-5) THEN                                         
                    !PRINT*, "P1", P1, "P2", P2                                            
                 ENDIF                                                                     
-                IF (ERROR .GT. TOL) THEN                                                  
+                IF (ERROR > TOL) THEN                                                  
                    PRINT*, "*** WARNING LAW37, convergence tol. ", ERROR, TOL        
                 ENDIF                                                                     
                 P = R1 * RHO1 - C1 + P0                                                   
@@ -204,14 +204,14 @@ C-----------------------------------------------
              UVAR(2)  = RHO2                                                              
              UVAR(3)  = RHO1                                                              
              UVAR(4)  = UVAR(1)/RHO1                                                      
-             IF(UVAR(4).LT.EM20)UVAR(4)=ZERO                                              
+             IF(UVAR(4)<EM20)UVAR(4)=ZERO                                              
              UVAR(5)  = ONE-UVAR(4)                                                        
-             IF (SSP1 .GT. ZERO) THEN                                                     
+             IF (SSP1 > ZERO) THEN                                                     
                 SSP1 = UVAR(4) / SSP1                                                     
              ELSE                                                                         
                 SSP1 = ZERO                                                               
              ENDIF                                                                        
-             IF (SSP2 .GT. ZERO) THEN                                                     
+             IF (SSP2 > ZERO) THEN                                                     
                 SSP2 = UVAR(5) / SSP2                                                     
              ELSE                                                                         
                 SSP2 = ZERO                                                               

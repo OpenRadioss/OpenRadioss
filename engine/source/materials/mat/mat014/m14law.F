@@ -105,7 +105,7 @@ C     REAL
      .   D23_1,D33_1,G12_1,G23_1,G31_1,
      .   ALPHA_1,WPLAREF,DWPLA
 C=======================================================================
-      IF (NCYCLE.EQ.0 .AND. IRUN.EQ.1) THEN
+      IF (NCYCLE==0 .AND. IRUN==1) THEN
         DO I=LFT,LLT
           KD1(I) = 0
           KD2(I) = 0
@@ -165,26 +165,26 @@ C---------------------------------
         EPDR(I) =EPDR_1
         ICC(I)  =ICC_1
         EPSP = MAX(ABS(E1(I)),ABS(E2(I)),ABS(E3(I)),ABS(E4(I)),ABS(E5(I)))
-        IF (EPSP.GT.EPDR(I) .AND. CC(I).NE.ZERO) THEN
+        IF (EPSP>EPDR(I) .AND. CC(I)/=ZERO) THEN
           EPSP=ONE + CC(I) * LOG(EPDR(I)/EPSP)
         ELSE
          EPSP=ONE
         ENDIF
-        IF (ICC(I).EQ.1) THEN
+        IF (ICC(I)==1) THEN
           SIGMX   =PM(28,MX)*EPSP
-        ELSEIF (ICC(I).EQ.2) THEN
+        ELSEIF (ICC(I)==2) THEN
           SIGMX   =PM(28,MX)
-        ELSEIF (ICC(I).EQ.3) THEN
+        ELSEIF (ICC(I)==3) THEN
           SIGMX   =PM(28,MX)*EPSP
 C        WPLAMX(I) = WPLAMX(I)*EPSP
-        ELSEIF (ICC(I).EQ.4) THEN
+        ELSEIF (ICC(I)==4) THEN
           SIGMX   =PM(28,MX)
 C        WPLAMX(I) = WPLAMX(I)*EPSP
         ENDIF
         CB(I)   =CB(I)*EPSP
         CA      =CA*EPSP
         SIGMY(I)= MIN(SIGMX,CA+CB(I)*PLA(I)**CN(I))
-        IF (SIGMY(I).EQ.SIGMX .AND. OFF(I).EQ.ONE) THEN
+        IF (SIGMY(I)==SIGMX .AND. OFF(I)==ONE) THEN
           OFF(I)=ZEP99
           KD4(I)=2
           IDEL7NOK = 1
@@ -198,7 +198,7 @@ C        WPLAMX(I) = WPLAMX(I)*EPSP
         DELTA(I)=PM(78,MX)
         ENDDO
 C
-        IF (NINDX.NE.0) THEN
+        IF (NINDX/=0) THEN
           DO J=1,NINDX
             I=INDEX(J)
 #include "lockon.inc"
@@ -303,7 +303,7 @@ C
 C------------------
 C     FIBERS STRESS
 C------------------
-      IF (FIB.GT.0) THEN
+      IF (FIB>0) THEN
         MX = MAT(LFT)
         DO I=LFT,LLT
           EFIB(I) = PM(36,MX)
@@ -320,8 +320,8 @@ C-------------------------
 C     GENERAL FAILURE TEST
 C-------------------------
       DO I=LFT,LLT
-        IF (OFF(I).LT.EM01) OFF(I)=ZERO
-        IF (OFF(I).LT.ONE)   OFF(I)=OFF(I)*FOUR_OVER_5
+        IF (OFF(I)<EM01) OFF(I)=ZERO
+        IF (OFF(I)<ONE)   OFF(I)=OFF(I)*FOUR_OVER_5
       ENDDO
 C-------------------
 C     TENSION DAMAGE
@@ -331,9 +331,9 @@ C------------------------
 C     DIRECTION 1 (FIBER)
 C------------------------
         WVEC(I)=(ONE-DAM(I,1))*SIGT1(I)
-        IF (T1(I).GT.WVEC(I)) THEN
+        IF (T1(I)>WVEC(I)) THEN
 C
-          IF (EPC(I,1).EQ.ZERO) THEN
+          IF (EPC(I,1)==ZERO) THEN
             EPC(I,1) = MAX(EPE(I,1),ZERO)
           ELSE
             EPC(I,1) = MAX(EPC(I,1)+E1(I),ZERO)
@@ -342,28 +342,28 @@ C
           T1(I)=WVEC(I)
           T2(I)=T2(I)-D12(I)*E1(I)*DAM(I,1)
           T3(I)=T3(I)-D13(I)*E1(I)*DAM(I,1)
-          IF (KD1(I).EQ.0) THEN
+          IF (KD1(I)==0) THEN
             KD1(I)=1
 C*          WRITE(6,6001) NCYCLE,I+NFT,'1/1',
 C*     1                  T1(I),T2(I),T3(I),T4(I),T5(I),T6(I)
           ENDIF
           DAM(I,1)= MIN((DAM(I,1)+DELTA(I)),ONE)
-          IF (DAM(I,1).GE.1. .AND. KD1(I).NE.2) THEN
+          IF (DAM(I,1)>=1. .AND. KD1(I)/=2) THEN
             KD1(I)=2
 C*          WRITE(6,6001) NCYCLE,I+NFT,'1/2',
 C*     1                  T1(I),T2(I),T3(I),T4(I),T5(I),T6(I)
           ENDIF
         ENDIF
 C
-        IF( E1(I).LT.ZERO .AND. DAM(I,1).GT.ZERO)
+        IF( E1(I)<ZERO .AND. DAM(I,1)>ZERO)
      .    EPC(I,1)= MAX(EPC(I,1)+E1(I),ZERO)
 C----------------
 C     DIRECTION 2
 C----------------
         WVEC(I)=(ONE-DAM(I,2))*SIGT2(I)
-        IF (T2(I).GT.WVEC(I)) THEN
+        IF (T2(I)>WVEC(I)) THEN
 C
-          IF (EPC(I,2).EQ.ZERO) THEN
+          IF (EPC(I,2)==ZERO) THEN
             EPC(I,2)= MAX(EPE(I,2),ZERO)
           ELSE
             EPC(I,2)= MAX(EPC(I,2)+E2(I),ZERO)
@@ -372,28 +372,28 @@ C
           T1(I)=T1(I)-D12(I)*E2(I)*DAM(I,2)
           T2(I)=WVEC(I)
           T3(I)=T3(I)-D23(I)*E2(I)*DAM(I,2)
-          IF (KD2(I).EQ.0) THEN
+          IF (KD2(I)==0) THEN
             KD2(I)=1
 C*          WRITE(6,6001) NCYCLE,I+NFT,'2/1',
 C*     1                  T1(I),T2(I),T3(I),T4(I),T5(I),T6(I)
           ENDIF
           DAM(I,2)= MIN((DAM(I,2)+DELTA(I)),ONE)
-          IF (DAM(I,2).GE.ONE.AND. KD2(I).NE.2) THEN
+          IF (DAM(I,2)>=ONE.AND. KD2(I)/=2) THEN
             KD2(I)=2
 C*          WRITE(6,6001) NCYCLE,I+NFT,'2/2',
 C*     1                  T1(I),T2(I),T3(I),T4(I),T5(I),T6(I)
           ENDIF
         ENDIF
 C
-        IF (E2(I).LT.ZERO .AND. DAM(I,2).GT.ZERO)
+        IF (E2(I)<ZERO .AND. DAM(I,2)>ZERO)
      .    EPC(I,2)= MAX(EPC(I,2)+E2(I),ZERO)
 C----------------
 C     DIRECTION 3
 C----------------
         WVEC(I)=(ONE-DAM(I,3))*SIGT3(I)
-        IF (T3(I).GT.WVEC(I)) THEN
+        IF (T3(I)>WVEC(I)) THEN
 C
-          IF (EPC(I,3).EQ.ZERO) THEN
+          IF (EPC(I,3)==ZERO) THEN
             EPC(I,3)= MAX(EPE(I,3),ZERO)
           ELSE
             EPC(I,3)= MAX(EPC(I,3)+E3(I),ZERO)
@@ -402,20 +402,20 @@ C
           T1(I)=T1(I)-D13(I)*E3(I)*DAM(I,3)
           T2(I)=T2(I)-D23(I)*E3(I)*DAM(I,3)
           T3(I)=WVEC(I)
-          IF (KD3(I).EQ.0) THEN
+          IF (KD3(I)==0) THEN
             KD3(I)=1
 C*          WRITE(6,6001) NCYCLE,I+NFT,'3/1',
 C*     1                  T1(I),T2(I),T3(I),T4(I),T5(I),T6(I)
           ENDIF
           DAM(I,3)= MIN((DAM(I,3)+DELTA(I)),ONE)
-          IF (DAM(I,3).GE.1. .AND. KD3(I).NE.2) THEN
+          IF (DAM(I,3)>=1. .AND. KD3(I)/=2) THEN
             KD3(I)=2
 C*          WRITE(6,6001) NCYCLE,I+NFT,'3/2',
 C*     1                  T1(I),T2(I),T3(I),T4(I),T5(I),T6(I)
           ENDIF
         ENDIF
 C
-        IF (E3(I).LT.ZERO .AND. DAM(I,3).GT.ZERO)
+        IF (E3(I)<ZERO .AND. DAM(I,3)>ZERO)
      .    EPC(I,3)= MAX(EPC(I,3)+E3(I),ZERO)
 C
       ENDDO
@@ -423,17 +423,17 @@ C-----------------------------------
 C     CRACK OPEN --> NO COMPRESSION
 C-----------------------------------
       DO I=LFT,LLT
-        IF (T1(I).LT.ZERO.AND.EPC(I,1).GT.ZERO) THEN
+        IF (T1(I)<ZERO.AND.EPC(I,1)>ZERO) THEN
           T1(I)=ZERO
           T2(I)=T2(I)-D12(I)*E1(I)*DAM(I,1)
           T3(I)=T3(I)-D13(I)*E1(I)*DAM(I,1)
         ENDIF
-        IF (T2(I).LT.ZERO.AND.EPC(I,2).GT.ZERO) THEN
+        IF (T2(I)<ZERO.AND.EPC(I,2)>ZERO) THEN
           T1(I)=T1(I)-D12(I)*E2(I)*DAM(I,2)
           T2(I)=ZERO
           T3(I)=T3(I)-D23(I)*E2(I)*DAM(I,2)
         ENDIF
-        IF (T3(I).LT.ZERO.AND.EPC(I,3).GT.ZERO) THEN
+        IF (T3(I)<ZERO.AND.EPC(I,3)>ZERO) THEN
           T3(I)=ZERO
           T1(I)=T1(I)-D13(I)*E3(I)*DAM(I,3)
           T2(I)=T2(I)-D23(I)*E3(I)*DAM(I,3)
@@ -453,9 +453,9 @@ C---------------------
 C
       DO I=LFT,LLT
         COEF(I)=ZERO
-        IF (WVEC(I).GT.SIGMY(I).AND.OFF(I).EQ.ONE) THEN
+        IF (WVEC(I)>SIGMY(I).AND.OFF(I)==ONE) THEN
           COEF(I)=ONE
-          IF (KD4(I).EQ.0) THEN
+          IF (KD4(I)==0) THEN
             KD4(I)=1
 C*          WRITE(6,6001) NCYCLE,I+NFT,'4/1',
 C*     1                  T1(I),T2(I),T3(I),T4(I),T5(I),T6(I)
@@ -503,11 +503,11 @@ C
 C
       DO I=LFT,LLT
         PLAS(I)=ONE
-        IF (PLA(I).GT.ZERO) PLAS(I)=PLA(I)**CNN(I)
+        IF (PLA(I)>ZERO) PLAS(I)=PLA(I)**CNN(I)
       ENDDO
 C
       DO 208 I=LFT,LLT
-        IF (LAMDA(I).EQ.ZERO) GO TO 208
+        IF (LAMDA(I)==ZERO) GO TO 208
         LAMDA(I)=LAMDA(I)*COEF(I)/
      .        (DP1(I)*(D11(I)*DP1(I)+D12(I)*DP2(I)+D13(I)*DP3(I))+
      .         DP2(I)*(D12(I)*DP1(I)+D22(I)*DP2(I)+D23(I)*DP3(I))+

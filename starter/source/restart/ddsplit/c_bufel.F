@@ -54,8 +54,8 @@ C
       LBUFEL_L = 0
       DO NG=1,NGROUP
         P   = IPARG(32,NG)
-        IF(P.EQ.PROC) THEN
-          IF(NG.LT.NGROUP) THEN
+        IF(P==PROC) THEN
+          IF(NG<NGROUP) THEN
             LBUFEL_L = LBUFEL_L + IPARG(4,NG+1) - IPARG(4,NG)
           ELSE
              LBUFEL_L = LBUFEL_L + LBUFEL + 1 - IPARG(4,NG)

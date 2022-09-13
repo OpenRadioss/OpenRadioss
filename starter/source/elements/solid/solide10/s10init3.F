@@ -260,7 +260,7 @@ C---------------------------------------------------------
 C  INITIALATION DES CONTRAINTES
 C---------------------------------------------------------
 
-         IF(MTN.GE.28)THEN
+         IF(MTN>=28)THEN
            NUVAR = IPM(8,IXS(1,NFT+1))
            IDEF =1
          ELSE
@@ -326,7 +326,7 @@ C------------------------------------------
 C     assemblage des Volumes nodaux et Modules nodaux
 C     (pour rigidites d'interface)
 C------------------------------------------
-      IF(I7STIFS.NE.0)THEN
+      IF(I7STIFS/=0)THEN
         NCC=10
         CALL SBULK3(VOLU  ,NC    ,NCC,MAT,PM ,
      2              VOLNOD,BVOLNOD,VNS(1,NF1),BNS(1,NF1),
@@ -334,9 +334,9 @@ C------------------------------------------
       ENDIF
 C------------------------------------------
       DO I=LFT,LLT
-        IF(IXS(10,I+NFT).NE.0) THEN
-          IF(     IGTYP.NE.0 .AND.IGTYP.NE.6
-     .       .AND.IGTYP.NE.14.AND.IGTYP.NE.15)THEN
+        IF(IXS(10,I+NFT)/=0) THEN
+          IF(     IGTYP/=0 .AND.IGTYP/=6
+     .       .AND.IGTYP/=14.AND.IGTYP/=15)THEN
              IPID=IXS(NIXS-1,I+NFT)
              ID=IGEO(1,IPID)
              CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,IPID),LTITR)

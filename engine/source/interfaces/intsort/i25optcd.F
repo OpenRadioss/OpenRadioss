@@ -94,7 +94,7 @@ C-----------------------------------------------
      .        VX1,VX2,VX3,VX4,VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4
 
 C-----------------------------------------------
-      IF (IRESP.EQ.1) THEN
+      IF (IRESP==1) THEN
          PREC = TWO*EM06
       ELSE
          PREC = EM20
@@ -111,7 +111,7 @@ C initialize PMAX_GAP to Zero for future treatments in force computation.
        NSEG = MIN(MSEG,LAST-JS)
        NLS=0
 
-       IF(NSPMD.GT.1) THEN
+       IF(NSPMD>1) THEN
 C
 C Partage cand_n local / frontiere
 C
@@ -119,7 +119,7 @@ C
          NLS2 = NSEG+1
          DO IS = 1, NSEG
            I=JS+IS
-           IF(CAND_N(I).LE.NSN)THEN
+           IF(CAND_N(I)<=NSN)THEN
              NLS=NLS+1
              LISTI(NLS)=IS
            ELSE
@@ -182,7 +182,7 @@ C
             TZINF = MAX(PREC,TZINF)
             ZMIN = MIN(Z1,Z2,Z3,Z4)-TZINF
             ZMAX = MAX(Z1,Z2,Z3,Z4)+TZINF
-            IF (ZMIN.LE.ZI.AND.ZMAX.GE.ZI) THEN
+            IF (ZMIN<=ZI.AND.ZMAX>=ZI) THEN
              NLS=NLS+1
              LIST(NLS)=IS
             ENDIF
@@ -211,7 +211,7 @@ C
           TZINF = MAX(PREC,TZINF)
           YMIN = MIN(Y1,Y2,Y3,Y4)-TZINF
           YMAX = MAX(Y1,Y2,Y3,Y4)+TZINF
-          IF (YMIN.LE.YI.AND.YMAX.GE.YI) THEN
+          IF (YMIN<=YI.AND.YMAX>=YI) THEN
             NLS=NLS+1
             LIST(NLS)=IS
           ENDIF
@@ -237,13 +237,13 @@ C
           TZINF = MAX(PREC,TZINF)
           XMIN = MIN(X1,X2,X3,X4)-TZINF
           XMAX = MAX(X1,X2,X3,X4)+TZINF
-          IF (XMIN.LE.XI.AND.XMAX.GE.XI) THEN
+          IF (XMIN<=XI.AND.XMAX>=XI) THEN
             CAND_N(I) = -CAND_N(I)
           ENDIF
         ENDDO
 
 C-------------------------------------------------------------
-       IF(NSPMD.GT.1)THEN
+       IF(NSPMD>1)THEN
           NLF = NLS2
           NLT = NSEG
           DO LS = NLF, NLT
@@ -285,7 +285,7 @@ C
               TZINF = MAX(PREC,TZINF)
               ZMIN = MIN(Z1,Z2,Z3,Z4)-TZINF                             
               ZMAX = MAX(Z1,Z2,Z3,Z4)+TZINF                             
-              IF (ZMIN.LE.ZI.AND.ZMAX.GE.ZI) THEN                       
+              IF (ZMIN<=ZI.AND.ZMAX>=ZI) THEN                       
                 NLS=NLS+1                                               
                 LIST(NLS)=IS                                            
               ENDIF    
@@ -316,7 +316,7 @@ C
             TZINF = MAX(PREC,TZINF)
             YMIN = MIN(Y1,Y2,Y3,Y4)-TZINF
             YMAX = MAX(Y1,Y2,Y3,Y4)+TZINF
-            IF (YMIN.LE.YI.AND.YMAX.GE.YI) THEN
+            IF (YMIN<=YI.AND.YMAX>=YI) THEN
               NLS=NLS+1
               LIST(NLS)=IS
             ENDIF
@@ -343,7 +343,7 @@ C
             TZINF = MAX(PREC,TZINF)
             XMIN = MIN(X1,X2,X3,X4)-TZINF
             XMAX = MAX(X1,X2,X3,X4)+TZINF
-            IF (XMIN.LE.XI.AND.XMAX.GE.XI) THEN
+            IF (XMIN<=XI.AND.XMAX>=XI) THEN
               CAND_N(I) = -CAND_N(I)
             ENDIF
           ENDDO
@@ -359,7 +359,7 @@ C
 C
 !$OMP SINGLE
       DO I=1,I_STOK
-        IF(CAND_N(I).LT.0)THEN
+        IF(CAND_N(I)<0)THEN
           CAND_N(I) = -CAND_N(I)
           I_OPT_STOK= I_OPT_STOK + 1
           IF(I_OPT_STOK <= SIZOPT)THEN

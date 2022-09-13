@@ -111,7 +111,7 @@ C=======================================================================
       !  Local Lagrangian Domain Bounds Sending   !
       !-------------------------------------------!
       DO P = 1, NSPMD
-        IF(P.NE.LOC_PROC) THEN
+        IF(P/=LOC_PROC) THEN
           MSGTYP = MSGOFF
           CALL MPI_ISEND(
      .      BMINMA(1,LOC_PROC),6  ,REAL  ,IT_SPMD(P),MSGTYP,
@@ -123,7 +123,7 @@ C=======================================================================
       !-------------------------------------------!
       NBIRECV=0
       DO P = 1, NSPMD
-        IF(LOC_PROC.NE.P) THEN
+        IF(LOC_PROC/=P) THEN
           NBIRECV=NBIRECV+1
           IRINDEXI(NBIRECV)=P
           MSGTYP = MSGOFF
@@ -136,7 +136,7 @@ C=======================================================================
       !     MPI_WAITING                           !
       !-------------------------------------------!
       DO P = 1, NSPMD
-        IF(P.NE.LOC_PROC) THEN
+        IF(P/=LOC_PROC) THEN
           CALL MPI_WAIT(REQ_SB(P),STATUS,IERROR)
         ENDIF
       ENDDO

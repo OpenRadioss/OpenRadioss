@@ -84,7 +84,7 @@ C=======================================================================
         CALL HM_OPTION_NEXT()
         CALL CPP_GET_SUBMODEL_INDEX(SUBMODEL_INDEX)
         OFFSET = 0
-        IF(SUBMODEL_INDEX .NE.0) OFFSET = LSUBMODEL(SUBMODEL_INDEX)%OFF_DEF
+        IF(SUBMODEL_INDEX /=0) OFFSET = LSUBMODEL(SUBMODEL_INDEX)%OFF_DEF
         CALL CPP_CONVERT_INTER_TYPE19(IDMAX_INTER,IDMAX_GRNOD,IDMAX_LINE,OFFSET,ISFIRST)
       ENDDO
 C--------------------------------------------------

@@ -114,10 +114,10 @@ C         coef= (3*0.8)^2 , FZ=0.5*0.95^2
 C-----------------------------------------------
 C        OPEN(UNIT=12,FILE='DEBHC.TMP',STATUS='UNKNOWN',FORM='FORMATTED')
 C  ----: r->ksi; s->eta; t->zeta------------
-!      IF(MTN.EQ.11 .OR. MTN.EQ.17 .OR. MTN.EQ.6
-!     .   .OR.MTN.EQ.46.OR.MTN.EQ.47.OR.MTN.EQ.37.OR.MTN.EQ.51) RETURN !TS: a tester au Starter.
+!      IF(MTN==11 .OR. MTN==17 .OR. MTN==6
+!     .   .OR.MTN==46.OR.MTN==47.OR.MTN==37.OR.MTN==51) RETURN !TS: a tester au Starter.
 C
-      IF(INVSTR.GE.35)THEN
+      IF(INVSTR>=35)THEN
         DO I=LFT,LLT
           CAQ(I)=FOURTH*OFF(I)*GEO(13,PID(I))
         ENDDO
@@ -206,13 +206,13 @@ C -1 1 -1 1 1 -1 1 -1
      &    G14(I)*VZ1(I)+G24(I)*VZ2(I)+G34(I)*VZ3(I)+G44(I)*VZ4(I)
      &   +G54(I)*VZ5(I)+G64(I)*VZ6(I)+G74(I)*VZ7(I)+G84(I)*VZ8(I)
       ENDDO
-      IF (ICP.EQ.1) THEN
+      IF (ICP==1) THEN
        DO I=LFT,LLT
         A1(I) =HALF*(ONE-NU(I))
         A2(I) =HALF*(NU(I)-ONE) 
         A3(I) = ZERO
        ENDDO 
-      ELSEIF (ICP.EQ.2) THEN
+      ELSEIF (ICP==2) THEN
        DO I=LFT,LLT
         FACP=ONE-DEFP(I)/(SIGY(I)/E0(I)+DEFP(I))
         CC = FACP*(ONE+NU(I))
@@ -261,7 +261,7 @@ C   -----------FHOUR(1-11,I):XE1,ZE1,YK2,ZK2,XE3,YK3,ZK3,ZE3,XE4,YK4,Z4-------
        FHOUR(I,9) =  OFF(I)*FHOUR(I,9)  +  DH_XE4
        FHOUR(I,10) = OFF(I)*FHOUR(I,10) +  DH_YK4
        FHOUR(I,11) = OFF(I)*FHOUR(I,11) +  DH_Z4
-       IF (SIGY(I).LT.ZEP9EP30) THEN
+       IF (SIGY(I)<ZEP9EP30) THEN
         SE  =FHOUR(I,9)*FHOUR(I,9)
         SK  =FHOUR(I,10)*FHOUR(I,10)
         SR1 = (ONE +NU(I)*NU(I))*(SE+SK)
@@ -286,16 +286,16 @@ C   -----------FHOUR(1-11,I):XE1,ZE1,YK2,ZK2,XE3,YK3,ZK3,ZE3,XE4,YK4,Z4-------
         SVM1 = SQRT(MM(I,1)+COEF*(SVMR+SVMM+MAX(SVM,-SVM)))
         SVM2 = SQRT(MM(I,2)+COEF*(SVMR+SVMM+MIN(SVM,-SVM)))
         !-----------ELASTIC-PLASTIC yield criterion------------
-        IF (SVM1.GT.SIGY(I)) THEN
+        IF (SVM1>SIGY(I)) THEN
         !-----------Moment terms-----------
          FAC1 = SIGY(I)-FHOUR(I,12)
          FAC2 = SVM1-FHOUR(I,12)
-         IF (FAC2.LE.EM20) THEN
+         IF (FAC2<=EM20) THEN
            FAC=ZERO
          ELSE
            FAC = ONE -MAX(EM20,FAC1/FAC2)
          ENDIF
-         IF (SVM2.LT.SIGY(I)) THEN
+         IF (SVM2<SIGY(I)) THEN
            FAC1 =(SVM1-SIGY(I))/MAX((SVM1-SVM2),EM20)
            FAC1 =HALF +SQRT(FAC1)
            FAC = MIN(FAC1,ONE)*FAC
@@ -525,10 +525,10 @@ C         coef= (3*0.8)^2 , FZ=0.5*0.95^2
 C-----------------------------------------------
 C        OPEN(UNIT=12,FILE='DEBHC.TMP',STATUS='UNKNOWN',FORM='FORMATTED')
 C  ----: r->ksi; s->eta; t->zeta------------
-!      IF(MTN.EQ.11 .OR. MTN.EQ.17 .OR. MTN.EQ.6
-!     .   .OR.MTN.EQ.46.OR.MTN.EQ.47.OR.MTN.EQ.37.OR.MTN.EQ.51) RETURN !TS: a tester au Starter.
+!      IF(MTN==11 .OR. MTN==17 .OR. MTN==6
+!     .   .OR.MTN==46.OR.MTN==47.OR.MTN==37.OR.MTN==51) RETURN !TS: a tester au Starter.
 C
-      IF(INVSTR.GE.35)THEN
+      IF(INVSTR>=35)THEN
         DO I=LFT,LLT
           CAQ(I)=FOURTH*OFF(I)*GEO(13,PID(I))
         ENDDO
@@ -617,13 +617,13 @@ C -1 1 -1 1 1 -1 1 -1
      &    G14(I)*VZ1(I)+G24(I)*VZ2(I)+G34(I)*VZ3(I)+G44(I)*VZ4(I)
      &   +G54(I)*VZ5(I)+G64(I)*VZ6(I)+G74(I)*VZ7(I)+G84(I)*VZ8(I)
       ENDDO
-c      IF (ICP.EQ.1) THEN
+c      IF (ICP==1) THEN
 c       DO I=LFT,LLT
 c        A1(I) =HALF*(ONE-NU(I))
 c        A2(I) =HALF*(NU(I)-ONE) 
 c        A3(I) = ZERO
 c       ENDDO 
-c      ELSEIF (ICP.EQ.2) THEN
+c      ELSEIF (ICP==2) THEN
 c       DO I=LFT,LLT
 c        FACP=ONE-DEFP(I)/(SIGY(I)/E0(I)+DEFP(I))
 c        CC = FACP*(ONE+NU(I))
@@ -679,7 +679,7 @@ C   -----------FHOUR(1-11,I):XE1,ZE1,YK2,ZK2,XE3,YK3,ZK3,ZE3,XE4,YK4,Z4-------
        FHOUR(I,10) = OFF(I)*FHOUR(I,10) +  DH_YK4
        FHOUR(I,11) = OFF(I)*FHOUR(I,11) +  DH_Z4
 C------   SIGY(I) : now min(sigy(ip)) and =sigy(e_plas=0) at begining in law2   
-       IF (SIGY(I).LT.ZEP9EP30) THEN
+       IF (SIGY(I)<ZEP9EP30) THEN
         SE  =(ONE-NU(I))*FHOUR(I,5)
         SK  =(ONE-NU(I))*FHOUR(I,6)
         SR1 =SE*SE+SK*SK
@@ -704,9 +704,9 @@ c        SK  =NU(I)*FHOUR(I,6)-FHOUR(I,4)
         SVM2 = SQRT(SVM0+COEF*SVMR)
 c        SVM2 = SQRT(MM(I,2)+COEF*(SVMR+MIN(SVM,-SVM)))
 !-----------memb :ELASTIC-PLASTIC yield criterion, FACM=(1-r_m)------------
-        IF (SVM2.GT.SIGY(I)) THEN
+        IF (SVM2>SIGY(I)) THEN
           IF (FHOUR(I,12)==ZERO) FHOUR(I,12) = SIGY(I)
-          IF (SVM2.GT.FHOUR(I,12)) THEN
+          IF (SVM2>FHOUR(I,12)) THEN
             FAC = (SVM2-FHOUR(I,12))/SVM2
           ELSE
             FAC = (SVM2-SIGY(I))/SVM2

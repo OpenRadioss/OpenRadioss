@@ -72,7 +72,7 @@ C-----------------------------------------------
 C
 C     INITIALISATION DES DENSITES ET ENERGIES INITIALES
 C
-      IF(TT.EQ.0)THEN
+      IF(TT==0)THEN
         DO IS=1,NSEG
           KSEG=ABS(ISEG(IS))
           RO0(IS) = SEGVAR%RHO(KSEG)
@@ -99,7 +99,7 @@ C SURFACE NORMALE NODALES
         N2=IRECT(2,IS)
         N3=IRECT(3,IS)
         N4=IRECT(4,IS)
-        IF(N4.EQ.0 .OR. N4.EQ.N3) THEN
+        IF(N4==0 .OR. N4==N3) THEN
           FAC=ONE_OVER_6*ORIENT
           N4=N3
         ELSE
@@ -139,7 +139,7 @@ cow46e16---
 cow46e16        VMX=V(1,NG1)+V(1,NG2)+V(1,N3)
 cow46e16        VMY=V(2,NG1)+V(2,NG2)+V(2,N3)
 cow46e16        VMZ=V(3,NG1)+V(3,NG2)+V(3,N3)
-        IF(N4.NE.N3) THEN
+        IF(N4/=N3) THEN
            LA(1,N4)=LA(1,N4)+NX
            LA(2,N4)=LA(2,N4)+NY
            LA(3,N4)=LA(3,N4)+NZ

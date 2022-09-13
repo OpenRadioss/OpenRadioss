@@ -233,7 +233,7 @@ c
 c
 c         Uvar                                               
 c
-          IF (MLW.GE.28 .AND. MLW.NE.32) THEN                             
+          IF (MLW>=28 .AND. MLW/=32) THEN                             
             DO IL=1,NLAY                                                  
             DO IR=1,NPTR                                                  
             DO IS=1,NPTS                                                  
@@ -395,7 +395,7 @@ c
 c
 C         uvar                                               
 c
-          IF (MLW.GE.28 .AND. MLW.NE.32) THEN                             
+          IF (MLW>=28 .AND. MLW/=32) THEN                             
             DO IL=1,NLAY                                                  
              DO IT=1,NPTT                                                  
              DO K=1,ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT                     

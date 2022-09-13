@@ -85,8 +85,8 @@ C
 
       I17 = 0
       LOC_PROC = ISPMD+1
-      IF(IRCVFROM(NINTER+1,LOC_PROC).GT.0.OR.
-     +   ISENDTO(NINTER+1,LOC_PROC).GT.0) THEN
+      IF(IRCVFROM(NINTER+1,LOC_PROC)>0.OR.
+     +   ISENDTO(NINTER+1,LOC_PROC)>0) THEN
 
 C Pack original data      
        L = 0
@@ -129,7 +129,7 @@ C
         END DO
         L = L + 6
 
-        IF(IPARI(7,NIN).NE.17)THEN
+        IF(IPARI(7,NIN)/=17)THEN
 C NEWFRONT
           SBUF(L+1) = -NEWFRONT(NIN)
           SBUF2(KK) = NEWFRONT(NIN)
@@ -168,8 +168,8 @@ C    &                   COMM_CONT, ierror)
        L = 0
        DO KK=1,NINTC
          NIN = INTLIST(KK)
-         IF(IRCVFROM(NIN,LOC_PROC).NE.0.OR.
-     +        ISENDTO(NIN,LOC_PROC).NE.0)THEN
+         IF(IRCVFROM(NIN,LOC_PROC)/=0.OR.
+     +        ISENDTO(NIN,LOC_PROC)/=0)THEN
            DO J=1,18
              IF(MOD((J-1)/3,2) == 0) THEN
               XSLV_L(J,NIN) = RBUF(L+J)
@@ -202,7 +202,7 @@ C    &                   COMM_CONT, ierror)
              ENDIF
            END DO
            L = L + 6
-           IF(IPARI(7,NIN).NE.17)THEN
+           IF(IPARI(7,NIN)/=17)THEN
              NEWFRONT(NIN) = - NINT(RBUF(L+1))
            ELSE     ! interface 17 avec courbure
              SIZE_T(NIN) = RBUF3(KK)

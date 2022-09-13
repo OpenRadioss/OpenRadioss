@@ -141,7 +141,7 @@ C
        ENDDO
       ENDIF 
 C
-      IF(IALE.EQ.1.OR.IEULER.EQ.1 .OR. IALELAG.EQ.1) THEN
+      IF(IALE==1.OR.IEULER==1 .OR. IALELAG==1) THEN
         DO J=1,NUMELS
           I = INDEX(J)
           DO K=1,8
@@ -152,36 +152,36 @@ C
       ENDIF
 C
       IF(ITHERM_FE== 0 ) THEN
-        IF(NUMELS10.GT.0) THEN
+        IF(NUMELS10>0) THEN
           DO J=1,NUMELS10
             I = INDEX(NUMELS8+J)
             DO K=1,6
               N = IXS10(K,I-NUMELS8)
-              IF (N.NE.0) THEN
+              IF (N/=0) THEN
                 MS(N) = MS(N) + MSSX(K,I)
               END IF
             ENDDO
           ENDDO
         ENDIF
 
-        IF(NUMELS20.GT.0)THEN
+        IF(NUMELS20>0)THEN
           DO J=1,NUMELS20
             I = INDEX(NUMELS8+NUMELS10+J)
             DO K=1,12
               N = IXS20(K,I-NUMELS8-NUMELS10)
-              IF (N.NE.0) THEN
+              IF (N/=0) THEN
                 MS(N) = MS(N) + MSSX(K,I)
               END IF
             ENDDO
           ENDDO
         ENDIF
 C
-        IF(NUMELS16.GT.0)THEN
+        IF(NUMELS16>0)THEN
           DO J=1,NUMELS16
             I = INDEX(NUMELS8+NUMELS10+NUMELS20+J)
             DO K=1,8
               N = IXS16(K,I-NUMELS8-NUMELS10-NUMELS20)
-              IF (N.NE.0) THEN
+              IF (N/=0) THEN
                 MS(N) = MS(N) + MSSX(K,I)
               END IF
             ENDDO
@@ -191,12 +191,12 @@ C
 C
 C  + heat transfer
 C       
-        IF(NUMELS10.GT.0) THEN
+        IF(NUMELS10>0) THEN
           DO J=1,NUMELS10
             I = INDEX(NUMELS8+J)
             DO K=1,6
               N = IXS10(K,I-NUMELS8)
-              IF (N.NE.0) THEN
+              IF (N/=0) THEN
                 MS(N) = MS(N) + MSSX(K,I)
                 MCP(N) = MCP(N) + MCPSX(K,I)
               END IF
@@ -204,12 +204,12 @@ C
           ENDDO
         ENDIF
 
-        IF(NUMELS20.GT.0)THEN
+        IF(NUMELS20>0)THEN
           DO J=1,NUMELS20
             I = INDEX(NUMELS8+NUMELS10+J)
             DO K=1,12
               N = IXS20(K,I-NUMELS8-NUMELS10)
-              IF (N.NE.0) THEN
+              IF (N/=0) THEN
                 MS(N) = MS(N) + MSSX(K,I)
                 MCP(N) = MCP(N) + MCPSX(K,I)
               END IF
@@ -217,12 +217,12 @@ C
           ENDDO
         ENDIF
 C
-        IF(NUMELS16.GT.0)THEN
+        IF(NUMELS16>0)THEN
           DO J=1,NUMELS16
             I = INDEX(NUMELS8+NUMELS10+NUMELS20+J)
             DO K=1,8
               N = IXS16(K,I-NUMELS8-NUMELS10-NUMELS20)
-              IF (N.NE.0) THEN
+              IF (N/=0) THEN
                 MS(N) = MS(N) + MSSX(K,I)
                 MCP(N) = MCP(N) + MCPSX(K,I)
               END IF
@@ -242,7 +242,7 @@ C
           ENDDO
       ENDIF
 C
-      IF(I7STIFS.NE.0)THEN
+      IF(I7STIFS/=0)THEN
         DO J=1,NUMELS
           I = INDEX(J)
           DO K=1,8
@@ -252,12 +252,12 @@ C
           ENDDO
         ENDDO
 C
-        IF(NUMELS10.GT.0) THEN
+        IF(NUMELS10>0) THEN
           DO J=1,NUMELS10
             I = INDEX(NUMELS8+J)
             DO K=1,6
               N = IXS10(K,I-NUMELS8)
-              IF (N.NE.0) THEN
+              IF (N/=0) THEN
                 VOLNOD(N)  = VOLNOD(N)  + VNSX(K,I)
                 BVOLNOD(N) = BVOLNOD(N) + BNSX(K,I)
               END IF
@@ -265,12 +265,12 @@ C
           ENDDO
         ENDIF
 C
-        IF(NUMELS20.GT.0)THEN
+        IF(NUMELS20>0)THEN
           DO J=1,NUMELS20
             I = INDEX(NUMELS8+NUMELS10+J)
             DO K=1,12
               N = IXS20(K,I-NUMELS8-NUMELS10)
-              IF (N.NE.0) THEN
+              IF (N/=0) THEN
                 VOLNOD(N)  = VOLNOD(N)  + VNSX(K,I)
                 BVOLNOD(N) = BVOLNOD(N) + BNSX(K,I)
               END IF
@@ -278,12 +278,12 @@ C
           ENDDO
         ENDIF
 C
-        IF(NUMELS16.GT.0)THEN
+        IF(NUMELS16>0)THEN
           DO J=1,NUMELS16
             I = INDEX(NUMELS8+NUMELS10+NUMELS20+J)
             DO K=1,8
               N = IXS16(K,I-NUMELS8-NUMELS10-NUMELS20)
-              IF (N.NE.0) THEN
+              IF (N/=0) THEN
                 VOLNOD(N)  = VOLNOD(N)  + VNSX(K,I)
                 BVOLNOD(N) = BVOLNOD(N) + BNSX(K,I)
               END IF
@@ -291,7 +291,7 @@ C
           ENDDO
         ENDIF
 C
-        IF(NUMELIG3D.GT.0) THEN
+        IF(NUMELIG3D>0) THEN
           DO I = 1, NUMELIG3D
             ITRI(I) = KXIG3D(5,I)
           ENDDO
@@ -300,7 +300,7 @@ C
             I = INDEX(J)
             DO K=1,KXIG3D(3,I)
               N = IXIG3D(KXIG3D(4,I)+K-1)
-              IF (N.NE.0) THEN
+              IF (N/=0) THEN
                 VOLNOD(N)  = VOLNOD(N)  + VNIGE(K,I)
                 BVOLNOD(N) = BVOLNOD(N) + BNIGE(K,I)
               END IF
@@ -328,7 +328,7 @@ C
       CALL MY_ORDERS(0,WORK,ITRI,INDEX,NUMELC,1)
 C
       IF(ITHERM_FE == 0 ) THEN
-       IF(NADMESH.EQ.0)THEN
+       IF(NADMESH==0)THEN
         DO J=1,NUMELC
           I = INDEX(J)
           DO K=1,4
@@ -363,7 +363,7 @@ C
          END IF
        END IF
       ELSE     ! ITHERM_FE /= 0
-       IF(NADMESH.EQ.0)THEN
+       IF(NADMESH==0)THEN
         DO J=1,NUMELC
           I = INDEX(J)
           DO K=1,4
@@ -439,7 +439,7 @@ C     sum mi*zi*zi
           ENDDO  
       ENDIF
 C      
-      IF(I7STIFS.NE.0)THEN
+      IF(I7STIFS/=0)THEN
 C
        DO J=1,NUMELC
         I = INDEX(J)
@@ -464,7 +464,7 @@ C
         ENDDO
       ENDDO
 C
-      IF(I7STIFS.NE.0)THEN
+      IF(I7STIFS/=0)THEN
        DO J=1,NUMELT
         I = INDEX(J)
         DO K=1,2
@@ -502,7 +502,7 @@ C
           ENDDO   
        ENDIF   
 C
-      IF(I7STIFS.NE.0)THEN
+      IF(I7STIFS/=0)THEN
        DO J=1,NUMELP
         I = INDEX(J)
         N = IXP(2,I)
@@ -526,14 +526,14 @@ C
           IN(N) = IN(N) + INR(K,I)
         ENDDO
         IGTYP = NINT(GEO(12,IXR(1,I)))
-        IF(IGTYP.EQ.12) THEN
+        IF(IGTYP==12) THEN
           N = IXR(4,I)
           MS(N) = MS(N) + MSR(3,I)
           IN(N) = IN(N) + INR(3,I)
         ENDIF
       ENDDO
 C
-      IF(I7STIFS.NE.0)THEN
+      IF(I7STIFS/=0)THEN
        DO J=1,NUMELR
         I = INDEX(J)
         DO K=1,2
@@ -542,7 +542,7 @@ C
           STIFINTR(N) = STIFINTR(N) + STRR(I)
         ENDDO
         IGTYP = NINT(GEO(12,IXR(1,I)))
-        IF(IGTYP.EQ.12) THEN
+        IF(IGTYP==12) THEN
           N = IXR(4,I)
           STIFINT(N) = STIFINT(N)  + TWO*STR(I)
         ENDIF
@@ -554,7 +554,7 @@ C
       ENDDO
       CALL MY_ORDERS(0,WORK,ITRI,INDEX,NUMELTG,1)
       IF(ITHERM _FE== 0 ) THEN
-       IF(NADMESH.EQ.0)THEN
+       IF(NADMESH==0)THEN
         DO J=1,NUMELTG
           I = INDEX(J)
           DO K=1,3
@@ -589,7 +589,7 @@ C
          END IF
        END IF
       ELSE     ! ITHERM_FE /= 0
-       IF(NADMESH.EQ.0)THEN
+       IF(NADMESH==0)THEN
         DO J=1,NUMELTG
           I = INDEX(J)
           DO K=1,3
@@ -635,7 +635,7 @@ C
        END IF
       ENDIF 
 C
-      IF(I7STIFS.NE.0)THEN
+      IF(I7STIFS/=0)THEN
        DO J=1,NUMELTG
         I = INDEX(J)
         DO K=1,3
@@ -658,7 +658,7 @@ C
         DO K=1,3
           N = IXUR(K+2,I)
           MS(N) = MS(N) + ABS(MSUR(I)*EVUR(K,I))
-          IF (IRODDL.NE.0)IN(N) = IN(N) + ABS(INUR(I)*EVUR(K,I))
+          IF (IRODDL/=0)IN(N) = IN(N) + ABS(INUR(I)*EVUR(K,I))
         ENDDO
       ENDDO
 C

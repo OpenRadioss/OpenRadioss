@@ -141,7 +141,7 @@ C-----------------------------------------------
       N2  = N2/AN
       N3  = N3/AN
       !in case of degenerated segment
-      IF(AN.LE.EM19) THEN
+      IF(AN<=EM19) THEN
         IER=-1
         RETURN
       ENDIF
@@ -174,34 +174,34 @@ C-----------------------------------------------
       !SSC
       AB1 = A23*B41
       AB2 = B23*A41
-      IF(ABS(AB1+AB2)/AREA.GT.EM10)THEN
+      IF(ABS(AB1+AB2)/AREA>EM10)THEN
        SSC = (AB1-AB2)/(AB1+AB2)
       ELSE
        SSC = ZERO
       ENDIF
       !TTC
-      IF(ABS(A34/AREA).GT.EM10)THEN
+      IF(ABS(A34/AREA)>EM10)THEN
        AB1 = B12*A34
        AB2 = B34*A12
        TTC = (AB1-AB2)/(AB1+AB2)
       ELSE
        TTC = (B12-A12)/A12
-       IF(B23.LE.ZERO .AND. B41.LE.ZERO)THEN
-         IF(-B23/A12.LE.ALP.AND.-B41/A12.LE.ALP)SSC=ZERO
-       ELSEIF(B23.LE.ZERO)THEN
-         IF(-B23/A12.LE.ALP)SSC=ONE
-       ELSEIF(B41.LE.ZERO)THEN
-         IF(-B41/A12.LE.ALP)SSC=-ONE
+       IF(B23<=ZERO .AND. B41<=ZERO)THEN
+         IF(-B23/A12<=ALP.AND.-B41/A12<=ALP)SSC=ZERO
+       ELSEIF(B23<=ZERO)THEN
+         IF(-B23/A12<=ALP)SSC=ONE
+       ELSEIF(B41<=ZERO)THEN
+         IF(-B41/A12<=ALP)SSC=-ONE
        ENDIF
       ENDIF
       !lecipari : GAP=TWO*EM02 GAP->FRIGAP(2)->ALP (hardcoded tolerance)
 
-      IF(ABS(SSC).GT.ONE+ALP.OR.ABS(TTC).GT.ONE+ALP) THEN
+      IF(ABS(SSC)>ONE+ALP.OR.ABS(TTC)>ONE+ALP) THEN
         IER = 1  !SECONDARY node not on MAIN segment
       ELSE
         IER = 0
-        IF(ABS(SSC).GT.ONE)SSC=SSC/ABS(SSC)
-        IF(ABS(TTC).GT.ONE)TTC=TTC/ABS(TTC)
+        IF(ABS(SSC)>ONE)SSC=SSC/ABS(SSC)
+        IF(ABS(TTC)>ONE)TTC=TTC/ABS(TTC)
       ENDIF
 
       TP   = FOURTH*(ONE+TTC)

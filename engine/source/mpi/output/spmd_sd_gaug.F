@@ -69,7 +69,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD + 1
-      IF (LOC_PROC.EQ.1) THEN
+      IF (LOC_PROC==1) THEN
         IDEB = 1
         NBIRECV = 0
         DO I = 2, NSPMD
@@ -109,7 +109,7 @@ C
       ELSE
         K = 0
         DO N = 1, NBGAUGE
-cc         IF(IGAUP(N).EQ.LOC_PROC)THEN
+cc         IF(IGAUP(N)==LOC_PROC)THEN
            K = K + 1
            BUF(1,K) = N
            DO J = 1, LLGAUGE

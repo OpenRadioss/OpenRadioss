@@ -153,7 +153,7 @@ C-----------------------------------------------
                 IFQ = IPARI(31,NIN)
                 ITIED = IPARI(85,NIN)
                 IF(IMPL_S==0.OR.NEIG==0) THEN       
-                    IF( INACTI.EQ.5.OR.INACTI.EQ.6.OR.IFQ.GT.0.OR.ITIED.NE.0)THEN
+                    IF( INACTI==5.OR.INACTI==6.OR.IFQ>0.OR.ITIED/=0)THEN
                         NEED_COMM_INACTI = .TRUE.
                         NB_INTER_7_INACTI = NB_INTER_7_INACTI + 1
                         LIST_INTER_7_INACTI(NIN) = NB_INTER_7_INACTI

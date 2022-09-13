@@ -71,7 +71,7 @@ C---------------------------------------
 C     CALCUL DU NOMBRE D'ELEMENT PAR LOI
 C---------------------------------------
       DO 100 I=1,NEL
-      IF(IX(1,I).LT.0) THEN
+      IF(IX(1,I)<0) THEN
         MLAWP1=17+1
       ELSE
         MT=IX(1,I)
@@ -91,7 +91,7 @@ C--------------------------------------------------
 C     CALCUL DU POINTEUR D'ELEMENTS CLASSES PAR LOI
 C--------------------------------------------------
       DO 400 I=1,NEL
-      IF(IX(1,I).LT.0) THEN
+      IF(IX(1,I)<0) THEN
         MLAW=17
       ELSE
         MT=IX(1,I)
@@ -112,7 +112,7 @@ C------------------------------------------
   550 CONTINUE
   600 CONTINUE
 C------------------------------------------
-      IF(INVERS.LT.40)RETURN
+      IF(INVERS<40)RETURN
 C------------------------------------------
 C     PERMUTATION DES PARTS
 C------------------------------------------
@@ -128,7 +128,7 @@ C------------------------------------------
       DO K=1,NGRELE
         N = IGRELEM(K)%NENTITY
         DO I=1,N
-          IF (IGRELEM(K)%ENTITY(I).LE.NEL)
+          IF (IGRELEM(K)%ENTITY(I)<=NEL)
      .        IGRELEM(K)%ENTITY(I) = IPOINT(1,IGRELEM(K)%ENTITY(I))
         ENDDO
       ENDDO

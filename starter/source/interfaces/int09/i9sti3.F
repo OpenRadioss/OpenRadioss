@@ -100,7 +100,7 @@ C
           CALL INELTS(X       ,IRECT  ,IXS     ,NINT    ,NELS              ,
      .                INRT    ,AREA   ,NOINT   ,0       ,IGRSURF(ISU)%ELTYP,
      .                IGRSURF(ISU)%ELEM)
-          IF(NELS.NE.0) THEN
+          IF(NELS/=0) THEN
             IELE(I) = NELS
             CYCLE
           END IF
@@ -111,10 +111,10 @@ C----------------------
         CALL INSOL3(X,IRECT,IXS,NINT,NELS,INRT,
      .              AREA,NOINT,KNOD2ELS ,NOD2ELS ,0 ,IXS10,
      .              IXS16,IXS20)
-        IF(NELS.NE.0) THEN
+        IF(NELS/=0) THEN
          IELE(I) = NELS
         ELSE
-           IF(NINT.GT.0) THEN
+           IF(NINT>0) THEN
               CALL ANCMSG(MSGID=92,
      .                    MSGTYPE=MSGWARNING,
      .                    ANMODE=ANINFO_BLIND_2,
@@ -122,7 +122,7 @@ C----------------------
      .                    C1=TITR,
      .                    I2=I)
            ENDIF            
-           IF(NINT.LT.0) THEN
+           IF(NINT<0) THEN
               CALL ANCMSG(MSGID=93,
      .                    MSGTYPE=MSGWARNING,
      .                    ANMODE=ANINFO_BLIND_2,

@@ -248,7 +248,7 @@ Cel traitement specifique spmd
                                         IF (IMACH == 3) THEN
 C recherche du ii correct
                                             II = ((IH-1) - IAD)*NVAR
-                                            DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH.LT.IAD+NN)
+                                            DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH<IAD+NN)
                                                 IH = IH + 1
                                             ENDDO
                                         ENDIF

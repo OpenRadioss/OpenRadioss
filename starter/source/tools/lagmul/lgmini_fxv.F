@@ -66,12 +66,12 @@ C======================================================================|
         ID=NOM_OPT(1,IBFV(12,N))
         CALL FRETITL2(TITR,
      .       NOM_OPT(LNOPT1-LTITR+1,IBFV(12,N)),LTITR)
-        IF (IBFV(8,N).NE.0) THEN
+        IF (IBFV(8,N)/=0) THEN
           NNO = IABS(IBFV(1,N))
           ISK = IBFV(2,N)/10
           J=IBFV(2,N)-10*ISK
           NC = NC + 1
-          IF(J.LE.3.AND.MASS(NNO).EQ.0)THEN
+          IF(J<=3.AND.MASS(NNO)==0)THEN
             CALL ANCMSG(MSGID=535,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_1,
@@ -80,7 +80,7 @@ C======================================================================|
      .                  C2='FIXED TRANSLATIONAL VELOCITY',
      .                  C3=TITR,C4=' ',
      .                  I2=ITAB(IABS(IBFV(1,N))))
-	  ELSEIF(J.GT.3.AND.MASS(NNO).EQ.0)THEN
+	  ELSEIF(J>3.AND.MASS(NNO)==0)THEN
             CALL ANCMSG(MSGID=535,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_1,
@@ -91,7 +91,7 @@ C======================================================================|
      .                  I2=ITAB(IABS(IBFV(1,N))))
 	  ENDIF
 Cm41u07---
-	  IF(NC.GT.LAG_NCF)THEN
+	  IF(NC>LAG_NCF)THEN
             CALL ANCMSG(MSGID=468,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO,
@@ -100,9 +100,9 @@ Cm41u07---
      .                  C2='IMPOSED VELOCITY',
      .                  C3=TITR)
           ENDIF
-          IF (ISK.LE.1) THEN
+          IF (ISK<=1) THEN
             IADLL(NC+1)=IADLL(NC) + 1
-            IF(IADLL(NC+1)-1.GT.LAG_NKF)THEN
+            IF(IADLL(NC+1)-1>LAG_NKF)THEN
               CALL ANCMSG(MSGID=469,
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO,
@@ -114,7 +114,7 @@ Cm41u07---
             IK = IADLL(NC)
             LLL(IK) = NNO
             JLL(IK) = J
-            IF(J.GT.3.AND.INER(NNO).EQ.0)THEN
+            IF(J>3.AND.INER(NNO)==0)THEN
                CALL ANCMSG(MSGID=536,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO_BLIND_1,
@@ -126,7 +126,7 @@ Cm41u07---
 	    ENDIF
           ELSE
             IADLL(NC+1)=IADLL(NC) + 3
-            IF(IADLL(NC+1)-1.GT.LAG_NKF)THEN
+            IF(IADLL(NC+1)-1>LAG_NKF)THEN
               CALL ANCMSG(MSGID=469,
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO,
@@ -135,7 +135,7 @@ Cm41u07---
      .                    C2='IMPOSED VELOCITY',
      .                    C3=TITR)
             ENDIF
-            IF(J.LE.3)THEN
+            IF(J<=3)THEN
               IK = IADLL(NC)
               LLL(IK) = NNO
               JLL(IK) = 1
@@ -146,7 +146,7 @@ Cm41u07---
               LLL(IK) = NNO
               JLL(IK) = 3
             ELSE
-              IF(INER(NNO).EQ.0)THEN
+              IF(INER(NNO)==0)THEN
                CALL ANCMSG(MSGID=536,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO_BLIND_1,

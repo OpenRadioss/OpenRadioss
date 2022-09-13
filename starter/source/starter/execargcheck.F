@@ -398,7 +398,7 @@ C------------------------------------------------
 C------------------------------------------------
 C -ERROR_MSG SET
 C------------------------------------------------
-       IF (IERRMSG .NE. 0)THEN
+       IF (IERRMSG /= 0)THEN
          IF (IERRMSG+1  > ARGN) THEN
 
 C          Case -I is last argument in the list.
@@ -438,7 +438,7 @@ C check if -i has got an argument or if the next string is an input command
 C------------------------------------------------
 C -INPUT SET
 C------------------------------------------------
-       IF (PINPUTI .NE. 0)THEN
+       IF (PINPUTI /= 0)THEN
          IF (PINPUTI+1  > ARGN) THEN
 
 C          Case -I is last argument in the list.
@@ -506,7 +506,7 @@ C               CALL PRHELPINFO()
 C------------------------------------------------
 C -NSPMD SET
 C------------------------------------------------
-       IF (PNCPUI .NE. 0)THEN
+       IF (PNCPUI /= 0)THEN
 
          IF (PNCPUI+1  > ARGN) THEN
 
@@ -565,7 +565,7 @@ C Error was found during Character to Integer translation
 C------------------------------------------------
 C -NTHREAD SET
 C------------------------------------------------
-       IF (PNTHI .NE. 0)THEN
+       IF (PNTHI /= 0)THEN
 
          IF (PNTHI+1  > ARGN) THEN
 
@@ -623,7 +623,7 @@ C Error was found during Character to Integer translation
 C------------------------------------------------
 C -DYLIB SET
 C------------------------------------------------
-       IF (PUSERLNAMI .NE. 0)THEN
+       IF (PUSERLNAMI /= 0)THEN
          IF (PUSERLNAMI+1  > ARGN) THEN
 
 C          Case -DYLIB is last argument in the list.
@@ -663,7 +663,7 @@ C               CALL PRHELPINFO()
 C------------------------------------------------
 C -MDS_LIBPATH
 C------------------------------------------------
-       IF (MDS_PATHI .NE. 0)THEN
+       IF (MDS_PATHI /= 0)THEN
 
          IF (MDS_PATHI+1  > ARGN) THEN
 
@@ -703,7 +703,7 @@ C               CALL PRHELPINFO()
 C------------------------------------------------
 C -TIME SET (hidden option)
 C------------------------------------------------
-       IF (PTIMER.GT.0) THEN
+       IF (PTIMER>0) THEN
           GOT_TIMER = 1
        ENDIF
 
@@ -715,7 +715,7 @@ C------------------------------------------------
 !       DD_OPTIMIZATION = 1 --> DD optimized for Skylake processor                      - AVX-512
 !       DD_OPTIMIZATION = 2 --> DD optimized for Sandy Bridge processor                 - SSE3
 !       DD_OPTIMIZATION = 3 -->  DD optimized for ThunderX2 processor                   - ARM
-       IF (DOMDEC_TUNING .NE. 0)THEN
+       IF (DOMDEC_TUNING /= 0)THEN
          IF (DOMDEC_TUNING+1  > ARGN) THEN
 
 C          Case -DYLIB is last argument in the list.
@@ -889,7 +889,7 @@ C Error was found during Character to real translation
 C------------------------------------------------
 C -GRP_SIZE hidden option
 C------------------------------------------------
-       IF (GOT_GRP_SIZE .NE. 0)THEN
+       IF (GOT_GRP_SIZE /= 0)THEN
          IF (GOT_GRP_SIZE+1  > ARGN) THEN
 C          Case -grp_size is last argument in the list.
 

@@ -131,16 +131,16 @@ C-----------------------------------------------
 C----6---------------------------------------------------------------7-2 
       DO NG = 1, NGROUP
 c            NG = IGROUC(IG)
-c            IF(NGDONE.GT.NGROUP) GOTO 250
+c            IF(NGDONE>NGROUP) GOTO 250
 c            NGDONE = NG + 1
 C
-            IF(IPARG(8,NG).EQ.1)GOTO 250
-            IF (IDDW.GT.0) CALL STARTIMEG(NG)
-	           IF (NG.EQ.1) THEN
+            IF(IPARG(8,NG)==1)GOTO 250
+            IF (IDDW>0) CALL STARTIMEG(NG)
+	           IF (NG==1) THEN
 	             DO I=1,50
 	               IPRMES_EL(I)=0
 	             ENDDO
-	           END IF !(NG.EQ.1) THEN
+	           END IF !(NG==1) THEN
             ITY   =IPARG(5,NG)
             OFFSET  = 0
             MLW     = IPARG(1,NG)
@@ -165,7 +165,7 @@ c
             IEXPAN  = IPARG(49,NG)
             ISH3N   = IPARG(23,NG)
             ISUBSTACK=IPARG(71,NG)
-            IF(ITY.EQ.1.OR.ITY.EQ.2) JPLASOL=IPLA
+            IF(ITY==1.OR.ITY==2) JPLASOL=IPLA
             IFORMDT = 0
             LFT   = 1
             LLT   = MIN(NVSIZ,NEL)
@@ -177,9 +177,9 @@ c
 C
             JSPH=0
 C----6---------------------------------------------------------------7---------8
-            IF(ITY.EQ.1 .AND. JLAG.EQ.1)THEN
+            IF(ITY==1 .AND. JLAG==1)THEN
              IGTYP = NINT(GEO(12,IXS(10,NF1)))
-             IF(ISOLNOD.EQ.4)THEN
+             IF(ISOLNOD==4)THEN
                 IETY=1
                IF (ISROT > 0 .AND. ISPMD==0) THEN     
                 IF (IPRMES_EL(IETY)==0) THEN     
@@ -193,58 +193,58 @@ C----6---------------------------------------------------------------7---------8
      3             IADK  ,JDIK  ,NEL    ,                                   
      4             IPM   ,IGEO  ,IKGEO  ,BUFMAT )                           
 
-             ELSEIF(ISOLNOD.EQ.10)THEN
+             ELSEIF(ISOLNOD==10)THEN
               CALL  S10KE3(PM    ,GEO   ,IXS  ,IXS10 ,X  ,ELBUF_TAB(NG),
      1                     ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  ,
      2                     IADK  ,JDIK  ,NEL   ,
      3                     IPM   ,IGEO  ,IKGEO ,BUFMAT)
 
-             ELSEIF(ISOLNOD.EQ.20)THEN
+             ELSEIF(ISOLNOD==20)THEN
               CALL S20KE3(PM    ,GEO   ,IXS   ,IXS20 ,X     ,
      1                  ELBUF_TAB(NG)  ,ETAG  ,IDDL  ,
      2                  NDOF  ,K_DIAG,K_LT  ,IADK  ,JDIK  ,
      3                  NEL   ,IPM   ,IGEO  ,IKGEO ,BUFMAT)
-             ELSEIF(ISOLNOD.EQ.16)THEN
+             ELSEIF(ISOLNOD==16)THEN
                IETY=2
-               IF (IPRMES_EL(IETY).EQ.0.AND.ISPMD.EQ.0) THEN
+               IF (IPRMES_EL(IETY)==0.AND.ISPMD==0) THEN
                  WRITE(IOUT,1001)'  S16 SOLID'
                  WRITE(ISTDO,1001)'  S16 SOLID'
                  IPRMES_EL(IETY)=1
 	              ENDIF
-             ELSEIF(JHBE.EQ.15.AND.ISOLNOD.EQ.6)THEN
+             ELSEIF(JHBE==15.AND.ISOLNOD==6)THEN
               CALL S6CKE3 (PM    ,GEO   ,IXS    ,X  ,ELBUF_TAB(NG),
      1                     ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  ,
      2                     IADK  ,JDIK  ,NEL   ,ICP    ,ICS    ,
      3                     IPM    ,IGEO  ,IKGEO ,BUFMAT )
 C
-             ELSEIF(ISOLNOD.EQ.8)THEN
+             ELSEIF(ISOLNOD==8)THEN
 C              NIPMAX = 729
 C              L1 = 1
 C              L2 = L1 + MVSIZ * NIPMAX
 C              L3 = L2 + MVSIZ * NIPMAX
-	              IF (JHBE.NE.14.AND.JHBE.NE.15.AND.JHBE.NE.17) THEN
-	               IF (NCYCLE.EQ.1.AND.IMCONV.EQ.1)THEN
-                  IF(JHBE.EQ.24)THEN                                  
+	              IF (JHBE/=14.AND.JHBE/=15.AND.JHBE/=17) THEN
+	               IF (NCYCLE==1.AND.IMCONV==1)THEN
+                  IF(JHBE==24)THEN                                  
                     IETY=3                                            
-                    IF (IPRMES_EL(IETY).EQ.0.AND.ISPMD.EQ.0) THEN     
+                    IF (IPRMES_EL(IETY)==0.AND.ISPMD==0) THEN     
 	                     WRITE(IOUT,1002)JHBE
                       IPRMES_EL(IETY)=1
 	                   ENDIF
-                  ELSEIF(JHBE.EQ.12.OR.JHBE.EQ.112)THEN               
+                  ELSEIF(JHBE==12.OR.JHBE==112)THEN               
                     IETY=4                                            
-                    IF (IPRMES_EL(IETY).EQ.0.AND.ISPMD.EQ.0) THEN     
+                    IF (IPRMES_EL(IETY)==0.AND.ISPMD==0) THEN     
 	                     WRITE(IOUT,1002)JHBE
                       IPRMES_EL(IETY)=1
 	                   ENDIF
-                  ELSEIF(JHBE.EQ.0)THEN                               
+                  ELSEIF(JHBE==0)THEN                               
                     IETY=5                                             
-                    IF (IPRMES_EL(IETY).EQ.0.AND.ISPMD.EQ.0) THEN      
+                    IF (IPRMES_EL(IETY)==0.AND.ISPMD==0) THEN      
 	                     WRITE(IOUT,1002)JHBE
                           IPRMES_EL(IETY)=1
 	                   ENDIF
                         ELSE
                          IETY=6
-                         IF (IPRMES_EL(IETY).EQ.0.AND.ISPMD.EQ.0) THEN
+                         IF (IPRMES_EL(IETY)==0.AND.ISPMD==0) THEN
 	                  WRITE(IOUT,1002)JHBE
                           IPRMES_EL(IETY)=1
 	                 ENDIF
@@ -288,21 +288,21 @@ C     6                   K48   ,K55   ,K56    ,K57    ,K58   ,
 C     7                   K66   ,K67   ,K68    ,K77    ,K78   ,
 C     8                   K88   )
 C----6---------------------------------------------------------------7---------8
-             ELSEIF(IGTYP.GE.29)THEN
+             ELSEIF(IGTYP>=29)THEN
               IETY=7
-              IF (IPRMES_EL(IETY).EQ.0.AND.ISPMD.EQ.0) THEN
+              IF (IPRMES_EL(IETY)==0.AND.ISPMD==0) THEN
               WRITE(IOUT,1001)'   USERS   '
               WRITE(ISTDO,1001)'   USERS   '
               IPRMES_EL(IETY)=1
 	             ENDIF
 C               CALL SUKE3(
-             ELSEIF(NPT.EQ.1)THEN
-              IF(NG.NE.NGROUP)THEN
+             ELSEIF(NPT==1)THEN
+              IF(NG/=NGROUP)THEN
                IAD2 = IPARG(4,NG+1) - 21 * NEL
               ELSE
                IAD2 = LBUFEL - 21 * NEL + 1
               ENDIF
-              IF(JHBE.EQ.24)THEN
+              IF(JHBE==24)THEN
 C---------------ca ne riske pas de entrer ici pour l'instant
 C               CALL SZKE3(
 C     1                   PM    ,GEO   ,IXS    ,X  ,ELBUF(KAD),
@@ -316,74 +316,74 @@ C     7                   K66   ,K67   ,K68    ,K77    ,K78   ,
 C     8                   K88   ,NEL   ,LIAD   ,ICP    ,ICSIG ,
 C     9                   OFFSET,ELBUF(IAD2),OFF)
               IETY=8
-              IF (IPRMES_EL(IETY).EQ.0.AND.ISPMD.EQ.0) THEN
+              IF (IPRMES_EL(IETY)==0.AND.ISPMD==0) THEN
                WRITE(IOUT,1001)' HEPH SOLID'
                WRITE(ISTDO,1001)' HEPH SOLID'
                IPRMES_EL(IETY)=1
 	             ENDIF
               ELSE
               IETY=9
-              IF (IPRMES_EL(IETY).EQ.0.AND.ISPMD.EQ.0) THEN
+              IF (IPRMES_EL(IETY)==0.AND.ISPMD==0) THEN
                WRITE(IOUT,1001)'  S8  SOLID'
                WRITE(ISTDO,1001)'  S8  SOLID'
                IPRMES_EL(IETY)=1
 	             ENDIF
               ENDIF
-             ELSEIF(NPT.EQ.8.AND.MTN.NE.0 .AND. ISOLNOD.NE.20)THEN
+             ELSEIF(NPT==8.AND.MTN/=0 .AND. ISOLNOD/=20)THEN
 C              CALL S8KE3(
               IETY=10
-              IF (IPRMES_EL(IETY).EQ.0.AND.ISPMD.EQ.0) THEN
+              IF (IPRMES_EL(IETY)==0.AND.ISPMD==0) THEN
               WRITE(IOUT,1001)'  S8  SOLID'
               WRITE(ISTDO,1001)'  S8  SOLID'
                IPRMES_EL(IETY)=1
 	             ENDIF
              ENDIF
 C----6---------------------------------------------------------------7---------8
-            ELSEIF(ITY.EQ.2.AND.JMULT.EQ.0.AND.JLAG.EQ.1)THEN
+            ELSEIF(ITY==2.AND.JMULT==0.AND.JLAG==1)THEN
               IETY=11
-              IF (IPRMES_EL(IETY).EQ.0.AND.ISPMD.EQ.0) THEN
+              IF (IPRMES_EL(IETY)==0.AND.ISPMD==0) THEN
               WRITE(IOUT,1001)'  QUAD 2D  '
               WRITE(ISTDO,1001)'  QUAD 2D '
                IPRMES_EL(IETY)=1
 	             ENDIF
 C             CALL QFORC2(
-            ELSEIF(ITY.EQ.3)THEN
+            ELSEIF(ITY==3)THEN
              IOFC = 0
-              IF(NG.NE.NGROUP)THEN
+              IF(NG/=NGROUP)THEN
                 IAD2 = IPARG(4,NG+1) - 6 * NEL - 27 * ISUB * NEL
               ELSE
                 IAD2 = LBUFEL - 6 * NEL + 1 - 27 * ISUB * NEL
               ENDIF
-	             IF (JHBE.LT.11) THEN
-	              IF (NCYCLE.EQ.1.AND.IMCONV.EQ.1) THEN
-                       IF(JHBE.EQ.4)THEN
+	             IF (JHBE<11) THEN
+	              IF (NCYCLE==1.AND.IMCONV==1) THEN
+                       IF(JHBE==4)THEN
                         IETY=12
-                        IF (IPRMES_EL(IETY).EQ.0) THEN
+                        IF (IPRMES_EL(IETY)==0) THEN
 	                 WRITE(IOUT,1003)JHBE
                          IPRMES_EL(IETY)=1
 	                ENDIF
-                       ELSEIF(JHBE.EQ.3)THEN
+                       ELSEIF(JHBE==3)THEN
                         IETY=13
-                        IF (IPRMES_EL(IETY).EQ.0) THEN
+                        IF (IPRMES_EL(IETY)==0) THEN
 	                 WRITE(IOUT,1003)JHBE
                          IPRMES_EL(IETY)=1
 	                ENDIF
-                       ELSEIF(JHBE.EQ.1)THEN
+                       ELSEIF(JHBE==1)THEN
                         IETY=14
-                        IF (IPRMES_EL(IETY).EQ.0) THEN
+                        IF (IPRMES_EL(IETY)==0) THEN
 	                 WRITE(IOUT,1003)JHBE
                          IPRMES_EL(IETY)=1
 	                ENDIF
                        ELSE
                         IETY=15
-                        IF (IPRMES_EL(IETY).EQ.0) THEN
+                        IF (IPRMES_EL(IETY)==0) THEN
 	                 WRITE(IOUT,1003)JHBE
                          IPRMES_EL(IETY)=1
 	                ENDIF
 		                      ENDIF
 	              ENDIF
 	             ENDIF
-             IF(JHBE.GE.11.AND.JHBE.LE.19) THEN
+             IF(JHBE>=11.AND.JHBE<=19) THEN
               CALL CBAKE3 (
      1        JFT        ,JLT       ,NFT       ,IABS(NPT) ,MLW        ,
      2        ITHK       ,NCYCLE    ,
@@ -418,7 +418,7 @@ c     1                    KC11   ,KC12   ,KC13   ,KC14   ,KC22 ,
 c     2                    KC23   ,KC24   ,KC33   ,KC34   ,KC44 )
 
 C----6---------------------------------------------------------------7---------8
-            ELSEIF(ITY.EQ.4)THEN
+            ELSEIF(ITY==4)THEN
 
              CALL TKE3( JFT     ,JLT            ,PM    ,GEO         ,IXT(1,NF1) ,
      2                  X       ,ELBUF_TAB(NG)  ,NEL   ,OFFSET      ,IKGEO ,
@@ -429,7 +429,7 @@ C
 C              WRITE(IOUT,1001)'   TRUSS   '
 C              WRITE(ISTDO,1001)'   TRUSS   '
 C----6---------------------------------------------------------------7---------8
-            ELSEIF(ITY.EQ.5)THEN
+            ELSEIF(ITY==5)THEN
 
              CALL PKE3(  JFT    ,JLT        ,NEL  , MTN           , ISMSTR,
      1                   PM     ,IXP(1,NF1) ,X    , ELBUF_TAB(NG) , GEO   ,
@@ -440,11 +440,11 @@ C----6---------------------------------------------------------------7---------8
 c         OPEN(UNIT=16,FILE='KE_P.TMP',STATUS='UNKNOWN',FORM='FORMATTED')
 c              CALL IMPKPOUT(NIXPL,IXP,NFT,NEL,16,KC11   ,KC12 ,  KC22 )
 C----6---------------------------------------------------------------7---------8
-            ELSEIF(ITY.EQ.6)THEN
+            ELSEIF(ITY==6)THEN
              IGTYP = NINT(GEO(12,IXR(1,NF1)))
              K1=1 + 6*(NUMELC+NUMELTG)*IEPSDOT + 15*(NUMELT+NUMELP+NFT)
 
-             IF (IGTYP.EQ.4)THEN
+             IF (IGTYP==4)THEN
               CALL R4KE3(JFT    ,JLT   ,NEL   ,MTN    ,PM    ,
      1                  GEO     ,IXR(1,NF1),X     ,ELBUF_TAB(NG),NPC   ,
      2                  TF     ,SKEW  ,OFFSET,FR_WAVE,
@@ -453,21 +453,21 @@ C----6---------------------------------------------------------------7---------8
      2                  IADK  ,JDIK   )
 
 
-             ELSEIF (IGTYP.EQ.8)THEN
+             ELSEIF (IGTYP==8)THEN
               CALL R8KE3(JFT    ,JLT   ,NEL   ,MTN    ,PM    ,
      1                   GEO     ,IXR(1,NF1),X     ,ELBUF_TAB(NG),NPC   ,
      2                   TF     ,SKEW  ,OFFSET,FR_WAVE,IGEO   ,
      1                   ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  ,
      2                   IADK  ,JDIK  )
 
-             ELSEIF (IGTYP.EQ.12)THEN
+             ELSEIF (IGTYP==12)THEN
               CALL R12KE3(JFT    ,JLT   ,NEL   ,MTN    ,PM    ,
      1                   GEO     ,IXR(1,NF1),X  ,ELBUF_TAB(NG),NPC   ,
      2                   TF     ,SKEW  ,OFFSET,FR_WAVE,IGEO  ,
      1                   ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  ,
      2                   IADK  ,JDIK  )
 
-             ELSEIF (IGTYP.EQ.13)THEN
+             ELSEIF (IGTYP==13)THEN
               CALL R13KE3(JFT    ,JLT   ,NEL   ,MTN    ,PM    ,
      1                   GEO     ,IXR(1,NF1),X     ,ELBUF_TAB(NG),NPC   ,
      2                   TF  ,SKEW  ,OFFSET,FR_WAVE,IKGEO ,IGEO ,
@@ -479,25 +479,25 @@ C        OPEN(UNIT=16,FILE='KE_SP.TMP',STATUS='UNKNOWN',FORM='FORMATTED')
 C              CALL IMPKPOUT( NIXR,IXR,NFT,NEL,16,KC11   ,KC12 ,  KC22 )
              ELSE
               IETY=16
-              IF (IPRMES_EL(IETY).EQ.0.AND.ISPMD.EQ.0) THEN
+              IF (IPRMES_EL(IETY)==0.AND.ISPMD==0) THEN
               WRITE(IOUT,1001)' THIS SPRING'
               WRITE(ISTDO,1001)' THIS SPRING'
                IPRMES_EL(IETY)=1
 	      ENDIF
              ENDIF
 C----6---------------------------------------------------------------7---------8
-            ELSEIF(ITY.EQ.7)THEN
+            ELSEIF(ITY==7)THEN
              IOFC = 0
-             IF(NG.NE.NGROUP)THEN
+             IF(NG/=NGROUP)THEN
               IAD2 = IPARG(4,NG+1) - 6 * NEL - 27 * ISUB * NEL
              ELSE
               IAD2 = LBUFEL - 6 * NEL + 1 - 27 * ISUB * NEL
              ENDIF
              NF1 = NFT + 1
-             IF(ICNOD.EQ.6)THEN
+             IF(ICNOD==6)THEN
 
               IETY=17
-              IF (IPRMES_EL(IETY).EQ.0.AND.ISPMD.EQ.0) THEN
+              IF (IPRMES_EL(IETY)==0.AND.ISPMD==0) THEN
               WRITE(IOUT,1001)' S3N6 SHELL'
               WRITE(ISTDO,1001)' S3N6 SHELL'
                IPRMES_EL(IETY)=1
@@ -505,9 +505,9 @@ C----6---------------------------------------------------------------7---------8
 
              ELSE
 	      IF (ISH3N == 30) THEN
-	       IF (NCYCLE.EQ.1.AND.IMCONV.EQ.1) THEN
+	       IF (NCYCLE==1.AND.IMCONV==1) THEN
                 IETY=18
-                IF (IPRMES_EL(IETY).EQ.0.AND.ISPMD.EQ.0) THEN
+                IF (IPRMES_EL(IETY)==0.AND.ISPMD==0) THEN
 	         WRITE(IOUT,1004)ISH3N
                  IPRMES_EL(IETY)=1
 	        ENDIF
@@ -525,7 +525,7 @@ C----6---------------------------------------------------------------7---------8
 
              ENDIF
 C----6---------------------------------------------------------------7---------8
-            ELSEIF(ITY.EQ.50)THEN
+            ELSEIF(ITY==50)THEN
 C              K = 1+2*(NSECT+NRBODY+NRWALL)
 C              CALL URKE3(
 C     1          IXUR     ,GEO    ,ELBUF(KAD)  ,A           ,AR   ,
@@ -533,7 +533,7 @@ C     2          V        ,VR     ,X           ,STIFN       ,STIFR,
 C     3          FANI(1,K),OFFSET ,PARTSAV     ,IPARTUR(NF1),DT2T ,
 C     4          NELTST   ,ITYPTST,IADUR(1,NF1),FSKY        ,NEL  )
               IETY=19
-              IF (IPRMES_EL(IETY).EQ.0.AND.ISPMD.EQ.0) THEN
+              IF (IPRMES_EL(IETY)==0.AND.ISPMD==0) THEN
               WRITE(IOUT,1001)'USER-SPRING'
               WRITE(ISTDO,1001)'USER-SPRING'
                IPRMES_EL(IETY)=1
@@ -612,7 +612,7 @@ C-----------------------------------------------
       INTEGER K,IK,ID,JD,L
 C----6----------KII is always triag_sup whatever IKPAT------------------------
         ID = IDDL(NI)
-       IF (IKPAT.EQ.0) THEN
+       IF (IKPAT==0) THEN
         DO K=1,ND
           KII(K,K) = K_DIAG(ID+K)
           JD = IADK(ID+K)-1
@@ -679,7 +679,7 @@ C-----------------------------------------------
       INTEGER K,IK,ID,JD,L
 C----6----------KII is always triag_sup whatever IKPAT------------------------
         ID = IDDL(NI)
-       IF (IKPAT.EQ.0) THEN
+       IF (IKPAT==0) THEN
         DO K=1,ND
           K_DIAG(ID+K) = K_DIAG(ID+K) + KII(K,K)
           JD = IADK(ID+K)-1
@@ -746,7 +746,7 @@ C----6---------------------------------------------------------------7---------8
         IERR = 0
         I = IDDL(NI)
         J = IDDL(NJ)
-        IF (IKPAT.EQ.0) THEN
+        IF (IKPAT==0) THEN
          ID = MIN(I,J)
          JD = MAX(I,J)+1
         ELSE
@@ -754,16 +754,16 @@ C----6---------------------------------------------------------------7---------8
          JD = MIN(I,J)+1
         ENDIF
         JDL=0
-        IF (I.EQ.ID) THEN
+        IF (I==ID) THEN
          DO K=1,NK
           DO JJ = IADK(ID+K),IADK(ID+1+K)-1
 C---------find l'adress dans LT-----
-           IF (JDIK(JJ).EQ.JD) THEN
+           IF (JDIK(JJ)==JD) THEN
             JDL = JJ-1
             GOTO 100
            ENDIF
           ENDDO
-          IF (JDL.EQ.0) THEN
+          IF (JDL==0) THEN
            IERR = 1
            DO I=1,NK
            DO J=1,NL
@@ -779,12 +779,12 @@ C---------find l'adress dans LT-----
         ELSE
          DO K=1,NL
           DO JJ = IADK(ID+K),IADK(ID+1+K)-1
-           IF (JDIK(JJ).EQ.JD) THEN
+           IF (JDIK(JJ)==JD) THEN
             JDL = JJ-1
             GOTO 200
            ENDIF
           ENDDO
-          IF (JDL.EQ.0) THEN
+          IF (JDL==0) THEN
            IERR = 1
            DO I=1,NK
            DO J=1,NL
@@ -848,18 +848,18 @@ C----6---------------------------------------------------------------7---------8
         IERR = 0
         I = IDDL(NI)
         J = IDDL(NJ)
-        IF (IKPAT.EQ.0) THEN
+        IF (IKPAT==0) THEN
          ID = MIN(I,J)
          JD = MAX(I,J)+1
         ELSE
          ID = MAX(I,J)
          JD = MIN(I,J)+1
         ENDIF
-        IF (I.EQ.ID) THEN
+        IF (I==ID) THEN
          DO K=1,NK
           DO JJ = IADK(ID+K),IADK(ID+1+K)-1
 C---------find l'adress dans LT-----
-           IF (JDIK(JJ).EQ.JD) THEN
+           IF (JDIK(JJ)==JD) THEN
             JDL = JJ-1
             GOTO 100
            ENDIF
@@ -873,7 +873,7 @@ C---------find l'adress dans LT-----
         ELSE
          DO K=1,NL
           DO JJ = IADK(ID+K),IADK(ID+1+K)-1
-           IF (JDIK(JJ).EQ.JD) THEN
+           IF (JDIK(JJ)==JD) THEN
             JDL = JJ-1
             GOTO 200
            ENDIF
@@ -929,19 +929,19 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
 C----6---------------------------------------------------------------7---------8
-         IF (IFLAG.EQ.1) THEN
+         IF (IFLAG==1) THEN
           WRITE(IOUT,1001)NI,NJ
           WRITE(ISTDO,1001)NI,NJ
-         ELSEIF (IFLAG.EQ.2) THEN
+         ELSEIF (IFLAG==2) THEN
           WRITE(IOUT,1002)NI,NJ
           WRITE(ISTDO,1002)NI,NJ
-         ELSEIF (IFLAG.EQ.3) THEN
+         ELSEIF (IFLAG==3) THEN
           WRITE(IOUT,1003)NI,NJ
           WRITE(ISTDO,1003)NI,NJ
-         ELSEIF (IFLAG.EQ.4) THEN
+         ELSEIF (IFLAG==4) THEN
           WRITE(IOUT,1004)NI,NJ
           WRITE(ISTDO,1004)NI,NJ
-         ELSEIF (IFLAG.EQ.5) THEN
+         ELSEIF (IFLAG==5) THEN
           WRITE(IOUT,1005)NI,NJ
           WRITE(ISTDO,1005)NI,NJ
          ELSE
@@ -1013,10 +1013,10 @@ C----6----------KII is always triag_sup whatever IKPAT---------------7--------
 Cel lock par element trop penalisant pour perf
 #include "lockon.inc"
       DO EP = 1,NEL
-      IF (OFF(EP).GT.ZERO.AND.NI(EP).GT.0) THEN
+      IF (OFF(EP)>ZERO.AND.NI(EP)>0) THEN
        N = NI(EP)
        ID = IDDL(N)
-       IF (IKPAT.EQ.0) THEN
+       IF (IKPAT==0) THEN
         DO K=1,ND
 c#include "lockon.inc"
           K_DIAG(ID+K) = K_DIAG(ID+K) + KII(K,K,EP)
@@ -1097,7 +1097,7 @@ C-----------------------------------------------
 C---- s'il y a des elms degeneres--------------
       NELD=0
       DO EP = 1,NEL
-       IF (NI(EP).EQ.NJ(EP).AND.OFF(EP).GT.ZERO.AND.NI(EP).GT.0) THEN
+       IF (NI(EP)==NJ(EP).AND.OFF(EP)>ZERO.AND.NI(EP)>0) THEN
         NELD=NELD+1
         NN(NELD)=NI(EP)
         OFFD(NELD)=OFF(EP)
@@ -1108,24 +1108,24 @@ C---- s'il y a des elms degeneres--------------
         ENDDO
        ENDIF
       ENDDO
-      IF (NELD.GT.0)
+      IF (NELD>0)
      . CALL ASSEM_KII(NN    ,NELD  ,IDDL  ,IADK  ,K_DIAG,
      .                       K_LT  ,KIJD  ,ND    ,OFFD  )
 C----6---------------------------------------------------------------7---------8
 #include "lockon.inc"
-      IF (IKPAT.EQ.0) THEN
+      IF (IKPAT==0) THEN
        DO EP = 1,NEL
-       IF (OFF(EP).GT.ZERO.AND.NI(EP).NE.NJ(EP).AND.
-     .     NI(EP).GT.0.AND.NJ(EP).GT.0) THEN
+       IF (OFF(EP)>ZERO.AND.NI(EP)/=NJ(EP).AND.
+     .     NI(EP)>0.AND.NJ(EP)>0) THEN
         I = IDDL(NI(EP))
         J = IDDL(NJ(EP))
         ID = MIN(I,J)
         JD = MAX(I,J)+1
-        IF (I.EQ.ID) THEN
+        IF (I==ID) THEN
          DO K=1,ND
           DO JJ = IADK(ID+K),IADK(ID+1+K)-1
 C---------find l'adress dans LT-----
-           IF (JDIK(JJ).EQ.JD) THEN
+           IF (JDIK(JJ)==JD) THEN
             JDL = JJ-1
             GOTO 100
            ENDIF
@@ -1139,7 +1139,7 @@ c#include "lockoff.inc"
         ELSE
          DO K=1,ND
           DO JJ = IADK(ID+K),IADK(ID+1+K)-1
-           IF (JDIK(JJ).EQ.JD) THEN
+           IF (JDIK(JJ)==JD) THEN
             JDL = JJ-1
             GOTO 200
            ENDIF
@@ -1155,17 +1155,17 @@ c#include "lockoff.inc"
        ENDDO
       ELSE
        DO EP = 1,NEL
-       IF (OFF(EP).GT.ZERO.AND.NI(EP).NE.NJ(EP).AND.
-     .     NI(EP).GT.0.AND.NJ(EP).GT.0) THEN
+       IF (OFF(EP)>ZERO.AND.NI(EP)/=NJ(EP).AND.
+     .     NI(EP)>0.AND.NJ(EP)>0) THEN
         I = IDDL(NI(EP))
         J = IDDL(NJ(EP))
         ID = MAX(I,J)
         JD = MIN(I,J)+1
-        IF (I.EQ.ID) THEN
+        IF (I==ID) THEN
          DO K=1,ND
           DO JJ = IADK(ID+K),IADK(ID+1+K)-1
 C---------find l'adress dans LT-----
-           IF (JDIK(JJ).EQ.JD) THEN
+           IF (JDIK(JJ)==JD) THEN
             JDL = JJ-1
             GOTO 300
            ENDIF
@@ -1179,7 +1179,7 @@ c#include "lockoff.inc"
         ELSE
          DO K=1,ND
           DO JJ = IADK(ID+K),IADK(ID+1+K)-1
-           IF (JDIK(JJ).EQ.JD) THEN
+           IF (JDIK(JJ)==JD) THEN
             JDL = JJ-1
             GOTO 400
            ENDIF
@@ -1238,7 +1238,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER K,IK,JD,L,IDM
 C----6----------KII is always triag_sup whatever IKPAT------------------------
-       IF (IKPAT.EQ.0) THEN
+       IF (IKPAT==0) THEN
         DO K=1,ND
           K_DIAG(ID+K) = K_DIAG(ID+K) + KII(K,K)
           JD = IADK(ID+K)-1
@@ -1298,18 +1298,18 @@ C----6---------------------------------------------------------------7---------8
         IERR = 0
         I = INI
         J = INJ
-        IF (IKPAT.EQ.0) THEN
+        IF (IKPAT==0) THEN
          ID = MIN(I,J)
          JD = MAX(I,J)+1
         ELSE
          ID = MAX(I,J)
          JD = MIN(I,J)+1
         ENDIF
-        IF (I.EQ.ID) THEN
+        IF (I==ID) THEN
          DO K=1,NK
           DO JJ = IADK(ID+K),IADK(ID+1+K)-1
 C---------find l'adress dans LT-----
-           IF (JDIK(JJ).EQ.JD) THEN
+           IF (JDIK(JJ)==JD) THEN
             JDL = JJ-1
             GOTO 100
            ENDIF
@@ -1323,7 +1323,7 @@ C---------find l'adress dans LT-----
         ELSE
          DO K=1,NL
           DO JJ = IADK(ID+K),IADK(ID+1+K)-1
-           IF (JDIK(JJ).EQ.JD) THEN
+           IF (JDIK(JJ)==JD) THEN
             JDL = JJ-1
             GOTO 200
            ENDIF
@@ -1795,15 +1795,15 @@ C
        A=HALF*(KE22(1,1,N)+KE22(2,2,N))
        B=HALF*(KE22(1,1,N)-KE22(2,2,N))
        C=A+SQRT(B*B+KE22(1,2,N)*KE22(1,2,N))
-       IF(C.GT.LAMDAS(N))LAMDAS(N)=C
+       IF(C>LAMDAS(N))LAMDAS(N)=C
        A=HALF*(KE33(1,1,N)+KE33(2,2,N))
        B=HALF*(KE33(1,1,N)-KE33(2,2,N))
        C=A+SQRT(B*B+KE33(1,2,N)*KE33(1,2,N))
-       IF(C.GT.LAMDAS(N))LAMDAS(N)=C
+       IF(C>LAMDAS(N))LAMDAS(N)=C
        A=HALF*(KE44(1,1,N)+KE44(2,2,N))
        B=HALF*(KE44(1,1,N)-KE44(2,2,N))
        C=A+SQRT(B*B+KE44(1,2,N)*KE44(1,2,N))
-       IF(C.GT.LAMDAS(N))LAMDAS(N)=C
+       IF(C>LAMDAS(N))LAMDAS(N)=C
       ENDDO
        WRITE(IUGEO,'(A)') '#SHELL EIGENVALUES'
        WRITE(IUGEO,'(A)')
@@ -1852,7 +1852,7 @@ C-----------------------------------------------
 C----------------------------------------------------------------
       DO 130 IZ=1,N
         DO 120 IS=1,N
-          IF(IZ.LT.IS) A(IS,IZ) = A(IZ,IS)
+          IF(IZ<IS) A(IS,IZ) = A(IZ,IS)
           EV(IZ,IS)=ZERO
   120   CONTINUE
         B(IZ)=A(IZ,IZ)
@@ -1877,32 +1877,32 @@ C SUM OF THE OFF DIAGONALS
   140     CONTINUE
   150   CONTINUE
 
-        IF (SUMRS .EQ.ZERO) GOTO 9000
-        IF (ITER .GT. 4)   THEN
+        IF (SUMRS ==ZERO) GOTO 9000
+        IF (ITER > 4)   THEN
           EPS = ZERO
         ELSE
           EPS = ONE_FIFTH*SUMRS/N**2
         ENDIF
 C START ITERATION
 
-      DO WHILE (R.GT.TOL)
+      DO WHILE (R>TOL)
 c      DO 240 ITER = 1,50
        ITER =ITER+ 1
 
         DO 220 IZ=1,N-1
           DO 210 IS=IZ+1,N
             G = 100. * ABS(A(IZ,IS))
-            IF (ITER.GT.4 .AND. ABS(EW(IZ))+G.EQ.ABS(EW(IZ))
-     &      .AND. ABS(EW(IS))+G.EQ.ABS(EW(IS))) THEN
+            IF (ITER>4 .AND. ABS(EW(IZ))+G==ABS(EW(IZ))
+     &      .AND. ABS(EW(IS))+G==ABS(EW(IS))) THEN
               A(IZ,IS)=ZERO
-            ELSE IF (ABS(A(IZ,IS)) .GT. EPS) THEN
+            ELSE IF (ABS(A(IZ,IS)) > EPS) THEN
               H = EW(IS)-EW(IZ)
-              IF (ABS(H)+G.EQ.ABS(H)) THEN
+              IF (ABS(H)+G==ABS(H)) THEN
                 T = A(IZ,IS)/H
               ELSE
                 THETA = HALF*H/A(IZ,IS)
                 T=ONE/(ABS(THETA)+SQRT(ONE+THETA**2))
-                IF (THETA .LT. ZERO) T=-T
+                IF (THETA < ZERO) T=-T
               ENDIF
               C=ONE/SQRT(ONE+T**2)
               S=T*C
@@ -1943,7 +1943,7 @@ c      DO 240 ITER = 1,50
   220   CONTINUE
         DO 230 IZ=1,N
           B(IZ)=B(IZ)+Z(IZ)
-          IF (B(IZ).GT.LAMDA)LAMDA=B(IZ)
+          IF (B(IZ)>LAMDA)LAMDA=B(IZ)
           EW(IZ)=B(IZ)
           Z(IZ)=ZERO
   230   CONTINUE
@@ -2074,16 +2074,16 @@ C-------IPRES4=0:no pressure,1:pressure with 3n; 2: with 4N
        IPRES4=0
        ND =3
        SCALN=HALF
-C       IF (ILINE.EQ.0) SCALN=ONEP1
-C       IF (NBUCK.GT.0) SCALN=-ONE
+C       IF (ILINE==0) SCALN=ONEP1
+C       IF (NBUCK>0) SCALN=-ONE
        DO NL=1,NCONLD
         N4=IB(4,NL)
         ISENS=0
         XSENS = ONE
         DO K=1,NSENSOR
-         IF(IB(6,NL).EQ.LSENSOR(1,K))ISENS=K
+         IF(IB(6,NL)==LSENSOR(1,K))ISENS=K
         ENDDO
-        IF(ISENS.EQ.0)THEN
+        IF(ISENS==0)THEN
           TS=TT
         ELSEIF (LSENSOR(4,ISENS)==753096514 .AND. TT /= ZERO) THEN
          IERR = SET_U_SENS_VALUE(ISENS,1,ZERO)
@@ -2093,7 +2093,7 @@ C       IF (NBUCK.GT.0) SCALN=-ONE
           IF(TS < ZERO) CYCLE
         ENDIF
 C
-       IF(N4.EQ.-1)THEN
+       IF(N4==-1)THEN
 C----------------
 C       FORCE CONCENTREE
 C----------------
@@ -2101,11 +2101,11 @@ C----------------
 C----------------
 C       PRESSION
 C----------------
-        IF (XSENS.EQ.ZERO) CYCLE
+        IF (XSENS==ZERO) CYCLE
 C
-        IF(N2D.EQ.0)THEN
+        IF(N2D==0)THEN
 C        ANALYSE 3D
-         IF(N4.NE.0)THEN
+         IF(N4/=0)THEN
           IPRES4=2
           GOTO 100
          ELSE
@@ -2117,8 +2117,8 @@ C         true triangles.
        END DO
 C
  100   CONTINUE
-       IF (IPRES4.EQ.0) RETURN
-       IF (IPRES4.GT.1) CALL KP4_INI(VKSI,VETA,VF4)
+       IF (IPRES4==0) RETURN
+       IF (IPRES4>1) CALL KP4_INI(VKSI,VETA,VF4)
       N_OLD = 0
       X_OLD = ZERO
        DO 10 NL=1,NCONLD
@@ -2132,9 +2132,9 @@ C
        ISENS=0
        XSENS = ONE
        DO K=1,NSENSOR
-         IF(IB(6,NL).EQ.LSENSOR(1,K))ISENS=K
+         IF(IB(6,NL)==LSENSOR(1,K))ISENS=K
        ENDDO
-       IF(ISENS.EQ.0)THEN
+       IF(ISENS==0)THEN
           TS=TT
        ELSEIF (LSENSOR(4,ISENS)==753096514 .AND. TT /= ZERO) THEN
          IERR = SET_U_SENS_VALUE(ISENS,1,ZERO)
@@ -2144,7 +2144,7 @@ C
           IF(TS < ZERO) GOTO 10
        ENDIF
 C
-       IF(N4.EQ.-1)THEN
+       IF(N4==-1)THEN
 C----------------
 C       FORCE CONCENTREE
 C----------------
@@ -2152,17 +2152,17 @@ C----------------
 C----------------
 C       PRESSION
 C----------------
-       IF(N_OLD.NE.N5.OR.X_OLD.NE.TS) THEN
+       IF(N_OLD/=N5.OR.X_OLD/=TS) THEN
           F1 = FINTER(N5,TS*FCX,NPC,TF,DYDX)
           N_OLD = N5
           X_OLD = TS
         ENDIF
         AA = -SCALN*FCY*F1*XSENS
-        IF (AA.EQ.ZERO) CYCLE
+        IF (AA==ZERO) CYCLE
 C
-        IF(N2D.EQ.0)THEN
+        IF(N2D==0)THEN
 C        ANALYSE 3D
-         IF(N4.NE.0)THEN
+         IF(N4/=0)THEN
            CALL KPQUAD(N1,N2,N3,N4,AA,X,VKSI,VETA,VF4,
      .                K11,K22,K33,K44,K12,K13,K14,K23,K24,K34)
 C-----------add in ind_glob_k in case element has been deleted---
@@ -2684,10 +2684,10 @@ C----6----------KII is always triag_sup whatever IKPAT---------------7--------
 Cel lock par element trop penalisant pour perf
 #include "lockon.inc"
       DO EP = 1,NEL
-      IF (OFF(EP).GT.ZERO.AND.NI(EP).GT.0) THEN
+      IF (OFF(EP)>ZERO.AND.NI(EP)>0) THEN
        N = NI(EP)
        ID = IDDL(N)
-       IF (IKPAT.EQ.0) THEN
+       IF (IKPAT==0) THEN
         DO K=1,NDOF(N)
 c#include "lockon.inc"
           K_DIAG(ID+K) = K_DIAG(ID+K) + KII(K,K,EP)
@@ -2761,7 +2761,7 @@ C-----------------------------------------------
 C---- s'il y a des elms degeneres--------------
       NELD=0
       DO EP = 1,NEL
-       IF (NI(EP).EQ.NJ(EP).AND.OFF(EP).GT.ZERO.AND.NI(EP).GT.0) THEN
+       IF (NI(EP)==NJ(EP).AND.OFF(EP)>ZERO.AND.NI(EP)>0) THEN
         NELD=NELD+1
         N=NI(EP)
         NN(NELD)=N
@@ -2773,27 +2773,27 @@ C---- s'il y a des elms degeneres--------------
         ENDDO
        ENDIF
       ENDDO
-      IF (NELD.GT.0)
+      IF (NELD>0)
      . CALL ASSEMC_KII(NN    ,NELD  ,IDDL  ,IADK  ,K_DIAG,
      .                 K_LT  ,KIJD  ,ND    ,OFFD  ,NDOF  )
 C----6---------------------------------------------------------------7---------8
 Cel lock par element trop penalisant pour perf
 #include "lockon.inc"
-      IF (IKPAT.EQ.0) THEN
+      IF (IKPAT==0) THEN
        DO EP = 1,NEL
-       IF (OFF(EP).GT.ZERO.AND.NI(EP).NE.NJ(EP).AND.
-     .     NI(EP).GT.0.AND.NJ(EP).GT.0) THEN
+       IF (OFF(EP)>ZERO.AND.NI(EP)/=NJ(EP).AND.
+     .     NI(EP)>0.AND.NJ(EP)>0) THEN
         N1=NI(EP)
         N2=NJ(EP)
         I = IDDL(N1)
         J = IDDL(N2)
         ID = MIN(I,J)
         JD = MAX(I,J)+1
-        IF (I.EQ.ID) THEN
+        IF (I==ID) THEN
          DO K=1,NDOF(N1)
           DO JJ = IADK(ID+K),IADK(ID+1+K)-1
 C---------find l'adress dans LT-----
-           IF (JDIK(JJ).EQ.JD) THEN
+           IF (JDIK(JJ)==JD) THEN
             JDL = JJ-1
             GOTO 100
            ENDIF
@@ -2807,7 +2807,7 @@ c#include "lockoff.inc"
         ELSE
          DO K=1,NDOF(N2)
           DO JJ = IADK(ID+K),IADK(ID+1+K)-1
-           IF (JDIK(JJ).EQ.JD) THEN
+           IF (JDIK(JJ)==JD) THEN
             JDL = JJ-1
             GOTO 200
            ENDIF
@@ -2823,19 +2823,19 @@ c#include "lockoff.inc"
        ENDDO
       ELSE
        DO EP = 1,NEL
-       IF (OFF(EP).GT.ZERO.AND.NI(EP).NE.NJ(EP).AND.
-     .     NI(EP).GT.0.AND.NJ(EP).GT.0) THEN
+       IF (OFF(EP)>ZERO.AND.NI(EP)/=NJ(EP).AND.
+     .     NI(EP)>0.AND.NJ(EP)>0) THEN
         N1=NI(EP)
         N2=NJ(EP)
         I = IDDL(N1)
         J = IDDL(N2)
         ID = MAX(I,J)
         JD = MIN(I,J)+1
-        IF (I.EQ.ID) THEN
+        IF (I==ID) THEN
          DO K=1,NDOF(N1)
           DO JJ = IADK(ID+K),IADK(ID+1+K)-1
 C---------find l'adress dans LT-----
-           IF (JDIK(JJ).EQ.JD) THEN
+           IF (JDIK(JJ)==JD) THEN
             JDL = JJ-1
             GOTO 300
            ENDIF
@@ -2849,7 +2849,7 @@ c#include "lockoff.inc"
         ELSE
          DO K=1,NDOF(N2)
           DO JJ = IADK(ID+K),IADK(ID+1+K)-1
-           IF (JDIK(JJ).EQ.JD) THEN
+           IF (JDIK(JJ)==JD) THEN
             JDL = JJ-1
             GOTO 400
            ENDIF
@@ -2905,14 +2905,14 @@ C-------------first shell+ other
        NGROUC = 0
        DO NG = 1, NGROUP
          ITY   =IPARG(5,NG)
-         IF(ITY.EQ.3.OR.ITY.EQ.7)THEN
+         IF(ITY==3.OR.ITY==7)THEN
            NGROUC = NGROUC + 1
            IGROUC(NGROUC)=NG
          END IF
        END DO
        DO NG = 1, NGROUP
          ITY   =IPARG(5,NG)
-         IF(ITY.EQ.3.OR.ITY.EQ.7)THEN
+         IF(ITY==3.OR.ITY==7)THEN
          ELSE
            NGROUC = NGROUC + 1
            IGROUC(NGROUC)=NG
@@ -3001,7 +3001,7 @@ C
       INTEGER OMP_GET_THREAD_NUM
       EXTERNAL OMP_GET_THREAD_NUM
 C----6---------------------------------------------------------------7-2
-	     IF (NCYCLE.EQ.1.AND.INCONV.EQ.1) THEN
+	     IF (NCYCLE==1.AND.INCONV==1) THEN
 	       DO I=1,40
 	        IPRMES_EL(I)=0
 	       ENDDO
@@ -3024,15 +3024,15 @@ c
      9    ELBUF_TAB ,IGROUC    ,IPRMES_EL ,STACK     ,DRAPE_Q4, DRAPE_T3   )
 C
 !$OMP END PARALLEL
-        IF (NCYCLE.EQ.1.AND.INCONV.EQ.1) THEN
-           IF (NSPMD.GT.1) THEN
+        IF (NCYCLE==1.AND.INCONV==1) THEN
+           IF (NSPMD>1) THEN
             DO I=1,19
              CALL SPMD_MAX_I(IPRMES_EL(I))
             ENDDO
            ENDIF
            IF (ISPMD == 0 ) THEN
             DO I=1,19
-             IF (IPRMES_EL(I).GT.0) THEN
+             IF (IPRMES_EL(I)>0) THEN
               SELECT CASE (I)
 C
                CASE(1)
@@ -3092,7 +3092,7 @@ C
              ENDIF
             ENDDO
            ENDIF
-        END IF !(NCYCLE.EQ.1.AND.INCONV.EQ.1) THEN
+        END IF !(NCYCLE==1.AND.INCONV==1) THEN
 C----6---------------------------------------------------------------7---------8
  1001 FORMAT('  ***** WARNING : IMPLICIT FORMULATION IS NOT AVAILABLE
      . WITH '/,2X,A11,' ELEMENT : STIFFNESS IGNORED *****')
@@ -3233,11 +3233,11 @@ C
             NG = IGROUC(IG)
 C---------temporaly used to avoid pass KTBUF_STR everywhere
             NG_IMP = NG
-c            IF(NGDONE.GT.NGROUP) GOTO 250
+c            IF(NGDONE>NGROUP) GOTO 250
 c            NGDONE = NG + 1
 C
-            IF(IPARG(8,NG).EQ.1)GOTO 250
-            IF (IDDW.GT.0) CALL STARTIMEG(NG)
+            IF(IPARG(8,NG)==1)GOTO 250
+            IF (IDDW>0) CALL STARTIMEG(NG)
             ITY   =IPARG(5,NG)
             OFFSET  = 0
             MLW     = IPARG(1,NG)
@@ -3262,10 +3262,10 @@ C
             IEXPAN  = IPARG(49,NG)
             ISH3N   = IPARG(23,NG)
             ISUBSTACK=IPARG(71,NG)
-            IF(ITY.EQ.1) THEN
+            IF(ITY==1) THEN
              LIAD   = NVAUX
             ENDIF
-            IF(ITY.EQ.1.OR.ITY.EQ.2) JPLASOL=IPLA
+            IF(ITY==1.OR.ITY==2) JPLASOL=IPLA
             IFORMDT = 0
             LFT   = 1
             LLT   = MIN(NVSIZ,NEL)
@@ -3277,9 +3277,9 @@ C
 C
             JSPH=0
 C----6---------------------------------------------------------------7---------8
-            IF(ITY.EQ.1 .AND. JLAG.EQ.1)THEN
+            IF(ITY==1 .AND. JLAG==1)THEN
              IGTYP = NINT(GEO(12,IXS(10,NF1)))
-             IF(ISOLNOD.EQ.4)THEN
+             IF(ISOLNOD==4)THEN
                 IETY=1
                IF (ISROT > 0 .AND. ISPMD==0) THEN     
                 IF (IPRMES_EL(IETY)==0) THEN     
@@ -3291,39 +3291,39 @@ C----6---------------------------------------------------------------7---------8
      2             ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  ,                    
      3             IADK  ,JDIK  ,NEL   ,                                    
      4             IPM   ,IGEO  ,IKGEO  ,BUFMAT )                           
-             ELSEIF(ISOLNOD.EQ.10)THEN
+             ELSEIF(ISOLNOD==10)THEN
               NF2=NF1-NUMELS8
               CALL  S10KE3(PM    ,GEO   ,IXS  ,IXS10 ,X  ,ELBUF_TAB(NG),
      1                     ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  ,
      2                     IADK  ,JDIK  ,NEL   ,
      D                     IPM   ,IGEO  ,IKGEO ,BUFMAT)
 
-             ELSEIF(ISOLNOD.EQ.20)THEN
+             ELSEIF(ISOLNOD==20)THEN
               CALL S20KE3(PM    ,GEO   ,IXS   ,IXS20 ,X     ,
      1                  ELBUF_TAB(NG),ETAG  ,IDDL  ,
      2                  NDOF  ,K_DIAG,K_LT  ,IADK  ,JDIK  ,
      3                  NEL   ,IPM   ,IGEO  ,IKGEO ,BUFMAT)
 
 
-             ELSEIF(ISOLNOD.EQ.16)THEN
+             ELSEIF(ISOLNOD==16)THEN
               IETY=2
               IF (IPRMES_EL(IETY) == 0 ) IPRMES_EL(IETY)=1
-             ELSEIF(JHBE.EQ.15.AND.ISOLNOD.EQ.6)THEN
+             ELSEIF(JHBE==15.AND.ISOLNOD==6)THEN
               CALL S6CKE3 (PM    ,GEO   ,IXS    ,X  ,ELBUF_TAB(NG),
      1                     ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  ,
      2                     IADK  ,JDIK  ,NEL   ,ICP    ,ICS    ,
      3                     IPM   ,IGEO  ,IKGEO ,BUFMAT )
 C
-            ELSEIF(ISOLNOD.EQ.8)THEN
-	             IF (JHBE.NE.14.AND.JHBE.NE.15.AND.JHBE.NE.17) THEN
-	              IF (NCYCLE.EQ.1.AND.IMCONV.EQ.1)THEN
-                IF(JHBE.EQ.24)THEN
+            ELSEIF(ISOLNOD==8)THEN
+	             IF (JHBE/=14.AND.JHBE/=15.AND.JHBE/=17) THEN
+	              IF (NCYCLE==1.AND.IMCONV==1)THEN
+                IF(JHBE==24)THEN
                  IETY=3
                  IF (IPRMES_EL(IETY) == 0 ) IPRMES_EL(IETY)=1
-                ELSEIF(JHBE.EQ.12.OR.JHBE.EQ.112)THEN
+                ELSEIF(JHBE==12.OR.JHBE==112)THEN
                  IETY=4
                  IF (IPRMES_EL(IETY) == 0 ) IPRMES_EL(IETY)=1
-                ELSEIF(JHBE.EQ.0)THEN
+                ELSEIF(JHBE==0)THEN
                  IETY=5
                  IF (IPRMES_EL(IETY) == 0 ) IPRMES_EL(IETY)=1
                 ELSE
@@ -3369,12 +3369,12 @@ C     6                   K48   ,K55   ,K56    ,K57    ,K58   ,
 C     7                   K66   ,K67   ,K68    ,K77    ,K78   ,
 C     8                   K88   )
 C----6---------------------------------------------------------------7---------8
-             ELSEIF(IGTYP.GE.29)THEN
+             ELSEIF(IGTYP>=29)THEN
               IETY=7
               IF (IPRMES_EL(IETY) == 0 ) IPRMES_EL(IETY)=1
 C               CALL SUKE3(
-             ELSEIF(NPT.EQ.1)THEN
-              IF(JHBE.EQ.24)THEN
+             ELSEIF(NPT==1)THEN
+              IF(JHBE==24)THEN
 C---------------ca ne riske pas de entrer ici pour l'instant
 C               CALL SZKE3(
 C     1                   PM    ,GEO   ,IXS    ,X  ,ELBUF(KAD),
@@ -3393,15 +3393,15 @@ C     9                   OFFSET,ELBUF(IAD2),OFF)
                IETY=9
                IF (IPRMES_EL(IETY) == 0 ) IPRMES_EL(IETY)=1
               ENDIF
-             ELSEIF(NPT.EQ.8.AND.MTN.NE.0 .AND. ISOLNOD.NE.20)THEN
+             ELSEIF(NPT==8.AND.MTN/=0 .AND. ISOLNOD/=20)THEN
 C              CALL S8KE3(
               IETY=10
               IF (IPRMES_EL(IETY) == 0 ) IPRMES_EL(IETY)=1
              ENDIF
 C----6---------------------------------------------------------------7---------8
-            ELSEIF(ITY.EQ.2.AND.JMULT.EQ.0.AND.JLAG.EQ.1)THEN
-             IF ((N2D.EQ.2.AND.JHBE.EQ.17) .OR.
-     .           (N2D.EQ.1.AND.JHBE.EQ.22)) THEN
+            ELSEIF(ITY==2.AND.JMULT==0.AND.JLAG==1)THEN
+             IF ((N2D==2.AND.JHBE==17) .OR.
+     .           (N2D==1.AND.JHBE==22)) THEN
               INPT = IABS(NPT)
               ICP = IPARG(10,NG)
               CALL Q4KE2(
@@ -3416,22 +3416,22 @@ C----6---------------------------------------------------------------7---------8
 C             CALL QFORC2(
              ENDIF
 C----6---------------------------------------------------------------7---------8
-            ELSEIF(ITY.EQ.3)THEN
+            ELSEIF(ITY==3)THEN
              IOFC = 0
-              IF(NG.NE.NGROUP)THEN
+              IF(NG/=NGROUP)THEN
                 IAD2 = IPARG(4,NG+1) - 6 * NEL - 27 * ISUB * NEL
               ELSE
                 IAD2 = LBUFEL - 6 * NEL + 1 - 27 * ISUB * NEL
               ENDIF
-	      IF (JHBE.LT.11) THEN
-	       IF (NCYCLE.EQ.1.AND.IMCONV.EQ.1) THEN
-                IF(JHBE.EQ.4)THEN
+	      IF (JHBE<11) THEN
+	       IF (NCYCLE==1.AND.IMCONV==1) THEN
+                IF(JHBE==4)THEN
                  IETY=12
                  IF (IPRMES_EL(IETY) == 0 ) IPRMES_EL(IETY)=1
-                ELSEIF(JHBE.EQ.3)THEN
+                ELSEIF(JHBE==3)THEN
                  IETY=13
                  IF (IPRMES_EL(IETY) == 0 ) IPRMES_EL(IETY)=1
-                ELSEIF(JHBE.EQ.1)THEN
+                ELSEIF(JHBE==1)THEN
                  IETY=14
                  IF (IPRMES_EL(IETY) == 0 ) IPRMES_EL(IETY)=1
                 ELSE
@@ -3440,7 +3440,7 @@ C----6---------------------------------------------------------------7---------8
 		        ENDIF
 	       ENDIF
 	      ENDIF
-             IF(JHBE.GE.11.AND.JHBE.LE.19) THEN
+             IF(JHBE>=11.AND.JHBE<=19) THEN
               CALL CBAKE3 (
      1        JFT        ,JLT       ,NFT       ,IABS(NPT) ,MLW        ,
      2        ITHK       ,NCYCLE    ,
@@ -3472,7 +3472,7 @@ c     1                    KC11   ,KC12   ,KC13   ,KC14   ,KC22 ,
 c     2                    KC23   ,KC24   ,KC33   ,KC34   ,KC44 )
 
 C----6---------------------------------------------------------------7---------8
-            ELSEIF(ITY.EQ.4)THEN
+            ELSEIF(ITY==4)THEN
              CALL TKE3(
      1 JFT         ,JLT         ,PM          ,GEO         ,IXT(1,NF1) ,
      2 X           ,ELBUF_TAB(NG)  ,NEL         ,OFFSET      ,IKGEO,
@@ -3481,7 +3481,7 @@ C----6---------------------------------------------------------------7---------8
 
 
 C----6---------------------------------------------------------------7---------8
-            ELSEIF(ITY.EQ.5)THEN
+            ELSEIF(ITY==5)THEN
              CALL PKE3(JFT   ,JLT    ,NEL  ,MTN    ,ISMSTR,
      1                  PM   ,IXP(1,NF1),X    ,ELBUF_TAB(NG),
      2                  GEO  ,OFFSET , IKGEO,
@@ -3492,10 +3492,10 @@ C----6---------------------------------------------------------------7---------8
 c         OPEN(UNIT=16,FILE='KE_P.TMP',STATUS='UNKNOWN',FORM='FORMATTED')
 c              CALL IMPKPOUT(NIXPL,IXP,NFT,NEL,16,KC11   ,KC12 ,  KC22 )
 C----6---------------------------------------------------------------7---------8
-            ELSEIF(ITY.EQ.6)THEN
+            ELSEIF(ITY==6)THEN
              IGTYP = NINT(GEO(12,IXR(1,NF1)))
              K1=1 + 6*(NUMELC+NUMELTG)*IEPSDOT + 15*(NUMELT+NUMELP+NFT)
-             IF (IGTYP.EQ.4)THEN
+             IF (IGTYP==4)THEN
               CALL R4KE3 (JFT    ,JLT   ,NEL   ,MTN    ,PM    ,
      1                   GEO     ,IXR(1,NF1),X     ,ELBUF_TAB(NG),NPC   ,
      2                   TF     ,SKEW  ,OFFSET,FR_WAVE,
@@ -3503,7 +3503,7 @@ C----6---------------------------------------------------------------7---------8
      1                   ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  ,
      2                   IADK  ,JDIK   )
 
-	         ELSEIF (IGTYP.EQ.32)THEN
+	         ELSEIF (IGTYP==32)THEN
               CALL RUSER32KE3 (JFT    ,JLT   ,NEL   ,MTN    ,PM    ,
      1                   	  GEO     ,IXR(1,NF1),X     ,ELBUF_TAB(NG),NPC   ,
      2                   	  TF     ,SKEW  ,OFFSET,FR_WAVE,
@@ -3511,21 +3511,21 @@ C----6---------------------------------------------------------------7---------8
      1                   	  ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  ,
      2                   	  IADK  ,JDIK  )
 
-             ELSEIF (IGTYP.EQ.8)THEN
+             ELSEIF (IGTYP==8)THEN
               CALL R8KE3(JFT    ,JLT   ,NEL   ,MTN    ,PM    ,
      1                   GEO     ,IXR(1,NF1),X     ,ELBUF_TAB(NG),NPC   ,
      2                   TF     ,SKEW  ,OFFSET,FR_WAVE,IGEO   ,
      1                   ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  ,
      2                   IADK  ,JDIK  )
 
-             ELSEIF (IGTYP.EQ.12)THEN
+             ELSEIF (IGTYP==12)THEN
               CALL R12KE3(JFT    ,JLT   ,NEL   ,MTN    ,PM    ,
      1                   GEO     ,IXR(1,NF1),X  ,ELBUF_TAB(NG),NPC   ,
      2                   TF     ,SKEW  ,OFFSET,FR_WAVE,IGEO  ,
      1                   ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  ,
      2                   IADK  ,JDIK  )
 
-             ELSEIF (IGTYP.EQ.13)THEN
+             ELSEIF (IGTYP==13)THEN
               CALL R13KE3 (JFT    ,JLT   ,NEL   ,MTN    ,PM    ,
      1                   GEO     ,IXR(1,NF1),X     ,ELBUF_TAB(NG),NPC   ,
      2                   TF  ,SKEW  ,OFFSET,FR_WAVE,IKGEO ,IGEO ,
@@ -3540,15 +3540,15 @@ C              CALL IMPKPOUT( NIXR,IXR,NFT,NEL,16,KC11   ,KC12 ,  KC22 )
               IF (IPRMES_EL(IETY) == 0 ) IPRMES_EL(IETY)=IGTYP
              ENDIF
 C----6---------------------------------------------------------------7---------8
-            ELSEIF(ITY.EQ.7)THEN
+            ELSEIF(ITY==7)THEN
              IOFC = 0
-             IF(NG.NE.NGROUP)THEN
+             IF(NG/=NGROUP)THEN
               IAD2 = IPARG(4,NG+1) - 6 * NEL - 27 * ISUB * NEL
              ELSE
               IAD2 = LBUFEL - 6 * NEL + 1 - 27 * ISUB * NEL
              ENDIF
              NF1 = NFT + 1
-             IF(ICNOD.EQ.6)THEN
+             IF(ICNOD==6)THEN
               IETY=17
               IF (IPRMES_EL(IETY) == 0 ) IPRMES_EL(IETY)=1
              ELSE
@@ -3568,7 +3568,7 @@ C----6---------------------------------------------------------------7---------8
 
              ENDIF
 C----6---------------------------------------------------------------7---------8
-            ELSEIF(ITY.EQ.50)THEN
+            ELSEIF(ITY==50)THEN
               IETY=19
               IF (IPRMES_EL(IETY) == 0 ) IPRMES_EL(IETY)=1
             ENDIF

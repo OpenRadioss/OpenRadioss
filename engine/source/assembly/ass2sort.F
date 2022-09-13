@@ -122,7 +122,7 @@ C-----------------------------------------------
       N1 = 1
       N2 = 0
       KK = JJ1                   
-      DO WHILE(FSKYI(KK,5)== ZERO .AND. KK .LE. JJ2) 
+      DO WHILE(FSKYI(KK,5)== ZERO .AND. KK <= JJ2) 
        KK = KK + 1                    
       ENDDO
       IPLY = INT(FSKYI(KK,5))

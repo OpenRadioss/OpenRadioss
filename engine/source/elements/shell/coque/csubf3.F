@@ -60,8 +60,8 @@ C-----------------------------------------------
       INTEGER I
 C-----------------------------------------------
 C
-      IF(ISUB.EQ.1)THEN
-        IF(NDT(1).EQ.1)THEN
+      IF(ISUB==1)THEN
+        IF(NDT(1)==1)THEN
           DO I=JFT,JLT
           AREAS(I) = AREA(I)
           ENDDO

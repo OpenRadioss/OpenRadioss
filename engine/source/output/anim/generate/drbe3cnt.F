@@ -53,7 +53,7 @@ C-----------------------------------------------
       INTEGER I,N,MSN
 C-----------------------------------------------
 C seul le proc 0 effectue le traitement
-c      IF (IMACH.NE.3) THEN
+c      IF (IMACH/=3) THEN
 c        DO I=1,NRBE3
 c          NERBE3 = NERBE3 + IRBE3(5,I)
 c        ENDDO
@@ -61,7 +61,7 @@ c      ELSE
         DO I=1,NRBE3
           MSN = IRBE3(5,I)
           DO N=1,MSN
-           IF (WEIGHT(LRBE3(IRBE3(1,I)+N)).EQ.1)
+           IF (WEIGHT(LRBE3(IRBE3(1,I)+N))==1)
      .        NERBE3 = NERBE3 + 1
            ENDDO
         ENDDO

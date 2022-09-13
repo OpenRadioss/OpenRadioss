@@ -112,7 +112,7 @@ C
 C
        DO I=LFT,LLT
         ECOLD(I)=-THREE100*SPH(I)
-        IF(MU(I).GT.ZERO) THEN
+        IF(MU(I)>ZERO) THEN
           XX  = MU(I)/(ONE+MU(I))
           ETA=ONE+MU(I)
           ECOLD(I)=ECOLD(I)*EXP((G0(I)-GA(I))*XX)*ETA**GA(I)+
@@ -159,8 +159,8 @@ C------------------------
        ENDDO
        DO I=LFT,LLT
         XX=-ECOLD(I)
-        IF(VNEW(I).GT.EM15)XX=DF(I)*EINT(I)/VNEW(I)-ECOLD(I)
-        IF(OFF(I).LT.ONE.OR.SPH(I).LE.ZERO.OR.XX.LT.ZERO) CYCLE
+        IF(VNEW(I)>EM15)XX=DF(I)*EINT(I)/VNEW(I)-ECOLD(I)
+        IF(OFF(I)<ONE.OR.SPH(I)<=ZERO.OR.XX<ZERO) CYCLE
         THETA(I)=XX/SPH(I)
        ENDDO
        ELSEIF(IFLAG == 2) THEN
@@ -177,7 +177,7 @@ C------------------------
           ENDDO
 C     
           DO I=1, NEL
-             IF (VNEW(I) .GT. ZERO) THEN
+             IF (VNEW(I) > ZERO) THEN
                 FAC=ONE
                 FAC1=ONE
                 IF(MU(I) > ZERO) THEN

@@ -61,14 +61,14 @@ C-----------------------------------------------
          READ (IUSC1, REC = IKAD(IKEY) + K, FMT = '(7X, A, 37X, I10)')
      .        KEY1, NB_PARTS
          ALLOCATE (PART_IDS(NB_PARTS))
-         IF (KEY1(1:2) .EQ. 'ON') THEN
+         IF (KEY1(1:2) == 'ON') THEN
             DO KK = 1, NB_PARTS
                CALL WRIUSC2 (IKAD(IKEY) + KK + K, 1, KEY0(IKEY))
                READ (IUSC2, * , ERR = 9990, END = 9990) PART_IDS(KK)
                WRITE (IIN, '(I10, I10)') PART_IDS(KK), 1
             ENDDO
          ENDIF
-         IF (KEY1(1:3) .EQ. 'OFF') THEN
+         IF (KEY1(1:3) == 'OFF') THEN
             DO KK = 1, NB_PARTS
                CALL WRIUSC2 (IKAD(IKEY) + KK + K, 1, KEY0(IKEY))
                READ (IUSC2, * , ERR = 9990, END = 9990) PART_IDS(KK)

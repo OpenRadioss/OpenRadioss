@@ -106,7 +106,7 @@ C-----------------------------------------------
       IF(IALEFVM==0)RETURN
       MT          = IXS(1,NFT+LFT)
       IALEFVM_FLG = IPM(251,MT)
-      IF(IALEFVM_FLG .LE. 1)RETURN
+      IF(IALEFVM_FLG <= 1)RETURN
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
 C-----------------------------------------------

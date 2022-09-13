@@ -92,38 +92,38 @@ C=======================================================================
       NVTRUSS = 0
       NVSH_STRA =0
 !
-      IF (ISIGI.EQ.3.OR.ISIGI.EQ.4.OR.ISIGI.EQ.5) THEN
+      IF (ISIGI==3.OR.ISIGI==4.OR.ISIGI==5) THEN
 C
 C      FICHIER Y000, Block CONTROL
 C
        REWIND(IIN5)
 C
   300  READ(IIN5,FMT='(A)',END=309,ERR=399)LINE
-       IF(LINE(1:8).NE.'/CONTROL')GOTO 300
+       IF(LINE(1:8)/='/CONTROL')GOTO 300
        READ(IIN5,FMT='(A)',END=309,ERR=399)LINE
   305  READ(IIN5,FMT='(A)',END=309,ERR=399)LINE
-       IF(LINE(1:1).EQ.'#')GOTO 305
+       IF(LINE(1:1)=='#')GOTO 305
 C
-       IF (IOUTP_FMT.EQ.2) THEN
-         IF(LINE(1:8).EQ.'        ')GOTO 305
+       IF (IOUTP_FMT==2) THEN
+         IF(LINE(1:8)=='        ')GOTO 305
 C
        ELSE
-         IF(LINE(1:10).EQ.'          ')GOTO 305
+         IF(LINE(1:10)=='          ')GOTO 305
        END IF
 C
-       IF(LINE(1:1).EQ.'/')GOTO 309
+       IF(LINE(1:1)=='/')GOTO 309
   306  READ(IIN5,FMT='(A)',END=309,ERR=399)LINE
-       IF(LINE(1:1).EQ.'#')GOTO 306
+       IF(LINE(1:1)=='#')GOTO 306
 C
-       IF (IOUTP_FMT.EQ.2) THEN
-         IF(LINE(1:8).EQ.'        ')GOTO 306
+       IF (IOUTP_FMT==2) THEN
+         IF(LINE(1:8)=='        ')GOTO 306
 C
        ELSE
-         IF(LINE(1:10).EQ.'          ')GOTO 306
+         IF(LINE(1:10)=='          ')GOTO 306
        END IF
 C
-       IF(LINE(1:1).EQ.'/')GOTO 309 
-       IF (IOUTP_FMT.EQ.2) THEN
+       IF(LINE(1:1)=='/')GOTO 309 
+       IF (IOUTP_FMT==2) THEN
          READ(LINE,'(8I8)')
      .   NUMSOL,NUMQUAD,NUMSHEL,NUMTRUS,NUMBEAM,NUMSPRI,NUMSH3N,
      .   NUMSPHY
@@ -156,23 +156,23 @@ cc       NPSOLID = 0
 cc       NVSOLID = 0
       REWIND(IIN4)
  400  READ(IIN4,FMT='(A)',END=449,ERR=449)LINE
-       IF(LINE(1:8).EQ.'/ENDDATA')THEN
+       IF(LINE(1:8)=='/ENDDATA')THEN
          REWIND(IIN4)
          GO TO 409
        ENDIF 
-       IF(LINE(1:28).NE.'/SHELL     /SCALAR    /USERS')GOTO 400
+       IF(LINE(1:28)/='/SHELL     /SCALAR    /USERS')GOTO 400
        READ(IIN4,FMT='(A)',END=449,ERR=449)LINE
         IUSHELL = 1        
 C
         I = 0
         J = 0
   405   READ(IIN4,FMT='(A)',END=449,ERR=449)LINE
-        IF(LINE(1:1).EQ.'#')GOTO 405
-        IF(LINE(1:1).EQ.'/')GOTO 410         
+        IF(LINE(1:1)=='#')GOTO 405
+        IF(LINE(1:1)=='/')GOTO 410         
          J=J+1
          I=I+1
-         IF(J.GT.NUMSHEL+NUMSH3N) GOTO 410 
-         IF(IOUTP_FMT.EQ.2)THEN
+         IF(J>NUMSHEL+NUMSH3N) GOTO 410 
+         IF(IOUTP_FMT==2)THEN
            READ(LINE,FMT='(4I8)')IHBE,NIP,NPG,NUVAR          
          ELSE 
           READ(LINE,FMT='(4I10)')IHBE,NIP,NPG,NUVAR
@@ -183,13 +183,13 @@ cc          NVSHELL   = MAX(NUVAR,NVSHELL)
           NUSHELL = MAX(NUSHELL,MAX(1,NPG)*MAX(1,NIP)*NUVAR + NUSHELL0)
           ND = MOD(NUVAR,6)
           NU = (NUVAR - ND)/6
-          IF(ND.NE.0) NU = NU +1
+          IF(ND/=0) NU = NU +1
           IF(NUVAR < 6) NU = 1 
 C --- coque standard.
            DO J1 = 1,NU * MAX(1,NIP)*MAX(1,NPG)
  406       READ(IIN4,FMT='(A)',END=449,ERR=449)LINE
-            IF(LINE(1:1).EQ.'#')GOTO 406
-            IF(LINE(1:1).EQ.'/')GOTO 410                
+            IF(LINE(1:1)=='#')GOTO 406
+            IF(LINE(1:1)=='/')GOTO 410                
            ENDDO          
           GO TO 405
  449  CONTINUE
@@ -199,11 +199,11 @@ C      stress/full
 C      NIP + THK + ENER + STRESS + EPS PLASTIC
 C-----------------------------------------------------------------
   409  READ(IIN4,FMT='(A)',END=443,ERR=399)LINE
-       IF(LINE(1:8).EQ.'/ENDDATA')THEN
+       IF(LINE(1:8)=='/ENDDATA')THEN
          REWIND(IIN4)
          GOTO 425
        ENDIF
-  410  IF(LINE(1:33).NE.'/SHELL     /TENSOR    /STRESS_FUL')GOTO 409
+  410  IF(LINE(1:33)/='/SHELL     /TENSOR    /STRESS_FUL')GOTO 409
 C
        READ(IIN4,FMT='(A)',END=443,ERR=499)LINE
 C              
@@ -211,28 +211,28 @@ C
        J = 0
 C
   411  READ(IIN4,FMT='(A)',END=443,ERR=499)LINE
-       IF(LINE(1:1).EQ.'#')GOTO 411
-       IF(LINE(1:1).EQ.'/')GOTO 443
+       IF(LINE(1:1)=='#')GOTO 411
+       IF(LINE(1:1)=='/')GOTO 443
          J=J+1
          I=I+1
 C
-         IF(J.GT.NUMSHEL+NUMSH3N) GOTO 420
-         IF (IOUTP_FMT.EQ.2) THEN
+         IF(J>NUMSHEL+NUMSH3N) GOTO 420
+         IF (IOUTP_FMT==2) THEN
            READ(LINE,'(2I8)')NIP,NPG
          ELSE
            READ(LINE,FMT=FMT_2I) NIP,NPG
          ENDIF 
 C
          READ(IIN4,FMT='(A)',END=443,ERR=499)LINE         
-          IF(NIP.EQ.0)THEN
+          IF(NIP==0)THEN
             NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
           ELSE
             NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*MAX(1,NPG)*6)
           ENDIF  
 C           
           NVSHELL = NVAR_SHELL  
-         IF (NPG.EQ.0.OR.NPG.EQ.1)THEN
-          IF(NIP.EQ.0)THEN
+         IF (NPG==0.OR.NPG==1)THEN
+          IF(NIP==0)THEN
            READ(IIN4,FMT='(A)',END=443,ERR=399)LINE
            READ(IIN4,FMT='(A)',END=443,ERR=399)LINE
          ELSE  
@@ -240,8 +240,8 @@ C
             READ(IIN4,FMT='(A)',END=443,ERR=399)LINE
            ENDDO
          ENDIF
-        ELSEIF(NPG.GT.1) THEN
-          IF(NIP.EQ.0)THEN
+        ELSEIF(NPG>1) THEN
+          IF(NIP==0)THEN
             DO N=1,NPG
             READ(IIN4,FMT='(A)',END=443,ERR=399)LINE
             READ(IIN4,FMT='(A)',END=443,ERR=399)LINE
@@ -314,11 +314,11 @@ C
 
 
  230  READ(IIN4,FMT='(A)',END=235,ERR=399)LINE
-       IF(LINE(1:8).EQ.'/ENDDATA')THEN
+       IF(LINE(1:8)=='/ENDDATA')THEN
          REWIND(IIN4)
          GOTO 430
        ENDIF
- 232  IF(LINE(1:33).NE.'/SOLID     /TENSOR    /STRESS')GOTO 230
+ 232  IF(LINE(1:33)/='/SOLID     /TENSOR    /STRESS')GOTO 230
        READ(IIN4,FMT='(A)',END=235,ERR=399)LINE
 C         
         NVSOLID1 = MAX(NVSOLID1, 6)
@@ -327,22 +327,22 @@ C
 
 C
  430  READ(IIN4,FMT='(A)',END=435,ERR=399)LINE
-       IF(LINE(1:8).EQ.'/ENDDATA')THEN
+       IF(LINE(1:8)=='/ENDDATA')THEN
          REWIND(IIN4)
          GOTO 444
        ENDIF
- 432  IF(LINE(1:33).NE.'/SOLID     /TENSOR    /STRAIN_FUL')GOTO 430
+ 432  IF(LINE(1:33)/='/SOLID     /TENSOR    /STRAIN_FUL')GOTO 430
        READ(IIN4,FMT='(A)',END=435,ERR=399)LINE
 C         
        I = 0
        J = 0
  434  READ(IIN4,FMT='(A)',END=435,ERR=399)LINE
-       IF(LINE(1:1).EQ.'#')GOTO 434
-       IF(LINE(1:1).EQ.'/')GOTO 435
+       IF(LINE(1:1)=='#')GOTO 434
+       IF(LINE(1:1)=='/')GOTO 435
        J=J+1
        I=I+1      
-       IF(I.GT.NUMSOL+NUMQUAD) GOTO 435
-       IF (IOUTP_FMT.EQ.2) THEN 
+       IF(I>NUMSOL+NUMQUAD) GOTO 435
+       IF (IOUTP_FMT==2) THEN 
           READ(LINE,'(3I8)')NIP,NUMS,NELS
        ELSE
         READ(LINE,'(3I10)')NIP,NUMS, NELS  
@@ -358,18 +358,18 @@ C
       REWIND(IIN4)       
 C     Brick ( variables users)         
  444  READ(IIN4,FMT='(A)',END=499,ERR=499)LINE
-       IF(LINE(1:8).EQ.'/ENDDATA')THEN
+       IF(LINE(1:8)=='/ENDDATA')THEN
          REWIND(IIN4)
          GOTO 498
        ENDIF        
- 450   IF(LINE(1:28).NE.'/SOLID     /SCALAR    /USERS')GOTO 444
+ 450   IF(LINE(1:28)/='/SOLID     /SCALAR    /USERS')GOTO 444
        READ(IIN4,FMT='(A)',END=498,ERR=399)LINE
         IUSOLID = 1
         I = 0
  455  READ(IIN4,FMT='(A)',END=498,ERR=399)LINE
-       IF(LINE(1:1).EQ.'#')GOTO 455
-       IF(LINE(1:1).EQ.'/')GOTO 498
-        IF(IOUTP_FMT.EQ.2)THEN
+       IF(LINE(1:1)=='#')GOTO 455
+       IF(LINE(1:1)=='/')GOTO 498
+        IF(IOUTP_FMT==2)THEN
          READ(LINE,'(4I8)')NUMS,NIP,NUVAR,JJHBE
         ELSE
          READ(LINE,'(4I10)')NUMS,NIP,NUVAR,JJHBE
@@ -378,14 +378,14 @@ C     Brick ( variables users)
        I=I+1
        ND = MOD(NUVAR,6)
        NU = (NUVAR - ND)/6
-       IF(ND.NE.0) NU = NU + 1
+       IF(ND/=0) NU = NU + 1
        IF(NUVAR < 6) NU = MAX(1,NIP)
-       IF(I.GT.NUMSOL+NUMQUAD) GOTO 498
-       IF (NUVAR.EQ.0) GOTO 455
+       IF(I>NUMSOL+NUMQUAD) GOTO 498
+       IF (NUVAR==0) GOTO 455
           DO J1 = 1,NU *  MAX(1,NIP)
   459      READ(IIN4,FMT='(A)',END=498,ERR=399)LINE
-           IF(LINE(1:1).EQ.'#')GOTO 459
-           IF(LINE(1:1).EQ.'/')GOTO 498               
+           IF(LINE(1:1)=='#')GOTO 459
+           IF(LINE(1:1)=='/')GOTO 498               
          ENDDO     
 cc       ENDIF
        GO TO 455              
@@ -397,46 +397,46 @@ cc       ENDIF
 C-----------------------------------------
 C     CONTRAINTES INITIALES FICHIER D00
 C-----------------------------------------
-      IF (ISIGI.EQ.-3.OR.ISIGI.EQ.-4.OR.ISIGI.EQ.-5) THEN
+      IF (ISIGI==-3.OR.ISIGI==-4.OR.ISIGI==-5) THEN
 C------------------------------------
 C INISHELL ---> 
 C------------------------------------
         NPT = 0
         KCUR = KINISHE
         IREC=KOPTAD(KCUR)-1
-        DO WHILE(IREC.LT.KOPTAD(KCUR)+NLINE(KCUR)+NSLASH(KCUR)-1)
+        DO WHILE(IREC<KOPTAD(KCUR)+NLINE(KCUR)+NSLASH(KCUR)-1)
           IREC=IREC+1
           READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
-          IF(LINE(1:1).EQ.'/')THEN
+          IF(LINE(1:1)=='/')THEN
             KLINE=LINE
             CALL FREDEC6(KEY2,KEY3)
 C-----
-          ELSEIF(KEY2(1:6).EQ.'STRS_F')THEN
+          ELSEIF(KEY2(1:6)=='STRS_F')THEN
             NUMSHEL=NUMSHEL+1
             READ(LINE,ERR=999,FMT=FMT_3I)NE,NIP,NPG
-            IF(KEY3(1:4).EQ. 'GLOB') THEN
-              IF(NIP.EQ.0)THEN
+            IF(KEY3(1:4)== 'GLOB') THEN
+              IF(NIP==0)THEN
                 NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*13)
               ELSE
                 NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*MAX(1,NPG)*8)
               ENDIF  
             ELSE
-              IF(NIP.EQ.0)THEN
+              IF(NIP==0)THEN
                 NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
               ELSE
                 NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*MAX(1,NPG)*6)
               ENDIF  
-            END IF!(KEY3(1:4).EQ. 'GLOB') THEN
+            END IF!(KEY3(1:4)== 'GLOB') THEN
 cc            NVSHELL = NVAR_SHELL + NVSHELL0 
             IREC=IREC+1
-            IF (NPG.EQ.0.OR.NPG.EQ.1) THEN
-             IF(NIP.EQ.0)THEN
-              IF(KEY3(1:4).EQ.'GLOB')THEN
+            IF (NPG==0.OR.NPG==1) THEN
+             IF(NIP==0)THEN
+              IF(KEY3(1:4)=='GLOB')THEN
                 IREC=IREC + 2
               ELSE
                 IREC=IREC+1  
               ENDIF
-              IF(KEY3(1:4).EQ.'GLOB')THEN
+              IF(KEY3(1:4)=='GLOB')THEN
                 IREC=IREC+2 
               ELSE
                 IREC=IREC+1
@@ -446,12 +446,12 @@ cc            NVSHELL = NVAR_SHELL + NVSHELL0
                 IREC=IREC+2
               ENDDO
              ENDIF
-            ELSEIF (NPG.GT.1 )THEN   
-             IF(NIP.EQ.0)THEN
+            ELSEIF (NPG>1 )THEN   
+             IF(NIP==0)THEN
               DO N=1,NPG
                 IREC=IREC+2
               ENDDO 
-              IF(KEY3(1:4).EQ.'GLOB') IREC=IREC +2*NPG
+              IF(KEY3(1:4)=='GLOB') IREC=IREC +2*NPG
              ELSE             
               DO J=1,NIP
                DO N=1,NPG
@@ -461,10 +461,10 @@ cc            NVSHELL = NVAR_SHELL + NVSHELL0
             ENDIF
            ENDIF
 C-----
-          ELSEIF(KEY2(1:6).EQ.'EPSP_F')THEN
+          ELSEIF(KEY2(1:6)=='EPSP_F')THEN
             NUMSHEL=NUMSHEL+1
             READ(LINE,ERR=999,FMT=FMT_3I)NE,NIP,NPG
-            IF(NIP.EQ.0)THEN
+            IF(NIP==0)THEN
              NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
             ELSE
              NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*MAX(1,NPG)*6)
@@ -475,16 +475,16 @@ C-----
               JJ=JJ-5
             END DO
 C-----
-          ELSEIF(KEY2(1:5).EQ.'THICK')THEN
+          ELSEIF(KEY2(1:5)=='THICK')THEN
             NUMSHEL=NUMSHEL+1
 C-----
-          ELSEIF(KEY2(1:4).EQ.'EPSP')THEN
+          ELSEIF(KEY2(1:4)=='EPSP')THEN
             NUMSHEL=NUMSHEL+1
 C-----
-          ELSEIF(KEY2(1:5).EQ.'ORTHO')THEN
+          ELSEIF(KEY2(1:5)=='ORTHO')THEN
             NUMSHEL=NUMSHEL+1
             READ(LINE,ERR=999,FMT=FMT_3I)NE,NIP,IGTYP
-            IF(NIP.EQ.0)THEN
+            IF(NIP==0)THEN
               NVAR_SHELL = MAX(NVAR_SHELL, 9)
             ELSE
               NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*24)
@@ -498,11 +498,11 @@ C-----
               IREC=IREC+MAX(1,NIP)
             ENDIF
 C-----
-          ELSEIF(KEY2(1:3).EQ.'AUX')THEN
+          ELSEIF(KEY2(1:3)=='AUX')THEN
             IUSHELL = 1        
             NUMSHEL=NUMSHEL+1
             READ(LINE,ERR=999,FMT=FMT_4I) NE,NIP,NPG,NUVAR    
-            IF(NIP.EQ.0)THEN
+            IF(NIP==0)THEN
               NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
             ELSE
               NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*24)
@@ -513,10 +513,10 @@ C-----
             IF (MOD(NUVAR,5) > 0) KK = KK + 1
             IREC = IREC + JJ*KK
 C-----
-          ELSEIF(KEY2(1:6).EQ.'STRA_F')THEN
+          ELSEIF(KEY2(1:6)=='STRA_F')THEN
             NUMSHEL=NUMSHEL+1
             READ(LINE,ERR=999,FMT=FMT_3I)NE,NIP,NPG
-            IF(KEY3(1:4).EQ.'GLOB')THEN
+            IF(KEY3(1:4)=='GLOB')THEN
              IF (NIP==0) NIP=2
 C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1             
              NVSH_STRA = MAX(NVSH_STRA,2*MAX(1,NPG)*7)
@@ -532,10 +532,10 @@ C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1
              ENDDO
             END IF
 C-----
-	     ELSEIF(KEY2(1:8).EQ.'ORTH_LOC')THEN
+	     ELSEIF(KEY2(1:8)=='ORTH_LOC')THEN
             NUMSHEL=NUMSHEL+1
             READ(LINE,ERR=999,FMT=FMT_4I) NE,NIP,NPG,NDIR
-            IF(NIP.EQ.0)THEN
+            IF(NIP==0)THEN
               NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
             ELSE
               NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*24)
@@ -546,7 +546,7 @@ C-----
      .        NORTSHEL = MAX(NORTSHEL, NORTSHEL0 + MAX(1,NIP)*4)
             IREC=IREC+NIP
 C-----
-          ELSEIF(KEY2(1:4).EQ.'FAIL')THEN
+          ELSEIF(KEY2(1:4)=='FAIL')THEN
             NUMSHEL = NUMSHEL + 1
            READ(LINE,ERR=999,FMT=FMT_9I) NE,NLAY,NPG,
      .                                   NPTT,ILAY,IFAIL,IRUPT_TYP,
@@ -561,11 +561,11 @@ C-----
             NVSHELL1 = MAX(NVSHELL1,NPG*NPT_MAX*5*NVAR_RUPT)
 C-----
 C-----
-          ELSEIF(KEY2(1:9).EQ.'SCALE_YLD')THEN
+          ELSEIF(KEY2(1:9)=='SCALE_YLD')THEN
             IUFACYLD = 1
             NUMSHEL=NUMSHEL+1
             READ(LINE,ERR=999,FMT=FMT_3I)NE,NIP,NPG
-            IF(NIP.EQ.0)THEN
+            IF(NIP==0)THEN
              NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
             ELSE
              NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*MAX(1,NPG)*6)
@@ -584,60 +584,60 @@ C------------------------------------
         KCUR = KINISH3
         IREC=KOPTAD(KCUR)-1
         I=NUMSHEL
-        DO WHILE(IREC.LT.KOPTAD(KCUR)-1+NLINE(KCUR)+NSLASH(KCUR))
+        DO WHILE(IREC<KOPTAD(KCUR)-1+NLINE(KCUR)+NSLASH(KCUR))
           IREC=IREC+1
           READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
 C-----
-          IF(LINE(1:1).EQ.'/')THEN
+          IF(LINE(1:1)=='/')THEN
             KLINE=LINE
             CALL FREDEC6(KEY2,KEY3)
 C-----
-          ELSEIF(KEY2(1:6).EQ.'STRS_F')THEN
+          ELSEIF(KEY2(1:6)=='STRS_F')THEN
            NUMSH3N=NUMSH3N+1
            READ(LINE,ERR=999,FMT=FMT_3I)NE,NIP,NPG
-           IF(KEY3(1:4).EQ. 'GLOB') THEN
-              IF(NIP.EQ.0)THEN
+           IF(KEY3(1:4)== 'GLOB') THEN
+              IF(NIP==0)THEN
                 NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*13)
               ELSE
                 NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*MAX(1,NPG)*8)
               ENDIF  
             ELSE
-              IF(NIP.EQ.0)THEN
+              IF(NIP==0)THEN
                 NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
               ELSE
                 NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*MAX(1,NPG)*6)
               ENDIF  
-           END IF!(KEY3(1:4).EQ. 'GLOB') THEN
+           END IF!(KEY3(1:4)== 'GLOB') THEN
            IREC=IREC+1
-           IF (NPG.EQ.0.OR.NPG.EQ.1) THEN
-            IF(NIP.EQ.0)THEN
-              IF(KEY3(1:4).EQ.'GLOB')THEN
+           IF (NPG==0.OR.NPG==1) THEN
+            IF(NIP==0)THEN
+              IF(KEY3(1:4)=='GLOB')THEN
                 IREC=IREC+2
               ELSE
                 IREC=IREC+1
               ENDIF
-              IF(KEY3(1:4).EQ.'GLOB')THEN
+              IF(KEY3(1:4)=='GLOB')THEN
                 IREC=IREC + 2
               ELSE
                 IREC=IREC+1
               ENDIF
-            ELSEIF(NIP.NE.0)THEN                 
+            ELSEIF(NIP/=0)THEN                 
               DO J=1,NIP
                 IREC=IREC+2 
               ENDDO
             ENDIF
-           ELSEIF (NPG.GT.1 )THEN
-C            IF(KEY3(1:4).EQ.'GLOB') THEN
+           ELSEIF (NPG>1 )THEN
+C            IF(KEY3(1:4)=='GLOB') THEN
 C              CALL ANCMSG(MSGID=523,
 C     .                    MSGTYPE=MSGERROR,
 C     .                    ANMODE=ANINFO_BLIND_2,I1=NE)
 C            END IF
-            IF(NIP.EQ.0)THEN
+            IF(NIP==0)THEN
              DO N=1,NPG
                 IREC=IREC +2
              ENDDO 
-             IF(KEY3(1:4).EQ.'GLOB') IREC=IREC +2*NPG
-            ELSEIF(NIP.NE.0)THEN
+             IF(KEY3(1:4)=='GLOB') IREC=IREC +2*NPG
+            ELSEIF(NIP/=0)THEN
               DO J=1,NIP
                DO N=1,NPG
                 IREC=IREC+2
@@ -646,10 +646,10 @@ C            END IF
             ENDIF
            ENDIF
 C-----
-          ELSEIF(KEY2(1:6).EQ.'EPSP_F')THEN
+          ELSEIF(KEY2(1:6)=='EPSP_F')THEN
             NUMSH3N=NUMSH3N+1
             READ(LINE,ERR=999,FMT=FMT_3I)NE,NIP,NPG
-            IF(NIP.EQ.0)THEN
+            IF(NIP==0)THEN
              NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
             ELSE
              NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*MAX(1,NPG)*6)
@@ -660,16 +660,16 @@ C-----
               JJ=JJ-5
             END DO
 C-----
-          ELSEIF(KEY2(1:5).EQ.'THICK')THEN
+          ELSEIF(KEY2(1:5)=='THICK')THEN
             NUMSH3N=NUMSH3N+1
 C-----
-          ELSEIF(KEY2(1:4).EQ.'EPSP')THEN
+          ELSEIF(KEY2(1:4)=='EPSP')THEN
             NUMSH3N=NUMSH3N+1
 C-----
-          ELSEIF(KEY2(1:5).EQ.'ORTHO')THEN
+          ELSEIF(KEY2(1:5)=='ORTHO')THEN
             NUMSH3N=NUMSH3N+1
             READ(LINE,ERR=999,FMT=FMT_3I)NE,NIP,IGTYP
-            IF(NIP.EQ.0)THEN
+            IF(NIP==0)THEN
               NVAR_SHELL = MAX(NVAR_SHELL, 9)
             ELSE
               NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*24)
@@ -683,11 +683,11 @@ C-----
               IREC=IREC+MAX(1,NIP)
             ENDIF
 C-----
-          ELSEIF(KEY2(1:3).EQ.'AUX')THEN
+          ELSEIF(KEY2(1:3)=='AUX')THEN
             IUSHELL = 1        
             NUMSH3N=NUMSH3N+1
             READ(LINE,ERR=999,FMT=FMT_4I) NE,NIP,NPG,NUVAR 
-            IF(NIP.EQ.0)THEN
+            IF(NIP==0)THEN
               NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
             ELSE
               NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*24)
@@ -698,10 +698,10 @@ C-----
             IF (MOD(NUVAR,5) > 0) KK = KK + 1
             IREC = IREC + JJ*KK
 C-----
-          ELSEIF(KEY2(1:6).EQ.'STRA_F')THEN
+          ELSEIF(KEY2(1:6)=='STRA_F')THEN
             NUMSH3N=NUMSH3N+1
             READ(LINE,ERR=999,FMT=FMT_3I)NE,NIP,NPG
-            IF(KEY3(1:4).EQ.'GLOB')THEN
+            IF(KEY3(1:4)=='GLOB')THEN
              IF (NIP==0) NIP=2
 C---------store only up to 2 pts of NIP eij(6)+T, sufficient to compute generalized {e}             
              NVSH_STRA = MAX(NVSH_STRA,2*MAX(1,NPG)*7)
@@ -717,10 +717,10 @@ C---------store only up to 2 pts of NIP eij(6)+T, sufficient to compute generali
              ENDDO
             END IF
 C-----
-          ELSEIF(KEY2(1:8).EQ.'ORTH_LOC')THEN
+          ELSEIF(KEY2(1:8)=='ORTH_LOC')THEN
             NUMSH3N=NUMSH3N+1
             READ(LINE,ERR=999,FMT=FMT_4I) NE,NIP,NPG,NDIR
-            IF(NIP.EQ.0)THEN
+            IF(NIP==0)THEN
               NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
             ELSE
               NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*24)
@@ -730,7 +730,7 @@ C-----
             IF (NDIR == 2) NORTSHEL = MAX(NORTSHEL, NORTSHEL0 + MAX(1,NIP)*4)
             IREC=IREC+NIP
 C-----
-          ELSEIF(KEY2(1:4).EQ.'FAIL')THEN
+          ELSEIF(KEY2(1:4)=='FAIL')THEN
             NUMSH3N = NUMSH3N + 1
             READ(LINE,ERR=999,FMT=FMT_9I) NE,NLAY,NPG,
      .                                   NPTT,ILAY,IFAIL,IRUPT_TYP,
@@ -744,12 +744,12 @@ C-----
             IREC=IREC+NPG*NPTT*((NVAR_RUPT+2)/3)
             NVSHELL1 = MAX(NVSHELL1,NPG*NPT_MAX*5*NVAR_RUPT)
 c-------------
-          ELSEIF(KEY2(1:9).EQ.'SCALE_YLD')THEN
+          ELSEIF(KEY2(1:9)=='SCALE_YLD')THEN
             IUFACYLD = 1
             NUMSH3N = NUMSH3N + 1
 
             READ(LINE,ERR=999,FMT=FMT_3I)NE,NIP,NPG
-            IF(NIP.EQ.0)THEN
+            IF(NIP==0)THEN
              NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
             ELSE
              NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*MAX(1,NPG)*6)
@@ -767,7 +767,7 @@ C INIBEAM
 C------------------------------------
         KCUR = KINIBEA
         IREC=KOPTAD(KCUR)-1
-        DO WHILE(IREC.LT.KOPTAD(KCUR)+NLINE(KCUR)+NSLASH(KCUR)-1)
+        DO WHILE(IREC<KOPTAD(KCUR)+NLINE(KCUR)+NSLASH(KCUR)-1)
           IREC=IREC+1
           READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
           IF (LINE(1:1) == '/') THEN
@@ -800,14 +800,14 @@ C------
               IREC = IREC + JJ*KK
             ENDIF ! IF (IGTYP == 18)
 C------
-          ENDIF ! IF(LINE(1:1).EQ.'/')
+          ENDIF ! IF(LINE(1:1)=='/')
         ENDDO ! DO WHILE
 C------------------------------------
 C INITRUSS
 C------------------------------------
         KCUR = KINITRU
         IREC=KOPTAD(KCUR)-1
-        DO WHILE(IREC.LT.KOPTAD(KCUR)+NLINE(KCUR)+NSLASH(KCUR)-1)
+        DO WHILE(IREC<KOPTAD(KCUR)+NLINE(KCUR)+NSLASH(KCUR)-1)
           IREC=IREC+1
           READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
           IF (LINE(1:1) == '/') THEN
@@ -821,7 +821,7 @@ C------
             IREC = IREC + 1
             NVTRUSS = NVTRUSS + 6
 C------
-          ENDIF ! IF(LINE(1:1).EQ.'/')
+          ENDIF ! IF(LINE(1:1)=='/')
         ENDDO ! DO WHILE
       ENDIF
 C------------------------------------
@@ -829,33 +829,33 @@ C INIBRI --->
 C------------------------------------
         KCUR = KINIBRI
         IREC=KOPTAD(KCUR)-1
-        DO WHILE(IREC.LT.KOPTAD(KCUR)-1+NLINE(KCUR)+NSLASH(KCUR))
+        DO WHILE(IREC<KOPTAD(KCUR)-1+NLINE(KCUR)+NSLASH(KCUR))
           IREC=IREC+1
           READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
 C-----
-          IF(LINE(1:1).EQ.'/')THEN
+          IF(LINE(1:1)=='/')THEN
             KLINE=LINE
             CALL FREDEC_2KEY_ID_OR_KEY_ID(KEY2,KEY3,UID,SUB_ID)
 C-----
-          ELSEIF(KEY2(1:4).EQ.'FILL')THEN
+          ELSEIF(KEY2(1:4)=='FILL')THEN
             NUMSOL  = NUMSOL + 1
             NFILSOL = 1
 C-----
-          ELSEIF(KEY2(1:4).EQ.'EPSP')THEN
+          ELSEIF(KEY2(1:4)=='EPSP')THEN
             NUMSOL = NUMSOL + 1
 C-----
-          ELSEIF(KEY2(1:4).EQ.'ENER')THEN
+          ELSEIF(KEY2(1:4)=='ENER')THEN
             NUMSOL = NUMSOL + 1
 C-----
-          ELSEIF(KEY2(1:4).EQ.'DENS')THEN
+          ELSEIF(KEY2(1:4)=='DENS')THEN
             NUMSOL = NUMSOL + 1
 C-----
-          ELSEIF(KEY2(1:6).EQ.'STRESS')THEN
+          ELSEIF(KEY2(1:6)=='STRESS')THEN
             NUMSOL = NUMSOL + 1
             IREC = IREC + 1
             NVSOLID1 = MAX (NVSOLID1,6)
 C-----
-          ELSEIF(KEY2(1:3).EQ.'AUX')THEN
+          ELSEIF(KEY2(1:3)=='AUX')THEN
             NUMSOL = NUMSOL + 1
             READ(LINE,ERR=999,FMT=FMT_7I) NE,NPT,ISOLNOD,ISOLID,IFRAM,IORTH,NUVAR
             IUSOLID = 1
@@ -863,13 +863,13 @@ C-----
             NUSOLID = MAX(NUSOLID,NPT*NUVAR)
             ND = MOD(NUVAR,3)
             NU = (NUVAR - ND )/3
-            IF(ND.NE.0) NU = NU + 1
+            IF(ND/=0) NU = NU + 1
             DO J1 = 1,NPT * NU
               IREC = IREC + 1
             ENDDO
               IREC = IREC - 1
 C-----
-          ELSEIF(KEY2(1:6).EQ.'STRS_F')THEN
+          ELSEIF(KEY2(1:6)=='STRS_F')THEN
             READ(LINE,ERR=999,FMT=FMT_9I) NE,NPT,ISOLNOD,ISOLID,NPTR,NPTS,NPTT,NLAY,IGBR
             IF(IGBR > 0) THEN
                IOK  = 0
@@ -907,7 +907,7 @@ C--------------------Second Group of solids : 3 lines to be read----------------
               ENDDO
             ENDIF
 C-----
-          ELSEIF(KEY2(1:6).EQ.'STRA_F')THEN
+          ELSEIF(KEY2(1:6)=='STRA_F')THEN
             NUMSOL = NUMSOL + 1
             READ(LINE,ERR=999,FMT=FMT_5I) NE,NPT,ISOLNOD,ISOLID,IFRAM
             NVSOLID2 = MAX(NVSOLID2, MAX(1,NPT)*6)
@@ -921,25 +921,25 @@ C-----
                 IREC = IREC - 1
             ENDIF
 C-----
-          ELSEIF(KEY2(1:5).EQ.'ORTHO')THEN
+          ELSEIF(KEY2(1:5)=='ORTHO')THEN
             NUMSOL = NUMSOL + 1
             READ(LINE,ERR=999,FMT=FMT_5I) NE,NLAYERS,ISOLNOD,IGTYP,JJHBE
             IREC=IREC+1
             NVSOLID3 = MAX(NVSOLID3,NLAYERS * 6)
-            IF(KEY2(8:10).EQ.'GLO'.OR.
-     .          (IGTYP .NE. 21 .AND. IGTYP .NE. 22)) THEN
+            IF(KEY2(8:10)=='GLO'.OR.
+     .          (IGTYP /= 21 .AND. IGTYP /= 22)) THEN
               IREC=IREC+NLAYERS*2 - 1
             ELSE
               IREC=IREC+NLAYERS - 1
             ENDIF
-          ELSEIF(KEY2(1:4).EQ.'FAIL')THEN
+          ELSEIF(KEY2(1:4)=='FAIL')THEN
             NUMSOL = NUMSOL + 1
            READ(LINE,ERR=999,FMT=FMT_10I) NE,NLAY,
      .            NPTR,NPTS,NPTT,ILAY,IFAIL,IRUPT_TYP,NVAR_RUPT,IMAT
             IREC=IREC+NPTR*NPTS*NPTT*((NVAR_RUPT+2)/3)
             NVSOLID4 = MAX(NVSOLID4,NPTR*NPTS*NPTT*NLAY*5*NVAR_RUPT)
 c -    - - -  
-          ELSEIF(KEY2(1:9).EQ.'SCALE_YLD')THEN
+          ELSEIF(KEY2(1:9)=='SCALE_YLD')THEN
             IUFACYLD = 1
             NUMSOL = NUMSOL + 1
             READ(LINE,ERR=999,FMT=FMT_5I) NE,NPTR,NPTS,NPTT,ILAY
@@ -951,7 +951,7 @@ c
             IREC = IREC - 1
 c
 C-----
-          ELSEIF(KEY2(1:4).EQ.'EREF')THEN
+          ELSEIF(KEY2(1:4)=='EREF')THEN
             NUMSOL = NUMSOL + 1
             READ(LINE,ERR=999,FMT=FMT_5I) NE,NPT,ISOLNOD,ISOLID,ISMSTR
 C------ use NVSOLID5 temporaly, read directly after new reader  or add NVSOLID6    
@@ -964,7 +964,7 @@ C INISPRI --->
 C------------------------------------
         KCUR = KINISPRI
         IREC=KOPTAD(KCUR)-1
-        DO WHILE(IREC.LT.KOPTAD(KCUR)+NLINE(KCUR)+NSLASH(KCUR)-1)
+        DO WHILE(IREC<KOPTAD(KCUR)+NLINE(KCUR)+NSLASH(KCUR)-1)
           IREC=IREC+1
           READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
           IF (LINE(1:1) == '/') THEN
@@ -1001,7 +1001,7 @@ C------
               IREC = IREC + KK
             ENDIF ! IF (IGTYP)
 C------
-          ENDIF ! IF(LINE(1:1).EQ.'/')
+          ENDIF ! IF(LINE(1:1)=='/')
         ENDDO ! DO WHILE
 C------------------------------------
 C QUADS
@@ -1067,15 +1067,15 @@ C-----------------------------------------------
       JINF=1
       JSUP=NUMEL
       J=MAX(1,NUMEL/2)
-   10 IF(JSUP.LE.JINF.AND.(IU-KSYSUSR(J)).NE.0) THEN
+   10 IF(JSUP<=JINF.AND.(IU-KSYSUSR(J))/=0) THEN
         UEL2SYS=0
         RETURN
       ENDIF
-      IF((IU-KSYSUSR(J)).EQ.0)THEN
+      IF((IU-KSYSUSR(J))==0)THEN
 C     >CAS IU=USR FIN DE LA RECHERCHE
          UEL2SYS=KSYSUSR(J+NUMEL)
          RETURN
-      ELSE IF (IU-KSYSUSR(J).LT.0) THEN
+      ELSE IF (IU-KSYSUSR(J)<0) THEN
 C     >CAS IU<USR
          JSUP=J-1
       ELSE

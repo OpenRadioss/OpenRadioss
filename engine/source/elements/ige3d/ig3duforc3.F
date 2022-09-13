@@ -377,7 +377,7 @@ C------------------------------------------------------
       SMAX(:)=ZERO
 
       ALLOCATE(VGAUSS(PX*PY*PZ,MVSIZ),STAT=IERROR)
-      IF(IERROR.NE.0)THEN
+      IF(IERROR/=0)THEN
        CALL ANCMSG(MSGID=246,ANMODE=ANINFO)
        CALL ARRET(2)
       END IF
@@ -430,7 +430,7 @@ c     .       KNOT(IAD_KNOT+NKNOT1+NKNOT2+1), PX-1, PY-1, PZ-1, 1)
           VGAUSS(N,ITEL) = PGAUSS*DETJAC
           VOLG(ITEL) = VOLG(ITEL) + VOLN(ITEL)
 
-          IF(IDTMIN(101).EQ.1)THEN
+          IF(IDTMIN(101)==1)THEN
            DO ITNCTRL=1,NCTRL
             MASS(ITNCTRL,ITEL)=MASS(ITNCTRL,ITEL)+PM(89,MXT(ITEL))*R(ITNCTRL)*LBUF%VOL(ITEL)
            ENDDO
@@ -574,7 +574,7 @@ C------------------------------------------------------
 C     PAS DE TEMPS ELEMENTAIRE : PULSATION PROPRE PAR ELEMENT
 C------------------------------------------------------
 
-      IF(IDTMIN(101).EQ.1)THEN
+      IF(IDTMIN(101)==1)THEN
        DO I=LFT,LLT
         DO J=1,NCTRL
          IF( J <= KXIG3D(3,I+NFT) ) THEN
@@ -583,7 +583,7 @@ C------------------------------------------------------
         ENDDO
         TC = SQRT(2*MMUNK(I))
         TC = DTFAC1(101)*TC
-        IF(TC.LT.DT2T)THEN
+        IF(TC<DT2T)THEN
          DT2T   =TC
          ITYPTST=101
          NELTST =NGL(I)
@@ -594,7 +594,7 @@ C------------------------------------------------------
 C     CALCUL DES AIRES DES FACES DES ELEMENTS
 C------------------------------------------------------
 
-      ELSEIF(IDTMIN(101).EQ.2)THEN
+      ELSEIF(IDTMIN(101)==2)THEN
 
        N=0
        DO I=1,PX

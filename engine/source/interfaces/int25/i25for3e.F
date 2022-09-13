@@ -169,12 +169,12 @@ C
       EXTERNAL BITGET
 C-----------------------------------------------
 #include "sync_dir.inc"
-      IF (IRESP .EQ. 1) THEN
+      IF (IRESP == 1) THEN
          PREC = FIVEEM4
       ELSE 
          PREC = EM10
       ENDIF
-      IF(DT1.GT.ZERO)THEN
+      IF(DT1>ZERO)THEN
         DT1INV = ONE/DT1
       ELSE
         DT1INV =ZERO
@@ -222,7 +222,7 @@ C          Reduce PENE
      .       CAND_P(INDEX(I))=MIN(CAND_P(INDEX(I)),
      .                            ((ONE-FIVEEM2)*CAND_P(INDEX(I))+FIVEEM2*PENE(I))  )
            PENE(I)=MAX(ZERO,PENE(I)-CAND_P(INDEX(I)))
-           IF( PENE(I).EQ.ZERO )  STIF(I) = ZERO
+           IF( PENE(I)==ZERO )  STIF(I) = ZERO
          ENDDO
       ELSE
          DO I=1,JLT
@@ -234,7 +234,7 @@ C            CAND_P < 0 <=> Initial penetration computed into the Starter => Do 
      .       CAND_P(INDEX(I)) = MIN(CAND_P(INDEX(I)),
      .                             ((ONE-FIVEEM2)*CAND_P(INDEX(I))+FIVEEM2*PENE(I))  )
              CAND_P(INDEX(I)) = -CAND_P(INDEX(I)) ! back to negative value
-             IF( PENE(I).EQ.ZERO )  STIF(I) = ZERO
+             IF( PENE(I)==ZERO )  STIF(I) = ZERO
 
            ELSE            
 C
@@ -244,7 +244,7 @@ C            New impact computed into the Engine => Reduce PENE
      .                            ((ONE-FIVEEM2)*CAND_P(INDEX(I))+FIVEEM2*PENE(I))  )
 C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
              PENE(I)=MAX(ZERO,PENE(I)-CAND_P(INDEX(I)))
-             IF( PENE(I).EQ.ZERO )  STIF(I) = ZERO
+             IF( PENE(I)==ZERO )  STIF(I) = ZERO
            END IF
          ENDDO
       ENDIF
@@ -268,9 +268,9 @@ C-------------------------------------------
 C---------------------------------
 C     DAMPING + FRIC
 C---------------------------------
-      IF(VISC.NE.ZERO)THEN
-        IF(IVIS2.EQ.-1)THEN
-          IF(KDTINT.EQ.0.AND.(IDTMINS/=2.AND.IDTMINS_INT==0))THEN
+      IF(VISC/=ZERO)THEN
+        IF(IVIS2==-1)THEN
+          IF(KDTINT==0.AND.(IDTMINS/=2.AND.IDTMINS_INT==0))THEN
            DO I=1,JLT
             FAC = STIF(I) / MAX(EM30,STIF(I))
             MAS2  = MS1(I)*HS1(I)
@@ -306,9 +306,9 @@ C---------------------------------
             STIF(I) = MAX(STIF(I) ,CF(I)*DT1INV)
            ENDDO
           ENDIF
-        ELSEIF(IVIS2.EQ.1)THEN
+        ELSEIF(IVIS2==1)THEN
 C---------------------------------
-          IF(KDTINT.EQ.0.AND.(IDTMINS/=2.AND.IDTMINS_INT==0))THEN
+          IF(KDTINT==0.AND.(IDTMINS/=2.AND.IDTMINS_INT==0))THEN
            DO I=1,JLT
             FAC = STIF(I) / MAX(EM30,STIF(I))
             MAS2  = MS1(I)*HS1(I)
@@ -347,7 +347,7 @@ C---------------------------------
            ENDDO
           ENDIF
 
-        ELSEIF(IVIS2.EQ.2)THEN
+        ELSEIF(IVIS2==2)THEN
 C---------------------------------
 C         VISC QUAD TYPE V23f(bug aero amerrissage)
 C---------------------------------
@@ -366,7 +366,7 @@ C---------------------------------
            ECONVT = ECONVT + FF * VN(I) * DT1
            FNI(I)  = FNI(I) + FF
           ENDDO
-        ELSEIF(IVIS2.EQ.3)THEN
+        ELSEIF(IVIS2==3)THEN
 C---------------------------------
 C         VISC QUAD = 0
 C---------------------------------
@@ -385,7 +385,7 @@ C---------------------------------
            ECONVT = ECONVT + FF * VN(I) * DT1
            FNI(I)  = FNI(I) + FF
           ENDDO
-        ELSEIF(IVIS2.EQ.4)THEN
+        ELSEIF(IVIS2==4)THEN
 C---------------------------------
 C         VISC = 0 
 C---------------------------------
@@ -399,7 +399,7 @@ C---------------------------------
            VIS = SQRT(VIS2(I)) 
            STIF(I) = MAX(STIF(I) ,FAC*SQRT(VISCF)*VIS*DT1INV)
           ENDDO
-        ELSEIF(IVIS2.EQ.5)THEN
+        ELSEIF(IVIS2==5)THEN
 C---------------------------------
 C         VISC = 2M/dt    => pour visc < 1 , stable : dt < 2M/visc = dt
 C         M=M1*M2/M1+M2      pour visc = 1 , choc elastique
@@ -494,7 +494,7 @@ C---------------------------------
           ENDIF
         ENDDO
       END IF
-      IF (IMCONV.EQ.1) THEN 
+      IF (IMCONV==1) THEN 
 #include "lockon.inc"
         FSAV(1)=FSAV(1)+FSAV1
         FSAV(2)=FSAV(2)+FSAV2
@@ -508,7 +508,7 @@ C---------------------------------
 C---------------------------------
 C     SORTIES TH PAR SOUS INTERFACE
 C---------------------------------
-      IF(NISUB.NE.0)THEN
+      IF(NISUB/=0)THEN
         DO JSUB=1,NISUB
           DO J=1,24
               FSAVSUB1(J,JSUB)=ZERO
@@ -519,23 +519,23 @@ C---------------------------------
           IF(PENE(I) == ZERO)CYCLE
 
           IL = CS_LOC(I)
-          IF(IL.LE.NEDGE)THEN
+          IF(IL<=NEDGE)THEN
 
             IE = CM_LOC(I)
 
             JJ  =ADDSUBE(IL)
             KK  =ADDSUBE(IE)
-            DO WHILE(JJ.LT.ADDSUBE(IL+1))
+            DO WHILE(JJ<ADDSUBE(IL+1))
               JSUB=LISUBE(JJ)
               ITYPSUB = TYPSUB(JSUB) 
               IF(ITYPSUB == 1 ) THEN  ! Defining specific inter       
                  ISS1 = BITGET(INFLG_SUBE(JJ),0)
                  ISS2 = BITGET(INFLG_SUBE(JJ),1)
                  KSUB=LISUBE(KK)  
-                 DO WHILE((KSUB.LE.JSUB).AND.(KK.LT.ADDSUBE(IE+1)))     
+                 DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBE(IE+1)))     
                    IMS1 = BITGET(INFLG_SUBE(KK),0)
                    IMS2 = BITGET(INFLG_SUBE(KK),1)
-                   IF(KSUB.EQ.JSUB)THEN
+                   IF(KSUB==JSUB)THEN
                      IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
      .                        (IMS2 == 1 .AND. ISS1 == 1)))  THEN
                        KK=KK+1
@@ -610,10 +610,10 @@ C
                 ISS2 = BITGET(INFLG_SUBE(JJ),0)
                 ISS1 = BITGET(INFLG_SUBE(JJ),1)
                  KSUB=LISUBE(KK)  
-                 DO WHILE((KSUB.LE.JSUB).AND.(KK.LT.ADDSUBE(IE+1)))  
+                 DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBE(IE+1)))  
                    IMS2 = BITGET(INFLG_SUBE(KK),0)
                    IMS1 = BITGET(INFLG_SUBE(KK),1)
-                   IF(KSUB.EQ.JSUB)THEN
+                   IF(KSUB==JSUB)THEN
                      IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
      .                       (IMS2 == 1 .AND. ISS1 == 1)))  THEN
                        KK=KK+1
@@ -662,7 +662,7 @@ C
           IE = CM_LOC(I)
 
           KK  =ADDSUBE(IE)
-          DO WHILE(KK.LT.ADDSUBE(IE+1))
+          DO WHILE(KK<ADDSUBE(IE+1))
             KSUB=LISUBE(KK)
             ITYPSUB = TYPSUB(KSUB)
             IF(ITYPSUB == 2 ) THEN   ! Inter =0 : collecting forces from all inter with only 1 surface : main side
@@ -692,7 +692,7 @@ C
           ENDDO
 
         END DO
-        IF(NSPMD.GT.1) THEN
+        IF(NSPMD>1) THEN
 C boucle separee sinon bug PGI en SMP
 #ifdef WITH_ASSERT
         S_ADDSUBFIE = 1
@@ -706,7 +706,7 @@ C boucle separee sinon bug PGI en SMP
           IF(PENE(I) == ZERO)CYCLE
 
 C         NN = NSVG(I)
-C         IF(NN.LT.0)THEN
+C         IF(NN<0)THEN
 C          NN = -NN
 ! IF Remote 
          IL = CS_LOC(I)
@@ -722,7 +722,7 @@ C          WRITE(6,*) "CAND,nedge_remotte=",CS_LOC(I)-NEDGE,NEDGE_REMOTE
 C          WRITE(6,*) IL,"JJ=",ADDSUBSFIE(NIN)%P(IL),ADDSUBSFIE(NIN)%P(IL+1)-1
 C          ASSERT(ADDSUBSFIE(NIN)%P(IL) <= NISUB)
 C          ASSERT(ADDSUBSFIE(NIN)%P(IL+1)-1 <= NISUB)
-           DO WHILE(JJ.LT.ADDSUBSFIE(NIN)%P(IL+1))
+           DO WHILE(JJ<ADDSUBSFIE(NIN)%P(IL+1))
 C            WRITE(6,*) "JJ=",JJ
              ASSERT(JJ <= S_LISUBSFIE)
              JSUB = LISUBSFIE(NIN)%P(JJ)
@@ -732,11 +732,11 @@ C            WRITE(6,*) "JJ=",JJ
                 ISS1 = BITGET(INFLG_SUBSFIE(NIN)%P(JJ),0)
                 ISS2 = BITGET(INFLG_SUBSFIE(NIN)%P(JJ),1)
                 KSUB=LISUBE(KK)  
-                DO WHILE((KSUB.LE.JSUB).AND.(KK.LT.ADDSUBE(IE+1)))    
+                DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBE(IE+1)))    
                    ASSERT(KSUB <= NISUB)      
                    IMS1 = BITGET(INFLG_SUBE(KK),0)
                    IMS2 = BITGET(INFLG_SUBE(KK),1)
-                   IF(KSUB.EQ.JSUB)THEN
+                   IF(KSUB==JSUB)THEN
                      IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
      .                       (IMS2 == 1 .AND. ISS1 == 1)))  THEN
                         KK=KK+1
@@ -811,10 +811,10 @@ C
                   ISS2 = BITGET(INFLG_SUBSFIE(NIN)%P(JJ),0)
                   ISS1 = BITGET(INFLG_SUBSFIE(NIN)%P(JJ),1)
                   KSUB=LISUBE(KK)  
-                  DO WHILE((KSUB.LE.JSUB).AND.(KK.LT.ADDSUBE(IE+1)))  
+                  DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBE(IE+1)))  
                     IMS2 = BITGET(INFLG_SUBE(KK),0)
                     IMS1 = BITGET(INFLG_SUBE(KK),1)
-                    IF(KSUB.EQ.JSUB)THEN
+                    IF(KSUB==JSUB)THEN
                       IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
      .                       (IMS2 == 1 .AND. ISS1 == 1)))  THEN
                         KK=KK+1
@@ -921,7 +921,7 @@ C
         ENDDO
       ENDIF
 
-      IF (INCONV.EQ.1) THEN
+      IF (INCONV==1) THEN
 #include "lockon.inc"
         FSAV(4) = FSAV(4) + FSAV4
         FSAV(5) = FSAV(5) + FSAV5
@@ -939,19 +939,19 @@ C---------------------------------
 C---------------------------------
 C     SORTIES TH PAR SOUS INTERFACE
 C---------------------------------
-      IF(NISUB.NE.0)THEN
+      IF(NISUB/=0)THEN
         DO I=1,JLT
 
           IF(PENE(I) == ZERO)CYCLE
 
           IL = CS_LOC(I)
-          IF(IL.LE.NEDGE)THEN
+          IF(IL<=NEDGE)THEN
 
             IE = CM_LOC(I)
 
             JJ  =ADDSUBE(IL)
             KK  =ADDSUBE(IE)
-            DO WHILE(JJ.LT.ADDSUBE(IL+1))
+            DO WHILE(JJ<ADDSUBE(IL+1))
               JSUB=LISUBE(JJ)
               ITYPSUB = TYPSUB(JSUB) 
  
@@ -959,10 +959,10 @@ C---------------------------------
                 ISS1 = BITGET(INFLG_SUBE(JJ),0)
                 ISS2 = BITGET(INFLG_SUBE(JJ),1)
                 KSUB=LISUBE(KK)  
-                DO WHILE((KSUB.LE.JSUB).AND.(KK.LT.ADDSUBE(IE+1)))    
+                DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBE(IE+1)))    
                   IMS1 = BITGET(INFLG_SUBE(KK),0)
                   IMS2 = BITGET(INFLG_SUBE(KK),1)
-                  IF(KSUB.EQ.JSUB)THEN
+                  IF(KSUB==JSUB)THEN
                     IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
      .                       (IMS2 == 1 .AND. ISS1 == 1)))  THEN
                        KK=KK+1
@@ -1035,10 +1035,10 @@ c     .                              +XP(I)*IMPY-YP(I)*IMPX
                 ISS2 = BITGET(INFLG_SUBE(JJ),0)
                 ISS1 = BITGET(INFLG_SUBE(JJ),1)
                 KSUB=LISUBE(KK)  
-                DO WHILE((KSUB.LE.JSUB).AND.(KK.LT.ADDSUBE(IE+1)))  
+                DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBE(IE+1)))  
                   IMS2 = BITGET(INFLG_SUBE(KK),0)
                   IMS1 = BITGET(INFLG_SUBE(KK),1)
-                  IF(KSUB.EQ.JSUB)THEN
+                  IF(KSUB==JSUB)THEN
                     IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
      .                       (IMS2 == 1 .AND. ISS1 == 1)))  THEN
                        KK=KK+1
@@ -1096,7 +1096,7 @@ c     .                              +XP(I)*IMPY-YP(I)*IMPX
 
           IE = CM_LOC(I)
           KK  =ADDSUBE(IE)
-          DO WHILE(KK.LT.ADDSUBE(IE+1))
+          DO WHILE(KK<ADDSUBE(IE+1))
              KSUB=LISUBE(KK)
              ITYPSUB = TYPSUB(KSUB) 
              IF(ITYPSUB == 2 ) THEN   ! Inter =0 : collecting forces from all inter with only 1 surface : main side
@@ -1142,7 +1142,7 @@ c     .                              +XP(I)*IMPY-YP(I)*IMPX
 
             JJ  =ADDSUBSFIE(NIN)%P(IL)
             KK  =ADDSUBE(IE)
-            DO WHILE(JJ.LT.ADDSUBSFIE(NIN)%P(IL+1))
+            DO WHILE(JJ<ADDSUBSFIE(NIN)%P(IL+1))
               JSUB=  LISUBSFIE(NIN)%P(JJ)
               JSUB=LISUBE(JJ)
               ITYPSUB = TYPSUB(JSUB) 
@@ -1151,10 +1151,10 @@ c     .                              +XP(I)*IMPY-YP(I)*IMPX
                 ISS1 = BITGET(INFLG_SUBSFIE(NIN)%P(JJ),0)
                 ISS2 = BITGET(INFLG_SUBSFIE(NIN)%P(JJ),1)
                 KSUB=LISUBE(KK)  
-                DO WHILE((KSUB.LE.JSUB).AND.(KK.LT.ADDSUBE(IE+1)))  
+                DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBE(IE+1)))  
                   IMS1 = BITGET(INFLG_SUBE(KK),0)
                   IMS2 = BITGET(INFLG_SUBE(KK),1)
-                  IF(KSUB.EQ.JSUB)THEN
+                  IF(KSUB==JSUB)THEN
                     IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
      .                       (IMS2 == 1 .AND. ISS1 == 1)))  THEN
                        KK=KK+1
@@ -1228,10 +1228,10 @@ c     .                              +XP(I)*IMPY-YP(I)*IMPX
                 ISS2 = BITGET(INFLG_SUBSFIE(NIN)%P(JJ),0)
                 ISS1 = BITGET(INFLG_SUBSFIE(NIN)%P(JJ),1)
                 KSUB=LISUBE(KK)  
-                DO WHILE((KSUB.LE.JSUB).AND.(KK.LT.ADDSUBE(IE+1)))     
+                DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBE(IE+1)))     
                   IMS2 = BITGET(INFLG_SUBE(KK),0)
                   IMS1 = BITGET(INFLG_SUBE(KK),1)
-                  IF(KSUB.EQ.JSUB)THEN
+                  IF(KSUB==JSUB)THEN
                     IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
      .                     (IMS2 == 1 .AND. ISS1 == 1)))  THEN
                        KK=KK+1
@@ -1304,7 +1304,7 @@ C
 #include "lockoff.inc"
       END IF
 C---------------------------------
-       IF (IMCONV.EQ.1) THEN 
+       IF (IMCONV==1) THEN 
 #include "lockon.inc"
         ECONTV = ECONTV + ECONVT
         ECONT  = ECONT + ECONTT
@@ -1338,13 +1338,13 @@ C
       ENDDO
 C
 C---------------------------------
-      IF(KDTINT.EQ.1.OR.IDTMINS==2)THEN
-       IF(     (VISC.NE.ZERO)
-     .   .AND.(IVIS2.EQ.0.OR.IVIS2.EQ.1))THEN
+      IF(KDTINT==1.OR.IDTMINS==2)THEN
+       IF(     (VISC/=ZERO)
+     .   .AND.(IVIS2==0.OR.IVIS2==1))THEN
         DO I=1,JLT
          CX= C(I)*C(I)
 C
-         IF(MS1(I).EQ.ZERO)THEN
+         IF(MS1(I)==ZERO)THEN
           K1(I) =ZERO
           C1(I) =ZERO
          ELSE
@@ -1356,13 +1356,13 @@ C
           ST1(I)= K1(I)*AUX*AUX/MAX(CY,EM30)
           CFI   = CF(I)*ABS(HS1(I))
           AUX   = TWO*CFI*CFI/MAX(MS1(I),EM20)
-          IF(AUX.GT.ST1(I))THEN
+          IF(AUX>ST1(I))THEN
            K1(I) =ZERO
            C1(I) =CFI
           ENDIF         
          ENDIF         
 C
-         IF(MS2(I).EQ.ZERO)THEN
+         IF(MS2(I)==ZERO)THEN
           K2(I) =ZERO
           C2(I) =ZERO
          ELSE
@@ -1374,13 +1374,13 @@ C
           ST2(I)= K2(I)*AUX*AUX/MAX(CY,EM30)
           CFI   = CF(I)*ABS(HS2(I))
           AUX   = TWO*CFI*CFI/MAX(MS2(I),EM20)
-          IF(AUX.GT.ST2(I))THEN
+          IF(AUX>ST2(I))THEN
            K2(I) =ZERO
            C2(I) =CFI
           ENDIF         
          ENDIF         
 C
-       IF(MM1(I).EQ.ZERO)THEN
+       IF(MM1(I)==ZERO)THEN
           K3(I) =ZERO
           C3(I) =ZERO
          ELSE
@@ -1392,13 +1392,13 @@ C
           ST3(I)= K3(I)*AUX*AUX/MAX(CY,EM30)
           CFI   = CF(I)*ABS(HM1(I))
           AUX   = TWO*CFI*CFI/MAX(MM1(I),EM20)
-          IF(AUX.GT.ST3(I))THEN
+          IF(AUX>ST3(I))THEN
            K3(I) =ZERO
            C3(I) =CFI
           ENDIF         
          ENDIF         
 C
-         IF(MM2(I).EQ.ZERO)THEN
+         IF(MM2(I)==ZERO)THEN
           K4(I) =ZERO
           C4(I) =ZERO
          ELSE
@@ -1410,7 +1410,7 @@ C
           ST4(I)= K4(I)*AUX*AUX/MAX(CY,EM30)
           CFI   = CF(I)*ABS(HM2(I))
           AUX   = TWO*CFI*CFI/MAX(MM2(I),EM20)
-          IF(AUX.GT.ST4(I))THEN
+          IF(AUX>ST4(I))THEN
            K4(I) =ZERO
            C4(I) =CFI
           ENDIF         
@@ -1442,7 +1442,7 @@ C------------For /LOAD/PRESSURE tag nodes in contact-------------
                  TAGIP(I) = 1
                  TAGNCONT(PPL,M1(I)) = 1
                  TAGNCONT(PPL,M2(I)) = 1
-                 IF(CS_LOC(I).LE.NEDGE) THEN
+                 IF(CS_LOC(I)<=NEDGE) THEN
 C  SPMD : do same after reception of forces for remote nodes 
                   TAGNCONT(PPL,N1(I)) = 1
                   TAGNCONT(PPL,N2(I)) = 1
@@ -1456,8 +1456,8 @@ C
 C=======================================================================
 C     FORCES sur noeuds maites et second
 C=======================================================================
-      IF(IPARIT.EQ.0)THEN
-       IF(KDTINT.EQ.0)THEN
+      IF(IPARIT==0)THEN
+       IF(KDTINT==0)THEN
          CALL I25ASSE0(JLT  ,CS_LOC ,N1   ,N2   ,M1   ,
      2                M2   ,HS1   ,HS2  ,HM1  ,HM2  ,
      3                FX1  ,FY1   ,FZ1  ,FX2  ,FY2  ,
@@ -1475,7 +1475,7 @@ C=======================================================================
      8                 JTASK ,PENE  ,IBM   )
        END IF
       ELSE
-       IF(KDTINT.EQ.0)THEN
+       IF(KDTINT==0)THEN
          CALL I25ASSE2(JLT   ,CS_LOC ,N1    ,N2    ,M1      ,
      2                M2    ,HS1    ,HS2   ,HM1   ,HM2     ,
      3                FX1   ,FY1    ,FZ1   ,FX2   ,FY2     ,
@@ -1516,11 +1516,11 @@ C
 C
 C---------------------------------
 
-      IF (NSPMD.GT.1) THEN
+      IF (NSPMD>1) THEN
 Ctmp+1 mic only
 #include "mic_lockon.inc"
         DO I = 1,JLT
-          IF(CS_LOC(I).GT.NEDGE)THEN
+          IF(CS_LOC(I)>NEDGE)THEN
             NI = CS_LOC(I)-NEDGE
 C tag temporaire de NSVFI a -
 
@@ -1536,14 +1536,14 @@ ctmp+1 mic only
       ENDIF
 C
 
-      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT.GT.0)THEN
+      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0)THEN
 #include "lockon.inc"
 c         goto 1234
            DO I=1,JLT
 C
             IF(PENE(I)==ZERO) CYCLE
 C
-            IF(CS_LOC(I).LE.NEDGE) THEN
+            IF(CS_LOC(I)<=NEDGE) THEN
               FCONT(1,N1(I)) =FCONT(1,N1(I)) + FX1(I)
               FCONT(2,N1(I)) =FCONT(2,N1(I)) + FY1(I)
               FCONT(3,N1(I)) =FCONT(3,N1(I)) + FZ1(I)
@@ -1562,38 +1562,38 @@ C
       ENDIF
 
 C
-      IF(ISECIN.GT.0)THEN
+      IF(ISECIN>0)THEN
        K0=NSTRF(25)
-       IF(NSTRF(1)+NSTRF(2).NE.0)THEN
+       IF(NSTRF(1)+NSTRF(2)/=0)THEN
        DO I=1,NSECT
         NBINTER=NSTRF(K0+14)
         K1S=K0+30
         DO J=1,NBINTER
-         IF(NSTRF(K1S).EQ.NOINT)THEN
-           IF(ISECUT.NE.0)THEN
+         IF(NSTRF(K1S)==NOINT)THEN
+           IF(ISECUT/=0)THEN
 #include "lockon.inc"
              DO K=1,JLT
 C
               IF(PENE(K) == ZERO)CYCLE
 C
-              IF(CS_LOC(K).LE.NEDGE) THEN
-               IF(SECFCUM(4,N1(K),I).EQ.1.)THEN
+              IF(CS_LOC(K)<=NEDGE) THEN
+               IF(SECFCUM(4,N1(K),I)==1.)THEN
                 SECFCUM(1,N1(K),I)=SECFCUM(1,N1(K),I)-FX1(K)
                 SECFCUM(2,N1(K),I)=SECFCUM(2,N1(K),I)-FY1(K)
                 SECFCUM(3,N1(K),I)=SECFCUM(3,N1(K),I)-FZ1(K)
                ENDIF
-               IF(SECFCUM(4,N2(K),I).EQ.1.)THEN
+               IF(SECFCUM(4,N2(K),I)==1.)THEN
                 SECFCUM(1,N2(K),I)=SECFCUM(1,N2(K),I)-FX2(K)
                 SECFCUM(2,N2(K),I)=SECFCUM(2,N2(K),I)-FY2(K)
                 SECFCUM(3,N2(K),I)=SECFCUM(3,N2(K),I)-FZ2(K)
                ENDIF
               END IF
-              IF(SECFCUM(4,M1(K),I).EQ.1.)THEN
+              IF(SECFCUM(4,M1(K),I)==1.)THEN
                 SECFCUM(1,M1(K),I)=SECFCUM(1,M1(K),I)-FX3(K)
                 SECFCUM(2,M1(K),I)=SECFCUM(2,M1(K),I)-FY3(K)
                 SECFCUM(3,M1(K),I)=SECFCUM(3,M1(K),I)-FZ3(K)
               ENDIF
-              IF(SECFCUM(4,M2(K),I).EQ.1.)THEN
+              IF(SECFCUM(4,M2(K),I)==1.)THEN
                 SECFCUM(1,M2(K),I)=SECFCUM(1,M2(K),I)-FX4(K)
                 SECFCUM(2,M2(K),I)=SECFCUM(2,M2(K),I)-FY4(K)
                 SECFCUM(3,M2(K),I)=SECFCUM(3,M2(K),I)-FZ4(K)

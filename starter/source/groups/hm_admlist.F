@@ -107,7 +107,7 @@ C-----------------------
       K=1
       NOLD = INDEX(NLIST+1)
       DO I=1,NLIST
-        IF(NOLD.NE.INDEX(NLIST+I))K=K+1
+        IF(NOLD/=INDEX(NLIST+I))K=K+1
         LIST(K) = INDEX(NLIST+I)
         NOLD    = INDEX(NLIST+I)
       ENDDO
@@ -115,7 +115,7 @@ C-----------------------
 C-----------------------
 C TRI DE IX EN ORDRE CROISSANT si KK = 0
 C-----------------------
-      IF(KK.EQ.0)THEN
+      IF(KK==0)THEN
         DO I=1,NUMEL
           IX2(I) = IX(NIX,I)
         ENDDO
@@ -134,10 +134,10 @@ C-----------------------
       I=1
       J=1
       DO I=1,NEL
-        DO WHILE(LIST(I).GT.IX1(J).AND.J.LT.NUMEL)
+        DO WHILE(LIST(I)>IX1(J).AND.J<NUMEL)
           J=J+1
         ENDDO
-        IF(LIST(I).EQ.IX1(J))THEN
+        IF(LIST(I)==IX1(J))THEN
           LIST(I)=IX2(J)
         ELSE
            CALL ANCMSG(MSGID=70,

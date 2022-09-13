@@ -83,12 +83,12 @@ C=======================================================================
       ENDDO
 c---------------------------------------------------
 C
-      IF (NODADT.NE.0) THEN
+      IF (NODADT/=0) THEN
         IF(IGTYP == 52 .OR. 
      .   ((IGTYP == 11 .OR. IGTYP == 17 .OR. IGTYP == 51)
      .                                   .AND. IGMAT > 0 )) THEN
            DO  I=JFT,JLT
-               IF (OFF(I).EQ.ZERO) THEN
+               IF (OFF(I)==ZERO) THEN
                  STI(I) = ZERO
                  STIR(I) = ZERO
                ELSE
@@ -105,7 +105,7 @@ C
             G(I)  = PM(22,IMAT)
            ENDDO
            DO  I=JFT,JLT
-               IF (OFF(I).EQ.ZERO) THEN
+               IF (OFF(I)==ZERO) THEN
                  STI(I) = ZERO
                  STIR(I) = ZERO
                ELSE
@@ -127,7 +127,7 @@ C
      .    ((IGTYP == 11 .OR. IGTYP == 17 .OR. IGTYP == 51)
      .                                   .AND. IGMAT > 0 )) THEN
           DO I=JFT,JLT
-              IF (OFF(I).EQ.ZERO) THEN
+              IF (OFF(I)==ZERO) THEN
                 STI(I) = ZERO
                 STIR(I) = ZERO
               ELSE
@@ -144,7 +144,7 @@ C
             G(I)  = PM(22,IMAT)
            ENDDO
            DO I=JFT,JLT
-              IF (OFF(I).EQ.ZERO) THEN
+              IF (OFF(I)==ZERO) THEN
                 STI(I) = ZERO
                 STIR(I) = ZERO
               ELSE
@@ -169,7 +169,7 @@ c dt = 2/w = sqrt( 2*(m+dmelc)/k)
      .             (DTMINS/DTFACS)**2 * STI(I) - TWO*MMIN)
           DT(I)  = DTFACS*
      .              SQRT((TWO*MMIN+DMELTG(I))/MAX(EM20,STI(I)))
-          IF(DT(I).LT.DT2T)THEN
+          IF(DT(I)<DT2T)THEN
             DT2T    = DT(I)
             NELTST  = NGL(I)
             ITYPTST = 7
@@ -177,14 +177,14 @@ c dt = 2/w = sqrt( 2*(m+dmelc)/k)
          END DO
         ENDIF
 C
-        IF(IDTMIN(7).EQ.0)RETURN
+        IF(IDTMIN(7)==0)RETURN
 C
       ENDIF
 C
       DO I=JFT,JLT
         DT(I)=DTFAC1(7)*ALDT(I)/SSP(I)
       END DO
-      IF(G_DT.NE.ZERO)THEN
+      IF(G_DT/=ZERO)THEN
          DO I=JFT,JLT
            DTEL(I) = DT(I)
          ENDDO
@@ -193,10 +193,10 @@ C
       
 C
       NINDX=IOFC
-      IF(IDTMIN(7).EQ.1)THEN
+      IF(IDTMIN(7)==1)THEN
         DO 100 I=JFT,JLT
-        IF(DT(I).GT.DTMIN1(7).OR.OFF(I).LT.ONE
-     .       .OR.OFFG(I).EQ.TWO.OR.OFFG(I).LT.ZERO) GO TO 100
+        IF(DT(I)>DTMIN1(7).OR.OFF(I)<ONE
+     .       .OR.OFFG(I)==TWO.OR.OFFG(I)<ZERO) GO TO 100
          TSTOP = TT
 C
 #include "lockon.inc"
@@ -204,10 +204,10 @@ C
          WRITE(ISTDO,1000) NGL(I)
 #include "lockoff.inc"
   100   CONTINUE
-      ELSEIF(IDTMIN(7).EQ.2)THEN
+      ELSEIF(IDTMIN(7)==2)THEN
         DO 120 I=JFT,JLT
-        IF(DT(I).GT.DTMIN1(7).OR.OFF(I).LT.ONE
-     .       .OR.OFFG(I).LT.ZERO) GO TO 120
+        IF(DT(I)>DTMIN1(7).OR.OFF(I)<ONE
+     .       .OR.OFFG(I)<ZERO) GO TO 120
          OFF(I)=ZERO
 
          II=I+NFT
@@ -221,10 +221,10 @@ C
 #include "lockoff.inc"
   120   CONTINUE
         IOFC = NINDX
-      ELSEIF(ISMSTR.EQ.2.AND.IDTMIN(7).EQ.3)THEN
+      ELSEIF(ISMSTR==2.AND.IDTMIN(7)==3)THEN
         DO 140 I=JFT,JLT
-        IF(DT(I).GT.DTMIN1(7).OR.
-     .   OFF(I).LT.ONE.OR.OFFG(I).EQ.TWO.OR.OFFG(I).LT.ZERO) GO TO 140
+        IF(DT(I)>DTMIN1(7).OR.
+     .   OFF(I)<ONE.OR.OFFG(I)==TWO.OR.OFFG(I)<ZERO) GO TO 140
          OFFG(I)=TWO
 C
 #include "lockon.inc"
@@ -232,10 +232,10 @@ C
          WRITE(ISTDO,1400) NGL(I)
 #include "lockoff.inc"
   140   CONTINUE
-      ELSEIF(IDTMIN(7).EQ.5)THEN
+      ELSEIF(IDTMIN(7)==5)THEN
         DO 150 I=JFT,JLT
-        IF(DT(I).GT.DTMIN1(7).OR.OFF(I).LT.ONE.
-     .     OR.OFFG(I).EQ.TWO.OR.OFFG(I).LT.ZERO) GO TO 150
+        IF(DT(I)>DTMIN1(7).OR.OFF(I)<ONE.
+     .     OR.OFFG(I)==TWO.OR.OFFG(I)<ZERO) GO TO 150
          MSTOP = 2
 C
 #include "lockon.inc"
@@ -245,17 +245,17 @@ C
   150   CONTINUE
       ENDIF
 C
-      IF(NODADT.NE.0.OR.(IDTMINS==2.AND.JSMS/=0))RETURN
+      IF(NODADT/=0.OR.(IDTMINS==2.AND.JSMS/=0))RETURN
 C
 C- VECTOR
       IDT=0
       DO I=JFT,JLT
-        IF(OFFG(I).GT.ZERO.AND.OFF(I).NE.ZERO.AND.DT(I).LT.DT2T) IDT=1
+        IF(OFFG(I)>ZERO.AND.OFF(I)/=ZERO.AND.DT(I)<DT2T) IDT=1
       ENDDO
 C- NON VECTOR
-      IF(IDT.EQ.1)THEN
+      IF(IDT==1)THEN
        DO I=JFT,JLT
-       IF(OFFG(I).GT.ZERO.AND.OFF(I).NE.ZERO.AND.DT(I).LT.DT2T)THEN
+       IF(OFFG(I)>ZERO.AND.OFF(I)/=ZERO.AND.DT(I)<DT2T)THEN
          DT2T    = DT(I)
          NELTST  = NGL(I)
          ITYPTST = 7

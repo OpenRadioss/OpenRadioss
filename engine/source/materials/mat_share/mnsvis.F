@@ -72,7 +72,7 @@ C-----------------------------------------------
 C
       DO 20 I=LFT,LLT
        AL(I)=ZERO
-       IF(OFF(I).LT.ONE) GO TO 20
+       IF(OFF(I)<ONE) GO TO 20
        IF(N2D>0) THEN
         AL(I)=SQRT(AIRE(I))
        ELSE

@@ -572,8 +572,8 @@ C----     size real arrays
             INTBUF_TAB(NIN)%S_STFM  = NRTM
             INTBUF_TAB(NIN)%S_FRICOS = 3*NSN 
             INTBUF_TAB(NIN)%S_FRICOM = 3*NMN 
-            IF (MFROT.NE.0)INTBUF_TAB(NIN)%S_FRIC_P = 10 
-            IF (IFQ.NE.0) THEN 
+            IF (MFROT/=0)INTBUF_TAB(NIN)%S_FRIC_P = 10 
+            IF (IFQ/=0) THEN 
               INTBUF_TAB(NIN)%S_XFILTR = 1 
               INTBUF_TAB(NIN)%S_FTSAV  = 3*NSN 
             ENDIF
@@ -613,8 +613,8 @@ C----     size real arrays
             INTBUF_TAB(NIN)%S_STFM  = NRTM
             INTBUF_TAB(NIN)%S_FRICOS = 3*NSN 
             INTBUF_TAB(NIN)%S_FRICOM = 3*NMN 
-            IF (MFROT.NE.0)INTBUF_TAB(NIN)%S_FRIC_P = 10 
-            IF (IFQ.NE.0) THEN 
+            IF (MFROT/=0)INTBUF_TAB(NIN)%S_FRIC_P = 10 
+            IF (IFQ/=0) THEN 
               INTBUF_TAB(NIN)%S_XFILTR = 1
               INTBUF_TAB(NIN)%S_FTSAV  = 3*NSN 
             ENDIF
@@ -652,8 +652,8 @@ C----     size real arrays
             INTBUF_TAB(NIN)%S_STFM  = NRTM 
             INTBUF_TAB(NIN)%S_FRICOS  = 3*NSN
             INTBUF_TAB(NIN)%S_FRICOM  = 3*NMN
-            IF (MFROT.NE.0)INTBUF_TAB(NIN)%S_FRIC_P = 10
-            IF (IFQ.NE.0) THEN 
+            IF (MFROT/=0)INTBUF_TAB(NIN)%S_FRIC_P = 10
+            IF (IFQ/=0) THEN 
               INTBUF_TAB(NIN)%S_XFILTR  = 1 
               INTBUF_TAB(NIN)%S_FTSAV  = 3*NSN 
             ENDIF
@@ -749,8 +749,8 @@ C----     size real arrays
           ENDIF
           INTBUF_TAB(NIN)%S_XSAV   = 3*MIN(NUMN+NUMFAKENODIGEO,NSN+NMN) 
           INTBUF_TAB(NIN)%S_CRIT   = 12 
-          IF (MFROT.NE.0)INTBUF_TAB(NIN)%S_FRIC_P   = 10 
-          IF (IFQ.NE.0) THEN 
+          IF (MFROT/=0)INTBUF_TAB(NIN)%S_FRIC_P   = 10 
+          IF (IFQ/=0) THEN 
             INTBUF_TAB(NIN)%S_XFILTR   = 1 
             INTBUF_TAB(NIN)%S_FTSAVX   = MULTIMP*NCONT 
             INTBUF_TAB(NIN)%S_FTSAVY   = MULTIMP*NCONT 
@@ -768,7 +768,7 @@ C----     size real arrays
           INTBUF_TAB(NIN)%S_RIGE = 3*(NSN_IGE+NMN_IGE)
           INTBUF_TAB(NIN)%S_XIGE = 3*(NSN_IGE+NMN_IGE)
           INTBUF_TAB(NIN)%S_VIGE = 3*(NSN_IGE+NMN_IGE)
-          IF (INTFRIC.NE.0) THEN
+          IF (INTFRIC/=0) THEN
             INTBUF_TAB(NIN)%S_IPARTFRICS  = NSN 
             INTBUF_TAB(NIN)%S_IPARTFRICM  = NRTM
             IF(INTBUF_FRIC_TAB(INTFRIC)%IORTHFRIC >0) THEN
@@ -854,8 +854,8 @@ C----     size real arrays
           INTBUF_TAB(NIN)%S_FRICOS      = 3*NSN 
           INTBUF_TAB(NIN)%S_FRICOM      = 3*NMN 
           INTBUF_TAB(NIN)%S_N           = 3*NSN 
-          IF (MFROT.NE.0)INTBUF_TAB(NIN)%S_FRIC_P = 10 
-          IF (IFQ.NE.0) THEN 
+          IF (MFROT/=0)INTBUF_TAB(NIN)%S_FRIC_P = 10 
+          IF (IFQ/=0) THEN 
             INTBUF_TAB(NIN)%S_XFILTR = 1 
             INTBUF_TAB(NIN)%S_FTSAV  = 3*NSN 
           ENDIF  
@@ -953,7 +953,7 @@ C----   size real arrays
             INTBUF_TAB(NIN)%S_INFLG_SUBM  = NISUBM 
           ENDIF
 
-          IF (INTFRIC.NE.0) THEN
+          IF (INTFRIC/=0) THEN
             INTBUF_TAB(NIN)%S_IPARTFRICS  = NRTS 
             INTBUF_TAB(NIN)%S_IPARTFRICM  = NRTM 
           ENDIF
@@ -988,7 +988,7 @@ C----     size real arrays
             INTBUF_TAB(NIN)%S_VARIABLES   = NPARIR 
             INTBUF_TAB(NIN)%S_CSTS  = 2*NSN 
             INTBUF_TAB(NIN)%S_CSTM  = 2*NMN 
-            IF(ILEV.GT.0)THEN
+            IF(ILEV>0)THEN
               INTBUF_TAB(NIN)%S_STFNS  = NSN
               INTBUF_TAB(NIN)%S_STFNM  = NMN
             ENDIF
@@ -1129,8 +1129,8 @@ C----   size real arrays
           INTBUF_TAB(NIN)%S_AVX_ANCR  = 9*NLN 
           INTBUF_TAB(NIN)%S_GAP_SH    = NRTM 
           INTBUF_TAB(NIN)%S_CRIT      = 12 
-          IF (MFROT.NE.0)INTBUF_TAB(NIN)%S_FRIC_P   = 10
-          IF (IFQ.NE.0) THEN 
+          IF (MFROT/=0)INTBUF_TAB(NIN)%S_FRIC_P   = 10
+          IF (IFQ/=0) THEN 
             INTBUF_TAB(NIN)%S_XFILTR  = 1
             INTBUF_TAB(NIN)%S_CAND_FX = MULTIMP*NCONT 
             INTBUF_TAB(NIN)%S_CAND_FY = MULTIMP*NCONT 
@@ -1189,7 +1189,7 @@ C----   size real arrays
           INTBUF_TAB(NIN)%S_XM0         = 3*NMNG 
           INTBUF_TAB(NIN)%S_ANGLM       = NRTM 
           INTBUF_TAB(NIN)%S_CRIT        = 12 
-          IF (MFROT.NE.0)INTBUF_TAB(NIN)%S_FROT_P = 10 
+          IF (MFROT/=0)INTBUF_TAB(NIN)%S_FROT_P = 10 
           INTBUF_TAB(NIN)%S_ALPHA0      = 1 
           INTBUF_TAB(NIN)%S_FTSAVX      = NSN 
           INTBUF_TAB(NIN)%S_FTSAVY      = NSN 
@@ -1199,7 +1199,7 @@ C----   size real arrays
             INTBUF_TAB(NIN)%S_AS        = NSN 
             INTBUF_TAB(NIN)%S_BS        = NSN 
           ENDIF
-          IF(IGAP.GE.1)THEN
+          IF(IGAP>=1)THEN
             INTBUF_TAB(NIN)%S_THKNOD0   = NSN 
           ENDIF
 
@@ -1241,8 +1241,8 @@ C----   size real arrays
           ENDIF
           INTBUF_TAB(NIN)%S_XSAV   = 3*MIN(NUMN,NSN+NMN) 
           INTBUF_TAB(NIN)%S_CRIT   = 12 
-          IF (MFROT.NE.0)INTBUF_TAB(NIN)%S_FRIC_P   = 10 
-          IF (IFQ.NE.0) THEN 
+          IF (MFROT/=0)INTBUF_TAB(NIN)%S_FRIC_P   = 10 
+          IF (IFQ/=0) THEN 
             INTBUF_TAB(NIN)%S_XFILTR   = 1 
             INTBUF_TAB(NIN)%S_FTSAVX   = MULTIMP*NCONT 
             INTBUF_TAB(NIN)%S_FTSAVY   = MULTIMP*NCONT 
@@ -1282,7 +1282,7 @@ C----   size real arrays
           INTBUF_TAB(NIN)%S_CAND_P    = MULTIMP*NCONT
           INTBUF_TAB(NIN)%S_XSAV      = 3*MIN(NUMN,NSN+NMN) 
           INTBUF_TAB(NIN)%S_CRIT      = 12 
-          IF (MFROT.NE.0)INTBUF_TAB(NIN)%S_FRIC_P   = 10 
+          IF (MFROT/=0)INTBUF_TAB(NIN)%S_FRIC_P   = 10 
           INTBUF_TAB(NIN)%S_XFILTR    = 1 
           INTBUF_TAB(NIN)%S_FTSAVX    = MULTIMP*NCONT 
           INTBUF_TAB(NIN)%S_FTSAVY    = MULTIMP*NCONT 
@@ -1359,8 +1359,8 @@ C----   size real arrays
           INTBUF_TAB(NIN)%S_XSAV     = 3*MIN(NUMN,NSN+NMN) 
           INTBUF_TAB(NIN)%S_GAPN_M   = NMN 
           INTBUF_TAB(NIN)%S_CRIT     = 12 
-          IF (MFROT.NE.0)INTBUF_TAB(NIN)%S_FRIC_P   = 10
-          IF (IFQ.NE.0) INTBUF_TAB(NIN)%S_XFILTR    = 1 
+          IF (MFROT/=0)INTBUF_TAB(NIN)%S_FRIC_P   = 10
+          IF (IFQ/=0) INTBUF_TAB(NIN)%S_XFILTR    = 1 
           INTBUF_TAB(NIN)%S_SECND_FR  = 6*NSN
           IF (INTTH > 0 )INTBUF_TAB(NIN)%S_AREAS  = NSN 
           INTBUF_TAB(NIN)%S_PENE_OLD   = 5*NSN 
@@ -1385,7 +1385,7 @@ C----   size real arrays
           ENDIF
           INTBUF_TAB(NIN)%S_ICONT_I     = NSN   
 
-          IF (INTFRIC.NE.0) THEN
+          IF (INTFRIC/=0) THEN
             INTBUF_TAB(NIN)%S_IPARTFRICS  = NSN 
             INTBUF_TAB(NIN)%S_IPARTFRICM  = NRTM 
             IF(INTBUF_FRIC_TAB(INTFRIC)%IORTHFRIC >0) THEN
@@ -1510,7 +1510,7 @@ C           IF(INACTI==5) INTBUF_TAB(NIN)%S_CAND_PS   = 4*MULTIMPS*NCONTE
           INTBUF_TAB(NIN)%S_NOR2MSR   = 4*NRTM
           INTBUF_TAB(NIN)%S_CAND_OPT_N= MULTIMP*NCONT
           INTBUF_TAB(NIN)%S_CAND_OPT_E= MULTIMP*NCONT
-          IF (IVIS2.EQ.-1) THEN
+          IF (IVIS2==-1) THEN
              INTBUF_TAB(NIN)%S_IF_ADH   = NSN
           ENDIF
           INTBUF_TAB(NIN)%S_CANDL_MAX = 0        
@@ -1531,8 +1531,8 @@ C----   size real arrays
           INTBUF_TAB(NIN)%S_XSAV     = 3*MIN(NUMN,NSN+NMN) 
           INTBUF_TAB(NIN)%S_GAPN_M   = NMN 
           INTBUF_TAB(NIN)%S_CRIT     = 12 
-          IF (MFROT.NE.0)INTBUF_TAB(NIN)%S_FRIC_P   = 10 
-          IF (IFQ.NE.0) INTBUF_TAB(NIN)%S_XFILTR    = 1 
+          IF (MFROT/=0)INTBUF_TAB(NIN)%S_FRIC_P   = 10 
+          IF (IFQ/=0) INTBUF_TAB(NIN)%S_XFILTR    = 1 
           INTBUF_TAB(NIN)%S_SECND_FR  = 6*NSN 
           IF (INTTH > 0 .OR.IVIS2 == -1)INTBUF_TAB(NIN)%S_AREAS  = NSN
           INTBUF_TAB(NIN)%S_PENE_OLD   = 5*NSN 
@@ -1549,7 +1549,7 @@ C----   size real arrays
           IF(IEDGE/=0)INTBUF_TAB(NIN)%S_E2S_NOD_NORMAL = 3*NADMSR   
           IF(IEDGE/=0)INTBUF_TAB(NIN)%S_E2S_ACTNOR = NADMSR  
 
-          IF (INTFRIC.NE.0) THEN
+          IF (INTFRIC/=0) THEN
             INTBUF_TAB(NIN)%S_IPARTFRICS  = NSN 
             INTBUF_TAB(NIN)%S_IPARTFRICM  = NRTM 
             IF(INTBUF_FRIC_TAB(INTFRIC)%IORTHFRIC >0) THEN
@@ -1629,9 +1629,9 @@ C
           MY_ALLOCATE(INTBUF_TAB(NIN)%CAND_N,INTBUF_TAB(NIN)%S_CAND_N) !KD(15)
           INTBUF_TAB(NIN)%CAND_N(1:INTBUF_TAB(NIN)%S_CAND_N) = 0 !type16
           MY_ALLOCATE(INTBUF_TAB(NIN)%I_STOK,INTBUF_TAB(NIN)%S_I_STOK) !KD(1)
-          IF(INTBUF_TAB(NIN)%S_I_STOK.GT.0)INTBUF_TAB(NIN)%I_STOK(1:INTBUF_TAB(NIN)%S_I_STOK) = 0 !inter NE 7
+          IF(INTBUF_TAB(NIN)%S_I_STOK>0)INTBUF_TAB(NIN)%I_STOK(1:INTBUF_TAB(NIN)%S_I_STOK) = 0 !inter NE 7
           MY_ALLOCATE(INTBUF_TAB(NIN)%I_STOK_E,INTBUF_TAB(NIN)%S_I_STOK_E) !KD(2)
-          IF(INTBUF_TAB(NIN)%S_I_STOK_E.GT.0)INTBUF_TAB(NIN)%I_STOK_E(1) = 0 !inter NE 7
+          IF(INTBUF_TAB(NIN)%S_I_STOK_E>0)INTBUF_TAB(NIN)%I_STOK_E(1) = 0 !inter NE 7
           MY_ALLOCATE(INTBUF_TAB(NIN)%IFPEN,INTBUF_TAB(NIN)%S_IFPEN) !KD(27)
           INTBUF_TAB(NIN)%IFPEN(1:INTBUF_TAB(NIN)%S_IFPEN) = 0 !int7 itrc
           MY_ALLOCATE(INTBUF_TAB(NIN)%IFPEN_E,INTBUF_TAB(NIN)%S_IFPEN_E) 
@@ -1839,7 +1839,7 @@ C=======================================================================
           MY_ALLOCATE(INTBUF_TAB(NIN)%CSTS,INTBUF_TAB(NIN)%S_CSTS) !JD(12)
           INTBUF_TAB(NIN)%CSTS(1:INTBUF_TAB(NIN)%S_CSTS) = 0 
           MY_ALLOCATE(INTBUF_TAB(NIN)%DPARA,INTBUF_TAB(NIN)%S_DPARA) !JD(21)
-          INTBUF_TAB(NIN)%DPARA(1:INTBUF_TAB(NIN)%S_DPARA) = 0 !inint3 NTY.EQ.2.AND.ISEARCH.EQ.1
+          INTBUF_TAB(NIN)%DPARA(1:INTBUF_TAB(NIN)%S_DPARA) = 0 !inint3 NTY==2.AND.ISEARCH==1
           MY_ALLOCATE(INTBUF_TAB(NIN)%NMAS,INTBUF_TAB(NIN)%S_NMAS) !JD(22)
           INTBUF_TAB(NIN)%NMAS(1:INTBUF_TAB(NIN)%S_NMAS) = 0 !ILEV=0
           MY_ALLOCATE(INTBUF_TAB(NIN)%SMAS,INTBUF_TAB(NIN)%S_SMAS) !JD(23)

@@ -127,7 +127,7 @@ C
 C-----------------------------------------------
 C     CALCUL BILAN SORTIES ADDITIONNELLES 
 C-----------------------------------------------
-      IF(FLAG.EQ.1) THEN
+      IF(FLAG==1) THEN
         DO I=LFT,LLT
           XX(I) = XX(I)*ONE_OVER_8
           YY(I) = YY(I)*ONE_OVER_8
@@ -209,14 +209,14 @@ C-----------------------------------------------
       ENDIF
 C-----------------------------------------------
 C
-      IF(JTUR.NE.0)THEN
+      IF(JTUR/=0)THEN
        DO 50 I=LFT,LLT
        M=IPARTS(I)
        PARTSAV(7,M)=PARTSAV(7,M) + RK(I)*VOL(I)
    50  CONTINUE
       ENDIF
 C
-      IF(IEXPAN.NE.0)THEN
+      IF(IEXPAN/=0)THEN
         DO I=LFT,LLT
          M=IPARTS(I)
           PARTSAV(27,M)=PARTSAV(27,M) + EINTTH(I)*VOL(I)

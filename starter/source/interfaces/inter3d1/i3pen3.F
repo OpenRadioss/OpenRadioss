@@ -92,7 +92,7 @@ C
         YS1=X(2,I)
         ZS1=X(3,I)
         CALL INIST3(N1,N2,N3,CST(1,II),CST(2,II),IER,ALP)
-        IF(IER.EQ.-1)THEN
+        IF(IER==-1)THEN
 C         ** ERROR INTERFACE SEGMENT DEFINITION
 C         ** ERROR NULL SEGMENT AREA
           CALL ANCMSG(MSGID=85,
@@ -108,12 +108,12 @@ C         ** ERROR NULL SEGMENT AREA
      .               I7=ITAB(MSR(IRECT(3,L))),
      .               I8=ITAB(MSR(IRECT(4,L))))
 C
-        ELSE IF(IER.EQ.1 .AND. IPRI.GE.1)THEN
+        ELSE IF(IER==1 .AND. IPRI>=1)THEN
           WRITE(IOUT,FMT=FMW_7I) ITAB(I),ITAB(K),L,(ITAB(MSR(IRECT(JJ,L))),JJ=1,4)
         ELSE
           PEN=N1*(XS1-XC)+N2*(YS1-YC)+N3*(ZS1-ZC)-GAP
-          IF(PEN.LE.ZERO) IRTL0(II)=L
-          IF(PEN.LT.ZERO) THEN
+          IF(PEN<=ZERO) IRTL0(II)=L
+          IF(PEN<ZERO) THEN
 C           ** WARNING ** INITIAL PENETRATION 
             CALL ANCMSG(MSGID=346,
      .                 MSGTYPE=MSGWARNING,
@@ -124,7 +124,7 @@ C           ** WARNING ** INITIAL PENETRATION
 C
             IWPENE=IWPENE+1
           ENDIF
-          IF(IPRI.GE.1) THEN
+          IF(IPRI>=1) THEN
             WRITE(IOUT,FMT=FMW_7I_2F) ITAB(I),ITAB(K),L,(ITAB(MSR(IRECT(JJ,L))),JJ=1,4),CST(1,II),CST(2,II)
           ENDIF
         ENDIF
@@ -196,17 +196,17 @@ C
         YS1=X(2,I)
         ZS1=X(3,I)
         CALL INIST3(N1,N2,N3,CST(1,II),CST(2,II),IER,ALP)
-        IF(IER.EQ.0)THEN
+        IF(IER==0)THEN
          PEN=N1*(XS1-XC)+N2*(YS1-YC)+N3*(ZS1-ZC)-GAP
-         IF(PEN.LT.ZERO) THEN
+         IF(PEN<ZERO) THEN
            PEN = PEN + EM8*PEN
-           IF(INACTI.EQ.3) THEN
+           IF(INACTI==3) THEN
              WRITE(IOUT,1000)PEN
              X(1,I) = XS1 - PEN*N1
              X(2,I) = YS1 - PEN*N2
              X(3,I) = ZS1 - PEN*N3
              WRITE(IOUT,FMT=FMW_I_3F)ITAB(I),X(1,I),X(2,I),X(3,I)
-           ELSE IF(INACTI.EQ.4) THEN
+           ELSE IF(INACTI==4) THEN
              DO JJ=1,4
               NN=MSR(IRECT(JJ,L))
               WRITE(IOUT,1100)PEN
@@ -216,7 +216,7 @@ C
               WRITE(IOUT,FMT=FMW_I_3F)ITAB(NN),X(1,NN),X(2,NN),X(3,NN)
             END DO
            END IF
-          END IF !IF(PEN.LT.ZERO)
+          END IF !IF(PEN<ZERO)
         END IF
       ENDDO
       RETURN

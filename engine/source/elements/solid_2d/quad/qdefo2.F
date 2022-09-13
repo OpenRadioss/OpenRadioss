@@ -133,7 +133,7 @@ C-----------------------------------------------
        ENDDO
 
       DO I=LFT,LLT
-        IF(AIREM(I).GT.ZERO) THEN
+        IF(AIREM(I)>ZERO) THEN
           EYY(I)=(PY1(I)*VY13(I)+PY2(I)*VY24(I))/AIREM(I)
           EZZ(I)=(PZ1(I)*VZ13(I)+PZ2(I)*VZ24(I))/AIREM(I)
           ETT(I)=ZERO
@@ -152,9 +152,9 @@ C-----------------------------------------------
         END IF
       ENDDO
 
-      IF(N2D.EQ.1) THEN
+      IF(N2D==1) THEN
         DO I=LFT,LLT
-          IF (YAVG(I).LE.ZERO) CYCLE
+          IF (YAVG(I)<=ZERO) CYCLE
           ETT(I)=(VY1(I)+VY2(I)+VY3(I)+VY4(I))/YAVG(I)
         ENDDO
       ENDIF

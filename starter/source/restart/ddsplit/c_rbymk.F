@@ -71,7 +71,7 @@ C
         ENDDO
         K = K + NSL
       ENDDO
-      IF(IPARI0.NE.0) NSKYRBK_L = NSLARB_L
+      IF(IPARI0/=0) NSKYRBK_L = NSLARB_L
 C
       RETURN
       END

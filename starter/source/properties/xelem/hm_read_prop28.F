@@ -171,7 +171,7 @@ C
       IF (X_SCAL == ZERO) X_SCAL = ONE / FAC_T 
 C      
         IERROR = SET_U_GEO(10,MU1)
-        IF (IERROR.GT.0) THEN
+        IF (IERROR>0) THEN
            CALL ANCMSG(MSGID=378,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,
@@ -180,7 +180,7 @@ C
      .                 C2='SET_U_GEO(10,MU1)')
         ENDIF
         IERROR = SET_U_GEO(11,MU2)
-        IF (IERROR.GT.0) THEN
+        IF (IERROR>0) THEN
            CALL ANCMSG(MSGID=378,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,
@@ -189,7 +189,7 @@ C
      .                 C2='SET_U_GEO(11,MU2)')
         ENDIF
         IERROR = SET_U_GEO(3,RHO)
-        IF (IERROR.GT.0) THEN
+        IF (IERROR>0) THEN
            CALL ANCMSG(MSGID=378,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,
@@ -198,7 +198,7 @@ C
      .                 C2='SET_U_GEO(3,RHO)')
         ENDIF
         IERROR = SET_U_GEO(4,XK)
-        IF (IERROR.GT.0) THEN
+        IF (IERROR>0) THEN
            CALL ANCMSG(MSGID=378,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,
@@ -207,7 +207,7 @@ C
      .                 C2='SET_U_GEO(4,XK)')
         ENDIF
         IERROR = SET_U_GEO(5,XC)
-        IF (IERROR.GT.0) THEN
+        IF (IERROR>0) THEN
            CALL ANCMSG(MSGID=378,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,
@@ -216,7 +216,7 @@ C
      .                 C2='SET_U_GEO(5,XC)')
         ENDIF
         IERROR = SET_U_PNU(1,IFUNC,KFUNC)
-        IF (IERROR.GT.0) THEN
+        IF (IERROR>0) THEN
            CALL ANCMSG(MSGID=378,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,
@@ -225,7 +225,7 @@ C
      .                 C2='SET_U_PNU(1,IFUNC,KFUNC)')
         ENDIF
         IERROR = SET_U_PNU(2,IFV,KFUNC)
-        IF (IERROR.GT.0) THEN
+        IF (IERROR>0) THEN
            CALL ANCMSG(MSGID=378,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,
@@ -236,7 +236,7 @@ C
         IVTYP=100
         XVTYP=IVTYP
         IERROR = SET_U_GEO(7,XVTYP)
-        IF (IERROR.GT.0) THEN
+        IF (IERROR>0) THEN
            CALL ANCMSG(MSGID=378,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,
@@ -245,7 +245,7 @@ C
      .                 C2='SET_U_GEO(7,XVTYP)')
         ENDIF
         IERROR = SET_U_GEO(8,DMN)
-        IF (IERROR.GT.0) THEN
+        IF (IERROR>0) THEN
            CALL ANCMSG(MSGID=378,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,
@@ -254,7 +254,7 @@ C
      .                 C2='SET_U_GEO(8,DMN)')
         ENDIF
         IERROR = SET_U_GEO(9,DMX)
-        IF (IERROR.GT.0) THEN
+        IF (IERROR>0) THEN
            CALL ANCMSG(MSGID=378,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,
@@ -262,7 +262,7 @@ C
      .                 C1=TITR,
      .                 C2='SET_U_GEO(9,DMX)')
         ENDIF
-        IF(RHO.EQ.0.)THEN
+        IF(RHO==0.)THEN
            CALL ANCMSG(MSGID=423,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO,
@@ -302,7 +302,7 @@ C
 C      non user specified coefficient is set to negative value.
          FRIC=-1.0
          IERROR=SET_U_GEO(50+I,FRIC)
-         IF (IERROR.GT.0) THEN
+         IF (IERROR>0) THEN
             CALL ANCMSG(MSGID=378,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_1,
@@ -311,7 +311,7 @@ C      non user specified coefficient is set to negative value.
      .                 C2='SET_U_GEO(50+I,FRIC)')
          ENDIF
          IERROR=SET_U_GEO(525+I,FRIC)
-         IF (IERROR.GT.0) THEN
+         IF (IERROR>0) THEN
             CALL ANCMSG(MSGID=378,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_1,
@@ -329,8 +329,8 @@ C
           CALL HM_GET_INT_ARRAY_INDEX('Nb1_arr',I,IP,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_FLOAT_ARRAY_INDEX('Mu_arr',FRIC,IP,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
-          IF (KEYWORD(1:6).EQ.'PULLEY') THEN
-            IF (I.LT.2.OR.I.GT.475) THEN
+          IF (KEYWORD(1:6)=='PULLEY') THEN
+            IF (I<2.OR.I>475) THEN
               CALL ANCMSG(MSGID=379,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO_BLIND_1,
@@ -340,7 +340,7 @@ C
      .                   I2=I)
             ENDIF
             IERROR=SET_U_GEO(50+I,FRIC)
-            IF (IERROR.GT.0) THEN
+            IF (IERROR>0) THEN
               CALL ANCMSG(MSGID=378,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO_BLIND_1,
@@ -351,8 +351,8 @@ C
             IF(.NOT. IS_CRYPTED) WRITE(IOUT,'(A,I10,A,1PG20.13)')
      .                           'PULLEY FRICTION COEFFICIENT : PULLEY NUMBER =',I,
      .                           'VALUE =',FRIC
-          ELSEIF (KEYWORD(1:6).EQ.'STRAND') THEN
-             IF (I.LT.1.OR.I.GT.475) THEN
+          ELSEIF (KEYWORD(1:6)=='STRAND') THEN
+             IF (I<1.OR.I>475) THEN
                CALL ANCMSG(MSGID=379,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO_BLIND_1,
@@ -362,7 +362,7 @@ C
      .                   I2=I)
              ENDIF
              IERROR=SET_U_GEO(525+I,FRIC)
-             IF (IERROR.GT.0) THEN
+             IF (IERROR>0) THEN
                CALL ANCMSG(MSGID=378,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO_BLIND_1,

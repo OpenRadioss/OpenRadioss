@@ -71,7 +71,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       DIM=DIM_TAB3
-      IF(ISPMD.EQ.0) THEN
+      IF(ISPMD==0) THEN
         DO J=1,DIM_TAB3
          TAB4(NSPMD+1,J) = ZERO
          TAB4(1,J) = TAB3(J)

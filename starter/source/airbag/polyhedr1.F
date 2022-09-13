@@ -202,7 +202,7 @@ C--------------------------------------------------------------
             YY(NVERTEX)=Y2
             ZZ(NVERTEX)=Z2
             DO K=1,NPOLB
-               IF (K.EQ.I) CYCLE
+               IF (K==I) CYCLE
                KK=POLB(K)
                DO L=1,IPOLY(2,KK)
                   LL=L+1
@@ -217,8 +217,8 @@ C--------------------------------------------------------------
                   DD21=(XX2-X1)**2+(YY2-Y1)**2+(ZZ2-Z1)**2
                   DD12=(XX1-X2)**2+(YY1-Y2)**2+(ZZ1-Z2)**2
                   DD22=(XX2-X2)**2+(YY2-Y2)**2+(ZZ2-Z2)**2
-                  IF ((DD11.LE.TOLE.AND.DD22.LE.TOLE).OR.
-     .                (DD21.LE.TOLE.AND.DD12.LE.TOLE)) THEN
+                  IF ((DD11<=TOLE.AND.DD22<=TOLE).OR.
+     .                (DD21<=TOLE.AND.DD12<=TOLE)) THEN
                       POLEDG(K,L+1)=NEDGE
                   ENDIF
                ENDDO               
@@ -781,9 +781,9 @@ C
          DO J=1,NPOLB
             IF (ITAG(1,J) == I .OR. ITAG(2,J) == I) II=II+1
          ENDDO
-         IF (II.NE.0) NPOLH=NPOLH+1
+         IF (II/=0) NPOLH=NPOLH+1
       ENDDO
-      IF (NPOLH.GT.NPOLHMAX) THEN
+      IF (NPOLH>NPOLHMAX) THEN
          INFO=1
          NPOLHMAX=NPOLH
          RETURN
@@ -795,7 +795,7 @@ C
          DO J=1,NPOLB
             IF (ITAG(1,J) == I .OR. ITAG(2,J) == I) II=II+1
          ENDDO
-         IF (II.NE.0) THEN
+         IF (II/=0) THEN
             NPOLH=NPOLH+1
             POLH(1,NPOLH)=II
             POLH(2,NPOLH)=IBRIC
@@ -809,7 +809,7 @@ C
                   IF (ITY == 1) THEN
                      IPOLY(5,JJ)=NPOLH
                   ELSEIF(ITY == 2) THEN
-                    IF (IPOLY(5,JJ).EQ.0) THEN
+                    IF (IPOLY(5,JJ)==0) THEN
                        IPOLY(5,JJ)=NPOLH
                     ELSE
                        IPOLY(6,JJ)=NPOLH
@@ -830,7 +830,7 @@ C-------------------------------------------------------
                JMIN=J
                PMIN=POLH(2+J,NPOLH)
                DO K=J+1,POLH(1,NPOLH)
-                  IF (POLH(2+K,NPOLH).LT.PMIN) THEN
+                  IF (POLH(2+K,NPOLH)<PMIN) THEN
                      JMIN=K
                      PMIN=POLH(2+K,NPOLH)
                   ENDIF

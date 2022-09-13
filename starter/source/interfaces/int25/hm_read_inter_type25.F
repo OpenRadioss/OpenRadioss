@@ -274,24 +274,24 @@ C
 C
       CALL HM_GET_FLOATV('Xfreq',ALPHA,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
-      IF (MFROT.GT.0) THEN
+      IF (MFROT>0) THEN
          CALL HM_GET_FLOATV('C1',C1,IS_AVAILABLE,LSUBMODEL,UNITAB)
          CALL HM_GET_FLOATV('C2',C2,IS_AVAILABLE,LSUBMODEL,UNITAB)
          CALL HM_GET_FLOATV('C3',C3,IS_AVAILABLE,LSUBMODEL,UNITAB)
          CALL HM_GET_FLOATV('C4',C4,IS_AVAILABLE,LSUBMODEL,UNITAB)
          CALL HM_GET_FLOATV('C5',C5,IS_AVAILABLE,LSUBMODEL,UNITAB)
       ENDIF
-      IF (MFROT.GT.1) THEN
+      IF (MFROT>1) THEN
         CALL HM_GET_FLOATV('C6',C6,IS_AVAILABLE,LSUBMODEL,UNITAB)
       ENDIF
-      IF (IVIS2.GT.0) THEN
+      IF (IVIS2>0) THEN
          CALL HM_GET_FLOATV('C1',C1,IS_AVAILABLE,LSUBMODEL,UNITAB)
          CALL HM_GET_FLOATV('C2',C2,IS_AVAILABLE,LSUBMODEL,UNITAB)
          CALL HM_GET_FLOATV('C3',C3,IS_AVAILABLE,LSUBMODEL,UNITAB)
          CALL HM_GET_FLOATV('C4',C4,IS_AVAILABLE,LSUBMODEL,UNITAB)
          CALL HM_GET_FLOATV('C5',C5,IS_AVAILABLE,LSUBMODEL,UNITAB)
       ENDIF
-      IF(IVIS2.EQ.-1) THEN
+      IF(IVIS2==-1) THEN
          INTERADHESION = 1
          CALL HM_GET_FLOATV('ViscFluid',VISCFLUID,IS_AVAILABLE,LSUBMODEL,UNITAB)
          CALL HM_GET_FLOATV('SigMaxAdh',SIGMAXADH,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -474,11 +474,11 @@ C
 C....* Card4  *.............
 C
 C
-        IF(IGSTI.GT.1)THEN
+        IF(IGSTI>1)THEN
             I7STIFS=1
-            IF(STMAX.EQ.ZERO)STMAX=EP30
+            IF(STMAX==ZERO)STMAX=EP30
         ELSE
-            IF(STMAX.EQ.ZERO)STMAX=EP30
+            IF(STMAX==ZERO)STMAX=EP30
         END IF
 
 
@@ -497,15 +497,15 @@ C-------- default EDG_ANGL=135
         IF(IGAP == 3 .AND. PERCENT_SIZE == ZERO) PERCENT_SIZE = FOUR*EM01
         FRIGAP(28) = PERCENT_SIZE
 
-	IF(GAPSCALE.EQ.ZERO)GAPSCALE=ONE
+	IF(GAPSCALE==ZERO)GAPSCALE=ONE
 	FRIGAP(13) = GAPSCALE ! historically stored, get modified in I25STI3 (GAPMIN)
         FRIGAP(45) = GAPSCALE
         
 
-        IF(GAPMAX_S.EQ.ZERO)GAPMAX_S=EP30
-        IF(GAPMAX_M.EQ.ZERO)GAPMAX_M=EP30
-C       IF(PENMAX.EQ.ZERO)PENMAX=EP30
-        IF(PENMIN.EQ.ZERO)PENMIN=EM8
+        IF(GAPMAX_S==ZERO)GAPMAX_S=EP30
+        IF(GAPMAX_M==ZERO)GAPMAX_M=EP30
+C       IF(PENMAX==ZERO)PENMAX=EP30
+        IF(PENMIN==ZERO)PENMIN=EM8
 	FRIGAP(35) = GAPMAX_S
         FRIGAP(36) = GAPMAX_M
         FRIGAP(37) = PENMAX
@@ -535,9 +535,9 @@ C ----- presfit
           END IF
 
 C Hidden flag no more read using HM reader
-c        IF (BCFLAGM(LFIELD-2:LFIELD-2).EQ. '1') IBC1M = 1
-c        IF (BCFLAGM(LFIELD-1:LFIELD-1).EQ. '1') IBC2M = 1
-c        IF (BCFLAGM(LFIELD  :LFIELD  ).EQ. '1') IBC3M = 1
+c        IF (BCFLAGM(LFIELD-2:LFIELD-2)== '1') IBC1M = 1
+c        IF (BCFLAGM(LFIELD-1:LFIELD-1)== '1') IBC2M = 1
+c        IF (BCFLAGM(LFIELD  :LFIELD  )== '1') IBC3M = 1
 
         IF (IIMPLICIT>0.AND.INACTI==0) INACTI=-1
         IF (INACTI/=0.AND.INACTI/=1.AND.INACTI/=-1.AND.INACTI/=3
@@ -558,18 +558,18 @@ c        IF (BCFLAGM(LFIELD  :LFIELD  ).EQ. '1') IBC3M = 1
                INACTI = 0
              END IF
         END IF
-        IF(STFAC.EQ.0.) THEN
+        IF(STFAC==0.) THEN
            STFAC=ONE
         ENDIF
-        IF(IGSTI.EQ.1)STFAC=-STFAC
+        IF(IGSTI==1)STFAC=-STFAC
 C------no use of  VISCF
         VISCF=ZERO
 c        FRIGAP(15)=VISCF**2
 C-------used for TPFIT
         FRIGAP(15)=TPFIT
 
-        IF(VISC.EQ.ZERO)THEN
-            IF(IVIS2.EQ.5)THEN
+        IF(VISC==ZERO)THEN
+            IF(IVIS2==5)THEN
               VISC=ONE
             ELSE
               VISC=FIVEEM2
@@ -589,7 +589,7 @@ C         IVIS2=-1 interface adhesion
             IDEL25=ABS(IDEL25)
         END IF
         IPARI(61)=IDELKEEP
-        IF(IDEL25.GT.2) IDEL25 = 0
+        IF(IDEL25>2) IDEL25 = 0
         IPARI(17)=IDEL25
 C
         IF(IGAP==3.AND.ISHARP==1) THEN
@@ -611,7 +611,7 @@ C
 C------------remove BUMULT   
         BUMULT=ZERO  
 
-        IF(BUMULT.EQ.ZERO) THEN
+        IF(BUMULT==ZERO) THEN
           BUMULT = BMUL0
 C bmult augmente pour les tres gros modeles et interface 7 ou 20
 
@@ -627,25 +627,25 @@ C bmult augmente pour les tres gros modeles et interface 7 ou 20
 C
 C....* Card6 : Friction  *.............
 C
-C           IF (MFROT.NE.0.AND.VISCF.EQ.0.0) VISCF=ONE
+C           IF (MFROT/=0.AND.VISCF==0.0) VISCF=ONE
           MODFR = 2
-          IF (ALPHA.EQ.0.) IFQ = 0
-          IF (MODFR.EQ.0) MODFR = 1
-          IF (MODFR.EQ.2.AND.IFQ.LT.10) IFQ = IFQ + 10
-C           IF(MODFR.EQ.2)VISCF=ZERO
-          IF (IFQ.GT.0) THEN
-             IF (IFQ.EQ.10) XFILTR = ONE
-             IF (MOD(IFQ,10).EQ.1) XFILTR = ALPHA
-             IF (MOD(IFQ,10).EQ.2) XFILTR=FOUR*ATAN2(ONE,ZERO) / ALPHA
-             IF (MOD(IFQ,10).EQ.3) XFILTR=FOUR*ATAN2(ONE,ZERO) * ALPHA
-             IF (XFILTR.LT.ZERO) THEN
+          IF (ALPHA==0.) IFQ = 0
+          IF (MODFR==0) MODFR = 1
+          IF (MODFR==2.AND.IFQ<10) IFQ = IFQ + 10
+C           IF(MODFR==2)VISCF=ZERO
+          IF (IFQ>0) THEN
+             IF (IFQ==10) XFILTR = ONE
+             IF (MOD(IFQ,10)==1) XFILTR = ALPHA
+             IF (MOD(IFQ,10)==2) XFILTR=FOUR*ATAN2(ONE,ZERO) / ALPHA
+             IF (MOD(IFQ,10)==3) XFILTR=FOUR*ATAN2(ONE,ZERO) * ALPHA
+             IF (XFILTR<ZERO) THEN
                CALL ANCMSG(MSGID=554,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO_BLIND_1,
      .                     I1=NOINT,
      .                     C1=TITR,
      .                     R1=ALPHA)
-             ELSEIF (XFILTR.GT.1.AND.MOD(IFQ,10).LE.2) THEN
+             ELSEIF (XFILTR>1.AND.MOD(IFQ,10)<=2) THEN
                 CALL ANCMSG(MSGID=554,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO_BLIND_1,
@@ -657,7 +657,7 @@ C           IF(MODFR.EQ.2)VISCF=ZERO
             XFILTR = ZERO
           ENDIF
 
-          IF (IBAG.NE.0.AND.NVOLU.EQ.0 .AND. IALELAG == 0) THEN
+          IF (IBAG/=0.AND.NVOLU==0 .AND. IALELAG == 0) THEN
              CALL ANCMSG(MSGID=614,
      .                   MSGTYPE=MSGWARNING,
      .                   ANMODE=ANINFO_BLIND_2,
@@ -855,7 +855,7 @@ C
 
 C........* PRINT INTERFACES INPUT *.....................
 
-        IF(IDSENS.NE.0) THEN 
+        IF(IDSENS/=0) THEN 
          WRITE(IOUT,3526)IBC1,IBC2,IBC3,IBC1M,IBC2M,IBC3M,
      .                 IGSTI,STFAC,ILEV,IEDGE,EDG_ANGL,
      .                 STMIN,STMAX,
@@ -872,7 +872,7 @@ C........* PRINT INTERFACES INPUT *.....................
         ENDIF
 
         IF(TPFIT > ZERO) WRITE(IOUT,5040) TPFIT
-        IF(IDEL25.NE.3) THEN
+        IF(IDEL25/=3) THEN
           WRITE(IOUT,'(A,A,I5/)')
      . '    DELETION FLAG ON FAILURE OF MAIN ELEMENT',
      . ' (1:YES-ALL/2:YES-ANY/1000:NO) : ',IDEL25
@@ -886,25 +886,25 @@ C
           WRITE(IOUT,5030) INTFRIC
         ELSE
           WRITE(IOUT,1520)MOD(IFQ,10), XFILTR
-          IF(MFROT.EQ.0)THEN
+          IF(MFROT==0)THEN
              IF(IFRICTH ==0 ) THEN
                 WRITE(IOUT,1524) FRIC
               ELSE
                 WRITE(IOUT,1525) IFRICTH,FRIC
               ENDIF 
-          ELSEIF(MFROT.EQ.1)THEN
+          ELSEIF(MFROT==1)THEN
             WRITE(IOUT,1515)FRIC_P(1),FRIC_P(2),FRIC_P(3),
      .      FRIC_P(4),FRIC_P(5)
-          ELSEIF(MFROT.EQ.2)THEN
+          ELSEIF(MFROT==2)THEN
             WRITE(IOUT,1522)FRIC,FRIC_P(1),FRIC_P(2),FRIC_P(3),
      .      FRIC_P(4),FRIC_P(5),FRIC_P(6)
-          ELSEIF(MFROT.EQ.3)THEN
+          ELSEIF(MFROT==3)THEN
             WRITE(IOUT,1523)FRIC_P(1),FRIC_P(2),FRIC_P(3),
      .      FRIC_P(4),FRIC_P(5),FRIC_P(6)
           ENDIF
         ENDIF
 C Interface Adhesion 
-        IF(IVIS2.EQ.-1) THEN
+        IF(IVIS2==-1) THEN
           WRITE(IOUT,5050)VISCFLUID,SIGMAXADH,VISCADHFACT
         ENDIF
        IF(INTTH > 0 )THEN
@@ -916,28 +916,28 @@ C Interface Adhesion
        END IF
 
 C--------------------------------------------------------------
-      IF(IS1.EQ.0)THEN
+      IF(IS1==0)THEN
         WRITE(IOUT,'(6X,A)')'NO SECONDARY SURFACE INPUT'
-      ELSEIF(IS1.EQ.1)THEN
+      ELSEIF(IS1==1)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS1.EQ.2)THEN
+      ELSEIF(IS1==2)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY NODES'
-      ELSEIF(IS1.EQ.3)THEN
+      ELSEIF(IS1==3)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS1.EQ.4 )THEN
+      ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
-      ELSEIF(IS1.EQ.5 )THEN
+      ELSEIF(IS1==5 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
       ENDIF
-      IF(IS2.EQ.0)THEN
+      IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'
-      ELSEIF(IS2.EQ.1)THEN
+      ELSEIF(IS2==1)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS2.EQ.2)THEN
+      ELSEIF(IS2==2)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY NODES'
-      ELSEIF(IS2.EQ.3)THEN
+      ELSEIF(IS2==3)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS2.EQ.4)THEN
+      ELSEIF(IS2==4)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE REFERS ',
      .                      'TO HYPER-ELLIPSOIDAL SURFACE'
       ENDIF
@@ -993,7 +993,7 @@ C------------
      .    '    FILTERING FACTOR . . . . . . . . . . . . ',1PG20.13)
 C----------     
  3526 FORMAT(//
-     .       '    TYPE.EQ.25  MUTI-TYPE IMPACTING             ' //,
+     .       '    TYPE==25  MUTI-TYPE IMPACTING             ' //,
      .       '    BOUND. COND. DELETED AFTER IMPACT IN X DIR  ',I1/,
      .       '       SECONDARY NODE  (1:YES 0:NO)          Y DIR  ',I1/,
      .       '                                         Z DIR  ',I1/,
@@ -1026,7 +1026,7 @@ C----------
      .       '    NODES IN CASE OF ELEMENT SIZE < GAP VALUE   ',I5/)
 C
  3527 FORMAT(//
-     .       '    TYPE.EQ.25  MUTI-TYPE IMPACTING             ' //,
+     .       '    TYPE==25  MUTI-TYPE IMPACTING             ' //,
      .       '    BOUND. COND. DELETED AFTER IMPACT IN X DIR  ',I1/,
      .       '       SECONDARY NODE  (1:YES 0:NO)          Y DIR  ',I1/,
      .       '                                         Z DIR  ',I1/,

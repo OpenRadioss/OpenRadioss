@@ -54,7 +54,7 @@ C=======================================================================
         IPRT=IPARTSP(I)
         IG  =IPART(2,IPRT)
         ISK = IGEO(2,IG)
-        IF (ISK.NE.0) THEN
+        IF (ISK/=0) THEN
 C        ISK = GEO(2,IG)
           GAMA(I,1)= SKEW(1,ISK)
           GAMA(I,2)= SKEW(2,ISK)

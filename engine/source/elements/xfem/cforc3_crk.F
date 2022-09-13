@@ -349,7 +349,7 @@ cc     6            X1G    ,X2G     ,X3G   ,X4G    ,Y1G  ,Y2G    ,
 cc     7            Y3G    ,Y4G     ,Z1G   ,Z2G    ,Z3G  ,Z4G    ,
 cc     8            IPARTC ,NSG     ,IADC  ,FSKY   ,FSKY ,GRESAV   ,
 cc     9            GRTH   ,IGRTH   )
-cc        IF(JLT.LT.JFT)RETURN
+cc        IF(JLT<JFT)RETURN
         ENDIF
 c
         CALL CNVEC3(XFEM_STR,DIR_A   ,DIR_B   ,                     

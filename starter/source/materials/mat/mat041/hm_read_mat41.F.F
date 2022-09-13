@@ -179,11 +179,11 @@ C-----------------------------------------------
       IF(IREAC/=1 .AND. IREAC /=2)IREAC=1                                    
       WR = R3R/CVR                                                           
       WP = R3P/CVP                                                           
-      IF (EPSILON.EQ.ZERO) EPSILON = EM3                                     
-      IF (ITER.EQ.0) ITER = 80                                               
-      IF (FC.EQ.ZERO) FC = EM5                                               
-      IF (CAPPA.EQ.ZERO) CAPPA = EIGHTY19                               
-      IF (CHI.EQ.ZERO) CHI = EIGHTY19                                   
+      IF (EPSILON==ZERO) EPSILON = EM3                                     
+      IF (ITER==0) ITER = 80                                               
+      IF (FC==ZERO) FC = EM5                                               
+      IF (CAPPA==ZERO) CAPPA = EIGHTY19                               
+      IF (CHI==ZERO) CHI = EIGHTY19                                   
       NFUNC = 0                                                              
       NUVAR = 8                                                              
       STIFINT = SHR          

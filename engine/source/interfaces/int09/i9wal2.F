@@ -97,8 +97,8 @@ C-----------------------------------------------
 C
 C Phase de Preparation pour SPMD
 C
-      IF(INTTH.NE.ZERO) THEN
-       IF(ISPMD.EQ.0) THEN
+      IF(INTTH/=ZERO) THEN
+       IF(ISPMD==0) THEN
         DO II = 1, NRTS
           TAGS(II) = 0
         ENDDO
@@ -109,8 +109,8 @@ C
         IM = 0
         DO II = 1, NSN
           L = IRTL(II)
-          IF(ILOC(II).GT.0.AND.NMN.GT.0)THEN
-           IF(TAGM(L).EQ.0)THEN
+          IF(ILOC(II)>0.AND.NMN>0)THEN
+           IF(TAGM(L)==0)THEN
              IM = IM + 1
              LISTM(IM) = L
              TAGM(L) = IM
@@ -119,7 +119,7 @@ C
            LL2=NSEG(II+1)-1
            DO LL=LL1,LL2
              LG  = LMSR(LL)
-             IF(TAGS(LG).EQ.0) THEN
+             IF(TAGS(LG)==0) THEN
                IS = IS + 1
                LISTS(IS) = LG
                TAGS(LG) = IS
@@ -148,7 +148,7 @@ C
          L = LISTM(II)
          IX(1) = MSR(IRECT(1,L))
          IX(2) = MSR(IRECT(2,L))
-         IF(IELEM(L).GT.0) THEN
+         IF(IELEM(L)>0) THEN
           CALL I9GRD2(
      1       IERR ,COMAREA(II),COMSTF(II),COMT(II),COMVOL(II),
      2       IELEM(L)   ,X  ,IXQ(1,IELEM(L)),IX        ,
@@ -172,7 +172,7 @@ C
          L = LISTS(II)
          IXX(1)=NSV(IRECTS(1,L))
          IXX(2)=NSV(IRECTS(2,L))
-         IF(IELES(L).GT.0) THEN
+         IF(IELES(L)>0) THEN
           CALL I9GRD2(
      1     IERR ,COMAREA(IM+II),COMSTF(IM+II),COMT(IM+II),COMVOL(IM+II),
      2     IELES(L)      ,X    ,IXQ(1,IELES(L))    ,IXX                ,
@@ -204,18 +204,18 @@ C
  	       CALL SPMD_GLOB_ISUM9(ICOMNGR,ILEN)
  	       CALL SPMD_GLOB_ISUM9(ICOMNEL,ILEN)
 Cel partie noeud sur P0 uniquement
- 	    IF(ISPMD.NE.0) GOTO 900
+ 	    IF(ISPMD/=0) GOTO 900
        END IF
 Cel interface traitee par p0
       ELSE
-       IF(ISPMD.NE.0) RETURN
+       IF(ISPMD/=0) RETURN
       ENDIF
 C
       DO 800 II=1,NSN
       LL1=NSEG(II)
       LL2=NSEG(II+1)-1
       N=NSV(II)
-      IF(ILOC(II).GT.0.AND.NMN.GT.0)THEN
+      IF(ILOC(II)>0.AND.NMN>0)THEN
 C---------------------------------
 C       CONTACT
 C---------------------------------
@@ -242,13 +242,13 @@ C
 C---------------------------------
 C       PONT THERMIQUE
 C---------------------------------
-        IF(INTTH.NE.ZERO)THEN
-c         IF(IMACH.NE.3) THEN
+        IF(INTTH/=ZERO)THEN
+c         IF(IMACH/=3) THEN
 c          CALL I9GRD2(
 c     1       IERR  ,AREAM   ,TSTIFM,TM             ,VOLM      ,
 c     2       NB3M  ,IELEM(L),X     ,IXQ(1,IELEM(L)),IX        ,
 c     3       IPARG ,PM      ,ELBUF )
-c          IF(IERR.EQ.0) THEN
+c          IF(IERR==0) THEN
 c            EFRIC = HALF * EE(II) / (LL2-LL1 + 1)
 c            DO 80 LL=LL1,LL2
 c             LG  = LMSR(LL)
@@ -258,7 +258,7 @@ c             CALL I9GRD2(
 c     1        IERR  ,AREAS    ,TSTIFS,TS              ,VOLS    ,
 c     2        NB3S  ,IELES(LG),X     ,IXQ(1,IELES(LG)),IXX     ,
 c     3        IPARG ,PM       ,ELBUF )
-c             IF(IERR.EQ.0) THEN
+c             IF(IERR==0) THEN
 c               TSTIFT = TSTIFM + TSTIFS + TSTIF
 c               PHI = AREAS * DT1 * (TM-TS) / TSTIFT
 c               ELBUF(NB3S) = ELBUF(NB3S) + (EFRIC+PHI)/VOLS
@@ -266,7 +266,7 @@ c               ELBUF(NB3M) = ELBUF(NB3M) + (EFRIC-PHI)/VOLM
 c             ENDIF
 c 80         CONTINUE
 c          ENDIF
-c         ELSEIF(ISPMD.EQ.0)THEN
+c         ELSEIF(ISPMD==0)THEN
            KK = TAGM(L)
            EFRIC = HALF * EE(II) / (LL2-LL1+1)
 	   IERR = ICOMERR(KK)
@@ -274,7 +274,7 @@ c         ELSEIF(ISPMD.EQ.0)THEN
 	   TSTIFM = COMSTF(KK)
 	   TM = COMT(KK)
 	   VOLM = COMVOL(KK)
-           IF(IERR.EQ.0) THEN
+           IF(IERR==0) THEN
              DO LL = LL1,LL2
                LG = LMSR(LL)
                JJ = TAGS(LG) + IM
@@ -283,7 +283,7 @@ c         ELSEIF(ISPMD.EQ.0)THEN
                TSTIFS = COMSTF(JJ)
                TS = COMT(JJ)
                VOLS = COMVOL(JJ)
-               IF(IERR.EQ.0) THEN
+               IF(IERR==0) THEN
                  TSTIFT = TSTIFM + TSTIFS + TSTIF
                  PHI = AREAS * DT1 * (TM-TS) / TSTIFT
                  COMBUF(JJ) = COMBUF(JJ)
@@ -296,7 +296,7 @@ c         ELSEIF(ISPMD.EQ.0)THEN
 c         ENDIF
         ENDIF
 C
-      ELSEIF(ILOC(II).LT.0.OR.NMN.EQ.0)THEN
+      ELSEIF(ILOC(II)<0.OR.NMN==0)THEN
 C---------------------------------------
 C       PAS DE CONTACT => SURFACE LIBRE
 C---------------------------------------
@@ -314,7 +314,7 @@ C------------------------------------------------------
          LG=LMSR(LL)
          DO 200 KKK=1,2
           KK=KKK
- 200     IF(IRECTS(KK,LG).EQ.II) GO TO 250
+ 200     IF(IRECTS(KK,LG)==II) GO TO 250
  250     CONTINUE
 C------------------------------------------------------
 C         CALCUL DE LA NORMALE AVEC UPWIND SUR L'AMONT
@@ -347,7 +347,7 @@ C-------------------------------------
 C---------------------------------
 C       BCS DE GRILLE
 C---------------------------------
-        IF(ICODE(N).NE.0)THEN
+        IF(ICODE(N)/=0)THEN
 C---------------------------------
 C       W LAGRANGIEN SUIVANT N
 C---------------------------------
@@ -360,12 +360,12 @@ C---------------------------------
 C-------------------------------------
 C         W LAGRANGIEN SUIVANT N + BCS
 C-------------------------------------
-          IF(ABS(WN).GT.EM30)THEN
+          IF(ABS(WN)>EM30)THEN
             FAC = VN / WN
             W(2,N) = W(2,N) * FAC
             W(3,N) = W(3,N) * FAC
           ENDIF
-        ELSEIF(IEULT.NE.0)THEN
+        ELSEIF(IEULT/=0)THEN
 C-------------------------------------
 C         W LAGRANGIEN SUIVANT N
 C         W EULERIEN SUIVANT T
@@ -389,7 +389,7 @@ C
 C Phase de Finalisation pour SPMD
 C
   900 CONTINUE
-      IF(INTTH.NE.ZERO) THEN
+      IF(INTTH/=ZERO) THEN
        IF(NSPMD > 1) THEN
 C
 C Envoi buffer elems updates
@@ -401,7 +401,7 @@ C Mise a jour ELBUF local
 C
        DO II = 1, IM
          L = LISTM(II)
-         IF(IELEM(L).GT.0) THEN
+         IF(IELEM(L)>0) THEN
            IGROU = ICOMNGR(II)
            IELN  = ICOMNEL(II)
            ELBUF_TAB(IGROU)%GBUF%EINT(IELN) = 
@@ -411,7 +411,7 @@ C
 C
        DO II = 1, IS
          L =  LISTS(II)
-         IF(IELES(L).GT.0) THEN
+         IF(IELES(L)>0) THEN
            IGROU = ICOMNGR(IM+II)
            IELN  = ICOMNEL(IM+II)
            ELBUF_TAB(IGROU)%GBUF%EINT(IELN) = 

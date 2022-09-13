@@ -89,7 +89,7 @@ C
              TRUEAXE= 1
              N1 = NQ(L1)
              N2 = NQ(L2)
-             IF(N2D==1.AND.X(2,N1).LE.EM10.AND.X(2,N2).LE.EM10) THEN ! Case Axi ommit nodes of revolution axe z ( y=0)
+             IF(N2D==1.AND.X(2,N1)<=EM10.AND.X(2,N2)<=EM10) THEN ! Case Axi ommit nodes of revolution axe z ( y=0)
                 TRUEAXE= 0
              ENDIF
 

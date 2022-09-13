@@ -82,7 +82,7 @@ C
       CA = PM(75,MX)
       CB = PM(76,MX)
       DO I=LFT,LLT
-       IF(OFF(I).EQ.ZERO.OR.OFFG(I).LE.ZERO) CYCLE
+       IF(OFF(I)==ZERO.OR.OFFG(I)<=ZERO) CYCLE
 C 
 C - flux
           PHIX =  TEMPNC(NC1(I))*PX1(I) + TEMPNC(NC2(I))*PX2(I)  +
@@ -128,7 +128,7 @@ C
       SPH = PM(69,MX)
       T0  = PM(79,MX)
       DO I=LFT,LLT
-         IF(OFF(I).EQ.ZERO.OR.OFFG(I).LE.ZERO) CYCLE
+         IF(OFF(I)==ZERO.OR.OFFG(I)<=ZERO) CYCLE
          M   = IPARTS(I)
          PARTSAV(28,M)=PARTSAV(28,M) + SPH*VOL0(I)*(TEL(I)-T0) +DIE(I)
       ENDDO

@@ -80,7 +80,7 @@ C-----Creation of arrays for Links---
       	ADDRESS(I+1)=COMPT
        	START = NSLASH(KR2R)+1     
       	DO J=START,NR2RLNK
-          IF ((IEXTER(3,J).EQ.I).OR.(IEXTER(4,J).EQ.I)) THEN
+          IF ((IEXTER(3,J)==I).OR.(IEXTER(4,J)==I)) THEN
 	    TAB_TMP(COMPT)=IEXTER(2,J)
 	    COMPT = COMPT+1	   
 	  ENDIF
@@ -114,7 +114,7 @@ C-----Generation of domains input cards--------
       WRITE(REF,1100) NAME_FULL
       
       DO I=1,NSUBDOM+1
-        IF ((I-1).NE.0) THEN
+        IF ((I-1)/=0) THEN
 	 NAM=DOM_NAME(ISUBDOM(8,I-1):ISUBDOM(8,I-1)+ISUBDOM(7,I-1)-1)
 	 WRITE(REF,1100) NAM
 	ENDIF   
@@ -128,22 +128,22 @@ C-----Generation of interfaces input cards -----
       WRITE(REF,1000)'--------------------------------------------' 
        
       DO I=START,NR2RLNK          
-        IF (IEXTER(5,I).EQ.40) THEN
+        IF (IEXTER(5,I)==40) THEN
 C--->  type = 40 -> interface for main nodes of RBODY -----	 
           WRITE(REF,1310) IEXTER(5,I)/10
-        ELSEIF (IEXTER(5,I).EQ.50) THEN
+        ELSEIF (IEXTER(5,I)==50) THEN
 C--->  type = 50 -> interface type KINE----------------- -----	 
           WRITE(REF,1330) IEXTER(5,I)/10
-        ELSEIF (IEXTER(5,I).EQ.60) THEN
+        ELSEIF (IEXTER(5,I)==60) THEN
 C--->  type = 60 -> interface type FSI------------------ -----
           TLK = 4	 
-          IF (FLG_TIED(5).EQ.1) THEN
+          IF (FLG_TIED(5)==1) THEN
             WRITE(REF,1350) TLK
           ELSE
             WRITE(REF,1340) TLK
           ENDIF
           WRITE(REF,*) ' 0.1'         
-	ELSEIF (FLG_TIED(IEXTER(5,I)).EQ.1) THEN
+	ELSEIF (FLG_TIED(IEXTER(5,I))==1) THEN
 	  WRITE(REF,1320) IEXTER(5,I)           
 	ELSE
           WRITE(REF,1300) IEXTER(5,I)	
@@ -151,7 +151,7 @@ C--->  type = 60 -> interface type FSI------------------ -----
 	WRITE(LINKZ,1800) IEXTER(2,I)		
 C--------
         DO J=1,2
-	  IF (IEXTER(2+J,I).EQ.0) THEN
+	  IF (IEXTER(2+J,I)==0) THEN
 	      NAM_TMP = NAME_FULL
 	  ELSE	        
 	      IDOM = IEXTER(2+J,I)

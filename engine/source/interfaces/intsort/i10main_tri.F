@@ -127,7 +127,7 @@ C-----------------------------------------------
       NTY    =IPARI(7)
       NOINT  =IPARI(15)
       MULTIMP=IPARI(23)
-c      IF(IMACH.EQ.3)THEN
+c      IF(IMACH==3)THEN
       NCONT  =IPARI(18)
       ITIED = IPARI(85)
 c      ELSE
@@ -141,13 +141,13 @@ C
       GAP   =INTBUF_TAB%VARIABLES(2)
       GAPMIN=INTBUF_TAB%VARIABLES(13)
       GAPMAX=INTBUF_TAB%VARIABLES(16)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
 C
 C -------------------------------------------------------------
 C
       DIST = INTBUF_TAB%VARIABLES(5)
-      IF (DIST.GT.ZERO) RETURN
+      IF (DIST>ZERO) RETURN
       RETRI=1
 C -------------------------------------------------------------
 C
@@ -165,7 +165,7 @@ C     TRI SUR N DES ANCIENS CANDIDATS
 C -------------------------------------------------------------
 C
       CALL MY_BARRIER
-      IF(ITASK.EQ.0)THEN
+      IF(ITASK==0)THEN
         IP0 = 1
         IP1 = IP0 + NSN + NSNROLD + 3
         I_SK_OLD = INTBUF_TAB%I_STOK(1)
@@ -194,10 +194,10 @@ C sauvegarde de XSAV (tableau BUFIN(JD(19)))
 C BARRIER II_STOK et RESULT
       CALL MY_BARRIER
 C -------------------------------------------------------------
-      IF(ITASK.EQ.0)THEN
-        IF(ABS(BMINMA(6)-BMINMA(3)).GT.2*EP30.OR.
-     +     ABS(BMINMA(5)-BMINMA(2)).GT.2*EP30.OR.
-     +     ABS(BMINMA(4)-BMINMA(1)).GT.2*EP30)THEN
+      IF(ITASK==0)THEN
+        IF(ABS(BMINMA(6)-BMINMA(3))>2*EP30.OR.
+     +     ABS(BMINMA(5)-BMINMA(2))>2*EP30.OR.
+     +     ABS(BMINMA(4)-BMINMA(1))>2*EP30)THEN
           CALL ANCMSG(MSGID=87,ANMODE=ANINFO,
      .                I1=NOINT)
           CALL ARRET(2)
@@ -213,7 +213,7 @@ C
 C recuperation des noeuds remote NSNR stockes dans XREM
 C
         NSNR = 0
-        IF(NSPMD.GT.1) THEN
+        IF(NSPMD>1) THEN
           CALL SPMD_TRI10BOX(
      1      INTBUF_TAB%NSV,NSN     ,X            ,V      ,MS       ,
      2      BMINMA       ,WEIGHT  ,INTBUF_TAB%STFNS,NIN    ,ISENDTO  ,
@@ -241,7 +241,7 @@ C
 C
       IF (IMONM > 0) CALL STARTIME(30,1)
 C
-      IF(NRTM_T.NE.0)
+      IF(NRTM_T/=0)
      .   CALL I10BUCE(
      1   X        ,INTBUF_TAB%IRECTM(1+4*ESHIFT),INTBUF_TAB%NSV,NMN    ,NRTM_T  ,
      2   NSN      ,NCONT       ,INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,GAP      ,
@@ -288,9 +288,9 @@ C     TZINF mis a jour a ce niveau
 C--------------------------------------------------------------
 C--------------------------------------------------------------
       CALL MY_BARRIER
-      IF (RESULT.NE.0) THEN
+      IF (RESULT/=0) THEN
         CALL MY_BARRIER
-        IF (ITASK.EQ.0) THEN
+        IF (ITASK==0) THEN
           INTBUF_TAB%I_STOK(1) = I_SK_OLD
           RESULT = 0
         ENDIF
@@ -302,7 +302,7 @@ C--------------------------------------------------------------
         GOTO 50
       ENDIF
 C mise a - de dist temporairement pour reperage dans partie frontiere
-      IF(NSPMD.GT.1)THEN
+      IF(NSPMD>1)THEN
 
 C mono tache
 !$OMP SINGLE
@@ -319,7 +319,7 @@ c     2    IPARI(21),NSNR,MULTIMP      ,NTY,IBID)
      2    IPARI(21),NSNR,MULTIMP      ,NTY,IBID,H3D_DATA)
 C sauvegarde des candidats additionnels dans IPARI(24)
         IPARI(24) = NSNR
-        IF (NUM_IMP.GT.0) 
+        IF (NUM_IMP>0) 
      .    CALL IMP_RNUMCD(INTBUF_TAB%CAND_N,NIN,NSN,NUM_IMP,IND_IMP )
 
         IF (IMONM > 0) CALL STOPTIME(26,1)

@@ -138,7 +138,7 @@ C-----------------------------------------------
       LOC_PROC = ISPMD + 1
 C
       LEN = 5
-      IF(KDTINT.NE.0) LEN = LEN+1
+      IF(KDTINT/=0) LEN = LEN+1
       IF(NODADT_THERM == 1) LEN = LEN+1
 
 C type11 => 2 impacts pour une facette
@@ -156,7 +156,7 @@ C  type 20 edge
       LEN20E = LEN11 + 18*2*(1+IRESP) + 2
 
 c
-      IF(IFLAG.EQ.1)THEN
+      IF(IFLAG==1)THEN
 C
 C Partie 1 envoi et preparation buffer reception
 C
@@ -172,9 +172,9 @@ C Init
      .          + LEN20*IRLEN20 + LEN20T*IRLEN20T + LEN20E*IRLEN20E
      .          + LEN25E*IRLEN25E
         IERROR=0
-        IF(IALLOCS.GT.0)
+        IF(IALLOCS>0)
      +    ALLOCATE(BBUFS(IALLOCS+NBINTC*NSPMD*2),STAT=IERROR) ! nbintc*NSPMD*2 majorant place supplementaire bufs
-        IF(IERROR.NE.0) THEN
+        IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
         END IF
@@ -186,9 +186,9 @@ C
 
 
         IERROR=0
-        IF(IALLOCR.GT.0)
+        IF(IALLOCR>0)
      +    ALLOCATE(BBUFR(IALLOCR+NBINTC*NSPMD*2),STAT=IERROR) ! nbintc*NSPMD*2 majorant place supplementaire bufs
-        IF(IERROR.NE.0) THEN
+        IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
         END IF
@@ -200,7 +200,7 @@ C
           ADD = L+1
           ADDR(P) = ADD
           SIZ = 0
-          IF(P.NE.LOC_PROC)THEN
+          IF(P/=LOC_PROC)THEN
 Cel test en plus pour savoir si com globale necessaire entre les 2 procs
             DO II = 1, NBINTC
               NIN = INTLIST(II)
@@ -209,9 +209,9 @@ Cel test en plus pour savoir si com globale necessaire entre les 2 procs
               INTTH  = IPARI(47,NIN)
 C             WRITE(6,*) NIN,"INTTH=",INTTH
               LENI = LEN
-              IF(NTY.EQ.11)LENI=LEN11
-              IF(NTY.EQ.17)LENI=LEN17
-              IF(NTY.EQ.20)LENI=LEN20
+              IF(NTY==11)LENI=LEN11
+              IF(NTY==17)LENI=LEN17
+              IF(NTY==20)LENI=LEN20
               IF(NTY == 7 .AND. INTTH > 0) LENI = LEN7T
               IF(NTY == 22 .AND. INTTH > 0) LENI = LEN7T
               IF(NTY == 23 .AND. INTTH > 0) LENI = LEN7T
@@ -219,25 +219,25 @@ C             WRITE(6,*) NIN,"INTTH=",INTTH
               IF(NTY == 11 .AND. INTTH > 0) LENI = LEN11T
               IF(NTY == 25 .AND. INTTH > 0) LENI = LEN7T
 
-              IF(NB.GT.0) THEN
+              IF(NB>0) THEN
                 L = L + 1 + NB*LENI
               ENDIF
 C Partie Edge
-              IF(NTY.EQ.20)THEN
+              IF(NTY==20)THEN
                 NB = NSNSIE(NIN)%P(P)
-                IF(NB.GT.0) THEN
+                IF(NB>0) THEN
                   L = L + 1 + NB*LEN20E
                 END IF
               END IF
-              IF(NTY.EQ.25 .AND. IPARI(58,NIN) > 0)THEN
+              IF(NTY==25 .AND. IPARI(58,NIN) > 0)THEN
                 NB = NSNSIE(NIN)%P(P)
-                IF(NB.GT.0) THEN
+                IF(NB>0) THEN
                   L = L + 1 + NB*LEN25E
                 END IF
               END IF
             ENDDO
             SIZ = L+1-ADD
-            IF(SIZ.GT.0)THEN
+            IF(SIZ>0)THEN
               MSGTYP = MSGOFF
               CALL MPI_IRECV(
      .          BBUFR(ADD),SIZ,REAL     ,IT_SPMD(P),MSGTYP,
@@ -254,7 +254,7 @@ C
           ADD = L+1
           ADDS(P) = ADD
           SIZ = 0
-          IF(P.NE.LOC_PROC)THEN
+          IF(P/=LOC_PROC)THEN
 Cel test en plus pour savoir si com globale necessaire entre les 2 procs
             DO II = 1, NBINTC
               NIN = INTLIST(II)
@@ -262,18 +262,18 @@ Cel test en plus pour savoir si com globale necessaire entre les 2 procs
               NB = NSNFI(NIN)%P(P)
               NTY  = IPARI(7,NIN)
               INTTH =IPARI(47,NIN)
-              IF(NTY.EQ.7.OR.NTY.EQ.10.OR.NTY.EQ.22.OR.NTY.EQ.23
-     *       .OR.NTY.EQ.24.OR.NTY.EQ.25 ) THEN
+              IF(NTY==7.OR.NTY==10.OR.NTY==22.OR.NTY==23
+     *       .OR.NTY==24.OR.NTY==25 ) THEN
                LENI = LEN
-               IF(NB.GT.0) THEN
+               IF(NB>0) THEN
                 LL = L+1
                 L = L + 1
                 LL0 = LL
                 IF(INTTH == 0 ) THEN
 c
-                 IF(KDTINT.EQ.0)THEN
+                 IF(KDTINT==0)THEN
                    DO N = 1, NB
-                    IF(NSVFI(NIN)%P(IDEB+N).LT.0)THEN
+                    IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
 C noeud generant une force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
@@ -290,7 +290,7 @@ C noeud generant une force
                    ENDDO
                  ELSE
                    DO N = 1, NB
-                    IF(NSVFI(NIN)%P(IDEB+N).LT.0)THEN
+                    IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
 C noeud generant une force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
@@ -315,9 +315,9 @@ C
 c
                  IF(NODADT_THERM == 1) THEN ! Thermal Time Step
                   LENI = LEN7T
-                  IF(KDTINT.EQ.0)THEN
+                  IF(KDTINT==0)THEN
                    DO N = 1, NB
-                    IF(NSVFI(NIN)%P(IDEB+N).LT.0)THEN
+                    IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
 C noeud generant une force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
@@ -338,7 +338,7 @@ C noeud generant une force
                    ENDDO
                  ELSE
                    DO N = 1, NB
-                    IF(NSVFI(NIN)%P(IDEB+N).LT.0)THEN
+                    IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
 C noeud generant une force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
@@ -364,9 +364,9 @@ c
                  ELSE ! NODADTTHERM
 c
                   LENI = LEN7T
-                  IF(KDTINT.EQ.0)THEN
+                  IF(KDTINT==0)THEN
                    DO N = 1, NB
-                    IF(NSVFI(NIN)%P(IDEB+N).LT.0)THEN
+                    IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
 C noeud generant une force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
@@ -385,7 +385,7 @@ C noeud generant une force
                    ENDDO
                  ELSE
                    DO N = 1, NB
-                    IF(NSVFI(NIN)%P(IDEB+N).LT.0)THEN
+                    IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
 C noeud generant une force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
@@ -413,17 +413,17 @@ C
                 DEBUT(NIN) = DEBUT(NIN) + NB
               END IF
 
-              ELSEIF(NTY.EQ.11)THEN
+              ELSEIF(NTY==11)THEN
 C type 11
-               IF(NB.GT.0) THEN
+               IF(NB>0) THEN
                 LL = L+1
                 L = L + 1
                 IF(INTTH == 0) THEN
                  LENI=LEN11
 c
-                 IF(KDTINT.EQ.0)THEN
+                 IF(KDTINT==0)THEN
                   DO N = 1, NB
-                    IF(NSVFI(NIN)%P(IDEB+N).LT.0)THEN
+                    IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
 C noeud generant une force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
@@ -450,7 +450,7 @@ C noeud generant une force
                   ENDDO
                  ELSE
                   DO N = 1, NB
-                    IF(NSVFI(NIN)%P(IDEB+N).LT.0)THEN
+                    IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
 C noeud generant une force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       N1 = 2*(IDEB+N-1)+1
@@ -489,9 +489,9 @@ C
                  IF(NODADT_THERM == 1) THEN ! Thermal Time Step
                   LENI=LEN11T
 c
-                  IF(KDTINT.EQ.0)THEN
+                  IF(KDTINT==0)THEN
                    DO N = 1, NB
-                    IF(NSVFI(NIN)%P(IDEB+N).LT.0)THEN
+                    IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
 C noeud generant une force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
@@ -527,7 +527,7 @@ C noeud generant une force
                   ELSE
 C KINDT /= 0 Broken LENI should be 16
                    DO N = 1, NB
-                    IF(NSVFI(NIN)%P(IDEB+N).LT.0)THEN
+                    IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
 C noeud generant une force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       N1 = 2*(IDEB+N-1)+1
@@ -570,9 +570,9 @@ c
                  ELSE
                   LENI=LEN11T
 c
-                  IF(KDTINT.EQ.0)THEN
+                  IF(KDTINT==0)THEN
                    DO N = 1, NB
-                    IF(NSVFI(NIN)%P(IDEB+N).LT.0)THEN
+                    IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
 C noeud generant une force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
@@ -604,7 +604,7 @@ C noeud generant une force
                   ELSE
 C KINDT /= 0 Broken LENI should be 14
                    DO N = 1, NB
-                    IF(NSVFI(NIN)%P(IDEB+N).LT.0)THEN
+                    IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
 C noeud generant une force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       N1 = 2*(IDEB+N-1)+1
@@ -646,14 +646,14 @@ c
                 DEBUT(NIN) = DEBUT(NIN) + NB
                END IF
 C fin type11
-              ELSEIF(NTY.EQ.17)THEN
+              ELSEIF(NTY==17)THEN
 C type 17
                 LENI=LEN17
-                IF(NB.GT.0) THEN
+                IF(NB>0) THEN
                   LL = L+1
                   L = L + 1
                   DO N = 1, NB
-                    IF(NSVFI(NIN)%P(IDEB+N).LT.0)THEN
+                    IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
 C noeud generant une force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
@@ -817,16 +817,16 @@ C
                   DEBUT(NIN) = DEBUT(NIN) + NB
                 END IF
 C fin type17
-              ELSEIF(NTY.EQ.20) THEN
+              ELSEIF(NTY==20) THEN
 C type20
                LENI = LEN20
-               IF(NB.GT.0) THEN
+               IF(NB>0) THEN
                 LL = L+1
                 L = L + 1
                 IF(INTTH == 0 ) THEN
-                 IF(KDTINT.EQ.0)THEN
+                 IF(KDTINT==0)THEN
                    DO N = 1, NB
-                    IF(NSVFI(NIN)%P(IDEB+N).LT.0)THEN
+                    IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
 C noeud generant une force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
@@ -851,7 +851,7 @@ C
                    ENDDO
                  ELSE
                    DO N = 1, NB
-                    IF(NSVFI(NIN)%P(IDEB+N).LT.0)THEN
+                    IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
 C noeud generant une force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
@@ -881,9 +881,9 @@ C--- interface 20 + la thermique
 C
                 ELSE
                  LENI = LEN20T
-                 IF(KDTINT.EQ.0)THEN
+                 IF(KDTINT==0)THEN
                    DO N = 1, NB
-                    IF(NSVFI(NIN)%P(IDEB+N).LT.0)THEN
+                    IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
 C noeud generant une force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
@@ -909,7 +909,7 @@ C
                    ENDDO
                  ELSE
                    DO N = 1, NB
-                    IF(NSVFI(NIN)%P(IDEB+N).LT.0)THEN
+                    IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
 C noeud generant une force
                       NSVFI(NIN)%P(IDEB+N)=-NSVFI(NIN)%P(IDEB+N)
                       BBUFS(L+1) = NSVFI(NIN)%P(IDEB+N)
@@ -946,16 +946,16 @@ C
 C
 C Partie supplementaire type 20 edge
 C
-              IF(NTY.EQ.20) THEN
+              IF(NTY==20) THEN
                 NB = NSNFIE(NIN)%P(P)
                 IDEB = DEBUTE(NIN)
                 LENI = LEN20E
-                IF(NB.GT.0) THEN
+                IF(NB>0) THEN
                   LL = L+1
                   L = L + 1
-                  IF(KDTINT.EQ.0)THEN
+                  IF(KDTINT==0)THEN
                     DO N = 1, NB
-                      IF(NSVFIE(NIN)%P(IDEB+N).LT.0)THEN
+                      IF(NSVFIE(NIN)%P(IDEB+N)<0)THEN
 C noeud generant une force
                         NSVFIE(NIN)%P(IDEB+N)=-NSVFIE(NIN)%P(IDEB+N)
                         N1 = 2*(N+IDEB-1)+1
@@ -993,9 +993,9 @@ C
                         L = L + LEN20E
                       END IF
                     END DO
-                  ELSE  ! KDTIN .NE. 0
+                  ELSE  ! KDTIN /= 0
                     DO N = 1, NB
-                      IF(NSVFIE(NIN)%P(IDEB+N).LT.0)THEN
+                      IF(NSVFIE(NIN)%P(IDEB+N)<0)THEN
 C noeud generant une force
                         NSVFIE(NIN)%P(IDEB+N)=-NSVFIE(NIN)%P(IDEB+N)
                         N1 = 2*(N+IDEB-1)+1
@@ -1037,7 +1037,7 @@ C
                         L = L + LEN20E
                       END IF
                     END DO
-                  END IF ! KDTIN .NE. 0
+                  END IF ! KDTIN /= 0
                   BBUFS(LL) = (L-LL)/LEN20E
                   DEBUTE(NIN) = DEBUTE(NIN) + NB
                 END IF
@@ -1046,15 +1046,15 @@ C
 C
 C Partie supplementaire type 25 edge
 C
-              IF(NTY.EQ.25 .AND. IPARI(58,NIN) > 0) THEN
+              IF(NTY==25 .AND. IPARI(58,NIN) > 0) THEN
                 NB = NSNFIE(NIN)%P(P)
                 IDEB = DEBUTE(NIN)
                 LENI = LEN25E
-                IF(NB.GT.0) THEN
+                IF(NB>0) THEN
                   LL = L+1
                   L = L + 1
                   DO N = 1, NB
-                    IF(NSVFIE(NIN)%P(IDEB+N).LT.0)THEN
+                    IF(NSVFIE(NIN)%P(IDEB+N)<0)THEN
 C noeud generant u force
                       NSVFIE(NIN)%P(IDEB+N)=-NSVFIE(NIN)%P(IDEB+N)
                       N1 = 2*(N+IDEB-1)+1
@@ -1068,7 +1068,7 @@ C noeud generant u force
                       BBUFS(L+8 ) = AFIE(NIN)%P(2,N2)
                       BBUFS(L+9 ) = AFIE(NIN)%P(3,N2)
                       BBUFS(L+10) = STNFIE(NIN)%P(N2)
-                      IF(KDTINT .NE. 0) THEN
+                      IF(KDTINT /= 0) THEN
                         BBUFS(L+6) = VSCFIE(NIN)%P(N1)
                         VSCFIE(NIN)%P(N1) = ZERO
                         BBUFS(L+11)= VSCFIE(NIN)%P(N2)
@@ -1078,7 +1078,7 @@ C noeud generant u force
                         BBUFS(L+11) = ZERO
                       ENDIF
 
-                      IF(INTTH .NE. 0) THEN
+                      IF(INTTH /= 0) THEN
 C                        FTHE(NOD1) = FTHE(NOD1) + BUFR(12,I)     
 C                        FTHE(NOD2) = FTHE(NOD2) + BUFR(13,I)     
                          IF(NODADT_THERM == 1) THEN
@@ -1105,7 +1105,7 @@ C                           CONDN(NOD2) = CONDN(NOD2) + BUFR(15,I)
 C fin edge
             ENDDO
             SIZ = L+1-ADD
-            IF(SIZ.GT.0)THEN
+            IF(SIZ>0)THEN
               MSGTYP = MSGOFF
               CALL MPI_ISEND(
      .          BBUFS(ADD),SIZ,REAL     ,IT_SPMD(P),MSGTYP,
@@ -1117,18 +1117,18 @@ C fin edge
 C
 C Attente reception buffer et decompactage
 C
-      ELSEIF(IFLAG.EQ.2)THEN
+      ELSEIF(IFLAG==2)THEN
 C
 C Attente IRECV
 C
         DO P = 1, NSPMD
-          IF(ADDR(P+1)-ADDR(P).GT.0) THEN
+          IF(ADDR(P+1)-ADDR(P)>0) THEN
             CALL MPI_WAIT(REQ_RI(P),STATUS,IERROR)
             L = ADDR(P)
             DO II = 1, NBINTC
               NIN = INTLIST(II)
               NTY   =IPARI(7,NIN)
-              IF(NSNSI(NIN)%P(P).GT.0)THEN
+              IF(NSNSI(NIN)%P(P)>0)THEN
                 NB = NINT(BBUFR(L))
                 L = L + 1
                 IBC   =IPARI(11,NIN)
@@ -1138,8 +1138,8 @@ C
                 IBAG  =IPARI(32,NIN)
                 IADM  =IPARI(44,NIN)
 C
-                IF(NTY.EQ.7.OR.NTY.EQ.10.OR.NTY.EQ.22.OR.NTY.EQ.23
-     *       .OR.NTY.EQ.24.OR.NTY.EQ.25 )THEN
+                IF(NTY==7.OR.NTY==10.OR.NTY==22.OR.NTY==23
+     *       .OR.NTY==24.OR.NTY==25 )THEN
                   INTTH = IPARI(47,NIN)
                   IF(INTTH == 0 ) THEN
                    CALL SPMD_FIADD_POFF(
@@ -1160,7 +1160,7 @@ C
      6              LOADPINTER,LOADP_HYD_INTER)
                     L = L + NB*LEN7T
                   ENDIF
-                ELSEIF(NTY.EQ.11)THEN
+                ELSEIF(NTY==11)THEN
                   INTTH = IPARI(47,NIN)
                  IF(INTTH==0) THEN
                   CALL SPMD_FIADD11_POFF(
@@ -1179,7 +1179,7 @@ C
      5              TAGNCONT,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER)
                   L = L + NB*LEN11T
                  ENDIF
-                ELSEIF(NTY.EQ.17)THEN
+                ELSEIF(NTY==17)THEN
                   IGE = IPARI(34,NIN)
                   IGN = IPARI(36,NIN)
                   NME =IGRBRIC(IGE)%NENTITY
@@ -1190,7 +1190,7 @@ C
      2              STIFN  ,FCONT ,IXS     ,IXS16       ,INTBUF_TAB(NIN)%FROTS,
      3              H3D_DATA)
                   L = L + NB*LEN17
-                ELSEIF(NTY.EQ.20)THEN
+                ELSEIF(NTY==20)THEN
                   INTTH = IPARI(47,NIN)
                   IF(INTTH == 0 ) THEN
                    CALL SPMD_FIADD20_POFF(
@@ -1214,8 +1214,8 @@ C
 C
 C Partie supplementaire type 20 edge
 C
-              IF(NTY.EQ.20)THEN
-                IF(NSNSIE(NIN)%P(P).GT.0)THEN
+              IF(NTY==20)THEN
+                IF(NSNSIE(NIN)%P(P)>0)THEN
                   NB = NINT(BBUFR(L))
                   L = L + 1
                   IBC   =IPARI(11,NIN)
@@ -1235,8 +1235,8 @@ C
 C
 C Partie supplementaire type 25 edge
 C
-              IF(NTY.EQ.25 .AND. IPARI(58,NIN) > 0)THEN
-                IF(NSNSIE(NIN)%P(P).GT.0)THEN
+              IF(NTY==25 .AND. IPARI(58,NIN) > 0)THEN
+                IF(NSNSIE(NIN)%P(P)>0)THEN
                   NB = NINT(BBUFR(L))
                   L = L + 1
                   IBC   =IPARI(11,NIN)
@@ -1263,7 +1263,7 @@ C
         ENDDO ! NSPMD
 
 C Deallocation R
-        IF(IALLOCR.GT.0) THEN
+        IF(IALLOCR>0) THEN
           DEALLOCATE(BBUFR)
           IALLOCR=0
         END IF
@@ -1271,12 +1271,12 @@ C
 C Attente ISEND
 C
         DO P = 1, NSPMD
-          IF(ADDS(P+1)-ADDS(P).GT.0) THEN
+          IF(ADDS(P+1)-ADDS(P)>0) THEN
             CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
           ENDIF
         ENDDO
 C Deallocation S
-        IF(IALLOCS.GT.0) THEN
+        IF(IALLOCS>0) THEN
           DEALLOCATE(BBUFS)
           IALLOCS=0
         END IF

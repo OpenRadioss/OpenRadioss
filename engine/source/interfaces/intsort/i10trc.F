@@ -71,7 +71,7 @@ C
 C=======================================================================
 C     LES NOEUDS DELETES DEVIENNENT NSN+1 
 C=======================================================================
-      IF(NUM_IMP.GT.0)THEN
+      IF(NUM_IMP>0)THEN
         DO I=1,I_STOK
          IPUT(I)=0
         END DO
@@ -80,17 +80,17 @@ C=======================================================================
           IPUT(I)=1
         END DO
         DO I=1,I_STOK
-         IF(CAND_F(1,I).EQ.ZERO.AND.IPUT(I).EQ.0)THEN
+         IF(CAND_F(1,I)==ZERO.AND.IPUT(I)==0)THEN
           CAND_N(I) = NSN+1
          ENDIF
         END DO
       ELSE
       DO 200 I=1,I_STOK
-      IF(CAND_F(1,I).EQ.ZERO .OR. CAND_N(I) == 0)THEN
+      IF(CAND_F(1,I)==ZERO .OR. CAND_N(I) == 0)THEN
         CAND_N(I) = NSN+1
       ENDIF
  200  CONTINUE
-      ENDIF !IF(NUM_IMP.GT.0)
+      ENDIF !IF(NUM_IMP>0)
 C=======================================================================
 C     CAND_A : DENOMBREMENT DE CHAQUE NOEUD 
 C     APRES 300 CAND_A[3:NSN+3] : OCCURENCE DES NOEUDS [1:NSN+1] 

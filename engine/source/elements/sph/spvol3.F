@@ -58,7 +58,7 @@ C     REAL
      .      RHO0(MVSIZ),VOLA(MVSIZ)
 C-----------------------------------------------
 C     LAGRANGIAN ONLY.
-C     IF(JLAG.NE.0)THEN
+C     IF(JLAG/=0)THEN
       DO I=LFT,LLT
        RHO0(I)=PM(1,MAT(I))
       ENDDO
@@ -70,18 +70,18 @@ C
         EINT(I)=EINT(I)*VOLO(I)
       ENDDO
 C
-C      IF(IDTMIN(1).EQ.1)THEN
+C      IF(IDTMIN(1)==1)THEN
 C        DO 120 I=LFT,LLT
-C        IF(OFF(I) .EQ.0.)THEN
+C        IF(OFF(I) ==0.)THEN
 C          VOLN(I)=1.
-C        ELSEIF(VOLN(I).LE.VOLMIN)THEN
+C        ELSEIF(VOLN(I)<=VOLMIN)THEN
 C          VOLN(I)=1.
 C          OFF(I)=0.
 C          CALL MY_LOCK
 C          WRITE(ISTDO,2000) NGL(I)
 C          WRITE(IOUT ,2000) NGL(I)
 C          CALL MY_FREE
-C        ELSEIF(VOLN(I).LE.0.0)THEN
+C        ELSEIF(VOLN(I)<=0.0)THEN
 C          CALL MY_LOCK
 C          WRITE(ISTDO,1000) NGL(I)
 C          WRITE(IOUT ,1000) NGL(I)
@@ -89,11 +89,11 @@ C          CALL MY_FREE
 C          CALL ARRET(2)
 C        ENDIF
 C  120   CONTINUE
-C      ELSEIF(IDTMIN(1).EQ.2)THEN
+C      ELSEIF(IDTMIN(1)==2)THEN
 C        DO 130 I=LFT,LLT
-C        IF(OFF(I) .EQ.0.)THEN
+C        IF(OFF(I) ==0.)THEN
 C           VOLN(I)=1.
-C        ELSEIF(VOLN(I).LE.VOLMIN.OR.VOLN(I).LE.0.0)THEN
+C        ELSEIF(VOLN(I)<=VOLMIN.OR.VOLN(I)<=0.0)THEN
 C           VOLN(I)=1.
 C           OFF(I)=0.
 C           CALL MY_LOCK
@@ -104,7 +104,7 @@ C        ENDIF
 C  130   CONTINUE
 C      ELSE
         DO I=LFT,LLT
-          IF(OFF(I) .EQ.ZERO)VOLN(I)=ONE
+          IF(OFF(I) ==ZERO)VOLN(I)=ONE
         ENDDO
 C      ENDIF
 C

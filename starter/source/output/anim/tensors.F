@@ -123,11 +123,11 @@ C-----------------------------------------------
               EVAR(5,I) = GBUF%SIG(JJ(5) + I)			   
               EVAR(6,I) = GBUF%SIG(JJ(6) + I)			   
             ENDDO                                                       
-            IF (KCVT.NE.0) THEN                                         
+            IF (KCVT/=0) THEN                                         
 C             STRESS TENSOR IN GLOBAL SYSTEM                             
               DO I=LFT,LLT                                               
                 N = I + NFT                                              
-                IF(EL2FA(NN2+N).NE.0)THEN                                
+                IF(EL2FA(NN2+N)/=0)THEN                                
 C                 pour JHBE=14, valeurs moyennes est dans rep. corota.
                   IF (KCVT==2.AND.JHBE/=14) THEN
                     GAMA(1)=GBUF%GAMA(JJ(1) + I)
@@ -158,8 +158,8 @@ C-----------------------------------------------
               ENDDO                                                      
             ENDDO                                                       
 c
-            IF (ISOLNOD == 8.AND.NPT == 8.AND.JHBE.NE.14.AND.             
-     .          JHBE.NE.24.AND.JHBE.NE.15 )THEN                           
+            IF (ISOLNOD == 8.AND.NPT == 8.AND.JHBE/=14.AND.             
+     .          JHBE/=24.AND.JHBE/=15 )THEN                           
               IF (MLW >= 28) THEN                                           
                 DO I=LFT,LLT                                               
                   N  = I + NFT                                                
@@ -176,8 +176,8 @@ c
               ENDIF                                                        
 c
             ELSEIF(ISOLNOD == 8 .AND. NPT == 1 .AND.                           
-     .             JHBE.NE.14.AND.JHBE.NE.15.AND.JHBE.NE.24)THEN        
-              IF (MLW.GE.28) THEN                                           
+     .             JHBE/=14.AND.JHBE/=15.AND.JHBE/=24)THEN        
+              IF (MLW>=28) THEN                                           
                  LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)                                        
                  DO I=LFT,LLT                                            
                    N  = I + NFT                                           
@@ -209,7 +209,7 @@ c
 c
             ELSEIF (ISOLNOD == 16 .OR. ISOLNOD == 20 .OR.       
      .             (ISOLNOD == 8 .AND. JHBE == 14)) THEN                                    
-              IF (MLW.GE.28) THEN                                            
+              IF (MLW>=28) THEN                                            
                 DO I=LFT,LLT                                               
                   DO IL=1,NLAY                     
                    DO IS=1,NPTS                     
@@ -267,7 +267,7 @@ c
               ENDIF                                                        
 c
            ELSEIF (ISOLNOD == 10) THEN                                     
-             IF(MLW.GE.28)THEN                                            
+             IF(MLW>=28)THEN                                            
                DO I=LFT,LLT                                                
                  N = I + NFT                                                
                  DO IPT=1,NPT                                               
@@ -305,7 +305,7 @@ c
                 ENDDO                                                     
              ENDIF                                                        
            ELSEIF ((ISOLNOD == 6.OR.ISOLNOD == 8) .AND. JHBE == 15) THEN                                   
-             IF (MLW.GE.28) THEN                                                 
+             IF (MLW>=28) THEN                                                 
                 DO I=LFT,LLT                                                     
                   N  = I + NFT                                                   
                   DO IL= 1,NLAY                                                  
@@ -363,11 +363,11 @@ C-----------------------------------------------
               EVAR(5,I) = LBUF%DGLO(JJ(5)+I)	      
               EVAR(6,I) = LBUF%DGLO(JJ(6)+I)	      
             ENDDO                                                        
-            IF (KCVT.NE.0) THEN                                          
+            IF (KCVT/=0) THEN                                          
 C             DAMAGE IN GLOBAL SYSTEM                                    
               DO I=LFT,LLT                                               
                 N = I + NFT                                              
-                IF(EL2FA(NN2+N).NE.0)THEN                                
+                IF(EL2FA(NN2+N)/=0)THEN                                
                   IF(KCVT==2)THEN                                        
                     GAMA(1)= GBUF%GAMA(JJ(1) + I)  
                     GAMA(2)= GBUF%GAMA(JJ(2) + I)  
@@ -404,7 +404,7 @@ C-----------------------------------------------
           IF(ISOLNOD == 16)THEN                                         
             DO I=LFT,LLT                                               
               N = I + NFT                                               
-              IF(EL2FA(NN2+N).NE.0)THEN                                 
+              IF(EL2FA(NN2+N)/=0)THEN                                 
                 TENS(1,EL2FA(NN2+N)) = EVAR(1,I)                        
                 TENS(2,EL2FA(NN2+N)) = EVAR(2,I)                        
                 TENS(3,EL2FA(NN2+N)) = EVAR(3,I)                        
@@ -434,7 +434,7 @@ C-----------------------------------------------
           ELSE                                                          
              DO I=LFT,LLT                                               
               N = I + NFT                                               
-              IF(EL2FA(NN2+N).NE.0)THEN                                 
+              IF(EL2FA(NN2+N)/=0)THEN                                 
                TENS(1,EL2FA(NN2+N)) = EVAR(1,I)                         
                TENS(2,EL2FA(NN2+N)) = EVAR(2,I)                         
                TENS(3,EL2FA(NN2+N)) = EVAR(3,I)                         
@@ -457,7 +457,7 @@ C          STRESS
 C-----------------------------------------------                        
            DO I=LFT,LLT                                                 
              N = I + NFT                                                
-             IF(EL2FA(NN3+N).NE.0)THEN                                  
+             IF(EL2FA(NN3+N)/=0)THEN                                  
                TENS(1,EL2FA(NN3+N)) = LBUF%SIG(JJ(1) + I)
                TENS(2,EL2FA(NN3+N)) = LBUF%SIG(JJ(2) + I)
                TENS(3,EL2FA(NN3+N)) = LBUF%SIG(JJ(3) + I)
@@ -474,7 +474,7 @@ C-----------------------------------------------
             LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)          
             DO I=LFT,LLT                                                
               N = I + NFT                                               
-              IF (EL2FA(NN3+N).NE.0) THEN                                 
+              IF (EL2FA(NN3+N)/=0) THEN                                 
                 EVAR(1,I) = LBUF%DGLO(JJ(1)+I)  	    
                 EVAR(2,I) = LBUF%DGLO(JJ(2)+I)  	    
                 EVAR(3,I) = LBUF%DGLO(JJ(3)+I)  	    
@@ -486,7 +486,7 @@ C-----------------------------------------------
           ELSE                                                          
             DO I=LFT,LLT                                                
               N = I + NFT                                               
-              IF(EL2FA(NN3+N).NE.0)THEN                                 
+              IF(EL2FA(NN3+N)/=0)THEN                                 
                 TENS(1,EL2FA(NN3+N)) = ZERO                             
                 TENS(2,EL2FA(NN3+N)) = ZERO                             
                 TENS(3,EL2FA(NN3+N)) = ZERO                             

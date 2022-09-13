@@ -49,16 +49,16 @@ C-----------------------------------------------
       INTEGER I,J1,J2,J
       MOT=' '
       I=2
-      DO WHILE(LINE(I:I).NE.'/')
+      DO WHILE(LINE(I:I)/='/')
         I=I+1
-        IF(I.GT.ncharline) GOTO 900
+        IF(I>ncharline) GOTO 900
       ENDDO
       I=I+1
-      IF(I.GT.ncharline) GOTO 900
+      IF(I>ncharline) GOTO 900
       J1=I
-      DO WHILE(LINE(I:I).NE.'/')
+      DO WHILE(LINE(I:I)/='/')
         I=I+1
-        IF(I.GT.ncharline) GOTO 900
+        IF(I>ncharline) GOTO 900
       ENDDO
       J2=I-1
 C      

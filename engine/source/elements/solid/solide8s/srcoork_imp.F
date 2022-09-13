@@ -245,7 +245,7 @@ C-----------
       ENDDO
 !sb revoir cela avec qqun je ne comprends pas cette partie
         DO I=LFT,LLT
-        IF(OFFG(I).GT.ONE)THEN
+        IF(OFFG(I)>ONE)THEN
          OFF(I) = OFFG(I)-ONE
         ENDIF
         ENDDO

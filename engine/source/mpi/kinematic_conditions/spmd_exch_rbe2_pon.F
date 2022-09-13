@@ -70,13 +70,13 @@ C-----------------------------------------------
       LOC_PROC = ISPMD + 1
       ISIZE6=ISIZE*6
       IROT = 0
-      IF (ISIZE.GT.4) IROT=1
+      IF (ISIZE>4) IROT=1
 C
       IDEB = 1
       L = 0
       DO I = 1, NSPMD
         LEN = IAD_M(I+1)-IAD_M(I)
-        IF(LEN.GT.0) THEN
+        IF(LEN>0) THEN
           SIZ = LEN*ISIZE6
           L=L+1
           INDEXI(L)=I
@@ -94,7 +94,7 @@ C
         I = INDEXI(L)
         LEN = IAD_M(I+1) - IAD_M(I)
         IAD = IAD_M(I)-1
-        IF (IROT.EQ.0) THEN
+        IF (IROT==0) THEN
 #include      "vectorize.inc"
           DO J = 1, LEN
             NOD = FR_M(IAD+J)
@@ -143,7 +143,7 @@ C
         IDEB = 1+(IAD_M(I)-1)*ISIZE6
         LEN = IAD_M(I+1)-IAD_M(I)
         IAD = IAD_M(I)-1
-        IF (IROT.EQ.0) THEN
+        IF (IROT==0) THEN
 #include      "vectorize.inc"
           DO J = 1, LEN
             NOD = FR_M(IAD+J)

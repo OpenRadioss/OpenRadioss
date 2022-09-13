@@ -89,8 +89,8 @@ C
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
       GAP   =INTBUF_TAB%VARIABLES(2)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
 C
 C-----------------------------------------------------------
 C     Filtrage des candidats a l'impact

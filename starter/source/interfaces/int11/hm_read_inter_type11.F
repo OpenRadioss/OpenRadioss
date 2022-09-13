@@ -271,9 +271,9 @@ C
         CALL DEFINTER(KEY1     ,FLAGREMNOD,IASSIGN   ,IPRINT   ,
      .                NTYP     ,DEF_INTER)
 C
-        IF (NTYP.EQ.19) THEN
+        IF (NTYP==19) THEN
 C-- for TYPE19 field6 is iedge
-          IF (FIELD6.LE.2) THEN
+          IF (FIELD6<=2) THEN
             IEDGE = FIELD6
           ELSE
 C-- COmpatibilty with old inputs where multimp can be read in field6
@@ -284,7 +284,7 @@ C
           CALL DEFINTER(KEY1    ,IEDGE    ,IASSIGN   ,IPRINT   ,
      .                  NTYP     ,DEF_INTER)
 C
-          IF (IEDGE.EQ.1) THEN
+          IF (IEDGE==1) THEN
 C-- /LINE/EDGE are used instead of /LINE/SURFACE
             ISU1 = ISU1 + 1
             ISU2 = ISU2 + 1 
@@ -310,7 +310,7 @@ C-- for TYPE11 field6 is multimp (obsolete)
         IPARI(23)=MULTIMP
 
         IF(IGAP == 2) THEN
-           IF (IPARI(71).EQ.0) THEN
+           IF (IPARI(71)==0) THEN
               CALL ANCMSG(MSGID=1056,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO,
@@ -329,15 +329,15 @@ C-- for TYPE11 field6 is multimp (obsolete)
            ENDIF
         ENDIF
 C
-        IF(ISU1.EQ.0) THEN
+        IF(ISU1==0) THEN
            CALL ANCMSG(MSGID=118,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO,
      .                 I1=NOINT,
      .                 C1=TITR)
         ENDIF
-        IF(ISU2.EQ.0)ISU2=ISU1
-        IF(ISU1.EQ.ISU2)THEN
+        IF(ISU2==0)ISU2=ISU1
+        IF(ISU1==ISU2)THEN
            IPARI(42)=1
         ELSE
            IPARI(42)=0
@@ -352,7 +352,7 @@ C
            IDELKEEP=1
            IDEL11=ABS(IDEL11)
         END IF
-        IF (IDEL11.GT.2.OR.N2D.EQ.1) IDEL11 = 0
+        IF (IDEL11>2.OR.N2D==1) IDEL11 = 0
         IPARI(17)=IDEL11
         IPARI(61)=IDELKEEP
 C
@@ -368,7 +368,7 @@ C
 C....* Card2  *.............
 C
         IF(IGSTI/=1)THEN
-           IF(STMAX.EQ.ZERO)STMAX=EP30
+           IF(STMAX==ZERO)STMAX=EP30
         ELSE
            STMIN = ZERO
            STMAX = EP30
@@ -415,20 +415,20 @@ C
         IF (IB3==1) IBC3  = 1
 
 C Hidden flag no more read using HM reader
-c        IF (BCFLAGM(LFIELD-2:LFIELD-2).EQ. '1') IBC1M = 1
-c        IF (BCFLAGM(LFIELD-1:LFIELD-1).EQ. '1') IBC2M = 1
-c        IF (BCFLAGM(LFIELD  :LFIELD  ).EQ. '1') IBC3M = 1
+c        IF (BCFLAGM(LFIELD-2:LFIELD-2)== '1') IBC1M = 1
+c        IF (BCFLAGM(LFIELD-1:LFIELD-1)== '1') IBC2M = 1
+c        IF (BCFLAGM(LFIELD  :LFIELD  )== '1') IBC3M = 1
 
 
-        IF(VISC.EQ.ZERO)VISC=FIVEEM2
+        IF(VISC==ZERO)VISC=FIVEEM2
 
-        IF(FRIC.NE.ZERO.AND.VISCF.EQ.ZERO.AND.IFORM.NE.2)VISCF=ONE
+        IF(FRIC/=ZERO.AND.VISCF==ZERO.AND.IFORM/=2)VISCF=ONE
 
         IPARI(11)=4*IBC1+2*IBC2+IBC3 + 8 *(4*IBC1M+2*IBC2M+IBC3M)
         FRIGAP(14)=VISC
         FRIGAP(15)=VISCF**2
 C BUMULT is increased for big models
-        IF(BUMULT.EQ.ZERO) THEN
+        IF(BUMULT==ZERO) THEN
            BUMULT = BMUL0
            IF(NUMNOD > 2500000) THEN
               BUMULT = BMUL0*TWO
@@ -486,7 +486,7 @@ C FRIGAP(10) is initialized but used only in engine for storing number of couple
 C
         NLIN1 = IGRSLIN(ISU1)%NSEG
         NLIN2 = IGRSLIN(ISU2)%NSEG
-        IF ((NTYP == 19).AND.((NLIN1.EQ.0).OR.(NLIN2.EQ.0))) THEN
+        IF ((NTYP == 19).AND.((NLIN1==0).OR.(NLIN2==0))) THEN
 C-- For type19 if line1 or lin2 is empty type11 is deactivated           
             NTYP = 0
             IPARI(7) = NTYP
@@ -543,8 +543,8 @@ C
 C
 C........* PRINT INTERFACES INPUT *.....................
 C
-        IF(IGSTI.NE.1)THEN
-         IF(IDSENS.NE.0) THEN
+        IF(IGSTI/=1)THEN
+         IF(IDSENS/=0) THEN
            WRITE(IOUT,1511)IBC1,IBC2,IBC3,IBC1M,IBC2M,IBC3M,
      .                 IGSTI,STMIN,STMAX,STFAC,
      .                 FRIC,IGAP,GAP,IDSENS,          
@@ -558,7 +558,7 @@ C
      .                 IPARI(20),MULTIMP,FLAGREMNOD
          ENDIF
         ELSE
-         IF(IDSENS.NE.0) THEN
+         IF(IDSENS/=0) THEN
            WRITE(IOUT,1591)IBC1,IBC2,IBC3,IBC1M,IBC2M,IBC3M,
      .                 -STFAC,FRIC,IGAP,GAP,IDSENS,       
      .                 BUMULT,INACTI,VISC,VISCF,IPARI(14),
@@ -575,10 +575,10 @@ C
         ELSE
           WRITE(IOUT,1519)
         ENDIF
-        IF (DTMIN.NE.ZERO) THEN
+        IF (DTMIN/=ZERO) THEN
           WRITE(IOUT,1577)DTMIN
         ENDIF
-        IF(IDEL11.NE.0) THEN
+        IF(IDEL11/=0) THEN
           WRITE(IOUT,'(A,A,I5/)')
      . '    DELETION FLAG ON FAILURE OF MAIN ELEMENT',
      . ' (1:YES-ALL/2:YES-ANY) SET TO ',IDEL11
@@ -598,28 +598,28 @@ C
 C--------------------------------------------------------------
 
 C--------------------------------------------------------------
-      IF(IS1.EQ.0)THEN
+      IF(IS1==0)THEN
         WRITE(IOUT,'(6X,A)')'NO SECONDARY SURFACE INPUT'
-      ELSEIF(IS1.EQ.1)THEN
+      ELSEIF(IS1==1)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS1.EQ.2)THEN
+      ELSEIF(IS1==2)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY NODES'
-      ELSEIF(IS1.EQ.3)THEN
+      ELSEIF(IS1==3)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS1.EQ.4 )THEN
+      ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
-      ELSEIF(IS1.EQ.5 )THEN
+      ELSEIF(IS1==5 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
       ENDIF
-      IF(IS2.EQ.0)THEN
+      IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'
-      ELSEIF(IS2.EQ.1)THEN
+      ELSEIF(IS2==1)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS2.EQ.2)THEN
+      ELSEIF(IS2==2)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY NODES'
-      ELSEIF(IS2.EQ.3)THEN
+      ELSEIF(IS2==3)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS2.EQ.4)THEN
+      ELSEIF(IS2==4)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE REFERS ',
      .                      'TO HYPER-ELLIPSOIDAL SURFACE'
       ENDIF
@@ -640,7 +640,7 @@ C------------
  1577 FORMAT(
      .       '    MINIMUM TIME STEP . . . . . . . . . . . . ',1PG20.13/)
  1511 FORMAT(//
-     .    '    TYPE.EQ.11   EDGE to EDGE AUTO IMPACTING    ' //,
+     .    '    TYPE==11   EDGE to EDGE AUTO IMPACTING    ' //,
      .    '    BOUND. COND. DELETED AFTER IMPACT IN X DIR  ',I1/,
      .    '       SECONDARY NODE  (1:YES 0:NO)          Y DIR  ',I1/,
      .    '                                         Z DIR  ',I1/,
@@ -666,7 +666,7 @@ C------------
      .    '    MEAN POSSIBLE NUMBER OF IMPACT/LINE . . . . ',I5/,
      .    '    FLAGREMNODE : NOT CONSIDER NEIGHBORING  . . ',I5/)
  1592 FORMAT(//
-     .    '    TYPE.EQ.11   EDGE to EDGE AUTO IMPACTING    ' //,
+     .    '    TYPE==11   EDGE to EDGE AUTO IMPACTING    ' //,
      .    '    BOUND. COND. DELETED AFTER IMPACT IN X DIR  ',I1/,
      .    '       SECONDARY NODE  (1:YES 0:NO)          Y DIR  ',I1/,
      .    '                                         Z DIR  ',I1/,
@@ -708,7 +708,7 @@ C------------
      .      '    Maximum distance for radiation computation.',1PG20.13)
 
  1591 FORMAT(//
-     .    '    TYPE.EQ.11  EDGE to EDGE AUTO IMPACTING     ' //,
+     .    '    TYPE==11  EDGE to EDGE AUTO IMPACTING     ' //,
      .    '    BOUND. COND. DELETED AFTER IMPACT IN X DIR  ',I1/,
      .    '       SECONDARY NODE  (1:YES 0:NO)          Y DIR  ',I1/,
      .    '                                         Z DIR  ',I1/,
@@ -729,7 +729,7 @@ C------------
      .    '    MEAN POSSIBLE NUMBER OF IMPACT/LINE . . . . ',I5/,
      .    '    FLAGREMNODE : NOT CONSIDER NEIGHBORING  . . ',I5/)
  1593 FORMAT(//
-     .    '    TYPE.EQ.11  EDGE to EDGE AUTO IMPACTING     ' //,
+     .    '    TYPE==11  EDGE to EDGE AUTO IMPACTING     ' //,
      .    '    BOUND. COND. DELETED AFTER IMPACT IN X DIR  ',I1/,
      .    '       SECONDARY NODE  (1:YES 0:NO)          Y DIR  ',I1/,
      .    '                                         Z DIR  ',I1/,

@@ -50,7 +50,7 @@ C-----------------------------------------------
       INTEGER II, I, JJ, J, K, KK, L1, L2, L
       my_real CMS, DMS
 C
-      IF(NRT.EQ.0) RETURN
+      IF(NRT==0) RETURN
 C  
 C   Compute ILOC nearest secnd node from main node
       DO II=1,NMN
@@ -59,7 +59,7 @@ C   Compute ILOC nearest secnd node from main node
          DO JJ=1,NSN
             J=NSV(JJ)
             DMS=(X(1,I)-X(1,J))**2+(X(2,I)-X(2,J))**2+(X(3,I)-X(3,J))**2
-            IF(DMS.GT.CMS) CYCLE
+            IF(DMS>CMS) CYCLE
             CMS=DMS
             ILOC(II)= JJ
          ENDDO
@@ -68,16 +68,16 @@ C
 C   Compute NOD2SEG : List of Connected Segments to secnd nodes
       DO I=1,NRT
          DO J=1,4
-            IF(IRECT(J,I).EQ.0) CYCLE
+            IF(IRECT(J,I)==0) CYCLE
             DO K=1,NSN
                KK=K
-               IF(NSV(K).EQ.IRECT(J,I)) EXIT
+               IF(NSV(K)==IRECT(J,I)) EXIT
             ENDDO
             II=0
             L1=NSEG(KK)
             L2=NSEG(KK+1)-1
             DO L=L1,L2
-               IF(NOD2SEG(L).NE.0) II=II+1
+               IF(NOD2SEG(L)/=0) II=II+1
             ENDDO
             NOD2SEG(L1+II)=I
          ENDDO

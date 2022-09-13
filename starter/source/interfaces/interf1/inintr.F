@@ -157,8 +157,8 @@ C
         IKINE1(I) = 0
       ENDDO
 C-----------------------------------------------
-      IF(((IMACH.EQ.3.AND.IDDLEVEL.EQ.0).OR.NDSOLV.EQ.1).AND.
-     +   (DECTYP.GE.3.AND.DECTYP.LE.6).AND.N2D.EQ.0)THEN
+      IF(((IMACH==3.AND.IDDLEVEL==0).OR.NDSOLV==1).AND.
+     +   (DECTYP>=3.AND.DECTYP<=6).AND.N2D==0)THEN
         NSNT = 0
         NMNT = 0
         NSN2T = 0
@@ -261,7 +261,7 @@ c       END IF
        CALL FRETITL2(TITR,
      .               NOM_OPT(LNOPT1-LTITR+1,NIN),LTITR)
 
-       IF(N2D.EQ.0)THEN
+       IF(N2D==0)THEN
 
         CALL ININT3(INSCR(N)%WA  ,X              ,IXS             ,IXC          ,PM       ,
      1              GEO          ,IPARI(1,N)     ,NIN             ,ITAB         ,MS       ,
@@ -294,7 +294,7 @@ C
 C--- IREM_I2 treatment has been removed at end of ININTR2 to take into account 
 C---- the compaction of type2 w/ Itetra10=2  
 C
-      IF(IWRN.NE.0) THEN
+      IF(IWRN/=0) THEN
         LEN_FILNAM = OUTFILE_NAME_LEN + ROOTLEN + 6
         FILNAM = OUTFILE_NAME(1:OUTFILE_NAME_LEN)//ROOTNAM(1:ROOTLEN)//'.coord'
         OPEN(UNIT=IOU2,FILE=FILNAM(1:LEN_FILNAM),STATUS='UNKNOWN',
@@ -326,8 +326,8 @@ C significantly different velocities between secnd and main
       NS = 0
       MAIN_INTERFACE_SIZE = -1 
       ID_MAIN_INTERFACE = -1
-      IF(N2D.EQ.0)THEN
-      IF((IDDLEVEL.EQ.0.OR.NDSOLV.EQ.1).AND.(DECTYP.GE.3.AND.DECTYP.LE.6))THEN
+      IF(N2D==0)THEN
+      IF((IDDLEVEL==0.OR.NDSOLV==1).AND.(DECTYP>=3.AND.DECTYP<=6))THEN
 
         CONDITION(1:NINTER) = .FALSE.
         avg_stiff(1:NINTER) = HUGE(1.0D0)
@@ -335,7 +335,7 @@ C significantly different velocities between secnd and main
         TAG(1:NUMNOD) = 0
         DO N=1,NINTER
           NTY=IPARI(7,N)
-          IF( NTY .EQ. 7 ) THEN
+          IF( NTY == 7 ) THEN
             NMN      = IPARI(6,N)
             NSN      = IPARI(5,N)
             NRTM     = IPARI(4,N)
@@ -421,7 +421,7 @@ c         WRITE(,*) "main stiff=",main_stiff
           min_stiff = HUGE(0.0D0) 
           DO N=1,NINTER
             IPARI(69,N) = 0
-            IF(CONDITION(N) .AND. N .NE. ID_MAIN_INTERFACE) THEN
+            IF(CONDITION(N) .AND. N /= ID_MAIN_INTERFACE) THEN
 !            auto-impacting interface mainly made of solids
               CPT = 0
               NMN      = IPARI(6,N)

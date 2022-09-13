@@ -60,7 +60,7 @@ C
       NB_L = 0
 C
       DO I = 1, NUMSPH
-        IF(CEPSP(I).EQ.PROC) THEN
+        IF(CEPSP(I)==PROC) THEN
           NB_L = NB_L + 1
         ENDIF
       ENDDO
@@ -72,8 +72,8 @@ c inlet spmd calcul SLONFSPH_L
 
       DO IPRT=1,NPART
        DO N=1,NUMSPH
-        IF(CEPSP(N).EQ.PROC.and.IPARTSP(N).EQ.IPRT.
-     .     AND.KXSP(2,N).NE.0)THEN
+        IF(CEPSP(N)==PROC.and.IPARTSP(N)==IPRT.
+     .     AND.KXSP(2,N)/=0)THEN
          SLONFSPH_L=SLONFSPH_L+1
         ENDIF
        ENDDO
@@ -84,7 +84,7 @@ c inlet spmd calcul SLONFSPH_L
 C
       NB_L = 0
       DO I = 1, FIRST_SPHSOL-1
-        IF(CEPSP(I).EQ.PROC) THEN
+        IF(CEPSP(I)==PROC) THEN
           NB_L = NB_L + 1
         ENDIF
       ENDDO
@@ -92,7 +92,7 @@ C
 C
       NB_L = 0
       DO I = 1, NSPHSOL
-        IF(CEPSP(FIRST_SPHSOL+I-1).EQ.PROC) THEN
+        IF(CEPSP(FIRST_SPHSOL+I-1)==PROC) THEN
           NB_L = NB_L + 1
         ENDIF
       ENDDO

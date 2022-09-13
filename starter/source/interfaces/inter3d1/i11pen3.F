@@ -63,7 +63,7 @@ C-----------------------------------------------
      .     GAP2, GAPV(MVSIZ)
 C-----------------------------------------------
 C
-      IF(IGAP.EQ.0)THEN
+      IF(IGAP==0)THEN
         DO I=1,JLT
           GAPV(I)=MAX(DRAD,GAPMIN+DGAPLOAD)+MARGE
         ENDDO

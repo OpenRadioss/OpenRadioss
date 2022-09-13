@@ -190,11 +190,11 @@ C=======================================================================
       !---------------------------------------------------------!
       !INTERFACE 22 ONLY - OUTPUT---------------!
        debug_outp = .false.      
-       if(ibug22_ident.ne.0)then
-         if(ibug22_ident.GT.0)then
+       if(ibug22_ident/=0)then
+         if(ibug22_ident>0)then
            do ib=nbf,nbl
              ie=brick_list(nin,ib)%id
-             if(ixs(11,ie).eq.ibug22_ident)then
+             if(ixs(11,ie)==ibug22_ident)then
                debug_outp=.true.
                exit
              endif
@@ -443,7 +443,7 @@ C=======================================================================
              RESULT(2) = LIST(1)
              bFOUND    = .TRUE.            
           ENDIF
-        ELSEIF(SIZEL==2 .AND. ((LIST(1).GE.45.AND.LIST(1).LE.49) .OR. (LIST(1).GE.51.AND.LIST(1).LE.57)))THEN   !sigle hexae or poly4
+        ELSEIF(SIZEL==2 .AND. ((LIST(1)>=45.AND.LIST(1)<=49) .OR. (LIST(1)>=51.AND.LIST(1)<=57)))THEN   !sigle hexae or poly4
           IF(LIST(2) == LIST(1)+1)THEN
             IF( ICODE==IDBLE )THEN            
               bFOUND      = .TRUE.
@@ -477,7 +477,7 @@ C=======================================================================
    !  2                              IB ) 
    !         print *, "  CELL ID EXITING REMOVING DOUBLE INTERP:",IXS(11,BRICK_LIST(NIN,I)%ID)      
    !         Iremoved = Iremoved +1
-   !         IF(Iremoved.LE.1)GOTO 10
+   !         IF(Iremoved<=1)GOTO 10
    !         endif            
           endif      
         ENDIF
@@ -492,7 +492,7 @@ C=======================================================================
               !on ecrit les coordonnees des intersections aux edges
               CUTCOOR = EDGE_LIST(NIN,IAD)%CUTCOOR(K) 
               POINT(1:3) = X(1:3, EDGE_LIST(NIN,IAD)%NODE(1) ) + CUTCOOR * (EDGE_LIST(NIN,IAD)%VECTOR(1:3))                          
-            END DO ! (DO K=1,NBCUT <=> NBCUT.GT.0)
+            END DO ! (DO K=1,NBCUT <=> NBCUT>0)
           ENDDO
           !!---------------        
         ENDIF
@@ -509,7 +509,7 @@ C=======================================================================
             BRICK_LIST(NIN,I)%SecID_Cell(J) = CODE
             BRICK_LIST(NIN,I)%SECTYPE(J)    = StrCODE(IABS(CODE))
             J = J + 1 
-            IF(J.EQ.9)EXIT    
+            IF(J==9)EXIT    
              CODE = RESULT(J)         
           ENDDO
           BRICK_LIST(NIN,I)%NBCUT           = J-1
@@ -668,7 +668,7 @@ C----------------------------------------------------------------
           idb1=min(idb1,IADD)
           idb2=max(idb2,IADD)
           NBCUT = EDGE_LIST(NIN,IADD)%NBCUT 
-          IF (NBCUT.GT.0) THEN
+          IF (NBCUT>0) THEN
             pqts(Q)  = 1
             Nbits    = Nbits + 1
             IF(NBCUT>1)Idble = IBSET(Idble,12-J)

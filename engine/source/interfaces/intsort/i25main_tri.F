@@ -180,17 +180,17 @@ C
 C
 c     STARTT=INTBUF_TAB%VARIABLES(3)
 c     STOPT =INTBUF_TAB%VARIABLES(11)
-c     IF(STARTT.GT.TT) RETURN
-c     IF(TT.GT.STOPT)  RETURN
+c     IF(STARTT>TT) RETURN
+c     IF(TT>STOPT)  RETURN
 C
 C     Look if interface is activated 
 C     ISENS = IPARI(64,NIN)  
-C     IF(ISENS.NE.0)  THEN         ! Interface activated by sensor
+C     IF(ISENS/=0)  THEN         ! Interface activated by sensor
 C        TS = SENSOR(2,ISENS)
 C     ELSE
 C        TS = TT
 C     ENDIF
-C     IF(TT.LT.TS) RETURN
+C     IF(TT<TS) RETURN
 C
       ISENS = IPARI(64,NIN)  
       IF(ISENS == 0) THEN
@@ -216,7 +216,7 @@ C -------------------------------------------------------------
 C
       DIST = INTBUF_TAB%VARIABLES(5)
 C     PRINTIF(ISPMD == 0,DIST)
-      IF (DIST.GT.ZERO) RETURN
+      IF (DIST>ZERO) RETURN
       RETRI = 1
 C
 C -------------------------------------------------------------
@@ -245,7 +245,7 @@ C
       IF(IEDGE/=0) THEN
 C
         INACTI  = IPARI(22,NIN)
-        IF(ITASK.EQ.0)THEN
+        IF(ITASK==0)THEN
 
 
           NEDGE_TOTAL = NEDGE + NEDGE_REMOTE_OLD
@@ -313,11 +313,11 @@ C BARRIER II_STOK, II_STOK_E et RESULT
       CALL MY_BARRIER
 
 C a conserver pour cas inacti est modifie sur p0
-      IF(ITASK.EQ.0)THEN
+      IF(ITASK==0)THEN
         BSAV(1:6)=BMINMA(1:6) ! pour boite edge to edge
-        IF(ABS(BMINMA(6)-BMINMA(3)).GT.2*EP30.OR.
-     +     ABS(BMINMA(5)-BMINMA(2)).GT.2*EP30.OR.
-     +     ABS(BMINMA(4)-BMINMA(1)).GT.2*EP30)THEN
+        IF(ABS(BMINMA(6)-BMINMA(3))>2*EP30.OR.
+     +     ABS(BMINMA(5)-BMINMA(2))>2*EP30.OR.
+     +     ABS(BMINMA(4)-BMINMA(1))>2*EP30)THEN
           CALL ANCMSG(MSGID=87,ANMODE=ANINFO,
      .            I1=NOINT,C1='(I25BUCE)')
           CALL ARRET(2)
@@ -349,7 +349,7 @@ C
 
       IF(NSPMD > 1) THEN
 
-        IF(ITASK.EQ.0) THEN 
+        IF(ITASK==0) THEN 
           ALLOCATE(CRVOXEL25(0:LRVOXEL25,0:LRVOXEL25,1:2,1:NSPMD))
           CRVOXEL25(0:LRVOXEL25,0:LRVOXEL25,1:2,LOC_PROC) = 0
         ENDIF
@@ -377,7 +377,7 @@ C
         CALL MY_BARRIER
         IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(26,1)
 
-        IF(ITASK.EQ.0)THEN
+        IF(ITASK==0)THEN
 
 C
 C Get remote nodes in XREM/IREM
@@ -568,14 +568,14 @@ C New barrier needed for Dynamic MultiMP
         GOTO 140
       ENDIF
 C
-      IF(ITASK.EQ.0)DEALLOCATE(CAND_A,CAND_B)
+      IF(ITASK==0)DEALLOCATE(CAND_A,CAND_B)
 C
       IF (IMONM > 0) CALL STOPTIME(30,1)
 C--------------------------------------------------------------
  200  CONTINUE
 C--------------------------------------------------------------
 C Negative value in "dist" : tag boundary part
-      IF(NSPMD.GT.1)THEN
+      IF(NSPMD>1)THEN
 !$OMP SINGLE
         IF (IMONM > 0) CALL STARTIME(26,1)
         INTBUF_TAB%VARIABLES(5) = - ONE

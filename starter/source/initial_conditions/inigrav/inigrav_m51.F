@@ -96,7 +96,7 @@ C NELG IS SIZE OF ORIGINAL GROUP : needed to shift indexes in GBUF%SIG & MBUF%VA
       K4 = N0PHAS + (4 - 1) * NVPHAS
       NUVAR = IPM(8, MATID)
       PEXT  = BUFMAT(8)
-      IF(IFORM.NE.6)THEN
+      IF(IFORM/=6)THEN
       !all value are in UPARAM=>BUFMAT()
         !Initial densities
         RHO10 = BUFMAT(9)
@@ -143,7 +143,7 @@ C NELG IS SIZE OF ORIGINAL GROUP : needed to shift indexes in GBUF%SIG & MBUF%VA
          EINT2 = EINT20
          EINT3 = EINT30
          EINT4 = EINT40
-         IF(IFORM.EQ.6)THEN
+         IF(IFORM==6)THEN
          !value are not in buffer UPARAM=>BUFMAT but are cell dependent
            ML     = 0
            IFORMv = 0
@@ -151,18 +151,18 @@ C NELG IS SIZE OF ORIGINAL GROUP : needed to shift indexes in GBUF%SIG & MBUF%VA
            DO J=1,ALE_CONNECTIVITY%ee_connect%iad_connect(I + NFT + 1) - ALE_CONNECTIVITY%ee_connect%iad_connect(I + NFT)
              IV = ALE_CONNECTIVITY%ee_connect%connected(IAD + J - 1)
              IFORMv = 1000
-             IF(IV.NE.0)            ML     = NINT(PM(19,IX(1,IV)))  !ix is here local I and not IV
-             IF(IV.NE.0)            IADBUF = IPM(7,IX(1,IV))      
-             IF(IV.NE.0.AND.ML==51) IFORMv  = BUFMATG(IADBUF+31-1)     
+             IF(IV/=0)            ML     = NINT(PM(19,IX(1,IV)))  !ix is here local I and not IV
+             IF(IV/=0)            IADBUF = IPM(7,IX(1,IV))      
+             IF(IV/=0.AND.ML==51) IFORMv  = BUFMATG(IADBUF+31-1)     
              IF(ML==51.AND.IFORMv<=1)EXIT                             
            ENDDO
            DO N=1,NGROUP                                    
               KTY = IPARG(5,N)                              
               KLT = IPARG(2,N)                              
               MFT = IPARG(3,N)                              
-              IF (KTY.EQ.1 .AND. IV.LE.KLT+MFT) EXIT      
+              IF (KTY==1 .AND. IV<=KLT+MFT) EXIT      
            ENDDO                                            
-           IF (KTY.NE.1 .OR. IV.GT.KLT+MFT) CYCLE 
+           IF (KTY/=1 .OR. IV>KLT+MFT) CYCLE 
            NGv   = N
            MBUFv => ELBUF_TAB(NGv)%BUFLY(1)%MAT(1,1,1)
            NELGv = KLT
@@ -244,21 +244,21 @@ C
          MBUF%VAR(I + (K3 + 18 - 1) * NELG) = PGRAV
          MBUF%VAR(I + (K4 + 18 - 1) * NELG) = PGRAV
       !Internal energies
-         IF (RHO10 .NE. ZERO) THEN
+         IF (RHO10 /= ZERO) THEN
             MBUF%VAR(I + (K1 + 08 - 1) * NELG) = EINT1 * RHO1 / RHO10 !rho.e(t)
             MBUF%VAR(I + (K1 + 21 - 1) * NELG) = EINT1 * RHO1 / RHO10 !rho0.e0
          ELSE
             MBUF%VAR(I + (K1 + 08 - 1) * NELG) = ZERO
             MBUF%VAR(I + (K1 + 21 - 1) * NELG) = ZERO
          ENDIF
-         IF (RHO20 .NE. ZERO) THEN
+         IF (RHO20 /= ZERO) THEN
             MBUF%VAR(I + (K2 + 08 - 1) * NELG) = EINT2 * RHO2 / RHO20 !rho.e(t)
             MBUF%VAR(I + (K2 + 21 - 1) * NELG) = EINT2 * RHO2 / RHO20 !rho0.e0
          ELSE
             MBUF%VAR(I + (K2 + 08 - 1) * NELG) = ZERO 
             MBUF%VAR(I + (K2 + 21 - 1) * NELG) = ZERO
          ENDIF
-         IF (RHO30 .NE. ZERO) THEN
+         IF (RHO30 /= ZERO) THEN
             MBUF%VAR(I + (K3 + 08 - 1) * NELG) = EINT3 * RHO3 / RHO30 !rho.e(t)
             MBUF%VAR(I + (K3 + 21 - 1) * NELG) = EINT3 * RHO3 / RHO30 !rho0.e0
          ELSE
@@ -312,33 +312,33 @@ C-----------------------------------------------
       CONT        = .TRUE.
       VOL         = VOL0
       VOL_prev    = VOL0
-      IF(VOL0.EQ.ZERO)VOL0=ONE
+      IF(VOL0==ZERO)VOL0=ONE
       !Initial guess for MU
       MU          = ZERO
-      DO WHILE (CONT .AND. ITER .LT. MAX_ITER)
+      DO WHILE (CONT .AND. ITER < MAX_ITER)
          !pressure difference
          FUNC     = (C0 + C1 * MU + C2 * MAX(ZERO, MU)*MU + C3 * MAX(ZERO, MU)*MU*MU + (C4 + C5 * MU) * EINT) - PRES
          !total derivative
          DFUNC    = C1 + TWO * C2 * MAX(ZERO, MU) + THREE * C3 * MU*MAX(MU,ZERO) + C5 * EINT 
          DFUNC   = DFUNC + (PEXT+FUNC+PRES)/(ONE+MU)/(ONE+MU)*(C4+C5*MU)
-         IF(DFUNC.EQ.ZERO)EXIT   !iform=6 cell with no adj elem (not automatically initialized)
+         IF(DFUNC==ZERO)EXIT   !iform=6 cell with no adj elem (not automatically initialized)
          ! MU INCREMENT
          INCR     = - FUNC / DFUNC
-         If(INCR.EQ.ZERO)EXIT  !P(mu=0)=PRES nothing to do
+         If(INCR==ZERO)EXIT  !P(mu=0)=PRES nothing to do
          ERROR    = ABS(FUNC)
-         IF(ABS(MU+INCR).GT.EM20) ERROR = MAX(ERROR, ABS(INCR / (MU + INCR)))
+         IF(ABS(MU+INCR)>EM20) ERROR = MAX(ERROR, ABS(INCR / (MU + INCR)))
          MU       = MU + INCR
          !ENERGY INCREMENT
          VOL      = VOL0/(ONE+MU)
          EINT     = EINT - (PEXT+FUNC+PRES)*(VOL-VOL_prev)/VOL0 
          VOL_prev = VOL
          ITER     = ITER + 1
-         IF (ERROR .LT. TOL) THEN
+         IF (ERROR < TOL) THEN
            CONT   = .FALSE.
          ENDIF
       ENDDO
-      !IF(UID.EQ.16866)print *,"16866,  P=", (C0 + C1 * MU + C2 * MAX(ZERO, MU) ** 2 + C3 * MU ** 3 + (C4 + C5 * MU) * EINT) 
-      !IF(UID.EQ.16866)print *,"16866,  E=",  EINT
-      !IF(UID.EQ.16866)print *,"16866, MU=", MU
-      !IF(UID.EQ.16866)print *, "ITER=", ITER
+      !IF(UID==16866)print *,"16866,  P=", (C0 + C1 * MU + C2 * MAX(ZERO, MU) ** 2 + C3 * MU ** 3 + (C4 + C5 * MU) * EINT) 
+      !IF(UID==16866)print *,"16866,  E=",  EINT
+      !IF(UID==16866)print *,"16866, MU=", MU
+      !IF(UID==16866)print *, "ITER=", ITER
       END SUBROUTINE POLYSOLVE

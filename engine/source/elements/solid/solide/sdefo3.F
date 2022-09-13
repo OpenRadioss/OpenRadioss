@@ -96,7 +96,7 @@ C-----------------------------------------------
      .   PXX2,PYY2,PZZ2,PXX2P,PYY2P,PZZ2P,AAA,BBB,FAC,
      .   EXX,EXY,EXZ,EYX,EYY,EYZ,EZX,EZY,EZZ
 C=======================================================================
-      IF(INTEG8*JEUL.EQ.0)THEN
+      IF(INTEG8*JEUL==0)THEN
        DO I=LFT,LLT
         VX17=VX1(I)-VX7(I)
         VX28=VX2(I)-VX8(I)
@@ -155,7 +155,7 @@ C=======================================================================
       ENDIF
 
       DT1D2=HALF*DT1
-      IF (ISCAU.GT.0.OR.IMP_LR.GT.0)DT1D2=DT1
+      IF (ISCAU>0.OR.IMP_LR>0)DT1D2=DT1
 
       IF (JCVT /= 0) THEN
         IF (ISMSTR == 11) THEN
@@ -173,7 +173,7 @@ C=======================================================================
             WYY(I)=ZERO
             WZZ(I)=ZERO
           ENDDO
-          IF (IMPL_S.EQ.0.OR.(IDYNA.GT.0.AND.ISMDISP.EQ.0)) THEN
+          IF (IMPL_S==0.OR.(IDYNA>0.AND.ISMDISP==0)) THEN
             DO I=LFT,LLT
 C
              EXX=DXX(I)
@@ -203,7 +203,7 @@ C
              D6(I)   = DXZ(I)+DZX(I)
             ENDDO
 C---------implicit static---------	 
-          ELSEIF (ISMDISP.GT.0.AND.ISCAU.EQ.0) THEN
+          ELSEIF (ISMDISP>0.AND.ISCAU==0) THEN
             DO I=LFT,LLT
              D4(I)   = DXY(I)+DYX(I)
              D5(I)   = DYZ(I)+DZY(I)
@@ -225,10 +225,10 @@ C---------implicit static---------
              DZZ(I)  = DZZ(I)
      .  	      -DT1D2*(DZZ(I)*DZZ(I)+DXZ(I)*DXZ(I)+DYZ(I)*DYZ(I))
             ENDDO
-          ENDIF ! IF (IMPL_S.EQ.0.OR.IDYNA.GT.0)
+          ENDIF ! IF (IMPL_S==0.OR.IDYNA>0)
         END IF !(ISMSTR == 11) THEN
 
-      ELSEIF (JHBE.GE.2) THEN
+      ELSEIF (JHBE>=2) THEN
        DO I=LFT,LLT
 C
         EXX=DXX(I)
@@ -283,7 +283,7 @@ C
 
       ENDIF
 
-      IF(ISROT.NE.0)THEN
+      IF(ISROT/=0)THEN
        DO I=LFT,LLT
         DXY(I)=DXY(I) + VZR(I)
         DYX(I)=DYX(I) - VZR(I)
@@ -302,20 +302,20 @@ C
       ENDIF
       
       !VORTICITY OUTPUT /ANIM/ELEM/VORTX VORTY VORTZ
-      IF(DT1.NE.ZERO)THEN
+      IF(DT1/=ZERO)THEN
         FAC = FOUR/DT1
-        IF(ANIM_SE(10).EQ.1)THEN
+        IF(ANIM_SE(10)==1)THEN
           DO I=LFT,LLT
             FANI_CELL(I+NFT) = FAC*WXX(I)
           ENDDO
         ENDIF
-        IF(ANIM_SE(4960).EQ.1)THEN
+        IF(ANIM_SE(4960)==1)THEN
           IDX=(NUMELS)*ANIM_SE(10)
           DO I=LFT,LLT
             FANI_CELL(IDX+I+NFT) = FAC*WYY(I)
           ENDDO
         ENDIF
-        IF(ANIM_SE(4961).EQ.1)THEN
+        IF(ANIM_SE(4961)==1)THEN
           IDX = (NUMELS)*(ANIM_SE(10)+ANIM_SE(4960))
           DO I=LFT,LLT
             FANI_CELL(IDX+I+NFT) = FAC*WZZ(I)

@@ -64,7 +64,7 @@ C-----------------------------------------------
      .            0,0,2,0,3,3,2,0,4,4,2,4,3,3,2,                        
      .            0,0,0,0,0,0,3,0,0,0,4,0,4,4,3,                        
      .            0,0,0,0,0,0,0,0,0,0,0,0,0,0,4/ 
-      IF (NSECT.GT.0) THEN                                         
+      IF (NSECT>0) THEN                                         
         K0 = NSTRF(25)                                                  
         DO I=1,NSECT                                                    
           JJ = 0                                                        
@@ -76,15 +76,15 @@ C-----------------------------------------------
           DO J=1,NSEGC                                                  
             KK = K5+2*(J-1)                                             
             N  = NSTRF(KK)                                              
-            IF(NSTRF(KK+1).NE.0) THEN                                   
+            IF(NSTRF(KK+1)/=0) THEN                                   
               N1 = UNPACK(NSTRF(KK+1),1)                                
               N2 = UNPACK(NSTRF(KK+1),2)                                
-              IF(N2.EQ.0)THEN                                           
+              IF(N2==0)THEN                                           
                 N2 = N1                                                 
                 N3 = N1                                                 
               ELSE                                                      
                 N3 = UNPACK(NSTRF(KK+1),3)                              
-                IF(N3.EQ.0)N3 = N2                                      
+                IF(N3==0)N3 = N2                                      
               ENDIF                                                     
               II(1) = N0                                                
               II(2) = IXC(1+N1,N)-1                                     
@@ -100,15 +100,15 @@ C-----------------------------------------------
           DO J=1,NSEGTG                                                 
             KK = K9+2*(J-1)                                             
             N  = NSTRF(KK)                                              
-            IF(NSTRF(KK+1).NE.0) THEN                                   
+            IF(NSTRF(KK+1)/=0) THEN                                   
               N1 = UNPACK(NSTRF(1+KK),1)                                
               N2 = UNPACK(NSTRF(1+KK),2)                                
-              IF(N2.EQ.0)THEN                                           
+              IF(N2==0)THEN                                           
                 N2 = N1                                                 
                 N3 = N1                                                 
               ELSE                                                      
                 N3 = UNPACK(NSTRF(1+KK),3)                              
-                IF(N3.EQ.0)N3 = N2                                      
+                IF(N3==0)N3 = N2                                      
               ENDIF                                                     
               II(1) = N0                                                
               II(2) = IXTG(1+N1,N)-1                                    
@@ -120,7 +120,7 @@ C-----------------------------------------------
           JJ = 0                                                        
           K3=K0+30+NSTRF(K0+14)+NSTRF(K0+6)                             
           NSEGS=NSTRF(K0+7)                                             
-          IF(NSEGS.NE.0)THEN                                            
+          IF(NSEGS/=0)THEN                                            
               II(1) = N0                                                
               II(2) = N0                                                
               II(3) = N0                                                
@@ -131,7 +131,7 @@ C
           DO J=1,NSEGS                                                  
             KK=K3+2*(J-1)                                               
             IPACK=NSTRF(KK+1)                                           
-            IF(IPACK.NE.0)THEN                                          
+            IF(IPACK/=0)THEN                                          
               N =NSTRF(KK)                                              
               II(1)=IXS(2,N)-1                                          
               II(2)=IXS(3,N)-1                                          
@@ -141,32 +141,32 @@ C
               II(6)=IXS(7,N)-1                                          
               II(7)=IXS(8,N)-1                                          
               II(8)=IXS(9,N)-1                                          
-              IF(     II(2).EQ.II(1).AND.II(4).EQ.II(3)                 
-     .           .AND.II(8).EQ.II(5).AND.II(7).EQ.II(6))THEN            
+              IF(     II(2)==II(1).AND.II(4)==II(3)                 
+     .           .AND.II(8)==II(5).AND.II(7)==II(6))THEN            
 C tetra4, tetra10                                                       
                 N1=MOD(IPACK/POWER2(1),2)                               
                 N2=MOD(IPACK/POWER2(3),2)                               
                 N3=MOD(IPACK/POWER2(5),2)                               
                 N4=MOD(IPACK/POWER2(6),2)                               
-                IF(N1.NE.0.AND.N2.NE.0.AND.N3.NE.0)THEN                 
+                IF(N1/=0.AND.N2/=0.AND.N3/=0)THEN                 
                  CALL WRITE_I_C(II(1),1)                                
                  CALL WRITE_I_C(II(3),1)                                
                  CALL WRITE_I_C(II(5),1)                                
                  CALL WRITE_I_C(II(5),1)                                
                 END IF                                                  
-                IF(N1.NE.0.AND.N2.NE.0.AND.N4.NE.0)THEN                 
+                IF(N1/=0.AND.N2/=0.AND.N4/=0)THEN                 
                  CALL WRITE_I_C(II(1),1)                                
                  CALL WRITE_I_C(II(3),1)                                
                  CALL WRITE_I_C(II(6),1)                                
                  CALL WRITE_I_C(II(6),1)                                
                 END IF                                                  
-                IF(N2.NE.0.AND.N3.NE.0.AND.N4.NE.0)THEN                 
+                IF(N2/=0.AND.N3/=0.AND.N4/=0)THEN                 
                  CALL WRITE_I_C(II(3),1)                                
                  CALL WRITE_I_C(II(5),1)                                
                  CALL WRITE_I_C(II(6),1)                                
                  CALL WRITE_I_C(II(6),1)                                
                 END IF                                                  
-                IF(N3.NE.0.AND.N1.NE.0.AND.N4.NE.0)THEN                 
+                IF(N3/=0.AND.N1/=0.AND.N4/=0)THEN                 
                  CALL WRITE_I_C(II(5),1)                                
                  CALL WRITE_I_C(II(1),1)                                
                  CALL WRITE_I_C(II(6),1)                                
@@ -182,37 +182,37 @@ C brick, shell16, brick20
                 N6=MOD(IPACK/POWER2(6),2)                               
                 N7=MOD(IPACK/POWER2(7),2)                               
                 N8=MOD(IPACK/POWER2(8),2)                               
-                IF(N1.NE.0.AND.N2.NE.0.AND.N3.NE.0.AND.N4.NE.0)THEN     
+                IF(N1/=0.AND.N2/=0.AND.N3/=0.AND.N4/=0)THEN     
                  CALL WRITE_I_C(II(1),1)                                
                  CALL WRITE_I_C(II(2),1)                                
                  CALL WRITE_I_C(II(3),1)                                
                  CALL WRITE_I_C(II(4),1)                                
                 END IF                                                  
-                IF(N5.NE.0.AND.N6.NE.0.AND.N7.NE.0.AND.N8.NE.0)THEN     
+                IF(N5/=0.AND.N6/=0.AND.N7/=0.AND.N8/=0)THEN     
                  CALL WRITE_I_C(II(5),1)                                
                  CALL WRITE_I_C(II(6),1)                                
                  CALL WRITE_I_C(II(7),1)                                
                  CALL WRITE_I_C(II(8),1)                                
                 END IF                                                  
-                IF(N1.NE.0.AND.N5.NE.0.AND.N6.NE.0.AND.N2.NE.0)THEN     
+                IF(N1/=0.AND.N5/=0.AND.N6/=0.AND.N2/=0)THEN     
                  CALL WRITE_I_C(II(1),1)                                
                  CALL WRITE_I_C(II(5),1)                                
                  CALL WRITE_I_C(II(6),1)                                
                  CALL WRITE_I_C(II(2),1)                                
                 END IF                                                  
-                IF(N4.NE.0.AND.N8.NE.0.AND.N7.NE.0.AND.N3.NE.0)THEN     
+                IF(N4/=0.AND.N8/=0.AND.N7/=0.AND.N3/=0)THEN     
                  CALL WRITE_I_C(II(4),1)                                
                  CALL WRITE_I_C(II(8),1)                                
                  CALL WRITE_I_C(II(7),1)                                
                  CALL WRITE_I_C(II(3),1)                                
                 END IF                                                  
-                IF(N1.NE.0.AND.N4.NE.0.AND.N8.NE.0.AND.N5.NE.0)THEN     
+                IF(N1/=0.AND.N4/=0.AND.N8/=0.AND.N5/=0)THEN     
                  CALL WRITE_I_C(II(1),1)                                
                  CALL WRITE_I_C(II(4),1)                                
                  CALL WRITE_I_C(II(8),1)                                
                  CALL WRITE_I_C(II(5),1)                                
                 END IF                                                  
-                IF(N2.NE.0.AND.N3.NE.0.AND.N7.NE.0.AND.N6.NE.0)THEN     
+                IF(N2/=0.AND.N3/=0.AND.N7/=0.AND.N6/=0)THEN     
                  CALL WRITE_I_C(II(2),1)                                
                  CALL WRITE_I_C(II(3),1)                                
                  CALL WRITE_I_C(II(7),1)                                
@@ -242,14 +242,14 @@ C
         N4=N3+NRWALL                                                    
         ITYP= NPRW(N4)                                                  
 C                                                                 
-        IF(IABS(ITYP).EQ.1.OR.ITYP.EQ.4)THEN                            
+        IF(IABS(ITYP)==1.OR.ITYP==4)THEN                            
              II(1) = N1                                                 
              II(2) = N1 + 3                                             
              II(3) = N1 + 2                                             
              II(4) = N1 + 1                                             
              CALL WRITE_I_C(II,4)                                       
              N1 = N1 + 4                                                
-        ELSEIF(ITYP.EQ.2)THEN                                           
+        ELSEIF(ITYP==2)THEN                                           
            N10 = N1                                                     
            DO J = 1,23                                                  
              II(1) = N1                                                 
@@ -265,7 +265,7 @@ C
            II(4) = N1 + 1                                               
            CALL WRITE_I_C(II,4)                                         
            N1 = N1 + 2                                                  
-        ELSEIF(ITYP.EQ.3)THEN                                           
+        ELSEIF(ITYP==3)THEN                                           
           DO I = 1,6                                                    
            DO J = 1,6                                                   
             DO L = 1,6                                                  
@@ -282,7 +282,7 @@ C
           ENDDO                                                         
          ENDIF                                                          
          K=K+NPRW(N)                                                    
-         IF(NPRW(N4).EQ.-1)K=K+NINT(RWBUF(8,N))                         
+         IF(NPRW(N4)==-1)K=K+NINT(RWBUF(8,N))                         
       ENDDO                                                             
 C                                                                       
       RETURN                                                            

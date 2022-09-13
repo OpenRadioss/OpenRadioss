@@ -42,7 +42,7 @@ C-----------------------------------------------
       INTEGER I
 C-----------------------------------------------
       DO 100 I=1,N
-      IF(NTN(M,I).EQ.IEXT)THEN
+      IF(NTN(M,I)==IEXT)THEN
        NINTRN=I
        RETURN
       ENDIF

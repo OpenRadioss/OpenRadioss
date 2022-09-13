@@ -76,7 +76,7 @@ C-----------------------------------------------
      .     XMIN1,YMIN1,ZMIN1,XMIN2,YMIN2,ZMIN2,DD,GAPV(MVSIZ)
       my_real :: MAXGAPV
 C-----------------------------------------------
-      IF(IGAP.EQ.0)THEN
+      IF(IGAP==0)THEN
         DO I=1,JLT
           GAPV(I)=MAX(DRAD,GAPMIN+DGAPLOAD)+MARGE
         ENDDO
@@ -134,7 +134,7 @@ C--------------------------------------------------------
 C
         DO I=1,JLT
           L = CAND_S(I)
-          IF(L.LE.NRTS) THEN
+          IF(L<=NRTS) THEN
             NI=0 
             N1=IRECTS(1,CAND_S(I))
             N2=IRECTS(2,CAND_S(I))
@@ -306,7 +306,7 @@ C--------------------------------------------------------
 C
         DO I=1,JLT
           L = CAND_S(I)
-          IF(L.LE.NRTS) THEN
+          IF(L<=NRTS) THEN
             NI=0 
 	    N1=IRECTS(1,CAND_S(I))
             N2=IRECTS(2,CAND_S(I))

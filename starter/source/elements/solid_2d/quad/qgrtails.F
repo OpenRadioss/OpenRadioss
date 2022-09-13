@@ -174,7 +174,7 @@ C dd-iad
         P = CEP(NFT+INDEX(1))
         NB = 1
         DO I = 2, NEL
-          IF (CEP(NFT+INDEX(I)).NE.P) THEN
+          IF (CEP(NFT+INDEX(I))/=P) THEN
             DD_IAD(P+1,NSPGROUP+N) = NB
             NB = 1
             P = CEP(NFT+INDEX(I))
@@ -231,7 +231,7 @@ C
        DO P = 1, NSPMD
         NGP(P)=0
         NEL = DD_IAD(P+1,NSPGROUP+N)-DD_IAD(P,NSPGROUP+N)
-        IF (NEL.GT.0) THEN
+        IF (NEL>0) THEN
          NEL_PREC = DD_IAD(P,NSPGROUP+N)-DD_IAD(1,NSPGROUP+N)
          NGP(P)=NGROUP
          NG  = (NEL-1)/NVSIZ + 1
@@ -241,7 +241,7 @@ C ngroup global
           II = EADD(N)+NFT
           MID = IXQ(1,II)
           PID = IXQ(6,II)
-          IF (NSUBDOM.GT.0) IPARTR2R = TAG_MAT(MID)
+          IF (NSUBDOM>0) IPARTR2R = TAG_MAT(MID)
           NPT =1
           JHBE=0
           JPOR=0
@@ -249,9 +249,9 @@ C ngroup global
           ISORTH=0
           IPLAST=IPLA_DS-1
           ICPRE=0
-          IF(PID.NE.0)THEN
-            IF(IGEO(10,PID).EQ.17 .OR.
-     .         (N2D.EQ.1.AND.IGEO(10,PID).EQ.22)) THEN
+          IF(PID/=0)THEN
+            IF(IGEO(10,PID)==17 .OR.
+     .         (N2D==1.AND.IGEO(10,PID)==22)) THEN
               NPT = IGEO(4,PID)
               JHBE = IGEO(10,PID)
             ENDIF
@@ -262,12 +262,12 @@ C ngroup global
             ISORTH = IGEO(17,PID)
             ISMST  = IGEO(5,PID)
             IF (IGT /= 15) IPLAST = IGEO(9,PID)
-            IF(IGT.EQ.15) JPOR=2*NINT(GEO(28,PID))
+            IF(IGT==15) JPOR=2*NINT(GEO(28,PID))
           ENDIF
           MLN = NINT(PM(19,ABS(MID)))
-          IF(MID.LT.0)THEN
-            IF(MLN.EQ.6.AND.JPOR.NE.2)MLN=17
-            IF(MLN.EQ.46)MLN=47
+          IF(MID<0)THEN
+            IF(MLN==6.AND.JPOR/=2)MLN=17
+            IF(MLN==46)MLN=47
             MID=ABS(MID)
             IXQ(1,II)=MID
             INEG = 1
@@ -276,16 +276,16 @@ C ngroup global
           JALE_FROM_PROP = IGEO(62,PID)
           JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if unconsistent, error message was displayed in PART reader
           JLAG=0
-          IF(JALE.EQ.0.AND.MLN.NE.18)JLAG=1
+          IF(JALE==0.AND.MLN/=18)JLAG=1
           JEUL=0
-          IF(JALE.EQ.2)THEN
+          IF(JALE==2)THEN
             JALE=0
             JEUL=1
           ENDIF
           JTUR=NINT(PM(70,MID))
           JTHE=NINT(PM(71,MID))
           JMULT=0
-          IF(MLN.EQ.20)THEN
+          IF(MLN==20)THEN
             JMULT=NINT(PM(20,MID))
             MT1=NINT(PM(21,MID))
             MT2=NINT(PM(22,MID))
@@ -342,7 +342,7 @@ C--------------------
             IGEO(10,PID) = JHBE
           END IF
 C
-          IF(JCVT.NE.0.AND.(JLAG.EQ.0.OR.MLN.EQ.20))THEN
+          IF(JCVT/=0.AND.(JLAG==0.OR.MLN==20))THEN
             CALL FRETITL2(TITR,
      .                    IGEO(NPROPGI-LTITR+1,PID),LTITR)
             CALL ANCMSG(MSGID=610,
@@ -408,7 +408,7 @@ c          IPARG(4,NGROUP) = LBUFEL+1
           IPARG(18,NGROUP)= MID
           IPARG(20,NGROUP)= JMULT
           ! Multifluid law, setting NLAY
-          IF (MLN .EQ. 151) IPARG(20, NGROUP) = IPM(20, MID)
+          IF (MLN == 151) IPARG(20, NGROUP) = IPM(20, MID)
           IPARG(10,NGROUP)= ICPRE
           IPARG(23,NGROUP)= JHBE
           IPARG(24,NGROUP)= 0
@@ -432,7 +432,7 @@ C         equation of state
           IPARG(55,NGROUP)= IEOS
           IPARG(62,NGROUP)= PID
 C         flag for group of duplicated elements in multidomains
-          IF (NSUBDOM.GT.0) IPARG(77,NGROUP)= IPARTR2R 
+          IF (NSUBDOM>0) IPARG(77,NGROUP)= IPARTR2R 
           NFT = NFT + NE1
   220    CONTINUE
          NGP(P)=NGROUP-NGP(P)
@@ -450,7 +450,7 @@ C
 C                                      
       NSPGROUP = NSPGROUP + ND
 C Traitement CFD sur MID negatif sur tous les solides si ineg=1
-      IF (INEG.EQ.1) THEN
+      IF (INEG==1) THEN
         DO I = 1, NUMELQ
           IXQ(1,I) = ABS(IXQ(1,I))
         ENDDO

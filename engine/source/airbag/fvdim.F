@@ -55,7 +55,7 @@ C
       NFVBAG=0
       DO N=1,NVOLU
          ITYP=MONVOL(K1-1+2)
-         IF (ITYP.EQ.6.OR.ITYP.EQ.8) THEN
+         IF (ITYP==6.OR.ITYP==8) THEN
             MONVOL(K1-1+57)=0
             NFVBAG = MONVOL(K1-1+29)
          ENDIF
@@ -104,7 +104,7 @@ C
       K1=1
       DO N=1,NVOLU
          ITYP=MONVOL(K1-1+2)
-         IF (ITYP.EQ.8) THEN
+         IF (ITYP==8) THEN
            IF(MONVOL(K1-1+37) > 0) CHECK_NPOLH = .TRUE.
          ENDIF
          K1=K1+NIMV

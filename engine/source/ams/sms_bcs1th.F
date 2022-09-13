@@ -61,26 +61,26 @@ C
         LCOD = ICODT(L)
         FTHREAC0 = ZERO
 C
-        IF(ISK.EQ.1) THEN
+        IF(ISK==1) THEN
 C------------------
 C     REPERE GLOBAL
 C------------------
-          IF(LCOD.EQ.1)THEN
+          IF(LCOD==1)THEN
           FTHREAC0(N+3) = - A(3,L)
-          ELSEIF(LCOD.EQ.2)THEN
+          ELSEIF(LCOD==2)THEN
           FTHREAC0(N+2) = - A(2,L)
-          ELSEIF(LCOD.EQ.3)THEN
+          ELSEIF(LCOD==3)THEN
           FTHREAC0(N+2) = - A(2,L)
           FTHREAC0(N+3) = - A(3,L)
-          ELSEIF(LCOD.EQ.4)THEN
+          ELSEIF(LCOD==4)THEN
           FTHREAC0(N+1) = - A(1,L)
-          ELSEIF(LCOD.EQ.5)THEN
+          ELSEIF(LCOD==5)THEN
           FTHREAC0(N+1) = - A(1,L)
           FTHREAC0(N+3) = - A(3,L)
-          ELSEIF(LCOD.EQ.6)THEN
+          ELSEIF(LCOD==6)THEN
           FTHREAC0(N+1) = - A(1,L)
           FTHREAC0(N+2) = - A(2,L)
-          ELSEIF(LCOD.EQ.7)THEN
+          ELSEIF(LCOD==7)THEN
           FTHREAC0(N+1) = - A(1,L)
           FTHREAC0(N+2) = - A(2,L)
           FTHREAC0(N+3) = - A(3,L)
@@ -90,17 +90,17 @@ C
 C-------------------
 C     REPERE OBLIQUE
 C-------------------
-         IF(LCOD.EQ.1)THEN
+         IF(LCOD==1)THEN
           AA  =SKEW(7,ISK)*A(1,L)+SKEW(8,ISK)*A(2,L)+SKEW(9,ISK)*A(3,L)
           FTHREAC0(N+1)=-SKEW(7,ISK)*AA
           FTHREAC0(N+2)=-SKEW(8,ISK)*AA
           FTHREAC0(N+3)=-SKEW(9,ISK)*AA
-          ELSEIF(LCOD.EQ.2)THEN
+          ELSEIF(LCOD==2)THEN
           AA  =SKEW(4,ISK)*A(1,L)+SKEW(5,ISK)*A(2,L)+SKEW(6,ISK)*A(3,L)
           FTHREAC0(N+1)=-SKEW(4,ISK)*AA
           FTHREAC0(N+2)=-SKEW(5,ISK)*AA
           FTHREAC0(N+3)=-SKEW(6,ISK)*AA
-          ELSEIF(LCOD.EQ.3)THEN
+          ELSEIF(LCOD==3)THEN
           AA  =SKEW(7,ISK)*A(1,L)+SKEW(8,ISK)*A(2,L)+SKEW(9,ISK)*A(3,L)
           FTHREAC0(N+1)=-SKEW(7,ISK)*AA
           FTHREAC0(N+2)=-SKEW(8,ISK)*AA
@@ -109,12 +109,12 @@ C-------------------
           FTHREAC0(N+1)=FTHREAC(N+1,NODREAC(L))-SKEW(4,ISK)*AA
           FTHREAC0(N+2)=FTHREAC(N+2,NODREAC(L))-SKEW(5,ISK)*AA
           FTHREAC0(N+3)=FTHREAC(N+3,NODREAC(L))-SKEW(6,ISK)*AA
-          ELSEIF(LCOD.EQ.4)THEN
+          ELSEIF(LCOD==4)THEN
           AA  =SKEW(1,ISK)*A(1,L)+SKEW(2,ISK)*A(2,L)+SKEW(3,ISK)*A(3,L)
           FTHREAC0(N+1)=-SKEW(1,ISK)*AA
           FTHREAC0(N+2)=-SKEW(2,ISK)*AA
           FTHREAC0(N+3)=-SKEW(3,ISK)*AA
-          ELSEIF(LCOD.EQ.5)THEN
+          ELSEIF(LCOD==5)THEN
           AA  =SKEW(7,ISK)*A(1,L)+SKEW(8,ISK)*A(2,L)+SKEW(9,ISK)*A(3,L)
           FTHREAC0(N+1)=-SKEW(7,ISK)*AA
           FTHREAC0(N+2)=-SKEW(8,ISK)*AA
@@ -123,7 +123,7 @@ C-------------------
           FTHREAC0(N+1)=FTHREAC(N+1,NODREAC(L))-SKEW(1,ISK)*AA
           FTHREAC0(N+2)=FTHREAC(N+2,NODREAC(L))-SKEW(2,ISK)*AA
           FTHREAC0(N+3)=FTHREAC(N+3,NODREAC(L))-SKEW(3,ISK)*AA
-          ELSEIF(LCOD.EQ.6)THEN
+          ELSEIF(LCOD==6)THEN
           AA  =SKEW(1,ISK)*A(1,L)+SKEW(2,ISK)*A(2,L)+SKEW(3,ISK)*A(3,L)
           FTHREAC0(N+1)=-SKEW(1,ISK)*AA
           FTHREAC0(N+2)=-SKEW(2,ISK)*AA
@@ -132,7 +132,7 @@ C-------------------
           FTHREAC0(N+1)=FTHREAC(N+1,NODREAC(L))-SKEW(4,ISK)*AA
           FTHREAC0(N+2)=FTHREAC(N+2,NODREAC(L))-SKEW(5,ISK)*AA
           FTHREAC0(N+3)=FTHREAC(N+3,NODREAC(L))-SKEW(6,ISK)*AA
-          ELSEIF(LCOD.EQ.7)THEN
+          ELSEIF(LCOD==7)THEN
           FTHREAC0(N+1) = - A(1,L)
           FTHREAC0(N+2) = - A(2,L)
           FTHREAC0(N+3) = - A(3,L)
@@ -193,26 +193,26 @@ C
         LCOD = ICODT(L)
         FANREAC0 = ZERO
 C
-        IF(ISK.EQ.1) THEN
+        IF(ISK==1) THEN
 C------------------
 C     REPERE GLOBAL
 C------------------
-          IF(LCOD.EQ.1)THEN
+          IF(LCOD==1)THEN
           FANREAC0(N+3) = - A(3,L)
-          ELSEIF(LCOD.EQ.2)THEN
+          ELSEIF(LCOD==2)THEN
           FANREAC0(2) = - A(2,L)
-          ELSEIF(LCOD.EQ.3)THEN
+          ELSEIF(LCOD==3)THEN
           FANREAC0(N+2) = - A(2,L)
           FANREAC0(N+3) = - A(3,L)
-          ELSEIF(LCOD.EQ.4)THEN
+          ELSEIF(LCOD==4)THEN
           FANREAC0(N+1) = - A(1,L)
-          ELSEIF(LCOD.EQ.5)THEN
+          ELSEIF(LCOD==5)THEN
           FANREAC0(N+1) = - A(1,L)
           FANREAC0(N+3) = - A(3,L)
-          ELSEIF(LCOD.EQ.6)THEN
+          ELSEIF(LCOD==6)THEN
           FANREAC0(N+1) = - A(1,L)
           FANREAC0(N+2) = - A(2,L)
-          ELSEIF(LCOD.EQ.7)THEN
+          ELSEIF(LCOD==7)THEN
           FANREAC0(N+1) = - A(1,L)
           FANREAC0(N+2) = - A(2,L)
           FANREAC0(N+3) = - A(3,L)
@@ -222,17 +222,17 @@ C
 C-------------------
 C     REPERE OBLIQUE
 C-------------------
-         IF(LCOD.EQ.1)THEN
+         IF(LCOD==1)THEN
           AA  =SKEW(7,ISK)*A(1,L)+SKEW(8,ISK)*A(2,L)+SKEW(9,ISK)*A(3,L)
           FANREAC0(N+1)=-SKEW(7,ISK)*AA
           FANREAC0(N+2)=-SKEW(8,ISK)*AA
           FANREAC0(N+3)=-SKEW(9,ISK)*AA
-          ELSEIF(LCOD.EQ.2)THEN
+          ELSEIF(LCOD==2)THEN
           AA  =SKEW(4,ISK)*A(1,L)+SKEW(5,ISK)*A(2,L)+SKEW(6,ISK)*A(3,L)
           FANREAC0(N+1)=-SKEW(4,ISK)*AA
           FANREAC0(N+2)=-SKEW(5,ISK)*AA
           FANREAC0(N+3)=-SKEW(6,ISK)*AA
-          ELSEIF(LCOD.EQ.3)THEN
+          ELSEIF(LCOD==3)THEN
           AA  =SKEW(7,ISK)*A(1,L)+SKEW(8,ISK)*A(2,L)+SKEW(9,ISK)*A(3,L)
           FANREAC0(N+1)=-SKEW(7,ISK)*AA
           FANREAC0(N+2)=-SKEW(8,ISK)*AA
@@ -241,12 +241,12 @@ C-------------------
           FANREAC0(N+1)=FANREAC0(N+1)-SKEW(4,ISK)*AA
           FANREAC0(N+2)=FANREAC0(N+2)-SKEW(5,ISK)*AA
           FANREAC0(N+3)=FANREAC0(N+3)-SKEW(6,ISK)*AA
-          ELSEIF(LCOD.EQ.4)THEN
+          ELSEIF(LCOD==4)THEN
           AA  =SKEW(1,ISK)*A(1,L)+SKEW(2,ISK)*A(2,L)+SKEW(3,ISK)*A(3,L)
           FANREAC0(N+1)=-SKEW(1,ISK)*AA
           FANREAC0(N+2)=-SKEW(2,ISK)*AA
           FANREAC0(N+3)=-SKEW(3,ISK)*AA
-          ELSEIF(LCOD.EQ.5)THEN
+          ELSEIF(LCOD==5)THEN
           AA  =SKEW(7,ISK)*A(1,L)+SKEW(8,ISK)*A(2,L)+SKEW(9,ISK)*A(3,L)
           FANREAC0(N+1)=-SKEW(7,ISK)*AA
           FANREAC0(N+2)=-SKEW(8,ISK)*AA
@@ -255,7 +255,7 @@ C-------------------
           FANREAC0(N+1)=FANREAC0(N+1)-SKEW(1,ISK)*AA
           FANREAC0(N+2)=FANREAC0(N+2)-SKEW(2,ISK)*AA
           FANREAC0(N+3)=FANREAC0(N+3)-SKEW(3,ISK)*AA
-          ELSEIF(LCOD.EQ.6)THEN
+          ELSEIF(LCOD==6)THEN
           AA  =SKEW(1,ISK)*A(1,L)+SKEW(2,ISK)*A(2,L)+SKEW(3,ISK)*A(3,L)
           FANREAC0(N+1)=-SKEW(1,ISK)*AA
           FANREAC0(N+2)=-SKEW(2,ISK)*AA
@@ -264,7 +264,7 @@ C-------------------
           FANREAC0(N+1)=FANREAC0(N+1)-SKEW(4,ISK)*AA
           FANREAC0(N+2)=FANREAC0(N+2)-SKEW(5,ISK)*AA
           FANREAC0(N+3)=FANREAC0(N+3)-SKEW(6,ISK)*AA
-          ELSEIF(LCOD.EQ.7)THEN
+          ELSEIF(LCOD==7)THEN
           FANREAC0(N+1) = - A(1,L)
           FANREAC0(N+2) = - A(2,L)
           FANREAC0(N+3) = - A(3,L)

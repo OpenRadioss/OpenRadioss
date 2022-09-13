@@ -104,7 +104,7 @@ C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
       CALL HM_GET_INTV('P36_lutype',IUTYP,IS_AVAILABLE,LSUBMODEL)
 C--------------------------------------------------
-      IF(IUTYP.EQ.1)THEN
+      IF(IUTYP==1)THEN
 C-------------------------------------------------------
 C       USER SUB TYPE 1 PROPERTY REFERENCED BY A SPRING PART
 C       THIS PROPERTY REFERS TO 2 USER PROPERTIES
@@ -113,7 +113,7 @@ C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
         CALL HM_GET_INTV('SKEW_CSID',ISK,IS_AVAILABLE,LSUBMODEL)
-        IF(ISK == 0 .AND. SUB_ID .NE. 0 ) ISK = LSUBMODEL(SUB_ID)%SKEW
+        IF(ISK == 0 .AND. SUB_ID /= 0 ) ISK = LSUBMODEL(SUB_ID)%SKEW
         CALL HM_GET_INTV('PROP_ID1',PID1,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV('PROP_ID2',PID2,IS_AVAILABLE,LSUBMODEL)
 C--------------------------------------------------
@@ -149,7 +149,7 @@ C
           WRITE(IOUT,1000)ISKN(4,ISK),PID1,PID2,XK
         ENDIF
 C
-      ELSEIF(IUTYP.EQ.2)THEN
+      ELSEIF(IUTYP==2)THEN
 C-------------------------------------------------------
 C       USER SUB TYPE 2 PROPERTY REFERENCED BY A USER SUB TYPE 1 PROPERTY
 C       THIS PROPERTY REFERS TO 1 USER MATERIAL
@@ -170,8 +170,8 @@ C--------------------------------------------------
 C MID1 is a USER material ID
         IERROR = SET_U_PNU(1,MID1,KUMAT)
 C
-         IF(RAY.EQ.0.AND.AREA.NE.0) THEN
-           IF(IXX.EQ.0.OR.IYY.EQ.0.OR.IZZ.EQ.0) THEN
+         IF(RAY==0.AND.AREA/=0) THEN
+           IF(IXX==0.OR.IYY==0.OR.IZZ==0) THEN
               CALL ANCMSG(MSGID=640,
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO_BLIND_1,
@@ -180,14 +180,14 @@ C
            ENDIF
          ENDIF
 C
-        IF ((AREA.LE.ZERO).AND.(RAY.LE.ZERO)) THEN
+        IF ((AREA<=ZERO).AND.(RAY<=ZERO)) THEN
           WRITE(IOUT,*)' ** ERROR : PROPERTY INPUT '
           IF(.NOT. IS_CRYPTED)THEN
            WRITE(IOUT,*)' AREA =',AREA,' R =',RAY
           ENDIF
         ENDIF
 C
-        IF ((AREA.LE.ZERO).AND.(RAY.NE.ZERO)) THEN
+        IF ((AREA<=ZERO).AND.(RAY/=ZERO)) THEN
          AREA=RAY*RAY*PI
 C
          IXX=AREA*RAY*RAY*HALF
@@ -379,7 +379,7 @@ C       first end
 C
         IUTYP1 = NINT(GET_U_GEO(1,IPROP1))
         WRITE(IOUT,*)' **VALUE OF IUTYP1',IUTYP1
-        IF(IUTYP1.NE.2)THEN
+        IF(IUTYP1/=2)THEN
           WRITE(IOUT,*)' **ERROR SPRING USER PROPERTY',
      .       GET_U_PID(IPROP),' REFERS TO WRONG USER PROPERTY',
      .       GET_U_PID(IPROP1)
@@ -398,7 +398,7 @@ C
 C       second end
 C
         IUTYP2 = NINT(GET_U_GEO(1,IPROP2))
-        IF(IUTYP2.NE.2)THEN
+        IF(IUTYP2/=2)THEN
           WRITE(IOUT,*)' **ERROR SPRING USER PROPERTY',
      .       GET_U_PID(IPROP),' REFERS TO WRONG USER PROPERTY',
      .       GET_U_PID(IPROP2)
@@ -435,7 +435,7 @@ C--------------------------------------
 C       ELEMENT CHECK
 C--------------------------------------
         DO I=1,NEL
-          IF(XL(I).EQ.ZERO)THEN
+          IF(XL(I)==ZERO)THEN
             WRITE(IOUT,*)' **ERROR ZERO LENGTH SPRING :'
           ENDIF
         ENDDO

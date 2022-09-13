@@ -87,7 +87,7 @@ C     Velocity
      .              GBUF%SIG(II + 1 * NEL) + 
      .              GBUF%SIG(II + 2 * NEL))
             ENDDO
-            IF (NBMAT .GT. 1) THEN
+            IF (NBMAT > 1) THEN
                DO IMAT = 1, NBMAT
                   LBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1, 1, 1)
                   DO II = 1, NEL

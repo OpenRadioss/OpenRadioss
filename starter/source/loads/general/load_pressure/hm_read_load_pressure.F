@@ -166,7 +166,7 @@ C--------------------------------------------------
      .                       OPTION_ID = NOINT,
      .                       KEYWORD2 = KEY)
 
-        IF(KEY(1:LEN_TRIM(KEY)).NE.'SUB') THEN
+        IF(KEY(1:LEN_TRIM(KEY))/='SUB') THEN
           NBINTER=NBINTER+1
 C
           ID_INTER(NBINTER) = NOINT
@@ -205,7 +205,7 @@ C--------------------------------------------------
             EXIT
           ENDIF
         ENDDO
-        IF (UID.NE.0.AND.IFLAGUNIT.EQ.0) THEN
+        IF (UID/=0.AND.IFLAGUNIT==0) THEN
           CALL ANCMSG(MSGID   = 659,
      .                ANMODE  = ANINFO,
      .                MSGTYPE = MSGERROR,
@@ -244,17 +244,17 @@ C--------------------------------------------------
           !-----------EXTRACT DATAS (STRING VALUES)
             CALL HM_GET_STRING('Direction',DIR,ncharfield,IS_AVAILABLE) 
 
-            IF(DIR(1:1).EQ.'X') IDIR=1
-            IF(DIR(1:1).EQ.'Y') IDIR=2
-            IF(DIR(1:1).EQ.'Z') IDIR=3
+            IF(DIR(1:1)=='X') IDIR=1
+            IF(DIR(1:1)=='Y') IDIR=2
+            IF(DIR(1:1)=='Z') IDIR=3
         ENDIF
 
          !-----------
         IS=0                                                     
         DO J=1,NSURF
-           IF (ISU.EQ.IGRSURF(J)%ID) IS=J
+           IF (ISU==IGRSURF(J)%ID) IS=J
         ENDDO                                                     
-        IF(IS.NE.0)THEN                                          
+        IF(IS/=0)THEN                                          
            NN=IGRSURF(IS)%NSEG
            DO J=1,NN                                               
               LLOADP(IAD+4*(J-1))  =IGRSURF(IS)%NODES(J,1)
@@ -272,9 +272,9 @@ C--------------------------------------------------
 C-----------        
         IFUNCL=0
         DO J=1,NFUNCT
-          IF(NPC(NFUNCT+J+1).EQ.IFUNC)IFUNCL=J
+          IF(NPC(NFUNCT+J+1)==IFUNC)IFUNCL=J
         ENDDO
-        IF(IFUNCL.EQ.0)THEN
+        IF(IFUNCL==0)THEN
           CALL ANCMSG(MSGID=883,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
@@ -286,14 +286,14 @@ C-----------
         ISENS = 0
         IF(IDSENS > 0) THEN
            DO J=1,NSENSOR
-	      IF(IDSENS.NE.0) THEN
-	        IF(IDSENS.EQ.LSENSOR(1,J)) THEN
+	      IF(IDSENS/=0) THEN
+	        IF(IDSENS==LSENSOR(1,J)) THEN
                   ISENS=J
                   EXIT
                 ENDIF
 	      ENDIF
 	   ENDDO
-	   IF(ISENS.EQ.0)THEN
+	   IF(ISENS==0)THEN
               CALL ANCMSG(MSGID=930,
      .             MSGTYPE=MSGERROR,
      .             ANMODE=ANINFO_BLIND_1,
@@ -306,7 +306,7 @@ C-----------
          !-----------
 
         NOSKEW = 0
-        IF(IDSKEW == 0 .AND. SUB_INDEX .NE. 0 ) IDSKEW = LSUBMODEL(SUB_INDEX)%SKEW
+        IF(IDSKEW == 0 .AND. SUB_INDEX /= 0 ) IDSKEW = LSUBMODEL(SUB_INDEX)%SKEW
 
         IF(IDSKEW > 0) THEN
            DO J=0,NUMSKW+MIN(1,NSPCOND)*NUMSPH+NSUBMOD
@@ -314,7 +314,7 @@ C-----------
                NOSKEW=J+1
              ENDIF
            ENDDO
-	   IF(NOSKEW.EQ.0)THEN
+	   IF(NOSKEW==0)THEN
              CALL ANCMSG(MSGID=137,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                C1='LOAD PRESSURE',
      .                C2='LOAD PRESSURE',
@@ -356,7 +356,7 @@ C EXTRACT DATAS (INTEGER VALUES)
 	          INTGAPLOADP(NINTLOADP+NIP)= GAP_I  
                END IF
               END DO
-	      IF(TINTER.EQ.0)THEN
+	      IF(TINTER==0)THEN
                 CALL ANCMSG(MSGID=2021,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO,
@@ -371,7 +371,7 @@ C EXTRACT DATAS (INTEGER VALUES)
 C--------------
 C Storage 
 C--------------
-         IF(IS.NE.0)THEN    
+         IF(IS/=0)THEN    
            ILOADP  ( 3,K) = IFUNCL        
            ILOADP  ( 4,K) = IAD
            ILOADP  ( 5,K) = NINTERS 
@@ -384,7 +384,7 @@ C--------------
            FACLOADP( 1,K) = FCY                                          
            FACLOADP( 2,K) = ONE/FCX   
            !Multidomaines -> on decompte les seg communs, on ne les compte qu'une foi---        
-	   IF (IDDOM.GT.0) NN = NN-ISURF_R2R(1,IS)                
+	   IF (IDDOM>0) NN = NN-ISURF_R2R(1,IS)                
          ENDIF    
 
          WRITE (IOUT,2002)

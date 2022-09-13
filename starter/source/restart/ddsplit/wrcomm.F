@@ -327,7 +327,7 @@ C
 C----------------------------------------------------------------
 C    warning to radioss developpers : Check LVARREA < LMXVREA
 C----------------------------------------------------------------
-      IF(LVARREA.GT.LMXVREA)STOP 123
+      IF(LVARREA>LMXVREA)STOP 123
 C
       RETURN
       END

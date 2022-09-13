@@ -125,9 +125,9 @@ C
         OFF_L  = MIN(OFF_L,OFFG(I))
         SIGY(I) = EP30
       ENDDO
-      IF(OFF_L.LT.0.)THEN
+      IF(OFF_L<0.)THEN
         DO I=JFT,JLT
-         IF(OFFG(I).LT.0.)THEN
+         IF(OFFG(I)<0.)THEN
            VL1(I,1)=ZERO
            VL1(I,2)=ZERO
            VL1(I,3)=ZERO

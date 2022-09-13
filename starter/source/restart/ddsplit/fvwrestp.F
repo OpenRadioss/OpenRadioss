@@ -82,31 +82,31 @@ C
 	 CALL WRITE_I_C(TABI,LEN)
 	 
          LEN=2*(FVSPMD(I)%NN_L+FVSPMD(I)%NNI_L)
-         IF (LEN.GT.0) THEN
+         IF (LEN>0) THEN
               CALL WRITE_I_C(FVSPMD(I)%IBUF_L,LEN)
               DEALLOCATE(FVSPMD(I)%IBUF_L)
          ENDIF
          LEN=2*FVSPMD(I)%NNA_L
-         IF (LEN.GT.0) THEN
+         IF (LEN>0) THEN
               CALL WRITE_I_C(FVSPMD(I)%IBUFA_L,LEN)
               DEALLOCATE(FVSPMD(I)%IBUFA_L)
          ENDIF
          LEN=2*FVSPMD(I)%NNSA_L
-         IF (LEN.GT.0) THEN
+         IF (LEN>0) THEN
               CALL WRITE_I_C(FVSPMD(I)%IBUFSA_L,LEN)
               DEALLOCATE(FVSPMD(I)%IBUFSA_L)
          ENDIF
 	 LEN = 1
 	 CALL WRITE_I_C(KMESH(FVID(I)), LEN)
-         IF (PROC.NE.FVSPMD(I)%PMAIN) CYCLE
+         IF (PROC/=FVSPMD(I)%PMAIN) CYCLE
 C
          LEN=8*FVSPMD(I)%NSA
-         IF (LEN.GT.0) THEN
+         IF (LEN>0) THEN
               CALL WRITE_I_C(FVSPMD(I)%IXSA,LEN)
               DEALLOCATE(FVSPMD(I)%IXSA)
          ENDIF
          LEN=3*FVSPMD(I)%NELSA
-         IF (LEN.GT.0) THEN
+         IF (LEN>0) THEN
               CALL WRITE_I_C(FVSPMD(I)%ELEMSA,LEN)
               DEALLOCATE(FVSPMD(I)%ELEMSA)
          ENDIF
@@ -118,7 +118,7 @@ C
          LENH=FVDATA(I)%LENH
          NPOLH=FVDATA(I)%NPOLH
          NPOLH_ANIM=FVDATA(I)%NPOLH_ANIM
-         IF (NPOLH_ANIM.GT.0) THEN
+         IF (NPOLH_ANIM>0) THEN
             LENP_ANIM=FVDATA(I)%IFVTADR_ANIM(NPOLY+1)
             LENH_ANIM=FVDATA(I)%IFVPADR_ANIM(NPOLH_ANIM+1)
             NNS_ANIM=FVDATA(I)%NNS_ANIM
@@ -156,7 +156,7 @@ C--------------------------------------
            CALL WRITE_I_C(FVDATA(I)%IDPOLH,NPOLH)
            CALL WRITE_I_C(FVDATA(I)%IBPOLH,NPOLH)
 C
-         IF (NPOLH_ANIM.GT.0) THEN
+         IF (NPOLH_ANIM>0) THEN
               CALL WRITE_I_C(FVDATA(I)%IFVPOLY_ANIM,LENP_ANIM)
               CALL WRITE_I_C(FVDATA(I)%IFVTADR_ANIM,NPOLY+1)
               CALL WRITE_I_C(FVDATA(I)%IFVPOLH_ANIM,LENH_ANIM)
@@ -192,7 +192,7 @@ C--------------------------------------
            CALL WRITE_DB(FVDATA(I)%DLH,1)
            CALL WRITE_DB(FVDATA(I)%DTPOLH,NPOLH)
 C
-         IF (NPOLH_ANIM.GT.0) THEN
+         IF (NPOLH_ANIM>0) THEN
             LEN=3*NNS_ANIM
               CALL WRITE_DB(FVDATA(I)%NOD_ANIM,LEN)
          ENDIF

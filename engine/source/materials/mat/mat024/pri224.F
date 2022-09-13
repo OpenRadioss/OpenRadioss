@@ -57,7 +57,7 @@ C
       DIR(2)=SS1-SIG(1)
       ORM=DIR(1)*DIR(1)+DIR(2)*DIR(2)
       ORM=SQRT(ORM)
-      IF(ORM.LT.EM8)THEN
+      IF(ORM<EM8)THEN
       DIR(1)=ONE
       DIR(2)=ZERO
       ELSE

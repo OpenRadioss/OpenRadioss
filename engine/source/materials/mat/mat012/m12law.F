@@ -122,7 +122,7 @@ C     REAL
      .   G23_1,G31_1,WPLAREF,DWPLA
 C=======================================================================
      
-      IF(NCYCLE.EQ.0 .AND. IRUN.EQ.1) THEN
+      IF(NCYCLE==0 .AND. IRUN==1) THEN
         DO  I=LFT,LLT
          KD1(I) = 0
          KD2(I) = 0
@@ -184,24 +184,24 @@ C
          ICC(I)  = ICC_1
          EPSP = MAX(ABS(E1(I)),ABS(E2(I)),ABS(E3(I)),
      .              HALF*ABS(E4(I)),HALF*ABS(E5(I)),HALF*ABS(E6(I)))
-         IF(EPSP.GT.EPDR(I).AND.CC(I).NE.ZERO) THEN
+         IF(EPSP>EPDR(I).AND.CC(I)/=ZERO) THEN
            EPSP = ONE + CC(I) * LOG(EPSP/EPDR(I))
          ELSE
            EPSP = ONE
          ENDIF
-         IF(ICC(I).EQ.1)THEN
+         IF(ICC(I)==1)THEN
            SIGMX   =PM(28,MX)*EPSP
-         ELSEIF(ICC(I).EQ.2)THEN
+         ELSEIF(ICC(I)==2)THEN
            SIGMX   =PM(28,MX)
-         ELSEIF(ICC(I).EQ.3)THEN
+         ELSEIF(ICC(I)==3)THEN
            SIGMX   =PM(28,MX)*EPSP
-         ELSEIF(ICC(I).EQ.4)THEN
+         ELSEIF(ICC(I)==4)THEN
            SIGMX   =PM(28,MX)
          ENDIF
          CB(I)   =CB(I)*EPSP
          CA      =CA*EPSP
          SIGMY(I)= MIN(SIGMX,CA+CB(I)*PLA(I)**CN(I))
-         IF(SIGMY(I).EQ.SIGMX .AND. OFF(I).EQ.ONE) THEN
+         IF(SIGMY(I)==SIGMX .AND. OFF(I)==ONE) THEN
            OFF(I)=ZEP99
            KD4(I)=2
            IDEL7NOK = 1
@@ -216,7 +216,7 @@ C
          DELTA(I)= PM(79,MX) 
       ENDDO
 C
-      IF(NINDX.NE.0)THEN
+      IF(NINDX/=0)THEN
          DO J=1,NINDX
             I=INDEX(J)
 #include "lockon.inc"
@@ -375,7 +375,7 @@ C
 C------------------
 C     FIBERS STRESS
 C------------------
-      IF (FIB.GT.0) THEN
+      IF (FIB>0) THEN
         MX = MAT(LFT)
         DO  I=LFT,LLT
           EFIB(I) =PM(38,MX)
@@ -414,11 +414,11 @@ C
           T1(I)=WVEC(I)
           T2(I)=T2(I)-D12(I)*E1(I)*DAM(I,1)
           T3(I)=T3(I)-D13(I)*E1(I)*DAM(I,1)
-          IF(KD1(I).EQ.0) THEN
+          IF(KD1(I)==0) THEN
              KD1(I)=1
           ENDIF
           DAM(I,1)= MIN((DAM(I,1)+DELTA(I)),ONE)
-          IF(DAM(I,1).GE.ONE .AND. KD1(I).NE.2) THEN
+          IF(DAM(I,1)>=ONE .AND. KD1(I)/=2) THEN
             KD1(I)=2
           ENDIF
          ENDIF
@@ -431,7 +431,7 @@ C----------------
          WVEC(I)=(ONE-DAM(I,2))*SIGT2(I)
          IF(T2(I) > WVEC(I)) THEN
 C
-           IF(EPC(I,2).EQ.ZERO) THEN
+           IF(EPC(I,2)==ZERO) THEN
              EPC(I,2)= MAX(EPE(I,2),ZERO)
            ELSE
              EPC(I,2)= MAX(EPC(I,2)+E2(I),ZERO)
@@ -457,7 +457,7 @@ C----------------
          WVEC(I)=(ONE-DAM(I,3))*SIGT3(I)
          IF(T3(I) > WVEC(I)) THEN
 C
-           IF(EPC(I,3).EQ.ZERO) THEN
+           IF(EPC(I,3)==ZERO) THEN
              EPC(I,3)= MAX(EPE(I,3),ZERO)
            ELSE
              EPC(I,3)= MAX(EPC(I,3)+E3(I),ZERO)
@@ -466,7 +466,7 @@ C
            T1(I)=T1(I)-D13(I)*E3(I)*DAM(I,3)
            T2(I)=T2(I)-D23(I)*E3(I)*DAM(I,3)
            T3(I)=WVEC(I)
-           IF(KD3(I).EQ.0) THEN
+           IF(KD3(I)==0) THEN
               KD3(I)=1
            ENDIF
            DAM(I,3)= MIN((DAM(I,3)+DELTA(I)),ONE)
@@ -475,7 +475,7 @@ C
            ENDIF
          ENDIF
 C
-         IF(E3(I).LT.ZERO .AND. DAM(I,3).GT.ZERO)
+         IF(E3(I)<ZERO .AND. DAM(I,3)>ZERO)
      .       EPC(I,3)= MAX(EPC(I,3)+E3(I),ZERO)
 C
       ENDDO
@@ -517,7 +517,7 @@ C
        COEF(I)= ZERO
         IF (WVEC(I) > SIGMY(I) .AND .OFF(I) == ONE) THEN
           COEF(I)=ONE
-          IF(KD4(I).EQ.0) THEN
+          IF(KD4(I)==0) THEN
             KD4(I)=1
           ENDIF
          ENDIF

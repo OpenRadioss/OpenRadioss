@@ -160,8 +160,8 @@ C
         TYPE18=.FALSE.
         IF(NTY==7 .AND. INACTI==7)TYPE18=.TRUE.
 
-        IF(INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7.OR.IFQ.GT.0.OR.
-     .     ITIED.NE.0)THEN
+        IF(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.IFQ>0.OR.
+     .     ITIED/=0)THEN
             NSNROLD = IPARI(24,NIN)
         ELSE
             NSNROLD = 0
@@ -170,8 +170,8 @@ C
         STARTT=INTBUF_TAB%VARIABLES(3)
         STOPT =INTBUF_TAB%VARIABLES(11)
 
-        IF(STARTT.GT.TT) RETURN
-        IF(TT.GT.STOPT)  RETURN
+        IF(STARTT>TT) RETURN
+        IF(TT>STOPT)  RETURN
 
         GAP    =INTBUF_TAB%VARIABLES(2)
         GAPMIN=INTBUF_TAB%VARIABLES(13)
@@ -181,7 +181,7 @@ C
         DGAPLOADP= INTBUF_TAB%VARIABLES(46)
 C -------------------------------------------------------------
         DIST = INTBUF_TAB%VARIABLES(5)
-        IF (DIST.GT.ZERO) RETURN
+        IF (DIST>ZERO) RETURN
         RETRI = 1
 C -------------------------------------------------------------
         MAXBOX = INTBUF_TAB%VARIABLES(9)
@@ -205,15 +205,15 @@ C -------------------------------------------------------------
 
         IF(NSPMD > 1) THEN
         ! ---------------------------
-            IF(ITASK.EQ.0)THEN
+            IF(ITASK==0)THEN
             ! ---------------------------
             ! send/rcv the secondary node data
                 CALL SPMD_CELL_EXCHANGE( NIN,ISENDTO,IRCVFROM,NSNR,IPARI(21,NIN),
      1                                   IFQ,INACTI,NSNFIOLD,IPARI(47,NIN),NTY,
      2                                   ITIED,NMN,INTER_STRUCT,SORT_COMM )
 C
-                IF(INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7.OR.
-     +               IFQ.GT.0.OR.ITIED.NE.0)THEN
+                IF(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.
+     +               IFQ>0.OR.ITIED/=0)THEN
                     CALL SPMD_RNUMCD(
      1                  INTBUF_TAB%CAND_N,RENUM  ,INTBUF_TAB%I_STOK(1), NIN,NSN,
      2                NSNFIOLD     ,NSNROLD)
@@ -336,9 +336,9 @@ C
 C--------------------------------------------------------------
 C--------------------------------------------------------------
         CALL MY_BARRIER
-        IF (RESULT.NE.0) THEN
+        IF (RESULT/=0) THEN
             CALL MY_BARRIER
-            IF (ITASK.EQ.0) THEN
+            IF (ITASK==0) THEN
 C utile si on revient
                 INTBUF_TAB%I_STOK(1) = I_SK_OLD
                 RESULT = 0
@@ -351,7 +351,7 @@ C utile si on revient
             GOTO 50
         ENDIF
 C mise a - de dist temporairement pour reperage dans partie frontiere
-        IF(NSPMD.GT.1)THEN
+        IF(NSPMD>1)THEN
 C mono tache
 !$OMP SINGLE
             IF (IMONM > 0) CALL STARTIME(26,1)

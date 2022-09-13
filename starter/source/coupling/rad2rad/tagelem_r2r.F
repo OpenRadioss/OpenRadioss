@@ -95,7 +95,7 @@ C-----------------------------------------------
      .        CUR_20,CUR_16,OFFSET
 C=======================================================================
 
-      IF (FLAG.EQ.0) THEN
+      IF (FLAG==0) THEN
       
 C--------------------------------------------------------------------C			
 C---------------FLAG = 0 --> tag of the elements of the surface------C
@@ -106,7 +106,7 @@ C--------------------------------------------------------------------C
           FACE(2) = IGRSURF%NODES(J,2)
           FACE(3) = IGRSURF%NODES(J,3)
           FACE(4) = IGRSURF%NODES(J,4)
-          IF (FACE(4).EQ.0) FACE(4)=FACE(3)         
+          IF (FACE(4)==0) FACE(4)=FACE(3)         
           NI = FACE(1)
           ELTAG = 0  		  
 
@@ -139,9 +139,9 @@ C------------------------>   faces of solids  <----------------------C
                ENDDO			 		 	       
 	    ENDIF	
             SUM=ITAGL(FACE(1))+ITAGL(FACE(2))+ITAGL(FACE(3))+ITAGL(FACE(4))
-            IF (SUM.EQ.4) ELTAG = 1
-            IF ((TAG_ELS(CUR_ID+NPART).LT.(1+CONT)).AND.
-     .         (TAGNO(IPARTS(CUR_ID)).NE.VAL).AND.(SUM.EQ.4)) THEN    	    
+            IF (SUM==4) ELTAG = 1
+            IF ((TAG_ELS(CUR_ID+NPART)<(1+CONT)).AND.
+     .         (TAGNO(IPARTS(CUR_ID))/=VAL).AND.(SUM==4)) THEN    	    
 		    CALL MODIF_TAG(TAG_ELS(CUR_ID+NPART),1+CONT+F2,MODIF)
 	    ENDIF
 	  END DO
@@ -156,9 +156,9 @@ C------------------------>  shells  <--------------------------------C
               ITAGL(IXC(NIXC*(CUR_ID-1)+K)) = 1
             END DO
             SUM=ITAGL(FACE(1))+ITAGL(FACE(2))+ITAGL(FACE(3))+ITAGL(FACE(4))
-            IF (SUM.EQ.4) ELTAG = 1          
-            IF ((TAG_ELC(CUR_ID+NPART).LT.(1+CONT)).AND.
-     .         (TAGNO(IPARTC(CUR_ID)).NE.VAL).AND.(SUM.EQ.4)) THEN	  		  	    
+            IF (SUM==4) ELTAG = 1          
+            IF ((TAG_ELC(CUR_ID+NPART)<(1+CONT)).AND.
+     .         (TAGNO(IPARTC(CUR_ID))/=VAL).AND.(SUM==4)) THEN	  		  	    
 		    CALL MODIF_TAG(TAG_ELC(CUR_ID+NPART),1+CONT+F2,MODIF)
 	    ENDIF
 	  END DO
@@ -172,17 +172,17 @@ C------------------------>   sh3n  <---------------------------------C
               ITAGL(IXTG(NIXTG*(CUR_ID-1)+K)) = 1
             END DO
             SUM=ITAGL(FACE(1))+ITAGL(FACE(2))+ITAGL(FACE(3))+ITAGL(FACE(4))
-            IF (SUM.EQ.4) ELTAG = 1              
-            IF ((TAG_ELG(CUR_ID+NPART).LT.(1+CONT)).AND.
-     .         (TAGNO(IPARTG(CUR_ID)).NE.VAL).AND.(SUM.EQ.4)) THEN	  		  	    
+            IF (SUM==4) ELTAG = 1              
+            IF ((TAG_ELG(CUR_ID+NPART)<(1+CONT)).AND.
+     .         (TAGNO(IPARTG(CUR_ID))/=VAL).AND.(SUM==4)) THEN	  		  	    
 		    CALL MODIF_TAG(TAG_ELG(CUR_ID+NPART),1+CONT+F2,MODIF)
 	    ENDIF		      
 	  END DO
 
 C------------------------>   segments without elements  <------------C
-          IF (ELTAG.EQ.0) THEN
+          IF (ELTAG==0) THEN
             DO K = 1,4
-              IF (TAGNO(FACE(K)+NPART).EQ.-1) THEN
+              IF (TAGNO(FACE(K)+NPART)==-1) THEN
                 CALL MODIF_TAG(TAGNO(FACE(K)+NPART),0,MODIF)
               ENDIF            
             END DO
@@ -201,32 +201,32 @@ C--------------------------------------------------------------------C
 C------------------------>   faces of solids  <----------------------C 		    
           DO L = KNOD2ELS(NI)+1,KNOD2ELS(NI+1)
             CUR_ID = NOD2ELS(L)
-            IF ((TAG_ELS(CUR_ID+NPART).LT.(1+CONT)).AND.
-     .         (TAGNO(IPARTS(CUR_ID)).NE.VAL)) THEN    	    
+            IF ((TAG_ELS(CUR_ID+NPART)<(1+CONT)).AND.
+     .         (TAGNO(IPARTS(CUR_ID))/=VAL)) THEN    	    
 		    CALL MODIF_TAG(TAG_ELS(CUR_ID+NPART),1+CONT,MODIF)
 	    ENDIF
 	  END DO
 C------------------------>   shells  <-------------------------------C		    
           DO L = KNOD2ELC(NI)+1,KNOD2ELC(NI+1)
             CUR_ID = NOD2ELC(L)
-            IF ((TAG_ELC(CUR_ID+NPART).LT.(1+CONT)).AND.
-     .         (TAGNO(IPARTC(CUR_ID)).NE.VAL)) THEN		  		  	    
+            IF ((TAG_ELC(CUR_ID+NPART)<(1+CONT)).AND.
+     .         (TAGNO(IPARTC(CUR_ID))/=VAL)) THEN		  		  	    
 		    CALL MODIF_TAG(TAG_ELC(CUR_ID+NPART),1+CONT,MODIF)
 	    ENDIF
 	  END DO
 C------------------------>  sh3n  <----------------------------------C
           DO L = KNOD2ELTG(NI)+1,KNOD2ELTG(NI+1)
             CUR_ID = NOD2ELTG(L)
-            IF ((TAG_ELG(CUR_ID+NPART).LT.(1+CONT)).AND.
-     .         (TAGNO(IPARTG(CUR_ID)).NE.VAL)) THEN	  		  	    
+            IF ((TAG_ELG(CUR_ID+NPART)<(1+CONT)).AND.
+     .         (TAGNO(IPARTG(CUR_ID))/=VAL)) THEN	  		  	    
 		      CALL MODIF_TAG(TAG_ELG(CUR_ID+NPART),1+CONT,MODIF)
 	    ENDIF		      
 	  END DO
 C------------------------>  SPH particles <--------------------------C
-          IF (NUMSPH.GT.0) THEN
+          IF (NUMSPH>0) THEN
             CUR_ID = NOD2SP(NI)
-            IF ((TAG_ELSP(CUR_ID+NPART).LT.(1+CONT)).AND.
-     .         (TAGNO(IPARTSP(CUR_ID)).NE.VAL)) THEN	  		  	    
+            IF ((TAG_ELSP(CUR_ID+NPART)<(1+CONT)).AND.
+     .         (TAGNO(IPARTSP(CUR_ID))/=VAL)) THEN	  		  	    
 		      CALL MODIF_TAG(TAGNO(NI+NPART),2*(1+CONT),MODIF)
 	    ENDIF		      
 	  ENDIF		      		     		      		      
@@ -291,8 +291,8 @@ C------------------------>   shells  <-------------------------------C
           DO L = KNOD2ELC(NI1)+1,KNOD2ELC(NI1+1)
             CUR_ID = NOD2ELC(L)
 	    FLAG = 0 	    
-            IF ((TAG_ELC(CUR_ID+NPART).LT.(1+CONT)).AND.
-     .         (TAGNO(IPARTC(CUR_ID)).NE.VAL)) THEN
+            IF ((TAG_ELC(CUR_ID+NPART)<(1+CONT)).AND.
+     .         (TAGNO(IPARTC(CUR_ID))/=VAL)) THEN
                DO K=2,5	            
                  IF (IXC(NIXC*(CUR_ID-1)+K) == NI2) FLAG = 1   	   
                ENDDO     		  		  	    
@@ -304,8 +304,8 @@ C------------------------>  sh3n  <----------------------------------C
           DO L = KNOD2ELTG(NI1)+1,KNOD2ELTG(NI1+1)
             CUR_ID = NOD2ELTG(L)
 	    FLAG = 0	    
-            IF ((TAG_ELG(CUR_ID+NPART).LT.(1+CONT)).AND.
-     .         (TAGNO(IPARTG(CUR_ID)).NE.VAL)) THEN
+            IF ((TAG_ELG(CUR_ID+NPART)<(1+CONT)).AND.
+     .         (TAGNO(IPARTG(CUR_ID))/=VAL)) THEN
                DO K=2,4
                  IF (IXTG(NIXTG*(CUR_ID-1)+K) == NI2) FLAG = 1   	   
                ENDDO      	  		  	    
@@ -317,10 +317,10 @@ C------------------------> TRUSS / BEAM / SPRINGS <-----------------C
           DO L = KNOD2EL1D(NI1)+1,KNOD2EL1D(NI1+1)
             CUR_ID = NOD2EL1D(L)
 	    FLAG = 0
-	    IF (CUR_ID.LE.NUMELT) THEN
+	    IF (CUR_ID<=NUMELT) THEN
 C---------->               TRUSS 	    	    
-               IF ((TAG_ELT(CUR_ID+NPART).LT.(1+CONT)).AND.
-     .         (TAGNO(IPARTT(CUR_ID)).NE.VAL)) THEN
+               IF ((TAG_ELT(CUR_ID+NPART)<(1+CONT)).AND.
+     .         (TAGNO(IPARTT(CUR_ID))/=VAL)) THEN
                   DO K=2,3
                     IF (IXT(NIXT*(CUR_ID-1)+K) == NI2) FLAG = 1   	   
                   ENDDO      	  		  	    
@@ -328,11 +328,11 @@ C---------->               TRUSS
 	      IF (FLAG == 1) CALL R2R_VOID_1D(IPARTT(CUR_ID),IPART)       
 	      IF (FLAG == 1)
      .          CALL MODIF_TAG(TAG_ELT(CUR_ID+NPART),1+CONT,MODIF)	       
-	    ELSEIF (CUR_ID.LE.(NUMELT+NUMELP)) THEN
+	    ELSEIF (CUR_ID<=(NUMELT+NUMELP)) THEN
 C---------->               BEAM
                CUR_P = CUR_ID-NUMELT 
-               IF ((TAG_ELP(CUR_P+NPART).LT.(1+CONT)).AND.
-     .         (TAGNO(IPARTP(CUR_P)).NE.VAL)) THEN
+               IF ((TAG_ELP(CUR_P+NPART)<(1+CONT)).AND.
+     .         (TAGNO(IPARTP(CUR_P))/=VAL)) THEN
                   DO K=2,3
                     IF (IXP(NIXP*(CUR_P-1)+K) == NI2) FLAG = 1   	   
                   ENDDO      	  		  	    
@@ -343,8 +343,8 @@ C---------->               BEAM
 	    ELSE
 C---------->               SPRINGS (not yet compatible)
                CUR_P = CUR_ID-NUMELT-NUMELP 
-               IF ((TAG_ELR(CUR_P+NPART).LT.(1+CONT)).AND.
-     .         (TAGNO(IPARTR(CUR_P)).NE.VAL)) THEN
+               IF ((TAG_ELR(CUR_P+NPART)<(1+CONT)).AND.
+     .         (TAGNO(IPARTR(CUR_P))/=VAL)) THEN
                   DO K=2,3
                     IF (IXR(NIXR*(CUR_P-1)+K) == NI2) FLAG = 1   	   
                   ENDDO      	  		  	    
@@ -356,8 +356,8 @@ C------------------------>   faces of solids  <---------------------C
           DO L = KNOD2ELS(NI1)+1,KNOD2ELS(NI1+1)
             CUR_ID = NOD2ELS(L)
 	    FLAG = 0	    
-            IF ((TAG_ELS(CUR_ID+NPART).LT.(1+CONT)).AND.
-     .         (TAGNO(IPARTS(CUR_ID)).NE.VAL)) THEN     
+            IF ((TAG_ELS(CUR_ID+NPART)<(1+CONT)).AND.
+     .         (TAGNO(IPARTS(CUR_ID))/=VAL)) THEN     
                DO K=2,9
 	         IF(IXS(NIXS*(CUR_ID-1)+K) == NI2) FLAG = 1
                ENDDO

@@ -124,13 +124,13 @@ C-----------------------------------------------
        IPRT  =IPARTSP(N)
        IGEO  =IPART(2,IPRT)
        IORDER=NINT(GET_U_GEO(5,IGEO))
-       IF(IORDER.EQ.-1)THEN
+       IF(IORDER==-1)THEN
         NMUN=NMUN+1
         MWAMUN(NMUN)=N
-       ELSEIF(IORDER.EQ. 0)THEN
+       ELSEIF(IORDER== 0)THEN
         NZERO=NZERO+1
         MWAZERO(NZERO)=N
-       ELSEIF(IORDER.EQ. 1)THEN
+       ELSEIF(IORDER== 1)THEN
         NUN=NUN+1
         MWAUN(NUN)=N
        ENDIF
@@ -178,7 +178,7 @@ C------
        NVOIS=KXSP(4,N)
        DO J=1,NVOIS
          JNOD=IXSP(J,N)
-         IF(JNOD.GT.0)THEN
+         IF(JNOD>0)THEN
            M=NOD2SP(JNOD)
            XJ=X(1,JNOD)
            YJ=X(2,JNOD)
@@ -207,7 +207,7 @@ C      partie symetrique.
        NVOISS=KXSP(6,N)
        DO J=KXSP(5,N)+1,KXSP(5,N)+NVOISS
          JS=IXSP(J,N)
-         IF(JS.GT.0)THEN
+         IF(JS>0)THEN
            SM=JS/(NSPCOND+1)
            NC=MOD(JS,NSPCOND+1)
            JS=ISPSYM(NC,SM)
@@ -300,7 +300,7 @@ C------
        NVOIS=KXSP(4,N)
        DO J=1,NVOIS
          JNOD=IXSP(J,N)
-         IF(JNOD.GT.0)THEN
+         IF(JNOD>0)THEN
            M=NOD2SP(JNOD)
            XJ=X(1,JNOD)
            YJ=X(2,JNOD)
@@ -341,7 +341,7 @@ C      partie symetrique.
        NVOISS=KXSP(6,N)
        DO J=KXSP(5,N)+1,KXSP(5,N)+NVOISS
          JS=IXSP(J,N)
-         IF(JS.GT.0)THEN
+         IF(JS>0)THEN
            SM=JS/(NSPCOND+1)
            NC=MOD(JS,NSPCOND+1)
            JS=ISPSYM(NC,SM)
@@ -428,7 +428,7 @@ C------
        NVOIS=KXSP(4,N)
        DO J=1,NVOIS
          JNOD=IXSP(J,N)
-         IF(JNOD.GT.0)THEN
+         IF(JNOD>0)THEN
            M=NOD2SP(JNOD)
            XJ=X(1,JNOD)
            YJ=X(2,JNOD)
@@ -610,7 +610,7 @@ C      partie symetrique.
        NVOISS=KXSP(6,N)
        DO J=KXSP(5,N)+1,KXSP(5,N)+NVOISS
          JS=IXSP(J,N)
-         IF(JS.GT.0)THEN
+         IF(JS>0)THEN
            SM=JS/(NSPCOND+1)
            NC=MOD(JS,NSPCOND+1)
            JS=ISPSYM(NC,SM)
@@ -820,7 +820,7 @@ C      Determinant
        TCOFA13=  LI12*LI23-LI22*LI13
        DET=LI11*TCOFA11+LI12*TCOFA12+LI13*TCOFA13
 C------
-       IF(ABS(DET).LE.EM20)THEN
+       IF(ABS(DET)<=EM20)THEN
 C        CALL MY_LOCK
 C         WRITE(ISTDO,*)' ** SPH NULL DETERMINANT.'
 C         WRITE(IOUT,*) ' ** SPH NULL DETERMINANT, ID CELL=',KXSP(NISP,N)
@@ -1080,13 +1080,13 @@ C-----------------------------------------------
          IPRT  =IPARTSP(N)
          IGEO  =IPART(2,IPRT)
          IORDER=NINT(GET_U_GEO(5,IGEO))
-         IF(IORDER.EQ.-1)THEN
+         IF(IORDER==-1)THEN
           NMUN=NMUN+1
           MWAMUN(NMUN)=N
-         ELSEIF(IORDER.EQ. 0)THEN
+         ELSEIF(IORDER== 0)THEN
           NZERO=NZERO+1
           MWAZERO(NZERO)=N
-         ELSEIF(IORDER.EQ. 1)THEN
+         ELSEIF(IORDER== 1)THEN
           NUN=NUN+1
           MWAUN(NUN)=N
          ENDIF
@@ -1100,7 +1100,7 @@ C-----------------------------------------------
           DO I=1,NMUN
            SM=MWAMUN(I)
            JS=ISPSYM(NC,SM)
-           IF(JS.GT.0)THEN
+           IF(JS>0)THEN
             WSMCOMP(1,JS)=ZERO
             WSMCOMP(2,JS)=ZERO
             WSMCOMP(3,JS)=ZERO
@@ -1125,7 +1125,7 @@ C-----------------------------------------------
      	DO NC=1,NSPCOND
      	  IC=ISPCOND(2,NC)
      	  IS=ISPCOND(3,NC)
-     	  IF (IC.EQ.1) THEN
+     	  IF (IC==1) THEN
      	      OX=XFRAME(10,IS)
      	      OY=XFRAME(11,IS)
      	      OZ=XFRAME(12,IS)
@@ -1138,7 +1138,7 @@ C-----------------------------------------------
               WX=XFRAME(7,IS)
               WY=XFRAME(8,IS)
               WZ=XFRAME(9,IS)
-          ELSEIF (IC.EQ.2) THEN
+          ELSEIF (IC==2) THEN
               OX=XFRAME(10,IS)
               OY=XFRAME(11,IS)
               OZ=XFRAME(12,IS)
@@ -1151,7 +1151,7 @@ C-----------------------------------------------
               WX=XFRAME(1,IS)
               WY=XFRAME(2,IS)
               WZ=XFRAME(3,IS)
-          ELSEIF (IC.EQ.3) THEN
+          ELSEIF (IC==3) THEN
               OX=XFRAME(10,IS)
               OY=XFRAME(11,IS)
               OZ=XFRAME(12,IS)
@@ -1180,7 +1180,7 @@ C-----------------------------------------------
           DO I=1,NZERO
            SM=MWAZERO(I)
            JS=ISPSYM(NC,SM)
-           IF(JS.GT.0)THEN
+           IF(JS>0)THEN
 C           WACOMP(1,JS)=WACOMP(1,SM)
             WSMCOMP(1,JS)=ZERO
             WSMCOMP(2,JS)=ZERO
@@ -1212,7 +1212,7 @@ C-----------------------------------------------
      	  DO I=1,NUN
      	   SM=MWAUN(I)
      	   JS=ISPSYM(NC,SM)
-     	   IF(JS.GT.0)THEN
+     	   IF(JS>0)THEN
 C    	    WACOMP(1,JS)=WACOMP(1,SM)
      	    BETAXI=WACOMP(2,SM)
      	    BETAYI=WACOMP(3,SM)
@@ -1248,7 +1248,7 @@ C Particules symetriques de particules remotes
 C
           DO SM = 1+ITASK,NSPHR,NTHREAD
            JS=ISPSYMR(NC,SM)
-           IF(JS.GT.0)THEN
+           IF(JS>0)THEN
             WSMCOMP(1,JS)=ZERO
             WSMCOMP(2,JS)=ZERO
             WSMCOMP(3,JS)=ZERO  

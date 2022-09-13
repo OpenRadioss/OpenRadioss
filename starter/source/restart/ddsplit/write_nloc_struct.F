@@ -171,54 +171,54 @@ c
               PROC_L = CEP(NUMG)+1                                !   Processor of the element
               CC_L   = CC_L + 1                                   !   Local element counter
               PROCNE_L(CC_L) = PROC_L                             !   Processor on which the element is located                                           
-              IF (PROC.EQ.PROC_L) THEN                            !   If the current proc equals the processor of the element, filling the IADX table
-                IF (NUMG.LE.NUMELS) THEN                          !     If the element is solid
+              IF (PROC==PROC_L) THEN                            !   If the current proc equals the processor of the element, filling the IADX table
+                IF (NUMG<=NUMELS) THEN                          !     If the element is solid
                   DO K = 1,8                                      !       Loop over the nodes of the brick
                     SHFT    = ISHFT(1,K-1)                        !         Shift
                     TESTVAL = IAND(SOLTAG(NUMG),SHFT)             !         Testval
-                    IF (IXS(K+1,NUMG).EQ.NG.AND.TESTVAL==0) THEN  !         Filling IADS
+                    IF (IXS(K+1,NUMG)==NG.AND.TESTVAL==0) THEN  !         Filling IADS
                       IADS(K,NUML) = CC_L
                       SOLTAG(NUMG) = SOLTAG(NUMG)+SHFT
                     ENDIF
                   ENDDO
-                ELSEIF (NUMG.LE.NUMELS+NUMELQ) THEN 
+                ELSEIF (NUMG<=NUMELS+NUMELQ) THEN 
                   ! This case should not occur
                   WRITE(*,*) "Error in non-local decomp"   
                   WRITE(*,*) "Quad element error"
                   STOP 
-                ELSEIF (NUMG.LE.NUMELS+NUMELQ+NUMELC) THEN                  !   If the element is a shell
+                ELSEIF (NUMG<=NUMELS+NUMELQ+NUMELC) THEN                  !   If the element is a shell
                   NUMG = NUMG - (NUMELS+NUMELQ)                             !     Offset on NUMG
                   DO K=1,4                                                  !     Loop over the nodes of the shell
                     SHFT    = ISHFT(1,K-1)                                  !       Shift
                     TESTVAL = IAND(SHTAG(NUMG),SHFT)                        !       Testval
                     ! Filling IADC
-                    IF (IXC(K+1,NUMG).EQ.NG.AND.TESTVAL==0) THEN
+                    IF (IXC(K+1,NUMG)==NG.AND.TESTVAL==0) THEN
                       IADC(K,NUML) = CC_L
                       SHTAG(NUMG)  = SHTAG(NUMG)+SHFT
                     ENDIF
                   ENDDO
-                ELSEIF (NUMG.LE.NUMELS+NUMELQ+NUMELC+NUMELT) THEN
+                ELSEIF (NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT) THEN
                   ! This case should not occur
                   WRITE(*,*) "Error in non-local decomp"
                   WRITE(*,*) "Truss element error"
                   STOP
-                ELSEIF (NUMG.LE.NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP) THEN
+                ELSEIF (NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP) THEN
                   ! This case should not occur
                   WRITE(*,*) "Error in non-local decomp"
                   WRITE(*,*) "Poutre element error"
                   STOP
-                ELSEIF (NUMG.LE.NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR) THEN
+                ELSEIF (NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR) THEN
                   ! This case should not occur
                   WRITE(*,*) "Error in non-local decomp"
                   WRITE(*,*) "Ressort element error"
                   STOP
-                ELSEIF (NUMG.LE.NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+          !   If the element is a triangle shell
+                ELSEIF (NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+          !   If the element is a triangle shell
      .            NUMELR+NUMELTG) THEN
                   NUMG = NUMG - (NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR) !     Offset on NUMG
                   DO K=1,3                                                  !     Loop over the nodes of the shell
                     SHFT    = ISHFT(1,K-1)                                  !       Shift
                     TESTVAL = IAND(TGTAG(NUMG),SHFT)                        !       Testval
-                    IF (IXTG(K+1,NUMG).EQ.NG.AND.TESTVAL==0) THEN           !       Filling IADTG 
+                    IF (IXTG(K+1,NUMG)==NG.AND.TESTVAL==0) THEN           !       Filling IADTG 
                       IADTG(K,NUML) = CC_L
                       TGTAG(NUMG)   = TGTAG(NUMG)+SHFT
                     ENDIF

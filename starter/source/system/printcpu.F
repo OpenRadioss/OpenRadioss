@@ -48,7 +48,7 @@ C-----------------------------------------------
 
         CALL CPUINFO(HOSTNAME,LENH,CPUNAM, LENC, FREQUENCE,MEM,SWAP)
 
-        IF(MEM.GT.-1)THEN
+        IF(MEM>-1)THEN
           WRITE(IOUT,*)' ' 
           WRITE(IOUT,7000) 
           WRITE(IOUT,*)' ' 

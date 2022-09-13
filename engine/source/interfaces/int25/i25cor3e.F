@@ -142,7 +142,7 @@ CCC Faire le cas frontiere
 CC          IM(I) = 1
 CC        ENDIF
 CC         ASSERT(IM(I) == LEDGE(10,EM))
-c       IF ( IM(I) .NE. LEDGE(10,EM) ) THEN
+c       IF ( IM(I) /= LEDGE(10,EM) ) THEN
 c         WRITE(6,'(4I10)') I,LEDGE(10,EM),LEDGE(11,EM),IM(I)
 c       ENDIF
         STM=STFE(EM)
@@ -162,7 +162,7 @@ c       ENDIF
         MM1(I) = MS(M1(I))
         MM2(I) = MS(M2(I))
 C
-        IF(CAND_S(I).LE.NEDGE) THEN
+        IF(CAND_S(I)<=NEDGE) THEN
 
           ES    =CAND_S(I)
           EDGE_ID(2,I) = LEDGE(8,ES)
@@ -287,7 +287,7 @@ C
           EZ(I) = EDG_BISECTOR(3,JAM(I),IAM(I))
 C
           IF(IABS(TYPEDGS(I))/=1)THEN
-            IF(CAND_S(I).LE.NEDGE) THEN
+            IF(CAND_S(I)<=NEDGE) THEN
               FX(I) = EDG_BISECTOR(1,JAS(I),IAS(I))
               FY(I) = EDG_BISECTOR(2,JAS(I),IAS(I))
               FZ(I) = EDG_BISECTOR(3,JAS(I),IAS(I))
@@ -302,7 +302,7 @@ C
 
       DO I=1,JLT
         GAPE_M(I)=GAPE(CAND_M(I))
-        IF(CAND_S(I).LE.NEDGE) THEN
+        IF(CAND_S(I)<=NEDGE) THEN
           GAPE_S(I)=GAPE(CAND_S(I))
         ELSE 
           GAPE_S(I)= GAPFIE(NIN)%P(CAND_S(I) - NEDGE)
@@ -313,7 +313,7 @@ C
       IF(IGAP == 3) THEN
         DO I=1,JLT
            GAPE_M(I)=MIN(GAPE_M(I),GAP_E_L(CAND_M(I)))
-          IF(CAND_S(I).LE.NEDGE) THEN
+          IF(CAND_S(I)<=NEDGE) THEN
               GAPE_S(I)=MIN(GAPE_S(I),GAP_E_L(CAND_S(I)))
              GAPVE(I)=MIN(GAP_E_L(CAND_M(I))+GAP_E_L(CAND_S(I)),GAPVE(I)) 
           ELSE
@@ -424,7 +424,7 @@ C       Shift SECONDARY edge toward inner side
 
           IF(IBS(I)/=0)CYCLE
 
-          IF(CAND_S(I).LE.NEDGE) THEN
+          IF(CAND_S(I)<=NEDGE) THEN
           IE=IAS(I)
           JE=JAS(I)
 
@@ -489,7 +489,7 @@ C
           XYS1(I) = XYS1(I)-GAPE_S(I)*DY
           XZS1(I) = XZS1(I)-GAPE_S(I)*DZ
 C
-          IF(CAND_S(I).LE.NEDGE) THEN
+          IF(CAND_S(I)<=NEDGE) THEN
 C         DX, DY, DZ Direction for shifting
           DX = VTX_BISECTOR(1,1,I2)+VTX_BISECTOR(1,2,I2)
           DY = VTX_BISECTOR(2,1,I2)+VTX_BISECTOR(2,2,I2)
@@ -541,7 +541,7 @@ C
 C
       IF(IDTMINS==2)THEN
        DO I=1,JLT
-        IF(CAND_S(I).LE.NEDGE)THEN
+        IF(CAND_S(I)<=NEDGE)THEN
           NSMS(I)=NODNX_SMS(N1(I))+NODNX_SMS(N2(I))+
      .            NODNX_SMS(M1(I))+NODNX_SMS(M2(I))
         ELSE
@@ -551,7 +551,7 @@ C
        ENDDO
        IF(IDTMINS_INT/=0)THEN
          DO I=1,JLT
-          IF(NSMS(I).EQ.0)NSMS(I)=-1
+          IF(NSMS(I)==0)NSMS(I)=-1
          ENDDO
        END IF
       ELSEIF(IDTMINS_INT/=0)THEN
@@ -564,7 +564,7 @@ C----Friction model : secnd part IDs---------
       IF(INTFRIC > 0) THEN
          DO I=1,JLT
 
-           IF(CAND_S(I).LE.NEDGE)THEN
+           IF(CAND_S(I)<=NEDGE)THEN
              IPARTFRICSI(I) = IPARTFRIC_E(CAND_S(I))
            ELSE
              NN = CAND_S(I) - NEDGE            

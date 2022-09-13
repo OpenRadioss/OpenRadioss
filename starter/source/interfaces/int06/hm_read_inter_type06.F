@@ -349,28 +349,28 @@ C------------------------------------------------------------
      .                 STIFF,SFRIC,FRIC,NFRIC1,NFRIC2,VISC,
      .                 NDAMP2,NDAMP1,INACTI,GAP,STARTT,STOPT,IRS,IRM                        
 C--------------------------------------------------------------
-      IF(IS1.EQ.0)THEN
+      IF(IS1==0)THEN
         WRITE(IOUT,'(6X,A)')'NO SECONDARY SURFACE INPUT'
-      ELSEIF(IS1.EQ.1)THEN
+      ELSEIF(IS1==1)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS1.EQ.2)THEN
+      ELSEIF(IS1==2)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY NODES'
-      ELSEIF(IS1.EQ.3)THEN
+      ELSEIF(IS1==3)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS1.EQ.4 )THEN
+      ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
-      ELSEIF(IS1.EQ.5 )THEN
+      ELSEIF(IS1==5 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
       ENDIF
-      IF(IS2.EQ.0)THEN
+      IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'
-      ELSEIF(IS2.EQ.1)THEN
+      ELSEIF(IS2==1)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS2.EQ.2)THEN
+      ELSEIF(IS2==2)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY NODES'
-      ELSEIF(IS2.EQ.3)THEN
+      ELSEIF(IS2==3)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS2.EQ.4)THEN
+      ELSEIF(IS2==4)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE REFERS ',
      .                      'TO HYPER-ELLIPSOIDAL SURFACE'
       ENDIF
@@ -385,7 +385,7 @@ C------------
       RETURN
 
  1506 FORMAT(//
-     .    '    TYPE.EQ.6   RIGID BODY INTERFACE           ' //,
+     .    '    TYPE==6   RIGID BODY INTERFACE           ' //,
      .    '    FORMULATION FLAG                  . . . .  ',I10/,
      .    '    INITIAL PENETRATION FLAG          . . . .  ',I10/,
      .    '    LOADING FUNCTION ID               . . . .  ',I10/,

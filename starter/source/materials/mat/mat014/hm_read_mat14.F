@@ -143,7 +143,7 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('MAT_SRP', EPS0, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_INTV('STRFLAG', ICC, IS_AVAILABLE, LSUBMODEL)
 C
-      IF(E11.EQ.0..OR.E22.EQ.0..OR.E33.EQ.0.) THEN
+      IF(E11==0..OR.E22==0..OR.E33==0.) THEN
          CALL ANCMSG(MSGID=306,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -152,7 +152,7 @@ C
      .               C1=TITR,
      .               C2='E11, E22 or E33')
       ENDIF
-      IF(N2D.GT.0) THEN
+      IF(N2D>0) THEN
          CALL ANCMSG(MSGID=305,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -164,16 +164,16 @@ C
 C wplaref
       IF(WPLAREF == ZERO) WPLAREF = ONE    
 c
-      IF(ALPHA.EQ.ONE)ALPHA= ZEP99
-      IF(DELTA.EQ.ZERO)DELTA= FIVEEM2
-      IF(SIGT1.EQ.ZERO)SIGT1= INFINITY
-      IF(SIGT2.EQ.ZERO)SIGT2= SIGT1
-      IF(SIGT3.EQ.ZERO)SIGT3= SIGT1
+      IF(ALPHA==ONE)ALPHA= ZEP99
+      IF(DELTA==ZERO)DELTA= FIVEEM2
+      IF(SIGT1==ZERO)SIGT1= INFINITY
+      IF(SIGT2==ZERO)SIGT2= SIGT1
+      IF(SIGT3==ZERO)SIGT3= SIGT1
       CA=ONE
-      IF(CN.EQ.ZERO)   CN   = ONE
-      IF(SIGMX.EQ.ZERO)SIGMX= EP10
-      IF(CC.EQ.ZERO)  EPS0  = ONE
-      IF(ICC.EQ.0.)   ICC  = 1
+      IF(CN==ZERO)   CN   = ONE
+      IF(SIGMX==ZERO)SIGMX= EP10
+      IF(CC==ZERO)  EPS0  = ONE
+      IF(ICC==0.)   ICC  = 1
       EPSFC=-INFINITY
       EPSFT= INFINITY
 C-------------------------------------
@@ -205,7 +205,7 @@ C     INVERSION
 C-------------------------
       DETC= C11*C22*C33-C11*C23*C23-C12*C12*C33+C12*C13*C23
      +     +C13*C12*C23-C13*C22*C13
-      IF(DETC.LE.ZERO) THEN
+      IF(DETC<=ZERO) THEN
          CALL ANCMSG(MSGID=307,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -269,10 +269,10 @@ C
 C
 C     CONSTANTS FOR THE YIELD FUNCTION
 C
-      IF (    SIGYT1.EQ.ZERO.OR.SIGYT2.EQ.ZERO
-     .    .OR.SIGYC1.EQ.ZERO.OR.SIGYC2.EQ.ZERO
-     .    .OR.SYSP12.EQ.ZERO.OR.SYSP23.EQ.ZERO
-     .    .OR.SYSN12.EQ.ZERO.OR.SYSN23.EQ.ZERO ) THEN
+      IF (    SIGYT1==ZERO.OR.SIGYT2==ZERO
+     .    .OR.SIGYC1==ZERO.OR.SIGYC2==ZERO
+     .    .OR.SYSP12==ZERO.OR.SYSP23==ZERO
+     .    .OR.SYSN12==ZERO.OR.SYSN23==ZERO ) THEN
          CALL ANCMSG(MSGID=737,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -295,15 +295,15 @@ C
       IF(IS_ENCRYPTED)THEN
        WRITE(IOUT,1650) F1,F2,F4,F5,F11,F22,F44,F55,F12,F23,FT1,FT2
       ENDIF
-C      IF (FT1.LT.0.) WRITE (IOUT,5550) FT1
-C      IF (FT2.LT.0.) WRITE (IOUT,5560) FT2
+C      IF (FT1<0.) WRITE (IOUT,5550) FT1
+C      IF (FT2<0.) WRITE (IOUT,5560) FT2
 C
 C
       PM(50)=CC
       PM(51)=EPS0
       PM(52)=ICC
       
-      IF(EPS0.EQ.ZERO) THEN
+      IF(EPS0==ZERO) THEN
          CALL ANCMSG(MSGID=298,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,

@@ -134,11 +134,11 @@ C-----------------------------------------------
              !---------------------------!                                                                                                             
              ICELL   =  0  
              NCELL   = BRICK_LIST(NIN,IB)%NBCUT                                                                                                              
-             DO WHILE (ICELL.LE.NCELL) ! loop on polyhedron {1:NCELL} U {9}                                                                            
+             DO WHILE (ICELL<=NCELL) ! loop on polyhedron {1:NCELL} U {9}                                                                            
                ICELL = ICELL +1                                                                                                                        
                IF (ICELL>NCELL .AND. NCELL/=0)ICELL=9                                                                                                  
                NODE_ID      = BRICK_LIST(NIN,IB)%POLY(ICELL)%ID_FREE_NODE  
-               IF(NODE_ID.LE.0)EXIT ! no enough nodes in the group or debug option not compatible with smp
+               IF(NODE_ID<=0)EXIT ! no enough nodes in the group or debug option not compatible with smp
                IF(INEW == 1)THEN                                                                                
                  WA4(NODE_ID) = BRICK_LIST(NIN,IB)%POLY(ICELL)%VNEW                                                                                
                ELSE

@@ -50,7 +50,7 @@ C-----------------------------------------------
 C
       NUMEL_L = 0
       DO I = 1, NUMEL
-        IF(CEP(I).EQ.P)THEN
+        IF(CEP(I)==P)THEN
           NUMEL_L = NUMEL_L + 1
         ENDIF
       ENDDO

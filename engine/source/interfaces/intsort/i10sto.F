@@ -105,28 +105,28 @@ C-----------------------------------------------
 C-----------------------------------------------
         K_STOK = 0
         DO I=1,J_STOK
-          IF (PENE(I).NE.ZERO) THEN
+          IF (PENE(I)/=ZERO) THEN
             N  = PROV_N(I)
-            IF(N.GT.NSN) THEN
+            IF(N>NSN) THEN
 C numerotation tris precedent pour les noeuds non locaux (SPMD)
               N = OLDNUM(N-NSN)+NSN
-              IF(N.EQ.NSN) N = NSN+NSNROLD+1
+              IF(N==NSN) N = NSN+NSNROLD+1
             END IF
 Cel attention au shift
             NE = PROV_E(I)+ESHIFT
             DO J = CAND_A(N),CAND_A(N+1)-1
-              IF (CAND_E(J).EQ.NE) GOTO 100
+              IF (CAND_E(J)==NE) GOTO 100
             ENDDO
             K_STOK = K_STOK + 1
  100        CONTINUE
           ENDIF                        
         ENDDO
 C
-        IF(K_STOK.EQ.0)RETURN
+        IF(K_STOK==0)RETURN
 C
 #include "lockon.inc"
           I_STOK = II_STOK
-          IF(I_STOK+K_STOK.GT.NSN4) THEN
+          IF(I_STOK+K_STOK>NSN4) THEN
             I_MEM = 2
 #include "lockoff.inc"
             RETURN
@@ -135,18 +135,18 @@ C
 #include "lockoff.inc"
 C-----------------------------------------------
         DO I=1,J_STOK
-          IF (PENE(I).NE.ZERO) THEN
+          IF (PENE(I)/=ZERO) THEN
             N  = PROV_N(I)
             NN = N
-            IF(N.GT.NSN) THEN
+            IF(N>NSN) THEN
 C numerotation tris precedent pour les noeuds non locaux (SPMD)
               N = OLDNUM(N-NSN)+NSN
-              IF(N.EQ.NSN) N = NSN+NSNROLD+1
+              IF(N==NSN) N = NSN+NSNROLD+1
             END IF
 Cel attention au shift
             NE = PROV_E(I)+ESHIFT
             DO J = CAND_A(N),CAND_A(N+1)-1
-              IF (CAND_E(J).EQ.NE) GOTO 200
+              IF (CAND_E(J)==NE) GOTO 200
             ENDDO 
             I_STOK = I_STOK + 1
             CAND_N(I_STOK) = NN

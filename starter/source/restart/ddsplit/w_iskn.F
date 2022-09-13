@@ -78,17 +78,17 @@ C
         N5 = ISKN(5,I+1)
         N6 = ISKN(6,I+1)
 C
-        IF(N1.NE.0)THEN
+        IF(N1/=0)THEN
           IF(NLOCAL(N1,P)==1) N1 = NODLOCAL(N1)
 C
         END IF
 C
-        IF(N2.NE.0)THEN
+        IF(N2/=0)THEN
           IF(NLOCAL(N2,P)==1) N2 = NODLOCAL(N2)
 C
         END IF
 C
-        IF(N3.NE.0) THEN
+        IF(N3/=0) THEN
           IF(NLOCAL(N3,P)==1) N3 = NODLOCAL(N3)
 C
         END IF
@@ -102,10 +102,10 @@ C
 C
       IDEB = 1+NUMSKW
 C
-      IF(NSPCOND.GT.0)THEN
+      IF(NSPCOND>0)THEN
         N_L = 0
         DO I = 1, NUMSPH
-          IF(CEPSP(I)+1.EQ.P)THEN
+          IF(CEPSP(I)+1==P)THEN
             N_L = N_L + 1
             ISKN_L(1,IDEB+N_L) = ISKN(1,I+IDEB)
             ISKN_L(2,IDEB+N_L) = ISKN(2,I+IDEB)
@@ -119,7 +119,7 @@ C NSPH = MIN(IUN,NSPCOND)*NUMSPH_L
         IDEB = IDEB + NSPH
       END IF
 C submodel skew
-      IF(NSUBMOD.GT.0)THEN
+      IF(NSUBMOD>0)THEN
         N_L = 0
         DO I = 1, NSUBMOD
           N_L = N_L + 1
@@ -137,13 +137,13 @@ C
         N1 = IFRAME(1,I)
         N2 = IFRAME(2,I)
         N3 = IFRAME(3,I)
-        IF(N1.NE.0)THEN
+        IF(N1/=0)THEN
           IF(NLOCAL(N1,P)==1) N1 = NODLOCAL(N1)
         END IF
-        IF(N2.NE.0)THEN
+        IF(N2/=0)THEN
           IF(NLOCAL(N2,P)==1) N2 = NODLOCAL(N2)
         END IF
-        IF(N3.NE.0) THEN
+        IF(N3/=0) THEN
           IF(NLOCAL(N3,P)==1) N3 = NODLOCAL(N3)
         END IF
         ISKN_L(1,I+IDEB) = N1

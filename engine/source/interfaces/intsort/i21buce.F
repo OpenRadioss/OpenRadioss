@@ -137,12 +137,12 @@ C a revoir :
           ENDDO
       ENDIF
 C--------------------------------------------------
-      IF (INIT.EQ.1) THEN
+      IF (INIT==1) THEN
 C premier appel a i21buce
 C--------------------------------------------------
 C      CAS RECALCUL DU TRI PAR BUCKETS
 C--------------------------------------------------
-        IF (DEBUG(3).GE.1) THEN
+        IF (DEBUG(3)>=1) THEN
 #include "lockon.inc"
           WRITE(ISTDO,*)'** NEW SORT FOR INTERFACE NUMBER ',NOINT,
      .                ' AT CYCLE ',NCYCLE
@@ -164,7 +164,7 @@ C
         DO I=1,NSN
           J=NSV(I)
 C stfn = 0 <=> shooting nodes
-          IF(STFN(I).NE.ZERO) THEN
+          IF(STFN(I)/=ZERO) THEN
            XMIN= MIN(XMIN,XLOC(1,I))
            YMIN= MIN(YMIN,XLOC(2,I))
            ZMIN= MIN(ZMIN,XLOC(3,I))
@@ -181,9 +181,9 @@ C
         YMAX=YMAX+LYM
         ZMAX=ZMAX+LZM
 C
-        IF(ABS(ZMAX-ZMIN).GT.2*EP30.OR.
-     +     ABS(YMAX-YMIN).GT.2*EP30.OR.
-     +     ABS(XMAX-XMIN).GT.2*EP30)THEN
+        IF(ABS(ZMAX-ZMIN)>2*EP30.OR.
+     +     ABS(YMAX-YMIN)>2*EP30.OR.
+     +     ABS(XMAX-XMIN)>2*EP30)THEN
           IF (ISTAMPING == 1)THEN
             CALL ANCMSG(MSGID=101,ANMODE=ANINFO,
      .                  I1=NOINT,I2=NOINT)
@@ -282,9 +282,9 @@ C
 C     I_MEM = 1 ==> PAS ASSEZ DE MEMOIRE PILE
 C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
 C     I_MEM = 3 ==> TROP NIVEAUX PILE 
-      IF(I_MEM.EQ.1)THEN
+      IF(I_MEM==1)THEN
         NB_N_B = NB_N_B + 1
-        IF ( NB_N_B .GT. NSN) THEN
+        IF ( NB_N_B > NSN) THEN
           IF (ISTAMPING == 1)THEN
             CALL ANCMSG(MSGID=101,ANMODE=ANINFO,
      .                  I1=NOINT,I2=NOINT)
@@ -295,8 +295,8 @@ C     I_MEM = 3 ==> TROP NIVEAUX PILE
           CALL ARRET(2)
         ENDIF
         ILD = 1
-      ELSEIF(I_MEM.EQ.2) THEN
-        IF(DEBUG(1).GE.1) THEN
+      ELSEIF(I_MEM==2) THEN
+        IF(DEBUG(1)>=1) THEN
           IWARN = IWARN+1
 #include "lockon.inc"
           WRITE(ISTDO,*)' **WARNING INTERFACE/MEMORY'
@@ -309,7 +309,7 @@ C     I_MEM = 3 ==> TROP NIVEAUX PILE
         TZINF = THREE_OVER_4*TZINF
         MINBOX= THREE_OVER_4*MINBOX
         MAXBOX= THREE_OVER_4*MAXBOX
-        IF( TZINF.LE.MAX(DEPTH,GAP+ DGAPLOAD,DRAD) ) THEN
+        IF( TZINF<=MAX(DEPTH,GAP+ DGAPLOAD,DRAD) ) THEN
           IF (ISTAMPING == 1)THEN
             CALL ANCMSG(MSGID=101,ANMODE=ANINFO,
      .                  I1=NOINT,I2=NOINT)
@@ -320,9 +320,9 @@ C     I_MEM = 3 ==> TROP NIVEAUX PILE
           CALL ARRET(2)
         ENDIF
         ILD = 1
-      ELSEIF(I_MEM.EQ.3)THEN
+      ELSEIF(I_MEM==3)THEN
         NB_N_B = NB_N_B + 1
-        IF ( NB_N_B .GT. NSN) THEN
+        IF ( NB_N_B > NSN) THEN
           IF (ISTAMPING == 1)THEN
             CALL ANCMSG(MSGID=101,ANMODE=ANINFO,
      .                  I1=NOINT,I2=NOINT)

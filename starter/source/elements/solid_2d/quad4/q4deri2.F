@@ -81,8 +81,8 @@ C       W*|J|
         VOL(I) = ONE_OVER_8*DET(I)*WI
       ENDDO
 C
-      IF(N2D.EQ.1) THEN
-        IF(IHBE.EQ.17) THEN
+      IF(N2D==1) THEN
+        IF(IHBE==17) THEN
           DO I=LFT,LLT
             VOL(I) = YAVG(I)*VOL(I)
           ENDDO
@@ -99,7 +99,7 @@ c          ENDDO
       ENDIF
 C
       DO I=LFT,LLT
-        IF(DET(I).LE.ZERO) THEN
+        IF(DET(I)<=ZERO) THEN
 C         WRITE(IOUT,1000) NGL(I)
 C         CALL ARRET(2)
           CALL ANCMSG(MSGID=228,

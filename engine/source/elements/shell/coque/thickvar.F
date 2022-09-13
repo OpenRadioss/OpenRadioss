@@ -72,7 +72,7 @@ C-----------------------------------------------
       IF(NADMESH==0)THEN
  250  CONTINUE
 #include "lockon.inc"
-      IF(NSGDONE.GT.NGROUP) THEN
+      IF(NSGDONE>NGROUP) THEN
 #include "lockoff.inc"
          GOTO 252
       ENDIF
@@ -81,9 +81,9 @@ C-----------------------------------------------
 #include "lockoff.inc"
       IF (IPARG(8,NG) == 1)GOTO 250
       ITY   =IPARG(5,NG)
-      IF(ITY.NE.3.AND.ITY.NE.7)GOTO 250
+      IF(ITY/=3.AND.ITY/=7)GOTO 250
 
-        IF (IDDW.GT.0) CALL STARTIMEG(NG)
+        IF (IDDW>0) CALL STARTIMEG(NG)
         MTN=IPARG(1,NG)
         IF(MTN == 0) GOTO 250
         NEL=IPARG(2,NG)
@@ -133,14 +133,14 @@ c
           END IF
         END IF
 
-        IF (IDDW.GT.0) CALL STOPTIMEG(NG)
+        IF (IDDW>0) CALL STOPTIMEG(NG)
       GOTO 250
  252  CONTINUE
 C-----------------------------------------------
       ELSE
  450  CONTINUE
 #include "lockon.inc"
-      IF(NSGDONE.GT.NGROUP) THEN
+      IF(NSGDONE>NGROUP) THEN
 #include "lockoff.inc"
          GOTO 452
       ENDIF
@@ -149,9 +149,9 @@ C-----------------------------------------------
 #include "lockoff.inc"
       IF(IPARG(8,NG) == 1)GOTO 450
       ITY   =IPARG(5,NG)
-      IF(ITY.NE.3.AND.ITY.NE.7)GOTO 450
+      IF(ITY/=3.AND.ITY/=7)GOTO 450
 
-        IF (IDDW.GT.0) CALL STARTIMEG(NG)
+        IF (IDDW>0) CALL STARTIMEG(NG)
         MTN=IPARG(1,NG)
         IF(MTN == 0) GOTO 450
         NEL=IPARG(2,NG)
@@ -276,7 +276,7 @@ c
           END DO
         END IF
 
-        IF (IDDW.GT.0) CALL STOPTIMEG(NG)
+        IF (IDDW>0) CALL STOPTIMEG(NG)
       GOTO 450
  452  CONTINUE
       END IF

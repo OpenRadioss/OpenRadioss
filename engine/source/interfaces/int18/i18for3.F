@@ -319,7 +319,7 @@ C-----------------------------------------------
       !      DTI = MIN(RDIST,DTI)
       !  ENDDO
       !ENDIF
-      !IF(DTI.LT.DT2T)THEN  
+      !IF(DTI<DT2T)THEN  
       !  DT2T    = DTI      
       !  NELTST  = NOINT    
       !  ITYPTST = 10       
@@ -417,9 +417,9 @@ C-----------------------------------------------
            IE=CE_LOC(I)
            JJ  =ADDSUBS(IN)
            KK  =ADDSUBM(IE)
-           DO WHILE(JJ.LT.ADDSUBS(IN+1))
+           DO WHILE(JJ<ADDSUBS(IN+1))
              JSUB=LISUBS(JJ)
-             DO WHILE(KK.LT.ADDSUBM(IE+1))
+             DO WHILE(KK<ADDSUBM(IE+1))
                KSUB=LISUBM(KK)   
                IF(KSUB == JSUB)THEN
                  IMPX=FXI(I)*DT12
@@ -438,7 +438,7 @@ C-----------------------------------------------
                  FSAVSUB1(11,JSUB)=FSAVSUB1(11,JSUB)+FNI(I)*DT12
                  KK=KK+1
                  EXIT             
-               ELSE IF(KSUB.LT.JSUB)THEN
+               ELSE IF(KSUB<JSUB)THEN
                  KK=KK+1
                ELSE
                  EXIT
@@ -451,9 +451,9 @@ C-----------------------------------------------
            IE=CE_LOC(I)
            JJ  =ADDSUBSFI(NIN)%P(NN)
            KK  =ADDSUBM(IE)
-           DO WHILE(JJ.LT.ADDSUBSFI(NIN)%P(NN+1))
+           DO WHILE(JJ<ADDSUBSFI(NIN)%P(NN+1))
              JSUB=LISUBSFI(NIN)%P(JJ)
-             DO WHILE(KK.LT.ADDSUBM(IE+1))
+             DO WHILE(KK<ADDSUBM(IE+1))
                KSUB=LISUBM(KK)   
                IF(KSUB == JSUB)THEN
                  IMPX=FXI(I)*DT12
@@ -469,14 +469,14 @@ C-----------------------------------------------
                  FSAVSUB1(11,JSUB)=FSAVSUB1(11,JSUB)+FNI(I)*DT12
                  KK=KK+1
                  EXIT            
-               ELSE IF(KSUB.LT.JSUB)THEN
+               ELSE IF(KSUB<JSUB)THEN
                  KK=KK+1
                ELSE
                  EXIT
                END IF
-             END DO! WHILE (KK.LT.ADDSUBM(IE+1))
+             END DO! WHILE (KK<ADDSUBM(IE+1))
              JJ=JJ+1
-           END DO! WHILE (JJ.LT.ADDSUBSFI(NIN)%P(NN+1))
+           END DO! WHILE (JJ<ADDSUBSFI(NIN)%P(NN+1))
           END IF
          END DO !NEXT I=1,JLT
       END IF
@@ -491,9 +491,9 @@ C-----------------------------------------------
            IE=CE_LOC(I)
            JJ  =ADDSUBS(IN)
            KK  =ADDSUBM(IE)
-           DO WHILE(JJ.LT.ADDSUBS(IN+1))
+           DO WHILE(JJ<ADDSUBS(IN+1))
              JSUB=LISUBS(JJ)
-             DO WHILE(KK.LT.ADDSUBM(IE+1))
+             DO WHILE(KK<ADDSUBM(IE+1))
                KSUB=LISUBM(KK)   
                IF(KSUB == JSUB)THEN
                  !CURRENTLY NO TANGENTIAL FORCE IN INTER18
@@ -512,22 +512,22 @@ C-----------------------------------------------
                  FSAVSUB1(15,JSUB)= FSAVSUB1(15,JSUB) + SQRT(IMPX*IMPX+IMPY*IMPY+IMPZ*IMPZ)
                  KK=KK+1
                  EXIT             
-               ELSE IF(KSUB.LT.JSUB)THEN
+               ELSE IF(KSUB<JSUB)THEN
                  KK=KK+1
                ELSE
                  EXIT
                END IF
-             END DO!WHILE (KK.LT.ADDSUBM(IE+1))
+             END DO!WHILE (KK<ADDSUBM(IE+1))
            JJ=JJ+1
-           END DO! WHILE (JJ.LT.ADDSUBS(IN+1))
+           END DO! WHILE (JJ<ADDSUBS(IN+1))
           ELSE
            NN = -NN
            IE=CE_LOC(I)
            JJ  =ADDSUBSFI(NIN)%P(NN)
            KK  =ADDSUBM(IE)
-           DO WHILE(JJ.LT.ADDSUBSFI(NIN)%P(NN+1))
+           DO WHILE(JJ<ADDSUBSFI(NIN)%P(NN+1))
              JSUB=LISUBSFI(NIN)%P(JJ)
-             DO WHILE(KK.LT.ADDSUBM(IE+1))
+             DO WHILE(KK<ADDSUBM(IE+1))
                KSUB=LISUBM(KK)   
                IF(KSUB == JSUB)THEN
                  !CURRENTLY NO TANGENTIAL FORCE IN INTER18
@@ -547,14 +547,14 @@ C-----------------------------------------------
                  FSAVSUB1(15,JSUB)= FSAVSUB1(15,JSUB)+SQRT(IMPX*IMPX+IMPY*IMPY+IMPZ*IMPZ)
                  KK=KK+1
                  EXIT             
-               ELSE IF(KSUB.LT.JSUB)THEN
+               ELSE IF(KSUB<JSUB)THEN
                  KK=KK+1
                ELSE
                  EXIT
                END IF
-             END DO!DO WHILE(KK.LT.ADDSUBM(IE+1))
+             END DO!DO WHILE(KK<ADDSUBM(IE+1))
              JJ=JJ+1
-           END DO!WHILE(JJ.LT.ADDSUBSFI(NIN)%P(NN+1))
+           END DO!WHILE(JJ<ADDSUBSFI(NIN)%P(NN+1))
           END IF
          END DO !NEXT I=1,JLT
 #include "lockon.inc"
@@ -580,15 +580,15 @@ C---------------------------------
        DO I=1,JLT                                 
          DTMI(I) = EP20                   
          MAS2  = TWO * MSI(I)   
-         IF(MAS2.GT.ZERO.AND.STIF(I).GT.ZERO .AND. IRB(KINI(I)).EQ.0.AND.IRB2(KINI(I)).EQ.0)THEN
+         IF(MAS2>ZERO.AND.STIF(I)>ZERO .AND. IRB(KINI(I))==0.AND.IRB2(KINI(I))==0)THEN
            DTMI(I) = MIN(DTMI(I),DTFAC1(10)*SQRT(MAS2/STIF(I)))
          ENDIF                                
          MAS2  = TWO* MS(IX1(I))       
-         IF(MAS2.GT.ZERO.AND.H1(I)*STIF(I).GT.ZERO .AND. IRB(KINET(IX1(I))).EQ.0.AND.IRB2(KINET(IX1(I))).EQ.0)THEN
+         IF(MAS2>ZERO.AND.H1(I)*STIF(I)>ZERO .AND. IRB(KINET(IX1(I)))==0.AND.IRB2(KINET(IX1(I)))==0)THEN
            DTMI(I) = MIN(DTMI(I),DTFAC1(10)*SQRT(MAS2/(H1(I)*STIF(I))))
          ENDIF                                                       
          MAS2  = TWO * MS(IX2(I))                            
-         IF(MAS2.GT.ZERO.AND.H2(I)*STIF(I).GT.ZERO .AND. IRB(KINET(IX2(I))).EQ.0.AND.IRB2(KINET(IX2(I))).EQ.0)THEN
+         IF(MAS2>ZERO.AND.H2(I)*STIF(I)>ZERO .AND. IRB(KINET(IX2(I)))==0.AND.IRB2(KINET(IX2(I)))==0)THEN
            DTMI(I) = MIN(DTMI(I),DTFAC1(10)*SQRT(MAS2/(H2(I)*STIF(I))))
          ENDIF                     
          MAS2  = TWO* MS(IX3(I))                  
@@ -601,9 +601,9 @@ C---------------------------------
          ENDIF                                
          DTMI0 = MIN(DTMI0,DTMI(I))
        ENDDO          
-       IF(DTMI0.LE.DTMIN1(10))THEN
+       IF(DTMI0<=DTMIN1(10))THEN
         DO I=1,JLT
-         IF(DTMI(I).LE.DTMIN1(10))THEN
+         IF(DTMI(I)<=DTMIN1(10))THEN
            JG = NSVG(I)
            IF(JG > 0)THEN
              NI = ITAB(JG)
@@ -704,7 +704,7 @@ C---------------------------------
       IF (NSPMD > 1) THEN
         DO I = 1,JLT
           NN = NSVG(I)
-          IF(NN.LT.0)THEN
+          IF(NN<0)THEN
             ! tag temporaire de NSVFI a -
             NSVFI(NIN)%P(-NN) = -ABS(NSVFI(NIN)%P(-NN))
           ENDIF
@@ -806,8 +806,8 @@ C---------------------------------
 #include "lockoff.inc"
       ENDIF
       IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT > 0 .AND.
-     .    (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D .OR.
-     .    (MANIM.GE.4.AND.MANIM.LE.15).OR.H3D_DATA%MH3D /= 0))THEN
+     .    (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D .OR.
+     .    (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D /= 0))THEN
 #include "lockon.inc"
            DO I=1,JLT
             FNCONT(1,IX1(I)) =FNCONT(1,IX1(I)) + FXI(I)*H1(I)

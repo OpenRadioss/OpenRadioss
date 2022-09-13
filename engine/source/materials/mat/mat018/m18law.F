@@ -82,7 +82,7 @@ C=======================================================================
 
       DO I=LFT,LLT
         IFUNC = IPM(12,MX)
-        IF(IFUNC.NE.0)THEN
+        IF(IFUNC/=0)THEN
           RHO0=PM( 1,MX)
           NPOINT=(NPF(IFUNC+1)-NPF(IFUNC))/2
           TSCAL = PM(42,MX)
@@ -97,7 +97,7 @@ C=======================================================================
       ENDDO
 
       ITFUN = IPM(11,MX)
-      IF(ITFUN.NE.0)THEN
+      IF(ITFUN/=0)THEN
        T0=PM(79,MX)
        TIMESCAL = PM(41,MX)*TT
        NPOINT=(NPF(ITFUN+1)-NPF(ITFUN))/2
@@ -126,7 +126,7 @@ C     THERMAL TIME STEP
 C--------------------------
         IF(IDT_THERM == 1)THEN
           DO I=LFT,LLT
-             IF(DTX(I).LT.DT_THERM)  DT_THERM = DTX(I)
+             IF(DTX(I)<DT_THERM)  DT_THERM = DTX(I)
              CONDE(I) = FOUR*VOLU(I)*(A(I)+B(I)*THETA(I))/DELTAX(I)*DELTAX(I)
 c             CONDE(I) = CONDE(I)*OFF(I)  
           ENDDO     
@@ -134,7 +134,7 @@ c             CONDE(I) = CONDE(I)*OFF(I)
 
       DO I=LFT,LLT
         ! dt2, nelts, itypts remplaces par dt2t, neltst, ityptst
-        IF(DTX(I).GT.DT2T) CYCLE
+        IF(DTX(I)>DT2T) CYCLE
         DT2T=DTX(I)
         NELTST =NGL(I)
         ITYPTST=ITY        

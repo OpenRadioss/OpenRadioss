@@ -128,7 +128,7 @@ C------add something later for DET=~ zero-----
         PZ4(I) = DETI*(DYDK(I)*DNDE4-DYDE(I)*DNDK4)
       ENDDO
 C
-      IF(N2D.EQ.1) THEN
+      IF(N2D==1) THEN
         IF(JHBE==17) THEN
          DO I=LFT,LLT
             VOLN(I) = FOURTH*YAVG(I)*VOLN(I)
@@ -138,7 +138,7 @@ C
 C
       DO I=LFT,LLT
         OFF(I) = OFFG(I)
-        IF(VOLN(I).LE.ZERO .AND. OFF(I).NE.ZERO) THEN
+        IF(VOLN(I)<=ZERO .AND. OFF(I)/=ZERO) THEN
           VOLN(I) = EM20
           OFF(I) =ZERO
         ENDIF

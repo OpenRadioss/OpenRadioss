@@ -95,14 +95,14 @@ C
           CALL HM_GET_INTV('IOUTYY',OUTYY_FMT,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('IROOTYY',IROOTYY,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('Irot',IDROT,IS_AVAILABLE,LSUBMODEL)
-          IF (INVERS < 90 .AND. IROOTYY .EQ. 0) IROOTYY = 2
+          IF (INVERS < 90 .AND. IROOTYY == 0) IROOTYY = 2
           EXIT
         END IF        
       ENDDO
 C
-      IF(IOUTP0.GE.1)THEN
+      IF(IOUTP0>=1)THEN
         IOUTPUT = 1
-      ELSEIF(IOUTP0.EQ.-1)THEN
+      ELSEIF(IOUTP0==-1)THEN
         IOUTPUT = 0
       ENDIF
 C--------------------------------------------------------------

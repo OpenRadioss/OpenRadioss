@@ -118,7 +118,7 @@ C-----------------------------------------------
          
          DO I=LFT,LLT
            ECOLD(I)=-THREE100*SPH
-           IF(MU(I).GT.ZERO) ECOLD(I)=ECOLD(I)*ONE
+           IF(MU(I)>ZERO) ECOLD(I)=ECOLD(I)*ONE
          ENDDO
 C-----------------------------------------------
       ELSEIF(IFLAG == 1) THEN
@@ -211,7 +211,7 @@ C-----------------------------------------------
          ENDIF
                   
          DO I=1, NEL                                                               
-            IF (VNEW(I) .GT. ZERO) THEN    
+            IF (VNEW(I) > ZERO) THEN    
                PP      = RES_A(I) + RES_B(I)*ESPE(I) - PSH(I)                  
                DPDM(I) = DERI_A(I)+DERI_B(I)*ESPE(I) + RES_B(I)*(PP+PSH(I))/( (ONE+MU(I))*(ONE+MU(I)) ) ! A'(MU0) + B'(MU0)*E0+B(MU0)/(ONE+MU0)/(ONE+MU0)*P0     !total derivative
                DPDE(I) = RES_B(I) ! B(MU(I))                                               !partial derivative

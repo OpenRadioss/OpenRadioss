@@ -82,7 +82,7 @@ C     1. Solid elements
          IT7=MIN(1,ITAG(IXS(8,II)))
          IT8=MIN(1,ITAG(IXS(9,II)))
          NALL = IT1 * IT2 * IT3 * IT4 * IT5 * IT6 * IT7 * IT8 
-         IF (NALL.GT.0) THEN
+         IF (NALL>0) THEN
             MAT=IXS(1,II)
             FXBELM(NEL2+1)=NG
             FXBELM(NEL2+2)=I
@@ -102,7 +102,7 @@ C     3. 4-nodes shell elements
          IT3=MIN(1,ITAG(IXC(4,II)))
          IT4=MIN(1,ITAG(IXC(5,II)))
          NALL = IT1 * IT2 * IT3 * IT4
-         IF (NALL.GT.0) THEN
+         IF (NALL>0) THEN
             FXBELM(NEL2+1)=NG
             FXBELM(NEL2+2)=I
             DO J=1,4
@@ -119,7 +119,7 @@ C     4. Truss elements
          IT1=MIN(1,ITAG(IXT(2,II)))
          IT2=MIN(1,ITAG(IXT(3,II)))
          NALL = IT1 * IT2
-         IF (NALL.GT.0) THEN
+         IF (NALL>0) THEN
             NB1=IAD
             NB2=NB1+NEL
             FXBELM(NEL2+1)=NG
@@ -140,7 +140,7 @@ C     5. Beam elements
          IT1=MIN(1,ITAG(IXP(2,II)))
          IT2=MIN(1,ITAG(IXP(3,II)))
          NALL = IT1 * IT2
-         IF (NALL.GT.0) THEN
+         IF (NALL>0) THEN
             NB1=IAD
             NB2=NB1+NEL
             NB3=NB2+NEL*3
@@ -168,7 +168,7 @@ C     7. 3-nodes shell elements
          IT2=MIN(1,ITAG(IXTG(3,II)))
          IT3=MIN(1,ITAG(IXTG(4,II)))
          NALL = IT1 * IT2 * IT3
-         IF (NALL.GT.0) THEN
+         IF (NALL>0) THEN
             FXBELM(NEL2+1)=NG
             FXBELM(NEL2+2)=I
             DO J=1,3

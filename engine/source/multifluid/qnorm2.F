@@ -72,7 +72,7 @@ C-----------------------------------------------
          X2(1:3) = XGRID(1:3, NODE2)
          X3(1:3) = XGRID(1:3, NODE3)
          X4(1:3) = XGRID(1:3, NODE4)
-         IF (JALE .NE. 0) THEN
+         IF (JALE /= 0) THEN
 C     Node grid velocities
             W1(1:3) = WGRID(3 * (NODE1 - 1) + 1 : 3 * (NODE1 - 1) + 3)
             W2(1:3) = WGRID(3 * (NODE2 - 1) + 1 : 3 * (NODE2 - 1) + 3)
@@ -95,7 +95,7 @@ C     Face 1
          SURF(KFACE, II) = SQRT(NY * NY + NZ * NZ)
          NY = NY / SURF(KFACE, II)
          NZ = NZ / SURF(KFACE, II)
-         IF (SYM .EQ. 1) THEN
+         IF (SYM == 1) THEN
             SURF(KFACE, II) = SURF(KFACE, II) * HALF * (X1(2) + X2(2))
          ENDIF
 C     Face 2
@@ -108,7 +108,7 @@ C     Face 2
          SURF(KFACE, II) = SQRT(NY * NY + NZ * NZ)
          NY = NY / SURF(KFACE, II)
          NZ = NZ / SURF(KFACE, II)
-         IF (SYM .EQ. 1) THEN
+         IF (SYM == 1) THEN
             SURF(KFACE, II) = SURF(KFACE, II) * HALF * (X2(2) + X3(2))
          ENDIF
 C     Face 3
@@ -121,7 +121,7 @@ C     Face 3
          SURF(KFACE, II) = SQRT(NY * NY + NZ * NZ)
          NY = NY / SURF(KFACE, II)
          NZ = NZ / SURF(KFACE, II)
-         IF (SYM .EQ. 1) THEN
+         IF (SYM == 1) THEN
             SURF(KFACE, II) = SURF(KFACE, II) * HALF * (X3(2) + X4(2))
          ENDIF
 C     Face 4
@@ -134,7 +134,7 @@ C     Face 4
          SURF(KFACE, II) = SQRT(NY * NY + NZ * NZ)
          NY = NY / SURF(KFACE, II)
          NZ = NZ / SURF(KFACE, II)
-         IF (SYM .EQ. 1) THEN
+         IF (SYM == 1) THEN
             SURF(KFACE, II) = SURF(KFACE, II) * HALF * (X4(2) + X1(2))
          ENDIF
 C     Face grid velocity 1

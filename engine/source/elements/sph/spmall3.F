@@ -50,38 +50,38 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
 C-----------------------------------------------
-      IF(ISMSTR.EQ.1.OR.ISMSTR.EQ.3)THEN
+      IF(ISMSTR==1.OR.ISMSTR==3)THEN
         DO I=LFT,LLT
-          IF(OFFG(I).GT.ZERO)OFFG(I)=TWO 
+          IF(OFFG(I)>ZERO)OFFG(I)=TWO 
         ENDDO
       ENDIF
 C
       IF (NSPHSOL/=0) THEN
 C-- Sol2sph
         DO I=LFT,LLT
-          IF (SPH2SOL(I).EQ.0) THEN 
-            IF(OFFG(I).NE.ZERO.AND.OFF(I).EQ.ZERO)THEN
+          IF (SPH2SOL(I)==0) THEN 
+            IF(OFFG(I)/=ZERO.AND.OFF(I)==ZERO)THEN
               KXSP(2,I)=0
 #include "lockon.inc"
               ISPHBUC =1
               IDEL7NOK=1
 #include "lockoff.inc"
             END IF
-            IF(OFF(I).LT.ONE) OFFG(I) = OFF(I)
+            IF(OFF(I)<ONE) OFFG(I) = OFF(I)
           ENDIF
         ENDDO
 C
       ELSE
 C
         DO I=LFT,LLT
-          IF(OFFG(I).NE.ZERO.AND.OFF(I).EQ.ZERO)THEN
+          IF(OFFG(I)/=ZERO.AND.OFF(I)==ZERO)THEN
             KXSP(2,I)=0
 #include "lockon.inc"
             ISPHBUC =1
             IDEL7NOK=1
 #include "lockoff.inc"
           END IF
-          IF(OFF(I).LT.ONE) OFFG(I) = OFF(I)
+          IF(OFF(I)<ONE) OFFG(I) = OFF(I)
         ENDDO
 C
       ENDIF

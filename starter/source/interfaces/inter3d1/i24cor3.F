@@ -55,7 +55,7 @@ C-----------------------------------------------
       INTEGER I,ISTF
 C-----------------------------------------------
 C------------ICAP=1 for the moment
-      IF(IGAP.EQ.0)THEN
+      IF(IGAP==0)THEN
         DO I=LFT,LLT
          GAPV(I) = GAP
         ENDDO
@@ -66,7 +66,7 @@ C------------ICAP=1 for the moment
       ENDIF
 C
       ISTF = 0
-C      IF(ISTF.NE.0)THEN
+C      IF(ISTF/=0)THEN
 C        DO I=LFT,LLT
 Cc          STIF(I)=STF(CAND_E(I))*STFN(CAND_N(I))
 C        ENDDO

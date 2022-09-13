@@ -63,7 +63,7 @@ C
       NVC3=(NVC-NVC1*8-NVC2*4)/2
       NVC4=(NVC-NVC1*8-NVC2*4-NVC3*2)
 C
-      IF(NVC1.EQ.0)THEN
+      IF(NVC1==0)THEN
 #include "vectorize.inc"
         DO I=JFT,JLT
           FPINCH(1,IXC(2,I))=FPINCH(1,IXC(2,I))-FP(I,1,1)
@@ -80,7 +80,7 @@ C
         ENDDO
       ENDIF        
 C
-      IF(NVC2.EQ.0)THEN
+      IF(NVC2==0)THEN
 #include "vectorize.inc"
         DO I=JFT,JLT
           FPINCH(1,IXC(3,I))=FPINCH(1,IXC(3,I))-FP(I,1,2)
@@ -97,7 +97,7 @@ C
         ENDDO
       ENDIF        
 C
-      IF(NVC3.EQ.0)THEN
+      IF(NVC3==0)THEN
 #include "vectorize.inc"
         DO I=JFT,JLT
           FPINCH(1,IXC(4,I))=FPINCH(1,IXC(4,I))-FP(I,1,3)
@@ -114,7 +114,7 @@ C
         ENDDO
       ENDIF        
 C
-      IF(NVC4.EQ.0)THEN
+      IF(NVC4==0)THEN
 #include "vectorize.inc"
         DO I=JFT,JLT
           FPINCH(1,IXC(5,I))=FPINCH(1,IXC(5,I))-FP(I,1,4)

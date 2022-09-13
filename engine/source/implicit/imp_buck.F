@@ -290,7 +290,7 @@ C------------------------------------------------------------
       L3 = L2+12*NUMELS20
 citask0      IF (ITASK == 0) THEN
 
-       IF (ISPMD.EQ.0) THEN
+       IF (ISPMD==0) THEN
          WRITE(IOUT,*)
          WRITE(IOUT,*)' ** BUCKLING MODES COMPUTATION **'
          WRITE(ISTDO,*)
@@ -303,8 +303,8 @@ citask0      IF (ITASK == 0) THEN
       RIBID(1) = 0
       RRBID(1) = ZERO
 C
-      IF (IBUCKL.EQ.0) THEN
-       IF (NRWALL.GT.0) THEN
+      IF (IBUCKL==0) THEN
+       IF (NRWALL>0) THEN
          CALL ANCMSG(MSGID=75,ANMODE=ANINFO,
      .            C1='RIGID WALLS')
          CALL ARRET(2)
@@ -352,11 +352,11 @@ C
 
 citask0citask0      END IF !(ITASK == 0) THEN
 
-      IF (IBUCKL.GT.0) THEN
+      IF (IBUCKL>0) THEN
 
 citask0       IF (ITASK == 0) THEN
 
-        IF(NFXVEL.NE.0) THEN
+        IF(NFXVEL/=0) THEN
           CALL FV_IMP(IBFV  ,NPC    ,TF     ,VEL   ,SENSOR,
      1               LSENSOR,D_IMP  ,DR_IMP ,IKC   ,IDDL  ,
      2                SKEW  ,IFRAME ,XFRAME ,V     ,VR    ,
@@ -366,7 +366,7 @@ C-------------
         NT_RW=0
         NRWDONE = 0
 	       IMCONV = 1
-        IF (NRWALL.GT.0) THEN
+        IF (NRWALL>0) THEN
          CALL RGWAL0_IMP(
      1     X           ,D_IMP    ,V      ,RWBUF   ,LPRW    ,
      2     NPRW        ,MS       ,FSAV(1,NINTER+1),FR_WALL ,
@@ -374,7 +374,7 @@ C-------------
      4     FSAVD(1,NINTER+1),
      5     NT_RW       ,IDDL     ,IKC    ,IMCONV,NDOF,FRWL6,
      6     WEIGHT_MD   ,DIMFB    , FBSAV6,STABSEN,TABSENSOR)
-         IF(NT_RW.GT.0) THEN
+         IF(NT_RW>0) THEN
           CALL FV_RW(IDDL   ,IKC   ,NDOF  ,D_IMP  ,V )
          ENDIF
         ENDIF
@@ -417,7 +417,7 @@ citask0       IF (ITASK == 0) THEN
      C   IRBE3     ,LRBE3     ,FRBE3     ,IKINW(LI13),IRBE2    ,
      D   LRBE2     ,IKINW(LI14),IKINW(LI15))
 C
-       IF (NSPMD.GT.1) THEN
+       IF (NSPMD>1) THEN
          CALL UPD_FR_K(
      1    IADK     ,JDIK     ,NDOF      ,IKC      ,IDDL     ,
      2    INLOC    ,FR_ELEM  ,IAD_ELEM  ,NDDL     )
@@ -427,7 +427,7 @@ C
 
 citask0       END IF !(ITASK == 0) THEN
 
-      ENDIF !IF (IBUCKL.GT.0) THEN
+      ENDIF !IF (IBUCKL>0) THEN
 citask0      IF (ITASK == 0) THEN
       CALL IND_GLOB_K(NPBY  ,LPBY      ,
      1   ITAB      ,NRBYAC    ,IRBYAC    ,NSC       ,IKINW(LI1),
@@ -467,7 +467,7 @@ C    /---------------/
 citask0      IF (ITASK == 0) THEN
 
 C--------include load-stiffness matrix-in Kg---------
-      IF (IKPRES.GT.0) THEN
+      IF (IKPRES>0) THEN
          CALL IMP_KPRES(IBCL  ,FORC   ,NPC   ,TF    ,X     ,
      2                  SKEW  ,SENSOR,LSENSOR,WEIGHT,IBID  ,
      3                  IDDL  ,NDOF   ,IADK  ,JDIK  ,DIAG_KG,
@@ -488,7 +488,7 @@ C--------include load-stiffness matrix-in Kg---------
      C   IRBE3     ,LRBE3     ,FRBE3     ,IKINW(LI13),IRBE2    ,
      D   LRBE2     ,IKINW(LI14),IKINW(LI15))
 C
-       IF (NSPMD.GT.1) THEN
+       IF (NSPMD>1) THEN
          CALL UPD_FR_K(
      1    IADK     ,JDIK     ,NDOF      ,IKC      ,IDDL     ,
      2    INLOC    ,FR_ELEM  ,IAD_ELEM  ,NDDL     )
@@ -501,7 +501,7 @@ C
          LT_KG(I)=-(LT_KG(I)-LT_K(I))
        ENDDO
 C
-      IF (BISOLV.GE.2) THEN
+      IF (BISOLV>=2) THEN
 C  Renumerotation des ddls du graphe pour suivre celle de la matrice
 C  de rigidite
          CALL DSRENUM0(GRAPHE, NDDL_INI0)
@@ -519,7 +519,7 @@ C Calcul des charges critiques et des modes de flambement
       NEV=NBUCK
       NCV=NM*NEV
 C
-      IF (NSPMD.EQ.1) NCV=MIN(NCV,N)
+      IF (NSPMD==1) NCV=MIN(NCV,N)
       MAXN=N
       MAXNEV=NEV
       LDV=MAXN
@@ -532,13 +532,13 @@ C
 C
        ALLOCATE(VECT(LDV,MAXNCV), EIG(MAXNCV,2))
 C
-c       IF (BISOLV.EQ.1.AND.NSPMD.EQ.1) THEN
+c       IF (BISOLV==1.AND.NSPMD==1) THEN
 cC Resolution BCS (mono)
 c         WRITE(6,*) "BCS Solver not available" 
 c         CALL FLUSH(6)
 c         CALL ARRET(5)
 C
-       IF (BISOLV.EQ.1) THEN
+       IF (BISOLV==1) THEN
 C Resolution MUMPS (SPMD)
          ALLOCATE(DIAG_OP(NDDL), LT_OP(NNZK))
          DO I=1,NDDL
@@ -552,7 +552,7 @@ C
             MULTN(I)=1
          ENDDO
          DO I=1,NSPMD
-            IF (I.EQ.ISPMD+1) CYCLE
+            IF (I==ISPMD+1) CYCLE
             DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                JJ=FR_ELEM(J)
                MULTN(JJ)=MULTN(JJ)+1
@@ -564,7 +564,7 @@ C
             DO J=1,NDOF(I)
                ND=IDDL(I)+J
                ID=ND-NKC
-               IF (IKC(ND).LT.1) THEN
+               IF (IKC(ND)<1) THEN
                   MULTD(ID)=MULTN(I)
                ELSE
                   NKC=NKC+1
@@ -576,7 +576,7 @@ C
 C
          MUMPS_PAR%ICNTL(3)=IOUT
          MUMPS_PAR%ICNTL(4)=1
-         IF (NSPMD.GT.1) THEN
+         IF (NSPMD>1) THEN
             MUMPS_PAR%ICNTL(18)=3
 C
             NDDLG0 = NDDL0
@@ -614,7 +614,7 @@ C
             ALLOCATE(MUMPS_PAR%A_LOC(NZLOC),
      .               MUMPS_PAR%IRN_LOC(NZLOC),
      .               MUMPS_PAR%JCN_LOC(NZLOC))
-            IF (ISPMD.EQ.0) THEN
+            IF (ISPMD==0) THEN
 	         ALLOCATE(MUMPS_PAR%RHS(NDDLG))
 	        ELSE
 	         ALLOCATE(MUMPS_PAR%RHS(0))
@@ -655,7 +655,7 @@ C
                ENDDO
             ENDDO
 C
-            IF (ISPMD.EQ.0) THEN
+            IF (ISPMD==0) THEN
                WRITE(ISTDO,*)
                WRITE(ISTDO,'(A21,I8,A8,I8)')
      .   ' MUMPS    DIM : NNZ =',NNZ,' NNZFR =',0
@@ -676,12 +676,12 @@ C
 #endif
 C
          DEALLOCATE(DIAG_OP, LT_OP)
-      ELSEIF (BISOLV.EQ.2) THEN
+      ELSEIF (BISOLV==2) THEN
 C Resolution AMLS (mono + SPMD)
          DO I=1,NDDL
             INO=GRAPHE(1)%LSDDL(1,I)
             II=GRAPHE(1)%LSDDL(2,I)
-            IF (II.LE.3) THEN
+            IF (II<=3) THEN
                MASS(I)=MS(INO)
             ELSE
                MASS(I)=IN(INO)
@@ -692,7 +692,7 @@ C
          IOPT=2
          IWKLI=0
          NBLF=20
-         IF (NSPMD.EQ.1.OR.ISPMD.EQ.0)
+         IF (NSPMD==1.OR.ISPMD==0)
      .      WRITE(ISTDO,'(A)') ' * MULTI-LEVEL DYNAMIC CONDENSATION *'
          CALL DSCOND(GRAPHE, DIAG_K, LT_K, IADK, JDIK,
      .               MASS,   NDDL,   1,    RBID, IOPT,
@@ -700,7 +700,7 @@ C
      .               IWKLI,  NDDLI7, IBID, IBID, RBID,
      .               RBID,   IBID  )
 C
-         IF (NSPMD.EQ.1.OR.ISPMD.EQ.0)
+         IF (NSPMD==1.OR.ISPMD==0)
      .      WRITE(ISTDO,'(A)')
      .       ' * MULTI-LEVEL GEOMETRIC STIFFNESS CONDENSATION *'
          WRITE(IOUT,'(A)')
@@ -709,7 +709,7 @@ C
      .               NDDL  )
 C
          IPMESS = IPRI
-         IF (NSPMD.EQ.1.OR.ICONDP.EQ.0) THEN
+         IF (NSPMD==1.OR.ICONDP==0) THEN
             LTITR1=48
             TITRE=' * EULER BUCKLING MODES SEQUENTIAL COMPUTATION *'
             CALL DSRESOL_BUCK(GRAPHE, NDDL, EIG, TITRE, LTITR1,
@@ -722,7 +722,7 @@ C
      .                         IPMESS   )
          ENDIF
 C 3- Redescente
-         IF (NSPMD.EQ.1.OR.ISPMD.EQ.0)
+         IF (NSPMD==1.OR.ISPMD==0)
      .      WRITE(ISTDO,'(A)') ' * BUCKLING MODES EXPANSION *'
          WRITE(IOUT,'(A)') ' * BUCKLING MODES EXPANSION *'
          CALL DSDESC(GRAPHE, NBUCK, NDDL, IOPT)
@@ -743,7 +743,7 @@ C 4- Recuperation des modes dynamiques
          DEALLOCATE(VECTD)
       ENDIF
 C Sortie des charges critiques dans le listing pour les solveur 1 et 2
-      IF ((NSPMD.EQ.1.OR.ISPMD.EQ.0).AND.BISOLV.EQ.1) THEN
+      IF ((NSPMD==1.OR.ISPMD==0).AND.BISOLV==1) THEN
          WRITE(IOUT,'(A6,1PG11.4,A35,I10)')
      .    'SHIFT ',SHIFT,' NUMBER OF BUCKLING CRITICAL LOADS ',NBUCK
          WRITE(IOUT,'(A)') ' CRITICAL LOADS:'
@@ -764,8 +764,8 @@ C Sortie des modes de flambement sur l'ANIM et/ou sur OUTP
          CMAX=MAX(CMAX,ABS(X(3,I)))
       ENDDO
 C
-      IF (NSPMD.GT.1) THEN
-         IF (ISPMD.EQ.0) THEN
+      IF (NSPMD>1) THEN
+         IF (ISPMD==0) THEN
             DO I=1,NSPMD-1
                IRQTAG=MSGOFF + I
                CALL SPMD_DS_RRECV(CMAXP, 1, IRQTAG, I+1)
@@ -802,7 +802,7 @@ C
       N6 = N5 + NEL2D
       N7 = N6 + NPART
       N8 = N7 + NEL + 1
-      IF (NUMELX.GT.0) THEN
+      IF (NUMELX>0) THEN
          SKUIX = 2*MAXNX
          SKXUSR = 3*MAXNX
          SKFACPTX = NPART
@@ -886,15 +886,15 @@ C
             DMAX=MAX(DMAX,ABS(D(3,J)))
          ENDDO
 C
-         IF (NSPMD.GT.1) THEN
-            IF (ISPMD.EQ.0) THEN
+         IF (NSPMD>1) THEN
+            IF (ISPMD==0) THEN
                DO J=1,NSPMD-1
                   IRQTAG=MSGOFF + NSPMD + J
                   CALL SPMD_DS_RRECV(DMAXP, 1, IRQTAG, J+1)
                   DMAX=MAX(DMAX,DMAXP)
                ENDDO
                SCALE=ZERO
-               IF (DMAX.GT.ZERO) SCALE=ONE/DMAX
+               IF (DMAX>ZERO) SCALE=ONE/DMAX
             ELSE
                IRQTAG=MSGOFF + NSPMD + ISPMD
                CALL SPMD_DS_RSEND(DMAX, 1, IRQTAG, 1)
@@ -902,7 +902,7 @@ C
               CALL SPMD_RBCAST(SCALE, SCALE, 1, 1, 0, 2)
          ELSE
             SCALE=ZERO
-            IF (DMAX.GT.ZERO) SCALE=ONE/DMAX
+            IF (DMAX>ZERO) SCALE=ONE/DMAX
          ENDIF
 C
          DO J=1,NUMNOD
@@ -911,7 +911,7 @@ C
             X(3,J)=X0(3,J)+SCALE*D(3,J)
          ENDDO
 C
-         IF (DTANIM.GT.ZERO) THEN
+         IF (DTANIM>ZERO) THEN
             IANIM=IANIM+1
             TT=EIG(I,1)
             CALL GENANI(
@@ -953,8 +953,8 @@ C
      2             FCONT_MAX  ,FNCONTP2 ,FTCONTP2    )
          ENDIF
 C
-         IF (DTOUTP.GT.ZERO) THEN
-            IF (ISPMD.EQ.0) THEN
+         IF (DTOUTP>ZERO) THEN
+            IF (ISPMD==0) THEN
                 LENG = NUMNODG
             ELSE
                 LENG = 0

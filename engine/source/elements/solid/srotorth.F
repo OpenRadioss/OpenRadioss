@@ -110,9 +110,9 @@ C----------------------------
         Y8=X(2,NC8)
         Z8=X(3,NC8)
 C-----------
-       IF(KHBE.NE.15)THEN
+       IF(KHBE/=15)THEN
 C        REPERE CONVECTE
-         IF (KHBE.EQ.24.OR.KHBE.EQ.14) THEN
+         IF (KHBE==24.OR.KHBE==14) THEN
            CALL SORTHO31(
      .          X1, X2, X3, X4, X5, X6, X7, X8,               
      .          Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,               

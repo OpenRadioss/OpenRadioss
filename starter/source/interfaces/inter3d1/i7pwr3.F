@@ -94,29 +94,29 @@ C-----------------------------------------------
             IF( REMNODE(J) == NSVG(I) ) TAGNOD = 1                                                                           
           ENDDO                                                                                                              
         ENDIF                                                                                                                
-        IF(IPRI.GE.1 .AND. PENE(I).GT.ZERO .AND. TAGNOD == 0)THEN                                                            
-         IF(IX1(I).LE.NUMNOD) THEN                                                                                           
+        IF(IPRI>=1 .AND. PENE(I)>ZERO .AND. TAGNOD == 0)THEN                                                            
+         IF(IX1(I)<=NUMNOD) THEN                                                                                           
           WRITE(IOUT,FMT=FMW_5I)ITAB(NSVG(I)),ITAB(IX1(I)),ITAB(IX2(I)),ITAB(IX3(I)),ITAB(IX4(I))                            
          ELSE                                                                                                                
           WRITE(IOUT,FMT=FMW_5I)NSVG(I),IX1(I),IX2(I),IX3(I),IX4(I)                                                          
          ENDIF                                                                                                               
-        ELSEIF(IPRI.GE.6 .AND. TAGNOD == 0)THEN                                                                              
-         IF(IX1(I).LE.NUMNOD) THEN                                                                                           
+        ELSEIF(IPRI>=6 .AND. TAGNOD == 0)THEN                                                                              
+         IF(IX1(I)<=NUMNOD) THEN                                                                                           
           WRITE(IOUT,FMT=FMW_5I)ITAB(NSVG(I)),ITAB(IX1(I)),ITAB(IX2(I)),ITAB(IX3(I)),ITAB(IX4(I))                            
          ELSE                                                                                                                
           WRITE(IOUT,FMT=FMW_5I)NSVG(I),IX1(I),IX2(I),IX3(I),IX4(I)                                                          
          ENDIF                                                                                                               
         ENDIF                                                                                                                
-        IF(PENE(I).GT.ZERO .AND. TAGNOD == 0)THEN                                                                            
+        IF(PENE(I)>ZERO .AND. TAGNOD == 0)THEN                                                                            
           TAG(NSVG(I))=TAG(NSVG(I))+1                                                                                        
           DN=N1(I)*N1(I)+N2(I)*N2(I)+N3(I)*N3(I)                                                                             
-          IF(DN.LE.EM30) THEN                                                                                                
-            IF(IX1(I).LE.NUMNOD) THEN                                                                                        
+          IF(DN<=EM30) THEN                                                                                                
+            IF(IX1(I)<=NUMNOD) THEN                                                                                        
              WRITE(IOUT,1100)PENE(I),ITAB(NSVG(I))                                                                           
-             IF(NTY.NE.24.AND.(NTY.NE.10.OR.ITIED.EQ.0))THEN                                                                 
-               IF(INACTI.NE.1.AND.INACTI.NE.2.AND.FPENMAX==ZERO) THEN                                                        
+             IF(NTY/=24.AND.(NTY/=10.OR.ITIED==0))THEN                                                                 
+               IF(INACTI/=1.AND.INACTI/=2.AND.FPENMAX==ZERO) THEN                                                        
 
-                 IF (INACTI.EQ.0) THEN                                                                                       
+                 IF (INACTI==0) THEN                                                                                       
                    CALL ANCMSG(MSGID=612,                                                                                    
      .                         MSGTYPE=MSGERROR,                                                                             
      .                         ANMODE=ANINFO_BLIND_1,                                                                        
@@ -137,10 +137,10 @@ C-----------------------------------------------
              END IF                                                                                                          
             ELSE                                                                                                             
              WRITE(IOUT,1100)PENE(I),NSVG(I)                                                                                 
-             IF(NTY.NE.24.AND.(NTY.NE.10.OR.ITIED.EQ.0))THEN                                                                 
-               IF(INACTI.NE.1.AND.INACTI.NE.2.AND.FPENMAX==ZERO) THEN                                                        
+             IF(NTY/=24.AND.(NTY/=10.OR.ITIED==0))THEN                                                                 
+               IF(INACTI/=1.AND.INACTI/=2.AND.FPENMAX==ZERO) THEN                                                        
 
-                 IF (INACTI.EQ.0) THEN                                                                                       
+                 IF (INACTI==0) THEN                                                                                       
                    CALL ANCMSG(MSGID=612,                                                                                    
      .                         MSGTYPE=MSGERROR,                                                                             
      .                         ANMODE=ANINFO_BLIND_1,                                                                        
@@ -163,8 +163,8 @@ C-----------------------------------------------
           ELSE                                                                                                               
             PENE0 = PENE(I)                                                                                                  
             PENE(I) = PENE(I) + EM8*PENE(I)                                                                                  
-            IF(IPRI.GE.5) THEN                                                                                               
-             IF(IX1(I).LE.NUMNOD) THEN                                                                                       
+            IF(IPRI>=5) THEN                                                                                               
+             IF(IX1(I)<=NUMNOD) THEN                                                                                       
               CALL ANCMSG(MSGID=1164,                                                                                        
      .                         MSGTYPE=MSGWARNING,                                                                           
      .                         ANMODE=ANINFO_BLIND_1,                                                                        
@@ -196,58 +196,58 @@ C-----------------------------------------------
               WRITE(IOUT,'(A,1PG20.13,A)')' MAX INITIAL PENETRATION ',PENMAX,' IS REACHED'                                   
               WRITE(IOUT,'(A)')'NODE STIFFNESS IS SET TO ZERO'                                                               
               STFN(CAND_N(I)) = ZERO                                                                                         
-          ELSE IF(INACTI.EQ.1) THEN                                                                                          
+          ELSE IF(INACTI==1) THEN                                                                                          
               !DESACTIVATION DES NOEUDS                                                                                      
               WRITE(IOUT,'(A)')'NODE STIFFNESS IS SET TO ZERO'                                                               
               STFN(CAND_N(I)) = ZERO                                                                                         
-          ELSE IF(INACTI.EQ.2) THEN                                                                                          
+          ELSE IF(INACTI==2) THEN                                                                                          
             !DESACTIVATION DES ELEMENTS                                                                                      
             WRITE(IOUT,'(A)')'ELEMENT STIFFNESS IS SET TO ZERO'                                                              
             STF(CAND_E(I)) = ZERO                                                                                            
-          ELSE IF(INACTI.EQ.3) THEN                                                                                          
+          ELSE IF(INACTI==3) THEN                                                                                          
             !CHANGE LES COORDONNEES DES NOEUDS SECONDARY                                                                         
             WRITE(IOUT,'(A)')'NODE COORD IS CHANGED AS PROPOSED'                                                             
             PENEOLD = SQRT( (X(1,NSV(CAND_N(I)))-XI(I))**2 +(X(2,NSV(CAND_N(I)))-YI(I))**2 +(X(3,NSV(CAND_N(I)))-ZI(I))**2   )
-            IF(PENE(I).GT.PENEOLD) THEN                                                                                      
+            IF(PENE(I)>PENEOLD) THEN                                                                                      
               X(1,NSV(CAND_N(I))) = XI(I)+PENE(I)*N1(I)                                                                      
               X(2,NSV(CAND_N(I))) = YI(I)+PENE(I)*N2(I)                                                                      
               X(3,NSV(CAND_N(I))) = ZI(I)+PENE(I)*N3(I)                                                                      
             ENDIF                                                                                                            
-          ELSE IF(INACTI.EQ.4) THEN                                                                                          
+          ELSE IF(INACTI==4) THEN                                                                                          
             !CHANGE LES COORDONNEES DES NOEUDS MAIN                                                                        
             WRITE(IOUT,'(A)')'SEG. COORD IS CHANGED AS PROPOSED'                                                             
             PENEOLD = SQRT( (X(1,IX1(I))-X1(I))**2 +(X(2,IX1(I))-Y1(I))**2 +(X(3,IX1(I))-Z1(I))**2 )                         
-            IF(PENE(I).GT.PENEOLD) THEN                                                                                      
+            IF(PENE(I)>PENEOLD) THEN                                                                                      
               X(1,IX1(I)) = X1(I)-PENE(I)*N1(I)                                                                              
               X(2,IX1(I)) = Y1(I)-PENE(I)*N2(I)                                                                              
               X(3,IX1(I)) = Z1(I)-PENE(I)*N3(I)                                                                              
             ENDIF                                                                                                            
             PENEOLD = SQRT( (X(1,IX2(I))-X2(I))**2 +(X(2,IX2(I))-Y2(I))**2 +(X(3,IX2(I))-Z2(I))**2 )                         
-            IF(PENE(I).GT.PENEOLD) THEN                                                                                      
+            IF(PENE(I)>PENEOLD) THEN                                                                                      
               X(1,IX2(I)) = X2(I)-PENE(I)*N1(I)                                                                              
               X(2,IX2(I)) = Y2(I)-PENE(I)*N2(I)                                                                              
               X(3,IX2(I)) = Z2(I)-PENE(I)*N3(I)                                                                              
             ENDIF                                                                                                            
             PENEOLD = SQRT( (X(1,IX3(I))-X3(I))**2 +(X(2,IX3(I))-Y3(I))**2 +(X(3,IX3(I))-Z3(I))**2 )                         
-            IF(PENE(I).GT.PENEOLD) THEN                                                                                      
+            IF(PENE(I)>PENEOLD) THEN                                                                                      
               X(1,IX3(I)) = X3(I)-PENE(I)*N1(I)                                                                              
               X(2,IX3(I)) = Y3(I)-PENE(I)*N2(I)                                                                              
               X(3,IX3(I)) = Z3(I)-PENE(I)*N3(I)                                                                              
             ENDIF                                                                                                            
             PENEOLD = SQRT( (X(1,IX4(I))-X4(I))**2 +(X(2,IX4(I))-Y4(I))**2 +(X(3,IX4(I))-Z4(I))**2 )                         
-            IF(PENE(I).GT.PENEOLD) THEN                                                                                      
+            IF(PENE(I)>PENEOLD) THEN                                                                                      
               X(1,IX4(I)) = X4(I)-PENE(I)*N1(I)                                                                              
               X(2,IX4(I)) = Y4(I)-PENE(I)*N2(I)                                                                              
               X(3,IX4(I)) = Z4(I)-PENE(I)*N3(I)                                                                              
             ENDIF                                                                                                            
-          ELSE IF(INACTI.EQ.5) THEN                                                                                          
+          ELSE IF(INACTI==5) THEN                                                                                          
              !REDUCTION DU GAP                                                                                               
              JWARN = 1                                                                                                       
              CAND_P(ISTOK) = PENE(I)                                                                                         
              CAND_NN(ISTOK) = CAND_N(I)                                                                                      
              CAND_EN(ISTOK) = CAND_E(I)                                                                                      
-           ELSE IF(INACTI.EQ.6) THEN                                                                                         
-             !INACTI.EQ.6                                                                                                    
+           ELSE IF(INACTI==6) THEN                                                                                         
+             !INACTI==6                                                                                                    
              !REDUCTION DU GAP                                                                                               
              JWARN = 1                                                                                                       
              PENE(I)=PENE(I)+ZEP05*(GAPV(I)-PENE(I))                                                                         

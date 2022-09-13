@@ -54,7 +54,7 @@ C------------------------------------------------------------
         DO J=1,MSN
           MSV(J)=BRICS(J)
         ENDDO
-        IF(IPRI.GE.1) THEN
+        IF(IPRI>=1) THEN
           WRITE(IOUT,'(/,A,/)')' NODES USED FOR SURFACE DEFINITION'
           WRITE(IOUT,FMT=FMW_10I)(ITAB(MSV(I)),I=1,MSN)
         ENDIF

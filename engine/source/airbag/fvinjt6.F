@@ -68,16 +68,16 @@ C-----------------------------------------------
          IMASS=IBAGJET(1,IINJ)
          IFLU =IBAGJET(2,IINJ)
          ISENS=IBAGJET(4,IINJ)
-         IF(ISENS.EQ.0)THEN
+         IF(ISENS==0)THEN
           TSTART=ZERO
          ELSE
           TSTART=SENSOR(2,ISENS)
          ENDIF
-         IF (TT.GE.TSTART.AND.DT1.GT.ZERO)THEN
+         IF (TT>=TSTART.AND.DT1>ZERO)THEN
             TSG=(TT-TSTART)*SCALT
-            IF (IMASS.GT.0) THEN
+            IF (IMASS>0) THEN
                GMASS=FMASS*FINTER(IMASS,TSG,NPC,TF,DYDX)
-               IF(IFLU.EQ.1)GMASS = GMASS*SCALT*DT1 + GMASS_OLD
+               IF(IFLU==1)GMASS = GMASS*SCALT*DT1 + GMASS_OLD
             ELSE
                GMASS=FMASS
             ENDIF
@@ -87,7 +87,7 @@ C-----------------------------------------------
             GMASS=ZERO
          ENDIF
          GMTOT=GMTOT_OLD+DGMASS
-         IF (DT1.GT.ZERO) THEN
+         IF (DT1>ZERO) THEN
             DATAINJ(2,IINJ)=DGMASS/DT1
          ELSE
             DATAINJ(2,IINJ)=ZERO
@@ -103,9 +103,9 @@ C------------
          ITEMP=IBAGJET(3,IINJ)
          EFAC =ZERO
          TEMP =ZERO
-         IF(TT.GE.TSTART)THEN
+         IF(TT>=TSTART)THEN
             TSG = (TT-TSTART)*SCALT
-            IF(ITEMP.GT.0) THEN
+            IF(ITEMP>0) THEN
               TEMP=FTEMP*FINTER(ITEMP,TSG,NPC,TF,DYDX)
             ELSE
               TEMP=FTEMP
@@ -113,7 +113,7 @@ C------------
             EFAC= TEMP*(CPA+HALF*CPB*TEMP+THIRD*CPC*TEMP*TEMP)
          ENDIF
 C 
-         IF (IBAGJET(12,IINJ).EQ.2) EFAC=EFAC-RMWG*TEMP
+         IF (IBAGJET(12,IINJ)==2) EFAC=EFAC-RMWG*TEMP
 C
          DATAINJ(4,IINJ)=EFAC
          CPG=CPA+CPB*TEMP+CPC*TEMP*TEMP

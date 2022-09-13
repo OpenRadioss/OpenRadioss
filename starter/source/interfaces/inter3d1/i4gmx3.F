@@ -64,7 +64,7 @@ C-----------------------------------------------------------------
         XL=(X(1,N1)-X(1,N2))**2
      .    +(X(2,N1)-X(2,N2))**2
      .    +(X(3,N1)-X(3,N2))**2
-        IF(XL.GT.ZERO.AND.N1.NE.N2)GAPMAX= MIN(GAPMAX,XL)
+        IF(XL>ZERO.AND.N1/=N2)GAPMAX= MIN(GAPMAX,XL)
       END DO
 C
       RETURN

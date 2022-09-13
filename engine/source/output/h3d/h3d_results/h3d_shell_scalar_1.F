@@ -241,7 +241,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       COQUES 4 N
 C-----------------------------------------------
-              IF(ITY.EQ.3)THEN
+              IF(ITY==3)THEN
 C
              	IF(IGTYP /= 17 . AND. IGTYP /= 51 .AND. IGTYP /= 52) THEN
              	  DO I=1,NEL
@@ -289,7 +289,7 @@ C
 C-----------------------------------------------
 C       COQUES 3 N
 C-----------------------------------------------
-              ELSEIF(ITY.EQ.7)THEN
+              ELSEIF(ITY==7)THEN
 C       
             	IF(IGTYP /= 17 . AND. IGTYP /= 51 .AND. IGTYP /= 52) THEN
                   DO I=1,NEL
@@ -380,7 +380,7 @@ C--------------------------------------------------
 c temporary (tria entity is not yet created)
             ELSEIF (KEYWORD == 'EINT')THEN  !SI:J
 C-------------------------------------------------- 
-              IF (MLW .EQ. 151) THEN
+              IF (MLW == 151) THEN
                   DO I = 1, NEL
                      VALUE(I) = MULTI_FVM%EINT(I + NFT) * GBUF%VOL(I)
                      IS_WRITTEN_VALUE(I) = 1
@@ -401,7 +401,7 @@ c temporary (tria entity is not yet created)
             ELSEIF (KEYWORD == 'EINTM')THEN  !SI:J/kg
 C-------------------------------------------------- 
                !LAG: GBUF%VOL = V0,    GBUF%EINT=rho0.e
-               IF (MLW .EQ. 151) THEN
+               IF (MLW == 151) THEN
                   DO I = 1, NEL
                      VALUE(I) = MULTI_FVM%EINT(I + NFT) / MULTI_FVM%RHO(I)  !
                      IS_WRITTEN_VALUE(I) = 1
@@ -421,7 +421,7 @@ C--------------------------------------------------
 c temporary (tria entity is not yet created)
             ELSEIF (KEYWORD == 'EINTV')THEN  !SI:J/m^3
 C-------------------------------------------------- 
-               IF (MLW .EQ. 151) THEN
+               IF (MLW == 151) THEN
                   DO I = 1, NEL
                      VALUE(I) = MULTI_FVM%EINT(I + NFT)
                      IS_WRITTEN_VALUE(I) = 1
@@ -453,7 +453,7 @@ C--------------------------------------------------
                ENDIF    
                !GBUF%EINT is rho.e           
                IF(KEYWORD == 'ENTH')THEN
-                 IF (MLW .EQ. 151) THEN
+                 IF (MLW == 151) THEN
                      DO I = 1, NEL
                         VALUE(I) = MULTI_FVM%EINT(I + NFT) / MULTI_FVM%RHO(I + NFT) + PRES(I)*GBUF%VOL(I) !
                         IS_WRITTEN_VALUE(I) = 1
@@ -469,7 +469,7 @@ C--------------------------------------------------
                      ENDDO
                   ENDIF                
                ELSEIF(KEYWORD == 'ENTHV')THEN
-                 IF (MLW .EQ. 151) THEN
+                 IF (MLW == 151) THEN
                      DO I = 1, NEL
                         VALUE(I) = MULTI_FVM%EINT(I + NFT) / MULTI_FVM%RHO(I + NFT)/GBUF%VOL(I) + PRES(I) !
                         IS_WRITTEN_VALUE(I) = 1
@@ -485,7 +485,7 @@ C--------------------------------------------------
                      ENDDO
                   ENDIF                                
                ELSEIF(KEYWORD == 'ENTHM')THEN
-                 IF (MLW .EQ. 151) THEN
+                 IF (MLW == 151) THEN
                      DO I = 1, NEL
                         MASS(I) = MULTI_FVM%RHO(I + NFT)*GBUF%VOL(I)
                         VALUE(I) = (MULTI_FVM%EINT(I + NFT) / MULTI_FVM%RHO(I + NFT) + PRES(I)*GBUF%VOL(I))/MASS(I) !
@@ -677,7 +677,7 @@ C--------------------------------------------------
 C--------------------------------------------------
               IF (MLW == 151) THEN 
                  READ(KEYWORD, '(A9,I10)') BUFF, IMAT
-                 IF (IMAT .GT. 0 .AND. IMAT .LE. NLAY) THEN
+                 IF (IMAT > 0 .AND. IMAT <= NLAY) THEN
                     GBUF => ELBUF_TAB(NG)%GBUF
                     LBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)
                     DO I=1,NEL
@@ -691,7 +691,7 @@ C--------------------------------------------------
 C--------------------------------------------------
               IF (MLW == 151) THEN 
                  READ(KEYWORD, '(A8,I10)') BUFF, IMAT
-                 IF (IMAT .GT. 0 .AND. IMAT .LE. NLAY) THEN
+                 IF (IMAT > 0 .AND. IMAT <= NLAY) THEN
                     DO I=1,NEL
                        VALUE(I) = MULTI_FVM%PHASE_EINT(IMAT, I + NFT) / 
      .                      MULTI_FVM%PHASE_RHO(IMAT, I + NFT)
@@ -704,7 +704,7 @@ C--------------------------------------------------
 C--------------------------------------------------
               IF (MLW == 151) THEN 
                  READ(KEYWORD, '(A8,I10)') BUFF, IMAT
-                 IF (IMAT .GT. 0 .AND. IMAT .LE. NLAY) THEN
+                 IF (IMAT > 0 .AND. IMAT <= NLAY) THEN
                     DO I=1,NEL
                        VALUE(I) = MULTI_FVM%PHASE_PRES(IMAT, I + NFT)
                        IS_WRITTEN_VALUE(I) = 1           
@@ -716,7 +716,7 @@ C--------------------------------------------------
 C--------------------------------------------------
               IF (MLW == 151) THEN 
                  READ(KEYWORD, '(A8,I10)') BUFF, IMAT
-                 IF (IMAT .GT. 0 .AND. IMAT .LE. NLAY) THEN
+                 IF (IMAT > 0 .AND. IMAT <= NLAY) THEN
                     DO I=1,NEL
                        VALUE(I) = MULTI_FVM%PHASE_RHO(IMAT, I + NFT)
                        IS_WRITTEN_VALUE(I) = 1           
@@ -978,7 +978,7 @@ c
                   IF (IGTYP == 9  .OR. IGTYP == 10 .OR.IGTYP == 11 .OR.
      .                IGTYP == 16 .OR. IGTYP == 17 .OR. IGTYP == 51 .OR.
      .                IGTYP == 52 ) THEN
-                    IF (MLW .NE. 0 .AND. MLW .NE. 13) THEN                        
+                    IF (MLW /= 0 .AND. MLW /= 13) THEN                        
                       DO I=1,NEL                                                
                         N = I + NFT                                               
                         X21 = X(1,IXC(3,N))-X(1,IXC(2,N))                         
@@ -1097,7 +1097,7 @@ c
                   IF (IGTYP == 9  .OR. IGTYP == 10 .OR. IGTYP == 11 .OR. 
      .                IGTYP == 16 .OR. IGTYP == 17 .OR. IGTYP == 51 .OR.
      .                IGTYP == 52 ) THEN
-                    IF (MLW .NE. 0 .AND. MLW .NE. 13) THEN                      
+                    IF (MLW /= 0 .AND. MLW /= 13) THEN                      
                       DO I=1,NEL                                              
                         N = I + NFT                                             
                         X21 = X(1,IXTG(3,N))-X(1,IXTG(2,N))                     
@@ -1181,7 +1181,7 @@ c
                     BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                     IF (ITY == 3) THEN
                      IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 ) THEN
-                      IF (MLW .NE. 0 .AND. MLW .NE. 13) THEN			    
+                      IF (MLW /= 0 .AND. MLW /= 13) THEN			    
                 	DO I=1,NEL						  
                 	  N = I + NFT						    
                 	  X21 = X(1,IXC(3,N))-X(1,IXC(2,N))			    
@@ -1298,7 +1298,7 @@ c
 
                     ELSEIF (ITY == 7) THEN
                      IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 ) THEN
-                      IF (MLW .NE. 0 .AND. MLW .NE. 13) THEN			  
+                      IF (MLW /= 0 .AND. MLW /= 13) THEN			  
                 	DO I=1,NEL						
                 	  N = I + NFT						  
                 	  X21 = X(1,IXTG(3,N))-X(1,IXTG(2,N))			  
@@ -2083,9 +2083,9 @@ c                  ELSE
 c                    IF (IFAILA == 1) THEN
 c                      DO  I=1,NEL
 c                        OFF = GBUF%OFF(I)
-c                        IF (OFF.LT.ZERO) THEN
+c                        IF (OFF<ZERO) THEN
 c                          FAIL(I)= -ONE
-c                        ELSEIF (OFF.GT.ZERO) THEN
+c                        ELSEIF (OFF>ZERO) THEN
 c                          FAIL(I)=  ONE
 c                        ELSE
 c                          FAIL(I)=  ZERO
@@ -2121,9 +2121,9 @@ c                ENDIF
 c                IF (IFAILURE==0 .OR.(IFAILURE /=0 .AND.IFAILA==1)) THEN
 c                  DO  I=1,NEL                                         
 c                    OFF = GBUF%OFF(I)                                  
-c                    IF (OFF.LT.ZERO)THEN                                  
+c                    IF (OFF<ZERO)THEN                                  
 c                      FAIL(I)= -ONE                                       
-c                    ELSEIF(OFF.GT.ZERO)THEN                              
+c                    ELSEIF(OFF>ZERO)THEN                              
 c                      FAIL(I)=  ONE                                       
 c                    ELSE                                                 
 c                      FAIL(I)=  ZERO                                     
@@ -2941,7 +2941,7 @@ C--------------------------------------------------
                   ENDDO
                ELSE
                   L = ELBUF_TAB(NG)%BUFLY(1)%L_SSP                        
-                  IF(L .NE. 0)THEN                                       
+                  IF(L /= 0)THEN                                       
                      LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)            
                      DO  I=1,NEL                                 			     
                         VALUE(I) = LBUF%SSP(I) 
@@ -3399,7 +3399,7 @@ C--------------------------------------------------
            ELSEIF(KEYWORD == 'MACH')THEN  
 C--------------------------------------------------                     
 !to be moved in h3d_tria_scalar when implemented.
-            IF(N2D.NE.0)THEN
+            IF(N2D/=0)THEN
                 IF (MLW == 151) THEN
                    DO I = 1, NEL                                         
                       VEL(1) = MULTI_FVM%VEL(1, I + NFT)
@@ -3409,9 +3409,9 @@ C--------------------------------------------------
                       VALUE(I) = VEL(0)/MULTI_FVM%SOUND_SPEED(I + NFT)
                       IS_WRITTEN_VALUE(I) = 1                             
                    ENDDO
-                ELSEIF(I_ALE_SOLVER.GT.1)THEN
+                ELSEIF(I_ALE_SOLVER>1)THEN
                      L = ELBUF_TAB(NG)%BUFLY(1)%L_SSP                        
-                     IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP .NE. 0)THEN              
+                     IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN              
                         LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)            
                         DO  I=1,NEL     
                            VEL(1) = GBUF%MOM(JJ(1) + I) / GBUF%RHO(I) 
@@ -3424,7 +3424,7 @@ C--------------------------------------------------
                      ENDIF                                               
                 ELSE                                                                                 
                   L = ELBUF_TAB(NG)%BUFLY(1)%L_SSP                                                     
-                  IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP .NE. 0)THEN                                               
+                  IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN                                               
                     LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)  
                     IF(IS_ALE /= 0)THEN    
                       !ale                                        
@@ -3503,7 +3503,7 @@ C--------------------------------------------------
                 NFRAC=0
                 !VFRAC(1:NEL,1:21)=ZERO     
               ENDIF 
-              IF(NFRAC.GT.0)THEN
+              IF(NFRAC>0)THEN
                 DO I=1,NEL
                   VALUE(I)=ZERO
                   DO IMAT=1,NFRAC

@@ -56,13 +56,13 @@ C-----------------------------------------------
      .        INDX(1024),L,FLAG_MOM
 C-----------------------------------------------
 C
-      IF (CPTREAC .GE. 1) THEN
+      IF (CPTREAC >= 1) THEN
         FLAG_MOM = 0
         DO 420 I = NODFT,NODLAST,1024
           NINDX = 0
           DO 400 J=I,MIN(NODLAST,I+1023)
             N=INDX1(J)
-            IF (ICODT(N).NE.0 .AND. NODREAC(N).NE.0)THEN
+            IF (ICODT(N)/=0 .AND. NODREAC(N)/=0)THEN
               NINDX = NINDX + 1
               INDX(NINDX) = N
             ENDIF
@@ -71,13 +71,13 @@ C
      2                    SKEW  ,FTHREAC,NODREAC,FLAG_MOM)
   420   CONTINUE
 C
-        IF(IRODDL.NE.0) THEN
+        IF(IRODDL/=0) THEN
           FLAG_MOM = 1
           DO 440 I = NODFT,NODLAST,1024
             NINDX = 0
             DO 430 J=I,MIN(NODLAST,I+1023)
               N=INDX1(J)
-              IF (ICODR(N).NE.0 .AND. NODREAC(N).GT.0)THEN
+              IF (ICODR(N)/=0 .AND. NODREAC(N)>0)THEN
                 NINDX = NINDX + 1
                 INDX(NINDX) = N
               ENDIF

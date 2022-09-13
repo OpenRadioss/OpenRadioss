@@ -149,20 +149,20 @@ C------------------------------------------------
 C     Coefficient d'amortissement :
 C     F(VITESSE NORMALE) * G(FORCE NORMALE LOCALE)
 C-----------------------------------------------
-      IF (NDAMP1.EQ.0 .AND. NDAMP2.EQ.0) THEN
+      IF (NDAMP1==0 .AND. NDAMP2==0) THEN
 C---------------------------------
        DO I=1,MIN(MVSIZ,NREST)
         IL=KSC(I+NDEB)
         IN=KSI(IL)
         VIS(I) = VISC*2.*SQRT(STF*MS(IN))
        ENDDO
-      ELSEIF (NDAMP1.EQ.0) THEN
+      ELSEIF (NDAMP1==0) THEN
 C---------------------------------
        CALL NINTERP(NDAMP2,NPC,PLD,MIN(MVSIZ,NREST),FNPV,VISC2)
        DO I=1,MIN(MVSIZ,NREST)
         VIS(I)=VISC*VISC2(I)
        ENDDO
-      ELSEIF (NDAMP2.EQ.0) THEN
+      ELSEIF (NDAMP2==0) THEN
 C---------------------------------
        DO I=1,MIN(MVSIZ,NREST)
         IL=KSC(I+NDEB)
@@ -200,7 +200,7 @@ C-----------------------------------------------
       IL=KSC(I+NDEB)
       IN=KSI(IL)
 C-------------------------------
-      IF (IMPACT(IL).GT.0) THEN
+      IF (IMPACT(IL)>0) THEN
         XI=CIMP(1,IL)+GAPMIN*NIMP(1,IL)
         YI=CIMP(2,IL)+GAPMIN*NIMP(2,IL)
         ZI=CIMP(3,IL)+GAPMIN*NIMP(3,IL)
@@ -226,7 +226,7 @@ C-------------------------------
       END IF
       ENDDO
 C---------------------------------
-      IF (NREST-MVSIZ.GT.0) THEN
+      IF (NREST-MVSIZ>0) THEN
         NREST=NREST-MVSIZ
         NDEB =NDEB +MVSIZ
         GOTO 100
@@ -250,20 +250,20 @@ C------------------------------------------------
 C     Coefficient d'amortissement :
 C     F(VITESSE NORMALE) * G(FORCE NORMALE LOCALE)
 C-----------------------------------------------
-      IF (NDAMP1.EQ.0 .AND. NDAMP2.EQ.0) THEN
+      IF (NDAMP1==0 .AND. NDAMP2==0) THEN
 C---------------------------------
        DO I=1,MIN(MVSIZ,NREST)
         IL=KSP(I+NDEB)
         IN=KSI(IL)
         VIS(I) = VISC*TWO*SQRT(STF*MS(IN))
        ENDDO
-      ELSEIF (NDAMP1.EQ.0) THEN
+      ELSEIF (NDAMP1==0) THEN
 C---------------------------------
        CALL NINTERP(NDAMP2,NPC,PLD,MIN(MVSIZ,NREST),FNPV,VISC2)
        DO I=1,MIN(MVSIZ,NREST)
         VIS(I)=VISC*VISC2(I)
        ENDDO
-      ELSEIF (NDAMP2.EQ.0) THEN
+      ELSEIF (NDAMP2==0) THEN
 C---------------------------------
        DO I=1,MIN(MVSIZ,NREST)
         IL=KSP(I+NDEB)
@@ -323,7 +323,7 @@ C-------------------------------
         WST(IN)  = VIS(I)
       ENDDO
 C---------------------------------
-      IF (NREST-MVSIZ.GT.0) THEN
+      IF (NREST-MVSIZ>0) THEN
         NREST=NREST-MVSIZ
         NDEB =NDEB +MVSIZ
         GOTO 200

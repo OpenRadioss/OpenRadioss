@@ -122,16 +122,16 @@ C         END IF
 c       END IF                                          
       ENDDO                                                 
 C-------          
-      IF(IPRI.GE.1) THEN                                              
+      IF(IPRI>=1) THEN                                              
         WRITE(IOUT,'(/,A,/)')' SEGMENTS USED FOR SURFACE DEFINITION'  
         K=1                                                           
         K4=4                                                          
-        IF(N2D.NE.0)K4=2                                              
+        IF(N2D/=0)K4=2                                              
         DO I=1,NRTNEW                                                    
           WRITE(IOUT,FMT=FMW_4I)(ITAB(IRECT(K,I)),K=1,K4)             
         ENDDO                                                         
       ENDIF                                                           
-      IF (NRTNEW.NE.0) CALL COUNT3(IRECT,MSV,MSN,NRTNEW,NTAG)                         
+      IF (NRTNEW/=0) CALL COUNT3(IRECT,MSV,MSN,NRTNEW,NTAG)                         
 C------------------------------------------------------------
       RETURN
       END

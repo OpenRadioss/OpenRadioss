@@ -64,7 +64,7 @@ C     REAL
 C-----------------------------------------------
       RA2=(HALF*RWL(7))**2
 C
-      IF(MSR.EQ.0)THEN
+      IF(MSR==0)THEN
        XWL0=RWL(4)
        YWL0=RWL(5)
        ZWL0=RWL(6)
@@ -107,7 +107,7 @@ C
         YC=UY-YWL
         ZC=UZ-ZWL
         DP=XC**2+YC**2+ZC**2
-        IF(DP.GT.RA2)GOTO 20
+        IF(DP>RA2)GOTO 20
         NIMPACT = NIMPACT+1
         IMPACT(NIMPACT) = I
  20   CONTINUE
@@ -164,7 +164,7 @@ C     REAL
      .   FCOE, FAC, ALPHA, ALPHI, FXT, FYT, FZT
 C-----------------------------------------------
 C
-      IF(MSR.EQ.0)THEN
+      IF(MSR==0)THEN
        XWL0=RWL(4)
        YWL0=RWL(5)
        ZWL0=RWL(6)
@@ -298,7 +298,7 @@ C     REAL
      .   DV, DA, DVT
 C-----------------------------------------------
 C
-      IF(MSR.EQ.0)THEN
+      IF(MSR==0)THEN
        XWL0=RWL(4)
        YWL0=RWL(5)
        ZWL0=RWL(6)
@@ -323,7 +323,7 @@ C
        ZWL=X(M3)+VZW*DT2
       ENDIF
 C     
-      IF(ITIED.EQ.0)THEN
+      IF(ITIED==0)THEN
 C
        DO 40 J = 1,NIMPACT
         I = IMPACT(J)
@@ -348,7 +348,7 @@ C
         A(N3)=A(N3)-DA*ZN
  40    CONTINUE
 C
-      ELSEIF(ITIED.EQ.1)THEN
+      ELSEIF(ITIED==1)THEN
 C
        DO 60 J = 1,NIMPACT
         I = IMPACT(J)
@@ -443,7 +443,7 @@ C     REAL
      .   DA
 C-----------------------------------------------
 C
-      IF(MSR.EQ.0)THEN
+      IF(MSR==0)THEN
        XWL0=RWL(4)
        YWL0=RWL(5)
        ZWL0=RWL(6)
@@ -468,7 +468,7 @@ C
        ZWL=X(M3)+VZW*DT2
       ENDIF
 C
-      IF(ITIED.EQ.0)THEN
+      IF(ITIED==0)THEN
 C
        DO 40 J = 1,NIMPACT
         I = IMPACT(J)
@@ -491,7 +491,7 @@ C
         A(N3)=A(N3)-DA*ZN
  40    CONTINUE
 C
-      ELSEIF(ITIED.EQ.1)THEN
+      ELSEIF(ITIED==1)THEN
 C
        DO 60 J = 1,NIMPACT
         I = IMPACT(J)
@@ -590,7 +590,7 @@ C     REAL
      .   F1(NSN), F2(NSN), F3(NSN), F4(NSN), F5(NSN), F6(NSN), F7(NSN)
 C-----------------------------------------------
 C
-      IF(MSR.EQ.0)THEN
+      IF(MSR==0)THEN
        XWL0=RWL(4)
        YWL0=RWL(5)
        ZWL0=RWL(6)
@@ -612,7 +612,7 @@ C TFEXT only <=> dt12/2.
 C
       TFXT=ZERO
 C     
-      IF(ITIED.EQ.0)THEN
+      IF(ITIED==0)THEN
 C
        DO 40 J = 1,NIMPACT
         I = IMPACT(J)
@@ -699,7 +699,7 @@ c!$OMP ATOMIC ne marche pas
       TFEXT=TFEXT+TFXT
 #include "lockoff.inc"
 C
-C     IF (MSR.NE.0) THEN
+C     IF (MSR/=0) THEN
       CALL SUM_6_FLOAT(1, NIMPACT, F1, FRWL6(1,1), 7)
       CALL SUM_6_FLOAT(1, NIMPACT, F2, FRWL6(2,1), 7)
       CALL SUM_6_FLOAT(1, NIMPACT, F3, FRWL6(3,1), 7)

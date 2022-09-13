@@ -102,12 +102,12 @@ C on peut donc trouver plusieurs occurence de l'edge second.
 C-----------------------------------------------
         I_STOK = II_STOK
         DO I=1,J_STOK
-          IF(PENE(I).GT.ZERO)THEN
+          IF(PENE(I)>ZERO)THEN
             IAD=ADDCM(PROV_M(I))
             J=0
-            DO WHILE(IAD.NE.0.AND.J.LT.NSN4)
+            DO WHILE(IAD/=0.AND.J<NSN4)
               J=J+1
-              IF(CHAINE(1,IAD).EQ.PROV_S(I))THEN
+              IF(CHAINE(1,IAD)==PROV_S(I))THEN
                 PENE(I) = ZERO 
                 IAD=0
               ELSE
@@ -115,10 +115,10 @@ C-----------------------------------------------
                 IAD=CHAINE(2,IAD)
               ENDIF
             ENDDO
-            IF(PENE(I).GT.ZERO)THEN
+            IF(PENE(I)>ZERO)THEN
               K_STOK = K_STOK + 1
                 IADFIN=II_STOK+1
-                IF(IADFIN.GT.NSN4) THEN
+                IF(IADFIN>NSN4) THEN
                   I_MEM = 2
 #include "lockoff.inc"
                   RETURN
@@ -126,7 +126,7 @@ C-----------------------------------------------
                 II_STOK   = IADFIN 
               CHAINE(1,IADFIN)=PROV_S(I)
               CHAINE(2,IADFIN)=0
-              IF(ADDCM(PROV_M(I)).EQ.0)THEN
+              IF(ADDCM(PROV_M(I))==0)THEN
                 ADDCM(PROV_M(I))=IADFIN
               ELSE
                 CHAINE(2,IAD0)=IADFIN
@@ -134,14 +134,14 @@ C-----------------------------------------------
             ENDIF
           ENDIF
         ENDDO
-        IF(K_STOK.EQ.0) THEN
+        IF(K_STOK==0) THEN
 #include "lockoff.inc"         
           RETURN
         ENDIF
 
           I_STOK_FIRST = I_STOK
           DO I=1,J_STOK
-            IF(PENE(I).GT.ZERO)THEN 
+            IF(PENE(I)>ZERO)THEN 
               I_STOK = I_STOK + 1    
               CAND_S(I_STOK) = PROV_S(I)    
               CAND_M(I_STOK) = PROV_M(I)+ESHIFT   
@@ -232,12 +232,12 @@ C on peut donc trouver plusieurs occurence de l'edge second.
 C-----------------------------------------------
         I_STOK = II_STOK
         DO I=1,J_STOK
-          IF(PENE(I).GT.ZERO)THEN
+          IF(PENE(I)>ZERO)THEN
             IAD=ADDCM(PROV_M(I))
             J=0
-            DO WHILE(IAD.NE.0.AND.J.LT.NSN4)
+            DO WHILE(IAD/=0.AND.J<NSN4)
               J=J+1
-              IF(CHAINE(1,IAD).EQ.PROV_S(I))THEN
+              IF(CHAINE(1,IAD)==PROV_S(I))THEN
                 PENE(I) = ZERO 
                 IAD=0
               ELSE
@@ -245,10 +245,10 @@ C-----------------------------------------------
                 IAD=CHAINE(2,IAD)
               ENDIF
             ENDDO
-            IF(PENE(I).GT.ZERO)THEN
+            IF(PENE(I)>ZERO)THEN
               K_STOK = K_STOK + 1
                 IADFIN=II_STOK+1
-                IF(IADFIN.GT.NSN4) THEN
+                IF(IADFIN>NSN4) THEN
                   I_MEM = 2
 #include "lockoff.inc"
                   RETURN
@@ -256,7 +256,7 @@ C-----------------------------------------------
                 II_STOK   = IADFIN 
               CHAINE(1,IADFIN)=PROV_S(I)
               CHAINE(2,IADFIN)=0
-              IF(ADDCM(PROV_M(I)).EQ.0)THEN
+              IF(ADDCM(PROV_M(I))==0)THEN
                 ADDCM(PROV_M(I))=IADFIN
               ELSE
                 CHAINE(2,IAD0)=IADFIN
@@ -265,14 +265,14 @@ C-----------------------------------------------
           ENDIF
         ENDDO
 	
-        IF(K_STOK.EQ.0) THEN
+        IF(K_STOK==0) THEN
 #include "lockoff.inc"         
           RETURN
         ENDIF
 
           I_STOK_FIRST = I_STOK
           DO I=1,J_STOK
-            IF(PENE(I).GT.ZERO)THEN 
+            IF(PENE(I)>ZERO)THEN 
               I_STOK = I_STOK + 1    
               CAND_S(I_STOK) = PROV_S(I)    
               CAND_M(I_STOK) = PROV_M(I)+ESHIFT   

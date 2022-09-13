@@ -160,32 +160,32 @@ C
 C
       D1 = -ABS(D1)
       STIF00=EM20
-      IF(IFUNC1.NE.0.AND.IFUNC2.NE.0)THEN
+      IF(IFUNC1/=0.AND.IFUNC2/=0)THEN
         ITYP=4
-      ELSEIF(IFUNC2.NE.0)THEN
+      ELSEIF(IFUNC2/=0)THEN
         ITYP=3
-      ELSEIF(IFUNC1.NE.0)THEN
+      ELSEIF(IFUNC1/=0)THEN
         ITYP=2
       ELSE
         ITYP=1
-        IF(F1.NE.0..AND.D1.NE.0.)THEN
-         IF(E1.NE.0..OR.STIF1.NE.0.)THEN
+        IF(F1/=0..AND.D1/=0.)THEN
+         IF(E1/=0..OR.STIF1/=0.)THEN
             CALL ANCMSG(MSGID=408,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_2,
      .                   I1=IG,
      .                   C1=TITR)
          ENDIF
-        ELSEIF(F1.NE.0..AND.E1.NE.0.)THEN
-         IF(STIF1.NE.0.)THEN
+        ELSEIF(F1/=0..AND.E1/=0.)THEN
+         IF(STIF1/=0.)THEN
             CALL ANCMSG(MSGID=408,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_2,
      .                   I1=IG,
      .                   C1=TITR)
          ENDIF
-        ELSEIF(D1.NE.0..AND.E1.NE.0.)THEN
-         IF(STIF1.NE.0.)THEN
+        ELSEIF(D1/=0..AND.E1/=0.)THEN
+         IF(STIF1/=0.)THEN
             CALL ANCMSG(MSGID=408,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_2,
@@ -193,32 +193,32 @@ C
      .                   C1=TITR)
          ENDIF
         ENDIF
-        IF(F1.NE.ZERO)THEN
-          IF(D1.NE.ZERO)THEN
+        IF(F1/=ZERO)THEN
+          IF(D1/=ZERO)THEN
             STIF1=-F1/D1
-          ELSEIF(E1.NE.ZERO)THEN
+          ELSEIF(E1/=ZERO)THEN
             STIF1=HALF*F1*F1/E1
-          ELSEIF(STIF1.EQ.ZERO)THEN  
+          ELSEIF(STIF1==ZERO)THEN  
             STIF1=STIF00
           ENDIF
           D1=-F1/STIF1
           E1=-HALF*F1*D1
-          ELSEIF(D1.NE.ZERO)THEN
-          IF(E1.NE.ZERO)THEN
+          ELSEIF(D1/=ZERO)THEN
+          IF(E1/=ZERO)THEN
             STIF1=TWO*E1/D1/D1
-          ELSEIF(STIF1.EQ.ZERO)THEN
+          ELSEIF(STIF1==ZERO)THEN
             STIF1=STIF00
           ENDIF
           F1=-STIF1*D1
           E1=-HALF*F1*D1
-        ELSEIF(E1.NE.ZERO)THEN
-          IF(STIF1.EQ.ZERO)THEN
+        ELSEIF(E1/=ZERO)THEN
+          IF(STIF1==ZERO)THEN
             STIF1=STIF00
           ENDIF
           F1=SQRT(TWO*E1*STIF1)
           D1=-F1/STIF1
         ELSE
-          IF(STIF1.EQ.ZERO)THEN
+          IF(STIF1==ZERO)THEN
             STIF1=STIF00
           ENDIF
           F1=ZERO
@@ -226,7 +226,7 @@ C
           D1=ZERO 
         ENDIF
       ENDIF
-      IF(STIF1.EQ.ZERO)STIF1=STIF0
+      IF(STIF1==ZERO)STIF1=STIF0
       AA = ISENS
       IERROR = SET_U_GEO(5,AA)
       AA = ITYP
@@ -238,13 +238,13 @@ C
       PARGEO(2) = STIF0+STIF1
 C
       IF(.NOT. IS_CRYPTED)THEN
-       IF(ITYP.EQ.1)THEN
+       IF(ITYP==1)THEN
         WRITE(IOUT,1001)AMAS,STIF0,ISENS,ILOCK,F1,D1,E1,STIF1
-       ELSEIF(ITYP.EQ.2)THEN
+       ELSEIF(ITYP==2)THEN
         WRITE(IOUT,1002)AMAS,STIF0,ISENS,ILOCK,IFUNC1,DSCAL
-       ELSEIF(ITYP.EQ.3)THEN
+       ELSEIF(ITYP==3)THEN
         WRITE(IOUT,1002)AMAS,STIF0,ISENS,ILOCK,IFUNC2,TSCAL
-       ELSEIF(ITYP.EQ.4)THEN
+       ELSEIF(ITYP==4)THEN
         WRITE(IOUT,1004)AMAS,STIF0,ISENS,ILOCK,IFUNC1,DSCAL,IFUNC2,TSCAL
        ENDIF
       ENDIF
@@ -472,7 +472,7 @@ C--------------------------------------
 C       ELEMENT CHECK
 C--------------------------------------
         DO I=1,NEL
-          IF(XL(I).EQ.0.0)THEN
+          IF(XL(I)==0.0)THEN
              CALL ANCMSG(MSGID=406,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO_BLIND_1,

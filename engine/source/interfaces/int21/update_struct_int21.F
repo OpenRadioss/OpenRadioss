@@ -98,7 +98,7 @@ C
                     DO J=1,4
                         II = NM(J)
                         PP = MNDD(II)
-                        IF(PP.NE.0.AND.TAG(II) == 0) THEN                     
+                        IF(PP/=0.AND.TAG(II) == 0) THEN                     
                             NODFI = NODFI + 1
                             NMNFI(NIN)%P(PP) = NMNFI(NIN)%P(PP) +1
                             TAG(II)=1
@@ -124,7 +124,7 @@ C
                     DO J=1,4
                         II=NM(J)
                         PP = MNDD(II)
-                        IF(PP.NE.0.AND.TAG(II)==0)  THEN
+                        IF(PP/=0.AND.TAG(II)==0)  THEN
                             PTR = IAD(PP)
                             NMVFI(NIN)%P(PTR) = II
                             TAG(II)=1
@@ -138,8 +138,8 @@ C
 
 C
             IF(IFORM /= 0) THEN 
-                IF(IPARIT.EQ.0) THEN
-                    IF(NODFI.GT.0)ALLOCATE(FTHEFI(NIN)%P(NODFI*NTHREAD),STAT=IERROR2)
+                IF(IPARIT==0) THEN
+                    IF(NODFI>0)ALLOCATE(FTHEFI(NIN)%P(NODFI*NTHREAD),STAT=IERROR2)
                     DO I = 1, NODFI*NTHREAD
                         FTHEFI(NIN)%P(I) = ZERO
                     ENDDO
@@ -147,7 +147,7 @@ C
                     IF(ASSOCIATED(FTHESKYFI(NIN)%P)) DEALLOCATE(FTHESKYFI(NIN)%P)
                     LSKYFI = NODFI*MULTIMAX
                     NLSKYFI(NIN) = LSKYFI
-                    IF(LSKYFI.GT.0) THEN
+                    IF(LSKYFI>0) THEN
                         ALLOCATE(ISKYFI(NIN)%P(LSKYFI),STAT=IERROR3)
                         ALLOCATE(FTHESKYFI(NIN)%P(LSKYFI),STAT=IERROR4)
                     ENDIF
@@ -155,7 +155,7 @@ C
             ENDIF
 
             IF (IFLAGLOADP > 0) THEN
-                IF(NODFI.GT.0) THEN 
+                IF(NODFI>0) THEN 
                   IF(ASSOCIATED( TAGNCONTFI(NIN)%P )) DEALLOCATE(TAGNCONTFI(NIN)%P)
                    ALLOCATE(TAGNCONTFI(NIN)%P(NODFI),STAT=IERROR2)   
                      DO I = 1, NODFI

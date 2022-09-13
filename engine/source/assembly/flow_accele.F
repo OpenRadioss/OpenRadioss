@@ -54,7 +54,7 @@ C
 #include      "vectorize.inc"
       DO N=NODFT,NODLT
         IF(NALE(N) == 3) THEN
-         IF(MS(N).GT.ZERO) THEN
+         IF(MS(N)>ZERO) THEN
            RTMP = ONE / MS(N)
            A(1,N) = A(1,N) * RTMP
            A(2,N) = A(2,N) * RTMP
@@ -63,7 +63,7 @@ C
            A(1,N) = ZERO
            A(2,N) = ZERO
            A(3,N) = ZERO
-           IF(NMULT.NE.0) THEN
+           IF(NMULT/=0) THEN
              V(1,N) = ZERO
              V(2,N) = ZERO
              V(3,N) = ZERO

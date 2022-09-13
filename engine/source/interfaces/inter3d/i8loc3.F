@@ -114,22 +114,22 @@ C
         FMS=(XI(I)-X(1,NG))**2+(YI(I)-X(2,NG))**2+(ZI(I)-X(3,NG))**2
 
         IF(CMS < GMS .OR.
-     .    (CMS == GMS .AND. ITAB(MSR(JLNEW)).GT.ITAB(MSR(J)))) THEN
+     .    (CMS == GMS .AND. ITAB(MSR(JLNEW))>ITAB(MSR(J)))) THEN
          GMS=CMS
          JLNEW=J
         ENDIF
         IF(DMS<GMS .OR. 
-     .     (DMS==GMS .AND. ITAB(MSR(JLNEW)).GT.ITAB(MSR(K))))  THEN
+     .     (DMS==GMS .AND. ITAB(MSR(JLNEW))>ITAB(MSR(K))))  THEN
          GMS=DMS
          JLNEW=K
         ENDIF
         IF(EMS<GMS .OR. 
-     .    (EMS==GMS .AND. ITAB(MSR(JLNEW)).GT.ITAB(MSR(M)) )) THEN
+     .    (EMS==GMS .AND. ITAB(MSR(JLNEW))>ITAB(MSR(M)) )) THEN
          GMS=EMS
          JLNEW=M
         ENDIF
         IF(FMS < GMS .OR.
-     .    (FMS==GMS .AND. ITAB(MSR(JLNEW)).GT.ITAB(MSR(N))) ) THEN
+     .    (FMS==GMS .AND. ITAB(MSR(JLNEW))>ITAB(MSR(N))) ) THEN
          GMS=FMS
          JLNEW=N
         ENDIF

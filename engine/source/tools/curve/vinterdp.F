@@ -47,13 +47,13 @@ C
        ICONT = 0
        DO I=1,NEL0
          J1 = IPOS(I)+IAD(I)+1
-         IF(J.LE.ILEN(I)-1.AND.X(I).GT.TF(1,J1))THEN
+         IF(J<=ILEN(I)-1.AND.X(I)>TF(1,J1))THEN
            IPOS(I)=IPOS(I)+1
            ICONT = 1
          ENDIF
        ENDDO
 C
-      IF(ICONT.EQ.1)GOTO 100
+      IF(ICONT==1)GOTO 100
 C
       DO I=1,NEL0
         J1   =IPOS(I)+IAD(I)

@@ -58,12 +58,12 @@ C
 ! --------------------------
       EL = 0
       DO I = 1, NUMEL
-        IF(CEP(I).EQ.P) THEN
+        IF(CEP(I)==P) THEN
           EL = EL + 1
           IXTMP(1,EL) = IXX(1,I)
           DO N = 1, NNOD
             NN = IXX(1+N,I)
-            IF(NN.NE.0) THEN
+            IF(NN/=0) THEN
               IXTMP(1+N,EL) = NODLOCAL(NN)
             ELSE
               IXTMP(1+N,EL) = 0

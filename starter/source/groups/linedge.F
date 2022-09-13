@@ -64,15 +64,15 @@ C=======================================================================
       DO I = 1,NSEG0
         DO J1=1,4
           J2=IPERM(J1)
-          IF(BUFTMP(J2,I).NE.0.AND.
-     .       BUFTMP(J1,I).GT.BUFTMP(J2,I))THEN
+          IF(BUFTMP(J2,I)/=0.AND.
+     .       BUFTMP(J1,I)>BUFTMP(J2,I))THEN
             K=K+1
             IW1(K)=BUFTMP(J2,I)
             IW2(K)=BUFTMP(J1,I)
             IW5(K)=BUFTMP(5,I)
             IW6(K)=BUFTMP(6,I)
-          ELSEIF(BUFTMP(J1,I).NE.0.AND.
-     .           BUFTMP(J1,I).LT.BUFTMP(J2,I))THEN
+          ELSEIF(BUFTMP(J1,I)/=0.AND.
+     .           BUFTMP(J1,I)<BUFTMP(J2,I))THEN
             K=K+1
             IW1(K)=BUFTMP(J1,I)
             IW2(K)=BUFTMP(J2,I)
@@ -92,8 +92,8 @@ C-----------------------------------------------
         NSEG=1
         IF (FLAG == 0) THEN
           DO I=2,K
-            IF(IW1(INDEX(I-1)).NE.IW1(INDEX(I)).OR.
-     .         IW2(INDEX(I-1)).NE.IW2(INDEX(I))) NSEG=NSEG+1
+            IF(IW1(INDEX(I-1))/=IW1(INDEX(I)).OR.
+     .         IW2(INDEX(I-1))/=IW2(INDEX(I))) NSEG=NSEG+1
           ENDDO
         ELSEIF (FLAG == 1) THEN
           SLIN_NODES(1,1) = IW1(INDEX(1))
@@ -101,8 +101,8 @@ C-----------------------------------------------
           SLIN_ELTYP(1)   = IW5(INDEX(1))
           SLIN_ELEM(1)    = IW6(INDEX(1))
           DO I=2,K
-            IF(IW1(INDEX(I-1)).NE.IW1(INDEX(I)).OR.
-     .         IW2(INDEX(I-1)).NE.IW2(INDEX(I)))THEN
+            IF(IW1(INDEX(I-1))/=IW1(INDEX(I)).OR.
+     .         IW2(INDEX(I-1))/=IW2(INDEX(I)))THEN
               NSEG=NSEG+1
               SLIN_NODES(NSEG,1) = IW1(INDEX(I))
               SLIN_NODES(NSEG,2) = IW2(INDEX(I))
@@ -117,20 +117,20 @@ C SUPPRESSION DES SEGMENTS INTERNES (SAUF BORDS)
 C-----------------------------------------------
         NSEG=0
         IF (FLAG == 0) THEN
-          IF(IW1(INDEX(1)).NE.IW1(INDEX(2)).OR.
-     .       IW2(INDEX(1)).NE.IW2(INDEX(2))) NSEG=1
+          IF(IW1(INDEX(1))/=IW1(INDEX(2)).OR.
+     .       IW2(INDEX(1))/=IW2(INDEX(2))) NSEG=1
           DO I=2,K-1
-            IF((IW1(INDEX(I-1)).NE.IW1(INDEX(I)).OR.
-     .          IW2(INDEX(I-1)).NE.IW2(INDEX(I))).AND.
-     .         (IW1(INDEX(I+1)).NE.IW1(INDEX(I)).OR.
-     .          IW2(INDEX(I+1)).NE.IW2(INDEX(I)))) NSEG=NSEG+1
+            IF((IW1(INDEX(I-1))/=IW1(INDEX(I)).OR.
+     .          IW2(INDEX(I-1))/=IW2(INDEX(I))).AND.
+     .         (IW1(INDEX(I+1))/=IW1(INDEX(I)).OR.
+     .          IW2(INDEX(I+1))/=IW2(INDEX(I)))) NSEG=NSEG+1
           ENDDO
-          IF(IW1(INDEX(K-1)).NE.IW1(INDEX(K)).OR.
-     .       IW2(INDEX(K-1)).NE.IW2(INDEX(K))) NSEG=NSEG+1                    
+          IF(IW1(INDEX(K-1))/=IW1(INDEX(K)).OR.
+     .       IW2(INDEX(K-1))/=IW2(INDEX(K))) NSEG=NSEG+1                    
 C
         ELSEIF (FLAG == 1) THEN
-          IF(IW1(INDEX(1)).NE.IW1(INDEX(2)).OR.
-     .       IW2(INDEX(1)).NE.IW2(INDEX(2)))THEN
+          IF(IW1(INDEX(1))/=IW1(INDEX(2)).OR.
+     .       IW2(INDEX(1))/=IW2(INDEX(2)))THEN
              NSEG=1                    
              SLIN_NODES(NSEG,1) = IW1(INDEX(1))
              SLIN_NODES(NSEG,2) = IW2(INDEX(1))
@@ -138,10 +138,10 @@ C
              SLIN_ELEM(NSEG)    = IW6(INDEX(1))
           ENDIF
           DO I=2,K-1
-            IF((IW1(INDEX(I-1)).NE.IW1(INDEX(I)).OR.
-     .          IW2(INDEX(I-1)).NE.IW2(INDEX(I))).AND.
-     .         (IW1(INDEX(I+1)).NE.IW1(INDEX(I)).OR.
-     .          IW2(INDEX(I+1)).NE.IW2(INDEX(I))))THEN
+            IF((IW1(INDEX(I-1))/=IW1(INDEX(I)).OR.
+     .          IW2(INDEX(I-1))/=IW2(INDEX(I))).AND.
+     .         (IW1(INDEX(I+1))/=IW1(INDEX(I)).OR.
+     .          IW2(INDEX(I+1))/=IW2(INDEX(I))))THEN
               NSEG=NSEG+1
               SLIN_NODES(NSEG,1) = IW1(INDEX(I))
               SLIN_NODES(NSEG,2) = IW2(INDEX(I))
@@ -149,8 +149,8 @@ C
               SLIN_ELEM(NSEG)    = IW6(INDEX(I))
             ENDIF
           ENDDO
-          IF(IW1(INDEX(K-1)).NE.IW1(INDEX(K)).OR.
-     .       IW2(INDEX(K-1)).NE.IW2(INDEX(K)))THEN
+          IF(IW1(INDEX(K-1))/=IW1(INDEX(K)).OR.
+     .       IW2(INDEX(K-1))/=IW2(INDEX(K)))THEN
             NSEG=NSEG+1                    
             SLIN_NODES(NSEG,1) = IW1(INDEX(K))
             SLIN_NODES(NSEG,2) = IW2(INDEX(K))

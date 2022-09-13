@@ -260,7 +260,7 @@ C
       L = 0
       DO P = 1, NSPMD
         if(P==LOC_PROC) cycle
-        IF (NB_P(P).GT.0) THEN
+        IF (NB_P(P)>0) THEN
           DO J = 1, NB_P(P)
             N = INDEX_P(J,P)
             NOD = KXSP(3,N)
@@ -279,7 +279,7 @@ C
       ! Total number of particules to send
       NSPHS = 0 
       DO P = 1, NSPMD  
-         IF(LOC_PROC .NE.P) THEN
+         IF(LOC_PROC /=P) THEN
          NSPHS = NSPHS + PSPHS(P) 
          ENDIF
       ENDDO
@@ -294,7 +294,7 @@ C
       IERROR = IERROR1 + IERROR
 
 
-      IF(IERROR.NE.0) THEN
+      IF(IERROR/=0) THEN
         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
         CALL ARRET(2)
       END IF
@@ -304,7 +304,7 @@ C
       IDEB = 0 
       L = 0
       DO P = 1, NSPMD  
-        IF(LOC_PROC .NE.P) THEN
+        IF(LOC_PROC /=P) THEN
 #include "novectorize.inc"
            DO I = 1,PSPHS(P) 
              IDEB = IDEB + 1
@@ -330,8 +330,8 @@ C
 
       DO P = 1, NSPMD
 !        PSPHR(P) = 0
-        IF(LOC_PROC.NE.P) THEN
-          IF(PSPHR(P).GT.0) THEN
+        IF(LOC_PROC/=P) THEN
+          IF(PSPHR(P)>0) THEN
             L=L+1
             ISINDEXI(L)=P
             NSPHR = NSPHR + PSPHR(P)
@@ -376,7 +376,7 @@ C
       ALLOCATE(DKR(NSPHR),STAT=IERROR1)
       IERROR = IERROR1 + IERROR
 
-      IF(IERROR.NE.0) THEN
+      IF(IERROR/=0) THEN
         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
         CALL ARRET(2)
       END IF
@@ -506,7 +506,7 @@ C
 Cel envoi voxel + boite min/max
 C
       DO P = 1, NSPMD
-            IF(P.NE.LOC_PROC) THEN
+            IF(P/=LOC_PROC) THEN
               MSGTYP = MSGOFF
               CALL MPI_ISEND(
      .          CRVOXEL(0,0,LOC_PROC),
@@ -524,7 +524,7 @@ Cel reception voxel + boites min-max
 C
       NBIRECV=0
       DO P = 1, NSPMD
-            IF(LOC_PROC.NE.P) THEN
+            IF(LOC_PROC/=P) THEN
               NBIRECV=NBIRECV+1
               IRINDEXI(NBIRECV)=P
               MSGTYP = MSGOFF
@@ -604,9 +604,9 @@ C
         CALL MPI_ISEND(NBO(P),1,MPI_INTEGER,IT_SPMD(P),MSGTYP,
      .                 MPI_COMM_WORLD,REQ_SD(P),IERROR)
 C
-        IF (NB.GT.0) THEN
+        IF (NB>0) THEN
           ALLOCATE(BUF(P)%P(SIZSPT*NB),STAT=IERROR)
-          IF(IERROR.NE.0) THEN
+          IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
           END IF
@@ -631,7 +631,7 @@ C
       ! Total number of particules to send
       NSPHS = 0 
       DO P = 1, NSPMD  
-         IF(LOC_PROC .NE.P) THEN
+         IF(LOC_PROC /=P) THEN
          NSPHS = NSPHS + PSPHS(P) 
          ENDIF
       ENDDO
@@ -645,7 +645,7 @@ C
       ALLOCATE(DKS(NSPHS),STAT=IERROR1)
       IERROR = IERROR1 + IERROR
 
-      IF(IERROR.NE.0) THEN
+      IF(IERROR/=0) THEN
         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
         CALL ARRET(2)
       END IF
@@ -654,7 +654,7 @@ C
       ! Fill LSPHS with local numbers 
       IDEB = 0 
       DO P = 1, NSPMD  
-        IF(LOC_PROC .NE.P) THEN
+        IF(LOC_PROC /=P) THEN
           L = 0
 #include "novectorize.inc"
            DO I = 1,PSPHS(P) 
@@ -671,11 +671,11 @@ C
       L=0
       DO P = 1, NSPMD
         PSPHR(P) = 0
-        IF(LOC_PROC.NE.P) THEN
+        IF(LOC_PROC/=P) THEN
           MSGTYP = MSGOFF3
           CALL MPI_RECV(PSPHR(P),1,MPI_INTEGER,IT_SPMD(P),
      .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
-          IF(PSPHR(P).GT.0) THEN
+          IF(PSPHR(P)>0) THEN
             L=L+1
             ISINDEXI(L)=P
             NSPHR = NSPHR + PSPHR(P)
@@ -684,7 +684,7 @@ C
       END DO
       NBIRECV=L
 C
-      IF(NSPHR.GT.0) THEN
+      IF(NSPHR>0) THEN
         IERROR = 0
         IF(ALLOCATED(XSPHR))DEALLOCATE(XSPHR)
         ALLOCATE(XSPHR(SIZSPT,NSPHR),STAT=IERROR1)
@@ -695,7 +695,7 @@ C
         IERROR = IERROR1 + IERROR
 
 
-        IF(IERROR.NE.0) THEN
+        IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
         END IF
@@ -717,16 +717,16 @@ C
       END IF  
 C
       DO P = 1, NSPMD
-        IF(P.NE.LOC_PROC) THEN
+        IF(P/=LOC_PROC) THEN
           CALL MPI_WAIT(REQ_SB(P),STATUS,IERROR)
           CALL MPI_WAIT(REQ_SC(P),STATUS,IERROR)
         ENDIF
       END DO
 C
       DO P = 1, NSPMD
-        IF(P.NE.LOC_PROC) THEN
+        IF(P/=LOC_PROC) THEN
           CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
-          IF(NBO(P).NE.0) THEN
+          IF(NBO(P)/=0) THEN
             CALL MPI_WAIT(REQ_SD2(P),STATUS,IERROR)
             DEALLOCATE(BUF(P)%P)
           END IF

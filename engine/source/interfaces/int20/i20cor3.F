@@ -91,14 +91,14 @@ C-----------------------------------------------
       INTEGER I ,J  ,IL, L, NN, IG,JFT, IX,  NI
 C-----------------------------------------------
 C
-      IF(IGAP.EQ.0)THEN
+      IF(IGAP==0)THEN
         DO I=1,JLT
           GAPV(I)=GAP
           GAPR(I)=GAPV(I)
         ENDDO
       ELSE
         DO I=1,JLT
-          IF(CAND_N(I).LE.NSN) THEN
+          IF(CAND_N(I)<=NSN) THEN
             GAPV(I)=GAP_S(CAND_N(I))+GAP_M(CAND_E(I))
           ELSE
             GAPV(I)=GAPFI(NIN)%P(CAND_N(I)-NSN)+GAP_M(CAND_E(I))
@@ -114,7 +114,7 @@ C
         DO I=1,JLT
          NI = CAND_N(I)
          L  = CAND_E(I)
-         IF(NI.LE.NSN)THEN
+         IF(NI<=NSN)THEN
            IL = NSV(NI)
            IG = NLG(IL)
            NSVG(I) = IG
@@ -170,7 +170,7 @@ C
         DO I=1,JLT
          NI = CAND_N(I)
          L  = CAND_E(I)
-         IF(NI.LE.NSN)THEN
+         IF(NI<=NSN)THEN
            IL = NSV(NI)
            IG = NLG(IL)
            NSVG(I) = IG
@@ -231,22 +231,22 @@ C
         END DO
       ENDIF 
 C
-      IF(IGSTI.LE.1)THEN
+      IF(IGSTI<=1)THEN
          DO I=1,JLT
           L  = CAND_E(I)
           NI = CAND_N(I)
-          IF(NI.LE.NSN)THEN
+          IF(NI<=NSN)THEN
             STIF(I)=STF(L)*ABS(STFA(NSV(NI)))
           ELSE
             NN = NI - NSN
             STIF(I)=STF(L)*ABS(STIFI(NIN)%P(NN))
           END IF
          ENDDO
-      ELSEIF(IGSTI.EQ.2)THEN
+      ELSEIF(IGSTI==2)THEN
          DO I=1,JLT
           L  = CAND_E(I)
           NI = CAND_N(I)
-          IF(NI.LE.NSN)THEN
+          IF(NI<=NSN)THEN
             STIF(I)=ABS(STFA(NSV(NI)))
           ELSE
             NN = NI - NSN
@@ -255,11 +255,11 @@ C
           STIF(I)=HALF*(STF(L)+STIF(I))
           STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
          ENDDO
-      ELSEIF(IGSTI.EQ.3)THEN
+      ELSEIF(IGSTI==3)THEN
          DO I=1,JLT
           L  = CAND_E(I)
           NI = CAND_N(I)
-          IF(NI.LE.NSN)THEN
+          IF(NI<=NSN)THEN
             STIF(I)=ABS(STFA(NSV(NI)))
           ELSE
             NN = NI - NSN
@@ -268,11 +268,11 @@ C
           STIF(I)=MAX(STF(L),STIF(I))
           STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
          ENDDO
-      ELSEIF(IGSTI.EQ.4)THEN
+      ELSEIF(IGSTI==4)THEN
          DO I=1,JLT
           L  = CAND_E(I)
           NI = CAND_N(I)
-          IF(NI.LE.NSN)THEN
+          IF(NI<=NSN)THEN
             STIF(I)=ABS(STFA(NSV(NI)))
           ELSE
             NN = NI - NSN
@@ -281,11 +281,11 @@ C
           STIF(I)=MIN(STF(L),STIF(I))
           STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
          ENDDO
-      ELSEIF(IGSTI.EQ.5)THEN
+      ELSEIF(IGSTI==5)THEN
          DO I=1,JLT
           L  = CAND_E(I)
           NI = CAND_N(I)
-          IF(NI.LE.NSN)THEN
+          IF(NI<=NSN)THEN
             STIF(I)=ABS(STFA(NSV(NI)))
           ELSE
             NN = NI - NSN
@@ -301,7 +301,7 @@ C
         STIF(I)=MAX(STFAC,ONE)*STIF(I)
       ENDDO
 
-      IF(IADM.NE.0)THEN
+      IF(IADM/=0)THEN
         DO I=1,JLT
          L  = CAND_E(I)
          RCURVI(I)=RCURV(L)
@@ -312,7 +312,7 @@ C
 C
       IF(IDTMINS==2)THEN
        DO I=1,JLT
-        IF(NSVG(I).GT.0)THEN
+        IF(NSVG(I)>0)THEN
           NSMS(I)=NODNX_SMS(NSVG(I))
      .                       +NODNX_SMS(NLG(IX1(I)))
      .                       +NODNX_SMS(NLG(IX2(I)))
@@ -329,7 +329,7 @@ C
        ENDDO
        IF(IDTMINS_INT/=0)THEN
          DO I=1,JLT
-          IF(NSMS(I).EQ.0)NSMS(I)=-1
+          IF(NSMS(I)==0)NSMS(I)=-1
          ENDDO
        END IF
       ELSEIF(IDTMINS_INT/=0)THEN
@@ -405,8 +405,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I ,NN
 C-----------------------------------------------
-      IF(IMACH.NE.3) THEN
-        IF(IGAP.EQ.0)THEN
+      IF(IMACH/=3) THEN
+        IF(IGAP==0)THEN
           DO I=1,JLT
             GAPV(I)=GAPMIN
           ENDDO
@@ -459,13 +459,13 @@ C
         ENDDO
 C
       ELSE
-        IF(IGAP.EQ.0)THEN
+        IF(IGAP==0)THEN
           DO I=1,JLT
             GAPV(I)=GAPMIN
           ENDDO
         ELSE
           DO I=1,JLT
-            IF(CAND_S(I).LE.NRTS) THEN
+            IF(CAND_S(I)<=NRTS) THEN
               GAPV(I)=GAP_S(CAND_S(I))+GAP_M(CAND_M(I))
             ELSE
               GAPV(I)=GAPFIE(NIN)%P(CAND_S(I)-NRTS)+GAP_M(CAND_M(I))
@@ -475,7 +475,7 @@ C
         ENDIF
 C
         DO I=1,JLT
-          IF(CAND_S(I).LE.NRTS) THEN
+          IF(CAND_S(I)<=NRTS) THEN
             NL1(I)=IXLINS(1,CAND_S(I))
             NL2(I)=IXLINS(2,CAND_S(I))
             ML1(I)=IXLINM(1,CAND_M(I))
@@ -562,7 +562,7 @@ C
 C
       IF(IDTMINS==2)THEN
        DO I=1,JLT
-        IF(CAND_S(I).LE.NRTS)THEN
+        IF(CAND_S(I)<=NRTS)THEN
           NSMS(I)=NODNX_SMS(N1(I))+NODNX_SMS(N2(I))+
      .            NODNX_SMS(M1(I))+NODNX_SMS(M2(I))
         ELSE
@@ -572,7 +572,7 @@ C
        ENDDO
        IF(IDTMINS_INT/=0)THEN
          DO I=1,JLT
-          IF(NSMS(I).EQ.0)NSMS(I)=-1
+          IF(NSMS(I)==0)NSMS(I)=-1
          ENDDO
        END IF
       ELSEIF(IDTMINS_INT/=0)THEN
@@ -696,7 +696,7 @@ C
       DO I=1,JLT
        IF(IGAP/=0)THEN
          AAA = GAP_S(CAND_S(I))
-         IF(CAND_S(I).LE.NLINSA) THEN
+         IF(CAND_S(I)<=NLINSA) THEN
            SX1 = SOLIDN_NORMAL(1,N1(I))*AAA
            SY1 = SOLIDN_NORMAL(2,N1(I))*AAA
            SZ1 = SOLIDN_NORMAL(3,N1(I))*AAA
@@ -779,7 +779,7 @@ C!!!!!!!!!!!!!!!!!!!!!!!!
       IF(IDTMINS/=2)THEN
 #include      "vectorize.inc"
        DO I=1,JLT
-        IF(PENE2(I).NE.ZERO.AND.STIF(I).NE.ZERO)THEN
+        IF(PENE2(I)/=ZERO.AND.STIF(I)/=ZERO)THEN
           JLT_NEW = JLT_NEW + 1
           CAND_S(JLT_NEW) = CAND_S(I)
           CAND_M(JLT_NEW) = CAND_M(I)
@@ -821,7 +821,7 @@ C!!!!!!!!!!!!!!!!!!!!!!!!
       ELSE
 #include      "vectorize.inc"
        DO I=1,JLT
-        IF(PENE2(I).NE.ZERO.AND.STIF(I).NE.ZERO)THEN
+        IF(PENE2(I)/=ZERO.AND.STIF(I)/=ZERO)THEN
           JLT_NEW = JLT_NEW + 1
           CAND_S(JLT_NEW) = CAND_S(I)
           CAND_M(JLT_NEW) = CAND_M(I)

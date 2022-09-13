@@ -68,7 +68,7 @@ C-----------------------------------------------
         MX = MAT(I)
         ZZ = MAX(EM10,Z(I))
         DELTAT= THREEP44 * ZEP26 * LOG(ZZ) / ZZ
-        IF(DELTAT.GT.ZERO)THEN
+        IF(DELTAT>ZERO)THEN
           DELTAT= ONE / ( ONE +  DELTAT)
         ELSE
           DELTAT= ZERO
@@ -88,7 +88,7 @@ C-----------------------------------------------
         J=I+NFT
         MX = MAT(I)
         STEFAN = PM(51,MX)
-        IF(STEFAN.GT.ZERO.AND.T(I).GT.EP04)THEN
+        IF(STEFAN>ZERO.AND.T(I)>EP04)THEN
           NR     = NINT(PM(48,MX))
           NT     = NINT(PM(49,MX))
           IDR    = NINT(PM(50,MX))

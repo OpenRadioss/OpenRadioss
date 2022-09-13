@@ -301,14 +301,14 @@ c              N3=NB12+I-1
               WWA(1) = GBUF%OFF(I)
               WWA(8) = GBUF%EINT(I)
 c
-              IF( NFILSOL .NE. 0 .AND. GBUF%G_FILL .NE. 0 ) THEN
+              IF( NFILSOL /= 0 .AND. GBUF%G_FILL /= 0 ) THEN
                 WWA(8) = WWA(8) * GBUF%FILL(I)
               ENDIF
 c
               WWA(9) = GBUF%RHO(I)
               IF (GBUF%G_QVIS > 0) WWA(10)= GBUF%QVIS(I)
               WWA(11)= GBUF%VOL(I)
-              IF(JLAG==1 .AND. GBUF%RHO(I).GT.ZERO)THEN
+              IF(JLAG==1 .AND. GBUF%RHO(I)>ZERO)THEN
                 WWA(11)=GBUF%VOL(I) * PM(89,IXS(1,NFT+I))/GBUF%RHO(I)    ! GBUF%VOL(I) = V0 for lagrangian solids ; (rho is optionnal for void material law)
               ENDIF
 C-----------
@@ -392,7 +392,7 @@ C
      .              Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,               
      .              R11, R12, R13, R21, R22, R23, R31, R32, R33)
 c
-                  IF( NFILSOL .NE. 0 .AND. GBUF%G_FILL .NE. 0 ) THEN
+                  IF( NFILSOL /= 0 .AND. GBUF%G_FILL /= 0 ) THEN
                     S11 = S11 * GBUF%FILL(I)
                     S22 = S22 * GBUF%FILL(I)
                     S33 = S33 * GBUF%FILL(I)
@@ -492,7 +492,7 @@ C                    MATRICE DE PASSAGE GLOBAL -> ORTHOTROPE.
                    ENDIF
                   ENDIF  ! kcvt = 2
 c
-                 IF( NFILSOL .NE. 0 .AND. GBUF%G_FILL .NE. 0 ) THEN
+                 IF( NFILSOL /= 0 .AND. GBUF%G_FILL /= 0 ) THEN
                    S11 = S11 * GBUF%FILL(I)
                    S22 = S22 * GBUF%FILL(I)
                    S33 = S33 * GBUF%FILL(I)
@@ -584,7 +584,7 @@ C                  TRANSFORMATION MATRIX GLOBAL -> ORTHOTROPIC.
                    R33=T33
                  END IF
 c
-                 IF( NFILSOL .NE. 0 .AND. GBUF%G_FILL .NE. 0 ) THEN
+                 IF( NFILSOL /= 0 .AND. GBUF%G_FILL /= 0 ) THEN
                    S11 = S11 * GBUF%FILL(I)
                    S22 = S22 * GBUF%FILL(I)
                    S33 = S33 * GBUF%FILL(I)
@@ -836,10 +836,10 @@ C MACH NUMBER
      .                       MULTI_FVM%VEL(3, N)*MULTI_FVM%VEL(3, N)) / 
      .                       MULTI_FVM%SOUND_SPEED(N)
 
-              ELSEIF(I_ALE_SOLVER.GT.1)THEN
+              ELSEIF(I_ALE_SOLVER>1)THEN
 C SSP
                 WWA(239550)= LBUF%SSP(I)                                 
-                IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP .NE. 0)THEN   
+                IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN   
                   VEL(1) = GBUF%MOM(I) / GBUF%RHO(I) 
                   VEL(2) = GBUF%MOM(NEL + I) / GBUF%RHO(I)
                   VEL(3) = GBUF%MOM(2*NEL+ I) / GBUF%RHO(I) 
@@ -852,7 +852,7 @@ C SSP
               ELSE IF (MTE==51) THEN
 C SSP
                 WWA(239550)= LBUF%SSP(I)                                                      
-                IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP .NE. 0)THEN 
+                IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN 
                    VEL(1) = TMP_2(I,1)*ONE_OVER_8!SUM(TMP(1,1:8))*ONE_OVER_8              
                    VEL(2) = TMP_2(I,2)*ONE_OVER_8!SUM(TMP(2,1:8))*ONE_OVER_8              
                    VEL(3) = TMP_2(I,3)*ONE_OVER_8!SUM(TMP(3,1:8))*ONE_OVER_8   

@@ -141,10 +141,10 @@ C-----------------------------------------------
         S5(I)=(SIG(I,5)+SVIS(I,5))*FVOL
         S6(I)=(SIG(I,6)+SVIS(I,6))*FVOL
        ENDDO
-      ELSEIF (ICP.EQ.1) THEN
+      ELSEIF (ICP==1) THEN
        COEF=THIRD
 C------due to degratation of rubber test, will definitively fix w/ real Kt       
-       IF (MTN.EQ.42.OR.MTN.EQ.62.OR.MTN.EQ.82)COEF=ZEP3
+       IF (MTN==42.OR.MTN==62.OR.MTN==82)COEF=ZEP3
        DO I=LFT,LLT
         VOL_LOC = VOL(I)
         P(I) =COEF*(SIG(I,1)+SIG(I,2)+SIG(I,3)
@@ -196,7 +196,7 @@ C------due to degratation of rubber test, will definitively fix w/ real Kt
         F38(I)=F38(I)-(S3(I)*PZ8(I)+S6(I)*PZX8(I)+S5(I)*PZY8(I))
        ENDDO
 C  
-       IF (ICP.NE.1) THEN
+       IF (ICP/=1) THEN
         DO I=LFT,LLT
          F11(I)=F11(I)-(S2(I)*BXY1(I)+S3(I)*BXZ1(I))
          F21(I)=F21(I)-(S1(I)*BYX1(I)+S3(I)*BYZ1(I))

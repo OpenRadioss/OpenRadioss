@@ -150,7 +150,7 @@ C
       !unit
       !========== DEFAULT VALUES=============!              
       RHOR=RHO0
-      IF(RHOR.EQ.ZERO)RHOR=RHO0
+      IF(RHOR==ZERO)RHOR=RHO0
       PM(1) =RHOR
       PM(89)=RHO0
 !  

@@ -88,7 +88,7 @@ C-----------------------------------------------
         DO NS =1+ITASK,NSP2SORT,NTHREAD
          N=WSP2SORT(NS)
          JS=ISPSYM(NC,N)
-         IF(JS.GT.0)THEN
+         IF(JS>0)THEN
           INOD=KXSP(3,N)
           XI =X(1,INOD)
           YI =X(2,INOD)
@@ -108,7 +108,7 @@ C Particules symetriques de particules remotes
 C
         DO NS = 1+ITASK, NSPHR,NTHREAD
          JS=ISPSYMR(NC,NS)
-         IF(JS.GT.0)THEN
+         IF(JS>0)THEN
           XI =XSPHR(3,NS)
           YI =XSPHR(4,NS)
           ZI =XSPHR(5,NS)
@@ -194,13 +194,13 @@ Cel routine simplifiee (traitement sur XSPSYM effectue ds SPADASM0)
         DO NS =1+ITASK,NSP2SORT,NTHREAD
          N=WSP2SORT(NS)
          JS=ISPSYM(NC,N)
-         IF(JS.GT.0)THEN
+         IF(JS>0)THEN
           INOD=KXSP(3,N)
           VXI=V(1,INOD)
           VYI=V(2,INOD)
           VZI=V(3,INOD)
 C
-          IF(ISLIDE.EQ.0)THEN
+          IF(ISLIDE==0)THEN
            VXS=-VXI
            VYS=-VYI
            VZS=-VZI
@@ -220,12 +220,12 @@ C Particules symetriques de particules remotes
 C
         DO NS = 1+ITASK,NSPHR,NTHREAD
          JS=ISPSYMR(NC,NS)
-         IF(JS.GT.0)THEN
+         IF(JS>0)THEN
           VXI=XSPHR(9,NS)
           VYI=XSPHR(10,NS)
           VZI=XSPHR(11,NS)
 C
-          IF(ISLIDE.EQ.0)THEN
+          IF(ISLIDE==0)THEN
            VXS=-VXI
            VYS=-VYI
            VZS=-VZI

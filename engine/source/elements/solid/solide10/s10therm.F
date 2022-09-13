@@ -71,7 +71,7 @@ C - flux
 C
       DO N=1,10
        DO I=LFT,LLT
-          IF(OFF(I).EQ.ZERO.OR.OFFG(I).LE.ZERO) CYCLE
+          IF(OFF(I)==ZERO.OR.OFFG(I)<=ZERO) CYCLE
           PHIX(I) = PHIX(I) +  TEMPNC(NC(I,N))*PX(I,N)              
           PHIY(I) = PHIY(I) +  TEMPNC(NC(I,N))*PY(I,N)
           PHIZ(I) = PHIZ(I) +  TEMPNC(NC(I,N))*PZ(I,N)
@@ -79,7 +79,7 @@ C
       ENDDO
 C
       DO I=LFT,LLT
-        IF(OFF(I).EQ.ZERO.OR.OFFG(I).LE.ZERO) CYCLE
+        IF(OFF(I)==ZERO.OR.OFFG(I)<=ZERO) CYCLE
         KC = (CA + CB*TEL(I))*DT1*VOL(I)*THEACCFACT          
         PHIX(I) = KC*PHIX(I)
         PHIY(I) = KC*PHIY(I)
@@ -90,7 +90,7 @@ C force thermique nodale
 C
       DO N=1,10
        DO I=LFT,LLT
-          IF(OFF(I).EQ.ZERO.OR.OFFG(I).LE.ZERO) CYCLE
+          IF(OFF(I)==ZERO.OR.OFFG(I)<=ZERO) CYCLE
           FPHI(I,N) = FPHI(I,N) + DIE(I)*NI(I,N) - (PHIX(I)*PX(I,N) + PHIY(I)*PY(I,N) + PHIZ(I)*PZ(I,N))
         ENDDO
       ENDDO

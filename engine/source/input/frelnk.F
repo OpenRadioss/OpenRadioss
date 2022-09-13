@@ -76,9 +76,9 @@ C
  605  CONTINUE
        READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,1X,A,1X,I5,25X,I10)',
      .        ERR=9990)KEY2,KEY3,K4,NBC
-       IF ( VEL_SK_FR(NVEL).GT.99999) K4 = VEL_SK_FR(NVEL)
+       IF ( VEL_SK_FR(NVEL)>99999) K4 = VEL_SK_FR(NVEL)
        K=K+1
-       IF(KEY2.EQ.'ALE  ')THEN
+       IF(KEY2=='ALE  ')THEN
         K=K+NBC
         GOTO 605
        ENDIF
@@ -92,12 +92,12 @@ C
 C       IFID=IFID+NS
        LLLINK=LLLINK+NS
 C version spmd 
-       IF(IMACH.EQ.3) THEN
+       IF(IMACH==3) THEN
          S_FRLINK = S_FRLINK + 4*NS
        END IF
-       IF(KEY2.EQ.'TRA  ')THEN
+       IF(KEY2=='TRA  ')THEN
         WRITE(IIN,'(I8,1X,I3.3,4X,I10)')NS,IXYZ(KEY3),K4
-       ELSEIF(KEY2.EQ.'ROT  ')THEN
+       ELSEIF(KEY2=='ROT  ')THEN
         WRITE(IIN,'(I8,5X,I3.3,I10)')   NS,IXYZ(KEY3),K4
        ELSE
         CALL ERRMSG(KEY2)

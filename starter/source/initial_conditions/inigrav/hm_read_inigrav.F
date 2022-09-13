@@ -313,7 +313,7 @@ C
         ! Checking the normal
         IF (lPLANAR_SURF .AND. lGRAV) THEN
           DOTPROD = NX*NGX+NY*NGY+NZ*NGZ
-          IF(ABS(DOTPROD).LE.EM20)THEN
+          IF(ABS(DOTPROD)<=EM20)THEN
             CALL ANCMSG(MSGID=73,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I1=ID,
      .                  C1=TITR,

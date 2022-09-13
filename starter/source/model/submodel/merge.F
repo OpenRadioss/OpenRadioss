@@ -475,15 +475,15 @@ C-----------------------------------------------
       JINF=1
       JSUP=NUMNOD0
       J=MAX(1,NUMCNOD/2)
-   10 IF(JSUP.LE.JINF.AND.(IU-ITABM1(J)).NE.0) THEN
+   10 IF(JSUP<=JINF.AND.(IU-ITABM1(J))/=0) THEN
         USRTOSC=0
         RETURN
       ENDIF
-      IF((IU-ITABM1(J)).EQ.0)THEN
+      IF((IU-ITABM1(J))==0)THEN
 C     >CAS IU=TABM FIN DE LA RECHERCHE
          USRTOSC=ITABM1(J+NUMNOD0)
          RETURN
-      ELSE IF (IU-ITABM1(J).LT.0) THEN
+      ELSE IF (IU-ITABM1(J)<0) THEN
 C     >CAS IU<TABM
          JSUP=J-1
       ELSE

@@ -60,12 +60,12 @@ C
       WRITE(IOUT,'(A)') '  |'
       NDDLI=PGRAPH%DGRAPH(1)%NDDL_I
       NDDL=NDDLI+PGRAPH%DGRAPH(1)%NDDL_F
-      IF (IMACH.NE.3) THEN
+      IF (IMACH/=3) THEN
          WRITE(IOUT,'(A25,I8)')
      .    '  |___SUP.ELEM ID:       ',OFFSET+1
       ELSE
          WRITE(IOUT,'(A11,I8)') '  |___PROC:',IPROC-1
-         IF (IPROC.NE.NSPROC) THEN
+         IF (IPROC/=NSPROC) THEN
             WRITE(IOUT,'(A19)')    '  |   ~~~~~~~~~~~~~'
             WRITE(IOUT,'(A25,I8)')
      .       '  |   SUP.ELEM ID:       ',OFFSET+1
@@ -75,7 +75,7 @@ C
      .       '      SUP.ELEM ID:       ',OFFSET+1
          ENDIF
       ENDIF
-      IF (IPROC.NE.NSPROC) THEN
+      IF (IPROC/=NSPROC) THEN
          WRITE(IOUT,'(A25,I8)') 
      . '  |    |       NDOF:     ',NDDL
          WRITE(IOUT,'(A25,I8)')
@@ -110,7 +110,7 @@ C Liste des superelements pour ecriture
       ADR(1,1)=0
       DO I=1,NNSE
          II=II+1
-         IF (II.GT.NSEL) THEN
+         IF (II>NSEL) THEN
             ILEVEL=ILEVEL+1
             NSEL=NSDEC**(ILEVEL-1)
             II=1
@@ -130,7 +130,7 @@ C Liste des superelements pour ecriture
       IADL = 0
 C
       DO I=1,NNSE
-         IF (I.EQ.1) THEN
+         IF (I==1) THEN
             LIGNE(4:132)=' '
          ELSE
             LIGNE(4:IADL+12)=' '
@@ -147,14 +147,14 @@ C
          DO J=1,ILEVEL-1
             IPAR=PARENT(1,ICUR)
             K=PARENT(2,IPAR-1)
-            IF (K.LT.NSDEC) THEN
+            IF (K<NSDEC) THEN
                IADL2=3+5*(ILEVEL-J)
                LIGNE(IADL2:IADL2)='|'
             ENDIF
             ICUR=IPAR-1
          ENDDO
 C
-         IF (I.GT.1) THEN
+         IF (I>1) THEN
             WRITE(IOUT,'(A)') LIGNE(1:LEN2)
             LIGNE(IADL_OLD+13:IADL_OLD+31)=LIGTMP
             WRITE(IOUT,'(A)') LIGNE(1:LEN2)
@@ -171,7 +171,7 @@ C
      .        'NDOF:     ',NDDL
          WRITE(LIGTMP,'(A10,I8)') 'INT. NDOF:',NDDLI
          LEN2=LEN
-         IF (I.EQ.NNSE) THEN
+         IF (I==NNSE) THEN
             LIGNE(4:IADL+12)=' '
             WRITE(IOUT,'(A)') LIGNE(1:LEN2)
             LIGNE(IADL+13:IADL+31)=LIGTMP

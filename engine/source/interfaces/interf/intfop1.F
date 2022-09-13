@@ -91,16 +91,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 #include "sync_dir.inc"
 C-----------------------------------------------
-      IF (IMPL_S.EQ.1) IAD = 1
+      IF (IMPL_S==1) IAD = 1
 C
       DO 200 N=1,NINTER
        NTY   =IPARI(7,N)
-       IF(NTY.EQ.14.OR.NTY.EQ.15) I7KGLO = 1
-       IF(ISPMD.NE.0) GOTO 200
-       IF(NTY.EQ.3.OR.NTY.EQ.4.OR.NTY.EQ.5
-     .    .OR.NTY.EQ.14.OR.NTY.EQ.15)THEN
+       IF(NTY==14.OR.NTY==15) I7KGLO = 1
+       IF(ISPMD/=0) GOTO 200
+       IF(NTY==3.OR.NTY==4.OR.NTY==5
+     .    .OR.NTY==14.OR.NTY==15)THEN
 #include "lockon.inc"
-        IF(IPARI(16,N).EQ.NCYCLE)THEN
+        IF(IPARI(16,N)==NCYCLE)THEN
 #include "lockoff.inc"
         ELSE
          IPARI(16,N) = NCYCLE
@@ -109,27 +109,27 @@ C
          ISENS = 0
          IF(NTY == 5 ) ISENS = IPARI(64,N) ! INTERFACE SENSOR NUMBER
 
-         IF(ISENS.NE.0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+         IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
             TS = SENSOR(2,ISENS)
          ELSE
             TS = TT
          ENDIF
 C
-         IF(N2D.EQ.0)THEN
-          IF (NTY.EQ.14) THEN
+         IF(N2D==0)THEN
+          IF (NTY==14) THEN
            CALL I14CMP(IPARI(1,N),INTBUF_TAB(N),IGRSURF ,BUFSF ,
      2              A ,X ,V ,WA ,FSAV(1,N) ,
      3              IN ,STIFN ,FCONT ,MS ,FSKYI , 
      4              ISKY ,NPC ,TF ,H3D_DATA)
-          ELSEIF (NTY.EQ.15) THEN
+          ELSEIF (NTY==15) THEN
            CALL I15CMP(IPARI(1,N),INTBUF_TAB(N),
      2            IGRSURF,BUFSF,A, X, V,
      3            WA, FSAV(1,N),IN, STIFN, FCONT,
      4            MS, FSKYI,ISKY, NPC, TF,
      5            DT2T, NELTST,ITYPTST, ITAB,H3D_DATA)
           ELSE
-           IF(IMPL_S.NE.1)THEN
-              IF(TT.GE.TS) THEN
+           IF(IMPL_S/=1)THEN
+              IF(TT>=TS) THEN
                 CALL INTVO3(
      1        IPARI(1,N) ,X,A    ,
      2        ICODT      ,FSAV(1,N)    ,WA           ,V ,MS       ,
@@ -139,7 +139,7 @@ C
              ENDIF
            ELSE
              NUM_IMP(N) =0
-              IF(TT.GE.TS) THEN
+              IF(TT>=TS) THEN
                 CALL INTVO3(
      1          IPARI(1,N) ,X ,A        ,
      2          ICODT      ,FSAV(1,N)    ,WA           ,V ,MS       ,
@@ -151,7 +151,7 @@ C
            END IF
           END IF
          ELSE
-          IF(TT.GE.TS) THEN
+          IF(TT>=TS) THEN
             CALL INTVO2(
      1        IPARI(1,N) ,INTBUF_TAB(N),X   ,A ,
      2        ICODT      ,FSAV(1,N)    ,FSKYI        ,ISKY   ,
@@ -159,9 +159,9 @@ C
           ENDIF
          ENDIF
         ENDIF
-       ELSEIF(NTY.EQ.6)THEN
+       ELSEIF(NTY==6)THEN
 #include "lockon.inc"
-         IF(IPARI(16,N).EQ.NCYCLE)THEN
+         IF(IPARI(16,N)==NCYCLE)THEN
 #include "lockoff.inc"
          ELSE
            IPARI(16,N) = NCYCLE
@@ -172,15 +172,15 @@ C
      3        DT2T      ,NELTST       ,ITYPTST      ,FSKYI ,ISKY ,
      4        FCONT     ,MS           ,INTBUF_TAB(N),H3D_DATA )
          ENDIF
-       ELSEIF(NTY.EQ.7.OR.NTY.EQ.22)THEN
-       ELSEIF(NTY.EQ.10)THEN
-       ELSEIF(NTY.EQ.11)THEN
+       ELSEIF(NTY==7.OR.NTY==22)THEN
+       ELSEIF(NTY==10)THEN
+       ELSEIF(NTY==11)THEN
        ENDIF
   200 CONTINUE
 C
 #include "lockon.inc"
       
-      IF (IMPL_S.EQ.1) NT_IMP=IAD-1
+      IF (IMPL_S==1) NT_IMP=IAD-1
 #include "lockoff.inc"
 
 C      

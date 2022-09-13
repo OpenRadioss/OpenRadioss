@@ -162,7 +162,7 @@ C--------------------------------------------------
             EXIT                                
           ENDIF                                 
         ENDDO                                  
-        IF (UID.NE.0.AND.IFLAGUNIT.EQ.0) THEN
+        IF (UID/=0.AND.IFLAGUNIT==0) THEN
           CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I2=UID,I1=ID,C1='PRESSURE LOAD',
      .                 C2='PRESSURE LOAD',
@@ -173,7 +173,7 @@ C--------------------------------------------------
         IF (FCY == ZERO) FCY = FAC_FCY
         IS=0                                                     
         DO J=1,NSURF
-          IF (ISU.EQ.IGRSURF(J)%ID) IS=J
+          IF (ISU==IGRSURF(J)%ID) IS=J
         ENDDO        
         IF( IDEL /= 2) THEN
             PDEL = 1    
@@ -182,17 +182,17 @@ C--------------------------------------------------
             PDEL = 0    
             IDEL = 0
         ENDIF
-        IF(IS.NE.0)THEN                                          
+        IF(IS/=0)THEN                                          
           NN=IGRSURF(IS)%NSEG
           KPINCH=NN+1
           DO J=1,NN
-	    IF (IDDOM.NE.0) THEN	  
+	    IF (IDDOM/=0) THEN	  
 C-----------Multidomaines -> on elimine les seg communs, on ne les traite qu'une foi---
 	       CAPT=0 
                DO H=1,4
-	         IF (TAGNO(NPART+IGRSURF(IS)%NODES(J,H)).EQ.1) CAPT = 1
+	         IF (TAGNO(NPART+IGRSURF(IS)%NODES(J,H))==1) CAPT = 1
                END DO	  
-	       IF (CAPT.EQ.0) GOTO 150
+	       IF (CAPT==0) GOTO 150
 	    ENDIF   
 C
             IF(FLAG_PINCH /= 1) THEN
@@ -218,7 +218,7 @@ C               true triangles (not segments built from 3 nodes).
               IPRES(1,KPINCH)  = IGRSURF(IS)%NODES(J,1)
               IPRES(2,KPINCH)  = IGRSURF(IS)%NODES(J,2)				    
               IPRES(3,KPINCH)  = IGRSURF(IS)%NODES(J,3)
-              IF (IGRSURF(IS)%ELTYP(J).EQ.7) THEN
+              IF (IGRSURF(IS)%ELTYP(J)==7) THEN
 C               true triangles (not segments built from 3 nodes).   
                 IPRES(4,KPINCH) = 0                                           
               ELSE                                                 
@@ -235,7 +235,7 @@ C
   150        CONTINUE
           ENDDO
 C-----------Multidomaines -> on decompte les seg communs, on ne les compte qu'une foi---	  
-	  IF (IDDOM.GT.0) NN = NN-ISURF_R2R(1,IS)                                                  
+	  IF (IDDOM>0) NN = NN-ISURF_R2R(1,IS)                                                  
           NPRELD=NPRELD+NN                                       
         ELSE                                                     
           GOTO 999                                               
@@ -269,7 +269,7 @@ C
 
        ENDDO 
 
-       IF(I2.EQ.NPRELD)GOTO 200
+       IF(I2==NPRELD)GOTO 200
        I1=I1+50
        I2=MIN0(I2+50,NPRELD)
        GOTO 90

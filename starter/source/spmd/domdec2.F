@@ -212,13 +212,13 @@ C-----------------------------------------------------
             ! ------------------------ 
       ENDIF
       ! ------------------------
-      IF(NUMSKW.GT.0)THEN
+      IF(NUMSKW>0)THEN
 C skew global fixe
        ISKWP(1)=1
        DO P = 1, NSPMD
          NSKWP(P) = 0
        END DO        
-       IF(N2D.EQ.0)THEN
+       IF(N2D==0)THEN
         OFFSET = NUMELS + NUMELQ + NUMELC + NUMELT + NUMELP
 !       check if a SPRING is linked with a SKEW
         CALL CHECK_SKEW(IXR,IGEO,ISKN,CEP(OFFSET+1),ISKWP,NSKWP,TAG_SKN,MULTIPLE_SKEW,
@@ -232,17 +232,17 @@ C skew global fixe
           N3=ISKN(3,I+1)
           INSNMAX = 0
           IMAIN = 1
-          IF(N1+N2+N3.NE.0) THEN
+          IF(N1+N2+N3/=0) THEN
             DO P = 1, NSPMD
               NN = NLOCAL(N1,P)+
      +             NLOCAL(N2,P)+
      +             NLOCAL(N3,P)       
-              IF(NN.GT.INSNMAX)THEN
+              IF(NN>INSNMAX)THEN
                 INSNMAX=NN
                 IMAIN=P
               END IF
             END DO
-            IF(INSNMAX.NE.3)THEN
+            IF(INSNMAX/=3)THEN
               CALL IFRONTPLUS(N1,IMAIN)
               CALL IFRONTPLUS(N2,IMAIN)
               CALL IFRONTPLUS(N3,IMAIN)
@@ -257,16 +257,16 @@ C skew global fixe
           N2=ISKN(2,I+1) 
           INSNMAX = 0
           IMAIN = 1
-          IF(N1+N2.NE.0) THEN
+          IF(N1+N2/=0) THEN
             DO P = 1, NSPMD
               NN = NLOCAL(N1,P)+
      .               NLOCAL(N2,P)
-              IF(NN.GT.INSNMAX)THEN
+              IF(NN>INSNMAX)THEN
                 INSNMAX=NN
                 IMAIN=P
               END IF
             END DO
-            IF(INSNMAX.NE.2)THEN
+            IF(INSNMAX/=2)THEN
               CALL IFRONTPLUS(N1,IMAIN)
               CALL IFRONTPLUS(N2,IMAIN)             
             END IF
@@ -284,7 +284,7 @@ C-----------------------------------------------------
         N3 = 2*NRWALL+N
         NSL=NPRW(N)
         MSR = NPRW(N3)
-        IF(MSR.NE.0) THEN
+        IF(MSR/=0) THEN
           DO P = 1, NSPMD
             NSL_L = 0
             DO KK = 1, NSL
@@ -293,7 +293,7 @@ C-----------------------------------------------------
                 NSL_L = NSL_L + 1
               ENDIF
             ENDDO
-            IF(NSL_L.GT.0) CALL IFRONTPLUS(MSR,P) 
+            IF(NSL_L>0) CALL IFRONTPLUS(MSR,P) 
           ENDDO
         ENDIF
         K = K + NSL
@@ -307,7 +307,7 @@ C-----------------------------------------------------
        N2 = IB(2,N)
        N3 = IB(3,N)
        N4 = IB(4,N)
-       IF(N4.NE.-1.AND.N2D.EQ.0.AND.N4.NE.0)THEN
+       IF(N4/=-1.AND.N2D==0.AND.N4/=0)THEN
          DO P = 1, NSPMD
            IF(NLOCAL(N1,P)==1.AND.
      +        NLOCAL(N2,P)==1.AND.
@@ -317,26 +317,26 @@ C-----------------------------------------------------
            ENDIF
          ENDDO
        ENDIF
-       IF(N4.NE.-1.AND.N2D.EQ.0)THEN
+       IF(N4/=-1.AND.N2D==0)THEN
          DO P = 1, NSPMD
             IF(NLOCAL(N1,P)==1.AND.
      +        NLOCAL(N2,P)==1.AND.
      +        NLOCAL(N3,P)==1)THEN    
-             IF(N4.NE.0) THEN
+             IF(N4/=0) THEN
                CALL IFRONTPLUS(N4,P)
              ENDIF
              GOTO 9999
            ENDIF
          ENDDO
        ENDIF
-       IF(N4.NE.-1)THEN
+       IF(N4/=-1)THEN
          DO P = 1, NSPMD
             IF(NLOCAL(N1,P)==1.AND.
      +        NLOCAL(N2,P)==1)THEN    
-             IF(N2D.EQ.0.AND.N4.NE.0) THEN
+             IF(N2D==0.AND.N4/=0) THEN
                CALL IFRONTPLUS(N4,P)
              ENDIF
-             IF(N2D.EQ.0) THEN
+             IF(N2D==0) THEN
                CALL IFRONTPLUS(N3,P) 
              ENDIF
              GOTO 9999
@@ -345,25 +345,25 @@ C-----------------------------------------------------
        ENDIF
        DO P = 1, NSPMD
          IF(NLOCAL(N1,P)==1) THEN
-           IF(N2D.EQ.0.AND.N4.NE.0.AND.N4.NE.-1) THEN
+           IF(N2D==0.AND.N4/=0.AND.N4/=-1) THEN
              CALL IFRONTPLUS(N4,P)
            ENDIF
-           IF(N2D.EQ.0.AND.N4.NE.-1) THEN
+           IF(N2D==0.AND.N4/=-1) THEN
              CALL IFRONTPLUS(N3,P)
            ENDIF
-           IF(N4.NE.-1) THEN
+           IF(N4/=-1) THEN
              CALL IFRONTPLUS(N2,P)
            ENDIF
            GOTO 9999
          ENDIF
        ENDDO
-       IF(N4.NE.0.AND.N4.NE.0.AND.N4.NE.-1) THEN
+       IF(N4/=0.AND.N4/=0.AND.N4/=-1) THEN
          CALL IFRONTPLUS(N4,1)
        ENDIF
-       IF(N2D.EQ.0.AND.N4.NE.-1) THEN
+       IF(N2D==0.AND.N4/=-1) THEN
          CALL IFRONTPLUS(N3,1) 
        ENDIF
-       IF(N4.NE.-1) THEN
+       IF(N4/=-1) THEN
          CALL IFRONTPLUS(N2,1)
        ENDIF
        CALL IFRONTPLUS(N1,1)
@@ -377,7 +377,7 @@ C-----------------------------------------------------
        N2 = IBCV(2,N)
        N3 = IBCV(3,N)
        N4 = IBCV(4,N)
-       IF(N2D.EQ.0.AND.N4.NE.0)THEN
+       IF(N2D==0.AND.N4/=0)THEN
          DO P = 1, NSPMD
            IF(NLOCAL(N1,P)==1.AND.
      +        NLOCAL(N2,P)==1.AND.
@@ -387,12 +387,12 @@ C-----------------------------------------------------
            ENDIF
          ENDDO
        ENDIF
-       IF(N2D.EQ.0)THEN
+       IF(N2D==0)THEN
          DO P = 1, NSPMD
            IF(NLOCAL(N1,P)==1.AND.
      +        NLOCAL(N2,P)==1.AND.
      +        NLOCAL(N3,P)==1)THEN
-             IF(N4.NE.0) THEN
+             IF(N4/=0) THEN
                CALL IFRONTPLUS(N4,P)
              ENDIF
              GOTO 9191
@@ -402,10 +402,10 @@ C-----------------------------------------------------
        DO P = 1, NSPMD
          IF(NLOCAL(N1,P)==1.AND.
      +      NLOCAL(N2,P)==1)THEN
-           IF(N2D.EQ.0.AND.N4.NE.0) THEN
+           IF(N2D==0.AND.N4/=0) THEN
              CALL IFRONTPLUS(N4,P)
            ENDIF
-           IF(N2D.EQ.0) THEN
+           IF(N2D==0) THEN
              CALL IFRONTPLUS(N3,P)
            ENDIF
            GOTO 9191
@@ -413,20 +413,20 @@ C-----------------------------------------------------
        ENDDO
        DO P = 1, NSPMD
          IF(NLOCAL(N1,P)==1) THEN        
-           IF(N2D.EQ.0.AND.N4.NE.0) THEN
+           IF(N2D==0.AND.N4/=0) THEN
              CALL IFRONTPLUS(N4,P)
            ENDIF
-           IF(N2D.EQ.0) THEN
+           IF(N2D==0) THEN
              CALL IFRONTPLUS(N3,P)
            ENDIF
              CALL IFRONTPLUS(N2,P)
            GOTO 9191
          ENDIF
        ENDDO
-       IF(N4.NE.0) THEN
+       IF(N4/=0) THEN
          CALL IFRONTPLUS(N4,1)
        ENDIF
-       IF(N2D.EQ.0) THEN
+       IF(N2D==0) THEN
          CALL IFRONTPLUS(N3,1)
        ENDIF
        CALL IFRONTPLUS(N2,1)
@@ -442,7 +442,7 @@ C-----------------------------------------------------
        N2 = IBCR(2,N)
        N3 = IBCR(3,N)
        N4 = IBCR(4,N)
-       IF(N2D.EQ.0.AND.N4.NE.0)THEN
+       IF(N2D==0.AND.N4/=0)THEN
          DO P = 1, NSPMD
             IF(NLOCAL(N1,P)==1.AND.
      +        NLOCAL(N2,P)==1.AND.
@@ -452,12 +452,12 @@ C-----------------------------------------------------
            ENDIF
          ENDDO
        ENDIF
-       IF(N2D.EQ.0)THEN
+       IF(N2D==0)THEN
          DO P = 1, NSPMD
              IF(NLOCAL(N1,P)==1.AND.
      +        NLOCAL(N2,P)==1.AND.
      +        NLOCAL(N3,P)==1)THEN   
-             IF(N4.NE.0) THEN
+             IF(N4/=0) THEN
                CALL IFRONTPLUS(N4,P)
              ENDIF
              GOTO 9192
@@ -467,10 +467,10 @@ C-----------------------------------------------------
        DO P = 1, NSPMD
          IF(NLOCAL(N1,P)==1.AND.
      +      NLOCAL(N2,P)==1)THEN
-           IF(N2D.EQ.0.AND.N4.NE.0) THEN
+           IF(N2D==0.AND.N4/=0) THEN
              CALL IFRONTPLUS(N4,P)
            ENDIF
-           IF(N2D.EQ.0) THEN
+           IF(N2D==0) THEN
              CALL IFRONTPLUS(N3,P)
            ENDIF
            GOTO 9192
@@ -478,20 +478,20 @@ C-----------------------------------------------------
        ENDDO
        DO P = 1, NSPMD
          IF(NLOCAL(N1,P)==1) THEN
-           IF(N2D.EQ.0.AND.N4.NE.0) THEN
+           IF(N2D==0.AND.N4/=0) THEN
              CALL IFRONTPLUS(N4,P)           
            ENDIF
-           IF(N2D.EQ.0) THEN
+           IF(N2D==0) THEN
              CALL IFRONTPLUS(N3,P) 
            ENDIF
              CALL IFRONTPLUS(N2,P)
            GOTO 9192
          ENDIF
        ENDDO
-       IF(N4.NE.0) THEN
+       IF(N4/=0) THEN
          CALL IFRONTPLUS(N4,1)
        ENDIF
-       IF(N2D.EQ.0) THEN
+       IF(N2D==0) THEN
          CALL IFRONTPLUS(N3,1)
        ENDIF
        CALL IFRONTPLUS(N2,1)
@@ -507,7 +507,7 @@ C---------------------------------------------------------
        N2 = IBFFLUX(2,N)
        N3 = IBFFLUX(3,N)
        N4 = IBFFLUX(4,N)
-       IF(N2D.EQ.0.AND.N4.NE.0)THEN
+       IF(N2D==0.AND.N4/=0)THEN
          DO P = 1, NSPMD
            IF(NLOCAL(N1,P)==1.AND.
      +        NLOCAL(N2,P)==1.AND.
@@ -515,33 +515,33 @@ C---------------------------------------------------------
      +        NLOCAL(N4,P)==1) GOTO 9193
          ENDDO
        ENDIF
-       IF(N2D.EQ.0)THEN
+       IF(N2D==0)THEN
          DO P = 1, NSPMD
            IF(NLOCAL(N1,P)==1.AND.
      +        NLOCAL(N2,P)==1.AND.
      +        NLOCAL(N3,P)==1)THEN
-             IF(N4.NE.0) CALL IFRONTPLUS(N4,P)
+             IF(N4/=0) CALL IFRONTPLUS(N4,P)
              GOTO 9193
            ENDIF
          ENDDO
        ENDIF
        DO P = 1, NSPMD
          IF(NLOCAL(N1,P)==1.AND.NLOCAL(N2,P)==1)THEN
-           IF(N2D.EQ.0.AND.N4.NE.0) CALL IFRONTPLUS(N4,P)
-           IF(N2D.EQ.0) CALL IFRONTPLUS(N3,P)
+           IF(N2D==0.AND.N4/=0) CALL IFRONTPLUS(N4,P)
+           IF(N2D==0) CALL IFRONTPLUS(N3,P)
            GOTO 9193
          ENDIF
        ENDDO
        DO P = 1, NSPMD
          IF(NLOCAL(N1,P)==1) THEN        
-           IF(N2D.EQ.0.AND.N4.NE.0) CALL IFRONTPLUS(N4,P)
-           IF(N2D.EQ.0) CALL IFRONTPLUS(N3,P)
+           IF(N2D==0.AND.N4/=0) CALL IFRONTPLUS(N4,P)
+           IF(N2D==0) CALL IFRONTPLUS(N3,P)
                CALL IFRONTPLUS(N2,P)
            GOTO 9193
          ENDIF
        ENDDO
-       IF(N4.NE.0)  CALL IFRONTPLUS(N4,1)
-       IF(N2D.EQ.0) CALL IFRONTPLUS(N3,1)
+       IF(N4/=0)  CALL IFRONTPLUS(N4,1)
+       IF(N2D==0) CALL IFRONTPLUS(N3,1)
        CALL IFRONTPLUS(N2,1)
        CALL IFRONTPLUS(N1,1)       
  9193  CONTINUE
@@ -555,7 +555,7 @@ C-----------------------------------------------------
         N2=LLOADP(ILOADP(4,N)+4*(I-1)+1)
         N3=LLOADP(ILOADP(4,N)+4*(I-1)+2)
         N4=LLOADP(ILOADP(4,N)+4*(I-1)+3)
-       IF(N4.NE.-1.AND.N2D.EQ.0.AND.N4.NE.0)THEN
+       IF(N4/=-1.AND.N2D==0.AND.N4/=0)THEN
          DO P = 1, NSPMD
            IF(NLOCAL(N1,P)==1.AND.
      +        NLOCAL(N2,P)==1.AND.
@@ -565,26 +565,26 @@ C-----------------------------------------------------
            ENDIF
          ENDDO
        ENDIF
-       IF(N4.NE.-1.AND.N2D.EQ.0)THEN
+       IF(N4/=-1.AND.N2D==0)THEN
          DO P = 1, NSPMD
            IF(NLOCAL(N1,P)==1.AND.
      +        NLOCAL(N2,P)==1.AND.
      +        NLOCAL(N3,P)==1)THEN           
-             IF(N4.NE.0) THEN
+             IF(N4/=0) THEN
                CALL IFRONTPLUS(N4,P)
              ENDIF
              GOTO 8888
            ENDIF
          ENDDO
        ENDIF
-       IF(N4.NE.-1)THEN
+       IF(N4/=-1)THEN
          DO P = 1, NSPMD
            IF(NLOCAL(N1,P)==1.AND.
      +        NLOCAL(N2,P)==1)THEN           
-             IF(N2D.EQ.0.AND.N4.NE.0) THEN
+             IF(N2D==0.AND.N4/=0) THEN
                CALL IFRONTPLUS(N4,P)
              ENDIF
-             IF(N2D.EQ.0) THEN
+             IF(N2D==0) THEN
                CALL IFRONTPLUS(N3,P)
              ENDIF
              GOTO 8888
@@ -593,25 +593,25 @@ C-----------------------------------------------------
        ENDIF
        DO P = 1, NSPMD
          IF(NLOCAL(N1,P)==1) THEN
-           IF(N2D.EQ.0.AND.N4.NE.0.AND.N4.NE.-1) THEN
+           IF(N2D==0.AND.N4/=0.AND.N4/=-1) THEN
              CALL IFRONTPLUS(N4,P)
            ENDIF
-           IF(N2D.EQ.0.AND.N4.NE.-1) THEN
+           IF(N2D==0.AND.N4/=-1) THEN
              CALL IFRONTPLUS(N3,P)
            ENDIF
-           IF(N4.NE.-1) THEN
+           IF(N4/=-1) THEN
              CALL IFRONTPLUS(N2,P)
            ENDIF
            GOTO 8888
          ENDIF
        ENDDO
-       IF(N4.NE.0.AND.N4.NE.0.AND.N4.NE.-1) THEN
+       IF(N4/=0.AND.N4/=0.AND.N4/=-1) THEN
          CALL IFRONTPLUS(N4,1)
        ENDIF
-       IF(N2D.EQ.0.AND.N4.NE.-1) THEN
+       IF(N2D==0.AND.N4/=-1) THEN
          CALL IFRONTPLUS(N3,1)
        ENDIF
-       IF(N4.NE.-1) THEN
+       IF(N4/=-1) THEN
          CALL IFRONTPLUS(N2,1)
        ENDIF
        CALL IFRONTPLUS(N1,1)
@@ -626,7 +626,7 @@ C-----------------------------------------------------
         DO J=1,NRIVET
           IF1 = NLOCAL(IXRI(2,J),P)
           IF2 = NLOCAL(IXRI(3,J),P)
-          IF (IF1.EQ.1.OR.IF2.EQ.1) THEN
+          IF (IF1==1.OR.IF2==1) THEN
             CALL IFRONTPLUS(IXRI(2,J),P)
             CALL IFRONTPLUS(IXRI(3,J),P)            
           ENDIF
@@ -637,23 +637,23 @@ C
 C-----------------------------------------------------
 C Traitement supplementaire RBE2
 C-----------------------------------------------------
-      IF (NRBE2.GT.0.AND.NSPMD.GT.1) THEN
+      IF (NRBE2>0.AND.NSPMD>1) THEN
         DO N = 1, NRBE2
           NSN = IRBE2(5,N)
           M   = IRBE2(3,N)
           IAD = IRBE2(1,N)
           DO P = 1, NSPMD
-            IF (NLOCAL(M,P).EQ.0) THEN
+            IF (NLOCAL(M,P)==0) THEN
               IMAIN = 0
               DO J = 1, NSN
                 L = LRBE2(IAD+J)
-                IF(NLOCAL(L,P).NE.0)THEN
+                IF(NLOCAL(L,P)/=0)THEN
                   IMAIN = 1
                   GO TO 186
                 ENDIF
               ENDDO
  186          CONTINUE
-              IF(IMAIN.EQ.1)THEN
+              IF(IMAIN==1)THEN
                 CALL IFRONTPLUS(M,P)
               ENDIF
             ENDIF
@@ -669,29 +669,29 @@ Cel traitement noeuds non connectes
           IPMAX = 1
           LASTM = 0
           DO P=1,NSPMD
-            IF(NLOCAL(M,P).NE.0) THEN
+            IF(NLOCAL(M,P)/=0) THEN
               SUM = SUM + 1
               LASTM = P
             ENDIF
             INSNP = 0
             DO J = 1, NSN
               L = LRBE2(IAD+J)
-              IF(NLOCAL(L,P).NE.0)THEN
+              IF(NLOCAL(L,P)/=0)THEN
                 INSNP = INSNP + 1
               ENDIF
             ENDDO
-            IF (INSNP.GT.INSNMAX) THEN
+            IF (INSNP>INSNMAX) THEN
               IPMAX = P
               INSNMAX = INSNP
             ENDIF
           END DO
-          IF(SUM.EQ.0) THEN
-            IF(INSNMAX.EQ.0) THEN
+          IF(SUM==0) THEN
+            IF(INSNMAX==0) THEN
               CALL IFRONTPLUS(M,1)
             ELSE
               CALL IFRONTPLUS(M,IPMAX)
             ENDIF
-          ELSEIF(INSNMAX.EQ.0) THEN
+          ELSEIF(INSNMAX==0) THEN
             IPMAX = LASTM
           ENDIF
 C
@@ -699,11 +699,11 @@ C
             L = LRBE2(IAD+J)
             SUM = 0
             DO P=1,NSPMD
-              IF(NLOCAL(L,P).NE.0)THEN
+              IF(NLOCAL(L,P)/=0)THEN
                 SUM = SUM + 1
               ENDIF
             ENDDO
-            IF(SUM.EQ.0) THEN
+            IF(SUM==0) THEN
               CALL IFRONTPLUS(L,IPMAX)
             ENDIF
           ENDDO
@@ -713,23 +713,23 @@ C
 C-----------------------------------------------------
 C Traitement RBE3 : Idem int2
 C-----------------------------------------------------
-      IF (NRBE3.GT.0.AND.NSPMD.GT.1) THEN
+      IF (NRBE3>0.AND.NSPMD>1) THEN
         DO N = 1, NRBE3
           NIR = IRBE3(5,N)
           K   = IRBE3(3,N)
           IAD = IRBE3(1,N)
               IMAIN = 0
               DO P = 1, NSPMD
-                IF (NLOCAL(K,P).NE.0) THEN
+                IF (NLOCAL(K,P)/=0) THEN
                   IMAIN = 1
                 ENDIF
               ENDDO
-              IF (IMAIN.EQ.0) THEN
+              IF (IMAIN==0) THEN
                 IMAIN = 1
                 DO J=1,NIR
                   KK = LRBE3(IAD+J)
                   DO P = 1, NSPMD
-                    IF (NLOCAL(KK,P).NE.0) THEN
+                    IF (NLOCAL(KK,P)/=0) THEN
                       IMAIN = P
                       GOTO 51
                     ENDIF
@@ -739,13 +739,13 @@ C-----------------------------------------------------
                 CALL IFRONTPLUS(K,IMAIN)
               ENDIF
               DO P = 1, NSPMD
-                IF (NLOCAL(K,P).EQ.0) THEN
+                IF (NLOCAL(K,P)==0) THEN
                   GO TO 201
                 ENDIF
 C pas d'optimisation possible
                 DO J=1,NIR
                   KK = LRBE3(IAD+J)
-                  IF (NLOCAL(KK,P).EQ.0) THEN
+                  IF (NLOCAL(KK,P)==0) THEN
                     CALL IFRONTPLUS(KK,P)
                   ENDIF
                 ENDDO
@@ -760,7 +760,7 @@ C
 C-----------------------------------------------------
 C Traitement supplementaire rigid bodies
 C-----------------------------------------------------
-      IF (NRBYKIN.GT.0.AND.NSPMD.GT.1) THEN
+      IF (NRBYKIN>0.AND.NSPMD>1) THEN
 C--------------------------------------------------------------
 C Dans le cas de noeuds SECONDARYs de Rigid bodies non connectees
 C on les affecte sur le PMAIN
@@ -771,7 +771,7 @@ C--------------------------------------------------------------
           M   = NPBY(1,N)
 C Recherche du 1er  proc qui a le noeud main
           DO P=1,NSPMD
-            IF (NLOCAL(M,P).NE.0) GOTO 86
+            IF (NLOCAL(M,P)/=0) GOTO 86
           ENDDO
  86       CONTINUE
           PM = P
@@ -779,7 +779,7 @@ C Recherche du 1er  proc qui a le noeud main
           DO J = 1, NSN
             L = LPBY(K+J)
             DO P=1,NSPMD
-              IF(NLOCAL(L,P).NE.0) GOTO 87
+              IF(NLOCAL(L,P)/=0) GOTO 87
             ENDDO
             CALL IFRONTPLUS(L,PM)
  87         CONTINUE
@@ -796,13 +796,13 @@ C--------------------------------------------------------------
               IMAIN = 0
               DO J = 1, NSN
                 L = LPBY(K+J)
-                IF(NLOCAL(L,P).NE.0)THEN
+                IF(NLOCAL(L,P)/=0)THEN
                   IMAIN = 1
                   GO TO 85
                 ENDIF
               ENDDO
  85           CONTINUE
-              IF(IMAIN.EQ.1)THEN
+              IF(IMAIN==1)THEN
                 CALL IFRONTPLUS(M,P)
               ENDIF
             ENDIF
@@ -819,31 +819,31 @@ Cel traitement noeuds non connectes
           IPMAX = 1
           LASTM = 0
           DO P=1,NSPMD
-            IF(NLOCAL(M,P).NE.0) THEN
+            IF(NLOCAL(M,P)/=0) THEN
               SUM = SUM + 1
               LASTM = P
             ENDIF
             INSNP = 0
             DO J = 1, NSN
               L = LPBY(K+J)
-              IF(NLOCAL(L,P).NE.0)THEN
+              IF(NLOCAL(L,P)/=0)THEN
                 INSNP = INSNP + 1
               ENDIF
             ENDDO
-            IF (INSNP.GT.INSNMAX) THEN
+            IF (INSNP>INSNMAX) THEN
               IPMAX = P
               INSNMAX = INSNP
             ENDIF
           END DO
 C
-          IF(SUM.EQ.0) THEN
-            IF(INSNMAX.EQ.0) THEN
+          IF(SUM==0) THEN
+            IF(INSNMAX==0) THEN
               CALL IFRONTPLUS(M,1)
             ELSE
               CALL IFRONTPLUS(M,IPMAX)
             ENDIF
 C cas au moins un main connecte mais aucun noeud SECONDARY de connecte
-          ELSEIF(INSNMAX.EQ.0) THEN
+          ELSEIF(INSNMAX==0) THEN
             IPMAX = LASTM
           ENDIF
 C
@@ -851,11 +851,11 @@ C
             L = LPBY(K+J)
             SUM = 0
             DO P=1,NSPMD
-              IF(NLOCAL(L,P).NE.0)THEN
+              IF(NLOCAL(L,P)/=0)THEN
                 SUM = SUM + 1
               ENDIF
             ENDDO
-            IF(SUM.EQ.0) THEN
+            IF(SUM==0) THEN
               CALL IFRONTPLUS(L,IPMAX)
             ENDIF
           ENDDO
@@ -904,23 +904,23 @@ C-----------------------------------------------------
         ENDDO
       ENDIF                                          ! IF(NFXVEL > 0 .AND. NSPMD > 1)THEN
 
-      IF (NIBVEL.GT.0.AND.NSPMD.GT.1) THEN
+      IF (NIBVEL>0.AND.NSPMD>1) THEN
         K=0
         DO N = 1, NIBVEL
           NSN = IBVEL(3,N)
           M   = IBVEL(4,N)
           DO P = 1, NSPMD
-            IF (NLOCAL(M,P).EQ.0) THEN
+            IF (NLOCAL(M,P)==0) THEN
               IMAIN = 0
               DO J = 1, NSN
                 L = LBVEL(K+J)
-                IF(NLOCAL(L,P).NE.0)THEN
+                IF(NLOCAL(L,P)/=0)THEN
                   IMAIN = 1
                   GO TO 185
                 ENDIF
               ENDDO
  185          CONTINUE
-              IF(IMAIN.EQ.1)THEN
+              IF(IMAIN==1)THEN
                 CALL IFRONTPLUS(M,P)
               ENDIF
             ENDIF
@@ -937,29 +937,29 @@ Cel traitement noeuds non connectes
           IPMAX = 1
           LASTM = 0
           DO P=1,NSPMD
-            IF(NLOCAL(M,P).NE.0) THEN
+            IF(NLOCAL(M,P)/=0) THEN
               SUM = SUM + 1
               LASTM = P
             ENDIF
             INSNP = 0
             DO J = 1, NSN
               L = LBVEL(K+J)
-              IF(NLOCAL(L,P).NE.0)THEN
+              IF(NLOCAL(L,P)/=0)THEN
                 INSNP = INSNP + 1
               ENDIF
             ENDDO
-            IF (INSNP.GT.INSNMAX) THEN
+            IF (INSNP>INSNMAX) THEN
               IPMAX = P
               INSNMAX = INSNP
             ENDIF
           END DO
-          IF(SUM.EQ.0) THEN
-            IF(INSNMAX.EQ.0) THEN
+          IF(SUM==0) THEN
+            IF(INSNMAX==0) THEN
               CALL IFRONTPLUS(M,1)
             ELSE
               CALL IFRONTPLUS(M,IPMAX)
             ENDIF
-          ELSEIF(INSNMAX.EQ.0) THEN
+          ELSEIF(INSNMAX==0) THEN
             IPMAX = LASTM
           ENDIF
 C
@@ -967,11 +967,11 @@ C
             L = LBVEL(K+J)
             SUM = 0
             DO P=1,NSPMD
-              IF(NLOCAL(L,P).NE.0)THEN
+              IF(NLOCAL(L,P)/=0)THEN
                 SUM = SUM + 1
               ENDIF
             ENDDO
-            IF(SUM.EQ.0) THEN
+            IF(SUM==0) THEN
               CALL IFRONTPLUS(L,IPMAX)
             ENDIF
           ENDDO
@@ -982,7 +982,7 @@ C
 C-----------------------------------------------------
 C Traitement  rigid materials
 C-----------------------------------------------------
-      IF (IRIGID_MAT.GT.0.AND.NSPMD.GT.1) THEN
+      IF (IRIGID_MAT>0.AND.NSPMD>1) THEN
         K=0
         DO N = 1, NRBYM
           NSN = IRBYM(2,N)
@@ -990,13 +990,13 @@ C-----------------------------------------------------
               IMAIN = 0
               DO J = 1, NSN
                 L = LCRBYM(K+J)
-                IF(NLOCAL(L,P).NE.0)THEN
+                IF(NLOCAL(L,P)/=0)THEN
                   IMAIN = 1
                   GO TO 195
                 ENDIF
               ENDDO
  195           CONTINUE
-              IF(IMAIN.EQ.1)THEN
+              IF(IMAIN==1)THEN
                 CALL FRONTPLUS_RM(FRONT_RM(N,P),1)
               ENDIF
           ENDDO
@@ -1012,31 +1012,31 @@ C traitement cdg  non connectes
           IPMAX = 1
           LASTM = 0
           DO P=1,NSPMD
-            IF(FRONT_RM(M,P).NE.0.AND.FRONT_RM(M,P).NE.100) THEN
+            IF(FRONT_RM(M,P)/=0.AND.FRONT_RM(M,P)/=100) THEN
               SUM = SUM + 1
               LASTM = P
             ENDIF
             INSNP = 0
             DO J = 1, NSN
               L = LCRBYM(K+J)
-              IF(NLOCAL(L,P).NE.0)THEN
+              IF(NLOCAL(L,P)/=0)THEN
                 INSNP = INSNP + 1
               ENDIF
             ENDDO
-            IF (INSNP.GT.INSNMAX) THEN
+            IF (INSNP>INSNMAX) THEN
               IPMAX = P
               INSNMAX = INSNP
             ENDIF
           END DO
 C
-          IF(SUM.EQ.0) THEN
-            IF(INSNMAX.EQ.0) THEN
+          IF(SUM==0) THEN
+            IF(INSNMAX==0) THEN
               CALL FRONTPLUS_RM(FRONT_RM(M,1),1)
             ELSE
               CALL FRONTPLUS_RM(FRONT_RM(M,IPMAX),1)
             ENDIF
 C cas au moins un main connecte mais aucun noeud SECONDARY de connecte
-          ELSEIF(INSNMAX.EQ.0) THEN
+          ELSEIF(INSNMAX==0) THEN
             IPMAX = LASTM
           ENDIF
 C
@@ -1044,11 +1044,11 @@ C
             L = LCRBYM(K+J)
             SUM = 0
             DO P=1,NSPMD
-              IF(NLOCAL(L,P).NE.0)THEN
+              IF(NLOCAL(L,P)/=0)THEN
                 SUM = SUM + 1
               ENDIF
             ENDDO
-            IF(SUM.EQ.0) THEN
+            IF(SUM==0) THEN
               CALL IFRONTPLUS(L,IPMAX)
             ENDIF
           ENDDO
@@ -1084,15 +1084,15 @@ C-----------------------------------------------------
 C-----------------------------------------------------
 C Traitement supplementaire interface type 2
 C-----------------------------------------------------
-      IF (NINTER.GT.0.AND.NSPMD.GT.1) THEN
-        IF (N2D.EQ.0) THEN
+      IF (NINTER>0.AND.NSPMD>1) THEN
+        IF (N2D==0) THEN
           NIR = 4
         ELSE
           NIR = 2
         ENDIF
         DO N = 1, NINTER
           NTY = IPARI(7,N)
-          IF (NTY.EQ.2) THEN
+          IF (NTY==2) THEN
             NRTS  = IPARI(3,N)
             NRTM  = IPARI(4,N)
             NSN   = IPARI(5,N)
@@ -1105,16 +1105,16 @@ C-----------------------------------------------------
 C
               IMAIN = 0
               DO P = 1, NSPMD
-                IF (NLOCAL(K,P).NE.0) THEN
+                IF (NLOCAL(K,P)/=0) THEN
                   IMAIN = 1
                 ENDIF
               ENDDO
-              IF (IMAIN.EQ.0) THEN
+              IF (IMAIN==0) THEN
                 IMAIN = 1
                 DO J=1,NIR
                   KK = INTBUF_TAB(N)%IRECTM((L-1)*4+J)
                   DO P = 1, NSPMD
-                    IF (NLOCAL(KK,P).NE.0) THEN
+                    IF (NLOCAL(KK,P)/=0) THEN
                       IMAIN = P
                       GOTO 50
                     ENDIF
@@ -1126,13 +1126,13 @@ C
 
               ENDIF
               DO P = 1, NSPMD
-                IF (NLOCAL(K,P).EQ.0) THEN
+                IF (NLOCAL(K,P)==0) THEN
                   GO TO 200
                 ENDIF
 C pas d'optimisation possible
                 DO J=1,NIR
                   KK = INTBUF_TAB(N)%IRECTM((L-1)*4+J)
-                  IF (NLOCAL(KK,P).EQ.0) THEN
+                  IF (NLOCAL(KK,P)==0) THEN
                     CALL IFRONTPLUS(KK,P)
                     INT2FRPLUS=1
                   ENDIF
@@ -1162,7 +1162,7 @@ C mise sur Pi des noeuds non affectes (round robbin)
 C-----------------------------------------------------
 C Traitement special sensor type2
 C-----------------------------------------------------
-      IF(NSENSOR.GT.0) THEN
+      IF(NSENSOR>0) THEN
        DO P = 1, NSPMD
          NSENSP(P) = 0
        END DO
@@ -1171,9 +1171,9 @@ C-----------------------------------------------------
         ISENSP(1,I) = 0
         ISENSP(2,I) = 0
 C
-        IF(TYP.EQ.0)THEN
-        ELSEIF(TYP.EQ.1)THEN
-        ELSEIF(TYP.EQ.2)THEN
+        IF(TYP==0)THEN
+        ELSEIF(TYP==1)THEN
+        ELSEIF(TYP==2)THEN
 C--------------------------------
 C         CAPTEUR - DEPLACEMENT
 C--------------------------------
@@ -1195,14 +1195,14 @@ C--------------------------------
             END IF
           END DO
  600      CONTINUE
-        ELSEIF(TYP.EQ.3)THEN
-        ELSEIF(TYP.EQ.4)THEN
-        ELSEIF(TYP.EQ.5)THEN
-        ELSEIF(TYP.EQ.6)THEN
-        ELSEIF(TYP.EQ.7)THEN
-        ELSEIF(TYP.EQ.8)THEN
+        ELSEIF(TYP==3)THEN
+        ELSEIF(TYP==4)THEN
+        ELSEIF(TYP==5)THEN
+        ELSEIF(TYP==6)THEN
+        ELSEIF(TYP==7)THEN
+        ELSEIF(TYP==8)THEN
 c
-        ELSEIF(TYP.EQ.13)THEN  ! SENSOR WORK
+        ELSEIF(TYP==13)THEN  ! SENSOR WORK
           N1 = LSENSOR(4,I)
           DO P = 1, NSPMD
             IF (NLOCAL(N1,P)==1) THEN
@@ -1222,8 +1222,8 @@ c
             END DO
           ENDIF
 c
-        ELSEIF(TYP.EQ.14)THEN
-        ELSEIF(TYP.GE.29.AND.TYP.LE.31) THEN
+        ELSEIF(TYP==14)THEN
+        ELSEIF(TYP>=29.AND.TYP<=31) THEN
         ELSE
         ENDIF
        ENDDO
@@ -1232,7 +1232,7 @@ C
 C-----------------------------------------------------
 C Traitement special accelerometres 
 C-----------------------------------------------------
-      IF(NACCELM.GT.0) THEN
+      IF(NACCELM>0) THEN
         DO P = 1, NSPMD
           NACCP(P) = 0
         END DO
@@ -1252,7 +1252,7 @@ C
 C-----------------------------------------------------
 C Traitement special gauges
 C-----------------------------------------------------
-      IF(NBGAUGE.GT.0) THEN
+      IF(NBGAUGE>0) THEN
         DO P = 1, NSPMD
           NGAUP(P) = 0
         END DO
@@ -1284,9 +1284,9 @@ C dd_iad => dd_grp : nb de groupes par sous domaine
       NGROU = 0
       DO I = 1, NSPGROUP
         DO P = 1, NSPMD
-c          IF (DD_IAD(P+1,I).GT.0) THEN
+c          IF (DD_IAD(P+1,I)>0) THEN
 c            NEL = DD_IAD(P+1,I) - DD_IAD(P,I)
-c            IF (NEL.GT.0) THEN
+c            IF (NEL>0) THEN
 c              NG = (NEL-1)/NVSIZ + 1
 c              NGROU = NGROU + NG
 c            ELSE
@@ -1300,7 +1300,7 @@ C seule la verification est conservee, le remplacement de dd_iad est fait direct
           NGROU = NGROU + DD_IAD(P,I)
         ENDDO
       ENDDO
-      IF (NGROU.NE.NGROUP) THEN
+      IF (NGROU/=NGROUP) THEN
 C        WRITE(IOUT,*)'** ERROR : DOMAIN DEC AND NGROUP DIFFER'
 C        WRITE(ISTDO,*)'** ERROR : DOMAIN DEC AND NGROUP DIFFER'
 C        IERR = IERR + 1
@@ -1325,7 +1325,7 @@ C
         ENDDO
       ENDDO
 C
-      IF(NUMELS10.GT.0) THEN
+      IF(NUMELS10>0) THEN
         DO K=1,6
           DO I=1,NUMELS10
             N = IXS10(K,I) + 1
@@ -1333,7 +1333,7 @@ C
           ENDDO
         ENDDO
       ENDIF
-      IF(NUMELS20.GT.0)THEN
+      IF(NUMELS20>0)THEN
         DO K=1,12
           DO I=1,NUMELS20
             N = IXS20(K,I) + 1
@@ -1342,7 +1342,7 @@ C
         ENDDO
       ENDIF
 C
-      IF(NUMELS16.GT.0)THEN
+      IF(NUMELS16>0)THEN
         DO K=1,8
           DO I=1,NUMELS16
             N = IXS16(K,I) + 1
@@ -1389,7 +1389,7 @@ Cel traitement a part du 3eme noeud optionnel sauf type 12
       ENDDO
       DO I=1,NUMELR
         N = IXR(4,I) + 1
-        IF(IGEO(11,IXR(1,I)).NE.12) N = 0
+        IF(IGEO(11,IXR(1,I))/=12) N = 0
         ADSKY(N) = ADSKY(N) + 1
       ENDDO
 C
@@ -1400,7 +1400,7 @@ C
         ENDDO
       ENDDO
 C elem penta6
-      IF(NUMELTG6.GT.0)THEN
+      IF(NUMELTG6>0)THEN
         DO K=1,3
           DO I=1,NUMELTG6
             N = IXTG6(K,I)+1
@@ -1418,7 +1418,7 @@ C
 C--------------------------------------
 Cel prise en compte des forces des mv
 C--------------------------------------
-      IF (NVOLU.GT.0) THEN
+      IF (NVOLU>0) THEN
         K3 = 1 + NIMV * NVOLU + NICBAG * NVOLU * NVOLU
         K1 = 1
         DO N = 1, NVOLU
@@ -1427,7 +1427,7 @@ C--------------------------------------
           DO J = 1, NN_S
             ITY=IGRSURF(IS)%ELTYP(J)
             I = IGRSURF(IS)%ELEM(J)
-            IF (ITY.EQ.3) THEN
+            IF (ITY==3) THEN
               DO K = 2,5
                NN = IXC(K,I) + 1
                ADSKY(NN) = ADSKY(NN) + 1
@@ -1445,7 +1445,7 @@ C--------------------------------------
 C--------------------------------------
 C prise en compte des forces concentrees + pressure loads
 C--------------------------------------
-      IF(NCONLD.GT.0) THEN
+      IF(NCONLD>0) THEN
         DO NL = 1, NCONLD
           N1=IB(1,NL)
           N2=IB(2,NL)
@@ -1453,13 +1453,13 @@ C--------------------------------------
           N4=IB(4,NL)
           NN = N1 + 1
           ADSKY(NN) = ADSKY(NN) + 1
-          IF(N4.NE.-1)THEN
+          IF(N4/=-1)THEN
             NN = N2 + 1
             ADSKY(NN) = ADSKY(NN) + 1
-            IF(N2D.EQ.0)THEN
+            IF(N2D==0)THEN
               NN = N3 + 1
               ADSKY(NN) = ADSKY(NN) + 1
-              IF(N4.NE.0) THEN
+              IF(N4/=0) THEN
                 NN = N4 + 1
                 ADSKY(NN) = ADSKY(NN) + 1
               ENDIF
@@ -1470,7 +1470,7 @@ C--------------------------------------
 C-----------------------------------------------
 C pseudo element BC for heat transfert
 C-----------------------------------------------
-      IF(NUMCONV.GT.0) THEN
+      IF(NUMCONV>0) THEN
         DO NL = 1, NUMCONV
           N1=IBCV(1,NL)
           N2=IBCV(2,NL)
@@ -1478,13 +1478,13 @@ C-----------------------------------------------
           N4=IBCV(4,NL)
           NN = N1 + 1
           ADSKY(NN) = ADSKY(NN) + 1
-          IF(N4.NE.-1)THEN
+          IF(N4/=-1)THEN
             NN = N2 + 1
             ADSKY(NN) = ADSKY(NN) + 1
-            IF(N2D.EQ.0)THEN
+            IF(N2D==0)THEN
               NN = N3 + 1
               ADSKY(NN) = ADSKY(NN) + 1
-              IF(N4.NE.0) THEN
+              IF(N4/=0) THEN
                 NN = N4 + 1
                 ADSKY(NN) = ADSKY(NN) + 1
               ENDIF
@@ -1495,7 +1495,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C pseudo element BR for radiative heat transfert
 C-----------------------------------------------
-      IF(NUMRADIA.GT.0) THEN
+      IF(NUMRADIA>0) THEN
         DO NL = 1, NUMRADIA
           N1=IBCR(1,NL)
           N2=IBCR(2,NL)
@@ -1505,10 +1505,10 @@ C-----------------------------------------------
           ADSKY(NN) = ADSKY(NN) + 1
           NN = N2 + 1
           ADSKY(NN) = ADSKY(NN) + 1
-          IF(N2D.EQ.0)THEN
+          IF(N2D==0)THEN
             NN = N3 + 1
             ADSKY(NN) = ADSKY(NN) + 1
-            IF(N4.NE.0) THEN
+            IF(N4/=0) THEN
               NN = N4 + 1
               ADSKY(NN) = ADSKY(NN) + 1
             ENDIF
@@ -1518,7 +1518,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C pseudo element  for imposed heat flux
 C-----------------------------------------------
-      IF(NFXFLUX.GT.0) THEN
+      IF(NFXFLUX>0) THEN
         DO NL = 1, NFXFLUX
           IF(IBFFLUX(10,NL) == 1) CYCLE
           N1=IBFFLUX(1,NL)
@@ -1527,13 +1527,13 @@ C-----------------------------------------------
           N4=IBFFLUX(4,NL)
           NN = N1 + 1
           ADSKY(NN) = ADSKY(NN) + 1
-          IF(N4.NE.-1)THEN
+          IF(N4/=-1)THEN
             NN = N2 + 1
             ADSKY(NN) = ADSKY(NN) + 1
-            IF(N2D.EQ.0)THEN
+            IF(N2D==0)THEN
               NN = N3 + 1
               ADSKY(NN) = ADSKY(NN) + 1
-              IF(N4.NE.0) THEN
+              IF(N4/=0) THEN
                 NN = N4 + 1
                 ADSKY(NN) = ADSKY(NN) + 1
               ENDIF
@@ -1544,7 +1544,7 @@ C-----------------------------------------------
 C--------------------------------------
 C prise en compte des load/pfluid
 C--------------------------------------
-      IF(NLOADP.GT.0) THEN
+      IF(NLOADP>0) THEN
        DO NL = 1, NLOADP
        DO I = 1,ILOADP(1,NL)/4
          N1=LLOADP(ILOADP(4,NL)+4*(I-1))
@@ -1553,13 +1553,13 @@ C--------------------------------------
          N4=LLOADP(ILOADP(4,NL)+4*(I-1)+3)
           NN = N1 + 1
           ADSKY(NN) = ADSKY(NN) + 1
-          IF(N4.NE.-1)THEN
+          IF(N4/=-1)THEN
             NN = N2 + 1
             ADSKY(NN) = ADSKY(NN) + 1
-            IF(N2D.EQ.0)THEN
+            IF(N2D==0)THEN
               NN = N3 + 1
               ADSKY(NN) = ADSKY(NN) + 1
-              IF(N4.NE.0) THEN
+              IF(N4/=0) THEN
                 NN = N4 + 1
                 ADSKY(NN) = ADSKY(NN) + 1
               ENDIF             
@@ -1589,13 +1589,13 @@ C-----------------------------------------------
           NEL = IPARG(2,NG)
           P   = IPARG(32,NG)+1
           ITY = IPARG(5,NG)
-          IF (ITY.NE.ITY_OLD) THEN
+          IF (ITY/=ITY_OLD) THEN
             NIN = 0
             ITY_OLD = ITY
           ENDIF
 Cel SPH non pris en comp
-          IF(ITY.NE.51) THEN
-           IF (P.EQ.PROC) THEN
+          IF(ITY/=51) THEN
+           IF (P==PROC) THEN
             DO I = 1, NEL
               CEL(I+OFF) = NIN+I
             ENDDO
@@ -1620,7 +1620,7 @@ c on remplit le tableau CELSPH pour traitement SPH
 C-----------------------------------------------
 C Ajout pseudo element BCL
 C-----------------------------------------------
-      IF(NCONLD.GT.0) THEN
+      IF(NCONLD>0) THEN
         DO NL = 1, NCONLD
           CEL(OFF+NL) = 0
         ENDDO
@@ -1628,14 +1628,14 @@ C
         DO PROC = 1, NSPMD
           NL_L = 0
           DO NL = 1, NCONLD
-            IF(CEL(OFF+NL).EQ.0) THEN
+            IF(CEL(OFF+NL)==0) THEN
               N1=IB(1,NL)
               N2=IB(2,NL)
               N3=IB(3,NL)
               N4=IB(4,NL)
-              IF(N4.NE.-1)THEN
-                IF(N2D.EQ.0)THEN
-                  IF(N4.NE.0) THEN
+              IF(N4/=-1)THEN
+                IF(N2D==0)THEN
+                  IF(N4/=0) THEN
                     IF(NLOCAL(N1,PROC)==1.AND.
      +                 NLOCAL(N2,PROC)==1.AND.
      +                 NLOCAL(N3,PROC)==1.AND.
@@ -1673,7 +1673,7 @@ C
 C-----------------------------------------------
 C Ajout pseudo element bc for heat tranfert
 C-----------------------------------------------
-      IF(NUMCONV.GT.0) THEN
+      IF(NUMCONV>0) THEN
         DO NL = 1, NUMCONV
           CEL(OFF+NL) = 0
         ENDDO
@@ -1681,7 +1681,7 @@ C
         DO PROC = 1, NSPMD
           NL_L = 0
           DO NL = 1, NUMCONV
-            IF(CEL(OFF+NL).EQ.0) THEN
+            IF(CEL(OFF+NL)==0) THEN
               N1=IBCV(1,NL)
               N2=IBCV(2,NL)
               N3=IBCV(3,NL)
@@ -1692,8 +1692,8 @@ C
                 CEL(NL+OFF) = NL_L               
                ENDIF
               ELSE
-                IF(N2D.EQ.0)THEN
-                  IF(N4.NE.0) THEN
+                IF(N2D==0)THEN
+                  IF(N4/=0) THEN
                     IF(NLOCAL(N1,PROC)==1.AND.
      +                 NLOCAL(N2,PROC)==1.AND.
      +                 NLOCAL(N3,PROC)==1.AND.
@@ -1725,7 +1725,7 @@ C
 C-----------------------------------------------
 C Ajout pseudo element br for radiative heat tranfert
 C-----------------------------------------------
-      IF(NUMRADIA.GT.0) THEN
+      IF(NUMRADIA>0) THEN
         DO NL = 1, NUMRADIA
           CEL(OFF+NL) = 0
         ENDDO
@@ -1733,7 +1733,7 @@ C
         DO PROC = 1, NSPMD
           NL_L = 0
           DO NL = 1, NUMRADIA
-            IF(CEL(OFF+NL).EQ.0) THEN
+            IF(CEL(OFF+NL)==0) THEN
               N1=IBCR(1,NL)
               N2=IBCR(2,NL)
               N3=IBCR(3,NL)
@@ -1744,8 +1744,8 @@ C
                  CEL(NL+OFF) = NL_L
                 ENDIF
               ELSE
-                IF(N2D.EQ.0)THEN
-                  IF(N4.NE.0) THEN
+                IF(N2D==0)THEN
+                  IF(N4/=0) THEN
                     IF(NLOCAL(N1,PROC)==1.AND.
      +                 NLOCAL(N2,PROC)==1.AND.
      +                 NLOCAL(N3,PROC)==1.AND.
@@ -1777,7 +1777,7 @@ C
 C-----------------------------------------------
 C Ajout pseudo element for imposed heat flux
 C-----------------------------------------------
-      IF(NFXFLUX.GT.0) THEN
+      IF(NFXFLUX>0) THEN
         DO NL = 1, NFXFLUX
            CEL(OFF+NL) = 0
         ENDDO
@@ -1786,13 +1786,13 @@ C
           NL_L = 0
           DO NL = 1, NFXFLUX
             IF(IBFFLUX(10,NL) == 1) CYCLE
-            IF(CEL(OFF+NL).EQ.0) THEN
+            IF(CEL(OFF+NL)==0) THEN
               N1=IBFFLUX(1,NL)
               N2=IBFFLUX(2,NL)
               N3=IBFFLUX(3,NL)
               N4=IBFFLUX(4,NL)
-              IF(N2D.EQ.0)THEN
-                IF(N4.NE.0) THEN
+              IF(N2D==0)THEN
+                IF(N4/=0) THEN
                   IF(NLOCAL(N1,PROC)==1.AND.
      +               NLOCAL(N2,PROC)==1.AND.
      +               NLOCAL(N3,PROC)==1.AND.
@@ -1822,7 +1822,7 @@ C
 C-----------------------------------------------
 C Ajout pseudo element pfluid 
 C-----------------------------------------------
-      IF(NLOADP.GT.0) THEN
+      IF(NLOADP>0) THEN
         NUMLOADP=0
         DO NL = 1, NLOADP
           DO I = 1,ILOADP(1,NL)/4
@@ -1836,14 +1836,14 @@ C
           NUMLOADP=0
           DO NL = 1, NLOADP
            DO I = 1,ILOADP(1,NL)/4
-            IF(CEL(OFF+NUMLOADP+I).EQ.0) THEN
+            IF(CEL(OFF+NUMLOADP+I)==0) THEN
               N1=LLOADP(ILOADP(4,NL)+4*(I-1))
               N2=LLOADP(ILOADP(4,NL)+4*(I-1)+1)
               N3=LLOADP(ILOADP(4,NL)+4*(I-1)+2)
               N4=LLOADP(ILOADP(4,NL)+4*(I-1)+3)
-              IF(N4.NE.-1)THEN
-                IF(N2D.EQ.0)THEN
-                  IF(N4.NE.0) THEN
+              IF(N4/=-1)THEN
+                IF(N2D==0)THEN
+                  IF(N4/=0) THEN
                     IF(NLOCAL(N1,PROC)==1.AND.
      +                 NLOCAL(N2,PROC)==1.AND.
      +                 NLOCAL(N3,PROC)==1.AND.
@@ -1882,7 +1882,7 @@ C
 C
 C Traitement assemblage // int2
 C
-      IF(I2NSNT.GT.0) THEN
+      IF(I2NSNT>0) THEN
 C
 C-----------------------------------------------------
 C Preparation de ADDCNI2 : Adresse matrice CNI2 (connectivite interface type 2)
@@ -1891,14 +1891,14 @@ C-----------------------------------------------------
           ADSKYI2(N) = 0
         ENDDO
 C
-        IF (N2D.EQ.0) THEN
+        IF (N2D==0) THEN
           NIR = 4
         ELSE
           NIR = 2
         ENDIF
         DO N = 1, NINTER
           NTY = IPARI(7,N)
-          IF (NTY.EQ.2) THEN
+          IF (NTY==2) THEN
             NRTS  = IPARI(3,N)
             NRTM  = IPARI(4,N)
             NSN   = IPARI(5,N)
@@ -1927,7 +1927,7 @@ C-----------------------------------------------
         OFF = 0
         DO N = 1, NINTER
           NTY = IPARI(7,N)
-          IF (NTY.EQ.2) THEN
+          IF (NTY==2) THEN
             NRTS  = IPARI(3,N)
             NRTM  = IPARI(4,N)
             NSN   = IPARI(5,N)
@@ -1955,7 +1955,7 @@ C-----------------------------------------------
           NL_L = 0
           DO N = 1, NINTER
             NTY = IPARI(7,N)
-            IF (NTY.EQ.2) THEN
+            IF (NTY==2) THEN
               NRTS  = IPARI(3,N)
               NRTM  = IPARI(4,N)
               NSN   = IPARI(5,N)
@@ -1963,7 +1963,7 @@ C-----------------------------------------------
               DO I=1,NSN
                 L = INTBUF_TAB(N)%IRTLM(I)
                 K = INTBUF_TAB(N)%NSV(I)
-                IF(CELI2(OFF+I).EQ.0) THEN
+                IF(CELI2(OFF+I)==0) THEN
                   IF(NLOCAL(K,P)==1)THEN
                     NL_L = NL_L + 1
                     CELI2(OFF+I) = NL_L
@@ -2067,7 +2067,7 @@ C
 C rajout condition type element solide
       CALL MY_ORDERS(0,WORK,ITRI,INDEX,NUMELS8,1)
       IDEB = NUMELS8+1
-      IF(NUMELS10.GT.0)
+      IF(NUMELS10>0)
      .  CALL MY_ORDERS(0,WORK,ITRI(IDEB),INDEX(IDEB),NUMELS10,1)
 C
       DO J=1, NUMELS10
@@ -2075,7 +2075,7 @@ C
       ENDDO
 C
       IDEB = IDEB + NUMELS10
-      IF(NUMELS20.GT.0)
+      IF(NUMELS20>0)
      .  CALL MY_ORDERS(0,WORK,ITRI(IDEB),INDEX(IDEB),NUMELS20,1)
 C
       DO J=1, NUMELS20
@@ -2083,7 +2083,7 @@ C
       ENDDO
 C
       IDEB = IDEB + NUMELS20
-      IF(NUMELS16.GT.0)
+      IF(NUMELS16>0)
      .  CALL MY_ORDERS(0,WORK,ITRI(IDEB),INDEX(IDEB),NUMELS16,1)
 C
       DO J=1, NUMELS16
@@ -2094,31 +2094,31 @@ C
         I = INDEX(J)
         DO K=1,8
           N = IXS(K+1,I)
-            IF(N.NE.0) THEN
+            IF(N/=0) THEN
           CNE(ADSKY(N)) = I
           ADSKY(N) = ADSKY(N) + 1
             ENDIF
         ENDDO
       ENDDO
 C
-      IF(NUMELS10.GT.0) THEN
+      IF(NUMELS10>0) THEN
         DO J=1,NUMELS10
           I = INDEX(NUMELS8+J)
           DO K=1,6
             N = IXS10(K,I-NUMELS8)
-            IF(N.NE.0) THEN
+            IF(N/=0) THEN
               CNE(ADSKY(N)) = I
               ADSKY(N) = ADSKY(N) + 1
             ENDIF
           ENDDO
         ENDDO
       ENDIF
-      IF(NUMELS20.GT.0)THEN
+      IF(NUMELS20>0)THEN
         DO J=1,NUMELS20
           I = INDEX(NUMELS8+NUMELS10+J)
           DO K=1,12
             N = IXS20(K,I-NUMELS8-NUMELS10)
-            IF(N.NE.0) THEN
+            IF(N/=0) THEN
               CNE(ADSKY(N)) = I
               ADSKY(N) = ADSKY(N) + 1
             ENDIF
@@ -2126,12 +2126,12 @@ C
         ENDDO
       ENDIF
 C
-      IF(NUMELS16.GT.0)THEN
+      IF(NUMELS16>0)THEN
         DO J=1,NUMELS16
           I = INDEX(NUMELS8+NUMELS10+NUMELS20+J)
           DO K=1,8
             N = IXS16(K,I-NUMELS8-NUMELS10-NUMELS20)
-            IF(N.NE.0) THEN
+            IF(N/=0) THEN
               CNE(ADSKY(N)) = I
               ADSKY(N) = ADSKY(N) + 1
             ENDIF
@@ -2211,7 +2211,7 @@ C
           CNE(ADSKY(N)) = I+OFF
           ADSKY(N) = ADSKY(N) + 1
         ENDDO
-        IF(NINT(GEO(12,IXR(1,I))).EQ.12) THEN
+        IF(NINT(GEO(12,IXR(1,I)))==12) THEN
           N = IXR(4,I)
           CNE(ADSKY(N)) = I+OFF
           ADSKY(N) = ADSKY(N) + 1
@@ -2225,7 +2225,7 @@ C
 C rajout condition type element triangle
       CALL MY_ORDERS(0,WORK,ITRI,INDEX,NUMELTG-NUMELTG6,1)
       IDEB = NUMELTG-NUMELTG6+1     
-      IF (NUMELTG6.NE.0)
+      IF (NUMELTG6/=0)
      .  CALL MY_ORDERS(0,WORK,ITRI(IDEB),INDEX(IDEB),NUMELTG6,1)
       DO J=1, NUMELTG6
         INDEX(IDEB+J-1) = INDEX(IDEB+J-1)+NUMELTG-NUMELTG6
@@ -2240,12 +2240,12 @@ C
         ENDDO
       ENDDO
 C
-      IF(NUMELTG6.GT.0)THEN
+      IF(NUMELTG6>0)THEN
         DO J=1,NUMELTG6
           I = INDEX(NUMELTG-NUMELTG6+J)
           DO K=1,3
             N = IXTG6(K,I-NUMELTG+NUMELTG6)
-            IF(N.NE.0) THEN
+            IF(N/=0) THEN
               CNE(ADSKY(N)) = I
               ADSKY(N) = ADSKY(N) + 1
             ENDIF
@@ -2273,7 +2273,7 @@ C
 C
 C---------------------------------------------
 Cel mv
-      IF (NVOLU.GT.0) THEN
+      IF (NVOLU>0) THEN
         K1 = 1
         DO N = 1, NVOLU
           IS  = T_MONVOL(N)%EXT_SURFID
@@ -2281,7 +2281,7 @@ Cel mv
           DO J = 1, NN_S
             ITY= IGRSURF(IS)%ELTYP(J)
             I  = IGRSURF(IS)%ELEM(J)
-            IF (ITY.EQ.3) THEN
+            IF (ITY==3) THEN
               DO K = 2,5
                NN = IXC(K,I)
                CNE(ADSKY(NN)) = I+OFFC
@@ -2301,7 +2301,7 @@ Cel mv
 C-----------------------------------------------
 C pseudo element BCL
 C-----------------------------------------------
-      IF(NCONLD.GT.0) THEN
+      IF(NCONLD>0) THEN
         DO NL = 1, NCONLD
           N1=IB(1,NL)
           N2=IB(2,NL)
@@ -2310,15 +2310,15 @@ C-----------------------------------------------
           NN = N1
           CNE(ADSKY(NN)) = NL+OFF
           ADSKY(NN) = ADSKY(NN) + 1
-          IF(N4.NE.-1)THEN
+          IF(N4/=-1)THEN
             NN = N2
             CNE(ADSKY(NN)) = NL+OFF
             ADSKY(NN) = ADSKY(NN) + 1
-            IF(N2D.EQ.0)THEN
+            IF(N2D==0)THEN
               NN = N3
               CNE(ADSKY(NN)) = NL+OFF
               ADSKY(NN) = ADSKY(NN) + 1
-              IF(N4.NE.0) THEN
+              IF(N4/=0) THEN
                 NN = N4
                 CNE(ADSKY(NN)) = NL+OFF
                 ADSKY(NN) = ADSKY(NN) + 1
@@ -2330,15 +2330,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C pseudo element BCL : affectation a un proc
 C-----------------------------------------------
-      IF(NCONLD.GT.0) THEN
+      IF(NCONLD>0) THEN
         DO NL = 1, NCONLD
           N1=IB(1,NL)
           N2=IB(2,NL)
           N3=IB(3,NL)
           N4=IB(4,NL)
-          IF(N4.NE.-1)THEN
-            IF(N2D.EQ.0)THEN
-              IF(N4.NE.0) THEN
+          IF(N4/=-1)THEN
+            IF(N2D==0)THEN
+              IF(N4/=0) THEN
                 DO P = 1, NSPMD
                   IF(NLOCAL(N1,P)==1.AND.
      +               NLOCAL(N2,P)==1.AND.
@@ -2386,7 +2386,7 @@ C
 C-----------------------------------------------
 C pseudo element BC for heat transfert
 C-----------------------------------------------
-      IF(NUMCONV.GT.0) THEN
+      IF(NUMCONV>0) THEN
         DO NL = 1, NUMCONV
           N1=IBCV(1,NL)
           N2=IBCV(2,NL)
@@ -2395,15 +2395,15 @@ C-----------------------------------------------
           NN = N1
           CNE(ADSKY(NN)) = NL+OFF
           ADSKY(NN) = ADSKY(NN) + 1
-          IF(N4.NE.-1)THEN
+          IF(N4/=-1)THEN
             NN = N2
             CNE(ADSKY(NN)) = NL+OFF
             ADSKY(NN) = ADSKY(NN) + 1
-            IF(N2D.EQ.0)THEN
+            IF(N2D==0)THEN
               NN = N3
               CNE(ADSKY(NN)) = NL+OFF
               ADSKY(NN) = ADSKY(NN) + 1
-              IF(N4.NE.0) THEN
+              IF(N4/=0) THEN
                 NN = N4
                 CNE(ADSKY(NN)) = NL+OFF
                 ADSKY(NN) = ADSKY(NN) + 1
@@ -2416,7 +2416,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C pseudo element BC for heat transfert : affectation a un proc
 C-----------------------------------------------
-      IF(NUMCONV.GT.0) THEN
+      IF(NUMCONV>0) THEN
         DO NL = 1, NUMCONV
           N1=IBCV(1,NL)
           N2=IBCV(2,NL)
@@ -2426,8 +2426,8 @@ C-----------------------------------------------
             P = CEP(IBCV(8,NL))
             CEP(NL+OFF) = P
           ELSE
-          IF(N2D.EQ.0)THEN
-            IF(N4.NE.0) THEN
+          IF(N2D==0)THEN
+            IF(N4/=0) THEN
               DO P = 1, NSPMD
                 IF(NLOCAL(N1,P)==1.AND.
      +             NLOCAL(N2,P)==1.AND.
@@ -2467,7 +2467,7 @@ C
 C-----------------------------------------------
 C pseudo element BC for radiative heat transfert
 C-----------------------------------------------
-      IF(NUMRADIA.GT.0) THEN
+      IF(NUMRADIA>0) THEN
         DO NL = 1, NUMRADIA
           N1=IBCR(1,NL)
           N2=IBCR(2,NL)
@@ -2479,11 +2479,11 @@ C-----------------------------------------------
           NN = N2
           CNE(ADSKY(NN)) = NL+OFF
           ADSKY(NN) = ADSKY(NN) + 1
-          IF(N2D.EQ.0)THEN
+          IF(N2D==0)THEN
             NN = N3
             CNE(ADSKY(NN)) = NL+OFF
             ADSKY(NN) = ADSKY(NN) + 1
-            IF(N4.NE.0) THEN
+            IF(N4/=0) THEN
               NN = N4
               CNE(ADSKY(NN)) = NL+OFF
               ADSKY(NN) = ADSKY(NN) + 1
@@ -2494,7 +2494,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C pseudo element BC for heat transfert : affectation a un proc
 C-----------------------------------------------
-      IF(NUMRADIA.GT.0) THEN
+      IF(NUMRADIA>0) THEN
         DO NL = 1, NUMRADIA
           N1=IBCR(1,NL)
           N2=IBCR(2,NL)
@@ -2504,8 +2504,8 @@ C-----------------------------------------------
              P = CEP(IBCR(8,NL)) 
              CEP(NL+OFF) = P
           ELSE
-          IF(N2D.EQ.0)THEN
-            IF(N4.NE.0) THEN
+          IF(N2D==0)THEN
+            IF(N4/=0) THEN
               DO P = 1, NSPMD
                 IF(NLOCAL(N1,P)==1.AND.
      +             NLOCAL(N2,P)==1.AND.
@@ -2544,7 +2544,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C pseudo element BC for imposed heat flux
 C-----------------------------------------------
-      IF(NFXFLUX.GT.0) THEN
+      IF(NFXFLUX>0) THEN
         DO NL = 1, NFXFLUX
           IF(IBFFLUX(10,NL) == 1) CYCLE
           N1=IBFFLUX(1,NL)
@@ -2554,15 +2554,15 @@ C-----------------------------------------------
           NN = N1
           CNE(ADSKY(NN)) = NL+OFF
           ADSKY(NN) = ADSKY(NN) + 1
-          IF(N4.NE.-1)THEN
+          IF(N4/=-1)THEN
             NN = N2
             CNE(ADSKY(NN)) = NL+OFF
             ADSKY(NN) = ADSKY(NN) + 1
-            IF(N2D.EQ.0)THEN
+            IF(N2D==0)THEN
               NN = N3
               CNE(ADSKY(NN)) = NL+OFF
               ADSKY(NN) = ADSKY(NN) + 1
-              IF(N4.NE.0) THEN
+              IF(N4/=0) THEN
                 NN = N4
                 CNE(ADSKY(NN)) = NL+OFF
                 ADSKY(NN) = ADSKY(NN) + 1
@@ -2575,7 +2575,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C pseudo element BC for heat transfert : affectation a un proc
 C-----------------------------------------------
-      IF(NFXFLUX.GT.0) THEN
+      IF(NFXFLUX>0) THEN
         DO NL = 1, NFXFLUX
          IF(IBFFLUX(10,NL) == 0) THEN
 C SURFACIC FLUX
@@ -2583,8 +2583,8 @@ C SURFACIC FLUX
           N2=IBFFLUX(2,NL)
           N3=IBFFLUX(3,NL)
           N4=IBFFLUX(4,NL)
-          IF(N2D.EQ.0)THEN
-            IF(N4.NE.0) THEN
+          IF(N2D==0)THEN
+            IF(N4/=0) THEN
               DO P = 1, NSPMD
                 IF(NLOCAL(N1,P)==1.AND.
      +             NLOCAL(N2,P)==1.AND.
@@ -2632,7 +2632,7 @@ c          N1 = IBFFLUX(1,NL)
 C-----------------------------------------------
 C pseudo element BCL
 C-----------------------------------------------
-      IF(NLOADP.GT.0) THEN
+      IF(NLOADP>0) THEN
         NUMLOADP=0
         DO NL = 1, NLOADP
          DO I = 1,ILOADP(1,NL)/4
@@ -2643,15 +2643,15 @@ C-----------------------------------------------
           NN = N1
           CNE(ADSKY(NN)) = OFF+NUMLOADP+I
           ADSKY(NN) = ADSKY(NN) + 1
-          IF(N4.NE.-1)THEN
+          IF(N4/=-1)THEN
             NN = N2
             CNE(ADSKY(NN)) = OFF+NUMLOADP+I
             ADSKY(NN) = ADSKY(NN) + 1
-            IF(N2D.EQ.0)THEN
+            IF(N2D==0)THEN
               NN = N3
               CNE(ADSKY(NN)) = OFF+NUMLOADP+I
               ADSKY(NN) = ADSKY(NN) + 1
-              IF(N4.NE.0) THEN
+              IF(N4/=0) THEN
                 NN = N4
                 CNE(ADSKY(NN)) = OFF+NUMLOADP+I
                 ADSKY(NN) = ADSKY(NN) + 1
@@ -2665,16 +2665,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C pseudo element LLOADP : affectation a un proc 
 C-----------------------------------------------
-      IF(NLOADP.GT.0) THEN
+      IF(NLOADP>0) THEN
         DO NL = 1, NLOADP
          DO I = 1,ILOADP(1,NL)/4
           N1=LLOADP(ILOADP(4,NL)+4*(I-1))
           N2=LLOADP(ILOADP(4,NL)+4*(I-1)+1)
           N3=LLOADP(ILOADP(4,NL)+4*(I-1)+2)
           N4=LLOADP(ILOADP(4,NL)+4*(I-1)+3)
-          IF(N4.NE.-1)THEN
-            IF(N2D.EQ.0)THEN
-              IF(N4.NE.0) THEN
+          IF(N4/=-1)THEN
+            IF(N2D==0)THEN
+              IF(N4/=0) THEN
                 DO P = 1, NSPMD
                   IF(NLOCAL(N1,P)==1.AND.
      +               NLOCAL(N2,P)==1.AND.
@@ -2783,14 +2783,14 @@ C ordre => ordre des elements dans l'interface type 2
 C
 C
       OFF = 0
-      IF (N2D.EQ.0) THEN
+      IF (N2D==0) THEN
         NIR = 4
       ELSE
         NIR = 2
       ENDIF
       DO N = 1, NINTER
         NTY = IPARI(7,N)
-        IF (NTY.EQ.2) THEN
+        IF (NTY==2) THEN
           NRTS  = IPARI(3,N)
           NRTM  = IPARI(4,N)
           NSN   = IPARI(5,N)
@@ -2885,7 +2885,7 @@ C In single precision : one float  = 4 bytes
       ITOBYTES = 4
 
 C
-      IF(NSPMD.GT.1) THEN
+      IF(NSPMD>1) THEN
        DO J=1, NACTIVE
          AVERAGE(J)=ZERO
          DEVIATION(J)=ZERO
@@ -2942,7 +2942,7 @@ C
      .     NINT(DEVIATION(22)),' / ',NINT(DEVIATION(23))
          WRITE(IOUT,*)
        END IF
-       IF(NUMSPH.GT.0.AND.AVERAGE(17) >= ONE) THEN
+       IF(NUMSPH>0.AND.AVERAGE(17) >= ONE) THEN
          WRITE(IOUT,'(A,I8,A3,I8)')
      .     'AVERAGE NB. OF SPH PARTICLES  :',
      .     NINT(AVERAGE(17))
@@ -2965,37 +2965,37 @@ C
         WRITE(IOUT,*)
      .  '----------------------------------------------------'
         WRITE(IOUT,*)  'NUMBER OF NODES................. :',DDSTAT(1,P)
-        IF(NUMELS.GT.0)
+        IF(NUMELS>0)
      .    WRITE(IOUT,*)'NUMBER OF SOLID ELEMENTS........ :',DDSTAT(3,P)
-        IF(NUMELQ.GT.0)
+        IF(NUMELQ>0)
      .    WRITE(IOUT,*)'NUMBER OF QUAD ELEMENTS......... :',DDSTAT(4,P)
-        IF(NUMELC.GT.0)
+        IF(NUMELC>0)
      .    WRITE(IOUT,*)'NUMBER OF 4-N SHELL ELEMENTS.... :',DDSTAT(5,P)
-        IF(NUMELP.GT.0)
+        IF(NUMELP>0)
      .    WRITE(IOUT,*)'NUMBER OF BEAM ELEMENTS......... :',DDSTAT(6,P)
-        IF(NUMELT.GT.0)
+        IF(NUMELT>0)
      .    WRITE(IOUT,*)'NUMBER OF TRUSS ELEMENTS........ :',DDSTAT(7,P)
-        IF(NUMELR.GT.0)
+        IF(NUMELR>0)
      .    WRITE(IOUT,*)'NUMBER OF SPRING ELEMENTS....... :',DDSTAT(8,P)
-        IF(NUMELUR.GT.0)
+        IF(NUMELUR>0)
      .    WRITE(IOUT,*)'NUMBER OF USER ELEMENTS......... :',DDSTAT(9,P)
-        IF(NUMELTG.GT.0)
+        IF(NUMELTG>0)
      .    WRITE(IOUT,*)'NUMBER OF 3-N SHELL ELEMENTS.... :',DDSTAT(10,P)
-        IF(NUMELX.GT.0)
+        IF(NUMELX>0)
      .    WRITE(IOUT,*)'NUMBER OF MULTIPURPOSE ELEMENTS. :',DDSTAT(11,P)
         WRITE(IOUT,*)  'TOTAL NUMBER OF NODES FOR COMM.. :',DDSTAT(14,P)
-        IF(NRBYKIN.GT.0)THEN
+        IF(NRBYKIN>0)THEN
           WRITE(IOUT,*)'NUMBER OF RIGID BODY COMPONENTS. :',DDSTAT(16,P)
           WRITE(IOUT,*)'NUMBER OF R.B.M. NODES FOR COMM. :',DDSTAT(15,P)
           WRITE(IOUT,*)'NUMBER OF SECONDARY RIGID BODY NODES :',DDSTAT(24,P)
         ENDIF
-        IF(NINTER.GT.0)THEN
+        IF(NINTER>0)THEN
           WRITE(IOUT,*)'NUMBER OF INT2 SECONDARY NODES...... :',DDSTAT(22,P)
           WRITE(IOUT,*)'NUMBER OF INT2 MAIN NODES..... :',DDSTAT(23,P)
           WRITE(IOUT,*)'NUMBER OF CONTACT SECONDARY NODES... :',DDSTAT(20,P)
           WRITE(IOUT,*)'NUMBER OF CONTACT MAIN NODES.. :',DDSTAT(21,P)
         END IF
-        IF(NUMSPH.GT.0)
+        IF(NUMSPH>0)
      .    WRITE(IOUT,*)'NUMBER OF SMOOTH PARTICLES...... :',DDSTAT(17,P)
         WRITE(IOUT,*)
         DDSTAT(18,P)=MAX(DDSTAT(18,P),1310720)              ! 5 Mo en entiers / 4 bytes
@@ -3015,7 +3015,7 @@ C
      .          DDSTAT(25,P)/1024
         ENDIF
 
-        IF (NDSOLV.GT.0) THEN
+        IF (NDSOLV>0) THEN
            WRITE(IOUT,*)
            IF( GOT_INSPIRE_ALM == 1)THEN
              WRITE(IOUT,'(A)')
@@ -3028,7 +3028,7 @@ C
      .  '     ------------------------------------------------------'
            WRITE(IOUT,1300) DSMEMORY(1,P)*RTOBYTES,
      *                      DSMEMORY(2,P)*RTOBYTES
-           IF (P.EQ.1.AND.DSMEMORY(5,P).EQ.0) THEN
+           IF (P==1.AND.DSMEMORY(5,P)==0) THEN
               WRITE(IOUT,1310) DSMEMORY(3,P)*RTOBYTES
            ELSE
               WRITE(IOUT,1320) DSMEMORY(3,P)*RTOBYTES,DSMEMORY(6,P)
@@ -3047,7 +3047,7 @@ C
      .                      DSMEMORY(4,P)/(1024*1024),
      .                      (DSMEMORY(7,P)+DSMEMORY(4,P))/(1024*1024)
         ENDIF
-        IF (NFLOW.GT.0) THEN
+        IF (NFLOW>0) THEN
            WRITE(IOUT,*)
            IF( GOT_INSPIRE_ALM == 1)THEN
              WRITE(IOUT,'(A)')
@@ -3082,7 +3082,7 @@ C
      .                    DDSTAT(25,P)/1024
         ENDIF
 
-        IF (NDSOLV.GT.0) THEN
+        IF (NDSOLV>0) THEN
            WRITE(IOUT,*)
            IF( GOT_INSPIRE_ALM == 1)THEN
              WRITE(IOUT,'(A)')
@@ -3095,7 +3095,7 @@ C
      .  '     ------------------------------------------------------'
            WRITE(IOUT,1300) DSMEMORY(1,P)*RTOBYTES,
      .                      DSMEMORY(2,P)*RTOBYTES
-           IF (DSMEMORY(5,P).EQ.0) THEN
+           IF (DSMEMORY(5,P)==0) THEN
               WRITE(IOUT,1310) DSMEMORY(3,P)*RTOBYTES
            ELSE
               WRITE(IOUT,1320) DSMEMORY(3,P)*RTOBYTES,DSMEMORY(6,P)
@@ -3116,7 +3116,7 @@ C
      .                      DSMEMORY(4,P)/(1024*1024),
      .                      (DSMEMORY(7,P)+DSMEMORY(4,P))/(1024*1024)
         ENDIF
-        IF (NFLOW.GT.0) THEN
+        IF (NFLOW>0) THEN
            WRITE(IOUT,*)
            IF( GOT_INSPIRE_ALM == 1)THEN
              WRITE(IOUT,'(A)')

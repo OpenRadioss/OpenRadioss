@@ -95,7 +95,7 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
 
-      IF(DT1.GT.ZERO)THEN
+      IF(DT1>ZERO)THEN
         UDT = ONE/DT1
       ELSE
         UDT = ZERO
@@ -109,14 +109,14 @@ C-----------------------------------------------
 
       !INTERFACE 22 ONLY - OUTPUT---------------!
       debug_outp = .false.
-      if(ibug22_antidiff.ne.0)then
+      if(ibug22_antidiff/=0)then
         debug_outp = .false.
-        if(ibug22_antidiff.GT.0)then
+        if(ibug22_antidiff>0)then
           do ib=nbf,nbl
              ie = brick_list(nin,ib)%id
-            if(ixs(11,ie).eq.ibug22_antidiff)then
+            if(ixs(11,ie)==ibug22_antidiff)then
               MLW =  BRICK_LIST(NIN,IB)%MLW
-              if(mlw.eq.51)then
+              if(mlw==51)then
                 debug_outp=.true.
               endif
             endif
@@ -126,13 +126,13 @@ C-----------------------------------------------
           KK =  1
           do ib=nbf,nbl
               MLW =  BRICK_LIST(NIN,IB)%MLW 
-              if(mlw.ne.51)then
+              if(mlw/=51)then
                 KK = 0
               endif          
           enddo
           if (KK==0)debug_outp=.false.
         endif
-        if(((itrimat.ne.ibug22_itrimat).and.(ibug22_itrimat.ne.-1)))debug_outp=.false.
+        if(((itrimat/=ibug22_itrimat).and.(ibug22_itrimat/=-1)))debug_outp=.false.
       endif
       if(debug_outp)then
         print *, "    |----ale51_antidiff3_int22.F-----|"
@@ -150,9 +150,9 @@ C-----------------------------------------------
         NCELL             =  BRICK_LIST(NIN,IB)%NBCUT 
         MCELL             =  BRICK_LIST(NIN,IB)%MainID       
         ICELL             =  0  
-        DO WHILE (ICELL.LE.NCELL) ! loop on polyhedron {1:NCELL} U {9}
+        DO WHILE (ICELL<=NCELL) ! loop on polyhedron {1:NCELL} U {9}
           ICELL = ICELL +1
-          IF (ICELL>NCELL .AND. NCELL.NE.0)ICELL=9 
+          IF (ICELL>NCELL .AND. NCELL/=0)ICELL=9 
           !get_main_data
           J      = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(1)
           ICELLM = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(2)
@@ -160,7 +160,7 @@ C-----------------------------------------------
             IE_M   = IE
             IBM    = IB
             ICELLM = MCELL
-          ELSEIF(J.LE.NV46)THEN
+          ELSEIF(J<=NV46)THEN
             IE_M   = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,1)
             IBM    = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,4)
           ELSE
@@ -173,7 +173,7 @@ C-----------------------------------------------
           NG       = BRICK_LIST(NIN,IBM)%NG
           IDLOC    = BRICK_LIST(NIN,IBM)%IDLOC
           MLW      = BRICK_LIST(NIN,IBM)%MLW
-          IF(MLW.NE.51)CYCLE
+          IF(MLW/=51)CYCLE
           ALPH     = BRICK_LIST(NIN,IBM)%POLY(ICELLM)%VFRACm(ITRIMAT)
           VOLG     = ELBUF_TAB(NG)%GBUF%VOL(IDLOC)
           VOL0     = VOLG*UDT
@@ -190,12 +190,12 @@ C-----------------------------------------------
             NADJ = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(K)%NAdjCell
             DO IADJ=1,NADJ 
               tmpFLUX(K,IADJ) = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(K)%Adjacent_UpwFLUX(IADJ)
-              IF(tmpFLUX(K,IADJ).GT.ZERO)THEN
+              IF(tmpFLUX(K,IADJ)>ZERO)THEN
                 IEV    = BRICK_LIST(NIN,IB)%Adjacent_Brick(K,1)
                 IBV    = BRICK_LIST(NIN,IB)%Adjacent_Brick(K,4)
                 IFV    = BRICK_LIST(NIN,IB)%Adjacent_Brick(K,5)
                 ICELLv = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(K)%Adjacent_Cell(IADJ)
-                IF(ICELLv.EQ.0) THEN !adj elem does not exist
+                IF(ICELLv==0) THEN !adj elem does not exist
                   ALPHv(K,IADJ) = ALPH
                 ELSE !adjacent elem does exist
                   IF(IBv==0)THEN
@@ -218,7 +218,7 @@ C-----------------------------------------------
           !-----------------------------------------------
           !       flux sortant par face
           !-----------------------------------------------
-          IF(ALPHI.GT.AV0.AND.AV0.GT.ZERO)THEN
+          IF(ALPHI>AV0.AND.AV0>ZERO)THEN
             !-----------------------------------------------
             !         flux sortant > volume non vide
             !-----------------------------------------------
@@ -226,12 +226,12 @@ C-----------------------------------------------
             DO K=1,NV46
               NADJ = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(K)%NAdjCell
               DO IADJ=1,NADJ             
-                IF(tmpFLUX(K,IADJ).GT.ZERO)THEN
+                IF(tmpFLUX(K,IADJ)>ZERO)THEN
                   FF(K,IADJ) = FF(K,IADJ) * AAA
                 ENDIF
               ENDDO!necti IADJ
             ENDDO!next K  
-          ELSEIF(UALPHI.GT.UAV0.AND.UAV0.GT.ZERO)THEN
+          ELSEIF(UALPHI>UAV0.AND.UAV0>ZERO)THEN
             !-----------------------------------------------
             !        vide sortant > vide disponible
             !-----------------------------------------------
@@ -239,7 +239,7 @@ C-----------------------------------------------
             DO K=1,NV46
               NADJ = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(K)%NAdjCell
               DO IADJ=1,NADJ                 
-                IF(tmpFLUX(K,IADJ).GT.ZERO)THEN
+                IF(tmpFLUX(K,IADJ)>ZERO)THEN
                   FF(K,IADJ) = tmpFLUX(K,IADJ) + (FF(K,IADJ)-tmpFLUX(K,IADJ))*AAA
                 ENDIF
               ENDDO!next IADJ
@@ -255,7 +255,7 @@ C-----------------------------------------------
               IBV    = BRICK_LIST(NIN,IB)%Adjacent_Brick(K,4)
               IFV    = BRICK_LIST(NIN,IB)%Adjacent_Brick(K,5)
               ICELLv = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(K)%Adjacent_Cell(IADJ)                         
-              IF(tmpFLUX(K,IADJ).GT.ZERO)THEN
+              IF(tmpFLUX(K,IADJ)>ZERO)THEN
                 FF(K,IADJ) = HALF * ( FF(K,IADJ)*(ONE-UPWSM)+ALPH*tmpFLUX(K,IADJ)*(ONE+UPWSM) )
 
                 
@@ -263,7 +263,7 @@ C-----------------------------------------------
                 !INTERFACE 22 ONLY------------------------!
                 if(debug_outp)then 
                 ie = brick_list(nin,ib)%Id 
-                 if(ibug22_antidiff.eq.ixs(11,ie) .OR. ibug22_antidiff.eq.-1)then                            
+                 if(ibug22_antidiff==ixs(11,ie) .OR. ibug22_antidiff==-1)then                            
                            
                    print *,                    "      brique       =", ixs(11,ie)
                    print *,                    "      icell        =", ICELL                 
@@ -281,10 +281,10 @@ C-----------------------------------------------
                 BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(K)%Adjacent_UpwFLUX(IADJ) = FF(K,IADJ)                
                 
                 !adjacent flux is also updated to be consistent and conservative
-                IF(ICELLv.GT.0)THEN
+                IF(ICELLv>0)THEN
                   !recherche du flux voisin 
                   !OPTIM PLUS TARD : si deja calcule dans sinit, stocker pour economiser acces memoires
-                  IF(IBv.GT.0)THEN
+                  IF(IBv>0)THEN
                     !--IN CUT CELL BUFFER
                     NADJv = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%FACE(IFv)%NAdjCell
                     DO IADJv=1,NADJv
@@ -301,7 +301,7 @@ C-----------------------------------------------
                   
                   !INTERFACE 22 ONLY------------------------!
                   if(debug_outp)then 
-                  if(ibug22_antidiff.eq.ixs(11,ie) .OR. ibug22_antidiff.eq.-1)then                              
+                  if(ibug22_antidiff==ixs(11,ie) .OR. ibug22_antidiff==-1)then                              
                     print *,               "        => Setting adjacent flux consequently :"
                     print *,               "        brique.V     =", ixs(11,iev)
                     print *,               "        icell.V      =", ICELLv                

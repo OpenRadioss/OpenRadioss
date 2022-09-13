@@ -229,12 +229,12 @@ C
       IPARI(13) = IS1*10+IS2
 C
 ! ILEV
-      IF (ILEV .NE. 0 .AND. ILEV .NE. 1 .AND. ILEV .NE. 2 .AND. 
-     .      ILEV .NE. 3 .AND .ILEV .NE. 4 .AND. ILEV .NE. 5 .AND. 
-     .      ILEV .NE. 10 .AND. ILEV .NE. 11 .AND. ILEV .NE. 12 .AND.
-     .      ILEV .NE. 20 .AND. ILEV .NE. 21 .AND. ILEV .NE. 22 .AND. 
-     .      ILEV .NE. 25 .AND. ILEV .NE. 26 .AND. ILEV .NE. 27 .AND. 
-     .      ILEV .NE. 28 .AND. ILEV .NE. 30) THEN
+      IF (ILEV /= 0 .AND. ILEV /= 1 .AND. ILEV /= 2 .AND. 
+     .      ILEV /= 3 .AND .ILEV /= 4 .AND. ILEV /= 5 .AND. 
+     .      ILEV /= 10 .AND. ILEV /= 11 .AND. ILEV /= 12 .AND.
+     .      ILEV /= 20 .AND. ILEV /= 21 .AND. ILEV /= 22 .AND. 
+     .      ILEV /= 25 .AND. ILEV /= 26 .AND. ILEV /= 27 .AND. 
+     .      ILEV /= 28 .AND. ILEV /= 30) THEN
 
             CALL ANCMSG(MSGID=1614,
      .                  MSGTYPE=MSGERROR,
@@ -254,7 +254,7 @@ C
       IF (N2D == 1)  IDEL2 = 0
       IPARI(17) = IDEL2
 
-      IF(IBUC.EQ.0)IBUC=2
+      IF(IBUC==0)IBUC=2
       IPARI(12) = IBUC
 
 CC---     Hierarchy useless for interface type2 with penalty - hiera set to 0
@@ -419,7 +419,7 @@ C--------------------------------------------------
       CALL HM_GET_FLOATV('Kthe',KTHE,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C---------------------- 
 C
-      IF (IPROJ.EQ.0) IPROJ = 1
+      IF (IPROJ==0) IPROJ = 1
       IF(INTTH > 0 ) INTHEAT = 1
 
       IPARI(47) = INTTH
@@ -525,28 +525,28 @@ C........* PRINT INTERFACES INPUT *.....................
       END IF
  
 C--------------------------------------------------------------
-      IF(IS1.EQ.0)THEN
+      IF(IS1==0)THEN
         WRITE(IOUT,'(6X,A)')'NO SECONDARY SURFACE INPUT'
-      ELSEIF(IS1.EQ.1)THEN
+      ELSEIF(IS1==1)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS1.EQ.2)THEN
+      ELSEIF(IS1==2)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY NODES'
-      ELSEIF(IS1.EQ.3)THEN
+      ELSEIF(IS1==3)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS1.EQ.4 )THEN
+      ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
-      ELSEIF(IS1.EQ.5 )THEN
+      ELSEIF(IS1==5 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
       ENDIF
-      IF(IS2.EQ.0)THEN
+      IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'
-      ELSEIF(IS2.EQ.1)THEN
+      ELSEIF(IS2==1)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS2.EQ.2)THEN
+      ELSEIF(IS2==2)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY NODES'
-      ELSEIF(IS2.EQ.3)THEN
+      ELSEIF(IS2==3)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS2.EQ.4)THEN
+      ELSEIF(IS2==4)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE REFERS ',
      .                      'TO HYPER-ELLIPSOIDAL SURFACE'
       ENDIF
@@ -560,14 +560,14 @@ C------------
  999  CALL FREERR(3)
       RETURN
  1502 FORMAT(//
-     .    '    TYPE.EQ.2   TIED SLIDING                  ' //
+     .    '    TYPE==2   TIED SLIDING                  ' //
      .    '    FORMULATION LEVEL . . . . . . . . . . . . ',I5/,
      .    '    HIERARCHICAL SOLVING LEVEL. . . . . . . . ',I5/,
      .    '    SEARCH FORMULATION. . . . . . . . . . . . ',I5/,
      .    '    SEARCH DISTANCE . . . . . . . . . . . . . ',1PG20.13/,
      .    '    IGNORE FLAG . . . . . . . . . . . . . . . ',I5/)
  1532 FORMAT(//
-     .    '    TYPE.EQ.2   TIED SLIDING                  ' //
+     .    '    TYPE==2   TIED SLIDING                  ' //
      .    '    FORMULATION LEVEL . . . . . . . . . . . . ',I5/,
      .    '    HIERARCHICAL SOLVING LEVEL. . . . . . . . ',I5/,
      .    '    SEARCH FORMULATION. . . . . . . . . . . . ',I5/,

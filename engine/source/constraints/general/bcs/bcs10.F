@@ -54,7 +54,7 @@ C-----------------------------------------------
       DO 420 I = NODFT,NODLT,1024
         NINDX = 0
         DO 400 N=I,MIN(NODLT,I+1023)
-          IF (ICODT(N).NE.0)THEN
+          IF (ICODT(N)/=0)THEN
             NINDX = NINDX + 1
             INDX(NINDX) = N
           ENDIF
@@ -63,11 +63,11 @@ C-----------------------------------------------
      .             A    ,SKEW,V          )
   420 CONTINUE
 C
-      IF(IRODDL.NE.0) THEN
+      IF(IRODDL/=0) THEN
         DO 440 I = NODFT,NODLT,1024
           NINDX = 0
           DO 430 N=I,MIN(NODLT,I+1023)
-            IF (ICODR(N).NE.0)THEN
+            IF (ICODR(N)/=0)THEN
               NINDX = NINDX + 1
               INDX(NINDX) = N
             ENDIF

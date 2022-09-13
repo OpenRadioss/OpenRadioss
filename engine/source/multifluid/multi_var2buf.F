@@ -87,7 +87,7 @@ C     Velocity
                GBUF%SIG(II + 1 * NEL) = -MULTI_FVM%PRES(I)
                GBUF%SIG(II + 2 * NEL) = -MULTI_FVM%PRES(I)
             ENDDO
-            IF (NBMAT .GT. 1) THEN
+            IF (NBMAT > 1) THEN
                CUMUL_ALPHA(1:NEL) = ZERO
 C     Fill partial values
                DO IMAT = 1, NBMAT
@@ -117,7 +117,7 @@ C     PRessure
                   ENDDO
                ENDDO
 CCCCC 
-               IF (MULTI_FVM%MUSCL .GT. 0) THEN
+               IF (MULTI_FVM%MUSCL > 0) THEN
                   DO II = 1, NEL
                      I = II + NFT
                      MULTI_FVM%RHO(I) = ZERO

@@ -76,7 +76,7 @@ C
       TYPE(G_BUFEL_),POINTER :: GBUF
 C----------------------------------------------------------      
       
-      IF ((NODADT.EQ.0).AND.(IDTMINS/=2)) THEN
+      IF ((NODADT==0).AND.(IDTMINS/=2)) THEN
 C      
       DO NG=1,NGROUP
         ITYP = IPARG(5,NG)
@@ -122,7 +122,7 @@ C--------> Calcul pas de temps nodal RB2 -------
 C
 C--------> Calcul pas de temps du Joint ------- 
 	      DT = MIN(DTRB1,DTRB2)	      	      
-              IF(DT.LT.DT2T) THEN
+              IF(DT<DT2T) THEN
                 DT2T=DT
                 ITYPTST=11
                 IF (DTRB1 < DTRB2) THEN

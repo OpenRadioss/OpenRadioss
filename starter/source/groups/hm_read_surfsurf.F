@@ -406,7 +406,7 @@ C-----------
 ! pretreatement of surface node permutation
 ! --------------
               DO  L=1,NSEG
-               IF (BUFTMP((L-1)*NISX+1) .NE. 0) THEN
+               IF (BUFTMP((L-1)*NISX+1) /= 0) THEN
                  ! nodes of surface segment
                  INOD(1) = IABS(BUFTMP((L-1)*NISX+1))
                  INOD(2) = IABS(BUFTMP((L-1)*NISX+2))
@@ -443,7 +443,7 @@ C-----------
                  BUFTMP((L-1)*NISX+2) = NN(2)*ISIGN_NOD(2)
                  BUFTMP((L-1)*NISX+3) = NN(3)*ISIGN_NOD(3)
                  BUFTMP((L-1)*NISX+4) = NN(4)*ISIGN_NOD(4)
-               ENDIF ! IF (BUFTMP((L-1)*NISX+1) .NE. 0)
+               ENDIF ! IF (BUFTMP((L-1)*NISX+1) /= 0)
              ENDDO
 C-------
              !---------
@@ -488,7 +488,7 @@ C  sorting
 C------------------------------ 
               DO  L=1,NSEG
                 INDEX(L)=L
-                IF(BUFTMP((L-1)*NISX+1) .NE. 0) THEN
+                IF(BUFTMP((L-1)*NISX+1) /= 0) THEN
                   ITRI(1,L) = IABS(BUFTMP((L-1)*NISX+1))
                   ITRI(2,L) = IABS(BUFTMP((L-1)*NISX+2))
                   ITRI(3,L) = IABS(BUFTMP((L-1)*NISX+3))
@@ -511,7 +511,7 @@ C------------------------------
                       BUFTMP((INDEX(L)-1) *NISX+J) = 0
                       BUFTMP((INDEX(L+1)-1)*NISX+J) = -IABS(BUFTMP((INDEX(L+1)-1)*NISX+J))
                     ENDDO 
-                  ELSEIF( ITRI(5,INDEX(L)) +  ITRI(5,INDEX(L+1)) .NE. 0)THEN
+                  ELSEIF( ITRI(5,INDEX(L)) +  ITRI(5,INDEX(L+1)) /= 0)THEN
                     DO J=1,NISX
                       BUFTMP((INDEX(L)-1) *NISX+J) = 0
                       BUFTMP((INDEX(L+1)-1)*NISX+J) = BUFTMP((INDEX(L+1)-1)*NISX+J)

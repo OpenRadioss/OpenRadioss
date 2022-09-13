@@ -250,14 +250,14 @@ C
 C
       CALL HM_GET_FLOATV('Xfreq',ALPHA,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
-      IF (MFROT.GT.0) THEN
+      IF (MFROT>0) THEN
          CALL HM_GET_FLOATV('C1',C1,IS_AVAILABLE,LSUBMODEL,UNITAB)
          CALL HM_GET_FLOATV('C2',C2,IS_AVAILABLE,LSUBMODEL,UNITAB)
          CALL HM_GET_FLOATV('C3',C3,IS_AVAILABLE,LSUBMODEL,UNITAB)
          CALL HM_GET_FLOATV('C4',C4,IS_AVAILABLE,LSUBMODEL,UNITAB)
          CALL HM_GET_FLOATV('C5',C5,IS_AVAILABLE,LSUBMODEL,UNITAB)
       ENDIF
-      IF (MFROT.GT.1) THEN
+      IF (MFROT>1) THEN
         CALL HM_GET_FLOATV('C6',C6,IS_AVAILABLE,LSUBMODEL,UNITAB)
       ENDIF
 C----- was hiding flag
@@ -467,17 +467,17 @@ C
 C....* Card3  *.............
 C
 
-        IF(IGSTI.GT.1)THEN
+        IF(IGSTI>1)THEN
             I7STIFS=1
-            IF(STMAX.EQ.ZERO)STMAX=EP30
+            IF(STMAX==ZERO)STMAX=EP30
           ELSE
             STMIN = ZERO
             STMAX = EP30
         END IF
 
-c          IF(IGAP.EQ.3)THEN
+c          IF(IGAP==3)THEN
 c            GAPMAX = GAPMAX * FAC_L
-c            IF(GAPSCALE.EQ.ZERO)GAPSCALE=ONE
+c            IF(GAPSCALE==ZERO)GAPSCALE=ONE
 c            FRIGAP(13) = GAPSCALE
 c            FRIGAP(16) = GAPMAX
 c            IF(PERCENT_SIZE==ZERO) PERCENT_SIZE = 0.4
@@ -494,11 +494,11 @@ c       FRIGAP(16) = EP30
         FRIGAP(18) = STMAX
 c       FRIGAP(28) = PERCENT_SIZE
 
-        IF(GAPMAX_S.EQ.ZERO)GAPMAX_S=EP30
-        IF(GAPMAX_M.EQ.ZERO)GAPMAX_M=EP30
+        IF(GAPMAX_S==ZERO)GAPMAX_S=EP30
+        IF(GAPMAX_M==ZERO)GAPMAX_M=EP30
 
-C       IF(PENMAX.EQ.ZERO)PENMAX=EP30
-        IF(PENMIN.EQ.ZERO)PENMIN=EM8
+C       IF(PENMAX==ZERO)PENMAX=EP30
+        IF(PENMIN==ZERO)PENMIN=EM8
         IF(ETEN_M == ZERO)ETEN_M =TWENTY5*EM03 
         FRIGAP(35) = GAPMAX_S
         FRIGAP(36) = GAPMAX_M
@@ -508,10 +508,10 @@ C       IF(PENMAX.EQ.ZERO)PENMAX=EP30
 
         NA1 = 0
         NA2 = 0
-c          IF(ICURV.EQ.1)THEN
+c          IF(ICURV==1)THEN
 c            WRITE(IOUT,*)' SPHERICAL CURVATURE:'
 c            WRITE(IOUT,*)'    NA1 =',NA1,' NA2 =',NA2
-c          ELSEIF(ICURV.EQ.2)THEN
+c          ELSEIF(ICURV==2)THEN
 c            WRITE(IOUT,*)' CYLINDRICAL CURVATURE:'
 c            WRITE(IOUT,*)'    NA1 =',NA1,' NA2 =',NA2
 c          ELSEIF(ICURV == 3)THEN
@@ -555,9 +555,9 @@ C
 C......* CHECKS  AND Storage IPARI FRIGAP *.....
 C  
 C Hidden flag no more read using HM reader
-c        IF (BCFLAGM(LFIELD-2:LFIELD-2).EQ. '1') IBC1M = 1
-c        IF (BCFLAGM(LFIELD-1:LFIELD-1).EQ. '1') IBC2M = 1
-c        IF (BCFLAGM(LFIELD  :LFIELD  ).EQ. '1') IBC3M = 1
+c        IF (BCFLAGM(LFIELD-2:LFIELD-2)== '1') IBC1M = 1
+c        IF (BCFLAGM(LFIELD-1:LFIELD-1)== '1') IBC2M = 1
+c        IF (BCFLAGM(LFIELD  :LFIELD  )== '1') IBC3M = 1
 
         IF (IIMPLICIT>0.AND.INACTI==0) INACTI=-1
         IF (INACTI/=0.AND.INACTI/=1.AND.INACTI/=-1.AND.INACTI/=3
@@ -576,10 +576,10 @@ c        IF (BCFLAGM(LFIELD  :LFIELD  ).EQ. '1') IBC3M = 1
         END IF
         IPARI(22)=INACTI
 
-        IF(STFAC.EQ.ZERO) THEN
+        IF(STFAC==ZERO) THEN
             STFAC=ONE
         ENDIF
-        IF(IGSTI.EQ.1)STFAC=-STFAC
+        IF(IGSTI==1)STFAC=-STFAC
 
 C------no use of  VISCF
         VISCF=ZERO
@@ -592,8 +592,8 @@ C         default 1: harmonic mass, IVIS2=-1 old: SECONDARY node mass
         ELSEIF (IVIS2==-1) THEN
            IVIS2=0
         END IF
-        IF(VISC.EQ.ZERO)THEN
-            IF(IVIS2.EQ.5)THEN
+        IF(VISC==ZERO)THEN
+            IF(IVIS2==5)THEN
               VISC=ONE
             ELSE
               VISC=FIVEEM2
@@ -607,14 +607,14 @@ C         default 1: harmonic mass, IVIS2=-1 old: SECONDARY node mass
         END IF
         IPARI(61)=IDELKEEP
 
-        IF (IDEL24.GT.2.OR.N2D.EQ.1) IDEL24 = 0
+        IF (IDEL24>2.OR.N2D==1) IDEL24 = 0
         IPARI(17)=IDEL24
 
         IPARI(14)=IVIS2
 
 C------------remove BUMULT   
         BUMULT=ZERO
-        IF(BUMULT.EQ.ZERO) THEN
+        IF(BUMULT==ZERO) THEN
           BUMULT = BMUL0
 C bmult augmente pour les tres gros modeles et interface 7 ou 20
 
@@ -632,25 +632,25 @@ C
 
 C......* CHECKS *.....
 C
-C           IF (MFROT.NE.0.AND.VISCF.EQ.0.0) VISCF=ONE
+C           IF (MFROT/=0.AND.VISCF==0.0) VISCF=ONE
         MODFR = 2
-          IF (ALPHA.EQ.0.) IFQ = 0
-          IF (MODFR.EQ.0) MODFR = 1
-          IF (MODFR.EQ.2.AND.IFQ.LT.10) IFQ = IFQ + 10
-C           IF(MODFR.EQ.2)VISCF=ZERO
-          IF (IFQ.GT.0) THEN
-             IF (IFQ.EQ.10) XFILTR = ONE
-             IF (MOD(IFQ,10).EQ.1) XFILTR = ALPHA
-             IF (MOD(IFQ,10).EQ.2) XFILTR=FOUR*ATAN2(ONE,ZERO) / ALPHA
-             IF (MOD(IFQ,10).EQ.3) XFILTR=FOUR*ATAN2(ONE,ZERO) * ALPHA
-             IF (XFILTR.LT.ZERO) THEN
+          IF (ALPHA==0.) IFQ = 0
+          IF (MODFR==0) MODFR = 1
+          IF (MODFR==2.AND.IFQ<10) IFQ = IFQ + 10
+C           IF(MODFR==2)VISCF=ZERO
+          IF (IFQ>0) THEN
+             IF (IFQ==10) XFILTR = ONE
+             IF (MOD(IFQ,10)==1) XFILTR = ALPHA
+             IF (MOD(IFQ,10)==2) XFILTR=FOUR*ATAN2(ONE,ZERO) / ALPHA
+             IF (MOD(IFQ,10)==3) XFILTR=FOUR*ATAN2(ONE,ZERO) * ALPHA
+             IF (XFILTR<ZERO) THEN
                CALL ANCMSG(MSGID=554,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO_BLIND_1,
      .                     I1=NOINT,
      .                     C1=TITR,
      .                     R1=ALPHA)
-             ELSEIF (XFILTR.GT.1.AND.MOD(IFQ,10).LE.2) THEN
+             ELSEIF (XFILTR>1.AND.MOD(IFQ,10)<=2) THEN
                 CALL ANCMSG(MSGID=554,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO_BLIND_1,
@@ -662,7 +662,7 @@ C           IF(MODFR.EQ.2)VISCF=ZERO
             XFILTR = ZERO
           ENDIF
 
-          IF (IBAG.NE.0.AND.NVOLU.EQ.0 .AND. IALELAG == 0) THEN
+          IF (IBAG/=0.AND.NVOLU==0 .AND. IALELAG == 0) THEN
              CALL ANCMSG(MSGID=614,
      .                   MSGTYPE=MSGWARNING,
      .                   ANMODE=ANINFO_BLIND_2,
@@ -696,7 +696,7 @@ C
 C....* Card9 : Thermal input not available yet  *.............
 C
 
-        IF (IADM.NE.0.AND.NADMESH.EQ.0) THEN
+        IF (IADM/=0.AND.NADMESH==0) THEN
              CALL ANCMSG(MSGID=647,
      .                   MSGTYPE=MSGWARNING,
      .                   ANMODE=ANINFO_BLIND_2,
@@ -704,7 +704,7 @@ C
      .                   C1=TITR)
              IADM=0
         ENDIF
-        IF (IADM.NE.0.AND.ICURV.NE.0) THEN
+        IF (IADM/=0.AND.ICURV/=0) THEN
              CALL ANCMSG(MSGID=648,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO,
@@ -714,7 +714,7 @@ C
         IPARI(44)=IADM
         KCONTACT =MAX(KCONTACT,IBAG,IADM)
 C
-        IF(IADM.EQ.2)THEN
+        IF(IADM==2)THEN
             IREC=IREC+1
             READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
             READ(LINE,ERR=999,FMT=FMT_I_2F) NRADM,PADM,ANGLADM
@@ -797,7 +797,7 @@ C........* PRINT INTERFACES INPUT *.....................
        IF (IEDGE/=1000.AND.IEDGE>0)IDUM =MIN(1,IEDGE)
 
        IF(INTNITSCHE > 0) THEN
-         IF(IDSENS.NE.0) THEN 
+         IF(IDSENS/=0) THEN 
           WRITE(IOUT,3528)IBC1,IBC2,IBC3,IBC1M,IBC2M,IBC3M,
      .                 IGSTI,STFAC,ILEV,IDUM,EDG_ANGL,
      .                 STMIN,STMAX,
@@ -813,7 +813,7 @@ C........* PRINT INTERFACES INPUT *.....................
      .                 INACTI,IREM24I2,VISC,IPARI(14)
          ENDIF
        ELSE
-         IF(IDSENS.NE.0) THEN 
+         IF(IDSENS/=0) THEN 
           WRITE(IOUT,3524)IBC1,IBC2,IBC3,IBC1M,IBC2M,IBC3M,
      .                 IGSTI,STFAC,ILEV,IDUM,EDG_ANGL,
      .                 STMIN,STMAX,
@@ -832,7 +832,7 @@ C........* PRINT INTERFACES INPUT *.....................
        IF(INTPLY > 0) WRITE(IOUT,*)'    CONTACT WITH VARIABLE GAP'
        IF(TPFIT > ZERO) WRITE(IOUT,5040) TPFIT
 
-       IF(IDEL24.NE.3) THEN
+       IF(IDEL24/=3) THEN
           WRITE(IOUT,'(A,A,I5/)')
      . '    DELETION FLAG ON FAILURE OF MAIN ELEMENT',
      . ' (1:YES-ALL/2:YES-ANY) : ',IDEL24
@@ -847,24 +847,24 @@ C
           WRITE(IOUT,5030) INTFRIC
         ELSE
           WRITE(IOUT,1520)MOD(IFQ,10), XFILTR
-          IF(MFROT.EQ.0)THEN
+          IF(MFROT==0)THEN
             WRITE(IOUT,1524) FRIC
-          ELSEIF(MFROT.EQ.1)THEN
+          ELSEIF(MFROT==1)THEN
             WRITE(IOUT,1515)FRIC_P(1),FRIC_P(2),FRIC_P(3),
      .      FRIC_P(4),FRIC_P(5)
-          ELSEIF(MFROT.EQ.2)THEN
+          ELSEIF(MFROT==2)THEN
             WRITE(IOUT,1522)FRIC,FRIC_P(1),FRIC_P(2),FRIC_P(3),
      .      FRIC_P(4),FRIC_P(5),FRIC_P(6)
-          ELSEIF(MFROT.EQ.3)THEN
+          ELSEIF(MFROT==3)THEN
             WRITE(IOUT,1523)FRIC_P(1),FRIC_P(2),FRIC_P(3),
      .      FRIC_P(4),FRIC_P(5),FRIC_P(6)
           ENDIF
        ENDIF
 C        
-       IF(IBAG.NE.1000) THEN
+       IF(IBAG/=1000) THEN
             WRITE(IOUT,*)'    AIRBAG POROSITY COUPLING ON   '
           ENDIF
-          IF(IADM.NE.0) THEN
+          IF(IADM/=0) THEN
            WRITE(IOUT,*)'    MESH REFINMENT CASE OF CONTACT',
      .' (0:NO/1:DUE TO CURVATURE/2:DUE TO CURVATURE OR PENETRATION)',
      .' SET TO ',IADM
@@ -876,28 +876,28 @@ C
        IF(INTTH > 0 )  WRITE(IOUT,2501) RSTH,TINT,IFORM
 
 C--------------------------------------------------------------
-      IF(IS1.EQ.0)THEN
+      IF(IS1==0)THEN
         WRITE(IOUT,'(6X,A)')'NO SECONDARY SURFACE INPUT'
-      ELSEIF(IS1.EQ.1)THEN
+      ELSEIF(IS1==1)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS1.EQ.2)THEN
+      ELSEIF(IS1==2)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY NODES'
-      ELSEIF(IS1.EQ.3)THEN
+      ELSEIF(IS1==3)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS1.EQ.4 )THEN
+      ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
-      ELSEIF(IS1.EQ.5 )THEN
+      ELSEIF(IS1==5 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
       ENDIF
-      IF(IS2.EQ.0)THEN
+      IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'
-      ELSEIF(IS2.EQ.1)THEN
+      ELSEIF(IS2==1)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS2.EQ.2)THEN
+      ELSEIF(IS2==2)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY NODES'
-      ELSEIF(IS2.EQ.3)THEN
+      ELSEIF(IS2==3)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS2.EQ.4)THEN
+      ELSEIF(IS2==4)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE REFERS ',
      .                      'TO HYPER-ELLIPSOIDAL SURFACE'
       ENDIF
@@ -963,7 +963,7 @@ C------------
      .   1PG20.13//)
 C----------     
  2501   FORMAT(//
-     .       '    TYPE.EQ.7   thermal interface          ' //,
+     .       '    TYPE==7   thermal interface          ' //,
      .       '    Heat conduction per surface unit. . . .  . ',1PG20.13/,
      .       '    Interface temperature  . . . . . . . . . . ',1PG20.13/,
      .       '    FORMULATION CHOICE : . . . . . . . . . . . . ',I10,/,
@@ -972,7 +972,7 @@ C----------
      .       '          1 : heat Exchange between pieces in contact')
 C----------change message here     
  3524 FORMAT(//
-     .       '    TYPE.EQ.24  MUTI-TYPE IMPACTING             ' //,
+     .       '    TYPE==24  MUTI-TYPE IMPACTING             ' //,
      .       '    BOUND. COND. DELETED AFTER IMPACT IN X DIR  ',I1/,
      .       '       SECONDARY NODE  (1:YES 0:NO)          Y DIR  ',I1/,
      .       '                                         Z DIR  ',I1/,
@@ -1003,7 +1003,7 @@ c     .       '    BUCKET FACTOR . . . . . . . . . . . . .  ',1PG20.13/,
      .       '    QUADRATIC DAMPING FLAG. . . . . . . . . . ',I5/)
 C
  3525 FORMAT(//
-     .       '    TYPE.EQ.24  MUTI-TYPE IMPACTING             ' //,
+     .       '    TYPE==24  MUTI-TYPE IMPACTING             ' //,
      .       '    BOUND. COND. DELETED AFTER IMPACT IN X DIR  ',I1/,
      .       '       SECONDARY NODE  (1:YES 0:NO)          Y DIR  ',I1/,
      .       '                                         Z DIR  ',I1/,
@@ -1036,7 +1036,7 @@ C     .       '    BUCKET FACTOR . . . . . . . . . . . . . . ',1PG20.13/,
 C
 C----------   
  3528 FORMAT(//
-     .       '    TYPE.EQ.24  MUTI-TYPE IMPACTING             ' //,
+     .       '    TYPE==24  MUTI-TYPE IMPACTING             ' //,
      .       '    BOUND. COND. DELETED AFTER IMPACT IN X DIR  ',I1/,
      .       '       SECONDARY NODE  (1:YES 0:NO)          Y DIR  ',I1/,
      .       '                                         Z DIR  ',I1/,
@@ -1068,7 +1068,7 @@ c     .       '    BUCKET FACTOR . . . . . . . . . . . . .  ',1PG20.13/,
      .       '    QUADRATIC DAMPING FLAG. . . . . . . . . . ',I5/)
 C
  3529 FORMAT(//
-     .       '    TYPE.EQ.24  MUTI-TYPE IMPACTING             ' //,
+     .       '    TYPE==24  MUTI-TYPE IMPACTING             ' //,
      .       '    BOUND. COND. DELETED AFTER IMPACT IN X DIR  ',I1/,
      .       '       SECONDARY NODE  (1:YES 0:NO)          Y DIR  ',I1/,
      .       '                                         Z DIR  ',I1/,

@@ -621,7 +621,7 @@ C
       FAC = TWO
       FACDT = FIVE_OVER_4
 C-------same than QBAT       
-      IF (IDT1SOL.GT.0) FACDT =FOUR_OVER_3
+      IF (IDT1SOL>0) FACDT =FOUR_OVER_3
 C---- compute COREL(2,4) mean surface and area     
       DO I=LFT,LLT
         LXYZ0(1)=FOURTH*(XL2(I)+XL3(I)+XL4(I))

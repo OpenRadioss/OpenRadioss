@@ -72,8 +72,8 @@ C
       ELOFF=0
       DO I=1,NFVBAG
          PMAIN=FVSPMD(I)%PMAIN
-         IF (ISPMD.EQ.0) THEN
-            IF (ISPMD.EQ.PMAIN-1) THEN
+         IF (ISPMD==0) THEN
+            IF (ISPMD==PMAIN-1) THEN
                DO J=1,FVDATA(I)%NPOLH
                   GAMA=FVDATA(I)%GPOLH(J)
                   SSP=SQRT((GAMA-ONE)*GAMA*FVDATA(I)%EPOLH(J)/
@@ -84,7 +84,7 @@ C
      .                         FVDATA(I)%IFVTADR(KK+1)-1
                         NN=FVDATA(I)%IFVPOLY(N)
                         FAC=ONE
-                        IF (FVDATA(I)%IFVTRI(4,NN).NE.0) THEN
+                        IF (FVDATA(I)%IFVTRI(4,NN)/=0) THEN
                            IDP=FVDATA(I)%IDPOLH(J)
                            FVVISU(FVEL2FA(ELOFF+NN))=IDP-(IDP/8)*8+1
                         ELSE
@@ -94,7 +94,7 @@ C
                         NN=FVEL2FA(ELOFF+NN)
                         FVMASS(NN)=FVMASS(NN)+FAC*FVDATA(I)%MPOLH(J)
                         FVPRES(NN)=FVPRES(NN)+FAC*FVDATA(I)%PPOLH(J)
-                        IF (FVDATA(I)%MPOLH(J).GT.ZERO) THEN
+                        IF (FVDATA(I)%MPOLH(J)>ZERO) THEN
                            FVQX(NN)=FVQX(NN)+FAC*FVDATA(I)%QPOLH(1,J)/
      .                                           FVDATA(I)%MPOLH(J)
                            FVQY(NN)=FVQY(NN)+FAC*FVDATA(I)%QPOLH(2,J)/
@@ -139,7 +139,7 @@ C
                DEALLOCATE(RBUF)
             ENDIF
          ELSE
-            IF (ISPMD.EQ.PMAIN-1) THEN
+            IF (ISPMD==PMAIN-1) THEN
                NNTR=FVDATA(I)%NNTR
                ITAG=MSGOFF
                CALL MPI_SEND(NNTR, 1, MPI_INTEGER, IT_SPMD(1),
@@ -160,7 +160,7 @@ C
      .                         FVDATA(I)%IFVTADR(KK+1)-1
                         NN=FVDATA(I)%IFVPOLY(N)
                         FAC=ONE
-                        IF (FVDATA(I)%IFVTRI(4,NN).NE.0) THEN
+                        IF (FVDATA(I)%IFVTRI(4,NN)/=0) THEN
                            IDP=FVDATA(I)%IDPOLH(J)
                            RBUF(9*NNTR+NN)=IDP-(IDP/8)*8+1
                         ELSE
@@ -170,7 +170,7 @@ C
                         RBUF(NN)=RBUF(NN)+FAC*FVDATA(I)%MPOLH(J)
                         RBUF(NNTR+NN)=RBUF(NNTR+NN)
      .                                +FAC*FVDATA(I)%PPOLH(J)
-                        IF (FVDATA(I)%MPOLH(J).GT.ZERO) THEN
+                        IF (FVDATA(I)%MPOLH(J)>ZERO) THEN
                            RBUF(2*NNTR+NN)=RBUF(2*NNTR+NN)
      .                                    +FAC*FVDATA(I)%QPOLH(1,J)/
      .                                         FVDATA(I)%MPOLH(J)

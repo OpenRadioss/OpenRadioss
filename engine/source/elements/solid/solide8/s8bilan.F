@@ -120,7 +120,7 @@ C
 C-----------------------------------------------
 C     CALCUL BILAN SORTIES ADDITIONNELLES 
 C-----------------------------------------------
-      IF(FLAG.EQ.1) THEN
+      IF(FLAG==1) THEN
         DO I=LFT,LLT
           XX(I)=X(I,1)+X(I,2)+X(I,3)+X(I,4)+X(I,5)+X(I,6)+X(I,7)+X(I,8)
           YY(I)=Y(I,1)+Y(I,2)+Y(I,3)+Y(I,4)+Y(I,5)+Y(I,6)+Y(I,7)+Y(I,8)
@@ -201,7 +201,7 @@ C-----------------------------------------------
       ENDIF
 C-----------------------------------------------
 C
-      IF(JTUR.NE.0)THEN
+      IF(JTUR/=0)THEN
        DO I=LFT,LLT
          M=IPARTS(I)
          PARTSAV(7,M)=PARTSAV(7,M) + RK(I)*VOL(I)

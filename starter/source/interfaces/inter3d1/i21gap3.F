@@ -120,7 +120,7 @@ C------------------------------------
 C-------------------------------------------------------
 C     THICKNESS PART ON SECND NODES FOR GAP CALCULATION
 C-------------------------------------------------------
-      IF(IGAP.GE.1)THEN
+      IF(IGAP>=1)THEN
          ALLOCATE (THK_PART_NODS(NUMNOD)        ,STAT=stat)
          IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                                     MSGTYPE=MSGERROR,
@@ -128,13 +128,13 @@ C-------------------------------------------------------
          THK_PART_NODS(1:NUMNOD) = ZERO        
          DO I=1,NRTS
             NEL = IELES(I)
-            IF(NEL.LE.NUMELS) THEN ! SOLID ELEMENT
+            IF(NEL<=NUMELS) THEN ! SOLID ELEMENT
                IP = IPARTS(NEL)
                DO N =1,4
                   NN = IRECTS(N,I)
                   THK_PART_NODS(NN) = MAX(THK_PART_NODS(N),THK_PART(IP))
                ENDDO
-            ELSEIF(NEL.LE.(NUMELS+NUMELC)) THEN ! SHELL ELEMENT
+            ELSEIF(NEL<=(NUMELS+NUMELC)) THEN ! SHELL ELEMENT
                IP = IPARTC(NEL-NUMELS)
                DO N =1,4
                   NN = IRECTS(N,I)
@@ -153,9 +153,9 @@ C-------------------------------------------------------
 C------------------------------------
 C     GAP VARIABLE NOEUDS SECONDS
 C------------------------------------
-      IF(IGAP.GE.1)THEN
+      IF(IGAP>=1)THEN
        DO I=1,NSN
-         IF(THK_PART_NODS(NSV(I)).NE.ZERO) THEN  ! IF a contact thickness is defined
+         IF(THK_PART_NODS(NSV(I))/=ZERO) THEN  ! IF a contact thickness is defined
             DX      = THK_PART_NODS(NSV(I))*GAPSCALE
          ELSE
         DX      = THKNOD(NSV(I))*GAPSCALE
@@ -179,9 +179,9 @@ C------------------------------------
 C     GAP 
 C------------------------------------
        GAPMX=SQRT(GAPMX)
-       IF(IGAP.EQ.0)THEN
+       IF(IGAP==0)THEN
 C GAP FIXE
-         IF(GAP.LE.ZERO)THEN
+         IF(GAP<=ZERO)THEN
            DO I=1,NSN
             DX      = THKNOD(NSV(I))
 C                                =====
@@ -197,11 +197,11 @@ C                                 =====
          GAPMAX = GAP
        ELSE
 C SUP DES GAPS VARIABLES
-         IF(GAP.GT.ZERO)GAPMIN=GAP
+         IF(GAP>ZERO)GAPMIN=GAP
          WRITE(IOUT,1000)GAPMIN
 C
 C        GAP n'est pas utilise pour Igap > 0 ; Gapmin peut etre egal a 0.
-         IF(GAPMAX.EQ.ZERO)GAPMAX=EP30
+         IF(GAPMAX==ZERO)GAPMAX=EP30
          WRITE(IOUT,1500)GAPMAX
          GAP = MIN(GAP,GAPMAX)
        ENDIF
@@ -213,7 +213,7 @@ C---------------------------------------------
 C
 C Calcul du gap reel a utiliser lors du critere de retri
 C
-      IF (IGAP.EQ.0) THEN
+      IF (IGAP==0) THEN
         CRITER=GAP 
       ELSE
         CRITER=EP30
@@ -225,11 +225,11 @@ C
 C
        IF(DGAPLOAD > ZERO) CRITER=MAX(CRITER,EM01*(GAP + DGAPLOAD))
 C
-      IF(DEPTH.EQ.ZERO)THEN
+      IF(DEPTH==ZERO)THEN
 C Valeur par defaut de Depth = max( sup des gaps , largeur des elts )
         DEPTH=MAX(GAP,GAPMX)
 C cest encore necessaire au tri dans le starter
-      ELSEIF(DEPTH.LT.GAP)THEN
+      ELSEIF(DEPTH<GAP)THEN
 C Depth est tjrs superieur au gap (sup des gaps si variable)
         DEPTH=GAP
       END IF
@@ -238,7 +238,7 @@ C
       CRITER=MAX(CRITER,EM01*DEPTH)
 C
 Ce warning pour les performances du tri.
-      IF(DEPTH.GT.GAPMX)THEN
+      IF(DEPTH>GAPMX)THEN
        CALL ANCMSG(MSGID=687,
      .             MSGTYPE=MSGWARNING,
      .             ANMODE=ANINFO_BLIND_2,
@@ -250,11 +250,11 @@ Ce warning pour les performances du tri.
       ENDIF
 C
       IF(INTTH/=0)THEN
-        IF(DRAD.EQ.ZERO)THEN
+        IF(DRAD==ZERO)THEN
 C Valeur par defaut de Drad = max( sup des gaps , largeur des elts )
           DRAD=MAX(GAP,GAPMX)
 C je ne sais plus si cest necessaire au tri
-        ELSEIF(DRAD.LT.GAP)THEN
+        ELSEIF(DRAD<GAP)THEN
 C Drad est tjrs superieur au gap (sup des gaps si variable)
           DRAD=GAP
         END IF
@@ -263,7 +263,7 @@ C
         CRITER=MAX(CRITER,EM01*DRAD)
 C
 Ce warning pour les performances du tri.
-        IF(DRAD.GT.GAPMX)THEN
+        IF(DRAD>GAPMX)THEN
          CALL ANCMSG(MSGID=918,
      .               MSGTYPE=MSGWARNING,
      .               ANMODE=ANINFO_BLIND_2,
@@ -287,7 +287,7 @@ C---------------------------------------------
         STFN(I) = ONE
       END DO
 C------------------------------------
-      IF(IGAP.EQ.2)THEN
+      IF(IGAP==2)THEN
         DO I=1,NSN
           GAP_S0(I) = MIN(GAP_S(I),GAPMAX)
           GAP_S0(I) = MAX(GAPMIN  ,GAP_S0(I))

@@ -70,21 +70,21 @@ C---------------------------------
       DO IPT=1,NPT-1
         II=NPC(IFUNC)+2*(IPT-1)
         DO I=1,MIN(MVSIZ,NREST)
-          IF (PLD(II).LE.XV(NDEB+I)
-     .    .AND.XV(NDEB+I).LE.PLD(II+2)) RANG(I)=IPT
+          IF (PLD(II)<=XV(NDEB+I)
+     .    .AND.XV(NDEB+I)<=PLD(II+2)) RANG(I)=IPT
         ENDDO
       ENDDO
       II=NPC(IFUNC)+2*(NPT-1)
       DO I=1,MIN(MVSIZ,NREST)
-          IF (XV(NDEB+I).GT.PLD(II)) RANG(I)=NPT
+          IF (XV(NDEB+I)>PLD(II)) RANG(I)=NPT
       ENDDO
 C---------------------------------
       DO I=1,MIN(MVSIZ,NREST)
-        IF (RANG(I).EQ.0) THEN
+        IF (RANG(I)==0) THEN
           II=NPC(IFUNC)
           PENTE=(PLD(II+3)-PLD(II+1))/(PLD(II+2)-PLD(II))
           YV(NDEB+I) =PLD(II+1)+PENTE*(XV(NDEB+I)-PLD(II))
-        ELSEIF (RANG(I).EQ.NPT) THEN
+        ELSEIF (RANG(I)==NPT) THEN
           II=NPC(IFUNC)+2*(NPT-1)
           PENTE=(PLD(II+1)-PLD(II-1))/(PLD(II)-PLD(II-2))
           YV(NDEB+I) =PLD(II+1)
@@ -99,7 +99,7 @@ C---------------------------------
 C---------------------------------
 C     Groupe suivant.
 C---------------------------------
-      IF (NREST-MVSIZ.GT.0) THEN
+      IF (NREST-MVSIZ>0) THEN
         NREST=NREST-MVSIZ
         NDEB =NDEB +MVSIZ
         GOTO 100

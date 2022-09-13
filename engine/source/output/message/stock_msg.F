@@ -55,12 +55,12 @@ C-----------------------------------------------
       IF (ALLOCATED(MESSAGES(ITYPE,ID)%MESSAGE)) THEN
         DEALLOCATE(MESSAGES(ITYPE,ID)%MESSAGE)
       END IF
-      IF (SBUFMSG.EQ.0) THEN
+      IF (SBUFMSG==0) THEN
         MESSAGES(ITYPE,ID)%SMESSAGE=1
         ALLOCATE(MESSAGES(ITYPE,ID)%MESSAGE(1))
-        IF (ITYPE.EQ.1) THEN
+        IF (ITYPE==1) THEN
           MESSAGES(ITYPE,ID)%MESSAGE(1)=' !!! EMPTY TITLE !!! '
-        ELSE IF (ITYPE.EQ.2) THEN
+        ELSE IF (ITYPE==2) THEN
           MESSAGES(ITYPE,ID)%MESSAGE(1)=' !!! EMPTY DESCRIPTION !!! '
         END IF
       ELSE
@@ -70,12 +70,12 @@ C-----------------------------------------------
           JDX=1
           MESSAGES(ITYPE,ID)%MESSAGE(I)=' '
           J=1
-          DO WHILE(J.LE.ncharline)
-            IF (BUFMSG(I)(J:J).EQ.achar(92)) then !'\') THEN
+          DO WHILE(J<=ncharline)
+            IF (BUFMSG(I)(J:J)==achar(92)) then !'\') THEN
 C             => skip \ print next
-              IF (J.LT.ncharline) THEN
+              IF (J<ncharline) THEN
                 J=J+1 
-                IF (BUFMSG(I)(J:J).EQ.'n') THEN
+                IF (BUFMSG(I)(J:J)=='n') THEN
                   MESSAGES(ITYPE,ID)%MESSAGE(I)(JDX:JDX)=CHAR(10)
                   JDX=JDX+1
 C add here other special cases

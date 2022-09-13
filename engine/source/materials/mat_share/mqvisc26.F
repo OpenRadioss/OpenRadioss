@@ -89,7 +89,7 @@ C=======================================================================
          AL(I)=ZERO
          CX(I)=SSP(I)+SQRT(VD2(I))
        ENDDO
-       IF(IMPL_S.GT.0)THEN
+       IF(IMPL_S>0)THEN
         VISI=ZERO
         FACQ=ZERO
        ELSE
@@ -107,23 +107,23 @@ C=======================================================================
        FACQ=ZERO
       ENDIF
 C
-      IF(N2D.GT.0) THEN
+      IF(N2D>0) THEN
         DO I=LFT,LLT
-         IF(OFF(I).EQ.1.)THEN
+         IF(OFF(I)==1.)THEN
            AL(I)=SQRT(AIRE(I))
            AD(I)= MAX(ZERO,DD(I))
          ENDIF
         ENDDO
       ELSE
         DO I=LFT,LLT
-         IF(OFF(I).EQ.1.)THEN
+         IF(OFF(I)==1.)THEN
            AL(I)=VOL(I)**THIRD
            AD(I)= MAX(ZERO,DD(I))
          ENDIF
         ENDDO
       ENDIF
 C
-      IF(INVSTR.GE.35)THEN
+      IF(INVSTR>=35)THEN
         MT  = MAT(LFT)
         MX = PID(LFT)
         QA =FACQ*GEO(14,MX)
@@ -160,7 +160,7 @@ C
         DTX(I) = DELTAX(I) / SSP_EQ(I)
       ENDDO
 C
-      IF(JTHE.EQ.1)THEN
+      IF(JTHE==1)THEN
         MT  = MAT(LFT)
         SPH = PM(69,MT)
         AK1 = PM(75,MT)
@@ -169,13 +169,13 @@ C
         BK2 = PM(78,MT)
         TLI = PM(80,MT)
         DO I=LFT,LLT
-         IF(T(I).LT.TLI)THEN
+         IF(T(I)<TLI)THEN
           AKK=AK1+BK1*T(I)
          ELSE
           AKK=AK2+BK2*T(I)
          ENDIF
          AKK = AKK+XK(I)
-         IF(JTUR.NE.0)THEN
+         IF(JTUR/=0)THEN
           XMU = RHO(I)*PM(24,MT)
           TMU = PM(81,MT)
           RPR = PM(95,MT)
@@ -188,8 +188,8 @@ C
 C
       DO 60 I=LFT,LLT
        STI(I) = ZERO
-      IF(OFF(I).EQ.ZERO.OR.OFFG(I).LT.ZERO) GO TO 60
-      IF(N2D.EQ.0) THEN
+      IF(OFF(I)==ZERO.OR.OFFG(I)<ZERO) GO TO 60
+      IF(N2D==0) THEN
        TIDT = 1./DTX(I)
        TRHO = RHO(I) * TIDT
        TVOL = VOL(I) * TIDT
@@ -201,13 +201,13 @@ C
        STI(I) = HALF * TRHO * TAIRE
       ENDIF
       DTX(I)= DTFAC1(ITY)*DTX(I)
-      IF(NODADT.EQ.0)DT2T= MIN(DTX(I),DT2T)
+      IF(NODADT==0)DT2T= MIN(DTX(I),DT2T)
   60  CONTINUE
 C
-      IF(IDTMIN(ITY).EQ.1)THEN
+      IF(IDTMIN(ITY)==1)THEN
         DO 70 I=LFT,LLT
-        IF(DTX(I).GT.DTMIN1(ITY).OR.OFF(I).EQ.ZERO. 
-     .        OR.OFFG(I).LT.ZERO) GO TO 70
+        IF(DTX(I)>DTMIN1(ITY).OR.OFF(I)==ZERO. 
+     .        OR.OFFG(I)<ZERO) GO TO 70
           TSTOP = TT
 #include "lockon.inc"
           WRITE(IOUT,*)
@@ -216,10 +216,10 @@ C
      . ' **ERROR : TIME STEP LESS OR EQUAL DTMIN FOR SOLID ELEMENTS'
 #include "lockoff.inc"
    70   CONTINUE
-      ELSEIF(IDTMIN(ITY).EQ.2)THEN
+      ELSEIF(IDTMIN(ITY)==2)THEN
         DO 75 I=LFT,LLT
-        IF(DTX(I).GT.DTMIN1(ITY).OR.OFF(I).EQ.ZERO.
-     .    OR.OFFG(I).LT.ZERO) GO TO 75
+        IF(DTX(I)>DTMIN1(ITY).OR.OFF(I)==ZERO.
+     .    OR.OFFG(I)<ZERO) GO TO 75
           OFF(I) = 0.0
 #include "lockon.inc"
           WRITE(IOUT,*)
@@ -229,10 +229,10 @@ C
 #include "lockoff.inc"
          IDEL7NOK = 1
    75   CONTINUE
-      ELSEIF(IDTMIN(ITY).EQ.3.AND.ISMSTR.EQ.2)THEN
+      ELSEIF(IDTMIN(ITY)==3.AND.ISMSTR==2)THEN
         DO 76 I=LFT,LLT
-        IF(DTX(I).GT.DTMIN1(ITY).OR.
-     .      OFF(I).LT.ONE.OR.OFFG(I).EQ.TWO) GO TO 76
+        IF(DTX(I)>DTMIN1(ITY).OR.
+     .      OFF(I)<ONE.OR.OFFG(I)==TWO) GO TO 76
           OFFG(I) = TWO
 #include "lockon.inc"
           WRITE(IOUT,*)
@@ -241,10 +241,10 @@ C
      . '-- CONSTANT TIME STEP FOR SOLID ELEMENT NUMBER ',NGL(I)
 #include "lockoff.inc"
    76   CONTINUE
-      ELSEIF(IDTMIN(ITY).EQ.5)THEN
+      ELSEIF(IDTMIN(ITY)==5)THEN
         DO 570 I=LFT,LLT
-        IF(DTX(I).GT.DTMIN1(ITY).OR.OFF(I).EQ.ZERO.
-     .      OR.OFFG(I).LT.ZERO) GO TO 570
+        IF(DTX(I)>DTMIN1(ITY).OR.OFF(I)==ZERO.
+     .      OR.OFFG(I)<ZERO) GO TO 570
           MSTOP = 2
 #include "lockon.inc"
           WRITE(IOUT,*)
@@ -255,9 +255,9 @@ C
   570   CONTINUE
       ENDIF
 C
-      IF(NODADT.EQ.0)THEN
+      IF(NODADT==0)THEN
        DO 80 I=LFT,LLT
-        IF(DTX(I).GT.DT2T.OR.OFF(I).LE.ZERO.OR.OFFG(I).LE.ZERO)GOTO 80 
+        IF(DTX(I)>DT2T.OR.OFF(I)<=ZERO.OR.OFFG(I)<=ZERO)GOTO 80 
         DT2T    = DTX(I)
         NELTST =NGL(I)
         ITYPTST=ITY

@@ -139,12 +139,12 @@ C------TAG_SKIN_ND only the big seg(mid-node of S10 not include)
          ENDIF
          DO J=1,3
            DO N=1,NUMNOD
-             IF (ITAGPS(N).GT.0) VALUE(J,N)=VFLU(J,N)/ITAGPS(N)
+             IF (ITAGPS(N)>0) VALUE(J,N)=VFLU(J,N)/ITAGPS(N)
            ENDDO
          ENDDO
          DO J=4,6
            DO N=1,NUMNOD
-             IF (ITAGPS(N).GT.0) VALUE(J,N)=AFLU(J-3,N)/ITAGPS(N)
+             IF (ITAGPS(N)>0) VALUE(J,N)=AFLU(J-3,N)/ITAGPS(N)
            ENDDO
          ENDDO
        ELSEIF (KEYWORD == 'TENS/STRAIN/OUTER') THEN
@@ -161,13 +161,13 @@ C------TAG_SKIN_ND only the big seg(mid-node of S10 not include)
          ENDIF
          DO J=1,3
            DO N=1,NUMNOD
-             IF (ITAGPS(N).GT.0) VALUE(J,N)=VFLU(J,N)/ITAGPS(N)
+             IF (ITAGPS(N)>0) VALUE(J,N)=VFLU(J,N)/ITAGPS(N)
            ENDDO
          ENDDO
 C------------change shear to eij         
          DO J=4,6
            DO N=1,NUMNOD
-             IF (ITAGPS(N).GT.0) VALUE(J,N)=HALF*AFLU(J-3,N)/ITAGPS(N)
+             IF (ITAGPS(N)>0) VALUE(J,N)=HALF*AFLU(J-3,N)/ITAGPS(N)
            ENDDO
          ENDDO
        END IF 

@@ -125,7 +125,7 @@ C-------------------------
 C     ASSEMBLE
 C-------------------------
 C
-      IF(IVECTOR.EQ.1) THEN
+      IF(IVECTOR==1) THEN
         DO I=LFT,LLT
 C
           II=I+NFT

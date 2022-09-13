@@ -176,9 +176,9 @@ ccc            print*,"return1";RETURN;
           Ldble = 0
           Lnbit = 0
           DO J=1,12
-            IF(TAG_edg(J).GT.2) RETURN
-            IF(TAG_edg(J).EQ.2) Ldble = IBSET(Ldble,12-J)            
-            IF(TAG_edg(J).GE.1) THEN
+            IF(TAG_edg(J)>2) RETURN
+            IF(TAG_edg(J)==2) Ldble = IBSET(Ldble,12-J)            
+            IF(TAG_edg(J)>=1) THEN
               Lcode = IBSET(Lcode,12-J)
               !Lnbit = Lnbit + 1 
             ENDIF
@@ -206,9 +206,9 @@ c          print *, "   *** EXPAND"
           DO II=1,SizeVAR        
             IKEEP = ListVAR(II)
             LLFIX(II,1:SizeLLFIX) = (/ListFIX(1:SizeFIX), IKEEP /)
-ccc            IF(SizeLLVAR.GE.1)LLVAR(II,1:SizeLLVAR) = (/ListVAR(1:II-1),ListVAR(II+1:SizeVAR)/)  !retirer IKEEP
+ccc            IF(SizeLLVAR>=1)LLVAR(II,1:SizeLLVAR) = (/ListVAR(1:II-1),ListVAR(II+1:SizeVAR)/)  !retirer IKEEP
             SizeLLVAR = SizeVAR-II
-            IF(SizeLLVAR.GE.1)LLVAR(II,1:SizeLLVAR) = (/ListVAR(II+1:SizeVAR)/)  !retirer IKEEP
+            IF(SizeLLVAR>=1)LLVAR(II,1:SizeLLVAR) = (/ListVAR(II+1:SizeVAR)/)  !retirer IKEEP
           ENDDO
           DO II=1,SizeVAR
             SizeLLVAR = SizeVAR-II!SizeLLVAR_bak 
@@ -226,13 +226,13 @@ ccc            print *, "=====LLVAR(II,1:SizeLLVAR) = ",LLVAR(II,1:SizeLLVAR)
               ITYP     = GetPolyhedraType(pCODE)
               CountFIX = CountFIX + C_POLYH(ITYP)
             ENDDO !next I        
-            IF(CountFIX .GT. NINTP)CYCLE
+            IF(CountFIX > NINTP)CYCLE
             !--verifier les sommets isdoles dans LLFIX : doublon impossible
             TAG_nod_fix(1:8) = 0
             DO I=1,SizeLLFIX
               bCOMPL           = .FALSE.
               pCODE            = LLFIX(II,I)
-              IF(pCODE.LT.0) bCOMPL = .TRUE.
+              IF(pCODE<0) bCOMPL = .TRUE.
               pCODE            = IABS(pCODE)
               ITYP             = GetPolyhedraType(pCODE)
               NNOD             = N_POLYH(ITYP)
@@ -247,13 +247,13 @@ ccc            print *, "=====LLVAR(II,1:SizeLLVAR) = ",LLVAR(II,1:SizeLLVAR)
                 DO J=1,8
                   IF( TAG_nod_tmp(J)==0)CYCLE
                   TAG_nod_fix(J) = TAG_nod_fix(J)+1
-                  IF(TAG_nod_fix(J) .GE. 2)GOTO 50 !already a complementary polyhjedron, the original one is incomaptible with the previous in the list, so exit                
+                  IF(TAG_nod_fix(J) >= 2)GOTO 50 !already a complementary polyhjedron, the original one is incomaptible with the previous in the list, so exit                
                 ENDDO
               ELSE
                 DO J=1,NNOD
                   K = Gnode(J,pCODE)
                   TAG_nod_fix(K) = TAG_nod_fix(K)+1
-                  IF(TAG_nod_fix(K) .GE. 2)bool=.true.
+                  IF(TAG_nod_fix(K) >= 2)bool=.true.
                 ENDDO
               ENDIF
               !this polyhedron also isolate same nodes. Check complementary polyhedron
@@ -269,7 +269,7 @@ ccc            print *, "=====LLVAR(II,1:SizeLLVAR) = ",LLVAR(II,1:SizeLLVAR)
                 DO J=1,8
                   IF( TAG_nod_tmp(J)==0)CYCLE
                   TAG_nod_fix(J) = TAG_nod_fix(J)+1
-                  IF(TAG_nod_fix(J) .GE. 2)GOTO 50                 
+                  IF(TAG_nod_fix(J) >= 2)GOTO 50                 
                 ENDDO
                 !set negative ID to tag a complementary polyhedron
                 LLFIX(II,I) = -LLFIX(II,I)
@@ -283,11 +283,11 @@ ccc            print *, "=====LLVAR(II,1:SizeLLVAR) = ",LLVAR(II,1:SizeLLVAR)
               NEDG     = C_POLYH(ITYP)
               DO J=1,NEDG
                 TAG_edg_fix(IABS(Gcorner(J,pCODE))) = TAG_edg_fix(IABS(Gcorner(J,pCODE)))+1
-                IF(TAG_edg_fix(IABS(Gcorner(J,pCODE))) .GT. 2)GOTO 50
-                !IF(TAG_edg_fix(IABS(Gcorner(J,pCODE))).EQ.2 .AND. BTEST(IDBLE,12-IABS(Gcorner(J,pCODE)))==0      )GOTO 50  
+                IF(TAG_edg_fix(IABS(Gcorner(J,pCODE))) > 2)GOTO 50
+                !IF(TAG_edg_fix(IABS(Gcorner(J,pCODE)))==2 .AND. BTEST(IDBLE,12-IABS(Gcorner(J,pCODE)))==0      )GOTO 50  
                 
                 !check : 14.31 FEM file abS ( 8:15:59) = ../tests/inter22/INTERSECTIONS/ALL-POLY-TEST/EULER/0.FVM/ALL-POLY-TEST_0000.rad                      
-                IF(TAG_edg_fix(IABS(Gcorner(J,pCODE))).EQ.2 )THEN
+                IF(TAG_edg_fix(IABS(Gcorner(J,pCODE)))==2 )THEN
                   IF(BTEST(IDBLE,12-IABS(Gcorner(J,pCODE))) .EQV. (.FALSE.))GOTO 50 
                 ENDIF 
               ENDDO
@@ -307,7 +307,7 @@ ccc            print *, "LLVAR(II,1:SizeLLVAR)=", LLVAR(II,1:SizeLLVAR)
               DO J=1,NNOD
                 K = Gnode(J,pCODE)
                 TAG_nod(K) = TAG_nod(K)+1
-                IF(TAG_nod(K) .GE. 2)THEN
+                IF(TAG_nod(K) >= 2)THEN
                   !removing polyhedra from list
 ccc                  print *, "     removing_a:", LLVAR(II,I)
 ccc                  print *, "     SizeLLVAR,I=:", SizeLLVAR,I                  
@@ -338,7 +338,7 @@ ccc              print *, "testing LLVAR=", LLVAR(II,I)
                 K = IABS(Gcorner(J,pCODE))
                 TAG_edg(K) = TAG_edg(K)+1
                 !suppression
-                IF(TAG_edg(K) .GT. 2 .OR. (TAG_edg(K).EQ.2 .AND. .NOT.BTEST(IDBLE,12-K)))THEN
+                IF(TAG_edg(K) > 2 .OR. (TAG_edg(K)==2 .AND. .NOT.BTEST(IDBLE,12-K)))THEN
                   !removing polyhedra from list
 ccc                  print *, "     removing_b:", LLVAR(II,I)  
 ccc                  print *, "     SizeLLVAR,I=:", SizeLLVAR,I                                     

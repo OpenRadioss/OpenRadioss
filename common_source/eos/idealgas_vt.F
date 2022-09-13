@@ -213,7 +213,7 @@ C-----------------------------------------------
          ENDDO
 
           DO I=1, NEL
-             IF (VNEW(I) .GT. ZERO) THEN
+             IF (VNEW(I) > ZERO) THEN
                 CV = CP(I) - r_GAS 
                 GAMMA = CP(I)/CV
                 DPDM(I) = RHO0*GAMMA*r_GAS*THETA(I) !total derivative

@@ -103,7 +103,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       COQUES
 C-----------------------------------------------
-            IF(ITY.EQ.3)THEN
+            IF(ITY==3)THEN
               DO I=LFT,LLT
                 N = I + NFT
                 IF(PLYELEMS(N) > 0) THEN
@@ -116,7 +116,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       COQUES 3 NOEUDS
 C-----------------------------------------------
-            ELSEIF(ITY.EQ.7)THEN
+            ELSEIF(ITY==7)THEN
               DO I=LFT,LLT
 cc             N = I + NFT
 cc             INUM(EL2FA(NN5+N)) = IXTG(NIXTG,N)
@@ -144,7 +144,7 @@ C-----------------------------------------------
 
       ELSE
 C
-        IF (ISPMD.EQ.0) THEN
+        IF (ISPMD==0) THEN
           RBUF = NBF_PXFEMG
           CALL SPMD_IGET_PARTN_PLY(1,NBF_L,INUM,NPLYPART,IADG,RBUF,1,
      *                             IDCMAX)

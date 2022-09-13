@@ -62,7 +62,7 @@ C-------------------------------------------------------------
 C         CALCUL DES  DEPLACEMENTS TRANSLATIONS PUIS ROTATIONS
 C-------------------------------------------------------------
 
-      IF (IRESP.EQ.1) THEN
+      IF (IRESP==1) THEN
 #include      "vectorize.inc"
         DO N=NODFT,NODLT
           IF(NALE(N) == 3) THEN

@@ -101,7 +101,7 @@ C--------------------------------------------------------------
 C------------------------------------
 C     GAP VARIABLE NOEUDS SECONDS
 C------------------------------------
-      IF(IGAP.GE.1)THEN
+      IF(IGAP>=1)THEN
         DO I=1,NUMNOD
          WA(I)=ZERO
         ENDDO
@@ -122,8 +122,8 @@ C---------------------
      .            NELTG,INRT,GEO  ,PM   ,KNOD2ELC ,
      .            KNOD2ELTG ,NOD2ELC ,NOD2ELTG,THK,NTY,IGEO,
      .            PM_STACK  , IWORKSH )
-      IF(NELTG.NE.0) THEN
-        IF(IGAP.GE.1)THEN
+      IF(NELTG/=0) THEN
+        IF(IGAP>=1)THEN
           MG=IXTG(5,NELTG)
           IGTYP = IGEO(11,MG)
 	  IP = IPARTTG(NELTG)
@@ -133,8 +133,8 @@ C---------------------
           WA(IXTG(3,NELTG))=MAX(WA(IXTG(3,NELTG)),DX)
           WA(IXTG(4,NELTG))=MAX(WA(IXTG(4,NELTG)),DX)
         END IF
-      ELSEIF(NELC.NE.0) THEN
-        IF(IGAP.GE.1)THEN
+      ELSEIF(NELC/=0) THEN
+        IF(IGAP>=1)THEN
           MG=IXC(6,NELC)
           IGTYP = IGEO(11,MG)
           IP = IPARTC(NELC)
@@ -147,9 +147,9 @@ C---------------------
         END IF
       ENDIF
 C
-      IF(NELS+NELC+NELTG.EQ.0)THEN
+      IF(NELS+NELC+NELTG==0)THEN
 Ca verifier (second)      en SPMD il faut un element associe a l'arrete sinon erreur
-         IF(NINT.GT.0) THEN
+         IF(NINT>0) THEN
             CALL ANCMSG(MSGID=481,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_2,
@@ -157,7 +157,7 @@ Ca verifier (second)      en SPMD il faut un element associe a l'arrete sinon er
      .               C1=TITR,
      .               I2=I)
          ENDIF
-         IF(NINT.LT.0) THEN
+         IF(NINT<0) THEN
             CALL ANCMSG(MSGID=482,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_2,
@@ -168,7 +168,7 @@ Ca verifier (second)      en SPMD il faut un element associe a l'arrete sinon er
       ENDIF
   250 CONTINUE
 C-----
-      IF(IGAP.GE.1)THEN
+      IF(IGAP>=1)THEN
        DO I=1,NSN
         GAPM=GAPSCALE * WA(NSV(I))
         GAP_S(I)= GAPM
@@ -194,16 +194,16 @@ C---------------------
      .            NELTG,INRT,GEO  ,PM   ,KNOD2ELC ,
      .            KNOD2ELTG ,NOD2ELC ,NOD2ELTG,THK,NTY,IGEO,
      .            PM_STACK  , IWORKSH )
-      IF(NELTG.NE.0) THEN
-c        IF(IGAP.GE.1)THEN
+      IF(NELTG/=0) THEN
+c        IF(IGAP>=1)THEN
           MG=IXTG(5,NELTG)
           IGTYP =IGEO(11,MG)
           IP = IPARTTG(NELTG)
           DX =GEO(1,MG)*GAPSCALE
           IF(IGTYP == 17) DX =THK(NUMELC+NELTG)*GAPSCALE
 c        END IF
-      ELSEIF(NELC.NE.0) THEN
-c        IF(IGAP.GE.1)THEN
+      ELSEIF(NELC/=0) THEN
+c        IF(IGAP>=1)THEN
           MG=IXC(6,NELC)
           IGTYP =IGEO(11,MG)
           IP = IPARTC(NELC)
@@ -217,9 +217,9 @@ c        END IF
       NDX=NDX+1
       IF(IGAP/=0) GAP_M(I)=GAPM
 C
-      IF(NELS+NELC+NELTG.EQ.0)THEN
+      IF(NELS+NELC+NELTG==0)THEN
 Ca verifier (second)      en SPMD il faut un element associe a l'arrete sinon erreur
-         IF(NINT.GT.0) THEN
+         IF(NINT>0) THEN
             CALL ANCMSG(MSGID=481,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_2,
@@ -227,7 +227,7 @@ Ca verifier (second)      en SPMD il faut un element associe a l'arrete sinon er
      .               C1=TITR,
      .               I2=I)
          ENDIF
-         IF(NINT.LT.0) THEN
+         IF(NINT<0) THEN
             CALL ANCMSG(MSGID=482,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_2,
@@ -241,10 +241,10 @@ C------------------------------------
 C     GAP 
 C------------------------------------
        GAPMX=SQRT(GAPMX)
-       IF(IGAP.EQ.0)THEN
+       IF(IGAP==0)THEN
 C GAP FIXE
-         IF(GAP.LE.ZERO)THEN
-           IF(NDX.NE.0)THEN
+         IF(GAP<=ZERO)THEN
+           IF(NDX/=0)THEN
              GAP = DXM/NDX
              GAP = MIN(HALF*GAPMX,GAP)
            ELSE
@@ -258,8 +258,8 @@ C GAP FIXE
 C GAP VARIABLE :
 C    - GAPMIN CONTIENT ONE GAP MINIMUM UTILISE SI GAP_S(I)+GAP_M(J) < GAPMIN
 C    - GAP CONTIENT LE SUP DE (GAP_S(I)+GAP_M(J),GAPMIN) 
-         IF(GAP.LE.ZERO)THEN
-           IF(NDX.NE.0)THEN
+         IF(GAP<=ZERO)THEN
+           IF(NDX/=0)THEN
              GAPMIN = GAPMN
              GAPMIN = MIN(HALF*GAPMX,GAPMIN)
            ELSE
@@ -271,7 +271,7 @@ C    - GAP CONTIENT LE SUP DE (GAP_S(I)+GAP_M(J),GAPMIN)
          WRITE(IOUT,1000)GAPMIN
 C
 C        GAP n'est pas utilise pour Igap > 0 ; Gapmin peut etre egal a 0.
-         IF(GAPMAX.EQ.ZERO)GAPMAX=EP30
+         IF(GAPMAX==ZERO)GAPMAX=EP30
          WRITE(IOUT,1500)GAPMAX
          GAP = MIN(GAP,GAPMAX)
        ENDIF
@@ -280,7 +280,7 @@ C
 C Calcul du gap reel a utiliser lors du critere de retri
 C
       BGAPSMX = ZERO
-      IF (IGAP.EQ.0) THEN
+      IF (IGAP==0) THEN
         GAPINF=GAP
       ELSE
         GAPINF=EP30

@@ -83,7 +83,7 @@ C-----------------------------------------------
       SURF_MAX = ZERO
       SURF_MEAN = ZERO
       DO I=1,NRT                                                     
-        IF(IRECT(3,I).EQ.IRECT(4,I)) THEN
+        IF(IRECT(3,I)==IRECT(4,I)) THEN
           D1(1)=X(1,IRECT(1,I))-X(1,IRECT(3,I))
           D1(2)=X(2,IRECT(1,I))-X(2,IRECT(3,I))
           D1(3)=X(3,IRECT(1,I))-X(3,IRECT(3,I))                    
@@ -122,11 +122,11 @@ C-----------------------------------------------
       
       WRITE(IOUT,1000)NOINT
       WRITE(IOUT,3021)STVAL, STIFF_STAT(2),  SURF_MEAN, SURF_MIN, SURF_MAX
-      IF(IPRI.GE.1) THEN                                              
+      IF(IPRI>=1) THEN                                              
         WRITE(IOUT,'(/,A,/)')' SEGMENTS USED FOR SURFACE DEFINITION'  
         K=1                                                           
         K4=4                                                          
-        IF(N2D.NE.0)K4=2                                              
+        IF(N2D/=0)K4=2                                              
         DO I=1,NRT                                                    
           WRITE(IOUT,FMT=FMW_4I)(ITAB(IRECT(K,I)),K=1,K4)             
         ENDDO                                               

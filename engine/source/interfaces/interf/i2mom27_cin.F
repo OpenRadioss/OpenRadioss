@@ -72,7 +72,7 @@ C     REAL
      .   STF,AI,H2(4)
 C=======================================================================
 C     MINER(II) initialise a MS(J) dans resol_init
-      IF(ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER .GT.0) THEN
+      IF(ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0) THEN
         DO II=1,NMN
           J=MSR(II)
           ADI(J) = ADI(J)*NMAS(II)
@@ -86,12 +86,12 @@ C     MINER(II) initialise a MS(J) dans resol_init
         ENDDO
       ENDIF
 C
-      IF(IMPL_S.GT.0) THEN
+      IF(IMPL_S>0) THEN
       DO II=1,NSN
        K = INDXC(II)
        IF (K == 0) CYCLE
        I = NSV(K)
-       IF(I.GT.0)THEN
+       IF(I>0)THEN
         L=IRTL(II)
 C
         IF (IRECT(3,L) == IRECT(4,L)) THEN
@@ -164,7 +164,7 @@ C
 C
         W = WEIGHT(I)
         AI=AA * MS(I) * W
-        IF (ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER .GT.0) THEN
+        IF (ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0) THEN
           DO JJ=1,NIR
             J=IRECT(JJ,L)
             ADI(J)=ADI(J)+AI*H(JJ)
@@ -181,10 +181,10 @@ C
          END IF
         ENDDO
         STIFR(I)=EM20
-        IF(IDEL2.NE.0.AND.IN(I).NE.0.)SINER(II)=IN(I)
+        IF(IDEL2/=0.AND.IN(I)/=0.)SINER(II)=IN(I)
         IN(I)=ZERO
         STIFN(I)=EM20
-        IF(IDEL2.NE.0.AND.MS(I).NE.0.)SMASS(II)=MS(I)
+        IF(IDEL2/=0.AND.MS(I)/=0.)SMASS(II)=MS(I)
         MS(I)=ZERO
         A(1,I)=ZERO
         A(2,I)=ZERO
@@ -199,7 +199,7 @@ c
        K = INDXC(II)
        IF (K == 0) CYCLE
        I = NSV(K)
-       IF(I.GT.0)THEN
+       IF(I>0)THEN
         L=IRTL(II)
 C
         SS=CRST(1,II)                                    
@@ -286,7 +286,7 @@ C
 C
         W = WEIGHT(I)
         AI=AA * MS(I) * W
-        IF (ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER .GT.0) THEN
+        IF (ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0) THEN
           DO JJ=1,4
             J=IRECT(JJ,L)
             ADI(J)=ADI(J)+AI*H(JJ)
@@ -303,10 +303,10 @@ C
          END IF
         ENDDO
         STIFR(I)=EM20
-        IF(IDEL2.NE.0.AND.IN(I).NE.0.)SINER(II)=IN(I)
+        IF(IDEL2/=0.AND.IN(I)/=0.)SINER(II)=IN(I)
         IN(I)=ZERO
         STIFN(I)=EM20
-        IF(IDEL2.NE.0.AND.MS(I).NE.0.)SMASS(II)=MS(I)
+        IF(IDEL2/=0.AND.MS(I)/=0.)SMASS(II)=MS(I)
         MS(I)=ZERO
         A(1,I)=ZERO
         A(2,I)=ZERO
@@ -317,7 +317,7 @@ C
       ENDIF
 C
 C
-      IF(ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER .GT.0) THEN
+      IF(ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0) THEN
 #include "vectorize.inc"
         DO II=1,NMN
           J=MSR(II)

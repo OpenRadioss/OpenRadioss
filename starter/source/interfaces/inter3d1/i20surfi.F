@@ -153,7 +153,7 @@ c---------------------------------------
             MBINFLG(L) = BITSET(MBINFLG(L),1)
           ENDDO
         ENDIF
-        IF(IPRI.GE.1) THEN
+        IF(IPRI>=1) THEN
           WRITE(IOUT,'(/,A,/)')' SEGMENTS USED FOR SURFACE DEFINITION'
           DO I=1,NRTM
             WRITE(IOUT,FMT=FMW_4I)(ITAB(IRECT(K,I)),K=1,4)

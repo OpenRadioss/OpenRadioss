@@ -66,7 +66,7 @@ C        II=IXTG1(4,I)
         IC2=ICODR(N2)
         IC3=ICODR(N3)
 C--------ligne 1--------------
-        IF (IC1.GT.0.AND.IC2.GT.0)THEN
+        IF (IC1>0.AND.IC2>0)THEN
          LX=X(1,N1)-X(1,N2)
          LY=X(2,N1)-X(2,N2)
          LZ=X(3,N1)-X(3,N2)
@@ -75,7 +75,7 @@ C--------ligne 1--------------
          J1(2)=(IC1-4*J1(1))/2
          J1(3)=(IC1-4*J1(1)-2*J1(2))
          IS=ISKEW(N1)
-         IF (IS.EQ.1) THEN
+         IF (IS==1) THEN
           E1X=SKEW(1,IS)
           E1Y=SKEW(2,IS)
           E1Z=SKEW(3,IS)
@@ -89,12 +89,12 @@ C--------ligne 1--------------
          ELSE
           LL1=LX*J1(1)+LY*J1(2)+LZ*J1(3)
          ENDIF
-         IF (ABS(LL1)/LL.GT.EM6) THEN
+         IF (ABS(LL1)/LL>EM6) THEN
           J1(1)=IC2/4
           J1(2)=(IC2-4*J1(1))/2
           J1(3)=(IC2-4*J1(1)-2*J1(2))
           IS=ISKEW(N2)
-          IF (IS.EQ.1) THEN
+          IF (IS==1) THEN
            E1X=SKEW(1,IS)
            E1Y=SKEW(2,IS)
            E1Z=SKEW(3,IS)
@@ -108,10 +108,10 @@ C--------ligne 1--------------
           ELSE
            LL1=LX*J1(1)+LY*J1(2)+LZ*J1(3)
           ENDIF
-          IF (ABS(LL1)/LL.GT.EM6) IXTG1(1,I)=-1
+          IF (ABS(LL1)/LL>EM6) IXTG1(1,I)=-1
          ENDIF
 C--------ligne 2--------------
-        ELSEIF (IC2.GT.0.AND.IC3.GT.0)THEN
+        ELSEIF (IC2>0.AND.IC3>0)THEN
          LX=X(1,N3)-X(1,N2)
          LY=X(2,N3)-X(2,N2)
          LZ=X(3,N3)-X(3,N2)
@@ -120,7 +120,7 @@ C--------ligne 2--------------
          J1(2)=(IC3-4*J1(1))/2
          J1(3)=(IC3-4*J1(1)-2*J1(2))
          IS=ISKEW(N3)
-         IF (IS.EQ.1) THEN
+         IF (IS==1) THEN
           E1X=SKEW(1,IS)
           E1Y=SKEW(2,IS)
           E1Z=SKEW(3,IS)
@@ -134,12 +134,12 @@ C--------ligne 2--------------
          ELSE
           LL1=LX*J1(1)+LY*J1(2)+LZ*J1(3)
          ENDIF
-         IF (ABS(LL1)/LL.GT.EM6) THEN
+         IF (ABS(LL1)/LL>EM6) THEN
           J1(1)=IC2/4
           J1(2)=(IC2-4*J1(1))/2
           J1(3)=(IC2-4*J1(1)-2*J1(2))
           IS=ISKEW(N2)
-          IF (IS.EQ.1) THEN
+          IF (IS==1) THEN
            E1X=SKEW(1,IS)
            E1Y=SKEW(2,IS)
            E1Z=SKEW(3,IS)
@@ -153,10 +153,10 @@ C--------ligne 2--------------
           ELSE
            LL1=LX*J1(1)+LY*J1(2)+LZ*J1(3)
           ENDIF
-          IF (ABS(LL1)/LL.GT.EM6) IXTG1(2,I)=-1
+          IF (ABS(LL1)/LL>EM6) IXTG1(2,I)=-1
          ENDIF
 C--------ligne 3--------------
-        ELSEIF (IC1.GT.0.AND.IC3.GT.0)THEN
+        ELSEIF (IC1>0.AND.IC3>0)THEN
          LX=X(1,N3)-X(1,N1)
          LY=X(2,N3)-X(2,N1)
          LZ=X(3,N3)-X(3,N1)
@@ -165,7 +165,7 @@ C--------ligne 3--------------
          J1(2)=(IC3-4*J1(1))/2
          J1(3)=(IC3-4*J1(1)-2*J1(2))
          IS=ISKEW(N3)
-         IF (IS.EQ.1) THEN
+         IF (IS==1) THEN
           E1X=SKEW(1,IS)
           E1Y=SKEW(2,IS)
           E1Z=SKEW(3,IS)
@@ -179,12 +179,12 @@ C--------ligne 3--------------
          ELSE
           LL1=LX*J1(1)+LY*J1(2)+LZ*J1(3)
          ENDIF
-         IF (ABS(LL1)/LL.GT.EM6) THEN
+         IF (ABS(LL1)/LL>EM6) THEN
           J1(1)=IC1/4
           J1(2)=(IC1-4*J1(1))/2
           J1(3)=(IC1-4*J1(1)-2*J1(2))
           IS=ISKEW(N1)
-          IF (IS.EQ.1) THEN
+          IF (IS==1) THEN
            E1X=SKEW(1,IS)
            E1Y=SKEW(2,IS)
            E1Z=SKEW(3,IS)
@@ -198,7 +198,7 @@ C--------ligne 3--------------
           ELSE
            LL1=LX*J1(1)+LY*J1(2)+LZ*J1(3)
           ENDIF
-          IF (ABS(LL1)/LL.GT.EM6) IXTG1(3,I)=-1
+          IF (ABS(LL1)/LL>EM6) IXTG1(3,I)=-1
          ENDIF
         ENDIF
        ENDDO

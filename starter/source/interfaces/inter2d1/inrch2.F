@@ -72,7 +72,7 @@ C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       NEL=0
-      IF(NUMELQ.EQ.0) RETURN
+      IF(NUMELQ==0) RETURN
 C
       DO 200 NE=1,NUMELQ
       I1=IRECT(1,ISG)
@@ -82,9 +82,9 @@ C
       IX(3)=ICO(4,NE)
       IX(4)=ICO(5,NE)
       DO 180 K=1,4
-      IF(IX(K).NE.I1)GOTO 180
+      IF(IX(K)/=I1)GOTO 180
        DO 120 J=1,4
-       IF(IX(J).NE.I2)GOTO 120
+       IF(IX(J)/=I2)GOTO 120
         NEL=NE
         YM1=X(2,I1)
         ZM1=X(3,I1)
@@ -100,8 +100,8 @@ C
   180 CONTINUE
   200 CONTINUE
 C      IWARN=IWARN+1
-C      IF(NINT.GT.0) WRITE (IOUT,1100) ISG, NOINT
-         IF(NINT.GT.0) THEN
+C      IF(NINT>0) WRITE (IOUT,1100) ISG, NOINT
+         IF(NINT>0) THEN
             CALL ANCMSG(MSGID=92,
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_2,
@@ -109,8 +109,8 @@ C      IF(NINT.GT.0) WRITE (IOUT,1100) ISG, NOINT
      .                  C1=TITR,
      .                  I2=ISG)
          ENDIF
-C      IF(NINT.LT.0) WRITE (IOUT,1200) ISG, NOINT
-         IF(NINT.LT.0) THEN
+C      IF(NINT<0) WRITE (IOUT,1200) ISG, NOINT
+         IF(NINT<0) THEN
             CALL ANCMSG(MSGID=93,
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_2,

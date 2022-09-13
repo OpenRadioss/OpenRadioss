@@ -131,27 +131,27 @@ C-----------------------------------------------
       IDEL=0
       IDEV=0
       SCALE = ZERO
-      IF(IFLAG.EQ.1)THEN
+      IF(IFLAG==1)THEN
          IDEL=1
-      ELSEIF(IFLAG.EQ.2)THEN
+      ELSEIF(IFLAG==2)THEN
          IDEV =1
       END IF
 C...
-      IF(IDEL.EQ.1)THEN
+      IF(IDEL==1)THEN
         DO I=1,NEL
-          IF(OFF(I).LT.0.1) OFF(I)=0.0
-          IF(OFF(I).LT.1.0) OFF(I)=OFF(I)*0.8
+          IF(OFF(I)<0.1) OFF(I)=0.0
+          IF(OFF(I)<1.0) OFF(I)=OFF(I)*0.8
         END DO
       END IF
 C      
-      IF(IDEL.EQ.1)THEN
+      IF(IDEL==1)THEN
        NINDX=0 
 C-------------------------------
 C     RUPTURE DUCTILE
 C-------------------------------
 C      Tuler Butcher
        DO I=1,NEL
-        IF(IFLAG.EQ.1.AND.OFF(I).EQ.1.)THEN
+        IF(IFLAG==1.AND.OFF(I)==1.)THEN
 C-------------------
 C     STREES principal 1, 4 newton iterations 
 C-------------------
@@ -178,44 +178,44 @@ c         yp= 3 x^2 + c
          S1 = SQRT(-CC1)
          EPST2 = S1 * S1
          Y = (EPST2 + C)* S1 + D
-         IF(ABS(Y).GT.EM8)THEN
+         IF(ABS(Y)>EM8)THEN
           S1 = 1.75 * S1
           EPST2 = S1 * S1
           Y = (EPST2 + C)* S1 + D
           YP = THREE*EPST2 + C
-          IF(YP.NE.ZERO)S1 = S1 - Y/YP
+          IF(YP/=ZERO)S1 = S1 - Y/YP
           EPST2 = S1 * S1
           Y = (EPST2 + C)* S1 + D
           YP = THREE*EPST2 + C
-          IF(YP.NE.ZERO)S1 = S1 - Y/YP
+          IF(YP/=ZERO)S1 = S1 - Y/YP
           EPST2 = S1 * S1
           Y = (EPST2 + C)* S1 + D
           YP = THREE*EPST2 + C
-          IF(YP.NE.ZERO)S1 = S1 - Y/YP
+          IF(YP/=ZERO)S1 = S1 - Y/YP
           EPST2 = S1 * S1
           Y = (EPST2 + C)* S1 + D
           YP = THREE*EPST2 + C
-          IF(YP.NE.ZERO)S1 = S1 - Y/YP
+          IF(YP/=ZERO)S1 = S1 - Y/YP
          ENDIF
           B = S1
           C = C + S1**2 
           S2 = HALF*(-S1 + SQRT(MAX(ZERO,(S1**2 - FOUR*C))))
           SS = HALF*(-S1 - SQRT(MAX(ZERO,(S1**2 - FOUR*C))))
           S3 = SS
-          IF(SS.GT.S2)THEN
+          IF(SS>S2)THEN
            S3 = S2
            S2 = SS
           ENDIF 
           A=ONE
-          IF(S1.NE.ZERO.AND.S3.EQ.ZERO) A =  S2/S1
-          IF(S1.EQ.ZERO.AND.S3.NE.ZERO) A =  S2/S3
-          IF(S1.NE.ZERO.AND.S3.NE.ZERO)
+          IF(S1/=ZERO.AND.S3==ZERO) A =  S2/S1
+          IF(S1==ZERO.AND.S3/=ZERO) A =  S2/S3
+          IF(S1/=ZERO.AND.S3/=ZERO)
      .      A = MAX(S2/S3, S2/S1) 
           W2 = MAX(EM20,(TWO - A))**BE
           W1 =  ONE - P/PC
           W1 = (MAX(EM20,ONE/W1))**AL
           UVAR(I,1) = UVAR(I,1) + W1*W2*DPLA(I)
-          IF(UVAR(I,1).GE.DC) THEN	  
+          IF(UVAR(I,1)>=DC) THEN	  
            OFF(I) = FOUR_OVER_5
            IDEL7NOK = 1
            NINDX=NINDX+1
@@ -224,7 +224,7 @@ c         yp= 3 x^2 + c
           ENDIF
 	 ENDIF
         ENDDO
-        IF(NINDX.GT.0.AND.IMCONV.EQ.1)THEN
+        IF(NINDX>0.AND.IMCONV==1)THEN
          DO J=1,NINDX
           I=INDX(J)
 #include "lockon.inc"
@@ -237,12 +237,12 @@ C      end Tuler Butcher
       END IF
 
 Cc deviatoric will be vanished      
-      IF(IDEV.EQ.1)THEN
+      IF(IDEV==1)THEN
        NINDX=0 
        NINDEX = 0 
        DO I=1,NEL
-        IF(IFLAG.EQ.2.AND.OFF(I).EQ.ONE)THEN
-         IF(UVAR(I,1).LT.DC)THEN
+        IF(IFLAG==2.AND.OFF(I)==ONE)THEN
+         IF(UVAR(I,1)<DC)THEN
          P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
          E1 = SIGNXX(I) - P
          E2 = SIGNYY(I) - P
@@ -266,44 +266,44 @@ c         yp= 3 x^2 + c
          S1 = SQRT(-CC1)
          EPST2 = S1 * S1
          Y = (EPST2 + C)* S1 + D
-         IF(ABS(Y).GT.EM8)THEN
+         IF(ABS(Y)>EM8)THEN
           S1 = 1.75 * S1
           EPST2 = S1 * S1
           Y = (EPST2 + C)* S1 + D
           YP = THREE*EPST2 + C
-          IF(YP.NE.ZERO)S1 = S1 - Y/YP
+          IF(YP/=ZERO)S1 = S1 - Y/YP
           EPST2 = S1 * S1
           Y = (EPST2 + C)* S1 + D
           YP = THREE*EPST2 + C
-          IF(YP.NE.ZERO)S1 = S1 - Y/YP
+          IF(YP/=ZERO)S1 = S1 - Y/YP
           EPST2 = S1 * S1
           Y = (EPST2 + C)* S1 + D
           YP = THREE*EPST2 + C
-          IF(YP.NE.ZERO)S1 = S1 - Y/YP
+          IF(YP/=ZERO)S1 = S1 - Y/YP
           EPST2 = S1 * S1
           Y = (EPST2 + C)* S1 + D
           YP = THREE*EPST2 + C
-          IF(YP.NE.ZERO)S1 = S1 - Y/YP
+          IF(YP/=ZERO)S1 = S1 - Y/YP
          ENDIF 
           B = S1
           C = C + S1**2 
           S2 = HALF*(-S1 + SQRT(MAX(ZERO,(S1**2 - FOUR*C))))
           SS = HALF*(-S1 - SQRT(MAX(ZERO,(S1**2 - FOUR*C))))
           S3 = SS
-          IF(SS.GT.S2)THEN
+          IF(SS>S2)THEN
            S3 = S2
            S2 = SS
           ENDIF 
           A = ONE
-          IF(S1.NE.ZERO.AND.S3.EQ.ZERO) A =  S2/S1
-          IF(S1.EQ.ZERO.AND.S3.NE.ZERO) A =  S2/S3
-          IF(S1.NE.ZERO.AND.S3.NE.ZERO)
+          IF(S1/=ZERO.AND.S3==ZERO) A =  S2/S1
+          IF(S1==ZERO.AND.S3/=ZERO) A =  S2/S3
+          IF(S1/=ZERO.AND.S3/=ZERO)
      .      A = MAX(S2/S3, S2/S1) 
           W2 = MAX(EM20,(TWO - A))**BE
           W1 = ONE - ONE*P/PC
           W1 = (MAX(EM20,ONE/W1))**AL
           UVAR(I,1) = UVAR(I,1) + W1*W2*DPLA(I)      
-          IF(UVAR(I,1).GE.DC) THEN	   
+          IF(UVAR(I,1)>=DC) THEN	   
            NINDX=NINDX+1
            INDX(NINDX)=I
            SIGNXX(I) =  P
@@ -325,7 +325,7 @@ C uvar> DC
          ENDIF
         ENDIF  
        ENDDO
-       IF(NINDX.GT.0.AND.IMCONV.EQ.1)THEN
+       IF(NINDX>0.AND.IMCONV==1)THEN
         DO J=1,NINDX
          I = INDX(J)
 #include "lockon.inc"

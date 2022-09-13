@@ -83,12 +83,12 @@ C----------------------------------------------
         CALL HM_GET_INTV('N2D3D',NANALY,IS_AVAILABLE,LSUBMODEL)      
         CALL HM_GET_INTV('IPARITH',IPARITH,IS_AVAILABLE,LSUBMODEL) 
         CALL HM_GET_INTV('ISUBCYC',ISUB,IS_AVAILABLE,LSUBMODEL)
-        IF(IPARITH.EQ.0)THEN
+        IF(IPARITH==0)THEN
           IPARI0  = 1
           IPARITH = 1
-        ELSEIF(IPARITH.EQ.1)THEN
+        ELSEIF(IPARITH==1)THEN
           IPARI0 = 1
-        ELSEIF(IPARITH.EQ.2)THEN
+        ELSEIF(IPARITH==2)THEN
           IPARI0 = 0
         ELSE
           IPARI0=IPARITH-1
@@ -99,7 +99,7 @@ C----------------------------------------------
         IPARITH = 1
       ENDIF
 C
-      IF(ISUB.EQ.2)THEN
+      IF(ISUB==2)THEN
         MSHSUB = 1
         ISUB   = 0
       END IF      

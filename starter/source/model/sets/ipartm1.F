@@ -95,16 +95,16 @@ C-----------------------------------------------
       JINF=1
       JSUP=NPART
       J=MAX(1,NPART/2)
-   10 IF(JSUP.LE.JINF.AND.(IU-IPARTM1(J,1)).NE.0) THEN
+   10 IF(JSUP<=JINF.AND.(IU-IPARTM1(J,1))/=0) THEN
 C      
         PART_USRTOS=0
         RETURN
       ENDIF
-      IF((IU-IPARTM1(J,1)).EQ.0)THEN
+      IF((IU-IPARTM1(J,1))==0)THEN
 C     >CAS IU=TABM FIN DE LA RECHERCHE
          PART_USRTOS=J
          RETURN
-      ELSE IF (IU-IPARTM1(J,1).LT.0) THEN
+      ELSE IF (IU-IPARTM1(J,1)<0) THEN
 C     >CAS IU<TABM
          JSUP=J-1
       ELSE
@@ -172,16 +172,16 @@ C-----------------------------------------------
 C      
         SET_USRTOS=0
         RETURN
-      ELSEIF(JSUP.LE.JINF.AND.(IU-IPARTM1(J,1)).NE.0) THEN
+      ELSEIF(JSUP<=JINF.AND.(IU-IPARTM1(J,1))/=0) THEN
 C      
         SET_USRTOS=0
         RETURN
       ENDIF
-      IF((IU-IPARTM1(J,1)).EQ.0)THEN
+      IF((IU-IPARTM1(J,1))==0)THEN
 C     >CAS IU=TABM FIN DE LA RECHERCHE
          SET_USRTOS=J
          RETURN
-      ELSE IF (IU-IPARTM1(J,1).LT.0) THEN
+      ELSE IF (IU-IPARTM1(J,1)<0) THEN
 C     >CAS IU<TABM
          JSUP=J-1
       ELSE
@@ -255,7 +255,7 @@ C-----------------------------------------------
 
       J=MAX(1,SZ/2)
 
-   10 IF(JSUP.LE.JINF.AND.(UI-MAP(J,1)).NE.0) THEN
+   10 IF(JSUP<=JINF.AND.(UI-MAP(J,1))/=0) THEN
 C       
         SET_USRTOS_NEAREST=0
         IF (UPLOW == 1) THEN
@@ -275,11 +275,11 @@ C
         ENDIF
         RETURN
       ENDIF
-      IF((UI-MAP(J,1)).EQ.0)THEN
+      IF((UI-MAP(J,1))==0)THEN
 C     >CAS IU=TABM FIN DE LA RECHERCHE
          SET_USRTOS_NEAREST=J
          RETURN
-      ELSE IF (UI-MAP(J,1).LT.0) THEN
+      ELSE IF (UI-MAP(J,1)<0) THEN
 C     >CAS IU<TABM
          JSUP=J-1
       ELSE

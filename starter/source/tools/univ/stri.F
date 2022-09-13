@@ -46,7 +46,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NN, IS, MANT1, MANT2, MANT3, MANT4, MANT12, MANT21,
      .   MANT22, MANT31, MANT32, MANT41, MANT42
-      IF(N.GE.0)THEN
+      IF(N>=0)THEN
        NN=N
        IS=0
       ELSE

@@ -73,14 +73,14 @@ C-----------------------------------------------
       CHARACTER KEY2*5, KEY3*5,KEY4*5
 C
       IKEY=KUPWM
-      IF(IKAD(IKEY).NE.IKAD(IKEY+1))THEN              
+      IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN              
        READ(IUSC1,REC=IKAD(IKEY),FMT='(A)',ERR=9990)TMPLINE
        CALL GET_KEYS_ID(TMPLINE, KEY2, KEY3,KEY4, ID)       
-       IF(KEY3(1:3).NE.'OFF' .AND. KEY3(1:2).NE.'ON')THEN
+       IF(KEY3(1:3)/='OFF' .AND. KEY3(1:2)/='ON')THEN
          READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,A4)',ERR=9990)KEY2
          CALL WRIUSC2(IKAD(IKEY)+1,1,KEY0(IKEY))  
          READ(IUSC2,*,ERR=9990)CUPWM  
-       ELSEIF(KEY3(1:3).EQ.'OFF')THEN
+       ELSEIF(KEY3(1:3)=='OFF')THEN
           ! /UPWM/SUPG/OFF (obsolete, replaced by /ALE/SUPG/OFF)
            UPWM          = 0
            UPW_UPDATE    = 0
@@ -88,12 +88,12 @@ C
            RETURN
        ENDIF
 
-       IF(CUPWM.EQ.0.)CUPWM=1.
-       IF(KEY2(1:3).EQ.'STD') THEN
+       IF(CUPWM==0.)CUPWM=1.
+       IF(KEY2(1:3)=='STD') THEN
         UPWM=1
-       ELSEIF(KEY2(1:2).EQ.'TG') THEN
+       ELSEIF(KEY2(1:2)=='TG') THEN
         UPWM=2
-       ELSEIF(KEY2(1:4).EQ.'SUPG')THEN
+       ELSEIF(KEY2(1:4)=='SUPG')THEN
         I_SUPG_ON_OFF = 1
         UPWM=3
         CALL GET_KEYS_ID(TMPLINE, KEY2, KEY3,KEY4, ID)
@@ -105,7 +105,7 @@ C
         GOTO 9990
        ENDIF
       ELSE
-       IF(I_SUPG_ON_OFF .NE. 2)THEN
+       IF(I_SUPG_ON_OFF /= 2)THEN
          UPWM=3
          CUPWM=1.
        ELSE

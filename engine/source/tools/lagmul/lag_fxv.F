@@ -73,7 +73,7 @@ C        LLL(LAG_NKF)  : I = LLL(IK)
 C        JLL(LAG_NKF)  : J = JLL(IK)
 C======================================================================|
       DO N=1,NFXVEL
-        IF (IBFV(8,N).NE.0) THEN
+        IF (IBFV(8,N)/=0) THEN
           FACX   = VEL(5,N)
           TS = (TT + HALF*DT2)*FACX
           NNO = IABS(IBFV(1,N))
@@ -91,7 +91,7 @@ C======================================================================|
           ENDIF ! IF (ISMOOTH == 0)
           NC = NC + 1
           BLL(NC) = -VF*FAC / DT12
-          IF (ISK.LE.1) THEN
+          IF (ISK<=1) THEN
             IADLL(NC+1)=IADLL(NC) + 1
             IK = IADLL(NC)
             LLL(IK) = NNO
@@ -99,7 +99,7 @@ C======================================================================|
             SLL(IK) = 0
             XLL(IK) = ONE
           ELSE
-            IF(J.LE.3)THEN
+            IF(J<=3)THEN
               K1=3*J-2
               K2=3*J-1
               K3=3*J
@@ -202,9 +202,9 @@ C        SLL => LAGCOMK(3)
 C        XLL => LAGCOMK(4)
 C======================================================================|
       DO N=1,NFXVEL
-        IF (IBFV(8,N).NE.0) THEN
+        IF (IBFV(8,N)/=0) THEN
          NNO = IABS(IBFV(1,N))
-         IF(WEIGHT(NNO).EQ.1) THEN  ! une seule fois en SPMD
+         IF(WEIGHT(NNO)==1) THEN  ! une seule fois en SPMD
 Cel numerotation globale
           FACX   = VEL(5,N)
           TS = (TT + HALF*DT2)*FACX
@@ -223,7 +223,7 @@ Cel numerotation globale
           ENDIF
           NC = NC + 1
           LAGCOMC(2,NC) = -VF*FAC / DT12
-          IF (ISK.LE.1) THEN
+          IF (ISK<=1) THEN
             LAGCOMC(1,NC)=1
             IK = IK+1
             LAGCOMK(1,IK) = NNO
@@ -231,7 +231,7 @@ Cel numerotation globale
             LAGCOMK(3,IK) = 0
             LAGCOMK(4,IK) = ONE
           ELSE
-            IF(J.LE.3)THEN
+            IF(J<=3)THEN
               K1=3*J-2
               K2=3*J-1
               K3=3*J

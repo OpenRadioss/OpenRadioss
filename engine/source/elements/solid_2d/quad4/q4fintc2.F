@@ -76,7 +76,7 @@ C     REAL
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      IF(N2D.EQ.1 .AND. JHBE.EQ.17) THEN
+      IF(N2D==1 .AND. JHBE==17) THEN
         DO I=LFT,LLT
           FAC(I) = AIRE(I)
         ENDDO
@@ -104,7 +104,7 @@ C     FOR CONSTANT SHEAR STRAIN
       ENDDO
 C
 C     FOR CONSTANT PRESSURE CASE
-      IF(ICP.EQ.1) THEN
+      IF(ICP==1) THEN
         DO I=LFT,LLT
           SV = PP(I)*FAC(I)
           SY = SV*PYC1(I)

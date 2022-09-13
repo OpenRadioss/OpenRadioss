@@ -75,12 +75,12 @@ C           PORO=1 tous les noeuds en contact ...
 C--------------------------------------------------------------
 
       ALLOCATE(F1(NN + T_MONVOLN%NB_FILL_TRI), F2(NN + T_MONVOLN%NB_FILL_TRI))
-      IF(INTBAG.EQ.0)THEN
+      IF(INTBAG==0)THEN
         DO I=1,NN
           II=SURF_ELEM(I)
-          IF(SURF_ELTYP(I).EQ.7)THEN
+          IF(SURF_ELTYP(I)==7)THEN
             II=II+NUMELC
-          ELSEIF(SURF_ELTYP(I).NE.3)THEN
+          ELSEIF(SURF_ELTYP(I)/=3)THEN
             II=I+NUMELC+NUMELTG
           ENDIF
           NOD1 = SURF_NODES(I,1)
@@ -109,25 +109,25 @@ C--------------------------------------------------------------
           NOD2 = SURF_NODES(I,2)
           NOD3 = SURF_NODES(I,3)
           NOD4 = SURF_NODES(I,4)
-          IF(SURF_ELTYP(I).EQ.3)THEN
+          IF(SURF_ELTYP(I)==3)THEN
             PORO(II)=ZERO
-            IF(ICONTACT(NOD1).NE.0)PORO(II)=PORO(II)+FOURTH
-            IF(ICONTACT(NOD2).NE.0)PORO(II)=PORO(II)+FOURTH
-            IF(ICONTACT(NOD3).NE.0)PORO(II)=PORO(II)+FOURTH
-            IF(ICONTACT(NOD4).NE.0)PORO(II)=PORO(II)+FOURTH
-          ELSEIF(SURF_ELTYP(I).EQ.7)THEN
+            IF(ICONTACT(NOD1)/=0)PORO(II)=PORO(II)+FOURTH
+            IF(ICONTACT(NOD2)/=0)PORO(II)=PORO(II)+FOURTH
+            IF(ICONTACT(NOD3)/=0)PORO(II)=PORO(II)+FOURTH
+            IF(ICONTACT(NOD4)/=0)PORO(II)=PORO(II)+FOURTH
+          ELSEIF(SURF_ELTYP(I)==7)THEN
             II=II+NUMELC
             PORO(II)=ZERO
-            IF(ICONTACT(NOD1).NE.0)PORO(II)=PORO(II)+THIRD
-            IF(ICONTACT(NOD2).NE.0)PORO(II)=PORO(II)+THIRD
-            IF(ICONTACT(NOD3).NE.0)PORO(II)=PORO(II)+THIRD
+            IF(ICONTACT(NOD1)/=0)PORO(II)=PORO(II)+THIRD
+            IF(ICONTACT(NOD2)/=0)PORO(II)=PORO(II)+THIRD
+            IF(ICONTACT(NOD3)/=0)PORO(II)=PORO(II)+THIRD
           ELSE
             II=I+NUMELC+NUMELTG
             PORO(II)=ZERO
-            IF(ICONTACT(NOD1).NE.0)PORO(II)=PORO(II)+FOURTH
-            IF(ICONTACT(NOD2).NE.0)PORO(II)=PORO(II)+FOURTH
-            IF(ICONTACT(NOD3).NE.0)PORO(II)=PORO(II)+FOURTH
-            IF(ICONTACT(NOD4).NE.0)PORO(II)=PORO(II)+FOURTH    
+            IF(ICONTACT(NOD1)/=0)PORO(II)=PORO(II)+FOURTH
+            IF(ICONTACT(NOD2)/=0)PORO(II)=PORO(II)+FOURTH
+            IF(ICONTACT(NOD3)/=0)PORO(II)=PORO(II)+FOURTH
+            IF(ICONTACT(NOD4)/=0)PORO(II)=PORO(II)+FOURTH    
           ENDIF
           XX=HALF*(X(1,NOD1)+X(1,NOD2))
           YY=HALF*(X(2,NOD1)+X(2,NOD2))

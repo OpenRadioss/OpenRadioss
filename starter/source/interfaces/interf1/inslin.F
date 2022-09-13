@@ -76,7 +76,7 @@ C=======================================================================
           IRECT(3,J)=0
           IRECT(4,J)=0
         ENDDO
-        IF(IPRI.GE.1) THEN
+        IF(IPRI>=1) THEN
           WRITE(IOUT,'(/,A,/)')' SEGMENTS USED FOR SURFACE DEFINITION'
           K=1
           DO I=1,NRT

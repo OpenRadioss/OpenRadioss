@@ -49,42 +49,42 @@ C-----------------------------------------------
       INTEGER I, ISK,  ICT,ICR,J,K,NFIX,ND
 C----------------BC-------------------------
 Ccw   FIX X-DOF FOR 2D CASE
-      IF (N2D.NE.0) THEN
+      IF (N2D/=0) THEN
         DO I = 1,NUMNOD
-C         IF (ICODT(I).LT.4) THEN
+C         IF (ICODT(I)<4) THEN
 C           ICODT(I) = ICODT(I) + 4
 C         ENDIF
-          IF (NDOF(I).GT.0) THEN
+          IF (NDOF(I)>0) THEN
             ND = IADN(I)
             IFIX(ND+1) = 1
           ENDIF
         ENDDO
       ENDIF
-      IF (IRODDL.EQ.0) THEN
+      IF (IRODDL==0) THEN
       DO I = 1,NUMNOD
        ISK = ISKEW(I)
-       IF (ISK.EQ.1) THEN
+       IF (ISK==1) THEN
         ICT = ICODT(I)
         K = NDOF(I)
         ND = IADN(I)
-        IF (ICT .GT. 0 .AND. K.GT. 0) THEN
-         IF (ICT .EQ. 4 .AND. K.GT.2) THEN
+        IF (ICT > 0 .AND. K> 0) THEN
+         IF (ICT == 4 .AND. K>2) THEN
           IFIX(ND +1) = 1
-         ELSEIF (ICT .EQ. 2) THEN
+         ELSEIF (ICT == 2) THEN
           IFIX(ND +2) = 1
-         ELSEIF (ICT .EQ. 1) THEN
+         ELSEIF (ICT == 1) THEN
           IFIX(ND +3) = 1
-         ELSEIF (ICT .EQ. 3) THEN
+         ELSEIF (ICT == 3) THEN
           IFIX(ND +2) = 1
           IFIX(ND +3) = 1
-         ELSEIF (ICT .EQ. 5) THEN
-          IF (K.GT.2) IFIX(ND +1) = 1
+         ELSEIF (ICT == 5) THEN
+          IF (K>2) IFIX(ND +1) = 1
           IFIX(ND +3) = 1
-         ELSEIF (ICT .EQ. 6) THEN
-          IF (K.GT.2) IFIX(ND +1) = 1
+         ELSEIF (ICT == 6) THEN
+          IF (K>2) IFIX(ND +1) = 1
           IFIX(ND +2) = 1
-         ELSEIF (ICT .EQ. 7) THEN
-          IF (K.GT.2) IFIX(ND +1) = 1
+         ELSEIF (ICT == 7) THEN
+          IF (K>2) IFIX(ND +1) = 1
           IFIX(ND +2) = 1
           IFIX(ND +3) = 1
          ENDIF
@@ -94,50 +94,50 @@ C         ENDIF
       ELSE
       DO I = 1,NUMNOD
        ISK = ISKEW(I)
-       IF (ISK.EQ.1) THEN
+       IF (ISK==1) THEN
         ICT = ICODT(I)
         ICR = ICODR(I)
         K = NDOF(I)
         ND = IADN(I)
-        IF (ICT .GT. 0 .AND. K.GT. 0) THEN
-         IF (ICT .EQ. 4 .AND. K.GT.2) THEN
+        IF (ICT > 0 .AND. K> 0) THEN
+         IF (ICT == 4 .AND. K>2) THEN
           IFIX(ND +1) = 1
-         ELSEIF (ICT .EQ. 2) THEN
+         ELSEIF (ICT == 2) THEN
           IFIX(ND +2) = 1
-         ELSEIF (ICT .EQ. 1) THEN
+         ELSEIF (ICT == 1) THEN
           IFIX(ND +3) = 1
-         ELSEIF (ICT .EQ. 3) THEN
+         ELSEIF (ICT == 3) THEN
           IFIX(ND +2) = 1
           IFIX(ND +3) = 1
-         ELSEIF (ICT .EQ. 5) THEN
-          IF (K.GT.2) IFIX(ND +1) = 1
+         ELSEIF (ICT == 5) THEN
+          IF (K>2) IFIX(ND +1) = 1
           IFIX(ND +3) = 1
-         ELSEIF (ICT .EQ. 6) THEN
-          IF (K.GT.2) IFIX(ND +1) = 1
+         ELSEIF (ICT == 6) THEN
+          IF (K>2) IFIX(ND +1) = 1
           IFIX(ND +2) = 1
-         ELSEIF (ICT .EQ. 7) THEN
-          IF (K.GT.2) IFIX(ND +1) = 1
+         ELSEIF (ICT == 7) THEN
+          IF (K>2) IFIX(ND +1) = 1
           IFIX(ND +2) = 1
           IFIX(ND +3) = 1
          ENDIF
         ENDIF
-        IF (ICR .GT. 0 .AND. K.EQ.6) THEN
-         IF (ICR .EQ. 1) THEN
+        IF (ICR > 0 .AND. K==6) THEN
+         IF (ICR == 1) THEN
           IFIX(ND +6) = 1
-         ELSEIF (ICR .EQ. 2) THEN
+         ELSEIF (ICR == 2) THEN
           IFIX(ND +5) = 1
-         ELSEIF (ICR .EQ. 3) THEN
+         ELSEIF (ICR == 3) THEN
           IFIX(ND +5) = 1
           IFIX(ND +6) = 1
-         ELSEIF (ICR .EQ. 4) THEN
+         ELSEIF (ICR == 4) THEN
           IFIX(ND +4) = 1
-         ELSEIF (ICR .EQ. 5) THEN
+         ELSEIF (ICR == 5) THEN
           IFIX(ND +4) = 1
           IFIX(ND +6) = 1
-         ELSEIF (ICR .EQ. 6) THEN
+         ELSEIF (ICR == 6) THEN
           IFIX(ND +4) = 1
           IFIX(ND +5) = 1
-         ELSEIF (ICR .EQ. 7) THEN
+         ELSEIF (ICR == 7) THEN
           IFIX(ND +4) = 1
           IFIX(ND +5) = 1
           IFIX(ND +6) = 1
@@ -184,10 +184,10 @@ C-----------------------------------------------
 C----------------BC-------------------------
          IT = 0
          IR = 1
-      IF (IRODDL.EQ.0) THEN
+      IF (IRODDL==0) THEN
       DO I = 1,NUMNOD
        ISK = ISKEW(I)
-       IF (ISK.GT.1) THEN
+       IF (ISK>1) THEN
         ICT = IABS(ICODT(I))
         K = NDOF(I)
         ND = IADN(I)
@@ -197,7 +197,7 @@ C---------<0 with FV coupling, not to change IFIX
           IFIX_CP(J)=IFIX(ND+J)
          END DO
         END IF
-        IF (ICT .GT. 0 .AND. K.GT. 0) THEN
+        IF (ICT > 0 .AND. K> 0) THEN
          CALL BCL_IMPK(ICT  ,ISK   ,SKEW  ,IFIX  ,IADN  ,
      1                IADK  ,JDIK  ,DIAG_K,LT_K  ,
      2                I     ,ND    ,IT    )
@@ -212,7 +212,7 @@ C---------<0 with FV coupling, not to change IFIX
       ELSE
       DO I = 1,NUMNOD
        ISK = ISKEW(I)
-       IF (ISK.GT.1) THEN
+       IF (ISK>1) THEN
         ICT = IABS(ICODT(I))
         ICR = IABS(ICODR(I))
         K = NDOF(I)
@@ -222,7 +222,7 @@ C---------<0 with FV coupling, not to change IFIX
           IFIX_CP(J)=IFIX(ND+J)
          END DO
         END IF
-        IF (ICT .GT. 0 .AND. K.GT. 0) THEN
+        IF (ICT > 0 .AND. K> 0) THEN
          CALL BCL_IMPK(ICT  ,ISK   ,SKEW  ,IFIX  ,IADN  ,
      1                IADK  ,JDIK  ,DIAG_K,LT_K  ,
      2                I     ,ND    ,IT    )
@@ -237,7 +237,7 @@ C---------<0 with FV coupling, not to change IFIX
           IFIX_CP(J)=IFIX(ND+J)
          END DO
         END IF
-        IF (ICR .GT. 0 .AND. K.EQ.6) THEN
+        IF (ICR > 0 .AND. K==6) THEN
          ND = ND + 3
          CALL BCL_IMPK(ICR  ,ISK   ,SKEW  ,IFIX  ,IADN  ,
      1                IADK  ,JDIK  ,DIAG_K,LT_K  ,
@@ -289,7 +289,7 @@ C-----------------------------------------------
      .   EJ(3)
 C----------------BC-------------------------
          KC = 8
-         IF (ICT .EQ. 4 ) THEN
+         IF (ICT == 4 ) THEN
           EJ(1)=SKEW(1,ISK)
           EJ(2)=SKEW(2,ISK)
           EJ(3)=SKEW(3,ISK)
@@ -297,7 +297,7 @@ C----------------BC-------------------------
           CALL BC_UPDK(I     ,IADN  ,EJ    ,J     ,IR    ,
      1                 IADK  ,JDIK  ,DIAG_K,LT_K  )
           IFIX(ND +J) = KC
-         ELSEIF (ICT .EQ. 2) THEN
+         ELSEIF (ICT == 2) THEN
           EJ(1)=SKEW(4,ISK)
           EJ(2)=SKEW(5,ISK)
           EJ(3)=SKEW(6,ISK)
@@ -305,7 +305,7 @@ C----------------BC-------------------------
           CALL BC_UPDK(I     ,IADN  ,EJ    ,J     ,IR    ,
      1                 IADK  ,JDIK  ,DIAG_K,LT_K  )
           IFIX(ND +J) = KC
-         ELSEIF (ICT .EQ. 1) THEN
+         ELSEIF (ICT == 1) THEN
           EJ(1)=SKEW(7,ISK)
           EJ(2)=SKEW(8,ISK)
           EJ(3)=SKEW(9,ISK)
@@ -313,21 +313,21 @@ C----------------BC-------------------------
           CALL BC_UPDK(I     ,IADN  ,EJ    ,J     ,IR    ,
      1                 IADK  ,JDIK  ,DIAG_K,LT_K  )
           IFIX(ND +J) = KC
-         ELSEIF (ICT .EQ. 3) THEN
+         ELSEIF (ICT == 3) THEN
 C
           CALL BC_UPDK2D(IADN  ,IFIX(ND+1),SKEW(7,ISK),SKEW(4,ISK),
      1                   I     ,IR    ,KC    ,IADK  ,JDIK  ,DIAG_K,
      2                   LT_K  )
-         ELSEIF (ICT .EQ. 5) THEN
+         ELSEIF (ICT == 5) THEN
           CALL BC_UPDK2D(IADN  ,IFIX(ND+1),SKEW(7,ISK),SKEW(1,ISK),
      1                   I     ,IR    ,KC    ,IADK  ,JDIK  ,DIAG_K,
      2                   LT_K  )
-         ELSEIF (ICT .EQ. 6) THEN
+         ELSEIF (ICT == 6) THEN
 C
           CALL BC_UPDK2D(IADN  ,IFIX(ND+1),SKEW(4,ISK),SKEW(1,ISK),
      1                   I     ,IR    ,KC    ,IADK  ,JDIK  ,DIAG_K,
      2                   LT_K  )
-         ELSEIF (ICT .EQ. 7) THEN
+         ELSEIF (ICT == 7) THEN
           IFIX(ND +1) = 1
           IFIX(ND +2) = 1
           IFIX(ND +3) = 1
@@ -368,9 +368,9 @@ C-----------------------------------------------
       EJ1 = ABS(EJ(1))
       EJ2 = ABS(EJ(2))
       EJ3 = ABS(EJ(3))
-      IF (EJ1.GE.MAX(EJ2,EJ3)) THEN
+      IF (EJ1>=MAX(EJ2,EJ3)) THEN
        J = 1
-      ELSEIF (EJ2.GE.MAX(EJ1,EJ3)) THEN
+      ELSEIF (EJ2>=MAX(EJ1,EJ3)) THEN
        J = 2
       ELSE
        J = 3
@@ -470,8 +470,8 @@ C-----------------------------------------------
      .   MAX_E
 C-----------------------------------------------
 C------- will be same than L_DIR, just not to change so much lines--
-      IF (J0.LT.0 )THEN
-       IF (ABS(EJ(J0)).GT.EM6) THEN
+      IF (J0<0 )THEN
+       IF (ABS(EJ(J0))>EM6) THEN
         J=J0
        ELSE
         CALL L_DIR0(EJ ,J)
@@ -521,22 +521,22 @@ C-----------------------------------------------
       my_real
      .   KDD(6,6),KII(6,6)
 C-----------------------------------------------
-      IF (IR.EQ.0) THEN
+      IF (IR==0) THEN
        ND = 3
       ELSE
        ND = 6
       ENDIF
       K = JJ + 1
       L = JJ + 2
-      IF (K.GT.3) K = K - 3
-      IF (L.GT.3) L = L - 3
-      IF (EJ(K).EQ.ZERO.AND.EJ(L).EQ.ZERO) RETURN
+      IF (K>3) K = K - 3
+      IF (L>3) L = L - 3
+      IF (EJ(K)==ZERO.AND.EJ(L)==ZERO) RETURN
       DO I=1,ND
       DO J=1,ND
        KII(I,J)=ZERO
       ENDDO
       ENDDO
-      IF (IR.EQ.0) THEN
+      IF (IR==0) THEN
        J1 = JJ
        K1 = K
        L1 = L
@@ -556,7 +556,7 @@ C-----------------------------------------------
       KII(L1,K1)=-KDD(L1,J1)*EJ(K)-KDD(K1,J1)*EJ(L)
      1           +KDD(J1,J1)*EJ(L)*EJ(K)
       KII(K1,L1)=KII(L1,K1)
-      IF (IR.NE.0) THEN
+      IF (IR/=0) THEN
        J = JJ
        KII(J,K1)=-KDD(J,J1)*EJ(K)
        KII(K,K1)=-KDD(K,J1)*EJ(K)
@@ -567,7 +567,7 @@ C-----------------------------------------------
       ENDIF
       CALL PUT_KII(N ,IDDL ,IADK,DIAG_K,LT_K ,KII,ND)
       ID = IDDL(N)+ J1
-      IF (IKPAT.EQ.0) THEN
+      IF (IKPAT==0) THEN
         SHF = IABS(JJ-3)
         NL = IADK(ID+1)-IADK(ID)-SHF
         JFT = IADK(ID)+SHF-1
@@ -580,9 +580,9 @@ C-----------------------------------------------
        DO I = 1, IDDL(N)
         NJ =0
         DO J = IADK(I), IADK(I+1)-1
-         IF (JDIK(J).EQ.ID) NJ = J
+         IF (JDIK(J)==ID) NJ = J
         ENDDO
-        IF (NJ.GT.0) THEN
+        IF (NJ>0) THEN
          LT_K(NJ+K1-J1) = LT_K(NJ+K1-J1)-EJ(K)*LT_K(NJ)
          LT_K(NJ+L1-J1) = LT_K(NJ+L1-J1)-EJ(L)*LT_K(NJ)
         ENDIF
@@ -601,9 +601,9 @@ C---------ajoute NDDL_L dans impl1_c.inc
        DO I = IDDL(N)+ND+1, NDDL_L
         NJ =0
         DO J = IADK(I), IADK(I+1)-1
-         IF (JDIK(J).EQ.ID) NJ = J
+         IF (JDIK(J)==ID) NJ = J
         ENDDO
-        IF (NJ.GT.0) THEN
+        IF (NJ>0) THEN
          LT_K(NJ+K1-J1) = LT_K(NJ+K1-J1)-EJ(K)*LT_K(NJ)
          LT_K(NJ+L1-J1) = LT_K(NJ+L1-J1)-EJ(L)*LT_K(NJ)
         ENDIF
@@ -652,13 +652,13 @@ C-----------------------------------------------
       my_real
      .   EJ(3)
 C----------------BC-------------------------
-      IF (IRODDL.EQ.0) THEN
+      IF (IRODDL==0) THEN
       DO I = 1,NUMNOD
        ISK = ISKEW(I)
-       IF (ISK.GT.1) THEN
+       IF (ISK>1) THEN
         ICT = ICODT(I)
         K = NDOF(I)
-        IF (ICT /= 0 .AND. K.GT. 0) THEN
+        IF (ICT /= 0 .AND. K> 0) THEN
          CALL BCL_IMPD(ICT  ,ISK   ,SKEW  ,I     ,D     )
         ENDIF
        ENDIF
@@ -666,14 +666,14 @@ C----------------BC-------------------------
       ELSE
       DO I = 1,NUMNOD
        ISK = ISKEW(I)
-       IF (ISK.GT.1) THEN
+       IF (ISK>1) THEN
         ICT = ICODT(I)
         ICR = ICODR(I)
         K = NDOF(I)
-        IF (ICT /= 0 .AND. K.GT. 0) THEN
+        IF (ICT /= 0 .AND. K> 0) THEN
          CALL BCL_IMPD(ICT  ,ISK   ,SKEW  ,I     ,D     )
         ENDIF
-        IF (ICR /= 0 .AND. K.EQ.6) THEN
+        IF (ICR /= 0 .AND. K==6) THEN
          CALL BCL_IMPD(ICR  ,ISK   ,SKEW  ,I     ,DR    )
         ENDIF
        ENDIF
@@ -682,32 +682,32 @@ C----------------BC-------------------------
 C--------AUTOSPC---------------------------------------
        DO N = NSPCL,1 ,-1
         I = IN_SPC(N)
-        IF (NDOF(I).EQ.0) CYCLE
+        IF (NDOF(I)==0) CYCLE
         IR = 0
         IAD = 6*(N-1)+1
         NN = IC_SPC(N)
-        IF (NN.GT.3) THEN
+        IF (NN>3) THEN
          NN= NN-3
          IR = 1
         ENDIF
-        IF (NN.EQ.1) THEN
+        IF (NN==1) THEN
          EJ(1)=SKEW_SPC(IAD)
          EJ(2)=SKEW_SPC(IAD+1)
          EJ(3)=SKEW_SPC(IAD+2)
              CALL L_DIR(EJ,J)
         END IF
-        IF (IR.EQ.0) THEN
-         IF (NN.EQ.1) THEN
+        IF (IR==0) THEN
+         IF (NN==1) THEN
               D(J,I) = ZERO
               CALL BC_UPDD(I     ,EJ   ,J     ,D     )
-         ELSEIF (NN.EQ.2) THEN
+         ELSEIF (NN==2) THEN
               CALL BC_UPD2D(I     ,SKEW_SPC(IAD),SKEW_SPC(IAD+3),D    )
          END IF
         ELSE
-         IF (NN.EQ.1) THEN
+         IF (NN==1) THEN
               DR(J,I) = ZERO
               CALL BC_UPDD(I     ,EJ   ,J     ,DR    )
-         ELSEIF (NN.EQ.2) THEN
+         ELSEIF (NN==2) THEN
               CALL BC_UPD2D(I     ,SKEW_SPC(IAD),SKEW_SPC(IAD+3),DR   )
          END IF
         ENDIF
@@ -749,28 +749,28 @@ C-----------------------------------------------
       my_real
      .   EJ(3),EJ1(3),MAX_E,EA,EB
 C----------------BC-------negative ICT only possible with 2 dirs------------------
-         IF (ICT .EQ. 4 ) THEN
+         IF (ICT == 4 ) THEN
           EJ(1)=SKEW(1,ISK)
           EJ(2)=SKEW(2,ISK)
           EJ(3)=SKEW(3,ISK)
           CALL L_DIR2(EJ,J,1)
           D(J,I) = ZERO
           CALL BC_UPDD(I     ,EJ    ,J     ,D     )
-         ELSEIF (ICT .EQ. 2) THEN
+         ELSEIF (ICT == 2) THEN
           EJ(1)=SKEW(4,ISK)
           EJ(2)=SKEW(5,ISK)
           EJ(3)=SKEW(6,ISK)
           CALL L_DIR2(EJ,J,2)
           D(J,I) = ZERO
           CALL BC_UPDD(I     ,EJ    ,J     ,D     )
-         ELSEIF (ICT .EQ. 1) THEN
+         ELSEIF (ICT == 1) THEN
           EJ(1)=SKEW(7,ISK)
           EJ(2)=SKEW(8,ISK)
           EJ(3)=SKEW(9,ISK)
           CALL L_DIR2(EJ,J,3)
           D(J,I) = ZERO
           CALL BC_UPDD(I     ,EJ    ,J     ,D     )
-         ELSEIF (IABS(ICT) .EQ. 3) THEN
+         ELSEIF (IABS(ICT) == 3) THEN
           EJ(1)=SKEW(7,ISK)
           EJ(2)=SKEW(8,ISK)
           EJ(3)=SKEW(9,ISK)
@@ -789,7 +789,7 @@ C-----FV-BCS coupling
            D(J1,I) = -EB*D(K,I)
           END IF !(ICT>0) THEN
 C          CALL L_DIR2(EJ1,J1,2)
-c          IF (J1.EQ.J) THEN
+c          IF (J1==J) THEN
 c           EJ1(J)=ZERO
 c           CALL L_DIR(EJ1,J1)
 c           MAX_E=ONE/SKEW(J1+3,ISK)
@@ -800,7 +800,7 @@ c          ENDIF
 c          D(J,I) = ZERO
 c          D(J1,I) = ZERO
 c          CALL BC_UPDD2(I     ,EJ    ,J     ,EJ1    ,J1     ,D     )
-         ELSEIF (IABS(ICT) .EQ. 5) THEN
+         ELSEIF (IABS(ICT) == 5) THEN
           EJ(1)=SKEW(7,ISK)
           EJ(2)=SKEW(8,ISK)
           EJ(3)=SKEW(9,ISK)
@@ -818,7 +818,7 @@ c          CALL L_DIR2(EJ1,J1,1)
            D(J,I) = -EA*D(K,I)
            D(J1,I) = -EB*D(K,I)
           END IF !(ICT>0) THEN
-         ELSEIF (IABS(ICT) .EQ. 6) THEN
+         ELSEIF (IABS(ICT) == 6) THEN
           EJ(1)=SKEW(4,ISK)
           EJ(2)=SKEW(5,ISK)
           EJ(3)=SKEW(6,ISK)
@@ -871,8 +871,8 @@ C-----------------------------------------------
 C-----------------------------------------------
       K = J + 1
       L = J + 2
-      IF (K.GT.3) K = K - 3
-      IF (L.GT.3) L = L - 3
+      IF (K>3) K = K - 3
+      IF (L>3) L = L - 3
       D(J,N) = D(J,N)- EJ(K)* D(K,N)-EJ(L)* D(L,N)
 C
       RETURN
@@ -905,10 +905,10 @@ C-----------------------------------------------
      .   S
 C-----------------------------------------------
       K = J + 1
-      IF (K.GT.3) K = K - 3
-      IF (K.EQ.J1) THEN
+      IF (K>3) K = K - 3
+      IF (K==J1) THEN
        K = J + 2
-       IF (K.GT.3) K = K - 3
+       IF (K>3) K = K - 3
       ENDIF
       S =ONE-EJ1(J)*EJ(J1)
       D(J1,N) = ( D(J1,N)-EJ1(J)*D(J,N)+
@@ -950,29 +950,29 @@ C-----------------------------------------------
       my_real
      .   EJ(3)
 C----------------BC-------------------------
-         IF (ICT .EQ. 4 ) THEN
+         IF (ICT == 4 ) THEN
           EJ(1)=SKEW(1,ISK)
           EJ(2)=SKEW(2,ISK)
           EJ(3)=SKEW(3,ISK)
           CALL L_DIR2(EJ,J,1)
           CALL FV_UPDKD(EJ    ,J    ,KDD   ,DIAG_K)
-         ELSEIF (ICT .EQ. 2) THEN
+         ELSEIF (ICT == 2) THEN
           EJ(1)=SKEW(4,ISK)
           EJ(2)=SKEW(5,ISK)
           EJ(3)=SKEW(6,ISK)
           CALL L_DIR2(EJ,J,2)
           CALL FV_UPDKD(EJ    ,J    ,KDD   ,DIAG_K)
-         ELSEIF (ICT .EQ. 1) THEN
+         ELSEIF (ICT == 1) THEN
           EJ(1)=SKEW(7,ISK)
           EJ(2)=SKEW(8,ISK)
           EJ(3)=SKEW(9,ISK)
           CALL L_DIR2(EJ,J,3)
           CALL FV_UPDKD(EJ    ,J    ,KDD   ,DIAG_K)
-         ELSEIF (ICT .EQ. 3) THEN
+         ELSEIF (ICT == 3) THEN
           CALL FV_UPDKD2(SKEW(7,ISK),SKEW(4,ISK),KDD   ,DIAG_K)
-         ELSEIF (ICT .EQ. 5) THEN
+         ELSEIF (ICT == 5) THEN
           CALL FV_UPDKD2(SKEW(7,ISK),SKEW(1,ISK),KDD   ,DIAG_K)
-         ELSEIF (ICT .EQ. 6) THEN
+         ELSEIF (ICT == 6) THEN
           CALL FV_UPDKD2(SKEW(4,ISK),SKEW(1,ISK),KDD   ,DIAG_K)
          ENDIF
 C
@@ -1014,29 +1014,29 @@ C-----------------------------------------------
          N = IBC(1,II)
          ISK = IBC(2,II)
          ICT = IBC(3,II)
-         IF (ICT .EQ. 4 ) THEN
+         IF (ICT == 4 ) THEN
           EJ(1)=SKEW(1,ISK)
           EJ(2)=SKEW(2,ISK)
           EJ(3)=SKEW(3,ISK)
           CALL L_DIR2(EJ,J,1)
           CALL BC_FI(N    ,EJ    ,J    ,A     )
-         ELSEIF (ICT .EQ. 2) THEN
+         ELSEIF (ICT == 2) THEN
           EJ(1)=SKEW(4,ISK)
           EJ(2)=SKEW(5,ISK)
           EJ(3)=SKEW(6,ISK)
           CALL L_DIR2(EJ,J,2)
           CALL BC_FI(N    ,EJ    ,J    ,A     )
-         ELSEIF (ICT .EQ. 1) THEN
+         ELSEIF (ICT == 1) THEN
           EJ(1)=SKEW(7,ISK)
           EJ(2)=SKEW(8,ISK)
           EJ(3)=SKEW(9,ISK)
           CALL L_DIR2(EJ,J,3)
           CALL BC_FI(N    ,EJ    ,J    ,A     )
-         ELSEIF (ICT .EQ. 3) THEN
+         ELSEIF (ICT == 3) THEN
           CALL BC_FI2(N    ,SKEW(7,ISK),SKEW(4,ISK),A     )
-         ELSEIF (ICT .EQ. 5) THEN
+         ELSEIF (ICT == 5) THEN
           CALL BC_FI2(N    ,SKEW(7,ISK),SKEW(1,ISK),A     )
-         ELSEIF (ICT .EQ. 6) THEN
+         ELSEIF (ICT == 6) THEN
           CALL BC_FI2(N    ,SKEW(4,ISK),SKEW(1,ISK),A     )
          ENDIF
         ENDDO
@@ -1071,9 +1071,9 @@ C-----------------------------------------------
       INTEGER K,L
 C-----------------------------------------------
           K = J1 + 1
-          IF (K.GT.3) K = K - 3
+          IF (K>3) K = K - 3
           L = J1 + 2
-          IF (L.GT.3) L = L - 3
+          IF (L>3) L = L - 3
           A(K,N)=A(K,N)-EJ(K)*A(J1,N)
           A(L,N)=A(L,N)-EJ(L)*A(J1,N)
 C
@@ -1107,17 +1107,17 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,ND,K,L,J1,K1,L1
 C-----------------------------------------------
-      IF (IR.EQ.0) THEN
+      IF (IR==0) THEN
        ND = 3
       ELSE
        ND = 6
       ENDIF
       K = JJ + 1
       L = JJ + 2
-      IF (K.GT.3) K = K - 3
-      IF (L.GT.3) L = L - 3
-      IF (EJ(K).EQ.ZERO.AND.EJ(L).EQ.ZERO) RETURN
-      IF (IR.EQ.0) THEN
+      IF (K>3) K = K - 3
+      IF (L>3) L = L - 3
+      IF (EJ(K)==ZERO.AND.EJ(L)==ZERO) RETURN
+      IF (IR==0) THEN
        J1 = JJ
        K1 = K
        L1 = L
@@ -1178,14 +1178,14 @@ C----------------BC-------------------------
          IR = 1
 C-----case FV,BCS coupling---
       IF (NFVBCL > 0 )THEN
-       IF (IRODDL.EQ.0) THEN
+       IF (IRODDL==0) THEN
         DO I = 1,NUMNOD
          ISK = ISKEW(I)
-         IF (ISK.GT.1) THEN
+         IF (ISK>1) THEN
           ICT = IABS(ICT_1(I))
           K = NDOF(I)
           ND = IADN(I)
-          IF (ICT .GT. 0 .AND. K.GT. 0) THEN
+          IF (ICT > 0 .AND. K> 0) THEN
           CALL BCL_IMPB(ICT  ,ISK   ,SKEW  ,ND    ,LB   ,
      1                 IT    )
           ENDIF
@@ -1196,33 +1196,33 @@ C
 C
         DO I = 1,NUMNOD
          ISK = ISKEW(I)
-         IF (ISK.GT.1) THEN
+         IF (ISK>1) THEN
           ICT = IABS(ICT_1(I))
           ICR = IABS(ICR_1(I))
           K = NDOF(I)
           ND = IADN(I)
-          IF (ICT .GT. 0 .AND. K.GT. 0) THEN
+          IF (ICT > 0 .AND. K> 0) THEN
           CALL BCL_IMPB(ICT  ,ISK   ,SKEW  ,ND    ,LB   ,
      1                 IT    )
           ENDIF
-          IF (ICR .GT. 0 .AND. K.EQ.6) THEN
+          IF (ICR > 0 .AND. K==6) THEN
            CALL BCL_IMPB(ICR  ,ISK   ,SKEW  ,ND    ,LB   ,
      1                 IR    )
           ENDIF
          ENDIF
         ENDDO
 C
-       END IF !(IRODDL.EQ.0) THEN
+       END IF !(IRODDL==0) THEN
       ELSE
 C
-      IF (IRODDL.EQ.0) THEN
+      IF (IRODDL==0) THEN
       DO I = 1,NUMNOD
        ISK = ISKEW(I)
-       IF (ISK.GT.1) THEN
+       IF (ISK>1) THEN
         ICT = ICODT(I)
         K = NDOF(I)
         ND = IADN(I)
-        IF (ICT .GT. 0 .AND. K.GT. 0) THEN
+        IF (ICT > 0 .AND. K> 0) THEN
          CALL BCL_IMPB(ICT  ,ISK   ,SKEW  ,ND    ,LB   ,
      1                 IT    )
         ENDIF
@@ -1233,16 +1233,16 @@ C
 C
       DO I = 1,NUMNOD
        ISK = ISKEW(I)
-       IF (ISK.GT.1) THEN
+       IF (ISK>1) THEN
         ICT = ICODT(I)
         ICR = ICODR(I)
         K = NDOF(I)
         ND = IADN(I)
-        IF (ICT .GT. 0 .AND. K.GT. 0) THEN
+        IF (ICT > 0 .AND. K> 0) THEN
          CALL BCL_IMPB(ICT  ,ISK   ,SKEW  ,ND    ,LB   ,
      1                 IT    )
         ENDIF
-        IF (ICR .GT. 0 .AND. K.EQ.6) THEN
+        IF (ICR > 0 .AND. K==6) THEN
 C
          CALL BCL_IMPB(ICR  ,ISK   ,SKEW  ,ND    ,LB   ,
      1                 IR    )
@@ -1255,22 +1255,22 @@ C
 C
        DO N = 1, NSPCL
         I = IN_SPC(N)
-        IF (NDOF(I).EQ.0) CYCLE
+        IF (NDOF(I)==0) CYCLE
         IAD = 6*(N-1)+1
         NN = IC_SPC(N)
             ND = IADN(I)
         IR=0
-        IF (NN.GT.3) THEN
+        IF (NN>3) THEN
          NN=NN-3
          IR = 1
         END IF
-        IF (NN.EQ.1) THEN
+        IF (NN==1) THEN
          EJ(1)=SKEW_SPC(IAD)
          EJ(2)=SKEW_SPC(IAD+1)
          EJ(3)=SKEW_SPC(IAD+2)
              CALL L_DIR(EJ,J)
              CALL BC_UPDB(ND    ,EJ    ,J     ,IR   ,LB    )
-        ELSEIF (NN.EQ.2) THEN
+        ELSEIF (NN==2) THEN
              CALL BC_UPDF2D(ND   ,SKEW_SPC(IAD),SKEW_SPC(IAD+3),IR,LB )
         END IF
        ENDDO
@@ -1309,31 +1309,31 @@ C-----------------------------------------------
       my_real
      .   EJ(3)
 C----------------BC-------------------------
-         IF (ICT .EQ. 4 ) THEN
+         IF (ICT == 4 ) THEN
           EJ(1)=SKEW(1,ISK)
           EJ(2)=SKEW(2,ISK)
           EJ(3)=SKEW(3,ISK)
           CALL L_DIR2(EJ,J,1)
           CALL BC_UPDB(ND    ,EJ    ,J     ,IR    ,LB    )
-         ELSEIF (ICT .EQ. 2) THEN
+         ELSEIF (ICT == 2) THEN
           EJ(1)=SKEW(4,ISK)
           EJ(2)=SKEW(5,ISK)
           EJ(3)=SKEW(6,ISK)
           CALL L_DIR2(EJ,J,2)
           CALL BC_UPDB(ND    ,EJ    ,J     ,IR    ,LB    )
-         ELSEIF (ICT .EQ. 1) THEN
+         ELSEIF (ICT == 1) THEN
           EJ(1)=SKEW(7,ISK)
           EJ(2)=SKEW(8,ISK)
           EJ(3)=SKEW(9,ISK)
           CALL L_DIR2(EJ,J,3)
           CALL BC_UPDB(ND    ,EJ    ,J     ,IR    ,LB    )
-         ELSEIF (ICT .EQ. 3) THEN
+         ELSEIF (ICT == 3) THEN
 C
           CALL BC_UPDF2D(ND    ,SKEW(7,ISK),SKEW(4,ISK),IR    ,LB     )
-         ELSEIF (ICT .EQ. 5) THEN
+         ELSEIF (ICT == 5) THEN
 C
           CALL BC_UPDF2D(ND    ,SKEW(7,ISK),SKEW(1,ISK),IR    ,LB     )
-         ELSEIF (ICT .EQ. 6) THEN
+         ELSEIF (ICT == 6) THEN
 C
           CALL BC_UPDF2D(ND    ,SKEW(4,ISK),SKEW(1,ISK),IR    ,LB     )
          ENDIF
@@ -1379,9 +1379,9 @@ C-----------------------------------------------
       ND = 3
       K = JJ + 1
       L = JJ + 2
-      IF (K.GT.3) K = K - 3
-      IF (L.GT.3) L = L - 3
-      IF (EJ(K).EQ.ZERO.AND.EJ(L).EQ.ZERO) RETURN
+      IF (K>3) K = K - 3
+      IF (L>3) L = L - 3
+      IF (EJ(K)==ZERO.AND.EJ(L)==ZERO) RETURN
        J1 = JJ
        K1 = K
        L1 = L
@@ -1390,7 +1390,7 @@ C-----------------------------------------------
         KII(I,J)=ZERO
        ENDDO
        ENDDO
-      IF (IFSS.GT.0) THEN
+      IF (IFSS>0) THEN
        DO I=1,ND
         KDD(I,I)=KSS(I)
        ENDDO
@@ -1410,11 +1410,11 @@ C
        ID = IDDL(N)
        IDM = IDDLM(N)
 C--------debug test door_rd8 (GPCG+contact)       
-C       IF(IKC(ID+K1).EQ.0) LB(IDM+K1)=LB(IDM+K1)-EJ(K)*A(J1,N)
-C       IF(IKC(ID+L1).EQ.0) LB(IDM+L1)=LB(IDM+L1)-EJ(L)*A(J1,N)
+C       IF(IKC(ID+K1)==0) LB(IDM+K1)=LB(IDM+K1)-EJ(K)*A(J1,N)
+C       IF(IKC(ID+L1)==0) LB(IDM+L1)=LB(IDM+L1)-EJ(L)*A(J1,N)
       ENDIF
 C
-      IF (IFSM.GT.0) THEN
+      IF (IFSM>0) THEN
        KSM(K1,J1)=KSM(K1,J1)-EJ(K)*KSM(J1,J1)
        KSM(K1,K1)=KSM(K1,K1)-EJ(K)*KSM(J1,K1)
        KSM(K1,L1)=KSM(K1,L1)-EJ(K)*KSM(J1,L1)
@@ -1461,7 +1461,7 @@ C-----------------------------------------------
       my_real
      .   EJ(3)
 C----------------BC-------------------------
-         IF (ICT .EQ. 4 ) THEN
+         IF (ICT == 4 ) THEN
           EJ(1)=SKEW(1,ISK)
           EJ(2)=SKEW(2,ISK)
           EJ(3)=SKEW(3,ISK)
@@ -1470,7 +1470,7 @@ C----------------BC-------------------------
      1                  IKC   ,IADK  ,JDIK  ,DIAG_K,LT_K   ,
      2                  LB    ,A     ,KSS   ,KSM   ,IDLM   ,
      3                  IFSS  ,IFSM  )
-         ELSEIF (ICT .EQ. 2) THEN
+         ELSEIF (ICT == 2) THEN
           EJ(1)=SKEW(4,ISK)
           EJ(2)=SKEW(5,ISK)
           EJ(3)=SKEW(6,ISK)
@@ -1479,7 +1479,7 @@ C----------------BC-------------------------
      1                  IKC   ,IADK  ,JDIK  ,DIAG_K,LT_K   ,
      2                  LB    ,A     ,KSS   ,KSM   ,IDLM   ,
      3                  IFSS  ,IFSM  )
-         ELSEIF (ICT .EQ. 1) THEN
+         ELSEIF (ICT == 1) THEN
           EJ(1)=SKEW(7,ISK)
           EJ(2)=SKEW(8,ISK)
           EJ(3)=SKEW(9,ISK)
@@ -1489,17 +1489,17 @@ C----------------BC-------------------------
      2                  LB    ,A     ,KSS   ,KSM   ,IDLM   ,
      3                  IFSS  ,IFSM  )
 C---------------------
-         ELSEIF (ICT .EQ. 3) THEN
+         ELSEIF (ICT == 3) THEN
           CALL BC_UPDFR2(N     ,IDDL  ,SKEW(7,ISK),SKEW(4,ISK),IDDLM ,
      1                  IKC    ,IADK  ,JDIK  ,DIAG_K,LT_K   ,
      2                  LB     ,A     ,KSS   ,KSM   ,IDLM   ,
      3                  IFSS   ,IFSM )
-         ELSEIF (ICT .EQ. 5) THEN
+         ELSEIF (ICT == 5) THEN
           CALL BC_UPDFR2(N     ,IDDL  ,SKEW(7,ISK),SKEW(1,ISK),IDDLM ,
      1                  IKC    ,IADK  ,JDIK  ,DIAG_K,LT_K   ,
      2                  LB     ,A     ,KSS   ,KSM   ,IDLM   ,
      3                  IFSS   ,IFSM )
-         ELSEIF (ICT .EQ. 6) THEN
+         ELSEIF (ICT == 6) THEN
           CALL BC_UPDFR2(N     ,IDDL  ,SKEW(4,ISK),SKEW(1,ISK),IDDLM ,
      1                  IKC    ,IADK  ,JDIK  ,DIAG_K,LT_K   ,
      2                  LB     ,A     ,KSS   ,KSM   ,IDLM   ,
@@ -1549,16 +1549,16 @@ C-----------------------------------------------
        KC=15
        DO N = 1, NSPCL
         I = IN_SPC(N)
-        IF (NDOF(I).EQ.0) CYCLE
+        IF (NDOF(I)==0) CYCLE
         IR = 0
         IAD = 6*(N-1)+1
         NN = IC_SPC(N)
         ND = IDDl(I)
-        IF (NN.GT.3) THEN
+        IF (NN>3) THEN
          NN= NN-3
          IR = 1
         ENDIF
-        IF (NN.EQ.1) THEN
+        IF (NN==1) THEN
          EJ(1)=SKEW_SPC(IAD)
          EJ(2)=SKEW_SPC(IAD+1)
          EJ(3)=SKEW_SPC(IAD+2)
@@ -1566,7 +1566,7 @@ C-----------------------------------------------
              CALL BC_UPDK(I     ,IDDL  ,EJ    ,J     ,IR    ,
      1                    IADK  ,JDIK  ,DIAG_K ,LT_K )
              IKC(ND +J) = KC
-        ELSEIF (NN.EQ.2) THEN
+        ELSEIF (NN==2) THEN
          CALL BC_UPDK2D(IDDL  ,IKC(ND+1),SKEW_SPC(IAD),SKEW_SPC(IAD+3),
      1                  I     ,IR    ,KC    ,IADK  ,JDIK  ,DIAG_K,
      2                  LT_K  )
@@ -1635,7 +1635,7 @@ C-----------------------------------------------
 C
 C     IF AMTX IS A 1 X 1 MATRIX
 C
-      IF (NMTX .EQ. 1) THEN
+      IF (NMTX == 1) THEN
          EIGVAL(1) = AMTX(1,1)
          EIGVEC(1,1) = ONE
          GOTO 999
@@ -1659,27 +1659,27 @@ C
 C           CALCULATE MAXIMUM NONZERO RATIO BETWEEN OFF-DIAGONAL AND
 C           DIAGONAL TERMS OF THE AMTX IN ROW I
 C
-            IF (ABS(AMTX(I,I)) .GE. ABS(AMTX(J,J))) THEN
-               IF (ABS(AMTX(I,I)) .GT. SMALL) THEN
+            IF (ABS(AMTX(I,I)) >= ABS(AMTX(J,J))) THEN
+               IF (ABS(AMTX(I,I)) > SMALL) THEN
                   BRATIO = ABS(AMTX(I,J)/AMTX(I,I))
                ELSE
                   BRATIO = ABS(AMTX(I,J))/SMALL
                ENDIF
             ELSE
-               IF (ABS(AMTX(J,J)) .GT. SMALL) THEN
+               IF (ABS(AMTX(J,J)) > SMALL) THEN
                   BRATIO = ABS(AMTX(I,J)/AMTX(J,J))
                ELSE
                   BRATIO = ABS(AMTX(I,J))/SMALL
                ENDIF
             ENDIF
 C
-            IF (BRATIO .GT. BSAVE) THEN
+            IF (BRATIO > BSAVE) THEN
                BSAVE = BRATIO
             ENDIF
 C
 C           LARGEST OFF-DIAGONAL ELEMENT TO BE ZEROED OUT
 C
-            IF (ABS(AMTX(I,J)) .GT. BIG) THEN
+            IF (ABS(AMTX(I,J)) > BIG) THEN
                BIG = ABS(AMTX(I,J))
                IB = I
                JB = J
@@ -1687,7 +1687,7 @@ C
  50      CONTINUE
  60   CONTINUE
 C
-      IF (BSAVE .LE. SMALL) THEN
+      IF (BSAVE <= SMALL) THEN
 C
 C        JACOBI METHOD HAS CONVERGED; UPDATE EIGENVALUES AND RETURN
 C
@@ -1702,7 +1702,7 @@ C
 C
 C        CHECK LIMIT ON NUMBER OF JACOBI ITERATIONS
 C
-         IF (ITN .GT. ITMAX) THEN
+         IF (ITN > ITMAX) THEN
             IERR = 277
 C            CALL OSERR3(IERR,ITMAX,BIG,'CLCEIG',' ',LUNOUT)
             GOTO 999
@@ -1713,8 +1713,8 @@ C
          DEN = ABS(AMTX(IB,IB) - AMTX(JB,JB)) +
      *         SQRT( (AMTX(IB,IB) - AMTX(JB,JB))**2 +
      *           FOUR*AMTX(IB,JB)**2 )
-         IF (DEN .GT. ZERO) THEN
-            IF (AMTX(IB,IB) .GE. AMTX(JB,JB)) THEN
+         IF (DEN > ZERO) THEN
+            IF (AMTX(IB,IB) >= AMTX(JB,JB)) THEN
                TT = TWO*AMTX(IB,JB)/DEN
             ELSE
                TT = -TWO*AMTX(IB,JB)/DEN
@@ -1723,7 +1723,7 @@ C
             CT = ONE/SQRT(ONE + TT**2)
             ST = CT*TT
          ELSE
-            IF (AMTX(IB,IB) .GE. AMTX(JB,JB)) THEN
+            IF (AMTX(IB,IB) >= AMTX(JB,JB)) THEN
                CT = ZERO
                ST = ONE
             ELSE
@@ -1748,9 +1748,9 @@ C        CALCULATE TRIPLE PRODUCT, TRANSPOSE(ROTN) X AMTX X ROTN
 C
          DO 130 I = 1, NMTX
             DO 120 J = 1, NMTX
-               IF (J .EQ. IB) THEN
+               IF (J == IB) THEN
                   WORK(I,J) = AMTX(I,IB)*CT + AMTX(I,JB)*ST
-               ELSEIF (J .EQ. JB) THEN
+               ELSEIF (J == JB) THEN
                   WORK(I,J) = -AMTX(I,IB)*ST + AMTX(I,JB)*CT
                ELSE
                   WORK(I,J) = AMTX(I,J)
@@ -1760,9 +1760,9 @@ C
 C
          DO 150 I = 1, NMTX
             DO 140 J = 1, NMTX
-               IF (I .EQ. IB) THEN
+               IF (I == IB) THEN
                   AMTX(I,J) = WORK(IB,J)*CT + WORK(JB,J)*ST
-               ELSEIF (I .EQ. JB) THEN
+               ELSEIF (I == JB) THEN
                   AMTX(I,J) = -WORK(IB,J)*ST + WORK(JB,J)*CT
                ELSE
                   AMTX(I,J) = WORK(I,J)
@@ -1784,9 +1784,9 @@ C        CALCULATE CONTRIBUTION TO EIGEN VECTOR MATRIX
 C
          DO 190 I = 1, NMTX
             DO 180 J = 1, NMTX
-               IF (J .EQ. IB) THEN
+               IF (J == IB) THEN
                   WORK(I,J) = EIGVEC(I,IB)*CT + EIGVEC(I,JB)*ST
-               ELSEIF (J .EQ. JB) THEN
+               ELSEIF (J == JB) THEN
                   WORK(I,J) = -EIGVEC(I,IB)*ST + EIGVEC(I,JB)*CT
                ELSE
                   WORK(I,J) = EIGVEC(I,J)
@@ -1871,19 +1871,19 @@ C
 C     GET THE FREE DEGREES OF FREEDOM
 C
       DO I = 1,3
-        IF (IDEG(I) .LE. NDDL .AND. IKC(I) .EQ. 0 ) THEN
+        IF (IDEG(I) <= NDDL .AND. IKC(I) == 0 ) THEN
           NMTX = NMTX + 1
           ID(NMTX) = I
         ENDIF
       ENDDO
 C
-      IF (NMTX .EQ. 0) GOTO 999
+      IF (NMTX == 0) GOTO 999
 C
 
       CALL ZERO1(EIGVAL,3)
 
 C================================== ONE DOF
-      IF (NMTX .EQ. 1) THEN
+      IF (NMTX == 1) THEN
 C
 C        IF GRID POINT HAS ONE FREE D.O.F., GET THE 1X1 MATRIX
 C
@@ -1892,13 +1892,13 @@ C
 C
 C        IF THERE IS A RIGID BODY MODE, UPDATE AUTO-SPC CANDIDATE ARRAY
 C
-        IF (ABS(AMTX(1)) .LE. EM10 ) THEN
+        IF (ABS(AMTX(1)) <= EM10 ) THEN
           LAUSPC = LAUSPC + 1
           IKC(IDMTX) = 14
         ENDIF
 C
 C================================== TWO DOF
-      ELSEIF (NMTX .EQ. 2) THEN
+      ELSEIF (NMTX == 2) THEN
 C
 C        IF GRID POINT HAS TWO FREE D.O.F.S, GET THE 2X2 MATRIX
 C
@@ -1917,7 +1917,7 @@ C        WHICH HAS THE HIGHEST COMPONENT WITHIN ITS EIGEN VECTOR IS THE
 C        ONE TO BE UPDATED
 C
         CALL CLCEIG(AMTX,EIGVAL,EIGVEC,SMLEIG,NMTX,IERR)
-        IF (IERR .NE. 0)  GOTO 999
+        IF (IERR /= 0)  GOTO 999
 C
 C        NORMALIZE EIGENVALUES BASED ON MAXIMUM EIGENVALUE
 C
@@ -1925,18 +1925,18 @@ C
 C
 C        IF BOTH EIGENVALUES ARE ZERO, IKC=14
 C
-        IF (NZERO .EQ. 2) THEN
+        IF (NZERO == 2) THEN
 	 DO I = 1 , NMTX
           LAUSPC = LAUSPC + 1
           IKC(ID(I)) = 14
 	 ENDDO
-        ELSEIF (NZERO .EQ. 1) THEN
+        ELSEIF (NZERO == 1) THEN
          DO 100 I = 1, NMTX
-          IF ( EIGVAL(I) .LT. SMLEIG ) THEN
+          IF ( EIGVAL(I) < SMLEIG ) THEN
             LAUSPC = LAUSPC + 1
             IND = 2*I-1
             HIGH = MAX(ABS(EIGVEC(IND)),EIGVEC(ABS(IND+1)))
-	    IF (ABS(HIGH-ONE).LT.SMLEIG) THEN
+	    IF (ABS(HIGH-ONE)<SMLEIG) THEN
              IKC(ID(I)) = 14
 	    ELSE
              IKC(ID(I)) = 15
@@ -1949,7 +1949,7 @@ C
         ENDIF
 C
 C================================== THREE DOF
-      ELSEIF (NMTX .EQ. 3) THEN
+      ELSEIF (NMTX == 3) THEN
 C
 C        IF GRID POINT HAS THREE FREE D.O.F.S, FILL THE AMTX MATRIX
 C
@@ -1961,7 +1961,7 @@ C        WHICH HAS THE HIGHEST COMPONENT WITHIN ITS EIGEN VECTOR IS THE
 C        ONE TO BE UPDATED
 C
          CALL CLCEIG(KII,EIGVAL,EIGVEC,SMLEIG,NMTX,IERR)
-         IF (IERR .NE. 0) GOTO 999
+         IF (IERR /= 0) GOTO 999
 c
           DO I = 1, NMTX
            COPY(I)=EIGVAL(I)
@@ -1971,15 +1971,15 @@ C        NORMALIZE EIGENVALUES BASED ON MAXIMUM EIGENVALUE
 C
          CALL NRMLZAUSPC(EIGVAL,SMLEIG,3,NZERO)
 C
-        IF (NZERO .EQ. 3) THEN
+        IF (NZERO == 3) THEN
 	 DO I = 1 , NMTX
           LAUSPC = LAUSPC + 1
           IKC(I) = 14
 	 ENDDO
-        ELSEIF (NZERO .EQ. 2) THEN
+        ELSEIF (NZERO == 2) THEN
 	 HIGH = ZERO
          DO I = 1, NMTX
-          IF ( EIGVAL(I) .LT. SMLEIG ) THEN
+          IF ( EIGVAL(I) < SMLEIG ) THEN
             LAUSPC = LAUSPC + 1
             IND = 3*I-2
 	    DO J=0,2
@@ -1988,13 +1988,13 @@ C
           ENDIF
 	 ENDDO
 C        STILL GLOBAL SYSTEM
-	 IF (ABS(HIGH-ONE).LT.SMLEIG) THEN
+	 IF (ABS(HIGH-ONE)<SMLEIG) THEN
           DO I = 1, NMTX
-           IF ( EIGVAL(I) .LT. SMLEIG ) IKC(I) = 14
+           IF ( EIGVAL(I) < SMLEIG ) IKC(I) = 14
 	  ENDDO
 	 ELSE
           DO I = 1, NMTX
-           IF ( EIGVAL(I) .LT. SMLEIG ) THEN
+           IF ( EIGVAL(I) < SMLEIG ) THEN
 	     NASPCC =NASPCC +1
              IKC(I) = 15
              IND = 3*I-2
@@ -2005,13 +2005,13 @@ C        STILL GLOBAL SYSTEM
            ENDIF
 	  ENDDO
          ENDIF
-        ELSEIF (NZERO .EQ. 1) THEN
+        ELSEIF (NZERO == 1) THEN
          DO I = 1, NMTX
-          IF ( EIGVAL(I) .LT. SMLEIG ) THEN
+          IF ( EIGVAL(I) < SMLEIG ) THEN
             LAUSPC = LAUSPC + 1
             IND = 3*I-2
             HIGH = MAX(EIGVEC(IND),EIGVEC(IND+1),EIGVEC(IND+2))
-	    IF (ABS(HIGH-ONE).LT.SMLEIG) THEN
+	    IF (ABS(HIGH-ONE)<SMLEIG) THEN
              IKC(I) = 14
 	    ELSE
 	     NASPCC =NASPCC +1
@@ -2070,17 +2070,17 @@ C-----------------------------------------------
       NZERO = 0
 
       HIGH = MAX(VECTOR(1),VECTOR(2))
-      IF ( LENGTH .EQ. 3 ) THEN
+      IF ( LENGTH == 3 ) THEN
         HIGH = MAX(HIGH,VECTOR(3))
       ENDIF
 
-      IF ( HIGH .LT. EM10 ) THEN
+      IF ( HIGH < EM10 ) THEN
         CALL ZERO1(VECTOR,LENGTH)
          NZERO = LENGTH
       ELSE
         DO I = 1,LENGTH
           VECTOR(I) = VECTOR(I)/HIGH
-          IF ( VECTOR(I) .LT. SMLEIG ) THEN
+          IF ( VECTOR(I) < SMLEIG ) THEN
             VECTOR(I) = ZERO
             NZERO = NZERO + 1
           ENDIF
@@ -2116,15 +2116,15 @@ C-----------------------------------------------
       J1 =0
       N =0
       DO I = 1, 3
-        IF (IKC(I) .EQ.15) THEN
+        IF (IKC(I) ==15) THEN
 	 N = N+1
 	 II(N)=I
 C---------reset in BC_IMPA ---
          IKC(I)=0
 	ENDIF
       ENDDO
-      IF (N.GT.0) J =II(1)
-      IF (N.GT.1) J1 =II(2)
+      IF (N>0) J =II(1)
+      IF (N>1) J1 =II(2)
 
       RETURN
       END
@@ -2189,31 +2189,31 @@ C-----------------------------------------------
       NSPCN = 0
       IERR = 0
       SMLEIG = EM8
-      IF(IAUTSPC.GT.1) THEN
+      IF(IAUTSPC>1) THEN
         ALLOCATE(ILT(NUMNOD),SKEWT(6,NUMNOD),STAT=IER1)
         ILT=0
         SKEWT=ZERO
-       IF (IRODDL.NE.0) THEN
+       IF (IRODDL/=0) THEN
         ALLOCATE(ILR(NUMNOD),SKEWR(6,NUMNOD),STAT=IER2)
         ILR=0
         SKEWR=ZERO
        ENDIF
       ENDIF
       DO I = 1, NUMNOD
-       IF (NDOF(I).EQ.0) CYCLE
+       IF (NDOF(I)==0) CYCLE
        CALL GET_KII(I ,IDDL ,IADK,DIAG_K,LT_K ,KDD,NDOF(I))
        NDOFT = MIN(3,NDOF(I))
        KDIV3=KDD(1,1)+KDD(2,2)+KDD(3,3)
        IK = IDDL(I)+1
        IKC3=IKC(IK)+IKC(IK+1)+IKC(IK+2)
-       IF (KDIV3.LE.EM10.AND.IKC3.EQ.0) THEN
+       IF (KDIV3<=EM10.AND.IKC3==0) THEN
         DO J=1,NDOFT
          K = IDDL(I)+J
 	 IKC(K) = 14
         ENDDO
         NSPCT = NSPCT+3
         NSPCN = NSPCN + 1
-       ELSEIF(IAUTSPC.GT.1) THEN
+       ELSEIF(IAUTSPC>1) THEN
         DO J=1,NDOFT
         DO K=J,NDOFT
          KII(J,K) = KDD(J,K)
@@ -2230,25 +2230,25 @@ C-----------------------------------------------
         IDK = ID(1)
         CALL AUTSPC(KII,ID  ,SKEWT(1,I),SMLEIG,NDDL  ,
      *              IKC(IDK),ILT(I),NSPCTI ,IERR  )
-        IF (IERR .GT. 0) THEN
+        IF (IERR > 0) THEN
          IERR = I
          GO TO 900
         ENDIF
         NSPCT = NSPCT+NSPCTI
         NSPCL = NSPCL + MIN(1,ILT(I))
-        IF ((ILT(I)+NSPCTI).GT.0) NSPCN = NSPCN + 1
-       ENDIF !((KDD(1,1)+KDD(2,2)+KDD(3,3)).LE.EM10) THEN
-       IF (NDOF(I).EQ.6) THEN
+        IF ((ILT(I)+NSPCTI)>0) NSPCN = NSPCN + 1
+       ENDIF !((KDD(1,1)+KDD(2,2)+KDD(3,3))<=EM10) THEN
+       IF (NDOF(I)==6) THEN
         IK = IDDL(I)+4
         IKC3=IKC(IK)+IKC(IK+1)+IKC(IK+2)
-        IF ((KDD(4,4)+KDD(5,5)+KDD(6,6)).LE.EM10.AND.IKC3.EQ.0) THEN
+        IF ((KDD(4,4)+KDD(5,5)+KDD(6,6))<=EM10.AND.IKC3==0) THEN
          DO J=1,NDOFT
           K = IDDL(I)+J + 3
 	  IKC(K) = 14
          ENDDO
          NSPCR = NSPCR+3
-         IF (KDIV3.GT.EM10) NSPCN = NSPCN + 1
-        ELSEIF(IAUTSPC.GT.1) THEN
+         IF (KDIV3>EM10) NSPCN = NSPCN + 1
+        ELSEIF(IAUTSPC>1) THEN
          DO J=1,NDOFT
          DO K=J,NDOFT
           KII(J,K) = KDD(J+3,K+3)
@@ -2265,20 +2265,20 @@ C-----------------------------------------------
          IDK = ID(1)
          CALL AUTSPC(KII,ID  ,SKEWR(1,I),SMLEIG,NDDL  ,
      *             IKC(IDK) ,ILR(I),NSPCTI ,IERR  )
-         IF (IERR .GT. 0) THEN
+         IF (IERR > 0) THEN
           IERR = I
           GO TO 900
          ENDIF
          NSPCR = NSPCR+NSPCTI
          NSPCL = NSPCL + MIN(1,ILR(I))
-         IF ((ILR(I)+NSPCTI).GT.0) NSPCN = NSPCN + 1
-        END IF !((KDD(4,4)+KDD(5,5)+KDD(6,6)).LE.EM10) THEN
+         IF ((ILR(I)+NSPCTI)>0) NSPCN = NSPCN + 1
+        END IF !((KDD(4,4)+KDD(5,5)+KDD(6,6))<=EM10) THEN
        ENDIF
       ENDDO
 C
       NSPCNT = NSPCN
-      IF (NSPCN.GT.0.AND.ILINE.NE.0) THEN
-           IF(IMACH.NE.3.OR.ISPMD.EQ.0)THEN
+      IF (NSPCN>0.AND.ILINE/=0) THEN
+           IF(IMACH/=3.OR.ISPMD==0)THEN
              WRITE(ISTDO,'(I10,A)')NSPCN,
      .        ' NODES TREATED BY AUTOSPC FOR :'
              WRITE(ISTDO,'(I10,A)')NSPCT,
@@ -2294,7 +2294,7 @@ C
            ENDIF
       ENDIF
 C
-      IF (NSPCL.GT.0) THEN
+      IF (NSPCL>0) THEN
         IF(ALLOCATED(IN_SPC)) DEALLOCATE(IN_SPC)
         IF(ALLOCATED(IC_SPC)) DEALLOCATE(IC_SPC)
         ALLOCATE(IN_SPC(NSPCL),IC_SPC(NSPCL),STAT=IER1)
@@ -2305,7 +2305,7 @@ C
        SKEW_SPC=ZERO
        NSPC = 0
        DO I = 1, NUMNOD
-        IF (ILT(I).GT.0) THEN
+        IF (ILT(I)>0) THEN
          NSPC = NSPC +1
          IR = 0
          IN_SPC(NSPC) = I
@@ -2315,13 +2315,13 @@ C
          SKEW_SPC(J)=SKEWT(1,I)
          SKEW_SPC(J+1)=SKEWT(2,I)
          SKEW_SPC(J+2)=SKEWT(3,I)
-         IF (ILT(I).EQ.2) THEN
+         IF (ILT(I)==2) THEN
           SKEW_SPC(J+3)=SKEWT(4,I)
           SKEW_SPC(J+4)=SKEWT(5,I)
           SKEW_SPC(J+5)=SKEWT(6,I)
          ENDIF
         ENDIF
-        IF (ILR(I).GT.0) THEN
+        IF (ILR(I)>0) THEN
          IR = 1
          NSPC = NSPC +1
          IN_SPC(NSPC) = I
@@ -2331,7 +2331,7 @@ C
          SKEW_SPC(J)=SKEWR(1,I)
          SKEW_SPC(J+1)=SKEWR(2,I)
          SKEW_SPC(J+2)=SKEWR(3,I)
-         IF (ILR(I).EQ.2) THEN
+         IF (ILR(I)==2) THEN
           SKEW_SPC(J+3)=SKEWR(4,I)
           SKEW_SPC(J+4)=SKEWR(5,I)
           SKEW_SPC(J+5)=SKEWR(6,I)
@@ -2341,12 +2341,12 @@ C
       ENDIF
 C
  900  CONTINUE
-      IF(IAUTSPC.GT.1) THEN
+      IF(IAUTSPC>1) THEN
        DEALLOCATE(ILT,SKEWT)
-       IF (IRODDL.NE.0) DEALLOCATE(ILR,SKEWR)
+       IF (IRODDL/=0) DEALLOCATE(ILR,SKEWR)
       ENDIF
-      IF (IERR.GT.0) THEN
-           IF(IMACH.NE.3.OR.ISPMD.EQ.0)THEN
+      IF (IERR>0) THEN
+           IF(IMACH/=3.OR.ISPMD==0)THEN
              CALL ANCMSG(MSGID=102,ANMODE=ANINFO,
      .            I1=ITAB(IERR))
            ENDIF
@@ -2391,7 +2391,7 @@ C-----------------------------------------------
       my_real,
      .         DIMENSION(:),ALLOCATABLE :: DIAG_KP,LT_KP
 C-----------------------------------------------
-       IF (IMACH.EQ.3.AND.NSPMD.GT.1) THEN
+       IF (IMACH==3.AND.NSPMD>1) THEN
          NZ = IADK(NDDL+1)-IADK(1)
          ALLOCATE(DIAG_KP(NDDL),LT_KP(NZ),STAT=IERR)
          CALL CP_REAL(NDDL,DIAG_K,DIAG_KP)
@@ -2504,7 +2504,7 @@ c          S=ONE/(ONE-EJ(J1)*EJ1(J))
 c          EA=S*(EJ(J1)*EJ1(K)-EJ(K))
 c          EB=S*(EJ1(J)*EJ(K)-EJ1(K))
 C          
-          IF (IR.GT.0) ND=ND+3
+          IF (IR>0) ND=ND+3
           B(ND+K)=B(ND+K)-EA*B(ND+J)-EB*B(ND+J1)
 C
       RETURN
@@ -2711,7 +2711,7 @@ c	  EA=S*(EJ(J1)*EJ1(K)-EJ(K))
 c	  EB=S*(EJ1(J)*EJ(K)-EJ1(K))
 C
        ND = 3
-      IF (IFSS.GT.0) THEN
+      IF (IFSS>0) THEN
        DO I=1,ND
         KDD(I,I)=KSS(I)
        ENDDO
@@ -2728,10 +2728,10 @@ C
        CALL PUT_KMII(IDLM ,IADK,DIAG_K,LT_K ,KDD,ND)
        ID = IDDL(N)
        IDM = IDDLM(N)
-       IF(IKC(ID+K).EQ.0) LB(IDM+K)=LB(IDM+K)+EA*A(J,N)+EB*A(J1,N)
+       IF(IKC(ID+K)==0) LB(IDM+K)=LB(IDM+K)+EA*A(J,N)+EB*A(J1,N)
       ENDIF
 C
-      IF (IFSM.GT.0) THEN
+      IF (IFSM>0) THEN
        KSM(K,K)= EA*(KSM(J,J)*EA+TWO*EB*KSM(J,J1)-TWO*KSM(J,K))
      .          +EB*(KSM(J1,J1)*EB-TWO*KSM(J1,K))
       ENDIF

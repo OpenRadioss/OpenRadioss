@@ -71,7 +71,7 @@ C
         ISENS = INT(BPRELD(I,10))
         IF (ISENS > 0)THEN            
          DO K=1,NSENSOR
-          IF(ISENS.EQ.LSENSOR(1,K))GOTO 100
+          IF(ISENS==LSENSOR(1,K))GOTO 100
          ENDDO
 100      BPRELD(I,10)=K
         ENDIF
@@ -90,8 +90,8 @@ C
           ENDIF
         ENDIF
 
-        IF(BPRELD(I,3) .LT. ONE)THEN
-          IF(TT .GE. TS )THEN
+        IF(BPRELD(I,3) < ONE)THEN
+          IF(TT >= TS )THEN
            SIG(I,1) = BPRELD(I,4) !SIG(I,1)+BPRELD(I,4)
            SIG(I,2) = BPRELD(I,5) !SIG(I,2)+BPRELD(I,5)
            SIG(I,3) = BPRELD(I,6) !SIG(I,3)+BPRELD(I,6)

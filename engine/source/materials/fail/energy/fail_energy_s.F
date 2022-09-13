@@ -126,27 +126,27 @@ C--------------------------------------------------------------
       ENDDO
 C-----------------------------------------------
       DO I=1,NEL
-        IF(OFF(I).LT.EM01) OFF(I)=ZERO
-        IF(OFF(I).LT.ONE) OFF(I)=OFF(I)*FOUR_OVER_5
+        IF(OFF(I)<EM01) OFF(I)=ZERO
+        IF(OFF(I)<ONE) OFF(I)=OFF(I)*FOUR_OVER_5
       END DO
 CC           
        NINDX=0  
        DO I=1,NEL
         RFAC = ONE
-        IF(IFUNC(1).NE.0)THEN
+        IF(IFUNC(1)/=0)THEN
           RFAC=FINTER(IFUNC(1),EPSP(I)*XFAC,NPF,TF,DYDX)
           RFAC = MAX(RFAC,EM20)
         ENDIF  
-        IF(OFF(I).EQ.ONE)THEN
+        IF(OFF(I)==ONE)THEN
           IE_SP = EINT(I)/VOLUME(I)
           
           R1 = RIEF1*RFAC
           R2 = RIEF2*RFAC
-         IF(IE_SP.GT.R1.AND.R1.LT.R2) THEN
+         IF(IE_SP>R1.AND.R1<R2) THEN
           DAMAGE(I)= (IE_SP-R1)/(R2-R1)
           DAMAGE(I)= MIN(ONE,DAMAGE(I))
          ENDIF
-         IF(IE_SP.GT.R2) THEN
+         IF(IE_SP>R2) THEN
           DAMAGE(I)= ONE
           OFF(I)=FOUR_OVER_5
           NINDX=NINDX+1
@@ -157,7 +157,7 @@ CC
        ENDIF 
       ENDDO
 c
-      IF(NINDX.GT.0.AND.IMCONV.EQ.1)THEN
+      IF(NINDX>0.AND.IMCONV==1)THEN
        DO J=1,NINDX
 #include "lockon.inc"
         WRITE(IOUT, 1000) NGL(INDX(J))

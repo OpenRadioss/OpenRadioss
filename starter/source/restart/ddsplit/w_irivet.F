@@ -49,8 +49,8 @@ c      NRIVET_L = 0
 c      DO N = 1, NRIVET
 c        N1=IXRI(2,N)
 c        N2=IXRI(3,N)
-c        IF(MOD(FRONT(N1,PROC+1),10).EQ.1.AND.
-c     +     MOD(FRONT(N2,PROC+1),10).EQ.1)THEN
+c        IF(MOD(FRONT(N1,PROC+1),10)==1.AND.
+c     +     MOD(FRONT(N2,PROC+1),10)==1)THEN
 c          NRIVET_L = NRIVET_L + 1
 c        ENDIF
 c      ENDDO

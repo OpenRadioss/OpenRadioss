@@ -60,7 +60,7 @@ C-----------------------------------------------
       X=MIN(X,BIG)
       X=MAX(X,-BIG)
       A=ABS(X)
-      IF(A.LT.ONEP001EM32)THEN
+      IF(A<ONEP001EM32)THEN
        STRR='10000000'
        RETURN
       ENDIF
@@ -71,12 +71,12 @@ C
       ISM=MAX(0,-ISM)
       XMAN =A*TEN**(-IEXP)
       XMAN =XMAN*EP9
-      IF(XMAN.GE.EP9)THEN
+      IF(XMAN>=EP9)THEN
       XMAN=XMAN/TEN
        IEXP=IEXP+1
       ENDIF
       MANT =XMAN
-      IF(MANT.GE.1000000000)THEN
+      IF(MANT>=1000000000)THEN
        MANT=MANT/10
        IEXP=IEXP+1
       ENDIF

@@ -687,7 +687,7 @@ C
           ENDIF
 
 
-          IF(ANIM_V(27)+H3D_DATA%N_VECT_PCONT2.GT.0) THEN ! Normal/Tangential forces output
+          IF(ANIM_V(27)+H3D_DATA%N_VECT_PCONT2>0) THEN ! Normal/Tangential forces output
 
             FNCONTP(1,I) = FNCONTP(1,I)  - FN(1) * W
             FNCONTP(2,I) = FNCONTP(2,I)  - FN(2) * W
@@ -808,7 +808,7 @@ c
      2                NSVG  ,H      ,STIF ,NOINT ,
      3                DMINT2(1,KK),NODNX_SMS ,VIS   ,
      4                STIFM ,DTI)
-         IF(DTI.LT.DT2T)THEN
+         IF(DTI<DT2T)THEN
            DT2T    = DTI
            NELTST  = NOINT
            ITYPTST = 10

@@ -293,7 +293,7 @@ C 2 tableaux multi mat en mono SPMD
 C 3 tableau pour inlet outlet passe en mono domaine
 c si cas Inl Outl on passe LPRTSPH_L et LONFSPH_L en tableaux locaux
       TABVINT(76) = SISPHIO
-      IF(NSPHIO.GT.0)THEN
+      IF(NSPHIO>0)THEN
         TABVINT(77) = SLPRTSPH_L
         TABVINT(78) = SLONFSPH_L
       ELSE
@@ -326,7 +326,7 @@ c si cas Inl Outl on passe LPRTSPH_L et LONFSPH_L en tableaux locaux
       TABVINT(102)= 0 !obsolete option removed
       TABVINT(103)= 7*NCONX*ISP0
       TABVINT(104)= NMADPRT*ISP0
-      IF(NEXMAD.NE.0)THEN
+      IF(NEXMAD/=0)THEN
         TABVINT(105)= NMADSH4_L
         TABVINT(106)= NMADSH3_L
         TABVINT(107)= NMADSOL_L
@@ -349,7 +349,7 @@ c si cas Inl Outl on passe LPRTSPH_L et LONFSPH_L en tableaux locaux
       TABVINT(117) = NUMPOR_L
       TABVINT(118) = LENVOLU
       TABVINT(119) = 0
-      IF(LAG_NCF.GT.0)
+      IF(LAG_NCF>0)
      +  TABVINT(119) = (LAG_NHF+3*LAG_NCF+2)*ISP0
       TABVINT(120) = LENTHG
       TABVINT(121) = 2*(NSPMD+1)
@@ -379,7 +379,7 @@ c si cas Inl Outl on passe LPRTSPH_L et LONFSPH_L en tableaux locaux
       TABVINT(145) = NUMNOD_L
       TABVINT(146) = NINTER
       TABVINT(147) = NUMNOD_L
-      IF(IALE+IEULER+ITHERM + IALELAG.NE.0) THEN
+      IF(IALE+IEULER+ITHERM + IALELAG/=0) THEN
 c SNBRCVOIS
         TABVINT(148) = NSPMD+1
 c SNBSDVOIS
@@ -393,14 +393,14 @@ c SNBRCVOIS
         TABVINT(155) = NESVOIS_L
         TABVINT(156) = 0 !obsolete option removed
         TABVINT(157) = 0 !obsolete option removed
-        IF (SEGINDX.GT.0) THEN
+        IF (SEGINDX>0) THEN
           TABVINT(158) = NSPMD+1
           TABVINT(159) = NSEGFL_L
         ELSE
           TABVINT(158) = 0
           TABVINT(159) = 0
         ENDIF
-        IF (NUMPOR.GT.0) THEN
+        IF (NUMPOR>0) THEN
           TABVINT(160) = NUMGEO
           TABVINT(161) = NUMPOR_L
         ELSE
@@ -430,8 +430,8 @@ C -------- Tailles des tableaux flottants --------
       TABVINT(163) = 3*(NUMNOD_L+NRCVVOIS_L)
       TABVINT(164) = 3*(NUMNOD_L+NRCVVOIS_L)
       TABVINT(165) = 3*NUMNOD_L*IRODDL
-      IF(ISECUT.GT.0.OR.ISUB.GT.0.OR.MSHSUB.GT.0.OR.IISROT.GT.0.OR.
-     .   IMPOSE_DR.NE.0 .OR. IDROT.GT.0)THEN
+      IF(ISECUT>0.OR.ISUB>0.OR.MSHSUB>0.OR.IISROT>0.OR.
+     .   IMPOSE_DR/=0 .OR. IDROT>0)THEN
         TABVINT(166) = 3*NUMNOD_L*IRODDL
       ELSE
         TABVINT(166) = 0
@@ -439,7 +439,7 @@ C -------- Tailles des tableaux flottants --------
 C
       TABVINT(167) = NUMELC_L+NUMELTG_L
 C
-      IF (NDAMP.GT.0) THEN
+      IF (NDAMP>0) THEN
         TABVINT(168) = NRDAMP*NDAMP
         TABVINT(169) = 3*NUMNOD_L*(1+IRODDL)
       ELSE
@@ -461,7 +461,7 @@ C
       TABVINT(180) = LBUFSF
       TABVINT(181) = LMPC*ISP0
       TABVINT(182) = LKJNR*NGJOINT*ISP0
-      IF (IALE.GT.0.) THEN
+      IF (IALE>0.) THEN
         TABVINT(183) = 3*NUMNOD_L
       ELSE
         TABVINT(183) = 0
@@ -483,10 +483,10 @@ C 3 tableaux multi mat spmd mono
         TABVINT(188) = 0
       END IF
 
-      IF(MSHSUB.EQ.1)THEN
+      IF(MSHSUB==1)THEN
         TABVINT(189) = 3*NUMNOD_L
         TABVINT(190) = 3*NUMNOD_L
-      ELSEIF(ILAG.EQ.1.AND.(IALE+IEULER).NE.0)THEN
+      ELSEIF(ILAG==1.AND.(IALE+IEULER)/=0)THEN
         TABVINT(189) = 3*NUMNOD_L
         TABVINT(190) = 0
       ELSE
@@ -494,13 +494,13 @@ C 3 tableaux multi mat spmd mono
         TABVINT(190) = 0
       END IF
 
-      IF(MSHSUB.EQ.1)THEN
+      IF(MSHSUB==1)THEN
          TABVINT(191) = 3*NUMNOD_L
          TABVINT(192) = 3*NUMNOD_L
          TABVINT(193) = NUMNOD_L
          TABVINT(194) = NUMNOD_L
          TABVINT(195) = NTHVKI*NSECT
-      ELSE IF (ILAG.EQ.1.AND.(IALE+IEULER).NE.0)THEN
+      ELSE IF (ILAG==1.AND.(IALE+IEULER)/=0)THEN
          TABVINT(191) = 3*NUMNOD_L
          TABVINT(192) = 0
          TABVINT(193) = 0
@@ -521,12 +521,12 @@ C 3 tableaux multi mat spmd mono
 C tableaux utilises en mono domaine pour inlet/outlet
       TABVINT(200) = SVSPHIO
 c si cas Inl Outl on passe SSPHVELN en tableau local
-      IF(NSPHIO.GT.0)THEN
+      IF(NSPHIO>0)THEN
         TABVINT(201) = SSPHVELN_L
       ELSE
         TABVINT(201) = SSPHVELN
       ENDIF
-      IF(IALE.EQ.1.OR.IEULER.EQ.1.OR.IALELAG.EQ.1) THEN
+      IF(IALE==1.OR.IEULER==1.OR.IALELAG==1) THEN
          TABVINT(202) = NUMNOD_L
       ELSE
          TABVINT(202) = 0
@@ -535,9 +535,9 @@ c si cas Inl Outl on passe SSPHVELN en tableau local
       TABVINT(204)  = LFXVELR*NFXVEL_L
       TABVINT(205)  = NTHVKI*(NINTER+NRWALL+NRBODY+NSECT+NJOINT+NRBAG+NVOLU+NFXBODY+NINTSUB)
 
-      IF(ISIGI.EQ.2.OR.ISIGI.EQ.4) THEN
+      IF(ISIGI==2.OR.ISIGI==4) THEN
          TABVINT(206)= 3*NUMNOD_L
-      ELSE IF (IABS(ISIGI).EQ.5) THEN
+      ELSE IF (IABS(ISIGI)==5) THEN
          TABVINT(206)= 12*(NUMELC_L+NUMELTG_L)
       ENDIF
       TABVINT(207)  = LENXLAS*ISP0
@@ -547,7 +547,7 @@ c si cas Inl Outl on passe SSPHVELN en tableau local
       TABVINT(211)  = 3*NIBVEL
       TABVINT(212)  = LFACGRV*NGRAV
 
-      IF(IFRWV.GT.0) THEN
+      IF(IFRWV>0) THEN
          TABVINT(213) = TABVINT(213)+NUMNOD_L
       ELSE
          TABVINT(213) = 0
@@ -1149,7 +1149,7 @@ C
       ELSE
         TABVINT(LVARINT)=NUMNOD_L
       END IF
-      IF(NUMSKW.GT.0)THEN
+      IF(NUMSKW>0)THEN
         LVARINT=LVARINT+1
         TABVINT(LVARINT)=NUMSKW+1             !  ISKWP
         LVARINT=LVARINT+1
@@ -1160,7 +1160,7 @@ C
         LVARINT=LVARINT+1
         TABVINT(LVARINT)=0
       END IF
-      IF(NSENSOR.GT.0)THEN
+      IF(NSENSOR>0)THEN
         LVARINT=LVARINT+1
         TABVINT(LVARINT)=NSENSOR*2            !  ISENSP
         LVARINT=LVARINT+1
@@ -1171,7 +1171,7 @@ C
         LVARINT=LVARINT+1
         TABVINT(LVARINT)=0
       END IF
-      IF(NACCELM.GT.0)THEN
+      IF(NACCELM>0)THEN
         LVARINT=LVARINT+1
         TABVINT(LVARINT)=NACCELM            !  IACCP
         LVARINT=LVARINT+1
@@ -1532,7 +1532,7 @@ c
       LVARINT=LVARINT+1
       TABVINT(LVARINT)= LLGAUGE
 c
-      IF(NBGAUGE.GT.0)THEN
+      IF(NBGAUGE>0)THEN
         LVARINT=LVARINT+1
         TABVINT(LVARINT)=NBGAUGE            !  IGAUP
         LVARINT=LVARINT+1
@@ -1934,7 +1934,7 @@ C---- Time history strain flag
 C----------------------------------------------------------------
 C    warning to radioss developpers : Check LVARINT < LMXVINT
 C----------------------------------------------------------------
-      IF(LVARINT.GT.LMXVINT)STOP 123
+      IF(LVARINT>LMXVINT)STOP 123
 C-----------
       RETURN
       END

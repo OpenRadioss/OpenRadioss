@@ -66,7 +66,7 @@ C
 C
       ISFLUID=IPARG(63)
 
-      IF(ICAA.EQ.1 .AND. N2D.EQ.2 .AND. ISFLUID==1 .AND. JEUL+JALE.NE.0)THEN
+      IF(ICAA==1 .AND. N2D==2 .AND. ISFLUID==1 .AND. JEUL+JALE/=0)THEN
         DO  I=LFT,LLT
           AL1(I)=(Z3(I)-Z1(I))*(Z3(I)-Z1(I))+(Y3(I)-Y1(I))*(Y3(I)-Y1(I))
           AL2(I)=(Z4(I)-Z2(I))*(Z4(I)-Z2(I))+(Y4(I)-Y2(I))*(Y4(I)-Y2(I))
@@ -93,17 +93,17 @@ C
         ALMX(I) = MAX(AL1(I),AL2(I),ALMX(I))
       ENDDO
 C
-      IF(ICAA.EQ.0 .OR. JEUL+JALE.EQ.0)THEN
+      IF(ICAA==0 .OR. JEUL+JALE==0)THEN
         DO I=LFT,LLT
           ATEST(I)=EM4*ALMX(I)
         ENDDO
         DO I=LFT,LLT
           NFAC=0
-          IF(AL1(I).LT.ATEST(I)) NFAC=NFAC+1
-          IF(AL2(I).LT.ATEST(I)) NFAC=NFAC+1
-          IF(AL3(I).LT.ATEST(I)) NFAC=NFAC+1
-          IF(AL4(I).LT.ATEST(I)) NFAC=NFAC+1
-          IF(NFAC.GE.2) XOFF(I)=EP03
+          IF(AL1(I)<ATEST(I)) NFAC=NFAC+1
+          IF(AL2(I)<ATEST(I)) NFAC=NFAC+1
+          IF(AL3(I)<ATEST(I)) NFAC=NFAC+1
+          IF(AL4(I)<ATEST(I)) NFAC=NFAC+1
+          IF(NFAC>=2) XOFF(I)=EP03
         ENDDO
       ENDIF
 C

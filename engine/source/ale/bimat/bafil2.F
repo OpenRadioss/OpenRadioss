@@ -88,7 +88,7 @@ C-------------------------------
         N4=SIGN(ONE,FI4(I))
         NP=MAX(0,N1)+MAX(0,N2)+MAX(0,N3)+MAX(0,N4)
         DN=DT1*NP
-        IF(DN.NE.ZERO)THEN
+        IF(DN/=ZERO)THEN
          FA(I)=-DALPH1(I)*ABF/DN
         ELSE
          FA(I)=ZERO     
@@ -135,7 +135,7 @@ C-----------------------------------------------
         PTS=-PST
         DS0=-FOUR*(PTY*VDZ(I)-PTZ*VDY(I))/PTS
         DT0=-FOUR*(PSY*VDZ(I)-PSZ*VDY(I))/PST      
-        IF(FI1(I).GE.ZERO)THEN
+        IF(FI1(I)>=ZERO)THEN
          DS=-FOUR*(PTY*VDZ1(I)-PTZ*VDY1(I))/PTS
          DT=-FOUR*(PSY*VDZ1(I)-PSZ*VDY1(I))/PST
         ELSE
@@ -148,7 +148,7 @@ C-----------------------------------------------
      .              + (         TWO*DS-DS*DT*DT1)*FI2(I)
      .              + (                 DS*DT*DT1)*FI3(I)
      .              + (         TWO*DT-DS*DT*DT1)*FI4(I) )
-        IF(FI2(I).GE.ZERO)THEN
+        IF(FI2(I)>=ZERO)THEN
          DS=-FOUR*(PTY*VDZ2(I)-PTZ*VDY2(I))/PTS
          DT=-FOUR*(PSY*VDZ2(I)-PSZ*VDY2(I))/PST       
         ELSE
@@ -161,7 +161,7 @@ C-----------------------------------------------
      .                 + ( TWO*DS-TWO*DT-DS*DT*DT1)*FI2(I)
      .                 + (        +TWO*DT+DS*DT*DT1)*FI3(I)     
      .                 + (                -DS*DT*DT1)*FI4(I) )
-        IF(FI3(I).GE.ZERO)THEN
+        IF(FI3(I)>=ZERO)THEN
          DS=-FOUR*(PTY*VDZ3(I)-PTZ*VDY3(I))/PTS
          DT=-FOUR*(PSY*VDZ3(I)-PSZ*VDY3(I))/PST       
         ELSE
@@ -174,7 +174,7 @@ C-----------------------------------------------
      .              + (        -TWO*DT-DS*DT*DT1)*FI2(I)
      .              + (+TWO*DS+TWO*DT+DS*DT*DT1)*FI3(I)
      .              + (-TWO*DS        -DS*DT*DT1)*FI4(I) )
-        IF(FI4(I).GE.ZERO)THEN
+        IF(FI4(I)>=ZERO)THEN
          DS=-FOUR*(PTY*VDZ4(I)-PTZ*VDY4(I))/PTS
          DT=-FOUR*(PSY*VDZ4(I)-PSZ*VDY4(I))/PST
         ELSE
@@ -204,7 +204,7 @@ C-----------------------------------------------
 
       CALL IDP_FREE(2)
 C
-      IF(JMULT.GT.1)THEN
+      IF(JMULT>1)THEN
 C-------------------------------
       DO I=LFT,LLT
         FI1(I)=FILL(NC1(I),2)
@@ -218,7 +218,7 @@ C-------------------------------
         N4=SIGN(ONE,FI4(I))
         NP=MAX(0,N1)+MAX(0,N2)+MAX(0,N3)+MAX(0,N4)
         DN=DT1*NP
-        IF(DN.NE.ZERO)THEN
+        IF(DN/=ZERO)THEN
          FA(I)=-DALPH2(I)*ABF/DN
         ELSE
          FA(I)=ZERO
@@ -249,7 +249,7 @@ C-----------------------------------------------
         PTS=-PST
         DS0=-FOUR*(PTY*VDZ(I)-PTZ*VDY(I))/PTS
         DT0=-FOUR*(PSY*VDZ(I)-PSZ*VDY(I))/PST
-        IF(FI1(I).GE.ZERO)THEN
+        IF(FI1(I)>=ZERO)THEN
          DS=-FOUR*(PTY*VDZ1(I)-PTZ*VDY1(I))/PTS
          DT=-FOUR*(PSY*VDZ1(I)-PSZ*VDY1(I))/PST       
         ELSE
@@ -262,7 +262,7 @@ C-----------------------------------------------
      .              +( TWO*DS         -DS*DT*DT1)*FI2(I)
      .              +(                  DS*DT*DT1)*FI3(I)
      .              +(          TWO*DT-DS*DT*DT1)*FI4(I) )
-        IF(FI2(I).GE.ZERO)THEN
+        IF(FI2(I)>=ZERO)THEN
          DS=-FOUR*(PTY*VDZ2(I)-PTZ*VDY2(I))/PTS
          DT=-FOUR*(PSY*VDZ2(I)-PSZ*VDY2(I))/PST
         ELSE
@@ -275,7 +275,7 @@ C-----------------------------------------------
      .              +( TWO*DS-TWO*DT-DS*DT*DT1)*FI2(I)
      .              +(        +TWO*DT+DS*DT*DT1)*FI3(I)
      .              +(                -DS*DT*DT1)*FI4(I) )
-        IF(FI3(I).GE.ZERO)THEN
+        IF(FI3(I)>=ZERO)THEN
          DS=-FOUR*(PTY*VDZ3(I)-PTZ*VDY3(I))/PTS
          DT=-FOUR*(PSY*VDZ3(I)-PSZ*VDY3(I))/PST
         ELSE
@@ -288,7 +288,7 @@ C-----------------------------------------------
      .              +(        -TWO*DT-DS*DT*DT1)*FI2(I)
      .              +(+TWO*DS+TWO*DT+DS*DT*DT1)*FI3(I)
      .              +(-TWO*DS        -DS*DT*DT1)*FI4(I) )
-        IF(FI4(I).GE.ZERO)THEN
+        IF(FI4(I)>=ZERO)THEN
          DS=-FOUR*(PTY*VDZ4(I)-PTZ*VDY4(I))/PTS
          DT=-FOUR*(PSY*VDZ4(I)-PSZ*VDY4(I))/PST
         ELSE

@@ -263,7 +263,7 @@ C----------------------------------------------------------------
             IAD(5)           = IAD(1)
             ICUT(1:2,1:4)    = 1
             DO K=1,4 
-              IF(EDGE_LIST(NIN,IAD(K))%NBCUT .GT. 1 .AND. Gcorner(K,SECID) .GT. 0)ICUT(1,K) = 2   !should be 1 but formulation might be updated later, keep general form using edge orientation (ICUT=2 possible).
+              IF(EDGE_LIST(NIN,IAD(K))%NBCUT > 1 .AND. Gcorner(K,SECID) > 0)ICUT(1,K) = 2   !should be 1 but formulation might be updated later, keep general form using edge orientation (ICUT=2 possible).
 CC              print *,"---1", IAD(K),ICUT(1,K), EDGE_LIST(NIN,IAD(K))%CUTSHELL(ICUT(1,K))              
               IEtab(K)      = EDGE_LIST(NIN,IAD(K))%CUTSHELL(ICUT(1,K))
               CUTCOOR       = EDGE_LIST(NIN,IAD(K))%CUTCOOR(ICUT(1,K))             ! gerer les intersections doubles cf commentaire plus haut
@@ -282,7 +282,7 @@ CC              print *,"---1", IAD(K),ICUT(1,K), EDGE_LIST(NIN,IAD(K))%CUTSHELL
             IAD(1:4)         = (/((IB-1)*12+IABS(Gcorner(K,SECID)),K=1,4)/)
             IAD(5)           = IAD(1)
             DO K=1,4 
-              IF(EDGE_LIST(NIN,IAD(K))%NBCUT .GT. 1 .AND. Gcorner(K,SECID) .GT. 0)ICUT(2,K) = 2   !should be 1 but formulation might be updated later, keep general form using edge orientation (ICUT=2 possible).
+              IF(EDGE_LIST(NIN,IAD(K))%NBCUT > 1 .AND. Gcorner(K,SECID) > 0)ICUT(2,K) = 2   !should be 1 but formulation might be updated later, keep general form using edge orientation (ICUT=2 possible).
 CC              print *,"---2", IAD(K),ICUT(2,K), EDGE_LIST(NIN,IAD(K))%CUTSHELL(ICUT(2,K))
               IEtab(4+K)    = EDGE_LIST(NIN,IAD(K))%CUTSHELL(ICUT(2,K))
               CUTCOOR       = EDGE_LIST(NIN,IAD(K))%CUTCOOR(ICUT(2,K))             ! gerer les intersections doubles cf commentaire plus haut
@@ -302,7 +302,7 @@ CC              print *,"---2", IAD(K),ICUT(2,K), EDGE_LIST(NIN,IAD(K))%CUTSHELL
             IAD(5)           = IAD(1)
             ICUT(1,1:4)        = 1
             DO K=1,4 
-              IF(EDGE_LIST(NIN,IAD(K))%NBCUT .GT. 1 .AND. Gcorner(K,SECID) .GT. 0)ICUT(1,K) = 2   !should be 1 but formulation might be updated later, keep general form using edge orientation (ICUT=2 possible).
+              IF(EDGE_LIST(NIN,IAD(K))%NBCUT > 1 .AND. Gcorner(K,SECID) > 0)ICUT(1,K) = 2   !should be 1 but formulation might be updated later, keep general form using edge orientation (ICUT=2 possible).
               !IEtab(4+K)    = EDGE_LIST(NIN,IAD(K))%CUTSHELL(ICUT(1,K))
               CUTCOOR       = EDGE_LIST(NIN,IAD(K))%CUTCOOR(ICUT(1,K))             ! gerer les intersections doubles cf commentaire plus haut
               CUTPOINT(1:3) = X(1:3, EDGE_LIST(NIN,IAD(K))%NODE(1) ) + CUTCOOR * (EDGE_LIST(NIN,IAD(K))%VECTOR(1:3))            
@@ -321,7 +321,7 @@ CC              print *,"---2", IAD(K),ICUT(2,K), EDGE_LIST(NIN,IAD(K))%CUTSHELL
             IAD(5)           = IAD(1)
             ICUT(2,1:4)        = 1
             DO K=1,4 
-              IF(EDGE_LIST(NIN,IAD(K))%NBCUT .GT. 1 .AND. Gcorner(K,SECID) .GT. 0)ICUT(2,K) = 2   !should be 1 but formulation might be updated later, keep general form using edge orientation (ICUT=2 possible).
+              IF(EDGE_LIST(NIN,IAD(K))%NBCUT > 1 .AND. Gcorner(K,SECID) > 0)ICUT(2,K) = 2   !should be 1 but formulation might be updated later, keep general form using edge orientation (ICUT=2 possible).
               !IEtab(4+K)    = EDGE_LIST(NIN,IAD(K))%CUTSHELL(ICUT(2,K))
               CUTCOOR       = EDGE_LIST(NIN,IAD(K))%CUTCOOR(ICUT(2,K))             ! gerer les intersections doubles cf commentaire plus haut
               CUTPOINT(1:3) = X(1:3, EDGE_LIST(NIN,IAD(K))%NODE(1) ) + CUTCOOR * (EDGE_LIST(NIN,IAD(K))%VECTOR(1:3))            
@@ -372,9 +372,9 @@ CC              print *,"---2", IAD(K),ICUT(2,K), EDGE_LIST(NIN,IAD(K))%CUTSHELL
             !----------------------------------------------------------------
             !DETERMINING THE CORRECT COMBINATION
             !----------------------------------------------------------------            
-            IF    (CRITERIA(1) .GT. CRITERIA(2))THEN
+            IF    (CRITERIA(1) > CRITERIA(2))THEN
               !keep it             
-            ELSEIF(CRITERIA(2) .GT. CRITERIA(1))THEN
+            ELSEIF(CRITERIA(2) > CRITERIA(1))THEN
               !change it
               BRICK_LIST(NIN,IB)%SecID_CELL(1:2) = (/ Cod1_bis, Cod2_bis /)
               BRICK_LIST(NIN,IB)%SECTYPE(1)      = StrCode(Cod1_bis)
@@ -399,7 +399,7 @@ CC              print *, "inter22 : ambigus intersection not solved" ;
         DO NG=1,NGROUP
           NEL_B=IPARG(2,NG)
           NFL  =IPARG(3,NG)
-          IF( ID.GT.NFL.AND. ID.LE.NFL+NEL_B)THEN
+          IF( ID>NFL.AND. ID<=NFL+NEL_B)THEN
             IDLOC = ID - NFL 
             UNCUTVOL = ELBUF_TAB(NG)%GBUF%VOL(IDLOC)
             EXIT
@@ -416,7 +416,7 @@ CC              print *, "inter22 : ambigus intersection not solved" ;
           SECTYPE      = BRICK_LIST(NIN,IB)%SECTYPE(ICELL)
           SECID        = BRICK_LIST(NIN,IB)%SecID_Cell(ICELL)
           bCOMPL       = .FALSE.
-          IF(SECID.LT.0)THEN
+          IF(SECID<0)THEN
             bCOMPL = .TRUE.
             SECID  = - SECID
           ENDIF
@@ -476,7 +476,7 @@ CC              print *, "inter22 : ambigus intersection not solved" ;
           !if twice the same intersections, the 2nd one  is the biggest one choose farest intersection points 
           DO K=1,NTRUS  
              tagEDG   =  Gcorner(K,SECID)
-            IF(tagEDG.LT.0)THEN
+            IF(tagEDG<0)THEN
               !orientation negative : on prend le plus proche
               ipos = 1
               tagEDG = - tagEDG
@@ -489,7 +489,7 @@ CC              print *, "inter22 : ambigus intersection not solved" ;
                ENDIF
             ENDIF
             EdgePos(IABS(tagEdg), ipos)              = 1
-            IF(iCUTe(ipos,tagEDG).eq.1)ipos          = MOD(ipos,2)+1 !deja pris par polyhedre precedent, on prend lautre            
+            IF(iCUTe(ipos,tagEDG)==1)ipos          = MOD(ipos,2)+1 !deja pris par polyhedre precedent, on prend lautre            
             CUTCOOR                                  = EDGE_LIST(NIN,IAD(K))%CUTCOOR(ipos)
             CUTPOINT(1:3)  = X(1:3, EDGE_LIST(NIN,IAD(K))%NODE(1) ) + CUTCOOR * (EDGE_LIST(NIN,IAD(K))%VECTOR(1:3))
             IE                                       = EDGE_LIST(NIN,IAD(K))%CUTSHELL(ipos)
@@ -509,7 +509,7 @@ CC              print *, "inter22 : ambigus intersection not solved" ;
           !   ANIMATION (positioning)
           !----------------------------------------------------------------
           NSH3N = GetNumTria(GetPolyhedraType(SECID))          
-          IF(II.LE.NEL-NSH3N.AND.NSPMD.LE.1)THEN    !II=IAD0=0 si pas de grshel, Sinon cela signifie qu'il reste encore des shel non utilise dans le groupe au moins 4 pour faire une section poly4.    
+          IF(II<=NEL-NSH3N.AND.NSPMD<=1)THEN    !II=IAD0=0 si pas de grshel, Sinon cela signifie qu'il reste encore des shel non utilise dans le groupe au moins 4 pour faire une section poly4.    
 
 C            if (IBUG22_subvol==1)WRITE (*,FMT='(A20,I10)') 
 C     .       "path intersection : ",IXS(11,ID)
@@ -573,7 +573,7 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             VOL = SUM((/(vF(:,I)*C(:,Fa(I)),I=0,3)/))
             VOL = THIRD * ABS(VOL)
             VOLratio = VOL/uncutVOL
-            IF(VOLratio .LE. VolRatioMin) THEN
+            IF(VOLratio <= VolRatioMin) THEN
               ITAG(ICELL)=1 
               NINTPOINT = NINTPOINT - NTRUS    
               !print *,"cleaning 1"       
@@ -654,8 +654,8 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             pFACE(Fa(3))%Surf = SQRT(SUM(vF(:,3)*vF(:,3)))
             pFACE(Fa(4))%Surf = SQRT(SUM(vF(:,4)*vF(:,4)))
             pFACE0         = SCUT
-            IF(VOLratio .LE. VolRatioMin) THEN
-              IF(SCUT / EXP(0.666*LOG(UNCUTVOL)) .LE.  EM03)THEN 
+            IF(VOLratio <= VolRatioMin) THEN
+              IF(SCUT / EXP(0.666*LOG(UNCUTVOL)) <=  EM03)THEN 
                 ITAG(ICELL)=1 
                 NINTPOINT = NINTPOINT - NTRUS  
                 !print *,"cleaning 2"         
@@ -862,15 +862,15 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             vF(:,0) =I22AERA(6,(/a1,a2,a3,a4,a5,a6/),C(1:3,   0 ))
             VOL = SUM((/(vF(:,I)*C(1:3,Fa(I)),I=0,6)/))
             VOL = THIRD * ABS(VOL)
-            if(icell.eq.2)then
+            if(icell==2)then
               vol1 = brick_list(nin,ib)%poly(1)%vnew
               vol2 = vol
-              if((vol1+vol2)/uncutvol.GE.ONE-EM04)then
+              if((vol1+vol2)/uncutvol>=ONE-EM04)then
                 ITAG(ICELL)=1 
                 NINTPOINT = NINTPOINT - NTRUS
                 !print *,"cleaning 3"
                 cycle
-              elseif( ABS((vol1-vol2)/uncutvol).LE.EM04 )then
+              elseif( ABS((vol1-vol2)/uncutvol)<=EM04 )then
                 scut1 = BRICK_LIST(NIN,IB)%Pcut(1)%Scut(1)
                 scut2 = BRICK_LIST(NIN,IB)%Pcut(2)%Scut(1)
                 tmp(1) = C(1,   0 ) - BRICK_LIST(NIN,IB)%POLY(1)%FACE0%Center(1)
@@ -878,7 +878,7 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
                 tmp(3) = C(3,   0 ) - BRICK_LIST(NIN,IB)%POLY(1)%FACE0%Center(3)
                 dist  = tmp(1)*tmp(1)+tmp(2)*tmp(2)+tmp(3)*tmp(3)
                 dist = sqrt(dist)
-                if (dist / EXP(0.333*LOG(UNCUTVOL)) .LE. EM04)THEN
+                if (dist / EXP(0.333*LOG(UNCUTVOL)) <= EM04)THEN
                   ITAG(ICELL)=1 
                   NINTPOINT = NINTPOINT - NTRUS
                   !print *,"cleaning 4"
@@ -1212,7 +1212,7 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
           !------------------------------------------------------------!
           BRICK_LIST(NIN,IB)%POLY(icell)%FACE0%W(1:3)       = ZERO  
           BRICK_LIST(NIN,IB)%POLY(icell)%FACE(Fa(1))%W(1:3) = ZERO
-          IF(I22_ALEUL .EQ. 1)THEN
+          IF(I22_ALEUL == 1)THEN
           IF(SECTYPE(1:5)=='TETRA')THEN
             nFACE   = F_TETRA
             Fa(1:3) = Gface(1:3,SECID)
@@ -1988,7 +1988,7 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             BRICK_LIST(NIN,IB)%POLY(icell)%FACE(Fa(5))%W(1:3) = wf5(1:3)                 
 
           END IF
-          ENDIF ! ILAE.NE.0
+          ENDIF ! ILAE/=0
 
 
 
@@ -1999,7 +1999,7 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
 
 
         NTAG = SUM(ITAG(1:8))
-        IF(NTAG.GT.0)THEN
+        IF(NTAG>0)THEN
           !CLEAN DEGENERATED TETRA & HEXA  (USELESS AND WOULD NEED TO BE ATTACHED TO A main CELL WHICH COULD NOT EXIST)
           NUMPT = 0
           DO K=1,8
@@ -2025,7 +2025,7 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
               !updating buffer whichcellnode. find a cell_id from a local node_id. This changed due to polyhedra k deletion and resorting
               DO N=1,8
                 INOD = BRICK_LIST(NIN,IB)%NODE(N)%WhichCell
-                IF(INOD .GE. K)THEN
+                IF(INOD >= K)THEN
                   BRICK_LIST(NIN,IB)%NODE(N)%WhichCell = INOD - NTAG
                 ENDIF
               ENDDO
@@ -2039,7 +2039,7 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             BRICK_LIST(NIN,IB)%SecID_CELL(K)     = 0
             BRICK_LIST(NIN,IB)%SECTYPE(K)        = '______________'   
           ENDDO
-        ENDIF !(NTAG.GT.0)
+        ENDIF !(NTAG>0)
        
         !----------------------------------------------------------------
         !   Removing Unused Intersection Point. 
@@ -2111,7 +2111,7 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
             Vol2  = BRICK_LIST(NIN,IB)%POLY(2)%Vnew                                                                                                                                                                                                                                                                                                                                   
             NUMPT = BRICK_LIST(NIN,IB)%POLY(1)%NumPOINT 
                                                                                                                                                
-            IF(Vol1.GT.Vol2)THEN                                                                                                   
+            IF(Vol1>Vol2)THEN                                                                                                   
               
               ValTMP(1:3)                                = BRICK_LIST(NIN,IB)%POLY(1)%CellCenter(1:3)
                                                                                                                                   
@@ -2187,7 +2187,7 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
               ENDDO
               
               DO I=1,8                                                                                                               
-                IF(BRICK_LIST(NIN,IB)%NODE(I)%WhichCell .EQ. 2)THEN   
+                IF(BRICK_LIST(NIN,IB)%NODE(I)%WhichCell == 2)THEN   
                                                                                 
                 ELSE
                   BRICK_LIST(NIN,IB)%NODE(I)%WhichCell = 1                                                                                         
@@ -2199,7 +2199,7 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
               BRICK_LIST(NIN,IB)%POLY(1)%CellCenter(1:3) =  BRICK_LIST(NIN,IB)%POLY(1)%CellCenter(1:3) * NUMPT   !(somme directe, et non plus une moyenne)
               DO I=1,8   
                 nn => X(1:3, IXS(1+I,BRICK_LIST(NIN,IB)%ID ))                                                                                                                          
-                IF(BRICK_LIST(NIN,IB)%NODE(I)%WhichCell .EQ. 2)THEN                                                                  
+                IF(BRICK_LIST(NIN,IB)%NODE(I)%WhichCell == 2)THEN                                                                  
                   BRICK_LIST(NIN,IB)%POLY(1)%CellCenter(1) =  BRICK_LIST(NIN,IB)%POLY(1)%CellCenter(1) - nn(1)
                   BRICK_LIST(NIN,IB)%POLY(1)%CellCenter(2) =  BRICK_LIST(NIN,IB)%POLY(1)%CellCenter(2) - nn(2)
                   BRICK_LIST(NIN,IB)%POLY(1)%CellCenter(3) =  BRICK_LIST(NIN,IB)%POLY(1)%CellCenter(3) - nn(3) 
@@ -2215,7 +2215,7 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
 
 
                                                                                                                                    
-            !IF(Vol1.GT.Vol2)THEN                                                                                                  
+            !IF(Vol1>Vol2)THEN                                                                                                  
             ELSE 
               ValTMP(1:3)                               = BRICK_LIST(NIN,IB)%POLY(2)%CellCenter(1:3)  
               BRICK_LIST(NIN,IB)%POLY(2)%FACE(1:6)%Surf = -BRICK_LIST(NIN,IB)%POLY(2)%FACE(1:6)%Surf                                                                                                                                                                                  
@@ -2224,7 +2224,7 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
               BRICK_LIST(NIN,IB)%POLY(2)%NumPOINT       = BRICK_LIST(NIN,IB)%POLY(2)%NumPOINT-BRICK_LIST(NIN,IB)%POLY(1)%NumNOD       
      .                                                  + 8-BRICK_LIST(NIN,IB)%POLY(1)%NumNOD     
               DO I=1,8                                                                                                               
-                IF(BRICK_LIST(NIN,IB)%NODE(I)%WhichCell .EQ. 2)THEN                                                                  
+                IF(BRICK_LIST(NIN,IB)%NODE(I)%WhichCell == 2)THEN                                                                  
                   BRICK_LIST(NIN,IB)%NODE(I)%WhichCell = 1  
                 ELSE
                   BRICK_LIST(NIN,IB)%NODE(I)%WhichCell = 2                                                                                         
@@ -2236,7 +2236,7 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
               NUMPT = BRICK_LIST(NIN,IB)%POLY(2)%NumPOINT                                                                                  
               BRICK_LIST(NIN,IB)%POLY(2)%CellCenter(1:3) =  BRICK_LIST(NIN,IB)%POLY(2)%CellCenter(1:3) * NUMPT   !(somme directe, et non plus une moyenne)
               DO I=1,8                                                                                                               
-                IF(BRICK_LIST(NIN,IB)%NODE(I)%WhichCell .EQ. 1)THEN                                                                  
+                IF(BRICK_LIST(NIN,IB)%NODE(I)%WhichCell == 1)THEN                                                                  
                   nn => X(1:3, IXS(1+I,BRICK_LIST(NIN,IB)%ID ))
                   BRICK_LIST(NIN,IB)%POLY(2)%CellCenter(1) =  BRICK_LIST(NIN,IB)%POLY(2)%CellCenter(1) - nn(1)
                   BRICK_LIST(NIN,IB)%POLY(2)%CellCenter(2) =  BRICK_LIST(NIN,IB)%POLY(2)%CellCenter(2) - nn(2)
@@ -2252,7 +2252,7 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
               ENDDO  
               BRICK_LIST(NIN,IB)%POLY(2)%CellCenter(1:3) =  BRICK_LIST(NIN,IB)%POLY(2)%CellCenter(1:3) / NUMPT   !on retrouve une moyenne              
                                               
-            ENDIF !Vol1.GT.Vol2                                                                                                                 
+            ENDIF !Vol1>Vol2                                                                                                                 
                                                                                                                                    
                                                                                                                                    
             !set new list nod (complementary from poly 1)                                                                          
@@ -2304,7 +2304,7 @@ C             if (IBUG22_subvol==1)WRITE (*,FMT='(A1)') " "
       !----------------------------------------------------------------
       CALL MY_BARRIER
       
-      IF (II.LE.NEL.AND.NSPMD.LE.1.AND.ITASK==0) THEN
+      IF (II<=NEL.AND.NSPMD<=1.AND.ITASK==0) THEN
 #include "lockon.inc"
             !initialisation des noeuds du grsh3n a ZERO.
             DO J=1,NEL
@@ -2333,7 +2333,7 @@ c              print *, "idsh3n=", IXTG(NIXTG,IBUFSSG(J))  !IDSPRI=
           NCELL = brick_list(nin,ib)%NBCUT 
             write (*,FMT='(A,2I12)') "=== BRICK ID===",  IXS(11,ID) , ID  
             icell = 1          
-            do while (icell .le. ncell .OR. icell .EQ. 9 ) !loop on ICELL
+            do while (icell <= ncell .OR. icell == 9 ) !loop on ICELL
               mnod = BRICK_LIST(NIN,IB)%POLY(ICELL)%NumNOD 
                 write (*,FMT='(A )')    "|"
                 if(icell==9)then
@@ -2360,7 +2360,7 @@ c              print *, "idsh3n=", IXTG(NIXTG,IBUFSSG(J))  !IDSPRI=
 !                    print *, " C=", C(1:3, Fa(I))                                                                       
 !                  end do                                                                                                
                icell = icell + 1                                                                                                  
-               if(icell.gt.ncell .and. icell.ne.10) icell = 9   ! list is also : {1:ncell} U {9}
+               if(icell>ncell .and. icell/=10) icell = 9   ! list is also : {1:ncell} U {9}
             enddo!next icell
             write (*,FMT='(A )')    " "             
           
@@ -2404,12 +2404,12 @@ C-----------------------------------------------
      .        V1(1:3), V2(1:3), V3(1:3), V4(1:3)
 C-----------------------------------------------
 
-      IF(NPTS.LE.2)THEN
+      IF(NPTS<=2)THEN
         !print *, "**error in inter22 : contact force algorithm"
         I22AERA = ZERO
         stop 222
         return     
-      ELSEIF (NPTS.LE.4)THEN         
+      ELSEIF (NPTS<=4)THEN         
         !produit vectoriel des diagonales diag(13) x diag(24)
         Imax         = MAX(NPTS,3)
         DIAG13(1:3)  = P(1:3,3) - P(1:3,1)
@@ -2420,7 +2420,7 @@ C-----------------------------------------------
         S2n(1:3)     = HALF * S2n(1:3)
         I22AERA(1:3) = S2n(1:3)
         !I22AERA =  SQRT(SUM(S2n(1:3)*S2n(1:3)))
-      ELSEIF (NPTS.GE.5) THEN
+      ELSEIF (NPTS>=5) THEN
          K=NPTS
          Hh=HALF*(K-1)
          H=INT(Hh)

@@ -324,7 +324,7 @@ c
               ! Brick element
               ELSEIF (ISOLNOD == 8) THEN
                 ! Supported formulations
-                IF (FORMU.NE.16) THEN
+                IF (FORMU/=16) THEN
                   ! Loop over elements
                   DO I = 1,NEL
                     ! Loop over brick nodes
@@ -473,9 +473,9 @@ C
           ! Reading keywords
  10       READ(71,'(A)',END=20) KEYA
           !/DT/AMS
-          IF(KEYA(1:7).EQ.'/DT/AMS') THEN
+          IF(KEYA(1:7)=='/DT/AMS') THEN
  30         READ(71,'(A)') KEYA
-            IF ((KEYA(1:1).EQ.'#').OR.(KEYA(1:1).EQ.'$')) THEN
+            IF ((KEYA(1:1)=='#').OR.(KEYA(1:1)=='$')) THEN
               GOTO 30
             ELSE
               BACKSPACE(71)
@@ -484,9 +484,9 @@ C
             IF (DTSCA_AMS == ZERO) DTSCA_AMS = ZEP9    
           ENDIF
           !/DT/CST_AMS
-          IF(KEYA(1:11).EQ.'/DT/CST_AMS') THEN
+          IF(KEYA(1:11)=='/DT/CST_AMS') THEN
  40         READ(71,'(A)') KEYA
-            IF ((KEYA(1:1).EQ.'#').OR.(KEYA(1:1).EQ.'$')) THEN
+            IF ((KEYA(1:1)=='#').OR.(KEYA(1:1)=='$')) THEN
               GOTO 40
             ELSE
               BACKSPACE(71)
@@ -783,7 +783,7 @@ c
         ENDDO
 c
         ! Initialization of non-local fields and variables
-        IF (ISIGI .NE. 0) THEN 
+        IF (ISIGI /= 0) THEN 
           WRITE(ISTDO,'(A)') ' .. NON-LOCAL FIELDS INITIALIZATION'
           CALL NLOCAL_INIT_STA(ELBUF_TAB,NLOC_DMG ,IPARG    ,IXC      ,
      .                         IXS      ,IXTG     ,AREA     ,X        ,

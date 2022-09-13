@@ -86,7 +86,7 @@ C-----------------------------------------------
 C
       DATA MESS/' ** ERROR EXTERNAL COUPLING DEFINITION '/
       WRITE(IOUT,1000)
-      IF (NR2RLNK.GT.0) WRITE(IOUT,1200)
+      IF (NR2RLNK>0) WRITE(IOUT,1200)
 C      
 C      IEXTER(1,M) ............... Id of GRNOD of the Link
 C      IEXTER(2,M) ............... Link ser Id
@@ -125,7 +125,7 @@ C
           CALL HM_GET_INTV('grnod_id',IGR,IS_AVAILABLE,LSUBMODEL) 
 C-------- CHECK NODE GROUP
 C         IGRS = GRFIND (IGR,IGRN,MESS)
-C         IF (IGRS.EQ.0) IERR=IERR+1
+C         IF (IGRS==0) IERR=IERR+1
           IEXTER(1,I) = IGR
           IEXTER(2,I) = NUSER
 	  IEXTER(3,I) = -1
@@ -136,7 +136,7 @@ C-----    PRINTOUT
       
       ENDIF
       
-      IF (NSUBDOM.GT.0) THEN      
+      IF (NSUBDOM>0) THEN      
 C------------------------------------------------------------------
 C------------------------READING OF SUBDOMAINS---------------------
 C------------------------------------------------------------------
@@ -159,7 +159,7 @@ C
 C
           CALL HM_GET_INTV('idsmax',NEL,IS_AVAILABLE,LSUBMODEL) 
 C
-	  IF (I.GT.1) SET = SET+ISUBDOM(1,I-1)
+	  IF (I>1) SET = SET+ISUBDOM(1,I-1)
 	  ISUBDOM(3,I)=SET
           COMPT = 0
 C
@@ -167,7 +167,7 @@ C
 C
             CALL HM_GET_INT_ARRAY_INDEX('ids',ID,J,IS_AVAILABLE,LSUBMODEL)
 C
-	    IF (ID.GT.0) THEN	      
+	    IF (ID>0) THEN	      
 	      COMPT=COMPT+1
 	      ID_SUB_TEMP(COMPT+SET)=ID
 C----- CHECK PART ID
@@ -178,7 +178,7 @@ C----- CHECK PART ID
 		  ISUBDOM_PART(COMPT+SET)=K
 		 END IF
 	      END DO
-            ELSEIF (ID.EQ.-1) THEN
+            ELSEIF (ID==-1) THEN
                 FLAG_OK = 1
                 R2R_FLAG_ERR_OFF = 1
             ENDIF
@@ -204,7 +204,7 @@ C
              WRITE(IOUT,1302) (ID_SUB_TEMP(J+ADD),J=1,ISUBDOM(1,I))	        
       END DO
 
-      IF (FLG_SWALE.EQ.1) THEN
+      IF (FLG_SWALE==1) THEN
 C------------------------------------------------------------------
 C-------------SWITCH OF FULL/SUB PARTS FOR ALE--------------------- 
 C------------------------------------------------------------------
@@ -220,9 +220,9 @@ C
         DO I=1,NPART
           FOUND = 0
           DO J=1,ISUBDOM(1,1)
-            IF (ID_SUB_TEMP(J).EQ.I) FOUND = 1 
+            IF (ID_SUB_TEMP(J)==I) FOUND = 1 
           END DO
-          IF (FOUND.EQ.1) CYCLE
+          IF (FOUND==1) CYCLE
           COMPT = COMPT + 1
           ISUBDOM_PART(COMPT) = I
         END DO

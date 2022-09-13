@@ -146,12 +146,12 @@ C-----------------------------------------------
       !======================================================!             
       !INTERFACE 22 ONLY - OUTPUT---------------!
       debug_outp = .false.
-      if(ibug22_flux22.ne.0)then
+      if(ibug22_flux22/=0)then
         debug_outp = .false.
-        if(ibug22_flux22.GT.0)then
+        if(ibug22_flux22>0)then
           do ib=nbf,nbl
              ie = brick_list(nin,ib)%id
-            if(ixs(11,ie).eq.ibug22_flux22)debug_outp=.true.
+            if(ixs(11,ie)==ibug22_flux22)debug_outp=.true.
           enddo
         elseif(ibug22_flux22==-1)then
           debug_outp = .true.
@@ -250,9 +250,9 @@ C-----------------------------------------------
         !======================================================!
         !COMPUTES LOCAL(VALEL) AND ADJACENT (VALVOIS) MOMENTUMS!
         !======================================================!        
-        DO WHILE (ICELL.LE.NCELL) ! loop on polyhedron {1:NCELL} U {9}
+        DO WHILE (ICELL<=NCELL) ! loop on polyhedron {1:NCELL} U {9}
           ICELL      = ICELL +1
-          IF (ICELL>NCELL .AND. NCELL.NE.0)ICELL=9
+          IF (ICELL>NCELL .AND. NCELL/=0)ICELL=9
           NBCUT                         = BRICK_LIST(NIN,IB)%NBCUT
           Jm                            = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(1)
           IEm                           = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(3) 
@@ -307,7 +307,7 @@ C-----------------------------------------------
               !======================================================!
               IMAT                          = IXS(1,IE)
               IALEFVM_FLG                   = IPM(251,IMAT)
-              IF(IALEFVM_IFORM.NE.0)IALEFVM_FLG = IALEFVM_IFORM !for debug purpose if set in alefvm_init.F
+              IF(IALEFVM_IFORM/=0)IALEFVM_FLG = IALEFVM_IFORM !for debug purpose if set in alefvm_init.F
               
               
               SELECT CASE(I_ALE_SOLVER)
@@ -402,7 +402,7 @@ C-----------------------------------------------
                   IF(IBv /= 0)THEN
                     FACE                    = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Surf
                     FACEv                   = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%FACE(Jv)%Surf 
-                    IF(FACEv.LT.FACE) CF(1:3) = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%FACE(Jv)%Center(1:3)
+                    IF(FACEv<FACE) CF(1:3) = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%FACE(Jv)%Center(1:3)
                   ENDIF
                   ZZadj(1)                  = Zadj(1)-Z(1)                                            
                   ZZadj(2)                  = Zadj(2)-Z(2)                                            
@@ -413,7 +413,7 @@ C-----------------------------------------------
                   PS                        = ZCf(1)*ZZadj(1) + ZCf(2)*ZZadj(2) + ZCf(3)*ZZadj(3)     
                   ZZadj_                    = ZZadj(1)**2 + ZZadj(2)**2 + ZZadj(3)**2                 
                   LAMBDA                    = PS / MAX(EM20,ZZadj_)                                   
-C                 IF(lambda.LT.ZERO .OR. lambda .GT.ONE)then                          
+C                 IF(lambda<ZERO .OR. lambda >ONE)then                          
 C                   print *, "labmda=", lambda                                       
 C                   pause                                                            
 C                 endif                                                              
@@ -447,7 +447,7 @@ C                 endif
               WFace(2)    = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%W(2)
               WFace(3)    = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%W(3)
 
-              IF(ICELLv .NE.0)THEN
+              IF(ICELLv /=0)THEN
                 WFaceV(1) = BRICK_LIST(NIN,IB)%POLY(ICELLv)%FACE(Jv)%W(1)
                 WFaceV(2) = BRICK_LIST(NIN,IB)%POLY(ICELLv)%FACE(Jv)%W(2)
                 WFaceV(3) = BRICK_LIST(NIN,IB)%POLY(ICELLv)%FACE(Jv)%W(3)
@@ -506,16 +506,16 @@ C                 endif
       ! debug output                                         !                             
       !======================================================!                             
       if(debug_outp)then                                                                   
-      if(ibug22_flux22.gt.0 .OR. ibug22_flux22.eq.-1)then                     
+      if(ibug22_flux22>0 .OR. ibug22_flux22==-1)then                     
         print *, "    |------e22flux3_int22_fvm.F------|"  
         do ib=nbf,nbl                                                     
           ie = brick_list(nin,ib)%Id 
-          if (ibug22_flux22.gt.0 .and. ibug22_flux22.NE. ixs(11,ie))CYCLE 
+          if (ibug22_flux22>0 .and. ibug22_flux22/= ixs(11,ie))CYCLE 
           icell = 0
           ncell = brick_list(nin,ib)%nbcut
-          DO WHILE (ICELL.LE.NCELL) ! loop on polyhedron {1:NCELL} U {9}
+          DO WHILE (ICELL<=NCELL) ! loop on polyhedron {1:NCELL} U {9}
             ICELL      = ICELL +1
-            IF (ICELL>NCELL .AND. NCELL.NE.0)ICELL=9
+            IF (ICELL>NCELL .AND. NCELL/=0)ICELL=9
 
             print *, "      brique     =", ixs(11,ie)                                          
             print *, "      NCYCLE     =", NCYCLE                                              
@@ -549,9 +549,9 @@ C                 endif
         NCELL             =  BRICK_LIST(NIN,IB)%NBCUT 
         MCELL             =  BRICK_LIST(NIN,IB)%MainID       
         ICELL             =  0  
-        DO WHILE (ICELL.LE.NCELL) ! loop on polyhedron {1:NCELL} U {9}
+        DO WHILE (ICELL<=NCELL) ! loop on polyhedron {1:NCELL} U {9}
           ICELL = ICELL +1
-          IF (ICELL>NCELL .AND. NCELL.NE.0)ICELL=9 
+          IF (ICELL>NCELL .AND. NCELL/=0)ICELL=9 
           DO J=1,6
           BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_upwFLUX (1)  = ZERO
           BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_upwFLUX (2)  = ZERO
@@ -578,9 +578,9 @@ C                 endif
               IBv    = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,4)
               Jv     = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,5)              
               ICELLv = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_Cell(IADJ)
-              IF(IDV.EQ.0)THEN
+              IF(IDV==0)THEN
                cellFLUX(J,ICELL,IB,IADJ)=cellFLUX(J,ICELL,IB,IADJ)*REDUC
-              ELSEIF(IDV.GT.0)THEN
+              ELSEIF(IDV>0)THEN
                NG      = BRICK_LIST(NIN,IB)%NG
                ISILENT = IPARG(64,NG)
                IF(ISILENT==1)THEN

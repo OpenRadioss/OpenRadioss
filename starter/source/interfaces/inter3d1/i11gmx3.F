@@ -60,7 +60,7 @@ C-----------------------------------------------------------------
       XL2=(X(1,N1)-X(1,N2))**2
      .   +(X(2,N1)-X(2,N2))**2
      .   +(X(3,N1)-X(3,N2))**2
-      IF(XL2.GT.ZERO)GAPMAX= MIN(GAPMAX,XL2)
+      IF(XL2>ZERO)GAPMAX= MIN(GAPMAX,XL2)
 C
       RETURN
       END

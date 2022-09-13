@@ -126,7 +126,7 @@ C       External surface only.
 
           CROSSFACEIGEO=0
 C
-          IF(PX.EQ.2) THEN
+          IF(PX==2) THEN
             CROSSFACEIGEO(1,5) = (PX+1)*(PY+1)*PZ+(PX+1)*PY+PX   ! milieu - devant
             CROSSFACEIGEO(2,5) = (PX+1)*(PY+1)*PZ+PX
             CROSSFACEIGEO(3,5) = PX
@@ -138,7 +138,7 @@ C
             CROSSFACEIGEO(4,6) = (PX+1)*(PY+1)*PZ+PX
           ENDIF
 
-          IF(PY.EQ.2) THEN
+          IF(PY==2) THEN
             CROSSFACEIGEO(1,3) = (PX+1)*(PY+1)*PZ+(PX+1)*PY    ! milieu - gauche
             CROSSFACEIGEO(2,3) = (PX+1)*(PY+1)*PZ+(PX+1)+1 
             CROSSFACEIGEO(3,3) = (PX+1)+1
@@ -150,7 +150,7 @@ C
             CROSSFACEIGEO(4,4) = (PX+1)+1
           ENDIF
 
-          IF(PZ.EQ.2) THEN
+          IF(PZ==2) THEN
             CROSSFACEIGEO(1,1) = (PX+1)*(PY+1)+PX+1    ! milieu - bas
             CROSSFACEIGEO(2,1) = (PX+1)*(PY+1)+1
             CROSSFACEIGEO(3,1) = (PX+1)*(PY+1)+(PX+1)*PY+1 
@@ -222,7 +222,7 @@ C                 permute
             	    END IF
             	  END DO
 C
-                  IF(CROSSFACEIGEO(1,KK).NE.0) THEN
+                  IF(CROSSFACEIGEO(1,KK)/=0) THEN
               	    DO II=1,4
               	      MS(II)=IXIG3D(KXIG3D(4,KS)+CROSSFACEIGEO(II,KK)-1) 
             	    END DO
@@ -412,7 +412,7 @@ c      PASZ = (KNOT(IAD_KNOT+NKNOT1+NKNOT2+IDZ2) - KNOT(IAD_KNOT+NKNOT1+NKNOT2+I
       PASY = (KNOTLOCELY(2) - KNOTLOCELY(1)) / THREE
       PASZ = (KNOTLOCELZ(2) - KNOTLOCELZ(1)) / THREE
 
-      IF (JJ.EQ.1) THEN
+      IF (JJ==1) THEN
 
       DO M=1,4
        DO L=1,4
@@ -476,7 +476,7 @@ c     7        PY-1      ,PZ-1      ,0)
        ENDDO
       ENDDO    
 
-      ELSEIF (JJ.EQ.2) THEN
+      ELSEIF (JJ==2) THEN
 
       DO M=1,4
        DO L=1,4
@@ -540,7 +540,7 @@ c     7        PY-1      ,PZ-1      ,0)
        ENDDO
       ENDDO   
 
-      ELSEIF (JJ.EQ.3) THEN 
+      ELSEIF (JJ==3) THEN 
 
       DO N=1,4
        DO L=1,4
@@ -604,7 +604,7 @@ c     7        PY-1      ,PZ-1      ,0)
        ENDDO
       ENDDO    
 
-      ELSEIF (JJ.EQ.4) THEN 
+      ELSEIF (JJ==4) THEN 
 
       DO N=1,4
        DO L=1,4
@@ -668,7 +668,7 @@ c     7        PY-1      ,PZ-1      ,0)
        ENDDO
       ENDDO    
 
-      ELSEIF (JJ.EQ.5) THEN
+      ELSEIF (JJ==5) THEN
 
       DO N=1,4
        DO M=1,4 
@@ -732,7 +732,7 @@ c     7        PY-1      ,PZ-1      ,0)
        ENDDO
       ENDDO    
 
-      ELSEIF (JJ.EQ.6) THEN 
+      ELSEIF (JJ==6) THEN 
 
       DO N=1,4
        DO M=1,4

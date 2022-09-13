@@ -107,20 +107,20 @@ C-----------------------------------------------------------------------
       IES_MIN = 99999999
       NSKYI17 = 0
       NRSKYI17 = 0
-      IF(IPARIT.NE.0.AND.ITASK.EQ.0)THEN
+      IF(IPARIT/=0.AND.ITASK==0)THEN
         IERR1=0
         IERR2=0
         ALLOCATE(ISKYI17(LSKYI17),STAT=IERR2)
         IERR1 = IERR1+IERR2
         ALLOCATE(FSKYI17(LSKYI17,4),STAT=IERR2)
         IERR1 = IERR1+IERR2
-        IF(NSPMD.GT.1)THEN
+        IF(NSPMD>1)THEN
           ALLOCATE(IRSKYI17(LSKYI17),STAT=IERR2)
           IERR1 = IERR1+IERR2
           ALLOCATE(FRSKYI17(4,LSKYI17),STAT=IERR2)
           IERR1 = IERR1+IERR2
         END IF
-        IF(IERR1.NE.0)THEN
+        IF(IERR1/=0)THEN
           CALL ANCMSG(MSGID=88,ANMODE=ANINFO,
      .                I1=NOINT)
           CALL ARRET(2)
@@ -137,18 +137,18 @@ C-----------------------------------------------------------------------
         LE  = CANDE(IC)
         LES = CANDN(IC)
         IE  = NELEM(LE)
-        IF(LES.LE.NSE)THEN      ! candidat interne en SPMD
+        IF(LES<=NSE)THEN      ! candidat interne en SPMD
          IES = NELES(LES)
 C-----------------------------------------------------------------------
 C       test si dans la boite   
 C-----------------------------------------------------------------------
-         IF(LE .GT.0.AND.LES.GT.0.AND.
-     .           EMINXS(4,LES).GT.EMINXM(1,LE).AND.
-     .           EMINXS(5,LES).GT.EMINXM(2,LE).AND.
-     .           EMINXS(6,LES).GT.EMINXM(3,LE).AND.
-     .           EMINXS(1,LES).LT.EMINXM(4,LE).AND.
-     .           EMINXS(2,LES).LT.EMINXM(5,LE).AND.
-     .           EMINXS(3,LES).LT.EMINXM(6,LE))THEN
+         IF(LE >0.AND.LES>0.AND.
+     .           EMINXS(4,LES)>EMINXM(1,LE).AND.
+     .           EMINXS(5,LES)>EMINXM(2,LE).AND.
+     .           EMINXS(6,LES)>EMINXM(3,LE).AND.
+     .           EMINXS(1,LES)<EMINXM(4,LE).AND.
+     .           EMINXS(2,LES)<EMINXM(5,LE).AND.
+     .           EMINXS(3,LES)<EMINXM(6,LE))THEN
           LLT = LLT+1
           LEL(LLT)=LE
           LESL(LLT)=LES
@@ -180,13 +180,13 @@ C IIIS 1,2,3,4,9,10,11,12, 5,6,7,8,13,14,15,16
 C-----------------------------------------------------------------------
 C       test si dans la boite   
 C-----------------------------------------------------------------------
-         IF(LE .GT.0.AND.LES.GT.0.AND.
-     .           EMINXFI(NINT)%P(4,IES).GT.EMINXM(1,LE).AND.
-     .           EMINXFI(NINT)%P(5,IES).GT.EMINXM(2,LE).AND.
-     .           EMINXFI(NINT)%P(6,IES).GT.EMINXM(3,LE).AND.
-     .           EMINXFI(NINT)%P(1,IES).LT.EMINXM(4,LE).AND.
-     .           EMINXFI(NINT)%P(2,IES).LT.EMINXM(5,LE).AND.
-     .           EMINXFI(NINT)%P(3,IES).LT.EMINXM(6,LE))THEN
+         IF(LE >0.AND.LES>0.AND.
+     .           EMINXFI(NINT)%P(4,IES)>EMINXM(1,LE).AND.
+     .           EMINXFI(NINT)%P(5,IES)>EMINXM(2,LE).AND.
+     .           EMINXFI(NINT)%P(6,IES)>EMINXM(3,LE).AND.
+     .           EMINXFI(NINT)%P(1,IES)<EMINXM(4,LE).AND.
+     .           EMINXFI(NINT)%P(2,IES)<EMINXM(5,LE).AND.
+     .           EMINXFI(NINT)%P(3,IES)<EMINXM(6,LE))THEN
           LLT = LLT+1
           LEL(LLT)=LE
           LESL(LLT)=-IES        ! reperage en negatif des candidats remote SPMD
@@ -220,7 +220,7 @@ C IIIS 1,2,3,4,9,10,11,12, 5,6,7,8,13,14,15,16
 C-----------------------------------------------------------------------
 C     calcul de  F par paquet de mvsiz   
 C-----------------------------------------------------------------------
-          IF(LLT.EQ.MVSIZ-1)THEN
+          IF(LLT==MVSIZ-1)THEN
             CALL I17LLL_PENA(
      1       LLT     ,V         ,STIFN     ,XX        ,FRIC    ,
      2       YY      ,ZZ        ,III       ,FSKYI     ,ISKY    ,
@@ -236,7 +236,7 @@ C-----------------------------------------------------------------------
 C-----------------------------------------------------------------------
 C     calcul de  F pour dernier paquet   
 C-----------------------------------------------------------------------        
-      IF(LLT.NE.0) CALL I17LLL_PENA(
+      IF(LLT/=0) CALL I17LLL_PENA(
      1       LLT     ,V         ,STIFN     ,XX        ,FRIC    ,
      2       YY      ,ZZ        ,III       ,FSKYI     ,ISKY    ,
      3       A       ,X         ,ITIED     ,NINT      ,
@@ -247,10 +247,10 @@ C-----------------------------------------------------------------------
 C-----------------------------------------------------------------------
 C     parallel Arithmetic for assembly (frots)
 C-----------------------------------------------------------------------
-      IF(IPARIT.NE.0) THEN
+      IF(IPARIT/=0) THEN
         CALL MY_BARRIER
-        IF(ITASK.EQ.0)THEN
-          IF(NSPMD.GT.1)THEN
+        IF(ITASK==0)THEN
+          IF(NSPMD>1)THEN
             CALL SPMD_I17FROTS_PON(
      1        NSKYI17 ,ISKYI17,FSKYI17,NRSKYI17,IRSKYI17,
      2        FRSKYI17,NINT   ,LSKYI17,NOINT)
@@ -258,7 +258,7 @@ C-----------------------------------------------------------------------
             DEALLOCATE(FRSKYI17)
           END IF
 C 
-          IF(NSKYI17.GT.0)THEN
+          IF(NSKYI17>0)THEN
             CALL I17LLL_ASS(NSKYI17 ,ISKYI17 ,FSKYI17, FROTS, NSE,
      2                    LSKYI17 )
           END IF
@@ -371,7 +371,7 @@ C-----------------------------------------------
 C      choix face 1 2 3 4 face 5 6 7 8 cote second
 C-----------------------------------------------
       DO I=1,LLT
-        IF(ABS(SI_S(I,1)).LE.ABS(SI_S(I,2)))THEN
+        IF(ABS(SI_S(I,1))<=ABS(SI_S(I,2)))THEN
 C         face 1 2 3 4
           S_CS(I) = -ONE
         ELSE
@@ -452,7 +452,7 @@ C-----------------------------------------------
 C      choix face 1 2 3 4 face 5 6 7 8 cote main
 C-----------------------------------------------
       DO I=1,LLT
-        IF(S_CM(I).LE.0.)THEN
+        IF(S_CM(I)<=0.)THEN
 C         face 1 2 3 4
           III(I,5) = III(I,9)
           III(I,6) = III(I,10)
@@ -768,7 +768,7 @@ c------------------------------------------------
           DD2  = B2(I) + B4T + B5R + B5R
           DD3  = B3(I) + B4(I) * R_CS(I)
           D    = DD3 * CC2 - CC3 * DD2 
-          IF(ABS(D).LT.EM20)THEN
+          IF(ABS(D)<EM20)THEN
             CC2 = CC2 + EM10
             DD3 = DD3 + EM10
             D   = DD3 * CC2 - CC3 * DD2 
@@ -806,7 +806,7 @@ C
       ENDDO
 c
       DO I=1,LLT
-          IF(S_CM(I).GT.ZERO)THEN
+          IF(S_CM(I)>ZERO)THEN
             B1(I) = B1(I) - ONE
             C1(I) = C1(I) - ONE
           ELSE
@@ -1063,9 +1063,9 @@ c-----------------------------------------------------------------------
         UNPEPS = ONE + EM4
         DO I=1,LLT
           RS(I) = C(I) + ( B(I) + A(I)*R_S(I) )*R_S(I)
-          IF(RS(I).GT.ONE)THEN
+          IF(RS(I)>ONE)THEN
             CC(I) = C(I) - ONE
-          ELSEIF(RS(I).LT.-ONE)THEN
+          ELSEIF(RS(I)<-ONE)THEN
             CC(I) = C(I) + ONE
           ELSE 
             CC(I) = ONE
@@ -1077,22 +1077,22 @@ c
         CALL I17RACINE(LLT,A,B,CC,R1,R2)
 c
         DO I=1,LLT
-          IF(RS(I).GT.UNPEPS.OR.RS(I).LT.-UNPEPS)THEN
+          IF(RS(I)>UNPEPS.OR.RS(I)<-UNPEPS)THEN
             RS1 = C(I) + ( B(I) + A(I)*R1(I) )*R1(I)
             RS2 = C(I) + ( B(I) + A(I)*R2(I) )*R2(I)
-            IF(RS1.GE.-UNPEPS.AND.RS1.LE.UNPEPS.AND.
-     +         RS2.GE.-UNPEPS.AND.RS2.LE.UNPEPS)THEN
-              IF(ABS(RS(I)-R1(I)).LT.ABS(RS(I)-R2(I)))THEN
+            IF(RS1>=-UNPEPS.AND.RS1<=UNPEPS.AND.
+     +         RS2>=-UNPEPS.AND.RS2<=UNPEPS)THEN
+              IF(ABS(RS(I)-R1(I))<ABS(RS(I)-R2(I)))THEN
                 R_S(I) = R1(I)
                 RS(I)  = RS1
               ELSE
                 R_S(I) = R2(I)
                 RS(I)  = RS2
               ENDIF
-            ELSEIF(RS1.GE.-UNPEPS.AND.RS1.LE.UNPEPS)THEN
+            ELSEIF(RS1>=-UNPEPS.AND.RS1<=UNPEPS)THEN
                 R_S(I) = R1(I)
                 RS(I)  = RS1
-            ELSEIF(RS2.GE.-UNPEPS.AND.RS2.LE.UNPEPS)THEN
+            ELSEIF(RS2>=-UNPEPS.AND.RS2<=UNPEPS)THEN
                 R_S(I) = R2(I)
                 RS(I)  = RS2
             ELSE
@@ -1141,15 +1141,15 @@ C-----------------------------------------------
 C
       DO I=1,LLT
         D =  B(I)*B(I) - FOUR*A(I)*C(I) 
-        IF(ABS(A(I)).LT.EM20)THEN
-          IF(ABS(B(I)).LT.EM20)THEN
+        IF(ABS(A(I))<EM20)THEN
+          IF(ABS(B(I))<EM20)THEN
             R1(I) = -ONE
             R2(I) =  ONE
           ELSE
             R1(I) = -C(I) / B(I)
             R2(I) = B(I) / ABS(B(I))
           ENDIF
-        ELSEIF(D.LT.ZERO)THEN
+        ELSEIF(D<ZERO)THEN
             R1(I) = -ONE
             R2(I) =  ONE            
         ELSE
@@ -1472,7 +1472,7 @@ C-----------------------------------------------
           VX = ZERO
           VY = ZERO
           VZ = ZERO
-          IF(LES(I).GT.0)THEN      ! test pour SPMD
+          IF(LES(I)>0)THEN      ! test pour SPMD
            DO IK=1,8
             VX = VX - (V(1,III(I,IK)))*NI_M(I,IK)
             VY = VY - (V(2,III(I,IK)))*NI_M(I,IK)
@@ -1614,7 +1614,7 @@ c SigtS = SommeS(Fti)/SommeS(Ai)
 C-----------------------------------------------
       HTSQRTPI = EIGHT / (THREE*SQRT(PI))
 
-      IF(DT1.GT.ZERO)THEN
+      IF(DT1>ZERO)THEN
         DT1INV = ONE/DT1
       ELSE
         DT1INV =ZERO
@@ -1736,7 +1736,7 @@ C-----------------------------------------------
           VX = ZERO
           VY = ZERO
           VZ = ZERO
-          IF(LES(I).GT.0)THEN
+          IF(LES(I)>0)THEN
            DO IK=1,8
             VX = VX + (V(1,IIIS(I,IK)))*NI_S(I,IK)
      .              - (V(1,III(I,IK))) *NI_M(I,IK)
@@ -1862,7 +1862,7 @@ c puis de la contrainte elastique (si necessaire)
           FROTM(2,LEM) = FROTM(2,LEM) + FFY
           FROTM(3,LEM) = FROTM(3,LEM) + FFZ
           FROTM(4,LEM) = FROTM(4,LEM) + AREA(I)
-          IF(LES(I).GT.0)THEN
+          IF(LES(I)>0)THEN
             IF(IPARIT == 0)THEN
               FROTS(1,LES(I)) = FROTS(1,LES(I)) + FFX
               FROTS(2,LES(I)) = FROTS(2,LES(I)) + FFY
@@ -1911,7 +1911,7 @@ C-----------------------------------------------
           ECONT = ECONT 
      .          + VX*FX+VY*FY+VZ*FZ
 
-          IF(LES(I).GT.0)THEN
+          IF(LES(I)>0)THEN
            IF(IPARIT == 0)THEN
 #include "lockon.inc"
             DO IK=1,8
@@ -1933,7 +1933,7 @@ C-----------------------------------------------
             NISKYL = NISKY
             NISKY  = NISKY + 16
 #include "lockoff.inc"
-            IF (NISKYL .GT. LSKYI) THEN
+            IF (NISKYL > LSKYI) THEN
              CALL ANCMSG(MSGID=26,ANMODE=ANINFO,
      .                   I1=NOINT)
              CALL ARRET(2)
@@ -1954,9 +1954,9 @@ C-----------------------------------------------
             ENDDO
            ENDIF
 C
-           IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT .GT.0.AND.
-     .          (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.
-     .              (MANIM.GE.4.AND.MANIM.LE.15).OR. H3D_DATA%MH3D .NE. 0))THEN
+           IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
+     .          (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .              (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
 #include "lockon.inc"
             DO IK=1,8
               J1 = III(I,IK)
@@ -2001,12 +2001,12 @@ C
 #include "lockoff.inc"
             ISKYFI(NINT)%P(NISKYFIL) = IES
 C
-            IF (NISKYL .GT. LSKYI) THEN
+            IF (NISKYL > LSKYI) THEN
              CALL ANCMSG(MSGID=26,ANMODE=ANINFO,
      .                   I1=NOINT)
              CALL ARRET(2)
             ENDIF
-            IF (NISKYFIL .GT. NLSKYFI(NINT)) THEN
+            IF (NISKYFIL > NLSKYFI(NINT)) THEN
              CALL ANCMSG(MSGID=26,ANMODE=ANINFO,
      .                   I1=NOINT)
              CALL ARRET(2)
@@ -2028,9 +2028,9 @@ C
             ENDDO
            ENDIF
 C
-           IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT .GT.0.AND.
-     .          (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.
-     .              (MANIM.GE.4.AND.MANIM.LE.15).OR. H3D_DATA%MH3D .NE. 0))THEN
+           IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
+     .          (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .              (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
 #include "lockon.inc"
             DO IK=1,8
               J1 = III(I,IK)
@@ -2141,13 +2141,13 @@ C
           FROTS(2,N) = FROTS(2,N) + FSKYI17(K,2)
           FROTS(3,N) = FROTS(3,N) + FSKYI17(K,3)
           FROTS(4,N) = FROTS(4,N) + FSKYI17(K,4)
-        ELSEIF(IDIFF.GT.1.AND.IDIFF.LT.20)THEN
+        ELSEIF(IDIFF>1.AND.IDIFF<20)THEN
           JJ1 = ADSKYI(NN)
           JJ2 = ADSKYI(N)-1
           DO K=JJ1,JJ2-1
             DO KK=K+1,JJ2
               DO L=1,4
-                IF(FSKYI17(KK,L).GT.FSKYI17(K,L))THEN
+                IF(FSKYI17(KK,L)>FSKYI17(K,L))THEN
                   FF = FSKYI17(KK,L)
                   FSKYI17(KK,L) = FSKYI17(K,L)
                   FSKYI17(K,L)  = FF
@@ -2161,7 +2161,7 @@ C
             FROTS(3,N)= FROTS(3,N)+ FSKYI17(K,3)
             FROTS(4,N)= FROTS(4,N)+ FSKYI17(K,4)
           ENDDO
-        ELSEIF(IDIFF.GE.20)THEN
+        ELSEIF(IDIFF>=20)THEN
 C qsort necessaire si > 20
           JJ1 = ADSKYI(NN)
           JJ2 = ADSKYI(N)-1

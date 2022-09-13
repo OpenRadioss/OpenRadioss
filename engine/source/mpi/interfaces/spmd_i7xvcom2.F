@@ -146,11 +146,11 @@ C
       LOC_PROC = ISPMD + 1
       DT_CST = 0
       IF(NBI18 /= 0)DT_CST = 1
-      IF (IDTMIN(11).EQ.3.OR.IDTMIN(11)==8.OR.IDTMIN(10).EQ.3) THEN
-        IF(IMSCH.GT.0) DT_CST = 1
+      IF (IDTMIN(11)==3.OR.IDTMIN(11)==8.OR.IDTMIN(10)==3) THEN
+        IF(IMSCH>0) DT_CST = 1
       ENDIF
-      IF ((IRAD2R.EQ.1).AND.(NCYCLE.LT.2)) DT_CST = 1
-      IF(I2MSCH.EQ.1) DT_CST = 1
+      IF ((IRAD2R==1).AND.(NCYCLE<2)) DT_CST = 1
+      IF(I2MSCH==1) DT_CST = 1
       LEN = 3 + 3*MAX(IRESP,IMPL_S,MIN(NBI18,1),INT24E2EUSE) + DT_CST
 C type 7 + heat
       LEN7T  = LEN + 1
@@ -175,7 +175,7 @@ C type 25
       LEN25E = 14 ! 2 x [  X(3) +  V(3) +  MS(1) ] +
 
 C
-      IF(IFLAG.EQ.1)THEN
+      IF(IFLAG==1)THEN
 C
 C Partie 1 envoi et preparation buffer reception
 C
@@ -194,9 +194,9 @@ C
      .          + LEN20*ISLEN20 + LEN20T*ISLEN20T + LEN20E*ISLEN20E
      .          + LEN25E*ISLEN25E
         IERROR=0
-        IF(IALLOCS.GT.0)
+        IF(IALLOCS>0)
      +    ALLOCATE(BBUFS(IALLOCS),STAT=IERROR)
-        IF(IERROR.NE.0) THEN
+        IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
         END IF
@@ -207,9 +207,9 @@ C
      .          + LEN25E*IRLEN25E
 
         IERROR=0
-        IF(IALLOCR.GT.0)
+        IF(IALLOCR>0)
      +    ALLOCATE(BBUFR(IALLOCR),STAT=IERROR)
-        IF(IERROR.NE.0) THEN
+        IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
         END IF
@@ -221,7 +221,7 @@ C
           ADD = L+1
           ADDR(P) = ADD
           SIZ = 0
-          IF(P.NE.LOC_PROC)THEN
+          IF(P/=LOC_PROC)THEN
             DO II = 1, NBINTC
               NIN = INTLIST(II)
               NB  = NSNFI(NIN)%P(P)
@@ -232,54 +232,54 @@ C
               INTNITSCHE = IPARI(86,NIN)
               IEDGE = IPARI(58,NIN)
 C
-              IF(NTY/=25.AND.(NTY.EQ.23.OR.
-     .           INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7))THEN
+              IF(NTY/=25.AND.(NTY==23.OR.
+     .           INACTI==5.OR.INACTI==6.OR.INACTI==7))THEN
 C Attention aux interfaces inactives
                ISENS = 0
                INTERACT = 1
                IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.
      .            NTY == 21.OR.NTY == 5.OR.NTY == 19 .OR.
      .            NTY == 25) ISENS = IPARI(64,NIN)  
-               IF(ISENS.NE.0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+               IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
                   TS = SENSOR(2,ISENS)
-                  IF (TS.GT.TT-DT2)  INTERACT = 0
+                  IF (TS>TT-DT2)  INTERACT = 0
                ELSE
                   STARTT = INTBUF_TAB(NIN)%VARIABLES(3)
                   STOPT  = INTBUF_TAB(NIN)%VARIABLES(11)              
-                  IF (STARTT.GT.TT-DT2) INTERACT = 0
+                  IF (STARTT>TT-DT2) INTERACT = 0
                ENDIF   
 C on force le nombre d entite a envoyer a 0 tant que l'interface est inactive (jusqu au retri suivant)
-                IF (INTERACT.EQ.0) NB=0
+                IF (INTERACT==0) NB=0
               END IF
               LENI = LEN
-              IF(NTY.EQ.11)LENI=LEN11
-              IF(NTY.EQ.17)LENI=LEN17
+              IF(NTY==11)LENI=LEN11
+              IF(NTY==17)LENI=LEN17
               IF(NTY == 7 .AND. INTTH > 0 ) LENI = LEN7T
               IF(NTY == 22 .AND. INTTH > 0 ) LENI = LEN7T
               IF(NTY == 23 .AND. INTTH > 0 ) LENI = LEN7T
               IF(NTY == 24 .AND. INTTH > 0 ) LENI = LEN7T
               IF(NTY == 25 .AND. INTTH > 0 ) LENI = LEN7T
-              IF(NTY.EQ.20) LENI = LEN20
+              IF(NTY==20) LENI = LEN20
               IF(NTY == 20 .AND. INTTH > 0) LENI = LEN20T
-              IF(NTY.EQ.11 .AND. INTTH > 0) LENI=LEN11T
+              IF(NTY==11 .AND. INTTH > 0) LENI=LEN11T
 c              IF(NTY == 24 .AND. INTNITSCHE > 0 ) LENI = LENI + 3
-              IF(NB.GT.0) THEN
+              IF(NB>0) THEN
                 L = L + NB*LENI
               ENDIF
 C ajout partie edge pour type 20
-              IF(NTY.EQ.20)THEN
+              IF(NTY==20)THEN
                 NB = NSNFIE(NIN)%P(P)
-                IF(NB.GT.0) L = L + NB*LEN20E
+                IF(NB>0) L = L + NB*LEN20E
               END IF
 C ajout partie edge pour type 25
-              IF(NTY.EQ.25 .AND. IEDGE .NE. 0)THEN
+              IF(NTY==25 .AND. IEDGE /= 0)THEN
                 NB = NSNFIE(NIN)%P(P)
-                IF(NB.GT.0) L = L + NB*LEN25E
+                IF(NB>0) L = L + NB*LEN25E
               END IF
 
             ENDDO
             SIZ = L+1-ADD
-            IF(SIZ.GT.0)THEN
+            IF(SIZ>0)THEN
               MSGTYP = MSGOFF
 C BUFS : envoi partie force et reception partie vitesse
               CALL MPI_IRECV(
@@ -289,7 +289,7 @@ C BUFS : envoi partie force et reception partie vitesse
           ENDIF
         ENDDO
         ADDR(NSPMD+1) = ADDR(NSPMD)+SIZ
-        IF(L.GT.0) THEN
+        IF(L>0) THEN
           ISTOCOM = 1
           DT2PREV =DT2
         ENDIF
@@ -301,26 +301,26 @@ C
           ADD = L+1
           ADDS(P) = ADD
           SIZ = 0
-          IF(P.NE.LOC_PROC)THEN
+          IF(P/=LOC_PROC)THEN
             DO II = 1, NBINTC
               NIN = INTLIST(II)
               IDEB = DEBUT(NIN)
               NB = NSNSI(NIN)%P(P)
-              IF(NB.GT.0) THEN
+              IF(NB>0) THEN
                 NTY   =IPARI(7,NIN)
                 INTTH = IPARI(47,NIN)
                 INACTI = IPARI(22,NIN)           
                 INTNITSCHE = IPARI(86,NIN)
                 LSAV=L
-                IF((NTY.EQ.7 .AND. INTTH ==0 ).OR.NTY.EQ.10.OR.
-     .             (NTY.EQ.22 .AND. INTTH ==0) .OR.
-     .             (NTY.EQ.23 .AND. INTTH ==0) .OR.
-     .             (NTY.EQ.24 .AND. INTTH ==0.AND.INTNITSCHE == 0) .OR.
-     .             (NTY.EQ.25 .AND. INTTH ==0)) THEN
+                IF((NTY==7 .AND. INTTH ==0 ).OR.NTY==10.OR.
+     .             (NTY==22 .AND. INTTH ==0) .OR.
+     .             (NTY==23 .AND. INTTH ==0) .OR.
+     .             (NTY==24 .AND. INTTH ==0.AND.INTNITSCHE == 0) .OR.
+     .             (NTY==25 .AND. INTTH ==0)) THEN
                  ! ---------------------------------
-                 IF(DT_CST.NE.0)THEN
+                 IF(DT_CST/=0)THEN
                   ! ---------------------------------
-                  IF(IRESP.EQ.1.OR.IMPL_S.EQ.1.OR.NBI18.GT.0.OR.INT24E2EUSE==1) THEN
+                  IF(IRESP==1.OR.IMPL_S==1.OR.NBI18>0.OR.INT24E2EUSE==1) THEN
                     DO I = 1, NB
                       N = NSVSI(NIN)%P(IDEB+I)
                       NOD = INTBUF_TAB(NIN)%NSV(N)
@@ -362,7 +362,7 @@ C T24 E2E fictive nodes have ID higher than Numnod. Position & Mass are stored i
                     ENDDO
                     POINT = 7
                   ! ---------------------------------
-                  ELSE ! IRESP.EQ.1.OR.IMPL_S.EQ.1.OR.NBI18.GT.0.OR.I ...
+                  ELSE ! IRESP==1.OR.IMPL_S==1.OR.NBI18>0.OR.I ...
                     DO I = 1, NB
                       N =NSVSI(NIN)%P(IDEB+I)
                       NOD = INTBUF_TAB(NIN)%NSV(N)
@@ -377,7 +377,7 @@ C T24 E2E fictive nodes have ID higher than Numnod. Position & Mass are stored i
                  ! ---------------------------------
                  ELSE   ! dt_cst/=0
                   ! ---------------------------------
-                  IF (IRESP.EQ.1.OR.IMPL_S.EQ.1.OR.NBI18.GT.0.OR.INT24E2EUSE==1) THEN
+                  IF (IRESP==1.OR.IMPL_S==1.OR.NBI18>0.OR.INT24E2EUSE==1) THEN
                     DO I = 1, NB
                       N=NSVSI(NIN)%P(IDEB+I)
                       NOD = INTBUF_TAB(NIN)%NSV(N)
@@ -414,7 +414,7 @@ C T24 E2E fictive nodes have ID higher than Numnod. Position & Mass are stored i
                     ENDDO
                       POINT = 6
                   ! ---------------------------------
-                  ELSE ! IRESP.EQ.1.OR.IMPL_S.EQ.1.OR.NBI18.GT.0.OR.INT24
+                  ELSE ! IRESP==1.OR.IMPL_S==1.OR.NBI18>0.OR.INT24
                     DO I = 1, NB
                       N=NSVSI(NIN)%P(IDEB+I)
                       NOD = INTBUF_TAB(NIN)%NSV(N)
@@ -444,9 +444,9 @@ C
      .                 (NTY==23.AND.INTTH>0).OR.
      .                 (NTY==22.AND.INTTH>0) )THEN
                  ! ---------------------------------
-                 IF(DT_CST.NE.0)THEN
+                 IF(DT_CST/=0)THEN
                   ! ---------------------------------
-                  IF (IRESP.EQ.1.OR.IMPL_S.EQ.1.OR.NBI18.GT.0.OR.INT24E2EUSE==1) THEN
+                  IF (IRESP==1.OR.IMPL_S==1.OR.NBI18>0.OR.INT24E2EUSE==1) THEN
                     DO I = 1, NB
                       N = NSVSI(NIN)%P(IDEB+I)
                       NOD = INTBUF_TAB(NIN)%NSV(N)
@@ -487,7 +487,7 @@ C
                     ENDDO
                      POINT=8
                   ! ---------------------------------
-                  ELSE ! IRESP.EQ.1.OR.IMPL_S.EQ.1.OR.NBI18.GT.0.OR.INT
+                  ELSE ! IRESP==1.OR.IMPL_S==1.OR.NBI18>0.OR.INT
                     DO I = 1, NB
                       N =NSVSI(NIN)%P(IDEB+I)
                       NOD = INTBUF_TAB(NIN)%NSV(N)
@@ -503,7 +503,7 @@ C
                   ! ---------------------------------
                  ! ---------------------------------
                  ELSE ! dt_cst /=0
-                  IF (IRESP.EQ.1.OR.IMPL_S.EQ.1.OR.NBI18.GT.0.OR.INT24E2EUSE==1) THEN
+                  IF (IRESP==1.OR.IMPL_S==1.OR.NBI18>0.OR.INT24E2EUSE==1) THEN
                   ! ---------------------------------
                     DO I = 1, NB
                       N=NSVSI(NIN)%P(IDEB+I)
@@ -532,7 +532,7 @@ C
                     ENDDO
                     POINT = 7
                   ! ---------------------------------
-                  ELSE ! IRESP.EQ.1.OR.IMPL_S.EQ.1.OR.NBI18.GT.0.OR.INT
+                  ELSE ! IRESP==1.OR.IMPL_S==1.OR.NBI18>0.OR.INT
                     DO I = 1, NB
                       N=NSVSI(NIN)%P(IDEB+I)
                       NOD = INTBUF_TAB(NIN)%NSV(N)
@@ -548,9 +548,9 @@ C
                  ENDIF ! dst_cst /=0
                  ! ---------------------------------
 C--------Nitsche
-                ELSEIF(NTY.EQ.24 .AND. INTTH ==0.AND.INTNITSCHE > 0) THEN
-                 IF(DT_CST.NE.0)THEN
-                  IF(IRESP.EQ.1.OR.IMPL_S.EQ.1.OR.NBI18.GT.0.OR.INT24E2EUSE==1) THEN
+                ELSEIF(NTY==24 .AND. INTTH ==0.AND.INTNITSCHE > 0) THEN
+                 IF(DT_CST/=0)THEN
+                  IF(IRESP==1.OR.IMPL_S==1.OR.NBI18>0.OR.INT24E2EUSE==1) THEN
                     DO I = 1, NB
                       N = NSVSI(NIN)%P(IDEB+I)
                       NOD = INTBUF_TAB(NIN)%NSV(N)
@@ -595,7 +595,7 @@ C T24 E2E fictive nodes have ID higher than Numnod. Position & Mass are stored i
                     POINT = 7
                   ENDIF
                  ELSE
-                  IF (IRESP.EQ.1.OR.IMPL_S.EQ.1.OR.NBI18.GT.0.OR.INT24E2EUSE==1) THEN
+                  IF (IRESP==1.OR.IMPL_S==1.OR.NBI18>0.OR.INT24E2EUSE==1) THEN
                     DO I = 1, NB
                       N=NSVSI(NIN)%P(IDEB+I)
                       NOD = INTBUF_TAB(NIN)%NSV(N)
@@ -646,8 +646,8 @@ C
 C----Nitsche
 C
                 ELSEIF(NTY==24.AND.INTTH>0.AND.INTNITSCHE > 0) THEN
-                 IF(DT_CST.NE.0)THEN
-                  IF (IRESP.EQ.1.OR.IMPL_S.EQ.1.OR.NBI18.GT.0.OR.INT24E2EUSE==1) THEN
+                 IF(DT_CST/=0)THEN
+                  IF (IRESP==1.OR.IMPL_S==1.OR.NBI18>0.OR.INT24E2EUSE==1) THEN
                     DO I = 1, NB
                       N = NSVSI(NIN)%P(IDEB+I)
                       NOD = INTBUF_TAB(NIN)%NSV(N)
@@ -692,7 +692,7 @@ C
                     POINT = 8
                   ENDIF
                  ELSE
-                  IF (IRESP.EQ.1.OR.IMPL_S.EQ.1.OR.NBI18.GT.0.OR.INT24E2EUSE==1) THEN
+                  IF (IRESP==1.OR.IMPL_S==1.OR.NBI18>0.OR.INT24E2EUSE==1) THEN
                     DO I = 1, NB
                       N=NSVSI(NIN)%P(IDEB+I)
                       NOD = INTBUF_TAB(NIN)%NSV(N)
@@ -737,10 +737,10 @@ C
 
 
 C
-                ELSEIF(NTY.EQ.11.AND.INTTH==0)THEN
+                ELSEIF(NTY==11.AND.INTTH==0)THEN
 C type 11
-                 IF(DT_CST.NE.0)THEN
-                  IF (IRESP .EQ. 1.OR.IMPL_S.EQ.1.OR.NBI18.GT.0) THEN
+                 IF(DT_CST/=0)THEN
+                  IF (IRESP == 1.OR.IMPL_S==1.OR.NBI18>0) THEN
                     DO I = 1, NB
                       N = NSVSI(NIN)%P(IDEB+I)
                       NOD = INTBUF_TAB(NIN)%IRECTS(2*(N-1)+1)
@@ -778,7 +778,7 @@ C type 11
                     ENDDO
                   ENDIF
                  ELSE
-                  IF (IRESP.EQ.1.OR.IMPL_S.EQ.1.OR.NBI18.GT.0) THEN
+                  IF (IRESP==1.OR.IMPL_S==1.OR.NBI18>0) THEN
                     DO I = 1, NB
                       N=NSVSI(NIN)%P(IDEB+I)
                       NOD = INTBUF_TAB(NIN)%IRECTS(2*(N-1)+1)
@@ -812,10 +812,10 @@ C type 11
                     ENDDO
                   ENDIF
                  ENDIF
-                ELSEIF(NTY.EQ.11.AND.INTTH > 0)THEN
+                ELSEIF(NTY==11.AND.INTTH > 0)THEN
 C type 11 + thermal exchange
-                 IF(DT_CST.NE.0)THEN
-                  IF (IRESP .EQ. 1.OR.IMPL_S.EQ.1.OR.NBI18.GT.0) THEN
+                 IF(DT_CST/=0)THEN
+                  IF (IRESP == 1.OR.IMPL_S==1.OR.NBI18>0) THEN
                     DO I = 1, NB
                       N = NSVSI(NIN)%P(IDEB+I)
                       NOD = INTBUF_TAB(NIN)%IRECTS(2*(N-1)+1)
@@ -857,7 +857,7 @@ C type 11 + thermal exchange
                     ENDDO
                   ENDIF
                  ELSE
-                  IF (IRESP.EQ.1.OR.IMPL_S.EQ.1.OR.NBI18.GT.0) THEN
+                  IF (IRESP==1.OR.IMPL_S==1.OR.NBI18>0) THEN
                     DO I = 1, NB
                       N=NSVSI(NIN)%P(IDEB+I)
                       NOD = INTBUF_TAB(NIN)%IRECTS(2*(N-1)+1)
@@ -897,7 +897,7 @@ C type 11 + thermal exchange
                  ENDIF
 
 C type 17
-                ELSEIF(NTY.EQ.17)THEN
+                ELSEIF(NTY==17)THEN
                   IGE = IPARI(34,NIN)
                   IGN = IPARI(36,NIN)
                   NMES=IGRBRIC(IGN)%NENTITY
@@ -1027,13 +1027,13 @@ C
                     L = L + LEN17
                   ENDDO
 C fin type 17
-                ELSEIF(NTY.EQ.20 .AND. INTTH == 0 )THEN
+                ELSEIF(NTY==20 .AND. INTTH == 0 )THEN
                  NLN = IPARI(35,NIN)
-                 IF(DT_CST.NE.0)THEN
+                 IF(DT_CST/=0)THEN
                    IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
 
 C besoin de tjrs envoyer X
-C                  IF (IRESP.EQ.1.OR.IMPL_S.EQ.1) THEN
+C                  IF (IRESP==1.OR.IMPL_S==1) THEN
                     DO I = 1, NB
                       N = NSVSI(NIN)%P(IDEB+I)
 c                     IL  = NSV(N)
@@ -1146,7 +1146,7 @@ C                     L  = L + INC
                    END IF
 C fin AMS
                  ELSE
-C                  IF (IRESP.EQ.1.OR.IMPL_S.EQ.1) THEN
+C                  IF (IRESP==1.OR.IMPL_S==1) THEN
                    IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
                     DO I = 1, NB
                       N=NSVSI(NIN)%P(IDEB+I)
@@ -1257,8 +1257,8 @@ C fin AMS
                  ENDIF
 C
                 ELSEIF( NTY == 20 .AND.  INTTH > 0 ) THEN
-                 IF(DT_CST.NE.0)THEN
-C                  IF (IRESP.EQ.1.OR.IMPL_S.EQ.1) THEN
+                 IF(DT_CST/=0)THEN
+C                  IF (IRESP==1.OR.IMPL_S==1) THEN
                    IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
                     DO I = 1, NB
                       N = NSVSI(NIN)%P(IDEB+I)
@@ -1371,7 +1371,7 @@ C                     L  = L + INC
                    END IF
 C fin AMS
                  ELSE
-C                  IF (IRESP.EQ.1.OR.IMPL_S.EQ.1) THEN
+C                  IF (IRESP==1.OR.IMPL_S==1) THEN
                    IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
                     DO I = 1, NB
                       N=NSVSI(NIN)%P(IDEB+I)
@@ -1485,14 +1485,14 @@ C
 C
 C Extra Code for Type20 Edge
 C
-              IF(IPARI(7,NIN).EQ.20) THEN
+              IF(IPARI(7,NIN)==20) THEN
                 NB = NSNSIE(NIN)%P(P)
                 IDEB = DEBUTE(NIN)
-                IF(NB.GT.0) THEN
+                IF(NB>0) THEN
 C besoin si partie non edge pas traite
                   NTY   =IPARI(7,NIN)
                   NLN = IPARI(35,NIN)
-                  IF(DT_CST.NE.0)THEN
+                  IF(DT_CST/=0)THEN
                    IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
                     DO I = 1, NB
                       N = NSVSIE(NIN)%P(IDEB+I)
@@ -1891,10 +1891,10 @@ C
 C Extra Code for Type25 Edge
 C
               IEDGE = IPARI(58,NIN)
-              IF(IPARI(7,NIN).EQ.25 .AND. IEDGE .NE. 0) THEN
+              IF(IPARI(7,NIN)==25 .AND. IEDGE /= 0) THEN
                 NB = NSNSIE(NIN)%P(P)
                 IDEB = DEBUTE(NIN)
-                IF(NB.GT.0) THEN
+                IF(NB>0) THEN
                     DO I = 1, NB
                       N = NSVSIE(NIN)%P(IDEB+I)
                       ASSERT(N > 0)
@@ -1972,7 +1972,7 @@ C                     BBUFS(L+27) = 1 ! main of the edge
                ENDIF
             ENDDO
             SIZ = L+1-ADD
-            IF(SIZ.GT.0)THEN
+            IF(SIZ>0)THEN
               MSGTYP = MSGOFF
 C BUFR : reception partie force et envoi partie vitesse
               CALL MPI_ISEND(
@@ -1985,8 +1985,8 @@ C BUFR : reception partie force et envoi partie vitesse
 C
 C Attente reception buffer et decompactage
 C
-      ELSEIF(IFLAG.EQ.2.OR.IFLAG.EQ.3)THEN
-       IF(ISTOCOM.EQ.1)THEN
+      ELSEIF(IFLAG==2.OR.IFLAG==3)THEN
+       IF(ISTOCOM==1)THEN
 C
         DO II = 1, NBINTC
           NIN = INTLIST(II)
@@ -1997,7 +1997,7 @@ C
 C Attente IRECV
 C
         DO P = 1, NSPMD
-          IF(ADDR(P+1)-ADDR(P).GT.0) THEN
+          IF(ADDR(P+1)-ADDR(P)>0) THEN
             CALL MPI_WAIT(REQ_RI(P),STATUS,IERROR)
             L = ADDR(P)-1
 C            DO NIN = 1, NINTER
@@ -2005,18 +2005,18 @@ C            DO NIN = 1, NINTER
               NIN = INTLIST(II)
               NB = NSNFI(NIN)%P(P)
               LSAV=L
-              IF(NB.GT.0)THEN
+              IF(NB>0)THEN
                 IDEB = DEBUT(NIN)
                 NTY =IPARI(7,NIN)
                 INTTH = IPARI(47,NIN)
                 INTNITSCHE = IPARI(86,NIN)
-                IF((NTY.EQ.7.AND.INTTH == 0).OR.NTY.EQ.10.OR.
-     .             (NTY.EQ.22.AND.INTTH == 0).OR.
-     .             (NTY.EQ.23.AND.INTTH == 0).OR.
-     .             (NTY.EQ.24.AND.INTTH == 0.AND.INTNITSCHE == 0).OR.
-     .             (NTY.EQ.25.AND.INTTH == 0)  )THEN
-                 IF(DT_CST.NE.0)THEN
-                  IF (IRESP.EQ.1.OR.IMPL_S.EQ.1.OR.NBI18.GT.0.OR.INT24E2EUSE==1) THEN
+                IF((NTY==7.AND.INTTH == 0).OR.NTY==10.OR.
+     .             (NTY==22.AND.INTTH == 0).OR.
+     .             (NTY==23.AND.INTTH == 0).OR.
+     .             (NTY==24.AND.INTTH == 0.AND.INTNITSCHE == 0).OR.
+     .             (NTY==25.AND.INTTH == 0)  )THEN
+                 IF(DT_CST/=0)THEN
+                  IF (IRESP==1.OR.IMPL_S==1.OR.NBI18>0.OR.INT24E2EUSE==1) THEN
                     DO I = 1, NB
                       XFI(NIN)%P(1,I+IDEB) = BBUFR(L+1)
                       XFI(NIN)%P(2,I+IDEB) = BBUFR(L+2)
@@ -2045,7 +2045,7 @@ C            DO NIN = 1, NINTER
                     POINT=4
                   ENDIF
                  ELSE
-                  IF (IRESP.EQ.1.OR.IMPL_S.EQ.1.OR.NBI18.GT.0.OR.INT24E2EUSE==1) THEN
+                  IF (IRESP==1.OR.IMPL_S==1.OR.NBI18>0.OR.INT24E2EUSE==1) THEN
                     DO I = 1, NB
                       XFI(NIN)%P(1,I+IDEB) = BBUFR(L+1)
                       XFI(NIN)%P(2,I+IDEB) = BBUFR(L+2)
@@ -2078,8 +2078,8 @@ C
      .                 (NTY ==24 .AND. INTTH > 0 .AND.INTNITSCHE == 0).OR.
      .                 (NTY ==23 .AND. INTTH > 0 ).OR.
      .                 (NTY ==22 .AND. INTTH > 0 )) THEN
-                   IF(DT_CST.NE.0)THEN
-                    IF (IRESP.EQ.1.OR.IMPL_S.EQ.1.OR.NBI18.GT.0) THEN
+                   IF(DT_CST/=0)THEN
+                    IF (IRESP==1.OR.IMPL_S==1.OR.NBI18>0) THEN
                       DO I = 1, NB
                         XFI(NIN)%P(1,I+IDEB) = BBUFR(L+1)
                         XFI(NIN)%P(2,I+IDEB) = BBUFR(L+2)
@@ -2110,7 +2110,7 @@ C
                       POINT=5
                     ENDIF
                    ELSE
-                    IF (IRESP.EQ.1.OR.IMPL_S.EQ.1.OR.NBI18.GT.0) THEN
+                    IF (IRESP==1.OR.IMPL_S==1.OR.NBI18>0) THEN
                       DO I = 1, NB
                         XFI(NIN)%P(1,I+IDEB) = BBUFR(L+1)
                         XFI(NIN)%P(2,I+IDEB) = BBUFR(L+2)
@@ -2143,9 +2143,9 @@ C
 
 
 C--- Nitsche
-                ELSEIF(NTY.EQ.24.AND.INTTH == 0.AND.INTNITSCHE > 0)THEN
-                 IF(DT_CST.NE.0)THEN
-                  IF (IRESP.EQ.1.OR.IMPL_S.EQ.1.OR.NBI18.GT.0.OR.INT24E2EUSE==1) THEN
+                ELSEIF(NTY==24.AND.INTTH == 0.AND.INTNITSCHE > 0)THEN
+                 IF(DT_CST/=0)THEN
+                  IF (IRESP==1.OR.IMPL_S==1.OR.NBI18>0.OR.INT24E2EUSE==1) THEN
                     DO I = 1, NB
                       XFI(NIN)%P(1,I+IDEB) = BBUFR(L+1)
                       XFI(NIN)%P(2,I+IDEB) = BBUFR(L+2)
@@ -2180,7 +2180,7 @@ C--- Nitsche
                     POINT=6
                   ENDIF
                  ELSE
-                  IF (IRESP.EQ.1.OR.IMPL_S.EQ.1.OR.NBI18.GT.0.OR.INT24E2EUSE==1) THEN
+                  IF (IRESP==1.OR.IMPL_S==1.OR.NBI18>0.OR.INT24E2EUSE==1) THEN
                     DO I = 1, NB
                       XFI(NIN)%P(1,I+IDEB) = BBUFR(L+1)
                       XFI(NIN)%P(2,I+IDEB) = BBUFR(L+2)
@@ -2214,9 +2214,9 @@ C--- Nitsche
                   ENDIF
                  ENDIF
 C
-                ELSEIF(NTY.EQ.24.AND.INTTH > 0.AND.INTNITSCHE > 0) THEN
-                   IF(DT_CST.NE.0)THEN
-                    IF (IRESP.EQ.1.OR.IMPL_S.EQ.1.OR.NBI18.GT.0) THEN
+                ELSEIF(NTY==24.AND.INTTH > 0.AND.INTNITSCHE > 0) THEN
+                   IF(DT_CST/=0)THEN
+                    IF (IRESP==1.OR.IMPL_S==1.OR.NBI18>0) THEN
                       DO I = 1, NB
                         XFI(NIN)%P(1,I+IDEB) = BBUFR(L+1)
                         XFI(NIN)%P(2,I+IDEB) = BBUFR(L+2)
@@ -2253,7 +2253,7 @@ C
                       POINT=8
                     ENDIF
                    ELSE
-                    IF (IRESP.EQ.1.OR.IMPL_S.EQ.1.OR.NBI18.GT.0) THEN
+                    IF (IRESP==1.OR.IMPL_S==1.OR.NBI18>0) THEN
                       DO I = 1, NB
                         XFI(NIN)%P(1,I+IDEB) = BBUFR(L+1)
                         XFI(NIN)%P(2,I+IDEB) = BBUFR(L+2)
@@ -2292,10 +2292,10 @@ C
 
 
 C----
-                ELSEIF(NTY.EQ.11.AND.INTTH == 0)THEN
+                ELSEIF(NTY==11.AND.INTTH == 0)THEN
 C type 11
-                 IF(DT_CST.NE.0)THEN
-                  IF (IRESP.EQ.1.OR.IMPL_S.EQ.1.OR.NBI18.GT.0) THEN
+                 IF(DT_CST/=0)THEN
+                  IF (IRESP==1.OR.IMPL_S==1.OR.NBI18>0) THEN
                     DO I = 1, NB
                       N1 = 2*(I+IDEB-1)+1
                       N2 = 2*(I+IDEB)
@@ -2343,7 +2343,7 @@ C type 11
                     ENDDO
                   ENDIF
                  ELSE
-                  IF (IRESP.EQ.1.OR.IMPL_S.EQ.1.OR.NBI18.GT.0) THEN
+                  IF (IRESP==1.OR.IMPL_S==1.OR.NBI18>0) THEN
                     DO I = 1, NB
                       N1 = 2*(I+IDEB-1)+1
                       N2 = 2*(I+IDEB)
@@ -2388,9 +2388,9 @@ C type 11
                   ENDIF
                  ENDIF
 C type 11+ thermal modelling
-                ELSEIF(NTY.EQ.11.AND.INTTH > 0)THEN
-                 IF(DT_CST.NE.0)THEN
-                  IF (IRESP.EQ.1.OR.IMPL_S.EQ.1.OR.NBI18.GT.0) THEN
+                ELSEIF(NTY==11.AND.INTTH > 0)THEN
+                 IF(DT_CST/=0)THEN
+                  IF (IRESP==1.OR.IMPL_S==1.OR.NBI18>0) THEN
                     DO I = 1, NB
                       N1 = 2*(I+IDEB-1)+1
                       N2 = 2*(I+IDEB)
@@ -2442,7 +2442,7 @@ C type 11+ thermal modelling
                     ENDDO
                   ENDIF
                  ELSE
-                  IF (IRESP.EQ.1.OR.IMPL_S.EQ.1.OR.NBI18.GT.0) THEN
+                  IF (IRESP==1.OR.IMPL_S==1.OR.NBI18>0) THEN
                     DO I = 1, NB
                       N1 = 2*(I+IDEB-1)+1
                       N2 = 2*(I+IDEB)
@@ -2492,7 +2492,7 @@ C type 11+ thermal modelling
                  ENDIF
 
 
-                ELSEIF(NTY.EQ.17)THEN
+                ELSEIF(NTY==17)THEN
 C type 17
                   DO I = 1, NB
                     NN = I+IDEB
@@ -2786,7 +2786,7 @@ C
 C fin type 17
                 ELSEIF(NTY == 20 .AND. INTTH == 0 ) THEN
 C type 20
-                 IF(DT_CST.NE.0)THEN
+                 IF(DT_CST/=0)THEN
                    IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
                     DO I = 1, NB
                       XFI(NIN)%P(1,I+IDEB) = BBUFR(L+1)
@@ -2906,7 +2906,7 @@ C fin AMS
                  ENDIF
 C
                 ELSEIF(NTY == 20 .AND. INTTH > 0 ) THEN
-                   IF(DT_CST.NE.0)THEN
+                   IF(DT_CST/=0)THEN
                      IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
                       DO I = 1, NB
                         XFI(NIN)%P(1,I+IDEB) = BBUFR(L+1)
@@ -3038,11 +3038,11 @@ C fin type 20
 C
 C Extra Code for Type20 Edge
 C
-              IF(IPARI(7,NIN).EQ.20) THEN
+              IF(IPARI(7,NIN)==20) THEN
                 NB = NSNFIE(NIN)%P(P)
-                IF(NB.GT.0)THEN
+                IF(NB>0)THEN
                   IDEB = DEBUTE(NIN)
-                  IF(DT_CST.NE.0)THEN
+                  IF(DT_CST/=0)THEN
                    IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
                     DO I = 1, NB
                       N1 = 2*(I+IDEB-1)+1
@@ -3273,9 +3273,9 @@ C Extra Code for Type25 Edge
 C
              IEDGE = IPARI(58,NIN)
 
-              IF(IPARI(7,NIN).EQ.25 .AND. IEDGE .NE. 0) THEN
+              IF(IPARI(7,NIN)==25 .AND. IEDGE /= 0) THEN
                 NB = NSNFIE(NIN)%P(P)
-                IF(NB.GT.0)THEN
+                IF(NB>0)THEN
                   IDEB = DEBUTE(NIN)
                   DO I = 1,NB
                       N1 = 2*(I+IDEB-1)+1
@@ -3334,7 +3334,7 @@ C               IF(ISPMD==4) write(6,*) __FILE__," increN ",NB
         ISTOCOM = 0
        END IF
 C cas interface inactive
-       IF(IALLOCR.GT.0)THEN
+       IF(IALLOCR>0)THEN
          DEALLOCATE(BBUFR)
          IALLOCR=0
        END IF
@@ -3342,13 +3342,13 @@ C
 C Attente ISEND
 C
 C flag 3 utile pour restart en cours de run
-       IF(IFLAG.NE.3) THEN
+       IF(IFLAG/=3) THEN
          DO P = 1, NSPMD
-           IF(ADDS(P+1)-ADDS(P).GT.0) THEN
+           IF(ADDS(P+1)-ADDS(P)>0) THEN
              CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
            ENDIF
          ENDDO
-         IF(IALLOCS.GT.0)THEN
+         IF(IALLOCS>0)THEN
            DEALLOCATE(BBUFS)
            IALLOCS=0
          END IF

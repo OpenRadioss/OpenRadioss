@@ -469,7 +469,7 @@ C
              FNCONT(3,IRECT(IR,L)) = FNCONT(3,IRECT(IR,L)) + FZ(IR)*W
            ENDIF
 
-          IF(ANIM_V(27)+H3D_DATA%N_VECT_PCONT2.GT.0) THEN ! Normal/Tangential forces output
+          IF(ANIM_V(27)+H3D_DATA%N_VECT_PCONT2>0) THEN ! Normal/Tangential forces output
             FNCONTP(1,I) = FNCONTP(1,I)  - FN(1) * W
             FNCONTP(2,I) = FNCONTP(2,I)  - FN(2) * W
             FNCONTP(3,I) = FNCONTP(3,I)  - FN(3) * W

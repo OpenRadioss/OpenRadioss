@@ -169,7 +169,7 @@ c         WRITE(IOUT,2100)IG,IHBE,ISMSTR,IPLAST,IINT,ICPRE,ICSTR,CVIS,QA,QB,
 c     .                   DTMIN,ISTRAIN,NPTR,NPTS,NPTT
 Capply submodel transform to V (VX,VY,VZ) 
 C
-      IF (SUB_ID .NE. 0)
+      IF (SUB_ID /= 0)
      .         CALL SUBROTVECT(VX,VY,VZ,RTRANS,SUB_ID,LSUBMODEL)
 C-----------------------
 C---   Default values
@@ -269,14 +269,14 @@ c        NPT = NPTT
 	 IINT = 1
 	ENDIF
       END SELECT      
-      IF (NLY.LE.0) THEN
+      IF (NLY<=0) THEN
          CALL ANCMSG(MSGID=27,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=IG,
      .               C1=TITR)
       ENDIF
-      IF (NLY.GT.NLYMAX) THEN
+      IF (NLY>NLYMAX) THEN
          CALL ANCMSG(MSGID=28,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
@@ -299,9 +299,9 @@ C igeo(31)  flag for default qa qb for law 70 can be used for other law
       IF (QB == ZERO) QB = FIVEEM2  
 C      
       IF(ASHEAR==ZERO)ASHEAR=ONE
-      IF(NLY.EQ.1) ASHEAR= EM10
+      IF(NLY==1) ASHEAR= EM10
       AN=SQRT(VX*VX+VY*VY+VZ*VZ)
-      IF(AN .LT. EM10)THEN
+      IF(AN < EM10)THEN
         VX=ONE
         VY=ZERO
         VZ=ZERO
@@ -312,9 +312,9 @@ C
         VZ=VZ*AN
       ENDIF
       ISK = 0
-      IF (IDSK.NE.0) THEN
+      IF (IDSK/=0) THEN
         DO J=0,NUMSKW+MIN(1,NSPCOND)*NUMSPH+NSUBMOD
-          IF(IDSK.EQ.ISKN(4,J+1)) THEN
+          IF(IDSK==ISKN(4,J+1)) THEN
             ISK=J+1
             GO TO 10
           ENDIF
@@ -329,7 +329,7 @@ C
      .              I2=IDSK)
  10     CONTINUE
       ENDIF
-      IF (IP .LE. 0) THEN
+      IF (IP <= 0) THEN
         DO J=0,NUMSKW
           IF(ISK == ISKN(4,J+1)) THEN
             IP=-(J+1)
@@ -382,7 +382,7 @@ C---------------------
       ENDDO
 C--------------
        IERRS = THK*EP02
-       IF (IABS(IERRS-100).GT.1) THEN
+       IF (IABS(IERRS-100)>1) THEN
         CALL ANCMSG(MSGID=675,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO_BLIND_1,
@@ -390,7 +390,7 @@ C--------------
      .              C1=TITR)
        ENDIF
 C---  Position des couches-----------
-       IF (IPOS.GT.0)THEN
+       IF (IPOS>0)THEN
         TMIN = EM20
         TMAX =-EM20
         DO K=1,NLY
@@ -400,7 +400,7 @@ C---  Position des couches-----------
         ENDDO
 C------------[-0.5,0.5]----------
         THK = ABS(TMAX-TMIN-ONE)
-        IF ( TMIN<-HALF.OR.TMAX.GT.HALF.OR.THK.GT.EM10) THEN
+        IF ( TMIN<-HALF.OR.TMAX>HALF.OR.THK>EM10) THEN
          CALL ANCMSG(MSGID=674,
          
      .               MSGTYPE=MSGWARNING,
@@ -420,10 +420,10 @@ C      TEST MATERIAUX: NON incompability---------
        ICOMPA = 0
        DO 100 K=1,NLY
          DO J=1,NUMMAT
-          IF(IPM(1,J).EQ.NUML(K)) THEN
+          IF(IPM(1,J)==NUML(K)) THEN
             IGEO(IPMAT+K)=J
-            IF(NINT(PM(19,J)).EQ.14.OR.NINT(PM(19,J)).EQ.24
-     .        .OR.NINT(PM(19,J)).EQ.25) ICOMPA = J
+            IF(NINT(PM(19,J))==14.OR.NINT(PM(19,J))==24
+     .        .OR.NINT(PM(19,J))==25) ICOMPA = J
             GO TO 100
           ENDIF
         ENDDO
@@ -441,7 +441,7 @@ C----------------------
       IF(IS_CRYPTED)THEN
          WRITE(IOUT,1000)IG
       ELSE
-       IF(ISK.EQ.0)THEN
+       IF(ISK==0)THEN
          IF(IGEO(31) == 1)THEN
            
            WRITE(IOUT,2100)IG,IHBE,ISMSTR,NPT,ICSTR,

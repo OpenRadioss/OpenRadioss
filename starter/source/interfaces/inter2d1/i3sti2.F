@@ -100,12 +100,12 @@ C
         CALL INRCH2(X,IRECT,IXQ,II,NEL,
      .              NINT,NOINT, YM1, YM2, ZM1,
      .              ZM2 ,YE   ,ZE,ID,TITR)
-        IF(NEL.NE.0) THEN
+        IF(NEL/=0) THEN
          INRTIE(NEL) = II
          CALL INARE2(AREA,YE   ,ZE)
          XL2=(YM2-YM1)**2+(ZM2-ZM1)**2
          MT=IXQ(1,NEL)
-         IF(MT.GT.0)THEN
+         IF(MT>0)THEN
           STF(I)=SLSFAC*XL2*PM(32,MT)/AREA
          ELSE
           STF(I)=ZERO
@@ -149,7 +149,7 @@ C
          DO J= KNOD2ELQ(NSV(I))+1,KNOD2ELQ(NSV(I)+1)
             IE = NOD2ELQ(J)
             INRT = INRTIE(IE)
-            IF(INRT.NE.0)THEN
+            IF(INRT/=0)THEN
                N1=IRECT(1,INRT)
                N2=IRECT(2,INRT)
                Y1=X(2,N1)

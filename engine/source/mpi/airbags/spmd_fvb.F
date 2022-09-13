@@ -171,7 +171,7 @@ C
          DO I=1,FVSPMD(IFV)%NNA_L
             I1=FVSPMD(IFV)%IBUFA_L(1,I)
             I2=FVSPMD(IFV)%IBUFA_L(2,I)
-            IF (I2 .LE. NUMNOD) THEN
+            IF (I2 <= NUMNOD) THEN
                   ! IF MESHGEMS IS USED, EXTRA NODES ARE NOT INCLUDED WITHIN THE NUMNOD NODES
               FVSPMD(IFV)%RBUF(IAD2-1+6*(I-1)+1)=X(1,I2)
               FVSPMD(IFV)%RBUF(IAD2-1+6*(I-1)+2)=X(2,I2)

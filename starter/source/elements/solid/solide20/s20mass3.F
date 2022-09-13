@@ -418,7 +418,7 @@ C         CONTRAINTES INITIALES
           II=NFT+I
           JJ=PT(II)
           IFLAGINI = 1
-          IF(JJ.EQ.0)IFLAGINI = 0
+          IF(JJ==0)IFLAGINI = 0
 c
             IF (IFLAGINI == 1) THEN   
               IPP = I  

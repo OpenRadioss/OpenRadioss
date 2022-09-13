@@ -97,12 +97,12 @@ C-----------------------------------------------
         LEN_ = LEN_TRIM(XRFILE)                                                                                       
         IF(LEN_ > 0 )XRFILE(LEN_+1:ncharline) = ' '
         !
-        IF (XRFILE.EQ.' ') THEN                                                                                          
+        IF (XRFILE==' ') THEN                                                                                          
           XRFILE=ROOTNAM(1:ROOTLEN)//'RS0'                                                                               
         ELSE                                                                                                             
           J=0                                                                                                            
           DO I=1,ncharline                                                                                               
-            IF(XRFILE(I:I).NE.' ')THEN                                                                                   
+            IF(XRFILE(I:I)/=' ')THEN                                                                                   
               J=J+1                                                                                                      
               XRFILE(J:J) = XRFILE(I:I)                                                                                  
             ENDIF                                                                                                        

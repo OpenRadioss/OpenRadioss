@@ -51,7 +51,7 @@ C
        XN =RWL(1)
        YN =RWL(2)
        ZN =RWL(3)
-      IF(MSR.EQ.0)THEN
+      IF(MSR==0)THEN
        XWL=RWL(4)
        YWL=RWL(5)
        ZWL=RWL(6)
@@ -69,7 +69,7 @@ C
       VV2 = V3 * XN - V1 * ZN
       VV3 = V1 * YN - V2 * XN
       VV = SQRT(VV1*VV1 + VV2*VV2 + VV3*VV3)
-      IF(VV.LE.HALF)THEN
+      IF(VV<=HALF)THEN
         V1 = ZERO
         V2 = -ZEP707
         V3 = ZEP707

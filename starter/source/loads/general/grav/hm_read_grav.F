@@ -126,7 +126,7 @@ C=======================================================================
 c
 C
       IAD=1
-      IF(NGRAV.EQ.0)RETURN   
+      IF(NGRAV==0)RETURN   
 C
       WRITE (IOUT,2000)
 C--------------------------------------------------
@@ -155,7 +155,7 @@ C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
         CALL HM_GET_INTV('curveid',NCUR,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV('inputsystem',NOSKEW,IS_AVAILABLE,LSUBMODEL)
-        IF(NOSKEW == 0 .AND. SUB_INDEX .NE. 0 ) NOSKEW = LSUBMODEL(SUB_INDEX)%SKEW
+        IF(NOSKEW == 0 .AND. SUB_INDEX /= 0 ) NOSKEW = LSUBMODEL(SUB_INDEX)%SKEW
         CALL HM_GET_INTV('rad_sensor_id',ISENS,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV('entityid',IGU,IS_AVAILABLE,LSUBMODEL)
 C--------------------------------------------------
@@ -173,7 +173,7 @@ C--------------------------------------------------
             EXIT
           ENDIF
         ENDDO
-        IF (UID.NE.0.AND.IFLAGUNIT.EQ.0) THEN
+        IF (UID/=0.AND.IFLAGUNIT==0) THEN
           CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I2=UID,I1=ID,C1='GRAVITY LOAD',
      .                 C2='GRAVITY LOAD',
@@ -196,11 +196,11 @@ C--------------------------------------------------
 
         NSKW=10*NOSKEW
         NS=0
-        IF (XYZ(1:1).EQ.X)   THEN
+        IF (XYZ(1:1)==X)   THEN
           NS=1+NSKW
-        ELSEIF(XYZ(1:1).EQ.Y)THEN
+        ELSEIF(XYZ(1:1)==Y)THEN
           NS=2+NSKW
-        ELSEIF(XYZ(1:1).EQ.Z)THEN
+        ELSEIF(XYZ(1:1)==Z)THEN
           NS=3+NSKW
         ELSE
           XYZ='Z'
@@ -209,7 +209,7 @@ c          CALL ANCMSG(MSGID=153,ANMODE=ANINFO,MSGTYPE=MSGERROR,
 c     .                C2=XYZ,I1=ID,C1=TITR) 
         ENDIF
 C
-        IF (IGU .NE. 0) THEN
+        IF (IGU /= 0) THEN
           NN = NODGRNR5(IGU,IGS,LGRAV(IAD),IGRNOD,ITABM1,MESS)
         ELSE
           NN = NUMNOD
@@ -223,11 +223,11 @@ C
         IGRV(1,K)=NN
         IGRV(2,K)=NS
         NCURS=0
-        IF(NCUR.NE.0) THEN
+        IF(NCUR/=0) THEN
           DO J=1,NFUNCT
-            IF(NPC(NFUNCT+J+1).EQ.NCUR)NCURS=J
+            IF(NPC(NFUNCT+J+1)==NCUR)NCURS=J
           ENDDO
-          IF(NCURS.EQ.0)THEN
+          IF(NCURS==0)THEN
             CALL ANCMSG(MSGID=154,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I2=NCUR,I1=ID,C1=TITR) 
           ENDIF
@@ -240,11 +240,11 @@ C
         GRAV(2,K) = ONE/FCX
         TSENS=0
         DO J=1,NSENSOR
-          IF(ISENS.NE.0) THEN
-            IF(IGRV(6,K).EQ.LSENSOR(1,J))TSENS=J
+          IF(ISENS/=0) THEN
+            IF(IGRV(6,K)==LSENSOR(1,J))TSENS=J
           ENDIF
         ENDDO
-        IF((TSENS.EQ.0).AND.(IGRV(6,K).NE.0))THEN
+        IF((TSENS==0).AND.(IGRV(6,K)/=0))THEN
           CALL ANCMSG(MSGID=521,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .               I2=IGRV(6,K),I1=ID,C1=TITR) 
         ENDIF

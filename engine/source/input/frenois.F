@@ -65,22 +65,22 @@ C-----------------------------------------------
       CHARACTER CARTE*ncharline
 C
       IKEY=KNOISE
-      IF(IKAD(IKEY).NE.IKAD(IKEY+1))THEN
+      IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        K=0
  1160  READ(IUSC1,REC=IKAD(IKEY)+K,
      .      FMT='(7X,A,1X,A,1X,A,1X,A,19X,I10)',
      .      ERR=9990)KEY2,KEY3,KEY4,KEY5,NBC
        K=K+1
-       IF(KEY2(1:3).EQ.'VEL')THEN
+       IF(KEY2(1:3)=='VEL')THEN
         NOISEV=1
-       ELSEIF(KEY2(1:1).EQ.'P')THEN
+       ELSEIF(KEY2(1:1)=='P')THEN
         NOISEP=1
-       ELSEIF(KEY2(1:3).EQ.'ACC')THEN
+       ELSEIF(KEY2(1:3)=='ACC')THEN
         NOISEA=1
-       ELSEIF(KEY2(1:4).EQ.'CONT')THEN
+       ELSEIF(KEY2(1:4)=='CONT')THEN
         RNOI=1
        ELSE
-        IF(NBC.GT.0)THEN
+        IF(NBC>0)THEN
 c         K=K+1
          NNOISE=0
          RNOI=0
@@ -95,12 +95,12 @@ c         K=K+1
  1300    CONTINUE
          CALL READ10(IKAD(IKEY)+KK,NBC-1,KEY0(IKEY))
 C        IFID=IFID + NNOISE
-         IF(KEY2(1:4).EQ.'INIT')RNOI=2
+         IF(KEY2(1:4)=='INIT')RNOI=2
         ELSE
          RNOI=1
         ENDIF
        ENDIF
-       IF(IKAD(IKEY)+K.NE.IKAD(IKEY+1))GO TO 1160
+       IF(IKAD(IKEY)+K/=IKAD(IKEY+1))GO TO 1160
       ENDIF
 C
       RETURN

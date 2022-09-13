@@ -67,8 +67,8 @@ C
       FVIAD=NELCUT+NBF+NESCT+NERWL+NESRG+NESMD1
       DO I=1,NFVBAG
          PMAIN=FVSPMD(I)%PMAIN
-         IF (ISPMD.EQ.0) THEN
-            IF (ISPMD.EQ.PMAIN-1) THEN
+         IF (ISPMD==0) THEN
+            IF (ISPMD==PMAIN-1) THEN
                ALLOCATE(ITAGT(FVDATA(I)%NNTR))
                DO J=1,FVDATA(I)%NNTR
                   ITAGT(J)=0
@@ -81,7 +81,7 @@ C
                      DO N=FVDATA(I)%IFVTADR_ANIM(KK),
      .                          FVDATA(I)%IFVTADR_ANIM(KK+1)-1
                         NN=FVDATA(I)%IFVPOLY_ANIM(N)
-                        IF (ITAGT(NN).EQ.0) THEN
+                        IF (ITAGT(NN)==0) THEN
                            FVIAD=FVIAD+1
                            ITAGT(NN)=1
                         ENDIF
@@ -112,7 +112,7 @@ C
                DEALLOCATE(IBUF)
             ENDIF
          ELSE
-            IF (ISPMD.EQ.PMAIN-1) THEN
+            IF (ISPMD==PMAIN-1) THEN
                ITAG=MSGOFF
                CALL MPI_SEND(FVDATA(I)%NPOLH_ANIM, 1, MPI_INTEGER,
      .                       IT_SPMD(1), ITAG, MPI_COMM_WORLD,
@@ -133,7 +133,7 @@ C
                      DO N=FVDATA(I)%IFVTADR_ANIM(KK),
      .                          FVDATA(I)%IFVTADR_ANIM(KK+1)-1
                         NN=FVDATA(I)%IFVPOLY_ANIM(N)
-                        IF (ITAGT(NN).EQ.0) THEN
+                        IF (ITAGT(NN)==0) THEN
                            IAD=IAD+1
                            ITAGT(NN)=1
                         ENDIF

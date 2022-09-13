@@ -101,7 +101,7 @@ C-----------------------------------------------
         ELSE
 C-------- AMS (possible mix of elements inside the group)
           DO I=LFT,LLT
-            IF(TAGELEM_SMS(I).EQ.0)THEN
+            IF(TAGELEM_SMS(I)==0)THEN
               FACEIGV(I)=TRHEE_OVER_14    ! computing eigenvalues of Me-1 Ke, TRHEE_OVER_14 = (1/32) / (7/48) rapport des masses
             ELSE
               FACEIGV(I)=ONE           ! compute here maximum eigenvalue K of Ke 

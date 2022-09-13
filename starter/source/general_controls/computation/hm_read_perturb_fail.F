@@ -140,7 +140,7 @@ c
           DO N=1,NUMMAT
             DO J=1,IPM(220, N)
               IF( IPM(236+J, N) == FAIL_ID)THEN
-                IF (IFAILTYPE .NE. IPM(241+J, N)) THEN
+                IF (IFAILTYPE /= IPM(241+J, N)) THEN
                   CALL ANCMSG(MSGID=1193, MSGTYPE=MSGERROR, ANMODE=ANINFO,
      .                 I1=OPT_ID,
      .                 C1=TITR,
@@ -395,7 +395,7 @@ c-------------------------------------------------------
           WRITE(IOUT,*) ' '
           NB_INTERV = 50
           SIZEY = 20
-          IF (MINVAL .NE. -EP30 .AND. MAXVAL .NE. EP30) THEN
+          IF (MINVAL /= -EP30 .AND. MAXVAL /= EP30) THEN
             MIN_VALUE = MINVAL
             MAX_VALUE = MAXVAL
           ENDIF

@@ -59,7 +59,7 @@ C
         DO J=1,NUMC
           KF  = KF+1
           ISK = IMPCSKW(KF)
-          IF(ISK.EQ.1)THEN
+          IF(ISK==1)THEN
             DD_LAGF(2,P) = DD_LAGF(2,P) + 1
           ELSE
             DD_LAGF(2,P) = DD_LAGF(2,P) + 3

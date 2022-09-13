@@ -60,7 +60,7 @@ C     REAL
      .   AV1,CV1
 C-----------------------------------------------------------------------
 C
-      IF(NCTRL.EQ.0) RETURN
+      IF(NCTRL==0) RETURN
 C 
 C     isogeometric elements :
       DO I=LFT,LLT

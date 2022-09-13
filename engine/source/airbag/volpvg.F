@@ -104,7 +104,7 @@ C------------------------
       DV     =VOL-VOLD
       TEMPERATURE = ZERO
 C
-      IF(IDEF.EQ.1)THEN
+      IF(IDEF==1)THEN
         PRES  = PEXT
         Q     = ZERO
       ELSE
@@ -149,13 +149,13 @@ C
             ENDIF
          ENDIF
          
-         IF(DT1.EQ.ZERO.OR.DV.GT.ZERO)THEN
+         IF(DT1==ZERO.OR.DV>ZERO)THEN
             Q=ZERO
          ELSE
             Q=-AMU*SQRT(PRES*AREA*ROT/VOL)*DV/AREA/DT1
          ENDIF
 C     
-         IF(PRES.GT.PMAX)THEN
+         IF(PRES>PMAX)THEN
             IDEF=1
             PRES = PEXT
             Q    = ZERO
@@ -171,7 +171,7 @@ C
       RVOLU(16) = VOL
       RVOLU(12) = PRES
 C
-      IF (ISPMD+1.EQ.PMAIN) THEN
+      IF (ISPMD+1==PMAIN) THEN
         TFEXT=TFEXT+(HALF*(Q+QOLD+PRES+POLD)-PEXT)*DV
         FSAV(1)=AMTOT
         FSAV(2)=VOL
@@ -266,7 +266,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       PMAIN = FR_MV(NSPMD+2)
       IDEF  = IVOLU(14)
-      IF(IDEF.GT.0)GOTO 999
+      IF(IDEF>0)GOTO 999
 C--------------------------------
        GAMA   =RVOLU(1)
        PEXT   =RVOLU(3)
@@ -297,11 +297,11 @@ C
         AVENT  = RBAGHOL(2, II)
         TVENT  = RBAGHOL(3, II)
 C
-        IF(IDEF.LE.0.AND.P.GT.PDEF+PEXT.
-     .               AND.DTPDEFC.GT.DTPDEFI.
-     .               AND.VOL.GT.0.001*AREA**1.5) THEN
+        IF(IDEF<=0.AND.P>PDEF+PEXT.
+     .               AND.DTPDEFC>DTPDEFI.
+     .               AND.VOL>0.001*AREA**1.5) THEN
          IDEF=ABS(IDEF)
-         IF(ISPMD+1.EQ.PMAIN) THEN
+         IF(ISPMD+1==PMAIN) THEN
          WRITE(IOUT,*)
      .         ' *** MONITORED VOLUME MEMBRANE IS DEFLATED ***'
          WRITE(IOUT,*)' *** MONITORED VOLUME ',IVOLU(1),
@@ -309,9 +309,9 @@ C
          WRITE(ISTDO,*)' *** VENT HOLES MEMBRANE IS DEFLATED ***'
          ENDIF
         ENDIF
-        IF(IDEF.LE.0 .AND. TT.GT.TVENT) THEN
+        IF(IDEF<=0 .AND. TT>TVENT) THEN
          IDEF=ABS(IDEF)
-         IF(ISPMD+1.EQ.PMAIN) THEN
+         IF(ISPMD+1==PMAIN) THEN
          WRITE(IOUT,*) 
      .         ' *** MONITORED VOLUME VENTING STARTS ***'
          WRITE(IOUT,*) ' *** MONITORED VOLUME ',IVOLU(1),
@@ -320,16 +320,16 @@ C
          ENDIF
         ENDIF
 C
-        IF(IPVENT.NE.0)THEN
+        IF(IPVENT/=0)THEN
 C
-          IF(IDEF.EQ.1)THEN
+          IF(IDEF==1)THEN
 c            APVENT = ZERO
             NNC=IGRSURF(IPVENT)%NSEG
             DO KK=1,NNC
-               IF(IGRSURF(IPVENT)%ELTYP(KK).EQ.3)THEN
+               IF(IGRSURF(IPVENT)%ELTYP(KK)==3)THEN
 C                segment from shell
                  K=IGRSURF(IPVENT)%ELEM(KK)
-               ELSEIF(IGRSURF(IPVENT)%ELTYP(KK).EQ.7)THEN
+               ELSEIF(IGRSURF(IPVENT)%ELTYP(KK)==7)THEN
 C                segment from sh3n
                  K=IGRSURF(IPVENT)%ELEM(KK) + NUMELC
                ELSE
@@ -343,17 +343,17 @@ c     .            SQRT( N(1,K)**2+N(2,K)**2+N(3,K)**2 )
             ENDDO
 c            AOUT=APVENT
 C
-          ELSEIF(IDEF.GE.2)THEN
+          ELSEIF(IDEF>=2)THEN
 c            APVENT = ZERO
             NNC=IGRSURF(IPVENT)%NSEG
             DO KK=1,NNC
-               IF(IGRSURF(IPVENT)%ELTYP(KK).EQ.3)THEN
+               IF(IGRSURF(IPVENT)%ELTYP(KK)==3)THEN
 C                segment from shell
                  K=IGRSURF(IPVENT)%ELEM(KK)
                  IOK = 0
                  NG=IGROUPC(K)
                   ITY=IPARG(5,NG)
-                  IF(ITY.EQ.3)THEN
+                  IF(ITY==3)THEN
                      IOK = 1
                    ENDIF
                  IF (IOK == 1) THEN
@@ -369,13 +369,13 @@ C                segment from shell
                  ELSE
                    IOFF = 1
                  ENDIF
-               ELSEIF(IGRSURF(IPVENT)%ELTYP(KK).EQ.7)THEN
+               ELSEIF(IGRSURF(IPVENT)%ELTYP(KK)==7)THEN
 C                segment from sh3n
                  K=IGRSURF(IPVENT)%ELEM(KK)
                  IOK = 0
                  NG=IGROUPTG(K)
                   ITY=IPARG(5,NG)
-                  IF(ITY.EQ.7)THEN
+                  IF(ITY==7)THEN
                      IOK = 1
                    ENDIF
                  IF (IOK == 1) THEN
@@ -396,12 +396,12 @@ C                segment from sh3n
 C                segment only
                  IOFF=1
                ENDIF
-               IF(IOFF.EQ.0) THEN
+               IF(IOFF==0) THEN
                  F1(KK) = SQRT( N(1,K)**2+N(2,K)**2+N(3,K)**2 )
                ELSE
                  F1(KK) = ZERO
                END IF
-c               IF(IOFF.EQ.0) APVENT= APVENT+
+c               IF(IOFF==0) APVENT= APVENT+
 c     .                 SQRT( N(1,K)**2+N(2,K)**2+N(3,K)**2 )
                KAD=KAD+NISX
             ENDDO
@@ -409,13 +409,13 @@ c            AOUT=APVENT
           ENDIF
 C
           
-          IF (IDEF.EQ.1.OR.IDEF.GE.2) THEN
+          IF (IDEF==1.OR.IDEF>=2) THEN
             DO KK = 1, 6
                 FRMV6(KK) = ZERO
             END DO
             CALL SUM_6_FLOAT(1, NNC, F1, FRMV6, 1)
-            IF (NSPMD.GT.1) THEN          
-                IF(FR_MV(ISPMD+1).NE.0) THEN
+            IF (NSPMD>1) THEN          
+                IF(FR_MV(ISPMD+1)/=0) THEN
                 CALL SPMD_EXCH_FR6(FR_MV,FRMV6,6)
                 END IF
             ENDIF
@@ -432,24 +432,24 @@ C
           AVENT=1.0
         ENDIF
 C
-        IF(IDEF.GT.0 .AND. P.GT.PEXT.
-     .               AND.VOL.GT.EM3*AREA**1.5)THEN
+        IF(IDEF>0 .AND. P>PEXT.
+     .               AND.VOL>EM3*AREA**1.5)THEN
          IPORT =IBAGHOL(3,II)
          IPORP =IBAGHOL(4,II)
          IPORA =IBAGHOL(5,II)
-         IF(IPORA.NE.0.AND.IPVENT.NE.0)THEN
+         IF(IPORA/=0.AND.IPVENT/=0)THEN
            AOUT=AVENT*GET_U_FUNC(IPORA,AOUT*SCALS,DERI)
          ELSE
            AOUT=AVENT*AOUT
          ENDIF
-         IF(IPORT.NE.0)AOUT=AOUT*GET_U_FUNC(IPORT,TT*SCALT,DERI)
-         IF(IPORP.NE.0)AOUT=AOUT*GET_U_FUNC(IPORP,(P-PEXT)*SCALP,DERI)
+         IF(IPORT/=0)AOUT=AOUT*GET_U_FUNC(IPORT,TT*SCALT,DERI)
+         IF(IPORP/=0)AOUT=AOUT*GET_U_FUNC(IPORP,(P-PEXT)*SCALP,DERI)
          AOUTOT=AOUTOT+AOUT
         ENDIF
         IBAGHOL(1,II)=IDEF
        ENDDO
 C-------
-       IF(AOUTOT.GT.0.)THEN
+       IF(AOUTOT>0.)THEN
            PEXT = MAX(PEXT,PCRIT)
            U=TWO*GAMA/(GAMA-ONE)*P/RO*(ONE-(PEXT/P)**((GAMA-ONE)/GAMA))
            U=SQRT(U)
@@ -467,7 +467,7 @@ C-------
            FLOUT= ZERO   
        ENDIF
 C-------
-       IF(ISPMD+1.EQ.PMAIN) THEN
+       IF(ISPMD+1==PMAIN) THEN
          FSAV(6)=AOUTOT
          FSAV(7)=FLOUT/MAX(EM20,AOUTOT)
        ENDIF

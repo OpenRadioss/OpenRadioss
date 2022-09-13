@@ -188,7 +188,7 @@ C------------ call anyway, if coating shell MSEGTYP(L)=MSEGTYP(L)+1
           ENDDO
         ENDIF
 #ifndef HYPERMESH_LIB
-        IF(IPRI.GE.5) THEN
+        IF(IPRI>=5) THEN
           WRITE(IOUT,'(/,A,/)')' SEGMENTS USED FOR MAIN SURFACE: '
           DO I=1,NRTM
             WRITE(IOUT,FMT=FMW_4I)(ITAB(IRECT(K,I)),K=1,4)
@@ -1008,13 +1008,13 @@ C--if MSEGTYP solid -> nothing
       IF (MSEGTYP/=0) RETURN
       NEL=0
       NELTG=0
-      IF(IRECT(3).EQ.IRECT(4).AND.NUMELTG.NE.0)THEN
+      IF(IRECT(3)==IRECT(4).AND.NUMELTG/=0)THEN
        DO 230 IAD=KNOD2ELTG(IRECT(1))+1,KNOD2ELTG(IRECT(1)+1)
         N = NOD2ELTG(IAD)
         DO 220 J=1,3
           II=IRECT(J)
           DO K=1,3
-            IF(IXTG(K+1,N).EQ.II) GOTO 220
+            IF(IXTG(K+1,N)==II) GOTO 220
           END DO
           GOTO 230
   220   CONTINUE
@@ -1022,13 +1022,13 @@ C--if MSEGTYP solid -> nothing
   230  CONTINUE
       ENDIF
 C
-      IF(NUMELC.NE.0) THEN
+      IF(NUMELC/=0) THEN
        DO 430 IAD=KNOD2ELC(IRECT(1))+1,KNOD2ELC(IRECT(1)+1)
         N = NOD2ELC(IAD)
         DO 420 J=1,4
           II=IRECT(J)
           DO K=1,4
-            IF(IXC(K+1,N).EQ.II) GOTO 420
+            IF(IXC(K+1,N)==II) GOTO 420
           END DO
           GOTO 430
   420   CONTINUE
@@ -1054,7 +1054,7 @@ C
           DO 310 JJ=1,4
             II=IRECT(JJ)
             DO K=1,8
-              IF(IXS(K+1,N).EQ.II) GOTO 310
+              IF(IXS(K+1,N)==II) GOTO 310
             ENDDO
             GOTO 330
   310     CONTINUE
@@ -1064,10 +1064,10 @@ C
           DO 320 JJ=1,4
             II=IRECT(JJ)
             DO K=1,8
-              IF(IXS(K+1,N).EQ.II) GOTO 320
+              IF(IXS(K+1,N)==II) GOTO 320
             ENDDO
             DO K=1,6
-              IF(IXS10(K,N-NUMELS8).EQ.II) GOTO 320
+              IF(IXS10(K,N-NUMELS8)==II) GOTO 320
             ENDDO
             GOTO 330
   320     CONTINUE
@@ -1081,10 +1081,10 @@ C
           DO 322 JJ=1,4
             II=IRECT(JJ)
             DO K=1,8
-              IF(IXS(K+1,N).EQ.II) GOTO 322
+              IF(IXS(K+1,N)==II) GOTO 322
             ENDDO
             DO K=1,12
-              IF(IXS20(K,N-NUMELS8-NUMELS10).EQ.II) GOTO 322
+              IF(IXS20(K,N-NUMELS8-NUMELS10)==II) GOTO 322
             ENDDO
             GOTO 330
   322     CONTINUE
@@ -1095,10 +1095,10 @@ C
           DO 324 JJ=1,4
             II=IRECT(JJ)
             DO K=1,8
-              IF(IXS(K+1,N).EQ.II) GOTO 324
+              IF(IXS(K+1,N)==II) GOTO 324
             ENDDO
             DO K=1,8
-              IF(IXS16(K,N-NUMELS8-NUMELS10-NUMELS20).EQ.II) GOTO 324
+              IF(IXS16(K,N-NUMELS8-NUMELS10-NUMELS20)==II) GOTO 324
             ENDDO
             GOTO 330
   324     CONTINUE
@@ -1997,7 +1997,7 @@ C-----------------------------------------------
 	 ISPT2(1:NSN) = 0
          DO I=1,I_STOK
              NI=CAND_N(I)
-             IF(NI .LE. NSN)THEN
+             IF(NI <= NSN)THEN
                NSI = ISEGPT(NI)
                IF(NSI > 0)THEN
                   IF(IRTLM(NSI) /=0)THEN

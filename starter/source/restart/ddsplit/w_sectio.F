@@ -98,7 +98,7 @@ C        LEN = 30 + NSINT_S + NNOD_S
         DO J = 1, LEN
           NSTR_L(IP_L+J) = NSTRF(IP+J)
         ENDDO
-        IF(N1.NE.0) THEN
+        IF(N1/=0) THEN
           IF(NLOCAL(N1,PROC+1)==1)THEN
             N1 = NODLOCAL(N1)
             NSTR_L(IP_L+4) = N1
@@ -106,7 +106,7 @@ C        LEN = 30 + NSINT_S + NNOD_S
             NSTR_L(IP_L+4) = -N1
           END IF
         END IF
-        IF(N2.NE.0) THEN
+        IF(N2/=0) THEN
           IF(NLOCAL(N2,PROC+1)==1)THEN
             N2 = NODLOCAL(N2)
             NSTR_L(IP_L+5) = N2
@@ -114,7 +114,7 @@ C        LEN = 30 + NSINT_S + NNOD_S
             NSTR_L(IP_L+5) = -N2
           END IF
         END IF
-        IF(N3.NE.0) THEN
+        IF(N3/=0) THEN
           IF(NLOCAL(N3,PROC+1)==1)THEN
             N3 = NODLOCAL(N3)
             NSTR_L(IP_L+6) = N3
@@ -141,7 +141,7 @@ C
 C solides
         DO J = 1, NSELS_S
           K = NSTRF(IP + J*2 - 1)
-          IF(CEP(K+OFF).EQ.PROC) THEN
+          IF(CEP(K+OFF)==PROC) THEN
             NSELS_S_L = NSELS_S_L + 1
             NSTR_L(IP_L+NSELS_S_L*2-1) = CEL(K+OFF)
             NSTR_L(IP_L+NSELS_S_L*2) = NSTRF(IP+J*2)
@@ -154,7 +154,7 @@ C solides
 C quad
         DO J = 1, NSELQ_S
           K = NSTRF(IP + J*2 - 1)
-          IF(CEP(K+OFF).EQ.PROC) THEN
+          IF(CEP(K+OFF)==PROC) THEN
             NSELQ_S_L = NSELQ_S_L + 1
             NSTR_L(IP_L+NSELQ_S_L*2-1) = CEL(K+OFF)
             NSTR_L(IP_L+NSELQ_S_L*2) = NSTRF(IP+J*2)
@@ -167,7 +167,7 @@ C quad
 C shell
         DO J = 1, NSELC_S
           K = NSTRF(IP + J*2 - 1)
-          IF(CEP(K+OFF).EQ.PROC) THEN
+          IF(CEP(K+OFF)==PROC) THEN
             NSELC_S_L = NSELC_S_L + 1
             NSTR_L(IP_L+NSELC_S_L*2-1) = CEL(K+OFF)
             NSTR_L(IP_L+NSELC_S_L*2) = NSTRF(IP+J*2)
@@ -180,7 +180,7 @@ C shell
 C truss
         DO J = 1, NSELT_S
           K = NSTRF(IP + J*2 - 1)
-          IF(CEP(K+OFF).EQ.PROC) THEN
+          IF(CEP(K+OFF)==PROC) THEN
             NSELT_S_L = NSELT_S_L + 1
             NSTR_L(IP_L+NSELT_S_L*2-1) = CEL(K+OFF)
             NSTR_L(IP_L+NSELT_S_L*2) = NSTRF(IP+J*2)
@@ -193,7 +193,7 @@ C truss
 C poutre
         DO J = 1, NSELP_S
           K = NSTRF(IP + J*2 - 1)
-          IF(CEP(K+OFF).EQ.PROC) THEN
+          IF(CEP(K+OFF)==PROC) THEN
             NSELP_S_L = NSELP_S_L + 1
             NSTR_L(IP_L+NSELP_S_L*2-1) = CEL(K+OFF)
             NSTR_L(IP_L+NSELP_S_L*2) = NSTRF(IP+J*2)
@@ -206,7 +206,7 @@ C poutre
 Cel ressort
         DO J = 1, NSELR_S
           K = NSTRF(IP + J*2 - 1)
-          IF(CEP(K+OFF).EQ.PROC) THEN
+          IF(CEP(K+OFF)==PROC) THEN
             NSELR_S_L = NSELR_S_L + 1
             NSTR_L(IP_L+NSELR_S_L*2-1) = CEL(K+OFF)
             NSTR_L(IP_L+NSELR_S_L*2) = NSTRF(IP+J*2)
@@ -219,7 +219,7 @@ Cel ressort
 Cel triangle
         DO J = 1, NSELTG_S
           K = NSTRF(IP + J*2 - 1)
-          IF(CEP(K+OFF).EQ.PROC) THEN
+          IF(CEP(K+OFF)==PROC) THEN
             NSELTG_S_L = NSELTG_S_L + 1
             NSTR_L(IP_L+NSELTG_S_L*2-1) = CEL(K+OFF)
             NSTR_L(IP_L+NSELTG_S_L*2) = NSTRF(IP+J*2)
@@ -234,9 +234,9 @@ C K0NEXT
      +                    2*(NSELS_S_L+NSELQ_S_L+NSELC_S_L+NSELT_S_L+
      +                       NSELP_S_L+NSELR_S_L+NSELTG_S_L)+1
         NSTR_L(K0_L+26) = KR0_L+10
-        IF(TYP_S.GE.100) NSTR_L(K0_L+26)=NSTR_L(K0_L+26)+12*NNOD_S_L
-        IF(TYP_S.GE.101) NSTR_L(K0_L+26)=NSTR_L(K0_L+26)+12*NNOD_S_L
-        IF(TYP_S.GE.102) NSTR_L(K0_L+26)=NSTR_L(K0_L+26)+6*NNOD_S_L
+        IF(TYP_S>=100) NSTR_L(K0_L+26)=NSTR_L(K0_L+26)+12*NNOD_S_L
+        IF(TYP_S>=101) NSTR_L(K0_L+26)=NSTR_L(K0_L+26)+12*NNOD_S_L
+        IF(TYP_S>=102) NSTR_L(K0_L+26)=NSTR_L(K0_L+26)+6*NNOD_S_L
         KR0_L = NSTR_L(K0_L+26)
       ENDDO
 C

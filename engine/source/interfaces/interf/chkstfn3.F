@@ -257,14 +257,14 @@ C ipari(17) = 2 => delete facettes+noeuds methode 2 (sauf type 2)
       IDEL7NOK = 0
       DO NG=1,NINTER
         ITY = IPARI(7,NG)
-        IF(ITY.NE.2) IPARI(16,NG)=-1
-        IF(ITY.EQ. 2.OR.ITY.EQ. 3.OR.ITY.EQ. 5.OR.
-     +     ITY.EQ. 7.OR.ITY.EQ.10.OR.ITY.EQ.11.OR.
-     +     ITY.EQ.20.OR.ITY.EQ.21.OR.ITY.EQ.22.OR.
-     +     ITY.EQ.23.OR.ITY.EQ.24.OR.ITY.EQ.25)
+        IF(ITY/=2) IPARI(16,NG)=-1
+        IF(ITY== 2.OR.ITY== 3.OR.ITY== 5.OR.
+     +     ITY== 7.OR.ITY==10.OR.ITY==11.OR.
+     +     ITY==20.OR.ITY==21.OR.ITY==22.OR.
+     +     ITY==23.OR.ITY==24.OR.ITY==25)
      +    IDEL7NG = MAX(IDEL7NG,IPARI(17,NG))
       ENDDO
-      IF (IDEL7NG.GE.1) IDEL7NOK = 1
+      IF (IDEL7NG>=1) IDEL7NOK = 1
 C    
       RETURN
       END
@@ -860,7 +860,7 @@ C
 #include "vectorize.inc"
             DO I = LFT,LLT
               IE = NFT+I+OFQ
-              IF(ABS(GBUF%OFF(I)).GE.ONE) THEN
+              IF(ABS(GBUF%OFF(I))>=ONE) THEN
                TAGEL(IE)=1
                 DO K=2,5
                   N = IXQ(K,NFT+I)
@@ -884,15 +884,15 @@ C
 #include "vectorize.inc"
             DO I = LFT,LLT 
               IE = NFT+I+OFC
-              IF(NADMESH.NE.0) THEN
-                IF(ABS(GBUF%OFF(I)).GE.ONE.AND.TAGTRIMC(IE)==0)THEN  
+              IF(NADMESH/=0) THEN
+                IF(ABS(GBUF%OFF(I))>=ONE.AND.TAGTRIMC(IE)==0)THEN  
                   TAGEL(IE)=1
                   DO K=2,5
                      N = IXC(K,NFT+I)
                      ITAG(N) = 1   
                  ENDDO   
                 ENDIF               
-              ELSEIF(ABS(GBUF%OFF(I)).GE.ONE) THEN
+              ELSEIF(ABS(GBUF%OFF(I))>=ONE) THEN
                 TAGEL(IE)=1
                 DO K=2,5
                   N = IXC(K,NFT+I)
@@ -1015,15 +1015,15 @@ C
             DO I = LFT,LLT
               IE = NFT+I+OFTG
 
-              IF(NADMESH.NE.0) THEN
-                IF(ABS(GBUF%OFF(I)).GE.ONE.AND.TAGTRIMTG(IE)==0)THEN            
+              IF(NADMESH/=0) THEN
+                IF(ABS(GBUF%OFF(I))>=ONE.AND.TAGTRIMTG(IE)==0)THEN            
                   TAGEL(IE)=1
                   DO K=2,4
                      N = IXTG(K,NFT+I)
                      ITAG(N) = 1   
                   ENDDO
                 ENDIF                  
-              ELSEIF(ABS(GBUF%OFF(I)).GE.ONE) THEN
+              ELSEIF(ABS(GBUF%OFF(I))>=ONE) THEN
                 TAGEL(IE)=1
                 DO K=2,4
                   N = IXTG(K,NFT+I)
@@ -1059,7 +1059,7 @@ C
 #include "vectorize.inc"
               DO I = LFT,LLT
                 IE = NFT+I+OFTG
-                IF(ABS(GBUF%OFF(I)).GE.ONE) THEN
+                IF(ABS(GBUF%OFF(I))>=ONE) THEN
                   DO K=1,3
                     N = IXTG1(K,NFT+I-NUMELTG+NUMELTG6)
                     ITAG(N) = 1
@@ -1089,7 +1089,7 @@ C
 #include "vectorize.inc"
             DO I = LFT,LLT
               IE = NFT+I+OFUR
-              IF(ABS(EV(NB1+I-1)).GE.ONE) THEN 
+              IF(ABS(EV(NB1+I-1))>=ONE) THEN 
                 TAGEL(IE)=1
                 DO K=2,5
                   N = IXUR(K,NFT+I)
@@ -1112,7 +1112,7 @@ C
  	      NB1 = KAD
 #include "vectorize.inc"
  	      DO I = LFT,LLT
- 	        IF(ABS(GBUF%OFF(I)).GE.ONE) THEN
+ 	        IF(ABS(GBUF%OFF(I))>=ONE) THEN
  		         N = KXSP(3,NFT+I)
  		         ITAG(N) = 1
  	        ELSE
@@ -1149,7 +1149,7 @@ C-------------------------------
 
 C Partie non parallele
 !$OMP SINGLE
-      IF (R2R_SIU == 1.AND.IDEL7NOK.EQ.1) THEN
+      IF (R2R_SIU == 1.AND.IDEL7NOK==1) THEN
 C-----------------------------------------------------------------
 C       Envoi de ITAG et TAGEL pour multidomaines
 C-----------------------------------------------------------------
@@ -1208,21 +1208,21 @@ C-----------------------------------------------------------------
               DO J = ADDCNEL(N1),ADDCNEL(N1+1)-1            
                 IE = CNEL(J)
 C
-                IF ((ITY == 1).AND.(IE.LE.OFQ)) THEN
+                IF ((ITY == 1).AND.(IE<=OFQ)) THEN
                   R2R_NUMEL = IXS(11,IE)
-                ELSEIF ((ITY == 2).AND.((IE > OFQ).AND.(IE.LE.OFC))) THEN                
+                ELSEIF ((ITY == 2).AND.((IE > OFQ).AND.(IE<=OFC))) THEN                
                   R2R_NUMEL = IXQ(7,IE-OFQ)            
-                ELSEIF ((ITY == 3).AND.((IE > OFC).AND.(IE.LE.OFT))) THEN
+                ELSEIF ((ITY == 3).AND.((IE > OFC).AND.(IE<=OFT))) THEN
                   R2R_NUMEL = IXC(7,IE-OFC)
-                ELSEIF ((ITY == 4).AND.((IE > OFT).AND.(IE.LE.OFP))) THEN               
+                ELSEIF ((ITY == 4).AND.((IE > OFT).AND.(IE<=OFP))) THEN               
                   R2R_NUMEL = IXT(5,IE-OFT)
-                ELSEIF ((ITY == 5).AND.((IE > OFP).AND.(IE.LE.OFR))) THEN
+                ELSEIF ((ITY == 5).AND.((IE > OFP).AND.(IE<=OFR))) THEN
                   R2R_NUMEL = IXP(6,IE-OFP)              
-                ELSEIF ((ITY == 6).AND.((IE > OFR).AND.(IE.LE.OFTG))) THEN
+                ELSEIF ((ITY == 6).AND.((IE > OFR).AND.(IE<=OFTG))) THEN
                   R2R_NUMEL = IXR(NIXR,IE-OFR)              
-                ELSEIF ((ITY == 7).AND.((IE > OFTG).AND.(IE.LE.OFUR))) THEN
+                ELSEIF ((ITY == 7).AND.((IE > OFTG).AND.(IE<=OFUR))) THEN
                   R2R_NUMEL = IXTG(6,IE-OFTG)
-                ELSEIF ((ITY == 8).AND.((IE > OFUR).AND.(IE.LE.OFUR+NUMELUR))) THEN
+                ELSEIF ((ITY == 8).AND.((IE > OFUR).AND.(IE<=OFUR+NUMELUR))) THEN
                   R2R_NUMEL = IXUR(NIXUR,IE-OFUR)
                 ENDIF
 C
@@ -1373,8 +1373,8 @@ C
 !$OMP END SINGLE
       ENDIF
 
-       IF((NTY.EQ.7.OR.NTY.EQ.10.OR.NTY.EQ.22.OR.NTY.EQ.24.OR.NTY.EQ.25).AND.
-     .     IDEL.GE.1) THEN
+       IF((NTY==7.OR.NTY==10.OR.NTY==22.OR.NTY==24.OR.NTY==25).AND.
+     .     IDEL>=1) THEN
          NSN = IPARI(5,NG)
          IF(IDELKEEP /= 1) THEN
            IF(NTY==24)THEN
@@ -1424,7 +1424,7 @@ C Fin Partie non parallele
            IDBS = IDBS + INC*(NINDEX1(NG)+NINDEX2(NG)) + 4
            IDB  = IDB  + NINDEX1(NG) + NINDEX2(NG)
          END IF
-       ELSEIF(NTY == 23.AND.IDEL.GE.1) THEN
+       ELSEIF(NTY == 23.AND.IDEL>=1) THEN
          NSN = IPARI(5,NG)
 	 IF(IDELKEEP /= 1) CALL CHKSLV3(
      .     NSN         ,INTBUF_TAB(NG)%NSV,INTBUF_TAB(NG)%STFNS,ITAG,ITASK,
@@ -1462,7 +1462,7 @@ C Fin Partie non parallele
            IDBS = IDBS + INC*(NINDEX1(NG)+NINDEX2(NG)) + 4
            IDB  = IDB  + NINDEX1(NG) + NINDEX2(NG)
          END IF
-       ELSEIF((NTY == 11).AND.IDEL.GE.1) THEN
+       ELSEIF((NTY == 11).AND.IDEL>=1) THEN
          NMN  =IPARI(6,NG)
          NSN  =IPARI(5,NG)
          NRTM =IPARI(4,NG)
@@ -1526,12 +1526,12 @@ C Fin Partie non parallele
            IDB  = IDB  + NINDEX1(NG) + NINDEX2(NG)
          END IF
 C------
-       ELSEIF(NTY == 21.AND.IDEL.GE.1) THEN
+       ELSEIF(NTY == 21.AND.IDEL>=1) THEN
          NSN = IPARI(5,NG)
          IF(IDELKEEP /= 1)
      .     CALL CHKSLV3B(NSN,INTBUF_TAB(NG)%NSV,INTBUF_TAB(NG)%STFNS,ITAG,ITASK)
 C------
-       ELSEIF(NTY == 20.AND.IDEL.GE.1) THEN
+       ELSEIF(NTY == 20.AND.IDEL>=1) THEN
          NSN = IPARI(5,NG)
 	 IF(IDELKEEP /= 1) CALL CHKSLV3C(
      .     NSN         ,INTBUF_TAB(NG)%NSV,INTBUF_TAB(NG)%STFA,ITAG,ITASK,
@@ -1636,7 +1636,7 @@ C Fin Partie non parallele
            IDB  = IDB  + NINDEX3(NG) + NINDEX4(NG)
          END IF
 C------
-       ELSEIF(NTY == 3.AND.IDEL.GE.1) THEN
+       ELSEIF(NTY == 3.AND.IDEL>=1) THEN
          IF(ISPMD == 0) THEN
            NSN = IPARI(5,NG)
            IF(IDELKEEP /= 1) 
@@ -1704,7 +1704,7 @@ C Fin Partie non parallele
            IDBS = IDBS + INC*(NINDEX1(NG)+NINDEX2(NG)) + 4
            IDB  = IDB  + NINDEX1(NG) + NINDEX2(NG)
          END IF
-       ELSEIF(NTY == 5.AND.IDEL.GE.1) THEN
+       ELSEIF(NTY == 5.AND.IDEL>=1) THEN
          IF(ISPMD == 0) THEN
            NSN = IPARI(5,NG)
            IF(IDELKEEP /= 1) 
@@ -1846,8 +1846,8 @@ C
         IF(INT24USE==1.OR.NINTER25/=0)THEN
             INDSEGLO(NG+1)=INDSEGLO(NG)
         ENDIF
-        IF((NTY.EQ.7.OR.NTY.EQ.10.OR.NTY.EQ.5.OR.NTY.EQ.20.OR.NTY.EQ.22
-     +    .OR.NTY.EQ.23.OR.NTY.EQ.24.OR.NTY.EQ.25).AND.IDEL.GE.1) THEN
+        IF((NTY==7.OR.NTY==10.OR.NTY==5.OR.NTY==20.OR.NTY==22
+     +    .OR.NTY==23.OR.NTY==24.OR.NTY==25).AND.IDEL>=1) THEN
 
          IF(INT24USE==1.OR.NINTER25/=0)THEN
             SIZ=INDSEGLO_SAV(NG+1)-INDSEGLO_SAV(NG)
@@ -1861,7 +1861,7 @@ C
      2          IDEL         ,0, NEWFRONT(NG),NG,NRTM,
      7          INTBUF_TAB(NG)%MSEGLO,INTBUF_TAB(NG)%MVOISIN,INDSEGLO,IBUFSEGLO)
          IDB = IDB+NINDEX1(NG)
-        ELSEIF((NTY == 11).AND.IDEL.GE.1) THEN
+        ELSEIF((NTY == 11).AND.IDEL>=1) THEN
 Cote main
          CALL SETMSR3(
      1          INTBUF_TAB(NG)%STFM,NINDEX1(NG),IBUFS(IDB),IND(IDB),NTY,
@@ -1874,7 +1874,7 @@ Cote secnd
      2          IDEL         ,2, NEWFRONT(NG),NG,NRTM,
      7          INTBUF_TAB(NG)%MSEGLO,INTBUF_TAB(NG)%MVOISIN,INDSEGLO,IBUFSEGLO)
          IDB = IDB+NINDEX2(NG)
-        ELSEIF(NTY == 3.AND.IDEL.GE.1) THEN
+        ELSEIF(NTY == 3.AND.IDEL>=1) THEN
 C cote secnd
          CALL SETMSR3(
      1          INTBUF_TAB(NG)%STFS,NINDEX1(NG),IBUFS(IDB),IND(IDB),NTY,
@@ -1887,7 +1887,7 @@ C cote main
      2          IDEL         ,0, NEWFRONT(NG),NG,NRTM,
      7          INTBUF_TAB(NG)%MSEGLO,INTBUF_TAB(NG)%MVOISIN,INDSEGLO,IBUFSEGLO)
          IDB = IDB+NINDEX2(NG)
-        ELSEIF(NTY == 2.AND.IDEL.NE.0)THEN
+        ELSEIF(NTY == 2.AND.IDEL/=0)THEN
          CALL SETMSR2(
      1          NINDEX1(NG)  ,IBUFS(IDB),IND(IDB)     ,INTBUF_TAB(NG)%NSV,MS,
      2         INTBUF_TAB(NG)%SMAS,IN   ,INTBUF_TAB(NG)%SINER,IDEL)
@@ -1897,7 +1897,7 @@ C
 C
 C Rajout type20 partie edge
 C
-        IF(NTY == 20.AND.IDEL.GE.1)THEN
+        IF(NTY == 20.AND.IDEL>=1)THEN
 Cote main
          CALL SETMSR3(
      1          INTBUF_TAB(NG)%STF,NINDEX3(NG),IBUFS(IDB),IND(IDB),-NTY,    ! -NTY => type20 edge
@@ -1991,7 +1991,7 @@ C-----------------------------------------------
       NMNL = (ITASK+1)*NMN / NTHREAD
       ICOMP = 0
 C
-      IF(NTY.NE.3.AND.NTY.NE.5) THEN
+      IF(NTY/=3.AND.NTY/=5) THEN
 C mise a - uniquement pour optimiser les interfaces type 7, 10
         DO I = NMNF, NMNL
 C si tag nul sur noeuds main alors msr(i) = -msr(i)
@@ -2009,7 +2009,7 @@ C
       NIND = 0
       NIND_SEGLO = 0
       DO I = NRTF, NRTL
-        IF(STF(I).NE.ZERO) THEN
+        IF(STF(I)/=ZERO) THEN
           N1 = IRECT(1,I)
           N2 = IRECT(2,I)
           N3 = IRECT(3,I)
@@ -2023,8 +2023,8 @@ C
               IND_SEGLO(NIND_SEGLO)=I
             ENDIF
 C attention >= 1 car cumul noeud frontiere des tags a 1
-          ELSEIF(ITAG2(N1).GE.1.AND.ITAG2(N2).GE.1.AND.
-     +           ITAG2(N3).GE.1.AND.ITAG2(N4).GE.1) THEN
+          ELSEIF(ITAG2(N1)>=1.AND.ITAG2(N2)>=1.AND.
+     +           ITAG2(N3)>=1.AND.ITAG2(N4)>=1) THEN
             NIND = NIND + 1
             NINDL(NIND) = I
           END IF
@@ -2040,23 +2040,23 @@ C
        IF(N4 == 0) N4 = N3
        DO J = ADDCNEL(N1),ADDCNEL(N1+1)-1
          II = CNEL(J)
-         IF(TAGEL(II).LT.0) THEN    !    elt detruit trouve
+         IF(TAGEL(II)<0) THEN    !    elt detruit trouve
            ITAGL(N1) = 0
            ITAGL(N2) = 0
            ITAGL(N3) = 0
            ITAGL(N4) = 0
-           IF(II.LE.OFC) THEN ! solide detruit
+           IF(II<=OFC) THEN ! solide detruit
              DO K = 2, 9
                IX = IXS(K,II)
                ITAGL(IX) = 1
              END DO
-           ELSEIF(II > OFC.AND.II.LE.OFT) THEN ! shell detruit
+           ELSEIF(II > OFC.AND.II<=OFT) THEN ! shell detruit
              II = II - OFC
              DO K=2,5
                IX = IXC(K,II)
                ITAGL(IX)=1
              END DO
-           ELSEIF(II > OFTG.AND.II.LE.OFUR)THEN
+           ELSEIF(II > OFTG.AND.II<=OFUR)THEN
              II = II - OFTG
              DO K=2,4
                IX = IXTG(K,II)
@@ -2183,7 +2183,7 @@ C-----------------------------------------------
       NMNL = (ITASK+1)*NMN / NTHREAD
       ICOMP = 0
 C
-      IF(NTY.NE.3.AND.NTY.NE.5) THEN
+      IF(NTY/=3.AND.NTY/=5) THEN
 C mise a - uniquement pour optimiser les interfaces type 7, 10
         DO I = NMNF, NMNL
 C si tag nul sur noeuds main alors msr(i) = -msr(i)
@@ -2201,7 +2201,7 @@ C
       NIND = 0
       NIND_SEGLO = 0
       DO I = NRTF, NRTL
-        IF(STF(I).NE.ZERO) THEN
+        IF(STF(I)/=ZERO) THEN
           N1 = IRECT(1,I)
           N2 = IRECT(2,I)
           N3 = IRECT(3,I)
@@ -2215,8 +2215,8 @@ C
               IND_SEGLO(NIND_SEGLO)=I
             ENDIF
 C attention >= 1 car cumul noeud frontiere des tags a 1
-          ELSEIF(ITAG2(N1).GE.1.AND.ITAG2(N2).GE.1.AND.
-     +           ITAG2(N3).GE.1.AND.ITAG2(N4).GE.1) THEN
+          ELSEIF(ITAG2(N1)>=1.AND.ITAG2(N2)>=1.AND.
+     +           ITAG2(N3)>=1.AND.ITAG2(N4)>=1) THEN
             NIND = NIND + 1
             NINDL(NIND) = I
           END IF
@@ -2237,18 +2237,18 @@ C
            ITAGL(N2) = 0
            ITAGL(N3) = 0
            ITAGL(N4) = 0
-           IF(II.LE.OFC) THEN ! solide actif
+           IF(II<=OFC) THEN ! solide actif
              DO K = 2, 9
                IX = IXS(K,II)
                ITAGL(IX) = 1
              END DO
-           ELSEIF(II > OFC.AND.II.LE.OFT) THEN ! shell actif
+           ELSEIF(II > OFC.AND.II<=OFT) THEN ! shell actif
              II = II - OFC
              DO K=2,5
                IX = IXC(K,II)
                ITAGL(IX)=1
              END DO
-           ELSEIF(II > OFTG.AND.II.LE.OFUR)THEN ! triangle actif
+           ELSEIF(II > OFTG.AND.II<=OFUR)THEN ! triangle actif
              II = II - OFTG
              DO K=2,4
                IX = IXTG(K,II)
@@ -2368,7 +2368,7 @@ C-----------------------------------------------
       NMNL = (ITASK+1)*NMN / NTHREAD
       ICOMP = 0
 C
-      IF(NTY.NE.3.AND.NTY.NE.5) THEN
+      IF(NTY/=3.AND.NTY/=5) THEN
 C mise a - uniquement pour optimiser les interfaces type 7, 10, 20
         DO I = NMNF, NMNL
 C si tag nul sur noeuds main alors msr(i) = -msr(i)
@@ -2385,7 +2385,7 @@ C
 C
       NIND = 0
       DO I = NRTF, NRTL
-        IF(STF(I).NE.ZERO) THEN
+        IF(STF(I)/=ZERO) THEN
           N1L = IRECT(1,I)
           N2L = IRECT(2,I)
           N3L = IRECT(3,I)
@@ -2399,8 +2399,8 @@ C
      +       ITAG(N3) == 0.OR.ITAG(N4) == 0) THEN
             STF(I) = ZERO
 C attention >= 1 car cumul noeud frontiere des tags a 1
-          ELSEIF(ITAG2(N1).GE.1.AND.ITAG2(N2).GE.1.AND.
-     +           ITAG2(N3).GE.1.AND.ITAG2(N4).GE.1) THEN
+          ELSEIF(ITAG2(N1)>=1.AND.ITAG2(N2)>=1.AND.
+     +           ITAG2(N3)>=1.AND.ITAG2(N4)>=1) THEN
             NIND = NIND + 1
             NINDL(NIND) = I
           END IF
@@ -2421,23 +2421,23 @@ C
        IF(N4 == 0) N4 = N3
        DO J = ADDCNEL(N1),ADDCNEL(N1+1)-1
          II = CNEL(J)
-         IF(TAGEL(II).LT.0) THEN    !    elt detruit trouve
+         IF(TAGEL(II)<0) THEN    !    elt detruit trouve
            ITAGL(N1) = 0
            ITAGL(N2) = 0
            ITAGL(N3) = 0
            ITAGL(N4) = 0
-           IF(II.LE.OFC) THEN ! solide detruit
+           IF(II<=OFC) THEN ! solide detruit
              DO K = 2, 9
                IX = IXS(K,II)
                ITAGL(IX) = 1
              END DO
-           ELSEIF(II > OFC.AND.II.LE.OFT) THEN ! shell detruit
+           ELSEIF(II > OFC.AND.II<=OFT) THEN ! shell detruit
              II = II - OFC
              DO K=2,5
                IX = IXC(K,II)
                ITAGL(IX)=1
              END DO
-           ELSEIF(II > OFTG.AND.II.LE.OFUR)THEN
+           ELSEIF(II > OFTG.AND.II<=OFUR)THEN
              II = II - OFTG
              DO K=2,4
                IX = IXTG(K,II)
@@ -2532,7 +2532,7 @@ C-----------------------------------------------
       NMNL = (ITASK+1)*NMN / NTHREAD
       ICOMP = 0
 C
-      IF(NTY.NE.3.AND.NTY.NE.5) THEN
+      IF(NTY/=3.AND.NTY/=5) THEN
 C mise a - uniquement pour optimiser les interfaces type 7, 10, 20
         DO I = NMNF, NMNL
 C si tag nul sur noeuds main alors msr(i) = -msr(i)
@@ -2549,7 +2549,7 @@ C
 C
       NIND = 0
       DO I = NRTF, NRTL
-        IF(STF(I).NE.ZERO) THEN
+        IF(STF(I)/=ZERO) THEN
           N1L = IRECT(1,I)
           N2L = IRECT(2,I)
           N3L = IRECT(3,I)
@@ -2563,8 +2563,8 @@ C
      +       ITAG(N3) == 0.OR.ITAG(N4) == 0) THEN
             STF(I) = ZERO
 C attention >= 1 car cumul noeud frontiere des tags a 1
-          ELSEIF(ITAG2(N1).GE.1.AND.ITAG2(N2).GE.1.AND.
-     +           ITAG2(N3).GE.1.AND.ITAG2(N4).GE.1) THEN
+          ELSEIF(ITAG2(N1)>=1.AND.ITAG2(N2)>=1.AND.
+     +           ITAG2(N3)>=1.AND.ITAG2(N4)>=1) THEN
             NIND = NIND + 1
             NINDL(NIND) = I
           END IF
@@ -2590,18 +2590,18 @@ C
            ITAGL(N2) = 0
            ITAGL(N3) = 0
            ITAGL(N4) = 0
-           IF(II.LE.OFC) THEN ! solide actif
+           IF(II<=OFC) THEN ! solide actif
              DO K = 2, 9
                IX = IXS(K,II)
                ITAGL(IX) = 1
              END DO
-           ELSEIF(II > OFC.AND.II.LE.OFT) THEN ! shell actif
+           ELSEIF(II > OFC.AND.II<=OFT) THEN ! shell actif
              II = II - OFC
              DO K=2,5
                IX = IXC(K,II)
                ITAGL(IX)=1
              END DO
-           ELSEIF(II > OFTG.AND.II.LE.OFUR)THEN ! triangle actif
+           ELSEIF(II > OFTG.AND.II<=OFUR)THEN ! triangle actif
              II = II - OFTG
              DO K=2,4
                IX = IXTG(K,II)
@@ -2714,7 +2714,7 @@ C
 C
       NIND = 0
       DO I = NRTF, NRTL
-        IF(STF(I).NE.ZERO) THEN
+        IF(STF(I)/=ZERO) THEN
           N1 = IRECT(1,I)
           N2 = IRECT(2,I)
           IF(ITAG(N1) == 0.OR.ITAG(N2) == 0) THEN
@@ -2726,7 +2726,7 @@ C suivant facette main ou second
               NEWFRONT = -1
             END IF 
 C attention >= 1 car cumul noeud frontiere des tags a 1
-          ELSEIF(ITAG2(N1).GE.1.AND.ITAG2(N2).GE.1) THEN
+          ELSEIF(ITAG2(N1)>=1.AND.ITAG2(N2)>=1) THEN
             NIND = NIND + 1
             NINDL(NIND) = I
           END IF
@@ -2740,39 +2740,39 @@ C
 C
         DO J = ADDCNEL(N1),ADDCNEL(N1+1)-1
          II = CNEL(J)
-         IF(TAGEL(II).LT.0) THEN    !    elt detruit trouve
+         IF(TAGEL(II)<0) THEN    !    elt detruit trouve
            ITAGL(N1) = 0
            ITAGL(N2) = 0
-           IF(II.LE.OFC) THEN ! solide detruit
+           IF(II<=OFC) THEN ! solide detruit
              DO K = 2, 9
                IX = IXS(K,II)
                ITAGL(IX) = 1
              END DO
-           ELSEIF(II > OFC.AND.II.LE.OFT) THEN ! shell detruit
+           ELSEIF(II > OFC.AND.II<=OFT) THEN ! shell detruit
              II = II - OFC
              DO K=2,5
                IX = IXC(K,II)
                ITAGL(IX)=1
              END DO
-           ELSEIF(II > OFTG.AND.II.LE.OFUR)THEN ! triangle detruit
+           ELSEIF(II > OFTG.AND.II<=OFUR)THEN ! triangle detruit
              II = II - OFTG
              DO K=2,4
                IX = IXTG(K,II)
                ITAGL(IX) = 1
              END DO
-           ELSEIF(II > OFT.AND.II.LE.OFP)THEN ! truss detruit
+           ELSEIF(II > OFT.AND.II<=OFP)THEN ! truss detruit
              II = II - OFT
              DO K=2,3
                IX = IXT(K,II)
                ITAGL(IX) = 1
              ENDDO
-           ELSEIF(II > OFP.AND.II.LE.OFR)THEN ! poutre detruit
+           ELSEIF(II > OFP.AND.II<=OFR)THEN ! poutre detruit
              II = II - OFP
              DO K=2,3
                IX = IXP(K,II)
                ITAGL(IX) = 1
              ENDDO
-           ELSEIF(II > OFR.AND.II.LE.OFTG)THEN ! ressort detruit
+           ELSEIF(II > OFR.AND.II<=OFTG)THEN ! ressort detruit
              II = II - OFR
              DO K=2,3
                IX = IXR(K,II)
@@ -2894,7 +2894,7 @@ C
 C
       NIND = 0
       DO I = NRTF, NRTL
-        IF(STF(I).NE.ZERO) THEN
+        IF(STF(I)/=ZERO) THEN
           N1 = IRECT(1,I)
           N2 = IRECT(2,I)
           IF(ITAG(N1) == 0.OR.ITAG(N2) == 0) THEN
@@ -2906,7 +2906,7 @@ C suivant facette main ou second
               NEWFRONT = -1
             END IF 
 C attention >= 1 car cumul noeud frontiere des tags a 1
-          ELSEIF(ITAG2(N1).GE.1.AND.ITAG2(N2).GE.1) THEN
+          ELSEIF(ITAG2(N1)>=1.AND.ITAG2(N2)>=1) THEN
             NIND = NIND + 1
             NINDL(NIND) = I
           END IF
@@ -2924,36 +2924,36 @@ C
          IF(TAGEL(II) > 0) THEN    !    elt actif trouve
            ITAGL(N1) = 0
            ITAGL(N2) = 0
-           IF(II.LE.OFC) THEN ! solide actif
+           IF(II<=OFC) THEN ! solide actif
              DO K = 2, 9
                IX = IXS(K,II)
                ITAGL(IX) = 1
              END DO
-           ELSEIF(II > OFC.AND.II.LE.OFT) THEN ! shell actif
+           ELSEIF(II > OFC.AND.II<=OFT) THEN ! shell actif
              II = II - OFC
              DO K=2,5
                IX = IXC(K,II)
                ITAGL(IX)=1
              END DO
-           ELSEIF(II > OFTG.AND.II.LE.OFUR)THEN ! triangle actif
+           ELSEIF(II > OFTG.AND.II<=OFUR)THEN ! triangle actif
              II = II - OFTG
              DO K=2,4
                IX = IXTG(K,II)
                ITAGL(IX) = 1
              END DO
-           ELSEIF(II > OFT.AND.II.LE.OFP)THEN ! truss actif
+           ELSEIF(II > OFT.AND.II<=OFP)THEN ! truss actif
              II = II - OFT
              DO K=2,3
                IX = IXT(K,II)
                ITAGL(IX) = 1
              ENDDO
-           ELSEIF(II > OFP.AND.II.LE.OFR)THEN ! poutre actif
+           ELSEIF(II > OFP.AND.II<=OFR)THEN ! poutre actif
              II = II - OFP
              DO K=2,3
                IX = IXP(K,II)
                ITAGL(IX) = 1
              ENDDO
-           ELSEIF(II > OFR.AND.II.LE.OFTG)THEN ! ressort actif
+           ELSEIF(II > OFR.AND.II<=OFTG)THEN ! ressort actif
              II = II - OFR
              DO K=2,3
                IX = IXR(K,II)
@@ -3075,7 +3075,7 @@ C
 C
       NIND = 0
       DO I = NRTF, NRTL
-        IF(STF(I).NE.ZERO) THEN
+        IF(STF(I)/=ZERO) THEN
           N1L = IRECT(1,I)
           N2L = IRECT(2,I)
           N1  = NLG(N1L)
@@ -3089,7 +3089,7 @@ C suivant facette main ou second
               NEWFRONT = -1
             END IF 
 C attention >= 1 car cumul noeud frontiere des tags a 1
-          ELSEIF(ITAG2(N1).GE.1.AND.ITAG2(N2).GE.1) THEN
+          ELSEIF(ITAG2(N1)>=1.AND.ITAG2(N2)>=1) THEN
             NIND = NIND + 1
             NINDL(NIND) = I
           END IF
@@ -3106,39 +3106,39 @@ C
 C
         DO J = ADDCNEL(N1),ADDCNEL(N1+1)-1
          II = CNEL(J)
-         IF(TAGEL(II).LT.0) THEN    !    elt detruit trouve
+         IF(TAGEL(II)<0) THEN    !    elt detruit trouve
            ITAGL(N1) = 0
            ITAGL(N2) = 0
-           IF(II.LE.OFC) THEN ! solide detruit
+           IF(II<=OFC) THEN ! solide detruit
              DO K = 2, 9
                IX = IXS(K,II)
                ITAGL(IX) = 1
              END DO
-           ELSEIF(II > OFC.AND.II.LE.OFT) THEN ! shell detruit
+           ELSEIF(II > OFC.AND.II<=OFT) THEN ! shell detruit
              II = II - OFC
              DO K=2,5
                IX = IXC(K,II)
                ITAGL(IX)=1
              END DO
-           ELSEIF(II > OFTG.AND.II.LE.OFUR)THEN ! triangle detruit
+           ELSEIF(II > OFTG.AND.II<=OFUR)THEN ! triangle detruit
              II = II - OFTG
              DO K=2,4
                IX = IXTG(K,II)
                ITAGL(IX) = 1
              END DO
-           ELSEIF(II > OFT.AND.II.LE.OFP)THEN ! truss detruit
+           ELSEIF(II > OFT.AND.II<=OFP)THEN ! truss detruit
              II = II - OFT
              DO K=2,3
                IX = IXT(K,II)
                ITAGL(IX) = 1
              ENDDO
-           ELSEIF(II > OFP.AND.II.LE.OFR)THEN ! poutre detruit
+           ELSEIF(II > OFP.AND.II<=OFR)THEN ! poutre detruit
              II = II - OFP
              DO K=2,3
                IX = IXP(K,II)
                ITAGL(IX) = 1
              ENDDO
-           ELSEIF(II > OFR.AND.II.LE.OFTG)THEN ! ressort detruit
+           ELSEIF(II > OFR.AND.II<=OFTG)THEN ! ressort detruit
              II = II - OFR
              DO K=2,3
                IX = IXR(K,II)
@@ -3262,7 +3262,7 @@ C
 C
       NIND = 0
       DO I = NRTF, NRTL
-        IF(STF(I).NE.ZERO) THEN
+        IF(STF(I)/=ZERO) THEN
           N1L = IRECT(1,I)
           N2L = IRECT(2,I)
           N1  = NLG(N1L)
@@ -3276,7 +3276,7 @@ C suivant facette main ou second
               NEWFRONT = -1
             END IF 
 C attention >= 1 car cumul noeud frontiere des tags a 1
-          ELSEIF(ITAG2(N1).GE.1.AND.ITAG2(N2).GE.1) THEN
+          ELSEIF(ITAG2(N1)>=1.AND.ITAG2(N2)>=1) THEN
             NIND = NIND + 1
             NINDL(NIND) = I
           END IF
@@ -3296,36 +3296,36 @@ C
          IF(TAGEL(II) > 0) THEN    !    elt actif trouve
            ITAGL(N1) = 0
            ITAGL(N2) = 0
-           IF(II.LE.OFC) THEN ! solide actif
+           IF(II<=OFC) THEN ! solide actif
              DO K = 2, 9
                IX = IXS(K,II)
                ITAGL(IX) = 1
              END DO
-           ELSEIF(II > OFC.AND.II.LE.OFT) THEN ! shell actif
+           ELSEIF(II > OFC.AND.II<=OFT) THEN ! shell actif
              II = II - OFC
              DO K=2,5
                IX = IXC(K,II)
                ITAGL(IX)=1
              END DO
-           ELSEIF(II > OFTG.AND.II.LE.OFUR)THEN ! triangle actif
+           ELSEIF(II > OFTG.AND.II<=OFUR)THEN ! triangle actif
              II = II - OFTG
              DO K=2,4
                IX = IXTG(K,II)
                ITAGL(IX) = 1
              END DO
-           ELSEIF(II > OFT.AND.II.LE.OFP)THEN ! truss actif
+           ELSEIF(II > OFT.AND.II<=OFP)THEN ! truss actif
              II = II - OFT
              DO K=2,3
                IX = IXT(K,II)
                ITAGL(IX) = 1
              ENDDO
-           ELSEIF(II > OFP.AND.II.LE.OFR)THEN ! poutre actif
+           ELSEIF(II > OFP.AND.II<=OFR)THEN ! poutre actif
              II = II - OFP
              DO K=2,3
                IX = IXP(K,II)
                ITAGL(IX) = 1
              ENDDO
-           ELSEIF(II > OFR.AND.II.LE.OFTG)THEN ! ressort actif
+           ELSEIF(II > OFR.AND.II<=OFTG)THEN ! ressort actif
              II = II - OFR
              DO K=2,3
                IX = IXR(K,II)
@@ -3439,8 +3439,8 @@ C
               IN(IS) = SINER(I)
             ENDIF
 C         attention >= 1 car cumul noeud frontiere des tags a 1
-          ELSEIF(ITAG2(N1).GE.1.AND.ITAG2(N2).GE.1.AND.
-     +           ITAG2(N3).GE.1.AND.ITAG2(N4).GE.1) THEN
+          ELSEIF(ITAG2(N1)>=1.AND.ITAG2(N2)>=1.AND.
+     +           ITAG2(N3)>=1.AND.ITAG2(N4)>=1) THEN
             NIND = NIND + 1
             NINDEX(NIND) = I
           END IF
@@ -3459,23 +3459,23 @@ C
 C
         DO J = ADDCNEL(N1),ADDCNEL(N1+1)-1
           II = CNEL(J)
-          IF(TAGEL(II).LT.0) THEN    !    elt detruit trouve
+          IF(TAGEL(II)<0) THEN    !    elt detruit trouve
             ITAGL(N1) = 0
             ITAGL(N2) = 0
             ITAGL(N3) = 0
             ITAGL(N4) = 0
-            IF(II.LE.OFC) THEN ! solide detruit
+            IF(II<=OFC) THEN ! solide detruit
               DO K = 2, 9
                 IX = IXS(K,II)
                 ITAGL(IX) = 1
               END DO
-            ELSEIF(II > OFC.AND.II.LE.OFT) THEN ! shell detruit
+            ELSEIF(II > OFC.AND.II<=OFT) THEN ! shell detruit
               II = II - OFC
               DO K=2,5
                 IX = IXC(K,II)
                 ITAGL(IX)=1
               END DO
-            ELSEIF(II > OFTG.AND.II.LE.OFUR)THEN
+            ELSEIF(II > OFTG.AND.II<=OFUR)THEN
               II = II - OFTG
               DO K=2,4
                 IX = IXTG(K,II)
@@ -3570,8 +3570,8 @@ C
               IN(IS) = SINER(I)
             ENDIF
 C         attention >= 1 car cumul noeud frontiere des tags a 1
-          ELSEIF(ITAG2(N1).GE.1.AND.ITAG2(N2).GE.1.AND.
-     +       ITAG2(N3).GE.1.AND.ITAG2(N4).GE.1) THEN
+          ELSEIF(ITAG2(N1)>=1.AND.ITAG2(N2)>=1.AND.
+     +       ITAG2(N3)>=1.AND.ITAG2(N4)>=1) THEN
             NIND = NIND + 1
             NINDEX0(NIND) = I
           END IF
@@ -3594,18 +3594,18 @@ C
            ITAGL(N2) = 0
            ITAGL(N3) = 0
            ITAGL(N4) = 0
-           IF(II.LE.OFC) THEN ! solide actif
+           IF(II<=OFC) THEN ! solide actif
              DO K = 2, 9
                IX = IXS(K,II)
                ITAGL(IX) = 1
              END DO
-           ELSEIF(II > OFC.AND.II.LE.OFT) THEN ! shell actif
+           ELSEIF(II > OFC.AND.II<=OFT) THEN ! shell actif
              II = II - OFC
              DO K=2,5
                IX = IXC(K,II)
                ITAGL(IX)=1
              END DO
-           ELSEIF(II > OFTG.AND.II.LE.OFUR)THEN ! triangle actif
+           ELSEIF(II > OFTG.AND.II<=OFUR)THEN ! triangle actif
              II = II - OFTG
              DO K=2,4
                IX = IXTG(K,II)
@@ -3715,8 +3715,8 @@ C
           N4 = IRECT(4,L)
           IF(N4 == 0) N4 = N3
 C         attention >= 1 car cumul noeud frontiere des tags a 1
-          IF(ITAG2(N1).GE.1.AND.ITAG2(N2).GE.1.AND.
-     +           ITAG2(N3).GE.1.AND.ITAG2(N4).GE.1 .AND. IDEL== 2) THEN
+          IF(ITAG2(N1)>=1.AND.ITAG2(N2)>=1.AND.
+     +           ITAG2(N3)>=1.AND.ITAG2(N4)>=1 .AND. IDEL== 2) THEN
 #include "lockon.inc"
             ICOMP = ICOMP + 1
             NINDEX = ICOMP
@@ -3727,8 +3727,8 @@ C         attention >= 1 car cumul noeud frontiere des tags a 1
             BUFS(4*(NINDEX-1)+3) = ITAB(N3)
             BUFS(4*(NINDEX-1)+4) = ITAB(N4)
 C         attention >= 1 car cumul noeud frontiere des tags a 1
-          ELSEIF(ITAG2(N1).GE.1.AND.ITAG2(N2).GE.1.AND.
-     +           ITAG2(N3).GE.1.AND.ITAG2(N4).GE.1 .AND. IDEL== 1) THEN
+          ELSEIF(ITAG2(N1)>=1.AND.ITAG2(N2)>=1.AND.
+     +           ITAG2(N3)>=1.AND.ITAG2(N4)>=1 .AND. IDEL== 1) THEN
 #include "lockon.inc"
             ICOMP = ICOMP + 1
             NINDEX = ICOMP
@@ -3807,7 +3807,7 @@ C-----------------------------------------------
       NMNL = (ITASK+1)*NMN / NTHREAD
       ICOMP = 0
 C
-c arebrancher       IF(NTY.NE.3.AND.NTY.NE.5) THEN
+c arebrancher       IF(NTY/=3.AND.NTY/=5) THEN
 c arebrancherC mise a - uniquement pour optimiser les interfaces type 7, 10
 c arebrancher        DO I = NMNF, NMNL
 c arebrancherC si tag nul sur noeuds main alors msr(i) = -msr(i)
@@ -3824,7 +3824,7 @@ C
 C
       NIND = 0
       DO I = NRTF, NRTL
-        IF(STF(I).NE.ZERO) THEN
+        IF(STF(I)/=ZERO) THEN
           N1 = MSR(IRECT(1,I))
           N2 = MSR(IRECT(2,I))
           N3 = MSR(IRECT(3,I))
@@ -3834,8 +3834,8 @@ C
      +       ITAG(N3) == 0.OR.ITAG(N4) == 0) THEN
             STF(I) = ZERO
 C attention >= 1 car cumul noeud frontiere des tags a 1
-          ELSEIF(ITAG2(N1).GE.1.AND.ITAG2(N2).GE.1.AND.
-     +           ITAG2(N3).GE.1.AND.ITAG2(N4).GE.1) THEN
+          ELSEIF(ITAG2(N1)>=1.AND.ITAG2(N2)>=1.AND.
+     +           ITAG2(N3)>=1.AND.ITAG2(N4)>=1) THEN
             NIND = NIND + 1
             NINDL(NIND) = I
           END IF
@@ -3851,23 +3851,23 @@ C
        IF(N4 == 0) N4 = N3
        DO J = ADDCNEL(N1),ADDCNEL(N1+1)-1
          II = CNEL(J)
-         IF(TAGEL(II).LT.0) THEN    !    elt detruit trouve
+         IF(TAGEL(II)<0) THEN    !    elt detruit trouve
            ITAGL(N1) = 0
            ITAGL(N2) = 0
            ITAGL(N3) = 0
            ITAGL(N4) = 0
-           IF(II.LE.OFC) THEN ! solide detruit
+           IF(II<=OFC) THEN ! solide detruit
              DO K = 2, 9
                IX = IXS(K,II)
                ITAGL(IX) = 1
              END DO
-           ELSEIF(II > OFC.AND.II.LE.OFT) THEN ! shell detruit
+           ELSEIF(II > OFC.AND.II<=OFT) THEN ! shell detruit
              II = II - OFC
              DO K=2,5
                IX = IXC(K,II)
                ITAGL(IX)=1
              END DO
-           ELSEIF(II > OFTG.AND.II.LE.OFUR)THEN
+           ELSEIF(II > OFTG.AND.II<=OFUR)THEN
              II = II - OFTG
              DO K=2,4
                IX = IXTG(K,II)
@@ -3961,7 +3961,7 @@ C-----------------------------------------------
       NMNL = (ITASK+1)*NMN / NTHREAD
       ICOMP = 0
 C
-c arebrancher      IF(NTY.NE.3.AND.NTY.NE.5) THEN
+c arebrancher      IF(NTY/=3.AND.NTY/=5) THEN
 c arebrancherC mise a - uniquement pour optimiser les interfaces type 7, 10
 c arebrancher        DO I = NMNF, NMNL
 c arebrancherC si tag nul sur noeuds main alors msr(i) = -msr(i)
@@ -3978,7 +3978,7 @@ C
 C
       NIND = 0
       DO I = NRTF, NRTL
-        IF(STF(I).NE.ZERO) THEN
+        IF(STF(I)/=ZERO) THEN
           N1 = MSR(IRECT(1,I))
           N2 = MSR(IRECT(2,I))
           N3 = MSR(IRECT(3,I))
@@ -3988,8 +3988,8 @@ C
      +       ITAG(N3) == 0.OR.ITAG(N4) == 0) THEN
             STF(I) = ZERO
 C attention >= 1 car cumul noeud frontiere des tags a 1
-          ELSEIF(ITAG2(N1).GE.1.AND.ITAG2(N2).GE.1.AND.
-     +           ITAG2(N3).GE.1.AND.ITAG2(N4).GE.1) THEN
+          ELSEIF(ITAG2(N1)>=1.AND.ITAG2(N2)>=1.AND.
+     +           ITAG2(N3)>=1.AND.ITAG2(N4)>=1) THEN
             NIND = NIND + 1
             NINDL(NIND) = I
           END IF
@@ -4010,18 +4010,18 @@ C
            ITAGL(N2) = 0
            ITAGL(N3) = 0
            ITAGL(N4) = 0
-           IF(II.LE.OFC) THEN ! solide actif
+           IF(II<=OFC) THEN ! solide actif
              DO K = 2, 9
                IX = IXS(K,II)
                ITAGL(IX) = 1
              END DO
-           ELSEIF(II > OFC.AND.II.LE.OFT) THEN ! shell actif
+           ELSEIF(II > OFC.AND.II<=OFT) THEN ! shell actif
              II = II - OFC
              DO K=2,5
                IX = IXC(K,II)
                ITAGL(IX)=1
              END DO
-           ELSEIF(II > OFTG.AND.II.LE.OFUR)THEN ! triangle actif
+           ELSEIF(II > OFTG.AND.II<=OFUR)THEN ! triangle actif
              II = II - OFTG
              DO K=2,4
                IX = IXTG(K,II)
@@ -4097,9 +4097,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, NN,IND_SEGLO(NRTM*2),NIND_SEGLO
 C-----------------------------------------------
-      IF(NTY.EQ.7.OR.NTY.EQ.10.OR.NTY.EQ.22.OR.NTY.EQ.23.OR.
-     .NTY.EQ.5.OR.NTY.EQ.20.OR.NTY.EQ.3.OR.NTY.EQ.24.OR.NTY.EQ.25)THEN
-        IF(IDEL.EQ.2)THEN
+      IF(NTY==7.OR.NTY==10.OR.NTY==22.OR.NTY==23.OR.
+     .NTY==5.OR.NTY==20.OR.NTY==3.OR.NTY==24.OR.NTY==25)THEN
+        IF(IDEL==2)THEN
           NIND_SEGLO = 0
 #include "vectorize.inc"
           DO J = 1, NINDG

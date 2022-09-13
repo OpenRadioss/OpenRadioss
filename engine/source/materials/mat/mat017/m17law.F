@@ -73,10 +73,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C
       ! SAUVEGARDE VORTICITE SI ANIM
-      IF((ANIM_E(10).EQ.1 .OR. ANIM_SE(10).EQ.1).AND. DT1.NE.0.)THEN
-C      IF(ANIM_E(10).EQ.1.AND. DT1.NE.0.)THEN
+      IF((ANIM_E(10)==1 .OR. ANIM_SE(10)==1).AND. DT1/=0.)THEN
+C      IF(ANIM_E(10)==1.AND. DT1/=0.)THEN
         FAC=FOUR/DT1
-        IF(N2D.EQ.0)THEN
+        IF(N2D==0)THEN
           DO 5 I=LFT,LLT
  5        VORTI(I)=FAC*SQRT(WXX(I)**2+WYY(I)**2+WZZ(I)**2)
         ELSE
@@ -112,7 +112,7 @@ C
    10 CONTINUE
 C
       MX     =MAT(LFT)
-      IF(JPOR.NE.2)THEN
+      IF(JPOR/=2)THEN
       DO 20 I=LFT,LLT
       YP0=PM(51,MX)
       CMU=PM(81,MX)

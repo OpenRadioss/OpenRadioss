@@ -120,7 +120,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
             ENDIF
 C
             IREF = T_MONVOL(N)%IVOLU(59)
-            IF(IREF.EQ.0) THEN
+            IF(IREF==0) THEN
                X=XYZINI
             ELSE
                X=XYZREF
@@ -196,7 +196,7 @@ C
      .           T_MONVOL(N)%TBRIC, T_MONVOL(N)%TFAC, T_MONVOL(N)%TAGELS, T_MONVOL(N)%IBUFA,
      .           T_MONVOL(N)%ELEMA, T_MONVOL(N)%TAGELA, IXS, ID ,TITR, NB_NODE, ITYP)
 
-            IF (KMESH(N) .GE. 2) THEN
+            IF (KMESH(N) >= 2) THEN
                T_MONVOL(N)%KRA5 = 1 + NRVOLU * NVOLU + LRCBAG + LRBAGJET + LRBAGHOL +
      .              T_MONVOL(N)%IVOLU(34) + 7*NNT+4*NTGT+6*NNA
                T_MONVOL(N)%VELOCITY(1:3, 1:NNA) = ZERO

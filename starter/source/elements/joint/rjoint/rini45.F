@@ -128,27 +128,27 @@ C----
       K4 = KRX
       K5 = KRY
       K6 = KRZ
-      IF (IFKNX.NE.0) THEN
+      IF (IFKNX/=0) THEN
         XF = GET_U_FUNC(IFKNX,ZERO,DERI)
         K1  = MAX(KXX*DERI, EM20)
       ENDIF
-      IF (IFKNY.NE.0) THEN
+      IF (IFKNY/=0) THEN
         XF = GET_U_FUNC(IFKNY,ZERO,DERI)
         K2  = MAX(KYY*DERI, EM20)
       ENDIF
-      IF (IFKNZ.NE.0) THEN
+      IF (IFKNZ/=0) THEN
         XF = GET_U_FUNC(IFKNZ,ZERO,DERI)
         K3  = MAX(KZZ*DERI, EM20)
       ENDIF
-      IF (IFKRX.NE.0) THEN
+      IF (IFKRX/=0) THEN
         XF = GET_U_FUNC(IFKRX,ZERO,DERI)
         K4  = MAX(KRX*DERI, EM20)
       ENDIF
-      IF (IFKRY.NE.0) THEN
+      IF (IFKRY/=0) THEN
         XF = GET_U_FUNC(IFKRY,ZERO,DERI)
         K5  = MAX(KRY*DERI, EM20) 
       ENDIF
-      IF (IFKRZ.NE.0) THEN
+      IF (IFKRZ/=0) THEN
         XF = GET_U_FUNC(IFKRZ,ZERO,DERI)
         K6  = MAX(KRZ*DERI, EM20)
       ENDIF
@@ -172,27 +172,27 @@ C
       C4 = CRX
       C5 = CRY
       C6 = CRZ
-      IF (IFCNX.NE.0) THEN
+      IF (IFCNX/=0) THEN
         XF = GET_U_FUNC(IFCNX,ZERO,DERI)
         C1  = MAX(CXX*DERI, EM20)
       ENDIF
-      IF (IFCNY.NE.0) THEN
+      IF (IFCNY/=0) THEN
         XF = GET_U_FUNC(IFCNY,ZERO,DERI)
         C2  = MAX(CYY*DERI, EM20)
       ENDIF
-      IF (IFCNZ.NE.0) THEN
+      IF (IFCNZ/=0) THEN
         XF = GET_U_FUNC(IFCNZ,ZERO,DERI)
         C3  = MAX(CZZ*DERI, EM20)
       ENDIF
-      IF (IFCRX.NE.0) THEN
+      IF (IFCRX/=0) THEN
         XF = GET_U_FUNC(IFCRX,ZERO,DERI)
         C4  = MAX(CRX*DERI, EM20)
       ENDIF
-      IF (IFCRY.NE.0) THEN
+      IF (IFCRY/=0) THEN
         XF = GET_U_FUNC(IFCRY,ZERO,DERI)
         C5  = MAX(CRY*DERI, EM20) 
       ENDIF
-      IF (IFCRZ.NE.0) THEN
+      IF (IFCRZ/=0) THEN
         XF = GET_U_FUNC(IFCRZ,ZERO,DERI)
         C6  = MAX(CRZ*DERI, EM20)
       ENDIF
@@ -200,9 +200,9 @@ C
         IFM = GET_U_PNU(12+I,IPROP,KFUNC)
         KFM  = GET_U_GEO(40+I,IPROP)
         FM = GET_U_GEO(46+I,IPROP)
-        IF (IFM.NE.0) THEN
+        IF (IFM/=0) THEN
           DERIMAX = FM*GET_U_FUNC_DERI(IFM) 
-	      IF (DERIMAX.GT.KFM) THEN
+	      IF (DERIMAX>KFM) THEN
             CALL ANCMSG(MSGID=979,
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_2,
@@ -229,7 +229,7 @@ C--------------------------------------
           XINER(I)  = ZERO
 C	  
           IL = LFT+I-1+NFT
-          IF ((IDSK1.EQ.0).AND.(IDSK2.EQ.0)) THEN
+          IF ((IDSK1==0).AND.(IDSK2==0)) THEN
 C-------    local frame computation from spring nodes
             IERR=IERR+GET_SKEW45(IOUT,JTYP,EX,IXR,IXR_KJ,IL,X,ID,TITR)
           ENDIF
@@ -245,7 +245,7 @@ C
           UVAR(3,I) = XL(I,3)
           LEN2=XL(I,1)*XL(I,1)+XL(I,2)*XL(I,2)+XL(I,3)*XL(I,3)
 C
-          IF (IDSK2.GT.0) THEN
+          IF (IDSK2>0) THEN
             UVAR(7,I) = THETA0(1)
             UVAR(8,I) = THETA0(2)
             UVAR(9,I) = THETA0(3)
@@ -273,11 +273,11 @@ C-------  stockage des raideurs
           UVAR(20,I)= KYY
           UVAR(21,I)= KZZ	  	  
 C 
-          IF(JTYP.GE.2.AND.JTYP.LE.4) THEN
+          IF(JTYP>=2.AND.JTYP<=4) THEN
             UVAR(31,I)= KRX
             UVAR(32,I)= KR
             UVAR(33,I)= KR
-          ELSEIF(JTYP.EQ.5) THEN
+          ELSEIF(JTYP==5) THEN
             UVAR(31,I)= KR
             UVAR(32,I)= KRY
             UVAR(33,I)= KRZ
@@ -287,7 +287,7 @@ C
             UVAR(13,I)= EX(7)
             UVAR(14,I)= EX(8)
             UVAR(15,I)= EX(9)	    	    
-          ELSEIF(JTYP.GE.6.AND.JTYP.LE.8) THEN
+          ELSEIF(JTYP>=6.AND.JTYP<=8) THEN
             UVAR(31,I)= KR
             UVAR(32,I)= KR
             UVAR(33,I)= KR
@@ -377,19 +377,19 @@ C---- Nb de noeuds min par type de joint
       NNOD_REQ(9) = 4                                   
 C---- Check des vrais noeuds      
       DO J=1,3
-        IF (IXR(1+J,IEL).NE.0) THEN	  
+        IF (IXR(1+J,IEL)/=0) THEN	  
 	    NNOD = NNOD + 1
 	    NN(NNOD) = IXR(1+J,IEL)
 	ENDIF   
       END DO
 C---- Check des noeuds additionnels
       DO J=1,NUMEL_KJ
-        IF (IXR_KJ(4,J).EQ.IELUSR) ID_KJ = J
+        IF (IXR_KJ(4,J)==IELUSR) ID_KJ = J
       END DO
       
-      IF (ID_KJ.GT.0) THEN                
+      IF (ID_KJ>0) THEN                
       DO J=1,3
-        IF (IXR_KJ(J,ID_KJ).NE.0) THEN	  
+        IF (IXR_KJ(J,ID_KJ)/=0) THEN	  
 	    NNOD = NNOD + 1
 	    NN(NNOD) = IXR_KJ(J,ID_KJ)
 	ENDIF   
@@ -400,9 +400,9 @@ C---- Check des noeuds additionnels
 C      
       LEN = SQRT((X(1,NN(1))-X(1,NN(2)))**2+(X(2,NN(1))-X(2,NN(2)))**2   
      .          +(X(3,NN(1))-X(3,NN(2)))**2)
-      IF ((NNOD.EQ.2).AND.(LEN.GT.EM10)) NNOD2=3
+      IF ((NNOD==2).AND.(LEN>EM10)) NNOD2=3
 C
-      IF (NNOD2.LT.NNOD_REQ(JTYP)) THEN
+      IF (NNOD2<NNOD_REQ(JTYP)) THEN
 C-----------------------------------------------      
 C---  Cas d'erreur 
 C-----------------------------------------------
@@ -414,8 +414,8 @@ C-----------------------------------------------
      .                   I2=IELUSR,
      .                   I3=JTYP,
      .                   I4=NNOD_REQ(JTYP)-NNOD2)
-      ELSEIF ((NNOD.EQ.2).AND.((JTYP.EQ.1).OR.
-     .   (JTYP.EQ.8))) THEN
+      ELSEIF ((NNOD==2).AND.((JTYP==1).OR.
+     .   (JTYP==8))) THEN
 C-----------------------------------------------      
 C---   on utilise le rep   re global
 C-----------------------------------------------
@@ -431,7 +431,7 @@ C-----------------------------------------------
 	     PP1 = ONE
 	     PP2 = ONE
 	     PP3 = ONE
-      ELSEIF ((NNOD.EQ.2).AND.(LEN.GT.EM10)) THEN
+      ELSEIF ((NNOD==2).AND.(LEN>EM10)) THEN
 C-----------------------------------------------      
 C---  1 axis joint definit avec le 2e noeud
 C-----------------------------------------------
@@ -444,13 +444,13 @@ C-- calcul de x
              PP1=SQRT(EX(1)*EX(1)+EX(2)*EX(2)+EX(3)*EX(3))
 	     MAX =ZERO
 	     DO J=1,3
-	       IF (ABS(EX(J)).GE.MAX) THEN
+	       IF (ABS(EX(J))>=MAX) THEN
 	         MAX = ABS(EX(J))
 		 HH = J
 	       ENDIF
 	     END DO
 C-- calcul de y
-             IF (HH.LT.3) THEN
+             IF (HH<3) THEN
                EX(4)= -EX(2)
                EX(5)= EX(1)
                EX(6)= ZERO
@@ -465,7 +465,7 @@ C-- calcul de z = x ^ y
              EX(8)=EX(3)*EX(4)-EX(1)*EX(6)
              EX(9)=EX(1)*EX(5)-EX(2)*EX(4)
              PP3=SQRT(EX(7)*EX(7)+EX(8)*EX(8)+EX(9)*EX(9))	     			
-      ELSEIF (NNOD.EQ.3) THEN
+      ELSEIF (NNOD==3) THEN
 C-----------------------------------------------      
 C---  1 axis joint definit avec le 3e noeud
 C-----------------------------------------------
@@ -478,13 +478,13 @@ C-- calcul de x
              PP1=SQRT(EX(1)*EX(1)+EX(2)*EX(2)+EX(3)*EX(3))
 	     MAX =ZERO
 	     DO J=1,3
-	       IF (ABS(EX(J)).GE.MAX) THEN
+	       IF (ABS(EX(J))>=MAX) THEN
 	         MAX = ABS(EX(J))
 		 HH = J
 	       ENDIF
 	     END DO
 C-- calcul de y
-             IF (HH.LT.3) THEN
+             IF (HH<3) THEN
                EX(4)= -EX(2)
                EX(5)= EX(1)
                EX(6)= ZERO
@@ -500,7 +500,7 @@ C-- calcul de z = x ^ y
              EX(9)=EX(1)*EX(5)-EX(2)*EX(4)
              PP3=SQRT(EX(7)*EX(7)+EX(8)*EX(8)+EX(9)*EX(9))
 C-- control longeur de l'axe
-             IF (PP1.LE.EM10) THEN
+             IF (PP1<=EM10) THEN
                 CALL ANCMSG(MSGID=935,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO_BLIND_2,
@@ -508,7 +508,7 @@ C-- control longeur de l'axe
      .                      C1=TITR,
      .                      I2=IELUSR)
 	     ENDIF	     	     
-      ELSEIF ((NNOD.GE.4).AND.(JTYP.NE.5)) THEN
+      ELSEIF ((NNOD>=4).AND.(JTYP/=5)) THEN
 C-----------------------------------------------      
 C---  Cas general : skew quelconque
 C-----------------------------------------------
@@ -532,7 +532,7 @@ C-- calcul de z = x ^ y
              PP3=SQRT(EX(7)*EX(7)+EX(8)*EX(8)+EX(9)*EX(9))
 C-- control orthogonalite
              SCAL =ABS(EX(1)*EX(4)+EX(2)*EX(5)+EX(3)*EX(6))/(PP1*PP2)    
-             IF (ABS(SCAL).GE.0.98) THEN
+             IF (ABS(SCAL)>=0.98) THEN
                 CALL ANCMSG(MSGID=1009,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO_BLIND_2,
@@ -546,7 +546,7 @@ C-- control orthogonalite
                 PP2=SQRT(EX(4)*EX(4)+EX(5)*EX(5)+EX(6)*EX(6))			     	
              ENDIF
 C-- control de N4
-             IF ((N4.EQ.N1).OR.(N4.EQ.N2).OR.(N4.EQ.N3)) THEN
+             IF ((N4==N1).OR.(N4==N2).OR.(N4==N3)) THEN
                 CALL ANCMSG(MSGID=681,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO_BLIND_2,
@@ -555,7 +555,7 @@ C-- control de N4
 C-- control longeur des axes
              PP4 = SQRT((X(1,N3)-X(1,N2))**2+(X(2,N3)-X(2,N2))**2   
      .                 +(X(3,N3)-X(3,N2))**2)
-             IF ((PP1.LE.EM10).OR.(PP2.LE.EM10).OR.(PP4.LE.EM10)) THEN
+             IF ((PP1<=EM10).OR.(PP2<=EM10).OR.(PP4<=EM10)) THEN
                 CALL ANCMSG(MSGID=934,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO_BLIND_2,
@@ -563,7 +563,7 @@ C-- control longeur des axes
      .                      C1=TITR,
      .                      I2=IELUSR)
 	     ENDIF
-      ELSEIF ((NNOD.GE.4).AND.(JTYP.EQ.5)) THEN
+      ELSEIF ((NNOD>=4).AND.(JTYP==5)) THEN
 C-----------------------------------------------      
 C---  Universal Joint : local skew
 C-----------------------------------------------
@@ -587,14 +587,14 @@ C-- calcul de x = y ^ z
              PP1=SQRT(EX(1)*EX(1)+EX(2)*EX(2)+EX(3)*EX(3))
 C-- control orthogonalite
              SCAL =ABS(EX(7)*EX(4)+EX(8)*EX(5)+EX(9)*EX(6))/(PP1+PP2)
-             IF (ABS(SCAL).GE.0.98) THEN
+             IF (ABS(SCAL)>=0.98) THEN
                 CALL ANCMSG(MSGID=1009,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO_BLIND_2,
      .                      I1=ID,
      .                      C1=TITR,
      .                      I2=IELUSR)    
-             ELSEIF (SCAL.GE.1e-4) THEN
+             ELSEIF (SCAL>=1e-4) THEN
 C-- Orthogonalization of the skew
                 CALL ANCMSG(MSGID=940,
      .                      MSGTYPE=MSGWARNING,
@@ -611,7 +611,7 @@ C-- Recalcul de z = x ^ y
 C-- control longeur des axes
              PP4 = SQRT((X(1,N3)-X(1,N2))**2+(X(2,N3)-X(2,N2))**2   
      .                 +(X(3,N3)-X(3,N2))**2)
-             IF ((PP1.LE.EM10).OR.(PP2.LE.EM10).OR.(PP4.LE.EM10)) THEN
+             IF ((PP1<=EM10).OR.(PP2<=EM10).OR.(PP4<=EM10)) THEN
                 CALL ANCMSG(MSGID=934,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO_BLIND_2,
@@ -696,9 +696,9 @@ C-----------------------------------------------
       IDSK2 = NINT(GET_U_GEO(54,IPROP))
 
 C Check skew1 ------
-      IF (IDSK1.GT.0) THEN
+      IF (IDSK1>0) THEN
           ISK = GET_U_SKEW(IDSK1,N1,N2,N3,U)
-          IF (ISK.EQ.0) THEN
+          IF (ISK==0) THEN
             CALL ANCMSG(MSGID=926,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,
@@ -713,9 +713,9 @@ C Check skew1 ------
       ENDIF
 C Check skew2 ------
 
-      IF (IDSK2.GT.0) THEN
+      IF (IDSK2>0) THEN
           ISK = GET_U_SKEW(IDSK2,N1,N2,N3,V)
-          IF (ISK.EQ.0) THEN
+          IF (ISK==0) THEN
             CALL ANCMSG(MSGID=926,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,
@@ -727,9 +727,9 @@ C Check skew2 ------
 
 C Computation of initial orientation angles
 
-      IF (IDSK2.GT.0) THEN
+      IF (IDSK2>0) THEN
 C
-        IF (IDSK1.EQ.0) THEN
+        IF (IDSK1==0) THEN
 C   IF IDSK1 ==0 > local frame set to global frame
           DO I=1,9
             EX(I)=ZERO
@@ -749,7 +749,7 @@ C
         SINK   = SIN(KSI)
 
 C
-        IF(SINK.EQ.ZERO) THEN
+        IF(SINK==ZERO) THEN
           SI2 = ZERO
         ELSE
           SI2  = HALF / SINK
@@ -759,7 +759,7 @@ C
         T(2) = (Q(7) - Q(3)) * SI2
         T(3) = (Q(2) - Q(4)) * SI2
         NR = SQRT(T(1)*T(1)+T(2)*T(2)+T(3)*T(3))
-        IF (NR.NE.ZERO) NR = ONE/NR
+        IF (NR/=ZERO) NR = ONE/NR
 C
         T(1) = T(1)*NR
         T(2) = T(2)*NR
@@ -770,10 +770,10 @@ C    Vector of initial rotation (in local frame = skew1)
         THETA0(2) = T(2)*KSI
         THETA0(3) = T(3)*KSI
 C
-        IF ((JTYP.EQ.2).OR.(JTYP.EQ.3).OR.(JTYP.EQ.4)) THEN
+        IF ((JTYP==2).OR.(JTYP==3).OR.(JTYP==4)) THEN
 C--      only one init angle allowed on X axis
           ERR = ABS(T(2))+ABS(T(3))
-          IF (ERR.GT.EM6) THEN
+          IF (ERR>EM6) THEN
             CALL ANCMSG(MSGID=1132,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,
@@ -782,7 +782,7 @@ C--      only one init angle allowed on X axis
      .                 I2=JTYP,
      .                 I3=IDSK2)
           ENDIF
-        ELSEIF ((JTYP.GT.4).AND.(JTYP.LT.9)) THEN
+        ELSEIF ((JTYP>4).AND.(JTYP<9)) THEN
 C--      init angle not allowed for joints with no rotations
           CALL ANCMSG(MSGID=1134,
      .                 MSGTYPE=MSGERROR,
@@ -793,9 +793,9 @@ C--      init angle not allowed for joints with no rotations
         ELSE
 C--      Check of initial angles vs stoping angles  
           DO I=1,3
-            IF (THETA0(I).LT.0) THEN
+            IF (THETA0(I)<0) THEN
               STOP_ANGL = GET_U_GEO(35+2*(I-1),IPROP)
-              IF ((THETA0(I).LT.STOP_ANGL).AND.(STOP_ANGL.NE.ZERO)) THEN
+              IF ((THETA0(I)<STOP_ANGL).AND.(STOP_ANGL/=ZERO)) THEN
                 CALL ANCMSG(MSGID=1133,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,
@@ -806,7 +806,7 @@ C--      Check of initial angles vs stoping angles
               ENDIF
             ELSE
               STOP_ANGL = GET_U_GEO(36+2*(I-1),IPROP)
-              IF ((THETA0(I).GT.STOP_ANGL).AND.(STOP_ANGL.NE.ZERO)) THEN
+              IF ((THETA0(I)>STOP_ANGL).AND.(STOP_ANGL/=ZERO)) THEN
                 CALL ANCMSG(MSGID=1133,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,

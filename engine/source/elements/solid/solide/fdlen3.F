@@ -73,7 +73,7 @@ C-----------------------------------------------
       XIOFF(I)=ONE
    10 AREAM(I)=EM20
 C
-      IF(ICAA.EQ.0)THEN
+      IF(ICAA==0)THEN
         CALL SLEN(X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,1,AREA,AREAM)
         CALL SLEN(X5,X6,X7,X8,Y5,Y6,Y7,Y8,Z5,Z6,Z7,Z8,2,AREA,AREAM)
         CALL SLEN(X1,X2,X6,X5,Y1,Y2,Y6,Y5,Z1,Z2,Z6,Z5,3,AREA,AREAM)

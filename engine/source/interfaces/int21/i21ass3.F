@@ -153,7 +153,7 @@ C------------For /LOAD/PRESSURE tag nodes in contact-------------
 
 
 C---------------------------------
-      IF(IPARIT.EQ.0)THEN
+      IF(IPARIT==0)THEN
         DO I=1,JLT
           IG=NSVG(I)
           A(1,IG)=A(1,IG)-FXI(I)*WEIGHT(IG)
@@ -180,7 +180,7 @@ C
             I1 =  IX1(I)
             ND = MSRL(I1)
             IG=NSVG(I)
-            IF(ND.GT.0) THEN             
+            IF(ND>0) THEN             
               FTHE(ND)=FTHE(ND) + PHI1(I)*WEIGHT(IG)
             ELSE
               ND = -ND
@@ -189,7 +189,7 @@ C
 c
             I1 =  IX2(I)
             ND = MSRL(I1)
-            IF(ND.GT.0) THEN             
+            IF(ND>0) THEN             
               FTHE(ND)=FTHE(ND) + PHI2(I)*WEIGHT(IG)
             ELSE
               ND = -ND
@@ -198,7 +198,7 @@ c
 c
             I1 =  IX3(I)
             ND = MSRL(I1)
-            IF(ND.GT.0) THEN             
+            IF(ND>0) THEN             
               FTHE(ND)=FTHE(ND) + PHI3(I)*WEIGHT(IG)
             ELSE
               ND = -ND
@@ -207,7 +207,7 @@ c
 c
             I1 =  IX4(I)
             ND = MSRL(I1)
-            IF(ND.GT.0) THEN             
+            IF(ND>0) THEN             
               FTHE(ND)=FTHE(ND) + PHI4(I)*WEIGHT(IG)
             ELSE
               ND = -ND
@@ -265,37 +265,37 @@ C
         NISKYL2 = 0
         IF(IFORM /= 0) THEN
          DO I = 1, JLT
-            IF (H1(I).NE.ZERO) THEN
+            IF (H1(I)/=ZERO) THEN
                I1 =  IX1(I)
                ND = MSRL(I1)
-               IF(ND.GT.0)  THEN                  
+               IF(ND>0)  THEN                  
                  NISKYL1 = NISKYL1 + 1
                ELSE
                  NISKYL2 = NISKYL2 + 1
                ENDIF
             ENDIF
-            IF (H2(I).NE.ZERO) THEN
+            IF (H2(I)/=ZERO) THEN
                I1 =  IX2(I)
                ND = MSRL(I1)
-               IF(ND.GT.0)  THEN                  
+               IF(ND>0)  THEN                  
                  NISKYL1 = NISKYL1 + 1
                ELSE
                  NISKYL2 = NISKYL2 + 1
                ENDIF
             ENDIF
-            IF (H3(I).NE.ZERO) THEN
+            IF (H3(I)/=ZERO) THEN
                I1 =  IX3(I)
                ND = MSRL(I1)
-               IF(ND.GT.0)  THEN                  
+               IF(ND>0)  THEN                  
                  NISKYL1 = NISKYL1 + 1
                ELSE
                  NISKYL2 = NISKYL2 + 1
                ENDIF
             ENDIF
-            IF (H4(I).NE.ZERO) THEN
+            IF (H4(I)/=ZERO) THEN
                I1 =  IX4(I)
                ND = MSRL(I1)
-               IF(ND.GT.0)  THEN                  
+               IF(ND>0)  THEN                  
                  NISKYL1 = NISKYL1 + 1
                ELSE
                  NISKYL2 = NISKYL2 + 1
@@ -353,10 +353,10 @@ C
 C
              DO I=1,JLT
                 IG=NSVG(I)
-                IF (H1(I).NE.ZERO) THEN
+                IF (H1(I)/=ZERO) THEN
                   I1 =  IX1(I)
                   ND = MSRL(I1)
-                  IF(ND.GT.0) THEN             
+                  IF(ND>0) THEN             
                     NISKYL = NISKYL + 1
                     FSKYI(NISKYL,1)=ZERO
                     FSKYI(NISKYL,2)=ZERO
@@ -373,10 +373,10 @@ C
                  ENDIF
                ENDIF
 c
-               IF (H2(I).NE.ZERO) THEN
+               IF (H2(I)/=ZERO) THEN
                  I1 =  IX2(I)
                  ND = MSRL(I1)
-                IF(ND.GT.0) THEN             
+                IF(ND>0) THEN             
                   NISKYL = NISKYL + 1
                   FSKYI(NISKYL,1)=ZERO
                   FSKYI(NISKYL,2)=ZERO
@@ -393,10 +393,10 @@ c
                ENDIF 
               ENDIF
 c
-              IF (H3(I).NE.ZERO) THEN
+              IF (H3(I)/=ZERO) THEN
                 I1 =  IX3(I)
                 ND = MSRL(I1)
-                IF(ND.GT.0) THEN             
+                IF(ND>0) THEN             
                   NISKYL = NISKYL + 1
                   FSKYI(NISKYL,1)=ZERO
                   FSKYI(NISKYL,2)=ZERO
@@ -413,10 +413,10 @@ c
                 ENDIF
               ENDIF
 c
-              IF (H4(I).NE.ZERO) THEN
+              IF (H4(I)/=ZERO) THEN
                 I1 =  IX4(I)
                 ND = MSRL(I1)
-                IF(ND.GT.0) THEN             
+                IF(ND>0) THEN             
                   NISKYL = NISKYL + 1
                   FSKYI(NISKYL,1)=ZERO
                   FSKYI(NISKYL,2)=ZERO
@@ -438,10 +438,10 @@ C
 C
              DO I=1,JLT
                 IG=NSVG(I)
-                IF (H1(I).NE.ZERO) THEN
+                IF (H1(I)/=ZERO) THEN
                   I1 =  IX1(I)
                   ND = MSRL(I1)
-                  IF(ND.GT.0) THEN             
+                  IF(ND>0) THEN             
                     NISKYL = NISKYL + 1
                     FSKYI(NISKYL,1)=ZERO
                     FSKYI(NISKYL,2)=ZERO
@@ -457,10 +457,10 @@ C
                  ENDIF
                ENDIF
 c
-               IF (H2(I).NE.ZERO) THEN
+               IF (H2(I)/=ZERO) THEN
                  I1 =  IX2(I)
                  ND = MSRL(I1)
-                IF(ND.GT.0) THEN             
+                IF(ND>0) THEN             
                   NISKYL = NISKYL + 1
                   FSKYI(NISKYL,1)=ZERO
                   FSKYI(NISKYL,2)=ZERO
@@ -476,10 +476,10 @@ c
                ENDIF 
               ENDIF
 c
-              IF (H3(I).NE.ZERO) THEN
+              IF (H3(I)/=ZERO) THEN
                 I1 =  IX3(I)
                 ND = MSRL(I1)
-                IF(ND.GT.0) THEN             
+                IF(ND>0) THEN             
                   NISKYL = NISKYL + 1
                   FSKYI(NISKYL,1)=ZERO
                   FSKYI(NISKYL,2)=ZERO
@@ -495,10 +495,10 @@ c
                 ENDIF
               ENDIF
 c
-              IF (H4(I).NE.ZERO) THEN
+              IF (H4(I)/=ZERO) THEN
                 I1 =  IX4(I)
                 ND = MSRL(I1)
-                IF(ND.GT.0) THEN             
+                IF(ND>0) THEN             
                   NISKYL = NISKYL + 1
                   FSKYI(NISKYL,1)=ZERO
                   FSKYI(NISKYL,2)=ZERO
@@ -593,16 +593,16 @@ C-------------SKID LINES OUTPUTTING ----------------
 #include "lockoff.inc"
 
 C---------------------------------
-      IF(.NOT.(    (ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT.GT.0 .AND.
-     .                  (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.
-     .                  (MANIM.GE.4.AND.MANIM.LE.15) .OR. H3D_DATA%MH3D .NE. 0))
-     .         .OR.(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT.GT.0.AND.
-     .                  (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.
-     .                  (MANIM.GE.4.AND.MANIM.LE.15) .OR. H3D_DATA%MH3D .NE. 0))
-     .         .OR.ISECIN.NE.0)  ) RETURN
+      IF(.NOT.(    (ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0 .AND.
+     .                  (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .                  (MANIM>=4.AND.MANIM<=15) .OR. H3D_DATA%MH3D /= 0))
+     .         .OR.(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
+     .                  (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .                  (MANIM>=4.AND.MANIM<=15) .OR. H3D_DATA%MH3D /= 0))
+     .         .OR.ISECIN/=0)  ) RETURN
 C--------------------------------- 
       DO I=1,JLT
-        IF(IX3(I).NE.IX4(I))THEN
+        IF(IX3(I)/=IX4(I))THEN
           H0   =FOURTH*(ONE - LB(I) - LC(I))
           IF(ABS(ITRIA(I))==1)THEN
             H1(I)= LB(I)+H0
@@ -640,8 +640,8 @@ C---------------------------------
         IX4(I)=MSR(IX4(I))
       END DO
 C-------------Tag of nodes really impacting contact forces updating ----------------
-       IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT .GT.0.OR.
-     .        ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT.GT.0)THEN
+       IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT >0.OR.
+     .        ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0)THEN
 #include "lockon.inc"
          DO I=1,JLT
           JG = NSVG(I)
@@ -678,9 +678,9 @@ C
         ENDIF
 
 C---------------------------------
-      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT.GT.0.AND.
-     .        (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.
-     .            (MANIM.GE.4.AND.MANIM.LE.15).OR. H3D_DATA%MH3D .NE. 0))THEN
+      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
+     .        (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .            (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
 #include "lockon.inc"
          DO I=1,JLT
           JG = NSVG(I)
@@ -705,9 +705,9 @@ C
 #include "lockoff.inc"
       ENDIF
 C---------------------------------
-      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT.GT.0.AND.
-     .        (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.
-     .            (MANIM.GE.4.AND.MANIM.LE.15).OR. H3D_DATA%MH3D .NE. 0))THEN
+      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
+     .        (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .            (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
 #include "lockon.inc"
          DO I=1,JLT
           JG = NSVG(I)
@@ -753,9 +753,9 @@ C
 C
       ENDDO
 C-----------------------------------------------
-      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT.GT.0.AND.
-     .        (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.
-     .            (MANIM.GE.4.AND.MANIM.LE.15) .OR. H3D_DATA%MH3D .NE. 0 ))THEN
+      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0.AND.
+     .        (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .            (MANIM>=4.AND.MANIM<=15) .OR. H3D_DATA%MH3D /= 0 ))THEN
 #include "lockon.inc"
          DO I=1,JLT
           JG = NSVG(I)
@@ -783,41 +783,41 @@ C
 C-----------------------------------------------
 C code NSPMD > 1 a traiter de maniere specifique (IXi non present localement)
       IF(NSPMD == 1)THEN
-        IF(ISECIN.GT.0)THEN
+        IF(ISECIN>0)THEN
          K0=NSTRF(25)
-         IF(NSTRF(1)+NSTRF(2).NE.0)THEN
+         IF(NSTRF(1)+NSTRF(2)/=0)THEN
           DO I=1,NSECT
            NBINTER=NSTRF(K0+14)
            K1S=K0+30
            DO J=1,NBINTER
-            IF(NSTRF(K1S).EQ.NOINT)THEN
-              IF(ISECUT.NE.0)THEN
+            IF(NSTRF(K1S)==NOINT)THEN
+              IF(ISECUT/=0)THEN
 #include "lockon.inc"
                 DO K=1,JLT
 C attention aux signes pour le cumul des efforts
 C a rendre conforme avec CFORC3
-                 IF(SECFCUM(4,IX1(K),I).EQ.1.)THEN
+                 IF(SECFCUM(4,IX1(K),I)==1.)THEN
                   SECFCUM(1,IX1(K),I)=SECFCUM(1,IX1(K),I)-FX1(K)
                   SECFCUM(2,IX1(K),I)=SECFCUM(2,IX1(K),I)-FY1(K)
                   SECFCUM(3,IX1(K),I)=SECFCUM(3,IX1(K),I)-FZ1(K)
                  ENDIF
-                 IF(SECFCUM(4,IX2(K),I).EQ.1.)THEN
+                 IF(SECFCUM(4,IX2(K),I)==1.)THEN
                   SECFCUM(1,IX2(K),I)=SECFCUM(1,IX2(K),I)-FX2(K)
                   SECFCUM(2,IX2(K),I)=SECFCUM(2,IX2(K),I)-FY2(K)
                   SECFCUM(3,IX2(K),I)=SECFCUM(3,IX2(K),I)-FZ2(K)
                  ENDIF
-                 IF(SECFCUM(4,IX3(K),I).EQ.1.)THEN
+                 IF(SECFCUM(4,IX3(K),I)==1.)THEN
                   SECFCUM(1,IX3(K),I)=SECFCUM(1,IX3(K),I)-FX3(K)
                   SECFCUM(2,IX3(K),I)=SECFCUM(2,IX3(K),I)-FY3(K)
                   SECFCUM(3,IX3(K),I)=SECFCUM(3,IX3(K),I)-FZ3(K)
                  ENDIF
-                 IF(SECFCUM(4,IX4(K),I).EQ.1.)THEN
+                 IF(SECFCUM(4,IX4(K),I)==1.)THEN
                   SECFCUM(1,IX4(K),I)=SECFCUM(1,IX4(K),I)-FX4(K)
                   SECFCUM(2,IX4(K),I)=SECFCUM(2,IX4(K),I)-FY4(K)
                   SECFCUM(3,IX4(K),I)=SECFCUM(3,IX4(K),I)-FZ4(K)
                  ENDIF
                  JG = NSVG(K)
-                 IF(SECFCUM(4,JG,I).EQ.1.)THEN
+                 IF(SECFCUM(4,JG,I)==1.)THEN
                   SECFCUM(1,JG,I)=SECFCUM(1,JG,I)+FXI(K)
                   SECFCUM(2,JG,I)=SECFCUM(2,JG,I)+FYI(K)
                   SECFCUM(3,JG,I)=SECFCUM(3,JG,I)+FZI(K)

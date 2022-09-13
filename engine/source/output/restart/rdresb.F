@@ -191,7 +191,7 @@ C-----------------------------------------------
       DO I=1,LMXVREA
         TABVREA(I)=ZERO
       ENDDO
-      IF(LVARREA.GT.LMXVREA)THEN
+      IF(LVARREA>LMXVREA)THEN
         CALL ANCMSG(MSGID=33,ANMODE=ANINFO,I1=LVARREA,I2=LMXVREA)
         CALL ARRET(2)
       ENDIF
@@ -372,7 +372,7 @@ c       WRITE(6,*) "ITAB = ",ITAB(1:SITAB)
 
         CALL READ_I_C(IBCL,SIBCL)
 
-        IF (NINTLOADP.GT.0) THEN
+        IF (NINTLOADP>0) THEN
          CALL READ_I_C(KLOADPINTER, NINTER+1)
          CALL READ_I_C(LOADPINTER,NINTER*NLOADP_HYD)
         ENDIF
@@ -697,12 +697,12 @@ C
         CALL READ_I_C(IAD_CNDM,SIAD_CNDM)
         CALL READ_I_C(FR_CNDM,SFR_CNDM)
 C
-c        IF (IMACH.EQ.3) THEN
+c        IF (IMACH==3) THEN
 C
 C Partie Parith/ON lue en SPM dans tous les cas
 C
 C lecture directe de ADDCNE
-        IF(IPARIT.EQ.1) THEN
+        IF(IPARIT==1) THEN
           CALL READ_I_C(ADSKY,NUMNOD+1)
 C lecture directe de PROCNE
           CALL READ_I_C(PROCNE,LCNE0)
@@ -712,7 +712,7 @@ C lecture directe structure interface type2
           ENDIF
           CALL READ_I_C(PROCNI2,LCNI2)
 C---Itet2 of S10
-          IF(NS10E.GT.0) THEN
+          IF(NS10E>0) THEN
            CALL READ_I_C(ADDCNCND,SADDCNCND)
           ENDIF
           CALL READ_I_C(PROCNCND,SPROCNCND)
@@ -759,7 +759,7 @@ C
             CALL READ_I_C(CRKNODIAD,LCNECRKXFEM)
           ENDIF
 C
-        ELSEIF(IPARI0.EQ.1)THEN
+        ELSEIF(IPARI0==1)THEN
 C saut de lecture
           LEN = NUMNOD+1+LCNE0+(NUMNOD+1)*MIN(1,I2NSNT)+LCNI2
      +        + NISKY0+NSKYRW0+NSKYRBK0+NISKYI2+NSKYMV0+NSKYMVC0
@@ -817,15 +817,15 @@ C--------------------------------------
 C--------------------------------------
       CALL READ_I_C(ITHVAR,SITHVAR)
 C--------------------------------------
-      IF (NLOADC.GT.0)THEN
+      IF (NLOADC>0)THEN
         CALL READ_I_C(ICFIELD,SIZFIELD*NLOADC)
         CALL READ_I_C(LCFIELD,SLCFIELD)
       ENDIF
-      IF (NLOADP.GT.0)THEN
+      IF (NLOADP>0)THEN
         CALL READ_I_C(ILOADP,SIZLOADP*NLOADP)
         CALL READ_I_C(LLOADP,SLLOADP)
       ENDIF
-      IF (NLOADP_B.GT.0)THEN
+      IF (NLOADP_B>0)THEN
         CALL PBLAST_LOAD(PBLAST_TAB)
         CALL PBLAST_INIT_TABLES(PBLAST_DATA) !PBLAST_DATA defined in PBLAST_MOD
       ENDIF
@@ -851,7 +851,7 @@ C----------------------------------
 C     LECTURE DES VARIABLES REELLES
 C--------------------------------------
 C      warning to radioss developpers :
-C      IF(LVARREA.GT.LMXVREA)THEN
+C      IF(LVARREA>LMXVREA)THEN
 C        WRITE(*,*) ' ** RADIOSS INTERNAL ERROR'
 C        CALL ARRET(7)
 C      ENDIF
@@ -1035,7 +1035,7 @@ C--------------------------------------
         CALL READ_DB(PCONTACT ,SRCONTACT)
 
 C lecture struture interface partie reelle si irunn > 1
-        IF(IRUNN.GT.1.OR.MCHECK.NE.0)CALL SPMD_INITFI(IPARI,2,H3D_DATA)
+        IF(IRUNN>1.OR.MCHECK/=0)CALL SPMD_INITFI(IPARI,2,H3D_DATA)
 C--------------------------------------
 C     Lecture + Init Frontiere SPMD pour SPH (partie reelle)
 C--------------------------------------
@@ -1043,18 +1043,18 @@ C--------------------------------------
 C--------------------------------------
 C     STOCKAGE FACULTATIFS
 C--------------------------------------
-      IF (IRESMD.EQ.0.AND.NPSAV.GE.25) THEN
+      IF (IRESMD==0.AND.NPSAV>=25) THEN
          CALL READ_DB(PARTSAV,NPSAV*NPART)
       ENDIF
 
-      IF(NNOISE.GT.0.AND. (IRUNN.GT.1 .OR. MCHECK.NE.0))THEN
-c      IF(NNOISE.GT.0.AND.IRUNN.GT.1)THEN
+      IF(NNOISE>0.AND. (IRUNN>1 .OR. MCHECK/=0))THEN
+c      IF(NNOISE>0.AND.IRUNN>1)THEN
           CALL READ_I_C (IAF(IF01),SINOISE)
           CALL READ_DB(AF(MF01),SFNOISE)
       ENDIF
 
-       IF (IRESP .EQ. 1) THEN
-         IF (IRXDP .EQ. 1) THEN
+       IF (IRESP == 1) THEN
+         IF (IRXDP == 1) THEN
               CALL READ_DPDB(XDP,3*NUMNOD)
               CALL READ_DPDB(DDP,3*NUMNOD)
          ELSE
@@ -1064,7 +1064,7 @@ C next restart, XDP will be on restart head !
          ENDIF
 C Cas double precision
        ELSE
-         IF (IRXDP .EQ.1)THEN
+         IF (IRXDP ==1)THEN
 C Reading Dummy if XDP is in Restart file. XDP written during next restart.
            ALLOCATE(XDPDUM(3*NUMNOD))
 C Read XDP
@@ -1078,10 +1078,10 @@ C Read DDP
        NPSAV = 28
 C   ----------------------------------------------------------------------
 C     Utilise pour les checks point restart.
-       IF(MCHECK.NE.0)THEN
+       IF(MCHECK/=0)THEN
         CALL READ_I_C(MY_ILEN,1)
         CALL READ_I_C(MY_RLEN,1)
-        IF(MOD(IRFORM,5).GE.2.AND.MOD(IRFORM,5).LE.4) THEN
+        IF(MOD(IRFORM,5)>=2.AND.MOD(IRFORM,5)<=4) THEN
           CALL READ_I_C(ILINK,4*NRLINK)
           CALL READ_I_C(FR_RL,(NSPMD+2)*NRLINK)
           CALL READ_I_C(LLINK,LLLINK)
@@ -1222,13 +1222,13 @@ C--------------------------------------
 C--------------------------------------
 C FXBODY (moved from radioss2.F)
 C--------------------------------------
-      IF (NFXBODY.GT.0) THEN
+      IF (NFXBODY>0) THEN
          CALL FXBRESB()
       ENDIF
 C--------------------------------------
 C EIGEN MODES (moved from radioss2.F)
 C--------------------------------------
-      IF (NEIG.GT.0) THEN
+      IF (NEIG>0) THEN
          CALL EIGRREST()
       ENDIF
 C--------------------------------------
@@ -1396,49 +1396,49 @@ C--------------------------------------
 C     READING INTEGERS
 C--------------------------------------
       LEN_IPM=NBIPM*NFXBODY
-      IF (IRFORM/5.LE.1) THEN
+      IF (IRFORM/5<=1) THEN
         CALL REDSQI (FXBIPM,LEN_IPM,IRFORM)
-        IF (LENNOD.GT.0) CALL REDSQI (FXBNOD,LENNOD,IRFORM)
-        IF (LENELM.GT.0) CALL REDSQI (FXBELM,LENELM,IRFORM)
-        IF (LENGRVI.GT.0) CALL REDSQI (FXBGRVI,LENGRVI,IRFORM)
+        IF (LENNOD>0) CALL REDSQI (FXBNOD,LENNOD,IRFORM)
+        IF (LENELM>0) CALL REDSQI (FXBELM,LENELM,IRFORM)
+        IF (LENGRVI>0) CALL REDSQI (FXBGRVI,LENGRVI,IRFORM)
       ELSE
         CALL READ_I_C(FXBIPM,LEN_IPM)
-        IF (LENNOD.GT.0) CALL READ_I_C(FXBNOD,LENNOD)
-        IF (LENELM.GT.0) CALL READ_I_C(FXBELM,LENELM)
-        IF (LENGRVI.GT.0) CALL READ_I_C(FXBGRVI,LENGRVI)
+        IF (LENNOD>0) CALL READ_I_C(FXBNOD,LENNOD)
+        IF (LENELM>0) CALL READ_I_C(FXBELM,LENELM)
+        IF (LENGRVI>0) CALL READ_I_C(FXBGRVI,LENGRVI)
       ENDIF
 C--------------------------------------
 C     READING REALS
 C--------------------------------------
       LEN_MOD=LENMOD*6
-      IF (IRFORM/5.LE.1) THEN
-        IF (LEN_MOD.GT.0) CALL REDSQR (FXBMOD,LEN_MOD,IRFORM)
-        IF (LENGLM.GT.0) CALL REDSQR (FXBGLM,LENGLM,IRFORM)
-        IF (LENCP.GT.0) CALL REDSQR (FXBCPM,LENCP ,IRFORM)
-        IF (LENCP.GT.0) CALL REDSQR (FXBCPS,LENCP ,IRFORM)
-        IF (LENLM.GT.0) CALL REDSQR (FXBLM, LENLM ,IRFORM)
-        IF (LENFLS.GT.0) CALL REDSQR (FXBFLS,LENFLS,IRFORM)
-        IF (LENDLS.GT.0) CALL REDSQR (FXBDLS,LENDLS,IRFORM)
+      IF (IRFORM/5<=1) THEN
+        IF (LEN_MOD>0) CALL REDSQR (FXBMOD,LEN_MOD,IRFORM)
+        IF (LENGLM>0) CALL REDSQR (FXBGLM,LENGLM,IRFORM)
+        IF (LENCP>0) CALL REDSQR (FXBCPM,LENCP ,IRFORM)
+        IF (LENCP>0) CALL REDSQR (FXBCPS,LENCP ,IRFORM)
+        IF (LENLM>0) CALL REDSQR (FXBLM, LENLM ,IRFORM)
+        IF (LENFLS>0) CALL REDSQR (FXBFLS,LENFLS,IRFORM)
+        IF (LENDLS>0) CALL REDSQR (FXBDLS,LENDLS,IRFORM)
         CALL REDSQR (FXBDEP,LENVAR,IRFORM)
         CALL REDSQR (FXBVIT,LENVAR,IRFORM)
         CALL REDSQR (FXBACC,LENVAR,IRFORM)
         CALL REDSQR (FXBRPM,LENRPM,IRFORM)
-        IF (LENSIG.GT.0) CALL REDSQR (FXBSIG,LENSIG,IRFORM)
-        IF (LENGRVR.GT.0) CALL REDSQR (FXBGRVR,LENGRVR,IRFORM)
+        IF (LENSIG>0) CALL REDSQR (FXBSIG,LENSIG,IRFORM)
+        IF (LENGRVR>0) CALL REDSQR (FXBGRVR,LENGRVR,IRFORM)
       ELSE
-        IF (LEN_MOD.GT.0) CALL READ_DB(FXBMOD,LEN_MOD)
-        IF (LENGLM.GT.0) CALL READ_DB(FXBGLM,LENGLM)
-        IF (LENCP.GT.0) CALL READ_DB(FXBCPM,LENCP )
-        IF (LENCP.GT.0) CALL READ_DB(FXBCPS,LENCP )
-        IF (LENLM.GT.0) CALL READ_DB(FXBLM, LENLM )
-        IF (LENFLS.GT.0) CALL READ_DB(FXBFLS,LENFLS)
-        IF (LENDLS.GT.0) CALL READ_DB(FXBDLS,LENDLS)
+        IF (LEN_MOD>0) CALL READ_DB(FXBMOD,LEN_MOD)
+        IF (LENGLM>0) CALL READ_DB(FXBGLM,LENGLM)
+        IF (LENCP>0) CALL READ_DB(FXBCPM,LENCP )
+        IF (LENCP>0) CALL READ_DB(FXBCPS,LENCP )
+        IF (LENLM>0) CALL READ_DB(FXBLM, LENLM )
+        IF (LENFLS>0) CALL READ_DB(FXBFLS,LENFLS)
+        IF (LENDLS>0) CALL READ_DB(FXBDLS,LENDLS)
         CALL READ_DB(FXBDEP,LENVAR)
         CALL READ_DB(FXBVIT,LENVAR)
         CALL READ_DB(FXBACC,LENVAR)
         CALL READ_DB(FXBRPM,LENRPM)
-        IF (LENSIG.GT.0) CALL READ_DB(FXBSIG,LENSIG)
-        IF (LENGRVR.GT.0) CALL READ_DB(FXBGRVR,LENGRVR)
+        IF (LENSIG>0) CALL READ_DB(FXBSIG,LENSIG)
+        IF (LENGRVR>0) CALL READ_DB(FXBGRVR,LENGRVR)
       ENDIF
 C Lecture des fichiers de modes et de contraintes
       INQUIRE(IOLENGTH=RCLEN) VV
@@ -1511,7 +1511,7 @@ C-----------------------------------------------
 C--------------------------------------
 C     READING INTEGERS
 C--------------------------------------
-      IF (IRFORM/5.LE.1) THEN
+      IF (IRFORM/5<=1) THEN
         CALL REDSQI (EIGIPM,NEIG*NEIPM,IRFORM)
         CALL REDSQI (EIGIBUF,LEIBUF,IRFORM)
       ELSE
@@ -1521,7 +1521,7 @@ C--------------------------------------
 C--------------------------------------
 C     READING REALS
 C--------------------------------------
-      IF (IRFORM/5.LE.1) THEN
+      IF (IRFORM/5<=1) THEN
         CALL REDSQR (EIGRPM,NEIG*NERPM,IRFORM)
       ELSE
         CALL READ_DB(EIGRPM,NEIG*NERPM)
@@ -1592,7 +1592,7 @@ C--------------------------------------
 C Lecture des parametres entiers
 C--------------------------------------
          N=7
-         IF (IRFORM/5.LE.1) THEN
+         IF (IRFORM/5<=1) THEN
            CALL REDSQI(TN, N, IRFORM)
          ELSE
            CALL READ_I_C(TN, N)
@@ -1611,7 +1611,7 @@ C--------------------------------------
 C     READING REALS
 C--------------------------------------
          N=1
-         IF (IRFORM/5.LE.1) THEN
+         IF (IRFORM/5<=1) THEN
            CALL REDSQR(CUTFREQ, N, IRFORM)
          ELSE
            CALL READ_DB(CUTFREQ, N)
@@ -1625,13 +1625,13 @@ C--------------------------------------
      .            GRAPHE(I)%LSDDL_GLOB(DSNDDL),
      .            GRAPHE(I)%LSDDL_GLOB_INI(DSNDDL))
          DO J=1,2
-            IF (IRFORM/5.LE.1) THEN
+            IF (IRFORM/5<=1) THEN
               CALL REDSQI(GRAPHE(I)%LSDDL(J,1:DSNDDL), DSNDDL, IRFORM)
             ELSE
               CALL READ_I_C(GRAPHE(I)%LSDDL(J,1:DSNDDL), DSNDDL)
             ENDIF
          ENDDO
-         IF (IRFORM/5.LE.1) THEN
+         IF (IRFORM/5<=1) THEN
            CALL REDSQI(GRAPHE(I)%LSDDL_GLOB, DSNDDL, IRFORM)
          ELSE
            CALL READ_I_C(GRAPHE(I)%LSDDL_GLOB, DSNDDL)
@@ -1651,7 +1651,7 @@ C--------------------------------------
          ALLOCATE(GRAPHE(I)%DGRAPH(DSLEN))
          DO J=1,DSLEN
             N=3
-            IF (IRFORM/5.LE.1) THEN
+            IF (IRFORM/5<=1) THEN
               CALL REDSQI(TN, N, IRFORM)
             ELSE
               CALL READ_I_C(TN, N)
@@ -1668,7 +1668,7 @@ C--------------------------------------
             ALLOCATE(GRAPHE(I)%DGRAPH(J)%IFAC_INI(TN(3)+1,TN(2)),
      .               GRAPHE(I)%DGRAPH(J)%IFACM_INI(TN(2)))
             N=TN(3)+1
-            IF (IRFORM/5.LE.1) THEN
+            IF (IRFORM/5<=1) THEN
               CALL REDSQI(GRAPHE(I)%DGRAPH(J)%CHILD, NSDEC, IRFORM)
               CALL REDSQI(GRAPHE(I)%DGRAPH(J)%DDLS, NDDL, IRFORM)
               DO K=1,TN(2)
@@ -1741,7 +1741,7 @@ C
 C--------------------------------------
 C     READING INTEGERS
 C--------------------------------------
-      IF (IRFORM/5.LE.1) THEN
+      IF (IRFORM/5<=1) THEN
         CALL REDSQI (IFLOW,LIFLOW,IRFORM)
       ELSE
         CALL READ_I_C(IFLOW,LIFLOW)
@@ -1749,7 +1749,7 @@ C--------------------------------------
 C--------------------------------------
 C     READING REALS
 C--------------------------------------
-      IF (IRFORM/5.LE.1) THEN
+      IF (IRFORM/5<=1) THEN
         CALL REDSQR (RFLOW,LRFLOW,IRFORM)
       ELSE
         CALL READ_DB(RFLOW,LRFLOW)
@@ -1803,25 +1803,25 @@ C     READING REALS
 C--------------------------------------
       ND = NUMNOD*3
       IDYNA0 = NIMPR - 2
-      IF (IRFORM/5.LE.1) THEN
+      IF (IRFORM/5<=1) THEN
        CALL REDSQR(IMP_RR,NIMPR,IRFORM)
-       IF (IDYNA0.GT.0) THEN
+       IF (IDYNA0>0) THEN
         CALL REDSQR(A,ND,IRFORM)
-        IF (IRODDL.NE.0) CALL REDSQR(AR,ND,IRFORM)
+        IF (IRODDL/=0) CALL REDSQR(AR,ND,IRFORM)
        ENDIF
       ELSE
        CALL READ_DB(IMP_RR,NIMPR)
-       IF (IDYNA0.GT.0) THEN
+       IF (IDYNA0>0) THEN
         CALL READ_DB(A,ND)
-        IF (IRODDL.NE.0) CALL READ_DB(AR,ND)
+        IF (IRODDL/=0) CALL READ_DB(AR,ND)
        ENDIF
       ENDIF
 C
-      IF ((IDYNA+IDYNA0).GT.0) THEN
+      IF ((IDYNA+IDYNA0)>0) THEN
        ALLOCATE(DY_A(3,NUMNOD))
-       IF (IRODDL.NE.0) ALLOCATE(DY_AR(3,NUMNOD))
+       IF (IRODDL/=0) ALLOCATE(DY_AR(3,NUMNOD))
        CALL CP_REAL(ND,A,DY_A)
-       IF (IRODDL.NE.0) CALL CP_REAL(ND,AR,DY_AR)
+       IF (IRODDL/=0) CALL CP_REAL(ND,AR,DY_AR)
       ENDIF
 C
       RETURN
@@ -1917,7 +1917,7 @@ C--------------------------------------
         FVDATA_OLD(I)%PDISP = ZERO
       ENDDO
 
-      IF (IMACH.EQ.3) THEN
+      IF (IMACH==3) THEN
          ALLOCATE(FVSPMD(NFVBAG))
          DO I=1,NFVBAG
            NULLIFY(FVSPMD(I)%IBUF_L)
@@ -1931,7 +1931,7 @@ C--------------------------------------
 C
       ALLOCATE(KMESH(NFVBAG))
       DO I=1,NFVBAG
-         IF (IMACH.EQ.3) THEN
+         IF (IMACH==3) THEN
             CALL READ_I_C(FVDATA_OLD(I)%L_TYPE,1)
             CALL READ_I_C(FVDATA_OLD(I)%ID_DT_OPTION,1)
             CALL READ_DB(FVDATA_OLD(I)%LAMBDA,1)
@@ -1982,31 +1982,31 @@ C
 
             ALLOCATE(FVSPMD(I)%IBUF_L(2,NN_L+NNI_L))
             LEN=2*(NN_L+NNI_L)
-            IF (LEN.GT.0) THEN
+            IF (LEN>0) THEN
               CALL READ_I_C(FVSPMD(I)%IBUF_L,LEN)
             ENDIF
             ALLOCATE(FVSPMD(I)%IBUFA_L(2,NNA_L))
             LEN=2*NNA_L
-            IF (LEN.GT.0) THEN
+            IF (LEN>0) THEN
               CALL READ_I_C(FVSPMD(I)%IBUFA_L,LEN)
             ENDIF
             ALLOCATE(FVSPMD(I)%IBUFSA_L(2,NNSA_L))
             LEN=2*NNSA_L
-            IF (LEN.GT.0) THEN
+            IF (LEN>0) THEN
               CALL READ_I_C(FVSPMD(I)%IBUFSA_L,LEN)
             ENDIF
             LEN = 1
             CALL READ_I_C(KMESH(I), LEN)
-            IF (ISPMD.NE.FVSPMD(I)%PMAIN-1) CYCLE
+            IF (ISPMD/=FVSPMD(I)%PMAIN-1) CYCLE
 C
             ALLOCATE(FVSPMD(I)%IXSA(8,NSA))
             LEN=8*NSA
-            IF (LEN.GT.0) THEN
+            IF (LEN>0) THEN
               CALL READ_I_C(FVSPMD(I)%IXSA,LEN)
             ENDIF
             ALLOCATE(FVSPMD(I)%ELEMSA(3,NELSA))
             LEN=3*NELSA
-            IF (LEN.GT.0) THEN
+            IF (LEN>0) THEN
               CALL READ_I_C(FVSPMD(I)%ELEMSA,LEN)
             ENDIF
          ENDIF
@@ -2060,7 +2060,7 @@ C
      .            FVDATA_OLD(I)%RMWPOLH(NPOLH),
      .            FVDATA_OLD(I)%VPOLH_INI(NPOLH),
      .            FVDATA_OLD(I)%DTPOLH(NPOLH))
-         IF (NPOLH_ANIM.GT.0)
+         IF (NPOLH_ANIM>0)
      .      ALLOCATE(FVDATA_OLD(I)%IFVPOLY_ANIM(LENP_ANIM),
      .               FVDATA_OLD(I)%IFVTADR_ANIM(NPOLY+1),
      .               FVDATA_OLD(I)%IFVPOLH_ANIM(LENH_ANIM),
@@ -2082,7 +2082,7 @@ C--------------------------------------
          CALL READ_I_C(FVDATA_OLD(I)%IFVPADR,NPOLH+1)
          CALL READ_I_C(FVDATA_OLD(I)%IDPOLH,NPOLH)
          CALL READ_I_C(FVDATA_OLD(I)%IBPOLH,NPOLH)
-         IF (NPOLH_ANIM.GT.0) THEN
+         IF (NPOLH_ANIM>0) THEN
            CALL READ_I_C(FVDATA_OLD(I)%IFVPOLY_ANIM,LENP_ANIM)
            CALL READ_I_C(FVDATA_OLD(I)%IFVTADR_ANIM,NPOLY+1)
            CALL READ_I_C(FVDATA_OLD(I)%IFVPOLH_ANIM,LENH_ANIM)
@@ -2117,7 +2117,7 @@ C--------------------------------------
          CALL READ_DB(FVDATA_OLD(I)%VPOLH_INI,NPOLH)
          CALL READ_DB(FVDATA_OLD(I)%DLH,1)
          CALL READ_DB(FVDATA_OLD(I)%DTPOLH,NPOLH)
-         IF (NPOLH_ANIM.GT.0) THEN
+         IF (NPOLH_ANIM>0) THEN
             LEN=3*NNS_ANIM
             CALL READ_DB(FVDATA_OLD(I)%NOD_ANIM,LEN)
          ENDIF
@@ -2205,7 +2205,7 @@ C--------------------------------------
 C--------------------------------------
 C     READING REALS
 C--------------------------------------
-      IF (IRFORM/5.LE.1) THEN
+      IF (IRFORM/5<=1) THEN
         CALL REDSQR (MCP,NUMNOD,IRFORM)
         CALL REDSQR (TEMP,NUMNOD,IRFORM)
       ELSE
@@ -2252,7 +2252,7 @@ C--------------------------------------
 C--------------------------------------
 C     READING REALS
 C--------------------------------------
-      IF (IRFORM/5.LE.1) THEN
+      IF (IRFORM/5<=1) THEN
         CALL REDSQR (FORNEQS,3*NUMNOD,IRFORM)
       ELSE
         CALL READ_DB(FORNEQS,3*NUMNOD)
@@ -2301,7 +2301,7 @@ C--------------------------------------
 C--------------------------------------
 C     READING REALS
 C--------------------------------------
-      IF (IRFORM/5.LE.1) THEN
+      IF (IRFORM/5<=1) THEN
         CALL REDSQR (FCONV,LFACTHER*NUMCONV,IRFORM)
         CALL REDSQI (IBCV,NICONV*NUMCONV,IRFORM)
       ELSE
@@ -2351,7 +2351,7 @@ C--------------------------------------
 C--------------------------------------
 C     READING REALS
 C--------------------------------------
-      IF (IRFORM/5.LE.1) THEN
+      IF (IRFORM/5<=1) THEN
         CALL REDSQR (FRADIA,LFACTHER*NUMRADIA,IRFORM)
         CALL REDSQI (IBCR,NIRADIA*NUMRADIA,IRFORM)
       ELSE
@@ -2401,7 +2401,7 @@ C--------------------------------------
 C--------------------------------------
 C     READING REALS
 C--------------------------------------
-      IF (IRFORM/5.LE.1) THEN
+      IF (IRFORM/5<=1) THEN
         CALL REDSQR (FBFTEMP,LFACTHER*NFXTEMP,IRFORM)
         CALL REDSQI (IBFTEMP,NIFT*NFXTEMP,IRFORM)
       ELSE
@@ -2451,7 +2451,7 @@ C--------------------------------------
 C--------------------------------------
 C     READING REALS
 C--------------------------------------
-      IF (IRFORM/5.LE.1) THEN
+      IF (IRFORM/5<=1) THEN
         CALL REDSQR (RBYM,NRBYM*NFRBYM,IRFORM)
         CALL REDSQI(IRBYM,NRBYM*NIRBYM ,IRFORM)
         CALL REDSQI(LNRBYM,NGSLNRBYM,IRFORM)

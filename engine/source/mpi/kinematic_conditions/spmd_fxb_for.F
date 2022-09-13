@@ -69,11 +69,11 @@ C
          LEN=NME+NMOD
          AVAR=FXBIPM(13,NFX)
          PMAIN=FXBIPM(39,NFX)
-         IF (ISPMD.EQ.PMAIN) THEN
+         IF (ISPMD==PMAIN) THEN
             ALLOCATE(FF(LEN,NSPMD-1))
             II=0
             DO I=1,NSPMD
-               IF (ISPMD.EQ.I-1) CYCLE
+               IF (ISPMD==I-1) CYCLE
                II=II+1
                ITAG=MSGOFF
                CALL MPI_IRECV(FF(1,II), LEN, REAL, IT_SPMD(I), ITAG,

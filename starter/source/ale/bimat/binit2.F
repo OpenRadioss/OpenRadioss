@@ -120,7 +120,7 @@ c
      .     NGL, AIRE, 
      .     Y1, Y2, Y3, Y4, 
      .     Z1, Z2, Z3, Z4)
-      IF (JEUL.NE.0) THEN
+      IF (JEUL/=0) THEN
         CALL QDLEN2(IPARG(63), 
      .        AIRE, DELTAX, 
      .        Y1, Y2, Y3, Y4, 
@@ -161,19 +161,19 @@ C---------------------------------------
       !----------------------------------------
       !     INITIALISATION DE LA THERMIQUE ET TURBULENCE
       !----------------------------------------
-      IF(JTHE.NE.0) CALL ATHERI(MAT,PM,LBUF%TEMP)
-      IF(JTUR.NE.0) CALL ATURI2(IPARGG ,LBUF%RHO,PM,IXQ,X,
+      IF(JTHE/=0) CALL ATHERI(MAT,PM,LBUF%TEMP)
+      IF(JTUR/=0) CALL ATURI2(IPARGG ,LBUF%RHO,PM,IXQ,X,
      .                          LBUF%RK,LBUF%RE, AIRE)
       !------------------------------------------
       !     INITIALISATION DE LA MATRICE DE MASSE
       !------------------------------------------
-      IF(JLAG+JALE+JEUL.NE.0)
+      IF(JLAG+JALE+JEUL/=0)
      .  CALL QMASI2(PM,MAT,MS,LBUF%VOL,MSQ(NF1),WMA,IPARTQ(NFT+1),PARTSAV, 
      .     IX1, IX2, IX3, IX4, X ,V)
       !---------------------------------------
       !     MULTIMATRIAUX 2
       !---------------------------------------
-      IF(IMULT.EQ.1)RETURN
+      IF(IMULT==1)RETURN
       JMULT=2
       LBUF => ELBUF_STR%BUFLY(JMULT)%LBUF(1,1,1)
       MBUF => ELBUF_STR%BUFLY(JMULT)%MAT(1,1,1)
@@ -204,13 +204,13 @@ C---------------------------------------
       !----------------------------------------
       !     INITIALISATION DE LA THERMIQUE ET TURBULENCE
       !----------------------------------------
-      IF (JTHE.NE.0) CALL ATHERI(MAT,PM, LBUF%TEMP)
-      IF (JTUR.NE.0) CALL ATURI2(IPARGG ,LBUF%RHO,PM,IXQ,X,
+      IF (JTHE/=0) CALL ATHERI(MAT,PM, LBUF%TEMP)
+      IF (JTUR/=0) CALL ATURI2(IPARGG ,LBUF%RHO,PM,IXQ,X,
      .                          LBUF%RK,LBUF%RE, AIRE)
       !------------------------------------------
       !     INITIALISATION DE LA MATRICE DE MASSE
       !------------------------------------------
-      IF(JLAG+JALE+JEUL.NE.0)
+      IF(JLAG+JALE+JEUL/=0)
      .  CALL QMASI2B(PM,MAT,MS,LBUF%VOL,MSQ(NF1),WMA,IPARTQ(NFT+1),PARTSAV,
      .     IX1, IX2, IX3, IX4 ,X ,V)
 C-----------

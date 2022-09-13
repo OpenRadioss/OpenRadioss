@@ -138,8 +138,8 @@ C     ISRATE
 C----------
 C DEFAULT
 C----------
-      IF(CC.EQ.ZERO)   EPS0 = ONE
-      IF(SIGFMAX.EQ.ZERO) SIGFMAX=INFINITY
+      IF(CC==ZERO)   EPS0 = ONE
+      IF(SIGFMAX==ZERO) SIGFMAX=INFINITY
 C--------
 C ERRORS
 C--------

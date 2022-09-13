@@ -100,7 +100,7 @@ C-----------------------------------------------
       my_real TS
 C     REAL
 C
-      IF (NT_IMP1.GT.0) THEN
+      IF (NT_IMP1>0) THEN
        IAD=1
        GAPMIN=EP20
        I_INT7 = IMP_INT7
@@ -109,16 +109,16 @@ C-----------int5 first-------------
        DO N=1,NINTER
         NTY   =IPARI(7,N)
         IF (NUM_IMP(N)==0) CYCLE
-        IF(NTY.EQ.5) THEN
+        IF(NTY==5) THEN
 C
           ISENS = IPARI(64,N)
-          IF(ISENS.NE.0)  THEN  ! SENSOR
+          IF(ISENS/=0)  THEN  ! SENSOR
              TS = SENSOR(2,ISENS)
           ELSE
              TS = TT
           ENDIF
 C
-          IF(TT.GE.TS) THEN  ! If interface is activated
+          IF(TT>=TS) THEN  ! If interface is activated
             CALL I5KE3( A,V     ,MS     ,
      1        IPARI(1,N),INTBUF_TAB(N) ,X  ,
      2        NUM_IMP(N),NS_IMP(IAD),NE_IMP(IAD)  ,
@@ -131,16 +131,16 @@ C
        DO N=1,NINTER
         NTY   =IPARI(7,N)
 	    LREM(N) = 0
-        IF(NTY.EQ.7) THEN
+        IF(NTY==7) THEN
 C
           ISENS = IPARI(64,N)
-          IF(ISENS.NE.0)  THEN  ! SENSOR
+          IF(ISENS/=0)  THEN  ! SENSOR
              TS = SENSOR(2,ISENS)
           ELSE
              TS = TT
           ENDIF
 C
-          IF(TT.GE.TS) THEN  ! If interface is activated
+          IF(TT>=TS) THEN  ! If interface is activated
             CALL I7KE3( A,V     ,MS     ,
      1        IPARI     ,INTBUF_TAB(N) ,X       ,N  ,
      2        NUM_IMP1(N),NS_IMP1(IAD),NE_IMP1(IAD)   ,IND_IMP1(IAD),
@@ -148,23 +148,23 @@ C
      4        LREM(N)   )
           ENDIF
           IAD=IAD+NUM_IMP1(N)
-        ELSEIF(NTY.EQ.10)THEN
+        ELSEIF(NTY==10)THEN
           CALL I10KE3( A,V     ,MS     ,
      1       IPARI(1,N),INTBUF_TAB(N) ,X       ,N     ,
      2       NUM_IMP1(N),NS_IMP1(IAD),NE_IMP1(IAD)   ,IND_IMP1(IAD),
      3       IDDLI     ,DIAG_I ,LT_I  , IADI     ,JDII   ,GAPMIN   ,
      4       LREM(N)   )
           IAD=IAD+NUM_IMP1(N)
-        ELSEIF(NTY.EQ.11)THEN
+        ELSEIF(NTY==11)THEN
 C
           ISENS = IPARI(64,N)
-          IF(ISENS.NE.0)  THEN  ! SENSOR
+          IF(ISENS/=0)  THEN  ! SENSOR
              TS = SENSOR(2,ISENS)
           ELSE
              TS = TT
           ENDIF
 C
-          IF(TT.GE.TS) THEN  ! If interface is activated
+          IF(TT>=TS) THEN  ! If interface is activated
             CALL I11KE3( A,    V     ,MS     ,
      1        IPARI(1,N),INTBUF_TAB(N) ,X       ,N     ,
      2        NUM_IMP1(N),NS_IMP1(IAD),NE_IMP1(IAD)   ,
@@ -172,16 +172,16 @@ C
      4        LREM(N)   ,ITAB   )
           ENDIF
           IAD=IAD+NUM_IMP1(N)
-        ELSEIF(NTY.EQ.24) THEN
+        ELSEIF(NTY==24) THEN
 C
           ISENS = IPARI(64,N)
-          IF(ISENS.NE.0)  THEN  ! SENSOR
+          IF(ISENS/=0)  THEN  ! SENSOR
              TS = SENSOR(2,ISENS)
           ELSE
              TS = TT
           ENDIF
 C
-          IF(TT.GE.TS) THEN  ! If interface is activated
+          IF(TT>=TS) THEN  ! If interface is activated
 c            CALL I24KE3( A,V     ,MS     ,
 c     1        IPARI     ,INTBUF_TAB(N) ,X       ,N  ,
 c     2        NUM_IMP1(N),NS_IMP1(IAD),NE_IMP1(IAD)   ,IND_IMP1(IAD),
@@ -201,16 +201,16 @@ c     2        NUM_IMP1(N),NS_IMP1(IAD),NE_IMP1(IAD)   ,IND_IMP1(IAD),
        DO N=1,NINTER
         NTY   =IPARI(7,N)
         NUM_IMP0 = NUM_IMP(N)-NUM_IMP1(N)
-        IF(NTY.EQ.7) THEN
+        IF(NTY==7) THEN
 C
           ISENS = IPARI(64,N)
-          IF(ISENS.NE.0)  THEN  ! SENSOR
+          IF(ISENS/=0)  THEN  ! SENSOR
              TS = SENSOR(2,ISENS)
           ELSE
              TS = TT
           ENDIF
 C
-          IF(TT.GE.TS) THEN  ! If interface is activated
+          IF(TT>=TS) THEN  ! If interface is activated
             CALL I7KE3( A,V     ,MS     ,
      1        IPARI     ,INTBUF_TAB(N) ,X       ,N ,
      2        NUM_IMP0  ,NS_IMP1(IAD),NE_IMP1(IAD)   ,IND_IMP1(IAD),
@@ -218,23 +218,23 @@ C
      4        LREM(N)   )
           ENDIF
           IAD=IAD+NUM_IMP0
-        ELSEIF(NTY.EQ.10)THEN
+        ELSEIF(NTY==10)THEN
           CALL I10KE3( A,V     ,MS     ,
      1       IPARI(1,N),INTBUF_TAB(N) ,X       ,N     ,
      2       NUM_IMP0  ,NS_IMP1(IAD),NE_IMP1(IAD)   ,IND_IMP1(IAD),
      3       IDDLI     ,DIAG_I ,LT_I  , IADI     ,JDII   ,GAPMIN  ,
      4       LREM(N)   )
           IAD=IAD+NUM_IMP0
-        ELSEIF(NTY.EQ.11)THEN
+        ELSEIF(NTY==11)THEN
 C
           ISENS = IPARI(64,N)
-          IF(ISENS.NE.0)  THEN  ! SENSOR
+          IF(ISENS/=0)  THEN  ! SENSOR
              TS = SENSOR(2,ISENS)
           ELSE
              TS = TT
           ENDIF
 C
-          IF(TT.GE.TS) THEN  ! If interface is activated
+          IF(TT>=TS) THEN  ! If interface is activated
             CALL I11KE3( A,    V     ,MS     ,
      1        IPARI(1,N),INTBUF_TAB(N) ,X       ,N  ,
      2        NUM_IMP0  ,NS_IMP1(IAD),NE_IMP1(IAD)   ,
@@ -242,16 +242,16 @@ C
      4        LREM(N)   ,ITAB   )
           ENDIF
           IAD=IAD+NUM_IMP0
-        ELSEIF(NTY.EQ.24) THEN
+        ELSEIF(NTY==24) THEN
 C
           ISENS = IPARI(64,N)
-          IF(ISENS.NE.0)  THEN  ! SENSOR
+          IF(ISENS/=0)  THEN  ! SENSOR
              TS = SENSOR(2,ISENS)
           ELSE
              TS = TT
           ENDIF
 C
-          IF(TT.GE.TS) THEN  ! If interface is activated
+          IF(TT>=TS) THEN  ! If interface is activated
             CALL I24KE3( A,V     ,MS     ,
      1        IPARI     ,INTBUF_TAB(N) ,X       ,N  ,
 c     2        NUM_IMP1(N),NS_IMP1(IAD),NE_IMP1(IAD)   ,IND_IMP1(IAD),
@@ -269,16 +269,16 @@ C----- normal branche------------
        DO N=1,NINTER
         NTY   =IPARI(7,N)
         IF (NUM_IMP(N)==0) CYCLE
-        IF(NTY.EQ.5) THEN
+        IF(NTY==5) THEN
 C
           ISENS = IPARI(64,N)
-          IF(ISENS.NE.0)  THEN  ! SENSOR
+          IF(ISENS/=0)  THEN  ! SENSOR
              TS = SENSOR(2,ISENS)
           ELSE
              TS = TT
           ENDIF
 C
-          IF(TT.GE.TS) THEN  ! If interface is activated
+          IF(TT>=TS) THEN  ! If interface is activated
              CALL I5KE3( A,V     ,MS     ,
      1        IPARI(1,N),INTBUF_TAB(N) ,X       ,
      2        NUM_IMP(N),NS_IMP(IAD),NE_IMP(IAD)  ,
@@ -290,16 +290,16 @@ C
       DO N=1,NINTER
         NTY   =IPARI(7,N)
 	LREM(N) = 0
-        IF(NTY.EQ.7) THEN
+        IF(NTY==7) THEN
 C
           ISENS = IPARI(64,N)
-          IF(ISENS.NE.0)  THEN  ! SENSOR
+          IF(ISENS/=0)  THEN  ! SENSOR
              TS = SENSOR(2,ISENS)
           ELSE
              TS = TT
           ENDIF
 C
-          IF(TT.GE.TS) THEN  ! If interface is activated
+          IF(TT>=TS) THEN  ! If interface is activated
             CALL I7KE3( A,V     ,MS     ,
      1        IPARI     ,INTBUF_TAB(N) ,X       ,N  ,
      2        NUM_IMP(N),NS_IMP(IAD),NE_IMP(IAD)   ,INDEX2(IAD),
@@ -307,23 +307,23 @@ C
      4        LREM(N)   )
           ENDIF
           IAD=IAD+NUM_IMP(N)
-        ELSEIF(NTY.EQ.10)THEN
+        ELSEIF(NTY==10)THEN
           CALL I10KE3( A,V     ,MS     ,
      1       IPARI(1,N),INTBUF_TAB(N) ,X       ,N     ,
      2       NUM_IMP(N),NS_IMP(IAD),NE_IMP(IAD)   ,INDEX2(IAD),
      3       IDDLI     ,DIAG_I ,LT_I  , IADI     ,JDII   ,GAPMIN    ,
      4       LREM(N)   )
           IAD=IAD+NUM_IMP(N)
-        ELSEIF(NTY.EQ.11)THEN
+        ELSEIF(NTY==11)THEN
 C
           ISENS = IPARI(64,N)
-          IF(ISENS.NE.0)  THEN  ! SENSOR
+          IF(ISENS/=0)  THEN  ! SENSOR
              TS = SENSOR(2,ISENS)
           ELSE
              TS = TT
           ENDIF
 C
-          IF(TT.GE.TS) THEN  ! If interface is activated
+          IF(TT>=TS) THEN  ! If interface is activated
             CALL I11KE3( A,    V     ,MS     ,
      1        IPARI(1,N),INTBUF_TAB(N) ,X       ,N   ,
      2        NUM_IMP(N),NS_IMP(IAD),NE_IMP(IAD)   ,
@@ -331,16 +331,16 @@ C
      4        LREM(N)   ,ITAB   )
           ENDIF
           IAD=IAD+NUM_IMP(N)
-        ELSEIF(NTY.EQ.24) THEN
+        ELSEIF(NTY==24) THEN
 C
           ISENS = IPARI(64,N)
-          IF(ISENS.NE.0)  THEN  ! SENSOR
+          IF(ISENS/=0)  THEN  ! SENSOR
              TS = SENSOR(2,ISENS)
           ELSE
              TS = TT
           ENDIF
 C
-          IF(TT.GE.TS) THEN  ! If interface is activated
+          IF(TT>=TS) THEN  ! If interface is activated
             CALL I24KE3( A,V     ,MS     ,
      1        IPARI     ,INTBUF_TAB(N) ,X       ,N     ,
      3        IDDLI     ,DIAG_I ,LT_I  , IADI     ,JDII   ,GAPMIN   ,
@@ -349,9 +349,9 @@ C
           IAD=IAD+NUM_IMP(N)
         ENDIF
       ENDDO
-      END IF !(NT_IMP1.GT.0) 
+      END IF !(NT_IMP1>0) 
 C
-        IF(GAPMIN.LT.ZERO)RETURN  
+        IF(GAPMIN<ZERO)RETURN  
             CALL UPD_INT_K(ICODT ,ICODR ,ISKEW ,IBFV    ,NPC    ,
      1                      TF   ,VEL   ,SENSOR ,LSENSOR,XFRAME ,
      2                      RBY   ,X     ,SKEW   ,LPBY   ,NPBY  ,
@@ -489,35 +489,35 @@ C----------ICONT-----
         IPARI(29,N) = 0
 C
         NTY   =IPARI(7,N)
-        IF(NTY.EQ.7.OR.NTY.EQ.10.OR.NTY.EQ.18)THEN
+        IF(NTY==7.OR.NTY==10.OR.NTY==18)THEN
           I7KGLO = 1
 C         IPARI(4,N) = NRTM ; IPARI(5,N)=NSN
 C
           ISENS = 0
           IF(NTY == 7) ISENS = IPARI(64,N)  
-          IF(ISENS.NE.0)  THEN
+          IF(ISENS/=0)  THEN
              TS = SENSOR(2,ISENS)
           ELSE
              TS = TT
           ENDIF
 C
-          IF(TT.GE.TS) THEN
+          IF(TT>=TS) THEN
             CALL I7MAIN_CRIT_TRI(
      1        IPARI ,X     ,N     ,
      2        ITASK ,V            ,XSLV_L       ,XMSR_L,VSLV_L,
      3        VMSR_L,INTBUF_TAB(N)              )
           ENDIF
-        ELSEIF(NTY.EQ.11)THEN
+        ELSEIF(NTY==11)THEN
           I7KGLO = 1
 C
           ISENS = IPARI(64,N)  
-          IF(ISENS.NE.0)  THEN
+          IF(ISENS/=0)  THEN
              TS = SENSOR(2,ISENS)
           ELSE
              TS = TT
           ENDIF
 C
-          IF(TT.GE.TS) THEN
+          IF(TT>=TS) THEN
             CALL I11MAIN_CRIT_TRI(
      1       IPARI     ,X      ,N      ,
      2       ITASK     ,V            ,XSLV_L       ,XMSR_L , VSLV_L,
@@ -531,7 +531,7 @@ C
      3    VSLV_L  ,VMSR_L   ,SIZE_T  ,N        ,SENSOR   ,
      4    INTLIST  ,NBINTC  ,MAXDGAP)
 C     
-          IF (NSPMD.GT.1)CALL SPMD_MIN_S(DTK(N))
+          IF (NSPMD>1)CALL SPMD_MIN_S(DTK(N))
          DT_MIN = MIN(DT_MIN,DTK(N))
       ENDDO
 C
@@ -612,49 +612,49 @@ C
       NBNEW = 0
         I = N
         NTY= IPARI(7,I)
-        IF(NTY.NE.17.AND. INTAB(NBINTC,INTLIST,N))THEN
+        IF(NTY/=17.AND. INTAB(NBINTC,INTLIST,N))THEN
 C
           INTERACT = 0
           ISENS = 0
           IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 21.OR.
      .       NTY == 5.OR.NTY == 19 ) ISENS = IPARI(64,I)      
-          IF(ISENS.NE.0) THEN             
+          IF(ISENS/=0) THEN             
             TS = SENSOR(2,ISENS)
-            IF (TT.GE.TS) INTERACT = 1
+            IF (TT>=TS) INTERACT = 1
           ELSE
             STARTT = INTBUF_TAB(I)%VARIABLES(3)
             STOPT  = INTBUF_TAB(I)%VARIABLES(11)
-            IF (STARTT.LE.TT.AND.TT.LE.STOPT) INTERACT = 1
+            IF (STARTT<=TT.AND.TT<=STOPT) INTERACT = 1
           ENDIF
 C
-          IF(INTERACT.NE.0) THEN
+          IF(INTERACT/=0) THEN
             NBNEW = NBNEW + 1
             LISTNEW(NBNEW) = N
             TZINF(NBNEW) = INTBUF_TAB(I)%VARIABLES(8)
           ENDIF
          END IF
 C
-      IF(NSPMD.GT.1)THEN
+      IF(NSPMD>1)THEN
        CALL SPMD_SYNC_MMX(
      1   ISENDTO,IRCVFROM,NEWFRONT,XSLV_L,XMSR_L,
      2   VSLV_L ,VMSR_L  ,LISTNEW ,NBNEW ,TZINF ,
      3   SIZE_T ,IPARI   ,PMAX    ,MAXDGAP)
       END IF
 C
-       IF (NBNEW.EQ.0) RETURN
+       IF (NBNEW==0) RETURN
 C
         NTY  =IPARI(7,I)
-        IF(NTY.NE.17)THEN
+        IF(NTY/=17)THEN
           INTBUF_TAB(I)%VARIABLES(8)=TZINF(1)
-          IF(NSPMD.GT.1) THEN
-          IF (NEWFRONT(I).LT.0)THEN
-            IF(NTY.EQ.7.OR.NTY.EQ.10) THEN
+          IF(NSPMD>1) THEN
+          IF (NEWFRONT(I)<0)THEN
+            IF(NTY==7.OR.NTY==10) THEN
               CALL SPMD_GET_STIF(
      1          NEWFRONT(I)  ,INTBUF_TAB(I)%I_STOK(1),
      2          INTBUF_TAB(I)%CAND_N,INTBUF_TAB(I)%CAND_E,
      3          IPARI(5,I),I,ISENDTO,IRCVFROM,INTBUF_TAB(I)%NSV,
      4          ITAB)
-            ELSEIF(NTY.EQ.11) THEN
+            ELSEIF(NTY==11) THEN
               CALL SPMD_GET_STIF11(
      1          NEWFRONT(I)  ,INTBUF_TAB(I)%I_STOK(1) ,
      2           INTBUF_TAB(I)%CAND_N   , INTBUF_TAB(I)%GAP_S,
@@ -662,7 +662,7 @@ C
      4          ITAB)
             ENDIF
           ENDIF
-          END IF !(NSPMD.GT.1) THEN
+          END IF !(NSPMD>1) THEN
 C maj dist = tzinf - gap ***: seulement pour etre coherent avec smp 
            INTBUF_TAB(I)%VARIABLES(5) = INTBUF_TAB(I)%VARIABLES(8)-
      -                                INTBUF_TAB(I)%VARIABLES(2)
@@ -678,16 +678,16 @@ C
           VY=MAX(VSLV_L(2,I)-VMSR_L(5,I),VMSR_L(2,I)-VSLV_L(5,I),ZERO)
           VZ=MAX(VSLV_L(3,I)-VMSR_L(6,I),VMSR_L(3,I)-VSLV_L(6,I),ZERO)
           VV=SQRT(VX**2+VY**2+VZ**2)
-          IF (VV.NE.ZERO) THEN
+          IF (VV/=ZERO) THEN
             GAPINF = INTBUF_TAB(I)%VARIABLES(6)
-            IF (GAPINF.EQ.ZERO) GAPINF = INTBUF_TAB(I)%VARIABLES(2)
+            IF (GAPINF==ZERO) GAPINF = INTBUF_TAB(I)%VARIABLES(2)
 C-------supposee s est encore loin de M ------
 	    GAPINF =GAPINF+MAX(ZERO,DIST0)
             DTI = ONEP8*GAPINF/VV
 Ctmp            DTI = ZEP9*GAPINF/VV
-            IF(DTI.LT.DT2T) DT2T    = DTI            
+            IF(DTI<DT2T) DT2T    = DTI            
           ENDIF
-          IF(DIST0.LE.ZERO) THEN
+          IF(DIST0<=ZERO) THEN
             INTBUF_TAB(I)%VARIABLES(5) = -ONE
           ENDIF
         ENDIF
@@ -793,16 +793,16 @@ C-------------before inttri------
         NUM_IMP1(N)=0
        ENDDO
 C----deactive cette fonction.     
-       IF (ITTOFF.GT.0) RETURN
+       IF (ITTOFF>0) RETURN
        NTHR_CP = NTHREAD
-       IF (NTHREAD.GT.1) NTHREAD = 1
+       IF (NTHREAD>1) NTHREAD = 1
        DTI = ONE/DT2
         DO I=1,NUMNOD
           V(1,I)=D_IMP(1,I)*DTI
           V(2,I)=D_IMP(2,I)*DTI
           V(3,I)=D_IMP(3,I)*DTI
         ENDDO
-        IF (IRODDL.NE.0) THEN
+        IF (IRODDL/=0) THEN
          DO I=1,NUMNOD
            VR(1,I)=DR_IMP(1,I)*DTI
            VR(2,I)=DR_IMP(2,I)*DTI
@@ -815,7 +815,7 @@ C----deactive cette fonction.
      4       NEWFRONT ,ITASK   ,DTK     ,ITAB     ,
      5       INTLIST  ,NBINTC  ,DT_MIN  ,MS       ,
      6       SENSOR   ,MAXDGAP)
-       IF (DT_MIN .GE. DT2) GOTO 1000
+       IF (DT_MIN >= DT2) GOTO 1000
        DO N = 1,NINTER
         NUM_IMP(N) = 0
        END DO
@@ -831,29 +831,29 @@ C      DO KK=1,NBINTC
 C        N   = INTLIST(KK)
       DO N=1,NINTER
         NTY = IPARI(7,N)
-        IF (NTY.NE.7.AND.NTY.NE.10.AND.NTY.NE.11) GOTO 999
-        IF (DTK(N).GE.DT2) GOTO 999
+        IF (NTY/=7.AND.NTY/=10.AND.NTY/=11) GOTO 999
+        IF (DTK(N)>=DT2) GOTO 999
         NSN   =IPARI(5,N)
         NMN   =IPARI(6,N)
 C
         INTERACT = 0
         ISENS = 0
         IF(NTY == 7.OR.NTY == 11) ISENS = IPARI(64,N)      
-        IF(ISENS.NE.0) THEN             !CMAAAAA
+        IF(ISENS/=0) THEN             !CMAAAAA
            TS = SENSOR(2,ISENS)
-           IF (TT.GE.TS) INTERACT = 1
+           IF (TT>=TS) INTERACT = 1
         ELSE
            STARTT = INTBUF_TAB(N)%VARIABLES(3)
            STOPT  = INTBUF_TAB(N)%VARIABLES(11)
-           IF (STARTT.LE.TT.AND.TT.LE.STOPT) INTERACT = 1
+           IF (STARTT<=TT.AND.TT<=STOPT) INTERACT = 1
         ENDIF
-        IF(INTERACT.NE.0) GOTO 999
+        IF(INTERACT/=0) GOTO 999
 C
         RETRI = 0
         ILIST(1) = N
         FAC = DTK(N)/DT2
         FAC1 = DTI*FAC
-        IF(NTY.EQ.11)THEN
+        IF(NTY==11)THEN
          CALL IMP_I11XV(
      1  X            ,INTBUF_TAB(N)%NSV,INTBUF_TAB(N)%MSR,NSN        ,NMN   ,
      2  X_TMP        ,D_IMP        ,DR_IMP       ,V            ,VR    ,
@@ -884,7 +884,7 @@ C
 C---------necessair pour spmd-----
       CALL CP_INTTD(NT_IMP1,NUM_IMP ,NS_IMP,NE_IMP,IND_IMP,NUM_IMP1)
  1000 CONTINUE
-      IF (NTHR_CP.GT.1) NTHREAD = NTHR_CP 
+      IF (NTHR_CP>1) NTHREAD = NTHR_CP 
 C
       RETURN
       END
@@ -926,7 +926,7 @@ C     REAL
 C------------------------------------
         DO J=1,NSN
           I=NSV(J)
-	 IF (I.GT.0) THEN
+	 IF (I>0) THEN
           DX = D(1,I)*FACD
           DY = D(2,I)*FACD
           DZ = D(3,I)*FACD
@@ -940,7 +940,7 @@ C------------------------------------
         END DO
         DO J=1,NMN
           I=MSR(J)
-	 IF (I.GT.0) THEN
+	 IF (I>0) THEN
           DX = D(1,I)*FACD
           DY = D(2,I)*FACD
           DZ = D(3,I)*FACD
@@ -953,10 +953,10 @@ C------------------------------------
          END IF
         END DO
 C
-        IF (IRODDL.NE.0) THEN
+        IF (IRODDL/=0) THEN
          DO J=1,NSN
           I=NSV(J)
-	  IF (I.GT.0) THEN
+	  IF (I>0) THEN
            VR(1,I)=DR(1,I)*FACV
            VR(2,I)=DR(2,I)*FACV
            VR(3,I)=DR(3,I)*FACV
@@ -964,7 +964,7 @@ C
          END DO
          DO J=1,NMN
           I=MSR(J)
-	  IF (I.GT.0) THEN
+	  IF (I>0) THEN
            VR(1,I)=DR(1,I)*FACV
            VR(2,I)=DR(2,I)*FACV
            VR(3,I)=DR(3,I)*FACV
@@ -1011,7 +1011,7 @@ C     REAL
      .        DX,DY,DZ
 C------------------------------------
         DO J=1,NSN
-	 IF (STFN(J).NE.ZERO) THEN
+	 IF (STFN(J)/=ZERO) THEN
           I=NSV(J)
           DX = D(1,I)*FACD
           DY = D(2,I)*FACD
@@ -1026,7 +1026,7 @@ C------------------------------------
         END DO
         DO J=1,NMN
           I=MSR(J)
-	 IF (I.GT.0) THEN
+	 IF (I>0) THEN
           DX = D(1,I)*FACD
           DY = D(2,I)*FACD
           DZ = D(3,I)*FACD
@@ -1039,9 +1039,9 @@ C------------------------------------
          END IF
         END DO
 C
-        IF (IRODDL.NE.0) THEN
+        IF (IRODDL/=0) THEN
          DO J=1,NSN
-	  IF (STFN(J).NE.ZERO) THEN
+	  IF (STFN(J)/=ZERO) THEN
            I=NSV(J)
            VR(1,I)=DR(1,I)*FACV
            VR(2,I)=DR(2,I)*FACV
@@ -1050,7 +1050,7 @@ C
          END DO
          DO J=1,NMN
           I=MSR(J)
-	  IF (I.GT.0) THEN
+	  IF (I>0) THEN
            VR(1,I)=DR(1,I)*FACV
            VR(2,I)=DR(2,I)*FACV
            VR(3,I)=DR(3,I)*FACV
@@ -1166,8 +1166,8 @@ C-------------dans inttri------
         RDUM(1:3,1)=ZERO
         IBID =0
         JTASK = ITASK + 1
-        IF (NSPMD.GT.1) THEN
-         IF(ISIZXV.GT.0) CALL SPMD_SD_XV(
+        IF (NSPMD>1) THEN
+         IF(ISIZXV>0) CALL SPMD_SD_XV(
      1     X     ,D       ,V      ,VR    ,MS   ,
      2     IN    ,IAD_ELEM,FR_ELEM,WEIGHT,IMSCH,
      3     D     ,ISIZXV ,ILENXV  ,XDP)
@@ -1195,16 +1195,16 @@ C-------------dans inttri------
         ENDIF
           NRTM_T = IPARI(4,N)
           ESHIFT = 0
-        IF(NTY.EQ.7.OR.NTY.EQ.18)THEN
+        IF(NTY==7.OR.NTY==18)THEN
 C
           ISENS = IPARI(64,N)
-          IF(ISENS.NE.0)  THEN  ! SENSOR
+          IF(ISENS/=0)  THEN  ! SENSOR
              TS = SENSOR(2,ISENS)
           ELSE
              TS = TT
           ENDIF
 C
-          IF(TT.GE.TS) THEN  ! If interface is activated
+          IF(TT>=TS) THEN  ! If interface is activated
             CALL I7MAIN_TRI(
      1 IPARI   ,X       ,V         ,
      2 MS      ,N            ,ITASK        ,WAG     ,WEIGHT    ,
@@ -1213,7 +1213,7 @@ C
      5 NSNFIOLD,ESHIFT       ,IBID         ,IBID    ,IBID      ,
      6 INTBUF_TAB,H3D_DATA,IXS,MULTI_FVM)
          ENDIF
-        ELSEIF(NTY.EQ.10)THEN
+        ELSEIF(NTY==10)THEN
 C 
           CALL I10MAIN_TRI(
      1 IPARI(1,N),X       ,V         ,
@@ -1222,16 +1222,16 @@ C
      4 NRTM_T    ,RENUM        ,NSNFIOLD     ,ESHIFT  ,IBID      ,
      5 IBID      ,IBID         ,ITAB         ,INTBUF_TAB         ,
      6 H3D_DATA  )
-        ELSEIF(NTY.EQ.11)THEN
+        ELSEIF(NTY==11)THEN
 C
          ISENS = IPARI(64,N)
-         IF(ISENS.NE.0)  THEN  ! SENSOR
+         IF(ISENS/=0)  THEN  ! SENSOR
             TS = SENSOR(2,ISENS)
          ELSE
             TS = TT
          ENDIF
 C
-         IF(TT.GE.TS) THEN  ! If interface is activated	
+         IF(TT>=TS) THEN  ! If interface is activated	
           CALL I11MAIN_TRI(
      1 IPARI      ,X       ,V        ,
      2 MS         ,N            ,ITASK        ,WEIGHT  ,ISENDTO  ,
@@ -1251,7 +1251,7 @@ C
      5 IBID    ,INTBUF_TAB   ,H3D_DATA     )
         ENDIF
 C
-        IF (IMACH.EQ.3.AND.NSPMD.GT.1.AND.RETRI.EQ.1) THEN
+        IF (IMACH==3.AND.NSPMD>1.AND.RETRI==1) THEN
 C--------- a modifier par interface---
          CALL SPMD_IFRONT(
      1    IPARI  ,NEWFRONT,ISENDTO ,IRECVFROM,
@@ -1269,34 +1269,34 @@ C--------- a modifier par interface---
 
         ENDIF
 C
-        IF(NTY.EQ.7)THEN
+        IF(NTY==7)THEN
 C
           ISENS = IPARI(64,N)
-          IF(ISENS.NE.0)  THEN  ! SENSOR
+          IF(ISENS/=0)  THEN  ! SENSOR
              TS = SENSOR(2,ISENS)
           ELSE
              TS = TT
           ENDIF
 C
-          IF(TT.GE.TS) THEN  ! If interface is activated
+          IF(TT>=TS) THEN  ! If interface is activated
             CALL I7MAIN_OPT_TRI(
      1       IPARI     ,INTBUF_TAB(N),X   ,V  ,
      2       N         ,ITASK ,COUNT_REMSLV       )
           ENDIF
-        ELSEIF(NTY.EQ.10)THEN
+        ELSEIF(NTY==10)THEN
           CALL I10MAIN_OPT_TRI(
      1       IPARI(1,N),INTBUF_TAB(N),X  ,V  ,
      2       N         ,ITASK  ,COUNT_REMSLV      )
-        ELSEIF(NTY.EQ.11)THEN
+        ELSEIF(NTY==11)THEN
 C
           ISENS = IPARI(64,N)
-          IF(ISENS.NE.0)  THEN  ! SENSOR
+          IF(ISENS/=0)  THEN  ! SENSOR
              TS = SENSOR(2,ISENS)
           ELSE
              TS = TT
           ENDIF
 C
-          IF(TT.GE.TS) THEN  ! If interface is activated
+          IF(TT>=TS) THEN  ! If interface is activated
             CALL I11MAIN_OPT_TRI(
      1        IPARI     ,INTBUF_TAB(N),X  ,V  ,
      2        N         ,ITASK  ,COUNT_REMSLV      )
@@ -1307,7 +1307,7 @@ C
      2       N         ,ITASK ,COUNT_REMSLV ,COUNT_REMSLVE  )
         ENDIF
 C-------------dans intfop2------
-        IF(IMACH.EQ.3) THEN
+        IF(IMACH==3) THEN
 C LINDMAX = NCONT*MULTIMP
           LINDMAX  = IPARI(18,N)*IPARI(23,N)
         ELSE
@@ -1315,39 +1315,39 @@ C LINDMAX = NSN*MULTIMP
           LINDMAX  = IPARI(5,N)*IPARI(23,N)
         ENDIF
 C
-        IF(NTY.EQ.7)THEN
+        IF(NTY==7)THEN
 C
           ISENS = IPARI(64,N)
-          IF(ISENS.NE.0)  THEN  ! SENSOR
+          IF(ISENS/=0)  THEN  ! SENSOR
              TS = SENSOR(2,ISENS)
           ELSE
              TS = TT
           ENDIF
 C
-          IF(TT.GE.TS) THEN  ! If interface is activated
+          IF(TT>=TS) THEN  ! If interface is activated
            CALL IMP_I7MAINF(
      1  IPARI     ,INTBUF_TAB(N),X          ,V           ,
      2  MS        ,N            ,LINDMAX      ,JTASK      ,
      3  NUM_IMP(N),NS_IMP(IAD)  ,NE_IMP(IAD)  ,IND_IMP(IAD))
            IAD=IAD+NUM_IMP(N)
          ENDIF
-        ELSEIF(NTY.EQ.10)THEN
+        ELSEIF(NTY==10)THEN
 C
            CALL IMP_I10MAINF(
      1  IPARI(1,N),INTBUF_TAB(N),X          ,V           ,
      2  MS        ,N            ,LINDMAX      ,JTASK      ,
      3  NUM_IMP(N),NS_IMP(IAD)  ,NE_IMP(IAD)  ,IND_IMP(IAD))
            IAD=IAD+NUM_IMP(N)
-        ELSEIF(NTY.EQ.11)THEN
+        ELSEIF(NTY==11)THEN
 C
           ISENS = IPARI(64,N)
-          IF(ISENS.NE.0)  THEN  ! SENSOR
+          IF(ISENS/=0)  THEN  ! SENSOR
              TS = SENSOR(2,ISENS)
           ELSE
              TS = TT
           ENDIF
 C
-          IF(TT.GE.TS) THEN  ! If interface is activated
+          IF(TT>=TS) THEN  ! If interface is activated
            CALL IMP_I11MAINF(
      1  IPARI(1,N),INTBUF_TAB(N),X          ,V           ,
      2  MS        ,N            ,LINDMAX      ,JTASK      ,
@@ -1399,7 +1399,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-       IF(NT_IMP1.EQ.0) RETURN
+       IF(NT_IMP1==0) RETURN
         IF(ALLOCATED(NS_IMP1)) DEALLOCATE(NS_IMP1)
         ALLOCATE(NS_IMP1(NT_IMP1),STAT=IERROR1)
         IF(ALLOCATED(NE_IMP1)) DEALLOCATE(NE_IMP1)
@@ -1463,11 +1463,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-       IF(NT_IMP1.EQ.0) RETURN
+       IF(NT_IMP1==0) RETURN
 C------dans NS_IMP1 input: NT_IMP1 , output:d'abord NT_IMP1, + NT_IMP-NT_IMP1
 C------dans NS_IMP input:d'abord NT_IMP1, + NT_IMP-NT_IMP1, output: NT_IMP
        NT_IMP = NT_IMP + NT_IMP1
-       IF(NSPMD.GT.1) THEN
+       IF(NSPMD>1) THEN
         IAD1 = 0
         DO N = 1,NINTER
 	 DO I = 1,NUMIMP1(N)
@@ -1572,7 +1572,7 @@ C-----------------------------------------------
        IAD = IAD1_NIN(NIN)
        DO I = 1, NUM_IMP
         NI = NS_IMP1(IAD+I)
-        IF(NI.GT.NSN) THEN
+        IF(NI>NSN) THEN
           NI = NI - NSN
           NS_IMP1(IAD+I) = CAND_N(INDEX(I))
         END IF        
@@ -1637,16 +1637,16 @@ C     REAL
      .        DTK(NINTER),DTI,DT_MIN
 C-------------before inttri------
        SCAL = ONE
-       IF (ITTOFF.GT.0.OR.IMCONV.EQ.1.OR.IMCONV.LE.-2) RETURN
+       IF (ITTOFF>0.OR.IMCONV==1.OR.IMCONV<=-2) RETURN
         NTHR_CP = NTHREAD
-        IF (NTHREAD.GT.1) NTHREAD = 1
+        IF (NTHREAD>1) NTHREAD = 1
         DTI = ONE/DT2
         DO I=1,NUMNOD
           V(1,I)=D_IMP(1,I)*DTI
           V(2,I)=D_IMP(2,I)*DTI
           V(3,I)=D_IMP(3,I)*DTI
         ENDDO
-        IF (IRODDL.NE.0) THEN
+        IF (IRODDL/=0) THEN
          DO I=1,NUMNOD
            VR(1,I)=DR_IMP(1,I)*DTI
            VR(2,I)=DR_IMP(2,I)*DTI
@@ -1661,13 +1661,13 @@ C-------------before inttri------
      6       SENSOR   ,MAXDGAP)
 C  
        SCAL = DT_MIN*DTI
-       IF (SCAL.LT.ONE) THEN
+       IF (SCAL<ONE) THEN
         DO I=1,NUMNOD
           D_IMP(1,I)=D_IMP(1,I)*SCAL
           D_IMP(2,I)=D_IMP(2,I)*SCAL
           D_IMP(3,I)=D_IMP(3,I)*SCAL
         ENDDO
-        IF (IRODDL.NE.0) THEN
+        IF (IRODDL/=0) THEN
          DO I=1,NUMNOD
            DR_IMP(1,I)=DR_IMP(1,I)*SCAL
            DR_IMP(2,I)=DR_IMP(2,I)*SCAL
@@ -1676,7 +1676,7 @@ C
         ENDIF 
        ENDIF
 C       
-       IF (NTHR_CP.GT.1) NTHREAD = NTHR_CP
+       IF (NTHR_CP>1) NTHREAD = NTHR_CP
 C
       RETURN
       END
@@ -1744,17 +1744,17 @@ C-----------------------------------------------
        ENDDO 
        NUMN_KN = 0
        DO N=1,NUMNOD
-        IF (NDOFII(N).GT.0) NUMN_KN = NUMN_KN + 1
+        IF (NDOFII(N)>0) NUMN_KN = NUMN_KN + 1
        ENDDO 
 C--------allocation------ 
 C
        ALLOCATE(IN_KN(NUMN_KN),ID_KN(3,NUMN_KN),STAT=IERR1)
-      IF (NUMN_KN .GT. 0) THEN
+      IF (NUMN_KN > 0) THEN
        ID_KN = -7	  
        N = 0
 C------------valeur nega pour les nsl nodes-----      
        DO I=1,NUMNOD
-       IF (NDOFII(I).GT.0) THEN
+       IF (NDOFII(I)>0) THEN
         N = N + 1
         IN_KN(N) = I
        ENDIF
@@ -1766,36 +1766,36 @@ C------------valeur nega pour les nsl nodes-----
      3    LJ        ,ISKEW     ,ICODT     ,NRB_KN    ,NI2_KN    ,
      4    NBC_KN    ,NFX_KN    ,NRW_KN    ,IRBE3     ,NRBE3_KN  ,
      5    NSPC_KN   ,IRBE2     ,LRBE2     ,NRBE2_KN  )
-      IF (NI2_KN.GT.0) THEN
+      IF (NI2_KN>0) THEN
        ALLOCATE(II2_KN(2,NI2_KN),ID_KNM2(6,4,NI2_KN),STAT=IERR2)
       ENDIF 
-      IF (NRB_KN.GT.0) THEN
+      IF (NRB_KN>0) THEN
        ALLOCATE(IRB_KN(2,NRB_KN),ID_KNM(6,NRB_KN),STAT=IERR3)
       ENDIF 
-      IF (NBC_KN.GT.0) THEN
+      IF (NBC_KN>0) THEN
        IF(ALLOCATED(IBC_KN)) DEALLOCATE(IBC_KN)
        ALLOCATE(IBC_KN(3,NBC_KN),STAT=IERR4)
       ENDIF 
-      IF (NSPC_KN.GT.0) THEN
+      IF (NSPC_KN>0) THEN
        IF(ALLOCATED(ISPC_KN)) DEALLOCATE(ISPC_KN)
        ALLOCATE(ISPC_KN(NSPC_KN),STAT=IERR4)
       ENDIF 
 C--
-      IF (NFX_KN.GT.0) THEN
+      IF (NFX_KN>0) THEN
        IF(ALLOCATED(IFX_KN)) DEALLOCATE(IFX_KN)
        ALLOCATE(IFX_KN(2,NFX_KN),STAT=IERR5)
       ENDIF
 C 
-      IF (NRW_KN.GT.0) THEN
+      IF (NRW_KN>0) THEN
        IF(ALLOCATED(IRW_KN)) DEALLOCATE(IRW_KN)
        ALLOCATE(IRW_KN(NRW_KN),STAT=IERR6)
       ENDIF
 C       
-      IF (NRBE3_KN.GT.0) THEN
+      IF (NRBE3_KN>0) THEN
        ALLOCATE(IRBE3_KN(NRBE3_KN),STAT=IERR6)
       ENDIF 
 C       
-      IF (NRBE2_KN.GT.0) THEN
+      IF (NRBE2_KN>0) THEN
        ALLOCATE(IRBE2_KN(2,NRBE2_KN),ID_KNM4(6,NRBE2_KN),STAT=IERR3)
       ENDIF 
 C       
@@ -1808,7 +1808,7 @@ C
      5    IRBE3_KN  ,NSPC_KN   ,ISPC_KN   ,IRBE2     ,LRBE2     ,
      6    NRBE2_KN  ,IRBE2_KN  )
 C ------ini RBE3---     
-      IF (NRBE3_KN.GT.0) THEN
+      IF (NRBE3_KN>0) THEN
         IAD=0
         NMT = 0
         IROT=0
@@ -1824,7 +1824,7 @@ C ------ini RBE3---
 	 RKN_MAX=IAD
         ALLOCATE(FCDI_KN(18*NMT),STAT=IERR5)
 	 FCDI_KN=ZERO
-        IF (IROT.GT.0) THEN
+        IF (IROT>0) THEN
 	 ALLOCATE(MCDI_KN(18*NMT),STAT=IERR5)
 	 MCDI_KN=ZERO
         ENDIF 
@@ -1832,14 +1832,14 @@ C ------ini RBE3---
      .                 NRBE3_KN,IRBE3_KN ,FCDI_KN,MCDI_KN)
       ENDIF 
 C--------- use NDOFII(I)--as IDDLM ------------
-      IF (NUMN_KN .EQ. 0) RETURN
+      IF (NUMN_KN == 0) RETURN
       NKC=0
       DO N =1,NUMNOD
        I=INLOC(N)
        NDOFII(I)=IDDL(I)-NKC
        DO J=1,NDOF(I)
         ND = IDDL(I)+J
-        IF (IKC(ND).NE.0) NKC = NKC + 1
+        IF (IKC(ND)/=0) NKC = NKC + 1
        ENDDO 
       ENDDO
       CALL IDDL_MINT(NUMN_KN,IN_KN   ,IDDL    ,IKC     ,NDOF     ,
@@ -1849,7 +1849,7 @@ C--------- use NDOFII(I)--as IDDLM ------------
      .              RKN_MAX ,IRBE2   ,NRBE2_KN,IRBE2_KN,ID_KNM4  )
 C------------return origine NDOFI(I)----
       DO I=1,NUMNOD
-       IF (NDOFI(I).LT.0) NDOFI(I) = 0
+       IF (NDOFI(I)<0) NDOFI(I) = 0
       ENDDO 
       RETURN
       END
@@ -1923,7 +1923,7 @@ C------IRTL(NSN)--main el number---
        KFI=K14+NSN
        DO I=1,NSN
         NI=INTBUF_TAB(N)%NSV(I)
-        IF (INLOC(NI).GT.0) THEN
+        IF (INLOC(NI)>0) THEN
          LNS2=LNS2+1
         ENDIF
        ENDDO
@@ -1932,8 +1932,8 @@ C--------RBE3--------------------
       LNS3=0
       DO N=1,NRBE3
        NI = IRBE3(3,N)
-       IF (NI.EQ.0) CYCLE
-       IF (INLOC(NI).GT.0) THEN
+       IF (NI==0) CYCLE
+       IF (INLOC(NI)>0) THEN
          LNS3=LNS3+1
        ENDIF
       ENDDO
@@ -1947,36 +1947,36 @@ C-----active rigid body main nodes------
         DO I=1,NSN
          ID = I+K
          NI=LPBY(ID)
-         IF (INLOC(NI).GT.0) THEN
+         IF (INLOC(NI)>0) THEN
           LNS=LNS+1
-          IF (INLOC(M).EQ.0) INLOC(M) = 1
+          IF (INLOC(M)==0) INLOC(M) = 1
          ENDIF
        ENDDO
       ENDDO
 C
       LBCL = 0
       DO N=1,NUMNOD
-        IF (ISKEW(N).GT.1.AND.ICODT(N).NE.7) THEN
-         IF (INLOC(N).GT.0)LBCL = LBCL + 1  
+        IF (ISKEW(N)>1.AND.ICODT(N)/=7) THEN
+         IF (INLOC(N)>0)LBCL = LBCL + 1  
         ENDIF
       ENDDO
       LSPCL = 0
       DO N=1,NSPCL
-       IF (INLOC(N).GT.0.AND.IC_SPC(N).LE.3)LSPCL = LSPCL + 1  
+       IF (INLOC(N)>0.AND.IC_SPC(N)<=3)LSPCL = LSPCL + 1  
       ENDDO
 C ---
       LFXL = 0
       DO J=1,NFXVEL
-        IF (LJ(J).GT.0.AND.LJ(J).LE.3) THEN
+        IF (LJ(J)>0.AND.LJ(J)<=3) THEN
          N=IABS(IBFV(1,J))
-         IF (INLOC(N).GT.0)LFXL = LFXL + 1  
+         IF (INLOC(N)>0)LFXL = LFXL + 1  
         ENDIF
       ENDDO
 C
       LRW = 0
       DO J=1,N_RWL
        N=IN_RWL(J)
-       IF (INLOC(N).GT.0) LRW = LRW + 1  
+       IF (INLOC(N)>0) LRW = LRW + 1  
       ENDDO
 C-----Rbe2------
       LNS4=0
@@ -1987,9 +1987,9 @@ C-----Rbe2------
         DO I=1,NSN
          ID = I+K
          NI=LRBE2(ID)
-         IF (INLOC(NI).GT.0) THEN
+         IF (INLOC(NI)>0) THEN
           LNS4=LNS4+1
-          IF (INLOC(M).EQ.0) INLOC(M) = 2
+          IF (INLOC(M)==0) INLOC(M) = 2
          ENDIF
        ENDDO
       ENDDO
@@ -2055,7 +2055,7 @@ C-----------------------------------------------
      .        JI,K10,K11,K12,K13,K14,KFI,NI2,NRB,NBC,NFX,NRW,NSPC
 c----------------------
       NI2=0
-      IF (NI2_MV.GT.0) THEN
+      IF (NI2_MV>0) THEN
        DO J=1,NINT2
         N=IINT2(J)
         NSN = IPARI(5,N)
@@ -2072,41 +2072,41 @@ C------IRTL(NSN)--main el number---
         KFI=K14+NSN
         DO I=1,NSN
          NI=INTBUF_TAB(N)%NSV(I)
-         IF (INLOC(NI).GT.0) THEN
+         IF (INLOC(NI)>0) THEN
           NI2=NI2+1
           II2_MV(1,NI2)=N
           II2_MV(2,NI2)=I
          ENDIF
         ENDDO
        ENDDO
-       IF (NI2.NE.NI2_MV) WRITE(*,*)'pb cal NI2_M'
+       IF (NI2/=NI2_MV) WRITE(*,*)'pb cal NI2_M'
       ENDIF 
 C--------RBE3--------------------
-      IF (NRBE3_MV.GT.0) THEN
+      IF (NRBE3_MV>0) THEN
        NR3=0
        DO N=1,NRBE3
         NI = IRBE3(3,N)
-        IF (NI.EQ.0) CYCLE
-        IF (INLOC(NI).GT.0) THEN
+        IF (NI==0) CYCLE
+        IF (INLOC(NI)>0) THEN
           NR3=NR3+1
           IRBE3_MV(NR3)=N
         ENDIF
        ENDDO
-       IF (NR3.NE.NRBE3_MV) WRITE(*,*)'pb cal NRBE3_M'
+       IF (NR3/=NRBE3_MV) WRITE(*,*)'pb cal NRBE3_M'
       ENDIF 
 C-----active rigid body main nodes------
       NRB=0
-      IF (NRB_MV.GT.0) THEN
+      IF (NRB_MV>0) THEN
        DO J=1,NRBYAC
         N=IRBYAC(J)
         K=IRBYAC(J+NRBYKIN)
         M  =NPBY(1,N)
-        IF (INLOC(M).GT.0) THEN
+        IF (INLOC(M)>0) THEN
          NSN  =NPBY(2,N)
          DO I=1,NSN
           ID = I+K
           NI=LPBY(ID)
-          IF (INLOC(NI).GT.0) THEN
+          IF (INLOC(NI)>0) THEN
            NRB=NRB+1
            IRB_MV(1,NRB)=M
            IRB_MV(2,NRB)=NI
@@ -2114,14 +2114,14 @@ C-----active rigid body main nodes------
          ENDDO
         ENDIF 
        ENDDO
-       IF (NRB.NE.NRB_MV) WRITE(*,*)'pb cal NRB_M'
+       IF (NRB/=NRB_MV) WRITE(*,*)'pb cal NRB_M'
       ENDIF 
 C +++
-      IF (NBC_MV.GT.0) THEN
+      IF (NBC_MV>0) THEN
        NBC = 0
        DO N=1,NUMNOD
-        IF (ISKEW(N).GT.1.AND.ICODT(N).NE.7) THEN
-         IF (INLOC(N).GT.0) THEN
+        IF (ISKEW(N)>1.AND.ICODT(N)/=7) THEN
+         IF (INLOC(N)>0) THEN
            NBC = NBC + 1  
            IBC_MV(1,NBC) = N 
            IBC_MV(2,NBC) = ISKEW(N)
@@ -2129,58 +2129,58 @@ C +++
          ENDIF 
         ENDIF
        ENDDO
-       IF (NBC.NE.NBC_MV) WRITE(*,*)'pb cal NBC_M'
+       IF (NBC/=NBC_MV) WRITE(*,*)'pb cal NBC_M'
       ENDIF 
 C-
-      IF (NSPC_MV.GT.0) THEN
+      IF (NSPC_MV>0) THEN
        NSPC = 0
        DO N=1,NSPCL
-        IF (INLOC(N).GT.0.AND.IC_SPC(N).LE.3)THEN
+        IF (INLOC(N)>0.AND.IC_SPC(N)<=3)THEN
 	 NSPC = NSPC + 1  
          ISPC_MV(NSPC) = N 
         ENDIF 
        ENDDO
-       IF (NSPC.NE.NSPC_MV) WRITE(*,*)'pb cal NSPC_M'
+       IF (NSPC/=NSPC_MV) WRITE(*,*)'pb cal NSPC_M'
       ENDIF 
 C---      
-      IF (NFX_MV.GT.0) THEN
+      IF (NFX_MV>0) THEN
        NFX = 0
        DO J=1,NFXVEL
-        IF (LJ(J).GT.0.AND.LJ(J).LE.3) THEN
+        IF (LJ(J)>0.AND.LJ(J)<=3) THEN
          N=IABS(IBFV(1,J))
-         IF (INLOC(N).GT.0) THEN
+         IF (INLOC(N)>0) THEN
            NFX = NFX + 1  
            IFX_MV(1,NFX) = J 
            IFX_MV(2,NFX) = LJ(J)
          ENDIF 
         ENDIF
        ENDDO
-       IF (NFX.NE.NFX_MV) WRITE(*,*)'pb cal NFX_M'
+       IF (NFX/=NFX_MV) WRITE(*,*)'pb cal NFX_M'
       ENDIF
 C 
-      IF (NRW_MV.GT.0) THEN
+      IF (NRW_MV>0) THEN
        NRW = 0
        DO J=1,N_RWL
          N=IN_RWL(J)
-         IF (INLOC(N).GT.0) THEN
+         IF (INLOC(N)>0) THEN
            NRW = NRW + 1  
            IRW_MV(NRW) = J 
          ENDIF 
        ENDDO
-       IF (NRW.NE.NRW_MV) WRITE(*,*)'pb cal NRW_M'
+       IF (NRW/=NRW_MV) WRITE(*,*)'pb cal NRW_M'
       ENDIF 
 C-----RBE2------
       NR4=0
-      IF (NRBE2_MV.GT.0) THEN
+      IF (NRBE2_MV>0) THEN
        DO N=1,NRBE2
         K=IRBE2(1,N)
         M  =IRBE2(3,N)
-        IF (INLOC(M).GT.0) THEN
+        IF (INLOC(M)>0) THEN
          NSN  =IRBE2(5,N)
          DO I=1,NSN
           ID = I+K
           NI=LRBE2(ID)
-          IF (INLOC(NI).GT.0) THEN
+          IF (INLOC(NI)>0) THEN
            NR4=NR4+1
            IRB_MV(1,NR4)=N
            IRB_MV(2,NR4)=NI
@@ -2188,7 +2188,7 @@ C-----RBE2------
          ENDDO
         ENDIF 
        ENDDO
-       IF (NR4.NE.NRBE2_MV) WRITE(*,*)'pb cal NRBE2'
+       IF (NR4/=NRBE2_MV) WRITE(*,*)'pb cal NRBE2'
       ENDIF 
 C ---
 C----6---------------------------------------------------------------7---------8
@@ -2243,14 +2243,14 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-       IF (NML.GT.0) THEN
+       IF (NML>0) THEN
 C--------initialization for ndof=0---	
         DO I = 1, NML
          N = IML(I)
          NDD = 0
          DO J = 1 , MIN(3,NDOF(N))
 	  ID = IDDL(N) + J
-          IF (IKC(ID).LT.1) THEN
+          IF (IKC(ID)<1) THEN
            NDD = NDD + 1
            IDDML(J,I) = IDDLM(N) + NDD	  
           ELSE
@@ -2260,13 +2260,13 @@ C--------initialization for ndof=0---
         ENDDO
        ENDIF 
 C
-       IF (NRB_FR.GT.0) THEN
+       IF (NRB_FR>0) THEN
         DO I = 1, NRB_FR
          N = IFRSR(1,I)
          NDD = 0
          DO J = 1 , NDOF(N)
 	  ID = IDDL(N) + J
-          IF (IKC(ID).LT.1) THEN
+          IF (IKC(ID)<1) THEN
            NDD = NDD + 1
            IDDMR(J,I) = IDDLM(N) + NDD	  
           ELSE
@@ -2276,7 +2276,7 @@ C
         ENDDO
        ENDIF
 C
-       IF (NI2_FR.GT.0) THEN
+       IF (NI2_FR>0) THEN
         DO I=1,NI2_FR
          N=IFRS2(1,I)
          NI=IFRS2(2,I)
@@ -2292,7 +2292,7 @@ C------MSR(NMN)-----
          K14=K13+IPARI(6,N)
          L=INTBUF_TAB(N)%IRTLM(NI)
          NL=4*(L-1)
-         IF (INTBUF_TAB(N)%IRECTM(NL+3).EQ.INTBUF_TAB(N)%IRECTM(NL+4)) THEN
+         IF (INTBUF_TAB(N)%IRECTM(NL+3)==INTBUF_TAB(N)%IRECTM(NL+4)) THEN
           NNOD=3
          ELSE
           NNOD=4
@@ -2303,7 +2303,7 @@ C-------si noeud main est dependant aussi-----
           NDD = 0
           DO J = 1 , NDOF(NJ)
 	   ID = IDDL(NJ) + J
-           IF (IKC(ID).LT.1) THEN
+           IF (IKC(ID)<1) THEN
             NDD = NDD + 1
             IDDMI2(J,M,I) = IDDLM(NJ) + NDD	  
            ELSE
@@ -2314,7 +2314,7 @@ C-------si noeud main est dependant aussi-----
         ENDDO 
        ENDIF 
 C-------RBE3-----------
-       IF (NRBE3_FR.GT.0) THEN
+       IF (NRBE3_FR>0) THEN
         DO I=1,NRBE3_FR
          N=IFRS3(I)
          NI=IRBE3(3,N)
@@ -2326,7 +2326,7 @@ C-------
           NDD = 0
           DO J = 1 , NDOF(NJ)
 	     ID = IDDL(NJ) + J
-           IF (IKC(ID).LT.1) THEN
+           IF (IKC(ID)<1) THEN
             NDD = NDD + 1
             IDDMI3(J,M,I) = IDDLM(NJ) + NDD	  
            ELSE
@@ -2337,14 +2337,14 @@ C-------
         ENDDO 
        ENDIF 
 C------RBE2
-       IF (NRBE2_FR.GT.0) THEN
+       IF (NRBE2_FR>0) THEN
         DO I = 1, NRBE2_FR
          N = IFRSR(1,I)
          M = IRBE2(3,N)
          NDD = 0
          DO J = 1 , NDOF(M)
 	  ID = IDDL(M) + J
-          IF (IKC(ID).LT.1) THEN
+          IF (IKC(ID)<1) THEN
            NDD = NDD + 1
            IDDMI4(J,I) = IDDLM(M) + NDD	  
           ELSE
@@ -2392,7 +2392,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-       IF (NRBE3_KN.GT.0) THEN
+       IF (NRBE3_KN>0) THEN
 C------- init FRCDI,MRCDI
         NMT = SLRBE3/2
         IADS =1
@@ -2473,9 +2473,9 @@ C----------------actualise D,X_IMP---------------------
      .              NSPC_KN,ISPC_KN ,IRBE2 ,LRBE2  ,NRBE2_KN,
      .              IRBE2_KN,ID_KNM4)
       CALL ZEROR(A,NUMNOD)
-      IF ((NRB_KN+NI2_KN+NRBE3_KN).GT.0) CALL ZEROR(AR,NUMNOD)
+      IF ((NRB_KN+NI2_KN+NRBE3_KN)>0) CALL ZEROR(AR,NUMNOD)
 C----------------
-      IF (IUPD.GT.0) THEN 
+      IF (IUPD>0) THEN 
        CALL INT_FKU3(A      ,V      ,MS         ,D      ,
      1               IPARI  ,INTBUF_TAB    ,X_IMP,NUM_IMP,
      2               NS_IMP ,NE_IMP ,INDEX2,IUPD )
@@ -2571,18 +2571,18 @@ C----------------actualise D,X_IMP---------------------
      .              NSPC_KN,ISPC_KN ,IRBE2 ,LRBE2  ,NRBE2_KN,
      .              IRBE2_KN,ID_KNM4)
       CALL ZEROR(A,NUMNOD)
-      IF ((NRB_KN+NI2_KN+NRBE3_KN).GT.0) CALL ZEROR(AR,NUMNOD)
+      IF ((NRB_KN+NI2_KN+NRBE3_KN)>0) CALL ZEROR(AR,NUMNOD)
 C-----renvoie D (NSL) et receive DFI (NSREM)-----
-      IF ((NSREM+NSL).GT.0) THEN
+      IF ((NSREM+NSL)>0) THEN
        CALL SPMD_IFCD(D  ,NSL, NSREM)
-       IF (NSREM.GT.0) CALL ZEROR(FFI,NSREM)
+       IF (NSREM>0) CALL ZEROR(FFI,NSREM)
       ENDIF
 C----------------
-      IF (IUPD.GT.0) THEN      
+      IF (IUPD>0) THEN      
        CALL INT_FKU3(A      ,V      ,MS         ,D      ,
      1               IPARI  ,INTBUF_TAB,X_IMP,NUM_IMP,
      2               NS_IMP ,NE_IMP ,INDEX2,IUPD )
-      IF ((NSREM+NSL).GT.0) CALL SPMD_IFCF(A, NSREM  ,NSL)
+      IF ((NSREM+NSL)>0) CALL SPMD_IFCF(A, NSREM  ,NSL)
        CALL IMP3_A2B(IPARI  ,INTBUF_TAB ,NDOF  ,X_IMP  ,
      1              A      ,AR     ,NUMN_KN,IN_KN,ID_KN  ,
      2              NRB_KN ,IRB_KN ,ID_KNM ,NI2_KN,II2_KN,
@@ -2596,7 +2596,7 @@ C----------------
        CALL INT_FKU3(A      ,V      ,MS         ,D      ,
      1               IPARI  ,INTBUF_TAB   ,X    ,NUM_IMP,
      2               NS_IMP ,NE_IMP ,INDEX2     ,IUPD )
-       IF ((NSREM+NSL).GT.0) CALL SPMD_IFCF(A, NSREM  ,NSL)
+       IF ((NSREM+NSL)>0) CALL SPMD_IFCF(A, NSREM  ,NSL)
        CALL IMP3_A2B(IPARI  ,INTBUF_TAB ,NDOF  ,X     ,
      1              A      ,AR     ,NUMN_KN,IN_KN,ID_KN  ,
      2              NRB_KN ,IRB_KN ,ID_KNM ,NI2_KN,II2_KN,
@@ -2656,17 +2656,17 @@ C
 C-----------int5 first-------------       
       DO N=1,NINTER
         NTY   =IPARI(7,N)
-        IF(NTY.EQ.7) THEN
+        IF(NTY==7) THEN
           CALL I7FKU3( A      ,V     ,MS     ,D        ,
      1       IPARI     ,INTBUF_TAB(N),X       ,N     ,
      2       NUM_IMP(N),NS_IMP(IAD),NE_IMP(IAD)   ,INDEX2(IAD),IUPD )
           IAD=IAD+NUM_IMP(N)
-        ELSEIF(NTY.EQ.10)THEN
+        ELSEIF(NTY==10)THEN
           CALL I10FKU3( A      ,V     ,MS     ,D        ,
      1       IPARI(1,N),INTBUF_TAB(N)         ,X       ,N     ,
      2       NUM_IMP(N),NS_IMP(IAD),NE_IMP(IAD)   ,INDEX2(IAD),IUPD )
           IAD=IAD+NUM_IMP(N)
-        ELSEIF(NTY.EQ.11)THEN
+        ELSEIF(NTY==11)THEN
           CALL I11FKU3( A      ,V     ,MS     ,D        ,
      1       IPARI(1,N),INTBUF_TAB(N) ,X       ,N     ,
      2       NUM_IMP(N),NS_IMP(IAD),NE_IMP(IAD)   ,IUPD )
@@ -2718,7 +2718,7 @@ C------
         FILNAME='KINT'//CHIF//'.TMP'
         OPEN(UNIT=IDF,FILE=FILNAME,STATUS='UNKNOWN',FORM='FORMATTED')
         write(IDF,*)'NDDLI,=', NDDLI
-         if (IMCONV.lt.0) return
+         if (IMCONV<0) return
         write(IDF,*)'[Ki]=',NDDLI
        DO I =1,NDDLI
          write(IDF,*)'DIAG_I,itok=',DIAG_I(I),ITOK(I)

@@ -78,7 +78,7 @@ C
 c      ISIZE = 3
       DO I = 1, NSPMD
         LEN = IAD_CDNM(I+1)-IAD_CDNM(I)
-        IF(LEN.GT.0) THEN
+        IF(LEN>0) THEN
           SIZ = LEN*ISIZE 
           L=L+1
           INDEXI(L)=I

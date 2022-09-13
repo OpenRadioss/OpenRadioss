@@ -178,13 +178,13 @@ C--------------------------------------------------
       DO WHILE (KK <= 6)       
         DO N=1,NUMELTG0 
           IPARTTG_TMP = TMP_IPARTTG(N)
-          IF(SUB_TRIA(N) .NE. 0)THEN
-            IF(TMP_IPARTTG(N) .NE. 0) IPARTTG_TMP = TMP_IPARTTG(N) + OFF_PART(SUB_TRIA(N)) 
+          IF(SUB_TRIA(N) /= 0)THEN
+            IF(TMP_IPARTTG(N) /= 0) IPARTTG_TMP = TMP_IPARTTG(N) + OFF_PART(SUB_TRIA(N)) 
           ENDIF
 
-          IF( IPART(4,INDEX_PART) .NE. IPARTTG_TMP)THEN  
+          IF( IPART(4,INDEX_PART) /= IPARTTG_TMP)THEN  
             DO J=1,NPART                            
-              IF(IPART(4,J).EQ. IPARTTG_TMP )INDEX_PART = J
+              IF(IPART(4,J)== IPARTTG_TMP )INDEX_PART = J
             ENDDO  
           ENDIF           
           ISH3N = IGEO(18,IPART(2,INDEX_PART)) 
@@ -200,20 +200,20 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
-            IF(SUB_TRIA(N) .NE. 0)THEN
-              IF(IPARTTG(I) .NE. 0) IPARTTG(I) = IPARTTG(I) + OFF_PART(SUB_TRIA(N)) 
-              IF(IXTG(NIXTG,I) .NE. 0) IXTG(NIXTG,I) = IXTG(NIXTG,I) + OFF_EL(SUB_TRIA(N))
+            IF(SUB_TRIA(N) /= 0)THEN
+              IF(IPARTTG(I) /= 0) IPARTTG(I) = IPARTTG(I) + OFF_PART(SUB_TRIA(N)) 
+              IF(IXTG(NIXTG,I) /= 0) IXTG(NIXTG,I) = IXTG(NIXTG,I) + OFF_EL(SUB_TRIA(N))
               DO J=2,4
-                IF(IXTG(J,I) .NE. 0) IXTG(J,I) = IXTG(J,I) + OFF_NOD(SUB_TRIA(N))
+                IF(IXTG(J,I) /= 0) IXTG(J,I) = IXTG(J,I) + OFF_NOD(SUB_TRIA(N))
               ENDDO
-              IF(UID_TRIA(N) .NE. 0) UID_TRIA(N) = UID_TRIA(N) + OFF_DEF(SUB_TRIA(N))
-              IF(UID_TRIA(N) == 0 .AND. LSUBMODEL(SUB_TRIA(N))%UID .NE. 0) 
+              IF(UID_TRIA(N) /= 0) UID_TRIA(N) = UID_TRIA(N) + OFF_DEF(SUB_TRIA(N))
+              IF(UID_TRIA(N) == 0 .AND. LSUBMODEL(SUB_TRIA(N))%UID /= 0) 
      .             UID_TRIA(N) = LSUBMODEL(SUB_TRIA(N))%UID
             ENDIF
 C--------------------------------------------------
 C      UNITS
 C--------------------------------------------------
-            IF(UID_TRIA(N) .NE. UID )THEN
+            IF(UID_TRIA(N) /= UID )THEN
               UID = UID_TRIA(N)
               IFLAGUNIT = 0          
               DO J=1,NUNITS                         
@@ -222,7 +222,7 @@ C--------------------------------------------------
                   IFLAGUNIT = 1                     
                 ENDIF                               
               ENDDO                             
-              IF (UID.NE.0.AND.IFLAGUNIT.EQ.0) THEN
+              IF (UID/=0.AND.IFLAGUNIT==0) THEN
                 CALL ANCMSG(MSGID=643,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                      I1=UID,C1='/TRIA')
               ENDIF 
@@ -230,12 +230,12 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
-            IF( IPART(4,INDEX_PART) .NE. IPARTTG(I) )THEN  
+            IF( IPART(4,INDEX_PART) /= IPARTTG(I) )THEN  
               DO J=1,NPART                            
-                IF(IPART(4,J).EQ. IPARTTG(I) ) INDEX_PART = J
+                IF(IPART(4,J)== IPARTTG(I) ) INDEX_PART = J
               ENDDO  
             ENDIF
-            IF( IPART(4,INDEX_PART) .NE. IPARTTG(I) ) THEN
+            IF( IPART(4,INDEX_PART) /= IPARTTG(I) ) THEN
               CALL ANCMSG(MSGID=402,
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO_BLIND_1,
@@ -250,10 +250,10 @@ C--------------------------------------------------
             IPID=IPART(2,INDEX_PART)                                
             IXTG(1,I)=MT                                
             IXTG(5,I)=IPID
-            IF (IXTG(NIXTG,I).GT.ID_LIMIT)THEN
+            IF (IXTG(NIXTG,I)>ID_LIMIT)THEN
                 CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                      I1=IXTG(NIXTG,I),C1=LINE,C2='/TRIA')
-            ELSEIF (NADMESH.NE.0.AND.IXTG(NIXTG,I).GT.ID_LIMIT_ADMESH)THEN
+            ELSEIF (NADMESH/=0.AND.IXTG(NIXTG,I)>ID_LIMIT_ADMESH)THEN
                 CALL ANCMSG(MSGID=1069,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                      I1=IXTG(NIXTG,I),C1=LINE,C2='/TRIA')
             ENDIF       
@@ -281,7 +281,7 @@ C
       I1=1
       I2=MIN0(50,NUMELTG0)
 C
-      IF(IPRI.GE.5)THEN
+      IF(IPRI>=5)THEN
   90   WRITE (IOUT,'(//A/A//A/)')' 2D TRIANGULAR ELEMENTS ',
      & ' ELEMENT INTERNAL   MATER   PRSET   NODE1   NODE2   NODE3'
        DO I=I1,I2
@@ -290,7 +290,7 @@ C
          WRITE (IOUT,'(7(I10,1X))') IXTG(NIXTG,I),I,MID,PID,
      .                      (ITAB(IXTG(J,I)),J=2,4)
        ENDDO
-       IF(I2.EQ.NUMELTG0)GOTO 200
+       IF(I2==NUMELTG0)GOTO 200
        I1=I1+50
        I2=MIN0(I2+50,NUMELTG0)
        GOTO 90

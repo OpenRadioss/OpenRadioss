@@ -82,9 +82,9 @@ C-----------------------------------------------
       DO P = 1, NSPMD
         I = 1
         J = 1
-        DO WHILE (J.LE.NSNFIE(NIN)%P(P).AND.I.LE.NSNFIEOLD(P))
+        DO WHILE (J<=NSNFIE(NIN)%P(P).AND.I<=NSNFIEOLD(P))
 
-          IF(IREM_EDGE(E_LOCAL_ID,J+JDEB).EQ.
+          IF(IREM_EDGE(E_LOCAL_ID,J+JDEB)==
      +       NSVFIE(NIN)%P(I+IDEB)) THEN
 C           RENUM_EDGE(OLD) = NEW
             RENUM_EDGE(I+IDEB) = J+JDEB
@@ -94,11 +94,11 @@ C    .                 " RENUM(",J+JDEB,")= ",I+IDEB,NEDGE_REMOTE
 C
             I = I + 1
             J = J + 1
-          ELSEIF(IREM_EDGE(E_LOCAL_ID,J+JDEB).LT.
+          ELSEIF(IREM_EDGE(E_LOCAL_ID,J+JDEB)<
      +           NSVFIE(NIN)%P(I+IDEB)) THEN
            J = J + 1
 
-          ELSEIF(IREM_EDGE(E_LOCAL_ID,J+JDEB).GT.
+          ELSEIF(IREM_EDGE(E_LOCAL_ID,J+JDEB)>
      +           NSVFIE(NIN)%P(I+IDEB)) THEN
 Cas candidat non penetre et non retenu
             I = I + 1
@@ -110,7 +110,7 @@ Cas candidat non penetre et non retenu
 C
 
       DO I = 1, N_REMOTE_OLD
-        IF(RENUM_EDGE(I).GT.0)  THEN
+        IF(RENUM_EDGE(I)>0)  THEN
 !          OLDNUM_EDGE(NEW) = OLD
            OLDNUM_EDGE(RENUM_EDGE(I)) = I
         ENDIF
@@ -118,7 +118,7 @@ C
 
       DO I = 1, ISTOK_E2E
         NI = CAND_E2E(I)
-        IF(NI.GT.NEDGE) THEN
+        IF(NI>NEDGE) THEN
           NI = NI - NEDGE 
           CAND_E2E(I) = RENUM_EDGE(NI) + NEDGE
         END IF        
@@ -126,7 +126,7 @@ C
 
       DO I = 1, ISTOK_E2S
         NI = CAND_E2S(I)
-        IF(NI.GT.NEDGE) THEN
+        IF(NI>NEDGE) THEN
           NI = NI - NEDGE 
           CAND_E2S(I) = RENUM_EDGE(NI) + NEDGE
         END IF        

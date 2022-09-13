@@ -72,7 +72,7 @@ C
         OFF_L  = MIN(OFF_L,OFFG(I))
       ENDDO
 C-----
-      IF(OFF_L.GE.ZERO)THEN
+      IF(OFF_L>=ZERO)THEN
       DO 200  I=LFT,LLT
          N=NFT+I
          DXX(I)   =WA(1,N)
@@ -93,7 +93,7 @@ C        for stability time step computation:
       DO 300  I=LFT,LLT
        N=NFT+I
        RHOA(I)  =WA(10,N)
-       IF(OFFG(I).GE.ZERO)THEN
+       IF(OFFG(I)>=ZERO)THEN
          DXX(I)   =WA(1,N)
          DYY(I)   =WA(2,N)
          DZZ(I)   =WA(3,N)

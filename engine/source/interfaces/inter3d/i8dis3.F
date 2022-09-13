@@ -103,8 +103,8 @@ C
         H2(I) = FOURTH*(ONE-TTC(I))*(ONE+SSC(I))
         H3(I) = FOURTH*(ONE+TTC(I))*(ONE+SSC(I))
         H4(I) = FOURTH*(ONE+TTC(I))*(ONE-SSC(I))
-c       IF(H3(I) .NE. H3(I) .OR. H1(I) .NE. H1(I) .OR. 
-c    .  H4(I) .NE. H4(I)  ) THEN 
+c       IF(H3(I) /= H3(I) .OR. H1(I) /= H1(I) .OR. 
+c    .  H4(I) /= H4(I)  ) THEN 
 c       WRITE(6,*) "BUG! :",TTC(I),SSC(I)
 c       ENDIF
       END DO

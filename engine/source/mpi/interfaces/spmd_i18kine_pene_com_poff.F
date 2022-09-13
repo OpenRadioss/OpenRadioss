@@ -131,18 +131,18 @@ C Comptage des tailles de buffer  Receeption et envoi
       ENDDO
       IADR(NSPMD+1)=LENRV+1
 
-      IF(LENSD.GT.0)THEN
+      IF(LENSD>0)THEN
           ALLOCATE(BBUFS(LENSD),STAT=IERROR)
-          IF(IERROR.NE.0) THEN
+          IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
           ENDIF
       ENDIF
 
 C Preparation du recieve
-      IF(LENRV.GT.0)THEN
+      IF(LENRV>0)THEN
           ALLOCATE(BBUFR(LENRV),STAT=IERROR)
-          IF(IERROR.NE.0) THEN
+          IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
           ENDIF
@@ -198,7 +198,7 @@ c                 BBUFS(L+5)=MTFI_V(NIN)%P(6,NN+IDEB(NIN))
            ENDIF
          ENDDO
          SIZ = L-IADS(P)
-         IF(SIZ.GT.0)THEN
+         IF(SIZ>0)THEN
               MSGTYP = MSGOFF 
 C Send
               CALL MPI_ISEND(
@@ -228,7 +228,7 @@ C Send
                NB = NSNSI(NIN)%P(P)
                IF (NB > 0)THEN
 C
-                IF(NTY.EQ.7.OR.NTY.EQ.10.OR.NTY.EQ.22)THEN
+                IF(NTY==7.OR.NTY==10.OR.NTY==22)THEN
                   IF(MODE==1)THEN
                     DO K=1,NB
                       ND = NSVSI(NIN)%P(IDEB(NIN)+K)
@@ -266,10 +266,10 @@ c                      ENDIF
                          A(1,NOD) = BBUFR(IADR(P)+L)
                          A(2,NOD) = BBUFR(IADR(P)+L+1)
                          A(3,NOD) = BBUFR(IADR(P)+L+2)
-                         IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT.GT.0.AND.
-     .                    (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.
-     .                    (MANIM.GE.4.AND.MANIM.LE.15)))THEN
-                           IF(INCONV .EQ. 1) THEN
+                         IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0.AND.
+     .                    (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .                    (MANIM>=4.AND.MANIM<=15)))THEN
+                           IF(INCONV == 1) THEN
                              FCONT(1,NOD) = FCONT(1,NOD)+BBUFR(IADR(P)+L+3)
                              FCONT(2,NOD) = FCONT(2,NOD)+BBUFR(IADR(P)+L+4)
                              FCONT(3,NOD) = FCONT(3,NOD)+BBUFR(IADR(P)+L+5)
@@ -296,7 +296,7 @@ C Fin du send
           ELSE
              SIZ=IADS(P+1)-IADS(P)
           ENDIF
-          IF(SIZ.GT.0) THEN
+          IF(SIZ>0) THEN
             CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
           ENDIF
       ENDDO
@@ -323,7 +323,7 @@ C--------------------------------------------------
       L=1
       DO P=1,NSPMD
         SIZ = (IAD_ELEM(1,P+1)-IAD_ELEM(1,P))*LEN
-        IF(SIZ.NE.0)THEN
+        IF(SIZ/=0)THEN
           MSGTYP = MSGOFF2
           CALL MPI_IRECV(
      S      BBUFR(L),SIZ,REAL,IT_SPMD(P),MSGTYP,
@@ -373,7 +373,7 @@ C   echange messages
 C
 
       DO P=1,NSPMD
-       IF(IAD_ELEM(1,P+1)-IAD_ELEM(1,P).GT.0)THEN
+       IF(IAD_ELEM(1,P+1)-IAD_ELEM(1,P)>0)THEN
           MSGTYP = MSGOFF2
           SIZ = IADS(1+P)-IADS(P)
           L = IADS(P)
@@ -386,7 +386,7 @@ C--------------------------------------------------------------------
 C Reception
       DO P = 1, NSPMD
         NB = IAD_ELEM(1,P+1)-IAD_ELEM(1,P)
-        IF(NB.GT.0)THEN
+        IF(NB>0)THEN
           CALL MPI_WAIT(REQ_RI(P),STATUS,IERROR)
           L = IADR(P)
           DO J=IAD_ELEM(1,P),IAD_ELEM(1,P+1)-1
@@ -431,7 +431,7 @@ c               MTF(6,NOD)=BBUFR(L+5)
 C Fin du send
       DO P = 1, NSPMD
           SIZ=IADS(P+1)-IADS(P)
-          IF(SIZ.GT.0) THEN
+          IF(SIZ>0) THEN
             CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
           ENDIF
       ENDDO

@@ -106,7 +106,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       IF(ICHKADM /= 0)THEN
 
-        IF(ITASK.EQ.0)THEN
+        IF(ITASK==0)THEN
 
           TAGNOD = 0
           NODNORM= ZERO
@@ -129,7 +129,7 @@ C
 C
         DO N=NODFT,NODLT
 
-          IF(TAGNOD(N).NE.0)THEN
+          IF(TAGNOD(N)/=0)THEN
 
             NX=NODNORM(1,N)
             NY=NODNORM(2,N)
@@ -817,7 +817,7 @@ C     compactage de LSH4ACT
           NSH4ACT=0
           DO NN=1,NTMP
             N=LSH4ACT(NN)
-            IF(N.NE.0)THEN
+            IF(N/=0)THEN
               NSH4ACT=NSH4ACT+1
               LSH4ACT(NSH4ACT)=N
             END IF
@@ -827,7 +827,7 @@ C     compactage de LSH4ACT
           NSH3ACT=0
           DO NN=1,NTMP
             N=LSH3ACT(NN)
-            IF(N.NE.0)THEN
+            IF(N/=0)THEN
               NSH3ACT=NSH3ACT+1
               LSH3ACT(NSH3ACT)=N
             END IF

@@ -80,7 +80,7 @@ C-----------------------------------------------
       ENDDO
 
       DO I=LFT,LLT
-        IF(ALPH(I).EQ.ZERO)THEN
+        IF(ALPH(I)==ZERO)THEN
           RHON(I) =PM( 1,MAT(I))
           DVOL(I) =ZERO
           OFF(I)  =ZERO
@@ -95,8 +95,8 @@ C-----------------------------------------------
       ENDDO
 
       DO I=LFT,LLT
-        IF((MTN.EQ.11).OR.(RHON(I).GT.ZERO))THEN
-          IF(ALPH(I).LT.ONE)THEN
+        IF((MTN==11).OR.(RHON(I)>ZERO))THEN
+          IF(ALPH(I)<ONE)THEN
             SCAL=ABS(DVOL(I))/
      .           MAX(EM15,VOLN(I)*DT1*ABS(D1(I)+D2(I)+D3(I)))
             SCAL= MIN(ONE,SCAL)

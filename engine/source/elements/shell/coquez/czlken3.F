@@ -117,7 +117,7 @@ C
         CHF(2,1,EP)=CHF(1,2,EP)
        ENDDO
 C 
-      IF (IDRIL.GT.0) THEN
+      IF (IDRIL>0) THEN
        DO EP=JFT,JLT
         CHM(1,1,EP)=CHM(1,1,EP)+GM(EP)*HYY(EP)
         CHM(2,2,EP)=CHM(2,2,EP)+GM(EP)*HXX(EP)
@@ -130,7 +130,7 @@ C----------------------------
         CHF(1,2,EP)=CHF(1,2,EP)-FAC*HXY(EP)
         CHF(2,1,EP)=CHF(1,2,EP)
        ENDDO
-      END IF !(IDRIL.GT.0) THEN
+      END IF !(IDRIL>0) THEN
 C--------------gamaI--------
        DO EP=JFT,JLT
         GAMA(1,EP)=FOURTH-PH1(EP)

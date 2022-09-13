@@ -202,7 +202,7 @@ C-----------------------------------------------
 C
 C Compactage des structures
 C
-      IF(ISPMD.NE.0)THEN
+      IF(ISPMD/=0)THEN
         MSGTYP = MSGOFF
         BUFCOM(1) = IREDUCE
         BUFCOM(2) = SPAGLOB

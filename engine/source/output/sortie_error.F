@@ -84,7 +84,7 @@ C
         FLAG = 0
         ENCIN= PARTSAV(2,I)
         DO J=1,PARAM
-          IF(ENCIN .GT. MAXENCIN(J) .AND. FLAG == 0) THEN
+          IF(ENCIN > MAXENCIN(J) .AND. FLAG == 0) THEN
             DO K=1,PARAM-J
               IDPART(PARAM-K+1) = IDPART(PARAM-K)
               MAXENCIN(PARAM-K+1) = MAXENCIN(PARAM-K) 
@@ -101,7 +101,7 @@ C
       IF(ISPMD == 0) WRITE(IOUT,1801)
 
       DO I=1,PARAM
-        IF(MAXENCIN(I) .NE. ZERO) THEN
+        IF(MAXENCIN(I) /= ZERO) THEN
           MATID = NINT(PM(19,IPART(1,IDPART(I))))
           PROPID = IGEO(11,IPART(2,IDPART(I)))
           WRITE(IOUT,1900)IPART(4,IDPART(I)),MAXENCIN(I),
@@ -121,7 +121,7 @@ C
         FLAG = 0
         ENINT= PARTSAV(1,I)+PARTSAV(24,I)+PARTSAV(26,I)
         DO J=1,PARAM
-          IF(ENINT .GT. MAXENINT(J) .AND. FLAG == 0) THEN
+          IF(ENINT > MAXENINT(J) .AND. FLAG == 0) THEN
             DO K=1,PARAM-J
               IDPART(PARAM-K+1) = IDPART(PARAM-K)
               MAXENINT(PARAM-K+1) = MAXENINT(PARAM-K) 
@@ -137,7 +137,7 @@ C
       IF(ISPMD == 0) WRITE(IOUT,3000)
       IF(ISPMD == 0) WRITE(IOUT,2001)
       DO I=1,PARAM
-        IF(MAXENINT(I) .NE. ZERO) THEN
+        IF(MAXENINT(I) /= ZERO) THEN
           MATID = NINT(PM(19,IPART(1,IDPART(I))))
           PROPID = IGEO(11,IPART(2,IDPART(I)))
           WRITE(IOUT,2100)IPART(4,IDPART(I)),MAXENINT(I),
@@ -158,7 +158,7 @@ C
          FLAG = 0
          VEL=SQRT(V(1,I)**2+V(2,I)**2+V(3,I)**2)
          DO J=1,PARAM
-           IF(VEL .GT. MAXVEL(J) .AND. FLAG == 0) THEN
+           IF(VEL > MAXVEL(J) .AND. FLAG == 0) THEN
              DO K=1,PARAM-J
                IDNOD(PARAM-K+1) = IDNOD(PARAM-K)
                MAXVEL(PARAM-K+1) = MAXVEL(PARAM-K) 
@@ -174,7 +174,7 @@ C
        WRITE(IOUT,3000)
        WRITE(IOUT,1001)
        DO I=1,PARAM
-         IF(MAXVEL(I) .NE. ZERO)THEN
+         IF(MAXVEL(I) /= ZERO)THEN
            ENCIN = HALF * MS(IDNOD(I))*MAXVEL(I)**2
            WRITE(IOUT,1100) ITAB(IDNOD(I)),MAXVEL(I),ENCIN,
      .                    MS(IDNOD(I)),MS0(IDNOD(I)),
@@ -182,7 +182,7 @@ C
          ENDIF
        ENDDO
       ELSE
-        IF (ISPMD.EQ.0) THEN
+        IF (ISPMD==0) THEN
            LENG = NUMNODG
         ELSE
            LENG = 0
@@ -201,7 +201,7 @@ c       DO I=1,NUMNOD
 c         FLAG = 0
 c         ENCIN=HALF*MS(I)*(V(1,I)**2+V(2,I)**2+V(3,I)**2)
 c         DO J=1,PARAM
-c           IF(ENCIN .GT. MAXENCIN(J) .AND. FLAG == 0) THEN
+c           IF(ENCIN > MAXENCIN(J) .AND. FLAG == 0) THEN
 c             DO K=1,PARAM-J
 c               IDNOD(PARAM-K+1) = IDNOD(PARAM-K)
 c               MAXENCIN(PARAM-K+1) = MAXENCIN(PARAM-K) 
@@ -221,7 +221,7 @@ c         WRITE(IOUT,1300) ITAB(IDNOD(I)),MAXENCIN(I),MS(IDNOD(I)),
 c     .                     MS0(IDNOD(I)),MS(IDNOD(I))/MS0(IDNOD(I))
 c       ENDDO
 c      ELSE
-c        IF (ISPMD.EQ.0) THEN
+c        IF (ISPMD==0) THEN
 c           LENG = NUMNODG
 c        ELSE
 c           LENG = 0
@@ -240,7 +240,7 @@ c       DO I=1,NUMNOD
 c         FLAG = 0
 c         MASS=MS(I)
 c         DO J=1,PARAM
-c           IF(MASS .GT. MAXMASS(J) .AND. FLAG == 0) THEN
+c           IF(MASS > MAXMASS(J) .AND. FLAG == 0) THEN
 c             DO K=1,PARAM-J
 c               IDNOD(PARAM-K+1) = IDNOD(PARAM-K)
 c               MAXMASS(PARAM-K+1) = MAXMASS(PARAM-K) 
@@ -260,7 +260,7 @@ c         WRITE(IOUT,1500) ITAB(IDNOD(I)),MAXMASS(I),
 c     .                     MS0(IDNOD(I)),MS(IDNOD(I))/MS0(IDNOD(I))
 c       ENDDO
 c      ELSE
-c        IF (ISPMD.EQ.0) THEN
+c        IF (ISPMD==0) THEN
 c           LENG = NUMNODG
 c        ELSE
 c           LENG = 0
@@ -280,7 +280,7 @@ C
            FLAG = 0
            DMASS=(MS(I)-MS0(I))/MAX(MS0(I),EM20)
            DO J=1,PARAM
-             IF(DMASS .GT. MAXDMASS(J) .AND. FLAG == 0) THEN
+             IF(DMASS > MAXDMASS(J) .AND. FLAG == 0) THEN
                DO K=1,PARAM-J
                  IDNOD(PARAM-K+1) = IDNOD(PARAM-K)
                  MAXDMASS(PARAM-K+1) = MAXDMASS(PARAM-K) 
@@ -293,21 +293,21 @@ C
          ENDDO
          ISMASSCHANGE = 0
          DO I=1,PARAM
-           IF(MAXDMASS(I) .NE.ZERO) ISMASSCHANGE = 1
+           IF(MAXDMASS(I) /=ZERO) ISMASSCHANGE = 1
          ENDDO
-         IF(ISMASSCHANGE .NE. 0)THEN
+         IF(ISMASSCHANGE /= 0)THEN
            WRITE(IOUT,3000)
            WRITE(IOUT,1600)
            WRITE(IOUT,3000)
            WRITE(IOUT,1601)
            DO I=1,PARAM
-             IF(MAXDMASS(I) .NE. ZERO)
+             IF(MAXDMASS(I) /= ZERO)
      .       WRITE(IOUT,1700) ITAB(IDNOD(I)),MS(IDNOD(I)),MS0(IDNOD(I)),
      .                        MAXDMASS(I)
            ENDDO
          ENDIF
         ELSE
-          IF (ISPMD.EQ.0) THEN
+          IF (ISPMD==0) THEN
              LENG = NUMNODG
           ELSE
              LENG = 0

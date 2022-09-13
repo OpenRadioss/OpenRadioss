@@ -79,7 +79,7 @@ C     B e g i n n i n g   o f   s u b r o u t i n e
 C-----------------------------------------------
       DO NG = ITASK + 1, NGROUP, NTHREAD
          MTN = IPARG(1, NG)
-         IF (MTN .EQ. 151) THEN
+         IF (MTN == 151) THEN
             NEL = IPARG(2, NG)
             NFT = IPARG(3, NG)
 C     Multifluid law number, get the number of materials
@@ -95,7 +95,7 @@ C     Save velocities in GBUF
                MULTI_FVM%RHO(II + NFT) =  GBUF%RHO(II)
                MULTI_FVM%EINT(II + NFT) = GBUF%EINT(II)
              ENDDO
-            IF (NBMAT .GT. 1) THEN
+            IF (NBMAT > 1) THEN
                DO II = 1, NEL
                   I = II + NFT
                   GBUF%RHO(II) = ZERO
@@ -149,7 +149,7 @@ C
                   MULTI_FVM%EINT(I) = GBUF%EINT(II)
                   MULTI_FVM%PRES(I) = -THIRD * (GBUF%SIG(II + 0 * NEL) + GBUF%SIG(II + 1 * NEL) + GBUF%SIG(II + 2 * NEL))
                ENDDO
-            ENDIF               ! NBMAT .GT. 1
+            ENDIF               ! NBMAT > 1
             CALL MULTI_BILAN(PARTSAV, GBUF%VOL, MULTI_FVM, 
      .           NEL, NFT, IPARTS(1 + NFT), GRESAV, IGRTH, GRTH)
          ENDIF

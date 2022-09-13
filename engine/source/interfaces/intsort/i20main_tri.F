@@ -158,8 +158,8 @@ C
 C     Specific TYPE7 :
       ITIED = 0 
 C
-      IF(INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7.OR.IFQ.GT.0.OR.
-     .   NUM_IMP.GT.0)THEN
+      IF(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.IFQ>0.OR.
+     .   NUM_IMP>0)THEN
         NSNROLD = IPARI(24,NIN)
       ELSE
         NSNROLD = 0
@@ -167,8 +167,8 @@ C
 C
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
       GAP =INTBUF_TAB%VARIABLES(2)
 
       GAPMIN=INTBUF_TAB%VARIABLES(13)
@@ -177,9 +177,9 @@ C
 C
 C -------------------------------------------------------------
 C
-      IF (DIST.GT.ZERO) THEN
+      IF (DIST>ZERO) THEN
 C Appel routine calcul XS VS remote stocke dans XFI et VFI + partie edge
-        IF (NSPMD.GT.1)THEN
+        IF (NSPMD>1)THEN
 	  CALL I20XSINIR(
      1      IPARI(24,NIN),IPARI(57,NIN),ITASK,NIN,INTBUF_TAB%STFAC(1))
         ENDIF
@@ -214,12 +214,12 @@ C Barriere dans tous les cas pour bminma [et cur_max_max]
 C
       CALL MY_BARRIER
 
-      IF(INACTI.EQ.5.OR.INACTI.EQ.6.OR.IFQ.GT.0.OR.NUM_IMP.GT.0.OR.
-     .   NUM_IMP.GT.0)THEN
-        IF(ITASK.EQ.0)THEN
+      IF(INACTI==5.OR.INACTI==6.OR.IFQ>0.OR.NUM_IMP>0.OR.
+     .   NUM_IMP>0)THEN
+        IF(ITASK==0)THEN
           INACTII=INACTI
-          IF (NUM_IMP.GT.0.AND.
-     .        (INACTI.NE.5.AND.INACTI.NE.6.AND.IFQ.LE.0)) THEN
+          IF (NUM_IMP>0.AND.
+     .        (INACTI/=5.AND.INACTI/=6.AND.IFQ<=0)) THEN
 	   INACIMP = 0
 	  ELSE
 	   INACIMP = 1
@@ -236,10 +236,10 @@ C
      4    NUM_IMP          ,IND_IMP           ,INTBUF_TAB%STFA  ,NIN               ,
      5    NSN              ,ITIED             ,RBID)
 
-ctmp          IF(I_SK_OLD.EQ.0)INACTI=0
+ctmp          IF(I_SK_OLD==0)INACTI=0
           INTBUF_TAB%I_STOK(1)=I_SK_OLD
-          IF(INACIMP.GT.0)THEN
-            IF (NSPMD.GT.1) THEN
+          IF(INACIMP>0)THEN
+            IF (NSPMD>1) THEN
               CALL SPMD_GET_INACTI7(INACTI,IPARI(22,NIN),NIN,ISENDTO,
      .                              IRCVFROM,INACTII)
             ELSE
@@ -283,10 +283,10 @@ C ----------------------------------------------------------
 C BARRIER II_STOK et RESULT
       CALL MY_BARRIER
       INACTI = IPARI(22,NIN)
-      IF(ITASK.EQ.0)THEN
-        IF(ABS(BMINMA(6)-BMINMA(3)).GT.2*EP30.OR.
-     +     ABS(BMINMA(5)-BMINMA(2)).GT.2*EP30.OR.
-     +     ABS(BMINMA(4)-BMINMA(1)).GT.2*EP30)THEN
+      IF(ITASK==0)THEN
+        IF(ABS(BMINMA(6)-BMINMA(3))>2*EP30.OR.
+     +     ABS(BMINMA(5)-BMINMA(2))>2*EP30.OR.
+     +     ABS(BMINMA(4)-BMINMA(1))>2*EP30)THEN
           CALL ANCMSG(MSGID=87,ANMODE=ANINFO,
      .                I1=NOINT,C1='(I20BUCE)')
           CALL ARRET(2)
@@ -300,7 +300,7 @@ C BARRIER II_STOK et RESULT
         BMINMA(6)=BMINMA(6)-TZINF-CURV_MAX_MAX
 
         NSNR = 0
-        IF(NSPMD.GT.1) THEN
+        IF(NSPMD>1) THEN
 C
 C recuperation des noeuds remote NSNR stockes dans XREM
 C
@@ -317,8 +317,8 @@ C
 C renumerotation locale des anciens candidats
 C
 
-          IF(INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7.OR.IFQ.GT.0
-     .        .OR.NUM_IMP.GT.0)THEN
+          IF(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.IFQ>0
+     .        .OR.NUM_IMP>0)THEN
 
 	    CALL SPMD_RNUMCD20(INTBUF_TAB%CAND_N,RENUM   ,INTBUF_TAB%I_STOK(1),
      1  		     NIN, NSN	  ,NSNFIOLD,NSNROLD	   )
@@ -338,7 +338,7 @@ C
 
 C
       IF (IMONM > 0) CALL STARTIME(30,1)
-      IF(NRTM_T.NE.0)THEN
+      IF(NRTM_T/=0)THEN
 	CALL I20BUCE(
      1   INTBUF_TAB%XA,INTBUF_TAB%IRECTM(1+4*ESHIFT),INTBUF_TAB%NSV,IPARI(22,NIN),
      1  						 INTBUF_TAB%CAND_P,
@@ -391,9 +391,9 @@ C
 C--------------------------------------------------------------
 C--------------------------------------------------------------
       CALL MY_BARRIER
-      IF (RESULT.NE.0) THEN
+      IF (RESULT/=0) THEN
         CALL MY_BARRIER
-        IF (ITASK.EQ.0) THEN
+        IF (ITASK==0) THEN
           INTBUF_TAB%I_STOK(1) = I_SK_OLD
           RESULT = 0
         ENDIF
@@ -405,7 +405,7 @@ C--------------------------------------------------------------
         GOTO 50
       ENDIF
 C mise a - de dist temporairement pour reperage dans partie frontiere
-      IF(NSPMD.GT.1)THEN
+      IF(NSPMD>1)THEN
 C mono tache
 !$OMP SINGLE
         IF (IMONM > 0) CALL STARTIME(26,1)
@@ -417,7 +417,7 @@ C mono tache
      3    IPARI(22,NIN),H3D_DATA  )
         IPARI(24,NIN) = NSNR
 
-        IF (NUM_IMP.GT.0) 
+        IF (NUM_IMP>0) 
      .    CALL IMP_RNUMCD(INTBUF_TAB%CAND_N,NIN,NSN,NUM_IMP,IND_IMP )
 
         IF (IMONM > 0) CALL STOPTIME(26,1)
@@ -430,7 +430,7 @@ C     EDGES
 C-----------------------------------------------------------
 
       I_SK_OLD=0
-      IF(NLINMA /= 0.OR.NSPMD.GT.1)THEN
+      IF(NLINMA /= 0.OR.NSPMD>1)THEN
         INTBUF_TAB%I_STOK_E(1) = 0
 C
 C     Fin CALCUL BORNE DOMAINE Edge
@@ -446,10 +446,10 @@ C
         RESULT = 0
 C BARRIER II_STOK et RESULT
         CALL MY_BARRIER
-        IF(ITASK.EQ.0)THEN
-          IF(ABS(BMINMAE(6)-BMINMAE(3)).GT.2*EP30.OR.
-     +       ABS(BMINMAE(5)-BMINMAE(2)).GT.2*EP30.OR.
-     +       ABS(BMINMAE(4)-BMINMAE(1)).GT.2*EP30)THEN
+        IF(ITASK==0)THEN
+          IF(ABS(BMINMAE(6)-BMINMAE(3))>2*EP30.OR.
+     +       ABS(BMINMAE(5)-BMINMAE(2))>2*EP30.OR.
+     +       ABS(BMINMAE(4)-BMINMAE(1))>2*EP30)THEN
 #include "lockon.inc"
             CALL ANCMSG(MSGID=87,ANMODE=ANINFO,
      .                  I1=NOINT,C1='(I20BUCE)')
@@ -466,7 +466,7 @@ C
 C recuperation des noeuds remote NLINSR stockes dans XREM
 C
           NLINSR = 0
-          IF(NSPMD.GT.1) THEN
+          IF(NSPMD>1) THEN
 	    CALL SPMD_TRI20BOXE(
      1       INTBUF_TAB%IXLINS,NLINSA  ,INTBUF_TAB%XA,INTBUF_TAB%VA,MS     ,
      2       BMINMAE	  ,WEIGHT  ,INTBUF_TAB%STFS,NIN	       ,ISENDTO,
@@ -480,7 +480,7 @@ C -------------------------------------------------------------
  140    CONTINUE
         NRTM_T = NLINMA/NTHREAD
         ESHIFT = ITASK*NRTM_T
-        IF(ITASK.EQ.NTHREAD-1)NRTM_T=NLINMA-(NTHREAD-1)*(NLINMA/NTHREAD)
+        IF(ITASK==NTHREAD-1)NRTM_T=NLINMA-(NTHREAD-1)*(NLINMA/NTHREAD)
         ILD = 0
 C
 C Barrier comm spmd_tri7box + BMINMA + Retour I7BUCE
@@ -492,7 +492,7 @@ C
           GAP   = GAP   + GAP_SHIFT
 c fait dans le starter          TZINF = TZINF + GAP_SH
         ENDIF
-        IF(NRTM_T.NE.0)THEN
+        IF(NRTM_T/=0)THEN
           CALL I20BUC_EDGE(
      1 INTBUF_TAB%XA,INTBUF_TAB%IXLINS,INTBUF_TAB%IXLINM(1+2*ITASK*NRTM_T),INTBUF_TAB%NLG,
      2 NLINSA  ,NMNE	     ,NRTM_T	   ,INTBUF_TAB%LCAND_N,INTBUF_TAB%LCAND_S,
@@ -539,9 +539,9 @@ C        UPGRADE_MULTIMP routine !!!!
 C--------------------------------------------------------------
 C--------------------------------------------------------------
         CALL MY_BARRIER
-        IF (RESULT.NE.0) THEN
+        IF (RESULT/=0) THEN
           CALL MY_BARRIER
-          IF (ITASK.EQ.0) THEN
+          IF (ITASK==0) THEN
             INTBUF_TAB%I_STOK_E(1) = I_SK_OLD
             RESULT = 0
           ENDIF
@@ -552,13 +552,13 @@ C--------------------------------------------------------------
           TZINF  = INTBUF_TAB%VARIABLES(8)       
           GOTO 150
         ENDIF
-        IF (NSPMD.GT.1) THEN
+        IF (NSPMD>1) THEN
 C mise a - de dist temporairement pour reperage dans partie frontiere
 C mono tache
 !$OMP SINGLE
           IF (IMONM > 0) CALL STARTIME(26,1)
 
-          IF(INTBUF_TAB%VARIABLES(5).GE.ZERO) INTBUF_TAB%VARIABLES(5)= -INTBUF_TAB%VARIABLES(5)
+          IF(INTBUF_TAB%VARIABLES(5)>=ZERO) INTBUF_TAB%VARIABLES(5)= -INTBUF_TAB%VARIABLES(5)
 	  CALL SPMD_TRI20GATE(
      1 RESULT	    ,NLINSA,INTBUF_TAB%LCAND_S,INTBUF_TAB%I_STOK_E(1),NIN,
      2 IPARI(22,NIN),NLINSR,MULTIMP	 ,IGAP      )

@@ -74,7 +74,7 @@ C======================================================================|
         ID=NOM_OPT(1,I)
         CALL FRETITL2(TITR,
      .       NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
-        IF(NC.GT.LAG_NCF)THEN
+        IF(NC>LAG_NCF)THEN
           CALL ANCMSG(MSGID=468,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -89,7 +89,7 @@ C======================================================================|
           NDL = IBUFDL(KF)
           ISK = IBUFSK(KF)
 C---
-	  IF(MASS(NN).EQ.0.)THEN
+	  IF(MASS(NN)==0.)THEN
 	        CALL ANCMSG(MSGID=535,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_1,
@@ -99,14 +99,14 @@ C---
      .                  C3=TITR,C4=' ',
      .                  I2=ITAB(NN))
 	  ENDIF
-          IF(ISK.EQ.1)THEN
+          IF(ISK==1)THEN
             NK = NK+1
             IK = IK+1
             LLL(IK) = NN
             JLL(IK) = NDL
           ELSE
             NK = NK+3
-            IF (NDL.LE.3) THEN
+            IF (NDL<=3) THEN
               IK = IK+1
               LLL(IK) = NN
               JLL(IK) = 1
@@ -128,7 +128,7 @@ C---
               JLL(IK) = 6
             ENDIF
           ENDIF
-	      IF(NDL.GT.3.AND.INER(NN).EQ.0.)THEN
+	      IF(NDL>3.AND.INER(NN)==0.)THEN
                 CALL ANCMSG(MSGID=536,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO_BLIND_1,
@@ -139,7 +139,7 @@ C---
      .                      I2=ITAB(NN))
 	      ENDIF
           IADLL(NC+1)=IADLL(NC) + NK
-          IF(IADLL(NC+1)-1.GT.LAG_NKF)THEN
+          IF(IADLL(NC+1)-1>LAG_NKF)THEN
             CALL ANCMSG(MSGID=469,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO,

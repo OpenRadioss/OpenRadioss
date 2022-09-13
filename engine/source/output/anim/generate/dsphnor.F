@@ -58,7 +58,7 @@ C-----------------------------------------------
      3   XI,YI,ZI,R,NX,NY,NZ,NORMN,
      4   XQ(3)
 C-----------------------------------------------
-      IF (NUMSPH+MAXPJET.EQ.0) GOTO 100
+      IF (NUMSPH+MAXPJET==0) GOTO 100
 C-----------------------------------------------
       I3000 = 3000
       CNT = 0
@@ -75,7 +75,7 @@ C         NX= SQRT(2.)
 C         NY= SQRT(2.)/SQRT(3.)
 C         NZ=-1./SQRT(3.)
          NORMN=SQRT(NX**2+NY**2+NZ**2)
-         IF (NORMN.EQ.ZERO) THEN
+         IF (NORMN==ZERO) THEN
           NX=THREE1000
           NY=THREE1000
           NZ=THREE1000          
@@ -84,7 +84,7 @@ C         NZ=-1./SQRT(3.)
           NY=THREE1000*NY/NORMN
           NZ=THREE1000*NZ/NORMN          
          ENDIF
-c         IF (IMACH.NE.3) THEN
+c         IF (IMACH/=3) THEN
 c           CALL WRITE_S_C(NINT(NX),1)
 c           CALL WRITE_S_C(NINT(NY),1)
 c           CALL WRITE_S_C(NINT(NZ),1)
@@ -103,7 +103,7 @@ C         NX=-SQRT(2.)
 C         NY= SQRT(2.)/sqrt(3.)
 C         NZ=-1./SQRT(3.)
          NORMN=SQRT(NX**2+NY**2+NZ**2)
-        IF (NORMN.EQ.ZERO) THEN
+        IF (NORMN==ZERO) THEN
           NX=THREE1000
           NY=THREE1000
           NZ=THREE1000          
@@ -112,7 +112,7 @@ C         NZ=-1./SQRT(3.)
           NY=THREE1000*NY/NORMN
           NZ=THREE1000*NZ/NORMN          
          ENDIF
-c         IF (IMACH.NE.3) THEN
+c         IF (IMACH/=3) THEN
 c           CALL WRITE_S_C(NINT(NX),1)
 c           CALL WRITE_S_C(NINT(NY),1)
 c           CALL WRITE_S_C(NINT(NZ),1)
@@ -131,7 +131,7 @@ C         NX= 0.
 C         NY=-2.*SQRT(2.)/SQRT(3.)
 C         NZ=-1./SQRT(3.)
          NORMN=SQRT(NX**2+NY**2+NZ**2)
-         IF (NORMN.EQ.ZERO) THEN
+         IF (NORMN==ZERO) THEN
           NX=THREE1000
           NY=THREE1000
           NZ=THREE1000          
@@ -140,7 +140,7 @@ C         NZ=-1./SQRT(3.)
           NY=THREE1000*NY/NORMN
           NZ=THREE1000*NZ/NORMN          
          ENDIF
-c         IF (IMACH.NE.3) THEN
+c         IF (IMACH/=3) THEN
 c           CALL WRITE_S_C(NINT(NX),1)
 c           CALL WRITE_S_C(NINT(NY),1)
 c           CALL WRITE_S_C(NINT(NZ),1)
@@ -159,7 +159,7 @@ C         NX= 0.
 C         NY= 0.
 C         NZ= SQRT(3.)
          NORMN=SQRT(NX**2+NY**2+NZ**2)
-        IF (NORMN.EQ.ZERO) THEN
+        IF (NORMN==ZERO) THEN
           NX=THREE1000
           NY=THREE1000
           NZ=THREE1000          
@@ -168,7 +168,7 @@ C         NZ= SQRT(3.)
           NY=THREE1000*NY/NORMN
           NZ=THREE1000*NZ/NORMN          
          ENDIF
-c         IF (IMACH.NE.3) THEN
+c         IF (IMACH/=3) THEN
 c           CALL WRITE_S_C(NINT(NX),1)
 c           CALL WRITE_S_C(NINT(NY),1)
 c           CALL WRITE_S_C(NINT(NZ),1)
@@ -187,7 +187,7 @@ c         ENDIF
       ELSE
         LRECV = CNT
       END IF
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
          CALL WRITE_S_C(INP,LRECV)
       ENDIF
 C

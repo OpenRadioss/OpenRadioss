@@ -78,14 +78,14 @@ C-----------------------------------------------
       INTEGER I ,J  ,IL, L, NN, IG,JFT
 C-----------------------------------------------
 C
-      IF(IGAP.EQ.0)THEN
+      IF(IGAP==0)THEN
         DO I=1,JLT
           GAPV(I)=GAP
         END DO
       ELSE
         DO I=1,JLT
           J = CAND_N(I)
-          IF(J.LE.NSN) THEN
+          IF(J<=NSN) THEN
             GAPV(I)=GAP_S(J)+GAP_M(CAND_E(I))
           ELSE
             IG = J-NSN
@@ -99,7 +99,7 @@ C           GAPV(I)=GAPFI(NIN)%P(CAND_N(I)-NSN)+GAP_M(CAND_E(I))
       END IF
       DO I=1,JLT
         J = CAND_N(I)
-        IF(J.LE.NSN) THEN
+        IF(J<=NSN) THEN
           IL = NSV(J)
           XI(I) = XA(1,IL)
           YI(I) = XA(2,IL)

@@ -77,7 +77,7 @@ C-----------------------------------------------
      .   HGY(MVSIZ), HGZ(MVSIZ), 
      .   HY,HZ,FAC,PX1H1,PX2H1,EHOURT, ARE
 C-----------------------------------------------
-      IF(MTN.EQ.11 .OR. ((MTN.EQ.17.OR.MTN.EQ.47) .AND. UPWM.EQ.0))THEN
+      IF(MTN==11 .OR. ((MTN==17.OR.MTN==47) .AND. UPWM==0))THEN
        DO 2 I=LFT,LLT
          T11(I) = ZERO
          T12(I) = ZERO
@@ -91,7 +91,7 @@ C-----------------------------------------------
        RETURN
       ENDIF
 C 
-      IF(INVSTR.GE.35)THEN
+      IF(INVSTR>=35)THEN
         DO I=LFT,LLT
           CAQ(I)=GEO(13,PID(I))
         ENDDO
@@ -109,20 +109,20 @@ C
 C
       ISFLUID=IPARG(63)
  
-      IF(ISFLUID==1 .AND. UPWM.EQ.0)THEN
+      IF(ISFLUID==1 .AND. UPWM==0)THEN
        DO I=LFT,LLT
         FCL(I)=FCL(I)*CXX(I)
         FCQ(I)=ZERO
        ENDDO
-      ELSEIF(ISFLUID==1 .AND. UPWM.EQ.1)THEN
+      ELSEIF(ISFLUID==1 .AND. UPWM==1)THEN
        DO 30 I=LFT,LLT
          FCL(I)=MIN(FCL(I)*CXX(I),
      .           MAX(20.*CAQ(I)*VIS(I),FCL(I)*SQRT(VD2(I))))
          FCQ(I)=0.
   30   CONTINUE
-      ELSEIF(ISFLUID==1 .AND. UPWM.GT.0)THEN
+      ELSEIF(ISFLUID==1 .AND. UPWM>0)THEN
        DO 35 I=LFT,LLT
-        IF(VIS(I).GT.ZERO)THEN
+        IF(VIS(I)>ZERO)THEN
 C         FCQ(I)=FCL(I)
          FCQ(I)=ZERO
          FCL(I)=TWENTY*CAQ(I)*VIS(I)
@@ -137,20 +137,20 @@ C         FCQ(I)=FCL(I)
         FCL(I)=FCL(I)*CXX(I)
    40  CONTINUE
       ENDIF
-      IF(IMPL.NE.ZERO)THEN
+      IF(IMPL/=ZERO)THEN
        DO 42 I=LFT,LLT
         FCQ(I)=ZERO
    42  CONTINUE
       ENDIF
 C
       DO45 I=LFT,LLT
-       IF(OFF(I).LT.ONE)THEN
+       IF(OFF(I)<ONE)THEN
         FCL(I)=ZERO
         FCQ(I)=ZERO
        ENDIF
    45 CONTINUE
 C
-      IF(JHBE.EQ.0)THEN
+      IF(JHBE==0)THEN
 C
 C HOURGLASS HALLQUIST
 C
@@ -222,7 +222,7 @@ C
         EHOUR = EHOUR + EHOURT
 #include "atomend.inc"
 C
-      IF((ANIM_E(25).EQ.1).OR.(OUTP_CS(25).EQ.1))THEN
+      IF((ANIM_E(25)==1).OR.(OUTP_CS(25)==1))THEN
         DO I=LFT,LLT
           EANI(NFT+I) = EANI(NFT+I)+EHOU(I)/MAX(EM30,RHO(I)*AREA(I))
         ENDDO

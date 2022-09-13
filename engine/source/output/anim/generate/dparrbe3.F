@@ -50,7 +50,7 @@ C-----------------------------------------------
      .   NMN, II(2)
 C-----------------------------------------------
 C seul le proc 0 effectue le traitement
-      IF (IMACH.EQ.3.AND.ISPMD.NE.0) GOTO 100
+      IF (IMACH==3.AND.ISPMD/=0) GOTO 100
 C
       DO I=1,NRBE3
         NMN = IRBE3(5,I)

@@ -185,19 +185,19 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
-        IF(SUB_SPH(I) .NE. 0)THEN
-          IF(IPARTSP(I) .NE. 0) IPARTSP(I) = IPARTSP(I) + OFF_PART(SUB_SPH(I)) 
-          IF(KXSP(NISP,I) .NE. 0) KXSP(NISP,I) = KXSP(NISP,I) + OFF_EL(SUB_SPH(I))
+        IF(SUB_SPH(I) /= 0)THEN
+          IF(IPARTSP(I) /= 0) IPARTSP(I) = IPARTSP(I) + OFF_PART(SUB_SPH(I)) 
+          IF(KXSP(NISP,I) /= 0) KXSP(NISP,I) = KXSP(NISP,I) + OFF_EL(SUB_SPH(I))
 
-          IF(KXSP(3,I) .NE. 0) KXSP(3,I) = KXSP(3,I) + OFF_NOD(SUB_SPH(I))
+          IF(KXSP(3,I) /= 0) KXSP(3,I) = KXSP(3,I) + OFF_NOD(SUB_SPH(I))
 
         ENDIF
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
-        IF( IPART(4,INDEX_PART) .NE. IPARTSP(I) )THEN  
+        IF( IPART(4,INDEX_PART) /= IPARTSP(I) )THEN  
           DO J=1,NPART                            
-            IF(IPART(4,J).EQ. IPARTSP(I) ) INDEX_PART = J 
+            IF(IPART(4,J)== IPARTSP(I) ) INDEX_PART = J 
           ENDDO  
         ENDIF
         IF(IPART(4,INDEX_PART) /= IPARTSP(I)) THEN
@@ -219,7 +219,7 @@ C         meme identifiant que le noeud.
         KXSP(NISP,NCELL)=IDNOD
         IDMAX=MAX(IDMAX,IDNOD)
 C--------------------------------------------------
-        IF (KXSP(NISP,I).GT.ID_LIMIT)THEN
+        IF (KXSP(NISP,I)>ID_LIMIT)THEN
             CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I1=KXSP(NISP,I),C1=LINE,C2='/SPHCEL')
         ENDIF
@@ -228,7 +228,7 @@ C-------------------------------------
        IF(ALLOCATED(SUB_SPH)) DEALLOCATE(SUB_SPH)
 C-------------------------------------
        FIRST_SPHRES=NCELL+1
-       IF(NSPHRES.NE.0)THEN
+       IF(NSPHRES/=0)THEN
         KCUR   =KSPHOPT
         IREC   =KOPTAD(KCUR)-1
         INOD   =ISPHRES
@@ -241,7 +241,7 @@ C-------------------------------------
      .                         KEYWORD2 = KEY)
           IDS=0
           DO J=1,NPART
-            IF(IPART(4,J).EQ.ID) THEN
+            IF(IPART(4,J)==ID) THEN
              IF(IGEO(11,IPART(2,J))/=34)THEN
                CALL ANCMSG(MSGID=1068,
      .                     MSGTYPE=MSGERROR,
@@ -262,7 +262,7 @@ C-------------------------------------
 175       CONTINUE
           CALL HM_GET_INTV('Np',KSPHRES,IS_AVAILABLE,LSUBMODEL)
 C if SPH part not found reserve is emptied to prevent additional errors 
-          IF (IDS.EQ.0) THEN
+          IF (IDS==0) THEN
             NSPHRES = NSPHRES - KSPHRES*NSPMD
             NUMSPH = NUMSPH - KSPHRES*NSPMD
             KSPHRES = 0
@@ -286,7 +286,7 @@ c KSPHRES by proc
        ENDIF
 C-------------------------------------
        FIRST_SPHSOL=NCELL+1
-       IF(NSPHSOL.NE.0)THEN
+       IF(NSPHSOL/=0)THEN
 C
         KCONTACT=1
 C
@@ -422,7 +422,7 @@ C
        WRITE (IOUT,'(6(I10,1X))') I,KXSP(NISP,I),MID,PID,
      .                           KXSP(3,I),ITAB(KXSP(3,I))
   100 CONTINUE
-      IF(I2.EQ.NUMSPH)GOTO 200
+      IF(I2==NUMSPH)GOTO 200
       I1=I1+50
       I2=MIN0(I2+50,NUMSPH)
       GOTO 90

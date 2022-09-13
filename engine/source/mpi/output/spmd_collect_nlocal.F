@@ -90,7 +90,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       RECGLOB(1:2,1:SIZP0) = -1
-      IF (ISPMD.NE.0) THEN
+      IF (ISPMD/=0) THEN
       N=0
       DO I = 1,NUMNOD_LOCAL
         NPOS = POSI(I)                              ! Position of its first d.o.f in A

@@ -249,7 +249,7 @@ c fin elimination des elements doubles
       ENDDO
       NNB=0
       DO I=1,NUMNOD
-         IF (ITAG(I).EQ.1) THEN
+         IF (ITAG(I)==1) THEN
            NNB=NNB+1
            ITABINV(I)=NNB
          ENDIF
@@ -258,7 +258,7 @@ c fin elimination des elements doubles
       ALLOCATE(T_MONVOLN%NODES(NNB))
       NNB = 0
       DO I=1,NUMNOD
-         IF (ITAG(I).EQ.1) THEN
+         IF (ITAG(I)==1) THEN
            NNB=NNB+1
            T_MONVOLN%NODES(NNB)=I
          ENDIF
@@ -314,7 +314,7 @@ C
         I4=SURF%NODES(I,4)
         IF(I3 == I4) I4 = 0
         IF(TAGE(I) == 0)THEN
-          IF (I4.EQ.0) THEN
+          IF (I4==0) THEN
 C conservation du triangle
             NTG=NTG+1
             TBEMTG(1,NTG)=ITABINV(I1)
@@ -328,7 +328,7 @@ C decoupage du quadrangle en 2 triangles
             TBEMTG(2,NTG)=ITABINV(I2)
             TBEMTG(3,NTG)=ITABINV(I4)
             ELEM_ID(NTG) = SURF%ELEM(I)
-            IF (ITABINV(I4).NE.ITABINV(I3)) THEN
+            IF (ITABINV(I4)/=ITABINV(I3)) THEN
               NTG=NTG+1
               TBEMTG(1,NTG)=ITABINV(I2)
               TBEMTG(2,NTG)=ITABINV(I3)
@@ -410,7 +410,7 @@ C
         I3=SURF%NODES(I,3)
         I4=SURF%NODES(I,4)
         IF(I3 == I4) I4 = 0
-        IF (I4.EQ.0) THEN
+        IF (I4==0) THEN
 C     conservation du triangle
            NTG=NTG+1
            ELEM_ID(NTG) = SURF%ELEM(I)
@@ -470,7 +470,7 @@ C-----------------------------------------------
      .        LZMAX, ZL, LX_OLD, LY_OLD, LZ_OLD
 C
       NORM=SQRT(VX3**2+VY3**2+VZ3**2)
-      IF (NORM.EQ.ZERO) THEN
+      IF (NORM==ZERO) THEN
          CALL ANCMSG(MSGID=630,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
@@ -486,7 +486,7 @@ C
       VY1=VY1-SS*VY3
       VZ1=VZ1-SS*VZ3
       NORM=SQRT(VX1**2+VY1**2+VZ1**2)
-      IF (NORM.EQ.ZERO) THEN
+      IF (NORM==ZERO) THEN
          CALL ANCMSG(MSGID=630,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
@@ -508,7 +508,7 @@ C Limites de l'airbag dans les directions de decoupage
          I1=ELEMA(1,I)
          I2=ELEMA(2,I)
          I3=ELEMA(3,I)
-         IF (TAGELA(I).GT.0) THEN
+         IF (TAGELA(I)>0) THEN
             I1=IBUF(I1)
             I2=IBUF(I2)
             I3=IBUF(I3)
@@ -526,7 +526,7 @@ C
       LYMAX=ZERO
       LZMAX=ZERO
       DO I=1,NUMNOD
-         IF (ITAG(I).EQ.1) THEN
+         IF (ITAG(I)==1) THEN
             XX=X(1,I)
             YY=X(2,I)
             ZZ=X(3,I)
@@ -540,7 +540,7 @@ C
          ENDIF
       ENDDO
 C
-      IF (LXMAX.GT.LX) THEN
+      IF (LXMAX>LX) THEN
          LX_OLD=LX
          LX=LXMAX*ONEP01
          CALL ANCMSG(MSGID=631,
@@ -553,7 +553,7 @@ C
      .               R2=LXMAX,
      .               I2=1)
       ENDIF
-      IF (LYMAX.GT.LY) THEN
+      IF (LYMAX>LY) THEN
          LY_OLD=LY
          LY=LYMAX*ONEP01
          CALL ANCMSG(MSGID=631,
@@ -569,7 +569,7 @@ C
 CFA je ne comprend pas pourquoi cette partie est en commentaire: cela pose un probl   e si l'on rentre LZ=0
 C   LZ et DZ restent nul dans FVMESH
 C On autorise le decoupage horizontal d'une bande du maillage uniquement
-C      IF (LZMAX.GT.LZ) THEN
+C      IF (LZMAX>LZ) THEN
 C         CALL ANSTCKI(ID)
 C         CALL ANSTCKI(3)
 C         CALL ANSTCKR(LZ)
@@ -578,7 +578,7 @@ C         LZ=LZMAX*ONEP01
 C         CALL ANSTCKR(LZ)
 C         CALL ANCWARN(631,ANINFO_BLIND_1)
 C      ENDIF
-      IF (LZMAX.GT.LZ) THEN
+      IF (LZMAX>LZ) THEN
          LZ_OLD=LZ
          LZ=LZMAX*ONEP01
          CALL ANCMSG(MSGID=631,
@@ -745,7 +745,7 @@ C
         I3=SURF%NODES(I,3)
         I4=SURF%NODES(I,4)
         IF(I3 == I4) I4 = 0
-          IF (I4.EQ.0) THEN
+          IF (I4==0) THEN
 C conservation du triangle
             NTG=NTG+1
             ELEMTG(1,NTG)=ITABINV(I1)
@@ -759,7 +759,7 @@ C decoupage du quadrangle en 2 triangles
             ELEMTG(2,NTG)=ITABINV(I2)
             ELEMTG(3,NTG)=ITABINV(I3)
             ELEM_ID(NTG) = SURF%ELEM(I)
-            IF (ITABINV(I4).NE.ITABINV(I3)) THEN
+            IF (ITABINV(I4)/=ITABINV(I3)) THEN
               NTG=NTG+1
               ELEMTG(1,NTG)=ITABINV(I1)
               ELEMTG(2,NTG)=ITABINV(I3)
@@ -821,7 +821,7 @@ C
       ENDDO
 C
       DO I=1,NNFV
-        IF(FVDATA(IFV)%IFVNOD(1,I).NE.2) CYCLE
+        IF(FVDATA(IFV)%IFVNOD(1,I)/=2) CYCLE
           N=FVDATA(IFV)%IFVNOD(2,I)
           FVDATA(IFV)%IFVNOD(3,I)=ITAB(N)
       ENDDO
@@ -861,7 +861,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------------
 C Compute normal vector for a triangle and a quad
 C-----------------------------------------------------------------------
-      IF(N4.EQ.0) THEN
+      IF(N4==0) THEN
             X1=X(1,N1)
             Y1=X(2,N1)
             Z1=X(3,N1)

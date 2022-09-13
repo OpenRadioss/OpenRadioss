@@ -124,10 +124,10 @@ C
       DO I=JFT,JLT
        OFF(I)=OFFG(I)
       ENDDO
-      IF (IMP_CHK .GT. 0) THEN
+      IF (IMP_CHK > 0) THEN
        DO I=JFT,JLT
-        IF(OFFG(I).NE.ZERO)THEN
-         IF(AL(I).LE.EM20)THEN
+        IF(OFFG(I)/=ZERO)THEN
+         IF(AL(I)<=EM20)THEN
 #include "lockon.inc"
             WRITE(IOUT ,2001) NGL(I)
 #include "lockoff.inc"

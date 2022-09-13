@@ -63,12 +63,12 @@ C-----------------------------------------------
 C-----------------------------------------------
       OFF_L = 0.
       DO I=LFT,LLT
-Cf small3b        IF(OFF(I).LT.1.)OFFG(I) = OFF(I)
+Cf small3b        IF(OFF(I)<1.)OFFG(I) = OFF(I)
         OFF_L = MIN(OFF_L,OFFG(I))
       ENDDO
-      IF(OFF_L.LT.ZERO)THEN
+      IF(OFF_L<ZERO)THEN
         DO I=LFT,LLT
-         IF(OFFG(I).LT.ZERO)THEN
+         IF(OFFG(I)<ZERO)THEN
            F11(I)=ZERO
            F21(I)=ZERO
            F31(I)=ZERO
@@ -175,12 +175,12 @@ C     INTEGER I, II, K
 C-----------------------------------------------
       OFF_L = 0.
       DO I=LFT,LLT
-Cf small3b        IF(OFF(I).LT.1.)OFFG(I) = OFF(I)
+Cf small3b        IF(OFF(I)<1.)OFFG(I) = OFF(I)
         OFF_L = MIN(OFF_L,OFFG(I))
       ENDDO
-      IF(OFF_L.LT.ZERO)THEN
+      IF(OFF_L<ZERO)THEN
         DO I=LFT,LLT
-         IF(OFFG(I).LT.ZERO)THEN
+         IF(OFFG(I)<ZERO)THEN
            F11(I)=ZERO
            F21(I)=ZERO
            F31(I)=ZERO
@@ -210,7 +210,7 @@ C     because 2*Mnodal = 2*Melement/6
         STI(I)=THIRD*STI(I)
       END DO
 C
-      IF(IVECTOR.EQ.1) THEN
+      IF(IVECTOR==1) THEN
 #include "vectorize.inc"
         DO I=LFT,LLT
           II=I+NFT

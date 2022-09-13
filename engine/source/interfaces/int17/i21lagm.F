@@ -146,7 +146,7 @@ C-----------------------------------------------------------------------
      .             X(2,IS)+DT2*(V(2,IS)+DT12*A(2,IS))-EMINX(5,LE),DIST)
         DIST = MAX(EMINX(3,LE)-X(3,IS)-DT2*(V(3,IS)+DT12*A(3,IS)),
      .             X(3,IS)+DT2*(V(3,IS)+DT12*A(3,IS))-EMINX(6,LE),DIST)
-c        IF (DIST.LT.0.) CANDN(I) = -CANDN(I)
+c        IF (DIST<0.) CANDN(I) = -CANDN(I)
 C-----------------------------------------------------------------------
 C       test si dans la boite   
 C-----------------------------------------------------------------------
@@ -174,7 +174,7 @@ c
 C-----------------------------------------------------------------------
 C     calcul de  [L] par paquet de mvsiz   
 C-----------------------------------------------------------------------
-          IF(LLT.EQ.MVSIZ-1)THEN
+          IF(LLT==MVSIZ-1)THEN
             CALL I21LLL(
      1       LLT ,LLL       ,JLL       ,SLL       ,XLL     ,V       ,
      2       XX  ,YY        ,ZZ        ,III       ,NC      ,IADLL   ,
@@ -192,7 +192,7 @@ c debug
 C-----------------------------------------------------------------------
 C     calcul de  [L] pour dernier paquet   
 C-----------------------------------------------------------------------
-      IF(LLT.NE.0) CALL I21LLL(
+      IF(LLT/=0) CALL I21LLL(
      1       LLT ,LLL       ,JLL       ,SLL       ,XLL     ,V       ,
      2       XX  ,YY        ,ZZ        ,III       ,NC      ,IADLL   ,
      3       N_MUL_MX ,A    ,X         ,ITIED     ,NINT    ,NKMAX   ,
@@ -267,13 +267,13 @@ c
 C-----------------------------------------------
 C      calcul de [L]
 C-----------------------------------------------
-      IF(ITIED.EQ.0)THEN
+      IF(ITIED==0)THEN
        DO I=1,LLT
 C-----------------------------------------------
 C       test si contact
 C-----------------------------------------------
-        IF(R(I).GE.-ONE.AND.S(I).GE.-ONE.AND.T(I).GE.-ONE.AND.
-     .     R(I).LE. ONE.AND.S(I).LE. ONE.AND.T(I).LE. ONE)THEN
+        IF(R(I)>=-ONE.AND.S(I)>=-ONE.AND.T(I)>=-ONE.AND.
+     .     R(I)<= ONE.AND.S(I)<= ONE.AND.T(I)<= ONE)THEN
 C
           NK = 21
           VX = ZERO
@@ -292,7 +292,7 @@ c
 C-----------------------------------------------
 C         test si vitesse entrante en s
 C-----------------------------------------------
-          IF(S(I)*VN.LE.ZERO)THEN
+          IF(S(I)*VN<=ZERO)THEN
 c
 c      print *, "vitesse entrante",vn
       print *, "s = ",S(I)
@@ -304,13 +304,13 @@ c           AA = DT12/SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I))
            NSZ(I) = NSZ(I)*AA
 #include "lockon.inc"
             NC=NC+1
-            IF(NC.GT.N_MUL_MX)THEN
+            IF(NC>N_MUL_MX)THEN
 #include "lockoff.inc"
               CALL ANCMSG(MSGID=84,ANMODE=ANINFO)
               CALL ARRET(2)
             ENDIF
             IADLL(NC+1)=IADLL(NC) + 63
-            IF(IADLL(NC+1)-1.GT.NKMAX)THEN
+            IF(IADLL(NC+1)-1>NKMAX)THEN
 #include "lockoff.inc"
               CALL ANCMSG(MSGID=84,ANMODE=ANINFO)
               CALL ARRET(2)
@@ -339,7 +339,7 @@ c           AA = DT12/SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I))
           ENDIF
         ENDIF
        ENDDO
-      ELSEIF(ITIED.EQ.1)THEN
+      ELSEIF(ITIED==1)THEN
 C-----------------------------------------------
 C      ITIED = 1
 C-----------------------------------------------
@@ -347,8 +347,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       test si contact
 C-----------------------------------------------
-        IF(R(I).GE.-ONE.AND.S(I).GE.-ONE.AND.T(I).GE.-ONE.AND.
-     .     R(I).LE. ONE.AND.S(I).LE. ONE.AND.T(I).LE. ONE)THEN
+        IF(R(I)>=-ONE.AND.S(I)>=-ONE.AND.T(I)>=-ONE.AND.
+     .     R(I)<= ONE.AND.S(I)<= ONE.AND.T(I)<= ONE)THEN
 C
           NK = 21
           VX = ZERO
@@ -367,18 +367,18 @@ c
 C-----------------------------------------------
 C         test si vitesse entrante en r,s ou t
 C-----------------------------------------------
-          IF(VN.LE.ZERO)THEN
+          IF(VN<=ZERO)THEN
 c
 c      print *, "vitesse entrante",vn
       print *, "s = ",S(I)
 c
 #include "lockon.inc"
-            IF(NC+3.GT.N_MUL_MX)THEN
+            IF(NC+3>N_MUL_MX)THEN
 #include "lockoff.inc"
               CALL ANCMSG(MSGID=84,ANMODE=ANINFO)
               CALL ARRET(2)
             ENDIF
-            IF(IADLL(NC+1)-1+21*3.GT.NKMAX)THEN
+            IF(IADLL(NC+1)-1+21*3>NKMAX)THEN
 #include "lockoff.inc"
               CALL ANCMSG(MSGID=84,ANMODE=ANINFO)
               CALL ARRET(2)
@@ -434,20 +434,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       test si contact
 C-----------------------------------------------
-        IF(R(I).GE.-ONE.AND.S(I).GE.-ONE.AND.T(I).GE.-ONE.AND.
-     .     R(I).LE. ONE.AND.S(I).LE. ONE.AND.T(I).LE. ONE)THEN
+        IF(R(I)>=-ONE.AND.S(I)>=-ONE.AND.T(I)>=-ONE.AND.
+     .     R(I)<= ONE.AND.S(I)<= ONE.AND.T(I)<= ONE)THEN
 C
            NK = 21
 C-----------------------------------------------
       print *, "s = ",S(I)
 c
 #include "lockon.inc"
-            IF(NC+3.GT.N_MUL_MX)THEN
+            IF(NC+3>N_MUL_MX)THEN
 #include "lockoff.inc"
               CALL ANCMSG(MSGID=84,ANMODE=ANINFO)
               CALL ARRET(2)
             ENDIF
-            IF(IADLL(NC+1)-1+21*3.GT.NKMAX)THEN
+            IF(IADLL(NC+1)-1+21*3>NKMAX)THEN
 #include "lockoff.inc"
               CALL ANCMSG(MSGID=84,ANMODE=ANINFO)
               CALL ARRET(2)

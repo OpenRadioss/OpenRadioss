@@ -65,7 +65,7 @@ C---------------------------------------------
       NSN   =IPARI(5)
       DO I=1,NSN
         J=INTBUF_TAB%NSV(I)
-        IF(INTBUF_TAB%STFNS(I).NE.ZERO)
+        IF(INTBUF_TAB%STFNS(I)/=ZERO)
      .     INTBUF_TAB%STFNS(I) = STIFINT(J)
       ENDDO
 C

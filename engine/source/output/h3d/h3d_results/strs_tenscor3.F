@@ -221,7 +221,7 @@ C----------
          IF(ISOLNOD == 6 .OR. ISOLNOD == 8 )THEN
 c
 c T_SHELL ( JHBE = 15/16 )
-          IF(NLAY > 1 .AND. JHBE .NE. 14) THEN
+          IF(NLAY > 1 .AND. JHBE /= 14) THEN
            DO I=LFT,LLT
              N = I + NFT
              IF (KCVT /= 0) THEN

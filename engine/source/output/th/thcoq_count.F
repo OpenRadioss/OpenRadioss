@@ -79,10 +79,10 @@ C=======================================================================
                 II=0
                 IH=IAD
                 IF (IMACH == 3) THEN
-                    DO WHILE((ITHBUF(IH+NN).NE.ISPMD).AND.(IH.LT.IAD+NN))
+                    DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.(IH<IAD+NN))
                         IH = IH + 1
                     ENDDO
-                    IF (IH.GE.IAD+NN) GOTO 666 
+                    IF (IH>=IAD+NN) GOTO 666 
                 ENDIF
 C-------------------
                 DO NG=1,NGROUP
@@ -94,9 +94,9 @@ C-------------------
 c          
                         IF (MTE /= 13 .and. MTE /= 0) THEN
 c
-                            IF ((MTE.GE.29.AND.MTE.LE.31).OR.
+                            IF ((MTE>=29.AND.MTE<=31).OR.
      .                           MTE == 35.OR.MTE == 36.OR.MTE == 43.OR.
-     .                           MTE == 44.OR.MTE == 45.OR.MTE == 48.OR.MTE.GE.50) THEN
+     .                           MTE == 44.OR.MTE == 45.OR.MTE == 48.OR.MTE>=50) THEN
                                 CONTINUE
 	                        ELSEIF (MTE == 25) THEN
 

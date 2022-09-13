@@ -128,10 +128,10 @@ C
 C
 C
       DT1D2=HALF*DT1
-      IF (ISCAU.GT.0)DT1D2=DT1
+      IF (ISCAU>0)DT1D2=DT1
 C
       IF (JCVT > 0) THEN
-       IF (IMPL_S.EQ.0.OR.IDYNA > 0) THEN
+       IF (IMPL_S==0.OR.IDYNA > 0) THEN
         DO I=LFT,LLT
           DXX(I)  = DXX(I)
      .           -DT1D2*(DXX(I)*DXX(I)+DYX(I)*DYX(I)+DZX(I)*DZX(I))
@@ -156,7 +156,7 @@ C
           WZZ(I)=ZERO
          ENDDO
 C-------implicit static---------       
-       ELSEIF (ILINE.GT.0.AND.ISCAU.EQ.0) THEN
+       ELSEIF (ILINE>0.AND.ISCAU==0) THEN
         DO I=LFT,LLT
          D4(I)   = DXY(I)+DYX(I)
          D5(I)   = DYZ(I)+DZY(I)
@@ -184,7 +184,7 @@ C-------implicit static---------
           WYY(I)=ZERO
           WZZ(I)=ZERO
          ENDDO
-       ENDIF ! IF (IMPL_S.EQ.0.OR.IDYNA.GT.0)
+       ENDIF ! IF (IMPL_S==0.OR.IDYNA>0)
 C
       ELSEIF (JHBE >= 2) THEN
        DO I=LFT,LLT

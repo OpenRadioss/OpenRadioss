@@ -124,23 +124,23 @@ C
 Cc
       IDEL=0
       IDEV=0
-      IF(IFLAG.EQ.1)THEN
+      IF(IFLAG==1)THEN
          IDEL=1
-      ELSEIF(IFLAG.EQ.2)THEN
+      ELSEIF(IFLAG==2)THEN
          IDEV =1
       END IF
 C...
-      IF(IDEL.EQ.1)THEN
+      IF(IDEL==1)THEN
         DO I=1,NEL
-          IF(OFF(I).LT.0.1) OFF(I)=0.0
-          IF(OFF(I).LT.1.0) OFF(I)=OFF(I)*0.8
+          IF(OFF(I)<0.1) OFF(I)=0.0
+          IF(OFF(I)<1.0) OFF(I)=OFF(I)*0.8
         END DO
       END IF
 C      
-      IF(IDEL.EQ.1)THEN
+      IF(IDEL==1)THEN
        NINDX=0  
        DO I=1,NEL
-        IF(IFLAG.EQ.1.AND.OFF(I).EQ.1.AND.DPLA(I).NE.ZERO)THEN
+        IF(IFLAG==1.AND.OFF(I)==1.AND.DPLA(I)/=ZERO)THEN
          P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
          SXX = SIGNXX(I) - P
          SYY = SIGNYY(I) - P
@@ -156,7 +156,7 @@ C third invariant
           ETA = P / MAX(EM20,SVM)
           XI  = HALF*(TWENTY + SEVEN)*J3/MAX(EM20,SVM**3)
 c
-          IF(IMOY.EQ.1)THEN 
+          IF(IMOY==1)THEN 
            UVAR(I,1) = UVAR(I,1) + ETA*DPLA(I)
            UVAR(I,2) = UVAR(I,2) +  XI*DPLA(I)
            ETA = UVAR(I,1)/MAX(EM20,PLA(I))
@@ -167,9 +167,9 @@ c
      .        - (C3*EXP(-C4*ETA))**CN
            EPSF = EPSF * MAX(ZERO,(ONE - XI**CM))**(ONE/CM)
           EPSF = ((C1*EXP(-C2*ETA))**CN - EPSF)**(ONE/CN)
-         IF(EPSF.GT.ZERO)
+         IF(EPSF>ZERO)
      .     DFMAX(I) = DFMAX(I) + DPLA(I)*(ONE/EPSF)
-         IF(DFMAX(I).GE.ONE.AND.OFF(I).EQ.ONE) THEN
+         IF(DFMAX(I)>=ONE.AND.OFF(I)==ONE) THEN
           OFF(I)=FOUR_OVER_5
           NINDX=NINDX+1
           INDX(NINDX)=I
@@ -178,7 +178,7 @@ c
          ENDIF
         ENDIF 
        ENDDO
-       IF(NINDX.GT.0.AND.IMCONV.EQ.1)THEN
+       IF(NINDX>0.AND.IMCONV==1)THEN
         DO J=1,NINDX
 #include "lockon.inc"
          WRITE(IOUT, 1000) NGL(INDX(J))
@@ -188,12 +188,12 @@ c
        END IF         
       ENDIF
 Cc deviatoric will vanish     
-      IF(IDEV.EQ.1)THEN
+      IF(IDEV==1)THEN
        NINDX=0 
        NINDEX = 0 
        DO I=1,NEL
-        IF(IFLAG.EQ.2.AND.OFF(I).EQ.ONE)THEN 
-         IF(DFMAX(I).LT.ONE)THEN
+        IF(IFLAG==2.AND.OFF(I)==ONE)THEN 
+         IF(DFMAX(I)<ONE)THEN
          P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
          SXX = SIGNXX(I) - P
          SYY = SIGNYY(I) - P
@@ -209,7 +209,7 @@ C third invariant
          ETA = P / MAX(EM20,SVM)
          XI  = HALF*(TWENTY + SEVEN)*J3/MAX(EM20,SVM**3)
 C average valeur
-          IF(IMOY.EQ.1)THEN
+          IF(IMOY==1)THEN
            UVAR(I,1) = UVAR(I,1) + ETA*DPLA(I)
            UVAR(I,2) = UVAR(I,2) +  XI*DPLA(I)
            ETA = UVAR(I,1)/MAX(EM20,PLA(I))
@@ -220,8 +220,8 @@ CC
      .        - (C3*EXP(-C4*ETA))**CN
          EPSF = EPSF * MAX(ZERO,(ONE - XI**CM))**(ONE/CM)
          EPSF = ((C1*EXP(-C2*ETA))**CN - EPSF)**(ONE/CN)
-          IF(EPSF.GT.ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF
-          IF(DFMAX(I).GE.ONE.AND.OFF(I).EQ.ONE) THEN
+          IF(EPSF>ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF
+          IF(DFMAX(I)>=ONE.AND.OFF(I)==ONE) THEN
            NINDX=NINDX+1
            INDX(NINDX)=I
            SIGNXX(I) =   P
@@ -243,7 +243,7 @@ c UVAR> 1
          ENDIF
         ENDIF  
        ENDDO
-       IF(NINDX.GT.0.AND.IMCONV.EQ.1)THEN
+       IF(NINDX>0.AND.IMCONV==1)THEN
         DO J=1,NINDX
          I = INDX(J)
 #include "lockon.inc"

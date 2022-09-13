@@ -19,7 +19,7 @@ Copyright>        Commercial Alternative: Altair Radioss Software
 Copyright>    
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
-Copyright>        commercial version may interest you: https://www.altair.com/radioss/.  
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
 Chd|  SPMD_CELL_SIZE_EXCHANGE       source/mpi/interfaces/spmd_cell_size_exchange.F
 Chd|-- called by -----------
@@ -163,7 +163,7 @@ C-----------------------------------------------
         IF(IRCVFROM(NIN,LOC_PROC)/=0.OR.ISENDTO(NIN,LOC_PROC)/=0) THEN
             ! ---------------------------------
             ! only the proc with secondary nodes send theirs data
-            IF(ISENDTO(NIN,LOC_PROC).NE.0) THEN   !   local nsn >0
+            IF(ISENDTO(NIN,LOC_PROC)/=0) THEN   !   local nsn >0
 
                 P=SORT_COMM(NIN)%PROC_LIST(REMOTE_PROC_ID)   !   proc ID
                 ! ----------------------------
@@ -181,8 +181,8 @@ C-----------------------------------------------
                     !   itied/=0 --> need to send all nodes 
                     DO I=1,NSN
                         NOD = INTBUF_TAB(NIN)%NSV(I)
-                        IF(WEIGHT(NOD).EQ.1)THEN
-                            IF(CANDF_SI(NIN)%P(I)/=0.AND.INTBUF_TAB(NIN)%STFNS(I).GT.ZERO)THEN
+                        IF(WEIGHT(NOD)==1)THEN
+                            IF(CANDF_SI(NIN)%P(I)/=0.AND.INTBUF_TAB(NIN)%STFNS(I)>ZERO)THEN
                                 NB = NB + 1
                                 INDEX(NB) = I
                             ENDIF
@@ -215,8 +215,8 @@ C-----------------------------------------------
                         I = SORT_COMM(NIN)%VOXEL(CELL_X_ID,CELL_Y_ID,CELL_Z_ID)                    
                         DO WHILE(I/=0)                       
                             NOD = INTBUF_TAB(NIN)%NSV(I)
-                            IF(WEIGHT(NOD).EQ.1)THEN
-                                IF(INTBUF_TAB(NIN)%STFNS(I).GT.ZERO)THEN
+                            IF(WEIGHT(NOD)==1)THEN
+                                IF(INTBUF_TAB(NIN)%STFNS(I)>ZERO)THEN
                                     NB = NB + 1
                                     INDEX(NB) = I
                                 ENDIF
@@ -296,10 +296,10 @@ C-----------------------------------------------
 
                 !   --------------------------
                 !   buffer allocation & buffer initialization
-                IF (NB.GT.0) THEN
+                IF (NB>0) THEN
                     ALLOCATE( SORT_COMM(NIN)%DATA_PROC(P)%RBUF(RSIZ*NB),STAT=IERROR)
                     ALLOCATE( SORT_COMM(NIN)%DATA_PROC(P)%IBUF(ISIZ*NB),STAT=IERROR)
-                    IF(IERROR.NE.0) THEN
+                    IF(IERROR/=0) THEN
                         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                         CALL ARRET(2)
                     ENDIF
@@ -337,7 +337,7 @@ c shift for integer variables (prepare for next setting)
 
 c specific cases
 c IGAP=1 or IGAP=2                 
-                    IF(IGAP.EQ.1 .OR. IGAP.EQ.2)THEN
+                    IF(IGAP==1 .OR. IGAP==2)THEN
                         L = 0            
                         IGAPXREMP = RSHIFT        
 #include      "vectorize.inc"               
@@ -348,7 +348,7 @@ c IGAP=1 or IGAP=2
                         ENDDO
                         RSHIFT = RSHIFT + 1                      
 c IGAP=3                       
-                    ELSEIF(IGAP.EQ.3)THEN 
+                    ELSEIF(IGAP==3)THEN 
                         L = 0         
                         IGAPXREMP = RSHIFT        
 #include      "vectorize.inc"                 
@@ -362,7 +362,7 @@ c IGAP=3
                     ENDIF
                          
 C thermic
-                    IF(INTTH.GT.0)THEN
+                    IF(INTTH>0)THEN
                         L = 0
                         L2 = 0                     
 #include      "vectorize.inc"                                          
@@ -379,7 +379,7 @@ C thermic
                         ISHIFT = ISHIFT + 1               
                     ENDIF
 C Friction
-                    IF(INTFRIC.GT.0)THEN
+                    IF(INTFRIC>0)THEN
                         L2 = 0                     
 #include      "vectorize.inc"                                          
                         DO J = 1, NB
@@ -402,7 +402,7 @@ C -- IDTMINS==2
                         END DO
                         ISHIFT = ISHIFT + 2              
 C -- IDTMINS_INT /= 0               
-                    ELSEIF(IDTMINS_INT.NE.0)THEN
+                    ELSEIF(IDTMINS_INT/=0)THEN
                         L2 = 0                 
 #include      "vectorize.inc"              
                         DO J = 1, NB

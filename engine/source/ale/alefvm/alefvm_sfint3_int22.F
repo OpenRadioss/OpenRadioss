@@ -148,11 +148,11 @@ c      3. Assemblge de FINT(1:3) = Sum Ff(1:3)
         Z1  = BRICK_LIST(NIN,IB)%RHOC
         M1  = BRICK_LIST(NIN,IB)%MACH
         
-        IF(NBCUT.GT.0)THEN
+        IF(NBCUT>0)THEN
         !---Face-0
         !-----------------------------------
           ISGN_NORM = ONE
-          IF(MCELL.EQ.9)THEN
+          IF(MCELL==9)THEN
             ISGN_NORM=-ONE
             DO K=1,NBCUT
               N(1:3) = ISGN_NORM* BRICK_LIST(NIN,IB)%PCUT(K)%N(1:3)
@@ -229,11 +229,11 @@ c      3. Assemblge de FINT(1:3) = Sum Ff(1:3)
             IBV             = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,4)
             JV              = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,5)   
             UN1             = BRICK_LIST(NIN,IB)%POLY(MCELL)%FACE(J)%U_N  
-            IF(AREA.LE.ZERO)CYCLE             
+            IF(AREA<=ZERO)CYCLE             
             DO IADJ=1,NADJ     
               ICELLv        = BRICK_LIST(NIN,IB)%POLY(MCELL)%FACE(J)%Adjacent_Cell(IADJ)
               IBM           = 0
-              IF(IBv.NE.0)THEN
+              IF(IBv/=0)THEN
                 IBM         = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%WhereIsMain(4)
                 IF(IBM == IB)CYCLE   ! inner face skipped  
                 AREAv       = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%FACE(Jv)%Surf
@@ -250,7 +250,7 @@ c      3. Assemblge de FINT(1:3) = Sum Ff(1:3)
                 F0(1)       = F0(1) - Pf*SURF*N(1) 
                 F0(2)       = F0(2) - Pf*SURF*N(2) 
                 F0(3)       = F0(3) - Pf*SURF*N(3)
-              ELSE! THEN IBV.EQ.0
+              ELSE! THEN IBV==0
                 P2          = F_FACE(1  ,4  ,IV)
                 Z2          = F_FACE(1  ,3  ,IV)
                 UN2         = F_FACE(3  ,JV ,IV)
@@ -289,7 +289,7 @@ c      3. Assemblge de FINT(1:3) = Sum Ff(1:3)
           
                                                                                               
           ISGN_NORM = ONE                                                                                                           
-          IF(ICELLs.EQ.9)THEN
+          IF(ICELLs==9)THEN
             ISGN_NORM=-ONE 
             DO K=1,NBCUTv                                                                                              
               N(1:3) = ISGN_NORM* BRICK_LIST(NIN,IBs)%PCUT(K)%N(1:3)
@@ -328,7 +328,7 @@ c      3. Assemblge de FINT(1:3) = Sum Ff(1:3)
           !---Face-1:6                                                                                                               
           !-----------------------------------                                                                                     
           DO J=1,NV46                                                                                                              
-            IF(J.EQ.Js) CYCLE ! do no take into account internal face (inside supercell), i.e. between main cell and secnd cell  
+            IF(J==Js) CYCLE ! do no take into account internal face (inside supercell), i.e. between main cell and secnd cell  
             NADJ     = BRICK_LIST(NIN,IBs)%POLY(ICELLs)%FACE(J)%NAdjCell 
             Z2       = ZERO                                                          
             IF(NADJ==0 .OR. ClosedSurface == 1)THEN
@@ -350,11 +350,11 @@ c      3. Assemblge de FINT(1:3) = Sum Ff(1:3)
               IBV             = BRICK_LIST(NIN,IBs)%Adjacent_Brick(J,4)
               JV              = BRICK_LIST(NIN,IBs)%Adjacent_Brick(J,5)   
               UN1             = BRICK_LIST(NIN,IBs)%POLY(ICELLs)%FACE(J)%U_N  
-              IF(AREA.LE.ZERO)CYCLE             
+              IF(AREA<=ZERO)CYCLE             
               DO IADJ=1,NADJ     
                 ICELLv        = BRICK_LIST(NIN,IBs)%POLY(ICELLs)%FACE(J)%Adjacent_Cell(IADJ)
                 IBM           = 0
-                IF(IBv.NE.0)THEN
+                IF(IBv/=0)THEN
                   IBM         = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%WhereIsMain(4)
                   AREAv       = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%FACE(Jv)%Surf
                   SURF        = MIN(AREA,AREAv)
@@ -371,7 +371,7 @@ c      3. Assemblge de FINT(1:3) = Sum Ff(1:3)
                   F0(1)       = F0(1) - Pf*SURF*N(1) 
                   F0(2)       = F0(2) - Pf*SURF*N(2) 
                   F0(3)       = F0(3) - Pf*SURF*N(3)                       
-                ELSE! THEN IBV.EQ.0
+                ELSE! THEN IBV==0
                   P2          = F_FACE(1  ,4  ,IV)
                   Z2          = F_FACE(1  ,3  ,IV)
                   UN2         = F_FACE(3  ,JV ,IV)

@@ -106,7 +106,7 @@ C       same as RD Engine
           STIFN(NC(I,3))=STIFN(NC(I,3))+STI(I)*DELTAX2(I)
           STIFN(NC(I,4))=STIFN(NC(I,4))+STI(I)*DELTAX2(I)
           DO N=5,10	    
-           IF(NC(I,N).NE.0)THEN
+           IF(NC(I,N)/=0)THEN
              MSSX(N-4,I)=BM*PTG(N,I)
              STIFN(NC(I,N))=STIFN(NC(I,N))+STI(I)
            ELSE
@@ -136,7 +136,7 @@ C         Not yet compatible with IMAS_DS/=0
           STIFN(NC(I,3))=STIFN(NC(I,3))+AAA
           STIFN(NC(I,4))=STIFN(NC(I,4))+AAA
           DO N=5,10	    
-           IF(NC(I,N).NE.0)THEN
+           IF(NC(I,N)/=0)THEN
              MSSX(N-4,I)=BM
              STIFN(NC(I,N))=STIFN(NC(I,N))+BBB
            ELSE
@@ -198,7 +198,7 @@ c           BI = (SEVEN/FIVE)*DELTAX2(I)*MASS(I)
            STIFN(NC(I,3))=STIFN(NC(I,3))+AAA
            STIFN(NC(I,4))=STIFN(NC(I,4))+AAA
            DO N=5,10
-             IF(NC(I,N).NE.0)THEN
+             IF(NC(I,N)/=0)THEN
                MSSX(N-4,I) = AM*FACIROT
                STIFN(NC(I,N))=STIFN(NC(I,N))+AAA*FACIROT
              ENDIF
@@ -218,7 +218,7 @@ C          Not yet compatible with IMAS_DS/=0
            STIFN(NC(I,3))=STIFN(NC(I,3))+AAA
            STIFN(NC(I,4))=STIFN(NC(I,4))+AAA
            DO N=5,10
-             IF(NC(I,N).NE.0)THEN
+             IF(NC(I,N)/=0)THEN
                MSSX(N-4,I) = AM*FACIROT !  meme masse que dans le cas standard
                STIFN(NC(I,N))=STIFN(NC(I,N))+AAA*FACIROT
              ENDIF
@@ -312,7 +312,7 @@ C
         MCPS(6,I)=AM
         MCPS(5,I)=AM
         DO N=5,10	  
-          IF(NC(I,N).NE.0)THEN
+          IF(NC(I,N)/=0)THEN
             MCPSX(N-4,I) = BM
           ELSE
             N11=IPERM1(N)

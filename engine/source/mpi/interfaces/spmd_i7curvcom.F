@@ -81,7 +81,7 @@ C
       IAD = 1
       DO I=1,NSPMD
         SIZ = IRCSIZ(I)
-        IF(SIZ.GT.0)THEN
+        IF(SIZ>0)THEN
           SIZ = SIZ*3+IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
           MSGTYP = MSGOFF
           CALL MPI_IRECV(
@@ -92,7 +92,7 @@ C
       END DO
 
       DO I=1,NSPMD
-        IF(ISDSIZ(I).GT.0)THEN
+        IF(ISDSIZ(I)>0)THEN
           IAD = 0
 #include      "vectorize.inc"
           DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
@@ -122,7 +122,7 @@ C
 C
       IAD = 0
       DO I = 1, NSPMD
-        IF(IRCSIZ(I).GT.0)THEN
+        IF(IRCSIZ(I)>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
           DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
             N1 = FR_ELEM(J)

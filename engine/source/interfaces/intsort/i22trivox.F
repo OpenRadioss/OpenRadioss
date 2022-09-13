@@ -319,9 +319,9 @@ C=======================================================================
      .          (BMINMA(3)-BMINMA(6)) ) / THREE/HUNDRED
       DMAX = MAX(MAX(DXB,DYB),DZB)
      
-      IF(DXB/DMAX.LT.EM06)DXB=DAAA
-      IF(DYB/DMAX.LT.EM06)DYB=DAAA
-      IF(DZB/DMAX.LT.EM06)DZB=DAAA
+      IF(DXB/DMAX<EM06)DXB=DAAA
+      IF(DYB/DMAX<EM06)DYB=DAAA
+      IF(DZB/DMAX<EM06)DZB=DAAA
 
       !On partitionne le balayage du tableau global des noeuds de coques (IRECT_L(1:NIRECT_L) sur les differents threads (multithreading)
       NBF = 1+ITASK*NIRECT_L/NTHREAD
@@ -448,7 +448,7 @@ C                           +------------+-----------+
               LCHAIN_NEXT(CURRENT_ADD) = 0                     ! pas de suivant car dernier de la liste
             ENDIF
             CURRENT_ADD = CURRENT_ADD+1 
-            IF( CURRENT_ADD.GE.MAX_ADD)THEN
+            IF( CURRENT_ADD>=MAX_ADD)THEN
               !OPTIMISATION : suprresion du deallocate/GOTO debut.
               !REALLOCATE SI PAS ASSEZ DE PLACE : inutile de recommencer de 1 a MAX_ADD-1, on poursuit de MAX_ADD a 2*MAX_ADD
               MAX_ADD = 2 * MAX_ADD   
@@ -573,7 +573,7 @@ c     .     "  i22trivox : BOUCLE BRIQUE, I=",IXS(11,BUFBRIC(I))
               !-------------------------------------------!
               !  COUPLE STORAGE  (siz=mvsiz)              !
               !-------------------------------------------! 
-              IF(I_STOK.GE.NVSIZ)THEN
+              IF(I_STOK>=NVSIZ)THEN
 c              if(ibug22_trivox==1)print *,
 c     .             "  i22trivox.F:purge des candidats prov", 
 c     .             II_STOK+I_STOK, "CORE=",ITASK+1, "BRIQUE=",
@@ -584,15 +584,15 @@ c     .             IXS(11,BUFBRIC(I))
      3                     PROV_B ,PROV_E ,ESHIFT  , ITASK  , NC    ,
      4                     IXS    ,BUFBRIC ,NBRIC  , IsSTO   )
                I_STOK = 0
-               IF(I_MEM.EQ.2) THEN
+               IF(I_MEM==2) THEN
                if(ibug22_trivox==1)then
                 print *, "  i22trivox.F:too much candidates on thread=",
      .                     ITASK+1 
                       print *, "  i22trivox.F:II_STOK=", II_STOK,MULNSN
                   end if
                 GOTO 1000
-               END IF!(I_MEM.EQ.2) 
-              ENDIF!(I_STOK.GE.NVSIZ)
+               END IF!(I_MEM==2) 
+              ENDIF!(I_STOK>=NVSIZ)
              !-------------------------------------------! 
              ENDDO ! WHILE(LCHAIN_ADD /= 0)
             ENDDO !nbz
@@ -601,7 +601,7 @@ c     .             IXS(11,BUFBRIC(I))
         !-------------------------------------------!
         !  COUPLE STORAGE  (siz<mvsiz)              !
         !-------------------------------------------! 
-        IF(I_STOK.NE.0)THEN
+        IF(I_STOK/=0)THEN
 c          if(ibug22_trivox==1)print *, "  i22trivox.F:purge<MVSIZ", 
 c     .             II_STOK+I_STOK, "CORE=",ITASK+1, "BRIQUE=",I
           CALL I22STO(
@@ -610,14 +610,14 @@ c     .             II_STOK+I_STOK, "CORE=",ITASK+1, "BRIQUE=",I
      3                      PROV_B ,PROV_E  ,ESHIFT , ITASK   ,NC    ,
      4                      IXS    ,BUFBRIC ,NBRIC  , IsSTO )
           I_STOK = 0
-          IF(I_MEM.EQ.2) THEN
+          IF(I_MEM==2) THEN
 c            if(ibug22_trivox==1)then
 c              print *, "  i22trivox.F:too much candidates on thread=",
 c     .                  ITASK+1 
 c              print *, "  i22trivox.F:II_STOK=", II_STOK,MULNSN
 c            end if
           GOTO 1000
-          END IF!(I_MEM.EQ.2) 
+          END IF!(I_MEM==2) 
         END IF
          !-------------------------------------------!
          ! UNLOCK NEEDED IF CURRENT BRICK WAS USED   !
@@ -675,7 +675,7 @@ C=======================================================================
       DO ix=1,(nbx+2)
       DO iy=1,(nby+2)
       DO iz=1,(nbz+2)
-        if (VOXEL(ix,iy,iz).NE.0) then
+        if (VOXEL(ix,iy,iz)/=0) then
           print *, "  i22trivox.F:error raz voxel",VOXEL(ix,iy,iz)
           print *, "  i22trivox.F:ix,iy,iz=", ix,iy,iz
           stop
@@ -685,7 +685,7 @@ C=======================================================================
       END DO
       print *, "  i22trivox.F:raz voxel ok." 
       end if 
-      if(I_MEM.EQ.2)then
+      if(I_MEM==2)then
         if(itask==0.AND.ibug22_trivox==1)
      .    print *, 
      .       "  i22trivox.F:returning i22buce (too much candidate)"

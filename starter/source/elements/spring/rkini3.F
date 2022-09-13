@@ -79,8 +79,8 @@ C=======================================================================
   50    CONTINUE
 C
         HARD=ECROU
-        IF(HARD.NE.0)THEN
-          IF(XK_INI.LT.XK)THEN
+        IF(HARD/=0)THEN
+          IF(XK_INI<XK)THEN
             CALL FRETITL2(TITR1,NOM_OPT(LNOPT1-LTITR+1,IFUNCT),LTITR)
             CALL ANCMSG(MSGID=506,
      .                  MSGTYPE=MSGWARNING,

@@ -82,7 +82,7 @@ C        (ALL LOCAL ARRAYS USE J)
 C-----------------------------------------------------------------------
 C
       DT11 = DT1
-      IF(DT11.EQ.ZERO)DT11 = EP30
+      IF(DT11==ZERO)DT11 = EP30
 C
       DO J=LFT,LLT_LOC
         I = INDEXA(J)
@@ -98,7 +98,7 @@ C
 C
       ENDDO
 C
-      IF ((IANI.NE.0).AND.(FLAG==1))THEN
+      IF ((IANI/=0).AND.(FLAG==1))THEN
         DO I=LFT,LLT_LOC
           II=I+NFT
           DAMP=DX(I)/MAX(DMX(I),EM15)
@@ -127,7 +127,7 @@ C
        ENDIF
       ENDDO
 C
-      IF(INTERP.GT.0)THEN
+      IF(INTERP>0)THEN
         DO J=LFT,LLT_LOC
           I = INDEXA(J)
           JPOS(J)  = NINT(POS(I))          
@@ -141,16 +141,16 @@ C
 C-------------------------------------
 C        LINEAR ELASTIC
 C-------------------------------------
-      IF(JECROU(1).EQ.LLT_LOC)THEN
+      IF(JECROU(1)==LLT_LOC)THEN
         DO J=LFT,LLT_LOC
           I = INDEXA(J) 
           FX(I)=XK(I)*DX(I)
           XK_TAN(I) = XK(I)
         ENDDO
-      ELSEIF(JECROU(1).GT.0)THEN
+      ELSEIF(JECROU(1)>0)THEN
         DO J=LFT,LLT
           I = INDEXA(J) 
-          IF(IFUNC(I).EQ.0)THEN
+          IF(IFUNC(I)==0)THEN
             FX(I)=XK(I)*DX(I)
             XK_TAN(I) = XK(I)
           ENDIF
@@ -213,7 +213,7 @@ C--- Compression - perfectly plastic behavior
       ELSEIF(JECROU(2)>0)THEN
         DO J=LFT,LLT_LOC
          I = INDEXA(J)
-         IF(IFUNC(I).NE.0.AND.IECROU(I)== 10)THEN
+         IF(IFUNC(I)/=0.AND.IECROU(I)== 10)THEN
           FUND = IFUNC2(I)     ! N3 curve for unloading                                                             
           NP2  = (NPF(FUND+1)-NPF(FUND))*HALF                       
           AN3Y0(J)= ZERO
@@ -314,7 +314,7 @@ C-------------------------------------
 C-------------------------------------
 C     SEATBELT - ELASTO PLASTIQUE (ECOUISSAGE ISOTROPE) in tension - perfleclty plastic in compression
 C-------------------------------------
-      IF(JECROU(2).EQ.LLT_LOC)THEN
+      IF(JECROU(2)==LLT_LOC)THEN
         CALL VINTER2(TF,JAD ,JPOS ,JLEN ,LLT_LOC,XX ,DYDX ,YY )
         DO J=LFT,LLT_LOC
            I = INDEXA(J)
@@ -338,7 +338,7 @@ C-- COMPUTE PLASTIC DEFORMATION (TOTAL)
           ENDIF
           FXEP(I)=FX(I)
         ENDDO
-      ELSEIF(JECROU(2).GT.0)THEN
+      ELSEIF(JECROU(2)>0)THEN
         CALL VINTER2(TF,JAD ,JPOS ,JLEN ,LLT_LOC,XX ,DYDX ,YY )
         DO J=LFT,LLT_LOC
          I = INDEXA(J)
@@ -368,7 +368,7 @@ C-- COMPUTE PLASTIC DEFORMATION (TOTAL)
 C-------------------------------------
 C     SEATBELT - LINEAR ELASTIC in tension - perfleclty plastic in compression
 C-------------------------------------
-      IF(JECROU(3).EQ.LLT_LOC)THEN
+      IF(JECROU(3)==LLT_LOC)THEN
         DO J=LFT,LLT_LOC
           I = INDEXA(J)
           IF(FX(I)<= -FX_MAX(I))THEN
@@ -382,7 +382,7 @@ C-- COMPUTE PLASTIC DEFORMATION (TOTAL)
           ENDIF
           FXEP(I)=FX(I)
         ENDDO
-      ELSEIF(JECROU(3).GT.0)THEN
+      ELSEIF(JECROU(3)>0)THEN
         DO J=LFT,LLT_LOC
           I = INDEXA(J)
           IF(IECROU(I)== 11)THEN
@@ -402,7 +402,7 @@ C-- COMPUTE PLASTIC DEFORMATION (TOTAL)
 C--------------------------------------------------------------------
 C     NON LINEAR DAMPING
 C--------------------------------------------------------------------
-      IF(IMPL_S.EQ.0.OR.IDYNA.GT.0) THEN
+      IF(IMPL_S==0.OR.IDYNA>0) THEN
         DO J=LFT,LLT_LOC
           I = INDEXA(J)
           FX(I)= (AK(I)*FX(I) + XC(I)*DVX(J)) *OFF(I)

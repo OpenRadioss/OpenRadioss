@@ -83,15 +83,15 @@ C----------------------------------------------------------
       DTC = DT2      
       DTA = DTMIN1(11)
 
-      IF (TT.EQ.0) THEN
+      IF (TT==0) THEN
 C----------------------------------------------------------            
-      IF (NODADT.GT.0) THEN
+      IF (NODADT>0) THEN
         DTC = MAX(DTC,DTMIN1(11)/DTFAC1(11))
-        IF (DTMX.GT.EM20) DTC = MIN(DTC,DTMX)	
+        IF (DTMX>EM20) DTC = MIN(DTC,DTMX)	
       ENDIF
       
-      IF (DTC.GT.90000) THEN      
-        IF (DTA.EQ.0) THEN
+      IF (DTC>90000) THEN      
+        IF (DTA==0) THEN
           print *,"ERROR NO TARGET TIME STEP DT=",DTC
           print *,"STIFFNESS CAN NOT BE COMPUTED"	  
 	  CALL ARRET(2)
@@ -122,9 +122,9 @@ C--------> Boucle sur les elements ressort -------
 	    JNTYP = NINT(GET_U_GEO(1,IG))
             FLAG = NINT(GET_U_GEO(10,IG))
             FLAG_S = 0                  
-	    IF (FLAG.EQ.0) THEN
+	    IF (FLAG==0) THEN
 C
-            IF (FLAG_PR.EQ.0) THEN
+            IF (FLAG_PR==0) THEN
               WRITE(IOUT,100)
               WRITE(IOUT,200)
 	      FLAG_PR = 1	    
@@ -191,7 +191,7 @@ C
 	    	       	    
 C--------> Calcul raideur finale et affectation------- 
             KX = MAX(KXMAX,2*KM1,2*KM2)
-	    IF ((KX - KXMAX).GT.1e-8) FLAG_S = 1
+	    IF ((KX - KXMAX)>1e-8) FLAG_S = 1
             IF ((INER1 == ZERO).OR.(INER2 == ZERO)) THEN
 C--         Raideur en rotation mise    zero si kjoint attach      un noeud de solid --
               KR = ZERO
@@ -203,14 +203,14 @@ C--         Raideur en rotation mise    zero si kjoint attach      un noeud de s
             ENDIF
 C
             IF ((IRB1 > 0) .AND.(IRB2 > 0)) THEN 
-	      IF ((KX - KXMAX).GT.1e-8) WRITE(IOUT,300)
-	      IF ((KR - KRMAX).GT.1e-8) WRITE(IOUT,400)
+	      IF ((KX - KXMAX)>1e-8) WRITE(IOUT,300)
+	      IF ((KR - KRMAX)>1e-8) WRITE(IOUT,400)
             ELSE
-	      IF ((KX - KXMAX).GT.1e-8) WRITE(IOUT,1300)
-	      IF ((KR - KRMAX).GT.1e-8) WRITE(IOUT,1400)
+	      IF ((KX - KXMAX)>1e-8) WRITE(IOUT,1300)
+	      IF ((KR - KRMAX)>1e-8) WRITE(IOUT,1400)
             ENDIF	    	    
 C
-            IF (FLAG_S.EQ.1) THEN
+            IF (FLAG_S==1) THEN
 	      KR = MAX(KR,1.3*KX*(XX+XL))
 	    ENDIF
 C	    
@@ -224,49 +224,49 @@ C
             GBUF%VAR(NV + 17) = KR
 	    	    
 C--------> Spherical Joint-------
-            IF (JNTYP.EQ.1) THEN 	    
+            IF (JNTYP==1) THEN 	    
               GBUF%VAR(NV + 18) = KX
               GBUF%VAR(NV + 19) = KX
               GBUF%VAR(NV + 20) = KX
 C--------> Revolutional Joint-------
-            ELSEIF (JNTYP.EQ.2) THEN 	    
+            ELSEIF (JNTYP==2) THEN 	    
               GBUF%VAR(NV + 18) = KX
               GBUF%VAR(NV + 19) = KX
               GBUF%VAR(NV + 20) = KX
               GBUF%VAR(NV + 31) = KR 
               GBUF%VAR(NV + 32) = KR
 C--------> Cylindrical Joint-------
-            ELSEIF (JNTYP.EQ.3) THEN 	    
+            ELSEIF (JNTYP==3) THEN 	    
               GBUF%VAR(NV + 19) = KX
               GBUF%VAR(NV + 20) = KX
               GBUF%VAR(NV + 31) = KR
               GBUF%VAR(NV + 32) = KR
 C--------> Planar Joint-------
-            ELSEIF (JNTYP.EQ.4) THEN 	    
+            ELSEIF (JNTYP==4) THEN 	    
               GBUF%VAR(NV + 18) = KX
               GBUF%VAR(NV + 31) = KR
               GBUF%VAR(NV + 32) = KR
 C--------> Universal Joint-------
-            ELSEIF (JNTYP.EQ.5) THEN 	    
+            ELSEIF (JNTYP==5) THEN 	    
               GBUF%VAR(NV + 18) = KX
               GBUF%VAR(NV + 19) = KX
               GBUF%VAR(NV + 20) = KX
               GBUF%VAR(NV + 30) = KR
 C--------> Translational Joint-------
-            ELSEIF (JNTYP.EQ.6) THEN  	    
+            ELSEIF (JNTYP==6) THEN  	    
               GBUF%VAR(NV + 19) = KX
               GBUF%VAR(NV + 20) = KX
               GBUF%VAR(NV + 30) = KR
               GBUF%VAR(NV + 31) = KR
               GBUF%VAR(NV + 32) = KR
 C--------> Oldham Joint-------
-            ELSEIF (JNTYP.EQ.7) THEN 	    
+            ELSEIF (JNTYP==7) THEN 	    
               GBUF%VAR(NV + 18) = KX
               GBUF%VAR(NV + 30) = KR
               GBUF%VAR(NV + 31) = KR
               GBUF%VAR(NV + 32) = KR
 C--------> Rigid Joint-------
-            ELSEIF (JNTYP.EQ.8) THEN
+            ELSEIF (JNTYP==8) THEN
               GBUF%VAR(NV + 18) = KX
               GBUF%VAR(NV + 19) = KX
               GBUF%VAR(NV + 20) = KX
@@ -275,7 +275,7 @@ C--------> Rigid Joint-------
               GBUF%VAR(NV + 32) = KR
 	    ENDIF ! IF (JNTYP)
 C
-            ENDIF ! IF (FLAG.EQ.0)
+            ENDIF ! IF (FLAG==0)
           ENDIF ! IF (IGTYP==45)
 C
         ENDDO

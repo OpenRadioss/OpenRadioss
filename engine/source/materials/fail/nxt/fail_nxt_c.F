@@ -147,7 +147,7 @@ C-------------------------------------------------------
             SIG1(I) = SS
           ENDIF
           CHECK = 1
-          IF (SIG2(I).NE.ZERO) THEN
+          IF (SIG2(I)/=ZERO) THEN
             SS = SIG1(I)/SIG2(I)
             IF ((SS < -ONE .AND. SS < ZERO) .OR.
      .          (SIG1(I) < ZERO .AND. SIG2(I) < ZERO)) THEN

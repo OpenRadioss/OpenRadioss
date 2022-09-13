@@ -102,32 +102,32 @@ C en spmd il faut envoyer l'info meme qd on a 0 elem local
             NP(JJ+3) = ITAB(IXS(4,N))
             NP(JJ+4) = ITAB(IXS(7,N))
             NP(JJ+5) = ITAB(IXS(6,N))
-            IF(IXS10(1,N - NUMELS8) .NE. 0)THEN
+            IF(IXS10(1,N - NUMELS8) /= 0)THEN
               NP(JJ+6) = ITAB(IXS10(1,N - NUMELS8))
             ELSE
               NP(JJ+6) = 0
             ENDIF
-            IF(IXS10(2,N - NUMELS8) .NE. 0)THEN
+            IF(IXS10(2,N - NUMELS8) /= 0)THEN
               NP(JJ+7) = ITAB(IXS10(2,N - NUMELS8))
             ELSE
               NP(JJ+7) = 0
             ENDIF
-            IF(IXS10(3,N - NUMELS8) .NE. 0)THEN
+            IF(IXS10(3,N - NUMELS8) /= 0)THEN
               NP(JJ+8) = ITAB(IXS10(3,N - NUMELS8))
             ELSE
               NP(JJ+8) = 0
             ENDIF
-            IF(IXS10(4,N - NUMELS8) .NE. 0)THEN
+            IF(IXS10(4,N - NUMELS8) /= 0)THEN
               NP(JJ+9) = ITAB(IXS10(4,N - NUMELS8))
             ELSE
               NP(JJ+9) = 0
             ENDIF
-            IF(IXS10(5,N - NUMELS8) .NE. 0)THEN
+            IF(IXS10(5,N - NUMELS8) /= 0)THEN
               NP(JJ+10) = ITAB(IXS10(5,N - NUMELS8))
             ELSE
               NP(JJ+10) = 0
             ENDIF
-            IF(IXS10(6,N - NUMELS8) .NE. 0)THEN
+            IF(IXS10(6,N - NUMELS8) /= 0)THEN
               NP(JJ+11) = ITAB(IXS10(6,N - NUMELS8))
             ELSE
               NP(JJ+11) = 0
@@ -151,42 +151,42 @@ C en spmd il faut envoyer l'info meme qd on a 0 elem local
             NP(JJ+7) = ITAB(IXS(7,N))
             NP(JJ+8) = ITAB(IXS(8,N))
             NP(JJ+9) = ITAB(IXS(9,N))
-            IF(IXS16(1,N - (NUMELS8+NUMELS10+NUMELS20)) .NE. 0)THEN
+            IF(IXS16(1,N - (NUMELS8+NUMELS10+NUMELS20)) /= 0)THEN
               NP(JJ+10) = ITAB(IXS16(1,N - (NUMELS8+NUMELS10+NUMELS20)))
             ELSE
               NP(JJ+10) = 0
             ENDIF
-            IF(IXS16(2,N - (NUMELS8+NUMELS10+NUMELS20)) .NE. 0)THEN
+            IF(IXS16(2,N - (NUMELS8+NUMELS10+NUMELS20)) /= 0)THEN
               NP(JJ+11) = ITAB(IXS16(2,N - (NUMELS8+NUMELS10+NUMELS20)))
             ELSE
               NP(JJ+11) = 0
             ENDIF
-            IF(IXS16(3,N - (NUMELS8+NUMELS10+NUMELS20)) .NE. 0)THEN
+            IF(IXS16(3,N - (NUMELS8+NUMELS10+NUMELS20)) /= 0)THEN
               NP(JJ+12) = ITAB(IXS16(3,N - (NUMELS8+NUMELS10+NUMELS20)))
             ELSE
               NP(JJ+12) = 0
             ENDIF
-            IF(IXS16(4,N - (NUMELS8+NUMELS10+NUMELS20)) .NE. 0)THEN
+            IF(IXS16(4,N - (NUMELS8+NUMELS10+NUMELS20)) /= 0)THEN
               NP(JJ+13) = ITAB(IXS16(4,N - (NUMELS8+NUMELS10+NUMELS20)))
             ELSE
               NP(JJ+13) = 0
             ENDIF
-            IF(IXS16(5,N - (NUMELS8+NUMELS10+NUMELS20)) .NE. 0)THEN
+            IF(IXS16(5,N - (NUMELS8+NUMELS10+NUMELS20)) /= 0)THEN
               NP(JJ+14) = ITAB(IXS16(5,N - (NUMELS8+NUMELS10+NUMELS20)))
             ELSE
               NP(JJ+14) = 0
             ENDIF
-            IF(IXS16(6,N - (NUMELS8+NUMELS10+NUMELS20)) .NE. 0)THEN
+            IF(IXS16(6,N - (NUMELS8+NUMELS10+NUMELS20)) /= 0)THEN
               NP(JJ+15) = ITAB(IXS16(6,N - (NUMELS8+NUMELS10+NUMELS20)))
             ELSE
               NP(JJ+15) = 0
             ENDIF
-            IF(IXS16(7,N - (NUMELS8+NUMELS10+NUMELS20)) .NE. 0)THEN
+            IF(IXS16(7,N - (NUMELS8+NUMELS10+NUMELS20)) /= 0)THEN
               NP(JJ+16) = ITAB(IXS16(7,N - (NUMELS8+NUMELS10+NUMELS20)))
             ELSE
               NP(JJ+16) = 0
             ENDIF
-            IF(IXS16(8,N - (NUMELS8+NUMELS10+NUMELS20)) .NE. 0)THEN
+            IF(IXS16(8,N - (NUMELS8+NUMELS10+NUMELS20)) /= 0)THEN
               NP(JJ+17) = ITAB(IXS16(8,N - (NUMELS8+NUMELS10+NUMELS20)))
             ELSE
               NP(JJ+17) = 0
@@ -204,62 +204,62 @@ C en spmd il faut envoyer l'info meme qd on a 0 elem local
             NP(JJ+7) = ITAB(IXS(7,N))
             NP(JJ+8) = ITAB(IXS(8,N))
             NP(JJ+9) = ITAB(IXS(9,N))
-            IF(IXS20(1,N - (NUMELS8+NUMELS10)) .NE. 0)THEN
+            IF(IXS20(1,N - (NUMELS8+NUMELS10)) /= 0)THEN
               NP(JJ+10) = ITAB(IXS20(1,N - (NUMELS8+NUMELS10)))
             ELSE
               NP(JJ+10) = 0
             ENDIF
-            IF(IXS20(2,N - (NUMELS8+NUMELS10)) .NE. 0)THEN
+            IF(IXS20(2,N - (NUMELS8+NUMELS10)) /= 0)THEN
               NP(JJ+11) = ITAB(IXS20(2,N - (NUMELS8+NUMELS10)))
             ELSE
               NP(JJ+11) = 0
             ENDIF
-            IF(IXS20(3,N - (NUMELS8+NUMELS10)) .NE. 0)THEN
+            IF(IXS20(3,N - (NUMELS8+NUMELS10)) /= 0)THEN
               NP(JJ+12) = ITAB(IXS20(3,N - (NUMELS8+NUMELS10)))
             ELSE
               NP(JJ+12) = 0
             ENDIF
-            IF(IXS20(4,N - (NUMELS8+NUMELS10)) .NE. 0)THEN
+            IF(IXS20(4,N - (NUMELS8+NUMELS10)) /= 0)THEN
               NP(JJ+13) = ITAB(IXS20(4,N - (NUMELS8+NUMELS10)))
             ELSE
               NP(JJ+13) = 0
             ENDIF
-            IF(IXS20(5,N - (NUMELS8+NUMELS10)) .NE. 0)THEN
+            IF(IXS20(5,N - (NUMELS8+NUMELS10)) /= 0)THEN
               NP(JJ+14) = ITAB(IXS20(5,N - (NUMELS8+NUMELS10)))
             ELSE
               NP(JJ+14) = 0
             ENDIF
-            IF(IXS20(6,N - (NUMELS8+NUMELS10)) .NE. 0)THEN
+            IF(IXS20(6,N - (NUMELS8+NUMELS10)) /= 0)THEN
               NP(JJ+15) = ITAB(IXS20(6,N - (NUMELS8+NUMELS10)))
             ELSE
               NP(JJ+15) = 0
             ENDIF
-            IF(IXS20(7,N - (NUMELS8+NUMELS10)) .NE. 0)THEN
+            IF(IXS20(7,N - (NUMELS8+NUMELS10)) /= 0)THEN
               NP(JJ+16) = ITAB(IXS20(7,N - (NUMELS8+NUMELS10)))
             ELSE
               NP(JJ+16) = 0
             ENDIF
-            IF(IXS20(8,N - (NUMELS8+NUMELS10)) .NE. 0)THEN
+            IF(IXS20(8,N - (NUMELS8+NUMELS10)) /= 0)THEN
               NP(JJ+17) = ITAB(IXS20(8,N - (NUMELS8+NUMELS10)))
             ELSE
               NP(JJ+17) = 0
             ENDIF
-            IF(IXS20(9,N - (NUMELS8+NUMELS10)) .NE. 0)THEN
+            IF(IXS20(9,N - (NUMELS8+NUMELS10)) /= 0)THEN
               NP(JJ+18) = ITAB(IXS20(9,N - (NUMELS8+NUMELS10)))
             ELSE
               NP(JJ+18) = 0
             ENDIF
-            IF(IXS20(10,N - (NUMELS8+NUMELS10)) .NE. 0)THEN
+            IF(IXS20(10,N - (NUMELS8+NUMELS10)) /= 0)THEN
               NP(JJ+19) = ITAB(IXS20(10,N - (NUMELS8+NUMELS10)))
             ELSE
               NP(JJ+19) = 0
             ENDIF
-            IF(IXS20(11,N - (NUMELS8+NUMELS10)) .NE. 0)THEN
+            IF(IXS20(11,N - (NUMELS8+NUMELS10)) /= 0)THEN
               NP(JJ+20) = ITAB(IXS20(11,N - (NUMELS8+NUMELS10)))
             ELSE
               NP(JJ+20) = 0
             ENDIF
-            IF(IXS20(12,N - (NUMELS8+NUMELS10)) .NE. 0)THEN
+            IF(IXS20(12,N - (NUMELS8+NUMELS10)) /= 0)THEN
               NP(JJ+21) = ITAB(IXS20(12,N - (NUMELS8+NUMELS10)))
             ELSE
               NP(JJ+21) = 0
@@ -298,12 +298,12 @@ C en spmd il faut envoyer l'info meme qd on a 0 elem local
             NODTAG(IXS(4,N))=1
             NODTAG(IXS(7,N))=1
             NODTAG(IXS(6,N))=1
-            IF (IXS10(1,N - NUMELS8) .NE. 0) NODTAG(IXS10(1,N - NUMELS8))=1
-            IF (IXS10(2,N - NUMELS8) .NE. 0) NODTAG(IXS10(2,N - NUMELS8))=1
-            IF (IXS10(3,N - NUMELS8) .NE. 0) NODTAG(IXS10(3,N - NUMELS8))=1
-            IF (IXS10(4,N - NUMELS8) .NE. 0) NODTAG(IXS10(4,N - NUMELS8))=1
-            IF (IXS10(5,N - NUMELS8) .NE. 0) NODTAG(IXS10(5,N - NUMELS8))=1
-            IF (IXS10(6,N - NUMELS8) .NE. 0) NODTAG(IXS10(6,N - NUMELS8))=1
+            IF (IXS10(1,N - NUMELS8) /= 0) NODTAG(IXS10(1,N - NUMELS8))=1
+            IF (IXS10(2,N - NUMELS8) /= 0) NODTAG(IXS10(2,N - NUMELS8))=1
+            IF (IXS10(3,N - NUMELS8) /= 0) NODTAG(IXS10(3,N - NUMELS8))=1
+            IF (IXS10(4,N - NUMELS8) /= 0) NODTAG(IXS10(4,N - NUMELS8))=1
+            IF (IXS10(5,N - NUMELS8) /= 0) NODTAG(IXS10(5,N - NUMELS8))=1
+            IF (IXS10(6,N - NUMELS8) /= 0) NODTAG(IXS10(6,N - NUMELS8))=1
           ELSEIF (ISOLNOD == 16)THEN
             NODTAG(IXS(2,N))=1
             NODTAG(IXS(3,N))=1
@@ -313,14 +313,14 @@ C en spmd il faut envoyer l'info meme qd on a 0 elem local
             NODTAG(IXS(7,N))=1
             NODTAG(IXS(8,N))=1
             NODTAG(IXS(9,N))=1
-            IF (IXS16(1,N - (NUMELS8+NUMELS10+NUMELS20)) .NE. 0) NODTAG(IXS16(1,N - (NUMELS8+NUMELS10+NUMELS20)))=1
-            IF (IXS16(2,N - (NUMELS8+NUMELS10+NUMELS20)) .NE. 0) NODTAG(IXS16(2,N - (NUMELS8+NUMELS10+NUMELS20)))=1
-            IF (IXS16(3,N - (NUMELS8+NUMELS10+NUMELS20)) .NE. 0) NODTAG(IXS16(3,N - (NUMELS8+NUMELS10+NUMELS20)))=1
-            IF (IXS16(4,N - (NUMELS8+NUMELS10+NUMELS20)) .NE. 0) NODTAG(IXS16(4,N - (NUMELS8+NUMELS10+NUMELS20)))=1
-            IF (IXS16(5,N - (NUMELS8+NUMELS10+NUMELS20)) .NE. 0) NODTAG(IXS16(5,N - (NUMELS8+NUMELS10+NUMELS20)))=1
-            IF (IXS16(6,N - (NUMELS8+NUMELS10+NUMELS20)) .NE. 0) NODTAG(IXS16(6,N - (NUMELS8+NUMELS10+NUMELS20)))=1
-            IF (IXS16(7,N - (NUMELS8+NUMELS10+NUMELS20)) .NE. 0) NODTAG(IXS16(7,N - (NUMELS8+NUMELS10+NUMELS20)))=1
-            IF (IXS16(8,N - (NUMELS8+NUMELS10+NUMELS20)) .NE. 0) NODTAG(IXS16(8,N - (NUMELS8+NUMELS10+NUMELS20)))=1
+            IF (IXS16(1,N - (NUMELS8+NUMELS10+NUMELS20)) /= 0) NODTAG(IXS16(1,N - (NUMELS8+NUMELS10+NUMELS20)))=1
+            IF (IXS16(2,N - (NUMELS8+NUMELS10+NUMELS20)) /= 0) NODTAG(IXS16(2,N - (NUMELS8+NUMELS10+NUMELS20)))=1
+            IF (IXS16(3,N - (NUMELS8+NUMELS10+NUMELS20)) /= 0) NODTAG(IXS16(3,N - (NUMELS8+NUMELS10+NUMELS20)))=1
+            IF (IXS16(4,N - (NUMELS8+NUMELS10+NUMELS20)) /= 0) NODTAG(IXS16(4,N - (NUMELS8+NUMELS10+NUMELS20)))=1
+            IF (IXS16(5,N - (NUMELS8+NUMELS10+NUMELS20)) /= 0) NODTAG(IXS16(5,N - (NUMELS8+NUMELS10+NUMELS20)))=1
+            IF (IXS16(6,N - (NUMELS8+NUMELS10+NUMELS20)) /= 0) NODTAG(IXS16(6,N - (NUMELS8+NUMELS10+NUMELS20)))=1
+            IF (IXS16(7,N - (NUMELS8+NUMELS10+NUMELS20)) /= 0) NODTAG(IXS16(7,N - (NUMELS8+NUMELS10+NUMELS20)))=1
+            IF (IXS16(8,N - (NUMELS8+NUMELS10+NUMELS20)) /= 0) NODTAG(IXS16(8,N - (NUMELS8+NUMELS10+NUMELS20)))=1
           ELSEIF (ISOLNOD == 20)THEN
             NODTAG(IXS(2,N))=1
             NODTAG(IXS(3,N))=1
@@ -330,18 +330,18 @@ C en spmd il faut envoyer l'info meme qd on a 0 elem local
             NODTAG(IXS(7,N))=1
             NODTAG(IXS(8,N))=1
             NODTAG(IXS(9,N))=1
-            IF (IXS20(1,N - (NUMELS8+NUMELS10)) .NE. 0) NODTAG(IXS20(1,N - (NUMELS8+NUMELS10)))=1
-            IF (IXS20(2,N - (NUMELS8+NUMELS10)) .NE. 0) NODTAG(IXS20(2,N - (NUMELS8+NUMELS10)))=1
-            IF (IXS20(3,N - (NUMELS8+NUMELS10)) .NE. 0) NODTAG(IXS20(3,N - (NUMELS8+NUMELS10)))=1
-            IF (IXS20(4,N - (NUMELS8+NUMELS10)) .NE. 0) NODTAG(IXS20(4,N - (NUMELS8+NUMELS10)))=1
-            IF (IXS20(5,N - (NUMELS8+NUMELS10)) .NE. 0) NODTAG(IXS20(5,N - (NUMELS8+NUMELS10)))=1
-            IF (IXS20(6,N - (NUMELS8+NUMELS10)) .NE. 0) NODTAG(IXS20(6,N - (NUMELS8+NUMELS10)))=1
-            IF (IXS20(7,N - (NUMELS8+NUMELS10)) .NE. 0) NODTAG(IXS20(7,N - (NUMELS8+NUMELS10)))=1
-            IF (IXS20(8,N - (NUMELS8+NUMELS10)) .NE. 0) NODTAG(IXS20(8,N - (NUMELS8+NUMELS10)))=1
-            IF (IXS20(9,N - (NUMELS8+NUMELS10)) .NE. 0) NODTAG(IXS20(9,N - (NUMELS8+NUMELS10)))=1
-            IF (IXS20(10,N - (NUMELS8+NUMELS10)) .NE. 0) NODTAG(IXS20(10,N - (NUMELS8+NUMELS10)))=1
-            IF (IXS20(11,N - (NUMELS8+NUMELS10)) .NE. 0) NODTAG(IXS20(11,N - (NUMELS8+NUMELS10)))=1
-            IF (IXS20(12,N - (NUMELS8+NUMELS10)) .NE. 0) NODTAG(IXS20(12,N - (NUMELS8+NUMELS10)))=1
+            IF (IXS20(1,N - (NUMELS8+NUMELS10)) /= 0) NODTAG(IXS20(1,N - (NUMELS8+NUMELS10)))=1
+            IF (IXS20(2,N - (NUMELS8+NUMELS10)) /= 0) NODTAG(IXS20(2,N - (NUMELS8+NUMELS10)))=1
+            IF (IXS20(3,N - (NUMELS8+NUMELS10)) /= 0) NODTAG(IXS20(3,N - (NUMELS8+NUMELS10)))=1
+            IF (IXS20(4,N - (NUMELS8+NUMELS10)) /= 0) NODTAG(IXS20(4,N - (NUMELS8+NUMELS10)))=1
+            IF (IXS20(5,N - (NUMELS8+NUMELS10)) /= 0) NODTAG(IXS20(5,N - (NUMELS8+NUMELS10)))=1
+            IF (IXS20(6,N - (NUMELS8+NUMELS10)) /= 0) NODTAG(IXS20(6,N - (NUMELS8+NUMELS10)))=1
+            IF (IXS20(7,N - (NUMELS8+NUMELS10)) /= 0) NODTAG(IXS20(7,N - (NUMELS8+NUMELS10)))=1
+            IF (IXS20(8,N - (NUMELS8+NUMELS10)) /= 0) NODTAG(IXS20(8,N - (NUMELS8+NUMELS10)))=1
+            IF (IXS20(9,N - (NUMELS8+NUMELS10)) /= 0) NODTAG(IXS20(9,N - (NUMELS8+NUMELS10)))=1
+            IF (IXS20(10,N - (NUMELS8+NUMELS10)) /= 0) NODTAG(IXS20(10,N - (NUMELS8+NUMELS10)))=1
+            IF (IXS20(11,N - (NUMELS8+NUMELS10)) /= 0) NODTAG(IXS20(11,N - (NUMELS8+NUMELS10)))=1
+            IF (IXS20(12,N - (NUMELS8+NUMELS10)) /= 0) NODTAG(IXS20(12,N - (NUMELS8+NUMELS10)))=1
           ELSE
             NODTAG(IXS(2,N))=1
             NODTAG(IXS(3,N))=1
@@ -360,7 +360,7 @@ C-----
       CALL SPMD_IGET_PARTN_STA(24,STAT_NUMELS,STAT_NUMELS_G,LENGS,NP,
      .  		       IADG,NPGLOB,STAT_INDXS)
 C-----
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
         DO N=1,STAT_NUMELS_G
           STAT_INDXS(N)=N
           CLEF(1,N)=NPGLOB(19*(N-1)+22)
@@ -374,7 +374,7 @@ C-----
           JJ=24*(K-1)
           IPRT=NPGLOB(JJ+22)
           IOFF=NPGLOB(JJ+24)
-         IF (NPGLOB(JJ+23) .EQ. 4) THEN
+         IF (NPGLOB(JJ+23) == 4) THEN
           IF(IDEL==0.OR.(IDEL==1.AND.IOFF >= 1)) THEN
            IF(IPRT /= IPRT0)THEN
            WRITE(IUGEO,'(A,I10)')'/TETRA4/',IPART(4,IPRT)
@@ -385,7 +385,7 @@ C-----
            WRITE(IUGEO,'(5I10)') NPGLOB(JJ+1),NPGLOB(JJ+2),NPGLOB(JJ+4),
      .                          NPGLOB(JJ+8),NPGLOB(JJ+6)
           ENDIF
-         ELSEIF (NPGLOB(JJ+23) .EQ. 6) THEN
+         ELSEIF (NPGLOB(JJ+23) == 6) THEN
           IF(IDEL==0.OR.(IDEL==1.AND.IOFF >= 1)) THEN
            IF(IPRT /= IPRT0)THEN
              WRITE(IUGEO,'(A,I10)')'/PENTA6/',IPART(4,IPRT)
@@ -397,7 +397,7 @@ C-----
      .                          NPGLOB(JJ+4),NPGLOB(JJ+6),NPGLOB(JJ+7),
      .                          NPGLOB(JJ+8)
           ENDIF
-         ELSEIF (NPGLOB(JJ+23) .EQ. 8) THEN
+         ELSEIF (NPGLOB(JJ+23) == 8) THEN
           IF(IDEL==0.OR.(IDEL==1.AND.IOFF >= 1)) THEN
            IF(IPRT /= IPRT0)THEN
             WRITE(IUGEO,'(A,I10)')'/BRICK/',IPART(4,IPRT)
@@ -409,7 +409,7 @@ C-----
      .                          NPGLOB(JJ+4),NPGLOB(JJ+5),NPGLOB(JJ+6),
      .                          NPGLOB(JJ+7),NPGLOB(JJ+8),NPGLOB(JJ+9)
           ENDIF
-         ELSEIF (NPGLOB(JJ+23) .EQ. 10) THEN
+         ELSEIF (NPGLOB(JJ+23) == 10) THEN
           IF(IDEL==0.OR.(IDEL==1.AND.IOFF >= 1)) THEN
            IF(IPRT /= IPRT0)THEN
             WRITE(IUGEO,'(A,I10)')'/TETRA10/',IPART(4,IPRT)
@@ -425,7 +425,7 @@ C-----
      .                        NPGLOB(JJ+8),NPGLOB(JJ+9),NPGLOB(JJ+10),
      .                        NPGLOB(JJ+11)
           ENDIF
-         ELSEIF (NPGLOB(JJ+23) .EQ. 16) THEN
+         ELSEIF (NPGLOB(JJ+23) == 16) THEN
           IF(IDEL==0.OR.(IDEL==1.AND.IOFF >= 1)) THEN
            IF(IPRT /= IPRT0)THEN
             WRITE(IUGEO,'(A,I10)')'/SHEL16/',IPART(4,IPRT)
@@ -445,7 +445,7 @@ C-----
           WRITE(IUGEO,'(4I10)') NPGLOB(JJ+14),NPGLOB(JJ+15),
      .                          NPGLOB(JJ+16),NPGLOB(JJ+17)
           ENDIF
-         ELSEIF (NPGLOB(JJ+23) .EQ. 20) THEN
+         ELSEIF (NPGLOB(JJ+23) == 20) THEN
           IF(IDEL==0.OR.(IDEL==1.AND.IOFF >= 1)) THEN
            IF(IPRT /= IPRT0)THEN
             WRITE(IUGEO,'(A,I10)')'/BRIC20/',IPART(4,IPRT)

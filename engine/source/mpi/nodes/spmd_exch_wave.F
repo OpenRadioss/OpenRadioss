@@ -74,7 +74,7 @@ C-----------------------------------------------
       IAD_RECV(1) = 1
       DO I=1,NSPMD
         SIZ = SIZE*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
-        IF(SIZ.NE.0)THEN
+        IF(SIZ/=0)THEN
           MSGTYP = MSGOFF
           CALL MPI_IRECV(
      S      RBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
@@ -89,7 +89,7 @@ C-----------------------------------------------
 #include      "vectorize.inc"
         DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
           NOD = FR_ELEM(J)
-          IF(FR_WAVE(NOD).LT.0)THEN
+          IF(FR_WAVE(NOD)<0)THEN
             SBUF(L  ) =  FR_WAVE(NOD)
           ELSE
             SBUF(L) = ZERO
@@ -103,7 +103,7 @@ C   echange messages
 C
       DO I=1,NSPMD
 C--------------------------------------------------------------------
-       IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0)THEN
+       IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
           MSGTYP = MSGOFF
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
           L = IAD_SEND(I)
@@ -116,13 +116,13 @@ C--------------------------------------------------------------------
 C
       DO I = 1, NSPMD
         NB_NOD = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
-        IF(NB_NOD.GT.0)THEN
+        IF(NB_NOD>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
           L = IAD_RECV(I)
 #include      "vectorize.inc"
           DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
             NOD = FR_ELEM(J)
-            IF(RBUF(L).LT.ZERO) THEN
+            IF(RBUF(L)<ZERO) THEN
               FR_WAVE(NOD) = RBUF(L)
             END IF
             L = L + SIZE
@@ -131,7 +131,7 @@ C
       END DO
 C
       DO I = 1, NSPMD
-        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0)THEN
+        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO

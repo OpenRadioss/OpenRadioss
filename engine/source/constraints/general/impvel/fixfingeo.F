@@ -84,7 +84,7 @@ C-----------------------------------------------
      .   FINTER2,FINTER2_SMOOTH
       EXTERNAL FINTER2,FINTER2_SMOOTH
 C-----------------------------------------------
-      IF(N2D.EQ.1)THEN
+      IF(N2D==1)THEN
        AX=ONE
       ELSE
        AX=ZERO
@@ -100,7 +100,7 @@ C-------------------------------------------------
       DO N=1,NFXVEL
         IF (IBFV(13,N) /= 2) CYCLE
         STOPT  = VEL(3,N)
-        IF(TT.GT.STOPT)  THEN
+        IF(TT>STOPT)  THEN
            N1 = IABS(IBFV(1,N))
            N2 = IBFV(14,N)
 C			  
@@ -127,7 +127,7 @@ C
       DO N=1,NFXVEL
         IF (IBFV(13,N) /= 2) CYCLE
         STOPT  = VEL(3,N)
-        IF(TT.GT.STOPT)  THEN
+        IF(TT>STOPT)  THEN
            N1 = IABS(IBFV(1,N))
            N2 = IBFV(14,N)		   
            A(1,N1)=(VX(N2)-V(1,N1))/DT12
@@ -148,18 +148,18 @@ C-----------------------
         STOPT  = VEL(3,N)
         FACX   = VEL(5,N)
         I=IABS(IBFV(1,N))
-        IF(TT.LT.STARTT) CYCLE
-        IF(TT.GT.STOPT)  CYCLE
-        IF(NSENSOR.GT.0) THEN
+        IF(TT<STARTT) CYCLE
+        IF(TT>STOPT)  CYCLE
+        IF(NSENSOR>0) THEN
            ISENS=0
            DO K=1,NSENSOR
-              IF(IBFV(4,N).EQ.LSENSOR(1,K))ISENS=K
+              IF(IBFV(4,N)==LSENSOR(1,K))ISENS=K
            ENDDO
-           IF(ISENS.EQ.0)THEN
+           IF(ISENS==0)THEN
               TS=TT
            ELSE
               TS = TT-SENSOR(2,ISENS)
-              IF(TS.LT.0.0) CYCLE
+              IF(TS<0.0) CYCLE
            ENDIF
         ELSE
            TS=TT
@@ -175,14 +175,14 @@ C-----------------------
            ENDIF
         ENDIF
 C
-        IF(CPTREAC.NE.0) THEN
+        IF(CPTREAC/=0) THEN
            AOLD0(1)=A(1,I)
            AOLD0(2)=A(2,I)
            AOLD0(3)=A(3,I)
         ENDIF
 C
         L = IBFV(3,N)
-        IF(NCYCLE.EQ.0)THEN
+        IF(NCYCLE==0)THEN
            IPOSC = 0
         ELSE
            IPOSC = IBFV(5,N)
@@ -255,9 +255,9 @@ C dt2*dw into memory ; if sms on the degree of freedom,
 C part of dt2*dw was already computed and stored in sms_fixvel...
         VEL(4,N) = VEL(4,N)+DT2*DW
 C
-        IF (CPTREAC.NE.0) THEN
+        IF (CPTREAC/=0) THEN
             I=IABS(IBFV(1,N))
-            IF (NODREAC(I).NE.0) THEN
+            IF (NODREAC(I)/=0) THEN
               FTHREAC(1,NODREAC(I)) = FTHREAC(1,NODREAC(I)) + (A(1,I) -
      &                                AOLD0(1))*MS(I)*DT12
               FTHREAC(2,NODREAC(I)) = FTHREAC(2,NODREAC(I)) + (A(2,I) -

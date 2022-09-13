@@ -94,7 +94,7 @@ C
       VDT = ZERO
       GAPVE(1:JLT) = ZERO
 
-      IF(IMACH.NE.3) THEN
+      IF(IMACH/=3) THEN
        DO I=1,JLT
          GAPV(I)=GAP_S(CAND_N(I)) + GAP_M(CAND_E(I))
          GAPV(I) =GAPV(I) + DGAPLOAD
@@ -149,7 +149,7 @@ C
       ELSE
        DO I=1,JLT
            J = CAND_N(I)
-           IF(J.LE.NSN) THEN
+           IF(J<=NSN) THEN
              GAPV(I)=GAP_S(J) + GAP_M(CAND_E(I))
            ELSE
              IG = J-NSN
@@ -159,7 +159,7 @@ C
        END DO
        DO I=1,JLT
          J = CAND_N(I)
-         IF(J.LE.NSN) THEN
+         IF(J<=NSN) THEN
            IG = NSV(J)
            XI(I) = X(1,IG)
            YI(I) = X(2,IG)

@@ -60,7 +60,7 @@ C=======================================================================
       MX = MAT(LFT)
       IFUNC = IPM(13,MX)
       KSCAL = PM(44,MX) 
-      IF(IFUNC.NE.0)THEN
+      IF(IFUNC/=0)THEN
         DO 10 I=LFT,LLT
         NPOINT=(NPF(IFUNC+1)-NPF(IFUNC))/2
         TSCAL = T(I) / PM(42,MX)              

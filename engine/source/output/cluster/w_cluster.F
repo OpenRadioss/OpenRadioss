@@ -81,12 +81,12 @@ C=======================================================================
         IFAIL = CLUSTER(I)%IFAIL
         ILCLUSTER(I) = 8 + 2 * (NEL + NNOD)
         RLCLUSTER(I) = 1 
-        IF (IFAIL .GT. 0) RLCLUSTER(I) = RLCLUSTER(I) + 4 
-        IF (IFAIL .EQ. 3) RLCLUSTER(I) = RLCLUSTER(I) + 8  
-        IF ( RLCLUSTER_MAX .LT. RLCLUSTER(I) ) THEN 
+        IF (IFAIL > 0) RLCLUSTER(I) = RLCLUSTER(I) + 4 
+        IF (IFAIL == 3) RLCLUSTER(I) = RLCLUSTER(I) + 8  
+        IF ( RLCLUSTER_MAX < RLCLUSTER(I) ) THEN 
           RLCLUSTER_MAX = RLCLUSTER(I)
         ENDIF 
-        IF ( ILCLUSTER_MAX .LT. ILCLUSTER(I) ) THEN 
+        IF ( ILCLUSTER_MAX < ILCLUSTER(I) ) THEN 
           ILCLUSTER_MAX = ILCLUSTER(I)
         ENDIF 
       ENDDO !NCLUSTER

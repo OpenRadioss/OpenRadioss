@@ -69,7 +69,7 @@ C-------------------------------------------------------------------------------
       ANDU(IDXII,1)=ONE
 
 c      DO J=0,PXI
-c        IF ((XI.GE.KXI(IDXI+J)).AND.(XI.LT.KXI(IDXI+J+1))) THEN
+c        IF ((XI>=KXI(IDXI+J)).AND.(XI<KXI(IDXI+J+1))) THEN
 c          ANDU(J+1,1) = ONE
 c        ELSE
 c          ANDU(J+1,1) = ZERO

@@ -92,12 +92,12 @@ C-----------------------------------------------
             ELSE   
               OK=0
               I=0
-              DO WHILE(OK.EQ.0.AND.I.LT.NVG)
+              DO WHILE(OK==0.AND.I<NVG)
 C GENERIC VARIABLES SAVED
                 I=I+1
-                IF(VAR.EQ.VARG(I))THEN
+                IF(VAR==VARG(I))THEN
                     DO J=1,18
-                     IF(IVARG(J,I) .NE. 0) THEN
+                     IF(IVARG(J,I) /= 0) THEN
                       TAG(IVARG(J,I))=1
                       VARVENT(IVARG(J,I)-100) = 1
                      ENDIF
@@ -106,10 +106,10 @@ C GENERIC VARIABLES SAVED
                 ENDIF
               ENDDO
               I=0
-              DO WHILE(OK.EQ.0.AND.I.LT.NV)
+              DO WHILE(OK==0.AND.I<NV)
 C SELECTED VARIABLES SAVED
                 I=I+1
-                IF(VAR.EQ.VARE(I))THEN
+                IF(VAR==VARE(I))THEN
                     IF(I > 100) THEN 
                       VARVENT(I-100)=1
                       TAG(I)=1
@@ -125,9 +125,9 @@ C SELECTED VARIABLES SAVED
       CALL HM_GET_INTV('idsmax',NMONV,IS_AVAILABLE,LSUBMODEL) 
       DO IMONV=1,NMONV
         CALL HM_GET_INT_ARRAY_INDEX('ids',N,IMONV,IS_AVAILABLE,LSUBMODEL) 
-        IF(N.NE.0)THEN           
+        IF(N/=0)THEN           
           DO I=1,NV              
-            IF(TAG(I).NE.0)THEN  
+            IF(TAG(I)/=0)THEN  
               NVAR=NVAR+1        
               IVAR(NVAR)=I       
             ENDIF                

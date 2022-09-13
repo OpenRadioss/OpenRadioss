@@ -106,7 +106,7 @@ C-----------------------------------------------
 C--------------------------------------------------
       IF(RHOR == ZERO ) RHOR=RHO0
 C
-      IF (YOUNG.LE.ZERO) THEN
+      IF (YOUNG<=ZERO) THEN
           CALL ANCMSG(MSGID=683,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -114,7 +114,7 @@ C
      .                C1=TITR,
      .                C2='YOUNG''S MODULUS')
       ENDIF
-      IF(ANU.EQ.HALF)ANU=ZEP499                  
+      IF(ANU==HALF)ANU=ZEP499                  
 C
       G=YOUNG/(TWO*(ONE+ANU))
       C0=ZERO

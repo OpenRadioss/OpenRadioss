@@ -59,8 +59,8 @@ C-----------------------------------------------
      .   P(9),AXR,AYR,AZR,CST,SST
 C-----------------------------------------------
       NIR=2
-      IF(N2D.EQ.0)NIR=4
-      IF(ILEV.EQ.1)THEN
+      IF(N2D==0)NIR=4
+      IF(ILEV==1)THEN
         DO I=1,9
           P(I)=SKEW(I,IREF+1)
         ENDDO
@@ -95,7 +95,7 @@ C-----------------------------------------------
       ENDIF
 
       DO II=1,NSN
-        IF(TAGKINE(II).LT.0)CYCLE
+        IF(TAGKINE(II)<0)CYCLE
         I=NSV(II)
         L=IRTL(II)
         SS=CRST(1,II)
@@ -117,8 +117,8 @@ C-----------------------------------------------
         VMX=ZERO
         VMY=ZERO
         VMZ=ZERO
-        IF(ILEV.EQ.1)THEN
-          IF(TETS(II).LT.10000.)THEN
+        IF(ILEV==1)THEN
+          IF(TETS(II)<10000.)THEN
             DO JJ=1,NIR
               J=IRECT(JJ,L)
               AMX=AMX+WA(1,J)*H(JJ)
@@ -155,7 +155,7 @@ C-----------------------------------------------
               VMY=VMY+V(J2)*H(JJ)
               VMZ=VMZ+V(J3)*H(JJ)
             ENDDO
-          ENDIF !(TETS(II).LT.10000.)
+          ENDIF !(TETS(II)<10000.)
         ELSE
           DO JJ=1,NIR
             J=MSR(IRECT(JJ,L))

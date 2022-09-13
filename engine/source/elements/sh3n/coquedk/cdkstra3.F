@@ -57,7 +57,7 @@ C-----------------------------------------------
      .   ONE_OVER_3
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C
-      IF(IEPSDOT.NE.0)THEN
+      IF(IEPSDOT/=0)THEN
        DO I=JFT,JLT
         J = I + NFT
         EPSDOT(4,J)=KXX(I)
@@ -72,7 +72,7 @@ C
        KXY(I)=KXY(I)*DT1
       ENDDO
 C
-      IF(ISTRAIN.NE.0)THEN
+      IF(ISTRAIN/=0)THEN
         DO I=JFT,JLT
          GSTR(I,6)=GSTR(I,6)+KXX(I)*THIRD
          GSTR(I,7)=GSTR(I,7)+KYY(I)*THIRD

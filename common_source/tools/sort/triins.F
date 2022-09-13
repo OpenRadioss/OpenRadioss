@@ -54,8 +54,8 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       DO 10 K=2,N
           L=K-1
- 150      IF(L.GE.1) THEN
-               IF(ICOMPC(L,L+1,TAB).GT.0) THEN
+ 150      IF(L>=1) THEN
+               IF(ICOMPC(L,L+1,TAB)>0) THEN
                CALL ECHANG(L,L+1,TAB)
                CALL ECHANG(N2+L,N2+L+1,TAB)
                L=L-1

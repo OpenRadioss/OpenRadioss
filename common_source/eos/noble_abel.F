@@ -96,7 +96,7 @@ C-----------------------------------------
 C
        DO I=LFT,LLT
         ECOLD(I)=-THREE100*SPH(I)
-        IF(MU(I).GT.ZERO) THEN
+        IF(MU(I)>ZERO) THEN
           ECOLD(I)=ECOLD(I)*(ONE+GM1(I)*MU(I)*(ONE-MU(I))) 
         ENDIF
        ENDDO
@@ -138,7 +138,7 @@ C------------------------
         SPH(I) =PM(69,MX)
        ENDDO
        DO I=1,NEL
-        IF(OFF(I).LT.1..OR.SPH(I).LE.0.) CYCLE
+        IF(OFF(I)<1..OR.SPH(I)<=0.) CYCLE
         THETA(I) = (DF(I)*EINT(I)/VNEW(I)-ECOLD(I))/SPH(I)
         THETA(I) = MAX(ZERO,THETA(I))
        ENDDO
@@ -153,7 +153,7 @@ C------------------------
          ENDDO
          
          DO I=1, NEL
-            IF (VNEW(I) .GT. ZERO) THEN
+            IF (VNEW(I) > ZERO) THEN
                DENOM   = ONE-BB_(I)*RHO0(I)*(ONE+MU(I))
                PP      = ESPE(I)*GM1(I)*(MU(I)+ONE)/DENOM 
                DPDE(I) = GM1(I)*(ONE+MU(I))/DENOM

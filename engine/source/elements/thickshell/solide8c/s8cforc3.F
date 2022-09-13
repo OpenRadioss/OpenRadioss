@@ -502,7 +502,7 @@ c---------------------------
      .   AJC1,AJC2,AJC3,
      .   AJC4,AJC5,AJC6,
      .   AJC7,AJC8,AJC9,SMAX,GBUF%SMSTR,GBUF%OFF ,NEL)
-      IF (IDTS6.GT.0) THEN                   
+      IF (IDTS6>0) THEN                   
         CALL SDLEN_DEGE(VOLG,DELTAX,         
      .       X1, X2, X3, X4, X5, X6, X7, X8, 
      .       Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8, 
@@ -730,7 +730,7 @@ c         IF (ICT == 1) ILAY = IT
 C-----avoid multi-print	  
           IF (IOFFS == 1)THEN
            DO I=LFT,LLT
-            IF (OFFS(I).LE.TWO) LBUF%OFF(I)=OFFS(I)
+            IF (OFFS(I)<=TWO) LBUF%OFF(I)=OFFS(I)
            ENDDO
           END IF
 C-----------
@@ -1176,7 +1176,7 @@ C--------------------------
 C----------------------------
 C     CONVECTE --> GLOBAL.
 C----------------------------
-      IF (JCVT.NE.0) THEN
+      IF (JCVT/=0) THEN
        CALL SRROTA3(
      .   R11, R21, R31, R12, R22, R32, R13, R23, R33,
      .   F11, F12, F13, F14, F15, F16, F17, F18,

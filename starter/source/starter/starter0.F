@@ -276,11 +276,11 @@ C-------------------------------------------------------------------
       CALL GET_ENVIRONMENT_VARIABLE("R2R_ENV_IPID",VAL,
      .       LEN_ENV,STATUS,.TRUE.)
 C---------> IPID = 0 --> Multidomains starter fils--------------
-      IF (LEN_ENV.EQ.1) IPID = 0
+      IF (LEN_ENV==1) IPID = 0
       CALL GET_ENVIRONMENT_VARIABLE("R2R_ENV_SWALE",VAL,
      .       LEN_ENV,STATUS,.TRUE.)
 C---------> IPID = 0 --> Multidomains switch ALE----------------
-      IF (LEN_ENV.EQ.1) FLG_SWALE = 1
+      IF (LEN_ENV==1) FLG_SWALE = 1
 #endif
 
 C-------------------------------------------------------------------
@@ -314,7 +314,7 @@ C---
 C init to 0 variable position writing double precision (XDP)
       IRXDP            = 0
 C
-      IF(IR4R8.EQ.2) ITESTV=-ITESTV
+      IF(IR4R8==2) ITESTV=-ITESTV
 C
 C Dynamical Libaries initialization
         USERLIB_LIST(1:100)=0
@@ -369,7 +369,7 @@ C       SEARCH RUN NUMBER
             TMP_NAME=INFILE_NAME(1:INFILE_NAME_LEN)//FNAME(1:LFNAME)
              OPEN(UNIT=ISTDI,FORM='FORMATTED',FILE=TMP_NAME(1:LEN_TMP_NAME),
      .            ACTION='READ',STATUS='OLD',IOSTAT=IO_ERR)
-             IF (IO_ERR.NE.0) THEN
+             IF (IO_ERR/=0) THEN
                WRITE(6,*)' '
                WRITE(6,*)'*** ERROR INPUT FILE "',FNAME(1:LFNAME),
      *                   '" NOT FOUND'
@@ -404,7 +404,7 @@ C----------------------------------------------------------------------
 C----------------------------------------------------------------------
       IF (GOT_INPUT == 1)THEN
 C Rootname is not taken from /INPUT
-        IF (LENR .LE.80)THEN
+        IF (LENR <=80)THEN
             ROOTNAM(1:LENR)=ROOTN(1:LENR)
         ENDIF
         ROOTLEN = LENR
@@ -426,7 +426,7 @@ C     message file id
 C-------------------------------------------------------------------
       WRITE(CHRUN,'(I4.4)')IRUN
 C	  
-      IF (IPID.EQ.1) THEN
+      IF (IPID==1) THEN
       FILNAM  =OUTFILE_NAME(1:OUTFILE_NAME_LEN)//
      .         ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'.out'
       OPEN(UNIT=IOUT,FILE=FILNAM(1:OUTFILE_NAME_LEN+ROOTLEN+9),
@@ -442,7 +442,7 @@ C
 
       CALL PRINTCPU()
       CALL PRINTCENTER(" ",0,IOUT,1)
-      ELSEIF (FLG_SWALE.EQ.1) THEN
+      ELSEIF (FLG_SWALE==1) THEN
        FILNAM  =OUTFILE_NAME(1:OUTFILE_NAME_LEN)//ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'.out'
        OPEN(UNIT=IOUT,FILE=FILNAM(1:ROOTLEN+9+OUTFILE_NAME_LEN),
      .     ACCESS='SEQUENTIAL',
@@ -667,7 +667,7 @@ C------------------------------------------------
 C------------------------------------------------
 C Write list of replaced parameters
 C------------------------------------------------
-      IF(IPID .NE. 0 .AND. GOT_HSTP_READ == 0) THEN
+      IF(IPID /= 0 .AND. GOT_HSTP_READ == 0) THEN
         CLOSE(IOUT)
         CALL CPP_PRINT_PARAMETERS(FILNAM,ROOTLEN+9+OUTFILE_NAME_LEN)
         OPEN(UNIT=IOUT,FILE=FILNAM(1:ROOTLEN+9+OUTFILE_NAME_LEN),
@@ -770,18 +770,18 @@ C-------------------------------------------------------------------
 C-----------------------------------------------------
       CALL TRACE_OUT1()
 C-----------------------------------------------------
-      IF(IMACH.NE.3) THEN
+      IF(IMACH/=3) THEN
        FILNAM = ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_0000.rst'
        LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + 14
        TMP_NAME  =OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:ROOTLEN+14)
-       IF(IRFORM/5.EQ.0)THEN
+       IF(IRFORM/5==0)THEN
 !         OPEN(UNIT=IUREE,FILE=FILNAM(1:ROOTLEN+14),
 !     .     ACCESS='SEQUENTIAL',
 !     .     FORM='UNFORMATTED',STATUS='UNKNOWN')
          OPEN(UNIT=IUREE,FILE=TMP_NAME(1:LEN_TMP_NAME),
      .     ACCESS='SEQUENTIAL',
      .     FORM='UNFORMATTED',STATUS='UNKNOWN')
-       ELSEIF(IRFORM/5.EQ.1)THEN
+       ELSEIF(IRFORM/5==1)THEN
 !         OPEN(UNIT=IUREE,FILE=FILNAM(1:ROOTLEN+14),
 !     .     ACCESS='SEQUENTIAL',
 !     .     FORM='FORMATTED',STATUS='UNKNOWN')
@@ -789,7 +789,7 @@ C-----------------------------------------------------
      .     ACCESS='SEQUENTIAL',
      .     FORM='FORMATTED',STATUS='UNKNOWN')
          WRITE(IUREE,'(A)') FILNAM(1:ROOTLEN+14)
-       ELSEIF (IRFORM/5.EQ.2) THEN
+       ELSEIF (IRFORM/5==2) THEN
 C restart file with binary format ieee 64 bits
         DO I=1,OUTFILE_NAME_LEN
             IFILNAM(I)=ICHAR(OUTFILE_NAME(I:I))     
@@ -800,7 +800,7 @@ C restart file with binary format ieee 64 bits
         CALL CUR_FIL_C(1)
         CALL OPEN_C(IFILNAM,OUTFILE_NAME_LEN+ROOTLEN+14,0)
         CALL WRITE_C_C(IFILNAM,ROOTLEN+14)
-       ELSEIF (IRFORM/5.EQ.3) THEN
+       ELSEIF (IRFORM/5==3) THEN
 C restart file with binary format ieee 64 bits .Z
         DO I=1,OUTFILE_NAME_LEN
             IFILNAM(I)=ICHAR(OUTFILE_NAME(I:I))     
@@ -811,7 +811,7 @@ C restart file with binary format ieee 64 bits .Z
         CALL CUR_FIL_C(1)
         CALL OPEN_C(IFILNAM,OUTFILE_NAME_LEN+ROOTLEN+14,3)
         CALL WRITE_C_C(IFILNAM,ROOTLEN+14)
-       ELSEIF (IRFORM/5.EQ.4) THEN
+       ELSEIF (IRFORM/5==4) THEN
 C restart writen file with binary format ieee 64 bits .gz
         DO I=1,OUTFILE_NAME_LEN
             IFILNAM(I)=ICHAR(OUTFILE_NAME(I:I))     
@@ -830,7 +830,7 @@ c     stop CPU timer for interval between translator and lectur
 c     (freeform)
       CALL STOPTIME(4,1)
 
-      IF(IRUN.EQ.0)THEN
+      IF(IRUN==0)THEN
 C--------------------------------------------------
 C      Initial run
 C--------------------------------------------------
@@ -842,7 +842,7 @@ C
         CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
 
 c----------- Child process creation for multidomains-----
-        IF (NSUBDOM.GT.0) THEN
+        IF (NSUBDOM>0) THEN
             CALL R2R_FORK(CHRUN,FILNAM,LSUBMODEL)
         ENDIF
 
@@ -856,7 +856,7 @@ C--------------------------------------------------
 c       stop CPU timer for lectur
         CALL STOPTIME(2,1)
 
-        IF (IPID.NE.0) CLOSE(IIN2)
+        IF (IPID/=0) CLOSE(IIN2)
         CALL TRACE_OUT1()
 
       ELSE
@@ -872,12 +872,12 @@ C --------------------------------------------------
 C
       IF(ALLOCATED(SEATBELT_CONVERTED_ELEMENTS)) DEALLOCATE(SEATBELT_CONVERTED_ELEMENTS)  
 C
-      IF (IERR.EQ.0)THEN
+      IF (IERR==0)THEN
         !   -----------------------------
         !   write the message only if restart 
         !   files are generated
         IF(RESTART_FILE==1) THEN
-            IF(IMACH.NE.3) THEN
+            IF(IMACH/=3) THEN
                 FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_0000.rst'
                 WRITE (IOUT,60) FILNAM(1:ROOTLEN+14)
  60             FORMAT (/4X,14H RESTART FILE:,1X,A,8H WRITTEN/
@@ -897,7 +897,7 @@ C
 c     print timers
       CALL PRINTIME(1,GOT_TIMER,STARTDATE,STARTTIME)
 C
-      IF (IPID.NE.0) THEN
+      IF (IPID/=0) THEN
 #if CPP_mach == CPP_w95 || CPP_mach == CPP_win64_spmd || CPP_mach == CPP_p4win64_spmd || CPP_mach == CPP_wnt || CPP_mach == CPP_wmr || CPP_mach == CPP_p4win64 || CPP_mach == CPP_p4win32
         CLOSE(UNIT=ISTDI, STATUS='DELETE', IOSTAT=IO_ERR)
 #else

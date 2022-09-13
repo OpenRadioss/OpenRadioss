@@ -132,7 +132,7 @@ C-----------------------------------------------
 C     SH_3N GROUP
 C-----------------------------------------------
       IF (FLAGG == 0) ISH3N = 0
-      IF (NGRSH3N > 0 .AND. N2D.EQ.0)THEN
+      IF (NGRSH3N > 0 .AND. N2D==0)THEN
         CALL HM_OPTION_START('/GRSH3N')
         CALL HM_GROGRO(NUMELTG ,NGRSH3N,IGRSH3N,ISH3N, IFLAG   ,ITER   ,'SH3N' ,LSUBMODEL)
       ENDIF
@@ -140,7 +140,7 @@ C-----------------------------------------------
 C     TRIA GROUP
 C-----------------------------------------------
       IF (FLAGG == 0) ISH3N = 0
-      IF (NGRSH3N > 0 .AND. N2D.NE.0)THEN
+      IF (NGRSH3N > 0 .AND. N2D/=0)THEN
         CALL HM_OPTION_START('/GRTRIA')
         CALL HM_GROGRO(NUMELTG,NGRSH3N,IGRSH3N,ISH3N,IFLAG,ITER,'TRIA' ,LSUBMODEL)  
       ENDIF

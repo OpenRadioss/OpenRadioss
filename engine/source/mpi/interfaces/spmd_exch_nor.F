@@ -106,11 +106,11 @@ C
 
 
            IF(SOL_EDGE/=0)THEN
-            IF(IAD_FRNOR(NI25,I+1)-IAD_FRNOR(NI25,I).GT.0) THEN
+            IF(IAD_FRNOR(NI25,I+1)-IAD_FRNOR(NI25,I)>0) THEN
               DO J=IAD_FRNOR(NI25,I),IAD_FRNOR(NI25,I+1)-1
                 NOD = ISHIFT + FR_NOR(J)
                 DO CC = ADDCSRECT(NOD),ADDCSRECT(NOD+1)-1
-                  IF(PROCNOR(CC).EQ.I) THEN
+                  IF(PROCNOR(CC)==I) THEN
                     L = L + SIZE
                   ENDIF
                 END DO
@@ -138,7 +138,7 @@ C
 
           IF(I/=LOC_PROC)THEN
             L0 = L
-            IF(IAD_FREDG(NI25,I+1)-IAD_FREDG(NI25,I).GT.0) THEN
+            IF(IAD_FREDG(NI25,I+1)-IAD_FREDG(NI25,I)>0) THEN
               DO J=IAD_FREDG(NI25,I),IAD_FREDG(NI25,I+1)-1
                 M = FR_EDG(1,J)
                 E=  FR_EDG(2,J)
@@ -154,7 +154,7 @@ C#endif
 c                  print *,'envoi',ispmd+1,i,j-IAD_FREDG(NI25,I)+1,mseglo(m),mvoisin(e,m)
               ENDDO
             ENDIF
-            IF(IAD_FRNOR(NI25,I+1)-IAD_FRNOR(NI25,I).GT.0) THEN
+            IF(IAD_FRNOR(NI25,I+1)-IAD_FRNOR(NI25,I)>0) THEN
               DO J=IAD_FRNOR(NI25,I),IAD_FRNOR(NI25,I+1)-1
                 IS = FR_NOR(J)
                 SBUF(L)   = VTX_BISECTOR(1,1,IS)
@@ -172,11 +172,11 @@ c                  print *,'envoi',ispmd+1,i,j-IAD_FREDG(NI25,I)+1,mseglo(m),mvo
 
            IF(SOL_EDGE/=0)THEN
 
-             IF(IAD_FRNOR(NI25,I+1)-IAD_FRNOR(NI25,I).GT.0) THEN
+             IF(IAD_FRNOR(NI25,I+1)-IAD_FRNOR(NI25,I)>0) THEN
               DO J=IAD_FRNOR(NI25,I),IAD_FRNOR(NI25,I+1)-1
                 NOD = ISHIFT + FR_NOR(J)
                 DO CC = ADDCSRECT(NOD),ADDCSRECT(NOD+1)-1
-                  IF(PROCNOR(CC).EQ.LOC_PROC) THEN
+                  IF(PROCNOR(CC)==LOC_PROC) THEN
                     SBUF(L)   =  FSKYN(1,CC)
                     SBUF(L+1) = FSKYN(2,CC)
                     SBUF(L+2) = FSKYN(3,CC)
@@ -278,7 +278,7 @@ c                print *,'recoit',ispmd+1,i,j-IAD_FREDG(NI25,I)+1,mseglo(m),mvoi
            DO J=IAD_FRNOR(NI25,I),IAD_FRNOR(NI25,I+1)-1
             NOD = ISHIFT + FR_NOR(J)
             DO CC = ADDCSRECT(NOD),ADDCSRECT(NOD+1)-1
-              IF(PROCNOR(CC).EQ.I) THEN
+              IF(PROCNOR(CC)==I) THEN
                 FSKYN(1,CC) = RBUF(L)
                 FSKYN(2,CC) = RBUF(L+1)
                 FSKYN(3,CC) = RBUF(L+2)

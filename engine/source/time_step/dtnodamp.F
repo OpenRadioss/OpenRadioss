@@ -79,14 +79,14 @@ C----------------------------------------------------------
 
 C--------> TAG des elements
         DO ND=1,NDAMP		
-          IF (DAMPR(20,ND).GT.0) THEN	
+          IF (DAMPR(20,ND)>0) THEN	
           DO I=1,NUMELC
             DO J=1,4	
               K=IXC(J+1,I)
-	      IF (ICONTACT(K).EQ.1) THEN
+	      IF (ICONTACT(K)==1) THEN
                 DO L=1,4
 		  LL = IXC(L+1,I)		
-		  IF (LL.NE.K) THEN
+		  IF (LL/=K) THEN
 		    I_DAMP_RDOF_TAB(LL) = DAMPR(19,ND)
 		  ENDIF  
 		END DO	    
@@ -98,15 +98,15 @@ C--------> TAG des elements
 
         DO ND=1,NDAMP
 C-------->	
-          IF (NCYCLE.EQ.0) THEN
+          IF (NCYCLE==0) THEN
 	    ALPHA = DTMIN1(11)/DTFAC1(11)
-	    IF (ALPHA.GT.0) THEN
+	    IF (ALPHA>0) THEN
 	      DAMPA0=MAX(DAMPR(9,ND),DAMPR(11,ND),DAMPR(13,ND))      
 	      DAMPR(9,ND)=MIN(DAMPR(9,ND),1/ALPHA)
 	      DAMPR(11,ND)=MIN(DAMPR(11,ND),1/ALPHA)
 	      DAMPR(13,ND)=MIN(DAMPR(13,ND),1/ALPHA)
 	      DAMPAR=MAX(DAMPR(9,ND),DAMPR(11,ND),DAMPR(13,ND))
-	      IF (DAMPA0.NE.DAMPAR) THEN		      
+	      IF (DAMPA0/=DAMPAR) THEN		      
 	        print *,"WARNING ALPHA reduced to",1/ALPHA
 	      ENDIF	    	    
 	    ENDIF
@@ -117,15 +117,15 @@ C-------->
           FACTB = DAMPR(16,ND)
           D_TSTART = DAMPR(17,ND)
           D_TSTOP  = DAMPR(18,ND)	
-          IF (TT.GE.D_TSTART .AND. TT.LE.D_TSTOP) THEN
+          IF (TT>=D_TSTART .AND. TT<=D_TSTOP) THEN
             DAMPAR = MAX(DAMPR(9,ND),DAMPR(11,ND),DAMPR(13,ND))	  	
             DAMPBR = MAX(DAMPR(10,ND),DAMPR(12,ND),DAMPR(14,ND))	    
 C-------->	    
             DO I=1,IGRNOD(IGR)%NENTITY
               N=IGRNOD(IGR)%ENTITY(I)
-              IF(STIFR(N).LE.ZERO)THEN
+              IF(STIFR(N)<=ZERO)THEN
                 ISTOP=-ITAB(N)
-              ELSEIF(IN(N).GT.ZERO)THEN
+              ELSEIF(IN(N)>ZERO)THEN
                 DT2N(N)=DTFAC1(11)*SQRT(TWO*IN(N)/STIFR(N))		
               ENDIF      	       	      	      
             ENDDO	    
@@ -143,8 +143,8 @@ C-------->
 	        DT_CIBLE = ETA
               ENDIF				      
 	      COEFF = (ONE+(2*BETA/DT_CIBLE))/((1-HALF*ALPHA*DT_CIBLE))
-              IF (DAMPR(19,ND).NE.0) THEN	   	        	      	      	              
-	        IF ((I_DAMP_RDOF_TAB(N)+ICONTACT(N)).NE.0) THEN	
+              IF (DAMPR(19,ND)/=0) THEN	   	        	      	      	              
+	        IF ((I_DAMP_RDOF_TAB(N)+ICONTACT(N))/=0) THEN	
 	          STIFR(N) = STIFR(N)*COEFF		              	       
 	        ENDIF
 	      ENDIF	 	       	      	      

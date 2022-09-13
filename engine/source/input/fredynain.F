@@ -98,7 +98,7 @@ c---
           IF (KEY3(1:3) == 'ALL') THEN
             NDYNAINPRT = 0
             NDYNAINALL = 1
-            IF (NBC .NE. 1) THEN
+            IF (NBC /= 1) THEN
               CALL ANCMSG(MSGID=73,ANMODE=ANINFO,
      .        C1=KEY0(IKEY),C2=LINE(1:35))
               CALL ARRET(0)

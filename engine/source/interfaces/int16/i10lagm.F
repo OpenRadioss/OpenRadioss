@@ -146,7 +146,7 @@ C-----------------------------------------------------------------------
      .             X(2,IS)+DT2*(V(2,IS)+DT12*A(2,IS))-EMINX(5,LE),DIST)
         DIST = MAX(EMINX(3,LE)-X(3,IS)-DT2*(V(3,IS)+DT12*A(3,IS)),
      .             X(3,IS)+DT2*(V(3,IS)+DT12*A(3,IS))-EMINX(6,LE),DIST)
-c        IF (DIST.LT.0.) CANDN(I) = -CANDN(I)
+c        IF (DIST<0.) CANDN(I) = -CANDN(I)
 C-----------------------------------------------------------------------
 C       test si dans la boite   
 C-----------------------------------------------------------------------
@@ -176,7 +176,7 @@ c
 C-----------------------------------------------------------------------
 C     calcul de  [L] par paquet de mvsiz   
 C-----------------------------------------------------------------------
-          IF(LLT.EQ.MVSIZ-1)THEN
+          IF(LLT==MVSIZ-1)THEN
             CALL I10LLL(
      1       LLT ,LLL       ,JLL       ,SLL       ,XLL     ,V       ,
      2       XX  ,YY        ,ZZ        ,III       ,IADLL   ,
@@ -194,7 +194,7 @@ c debug
 C-----------------------------------------------------------------------
 C     calcul de  [L] pour dernier paquet   
 C-----------------------------------------------------------------------
-      IF(LLT.NE.0) CALL I10LLL(
+      IF(LLT/=0) CALL I10LLL(
      1       LLT ,LLL       ,JLL       ,SLL       ,XLL     ,V       ,
      2       XX  ,YY        ,ZZ        ,III       ,IADLL   ,
      3       N_MUL_MX ,A    ,X         ,ITIED     ,NINT    ,NKMAX   ,
@@ -269,13 +269,13 @@ c
 C-----------------------------------------------
 C      calcul de [L]
 C-----------------------------------------------
-      IF(ITIED.EQ.0)THEN
+      IF(ITIED==0)THEN
        DO I=1,LLT
 C-----------------------------------------------
 C       test si contact
 C-----------------------------------------------
-        IF(R(I).GE.-ONE.AND.S(I).GE.-ONE.AND.T(I).GE.-ONE.AND.
-     .     R(I).LE. ONE.AND.S(I).LE. ONE.AND.T(I).LE. ONE)THEN
+        IF(R(I)>=-ONE.AND.S(I)>=-ONE.AND.T(I)>=-ONE.AND.
+     .     R(I)<= ONE.AND.S(I)<= ONE.AND.T(I)<= ONE)THEN
 C
           NK = 7
           VX = ZERO
@@ -292,7 +292,7 @@ c
 C-----------------------------------------------
 C         test si vitesse entrante en s
 C-----------------------------------------------
-          IF(S(I)*VN.LE.ZERO)THEN
+          IF(S(I)*VN<=ZERO)THEN
 c
 c      print *, "vitesse entrante",vn
 c      print *, "s = ",S(I)
@@ -303,13 +303,13 @@ c
            NZ(I) = NZ(I)*AA
 #include "lockon.inc"
             N_MULT=N_MULT+1
-            IF(N_MULT.GT.N_MUL_MX)THEN
+            IF(N_MULT>N_MUL_MX)THEN
 #include "lockoff.inc"
               CALL ANCMSG(MSGID=84,ANMODE=ANINFO)
               CALL ARRET(2)
             ENDIF
             IADLL(N_MULT+1)=IADLL(N_MULT) + 21
-            IF(IADLL(N_MULT+1)-1.GT.NKMAX)THEN
+            IF(IADLL(N_MULT+1)-1>NKMAX)THEN
 #include "lockoff.inc"
               CALL ANCMSG(MSGID=84,ANMODE=ANINFO)
               CALL ARRET(2)
@@ -338,7 +338,7 @@ c
           ENDIF
         ENDIF
        ENDDO
-      ELSEIF(ITIED.EQ.1)THEN
+      ELSEIF(ITIED==1)THEN
 C-----------------------------------------------
 C      ITIED = 1
 C-----------------------------------------------
@@ -346,8 +346,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       test si contact
 C-----------------------------------------------
-        IF(R(I).GE.-ONE.AND.S(I).GE.-ONE.AND.T(I).GE.-ONE.AND.
-     .     R(I).LE. ONE.AND.S(I).LE. ONE.AND.T(I).LE. ONE)THEN
+        IF(R(I)>=-ONE.AND.S(I)>=-ONE.AND.T(I)>=-ONE.AND.
+     .     R(I)<= ONE.AND.S(I)<= ONE.AND.T(I)<= ONE)THEN
 C
           NK = 7
           VX = ZERO
@@ -366,18 +366,18 @@ c
 C-----------------------------------------------
 C         test si vitesse entrante en s
 C-----------------------------------------------
-          IF(S(I)*VN.LE.ZERO)THEN
+          IF(S(I)*VN<=ZERO)THEN
 c          
 c      print *, "vitesse entrante",vn
 c      print *, "s = ",S(I)
 c
 #include "lockon.inc"
-            IF(N_MULT+3.GT.N_MUL_MX)THEN
+            IF(N_MULT+3>N_MUL_MX)THEN
 #include "lockoff.inc"
               CALL ANCMSG(MSGID=84,ANMODE=ANINFO)
               CALL ARRET(2)
             ENDIF
-            IF(IADLL(N_MULT+1)-1+7*3.GT.NKMAX)THEN
+            IF(IADLL(N_MULT+1)-1+7*3>NKMAX)THEN
 #include "lockoff.inc"
               CALL ANCMSG(MSGID=84,ANMODE=ANINFO)
               CALL ARRET(2)
@@ -433,20 +433,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       test si contact
 C-----------------------------------------------
-        IF(R(I).GE.-ONE.AND.S(I).GE.-ONE.AND.T(I).GE.-ONE.AND.
-     .     R(I).LE. ONE.AND.S(I).LE. ONE.AND.T(I).LE. ONE)THEN
+        IF(R(I)>=-ONE.AND.S(I)>=-ONE.AND.T(I)>=-ONE.AND.
+     .     R(I)<= ONE.AND.S(I)<= ONE.AND.T(I)<= ONE)THEN
 C
            NK = 7
 C-----------------------------------------------
 c      print *, "s = ",S(I)
 c
 #include "lockon.inc"
-            IF(N_MULT+3.GT.N_MUL_MX)THEN
+            IF(N_MULT+3>N_MUL_MX)THEN
 #include "lockoff.inc"
               CALL ANCMSG(MSGID=84,ANMODE=ANINFO)
               CALL ARRET(2)
             ENDIF
-            IF(IADLL(N_MULT+1)-1+7*3.GT.NKMAX)THEN
+            IF(IADLL(N_MULT+1)-1+7*3>NKMAX)THEN
 #include "lockoff.inc"
               CALL ANCMSG(MSGID=84,ANMODE=ANINFO)
               CALL ARRET(2)
@@ -619,7 +619,7 @@ C            calcul de Ni(-1<r<1 , -1<s<1 , -1<t<1)
 C-----------------------------------------------
              CALL I10NI(LLT,RR ,SS ,TT ,NI  )
 C  pb de parith on si conv fonction de mvsiz !!!!!!!
-C             IF(CONV.NE.0)RETURN
+C             IF(CONV/=0)RETURN
 C
            ENDDO
       ENDDO
@@ -774,8 +774,8 @@ C
         S(I) = SS(I)
         T(I) = TT(I)
 C
-        IF(R(I).GE.-ONE.AND.S(I).GE.-ONE.AND.T(I).GE.-ONE.AND.
-     .     R(I).LE. ONE.AND.S(I).LE. ONE.AND.T(I).LE. ONE)THEN
+        IF(R(I)>=-ONE.AND.S(I)>=-ONE.AND.T(I)>=-ONE.AND.
+     .     R(I)<= ONE.AND.S(I)<= ONE.AND.T(I)<= ONE)THEN
           ERR = MAX(ERR,ABS(DR),ABS(DS),ABS(DT))
         ELSE
           RR(I) = MAX(MIN(RR(I),ONE),-ONE)
@@ -786,7 +786,7 @@ c
 C
       ENDDO
 C
-      IF(ERR.LT.EM4) CONV = 1
+      IF(ERR<EM4) CONV = 1
 C-----------------------------------------------
       RETURN
       END

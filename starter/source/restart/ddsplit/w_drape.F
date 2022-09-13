@@ -64,7 +64,7 @@ C
       INDEX = 0
       NDIM = 0
       DO I = 1, NUMEL
-        IF(CEP(I).EQ.P) THEN
+        IF(CEP(I)==P) THEN
           EL = EL + 1
           NPT_ELT(EL)   = DRAPE(I)%NPT
           NDIM = NDIM + NPT_ELT(EL)
@@ -76,7 +76,7 @@ C
 C      
       IDX  = 0 
       DO I = 1, NUMEL
-        IF(CEP(I).EQ.P) THEN
+        IF(CEP(I)==P) THEN
           NPT = DRAPE(I)%NPT
           DO J = 1, NPT
               ITMP(IDX + J)  =  DRAPE(I)%IDRAPE(J)

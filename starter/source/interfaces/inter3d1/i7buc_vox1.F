@@ -226,13 +226,13 @@ C MARGE : marge engine dependante du BUMULT en input (ajustable pour performance
 C MARGE_ST : marge independante du BUMULT en input necessaire pour trouver les pene initiales de maniere parith/on
       MARGE_ST = BMUL0*DD
 C 1er passage avec marge x2 pour trouver plus de candidats (revient a prendre bmul0=0.4 au lieu de 0.2)
-C      IF(IDDLEVEL.EQ.0) MARGE_ST = 2*MARGE_ST
-      IF(IDDLEVEL.EQ.0) MARGE_ST = MARGE
+C      IF(IDDLEVEL==0) MARGE_ST = 2*MARGE_ST
+      IF(IDDLEVEL==0) MARGE_ST = MARGE
       TZINF_ST = MARGE_ST + MAX(GAP+DGAPLOAD,DRAD)
 C     MIS A ZERO POUR FAIRE SEARCH COMPLET CYCLE 0 ENGINE
       DIST = ZERO     
 C     TEST TO BY-PASS SECOND SEARCH
-C     IF(IDDLEVEL.EQ.1 .AND. MARGE >= MARGE_ST) GOTO 999 !
+C     IF(IDDLEVEL==1 .AND. MARGE >= MARGE_ST) GOTO 999 !
 C----- BORNES DU DOMAINE
       XMAX_M=-EP30
       YMAX_M=-EP30
@@ -549,14 +549,14 @@ C------------------
         ENDIF
 C     I_MEM = 1 ==> PAS ASSEZ DE MEMOIRE PILE
 C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
-        IF(I_MEM.EQ.1)THEN
+        IF(I_MEM==1)THEN
           I_MEM = 0
           GO TO 100
-        ELSE IF(I_MEM.EQ.2) THEN
+        ELSE IF(I_MEM==2) THEN
           MARGE_ST = THREE_OVER_4*MARGE_ST
           TZINF_ST = MARGE_ST + MAX(GAP,DRAD)
           I_MEM = 0
-          IF(MARGE_ST.LT.EM03) THEN
+          IF(MARGE_ST<EM03) THEN
             CALL ANCMSG(MSGID=83,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -566,7 +566,7 @@ C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
           GO TO 100
         ENDIF
 C---------------------------------
-        IF(J_STOK.NE.0)THEN
+        IF(J_STOK/=0)THEN
          LFT = 1
          LLT = J_STOK
          CALL I7COR3(X    ,IRECT,NSV  ,PROV_E ,PROV_N,
@@ -591,14 +591,14 @@ C---------------------------------
      2                  NY2  ,NZ2 ,NX3,NY3,NZ3,
      3                  NX4  ,NY4 ,NZ4,P1 ,P2 ,
      4                  P3   ,P4)
-         IF(I_STOK+J_STOK.LT.MULTIMP*NSN) THEN
+         IF(I_STOK+J_STOK<MULTIMP*NSN) THEN
           CALL I7CMP3(I_STOK,CAND_E  ,CAND_N,1,PENE,
      1                PROV_N,PROV_E)
          ELSE
           I_BID = 0
           CALL I7CMP3(I_BID,CAND_E,CAND_N,0,PENE,
      1                PROV_N,PROV_E)
-          IF(I_STOK+I_BID.LT.MULTIMP*NSN) THEN
+          IF(I_STOK+I_BID<MULTIMP*NSN) THEN
             CALL I7CMP3(I_STOK,CAND_E,CAND_N,1,PENE,
      1                  PROV_N,PROV_E)
           ELSE
@@ -610,7 +610,7 @@ C---------------------------------
             TZINF_ST = MARGE_ST + MAX(GAP+DGAPLOAD,DRAD)
             I_MEM = 0
 C ne pas dimunuer la taille des boite
-            IF(MARGE_ST.LT.EM03) THEN
+            IF(MARGE_ST<EM03) THEN
               CALL ANCMSG(MSGID=83,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -626,7 +626,7 @@ C
       END DO ! end loop over NSPMD domains
       
       IF(.NOT.TYPE18)THEN
-        IF(NSN.NE.0)THEN
+        IF(NSN/=0)THEN
          WRITE(IOUT,*)' POSSIBLE IMPACT NUMBER:',I_STOK,' (<=',
      .   1+(I_STOK-1)/NSN,'*NSN)'
 

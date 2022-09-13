@@ -97,8 +97,8 @@ C--------------------------------------------------
        IF(KEY(1:6)=='LAGMUL')THEN
         NRB=NRB+1
 C----------Multidomaines --> on ignore les rby tagés---------------	
-        IF(NSUBDOM.GT.0)THEN
-	  IF(TAGRBY(NRB).EQ.0)CALL HM_SZ_R2R(TAGRBY,NRB,LSUBMODEL)
+        IF(NSUBDOM>0)THEN
+	  IF(TAGRBY(NRB)==0)CALL HM_SZ_R2R(TAGRBY,NRB,LSUBMODEL)
 	END IF
 C--------
          CALL HM_GET_INTV('grnd_ID',IGU,IS_AVAILABLE,LSUBMODEL)

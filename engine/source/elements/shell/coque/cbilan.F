@@ -177,7 +177,7 @@ C
 C
 C     !!!!!!!!!! VOL0,VOL00,THK0,THK02,X,VR ne sont transmis que par
 C                CFORC3 et pas par CSUBC3 et CZFORC3 (IFLA=0) !!!!!!!
-      IF(IFLA.NE.0.AND.NPSAV.GE.21)THEN
+      IF(IFLA/=0.AND.NPSAV>=21)THEN
         DO I=JFT,JLT
          XX= X1G(I)+X2G(I)+X3G(I)+X4G(I)
          YY= Y1G(I)+Y2G(I)+Y3G(I)+Y4G(I)
@@ -235,17 +235,17 @@ C
 	IC=1
 	JST(IC)=JFT
 	DO J=JFT+1,JLT
-	  IF (IPARTC(J).NE.IPARTC(J-1)) THEN
+	  IF (IPARTC(J)/=IPARTC(J-1)) THEN
 	    IC=IC+1
 	    JST(IC)=J
 	  ENDIF
 	ENDDO
 	JST(IC+1)=JLT+1
-        IF (IC.EQ.1) THEN
+        IF (IC==1) THEN
          MX = IPARTC(JFT)
 #include      "simd.inc"
          DO I=JFT,JLT
-          IF(OFF(I).NE.0.0)THEN
+          IF(OFF(I)/=0.0)THEN
             PARTSAV(1,MX)=PARTSAV(1,MX) + EI(I)
             PARTSAV(2,MX)=PARTSAV(2,MX) + EK(I)
             PARTSAV(3,MX)=PARTSAV(3,MX) + XM(I)
@@ -273,10 +273,10 @@ C           PARTSAV(8,MX)=PARTSAV(8,MX) + EHOU(I)
 C                 
           DO II=1,IC
             MX=IPARTC(JST(II))
-            IF (JST(II+1)-JST(II).GT.15) THEN
+            IF (JST(II+1)-JST(II)>15) THEN
 #include "simd.inc"
               DO I=JST(II),JST(II+1)-1
-               IF(OFF(I).NE.0.0)THEN
+               IF(OFF(I)/=0.0)THEN
                  PARTSAV(1,MX)=PARTSAV(1,MX) + EI(I)
                  PARTSAV(2,MX)=PARTSAV(2,MX) + EK(I)
                  PARTSAV(3,MX)=PARTSAV(3,MX) + XM(I)
@@ -302,7 +302,7 @@ C                PARTSAV(8,MX)=PARTSAV(8,MX) + EHOU(I)
               ENDDO
             ELSE
               DO I=JST(II),JST(II+1)-1
-               IF(OFF(I).NE.0.0)THEN
+               IF(OFF(I)/=0.0)THEN
                  PARTSAV(1,MX)=PARTSAV(1,MX) + EI(I)
                  PARTSAV(2,MX)=PARTSAV(2,MX) + EK(I)
                  PARTSAV(3,MX)=PARTSAV(3,MX) + XM(I)
@@ -342,17 +342,17 @@ C                PARTSAV(8,MX)=PARTSAV(8,MX) + EHOU(I)
 	IC=1
 	JST(IC)=JFT
 	DO J=JFT+1,JLT
-	  IF (IPARTC(J).NE.IPARTC(J-1)) THEN
+	  IF (IPARTC(J)/=IPARTC(J-1)) THEN
 	    IC=IC+1
 	    JST(IC)=J
 	  ENDIF
 	ENDDO
 	JST(IC+1)=JLT+1		   
-        IF (IC.EQ.1) THEN
+        IF (IC==1) THEN
           MX = IPARTC(JFT)
 #include      "simd.inc"
           DO I=JFT,JLT
-            IF(OFF(I).NE.0.0)THEN
+            IF(OFF(I)/=0.0)THEN
               PARTSAV(1,MX)=PARTSAV(1,MX) + EI(I)
               PARTSAV(2,MX)=PARTSAV(2,MX) + EK(I)
               PARTSAV(3,MX)=PARTSAV(3,MX) + XM(I)
@@ -365,10 +365,10 @@ C             PARTSAV(8,MX)=PARTSAV(8,MX) + EHOU(I)
         ELSE
            DO II=1,IC
              MX=IPARTC(JST(II))
-             IF (JST(II+1)-JST(II).GT.15) THEN
+             IF (JST(II+1)-JST(II)>15) THEN
 #include "simd.inc"
                DO I=JST(II),JST(II+1)-1
-                 IF(OFF(I).NE.0.0)THEN
+                 IF(OFF(I)/=0.0)THEN
                    PARTSAV(1,MX)=PARTSAV(1,MX) + EI(I)
                    PARTSAV(2,MX)=PARTSAV(2,MX) + EK(I)
                    PARTSAV(3,MX)=PARTSAV(3,MX) + XM(I)
@@ -380,7 +380,7 @@ C                  PARTSAV(8,MX)=PARTSAV(8,MX) + EHOU(I)
                ENDDO
              ELSE
                DO I=JST(II),JST(II+1)-1
-                 IF(OFF(I).NE.0.0)THEN
+                 IF(OFF(I)/=0.0)THEN
                    PARTSAV(1,MX)=PARTSAV(1,MX) + EI(I)
                    PARTSAV(2,MX)=PARTSAV(2,MX) + EK(I)
                    PARTSAV(3,MX)=PARTSAV(3,MX) + XM(I)
@@ -398,7 +398,7 @@ C
       IF(IEXPAN > 0) THEN
          DO I=JFT,JLT
             MX = IPARTC(I)
-            IF(OFF(I).NE.0.0)THEN
+            IF(OFF(I)/=0.0)THEN
                PARTSAV(27,MX)=PARTSAV(27,MX) + EINTTH(I)
             ENDIF
          ENDDO

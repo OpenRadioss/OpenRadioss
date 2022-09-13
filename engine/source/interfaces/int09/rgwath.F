@@ -81,7 +81,7 @@ C-----------------------------------------------
       DOUBLE PRECISION 
      .   FRWL6(6,6)
 C
-      IF(MSR.EQ.0)THEN
+      IF(MSR==0)THEN
        XWL=RWL(4)
        YWL=RWL(5)
        ZWL=RWL(6)
@@ -131,7 +131,7 @@ C
       ZC=UZ-ZWL
       DP=XC*RWL(1)+YC*RWL(2)+ZC*RWL(3)
       NSW(I) = N
-      IF(DP.GT.ZERO)GOTO 20
+      IF(DP>ZERO)GOTO 20
        NTAG(N) = 1
        DV=(V(N1)-VXW)*RWL(1)+(V(N2)-VYW)*RWL(2)+(V(N3)-VZW)*RWL(3)
        DVT=DV
@@ -144,7 +144,7 @@ C
 c       FXN=FXN+FNXN*WEIGHT(N)
 c       FYN=FYN+FNYN*WEIGHT(N)
 c       FZN=FZN+FNZN*WEIGHT(N)
-       IF(ITIED.NE.0)THEN
+       IF(ITIED/=0)THEN
         FNXT=((V(N1)-VXW))*MS(N)-FNXN
         FNYT=((V(N2)-VYW))*MS(N)-FNYN
         FNZT=((V(N3)-VZW))*MS(N)-FNZN
@@ -153,7 +153,7 @@ c       FZN=FZN+FNZN*WEIGHT(N)
         FHEAT=RWL(12)
         FRIC =RWL(13)
         FRIC2=FRIC**2
-        IF(FTDFT.LE.FRIC2*FNDFN.OR.ITIED.EQ.1) THEN
+        IF(FTDFT<=FRIC2*FNDFN.OR.ITIED==1) THEN
 C         POINT SECND TIED
           V(N1)=VXW
           V(N2)=VYW
@@ -195,7 +195,7 @@ c        FZT=ZERO
 C
 C Traitement Parith/ON
 C
-      IF (MSR.NE.0) THEN
+      IF (MSR/=0) THEN
         DO K = 1, 6
           FRWL6(1,K) = ZERO
           FRWL6(2,K) = ZERO
@@ -213,7 +213,7 @@ C
         
         IF(NSPMD > 1) THEN
 Cel si proc concerne par le rgwall
-          IF(FR_WALL(ISPMD+1).NE.0) THEN
+          IF(FR_WALL(ISPMD+1)/=0) THEN
             CALL SPMD_EXCH_FR6(FR_WALL,FRWL6,6*6)
           ENDIF
           PMAIN = FR_WALL(NSPMD+2)
@@ -233,13 +233,13 @@ Cel si proc concerne par le rgwall
      .        FRWL6(5,4)+FRWL6(5,5)+FRWL6(5,6)
         FZT = FRWL6(6,1)+FRWL6(6,2)+FRWL6(6,3)+
      .        FRWL6(6,4)+FRWL6(6,5)+FRWL6(6,6)
-        IF(MS(MSR).NE.ZERO)THEN
+        IF(MS(MSR)/=ZERO)THEN
           A(M1)=(FXT+FXN) / DT12
           A(M2)=(FYT+FYN) / DT12
           A(M3)=(FZT+FZN) / DT12
         ENDIF
 
-        IF(ISPMD+1.EQ.PMAIN)THEN
+        IF(ISPMD+1==PMAIN)THEN
 C
 CGW   TFEXT=TFEXT 
 CCG   L' ENERGIE DE FROTTEMENT EST MISE DS LES ELEMENTS
@@ -256,7 +256,7 @@ C
 C----------------------
 C     PONT THERMIQUE
 C----------------------
-      IF(N2D.EQ.0)THEN
+      IF(N2D==0)THEN
         CALL RGWAT3(
      1               X        ,NELW ,NE      ,IXS    ,
      4               ELBUF_TAB,IPARG,PM      ,NTAG   ,TEMP   ,

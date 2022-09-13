@@ -96,18 +96,18 @@ C-----------------------------------------------
 C
       IALLOCS = LEN20*ISLEN20 + LEN20*ISLEN20T + LEN20E*ISLEN20E
       IERROR=0
-      IF(IALLOCS.GT.0)
+      IF(IALLOCS>0)
      +  ALLOCATE(BBUFS(IALLOCS),STAT=IERROR)
-      IF(IERROR.NE.0) THEN
+      IF(IERROR/=0) THEN
         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
         CALL ARRET(2)
       END IF
 C
       IALLOCR = LEN20*IRLEN20 + LEN20*IRLEN20T + LEN20E*IRLEN20E
       IERROR=0
-      IF(IALLOCR.GT.0)
+      IF(IALLOCR>0)
      +  ALLOCATE(BBUFR(IALLOCR),STAT=IERROR)
-      IF(IERROR.NE.0) THEN
+      IF(IERROR/=0) THEN
         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
         CALL ARRET(2)
       END IF
@@ -119,14 +119,14 @@ C
         ADD = L+1
         ADDR(P) = ADD
         SIZ = 0
-        IF(P.NE.LOC_PROC)THEN
+        IF(P/=LOC_PROC)THEN
           NB  = NSNFI(NIN)%P(P)
           L = L + NB*LEN20
 C ajout partie edge pour type 20
           NB = NSNFIE(NIN)%P(P)
           L = L + NB*LEN20E
           SIZ = L+1-ADD
-          IF(SIZ.GT.0)THEN
+          IF(SIZ>0)THEN
             MSGTYP = MSGOFF
             CALL MPI_IRECV(
      .          BBUFR(ADD),SIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
@@ -135,7 +135,7 @@ C ajout partie edge pour type 20
         ENDIF
       ENDDO
       ADDR(NSPMD+1) = ADDR(NSPMD)+SIZ
-      IF(L.GT.0) THEN
+      IF(L>0) THEN
         ISTOCOM = 1
       ENDIF
 C
@@ -148,7 +148,7 @@ C
         ADD = L+1
         ADDS(P) = ADD
         SIZ = 0
-        IF(P.NE.LOC_PROC)THEN
+        IF(P/=LOC_PROC)THEN
           IDEB = DEBUT
           NB = NSNSI(NIN)%P(P)
           DO I = 1, NB
@@ -182,7 +182,7 @@ C
           DEBUTE=DEBUTE+NB
 C end i20 edge
           SIZ = L+1-ADD
-          IF(SIZ.GT.0)THEN
+          IF(SIZ>0)THEN
             MSGTYP = MSGOFF
 C BUFR : reception partie force et envoi partie vitesse
             CALL MPI_ISEND(
@@ -195,7 +195,7 @@ C BUFR : reception partie force et envoi partie vitesse
 C
 C Attente reception buffer et decompactage
 C
-      IF(ISTOCOM.EQ.1)THEN
+      IF(ISTOCOM==1)THEN
 C
         DEBUT = 0
         DEBUTE= 0
@@ -203,11 +203,11 @@ C
 C Attente IRECV
 C
         DO P = 1, NSPMD
-          IF(ADDR(P+1)-ADDR(P).GT.0) THEN
+          IF(ADDR(P+1)-ADDR(P)>0) THEN
             CALL MPI_WAIT(REQ_RI(P),STATUS,IERROR)
             L = ADDR(P)-1
             NB = NSNFI(NIN)%P(P)
-            IF(NB.GT.0)THEN
+            IF(NB>0)THEN
               IDEB = DEBUT
               DO I = 1, NB
                 SOLIDN_NORMAL_F(1,I+IDEB) = BBUFR(L+1)
@@ -221,7 +221,7 @@ C
 C Extra Code for Type20 Edge
 C
             NB = NSNFIE(NIN)%P(P)
-            IF(NB.GT.0)THEN
+            IF(NB>0)THEN
               IDEB = DEBUTE
               DO I = 1, NB
                 N1 = 2*(I+IDEB-1)+1
@@ -241,7 +241,7 @@ C end extra for i20 edge
         END DO
       END IF
 C
-      IF(IALLOCR.GT.0)THEN
+      IF(IALLOCR>0)THEN
         DEALLOCATE(BBUFR)
         IALLOCR=0
       END IF
@@ -249,12 +249,12 @@ C
 C Attente ISEND
 C
       DO P = 1, NSPMD
-        IF(ADDS(P+1)-ADDS(P).GT.0) THEN
+        IF(ADDS(P+1)-ADDS(P)>0) THEN
           CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
         ENDIF
       ENDDO
 C
-      IF(IALLOCS.GT.0)THEN
+      IF(IALLOCS>0)THEN
         DEALLOCATE(BBUFS)
         IALLOCS=0
       END IF

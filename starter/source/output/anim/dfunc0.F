@@ -116,7 +116,7 @@ c
               DO I=LFT,LLT                                               
 !!                II = (I-1)*6
                 N = I + NFT                                              
-                IF(EL2FA(NN1+N).NE.0)THEN                                
+                IF(EL2FA(NN1+N)/=0)THEN                                
                   P = - (GBUF%SIG(II(1) + I)                
      .                 + GBUF%SIG(II(2) + I)                
      .                 + GBUF%SIG(II(3) + I) ) * THIRD
@@ -140,14 +140,14 @@ c
               DO I=LFT,LLT                                               
 !!                II = (I-1)*6
                 N = I + NFT                                               
-                IF(EL2FA(NN1+N).NE.0)THEN                                 
+                IF(EL2FA(NN1+N)/=0)THEN                                 
                    FUNC(EL2FA(NN1+N)) = GBUF%SIG(II(IFUNC - 13) + I)
                ENDIF                                                     
               ENDDO                                                      
             ELSE                                                         
               DO I=LFT,LLT                                               
                 N = I + NFT                                               
-                IF(EL2FA(NN1+N).NE.0)THEN                                 
+                IF(EL2FA(NN1+N)/=0)THEN                                 
                    FUNC(EL2FA(NN1+N)) = ZERO                             
                 ENDIF                                                     
               ENDDO                                                      

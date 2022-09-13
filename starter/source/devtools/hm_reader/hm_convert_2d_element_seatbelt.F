@@ -103,7 +103,7 @@ c
 C-----------------------------------------------
 C   Search Parts with Mat 119 
 C-----------------------------------------------
-      IF (NB_MAT_119 .NE. 0) THEN
+      IF (NB_MAT_119 /= 0) THEN
         ALLOCATE(MAT119_IDS(NB_MAT_119))
         MAT119_IDS(1:NB_MAT_119) = 0
         J = 0
@@ -144,10 +144,10 @@ c
       CALL HM_OPTION_START('/PART')
       DO I=1,NB_PART
         CALL HM_OPTION_NEXT()
-        IF(PART_MAT119(I) .NE. 0) THEN
+        IF(PART_MAT119(I) /= 0) THEN
           CALL CPP_GET_SUBMODEL_INDEX(SUBMODEL_INDEX)
           OFFSET = 0
-          IF(SUBMODEL_INDEX .NE.0) OFFSET = LSUBMODEL(SUBMODEL_INDEX)%OFF_DEF
+          IF(SUBMODEL_INDEX /=0) OFFSET = LSUBMODEL(SUBMODEL_INDEX)%OFF_DEF
           CALL CPP_CONVERT_2D_ELEMENT_SEATBELT(PART_MAT119,IDMAX_PART,IDMAX_PROP,IDMAX_MAT,IDMAX_ELEM,OFFSET)
         ENDIF
       ENDDO

@@ -277,7 +277,7 @@ C-----------------------------------------------
         DO I=1,6 ; CALL WRITE_DB ( BRICK_LIST(NIN,1:I22LEN)%bakMAT%sig(I)                       , I22LEN) ; ENDDO 
                    CALL WRITE_DB ( BRICK_LIST(NIN,1:I22LEN)%bakMAT%ssp                          , I22LEN) 
         ISIZ = MAX (I22LAW37, I22LAW51)
-        IF(ISIZ.NE.0)THEN
+        IF(ISIZ/=0)THEN
           DO K=1,I22LEN
           DO I=1,ISIZ  
                    CALL WRITE_DB ( BRICK_LIST(NIN,K)%bakMAT%UVAR(I)                             , 1)

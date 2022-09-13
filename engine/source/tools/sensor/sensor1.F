@@ -116,7 +116,7 @@ C--------------------------------
 C         CAPTEUR - ACCELEROMETRE
 C--------------------------------
       ELSEIF(TYP == 1)THEN
-        IF(TSTART-TDELAY.LE.TT)RETURN
+        IF(TSTART-TDELAY<=TT)RETURN
         DO I = 1,NAC
           AMIN = SENS2(1+(I-1)*3,1)
           DURE = SENS2(2+(I-1)*3,1)
@@ -157,7 +157,7 @@ C           XYZ
             TACT = EP20
           ENDIF
           SENS2(3+(I-1)*3,1)=TACT
-          IF(TACT+DURE.LE.TT)THEN
+          IF(TACT+DURE<=TT)THEN
 C           ACTIVATION DU SENSOR
             TSTART  =TT+TDELAY
             SENS1(2)=TSTART
@@ -173,7 +173,7 @@ C--------------------------------
 C         CAPTEUR - DISTANCE
 C--------------------------------
       ELSEIF(TYP == 2)THEN
-        IF(TSTART-TDELAY.LE.TT)RETURN
+        IF(TSTART-TDELAY<=TT)RETURN
         N1    = LSENS1(4)
         N2    = LSENS1(5)
         DM1   = SENS1(3)
@@ -529,7 +529,7 @@ C--------------------------------
 C         CAPTEUR - GAUGE
 C--------------------------------
       ELSEIF(TYP == 10)THEN
-        IF(TSTART-TDELAY.LE.TT)RETURN
+        IF(TSTART-TDELAY<=TT)RETURN
         DO I = 1,NAC
           AMIN = SENS2(1,I)
           DURE = SENS2(2,I)
@@ -543,7 +543,7 @@ C--------------------------------
             TACT = EP20
           ENDIF
           SENS2(3,I)=TACT
-          IF(TACT+DURE.LE.TT)THEN
+          IF(TACT+DURE<=TT)THEN
 C           ACTIVATION DU SENSOR
             TSTART  =TT+TDELAY
             SENS1(2)=TSTART

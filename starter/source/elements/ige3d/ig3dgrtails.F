@@ -145,7 +145,7 @@ C dd-iad
         P = CEP(NFT+INDEX(1))
         NB = 1
         DO I = 2, NEL
-          IF (CEP(NFT+INDEX(I)).NE.P) THEN
+          IF (CEP(NFT+INDEX(I))/=P) THEN
             DD_IAD(P+1,NSPGROUP+N) = NB
             NB = 1
             P = CEP(NFT+INDEX(I))
@@ -182,7 +182,7 @@ C
        DO P = 1, NSPMD
         NGP(P)=0
         NEL = DD_IAD(P+1,NSPGROUP+N)-DD_IAD(P,NSPGROUP+N)
-        IF (NEL.GT.0) THEN
+        IF (NEL>0) THEN
          NEL_PREC = DD_IAD(P,NSPGROUP+N)-DD_IAD(1,NSPGROUP+N)
          NGP(P)=NGROUP
          NG  = (NEL-1)/NVSIZ + 1
@@ -202,7 +202,7 @@ C xgroup global
           JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if unconsistent, error message was displayed in PART reader
  
           JLAG=0
-          IF(JALE == 0.AND.MTNN.NE.18)JLAG=1
+          IF(JALE == 0.AND.MTNN/=18)JLAG=1
           JEUL=0
           IF(JALE == 2)THEN
             JALE=0
@@ -211,7 +211,7 @@ C foam + air
           ELSEIF(JALE == 3 .AND. MTNN == 77) THEN
             JLAG=1          
           ENDIF
-          IF(MTNN.NE.50)JTUR=NINT(PM(70,MID)) 
+          IF(MTNN/=50)JTUR=NINT(PM(70,MID)) 
           JTHE=NINT(PM(71,MID))
 
 C

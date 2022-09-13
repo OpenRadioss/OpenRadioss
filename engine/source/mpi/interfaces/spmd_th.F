@@ -62,10 +62,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      IF (LEN .GT. 0) THEN
+      IF (LEN > 0) THEN
         CALL MPI_ALLREDUCE(V,VTMP,LEN,REAL,MPI_MIN,
      .                     MPI_COMM_WORLD,IERROR)
-        IF(ISPMD.EQ.0)THEN
+        IF(ISPMD==0)THEN
           DO I = 1, LEN
             V(I) = VTMP(I)
           END DO
@@ -118,12 +118,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      IF (LEN .GT. 0) THEN
+      IF (LEN > 0) THEN
         CALL MPI_REDUCE(V,VTMP,LEN,
      .                  REAL,MPI_SUM,IT_SPMD(1),
      .                  MPI_COMM_WORLD,ierror)
       ENDIF
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
         DO I=1,LEN
           V(I) = VTMP(I)
         END DO
@@ -171,12 +171,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      IF (LEN .GT. 0) THEN
+      IF (LEN > 0) THEN
         CALL MPI_REDUCE(V,VTMP,LEN,
      .                  MPI_DOUBLE_PRECISION,MPI_SUM,IT_SPMD(1),
      .                  MPI_COMM_WORLD,ierror)
       ENDIF
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
         DO I=1,LEN
           V(I) = VTMP(I)
         END DO
@@ -223,12 +223,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      IF (LEN .GT. 0) THEN
+      IF (LEN > 0) THEN
         CALL MPI_REDUCE(V,VTMP,LEN,
      .                  MPI_REAL4,MPI_SUM,IT_SPMD(1),
      .                  MPI_COMM_WORLD,ierror)
       ENDIF
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
         DO I=1,LEN
           V(I) = VTMP(I)
         END DO
@@ -278,14 +278,14 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD+1
-      IF (LOC_PROC.NE.MAIN) THEN
+      IF (LOC_PROC/=MAIN) THEN
         MSGTYP=MSGOFF
             CALL MPI_SEND(TAG,1,MPI_INTEGER,IT_SPMD(MAIN),
      .                    MSGTYP,MPI_COMM_WORLD,IERROR)
       ELSE
         ICOMV(MAIN) = TAG
         DO K=1,NSPMD
-          IF(K.NE.MAIN) THEN
+          IF(K/=MAIN) THEN
             MSGTYP=MSGOFF
             CALL MPI_RECV(TAG,1,MPI_INTEGER,IT_SPMD(K),
      .                    MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
@@ -340,12 +340,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      IF (LEN .GT. 0) THEN
+      IF (LEN > 0) THEN
         CALL MPI_REDUCE(V,VTMP,LEN,
      .                  MPI_REAL,MPI_SUM,IT_SPMD(1),
      .                  MPI_COMM_WORLD,IERROR)
       ENDIF
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
         DO I=1,LEN
           V(I) = VTMP(I)
         END DO
@@ -418,12 +418,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      IF (LEN .GT. 0) THEN
+      IF (LEN > 0) THEN
         CALL MPI_REDUCE(V,VTMP,LEN,
      .                  REAL,MPI_SUM,IT_SPMD(1),
      .                  MPI_COMM_WORLD,IERROR)
       ENDIF
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
         DO I=1,LEN
           V(I) = VTMP(I)
         END DO
@@ -476,12 +476,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      IF (LEN .GT. 0) THEN
+      IF (LEN > 0) THEN
         CALL MPI_REDUCE(V,VTMP,LEN,
      .                  MPI_DOUBLE_PRECISION,MPI_SUM,IT_SPMD(1),
      .                  MPI_COMM_WORLD,IERROR)
       ENDIF
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
         DO I=1,LEN
           V(I) = VTMP(I)
         END DO
@@ -559,12 +559,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      IF (LEN .GT. 0) THEN
+      IF (LEN > 0) THEN
         CALL MPI_REDUCE(V,VTMP,LEN,
      .                  MPI_INTEGER,MPI_SUM,IT_SPMD(1),
      .                  MPI_COMM_WORLD,IERROR)
       ENDIF
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
         DO I=1,LEN
           V(I) = VTMP(I)
         END DO
@@ -612,12 +612,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      IF (LEN .GT. 0) THEN
+      IF (LEN > 0) THEN
         CALL MPI_REDUCE(V,VTMP,LEN,
      .                  REAL,MPI_MIN,IT_SPMD(1),
      .                  MPI_COMM_WORLD,IERROR)
       ENDIF
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
         DO I=1,LEN
           V(I) = VTMP(I)
         END DO
@@ -665,12 +665,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      IF (LEN .GT. 0) THEN
+      IF (LEN > 0) THEN
         CALL MPI_REDUCE(V,VTMP,LEN,
      .                  REAL,MPI_MAX,IT_SPMD(1),
      .                  MPI_COMM_WORLD,IERROR)
       ENDIF
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
         DO I=1,LEN
           V(I) = VTMP(I)
         END DO

@@ -146,16 +146,16 @@ C
           T(I) = LC1(I)
        ELSE
           PENE(I) = MAX(P1(I),P2(I),P3(I),P4(I))
-          IF(P1(I).EQ.PENE(I))THEN
+          IF(P1(I)==PENE(I))THEN
             S(I) = -LB1(I) + LC1(I)
             T(I) = -LB1(I) - LC1(I)
-          ELSEIF(P2(I).EQ.PENE(I))THEN
+          ELSEIF(P2(I)==PENE(I))THEN
             S(I) =  LB2(I) + LC2(I)
             T(I) = -LB2(I) + LC2(I)
-          ELSEIF(P3(I).EQ.PENE(I))THEN
+          ELSEIF(P3(I)==PENE(I))THEN
             S(I) =  LB3(I) - LC3(I)
             T(I) =  LB3(I) + LC3(I)
-          ELSEIF(P4(I).EQ.PENE(I))THEN
+          ELSEIF(P4(I)==PENE(I))THEN
             S(I) = -LB4(I) - LC4(I)
             T(I) =  LB4(I) - LC4(I)
           ELSE
@@ -167,18 +167,18 @@ C
 C   
       IF(IGNORE==2 .OR. IGNORE == 3)THEN
         DO I=LFT,LLT
-          IF(PENE(I).GT.ZERO  .AND.
+          IF(PENE(I)>ZERO  .AND.
      .          (S(I) < ONEP5 .AND. 
      .           T(I) < ONEP5 .AND.
      .           S(I) >-ONEP5 .AND.
      .           T(I) >-ONEP5))THEN
             II=CAND_N(I)
-            IF(GAPV(I) - PENE(I).LT.DMIN(II))THEN
+            IF(GAPV(I) - PENE(I)<DMIN(II))THEN
               DMIN(II)=GAPV(I)-PENE(I)
               IRTL(II)=CAND_E(I)
               ST(1,II) = S(I)
               ST(2,II) = T(I)
-            ELSEIF(GAPV(I) - PENE(I).EQ.DMIN(II))THEN
+            ELSEIF(GAPV(I) - PENE(I)==DMIN(II))THEN
               CALL CHOOSE_MAIN_SEGMENT(IRECT,IRTL(II),CAND_E(I),S(I),T(I),ST(1,II),ST(2,II),TFLAG(I),II)
             ENDIF
           ENDIF
@@ -186,19 +186,19 @@ C
       ELSEIF(IGNORE==1)THEN
         DO I=LFT,LLT
 C
-        IF(PENE(I).GT.ZERO  .AND.
+        IF(PENE(I)>ZERO  .AND.
      .          (S(I) < ONEP5 .AND. 
      .           T(I) < ONEP5 .AND.
      .           S(I) >-ONEP5 .AND.
      .           T(I) >-ONEP5))  THEN
           II=CAND_N(I)
           
-          IF(TZINF - PENE(I).LT.DMIN(II))THEN
+          IF(TZINF - PENE(I)<DMIN(II))THEN
             DMIN(II)=TZINF - PENE(I)
             IRTL(II)=CAND_E(I)
             ST(1,II) = S(I)
             ST(2,II) = T(I)
-          ELSEIF(TZINF - PENE(I).EQ.DMIN(II))THEN
+          ELSEIF(TZINF - PENE(I)==DMIN(II))THEN
              CALL CHOOSE_MAIN_SEGMENT(IRECT,IRTL(II),CAND_E(I),S(I),T(I),ST(1,II),ST(2,II),TFLAG(I),II) 
           ENDIF
          ENDIF
@@ -206,15 +206,15 @@ C
       ELSE
         DO I=LFT,LLT
 C
-        IF(PENE(I).GT.ZERO)  THEN
+        IF(PENE(I)>ZERO)  THEN
           II=CAND_N(I)
           
-          IF(TZINF - PENE(I).LT.DMIN(II))THEN
+          IF(TZINF - PENE(I)<DMIN(II))THEN
             DMIN(II)=TZINF - PENE(I)
             IRTL(II)=CAND_E(I)
             ST(1,II) = S(I)
             ST(2,II) = T(I)
-          ELSEIF(TZINF - PENE(I).EQ.DMIN(II))THEN
+          ELSEIF(TZINF - PENE(I)==DMIN(II))THEN
              CALL CHOOSE_MAIN_SEGMENT(IRECT,IRTL(II),CAND_E(I),S(I),T(I),ST(1,II),ST(2,II),TFLAG(I),II)
           ENDIF
          ENDIF
@@ -257,14 +257,14 @@ C-----------------------------------------------
 C
       IF (IRECT(3,M_OLD)==IRECT(4,M_OLD)) THEN
         TFLAG_OLD = 1
-        IF ((S.GE.ZERO).AND.(T.GE.ZERO).AND.(ONE-S-T.GE.ZERO)) THEN
+        IF ((S>=ZERO).AND.(T>=ZERO).AND.(ONE-S-T>=ZERO)) THEN
           INTERIOR_OLD = 1
         ELSE
           INTERIOR_OLD = 0
         ENDIF        
       ELSE
         TFLAG_OLD = 0
-        IF ((ABS(S).LE.ONE).AND.(ABS(T).LE.ONE)) THEN
+        IF ((ABS(S)<=ONE).AND.(ABS(T)<=ONE)) THEN
           INTERIOR_OLD = 1
         ELSE
           INTERIOR_OLD = 0
@@ -272,13 +272,13 @@ C
       ENDIF
 C
       IF (TFLAG==1) THEN
-        IF ((S_NEW.GE.ZERO).AND.(T_NEW.GE.ZERO).AND.(ONE-S_NEW-T_NEW.GE.ZERO)) THEN
+        IF ((S_NEW>=ZERO).AND.(T_NEW>=ZERO).AND.(ONE-S_NEW-T_NEW>=ZERO)) THEN
           INTERIOR = 1
         ELSE
           INTERIOR = 0
         ENDIF        
       ELSE
-        IF ((ABS(S_NEW).LE.ONE).AND.(ABS(T_NEW).LE.ONE)) THEN
+        IF ((ABS(S_NEW)<=ONE).AND.(ABS(T_NEW)<=ONE)) THEN
           INTERIOR = 1
         ELSE
           INTERIOR = 0
@@ -289,14 +289,14 @@ C--  Choose segement to keep as main segment
       SWITCH = 0
       IF ((TFLAG_OLD==0).AND.(TFLAG==0)) THEN
 C--     two quadrangles
-        IF (MAX(ABS(S_NEW),ABS(T_NEW)).LT.MAX(ABS(S),ABS(T))) SWITCH = 1    
+        IF (MAX(ABS(S_NEW),ABS(T_NEW))<MAX(ABS(S),ABS(T))) SWITCH = 1    
       ELSE
 C--     At least on segment is a triangle
         IF (INTERIOR_OLD < INTERIOR) THEN
           SWITCH = 1
         ELSEIF (INTERIOR_OLD == INTERIOR) THEN
 C--     The segment with projection clostet to center is retained ((1/3,1/3) for triangles and (0,0) for quadrangles)
-          IF (((S_NEW-THIRD*TFLAG)**2+(T_NEW-THIRD*TFLAG)**2).LT.
+          IF (((S_NEW-THIRD*TFLAG)**2+(T_NEW-THIRD*TFLAG)**2)<
      .        ((S-THIRD*TFLAG_OLD)**2+(T-THIRD*TFLAG_OLD)**2)) SWITCH = 1
         ENDIF
       ENDIF

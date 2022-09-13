@@ -52,14 +52,14 @@ C
       DO I=1, LENGTH
          LMESS = LMESS + 1
 C
-         IF (TABINT(I) .EQ. 10) THEN
-            IF (LMESS .GT. 1) THEN
+         IF (TABINT(I) == 10) THEN
+            IF (LMESS > 1) THEN
                WRITE(UNIT,'(A)') MESSAGE(1:LMESS-1)
             ELSE
                WRITE(UNIT,'(A)') ' '
             ENDIF
             LMESS = 0
-         ELSEIF ( LMESS .EQ.80 ) THEN
+         ELSEIF ( LMESS ==80 ) THEN
             MESSAGE(LMESS:LMESS)=CHAR(TABINT(I))
             WRITE(UNIT,'(A)') MESSAGE(1:LMESS)
             LMESS = 0
@@ -69,7 +69,7 @@ C
 C
       ENDDO
 C
-      IF (LMESS .GT. 0) THEN
+      IF (LMESS > 0) THEN
          WRITE(UNIT,'(A)') MESSAGE(1:LMESS)
       ENDIF
 C

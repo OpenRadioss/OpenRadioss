@@ -83,13 +83,13 @@ C
 C
         ISENS=0
         DO K=1,NSENSOR
-          IF(IGRV(6,NL).EQ.LSENSOR(1,K))ISENS=K
+          IF(IGRV(6,NL)==LSENSOR(1,K))ISENS=K
         ENDDO
-        IF(ISENS.EQ.0)THEN
+        IF(ISENS==0)THEN
           TS=TT
         ELSE
           TS = TT-SENSOR(2,ISENS)
-          IF(TS.LT.0.0)CYCLE
+          IF(TS<0.0)CYCLE
         ENDIF
 C
         IF (IFUNC > 0) THEN
@@ -101,13 +101,13 @@ C
         ENDIF
 C
         AA = GAMA
-        IF(ISK.LE.1)THEN
+        IF(ISK<=1)THEN
 #include "vectorize.inc"
           DO J=IADF,IADL
             N1=IABS(IB(J))
             IF(TAGSLV_RBY_SMS(N1)/=0) CYCLE
             A(N2,N1)=A(N2,N1)+MS(N1)*AA
-            IF(IB(J).GT.0)
+            IF(IB(J)>0)
      .        TFEXTT=TFEXTT
      .              +HALF*(A0+AA)*MS(N1)*V(N2,N1)*DT1*WEIGHT(N1)
           ENDDO
@@ -124,7 +124,7 @@ C
             A(1,N1)=A(1,N1)+SKEW(K1,ISK)*MS(N1)*AA
             A(2,N1)=A(2,N1)+SKEW(K2,ISK)*MS(N1)*AA
             A(3,N1)=A(3,N1)+SKEW(K3,ISK)*MS(N1)*AA
-            IF(IB(J).GT.0)
+            IF(IB(J)>0)
      .        TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*VV*DT1*WEIGHT(N1)
           ENDDO
         ENDIF

@@ -217,7 +217,7 @@ C-----------------------------------------------
 !      !---------------------------------!
 !      !       PRESSURE CORRECTION       !
 !      !---------------------------------!
-!      IF (IBAG.NE.0)THEN
+!      IF (IBAG/=0)THEN
 !#include "lockon.inc"
 !        DO I=1,JLT
 !          PRES(CE_LOC(I)) = PRES(CE_LOC(I)) + FNI(I)
@@ -236,7 +236,7 @@ C
       !       PARAMETER INIT.           !
       !---------------------------------! 
       DO I=1,JLT
-        IF(IX3(I).NE.IX4(I))THEN
+        IF(IX3(I)/=IX4(I))THEN
           NP_RECT(I) = 4  
           W(1:4,I) = FOURTH
          ELSE
@@ -293,7 +293,7 @@ c        IF(NBCUT==0) print *, "     C Y C L E"
 
         DO ICUT=1,NBCUT
 
-          IF(CAND_E(I).LT.0) CYCLE   !ICUT=1,8 do not project shell which do not intersect
+          IF(CAND_E(I)<0) CYCLE   !ICUT=1,8 do not project shell which do not intersect
           !
           ! +------------+------------+
           ! +        |   +       |    +      20 with facette 1 + ( + : intersection)
@@ -339,7 +339,7 @@ c        IF(NBCUT==0) print *, "     C Y C L E"
           IF(IEM1==IE)THEN
             IBM1 = IB
           ELSE
-            IF(JM1.LE.NV46)THEN
+            IF(JM1<=NV46)THEN
               IBM1 = BRICK_LIST(NIN,IB)%Adjacent_Brick(JM1,4)
             ELSE
               J1   = JM1/10
@@ -351,7 +351,7 @@ c        IF(NBCUT==0) print *, "     C Y C L E"
           IF(IEM2==IE)THEN
             IBM2 = IB
           ELSE
-            IF(JM2.LE.NV46)THEN
+            IF(JM2<=NV46)THEN
               IBM2 = BRICK_LIST(NIN,IB)%Adjacent_Brick(JM2,4)
             ELSE
               J1   = JM2/10
@@ -460,10 +460,10 @@ C          print *, "FF=", FF(1), ITAB(IRECT(1:4,CE_LOC(I)))
         
         DO J=1,6
           NP = BRICK_LIST(NIN,IB)%PCUT(8+J)%NP
-          IF(NP.LE.0)CYCLE
+          IF(NP<=0)CYCLE
           ICELL1        = 9          
           FACE          = BRICK_LIST(NIN,IB)%POLY(9)%FACE(J)%Surf
-          IF(FACE.LE.ZERO) CYCLE
+          IF(FACE<=ZERO) CYCLE
           !-------------------------------!
           !     GET RELATIVE PRESSURE.    !
           ! FROM BOTH SIDE OF CUT SURFACE !
@@ -488,8 +488,8 @@ C          print *, "FF=", FF(1), ITAB(IRECT(1:4,CE_LOC(I)))
           IF(IEM1==IE)THEN
             IBM1 = IB
           ELSE
-            IF(JM1.LE.NV46)THEN !1<= direct <=6   ;  indirect >= 10
-C              if (jm1.eq.0)then
+            IF(JM1<=NV46)THEN !1<= direct <=6   ;  indirect >= 10
+C              if (jm1==0)then
 C                print *, "i22for3.F:issue"
 C                pause
 C              endif
@@ -504,7 +504,7 @@ C              endif
           IF(IEM2 == IEv)THEN
             IBM2       = IBv
           ELSE
-            IF(JM2.LE.NV46)THEN
+            IF(JM2<=NV46)THEN
               IBM2     = BRICK_LIST(NIN,IBv)%Adjacent_Brick(JM2,4)
             ELSE
               J1       = JM2/10
@@ -717,7 +717,7 @@ C
       !---------------------------------!
       !       /ANIM/VECT/CONT           !
       !---------------------------------!
-      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT.GT.0)THEN
+      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0)THEN
 #include "lockon.inc"
            DO I=1,JLT  
              IB    = CB_LOC(I)
@@ -760,9 +760,9 @@ C
       !---------------------------------!
       !       /ANIM/VECT/PCONT          !
       !---------------------------------!   
-      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT.GT.0.AND.
-     .          (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.
-     .              (MANIM.GE.4.AND.MANIM.LE.15).OR.H3D_DATA%MH3D.NE.0))THEN
+      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
+     .          (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .              (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0))THEN
 #include "lockon.inc"
            DO I=1,JLT
              FNCONT(1,IX1(I)) =FNCONT(1,IX1(I)) + FXI(I)

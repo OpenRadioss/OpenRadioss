@@ -117,13 +117,13 @@ C
       IPARTR => IPART(I15F:I15G-1)
 C-----------------------------------------------------
       IF(NODADT/=0)THEN
-        IF(IDTGR(11).EQ.0)THEN
+        IF(IDTGR(11)==0)THEN
           TAGN(1:NUMNOD)=1                                          
         ELSE
           TAGN(1:NUMNOD)=0
           IOK = 0
           DO N=1,NGRNOD
-            IF (IABS(IDTGR(11)).EQ.IGRNOD(N)%ID) THEN
+            IF (IABS(IDTGR(11))==IGRNOD(N)%ID) THEN
               IDTGRX= N
               IOK   = 1
             ENDIF
@@ -172,12 +172,12 @@ C
           END DO
         END IF
 C-----------------------------------------------------
-        IF (ISMS_SELEC.EQ.1) THEN
+        IF (ISMS_SELEC==1) THEN
 C-- Full AMS
           DO I=1,NUMELR
             TAGR(I)=1
           END DO
-        ELSEIF (ISMS_SELEC.EQ.2) THEN
+        ELSEIF (ISMS_SELEC==2) THEN
 C-- AMS by parts    
           DO I=1,NUMELR
             IF(TAGPRT_SMS(IPARTR(I))==0)THEN
@@ -186,7 +186,7 @@ C-- AMS by parts
               TAGR(I)=1
             END IF
           END DO
-        ELSEIF (ISMS_SELEC.EQ.3) THEN
+        ELSEIF (ISMS_SELEC==3) THEN
 C-- AMS auto - defined by elements
           DO NG = 1, NGROUP
             ITY   =IPARG(5,NG)
@@ -196,7 +196,7 @@ C-- AMS auto - defined by elements
               LLT   =IPARG(2,NG)    
               GBUF => ELBUF_TAB(NG)%GBUF 
               DO I=LFT,LLT
-                IF(GBUF%ISMS(I).EQ.0)THEN
+                IF(GBUF%ISMS(I)==0)THEN
                   TAGR(NFT+I)=0
                 ELSE
                   TAGR(NFT+I)=1
@@ -204,7 +204,7 @@ C-- AMS auto - defined by elements
               END DO
             END IF
           END DO
-        ELSEIF (ISMS_SELEC.EQ.4) THEN
+        ELSEIF (ISMS_SELEC==4) THEN
 C-- AMS auto + parts
           DO NG = 1, NGROUP
             ITY   =IPARG(5,NG)
@@ -214,7 +214,7 @@ C-- AMS auto + parts
               LLT   =IPARG(2,NG)    
               GBUF => ELBUF_TAB(NG)%GBUF 
               DO I=LFT,LLT
-                IF(GBUF%ISMS(I).EQ.0.AND.TAGPRT_SMS(IPARTR(NFT+I)).EQ.0)THEN
+                IF(GBUF%ISMS(I)==0.AND.TAGPRT_SMS(IPARTR(NFT+I))==0)THEN
                   TAGR(NFT+I)=0
                 ELSE
                   TAGR(NFT+I)=1

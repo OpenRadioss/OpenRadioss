@@ -52,7 +52,7 @@ C-----------------------------------------------
 C
       DO 100 I=1,NUMNOD
        S = SQRT(XNORM(1,I)**2 + XNORM(2,I)**2 + XNORM(3,I)**2)
-       IF(S.NE.0.0)THEN
+       IF(S/=0.0)THEN
          S = S3000 / S
          INORM(1) = XNORM(1,I) * S
          INORM(2) = XNORM(2,I) * S

@@ -492,7 +492,7 @@ C-----------
 !     1   X0, Y0, Z0, VX0,VY0, VZ0, 
 !     2   GBUF%SMSTR,D ,GBUF%OFF,OFFG0,NEL)
 !C-----------Pij is in global system w/ Ismstr10 and local system w/ 11
-!       IF (ISMSTR == 11.AND.JCVT.GT.0) THEN
+!       IF (ISMSTR == 11.AND.JCVT>0) THEN
 !        CALL SRROTADP(
 !     .   R11, R12, R13, R21, R22, R23, R31, R32, R33,
 !     .   X0(1,1), X0(1,2), X0(1,3), X0(1,4), 
@@ -560,7 +560,7 @@ C-------now [B](Pij) is always in global system w/ ISMSTR10
 !     .   X1, X2, X3, X4, X5, X6, X7, X8,
 !     .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
 !     .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8)
-!        IF (IDTS6.GT.0) THEN
+!        IF (IDTS6>0) THEN
 !         CALL SDLEN_DEGE(VOLG,DELTAX,
 !     .   X1, X2, X3, X4, X5, X6, X7, X8,
 !     .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
@@ -751,7 +751,7 @@ C----------JACOBIEN-inverse- in case of Vol<=0-------
      .    AJP1,AJP2,AJP3,
      .    AJP4,AJP5,AJP6,
      .    AJP7,AJP8,AJP9)
-       IF (IDTS6.GT.0) THEN
+       IF (IDTS6>0) THEN
         CALL SDLEN_DEGE(VOLG,DELTAX,
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
@@ -938,7 +938,7 @@ C-----------Begin integrating points-----
 C-----avoid multi-print	  
           IF (IOFFS == 1)THEN
            DO I=LFT,LLT
-            IF (OFFS(I).LE.TWO) LBUF%OFF(I)=OFFS(I)
+            IF (OFFS(I)<=TWO) LBUF%OFF(I)=OFFS(I)
            ENDDO
           END IF
 C-----------
@@ -1146,7 +1146,7 @@ c--------------------------
        ENDIF
        DO I=LFT,LLT
         OFFG(I)=MIN(OFFG(I),OFF(I))
-        IF (LBUF%OFF(I).GT.ONE .AND. GBUF%OFF(I) == ONE) THEN
+        IF (LBUF%OFF(I)>ONE .AND. GBUF%OFF(I) == ONE) THEN
           OFFS(I)=MIN(LBUF%OFF(I),OFFS(I))
           IOFFS  =1
         END IF
@@ -1176,7 +1176,7 @@ C-----------End integrating points-----
 c
       IF (IOFFS == 1) THEN
        DO I=LFT,LLT
-          IF (OFFS(I).LE.TWO) GBUF%OFF(I)=OFFS(I)
+          IF (OFFS(I)<=TWO) GBUF%OFF(I)=OFFS(I)
        END DO
 c-------------------
        DO IR=1,NPTR
@@ -1191,7 +1191,7 @@ c-------------------
         END DO 
        END DO
       END IF   ! IOFFS == 1
-      IF(ICP.EQ.1.AND.ISMSTR/=10.AND.ISMSTR/=12) THEN
+      IF(ICP==1.AND.ISMSTR/=10.AND.ISMSTR/=12) THEN
        CALL S8ZFINTP3(
      .   PXC1, PXC2, PXC3, PXC4,
      .   PYC1, PYC2, PYC3, PYC4,

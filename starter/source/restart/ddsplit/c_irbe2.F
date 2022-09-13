@@ -112,7 +112,7 @@ C
 C          List of All domains where M is sticked
            CALL PLIST_IFRONT(PLIST,M,SPLIST)
            DO P=1,SPLIST
-              IF( PLIST(P) .NE. PROC1)THEN
+              IF( PLIST(P) /= PROC1)THEN
                  NBDDRBE2 = NBDDRBE2 + 1
               ENDIF
            ENDDO

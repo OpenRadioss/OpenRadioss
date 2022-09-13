@@ -150,7 +150,7 @@ C
 C     !!!!!!!!!! VOL0,VOL00,THK0,THK02,X,VR ne sont transmis que par
 C                CFORC3 et pas par CSUBC3 et CZFORC3 (IFLA=0) !!!!!!!
 C
-      IF(NPSAV.GE.21)THEN
+      IF(NPSAV>=21)THEN
        IF(IXFEM == 0)THEN
         DO I=JFT,JLT
           XX= X(1,IXTG(2,I))+X(1,IXTG(3,I))+X(1,IXTG(4,I))
@@ -248,17 +248,17 @@ C
         IC=1
         JST(IC)=JFT
         DO J=JFT+1,JLT
-          IF (IPARTTG(J).NE.IPARTTG(J-1)) THEN
+          IF (IPARTTG(J)/=IPARTTG(J-1)) THEN
             IC=IC+1
             JST(IC)=J
           ENDIF
         ENDDO
         JST(IC+1)=JLT+1                 
 C
-        IF (IC.EQ.1) THEN
+        IF (IC==1) THEN
           MX = IPARTTG(JFT)
           DO I=JFT,JLT
-           IF(OFF(I).NE.0.0)THEN
+           IF(OFF(I)/=0.0)THEN
             PARTSAV(1,MX)=PARTSAV(1,MX) + EI(I)
             PARTSAV(2,MX)=PARTSAV(2,MX) + EK(I)
             PARTSAV(3,MX)=PARTSAV(3,MX) + XM(I)
@@ -284,9 +284,9 @@ C
         ELSE
           DO II=1,IC
             MX=IPARTTG(JST(II))
-            IF (JST(II+1)-JST(II).GT.15) THEN
+            IF (JST(II+1)-JST(II)>15) THEN
               DO I=JST(II),JST(II+1)-1
-                IF(OFF(I).NE.0.0)THEN
+                IF(OFF(I)/=0.0)THEN
                   PARTSAV(1,MX)=PARTSAV(1,MX) + EI(I)
                   PARTSAV(2,MX)=PARTSAV(2,MX) + EK(I)
                   PARTSAV(3,MX)=PARTSAV(3,MX) + XM(I)
@@ -312,7 +312,7 @@ C
             ELSE
 #include "vectorize.inc"
               DO I=JST(II),JST(II+1)-1
-                IF(OFF(I).NE.0.0)THEN
+                IF(OFF(I)/=0.0)THEN
                   PARTSAV(1,MX)=PARTSAV(1,MX) + EI(I)
                   PARTSAV(2,MX)=PARTSAV(2,MX) + EK(I)
                   PARTSAV(3,MX)=PARTSAV(3,MX) + XM(I)
@@ -335,25 +335,25 @@ C
                 PARTSAV(21,MX)=PARTSAV(21,MX) + REI(I)
                 PARTSAV(22,MX)=PARTSAV(22,MX) + REK(I)
               ENDDO
-            ENDIF ! IF (JST(II+1)-JST(II).GT.15)
+            ENDIF ! IF (JST(II+1)-JST(II)>15)
           ENDDO
-        ENDIF ! IF (IC.EQ.1)
-      ELSE ! IF(NPSAV.GE.21)
+        ENDIF ! IF (IC==1)
+      ELSE ! IF(NPSAV>=21)
 C
         IC=1
         JST(IC)=JFT
         DO J=JFT+1,JLT
-          IF (IPARTTG(J).NE.IPARTTG(J-1)) THEN
+          IF (IPARTTG(J)/=IPARTTG(J-1)) THEN
             IC=IC+1
             JST(IC)=J
           ENDIF
         ENDDO
         JST(IC+1)=JLT+1                 
 C
-        IF (IC.EQ.1) THEN
+        IF (IC==1) THEN
           MX = IPARTTG(JFT)
           DO I=JFT,JLT
-            IF(OFF(I).NE.0.0)THEN
+            IF(OFF(I)/=0.0)THEN
               PARTSAV(1,MX)=PARTSAV(1,MX) + EI(I)
               PARTSAV(2,MX)=PARTSAV(2,MX) + EK(I)
               PARTSAV(3,MX)=PARTSAV(3,MX) + XM(I)
@@ -365,9 +365,9 @@ C
         ELSE
           DO II=1,IC
             MX=IPARTTG(JST(II))
-            IF (JST(II+1)-JST(II).GT.15) THEN
+            IF (JST(II+1)-JST(II)>15) THEN
               DO I=JST(II),JST(II+1)-1
-                IF(OFF(I).NE.0.0)THEN
+                IF(OFF(I)/=0.0)THEN
                   PARTSAV(1,MX)=PARTSAV(1,MX) + EI(I)
                   PARTSAV(2,MX)=PARTSAV(2,MX) + EK(I)
                   PARTSAV(3,MX)=PARTSAV(3,MX) + XM(I)
@@ -379,7 +379,7 @@ C
             ELSE
 #include "vectorize.inc"
               DO I=JST(II),JST(II+1)-1
-                IF(OFF(I).NE.0.0)THEN
+                IF(OFF(I)/=0.0)THEN
                   PARTSAV(1,MX)=PARTSAV(1,MX) + EI(I)
                   PARTSAV(2,MX)=PARTSAV(2,MX) + EK(I)
                   PARTSAV(3,MX)=PARTSAV(3,MX) + XM(I)
@@ -388,15 +388,15 @@ C
                   PARTSAV(6,MX)=PARTSAV(6,MX) + XMAS(I)
                 ENDIF
               ENDDO
-            ENDIF ! IF (JST(II+1)-JST(II).GT.15)
+            ENDIF ! IF (JST(II+1)-JST(II)>15)
           ENDDO
-        ENDIF ! IF (IC.EQ.1)
-      ENDIF ! IF(NPSAV.GE.21)
+        ENDIF ! IF (IC==1)
+      ENDIF ! IF(NPSAV>=21)
 C
       IF(IEXPAN > 0) THEN
          DO I=JFT,JLT
             MX = IPARTTG(I)
-            IF(OFF(I).NE.0.0)THEN
+            IF(OFF(I)/=0.0)THEN
                PARTSAV(27,MX)=PARTSAV(27,MX) + EINTTH(I)
             ENDIF
          ENDDO

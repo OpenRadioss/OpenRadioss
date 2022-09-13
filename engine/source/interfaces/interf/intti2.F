@@ -72,9 +72,9 @@ C=======================================================================
         NTY   = IPARI(7,N)                                             
         ILAGM = 0                                                     
         ILAGM = IPARI(33,N)                                           
-        IF (ILAGM.NE.0) CYCLE                                   
-        IF (NPARI.GE.26)THEN                                          
-          IF(IPARI(26,N).NE.KHIE) CYCLE                           
+        IF (ILAGM/=0) CYCLE                                   
+        IF (NPARI>=26)THEN                                          
+          IF(IPARI(26,N)/=KHIE) CYCLE                           
         ENDIF                                                         
         JI  =IPARI(1,N)                                                 
         JB  =IPARI(2,N)                                                 
@@ -103,7 +103,7 @@ C=======================================================================
                 ENDIF
           ENDIF
         ELSEIF (NTY == 12) THEN                                       
-          IF(IMACH.NE.3 .OR. ISPMD==0)THEN                            
+          IF(IMACH/=3 .OR. ISPMD==0)THEN                            
             CALL INTTI12V(                                            
      .           IPARI(1,N),INTBUF_TAB(N)      ,X         ,V        , 
      .            A        ,MS       ,WEIGHT   ,WA        ,SKEW     ) 

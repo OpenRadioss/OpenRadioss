@@ -123,13 +123,13 @@ C-------------------------------
 C-------------------------------
       XPVN1 =XPV(1,I)**(DGR-1)
       SGNXN=-ONE      
-      IF (XPVN1*XPV(1,I).GE.ZERO) SGNXN=ONE
+      IF (XPVN1*XPV(1,I)>=ZERO) SGNXN=ONE
       YPVN1 =XPV(2,I)**(DGR-1)
       SGNYN=-ONE
-      IF (YPVN1*XPV(2,I).GE.ZERO) SGNYN=ONE
+      IF (YPVN1*XPV(2,I)>=ZERO) SGNYN=ONE
       ZPVN1 =XPV(3,I)**(DGR-1)
       SGNZN=-ONE
-      IF (ZPVN1*XPV(3,I).GE.ZERO) SGNZN=ONE
+      IF (ZPVN1*XPV(3,I)>=ZERO) SGNZN=ONE
 C-------------------------------
       N1 =SGNXN*XPVN1*AN
       N2 =SGNYN*YPVN1*BN
@@ -150,7 +150,7 @@ C-------------------------------
 C     projection du point impacte :
 C     projection sur tangente / hors ellips.
 C-------------------------------
-      IF (GAPMIN.LT.ANS) THEN
+      IF (GAPMIN<ANS) THEN
         IMPACT(IL)=0
       ELSE
         IMPACT(IL)=1
@@ -168,12 +168,12 @@ C-------------------------------
       ANS=GAPMIN-ANS
       ANS=MAX(ZERO,ANS)
 C-------------------------------
-      IF (ANS.GT.ANSMX) ANSMX=ANS
+      IF (ANS>ANSMX) ANSMX=ANS
 C-------------------------------
       WF(IN)=ANS
       ENDDO
 C---------------------------------
-      IF (NREST-MVSIZ.GT.0) THEN
+      IF (NREST-MVSIZ>0) THEN
         NREST=NREST-MVSIZ
         NDEB =NDEB +MVSIZ
         GOTO 50
@@ -196,18 +196,18 @@ C     penetration.
 C-------------------------------
       ANS=GAPMIN-WF(IN)
 C-------------------------------
-C     IF (GAPMIN.LT.ANS) THEN
+C     IF (GAPMIN<ANS) THEN
 C       IMPACT(IL)=0
 C     ELSE
 C       IMPACT(IL)=1
 C     END IF
 C     ANS=MAX(ZERO,ANS)
-      IF (ANS.GT.ANSMX) ANSMX=ANS
+      IF (ANS>ANSMX) ANSMX=ANS
 C-------------------------------
       WF(IN)=ANS
       ENDDO
 C---------------------------------
-      IF (NREST-MVSIZ.GT.0) THEN
+      IF (NREST-MVSIZ>0) THEN
         NREST=NREST-MVSIZ
         NDEB =NDEB +MVSIZ
         GOTO 100
@@ -215,20 +215,20 @@ C---------------------------------
 C-----------------------------------------------
 C     FORCE ELASTIQUE TOTALE=FCT(PENETRATION MAX.).
 C-----------------------------------------------
-      IF (NLO.NE.0) THEN
+      IF (NLO/=0) THEN
         NPT = (NPC(NLO+1)-NPC(NLO))/2
         II  = NPC(NLO)
-        IF (ANSMX.LE.PLD(II)) THEN
+        IF (ANSMX<=PLD(II)) THEN
           PENTE=(PLD(II+3)-PLD(II+1))/(PLD(II+2)-PLD(II))
           FTOT =PLD(II+1)+PENTE*(ANSMX-PLD(II))
-        ELSEIF (ANSMX.GE.PLD(II+2*(NPT-1))) THEN
+        ELSEIF (ANSMX>=PLD(II+2*(NPT-1))) THEN
           JJ=II+2*(NPT-1)
           PENTE=(PLD(JJ+1)-PLD(JJ-1))/(PLD(JJ)-PLD(JJ-2))
           FTOT =PLD(JJ+1)+MAX(-PLD(JJ+1),PENTE*(ANSMX-PLD(JJ)))
         ELSE
           DO IPT=1,NPT-1
-           IF (PLD(II).LE.ANSMX
-     .     .AND.ANSMX.LE.PLD(II+2)) THEN
+           IF (PLD(II)<=ANSMX
+     .     .AND.ANSMX<=PLD(II+2)) THEN
             PENTE=(PLD(II+3)-PLD(II+1))/(PLD(II+2)-PLD(II))
             FTOT =PLD(II+1)+PENTE*(ANSMX-PLD(II))
             GOTO 200
@@ -242,7 +242,7 @@ C-----------------------------------------------
 C     RAIDEUR DE L'INTERFACE
 C     TQ | SOMME DES FORCES | = F(PENETRATION MAX.)
 C-----------------------------------------------
-      IF (NLO.NE.0) THEN
+      IF (NLO/=0) THEN
        FNORMX=ZERO
        FNORMY=ZERO
        FNORMZ=ZERO     
@@ -263,7 +263,7 @@ C------
        ENDDO
 C------
        NF =SQRT(FNORMX*FNORMX+FNORMY*FNORMY+FNORMZ*FNORMZ)
-       IF (NF.NE.ZERO) THEN
+       IF (NF/=ZERO) THEN
         STF=STFAC*FTOT/NF
        ELSE
         STF=ZERO

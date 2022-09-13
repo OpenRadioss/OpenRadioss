@@ -57,7 +57,7 @@ C-----------------------------------------------
       INTEGER I, J, K, KK, L, DSLEN, NBSD, OFFSD, NDI, NDF, ISD,
      .        NSDEC, NSLEVEL
 C
-      IF (ITRANS.EQ.0) THEN
+      IF (ITRANS==0) THEN
          DO I=1,NSPROC
 C
             DSLEN=GRAPHE(I)%NSUPEL
@@ -78,7 +78,7 @@ C
             ENDDO
 C
          ENDDO
-      ELSEIF (ITRANS.EQ.1) THEN
+      ELSEIF (ITRANS==1) THEN
          DO I=1,NSPROC
 C
             DSLEN=GRAPHE(I)%NSUPEL

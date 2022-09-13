@@ -114,7 +114,7 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('MAT_PC'         ,PMIN     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 
       IF(COUNT==3)IS_EOS=.TRUE.             !EoS no longer embedded since format 2018, but still compatible
-      IF(INVERS_INIT.LT.2018)IS_EOS=.TRUE.  !no embedded EoS before up to format 2017
+      IF(INVERS_INIT<2018)IS_EOS=.TRUE.  !no embedded EoS before up to format 2017
       
       IF (IS_EOS) THEN
          IEOS = 1 !polynomial EOS

@@ -126,7 +126,7 @@ C-----to be consiting with engine for PENMIN
 C--------
         CALL INI_ST3(XX,YY,ZZ,XI,YI,ZI,NN,SSC,TTC,IER,ALP,
      2               XC,YC,ZC)
-        IF(IER.EQ.-1)THEN
+        IF(IER==-1)THEN
 #ifndef HYPERMESH_LIB
          CALL ANCMSG(MSGID=85,
      .               MSGTYPE=MSGERROR,
@@ -142,17 +142,17 @@ C--------
      .               I8=ITAB(IRECT(4,L)))
 #endif
 C
-        ELSE IF(IER.EQ.1.AND.(MSEGTYP(L)/=0.AND.MSEGTYP(L)<=NRTM))THEN
+        ELSE IF(IER==1.AND.(MSEGTYP(L)/=0.AND.MSEGTYP(L)<=NRTM))THEN
 C                             shells except coating shells
 C---------outside        
-c         IF(IPRI.GE.1)WRITE(IOUT,FMT=FMT_6I)ITAB(NS),L,
+c         IF(IPRI>=1)WRITE(IOUT,FMT=FMT_6I)ITAB(NS),L,
 c     .                    (ITAB(IRECT(JJ,L)),JJ=1,4)
         ELSE
 C------initial penatration case 1) |PEN|<TOL : on, 2) Inacti<0 on,3)Inacti=3,4
 C-------warnning out for 2),3),4)
 C --------MSEGTYP /=0 ->shell ---
           PEN0=NN(1)*(XI-XC)+NN(2)*(YI-YC)+NN(3)*(ZI-ZC)
-          IF(IER.EQ.1) THEN
+          IF(IER==1) THEN
            DIST = SQRT((XI-XC)*(XI-XC)+(YI-YC)*(YI-YC)+(ZI-ZC)*(ZI-ZC))
           ELSE
            DIST = ABS(PEN0)
@@ -171,7 +171,7 @@ C----------distance after shifted
           ELSE
            PEN=GAPV(I)-PEN0
 C------------used only for eliminating wrong contact w/ smaller distance            
-           IF(IER.EQ.1) PEN=-ABS(PEN)-TOL
+           IF(IER==1) PEN=-ABS(PEN)-TOL
            IF (PEN > ZERO .OR. ABS(PEN) < TOL) THEN
             MAXPEN = GAP_N(1,L)
             IF (INACTI /= 0) MAXPEN = PENMAX
@@ -271,7 +271,7 @@ C----------warning w/o treatement
 C------Warning anyway-------------
            IF (TAG(NS)==0) IWPENE=IWPENE+1
 C-----------add output of fictive nodes after           
-c           IF(IPRI.GE.1.AND.NS<=NUMNOD) THEN
+c           IF(IPRI>=1.AND.NS<=NUMNOD) THEN
 c            CALL ANCMSG(MSGID=346,
 c     .                  MSGTYPE=MSGWARNING,
 c     .                  ANMODE=ANINFO_BLIND_2,
@@ -390,8 +390,8 @@ C             IF (PEN < PEN0) THEN
             END IF
            END IF !IF(INACTI ==-1) THEN
            TAG(NS)=CAND_N(I)
-          END IF !(ABS(PEN).LE.TOL) THEN
-        END IF !(IER.EQ.-1)THEN
+          END IF !(ABS(PEN)<=TOL) THEN
+        END IF !(IER==-1)THEN
       END DO !I=LFT,LLT              
 C      
       RETURN
@@ -516,7 +516,7 @@ C
       NN(1)=N1
       NN(2)=N2
       NN(3)=N3
-      IF(AN.LE.EM19) THEN
+      IF(AN<=EM19) THEN
         IER=-1
         RETURN
       ENDIF
@@ -550,31 +550,31 @@ C
       AB1=A23*B41
       AB2=B23*A41
 C
-      IF(ABS(AB1+AB2)/AREA.GT.EM10)THEN
+      IF(ABS(AB1+AB2)/AREA>EM10)THEN
        SSC=(AB1-AB2)/(AB1+AB2)
       ELSE
        SSC=ZERO
       ENDIF
-      IF(ABS(A34/AREA).GT.EM10)THEN
+      IF(ABS(A34/AREA)>EM10)THEN
        AB1=B12*A34
        AB2=B34*A12
-       IF(ABS(AB1+AB2)/AREA.GT.EM10)THEN
+       IF(ABS(AB1+AB2)/AREA>EM10)THEN
         TTC=(AB1-AB2)/(AB1+AB2)
        ELSE
         TTC=ZERO
        END IF
       ELSE
        TTC=B12/A12-ONE
-       IF(B23.LE.ZERO.AND.B41.LE.ZERO)THEN
-         IF(-B23/A12.LE.ALP.AND.-B41/A12.LE.ALP)SSC=ZERO
-       ELSEIF(B23.LE.ZERO)THEN
-         IF(-B23/A12.LE.ALP) THEN
+       IF(B23<=ZERO.AND.B41<=ZERO)THEN
+         IF(-B23/A12<=ALP.AND.-B41/A12<=ALP)SSC=ZERO
+       ELSEIF(B23<=ZERO)THEN
+         IF(-B23/A12<=ALP) THEN
           SSC=ONE
          ELSE
           SSC=TWO
          END IF
-       ELSEIF(B41.LE.ZERO)THEN
-         IF(-B41/A12.LE.ALP) THEN
+       ELSEIF(B41<=ZERO)THEN
+         IF(-B41/A12<=ALP) THEN
           SSC=-ONE
          ELSE
           SSC=-TWO
@@ -582,7 +582,7 @@ C
        ENDIF
       ENDIF
 C-------------out of seg
-      IF(ABS(SSC).GT.ONE+ALP.OR.ABS(TTC).GT.ONE+ALP) THEN
+      IF(ABS(SSC)>ONE+ALP.OR.ABS(TTC)>ONE+ALP) THEN
         IER=1
 C------case tria  re-compute      
         IF (A34==ZERO.AND.TTC< ONE) THEN
@@ -607,12 +607,12 @@ C------case tria  re-compute
              SSC= (LC-LB)/(LC+LB)
              TTC= ONE - TWO*LB - TWO*LC 
         END IF
-        IF(ABS(SSC).GT.ONE)SSC=SSC/ABS(SSC)
-        IF(ABS(TTC).GT.ONE)TTC=TTC/ABS(TTC)
+        IF(ABS(SSC)>ONE)SSC=SSC/ABS(SSC)
+        IF(ABS(TTC)>ONE)TTC=TTC/ABS(TTC)
       ELSE
         IER=0
-        IF(ABS(SSC).GT.ONE)SSC=SSC/ABS(SSC)
-        IF(ABS(TTC).GT.ONE)TTC=TTC/ABS(TTC)
+        IF(ABS(SSC)>ONE)SSC=SSC/ABS(SSC)
+        IF(ABS(TTC)>ONE)TTC=TTC/ABS(TTC)
       ENDIF
 C
       TP=FOURTH*(ONE+TTC)
@@ -730,44 +730,44 @@ C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
 C
       ICONN = 0
-      IF(NUMELS.EQ.0) RETURN
+      IF(NUMELS==0) RETURN
        DO 230 IAD=KNOD2ELS(NS)+1,KNOD2ELS(NS+1)
         N = NOD2ELS(IAD)
         IF(N <= NUMELS8)THEN
           DO JJ=1,4
             II=IRECT(JJ)
             DO K=1,8
-              IF(IXS(K+1,N).EQ.II) ICONN = 1
+              IF(IXS(K+1,N)==II) ICONN = 1
             ENDDO
           ENDDO
         ELSEIF(N <= NUMELS8+NUMELS10)THEN
           DO JJ=1,4
             II=IRECT(JJ)
             DO K=1,8
-              IF(IXS(K+1,N).EQ.II) ICONN = 1
+              IF(IXS(K+1,N)==II) ICONN = 1
             ENDDO
             DO K=1,6
-              IF(IXS10(K,N-NUMELS8).EQ.II) ICONN = 1
+              IF(IXS10(K,N-NUMELS8)==II) ICONN = 1
             ENDDO
           ENDDO
         ELSEIF(N <= NUMELS8+NUMELS10+NUMELS20)THEN
           DO JJ=1,4
             II=IRECT(JJ)
             DO K=1,8
-              IF(IXS(K+1,N).EQ.II) ICONN = 1
+              IF(IXS(K+1,N)==II) ICONN = 1
             ENDDO
             DO K=1,12
-              IF(IXS20(K,N-NUMELS8-NUMELS10).EQ.II) ICONN = 1
+              IF(IXS20(K,N-NUMELS8-NUMELS10)==II) ICONN = 1
             ENDDO
           ENDDO
         ELSEIF(N <= NUMELS8+NUMELS10+NUMELS20+NUMELS16)THEN
           DO JJ=1,4
             II=IRECT(JJ)
             DO K=1,8
-              IF(IXS(K+1,N).EQ.II) ICONN = 1
+              IF(IXS(K+1,N)==II) ICONN = 1
             ENDDO
             DO K=1,8
-              IF(IXS16(K,N-NUMELS8-NUMELS10-NUMELS20).EQ.II) ICONN = 1
+              IF(IXS16(K,N-NUMELS8-NUMELS10-NUMELS20)==II) ICONN = 1
             ENDDO
           ENDDO
         END IF

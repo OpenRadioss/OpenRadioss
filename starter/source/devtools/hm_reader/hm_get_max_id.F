@@ -109,7 +109,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      ID OFFSETS FOR //SUBMODEL 
 C--------------------------------------------------
-          IF(SUBMODEL_INDEX .NE. 0 .AND. OPTION_ID .NE. 0)THEN
+          IF(SUBMODEL_INDEX /= 0 .AND. OPTION_ID /= 0)THEN
             IF(OFFSET_CATEGORY == 1)THEN
               OPTION_ID = OPTION_ID + LSUBMODEL(SUBMODEL_INDEX)%OFF_EL
             ELSEIF(OFFSET_CATEGORY == 2)THEN

@@ -51,7 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       DO M=1,NMULT
         DO N=NODFT,NODLT
-          IF(IMS(N,M).GT.0)THEN
+          IF(IMS(N,M)>0)THEN
             DFILL(N,M)=DT2*DFILL(N,M)/IMS(N,M)
           ELSE
             DFILL(N,M)=ZERO
@@ -61,7 +61,7 @@ C-----------------------------------------------
 
       DO M=1,NMULT
         DO N=NODFT,NODLT
-          IF(IMS(N,M).NE.0)THEN
+          IF(IMS(N,M)/=0)THEN
             IMS(N,M) = 0
             FILL(N,M)= FILL(N,M)+DFILL(N,M)
             FILL(N,M)= MIN(ONE,FILL(N,M))

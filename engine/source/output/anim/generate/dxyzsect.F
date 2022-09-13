@@ -114,7 +114,7 @@ C
       ELSE
         IF (NSECT > 0) CALL SPMD_AGET_SECT(NSTRF,X,XSEC,WEIGHT,ITAB)
 
-          IF (ISPMD.EQ.0) THEN
+          IF (ISPMD==0) THEN
  
             DO I=1,NSECT
 
@@ -161,7 +161,7 @@ C
         N4=N3+NRWALL
         MSR = NPRW(N3)
         IF (NSPMD == 1) THEN
-          IF(MSR.EQ.0)THEN
+          IF(MSR==0)THEN
             XWL=RWBUF(4,N)
             YWL=RWBUF(5,N)
             ZWL=RWBUF(6,N)
@@ -174,15 +174,15 @@ C verifier que ce noeud est sur proc0 !
         ELSE
           CALL SPMD_AGETMSR(FR_WALL(1,N),X,MSR,XWL,YWL,ZWL,RWBUF(1,N))
         END IF
-        IF (ISPMD.EQ.0) THEN
+        IF (ISPMD==0) THEN
           ITYP= NPRW(N4)
-          IF(ITYP.EQ.4)THEN
+          IF(ITYP==4)THEN
            XWL = XWL + HALF*(RWBUF(7,N)+RWBUF(10,N))
            YWL = YWL + HALF*(RWBUF(8,N)+RWBUF(11,N))
            ZWL = ZWL + HALF*(RWBUF(9,N)+RWBUF(12,N)) 
           ENDIF
           K=K+NPRW(N)
-          IF(NPRW(N4).EQ.-1)K=K+NINT(RWBUF(8,N))
+          IF(NPRW(N4)==-1)K=K+NINT(RWBUF(8,N))
           R4 = XWL
           CALL WRITE_R_C(R4,1)
           R4 = YWL
@@ -199,19 +199,19 @@ C
         N4=N3+NRWALL
         ITYP= NPRW(N4)
 
-        IF(IABS(ITYP).EQ.1)THEN
+        IF(IABS(ITYP)==1)THEN
            CALL DXWALL(X,RWBUF(1,N),NPRW(N3),XMIN ,YMIN ,
      .                 ZMIN  ,XMAX ,YMAX  , ZMAX,FR_WALL(1,N))
-        ELSEIF(ITYP.EQ.2)THEN
+        ELSEIF(ITYP==2)THEN
            CALL DXWALC(X,RWBUF(1,N),NPRW(N3),XMIN ,YMIN ,
      .                 ZMIN  ,XMAX ,YMAX  , ZMAX,FR_WALL(1,N))
-        ELSEIF(ITYP.EQ.3)THEN
+        ELSEIF(ITYP==3)THEN
            CALL DXWALS(X,RWBUF(1,N),NPRW(N3),FR_WALL(1,N))
-        ELSEIF(ITYP.EQ.4)THEN
+        ELSEIF(ITYP==4)THEN
            CALL DXWALP(X,RWBUF(1,N),NPRW(N3),FR_WALL(1,N))
         ENDIF
         K=K+NPRW(N)
-        IF(NPRW(N4).EQ.-1)K=K+NINT(RWBUF(8,N))
+        IF(NPRW(N4)==-1)K=K+NINT(RWBUF(8,N))
       ENDDO
 C
       RETURN

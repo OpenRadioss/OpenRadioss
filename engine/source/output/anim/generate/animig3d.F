@@ -77,18 +77,18 @@ C-----------------------------------------------
 C----------------------------------------------------------
       NISOELCUT = 0
       NG=1
-      DO WHILE (NG.LE.NGROUP)
+      DO WHILE (NG<=NGROUP)
        NEL_P = 0
        ITEST = 0
-       IF (IPARG(5,NG).EQ.101) THEN 
+       IF (IPARG(5,NG)==101) THEN 
         NFT=IPARG(3,NG)
-        IF (NG.EQ.NGROUP) THEN
+        IF (NG==NGROUP) THEN
          NEL_P = IPARG(2,NG)
         ELSE
          I=NFT+1
          NEL_P=NEL_P+1
-         DO WHILE (I.LT.NUMELIG3D)
-          IF (IPARTIG3D(I+1).EQ.IPARTIG3D(I)) THEN
+         DO WHILE (I<NUMELIG3D)
+          IF (IPARTIG3D(I+1)==IPARTIG3D(I)) THEN
             NEL_P=NEL_P+1
             I=I+1
           ELSE

@@ -131,7 +131,7 @@ C
         STIM(I)=FOURTH*STIM(I)
       END DO
 C
-      IF(IVECTOR.EQ.1) THEN
+      IF(IVECTOR==1) THEN
         DO I=LFT,LLT
           II = I + NFT
 C

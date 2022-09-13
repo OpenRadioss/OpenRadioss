@@ -442,7 +442,7 @@ C=======================================================================
       NVC = 0
       STAT = 0
 
-      IF(IPARI0.EQ.3)THEN
+      IF(IPARI0==3)THEN
         ALLOCATE (I8MI(6,NUMNOD)                   ,STAT=stat)
       ELSE
         ALLOCATE (I8MI(6,1)                        ,STAT=stat)
@@ -778,7 +778,7 @@ C-----------------------------------------------------
 C     PREPARATION DU CALCUL DES MASSES PAR PARTICULE SI CONDITION(S) DE
 C     SYMETRIE
 C-----------------------------------------------------
-      IF (NUMSPH.NE.0.AND.NSPCOND.NE.0)
+      IF (NUMSPH/=0.AND.NSPCOND/=0)
      .  CALL INSPCND(ISPCOND ,IGRNOD  ,KXSP    ,IXSP    ,
      .               NOD2SP  ,ITAB    ,ICODE   ,ISKEW   ,ISKN    ,
      .               SKEW    ,XFRAME  ,X       ,ISPSYM  ,ISPTAG  ,
@@ -874,7 +874,7 @@ C Initialize vectorization flags to zero for solid elements
             IPARG(41,NG) = 0
           ENDIF
         ENDIF
-        IF((NUMELS.NE.0).AND.(N2D.NE.0))THEN
+        IF((NUMELS/=0).AND.(N2D/=0))THEN
          CALL ANCMSG(MSGID=603,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_2)
@@ -1015,7 +1015,7 @@ C Case total strain
                  CALL SGSAVINIEREFQ(NNOD,STRAGLOB(NF1),SIGSP,NSIGI,PTSOL(NF1),
      .                              GBUF%SMSTR,GBUF%OFF,NEL)
               END IF
-         ELSEIF(ITY.EQ.1.AND.ISOLNOD.EQ.20)THEN
+         ELSEIF(ITY==1.AND.ISOLNOD==20)THEN
           KK1=1+NUMELS*NIXS+NUMELS10*6
           CALL S20INIT3(
      1         ELBUF_TAB(NG),MS        ,IXS    ,PM         ,X          ,
@@ -1028,7 +1028,7 @@ C Case total strain
      9         BUFMAT      ,MCP       ,MCPS   ,MCPSX      ,TEMP       ,
      A         NPC         ,PLD       ,STRSGLOB(NF1),STRAGLOB(NF1),FAIL_INI   ,
      B         ILOADP      ,FACLOAD   ,PERTURB,RNOISE     )
-         ELSEIF(ITY.EQ.1.AND.ISOLNOD.EQ.16)THEN
+         ELSEIF(ITY==1.AND.ISOLNOD==16)THEN
           KK1=1+NUMELS*NIXS+NUMELS10*6+NUMELS20*12
           CALL S16INIT3(
      1       ELBUF_TAB(NG),MS        ,IXS     ,PM         ,X          ,  
@@ -1041,7 +1041,7 @@ C Case total strain
      8       BUFMAT       ,MCP       ,MCPS    ,MCPSX      ,TEMP       ,    
      9       NPC          ,PLD       ,STRSGLOB(NF1),STRAGLOB(NF1),FAIL_INI   ,
      A       ILOADP       ,FACLOAD   ,PERTURB ,RNOISE     )                
-         ELSEIF(ITY.EQ.1)THEN
+         ELSEIF(ITY==1)THEN
           JHBE=IPARG(23,NG)
           JCLOS=IPARG(33,NG)
           IINT =IPARG(36,NG)
@@ -1127,7 +1127,7 @@ C Case total strain
                  CALL SGSAVINIEREF(ISOLNOD,STRAGLOB(NF1),SIGSP,NSIGI,PTSOL(NF1),
      .                             GBUF%SMSTR,GBUF%OFF,NEL)
              END IF
-          ELSEIF (IGTYP.GE.29) THEN
+          ELSEIF (IGTYP>=29) THEN
             CALL SUINIT3(ELBUF_TAB(NG),MS    ,IXS      ,PM   ,X          ,
      .             DETONATORS  ,GEO       ,VEUL  ,ALE_CONNECTIVITY ,IPARG(1,NG),
      .             DTELEM,SIGI      ,NEL   ,SKEW       ,IGEO       ,
@@ -1139,7 +1139,7 @@ C Case total strain
      .             ILOADP ,FACLOAD  ,PERTURB,RNOISE    )
           ELSE
             GBUF => ELBUF_TAB(NG)%GBUF
-            IF (JMULT .EQ. 0) THEN
+            IF (JMULT == 0) THEN
                CALL SINIT3(
      1              ELBUF_TAB(NG),MS         ,IXS      ,PM         ,X          ,  
      2              DETONATORS   ,GEO          ,VEUL   ,ALE_CONNECTIVITY ,IPARG(1,NG),
@@ -1154,7 +1154,7 @@ C Case total strain
      C              STRAGLOB(NF1),FAIL_INI     ,SPBUF  ,KXSP       ,IPART(I15J),
      D              NOD2SP       ,SOL2SPH      ,IRST   ,ILOADP     ,FACLOAD    ,
      E              RNOISE       ,PERTURB      )        
-            ELSE IF (JMULT .GT. 0 .AND. MTN .EQ. 151) THEN
+            ELSE IF (JMULT > 0 .AND. MTN == 151) THEN
       !Multifluid law
                CALL MULTIFLUID_INIT3 (
      1              ELBUF_TAB(NG),MS         ,IXS      ,PM         ,X          ,  
@@ -1233,7 +1233,7 @@ C Case total strain: conf_ref <- XREF
      .                IPARG   ,ILOADP ,FACLOAD ,PARTSAV,V)
               ENDIF
            ELSE  ! JMULT > 0
-              IF (MTN .EQ. 20) THEN
+              IF (MTN == 20) THEN
                  CALL BINIT2(
      .                ELBUF_TAB(NG),MS        ,IXQ        ,PM          ,X  ,   
      .                DETONATORS   ,VEUL      ,ALE_CONNECTIVITY      ,IPARG(1,NG)  ,FILL,
@@ -1242,7 +1242,7 @@ C Case total strain: conf_ref <- XREF
      .                GEO          ,IGEO      ,IPM        ,                         
      .                NSIGS        ,WMA       ,PTQUAD     ,NPC         ,PLD ,
      .                IPARG        ,ILOADP    ,FACLOAD    ,PARTSAV     ,V   )
-              ELSE IF (MTN .EQ. 151) THEN
+              ELSE IF (MTN == 151) THEN
 C 2D multifluid law
                  CALL MULTIFLUID_INIT2(NEL, NSIGS, 
      .                IPARG, IXQ, IPM, ALE_CONNECTIVITY, IGEO, IPART, IPART(I15B), NPC, 
@@ -1262,7 +1262,7 @@ C 2D multifluid law
           ILEV    =IPARG(45,NG)
           IXFEM   =IPARG(54,NG)
           DT2=DT2S
-          IF (IHBE.GT.10.AND.IHBE.LT.29) THEN
+          IF (IHBE>10.AND.IHBE<29) THEN
             NULLIFY(ptr_ITAGE)
             IF (SITAGE>0) ptr_ITAGE=>ITAGE(1)
             CALL CBAINIT3(ELBUF_TAB(NG),
@@ -1369,7 +1369,7 @@ C 2D multifluid law
      C          SH3TRIM ,ISUBSTACK,STACK ,RNOISE,
      D          DRAPE(1+NUMELC),SH3ANG ,GEO_STACK,IGEO_STACK,STRTG,
      E          PERTURB,IYLDINI ,ELE_AREA(1+NUMELC),NLOC_DMG)
-          ELSEIF (MTN .EQ. 151 .OR. N2D > 0) THEN
+          ELSEIF (MTN == 151 .OR. N2D > 0) THEN
              CALL MULTIFLUID_INIT2T(ELBUF_TAB(NG), NEL, NSIGS, NVC, IPARG, IXTG, ALE_CONNECTIVITY,
      .            IGEO, IPART, IPART(I15H), IPM, PTSH3N, NPC, ILOADP, 
      .            X, PM, GEO, SIGI, SKEW, PLD, BUFMAT, FACLOAD, MULTI_FVM, ERROR_THROWN, DETONATORS)
@@ -1474,7 +1474,7 @@ C
 C-----------
       !loop over material initialisation done.
       !IF NRF outlet, print its automatic characteristic
-       IF(M51_IFLG6.EQ.1 .AND. lSET_51_IFLG6.EQ.1)THEN
+       IF(M51_IFLG6==1 .AND. lSET_51_IFLG6==1)THEN
          !first initialization of group whose MAT=51 + iform=6
          WRITE (IOUT,1001)LC0MAX,SSP0MAX,TCP_REF
        ENDIF
@@ -1515,7 +1515,7 @@ C-------------------------------------------------
 C--------------------------------------------
 C Warning : Elements initially in tension
 C--------------------------------------------
-      IF (CPT_ELTENS .NE. 0) THEN
+      IF (CPT_ELTENS /= 0) THEN
          CALL ANCMSG(MSGID=863,
      .               MSGTYPE=MSGWARNING,
      .               ANMODE=ANINFO_BLIND_1,
@@ -1572,13 +1572,13 @@ C---------------------------------------------------------------
      E               KXIG3D   ,IXIG3D  ,MSIG3D,NCTRLMAX,STRC ,
      F               STRP,STRR,STRTG,STIFINTR,NSHNOD,VNIGE,BNIGE,
      G               MCPP )
-      IF(I7STIFS.NE.0)
+      IF(I7STIFS/=0)
      .  CALL ASSTIFI(VOLNOD,BVOLNOD,ETNOD,NSHNOD,STIFINT)
 C
 C--------------------------------------------
 C Laser impact
 C--------------------------------------------
-      IF(NLASER.NE.0)THEN
+      IF(NLASER/=0)THEN
          CALL LASER10(LAS ,XLAS ,X   ,IXQ,IPARG)
       ENDIF
 C-----------------------------------------------------
@@ -1600,7 +1600,7 @@ C-----------------------------------------------------
         JLAG  =IPARG(14,NG)
         JMULT =IPARG(20,NG)
         JPOR  =IPARG(27,NG)
-        IF(ITY == 1.AND.JEUL * (1 - IMULTI_FVM).NE.0)THEN
+        IF(ITY == 1.AND.JEUL * (1 - IMULTI_FVM)/=0)THEN
             LFT=1
             LLT=NEL
             NFT = IPARG(3,NG)
@@ -1827,7 +1827,7 @@ C
 C---------------------------------
 C  Gravity (after INIVOL)
 C---------------------------------
-      IF (NINIGRAV.GT.0)THEN
+      IF (NINIGRAV>0)THEN
         NV46=4
         IF(N2D==0)NV46 = 6
         CALL INIGRAV_LOAD(
@@ -1847,7 +1847,7 @@ C---------------------------------------------------
 C---------------------------------
 C Initialization on 1D curves
 C---------------------------------
-      IF (NINIMAP1D .GT. 0) THEN
+      IF (NINIMAP1D > 0) THEN
          WRITE(ISTDO, '(A)') TITRE(53)
          CALL INI_INIMAP1D(INIMAP1D    ,ELBUF_TAB ,IPART   ,IPARG   ,IPART(I15A),
      .                     IPART(I15B) ,X         ,V       ,IXS     ,IXQ        , 
@@ -1858,7 +1858,7 @@ C---------------------------------
 C---------------------------------
 C Initialization on 2D functions
 C---------------------------------
-      IF (NINIMAP2D .GT. 0) THEN
+      IF (NINIMAP2D > 0) THEN
          WRITE(ISTDO, '(A)') TITRE(53)
          CALL INI_INIMAP2D(INIMAP2D    ,ELBUF_TAB ,IPART   ,IPARG   ,IPART(I15A),
      .                     IPART(I15B) ,X         ,V       ,IXS     ,IXQ        , 
@@ -1868,7 +1868,7 @@ C---------------------------------
 C---------------------------------
 C Initialization of FVM velocities
 C---------------------------------
-      IF (MULTI_FVM%IS_USED .AND. NINVEL .GT. 0) THEN
+      IF (MULTI_FVM%IS_USED .AND. NINVEL > 0) THEN
          CALL INI_FVMINIVEL(FVM_INIVEL ,MULTI_FVM ,IGRBRIC ,IGRQUAD ,IGRSH3N)
       ENDIF
 C------------------------------------------------------------------
@@ -1901,7 +1901,7 @@ C-------------------------------------
       YG=ZERO
       ZG=ZERO
 C
-      IF(NRBYKIN.GT.0)THEN
+      IF(NRBYKIN>0)THEN
        RBYID=0
        DO I=1,NUMNOD
         IWA(I)=0
@@ -1939,7 +1939,7 @@ C-------------------------------------------
          ID=NOM_OPT(1,N)
          CALL FRETITL2(TITR,
      .                 NOM_OPT(LNOPT1-LTITR+1,N),LTITR)
-         IF(ISENS.NE.0)THEN
+         IF(ISENS/=0)THEN
            CALL INIRBYS(N    ,RBY    ,M   ,LPBY ,
      .             MS,IN     ,X      ,ITAB   ,SKEW,
      .             B1,B2     ,B3     ,B5     ,B6  ,
@@ -1952,7 +1952,7 @@ C-------------------------------------------
 C----------------------------------------------------------
 C Initialization of rigid bodies using Lagrange multipliers
 C----------------------------------------------------------
-      IF(NRBYLAG.NE.0)
+      IF(NRBYLAG/=0)
      .  CALL LGMINI_RBY(NPBYL  ,LPBYL  ,RBYL   ,MS     ,IN     ,
      .                  X      ,V      ,VR     ,ITAB   ,NOM_OPT)
 C-------------------------------------
@@ -1983,7 +1983,7 @@ C-----------------------------------------------------
 C-------------------------------------
 C Initialization of flexible bodies
 C-------------------------------------
-      IF (NFXBODY.GT.0) THEN
+      IF (NFXBODY>0) THEN
 C
 C--      Automatic setting of fxbody from pch files
 C
@@ -2066,7 +2066,7 @@ C
      . NELT,        NELP,         NELTG,      FXBRPM(ARPM), LBUFEL,
      . ASIG       , IFILE,        IRCS ,      LVSIG       )
 C
-                  IF (J.GE.IMIN.AND.J.LE.IMAX) THEN
+                  IF (J>=IMIN.AND.J<=IMAX) THEN
                      NMANI=NMANI+1
                      FXANI(1,NMANI)=FXBID
                      FXANI(2,NMANI)=J
@@ -2106,13 +2106,13 @@ C------------------------------------------------------
           IPROP=IXR(1,1+NFT)
           IGTYP =  NINT(GEO(NPROPG*(IPROP-1)+12))	 	  
           GBUF => ELBUF_TAB(NG)%GBUF
-          IF (IGTYP.EQ.33) THEN 
+          IF (IGTYP==33) THEN 
             NUVAR =  NINT(GEO(NPROPG*(IPROP-1)+25))
             CALL RINI33_RB(NEL,NUVAR,IPROP,IXR,NPBY,
      .                     LPBY,RBY,STIFR,GBUF%VAR,ITAB,
      .                     IGEO(1,IPROP),IXR_KJ,GBUF%MASS)
-          ELSEIF (IGTYP.EQ.45) THEN
-            IF (FLAG_KJ.EQ.0) WRITE(IOUT,1500)
+          ELSEIF (IGTYP==45) THEN
+            IF (FLAG_KJ==0) WRITE(IOUT,1500)
             FLAG_KJ = 1
             NUVAR =  NINT(GEO(NPROPG*(IPROP-1)+25))
             CALL RINI45_RB(NEL,NUVAR,IPROP,IXR,NPBY,
@@ -2129,7 +2129,7 @@ C--------------------------------------------
      .                                      NOD2ELC,IXC)
 C
 C----------------------------------------------------------------
-      IF(IPRI.GE.2) THEN
+      IF(IPRI>=2) THEN
          WRITE(IOUT,1000)
          WRITE(IOUT,'(5(I10,1X,1PG20.13))') (ITAB(I),MS(I),I=1,NUMNOD)
         IF(ITHERM_FE > 0) THEN
@@ -2156,7 +2156,7 @@ C-------------------------------------
      .              I8MI(1,N) + r8_deuxm43 * (
      .              I8MI(2,N) + r8_deuxm43 * I8MI(3,N))
         ENDDO
-        IF(IRODDL.NE.0)THEN
+        IF(IRODDL/=0)THEN
           DO N=1,NUMNOD
             IN(N) = IN(N) +
      .              I8MI(4,N) + r8_deuxm43 * (
@@ -2218,7 +2218,7 @@ C
       ENDDO
       END IF
 C
-      IF(IRODDL.NE.0)THEN
+      IF(IRODDL/=0)THEN
        DO N=1,NUMNOD
         B1=B1+IN(N)
         B5=B5+IN(N)
@@ -2364,7 +2364,7 @@ C
        DO I=1,NUMEL
         IPRT=IPARTEL(I)
         IG  =IPART(2,IPRT)
-        IF(IG.LE.0)THEN
+        IF(IG<=0)THEN
 C
 C         WRITE(IOUT,*)' **ERROR INVALID PROPERTY NUMBER',IG
 C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
@@ -2405,7 +2405,7 @@ C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
         IPRT=IPARTEL(I)
         MT  =IPART(1,IPRT)
         IG  =IPART(2,IPRT)
-        IF(MT.LE.0)THEN
+        IF(MT<=0)THEN
 C         WRITE(IOUT,*)' **ERROR INVALID MATERIAL NUMBER',MT
 C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
            CALL ANCMSG(MSGID=61,
@@ -2428,7 +2428,7 @@ C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
      .  	       C2=ELEM,
      .  	       I3=IX(NE,I))
         ENDIF
-        IF (IG.LE.0) THEN
+        IF (IG<=0) THEN
            CALL ANCMSG(MSGID=59,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_2,
@@ -2436,7 +2436,7 @@ C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
      .                 C1=ELEM,
      .                 I2=IX(NE,I),
      .                 PRMOD=MSG_CUMU)
-        ELSEIF(IG.NE.0.AND.EPID(IGEO(11,IG)) == 0)THEN
+        ELSEIF(IG/=0.AND.EPID(IGEO(11,IG)) == 0)THEN
            CALL FRETITL2(TITR2,IGEO(NPROPGI-LTITR+1,IG),LTITR)
            CALL ANCMSG(MSGID=60,
      .                 MSGTYPE=MSGERROR,
@@ -2469,7 +2469,7 @@ C
         IPRT=IPARTEL(I)
         MT  =IPART(1,IPRT)
         IG  =IPART(2,IPRT)
-        IF(MT.LE.0)THEN
+        IF(MT<=0)THEN
 C         IERR = IERR + 1
 C         WRITE(IOUT,*)' **ERROR INVALID MATERIAL NUMBER',MT
 C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
@@ -2494,7 +2494,7 @@ C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
      .                 C2=ELEM,
      .                 I3=IX(NE,I))
         ENDIF
-        IF(IG.NE.0.AND.EPID(IGEO(11,IG)) == 0)THEN
+        IF(IG/=0.AND.EPID(IGEO(11,IG)) == 0)THEN
 C         IERR = IERR + 1
 C         WRITE(IOUT,*)' **ERROR INVALID PROPERTY TYPE',IGEO(11,IG)
 C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
@@ -2524,7 +2524,7 @@ C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
             IPRT=IPARTEL(I)
             MT  =IPART(1,IPRT)
             IG  =IPART(2,IPRT)
-            IF(MT.LE.0)THEN
+            IF(MT<=0)THEN
 C
 C         WRITE(IOUT,*)' **ERROR INVALID MATERIAL NUMBER',MT
 C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
@@ -2549,7 +2549,7 @@ C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
      .                     C2=ELEM,
      .                     I3=IX(NE,I))
             ENDIF
-            IF(IG.LE.0)THEN
+            IF(IG<=0)THEN
 C
 C         WRITE(IOUT,*)' **ERROR INVALID PROPERTY NUMBER',IG
 C         WRITE(IOUT,*)'         FOR ',ELEM,IX(NE,I)
@@ -2638,15 +2638,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------
-      IF(ELEM=='SHELL3N' .AND. N2D.GT.0)RETURN
-      IF(ELEM=='TRIA'    .AND. N2D.EQ.0)RETURN
+      IF(ELEM=='SHELL3N' .AND. N2D>0)RETURN
+      IF(ELEM=='TRIA'    .AND. N2D==0)RETURN
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       IF(ELEM == 'SPRING')THEN
        DO I=1,NUMEL
         IG=IX(NG,I)
-        IF(IG.LE.0)THEN
+        IF(IG<=0)THEN
            CALL ANCMSG(MSGID=59,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_2,
@@ -2680,7 +2680,7 @@ C-----------------------------------------------
        DO I=1,NUMEL
         MT=IX(1,I)
         IG=IX(NG,I)
-        IF(MT.LE.0)THEN
+        IF(MT<=0)THEN
            CALL ANCMSG(MSGID=61,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO,
@@ -2699,7 +2699,7 @@ C-----------------------------------------------
      .                 C2=ELEM,
      .                 I3=IX(NE,I))
         ENDIF
-        IF (IG.LE.0) THEN
+        IF (IG<=0) THEN
            CALL ANCMSG(MSGID=59,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_2,
@@ -2707,7 +2707,7 @@ C-----------------------------------------------
      .                 C1=ELEM,
      .                 I2=IX(NE,I),
      .                 PRMOD=MSG_CUMU)
-        ELSEIF(IG.NE.0) THEN
+        ELSEIF(IG/=0) THEN
           IF (EPID(IGEO(11,IG)) == 0)THEN
            CALL FRETITL2(TITR2,IGEO(NPROPGI-LTITR+1,IG),LTITR)
            CALL ANCMSG(MSGID=60,
@@ -2741,7 +2741,7 @@ C-----------------------------------------------
        DO I=1,NUMEL
         MT=IX(1,I)
         IG=IX(NG,I)
-        IF(MT.LE.0)THEN
+        IF(MT<=0)THEN
            CALL ANCMSG(MSGID=61,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO,
@@ -2760,7 +2760,7 @@ C-----------------------------------------------
      .                 C2=ELEM,
      .                 I3=IX(NE,I))
         ENDIF
-        IF(IG.NE.0.AND.EPID(IGEO(11,IG)) == 0)THEN
+        IF(IG/=0.AND.EPID(IGEO(11,IG)) == 0)THEN
            CALL FRETITL2(TITR2,IGEO(NPROPGI-LTITR+1,IG),LTITR)
            CALL ANCMSG(MSGID=60,
      .                 MSGTYPE=MSGERROR,
@@ -2787,7 +2787,7 @@ C-----------------------------------------------
             MT=IX(1,I)
             IG=IX(NG,I)
 c            IGTYP=IGEO(11,IG)
-            IF(MT.LE.0)THEN
+            IF(MT<=0)THEN
                CALL ANCMSG(MSGID=61,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO,
@@ -2806,7 +2806,7 @@ c            IGTYP=IGEO(11,IG)
      .                     C2=ELEM,
      .                     I3=IX(NE,I))
             ENDIF
-            IF(IG.LE.0)THEN
+            IF(IG<=0)THEN
                CALL ANCMSG(MSGID=59,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_2,
@@ -2866,7 +2866,7 @@ c            IGTYP=IGEO(11,IG)
      .                 C1=ELEM,
      .                 I1=IX(NE,I),
      .                 PRMOD=MSG_CUMU)
-            ELSEIF(MT.LE.0)THEN
+            ELSEIF(MT<=0)THEN
                CALL ANCMSG(MSGID=61,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO,
@@ -2887,7 +2887,7 @@ c            IGTYP=IGEO(11,IG)
             ENDIF
             IF(IPARTEL(I) == 0)THEN
               CONTINUE
-            ELSEIF(IG.LE.0)THEN
+            ELSEIF(IG<=0)THEN
                CALL ANCMSG(MSGID=59,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_2,

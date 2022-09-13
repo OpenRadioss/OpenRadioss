@@ -68,7 +68,7 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
       DO N=1,NINTER
         NTY=IPARI(7,N)
-        IF (NTY.EQ.14 .OR. NTY.EQ.15) THEN
+        IF (NTY==14 .OR. NTY==15) THEN
           !Surfaces mains (une seule surface ...).
           NRTM   = IPARI(4,N)
           ISRF   = INTBUF_TAB(N)%KSURF(1)

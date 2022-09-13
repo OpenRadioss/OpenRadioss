@@ -76,8 +76,8 @@ C
         CALL FRETITL2(TITR,
      .       NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
         DO J=3,6
-	  IF(GJBUFI(J,I).NE.0)THEN
-	    IF(MASS(GJBUFI(J,I)).EQ.0)THEN
+	  IF(GJBUFI(J,I)/=0)THEN
+	    IF(MASS(GJBUFI(J,I))==0)THEN
               CALL ANCMSG(MSGID=535,
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO_BLIND_1,
@@ -89,8 +89,8 @@ C
 	    ENDIF
 	  END IF
 	  
-	  IF(GJBUFI(J,I).NE.0)THEN
-	    IF(INER(GJBUFI(J,I)).EQ.0)THEN
+	  IF(GJBUFI(J,I)/=0)THEN
+	    IF(INER(GJBUFI(J,I))==0)THEN
               CALL ANCMSG(MSGID=536,
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO_BLIND_1,
@@ -103,11 +103,11 @@ C
 	  END IF
 	ENDDO  	
 	
-        IF (JTYP.EQ.1) THEN
+        IF (JTYP==1) THEN
           CALL INI_GEAR(IADLL,JLL  ,LLL  ,N0   ,N1   ,N2,NC,ID,TITR)
-        ELSEIF (JTYP.EQ.2) THEN
+        ELSEIF (JTYP==2) THEN
           CALL INI_DIFF(IADLL,JLL  ,LLL  ,N0   ,N1   ,N2,N3,NC,ID,TITR)
-        ELSEIF (JTYP.EQ.3) THEN
+        ELSEIF (JTYP==3) THEN
           CALL INI_RACK(IADLL,JLL  ,LLL  ,N0   ,N1   ,N2   ,NC,ID,TITR)
         ENDIF
 C

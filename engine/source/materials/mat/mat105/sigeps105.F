@@ -247,10 +247,10 @@ C-----------------------------------------------
         !  BFRAC  : ignition fraction (flamme evolution) !
         !  UVAR(6): burn fraction (grain burn evolution) !
         !------------------------------------------------!
-        IF(BFRAC(I).LE.ZERO)THEN
+        IF(BFRAC(I)<=ZERO)THEN
           TOTAL_BFRAC = ZERO
           UVAR(I,6) = ZERO
-        ELSEIF(UVAR(I,6).NE.ONE)THEN  ! F<1
+        ELSEIF(UVAR(I,6)/=ONE)THEN  ! F<1
             PG_=PG 
             !PG_=PG*(ONE-MASS_S/VOLN(I)/RHO_S)  !effective gaz pressure Pg*(1-RHO_S_/rhop)
             BRATE       = FSCALE_B*FINTER(funcb,(PG_)/FSCALE_P,NPF,TF,DIFF)
@@ -280,7 +280,7 @@ C-----------------------------------------------
         !rho_si=rho0(I)/compac
         
         
-       IF(MASS_G.GT.ZERO)RHO_G=MASS_G/(VOLN(I)-MASS_S/ max(EM10,RHO_Si)) 
+       IF(MASS_G>ZERO)RHO_G=MASS_G/(VOLN(I)-MASS_S/ max(EM10,RHO_Si)) 
 
          
         PG   = RHO_G*EG*EXP(RHO_G/D)
@@ -288,7 +288,7 @@ C-----------------------------------------------
         PS   = BULK*(RHO_Si/RHO0(I))
         SSP_S= SQRT(BULK/RHO0(I))
         
-        IF(RHO_G.GT.ZERO)THEN
+        IF(RHO_G>ZERO)THEN
           SSP_G = RHO0(I)/D*Pg + EXP(RHO_G/D)* Pg / (RHO_G/RHO0(I))**2
           SSP_G = SQRT(ONE/RHO_G * SSP_G)
         ELSE

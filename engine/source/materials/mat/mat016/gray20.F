@@ -109,7 +109,7 @@ C-----------------------------------------------
 
       DO I=LFT,LLT
         XP(I)     = ZERO
-        IF(X(I).GE.ZERO) XP(I)=ONE
+        IF(X(I)>=ZERO) XP(I)=ONE
       ENDDO
 
       DO I=LFT,LLT
@@ -161,7 +161,7 @@ C------------------------------------
       ENDDO
 
       DO I=LFT,LLT
-        IF(P01(I).LE.PMIN(I))THEN
+        IF(P01(I)<=PMIN(I))THEN
           P01(I)  = ZERO
           XIST(I) = FIVE
         ENDIF
@@ -189,7 +189,7 @@ C------------------------------------
       ENDDO
 
       DO I=LFT,LLT
-        IF(P02(I).LE.PMIN(I))THEN
+        IF(P02(I)<=PMIN(I))THEN
           P02(I)  = ZERO
           XIST(I) = FIVE
         ENDIF
@@ -198,7 +198,7 @@ C------------------------------------
 C     VITESSE DU SON
 C------------------------------------
       DO I=LFT,LLT
-        IF(DMU(I).NE.ZERO)THEN
+        IF(DMU(I)/=ZERO)THEN
           DPDM(I) = DPDM(I)+MAX(RHO0(I)*C(I)*C(I),ABS((P02(I)-POLD(I))/DMU(I)))
         ELSE
           DPDM(I) = DPDM(I)+RHO0(I)*C(I)*C(I)

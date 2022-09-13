@@ -62,7 +62,7 @@ C-----------------------------------------------
       DO I=LFT,LLT
         E21       = E02(I)-E01(I)
         P21       = P02(I)-P01(I)
-        IF(E21.EQ.ZERO)THEN
+        IF(E21==ZERO)THEN
           PE21(I) = ZERO
         ELSE
           PE21(I) = P21/E21

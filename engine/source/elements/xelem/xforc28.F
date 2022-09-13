@@ -202,7 +202,7 @@ C       using UVARN(MB5:MB5+NX-2) only.
         MB5=MB4+NX
 C-----------------------------------------------
 C       already broken only returns mass & null stiffness.
-        IF (OFF.EQ.ZERO) GOTO 200
+        IF (OFF==ZERO) GOTO 200
 C-----------------------------------------------
 C       FORCE & PLASTIC DISPLACEMENT,
 C-----------------------------------------------
@@ -224,7 +224,7 @@ C-------
         XFAC=GET_U_GEO(13,IPROP)
 C-------
 C       STIF (tangent stiffness) is considered for friction ..
-        IF (IFUNCT.EQ.0.AND.IFV.EQ.0) THEN
+        IF (IFUNCT==0.AND.IFV==0) THEN
 C------------------------------------------
 C        LINEAR ELASTIC
          L0  =UVAR(NB1)
@@ -233,7 +233,7 @@ C        raideur tgte par unite de longueur.
          STIF=XK
          F   =XK*DX/L0
          EPSTOT=DX/L0
-        ELSEIF (IFUNCT.EQ.0.AND.IFV.NE.0) THEN
+        ELSEIF (IFUNCT==0.AND.IFV/=0) THEN
 C------------------------------------------
 C        G(Deps) only.
          L0  =UVAR(NB1)
@@ -256,7 +256,7 @@ C        raideur tgte par unite de longueur.
 C-------------------------------------
 C       LINEAR DAMPING.
         DT11 = DT
-        IF(DT11.EQ.ZERO)DT11 = EP30
+        IF(DT11==ZERO)DT11 = EP30
 C
         DXOLD=UVAR(NB2)
         DDX=DX-DXOLD
@@ -268,7 +268,7 @@ C
 C
         XC  =GET_U_GEO(5,IPROP)
         DGDX=ZERO
-        IF (IFV.GT.0) THEN
+        IF (IFV>0) THEN
          G  = GET_U_FUNC(IFV,DEPS*XFAC,DGDX)
          DGDX = DGDX*XFAC
          FX = F*G+XC*DEPS
@@ -307,7 +307,7 @@ C       rupture criteria is based upon average of total deformation
 C       into nstrand element.
         EPSMIN=GET_U_GEO(8,IPROP)
         EPSMAX=GET_U_GEO(9,IPROP)
-        IF (EPSTOT.LT.EPSMIN.OR.EPSTOT.GT.EPSMAX) THEN
+        IF (EPSTOT<EPSMIN.OR.EPSTOT>EPSMAX) THEN
          OFF=ZERO
          FX =ZERO
 #include "lockon.inc"
@@ -337,7 +337,7 @@ C-------
 C
         ECHANGE=1
         NIT=0
-        DO WHILE(ECHANGE.EQ.1.AND.NIT.LT.10)
+        DO WHILE(ECHANGE==1.AND.NIT<10)
           ECHANGE=0
           NIT=NIT+1
           DO K=1,NX-1
@@ -348,15 +348,15 @@ C           stifr utilise de maniere temporaire.
 C          default pulley friction.
            FRIC=MU1
            MU  = GET_U_GEO(50+K,IPROP)
-           IF (MU.GE.ZERO) FRIC=MU
+           IF (MU>=ZERO) FRIC=MU
            MU  = GET_U_GEO(525+K-1,IPROP)
-           IF (MU.GE.ZERO) THEN 
+           IF (MU>=ZERO) THEN 
              FRIC=FRIC + HALF*MU
            ELSE
              FRIC=FRIC + HALF*MU2
            ENDIF
            MU  = GET_U_GEO(525+K,IPROP)
-           IF (MU.GE.ZERO) THEN 
+           IF (MU>=ZERO) THEN 
              FRIC=FRIC+HALF*MU
            ELSE
              FRIC=FRIC + HALF*MU2
@@ -376,7 +376,7 @@ C
            FF   = TWO*FX+STIFR(K-1)+STIFR(K)
            FMAX = MAX(ZERO,FF*TANH(HALF*FRIC*BETA))
            DFS  = STIFR(K-1)-STIFR(K)
-           IF(ABS(DFS).GT.FMAX)THEN
+           IF(ABS(DFS)>FMAX)THEN
              DF =SIGN(ABS(DFS)-FMAX,DFS)
 C            tous les brins ont la meme longueur correspond a :
              UVARN(MB2+K-2)=UVARN(MB2+K-2)-HALF*DF
@@ -446,7 +446,7 @@ C       return internal energy of element.
         ENDDO
         UVAR(NB3)=FX
 C-------
-        IF (OFF.EQ.ZERO) THEN
+        IF (OFF==ZERO) THEN
 C        vanish forces into strands.
          DO K=1,NX-1
           UVARN(MB2+K-1)=ZERO
@@ -461,7 +461,7 @@ C-----------------------------------------------
         DO K=1,NX-1
 C-------
 C         CHECK NSTRAND STIFNESS AND DAMPING..
-          IF(MASS(K).LE.EM15)THEN
+          IF(MASS(K)<=EM15)THEN
 #include "lockon.inc"
              WRITE(IOUT,*)
      .' ** ERROR NSTRAND : NULL STRAND LENGHT, ELEMENT=',
@@ -476,7 +476,7 @@ C         rigidite tangente
           XCM  = (F*DGDX+XC)*L/(MAX(EM15,MASS(K))*L0)
 C-------
 C         CHECK NSTRAND STIFNESS AND DAMPING..
-          IF(XKM.LE.EM15.AND.XCM.LE.EM15)THEN
+          IF(XKM<=EM15.AND.XCM<=EM15)THEN
 #include "lockon.inc"
              WRITE(IOUT,*)
      .' ** ERROR NSTRAND : NULL STRAND STIFFNESS & DAMPING, ELEMENT=',
@@ -489,7 +489,7 @@ C           DTK=(SQRT(0.25*XCM*XCM+XM*XKM)-0.5*XCM)/MAX(EM15,XKM)
 C           DTC=0.5 * 2.*XM/MAX(EM15,XCM)
           DTK=(SQRT(XCM*XCM+XM*XKM)-XCM)/MAX(EM15,XKM)
           DTC=XM/MAX(EM15,XCM)
-          IF (DTK.EQ.ZERO) THEN
+          IF (DTK==ZERO) THEN
 C          XKM==0.
            DTK=DTC
           ELSE
@@ -507,7 +507,7 @@ C-----------------------------------------------
          VISCR(K) =ZERO 
         ENDDO
 C
-        IF (OFF.EQ.ZERO) THEN
+        IF (OFF==ZERO) THEN
          DO K=1,NX
           VISCM(K) =ZERO
           STIFM(K) =ZERO  

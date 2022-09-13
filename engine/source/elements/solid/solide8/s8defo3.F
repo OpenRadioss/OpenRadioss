@@ -112,7 +112,7 @@ C
 C
       DT1D2=HALF*DT1
 C
-      IF (JCVT.NE.0) THEN
+      IF (JCVT/=0) THEN
        DO I=LFT,LLT
          D4(I,IPT)= DXY(I)+DYX(I)
      .           -DT1*(DXX(I)*DXY(I)+DYX(I)*DYY(I)+DZX(I)*DZY(I))

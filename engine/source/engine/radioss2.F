@@ -416,7 +416,7 @@ C      ITESTV Format [Version][YY][MM][DD]
 C-------------------------------------------------------------------
       ITSTV1=210290720
 C
-      IF(IR4R8.EQ.2) ITSTV1 = -ITSTV1
+      IF(IR4R8==2) ITSTV1 = -ITSTV1
 C------------------------------------------------------------------
 C     Compatible radflex number
 C         2 digits = equivalent radioss version
@@ -630,7 +630,7 @@ C--------------------------------------------------
       OPEN(UNIT=IIN,FORM='FORMATTED',STATUS='SCRATCH')
 
       IF ( GOT_INPUT == 0)THEN
-       IF (ISPMD.NE.0) THEN
+       IF (ISPMD/=0) THEN
 C redirect IOUT to tmp file  fichier temporaire when SPMD on pi <> 0
          IOUT = IUSC4
          OPEN(UNIT=IOUT,ACCESS='SEQUENTIAL',
@@ -639,14 +639,14 @@ C redirect IOUT to tmp file  fichier temporaire when SPMD on pi <> 0
          WRITE(UNIT=IOUT,IOSTAT=IOS,FMT='(A)')
          OPEN(UNIT=ISTDI,FORM='FORMATTED',FILE=INPUTNAM,
      .       STATUS='OLD',IOSTAT=IO_ERR)
-         IF (IO_ERR.NE.0) THEN
+         IF (IO_ERR/=0) THEN
            CALL ANCMSG(MSGID=145,ANMODE=ANINFO,
      .            C1=INPUTNAM)
            CALL ARRET(2)
          ENDIF
        ENDIF
       ELSE
-       IF (ISPMD.NE.0) THEN
+       IF (ISPMD/=0) THEN
          IOUT = IUSC4
          OPEN(UNIT=IOUT,ACCESS='SEQUENTIAL',
      .       FORM='FORMATTED',STATUS='SCRATCH')
@@ -658,7 +658,7 @@ C     Standard input reading
 C------------------------------------------------
       CALL LECINP(IRUNN,IRFL,IRFE,H3D_DATA,FLAG_CST_AMS)
       NFSKYI=5
-      IF(KDTINT.EQ.0 )NFSKYI=4
+      IF(KDTINT==0 )NFSKYI=4
       
       IF (GOT_INPUT==0)THEN
 C --------------------------------
@@ -675,9 +675,9 @@ C only reading/writing ieee validated for all versions
 C------------------------------------------------
 C     Restart
 C------------------------------------------------
-      IF(ISPMD.EQ.ZERO) THEN
+      IF(ISPMD==ZERO) THEN
 C       Create info, hist, monitor, progress and tpl files for writing implicit nonlinear solver information
-        IF (IMPL_S.GT.ZERO.AND.ILINE.EQ.ZERO.AND.SOLVNFO.GT.ZERO) THEN
+        IF (IMPL_S>ZERO.AND.ILINE==ZERO.AND.SOLVNFO>ZERO) THEN
           ISOLPGRS = 666666
           FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'.progress'
           LEN_TMP_NAME = OUTFILE_NAME_LEN+ROOTLEN+14
@@ -705,7 +705,7 @@ C       Create info, hist, monitor, progress and tpl files for writing implicit 
           OPEN(UNIT=ISOLHIST,FILE=TMP_NAME(1:LEN_TMP_NAME),
      .         ACCESS='SEQUENTIAL',
      .         FORM='FORMATTED',STATUS='UNKNOWN')
-          IF (IDTC.EQ.3) THEN
+          IF (IDTC==3) THEN
           WRITE(ISOLHIST,1007) 'Cumulative iterations','Cycle',
      .    'Iteration per cycle',
      .    'Residual disp.','Residual force','Residual energy',
@@ -759,10 +759,10 @@ C       Create info, hist, monitor, progress and tpl files for writing implicit 
      .           A,'")')
         ENDIF
       ENDIF
-        IF(IOUT.EQ.0)IOUT=7
+        IF(IOUT==0)IOUT=7
         WRITE(CHRUN,'(I4.4)')IRUNN
-        IF(MCHECK.NE.0)THEN
-         IF(ISPMD.EQ.0) THEN
+        IF(MCHECK/=0)THEN
+         IF(ISPMD==0) THEN
             FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'.out'
             LEN_TMP_NAME = OUTFILE_NAME_LEN+ROOTLEN+9
             TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:ROOTLEN+9)
@@ -772,7 +772,7 @@ C       Create info, hist, monitor, progress and tpl files for writing implicit 
      .       FORM='FORMATTED',STATUS='UNKNOWN')
 
              IO_ERRL=0
-            DO WHILE (IO_ERRL.GE.0)
+            DO WHILE (IO_ERRL>=0)
               READ(IOUT,'(A)',END = 1000,IOSTAT=IO_ERRL)LINE
             ENDDO
  1000      BACKSPACE(IOUT)
@@ -787,13 +787,13 @@ C       Create info, hist, monitor, progress and tpl files for writing implicit 
      .               //'_'//CHRUN//'_'//PROCNAM//'.rst'
          LEN = ROOTLEN + 14
         ELSE
-         IF (ISPMD.EQ.0) THEN
+         IF (ISPMD==0) THEN
            WRITE(CHR_OLD,'(I2.2)')IRUNN
            FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'.out'
 
            IF (GOT_INPUT == 0)THEN
              INPUTNAM=ROOTNAM(1:ROOTLEN)//'D'//CHR_OLD
-             IF(INVERS.GE.50)
+             IF(INVERS>=50)
      .       INPUTNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'.rad'
            ELSE
              INPUTNAM(1:LENINPUT)=INPUT(1:LENINPUT)
@@ -815,7 +815,7 @@ C
          WRITE(PROCNAM,'(I4.4)')ISPMD+1
           FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRU_M1//'_'//PROCNAM
           LEN = ROOTLEN+10
-         IF(CHRUN0(1:1).EQ.'_')THEN
+         IF(CHRUN0(1:1)=='_')THEN
            FILNAM=FILNAM(1:LEN)//CHRUN0
            LEN = LEN+2
          ENDIF
@@ -842,7 +842,7 @@ C
         FILNAM(I:I) = CHAR(IFILNAM(I))
       END DO
 C
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
         CALL  RADIOSS_TITLE(IOUT ,CPUNAM,ARCHTITLE,
      *                      FILNAM,ROOTLEN,CHRUN,IRESP,0)
         CALL  RADIOSS_TITLE(ISTDO,CPUNAM,ARCHTITLE,
@@ -851,7 +851,7 @@ C
 C------------------------------------------------------------------
 C     IGNORE CORE
 C------------------------------------------------------------------
-      IF(ITRACE.EQ.1) CALL SETIGNORECORE (1)
+      IF(ITRACE==1) CALL SETIGNORECORE (1)
       ITASKP1_DEF=0
       CALL TRACE_IN(1,0,ZERO)
       CALL TRACE_IN(17,1,ZERO)
@@ -864,17 +864,17 @@ C------------------------------------------------
 C------------------------------------------------
 C     Test of .rst file compatibility
 C------------------------------------------------
-      IF(ISPMD.EQ.0) THEN
-        IF(PRADIOS.NE.IRADIOS.OR.PRESFIL.NE.IRESFIL)THEN
+      IF(ISPMD==0) THEN
+        IF(PRADIOS/=IRADIOS.OR.PRESFIL/=IRESFIL)THEN
           CALL ANCMSG(MSGID=146,ANMODE=ANINFO)
           CALL ARRET(2)
         ENDIF
       ENDIF
 
-      IF (ISPMD.EQ.0) THEN
-        IF(ITESTV.NE.ITSTV1.OR.NVSIZ.GT.MVSIZ)THEN
+      IF (ISPMD==0) THEN
+        IF(ITESTV/=ITSTV1.OR.NVSIZ>MVSIZ)THEN
           CALL ANCMSG(MSGID=147,ANMODE=ANINFO)
-          IF(DEBUG(2).LT.2)CALL ARRET(2)
+          IF(DEBUG(2)<2)CALL ARRET(2)
         ENDIF
       ENDIF
 
@@ -882,7 +882,7 @@ C------------------------------------------------
 
 
 C      CALL TRACE_IN(19,0,ZERO)
-C      IF(ISPMD.EQ.0) CALL XTIME0(NNODES)
+C      IF(ISPMD==0) CALL XTIME0(NNODES)
 C      CALL TRACE_OUT(19)
 
       CALL TRACE_IN(17,1,ZERO)
@@ -891,7 +891,7 @@ C end init rdresa after call xtime0
       CALL TRACE_OUT(17)
 
       CALL INIPAR(ITID,3,NNODES,INPUTNAM,GOT_INPUT,NBTASK)
-      IF(ISPMD.EQ.0) THEN
+      IF(ISPMD==0) THEN
        WRITE(IOUT, '(1X,A,I5)')'NUMBER OF SPMD DOMAINS       ',
      .                           NSPMD
        IF(NBTASK(NSPMD+1) == NSPMD*NTHREAD)THEN
@@ -919,42 +919,42 @@ C Open the qaprint file
        CALL QAOPEN('engine')
       ENDIF
 C
-      IF (STACKSIZ.GT.0 .AND. STACKSIZ.LE.512)THEN
+      IF (STACKSIZ>0 .AND. STACKSIZ<=512)THEN
           CALL ANCMSG(MSGID=240,
      .        ANMODE=ANINFO)
       ENDIF
 
       CALL PRINTCPU(2)
 
-      IF(ISPMD.EQ.0)
+      IF(ISPMD==0)
      *  CALL PRINTCENTER(" ",0,IOUT,1)
 C------------------------------------------------
-      IF(IFIF.GT.0)ALLOCATE (IAF(IFIF),STAT=IADIF)
-      IF(MFIF.GT.0)ALLOCATE (AF(MFIF),STAT=IADRF)
-      IF(IADRF.NE.0.OR.IADIF.NE.0)THEN
+      IF(IFIF>0)ALLOCATE (IAF(IFIF),STAT=IADIF)
+      IF(MFIF>0)ALLOCATE (AF(MFIF),STAT=IADRF)
+      IF(IADRF/=0.OR.IADIF/=0)THEN
         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
         CALL ARRET(2)
       ENDIF
 C
-      IF (IRESP.EQ.1) THEN
+      IF (IRESP==1) THEN
         ALLOCATE(XDP(3*NUMNOD),STAT=IXDP)
-        IF(IXDP.NE.0) THEN
+        IF(IXDP/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
         ENDIF
         ALLOCATE(DDP(3*NUMNOD),STAT=IXDP)
-        IF(IXDP.NE.0) THEN
+        IF(IXDP/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
         ENDIF
       ELSE
         ALLOCATE(XDP(1),STAT=IXDP)
-        IF(IXDP.NE.0) THEN
+        IF(IXDP/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
         ENDIF
         ALLOCATE(DDP(1),STAT=IXDP)
-        IF(IXDP.NE.0) THEN
+        IF(IXDP/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
         ENDIF
@@ -980,7 +980,7 @@ C
 C     allocations structures INTSTAMP
       IF(NINTSTAMP/=0)THEN
         ALLOCATE(INTSTAMP(NINTSTAMP),STAT=IERR)
-        IF (IERR.NE.0)THEN
+        IF (IERR/=0)THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
         ENDIF
@@ -992,7 +992,7 @@ C
 C     allocations structure TABLE
       IF(NTABLE/=0)THEN
         ALLOCATE(TABLE(NTABLE),STAT=IERR)
-        IF (IERR.NE.0)THEN
+        IF (IERR/=0)THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
         ENDIF
@@ -1023,8 +1023,8 @@ c
       IF (NSPMD > 1)  CALL SPMD_RST_CHECK()
 c----------
 
-      IF (IMACH.EQ.3) NSPROC=1
-      IF (NDSOLV.EQ.1) THEN
+      IF (IMACH==3) NSPROC=1
+      IF (NDSOLV==1) THEN
          ALLOCATE(GRAPHE(NSPROC))
          CALL DSRREST(GRAPHE)
 #if defined(MYREAL8) && !defined(WITHOUT_LINALG)
@@ -1034,7 +1034,7 @@ c----------
       ELSE
          ALLOCATE(GRAPHE(0))
       ENDIF
-      IF (NFLOW.GT.0) THEN
+      IF (NFLOW>0) THEN
          ALLOCATE(IFLOW(LIFLOW), RFLOW(LRFLOW))
          CALL NFRREST(IFLOW, RFLOW)
       ELSE
@@ -1043,7 +1043,7 @@ c----------
 
       CALL FVRREST(MONVOL)
 
-      IF (IMPL_S0.GT.0) CALL IMPRREST(IRFORM,IMPL_S0)
+      IF (IMPL_S0>0) CALL IMPRREST(IRFORM,IMPL_S0)
 C heat  transfer
       IF(ITHERM_FE == 0 .AND. ITHERMC > 0)ITHERM_FE= 1
       IF(ITHERM_FE > 0   ) THEN
@@ -1061,7 +1061,7 @@ C Nitsche Method : Equivalent Nodal Force allocation
       ENDIF
 C
       ALLOCATE(DMSPH(SDMSPH),STAT=IERR)
-      IF (IERR.NE.0)THEN
+      IF (IERR/=0)THEN
         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
         CALL ARRET(2)
       ENDIF
@@ -1092,7 +1092,7 @@ C--------------------------------------------
          !MLN = IPM(NPROPMI*(IMID-1)+2)!material law number
          IMID = IPART(LIPART1*(I-1)+1)
          MLN  = IPM(NPROPMI*(IMID-1)+2)
-         IF (MLN==51 .OR. MLN==37 .OR. MLN==20 .OR. MLN .EQ. 151) MMALE = 1
+         IF (MLN==51 .OR. MLN==37 .OR. MLN==20 .OR. MLN == 151) MMALE = 1
          IF (MLN==51) ILAW51=1
          IF (MLN==37) ILAW37=1
          IF (MLN==20) ILAW20=1 
@@ -1167,7 +1167,7 @@ C--------------------------------------------
       !COMMUN LAW51/LAW37
       !if multimaterial law then removing useless phases output (phases 3 or/and 4)
       IF(MMALE==1)THEN     
-	IF(N2D.EQ.0)THEN 
+	IF(N2D==0)THEN 
 	  !no 2D output 
           DO I=10248,10251
             IF(ANIM_CE(I)==1)THEN
@@ -1176,7 +1176,7 @@ C--------------------------------------------
             END IF      
           ENDDO  
           !multimaterial with law51
-          IF(TRIMAT.NE.4)THEN  !if anim keyword present : removing phasis which are not defined        
+          IF(TRIMAT/=4)THEN  !if anim keyword present : removing phasis which are not defined        
             IF(ANIM_SE(286)==1)THEN       !removing phase4 (jwl)
               ANIM_SE(286)=0
               NSE_ANI=NSE_ANI-1
@@ -1189,7 +1189,7 @@ C--------------------------------------------
               NSE_ANI=NSE_ANI-1
             END IF      
           ENDIF	
-	ELSEIF(N2D.GT.0)THEN 
+	ELSEIF(N2D>0)THEN 
 	  !no 3D output	
           DO I=283,286
             IF(ANIM_SE(I)==1)THEN
@@ -1198,13 +1198,13 @@ C--------------------------------------------
             END IF      
           ENDDO 
           !!multimaterial with law51
-          !IF(TRIMAT.NE.4)THEN  !if anim keyword present : removing phasis which are not defined        
+          !IF(TRIMAT/=4)THEN  !if anim keyword present : removing phasis which are not defined        
           !  IF(ANIM_CE(10251)==1)THEN       !removing phase4 (jwl)
           !    ANIM_CE(10251)=0
           !    NCE_ANI=NCE_ANI-1
           !  END IF
           !0ENDIF  
-          !IF(TRIMAT.EQ.0)THEN        
+          !IF(TRIMAT==0)THEN        
           !  DO I=10250,10251
           !    IF(ANIM_CE(I)==1)THEN
           !      ANIM_CE(I) = 0
@@ -1220,7 +1220,7 @@ C--------------------------------------------
       ENDIF
       
       !no need to output zero contour for ALE ANIM keywords if ALE not defined. (example: schlieren +SH3N)
-      IF(IALE+IEULER+ITHERM .EQ. 0)THEN
+      IF(IALE+IEULER+ITHERM == 0)THEN
         NCE_ANI = NCE_ANI - ANIM_CE(10672)
         NCE_ANI = NCE_ANI - ANIM_CE(10671)
         NSE_ANI = NSE_ANI - ANIM_SE(4892)
@@ -1331,7 +1331,7 @@ C   thermal bc
 C--------------------------------------------
 C LOAD/PRESSURE interfaces : Gaps
 C--------------------------------------------
-      IF (NINTLOADP.GT.0) THEN
+      IF (NINTLOADP>0) THEN
          CALL READ_DB(DGAPLOADINT, NINTER*NLOADP_HYD )
       ENDIF
       IF(ICRACK3D > 0) CALL CRKXFEM_RREST(INOD_CRKXFEM,IEL_CRKXFEM,NODLEVXF)
@@ -1550,7 +1550,7 @@ C------------------------------------------------
       CALL TRACE_IN(19,0,ZERO)
       CALL TRACE_OUT(19)
 C------------------------------------------------
-      IF ((IRAD2R.EQ.1).AND.(R2R_SIU.EQ.1))THEN
+      IF ((IRAD2R==1).AND.(R2R_SIU==1))THEN
         CALL R2R_INPUT_INIT(IRUNN)          
       ENDIF         
 C------------------------------------------------
@@ -1572,7 +1572,7 @@ C------------------------------------------------
         ENDIF
       CALL BCS0 (ICODE,ICODT,ICODR, ICODE_PLY, ICODT_PLY,IBC_PLY)
       IT = 1
-      IF (NUMELTG6.GT.0) THEN
+      IF (NUMELTG6>0) THEN
         CALL CDK6BC3(ICODT ,ISKEW,ISKWN,IXTG  ,
      1                  IXTG1   ,NPBY,
      2                  X ,SKEW)
@@ -1591,18 +1591,18 @@ C     ABF file check if external abf program available & initpipes
 C------------------------------------------------
 C
 C number of writen abf_files .abf, _a.abf .....
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
 C
       NB_OF_FILES = 1
       DO I=1,9
-        IF(NTHGRP01(I) .NE. 0 .AND. ABFILE(I+1) .NE. 0)
+        IF(NTHGRP01(I) /= 0 .AND. ABFILE(I+1) /= 0)
      .           NB_OF_FILES = NB_OF_FILES + 1
       ENDDO
-      IF (NABFILE .NE. 0) THEN
+      IF (NABFILE /= 0) THEN
         ABFV = 0
         IABFPIPE=1
         ABFCOMP=180182702
-        IF((IMACH.NE.3).OR.(IMACH.EQ.3.AND.ISPMD.EQ.0)) THEN
+        IF((IMACH/=3).OR.(IMACH==3.AND.ISPMD==0)) THEN
           CALL OPEN_ABFPIPE(ABINP,ABOUT,IABFPIPE,1,ABFV,NB_OF_FILES)
           IF (IABFPIPE < 0) THEN
             SELECT CASE (IABFPIPE)
@@ -1627,12 +1627,12 @@ C---
 C------------------------------------------------
 C Write th file structure
 C------------------------------------------------
-      IF (ISPMD.EQ.0) THEN
-        IF(TH_VERS.GE.40)THEN
+      IF (ISPMD==0) THEN
+        IF(TH_VERS>=40)THEN
          WRITE(CHR_OLD,'(I2.2)')IRUNN
          FILNAMTH=ROOTNAM(1:ROOTLEN)//'T'//CHR_OLD
          LONG= 3
-         IF(TH_VERS.GE.50)THEN
+         IF(TH_VERS>=50)THEN
           FILNAMTH=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'.thy'
           LONG = 9
          ENDIF
@@ -1647,13 +1647,13 @@ C------------------------------------------------
      5    12	 ,ITFORM,ITHFLAG,ITHVAR,IFILTITL)
           WA(1:SWA) = ZERO
 C   Multiple th files
-            IF(NTHGRP01(1).NE.0)THEN
+            IF(NTHGRP01(1)/=0)THEN
               WRITE(CHR_OLD,'(I2.2)')IRUNN
               FILTH  = CHR_OLD
               FILTH(3:3)= ABC(1)
               FILNAMTH=ROOTNAM(1:ROOTLEN)//'T'//FILTH
               LONG = 4
-              IF(TH_VERS.GE.50) THEN
+              IF(TH_VERS>=50) THEN
                FILNAMTH=ROOTNAM(1:ROOTLEN)
      .             //'_'//CHRUN//'_'//ABC(1)//'.thy'
                LONG = 11
@@ -1669,13 +1669,13 @@ C   Multiple th files
      5         1      ,AFORM(1),ITHFLAG,ITHVAR,IFILTITL)
             END IF
 
-            IF(NTHGRP01(2).NE.0)THEN
+            IF(NTHGRP01(2)/=0)THEN
               WRITE(CHR_OLD,'(I2.2)')IRUNN
               FILTH  = CHR_OLD
               FILTH(3:3)= ABC(2)
               FILNAMTH=ROOTNAM(1:ROOTLEN)//'T'//FILTH
               LONG = 4
-              IF(TH_VERS.GE.50) THEN
+              IF(TH_VERS>=50) THEN
                FILNAMTH=ROOTNAM(1:ROOTLEN)
      .             //'_'//CHRUN//'_'//ABC(2)//'.thy'
                LONG = 11
@@ -1691,13 +1691,13 @@ C   Multiple th files
      5         1      ,AFORM(2),ITHFLAG,ITHVAR,IFILTITL)
             END IF
 
-            IF(NTHGRP01(3).NE.0)THEN
+            IF(NTHGRP01(3)/=0)THEN
               WRITE(CHR_OLD,'(I2.2)')IRUNN
               FILTH  = CHR_OLD
               FILTH(3:3)= ABC(3)
               FILNAMTH=ROOTNAM(1:ROOTLEN)//'T'//FILTH
               LONG = 4
-              IF(TH_VERS.GE.50) THEN
+              IF(TH_VERS>=50) THEN
                FILNAMTH=ROOTNAM(1:ROOTLEN)
      .             //'_'//CHRUN//'_'//ABC(3)//'.thy'
                LONG = 11
@@ -1713,13 +1713,13 @@ C   Multiple th files
      5         1      ,AFORM(3),ITHFLAG,ITHVAR,IFILTITL)
             END IF
 
-            IF(NTHGRP01(4).NE.0)THEN
+            IF(NTHGRP01(4)/=0)THEN
               WRITE(CHR_OLD,'(I2.2)')IRUNN
               FILTH  = CHR_OLD
               FILTH(3:3)= ABC(4)
               FILNAMTH=ROOTNAM(1:ROOTLEN)//'T'//FILTH
               LONG = 4
-              IF(TH_VERS.GE.50) THEN
+              IF(TH_VERS>=50) THEN
                FILNAMTH=ROOTNAM(1:ROOTLEN)
      .             //'_'//CHRUN//'_'//ABC(4)//'.thy'
                LONG = 11
@@ -1735,13 +1735,13 @@ C   Multiple th files
      5         1      ,AFORM(4),ITHFLAG,ITHVAR,IFILTITL)
             END IF
 
-            IF(NTHGRP01(5).NE.0)THEN
+            IF(NTHGRP01(5)/=0)THEN
               WRITE(CHR_OLD,'(I2.2)')IRUNN
               FILTH  = CHR_OLD
               FILTH(3:3)= ABC(5)
               FILNAMTH=ROOTNAM(1:ROOTLEN)//'T'//FILTH
               LONG = 4
-              IF(TH_VERS.GE.50) THEN
+              IF(TH_VERS>=50) THEN
                FILNAMTH=ROOTNAM(1:ROOTLEN)
      .             //'_'//CHRUN//'_'//ABC(5)//'.thy'
                LONG = 11
@@ -1757,13 +1757,13 @@ C   Multiple th files
      5         1      ,AFORM(5),ITHFLAG,ITHVAR,IFILTITL)
             END IF
 
-            IF(NTHGRP01(6).NE.0)THEN
+            IF(NTHGRP01(6)/=0)THEN
               WRITE(CHR_OLD,'(I2.2)')IRUNN
               FILTH  = CHR_OLD
               FILTH(3:3)= ABC(6)
               FILNAMTH=ROOTNAM(1:ROOTLEN)//'T'//FILTH
               LONG = 4
-              IF(TH_VERS.GE.50) THEN
+              IF(TH_VERS>=50) THEN
                FILNAMTH=ROOTNAM(1:ROOTLEN)
      .             //'_'//CHRUN//'_'//ABC(6)//'.thy'
                LONG = 11
@@ -1779,13 +1779,13 @@ C   Multiple th files
      5         1      ,AFORM(6),ITHFLAG,ITHVAR,IFILTITL)
             END IF
 
-            IF(NTHGRP01(7).NE.0)THEN
+            IF(NTHGRP01(7)/=0)THEN
               WRITE(CHR_OLD,'(I2.2)')IRUNN
               FILTH  = CHR_OLD
               FILTH(3:3)= ABC(7)
               FILNAMTH=ROOTNAM(1:ROOTLEN)//'T'//FILTH
               LONG = 4
-              IF(TH_VERS.GE.50) THEN
+              IF(TH_VERS>=50) THEN
                FILNAMTH=ROOTNAM(1:ROOTLEN)
      .             //'_'//CHRUN//'_'//ABC(7)//'.thy'
                LONG = 11
@@ -1801,13 +1801,13 @@ C   Multiple th files
      5         1      ,AFORM(7),ITHFLAG,ITHVAR,IFILTITL)
             END IF
 
-            IF(NTHGRP01(8).NE.0)THEN
+            IF(NTHGRP01(8)/=0)THEN
               WRITE(CHR_OLD,'(I2.2)')IRUNN
               FILTH  = CHR_OLD
               FILTH(3:3)= ABC(8)
               FILNAMTH=ROOTNAM(1:ROOTLEN)//'T'//FILTH
               LONG = 4
-              IF(TH_VERS.GE.50) THEN
+              IF(TH_VERS>=50) THEN
                FILNAMTH=ROOTNAM(1:ROOTLEN)
      .             //'_'//CHRUN//'_'//ABC(8)//'.thy'
                LONG = 11
@@ -1823,13 +1823,13 @@ C   Multiple th files
      5         1      ,AFORM(8),ITHFLAG,ITHVAR,IFILTITL)
             END IF
 
-            IF(NTHGRP01(9).NE.0)THEN
+            IF(NTHGRP01(9)/=0)THEN
               WRITE(CHR_OLD,'(I2.2)')IRUNN
               FILTH  = CHR_OLD
               FILTH(3:3)= ABC(9)
               FILNAMTH=ROOTNAM(1:ROOTLEN)//'T'//FILTH
               LONG = 4
-              IF(TH_VERS.GE.50) THEN
+              IF(TH_VERS>=50) THEN
                FILNAMTH=ROOTNAM(1:ROOTLEN)
      .             //'_'//CHRUN//'_'//ABC(9)//'.thy'
                LONG = 11
@@ -1852,8 +1852,8 @@ C   Multiple th files
      3           NPBYL ,IXTG ,IRFE    ,IXUR,LACCELM ,
      4           IPARI ,IPART ,ITHGRP ,ITHBUF ,CHR_OLD)
         ENDIF
-        IF(NABFILE .NE. 0) THEN
-          IF(ABFILE(1) .NE.0)THEN
+        IF(NABFILE /= 0) THEN
+          IF(ABFILE(1) /=0)THEN
             FILNAMABF_TMP=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'.tmp'
             LONG_TMP = 9
             IFILABF = 11
@@ -1885,7 +1885,7 @@ C           avoid SIGFPE
      .                      IFILNAM_TMP,LEN_TMP_NAME2,NB_INDEX_ABF)
           ENDIF
 c
-            IF(NTHGRP01(1).NE.0 .AND. ABFILE(2) .NE.0)THEN
+            IF(NTHGRP01(1)/=0 .AND. ABFILE(2) /=0)THEN
               FILNAMABF_TMP=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_a.tmp'
               LONG_TMP = 11
               IFILABF = 12
@@ -1913,7 +1913,7 @@ c
            CALL BUILD_ABFFILE(ABINP,ABOUT,IABFPIPE,IFILNAM,LEN_TMP_NAME,
      .                      IFILNAM_TMP,LEN_TMP_NAME2,NB_INDEX_ABF)
             END IF
-            IF(NTHGRP01(2).NE.0 .AND. ABFILE(3) .NE.0)THEN
+            IF(NTHGRP01(2)/=0 .AND. ABFILE(3) /=0)THEN
               FILNAMABF_TMP=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_b.tmp'
               LONG_TMP = 11
               IFILABF = 13
@@ -1941,7 +1941,7 @@ c
            CALL BUILD_ABFFILE(ABINP,ABOUT,IABFPIPE,IFILNAM,LEN_TMP_NAME,
      .                      IFILNAM_TMP,LEN_TMP_NAME2,NB_INDEX_ABF)
             END IF
-            IF(NTHGRP01(3).NE.0 .AND. ABFILE(4) .NE.0)THEN
+            IF(NTHGRP01(3)/=0 .AND. ABFILE(4) /=0)THEN
               FILNAMABF_TMP=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_c.tmp'
               LONG_TMP = 11
               IFILABF = 14
@@ -1969,7 +1969,7 @@ c
            CALL BUILD_ABFFILE(ABINP,ABOUT,IABFPIPE,IFILNAM,LEN_TMP_NAME2,
      .                      IFILNAM_TMP,LEN_TMP_NAME2,NB_INDEX_ABF)
             END IF
-            IF(NTHGRP01(4).NE.0 .AND. ABFILE(5) .NE.0)THEN
+            IF(NTHGRP01(4)/=0 .AND. ABFILE(5) /=0)THEN
               FILNAMABF_TMP=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_d.tmp'
               LONG_TMP = 11
               IFILABF = 15
@@ -1997,7 +1997,7 @@ c
            CALL BUILD_ABFFILE(ABINP,ABOUT,IABFPIPE,IFILNAM,LEN_TMP_NAME,
      .                      IFILNAM_TMP,LEN_TMP_NAME2,NB_INDEX_ABF)
             END IF
-            IF(NTHGRP01(5).NE.0 .AND. ABFILE(6) .NE.0)THEN
+            IF(NTHGRP01(5)/=0 .AND. ABFILE(6) /=0)THEN
               FILNAMABF_TMP=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_e.tmp'
               LONG_TMP = 11
               IFILABF = 16
@@ -2025,7 +2025,7 @@ c
            CALL BUILD_ABFFILE(ABINP,ABOUT,IABFPIPE,IFILNAM,LEN_TMP_NAME,
      .                      IFILNAM_TMP,LEN_TMP_NAME2,NB_INDEX_ABF)
             END IF
-            IF(NTHGRP01(6).NE.0 .AND. ABFILE(7) .NE.0)THEN
+            IF(NTHGRP01(6)/=0 .AND. ABFILE(7) /=0)THEN
               FILNAMABF_TMP=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_f.tmp'
               LONG_TMP = 11
               IFILABF = 17
@@ -2053,7 +2053,7 @@ c
            CALL BUILD_ABFFILE(ABINP,ABOUT,IABFPIPE,IFILNAM,LEN_TMP_NAME,
      .                      IFILNAM_TMP,LEN_TMP_NAME2,NB_INDEX_ABF)
             END IF
-            IF(NTHGRP01(7).NE.0 .AND. ABFILE(8) .NE.0)THEN
+            IF(NTHGRP01(7)/=0 .AND. ABFILE(8) /=0)THEN
               FILNAMABF_TMP=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_g.tmp'
               LONG_TMP = 11
               IFILABF = 18
@@ -2081,7 +2081,7 @@ c
            CALL BUILD_ABFFILE(ABINP,ABOUT,IABFPIPE,IFILNAM,LEN_TMP_NAME,
      .                      IFILNAM_TMP,LEN_TMP_NAME2,NB_INDEX_ABF)
             END IF
-            IF(NTHGRP01(8).NE.0 .AND. ABFILE(9) .NE.0)THEN
+            IF(NTHGRP01(8)/=0 .AND. ABFILE(9) /=0)THEN
               FILNAMABF_TMP=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_h.tmp'
               LONG_TMP = 11
               IFILABF = 19
@@ -2109,7 +2109,7 @@ c
            CALL BUILD_ABFFILE(ABINP,ABOUT,IABFPIPE,IFILNAM,LEN_TMP_NAME,
      .                      IFILNAM_TMP,LEN_TMP_NAME2,NB_INDEX_ABF)
             END IF
-            IF(NTHGRP01(9).NE.0 .AND. ABFILE(10) .NE.0)THEN
+            IF(NTHGRP01(9)/=0 .AND. ABFILE(10) /=0)THEN
               FILNAMABF_TMP=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_i.tmp'
               LONG_TMP = 11
               IFILABF = 20
@@ -2198,12 +2198,12 @@ C----------------------------------------------------------------------X
 C End tasks
       CALL INIPAR(ITID,2,NNODES,INPUTNAM,GOT_INPUT,NBTASK)
 C---------------------------------------------------------------------
-      IF(MSTOP.EQ.1) THEN
+      IF(MSTOP==1) THEN
         N = 3
       ELSE
         N = 1
       ENDIF
-      IF (NDSOLV.EQ.1) THEN
+      IF (NDSOLV==1) THEN
 #if defined(MYREAL8) && !defined(WITHOUT_LINALG)
          CALL DSDEAL(GRAPHE)
          CALL DSCLOSE

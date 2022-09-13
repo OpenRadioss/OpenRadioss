@@ -71,17 +71,17 @@ C     REAL
      .   SS, ST, XMSI, FXI, FYI, FZI,SP,SM,TP,TM,
      .   H(4),H2(4)
 C-----------------------------------------------
-      IF (NIR.EQ.2) THEN
+      IF (NIR==2) THEN
 #include "vectorize.inc"
         DO II=1,NSN
          I=NSV(II)
-         IF(I.GT.0)THEN
+         IF(I>0)THEN
           L=IRTL(II)
           I3=3*I
           I2=I3-1
           I1=I2-1
 Cel traitement 1er noeud secnd
-          IF (WEIGHT(I).EQ.1) THEN
+          IF (WEIGHT(I)==1) THEN
 C
            XMSI=MS(I)
            FXI=A(I1)
@@ -113,13 +113,13 @@ C
            FSKYI2(5,NN) = ABS(STIFN(I)*H(2))
           ENDIF
           STIFN(I)=EM20
-          IF(IDEL2.NE.0.AND.MS(I).NE.0.)SMASS(II)=MS(I)
+          IF(IDEL2/=0.AND.MS(I)/=0.)SMASS(II)=MS(I)
           MS(I)=ZERO
           A(I1)=ZERO
           A(I2)=ZERO
           A(I3)=ZERO
 C stokage ZERO pour noeuds delete par idel2
-         ELSEIF(WEIGHT(-I).EQ.1) THEN
+         ELSEIF(WEIGHT(-I)==1) THEN
            I0 = I0 + 1
            NN = IADI2(1,I0)
            FSKYI2(1,NN) = ZERO
@@ -140,13 +140,13 @@ Cel NIR = 4
 #include "vectorize.inc"
         DO II=1,NSN
          I=NSV(II)
-         IF(I.GT.0)THEN
+         IF(I>0)THEN
           L=IRTL(II)
           I3=3*I
           I2=I3-1
           I1=I2-1
 Cel traitement 1er noeud secnd
-          IF (WEIGHT(I).EQ.1) THEN
+          IF (WEIGHT(I)==1) THEN
 C
            XMSI=MS(I)
            FXI=A(I1)
@@ -211,9 +211,9 @@ C---      output of tied contact forces
      .	                IRECT(1,L),H	,NIR     ,FSAV    ,FNCONT ,
      .                  FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)
 C
-          IF(IRODDL.EQ.0)THEN
+          IF(IRODDL==0)THEN
            STIFN(I)=EM20
-           IF(IDEL2.NE.0.AND.MS(I).NE.0.)SMASS(II)=MS(I)
+           IF(IDEL2/=0.AND.MS(I)/=0.)SMASS(II)=MS(I)
            MS(I)=ZERO
            A(I1)=ZERO
            A(I2)=ZERO
@@ -221,7 +221,7 @@ C
           ENDIF
 
 C stokage ZERO pour noeuds delete par idel2
-         ELSEIF(WEIGHT(-I).EQ.1) THEN
+         ELSEIF(WEIGHT(-I)==1) THEN
            I0 = I0 + 1
            NN = IADI2(1,I0)
            FSKYI2(1,NN) = ZERO
@@ -312,17 +312,17 @@ Cel sauvegarde de la masse initiale
           MMASS(II)=MS(J)
         ENDDO
 C
-      IF (NIR.EQ.2) THEN
+      IF (NIR==2) THEN
 #include "vectorize.inc"
        DO II=1,NSN
         I=NSV(II)
-	IF(I.GT.0)THEN
+	IF(I>0)THEN
  	 L=IRTL(II)
  	 I3=3*I
  	 I2=I3-1
  	 I1=I2-1
 Cel traitement 1er noeud secnd
-         IF (WEIGHT(I).EQ.1) THEN
+         IF (WEIGHT(I)==1) THEN
 C
  	  SS=CRST(1,II)
  	  ST=CRST(2,II)
@@ -358,7 +358,7 @@ C
  	 A(I1)=ZERO
  	 A(I2)=ZERO
  	 A(I3)=ZERO
-	ELSEIF(WEIGHT(-I).EQ.1) THEN
+	ELSEIF(WEIGHT(-I)==1) THEN
  	  I0 = I0 + 1
  	  NN = IADI2(1,I0)
  	  FSKYI2(1,NN) = ZERO
@@ -379,13 +379,13 @@ Cel NIR = 4
 #include "vectorize.inc"
        DO II=1,NSN
         I=NSV(II)
-        IF(I.GT.0)THEN
+        IF(I>0)THEN
 	 L=IRTL(II)
  	 I3=3*I
  	 I2=I3-1
  	 I1=I2-1
 Cel traitement 1er noeud secnd
- 	 IF (WEIGHT(I).EQ.1) THEN
+ 	 IF (WEIGHT(I)==1) THEN
 C
  	  XMSI=MS(I)
  	  FXI=A(I1)
@@ -450,7 +450,7 @@ C---     output of tied contact forces
      .	               IRECT(1,L),H	,NIR     ,FSAV    ,FNCONT ,
      .                 FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)
 C
- 	 IF(IRODDL.EQ.0)THEN
+ 	 IF(IRODDL==0)THEN
  	   STIFN(I)=EM20
  	   A(I1)=ZERO
  	   A(I2)=ZERO
@@ -458,7 +458,7 @@ C
          END IF
 C                                           
 C stokage ZERO pour noeuds delete par idel2
- 	ELSEIF(WEIGHT(-I).EQ.1) THEN
+ 	ELSEIF(WEIGHT(-I)==1) THEN
  	  I0 = I0 + 1
  	  NN = IADI2(1,I0)
  	  FSKYI2(1,NN) = ZERO
@@ -547,7 +547,7 @@ Cel sauvegarde de la masse initiale
           MMASS(II)=MS(J)
         ENDDO
 C
-      IF (NIR.EQ.2) THEN
+      IF (NIR==2) THEN
 #include "vectorize.inc"
        DO II=1,NSN
         I=NSV(II)
@@ -555,7 +555,7 @@ C
         I2=I3-1
         I1=I2-1
 Cel traitement 1er noeud secnd
-        IF (WEIGHT(I).EQ.1) THEN
+        IF (WEIGHT(I)==1) THEN
 C
          SS=CRST(1,II)
          ST=CRST(2,II)
@@ -602,7 +602,7 @@ Cel NIR = 4
         I2=I3-1
         I1=I2-1
 Cel traitement 1er noeud secnd
-        IF (WEIGHT(I).EQ.1) THEN
+        IF (WEIGHT(I)==1) THEN
 C
          XMSI=MS(I)
          FXI=A(I1)
@@ -732,7 +732,7 @@ C     REAL
      .   STF,AI,INMX,H(4),H2(4)
 C-----------------------------------------------
 C     MINER(II) initialise a MS(J) dans resol_init
-      IF(ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER .GT.0) THEN
+      IF(ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0) THEN
         DO II=1,NMN
           J=MSR(II)
           ADI(J) = ADI(J)*MINER(II)
@@ -747,8 +747,8 @@ C
 #include "vectorize.inc"
       DO II=1,NSN
        I=NSV(II)
-       IF(I.GT.0)THEN
-        IF (WEIGHT(I).EQ.1) THEN
+       IF(I>0)THEN
+        IF (WEIGHT(I)==1) THEN
          L=IRTL(II)
 C
          SS=CRST(1,II)
@@ -803,7 +803,7 @@ C
          INS = IN(I) + AA * MS(I)
          STF = STIFR(I) + AA * STIFN(I)
 C
-         IF (ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER .GT.0) THEN
+         IF (ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0) THEN
            AI=AA * MS(I)
            ADI(IRECT(1,L))=ADI(IRECT(1,L))+AI*H(1)
            ADI(IRECT(2,L))=ADI(IRECT(2,L))+AI*H(2)
@@ -841,16 +841,16 @@ C
          ENDDO
         ENDIF
         STIFR(I)=EM20
-        IF(IDEL2.NE.0.AND.IN(I).NE.0.)SINER(II)=IN(I)
+        IF(IDEL2/=0.AND.IN(I)/=0.)SINER(II)=IN(I)
         IN(I)=ZERO
         STIFN(I)=EM20
-        IF(IDEL2.NE.0.AND.MS(I).NE.0.)SMASS(II)=MS(I)
+        IF(IDEL2/=0.AND.MS(I)/=0.)SMASS(II)=MS(I)
         MS(I)=ZERO
         A(1,I)=ZERO
         A(2,I)=ZERO
         A(3,I)=ZERO
 C stokage ZERO pour noeuds delete par idel2
-        ELSEIF(WEIGHT(-I).EQ.1) THEN
+        ELSEIF(WEIGHT(-I)==1) THEN
           I0 = I0 + 1
           NN = IADI2(1,I0)
           FSKYI2(6,NN) = ZERO
@@ -882,7 +882,7 @@ C
 C
 C Traitement specifique pour ADI
 C
-      IF(ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER .GT.0) THEN
+      IF(ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0) THEN
 #include "vectorize.inc"
         DO II=1,NMN
           J=MSR(II)
@@ -943,7 +943,7 @@ C
 #include "vectorize.inc"
       DO II=1,NSN
       I=NSV(II)
-      IF (WEIGHT(I).EQ.1) THEN
+      IF (WEIGHT(I)==1) THEN
        L=IRTL(II)
 C
        SS=CRST(1,II)
@@ -1147,7 +1147,7 @@ C=======================================================================
 C Traitement specifique pour DMAS
 C
 C MMASS(II) initialise a MS(J) a t=0 dans starter
-      IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS .GT.0.AND.ILEV.EQ.1) THEN
+      IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS >0.AND.ILEV==1) THEN
         DO II=1,NMN
           J=MSR(II)
           ADM(J) = ADM(J)*MMASS(II)
@@ -1166,7 +1166,7 @@ C
 #include "vectorize.inc"
       DO II=1,NSN
        I=NSV(II)
-       IF(I.GT.0)THEN
+       IF(I>0)THEN
         L=IRTL(II)
 C
         S = CRST(1,II)    
@@ -1258,7 +1258,7 @@ C
         DPARA(6,II)=C2
         DPARA(7,II)=C3
 C
-        IF (WEIGHT(I).EQ.1) THEN
+        IF (WEIGHT(I)==1) THEN
          XMSI=MS(I)
          FXS=A(1,I)
          FYS=A(2,I)
@@ -1289,9 +1289,9 @@ C
 C------------------------------------------------------
 C     MASSES & FORCES TRANSMISES AUX NOEUDS MAINS
 C------------------------------------------------------
-         IF(ILEV.EQ.1)THEN
+         IF(ILEV==1)THEN
           XMSI=FOURTH*XMSI+MR
-         ELSEIF(ILEV.EQ.3)THEN
+         ELSEIF(ILEV==3)THEN
           XMSI=MAX(FOURTH*XMSI,MR)
          ENDIF
 C
@@ -1344,7 +1344,7 @@ C
          FSKYI2(10,NN)= ZERO       
 C
          DMAST = DMAST + 4.*XMSI - MS(I)
-         IF (ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS .GT.0) THEN
+         IF (ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS >0) THEN
           ADM(J1) = ADM(J1) + XMSI - FOURTH*MS(I)
           ADM(J2) = ADM(J2) + XMSI - FOURTH*MS(I)
           ADM(J3) = ADM(J3) + XMSI - FOURTH*MS(I)
@@ -1352,10 +1352,10 @@ C
          ENDIF
         ENDIF
         STIFN(I)=EM20
-        IF(IDEL2.NE.0.AND.MS(I).NE.0.)SMASS(II)=MS(I)
+        IF(IDEL2/=0.AND.MS(I)/=0.)SMASS(II)=MS(I)
         MS(I)=ZERO
         STIFR(I)=EM20
-        IF(IDEL2.NE.0.AND.IN(I).NE.0.)SINER(II)=IN(I)
+        IF(IDEL2/=0.AND.IN(I)/=0.)SINER(II)=IN(I)
         IN(I)=ZERO
 C
 C---    output of tied contact forces
@@ -1364,7 +1364,7 @@ C---    output of tied contact forces
      .                FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)                       
 C----
 C stokage ZERO pour noeuds delete par idel2
-       ELSEIF(WEIGHT(-I).EQ.1) THEN
+       ELSEIF(WEIGHT(-I)==1) THEN
          I0 = I0 + 1
          NN = IADI2(1,I0)
          FSKYI2(1,NN) = ZERO
@@ -1416,7 +1416,7 @@ C
 C
 C Traitement specifique pour ADM
 C
-      IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS .GT.0.AND.ILEV.EQ.1) THEN
+      IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS >0.AND.ILEV==1) THEN
 #include "vectorize.inc"
         DO II=1,NMN
           J=MSR(II)
@@ -1458,7 +1458,7 @@ C
 #include "vectorize.inc"
       DO II=1,NSN
         I=NSV(II)
-        IF (WEIGHT(I).EQ.1) THEN
+        IF (WEIGHT(I)==1) THEN
           I0 = I0 + 1
           NN = IADI2(1,I0)
           FSKYI2(6,NN) = ZERO
@@ -1517,12 +1517,12 @@ C-----------------------------------------------
 #include "vectorize.inc"
       DO II=1,NSN
         I=NSV(II)
-        IF(I.GT.0)THEN
-          IF (WEIGHT(I).EQ.1) THEN
+        IF(I>0)THEN
+          IF (WEIGHT(I)==1) THEN
            I0=I0+1
           END IF
-        ELSEIF(I.LT.0)THEN
-          IF (WEIGHT(-I).EQ.1) THEN
+        ELSEIF(I<0)THEN
+          IF (WEIGHT(-I)==1) THEN
            I0=I0+1
           END IF
         END IF

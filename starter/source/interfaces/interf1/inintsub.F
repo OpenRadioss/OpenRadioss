@@ -118,7 +118,7 @@ C
 C------------------------------------------
 C         Interface type 25
 C------------------------------------------
-        IF (NTY.EQ.25)THEN
+        IF (NTY==25)THEN
 C
             NRTS   =IPARI(3,NI)
             NRTM   =IPARI(4,NI)
@@ -132,7 +132,7 @@ C
             NRTM_SH=IPARI(42,NI)
             NRTM0  =NRTM-NRTM_SH
 C
-            IF(NISUB.NE.0)THEN    
+            IF(NISUB/=0)THEN    
                CALL ININTSUB_25(ITAB      ,IGRNOD ,IGRSURF ,NOM_OPT ,INTBUF_TAB,
      .                        NRTM      ,NRTM0  ,NSN     ,NISUBS  ,NISUBM    ,
      .                        NOINT     ,NI     ,NOD2NSV ,NOD2RTM ,KAD       ,
@@ -144,8 +144,8 @@ C
 C------------------------------------------
 C         Interface type 7, 24
 C------------------------------------------
-        ELSEIF (NTY.EQ.7.OR.NTY.EQ.10.OR.NTY.EQ.22.OR.
-     .          NTY.EQ.24)THEN
+        ELSEIF (NTY==7.OR.NTY==10.OR.NTY==22.OR.
+     .          NTY==24)THEN
 C
             NRTS   =IPARI(3,NI)
             NRTM   =IPARI(4,NI)
@@ -163,7 +163,7 @@ C
                NRTM0  =NRTM
             ENDIF
 C
-            IF(NISUB.NE.0)THEN         
+            IF(NISUB/=0)THEN         
 C
               CALL ININTSUB_7 (ITAB      ,IGRNOD ,IGRSURF ,NOM_OPT ,INTBUF_TAB,
      .                         NRTM      ,NRTM0  ,NSN     ,NISUBS  ,NISUBM    ,
@@ -175,7 +175,7 @@ C
 C------------------------------------------
 C         Interface type 11
 C------------------------------------------
-        ELSEIF (NTY.EQ.11) THEN
+        ELSEIF (NTY==11) THEN
 C   interface type11 - subinterface input by lines
 C
           NRTS   =IPARI(3,NI)
@@ -188,7 +188,7 @@ C
           NISUBS =IPARI(37,NI)
           NISUBM =IPARI(38,NI)
 C
-          IF(NISUB.NE.0)THEN         
+          IF(NISUB/=0)THEN         
 
             CALL ININTSUB_11 (ITAB      ,IGRSLIN ,IGRSURF ,NOM_OPT ,INTBUF_TAB,
      .                       NRTM      ,NRTM0  ,NSN     ,NISUBS   ,NISUBM    ,
@@ -201,20 +201,20 @@ C
         END IF
       END DO
 C-------------------------------------
-      IF(IPRI.LT.6) RETURN
+      IF(IPRI<6) RETURN
 C
       WRITE(IOUT,1000)
       DO NI=1,NINTER
         NTY = 0
-        IF (IPARI(71,NI).EQ.0) THEN
+        IF (IPARI(71,NI)==0) THEN
           NTY  =IPARI(7,NI)
-        ELSEIF (IPARI(71,NI).EQ.-1) THEN
+        ELSEIF (IPARI(71,NI)==-1) THEN
           NTY  = 19
         ENDIF
 C
         NOINT=IPARI(15,NI)
-        IF (NTY.EQ.7.OR.NTY.EQ.10.OR.NTY.EQ.22.OR.
-     .      NTY.EQ.24.OR.NTY.EQ.25)THEN
+        IF (NTY==7.OR.NTY==10.OR.NTY==22.OR.
+     .      NTY==24.OR.NTY==25)THEN
 C
           NRTS   =IPARI(3,NI)
           NRTM   =IPARI(4,NI)
@@ -225,7 +225,7 @@ C
           NISUB  =IPARI(36,NI)
           NISUBS =IPARI(37,NI)
           NISUBM =IPARI(38,NI)
-          IF(NISUB.NE.0)THEN
+          IF(NISUB/=0)THEN
 C
 C           SUR LES ENTIERS ON ECONOMISE +- 2NSN+2NMN+NST / AUTRES TYPES
 C           K14 = ELEMS CANDIDATS A L'IMPACT...
@@ -238,7 +238,7 @@ C
             DO IS=1,NSN
               JSUB=INTBUF_TAB(NI)%ADDSUBS(IS)
               N   =INTBUF_TAB(NI)%ADDSUBS(IS+1)-INTBUF_TAB(NI)%ADDSUBS(IS)
-              IF(N.GT.0)THEN
+              IF(N>0)THEN
                 WRITE(IOUT,'(2I10)')IS,ITAB(INTBUF_TAB(NI)%NSV(IS))
                 WRITE(IOUT,'(20X,8I10)')
      .            (INTBUF_TAB(NI)%LISUBS(JSUB-1+K),K=1,N)
@@ -248,7 +248,7 @@ C
             DO IM=1,NRTM
               JSUB=INTBUF_TAB(NI)%ADDSUBM(IM)
               N   =INTBUF_TAB(NI)%ADDSUBM(IM+1)-INTBUF_TAB(NI)%ADDSUBM(IM)
-              IF(N.GT.0)THEN
+              IF(N>0)THEN
                 WRITE(IOUT,'(5I10)')IM,
      .            (ITAB(INTBUF_TAB(NI)%IRECTM(4*(IM-1)+J)),J=1,4)
                 WRITE(IOUT,'(50X,5I10)')
@@ -257,7 +257,7 @@ C
             END DO
           END IF
 C
-        ELSEIF (NTY.EQ.11)THEN
+        ELSEIF (NTY==11)THEN
 C
           NRTS   =IPARI(3,NI)
           NRTM   =IPARI(4,NI)
@@ -268,7 +268,7 @@ C
           NISUB  =IPARI(36,NI)
           NISUBS =IPARI(37,NI)
           NISUBM =IPARI(38,NI)
-          IF(NISUB.NE.0)THEN
+          IF(NISUB/=0)THEN
 C
             WRITE(IOUT,1010)NOINT
             WRITE(IOUT,'(10I10)')
@@ -277,7 +277,7 @@ C
             DO IS=1,NRTS
               JSUB=INTBUF_TAB(NI)%ADDSUBS(IS)
               N   =INTBUF_TAB(NI)%ADDSUBS(IS+1)-INTBUF_TAB(NI)%ADDSUBS(IS)
-              IF(N.GT.0)THEN
+              IF(N>0)THEN
                 WRITE(IOUT,'(5I10)')IS,
      .            (ITAB(INTBUF_TAB(NI)%IRECTS(2*(IS-1)+J)),J=1,2)
                 WRITE(IOUT,'(50X,5I10)')
@@ -288,7 +288,7 @@ C
             DO IM=1,NRTM
               JSUB=INTBUF_TAB(NI)%ADDSUBM(IM)
               N   =INTBUF_TAB(NI)%ADDSUBM(IM+1)-INTBUF_TAB(NI)%ADDSUBM(IM)
-              IF(N.GT.0)THEN
+              IF(N>0)THEN
                 WRITE(IOUT,'(5I10)')IM,
      .            (ITAB(INTBUF_TAB(NI)%IRECTM(2*(IM-1)+J)),J=1,2)
                 WRITE(IOUT,'(50X,5I10)')
@@ -297,7 +297,7 @@ C
             END DO
           END IF
 C
-        ELSEIF (NTY.EQ.19)THEN
+        ELSEIF (NTY==19)THEN
 C
           NRTS   =IPARI(3,NI)
           NRTM   =IPARI(4,NI)
@@ -308,7 +308,7 @@ C
           NISUB  =IPARI(36,NI)
           NISUBS =IPARI(37,NI)
           NISUBM =IPARI(38,NI)
-          IF(NISUB.NE.0)THEN
+          IF(NISUB/=0)THEN
 C
             WRITE(IOUT,1010)NOINT
             WRITE(IOUT,'(10I10)')
@@ -318,7 +318,7 @@ C
             DO IS=1,NSN
               JSUB=INTBUF_TAB(NI)%ADDSUBS(IS)
               N   =INTBUF_TAB(NI)%ADDSUBS(IS+1)-INTBUF_TAB(NI)%ADDSUBS(IS)
-              IF(N.GT.0)THEN
+              IF(N>0)THEN
                 WRITE(IOUT,'(2I10)')IS,ITAB(INTBUF_TAB(NI)%NSV(IS))
                 WRITE(IOUT,'(20X,8I10)')
      .            (INTBUF_TAB(NI)%LISUBS(JSUB-1+K),K=1,N)
@@ -328,7 +328,7 @@ C
             DO IM=1,NRTM
               JSUB=INTBUF_TAB(NI)%ADDSUBM(IM)
               N   =INTBUF_TAB(NI)%ADDSUBM(IM+1)-INTBUF_TAB(NI)%ADDSUBM(IM)
-              IF(N.GT.0)THEN
+              IF(N>0)THEN
                 WRITE(IOUT,'(5I10)')IM,
      .            (ITAB(INTBUF_TAB(NI)%IRECTM(4*(IM-1)+J)),J=1,4)
                 WRITE(IOUT,'(50X,5I10)')

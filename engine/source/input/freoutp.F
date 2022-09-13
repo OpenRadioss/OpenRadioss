@@ -83,92 +83,92 @@ C
         OUTP_SPS(I)=0
         OUTP_SPT(I)=0
       ENDDO
-      IF(IKAD(IKEY).NE.IKAD(IKEY+1))THEN
+      IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        K=0
  1175    READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(A)') CART
          READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(A)') LINE
 
        CALL GET_KEYS_ID(CART,KEY2,KEY3,KEY4,NBC)
        K=K+1
-       IF(KEY2.EQ.'DT   ')THEN
+       IF(KEY2=='DT   ')THEN
         CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
         READ(IUSC2,*)TOUTP0,DTOUTP0
-       ELSEIF(KEY2(1:4).EQ.'VECT')THEN
-         IF    (KEY3(1:3).EQ.'VEL')THEN
+       ELSEIF(KEY2(1:4)=='VECT')THEN
+         IF    (KEY3(1:3)=='VEL')THEN
            OUTP_V(1) = 1
-         ELSEIF(KEY3(1:3).EQ.'DIS')THEN
+         ELSEIF(KEY3(1:3)=='DIS')THEN
            OUTP_V(2) = 1
-         ELSEIF(KEY3(1:3).EQ.'ACC')THEN
+         ELSEIF(KEY3(1:3)=='ACC')THEN
            OUTP_V(3) = 1
-         ELSEIF(KEY3(1:4).EQ.'CONT')THEN
+         ELSEIF(KEY3(1:4)=='CONT')THEN
            OUTP_V(4) = 1
-         ELSEIF(KEY3(1:4).EQ.'FINT')THEN
+         ELSEIF(KEY3(1:4)=='FINT')THEN
            OUTP_V(5) = 1
-         ELSEIF(KEY3(1:4).EQ.'FEXT')THEN
+         ELSEIF(KEY3(1:4)=='FEXT')THEN
            OUTP_V(6) = 1
-         ELSEIF(KEY3(1:4).EQ.'FOPT')THEN
+         ELSEIF(KEY3(1:4)=='FOPT')THEN
            OUTP_V(7) = 1
            OUTP_V(8) = 1
-         ELSEIF(KEY3(1:4).EQ.'VROT')THEN
+         ELSEIF(KEY3(1:4)=='VROT')THEN
            OUTP_V(9) = 1
-         ELSEIF(KEY3(1:5).EQ.'PCONT')THEN
+         ELSEIF(KEY3(1:5)=='PCONT')THEN
            OUTP_V(12) = 1
          ELSE
            GOTO 9990
          ENDIF
-       ELSEIF(KEY2(1:4).EQ.'NODA')THEN
-         IF    (KEY3(1:2).EQ.'DT')THEN
+       ELSEIF(KEY2(1:4)=='NODA')THEN
+         IF    (KEY3(1:2)=='DT')THEN
            OUTP_N(1) = 1
-         ELSEIF(KEY3(1:4).EQ.'DMAS')THEN
+         ELSEIF(KEY3(1:4)=='DMAS')THEN
            OUTP_N(2) = 1
-         ELSEIF(KEY3(1:5).EQ.'DINER')THEN
+         ELSEIF(KEY3(1:5)=='DINER')THEN
            OUTP_N(3) = 1
          ELSE
            GOTO 9990
          ENDIF
-       ELSEIF(KEY2(1:4).EQ.'BRIC'.OR.KEY2(1:4).EQ.'SOLI'.OR.
-     .        KEY2(1:4).EQ.'QUAD')THEN
-         IF    (KEY3(1:3).EQ.'OFF')THEN
+       ELSEIF(KEY2(1:4)=='BRIC'.OR.KEY2(1:4)=='SOLI'.OR.
+     .        KEY2(1:4)=='QUAD')THEN
+         IF    (KEY3(1:3)=='OFF')THEN
            OUTP_SS(1) = 1
-         ELSEIF(KEY3(1:4).EQ.'EPSP')THEN
+         ELSEIF(KEY3(1:4)=='EPSP')THEN
            OUTP_SS(2) = 1
-         ELSEIF(KEY3(1:4).EQ.'ENER')THEN
+         ELSEIF(KEY3(1:4)=='ENER')THEN
            OUTP_SS(3) = 1
-         ELSEIF(KEY3(1:4).EQ.'DENS')THEN
+         ELSEIF(KEY3(1:4)=='DENS')THEN
            OUTP_SS(4) = 1
-         ELSEIF(KEY3(1:4).EQ.'TEMP')THEN
+         ELSEIF(KEY3(1:4)=='TEMP')THEN
            OUTP_SS(5) = 1
-         ELSEIF(KEY3(1:1).EQ.'P')THEN
+         ELSEIF(KEY3(1:1)=='P')THEN
            OUTP_SS(6) = 1
-         ELSEIF(KEY3(1:4).EQ.'VONM')THEN
+         ELSEIF(KEY3(1:4)=='VONM')THEN
            OUTP_SS(7) = 1
-         ELSEIF(KEY3(1:5).EQ.'STRES')THEN
-C             IF(KEY4(1:1).EQ.'')THEN              
+         ELSEIF(KEY3(1:5)=='STRES')THEN
+C             IF(KEY4(1:1)=='')THEN              
 C              OUTP_ST(1) = 1          
-              IF(KEY4(1:4).EQ.'FULL')THEN 
+              IF(KEY4(1:4)=='FULL')THEN 
               OUTP_ST(2) = 1
               ELSE
                OUTP_ST(1) = 1
               ENDIF
-         ELSEIF(KEY3(1:5).EQ.'USER1')THEN
+         ELSEIF(KEY3(1:5)=='USER1')THEN
            OUTP_SS(20) = 1
-         ELSEIF(KEY3(1:5).EQ.'USER2')THEN
+         ELSEIF(KEY3(1:5)=='USER2')THEN
            OUTP_SS(21) = 1
-         ELSEIF(KEY3(1:5).EQ.'USER3')THEN
+         ELSEIF(KEY3(1:5)=='USER3')THEN
            OUTP_SS(22) = 1
-         ELSEIF(KEY3(1:5).EQ.'USER4')THEN
+         ELSEIF(KEY3(1:5)=='USER4')THEN
            OUTP_SS(23) = 1
-         ELSEIF(KEY3(1:5).EQ.'USER5')THEN
+         ELSEIF(KEY3(1:5)=='USER5')THEN
            OUTP_SS(24) = 1
-         ELSEIF(KEY3(1:4).EQ.'HOUR')THEN
+         ELSEIF(KEY3(1:4)=='HOUR')THEN
            OUTP_SS(25) = 1
-         ELSEIF(KEY3(1:5).EQ.'USERS')THEN
-           IF(KEY4(1:4).EQ.'FULL')THEN
+         ELSEIF(KEY3(1:5)=='USERS')THEN
+           IF(KEY4(1:4)=='FULL')THEN
             OUTP_SS(26) = 1
            ELSE
             ENDIF
-         ELSEIF(KEY3(1:5).EQ.'STRAI')THEN
-           IF(KEY4(1:4).EQ.'FULL')THEN
+         ELSEIF(KEY3(1:5)=='STRAI')THEN
+           IF(KEY4(1:4)=='FULL')THEN
             OUTP_ST(3) = 1
            ELSE
             OUTP_ST(3) = 1
@@ -176,211 +176,211 @@ C              OUTP_ST(1) = 1
 C-----------------------------------------------
 C   element equivalent stress criteria
 C-----------------------------------------------
-         ELSEIF(KEY3(1:5).EQ.'SIGEQ')THEN
+         ELSEIF(KEY3(1:5)=='SIGEQ')THEN
            OUTP_SS(27) = 1
          ELSE
            GOTO 9990
          ENDIF
-       ELSEIF(KEY2(1:4).EQ.'SHEL')THEN
-         IF    (KEY3(1:3).EQ.'OFF')THEN
+       ELSEIF(KEY2(1:4)=='SHEL')THEN
+         IF    (KEY3(1:3)=='OFF')THEN
            OUTP_CS(1) = 1
-         ELSEIF(KEY3(1:4).EQ.'EPSP')THEN
+         ELSEIF(KEY3(1:4)=='EPSP')THEN
            OUTP_CS(2) = 1           
-         ELSEIF(KEY3(1:5).EQ.'USER1')THEN
+         ELSEIF(KEY3(1:5)=='USER1')THEN
            OUTP_CS(20) = 1
-         ELSEIF(KEY3(1:5).EQ.'USER2')THEN
+         ELSEIF(KEY3(1:5)=='USER2')THEN
            OUTP_CS(21) = 1 
-         ELSEIF(KEY3(1:5).EQ.'USER3')THEN                            
+         ELSEIF(KEY3(1:5)=='USER3')THEN                            
            OUTP_CS(22) = 1
-         ELSEIF(KEY3(1:5).EQ.'USER4')THEN                      
+         ELSEIF(KEY3(1:5)=='USER4')THEN                      
            OUTP_CS(23) = 1
-         ELSEIF(KEY3(1:5).EQ.'USER5')THEN         
+         ELSEIF(KEY3(1:5)=='USER5')THEN         
            OUTP_CS(24) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR01' .OR.KEY3(1:4).EQ.'USR1')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(27) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR02')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(28) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR03')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(29) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR04')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(30) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR05')THEN
-           IF  (KEY4(1:4).EQ.'FULL') OUTP_CS(31) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR06')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(32) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR07')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(33) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR08')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(34) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR09')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(35) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR10')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(36) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR11')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(37) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR12')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(38) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR13')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(39) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR14')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(40) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR15')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(41) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR16')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(42) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR17')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(43) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR18')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(44) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR19')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(45) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR20')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(46) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR21')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(47) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR22')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(48) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR23')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(49) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR24')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(50) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR25')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(51) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR26')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(52) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR27')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(53) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR28')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(54) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR29')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(55) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR30')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(56) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR31')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(57) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR32')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(58) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR33')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(59) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR34')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(60) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR35')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(61) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR36')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(62) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR37')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(63) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR38')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(64) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR39')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(65) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR40')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(66) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR41')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(67) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR42')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(68) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR43')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(69) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR44')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(70) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR45')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(71) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR46')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(72) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR47')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(73) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR48')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(74) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR49')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(75) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR50')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(76) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR51')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(77) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR52')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(78) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR53')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(79) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR54')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(80) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR55')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(81) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR56')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(82) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR57')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(83) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR58')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(84) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR59')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(85) = 1
-         ELSEIF(KEY3(1:5).EQ.'USR60')THEN
-           IF    (KEY4(1:4).EQ.'FULL') OUTP_CS(86) = 1          
-         ELSEIF(KEY3(1:4).EQ.'HOUR')THEN
+         ELSEIF(KEY3(1:5)=='USR01' .OR.KEY3(1:4)=='USR1')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(27) = 1
+         ELSEIF(KEY3(1:5)=='USR02')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(28) = 1
+         ELSEIF(KEY3(1:5)=='USR03')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(29) = 1
+         ELSEIF(KEY3(1:5)=='USR04')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(30) = 1
+         ELSEIF(KEY3(1:5)=='USR05')THEN
+           IF  (KEY4(1:4)=='FULL') OUTP_CS(31) = 1
+         ELSEIF(KEY3(1:5)=='USR06')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(32) = 1
+         ELSEIF(KEY3(1:5)=='USR07')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(33) = 1
+         ELSEIF(KEY3(1:5)=='USR08')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(34) = 1
+         ELSEIF(KEY3(1:5)=='USR09')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(35) = 1
+         ELSEIF(KEY3(1:5)=='USR10')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(36) = 1
+         ELSEIF(KEY3(1:5)=='USR11')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(37) = 1
+         ELSEIF(KEY3(1:5)=='USR12')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(38) = 1
+         ELSEIF(KEY3(1:5)=='USR13')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(39) = 1
+         ELSEIF(KEY3(1:5)=='USR14')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(40) = 1
+         ELSEIF(KEY3(1:5)=='USR15')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(41) = 1
+         ELSEIF(KEY3(1:5)=='USR16')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(42) = 1
+         ELSEIF(KEY3(1:5)=='USR17')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(43) = 1
+         ELSEIF(KEY3(1:5)=='USR18')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(44) = 1
+         ELSEIF(KEY3(1:5)=='USR19')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(45) = 1
+         ELSEIF(KEY3(1:5)=='USR20')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(46) = 1
+         ELSEIF(KEY3(1:5)=='USR21')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(47) = 1
+         ELSEIF(KEY3(1:5)=='USR22')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(48) = 1
+         ELSEIF(KEY3(1:5)=='USR23')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(49) = 1
+         ELSEIF(KEY3(1:5)=='USR24')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(50) = 1
+         ELSEIF(KEY3(1:5)=='USR25')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(51) = 1
+         ELSEIF(KEY3(1:5)=='USR26')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(52) = 1
+         ELSEIF(KEY3(1:5)=='USR27')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(53) = 1
+         ELSEIF(KEY3(1:5)=='USR28')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(54) = 1
+         ELSEIF(KEY3(1:5)=='USR29')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(55) = 1
+         ELSEIF(KEY3(1:5)=='USR30')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(56) = 1
+         ELSEIF(KEY3(1:5)=='USR31')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(57) = 1
+         ELSEIF(KEY3(1:5)=='USR32')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(58) = 1
+         ELSEIF(KEY3(1:5)=='USR33')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(59) = 1
+         ELSEIF(KEY3(1:5)=='USR34')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(60) = 1
+         ELSEIF(KEY3(1:5)=='USR35')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(61) = 1
+         ELSEIF(KEY3(1:5)=='USR36')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(62) = 1
+         ELSEIF(KEY3(1:5)=='USR37')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(63) = 1
+         ELSEIF(KEY3(1:5)=='USR38')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(64) = 1
+         ELSEIF(KEY3(1:5)=='USR39')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(65) = 1
+         ELSEIF(KEY3(1:5)=='USR40')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(66) = 1
+         ELSEIF(KEY3(1:5)=='USR41')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(67) = 1
+         ELSEIF(KEY3(1:5)=='USR42')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(68) = 1
+         ELSEIF(KEY3(1:5)=='USR43')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(69) = 1
+         ELSEIF(KEY3(1:5)=='USR44')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(70) = 1
+         ELSEIF(KEY3(1:5)=='USR45')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(71) = 1
+         ELSEIF(KEY3(1:5)=='USR46')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(72) = 1
+         ELSEIF(KEY3(1:5)=='USR47')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(73) = 1
+         ELSEIF(KEY3(1:5)=='USR48')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(74) = 1
+         ELSEIF(KEY3(1:5)=='USR49')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(75) = 1
+         ELSEIF(KEY3(1:5)=='USR50')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(76) = 1
+         ELSEIF(KEY3(1:5)=='USR51')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(77) = 1
+         ELSEIF(KEY3(1:5)=='USR52')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(78) = 1
+         ELSEIF(KEY3(1:5)=='USR53')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(79) = 1
+         ELSEIF(KEY3(1:5)=='USR54')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(80) = 1
+         ELSEIF(KEY3(1:5)=='USR55')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(81) = 1
+         ELSEIF(KEY3(1:5)=='USR56')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(82) = 1
+         ELSEIF(KEY3(1:5)=='USR57')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(83) = 1
+         ELSEIF(KEY3(1:5)=='USR58')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(84) = 1
+         ELSEIF(KEY3(1:5)=='USR59')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(85) = 1
+         ELSEIF(KEY3(1:5)=='USR60')THEN
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(86) = 1          
+         ELSEIF(KEY3(1:4)=='HOUR')THEN
            OUTP_CS(25) = 1
-         ELSEIF(KEY3(1:4).EQ.'ENER')THEN
+         ELSEIF(KEY3(1:4)=='ENER')THEN
            OUTP_CS(3) = 1
-         ELSEIF(KEY3(1:4).EQ.'THIC')THEN
+         ELSEIF(KEY3(1:4)=='THIC')THEN
            OUTP_CS(4) = 1
-         ELSEIF(KEY3(1:4).EQ.'VONM')THEN
+         ELSEIF(KEY3(1:4)=='VONM')THEN
            OUTP_CS(7) = 1
-         ELSEIF(KEY3(1:5).EQ.'STRES')THEN
-           IF    (KEY4(1:4).EQ.'MEMB')THEN
+         ELSEIF(KEY3(1:5)=='STRES')THEN
+           IF    (KEY4(1:4)=='MEMB')THEN
              OUTP_CT(1) = 1
-           ELSEIF(KEY4(1:4).EQ.'BEND')THEN
+           ELSEIF(KEY4(1:4)=='BEND')THEN
              OUTP_CT(2) = 1
-           ELSEIF(KEY4(1:5).EQ.'UPPER')THEN
+           ELSEIF(KEY4(1:5)=='UPPER')THEN
              OUTP_CT(3) = 1
-           ELSEIF(KEY4(1:5).EQ.'LOWER')THEN
+           ELSEIF(KEY4(1:5)=='LOWER')THEN
              OUTP_CT(4) = 1
-           ELSEIF(KEY4(1:4).EQ.'FULL')THEN
+           ELSEIF(KEY4(1:4)=='FULL')THEN
              OUTP_CT(95) = 1
            ELSE
              READ(KEY4,'(I5)')N1
-             IF(N1.GE.0.AND.N1.LE.30)THEN
+             IF(N1>=0.AND.N1<=30)THEN
                OUTP_CT(10+N1) = 1
              ELSE
                GOTO 9990
              ENDIF
            ENDIF
-         ELSEIF(KEY3(1:5).EQ.'USERS')THEN
-           IF(KEY4(1:4).EQ.'FULL')THEN
+         ELSEIF(KEY3(1:5)=='USERS')THEN
+           IF(KEY4(1:4)=='FULL')THEN
             OUTP_CS(26) = 1
            ELSE
                GOTO 9990
             ENDIF
-         ELSEIF(KEY3(1:5).EQ.'STRAI')THEN
-           IF    (KEY4(1:4).EQ.'MEMB')THEN
+         ELSEIF(KEY3(1:5)=='STRAI')THEN
+           IF    (KEY4(1:4)=='MEMB')THEN
              OUTP_CT(5) = 1
-           ELSEIF(KEY4(1:4).EQ.'BEND')THEN
+           ELSEIF(KEY4(1:4)=='BEND')THEN
              OUTP_CT(6) = 1
-           ELSEIF(KEY4(1:5).EQ.'UPPER')THEN
+           ELSEIF(KEY4(1:5)=='UPPER')THEN
              OUTP_CT(7) = 1
-           ELSEIF(KEY4(1:5).EQ.'LOWER')THEN
+           ELSEIF(KEY4(1:5)=='LOWER')THEN
              OUTP_CT(8) = 1
-           ELSEIF(KEY4(1:4).EQ.'FULL')THEN
+           ELSEIF(KEY4(1:4)=='FULL')THEN
              OUTP_CT(96) = 1
            ELSE
              READ(KEY4,'(I5)')N1
-             IF(N1.GT.0.AND.N1.LE.30)THEN
+             IF(N1>0.AND.N1<=30)THEN
                OUTP_CT(50+N1) = 1
              ELSE
                GOTO 9990
              ENDIF
            ENDIF
-         ELSEIF(KEY3(1:5).EQ.'EPSDO')THEN
+         ELSEIF(KEY3(1:5)=='EPSDO')THEN
            IEPSDOT = 1
-           IF    (KEY4(1:4).EQ.'MEMB')THEN
+           IF    (KEY4(1:4)=='MEMB')THEN
              OUTP_CT(91) = 1
-           ELSEIF(KEY4(1:4).EQ.'BEND')THEN
+           ELSEIF(KEY4(1:4)=='BEND')THEN
              OUTP_CT(92) = 1
-           ELSEIF(KEY4(1:5).EQ.'UPPER')THEN
+           ELSEIF(KEY4(1:5)=='UPPER')THEN
              OUTP_CT(93) = 1
-           ELSEIF(KEY4(1:5).EQ.'LOWER')THEN
+           ELSEIF(KEY4(1:5)=='LOWER')THEN
              OUTP_CT(94) = 1
            ELSE
              READ(KEY4,'(I5)')N1
-             IF(N1.GT.0.AND.N1.LE.30)THEN
+             IF(N1>0.AND.N1<=30)THEN
                OUTP_CT(100+N1) = 1
              ELSE
                GOTO 9990
@@ -389,134 +389,134 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   element equivalent stress criteria
 C-----------------------------------------------
-         ELSEIF(KEY3(1:5).EQ.'SIGEQ')THEN
+         ELSEIF(KEY3(1:5)=='SIGEQ')THEN
            OUTP_CS(87) = 1
          ELSE
            GOTO 9990
          ENDIF
-       ELSEIF(KEY2(1:4).EQ.'TRUS')THEN
-         IF    (KEY3(1:3).EQ.'OFF')THEN
+       ELSEIF(KEY2(1:4)=='TRUS')THEN
+         IF    (KEY3(1:3)=='OFF')THEN
            OUTP_TS(1) = 1
-         ELSEIF(KEY3(1:4).EQ.'EPSP')THEN
+         ELSEIF(KEY3(1:4)=='EPSP')THEN
            OUTP_TS(2) = 1
          ELSE
            GOTO 9990
          ENDIF
-       ELSEIF(KEY2(1:4).EQ.'BEAM')THEN
-         IF    (KEY3(1:3).EQ.'OFF')THEN
+       ELSEIF(KEY2(1:4)=='BEAM')THEN
+         IF    (KEY3(1:3)=='OFF')THEN
            OUTP_PS(1) = 1
-         ELSEIF(KEY3(1:4).EQ.'EPSP')THEN
+         ELSEIF(KEY3(1:4)=='EPSP')THEN
            OUTP_PS(2) = 1
          ELSE
            GOTO 9990
          ENDIF
-       ELSEIF(KEY2(1:4).EQ.'SPRI')THEN
-         IF    (KEY3(1:3).EQ.'OFF')THEN
+       ELSEIF(KEY2(1:4)=='SPRI')THEN
+         IF    (KEY3(1:3)=='OFF')THEN
            OUTP_RS(1) = 1
-          ELSEIF(KEY3(1:4).EQ.'FULL')THEN
+          ELSEIF(KEY3(1:4)=='FULL')THEN
            OUTP_RS(2) = 1
          ELSE
            GOTO 9990
          ENDIF
-       ELSEIF(KEY2(1:3).EQ.'SPH')THEN
-         IF    (KEY3(1:3).EQ.'OFF')THEN
+       ELSEIF(KEY2(1:3)=='SPH')THEN
+         IF    (KEY3(1:3)=='OFF')THEN
            OUTP_SPS(1) = 1
-         ELSEIF(KEY3(1:4).EQ.'EPSP')THEN
+         ELSEIF(KEY3(1:4)=='EPSP')THEN
            OUTP_SPS(2) = 1
-         ELSEIF(KEY3(1:4).EQ.'ENER')THEN
+         ELSEIF(KEY3(1:4)=='ENER')THEN
            OUTP_SPS(3) = 1
-         ELSEIF(KEY3(1:4).EQ.'DENS')THEN
+         ELSEIF(KEY3(1:4)=='DENS')THEN
            OUTP_SPS(4) = 1
-         ELSEIF(KEY3(1:4).EQ.'TEMP')THEN
+         ELSEIF(KEY3(1:4)=='TEMP')THEN
            OUTP_SPS(5) = 1
-         ELSEIF(KEY3(1:1).EQ.'P')THEN
+         ELSEIF(KEY3(1:1)=='P')THEN
            OUTP_SPS(6) = 1
-         ELSEIF(KEY3(1:4).EQ.'VONM')THEN
+         ELSEIF(KEY3(1:4)=='VONM')THEN
            OUTP_SPS(7) = 1
-         ELSEIF(KEY3(1:5).EQ.'STRES')THEN
-              IF(KEY4(1:4).EQ.'FULL')THEN 	
+         ELSEIF(KEY3(1:5)=='STRES')THEN
+              IF(KEY4(1:4)=='FULL')THEN 	
                OUTP_SPT(2) = 1
               ELSE
                OUTP_SPT(1) = 1
               ENDIF
-         ELSEIF(KEY3(1:5).EQ.'USER1')THEN
+         ELSEIF(KEY3(1:5)=='USER1')THEN
            OUTP_SPS(20) = 1
-         ELSEIF(KEY3(1:5).EQ.'USER2')THEN
+         ELSEIF(KEY3(1:5)=='USER2')THEN
            OUTP_SPS(21) = 1
-         ELSEIF(KEY3(1:5).EQ.'USER3')THEN
+         ELSEIF(KEY3(1:5)=='USER3')THEN
            OUTP_SPS(22) = 1
-         ELSEIF(KEY3(1:5).EQ.'USER4')THEN
+         ELSEIF(KEY3(1:5)=='USER4')THEN
            OUTP_SPS(23) = 1
-         ELSEIF(KEY3(1:5).EQ.'USER5')THEN
+         ELSEIF(KEY3(1:5)=='USER5')THEN
            OUTP_SPS(24) = 1
-         ELSEIF(KEY3(1:4).EQ.'SLEN')THEN
+         ELSEIF(KEY3(1:4)=='SLEN')THEN
            OUTP_SPS(25) = 1
 C-----------------------------------------------
 C   element equivalent stress criteria
 C-----------------------------------------------
-         ELSEIF(KEY3(1:5).EQ.'SIGEQ')THEN
+         ELSEIF(KEY3(1:5)=='SIGEQ')THEN
            OUTP_SPS(26) = 1
          ELSE
            GOTO 9990
          ENDIF
-       ELSEIF(KEY2(1:4).EQ.'ELEM')THEN
-         IF    (KEY3(1:3).EQ.'OFF')THEN
+       ELSEIF(KEY2(1:4)=='ELEM')THEN
+         IF    (KEY3(1:3)=='OFF')THEN
            OUTP_SS(1) = 1
            OUTP_CS(1) = 1
            OUTP_TS(1) = 1
            OUTP_PS(1) = 1
            OUTP_RS(1) = 1
            OUTP_SPS(1) = 1
-         ELSEIF(KEY3(1:4).EQ.'EPSP')THEN
+         ELSEIF(KEY3(1:4)=='EPSP')THEN
            OUTP_SS(2) = 1
            OUTP_CS(2) = 1
            OUTP_TS(2) = 1
            OUTP_PS(2) = 1
            OUTP_SPS(2) = 1
-         ELSEIF(KEY3(1:4).EQ.'ENER')THEN
+         ELSEIF(KEY3(1:4)=='ENER')THEN
            OUTP_SS(3) = 1
            OUTP_CS(3) = 1
            OUTP_SPS(3) = 1
-         ELSEIF(KEY3(1:4).EQ.'VONM')THEN
+         ELSEIF(KEY3(1:4)=='VONM')THEN
            OUTP_SS(7) = 1
            OUTP_CS(7) = 1
            OUTP_SPS(7) = 1
-         ELSEIF(KEY3(1:5).EQ.'USER1')THEN
+         ELSEIF(KEY3(1:5)=='USER1')THEN
            OUTP_SS(20) = 1
            OUTP_CS(20) = 1
            OUTP_SPS(20) = 1
-         ELSEIF(KEY3(1:5).EQ.'USER2')THEN
+         ELSEIF(KEY3(1:5)=='USER2')THEN
            OUTP_SS(21) = 1
            OUTP_CS(21) = 1
            OUTP_SPS(21) = 1
-         ELSEIF(KEY3(1:5).EQ.'USER3')THEN
+         ELSEIF(KEY3(1:5)=='USER3')THEN
            OUTP_SS(22) = 1
            OUTP_CS(22) = 1
            OUTP_SPS(22) = 1
-         ELSEIF(KEY3(1:5).EQ.'USER4')THEN
+         ELSEIF(KEY3(1:5)=='USER4')THEN
            OUTP_SS(23) = 1
            OUTP_CS(23) = 1
            OUTP_SPS(23) = 1
-         ELSEIF(KEY3(1:5).EQ.'USER5')THEN
+         ELSEIF(KEY3(1:5)=='USER5')THEN
            OUTP_SS(24) = 1
            OUTP_CS(24) = 1
            OUTP_SPS(24) = 1
-         ELSEIF(KEY3(1:4).EQ.'HOUR')THEN
+         ELSEIF(KEY3(1:4)=='HOUR')THEN
            OUTP_SS(25) = 1
            OUTP_CS(25) = 1
-         ELSEIF(KEY3(1:4).EQ.'SLEN')THEN
+         ELSEIF(KEY3(1:4)=='SLEN')THEN
            OUTP_SPS(25) = 1
 C-----------------------------------------------
 C   element equivalent stress criteria
 C-----------------------------------------------
-         ELSEIF(KEY3(1:5).EQ.'SIGEQ')THEN
+         ELSEIF(KEY3(1:5)=='SIGEQ')THEN
            OUTP_SS(27) = 1
            OUTP_CS(87) = 1
            OUTP_SPS(26) = 1
          ELSE
            GOTO 9990
          ENDIF
-       ELSEIF(KEY2.EQ.'LSENS')THEN
+       ELSEIF(KEY2=='LSENS')THEN
           DO I=1,NBC
             READ(IUSC1,REC=IKAD(IKEY)+K+I-1,FMT='(A)',ERR=9990)CART
             CALL WRIUSC2(IKAD(IKEY)+K+I-1,1,KEY0(IKEY))
@@ -528,7 +528,7 @@ C-----------------------------------------------
          GOTO 9990
        ENDIF
        K=K+NBC
-       IF(IKAD(IKEY)+K.NE.IKAD(IKEY+1))GO TO 1175
+       IF(IKAD(IKEY)+K/=IKAD(IKEY+1))GO TO 1175
       ENDIF
       NV_OUTP = 0
       NSS_OUTP = 0
@@ -556,7 +556,7 @@ C-----------------------------------------------
         NSPS_OUTP = NSPS_OUTP + OUTP_SPS(I)
         NSPT_OUTP = NSPT_OUTP + OUTP_SPT(I)
       ENDDO
-       IF(OUTP_V(12).EQ.1)NV_OUTP=NV_OUTP+1
+       IF(OUTP_V(12)==1)NV_OUTP=NV_OUTP+1
 C
       RETURN
 C
@@ -593,19 +593,19 @@ C======================================================================|
 C     /Key/Id/
 C-----------------------------------------------
       I1=8
-      DO WHILE(CART(I1:I1).NE.'/')
+      DO WHILE(CART(I1:I1)/='/')
         I1=I1+1
       ENDDO
        KEY2=CART(8:I1-1)
        I1=I1+1
        I2=I1
-      DO WHILE(CART(I2:I2).NE.'/')
+      DO WHILE(CART(I2:I2)/='/')
         I2=I2+1
       ENDDO 
        KEY3 = CART(I1:I2-1)
        I2=I2+1
        I3=I2
-      DO WHILE(CART(I3:I3).NE.'/')
+      DO WHILE(CART(I3:I3)/='/')
         I3=I3+1
       ENDDO
       KEY4 = CART(I2:I3-1) 

@@ -137,7 +137,7 @@ C
       IP8 = IP7 + LWAT
       IP8A= IP7 + NUMNOD
       IP8B= IP8A+ NUMNOD
-      IF(ITASK.EQ.0)THEN
+      IF(ITASK==0)THEN
         KINDEX2=IP8B
       ELSE
         KINDEX2=1
@@ -167,32 +167,32 @@ C----------------------------------------------------
 C----------------------------------------------------
       CALL MY_BARRIER
 C ---------------------
-      IF(ITASK.EQ.0.AND.NBCSLAG.GT.0) CALL LTAG_BCS(WAG(IP6) ,NGRNOD,
+      IF(ITASK==0.AND.NBCSLAG>0) CALL LTAG_BCS(WAG(IP6) ,NGRNOD,
      .                                     IGRNOD,IBCSLAG )
 C -------------------
       CALL MY_BARRIER
 C -------------------
-      IF(ITASK.EQ.0.AND.NINTER.GT.0)  CALL LTAG_I2MAIN(WAG(IP6) ,
+      IF(ITASK==0.AND.NINTER>0)  CALL LTAG_I2MAIN(WAG(IP6) ,
      .                                     IPARI    ,INTBUF_TAB   )
 C ---------------------
       CALL MY_BARRIER
 C -------------------
-      IF(ITASK.EQ.0.AND.NGJOINT.GT.0) CALL LTAG_GJNT(WAG(IP6),
+      IF(ITASK==0.AND.NGJOINT>0) CALL LTAG_GJNT(WAG(IP6),
      .                                     GJBUFI  )
 C -------------------
       CALL MY_BARRIER
 C -------------------
-      IF(ITASK.EQ.0.AND.NUMMPC.GT.0)  CALL LTAG_MPC(WAG(IP6) ,
+      IF(ITASK==0.AND.NUMMPC>0)  CALL LTAG_MPC(WAG(IP6) ,
      .                                     IBMPC   ,IBMPC(NUMMPC+1))
 C -------------------
       CALL MY_BARRIER
 C -------------------
-      IF(ITASK.EQ.0.AND.NFVLAG.GT.0)  CALL LTAG_FXV(WAG(IP6) ,
+      IF(ITASK==0.AND.NFVLAG>0)  CALL LTAG_FXV(WAG(IP6) ,
      .                                     IBFV    )
 C -------------------
       CALL MY_BARRIER
 C -------------------
-      IF(ITASK.EQ.0.AND.NRBYLAG.GT.0) CALL LTAG_RBY(WAG(IP6) ,
+      IF(ITASK==0.AND.NRBYLAG>0) CALL LTAG_RBY(WAG(IP6) ,
      .                                     NPBYL   ,LPBYL   )
 C----------------------------------------------------
 C     Construct L matrix for interfaces and rigid walls
@@ -202,10 +202,10 @@ C -------------------
       DO N=1,NINTER
         NTY = IPARI(7,N)
 C---
-        IF(NTY.EQ.7.OR.NTY.EQ.22)THEN
+        IF(NTY==7.OR.NTY==22)THEN
           ISENS = 0
-          IF(NTY.EQ.7) ISENS = IPARI(64,N)
-          IF(ISENS.NE.0)  THEN
+          IF(NTY==7) ISENS = IPARI(64,N)
+          IF(ISENS/=0)  THEN
              TS = SENSOR(2,ISENS)
           ELSE
              TS = TT
@@ -215,7 +215,7 @@ C---
           NB_STOK_N = 0
           ILAGM  =IPARI(33,N)
           IF(ILAGM /= 0) THEN
-             IF(TT.GE.TS) THEN
+             IF(TT>=TS) THEN
                CALL I7MAIN_LMULT(
      1         N         ,IPARI     ,INTBUF_TAB,X   ,
      2         V         ,A         ,ITASK     ,MS          ,
@@ -226,7 +226,7 @@ C---
             ENDIF
          ENDIF
 C---
-        ELSEIF(NTY.EQ.16)THEN
+        ELSEIF(NTY==16)THEN
           ILAGM  =IPARI(33,N)
           IF(ILAGM /= 0)CALL I16MAIN(
      1         N         ,IPARI     ,INTBUF_TAB,X         ,V         ,
@@ -235,7 +235,7 @@ C---
      4         WAG(IP5)  ,N_MUL_MX  ,IXS       ,IXS16     ,IXS20     ,
      5         NKMAX     ,IXS10     ,WAG(IP6)  ,IGRBRIC)
 C---
-        ELSEIF(NTY.EQ.17)THEN
+        ELSEIF(NTY==17)THEN
           ILAGM  =IPARI(33,N)
           IF(ILAGM /= 0)CALL I17MAIN(
      1         N         ,IPARI     ,INTBUF_TAB(N)        ,X   ,
@@ -256,7 +256,7 @@ C -------------------
         N4=N3+NRWALL
         N5=N4+NRWALL
         N6=N5+NRWALL
-        IF(NPRW(N6).EQ.1)THEN
+        IF(NPRW(N6)==1)THEN
           CALL LAG_RWALL(RWBUF(1,N),LPRW(K),NPRW(N),NPRW(N2),NPRW(N3),
      2                   WAT(IP8),X       ,V       ,A       ,WAG(IP1),
      3                   WAG(IP2),WAG(IP3),WAG(IP4),WAG(IP5),WAG(IP6),
@@ -275,7 +275,7 @@ C----------------------------------------------------
 C -------------------
       CALL MY_BARRIER
 C -------------------
-      IF(ITASK.EQ.0 .AND. NBCSLAG.GT.0) CALL LAG_BCS(
+      IF(ITASK==0 .AND. NBCSLAG>0) CALL LAG_BCS(
      1   IGRNOD    ,IBCSLAG   ,SKEW      ,WAG(IP0)  ,NGRNOD    ,
      2   WAG(IP1)  ,WAG(IP2)  ,WAG(IP3)  ,WAG(IP4)  ,WAG(IP5)  ,
      3   WAG(IP6)  ,LAGBUF(J3),LAGBUF(J4),MS        ,IN        ,
@@ -284,7 +284,7 @@ C -------------------
 C ---------------------
       CALL MY_BARRIER
 C ---------------------
-      IF(ITASK.EQ.0 .AND. NINTER.GT.0) CALL LAG_I2MAIN(
+      IF(ITASK==0 .AND. NINTER>0) CALL LAG_I2MAIN(
      1   IPARI     ,INTBUF_TAB,WAG(IP1)  ,WAG(IP2)  ,WAG(IP3)  ,
      2   WAG(IP4)  ,WAG(IP5)  ,WAG(IP6)  ,WAG(IP7)  ,LAGBUF(J3),
      3   LAGBUF(J4),IN        ,MS        ,X         ,V         ,
@@ -293,7 +293,7 @@ C ---------------------
 C ---------------------
       CALL MY_BARRIER
 C ---------------------
-      IF(ITASK.EQ.0 .AND. NGJOINT.GT.0) CALL LAG_GJNT(
+      IF(ITASK==0 .AND. NGJOINT>0) CALL LAG_GJNT(
      1   GJBUFI    ,GJBUFR    ,X         ,VR        ,AR        ,
      2   WAG(IP1)  ,WAG(IP2)  ,WAG(IP3)  ,WAG(IP4)  ,WAG(IP5)  ,
      3   WAG(IP6)  ,WAG(IP7)  ,LAGBUF(J3),LAGBUF(J4),MS        ,
@@ -302,7 +302,7 @@ C ---------------------
 C ---------------------
       CALL MY_BARRIER
 C ---------------------
-      IF(ITASK.EQ.0 .AND. NUMMPC.GT.0) THEN
+      IF(ITASK==0 .AND. NUMMPC>0) THEN
         INUM = NUMMPC+1
         IDDL = INUM  +LMPC
         ISKW = IDDL  +LMPC
@@ -316,7 +316,7 @@ C ---------------------
 C ---------------------
       CALL MY_BARRIER
 C ---------------------
-      IF(ITASK.EQ.0 .AND. NFVLAG.GT.0) CALL LAG_FXV(
+      IF(ITASK==0 .AND. NFVLAG>0) CALL LAG_FXV(
      1   IBFV      ,VEL       ,SKEW      ,NPF       ,TF        ,
      2   WAG(IP0)  ,WAG(IP1)  ,WAG(IP2)  ,WAG(IP3)  ,WAG(IP4)  ,
      3   WAG(IP5)  ,WAG(IP6)  ,LAGBUF(J3),LAGBUF(J4),MS        ,
@@ -329,7 +329,7 @@ C---  Rigid bodies
 C -------------------
       CALL MY_BARRIER
 C ---------------------
-      IF(ITASK.EQ.0 .AND. NRBYLAG.GT.0) THEN
+      IF(ITASK==0 .AND. NRBYLAG>0) THEN
         CALL LAG_RBY(
      1           RBYL      ,NPBYL     ,LPBYL     ,MS        ,IN        ,
      2           WAG(IP1)  ,WAG(IP2)  ,WAG(IP3)  ,WAG(IP4)  ,WAG(IP5)  ,
@@ -344,7 +344,7 @@ C=======================================================================
 C -------------------
       CALL MY_BARRIER
 C -------------------
-      IF(ITASK.EQ.0) THEN
+      IF(ITASK==0) THEN
         NH = NHMAX + 3*(N_MUL_MX - N_MULT)
 C---
         IP7  = IP6  + N_MULT + 1
@@ -379,7 +379,7 @@ C -------------------------------------------------------------
 C-------------------
       CALL MY_BARRIER
 C-------------------
-      IF(ITASK.EQ.0)
+      IF(ITASK==0)
      1  CALL RBY_DECOND(X      ,V       ,VR      ,A       ,AR     ,
      2                 WAG(IP1),WAG(IP2),WAG(IP3),WAG(IP5),LAMBDA ,
      3                 MS      ,IN      ,RBYL    ,NPBYL   ,LPBYL  ,
@@ -387,10 +387,10 @@ C-------------------
 C-------------------
       CALL MY_BARRIER
 C-------------------
-      IF(ITASK.EQ.0)
+      IF(ITASK==0)
      .  CALL LAG_ANITH(WAG(IP1),WAG(IP2),WAG(IP3),WAG(IP4),WAG(IP5),
      .                 FANI    ,FSAV    ,N_MULT  ,H3D_DATA )
-c      IF(ITASK.EQ.0 .AND. NRBYLAG.GT.0)
+c      IF(ITASK==0 .AND. NRBYLAG>0)
 c     .  CALL LAGTH_RBY(LPBYL ,NPBYL ,FANI  ,FSAV  ,A     ,AR    ,X     )
 C---
       RETURN
@@ -504,7 +504,7 @@ C
       NUM_ISTOCK = 4*NUMNODG
       LWAT     = MAX(6*(NUMELS16+NUMELS20),NRWLAG,2*NUMNODG+NUM_ISTOCK)
 C
-      IF(ISPMD.EQ.0) THEN
+      IF(ISPMD==0) THEN
        IP0 = 1
        IP1 = IP0 + N_MUL_MX
        IP2 = IP1 + N_MUL_MX + 1
@@ -577,33 +577,33 @@ C -------------------
       DO N=1,NINTER
         NTY = IPARI(7,N)
 C---
-        IF(NTY.EQ.7.OR.NTY.EQ.22)THEN
+        IF(NTY==7.OR.NTY==22)THEN
           NB_JLT    = 0
           NB_JLT_NEW= 0
           NB_STOK_N = 0
           ILAGM  =IPARI(33,N)
           IF(ILAGM /= 0) THEN
-            IF(ISPMD.EQ.0)THEN
+            IF(ISPMD==0)THEN
               CALL ANCMSG(MSGID=113,ANMODE=ANINFO,
      .                    C1='INT 7')
               CALL ARRET(2)
             END IF
           END IF
 C---
-        ELSEIF(NTY.EQ.16)THEN
+        ELSEIF(NTY==16)THEN
           ILAGM  =IPARI(33,N)
           IF(ILAGM /= 0) THEN
-            IF(ISPMD.EQ.0)THEN
+            IF(ISPMD==0)THEN
               CALL ANCMSG(MSGID=113,ANMODE=ANINFO,
      .                    C1='INT 16')
               CALL ARRET(2)
             END IF
           END IF
 C---
-        ELSEIF(NTY.EQ.17)THEN
+        ELSEIF(NTY==17)THEN
           ILAGM  =IPARI(33,N)
           IF(ILAGM /= 0) THEN
-            IF(ISPMD.EQ.0)THEN
+            IF(ISPMD==0)THEN
               CALL ANCMSG(MSGID=113,ANMODE=ANINFO,
      .                    C1='INT 17')
               CALL ARRET(2)
@@ -621,8 +621,8 @@ C -------------------
         N4=N3+NRWALL
         N5=N4+NRWALL
         N6=N5+NRWALL
-        IF(NPRW(N6).EQ.1)THEN
-          IF(ISPMD.EQ.0)THEN
+        IF(NPRW(N6)==1)THEN
+          IF(ISPMD==0)THEN
             CALL ANCMSG(MSGID=113,ANMODE=ANINFO,
      .                    C1='RWALL')
             CALL ARRET(2)
@@ -640,14 +640,14 @@ C----------------------------------------------------
       ENDDO
 C -------------------
 C -------------------
-      IF(ISPMD.EQ.0 .AND. NBCSLAG.GT.0)THEN
+      IF(ISPMD==0 .AND. NBCSLAG>0)THEN
         CALL ANCMSG(MSGID=113,ANMODE=ANINFO,
      .                    C1='BCS')
         CALL ARRET(2)
       END IF
 C ---------------------
 C ---------------------
-      IF(NINTER.GT.0) CALL LAG_I2MAIN(
+      IF(NINTER>0) CALL LAG_I2MAIN(
      1   IPARI     ,INTBUF_TAB,WAG(IP1)  ,WAG(IP2)  ,WAG(IP3)  ,
      2   WAG(IP4)  ,WAG(IP5)  ,WAG(IP6)  ,WAG(IP7)  ,LAGBUF(J3),
      3   LAGBUF(J4),IN        ,MS        ,X         ,V         ,
@@ -655,14 +655,14 @@ C ---------------------
      5   N_MULT    )
 C ---------------------
 C ---------------------
-      IF(ISPMD.EQ.0 .AND. NGJOINT.GT.0)THEN
+      IF(ISPMD==0 .AND. NGJOINT>0)THEN
         CALL ANCMSG(MSGID=113,ANMODE=ANINFO,
      .                    C1='JOINT')
         CALL ARRET(2)
       END IF
 C ---------------------
 C ---------------------
-      IF(ISPMD.EQ.0 .AND. NUMMPC.GT.0) THEN
+      IF(ISPMD==0 .AND. NUMMPC>0) THEN
         INUM = NUMMPC+1
         IDDL = INUM  +LMPC
         ISKW = IDDL  +LMPC
@@ -672,7 +672,7 @@ C ---------------------
       ENDIF
 C ---------------------
 C ---------------------
-      IF(NFVLAG.GT.0) CALL LAG_FXVP(
+      IF(NFVLAG>0) CALL LAG_FXVP(
      1   IBFV      ,VEL        ,SKEW     ,NPF       ,TF        ,
      2   LAGCOM    ,LAGCOM(IK0),N_MULT   ,NODGLOB   ,WEIGHT    ,
      3   N_IK      )
@@ -682,7 +682,7 @@ C ---------------------
 C---  Rigid bodies
 C -------------------
 C ---------------------
-      IF(ISPMD.EQ.0 .AND. NRBYLAG.GT.0)THEN
+      IF(ISPMD==0 .AND. NRBYLAG>0)THEN
         CALL ANCMSG(MSGID=113,ANMODE=ANINFO,
      .                    C1='RBODY')
         CALL ARRET(2)
@@ -700,7 +700,7 @@ C      GRADIENT CONJUGUE
 C=======================================================================
 C -------------------
 C -------------------
-      IF(ISPMD.EQ.0) THEN
+      IF(ISPMD==0) THEN
         NH = NHMAX + 3*(N_MUL_MX - N_MULT)
 C---
         IP7  = IP6  + N_MULT + 1
@@ -741,7 +741,7 @@ C -------------------------------------------------------------
 C
 C Communication Pi => P0 A, AR, V, VR, MS, IN
 C
-      IF(IRODDL.EQ.0)THEN
+      IF(IRODDL==0)THEN
         ISIZ = 8
       ELSE
         ISIZ = 15
@@ -752,7 +752,7 @@ C
      3  MSG     ,ING     ,FR_LAGF,ISIZ   ,NBNODL,
      4  INDEXLAG,NODGLOB ,LLAGF  ,NLAGF  )
 C routine sequentielle a changer si solveur direct branche a la place
-      IF(IMLAGSOL.EQ.1) THEN
+      IF(IMLAGSOL==1) THEN
         CALL LAG_MULT_SDP(
      1    NH        ,N_MULT    ,NCR       ,AG        ,VG        ,
      2    MSG       ,WAG(IP1)  ,WAG(IP2)  ,WAG(IP3)  ,WAG(IP5)  ,
@@ -762,7 +762,7 @@ C routine sequentielle a changer si solveur direct branche a la place
      6    RBYL      ,NPBYL     ,ARG       ,VRG       ,ING       ,
      7    LAGBUF(J1),LAGBUF(J2),LAGBUF(J3),LAGBUF(J4),NCF_S     ,
      8    NCF_E     ,INDEXLAG  )
-      ELSEIF(ISPMD.EQ.0) THEN
+      ELSEIF(ISPMD==0) THEN
         CALL LAG_MULT_SOLVP(
      1    NH        ,N_MULT    ,NCR       ,AG        ,VG        ,
      2    MSG       ,WAG(IP1)  ,WAG(IP2)  ,WAG(IP3)  ,WAG(IP5)  ,
@@ -776,7 +776,7 @@ C routine sequentielle a changer si solveur direct branche a la place
 C
 C Communication P0 => Pi A, AR, V, VR, MS, IN
 C
-      IF(IRODDL.EQ.0)THEN
+      IF(IRODDL==0)THEN
         ISIZ = 3
       ELSE
         ISIZ = 6
@@ -787,7 +787,7 @@ C
 C
 C Echange aux noeuds frontieres Pi <=> Pj A, AR, V, VR, MS, IN
 C
-      IF(IRODDL.EQ.0)THEN
+      IF(IRODDL==0)THEN
         ISIZ = 4
       ELSE
         ISIZ = 7

@@ -86,12 +86,12 @@ C cumul de l'energie des elements deletes AU moment du delete
 C
       OFF_L = ZERO
       DO I=JFT,JLT
-        IF(OFF(I).LT.ONE)OFFG(I) = OFF(I)
+        IF(OFF(I)<ONE)OFFG(I) = OFF(I)
         OFF_L = MIN(OFF_L,OFFG(I))
       ENDDO
-      IF(OFF_L.LT.ZERO)THEN
+      IF(OFF_L<ZERO)THEN
         DO I=JFT,JLT
-         IF(OFFG(I).LT.ZERO)THEN
+         IF(OFFG(I)<ZERO)THEN
           DO J=1,NPT
            FLY11(I,J)=ZERO
            FLY21(I,J)=ZERO

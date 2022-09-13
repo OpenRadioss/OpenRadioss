@@ -115,13 +115,13 @@ CC   (ON PEUT FAIRE ONE FLAG QUI LE REND OPTIONNEL)
 c ------------------------------------------------------------------------------------------
 c
       NDOUBLON_REMOVE = 0
-      IF(NBPART_IG3D.GT.1) THEN
+      IF(NBPART_IG3D>1) THEN
        I = 1
-       DO WHILE (I.LE.L_TAB_REMOVE-NDOUBLON_REMOVE-1)
+       DO WHILE (I<=L_TAB_REMOVE-NDOUBLON_REMOVE-1)
          NVALEURS = 0
          TAB_REMOVE(I) = TAB_REMOVE_TRI(I+NDOUBLON_REMOVE)
-         DO WHILE (((I+NDOUBLON_REMOVE+NVALEURS+1).LE.L_TAB_REMOVE)
-     .      .AND. (TAB_REMOVE(I+NDOUBLON_REMOVE).EQ.TAB_REMOVE(I+NDOUBLON_REMOVE+NVALEURS+1)))
+         DO WHILE (((I+NDOUBLON_REMOVE+NVALEURS+1)<=L_TAB_REMOVE)
+     .      .AND. (TAB_REMOVE(I+NDOUBLON_REMOVE)==TAB_REMOVE(I+NDOUBLON_REMOVE+NVALEURS+1)))
            NVALEURS = NVALEURS + 1
          ENDDO
          NDOUBLON_REMOVE = NDOUBLON_REMOVE + NVALEURS
@@ -132,13 +132,13 @@ c
       L_REAL_REMOVE = L_TAB_REMOVE - NDOUBLON_REMOVE
 c   
       NDOUBLON_NEWFCT = 0
-      IF(NBPART_IG3D.GT.1) THEN
+      IF(NBPART_IG3D>1) THEN
        I = 1
-       DO WHILE (I.LE.L_TAB_NEWFCT-NDOUBLON_NEWFCT-1)
+       DO WHILE (I<=L_TAB_NEWFCT-NDOUBLON_NEWFCT-1)
          NVALEURS = 0
          TAB_NEWFCT(I) = TAB_NEWFCT_TRI(I+NDOUBLON_NEWFCT)
-         DO WHILE (((I+NDOUBLON_NEWFCT+NVALEURS+1).LE.L_TAB_NEWFCT)
-     .      .AND. (TAB_NEWFCT(I+NDOUBLON_NEWFCT).EQ.TAB_NEWFCT(I+NDOUBLON_NEWFCT+NVALEURS+1)))
+         DO WHILE (((I+NDOUBLON_NEWFCT+NVALEURS+1)<=L_TAB_NEWFCT)
+     .      .AND. (TAB_NEWFCT(I+NDOUBLON_NEWFCT)==TAB_NEWFCT(I+NDOUBLON_NEWFCT+NVALEURS+1)))
            NVALEURS = NVALEURS + 1
          ENDDO
          NDOUBLON_NEWFCT = NDOUBLON_NEWFCT + NVALEURS
@@ -153,10 +153,10 @@ C   SUPPRESSION DES VALEURS COMMUNES AUX TWO LISTES (LES POINTS CREES PUIS SUPPR
 c ------------------------------------------------------------------------------------------
 c
       I=1
-      DO WHILE (I.LE.L_REAL_REMOVE)
+      DO WHILE (I<=L_REAL_REMOVE)
         J=1
-        DO WHILE (J.LE.L_REAL_NEWFCT)
-          IF(TAB_REMOVE_TRI(I).EQ.TAB_NEWFCT_TRI(J)) THEN
+        DO WHILE (J<=L_REAL_NEWFCT)
+          IF(TAB_REMOVE_TRI(I)==TAB_NEWFCT_TRI(J)) THEN
             TAB_REMOVE_TRI(I) = 0
             TAB_NEWFCT_TRI(J) = 0
           ENDIF
@@ -167,10 +167,10 @@ c
 c
       I = 1
       NZERO_REMOVE = 0
-      DO WHILE (I.LE.L_REAL_REMOVE-NZERO_REMOVE)
+      DO WHILE (I<=L_REAL_REMOVE-NZERO_REMOVE)
         NVALEURS = 0
-        DO WHILE ((I+NZERO_REMOVE+NVALEURS).LE.L_REAL_REMOVE.AND.
-     .             TAB_REMOVE_TRI(I+NZERO_REMOVE+NVALEURS).EQ.0)
+        DO WHILE ((I+NZERO_REMOVE+NVALEURS)<=L_REAL_REMOVE.AND.
+     .             TAB_REMOVE_TRI(I+NZERO_REMOVE+NVALEURS)==0)
           NVALEURS=NVALEURS+1
         ENDDO
         NZERO_REMOVE = NZERO_REMOVE + NVALEURS
@@ -180,10 +180,10 @@ c
 c
       I = 1
       NZERO_NEWFCT = 0
-      DO WHILE (I.LE.L_REAL_NEWFCT-NZERO_NEWFCT)
+      DO WHILE (I<=L_REAL_NEWFCT-NZERO_NEWFCT)
         NVALEURS = 0
-        DO WHILE ((I+NZERO_NEWFCT+NVALEURS).LE.L_REAL_NEWFCT.AND.
-     .             TAB_NEWFCT_TRI(I+NZERO_NEWFCT+NVALEURS).EQ.0)
+        DO WHILE ((I+NZERO_NEWFCT+NVALEURS)<=L_REAL_NEWFCT.AND.
+     .             TAB_NEWFCT_TRI(I+NZERO_NEWFCT+NVALEURS)==0)
           NVALEURS=NVALEURS+1
         ENDDO
         NZERO_NEWFCT = NZERO_NEWFCT + NVALEURS
@@ -202,10 +202,10 @@ C
 CC  MODIFICATION DES CONNECTIVITES DES ELEMENTS ET DES DONNES DES POINTS DE CONTROLE
 c ------------------------------------------------------------------------------------------
 c
-      IF(FLAG_PRE.EQ.1) THEN
+      IF(FLAG_PRE==1) THEN
 
         I=1
-        DO WHILE (I.LE.L_REAL_REMOVE)
+        DO WHILE (I<=L_REAL_REMOVE)
           X_TMP(:,TAB_REMOVE_TRI(I)) = X_TMP(:,TAB_NEWFCT_TRI(I))  ! X a pile poil la bonne taille
           D_TMP(:,TAB_REMOVE_TRI(I)) = D_TMP(:,TAB_NEWFCT_TRI(I))
           V_TMP(:,TAB_REMOVE_TRI(I)) = V_TMP(:,TAB_NEWFCT_TRI(I))
@@ -220,8 +220,8 @@ C DECALER DES 0
             KNOTLOCPC(:,3,DECALGEO+TAB_REMOVE_TRI(I)) = KNOTLOCPC(:,3,DECALGEO+TAB_NEWFCT_TRI(I))
           ENDDO
           J=1
-          DO WHILE(J.LE.SIXIG3D+ADDSIXIG3D)
-            DO WHILE(IXIG3D(J).EQ.TAB_NEWFCT_TRI(I).AND.J.LE.SIXIG3D+ADDSIXIG3D)
+          DO WHILE(J<=SIXIG3D+ADDSIXIG3D)
+            DO WHILE(IXIG3D(J)==TAB_NEWFCT_TRI(I).AND.J<=SIXIG3D+ADDSIXIG3D)
 c              print*,'IXIG3D = ', IXIG3D(J),'IXIG3D final = ', TAB_REMOVE_TRI(I)
               IXIG3D(J)=TAB_REMOVE_TRI(I)
               J=J+1
@@ -232,7 +232,7 @@ c              print*,'IXIG3D = ', IXIG3D(J),'IXIG3D final = ', TAB_REMOVE_TRI(I
         ENDDO
 c
         J=1      
-        DO WHILE (I.LE.L_REAL_NEWFCT)
+        DO WHILE (I<=L_REAL_NEWFCT)
           X_TMP(:,NUMNODIGE0+J) = X_TMP(:,TAB_NEWFCT_TRI(I))
           D_TMP(:,NUMNODIGE0+J) = D_TMP(:,TAB_NEWFCT_TRI(I))
           V_TMP(:,NUMNODIGE0+J) = V_TMP(:,TAB_NEWFCT_TRI(I))
@@ -245,8 +245,8 @@ c
             KNOTLOCPC(:,3,DECALGEO+NUMNODIGE0+J) = KNOTLOCPC(:,3,DECALGEO+TAB_NEWFCT_TRI(I))
           ENDDO
           K=1
-          DO WHILE(K.LE.SIXIG3D+ADDSIXIG3D)
-            DO WHILE(IXIG3D(K).EQ.TAB_NEWFCT_TRI(I).AND.K.LE.SIXIG3D+ADDSIXIG3D)
+          DO WHILE(K<=SIXIG3D+ADDSIXIG3D)
+            DO WHILE(IXIG3D(K)==TAB_NEWFCT_TRI(I).AND.K<=SIXIG3D+ADDSIXIG3D)
 c              print*,'IXIG3D = ', IXIG3D(K),'IXIG3D final = ', NUMNODIGE0+J
               IXIG3D(K)=NUMNODIGE0+J
               K=K+1
@@ -268,7 +268,7 @@ C  LE MERGE DE CES TWO POINTS CAUSERAIT ONE SOUCIS
 C  ATTENTION2 : NE SUPPRIME PAS LES DOUBLONS DU MODELE : ILS SONT SEULEMENT DESACTIVES
 c ------------------------------------------------------------------------------------------
 c
-        IF(NBPART_IG3D.GT.1) THEN !  ET SI ON A GARDE DES POINTS (CONDITION QUI VIENT DE RAFIG3D.F)
+        IF(NBPART_IG3D>1) THEN !  ET SI ON A GARDE DES POINTS (CONDITION QUI VIENT DE RAFIG3D.F)
           ALLOCATE(PERMIGE(NUMNOD))
           ALLOCATE(X_TRIE(3,NUMNOD))
           DO I=1,NUMNOD
@@ -278,12 +278,12 @@ c
 c
           I = 1
           NDOUBLONIGE = 0
-          DO WHILE (I .LE. NUMNOD-NDOUBLONIGE-1)
+          DO WHILE (I <= NUMNOD-NDOUBLONIGE-1)
             NVALEURS = 0
-            DO WHILE (((I+NDOUBLONIGE+NVALEURS+1) .LE. NUMNOD)
-     .       .AND. (ABS(X_TRIE(1,I+NDOUBLONIGE)-X_TRIE(1,I+NDOUBLONIGE+NVALEURS+1)) .LE. TOL)
-     .       .AND. (ABS(X_TRIE(2,I+NDOUBLONIGE)-X_TRIE(2,I+NDOUBLONIGE+NVALEURS+1)) .LE. TOL)
-     .       .AND. (ABS(X_TRIE(3,I+NDOUBLONIGE)-X_TRIE(3,I+NDOUBLONIGE+NVALEURS+1)) .LE. TOL))
+            DO WHILE (((I+NDOUBLONIGE+NVALEURS+1) <= NUMNOD)
+     .       .AND. (ABS(X_TRIE(1,I+NDOUBLONIGE)-X_TRIE(1,I+NDOUBLONIGE+NVALEURS+1)) <= TOL)
+     .       .AND. (ABS(X_TRIE(2,I+NDOUBLONIGE)-X_TRIE(2,I+NDOUBLONIGE+NVALEURS+1)) <= TOL)
+     .       .AND. (ABS(X_TRIE(3,I+NDOUBLONIGE)-X_TRIE(3,I+NDOUBLONIGE+NVALEURS+1)) <= TOL))
 c
 c ------------------------------------------------------------------------------------------
 CC TEST POUR SAVOIR LEQUEL DES POINTS DOUBLONS EST A GARDER
@@ -294,18 +294,18 @@ c
               NUMPCSTAY =0
               NUMPCLEAVE=0
               DO K=1,L_TAB_STAY
-                IF(PERMIGE(I+NDOUBLONIGE).EQ.TAB_STAY(K)) THEN
+                IF(PERMIGE(I+NDOUBLONIGE)==TAB_STAY(K)) THEN
                   NUMPCSTAY = PERMIGE(I+NDOUBLONIGE)
                   NUMPCLEAVE = PERMIGE(I+NDOUBLONIGE+NVALEURS+1)
                   EXIT
                 ENDIF
-                IF(PERMIGE(I+NDOUBLONIGE+NVALEURS+1).EQ.TAB_STAY(K)) THEN
+                IF(PERMIGE(I+NDOUBLONIGE+NVALEURS+1)==TAB_STAY(K)) THEN
                   NUMPCSTAY = PERMIGE(I+NDOUBLONIGE+NVALEURS+1)
                   NUMPCLEAVE = PERMIGE(I+NDOUBLONIGE)
                   EXIT
                 ENDIF
               ENDDO
-              IF(NUMPCSTAY.EQ.0.AND.NUMPCLEAVE.EQ.0) THEN ! LES TWO POINTS SONT A SUPPRIMER
+              IF(NUMPCSTAY==0.AND.NUMPCLEAVE==0) THEN ! LES TWO POINTS SONT A SUPPRIMER
                 NUMPCSTAY = PERMIGE(I+NDOUBLONIGE)
                 NUMPCLEAVE = PERMIGE(I+NDOUBLONIGE+NVALEURS+1)
 c                print*,'jai supprime au hasard ',NUMPCLEAVE
@@ -314,8 +314,8 @@ c                print*,'jai supprime',NUMPCLEAVE,' et j ai garde',NUMPCSTAY
               ENDIF
 c
               J=1
-              DO WHILE(J.LE.SIXIG3D+ADDSIXIG3D)
-                DO WHILE(IXIG3D(J).EQ.NUMPCLEAVE.AND.J.LE.SIXIG3D+ADDSIXIG3D)
+              DO WHILE(J<=SIXIG3D+ADDSIXIG3D)
+                DO WHILE(IXIG3D(J)==NUMPCLEAVE.AND.J<=SIXIG3D+ADDSIXIG3D)
                   IXIG3D(J)=NUMPCSTAY
                   J=J+1
                 ENDDO
@@ -328,7 +328,7 @@ ccc il faut savoir de quel patch vient le point qu'on supprime et de quel patch 
                 DECALGEO=(ITPATCH-1)*(NUMNOD+NBNEWX_TMP)
 c  on ramene les knotlocpc des patch lorsque l'etendue est non nulle pour ce patch
                 DO K=1,4 ! test des etendues knot (vide ou non)
-                  IF(KNOTLOCPC(K,1,DECALGEO+NUMPCLEAVE).NE.0) THEN
+                  IF(KNOTLOCPC(K,1,DECALGEO+NUMPCLEAVE)/=0) THEN
                     KNOTLOCPC(:,1,DECALGEO+NUMPCSTAY)=KNOTLOCPC(:,1,DECALGEO+NUMPCLEAVE)
                     KNOTLOCPC(:,2,DECALGEO+NUMPCSTAY)=KNOTLOCPC(:,2,DECALGEO+NUMPCLEAVE)
                     KNOTLOCPC(:,3,DECALGEO+NUMPCSTAY)=KNOTLOCPC(:,3,DECALGEO+NUMPCLEAVE)
@@ -346,7 +346,7 @@ c  on ramene les knotlocpc des patch lorsque l'etendue est non nulle pour ce pat
 
 C  changer pour ne pas ecrire de facon croissante mais simplement eliminer les points doublons
 c
-c        IF(NDOUBLONIGE.GT.0) print*, 'J AI TROUVE ET SUPPRIME DES CONNECTIVITES :',NDOUBLONIGE,' DOUBLONS !'
+c        IF(NDOUBLONIGE>0) print*, 'J AI TROUVE ET SUPPRIME DES CONNECTIVITES :',NDOUBLONIGE,' DOUBLONS !'
 c
         DEALLOCATE(PERMIGE)
         DEALLOCATE(X_TRIE)
@@ -357,7 +357,7 @@ c
       DEALLOCATE(TAB_REMOVE_TRI)
       DEALLOCATE(TAB_NEWFCT_TRI)
 c
-      IF(FLAG_PRE.EQ.1) THEN   
+      IF(FLAG_PRE==1) THEN   
 c
 C-----------------------------------------------
 CC ON RE-ORDONNE LA TABLE DE CONNECTIVITE DES ELEMENTS : 
@@ -367,7 +367,7 @@ C-----------------------------------------------
 c
       DO I=1,NUMELIG3D0+ADDELIG3D ! TAILLE DE EL_CONNECT
 c
-        IF(EL_CONNECT(I).NE.1) CYCLE
+        IF(EL_CONNECT(I)/=1) CYCLE
 c
         DECALIXIG3D=KXIG3D(4,I)
         DECALGEO=(KXIG3D(2,I)-1)*(NUMNOD+NBNEWX_TMP)
@@ -381,8 +381,8 @@ C
         TMPZ(:)=0
         DO J=1,NCTRL ! POUR CHACUNE DES (PX*PY*PZ) FONCTIONS
           DO K=1,PZ
-            IF(KNOTLOCPC(K,3,DECALGEO+IXIG3D(DECALIXIG3D+J-1)).LT.KNOTLOCEL(1,3,I)+TOL.AND.
-     .         KNOTLOCPC(K+1,3,DECALGEO+IXIG3D(DECALIXIG3D+J-1)).GT.KNOTLOCEL(2,3,I)-TOL) THEN
+            IF(KNOTLOCPC(K,3,DECALGEO+IXIG3D(DECALIXIG3D+J-1))<KNOTLOCEL(1,3,I)+TOL.AND.
+     .         KNOTLOCPC(K+1,3,DECALGEO+IXIG3D(DECALIXIG3D+J-1))>KNOTLOCEL(2,3,I)-TOL) THEN
 c la position en Z de cette fonction est K : 1 la fonction est en haut, PZ la fonction est en bas
                TMPZ(K)=TMPZ(K)+1
                TABPOSZ((K-1)*(PX*PY)+TMPZ(K)) = IXIG3D(DECALIXIG3D+J-1)
@@ -395,8 +395,8 @@ C
           TMPZY(:)=0
           DO K=1,PX*PY  ! POUR CHACUNE DES (PX*PY) FONCTIONS
             DO L=1,PY
-              IF(KNOTLOCPC(L,2,DECALGEO+TABPOSZ((J-1)*(PX*PY)+K)).LT.KNOTLOCEL(1,2,I)+TOL.AND.
-     .           KNOTLOCPC(L+1,2,DECALGEO+TABPOSZ((J-1)*(PX*PY)+K)).GT.KNOTLOCEL(2,2,I)-TOL) THEN
+              IF(KNOTLOCPC(L,2,DECALGEO+TABPOSZ((J-1)*(PX*PY)+K))<KNOTLOCEL(1,2,I)+TOL.AND.
+     .           KNOTLOCPC(L+1,2,DECALGEO+TABPOSZ((J-1)*(PX*PY)+K))>KNOTLOCEL(2,2,I)-TOL) THEN
 c la position en Y de cette fonction est L : 1 la fonction est a droite, PY la fonction est a gauche
                 TMPZY(L)=TMPZY(L)+1
                 TABPOSZY((J-1)*(PX*PY)+(L-1)*PY+TMPZY(L)) = TABPOSZ((J-1)*(PX*PY)+K)
@@ -410,8 +410,8 @@ C
           DO K=1,PY ! sur chacune des PY lignes
             DO L=1,PX ! POUR CHACUNE DES PX FONCTIONS
               DO M=1,PX
-                IF(KNOTLOCPC(M,1,DECALGEO+TABPOSZY((J-1)*(PX*PY)+(K-1)*PY+L)).LT.KNOTLOCEL(1,1,I)+TOL.AND.
-     .             KNOTLOCPC(M+1,1,DECALGEO+TABPOSZY((J-1)*(PX*PY)+(K-1)*PY+L)).GT.KNOTLOCEL(2,1,I)-TOL) THEN
+                IF(KNOTLOCPC(M,1,DECALGEO+TABPOSZY((J-1)*(PX*PY)+(K-1)*PY+L))<KNOTLOCEL(1,1,I)+TOL.AND.
+     .             KNOTLOCPC(M+1,1,DECALGEO+TABPOSZY((J-1)*(PX*PY)+(K-1)*PY+L))>KNOTLOCEL(2,1,I)-TOL) THEN
 c la position en X de cette fonction est M : 1 la fonction est devant, PX la fonction est derriere
                   TABPOSZYX((J-1)*(PX*PY)+(K-1)*PY+M) = TABPOSZY((J-1)*(PX*PY)+(K-1)*PY+L)
                 ENDIF
@@ -434,15 +434,15 @@ CC VERIFICATION DE LA REORGANISATION DES TABLES DE CONNECTIVITE
 CC EN FONCTION DES ETENDUES KNOT DE L'ELEMENTS ET DES PC
 C-----------------------------------------------
 C
-        IF(FLAG_DEBUG.EQ.1) THEN
+        IF(FLAG_DEBUG==1) THEN
          DO J=1,KXIG3D(3,I)
            INCTRL=IXIG3D(KXIG3D(4,I)+J-1)
-           IF(KNOTLOCEL(1,1,I).LT.KNOTLOCPC(1,1,DECALGEO+INCTRL)-EM06 .OR.
-     .        KNOTLOCEL(2,1,I).GT.KNOTLOCPC(4,1,DECALGEO+INCTRL)+EM06 .OR.
-     .        KNOTLOCEL(1,2,I).LT.KNOTLOCPC(1,2,DECALGEO+INCTRL)-EM06 .OR.
-     .        KNOTLOCEL(2,2,I).GT.KNOTLOCPC(4,2,DECALGEO+INCTRL)+EM06 .OR.
-     .        KNOTLOCEL(1,3,I).LT.KNOTLOCPC(1,3,DECALGEO+INCTRL)-EM06 .OR.
-     .        KNOTLOCEL(2,3,I).GT.KNOTLOCPC(4,3,DECALGEO+INCTRL)+EM06) THEN
+           IF(KNOTLOCEL(1,1,I)<KNOTLOCPC(1,1,DECALGEO+INCTRL)-EM06 .OR.
+     .        KNOTLOCEL(2,1,I)>KNOTLOCPC(4,1,DECALGEO+INCTRL)+EM06 .OR.
+     .        KNOTLOCEL(1,2,I)<KNOTLOCPC(1,2,DECALGEO+INCTRL)-EM06 .OR.
+     .        KNOTLOCEL(2,2,I)>KNOTLOCPC(4,2,DECALGEO+INCTRL)+EM06 .OR.
+     .        KNOTLOCEL(1,3,I)<KNOTLOCPC(1,3,DECALGEO+INCTRL)-EM06 .OR.
+     .        KNOTLOCEL(2,3,I)>KNOTLOCPC(4,3,DECALGEO+INCTRL)+EM06) THEN
              print*,'DECALAGE : element : ',I,'point',INCTRL
              print*,'*************'
              DO K=1,KXIG3D(3,I)
@@ -463,17 +463,17 @@ C-----------------------------------------------
 
                INCTRL=IXIG3D(KXIG3D(4,I)+ITNCTRL-1)  !! IXIG3D range a l'envers 27->1
                INCTRL2=IXIG3D(KXIG3D(4,I)+ITNCTRL-1+1)  
-               IF(KNOTLOCPC(1,1,DECALGEO+INCTRL).LT.KNOTLOCPC(1,1,DECALGEO+INCTRL2)) THEN
+               IF(KNOTLOCPC(1,1,DECALGEO+INCTRL)<KNOTLOCPC(1,1,DECALGEO+INCTRL2)) THEN
                  print*,'MAUVAIS RANGEMENT DANS IXIG3D : element : ',I,'point',INCTRL
                ENDIF
 
                INCTRL3=IXIG3D(KXIG3D(4,I)+ITNCTRL-1+PX)  
-               IF(KNOTLOCPC(1,2,DECALGEO+INCTRL).LT.KNOTLOCPC(1,2,DECALGEO+INCTRL3)) THEN
+               IF(KNOTLOCPC(1,2,DECALGEO+INCTRL)<KNOTLOCPC(1,2,DECALGEO+INCTRL3)) THEN
                  print*,'MAUVAIS RANGEMENT DANS IXIG3D : element : ',I,'point',INCTRL
                ENDIF
 
                INCTRL4=IXIG3D(KXIG3D(4,I)+ITNCTRL-1+PX*PY)  
-               IF(KNOTLOCPC(1,3,DECALGEO+INCTRL).LT.KNOTLOCPC(1,3,DECALGEO+INCTRL4)) THEN
+               IF(KNOTLOCPC(1,3,DECALGEO+INCTRL)<KNOTLOCPC(1,3,DECALGEO+INCTRL4)) THEN
                  print*,'MAUVAIS RANGEMENT DANS IXIG3D : element : ',I,'point',INCTRL
                ENDIF
 

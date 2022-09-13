@@ -95,14 +95,14 @@ C----------------------------------------------------------------------
 C----------------------------- WINDOWS --------------------------------
 C----------------------------------------------------------------------         
 #if CPP_mach == CPP_p4win64 || CPP_mach == CPP_p4win32
-        IF (IPID.NE.0) CALL CREATE_CHILD(IPID_RET,FLG_SWALE)
+        IF (IPID/=0) CALL CREATE_CHILD(IPID_RET,FLG_SWALE)
 C----------------------------------------------------------------------         
 C-------------PGI -> LINUX / SUN -> SOLARISX64 / IBM -> AIX64----------
 C----------------------------------------------------------------------                 
 #elif CPP_mach == CPP_linux964 || CPP_mach == CPP_sun25 || CPP_mach == CPP_pwr4
         IPID = FORK()
 #if defined(_OPENMP)
-        IF (IPID.EQ.0) CALL OMP_SET_NUM_THREADS(NTHREAD_R2R)
+        IF (IPID==0) CALL OMP_SET_NUM_THREADS(NTHREAD_R2R)
 #endif         
 C----------------------------------------------------------------------         
 C-------------------INTEL -> LINUX/LINUXIA64/MACOSX--------------------
@@ -116,7 +116,7 @@ C----------------------------------------------------------------------
         CALL PXFGETPID(IPID_RET,IERROR)
 #endif
 #if defined(_OPENMP)
-        IF (IPID.EQ.0) CALL OMP_SET_NUM_THREADS(NTHREAD_R2R)
+        IF (IPID==0) CALL OMP_SET_NUM_THREADS(NTHREAD_R2R)
 #endif        
 #endif
 C----------------------------------------------------------------------         
@@ -124,7 +124,7 @@ C----------------------------------------------------------------------
         KDOM = KDOM + 1
         IPID_L = IPID
 C
-        IF (IPID.NE.0) THEN     
+        IF (IPID/=0) THEN     
 C----------------------------------------------------------------------
 C----------------------------- WINDOWS --------------------------------
 C----------------------------------------------------------------------         
@@ -150,8 +150,8 @@ C----------------------------------------------------------------------
             IDDOM = 0
             IDDOM_L = IDDOM
             CALL READ_FLAG_ALE(CHRUN)
-            IF (FLG_FSI.EQ.1) THEN
-              IF (FLG_SWALE.LT.1) THEN
+            IF (FLG_FSI==1) THEN
+              IF (FLG_SWALE<1) THEN
                 FLG_SWALE = FLG_SWALE + 1
                 DOM_SWITCH = KDOM
                 KDOM = KDOM - 1
@@ -165,10 +165,10 @@ C----------------------------------------------------------------------
      .              ANMODE=ANINFO)
                 IERR=IERR+1    
               ENDIF
-            ELSEIF (KDOM.LT.NSUBDOM) THEN
+            ELSEIF (KDOM<NSUBDOM) THEN
               GOTO 2000
             ENDIF
-            IF (FLG_SWALE.EQ.1) THEN
+            IF (FLG_SWALE==1) THEN
                IPID_L = 0
                IDDOM_L = 1
             ENDIF     
@@ -178,13 +178,13 @@ C----------------------------------------------------------------------
             CALL R2R_PRELEC_NAME(KDOM,LSUBMODEL)
             IDDOM = KDOM
             IDDOM_L = IDDOM
-            IF (FLG_SWALE.EQ.1) THEN
+            IF (FLG_SWALE==1) THEN
                IPID_L = 1
                IDDOM_L = 0
             ENDIF   
         ENDIF
 C
-        IF (IPID_L.NE.0) THEN    
+        IF (IPID_L/=0) THEN    
             WRITE(ISTDO,'(A)') '-----------------------------------' 
             WRITE(ISTDO,'(A)')' .. TREATMENT OF THE FULL DOMAIN'
             WRITE(ISTDO,'(A)') '-----------------------------------'
@@ -289,12 +289,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 
       SUCCESS = SETENVQQ("R2R_ENV_IPID=5")
-      IF (FLG_SWALE.GT.0) SUCCESS = SETENVQQ("R2R_ENV_SWALE=5")
+      IF (FLG_SWALE>0) SUCCESS = SETENVQQ("R2R_ENV_SWALE=5")
 
       CALL GET_COMMAND(COMMAND,LEN,STATUS)
       
 C-------Incompatibility of "<" remplaced by "-i" ----------------      
-      IF (LEN_TRIM(INPUT).EQ.0) THEN
+      IF (LEN_TRIM(INPUT)==0) THEN
         CALL ANCMSG(MSGID=840,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO)

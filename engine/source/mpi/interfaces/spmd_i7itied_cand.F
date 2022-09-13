@@ -176,11 +176,11 @@ C-----------------------------------------------
 
                 IADR(NSPMD+1)=LENRV+1
         !       allocate the sent/received buffer
-                IF(LENSD.GT.0) THEN
+                IF(LENSD>0) THEN
                         ALLOCATE(BBUFS(LENSD))
                         BBUFS(1:LENSD) = 0
                 ENDIF
-                IF(LENRV.GT.0) THEN
+                IF(LENRV>0) THEN
                         ALLOCATE(BBUFR(LENRV))
                         BBUFR(1:LENRV) = 0
                 ENDIF
@@ -235,7 +235,7 @@ C-----------------------------------------------
                                         ENDIF
                                 ENDDO  ! DO NI=1,NBINTC
                                 SIZ = L-IADS(P)
-                                IF(SIZ.GT.0)THEN
+                                IF(SIZ>0)THEN
                                         MSGTYP = MSGOFF
 
                                         CALL MPI_ISEND(BBUFS(IADS(P)),SIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,

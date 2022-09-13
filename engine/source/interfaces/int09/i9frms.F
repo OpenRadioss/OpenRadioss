@@ -65,7 +65,7 @@ C     REAL
      .   FSM, FXMN, FYMN, FZMN, FXMT, FYMT, FZMT, FSMT
 C-----------------------------------------------
 C
-      IF(N2D.EQ.0)THEN
+      IF(N2D==0)THEN
         NIR=4
       ELSE
         NIR=2
@@ -89,7 +89,7 @@ C
       DO 60 II=1,NSN
       I=NSV(II)
       J=ILOC(II)
-      IF(J.LT.1) GO TO 60
+      IF(J<1) GO TO 60
       L=IRTL(II)
       DO 20 JJ=1,NIR
       NN=IRECT(JJ,L)
@@ -109,7 +109,7 @@ C
       AA(2)=A(I2)
       AA(3)=A(I3)
 C
-      IF(N2D.EQ.0)THEN
+      IF(N2D==0)THEN
         CALL SHAPEH(H,SS,TT)
       ELSE
         H(1) = HALF*(ONE - SS)

@@ -190,7 +190,7 @@ C          STRAIN
             ISTRAIN= IPARG(44,NG)    
             NUVAR  = IPM(8,MT1)
             NUVARR = IPM(221,MT1) 
-            IF (MLW.GE.28.AND.MLW.NE.49)THEN
+            IF (MLW>=28.AND.MLW/=49)THEN
               DO I=1,NEL
                 EVAR(1,I) =  LBUF%STRA(JJ(1) + I)
                 EVAR(2,I) =  LBUF%STRA(JJ(2) + I)
@@ -221,7 +221,7 @@ C          STRAIN
                 IS_WRITTEN_TENSOR(I) = 1
               ENDDO
             ELSEIF(ISTRAIN == 1)THEN
-              IF(MLW.NE.14.AND.MLW.NE.24.AND.MLW.LT.28.OR.
+              IF(MLW/=14.AND.MLW/=24.AND.MLW<28.OR.
      .            MLW == 49)THEN               
                 DO I=1,NEL
                   EVAR(1,I) = LBUF%STRA(JJ(1) + I)

@@ -102,7 +102,7 @@ C Test succes du tri ?
 C
 
 
-      IF(RESULT.EQ.0) THEN
+      IF(RESULT==0) THEN
 C
 C Reperage des candidats
 C
@@ -110,8 +110,8 @@ C
         DO I = 1, I_STOK_E2E
           N = CANDS_E2E(I)
           NN = N-NEDGE
-          IF(NN.GT.0)THEN
-            IF(IREM_EDGE(1,NN).GT.0)THEN
+          IF(NN>0)THEN
+            IF(IREM_EDGE(1,NN)>0)THEN
               NEDGE_KEPT =  NEDGE_KEPT + 1
               IREM_EDGE(1,NN) = -IREM_EDGE(1,NN)
             ENDIF
@@ -122,8 +122,8 @@ C
           N = CANDS_E2S(I)
           NN = N-NEDGE
 C         WRITE(6,*) "CAND(",I,")=",N,NN
-          IF(NN.GT.0)THEN
-            IF(IREM_EDGE(1,NN).GT.0)THEN
+          IF(NN>0)THEN
+            IF(IREM_EDGE(1,NN)>0)THEN
               NEDGE_KEPT =  NEDGE_KEPT + 1
               IREM_EDGE(1,NN) = -IREM_EDGE(1,NN)
             ENDIF
@@ -209,9 +209,9 @@ C
 ! number of remote edges received from processor P in XREM
           NEDGE_REMOTE_OLD = NSNFIE(NIN)%P(P)         
 C         WRITE(6,*) ISPMD,"EDGE REMOTE TOTAL=",NEDGE_REMOTE_OLD
-          IF(NEDGE_REMOTE_OLD.NE.0) THEN
+          IF(NEDGE_REMOTE_OLD/=0) THEN
             DO I = 1, NEDGE_REMOTE_OLD
-              IF(IREM_EDGE(1,I+IDEB).LT.0) THEN          
+              IF(IREM_EDGE(1,I+IDEB)<0) THEN          
                  IREM_EDGE(1,I+IDEB) = - IREM_EDGE(1,I+IDEB)                 
 ! edge that are candidates     
                 NN = NN + 1
@@ -306,7 +306,7 @@ C Simple -> double -> simple = pb PON?
               ENDIF ! Kept edge
             ENDDO  ! NEDGE_REMOTE_OLD 
             IDEB = IDEB + NEDGE_REMOTE_OLD    
-          ENDIF !IF(NEDGE_REMOTE_OLD.NE.0) 
+          ENDIF !IF(NEDGE_REMOTE_OLD/=0) 
           ASSERT(NN - NNP >= 0)
           NSNFIE(NIN)%P(P) = NN-NNP 
         ENDDO  ! end do NSPMD           
@@ -328,11 +328,11 @@ C
 C
 C Allocation Parith/OFF
 C
-      IF(IPARIT.EQ.0) THEN
+      IF(IPARIT==0) THEN
         IF(ASSOCIATED(AFIE(NIN)%P)) DEALLOCATE(AFIE(NIN)%P)
         IF(ASSOCIATED(STNFIE(NIN)%P)) DEALLOCATE(STNFIE(NIN)%P)
-        IF(NODFI.GT.0)ALLOCATE(AFIE(NIN)%P(3,NODFI*NTHREAD))
-        IF(NODFI.GT.0)ALLOCATE(STNFIE(NIN)%P(NODFI*NTHREAD))
+        IF(NODFI>0)ALLOCATE(AFIE(NIN)%P(3,NODFI*NTHREAD))
+        IF(NODFI>0)ALLOCATE(STNFIE(NIN)%P(NODFI*NTHREAD))
 C Init a 0
         DO I = 1, NODFI*NTHREAD
           AFIE(NIN)%P(1,I) = ZERO
@@ -341,9 +341,9 @@ C Init a 0
           STNFIE(NIN)%P(I) = ZERO
         ENDDO
 C
-        IF(KDTINT.NE.0)THEN
+        IF(KDTINT/=0)THEN
           IF(ASSOCIATED(VSCFIE(NIN)%P)) DEALLOCATE(VSCFIE(NIN)%P)
-          IF(NODFI.GT.0)ALLOCATE(VSCFIE(NIN)%P(NODFI*NTHREAD))
+          IF(NODFI>0)ALLOCATE(VSCFIE(NIN)%P(NODFI*NTHREAD))
 C Init a 0
           DO I = 1, NODFI*NTHREAD
             VSCFIE(NIN)%P(I) = ZERO
@@ -361,10 +361,10 @@ C
           NULLIFY(FSKYFIE(NIN)%P)
           NULLIFY(ISKYFIE(NIN)%P)
           NLSKYFIE(NIN) = LSKYFI
-          IF(LSKYFI.GT.0) THEN
+          IF(LSKYFI>0) THEN
             ALLOCATE(ISKYFIE(NIN)%P(LSKYFI))
             ISKYFIE(NIN)%P(1:LSKYFI) = 0
-c           IF(KDTINT.EQ.0) THEN
+c           IF(KDTINT==0) THEN
 c             ALLOCATE(FSKYFIE(NIN)%P(8,LSKYFI))
 c           ELSE
               NFSKYIE = 8
@@ -382,7 +382,7 @@ C
       DO I = 1, I_STOK_E2E
         N = CANDS_E2E(I)
         NN = N-NEDGE
-        IF(NN.GT.0)THEN
+        IF(NN>0)THEN
           CANDS_E2E(I) = INDEX(NN)+NEDGE
         ENDIF
       ENDDO
@@ -392,7 +392,7 @@ C
       DO I = 1, I_STOK_E2S
         N = CANDS_E2S(I)
         NN = N-NEDGE
-        IF(NN.GT.0)THEN
+        IF(NN>0)THEN
           CANDS_E2S(I) = INDEX(NN)+NEDGE
         ENDIF
       ENDDO

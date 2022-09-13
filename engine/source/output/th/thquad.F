@@ -114,11 +114,11 @@ C-------------------------
 
 
 C decalage IH
-      DO WHILE((ITHBUF(IH+NN).NE.ISPMD).AND.(IH.LT.IADB+NN))
+      DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.(IH<IADB+NN))
           IH = IH + 1
         ENDDO
 C----
-        IF (IH.GE.IADB+NN) GOTO 666 
+        IF (IH>=IADB+NN) GOTO 666 
 C----
 c
       DO NG=1,NGROUP
@@ -164,8 +164,8 @@ Cel traitement specifique spmd
               IF (IMACH==3) THEN
 C recherche du ii correct
                 II = ((IH-1) - IADB)*NVAR
-                DO WHILE((ITHBUF(IH+NN).NE.ISPMD).AND.
-     .                   (IH.LT.IADB+NN))
+                DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.
+     .                   (IH<IADB+NN))
                   IH = IH + 1
                 ENDDO
               ENDIF
@@ -365,7 +365,7 @@ c                WWA(14)=MBUF%VAR(I+NEL*2)
                 WWA(12)=LBUF%PLA(I)
                 WWA(13)=LBUF%TEMP(I)
                 WWA(14)=LBUF%EPSD(I)
-              ELSEIF (MTE.GE.29.AND.MTE.NE.67) THEN
+              ELSEIF (MTE>=29.AND.MTE/=67) THEN
 C               User laws for quads
                 NUVAR = ELBUF_TAB(NG)%BUFLY(1)%NVAR_MAT
                 IF (NUVAR > 0) WWA(12)=MBUF%VAR(I)
@@ -461,10 +461,10 @@ C MACH NUMBER
      .                       MULTI_FVM%VEL(3, N)*MULTI_FVM%VEL(3, N)) / 
      .                       MULTI_FVM%SOUND_SPEED(N)
 
-              ELSEIF(I_ALE_SOLVER.GT.1)THEN
+              ELSEIF(I_ALE_SOLVER>1)THEN
 C SSP
                 WWA(239550)= LBUF%SSP(I)                              
-                IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP .NE. 0)THEN   
+                IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN   
                   VEL(1) = GBUF%MOM(JJ(1) + I) / GBUF%RHO(I) 
                   VEL(2) = GBUF%MOM(JJ(2) + I) / GBUF%RHO(I)
                   VEL(3) = GBUF%MOM(JJ(3) + I) / GBUF%RHO(I) 
@@ -477,7 +477,7 @@ C SSP
               ELSE IF (MTE==51 .AND. ITY == 2) THEN
 C SSP
                 WWA(239550)= LBUF%SSP(I)                                                 
-                IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP .NE. 0)THEN                      
+                IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN                      
                   IF(IS_ALE /= 0)THEN
 c                  !ale  
                      TMP(1,1:4)=V(1,IXQ(2:5,N))-W(1,IXQ(2:5,N))
@@ -501,7 +501,7 @@ c                  !ale
               ELSEIF (MTE==51 .AND. ITY == 7) THEN
 C SSP  
                 WWA(239550)= LBUF%SSP(I)                                                   
-                IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP .NE. 0)THEN                      
+                IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN                      
                   IF(IS_ALE /= 0)THEN
                   !ale  
                      TMP(1,1:3)=V(1,IXTG(2:4,N))-W(1,IXTG(2:4,N))

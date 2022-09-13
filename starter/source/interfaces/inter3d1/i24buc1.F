@@ -254,11 +254,11 @@ C-----il faut pas eliminer tiny penetration----
        PENMAX = MAX(PENSOL,GAP)
       END IF
 C 1er passage avec marge x2 pour trouver plus de candidats
-C      IF(IMACH.EQ.3.AND.IDDLEVEL.EQ.0) MARGE_ST = 2*MARGE_ST
-      IF(IMACH.EQ.3.AND.IDDLEVEL.EQ.0) MARGE_ST = MARGE
+C      IF(IMACH==3.AND.IDDLEVEL==0) MARGE_ST = 2*MARGE_ST
+      IF(IMACH==3.AND.IDDLEVEL==0) MARGE_ST = MARGE
       TZINF_ST = MARGE_ST + GAP + DGAPLOAD
       BID = FOUR_OVER_5*DD
-      IF (INACTI.NE.7.AND.TZINF.GT.BID) THEN
+      IF (INACTI/=7.AND.TZINF>BID) THEN
         IBID = NINT(TZINF/DD0)
         IBID =(2*IBID+4)*IBID*2
       ENDIF
@@ -480,15 +480,15 @@ C------------------
       ENDIF
 C     I_MEM = 1 ==> PAS ASSEZ DE MEMOIRE PILE
 C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
-      IF(I_MEM.EQ.1)THEN
+      IF(I_MEM==1)THEN
         NB_N_B = NB_N_B + 1
         I_MEM = 0
         GO TO 100
       ENDIF
-      IF(I_ADD.NE.0) GO TO 200
+      IF(I_ADD/=0) GO TO 200
 C     FIN BOUCLE TANT QUE
 C---------------------------------
-      IF(J_STOK.NE.0)THEN
+      IF(J_STOK/=0)THEN
          LFT = 1
          LLT = J_STOK
         IF (NSNE >0) THEN
@@ -527,14 +527,14 @@ C---------------------------------
      4                  P3   ,P4)
 
          IF (ILEV==2) CALL I24S1S2(PROV_N,PROV_E,NBINFLG,MBINFLG,PENE)
-         IF(I_STOK+J_STOK.LT.MULTIMP*NSN) THEN
+         IF(I_STOK+J_STOK<MULTIMP*NSN) THEN
           CALL I7CMP3(I_STOK,CAND_E  ,CAND_N,1,PENE,
      1                  PROV_N,PROV_E)
          ELSE
           I_BID = 0
           CALL I7CMP3(I_BID,CAND_E,CAND_N,0,PENE,
      1                  PROV_N,PROV_E)
-          IF(I_STOK+I_BID.LT.MULTIMP*NSN) THEN
+          IF(I_STOK+I_BID<MULTIMP*NSN) THEN
             CALL I7CMP3(I_STOK,CAND_E,CAND_N,1,PENE,
      1                  PROV_N,PROV_E)
           ELSE
@@ -547,7 +547,7 @@ C---------------------------------
 C
 
 #ifndef HYPERMESH_LIB
-      IF(NSN.NE.0)THEN
+      IF(NSN/=0)THEN
        WRITE(IOUT,*)' POSSIBLE IMPACT NUMBER, NSN:',I_STOK,NSN
 C
       ELSE

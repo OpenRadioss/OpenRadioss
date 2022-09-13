@@ -103,24 +103,24 @@ C
 C
       DO I=1,NSPROC
          IPRIM=GRAPHE(I)%IPRI
-         IF (IPRIM.LT.0) THEN
+         IF (IPRIM<0) THEN
             IPRIM=ABS(IPRIM)-1
             IPRIB=1
          ELSE
             IPRIB=0
          ENDIF
 C
-         IF (IMACH.NE.3.AND.IPRIM.GT.0) THEN
+         IF (IMACH/=3.AND.IPRIM>0) THEN
             WRITE(IOUT,'(A)') '   ##########################'
             WRITE(IOUT,'(A14,I8)') '   SUBTREE: ',I
             WRITE(IOUT,'(A)') '   ##########################'
-         ELSEIF (IMACH.EQ.3.AND.IPRIM.GT.0) THEN
+         ELSEIF (IMACH==3.AND.IPRIM>0) THEN
             WRITE(IOUT,*)
             WRITE(IOUT,'(A)') 
      .      '   ##############################################'
-            IF (IOPT.EQ.1) WRITE(IOUT,'(A36,I8)')
+            IF (IOPT==1) WRITE(IOUT,'(A36,I8)')
      .      '   STATIC CONDENSATION INFO - PROC: ',ISPMD
-            IF (IOPT.EQ.2) WRITE(IOUT,'(A37,I8)')
+            IF (IOPT==2) WRITE(IOUT,'(A37,I8)')
      .      '   DYNAMIC CONDENSATION INFO - PROC: ',ISPMD
             WRITE(IOUT,'(A)') 
      .      '   ##############################################'
@@ -138,11 +138,11 @@ C
          ISUPEL=0
 C
          IPRW=I
-         IF (IMACH.EQ.3) IPRW=ISPMD
+         IF (IMACH==3) IPRW=ISPMD
 C  
          DO ILVL=1,NSLEVEL
 C
-            IF (IPRIM.GT.0) THEN
+            IF (IPRIM>0) THEN
                WRITE(IOUT,'(A12,I8)') '     LEVEL: ',ILVL
                WRITE(IOUT,'(A)') '     ---------------'
             ENDIF
@@ -155,14 +155,14 @@ C Timer
 C
                ISD=OFFSD+J
 C
-               IF (IPRIM.GT.0) 
+               IF (IPRIM>0) 
      .            WRITE(IOUT,'(A21,I10)') '       SUPERELEMENT: ',ISD
 C
                NDDL_I=GRAPHE(I)%DGRAPH(ISD)%NDDL_I
                NDDL_F=GRAPHE(I)%DGRAPH(ISD)%NDDL_F
                NSDMAX=GRAPHE(I)%DGRAPH(ISD)%NSDMAX
 C
-               IF (IOPT.EQ.1) THEN
+               IF (IOPT==1) THEN
                   DO II=1,NSCM
                      DO JJ=1,NDDL_F
                         GRAPHE(I)%DGRAPH(ISD)%B(II,JJ)=ZERO
@@ -172,17 +172,17 @@ C
 C
                ISUPEL=ISUPEL+1
                ISTEP=1
-               IF (IMACH.NE.3.AND.IPRIB.EQ.1) THEN
+               IF (IMACH/=3.AND.IPRIB==1) THEN
                   CALL PROGCOND_C(ISUPEL, DSLEN, I, 
      .                            NSLEVEL-ILVL+1, ISD, ISTEP)
-               ELSEIF (IPRIB.EQ.1) THEN
+               ELSEIF (IPRIB==1) THEN
 C On fait un affichage interactif de l'avancement des procs si NSPMD
 C est inferieur a 16 
 C On affiche rien sinon
-                  IF (NSPMD.LE.16) 
+                  IF (NSPMD<=16) 
      .               CALL PROGCONDP_C(ISUPEL, DSLEN, ISPMD+1, ISD)
                ENDIF
-               IF (ILVL.EQ.1) THEN
+               IF (ILVL==1) THEN
 C----------------------------------
 C Condensation au niveau le plus bas : extraction de la rigidite 
 C et de la masse
@@ -191,9 +191,9 @@ C----------------------------------
                   LDMF=NDDL_F
                   LDMI=NDDL_I
                   ALLOCATE(KL(LEN1,LEN1))
-                  IF (IOPT.EQ.1) THEN
+                  IF (IOPT==1) THEN
                      ALLOCATE(BL(NSCM,NDDL_I), ML(0,0))
-                  ELSEIF (IOPT.EQ.2) THEN
+                  ELSEIF (IOPT==2) THEN
                      ALLOCATE(BL(0,0), ML(LEN1,1))
                   ENDIF
                   CALL DSEXTR1(K_DIAG, K_LT, IADK, JDIK, NDDL_I,
@@ -224,9 +224,9 @@ C
                   LDMI=NDDL_I2
                   NDDL_M=NDDL_I2-NDDL_I
                   ALLOCATE(KL(LEN1,LEN1))
-                  IF (IOPT.EQ.1) THEN
+                  IF (IOPT==1) THEN
                      ALLOCATE(BL(NSCM,NDDL_I2), ML(0,0))
-                  ELSEIF (IOPT.EQ.2) THEN
+                  ELSEIF (IOPT==2) THEN
                      ALLOCATE(BL(0,0), ML(LEN1,LEN1))
                   ENDIF
                   CALL DSEXTR2(GRAPHE, I,      ISD,    KL,   ML,
@@ -234,13 +234,13 @@ C
      .                         BL,     B     , IOPT  )
                ENDIF
 C
-               IF (IOPT.EQ.2) THEN
-                  IF (IMDIAG.EQ.0) THEN
+               IF (IOPT==2) THEN
+                  IF (IMDIAG==0) THEN
                      ALLOCATE(MLB(NDDL_F,NDDL_F), MLC(NDDL_F,NDDL_I2),
      .                        MLI(NDDL_I2, NDDL_I2))
                      CALL DSEXTR3(ML,     MLB,     MLC, MLI, NDDL_F, 
      .                            NDDL_I2)
-                  ELSEIF (IMDIAG.EQ.1) THEN
+                  ELSEIF (IMDIAG==1) THEN
                      ALLOCATE(MLB(NDDL_F,1), MLC(0,0), MLI(NDDL_I2,1))
                      DO II=1,NDDL_F
                         MLB(II,1)=ML(II,1)
@@ -259,15 +259,15 @@ C
 C
                CALL MY_ETIME(DSTIME(3))
                ISTEP=2
-               IF (IMACH.NE.3.AND.IPRIB.EQ.1) 
+               IF (IMACH/=3.AND.IPRIB==1) 
      .            CALL PROGCOND_C(ISUPEL, DSLEN, I, 
      .                            NSLEVEL-ILVL+1, ISD, ISTEP)
 C
                NVD=0
-               IF (IOPT.EQ.2) THEN
+               IF (IOPT==2) THEN
 C Modes dynamiques encastres
                   ALLOCATE(VD(NDDL_I2,NSVMAX), FREQ(NSVMAX))
-                  IF (NDDL_I2.GT.0)
+                  IF (NDDL_I2>0)
      .               CALL DSDYN(KLI,    MLI,  NDDL_F, NDDL_I2, NM,
      .                          MAXITR, TOL,  VD,     NSVMAX,  NVD,
      .                          CUTFRQ, NBLF, IPRIM,  IMDIAG,  IPRW,
@@ -283,7 +283,7 @@ C Modes statiques + equilibre forces sur ddls internes
      .                     GRAPHE(I)%DGRAPH(ISD)%IFI,
      .                     ISING ,KLIPIV)
 C
-               IF (ISING.GT.0) THEN
+               IF (ISING>0) THEN
                   II=GRAPHE(I)%DGRAPH(ISD)%DDLS(NDDL_F+ISING)
                   CALL ANCMSG(MSGID=38,ANMODE=ANINFO_BLIND,
      .            I1=ISING,
@@ -293,12 +293,12 @@ C
                ENDIF
 C
                ISTEP=3
-               IF (IMACH.NE.3.AND.IPRIB.EQ.1) 
+               IF (IMACH/=3.AND.IPRIB==1) 
      .            CALL PROGCOND_C(ISUPEL, DSLEN, I, 
      .                            NSLEVEL-ILVL+1, ISD, ISTEP)
 C Ecriture de l'inverse de la matrice de rigidite interne
 C sur fichier acces direct pour utilisation dans DSCDF
-               IF (IWKLI.EQ.1) THEN
+               IF (IWKLI==1) THEN
                   GRAPHE(I)%DGRAPH(ISD)%KIREC=IREC
                   CALL DSWRKLI(KLI, KLIPIV, NDDL_I2, IFILE, IREC)
                ENDIF
@@ -313,14 +313,14 @@ C
                CALL MY_ETIME(DSTIME(11))
                DEALLOCATE(KLB,KLC,KLI,KLIPIV)
 C
-               IF (IOPT.EQ.2) THEN
+               IF (IOPT==2) THEN
                   GRAPHE(I)%DGRAPH(ISD)%MREC=IREC
                   CALL DSMCOND(MLB,  MLC,    MLI,    NDDL_I2, NDDL_F, 
      .                         VS,   VD,     IFILE,  IREC,    NVD,
      .                         LEN1, IMDIAG, DSTIME, LDMF,    LDMI  )
                   DEALLOCATE(MLB,MLC,MLI)
                ENDIF
-               IF (IOPT.EQ.1) THEN
+               IF (IOPT==1) THEN
                   DSTIME(13)=DSTIME(11)
                   DSTIME(14)=DSTIME(12)
                ENDIF
@@ -336,7 +336,7 @@ C
                      IREC=IREC+1
                   ENDDO
                   NR=NDDL_I2-(NDDL_I2/10)*10
-                  IF (NR.GT.0) THEN
+                  IF (NR>0) THEN
                      WRITE(IFILE,REC=IREC) (VS(IAD+K,II),K=1,NR)
                      IREC=IREC+1
                   ENDIF
@@ -349,7 +349,7 @@ C
                      IREC=IREC+1
                   ENDDO
                   NR=NDDL_I2-(NDDL_I2/10)*10
-                  IF (NR.GT.0) THEN
+                  IF (NR>0) THEN
                      WRITE(IFILE,REC=IREC) (VD(IAD+K,II),K=1,NR)
                      IREC=IREC+1
                   ENDIF
@@ -357,12 +357,12 @@ C
 C
                CALL MY_ETIME(DSTIME(17))
 C
-               IF (IOPT.EQ.2) THEN
+               IF (IOPT==2) THEN
                   DEALLOCATE(VD, VS, FREQ, BL)
                   GOTO 100
                ENDIF
 C Condensation des forces portant sur les ddls internes
-               IF (NDDL_I2.GT.0.AND.NSCM.GT.0) 
+               IF (NDDL_I2>0.AND.NSCM>0) 
      .            CALL DGEMM(
      .           'N', 'N',                     NSCM,   NDDL_F, NDDL_I2,
      .           ONE,  BL,                      NSCM,   VS,     NDDL_I2,
@@ -393,9 +393,9 @@ C
                TTOT(2)   = DSTIME(20) - DSTIME(2)
                TTOTD(1)  = TTOT(1)
                TTOTD(2)  = TTOT(2)
-               IF (TTOTD(1).EQ.ZERO) TTOTD(1)=EP30
-               IF (TTOTD(2).EQ.ZERO) TTOTD(2)=EP30
-               IF (IPRIM.GT.1) WRITE(IOUT,1000) NDDL_F, NDDL_I2,
+               IF (TTOTD(1)==ZERO) TTOTD(1)=EP30
+               IF (TTOTD(2)==ZERO) TTOTD(2)=EP30
+               IF (IPRIM>1) WRITE(IOUT,1000) NDDL_F, NDDL_I2,
      .                               NDDL_F, NVD,
      .                               TTOT(1),
      .                               NINT(TEXTR(1) /TTOTD(1)*100),
@@ -475,7 +475,7 @@ C
          ENDDO
       ENDDO
 C
-      IF (NDI.GT.0.AND.NDF.GT.0)
+      IF (NDI>0.AND.NDF>0)
      .   CALL DGEMM('N', 'N', NDF, NDF, NDI,
      .              ONE,  KLC, NDF, VS,  NDI,
      .              ONE,  KPS, NDF) 
@@ -509,7 +509,7 @@ C
          IREC=IREC+1
       ENDDO
       NR=LEN-(LEN/10)*10
-      IF (NR.GT.0) THEN
+      IF (NR>0) THEN
          WRITE(IFILE,REC=IREC) (KP(IAD+J),J=1,NR)
          IREC=IREC+1
       ENDIF
@@ -564,7 +564,7 @@ C
       NLT=MAX(NDF,NVD)
       ALLOCATE(MPS(NDF,NDF), MPC(NDF,NVD), MTMP(NRT,NLT), MP(LEN))
 C
-      IF (IMDIAG.EQ.1) THEN
+      IF (IMDIAG==1) THEN
          DO I=1,NDF
             DO J=1,NDF
                MPS(I,J)=ZERO
@@ -576,7 +576,7 @@ C
                MTMP(I,J)=VS(I,J)*MLI(I,1)
             ENDDO
          ENDDO
-         IF (NDI.GT.0.AND.NDF.GT.0) 
+         IF (NDI>0.AND.NDF>0) 
      .      CALL DGEMM('T', 'N', NDF, NDF,  NDI,
      .                 ONE,  VS,  NDI, MTMP, NRT,
      .                 ONE,  MPS, NDF)
@@ -586,7 +586,7 @@ C
                MTMP(I,J)=VD(I,J)*MLI(I,1)
             ENDDO
          ENDDO
-         IF (NDI.GT.0.AND.NDF.GT.0) 
+         IF (NDI>0.AND.NDF>0) 
      .      CALL DGEMM('T',  'N', NDF, NVD,  NDI,
      .                 ONE,   VS,  NDI, MTMP, NRT,
      .                 ZERO, MPC, NDF)
@@ -595,14 +595,14 @@ C
             MPII(I)=ONE
          ENDDO
 C
-      ELSEIF (IMDIAG.EQ.0) THEN
+      ELSEIF (IMDIAG==0) THEN
          DO I=1,NDF
             DO J=1,NDF
                MPS(I,J)=MLB(I,J)
             ENDDO
          ENDDO
 C
-         IF (NDI.GT.0.AND.NDF.GT.0) THEN
+         IF (NDI>0.AND.NDF>0) THEN
 *            CALL MY_ETIME(TMCOND(1))
             CALL DGEMM('N',  'N',  NDI, NDF, NDI,
      .                 ONE,   MLI,  NDI, VS,  NDI,
@@ -692,7 +692,7 @@ C
          IREC=IREC+1
       ENDDO
       NR=LEN-(LEN/10)*10
-      IF (NR.GT.0) THEN
+      IF (NR>0) THEN
          WRITE(IFILE,REC=IREC) (MP(IAD+J),J=1,NR)
          IREC=IREC+1
       ENDIF
@@ -736,7 +736,7 @@ C
          IREC=IREC+1
       ENDDO
       NR=LEN-(LEN/10)*10
-      IF (NR.GT.0) THEN
+      IF (NR>0) THEN
          WRITE(IFILE,REC=IREC) (KLI(IAD+J),J=1,NR)
          IREC=IREC+1
       ENDIF
@@ -752,7 +752,7 @@ C
          IREC=IREC+1
       ENDDO
       NR=LEN-(LEN/10)*10
-      IF (NR.GT.0) THEN
+      IF (NR>0) THEN
          WRITE(IFILE,REC=IREC) (RPIV(IAD+J),J=1,NR)
          IREC=IREC+1
       ENDIF

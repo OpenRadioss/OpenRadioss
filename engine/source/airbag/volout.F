@@ -48,7 +48,7 @@ C-----------------------------------------------
       my_real
      .   VOL,AREA
 C-----------------------------------------------
-      IF (ISPMD+1.EQ.PMAIN) THEN
+      IF (ISPMD+1==PMAIN) THEN
         AREA = RVOLU(18)
 C
         FSAV(1)=ZERO

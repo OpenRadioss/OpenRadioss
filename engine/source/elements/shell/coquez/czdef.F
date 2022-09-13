@@ -58,7 +58,7 @@ C-----------------------------------------------
      .   RSOM(2),RHI(2),
      .   BXV2,BYV1,BXR1,BYR2
 C-----------------------------------------------
-      IF (IVECTOR.EQ.1) THEN
+      IF (IVECTOR==1) THEN
        DO I=JFT,JLT
         R13(1) =(RLXYZV(I,1,1)-RLXYZV(I,1,3))*AA(I)
         R24(1) =(RLXYZV(I,1,2)-RLXYZV(I,1,4))*AA(I)
@@ -177,9 +177,9 @@ C
         OFF(I) = MIN(ONE,ABS(OFFG(I)))
         OFF_L  = MIN(OFF_L,OFFG(I))
       ENDDO
-      IF(OFF_L.LT.ZERO)THEN
+      IF(OFF_L<ZERO)THEN
         DO I=JFT,JLT
-         IF(OFFG(I).LT.ZERO)THEN
+         IF(OFFG(I)<ZERO)THEN
           VDEF(I,1)=ZERO
           VDEF(I,2)=ZERO
           VDEF(I,3)=ZERO

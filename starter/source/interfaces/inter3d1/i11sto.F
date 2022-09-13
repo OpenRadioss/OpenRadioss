@@ -83,12 +83,12 @@ C-----------------------------------------------
 C elimination des couples deja trouves dans 1 boite precedente
 C-----------------------------------------------
         DO I=1,J_STOK
-          IF(PENE(I).NE.0.0)THEN
+          IF(PENE(I)/=0.0)THEN
             IAD=ADDCM(PROV_E(I))
             J=0
-            DO WHILE(IAD.NE.0.AND.J.LT.MULTIMP*NSN)
+            DO WHILE(IAD/=0.AND.J<MULTIMP*NSN)
               J=J+1
-              IF(CHAINE(1,IAD).EQ.PROV_N(I))THEN
+              IF(CHAINE(1,IAD)==PROV_N(I))THEN
                 PENE(I) = ZERO
                 IAD=0
               ELSE
@@ -96,16 +96,16 @@ C-----------------------------------------------
                 IAD=CHAINE(2,IAD)
               ENDIF
             ENDDO
-            IF(PENE(I).NE.ZERO)THEN
+            IF(PENE(I)/=ZERO)THEN
               K_STOK = K_STOK + 1
-              IF(I_STOK+K_STOK.GT.MULTIMP*NSN) THEN
+              IF(I_STOK+K_STOK>MULTIMP*NSN) THEN
                 I_MEM = 2
                 RETURN
               ENDIF
               IADFIN=IADFIN+1
               CHAINE(1,IADFIN)=PROV_N(I)
               CHAINE(2,IADFIN)=0
-              IF(ADDCM(PROV_E(I)).EQ.0)THEN
+              IF(ADDCM(PROV_E(I))==0)THEN
                 ADDCM(PROV_E(I))=IADFIN
               ELSE
                 CHAINE(2,IAD0(I))=IADFIN
@@ -114,14 +114,14 @@ C-----------------------------------------------
           ENDIF
         ENDDO
 C
-        IF(K_STOK.EQ.0)RETURN
+        IF(K_STOK==0)RETURN
 C
         II_STOK   = I_STOK + K_STOK
 C-----------------------------------------------
 C stockage des couples candidats
 C-----------------------------------------------
         DO I=1,J_STOK
-          IF(PENE(I).NE.ZERO)THEN
+          IF(PENE(I)/=ZERO)THEN
             I_STOK = I_STOK + 1
             CAND_N(I_STOK) = PROV_N(I)
             CAND_E(I_STOK) = PROV_E(I)
@@ -192,12 +192,12 @@ C-----------------------------------------------
 C elimination des couples deja trouves dans 1 boite precedente
 C-----------------------------------------------
         DO I=1,J_STOK
-          IF(PENE(I).NE.0.0)THEN
+          IF(PENE(I)/=0.0)THEN
             IAD=ADDCM(PROV_E(I))
             J=0
-            DO WHILE(IAD.NE.0.AND.J.LT.MULTIMP*NSN)
+            DO WHILE(IAD/=0.AND.J<MULTIMP*NSN)
               J=J+1
-              IF(CHAINE(1,IAD).EQ.PROV_N(I))THEN
+              IF(CHAINE(1,IAD)==PROV_N(I))THEN
                 PENE(I) = ZERO
                 IAD=0
               ELSE
@@ -205,16 +205,16 @@ C-----------------------------------------------
                 IAD=CHAINE(2,IAD)
               ENDIF
             ENDDO
-            IF(PENE(I).NE.ZERO)THEN
+            IF(PENE(I)/=ZERO)THEN
               K_STOK = K_STOK + 1
-              IF(I_STOK+K_STOK.GT.MULTIMP*NSN) THEN
+              IF(I_STOK+K_STOK>MULTIMP*NSN) THEN
                 I_MEM = 2
                 RETURN
               ENDIF
               IADFIN=IADFIN+1
               CHAINE(1,IADFIN)=PROV_N(I)
               CHAINE(2,IADFIN)=0
-              IF(ADDCM(PROV_E(I)).EQ.0)THEN
+              IF(ADDCM(PROV_E(I))==0)THEN
                 ADDCM(PROV_E(I))=IADFIN
               ELSE
                 CHAINE(2,IAD0(I))=IADFIN
@@ -223,14 +223,14 @@ C-----------------------------------------------
           ENDIF
         ENDDO
 C
-        IF(K_STOK.EQ.0)RETURN
+        IF(K_STOK==0)RETURN
 C
         II_STOK   = I_STOK + K_STOK
 C-----------------------------------------------
 C stockage des couples candidats
 C-----------------------------------------------
         DO I=1,J_STOK
-          IF(PENE(I).NE.ZERO)THEN
+          IF(PENE(I)/=ZERO)THEN
             I_STOK = I_STOK + 1
             CAND_N(I_STOK) = PROV_N(I)
             CAND_E(I_STOK) = PROV_E(I)

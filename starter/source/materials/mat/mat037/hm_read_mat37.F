@@ -113,8 +113,8 @@ C-----------------------------------------------
       !================================= !
       ! Communicate LAW to ALEMUSC_MOD  !
       !=================================!
-      IF (IALEMUSCl .GT. 0) I_LAW = 37
-      IF(TRIMAT.EQ.0)TRIMAT = -2 !allows to detect bimaterial law BIMAT/BIPHAS (used for /ANIM/BRIC/VFRAC)
+      IF (IALEMUSCl > 0) I_LAW = 37
+      IF(TRIMAT==0)TRIMAT = -2 !allows to detect bimaterial law BIMAT/BIPHAS (used for /ANIM/BRIC/VFRAC)
 
       CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
 
@@ -137,12 +137,12 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('Bulk_Ratio_g'   ,VISV2   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 
       IRHO=0
-      IF(GAM*C1.EQ.0)IRHO=INT(P0)
+      IF(GAM*C1==0)IRHO=INT(P0)
      
       !--------------------------------!
       !     INPUT CHECK                !
       !--------------------------------!      
-      IF(A1.LT.ZERO .OR. A1.GT.ONE)THEN
+      IF(A1<ZERO .OR. A1>ONE)THEN
         chain1 = 'INITIAL MASSIC FRACTION MUST BE BETWEEN 0 AND 1.              '        
         CALL ANCMSG(MSGID=65,                                               
      .              MSGTYPE=MSGERROR,                                    
@@ -155,7 +155,7 @@ C-----------------------------------------------
        A1 = ONE        
       ENDIF
       
-      IF(RHO10.LT.ZERO .OR. RHO20.LT.ZERO)THEN
+      IF(RHO10<ZERO .OR. RHO20<ZERO)THEN
         chain1 = 'INITIAL DENSITY CANNOT BE NEGATIVE.                           '        
         CALL ANCMSG(MSGID=65,                                               
      .              MSGTYPE=MSGERROR,                                    
@@ -165,8 +165,8 @@ C-----------------------------------------------
      .              C1='ERROR',                                          
      .              C2=TITR,                                               
      .              C3=chain1) 
-        IF(RHO10.LT.ZERO)RHO10 = EM20
-        IF(RHO20.LT.ZERO)RHO20 = EM20       
+        IF(RHO10<ZERO)RHO10 = EM20
+        IF(RHO20<ZERO)RHO20 = EM20       
       ENDIF      
            
       !--------------------------------!
@@ -177,9 +177,9 @@ C-----------------------------------------------
       !ISOLVER = 0 :default
       !ISOLVER = 1 : historical solver
       !ISOLVER = 2 : new solver (2018.0)
-      IF(INVERS_INIT.GE.2017)THEN
+      IF(INVERS_INIT>=2017)THEN
         ISOLVER = NINT(RHOR)
-        IF(ISOLVER.LE.0 .OR. ISOLVER.GE.3)THEN 
+        IF(ISOLVER<=0 .OR. ISOLVER>=3)THEN 
           ISOLVER = 1
         ENDIF
       ELSE
@@ -188,8 +188,8 @@ C-----------------------------------------------
       IF(INT22 > 0) ISOLVER = 2
 
       !===NEW PRESSURE SHIFT PARAM (2018.0)
-      IF(INVERS_INIT.GE.2017)THEN
-        IF(PSHIFT.EQ.ZERO)THEN 
+      IF(INVERS_INIT>=2017)THEN
+        IF(PSHIFT==ZERO)THEN 
           PSHIFT=-P0
         ELSE
           PSHIFT = - PSHIFT
@@ -252,11 +252,11 @@ C-----------------------------------------------
       !--------------------------------!
       !     PRINTOUT                   !
       !--------------------------------!
-      IF(GAM*C1.GT.0.)THEN
+      IF(GAM*C1>0.)THEN
         WRITE(IOUT,1011) TRIM(TITR),MAT_ID,37
         WRITE(IOUT,1000)
 
-        IF(ISOLVER.EQ.2)WRITE(IOUT,1102)
+        IF(ISOLVER==2)WRITE(IOUT,1102)
         IF(IS_CRYPTED)THEN
           WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
         ELSE

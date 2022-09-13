@@ -536,7 +536,7 @@ c
           ES6(I) = TWO*ES6(I)
         ENDDO
 c-------------------------------       
-      ELSEIF (ISMSTR.EQ.11) THEN
+      ELSEIF (ISMSTR==11) THEN
 c-------------------------------       
         DO I=LFT,LLT
           ES1(I)=MFXX(I)
@@ -638,7 +638,7 @@ c---------------------------------------------------------
 !!!
           ENDIF
           DO I=LFT,LLT
-            IF(U_TAGPLAS(I).NE.0)THEN
+            IF(U_TAGPLAS(I)/=0)THEN
               SIGY(I)=U_YELD(I)
               DEFP(I)=U_DEFP(I)
 cc              DPLA(I) = DEFP(I) - DEFP0(I)              
@@ -687,7 +687,7 @@ cc              DPLA(I) = DEFP(I) - DEFP0(I)
 !!!
           ENDIF
           DO I=LFT,LLT
-            IF(U_TAGPLAS(I).NE.0)THEN
+            IF(U_TAGPLAS(I)/=0)THEN
               SIGY(I)=U_YELD(I)
               DEFP(I)=U_DEFP(I)
 cc              DPLA(I) = DEFP(I) - DEFP0(I)              
@@ -736,7 +736,7 @@ cc              DPLA(I) = DEFP(I) - DEFP0(I)
 !!!
           ENDIF
           DO I=LFT,LLT
-            IF(U_TAGPLAS(I).NE.0)THEN
+            IF(U_TAGPLAS(I)/=0)THEN
               SIGY(I)=U_YELD(I)
               DEFP(I)=U_DEFP(I)
 cc              DPLA(I) = DEFP(I) - DEFP0(I)              
@@ -819,7 +819,7 @@ C Fill Structure in dynamical library
      *             S2,     S3,  S4,  S5,  S6,  SV1,  SV2,
      *             SV3,    SV4, SV5, SV6 )
      
-           IF(DLIBTKVERS .GE. 1301501260)THEN
+           IF(DLIBTKVERS >= 1301501260)THEN
              SIZNUL=0           
              CALL ENG_USERLIB_GET_LAW_VAR_2(
      *         FPSXX  ,MVSIZ ,FPSYY  ,MVSIZ ,
@@ -864,7 +864,7 @@ C Get back results from structure in user library
      *                 SV1, SV2,  SV3,SV4, SV5, SV6,
      *                 DPLA )
      
-           IF(DLIBTKVERS .GE. 1301501260)THEN
+           IF(DLIBTKVERS >= 1301501260)THEN
              SIZNUL=0           
              CALL ENG_USERLIB_SET_LAW_VAR_2(BID_ARR,SIZNUL,BID_ARR,SIZNUL,
      *                                      BID_ARR,SIZNUL,BID_ARR,SIZNUL,BID_ARR,SIZNUL,BID_ARR,SIZNUL,

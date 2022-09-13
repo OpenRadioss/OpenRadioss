@@ -108,7 +108,7 @@ C
        ENDDO
       ENDIF
 C
-      IF (N2D == 0 .AND. IALE+IEULER+ITHERM.GT.0)THEN
+      IF (N2D == 0 .AND. IALE+IEULER+ITHERM>0)THEN
         DO I = 1, LSKY
           FSKYM(I)=ZERO
         ENDDO
@@ -149,15 +149,15 @@ C
          DO I = 1, NSPMD
            IADSDP(I)=LSD
            IADRCP(I)=LRC
-           IF(I.NE.LOC_PROC) THEN
+           IF(I/=LOC_PROC) THEN
              DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                NOD = FR_ELEM(J)
                DO CC = ADDCNE(NOD),ADDCNE(NOD+1)-1
-                 IF(PROCNE(CC).EQ.LOC_PROC) THEN
+                 IF(PROCNE(CC)==LOC_PROC) THEN
                    FR_NBCC(1,I) = FR_NBCC(1,I)+1
                    ISENDP(LSD) = CC
                    LSD = LSD + 1
-                 ELSEIF(PROCNE(CC).EQ.I) THEN
+                 ELSEIF(PROCNE(CC)==I) THEN
                    FR_NBCC(2,I) = FR_NBCC(2,I)+1
                    IRECVP(LRC) = CC
                    LRC = LRC + 1
@@ -176,15 +176,15 @@ C
 C           
            IADSDP_PXFEM(I)=LSD1
            IADRCP_PXFEM(I)=LRC1
-           IF(I.NE.LOC_PROC) THEN
+           IF(I/=LOC_PROC) THEN
              DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                NOD = FR_ELEM(J)
                DO CC = ADDCNE(NOD),ADDCNE(NOD+1)-1
-                 IF(PROCNE(CC).EQ.LOC_PROC) THEN
+                 IF(PROCNE(CC)==LOC_PROC) THEN
                    FR_NBCC(1,I) = FR_NBCC(1,I)+1
                    ISENDP(LSD) = CC
                    LSD = LSD + 1
-                 ELSEIF(PROCNE(CC).EQ.I) THEN
+                 ELSEIF(PROCNE(CC)==I) THEN
                    FR_NBCC(2,I) = FR_NBCC(2,I)+1
                    IRECVP(LRC) = CC
                    LRC = LRC + 1
@@ -193,11 +193,11 @@ C
                NOD1 = INOD_PXFEM(NOD)
                IF(NOD1 > 0 ) THEN
                    DO CC = ADDCNE_PXFEM(NOD1),ADDCNE_PXFEM(NOD1+1)-1
-                    IF(PROCNE_PXFEM(CC).EQ.LOC_PROC) THEN
+                    IF(PROCNE_PXFEM(CC)==LOC_PROC) THEN
                       FR_NBCC1(1,I) = FR_NBCC1(1,I)+1
                       ISENDP_PXFEM(LSD1) = CC
                       LSD1 = LSD1 + 1
-                    ELSEIF(PROCNE_PXFEM(CC).EQ.I) THEN
+                    ELSEIF(PROCNE_PXFEM(CC)==I) THEN
                       FR_NBCC1(2,I) = FR_NBCC1(2,I)+1
                       IRECVP_PXFEM(LRC1) = CC
                       LRC1 = LRC1 + 1
@@ -245,11 +245,11 @@ c---
 c
 		              IF (XFEM_REM_COUNT /= 0) THEN                                 
                   DO CC = ADDCNE_CRKXFEM(NOD1),ADDCNE_CRKXFEM(NOD1+1)-1       
-                    IF (PROCNE_CRKXFEM(CC).EQ.LOC_PROC) THEN                  
+                    IF (PROCNE_CRKXFEM(CC)==LOC_PROC) THEN                  
                       FR_NBCC1(1,I) = FR_NBCC1(1,I)+1                         
                       ISENDP_CRKXFEM(LSD1) = CC                               
                       LSD1 = LSD1 + 1                                         
-                    ELSEIF (PROCNE_CRKXFEM(CC).EQ.I) THEN                     
+                    ELSEIF (PROCNE_CRKXFEM(CC)==I) THEN                     
                       FR_NBCC1(2,I) = FR_NBCC1(2,I)+1                         
                       IRECVP_CRKXFEM(LRC1) = CC                               
                       LRC1 = LRC1 + 1                                         
@@ -290,7 +290,7 @@ C
 C-----------------------------------------------
 C Optimisation vectorielle de asspar4
 C-----------------------------------------------
-      IF (IVECTOR.EQ.1) THEN
+      IF (IVECTOR==1) THEN
 Cel index : 2*numnod
 Cel indsky : numnod
         DO N = 1, NUMNOD
@@ -307,15 +307,15 @@ C
         NC1 = -1
         I = 1
         NBLOC = 0
-        DO WHILE (I.LE.NUMNOD)
+        DO WHILE (I<=NUMNOD)
           N = INDSKY(I)
           NC = ADDCNE(N+1)-ADDCNE(N)
-          IF(NC.EQ.NC1) THEN
+          IF(NC==NC1) THEN
             NBVAL(NBLOC) = NBVAL(NBLOC)+1
           ELSE
             NC1 = NC
             NBLOC = NBLOC+1
-            IF (NBLOC.GT.MAXBLOC) THEN
+            IF (NBLOC>MAXBLOC) THEN
               WRITE(IOUT,*)
      .        ' **ERROR**: MEMORY PROBLEM IN PARITH OPTION'
               WRITE(ISTDO,*)
@@ -338,21 +338,21 @@ C
         FR_NBCCI2(2,I) = 0
       ENDDO
 
-      IF(I2NSNT.GT.0) THEN
+      IF(I2NSNT>0) THEN
 C-----------------------------------------------
 C Calcul des tailles des comms elementaires
 C-----------------------------------------------
 C
         LOC_PROC = ISPMD+1
         DO I = 1, NSPMD
-          IF(I.NE.LOC_PROC) THEN
+          IF(I/=LOC_PROC) THEN
             DO J=IAD_I2M(I),IAD_I2M(I+1)-1
               NOD = FR_I2M(J)
               DO CC = ADDCNI2(NOD),ADDCNI2(NOD+1)-1
-                IF(PROCNI2(CC).EQ.LOC_PROC) THEN
+                IF(PROCNI2(CC)==LOC_PROC) THEN
                   FR_NBCCI2(1,I) = FR_NBCCI2(1,I)+1
 C                ELSE
-                ELSEIF(PROCNI2(CC).EQ.I) THEN
+                ELSEIF(PROCNI2(CC)==I) THEN
                   FR_NBCCI2(2,I) = FR_NBCCI2(2,I)+1
                 ENDIF
               ENDDO
@@ -367,7 +367,7 @@ C
 C-----------------------------------------------
 C Optimisation vectorielle de asspari2
 C-----------------------------------------------
-        IF (IVECTOR.EQ.1) THEN
+        IF (IVECTOR==1) THEN
 C index : 2*numnod
 C indskyi2 : numnod
           DO N = 1, NUMNOD
@@ -384,15 +384,15 @@ C
           NC1 = -1
           I = 1
           NBLOCI2 = 0
-          DO WHILE (I.LE.NUMNOD)
+          DO WHILE (I<=NUMNOD)
             N = INDSKYI2(I)
             NC = ADDCNI2(N+1)-ADDCNI2(N)
-            IF(NC.EQ.NC1) THEN
+            IF(NC==NC1) THEN
               NBVALI2(NBLOCI2) = NBVALI2(NBLOCI2)+1
             ELSE
               NC1 = NC
               NBLOCI2 = NBLOCI2+1
-              IF (NBLOCI2.GT.MAXBLOC) THEN
+              IF (NBLOCI2>MAXBLOC) THEN
                 WRITE(IOUT,*)
      .        ' **ERROR**: MEMORY PROBLEM IN PARITH OPTION'
                 WRITE(ISTDO,*)
@@ -444,19 +444,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C Calcul des tailles des comms optimis\E9es parith/on
 C-----------------------------------------------
-      IF(IMACH.EQ.3.AND.NSPMD.GT.0.AND.IPARIT.GT.0)THEN
+      IF(IMACH==3.AND.NSPMD>0.AND.IPARIT>0)THEN
         LOC_PROC = ISPMD+1
 C
         LSD = 0
         LRC = 0
         DO I = 1, NSPMD
-         IF(I.NE.LOC_PROC) THEN
+         IF(I/=LOC_PROC) THEN
           DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
             NOD = FR_ELEM(J)
             DO CC = ADDCNE(NOD),ADDCNE(NOD+1)-1
-              IF(PROCNE(CC).EQ.LOC_PROC) THEN
+              IF(PROCNE(CC)==LOC_PROC) THEN
                 LSD = LSD + 1
-              ELSEIF(PROCNE(CC).EQ.I) THEN
+              ELSEIF(PROCNE(CC)==I) THEN
                 LRC = LRC + 1
               ENDIF
             ENDDO
@@ -503,21 +503,21 @@ C-----------------------------------------------
 C-----------------------------------------------
 C Calcul des tailles des comms optimis\E9es parith/on
 C-----------------------------------------------
-      IF(IMACH.EQ.3.AND.NSPMD.GT.0.AND.IPARIT.GT.0)THEN
+      IF(IMACH==3.AND.NSPMD>0.AND.IPARIT>0)THEN
         LOC_PROC = ISPMD+1
 C
         LSD = 0
         LRC = 0
         DO I = 1, NSPMD
-         IF(I.NE.LOC_PROC) THEN
+         IF(I/=LOC_PROC) THEN
           DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
             N = FR_ELEM(J)
             NOD = INOD(N)
             IF(NOD > 0 )THEN
                DO CC = ADDCNE(NOD),ADDCNE(NOD+1)-1
-                 IF(PROCNE(CC).EQ.LOC_PROC) THEN
+                 IF(PROCNE(CC)==LOC_PROC) THEN
                    LSD = LSD + 1
-                 ELSEIF(PROCNE(CC).EQ.I) THEN
+                 ELSEIF(PROCNE(CC)==I) THEN
                    LRC = LRC + 1
                  ENDIF
                ENDDO
@@ -567,21 +567,21 @@ C-----------------------------------------------
 C-----------------------------------------------
 C Calcul des tailles des comms optimis\E9es parith/on
 C-----------------------------------------------
-      IF(IMACH.EQ.3.AND.NSPMD.GT.0.AND.IPARIT.GT.0)THEN
+      IF(IMACH==3.AND.NSPMD>0.AND.IPARIT>0)THEN
         LOC_PROC = ISPMD+1
 C
         LSD = 0
         LRC = 0
         DO I = 1, NSPMD
-         IF(I.NE.LOC_PROC) THEN
+         IF(I/=LOC_PROC) THEN
           DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
             N = FR_ELEM(J)
             NOD = INOD_CRKXFEM(N)
             IF(NOD > 0 )THEN    ! check if node is Xfem sur proc i /= proc_loc
                DO CC = ADDCNE_CRKXFEM(NOD),ADDCNE_CRKXFEM(NOD+1)-1
-                 IF(PROCNE(CC).EQ.LOC_PROC) THEN
+                 IF(PROCNE(CC)==LOC_PROC) THEN
                    LSD = LSD + 1           ! long de frontiere d'echange pour send
-                 ELSEIF(PROCNE(CC).EQ.I) THEN
+                 ELSEIF(PROCNE(CC)==I) THEN
                    LRC = LRC + 1           ! long de frontiere d'echange pour rcv
                  ENDIF
                ENDDO

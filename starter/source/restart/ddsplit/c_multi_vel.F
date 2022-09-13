@@ -56,7 +56,7 @@ C-----------------------------------------------
       
       IELEM = 0
       DO I = 1, NUMEL
-         IF (CEP(I) .EQ. PROC) THEN
+         IF (CEP(I) == PROC) THEN
             IELEM = IELEM + 1
             MULTI_FVM_VEL_L(1:3, IELEM) = MULTI_FVM%VEL(1:3, I)
          ENDIF

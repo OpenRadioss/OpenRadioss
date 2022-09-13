@@ -69,7 +69,7 @@ C     REAL
 C-----------------------------------------------
 C
       NPE1=NPE-1
-      IF (NPE.EQ.4) THEN
+      IF (NPE==4) THEN
        DO I=LFT,LLT
         NC(I,1)=IXS(2,I)
         NC(I,2)=IXS(4,I)
@@ -96,7 +96,7 @@ C----------------------------
        ENDDO
       ENDDO 
 C--------ISMSTR == 12 diff format of SAV 
-      IF (ISMSTR == 12.AND.IDTMIN(1).EQ.3 .AND.MTN==1) THEN
+      IF (ISMSTR == 12.AND.IDTMIN(1)==3 .AND.MTN==1) THEN
          DO N=1,NPE1
            N2 = 3*(N-1)+1
            DO I=LFT,LLT
@@ -106,7 +106,7 @@ C--------ISMSTR == 12 diff format of SAV
             Z0(I,N)=SAV(I,N2+2)
            ENDDO
          ENDDO
-      END IF !(ISMSTR == 12.AND.IDTMIN(1).EQ.3) THEN
+      END IF !(ISMSTR == 12.AND.IDTMIN(1)==3) THEN
 C----------------------------
 C     DISPLACEMENT     |
 C----------------------------
@@ -144,7 +144,7 @@ C
        VZ0(I,NPE)=ZERO
       ENDDO
 C      
-      IF (ISMSTR == 12.AND.IDTMIN(1).EQ.3) THEN
+      IF (ISMSTR == 12.AND.IDTMIN(1)==3) THEN
         DO I=LFT,LLT
          OFF0(I)=OFF(I)
         ENDDO
@@ -168,7 +168,7 @@ C-------law1 special two increment
            ENDDO
          ENDDO
        END IF
-      END IF !(ISMSTR == 10.AND.IDTMIN(1).EQ.3) THEN
+      END IF !(ISMSTR == 10.AND.IDTMIN(1)==3) THEN
 C
       RETURN
       END
@@ -216,14 +216,14 @@ C     REAL
 C-----------------------------------------------
 C
       NPE1=NPE-1
-      IF (NPE.EQ.4.OR.NPE.EQ.10) THEN
+      IF (NPE==4.OR.NPE==10) THEN
        DO I=LFT,LLT
         NC(I,1)=IXS(2,I)
         NC(I,2)=IXS(4,I)
         NC(I,3)=IXS(7,I)
         NC(I,4)=IXS(6,I)
        ENDDO
-      ELSEIF (NPE.EQ.6) THEN
+      ELSEIF (NPE==6) THEN
        DO I=LFT,LLT
         NC(I,1)=IXS(2,I)
         NC(I,2)=IXS(3,I)

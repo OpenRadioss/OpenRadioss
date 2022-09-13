@@ -128,7 +128,7 @@ C
         ENDDO
       ENDDO
 C
-      IF (JLAG.EQ.0)THEN
+      IF (JLAG==0)THEN
         DO I=LFT,LLT
           VDX(I)=ZERO
           VDY(I)=ZERO
@@ -140,10 +140,10 @@ C
 C----------------------------
 C     NODAL COORDINATES     |
 C----------------------------
-        IF(ISMSTR.EQ.1.OR.(ISMSTR.EQ.2.AND.IDTMIN(1).EQ.3))THEN
+        IF(ISMSTR==1.OR.(ISMSTR==2.AND.IDTMIN(1)==3))THEN
 C
           DO I=LFT,LLT
-            IF(OFFG(I).GT.ONE)THEN
+            IF(OFFG(I)>ONE)THEN
               XX(I,N)=SAV(I,N)
               YY(I,N)=SAV(I,N+NPE)
               ZZ(I,N)=SAV(I,N+2*NPE)
@@ -182,9 +182,9 @@ C
             FY(I,N)=ZERO
             FZ(I,N)=ZERO    
         ENDDO
-        IF(OFF_L.LT.0.)THEN
+        IF(OFF_L<0.)THEN
           DO I=LFT,LLT
-            IF(OFFG(I).LT.0.)THEN
+            IF(OFFG(I)<0.)THEN
               VX(I,N)=ZERO
               VY(I,N)=ZERO
               VZ(I,N)=ZERO
@@ -192,16 +192,16 @@ C
           ENDDO
         ENDIF
 C
-        IF (JLAG.EQ.0)THEN
+        IF (JLAG==0)THEN
 C
-          IF(JALE.NE.0)THEN
+          IF(JALE/=0)THEN
             DO I=LFT,LLT
               NN = MAX(IUN,NC(I,N))
               VDXX(I,N)=VX(I,N)-W(1,NN)
               VDYY(I,N)=VY(I,N)-W(2,NN)
               VDZZ(I,N)=VZ(I,N)-W(3,NN)
             ENDDO
-          ELSEIF(JEUL.NE.0)THEN
+          ELSEIF(JEUL/=0)THEN
             DO I=LFT,LLT
               VDXX(I,N)=VX(I,N)
               VDYY(I,N)=VY(I,N)
@@ -217,7 +217,7 @@ C
         ENDIF
       ENDDO
 C
-      IF (JLAG.EQ.0)THEN
+      IF (JLAG==0)THEN
         DO I=LFT,LLT
           VDX(I)=FOURTH*VDX(I)
           VDY(I)=FOURTH*VDY(I)
@@ -230,7 +230,7 @@ C
         N1=IPERM1(N)
         N2=IPERM2(N)
         DO I=LFT,LLT
-          IF(NC(I,N).EQ.0)THEN
+          IF(NC(I,N)==0)THEN
             XX(I,N) = HALF*(XX(I,N1)+XX(I,N2))
             YY(I,N) = HALF*(YY(I,N1)+YY(I,N2))
             ZZ(I,N) = HALF*(ZZ(I,N1)+ZZ(I,N2))

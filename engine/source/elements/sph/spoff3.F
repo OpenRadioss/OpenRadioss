@@ -70,7 +70,7 @@ C      OFF(I) = MIN(ONE,OFFG(I))
        OFF(I) = MIN(ONE,ABS(OFFG(I)))
       ENDDO
 C     LAGRANGIAN ONLY.
-C     IF (JLAG.NE.0)THEN
+C     IF (JLAG/=0)THEN
       DO I=LFT,LLT
        VD2(I)=ZERO
       ENDDO

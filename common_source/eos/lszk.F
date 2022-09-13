@@ -92,7 +92,7 @@ C-----------------------------------------
 
        DO I=LFT,LLT
          ECOLD(I)=-THREE100*SPH
-         !IF(MU(I).GT.ZERO) ECOLD(I)=
+         !IF(MU(I)>ZERO) ECOLD(I)=
        ENDDO
 
       ELSEIF(IFLAG == 1) THEN
@@ -133,7 +133,7 @@ C------------------------
          SPH        = PM(69,MX)
 
        DO I=LFT,LLT
-         IF(OFF(I).LT.1..OR.SPH.LE.0.) CYCLE
+         IF(OFF(I)<1..OR.SPH<=0.) CYCLE
          THETA(I) = (DF(I)*EINT(I)/VNEW(I)-ECOLD(I))/SPH
          THETA(I)   = MAX(ZERO,THETA(I))
        ENDDO
@@ -148,7 +148,7 @@ C------------------------
          SPH          = PM(69,MX)
          
          DO I=1, NEL
-            IF (VNEW(I) .GT. ZERO) THEN
+            IF (VNEW(I) > ZERO) THEN
                PNEW(I) = (GAMMA-ONE)*(ONE+MU(I))*ESPE(I) + AR0B*EXP(B*LOG(ONE+MU(I)))
                DPDM(I) = (GAMMA-ONE)*ESPE(I)+AR0B*B/(ONE+MU(I))*EXP((B-ONE)*LOG(ONE+MU(I)))+(GAMMA-ONE)*DF(I)*PNEW(I)   !total derivative
                DPDE(I) = (GAMMA-ONE)*(ONE+MU(I))                                                               !partial derivative

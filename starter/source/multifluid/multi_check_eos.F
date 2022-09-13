@@ -51,13 +51,13 @@ C-----------------------------------------------
       INTEGER :: I, II, J, MATID, IEOS
 
       DO I = 1, NUMMAT
-         IF (IPM(2, I) .EQ. 151) THEN
+         IF (IPM(2, I) == 151) THEN
             DO II = 1, IPM(20, I)
                MATID = IPM(20 + II, I)
                DO J = 1, NUMMAT
-                  IF (IPM(1, J) .EQ. MATID) EXIT
+                  IF (IPM(1, J) == MATID) EXIT
                ENDDO
-               IF (IPM(4,J).EQ.0 .AND. PM(32, J).LE.ZERO) THEN
+               IF (IPM(4,J)==0 .AND. PM(32, J)<=ZERO) THEN
                   CALL ANCMSG(MSGID = 1645, ANMODE = ANINFO, MSGTYPE = MSGERROR,
      .                        I1=IPM(1, I),
      .                        I2=II,

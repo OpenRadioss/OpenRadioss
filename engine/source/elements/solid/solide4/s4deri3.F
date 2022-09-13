@@ -557,15 +557,15 @@ C--- case total strain switched to small due to nega_v before
         END IF
         ICOR = 0
         DO I=LFT,LLT
-          IF(OFF(I) .EQ.ZERO)THEN
+          IF(OFF(I) ==ZERO)THEN
             DET(I)=ONE
           ELSEIF(OFFG(I) > ONE)THEN
 C
-          ELSEIF((DET(I).LE.VOLMIN).OR.(DET(I).LE.ZERO))THEN
+          ELSEIF((DET(I)<=VOLMIN).OR.(DET(I)<=ZERO))THEN
             ICOR = 1
           ENDIF
         ENDDO
-        IF (ICOR.GT.0.AND.INCONV.EQ.1) THEN
+        IF (ICOR>0.AND.INCONV==1) THEN
          DO I=LFT,LLT
           IF(DET(I)<=ZERO.AND.OFFG(I) <= ONE.AND.OFFG(I) /= ZERO)THEN
             NNEGA=NNEGA+1
@@ -585,21 +585,21 @@ C
            MSTOP = 1
           ENDIF
          ENDDO
-        END IF !(ICOR.GT.0.AND.IMCONV.EQ.1) THEN
+        END IF !(ICOR>0.AND.IMCONV==1) THEN
       ELSE
-      IF(IDTMIN(1).EQ.1)THEN
+      IF(IDTMIN(1)==1)THEN
         ICOR = 0
         DO I=LFT,LLT
-          IF(OFF(I) .EQ.ZERO)THEN
+          IF(OFF(I) ==ZERO)THEN
             DET(I)=1.
-          ELSEIF((DET(I).LE.VOLMIN).OR.(DET(I).LE.ZERO))THEN
+          ELSEIF((DET(I)<=VOLMIN).OR.(DET(I)<=ZERO))THEN
             ICOR = 1
           ENDIF
         ENDDO
-        IF (ICOR.GT.0.AND.IMCONV.EQ.1) THEN
+        IF (ICOR>0.AND.IMCONV==1) THEN
           DO I=LFT,LLT
-           IF(OFF(I).NE.ZERO)THEN
-            IF(DET(I).LE.VOLMIN)THEN
+           IF(OFF(I)/=ZERO)THEN
+            IF(DET(I)<=VOLMIN)THEN
               DET(I)=ONE
               OFF(I)=ZERO
 #include "lockon.inc"
@@ -607,7 +607,7 @@ C
                 WRITE(IOUT ,2000) NGL(I)
 #include "lockoff.inc"
               IDEL7NOK = 1
-            ELSEIF(DET(I).LE.ZERO)THEN
+            ELSEIF(DET(I)<=ZERO)THEN
               CALL ANCMSG(MSGID=166,ANMODE=ANINFO,
      .                    I1=NGL(I))
               MSTOP = 1
@@ -615,19 +615,19 @@ C
            ENDIF
           ENDDO
         ENDIF
-      ELSEIF(IDTMIN(1).EQ.2)THEN
+      ELSEIF(IDTMIN(1)==2)THEN
         ICOR = 0
         DO I=LFT,LLT
-          IF(OFF(I) .EQ.ZERO)THEN
+          IF(OFF(I) ==ZERO)THEN
             DET(I)=ONE
-          ELSEIF((DET(I).LE.VOLMIN).OR.(DET(I).LE.ZERO))THEN
+          ELSEIF((DET(I)<=VOLMIN).OR.(DET(I)<=ZERO))THEN
             ICOR=1
           ENDIF
         ENDDO
-        IF (ICOR.GT.0.AND.IMCONV.EQ.1) THEN
+        IF (ICOR>0.AND.IMCONV==1) THEN
           DO I=LFT,LLT
-            IF((OFF(I).NE.ZERO).AND.
-     .         (DET(I).LE.VOLMIN.OR.DET(I).LE.ZERO))THEN
+            IF((OFF(I)/=ZERO).AND.
+     .         (DET(I)<=VOLMIN.OR.DET(I)<=ZERO))THEN
               DET(I)=ONE
               OFF(I)=ZERO
 #include "lockon.inc"
@@ -641,16 +641,16 @@ C
       ELSE
         ICOR = 0
         DO I=LFT,LLT
-          IF(OFF(I) .EQ.ZERO)THEN
+          IF(OFF(I) ==ZERO)THEN
             DET(I)=ONE
-          ELSEIF(DET(I).LE.ZERO)THEN
+          ELSEIF(DET(I)<=ZERO)THEN
             ICOR=1
           ENDIF
         ENDDO
-        IF (ICOR.GT.0.AND.IMCONV.EQ.1) THEN
+        IF (ICOR>0.AND.IMCONV==1) THEN
           DO I=LFT,LLT
-           IF(OFF(I).NE.ZERO)THEN
-            IF(DET(I).LE.ZERO)THEN
+           IF(OFF(I)/=ZERO)THEN
+            IF(DET(I)<=ZERO)THEN
               CALL ANCMSG(MSGID=166,ANMODE=ANINFO,
      .                    I1=NGL(I))
               MSTOP = 1

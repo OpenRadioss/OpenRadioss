@@ -220,7 +220,7 @@ c
                    ENDDO
                 ENDIF
 c
-                IF( NFILSOL .NE. 0 .AND. GBUF%G_FILL .NE. 0 ) THEN
+                IF( NFILSOL /= 0 .AND. GBUF%G_FILL /= 0 ) THEN
                   DO I=1,NEL
                     EVAR(1,I) = EVAR(1,I) * GBUF%FILL(I)
                     EVAR(2,I) = EVAR(2,I) * GBUF%FILL(I)
@@ -254,7 +254,7 @@ c
                    ENDDO
                 ENDIF
 c
-                IF( NFILSOL .NE. 0 .AND. GBUF%G_FILL .NE. 0 ) THEN
+                IF( NFILSOL /= 0 .AND. GBUF%G_FILL /= 0 ) THEN
                   DO I=1,NEL
                     EVAR(1,I) = EVAR(1,I) * GBUF%FILL(I)
                     EVAR(2,I) = EVAR(2,I) * GBUF%FILL(I)

@@ -86,11 +86,11 @@ C=========================================================================
       N_H3D_PART = H3D_DATA%INPUT_LIST(ID_INPUT)%NB_PART
       H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%N_H3D_PART_LIST = N_H3D_PART
 
-      IF (N_H3D_PART .NE. 0 )
+      IF (N_H3D_PART /= 0 )
      .       ALLOCATE(H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%PART_LIST(N_H3D_PART))
       ALLOCATE(H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%PART(NPART))
 c
-      IF (N_H3D_PART .NE. 0 ) THEN
+      IF (N_H3D_PART /= 0 ) THEN
         DO I=1,NPART
           H3D_DATA%OUTPUT_LIST(H3D_DATA%N_OUTP_H3D)%PART(I) = 0
         ENDDO

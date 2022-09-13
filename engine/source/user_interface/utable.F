@@ -49,7 +49,7 @@ C need NTABLE
 C
       GET_U_NUMTABLE = 0
       DO I=1,NTABLE
-        IF(TABLE(I)%NOTABLE.EQ.TID)THEN
+        IF(TABLE(I)%NOTABLE==TID)THEN
           GET_U_NUMTABLE = I
           RETURN
         ENDIF

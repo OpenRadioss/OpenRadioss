@@ -68,14 +68,14 @@ C
          AVAR=FXBIPM(13,NFX)
          PMAIN=FXBIPM(39,NFX)
          ALLOCATE(BUF(LEN))
-         IF (ISPMD.EQ.PMAIN) THEN
+         IF (ISPMD==PMAIN) THEN
             II=0
             DO I=1,NME+NMOD
                BUF(I)=FXBVIT(I)
                BUF(NME+NMOD+I)=FXBACC(I)
             ENDDO
             DO I=1,NSPMD
-               IF (ISPMD.EQ.I-1) CYCLE
+               IF (ISPMD==I-1) CYCLE
                II=II+1
                ITAG=MSGOFF
                CALL MPI_ISEND(BUF, LEN, REAL, IT_SPMD(I), ITAG,

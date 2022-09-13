@@ -117,7 +117,7 @@ C------------------------
         TRMX=ROT(1)*XP+ROT(2)*YP+ROT(3)*ZP
         TRMY=ROT(4)*XP+ROT(5)*YP+ROT(6)*ZP
         TRMZ=ROT(7)*XP+ROT(8)*YP+ROT(9)*ZP
-        IF (IMPACT(I).EQ.0) THEN
+        IF (IMPACT(I)==0) THEN
 C        penetration / ellips.
 C        EPG= EG(1)*XP*XP+EG(2)*XP*YP+EG(3)*XP*ZP
 C    .       +EG(4)*YP*YP+EG(5)*YP*ZP
@@ -129,7 +129,7 @@ C    .       +EG(6)*ZP*ZP
          TRMYN=ABS(TRMYN*BN)
          TRMZN=ABS(TRMZN*CN)
          EW(IN)=TRMXN+TRMYN+TRMZN
-        ELSEIF (IMPACT(I).GT.0) THEN
+        ELSEIF (IMPACT(I)>0) THEN
 C        penetration / plan.
          EW(IN)= NIMP(1,I)*(TRMX-CIMP(1,I))
      .          +NIMP(2,I)*(TRMY-CIMP(2,I))
@@ -139,9 +139,9 @@ C        penetration / plan.
 C---------------------------------
        DO 120 I=1,NSI
         IN=KSI(I)
-        IF (IMPACT(I).GT.0) THEN
+        IF (IMPACT(I)>0) THEN
 C---------------------------------
-          IF (EW(IN) .LE. G) THEN
+          IF (EW(IN) <= G) THEN
            NSP=NSP+1
            KSP(NSP)=I
           ELSE
@@ -152,7 +152,7 @@ C---------------------------------
 C         tri exhaustif.
           H =ONE+G*D
           HN=H**DGR
-          IF (EW(IN) .LE. HN) THEN
+          IF (EW(IN) <= HN) THEN
            NSC=NSC+1
            KSC(NSC)=I
           ELSE

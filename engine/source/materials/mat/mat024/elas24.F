@@ -106,19 +106,19 @@ c
 c       Damage evolution depending on EPS_F_i/EPS_i
 c
         HH1  = MAX(CRAK(I,1),EM20)
-        IF (EPS_F(I,1).GT.ZERO) THEN
+        IF (EPS_F(I,1)>ZERO) THEN
           DE1(I) = QQ * (ONE- EPS_F(I,1)/HH1 )
         ELSE
           DE1(I) = ZERO
         ENDIF
         HH2  = MAX(CRAK(I,2),EM20)
-        IF (EPS_F(I,2).GT.ZERO) THEN
+        IF (EPS_F(I,2)>ZERO) THEN
           DE2(I) = QQ * (ONE- EPS_F(I,2)/HH2 )
         ELSE
           DE2(I) = ZERO
         ENDIF
         HH3  = MAX(CRAK(I,3),EM20)
-        IF (EPS_F(I,3).GT.ZERO) THEN
+        IF (EPS_F(I,3)>ZERO) THEN
           DE3(I) = QQ * (ONE - EPS_F(I,3)/HH3 )
         ELSE
           DE3(I) = ZERO

@@ -66,7 +66,7 @@ C-----------------------------------------------
      .        ILP, NSL_L, NE_L, IR, MSR
       INTEGER, DIMENSION(:),ALLOCATABLE :: LPRW_L, NPRW_L
 C
-      IF(NRWALL.GT.0) THEN
+      IF(NRWALL>0) THEN
         ALLOCATE(NPRW_L(NNPRW*NRWALL))
         DO N = 1, NRWALL
           NPRW_L(N) = 0
@@ -75,7 +75,7 @@ C
           ENDDO
           N3 = 2*NRWALL+N
           MSR = NPRW(N3)
-          IF(MSR.NE.0) THEN
+          IF(MSR/=0) THEN
             IF(NLOCAL(MSR,PROC+1)==1) THEN
               NPRW_L(N3) = NODLOCAL(MSR)
             ELSE
@@ -85,7 +85,7 @@ C noeud non present sur le proc, MSR a 0 pour eviter les comms.
           ENDIF
         ENDDO
 C
-        IF(NSLAW_L+NESLAW_L.GT.0) THEN
+        IF(NSLAW_L+NESLAW_L>0) THEN
           ALLOCATE(LPRW_L(NSLAW_L+NESLAW_L))
           K = 0
           ILP = 0
@@ -106,14 +106,14 @@ C
             ILP = ILP + NSL_L
             K = K + NSL
             NPRW_L(N) = NSL_L
-            IF(ITY.EQ.-1)THEN
+            IF(ITY==-1)THEN
               NE = NINT(RWL(8,N))
               NE_L = 0
-              IF(NE.NE.0) THEN
+              IF(NE/=0) THEN
                 DO KK = 1, NE
                   IE = LPRW(K+KK)/10
                   IR = LPRW(K+KK)-10*IE
-                  IF(CEP(IE).EQ.PROC)THEN
+                  IF(CEP(IE)==PROC)THEN
                     NE_L = NE_L+1
                     LPRW_L(ILP+NE_L) = CEL(IE)*10+IR
                   ENDIF
@@ -128,7 +128,7 @@ C
         CALL WRITE_I_C(NPRW_L,NNPRW*NRWALL)
         CALL WRITE_I_C(LPRW_L,NSLAW_L+NESLAW_L)
         LEN_IA = LEN_IA + NNPRW*NRWALL + NSLAW_L+NESLAW_L
-        IF(NSLAW_L+NESLAW_L.GT.0)DEALLOCATE(LPRW_L)
+        IF(NSLAW_L+NESLAW_L>0)DEALLOCATE(LPRW_L)
         DEALLOCATE(NPRW_L)
 C
       ENDIF

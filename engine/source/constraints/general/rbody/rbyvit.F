@@ -88,7 +88,7 @@ C-------------------------------------
         DO KK=1,NRBYKIN_L
           N=IRBKIN_L(KK)
           K  = KIND(N)
-          IF(NPBY(7,N).GT.0.AND.NPBY(4,N).NE.0)THEN
+          IF(NPBY(7,N)>0.AND.NPBY(4,N)/=0)THEN
             J = NINTER+NRWALL+N
             IFAIL = NPBY(18,N)
             FN    = RBY(26,N)
@@ -119,7 +119,7 @@ C-------------------------------------
         DO KK=1,NRBYKIN_L
           N=IRBKIN_L(KK)
           K  = KIND(N)
-          IF(NPBY(7,N).GT.0.AND.NPBY(4,N).EQ.0)THEN
+          IF(NPBY(7,N)>0.AND.NPBY(4,N)==0)THEN
             J = NINTER+NRWALL+N
             IFAIL = NPBY(18,N)
             FN    = RBY(26,N)

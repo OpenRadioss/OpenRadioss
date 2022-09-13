@@ -143,7 +143,7 @@ C
 C....* CHECKS *.............
 C
        !IF main SIDE IS NOT GIVEN            
-       IF(ISU2.EQ.0) THEN                      
+       IF(ISU2==0) THEN                      
           CALL ANCMSG(MSGID=119,               
      .                MSGTYPE=MSGERROR,        
      .                ANMODE=ANINFO,           
@@ -157,14 +157,14 @@ C
        ENDIF                                   
                                                
        !common value : IOUTP22                 
-       IF(IOUTP22.EQ.0)THEN                    
+       IF(IOUTP22==0)THEN                    
          IOUTP22=1                             
-       ELSEIF(IOUTP22.NE.1)THEN                
+       ELSEIF(IOUTP22/=1)THEN                
          IOUTP22=0                             
        ENDIF                                   
 
        ! IF SECONDARY ID SIDE IS GIVEN
-       IF(ISU1.NE.0)THEN
+       IF(ISU1/=0)THEN
           INGR2USR => IGRBRIC(1:NGRBRIC)%ID
           ISU1=NGR2USR(ISU1,INGR2USR,NGRBRIC)
           IS1 =4
@@ -199,8 +199,8 @@ C
         IPARI(46)=ISU2
 C
 
-        IF(JMULT22.EQ.ZERO)JMULT22=ONE
-        IF(RATIO22_ .EQ. ZERO)RATIO22_ = ONE + TEN/HUNDRED
+        IF(JMULT22==ZERO)JMULT22=ONE
+        IF(RATIO22_ == ZERO)RATIO22_ = ONE + TEN/HUNDRED
         RATIO22    = MIN(RATIO22,RATIO22_)
         GAP        = ZERO
         IGSTI      = 0
@@ -344,7 +344,7 @@ c          print *, "WARNING : INTER22, GRNOD ID NOT FOUND IN INPUT FILE"
         KCONTACT =MAX(KCONTACT,0,0)
         INTBAG = MAX(INTBAG,0)  
         
-        IF(IS1*IS2.NE.0)THEN
+        IF(IS1*IS2/=0)THEN
           INT22  = INT22 + 1                                   !number of int22 interfaces.
           I22LEN1 = MAX(100     ,NINT(82*IGRBRIC(ISU1)%NENTITY**HALF))
           I22LEN1 = MIN(I22LEN1 ,IGRBRIC(ISU1)%NENTITY)
@@ -370,7 +370,7 @@ C------------------------------------------------------------
       IF (STOPT == ZERO) STOPT = EP30
       FRIGAP(11)=STOPT
 C BUMULT is increased for big models
-      IF(BUMULT.EQ.ZERO) THEN
+      IF(BUMULT==ZERO) THEN
         BUMULT = BMUL0
         IF(NUMNOD > 2500000) THEN
           BUMULT = BMUL0*TWO
@@ -391,31 +391,31 @@ C     PRINTOUT
 C------------------------------------------------------------
 C
 
-      IF(I22GRSH3N.GT.0)WRITE(IOUT,2207)I22GRSH3N, I22GRTRUS,I22GRNOD
+      IF(I22GRSH3N>0)WRITE(IOUT,2207)I22GRSH3N, I22GRTRUS,I22GRNOD
 
 C--------------------------------------------------------------
-      IF(IS1.EQ.0)THEN
+      IF(IS1==0)THEN
         WRITE(IOUT,'(6X,A)')'NO SECONDARY SURFACE INPUT'
-      ELSEIF(IS1.EQ.1)THEN
+      ELSEIF(IS1==1)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS1.EQ.2)THEN
+      ELSEIF(IS1==2)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY NODES'
-      ELSEIF(IS1.EQ.3)THEN
+      ELSEIF(IS1==3)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS1.EQ.4 )THEN
+      ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
-      ELSEIF(IS1.EQ.5 )THEN
+      ELSEIF(IS1==5 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
       ENDIF
-      IF(IS2.EQ.0)THEN
+      IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'
-      ELSEIF(IS2.EQ.1)THEN
+      ELSEIF(IS2==1)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS2.EQ.2)THEN
+      ELSEIF(IS2==2)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY NODES'
-      ELSEIF(IS2.EQ.3)THEN
+      ELSEIF(IS2==3)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS2.EQ.4)THEN
+      ELSEIF(IS2==4)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE REFERS ',
      .                      'TO HYPER-ELLIPSOIDAL SURFACE'
       ENDIF
@@ -428,7 +428,7 @@ C------------
       RETURN
 
  2207 FORMAT(//
-     .    '    TYPE.EQ.22 FSI INTERFACE                    ' //,
+     .    '    TYPE==22 FSI INTERFACE                    ' //,
      .    '    GRSH3N_ID. . . . . . . . . . . . . . . . . . ',I10/,
      .    '    GRTRUS_ID. . . . . . . . . . . . . . . . . . ',I10/,
      .    '    GRNOD_ID . . . . . . . . . . . . . . . . . . ',I10/)    

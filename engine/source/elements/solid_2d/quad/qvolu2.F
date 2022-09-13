@@ -79,8 +79,8 @@ C-----------------------------------------------
       AIRE(I)=(A1(I)+A2(I))*HALF
    10 CONTINUE
 C
-      IF(N2D.EQ.1) THEN
-       IF(JCVT.EQ.0)THEN
+      IF(N2D==1) THEN
+       IF(JCVT==0)THEN
         DO 20 I=LFT,LLT
   20     VOLU(I)=((Y2(I)+Y3(I)+Y4(I))*A1(I)
      .                 +(Y1(I)+Y2(I)+Y4(I))*A2(I))*ONE_OVER_6
@@ -94,13 +94,13 @@ C
    30  VOLU(I)=AIRE(I)
       ENDIF
 C
-      IF(JMULT.EQ.0)THEN
+      IF(JMULT==0)THEN
        DO 40 I=LFT,LLT
-       IF(OFF(I) .EQ.ZERO)THEN
+       IF(OFF(I) ==ZERO)THEN
         VOLU(I)=ONE
         AIRE(I)=ONE
        ELSE
-        IF(VOLU(I).LE.VOLMIN)THEN
+        IF(VOLU(I)<=VOLMIN)THEN
          VOLU(I)=ONE
          OFF(I)=ZERO
          CALL ANCMSG(MSGID=142,ANMODE=ANINFO,
@@ -112,8 +112,8 @@ C
       ENDIF
 C
       DO 90 I=LFT,LLT
-      IF(OFF(I) .LT.ONE) GO TO 90
-      IF(VOLU(I).GT.ZERO) GO TO 90
+      IF(OFF(I) <ONE) GO TO 90
+      IF(VOLU(I)>ZERO) GO TO 90
       CALL ANCMSG(MSGID=142,ANMODE=ANINFO,
      .            I1=NGL(I))
       CALL ARRET(2)

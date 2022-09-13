@@ -120,7 +120,7 @@ C-----------------------------------------------
 C===============================================|
 C   OPEN FILE
 C-----------------------------------------------
-      IF(IDYNAINF.GE.10000)IDYNAINF=1
+      IF(IDYNAINF>=10000)IDYNAINF=1
       WRITE(CHSTAT,'(I4.4)')IDYNAINF
       FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHSTAT//'.dynain'
       FILEN = ROOTLEN + 12
@@ -194,7 +194,7 @@ C-----------------------------------------------
       ELSE
         ALLOCATE(WA(1))
       ENDIF
-      IF(IERR.NE.0)THEN
+      IF(IERR/=0)THEN
          CALL ANCMSG(MSGID=252,ANMODE=ANINFO,
      .        I1=IERR)
               CALL ARRET(2)
@@ -203,7 +203,7 @@ C-----------------------------------------------
       IERR = 0
       SIZP0 = MAX(1,SIZP0)
       ALLOCATE(WAP0(SIZP0),STAT=IERR)
-      IF(IERR.NE.0)THEN
+      IF(IERR/=0)THEN
          CALL ANCMSG(MSGID=252,ANMODE=ANINFO,
      .        I1=IERR)
               CALL ARRET(2)
@@ -213,7 +213,7 @@ C   SHELL SCALAR
 C-----------------------------------------------
 
 
-      IF(DYNAIN_C(4).EQ.1) THEN
+      IF(DYNAIN_C(4)==1) THEN
          CALL DYNAIN_C_STRSG(
      1        ELBUF_TAB  ,IPARG     ,IPM        ,IGEO  ,IXC    ,
      2        IXTG       ,WA        ,WAP0       ,IPARTC,IPARTTG,
@@ -223,7 +223,7 @@ C-----------------------------------------------
       ENDIF
 C------------------------------------------
 
-      IF(DYNAIN_C(5).EQ.1) THEN
+      IF(DYNAIN_C(5)==1) THEN
           CALL DYNAIN_C_STRAG(
      1         ELBUF_TAB  ,IPARG     ,IPM        ,IGEO  ,IXC    ,
      2         IXTG       ,WA        ,WAP0       ,IPARTC,IPARTTG,
@@ -243,7 +243,7 @@ C-----------------------
 C-----------------------------------------------
 C   END
 C-----------------------------------------------
-      IF(ISPMD.EQ.0) THEN
+      IF(ISPMD==0) THEN
         WRITE(IUDYNAIN,'(A)')'*END   '
         CLOSE(UNIT=IUDYNAIN)
 

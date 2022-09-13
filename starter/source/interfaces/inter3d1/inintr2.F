@@ -109,13 +109,13 @@ C
         NSN   =IPARI(5,N)
         CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,NINT),LTITR)
         SWITCH = 1
-        IF ((NTY.EQ.2).AND.(ILEV.EQ.26)) THEN
-          IF (IRODDL.EQ.1) THEN
+        IF ((NTY==2).AND.(ILEV==26)) THEN
+          IF (IRODDL==1) THEN
             DO I=1,NSN
-              IF (IN(INTBUF_TAB(N)%NSV(I)).GT.ZERO) SWITCH=0
+              IF (IN(INTBUF_TAB(N)%NSV(I))>ZERO) SWITCH=0
             ENDDO
           ENDIF
-          IF (SWITCH.EQ.1) THEN
+          IF (SWITCH==1) THEN
             IPARI(20,N) = 25
             CALL ANCMSG(MSGID=1177,
      .                MSGTYPE=MSGWARNING,
@@ -136,7 +136,7 @@ C
       DO N=1,NINTER
         NTY = IPARI(7,N)
 C--     deactivated interface
-        IF (NTY.EQ.0) CYCLE
+        IF (NTY==0) CYCLE
 C
         JINSCR=IPARI(10,N)
         NINT=N
@@ -163,7 +163,7 @@ C
        NTY = IPARI(7,N)
        IF (NTY == 12) THEN
          CALL ITAGSL12(IPARI(1,N),ITAB,IKINE,INTBUF_TAB(N))
-       ELSEIF(NTY.EQ.2)THEN
+       ELSEIF(NTY==2)THEN
          I2NSNT = I2NSNT + IPARI(5,N)
        ENDIF
       ENDDO
@@ -176,7 +176,7 @@ C LIMITATION RIGIDITE ANCRAGE
 C
       DO N=1,NINTER
        NTY=IPARI(7,N)
-       IF(NTY.EQ.20)THEN
+       IF(NTY==20)THEN
          CALL I20STA(IPARI(1,N),STIFN,INTBUF_TAB(N))
        ENDIF
       ENDDO
@@ -210,10 +210,10 @@ C
         NTY = IPARI(7,N)
         ILEV  =IPARI(20,N)
         NSN   =IPARI(5,N)
-        IF (NTY.EQ.2) THEN
-          IF (ILEV.EQ.27) THEN
+        IF (NTY==2) THEN
+          IF (ILEV==27) THEN
             CALL I2_DTN_27(X,INTBUF_TAB,IPARI,STIFN,MS_B,IN_B,N,NSN)
-          ELSEIF (ILEV.EQ.28) THEN
+          ELSEIF (ILEV==28) THEN
             CALL I2_DTN_28(X,INTBUF_TAB,IPARI,STIFN,MS_B,IN_B,N,NSN)
           ELSEIF ((ILEV==0).OR.(ILEV==1).OR.(ILEV==25)) THEN
             CALL I2_DTN(X,INTBUF_TAB,IPARI,STIFN,MS_B,IN_B,N,NSN,ILEV)
@@ -221,7 +221,7 @@ C
         ENDIF
       END DO
 C
-       IF (N2D.EQ.0 .AND. NINT2 >0 ) THEN      
+       IF (N2D==0 .AND. NINT2 >0 ) THEN      
          CALL REMN_I2OP(IPARI   ,INTBUF_TAB   ,ITAB, NOM_OPT,NREMN )
          CALL REMN_I2_EDGOP(IPARI   ,INTBUF_TAB   ,ITAB, NREMN )
          CALL RI2_INT24P_INI(IPARI  ,INTBUF_TAB   ,ITAB, NOM_OPT,NREMN )
@@ -294,12 +294,12 @@ C Cas3 Condition au limite en translation
       CAS1=ITF(IKINE(NSV))+IRB(IKINE(NSV))
       CAS2=CAS1+
      .  IBC(IKINE(NSV))+IKINE(NSV+NUMNOD) - 10*IKINE(NSV+NUMNOD)/10
-c        IF(ITF(IKINE(NSV)).NE.0 .OR. IRB(IKINE(NSV)).NE.0 )THEN
+c        IF(ITF(IKINE(NSV))/=0 .OR. IRB(IKINE(NSV))/=0 )THEN
 c
 c si SECONDARY d'une autre interface 2 ou 9 ou 12 ou rby on tag le SECONDARY pour dsactivation
 c
-        IF(     (IPARI(11).EQ.3 .AND. CAS2.NE.0)
-     .     .OR. (IPARI(11).EQ.2 .AND. CAS1.NE.0) )THEN
+        IF(     (IPARI(11)==3 .AND. CAS2/=0)
+     .     .OR. (IPARI(11)==2 .AND. CAS1/=0) )THEN
            JWARN=1
            INTBUF_TAB%FCOUNT(I)=-ABS(INTBUF_TAB%FCOUNT(I))
            WRITE(IOUT,1000)ITAB(NSV),NOINT
@@ -309,12 +309,12 @@ c
            CALL KINSET(2,ITAB(NSV),IKINE(NSV),3,0,IKINE1(NSV))
         ENDIF
       ENDDO
-      IF(JWARN.GT.0)THEN
-        IF(IPARI(11).EQ.2)WRITE(IOUT,1010)NOINT
-        IF(IPARI(11).EQ.3)WRITE(IOUT,1011)NOINT
+      IF(JWARN>0)THEN
+        IF(IPARI(11)==2)WRITE(IOUT,1010)NOINT
+        IF(IPARI(11)==3)WRITE(IOUT,1011)NOINT
         IWARN=IWARN+1
       ENDIF
-      IF(KWARN-KWARNO .EQ.0) THEN
+      IF(KWARN-KWARNO ==0) THEN
          WRITE(IOUT,2010)NOINT
       ELSE
          WRITE(IOUT,'(//)')

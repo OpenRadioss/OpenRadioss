@@ -68,11 +68,11 @@ C-----------------------------------------------
        ALLOCATE(BUFSR(2,NUMNODM))
        ALLOCATE(XGLOB(NUM))
 C-----------------------------------------------
-       IF (ISPMD.NE.0) THEN
+       IF (ISPMD/=0) THEN
 
          SIZ = 0
          DO I=1,NUMNOD
-           IF (WEIGHT(I).EQ.1) THEN
+           IF (WEIGHT(I)==1) THEN
              SIZ = SIZ + 1
              BUFSR(1,SIZ) = NODGLOB(I)
              BUFSR(2,SIZ) = V(I) 
@@ -86,7 +86,7 @@ C-----------------------------------------------
 
        ELSE
           DO I=1,NUMNOD
-            IF (WEIGHT(I).EQ.1) THEN
+            IF (WEIGHT(I)==1) THEN
               NG = NODGLOB(I)
               XGLOB(NG) = V(I)
             ENDIF

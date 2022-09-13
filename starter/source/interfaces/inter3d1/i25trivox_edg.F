@@ -394,7 +394,7 @@ C       		   +------------+-----------+
 
                 CURRENT_ADD = CURRENT_ADD+1 
 
-                IF( CURRENT_ADD.GE.MAX_ADD)THEN
+                IF( CURRENT_ADD>=MAX_ADD)THEN
                  !OPTIMISATION : suprresion du deallocate/GOTO debut.
                  !REALLOCATE SI PAS ASSEZ DE PLACE : inutile de recommencer de 1 a MAX_ADD-1, on poursuit de MAX_ADD a 2*MAX_ADD
                  MAX_ADD = 2 * MAX_ADD        
@@ -513,7 +513,7 @@ C--- IREMGAP - tag of deactivated lines
               TAGEDG(JJ)=1
 
               !secnd edge nodes, exclure couples avec noeud commun
-              IF (JJ.LE.NEDGE)THEN
+              IF (JJ<=NEDGE)THEN
                 SS1= ITAB(LEDGE(5,JJ))
                 SS2= ITAB(LEDGE(6,JJ))
 C             ELSE 
@@ -521,8 +521,8 @@ C               SS1=IREM(2,JJ-NEDGE)
 C               SS2=IREM(3,JJ-NEDGE)                                                        
               END IF
               
-              IF( (SS1.EQ.MM1).OR.(SS1.EQ.MM2).OR.
-     .            (SS2.EQ.MM1).OR.(SS2.EQ.MM2)    )THEN
+              IF( (SS1==MM1).OR.(SS1==MM2).OR.
+     .            (SS2==MM1).OR.(SS2==MM2)    )THEN
                 CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
                 CYCLE
               END IF
@@ -571,7 +571,7 @@ c              IF(DEJA==0) NEDG = NEDG + 1     !nombre d edges candidate au calc
 c              DEJA=1                          !l edge main IEDG fait l'objet d'une ecriture de candidat. On compte les edges main faisant l'objet dun couple candidate : on ne doit plus incrementer NEDG pour les autres edge secnd testees.
               CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
 C-----------------------------------------------------
-              IF(J_STOK.EQ.NVSIZ)THEN
+              IF(J_STOK==NVSIZ)THEN
 		CALL I25STO_EDG(
      1  	     NVSIZ ,IRECT  ,X	   ,II_STOK,INACTI,
      2  	     CANDS_E2E,CANDM_E2E ,MULNSNE,NOINT  ,MARGE ,
@@ -625,7 +625,7 @@ C--- IREMGAP - clean of tagremline
 C-------------------------------------------------------------------------
 C     FIN DU TRI vs Main shell edges
 C-------------------------------------------------------------------------
-      IF(J_STOK.NE.0)CALL I25STO_EDG(
+      IF(J_STOK/=0)CALL I25STO_EDG(
      1  	       J_STOK ,IRECT  ,X     ,II_STOK,INACTI,
      2  	       CANDS_E2E,CANDM_E2E ,MULNSNE,NOINT  ,MARGE ,
      3  	       I_MEM(1) ,PROV_S ,PROV_M ,IGAP0,CAND_A,
@@ -733,7 +733,7 @@ C=======================================================================
               TAGEDG(JJ)=1
 
               !secnd edge nodes, exclure couples avec noeud commun
-              IF (JJ.LE.NEDGE)THEN
+              IF (JJ<=NEDGE)THEN
                 SS1= ITAB(LEDGE(5,JJ))
                 SS2= ITAB(LEDGE(6,JJ))
 C             ELSE 
@@ -741,8 +741,8 @@ C               SS1=IREM(2,JJ-NEDGE)
 C               SS2=IREM(3,JJ-NEDGE)                                                        
               END IF
 
-              IF((SS1.EQ.MM1).OR.(SS1.EQ.MM2).OR.(SS1.EQ.MM3).OR.(SS1.EQ.MM4).OR.
-     .           (SS2.EQ.MM1).OR.(SS2.EQ.MM2).OR.(SS2.EQ.MM3).OR.(SS2.EQ.MM4))THEN
+              IF((SS1==MM1).OR.(SS1==MM2).OR.(SS1==MM3).OR.(SS1==MM4).OR.
+     .           (SS2==MM1).OR.(SS2==MM2).OR.(SS2==MM3).OR.(SS2==MM4))THEN
                 CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
                 CYCLE
               END IF
@@ -769,7 +769,7 @@ C-----------------------------------------------------
               PROV_M(J_STOK) = NE     !segment main
 
 C-----------------------------------------------------
-              IF(J_STOK.EQ.NVSIZ)THEN
+              IF(J_STOK==NVSIZ)THEN
                 CALL I25STO_E2S(
      1               NVSIZ ,IRECT  ,X	      ,LL_STOK,INACTI,
      2               CANDS_E2S,CANDM_E2S,MULNSNS,NOINT  ,MARGE ,
@@ -813,7 +813,7 @@ C       Reset TAGEDG
 C-------------------------------------------------------------------------
 C     FIN DU TRI vs Main solid edges
 C-------------------------------------------------------------------------
-      IF(J_STOK.NE.0)CALL I25STO_E2S(
+      IF(J_STOK/=0)CALL I25STO_E2S(
      1                 J_STOK ,IRECT  ,X        ,LL_STOK,INACTI,
      2                 CANDS_E2S,CANDM_E2S,MULNSNS,NOINT  ,MARGE ,
      3                 I_MEM(2) ,PROV_S ,PROV_M ,IGAP0,CAND_B,

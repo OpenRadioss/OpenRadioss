@@ -77,7 +77,7 @@ C=======================================================================
          VIS(I) = ZERO
       END DO
       
-      IF(JTUR.NE.0)THEN
+      IF(JTUR/=0)THEN
          DO I=LFT,LLT
             TMU(I)=TMU(I)*RK(I)*RK(I) / MAX(EM15,RE(I))
             VIS(I)=VIS(I)+TMU(I)
@@ -97,7 +97,7 @@ C=======================================================================
          SSP(I)=SQRT(ABS(DPDM(I))/RHO0(I))
       END DO
       
-      IF(JSPH.EQ.0)THEN
+      IF(JSPH==0)THEN
          CALL DTEL(SSP,PM,GEO,PID,MAT, RHO0, VIS, DELTAX, AIRE, VOL, DTX)
       ELSE
          CALL DTSPH(SSP,PM,GEO,PID,MAT, RHO0, VIS, DELTAX, VOL, DTX)

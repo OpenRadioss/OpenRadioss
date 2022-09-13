@@ -199,11 +199,11 @@ C================================================================
       !---------------------------------------------------------!
       !INTERFACE 22 ONLY - OUTPUT---------------!
        debug_outp = .false.
-       if(ibug22_intersect.ne.0)then
-         if(ibug22_intersect.GT.0)then
+       if(ibug22_intersect/=0)then
+         if(ibug22_intersect>0)then
            do ib=nbf,nbl
              ie=BUFBRIC(LIST_B(Ib))
-             if(ixs(11,ie).eq.ibug22_intersect)then
+             if(ixs(11,ie)==ibug22_intersect)then
                debug_outp=.true.
                exit
              endif
@@ -312,7 +312,7 @@ C================================================================
           !normalizing the normal vector to normalize the cartesian plane equation
           NORM = vNE(I,1,TT)*vNE(I,1,TT)+vNE(I,2,TT)*vNE(I,2,TT)+vNE(I,3,TT)*vNE(I,3,TT)
           NORM = SQRT(NORM)
-          IF(NORM.NE.ZERO)THEN
+          IF(NORM/=ZERO)THEN
           vNE(I,1,TT) = vNE(I,1,TT) / NORM
           vNE(I,2,TT) = vNE(I,2,TT) / NORM
           vNE(I,3,TT) = vNE(I,3,TT) / NORM
@@ -362,7 +362,7 @@ c        print *, "....IADF,IADL=", IADF(I), IADL(I)
 
         DO IAD=IADF(I), IADL(I)
           IE    = CAND_E(IAD)
-          IF(IE.LE.0)CYCLE
+          IF(IE<=0)CYCLE
           IADE  = GET_LIST_E_POS_FROM_CAND_E_POS(IAD)
 C          !non intersection criterion (couple is retained anyway in CAND_B/CAND_E because we may not search/sort on each cycle)
 C          IF((XMAXS(IB)<IRECT_L(17,IE)).OR. ! ignore if intersection with cell (without margin)is null, IRECT_L <=> xmine,xmaxe,...zmine,zmaxe
@@ -403,7 +403,7 @@ C          END IF
                 print *, "J  =", J
                 print *, "POW1,POW2", POW(1:2)
               endif
-              !if (ixs(11,brick_list(nin,i)%id)==5882 .AND. J.EQ.12)then
+              !if (ixs(11,brick_list(nin,i)%id)==5882 .AND. J==12)then
               !  print *, "5882====="
               !  write(*,FMT='(A,4I20)')    "shell N1-N2-N3-N4 :",INT(IRECT_L(01:04,IE))
               !  print *, "IE =", IE
@@ -415,17 +415,17 @@ C          END IF
               TOLCRIT = EM06
               TOL = (ONE+EM04)*TOLCRIT*diag22(I)  !EM04 in ISONSH3N
               ! POWER is in mm corresponds to the shifted distance of the intercept (ordonnee a lorigine) it must be normalized
-              IF((ABS(POW(1)).LE.TOL).AND.(ABS(POW(2)).LE.TOL))THEN         !edge is on the shell then no intersection with the face
+              IF((ABS(POW(1))<=TOL).AND.(ABS(POW(2))<=TOL))THEN         !edge is on the shell then no intersection with the face
                 TANGENT(J) = 1
                 !print *, "TANGENT=1",ixs(11,brick_list(nin,i)%id)
                 cycle
               ENDIF                
               IF(DEJA==2)CYCLE                                          !hypothesis: 2 intersections max. Warning possible dpedency of elem numbering
-              IF(  ((POW(1).LT.-TOL).AND.(POW(2).GT.TOL)) .OR.((POW(1).GT.TOL).AND.(POW(2).LT.-TOL)) )THEN    !intersection with current shell     
+              IF(  ((POW(1)<-TOL).AND.(POW(2)>TOL)) .OR.((POW(1)>TOL).AND.(POW(2)<-TOL)) )THEN    !intersection with current shell     
                 ON1(1:3) = X(1:3,iN(1))
                 N1N2(1:3)= EDGE_LIST(NIN,K)%VECTOR(1:3)
                 DENOM    = SUM( vNE(IADE,1:3,TT) * N1N2(1:3) )
-                IF(ABS(DENOM).GT.EM12)THEN
+                IF(ABS(DENOM)>EM12)THEN
                 CUTCOOR = ( BasisCONST(IADE,TT) - SUM( vNE(IADE,1:3,TT) * ON1(1:3) )    ) / DENOM                     !N.N1 change all 3 cycles (possible optimization, cf definition of iedge)        
                 ELSE
                   !in this case edge is intersected with a plane which is quasi tangent. possibly infinite solutions. We choose cutcoor=0.5, error related to this description is neglictible
@@ -433,7 +433,7 @@ C          END IF
                   CALL ARRET(2)
                 ENDIF    
                 
-                IF((CUTCOOR.LE.ONE+TOL).AND.(CUTCOOR.GE.-TOL))THEN           !check if intersection point is one on the shell
+                IF((CUTCOOR<=ONE+TOL).AND.(CUTCOOR>=-TOL))THEN           !check if intersection point is one on the shell
                   CUTCOOR = MIN(ONE-EM06,CUTCOOR)
                   CUTCOOR = MAX(EM06   ,CUTCOOR)
                   POINT(1:3)=ON1(1:3) + CUTCOOR * N1N2(1:3)
@@ -443,7 +443,7 @@ C          END IF
                 END IF
                 
                 NBCUT2 = 0
-              ELSEIF((ABS(POW(1)).LE.TOL).AND.(ABS(POW(2)).LE.TOL))THEN         !edge is on the shell then no intersection with the face
+              ELSEIF((ABS(POW(1))<=TOL).AND.(ABS(POW(2))<=TOL))THEN         !edge is on the shell then no intersection with the face
               !DON'T CUT EDGE WHICH IS LAYING ON THE CUT PLANE. ITS ADJACENT EDGES WILL BE CUT.
                 ! specific case : edge is on the structural face
                 !IF(J==1 .OR. J==5 .OR. J==8 .OR. J==12)THEN
@@ -461,7 +461,7 @@ C          END IF
                   !-!NBCUT2 = 0                  
                 !ENDIF
                 TANGENT(J) = 1
-              ELSEIF (ABS(POW(1)).LE.TOL)THEN                               !intersection with summit #1
+              ELSEIF (ABS(POW(1))<=TOL)THEN                               !intersection with summit #1
               !SET CUTCOOR = EM06 TO HAVE A EPSILON CUT SURFACE. OTHERWISE CRITERIA FOR AMBIGUS COMBINATION WILL GET A DIVISION BY 0 (double penta check in i22subvol)
                 !IF(J==1 .OR. J==5 .OR. J==8 .OR. J==12)THEN
                   ON1(1:3) = X(1:3,iN(1))
@@ -481,7 +481,7 @@ C          END IF
 !                  NBCUT  = 0
 !                ENDIF
 !                NBCUT2 = 0                  
-              ELSEIF (ABS(POW(2)).LE.TOL)THEN                               !intersection with summit #2
+              ELSEIF (ABS(POW(2))<=TOL)THEN                               !intersection with summit #2
               !SET CUTCOOR = ONE-EM06 TO HAVE A EPSILON CUT SURFACE. OTHERWISE CRITERIA FOR AMBIGUS COMBINATION WILL GET A DIVISION BY 0 (double penta check in i22subvol)
                 !IF(J==1 .OR. J==5 .OR. J==8 .OR. J==12)THEN
                   ON1(1:3) = X(1:3,iN(1))
@@ -523,7 +523,7 @@ C          END IF
               !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
               !If intersection with inifinite plane, we calculate coordinates on the edge : COOR = N1+ t N1N2
               ! if t is not within [0,1] we are not on the segment but on the open entity (N1N2)\[N1N2]
-              IF(NBCUT.GT.0) THEN !if we detect intersection on current shell          
+              IF(NBCUT>0) THEN !if we detect intersection on current shell          
                 IF(DEJA==0)THEN !edge is not yet cut : first intersection detected
                   !print *, "nouveau point", CUTCOOR                
                   NBCUT=1
@@ -532,15 +532,15 @@ C          END IF
                 ELSEIF (DEJA==1)THEN                              ! already cut => 2nd intersection
                   OLD_CUTCOOR  = EDGE_LIST(NIN,K)%CUTCOOR(1)      ! first store, the ordering the 2 intersections
                   OLD_CUTSHELL = EDGE_LIST(NIN,K)%CUTSHELL(1)
-                  IF (ABS(CUTCOOR-OLD_CUTCOOR).GT.EM6) THEN
+                  IF (ABS(CUTCOOR-OLD_CUTCOOR)>EM6) THEN
                     NBCUT=2
-                    IF(CUTCOOR.GT.OLD_CUTCOOR)THEN
+                    IF(CUTCOOR>OLD_CUTCOOR)THEN
                       EDGE_LIST(NIN,K)%CUTCOOR(1)  = OLD_CUTCOOR
                       EDGE_LIST(NIN,K)%CUTCOOR(2)  = CUTCOOR
                       EDGE_LIST(NIN,K)%CUTSHELL(1) = OLD_CUTSHELL
                       EDGE_LIST(NIN,K)%CUTSHELL(2) = IE
                       !print *, "second points point",OLD_CUTCOOR,CUTCOOR
-                    ELSEIF(CUTCOOR.LT.OLD_CUTCOOR)THEN
+                    ELSEIF(CUTCOOR<OLD_CUTCOOR)THEN
                       EDGE_LIST(NIN,K)%CUTCOOR(1)  = CUTCOOR
                       EDGE_LIST(NIN,K)%CUTCOOR(2)  = OLD_CUTCOOR
                       EDGE_LIST(NIN,K)%CUTSHELL(1) = IE
@@ -563,7 +563,7 @@ C          END IF
                 EDGE_LIST(NIN,K)%LEN   = SQRT(N1N2(1)*N1N2(1)+N1N2(2)*N1N2(2)+N1N2(3)*N1N2(3)) 
               END IF !NBCUT>0
               
-              IF(NBCUT2.GT.0  .AND. DEJA.EQ.0)THEN !if already intersected
+              IF(NBCUT2>0  .AND. DEJA==0)THEN !if already intersected
                   NBCUT=2
                   EDGE_LIST(NIN,K)%CUTCOOR(1)=ZERO ! storage
                   EDGE_LIST(NIN,K)%CUTCOOR(2)=ONE   ! storage              
@@ -607,7 +607,7 @@ C          END IF
             !  face1 cuts edge within tolerance, intersection point must be doubled to get PENTA  HEXA, otherwise, max(secID) = HEXA
             ! 
             !cleaning if cutcoor = EM06 ou CUTCOOR = ONE-EM06   (CASE : lagrangian face == euler face => HEXA cutting)
-             IF(NBCUT.GE.1)THEN
+             IF(NBCUT>=1)THEN
               CUTCOOR = EDGE_LIST(NIN,K)%CUTCOOR(1)
               IF(CUTCOOR==EM06 .OR. CUTCOOR==ONE-EM06)THEN
                 EDGE_LIST(NIN,K)%CUTSHELL(1)   = EDGE_LIST(NIN,K)%CUTSHELL(2)
@@ -623,7 +623,7 @@ C          END IF
              !duplicated nodes
              NBCUT                             = EDGE_LIST(NIN,K)%NBCUT 
              CUTCOOR                           =  EDGE_LIST(NIN,K)%CUTCOOR(1)
-             IF(NBCUT==1 .AND. CUTCOOR.GT.EM06 .AND. CUTCOOR.LT.ONE-EM06)THEN
+             IF(NBCUT==1 .AND. CUTCOOR>EM06 .AND. CUTCOOR<ONE-EM06)THEN
                EDGE_LIST(NIN,K)%CUTSHELL(2) = EDGE_LIST(NIN,K)%CUTSHELL(1)
                EDGE_LIST(NIN,K)%NBCUT       = 2
                EDGE_LIST(NIN,K)%CUTCOOR(2)  = EDGE_LIST(NIN,K)%CUTCOOR(1)               
@@ -682,9 +682,9 @@ C================================================================
            !===script HM=====!
    
           db_FLAG=.true.
-          if (som.GT.0)then
+          if (som>0)then
             do L=1,SOM
-              if(SUM(ABS(point(1:3)-debugTab(L,1:3))).LT.EM06)
+              if(SUM(ABS(point(1:3)-debugTab(L,1:3)))<EM06)
      .                               db_FLAG=.false.
             end do
           end if
@@ -693,7 +693,7 @@ C================================================================
             debugTab(som,1:3)    =point(1:3)
           end if
 
-          END DO ! (DO K=1,NBCUT <=> NBCUT.GT.0)
+          END DO ! (DO K=1,NBCUT <=> NBCUT>0)
         END DO !next J=1,12
       END DO! next I=1,NB      
       !===script HM=====!      
@@ -861,9 +861,9 @@ C-----------------------------------------------
         write(*,fmt='(A12,3F30.16)')"*createnode ",P(1:3)
       ENDIF
   
-      IF(t.GE.-TOL)THEN
-        IF(s.GE.-TOL )THEN
-          IF(s+t.LE.ONE+TOL)THEN
+      IF(t>=-TOL)THEN
+        IF(s>=-TOL )THEN
+          IF(s+t<=ONE+TOL)THEN
             ISONSH3N = 1
           ENDIF
         ENDIF       

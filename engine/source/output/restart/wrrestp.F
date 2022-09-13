@@ -233,7 +233,7 @@ C
       ENTMP(10)= ECONTD
       ENTMP(11)= ECONT_CUMU
       IF(NSPMD > 1) CALL SPMD_GLOB_DSUM9(ENTMP,11)
-      IF(ISPMD.NE.0) THEN
+      IF(ISPMD/=0) THEN
         TFEXT = ZERO
         EHOUR = ZERO
         ECONTV = ZERO
@@ -262,7 +262,7 @@ C
       IF(NWALE == 2) THEN
         ENTMP(1) = VGZ
         IF(NSPMD > 1) CALL SPMD_GLOB_DMIN9(ENTMP,1)
-        IF(ISPMD.EQ.0) VGZ = ENTMP(1)
+        IF(ISPMD==0) VGZ = ENTMP(1)
       ENDIF
 C
       CALL WRCOMR(LMXVREA,LVARREA,TABVREA)
@@ -278,8 +278,8 @@ C--------------------------------------
       LEN = ROOTLEN + 10
       FILNAMR = FILNAM
       IFIL = 2
-      IF(ICH.NE.0)IFIL = 41
-      IF(MULTIREST.NE.0.AND.MCHECK.EQ.0)THEN
+      IF(ICH/=0)IFIL = 41
+      IF(MULTIREST/=0.AND.MCHECK==0)THEN
         IRPREV = 1 + MOD(IRPREV,MULTIREST)
         FILNAM=FILNAM(1:LEN)//'_'//IJK(IRPREV)
         LEN = LEN+2
@@ -298,11 +298,11 @@ C--------------------------------------
         IFILNAM(I) = ICHAR(TMP_NAME(I:I))
       END DO
       CALL CUR_FIL_C(IFIL)
-      IF (IRFORM/5.EQ.2) THEN
+      IF (IRFORM/5==2) THEN
         CALL OPEN_C(IFILNAM,LEN_TMP_NAME,0)
-      ELSEIF (IRFORM/5.EQ.3) THEN
+      ELSEIF (IRFORM/5==3) THEN
         CALL OPEN_C(IFILNAM,LEN_TMP_NAME,3)
-      ELSEIF (IRFORM/5.EQ.4) THEN
+      ELSEIF (IRFORM/5==4) THEN
         CALL OPEN_C(IFILNAM,LEN_TMP_NAME,6)
       ENDIF
       DO I = 1, LEN
@@ -505,7 +505,7 @@ C--------------------------------------
 
         CALL WRITE_I_C(IBCL,SIBCL)
 
-        IF (NINTLOADP.GT.0) THEN
+        IF (NINTLOADP>0) THEN
             CALL WRITE_I_C(KLOADPINTER, NINTER+1)
             CALL WRITE_I_C(LOADPINTER,NINTER*NLOADP_HYD)
         ENDIF
@@ -829,14 +829,14 @@ c        IF(NS10E > 0)THEN
           CALL WRITE_I_C(FR_CNDM,SFR_CNDM)
 c        ENDIF
 
-      IF(IPARIT.EQ.1)THEN
+      IF(IPARIT==1)THEN
         CALL WRITE_I_C(ADDCNE,NUMNOD+1)
         CALL WRITE_I_C(PROCNE,LCNE0)
-        IF(I2NSNT.GT.0)THEN
+        IF(I2NSNT>0)THEN
           CALL WRITE_I_C(ADDCNI2,NUMNOD+1)
         ENDIF
         CALL WRITE_I_C(PROCNI2,LCNI2)
-        IF(NS10E.GT.0) THEN
+        IF(NS10E>0) THEN
          CALL WRITE_I_C(ADDCNCND,SADDCNCND)
         ENDIF
         CALL WRITE_I_C(PROCNCND,SPROCNCND)
@@ -918,15 +918,15 @@ C--------------------------------------
 C--------------------------------------
       CALL WRITE_I_C(ITHVAR,SITHVAR)
 C--------------------------------------
-      IF (NLOADC.GT.0)THEN
+      IF (NLOADC>0)THEN
         CALL WRITE_I_C(ICFIELD,SIZFIELD*NLOADC)
         CALL WRITE_I_C(LCFIELD,SLCFIELD)
       ENDIF
-      IF (NLOADP.GT.0)THEN
+      IF (NLOADP>0)THEN
         CALL WRITE_I_C(ILOADP,SIZLOADP*NLOADP)
         CALL WRITE_I_C(LLOADP,SLLOADP)
       ENDIF
-      IF (NLOADP_B.GT.0)THEN
+      IF (NLOADP_B>0)THEN
         CALL PBLAST_WRITE_ENGINE(PBLAST_TAB)
       ENDIF
 C--------------------------------------
@@ -1147,31 +1147,31 @@ C--------------------------------------
 C--------------------------------------
 C     ECRITURES FACULTATIVES
 C--------------------------------------
-      IF (IRESMD.EQ.0.AND.NPSAV.GE.25) THEN
+      IF (IRESMD==0.AND.NPSAV>=25) THEN
 C   on ramene PARTSAV sur le proc et on met a zero les autres
           IF(NSPMD > 1)
      .      CALL SPMD_GLOB_DSUM9(PARTSAV,NPSAV*NPART)
-          IF (ISPMD.NE.0)THEN
+          IF (ISPMD/=0)THEN
             DO M=1,NPSAV*NPART
                  PARTSAV(M) = ZERO
             ENDDO
           ENDIF
           CALL WRITE_DB(PARTSAV,NPSAV*NPART)
       ENDIF
-      IF(NNOISE.GT.0)THEN
+      IF(NNOISE>0)THEN
         CALL WRITE_I_C (IAF(IF01),2*NNOISE+10)
         CALL WRITE_DB(AF(MF01),6*NCNOIS*NNOISE+1)
       ENDIF
 C-----
 C  Save A, AR to Restart RAD2MD
-      IF (IRESMD.EQ.1) THEN
+      IF (IRESMD==1) THEN
         CALL WRITE_DB(A,3*NUMNOD)
         CALL WRITE_DB(AR,3*NUMNOD)
 C    Save PARTSAV.
         CALL WRITE_DB(PARTSAV,NPSAV*NPART)
       ENDIF
 C
-      IF (IRESP .EQ. 1) THEN
+      IF (IRESP == 1) THEN
         CALL WRITE_DPDB(XDP,3*NUMNOD)
         CALL WRITE_DPDB(DDP,3*NUMNOD)
       ENDIF
@@ -1314,7 +1314,7 @@ C  LSENSOR
 C--------------------------------------
 C FXBODY (moved from resol.F)
 C--------------------------------------
-      IF (NFXBODY.GT.0) CALL FXBWREST(ICH)
+      IF (NFXBODY>0) CALL FXBWREST(ICH)
 C--------------------------------------
 C SEATBELTS - SLIPRING / RETRACTOR
 C--------------------------------------
@@ -1429,7 +1429,7 @@ C--------------------------------------------
       CALL WRITE_DB(TM_NSTRA1,LMAX_NSTRA*NUMNOD)
       CALL WRITE_DB(TM_NSTRA3,LMAX_NSTRA*NUMNOD)
 C--------------------------------------
-      IF(ISPMD.EQ.0)THEN
+      IF(ISPMD==0)THEN
         WRITE (IOUT,1000)  FILNAMG(1:LENG)
         WRITE (ISTDO,1050) FILNAMG(1:LENG)
       ENDIF

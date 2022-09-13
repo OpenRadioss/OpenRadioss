@@ -94,9 +94,9 @@ C Elimination des noeuds doubles
             Y2=POLY(2,JJ)
             Z2=POLY(3,JJ)
             DD=SQRT((X1-X2)**2+(Y1-Y2)**2+(Z1-Z2)**2)
-            IF (DD.LE.TOLE) IFOUND=J
+            IF (DD<=TOLE) IFOUND=J
          ENDDO
-         IF (IFOUND.EQ.0) THEN
+         IF (IFOUND==0) THEN
             NN=NN+1
             REDIR(NN)=I
          ENDIF
@@ -142,7 +142,7 @@ C
 C Clipping d'un polygone par un plan
       NPOUT=0
       DO I=1,NPIN
-         IF (I.NE.NPIN) THEN
+         IF (I/=NPIN) THEN
             II=I+1
          ELSE
             II=1
@@ -157,8 +157,8 @@ C
 C
          SS1=(X1-A(1))*N(1)+(Y1-A(2))*N(2)+(Z1-A(3))*N(3)
          SS2=(X2-A(1))*N(1)+(Y2-A(2))*N(2)+(Z2-A(3))*N(3)
-         IF (SS1.LT.ZERO.AND.SS2.LT.ZERO) CYCLE
-         IF (SS1.GE.ZERO.AND.SS2.GE.ZERO) THEN
+         IF (SS1<ZERO.AND.SS2<ZERO) CYCLE
+         IF (SS1>=ZERO.AND.SS2>=ZERO) THEN
             NPOUT=NPOUT+1
             POLYOUT(1,NPOUT)=X1
             POLYOUT(2,NPOUT)=Y1
@@ -177,7 +177,7 @@ C
          XM=X1+ALPHA*X12
          YM=Y1+ALPHA*Y12
          ZM=Z1+ALPHA*Z12
-         IF (SS1.GE.ZERO) THEN
+         IF (SS1>=ZERO) THEN
             NPOUT=NPOUT+1
             POLYOUT(1,NPOUT)=X1
             POLYOUT(2,NPOUT)=Y1
@@ -186,7 +186,7 @@ C
             POLYOUT(1,NPOUT)=XM
             POLYOUT(2,NPOUT)=YM
             POLYOUT(3,NPOUT)=ZM
-         ELSEIF (SS2.GE.ZERO) THEN
+         ELSEIF (SS2>=ZERO) THEN
             NPOUT=NPOUT+1
             POLYOUT(1,NPOUT)=XM
             POLYOUT(2,NPOUT)=YM

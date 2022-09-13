@@ -465,13 +465,13 @@ C
 C
         LOC_PROC = ISPMD+1
         DO I = 1, NSPMD
-          IF(I.NE.LOC_PROC) THEN
+          IF(I/=LOC_PROC) THEN
             DO J=IAD_CNDM(I),IAD_CNDM(I+1)-1
               NOD = FR_CNDM(J)
               DO CC = ADDCNCND(NOD),ADDCNCND(NOD+1)-1
-                IF(PROCNCND(CC).EQ.LOC_PROC) THEN
+                IF(PROCNCND(CC)==LOC_PROC) THEN
                   FR_NBCCCND(1,I) = FR_NBCCCND(1,I)+1
-                ELSEIF(PROCNCND(CC).EQ.I) THEN
+                ELSEIF(PROCNCND(CC)==I) THEN
                   FR_NBCCCND(2,I) = FR_NBCCCND(2,I)+1
                 ENDIF
               ENDDO
@@ -504,13 +504,13 @@ C------for pass1
         ENDDO
 C
         DO I = 1, NSPMD
-          IF(I.NE.LOC_PROC) THEN
+          IF(I/=LOC_PROC) THEN
             DO J=IAD_CNDM1(I),IAD_CNDM1(I+1)-1
               NOD = FR_CNDM1(J)
               DO CC = ADDCNCND(NOD),ADDCNCND(NOD+1)-1
-                IF(PROCNCND(CC).EQ.LOC_PROC) THEN
+                IF(PROCNCND(CC)==LOC_PROC) THEN
                   FR_NBCCCND1(1,I) = FR_NBCCCND1(1,I)+1
-                ELSEIF(PROCNCND(CC).EQ.I) THEN
+                ELSEIF(PROCNCND(CC)==I) THEN
                   FR_NBCCCND1(2,I) = FR_NBCCCND1(2,I)+1
                 ENDIF
               ENDDO
@@ -1373,14 +1373,14 @@ C=======================================================================
         DAMPT  = MIN(DT1,DT2)*FACTB
         D_TSTART = DAMPR(17,ND)
         D_TSTOP  = DAMPR(18,ND)
-       IF (TT.GE.D_TSTART .AND. TT.LE.D_TSTOP) THEN
+       IF (TT>=D_TSTART .AND. TT<=D_TSTOP) THEN
 C----- Damping sur dof rotation et seulement -----
           IF (DAMPR(19,ND)>0) CYCLE
 C-------------------------------------------------
           DAMP_A(1) = DAMPR(3,ND)
           DAMP_A(2) = DAMPR(5,ND)
           DAMP_A(3) = DAMPR(7,ND)
-        IF(ISK.LE.1)THEN
+        IF(ISK<=1)THEN
 #include "vectorize.inc"
           DO N=1,IGRNOD(IGR)%NENTITY
            I=IGRNOD(IGR)%ENTITY(N)
@@ -1491,14 +1491,14 @@ C-------P/ON
         DAMPT  = MIN(DT1,DT2)*FACTB
         D_TSTART = DAMPR(17,ND)
         D_TSTOP  = DAMPR(18,ND)
-       IF (TT.GE.D_TSTART .AND. TT.LE.D_TSTOP) THEN
+       IF (TT>=D_TSTART .AND. TT<=D_TSTOP) THEN
 C----- Damping sur dof rotation et seulement -----
           IF (DAMPR(19,ND)>0) CYCLE
 C-------------------------------------------------
           DAMP_A(1) = DAMPR(3,ND)
           DAMP_A(2) = DAMPR(5,ND)
           DAMP_A(3) = DAMPR(7,ND)
-        IF(ISK.LE.1)THEN
+        IF(ISK<=1)THEN
 #include "vectorize.inc"
           DO N=1,IGRNOD(IGR)%NENTITY
            I=IGRNOD(IGR)%ENTITY(N)
@@ -1697,7 +1697,7 @@ C-------0.5*alpha
 c       DT05 = HALF*DT1	 
        IF (IPARIT/=0) FSKYCND(1:3,1:LCNCND)=ZERO
        IF (ISTATG/=0) THEN      
-        IF(ISTATG.LT.0) ISTATG=NGR2USR(-ISTATG,IGRNOD,NGRNOD)
+        IF(ISTATG<0) ISTATG=NGR2USR(-ISTATG,IGRNOD,NGRNOD)
         ITAG(1:NUMNOD)=0
         DO N=1,IGRNOD(ISTATG)%NENTITY
          I=IGRNOD(ISTATG)%ENTITY(N)

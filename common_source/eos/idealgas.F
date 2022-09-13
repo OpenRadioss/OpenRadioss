@@ -85,7 +85,7 @@ C-----------------------------------------------
          ENDDO
          DO I=LFT,LLT
            ECOLD(I)=-THREE100*SPH
-           IF(MU(I).GT.ZERO) ECOLD(I)=ECOLD(I)*(ONE+(GAMMA-ONE)*MU(I)*(ONE-MU(I)))
+           IF(MU(I)>ZERO) ECOLD(I)=ECOLD(I)*(ONE+(GAMMA-ONE)*MU(I)*(ONE-MU(I)))
          ENDDO
 C-----------------------------------------------
       ELSEIF(IFLAG == 1) THEN
@@ -116,7 +116,7 @@ C-----------------------------------------------
          Cv     = PM(36,MX)
          DO I=LFT,LLT
            RHO      = RHO0*(ONE+MU(I))
-           IF(OFF(I).LT.1.) CYCLE
+           IF(OFF(I)<1.) CYCLE
            THETA(I) = EINT(I)/Cv/RHO/VNEW(I)
            THETA(I) = MAX(ZERO,THETA(I))
          ENDDO
@@ -130,7 +130,7 @@ C-----------------------------------------------
           T0           = PM(35,MX)
           SPH          = PM(69,MX)
           DO I=1, NEL
-             IF (VNEW(I) .GT. ZERO) THEN
+             IF (VNEW(I) > ZERO) THEN
                 PP      = (GAMMA-ONE)*(ONE+MU(I))*ESPE(I) - PSH(I)
                 DPDM(I) = (GAMMA-ONE)*(ESPE(I)+(PP+PSH(I))*DF(I)) !total derivative
                 DPDE(I) = (GAMMA-ONE)*(ONE+MU(I)) !partial derivative

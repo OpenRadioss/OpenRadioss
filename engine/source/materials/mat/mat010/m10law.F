@@ -176,8 +176,8 @@ C-----------------------------------------------
         G0(I) = A0(I)+A1(I)*PTOT+A2(I)*PTOT*PTOT
         G0(I) = MIN(AMX(I),G0(I))
         G0(I) = MAX(ZERO,G0(I))
-        IF(PNEW(I).LE.PFRAC)G0(I)=ZERO
-        IF(PTOT .LE. PSTAR(I))G0(I)=ZERO
+        IF(PNEW(I)<=PFRAC)G0(I)=ZERO
+        IF(PTOT <= PSTAR(I))G0(I)=ZERO
         YIELD2(I)=AJ2(I)-G0(I)
       ENDDO !next I  
       
@@ -186,7 +186,7 @@ C-----------------------------------------------
       !----------------------------------------------------------------!      
       DO  I=LFT,LLT
         RATIO(I)=ZERO
-        IF(YIELD2(I).LE.ZERO .AND. G0(I).GT.ZERO)THEN
+        IF(YIELD2(I)<=ZERO .AND. G0(I)>ZERO)THEN
           RATIO(I)=ONE
         ELSE
           RATIO(I)=SQRT(G0(I)/(AJ2(I)+ EM14))

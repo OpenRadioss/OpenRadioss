@@ -141,14 +141,14 @@ C======================================================================|
                 II=0
                 IH=IADR
                            
-                DO WHILE((ITHBUF(IH+NN).NE.ISPMD).AND.(IH.LT.IADR+NN))               
+                DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.(IH<IADR+NN))               
                     IH = IH + 1                           
                 ENDDO                                   
-                IF (IH.GE.IADR+NN) GOTO 666               
+                IF (IH>=IADR+NN) GOTO 666               
                 DO NG=1,NGROUP
                     ITY=IPARG(5,NG)
 
-                    IF(ITY.EQ.51.OR.ITY.EQ.52) THEN
+                    IF(ITY==51.OR.ITY==52) THEN
                         CALL INITBUF (IPARG    ,NG      ,                    
      2                                MTE     ,NEL     ,NFT     ,IAD     ,ITY     ,  
      3                                NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
@@ -169,18 +169,18 @@ C======================================================================|
                             K=ITHBUF(IH)
                             IP=ITHBUF(IH+NN)
       
-                            IF (K.EQ.N)THEN
+                            IF (K==N)THEN
                                 IH=IH+1
                                 !---spmd specific treatment---!
-                                IF (IMACH.EQ.3) THEN
+                                IF (IMACH==3) THEN
                                     !---search for ii---!
                                     II = ((IH-1) - IADR)*NVAR
-                                    DO WHILE((ITHBUF(IH+NN).NE.ISPMD).AND.(IH.LT.IADR+NN))
+                                    DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.(IH<IADR+NN))
                                         IH = IH + 1
                                     ENDDO
                                 ENDIF
 
-                                IF(IH.GT.IADR+NN) GOTO 666
+                                IF(IH>IADR+NN) GOTO 666
                                 !---PROP type VOID ---!
                                 DO L=1,100
                                     WWA(L)=ZERO

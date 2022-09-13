@@ -156,20 +156,20 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
-        IF(SUB_QUAD(I) .NE. 0)THEN
-          IF(IPARTQ(I) .NE. 0) IPARTQ(I) = IPARTQ(I) + OFF_PART(SUB_QUAD(I)) 
-          IF(IXQ(NIXQ,I) .NE. 0) IXQ(NIXQ,I) = IXQ(NIXQ,I) + OFF_EL(SUB_QUAD(I))
+        IF(SUB_QUAD(I) /= 0)THEN
+          IF(IPARTQ(I) /= 0) IPARTQ(I) = IPARTQ(I) + OFF_PART(SUB_QUAD(I)) 
+          IF(IXQ(NIXQ,I) /= 0) IXQ(NIXQ,I) = IXQ(NIXQ,I) + OFF_EL(SUB_QUAD(I))
           DO J=2,5
-            IF(IXQ(J,I) .NE. 0) IXQ(J,I) = IXQ(J,I) + OFF_NOD(SUB_QUAD(I))
+            IF(IXQ(J,I) /= 0) IXQ(J,I) = IXQ(J,I) + OFF_NOD(SUB_QUAD(I))
           ENDDO
-          IF(UID_QUAD(I) .NE. 0) UID_QUAD(I) = UID_QUAD(I) + OFF_DEF(SUB_QUAD(I))
-          IF(UID_QUAD(I) == 0 .AND. LSUBMODEL(SUB_QUAD(I))%UID .NE. 0) 
+          IF(UID_QUAD(I) /= 0) UID_QUAD(I) = UID_QUAD(I) + OFF_DEF(SUB_QUAD(I))
+          IF(UID_QUAD(I) == 0 .AND. LSUBMODEL(SUB_QUAD(I))%UID /= 0) 
      .         UID_QUAD(I) = LSUBMODEL(SUB_QUAD(I))%UID
         ENDIF
 C--------------------------------------------------
 C      UNITS
 C--------------------------------------------------
-        IF(UID_QUAD(I) .NE. UID )THEN
+        IF(UID_QUAD(I) /= UID )THEN
           UID = UID_QUAD(I)
           IFLAGUNIT = 0          
           DO J=1,NUNITS                         
@@ -178,7 +178,7 @@ C--------------------------------------------------
               IFLAGUNIT = 1                     
             ENDIF                               
           ENDDO                                  
-          IF (UID.NE.0.AND.IFLAGUNIT.EQ.0) THEN
+          IF (UID/=0.AND.IFLAGUNIT==0) THEN
             CALL ANCMSG(MSGID=643,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I1=UID,C1='/QUAD')
           ENDIF 
@@ -186,9 +186,9 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
-        IF( IPART(4,INDEX_PART) .NE. IPARTQ(I) )THEN  
+        IF( IPART(4,INDEX_PART) /= IPARTQ(I) )THEN  
           DO J=1,NPART                            
-            IF(IPART(4,J).EQ. IPARTQ(I) ) INDEX_PART = J 
+            IF(IPART(4,J)== IPARTQ(I) ) INDEX_PART = J 
           ENDDO  
         ENDIF
         IF(IPART(4,INDEX_PART) /= IPARTQ(I)) THEN
@@ -206,15 +206,15 @@ C--------------------------------------------------
         IPID=IPART(2,INDEX_PART)                                 
         IXQ(1,I)=MT                                
         IXQ(6,I)=IPID 
-        IF (IXQ(NIXQ,I).GT.ID_LIMIT)THEN
+        IF (IXQ(NIXQ,I)>ID_LIMIT)THEN
             CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I1=IXQ(NIXQ,I),C1=LINE,C2='/QUAD')
-        ELSEIF (NADMESH.NE.0.AND.IXQ(NIXQ,I).GT.ID_LIMIT_ADMESH)THEN
+        ELSEIF (NADMESH/=0.AND.IXQ(NIXQ,I)>ID_LIMIT_ADMESH)THEN
             CALL ANCMSG(MSGID=1069,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I1=IXQ(NIXQ,I),C1=LINE,C2='/QUAD')
         ENDIF                            
-        IF(  ( IXQ(4,I) .EQ. IXQ(5,I)) .OR.        
-     .       ( IXQ(5,I) .EQ. 0 )) THEN             
+        IF(  ( IXQ(4,I) == IXQ(5,I)) .OR.        
+     .       ( IXQ(5,I) == 0 )) THEN             
            NDEGEN = NDEGEN + 1                     
            CALL ANCMSG(MSGID=430,
      .                 MSGTYPE=MSGWARNING,
@@ -236,7 +236,7 @@ C
       I1=1
       I2=MIN0(50,NUMELQ)
 C
-      IF(IPRI.GE.5)THEN
+      IF(IPRI>=5)THEN
    90  WRITE (IOUT,'(//A/A//A,A/)')TITRE(110),TITRE(111),TITRE(102),TITRE(105)
        DO I=I1,I2
          MID = IPM(1,IXQ(1,I))
@@ -244,7 +244,7 @@ C
          WRITE (IOUT,FMT='(8(I10,1X),1PG20.13,1X,1PG20.13)') IXQ(NIXQ,I),I,MID,PID,
      .                      (ITAB(IXQ(J,I)),J=2,5)
        ENDDO
-       IF(I2.EQ.NUMELQ)GOTO 200
+       IF(I2==NUMELQ)GOTO 200
        I1=I1+50
        I2=MIN0(I2+50,NUMELQ)
        GOTO 90

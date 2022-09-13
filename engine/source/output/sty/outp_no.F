@@ -68,20 +68,20 @@ C-----------------------------------------------
 
       IF (NSPMD > 1) THEN
          CALL SPMD_DOUTP_GATH(ANIN(1+INNODA),NODGLOB,WEIGHT,VGLOB)
-         IF (ISPMD.NE.0) RETURN
+         IF (ISPMD/=0) RETURN
       ENDIF
 
 C
        WRITE(IUGEO,'(2A)')'/NODAL     /SCALAR    /',KEY
        WRITE(IUGEO,'(A)')TEXT(1:LEN)
-       IF (IOUTP_FMT.EQ.2) THEN
+       IF (IOUTP_FMT==2) THEN
          WRITE(IUGEO,'(A)')'#FORMAT: (I8,1P1E16.9) '
        ELSE
          WRITE(IUGEO,'(A)')'#FORMAT: (I10,1P1E20.13) '
        ENDIF
        WRITE(IUGEO,'(2A)')'# USRNOD     NODAL VALUE'
        IF (NSPMD == 1) THEN
-         IF (OUTYY_FMT.EQ.2) THEN
+         IF (OUTYY_FMT==2) THEN
            WRITE(IUGEO,'(I8,1P1E16.9)')
      .          (ITAB(J),ANIN(J+INNODA),J=1,NUMNOD)
          ELSE
@@ -89,7 +89,7 @@ C
      .          (ITAB(J),ANIN(J+INNODA),J=1,NUMNOD)
          ENDIF
        ELSE
-         IF (OUTYY_FMT.EQ.2) THEN
+         IF (OUTYY_FMT==2) THEN
            WRITE(IUGEO,'(I8,1P1E16.9)')
      .          (ITABG(J),VGLOB(J),J=1,NUMNODG)
          ELSE

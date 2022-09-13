@@ -80,7 +80,7 @@ C Preparation du recv
       DO P=1,NSPMD
         IADR(P) = L
         SIZ = (IAD_ELEM(1,P+1)-IAD_ELEM(1,P))*9
-        IF(SIZ.NE.0)THEN
+        IF(SIZ/=0)THEN
           MSGTYP = MSGOFF 
           CALL MPI_IRECV(
      S      BBUFR(L),SIZ,REAL,IT_SPMD(P),MSGTYP,
@@ -112,7 +112,7 @@ C
       IADS(NSPMD+1)=L
 
        DO P=1,NSPMD
-       IF(IAD_ELEM(1,P+1)-IAD_ELEM(1,P).GT.0)THEN
+       IF(IAD_ELEM(1,P+1)-IAD_ELEM(1,P)>0)THEN
           MSGTYP = MSGOFF 
           SIZ = IADS(1+P)-IADS(P)
           L = IADS(P)
@@ -128,7 +128,7 @@ C Recv
       DO P = 1, NSPMD
 Cel test si msg necessaire a envoyer a completer par test interface
         NB = IAD_ELEM(1,P+1)-IAD_ELEM(1,P)
-        IF(NB.GT.0)THEN
+        IF(NB>0)THEN
           CALL MPI_WAIT(REQ_RI(P),STATUS,IERROR)
           L=IADR(P)
           DO J=IAD_ELEM(1,P),IAD_ELEM(1,P+1)-1
@@ -149,7 +149,7 @@ Cel test si msg necessaire a envoyer a completer par test interface
 C Fin du send
       DO P = 1, NSPMD
           SIZ=IADS(P+1)-IADS(P)
-          IF(SIZ.GT.0) THEN
+          IF(SIZ>0) THEN
             CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
           ENDIF
       ENDDO

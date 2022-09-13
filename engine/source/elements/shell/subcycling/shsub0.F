@@ -61,7 +61,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,K,NISKFT,NISKLT
 C-----------------------------------------------
-        IF(IPARIT.GT.0)THEN
+        IF(IPARIT>0)THEN
           NISKFT =  1+ITASK*8*LSKY/NTHREAD
           NISKLT = (ITASK+1)*8*LSKY/NTHREAD
           DO  I=NISKFT,NISKLT

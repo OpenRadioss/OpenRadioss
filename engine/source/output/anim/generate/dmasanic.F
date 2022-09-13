@@ -98,8 +98,8 @@ C
         NEL   =IPARG(2,NG)
         ITY   =IPARG(5,NG)
         NPT   =IABS(IPARG(6,NG))
-        IF (IMACH.EQ.3.AND.ISPMD.EQ.0) THEN
-          IF (ITY.NE.ITY_OLD) THEN
+        IF (IMACH==3.AND.ISPMD==0) THEN
+          IF (ITY/=ITY_OLD) THEN
             NEL_OLD = 0
             ITY_OLD= ITY
           ENDIF
@@ -110,7 +110,7 @@ C
         IAD   =IPARG(4,NG)
         LFT=1
         LLT=NEL
-        IF (IMACH.EQ.3.AND.ISPMD.EQ.0) THEN
+        IF (IMACH==3.AND.ISPMD==0) THEN
             NFT_FA = NEL_OLD - NEL 
         ELSE
             NFT_FA = NFT
@@ -118,13 +118,13 @@ C
 C-----------------------------------------------
 C       QUAD
 C-----------------------------------------------
-        IF(ITY.EQ.2)THEN
+        IF(ITY==2)THEN
          IALEL=(IPARG(7,NG)+IPARG(11,NG))
 C
          DO I=LFT,LLT
                N = I + NFT
                N_FA = I + NFT_FA
-               IF(IALEL.EQ.0)THEN
+               IF(IALEL==0)THEN
                  MT=IXQ(1,N)
                  VALUE=PM(89,MT)*GBUF%VOL(I)
                ELSE
@@ -136,7 +136,7 @@ C
 C-----------------------------------------------
 C       COQUES 4 N
 C-----------------------------------------------
-        ELSEIF(ITY.EQ.3)THEN
+        ELSEIF(ITY==3)THEN
 C
           ISUBSTACK=IPARG(71,NG)
           IGTYP   = IPARG(38,NG)
@@ -191,7 +191,7 @@ C
 C-----------------------------------------------
 C       COQUES 3 N
 C-----------------------------------------------
-        ELSEIF(ITY.EQ.7)THEN
+        ELSEIF(ITY==7)THEN
 C       
           ISUBSTACK=IPARG(71,NG)
           IGTYP   = IPARG(38,NG)
@@ -246,7 +246,7 @@ C
 C-----------------------------------------------
 C       RNUR
 C-----------------------------------------------
-        ELSEIF(ITY.EQ.50)THEN
+        ELSEIF(ITY==50)THEN
          DO I=LFT,LLT
             N = I + NFT
             N_FA = I + NFT_FA

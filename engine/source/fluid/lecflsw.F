@@ -86,7 +86,7 @@ C
 C
 C     TEST SI LE NOMBRE TOTALE DE FACES EST EGALE A NTFLSW
 C
-      IF (IL .NE. NTFLSW) THEN
+      IF (IL /= NTFLSW) THEN
         CALL ANCMSG(MSGID=16,ANMODE=ANINFO,
      .              I1=IL,I2=NTFLSW)
         CALL ARRET(2)
@@ -109,12 +109,12 @@ C
         IE = NNFLSW(7,IL)
         II = NINTRN(IE,IXS,11,NUMELS)
         ITMP(II) = IL
-        IF (NNFLSW(6,IL) .EQ. 0) NNFLSW(6,IL) = 4
+        IF (NNFLSW(6,IL) == 0) NNFLSW(6,IL) = 4
   310 CONTINUE
 C
       DO 350 NG=1,NGROUP
         ITY = IPARG(5,NG)
-        IF(ITY.GT.1) GO TO 350
+        IF(ITY>1) GO TO 350
         LFT = 1
         LLT = IPARG(2,NG)
         NFT = IPARG(3,NG)
@@ -122,7 +122,7 @@ C
         DO 330 I = LFT,LLT
           N = I+NFT
           IL = ITMP(N)
-          IF (IL .GT. 0) THEN
+          IF (IL > 0) THEN
             NNFLSW(7,IL) = NB1 +   LLT + 6*I - 6
             NNFLSW(8,IL) = NB1 + 7*LLT +   I - 1
             NNFLSW(1,IL) = LLT

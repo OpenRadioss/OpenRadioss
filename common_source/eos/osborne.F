@@ -94,7 +94,7 @@ C-----------------------------------------
        
        DO I=LFT,LLT
          A2_=A2
-         IF(MU(I).LT.ZERO)A2_=-A2
+         IF(MU(I)<ZERO)A2_=-A2
          DENOM   = (ESPE(I)+D0)
          PP      = (A1*MU(I)+A2_*MU(I)*MU(I)+(B0+B1*MU(I)+B2*MU(I)*MU(I))*ESPE(I)+(C1*MU(I)+C0)*ESPE(I)*ESPE(I))
      .             /DENOM
@@ -105,7 +105,7 @@ C-----------------------------------------
 
        DO I=LFT,LLT
          ECOLD(I)=-THREE100*SPH 
-         !IF(MU(I).GT.ZERO) ECOLD(I)=ECOLD(I)*(ONE+C4 *MU(I)*(ONE-MU(I)))+HALF*C1 *MU2(I)
+         !IF(MU(I)>ZERO) ECOLD(I)=ECOLD(I)*(ONE+C4 *MU(I)*(ONE-MU(I)))+HALF*C1 *MU2(I)
        ENDDO
 
       ELSEIF(IFLAG == 1) THEN
@@ -135,7 +135,7 @@ C----------------------------------------
        
        DO I=LFT,LLT
          A2_=A2
-         IF(MU(I).LT.ZERO)A2_=-A2
+         IF(MU(I)<ZERO)A2_=-A2
          
          DVV      = DVOL(I)*DF(I) / MAX(EM15,VNEW(I))   ! DVOL/V0  car  ESPE =EINT/V0
          DVV      = HALF*DVV ! car 2 iterations
@@ -169,7 +169,7 @@ C------------------------
        SPH    = PM(69,MX)
 
        DO I=LFT,LLT
-         IF(OFF(I).LT.1..OR.SPH.LE.0.) CYCLE
+         IF(OFF(I)<1..OR.SPH<=0.) CYCLE
          THETA(I) = (DF(I)*EINT(I)/VNEW(I)-ECOLD(I))/SPH
          THETA(I) = MAX(ZERO,THETA(I))
        ENDDO
@@ -190,9 +190,9 @@ C------------------------
          SPH          = PM(69,MX)    
          
          DO I=1, NEL
-            IF (VNEW(I) .GT. ZERO) THEN
+            IF (VNEW(I) > ZERO) THEN
                A2_=A2
-               IF(MU(I).LT.ZERO)A2_=-A2
+               IF(MU(I)<ZERO)A2_=-A2
                DENOM   = (ESPE(I)+D0)
                PP      = (A1*MU(I)+A2_*MU(I)*MU(I)+(B0+B1*MU(I)+B2*MU(I)*MU(I))*ESPE(I)+(C1*MU(I)+C0)*ESPE(I)*ESPE(I))
      .              /DENOM

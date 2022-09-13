@@ -173,7 +173,7 @@ C
         ENDDO
 C
         DO I=1,NEL
-          IF(VLINC(I,JPT).GT.ZERO) CYCLE
+          IF(VLINC(I,JPT)>ZERO) CYCLE
           CALL ANCMSG(MSGID=245,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,

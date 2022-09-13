@@ -61,13 +61,13 @@ C
       ITY_OLD = 0
       LB_L = 1
       DO NG = 1, NGROUP
-        IF(IPARG(32,NG).EQ.PROC) THEN
+        IF(IPARG(32,NG)==PROC) THEN
           NG_L = NG_L + 1
           DO J = 1, NPARG
             IPARG_L(J,NG_L) = IPARG(J,NG)
           ENDDO
           ITY = IPARG(5,NG)
-          IF(ITY.NE.ITY_OLD) THEN
+          IF(ITY/=ITY_OLD) THEN
             NFT_LOC = 0
             ITY_OLD = ITY
           ENDIF
@@ -78,7 +78,7 @@ C
             IPARG_L(67,NG_L) = IPARG_L(4,NG_L) + SHIFT_XFE
           ENDIF
           NFT_LOC = NFT_LOC + IPARG(2,NG)
-          IF(NG.LT.NGROUP) THEN
+          IF(NG<NGROUP) THEN
             LBUFELI = IPARG(4,NG+1) - IPARG(4,NG)
           ELSE
             LBUFELI = LBUFEL + 1 - IPARG(4,NG)

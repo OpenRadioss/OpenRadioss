@@ -151,7 +151,7 @@ C-----------------------------------------------
       !---ALLOCATIONS
       !
       IF(.NOT.(ALLOCATED(STATE_INIMAP_BUF))) THEN
-        IF(ISPMD.NE.0)THEN
+        IF(ISPMD/=0)THEN
           ALLOCATE(STATE_INIMAP_BUF(1))                                                                      
         ELSE
           ALLOCATE(STATE_INIMAP_BUF(NSPMD))  !process 0 will gather all data

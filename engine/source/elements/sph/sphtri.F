@@ -96,7 +96,7 @@ C
            MWA(NSN)=NUMSPH+NS
          END DO
 C--------
-         IF (NSP2SORT.NE.0) CALL SPBUC3(
+         IF (NSP2SORT/=0) CALL SPBUC3(
      1              X     ,KXSP   ,IXSP  ,NOD2SP,NSP2SORT,
      2              SPBUF ,MWA    ,JVOIS ,JSTOR ,JPERM  ,
      3              DVOIS ,IREDUCE,BMINMA,NSPHR ,NSP2SORTF,

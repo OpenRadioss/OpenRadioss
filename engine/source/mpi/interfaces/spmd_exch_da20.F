@@ -97,7 +97,7 @@ C
       L = 1
       IAD_RECV(1) = 1
       DO I = 1, NSPMD
-        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0) THEN
+        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0) THEN
           SIZ = NBINT20*(LEN20*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))+1)
           MSGTYP = MSGOFF 
           NBIRECV = NBIRECV + 1
@@ -115,7 +115,7 @@ C Pre Traitement interfaces
 C
       DO NI = 1, NBINTC
         NIN = INTLIST(NI)
-        IF(IPARI(7,NIN).EQ.20)THEN
+        IF(IPARI(7,NIN)==20)THEN
           NLN=IPARI(35,NIN)
 C
           DO I = 1, NUMNOD
@@ -128,14 +128,14 @@ C
           END DO
 C
           DO I = 1, NSPMD
-            IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0) THEN
+            IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0) THEN
               LL = DEBUT(I)
               SBUF(LL)=0
               L = LL+1
 #include    "vectorize.inc"
               DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                 NOD = FR_ELEM(J)
-                IF(ITAGX(NOD).NE.0)THEN
+                IF(ITAGX(NOD)/=0)THEN
                   II = ITAGX(NOD)
                   SBUF(L) = J+1-IAD_ELEM(1,I)
 C ALPHAK(2)
@@ -172,7 +172,7 @@ C
         CALL MPI_WAITALL(NBIRECV,REQ_R,RSTATUS,IERROR)
         DO NI = 1, NBINTC
           NIN = INTLIST(NI)
-          IF(IPARI(7,NIN).EQ.20)THEN
+          IF(IPARI(7,NIN)==20)THEN
             NLN=IPARI(35,NIN)
 C
 c            DO II = 1, NUMNOD
@@ -222,7 +222,7 @@ C
 Cel wait terminaison isend
 C
       DO I = 1, NSPMD
-        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0)
+        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)
      .    CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
       ENDDO
 C

@@ -70,14 +70,14 @@ C-----------------------------------------------
 C
         IG=0
         DO I=1,NGRELE
-          IF(IGRELE(I)%ID.EQ.IGU)IG=I
+          IF(IGRELE(I)%ID==IGU)IG=I
         ENDDO
 C
         IF(IG /= 0)THEN
           IF (NFRAM > 0 .OR. ISTYP >= 1) THEN
             DO L=1,IGRELE(IG)%NENTITY
               IE=IGRELE(IG)%ENTITY(L)
-              IF ( TAGELEMS(IE) .NE. 0 ) THEN
+              IF ( TAGELEMS(IE) /= 0 ) THEN
                 IF(SEATBELT_SHELL_TO_SPRING(IE,1) /= 0)
      .                  ELEGROR_SEATBELT = ELEGROR_SEATBELT + 1
                 IF(SEATBELT_SHELL_TO_SPRING(IE,2) /= 0)

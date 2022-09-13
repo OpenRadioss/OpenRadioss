@@ -120,7 +120,7 @@ C material parameters
         C(5)     = UPARAM(10)   
         MULLINS  = INT(UPARAM(13)) ! computed in updmat 
 C iniialisation des variabesl users 
-      IF(TIME.EQ.ZERO)THEN
+      IF(TIME==ZERO)THEN
        DO J = 1,NUVAR
         DO  I = 1, NEL
          UVAR(I,J) = ZERO
@@ -138,7 +138,7 @@ C
       ENDDO       
 CEigenvalues needed to be calcultated in double precision
 C        for a simple precision executing
-      IF (IRESP.EQ.1) THEN
+      IF (IRESP==1) THEN
         CALL VALPVECDP_V(AV,EVV,DIRPRV,NEL)
       ELSE
        CALL VALPVEC_V(AV,EVV,DIRPRV,NEL)
@@ -147,7 +147,7 @@ C-ISMSTR=0-NO SMALL STRAIN OPTION:STRAINS ARE LOGARITHMIC, STRESS IS CAUCHY
 C-ISMSTR=1-SMALL STRAIN OPTION:STRAINS ARE ENGINEERING, STRESS IS CAUCHY
 C-ISMSTR=2-SMALL STRAIN OPTION:STRAINS ARE ENGINEERING, STRESS IS BIOT
 C-ISMSTR=3-NO SMALL STRAIN OPTION:STRESS IS BIOT
-      IF(ISMSTR.EQ.0.OR.ISMSTR.EQ.2.OR.ISMSTR.EQ.4) THEN
+      IF(ISMSTR==0.OR.ISMSTR==2.OR.ISMSTR==4) THEN
         DO I=1,NEL
 C ---- (STRAIN IS LOGARITHMIC)
          EV(I,1)=EXP(EVV(I,1))

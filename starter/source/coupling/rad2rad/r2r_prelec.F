@@ -154,11 +154,11 @@ C--------------------------------------------------------------------C
 C------Detection d'options incompatibles-----------------------------C
 C--------------------------------------------------------------------C	
 
-        IF (PASSE.EQ.0) THEN
+        IF (PASSE==0) THEN
 	
 C-----DAMPING--------------------------------------------------------
 
-        IF (NDAMP.GT.0) THEN
+        IF (NDAMP>0) THEN
            CALL ANCMSG(MSGID=837,
      .                 MSGTYPE=MSGWARNING,
      .                 ANMODE=ANINFO_BLIND_1,
@@ -168,7 +168,7 @@ C-----DAMPING--------------------------------------------------------
 	
 C-----Flexible BODY---------------------------------------------------
 
-        IF (NFXBODY.GT.0) THEN
+        IF (NFXBODY>0) THEN
            CALL ANCMSG(MSGID=837,
      .                 MSGTYPE=MSGWARNING,
      .                 ANMODE=ANINFO,
@@ -178,7 +178,7 @@ C-----Flexible BODY---------------------------------------------------
 	
 C-----AMS - provisoirement incompatible-------------------------------
 
-        IF (ISMS.GT.0) THEN
+        IF (ISMS>0) THEN
            CALL ANCMSG(MSGID=835,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO,
@@ -218,16 +218,16 @@ C--------------------------------------------------------------------C
           READ(IIN,REC=IREC,ERR=999,FMT='(A)')TITR                               
           IREC=IREC+1
 C----
-          IF (KEY(1:3).NE.'MAT') THEN
+          IF (KEY(1:3)/='MAT') THEN
             READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
             READ(LINE,ERR=999,FMT=FMT_I_3F_2I) NUL,NUL_M,NUL_M,NUL_M,N1,N2
-            IF (N1.NE.0) THEN
+            IF (N1/=0) THEN
               N1=USR2SYS(N1,ITABM1,MESS,NI)
-	      IF (TAGNO(NPART+N1).EQ.-1) CALL MODIF_TAG(TAGNO(NPART+N1),0,MODIF)
+	      IF (TAGNO(NPART+N1)==-1) CALL MODIF_TAG(TAGNO(NPART+N1),0,MODIF)
             ENDIF
-            IF (N2.NE.0) THEN
+            IF (N2/=0) THEN
               N2=USR2SYS(N2,ITABM1,MESS,NI)
-	      IF (TAGNO(NPART+N2).EQ.-1) CALL MODIF_TAG(TAGNO(NPART+N2),0,MODIF)
+	      IF (TAGNO(NPART+N2)==-1) CALL MODIF_TAG(TAGNO(NPART+N2),0,MODIF)
             ENDIF
           ENDIF
 C----
@@ -258,12 +258,12 @@ C--------------------------------------------------------------------C
 c          READ(IIN,REC=IREC,ERR=999,FMT=FMT_I_2F)N1,NUL,NUL    
 c          N1 = USR2SYS(N1,ITABM1,MESS,NI)
 c	         CALL MODIF_TAG(TAGNO(NPART+N1),2,MODIF)	    
-        ELSEIF (KEY(1:4) .NE.'SENS'.AND.KEY(1:5).NE.'TYPE3'
-     .      .AND.KEY(1:3).NE.'AND'.AND.KEY(1:5).NE.'TYPE4'
-     .      .AND.KEY(1:2).NE.'OR'.AND.KEY(1:5).NE.'TYPE5'
-     .      .AND.KEY(1:3).NE.'NOT'.AND.KEY(1:5).NE.'TYPE8'
-     .      .AND.KEY(1:4).NE.'TIME'.AND.KEY(1:5).NE.'TYPE0'
-     .      .AND.KEY(1:4).NE.'ACCE'.AND.KEY(1:5).NE.'TYPE1') THEN
+        ELSEIF (KEY(1:4) /='SENS'.AND.KEY(1:5)/='TYPE3'
+     .      .AND.KEY(1:3)/='AND'.AND.KEY(1:5)/='TYPE4'
+     .      .AND.KEY(1:2)/='OR'.AND.KEY(1:5)/='TYPE5'
+     .      .AND.KEY(1:3)/='NOT'.AND.KEY(1:5)/='TYPE8'
+     .      .AND.KEY(1:4)/='TIME'.AND.KEY(1:5)/='TYPE0'
+     .      .AND.KEY(1:4)/='ACCE'.AND.KEY(1:5)/='TYPE1') THEN
            TSENS = '/SENSOR/'//KEY(1:5)
            CALL ANCMSG(MSGID=835, MSGTYPE=MSGERROR, ANMODE=ANINFO,
      .              C1=TSENS)
@@ -373,16 +373,16 @@ C
 C
 	  ISURS = 0
           DO J=1,NSURF
-               IF(ISUR.EQ.IGRSURF(J)%ID) ISURS=J
+               IF(ISUR==IGRSURF(J)%ID) ISURS=J
           ENDDO
 C             ---> cas d'erreur tag pour traiter dans lecture des monvol <---
-	  IF (ISURS.EQ.0) GOTO 139
+	  IF (ISURS==0) GOTO 139
 C	    
-	  IF (IGRSURF(ISURS)%NSEG.GT.0) THEN
-	      IF (ISURF_R2R(3,ISURS).EQ.IGRSURF(ISURS)%NSEG) THEN
+	  IF (IGRSURF(ISURS)%NSEG>0) THEN
+	      IF (ISURF_R2R(3,ISURS)==IGRSURF(ISURS)%NSEG) THEN
 C             ---> cas normal  tager <---
 	         GOTO 139	  
-	      ELSEIF (ISURF_R2R(3,ISURS).NE.0) THEN
+	      ELSEIF (ISURF_R2R(3,ISURS)/=0) THEN
 C             ---> cas monvol coupe interdit <---	      
               CALL ANCMSG(MSGID=836,
      .                    MSGTYPE=MSGERROR,
@@ -417,17 +417,17 @@ C-------------------------------------------------------------------C
           IREC=IREC+1
 	  ISURS = 0
           DO J=1,NSURF
-               IF(ISUR.EQ.IGRSURF(J)%ID) ISURS=J
+               IF(ISUR==IGRSURF(J)%ID) ISURS=J
           ENDDO
 
 C             ---> cas d'erreur tag pour traiter dans lecture des monvol <---
-	  IF (ISURS.EQ.0) GOTO 159
+	  IF (ISURS==0) GOTO 159
 C	    
-	  IF (IGRSURF(ISURS)%NSEG.GT.0) THEN
-	      IF (ISURF_R2R(3,ISURS).EQ.IGRSURF(ISURS)%NSEG) THEN
+	  IF (IGRSURF(ISURS)%NSEG>0) THEN
+	      IF (ISURF_R2R(3,ISURS)==IGRSURF(ISURS)%NSEG) THEN
 C             ---> cas normal  tager <---
 	         GOTO 159	  
-	      ELSEIF (ISURF_R2R(3,ISURS).NE.0) THEN
+	      ELSEIF (ISURF_R2R(3,ISURS)/=0) THEN
 C             ---> cas monvol coupe interdit <---	      
               CALL ANCMSG(MSGID=836,
      .                    MSGTYPE=MSGERROR,
@@ -451,7 +451,7 @@ C------Prlecture et tag des Cyl joints -> icompatible sur interface-C
 C--------------------------------------------------------------------C
 
         CALL HM_OPTION_START('/CYL_JOINT')
-	IF (PASSE.EQ.0) ALLOCATE(TAGCYL(NJOINT))
+	IF (PASSE==0) ALLOCATE(TAGCYL(NJOINT))
 	TAGCYL(:)=0
 	COMPT = 0
 
@@ -464,12 +464,12 @@ C--------------------------------------------------------------------C
 C---------------------------------------------------------------------
 	  GR_ID = 0
           DO J=1,NGRNOD	  
-	    IF (IGRNOD(J)%ID.EQ.IGU) GR_ID = J
+	    IF (IGRNOD(J)%ID==IGU) GR_ID = J
 	  END DO
 	  N1=USR2SYS(N1,ITABM1,MESS,ID_CYL)
 	  N2=USR2SYS(N2,ITABM1,MESS,ID_CYL)
 C---------on tag les cas d'erreur-------------------------------------		  
-	  IF (GR_ID.EQ.0) THEN
+	  IF (GR_ID==0) THEN
             IGR2_TEMP = 0          
             IGR8_TEMP = 0
             IGR9_TEMP = 0           	     	  
@@ -479,29 +479,29 @@ C---------on tag les cas d'erreur-------------------------------------
             IGR9_TEMP = IGRNOD(GR_ID)%R2R_SHARE
 	  ENDIF 	  
 C--------- n1 et n2 doivent    tre pris en compte dans l'interface -----	  
-	  IF (TAGNO(N1+NPART).GT.1) IGR9_TEMP=IGR9_TEMP+1
-          IF (TAGNO(N2+NPART).GT.1) IGR9_TEMP=IGR9_TEMP+1
-	  IF (TAGNO(N1+NPART).GT.0) IGR8_TEMP=IGR8_TEMP+1
-          IF (TAGNO(N2+NPART).GT.0) IGR8_TEMP=IGR8_TEMP+1
-	  IF (TAGNO(N1+NPART).NE.0) IGR2_TEMP=IGR2_TEMP+1
-          IF (TAGNO(N2+NPART).NE.0) IGR2_TEMP=IGR2_TEMP+1                           
+	  IF (TAGNO(N1+NPART)>1) IGR9_TEMP=IGR9_TEMP+1
+          IF (TAGNO(N2+NPART)>1) IGR9_TEMP=IGR9_TEMP+1
+	  IF (TAGNO(N1+NPART)>0) IGR8_TEMP=IGR8_TEMP+1
+          IF (TAGNO(N2+NPART)>0) IGR8_TEMP=IGR8_TEMP+1
+	  IF (TAGNO(N1+NPART)/=0) IGR2_TEMP=IGR2_TEMP+1
+          IF (TAGNO(N2+NPART)/=0) IGR2_TEMP=IGR2_TEMP+1                           
 C---------------------------------------------------------------------	    	  
-	  IF (IGR8_TEMP.GT.0) THEN
+	  IF (IGR8_TEMP>0) THEN
 	    DIFF = IGR2_TEMP-IGR8_TEMP
-	    IF ((IGR9_TEMP.GT.0).OR.(DIFF.NE.0)) THEN
+	    IF ((IGR9_TEMP>0).OR.(DIFF/=0)) THEN
 C--------CYL_JOINTS sur l'interface--------------------------
-              IF (GR_ID.GT.0) THEN
+              IF (GR_ID>0) THEN
                 DO J=1,IGRNOD(GR_ID)%NENTITY
 	      	  CUR_ID = IGRNOD(GR_ID)%ENTITY(J)
-	          IF (TAGNO(CUR_ID+NPART).LT.3) THEN
+	          IF (TAGNO(CUR_ID+NPART)<3) THEN
                     CALL MODIF_TAG(TAGNO(NPART+CUR_ID),5,MODIF)   	       		   
 	          ENDIF
                 END DO
               ENDIF  
-	      IF (TAGNO(N1+NPART).LT.3) THEN
+	      IF (TAGNO(N1+NPART)<3) THEN
 	        CALL MODIF_TAG(TAGNO(NPART+N1),5,MODIF)
               ENDIF		
-              IF (TAGNO(N2+NPART).LT.3) THEN
+              IF (TAGNO(N2+NPART)<3) THEN
 	        CALL MODIF_TAG(TAGNO(NPART+N2),5,MODIF)
               ENDIF
 	    ENDIF
@@ -520,7 +520,7 @@ C------Prlecture et tag des MPC -> icompatible sur interface--------C
 C--------------------------------------------------------------------C
 
         CALL HM_OPTION_START('/MPC')		
-        IF (PASSE.EQ.0) ALLOCATE(TAGMPC(NUMMPC))
+        IF (PASSE==0) ALLOCATE(TAGMPC(NUMMPC))
         TAGMPC(:)=0	 	
 	COMPT = 0
 			
@@ -534,13 +534,13 @@ C--------------------------------------------------------------------C
           DO J=1,NUMC
             CALL HM_GET_INT_ARRAY_INDEX('node_ID',N1,J,IS_AVAILABLE,LSUBMODEL)  
 	    N2 = USR2SYS(N1,ITABM1,MESS,ID_MPC)
-	    IF (TAGNO(N2+NPART).GE.0) COMPT_M=COMPT_M+1  		   
-            IF (TAGNO(N2+NPART).GT.1) COMPT_S=COMPT_S+1 
-            IF (TAGNO(N2+NPART).LE.0) COMPT_S=COMPT_S+1	    	    	    
+	    IF (TAGNO(N2+NPART)>=0) COMPT_M=COMPT_M+1  		   
+            IF (TAGNO(N2+NPART)>1) COMPT_S=COMPT_S+1 
+            IF (TAGNO(N2+NPART)<=0) COMPT_S=COMPT_S+1	    	    	    
 	  END DO   	 
 C-----On check si le MPC doit etre garde-------------------------
-	  IF (COMPT_M.GT.0) THEN
-	    IF (COMPT_S.EQ.0) THEN
+	  IF (COMPT_M>0) THEN
+	    IF (COMPT_S==0) THEN
 C-----MPC interne ->	  
 	      TAGMPC(I) = ID_MPC
               COMPT = COMPT + 1 	     	  
@@ -562,7 +562,7 @@ C------Prlecture et tag des GJOINTS -> icompatible sur interface----C
 C--------------------------------------------------------------------C
 C      
         CALL HM_OPTION_START('/GJOINT')
-        IF (PASSE.EQ.0) ALLOCATE(TAGJOIN(NGJOINT))
+        IF (PASSE==0) ALLOCATE(TAGJOIN(NGJOINT))
         TAGJOIN(:)=0	 	
 	COMPT = 0
 			
@@ -581,18 +581,18 @@ C
           CALL HM_GET_INTV('node_ID3',NU(4),IS_AVAILABLE,LSUBMODEL)
 C
           VAL = 3
-	  IF(KEY2(1:4).EQ.'DIFF') VAL = 4
+	  IF(KEY2(1:4)=='DIFF') VAL = 4
 	  	  	  
           DO J=1,VAL
 	    NS(J) = USR2SYS(NU(J),ITABM1,MESS,ID_JOIN)
-	    IF (TAGNO(NS(J)+NPART).GE.0) COMPT_M=COMPT_M+1  		   
-            IF (TAGNO(NS(J)+NPART).GT.1) COMPT_S=COMPT_S+1 
-            IF (TAGNO(NS(J)+NPART).LE.0) COMPT_S=COMPT_S+1	    
+	    IF (TAGNO(NS(J)+NPART)>=0) COMPT_M=COMPT_M+1  		   
+            IF (TAGNO(NS(J)+NPART)>1) COMPT_S=COMPT_S+1 
+            IF (TAGNO(NS(J)+NPART)<=0) COMPT_S=COMPT_S+1	    
 	  END DO
 	  
 C-----On check si le GJOINT doit etre garde-------------------------
-	  IF (COMPT_M.GT.0) THEN
-	    IF (COMPT_S.EQ.0) THEN
+	  IF (COMPT_M>0) THEN
+	    IF (COMPT_S==0) THEN
 C-----GJOINT interne ->	  
 	      TAGJOIN(I) = ID_JOIN
               COMPT = COMPT + 1 	     	  
@@ -613,7 +613,7 @@ C--------------------------------------------------------------------C
 C------Prlecture et tag des RBE2------------------------------------C
 C--------------------------------------------------------------------C
 
-        IF (PASSE.EQ.0) ALLOCATE(TAGRB2(NRBE2))
+        IF (PASSE==0) ALLOCATE(TAGRB2(NRBE2))
         TAGRB2(:)=0	 	
 	COMPT = 0
 
@@ -630,10 +630,10 @@ C
 	  N2 = USR2SYS(N1,ITABM1,MESS,ID_RBE2)
 	  GR_ID=0	  	  
           DO J=1,NGRNOD	  
-	    IF (IGRNOD(J)%ID.EQ.IGU) GR_ID = J
+	    IF (IGRNOD(J)%ID==IGU) GR_ID = J
 	  END DO
 C---------on tag les cas d'erreur-------------------------------------		  
-	  IF (GR_ID.EQ.0) THEN	     	  
+	  IF (GR_ID==0) THEN	     	  
 	    COMPT = COMPT + 1		    
 	    TAGRB2(I)=ID_RBE2
 	    GOTO 360
@@ -641,12 +641,12 @@ C---------on tag les cas d'erreur-------------------------------------
 C---------------------------------------------------------------------	  
 	  COMPT_M = IGRNOD(GR_ID)%R2R_ALL
 	  COMPT_S = IGRNOD(GR_ID)%R2R_SHARE
-	  IF (TAGNO(N2+NPART).GE.0) COMPT_M=COMPT_M+1  		   
-          IF (TAGNO(N2+NPART).GT.1) COMPT_S=COMPT_S+1 
-          IF (TAGNO(N2+NPART).LE.0) COMPT_S=COMPT_S+1 	  
+	  IF (TAGNO(N2+NPART)>=0) COMPT_M=COMPT_M+1  		   
+          IF (TAGNO(N2+NPART)>1) COMPT_S=COMPT_S+1 
+          IF (TAGNO(N2+NPART)<=0) COMPT_S=COMPT_S+1 	  
 C-----On check si le RBE2 doit etre garde-------------------------
-	  IF (COMPT_M.GT.0) THEN
-	    IF (COMPT_S.EQ.0) THEN
+	  IF (COMPT_M>0) THEN
+	    IF (COMPT_S==0) THEN
 C-----RBE2 interne ->	  
 	      TAGRB2(I) = ID_RBE2
               COMPT = COMPT + 1 	     	  
@@ -668,7 +668,7 @@ C--------------------------------------------------------------------C
 C------Prlecture et tag des RBE3------------------------------------C
 C--------------------------------------------------------------------C
 
-        IF (PASSE.EQ.0) ALLOCATE(TAGRB3(NRBE3))
+        IF (PASSE==0) ALLOCATE(TAGRB3(NRBE3))
         TAGRB3(:)=0 
 	COMPT = 0
         CALL HM_OPTION_START('/RBE3')	
@@ -689,26 +689,26 @@ C-----Lecture des groupes----------------------------------------
             CALL HM_GET_FLOAT_ARRAY_INDEX('independentnodesetcoeffs',F,L,IS_AVAILABLE,LSUBMODEL,UNITAB)
             CALL HM_GET_INT_ARRAY_INDEX('independentnodesets',IGU,L,IS_AVAILABLE,LSUBMODEL)
             DO J=1,NGRNOD	  
-	      IF (IGRNOD(J)%ID.EQ.IGU) GR_ID = J
+	      IF (IGRNOD(J)%ID==IGU) GR_ID = J
 	    END DO
 	    BUF_TEMP(L)=GR_ID	    
 	    COMPT_M = COMPT_M + IGRNOD(GR_ID)%R2R_ALL
 	    COMPT_S = COMPT_S + IGRNOD(GR_ID)%R2R_SHARE
 	  END DO
 	  
-	  IF (TAGNO(N2+NPART).GE.0) COMPT_M=COMPT_M+1  		   
-          IF (TAGNO(N2+NPART).GT.1) COMPT_S=COMPT_S+1 
-          IF (TAGNO(N2+NPART).LE.0) COMPT_S=COMPT_S+1 
+	  IF (TAGNO(N2+NPART)>=0) COMPT_M=COMPT_M+1  		   
+          IF (TAGNO(N2+NPART)>1) COMPT_S=COMPT_S+1 
+          IF (TAGNO(N2+NPART)<=0) COMPT_S=COMPT_S+1 
 	  
 C-----On check si le RBE3 doit etre garde-------------------------
-	  IF (COMPT_M.GT.0) THEN
-	    IF (COMPT_S.EQ.0) THEN
+	  IF (COMPT_M>0) THEN
+	    IF (COMPT_S==0) THEN
 C-----RBE3 interne ->	  
 	      TAGRB3(I) = ID_RBE3
               COMPT = COMPT + 1 	     	  
 	    ELSE				    	  	  
 C-----RBE3   cheval -> on met tous le noeuds mains sur l'interface
-	      IF (TAGNO(NPART+N2).NE.-1) THEN
+	      IF (TAGNO(NPART+N2)/=-1) THEN
 C-----on tag le rbe3 dans les domaines qui voeint l'second    
 	        TAGRB3(I) = ID_RBE3
 	        COMPT = COMPT +1	    	       	          
@@ -717,7 +717,7 @@ C-----on tag le rbe3 dans les domaines qui voeint l'second
 	        GR_ID = BUF_TEMP(L)
                 DO J=1,IGRNOD(GR_ID)%NENTITY
 	          CUR_ID = IGRNOD(GR_ID)%ENTITY(J)
-	          IF (TAGNO(CUR_ID+NPART).LT.3) THEN
+	          IF (TAGNO(CUR_ID+NPART)<3) THEN
                     CALL MODIF_TAG(TAGNO(NPART+CUR_ID),4,MODIF)   	       		   
 	          ENDIF
                 END DO
@@ -733,7 +733,7 @@ C--------------------------------------------------------------------C
 C------Prlecture et tag des Rigid links-----------------------------C
 C--------------------------------------------------------------------C
 
-	IF (PASSE.EQ.0) ALLOCATE(TAGLNK(NLINK))
+	IF (PASSE==0) ALLOCATE(TAGLNK(NLINK))
 	TAGLNK(:)=0
 	COMPT = 0	
         CALL HM_OPTION_START('/RLINK')
@@ -746,21 +746,21 @@ C--------------------------------------------------------------------C
 C---------------------------------------------------------------------
 	  GR_ID = 0	  
           DO J=1,NGRNOD	  
-	    IF (IGRNOD(J)%ID.EQ.IGU) GR_ID = J
+	    IF (IGRNOD(J)%ID==IGU) GR_ID = J
 	  END DO	  	   	  	  
 C-----On check si le RLINK doit etre garde------------------------- 	  
 	  TAG = 0
           NOD=IGRNOD(GR_ID)%R2R_ALL
-	  IF (IGRNOD(GR_ID)%R2R_SHARE.EQ.0) TAG = 1
+	  IF (IGRNOD(GR_ID)%R2R_SHARE==0) TAG = 1
 C-----On tag le rlink et tout ses noeuds --------------------------
-	  IF (NOD.GT.0) THEN
+	  IF (NOD>0) THEN
 	    COMPT = COMPT+1
 	    TAGLNK(I)=ID_RLINK	  
-	    IF(TAG.NE.1) THEN  	    
+	    IF(TAG/=1) THEN  	    
 C-----RLINK "a cheval" -> on met tous les noeuds dans le couplage
               DO J=1,IGRNOD(GR_ID)%NENTITY
 	      	CUR_ID = IGRNOD(GR_ID)%ENTITY(J)
-	        IF (TAGNO(CUR_ID+NPART).LT.3) THEN
+	        IF (TAGNO(CUR_ID+NPART)<3) THEN
                   CALL MODIF_TAG(TAGNO(NPART+CUR_ID),5,MODIF)   	       		   
 	        ENDIF
               END DO		      		
@@ -780,7 +780,7 @@ C
         KCUR = KINTER
 C
 C-->  for TYPE19 interfaces NSLASH(KCUR) > NINTER because of specif /card for TYPE19	
-	IF (PASSE.EQ.0) ALLOCATE(TAGINT(HM_NINTER+NSLASH(KCUR)),TAGINT_WARN(NINTER+1))
+	IF (PASSE==0) ALLOCATE(TAGINT(HM_NINTER+NSLASH(KCUR)),TAGINT_WARN(NINTER+1))
 C
 C--     -> FOR TAGINT subinterfaces are stored with interfaces in order of the reader
 C--     -> TAGINT( --- INTER new reader + SUB interfaces --- INTER old reader -- )         
@@ -816,21 +816,21 @@ C
 	  TYPE2 = 0
 C
 	  FLG = 0
-          IF (KEY(6:6).EQ.'/') FLG = 1
+          IF (KEY(6:6)=='/') FLG = 1
           IF ((LEN_TRIM(KEY))==5) FLG = 1
 C	    	    
 C ---------> cas nodes/surfaces---------------------------------------	  	  
-	  IF (((KEY(1:5).EQ.'TYPE2').AND.(FLG.EQ.1)).OR.     
-     .       (KEY(1:5).EQ.'TYPE7').OR.(KEY(1:5).EQ.'TYPE5').OR.(KEY(1:5).EQ.'TYPE8').OR.
-     .       (KEY(1:6).EQ.'TYPE10').OR.(KEY(1:6).EQ.'TYPE14') ) THEN
+	  IF (((KEY(1:5)=='TYPE2').AND.(FLG==1)).OR.     
+     .       (KEY(1:5)=='TYPE7').OR.(KEY(1:5)=='TYPE5').OR.(KEY(1:5)=='TYPE8').OR.
+     .       (KEY(1:6)=='TYPE10').OR.(KEY(1:6)=='TYPE14') ) THEN
              CONT = 1
              CALL HM_GET_INTV('secondaryentityids',GRS,IS_AVAILABLE,LSUBMODEL)
              CALL HM_GET_INTV('mainentityids',GRM,IS_AVAILABLE,LSUBMODEL)
 C	  
 C--> les interfaces type2 penalite sont traitees comme des type7  <------C
-             IF ((KEY(1:5).EQ.'TYPE2').AND.(FLG.EQ.1)) THEN
+             IF ((KEY(1:5)=='TYPE2').AND.(FLG==1)) THEN
                CALL HM_GET_INTV('WFLAG',SPTFL,IS_AVAILABLE,LSUBMODEL)
-               IF ((SPTFL.NE.25).AND.(SPTFL.NE.26)) THEN
+               IF ((SPTFL/=25).AND.(SPTFL/=26)) THEN
 	         CONT = 0
 		 TYPE2 = 1
                ENDIF
@@ -841,15 +841,15 @@ C--> on determine si l'interface est  cheval et asymetrique  <------C
      .                       IGRNOD ,IGRSURF ,IGRSLIN, IGRBRIC)
 
 C--> pour les inter type 2 on couple en type5 si il ya un risque de masse nulle     
-             IF (TYPE2.EQ.1) THEN
+             IF (TYPE2==1) THEN
                  DO J=1,IGRNOD(G1)%NENTITY
 	           CUR_ID = IGRNOD(G1)%ENTITY(J)
-		   IF (TAGNO(CUR_ID+NPART).EQ.2) FLG_TIED(4) = 1
-		   IF (TAGNO(CUR_ID+NPART).EQ.4) FLG_TIED(5) = 1		       
+		   IF (TAGNO(CUR_ID+NPART)==2) FLG_TIED(4) = 1
+		   IF (TAGNO(CUR_ID+NPART)==4) FLG_TIED(5) = 1		       
 	         END DO  		 
 	     ENDIF
 C-->           	          	          	     	   
-             IF (TAG.GT.0) THEN
+             IF (TAG>0) THEN
 	      	COMPT_T2 = COMPT_T2 + 1	     
 C--> pretag elts cote main du contact pour les garder en void  <---C		   		      	          	     
                 IF ((TAG==3).OR.(TAG==1).OR.(TAG==4)) THEN	   
@@ -866,7 +866,7 @@ C--> pretag elts cote second. du contact pour les garder en void <---C
 	     ENDIF
 C
 C ---------> cas interface TYPE18 ---------------------------------------	  	  
-	  ELSEIF (KEY(1:6).EQ.'TYPE18') THEN     
+	  ELSEIF (KEY(1:6)=='TYPE18') THEN     
              CONT = 1
              CALL HM_GET_INTV('secondaryentityids',GR_BRIC,IS_AVAILABLE,LSUBMODEL)
              CALL HM_GET_INTV('tempsecondaryentityids',GRS,IS_AVAILABLE,LSUBMODEL)
@@ -883,7 +883,7 @@ C--> on determine si l'interface est  cheval et asymetrique  <------C
      .                       IGRNOD ,IGRSURF ,IGRSLIN, IGRBRIC)
              ENDIF
 C-->           	          	          	     	   
-             IF (TAG.GT.0) THEN
+             IF (TAG>0) THEN
 	      	COMPT_T2 = COMPT_T2 + 1	     
 C--> pretag elts cote main du contact pour les garder en void  <---C		   		      	          	     
                 IF ((TAG==3).OR.(TAG==1).OR.(TAG==4)) THEN	   
@@ -901,7 +901,7 @@ C--> pretag elts cote second. du contact pour les garder en void <---C
                     DO J=1,IGRBRIC(G1)%NENTITY
                       CUR_ID = IGRBRIC(G1)%ENTITY(J)
 C------------------------>   Tag des solides du grbric  <-------------C		    
-                      IF ((TAG_ELS(CUR_ID+NPART).LT.(1+CONT)).AND.(TAGNO(IPARTS(CUR_ID)).NE.VAL)) THEN    	    
+                      IF ((TAG_ELS(CUR_ID+NPART)<(1+CONT)).AND.(TAGNO(IPARTS(CUR_ID))/=VAL)) THEN    	    
 		        CALL MODIF_TAG(TAG_ELS(CUR_ID+NPART),1+CONT,MODIF)
 	              ENDIF
                     ENDDO
@@ -909,7 +909,7 @@ C------------------------>   Tag des solides du grbric  <-------------C
 		ENDIF	   		      	          			   
 	     ENDIF
 C
-	  ELSEIF (KEY(1:6).EQ.'TYPE11') THEN
+	  ELSEIF (KEY(1:6)=='TYPE11') THEN
              CONT = 1
 	     WARN = 0   	  	        
              CALL HM_GET_INTV('secondaryentityids',GRS,IS_AVAILABLE,LSUBMODEL)
@@ -918,7 +918,7 @@ C--> on determine si l'interface est  cheval et asymetrique  <------C
              CALL TAGINT_R2R(G1,G2,GRS,GRM,ID_INTER,
      .                	     TYPE2,VAL,TAG,I,COMPT,PASSE,2,IGRPP_R2R,     
      .                       IGRNOD ,IGRSURF ,IGRSLIN, IGRBRIC)
-             IF (TAG.GT.0) THEN
+             IF (TAG>0) THEN
 	      	COMPT_T2 = COMPT_T2 + 1	     
 C--> pretag elts ligne 1 du contact pour les garder en void  <-----C		   		      	          	     
                 IF ((TAG==2).OR.(TAG==1)) THEN
@@ -933,30 +933,30 @@ C--> pretag elts ligne 2 du contact pour les garder en void  <-----C
      .            MODIF,WARN,IGRSLIN(G2))          		
 		ENDIF	     		      	          			   
 	     ENDIF
-             IF (WARN.EQ.1) THEN
+             IF (WARN==1) THEN
              CALL ANCMSG(MSGID=892,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANSTOP,
      .                   I1=ID_INTER)
              ENDIF
-	  ELSEIF (KEY(1:6).EQ.'TYPE24'.OR.KEY(1:6).EQ.'TYPE21'.OR.KEY(1:5).EQ.'TYPE6'.OR.
-     .            KEY(1:6).EQ.'TYPE23'.OR.KEY(1:6).EQ.'TYPE20'.OR.KEY(1:6).EQ.'TYPE15'.OR.
-     .          ((KEY(1:5).EQ.'TYPE3').AND.(FLG==1))) THEN
+	  ELSEIF (KEY(1:6)=='TYPE24'.OR.KEY(1:6)=='TYPE21'.OR.KEY(1:5)=='TYPE6'.OR.
+     .            KEY(1:6)=='TYPE23'.OR.KEY(1:6)=='TYPE20'.OR.KEY(1:6)=='TYPE15'.OR.
+     .          ((KEY(1:5)=='TYPE3').AND.(FLG==1))) THEN
              CONT = 1
              FLAG_T24 = 0
-             IF (KEY(1:6).EQ.'TYPE24') THEN
+             IF (KEY(1:6)=='TYPE24') THEN
                FLAG_T24 = 1
              ELSE
                FLAG_T24 = 0
              ENDIF   	  	        
              CALL HM_GET_INTV('secondaryentityids',GRS,IS_AVAILABLE,LSUBMODEL)
              CALL HM_GET_INTV('mainentityids',GRM,IS_AVAILABLE,LSUBMODEL)	
-             IF ((FLAG_T24 == 1).AND.(GRM.EQ.0)) GRM = GRS      
+             IF ((FLAG_T24 == 1).AND.(GRM==0)) GRM = GRS      
 C--> on determine si l'interface est  cheval et asymetrique  <------C	   		      	          
              CALL TAGINT_R2R(G1,G2,GRS,GRM,ID_INTER,
      .                	     TYPE2,VAL,TAG,I,COMPT,PASSE,1,IGRPP_R2R,
      .                       IGRNOD ,IGRSURF ,IGRSLIN, IGRBRIC)
-             IF (TAG.GT.0) THEN
+             IF (TAG>0) THEN
 	      	COMPT_T2 = COMPT_T2 + 1	     
 C--> pretag elts surface 1 du contact pour les garder en void  <-----C		   		      	          	     
                 IF ((TAG==2).OR.(TAG==1)) THEN
@@ -973,7 +973,7 @@ C--> pretag elts surface 2 du contact pour les garder en void  <-----C
              ENDIF    		    
 C
 C ---------> cas d'interfaces incompatibles
-	  ELSEIF (KEY(1:3).NE.'SUB') THEN
+	  ELSEIF (KEY(1:3)/='SUB') THEN
             CALL ANCMSG(MSGID=835,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -1001,23 +1001,23 @@ C
 	  TYPE2 = 0
 	  FLG = 0
  
-          IF (LINE(13:13).EQ.'/') FLG = 1
-          IF (LINE(13:13).EQ.' ') FLG = 1
+          IF (LINE(13:13)=='/') FLG = 1
+          IF (LINE(13:13)==' ') FLG = 1
 	    	    
 C ---------> cas nodes/surfaces---------------------------------------	  	  
-	  IF ((LINE(8:12).EQ.'TYPE5').OR.
-     .    (LINE(8:12).EQ.'TYPE8').OR.(LINE(8:13).EQ.'TYPE10').OR.
-     .    (LINE(8:13).EQ.'TYPE14').OR.
-     .    ((LINE(8:12).EQ.'TYPE2').AND.(FLG.EQ.1)).OR.     
-     .    (LINE(8:12).EQ.'TYPE7')) THEN
+	  IF ((LINE(8:12)=='TYPE5').OR.
+     .    (LINE(8:12)=='TYPE8').OR.(LINE(8:13)=='TYPE10').OR.
+     .    (LINE(8:13)=='TYPE14').OR.
+     .    ((LINE(8:12)=='TYPE2').AND.(FLG==1)).OR.     
+     .    (LINE(8:12)=='TYPE7')) THEN
              CONT = 1
              CALL FREDEC_2KEY_3ID_T(KEY,ID_INTER,NUL,NUL,TITR)	     
              IREC=IREC+1
 C--> les interfaces type2 penalite sont traitees comme des type7  <------C
-             IF ((LINE(8:12).EQ.'TYPE2').AND.(FLG.EQ.1)) THEN
+             IF ((LINE(8:12)=='TYPE2').AND.(FLG==1)) THEN
                READ(IIN,REC=IREC,ERR=999,FMT='(A)') LINE
                READ(LINE,ERR=999,FMT=FMT_4I) GRS,GRM,NUL,SPTFL
-               IF ((SPTFL.NE.25).AND.(SPTFL.NE.26)) THEN
+               IF ((SPTFL/=25).AND.(SPTFL/=26)) THEN
 	         CONT = 0
 		 TYPE2 = 1
                ENDIF
@@ -1030,15 +1030,15 @@ C--> on determine si l'interface est  cheval et asymetrique  <------C
      .                	     TYPE2,VAL,TAG,I,COMPT,PASSE,0,IGRPP_R2R,
      .                       IGRNOD ,IGRSURF ,IGRSLIN, IGRBRIC)
 C--> pour les inter type 2 on couple en type5 si il ya un risque de masse nulle     
-             IF (TYPE2.EQ.1) THEN
+             IF (TYPE2==1) THEN
                  DO J=1,IGRNOD(G1)%NENTITY
 	           CUR_ID = IGRNOD(G1)%ENTITY(J)
-		   IF (TAGNO(CUR_ID+NPART).EQ.2) FLG_TIED(4) = 1
-		   IF (TAGNO(CUR_ID+NPART).EQ.4) FLG_TIED(5) = 1		       
+		   IF (TAGNO(CUR_ID+NPART)==2) FLG_TIED(4) = 1
+		   IF (TAGNO(CUR_ID+NPART)==4) FLG_TIED(5) = 1		       
 	         END DO  		 
 	     ENDIF
 C-->	               	          	          	     	   
-             IF (TAG.GT.0) THEN
+             IF (TAG>0) THEN
 	      	COMPT_T2 = COMPT_T2 + 1	     
 C--> pretag elts cote main du contact pour les garder en void  <---C		   		      	          	     
                 IF ((TAG==3).OR.(TAG==1).OR.(TAG==4)) THEN	   
@@ -1057,9 +1057,9 @@ C--> pretag elts cote second. du contact pour les garder en void <---C
 	     ENDIF
 	     
 C ---------> cas surface/surface--------------------------------------	     
-	  ELSEIF ((LINE(8:12).EQ.'TYPE6').OR.
-     .    (LINE(8:13).EQ.'TYPE23').OR.(LINE(8:13).EQ.'TYPE20').OR.
-     .    (LINE(8:13).EQ.'TYPE15').OR.((LINE(8:12).EQ.'TYPE3').AND.(FLG.EQ.1))) THEN
+	  ELSEIF ((LINE(8:12)=='TYPE6').OR.
+     .    (LINE(8:13)=='TYPE23').OR.(LINE(8:13)=='TYPE20').OR.
+     .    (LINE(8:13)=='TYPE15').OR.((LINE(8:12)=='TYPE3').AND.(FLG==1))) THEN
              CONT = 1	  	        
              CALL FREDEC_2KEY_3ID_T(KEY,ID_INTER,NUL,NUL,TITR)	  	        
              IREC=IREC+1
@@ -1069,7 +1069,7 @@ C--> on determine si l'interface est  cheval et asymetrique  <------C
              CALL TAGINT_R2R(G1,G2,GRS,GRM,ID_INTER,
      .                	     TYPE2,VAL,TAG,I,COMPT,PASSE,1,IGRPP_R2R,
      .                       IGRNOD ,IGRSURF ,IGRSLIN, IGRBRIC)
-             IF (TAG.GT.0) THEN
+             IF (TAG>0) THEN
 	      	COMPT_T2 = COMPT_T2 + 1	     
 C--> pretag elts surface 1 du contact pour les garder en void  <-----C		   		      	          	     
                 IF ((TAG==2).OR.(TAG==1)) THEN
@@ -1088,7 +1088,7 @@ C--> pretag elts surface 2 du contact pour les garder en void  <-----C
 	     ENDIF
 	     
 C ---------> cas lignes/lignes---------------------------------------	     
-	  ELSEIF (LINE(8:13).EQ.'TYPE11') THEN
+	  ELSEIF (LINE(8:13)=='TYPE11') THEN
              CONT = 1
 	     WARN = 0   	  	        
              CALL FREDEC_2KEY_3ID_T(KEY,ID_INTER,NUL,NUL,TITR)	  	        
@@ -1099,7 +1099,7 @@ C--> on determine si l'interface est  cheval et asymetrique  <------C
              CALL TAGINT_R2R(G1,G2,GRS,GRM,ID_INTER,
      .                	     TYPE2,VAL,TAG,I,COMPT,PASSE,2,IGRPP_R2R,     
      .                       IGRNOD ,IGRSURF ,IGRSLIN, IGRBRIC)
-             IF (TAG.GT.0) THEN
+             IF (TAG>0) THEN
 	      	COMPT_T2 = COMPT_T2 + 1	     
 C--> pretag elts ligne 1 du contact pour les garder en void  <-----C		   		      	          	     
                 IF ((TAG==2).OR.(TAG==1)) THEN
@@ -1116,7 +1116,7 @@ C--> pretag elts ligne 2 du contact pour les garder en void  <-----C
              ELSE
 	        IREC=IREC+1
 	     ENDIF
-             IF (WARN.EQ.1) THEN
+             IF (WARN==1) THEN
              CALL ANCMSG(MSGID=892,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANSTOP,
@@ -1124,7 +1124,7 @@ C--> pretag elts ligne 2 du contact pour les garder en void  <-----C
              ENDIF
 	     
 C ---------> cas interface type 19---------------------------------------	     
-	  ELSEIF (LINE(8:13).EQ.'TYPE19') THEN
+	  ELSEIF (LINE(8:13)=='TYPE19') THEN
 C-- /TYPE19 card is kept on both domains --
             TAGINT(I) = -1
             COMPT2 = COMPT2 + 1
@@ -1187,7 +1187,7 @@ C--------------------------------------------------------------------C
 	NB_RBY = 0
 	NB_KIN = 0
 	NB_LAG = 0
-	IF (PASSE.EQ.0) ALLOCATE(TAGRBY(NRBODY))
+	IF (PASSE==0) ALLOCATE(TAGRBY(NRBODY))
 	TAGRBY(:)=0
 	DOMA = 1
 
@@ -1216,26 +1216,26 @@ C---------
 C---------     	  
           MAIN=USR2SYS(MAIN,ITABM1,MESS,ID_RBY)
           DO J=1,NGRNOD         
-	    IF (IGRNOD(J)%ID.EQ.IGU) GR_ID = J
+	    IF (IGRNOD(J)%ID==IGU) GR_ID = J
 	  END DO
 C-----On check si le RBODY doit etre garde-------------------------
 	  TAG = 0
           COMPT=IGRNOD(GR_ID)%R2R_ALL
 	  COMPT2=IGRNOD(GR_ID)%R2R_SHARE
 C--> on check aussi le tag du noeud main	    	  	  
-	  IF (TAGNO(MAIN+NPART).GT.1) COMPT = COMPT + 1
-	  IF (TAGNO(MAIN+NPART).GT.1) COMPT2 = COMPT2 + 1
-	  IF (COMPT2.EQ.0) TAG = 1
+	  IF (TAGNO(MAIN+NPART)>1) COMPT = COMPT + 1
+	  IF (TAGNO(MAIN+NPART)>1) COMPT2 = COMPT2 + 1
+	  IF (COMPT2==0) TAG = 1
 C-----On tag le noeud main---------------------------------------
-	  IF (COMPT.GT.0) THEN
-	    IF(TAG.EQ.1) THEN
+	  IF (COMPT>0) THEN
+	    IF(TAG==1) THEN
 C-----RGBODY interne ->   
               CALL MODIF_TAG(TAGNO(NPART+MAIN),1,MODIF)	      
 	    ELSE  	    
 C-----RGBODY "a cheval" -> on met le main node dans le couplage 	    
-	      IF (TAGNO(MAIN+NPART).LT.3) THEN
+	      IF (TAGNO(MAIN+NPART)<3) THEN
                 CALL MODIF_TAG(TAGNO(NPART+MAIN),3,MODIF)
-                IF (ISENS.NE.0) THEN
+                IF (ISENS/=0) THEN
                CALL ANCMSG(MSGID=976,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO,
@@ -1281,7 +1281,7 @@ C-----------------------------------------------------------------
 C--------Provisoirement on interdit totalement les RBY/LAGMUL	     	  
           MAIN=USR2SYS(MAIN,ITABM1,MESS,ID_RBY)
           DO J=1,NGRNOD         
-	    IF (IGRNOD(J)%ID.EQ.IGU) GR_ID = J
+	    IF (IGRNOD(J)%ID==IGU) GR_ID = J
 	  END DO
 	   	  	  
 C-----On check si le RBODY doit etre garde-------------------------
@@ -1290,19 +1290,19 @@ C-----On check si le RBODY doit etre garde-------------------------
           COMPT=IGRNOD(GR_ID)%R2R_ALL
 	  COMPT2=IGRNOD(GR_ID)%R2R_SHARE
 C--> on check aussi le tag du noeud main	    	  	  
-	  IF (TAGNO(MAIN+NPART).GT.1) COMPT = COMPT + 1
-	  IF (TAGNO(MAIN+NPART).GT.1) COMPT2 = COMPT2 + 1
-	  IF (COMPT2.EQ.0) TAG = 1
+	  IF (TAGNO(MAIN+NPART)>1) COMPT = COMPT + 1
+	  IF (TAGNO(MAIN+NPART)>1) COMPT2 = COMPT2 + 1
+	  IF (COMPT2==0) TAG = 1
 	  
 C-----On tag le noeud main---------------------------------------
 
-	  IF (COMPT.GT.0) THEN
-	    IF(TAG.EQ.1) THEN
+	  IF (COMPT>0) THEN
+	    IF(TAG==1) THEN
 C-----RGBODY interne ->   
               CALL MODIF_TAG(TAGNO(NPART+MAIN),1,MODIF)           
 	    ELSE          
 C-----RGBODY "a cheval" -> on met le main node dans le couplage 	    
-	      IF (TAGNO(MAIN+NPART).LT.3) THEN
+	      IF (TAGNO(MAIN+NPART)<3) THEN
                 CALL MODIF_TAG(TAGNO(NPART+MAIN),3,MODIF)
 	      ENDIF
 	    ENDIF
@@ -1310,7 +1310,7 @@ C-----On tag les rbys a garder-------------------------------------
 	    TAGRBY(I)=ID_RBY         
 	    NB_RBY = NB_RBY + 1
 	    NB_LAG = NB_LAG + 1 
-          ENDIF  ! IF (COMPT.GT.0) THEN
+          ENDIF  ! IF (COMPT>0) THEN
          END IF ! IF(KEY(1:6)=='LAGMUL') THEN
         END DO
 	
@@ -1323,7 +1323,7 @@ C--------------------------------------------------------------------C
       	     
         NSPCONDN = 0
         CALL HM_OPTION_START('/SPHBCS')
-	IF (PASSE.EQ.0) ALLOCATE(TAGSPHBCS(NSPCOND))
+	IF (PASSE==0) ALLOCATE(TAGSPHBCS(NSPCOND))
         TAGSPHBCS(:) = 0
         DO I=1,NSPCOND
           CALL HM_OPTION_READ_KEY(LSUBMODEL,
@@ -1334,18 +1334,18 @@ C--------------------------------------------------------------------C
 C---------------------------------------------------------------------
 	  GR_ID = 0	  
           DO J=1,NGRNOD	  
-	    IF (IGRNOD(J)%ID.EQ.IGU) GR_ID = J
+	    IF (IGRNOD(J)%ID==IGU) GR_ID = J
 	  END DO
 C---------------------------------------------------------------------
           COMPT = 0
           DO L=1,IGRNOD(GR_ID)%NENTITY
 	    CUR_ID = NOD2SP(IGRNOD(GR_ID)%ENTITY(L))
-            IF (TAGNO(IPARTSP(CUR_ID)).NE.0) THEN
+            IF (TAGNO(IPARTSP(CUR_ID))/=0) THEN
               COMPT = COMPT + 1
             ENDIF
           ENDDO
 C---------------------------------------------------------------------
-          IF (COMPT.GT.0) THEN
+          IF (COMPT>0) THEN
             NSPCONDN = NSPCONDN + 1
             TAGSPHBCS(I) = ID
           ENDIF
@@ -1450,7 +1450,7 @@ C--------On interdit les RWALL /LAGMUL
      .                   C1=LINE(1:L+6))
 	  ELSE
             CALL HM_GET_INTV('Node1',NOD,IS_AVAILABLE,LSUBMODEL)  
-            IF (NOD.GT.0) THEN
+            IF (NOD>0) THEN
               NOD=USR2SYS(NOD,ITABM1,MESS,ID)
               CALL MODIF_TAG(TAGNO(NPART+NOD),4,MODIF)
             ENDIF	    
@@ -1461,7 +1461,7 @@ C------Prlecture et tag des INIVOL-----------------------------------C
 C--------------------------------------------------------------------C
 
         NEW_NINIVOL = 0
-	IF (PASSE.EQ.0) ALLOCATE(TAG_INIVOL(NINIVOL))
+	IF (PASSE==0) ALLOCATE(TAG_INIVOL(NINIVOL))
         TAG_INIVOL(:) = 0
         CALL HM_OPTION_START('/INIVOL')
 
@@ -1470,7 +1470,7 @@ C--------------------------------------------------------------------C
           CALL HM_GET_INTV('secondarycomponentlist', ID_PART, IS_AVAILABLE, LSUBMODEL)
 C
           DO J=1,NPART
-            IF(IPART_L(4,J).EQ.ID_PART) IDS=J
+            IF(IPART_L(4,J)==ID_PART) IDS=J
           ENDDO
 C
           IF (TAGNO(IDS) > 0) THEN
@@ -1569,17 +1569,17 @@ C
           CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                            KEYWORD2 = KEY)
 C
-          IF(KEY(1:7).EQ.'AIRBAG1')THEN
+          IF(KEY(1:7)=='AIRBAG1')THEN
             TYPE = 1
             CALL HM_GET_INTV('surf', ISUR, IS_AVAILABLE, LSUBMODEL)
-          ELSEIF(KEY(1:6).EQ.'AIRBAG')THEN
+          ELSEIF(KEY(1:6)=='AIRBAG')THEN
             TYPE = 2
             CALL HM_GET_INTV('entityiddisplayed', ISUR, IS_AVAILABLE, LSUBMODEL)
           ENDIF
 
 C----------------------------------------------------------
           DO J=1,NSURF
-            IF (ISUR.EQ.IGRSURF(J)%ID) ISURS=J
+            IF (ISUR==IGRSURF(J)%ID) ISURS=J
           ENDDO
 	  CPT_SEG=0
 	  CCPL=0
@@ -1590,22 +1590,22 @@ C----------------------------------------------------------
               DO K=1,4		
 	        CUR_ID = IGRSURF(ISURS)%NODES(J,K)
 C             --> on compte les noeuds tags <--		
-                IF (TAGNO(CUR_ID+NPART).GE.0) THEN
+                IF (TAGNO(CUR_ID+NPART)>=0) THEN
 	          CPT_NOD=CPT_NOD+1
-		  IF (TAGNO(CUR_ID+NPART).EQ.2) CPT_CPL=CPT_CPL+1     		   
+		  IF (TAGNO(CUR_ID+NPART)==2) CPT_CPL=CPT_CPL+1     		   
                 ENDIF
               END DO	  
 C             --> si tous les noeuds du seg sont dans le subdomaine on valide <--
-              IF (CPT_CPL.NE.0) WARN = 1
-              IF (CPT_NOD.EQ.4) CPT_SEG=CPT_SEG+1	      
+              IF (CPT_CPL/=0) WARN = 1
+              IF (CPT_NOD==4) CPT_SEG=CPT_SEG+1	      
 	  END DO	      
 C--------On interdit les surfaces de monvol sur l'interface--------------------
-C	  IF (WARN.GT.0) THEN
+C	  IF (WARN>0) THEN
 C	        CALL ANSTCKC(LEN_TRIM(LINE),LINE)			  
 C                CALL ANCWARN(843,ANINFO_BLIND_1)			      
 C	  ENDIF      	  
 C-------Cas AIRBAG1----------------------------------------
-          IF ((TYPE==1).AND.(TAGMON(I).GT.0)) THEN
+          IF ((TYPE==1).AND.(TAGMON(I)>0)) THEN
              CALL HM_GET_INTV('nb_jet', NJET, IS_AVAILABLE, LSUBMODEL)
 C             --> on boucle sur les injecteurs <--
              DO J=1,NJET
@@ -1613,24 +1613,24 @@ C             --> on boucle sur les injecteurs <--
                CALL HM_GET_INT_ARRAY_INDEX('node1', N1, J, IS_AVAILABLE, LSUBMODEL)
                CALL HM_GET_INT_ARRAY_INDEX('node2', N2, J, IS_AVAILABLE, LSUBMODEL)
                CALL HM_GET_INT_ARRAY_INDEX('node3', N3, J, IS_AVAILABLE, LSUBMODEL)
-	       IF (IJET.EQ.1) THEN
-	          IF (N1.NE.0) THEN	       
+	       IF (IJET==1) THEN
+	          IF (N1/=0) THEN	       
                     N1=USR2SYS(N1,ITABM1,MESS,NUL)
-	            IF(TAGNO(N1+NPART).LT.2) TAGNO(N1+NPART) = 1
+	            IF(TAGNO(N1+NPART)<2) TAGNO(N1+NPART) = 1
 		  ENDIF
-	          IF (N2.NE.0) THEN		    
+	          IF (N2/=0) THEN		    
 	            N2=USR2SYS(N2,ITABM1,MESS,NUL)
-	            IF(TAGNO(N2+NPART).LT.2) TAGNO(N2+NPART) = 1
+	            IF(TAGNO(N2+NPART)<2) TAGNO(N2+NPART) = 1
 		  ENDIF    
-		  IF (N3.NE.0) THEN	     
+		  IF (N3/=0) THEN	     
 	            N3=USR2SYS(N3,ITABM1,MESS,NUL)
-	            IF(TAGNO(N3+NPART).LT.2) TAGNO(N3+NPART) = 1
+	            IF(TAGNO(N3+NPART)<2) TAGNO(N3+NPART) = 1
 		  ENDIF  
 	       ENDIF
 	     END DO	     	           
 	  ENDIF
 C-------Cas AIRBAG----------------------------------------
-          IF ((TYPE==2).AND.(TAGMON(I).GT.0)) THEN
+          IF ((TYPE==2).AND.(TAGMON(I)>0)) THEN
              CALL HM_GET_INTV('ABG_Njet', NJET, IS_AVAILABLE, LSUBMODEL)
 C             --> on boucle sur les injecteurs <--
              DO J=1,NJET
@@ -1639,18 +1639,18 @@ C             --> on boucle sur les injecteurs <--
                CALL HM_GET_INT_ARRAY_INDEX('ABG_N2', N2, J,IS_AVAILABLE, LSUBMODEL)
                CALL HM_GET_INT_ARRAY_INDEX('ABG_N3', N3, J,IS_AVAILABLE, LSUBMODEL)
 C
-	       IF (IJET.EQ.1) THEN
-	          IF (N1.NE.0) THEN	       
+	       IF (IJET==1) THEN
+	          IF (N1/=0) THEN	       
                     N1=USR2SYS(N1,ITABM1,MESS,NUL)
-	            IF(TAGNO(N1+NPART).LT.2) TAGNO(N1+NPART) = 1
+	            IF(TAGNO(N1+NPART)<2) TAGNO(N1+NPART) = 1
 		  ENDIF
-	          IF (N2.NE.0) THEN		    
+	          IF (N2/=0) THEN		    
 	            N2=USR2SYS(N2,ITABM1,MESS,NUL)
-	            IF(TAGNO(N2+NPART).LT.2) TAGNO(N2+NPART) = 1
+	            IF(TAGNO(N2+NPART)<2) TAGNO(N2+NPART) = 1
 		  ENDIF
-	          IF (N3.NE.0) THEN	     
+	          IF (N3/=0) THEN	     
 	            N3=USR2SYS(N3,ITABM1,MESS,NUL)
-	            IF(TAGNO(N3+NPART).LT.2) TAGNO(N3+NPART) = 1
+	            IF(TAGNO(N3+NPART)<2) TAGNO(N3+NPART) = 1
 	          ENDIF 
 	       ENDIF	   
 	     END DO	     	           
@@ -1675,17 +1675,17 @@ C--------on determine le type-----------------------------
 C          CALL RDSLAKE_UID(NUL,NUL,TITR,NUL,40,KEY)
           CALL FREDEC3(KEY,NUL,TITR)
           IREC=IREC+1	  
-          IF(KEY(1:7).EQ.'AIRBAG1')THEN
+          IF(KEY(1:7)=='AIRBAG1')THEN
               TYPE = 1
-          ELSEIF(KEY(1:6).EQ.'AIRBAG')THEN
+          ELSEIF(KEY(1:6)=='AIRBAG')THEN
               TYPE = 2
-          ELSEIF(KEY(1:5).EQ.'COMMU')THEN
+          ELSEIF(KEY(1:5)=='COMMU')THEN
               TYPE = 3
           ENDIF
 C----------------------------------------------------------
           READ (IIN,REC=IREC,ERR=999,FMT=FMT_I)ISUR  
           DO J=1,NSURF
-            IF (ISUR.EQ.IGRSURF(J)%ID) ISURS=J
+            IF (ISUR==IGRSURF(J)%ID) ISURS=J
           ENDDO
 	  CPT_SEG=0
 	  CCPL=0
@@ -1696,22 +1696,22 @@ C----------------------------------------------------------
               DO K=1,4		
 	        CUR_ID = IGRSURF(ISURS)%NODES(J,K)
 C             --> on compte les noeuds tags <--		
-                IF (TAGNO(CUR_ID+NPART).GE.0) THEN
+                IF (TAGNO(CUR_ID+NPART)>=0) THEN
 	          CPT_NOD=CPT_NOD+1
-		  IF (TAGNO(CUR_ID+NPART).EQ.2) CPT_CPL=CPT_CPL+1     		   
+		  IF (TAGNO(CUR_ID+NPART)==2) CPT_CPL=CPT_CPL+1     		   
                 ENDIF
               END DO	  
 C             --> si tous les noeuds du seg sont dans le subdomaine on valide <--
-              IF (CPT_CPL.NE.0) WARN = 1
-              IF (CPT_NOD.EQ.4) CPT_SEG=CPT_SEG+1	      
+              IF (CPT_CPL/=0) WARN = 1
+              IF (CPT_NOD==4) CPT_SEG=CPT_SEG+1	      
 	  END DO	      
 C--------On interdit les surfaces de monvol sur l'interface--------------------
-C	  IF (WARN.GT.0) THEN
+C	  IF (WARN>0) THEN
 C	        CALL ANSTCKC(LEN_TRIM(LINE),LINE)			  
 C                CALL ANCWARN(843,ANINFO_BLIND_1)			      
 C	  ENDIF      	  
 C-------Cas AIRBAG1----------------------------------------
-          IF ((TYPE==1).AND.(TAGMON(I).GT.0)) THEN
+          IF ((TYPE==1).AND.(TAGMON(I)>0)) THEN
 	     IREC=IREC+3
              READ (IIN,REC=IREC,ERR=999,FMT=FMT_I) NJET
 	     IREC=IREC+1
@@ -1720,25 +1720,25 @@ C             --> on boucle sur les injecteurs <--
                READ (IIN,REC=IREC,ERR=999,FMT='(A)')LINE
                READ (LINE,ERR=999,FMT=FMT_6I) 
      .             NUL,NUL,IJET,N1,N2,N3
-               IF (J.LT.NJET) IREC=IREC+1+IJET
-	       IF (IJET.EQ.1) THEN
-	          IF (N1.NE.0) THEN	       
+               IF (J<NJET) IREC=IREC+1+IJET
+	       IF (IJET==1) THEN
+	          IF (N1/=0) THEN	       
                     N1=USR2SYS(N1,ITABM1,MESS,NUL)
-	            IF(TAGNO(N1+NPART).LT.2) TAGNO(N1+NPART) = 1
+	            IF(TAGNO(N1+NPART)<2) TAGNO(N1+NPART) = 1
 		  ENDIF
-	          IF (N2.NE.0) THEN		    
+	          IF (N2/=0) THEN		    
 	            N2=USR2SYS(N2,ITABM1,MESS,NUL)
-	            IF(TAGNO(N2+NPART).LT.2) TAGNO(N2+NPART) = 1
+	            IF(TAGNO(N2+NPART)<2) TAGNO(N2+NPART) = 1
 		  ENDIF    
-		  IF (N3.NE.0) THEN	     
+		  IF (N3/=0) THEN	     
 	            N3=USR2SYS(N3,ITABM1,MESS,NUL)
-	            IF(TAGNO(N3+NPART).LT.2) TAGNO(N3+NPART) = 1
+	            IF(TAGNO(N3+NPART)<2) TAGNO(N3+NPART) = 1
 		  ENDIF  
 	       ENDIF
 	     END DO	     	           
 	  ENDIF
 C-------Cas AIRBAG----------------------------------------
-          IF ((TYPE==2).AND.(TAGMON(I).GT.0)) THEN
+          IF ((TYPE==2).AND.(TAGMON(I)>0)) THEN
 	     IREC=IREC+4
              READ (IIN,REC=IREC,ERR=999,FMT=FMT_I) NJET
 	     IREC=IREC+3
@@ -1746,25 +1746,25 @@ C             --> on boucle sur les injecteurs <--
              DO J=1,NJET
                READ (IIN,REC=IREC,ERR=999,FMT='(A)')LINE
                READ (LINE,ERR=999,FMT=FMT_4I) IJET,N1,N2,N3
-	       IF (J.LT.NJET) IREC=IREC+3+IJET
-	       IF (IJET.EQ.1) THEN
-	          IF (N1.NE.0) THEN	       
+	       IF (J<NJET) IREC=IREC+3+IJET
+	       IF (IJET==1) THEN
+	          IF (N1/=0) THEN	       
                     N1=USR2SYS(N1,ITABM1,MESS,NUL)
-	            IF(TAGNO(N1+NPART).LT.2) TAGNO(N1+NPART) = 1
+	            IF(TAGNO(N1+NPART)<2) TAGNO(N1+NPART) = 1
 		  ENDIF
-	          IF (N2.NE.0) THEN		    
+	          IF (N2/=0) THEN		    
 	            N2=USR2SYS(N2,ITABM1,MESS,NUL)
-	            IF(TAGNO(N2+NPART).LT.2) TAGNO(N2+NPART) = 1
+	            IF(TAGNO(N2+NPART)<2) TAGNO(N2+NPART) = 1
 		  ENDIF
-	          IF (N3.NE.0) THEN	     
+	          IF (N3/=0) THEN	     
 	            N3=USR2SYS(N3,ITABM1,MESS,NUL)
-	            IF(TAGNO(N3+NPART).LT.2) TAGNO(N3+NPART) = 1
+	            IF(TAGNO(N3+NPART)<2) TAGNO(N3+NPART) = 1
 	          ENDIF 
 	       ENDIF	   
 	     END DO	     	           
 	  ENDIF
 C-------Cas COMMU----------------------------------------
-          IF ((TYPE==3).AND.(TAGMON(I).GT.0)) THEN
+          IF ((TYPE==3).AND.(TAGMON(I)>0)) THEN
 	     IREC=IREC+4
              READ (IIN,REC=IREC,ERR=999,FMT=FMT_I) NJET
 	     IREC=IREC+3
@@ -1772,18 +1772,18 @@ C             --> on boucle sur les injecteurs <--
              DO J=1,NJET
                READ (IIN,REC=IREC,ERR=999,FMT='(A)')LINE
                READ (LINE,ERR=999,FMT=FMT_4I) NUL,N1,N2,N3
-	       IF (J.LT.NJET) IREC=IREC+4
-	       IF (N1.NE.0) THEN	       
+	       IF (J<NJET) IREC=IREC+4
+	       IF (N1/=0) THEN	       
                    N1=USR2SYS(N1,ITABM1,MESS,NUL)
-	           IF(TAGNO(N1+NPART).LT.2) TAGNO(N1+NPART) = 1
+	           IF(TAGNO(N1+NPART)<2) TAGNO(N1+NPART) = 1
 	       ENDIF
-	       IF (N2.NE.0) THEN	          
+	       IF (N2/=0) THEN	          
 	           N2=USR2SYS(N2,ITABM1,MESS,NUL)
-	           IF(TAGNO(N2+NPART).LT.2) TAGNO(N2+NPART) = 1
+	           IF(TAGNO(N2+NPART)<2) TAGNO(N2+NPART) = 1
 	       ENDIF	   
-	       IF (N3.NE.0) THEN	     
+	       IF (N3/=0) THEN	     
 	          N3=USR2SYS(N3,ITABM1,MESS,NUL)
-	          IF(TAGNO(N3+NPART).LT.2) TAGNO(N3+NPART) = 1
+	          IF(TAGNO(N3+NPART)<2) TAGNO(N3+NPART) = 1
 	       ENDIF  
 	     END DO     	     	           
 	  ENDIF

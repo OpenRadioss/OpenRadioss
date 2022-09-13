@@ -102,7 +102,7 @@ C-----------------------------------------------
      .   YLDL_1,QL_1
      
       FACQ0 = ONE
-      IF(IPLA.EQ.0)THEN
+      IF(IPLA==0)THEN
        MX = MAT(LFT)
        RHO0_1 =PM( 1,MX)
        C1_1   =PM(32,MX)
@@ -173,15 +173,15 @@ C-----------------------------------------------
       CE(I) = ONE +CC(I) * LOG(EPSP/EPDR(I))
  15   CONTINUE
 
-      IF(IPLA.NE.2)THEN
+      IF(IPLA/=2)THEN
        DO 20 I=LFT,LLT
-       IF(CN(I).EQ.ONE) THEN
+       IF(CN(I)==ONE) THEN
         AK(I)= CA(I)+CB(I)*EPXE(I)
         QH(I)= CB(I)*CE(I)
        ELSE
-        IF(EPXE(I).GT.ZERO) THEN
+        IF(EPXE(I)>ZERO) THEN
          AK(I)=CA(I)+CB(I)*EPXE(I)**CN(I)
-         IF(CN(I).GT.ONE) THEN
+         IF(CN(I)>ONE) THEN
           QH(I)= (CB(I)*CN(I)*EPXE(I)**(CN(I)-ONE))*CE(I)
          ELSE
           QH(I)= (CB(I)*CN(I)/EPXE(I)**(ONE - CN(I)))*CE(I)
@@ -192,26 +192,26 @@ C-----------------------------------------------
         ENDIF
        ENDIF
        SIGY(I) = AK(I)
-       IF(EPXE(I).GT.EPMX(I))AK(I)=ZERO
-       IF(EPXE(I).GT.EPSL(I))QH(I)=QL(I)
+       IF(EPXE(I)>EPMX(I))AK(I)=ZERO
+       IF(EPXE(I)>EPSL(I))QH(I)=QL(I)
  20    CONTINUE
       ELSE
        DO I=LFT,LLT
-       IF(CN(I).EQ.ONE) THEN
+       IF(CN(I)==ONE) THEN
         AK(I)= CA(I)+CB(I)*EPXE(I)
        ELSE
-        IF(EPXE(I).GT.ZERO) THEN
+        IF(EPXE(I)>ZERO) THEN
          AK(I)=CA(I)+CB(I)*EPXE(I)**CN(I)
         ELSE
          AK(I)=CA(I)
         ENDIF
        ENDIF
        SIGY(I) = AK(I)
-       IF(EPXE(I).GT.EPMX(I))AK(I)=ZERO
+       IF(EPXE(I)>EPMX(I))AK(I)=ZERO
        ENDDO
       ENDIF
 
-      IF(IPLA.EQ.0)THEN
+      IF(IPLA==0)THEN
       DO I=LFT,LLT
        AK(I) = MIN(AK(I),SIGMX(I))
        HL    = THREE*G0(I)*QL(I)/(THREE*G0(I)+QL(I))
@@ -220,7 +220,7 @@ C-----------------------------------------------
        AK(I) = MAX(AK(I),ZERO)
        ALPE  = MIN(ONE,AK(I)/MAX(AK(I)+THREE*G0(I)*DEPSL,EM15))
        AK(I) = AK(I)*CE(I)
-       IF(ICC(I).EQ.2) AK(I) = MIN(AK(I),SIGMX(I))
+       IF(ICC(I)==2) AK(I) = MIN(AK(I),SIGMX(I))
        G(I)  = ALPE*G0(I)
        C1(I) = PDAM*ALPE*C1(I) + (1.-PDAM)*C1(I)
        P(I)  =-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
@@ -241,7 +241,7 @@ C-----------------------------------------------
      1               +SIG(I,4)**2+SIG(I,5)**2+SIG(I,6)**2
        AJ2(I)=SQRT(THREE*AJ2(I))
       ENDDO
-      ELSEIF(IPLA.EQ.2)THEN
+      ELSEIF(IPLA==2)THEN
       DO I=LFT,LLT
        AK(I) = MIN(AK(I),SIGMX(I))
        DEPSL = MAX(ZERO,EPXE(I)-EPSL(I))
@@ -249,7 +249,7 @@ C-----------------------------------------------
        AK(I) = MAX(AK(I),ZERO)
        ALPE  = MIN(ONE,AK(I)/MAX(AK(I) + THREE*G0(I)*DEPSL,EM15))
        AK(I) = AK(I)*CE(I)
-       IF(ICC(I).EQ.2) AK(I) = MIN(AK(I),SIGMX(I))
+       IF(ICC(I)==2) AK(I) = MIN(AK(I),SIGMX(I))
        G(I)  = ALPE*G0(I)
        C1(I) = PDAM*ALPE*C1(I) + (ONE - PDAM)*C1(I)
        P(I)  =-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
@@ -259,7 +259,7 @@ C-----------------------------------------------
        !-------------------------------
        !     CONTRAINTES DEVIATORIQUES
        !-------------------------------
-       IF(EPXE(I).GT.EPSL(I).AND.THREE*G(I).LT.EM15)THEN
+       IF(EPXE(I)>EPSL(I).AND.THREE*G(I)<EM15)THEN
         SIG(I,1)=ZERO
         SIG(I,2)=ZERO
         SIG(I,3)=ZERO
@@ -288,7 +288,7 @@ C-----------------------------------------------
        AK(I) = MAX(AK(I),ZERO)
        ALPE  = MIN(ONE,AK(I)/MAX(AK(I) + THREE*G0(I)*DEPSL,EM15))
        AK(I) = AK(I)*CE(I)
-       IF(ICC(I).EQ.2) AK(I) = MIN(AK(I),SIGMX(I))
+       IF(ICC(I)==2) AK(I) = MIN(AK(I),SIGMX(I))
        G(I)  = ALPE*G0(I)
        C1(I) = PDAM*ALPE*C1(I) + (ONE - PDAM)*C1(I)
        P(I)  =-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
@@ -298,7 +298,7 @@ C-----------------------------------------------
        !-------------------------------
        !     CONTRAINTES DEVIATORIQUES
        !-------------------------------
-       IF(EPXE(I).GT.EPSL(I).AND.G(I)*(THREE*G0(I)+QH(I)).LT.EM15)THEN
+       IF(EPXE(I)>EPSL(I).AND.G(I)*(THREE*G0(I)+QH(I))<EM15)THEN
         SIG(I,1)=ZERO
         SIG(I,2)=ZERO
         SIG(I,3)=ZERO
@@ -321,7 +321,7 @@ C-----------------------------------------------
       ENDDO
       ENDIF
 
-      IF(IPLA.EQ.0)THEN
+      IF(IPLA==0)THEN
         DO I=LFT,LLT
          SCALE= MIN(ONE,AK(I) / MAX(AJ2(I),EM15))
          SIG(I,1)=SCALE*SIG(I,1)
@@ -333,7 +333,7 @@ C-----------------------------------------------
          EPXE(I)=EPXE(I)+(ONE -SCALE)*AJ2(I)/MAX(THREE*G(I)+QH(I),EM15)
          DPLA(I) =  (ONE -SCALE)*AJ2(I)/MAX(THREE*G(I)+QH(I),EM15)      
         ENDDO
-        ELSEIF(IPLA.EQ.2)THEN
+        ELSEIF(IPLA==2)THEN
         DO I=LFT,LLT
          SCALE= MIN(ONE,AK(I) / MAX(AJ2(I),EM15))
          SIG(I,1)=SCALE*SIG(I,1)
@@ -345,7 +345,7 @@ C-----------------------------------------------
          EPXE(I)=EPXE(I)+(ONE -SCALE)*AJ2(I)/MAX(THREE*G(I),EM15)
          DPLA(I) = (ONE -SCALE)*AJ2(I)/MAX(THREE*G(I),EM15)       
         ENDDO
-        ELSEIF(IPLA.EQ.1)THEN
+        ELSEIF(IPLA==1)THEN
         DO I=LFT,LLT
          SCALE= MIN(ONE,AK(I) / MAX(AJ2(I),EM15))
          DPLA(I)=(ONE -SCALE)*AJ2(I)*G0(I)/ MAX(G(I)*(THREE*G0(I)+QH(I)),EM15)
@@ -361,7 +361,7 @@ C-----------------------------------------------
         ENDDO
         ENDIF
         
-      IF (JSPH.EQ.0)THEN
+      IF (JSPH==0)THEN
        CALL MQVISCB(PM,OFF     ,RHO    ,BID1   ,BID2   ,SSP   ,
      2        BID3    ,STIFN   ,DT2T   ,NELTST ,ITYPTST,AIRE  ,
      3        OFFG    ,GEO     ,PID    ,VNEW   ,VD2    ,DELTAX ,  
@@ -385,14 +385,14 @@ C-----------------------------------------------
 C----------------------------
 C     TEST DE RUPTURE DUCTILE
 C---------------------------
-      IF(PDAM.EQ.ONE.AND.CODVERS.GE.42)THEN
+      IF(PDAM==ONE.AND.CODVERS>=42)THEN
         DO I=LFT,LLT
-          IF(OFF(I).LT.EM01) OFF(I)=ZERO
-          IF(OFF(I).LT.ONE) OFF(I)=OFF(I)*FOUR_OVER_5
+          IF(OFF(I)<EM01) OFF(I)=ZERO
+          IF(OFF(I)<ONE) OFF(I)=OFF(I)*FOUR_OVER_5
         ENDDO
 C
         DO I=LFT,LLT
-          IF(EPMX(I).NE.ZERO.AND.OFF(I).GE.ONE.AND. EPXE(I).GT.EPMX(I))THEN
+          IF(EPMX(I)/=ZERO.AND.OFF(I)>=ONE.AND. EPXE(I)>EPMX(I))THEN
             OFF(I)=OFF(I)*FOUR_OVER_5
             II=I+NFT
 #include "lockon.inc"

@@ -193,7 +193,7 @@ C
         XXB=E1X(I)*XXS2(I)+E1Y(I)*YYS2(I)+E1Z(I)*ZZS2(I)
         XMINS = MIN(XXA,XXB)
         XMAXS = MAX(XXA,XXB)
-        IF (XMAXS.GE.XMINM.AND.XMAXM.GE.XMINS) THEN
+        IF (XMAXS>=XMINM.AND.XMAXM>=XMINS) THEN
          NLS=NLS+1
          LIST(NLS)=I
         ENDIF
@@ -216,7 +216,7 @@ C
         YYB=E2X(I)*XXS2(I)+E2Y(I)*YYS2(I)+E2Z(I)*ZZS2(I)
         YMINS = MIN(YYA,YYB)
         YMAXS = MAX(YYA,YYB)
-        IF (YMAXS.GE.YMINM.AND.YMAXM.GE.YMINS) THEN
+        IF (YMAXS>=YMINM.AND.YMAXM>=YMINS) THEN
          NLS=NLS+1
          LIST(NLS)=I
         ENDIF
@@ -239,7 +239,7 @@ C
         ZZB=E3X(I)*XXS2(I)+E3Y(I)*YYS2(I)+E3Z(I)*ZZS2(I)
         ZMINS = MIN(ZZA,ZZB)
         ZMAXS = MAX(ZZA,ZZB)
-        IF (ZMAXS.GE.ZMINM.AND.ZMAXM.GE.ZMINS) THEN
+        IF (ZMAXS>=ZMINM.AND.ZMAXM>=ZMINS) THEN
          NLS=NLS+1
          LIST(NLS)=I
         ENDIF

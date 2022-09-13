@@ -123,7 +123,7 @@ C-----------------------------------------------
               FORMU = IPARG(23,NG)
               ! If the elements are shells
               IF (ITY == 3) THEN 
-                IF ((FORMU.GT.10).AND.(FORMU.LT.29)) THEN
+                IF ((FORMU>10).AND.(FORMU<29)) THEN
                   CALL CBAFINT_REG_INI(ELBUF_TAB,NLOC_DMG ,AREA     ,IXC     ,
      .                                 DT_NL    ,X        ,XREFC    ,NFT     ,
      .                                 NEL      ,NG       ,IPM      ,BUFMAT  ,
@@ -135,12 +135,12 @@ C-----------------------------------------------
      .                               TIME     ,FAILURE  )
                 ENDIF
               ELSEIF (ITY == 7) THEN 
-                IF ((FORMU.EQ.1).OR.(FORMU.EQ.2)) THEN
+                IF ((FORMU==1).OR.(FORMU==2)) THEN
                   CALL C3FINT_REG_INI(ELBUF_TAB,NLOC_DMG ,AREA     ,IXTG     ,
      .                                DT_NL    ,X        ,XREFTG   ,NFT      ,
      .                                NEL      ,NG       ,IPM      ,BUFMAT   ,
      .                                TIME     ,FAILURE  )
-                ELSEIF ((FORMU.EQ.30).OR.(FORMU.EQ.31)) THEN
+                ELSEIF ((FORMU==30).OR.(FORMU==31)) THEN
                   CALL CDKFINT_REG_INI(ELBUF_TAB,NLOC_DMG ,AREA     ,IXTG     ,
      .                                 DT_NL    ,X        ,XREFTG   ,NFT      ,
      .                                 NEL      ,NG       ,IPM      ,BUFMAT   ,

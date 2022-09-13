@@ -49,40 +49,40 @@ C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER ICOMPC
       IPARTI=I
-      IF(J.GT.I) THEN
+      IF(J>I) THEN
           MILIEU=(I+J)/2
           U=I
           V=J+1
 C
-          IF(ICOMPC(J,MILIEU,TAB).LT.0) THEN
+          IF(ICOMPC(J,MILIEU,TAB)<0) THEN
              CALL ECHANG(J,MILIEU,TAB)
              CALL ECHANG(N2+J,N2+MILIEU,TAB)
           ENDIF
-          IF(ICOMPC(J,I,TAB).LT.0) THEN
+          IF(ICOMPC(J,I,TAB)<0) THEN
              CALL ECHANG(J,I,TAB)
              CALL ECHANG(N2+J,N2+I,TAB)
           ENDIF
-          IF(ICOMPC(I,MILIEU,TAB).LT.0) THEN
+          IF(ICOMPC(I,MILIEU,TAB)<0) THEN
              CALL ECHANG(I,MILIEU,TAB)
              CALL ECHANG(N2+I,N2+MILIEU,TAB)
           ENDIF
 C
- 1000     IF(U.LT.V) THEN
+ 1000     IF(U<V) THEN
 C
  1100       CONTINUE
                 U=U+1
-                IF(ICOMPC(U,I,TAB).LT.0) GO TO 1100
+                IF(ICOMPC(U,I,TAB)<0) GO TO 1100
 C
  1200       CONTINUE
                 V=V-1
-                IF(ICOMPC(V,I,TAB).GT.0) GO TO 1200
+                IF(ICOMPC(V,I,TAB)>0) GO TO 1200
 C
              CALL ECHANG(U,V,TAB)
              CALL ECHANG(N2+U,N2+V,TAB)
              GO TO 1000
           ENDIF
-          IF(U.GT.V) CALL ECHANG(U,V,TAB)
-          IF(U.GT.V) CALL ECHANG(N2+U,N2+V,TAB)
+          IF(U>V) CALL ECHANG(U,V,TAB)
+          IF(U>V) CALL ECHANG(N2+U,N2+V,TAB)
           U=MIN0(U,V)
           CALL ECHANG(I,U,TAB)
           CALL ECHANG(N2+I,N2+U,TAB)

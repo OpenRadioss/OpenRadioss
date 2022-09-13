@@ -129,7 +129,7 @@ C-----------------------------------------------
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
 C======================================================================|
       DO NIN=1,NINTER
-        IF (IPARI(33,NIN).EQ.1.AND.IPARI(7,NIN).EQ.2) THEN
+        IF (IPARI(33,NIN)==1.AND.IPARI(7,NIN)==2) THEN
           NRTS  = IPARI(3,NIN)
           NRTM  = IPARI(4,NIN)
           NSN   = IPARI(5,NIN)
@@ -169,7 +169,7 @@ C-----------------------------------------------
           COMNTAG(NN) = COMNTAG(NN) + 1
         ENDDO
         N4 = IRECT(4,L)
-        IF (N4.NE.IRECT(3,L)) COMNTAG(N4) = COMNTAG(N4) + 1
+        IF (N4/=IRECT(3,L)) COMNTAG(N4) = COMNTAG(N4) + 1
       ENDDO
 C---
       RETURN
@@ -201,7 +201,7 @@ C-----------------------------------------------
       INTEGER N, NN
 C======================================================================|
       DO N=1,NFXVEL
-        IF (IBFV(8,N).NE.0) THEN
+        IF (IBFV(8,N)/=0) THEN
           NN = IABS(IBFV(1,N))
           COMNTAG(NN) = COMNTAG(NN) + 1
         ENDIF
@@ -243,7 +243,7 @@ C======================================================================|
         COMNTAG(N0) = COMNTAG(N0) + 1
         COMNTAG(N1) = COMNTAG(N1) + 1
         COMNTAG(N2) = COMNTAG(N2) + 1
-        IF (JTYP.EQ.2) COMNTAG(N3) = COMNTAG(N3) + 1
+        IF (JTYP==2) COMNTAG(N3) = COMNTAG(N3) + 1
       ENDDO
 C---
       RETURN

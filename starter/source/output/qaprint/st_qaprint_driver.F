@@ -398,7 +398,7 @@ C-----------------------------------------------
       ! doqa is set in QA_OUT_MOD depending on DO_QA env variable setting
       ! we skip the specific QAPRINT treatment if doqa is != 1
       
-      IF ( doqa .ne. 1  ) RETURN
+      IF ( doqa /= 1  ) RETURN
 
       CALL ST_QAPRINT_MATERIALS(IPM       ,PM        ,BUFMAT    )
 

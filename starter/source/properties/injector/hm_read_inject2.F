@@ -186,7 +186,7 @@ C Lecture carte 2
      .                C1=IDTITL,                                                                  
      .                I2=F_IDMASS(1,1))                                                           
         ENDIF                                                                                     
-        IF(F_IDTEMP(1,1).NE.0.AND.F_IDTEMP(2,1) == 0)THEN                                         
+        IF(F_IDTEMP(1,1)/=0.AND.F_IDTEMP(2,1) == 0)THEN                                         
            CALL ANCMSG(MSGID=708,                                                                 
      .                 MSGTYPE=MSGERROR,                                                          
      .                 ANMODE=ANINFO_BLIND_1,                                                     
@@ -207,7 +207,7 @@ C Lecture carte 2
      .                  I1=PROP_ID,                                                               
      .                  C1=IDTITL)                                                                
           END IF                                                                                  
-          IF (F_IDMF(1,I).NE.0) MOLFR(I)=ONE                                                       
+          IF (F_IDMF(1,I)/=0) MOLFR(I)=ONE                                                       
 C         Verification existence materiau et functions                                            
 C ---
 C ---     Materiaux                                                                               
@@ -219,7 +219,7 @@ C ---     Materiaux
      .                  I1=PROP_ID,                                                               
      .                  C1=IDTITL,                                                                
      .                  I2=MAT_ID(1,I))                                                           
-          ELSEIF(IPM(2,MAT_ID(2,I)).NE.999) THEN                                                  
+          ELSEIF(IPM(2,MAT_ID(2,I))/=999) THEN                                                  
             CALL ANCMSG(MSGID=857,                                                                
      .                  MSGTYPE=MSGERROR,                                                         
      .                  ANMODE=ANINFO_BLIND_1,                                                    
@@ -231,7 +231,7 @@ C ---     Fonctions
           DO J=1,NFUNCT                                                                           
             IF(NPC(NFUNCT+1+J) == F_IDMF(1,I)) F_IDMF(2,I)=J                                      
           ENDDO                                                                                   
-          IF(F_IDMF(1,I).NE.0.AND.F_IDMF(2,I) == 0)THEN                                           
+          IF(F_IDMF(1,I)/=0.AND.F_IDMF(2,I) == 0)THEN                                           
             CALL ANCMSG(MSGID=708,                                                                
      .                  MSGTYPE=MSGERROR,                                                         
      .                  ANMODE=ANINFO_BLIND_1,                                                    
@@ -250,17 +250,17 @@ C     Verification de la croissance des fonctions de masse
         IFUN_TMP=0
         IFUN_TMP_USR=0
         IF (IGEO(22) == 1) THEN
-          IF (F_IDMASS(2,I).NE.0) THEN
+          IF (F_IDMASS(2,I)/=0) THEN
             IFUN_TMP=F_IDMASS(2,I)
             IFUN_TMP_USR=F_IDMASS(1,I)
           END IF
         ELSE IF (IGEO(22) == 2) THEN
-          IF (F_IDMF(2,I).NE.0) THEN
+          IF (F_IDMF(2,I)/=0) THEN
             IFUN_TMP=F_IDMF(2,I)
             IFUN_TMP_USR=F_IDMF(1,I)
           END IF
         END IF
-        IF (IFUN_TMP.NE.0) THEN
+        IF (IFUN_TMP/=0) THEN
           IF ((NPC(IFUN_TMP+1)-NPC(IFUN_TMP)) >= 4) THEN
             IF (IFLOW == 0) THEN
               DO J = NPC(IFUN_TMP),NPC(IFUN_TMP+1)-3,2
@@ -294,11 +294,11 @@ C     Verification de la croissance des fonctions de masse
 C     Verification du nombre de points des fonctions de fraction molaire  
       NB_POINTS_1=-1                                                      
       DO I=1,NGASES                                                       
-        IF (F_IDMF(2,I).NE.0) THEN                                        
-          IF (NB_POINTS_1.EQ.-1)                                          
+        IF (F_IDMF(2,I)/=0) THEN                                        
+          IF (NB_POINTS_1==-1)                                          
      .        NB_POINTS_1=NPC(F_IDMF(2,I))-NPC(F_IDMF(2,I)+1)             
           NB_POINTS=NPC(F_IDMF(2,I))-NPC(F_IDMF(2,I)+1)                   
-          IF (NB_POINTS.NE.NB_POINTS_1) THEN                              
+          IF (NB_POINTS/=NB_POINTS_1) THEN                              
             CALL ANCMSG(MSGID=713,                                        
      .                  MSGTYPE=MSGERROR,                                 
      .                  ANMODE=ANINFO,                                    
@@ -310,12 +310,12 @@ C     Verification du nombre de points des fonctions de fraction molaire
 C     Verification des abscisses des fonctions de fraction molaire        
       IFUN_REF=-1                                                         
       DO I=1,NGASES                                                       
-        IF (F_IDMF(2,I).NE.0) THEN                                        
-          IF (IFUN_REF.EQ.-1)                                             
+        IF (F_IDMF(2,I)/=0) THEN                                        
+          IF (IFUN_REF==-1)                                             
      .        IFUN_REF=F_IDMF(2,I)                                        
           DO J=NPC(F_IDMF(2,I)),NPC(F_IDMF(2,I)+1)-1,2                    
             ICURPT=J-NPC(F_IDMF(2,I))                                     
-            IF (PLD(J).NE.PLD(NPC(IFUN_REF)+ICURPT)) THEN                 
+            IF (PLD(J)/=PLD(NPC(IFUN_REF)+ICURPT)) THEN                 
               CALL ANCMSG(MSGID=715,                                      
      .                    MSGTYPE=MSGERROR,                               
      .                    ANMODE=ANINFO,                                  
@@ -326,15 +326,15 @@ C     Verification des abscisses des fonctions de fraction molaire
         END IF                                                            
       END DO                                                              
 C     Verification somme des fractions molaires egale a 1                 
-      IF (IFUN_REF.NE.-1) THEN                                            
+      IF (IFUN_REF/=-1) THEN                                            
 C     Dans le cas ou il y a au moins une fonction                         
         DO J=NPC(IFUN_REF),NPC(IFUN_REF+1)-1,2                            
           ICURPT=J-NPC(IFUN_REF)                                          
           MF_TOT=ZERO                                                     
           DO I=1,NGASES                                                   
-            IF (F_IDMF(2,I).EQ.0) THEN                                    
+            IF (F_IDMF(2,I)==0) THEN                                    
               MF_TOT=MF_TOT+MOLFR(I)                                      
-              IF (MOLFR(I).LT.ZERO) THEN                                  
+              IF (MOLFR(I)<ZERO) THEN                                  
                 CALL ANCMSG(MSGID=728,                                    
      .                      MSGTYPE=MSGERROR,                             
      .                      ANMODE=ANINFO_BLIND_1,                        
@@ -343,7 +343,7 @@ C     Dans le cas ou il y a au moins une fonction
      .                      I2=ICURPT/2+1,I3=I)                           
               END IF                                                      
             ELSE                                                          
-              IF (PLD(NPC(F_IDMF(2,I))+ICURPT+1).LT.ZERO) THEN            
+              IF (PLD(NPC(F_IDMF(2,I))+ICURPT+1)<ZERO) THEN            
                 CALL ANCMSG(MSGID=728,                                    
      .                      MSGTYPE=MSGERROR,                             
      .                      ANMODE=ANINFO_BLIND_1,                        
@@ -355,7 +355,7 @@ C     Dans le cas ou il y a au moins une fonction
      .                     *MOLFR(I)                                      
             END IF                                                        
           END DO                                                          
-          IF (ABS(MF_TOT-ONE).GT.EM03) THEN                                
+          IF (ABS(MF_TOT-ONE)>EM03) THEN                                
             CALL ANCMSG(MSGID=716,                                        
      .                  MSGTYPE=MSGERROR,                                 
      .                  ANMODE=ANINFO_BLIND_1,                            
@@ -371,13 +371,13 @@ C     Dans le cas ou il y a au moins une fonction
           MF_TOT=MF_TOT+MOLFR(I)
         END DO
       !Si la somme est zero on ne peut rien faire, MF_TOT est positif
-        IF (MF_TOT.LT.EM03) THEN
+        IF (MF_TOT<EM03) THEN
           CALL ANCMSG(MSGID=717,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
      .                I1=PROP_ID,
      .                C1=IDTITL)
-        ELSE IF (ABS(MF_TOT-ONE).GT.EM03) THEN
+        ELSE IF (ABS(MF_TOT-ONE)>EM03) THEN
       !Sinon on normalise par rapport a la somme
           DO I=1,NGASES
             MOLFR(I)=MOLFR(I)/MF_TOT

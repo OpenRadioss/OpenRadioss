@@ -230,7 +230,7 @@ C
       NTY   =IPARI(7,NIN)
       IBC   =IPARI(11,NIN)
       IVIS2 =IPARI(14,NIN)
-      IF(IPARI(33,NIN).EQ.1) RETURN
+      IF(IPARI(33,NIN)==1) RETURN
       NOINT =IPARI(15,NIN)
       IGAP  =IPARI(21,NIN)
       INACTI=IPARI(22,NIN)
@@ -262,8 +262,8 @@ C
       STIGLO=-INTBUF_TAB%STFAC(1)
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
 C  
       FRIC  =INTBUF_TAB%VARIABLES(1)
       GAP   =INTBUF_TAB%VARIABLES(2)
@@ -309,7 +309,7 @@ c         IFQ      =   INTBUF_FRIC_TAB(INTFRIC)%IFFILTER
          TABCOEF_FRIC  => TABCOEF_FRIC_BID 
          ADPARTS_FRIC   => ADPARTS_FRIC_BID
          IFRICORTH   => IFRICORTH_BID
-         IF (IFQ.NE.0) XFILTR_FRIC = INTBUF_TAB%XFILTR(1)
+         IF (IFQ/=0) XFILTR_FRIC = INTBUF_TAB%XFILTR(1)
       ENDIF
 C--- NITSCHE METHOD 
       INTNITSCHE=IPARI(86,NIN)
@@ -359,8 +359,8 @@ c----------------------------------------------------
 c   Rayon de courbure : calcul des normales nodales (normees)
 C   IADM!=0 + Icurv!=0 non available (starter error).
 c----------------------------------------------------
-      IF(IADM.NE.0)THEN
-      END IF!(IADM.NE.0)
+      IF(IADM/=0)THEN
+      END IF!(IADM/=0)
 C----------------------------------------------------
 C----------------------------------------------------
 C
@@ -369,7 +369,7 @@ C
 C decoupage statique
 
       NB_LOC = I_STOK_GLO / NTHREAD
-      IF (JTASK.EQ.NTHREAD) THEN
+      IF (JTASK==NTHREAD) THEN
         I_STOK_LOC = I_STOK_GLO-NB_LOC*(NTHREAD-1)
       ELSE
         I_STOK_LOC = NB_LOC
@@ -381,14 +381,14 @@ C
 C recalcul du istok
 C
       DO I = JTASK, I_STOK_GLO, NTHREAD
-        IF(INTBUF_TAB%CAND_N(I).LT.0) THEN
+        IF(INTBUF_TAB%CAND_N(I)<0) THEN
           I_STOK = I_STOK + 1
           INDEX2(I_STOK) = I
           INTBUF_TAB%CAND_N(I) = -INTBUF_TAB%CAND_N(I)
         ENDIF
       ENDDO
 C-----------------------------------------------------------------------
-      IF (IMPL_S.EQ.1) THEN
+      IF (IMPL_S==1) THEN
           NUM_IMP = 0
           VISC  =ZERO
           VISCF =ZERO
@@ -401,7 +401,7 @@ C
             SFSAVPARIT = SFSAVPARIT + 1
           ENDIF
         ENDDO
-        IF (SFSAVPARIT .NE. 0) THEN
+        IF (SFSAVPARIT /= 0) THEN
           ALLOCATE(FSAVPARIT(NISUB+1,11,I_STOK),STAT=IERROR)
           IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
@@ -420,7 +420,7 @@ C
         ENDIF
 c
 c------------------------------------------------
-      IF (DEBUG(3).GE.1) THEN
+      IF (DEBUG(3)>=1) THEN
           NB_JLT = NB_JLT + I_STOK_LOC
           NB_STOK_N = NB_STOK_N + I_STOK
       ENDIF
@@ -521,7 +521,7 @@ C
      3          IPLY     ,ITAB ) 
           ENDIF   
 
-          IF (DEBUG(3).GE.1) NB_JLT_NEW = NB_JLT_NEW + JLT_NEW
+          IF (DEBUG(3)>=1) NB_JLT_NEW = NB_JLT_NEW + JLT_NEW
           IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(20,1) 
 
 C-------------------------------------------------------------------------------
@@ -846,7 +846,7 @@ C----------------------------------------------------
       DO I=1,JLT
          IF(PENE(I)/=ZERO.AND.STIF(I)/=ZERO) K_STOK = K_STOK + 1
       ENDDO
-      IF(K_STOK.EQ.0)RETURN
+      IF(K_STOK==0)RETURN
 C
 #include "lockon.inc"
       J_STOK = II_STOK

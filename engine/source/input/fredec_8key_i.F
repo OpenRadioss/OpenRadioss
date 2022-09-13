@@ -52,14 +52,14 @@ C     /Key1/KEY2/KEY3/KEY4/KEY5/KEY6/KEY7/KEY8/NBC
 C-----------------------------------------------
       I1=2
       I2=I1
-      DO WHILE(CART(I2:I2).NE.'/'.AND.I2.LT.120)
+      DO WHILE(CART(I2:I2)/='/'.AND.I2<120)
         I2=I2+1
       ENDDO
 C KEY2
       I1 =I2+1
       I1=MIN(I1,120)
       I2 =I1
-      DO WHILE(CART(I2:I2).NE.'/'.AND.I2.LT.120)
+      DO WHILE(CART(I2:I2)/='/'.AND.I2<120)
         I2=I2+1
       ENDDO
       I2=I2-1
@@ -68,7 +68,7 @@ C KEY3
       I1 =I2+2
       I1=MIN(I1,120)
       I2 =I1
-      DO WHILE(CART(I2:I2).NE.'/'.AND.I2.LT.120)
+      DO WHILE(CART(I2:I2)/='/'.AND.I2<120)
         I2=I2+1
       ENDDO
       I2=I2-1
@@ -77,7 +77,7 @@ C KEY4
       I1=I2+2
       I1=MIN(I1,120)      
       I2=I1
-      DO WHILE(CART(I2:I2).NE.'/' .AND. I2 < 120)
+      DO WHILE(CART(I2:I2)/='/' .AND. I2 < 120)
         I2=I2+1
       ENDDO
       I2=I2-1
@@ -86,7 +86,7 @@ C KEY5
       I1=I2+2
       I1=MIN(I1,120)      
       I2=I1
-      DO WHILE(CART(I2:I2).NE.'/' .AND. I2 < 120)
+      DO WHILE(CART(I2:I2)/='/' .AND. I2 < 120)
         I2=I2+1
       ENDDO
       I2=I2-1
@@ -95,7 +95,7 @@ C KEY6
       I1=I2+2
       I1=MIN(I1,120)      
       I2=I1
-      DO WHILE(CART(I2:I2).NE.'/' .AND. I2 < 120)
+      DO WHILE(CART(I2:I2)/='/' .AND. I2 < 120)
         I2=I2+1
       ENDDO
       I2=I2-1
@@ -104,7 +104,7 @@ C KEY7
       I1=I2+2
       I1=MIN(I1,120)      
       I2=I1
-      DO WHILE(CART(I2:I2).NE.'/' .AND. I2 < 120)
+      DO WHILE(CART(I2:I2)/='/' .AND. I2 < 120)
         I2=I2+1
       ENDDO
       I2=I2-1
@@ -113,7 +113,7 @@ C KEY8
       I1=I2+2
       I1=MIN(I1,120)      
       I2=I1
-      DO WHILE(CART(I2:I2).NE.'/' .AND. I2 < 120)
+      DO WHILE(CART(I2:I2)/='/' .AND. I2 < 120)
         I2=I2+1
       ENDDO
       I2=I2-1

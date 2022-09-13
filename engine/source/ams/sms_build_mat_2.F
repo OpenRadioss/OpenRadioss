@@ -222,11 +222,11 @@ C
       IHBE    = IPARG(23,NG)
       ISOLNOD = IPARG(28,NG)
       IEXPAN  = IPARG(49,NG)
-      IF (IHBE.EQ.101) THEN
+      IF (IHBE==101) THEN
         IHBE=1
-      ELSEIF(IHBE.EQ.102) THEN
+      ELSEIF(IHBE==102) THEN
         IHBE=0
-      ELSEIF(IHBE.EQ.112) THEN
+      ELSEIF(IHBE==112) THEN
         IHBE=0
       ENDIF
       LFT   = 1
@@ -849,7 +849,7 @@ C---    T2MAIN_SMS(6) must be updated if element failure
             NTY   = IPARI(7,N)
             ILAGM = IPARI(33,N)
             ILEV  = IPARI(20,N)
-            IF(NTY.EQ.2 .AND. ILAGM.EQ.0 .AND.ILEV/=25.AND.ILEV/=26)THEN
+            IF(NTY==2 .AND. ILAGM==0 .AND.ILEV/=25.AND.ILEV/=26)THEN
               NSN=IPARI(5,N)
               DO II=1,NSN
                 I=INTBUF_TAB(N)%NSV(II)
@@ -864,7 +864,7 @@ C
           NTY   = IPARI(7,N)
           ILAGM = IPARI(33,N)
           ILEV  = IPARI(20,N)
-          IF(NTY.EQ.2 .AND. ILAGM.EQ.0 .AND.ILEV/=25.AND.ILEV/=26.AND.ILEV/=27.AND.ILEV/=28)THEN
+          IF(NTY==2 .AND. ILAGM==0 .AND.ILEV/=25.AND.ILEV/=26.AND.ILEV/=27.AND.ILEV/=28)THEN
 C
             KAD=IPARI(1,N)
             NSN=IPARI(5,N)
@@ -933,10 +933,10 @@ C
                     NAD_SMS(J) =NAD_SMS(J)+1
                     NAD_SMS(N4)=NAD_SMS(N4)+1
 
-                    IF (I.GT.J) THEN
+                    IF (I>J) THEN
                       DO K =2,5
                         DO KK =2,5
-                          IF (T2MAIN_SMS(K,I).NE.T2MAIN_SMS(KK,J)) THEN
+                          IF (T2MAIN_SMS(K,I)/=T2MAIN_SMS(KK,J)) THEN
                             LT_SMS(NAD_SMS(T2MAIN_SMS(K,I))) = HALF*LTIJ
                             LT_SMS(NAD_SMS(T2MAIN_SMS(KK,J)))= HALF*LTIJ
                             NAD_SMS(T2MAIN_SMS(K,I)) =NAD_SMS(T2MAIN_SMS(K,I))+1
@@ -969,10 +969,10 @@ C
                     NAD_SMS(J) =NAD_SMS(J)+1
                     NAD_SMS(N4)=NAD_SMS(N4)+1
 
-                    IF (I.GT.J) THEN
+                    IF (I>J) THEN
                       DO K =2,5
                         DO KK =2,5
-                          IF (T2MAIN_SMS(K,I).NE.T2MAIN_SMS(KK,J)) THEN
+                          IF (T2MAIN_SMS(K,I)/=T2MAIN_SMS(KK,J)) THEN
                             LT_SMS(NAD_SMS(T2MAIN_SMS(K,I))) = ZERO
                             LT_SMS(NAD_SMS(T2MAIN_SMS(KK,J)))= ZERO
                             NAD_SMS(T2MAIN_SMS(K,I)) =NAD_SMS(T2MAIN_SMS(K,I))+1
@@ -1036,10 +1036,10 @@ C
                     NAD_SMS(J) =NAD_SMS(J)+1
                     NAD_SMS(N4)=NAD_SMS(N4)+1
 
-                    IF (I.GT.J) THEN
+                    IF (I>J) THEN
                     DO K =2,5
                       DO KK =2,5
-                        IF (T2MAIN_SMS(K,I).NE.T2MAIN_SMS(KK,J)) THEN
+                        IF (T2MAIN_SMS(K,I)/=T2MAIN_SMS(KK,J)) THEN
                           LT_SMS(NAD_SMS(T2MAIN_SMS(K,I))) = HALF*LTIJ
                           LT_SMS(NAD_SMS(T2MAIN_SMS(KK,J)))= HALF*LTIJ
                           NAD_SMS(T2MAIN_SMS(K,I)) =NAD_SMS(T2MAIN_SMS(K,I))+1
@@ -1055,7 +1055,7 @@ C
               END IF
             END DO
 C
-          ELSEIF(NTY.EQ.2.AND.ILAGM.EQ.0.AND.(ILEV==25.or.ILEV==26))THEN
+          ELSEIF(NTY==2.AND.ILAGM==0.AND.(ILEV==25.or.ILEV==26))THEN
 C
             KAD=IPARI(1,N)
             NSN=IPARI(5,N)
@@ -1127,7 +1127,7 @@ C
               END IF
             END DO
 C
-          ELSEIF(NTY.EQ.2.AND.ILAGM.EQ.0.AND.(ILEV==27.or.ILEV==28))THEN
+          ELSEIF(NTY==2.AND.ILAGM==0.AND.(ILEV==27.or.ILEV==28))THEN
 C
             KAD=IPARI(1,N)
             NSN=IPARI(5,N)
@@ -1135,7 +1135,7 @@ C
               I=INTBUF_TAB(N)%NSV(II)
               KSN=KSN+1
 C
-              IF (INTBUF_TAB(N)%IRUPT(II).EQ.0) THEN
+              IF (INTBUF_TAB(N)%IRUPT(II)==0) THEN
 C
               L=INTBUF_TAB(N)%IRTLM(II)
               N1 = INTBUF_TAB(N)%IRECTM(4*(L-1)+1)
@@ -1205,10 +1205,10 @@ C
                     NAD_SMS(J) =NAD_SMS(J)+1
                     NAD_SMS(N4)=NAD_SMS(N4)+1
 
-                    IF (I.GT.J) THEN
+                    IF (I>J) THEN
                     DO K =2,5
                       DO KK =2,5
-                        IF (T2MAIN_SMS(K,I).NE.T2MAIN_SMS(KK,J)) THEN
+                        IF (T2MAIN_SMS(K,I)/=T2MAIN_SMS(KK,J)) THEN
                           LT_SMS(NAD_SMS(T2MAIN_SMS(K,I))) = HALF*LTIJ
                           LT_SMS(NAD_SMS(T2MAIN_SMS(KK,J)))= HALF*LTIJ
                           NAD_SMS(T2MAIN_SMS(K,I)) =NAD_SMS(T2MAIN_SMS(K,I))+1
@@ -1241,10 +1241,10 @@ C
                     NAD_SMS(J) =NAD_SMS(J)+1
                     NAD_SMS(N4)=NAD_SMS(N4)+1
 
-                    IF (I.GT.J) THEN
+                    IF (I>J) THEN
                     DO K =2,5
                       DO KK =2,5
-                        IF (T2MAIN_SMS(K,I).NE.T2MAIN_SMS(KK,J)) THEN
+                        IF (T2MAIN_SMS(K,I)/=T2MAIN_SMS(KK,J)) THEN
                           LT_SMS(NAD_SMS(T2MAIN_SMS(K,I))) = ZERO
                           LT_SMS(NAD_SMS(T2MAIN_SMS(KK,J)))= ZERO
                           NAD_SMS(T2MAIN_SMS(K,I)) =NAD_SMS(T2MAIN_SMS(K,I))+1
@@ -1308,10 +1308,10 @@ C
                     NAD_SMS(J) =NAD_SMS(J)+1
                     NAD_SMS(N4)=NAD_SMS(N4)+1
 
-                    IF (I.GT.J) THEN
+                    IF (I>J) THEN
                     DO K =2,5
                       DO KK =2,5
-                        IF (T2MAIN_SMS(K,I).NE.T2MAIN_SMS(KK,J)) THEN
+                        IF (T2MAIN_SMS(K,I)/=T2MAIN_SMS(KK,J)) THEN
                           LT_SMS(NAD_SMS(T2MAIN_SMS(K,I))) = HALF*LTIJ
                           LT_SMS(NAD_SMS(T2MAIN_SMS(KK,J)))= HALF*LTIJ
                           NAD_SMS(T2MAIN_SMS(K,I)) =NAD_SMS(T2MAIN_SMS(K,I))+1

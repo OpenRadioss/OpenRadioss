@@ -53,7 +53,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 
-      IF(NN.LE.NUMELC0)THEN
+      IF(NN<=NUMELC0)THEN
         FATHER=NN
         SONTYPE=0
       ELSE
@@ -103,7 +103,7 @@ C-----------------------------------------------
       EXTERNAL FATHER
 C-----------------------------------------------
       LEVEL=0
-      DO WHILE(NN.GT.NUMELC0)
+      DO WHILE(NN>NUMELC0)
         NN=FATHER(NN,IXC,IPARTC,IPART,SONTYPE)
         LEVEL=LEVEL+1
       END DO
@@ -141,7 +141,7 @@ C-----------------------------------------------
         ID=ID_LIMIT_ADMESH+(NN-1)*((4**(LEVELMAX+1)-1)/3-1)
       END IF
       PP=SH4TREE(2,NN)
-      IF(PP.NE.0) THEN
+      IF(PP/=0) THEN
 
         ID=ID+1
         IXC(NIXC,PP)=ID
@@ -192,7 +192,7 @@ C-----------------------------------------------
         ID=ID_LIMIT_ADMESH+(NN-1)*((4**(LEVELMAX+1)-1)/3-1)
       END IF
       PP=SH3TREE(2,NN)
-      IF(PP.NE.0) THEN
+      IF(PP/=0) THEN
 
         ID=ID+1
         IXTG(NIXTG,PP)=ID
@@ -365,9 +365,9 @@ C
         NN=NUMELC_OLD_OLD+N
         IP  =IPARTC(NN)
         NLEV=IPART(10,IP)
-        IF(NLEV.LT.LEVEL) CYCLE
+        IF(NLEV<LEVEL) CYCLE
         DO I=1,4
-          IF(TAG(I,N).EQ.0)THEN
+          IF(TAG(I,N)==0)THEN
             NI=IXC(I+1,NN)
             NJ=IXC(MOD(I,4)+2,NN)
             
@@ -378,11 +378,11 @@ C
             END DO
             DO K=KNOD2SH(NI-1)+1,KNOD2SH(NI)
               P=NOD2SH(K)
-              IF(P.NE.N)THEN
+              IF(P/=N)THEN
                 DO L=KNOD2SH(NJ-1)+1,KNOD2SH(NJ)
                   Q=NOD2SH(L)
                   IF(Q==P)THEN
-                    IF(Q.LE.NUMELC_LEV)THEN
+                    IF(Q<=NUMELC_LEV)THEN
                       QQ=NUMELC_OLD_OLD+Q
                       DO J=1,4
                         NK=IXC(J+1,QQ)
@@ -417,7 +417,7 @@ C
         NN=NUMELC_OLD_OLD+N
         IP  =IPARTC(NN)
         NLEV=IPART(10,IP)
-        IF(NLEV.LT.LEVEL) CYCLE
+        IF(NLEV<LEVEL) CYCLE
         NUMNOD_NEW=NUMNOD_NEW+1
         TAG(5,N)=NUMNOD_NEW
         NI=TAG(1,N)
@@ -435,9 +435,9 @@ C
         NN=NUMELTG_OLD_OLD+N
         IP  =IPARTTG(NN)
         NLEV=IPART(10,IP)
-        IF(NLEV.LT.LEVEL) CYCLE
+        IF(NLEV<LEVEL) CYCLE
         DO I=1,3
-          IF(TAG(I,N+NUMELC_LEV).EQ.0)THEN
+          IF(TAG(I,N+NUMELC_LEV)==0)THEN
             NI=IXTG(I+1,NN)
             NJ=IXTG(MOD(I,3)+2,NN)
 
@@ -448,11 +448,11 @@ C
             END DO
             DO K=KNOD2SH(NI-1)+1,KNOD2SH(NI)
               P=NOD2SH(K)
-              IF(P.NE.N+NUMELC)THEN
+              IF(P/=N+NUMELC)THEN
                 DO L=KNOD2SH(NJ-1)+1,KNOD2SH(NJ)
                   Q=NOD2SH(L)
                   IF(Q==P)THEN
-                    IF(Q.LE.NUMELC_LEV)THEN
+                    IF(Q<=NUMELC_LEV)THEN
                       QQ=NUMELC_OLD_OLD+Q
                       DO J=1,4
                         NK=IXC(J+1,QQ)
@@ -488,7 +488,7 @@ C
         NN=NUMELC_OLD_OLD+N
         IP  =IPARTC(NN)
         NLEV=IPART(10,IP)
-        IF(NLEV.LT.LEVEL) CYCLE
+        IF(NLEV<LEVEL) CYCLE
  
         DO J=1,NIXC
           DO I=1,4
@@ -546,7 +546,7 @@ C
         NN=NUMELTG_OLD_OLD+N
         IP  =IPARTTG(NN)
         NLEV=IPART(10,IP)
-        IF(NLEV.LT.LEVEL) CYCLE
+        IF(NLEV<LEVEL) CYCLE
  
         DO J=1,NIXTG
           DO I=1,4
@@ -658,18 +658,18 @@ C
 C      DO N=1,NUMELC0
 C        IP  =IPARTC(N)
 C        NLEV=IPART(10,IP)
-C        IF(NLEV.EQ.0) CYCLE
+C        IF(NLEV==0) CYCLE
 C        DO I=1,4
 C          NI=IXC(I+1,N)
 C          NJ=IXC(MOD(I,4)+2,N)
 C
 C          DO K=KNOD2SH(NI-1)+1,KNOD2SH(NI)
 C            P=NOD2SH(K)
-C            IF(P.NE.N)THEN
+C            IF(P/=N)THEN
 C              DO L=KNOD2SH(NJ-1)+1,KNOD2SH(NJ)
 C          	Q=NOD2SH(L)
 C          	IF(Q==P)THEN
-C                  IF(SH4NEIGHB(I,N).NE.0)THEN
+C                  IF(SH4NEIGHB(I,N)/=0)THEN
 C                    CALL ANSTCKI(IXC(NIXC,N))
 C                    CALL ANSTCKI(IPART(1,IP))
 C                    CALL ANCERR(640,ANINFO_BLIND_1)
@@ -686,18 +686,18 @@ C
 C      DO N=1,NUMELTG0
 C        IP  =IPARTTG(N)
 C        NLEV=IPART(10,IP)
-C        IF(NLEV.EQ.0) CYCLE
+C        IF(NLEV==0) CYCLE
 C        DO I=1,3
 C          NI=IXTG(I+1,N)
 C          NJ=IXTG(MOD(I,3)+2,N)
 C
 C          DO K=KNOD2SH(NI-1)+1,KNOD2SH(NI)
 C            P=NOD2SH(K)
-C            IF(P.NE.N)THEN
+C            IF(P/=N)THEN
 C              DO L=KNOD2SH(NJ-1)+1,KNOD2SH(NJ)
 C          	Q=NOD2SH(L)
 C          	IF(Q==P)THEN
-C                  IF(SH3NEIGHB(I,N).NE.0)THEN
+C                  IF(SH3NEIGHB(I,N)/=0)THEN
 C                    CALL ANSTCKI(IXTG(NIXTG,N))
 C                    CALL ANSTCKI(IPART(1,IP))
 C                    CALL ANCERR(641,ANINFO_BLIND_1)

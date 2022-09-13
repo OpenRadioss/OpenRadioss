@@ -175,7 +175,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
-      IF (IVECTOR.NE.1) THEN
+      IF (IVECTOR/=1) THEN
        MX = MAT(1)
        NFUNC  = IPM(10,MX)
        DO J=1,NFUNC
@@ -190,7 +190,7 @@ C ivector = 1 only
        NFUNCV = IPM(10,MX)
        NFUNCM = MAX(NFUNCM,NFUNCV)
        DO J=1,NFUNCM
-            IF(NFUNCV.GE.J) THEN
+            IF(NFUNCV>=J) THEN
               IFUNC(J)=IPM(10+J,MX)
             ENDIF
        ENDDO
@@ -208,8 +208,8 @@ C
       NRATEM = MAX(NRATEM,NRATE)
      
       EPSMAX=UPARAM(IADBUFV+6+2*NRATE+1)
-      IF(EPSMAX.EQ.ZERO)THEN
-       IF(TF(NPF(IFUNC(1)+1)-1).EQ.ZERO)THEN
+      IF(EPSMAX==ZERO)THEN
+       IF(TF(NPF(IFUNC(1)+1)-1)==ZERO)THEN
          EPSMAX=TF(NPF(IFUNC(1)+1)-2)
        ELSE
          EPSMAX= EP30
@@ -220,9 +220,9 @@ c ---
       EINF    = UPARAM(IADBUFV+2*NRATE+19)
       CE      = UPARAM(IADBUFV+2*NRATE+20)
       EPSR1 =UPARAM(IADBUFV+6+2*NRATE+2)
-      IF(EPSR1.EQ.ZERO)EPSR1= EP30
+      IF(EPSR1==ZERO)EPSR1= EP30
       EPSR2 =UPARAM(IADBUFV+6+2*NRATE+3)
-      IF(EPSR2.EQ.ZERO)EPSR2= TWOEP30
+      IF(EPSR2==ZERO)EPSR2= TWOEP30
       DO I=1,NEL
         E(I)   = UPARAM(IADBUFV+2)
         G(I)   = UPARAM(IADBUFV+5)
@@ -262,20 +262,20 @@ C +++
       IPFLAG = 0
       DO I=1,NEL
         PFAC(I) = ONE
-          IF (PFUN.GT.0) IPFLAG = IPFLAG + 1
+          IF (PFUN>0) IPFLAG = IPFLAG + 1
       ENDDO
 C ---
 C
 C
-      IF (ISIGI.EQ.0) THEN
-      IF(TIME.EQ.0.0)THEN
+      IF (ISIGI==0) THEN
+      IF(TIME==0.0)THEN
         DO I=1,NEL
          UVAR(I,1)=ZERO
          UVAR(I,2)=ZERO
          DO J=1,NRATE
            UVAR(I,J+2)=0
          ENDDO
-         IF (PFUN.GT.0) UVAR(I,NRATE+5)=0
+         IF (PFUN>0) UVAR(I,NRATE+5)=0
         ENDDO
       ENDIF
       ENDIF
@@ -326,24 +326,24 @@ c         yp= 3 x^2 + c
         EPST = SQRT(-CC)
         EPST2 = EPST * EPST
         Y = (EPST2 + C)* EPST + D
-        IF(ABS(Y).GT.EM08)THEN
+        IF(ABS(Y)>EM08)THEN
           EPST = ONEP75 * EPST
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
           YP = THREE*EPST2 + C
-          IF(YP.NE.ZERO)EPST = EPST - Y/YP
+          IF(YP/=ZERO)EPST = EPST - Y/YP
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
           YP = THREE*EPST2 + C
-          IF(YP.NE.ZERO)EPST = EPST - Y/YP
+          IF(YP/=ZERO)EPST = EPST - Y/YP
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
           YP = THREE*EPST2 + C
-          IF(YP.NE.ZERO)EPST = EPST - Y/YP
+          IF(YP/=ZERO)EPST = EPST - Y/YP
           EPST2 = EPST * EPST
           Y = (EPST2 + C)* EPST + D
           YP = THREE*EPST2 + C
-          IF(YP.NE.ZERO)EPST = EPST - Y/YP
+          IF(YP/=ZERO)EPST = EPST - Y/YP
         ENDIF
           EPST = EPST + DAV
 C-------------------
@@ -358,30 +358,30 @@ C-------------------
       DO I=1,NEL
             JJ(I) = 1
       ENDDO
-      IF (IVECTOR.NE.1) THEN
+      IF (IVECTOR/=1) THEN
        DO I=1,NEL
         DO J=2,NRATE-1
-          IF(EPSP(I).GE.UPARAM(IADBUFV+6+J)) JJ(I) = J
+          IF(EPSP(I)>=UPARAM(IADBUFV+6+J)) JJ(I) = J
         ENDDO
        ENDDO
 C
       ELSE
         DO J=2,NRATEM-1
           DO I=1,NEL
-            IF(NRATE-1.GE.J) THEN
-              IF(EPSP(I).GE.UPARAM(IADBUFV+6+J)) JJ(I) = J
+            IF(NRATE-1>=J) THEN
+              IF(EPSP(I)>=UPARAM(IADBUFV+6+J)) JJ(I) = J
             ENDIF
           ENDDO
         ENDDO
       ENDIF
 C
       DO I=1,NEL   
-         IF(JJ(I).EQ.1)THEN 
+         IF(JJ(I)==1)THEN 
            J1 = JJ(I)
            J2 = J1+1
            J3 = J2+1
            J4 = J3+1 
-          ELSEIF(JJ(I).EQ.(NRATE-1))THEN
+          ELSEIF(JJ(I)==(NRATE-1))THEN
            J1 = JJ(I) - 2
            J2 = J1+1 
            J3 = J2+1 
@@ -405,12 +405,12 @@ C
 C
 
       DO I=1,NEL 
-         IF(JJ(I).EQ.1)THEN 
+         IF(JJ(I)==1)THEN 
            J1 = JJ(I)
            J2 = J1+1
            J3 = J2+1
            J4 = J3+1 
-          ELSEIF(JJ(I).EQ.(NRATE-1))THEN
+          ELSEIF(JJ(I)==(NRATE-1))THEN
            J1 = JJ(I) - 2
            J2 = J1+1 
            J3 = J2+1 
@@ -443,7 +443,7 @@ C
 C
 C
 C---  PRESSURE DEPENDENT YIELD FUNCTION FACTOR
-      IF (IPFLAG.EQ.NEL.AND.(IMACH.NE.3.OR.IPARIT.EQ.0)) THEN
+      IF (IPFLAG==NEL.AND.(IMACH/=3.OR.IPARIT==0)) THEN
 C------- to optimize in SPMD & PARIT/ON case add a global flag 
 C        in a case of homogenuous element groups (to do if needed)
         DO I=1,NEL
@@ -455,9 +455,9 @@ C        in a case of homogenuous element groups (to do if needed)
         DO I=1,NEL
           UVAR(I,NRATE+5) = IPOSP(I)
         ENDDO
-      ELSEIF (IPFLAG.GT.0) THEN
+      ELSEIF (IPFLAG>0) THEN
         DO I=1,NEL
-          IF (PFUN.GT.0) THEN
+          IF (PFUN>0) THEN
             IPOSP(I) = NINT(UVAR(I,NRATE+5))
             IADP(I)  = NPF(PFUN) / 2 + 1
             ILENP(I) = NPF(PFUN+1) / 2 - IADP(I)-IPOSP(I)
@@ -469,7 +469,7 @@ C        in a case of homogenuous element groups (to do if needed)
       ENDIF
 C---
       DO I=1,NEL
-        IF(JJ(I).EQ.1)THEN 
+        IF(JJ(I)==1)THEN 
          J1 = JJ(I)
          J2 = J1+1
          J3 = J2+1
@@ -478,7 +478,7 @@ C---
          DYDX2 (I) = DYDX2(I)*YFAC(I,2)          
          FAC   = (EPSP(I) - RATE(I,1))/(RATE(I,2) - RATE(I,1)) 
          H(I)   = FAIL(I)*(DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))
-        ELSEIF(JJ(I).EQ.(NRATE-1))THEN
+        ELSEIF(JJ(I)==(NRATE-1))THEN
          J1 = JJ(I) - 2
          J2 = J1+1 
          J3 = J2+1 
@@ -527,7 +527,7 @@ C
 C-------------------
 C     PROJECTION
 C-------------------
-      IF(IPLA.EQ.0)THEN
+      IF(IPLA==0)THEN
        DO I=1,NEL
         VM =HALF*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
      1          +SIGNXY(I)**2+SIGNYZ(I)**2+SIGNZX(I)**2
@@ -545,7 +545,7 @@ c        P = C1(I) * (RHO(I)/RHO0(I) - ONE)
         UVAR(I,1)=PLA(I)
         DPLA(I) =   (ONE - R)*VM/MAX(G3(I)+H(I),EM20)       
        ENDDO
-      ELSEIF(IPLA.EQ.2)THEN
+      ELSEIF(IPLA==2)THEN
        DO I=1,NEL
         VM =HALF*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
      1          +SIGNXY(I)**2+SIGNYZ(I)**2+SIGNZX(I)**2
@@ -563,7 +563,7 @@ c        P = C1(I) * (RHO(I)/RHO0(I)- ONE)
         UVAR(I,1)=PLA(I)
         DPLA(I) = (ONE - R)*VM/MAX(G3(I),EM20)        
        ENDDO
-      ELSEIF(IPLA.EQ.1)THEN
+      ELSEIF(IPLA==1)THEN
        DO I=1,NEL
         VM =HALF*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
      1          +SIGNXY(I)**2+SIGNYZ(I)**2+SIGNZX(I)**2
@@ -591,22 +591,22 @@ C---
 C-------------------
 
       DO I=1,NEL
-        IF(OFF(I).LT.EM01) OFF(I)=ZERO
-        IF(OFF(I).LT.ONE) OFF(I)=OFF(I)*FOUR_OVER_5
+        IF(OFF(I)<EM01) OFF(I)=ZERO
+        IF(OFF(I)<ONE) OFF(I)=OFF(I)*FOUR_OVER_5
       ENDDO
 C
 C
 C
       NINDX=0
       DO I=1,NEL
-        IF(PLA(I).GT.EPSMAX.AND.OFF(I).EQ.ONE) THEN
+        IF(PLA(I)>EPSMAX.AND.OFF(I)==ONE) THEN
           OFF(I)= FOUR_OVER_5
           NINDX=NINDX+1
           INDX(NINDX)=I
           IDEL7NOK = 1
         ENDIF
       ENDDO
-      IF(NINDX.GT.0)THEN
+      IF(NINDX>0)THEN
         DO J=1,NINDX
 #include "lockon.inc"
         WRITE(IOUT, 1000) NGL(INDX(J))

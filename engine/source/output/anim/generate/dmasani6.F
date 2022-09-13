@@ -101,7 +101,7 @@ C-----------------------------------------------
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
         ISOLNOD = IPARG(28,NG)
         IF (IMACH == 3.AND.ISPMD == 0) THEN
-          IF (ITY.NE.ITY_OLD) THEN
+          IF (ITY/=ITY_OLD) THEN
             NEL_OLD = 0
             ITY_OLD= ITY
           ENDIF
@@ -127,7 +127,7 @@ C-----------------------------------------------
            DO 130 I=LFT,LLT
              N = I + NFT
              N_FA = I + NFT_FA
-             IF(EL2FA(NN2+N_FA).NE.0)THEN
+             IF(EL2FA(NN2+N_FA)/=0)THEN
                IF (MLW == 0 .or. MLW == 13 .or. IGTYP == 0) THEN
                  VALUE = ZERO
                ELSEIF(IALEL == 0)THEN
@@ -137,7 +137,7 @@ C-----------------------------------------------
                  OFF = MIN(GBUF%OFF(I),ONE)
                  VALUE=GBUF%RHO(I)*GBUF%VOL(I)*OFF
                ENDIF
-               IF( NFILSOL .NE. 0 .AND. GBUF%G_FILL .NE. 0 ) 
+               IF( NFILSOL /= 0 .AND. GBUF%G_FILL /= 0 ) 
      .           VALUE = VALUE * GBUF%FILL(I)
                IF (ISOLNOD == 16) THEN
                  VALUE = FOURTH*VALUE
@@ -160,7 +160,7 @@ C-----------------------------------------------
            DO 140 I=LFT,LLT
              N = I + NFT
              N_FA = I + NFT_FA
-             IF(EL2FA(NN3+N_FA).NE.0)THEN
+             IF(EL2FA(NN3+N_FA)/=0)THEN
                IF(IALEL == 0)THEN
                  IPRT=IPARTSP(N)
                  MT  =IPART(1,IPRT)

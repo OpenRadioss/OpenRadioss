@@ -97,7 +97,7 @@ C-----------------------
          DO K=1,IANISENS_OLD
            LANISENS(K) = LANISENS_OLD(K)
          ENDDO
-      END IF                    !(ISPMD.EQ.0.AND.MCHECK.EQ.0)
+      END IF                    !(ISPMD==0.AND.MCHECK==0)
 C-------------------------------------------
       IF(MCHECK == 0 ) THEN
        IF( ISTRESALL == 1 .OR. ISTRAIALL  == 1      .OR.
@@ -146,7 +146,7 @@ C-------------------------------------------
              ANIM_CT(4)    = 1
              NCT_ANI = NCT_ANI + 1
            ENDIF
-           IF(NIPMAX.LE.100)THEN
+           IF(NIPMAX<=100)THEN
              DO I=1,NIPMAX
                ANIM_CT(100+I) = 1
                NCT_ANI = NCT_ANI + 1
@@ -162,7 +162,7 @@ C-------------------------------------------
              ANIM_CT(8)    = 1
              NCT_ANI = NCT_ANI + 1
            ENDIF
-           IF(NIPMAX.LE.100)THEN
+           IF(NIPMAX<=100)THEN
              DO I=1,NIPMAX
                ANIM_CT(200+I) = 1
                NCT_ANI = NCT_ANI + 1
@@ -178,7 +178,7 @@ C-------------------------------------------
              ANIM_CT(94)    = 1
              NCT_ANI = NCT_ANI + 1
            ENDIF
-           IF(NIPMAX.LE.100)THEN
+           IF(NIPMAX<=100)THEN
              DO I=1,NIPMAX
                ANIM_CT(300+I) = 1
                NCT_ANI = NCT_ANI + 1
@@ -194,7 +194,7 @@ C-------------------------------------------
              ANIM_CE(2041)    = 1
              NCE_ANI = NCE_ANI + 1
            ENDIF
-           IF(NIPMAX.LE.100)THEN
+           IF(NIPMAX<=100)THEN
              DO I=1,NIPMAX
                IF (ANIM_CE(2041+I) == 0) THEN
                  ANIM_CE(2041+I) = 1
@@ -261,7 +261,7 @@ C-------------------------------------------
          ENDIF ! IF (ISTRESFULL == 1)
 C-------------
          IF (IPHIALL == 1)THEN
-           IF(NIPMAX.LE.100)THEN
+           IF(NIPMAX<=100)THEN
              DO I=1,NIPMAX
                ANIM_CE(10139+I) = 1
                NCE_ANI = NCE_ANI + 1
@@ -284,7 +284,7 @@ C
        ENDIF !
 C
        IF (IDAMAALL == 1)THEN
-         IF(NIPMAX.LE.100)THEN
+         IF(NIPMAX<=100)THEN
            DO I=1,NIPMAX
              ANIM_CE(10259+I) = 1
              NCE_ANI = NCE_ANI + 1
@@ -293,7 +293,7 @@ C
        ENDIF
 C
        IF (INXTFALL == 1)THEN
-         IF(NIPMAX.LE.100)THEN
+         IF(NIPMAX<=100)THEN
            DO I=1,NIPMAX
              ANIM_CE(10362+I) = 1
              NCE_ANI = NCE_ANI + 1
@@ -302,7 +302,7 @@ C
        ENDIF
 C
        IF (SIGH1ALL == 1)THEN
-         IF(NIPMAX.LE.100)THEN
+         IF(NIPMAX<=100)THEN
            DO I=1,NIPMAX
              ANIM_CE(10465+I) = 1
              NCE_ANI = NCE_ANI + 1
@@ -311,7 +311,7 @@ C
        ENDIF
 C
        IF (SIGH2ALL == 1)THEN
-         IF(NIPMAX.LE.100)THEN
+         IF(NIPMAX<=100)THEN
            DO I=1,NIPMAX
              ANIM_CE(10568+I) = 1
              NCE_ANI = NCE_ANI + 1
@@ -867,7 +867,7 @@ C
        ENDDO
        IF(ANIM_V(12) == 1)NV_ANI=NV_ANI+1
        IF(ANIM_V(4)==1.AND.ANIMCONT == 0) NV_ANI=NV_ANI-1
-       IF(ANIM_V(27).EQ.1)NV_ANI=NV_ANI+1
+       IF(ANIM_V(27)==1)NV_ANI=NV_ANI+1
       ENDIF
 C-----
       RETURN

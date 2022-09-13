@@ -87,21 +87,21 @@ C
         ENDDO
         NSLAW_L = NSLAW_L + NSL_L
 C espace memoire P/ON
-        IF(IPARI0.NE.0.AND.MSR.NE.0) NSKYRW_L = NSKYRW_L + NSL_L
+        IF(IPARI0/=0.AND.MSR/=0) NSKYRW_L = NSKYRW_L + NSL_L
         K = K + NSL
 C
         IFQ = NINT(RWL(15,N))
-        IF(IFQ.GT.0) THEN
+        IF(IFQ>0) THEN
           LWSAV_L = LWSAV_L + NSL_L
         ENDIF
 C
-        IF(ITY.EQ.-1)THEN
+        IF(ITY==-1)THEN
           NE = NINT(RWL(8,N))
-          IF(NE.NE.0) THEN
+          IF(NE/=0) THEN
             DO KK = 1, NE
               IE = LPRW(K+KK)/10
 C             IR = LPRW(K+KK)-10*IE
-              IF(CEP(IE).EQ.PROC)THEN
+              IF(CEP(IE)==PROC)THEN
                 NESLAW_L = NESLAW_L+1
               ENDIF
             ENDDO

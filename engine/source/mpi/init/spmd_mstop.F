@@ -56,7 +56,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       call MPI_BARRIER(MPI_COMM_WORLD,ierror)
       CALL MPI_FINALIZE(ierror)
-      IF(ISPMD.NE.0)THEN
+      IF(ISPMD/=0)THEN
         CALL MY_EXIT(0)
       ENDIF
 #endif

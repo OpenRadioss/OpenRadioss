@@ -76,7 +76,7 @@ C-----------------------------------------------
      .        IERR1,IERR2,IERR3,IERR4,IERR5,IERR6
 C-------IMONV(NMONV)--nb de noeuds dans chaque mv.----------------------
       NMONV = 0
-      IF(NVOLU.GT.0.AND.IMPMV.GT.0) THEN
+      IF(NVOLU>0.AND.IMPMV>0) THEN
        DO N=1,NUMNOD
         ITAG(N) = 0
        ENDDO
@@ -86,16 +86,16 @@ C-------IMONV(NMONV)--nb de noeuds dans chaque mv.----------------------
        DO I=1,NVOLU
         NTYP=MONVOL(K1+1)
         IMONV(I)=0
-        IF(NTYP.EQ.3) THEN
-         IF(IMACH.EQ.3.AND.FR_MV(ISPMD+1,I).EQ.0) GO TO 100
+        IF(NTYP==3) THEN
+         IF(IMACH==3.AND.FR_MV(ISPMD+1,I)==0) GO TO 100
          IS   = MONVOL(K1+3)
          NN = IGRSURF(IS)%NSEG
          NUMN = NUMN_MV
-         IF(NN.GT.0) THEN
+         IF(NN>0) THEN
           DO J=1,NN
            DO N=1,4
             NOD = IGRSURF(IS)%NODES(J,N)
-            IF (ITAG(NOD).EQ.0) THEN
+            IF (ITAG(NOD)==0) THEN
              NUMN_MV = NUMN_MV + 1
              ITAG(NOD) = NUMN_MV
             ENDIF
@@ -104,9 +104,9 @@ C-------IMONV(NMONV)--nb de noeuds dans chaque mv.----------------------
           NNMAX_MV = MAX(NNMAX_MV,NN)
          ENDIF
          IMONV(I)=NUMN_MV - NUMN
-         IF (IMONV(I).GT.0) NMONV = NMONV+1
-        ELSEIF (NEIG.EQ.ZERO) THEN
-         IF(IMACH.NE.3.OR.ISPMD.EQ.0) THEN
+         IF (IMONV(I)>0) NMONV = NMONV+1
+        ELSEIF (NEIG==ZERO) THEN
+         IF(IMACH/=3.OR.ISPMD==0) THEN
           WRITE(IOUT,1001)NTYP
           WRITE(ISTDO,1001)NTYP
          ENDIF
@@ -116,28 +116,28 @@ C-------IMONV(NMONV)--nb de noeuds dans chaque mv.----------------------
        ENDDO
       ENDIF
 C--------allocation------
-      IF (NMONV .EQ. 0) RETURN
+      IF (NMONV == 0) RETURN
 C
       ALLOCATE(IN_MV(NUMN_MV),ID_MV(3,NUMN_MV),STAT=IERR1)
       DO I=1,NUMNOD
        J = ITAG(I)
-       IF (J.GT.0) IN_MV(J) = I
+       IF (J>0) IN_MV(J) = I
       ENDDO
       CALL DIM_KINMV(
      1    NPBY      ,LPBY      ,NRBYAC    ,IRBYAC    ,NINT2     ,
      2    IINT2     ,IPARI     ,INTBUF_TAB,ITAG      ,NRB_MV    ,
      3    NI2_MV    ,IRBE3     ,NRBE3_MV  ,IRBE2     ,LRBE2     ,
      4    NRBE2_MV  )
-      IF (NI2_MV.GT.0) THEN
+      IF (NI2_MV>0) THEN
        ALLOCATE(II2_MV(2,NI2_MV),ID_MVM2(6,4,NI2_MV),STAT=IERR2)
       ENDIF
-      IF (NRB_MV.GT.0) THEN
+      IF (NRB_MV>0) THEN
        ALLOCATE(IRB_MV(2,NRB_MV),ID_MVM(6,NRB_MV),STAT=IERR4)
       ENDIF
-      IF (NRBE3_MV.GT.0) THEN
+      IF (NRBE3_MV>0) THEN
         ALLOCATE(IRBE3_MV(NRBE3_MV),STAT=IERR3)
       ENDIF
-      IF (NRBE2_MV.GT.0) THEN
+      IF (NRBE2_MV>0) THEN
         ALLOCATE(IRBE2_MV(2,NRBE2_MV),ID_MVM4(6,NRBE2_MV),STAT=IERR3)
         ID_MVM4=0
       ENDIF
@@ -147,7 +147,7 @@ C
      3    IRB_MV    ,NI2_MV    ,II2_MV    ,IRBE3     ,NRBE3_MV  ,
      4    IRBE3_MV  ,IRBE2     ,LRBE2     ,NRBE2_MV  ,IRBE2_MV  )
 C-----------ini RBE3
-      IF (NRBE3_MV.GT.0) THEN
+      IF (NRBE3_MV>0) THEN
        IAD=0
        NMT = 0
        IROT=0
@@ -163,21 +163,21 @@ C-----------ini RBE3
 	 R3M_MAX=IAD
         ALLOCATE(FCDI_MV(18*NMT),STAT=IERR5)
 	 FCDI_MV=ZERO
-        IF (IROT.GT.0) THEN
+        IF (IROT>0) THEN
 	 ALLOCATE(MCDI_MV(18*NMT),STAT=IERR5)
 	 MCDI_MV=ZERO
         ENDIF
       ENDIF
-      IF (IPREC .GE. 2) THEN
+      IF (IPREC >= 2) THEN
        ALLOCATE(DIAG_MV(3,NUMN_MV),STAT=IERR2)
        DIAG_MV=ZERO
-       IF (NI2_MV.GT.0) ALLOCATE(DIAG_MVM2(6,4,NI2_MV),STAT=IERR5)
-       IF (NRB_MV.GT.0) ALLOCATE(DIAG_MVM(6,NRB_MV),STAT=IERR6)
-       IF (NRBE3_MV.GT.0) THEN
+       IF (NI2_MV>0) ALLOCATE(DIAG_MVM2(6,4,NI2_MV),STAT=IERR5)
+       IF (NRB_MV>0) ALLOCATE(DIAG_MVM(6,NRB_MV),STAT=IERR6)
+       IF (NRBE3_MV>0) THEN
         ALLOCATE(DIAG_MVM3(6,R3M_MAX,NRBE3_MV),STAT=IERR5)
 	 DIAG_MVM3=ZERO
        ENDIF
-       IF (NRBE2_MV.GT.0) THEN
+       IF (NRBE2_MV>0) THEN
         ALLOCATE(DIAG_MVM4(6,NRBE2_MV),STAT=IERR5)
 	 DIAG_MVM4=ZERO
        ENDIF
@@ -252,7 +252,7 @@ C------IRTL(NSN)--main el number---
        KFI=K14+NSN
        DO I=1,NSN
         NI=INTBUF_TAB(N)%NSV(I)
-        IF (INLOC(NI).GT.0) THEN
+        IF (INLOC(NI)>0) THEN
          LNS2=LNS2+1
         ENDIF
        ENDDO
@@ -266,9 +266,9 @@ C-----RBE2------
         DO I=1,NSN
          ID = I+K
          NI=LRBE2(ID)
-         IF (INLOC(NI).GT.0) THEN
+         IF (INLOC(NI)>0) THEN
           LNS4=LNS4+1
-          IF (INLOC(M).EQ.0) INLOC(M) = 2
+          IF (INLOC(M)==0) INLOC(M) = 2
          ENDIF
        ENDDO
       ENDDO
@@ -276,8 +276,8 @@ C--------RBE3--------------------
       LNS3=0
       DO N=1,NRBE3
        NI = IRBE3(3,N)
-       IF (NI.EQ.0) CYCLE
-       IF (INLOC(NI).GT.0) THEN
+       IF (NI==0) CYCLE
+       IF (INLOC(NI)>0) THEN
          LNS3=LNS3+1
        ENDIF
       ENDDO
@@ -291,9 +291,9 @@ C-----active rigid body main nodes------
         DO I=1,NSN
          ID = I+K
          NI=LPBY(ID)
-         IF (INLOC(NI).GT.0) THEN
+         IF (INLOC(NI)>0) THEN
           LNS=LNS+1
-          IF (INLOC(M).EQ.0) INLOC(M) = 1
+          IF (INLOC(M)==0) INLOC(M) = 1
          ENDIF
        ENDDO
       ENDDO
@@ -350,7 +350,7 @@ C-----------------------------------------------
      .        JI,K10,K11,K12,K13,K14,KFI,NI2,NRB,NR3,NR2
 c----------------------
       NI2=0
-      IF (NI2_MV.GT.0) THEN
+      IF (NI2_MV>0) THEN
        DO J=1,NINT2
         N=IINT2(J)
         NSN = IPARI(5,N)
@@ -367,27 +367,27 @@ C------IRTL(NSN)--main el number---
         KFI=K14+NSN
         DO I=1,NSN
          NI=INTBUF_TAB(N)%NSV(I)
-         IF (INLOC(NI).GT.0) THEN
+         IF (INLOC(NI)>0) THEN
           NI2=NI2+1
           II2_MV(1,NI2)=N
           II2_MV(2,NI2)=I
          ENDIF
         ENDDO
        ENDDO
-       IF (NI2.NE.NI2_MV) WRITE(*,*)'pb cal NI2_MV'
+       IF (NI2/=NI2_MV) WRITE(*,*)'pb cal NI2_MV'
       ENDIF
 C-----RBE2-----
       NR2=0
-      IF (NRBE2_MV.GT.0) THEN
+      IF (NRBE2_MV>0) THEN
        DO N=1,NRBE2
         K =IRBE2(1,N)
         M =IRBE2(3,N)
-        IF (INLOC(M).GT.0) THEN
+        IF (INLOC(M)>0) THEN
          NSN  =IRBE2(5,N)
          DO I=1,NSN
           ID = I+K
           NI=LRBE2(ID)
-          IF (INLOC(NI).GT.0) THEN
+          IF (INLOC(NI)>0) THEN
            NR2=NR2+1
            IRBE2_MV(1,NR2)=N
            IRBE2_MV(2,NR2)=NI
@@ -395,34 +395,34 @@ C-----RBE2-----
          ENDDO
         ENDIF
        ENDDO
-       IF (NR2.NE.NRBE2_MV) WRITE(*,*)'pb cal NRBE2_MV'
+       IF (NR2/=NRBE2_MV) WRITE(*,*)'pb cal NRBE2_MV'
       ENDIF
 C--------RBE3--------------------
-      IF (NRBE3_MV.GT.0) THEN
+      IF (NRBE3_MV>0) THEN
        NR3=0
        DO N=1,NRBE3
         NI = IRBE3(3,N)
-        IF (NI.EQ.0) CYCLE
-        IF (INLOC(NI).GT.0) THEN
+        IF (NI==0) CYCLE
+        IF (INLOC(NI)>0) THEN
           NR3=NR3+1
           IRBE3_MV(NR3)=N
         ENDIF
        ENDDO
-       IF (NR3.NE.NRBE3_MV) WRITE(*,*)'pb cal NRBE3_MV'
+       IF (NR3/=NRBE3_MV) WRITE(*,*)'pb cal NRBE3_MV'
       ENDIF
 C-----active rigid body main nodes------
       NRB=0
-      IF (NRB_MV.GT.0) THEN
+      IF (NRB_MV>0) THEN
        DO J=1,NRBYAC
         N=IRBYAC(J)
         K=IRBYAC(J+NRBYKIN)
         M  =NPBY(1,N)
-        IF (INLOC(M).GT.0) THEN
+        IF (INLOC(M)>0) THEN
          NSN  =NPBY(2,N)
          DO I=1,NSN
           ID = I+K
           NI=LPBY(ID)
-          IF (INLOC(NI).GT.0) THEN
+          IF (INLOC(NI)>0) THEN
            NRB=NRB+1
            IRB_MV(1,NRB)=M
            IRB_MV(2,NRB)=NI
@@ -430,7 +430,7 @@ C-----active rigid body main nodes------
          ENDDO
         ENDIF
        ENDDO
-       IF (NRB.NE.NRB_MV) WRITE(*,*)'pb cal NRB_MV'
+       IF (NRB/=NRB_MV) WRITE(*,*)'pb cal NRB_MV'
       ENDIF
 C----6---------------------------------------------------------------7---------8
       RETURN
@@ -479,17 +479,17 @@ C-----------------------------------------------
       ENDDO
       NBC_MV = 0
       DO N=1,NUMNOD
-        IF (ISKEW(N).GT.1.AND.ICODT(N).NE.7) THEN
-         IF (ITAG(N).GT.0)NBC_MV = NBC_MV + 1
+        IF (ISKEW(N)>1.AND.ICODT(N)/=7) THEN
+         IF (ITAG(N)>0)NBC_MV = NBC_MV + 1
         ENDIF
       ENDDO
-      IF (NBC_MV.GT.0) THEN
+      IF (NBC_MV>0) THEN
        IF(ALLOCATED(IBC_MV)) DEALLOCATE(IBC_MV)
        ALLOCATE(IBC_MV(3,NBC_MV),STAT=IERR1)
        NBC_MV = 0
        DO N=1,NUMNOD
-        IF (ISKEW(N).GT.1.AND.ICODT(N).NE.7) THEN
-         IF (ITAG(N).GT.0) THEN
+        IF (ISKEW(N)>1.AND.ICODT(N)/=7) THEN
+         IF (ITAG(N)>0) THEN
            NBC_MV = NBC_MV + 1
            IBC_MV(1,NBC_MV) = N
            IBC_MV(2,NBC_MV) = ISKEW(N)
@@ -501,14 +501,14 @@ C-----------------------------------------------
 C-----AUTOSPC----
       NSPC_MV = 0
       DO N = 1, NSPCL
-       IF (ITAG(N).GT.0)NSPC_MV = NSPC_MV + 1
+       IF (ITAG(N)>0)NSPC_MV = NSPC_MV + 1
       ENDDO
-      IF (NSPC_MV.GT.0) THEN
+      IF (NSPC_MV>0) THEN
        IF(ALLOCATED(ISPC_MV)) DEALLOCATE(ISPC_MV)
        ALLOCATE(ISPC_MV(NSPC_MV),STAT=IERR1)
        NSPC_MV = 0
        DO N=1,NSPCL
-         IF (ITAG(N).GT.0) THEN
+         IF (ITAG(N)>0) THEN
            NSPC_MV = NSPC_MV + 1
            ISPC_MV(NSPC_MV) = N
          ENDIF
@@ -517,19 +517,19 @@ C-----AUTOSPC----
 C
       NFX_MV = 0
       DO J=1,NFXVEL
-        IF (LJ(J).GT.0.AND.LJ(J).LE.3) THEN
+        IF (LJ(J)>0.AND.LJ(J)<=3) THEN
          N=IABS(IBFV(1,J))
-         IF (ITAG(N).GT.0)NFX_MV = NFX_MV + 1
+         IF (ITAG(N)>0)NFX_MV = NFX_MV + 1
         ENDIF
       ENDDO
-      IF (NFX_MV.GT.0) THEN
+      IF (NFX_MV>0) THEN
        IF(ALLOCATED(IFX_MV)) DEALLOCATE(IFX_MV)
        ALLOCATE(IFX_MV(2,NFX_MV),STAT=IERR2)
        NFX_MV = 0
        DO J=1,NFXVEL
-        IF (LJ(J).GT.0.AND.LJ(J).LE.3) THEN
+        IF (LJ(J)>0.AND.LJ(J)<=3) THEN
          N=IABS(IBFV(1,J))
-         IF (ITAG(N).GT.0) THEN
+         IF (ITAG(N)>0) THEN
            NFX_MV = NFX_MV + 1
            IFX_MV(1,NFX_MV) = J
            IFX_MV(2,NFX_MV) = LJ(J)
@@ -540,15 +540,15 @@ C
       NRW_MV = 0
       DO J=1,N_RWL
        N=IN_RWL(J)
-       IF (ITAG(N).GT.0) NRW_MV = NRW_MV + 1
+       IF (ITAG(N)>0) NRW_MV = NRW_MV + 1
       ENDDO
-      IF (NRW_MV.GT.0) THEN
+      IF (NRW_MV>0) THEN
        IF(ALLOCATED(IRW_MV)) DEALLOCATE(IRW_MV)
        ALLOCATE(IRW_MV(NRW_MV),STAT=IERR3)
        NRW_MV = 0
        DO J=1,N_RWL
          N=IN_RWL(J)
-         IF (ITAG(N).GT.0) THEN
+         IF (ITAG(N)>0) THEN
            NRW_MV = NRW_MV + 1
            IRW_MV(NRW_MV) = J
          ENDIF
@@ -666,14 +666,14 @@ C----------------
       CALL ID_MVINI(IPARI  ,INTBUF_TAB,NDOF   ,IDDL    ,IKC    ,
      1              INLOC  ,X      ,SKEW   ,IRBE3   ,LRBE3  ,
      2              FRBE3  ,IRBE2  ,LRBE2  )
-      IF (IPREC.LT.2) RETURN
+      IF (IPREC<2) RETURN
       CALL ZEROR(A_MV,NUMNOD)
       CALL MONV_KD(MONVOL ,VOLMON  ,X      ,IGRSURF ,
      1             NMONV  ,IMONV   ,A_MV   ,NNMAX_MV)
       NKIN = NRB_MV+NI2_MV+NFX_MV+NBC_MV+NRW_MV+NRBE3_MV+NSPC_MV
      .       +NRBE2_MV
-      IF (NKIN.GT.0) THEN
-       IF ((NRB_MV+NI2_MV+NRBE3_MV+NSPC_MV+NRBE2_MV).GT.0)
+      IF (NKIN>0) THEN
+       IF ((NRB_MV+NI2_MV+NRBE3_MV+NSPC_MV+NRBE2_MV)>0)
      .     CALL ZEROR(AR_MV,NUMNOD)
        CALL UPDK_MV(NDOF    ,IPARI  ,INTBUF_TAB,NI2_MV ,
      .              II2_MV  ,NRB_MV ,IRB_MV  ,NFX_MV,IFX_MV ,
@@ -689,7 +689,7 @@ C-----initialise diag_mv-----------
         N = IN_MV(I)
         DO J = 1, MIN(3,NDOF(N))
          ID = ID_MV(J,I)
-         IF (ID.GT.0) DIAG_MV(J,I)=A_MV(J,N)
+         IF (ID>0) DIAG_MV(J,I)=A_MV(J,N)
         ENDDO
        ENDDO
 C
@@ -697,8 +697,8 @@ C
         N = IRB_MV(1,I)
         DO J = 1, NDOF(N)
          ID = ID_MVM(J,I)
-         IF (ID.GT.0) THEN
-          IF (J.LE.3) THEN
+         IF (ID>0) THEN
+          IF (J<=3) THEN
            DIAG_MVM(J,I)=A_MV(J,N)
           ELSE
            DIAG_MVM(J,I)=AR_MV(J-3,N)
@@ -722,7 +722,7 @@ C------MSR(NMN)-----
          K14=K13+IPARI(6,N)
          L=INTBUF_TAB(N)%IRTLM(NI)
          NL=4*(L-1)
-         IF (INTBUF_TAB(N)%IRECTM(NL+3).EQ.INTBUF_TAB(N)%IRECTM(NL+4)) THEN
+         IF (INTBUF_TAB(N)%IRECTM(NL+3)==INTBUF_TAB(N)%IRECTM(NL+4)) THEN
           NNOD=3
          ELSE
           NNOD=4
@@ -732,8 +732,8 @@ C-------si noeud main est dependant aussi-----
           NJ=INTBUF_TAB(N)%IRECTM(NL+M)
           DO J = 1, NDOF(NJ)
            ID = ID_MVM2(J,M,I)
-           IF (ID.GT.0) THEN
-            IF (J.LE.3) THEN
+           IF (ID>0) THEN
+            IF (J<=3) THEN
              DIAG_MVM2(J,M,I)=A_MV(J,NJ)
             ELSE
              DIAG_MVM2(J,M,I)=AR_MV(J-3,NJ)
@@ -752,8 +752,8 @@ C-------
           NJ=LRBE3(IAD+M)
           DO J = 1 , NDOF(NJ)
 	   ID = ID_MVM3(J,M,I)
-           IF (ID.GT.0) THEN
-            IF (J.LE.3) THEN
+           IF (ID>0) THEN
+            IF (J<=3) THEN
              DIAG_MVM3(J,M,I)=A_MV(J,NJ)
             ELSE
              DIAG_MVM3(J,M,I)=AR_MV(J-3,NJ)
@@ -768,8 +768,8 @@ C--------RBE2----------
         M = IRBE2(3,N)
         DO J = 1, NDOF(M)
          ID = ID_MVM4(J,I)
-         IF (ID.GT.0) THEN
-          IF (J.LE.3) THEN
+         IF (ID>0) THEN
+          IF (J<=3) THEN
            DIAG_MVM4(J,I)=A_MV(J,M)
           ELSE
            DIAG_MVM4(J,I)=AR_MV(J-3,M)
@@ -831,13 +831,13 @@ C-----initialise iddl_mv-----------
        IDDLM(I)=IDDL(I)-NKC
        DO J=1,NDOF(I)
         ND = IDDL(I)+J
-        IF (IKC(ND).NE.0) NKC = NKC + 1
+        IF (IKC(ND)/=0) NKC = NKC + 1
        ENDDO
       ENDDO
 C
        DO I = 1, NUMN_MV
          N = IN_MV(I)
-        IF (NDOF(N).EQ.0) THEN
+        IF (NDOF(N)==0) THEN
          DO J = 1 , 3
           ID_MV(J,I) = -7
          ENDDO
@@ -845,7 +845,7 @@ C
          ND = 0
          DO J = 1 , MIN(3,NDOF(N))
 	  ID = IDDL(N) + J
-          IF (IKC(ID).LT.1) THEN
+          IF (IKC(ID)<1) THEN
            ND = ND + 1
            ID_MV(J,I) = IDDLM(N) + ND
           ELSE
@@ -860,7 +860,7 @@ C
          ND = 0
          DO J = 1 , NDOF(N)
 	  ID = IDDL(N) + J
-          IF (IKC(ID).LT.1) THEN
+          IF (IKC(ID)<1) THEN
            ND = ND + 1
            ID_MVM(J,I) = IDDLM(N) + ND
           ELSE
@@ -884,7 +884,7 @@ C------MSR(NMN)-----
          K14=K13+IPARI(6,N)
          L=INTBUF_TAB(N)%IRTLM(NI)
          NL=4*(L-1)
-         IF (INTBUF_TAB(N)%IRECTM(NL+3).EQ.INTBUF_TAB(N)%IRECTM(NL+4)) THEN
+         IF (INTBUF_TAB(N)%IRECTM(NL+3)==INTBUF_TAB(N)%IRECTM(NL+4)) THEN
           NNOD=3
          ELSE
           NNOD=4
@@ -895,7 +895,7 @@ C-------si noeud main est dependant aussi-----
           ND = 0
           DO J = 1 , NDOF(NJ)
 	   ID = IDDL(NJ) + J
-           IF (IKC(ID).LT.1) THEN
+           IF (IKC(ID)<1) THEN
             ND = ND + 1
             ID_MVM2(J,M,I) = IDDLM(NJ) + ND
            ELSE
@@ -905,7 +905,7 @@ C-------si noeud main est dependant aussi-----
          ENDDO
        ENDDO
 C-------RBE3-----------
-       IF (NRBE3_MV.GT.0) THEN
+       IF (NRBE3_MV>0) THEN
         DO I=1,NRBE3_MV
          N=IRBE3_MV(I)
          NNOD=IRBE3(5,N)
@@ -916,7 +916,7 @@ C-------
           ND = 0
           DO J = 1 , NDOF(NJ)
 	     ID = IDDL(NJ) + J
-           IF (IKC(ID).LT.1) THEN
+           IF (IKC(ID)<1) THEN
             ND = ND + 1
             ID_MVM3(J,M,I) = IDDLM(NJ) + ND
            ELSE
@@ -948,7 +948,7 @@ C---------RBE2------------
          ND = 0
          DO J = 1 , NDOF(M)
 	  ID = IDDL(M) + J
-          IF (IKC(ID).LT.1) THEN
+          IF (IKC(ID)<1) THEN
            ND = ND + 1
            ID_MVM4(J,I) = IDDLM(M) + ND
           ELSE
@@ -1010,7 +1010,7 @@ C-----------reprend vol,gama------
       K1 = 1
       KK1 = 0
       DO I=1,NVOLU
-       IF(IMONV(I).GT.0) THEN
+       IF(IMONV(I)>0) THEN
          NMV = NMV+1
 C-----------VOL-VINC---------
          VOL(NMV) = VOLMON(KK1+16)- VOLMON(KK1+5)
@@ -1023,7 +1023,7 @@ C-----------DIAG_K------
       NMV = 0
       K1 = 1
       DO I=1,NVOLU
-       IF(IMONV(I).GT.0) THEN
+       IF(IMONV(I)>0) THEN
          IS   = MONVOL(K1+3)
          NN = IGRSURF(IS)%NSEG
          NMV = NMV+1
@@ -1064,15 +1064,15 @@ C-----------K-elememtaire J1--Kij(i dans ele J;j dans ele J1 ---)
      3                   GAMAV2 ,DVD1    ,DVD2   ,K_DIAG)
 C-----------K-elememtaire J1--Kij(i dans ele J;j dans ele J1 ---)
           DO J1=1,NN
-           IF (J1.NE.J) THEN
+           IF (J1/=J) THEN
             M1 = IGRSURF(IS)%NODES(J1,1)
             M2 = IGRSURF(IS)%NODES(J1,2)
             M3 = IGRSURF(IS)%NODES(J1,3)
             M4 = IGRSURF(IS)%NODES(J1,4)
-            IF (M1.EQ.N1.OR.M1.EQ.N2.OR.M1.EQ.N3.OR.M1.EQ.N4
-     1      .OR.M2.EQ.N1.OR.M2.EQ.N2.OR.M2.EQ.N3.OR.M2.EQ.N4
-     2      .OR.M3.EQ.N1.OR.M3.EQ.N2.OR.M3.EQ.N3.OR.M3.EQ.N4
-     3      .OR.M4.EQ.N1.OR.M4.EQ.N2.OR.M4.EQ.N3.OR.M4.EQ.N4) THEN
+            IF (M1==N1.OR.M1==N2.OR.M1==N3.OR.M1==N4
+     1      .OR.M2==N1.OR.M2==N2.OR.M2==N3.OR.M2==N4
+     2      .OR.M3==N1.OR.M3==N2.OR.M3==N3.OR.M3==N4
+     3      .OR.M4==N1.OR.M4==N2.OR.M4==N3.OR.M4==N4) THEN
             CALL MONV_KEDJ(N1     ,N2      ,N3     ,N4     ,M1      ,
      1                     M2     ,M3      ,M4   ,NOR(1,J),NOR(1,J1),
      2                     VOL(NMV),GAMAV2 ,DVD1   ,DVD2   ,K_DIAG  )
@@ -1120,7 +1120,7 @@ C-----------------------------------------------
      .   KEV1(3),KEV2(3),KEVS(3),FAC,FACV(3)
 C---------DNDX:NX,x,NY,x,NZ,x,------------------------------------
       ND = 3
-      IF (N3.EQ.N4) THEN
+      IF (N3==N4) THEN
        NNOD = 3
       ELSE
        NNOD = 4
@@ -1178,7 +1178,7 @@ C---------K22-------------------
         K_DIAG(I,N2) = K_DIAG(I,N2)-KEV2(I)-KEVS(I)
        ENDDO
 C---------K44-------------------
-       IF (NNOD.EQ.4) THEN
+       IF (NNOD==4) THEN
         DO I=1,ND
          K_DIAG(I,N4) = K_DIAG(I,N4)+KEV2(I)
         ENDDO
@@ -1220,12 +1220,12 @@ C---------DNDX:NX,x,NY,x,NZ,x,------------------------------------
        NM(1) = M1
        NM(2) = M2
        NM(3) = M3
-      IF (N3.EQ.N4) THEN
+      IF (N3==N4) THEN
        NNOD = 3
       ELSE
        NNOD = 4
       ENDIF
-      IF (M3.EQ.M4) THEN
+      IF (M3==M4) THEN
        NNOD1 = 3
       ELSE
        NNOD1 = 4
@@ -1242,19 +1242,19 @@ C---------terme v-------------------
         ENDDO
 C---------KEIJ---J=N1,I=NM(j)----------------
         DO I=1,NNOD1
-         IF (N1.EQ.NM(I)) THEN
+         IF (N1==NM(I)) THEN
           DO J=1,ND
            K_DIAG(J,N1) = K_DIAG(J,N1)-KEV1(J)-KEVS(J)
           ENDDO
-         ELSEIF (N2.EQ.NM(I)) THEN
+         ELSEIF (N2==NM(I)) THEN
           DO J=1,ND
            K_DIAG(J,N2) = K_DIAG(J,N2)-KEV2(J)-KEVS(J)
           ENDDO
-         ELSEIF (N3.EQ.NM(I)) THEN
+         ELSEIF (N3==NM(I)) THEN
           DO J=1,ND
            K_DIAG(J,N3) = K_DIAG(J,N3)+KEV1(J)
           ENDDO
-         ELSEIF (NNOD.EQ.4.AND.N4.EQ.NM(I)) THEN
+         ELSEIF (NNOD==4.AND.N4==NM(I)) THEN
           DO J=1,ND
            K_DIAG(J,N4) = K_DIAG(J,N4)+KEV2(J)
           ENDDO
@@ -1357,7 +1357,7 @@ C--------local secnd node-,d'abord independant----
             KJJ(J,M) = ZERO
            ENDDO
           ENDDO
-          IF (ILEV.EQ.1) THEN
+          IF (ILEV==1) THEN
            CALL I2_FRUP1(X   ,INTBUF_TAB(N)%IRECTM,INTBUF_TAB(N)%DPARA,
      .                  INTBUF_TAB(N)%NSV ,
      1                  INTBUF_TAB(N)%IRTLM ,NS  ,KSS,KJJ )
@@ -1371,7 +1371,7 @@ C--------local secnd node-,d'abord independant----
            DO J = 1 , 3
             A(J,NJ) = A(J,NJ) + KJJ(J,M)
            ENDDO
-           IF (NDOF(NJ).GT.3) THEN
+           IF (NDOF(NJ)>3) THEN
             DO J = 1 , 3
              AR(J,NJ) = AR(J,NJ) + KJJ(J+3,M)
             ENDDO
@@ -1398,7 +1398,7 @@ C--------RBE2-----------
          DO J=1,3
           KDD(J,J) = A(J,NS)
          ENDDO
-         IF (NDOF(NS).GT.3) THEN
+         IF (NDOF(NS)>3) THEN
           DO J = 1 , 3
             KDD(J+3,J+3) = AR(J,NS)
           ENDDO
@@ -1411,12 +1411,12 @@ C--------for the moment, A(J,NS) will be not transfert
           A(J,M) = A(J,M) + KMM(J)
           A(J,NS) = A(J,NS) + KSS(J)
          ENDDO
-         IF (NDOF(M).GT.3) THEN
+         IF (NDOF(M)>3) THEN
           DO J = 1 , 3
             AR(J,M) = AR(J,M) + KMM(J+3)
           ENDDO
          ENDIF
-         IF (NDOF(NS).GT.3) THEN
+         IF (NDOF(NS)>3) THEN
           DO J = 1 , 3
             AR(J,NS) = AR(J,NS) + KSS(J+3)
           ENDDO
@@ -1445,7 +1445,7 @@ C--------
            DO J = 1 , 3
             A(J,NJ) = A(J,NJ) + DIAG_M3(J,M,I)
            ENDDO
-           IF (IROT.GT.0.AND.NDOF(NJ).GT.3) THEN
+           IF (IROT>0.AND.NDOF(NJ)>3) THEN
             DO J = 1 , 3
              AR(J,NJ) = AR(J,NJ) + DIAG_M3(J+3,M,I)
             ENDDO
@@ -1490,11 +1490,11 @@ C
 	IR = 0
 	IAD = 6*(N-1)+1
 	NN = IC_SPC(N)
-	IF (NN.GT.3) THEN
+	IF (NN>3) THEN
 	 NN= NN-3
 	 IR = 1
 	ENDIF
-	IF (IR.EQ.0) THEN
+	IF (IR==0) THEN
           KII(1,1)=A(1,I)
           KII(2,2)=A(2,I)
           KII(3,3)=A(3,I)
@@ -1504,13 +1504,13 @@ C
           KII(2,1)=KII(1,2)
           KII(3,1)=KII(1,3)
           KII(3,2)=KII(2,3)
-	  IF (NN.EQ.1) THEN
+	  IF (NN==1) THEN
 	   EJ(1)=SKEW_SPC(IAD)
 	   EJ(2)=SKEW_SPC(IAD+1)
 	   EJ(3)=SKEW_SPC(IAD+2)
            CALL L_DIR(EJ,J)
            CALL FV_UPDKD(EJ    ,J    ,KII   ,A(1,I))
-	  ELSEIF (NN.EQ.2) THEN
+	  ELSEIF (NN==2) THEN
            CALL FV_UPDKD2(SKEW_SPC(IAD),SKEW_SPC(IAD+3),KII  ,A(1,I))
 	  END IF
 	ELSE
@@ -1523,13 +1523,13 @@ C
           KII(2,1)=KII(1,2)
           KII(3,1)=KII(1,3)
           KII(3,2)=KII(2,3)
-	  IF (NN.EQ.1) THEN
+	  IF (NN==1) THEN
 	   EJ(1)=SKEW_SPC(IAD)
 	   EJ(2)=SKEW_SPC(IAD+1)
 	   EJ(3)=SKEW_SPC(IAD+2)
            CALL L_DIR(EJ,J)
            CALL FV_UPDKD(EJ    ,J    ,KII   ,AR(1,I))
-	  ELSEIF (NN.EQ.2) THEN
+	  ELSEIF (NN==2) THEN
            CALL FV_UPDKD2(SKEW_SPC(IAD),SKEW_SPC(IAD+3),KII  ,AR(1,I))
 	  END IF
 	ENDIF
@@ -1542,11 +1542,11 @@ C
           ISK=IBFV(2,N)/10
           IFM = IBFV(9,N)
           J=IBFV(2,N)
-          IF (IFM.LE.1) J=J-10*ISK
+          IF (IFM<=1) J=J-10*ISK
           K1=3*J-2
           K2=3*J-1
           K3=3*J
-            IF (ISK.GT.1) THEN
+            IF (ISK>1) THEN
               EJ(1)=SKEW(K1,ISK)
               EJ(2)=SKEW(K2,ISK)
               EJ(3)=SKEW(K3,ISK)
@@ -1634,12 +1634,12 @@ C-----------------------------------------------
       INTEGER I,J,NKC,N,ND,ID,IAD
       INTEGER M,NSN,JI,K10,K11,K12,K13,K14,L,NNOD,NJ,NL,NI
 C---------IFLAG=0: add; IFLAG=1:remove-------
-      IF (IFLAG.EQ.0) THEN
+      IF (IFLAG==0) THEN
        DO I = 1, NUMN_MV
         N = IN_MV(I)
         DO J = 1, MIN(3,NDOF(N))
          ID = ID_MV(J,I)
-         IF (ID.GT.0) DIAG_K(ID)=DIAG_K(ID)+DIAG_MV(J,I)
+         IF (ID>0) DIAG_K(ID)=DIAG_K(ID)+DIAG_MV(J,I)
         ENDDO
        ENDDO
 C
@@ -1647,7 +1647,7 @@ C
         N = IRB_MV(1,I)
         DO J = 1, NDOF(N)
          ID = ID_MVM(J,I)
-         IF (ID.GT.0) DIAG_K(ID)=DIAG_K(ID)+DIAG_MVM(J,I)
+         IF (ID>0) DIAG_K(ID)=DIAG_K(ID)+DIAG_MVM(J,I)
         ENDDO
        ENDDO
 C
@@ -1666,7 +1666,7 @@ C------MSR(NMN)-----
          K14=K13+IPARI(6,N)
          L=INTBUF_TAB(N)%IRTLM(NI)
          NL=4*(L-1)
-         IF (INTBUF_TAB(N)%IRECTM(NL+3).EQ.INTBUF_TAB(N)%IRECTM(NL+4)) THEN
+         IF (INTBUF_TAB(N)%IRECTM(NL+3)==INTBUF_TAB(N)%IRECTM(NL+4)) THEN
           NNOD=3
          ELSE
           NNOD=4
@@ -1676,7 +1676,7 @@ C-------si noeud main est dependant aussi-----
           NJ=INTBUF_TAB(N)%IRECTM(NL+M)
           DO J = 1, NDOF(NJ)
            ID = ID_MVM2(J,M,I)
-           IF (ID.GT.0) DIAG_K(ID)=DIAG_K(ID)+DIAG_MVM2(J,M,I)
+           IF (ID>0) DIAG_K(ID)=DIAG_K(ID)+DIAG_MVM2(J,M,I)
           ENDDO
          ENDDO
        ENDDO
@@ -1690,7 +1690,7 @@ C--------
           NJ=LRBE3(IAD+M)
           DO J = 1, NDOF(NJ)
            ID = ID_MVM3(J,M,I)
-           IF (ID.GT.0) DIAG_K(ID)=DIAG_K(ID)+DIAG_MVM3(J,M,I)
+           IF (ID>0) DIAG_K(ID)=DIAG_K(ID)+DIAG_MVM3(J,M,I)
           ENDDO
          ENDDO
         ENDDO
@@ -1700,7 +1700,7 @@ C----------RBE2---maybe the order is important---------
         M = IRBE2(3,N)
         DO J = 1, NDOF(M)
          ID = ID_MVM(J,I)
-         IF (ID.GT.0) DIAG_K(ID)=DIAG_K(ID)+DIAG_MVM4(J,I)
+         IF (ID>0) DIAG_K(ID)=DIAG_K(ID)+DIAG_MVM4(J,I)
         ENDDO
        ENDDO
 C---------on enleve-----
@@ -1709,7 +1709,7 @@ C---------on enleve-----
         N = IN_MV(I)
         DO J = 1, MIN(3,NDOF(N))
          ID = ID_MV(J,I)
-         IF (ID.GT.0) DIAG_K(ID)=DIAG_K(ID)-DIAG_MV(J,I)
+         IF (ID>0) DIAG_K(ID)=DIAG_K(ID)-DIAG_MV(J,I)
         ENDDO
        ENDDO
 C
@@ -1717,7 +1717,7 @@ C
         N = IRB_MV(1,I)
         DO J = 1, NDOF(N)
          ID = ID_MVM(J,I)
-         IF (ID.GT.0) DIAG_K(ID)=DIAG_K(ID)-DIAG_MVM(J,I)
+         IF (ID>0) DIAG_K(ID)=DIAG_K(ID)-DIAG_MVM(J,I)
         ENDDO
        ENDDO
 C
@@ -1736,7 +1736,7 @@ C------MSR(NMN)-----
          K14=K13+IPARI(6,N)
          L=INTBUF_TAB(N)%IRTLM(NI)
          NL=4*(L-1)
-         IF (INTBUF_TAB(N)%IRECTM(NL+3).EQ.INTBUF_TAB(N)%IRECTM(NL+4)) THEN
+         IF (INTBUF_TAB(N)%IRECTM(NL+3)==INTBUF_TAB(N)%IRECTM(NL+4)) THEN
           NNOD=3
          ELSE
           NNOD=4
@@ -1746,7 +1746,7 @@ C-------si noeud main est dependant aussi-----
           NJ=INTBUF_TAB(N)%IRECTM(NL+M)
           DO J = 1, NDOF(NJ)
            ID = ID_MVM2(J,M,I)
-           IF (ID.GT.0) DIAG_K(ID)=DIAG_K(ID)-DIAG_MVM2(J,M,I)
+           IF (ID>0) DIAG_K(ID)=DIAG_K(ID)-DIAG_MVM2(J,M,I)
           ENDDO
          ENDDO
        ENDDO
@@ -1760,7 +1760,7 @@ C--------
           NJ=LRBE3(IAD+M)
           DO J = 1, NDOF(NJ)
            ID = ID_MVM3(J,M,I)
-           IF (ID.GT.0) DIAG_K(ID)=DIAG_K(ID)-DIAG_MVM3(J,M,I)
+           IF (ID>0) DIAG_K(ID)=DIAG_K(ID)-DIAG_MVM3(J,M,I)
           ENDDO
          ENDDO
         ENDDO
@@ -1770,7 +1770,7 @@ C----------RBE2------------
         M = IRBE2(3,N)
         DO J = 1, NDOF(M)
          ID = ID_MVM(J,I)
-         IF (ID.GT.0) DIAG_K(ID)=DIAG_K(ID)-DIAG_MVM4(J,I)
+         IF (ID>0) DIAG_K(ID)=DIAG_K(ID)-DIAG_MVM4(J,I)
         ENDDO
        ENDDO
       ENDIF
@@ -1848,13 +1848,13 @@ C----------------actualise X---------------------
      .              NSPC_MV,ISPC_MV,IRBE2 ,LRBE2 ,NRBE2_MV,
      .              IRBE2_MV,ID_MVM4)
       CALL ZEROR(A,NUMNOD)
-      IF ((NRB_MV+NI2_MV+NRBE3_MV+NSPC_MV+NRBE2_MV).GT.0)
+      IF ((NRB_MV+NI2_MV+NRBE3_MV+NSPC_MV+NRBE2_MV)>0)
      .   CALL ZEROR(AR,NUMNOD)
 C-----------calcul VOL,PRESS------
       K1 = 1
       KK1 = 1
       DO I=1,NVOLU
-       IF(IMONV(I).GT.0) THEN
+       IF(IMONV(I)>0) THEN
          IS   = MONVOL(K1+3)
          NN = IGRSURF(IS)%NSEG
          VOL = 0
@@ -1877,9 +1877,9 @@ C-----------calcul VOL,PRESS------
           NOR(3,J)=HALF*(X13*Y24-X24*Y13)
           VOL= VOL+THIRD*(NOR(1,J)*XX+NOR(2,J)*YY+NOR(3,J)*ZZ)
          ENDDO
-          IF(IMACH.EQ.3) THEN
+          IF(IMACH==3) THEN
 cow51g8+1
-           IF (NSPMD .GT. 1) THEN
+           IF (NSPMD > 1) THEN
             TEMP = VOL
             CALL SPMD_FR_POFF(FR_MV(1,I),TEMP,1)
             VOL = TEMP
@@ -1888,14 +1888,14 @@ cow51g8+1
           ENDIF
          CALL IMP_PVGA(MONVOL(K1),VOLMON(KK1),VOL ,DPRES)
 C-----------noeud independant -> W------
-        IF (DPRES.NE.ZERO) THEN
+        IF (DPRES/=ZERO) THEN
          DO J=1,NN
           N1 = IGRSURF(IS)%NODES(J,1)
           N2 = IGRSURF(IS)%NODES(J,2)
           N3 = IGRSURF(IS)%NODES(J,3)
           N4 = IGRSURF(IS)%NODES(J,4)
           NTY = IGRSURF(IS)%ELTYP(J)
-          IF (NTY.EQ.7) THEN
+          IF (NTY==7) THEN
            DPI = DPRES*THIRD
            DO K = 1,3
             FNI(K)=DPI*NOR(K,J)
@@ -2013,7 +2013,7 @@ C------utilise A,AR pour actualise U------
         N = INL(I)
         DO J = 1, 3
          ND = IDDL(J,I)
-         IF (ND.GT.0) THEN
+         IF (ND>0) THEN
           A(J,N) = LX(ND)
          ELSE
           A(J,N) = ZERO
@@ -2029,7 +2029,7 @@ C------BCS-----------
          CALL BCL_IMPD(IFM  ,ISK   ,SKEW  ,I     ,A     )
        ENDDO
 C
-       IF (NFX.GT.0) THEN
+       IF (NFX>0) THEN
         DO N=1,NFXVEL
          LJFR(N)=0
         ENDDO
@@ -2046,28 +2046,28 @@ C
 	IROT = 0
 	IAD = 6*(N-1)+1
 	NN = IC_SPC(N)
-	IF (NN.GT.3) THEN
+	IF (NN>3) THEN
 	 NN= NN-3
 	 IROT = 1
 	ENDIF
-	IF (NN.EQ.1) THEN
+	IF (NN==1) THEN
 	 EJ(1)=SKEW_SPC(IAD)
 	 EJ(2)=SKEW_SPC(IAD+1)
 	 EJ(3)=SKEW_SPC(IAD+2)
          CALL L_DIR(EJ,J)
 	END IF
-	IF (IROT.EQ.0) THEN
-	 IF (NN.EQ.1) THEN
+	IF (IROT==0) THEN
+	 IF (NN==1) THEN
           A(J,I) = ZERO
           CALL BC_UPDD(I     ,EJ   ,J     ,A     )
-	 ELSEIF (NN.EQ.2) THEN
+	 ELSEIF (NN==2) THEN
           CALL BC_UPD2D(I     ,SKEW_SPC(IAD),SKEW_SPC(IAD+3),A     )
 	 END IF
 	ELSE
-	 IF (NN.EQ.1) THEN
+	 IF (NN==1) THEN
           AR(J,I) = ZERO
           CALL BC_UPDD(I     ,EJ   ,J     ,A     )
-	 ELSEIF (NN.EQ.2) THEN
+	 ELSEIF (NN==2) THEN
           CALL BC_UPD2D(I     ,SKEW_SPC(IAD),SKEW_SPC(IAD+3),AR    )
 	 END IF
 	ENDIF
@@ -2086,8 +2086,8 @@ C------Rigid bodies-------
         M=IRB(1,I)
          DO J = 1 , NDOF(M)
 	  ND = IDDLM(J,I)
-          IF (ND.LE.0) THEN
-           IF (J.LE.3) THEN
+          IF (ND<=0) THEN
+           IF (J<=3) THEN
             A(J,M)=ZERO
            ELSE
             AR(J-3,M)=ZERO
@@ -2100,11 +2100,11 @@ C------esperons le hierachic est dans l'ordre
         M=IRB(1,I)
          DO J = 1 , MIN(3,NDOF(M))
 	  ND = IDDLM(J,I)
-          IF (ND.GT.0) A(J,M)=LX(ND)
+          IF (ND>0) A(J,M)=LX(ND)
          ENDDO
          DO J = 4 , NDOF(M)
 	  ND = IDDLM(J,I)
-          IF (ND.GT.0) AR(J-3,M)=LX(ND)
+          IF (ND>0) AR(J-3,M)=LX(ND)
          ENDDO
         NS=IRB(2,I)
         XS=X(1,NS)-X(1,M)
@@ -2124,9 +2124,9 @@ C--------RBE3-----
           NJ=LRBE3(IAD+M)
            DO J=1,NDOF(NJ)
             ND = IDDLM3(J,M,I)
-            IF (J.LE.3.AND.ND.GT.0) THEN
+            IF (J<=3.AND.ND>0) THEN
              A(J,NJ)=ZERO
-            ELSEIF(ND.GT.0) THEN
+            ELSEIF(ND>0) THEN
              AR(J-3,NJ)=ZERO
             ENDIF
            ENDDO
@@ -2143,9 +2143,9 @@ C--------RBE3-----
           NJ=LRBE3(IAD+M)
            DO J=1,NDOF(NJ)
             ND = IDDLM3(J,M,I)
-            IF (J.LE.3.AND.ND.GT.0) THEN
+            IF (J<=3.AND.ND>0) THEN
              A(J,NJ)=LX(ND)
-            ELSEIF(ND.GT.0) THEN
+            ELSEIF(ND>0) THEN
              AR(J-3,NJ)=LX(ND)
             ENDIF
            ENDDO
@@ -2162,8 +2162,8 @@ C------RBE2---add jt&skew
         M=IRBE2(3,N)
          DO J = 1 , NDOF(M)
 	  ND = IDDLM4(J,I)
-          IF (ND.LE.0) THEN
-           IF (J.LE.3) THEN
+          IF (ND<=0) THEN
+           IF (J<=3) THEN
             A(J,M)=ZERO
            ELSE
             AR(J-3,M)=ZERO
@@ -2181,11 +2181,11 @@ C------RBE2---add jt&skew
 	IC =(IC/512)*512
          DO J = 1 , MIN(3,NDOF(M))
 	  ND = IDDLM4(J,I)
-          IF (ND.GT.0) A(J,M)=LX(ND)
+          IF (ND>0) A(J,M)=LX(ND)
          ENDDO
          DO J = 4 , NDOF(M)
 	  ND = IDDLM4(J,I)
-          IF (ND.GT.0) AR(J-3,M)=LX(ND)
+          IF (ND>0) AR(J-3,M)=LX(ND)
          ENDDO
           CALL PRERBE2FR(IC    ,JT  ,JR   )
          CALL RBE2_FRD(NS    ,M     ,X     ,A     ,AR    ,
@@ -2198,7 +2198,7 @@ C------int2-------
         NSN=IPARI(5,N)
          L=INTBUF_TAB(N)%IRTLM(NI)
          NL=4*(L-1)
-         IF (INTBUF_TAB(N)%IRECTM(NL+3).EQ.INTBUF_TAB(N)%IRECTM(NL+4)) THEN
+         IF (INTBUF_TAB(N)%IRECTM(NL+3)==INTBUF_TAB(N)%IRECTM(NL+4)) THEN
           NNOD=3
          ELSE
           NNOD=4
@@ -2208,8 +2208,8 @@ C-------si noeud main est dependant aussi-----
           NJ=INTBUF_TAB(N)%IRECTM(NL+M)
            DO J=1,NDOF(NJ)
             ND = IDDLM2(J,M,I)
-            IF (ND.LE.0) THEN
-             IF (J.LE.3) THEN
+            IF (ND<=0) THEN
+             IF (J<=3) THEN
               A(J,NJ)=ZERO
              ELSE
               AR(J-3,NJ)=ZERO
@@ -2225,7 +2225,7 @@ C
         NSN=IPARI(5,N)
          L=INTBUF_TAB(N)%IRTLM(NI)
          NL=4*(L-1)
-         IF (INTBUF_TAB(N)%IRECTM(NL+3).EQ.INTBUF_TAB(N)%IRECTM(NL+4)) THEN
+         IF (INTBUF_TAB(N)%IRECTM(NL+3)==INTBUF_TAB(N)%IRECTM(NL+4)) THEN
           NNOD=3
          ELSE
           NNOD=4
@@ -2235,16 +2235,16 @@ C-------si noeud main est dependant aussi-----
           NJ=INTBUF_TAB(N)%IRECTM(NL+M)
            DO J=1,NDOF(NJ)
             ND = IDDLM2(J,M,I)
-            IF (J.LE.3.AND.ND.GT.0) THEN
+            IF (J<=3.AND.ND>0) THEN
              A(J,NJ)=LX(ND)
-            ELSEIF(ND.GT.0) THEN
+            ELSEIF(ND>0) THEN
              AR(J-3,NJ)=LX(ND)
             ENDIF
            ENDDO
          ENDDO
 
         ILEV  =IPARI(20,N)
-        IF (ILEV.EQ.1) THEN
+        IF (ILEV==1) THEN
          CALL I2_FRRD1(X   ,INTBUF_TAB(N)%IRECTM,INTBUF_TAB(N)%DPARA ,
      .                INTBUF_TAB(N)%NSV ,
      1                INTBUF_TAB(N)%IRTLM ,A   ,NI    )
@@ -2316,7 +2316,7 @@ C     P0V0G  =RVOLU(4)
       DEOUT  =RVOLU(22)
       DV     = VOL-VOLD
 C
-      IF(IDEF.EQ.1)THEN
+      IF(IDEF==1)THEN
         PRES  = PEXT
       ELSE
 C       CALCUL DE L ENERGIE PUIS DE LA PRESSION
@@ -2327,7 +2327,7 @@ C       CALCUL DE L ENERGIE PUIS DE LA PRESSION
 C
         PRES=(GAMA-ONE)*ENERGY/(VOL-VINC)
 C
-        IF(PRES.GT.PMAX)THEN
+        IF(PRES>PMAX)THEN
           IDEF=1
           PRES = PEXT
         ENDIF
@@ -2413,7 +2413,7 @@ C------noeuds independants------
        N=INL(I)
        DO J=1,MIN(3,NDOF(N))
         ND = IDDL(J,I)
-        IF (ND.GT.0) LB(ND)=LB(ND)+A(J,N)
+        IF (ND>0) LB(ND)=LB(ND)+A(J,N)
        ENDDO
       ENDDO
 C------int2-------
@@ -2438,7 +2438,7 @@ C------IRTL(NSN)--main el number---
         J12=J11+NPARIR
         J21=J12+2*NSN
         ILEV  =IPARI(20,N)
-        IF (ILEV.EQ.1) THEN
+        IF (ILEV==1) THEN
          CALL I2_FRFM1(X_IMP ,INTBUF_TAB(N)%IRECTM,INTBUF_TAB(N)%DPARA ,
      .                INTBUF_TAB(N)%NSV ,
      1                INTBUF_TAB(N)%IRTLM ,A   ,NI   )
@@ -2447,7 +2447,7 @@ C------IRTL(NSN)--main el number---
      .                INTBUF_TAB(N)%NSV ,
      1                INTBUF_TAB(N)%IRTLM ,A   ,AR    ,NI  ,NDOF    )
         ENDIF
-         IF (INTBUF_TAB(N)%IRECTM(NL+3).EQ.INTBUF_TAB(N)%IRECTM(NL+4)) THEN
+         IF (INTBUF_TAB(N)%IRECTM(NL+3)==INTBUF_TAB(N)%IRECTM(NL+4)) THEN
           NNOD=3
          ELSE
           NNOD=4
@@ -2457,10 +2457,10 @@ C-------si noeud main est dependant aussi-----
            NJ=INTBUF_TAB(N)%IRECTM(NL+M)
            DO J=1,NDOF(NJ)
             ND = IDDLM2(J,M,I)
-            IF (J.LE.3.AND.ND.GT.0) THEN
+            IF (J<=3.AND.ND>0) THEN
              LB(ND) = LB(ND)+A(J,NJ)
              A(J,NJ)=ZERO
-            ELSEIF(ND.GT.0) THEN
+            ELSEIF(ND>0) THEN
              LB(ND) = LB(ND)+AR(J-3,NJ)
              AR(J-3,NJ)=ZERO
             ENDIF
@@ -2481,10 +2481,10 @@ C---------RBE2 -------------
      1                JR    ,X_IMP ,ISK   ,SKEW(1,ISK),IRAD  )
          DO J = 1 , NDOF(M)
 	  ND = IDDLM(J,I)
-          IF (J.LE.3.AND.ND.GT.0) THEN
+          IF (J<=3.AND.ND>0) THEN
             LB(ND)=LB(ND)+A(J,M)
             A(J,M)=ZERO
-          ELSEIF (ND.GT.0) THEN
+          ELSEIF (ND>0) THEN
             LB(ND)=LB(ND)+AR(J-3,M)
             AR(J-3,M)=ZERO
           ENDIF
@@ -2506,10 +2506,10 @@ C--------RBE3-----
           NJ=LRBE3(IAD+M)
            DO J=1,NDOF(NJ)
             ND = IDDLM3(J,M,I)
-            IF (J.LE.3.AND.ND.GT.0) THEN
+            IF (J<=3.AND.ND>0) THEN
              LB(ND) = LB(ND)+A(J,NJ)
              A(J,NJ)=ZERO
-            ELSEIF(ND.GT.0.AND.IROT.GT.0) THEN
+            ELSEIF(ND>0.AND.IROT>0) THEN
              LB(ND) = LB(ND)+AR(J-3,NJ)
              AR(J-3,NJ)=ZERO
             ENDIF
@@ -2524,43 +2524,43 @@ C------Rigid bodies-------
      .                AR    )
          DO J = 1 , NDOF(M)
 	  ND = IDDLM(J,I)
-          IF (J.LE.3.AND.ND.GT.0) THEN
+          IF (J<=3.AND.ND>0) THEN
             LB(ND)=LB(ND)+A(J,M)
             A(J,M)=ZERO
-          ELSEIF (ND.GT.0) THEN
+          ELSEIF (ND>0) THEN
             LB(ND)=LB(ND)+AR(J-3,M)
             AR(J-3,M)=ZERO
           ENDIF
          ENDDO
        ENDDO
-       IF (NBC.GT.0) THEN
+       IF (NBC>0) THEN
         CALL BC_UPDF(NBC ,IBC ,SKEW  ,A      )
        ENDIF
         DO L=1,NSPC
          N = ISPC(L)
         I = IN_SPC(N)
-	IF (NDOF(I).EQ.0) CYCLE
+	IF (NDOF(I)==0) CYCLE
 	IROT = 0
 	IAD = 6*(N-1)+1
 	NN = IC_SPC(N)
-	IF (NN.GT.3) THEN
+	IF (NN>3) THEN
 	 NN= NN-3
 	 IROT = 1
 	ENDIF
-	IF (NN.EQ.1) THEN
+	IF (NN==1) THEN
 	 EJ(1)=SKEW_SPC(IAD)
 	 EJ(2)=SKEW_SPC(IAD+1)
 	 EJ(3)=SKEW_SPC(IAD+2)
          CALL L_DIR(EJ,J)
 	ENDIF
-	IF (IROT.EQ.0) THEN
-	 IF (NN.EQ.1) THEN
+	IF (IROT==0) THEN
+	 IF (NN==1) THEN
           CALL BC_FI(I     ,EJ   ,J     ,A     )
 	 ELSE
           CALL BC_FI2(I   ,SKEW_SPC(IAD),SKEW_SPC(IAD+3),A     )
 	 END IF
 	ELSE
-	 IF (NN.EQ.1) THEN
+	 IF (NN==1) THEN
           CALL BC_FI(I     ,EJ   ,J     ,AR    )
 	 ELSE
           CALL BC_FI2(I   ,SKEW_SPC(IAD),SKEW_SPC(IAD+3),AR    )
@@ -2568,7 +2568,7 @@ C------Rigid bodies-------
 	ENDIF
        ENDDO
 C
-      IF (NFX.GT.0) THEN
+      IF (NFX>0) THEN
        CALL FV_UPDF(NFX    ,IFX   ,IBFV  ,SKEW  ,XFRAME,
      1              A      )
       ENDIF
@@ -2622,7 +2622,7 @@ C---------------------------------
         N = IN_MV(I)
         DO J = 1, 3
          ND = ID_MV(J,I)
-         IF (ND.EQ.-1) THEN
+         IF (ND==-1) THEN
           D(J,N) = ZERO
          ENDIF
         ENDDO

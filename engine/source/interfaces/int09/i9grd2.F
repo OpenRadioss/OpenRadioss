@@ -77,9 +77,9 @@ C---------------------------------
      5            NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
      6            IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7            ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
-            IF(ITY.NE.2)          GO TO 200
-            IF(II.GT.NFT+LLT)     GO TO 200
-            IF(IPARG(8,NG).EQ.1.OR.JTHE.NE.1)THEN
+            IF(ITY/=2)          GO TO 200
+            IF(II>NFT+LLT)     GO TO 200
+            IF(IPARG(8,NG)==1.OR.JTHE/=1)THEN
               IERR = 1
               RETURN
             ENDIF
@@ -131,7 +131,7 @@ C         CALCUL DE LA RESISTANCE THERMIQUE
 C--------------------------------------------
             T = ELBUF_TAB(NG)%GBUF%TEMP(I)
             MAT  =IXQ(1)
-            IF(T.LE.PM(80,MAT))THEN
+            IF(T<=PM(80,MAT))THEN
              COND=PM(75,MAT)+PM(76,MAT)*T
             ELSE
              COND=PM(77,MAT)+PM(78,MAT)*T

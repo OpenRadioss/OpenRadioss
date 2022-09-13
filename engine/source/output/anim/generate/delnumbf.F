@@ -86,7 +86,7 @@ C
 C-----------------------------------------------
 C       TRUSS
 C-----------------------------------------------
-        IF(ITY.EQ.4)THEN
+        IF(ITY==4)THEN
          DO I=LFT,LLT
           N = I + NFT
           INUM(EL2FA(NN6+N)) = IXT(NIXT,N)
@@ -94,7 +94,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       POUTRES
 C-----------------------------------------------
-        ELSEIF(ITY.EQ.5)THEN
+        ELSEIF(ITY==5)THEN
          DO I=LFT,LLT
           N = I + NFT
           INUM(EL2FA(NN7+N)) = IXP(NIXP,N)
@@ -102,11 +102,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       RESSORTS
 C-----------------------------------------------
-        ELSEIF(ITY.EQ.6)THEN
+        ELSEIF(ITY==6)THEN
          DO I=LFT,LLT
           N = I + NFT
           INUM(EL2FA(NN8+N)) = IXR(NIXR,N)
-          IF(MLW.EQ.3)INUM(EL2FA(NN8+N)+1) = IXR(NIXR,N)
+          IF(MLW==3)INUM(EL2FA(NN8+N)+1) = IXR(NIXR,N)
          ENDDO
 C-----------------------------------------------
         ELSE
@@ -124,7 +124,7 @@ C-----------------------------------------------
           WA(NBF+I)=INUMX1(I)
         ENDDO
         NBF2 = NBF+NANIM1D_L
-        IF (ISPMD.EQ.0) THEN
+        IF (ISPMD==0) THEN
           BUF = NB1DG+NANIM1D
         ELSE
           BUF = 1

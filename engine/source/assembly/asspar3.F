@@ -77,13 +77,13 @@ C-----------------------------------------------
      .        FF, FSKYT(NISKY), FTHESKYT(NISKY)  
       COMMON /ASSP2/ LDONE, IDONE, IBAR
 C-----------------------------------------------
-      IF(NTHREAD*NISKY+NUMNOD+2.GT.LENWA)THEN
+      IF(NTHREAD*NISKY+NUMNOD+2>LENWA)THEN
         WRITE(IOUT,*) ' **ERROR** : MEMORY PROBLEM IN PARITH OPTION'
         WRITE(ISTDO,*)' **ERROR** : MEMORY PROBLEM IN PARITH OPTION'
         TSTOP=ZERO
         RETURN
       ENDIF
-      IF(NISKY.GT.LSKYI)THEN
+      IF(NISKY>LSKYI)THEN
         WRITE(IOUT,*) ' **ERROR** : MEMORY PROBLEM IN PARITH OPTION'
         WRITE(ISTDO,*)' **ERROR** : MEMORY PROBLEM IN PARITH OPTION'
         TSTOP=ZERO
@@ -109,7 +109,7 @@ C-----------------------------------------------
 C     FORCES D'INTERFACES
 C-----------------------------------------------
 #include "lockon.inc"
-      IF(IDONE.NE.0)THEN
+      IF(IDONE/=0)THEN
 #include "lockoff.inc"
       ELSE
         IDONE = 1
@@ -146,14 +146,14 @@ C-----------------------------------------------
 C     FORCES D'ELEMENTS 
 C-----------------------------------------------
 
-      IF(IVECTOR.EQ.1) THEN
+      IF(IVECTOR==1) THEN
       I0=0
       DO  L=1,NBLOC
        NC  = NBCOL(L) 
        NL  = (ADBLOC(L+1)-ADBLOC(L))/NC                                         
        DO 300 IFT = 0,NL-1,NVSIZ
 #include "lockon.inc"
-         IF(NBDONE(L).GE.IFT)THEN
+         IF(NBDONE(L)>=IFT)THEN
 #include "lockoff.inc"
            GOTO 300
          ENDIF
@@ -171,7 +171,7 @@ C
          DO K=KKK,KKK+NC-2
             DO KK=KKK+1,KKK+NC-1
               DO LL=1,8
-                IF(FSKYV(KK,LL).LT.FSKYV(K,LL))THEN
+                IF(FSKYV(KK,LL)<FSKYV(K,LL))THEN
                   FF = FSKYV(KK,LL)
                   FSKYV(KK,LL) = FSKYV(K,LL)
                   FSKYV(K,LL)  = FF
@@ -183,13 +183,13 @@ C
           DO K=KKK,KKK+NC-2
             DO KK=KKK+1,KKK+NC-1
               DO LL=1,8
-                IF(FSKYV(KK,LL).LT.FSKYV(K,LL))THEN
+                IF(FSKYV(KK,LL)<FSKYV(K,LL))THEN
                   FF = FSKYV(KK,LL)
                   FSKYV(KK,LL) = FSKYV(K,LL)
                   FSKYV(K,LL)  = FF
                 ENDIF
               ENDDO 
-              IF(FTHESKY(KK).LT.FTHESKY(K))THEN
+              IF(FTHESKY(KK)<FTHESKY(K))THEN
                   FF = FTHESKY(KK)
                   FTHESKY(KK) = FTHESKY(K)
                   FTHESKY(K)  = FF
@@ -253,7 +253,7 @@ C
             DO K = NCT+1, NCT+NC-1
               DO KK=NCT+2,NCT+NC 
                  DO LL=1,8
-                   IF(FSKY(LL,KK).LT.FSKY(LL,K))THEN
+                   IF(FSKY(LL,KK)<FSKY(LL,K))THEN
                      FF = FSKY(LL,KK)
                      FSKY(LL,KK) = FSKY(LL,K)
                      FSKY(LL,K)  = FF
@@ -265,13 +265,13 @@ C
             DO K = NCT+1, NCT+NC-1
               DO KK=NCT+2,NCT+NC 
                  DO LL=1,8
-                   IF(FSKY(LL,KK).LT.FSKY(LL,K))THEN
+                   IF(FSKY(LL,KK)<FSKY(LL,K))THEN
                      FF = FSKY(LL,KK)
                      FSKY(LL,KK) = FSKY(LL,K)
                      FSKY(LL,K)  = FF
                    ENDIF
                  ENDDO
-                 IF(FTHESKY(KK).LT.FTHESKY(K))THEN
+                 IF(FTHESKY(KK)<FTHESKY(K))THEN
                      FF = FTHESKY(KK)
                      FTHESKY(KK) = FTHESKY(K)
                      FTHESKY(K)  = FF
@@ -325,7 +325,7 @@ C
        ENDDO
       ENDIF
 C
-      IF(N2D.NE.0) THEN
+      IF(N2D/=0) THEN
         CALL MY_BARRIER
            DO I = NODFT, NODLT
              MS(I) = A(1,I)
@@ -339,13 +339,13 @@ C     SI ET SEULEMENT SI LA TACHE IDONE N'EST PAS FAITE
 C     QUAND LE PREMIER DES PROCES. ARRIVE ICI
 C-----------------------------------------------
 #include "lockon.inc"
-        IF(IDONE.NE.2)IBAR = 1
+        IF(IDONE/=2)IBAR = 1
 #include "lockoff.inc"
-      IF(IBAR.EQ.1)CALL MY_BARRIER
+      IF(IBAR==1)CALL MY_BARRIER
 C-----------------------------------------------
       DO L=1,4
 #include "lockon.inc"
-          IF(LDONE.GE.L)THEN
+          IF(LDONE>=L)THEN
 #include "lockoff.inc"
           ELSE
             LDONE = L
@@ -392,7 +392,7 @@ C-----------------------------------------------
          DO 500 K=JJ1,JJ2-1
            DO 500 KK=K+1,JJ2
              DO 500 LL=1,4
-              IF(FSKYI(KK,LL).LT.FSKYI(K,LL))THEN
+              IF(FSKYI(KK,LL)<FSKYI(K,LL))THEN
                 FF = FSKYI(KK,LL)
                 FSKYI(KK,LL) = FSKYI(K,LL)
                 FSKYI(K,LL)  = FF
@@ -403,7 +403,7 @@ C +  la thermique
           DO  K=JJ1,JJ2-1
            DO  KK=K+1,JJ2
              DO  LL=1,4
-              IF(FSKYI(KK,LL).LT.FSKYI(K,LL))THEN
+              IF(FSKYI(KK,LL)<FSKYI(K,LL))THEN
                 FF = FSKYI(KK,LL)
                 FSKYI(KK,LL) = FSKYI(K,LL)
                 FSKYI(K,LL)  = FF
@@ -468,7 +468,7 @@ C
       NUM7 = NPSAV*NGPE
 C
       KM = 0
-      IF (NTHPART .GT. 0) THEN
+      IF (NTHPART > 0) THEN
         DO 970 K=1,NTHREAD-1
           KM = KM + NUM7
 #include "vectorize.inc"

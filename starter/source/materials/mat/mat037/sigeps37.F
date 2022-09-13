@@ -107,7 +107,7 @@ C----------------------------------------------------------------
         A1           =  UPARAM(10)         
         P            = -P0  
         RHO(I)       =  RHO10 * A1 + (ONE-A1)*RHO20     
-        IF(GAM*C1.GE.EM30)THEN !if Liquid and gas correctly defined
+        IF(GAM*C1>=EM30)THEN !if Liquid and gas correctly defined
           MU1P1      = ONE  !(P/C1+ONE)
           MU2P1      = ONE  !( ONE+P/P0)**(ONE/GAM)
           RHO1       = RHO10*MU1P1

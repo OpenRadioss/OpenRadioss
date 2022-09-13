@@ -189,9 +189,9 @@ C
 C----------------------------
 C     SMALL STRAIN
 C----------------------------
-      IF(ISMSTR.EQ.1.OR.ISMSTR.EQ.2)THEN
+      IF(ISMSTR==1.OR.ISMSTR==2)THEN
         DO I=JFT,JLT
-          IF(ABS(OFFG(I)).EQ.TWO)THEN
+          IF(ABS(OFFG(I))==TWO)THEN
             XL2(I)=SMSTR(II(1)+I)
             YL2(I)=SMSTR(II(2)+I)
             XL3(I)=SMSTR(II(3)+I)
@@ -212,9 +212,9 @@ C----------------------------
          ENDIF
         ENDDO
       ENDIF
-      IF(ISMSTR.EQ.1)THEN
+      IF(ISMSTR==1)THEN
         DO I=JFT,JLT
-            IF(OFFG(I).EQ.ONE)OFFG(I)=TWO
+            IF(OFFG(I)==ONE)OFFG(I)=TWO
         ENDDO
       ENDIF
 C----------------------------
@@ -246,7 +246,7 @@ c
         L24(EP)=X24_T(EP)*X24_T(EP)+Y24_T(EP)*Y24_T(EP)
         LL(EP)=MAX(L13(EP),L24(EP))
       ENDDO 
-      IF (IMP_CHK .GT. 0) THEN
+      IF (IMP_CHK > 0) THEN
        DO EP=JFT,JLT
         MX13=(VCORE(EP,1,1)+VCORE(EP,1,3))*HALF
         MY13=(VCORE(EP,2,1)+VCORE(EP,2,3))*HALF
@@ -261,9 +261,9 @@ c
         JAC(EP,2)=J0+J2+J1
         JAC(EP,3)=J0-J2+J1
         JAC(EP,4)=J0-J2-J1
-        IF(OFFG(EP).NE.ZERO)THEN
-         IF(JAC(EP,1).LE.ZERO.OR.JAC(EP,2).LE.ZERO.OR.
-     .      JAC(EP,3).LE.ZERO.OR.JAC(EP,4).LE.ZERO)THEN
+        IF(OFFG(EP)/=ZERO)THEN
+         IF(JAC(EP,1)<=ZERO.OR.JAC(EP,2)<=ZERO.OR.
+     .      JAC(EP,3)<=ZERO.OR.JAC(EP,4)<=ZERO)THEN
 #include "lockon.inc"
             WRITE(IOUT ,2001) NGL(EP)
 #include "lockoff.inc"
@@ -278,7 +278,7 @@ C  -------vectoriser--un jour-faire index jft,nplat,jlt pour tous--
       SPLAT= 0
       DO EP=JFT,JLT
        Z2=ZL1(EP)*ZL1(EP)
-       IF (Z2.LT.TOL*LL(EP)) THEN
+       IF (Z2<TOL*LL(EP)) THEN
         NPLAT=NPLAT+1
         IPLAT(NPLAT)=EP
        ELSE
@@ -567,7 +567,7 @@ C
 C
         SL = SQRT(VQG(EP,1,1)*VQG(EP,1,1) + VQG(EP,2,1)*VQG(EP,2,1)
      1            + VQG(EP,3,1)*VQG(EP,3,1))
-        IF ( SL.NE.ZERO) SL = ONE / SL
+        IF ( SL/=ZERO) SL = ONE / SL
         VQG(EP,1,1) = VQG(EP,1,1)*SL
         VQG(EP,2,1) = VQG(EP,2,1)*SL
         VQG(EP,3,1) = VQG(EP,3,1)*SL
@@ -608,7 +608,7 @@ C
 C
         SL = SQRT(VQG(EP,1,3)*VQG(EP,1,3) + VQG(EP,2,3)*VQG(EP,2,3)
      1            + VQG(EP,3,3)*VQG(EP,3,3))
-        IF ( SL.NE.ZERO) SL = ONE / SL
+        IF ( SL/=ZERO) SL = ONE / SL
         VQG(EP,1,3) = VQG(EP,1,3)*SL
         VQG(EP,2,3) = VQG(EP,2,3)*SL
         VQG(EP,3,3) = VQG(EP,3,3)*SL
@@ -647,7 +647,7 @@ C
 C
         SL = SQRT(VQG(EP,1,2)*VQG(EP,1,2) + VQG(EP,2,2)*VQG(EP,2,2)
      1            + VQG(EP,3,2)*VQG(EP,3,2))
-        IF ( SL.NE.0.) SL = 1. / SL
+        IF ( SL/=0.) SL = 1. / SL
         VQG(EP,1,2) = VQG(EP,1,2)*SL
         VQG(EP,2,2) = VQG(EP,2,2)*SL
         VQG(EP,3,2) = VQG(EP,3,2)*SL
@@ -680,7 +680,7 @@ C
 C
         SL = SQRT(VQG(EP,1,4)*VQG(EP,1,4) + VQG(EP,2,4)*VQG(EP,2,4)
      1            + VQG(EP,3,4)*VQG(EP,3,4))
-        IF ( SL.NE.ZERO) SL = ONE / SL
+        IF ( SL/=ZERO) SL = ONE / SL
         VQG(EP,1,4) = VQG(EP,1,4)*SL
         VQG(EP,2,4) = VQG(EP,2,4)*SL
         VQG(EP,3,4) = VQG(EP,3,4)*SL

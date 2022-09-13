@@ -122,7 +122,7 @@ C
         INUM(7,I)=IXT(5,I)
       ENDDO
 
-      IF (IMACH.EQ.3) THEN
+      IF (IMACH==3) THEN
         DO I=1,NUMELT
           XEP(I)=CEP(I)
         ENDDO
@@ -135,7 +135,7 @@ C
         MLN= PM(19,MID)
         PID= IXT(4,II)
         ISSN = 0
-        IF(GEO(5,PID).NE.0.) ISSN=1
+        IF(GEO(5,PID)/=0.) ISSN=1
 C
         ISSN=MY_SHIFTL(ISSN,6)
         MLN=MY_SHIFTL(MLN,21)
@@ -169,7 +169,7 @@ C
         ENDDO
       ENDDO
 
-      IF (IMACH.EQ.3) THEN
+      IF (IMACH==3) THEN
         DO I=1,NUMELT
           CEP(I)=XEP(INDEX(I))
         ENDDO
@@ -214,7 +214,7 @@ C--------------------------------------------------------------
         JJ2=ITRI(2,INDEX(I-1))
         II3=ITRI(3,INDEX(I))
         JJ3=ITRI(3,INDEX(I-1))
-        IF(II.NE.JJ.OR.II2.NE.JJ2.OR.II3.NE.JJ3) THEN
+        IF(II/=JJ.OR.II2/=JJ2.OR.II3/=JJ3) THEN
           ND=ND+1
           EADD(ND)=I
         ENDIF

@@ -1290,7 +1290,7 @@ c
           IADBUF = IADBUF + NUPARAM
           BUFLEN = BUFLEN + NUPARAM
 c           
-        ENDIF ! ILAW.GE.28 
+        ENDIF ! ILAW>=28 
 c
         IPM(1,I)   = MAT_ID
         IPM(2,I)   = ILAW

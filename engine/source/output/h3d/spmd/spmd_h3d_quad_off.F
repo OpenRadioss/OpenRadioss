@@ -79,7 +79,7 @@ c
             ENDDO
           ELSE
             DO I=1,NEL
-              IF(IPART(10,IPARTQ(NFT+I)) .NE.0 .AND. NINT(MIN(ELBUF_TAB(NG)%GBUF%OFF(I),ONE)) .NE. ONE) THEN
+              IF(IPART(10,IPARTQ(NFT+I)) /=0 .AND. NINT(MIN(ELBUF_TAB(NG)%GBUF%OFF(I),ONE)) /= ONE) THEN
                 QUAD_SCALAR(NFT+I) = ZERO
               ELSE
                 QUAD_SCALAR(NFT+I) = NINT(MIN(ELBUF_TAB(NG)%GBUF%OFF(I),ONE))

@@ -268,7 +268,7 @@ C
       IF (ISELF_IMPACTANT == 0) RETURN
 C
       DO I=1,NRTM
-        IF( IRECT(3,I) .NE. IRECT(4,I) ) THEN 
+        IF( IRECT(3,I) /= IRECT(4,I) ) THEN 
 
          MINSEG = MIN( MINSEG,
      .               (X(1,IRECT(1,I))-X(1,IRECT(2,I)))**2 + 
@@ -308,7 +308,7 @@ C
         DO K=1,KMAX
           IF(TAGSECND(IRECT(K,I))  /= 0) CPT = CPT + 1
         END DO
-        IF (CPT .NE. 0 ) THEN
+        IF (CPT /= 0 ) THEN
           DO K=1,KMAX
             N = IRECT(K,I)
             KNOD2SEG(N) = KNOD2SEG(N) + 1
@@ -333,7 +333,7 @@ C
         DO K=1,KMAX
           IF(TAGSECND(IRECT(K,I))  /= 0) CPT = CPT + 1
         END DO
-        IF (CPT .NE. 0) THEN
+        IF (CPT /= 0) THEN
           DO K=1,KMAX
             N = IRECT(K,I)
             KNOD2SEG(N) = KNOD2SEG(N) + 1
@@ -568,7 +568,7 @@ C
             ENDIF
           ENDDO
         END IF
-        IF(KREMNODE(I)+CPT1.GT.NREMNODE) THEN
+        IF(KREMNODE(I)+CPT1>NREMNODE) THEN
 C
 C         Go to UPGRADE_REMNODE  ...
           IFIRST=I
@@ -683,7 +683,7 @@ C----- Compute maximum number of MAIN segments banned for all SECONDARY nodes---
       LREMNORMAX = 0
       DO N=1,NSN
          L = KREMNOR(N+1)-KREMNOR(N)
-         IF( L.GT.LREMNORMAX) THEN
+         IF( L>LREMNORMAX) THEN
            LREMNORMAX = L
          ENDIF
       ENDDO
@@ -780,7 +780,7 @@ C----------only during dimensioning
 C-------tag int2 nodes------  
        DO N=1,NINTER
          NTY=IPARI(7,N)
-         IF(NTY.EQ.2)THEN
+         IF(NTY==2)THEN
           NRTS  =IPARI(3,N)
           NRTM  =IPARI(4,N)
           NSN   =IPARI(5,N)
@@ -1127,7 +1127,7 @@ C-----------------------------------------------
        NEW=0
        DO N=1,N2-1
          NTY=IPARI(7,N)
-         IF(NTY.EQ.2)THEN
+         IF(NTY==2)THEN
           NMN   =IPARI(6,N)
           INCOM  =IPARI(11,N)
 C
@@ -1556,7 +1556,7 @@ C-------tag int2 nodes------
         DO N=1,NINTER
                 NTY=IPARI(7,N)
                 NREMOV(N) = 0
-                IF(NTY.EQ.2)THEN
+                IF(NTY==2)THEN
                         NSN   =IPARI(5,N)
                         DO II=1,NSN
                                 L=INTBUF_TAB(N)%IRTLM(II)                                   
@@ -1930,7 +1930,7 @@ C-------  Compute maximum number of MAIN segments banned for all SECONDARY nodes
                             LREMNORMAX = 0
                             DO NS=1,NSN
                                 L = INTBUF_TAB(N)%KREMNOR(NS+1)-INTBUF_TAB(N)%KREMNOR(NS)
-                                IF( L.GT.LREMNORMAX) THEN
+                                IF( L>LREMNORMAX) THEN
                                     LREMNORMAX = L
                                 ENDIF
                             ENDDO
@@ -2038,7 +2038,7 @@ C-----------------------------------------------
        COMPTEUR=1
        DO N=1,NINTER
          NTY=IPARI(7,N)
-         IF(NTY.EQ.2)THEN
+         IF(NTY==2)THEN
           NRTS  =IPARI(3,N)
           NRTM  =IPARI(4,N)
           NSN   =IPARI(5,N)

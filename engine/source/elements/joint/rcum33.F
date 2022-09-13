@@ -211,7 +211,7 @@ C
 C
 C----  Assemble
 C
-      IF(IVECTOR.EQ.1) THEN
+      IF(IVECTOR==1) THEN
 #include "vectorize.inc"
         DO I=JFT,JLT
           II = I+NFT
@@ -290,7 +290,7 @@ C
 C
 C----   Assemble
 C
-      IF(IVECTOR.EQ.1) THEN
+      IF(IVECTOR==1) THEN
 #include "vectorize.inc"
         DO I=JFT,JLT
           II = I+NFT

@@ -55,15 +55,15 @@ C----No ddl actuelle -> IDDL(NUMNOD)+J(1-6)-NKC-----
        DO J=1,NDOF(I)
         ND = IDDL(I)+J
         ID = ND-NKC
-        IF (J.LE.3) THEN
-         IF (IKC(ND).LT.1) THEN
+        IF (J<=3) THEN
+         IF (IKC(ND)<1) THEN
           D(J,I)=LX(ID)
          ELSE
           NKC=NKC+1
          ENDIF
         ELSE
          K=J-3
-         IF (IKC(ND).LT.1) THEN
+         IF (IKC(ND)<1) THEN
           DR(K,I)=LX(ID)
          ELSE
           NKC=NKC+1
@@ -148,7 +148,7 @@ C-------local FV-BCS coupling might modify global dirs due to unconsisting
      1                D      ,DR   ,ICODT  ,ICODR ,ISKEW ,
      2                ICT_1  ,ICR_1)
       END IF
-      IF(NFXVEL.GT.0)THEN
+      IF(NFXVEL>0)THEN
        CALL FV_IMPD(IBFV  ,LJ    ,SKEW  ,XFRAME ,D     ,
      1              DR    )
       ENDIF
@@ -160,19 +160,19 @@ C-------local FV-BCS coupling might modify global dirs due to unconsisting
        CALL BC_IMP2(ICODT ,ICODR ,ISKEW ,SKEW  ,NDOF   ,
      1             D     ,DR    )
       END IF
-      IF(NADMESH.NE.0)THEN
+      IF(NADMESH/=0)THEN
             CALL RM_IMP2(IXC   ,IXTG  ,D    ,DR    ,SH4TREE,SH3TREE)
       ENDIF
-      IF(NRBYAC.GT.0)THEN
+      IF(NRBYAC>0)THEN
        CALL RBY_IMPD(NRBYAC,IRBYAC,X    ,RBY,LPBY,NPBY,SKEW,
      1              ISKEW,ITAB,WEIGHT,MS ,IN  ,SENSOR,
      2              NDOF  ,D    ,DR   ,IXR  )
       ENDIF
-      IF(NRBE3.GT.0)THEN
+      IF(NRBE3>0)THEN
        CALL RBE3_IMPD(IRBE3 ,LRBE3 ,X    ,D     ,DR    ,
      1                FRBE3  ,SKEW  )
       ENDIF
-      IF(NRBE2.GT.0)THEN
+      IF(NRBE2>0)THEN
        CALL RBE2_IMPD(IRBE2 ,LRBE2 ,X    ,D     ,DR    ,
      1                SKEW  )
       ENDIF
@@ -214,8 +214,8 @@ C----No ddl actuelle -> IDDL(NUMNOD)+J(1-6)-NKC-----
        DO J=1,NDOF(I)
         ND = IDDL(I)+J
         ID = ND-NKC
-        IF (IKC(ND).LT.1) THEN
-         IF (ID.EQ.IID) THEN
+        IF (IKC(ND)<1) THEN
+         IF (ID==IID) THEN
           NN=I
           RETURN
          ENDIF
@@ -260,7 +260,7 @@ C----No ddl actuelle -> IDDL(NUMNOD)+J(1-6)-NKC-----
        DO J=1,NDOF(I)
         ND = IDDL(I)+J
         ID = ND-NKC
-        IF (IKC(ND).LT.1) THEN
+        IF (IKC(ND)<1) THEN
          W_IMP(ID)=WEIGHT(I)
         ELSE
          NKC=NKC+1

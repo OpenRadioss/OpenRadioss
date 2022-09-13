@@ -137,8 +137,8 @@ C-----------------------------------------------
       IUNIDIR = 0
       IFABRIC = 0
       DO I=1,NEL
-        IF(OFF(I).LT.EM01) OFF(I)=ZERO
-        IF(OFF(I).LT.ONE) OFF(I)=OFF(I)*FOUR_OVER_5
+        IF(OFF(I)<EM01) OFF(I)=ZERO
+        IF(OFF(I)<ONE) OFF(I)=OFF(I)*FOUR_OVER_5
       END DO
 C-------------------------------
 C      

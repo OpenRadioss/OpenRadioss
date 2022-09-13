@@ -290,7 +290,7 @@ C---------
               EXIT
             ENDIF
           ENDDO
-          IF (UID.NE.0.AND.IFLAGUNIT == 0) THEN
+          IF (UID/=0.AND.IFLAGUNIT == 0) THEN
             CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I2=UID,I1=SUB_ID,C1='INIBRI',
      .                  C2='INIBRI',C3=' ')
@@ -555,7 +555,7 @@ C---------
                         S(4) = TMPVAL6(K)
                         S(5) = TMPVAL7(K)
                         S(6) = TMPVAL8(K)
-                        IF (SUB_ID .NE. 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
+                        IF (SUB_ID /= 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
                         SIGSP(IIS+1,I) = S(1)
                         SIGSP(IIS+2,I) = S(2)
                         SIGSP(IIS+3,I) = S(3)
@@ -598,7 +598,7 @@ C---------
                         S(4) = TMPVAL6(1)
                         S(5) = TMPVAL7(1)
                         S(6) = TMPVAL8(1)
-                        IF (SUB_ID .NE. 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
+                        IF (SUB_ID /= 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
                         SIGI(1,I) = S(1)
                         SIGI(2,I) = S(2)
                         SIGI(3,I) = S(3)
@@ -622,7 +622,7 @@ C---------
                           S(4) = TMPVAL6(K)
                           S(5) = TMPVAL7(K)
                           S(6) = TMPVAL8(K)
-                          IF (SUB_ID .NE. 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
+                          IF (SUB_ID /= 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
                           SIGSP(IIS+1,I) = S(1)
                           SIGSP(IIS+2,I) = S(2)
                           SIGSP(IIS+3,I) = S(3)
@@ -670,7 +670,7 @@ C---------
                             S(4) = TMPVAL4(KK)
                             S(5) = TMPVAL5(KK)
                             S(6) = TMPVAL6(KK)
-                            IF (SUB_ID .NE. 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
+                            IF (SUB_ID /= 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
                             SIGSP(IIS+1,I) = S(1)
                             SIGSP(IIS+2,I) = S(2)
                             SIGSP(IIS+3,I) = S(3)
@@ -717,7 +717,7 @@ C---------
                             S(4) = TMPVAL4(KK)
                             S(5) = TMPVAL5(KK)
                             S(6) = TMPVAL6(KK)
-                            IF (SUB_ID .NE. 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
+                            IF (SUB_ID /= 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
                             SIGSP(IIS+1,I) = S(1)
                             SIGSP(IIS+2,I) = S(2)
                             SIGSP(IIS+3,I) = S(3)
@@ -766,7 +766,7 @@ C---------
                               S(4) = TMPVAL4(KK)
                               S(5) = TMPVAL5(KK)
                               S(6) = TMPVAL6(KK)
-                              IF (SUB_ID .NE. 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
+                              IF (SUB_ID /= 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
                               SIGSP(IIS+1,I) = S(1)
                               SIGSP(IIS+2,I) = S(2)
                               SIGSP(IIS+3,I) = S(3)
@@ -804,7 +804,7 @@ C---------
                           S(4) = TMPVAL4(K)
                           S(5) = TMPVAL5(K)
                           S(6) = TMPVAL6(K)
-                          IF (SUB_ID .NE. 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
+                          IF (SUB_ID /= 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
                           SIGSP(IIS+1,I) = S(1)
                           SIGSP(IIS+2,I) = S(2)
                           SIGSP(IIS+3,I) = S(3)
@@ -940,7 +940,7 @@ C---------
                         S(4) = TMPVAL6(K)
                         S(5) = TMPVAL7(K)
                         S(6) = TMPVAL8(K)
-                        IF (SUB_ID .NE. 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
+                        IF (SUB_ID /= 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
                         SIGSP(IIS+1,I) = S(1)
                         SIGSP(IIS+2,I) = S(2)
                         SIGSP(IIS+3,I) = S(3)
@@ -984,7 +984,7 @@ C---------
                         S(4) = TMPVAL6(1)
                         S(5) = TMPVAL7(1)
                         S(6) = TMPVAL8(1)
-                        IF (SUB_ID .NE. 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
+                        IF (SUB_ID /= 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
                         SIGI(1,I) = S(1)
                         SIGI(2,I) = S(2)
                         SIGI(3,I) = S(3)
@@ -1009,7 +1009,7 @@ C---------
                           S(4) = TMPVAL6(K)
                           S(5) = TMPVAL7(K)
                           S(6) = TMPVAL8(K)
-                          IF (SUB_ID .NE. 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
+                          IF (SUB_ID /= 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
                           SIGSP(IIS+1,I) = S(1)
                           SIGSP(IIS+2,I) = S(2)
                           SIGSP(IIS+3,I) = S(3)
@@ -1059,7 +1059,7 @@ C---------
                             S(4) = TMPVAL4(KK)
                             S(5) = TMPVAL5(KK)
                             S(6) = TMPVAL6(KK)
-                            IF (SUB_ID .NE. 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
+                            IF (SUB_ID /= 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
                             SIGSP(IIS+1,I) = S(1)
                             SIGSP(IIS+2,I) = S(2)
                             SIGSP(IIS+3,I) = S(3)
@@ -1106,7 +1106,7 @@ C---------
                             S(4) = TMPVAL4(KK)
                             S(5) = TMPVAL5(KK)
                             S(6) = TMPVAL6(KK)
-                            IF (SUB_ID .NE. 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
+                            IF (SUB_ID /= 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
                             SIGSP(IIS+1,I) = S(1)
                             SIGSP(IIS+2,I) = S(2)
                             SIGSP(IIS+3,I) = S(3)
@@ -1155,7 +1155,7 @@ C---------
                               S(4) = TMPVAL4(KK)
                               S(5) = TMPVAL5(KK)
                               S(6) = TMPVAL6(KK)
-                              IF (SUB_ID .NE. 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
+                              IF (SUB_ID /= 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
                               SIGSP(IIS+1,I) = S(1)
                               SIGSP(IIS+2,I) = S(2)
                               SIGSP(IIS+3,I) = S(3)
@@ -1193,7 +1193,7 @@ C---------
                           S(4) = TMPVAL4(K)
                           S(5) = TMPVAL5(K)
                           S(6) = TMPVAL6(K)
-                          IF (SUB_ID .NE. 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
+                          IF (SUB_ID /= 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
                           SIGSP(IIS+1,I) = S(1)
                           SIGSP(IIS+2,I) = S(2)
                           SIGSP(IIS+3,I) = S(3)
@@ -1309,7 +1309,7 @@ C         STRAGLOB(IE)=10-> reference configuration /INIBRI/EREF
                           S(4) = TMPVAL4(KK)
                           S(5) = TMPVAL5(KK)
                           S(6) = TMPVAL6(KK)
-                          IF (SUB_ID .NE. 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
+                          IF (SUB_ID /= 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
                           SIGSP(IIS+1,I) = S(1)
                           SIGSP(IIS+2,I) = S(2)
                           SIGSP(IIS+3,I) = S(3)
@@ -1347,7 +1347,7 @@ C         STRAGLOB(IE)=10-> reference configuration /INIBRI/EREF
                           S(4) = TMPVAL4(KK)
                           S(5) = TMPVAL5(KK)
                           S(6) = TMPVAL6(KK)
-                          IF (SUB_ID .NE. 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
+                          IF (SUB_ID /= 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
                           SIGSP(IIS+1,I) = S(1)
                           SIGSP(IIS+2,I) = S(2)
                           SIGSP(IIS+3,I) = S(3)
@@ -1385,7 +1385,7 @@ C         STRAGLOB(IE)=10-> reference configuration /INIBRI/EREF
                           S(4) = TMPVAL4(KK)
                           S(5) = TMPVAL5(KK)
                           S(6) = TMPVAL6(KK)
-                          IF (SUB_ID .NE. 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
+                          IF (SUB_ID /= 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
                           SIGSP(IIS+1,I) = S(1)
                           SIGSP(IIS+2,I) = S(2)
                           SIGSP(IIS+3,I) = S(3)
@@ -1414,7 +1414,7 @@ C         STRAGLOB(IE)=10-> reference configuration /INIBRI/EREF
                       S(4) = TMPVAL4(K)
                       S(5) = TMPVAL5(K)
                       S(6) = TMPVAL6(K)
-                      IF (SUB_ID .NE. 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
+                      IF (SUB_ID /= 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
                       SIGSP(IIS+1,I) =S(1)
                       SIGSP(IIS+2,I) =S(2)
                       SIGSP(IIS+3,I) =S(3)
@@ -1503,7 +1503,7 @@ C         STRAGLOB(IE)=10-> reference configuration /INIBRI/EREF
                           S(4) = TMPVAL4(KK)
                           S(5) = TMPVAL5(KK)
                           S(6) = TMPVAL6(KK)
-                          IF (SUB_ID .NE. 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
+                          IF (SUB_ID /= 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
                           SIGSP(IIS+1,I) = S(1)
                           SIGSP(IIS+2,I) = S(2)
                           SIGSP(IIS+3,I) = S(3)
@@ -1541,7 +1541,7 @@ C         STRAGLOB(IE)=10-> reference configuration /INIBRI/EREF
                           S(4) = TMPVAL4(KK)
                           S(5) = TMPVAL5(KK)
                           S(6) = TMPVAL6(KK)
-                          IF (SUB_ID .NE. 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
+                          IF (SUB_ID /= 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
                           SIGSP(IIS+1,I) = S(1)
                           SIGSP(IIS+2,I) = S(2)
                           SIGSP(IIS+3,I) = S(3)
@@ -1578,7 +1578,7 @@ C         STRAGLOB(IE)=10-> reference configuration /INIBRI/EREF
                           S(4) = TMPVAL4(KK)
                           S(5) = TMPVAL5(KK)
                           S(6) = TMPVAL6(KK)
-                          IF (SUB_ID .NE. 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
+                          IF (SUB_ID /= 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
                           SIGSP(IIS+1,I) = S(1)
                           SIGSP(IIS+2,I) = S(2)
                           SIGSP(IIS+3,I) = S(3)
@@ -1607,7 +1607,7 @@ C         STRAGLOB(IE)=10-> reference configuration /INIBRI/EREF
                       S(4) = TMPVAL4(K)
                       S(5) = TMPVAL5(K)
                       S(6) = TMPVAL6(K)
-                      IF (SUB_ID .NE. 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
+                      IF (SUB_ID /= 0) CALL SUBROTTENS(S,RTRANS,SUB_ID,LSUBMODEL)
                       SIGSP(IIS+1,I) =S(1)
                       SIGSP(IIS+2,I) =S(2)
                       SIGSP(IIS+3,I) =S(3)
@@ -1647,7 +1647,7 @@ C---------
 !
                 NVMAX = NVSOLID4 /(NPTR*NPTS*NPTT*NLAY*5)
 !
-                IF(ID_ELEM .NE. NEM1) I=I+1
+                IF(ID_ELEM /= NEM1) I=I+1
                 NEM1 = ID_ELEM
                 IOK = 0
 !
@@ -1810,9 +1810,9 @@ C---------
      3                   ISROT          ,KEYWORD )
 !
                     IIS= NVSOLID1  + NVSOLID2 + 4 + NUSOLID 
-!!            IF(KEY2(8:10).EQ.'GLO'.OR.
-!!     .          (IGTYP .NE. 21 .AND. IGTYP .NE. 22)) THEN
-                    IF (IGTYP .NE. 21 .AND. IGTYP .NE. 22) THEN
+!!            IF(KEY2(8:10)=='GLO'.OR.
+!!     .          (IGTYP /= 21 .AND. IGTYP /= 22)) THEN
+                    IF (IGTYP /= 21 .AND. IGTYP /= 22) THEN
                       ORTHOGLOB(IE) = 1
                       SIZE = NLAY
                       CALL HM_GET_FLOAT_ARRAY('X1' ,TMPVAL1,SIZE,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -1841,7 +1841,7 @@ C---------
                         SIGSP(IIS+2,I) = TMPVAL2(K)
                         IIS = IIS + 6
                       ENDDO
-                    ENDIF ! IF (IGTYP .NE. 21 .AND. IGTYP .NE. 22)
+                    ENDIF ! IF (IGTYP /= 21 .AND. IGTYP /= 22)
 !
                   ENDIF ! IF (IE == 0)
                 ENDDO ! DO J=1,NB_ELEMENTS
@@ -2034,7 +2034,7 @@ C---------
                   SIGSH(2,I) = NIP
                   SIGSH(3,I) = THK
 !
-                  IF (NPG .LE. 1) THEN
+                  IF (NPG <= 1) THEN
 !---
                     SIZE = NIP*MAX(NPG,1)
                     CALL HM_GET_FLOAT_ARRAY('Ep',TMPVAL,SIZE,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -2052,7 +2052,7 @@ C---------
                       JJ=JJ-5
                     ENDDO ! DO WHILE(JJ > 0)
 !--------------------
-                  ELSEIF (NPG .GT. 1) THEN
+                  ELSEIF (NPG > 1) THEN
                     SIGSH(NVSHELL,I) = NPG
 !
                     IF (NIP == 0) THEN
@@ -2084,7 +2084,7 @@ C---------
                       END DO ! DO WHILE(JJ > 0)
 !---------------------
                     END IF ! IF (NIP == 0)
-                  END IF !(NPG.LE.1)
+                  END IF !(NPG<=1)
                 ENDIF ! IF (IE /= 0)
               ENDDO ! DO I=1,NB_ELEMENTS
 C---------
@@ -2505,7 +2505,7 @@ C----
                       IG   = IXC(6,IE)
                       IHBE = IGEO(10,IG)
                       IF (IHBE==24) SIGSH(NVSHELL,I) = 4
-                    ELSEIF (NPG.GT.1 ) THEN
+                    ELSEIF (NPG>1 ) THEN
 C----look at how to orginase SIGSH(,I)
                       SIGSH(NVSHELL,I) = NPG
                     ELSE
@@ -2586,7 +2586,7 @@ C                     CALL ANCERR(58,ANINFO_BLIND_2)
                       CALL HM_GET_FLOAT_ARRAY('k2'     ,SIGSH(12,I),1,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
                       CALL HM_GET_FLOAT_ARRAY('k12'    ,SIGSH(13,I),1,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
 !
-                    ELSEIF (NPG.GT.1 ) THEN
+                    ELSEIF (NPG>1 ) THEN
 !
                       SIGSH(NVSHELL,I) = NPG
 
@@ -3093,7 +3093,7 @@ C----------
                     NLAY = MAX(1,NLAY)
                     NPT_MAX = MAX(NPTT,NLAY)
                     NVMAX = NVSHELL1 /(MAX(1,NPG)*NPT_MAX*5)
-                    IF (ID_ELEM .NE. NEM1) I=I+1
+                    IF (ID_ELEM /= NEM1) I=I+1
                     NEM1 = ID_ELEM
                     IOK = 0
 !
@@ -3272,7 +3272,7 @@ C---------
                   SIGSH(2,I) = NIP
                   SIGSH(3,I) = THK
 !
-                  IF (NPG .LE. 1) THEN
+                  IF (NPG <= 1) THEN
 !---
 !
                     SIZE = NIP*MAX(NPG,1)
@@ -3292,7 +3292,7 @@ C---------
                       JJ=JJ-5
                     END DO ! DO WHILE(JJ > 0)
 !---------------------
-                  ELSEIF (NPG .GT. 1) THEN
+                  ELSEIF (NPG > 1) THEN
                     SIGSH(NVSHELL,I) = NPG
 !
                     IF (NIP == 0) THEN
@@ -3324,7 +3324,7 @@ C---------
                       END DO ! DO WHILE(JJ > 0)
 !---------------------
                     END IF ! IF (NIP == 0)
-                  END IF ! (NPG.LE.1)
+                  END IF ! (NPG<=1)
                 ENDIF ! IF (IE /= 0)
 !
               ENDDO ! DO J=1,NB_ELEMENTS
@@ -3783,7 +3783,7 @@ C----
                       CALL HM_GET_FLOAT_ARRAY('k2'     ,SIGSH(12,I),1,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
                       CALL HM_GET_FLOAT_ARRAY('k12'    ,SIGSH(13,I),1,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
 !
-                    ELSEIF (NPG.GT.1 ) THEN
+                    ELSEIF (NPG>1 ) THEN
 !
                       SIGSH(NVSHELL,I) = NPG
 
@@ -4282,7 +4282,7 @@ C----------
                     NLAY = MAX(1,NLAY)
                     NPT_MAX = MAX(NPTT,NLAY)
                     NVMAX = NVSHELL1 /(MAX(1,NPG)*NPT_MAX*5)
-                    IF (ID_ELEM .NE. NEM1) I=I+1
+                    IF (ID_ELEM /= NEM1) I=I+1
                     NEM1 = ID_ELEM
                     IOK = 0
 !
@@ -4928,7 +4928,7 @@ C             tri des elts du D00 par ID croissant (on ne trie qu'une fois)
                EXIT
              ENDIF
            ENDDO
-           IF (UID.NE.0.AND.IFLAGUNIT == 0) THEN
+           IF (UID/=0.AND.IFLAGUNIT == 0) THEN
              CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                   I2=UID,I1=SUB_ID,C1='INIQUA',
      .                   C2='INIQUA',

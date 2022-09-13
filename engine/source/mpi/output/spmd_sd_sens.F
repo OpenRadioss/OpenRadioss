@@ -67,12 +67,12 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD + 1
-      IF (LOC_PROC.EQ.1) THEN
+      IF (LOC_PROC==1) THEN
         IDEB = 1
         NBIRECV = 0
         DO I = 2, NSPMD
           IAD_RECV(I) = IDEB
-          IF(NSENSP(I).GT.0)THEN
+          IF(NSENSP(I)>0)THEN
             NBIRECV = NBIRECV + 1
             IRINDEX(NBIRECV) = I
             NN = NSENSP(I)
@@ -100,7 +100,7 @@ C
         END DO
 C
       ELSE
-        IF(NSENSP(LOC_PROC).GT.0)THEN
+        IF(NSENSP(LOC_PROC)>0)THEN
           SIZ = 5*NSENSP(LOC_PROC)
           MSGTYP=MSGOFF
           CALL MPI_SEND(

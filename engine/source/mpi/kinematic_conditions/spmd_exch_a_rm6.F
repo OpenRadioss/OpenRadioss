@@ -74,7 +74,7 @@ C-----------------------------------------------
       L = 0
       DO I = 1, NSPMD
         LEN = IAD_RBY(I+1)-IAD_RBY(I)
-        IF(LEN.GT.0) THEN
+        IF(LEN>0) THEN
           SIZ = LEN*A_AR
           L=L+1
           INDEXI(L)=I

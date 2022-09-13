@@ -53,9 +53,9 @@ C=======================================================================
        ITAG(I) =0
       ENDDO
 C TAGAGE MAT 11
-       IF(N2D.EQ.0)THEN
+       IF(N2D==0)THEN
         DO I=1,NUMELS
-         IF(INT(PM(19,IXS(1,I))).EQ.11) THEN
+         IF(INT(PM(19,IXS(1,I)))==11) THEN
           DO  J=2,9
            ITAG(IXS(J,I))=1
           ENDDO
@@ -63,16 +63,16 @@ C TAGAGE MAT 11
         ENDDO
        ELSE
         DO I=1,NUMELQ
-         IF(INT(PM(19,IXQ(1,I))).EQ.11) THEN
+         IF(INT(PM(19,IXQ(1,I)))==11) THEN
           DO J=2,5
            ITAG(IXQ(J,I))=1
           ENDDO
          ENDIF
         ENDDO
        ENDIF
-       IF(N2D.EQ.0)THEN
+       IF(N2D==0)THEN
         DO I=1,NUMELS
-         IF(INT(PM(19,IXS(1,I))).NE.11) THEN
+         IF(INT(PM(19,IXS(1,I)))/=11) THEN
           DO  J=2,9
            ITAG(IXS(J,I))=0
           ENDDO
@@ -80,7 +80,7 @@ C TAGAGE MAT 11
         ENDDO
        ELSE
         DO I=1,NUMELQ
-         IF(INT(PM(19,IXQ(1,I))).NE.11) THEN
+         IF(INT(PM(19,IXQ(1,I)))/=11) THEN
           DO J=2,5
            ITAG(IXQ(J,I))=0
           ENDDO
@@ -89,7 +89,7 @@ C TAGAGE MAT 11
        ENDIF
 C
        DO I=1,NUMNOD
-        IF(ITAG(I).EQ.1)THEN
+        IF(ITAG(I)==1)THEN
          IC=ICODE(I)
          IC1=IC/512
          IC2=(IC-512*IC1)/64

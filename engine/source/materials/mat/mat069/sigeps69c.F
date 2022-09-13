@@ -156,7 +156,7 @@ C     principal stretch (def gradient eigenvalues)
       ENDDO
 C     rot matrix (eigenvectors)
       DO I=1,NEL
-        IF(ABS(EVV(I,2)-EVV(I,1)).lt.EM10) THEN
+        IF(ABS(EVV(I,2)-EVV(I,1))<EM10) THEN
           EIGV(I,1,1) = ONE
           EIGV(I,2,1) = ONE
           EIGV(I,3,1) = ZERO

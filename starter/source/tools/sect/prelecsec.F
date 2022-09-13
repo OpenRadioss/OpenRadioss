@@ -204,7 +204,7 @@ C
            TAGSEC(I)=ID
            COMPT = COMPT + 1
 C-----------sorting criteria
-           IF ((NSEGC > 0).OR.((NSEG.NE.NSEG0).AND.(NSEG > 0))) THEN
+           IF ((NSEGC > 0).OR.((NSEG/=NSEG0).AND.(NSEG > 0))) THEN
 C-------------multidomains interface sections
               CALL ANCMSG(MSGID=1006,
      .                 MSGTYPE=MSGWARNING,
@@ -234,7 +234,7 @@ C---
         NSEGT = GRSIZE_ELE(IGUT,IGRTRUSS,NGRTRUS)        
         NSEGP = GRSIZE_ELE(IGUP,IGRBEAM,NGRBEAM) 
         NSEGR = GRSIZE_ELE(IGUR,IGRSPRING,NGRSPRI)
-        IF (NB_SEATBELT_SHELLS .NE.0)
+        IF (NB_SEATBELT_SHELLS /=0)
      .    NSEGR = NSEGR + GRSIZE_ELE_TRANS(IGUC,IGRSH4N,NGRSHEL,SEATBELT_SHELL_TO_SPRING)
         NSEGTG = GRSIZE_ELE(IGUTG,IGRSH3N,NGRSH3N)      
 C---    

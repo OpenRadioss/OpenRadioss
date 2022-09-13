@@ -132,28 +132,28 @@ C--------------------------------------------------
       CALL HM_GET_FLOATV('Crx',CRX,IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF(.NOT.IS_AVAILABLE) OFLAG = OFLAG + 1
 C-----------------------
-      IF (IDSK1.LE.0.OR.IDSK1.LE.0) THEN  
+      IF (IDSK1<=0.OR.IDSK1<=0) THEN  
          CALL ANCMSG(MSGID=386,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=ID,
      .               C1=TITR)
       ENDIF                               
-      IF (KNN.EQ.0.) THEN                 
+      IF (KNN==0.) THEN                 
          CALL ANCMSG(MSGID=387,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=ID,
      .               C1=TITR)
       ENDIF                               
-      IF (CR.LT.ZERO.OR.CR.GT.1.) THEN   
+      IF (CR<ZERO.OR.CR>1.) THEN   
          CALL ANCMSG(MSGID=388,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=ID,
      .               C1=TITR)
       ENDIF                               
-      IF (CR.EQ.ZERO) CR = FIVEEM2        
+      IF (CR==ZERO) CR = FIVEEM2        
 C-----------------------
       XTYP = ITYP                                                   
       XFLG = SKFLAG                                                 
@@ -162,10 +162,10 @@ C-----------------------
       MASS = ZERO                                                   
       INER = ZERO                                                   
 C
-      IF(CXX.EQ.ZERO.AND.IFUN_CXX.NE.0)CXX = ONE  
-      IF(CRX.EQ.ZERO.AND.IFUN_CRX.NE.0)CRX = ONE  
-      IF(KXX.EQ.ZERO.AND.IFUN_XX.NE.0) KXX = ONE  
-      IF(KRX.EQ.ZERO.AND.IFUN_RX.NE.0) KRX = ONE  
+      IF(CXX==ZERO.AND.IFUN_CXX/=0)CXX = ONE  
+      IF(CRX==ZERO.AND.IFUN_CRX/=0)CRX = ONE  
+      IF(KXX==ZERO.AND.IFUN_XX/=0) KXX = ONE  
+      IF(KRX==ZERO.AND.IFUN_RX/=0) KRX = ONE  
 C-----------------------
       IF (IFUN_XX /= 0)  KXX = KXX * FAC_FF
       IF (IFUN_RX /= 0)  KRX = KRX * FAC_MM
@@ -221,7 +221,7 @@ C-----------------------
       IF(IS_CRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'                  
       ELSE                                                          
-        IF (OFLAG.EQ.4) THEN                                         
+        IF (OFLAG==4) THEN                                         
           WRITE(IOUT,1001) IDSK1,IDSK2,XK,CR,KNN,KXX,KRX,             
      .                   IFUN_XX,IFUN_RX                            
         ELSE                                                         

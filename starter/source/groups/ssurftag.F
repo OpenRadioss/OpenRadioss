@@ -293,7 +293,7 @@ C---   find shells SURF/PART/EXT
               ENDDO
               IF(KS == 0)THEN
                 NSEG = NSEG + 1
-              ELSEIF (IABS(TAGBUF(IPARTTG(KS))) .NE. 1) THEN
+              ELSEIF (IABS(TAGBUF(IPARTTG(KS))) /= 1) THEN
                 NSEG = NSEG + 1
               ENDIF
             ELSEIF(FLAG == 0 .and. NN == 4) THEN 
@@ -312,7 +312,7 @@ C---   find shells SURF/PART/EXT
               ENDDO
               IF(KS == 0)THEN
                 NSEG = NSEG + 1
-              ELSEIF (IABS(TAGBUF(IPARTC(KS))) .NE. 1)THEN
+              ELSEIF (IABS(TAGBUF(IPARTC(KS))) /= 1)THEN
                 NSEG = NSEG + 1
               ENDIF
             ELSEIF(NN==3)THEN
@@ -334,7 +334,7 @@ C---   find shells SURF/PART/EXT
                 ISEG = NSEG
                 CALL SSURF10(FACE(1),FACE(2),FACE(3),FACE(3),JS,
      .                   NSEG0 ,ISEG ,IGRSURF%NODES,IGRSURF%ELTYP,IGRSURF%ELEM)
-              ELSEIF (IABS(TAGBUF(IPARTTG(KS))) .NE. 1)THEN
+              ELSEIF (IABS(TAGBUF(IPARTTG(KS))) /= 1)THEN
                 NSEG = NSEG + 1
                 ISEG = NSEG
                 CALL SSURF10(FACE(1),FACE(2),FACE(3),FACE(3),JS,
@@ -359,7 +359,7 @@ C---   find shells SURF/PART/EXT
                ISEG = NSEG
                CALL SSURF10(FACE(1),FACE(2),FACE(3),FACE(4),JS,
      .                   NSEG0 ,ISEG ,IGRSURF%NODES,IGRSURF%ELTYP,IGRSURF%ELEM)
-              ELSEIF (IABS(TAGBUF(IPARTC(KS))) .NE. 1 ) THEN
+              ELSEIF (IABS(TAGBUF(IPARTC(KS))) /= 1 ) THEN
                NSEG = NSEG + 1
                ISEG = NSEG
                CALL SSURF10(FACE(1),FACE(2),FACE(3),FACE(4),JS,

@@ -92,7 +92,7 @@ C
             I8A(3,2,IKN) = 0
             I8A(3,3,IKN) = 0
           ENDDO
-          IF (IRODDL.NE.0) THEN
+          IF (IRODDL/=0) THEN
 #include "vectorize.inc"
            DO I=NODFT,NODLT
             IKN = I+KN
@@ -122,7 +122,7 @@ C
             I8AR(3,3,IKN) = 0
            ENDDO
           ENDIF
-          IF(KDTINT.NE.0)THEN
+          IF(KDTINT/=0)THEN
 #include "vectorize.inc"
            DO I=NODFT,NODLT
             IKN = I+KN
@@ -141,7 +141,7 @@ C
            PARTSAV(I+KM) = 0.
           ENDDO
           KM1 = KM1 + NUM8
-          IF (NTHPART .GT. 0) THEN
+          IF (NTHPART > 0) THEN
 #include "vectorize.inc"
             DO I=GREFT,GRELT
              GRESAV(I) = GRESAV(I) + GRESAV(I+KM1)
@@ -176,7 +176,7 @@ C
             I8A(3,2,I) = 0
             I8A(3,3,I) = 0
       ENDDO
-      IF (IRODDL.NE.0) THEN
+      IF (IRODDL/=0) THEN
 #include "vectorize.inc"
          DO I=NODFT,NODLT
             STIFR(I) = STIFR(I) + 
@@ -205,7 +205,7 @@ C
             I8AR(3,3,I) = 0
          ENDDO
       ENDIF
-      IF(KDTINT.NE.0)THEN
+      IF(KDTINT/=0)THEN
 #include "vectorize.inc"
         DO I=NODFT,NODLT
             VISCN(I) = VISCN(I) + 

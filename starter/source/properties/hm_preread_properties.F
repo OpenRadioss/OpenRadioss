@@ -134,7 +134,7 @@ C--------------------------------------------------
            CALL HM_GET_INTV('ISMSTR',ISMSTR,IS_AVAILABLE,LSUBMODEL)
            CALL HM_GET_INTV('ISH3',ISH3N,IS_AVAILABLE,LSUBMODEL)
            CALL HM_GET_INTV('CVIS',CVIS,IS_AVAILABLE,LSUBMODEL)
-           IF(ISH3N==31.AND.NUMELTG.GT.0) NUMELTG6 = 1
+           IF(ISH3N==31.AND.NUMELTG>0) NUMELTG6 = 1
            
           CASE ('TYPE17','STACK')
 C--------------------------------------------------

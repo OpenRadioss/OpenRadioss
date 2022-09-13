@@ -69,7 +69,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD + 1
 C
-      IF (LOC_PROC.EQ.1) THEN
+      IF (LOC_PROC==1) THEN
         IDEB = 1
 C
         DO II = 1, NSEATBELT_TH_PROC

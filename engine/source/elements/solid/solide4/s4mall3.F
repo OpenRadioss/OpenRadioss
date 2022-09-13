@@ -91,7 +91,7 @@ C
        ENDDO
       ELSEIF(ISMSTR<=4.AND.JLAG>0)THEN
        DO I=LFT,LLT
-       IF(OFFG(I).GT.ONE)THEN
+       IF(OFFG(I)>ONE)THEN
 C-----------------------------------------------
          X=SAV(I,1)
          Y=SAV(I,2)

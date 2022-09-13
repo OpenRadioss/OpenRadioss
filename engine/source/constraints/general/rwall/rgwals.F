@@ -83,7 +83,7 @@ C-----------------------------------------------
 !       ICONT to 0
 !       ICONT is a shared variable 
       RA2=(HALF*RWL(7))**2
-      IF(MSR.EQ.0)THEN
+      IF(MSR==0)THEN
        XWLO=RWL(4)
        YWLO=RWL(5)
        ZWLO=RWL(6)
@@ -194,7 +194,7 @@ C----
        F2(J) = FNYN*WEIGHT_MD(N)
        F3(J) = FNZN*WEIGHT_MD(N)
        F4(J) = MS(N)*WEIGHT_MD(N)
-       IF(ITIED.NE.0)THEN
+       IF(ITIED/=0)THEN
         FNXT=((V(N1)-VXW)+A(N1)*DT12)*MS(N)-FNXN
         FNYT=((V(N2)-VYW)+A(N2)*DT12)*MS(N)-FNYN
         FNZT=((V(N3)-VZW)+A(N3)*DT12)*MS(N)-FNZN
@@ -202,7 +202,7 @@ C----
         FTDFT=FNXT**2+FNYT**2+FNZT**2
         FRIC=RWL(13)
         FRIC2=FRIC**2
-        IF(FTDFT.LE.FRIC2*FNDFN.OR.ITIED.EQ.1) THEN
+        IF(FTDFT<=FRIC2*FNDFN.OR.ITIED==1) THEN
 C         POINT SECND TIED
           A(N1)=ZERO
           A(N2)=ZERO
@@ -210,12 +210,12 @@ C         POINT SECND TIED
           V(N1)=VXW
           V(N2)=VYW
           V(N3)=VZW
-          IF (IMP_S.EQ.1) THEN
-            IF(NDOF(N).GT.0) THEN
+          IF (IMP_S==1) THEN
+            IF(NDOF(N)>0) THEN
               JJ=IDDL(N)+1
-              IF (IKC(JJ).EQ.0)IKC(JJ)=3
-              IF (IKC(JJ+1).EQ.0)IKC(JJ+1)=3
-              IF (IKC(JJ+2).EQ.0)IKC(JJ+2)=3
+              IF (IKC(JJ)==0)IKC(JJ)=3
+              IF (IKC(JJ+1)==0)IKC(JJ+1)=3
+              IF (IKC(JJ+2)==0)IKC(JJ+2)=3
             ENDIF
           ENDIF
         ELSE
@@ -230,14 +230,14 @@ C         POINT SECND SLIDING
           V(N1)=V(N1)-DV*XN
           V(N2)=V(N2)-DV*YN
           V(N3)=V(N3)-DV*ZN
-          IF (IMP_S.EQ.1) THEN
-            IF(NDOF(N).GT.0) THEN
+          IF (IMP_S==1) THEN
+            IF(NDOF(N)>0) THEN
               V(N1)=-DV
               A(N1)=XN
               A(N2)=YN
               A(N3)=ZN    
               JJ=IDDL(N)+1
-              IF (IKC(JJ).EQ.0)IKC(JJ)=10
+              IF (IKC(JJ)==0)IKC(JJ)=10
             ENDIF
           ENDIF
           TFXT=TFXT-
@@ -261,20 +261,20 @@ C         POINT SECND SLIDING
         V(N1)=V(N1)-DV*XN
         V(N2)=V(N2)-DV*YN
         V(N3)=V(N3)-DV*ZN
-        IF(IMP_S.EQ.1) THEN
-          IF(NDOF(N).GT.0) THEN
+        IF(IMP_S==1) THEN
+          IF(NDOF(N)>0) THEN
            V(N1) = -DV
            A(N1)=XN
            A(N2)=YN
            A(N3)=ZN    
            JJ=IDDL(N)+1
-           IF (IKC(JJ).EQ.0)IKC(JJ)=10
+           IF (IKC(JJ)==0)IKC(JJ)=10
          ENDIF
         ENDIF
        ENDIF
       ENDDO 
 C
-      IF(IMCONV.EQ.1)THEN
+      IF(IMCONV==1)THEN
           TFXT=TFXT+HALF*DT1*TFXTN
           TFXT2=TFXT2+HALF*DT1*TFXTN2
 #include "atomic.inc"
@@ -311,11 +311,11 @@ C
 #include "lockoff.inc"
       ENDIF
       
-      IF (IMP_S.EQ.1) THEN
+      IF (IMP_S==1) THEN
          DO J=1,NINDEX
            I = INDEX(J)
            N=NSW(I)
-           IF (NDOF(N).GT.0) THEN
+           IF (NDOF(N)>0) THEN
 C to be uncommented the day it is parallel in implicit
 #include "atomic.inc"
              NT_RW = NT_RW + 1

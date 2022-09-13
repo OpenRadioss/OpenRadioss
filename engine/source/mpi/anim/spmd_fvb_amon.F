@@ -74,17 +74,17 @@ C
       IFV=0
       DO N=1,NVOLU
          ITYP=MONVOL(K1-1+2)
-         IF (ITYP.EQ.6.OR.ITYP.EQ.8) THEN
+         IF (ITYP==6.OR.ITYP==8) THEN
            IFV =MONVOL(K1-1+45)
            PMAIN=FVSPMD(IFV)%PMAIN
-           IF (PMAIN.NE.1) THEN
+           IF (PMAIN/=1) THEN
 C
             NN =MONVOL(K1-1+32)+MONVOL(K1-1+68)
             NTG=MONVOL(K1-1+33)+MONVOL(K1-1+69)
             MSGTAG=MSGOFF
             LEN=6*NN+2*NTG
             ALLOCATE(RBUF(LEN))
-            IF (ISPMD.EQ.0) THEN
+            IF (ISPMD==0) THEN
 C Proc 0 recoit
                CALL MPI_RECV(RBUF, LEN, REAL, IT_SPMD(PMAIN),
      .                       MSGTAG, MPI_COMM_WORLD, STAT, IERR)
@@ -97,7 +97,7 @@ C
                DO I=1,2*NTG
                   VOLMON(IAD+I-1)=RBUF(6*NN+I)
                ENDDO
-            ELSEIF (ISPMD.EQ.PMAIN-1) THEN
+            ELSEIF (ISPMD==PMAIN-1) THEN
 C Proc main envoie
                IAD=KRBALE+MONVOL(K1-1+34)
                DO I=1,6*NN

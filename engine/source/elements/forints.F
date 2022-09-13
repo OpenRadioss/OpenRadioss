@@ -106,8 +106,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C
       DO 240 NG=1,NGROUP
-          IF(IPARG(8,NG).EQ.1.OR.IPARG(5,NG).NE.100)GOTO 240
-          IF (IDDW.GT.0) CALL STARTIMEG(NG)
+          IF(IPARG(8,NG)==1.OR.IPARG(5,NG)/=100)GOTO 240
+          IF (IDDW>0) CALL STARTIMEG(NG)
           DO NELEM = 1,IPARG(2,NG),NVSIZ
 C---
 C
@@ -138,7 +138,7 @@ C           but Multi-purpose element is not supposed to be vectorized ..
      6                   FSKYI ,ISKY   ,PARTSAV,IPARTX,
      7                   BUFMAT ,BUFGEO ,SENSOR       ,LSENSOR  ,
      8                   GRESAV ,GRTH  ,IGRTH,ELBUF_TAB(NG))
-            IF (IDDW.GT.0) CALL STOPTIMEG(NG)
+            IF (IDDW>0) CALL STOPTIMEG(NG)
          END DO
  240  CONTINUE
 C----------------------------------

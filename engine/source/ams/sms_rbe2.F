@@ -70,13 +70,13 @@ C-----------------------------------------------
 C-----------------------------------------------
       CALL PRERBE2(IRBE2 ,JT  ,JR   )
       ICOM = IAD_RBE2(NSPMD+1)-IAD_RBE2(1)
-      IF (NSPMD.GT.1)CALL SPMD_MAX_I(ICOM)
+      IF (NSPMD>1)CALL SPMD_MAX_I(ICOM)
 C
       TAG(1:3,1:NUMNOD)=0
 C
       DO NHI=NHRBE2,0,-1
        DO N=1,NRBE2
-        IF (IRBE2(9,N).NE.NHI) CYCLE
+        IF (IRBE2(9,N)/=NHI) CYCLE
 	IAD = IRBE2(1,N)
         NSN = IRBE2(5,N)
         M   = IRBE2(3,N)
@@ -123,7 +123,7 @@ C
         END DO
        END DO
        DO N=1,NRBE2
-        IF (IRBE2(9,N).NE.NHI) CYCLE
+        IF (IRBE2(9,N)/=NHI) CYCLE
 	IAD = IRBE2(1,N)
         NSN = IRBE2(5,N)
         M   = IRBE2(3,N)
@@ -136,7 +136,7 @@ C
 
        END DO
 C-----------------
-       IF (ICOM.GT.0) THEN
+       IF (ICOM>0) THEN
          ISIZE=3
          CALL SPMD_EXCH_RBE2_SMS(
      .    FRBE2M6 ,IAD_RBE2,FR_RBE2M,IAD_RBE2(NSPMD+1),ISIZE)
@@ -145,11 +145,11 @@ C
 C assemblage parith/ON
 #include    "vectorize.inc"
        DO N=1,NRBE2
-         IF (IRBE2(9,N).NE.NHI) CYCLE
+         IF (IRBE2(9,N)/=NHI) CYCLE
          M  = IRBE2(3,N)
          MID = IRBE2(6,N)
          IRAD = IRBE2(11,N)
-         IF (MID.LT.0) CYCLE
+         IF (MID<0) CYCLE
          DO J=1,3
            DD=DIAG_RBE2(J,M)
            DO K=1,6
@@ -189,7 +189,7 @@ C
         M  = IRBE2(3,N)
         MID = IRBE2(6,N)
         IRAD = IRBE2(11,N)
-        IF (MID.LT.0) CYCLE
+        IF (MID<0) CYCLE
         DO J=1,3
           IF(DIAG_RBE2(J,M)==ZERO)THEN
             PREC_SMS3(J,M)=ZERO
@@ -241,7 +241,7 @@ C-----------------------------------------------
 C
       DO NHI=0,NHRBE2
        DO N=1,NRBE2
-        IF (IRBE2(9,N).NE.NHI) CYCLE
+        IF (IRBE2(9,N)/=NHI) CYCLE
 	IAD = IRBE2(1,N)
         NSN = IRBE2(5,N)
         M   = IRBE2(3,N)
@@ -315,7 +315,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       CALL PRERBE2(IRBE2 ,JT  ,JR   )
       ICOM = IAD_RBE2(NSPMD+1)-IAD_RBE2(1)
-      IF (NSPMD.GT.1)CALL SPMD_MAX_I(ICOM)
+      IF (NSPMD>1)CALL SPMD_MAX_I(ICOM)
 C
       DO NHI=0,NHRBE2
        DO N=1,NMRBE2
@@ -326,7 +326,7 @@ C
         END DO
        END DO
        DO N=1,NRBE2
-        IF (IRBE2(9,N).NE.NHI) CYCLE
+        IF (IRBE2(9,N)/=NHI) CYCLE
 	IAD = IRBE2(1,N)
         NSN = IRBE2(5,N)
         M   = IRBE2(3,N)
@@ -338,7 +338,7 @@ C
      2                 M     ,IRAD  ,ISK   ,SKEW   )
        END DO
 C-----------------
-       IF (ICOM.GT.0) THEN
+       IF (ICOM>0) THEN
          ISIZE=3
          CALL SPMD_EXCH_RBE2_SMS(
      .    FRBE2M6 ,IAD_RBE2,FR_RBE2M,IAD_RBE2(NSPMD+1),ISIZE)
@@ -526,7 +526,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       CALL PRERBE2(IRBE2 ,JT  ,JR   )
       ICOM = IAD_RBE2(NSPMD+1)-IAD_RBE2(1)
-      IF (NSPMD.GT.1)CALL SPMD_MAX_I(ICOM)
+      IF (NSPMD>1)CALL SPMD_MAX_I(ICOM)
 C
       DO NHI=0,NHRBE2
        DO N=1,NMRBE2
@@ -537,7 +537,7 @@ C
         END DO
        END DO
        DO N=1,NRBE2
-        IF (IRBE2(9,N).NE.NHI) CYCLE
+        IF (IRBE2(9,N)/=NHI) CYCLE
 	IAD = IRBE2(1,N)
         NSN = IRBE2(5,N)
         M   = IRBE2(3,N)
@@ -550,7 +550,7 @@ C
 
        END DO
 C-----------------
-       IF (ICOM.GT.0) THEN
+       IF (ICOM>0) THEN
          ISIZE=3
          CALL SPMD_EXCH_RBE2_SMS(
      .    FRBE2M6 ,IAD_RBE2,FR_RBE2M,IAD_RBE2(NSPMD+1),ISIZE)
@@ -559,11 +559,11 @@ C
 C assemblage parith/ON
 #include    "vectorize.inc"
        DO N=1,NRBE2
-         IF (IRBE2(9,N).NE.NHI) CYCLE
+         IF (IRBE2(9,N)/=NHI) CYCLE
          M  = IRBE2(3,N)
          MID = IRBE2(6,N)
          IRAD = IRBE2(11,N)
-         IF (MID.LT.0) CYCLE
+         IF (MID<0) CYCLE
          DO J=1,3
            DD=DIAG_SMS3(J,M)
            DO K=1,6
@@ -618,7 +618,7 @@ C     REAL
       my_real
      .   F1(NSL), F2(NSL), F3(NSL), RX, RY, RZ, CDT(9)
 C-----------------------------------------------
-      IF ((JT(1)+JT(2)+JT(3)).GT.0) THEN
+      IF ((JT(1)+JT(2)+JT(3))>0) THEN
        IJT=1
       ELSE
        IJT=0
@@ -635,7 +635,7 @@ C Remontee des forces
 C
         DO I=1,NSL
          N = ISL(I)
-         IF(WEIGHT(N).EQ.1) THEN
+         IF(WEIGHT(N)==1) THEN
            F1(I)=JT(1)*A(1,N)
            F2(I)=JT(2)*A(2,N)
            F3(I)=JT(3)*A(3,N)
@@ -704,7 +704,7 @@ C     REAL
       my_real
      .   AAX, AAY, AAZ
 C-----------------------------------------------
-      IF ((JT(1)+JT(2)+JT(3)).GT.0) THEN
+      IF ((JT(1)+JT(2)+JT(3))>0) THEN
        IJT=1
       ELSE
        IJT=0
@@ -714,13 +714,13 @@ C Reset 2nd membre
       IF(ISK<=1)THEN
         DO I=1,NSL
           N = ISL(I)
-          IF(JT(3).GT.0)THEN
+          IF(JT(3)>0)THEN
             A(3,N) =ZERO
           ENDIF
-          IF(JT(2).GT.0)THEN
+          IF(JT(2)>0)THEN
             A(2,N) =ZERO
           ENDIF
-          IF(JT(1).GT.0)THEN
+          IF(JT(1)>0)THEN
             A(1,N) =ZERO
           ENDIF
         END DO
@@ -774,7 +774,7 @@ C     REAL
       my_real
      .     AAX, AAY, AAZ, DAX, DAY, DAZ
 C-----------------------------------------------
-      IF ((JT(1)+JT(2)+JT(3)).GT.0) THEN
+      IF ((JT(1)+JT(2)+JT(3))>0) THEN
        IJT=1
       ELSE
        IJT=0
@@ -783,18 +783,18 @@ C
 C retablit accelerations secnds == main 
 C (le terme de rotation AR x MN est dj pass au 2nd membre)
       IF(ISK<=1)THEN
-        IF(JT(3).GT.0)A(3,M)=R(3,M)*PREC_SMS3(3,M)
-        IF(JT(2).GT.0)A(2,M)=R(2,M)*PREC_SMS3(2,M)
-        IF(JT(1).GT.0)A(1,M)=R(1,M)*PREC_SMS3(1,M)
+        IF(JT(3)>0)A(3,M)=R(3,M)*PREC_SMS3(3,M)
+        IF(JT(2)>0)A(2,M)=R(2,M)*PREC_SMS3(2,M)
+        IF(JT(1)>0)A(1,M)=R(1,M)*PREC_SMS3(1,M)
         DO I=1,NSL
           N = ISL(I)
-          IF(JT(3).GT.0)THEN
+          IF(JT(3)>0)THEN
             A(3,N) =A(3,M)
           ENDIF
-          IF(JT(2).GT.0)THEN
+          IF(JT(2)>0)THEN
             A(2,N) =A(2,M)
           ENDIF
-          IF(JT(1).GT.0)THEN
+          IF(JT(1)>0)THEN
             A(1,N) =A(1,M)
           ENDIF
         END DO
@@ -852,7 +852,7 @@ C     REAL
       my_real
      .     AAX, AAY, AAZ, DAX, DAY, DAZ
 C-----------------------------------------------
-      IF ((JT(1)+JT(2)+JT(3)).GT.0) THEN
+      IF ((JT(1)+JT(2)+JT(3))>0) THEN
        IJT=1
       ELSE
        IJT=0
@@ -862,13 +862,13 @@ C Corrige W=[M]V (MS(N)*V(..,N) already counted into MS(M)*V(..,M))
       IF(ISK<=1)THEN
         DO I=1,NSL
           N = ISL(I)
-          IF(JT(3).GT.0)THEN
+          IF(JT(3)>0)THEN
             W(3,N) =W(3,N)-MS(N)*V(3,N)
           ENDIF
-          IF(JT(2).GT.0)THEN
+          IF(JT(2)>0)THEN
             W(2,N) =W(2,N)-MS(N)*V(2,N)
           ENDIF
-          IF(JT(1).GT.0)THEN
+          IF(JT(1)>0)THEN
             W(1,N) =W(1,N)-MS(N)*V(1,N)
           ENDIF
         END DO
@@ -931,7 +931,7 @@ C     REAL
       my_real
      .   F1(NSL), F2(NSL), F3(NSL), RX, RY, RZ, CDT(9)
 C-----------------------------------------------
-      IF ((JT(1)+JT(2)+JT(3)).GT.0) THEN
+      IF ((JT(1)+JT(2)+JT(3))>0) THEN
        IJT=1
       ELSE
        IJT=0
@@ -948,7 +948,7 @@ C
       IF(ISK<=1)THEN
         DO I=1,NSL
          N = ISL(I)
-         IF(WEIGHT(N).EQ.1) THEN
+         IF(WEIGHT(N)==1) THEN
            F1(I)=JT(1)*(DIAG_SMS3(1,N)-MS(N))
            F2(I)=JT(2)*(DIAG_SMS3(2,N)-MS(N))
            F3(I)=JT(3)*(DIAG_SMS3(3,N)-MS(N))
@@ -1022,11 +1022,11 @@ C     REAL
 C======================================================================|
 #include    "vectorize.inc"
       DO N=1,NRBE2
-        IF (IH.NE.IRBE2(9,N)) CYCLE
+        IF (IH/=IRBE2(9,N)) CYCLE
         M  = IRBE2(3,N)
         MID = IRBE2(6,N)
         IRAD = IRBE2(11,N)
-        IF (MID.LT.0) CYCLE
+        IF (MID<0) CYCLE
         DO K=1,6
          DO J=1,ISIZE
 	  A(J,M) = A(J,M)+ F6(J,K,MID)

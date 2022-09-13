@@ -133,9 +133,9 @@ C
       OFF(I) = MIN(ONE,ABS(OFFG(I)))
       OFF_L  = MIN(OFF_L,OFFG(I))
    20 CONTINUE
-      IF(OFF_L.LT.ZERO)THEN
+      IF(OFF_L<ZERO)THEN
         DO I=LFT,LLT
-          IF(OFFG(I).LT.0.)THEN
+          IF(OFFG(I)<0.)THEN
             VXLOC(I,1)=0.
             VYLOC(I,1)=0.
             VZLOC(I,1)=0.

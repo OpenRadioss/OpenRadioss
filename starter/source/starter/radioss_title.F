@@ -76,12 +76,12 @@ C-----------------------------------------------
        CALL PRINTCENTER(" ",0,IOUT,0)
        CALL PRINTCENTER(" ",0,IOUT,0)
        CALL PRINTCENTER(ARCHTITLE,LENARCHTIT,IOUT,2)
-       IF (IRESP .EQ. 1) THEN
+       IF (IRESP == 1) THEN
          CALL PRINTCENTER("Extended Single Precision Version",33,IOUT,2)
        ELSE
          CALL PRINTCENTER(" ",0,IOUT,0)
        ENDIF
-        IF (PMSG .EQ.1)THEN
+        IF (PMSG ==1)THEN
          CALL PRINTCENTER(MSGO,LEN_MSG,IOUT,2)
        ELSE
          CALL PRINTCENTER(" ",0,IOUT,0)
@@ -132,16 +132,16 @@ C Initialisation
 
 C Flag = 0 ligne blanche
 
-       IF (FLAG.EQ.1)THEN
+       IF (FLAG==1)THEN
 C Flag = 1 que des * dans la ligne
          PRINTOUT(1:72)='*'
  
 
-       ELSEIF (FLAG.EQ.2) THEN
+       ELSEIF (FLAG==2) THEN
 C du texte center
 
 C Test si sortie n'excede pas 68 cararcteres
-         IF (ARRLEN.GT.68) THEN
+         IF (ARRLEN>68) THEN
            WRITE(LINOUT,'(A)') "ERROR PRINTOUT FORMAT"
            RETURN
          ENDIF
@@ -152,7 +152,7 @@ C Test si sortie n'excede pas 68 cararcteres
            PRINTOUT(POS+I-1)=ARRAY(I)
           ENDDO
 
-       ELSEIF (FLAG.EQ.3) THEN
+       ELSEIF (FLAG==3) THEN
 C print left
          POS = 4
          DO I=1,ARRLEN

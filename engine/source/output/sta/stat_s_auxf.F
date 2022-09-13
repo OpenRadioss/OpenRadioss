@@ -183,7 +183,7 @@ C       construit les pointeurs dans le tableau global WAP0
         CALL SPMD_RGATHER9_DP(WA,JJ,WAP0,SIZP0,LEN)
       END IF
 c------------------------------------------------------------
-      IF(ISPMD.EQ.0.AND.LEN.GT.0) THEN
+      IF(ISPMD==0.AND.LEN>0) THEN
         IPRT0=0
         DO N=1,STAT_NUMELS_G
 C         retrouve le nieme elt dans l'ordre d'id croissant
@@ -246,14 +246,14 @@ c
             NPTG   = NLAY*NPTR*NPTS*NPTT
             J = J + 11
 c
-            IF(ISOLNOD.EQ.8.AND.JHBE.EQ.14 )THEN 
+            IF(ISOLNOD==8.AND.JHBE==14 )THEN 
               IF (IZIPSTRS == 0) THEN
                 WRITE(IUGEO,'(7I10)') ID,NPTG,ISOLNOD,JHBE,0,0,NUVAR
               ELSE
                 WRITE(LINE,'(7I10)') ID,NPTG,ISOLNOD,JHBE,0,0,NUVAR
                 CALL STRS_TXT50(LINE,100)
               ENDIF 
-              IF (NUVAR .NE. 0) THEN
+              IF (NUVAR /= 0) THEN
                IF (IZIPSTRS == 0) THEN
                 DO IPT=1,NPTG
                   WRITE(IUGEO,'(1P3E20.13)')(WAP0(J + K),K=1,NUVAR)
@@ -266,15 +266,15 @@ c
                 ENDDO
                ENDIF
               ENDIF
-            ELSEIF(ISOLNOD.EQ.8 .OR. ISOLNOD.EQ.6 .OR. ISOLNOD.EQ.4 .OR.
-     .             ISOLNOD.EQ.10 .OR. ISOLNOD.EQ.16 .OR. ISOLNOD.EQ.20)THEN
+            ELSEIF(ISOLNOD==8 .OR. ISOLNOD==6 .OR. ISOLNOD==4 .OR.
+     .             ISOLNOD==10 .OR. ISOLNOD==16 .OR. ISOLNOD==20)THEN
               IF (IZIPSTRS == 0) THEN
                 WRITE(IUGEO,'(7I10)') ID,NPTG,ISOLNOD,JHBE,0,0,NUVAR
               ELSE
                 WRITE(LINE,'(7I10)') ID,NPTG,ISOLNOD,JHBE,0,0,NUVAR
                 CALL STRS_TXT50(LINE,100)
               ENDIF 
-              IF (NUVAR .NE. 0) THEN
+              IF (NUVAR /= 0) THEN
                IF (IZIPSTRS == 0) THEN
                 DO IPT=1,NPTG
                   WRITE(IUGEO,'(1P3E20.13)')(WAP0(J + K),K=1,NUVAR)

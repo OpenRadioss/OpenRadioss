@@ -105,12 +105,12 @@ C
          N3=ELEM(3,IEL)
          ITAGEL(IEL)=0
          NALL=ITAGINJ(N1)*ITAGINJ(N2)*ITAGINJ(N3)
-         IF (NALL.NE.0) THEN
+         IF (NALL/=0) THEN
             NN1=ITAGINJ(N2)-ITAGINJ(N1)
             NN2=ITAGINJ(N3)-ITAGINJ(N1)
-            IF (NN1.EQ.0.AND.NN2.EQ.0) THEN 
+            IF (NN1==0.AND.NN2==0) THEN 
                ITAGEL(IEL)=ITAGINJ(N1)
-               IF(IREVERSED(N1) + IREVERSED(N2) + IREVERSED(N3) .EQ. 3) THEN
+               IF(IREVERSED(N1) + IREVERSED(N2) + IREVERSED(N3) == 3) THEN
                   ELEM(1,IEL) = N3
                   ELEM(3,IEL) = N1
                   MINUS_SIGN_REVERSE(IEL) = 1

@@ -72,17 +72,17 @@ c     norme r s t
 c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       DO 50 I=LFT,LLT
       aa = sqrt(rx(I)*rx(I) + ry(I)*ry(I) + rz(I)*rz(I))
-      if ( aa.ne.ZERO) aa = ONE / aa
+      if ( aa/=ZERO) aa = ONE / aa
       Ux(I) = rx(I) * aa
       Uy(I) = ry(I) * aa
       Uz(I) = rz(I) * aa
       aa = sqrt(sx(I)*sx(I) + sy(I)*sy(I) + sz(I)*sz(I))
-      if ( aa.ne.ZERO) aa = ONE / aa
+      if ( aa/=ZERO) aa = ONE / aa
       Vx(I) = sx(I) * aa
       Vy(I) = sy(I) * aa
       Vz(I) = sz(I) * aa
       aa = sqrt(tx(I)*tx(I) + ty(I)*ty(I) + tz(I)*tz(I))
-      if ( aa.ne.ZERO) aa = ONE / aa
+      if ( aa/=ZERO) aa = ONE / aa
       Wx(I) = tx(I) * aa
       Wy(I) = ty(I) * aa
       Wz(I) = tz(I) * aa
@@ -108,19 +108,19 @@ c
        e3z(I) = Ux(I) * Vy(I) - Uy(I) * Vx(I) + Wz(I)
 c
        bb = sqrt(e1x(I)*e1x(I) + e1y(I)*e1y(I) + e1z(I)*e1z(I))
-       if ( bb.ne.ZERO) bb = ONE / bb
+       if ( bb/=ZERO) bb = ONE / bb
        Ux(I) = e1x(I) * bb
        Uy(I) = e1y(I) * bb
        Uz(I) = e1z(I) * bb
 c
        bb = sqrt(e2x(I)*e2x(I) + e2y(I)*e2y(I) + e2z(I)*e2z(I))
-       if ( bb.ne.ZERO) bb = ONE / bb
+       if ( bb/=ZERO) bb = ONE / bb
        Vx(I) = e2x(I) * bb
        Vy(I) = e2y(I) * bb
        Vz(I) = e2z(I) * bb
 c
        bb = sqrt(e3x(I)*e3x(I) + e3y(I)*e3y(I) + e3z(I)*e3z(I))
-       if ( bb.ne.ZERO) bb = ONE / bb
+       if ( bb/=ZERO) bb = ONE / bb
        Wx(I) = e3x(I) * bb
        Wy(I) = e3y(I) * bb
        Wz(I) = e3z(I) * bb
@@ -139,7 +139,7 @@ c
       e3z(I) = e1x(I) * Vy(I) - e1y(I) * Vx(I)
 c
       aa = sqrt(e3x(I)*e3x(I) + e3y(I)*e3y(I) + e3z(I)*e3z(I))
-      if ( aa.ne.ZERO) aa = ONE / aa
+      if ( aa/=ZERO) aa = ONE / aa
       e3x(I) = e3x(I) * aa
       e3y(I) = e3y(I) * aa
       e3z(I) = e3z(I) * aa
@@ -196,17 +196,17 @@ c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       DO 50 I=LFT,LLT
        IF (OFF(I) <= ONE ) CYCLE 
       aa = sqrt(rx(I)*rx(I) + ry(I)*ry(I) + rz(I)*rz(I))
-      if ( aa.ne.ZERO) aa = ONE / aa
+      if ( aa/=ZERO) aa = ONE / aa
       Ux(I) = rx(I) * aa
       Uy(I) = ry(I) * aa
       Uz(I) = rz(I) * aa
       aa = sqrt(sx(I)*sx(I) + sy(I)*sy(I) + sz(I)*sz(I))
-      if ( aa.ne.ZERO) aa = ONE / aa
+      if ( aa/=ZERO) aa = ONE / aa
       Vx(I) = sx(I) * aa
       Vy(I) = sy(I) * aa
       Vz(I) = sz(I) * aa
       aa = sqrt(tx(I)*tx(I) + ty(I)*ty(I) + tz(I)*tz(I))
-      if ( aa.ne.ZERO) aa = ONE / aa
+      if ( aa/=ZERO) aa = ONE / aa
       Wx(I) = tx(I) * aa
       Wy(I) = ty(I) * aa
       Wz(I) = tz(I) * aa
@@ -233,19 +233,19 @@ c
        e3z(I) = Ux(I) * Vy(I) - Uy(I) * Vx(I) + Wz(I)
 c
        bb = sqrt(e1x(I)*e1x(I) + e1y(I)*e1y(I) + e1z(I)*e1z(I))
-       if ( bb.ne.ZERO) bb = ONE / bb
+       if ( bb/=ZERO) bb = ONE / bb
        Ux(I) = e1x(I) * bb
        Uy(I) = e1y(I) * bb
        Uz(I) = e1z(I) * bb
 c
        bb = sqrt(e2x(I)*e2x(I) + e2y(I)*e2y(I) + e2z(I)*e2z(I))
-       if ( bb.ne.ZERO) bb = ONE / bb
+       if ( bb/=ZERO) bb = ONE / bb
        Vx(I) = e2x(I) * bb
        Vy(I) = e2y(I) * bb
        Vz(I) = e2z(I) * bb
 c
        bb = sqrt(e3x(I)*e3x(I) + e3y(I)*e3y(I) + e3z(I)*e3z(I))
-       if ( bb.ne.ZERO) bb = ONE / bb
+       if ( bb/=ZERO) bb = ONE / bb
        Wx(I) = e3x(I) * bb
        Wy(I) = e3y(I) * bb
        Wz(I) = e3z(I) * bb
@@ -265,7 +265,7 @@ c
       e3z(I) = e1x(I) * Vy(I) - e1y(I) * Vx(I)
 c
       aa = sqrt(e3x(I)*e3x(I) + e3y(I)*e3y(I) + e3z(I)*e3z(I))
-      if ( aa.ne.ZERO) aa = ONE / aa
+      if ( aa/=ZERO) aa = ONE / aa
       e3x(I) = e3x(I) * aa
       e3y(I) = e3y(I) * aa
       e3z(I) = e3z(I) * aa

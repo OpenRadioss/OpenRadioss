@@ -72,27 +72,27 @@ C-----------------------------------------------
       IVZ=EBCS%ivz
       IRHO=EBCS%irho
       IENER=EBCS%iener
-      IF(IVX.GT.0)THEN
+      IF(IVX>0)THEN
         VX=EBCS%vx*FV(IVX)
       ELSE
         VX=EBCS%vx
       ENDIF
-      IF(IVY.GT.0)THEN
+      IF(IVY>0)THEN
         VY=EBCS%vy*FV(IVY)
       ELSE
         VY=EBCS%vy
       ENDIF
-      IF(IVZ.GT.0)THEN
+      IF(IVZ>0)THEN
         VZ=EBCS%vz*FV(IVZ)
       ELSE
         VZ=EBCS%vz
       ENDIF
-       IF(IRHO.GT.0)THEN
+       IF(IRHO>0)THEN
         RHO=EBCS%rho*FV(IRHO)
       ELSE
         RHO=EBCS%rho
       ENDIF
-      IF(IENER.GT.0)THEN
+      IF(IENER>0)THEN
         ENER=EBCS%ener*FV(IENER)
       ELSE
         ENER=EBCS%ener
@@ -116,7 +116,7 @@ C SURFACE NORMALE NODALES
         N2=IRECT(2,IS)
         N3=IRECT(3,IS)
         N4=IRECT(4,IS)
-        IF(N4.EQ.0 .OR. N4.EQ.N3) THEN
+        IF(N4==0 .OR. N4==N3) THEN
           FAC=ONE_OVER_6*ORIENT
           N4=N3
         ELSE
@@ -151,7 +151,7 @@ C
         VMX=V(1,NG1)+V(1,NG2)+V(1,NG3)
         VMY=V(2,NG1)+V(2,NG2)+V(2,NG3)
         VMZ=V(3,NG1)+V(3,NG2)+V(3,NG3)
-        IF(N4.NE.N3) THEN
+        IF(N4/=N3) THEN
            LA(1,N4)=LA(1,N4)+NX
            LA(2,N4)=LA(2,N4)+NY
            LA(3,N4)=LA(3,N4)+NZ
@@ -178,7 +178,7 @@ C
         SEGVAR%EINT(KSEG)=ENER
       ENDDO
 C
-      IF(TT.EQ.0)THEN
+      IF(TT==0)THEN
         DO I=1,NOD
           N=LISTE(I)
           V(1,N)=VX

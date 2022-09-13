@@ -62,7 +62,7 @@ C     REAL
 C-----------------------------------------------
       S3000 = THREE1000
       IXNN = S3000
-      IF(FMT_ANI.EQ.4)IXNN=0
+      IF(FMT_ANI==4)IXNN=0
 C
       IF(NSPMD == 1 ) THEN
         ARSZ = PLYNOD(IPLY)%PLYNUMNODS
@@ -72,7 +72,7 @@ C
           I = PLYNOD(IPLY)%NODES(N)
           EMPL = PLYNOD(IPLY)%PLYNODID(N)-EMPSIZPL
           S = SQRT(XNORM(1,I)**2 + XNORM(2,I)**2 + XNORM(3,I)**2)
-          IF(S.NE.ZERO)THEN
+          IF(S/=ZERO)THEN
            S = S3000 / S
            INORMAR(1,EMPL) = XNORM(1,I) * S
            INORMAR(2,EMPL) = XNORM(2,I) * S

@@ -132,16 +132,16 @@ C*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 C machine  precision minimum dependant du type REAL ou DOUBLE
 c      write(*,*)'flm=',flm
-C-------add if (RTOL.lt.FLM) RTOL=FLM
+C-------add if (RTOL<FLM) RTOL=FLM
       IUPD = 0
       NLIM=N_MAX
 C*     Print heading and initialize.
 
-      IF(IPRINT.NE.0)THEN
+      IF(IPRINT/=0)THEN
        WRITE(IOUT,*)'    *** BEGIN PRECONDITION LANCZOS ITERATION ***'
        WRITE(IOUT,*)
       ENDIF
-      IF(IPRINT.LT.0)THEN
+      IF(IPRINT<0)THEN
        WRITE(ISTDO,*)'    *** BEGIN PRECONDITION LANCZOS ITERATION ***'
        WRITE(ISTDO,*)
       ENDIF
@@ -189,7 +189,7 @@ C      ENDIF
 
 C*     TEST FOR AN INDEFINITE PRECONDITIONER.
 
-      IF (BETA1 .LT. ZERO) THEN
+      IF (BETA1 < ZERO) THEN
 c         ISTOP = 8
 c         GO TO 900
        BETA1  = -BETA1 
@@ -199,25 +199,25 @@ c         GO TO 900
 
 C*     IF B = 0 EXACTLY, STOP WITH X = 0.
 
-      IF (BETA1 .EQ. ZERO) THEN
+      IF (BETA1 == ZERO) THEN
        ISTOP=-1
        GOTO 900
       ENDIF
 
 C*     HERE AND LATER, V IS REALLY P * (THE LANCZOS V).
 
-      IF (ITOL.EQ.2)  R02 = BETA1
+      IF (ITOL==2)  R02 = BETA1
       BETA1  = SQRT( BETA1 )
       S      = ONE / BETA1
 C
-      IF (ITOL.EQ.1) THEN
+      IF (ITOL==1) THEN
         CALL PRODUT_W(N,R,R,W_DDL,R02)
         RR = SQRT(R02)
        ELSE
         RR = BETA1
       ENDIF
-      IF(IPRINT.NE.0)THEN
-        IF(IPRINT.LT.0) WRITE(ISTDO,1000)ITN,RR
+      IF(IPRINT/=0)THEN
+        IF(IPRINT<0) WRITE(ISTDO,1000)ITN,RR
         WRITE(IOUT,1000)ITN,RR
       ENDIF
       DO I = 1, N
@@ -239,7 +239,7 @@ C*     SET UP Y FOR THE SECOND LANCZOS VECTOR.
 C*     AGAIN, Y IS BETA * P * V2  WHERE  P = C**(-1).
 C*     Y AND BETA WILL BE ZERO OR VERY SMALL IF B IS AN EIGENVECTOR.
      
-      IF (SHIFT.NE.ZERO) THEN
+      IF (SHIFT/=ZERO) THEN
        DO I = 1, N
          Y(I) = Y(I)-SHIFT*V(I)
        ENDDO
@@ -273,7 +273,7 @@ C*     MAKE SURE  R2  WILL BE ORTHOGONAL TO THE FIRST  V.
       OLDB   = BETA1
       CALL PRODUT_W( N  ,R2   ,Y  ,W_DDL,BETA)
 
-      IF (BETA .LT. ZERO) THEN
+      IF (BETA < ZERO) THEN
 c         ISTOP = 8
 c         GO TO 900
        BETA=-BETA
@@ -284,7 +284,7 @@ c         GO TO 900
 C*     CAUSE TERMINATION (LATER) IF BETA IS ESSENTIALLY ZERO.
 
       BETA   = SQRT( BETA )
-      IF (BETA .LE. FLM) ISTOP = -1
+      IF (BETA <= FLM) ISTOP = -1
 
 C*     SEE IF THE LOCAL REORTHOGONALIZATION ACHIEVED ANYTHING.
 
@@ -331,7 +331,7 @@ C*     ESTIMATE VARIOUS NORMS AND TEST FOR CONVERGENCE.
       EPSX   = ANORM * YNORM * FLM
       EPSR   = ANORM * YNORM * RTOL
       DIAG   = GBAR
-      IF (DIAG .EQ. ZERO) DIAG = EPSA
+      IF (DIAG == ZERO) DIAG = EPSA
 
       LQNORM = SQRT( RHS1*RHS1 + RHS2*RHS2 )
       QRNORM = SNPROD * BETA1
@@ -343,7 +343,7 @@ C*     FACTORIZATION OF THE TRIDIAGONAL MATRIX,  T = L*Q.
 C*     SOMETIMES, T(K) CAN BE MISLEADINGLY ILL-CONDITIONED WHEN
 C*     T(K+1) IS NOT, SO WE MUST BE CAREFUL NOT TO OVERESTIMATE KCOND.
 
-      IF (LQNORM .LE. CGNORM) THEN
+      IF (LQNORM <= CGNORM) THEN
          KCOND  = GMAX / GMIN
       ELSE
          DENOM  = MIN( GMIN, ABS( DIAG ) )
@@ -353,34 +353,34 @@ C*     T(K+1) IS NOT, SO WE MUST BE CAREFUL NOT TO OVERESTIMATE KCOND.
 C*     SEE IF ANY OF THE STOPPING CRITERIA ARE SATISFIED.
 C*     IN RARE CASES, ISTOP IS ALREADY -1 FROM ABOVE (ABAR = CONST * I).
 
-      IF (ISTOP .EQ. 0) THEN
-         IF (ITN    .GE. NLIM   ) ISTOP = 5
-         IF (KCOND  .GE.EM01/FLM) ISTOP = 4
-         IF (EPSX   .GE. BETA1  ) ISTOP = 3
-         IF (CGNORM .LE. EPSX   ) ISTOP = 2
-         IF (CGNORM .LE. EPSR   ) ISTOP = 1
+      IF (ISTOP == 0) THEN
+         IF (ITN    >= NLIM   ) ISTOP = 5
+         IF (KCOND  >=EM01/FLM) ISTOP = 4
+         IF (EPSX   >= BETA1  ) ISTOP = 3
+         IF (CGNORM <= EPSX   ) ISTOP = 2
+         IF (CGNORM <= EPSR   ) ISTOP = 1
       ENDIF
 C*     ==================================================================
 
 C*     SEE IF IT IS TIME TO PRINT SOMETHING.
 
-C*      IF (NOUT .LE.  0)          GO TO 600
-C*      IF (N    .LE. 40)          GO TO 400
-C*      IF (ITN  .LE. 10)          GO TO 400
-C*      IF (ITN  .GE. ITNLIM - 10) GO TO 400
-C*      IF (MOD(ITN,10)  .EQ.   0) GO TO 400
-C*      IF (CGNORM .LE. TEN*EPSX) GO TO 400
-C*      IF (CGNORM .LE. TEN*EPSR) GO TO 400
-C*      IF (KCOND  .GE. EM2/FLM ) GO TO 400
-C*      IF (ISTOP  .NE. 0)        GO TO 400
+C*      IF (NOUT <=  0)          GO TO 600
+C*      IF (N    <= 40)          GO TO 400
+C*      IF (ITN  <= 10)          GO TO 400
+C*      IF (ITN  >= ITNLIM - 10) GO TO 400
+C*      IF (MOD(ITN,10)  ==   0) GO TO 400
+C*      IF (CGNORM <= TEN*EPSX) GO TO 400
+C*      IF (CGNORM <= TEN*EPSR) GO TO 400
+C*      IF (KCOND  >= EM2/FLM ) GO TO 400
+C*      IF (ISTOP  /= 0)        GO TO 400
 C*      GOTO 600
 C*
 C*     PRINT A LINE FOR THIS ITERATION.
 
-        IF(IPRINT.NE.0)THEN 
-         IF (MOD(ITN,IP).EQ.0)THEN
+        IF(IPRINT/=0)THEN 
+         IF (MOD(ITN,IP)==0)THEN
           WRITE(IOUT,1001)ITN,CGNORM
-          IF(IPRINT.LT.0) WRITE(ISTDO,1001)ITN,CGNORM
+          IF(IPRINT<0) WRITE(ISTDO,1001)ITN,CGNORM
          ENDIF
         ENDIF
 
@@ -389,16 +389,16 @@ C      Z      = (SNPROD * ZBAR  +  BSTEP) / BETA1
 C      X1LQ   = X(1)  +  B1 * BSTEP / BETA1
 C      X1CG   = X(1)  +  W(1) * ZBAR  +  B1 * Z
 C
-C      IF (    ITN     .EQ. 0) WRITE(NOUT, 1200)
+C      IF (    ITN     == 0) WRITE(NOUT, 1200)
 C      WRITE(NOUT, 1300) ITN, X1CG, CGNORM, BSTEP/BETA1, ANORM, KCOND
-C      IF (MOD(ITN,10) .EQ. 0) WRITE(NOUT, 1500)
+C      IF (MOD(ITN,10) == 0) WRITE(NOUT, 1500)
 C*     ==================================================================
 
 
 C*     OBTAIN THE CURRENT LANCZOS VECTOR  V = (1 / BETA)*Y
 C*     AND SET UP  Y  FOR THE NEXT ITERATION.
 
-      IF (ISTOP .NE. 0) GO TO 800
+      IF (ISTOP /= 0) GO TO 800
 C------place CRIT_STOP ICI-----
       S      = ONE / BETA
 
@@ -416,7 +416,7 @@ C------place CRIT_STOP ICI-----
      8            SKEW  ,XFRAME,MONVOL,VOLMON,IGRSURF ,
      9            FR_MV,NMONV ,IMONV ,IND_IMP,
      A            XI_C  ,IUPD  ,IRBE3 ,LRBE3 ,IRBE2 ,LRBE2 )
-      IF (SHIFT.NE.ZERO) THEN
+      IF (SHIFT/=ZERO) THEN
        DO I = 1, N
          Y(I)  = Y(I)-SHIFT*V(I)
        ENDDO
@@ -446,7 +446,7 @@ C------place CRIT_STOP ICI-----
      2               LT_M ,R2   ,Y    )
       OLDB   = BETA
       CALL PRODUT_W( N  ,R2   ,Y  ,W_DDL,BETA)
-      IF (BETA .LT. ZERO) THEN
+      IF (BETA < ZERO) THEN
 c         ISTOP = 6
 c         GOTO 800
        BETA=-BETA
@@ -502,7 +502,7 @@ C*     IN THIS VERSION OF SYMMLQ, THE CONVERGENCE TESTS INVOLVE
 C*     ONLY CGNORM, SO WE'RE UNLIKELY TO STOP AT AN LQ POINT,
 C*     EXCEPT IF THE ITERATION LIMIT INTERFERES.
 
-  800 IF (CGNORM .LE. LQNORM) THEN
+  800 IF (CGNORM <= LQNORM) THEN
          ZBAR   = RHS1 / DIAG
          BSTEP  = SNPROD * ZBAR  +  BSTEP
          YNORM  = SQRT( YNORM2  +  ZBAR*ZBAR )
@@ -534,12 +534,12 @@ C*     ==================================================================
 C*     DISPLAY FINAL STATUS.
 C*     ==================================================================
   900 CONTINUE
-      IF (IPRINT.NE.0) THEN
+      IF (IPRINT/=0) THEN
          WRITE(IOUT,2000)  EXIT, ISTOP, ITN,
      .                     EXIT, ANORM, KCOND,
      .                     EXIT, RNORM, YNORM
          WRITE(IOUT, 3000) EXIT, MSG(ISTOP)
-        IF (IPRINT.LT.0) THEN
+        IF (IPRINT<0) THEN
          WRITE(ISTDO,2000) EXIT, ISTOP, ITN,
      .                     EXIT, ANORM, KCOND,
      .                     EXIT, RNORM, YNORM
@@ -560,15 +560,15 @@ C    --R=B-A.X--- ---
        DO I = 1, N
         R(I) = R(I) - B(I)
        ENDDO
-       IF (ITOL.EQ.1) THEN
+       IF (ITOL==1) THEN
         CALL PRODUT_W( N  ,R    ,R  ,W_DDL,R02)
         RNORM = SQRT(R02)/RR
        ENDIF
-      IF (IPRINT.NE.0) THEN
+      IF (IPRINT/=0) THEN
        WRITE(IOUT,1002)ITN,RNORM
-       IF(IPRINT.LT.0) WRITE(ISTDO,1002)ITN,RNORM
+       IF(IPRINT<0) WRITE(ISTDO,1002)ITN,RNORM
       ENDIF
-      IF (ISTOP.GT.0.AND.ISTOP.LT.4) ISTOP=0
+      IF (ISTOP>0.AND.ISTOP<4) ISTOP=0
 C--------POUR F*X--------
       RETURN
 

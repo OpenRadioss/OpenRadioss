@@ -136,16 +136,16 @@ C
       DO I=LFT,LLT
        PENE(I) = MAX(P1(I),P2(I),P3(I),P4(I))
 C
-       IF(P1(I).EQ.PENE(I))THEN
+       IF(P1(I)==PENE(I))THEN
          S(I) = -LB1(I) + LC1(I)
          T(I) = -LB1(I) - LC1(I)
-       ELSEIF(P2(I).EQ.PENE(I))THEN
+       ELSEIF(P2(I)==PENE(I))THEN
          S(I) =  LB2(I) + LC2(I)
          T(I) = -LB2(I) + LC2(I)
-       ELSEIF(P3(I).EQ.PENE(I))THEN
+       ELSEIF(P3(I)==PENE(I))THEN
          S(I) =  LB3(I) - LC3(I)
          T(I) =  LB3(I) + LC3(I)
-       ELSEIF(P4(I).EQ.PENE(I))THEN
+       ELSEIF(P4(I)==PENE(I))THEN
          S(I) = -LB4(I) - LC4(I)
          T(I) =  LB4(I) - LC4(I)
        ELSE
@@ -172,19 +172,19 @@ C
 C   
       IF(IGNORE==2 .OR. IGNORE == 3)THEN
         DO I=LFT,LLT
-          IF(PENE(I).GT.ZERO  .AND.
+          IF(PENE(I)>ZERO  .AND.
      .          (S(I) < ONEP5 .AND. 
      .           T(I) < ONEP5 .AND.
      .           S(I) >-ONEP5 .AND.
      .           T(I) >-ONEP5))THEN
             II=CAND_N(I)
-            IF(GAPV(I) - PENE(I).LT.DMIN(II))THEN
+            IF(GAPV(I) - PENE(I)<DMIN(II))THEN
               DMIN(II)=GAPV(I)-PENE(I)
               IRTL(II)=CAND_E(I)
               ST(1,II) = S(I)
               ST(2,II) = T(I)
-            ELSEIF(GAPV(I) - PENE(I).EQ.DMIN(II))THEN
-              IF(MAX(ABS(S(I))    ,ABS(T(I)    )).LT.
+            ELSEIF(GAPV(I) - PENE(I)==DMIN(II))THEN
+              IF(MAX(ABS(S(I))    ,ABS(T(I)    ))<
      .           MAX(ABS(ST(1,II)),ABS(ST(2,II)))    )THEN
                 IRTL(II)=CAND_E(I)
                 ST(1,II) = S(I)
@@ -196,20 +196,20 @@ C
       ELSEIF(IGNORE==1)THEN
         DO I=LFT,LLT
 C
-        IF(PENE(I).GT.ZERO  .AND.
+        IF(PENE(I)>ZERO  .AND.
      .          (S(I) < ONEP5 .AND. 
      .           T(I) < ONEP5 .AND.
      .           S(I) >-ONEP5 .AND.
      .           T(I) >-ONEP5))  THEN
           II=CAND_N(I)
           
-          IF(TZINF - PENE(I).LT.DMIN(II))THEN
+          IF(TZINF - PENE(I)<DMIN(II))THEN
             DMIN(II)=TZINF - PENE(I)
             IRTL(II)=CAND_E(I)
             ST(1,II) = S(I)
             ST(2,II) = T(I)
-          ELSEIF(TZINF - PENE(I).EQ.DMIN(II))THEN
-            IF(MAX(ABS(S(I))    ,ABS(T(I)    )).LT.
+          ELSEIF(TZINF - PENE(I)==DMIN(II))THEN
+            IF(MAX(ABS(S(I))    ,ABS(T(I)    ))<
      .         MAX(ABS(ST(1,II)),ABS(ST(2,II)))    )THEN
               IRTL(II)=CAND_E(I)
               ST(1,II) = S(I)
@@ -221,16 +221,16 @@ C
       ELSE
         DO I=LFT,LLT
 C
-        IF(PENE(I).GT.ZERO)  THEN
+        IF(PENE(I)>ZERO)  THEN
           II=CAND_N(I)
           
-          IF(TZINF - PENE(I).LT.DMIN(II))THEN
+          IF(TZINF - PENE(I)<DMIN(II))THEN
             DMIN(II)=TZINF - PENE(I)
             IRTL(II)=CAND_E(I)
             ST(1,II) = S(I)
             ST(2,II) = T(I)
-          ELSEIF(TZINF - PENE(I).EQ.DMIN(II))THEN
-            IF(MAX(ABS(S(I))    ,ABS(T(I)    )).LT.
+          ELSEIF(TZINF - PENE(I)==DMIN(II))THEN
+            IF(MAX(ABS(S(I))    ,ABS(T(I)    ))<
      .         MAX(ABS(ST(1,II)),ABS(ST(2,II)))    )THEN
               IRTL(II)=CAND_E(I)
               ST(1,II) = S(I)
@@ -335,11 +335,11 @@ C
       ENDDO
 C
       DO I=LFT,LLT
-       IF(ONE-LB(I)-LC(I).LT.ZERO)THEN
+       IF(ONE-LB(I)-LC(I)<ZERO)THEN
          CALL I7LIN3(XI(I),YI(I),ZI(I),XB(I),YB(I),
      .               ZB(I),XC(I),YC(I),ZC(I),NX(I),
      .               NY(I),NZ(I),P(I),ALP)
-        ELSEIF(LB(I).LT.ZERO)THEN
+        ELSEIF(LB(I)<ZERO)THEN
          CALL I7LIN3(XI(I),YI(I),ZI(I),XC(I),YC(I),
      .               ZC(I),XA(I),YA(I),ZA(I),NX(I),
      .               NY(I),NZ(I),P(I),ALP)
@@ -347,7 +347,7 @@ C
             LC(I) = ONE - ALP
             LB(I) = ZERO
           ENDIF
-        ELSEIF(LC(I).LT.ZERO)THEN
+        ELSEIF(LC(I)<ZERO)THEN
          CALL I7LIN3(XI(I),YI(I),ZI(I),XA(I),YA(I),
      .               ZA(I),XB(I),YB(I),ZB(I),NX(I),
      .               NY(I),NZ(I),P(I),ALP)
@@ -355,7 +355,7 @@ C
             LB(I) = ALP
             LC(I) = ZERO
           ENDIF
-        ELSEIF(P(I).LT.ZERO)THEN
+        ELSEIF(P(I)<ZERO)THEN
 
          NX(I) = -NX(I)
          NY(I) = -NY(I)

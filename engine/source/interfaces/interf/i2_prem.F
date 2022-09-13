@@ -52,9 +52,9 @@ C-----------------------------------------------
 C-----------------------------------------------
        DO 200 N=NINTER,1,-1
         NTY   =IPARI(7,N)
-       IF(NTY.EQ.2.AND.IPARI(26,N).EQ.KHIE) THEN
+       IF(NTY==2.AND.IPARI(26,N)==KHIE) THEN
        NSN = IPARI(5,N)
-        IF (NSN.GT.0) THEN
+        IF (NSN>0) THEN
          NI2=NI2+1
          II2(NI2)=N
          NSMAX=NSMAX+NSN

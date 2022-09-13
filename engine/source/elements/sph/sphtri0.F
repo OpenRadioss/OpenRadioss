@@ -147,7 +147,7 @@ cc      DBUC=DBUC*SQRT(ONE +SPATRUE)
 C
       CALL MY_BARRIER
 
-      IF(ITASK.EQ.0) THEN
+      IF(ITASK==0) THEN
         DBUC=DBUC*SQRT(ONE +SPATRUE)*ONEP0001
 	BMINMA(1) = BMINMA(1)+DBUC
         BMINMA(2) = BMINMA(2)+DBUC
@@ -191,11 +191,11 @@ C   Test cas particulier 2D
         END IF
       ENDIF
 
-      IF(NSPMD.GT.1) THEN
+      IF(NSPMD>1) THEN
 C
 C     Boite   MIN / MAX en SPMD
 C
-        IF(ITASK.EQ.0) THEN
+        IF(ITASK==0) THEN
           LOC_PROC = ISPMD+1
           CRVOXEL(0:LRVOXEL,0:LRVOXEL,LOC_PROC)=0
         ENDIF
@@ -207,7 +207,7 @@ C
  
         CALL MY_BARRIER
 
-        IF(ITASK.EQ.0)THEN
+        IF(ITASK==0)THEN
 C
          IF(IMONM == 2)THEN
            CALL STARTIME(95,1)

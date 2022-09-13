@@ -145,8 +145,8 @@ c-----------------------------------------------------------------------------
         IXFEM = IPARG(54,NG)
         IF (OFF == 1)                GOTO 200
         IF (IXFEM == 0)              GOTO 200
-        IF (ITY.NE.3 .AND. ITY.NE.7) GOTO 200
-        IF (IDDW.GT.0) CALL STARTIMEG(NG)
+        IF (ITY/=3 .AND. ITY/=7) GOTO 200
+        IF (IDDW>0) CALL STARTIMEG(NG)
 C---
         NEL     =IPARG(2,NG)
         NFT     =IPARG(3,NG)
@@ -192,7 +192,7 @@ C---
           ENDDO
         END IF
 C---
-        IF (IDDW.GT.0) CALL STOPTIMEG(NG)
+        IF (IDDW>0) CALL STOPTIMEG(NG)
  200  CONTINUE
       END DO
 c----------------------

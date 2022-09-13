@@ -66,7 +66,7 @@ C SIMPLIFICATION SI SOURCE LOIN DU POINT P
       L42=(X1-X4)**2+(Y1-Y4)**2+(Z1-Z4)**2
       LM2=MAX(L12,L22,L32,L42)
 
-      IF(D2.GT.TWENTY5*LM2) THEN  
+      IF(D2>TWENTY5*LM2) THEN  
         RVLG=AREA/SQRT(D2)
         RVLH=AREA*(NRX*(X0-XP)+NRY*(Y0-YP)+NRZ*(Z0-ZP))/(D2**THREE_HALF)	  
       ELSE
@@ -135,7 +135,7 @@ C
 C
         RVLH=ZERO
 C INTEGRALE DOUBLE COUCHE
-        IF (ZLS.NE.ZERO) THEN
+        IF (ZLS/=ZERO) THEN
            DO I=1,4
               J=I+1
               RVLH=RVLH
@@ -150,7 +150,7 @@ C INTEGRALE SIMPLE COUCHE
            J=I+1
            V=(XLS-KSI(I))*SN(I)-(YLS-ETA(I))*CS(I)
            ARG=(R(I)+R(J)-S(I))/(R(I)+R(J)+S(I))
-           IF (ARG.GT.ZERO) THEN
+           IF (ARG>ZERO) THEN
               FLN=-LOG(ARG)
               RVLG=RVLG+V*FLN
            ELSE

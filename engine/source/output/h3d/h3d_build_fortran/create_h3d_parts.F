@@ -65,12 +65,12 @@ C=========================================================================
       N_H3D_PART = H3D_DATA%INPUT_LIST(ID_INPUT)%NB_PART
 
       
-      IF (N_H3D_PART .NE. 0 )
+      IF (N_H3D_PART /= 0 )
      .       ALLOCATE(H3D_DATA%PARTS(1)%PART_LIST(N_H3D_PART))
 c
       ALLOCATE(H3D_DATA%PARTS(1)%PART(NPART))
 c
-      IF (N_H3D_PART .NE. 0 ) THEN
+      IF (N_H3D_PART /= 0 ) THEN
         DO I=1,NPART
           H3D_DATA%PARTS(1)%PART(I) = 0
         ENDDO

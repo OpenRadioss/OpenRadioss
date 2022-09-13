@@ -245,7 +245,7 @@ C-----------------------------------------------
           CN0 = CN
           CN  = RM*AG / (RM-CA)
           CB  = RM/(CN*AG**(CN-ONE))
-          IF (CN .GT. ONE) THEN
+          IF (CN > ONE) THEN
             CN = ONE
             CB = (CB0*(ONE+CN0)-CA)/(LOG(1+CN0)-CB0*(1+CN0)/YOUNG-CA/YOUNG)
             CALL ANCMSG(MSGID=277,
@@ -254,7 +254,7 @@ C-----------------------------------------------
      .                  I1=ID, 
      .                  C1=TITR)
           ENDIF
-          IF (CN .LT. ZERO .AND. CB .LT. ZERO) THEN
+          IF (CN < ZERO .AND. CB < ZERO) THEN
             CN = ZERO
             CB = ZERO          
             CALL ANCMSG(MSGID=278,
@@ -359,7 +359,7 @@ C-----
       ENDIF
       !FCUT = FCUT / FAC_T
       IF (FCUT == ZERO) FCUT=EP20
-      IF(RHOR.EQ.ZERO) RHOR=RHO0
+      IF(RHOR==ZERO) RHOR=RHO0
 C-----
       IF (ANU == HALF) ANU=ZEP499
 C
@@ -373,7 +373,7 @@ C
       ELSE
         ISRATE = 1
       END IF
-      IF(ANU.LE.-ONE)  THEN       
+      IF(ANU<=-ONE)  THEN       
         CALL ANCMSG(MSGID=300,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=2,I2=ID,C1=TITR)
       ENDIF
 C-----
@@ -385,7 +385,7 @@ C-----
       EN1N2=ANU*E1MN2
       SDSP =SQRT(YOUNG/MAX(RHOR,EM20))       
 
-      IF (YOUNG.LE.ZERO) THEN
+      IF (YOUNG<=ZERO) THEN
         CALL ANCMSG(MSGID=276,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=2,I2=ID,C1=TITR)
       ENDIF
 C-----
@@ -416,7 +416,7 @@ C-----
       PM(9)=FCUT*TWO*PI   
             
 C
-      IF(TI.LE.ZERO) TI=TWOHUNDRED98
+      IF(TI<=ZERO) TI=TWOHUNDRED98
 c
 C---- Definition des variables internes (stockage elementaire)
 c
@@ -515,7 +515,7 @@ C--------------------------------
         PM(51)=C3
         PM(52)=C4
       ENDIF
-      IF(CP.LE.ZERO) THEN
+      IF(CP<=ZERO) THEN
           PM(53)=ZERO
       ELSE
           PM(53)=ONE/CP
@@ -532,7 +532,7 @@ C
      .              C2=TITR)
       END IF
 C
-      IF(CA.LE.ZERO) THEN
+      IF(CA<=ZERO) THEN
          CALL ANCMSG(MSGID=301,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -540,7 +540,7 @@ C
      .               I2=ID,
      .               C1=TITR)
       ENDIF
-      IF(CN.GT.1.) THEN
+      IF(CN>1.) THEN
          CALL ANCMSG(MSGID=213,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,

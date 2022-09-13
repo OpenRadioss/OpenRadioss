@@ -338,7 +338,7 @@ C--------------------------------------------------
                   IS_WRITTEN_VALUE(I) = 1 
                 ENDDO
 C--------------------------------------------------
-              ELSEIF(KEYWORD == 'K' .AND.JTURB.NE.0)THEN
+              ELSEIF(KEYWORD == 'K' .AND.JTURB/=0)THEN
 C--------------------------------------------------
 C             ENERGIE TURBULENTE
                 DO I=1,NEL 
@@ -350,7 +350,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C             VISCOSITE TURBULENTE
                 DO I=1,NEL
-                  IF((MLW == 6 .OR. MLW == 17).AND.JTURB.NE.0)THEN
+                  IF((MLW == 6 .OR. MLW == 17).AND.JTURB/=0)THEN
                     IPRT=IPARTSP(N)
       		    MT  =IPART(1,IPRT)
                     VALUE(I)=PM(81,MT)*GBUF%RK(I)**2/

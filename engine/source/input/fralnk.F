@@ -77,13 +77,13 @@ C
      .        ERR=9990)
      .          KEY2,KEY3,K4,KEY4,NBC
          K=K+1
-         IF(KEY2.EQ.'TRA  '.OR.KEY2.EQ.'ROT  ')THEN
+         IF(KEY2=='TRA  '.OR.KEY2=='ROT  ')THEN
            K=K+NBC
            CYCLE
          ENDIF
          CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
          READ(IUSC2,*,ERR=9990,END=9990)M1,M2
-         IF(M1.LE.0.OR.M2.LE.0)GOTO 9990      !Negative main node null or negative not allowed
+         IF(M1<=0.OR.M2<=0)GOTO 9990      !Negative main node null or negative not allowed
          !IF(KEY4(1:5)=='GRNOD')M1=-M1         !Tag on ale link for specific treatment in lectur.F
          
          !---------------------------------!
@@ -123,7 +123,7 @@ C
            DO I=1,NBC-1
              READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(A)',ERR=9990)CARTE
              K=K+1
-             IF(NVAR(CARTE)>1.AND.M1.LT.0)THEN !one single id per line
+             IF(NVAR(CARTE)>1.AND.M1<0)THEN !one single id per line
                IERR=1
              ENDIF
              IF(NVAR(CARTE)==1.AND.NS>0)THEN !grnod already defined on a previous line
@@ -256,7 +256,7 @@ C
           K=K+1
           CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
           READ(IUSC2,*,ERR=9990,END=9990)M1,M2
-          IF(M1.LE.0.OR.M2.LE.0)GOTO 9990      !Negative main node null or negative not allowed                 
+          IF(M1<=0.OR.M2<=0)GOTO 9990      !Negative main node null or negative not allowed                 
           K=K+1
           KK=K
           NS=0    
@@ -279,7 +279,7 @@ C
             DO I=1,NBC-1
               READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(A)',ERR=9990)CARTE
               K=K+1
-              IF(NVAR(CARTE)>1.AND.M1.LT.0)THEN !one single id per line
+              IF(NVAR(CARTE)>1.AND.M1<0)THEN !one single id per line
                 IERR=1
               ENDIF
               IF(NVAR(CARTE)==1.AND.NS>0)THEN !grnod already defined on a previous line

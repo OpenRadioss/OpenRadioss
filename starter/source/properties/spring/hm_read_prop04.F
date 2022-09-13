@@ -141,14 +141,14 @@ C--------------------------------------------------
 C----------------------
 C----
       CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1),LTITR)                                        
-      IF(GEO(1).LE.EM15)THEN                                 
+      IF(GEO(1)<=EM15)THEN                                 
          CALL ANCMSG(MSGID=229,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=IG,
      .               C1=TITR)
       ENDIF                                                  
-!      IF(IFUNC.NE.0.AND.IECROU.GE.1.AND.GEO(2) == 0.0)THEN   
+!      IF(IFUNC/=0.AND.IECROU>=1.AND.GEO(2) == 0.0)THEN   
 !         CALL ANCMSG(MSGID=230,
 !     .               MSGTYPE=MSGERROR,
 !     .               ANMODE=ANINFO_BLIND_1,
@@ -176,21 +176,21 @@ C----
      .               I1=IG,
      .               C1=TITR)
       ENDIF    
-       IF(IECROU.EQ.6.AND.(IFUNC.EQ.0.OR.IFUNC2.EQ.0))THEN
+       IF(IECROU==6.AND.(IFUNC==0.OR.IFUNC2==0))THEN
           CALL ANCMSG(MSGID=1057,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=IG,
      .                C1=TITR)
        ENDIF
-       IF(IECROU.EQ.7.AND.IFUNC==0)THEN
+       IF(IECROU==7.AND.IFUNC==0)THEN
           CALL ANCMSG(MSGID=1058,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=IG,
      .                C1=TITR)
        
-       ELSEIF(IECROU.EQ.7.AND.IFUNC2.EQ.0)THEN
+       ELSEIF(IECROU==7.AND.IFUNC2==0)THEN
           CALL ANCMSG(MSGID=1059,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND_1,
@@ -240,7 +240,7 @@ C------------------------
       DX = DX * LSCALE                    
 C------------------------
       IF(.NOT. IS_CRYPTED)THEN
-       IF(IECROU.NE.5) THEN
+       IF(IECROU/=5) THEN
         WRITE(IOUT,1400)IG,(GEO(J),J=1,3),IFUNC,LSCALE,IFUNC2,
      .                 F,IECROU,A,B,D,E,IFV,GF3,IFUNC3,DN,DX,ABS(ISENS),
      .                 IFL,ILENG

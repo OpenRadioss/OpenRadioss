@@ -223,7 +223,7 @@ C
               EXIT                                                 
             ENDIF                                                  
         ENDDO                                                    
-        IF (UID.NE.0.AND.IFLAGUNIT.EQ.0) THEN                    
+        IF (UID/=0.AND.IFLAGUNIT==0) THEN                    
           CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,I2=UID,I1=ID,C1='SECTION',C2='SECTION',C3=TITR) 
         ENDIF                                                    
 
@@ -243,7 +243,7 @@ C
 
 
 
-        IF((IGUS.EQ.0))THEN                                                                                
+        IF((IGUS==0))THEN                                                                                
           CALL ANCMSG(MSGID=600,                                                                           
      .                MSGTYPE=MSGWARNING,                                                                  
      .                ANMODE=ANINFO_BLIND_1,                                                               
@@ -259,17 +259,17 @@ C
           CALL HM_GET_FLOATV('XTail', XM, IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('YTail', YM, IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('ZTail', ZM, IS_AVAILABLE, LSUBMODEL, UNITAB)                                                 
-          IF(SUB_ID .NE. 0)CALL SUBROTPOINT(XM,YM,ZM,RTRANS,SUB_ID,LSUBMODEL)                                          
+          IF(SUB_ID /= 0)CALL SUBROTPOINT(XM,YM,ZM,RTRANS,SUB_ID,LSUBMODEL)                                          
 
           CALL HM_GET_FLOATV('cnode1_x', X1, IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('cnode1_y', Y1, IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('cnode1_z', Z1, IS_AVAILABLE, LSUBMODEL, UNITAB)                                                  
-          IF(SUB_ID .NE. 0) CALL SUBROTPOINT(X1,Y1,Z1,RTRANS,SUB_ID,LSUBMODEL)                                          
+          IF(SUB_ID /= 0) CALL SUBROTPOINT(X1,Y1,Z1,RTRANS,SUB_ID,LSUBMODEL)                                          
 
           CALL HM_GET_FLOATV('cnode2_x', X2, IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('cnode2_y', Y2, IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('cnode2_z', Z2, IS_AVAILABLE, LSUBMODEL, UNITAB)                                                   
-          IF(SUB_ID .NE. 0)CALL SUBROTPOINT(X2,Y2,Z2,RTRANS,SUB_ID,LSUBMODEL)                                          
+          IF(SUB_ID /= 0)CALL SUBROTPOINT(X2,Y2,Z2,RTRANS,SUB_ID,LSUBMODEL)                                          
                                                                                     
           D = XM                                                                                           
           E = YM                                                                                           
@@ -286,12 +286,12 @@ C
           CALL HM_GET_FLOATV('XTail', XM, IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('YTail', YM, IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('ZTail', ZM, IS_AVAILABLE, LSUBMODEL, UNITAB)                                                 
-          IF(SUB_ID .NE. 0)CALL SUBROTPOINT(XM,YM,ZM,RTRANS,SUB_ID,LSUBMODEL)
+          IF(SUB_ID /= 0)CALL SUBROTPOINT(XM,YM,ZM,RTRANS,SUB_ID,LSUBMODEL)
           
           CALL HM_GET_FLOATV('Normal_x', A, IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('Normal_y', B, IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('Normal_z', C, IS_AVAILABLE, LSUBMODEL, UNITAB)                                                 
-          IF(SUB_ID .NE. 0)CALL SUBROTVECT(A,B,C,RTRANS,SUB_ID,LSUBMODEL)
+          IF(SUB_ID /= 0)CALL SUBROTVECT(A,B,C,RTRANS,SUB_ID,LSUBMODEL)
 
           CALL HM_GET_FLOATV('Radius', R, IS_AVAILABLE, LSUBMODEL, UNITAB)
                                                                                       
@@ -306,7 +306,7 @@ C
 
         DO J=1,NBINTER                                                                                     
          DO L=1,NINTER                                                                                     
-          IF(NSTRF(K1-1+J).EQ.IPARI(15,L))THEN                                                             
+          IF(NSTRF(K1-1+J)==IPARI(15,L))THEN                                                             
             IPARI(28,L) = IPARI(28,L) + 1                                                                  
 C numero interne      NSTRF(K1-1+J) = L
           ENDIF 
@@ -323,7 +323,7 @@ C
            DO K=1,NUMFRAM                                                
              J=K+1                                                       
              JJ=(NUMSKW+1)+NSUBMOD+MIN(IUN,NSPCOND)*NUMSPH+K+1           
-             IF(NFRAM.EQ.ISKN(4,JJ)) THEN                                
+             IF(NFRAM==ISKN(4,JJ)) THEN                                
 	       A = XFRAME(7,J)                                           
 	       B = XFRAME(8,J)                                           
 	       C = XFRAME(9,J)                                           
@@ -332,7 +332,7 @@ C
                F = XFRAME(12,J)                                          
 	       N1 = ISKN(1,JJ)                                           
                IF (NSTRF(K0+3) == 0 ) THEN                               
-                 IF (ISKN(1,JJ) .NE. 0) THEN                             
+                 IF (ISKN(1,JJ) /= 0) THEN                             
                    NSTRF(K0+3) = ITAB(ISKN(1,JJ))                        
                  ELSE                                                    
                    CALL ANCMSG(MSGID=742,                                
@@ -345,7 +345,7 @@ C
                  ENDIF                                                   
                ENDIF                                                     
                IF (NSTRF(K0+4) == 0 ) THEN                               
-                 IF (ISKN(2,JJ) .NE. 0) THEN                             
+                 IF (ISKN(2,JJ) /= 0) THEN                             
                    NSTRF(K0+4) = ITAB(ISKN(2,JJ))                        
                  ELSE                                                    
                    CALL ANCMSG(MSGID=742,                                
@@ -358,7 +358,7 @@ C
                  ENDIF                                                   
                ENDIF                                                     
                IF (NSTRF(K0+5) == 0 ) THEN                               
-                 IF (ISKN(3,JJ) .NE. 0) THEN                             
+                 IF (ISKN(3,JJ) /= 0) THEN                             
                    NSTRF(K0+5) = ITAB(ISKN(3,JJ))                        
                  ELSE                                                    
                    CALL ANCMSG(MSGID=742,                                
@@ -424,7 +424,7 @@ C
         NSTRF(K0+13) = NSEGTG
         NSTRF(K0+26) = IFRAM
           DO L=K0+3,K0+5
-            IF (NSTRF(L).NE.0) THEN
+            IF (NSTRF(L)/=0) THEN
               NSTRF(L)=USR2SYS(NSTRF(L),ITABM1,MESS,ID)
               CALL ANODSET(NSTRF(L), CHECK_USED)
             ENDIF
@@ -474,11 +474,11 @@ C-------------------------------------------------------------------------
 C      SOLIDES
 C--------------------------------------------------------------
        CALL SECSTRI(NSEGS,NSTRF(K3),IXS,IXS10,IXS16,IXS20,NSTRF(K2),NNOD,ITAB,I,NOPRINT)
-       IF(NSTRF(K0).GE.102)THEN
+       IF(NSTRF(K0)>=102)THEN
          CALL ZERORE(1,10+30*NNOD,SECBUF(KR0))
-       ELSEIF(NSTRF(K0).GE.101)THEN
+       ELSEIF(NSTRF(K0)>=101)THEN
          CALL ZERORE(1,10+24*NNOD,SECBUF(KR0))
-       ELSEIF(NSTRF(K0).GE.100)THEN
+       ELSEIF(NSTRF(K0)>=100)THEN
          CALL ZERORE(1,10+12*NNOD,SECBUF(KR0))
        ELSE
          CALL ZERORE(1,10,SECBUF(KR0))
@@ -488,8 +488,8 @@ C--------------------------------------------------------------
        SECBUF(KR0+2) = ALPHA
        SECBUF(KR0+3) = ZERO
 
-       IF(NSTRF(K0).EQ.1.OR.NSTRF(K0).EQ.2)THEN
-         IF(SECBUF(1).EQ.ZERO)THEN
+       IF(NSTRF(K0)==1.OR.NSTRF(K0)==2)THEN
+         IF(SECBUF(1)==ZERO)THEN
            SECBUF(1) = DELTAT
           ELSEIF(ABS((SECBUF(1)-DELTAT)/SECBUF(1)) > EM06 )THEN
             CALL ANCMSG(MSGID=356,
@@ -500,26 +500,26 @@ C--------------------------------------------------------------
          ENDIF
        ENDIF
 
-       IF(NSTRF(K0).GE.1.AND.NSTRF(K0).LE.10)THEN
+       IF(NSTRF(K0)>=1.AND.NSTRF(K0)<=10)THEN
          NSTRF(1)=NSTRF(1)+1
-       ELSEIF(NSTRF(K0).GE.100.AND.NSTRF(K0).LE.200)THEN
+       ELSEIF(NSTRF(K0)>=100.AND.NSTRF(K0)<=200)THEN
          NSTRF(2)=NSTRF(2)+1
          DO J=1,8
            NSTRF(15+J)=NSTRF(K0+14+J)
          ENDDO
        ENDIF
-       IF(NSTRF(K0).EQ.1)THEN
+       IF(NSTRF(K0)==1)THEN
          LREC = LREC+6*NNOD
-       ELSEIF(NSTRF(K0).EQ.2)THEN
+       ELSEIF(NSTRF(K0)==2)THEN
          LREC = LREC+12*NNOD
        ENDIF
 
        NSTRF(K0+23) = ID
        NSTRF(K0+24) = K9+2*NSEGTG
        NSTRF(K0+25) = KR0+10
-       IF(NSTRF(K0).GE.100)NSTRF(K0+25) = NSTRF(K0+25)+12*NNOD
-       IF(NSTRF(K0).GE.101)NSTRF(K0+25) = NSTRF(K0+25)+12*NNOD
-       IF(NSTRF(K0).GE.102)NSTRF(K0+25) = NSTRF(K0+25)+6*NNOD
+       IF(NSTRF(K0)>=100)NSTRF(K0+25) = NSTRF(K0+25)+12*NNOD
+       IF(NSTRF(K0)>=101)NSTRF(K0+25) = NSTRF(K0+25)+12*NNOD
+       IF(NSTRF(K0)>=102)NSTRF(K0+25) = NSTRF(K0+25)+6*NNOD
 
        KR0 = NSTRF(K0+25)
        K0  = NSTRF(K0+24)

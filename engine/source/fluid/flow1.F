@@ -53,7 +53,7 @@ C
       IADR=0
       DO N=1,NFLOW
          ITYP=IFLOW(IADI+2)
-         IF (ITYP.EQ.3) THEN
+         IF (ITYP==3) THEN
             JFORM    = IFLOW(IADI+4)
             NNO      = IFLOW(IADI+5)
             NEL      = IFLOW(IADI+6)

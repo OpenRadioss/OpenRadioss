@@ -144,7 +144,7 @@ C-----------------------------------------------
           end do
           if (k > 0) then
             ! if the last vertice is not equal to the first one
-            if ( (resultPolyg%node(1,1) .ne. resultPolyg%node(k,1)) .or.  (resultPolyg%node(1,2) .ne. resultPolyg%node(k,2))) then
+            if ( (resultPolyg%node(1,1) /= resultPolyg%node(k,1)) .or.  (resultPolyg%node(1,2) /= resultPolyg%node(k,2))) then
               k=k+1
               resultPolyg%node(k,:) = resultPolyg%node(1,:)
             end if
@@ -184,7 +184,7 @@ C-----------------------------------------------
           v2(:) = Line_P2(:) - Line_P1(:)
           L=max(sum(v1(:)*v1(:)),sum(v2(:)*v2(:)))
           tmp =  CrossProd2D(v1,v2)
-          if (abs(tmp) .LE. TOL*L) then  
+          if (abs(tmp) <= TOL*L) then  
 c          print *, "colinear"
 !          if (tmp == 0.0D00) then
             !colinear vectors
@@ -192,7 +192,7 @@ c          print *, "colinear"
             ! if the the segment [Seg_P1Seg_P2] is included in the line (Line_P1Line_P2)
             tmp =  CrossProd2D(Seg_P1_Line_P1,v1)
 !            if ( tmp == 0.0d00) then
-            if(abs(tmp) .LE. TOL*L)then
+            if(abs(tmp) <= TOL*L)then
               ! the intersection is the last point of the segment
               intersectP(:) = Seg_P2(:)
             end if

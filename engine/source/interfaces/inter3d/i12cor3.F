@@ -107,19 +107,19 @@ C-----------------------------------------------
         Z4(I)=XM(3,NN)
       ENDDO
       
-      IF(ILEV.EQ.1)THEN
+      IF(ILEV==1)THEN
       !--------------------------------------------------!
       !   CORRECTION DES TET SI A CHEVAL AXE Y NEGATIF   !
       !--------------------------------------------------!
         DO I=LFT,LLT
           TETMIN=MIN(Z1(I),Z2(I),Z3(I),Z4(I),ZI(I))
           TETMAX=MAX(Z1(I),Z2(I),Z3(I),Z4(I),ZI(I))
-          IF(TETMAX-TETMIN .GE. PI)THEN
-            IF(Z1(I).LT.ZERO)Z1(I)=Z1(I)+DEUPI
-            IF(Z2(I).LT.ZERO)Z2(I)=Z2(I)+DEUPI
-            IF(Z3(I).LT.ZERO)Z3(I)=Z3(I)+DEUPI
-            IF(Z4(I).LT.ZERO)Z4(I)=Z4(I)+DEUPI
-            IF(ZI(I).LT.ZERO)ZI(I)=ZI(I)+DEUPI
+          IF(TETMAX-TETMIN >= PI)THEN
+            IF(Z1(I)<ZERO)Z1(I)=Z1(I)+DEUPI
+            IF(Z2(I)<ZERO)Z2(I)=Z2(I)+DEUPI
+            IF(Z3(I)<ZERO)Z3(I)=Z3(I)+DEUPI
+            IF(Z4(I)<ZERO)Z4(I)=Z4(I)+DEUPI
+            IF(ZI(I)<ZERO)ZI(I)=ZI(I)+DEUPI
           ENDIF
         ENDDO	
 
@@ -128,10 +128,10 @@ C-----------------------------------------------
         !--------------------------------------------------!
         DO I=LFT,LLT
           RMIN=MIN(Y1(I),Y2(I),Y3(I),Y4(I))
-          IF(YI(I).LT.RMIN)THEN
+          IF(YI(I)<RMIN)THEN
             TETMIN=MIN(Z1(I),Z2(I),Z3(I),Z4(I))
             TETMAX=MAX(Z1(I),Z2(I),Z3(I),Z4(I))
-            IF(TETMAX-TETMIN .GE. PI)THEN
+            IF(TETMAX-TETMIN >= PI)THEN
               IL=I+NFT
               L=IRTL(IL)
               NN=MSR(IRECT(1,L))
@@ -161,7 +161,7 @@ C-----------------------------------------------
             ENDIF          
           ENDIF
         ENDDO !I=LFT,LLT
-      ENDIF !(ILEV.EQ.1)
+      ENDIF !(ILEV==1)
 
       RETURN
       END

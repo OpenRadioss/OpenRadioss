@@ -55,7 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       TEST=0
       NIR=2
-      IF(N2D.EQ.0)NIR=4
+      IF(N2D==0)NIR=4
 
 
       DO KVAR=1,NVCONV
@@ -114,9 +114,9 @@ C-----------------------------------------------
       !CALCUL PARTICULIER SI IL EXISTE ONE SEGMENT SANS NOEUD SECOND. DETECTE
       PB=0
       DO I=1,NRTM
-        IF(MCOUNT(I).EQ.ZERO)PB=1
+        IF(MCOUNT(I)==ZERO)PB=1
       ENDDO
-      IF(PB.EQ.1)THEN
+      IF(PB==1)THEN
         DO I=1,NMN
 
           NCOUNT(I)=ZERO
@@ -144,7 +144,7 @@ C-----------------------------------------------
         DO KVAR=1,NVCONV
           DO I=1,NMN
             ADM=NVCONV*(I-1)+KVAR
-            IF(NCOUNT(I).GT.ZERO)THEN
+            IF(NCOUNT(I)>ZERO)THEN
               NODVARM(ADM)=NODVARM(ADM)/NCOUNT(I)
             ENDIF
           ENDDO
@@ -168,7 +168,7 @@ C-----------------------------------------------
               
         DO I=1,NRTM
           SEGAD=NVCONV*(ISEGM(I)-1)+KVAR
-          IF(MCOUNT(I).GT.ZERO)THEN
+          IF(MCOUNT(I)>ZERO)THEN
             ptr(ISEGM(I))=ptr(ISEGM(I))/MCOUNT(I)
           ELSE
             ptr(ISEGM(I))=ZERO
@@ -176,12 +176,12 @@ C-----------------------------------------------
             DO JJ=1,NIR
               II=IRECTM(JJ,I)
               ADM=NVCONV*(II-1)+KVAR
-              IF(NCOUNT(II).GT.ZERO)THEN
+              IF(NCOUNT(II)>ZERO)THEN
                 ptr(ISEGM(I))=ptr(ISEGM(I))+NODVARM(ADM)
                 L=L+1
               ENDIF
             ENDDO
-            IF(L.GT.0)THEN
+            IF(L>0)THEN
               ptr(ISEGM(I))=ptr(ISEGM(I))/FLOAT(L)
             ELSE
 
@@ -194,7 +194,7 @@ C-----------------------------------------------
       
         ENDDO
       ENDDO
-      ! IF(TEST .GT.0)WRITE(ISTDO,'(A,I8,I8,A)')
+      ! IF(TEST >0)WRITE(ISTDO,'(A,I8,I8,A)')
       !+      '*** WARNING INTERF #',NOINT,
       !+      TEST,' MAIN SEGMENTS WITHOUT SECONDARY NODE' 
 

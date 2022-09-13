@@ -85,13 +85,13 @@ C=======================================================================
           IFAIL = CLUSTER(I)%IFAIL
           ILCLUSTER(J) = 8 + 2 * (NEL + NNOD)
           RLCLUSTER(J) = 1 
-          IF (IFAIL .GT. 0) RLCLUSTER(J) = RLCLUSTER(J) + 4 
-          IF (IFAIL .EQ. 3) RLCLUSTER(J) = RLCLUSTER(J) + 8  
+          IF (IFAIL > 0) RLCLUSTER(J) = RLCLUSTER(J) + 4 
+          IF (IFAIL == 3) RLCLUSTER(J) = RLCLUSTER(J) + 8  
           INDX(J) = I
-          IF ( RLCLUSTER_MAX .LT. RLCLUSTER(J) ) THEN 
+          IF ( RLCLUSTER_MAX < RLCLUSTER(J) ) THEN 
             RLCLUSTER_MAX = RLCLUSTER(J)
           ENDIF 
-          IF ( ILCLUSTER_MAX .LT. ILCLUSTER(J) ) THEN 
+          IF ( ILCLUSTER_MAX < ILCLUSTER(J) ) THEN 
             ILCLUSTER_MAX = ILCLUSTER(J)
           ENDIF 
         ENDIF
@@ -134,10 +134,10 @@ c
             ITY  = IPARG(5,NG)
             IF (ITY == 1 .AND. CLUSTER(II)%TYPE == 1) THEN
               K = ID - NFT
-              IF (K .LE. NELG) GOTO 100
+              IF (K <= NELG) GOTO 100
             ELSEIF (ITY == 6 .AND. CLUSTER(II)%TYPE == 2) THEN
               K = ID - NFT
-              IF (K .LE. NELG) GOTO 100
+              IF (K <= NELG) GOTO 100
             ENDIF 
           ENDDO  ! NG = 1,NGROUP
  100      CONTINUE
@@ -232,7 +232,7 @@ C=======================================================================
       CLUSTERS_ID_L(1:NCLUSTER) = 0
       DO I = 1,NCLUSTER 
         OFF = 0
-        IF (CLUSTERS(I)%TYPE .NE. 1) THEN
+        IF (CLUSTERS(I)%TYPE /= 1) THEN
           OFF = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP 
         END IF
         IF (CEP(CLUSTERS(I)%ELEM(1)+OFF) == PROC) THEN
@@ -279,7 +279,7 @@ C=======================================================================
 
       DO I = 1, NCLUSTER 
         OFFSET = 0
-        IF (CLUSTERS(I)%TYPE .NE. 1) THEN
+        IF (CLUSTERS(I)%TYPE /= 1) THEN
           OFFSET = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP 
         END IF
         DO J = 1, CLUSTERS(I)%NEL

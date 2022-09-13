@@ -74,7 +74,7 @@ C
 C-----------------------------------------------
 C      TRUSS
 C-----------------------------------------------
-        IF(ITY.EQ.4)THEN
+        IF(ITY==4)THEN
             DO I=LFT,LLT
               ISK=ISK+1
               CALL WRITE_I_C(ISK,1)
@@ -82,7 +82,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       POUTRES
 C-----------------------------------------------
-        ELSEIF(ITY.EQ.5)THEN
+        ELSEIF(ITY==5)THEN
             DO I=LFT,LLT
               ISK=ISK+1
               CALL WRITE_I_C(ISK,1)
@@ -90,26 +90,26 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       RESSORTS
 C-----------------------------------------------
-        ELSEIF(ITY.EQ.6)THEN
-          IF(MLW.EQ.1)THEN
+        ELSEIF(ITY==6)THEN
+          IF(MLW==1)THEN
             DO I=LFT,LLT
               ISK=ISK+1
               CALL WRITE_I_C(ISK,1)
             ENDDO
-          ELSEIF(MLW.EQ.2)THEN
+          ELSEIF(MLW==2)THEN
             DO I=LFT,LLT
               N=I+NFT
               ISKK=NINT(GEO(2,IXR(1,N)))-1
               CALL WRITE_I_C(ISKK,1)
             ENDDO
-          ELSEIF(MLW.EQ.3)THEN
+          ELSEIF(MLW==3)THEN
             DO I=LFT,LLT
               ISK=ISK+1
               CALL WRITE_I_C(ISK,1)
               ISK=ISK+1
               CALL WRITE_I_C(ISK,1)
             ENDDO
-          ELSEIF(MLW.EQ.4.OR.MLW.EQ.5)THEN
+          ELSEIF(MLW==4.OR.MLW==5)THEN
             DO I=LFT,LLT
               ISK=ISK+1
               CALL WRITE_I_C(ISK,1)

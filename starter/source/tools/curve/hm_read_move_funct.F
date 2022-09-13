@@ -102,7 +102,7 @@ C-----------------------------------------------
                   ELSE
                      WRITE (IOUT,2200) ID,SCX,SCY,SHX,SHY
                   ENDIF
-                  IF(SCX .GE. ZERO) THEN
+                  IF(SCX >= ZERO) THEN
                      DO J = NPC(N),NPC(N+1)-1,2
                         PLD(J)   = PLD(J)  *SCX
                         PLD(J+1) = PLD(J+1)*SCY
@@ -110,7 +110,7 @@ C-----------------------------------------------
                         PLD(J+1) = PLD(J+1)+SHY
                         IF (FUNCRYPT(N) == 0) WRITE(IOUT,'(8X,1PG20.13,2X,1G20.13)')PLD(J),PLD(J+1)   
                      ENDDO
-                  ELSEIF(SCX .LT. ZERO) THEN
+                  ELSEIF(SCX < ZERO) THEN
                      ALLOCATE(PLD_TMP(NPC(N+1)))
                      DO J = NPC(N),NPC(N+1)-1,2
                         PLD_TMP(J)   = PLD(NPC(N+1)-1-J)  *SCX

@@ -82,7 +82,7 @@ C     Node coordinates
          X6(1:3) = XGRID(1:3, NODE6)
          X7(1:3) = XGRID(1:3, NODE7)
          X8(1:3) = XGRID(1:3, NODE8)
-         IF (JALE .NE. 0) THEN
+         IF (JALE /= 0) THEN
 C     Node grid velocities
             W1(1:3) = WGRID(3 * (NODE1 - 1) + 1 : 3 * (NODE1 - 1) + 3)
             W2(1:3) = WGRID(3 * (NODE2 - 1) + 1 : 3 * (NODE2 - 1) + 3)

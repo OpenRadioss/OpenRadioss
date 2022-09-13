@@ -85,7 +85,7 @@ C
         DO I=1,JLT
          NI = CAND_N(I)
          L  = CAND_E(I)
-         IF(NI.GT.NRTS)THEN
+         IF(NI>NRTS)THEN
            NN = NI - NRTS
            JLT_NEW = JLT_NEW + 1
            NN1=2*(NN-1)+1
@@ -190,7 +190,7 @@ C-----------------------------------------------
 C
         DO I=1,JLT
          NI = CAND_N(I)
-         IF(NI.GT.NRTS)THEN
+         IF(NI>NRTS)THEN
            NN = NI - NRTS
 	   NS=IND_INT(NIN)%P(NN)
 C----------displacement
@@ -211,7 +211,7 @@ C----------displacement
 	  DZS2(I) = D(3,NN2)
          END IF
 C----------update
-         IF(IUPD.GT.0.AND.NI.GT.NRTS)THEN
+         IF(IUPD>0.AND.NI>NRTS)THEN
           XXS1(I) = XXS1(I) + DXS1(I)
           XYS1(I) = XYS1(I) + DYS1(I)
           XZS1(I) = XZS1(I) + DZS1(I)

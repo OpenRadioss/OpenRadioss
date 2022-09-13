@@ -143,9 +143,9 @@ C----------------------------
 C----------------------------
 C     SMALL STRAIN
 C----------------------------
-      IF(ISMSTR.EQ.1.OR.ISMSTR.EQ.2)THEN
+      IF(ISMSTR==1.OR.ISMSTR==2)THEN
         DO I=JFT,JLT
-          IF(ABS(OFFG(I)).EQ.2.)THEN
+          IF(ABS(OFFG(I))==2.)THEN
             XL2(I)=SMSTR(II(1)+I)
             XL3(I)=SMSTR(II(2)+I)
             YL3(I)=SMSTR(II(3)+I)
@@ -156,7 +156,7 @@ C----------------------------
           ENDIF
         ENDDO
       ENDIF
-      IF(ISMSTR.EQ.1)THEN
+      IF(ISMSTR==1)THEN
         DO I=JFT,JLT
           IF(OFFG(I) == ONE) OFFG(I)=TWO
         ENDDO

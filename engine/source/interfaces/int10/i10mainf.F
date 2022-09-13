@@ -153,8 +153,8 @@ C
       STIGLO=-INTBUF_TAB%STFAC(1)
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
 C
       ITIED =NINT(INTBUF_TAB%VARIABLES(1))
       GAP   =INTBUF_TAB%VARIABLES(2)
@@ -167,17 +167,17 @@ C
 C
       RBID = ZERO
       IBID = 0
-      IF(NTY.EQ.10)THEN
+      IF(NTY==10)THEN
 C
         I_STOK = INTBUF_TAB%I_STOK(1)
-        IF (IMPL_S.EQ.1) THEN
+        IF (IMPL_S==1) THEN
          NUM_IMP = 0
           VISC  =ZERO
         ENDIF
 C  cette partie est effectuee en // apres le calcul des forces des elem.
 C decoupage statique
         NB_LOC = I_STOK / NTHREAD
-        IF (JTASK.EQ.NTHREAD) THEN
+        IF (JTASK==NTHREAD) THEN
           I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
         ELSE
           I_STOK_LOC = NB_LOC
@@ -186,12 +186,12 @@ C decoupage statique
         I_STOK = 0
 C recalcul du istok
         DO I = DEBUT+1, DEBUT+I_STOK_LOC
-          IF(INTBUF_TAB%CAND_N(I).LT.0) THEN
+          IF(INTBUF_TAB%CAND_N(I)<0) THEN
             I_STOK = I_STOK + 1
             INDEX2(I_STOK) = I
 C inbuf == cand_n
             INTBUF_TAB%CAND_N(I) = -INTBUF_TAB%CAND_N(I)
-          ELSEIF(ITIED.NE.0.AND.INTBUF_TAB%CAND_F(6*(I-1)+1).NE.0.) THEN
+          ELSEIF(ITIED/=0.AND.INTBUF_TAB%CAND_F(6*(I-1)+1)/=0.) THEN
             I_STOK = I_STOK + 1
             INDEX2(I_STOK) = I
           ELSE
@@ -201,7 +201,7 @@ Cel remise a 0 de cand_f de 1, 2, 3
             INTBUF_TAB%CAND_F(6*(I-1)+3) = ZERO    
           ENDIF
         ENDDO
-        IF (DEBUG(3).GE.1) THEN
+        IF (DEBUG(3)>=1) THEN
           NB_JLT = NB_JLT + I_STOK_LOC
           NB_STOK_N = NB_STOK_N + I_STOK
         ENDIF
@@ -212,7 +212,7 @@ C
             SFSAVPARIT = SFSAVPARIT + 1
           ENDIF
         ENDDO
-        IF (SFSAVPARIT .NE. 0) THEN
+        IF (SFSAVPARIT /= 0) THEN
           ALLOCATE(FSAVPARIT(NISUB+1,11,I_STOK),STAT=IERROR)
           IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
@@ -273,9 +273,9 @@ C preparation candidats retenus
      B       JLT_NEW,GAPV,INTBUF_TAB%CAND_F,INDEX2(NFT+1),ITIED,
      C       VXI    ,VYI    ,VZI    ,MSI    ,NSMS    )
           JLT = JLT_NEW
-          IF(JLT_NEW.NE.0) THEN
+          IF(JLT_NEW/=0) THEN
             IPARI(29) = 1
-            IF (DEBUG(3).GE.1)
+            IF (DEBUG(3)>=1)
      .        NB_JLT_NEW = NB_JLT_NEW + JLT_NEW
 C           WRITE(6,*) 'IMPACT ==> CALL I10FOR3'
             CALL I10FOR3(
@@ -299,7 +299,7 @@ C           WRITE(6,*) 'IMPACT ==> CALL I10FOR3'
      I       DT2T      ,NELTST  ,ITYPTST ,JTASK  ,ISENSINT, 
      J       FSAVPARIT ,NFT     ,H3D_DATA)
           ENDIF
-          IF(IMPL_S.EQ.1) THEN
+          IF(IMPL_S==1) THEN
             DO I = 1 ,JLT_NEW
              NS_IMP(I+NUM_IMP)=CN_LOC(I)
              NE_IMP(I+NUM_IMP)=CE_LOC(I)

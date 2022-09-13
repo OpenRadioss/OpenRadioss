@@ -94,7 +94,7 @@ C=======================================================================
       WF2= ZERO
       WM2= ZERO
 
-      IF ((R2R_SIU.EQ.1).OR.(NSPMD.EQ.1)) THEN
+      IF ((R2R_SIU==1).OR.(NSPMD==1)) THEN
 C-----------------------------------------------------------------------                     
        DO IEX = 1, NR2RLNK
         IDG  = IEXLNK(1,IEX)
@@ -113,8 +113,8 @@ C-----------------------------------------------------------------------
        END DO
       
 C----------New rad2rad HMPP - synchro SPMD-----------------------------                 
-       IF (NSPMD.GT.1) THEN
-         IF (SDD_R2R_ELEM.GT.0) THEN        
+       IF (NSPMD>1) THEN
+         IF (SDD_R2R_ELEM>0) THEN        
            SIZE =  3+FLAG_KINE + IRODDL*(3+FLAG_KINE)         
            LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)         
            CALL SPMD_EXCH_R2R_2(
@@ -139,7 +139,7 @@ C-
         WF2B= ZERO
         WM2B= ZERO
 C-         
-	IF (ISPMD.EQ.0) THEN
+	IF (ISPMD==0) THEN
 	  NGLOB=DD_R2R(NSPMD+1,IEX)+DBNO(IEX)
 	  NB = DBNO(IEX)	
 	ELSE
@@ -171,7 +171,7 @@ C
       END IF
 
 C----- Count the work of external process forces
-      IF(IMACH.NE.3.OR.ISPMD.EQ.0) THEN
+      IF(IMACH/=3.OR.ISPMD==0) THEN
         TFEXT_MD = TFEXT_MD + R2RFX1 + (WF + WM) * DT1
         R2RFX1 = WF  + WM
         R2RFX2 = WF2 + WM2
@@ -238,14 +238,14 @@ C-----------------------------------------------
 C
 C******************************************************************************C
 
-      IF(ISPMD.EQ.0) THEN      
+      IF(ISPMD==0) THEN      
        CALL GET_FORCE_SPMD_C(IDP,NBD,BUFR1,BUFR2,BUFR3,BUFR4,TYP,IEX,NGLOB)                
       ENDIF
       LRBUF = 2*4*(IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1))+2*NSPMD
       
-      IF (TYP.NE.7) THEN                    
+      IF (TYP/=7) THEN                    
       IF(FLAG_ROT /= 0)THEN
-      IF(TYP.LT.4)THEN     
+      IF(TYP<4)THEN     
       CALL SPMD_R2R_RSET3(VR  ,NNG     ,GRNOD,DD_R2R,WEIGHT,
      .                      BUFR4,IAD_ELEM,FR_ELEM,LRBUF,IEX)
       ENDIF
@@ -255,7 +255,7 @@ C******************************************************************************C
              
       CALL SPMD_R2R_RSET3B(A   ,NNG     ,GRNOD,DD_R2R,WEIGHT,
      .                BUFR1,IAD_ELEM,FR_ELEM,LRBUF, MS, V,  WF, WF2,IEX)
-      IF(TYP.LT.4)THEN                    
+      IF(TYP<4)THEN                    
       CALL SPMD_R2R_RSET3(V    ,NNG     ,GRNOD,DD_R2R,WEIGHT,
      .                    BUFR3,IAD_ELEM,FR_ELEM,LRBUF,IEX)
       ENDIF
@@ -319,7 +319,7 @@ C-----------------------------------------------
      .        BUFR1(3,NGLOB)
 C
 C******************************************************************************C
-      IF(ISPMD.EQ.0)
+      IF(ISPMD==0)
      .  CALL GET_DISPL_SPMD_C(IDP,NGLOB,BUFR1)
       LRBUF = 2*4*IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)+2*NSPMD
       CALL SPMD_R2R_RSET3(X    ,NNG     ,GRNOD,DD_R2R,WEIGHT,
@@ -382,14 +382,14 @@ C=======================================================================
        FLAG_KINE = 0
        OFF = 0
              
-       IF (R2R_SIU.EQ.1) THEN      
+       IF (R2R_SIU==1) THEN      
 C----------Send of new mass---------------------------------------      
        DO IEX = 1, NR2RLNK
          IDP  = IEXLNK(2,IEX)
          IDG  = IEXLNK(1,IEX)
          NNG  = IGRNOD(IDG)%NENTITY
          GRNOD => IGRNOD(IDG)%ENTITY
-         IF ((TYPLNK(IEX).EQ.5).AND.(KINLNK(IEX).EQ.1)) THEN
+         IF ((TYPLNK(IEX)==5).AND.(KINLNK(IEX)==1)) THEN
            FLAG_KINE = 1       
            CALL SEND_MASS_KINE_C(IDP,NNG,GRNOD,MS,IN,IEX,OFF)
          ENDIF

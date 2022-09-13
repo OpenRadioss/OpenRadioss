@@ -169,7 +169,7 @@ Cel traitement a part du 3eme noeud optionnel sauf type 12
       ENDDO
       DO I=1,NUMELR
         N = IXR(4,I) + 1
-        IF(NINT(GEO(12,IXR(1,I))).EQ.12) THEN
+        IF(NINT(GEO(12,IXR(1,I)))==12) THEN
           ADSKY(N) = ADSKY(N) + 1
         ENDIF
       ENDDO
@@ -204,7 +204,7 @@ Cel080        ADSKY(1) = 1
         LCNE = ADSKY(NUMNOD+1)
         ALLOCATE(CNE(LCNE),STAT=IERR1)
 C
-        IF(IERR1.NE.0)THEN
+        IF(IERR1/=0)THEN
           CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                         C1='DOMDEC')
         END IF
@@ -221,21 +221,21 @@ C NCOND : nombre de contraintes multiniveaux a equilibrer
 C poids 1 => elt ; poids 2 => interf 7,10,11 ; poids 3 => int 2; poids 4 => ddl
       NCOND = 3
 C implicite : poids 1 => ddl ; poids 2 => interf 7,10,11 ; poids 3 => int 2; poids 4 => elt
-      IF(DECTYP.EQ.5.OR.DECTYP.EQ.6)THEN
+      IF(DECTYP==5.OR.DECTYP==6)THEN
         NCOND=4
       ELSE
 C poids supplementaire si fluide structure interaction => ilag=1 et iale=1 ou ieuler=1
-        IF(ILAG.EQ.1.AND.(IALE.EQ.1.OR.IEULER.EQ.1))THEN
+        IF(ILAG==1.AND.(IALE==1.OR.IEULER==1))THEN
           IFSI = 1
         ELSE
           IFSI = 0
         END IF
 C
 C si fsi poids 1 => elt LAG ; poids 4 => elt ALE
-        IF(IFSI.EQ.1)NCOND=NCOND+1
+        IF(IFSI==1)NCOND=NCOND+1
 c      NCOND = 4
 C poids sur element delete si necessaire (poids delete en derniere position ncond)
-        IF(ELEMD.GT.0) NCOND = NCOND+1
+        IF(ELEMD>0) NCOND = NCOND+1
       END IF
 C
       ALLOCATE(IWD(NELEM*NCOND),STAT=IERR1)
@@ -260,7 +260,7 @@ Celdev030---
           N = IXS(K+1,I)
           CNE(ADSKY(N)) = I
           ADSKY(N) = ADSKY(N) + 1
-          IF(N.NE.0)THEN
+          IF(N/=0)THEN
 Cel poids ddl
             IWD(NCOND*(I-1)+1) = IWD(NCOND*(I-1)+1)+DSDOF(N)
 Cel poids interface
@@ -288,7 +288,7 @@ C
           N = IXC(K+1,I)
           CNE(ADSKY(N)) = I+OFF
           ADSKY(N) = ADSKY(N) + 1
-          IF(N.NE.0)THEN
+          IF(N/=0)THEN
 Cel poids ddl
             IWD(NCOND*(I+OFF-1)+1) = IWD(NCOND*(I+OFF-1)+1)+DSDOF(N)
 Cel poids interface
@@ -306,7 +306,7 @@ C
           N = IXT(K+1,I)
           CNE(ADSKY(N)) = I+OFF
           ADSKY(N) = ADSKY(N) + 1
-          IF(N.NE.0)THEN
+          IF(N/=0)THEN
 Cel poids ddl
             IWD(NCOND*(I+OFF-1)+1) = IWD(NCOND*(I+OFF-1)+1)+DSDOF(N)
 Cel poids interface
@@ -324,7 +324,7 @@ C
           N = IXP(K+1,I)
           CNE(ADSKY(N)) = I+OFF
           ADSKY(N) = ADSKY(N) + 1
-          IF(N.NE.0)THEN
+          IF(N/=0)THEN
 Cel poids ddl
             IWD(NCOND*(I+OFF-1)+1) = IWD(NCOND*(I+OFF-1)+1)+DSDOF(N)
 Cel poids interface
@@ -342,7 +342,7 @@ C
           N = IXR(K+1,I)
           CNE(ADSKY(N)) = I+OFF
           ADSKY(N) = ADSKY(N) + 1
-          IF(N.NE.0)THEN
+          IF(N/=0)THEN
 Cel poids ddl
             IWD(NCOND*(I+OFF-1)+1) = IWD(NCOND*(I+OFF-1)+1)+DSDOF(N)
 Cel poids interface
@@ -352,10 +352,10 @@ Cel poids int2
           END IF
         ENDDO
         N = IXR(4,I)
-        IF(NINT(GEO(12,IXR(1,I))).EQ.12) THEN
+        IF(NINT(GEO(12,IXR(1,I)))==12) THEN
           CNE(ADSKY(N)) = I+OFF
           ADSKY(N) = ADSKY(N) + 1
-          IF(N.NE.0)THEN
+          IF(N/=0)THEN
 Cel poids ddl
             IWD(NCOND*(I+OFF-1)+1) = IWD(NCOND*(I+OFF-1)+1)+DSDOF(N)
 Cel poids interface
@@ -374,7 +374,7 @@ C
           CNE(ADSKY(N)) = I+OFF
 Celdev030          WD(I+OFF) = WTG
           ADSKY(N) = ADSKY(N) + 1
-          IF(N.NE.0)THEN
+          IF(N/=0)THEN
 Cel poids ddl
             IWD(NCOND*(I+OFF-1)+1) = IWD(NCOND*(I+OFF-1)+1)+DSDOF(N)
 Cel poids interface
@@ -392,7 +392,7 @@ C
           N = IXUR(K+1,I)
           CNE(ADSKY(N)) = I+OFF
           ADSKY(N) = ADSKY(N) + 1
-          IF(N.NE.0)THEN
+          IF(N/=0)THEN
 Cel poids ddl
             IWD(NCOND*(I+OFF-1)+1) = IWD(NCOND*(I+OFF-1)+1)+DSDOF(N)
 Cel poids interface
@@ -411,7 +411,7 @@ C
           N=IXX(ADDX)
           CNE(ADSKY(N)) = I+OFF
           ADSKY(N) = ADSKY(N) + 1
-          IF(N.NE.0)THEN
+          IF(N/=0)THEN
 Cel poids ddl
             IWD(NCOND*(I+OFF-1)+1) = IWD(NCOND*(I+OFF-1)+1)+DSDOF(N)
 Cel poids interface
@@ -445,10 +445,10 @@ Celdev030+++
 *      WRITE(*,'(10I8)') (CNE(I),I=1,LCNE)
 *      WRITE(*,*) 'ADSKY '
 *      WRITE(*,'(10I8)') (ADSKY(I),I=0,NUMNOD+1)
-      IF (IDDLEVEL.EQ.1) NEDGES = NEDGES+NELEMINT
+      IF (IDDLEVEL==1) NEDGES = NEDGES+NELEMINT
       ALLOCATE(IENDT(2*NEDGES),STAT=IERR1)
 C
-      IF(IERR1.NE.0)THEN
+      IF(IERR1/=0)THEN
         CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                         C1='DOMDEC')
       END IF
@@ -466,7 +466,7 @@ C
         ENDDO
       ENDDO
 Celdev030+++
-      IF (IDDLEVEL.EQ.1) THEN
+      IF (IDDLEVEL==1) THEN
 C-----------------------------------------------
 C CONNECTIVITES INTERFACES
 C-----------------------------------------------
@@ -488,9 +488,9 @@ Cel hierarchie type 2, type 7
 Cel initialisation numg2 pour cas ou facette non trouvee (erreur)
           NUMG2=NUMG1
           ITYPINT=ABS(IXINT(6,I))
-          IF((ITYPINT.EQ.2.AND.J.EQ.1).OR.
-     .       (ITYPINT.EQ.7.AND.J.EQ.2)) THEN
-           IF(ADSKY(N+1)-ADSKY(N).GT.0)THEN
+          IF((ITYPINT==2.AND.J==1).OR.
+     .       (ITYPINT==7.AND.J==2)) THEN
+           IF(ADSKY(N+1)-ADSKY(N)>0)THEN
             N=IXINT(1,I)
             N1=IXINT(2,I)
             N2=IXINT(3,I)
@@ -498,17 +498,17 @@ Cel initialisation numg2 pour cas ou facette non trouvee (erreur)
               NUMG2=CNE(I1)
               DO I2 = ADSKY(N1), ADSKY(N1+1)-1
                 NUMG3=CNE(I2)
-                IF(NUMG3.EQ.NUMG2) THEN
+                IF(NUMG3==NUMG2) THEN
                   DO I3 = ADSKY(N2), ADSKY(N2+1)-1
                     NUMG4=CNE(I3)
-                    IF(NUMG4.EQ.NUMG2) GOTO 100
+                    IF(NUMG4==NUMG2) GOTO 100
                   ENDDO
                 ENDIF
               ENDDO
             ENDDO
  100        CONTINUE
-            IF(ITYPINT.EQ.2.OR.
-     .         (CEP(NUMG1).EQ.0.AND.CEP(NUMG2).EQ.0)) THEN
+            IF(ITYPINT==2.OR.
+     .         (CEP(NUMG1)==0.AND.CEP(NUMG2)==0)) THEN
               NEDGES = NEDGES + 1
               IENDT(NEDGES*2-1) = NUMG1
               IENDT(NEDGES*2) = NUMG2
@@ -521,13 +521,13 @@ Cel initialisation numg2 pour cas ou facette non trouvee (erreur)
         ENDDO
       ENDIF
 C
-      IF (NEDGES.GT.0) THEN
+      IF (NEDGES>0) THEN
         ALLOCATE(ITRI(2*NEDGES),STAT=IERR1)
-        IF(IERR1.NE.0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        IF(IERR1/=0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                            MSGTYPE=MSGERROR,
      .                         C1='DOMDEC')
         ALLOCATE(INDEX(2*NEDGES),STAT=IERR1)
-        IF(IERR1.NE.0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+        IF(IERR1/=0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                            MSGTYPE=MSGERROR,
      .                         C1='DOMDEC')
 C
@@ -548,8 +548,8 @@ C
         NEWEDGE = 1
         DO I = 2, NEDGES
 Celdev030 test optimise
-          IF ((NOD1.NE.IENDT(2*I-1).OR.NOD2.NE.IENDT(2*I)).AND.
-     .         IENDT(2*I-1).NE.IENDT(2*I)) THEN
+          IF ((NOD1/=IENDT(2*I-1).OR.NOD2/=IENDT(2*I)).AND.
+     .         IENDT(2*I-1)/=IENDT(2*I)) THEN
             NEWEDGE = NEWEDGE + 1
             IENDT(2*NEWEDGE-1) = IENDT(2*I-1)
             IENDT(2*NEWEDGE) = IENDT(2*I)
@@ -596,7 +596,7 @@ C
         DO I = 1, 2*NEDGES
           NOD1=EDGE(2*I-1)
           NOD2=EDGE(2*I)
-          DO WHILE (NOD1.NE.NODC)
+          DO WHILE (NOD1/=NODC)
             NODC=NODC+1
             XADJ(NODC)=ICUR
           END DO
@@ -613,7 +613,7 @@ C
       DEALLOCATE(IENDT)
       DEALLOCATE(CNE)
 C
-      IF (NEDGES.GT.0.AND.NSUB.GT.1) THEN
+      IF (NEDGES>0.AND.NSUB>1) THEN
         IWFLG=2
         NFLAG=1
 C old metis option kept for compatibility
@@ -626,8 +626,8 @@ C new Metis5 Definition
          OPTIONS(18)=1
 #endif
 C Domain decomposition CRASH ou FSI
-        IF(DECTYP.EQ.3.OR.DECTYP.EQ.4)THEN
-          IF(IFSI.EQ.0)THEN
+        IF(DECTYP==3.OR.DECTYP==4)THEN
+          IF(IFSI==0)THEN
             DO I = 1, NELEM
 C normalisation des poids (elem delete a 0)
               IWD(NCOND*(I-1)+1) = INT(WD(I)*1000)
@@ -635,14 +635,14 @@ C poids interface deja calcul
             END DO
           ELSE
             DO I = 1, NELEM
-              IF(I.LE.NUMELS)THEN
+              IF(I<=NUMELS)THEN
                 MID = ABS(IXS(1,I))
                 PID = ABS(IXS(10,I))
                 JALE_FROM_MAT = NINT(PM(72,MID))
                 JALE_FROM_PROP = IGEO(62,PID)
                 JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if unconsistent, error message was displayed in PART reader
                 MLN = NINT(PM(19,MID))
-                IF(JALE.EQ.0.AND.MLN.NE.18)THEN
+                IF(JALE==0.AND.MLN/=18)THEN
                   IWD(NCOND*(I-1)+1) = INT(WD(I)*1000)
                   IWD(NCOND*(I-1)+4) = 0
                 ELSE
@@ -656,23 +656,23 @@ C normalisation des poids (elem delete a 0)
 C poids interface deja calcul
             END DO 
           END IF
-          IF(ELEMD.GT.0)THEN
+          IF(ELEMD>0)THEN
             DO I = 1, NELEM
 Celem delete
-              IF(WD(I).EQ.0.0001)THEN
+              IF(WD(I)==0.0001)THEN
                 IWD(NCOND*(I-1)+NCOND) = 1
               END IF
 C poids interface deja calcul
             END DO
           END IF
 
-          IF(DECTYP.EQ.3)THEN
+          IF(DECTYP==3)THEN
 C KWAY METIS
             UBVEC(1) = 1.03   ! tolerance elt lagrangien
             UBVEC(2) = 1.10   ! tolerance interf contact
             UBVEC(3) = 1.10   ! tolerance int2
-            IF(IFSI.NE.0) UBVEC(4) = 1.05   ! tolerance elt ale
-            IF(ELEMD.NE.0) UBVEC(NCOND) = 1.10  ! tolerance elements deletes si present
+            IF(IFSI/=0) UBVEC(4) = 1.05   ! tolerance elt ale
+            IF(ELEMD/=0) UBVEC(NCOND) = 1.10  ! tolerance elements deletes si present
 #if defined(METIS5)
             IERR1 = METIS_PartGraphKway(
      1        NELEM,NCOND,XADJ,ADJNCY,
@@ -684,7 +684,7 @@ C KWAY METIS
      2        IWFLG,NFLAG,NSUB,UBVEC,OPTIONS,NEC,CEP)
 #endif
 C RSB METIS
-          ELSEIF(DECTYP.EQ.4)THEN
+          ELSEIF(DECTYP==4)THEN
 #if defined(METIS5)
           IERR1 = METIS_PartGraphRecursive(
      1      NELEM,NCOND,XADJ,ADJNCY,
@@ -702,7 +702,7 @@ C Domain decomposition pour implicit
 C normalisation des poids (elem delete a 0)
             IWD(NCOND*(I-1)+4) = INT(WD(I)*1000)
           END DO
-          IF(DECTYP.EQ.5)THEN
+          IF(DECTYP==5)THEN
 C KWAY METIS IMPLICIT
             UBVEC(1) = 1.03     ! tolerance ddl
             UBVEC(2) = 1.10   ! tolerance interf contact
@@ -719,7 +719,7 @@ C KWAY METIS IMPLICIT
      2        IWFLG,NFLAG,NSUB,UBVEC,OPTIONS,NEC,CEP)
 #endif
 C RSB METIS IMPLICIT
-          ELSEIF(DECTYP.EQ.6)THEN
+          ELSEIF(DECTYP==6)THEN
 #if defined(METIS5)
             IERR1 = METIS_PartGraphRecursive(
      1        NELEM,NCOND,XADJ,ADJNCY,
@@ -733,7 +733,7 @@ C RSB METIS IMPLICIT
           END IF
 
         END IF
-c      if(times.eq.1247)then
+c      if(times==1247)then
 c        return
 c      endif
         DO I = 1, NELEM

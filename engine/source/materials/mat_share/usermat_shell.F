@@ -916,7 +916,7 @@ c            FILL STRUCTURE IN DYNAMICAL LIBRARY
      *                               SIGNZX ,SIGVXX ,SIGVYY ,SIGVXY ,SIGVYZ ,
      *                               SIGVZX ,DPLA )
           
-             IF (DLIBTKVERS .GE. 1301501260) THEN
+             IF (DLIBTKVERS >= 1301501260) THEN
                 SIZNUL=0           
                 CALL ENG_USERLIB_GET_LAWC_VAR_2(
      *             FPSXX  ,MVSIZ ,FPSYY  ,MVSIZ,
@@ -958,7 +958,7 @@ c            Retrieve Results
      *               SIGNXX  ,SIGNYY ,SIGNXY, SIGNYZ,  SIGNZX,
      *               SIGVXX  ,SIGVYY ,SIGVXY, SIGVYZ,  SIGVZX,
      *               DPLA    ,ETSE   ,THKN  )
-             IF (DLIBTKVERS .GE. 1301501260) THEN
+             IF (DLIBTKVERS >= 1301501260) THEN
                SIZNUL=0           
                CALL ENG_USERLIB_SET_LAWC_VAR_2(EL_TEMP,MVSIZ,BID_ARR,SIZNUL,
      *              BID_ARR,SIZNUL,BID_ARR,SIZNUL,BID_ARR,SIZNUL,BID_ARR,SIZNUL,

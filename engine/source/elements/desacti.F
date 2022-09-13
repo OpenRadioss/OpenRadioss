@@ -109,7 +109,7 @@ C----------------------------------------------------------------------
 C----------------------------------------------------------------------
 C   ACTIVATION DES ELEMENTS
 C----------------------------------------------------------------------
-          ELSEIF(IFLAG == 0 .AND. TT.LE.SENSOR(2,ISENS))THEN
+          ELSEIF(IFLAG == 0 .AND. TT<=SENSOR(2,ISENS))THEN
             CALL ELOFF(IXS     ,IXQ     ,IXC      ,IXP     ,IXT      ,
      .                 IXR     ,IXTG    ,IPARG    ,
      .                 IACTIV  ,TT      ,IFLAG    ,N       ,ELBUF_TAB,

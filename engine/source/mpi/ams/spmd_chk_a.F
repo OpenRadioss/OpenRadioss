@@ -71,7 +71,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       SIZE = 3
       LOC_PROC = ISPMD + 1
-      IF(ISPMD.EQ.0) THEN
+      IF(ISPMD==0) THEN
         DO I = 2, NSPMD
 	  SIZ = SIZE*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
           MSGTYP=MSGOFF 

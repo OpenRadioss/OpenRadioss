@@ -94,11 +94,11 @@ C--------------------------------------------------------------------C
           CCPL_T4_IMPO = 0
           DO J=1,IGRNOD(I)%NENTITY
 	    CUR_ID = IGRNOD(I)%ENTITY(J)
-            IF (TAGNO(CUR_ID+NPART).GE.0) COMPT=COMPT+1  		   
-            IF (TAGNO(CUR_ID+NPART).GT.1) CCPL=CCPL+1
-            IF (TAGNO(CUR_ID+NPART).LE.0) CCPL=CCPL+1
-            IF ((TAGNO(CUR_ID+NPART).EQ.2).AND.(TAGNO(CUR_ID+OFF).EQ.-1)) CCPL_T4_IMPO = CCPL_T4_IMPO + 1
-            IF ((TAGNO(CUR_ID+NPART).EQ.2).AND.(TAGNO(CUR_ID+OFF).EQ.1))  CCPL_T4_EXPO = CCPL_T4_EXPO + 1		    
+            IF (TAGNO(CUR_ID+NPART)>=0) COMPT=COMPT+1  		   
+            IF (TAGNO(CUR_ID+NPART)>1) CCPL=CCPL+1
+            IF (TAGNO(CUR_ID+NPART)<=0) CCPL=CCPL+1
+            IF ((TAGNO(CUR_ID+NPART)==2).AND.(TAGNO(CUR_ID+OFF)==-1)) CCPL_T4_IMPO = CCPL_T4_IMPO + 1
+            IF ((TAGNO(CUR_ID+NPART)==2).AND.(TAGNO(CUR_ID+OFF)==1))  CCPL_T4_EXPO = CCPL_T4_EXPO + 1		    
 	  END DO  
 	  IGRNOD(I)%R2R_ALL   = COMPT    ! temporary storage before split
 	  IGRNOD(I)%R2R_SHARE = CCPL     ! temporary storage before split
@@ -110,7 +110,7 @@ C--------------------------------------------------------------------C
 C------Precounting of internal and external surfaces of the domain---C
 C--------------------------------------------------------------------C
 
-        IF (PASSE.EQ.0) THEN
+        IF (PASSE==0) THEN
 	  ALLOCATE(ISURF_R2R(5,NSURF))
           DO I=1,NSURF
 	    COMPT = 0   	
@@ -128,15 +128,15 @@ C    -> case of surfaces defined by segments -> identification of elements attac
      .                KNOD2ELTG,NOD2ELC,NOD2ELTG,THKE,2,IGEO,
      .                PM_STACK , IWORKSH)     
 C    -> temporary storage if element found type in segment type <--		    
-                 IF (ID_ELS.NE.0) THEN
+                 IF (ID_ELS/=0) THEN
                    IGRSURF(I)%ELTYP(J) = 11
                    IGRSURF(I)%ELEM(J)  = ID_ELS
 		 ENDIF    
-                 IF (ID_ELC.NE.0) THEN
+                 IF (ID_ELC/=0) THEN
                    IGRSURF(I)%ELTYP(J) = 13
                    IGRSURF(I)%ELEM(J)  = ID_ELC
 		 ENDIF
-                 IF (ID_ELTG.NE.0) THEN
+                 IF (ID_ELTG/=0) THEN
                    IGRSURF(I)%ELTYP(J) = 17
                    IGRSURF(I)%ELEM(J)  = ID_ELTG
 		 ENDIF		      	   	   
@@ -145,12 +145,12 @@ C    -> counting of segments intially in the domain <--
               CUR_ID  = IGRSURF(I)%ELEM(J)
 	      CUR_TYP = IGRSURF(I)%ELTYP(J)
               IP = 0
-	      IF (CUR_TYP.GT.10) CUR_TYP=CUR_TYP-10		      
-	      IF (CUR_TYP.EQ.1) IP = IPARTS(CUR_ID) 					  			  
-	      IF (CUR_TYP.EQ.3) IP = IPARTC(CUR_ID) 		
-	      IF (CUR_TYP.EQ.7) IP = IPARTG(CUR_ID)
-              IF (IP.GT.0) THEN
-                IF (TAGNO(IP).EQ.1) COMPT=COMPT+1
+	      IF (CUR_TYP>10) CUR_TYP=CUR_TYP-10		      
+	      IF (CUR_TYP==1) IP = IPARTS(CUR_ID) 					  			  
+	      IF (CUR_TYP==3) IP = IPARTC(CUR_ID) 		
+	      IF (CUR_TYP==7) IP = IPARTG(CUR_ID)
+              IF (IP>0) THEN
+                IF (TAGNO(IP)==1) COMPT=COMPT+1
               ENDIF
 	    END DO
 	    ISURF_R2R(1,I) = 0
@@ -170,23 +170,23 @@ C-------At each pass - number of added segments is counted--------------C
               CUR_ID = IGRSURF(I)%ELEM(J)
               CUR_TYP= IGRSURF(I)%ELTYP(J)
               IP = 0
-	      IF (CUR_TYP.GT.10) CUR_TYP=CUR_TYP-10
-	      IF (CUR_TYP.EQ.1) IP = IPARTS(CUR_ID) 					  			  
-	      IF (CUR_TYP.EQ.3) IP = IPARTC(CUR_ID) 		
-	      IF (CUR_TYP.EQ.7) IP = IPARTG(CUR_ID)
-              IF (IP.GT.0) THEN	      
-	        IF (TAGNO(IP).EQ.0) THEN	      	      		      
-	          IF (CUR_TYP.EQ.1) IP = TAG_ELS(CUR_ID+NPART) 					  			  
-	          IF (CUR_TYP.EQ.3) IP = TAG_ELC(CUR_ID+NPART)  		
-	          IF (CUR_TYP.EQ.7) IP = TAG_ELG(CUR_ID+NPART) 		   		   					
-	          IF (IP.GT.0) COMPT=COMPT+1
-	          IF (IP.EQ.1) CCPL_T4_IMPO=CCPL_T4_IMPO+1
+	      IF (CUR_TYP>10) CUR_TYP=CUR_TYP-10
+	      IF (CUR_TYP==1) IP = IPARTS(CUR_ID) 					  			  
+	      IF (CUR_TYP==3) IP = IPARTC(CUR_ID) 		
+	      IF (CUR_TYP==7) IP = IPARTG(CUR_ID)
+              IF (IP>0) THEN	      
+	        IF (TAGNO(IP)==0) THEN	      	      		      
+	          IF (CUR_TYP==1) IP = TAG_ELS(CUR_ID+NPART) 					  			  
+	          IF (CUR_TYP==3) IP = TAG_ELC(CUR_ID+NPART)  		
+	          IF (CUR_TYP==7) IP = TAG_ELG(CUR_ID+NPART) 		   		   					
+	          IF (IP>0) COMPT=COMPT+1
+	          IF (IP==1) CCPL_T4_IMPO=CCPL_T4_IMPO+1
 	        ELSE
-	          IF (CUR_TYP.EQ.1) IP = TAG_ELS(CUR_ID+NPART) 					  			  
-	          IF (CUR_TYP.EQ.3) IP = TAG_ELC(CUR_ID+NPART)  		
-	          IF (CUR_TYP.EQ.7) IP = TAG_ELG(CUR_ID+NPART) 		   		   					
-	          IF (IP.GT.0) CCPL=CCPL+1
-	          IF (IP.EQ.1) CCPL_T4_EXPO=CCPL_T4_EXPO+1	      	 
+	          IF (CUR_TYP==1) IP = TAG_ELS(CUR_ID+NPART) 					  			  
+	          IF (CUR_TYP==3) IP = TAG_ELC(CUR_ID+NPART)  		
+	          IF (CUR_TYP==7) IP = TAG_ELG(CUR_ID+NPART) 		   		   					
+	          IF (IP>0) CCPL=CCPL+1
+	          IF (IP==1) CCPL_T4_EXPO=CCPL_T4_EXPO+1	      	 
                 ENDIF
 	      ENDIF		    	      	        	      	      	        
 	    END DO
@@ -200,7 +200,7 @@ C--------------------------------------------------------------------C
 C------Precounting of internal and external lines of the domain------C
 C--------------------------------------------------------------------C
 
-        IF (PASSE.EQ.0) THEN
+        IF (PASSE==0) THEN
 	  ALLOCATE(ISLIN_R2R(2,NSLIN))
 	ENDIF
 	
@@ -212,11 +212,11 @@ C-------At each pass - number of added lined is counted--------------C
             DO J=1,IGRSLIN(I)%NSEG
 	       TAG1 = TAGNO(IGRSLIN(I)%NODES(J,1)+NPART)
 	       TAG2 = TAGNO(IGRSLIN(I)%NODES(J,2)+NPART)
-               IF ((TAG1.EQ.1).AND.(TAG2.NE.-1)) THEN
+               IF ((TAG1==1).AND.(TAG2/=-1)) THEN
 		    COMPT=COMPT+1  	   
-               ELSEIF ((TAG1.NE.-1).AND.(TAG2.EQ.1)) THEN
+               ELSEIF ((TAG1/=-1).AND.(TAG2==1)) THEN
 		    COMPT=COMPT+1		    
-               ELSEIF ((TAG1.NE.-1).AND.(TAG2.NE.-1)) THEN 
+               ELSEIF ((TAG1/=-1).AND.(TAG2/=-1)) THEN 
 		    CCPL=CCPL+1
 	       ENDIF
 	    END DO
@@ -229,14 +229,14 @@ C--------------------------------------------------------------------C
 C------Precounting of grbric and external lines of the domain--------C
 C--------------------------------------------------------------------C
 
-        IF (PASSE.EQ.0) THEN
+        IF (PASSE==0) THEN
 	  ALLOCATE(IGRBRIC_R2R(5,NGRBRIC))
           DO I=1,NGRBRIC
 	    COMPT = 0   	
             DO J=1,IGRBRIC(I)%NENTITY
 C    -> counting of elements initially in the domain  <--
               CUR_ID  = IGRBRIC(I)%ENTITY(J)		      					  			  
-              IF (TAGNO(IPARTS(CUR_ID)).EQ.1) COMPT=COMPT+1
+              IF (TAGNO(IPARTS(CUR_ID))==1) COMPT=COMPT+1
 	    END DO
 	    IGRBRIC_R2R(1,I) = 0
 	    IGRBRIC_R2R(2,I) = 0
@@ -254,13 +254,13 @@ C-------At each pass - number of added elements is counted------------C
           DO J=1,IGRBRIC(I)%NENTITY
             CUR_ID  = IGRBRIC(I)%ENTITY(J)
 	    IP = IPARTS(CUR_ID)
-            IF (IP.GT.0) THEN	      
-	      IF (TAGNO(IP).EQ.0) THEN	      	      		      				  			  		   		   					
-	        IF (TAG_ELS(CUR_ID+NPART).GT.0) COMPT=COMPT+1
-	        IF (TAG_ELS(CUR_ID+NPART).EQ.1) CCPL_T4_IMPO=CCPL_T4_IMPO+1
+            IF (IP>0) THEN	      
+	      IF (TAGNO(IP)==0) THEN	      	      		      				  			  		   		   					
+	        IF (TAG_ELS(CUR_ID+NPART)>0) COMPT=COMPT+1
+	        IF (TAG_ELS(CUR_ID+NPART)==1) CCPL_T4_IMPO=CCPL_T4_IMPO+1
 	      ELSE					  			  		   		   					
-	        IF (TAG_ELS(CUR_ID+NPART).GT.0) CCPL=CCPL+1
-	        IF (TAG_ELS(CUR_ID+NPART).EQ.1) CCPL_T4_EXPO=CCPL_T4_EXPO+1	      	 
+	        IF (TAG_ELS(CUR_ID+NPART)>0) CCPL=CCPL+1
+	        IF (TAG_ELS(CUR_ID+NPART)==1) CCPL_T4_EXPO=CCPL_T4_EXPO+1	      	 
               ENDIF
 	    ENDIF		    	      	        	      	      	        
 	  END DO

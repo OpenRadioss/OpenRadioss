@@ -297,7 +297,7 @@ C
 C
       IF(TOUTP0 /= ZERO)  TOUTP = TOUTP0
       IF(DTOUTP0 > ZERO) DTOUTP= DTOUTP0
-      IF(DTOUTP.LE.ZERO)  TOUTP = EP30
+      IF(DTOUTP<=ZERO)  TOUTP = EP30
       IF (TOUTP < TT-DT2.AND.DTOUTP > ZERO)TOUTP = TOUTP
      .    + INT((TT-DT2-TOUTP)/DTOUTP)*DTOUTP
       IF (TOUTP < TT-DT2)TOUTP = TOUTP+DTOUTP
@@ -305,14 +305,14 @@ C
 C .sta files
       IF(TSTAT0 /= ZERO)  TSTAT = TSTAT0
       IF(DTSTAT0 > ZERO) DTSTAT= DTSTAT0
-      IF(DTSTAT.LE.ZERO)  TSTAT = EP30
+      IF(DTSTAT<=ZERO)  TSTAT = EP30
       IF (TSTAT < TT-DT2.AND.DTSTAT > ZERO)TSTAT = TSTAT
      .    + INT((TT-DT2-TSTAT)/DTSTAT)*DTSTAT
       IF (TSTAT < TT-DT2)TSTAT = TSTAT+DTSTAT
 C .dynain files
       IF(TDYNAIN0 /= ZERO)  TDYNAIN = TDYNAIN0
       IF(DTDYNAIN0 > ZERO)  DTDYNAIN= DTDYNAIN0
-      IF(DTDYNAIN.LE.ZERO)  TDYNAIN = EP30
+      IF(DTDYNAIN<=ZERO)  TDYNAIN = EP30
       IF (TDYNAIN < TT-DT2.AND.DTDYNAIN > ZERO)TDYNAIN = TDYNAIN
      .    + INT((TT-DT2-TDYNAIN)/DTDYNAIN)*DTDYNAIN
       IF (TDYNAIN< TT-DT2)TDYNAIN = TDYNAIN+DTDYNAIN
@@ -321,7 +321,7 @@ C abf files
         IF(DTABF0(I) > ZERO) DTABF(I)= DTABF0(I)
         IF(DTABFWR0(I) > ZERO) DTABFWR(I)= DTABFWR0(I)
       ENDDO
-      IF (ABFILE(1) .NE. 0) TABFIS(1) = TT
+      IF (ABFILE(1) /= 0) TABFIS(1) = TT
 C
       IF(DTH /= ZERO.AND.MCHECK == 0) DTHIS=DTH
       DO I= 1, 9
@@ -331,7 +331,7 @@ c h3d files
       H3D_DATA%DTH3D = ZERO
       IF(H3D_DATA%TH3D0 /= ZERO)  H3D_DATA%TH3D = H3D_DATA%TH3D0
       IF(H3D_DATA%DTH3D0 > ZERO) H3D_DATA%DTH3D= H3D_DATA%DTH3D0
-      IF(H3D_DATA%DTH3D.LE.ZERO)  H3D_DATA%TH3D = EP30
+      IF(H3D_DATA%DTH3D<=ZERO)  H3D_DATA%TH3D = EP30
       IF (H3D_DATA%TH3D < TT-DT2.AND. H3D_DATA%DTH3D > ZERO)
      .     H3D_DATA%TH3D = H3D_DATA%TH3D
      .              + INT((TT-DT2-H3D_DATA%TH3D)/H3D_DATA%DTH3D)*H3D_DATA%DTH3D
@@ -359,7 +359,7 @@ C
         IF(VOLM /= ZERO)VOLMIN=VOLM
         IF(INT22>0)THEN
           DTFAC22 = ONE
-          IF(DTFAC.GT.HALF)DTFAC22 = HALF / DTFAC      
+          IF(DTFAC>HALF)DTFAC22 = HALF / DTFAC      
         ENDIF
       ENDIF
 C
@@ -407,7 +407,7 @@ C
       ENDDO
 
 C     Coeff CFL pour le FVMBAG
-      IF (DTFAC1(52) .GT. ZERO) THEN
+      IF (DTFAC1(52) > ZERO) THEN
          IF (ISPMD == 0) THEN
             CALL ANCMSG(MSGID=282, ANMODE=ANINFO)
          ENDIF
@@ -415,7 +415,7 @@ C     Coeff CFL pour le FVMBAG
          DO IVOLU = 1, NVOLU
             IFV = MONVOL(K1 - 1 + 45)
             IFV_TYPE = MONVOL(K1 - 1 + 2)
-            IF (IFV_TYPE .EQ. 8) THEN
+            IF (IFV_TYPE == 8) THEN
                FVDATA_OLD(IFV)%CFL_COEF = DTFAC1(52)
             ENDIF
             K1=K1+NIMV
@@ -425,7 +425,7 @@ C     Coeff CFL pour le FVMBAG
          DO IVOLU = 1, NVOLU
             IFV = MONVOL(K1 - 1 + 45)
             IFV_TYPE = MONVOL(K1 - 1 + 2)
-            IF (IFV_TYPE .EQ. 8) THEN
+            IF (IFV_TYPE == 8) THEN
                IF (FVDATA_OLD(IFV)%CFL_COEF == ZERO) THEN
                   FVDATA_OLD(IFV)%CFL_COEF = DTFAC
                ENDIF
@@ -437,12 +437,12 @@ C     Coeff CFL pour le FVMBAG
          IF(IDTMIN(52) == 0)IDTMIN(52) = 1
       ENDIF
 C     Min timestep pour le FVMBAG
-      IF (DTMIN1(52) .GT. ZERO) THEN
+      IF (DTMIN1(52) > ZERO) THEN
          K1 = 1
          DO IVOLU = 1, NVOLU
             IFV = MONVOL(K1 - 1 + 45)
             IFV_TYPE = MONVOL(K1 - 1 + 2)
-            IF (IFV_TYPE .EQ. 8) THEN
+            IF (IFV_TYPE == 8) THEN
                FVDATA_OLD(IFV)%DTMIN = DTMIN1(52)
             ENDIF
             K1=K1+NIMV
@@ -452,7 +452,7 @@ C     Min timestep pour le FVMBAG
          DO IVOLU = 1, NVOLU
             IFV = MONVOL(K1 - 1 + 45)
             IFV_TYPE = MONVOL(K1 - 1 + 2)
-            IF (IFV_TYPE .EQ. 8) THEN
+            IF (IFV_TYPE == 8) THEN
                IF (FVDATA_OLD(IFV)%DTMIN == ZERO) THEN
                   FVDATA_OLD(IFV)%DTMIN = DTMIN
                ENDIF
@@ -465,7 +465,7 @@ C     Min timestep pour le FVMBAG
       ENDIF
 
       I=102
-        IF(IDT_ALE.EQ.-1)THEN
+        IF(IDT_ALE==-1)THEN
           IF(DTMIN1(I) == ZERO)DTMIN1(I) = DTMIN
           IF(DTFAC1(I) == ZERO)DTFAC1(I) = DTFAC
         ELSE
@@ -510,21 +510,21 @@ C --------------------------------------------------------------------
       ENDIF
 C When Dynamical user libraries are used, add a print in 0001.out file
       IF (USERL_AVAIL==1)THEN
-       IF(ISPMD.EQ.0)THEN
+       IF(ISPMD==0)THEN
         WRITE(IOUT,4500)
 	WRITE(IOUT,4600) DLIBFILE(1:DLIBFILE_SIZE),DLIBTKVERS
        ENDIF
       ENDIF
 C --------------------------------------------------------------------
 
-      IF (IRAD2R.EQ.1) THEN
-        IF(IMACH.NE.3.OR.ISPMD.EQ.0) WRITE(IOUT,1099)
-        IF (ITFOR0.EQ.1 ) THEN
+      IF (IRAD2R==1) THEN
+        IF(IMACH/=3.OR.ISPMD==0) WRITE(IOUT,1099)
+        IF (ITFOR0==1 ) THEN
            CALL ANCMSG(MSGID=242,ANMODE=ANINFO_BLIND)
            CALL ARRET(2)
         ENDIF
       ELSE
-        IF ((R2R_SIU.EQ.1).AND.(ISPMD.EQ.0)) THEN
+        IF ((R2R_SIU==1).AND.(ISPMD==0)) THEN
            CALL ANCMSG(MSGID=239,ANMODE=ANINFO_BLIND)
            CALL ARRET(2)
         ENDIF
@@ -684,7 +684,7 @@ C
      .  WRITE(IOUT,'(A)')
      .  ' BACK TO VERSION 4 COMPUTATION OF NODAL TIME STEP',
      .  ' CASE OF SMALL STRAIN FOR SOLIDS.'
-      IF(CODVERS.GE.44.AND.NUMSPH /= 0.AND.MCHECK == 0)THEN
+      IF(CODVERS>=44.AND.NUMSPH /= 0.AND.MCHECK == 0)THEN
         IF(IDTMIN(51) == 3)THEN
          IF(ISPMD == 0)THEN
           WRITE(ISTDO,*)
@@ -713,7 +713,7 @@ C
          DO IVOLU = 1, NVOLU
             IFV = MONVOL(K1 - 1 + 45)
             IFV_TYPE = MONVOL(K1 - 1 + 2)
-            IF (IFV_TYPE .EQ. 8) THEN
+            IF (IFV_TYPE == 8) THEN
                WRITE(IOUT,1153)MONVOL(K1),FVDATA_OLD(IFV)%CFL_COEF,FVDATA_OLD(IFV)%DTMIN,IDTMIN(52)
                IF(NUM_OPT_DT_FVMBAG_2 > 0)WRITE(IOUT,1154)FVDATA_OLD(IFV)%L_TYPE,FVDATA_OLD(IFV)%LAMBDA,FVDATA_OLD(IFV)%DTOLD
             ENDIF
@@ -744,7 +744,7 @@ C
        IF(ISPMD == 0.AND.MCHECK == 0)
      .  WRITE(IOUT,1110)NCPRI,NCRST,MULTIREST,INVERS,ITFOR0
       IF(ISPMD == 0.AND.RESTART_FILE == 0) WRITE(IOUT,*) CHECK_MESSAGE(2)(1:len_trim(CHECK_MESSAGE(2)) )
-      IF (IMPL_S == 1.AND.IKG.GE.5) THEN
+      IF (IMPL_S == 1.AND.IKG>=5) THEN
          IKG=IKG-5
        IF(ISPMD == 0) THEN
          WRITE(IOUT,*) ' ** WARNING ** : PARITH/ON IS NOT ',
@@ -759,7 +759,7 @@ C-------------------------------------------
      .            MDS_LABEL,MDS_OUTPUT_TABLE,MDS_NMAT,MAX_DEPVAR,MDS_NDEPSVAR,
      .            ELBUF_STR,STACK,IBCL,ILOADP,LLOADP)
 c
-      IF(H3D_DATA%N_OUTP_H3D .NE. 0 .AND. ISPMD == 0)THEN
+      IF(H3D_DATA%N_OUTP_H3D /= 0 .AND. ISPMD == 0)THEN
         WRITE(IOUT,5000)H3D_DATA%TH3D,H3D_DATA%DTH3D
         WRITE(IOUT,*)'       |'
         DO I=1,H3D_DATA%N_OUTP_H3D
@@ -863,7 +863,7 @@ C     Animations
 C-------------------------------------------
       IF(TANIM0 /= ZERO)  TANIM = TANIM0
       IF(DTANIM0 > ZERO)  DTANIM= DTANIM0
-      IF(DTANIM.LE.ZERO)  TANIM = EP30
+      IF(DTANIM<=ZERO)  TANIM = EP30
       IF (TANIM < TT-DT2.AND.DTANIM > ZERO)TANIM = TANIM
      .    + INT((TT-DT2-TANIM)/DTANIM)*DTANIM
       IF (TANIM < TT-DT2)TANIM = TANIM+DTANIM
@@ -937,7 +937,7 @@ C-------------------------------------------
         DO K=1,NSTOPSENS_OLD
           LSTOPSENS(K) = LSTOPSENS_OLD(K)
         ENDDO
-      END IF                    !(ISPMD.EQ.0.AND.MCHECK.EQ.0)
+      END IF                    !(ISPMD==0.AND.MCHECK==0)
 C-------------------------------------------
 C     STATE/LSENSOR
 C-------------------------------------------
@@ -969,7 +969,7 @@ C-------------------------------------------
         DO K=1,NSTATSENS_OLD
           LSTATSENS(K) = LSTATSENS_OLD(K)
         ENDDO
-      END IF                    !(ISPMD.EQ.0.AND.MCHECK.EQ.0)
+      END IF                    !(ISPMD==0.AND.MCHECK==0)
 C-------------------------------------------
 C     OUTP/LSENSOR
 C-------------------------------------------
@@ -998,7 +998,7 @@ C-------------------------------------------
         DO K=1,NOUTPSENS_OLD
           LOUTPSENS(K) = LOUTPSENS_OLD(K)
          ENDDO
-      END IF                    !(ISPMD.EQ.0.AND.MCHECK.EQ.0)
+      END IF                    !(ISPMD==0.AND.MCHECK==0)
 C-------------------------------------------
 C     H3D/LSENSOR
 C-------------------------------------------
@@ -1020,7 +1020,7 @@ C-------------------------------------------
          ENDIF
        ENDDO
       ELSEIF(ISPMD == 0 .AND. MCHECK /= 0) THEN
-      ENDIF                     !(ISPMD.EQ.0.AND.MCHECK.EQ.0)
+      ENDIF                     !(ISPMD==0.AND.MCHECK==0)
 C-------------------------------------------
 C     STATE/LSENSOR
 C-------------------------------------------
@@ -1066,7 +1066,7 @@ C-----------------------
        IF(IALE /= 0.OR.IEULER /= 0)WRITE(IOUT,1450) NALELINK+NALELK !format v12 + format v5
 c
       ELSEIF(ISPMD == 0 .AND. MCHECK /= 0) THEN
-      ENDIF                     !(ISPMD.EQ.0.AND.MCHECK.EQ.0)
+      ENDIF                     !(ISPMD==0.AND.MCHECK==0)
 C-----------------------------------
 C     ALE/EULER : UPWIND
 C----------------------------------------
@@ -1137,32 +1137,32 @@ C----------------------------------------
           END IF
 
          !--Labels for Staggered Scheme
-         IF(UPWM.EQ.2)THEN
+         IF(UPWM==2)THEN
             Label1='TG       '
-         ELSEIF(UPWM.EQ.3)THEN
+         ELSEIF(UPWM==3)THEN
             Label1='SUPG     '
          ELSE
             Label1='UPWIND   '
          ENDIF
          Label2='UPWIND   '
          Label3='UPWIND   '
-         IF(IALEMUSCL.EQ.0)THEN
+         IF(IALEMUSCL==0)THEN
            Label4='UPWIND   '
          ELSE
            Label4='MUSCL    '
          ENDIF
          !--Labels for Colocated Scheme
-         IF(IALEMUSCL.EQ.0)THEN
+         IF(IALEMUSCL==0)THEN
            Label5='1ST-ORDER'
            Label6='1ST-ORDER'
            Label7='1ST-ORDER'
            Label8='1ST-ORDER'
-         ELSEIF(IALEMUSCL.EQ.1)THEN
+         ELSEIF(IALEMUSCL==1)THEN
            Label5='2ND-ORDER'
            Label6='2ND-ORDER'
            Label7='2ND-ORDER'
            Label8='2ND-ORDER'
-         ELSEIF(IALEMUSCL.EQ.2)THEN
+         ELSEIF(IALEMUSCL==2)THEN
            Label5='1ST-ORDER'
            Label6='1ST-ORDER'
            Label7='1ST-ORDER'
@@ -1192,7 +1192,7 @@ C----------------------------------------
              WRITE(IOUT,1003)Label5,Label6,Label7,Label8
              IF(MULTI_FVM%LOWMACH_OPT)
      .       WRITE(IOUT,1004)
-             IF(IALEMUSCL.NE.0)
+             IF(IALEMUSCL/=0)
      .       WRITE(IOUT,1005)I_BETA
            ENDIF
            WRITE(IOUT,1006) DTFAC1(102),DTMIN1(102)
@@ -1202,13 +1202,13 @@ C----------------------------------------
            IF(NWALE == 2) WRITE(IOUT,1250) DT_INPUT,ALPHA,GAMMA,VGX,VGY,VOLMIN
            IF(NWALE == 4) WRITE(IOUT,1254) ALPHA,GAMMA,VGX,VGY
          ENDIF
-       ENDIF !(IALE.NE.0.OR.IEULER.NE.0)
+       ENDIF !(IALE/=0.OR.IEULER/=0)
           !---CHECK END-------------------!
 !-----------------------
 !     FEM MOMENTUM INTEGRATION
 !-----------------------
       IF(ISPMD == 0.AND.MCHECK == 0)THEN
-        IF(IALE+IEULER.NE.0 .AND. ISFINT.NE.3)THEN
+        IF(IALE+IEULER/=0 .AND. ISFINT/=3)THEN
           SELECT CASE(ISFINT)
             !CASE(3)
             ! WRITE(IOUT,1197)   !default
@@ -1316,7 +1316,7 @@ C
        NMN   =IPARI(6,KK)
        NTY   =IPARI(7,KK)
 C--    Interface type 19
-       IF (IPARI(71,KK).NE.0) NTY = 19
+       IF (IPARI(71,KK)/=0) NTY = 19
 C
        IF(NTY == 3)THEN
          NSN   =NSN + NMN
@@ -1361,10 +1361,10 @@ C
         DO 110 J=1,NBC
          KLG=NLEC(2*J-1)
          KUG=NLEC(2*J  )
-         IF(KLG.LE.0) GO TO 120
+         IF(KLG<=0) GO TO 120
          NBLK=(IL-1)*NBC+J
          DO L=1,NUMELS
-           IF(IXS(NIXS,L).GE.KLG.AND.IXS(NIXS,L).LE.KUG) THEN
+           IF(IXS(NIXS,L)>=KLG.AND.IXS(NIXS,L)<=KUG) THEN
              DO K=KLG,KUG
                IF(IXS(NIXS,L) == K) THEN
                  IXS(1,L)=-IABS(IXS(1,L))
@@ -1424,10 +1424,10 @@ C
         DO 210 J=1,NBC
         KLG=NLEC(2*J-1)
         KUG=NLEC(2*J  )
-        IF(KLG.LE.0) GO TO 220
+        IF(KLG<=0) GO TO 220
         NBLK=(I-1)*NBC+J
         DO L=1,NUMELQ
-          IF(IXQ(NIXQ,L).GE.KLG.AND.IXQ(NIXQ,L).LE.KUG) THEN
+          IF(IXQ(NIXQ,L)>=KLG.AND.IXQ(NIXQ,L)<=KUG) THEN
             DO K=KLG,KUG
               IF(IXQ(NIXQ,L) == K) THEN
                 IXQ(1,L)=-IABS(IXQ(1,L))
@@ -1481,10 +1481,10 @@ C
         DO 310 J=1,NBC
         KLG=NLEC(2*J-1)
         KUG=NLEC(2*J  )
-        IF(KLG.LE.0) GO TO 320
+        IF(KLG<=0) GO TO 320
         NBLK=(I-1)*NBC+J
         DO L=1,NUMELC
-          IF(IXC(NIXC,L).GE.KLG.AND.IXC(NIXC,L).LE.KUG) THEN
+          IF(IXC(NIXC,L)>=KLG.AND.IXC(NIXC,L)<=KUG) THEN
             DO K=KLG,KUG
               IF(IXC(NIXC,L) == K) THEN
                 IXC(1,L)=-IABS(IXC(1,L))
@@ -1539,10 +1539,10 @@ C
         DO 410 J=1,NBC
         KLG=NLEC(2*J-1)
         KUG=NLEC(2*J  )
-        IF(KLG.LE.0) GO TO 420
+        IF(KLG<=0) GO TO 420
         NBLK=(I-1)*NBC+J
         DO L=1,NUMELT
-          IF(IXT(NIXT,L).GE.KLG.AND.IXT(NIXT,L).LE.KUG) THEN
+          IF(IXT(NIXT,L)>=KLG.AND.IXT(NIXT,L)<=KUG) THEN
             DO K=KLG,KUG
               IF(IXT(NIXT,L) == K) THEN
                 IXT(1,L)=-IABS(IXT(1,L))
@@ -1597,10 +1597,10 @@ C
         DO 510 J=1,NBC
         KLG=NLEC(2*J-1)
         KUG=NLEC(2*J  )
-        IF(KLG.LE.0) GO TO 520
+        IF(KLG<=0) GO TO 520
         NBLK=(I-1)*NBC+J
         DO L=1,NUMELP
-          IF(IXP(NIXP,L).GE.KLG.AND.IXP(NIXP,L).LE.KUG) THEN
+          IF(IXP(NIXP,L)>=KLG.AND.IXP(NIXP,L)<=KUG) THEN
             DO K=KLG,KUG
               IF(IXP(NIXP,L) == K) THEN
                 IXP(1,L)=-IABS(IXP(1,L))
@@ -1655,10 +1655,10 @@ C
         DO 610 J=1,NBC
         KLG=NLEC(2*J-1)
         KUG=NLEC(2*J  )
-        IF(KLG.LE.0) GO TO 620
+        IF(KLG<=0) GO TO 620
         NBLK=(I-1)*NBC+J
         DO L=1,NUMELR
-          IF(IXR(NIXR,L).GE.KLG.AND.IXR(NIXR,L).LE.KUG) THEN
+          IF(IXR(NIXR,L)>=KLG.AND.IXR(NIXR,L)<=KUG) THEN
             DO K=KLG,KUG
               IF(IXR(NIXR,L) == K) THEN
                 IXR(1,L)=-IABS(IXR(1,L))
@@ -1713,10 +1713,10 @@ C
         DO 630 J=1,NBC
         KLG=NLEC(2*J-1)
         KUG=NLEC(2*J  )
-        IF(KLG.LE.0) GO TO 640
+        IF(KLG<=0) GO TO 640
         NBLK=(I-1)*NBC+J
         DO L=1,NUMELTG
-          IF(IXTG(NIXTG,L).GE.KLG.AND.IXTG(NIXTG,L).LE.KUG) THEN
+          IF(IXTG(NIXTG,L)>=KLG.AND.IXTG(NIXTG,L)<=KUG) THEN
             DO K=KLG,KUG
               IF(IXTG(NIXTG,L) == K) THEN
                 IXTG(1,L)=-IABS(IXTG(1,L))
@@ -1773,10 +1773,10 @@ C
         DO 730 J=1,NBC
         KLG=NLEC(2*J-1)
         KUG=NLEC(2*J  )
-        IF(KLG.LE.0) GO TO 732
+        IF(KLG<=0) GO TO 732
         NBLK=(I-1)*NBC+J
         DO L=1,NUMSPH
-          IF(KXSP(NISP,L).GE.KLG.AND.KXSP(NISP,L).LE.KUG) THEN
+          IF(KXSP(NISP,L)>=KLG.AND.KXSP(NISP,L)<=KUG) THEN
 C           number of the related group :
             NG =MOD(ABS(KXSP(2,L)),NGROUP+1)
             IF(NG /= 0)THEN
@@ -2125,7 +2125,7 @@ c           Verification partagee et tag en - noeuds non present
          !GR_ID < 0
            READ (IIN,'(I10)', ERR=998,IOSTAT=IERROR)GR_ID
 
- 0998     IF(IERROR.NE.0)THEN
+ 0998     IF(IERROR/=0)THEN
             WRITE(ISTDO,*)  ' ** ERROR IN ALE LINK: INVALID GRNOD_ID'
             GR_ID = 0
           ENDIF
@@ -2211,7 +2211,7 @@ C-------------------------------------------
             !---------------------------------!
            ELSE !(N<=0)
               READ (IIN,'(I10)', ERR=999,IOSTAT=IERROR)GR_ID
- 0999         IF(IERROR.NE.0)THEN
+ 0999         IF(IERROR/=0)THEN
                 WRITE(ISTDO,*)  ' ** ERROR IN ALE LINK: CANNOT READ GRNOD_ID VALUE'
                 GR_ID = 0
                 CALL ARRET(2) !node group not read
@@ -2362,16 +2362,16 @@ c             Verification partagee et tag en - noeuds non present
 C-------------------------------------------
 C     ALE ON/ OFF
 C-------------------------------------------
-      IF(NBPARTALEON .GT. 0) ALLOCATE(ALEON_PARTIDS_TMP(NBPARTALEON))
-      IF(NBPARTALEOFF .GT. 0) ALLOCATE(ALEOFF_PARTIDS_TMP(NBPARTALEOFF))
+      IF(NBPARTALEON > 0) ALLOCATE(ALEON_PARTIDS_TMP(NBPARTALEON))
+      IF(NBPARTALEOFF > 0) ALLOCATE(ALEOFF_PARTIDS_TMP(NBPARTALEOFF))
       ION = 0
       IOFF = 0
       DO I = 1, NBPARTALEON + NBPARTALEOFF
          READ(IIN, '(I10, I10)') PARTID, ISON
-         IF (ISON .EQ. 1) THEN
+         IF (ISON == 1) THEN
             ION = ION + 1
             ALEON_PARTIDS_TMP(ION) = PARTID
-         ELSE IF(ISON .EQ. 0) THEN
+         ELSE IF(ISON == 0) THEN
             IOFF = IOFF + 1
             ALEOFF_PARTIDS_TMP(IOFF) = PARTID
          ENDIF
@@ -2379,10 +2379,10 @@ C-------------------------------------------
 C     Checking for doublon and suppression
       DO I = 1, NBPARTALEON
          PARTID = ALEON_PARTIDS_TMP(I)
-         IF (PARTID .NE. -1) THEN
+         IF (PARTID /= -1) THEN
             DO J = 1, NBPARTALEON
-               IF (J .EQ. I) CYCLE
-               IF (ALEON_PARTIDS_TMP(J) .EQ. PARTID) THEN
+               IF (J == I) CYCLE
+               IF (ALEON_PARTIDS_TMP(J) == PARTID) THEN
                   NBPARTALEON = NBPARTALEON - 1
                   ALEON_PARTIDS_TMP(J) = -1
                ENDIF
@@ -2391,10 +2391,10 @@ C     Checking for doublon and suppression
       ENDDO
       DO I = 1, NBPARTALEOFF
          PARTID = ALEOFF_PARTIDS_TMP(I)
-         IF (PARTID .NE. -1) THEN
+         IF (PARTID /= -1) THEN
             DO J = 1, NBPARTALEOFF
-               IF (J .EQ. I) CYCLE
-               IF (ALEOFF_PARTIDS_TMP(J) .EQ. PARTID) THEN
+               IF (J == I) CYCLE
+               IF (ALEOFF_PARTIDS_TMP(J) == PARTID) THEN
                   NBPARTALEOFF = NBPARTALEOFF - 1
                   ALEOFF_PARTIDS_TMP(J) = -1
                ENDIF
@@ -2403,7 +2403,7 @@ C     Check if part is also defined in ON
 C     By default, all parts are ON, if a part is set to OFF
 C     and ON at the same time, we choose to OFF it
             DO J = 1, NBPARTALEON
-               IF (ALEON_PARTIDS_TMP(J) .EQ. PARTID) THEN
+               IF (ALEON_PARTIDS_TMP(J) == PARTID) THEN
                   !!! WARNING TO OUTPUT HERE
                   ALEON_PARTIDS_TMP(J) = -1
                   NBPARTALEON = NBPARTALEON - 1
@@ -2418,16 +2418,16 @@ C     Checking that part ids exist in IPART(4, *)
       DO I = 1, NBPARTALEON
          PARTID = ALEON_PARTIDS_TMP(I)
          ISON = 0
-         IF (PARTID .NE. -1) THEN
+         IF (PARTID /= -1) THEN
             DO J = 1, NPART
-               IF (IPART(4 + (J - 1) * LIPART1) .EQ. PARTID) THEN
+               IF (IPART(4 + (J - 1) * LIPART1) == PARTID) THEN
                   ISON = 1
                   ALEON_PARTIDS_TMP(I) = J
                   EXIT
                ENDIF
             ENDDO
          ENDIF
-         IF (ISON .EQ. 0) THEN
+         IF (ISON == 0) THEN
             ALEON_PARTIDS_TMP(I) = -1
             NBALEON_PART = NBALEON_PART - 1
             CALL ANCMSG(MSGID = 271, ANMODE = ANINFO, I1 = PARTID)
@@ -2437,16 +2437,16 @@ C     Checking that part ids exist in IPART(4, *)
       DO I = 1, NBPARTALEOFF
          PARTID = ALEOFF_PARTIDS_TMP(I)
          ISON = 0
-         IF (PARTID .NE. -1) THEN
+         IF (PARTID /= -1) THEN
             DO J = 1, NPART
-               IF (IPART(4 + (J - 1) * LIPART1) .EQ. PARTID) THEN
+               IF (IPART(4 + (J - 1) * LIPART1) == PARTID) THEN
                   ISON = 1
                   ALEOFF_PARTIDS_TMP(I) = J
                   EXIT
                ENDIF
             ENDDO
          ENDIF
-         IF (ISON .EQ. 0) THEN
+         IF (ISON == 0) THEN
             ALEOFF_PARTIDS_TMP(I) = -1
             NBALEOFF_PART = NBALEOFF_PART - 1
             CALL ANCMSG(MSGID = 271, ANMODE = ANINFO, I1 = PARTID)
@@ -2454,12 +2454,12 @@ C     Checking that part ids exist in IPART(4, *)
          ENDIF
       ENDDO
 C     Filling module values
-      IF (NBALEOFF_PART .GT. 0) ALLOCATE(ALEOFF_PARTIDS(NBALEOFF_PART))
-      IF (NBALEON_PART .GT. 0) ALLOCATE(ALEON_PARTIDS(NBALEON_PART))
+      IF (NBALEOFF_PART > 0) ALLOCATE(ALEOFF_PARTIDS(NBALEOFF_PART))
+      IF (NBALEON_PART > 0) ALLOCATE(ALEON_PARTIDS(NBALEON_PART))
       DO I = 1, NBPARTALEON
          PARTID = ALEON_PARTIDS_TMP(I)
          ISON = 0
-         IF (PARTID .NE. -1) THEN
+         IF (PARTID /= -1) THEN
             ISON = ISON + 1
             ALEON_PARTIDS(ISON) = PARTID
          ENDIF
@@ -2467,7 +2467,7 @@ C     Filling module values
       ISON = 0
       DO I = 1, NBPARTALEOFF
          PARTID = ALEOFF_PARTIDS_TMP(I)
-         IF (PARTID .NE. -1) THEN
+         IF (PARTID /= -1) THEN
             ISON = ISON + 1
             ALEOFF_PARTIDS(ISON) = PARTID
          ENDIF
@@ -2491,23 +2491,23 @@ C     Find part associated to the current group
 C     by checking the first element of the group
 C     NB : all elements in a same group belong necessarily to the same part
 
-         IF (ITY .EQ. 1) THEN
+         IF (ITY == 1) THEN
 C     Solid groups
             PARTID = IPART(K1 + NFT)
-         ELSEIF (ITY .EQ. 2) THEN
+         ELSEIF (ITY == 2) THEN
 C     Shells and coques
             PARTID = IPART(K2 + NFT)
          ENDIF
 C     Check if this part is found in ALEOFF_PARTIDS
          DO I = 1, NBALEOFF_PART
-            IF (ALEOFF_PARTIDS(I) .EQ. PARTID) THEN
+            IF (ALEOFF_PARTIDS(I) == PARTID) THEN
                IPARG(76, NG) = 1 ! --> OFF
                EXIT
             ENDIF
          ENDDO
 C     Check if this part is found in ALEON_PARTIDS
          DO I = 1, NBALEON_PART
-            IF (ALEON_PARTIDS(I) .EQ. PARTID) THEN
+            IF (ALEON_PARTIDS(I) == PARTID) THEN
                IPARG(76, NG) = 0 ! --> ON
                EXIT
             ENDIF
@@ -2633,7 +2633,7 @@ C---------------------------------------------------------
 C     MADYMO COUPLING GENERAL DATA (CONVERSION FACTORS).
 C---------------------------------------------------------
 #ifdef DNC
-      IF( IMADCPL > 0.AND.INVERS.GE.40.AND.MCHECK == 0)CALL LECCPL()
+      IF( IMADCPL > 0.AND.INVERS>=40.AND.MCHECK == 0)CALL LECCPL()
 #endif
 C---------------------------------------------------------
 C     OPTIONS SPMD SPECIFIQUES
@@ -3375,7 +3375,7 @@ C------case /IMPL/PROJV/n w/o /SOLV/9
        IF (ISOLV == 2) THEN
         IF (ITOL == 0.OR.ITOL > 1) ITOL=2
         IF (L_TOL == ZERO) L_TOL=P_MACH
-       ELSEIF (ISOLV == 1.OR.ISOLV.GE.7) THEN
+       ELSEIF (ISOLV == 1.OR.ISOLV>=7) THEN
         IF (ITOL == 0) ITOL=3
         IF (ITOL > 4) THEN
          IF(IPRINT==1) THEN

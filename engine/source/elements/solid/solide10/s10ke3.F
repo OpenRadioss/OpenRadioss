@@ -200,7 +200,7 @@ C-----------
         CALL MORTHLOCK3(LFT,LLT ,GAMA,E1X,E2X,E3X,
      +                  E1Y,E2Y ,E3Y ,E1Z,E2Z,E3Z)
       ENDIF
-      IF (MTN.GE.28) THEN
+      IF (MTN>=28) THEN
        IADBUF = IPM(7,MXT(1))
       ELSE
        IADBUF = 0
@@ -233,7 +233,7 @@ C
 C----------------------------
 C     geometrical stiffness 
 C----------------------------
-        IF (IKGEO.GT.0) THEN
+        IF (IKGEO>0) THEN
          CALL S10KGEO3(LBUF%SIG,VOLP(1,IP) ,
      .    PX(1,1,IP), PY(1,1,IP), PZ(1,1,IP), 
      .    K11,K12,K13,K14,K15,K16,K17,K18,K19,K10,
@@ -245,7 +245,7 @@ C----------------------------
         ENDIF 
       ENDDO
       
-         IF (NEIG.GT.0) CALL S10EOFF(
+         IF (NEIG>0) CALL S10EOFF(
      1      LFT, LLT, IXS(1,NF1),IXS10(1,NF2), ETAG, OFFG)
          CALL ASSEM_S10(
      1                   IXS(1,NF1),IXS10(1,NF2),NEL,IDDL  ,NDOF  ,

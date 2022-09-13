@@ -127,7 +127,7 @@ C-----------------------------------------------
         DIAG(3)    = SQRT((XX(2)-XX(8))**2 + (YY(2)-YY(8))**2 + (ZZ(2)-ZZ(8))**2)
         DIAG(4)    = SQRT((XX(4)-XX(6))**2 + (YY(4)-YY(6))**2 + (ZZ(4)-ZZ(6))**2)      
         DD         = MAXVAL(DIAG(1:4))      
-        IF(DD.GT.DDmax)THEN
+        IF(DD>DDmax)THEN
           DDmax = DD
           !print *, "TZINF : briqueID=", IXS(11,NE)
           !print *, "          New DD=", DD

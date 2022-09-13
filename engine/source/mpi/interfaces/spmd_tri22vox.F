@@ -121,8 +121,8 @@ C=======================================================================
       !-------------------------------------------!
       !    Domain Bounds from i22xsave            !
       !-------------------------------------------!
-      IF(IRCVFROM(NIN,LOC_PROC).EQ.0.AND.
-     .   ISENDTO(NIN,LOC_PROC).EQ.0) RETURN
+      IF(IRCVFROM(NIN,LOC_PROC)==0.AND.
+     .   ISENDTO(NIN,LOC_PROC)==0) RETURN
       IF (IMONM > 0) CALL STARTIME(25,1)
       BMINMA(1,LOC_PROC) = BMINMAL(1)
       BMINMA(2,LOC_PROC) = BMINMAL(2)
@@ -134,10 +134,10 @@ C=======================================================================
       !     Voxel Sending                         !
       !     + Min-Max Boxes Sending               !
       !-------------------------------------------!
-      IF(IRCVFROM(NIN,LOC_PROC).NE.0) THEN
+      IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         DO P = 1, NSPMD
-          IF(ISENDTO(NIN,P).NE.0) THEN
-            IF(P.NE.LOC_PROC) THEN
+          IF(ISENDTO(NIN,P)/=0) THEN
+            IF(P/=LOC_PROC) THEN
               MSGTYP = MSGOFF
               CALL MPI_ISEND(
      .          CRVOXEL(0,0,LOC_PROC),
@@ -156,11 +156,11 @@ C=======================================================================
       !     Voxel Reception                       !
       !     + Min-Max Boxes Reception             !
       !-------------------------------------------!
-      IF(ISENDTO(NIN,LOC_PROC).NE.0) THEN
+      IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         NBIRECV=0
         DO P = 1, NSPMD
-          IF(IRCVFROM(NIN,P).NE.0) THEN
-            IF(LOC_PROC.NE.P) THEN
+          IF(IRCVFROM(NIN,P)/=0) THEN
+            IF(LOC_PROC/=P) THEN
               NBIRECV=NBIRECV+1
               IRINDEXI(NBIRECV)=P
               MSGTYP = MSGOFF + NSPMD*ISPMD + P +NIN
@@ -182,7 +182,7 @@ C=======================================================================
       !     (remote lagrangian shells)            !
       !-------------------------------------------!
       IDEB = 1   
-      IF(ISENDTO(NIN,LOC_PROC).NE.0) THEN
+      IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         DO KK = 1, NBIRECV
           CALL MPI_WAITANY(NBIRECV,REQ_RB,INDEXI,STATUS,IERROR)
           P=IRINDEXI(INDEXI)
@@ -245,9 +245,9 @@ C=======================================================================
          !-------------------------------------------!
          !     Buffer Allocation                     !
          !-------------------------------------------!
-          IF (NB_.GT.0) THEN
+          IF (NB_>0) THEN
             ALLOCATE(BUF(P)%P(SIZ_XREM*NB_),STAT=IERROR)
-            IF(IERROR.NE.0) THEN
+            IF(IERROR/=0) THEN
               CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
               CALL ARRET(2)
             ENDIF
@@ -279,17 +279,17 @@ C=======================================================================
       !-------------------------------------------!
       !     XREM data reception                   !
       !-------------------------------------------!
-      IF(IRCVFROM(NIN,LOC_PROC).NE.0) THEN
+      IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         NSHELR = 0
         L=0
         DO P = 1, NSPMD
           NSNFI(NIN)%P(P) = 0
-          IF(ISENDTO(NIN,P).NE.0) THEN
-            IF(LOC_PROC.NE.P) THEN
+          IF(ISENDTO(NIN,P)/=0) THEN
+            IF(LOC_PROC/=P) THEN
               MSGTYP = MSGOFF3 
               CALL MPI_RECV(NSNFI(NIN)%P(P),1,MPI_INTEGER,IT_SPMD(P),
      .                      MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
-              IF(NSNFI(NIN)%P(P).GT.0) THEN
+              IF(NSNFI(NIN)%P(P)>0) THEN
                 L=L+1
                 ISINDEXI(L)=P
                 NSHELR = NSHELR + NSNFI(NIN)%P(P)
@@ -301,7 +301,7 @@ C=======================================================================
       !-------------------------------------------!
       !     Allocating total size                 !
       !-------------------------------------------!
-        IF(NSHELR.GT.0) THEN
+        IF(NSHELR>0) THEN
           IF (IR4R8 == 2) THEN
             ALLOCATE(XREM(SIZ_XREM,NSHELR),STAT=IERROR)
           ELSE
@@ -309,7 +309,7 @@ C=======================================================================
             ALLOCATE(IREM(2,NSHELR),STAT=IERROR1)
             IERROR=IERROR+IERROR1
           END IF
-          IF(IERROR.NE.0) THEN
+          IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
           ENDIF
@@ -335,10 +335,10 @@ C=======================================================================
         ENDIF
       ENDIF
 
-      IF(IRCVFROM(NIN,LOC_PROC).NE.0) THEN
+      IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         DO P = 1, NSPMD
-          IF(ISENDTO(NIN,P).NE.0) THEN
-            IF(P.NE.LOC_PROC) THEN
+          IF(ISENDTO(NIN,P)/=0) THEN
+            IF(P/=LOC_PROC) THEN
               CALL MPI_WAIT(REQ_SC(P),STATUS,IERROR)
               CALL MPI_WAIT(REQ_SB(P),STATUS,IERROR)
               ENDIF
@@ -346,12 +346,12 @@ C=======================================================================
         ENDDO
       ENDIF
 
-      IF(ISENDTO(NIN,LOC_PROC).NE.0) THEN
+      IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         DO P = 1, NSPMD
-          IF(IRCVFROM(NIN,P).NE.0) THEN
-            IF(P.NE.LOC_PROC) THEN
+          IF(IRCVFROM(NIN,P)/=0) THEN
+            IF(P/=LOC_PROC) THEN
               CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
-              IF(NBOX(P).NE.0) THEN
+              IF(NBOX(P)/=0) THEN
                 CALL MPI_WAIT(REQ_SD2(P),STATUS,IERROR)
                 DEALLOCATE(BUF(P)%p)
               END IF

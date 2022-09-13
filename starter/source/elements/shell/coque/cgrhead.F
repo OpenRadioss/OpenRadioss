@@ -205,7 +205,7 @@ C
         INUM(8,I)=IXC(6,I)
         INUM(9,I)=IXC(7,I)
         XNUM(I)=THK(I)
-        IF (NSUBDOM.GT.0) INUM_R2R(I) = TAG_ELCF(I)
+        IF (NSUBDOM>0) INUM_R2R(I) = TAG_ELCF(I)
         INUM_WORKC(1,I) = IWORKSH(1,I)
         INUM_WORKC(2,I) = IWORKSH(2,I)
         INUM_WORKC(3,I) = IWORKSH(3,I)
@@ -258,7 +258,7 @@ C          not the same group as if adaptivity.
             ITRI(1,I)=0
           ELSE
             ILEV= SH4TREE(3,I)
-            IF(ILEV.LT.0)ILEV=-ILEV-1
+            IF(ILEV<0)ILEV=-ILEV-1
             ITRI(1,I)=ILEV+1
           END IF
         END IF
@@ -378,7 +378,7 @@ C         IF(IPLA == 3) IPLA=2
         IPLA = IABS(IPLA)
         ITHK = IABS(ITHK)
         ISTRAIN = NINT(GEO(11,PID))
-        IF(MLN == 19.OR.MLN.GE.25.OR.MLN == 15)ISTRAIN = 1
+        IF(MLN == 19.OR.MLN>=25.OR.MLN == 15)ISTRAIN = 1
         ISSN = IABS(NINT(GEO(3,PID)))
 C tri sur elem delete des rigidbody
 C IRB = 0 : elem actif
@@ -441,7 +441,7 @@ C
        DO I=1,NUMELC
         IPARTC(I) =INUM(1,INDEX(I))
         ISHEOFF(I)=INUM(2,INDEX(I))
-        IF (NSUBDOM.GT.0) TAG_ELCF(I)=INUM_R2R(INDEX(I))
+        IF (NSUBDOM>0) TAG_ELCF(I)=INUM_R2R(INDEX(I))
         THK(I)    =XNUM(INDEX(I))
       ENDDO
 

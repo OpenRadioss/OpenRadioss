@@ -59,7 +59,7 @@ C-----------------------------------------------
 C
       NEL1=0
       DO I=1,NUMELTG
-       IF (ICNOD(I).EQ.6) THEN
+       IF (ICNOD(I)==6) THEN
         NEL1 = NEL1+1
         IXTG1(1,NEL1) = 0
         IXTG1(2,NEL1) = 0
@@ -67,15 +67,15 @@ C
         IXTG1(4,NEL1) = I
        ENDIF
       ENDDO
-      IF (NEL1.NE.NUMELTG6) THEN
+      IF (NEL1/=NUMELTG6) THEN
        CALL ANCMSG(MSGID=364,
      *             ANMODE=ANSTOP,
      *             MSGTYPE=MSGERROR,C1='S3N6')
       ENDIF
 C
       DO I=1,NUMELTG6
-       IF (IXTG1(1,I).EQ.0.OR.IXTG1(2,I).EQ.0
-     .     .OR.IXTG1(3,I).EQ.0) THEN
+       IF (IXTG1(1,I)==0.OR.IXTG1(2,I)==0
+     .     .OR.IXTG1(3,I)==0) THEN
         II=IXTG1(4,I)
         N1= IXTG(2,II)  
         N2= IXTG(3,II)  
@@ -90,57 +90,57 @@ C        IMAX= MAX(N1,N2,N3)
 C         JMIN= MIN(NJ1,NJ2,NJ3)
 C         JMAX= MAX(NJ1,NJ2,NJ3)
 C---------   ligne 1----------
-          IF (IXTG1(1,I).EQ.0) THEN
-           IF ((N1+N2).EQ.(NJ1+NJ2)) THEN
-            IF (ABS(N1-N2).EQ.ABS(NJ1-NJ2)) THEN
+          IF (IXTG1(1,I)==0) THEN
+           IF ((N1+N2)==(NJ1+NJ2)) THEN
+            IF (ABS(N1-N2)==ABS(NJ1-NJ2)) THEN
              IXTG1(1,I) = NJ3
              IXTG1(1,J) = N3
             ENDIF 
-           ELSEIF ((N1+N2).EQ.(NJ2+NJ3)) THEN
-            IF (ABS(N1-N2).EQ.ABS(NJ2-NJ3)) THEN
+           ELSEIF ((N1+N2)==(NJ2+NJ3)) THEN
+            IF (ABS(N1-N2)==ABS(NJ2-NJ3)) THEN
              IXTG1(1,I) = NJ1
              IXTG1(2,J) = N3
             ENDIF 
-           ELSEIF ((N1+N2).EQ.(NJ3+NJ1)) THEN
-            IF (ABS(N1-N2).EQ.ABS(NJ3-NJ1)) THEN
+           ELSEIF ((N1+N2)==(NJ3+NJ1)) THEN
+            IF (ABS(N1-N2)==ABS(NJ3-NJ1)) THEN
              IXTG1(1,I) = NJ2
              IXTG1(3,J) = N3
             ENDIF 
            ENDIF 
           ENDIF 
 C---------   ligne 2----------
-          IF (IXTG1(2,I).EQ.0) THEN
-           IF ((N2+N3).EQ.(NJ1+NJ2)) THEN
-            IF (ABS(N2-N3).EQ.ABS(NJ1-NJ2)) THEN
+          IF (IXTG1(2,I)==0) THEN
+           IF ((N2+N3)==(NJ1+NJ2)) THEN
+            IF (ABS(N2-N3)==ABS(NJ1-NJ2)) THEN
              IXTG1(2,I) = NJ3
              IXTG1(1,J) = N1
             ENDIF 
-           ELSEIF ((N2+N3).EQ.(NJ2+NJ3)) THEN
-            IF (ABS(N2-N3).EQ.ABS(NJ2-NJ3)) THEN
+           ELSEIF ((N2+N3)==(NJ2+NJ3)) THEN
+            IF (ABS(N2-N3)==ABS(NJ2-NJ3)) THEN
              IXTG1(2,I) = NJ1
              IXTG1(2,J) = N1
             ENDIF 
-           ELSEIF ((N2+N3).EQ.(NJ3+NJ1)) THEN
-            IF (ABS(N2-N3).EQ.ABS(NJ3-NJ1)) THEN
+           ELSEIF ((N2+N3)==(NJ3+NJ1)) THEN
+            IF (ABS(N2-N3)==ABS(NJ3-NJ1)) THEN
              IXTG1(2,I) = NJ2
              IXTG1(3,J) = N1
             ENDIF 
            ENDIF 
           ENDIF 
 C---------   ligne 3----------
-          IF (IXTG1(3,I).EQ.0) THEN
-           IF ((N1+N3).EQ.(NJ1+NJ2)) THEN
-            IF (ABS(N1-N3).EQ.ABS(NJ1-NJ2)) THEN
+          IF (IXTG1(3,I)==0) THEN
+           IF ((N1+N3)==(NJ1+NJ2)) THEN
+            IF (ABS(N1-N3)==ABS(NJ1-NJ2)) THEN
              IXTG1(3,I) = NJ3
              IXTG1(1,J) = N2
             ENDIF 
-           ELSEIF ((N1+N3).EQ.(NJ2+NJ3)) THEN
-            IF (ABS(N1-N3).EQ.ABS(NJ2-NJ3)) THEN
+           ELSEIF ((N1+N3)==(NJ2+NJ3)) THEN
+            IF (ABS(N1-N3)==ABS(NJ2-NJ3)) THEN
              IXTG1(3,I) = NJ1
              IXTG1(2,J) = N2
             ENDIF 
-           ELSEIF ((N1+N3).EQ.(NJ3+NJ1)) THEN
-            IF (ABS(N1-N3).EQ.ABS(NJ3-NJ1)) THEN
+           ELSEIF ((N1+N3)==(NJ3+NJ1)) THEN
+            IF (ABS(N1-N3)==ABS(NJ3-NJ1)) THEN
              IXTG1(3,I) = NJ2
              IXTG1(3,J) = N2
             ENDIF 

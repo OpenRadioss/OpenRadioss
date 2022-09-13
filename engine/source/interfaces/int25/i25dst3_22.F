@@ -496,17 +496,17 @@ C       Projection en dehors du triangle
         LAP       = ONE-LBP(I,1)-LCP(I,1)
         AAA = ONE / MAX(EM20,X12*X12+Y12*Y12+Z12*Z12)
         HLA= LAP*ABS(LAP) * AAA
-        IF(LAP.LT.ZERO.AND.
-     +     HLA.LE.HLB(I,1).AND.HLA.LE.HLC(I,1))THEN
+        IF(LAP<ZERO.AND.
+     +     HLA<=HLB(I,1).AND.HLA<=HLC(I,1))THEN
          LBP(I,1) = (XIJ(I,2)*X12+YIJ(I,2)*Y12+ZIJ(I,2)*Z12) * AAA
          LBP(I,1) = MAX(ZERO,MIN(ONE,LBP(I,1)))
          LCP(I,1) = ONE - LBP(I,1)
-        ELSEIF(LBP(I,1).LT.ZERO.AND.
-     +         HLB(I,1).LE.HLC(I,1).AND.HLB(I,1).LE.HLA)THEN
+        ELSEIF(LBP(I,1)<ZERO.AND.
+     +         HLB(I,1)<=HLC(I,1).AND.HLB(I,1)<=HLA)THEN
          LBP(I,1) = ZERO
          LCP(I,1) = AL(I,2)
-        ELSEIF(LCP(I,1).LT.ZERO.AND.
-     +         HLC(I,1).LE.HLA.AND.HLC(I,1).LE.HLB(I,1))THEN
+        ELSEIF(LCP(I,1)<ZERO.AND.
+     +         HLC(I,1)<=HLA.AND.HLC(I,1)<=HLB(I,1))THEN
          LCP(I,1) = ZERO
          LBP(I,1) = AL(I,1)
         ENDIF
@@ -524,17 +524,17 @@ C       Projection en dehors du triangle
         LAP       = ONE-LBP(I,2)-LCP(I,2)
         AAA = ONE / MAX(EM20,X12*X12+Y12*Y12+Z12*Z12)
         HLA= LAP*ABS(LAP) * AAA
-        IF(LAP.LT.ZERO.AND.
-     +     HLA.LE.HLB(I,2).AND.HLA.LE.HLC(I,2))THEN
+        IF(LAP<ZERO.AND.
+     +     HLA<=HLB(I,2).AND.HLA<=HLC(I,2))THEN
          LBP(I,2) = (XIJ(I,3)*X12+YIJ(I,3)*Y12+ZIJ(I,3)*Z12) * AAA
          LBP(I,2) = MAX(ZERO,MIN(ONE,LBP(I,2)))
          LCP(I,2) = ONE - LBP(I,2)
-        ELSEIF(LBP(I,2).LT.ZERO.AND.
-     +         HLB(I,2).LE.HLC(I,2).AND.HLB(I,2).LE.HLA)THEN
+        ELSEIF(LBP(I,2)<ZERO.AND.
+     +         HLB(I,2)<=HLC(I,2).AND.HLB(I,2)<=HLA)THEN
          LBP(I,2) = ZERO
          LCP(I,2) = AL(I,3)
-        ELSEIF(LCP(I,2).LT.ZERO.AND.
-     +         HLC(I,2).LE.HLA.AND.HLC(I,2).LE.HLB(I,2))THEN
+        ELSEIF(LCP(I,2)<ZERO.AND.
+     +         HLC(I,2)<=HLA.AND.HLC(I,2)<=HLB(I,2))THEN
          LCP(I,2) = ZERO
          LBP(I,2) = AL(I,2)
         END IF
@@ -552,17 +552,17 @@ C       Projection en dehors du triangle
         LAP       = ONE-LBP(I,3)-LCP(I,3)
         AAA = ONE / MAX(EM20,X12*X12+Y12*Y12+Z12*Z12)
         HLA= LAP*ABS(LAP) * AAA
-        IF(LAP.LT.ZERO.AND.
-     +     HLA.LE.HLB(I,3).AND.HLA.LE.HLC(I,3))THEN
+        IF(LAP<ZERO.AND.
+     +     HLA<=HLB(I,3).AND.HLA<=HLC(I,3))THEN
          LBP(I,3) = (XIJ(I,4)*X12+YIJ(I,4)*Y12+ZIJ(I,4)*Z12) * AAA
          LBP(I,3) = MAX(ZERO,MIN(ONE,LBP(I,3)))
          LCP(I,3) = ONE - LBP(I,3)
-        ELSEIF(LBP(I,3).LT.ZERO.AND.
-     +         HLB(I,3).LE.HLC(I,3).AND.HLB(I,3).LE.HLA)THEN
+        ELSEIF(LBP(I,3)<ZERO.AND.
+     +         HLB(I,3)<=HLC(I,3).AND.HLB(I,3)<=HLA)THEN
          LBP(I,3) = ZERO
          LCP(I,3) = AL(I,4)
-        ELSEIF(LCP(I,3).LT.ZERO.AND.
-     +         HLC(I,3).LE.HLA.AND.HLC(I,3).LE.HLB(I,3))THEN
+        ELSEIF(LCP(I,3)<ZERO.AND.
+     +         HLC(I,3)<=HLA.AND.HLC(I,3)<=HLB(I,3))THEN
          LCP(I,3) = ZERO
          LBP(I,3) = AL(I,3)
         ENDIF
@@ -580,17 +580,17 @@ C       Projection en dehors du triangle
         LAP       = ONE-LBP(I,4)-LCP(I,4)
         AAA = ONE / MAX(EM20,X12*X12+Y12*Y12+Z12*Z12)
         HLA= LAP*ABS(LAP) * AAA
-        IF(LAP.LT.ZERO.AND.
-     +     HLA.LE.HLB(I,4).AND.HLA.LE.HLC(I,4))THEN
+        IF(LAP<ZERO.AND.
+     +     HLA<=HLB(I,4).AND.HLA<=HLC(I,4))THEN
          LBP(I,4) = (XIJ(I,1)*X12+YIJ(I,1)*Y12+ZIJ(I,1)*Z12) * AAA
          LBP(I,4) = MAX(ZERO,MIN(ONE,LBP(I,4)))
          LCP(I,4) = ONE - LBP(I,4)
-        ELSEIF(LBP(I,4).LT.ZERO.AND.
-     +         HLB(I,4).LE.HLC(I,4).AND.HLB(I,4).LE.HLA)THEN
+        ELSEIF(LBP(I,4)<ZERO.AND.
+     +         HLB(I,4)<=HLC(I,4).AND.HLB(I,4)<=HLA)THEN
          LBP(I,4) = ZERO
          LCP(I,4) = AL(I,1)
-        ELSEIF(LCP(I,4).LT.ZERO.AND.
-     +         HLC(I,4).LE.HLA.AND.HLC(I,4).LE.HLB(I,4))THEN
+        ELSEIF(LCP(I,4)<ZERO.AND.
+     +         HLC(I,4)<=HLA.AND.HLC(I,4)<=HLB(I,4))THEN
          LCP(I,4) = ZERO
          LBP(I,4) = AL(I,4)
         ENDIF
@@ -1304,7 +1304,7 @@ c     .      bb(i,1:4),dd(i,1:4)
 
         MGLOB=MSEGLO(L)
 
-        IF(N.LE.NSN)THEN
+        IF(N<=NSN)THEN
 #include "lockon.inc"
 
           IF(  TIME_S(1,N) < PENE .OR.

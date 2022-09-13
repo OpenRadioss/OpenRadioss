@@ -118,7 +118,7 @@ C
         NZ=X13*Y24-Y13*X24
         NORM=SQRT(NX*NX+NY*NY+NZ*NZ)
         S=HALF*NORM
-        IF(NORM.GT.EM20)THEN
+        IF(NORM>EM20)THEN
           NORM=ORIENT/NORM
           NX=NX*NORM
           NY=NY*NORM
@@ -144,14 +144,14 @@ c        VEL=VN**2
 c        write(6,*)iseg(is),vn1,vn2,vn3,vn4
         VPLUS =MAX(VN,ZERO)
         VMOINS=MIN(VN,ZERO)
-c        IF(VN.GE.0.)VEL=0.
+c        IF(VN>=0.)VEL=0.
 C
 C CONDITION D'ARRET
 C
         VEL=MIN(VN1,ZERO)**2
         VEL=MIN(VEL,VCRT2)
         GV=GAMRP*RO*VEL/PRES
-        IF(GV.GT.EM4)THEN
+        IF(GV>EM4)THEN
          RSR    = (ONE-GV)**GAM1
          PNA1     = PRES*RSR**GAM
         ELSE
@@ -164,7 +164,7 @@ C
         VEL=MIN(VN2,ZERO)**2
         VEL=MIN(VEL,VCRT2)
         GV=GAMRP*RO*VEL/PRES
-        IF(GV.GT.EM4)THEN
+        IF(GV>EM4)THEN
          RSR    = (ONE-GV)**GAM1
          PNA2     = PRES*RSR**GAM
         ELSE
@@ -177,7 +177,7 @@ C
         VEL=MIN(VN3,ZERO)**2
         VEL=MIN(VEL,VCRT2)
         GV=GAMRP*RO*VEL/PRES
-        IF(GV.GT.EM4)THEN
+        IF(GV>EM4)THEN
          RSR    = (ONE-GV)**GAM1
          PNA3     = PRES*RSR**GAM
         ELSE
@@ -190,7 +190,7 @@ C
         VEL=MIN(VN4,ZERO)**2
         VEL=MIN(VEL,VCRT2)
         GV=GAMRP*RO*VEL/PRES
-        IF(GV.GT.EM4)THEN
+        IF(GV>EM4)THEN
          RSR    = (ONE-GV)**GAM1
          PNA4     = PRES*RSR**GAM
         ELSE
@@ -273,7 +273,7 @@ C
         A(2,IRECT(3))=A(2,IRECT(3))+FY
         A(3,IRECT(3))=A(3,IRECT(3))+FZ
 C
-        IF(IRECT(4).NE.IRECT(3))THEN
+        IF(IRECT(4)/=IRECT(3))THEN
         PN  = PNA4-PEXT
         PNS=-PN*S*FAC
         FX=PNS*NX

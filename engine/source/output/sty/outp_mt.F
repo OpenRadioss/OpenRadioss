@@ -69,7 +69,7 @@ C
 C pre traitement SPMD : gather de PARTSAV et mise a zero sur procs remote
       IF(NSPMD > 1) THEN
         CALL SPMD_GLOB_DSUM9(PARTSAV2,NPSAV*NPART)
-        IF(ISPMD.NE.0) THEN
+        IF(ISPMD/=0) THEN
           RETURN
         ENDIF
       ENDIF
@@ -81,24 +81,24 @@ C pre traitement SPMD : gather de PARTSAV et mise a zero sur procs remote
       ZM=ZERO      
       I1=IPART(1,1)
       DO K = 1,NPART+1
-        IF(K.LE.NPART)THEN
+        IF(K<=NPART)THEN
           I=IPART(1,K)
         ELSE
           I=0
         ENDIF
-        IF(I1.EQ.0)THEN
+        IF(I1==0)THEN
          I1=I
-        ELSEIF(I1.NE.I)THEN
+        ELSEIF(I1/=I)THEN
          CALL FRETITL2(CARD,IPM(NPROPMI-LTITR+1,I1),40)
          WRITE(IUGEO,'(A,I10)')'/MATER     /',I1
          USRMID = IPM(1,I1)
-         IF(USRMID.EQ.0) CARD=' '
-         IF (OUTYY_FMT.EQ.2) THEN
+         IF(USRMID==0) CARD=' '
+         IF (OUTYY_FMT==2) THEN
            WRITE(IUGEO,'(A)')CARD(1:80)
          ELSE
            WRITE(IUGEO,'(A)')CARD
          END IF
-         IF (OUTYY_FMT.EQ.2) THEN
+         IF (OUTYY_FMT==2) THEN
           WRITE(IUGEO,'(A)') '#FORMAT: (I8,1P3E16.9/8X,1P3E16.9) '
           WRITE(IUGEO,'(2A)')'# USRMID INTERNAL_ENERGY  KINETIC_ENERGY',
      .                              '            MASS'
@@ -123,7 +123,7 @@ C pre traitement SPMD : gather de PARTSAV et mise a zero sur procs remote
          ZM=ZERO 
          I1=I
         ENDIF
-        IF(I.GT.0)THEN
+        IF(I>0)THEN
           IE=IE+PARTSAV2(1,K)
           KE=KE+PARTSAV2(2,K)
           MAS=MAS+PARTSAV2(6,K)

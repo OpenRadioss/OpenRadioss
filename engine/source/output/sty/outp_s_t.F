@@ -139,7 +139,7 @@ C
         ENDDO
        ENDIF
 !     ++++++++++
-       IF(ISPMD.EQ.0) THEN
+       IF(ISPMD==0) THEN
          RESP0 = 0
          JJ_OLD = 0 
          DO NN=1,NSPGROUP
@@ -154,10 +154,10 @@ C
           ENDDO    ! k=1,nspmd
 
           JJ_OLD = COMPTEUR+RESP0
-          IF (JJ_OLD.GT.0) THEN
+          IF (JJ_OLD>0) THEN
            RES=MOD(JJ_OLD,6)
            WRTLEN=JJ_OLD-RES
-           IF (WRTLEN.GT.0) THEN
+           IF (WRTLEN>0) THEN
             IF (OUTYY_FMT == 2) THEN
              WRITE(IUGEO,'(1P6E12.5)')(WAP0(J),J=1,WRTLEN)
             ELSE
@@ -170,7 +170,7 @@ C
            RESP0=RES
           ENDIF   ! if(jj_old>0)
          ENDDO    ! do nn=1,nspgroup
-         IF ( RESP0.GT.0 ) THEN
+         IF ( RESP0>0 ) THEN
           IF (OUTYY_FMT == 2) THEN
             WRITE(IUGEO,'(1P6E12.5)')(WAP0(J),J=1,RESP0)
           ELSE
@@ -612,7 +612,7 @@ C
         ENDDO
        ENDIF
 !     ++++++++++
-       IF(ISPMD.EQ.0) THEN
+       IF(ISPMD==0) THEN
        DO NN=1,NSPGROUP
         COMPTEUR = 0
         DO K = 1,NSPMD

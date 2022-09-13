@@ -211,11 +211,11 @@ C
         DO J=IDEB,NRTMP-1
           I1=INDEX(J)
           I2=INDEX(J+1)
-          IF(IRECTMP(1,I2).NE.IRECTMP(1,I1).OR.
-     .       IRECTMP(2,I2).NE.IRECTMP(2,I1).OR.
-     .       IRECTMP(3,I2).NE.IRECTMP(3,I1).OR.
-     .       IRECTMP(4,I2).NE.IRECTMP(4,I1).OR.
-     .       IRECTMP(5,I2).NE.IRECTMP(5,I1))THEN ! Teste MSEGTYP pq ya un risque si renumerotation entre les 2 phases
+          IF(IRECTMP(1,I2)/=IRECTMP(1,I1).OR.
+     .       IRECTMP(2,I2)/=IRECTMP(2,I1).OR.
+     .       IRECTMP(3,I2)/=IRECTMP(3,I1).OR.
+     .       IRECTMP(4,I2)/=IRECTMP(4,I1).OR.
+     .       IRECTMP(5,I2)/=IRECTMP(5,I1))THEN ! Teste MSEGTYP pq ya un risque si renumerotation entre les 2 phases
                                                  ! A regler
             NRTM=NRTM+1
             IF(IRECTMP(5,I2)/=0 .AND. IRECTMP(5,I2)/=1) NRTM_SH=NRTM_SH+1
@@ -242,11 +242,11 @@ C
         DO J=IDEB,NRTMP-1
           I1=INDEX(J)
           I2=INDEX(J+1)
-          IF(IRECTMP(1,I2).NE.IRECTMP(1,I1).OR.
-     .       IRECTMP(2,I2).NE.IRECTMP(2,I1).OR.
-     .       IRECTMP(3,I2).NE.IRECTMP(3,I1).OR.
-     .       IRECTMP(4,I2).NE.IRECTMP(4,I1).OR.
-     .       IRECTMP(5,I2).NE.IRECTMP(5,I1))THEN ! Teste MSEGTYP pq ya un risque si renumerotation entre les 2 phases
+          IF(IRECTMP(1,I2)/=IRECTMP(1,I1).OR.
+     .       IRECTMP(2,I2)/=IRECTMP(2,I1).OR.
+     .       IRECTMP(3,I2)/=IRECTMP(3,I1).OR.
+     .       IRECTMP(4,I2)/=IRECTMP(4,I1).OR.
+     .       IRECTMP(5,I2)/=IRECTMP(5,I1))THEN ! Teste MSEGTYP pq ya un risque si renumerotation entre les 2 phases
                                                  ! A regler
             NRTM=NRTM+1
             IRECT(1,NRTM)=IRECTMP(1,I2)
@@ -406,7 +406,7 @@ C------initialization of doubler M_seg pour shells  add ISU1>0
        NRTM0  = IPARI(4) - NRTM_SH
        CALL SH2SURF25(NRTM0,IRECT,IMBIN,MBINFLG,MSEGTYP,IPARI(4))
 
-       IF(IPRI.GE.5) THEN
+       IF(IPRI>=5) THEN
          WRITE(IOUT,'(/,A,I10,/)')' SEGMENTS USED FOR MAIN SURFACE, INTERFACE ID=',IPARI(15)
          DO I=1,NRTM
            WRITE(IOUT,FMT=FMW_4I)(ITAB(IRECT(K,I)),K=1,4)

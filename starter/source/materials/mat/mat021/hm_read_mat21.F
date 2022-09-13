@@ -112,13 +112,13 @@ C=======================================================================
       CALL HM_GET_FLOATV('MAT_SIG'      ,XMUMX      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV_DIM('PFscale'  ,FSCAL_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 !---
-      IF (RHOR.EQ.ZERO) RHOR=RHO0
+      IF (RHOR==ZERO) RHOR=RHO0
       PM(1) = RHOR
       PM(89)= RHO0
 !
       E0=ZERO
-      IF(PMIN.EQ.ZERO) PMIN  =-INFINITY
-      IF(BUNL.EQ.ZERO.AND.XMUMX.NE.ZERO) THEN
+      IF(PMIN==ZERO) PMIN  =-INFINITY
+      IF(BUNL==ZERO.AND.XMUMX/=ZERO) THEN
         chain='MUMAX IS DEFINED BUT UNLOADING BULK MODULUS HAS NO USER VALUE.  '      
         BUNL  = C1
         CALL ANCMSG(MSGID=829,
@@ -131,9 +131,9 @@ C=======================================================================
      .                C3=chain)         
       ENDIF
       
-      IF(BUNL.EQ.ZERO) BUNL  = C1      
-      IF(AMX.EQ.ZERO)  AMX   = EP20
-      IF(XMUMX.EQ.ZERO.AND.BUNL.NE.ZERO)THEN
+      IF(BUNL==ZERO) BUNL  = C1      
+      IF(AMX==ZERO)  AMX   = EP20
+      IF(XMUMX==ZERO.AND.BUNL/=ZERO)THEN
          XMUMX=EP20 
         chain='UNLOADING BULK MODULUS IS NOT USED SINCE MUMAX IS ZERO          '      
         CALL ANCMSG(MSGID=829,
@@ -168,7 +168,7 @@ C
      .                C2=TITR,
      .                C3=chain)     
       ENDIF           
-      IF(C1.LE.ZERO) THEN
+      IF(C1<=ZERO) THEN
         chain='TENSILE BULK MODULUS IS LOWER OR EQUAL TO 0.                    '      
         CALL ANCMSG(MSGID=829,
      .                MSGTYPE=MSGERROR,
@@ -182,10 +182,10 @@ C
 C
       IF(A2==ZERO.AND.A1/=ZERO)THEN   !(A2=A1=ZERO => error message)
         PSTAR=-A0/A1 
-      ELSEIF(A2.NE.ZERO)THEN
+      ELSEIF(A2/=ZERO)THEN
         DELTA = A1*A1-FOUR*A0*A2
         !Si intersection avec l'axe
-        IF(DELTA .GE. ZERO)THEN
+        IF(DELTA >= ZERO)THEN
           DELTA=SQRT(DELTA)
           PSTAR = (-A1+DELTA)/TWO/A2
         

@@ -65,7 +65,7 @@ C-----------------------
         ALLOCATE(VGLOB(3,LENG),STAT=IERR)
         CALL SPMD_DSTAT_VGATH(X,NODGLOB,WEIGHT,VGLOB,NODTAG,
      .                        NODTAGLOB)
-        IF (ISPMD.NE.0) RETURN
+        IF (ISPMD/=0) RETURN
       ENDIF
 
       WRITE(IUDYNAIN,'(A)')'*NODE'

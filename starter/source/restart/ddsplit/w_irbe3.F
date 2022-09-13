@@ -78,7 +78,7 @@ C
             LBVTMP(NSNL+LLRBE3_L) = LRBE3(K+J+SLRBE3/2)
           ENDIF
        ENDDO
-       IF (NLOCAL(M,PROC+1)==1.OR.ILP.GT.0)THEN
+       IF (NLOCAL(M,PROC+1)==1.OR.ILP>0)THEN
         KL = KL + 1
         DO J = 1, NRBE3L
           IBVTMP(J,KL) = IRBE3(J,I)
@@ -99,14 +99,14 @@ C
       CALL WRITE_I_C(LBVTMP,LLRBE3_L*2)
       LEN_IA = LEN_IA + NRBE3L*KL + LLRBE3_L*2
 C
-      IF(NBDDRBE3M.GT.0) THEN
+      IF(NBDDRBE3M>0) THEN
         DO I = 1, NUMNOD_L
           ITABRBE3M(I) = 0
         ENDDO
           ILP=0
           DO K = 1, NSNL
             N = LBVTMP(K)
-             IF(ITABRBE3M(N).EQ.0) THEN
+             IF(ITABRBE3M(N)==0) THEN
               ILP = ILP + 1
               ITABRBE3M(N) = ILP
             ENDIF

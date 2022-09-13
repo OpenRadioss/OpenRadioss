@@ -126,7 +126,7 @@ C
 C-----------------------------------------------
 C     CALCUL BILAN SORTIES ADDITIONNELLES 
 C-----------------------------------------------
-      IF(FLAG.EQ.1) THEN
+      IF(FLAG==1) THEN
         DO I=LFT,LLT
           XX(I) =ZERO
           YY(I) =ZERO

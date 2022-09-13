@@ -83,15 +83,15 @@ C
       NISKYL1 = 0
       DO I=1,JLT
         IF(NSMS(I)==0.OR.STIF(I)==ZERO) CYCLE
-        IF (HM1(I).NE.ZERO) NISKYL1 = NISKYL1 + 2
-        IF (HM2(I).NE.ZERO) NISKYL1 = NISKYL1 + 2
+        IF (HM1(I)/=ZERO) NISKYL1 = NISKYL1 + 2
+        IF (HM2(I)/=ZERO) NISKYL1 = NISKYL1 + 2
       ENDDO
 #include "lockon.inc"
       NISKYL     = NISKY_SMS
       NISKY_SMS  = NISKY_SMS + NISKYL1
 #include "lockoff.inc"
 C
-      IF (NISKYL+NISKYL1 .GT. LSKYI_SMS) THEN
+      IF (NISKYL+NISKYL1 > LSKYI_SMS) THEN
          CALL ANCMSG(MSGID=26,ANMODE=ANINFO)
          CALL ARRET(2)
       ENDIF
@@ -113,8 +113,8 @@ C
        MAS3= HALF * DTS * ( DTS * K3(I) + C3(I) )
        MAS4= HALF * DTS * ( DTS * K4(I) + C4(I) )
 C
-       IF(CS_LOC(I).LE.NEDGE) THEN
-        IF(HM1(I).NE.ZERO)THEN
+       IF(CS_LOC(I)<=NEDGE) THEN
+        IF(HM1(I)/=ZERO)THEN
          NISKYL=NISKYL+1
          MSKYI_SMS(NISKYL)=MAX(MAS1,MAS3)
          ISKYI_SMS(NISKYL,1)=N1(I)
@@ -126,7 +126,7 @@ C
          ISKYI_SMS(NISKYL,2)=M1(I)
          ISKYI_SMS(NISKYL,3)=ISPMD+1
         END IF
-        IF(HM2(I).NE.ZERO)THEN
+        IF(HM2(I)/=ZERO)THEN
          NISKYL=NISKYL+1
          MSKYI_SMS(NISKYL)=MAX(MAS1,MAS4)
          ISKYI_SMS(NISKYL,1)=N1(I)
@@ -139,7 +139,7 @@ C
          ISKYI_SMS(NISKYL,3)=ISPMD+1
         END IF
        ELSE
-        IF(HM1(I).NE.ZERO)THEN
+        IF(HM1(I)/=ZERO)THEN
          NISKYL=NISKYL+1
          MSKYI_SMS(NISKYL)=MAX(MAS1,MAS3)
          ISKYI_SMS(NISKYL,1)=NODAMSFIE(NIN)%P(N1(I))
@@ -151,7 +151,7 @@ C
          ISKYI_SMS(NISKYL,2)=M1(I)
          ISKYI_SMS(NISKYL,3)=PROCAMSFIE(NIN)%P(N2(I))
         END IF
-        IF(HM2(I).NE.ZERO)THEN
+        IF(HM2(I)/=ZERO)THEN
          NISKYL=NISKYL+1
          MSKYI_SMS(NISKYL)=MAX(MAS1,MAS4)
          ISKYI_SMS(NISKYL,1)=NODAMSFIE(NIN)%P(N1(I))

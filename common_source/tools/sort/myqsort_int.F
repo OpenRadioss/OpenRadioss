@@ -69,12 +69,12 @@ C     REAL ou REAL*8
 C
       ERROR = 0
 C
-      IF  (N .LT. 1)  THEN
+      IF  (N < 1)  THEN
         ERROR = -1
         RETURN
       ENDIF
 
-      IF  (N .EQ. 1)  THEN
+      IF  (N == 1)  THEN
          PERM(1)=1
          RETURN
       ENDIF
@@ -86,7 +86,7 @@ C
       TOP = 1
       LEFT = 1
       RIGHT = N
-      IF (N .LE. TRESHOLD) THEN
+      IF (N <= TRESHOLD) THEN
         DONE = 1
       ELSE
         DONE = 0
@@ -94,7 +94,7 @@ C
 
 c     QUICKSORT                                                              
 c
-       DO WHILE (DONE .NE. 1)
+       DO WHILE (DONE /= 1)
          RK = A((LEFT+RIGHT)/2)
          A((LEFT+RIGHT)/2) = A(LEFT)
          A(LEFT) = RK
@@ -163,7 +163,7 @@ C
          RLEN = RIGHT - I + 1
 
          IF(MAX(LLEN, RLEN) <= TRESHOLD ) THEN
-             IF  (TOP .EQ. 1) THEN
+             IF  (TOP == 1) THEN
                DONE = 1
              ELSE
                TOP = TOP - 2
@@ -171,13 +171,13 @@ C
                RIGHT = STACK(TOP+1)
              ENDIF
          ELSE IF(MIN(LLEN, RLEN) <=  TRESHOLD) THEN 
-             IF( LLEN .GT. RLEN ) THEN 
+             IF( LLEN > RLEN ) THEN 
                RIGHT = J - 1
              ELSE
                LEFT = I
              ENDIF
          ELSE
-           IF( LLEN .GT. RLEN ) THEN 
+           IF( LLEN > RLEN ) THEN 
               STACK(TOP) = LEFT
               STACK(TOP+1) = J-1
               LEFT = I

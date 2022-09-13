@@ -54,7 +54,7 @@ C
       NUMLOCGROUP(1:NGROUP) = 0
       NG_L = 0
       DO NG = 1, NGROUP
-        IF(IPARG(32,NG).EQ.PROC) THEN 
+        IF(IPARG(32,NG)==PROC) THEN 
           NG_L = NG_L + 1
           NUMLOCGROUP(NG) = NG_L
         ENDIF

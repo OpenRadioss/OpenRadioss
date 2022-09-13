@@ -114,8 +114,8 @@ C
       NTY   =IPARI(7)
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
       IGAP  =IPARI(21)
       ITIED =NINT(INTBUF_TAB%VARIABLES(1))
       GAP   =INTBUF_TAB%VARIABLES(2)
@@ -169,7 +169,7 @@ C
      B                  Z3     ,Z4     ,KI11   ,KI12   ,KJ11  ,
      C                  KJ12   ,KK11   ,KK12   ,KL11   ,KL12  ,
      D                  OFF    ,SK_INT ,LREM   )
-           IF (IMACH.EQ.3.AND.NSPMD.GT.1) THEN
+           IF (IMACH==3.AND.NSPMD>1) THEN
             LREM = LREM + JLT
             CALL ASS_SPMD(3        ,NSVG     ,IX1    ,IX2    ,IX3    ,       
      1         IX4      ,JLT       ,IDDL     ,K_DIAG    ,K_LT     ,
@@ -252,8 +252,8 @@ C
       NTY   =IPARI(7)
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
       FRIC = ONE
 C
 C
@@ -366,14 +366,14 @@ C     REAL
      .    DXI(MVSIZ),DYI(MVSIZ), DZI(MVSIZ), 
      .    MSI(MVSIZ)
 C-----------------------------------------------
-      IF(NUM_IMP.EQ.0) RETURN
+      IF(NUM_IMP==0) RETURN
 C
       NSN   =IPARI(5)
       NTY   =IPARI(7)
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
       IGAP  =IPARI(21)
       ITIED =NINT(INTBUF_TAB%VARIABLES(1))
       GAP   =INTBUF_TAB%VARIABLES(2)
@@ -526,8 +526,8 @@ C
       NTY   =IPARI(7)
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
       IGAP  =IPARI(21)
       ITIED =NINT(INTBUF_TAB%VARIABLES(1))
       GAP   =INTBUF_TAB%VARIABLES(2)
@@ -539,7 +539,7 @@ C
 C
         I_STOK = INTBUF_TAB%I_STOK(1)
         NB_LOC = I_STOK / NTHREAD
-          IF (JTASK.EQ.NTHREAD) THEN
+          IF (JTASK==NTHREAD) THEN
             I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
           ELSE
             I_STOK_LOC = NB_LOC
@@ -552,12 +552,12 @@ C
 C recalcul du istok
 C
         DO I = DEBUT+1, DEBUT+I_STOK_LOC
-          IF(INTBUF_TAB%CAND_N(I).LT.0) THEN
+          IF(INTBUF_TAB%CAND_N(I)<0) THEN
               I_STOK = I_STOK + 1
               INDEX2(I_STOK) = I
 C inbuf == cand_n
               INTBUF_TAB%CAND_N(I) = -INTBUF_TAB%CAND_N(I)
-          ELSEIF(ITIED.NE.0.AND.INTBUF_TAB%CAND_F(6*(I-1)+1).NE.0.) THEN
+          ELSEIF(ITIED/=0.AND.INTBUF_TAB%CAND_F(6*(I-1)+1)/=0.) THEN
             I_STOK = I_STOK + 1
             INDEX2(I_STOK) = I
 C           INBUF(KD(15)+I-1) = INBUF(KD(15)+I-1)

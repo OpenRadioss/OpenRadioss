@@ -149,10 +149,10 @@ C--------------------------------------------------
 C--------------------------------------------------
 C APPLY //SUBMODEL TRANSFORMATIONs
 C--------------------------------------------------
-          IF(SUB_ID .NE. 0)
+          IF(SUB_ID /= 0)
      .          CALL SUBROTVECT(TX,TY,TZ,RTRANS,SUB_ID,LSUBMODEL)
 c---------------------
-          IF (ITRANSSUB .NE. 0) CYCLE
+          IF (ITRANSSUB /= 0) CYCLE
 c---------------------
           RTRANS(I,2) = 1
 c---------------------
@@ -234,13 +234,13 @@ C--------------------------------------------------
 C--------------------------------------------------
 C APPLY //SUBMODEL TRANSFORMATIONs
 C--------------------------------------------------
-          IF(SUB_ID .NE. 0)
+          IF(SUB_ID /= 0)
      .    CALL SUBROTPOINT(X0(1),X0(2),X0(3),RTRANS,SUB_ID,LSUBMODEL)
 c---------------------
-          IF(SUB_ID .NE. 0)
+          IF(SUB_ID /= 0)
      .    CALL SUBROTPOINT(X1(1),X1(2),X1(3),RTRANS,SUB_ID,LSUBMODEL)
 c---------------------
-          IF (ITRANSSUB .NE. 0) CYCLE
+          IF (ITRANSSUB /= 0) CYCLE
 c---------------------
           RTRANS(I,2) = 2
 c---------------------
@@ -333,9 +333,9 @@ C--------------------------------------------------
           CALL HM_GET_FLOATV('reflect_point2_y',X1(2),IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOATV('reflect_point2_z',X1(3),IS_AVAILABLE,LSUBMODEL,UNITAB)
 C--------------------------------------------------
-          IF(SUB_ID .NE. 0)
+          IF(SUB_ID /= 0)
      .      CALL SUBROTPOINT(X0(1),X0(2),X0(3),RTRANS,SUB_ID,LSUBMODEL)
-          IF(SUB_ID .NE. 0)
+          IF(SUB_ID /= 0)
      .      CALL SUBROTPOINT(X1(1),X1(2),X1(3),RTRANS,SUB_ID,LSUBMODEL)
 C--------------------------------------------------
           INGR2USR => IGRNOD(1:NGRNOD)%ID
@@ -428,7 +428,7 @@ C--------------------------------------------------
           IF (TX == ZERO) TX = ONE
           IF (TY == ZERO) TY = ONE
           IF (TZ == ZERO) TZ = ONE
-          IF(SUB_ID .NE. 0)
+          IF(SUB_ID /= 0)
      .      CALL SUBROTVECT(TX,TY,TZ,RTRANS,SUB_ID,LSUBMODEL)
 C--------------------------------------------------
           INGR2USR => IGRNOD(1:NGRNOD)%ID
@@ -495,7 +495,7 @@ C----
           CALL HM_GET_FLOATV('position_z',RTRANS(I,17),IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_INTV('SUBMODEL',ITRANSSUB,IS_AVAILABLE,LSUBMODEL)
 c---------------------
-          IF (ITRANSSUB .NE. 0) CYCLE
+          IF (ITRANSSUB /= 0) CYCLE
 c---------------------
           RTRANS(I,2) = 3
 c---------------------
@@ -583,13 +583,13 @@ C
           CALL HM_GET_FLOATV('Y_Point_6',X6(2),IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOATV('Z_Point_6',X6(3),IS_AVAILABLE,LSUBMODEL,UNITAB)
 c---------------------
-          IF (ITRANSSUB .NE. 0) CYCLE
+          IF (ITRANSSUB /= 0) CYCLE
 c---------------------
           RTRANS(I,2) = 4
 C--------------------------------------------------
 C APPLY //SUBMODEL TRANSFORMATIONs
 C--------------------------------------------------
-          IF(SUB_ID .NE. 0)THEN
+          IF(SUB_ID /= 0)THEN
             CALL SUBROTPOINT(X1(1),X1(2),X1(3),RTRANS,SUB_ID,LSUBMODEL)
             CALL SUBROTPOINT(X2(1),X2(2),X2(3),RTRANS,SUB_ID,LSUBMODEL)
             CALL SUBROTPOINT(X3(1),X3(2),X3(3),RTRANS,SUB_ID,LSUBMODEL)

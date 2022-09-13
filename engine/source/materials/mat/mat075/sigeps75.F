@@ -387,7 +387,7 @@ C-----------------
 C NEWTON ITERATION
 C-----------------
         DO I=1,NEL
-            IF(IPLA(I).NE.1)CYCLE
+            IF(IPLA(I)/=1)CYCLE
             DFDA=DPDM(I)*(ONE+MU(I))/ALPHAE + DPDE(I)*EINT(I)/VOL0(I)
             DGDA=-XI*UNSURN*(ALPHA(I)-ONE)**(UNSURN-ONE)
             PNEWG(I)=PS-XI*(ALPHA(I)-ONE)**UNSURN
@@ -403,7 +403,7 @@ C
 
         CRIT=-ONE
         DO I=1,NEL
-          IF(IPLA(I).NE.1)CYCLE
+          IF(IPLA(I)/=1)CYCLE
           BETA=ABS(ALPHA(I)-ALPHA1(I))
           IF(BETA > CRIT) THEN
            CRIT=BETA
@@ -442,7 +442,7 @@ C--------------------
 C--------------------
 C DEVIATORIC STRESSES
 C--------------------
-      IF(IFLAG2.EQ.2)THEN
+      IF(IFLAG2==2)THEN
         DO I=1,NEL
           DAV = (DEPSXX(I)+DEPSYY(I)+DEPSZZ(I))*THIRD
           G   = MAX(ZERO,GS+DGDALPHA*(ALPHA(I)-ONE))

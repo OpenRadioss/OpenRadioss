@@ -172,7 +172,7 @@ C Element IEL belongs to a previous vent hole
                  N2=ELEM(2,IEL)
                  N3=ELEM(3,IEL)
                  NALL=ITAGVENT(N1)*ITAGVENT(N2)*ITAGVENT(N3)
-                 IF (NALL.NE.0) THEN
+                 IF (NALL/=0) THEN
                     NN1=ITAGVENT(N2)-ITAGVENT(N1)
                     NN2=ITAGVENT(N3)-ITAGVENT(N1)
                     IF (NN1 == 0.AND.NN2 == 0) THEN

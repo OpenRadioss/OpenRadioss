@@ -71,7 +71,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD + 1
-      IF (LOC_PROC.EQ.1) THEN
+      IF (LOC_PROC==1) THEN
         L = 0
         IDEB = 1
 
@@ -81,7 +81,7 @@ C-----------------------------------------------
            IF(TAG_LNK_SMS(N)/=0)
      .       LEN(I) = LEN(I)+IADCJ(I+1,N)-IADCJ(I,N)
           END DO
-          IF(LEN(I).GT.0) THEN
+          IF(LEN(I)>0) THEN
             L=L+1
             INDEXI(L)=I
             DO N=1,NJOINT
@@ -111,7 +111,7 @@ C
         DO L=1,NBINDEX
           CALL MPI_WAITANY(NBINDEX,REQ_S,I,STATUS,IERROR)
         ENDDO
-      ELSEIF(ICSIZE.GT.0) THEN
+      ELSEIF(ICSIZE>0) THEN
 C proc <> 0
         IDEB = 1
         SIZ = ICSIZE

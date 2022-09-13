@@ -101,7 +101,7 @@ C GET NUMBER OF MESSAGES
             CALL CPP_GET_MESSAGE_RADIOSS(I,MSG_ID,MSG_TYPE,MSG_DESCR,FILE_NAME,
      .                                   LINE_NB,MSG_BLOCK,MSG_LINE)
 C OUTPUT MESSAGE IN RADIOSS 0.out FILE
-            IF(MSG_ID .NE. 0)THEN
+            IF(MSG_ID /= 0)THEN
               IF(MSG_TYPE == 0)THEN
                 CALL ANCMSG(MSGID=MSG_ID,
      .                MSGTYPE=MSGINFO,
@@ -174,7 +174,7 @@ C GET NUMBER OF MESSAGES
             CALL CPP_GET_MESSAGE_DYNA(I,MSG_ID,MSG_TYPE,MSG_DESCR,FILE_NAME,
      .                                   LINE_NB,MSG_BLOCK,MSG_LINE)
 C OUTPUT MESSAGE IN RADIOSS 0.out FILE
-            IF(MSG_ID .NE. 0)THEN
+            IF(MSG_ID /= 0)THEN
               IF(MSG_TYPE == 0)THEN
                 IF (MSG_ID > 200000)THEN
                   CALL ANCMSG(MSGID=MSG_ID,
@@ -225,7 +225,7 @@ C--------------------------------------------------
       END SELECT ! SELECT CASE(IS_DYNA)
 
 
-      IF (IS_READER_KO .NE. 0) THEN
+      IF (IS_READER_KO /= 0) THEN
         CALL ANCMSG(MSGID=2000,
      .            MSGTYPE=MSGERROR,
      .            ANMODE=ANSTOP,

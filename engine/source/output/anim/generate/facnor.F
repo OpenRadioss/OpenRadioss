@@ -66,7 +66,7 @@ C
       ZC = ZC - CDG(3)
       S  = NX * XC + NY * YC + NZ * ZC
       INVERT = 1
-c      IF(S.LT.ZERO)THEN
+c      IF(S<ZERO)THEN
 c             INVERT = -1
 c             I1    = II(2)
 c             I2    = II(1)

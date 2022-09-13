@@ -161,8 +161,8 @@ C-----------------------------------------------
       !  PRESSURE AND SOUND SPEED                                      !
       !----------------------------------------------------------------!   
       DO I=LFT,LLT
-        IF(EPX(I).LT.0)BULK2(I)=C1(I)
-        IF(AMU(I).LT.0)BULK(I) =C1(I)
+        IF(EPX(I)<0)BULK2(I)=C1(I)
+        IF(AMU(I)<0)BULK(I) =C1(I)
         PNE1(I)=POLD(I)+AMU(I)*BULK2(I)-EPX(I)*BULK(I)
         P(I)=C1(I)*AMU(I)
         DPDM(I)=C1(I)
@@ -170,7 +170,7 @@ C-----------------------------------------------
        MX = MAT(LFT)
        IFUNC = IPM(11,MX)
       DO I=LFT,LLT
-        IF(AMU(I).GT.ZERO)THEN
+        IF(AMU(I)>ZERO)THEN
           P(I) = FACY(I)*FINTER(IFUNC,AMU(I),NPF,TF,DPDM(I))
         ENDIF
       ENDDO
@@ -179,8 +179,8 @@ C-----------------------------------------------
       !  UNLOADING CASE                                                !
       !----------------------------------------------------------------! 
       DO I=LFT,LLT
-        IF(AMU(I).LT.AMUMX(I))P(I)= MIN(P(I),PNE1(I))
-        IF(P(I).LT.PFRAC(I))THEN
+        IF(AMU(I)<AMUMX(I))P(I)= MIN(P(I),PNE1(I))
+        IF(P(I)<PFRAC(I))THEN
          EPX(I) =EPX(I)+(PFRAC(I)-POLD(I))/BULK2(I)
          P(I)=PFRAC(I)
          A0(I)=ZERO
@@ -218,7 +218,7 @@ C-----------------------------------------------
         G0(I) =A0(I)+A1(I)*PTOT+A2(I)*PTOT*PTOT
         G0(I)= MIN(AMX(I),G0(I))
         G0(I)= MAX(ZERO,G0(I))
-        IF(PTOT .LE. PSTAR(I))G0(I)=ZERO        
+        IF(PTOT <= PSTAR(I))G0(I)=ZERO        
         YIELD2(I)=AJ2(I)-G0(I)
 !!        SEQ_OUTPUT(I) = YIELD2(I)
       ENDDO
@@ -228,7 +228,7 @@ C-----------------------------------------------
       !----------------------------------------------------------------!  
       DO I=LFT,LLT
         RATIO(I) = ZERO
-        IF(YIELD2(I).LE.ZERO .AND. G0(I).GT.ZERO)THEN
+        IF(YIELD2(I)<=ZERO .AND. G0(I)>ZERO)THEN
           RATIO(I) = ONE
         ELSE
           RATIO(I) = SQRT(G0(I)/(AJ2(I)+ EM14))

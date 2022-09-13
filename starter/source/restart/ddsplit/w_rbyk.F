@@ -90,7 +90,7 @@ C
         NPBY_L(2,N) = NSL_L
         M = NPBY(1,N)
 C optimisation pour ne pas traiter les rb inutiles
-        IF(NSL_L.EQ.0.AND.NLOCAL(M,PROC+1)==0)THEN
+        IF(NSL_L==0.AND.NLOCAL(M,PROC+1)==0)THEN
           NPBY_L(1,N) = -M
         ELSE
           NPBY_L(1,N) = NODLOCAL(M)

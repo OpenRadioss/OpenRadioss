@@ -134,13 +134,13 @@ C-----------------------------------------------
       DO I=1,NSPHIO
       ITYPE=ISPHIO(1,I)
       VMAX = EM20
-      IF(ITYPE.NE.1)THEN
+      IF(ITYPE/=1)THEN
 C      outlets.
         IPRT   =ISPHIO(2,I)
         IVAD=ISPHIO(4,I)
         DO IACTIVE=LPRTSPH(2,IPRT-1)+1,LPRTSPH(1,IPRT)
            IWA(IACTIVE)=0
-           IF (ITYPE.EQ.4) THEN
+           IF (ITYPE==4) THEN
 C            determination of max velocity
              N=LONFSPH(IACTIVE)
              INOD=KXSP(3,N)
@@ -149,7 +149,7 @@ C            determination of max velocity
            ENDIF
         ENDDO
         DT_OLD = VSPHIO(IVAD+14)
-        IF (ITYPE.EQ.4) VSPHIO(IVAD+3)=VMAX*MAX(DT_OLD,DT12)
+        IF (ITYPE==4) VSPHIO(IVAD+3)=VMAX*MAX(DT_OLD,DT12)
       ENDIF
       ENDDO
 C-----------------------------------------------
@@ -157,9 +157,9 @@ C-----------------------------------------------
       ITYPE=ISPHIO(1,I)
 C-------
       IPRT   =ISPHIO(2,I)
-      IF(LPRTSPH(1,IPRT).GT.LPRTSPH(2,IPRT-1))THEN
+      IF(LPRTSPH(1,IPRT)>LPRTSPH(2,IPRT-1))THEN
 C-------
-       IF ((ITYPE.GT.1).AND.(ISPHIO(12,I).EQ.0)) THEN
+       IF ((ITYPE>1).AND.(ISPHIO(12,I)==0)) THEN
 C-------
 C      general outlets & silent boundary.
 C-------
@@ -232,7 +232,7 @@ c          IN4=IBUFSSG(IAD+NISX*J+3)
           YBMAX=MAX(YBMAX,YP)
           ZBMAX=MAX(ZBMAX,ZP)
 
-          IF(IN4.NE.IN3)THEN
+          IF(IN4/=IN3)THEN
            XP=X(1,IN4)
            YP=X(2,IN4)
            ZP=X(3,IN4)
@@ -259,8 +259,8 @@ C------
          XI=X(1,INOD)
          YI=X(2,INOD)
          ZI=X(3,INOD)
-         IF(     XI.GT.XBMIN.AND.YI.GT.YBMIN.AND.ZI.GT.ZBMIN
-     .       .AND.XI.LT.XBMAX.AND.YI.LT.YBMAX.AND.ZI.LT.ZBMAX)THEN
+         IF(     XI>XBMIN.AND.YI>YBMIN.AND.ZI>ZBMIN
+     .       .AND.XI<XBMAX.AND.YI<YBMAX.AND.ZI<ZBMAX)THEN
           NP2SORT=NP2SORT+1
           MWA(NP2SORT)=IACTIVE
          ENDIF
@@ -299,7 +299,7 @@ c          IN4=IBUFSSG(KKB+3)
           DBUCS=MAX(DBUCS,ABS(X3-X1))
           DBUCS=MAX(DBUCS,ABS(Y3-Y1))
           DBUCS=MAX(DBUCS,ABS(Z3-Z1))
-          IF(IN4.NE.IN3)THEN
+          IF(IN4/=IN3)THEN
            X4=X(1,IN4)
            Y4=X(2,IN4)
            Z4=X(3,IN4)
@@ -350,7 +350,7 @@ C-----------------------------------------------
 C
         VSPHIO(IVAD+14) = DT12
 C------
-      ELSEIF (ISPHIO(12,I).GT.0) THEN
+      ELSEIF (ISPHIO(12,I)>0) THEN
 C------
 C      control section / new outlet - silent boundary
 C------
@@ -370,8 +370,8 @@ C-------
         VSPHIO(IVAD+14) = DT12
 C-------
         DO II=1,4
-          IF (II.LT.4) THEN
-            IF (ISPHIO(12,I).EQ.1) THEN
+          IF (II<4) THEN
+            IF (ISPHIO(12,I)==1) THEN
               OFF = 3*II
               XI=VSPHIO(IVAD+OFF+1)
               YI=VSPHIO(IVAD+OFF+2)
@@ -409,7 +409,7 @@ C           permutation nod3 nod4
         END DO
 C-------
 C       computation of old coordinates of the nodes of the segment
-        IF (ISPHIO(12,I).EQ.1) THEN
+        IF (ISPHIO(12,I)==1) THEN
           DO II=1,12
             XX_OLD(II) = XX(II)
           END DO
@@ -427,7 +427,7 @@ C       computation of old coordinates of the nodes of the segment
           XX_OLD(9) = XX_OLD(6)+XX_OLD(9)-XX_OLD(3)
         ENDIF
 C-------
-        IF (ISPHIO(1,I).EQ.4) DMAX = DMAX + VMAXS*MAX(DT_OLD,DT12)
+        IF (ISPHIO(1,I)==4) DMAX = DMAX + VMAXS*MAX(DT_OLD,DT12)
         XBMIN=XBMIN+DMAX
         YBMIN=YBMIN+DMAX
         ZBMIN=ZBMIN+DMAX
@@ -444,8 +444,8 @@ C------
           XI=X(1,INOD)
           YI=X(2,INOD)
           ZI=X(3,INOD)
-          IF(     XI.GT.XBMIN.AND.YI.GT.YBMIN.AND.ZI.GT.ZBMIN
-     .       .AND.XI.LT.XBMAX.AND.YI.LT.YBMAX.AND.ZI.LT.ZBMAX)THEN
+          IF(     XI>XBMIN.AND.YI>YBMIN.AND.ZI>ZBMIN
+     .       .AND.XI<XBMAX.AND.YI<YBMAX.AND.ZI<ZBMAX)THEN
             NP2SORT=NP2SORT+1
             MWA(NP2SORT)=IACTIVE
             XI_OLD = XI - V(1,INOD)*DT_OLD
@@ -455,32 +455,32 @@ C------
             DPS_OLD=WA(NP2SORT)
             CALL SPH_NODSEG(XI,YI,ZI,XX,TFLAG,NP2SORT,LONFSPH,MWA,WA,WA(KVNORM),1)
             DPS=WA(NP2SORT)
-            IF (DPS _OLD*DPS.LT.ZERO) THEN
+            IF (DPS _OLD*DPS<ZERO) THEN
 C       pur outlet/silent boundaries on permute le sens de comptage
-              IF (ISPHIO(1,I).NE.4) DPS_OLD = -DPS_OLD
+              IF (ISPHIO(1,I)/=4) DPS_OLD = -DPS_OLD
 C       la particule a traverse la surface dans le sens +
-              IF (DPS_OLD.GT.ZERO) VSPHIO(IVAD+13) = VSPHIO(IVAD+13)-SPBUF(12,N)
+              IF (DPS_OLD>ZERO) VSPHIO(IVAD+13) = VSPHIO(IVAD+13)-SPBUF(12,N)
 C       la particule a traverse la surface dans le sens -
-              IF (DPS_OLD.LT.ZERO) VSPHIO(IVAD+13) = VSPHIO(IVAD+13)+SPBUF(12,N)
+              IF (DPS_OLD<ZERO) VSPHIO(IVAD+13) = VSPHIO(IVAD+13)+SPBUF(12,N)
             ENDIF        
           ENDIF
         ENDDO
 C------
       ENDIF
 C------
-      IF ((ITYPE.EQ.2).OR.(ITYPE.EQ.3)) THEN
+      IF ((ITYPE==2).OR.(ITYPE==3)) THEN
 C------
         DO KP=1,NP2SORT
          DPS=WA(KP)
          IACTIVE=MWA(KP)
-         IF(DPS.GT.DMAX.AND.DPS.LT.ZERO)THEN
+         IF(DPS>DMAX.AND.DPS<ZERO)THEN
 C         particule imposee :
 C           conditions multiples => la derniere condition rencontree impose ..
           N=LONFSPH(IACTIVE)
           IWA(IACTIVE)=I
           NG       =MOD(KXSP(2,N),NGROUP+1)
           KXSP(2,N)=NG+I*(NGROUP+1)
-          IF(TT.EQ.ZERO)THEN
+          IF(TT==ZERO)THEN
            INOD=KXSP(3,N)
            KK=KVNORM+3*(N-1)
            SPHVELN(1,N)= WA(KK  )*V(1,INOD)
@@ -509,7 +509,7 @@ C           conditions multiples => la derniere condition rencontree impose ..
           VNORMAL(1,N)=WA(KK  )
           VNORMAL(2,N)=WA(KK+1)
           VNORMAL(3,N)=WA(KK+2)
-         ELSEIF(DPS.GE.ZERO.AND.IWA(IACTIVE).EQ.0)THEN
+         ELSEIF(DPS>=ZERO.AND.IWA(IACTIVE)==0)THEN
            N=LONFSPH(IACTIVE)
            INOD=KXSP(3,N)
            KK=KVNORM+3*(N-1)
@@ -541,7 +541,7 @@ C           conditions multiples => la derniere condition rencontree impose ..
       ENDDO    !fin DO I=1,NSPHIO
 C-----------------------------------------------
 C-----------------------------------------------
-          IF(NSPMD.GT.1)THEN
+          IF(NSPMD>1)THEN
 C send IMPOSE value
              CALL SPMD_SPHGETIMP(KXSP)
           END IF 
@@ -550,12 +550,12 @@ c     ppv: plus proche voisin
 C-----------------------------------------------
       DO I=1,NSPHIO
        ITYPE=ISPHIO(1,I)
-       IF ((ITYPE.EQ.2).OR.(ITYPE.EQ.3)) THEN
+       IF ((ITYPE==2).OR.(ITYPE==3)) THEN
 C-------
 C      general outlets & silent boundary.
         IPRT   =ISPHIO(2,I)
         DO IACTIVE=LPRTSPH(2,IPRT-1)+1,LPRTSPH(1,IPRT)
-         IF(IWA(IACTIVE).NE.0)THEN
+         IF(IWA(IACTIVE)/=0)THEN
           N   =LONFSPH(IACTIVE)
           INOD=KXSP(3,N)
           XI=X(1,INOD)
@@ -567,9 +567,9 @@ C      general outlets & silent boundary.
 	  DO J=1,KXSP(4,N)         
 	   JNOD=IXSP(J,N)
 
-           IF(JNOD.GT.0)THEN      ! particule locale
+           IF(JNOD>0)THEN      ! particule locale
              M=NOD2SP(JNOD)
-             IF(KXSP(2,M).GE.0)THEN
+             IF(KXSP(2,M)>=0)THEN
                IMPOSE=KXSP(2,M)/(NGROUP+1)
                lBOOL=.FALSE.
                IF(IMPOSE == 0)THEN
@@ -582,7 +582,7 @@ C      general outlets & silent boundary.
                  YJ  =X(2,JNOD)
                  ZJ  =X(3,JNOD)
                  DD  =(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
-                 IF(DD.LT.DMIN)THEN
+                 IF(DD<DMIN)THEN
                    IPPV=JNOD
                    DMIN=DD
                  ENDIF
@@ -591,17 +591,17 @@ C      general outlets & silent boundary.
            ELSE                   ! particule remote   
              NN = -JNOD             
              IMPOSE = NINT(XSPHR(12,NN))
-             IF(IMPOSE.GT.0)THEN
+             IF(IMPOSE>0)THEN
                IMPOSE2=ISPHIO(1,IMPOSE)
              ELSE
                IMPOSE2=0
              ENDIF
-             IF(IMPOSE2.EQ.0.OR.IMPOSE2.EQ.1)THEN
+             IF(IMPOSE2==0.OR.IMPOSE2==1)THEN
                XJ = XSPHR(3,NN)
                YJ = XSPHR(4,NN)
                ZJ = XSPHR(5,NN)
                DD  =(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
-               IF(DD.LT.DMIN)THEN
+               IF(DD<DMIN)THEN
                  IPPV=JNOD
                  DMIN=DD
                ENDIF
@@ -609,14 +609,14 @@ C      general outlets & silent boundary.
             ENDIF
 	  ENDDO
 C-------
-          IF(IPPV.EQ.0)THEN
+          IF(IPPV==0)THEN
 C           no interaction between the outgoing particle 
 C           and the particles inside the domain.
             NG=MOD(ABS(KXSP(2,N)),NGROUP+1)
             KXSP(2,N)=-NG
 c elmt delete OFF_SPH set to 1
             OFF_SPH(N)=1
-            IF (R2R_SIU.NE.0)  OFF_SPH_R2R(INOD) = -1
+            IF (R2R_SIU/=0)  OFF_SPH_R2R(INOD) = -1
           ENDIF
          ENDIF 
         ENDDO
@@ -627,23 +627,23 @@ C      supprime particules n'inter-agissant plus avec l'interieur du domaine.
 C-----------------------------------------------
       DO I1=1,NSPHIO
        ITYPE=ISPHIO(1,I1)
-       IF ((ITYPE.EQ.2).OR.(ITYPE.EQ.3)) THEN
+       IF ((ITYPE==2).OR.(ITYPE==3)) THEN
 C-------
 C      general outlets & silent boundary.
         IPRT   =ISPHIO(2,I1)
         IACTIVE=LPRTSPH(2,IPRT-1)+1
-        DO WHILE(IACTIVE.LE.LPRTSPH(1,IPRT))
-         IF(IWA(IACTIVE).NE.0)THEN
+        DO WHILE(IACTIVE<=LPRTSPH(1,IPRT))
+         IF(IWA(IACTIVE)/=0)THEN
           N   =LONFSPH(IACTIVE)
-          IF(KXSP(2,N).LT.0)THEN
+          IF(KXSP(2,N)<0)THEN
             INOD=KXSP(3,N)
-            IF(TT.NE.ZERO)TFEXTT=TFEXTT-HALF*MS(INOD)
+            IF(TT/=ZERO)TFEXTT=TFEXTT-HALF*MS(INOD)
      .    *(V(1,INOD)*V(1,INOD)+V(2,INOD)*V(2,INOD)+V(3,INOD)*V(3,INOD))
             V(1,INOD)=ZERO
             V(2,INOD)=ZERO
             V(3,INOD)=ZERO
             I  =IWA(IACTIVE)
-            IF (ISPHIO(12,I).EQ.0) THEN
+            IF (ISPHIO(12,I)==0) THEN
               ISU=ISPHIO(3,I)
               IAD2=ISPHIO(11,I)
 c            IN1=IBUFSSG_IO(IAD2  )
@@ -656,7 +656,7 @@ c            IN2B=IBUFSSG(IAD+1)
               X2 =X(1,IN2)
               Y2 =X(2,IN2)
               Z2 =X(3,IN2)
-            ELSEIF (ISPHIO(12,I).EQ.1) THEN
+            ELSEIF (ISPHIO(12,I)==1) THEN
               IVAD = ISPHIO(4,I)
               X1 =VSPHIO(IVAD+4)
               Y1 =VSPHIO(IVAD+5)
@@ -678,7 +678,7 @@ c            IN2B=IBUFSSG(IAD+1)
             X(1,INOD)=XG
             X(2,INOD)=YG
             X(3,INOD)=ZG
-            IF (IRESP.EQ.1) THEN
+            IF (IRESP==1) THEN
               XDP(1,INOD)=XG
               XDP(2,INOD)=YG
               XDP(3,INOD)=ZG
@@ -715,7 +715,7 @@ c            IN2B=IBUFSSG(IAD+1)
 C
             KXSP(2,N)=-NG
             IPARG(10,NG)=IPARG(10,NG)-1
-            IF(IPARG(10,NG).EQ.0)IPARG(8,NG)=1
+            IF(IPARG(10,NG)==0)IPARG(8,NG)=1
 C           ISPHBUC=1
 C           chainage:
             ILASTON            =LPRTSPH(1,IPRT)
@@ -733,7 +733,7 @@ c 1) ON NE TRAITE QUE LES VOISINS LOCAUX
 
              INOD0=IXSP(J,N)
 
-             IF(INOD0.LT.0)THEN
+             IF(INOD0<0)THEN
 c will be treated in SPMD_SPHGETVOIS_OFF
 c TAG_SPH set to 1
                TAG_SPH(-INOD0)=1 
@@ -742,7 +742,7 @@ c TAG_SPH set to 1
                NVOIS1=0
                DO K=1,KXSP(4,M)
                  KNOD=IXSP(K,M)           
-                 IF(KNOD.NE.INOD)THEN
+                 IF(KNOD/=INOD)THEN
                    NVOIS1=NVOIS1+1
                    IXSP(NVOIS1,M)=KNOD
                  ENDIF
@@ -751,7 +751,7 @@ c TAG_SPH set to 1
                NVOIS2=NVOIS1
                DO K=KXSP(4,M)+1,KXSP(5,M)
                  KNOD=IXSP(K,M)
-                 IF(KNOD.NE.INOD)THEN
+                 IF(KNOD/=INOD)THEN
                    NVOIS2=NVOIS2+1
                    IXSP(NVOIS2,M)=KNOD
                  ENDIF
@@ -760,12 +760,12 @@ c TAG_SPH set to 1
                NVOISS1=0
                DO K=KXSP(5,M)+1,KXSP(5,M)+KXSP(6,M)
                  JK  =IXSP(K,M)
-                 IF(JK.LT.0)THEN
+                 IF(JK<0)THEN
                    NVOISS1=NVOISS1+1
                    IXSP(NVOIS2+NVOISS1,M)=JK
                  ELSE
                    KNOD=KXSP(3,JK/(NSPCOND+1))
-                   IF(KNOD.NE.INOD)THEN
+                   IF(KNOD/=INOD)THEN
                      NVOISS1=NVOISS1+1
                      IXSP(NVOIS2+NVOISS1,M)=JK
                    ENDIF
@@ -775,12 +775,12 @@ c TAG_SPH set to 1
                NVOISS2=NVOISS1
                DO K=KXSP(5,M)+KXSP(6,M)+1,KXSP(5,M)+KXSP(7,M)
                  JK  =IXSP(K,M)
-                 IF(JK.LT.0)THEN
+                 IF(JK<0)THEN
                    NVOISS2=NVOISS2+1
                    IXSP(NVOIS2+NVOISS2,M)=JK
                  ELSE
                    KNOD=KXSP(3,JK/(NSPCOND+1))
-                   IF(KNOD.NE.INOD)THEN
+                   IF(KNOD/=INOD)THEN
                      NVOISS2=NVOISS2+1
                      IXSP(NVOIS2+NVOISS2,M)=JK
                    ENDIF
@@ -790,7 +790,7 @@ c TAG_SPH set to 1
                KXSP(5,M)= NVOIS2
                KXSP(6,M)=NVOISS1
                KXSP(7,M)=NVOISS2
-             ENDIF ! fin IF(INOD0.LT.0)THEN
+             ENDIF ! fin IF(INOD0<0)THEN
 
             ENDDO !fin do J=1,KXSP(5,N)
 
@@ -805,7 +805,7 @@ c TAG_SPH set to 1
       ENDDO
 
 c 2) treatment of remote neighbours only
-         IF(NSPMD.GT.1)
+         IF(NSPMD>1)
      .      CALL SPMD_SPHGETVOIS_OFF(OFF_SPH, TAG_SPH,
      .                                 KXSP, IXSP,ITAB)
 C-------------------------------------------

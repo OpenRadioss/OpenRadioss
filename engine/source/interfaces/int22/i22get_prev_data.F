@@ -112,7 +112,7 @@ C   S o u r c e   L i n e
 C-----------------------------------------------     
     
       NB  = NCANDB
-      IF(NB.GT.I22LEN)THEN
+      IF(NB>I22LEN)THEN
         print *, "**error inter22 : memory size allocation", NB,I22LEN
         stop
         !handle this with reallocate later
@@ -122,7 +122,7 @@ C-----------------------------------------------
       NBL = (ITASK+1)*NB/NTHREAD
       NIN = 1
 
-      IF(ITASK==0.AND.DT1.NE.ZERO)THEN
+      IF(ITASK==0.AND.DT1/=ZERO)THEN
         
         DO IB=1,NBOLD(NIN)
           IE = BRICK_LIST(NIN,IB)%ID
@@ -142,7 +142,7 @@ C-----------------------------------------------
         !---NewInBuffer--------!        
         DO IB=1,NB
           IDX = LIST_B(IB)                             
-          IF(TAG_INDEX(IDX).NE.0 .AND. TAG_INDEX_OLD(IDX).EQ.0)THEN
+          IF(TAG_INDEX(IDX)/=0 .AND. TAG_INDEX_OLD(IDX)==0)THEN
             BRICK_LIST(NIN,IB)%NewInBuffer = 1
 ccc            print *, "new in buffer, IB=", ib, ixs(11,idx)
           ELSE
@@ -156,7 +156,7 @@ ccc            print *, "new in buffer, IB=", ib, ixs(11,idx)
         ENDDO
         DO IB=1,NBOLD(NIN)
           IDX = LIST_B_OLD(NIN,IB)                             !allocated in resol with brick_list
-          IF(TAG_INDEX(IDX).GT.0)THEN                          !cell BUFBBRIC(IDX) is always in buffer
+          IF(TAG_INDEX(IDX)>0)THEN                          !cell BUFBBRIC(IDX) is always in buffer
             IDX = TAG_INDEX(IDX)                               !position in new buffer
             BRICK_LIST(NIN,IDX)%NODE(1:8)%NodWasMain = I8(1:8,IB)
           ENDIF
@@ -167,7 +167,7 @@ ccc            print *, "new in buffer, IB=", ib, ixs(11,idx)
         ENDDO
         DO IB=1,NBOLD(NIN)
           IDX = LIST_B_OLD(NIN,IB)  
-          IF(TAG_INDEX(IDX).GT.0)THEN  
+          IF(TAG_INDEX(IDX)>0)THEN  
             IDX = TAG_INDEX(IDX)  
             BRICK_LIST(NIN,IDX)%NODE(1:8)%WhereWasMain = I8(1:8,IB)
           ENDIF
@@ -180,7 +180,7 @@ ccc            print *, "new in buffer, IB=", ib, ixs(11,idx)
         BRICK_LIST(NIN,1:NBOLD(NIN))%Vold_SCell = ZERO
         DO IB=1,NBOLD(NIN)
           IDX = LIST_B_OLD(NIN,IB) 
-          IF(TAG_INDEX(IDX).GT.0)THEN  
+          IF(TAG_INDEX(IDX)>0)THEN  
             IDX = TAG_INDEX(IDX)  
             BRICK_LIST(NIN,IDX)%Vold_SCell = R9(1,IB)
           ENDIF
@@ -193,7 +193,7 @@ ccc            print *, "new in buffer, IB=", ib, ixs(11,idx)
         ENDDO
         DO IB=1,NBOLD(NIN)
           IDX = LIST_B_OLD(NIN,IB) 
-          IF(TAG_INDEX(IDX).GT.0)THEN 
+          IF(TAG_INDEX(IDX)>0)THEN 
             IDX = TAG_INDEX(IDX)  
             BRICK_LIST(NIN,IDX)%NODE(1:8)%OLD_WhichCell = I8(1:8,IB)
           ENDIF
@@ -205,7 +205,7 @@ ccc            print *, "new in buffer, IB=", ib, ixs(11,idx)
         DO J=1,9;BRICK_LIST(NIN,1:NBOLD(NIN))%POLY(J)%Vnew = -EP30;ENDDO
         DO IB=1,NBOLD(NIN)
           IDX = LIST_B_OLD(NIN,IB)                             !doit etre alloue dans resol en meme temps que brick_list
-          IF(TAG_INDEX(IDX).GT.0)THEN                          !la brick BUFBBRIC(IDX) est toujours dans le buffer
+          IF(TAG_INDEX(IDX)>0)THEN                          !la brick BUFBBRIC(IDX) est toujours dans le buffer
             IDX = TAG_INDEX(IDX)                               !position dans le nouveau buffer
             BRICK_LIST(NIN,IDX)%POLY(1:9)%OLD_Vnew = R9(1:9,IB)
           ENDIF
@@ -214,7 +214,7 @@ ccc            print *, "new in buffer, IB=", ib, ixs(11,idx)
         !------SecndList-------!
         DO IB=1,NBOLD(NIN)
           IDX = LIST_B_OLD(NIN,IB) 
-          IF(TAG_INDEX(IDX).GT.0)THEN 
+          IF(TAG_INDEX(IDX)>0)THEN 
             IDX = TAG_INDEX(IDX) 
             IF(BRICK_LIST(NIN,IB)%SecndList%Num==0)CYCLE
             OLD_SecndList(NIN,IDX)%VOL_unmerged       = BRICK_LIST(NIN,IB)%SecndList%VOL_unmerged
@@ -251,7 +251,7 @@ ccc            print *, "new in buffer, IB=", ib, ixs(11,idx)
         ENDDO
         DO IB=1,NBOLD(NIN)
           IDX = LIST_B_OLD(NIN,IB) 
-          IF(TAG_INDEX(IDX).GT.0)THEN 
+          IF(TAG_INDEX(IDX)>0)THEN 
             IDX = TAG_INDEX(IDX) 
             BRICK_LIST(NIN,IDX)%OldMainStrongNode = I8(1,IB)
           ENDIF
@@ -262,10 +262,10 @@ ccc            print *, "new in buffer, IB=", ib, ixs(11,idx)
         ENDDO
         DO IB=1,NBOLD(NIN)
           IDX = LIST_B_OLD(NIN,IB) 
-          IF(TAG_INDEX(IDX).GT.0)THEN 
+          IF(TAG_INDEX(IDX)>0)THEN 
             IDX = TAG_INDEX(IDX) 
             BRICK_LIST(NIN,IDX)%WasCut = 0
-            IF(I8(1,IB).GT.0)BRICK_LIST(NIN,IDX)%WasCut = 1
+            IF(I8(1,IB)>0)BRICK_LIST(NIN,IDX)%WasCut = 1
           ENDIF
         ENDDO!next IB           
 
@@ -276,7 +276,7 @@ ccc            print *, "new in buffer, IB=", ib, ixs(11,idx)
         BRICK_LIST(NIN,1:NB)%OLD_ICODE = 0
         DO IB=1,NBOLD(NIN)
           IDX = LIST_B_OLD(NIN,IB) 
-          IF(TAG_INDEX(IDX).GT.0)THEN 
+          IF(TAG_INDEX(IDX)>0)THEN 
             IDX = TAG_INDEX(IDX)
             BRICK_LIST(NIN,IDX)%OLD_ICODE = I8(1,IB)
           ENDIF

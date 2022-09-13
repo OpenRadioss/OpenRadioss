@@ -85,14 +85,14 @@ C======================================================================|
           ISK = IMPCSK(KF)
           COEF= RBMPC(KF)
 C---
-          IF(ISK.EQ.1)THEN
+          IF(ISK==1)THEN
             NK = NK + 1
             IK = IK + 1
             LLL(IK) = NN
             JLL(IK) = NDL
             SLL(IK) = 0
             XLL(IK) = COEF
-            IF (NDL.GT.3) THEN
+            IF (NDL>3) THEN
               NDL = NDL - 3
               HH = HH + COEF*COEF / IN(NN)
               R  = R  + COEF*(VR(NDL,NN) / DT12 + AR(NDL,NN))
@@ -102,22 +102,22 @@ C---
             ENDIF
           ELSE
             IDL = NDL
-            IF (NDL.GT.3) IDL = NDL - 3
-            IF (IDL.EQ.1) THEN
+            IF (NDL>3) IDL = NDL - 3
+            IF (IDL==1) THEN
               S1 = COEF*SKEW(1,ISK)
               S2 = COEF*SKEW(2,ISK)
               S3 = COEF*SKEW(3,ISK)
-            ELSEIF (IDL.EQ.2) THEN
+            ELSEIF (IDL==2) THEN
               S1 = COEF*SKEW(4,ISK)
               S2 = COEF*SKEW(5,ISK)
               S3 = COEF*SKEW(6,ISK)
-            ELSEIF (IDL.EQ.3) THEN
+            ELSEIF (IDL==3) THEN
               S1 = COEF*SKEW(7,ISK)
               S2 = COEF*SKEW(8,ISK)
               S3 = COEF*SKEW(9,ISK)
             ENDIF
             NK = NK + 3
-            IF (NDL.GT.3) THEN
+            IF (NDL>3) THEN
               IK = IK + 1
               LLL(IK) = NN
               JLL(IK) = 4
@@ -163,18 +163,18 @@ C---
         IADLL(NC+1) = IADLL(NC) + NK
 C
 C---    Solving local Lagrange multipliers
-        IF (HH.NE.ZERO) R = R / HH
+        IF (HH/=ZERO) R = R / HH
         DO IK=IADLL(NC),IADLL(NC+1)-1
           JJ = JLL(IK)
           LL = LLL(IK)
-          IF (JJ.GT.3) THEN
+          IF (JJ>3) THEN
             JJ = JJ - 3
             AR(JJ,LL) = AR(JJ,LL) - XLL(IK)*R / IN(LL)
           ELSE
             A(JJ,LL)  = A(JJ,LL)  - XLL(IK)*R / MS(LL)
           ENDIF
         ENDDO
-        IF (COMNTAG(NN).EQ.1) THEN
+        IF (COMNTAG(NN)==1) THEN
           ISKIP = ISKIP + 1
           NC = NC - 1
         ELSE
@@ -248,7 +248,7 @@ C======================================================================|
           ISK = IMPCSK(KF)
           COEF= RBMPC(KF)
 C---
-          IF(ISK.EQ.1)THEN
+          IF(ISK==1)THEN
             NK = NK + 1
             IK = IK + 1
             LAGCOMK(1,IK) = NN
@@ -257,7 +257,7 @@ C---
             LAGCOMK(4,IK) = COEF
           ELSE
             NK = NK + 3
-            IF (NDL.EQ.1) THEN
+            IF (NDL==1) THEN
               IK = IK + 1
               LAGCOMK(1,IK) = NN
               LAGCOMK(2,IK) = 1
@@ -273,7 +273,7 @@ C---
               LAGCOMK(2,IK) = 3
               LAGCOMK(3,IK) = 0
               LAGCOMK(4,IK) = COEF*SKEW(3,ISK)
-            ELSEIF (NDL.EQ.2) THEN
+            ELSEIF (NDL==2) THEN
               IK = IK + 1
               LAGCOMK(1,IK) = NN
               LAGCOMK(2,IK) = 1
@@ -289,7 +289,7 @@ C---
               LAGCOMK(2,IK) = 3
               LAGCOMK(3,IK) = 0
               LAGCOMK(4,IK) = COEF*SKEW(6,ISK)
-            ELSEIF (NDL.EQ.3) THEN
+            ELSEIF (NDL==3) THEN
               IK = IK + 1
               LAGCOMK(1,IK) = NN
               LAGCOMK(2,IK) = 1
@@ -305,7 +305,7 @@ C---
               LAGCOMK(2,IK) = 3
               LAGCOMK(3,IK) = 0
               LAGCOMK(4,IK) = COEF*SKEW(9,ISK)
-            ELSEIF (NDL.EQ.4) THEN
+            ELSEIF (NDL==4) THEN
               IK = IK + 1
               LAGCOMK(1,IK) = NN
               LAGCOMK(2,IK) = 4
@@ -321,7 +321,7 @@ C---
               LAGCOMK(2,IK) = 6
               LAGCOMK(3,IK) = 0
               LAGCOMK(4,IK) = COEF*SKEW(3,ISK)
-            ELSEIF (NDL.EQ.5) THEN
+            ELSEIF (NDL==5) THEN
               IK = IK + 1
               LAGCOMK(1,IK) = NN
               LAGCOMK(2,IK) = 4
@@ -337,7 +337,7 @@ C---
               LAGCOMK(2,IK) = 6
               LAGCOMK(3,IK) = 0
               LAGCOMK(4,IK) = COEF*SKEW(6,ISK)
-            ELSEIF (NDL.EQ.6) THEN
+            ELSEIF (NDL==6) THEN
               IK = IK + 1
               LAGCOMK(1,IK) = NN
               LAGCOMK(2,IK) = 4
@@ -359,7 +359,7 @@ C---
         LAGCOMC(1,NC)=NK
         LAGCOMC(2,NC)=ZERO   ! a verifier
 C voir si utile
-c        IF (COMNTAG(NN).EQ.1) THEN
+c        IF (COMNTAG(NN)==1) THEN
 c          ISKIP = ISKIP + 1
 c          NC = NC - 1
 c        ELSE

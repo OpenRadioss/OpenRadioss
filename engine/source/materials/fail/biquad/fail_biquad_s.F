@@ -140,15 +140,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 c! fast degradation
         DO I=1,NEL
-         IF(OFF(I).LT.EM01) OFF(I)=ZERO
-         IF(OFF(I).LT.ONE.AND.OFF(I).GT.ZERO) OFF(I)=OFF(I)*FOUR_OVER_5
+         IF(OFF(I)<EM01) OFF(I)=ZERO
+         IF(OFF(I)<ONE.AND.OFF(I)>ZERO) OFF(I)=OFF(I)*FOUR_OVER_5
         END DO
 C-------------------    
        
        NINDX = 0  
        
        DO I=1,NEL
-        IF(OFF(I).EQ. ONE .AND. DPLA(I) /= ZERO)THEN
+        IF(OFF(I)== ONE .AND. DPLA(I) /= ZERO)THEN
            P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
            SXX = SIGNXX(I) - P
            SYY = SIGNYY(I) - P
@@ -157,9 +157,9 @@ C-------------------
      .            +SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2
            SVM=SQRT(THREE*SVM)
            triaxs = P/MAX(EM20,SVM)
-           IF (triaxs.LT.-TWO_THIRD) triaxs = -TWO_THIRD
-           IF (triaxs.GT.TWO_THIRD)  triaxs =  TWO_THIRD
-           IF (triaxs .LE. THIRD) THEN
+           IF (triaxs<-TWO_THIRD) triaxs = -TWO_THIRD
+           IF (triaxs>TWO_THIRD)  triaxs =  TWO_THIRD
+           IF (triaxs <= THIRD) THEN
               EPS_FAIL =   X_1(1) +  X_1(2) * triaxs + X_1(3) * triaxs**2
               IF (NUVAR == 3) EPS_FAIL = EPS_FAIL * UVAR(I,3)
               IF (NUVAR == 9) EPS_FAIL = EPS_FAIL * UVAR(I,9)
@@ -198,7 +198,7 @@ C-------------------
            ENDIF
            DFMAX(I) = DFMAX(I) + DPLA(I)/MAX(EPS_FAIL,EM6)
            DFMAX(I) = MIN(ONE,DFMAX(I))
-         IF(DFMAX(I).GE.ONE.AND.OFF(I).EQ.ONE) THEN
+         IF(DFMAX(I)>=ONE.AND.OFF(I)==ONE) THEN
           OFF(I)=FOUR_OVER_5
           NINDX=NINDX+1
           INDX(NINDX)=I
@@ -210,7 +210,7 @@ C-------------------
        
 c------------------------
       
-       IF(NINDX.GT.0)THEN
+       IF(NINDX>0)THEN
          DO J=1,NINDX
           I = INDX(J)     
 #include "lockon.inc"

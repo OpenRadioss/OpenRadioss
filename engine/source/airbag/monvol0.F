@@ -142,7 +142,7 @@ C
         NVENT = MONVOL(K1 +10)
         IADHOL= KIBHOL+MONVOL(K1+11)
         RADHOL= KRBHOL+MONVOL(K1+12)
-        IF(FR_MV(ISPMD+1,I).NE.0 .OR. FR_MV(NSPMD+2,I)==ISPMD+1) THEN
+        IF(FR_MV(ISPMD+1,I)/=0 .OR. FR_MV(NSPMD+2,I)==ISPMD+1) THEN
           PMAIN = FR_MV(NSPMD+2,I)
         ELSE
 C saut partie airbag si proc non concerne
@@ -154,29 +154,29 @@ C
         IF(FLAG == 1 .AND. (ITYP == 6 .OR. ITYP == 8)) GOTO 100 
         IF(FLAG == 2 .AND. .NOT.(ITYP == 6 .OR. ITYP == 8)) GOTO 100 
 
-C        IF (IMACH.NE.3.OR.IPARIT.EQ.0) THEN
+C        IF (IMACH/=3.OR.IPARIT==0) THEN
           CALL VOLUM0(
      1         MONVOL(K1),VOLMON(KK1),VOL       ,X,IGRSURF(IS)%NODES,
      2         N         ,NN         ,IGRSURF(IS)%ELTYP ,IGRSURF(IS)%ELEM,
      3         ICONTACT  ,PORO       ,FR_MV(1,I)  , T_MONVOL(I))
-        IF(ITYP.EQ.1)THEN
+        IF(ITYP==1)THEN
 C=======================================================================
 C         VOLUME OUTPUT
 C=======================================================================
           CALL VOLOUT(VOLMON(KK1),VOL,FSAV(1,I),PMAIN)
-        ELSEIF(ITYP.EQ.2)THEN
+        ELSEIF(ITYP==2)THEN
 C=======================================================================
 C         VOLUME P=F(V)
 C=======================================================================
           CALL VOLPFV(MONVOL(K1),VOLMON(KK1),VOL,FSAV(1,I),NPC,
      2                TF        ,PMAIN    )
-        ELSEIF(ITYP.EQ.3)THEN
+        ELSEIF(ITYP==3)THEN
 C=======================================================================
 C         GAS PARFAIT
 C=======================================================================
           CALL VOLPVGA(MONVOL(K1),VOLMON(KK1),VOL,FSAV(1,I),NVENT ,
      2            MONVOL(IADHOL) ,VOLMON(RADHOL),PMAIN )
-        ELSEIF(ITYP.EQ.4.OR.ITYP.EQ.5)THEN
+        ELSEIF(ITYP==4.OR.ITYP==5)THEN
 C=======================================================================
 C         AIRBAGS
 C=======================================================================
@@ -184,7 +184,7 @@ C=======================================================================
      2 MONVOL(K2),VOLMON(KK1),VOLMON(RADJET),VOLMON(RADHOL),VOLMON(KK2),
      3 VOLMON  ,NPC     ,TF      ,SENSOR  ,LSENSOR ,
      4 VOL     ,PMAIN )
-        ELSEIF(ITYP.EQ.7.OR.ITYP.EQ.9)THEN
+        ELSEIF(ITYP==7.OR.ITYP==9)THEN
 C=======================================================================
 C         AIRBAGS1 (NOUVEAUX INJECTEURS)
 C=======================================================================
@@ -192,7 +192,7 @@ C=======================================================================
      2 MONVOL(K2),VOLMON(KK1),VOLMON(RADJET),VOLMON(RADHOL),VOLMON(KK2),
      3 VOLMON  ,NPC     ,TF      ,SENSOR  ,LSENSOR ,
      4 VOL     ,PMAIN ,GEO     ,IGEO    ,PM)
-        ELSEIF(ITYP.EQ.10)THEN
+        ELSEIF(ITYP==10)THEN
 C=======================================================================
 C         LINEAIRE FLUIDE
 C=======================================================================
@@ -200,8 +200,8 @@ C=======================================================================
      2                    TF        ,PMAIN )
         ENDIF
 C=======================================================================
-        IF(ITYP.NE.1)THEN
-         IF (IPARIT.EQ.0) THEN
+        IF(ITYP/=1)THEN
+         IF (IPARIT==0) THEN
             CALL VOLPRE(MONVOL(K1),VOLMON(KK1),NJET ,MONVOL(IADJET),VOLMON(RADJET),
      2                 LSENSOR ,SENSOR  ,X       ,V       ,A       ,
      3                 N       ,NPC     ,TF      ,NN  ,IGRSURF(IS)%NODES,
@@ -239,7 +239,7 @@ C=======================================================================
         NVENT =MONVOL(K1 +10)
         IADHOL=KIBHOL+MONVOL(K1+11)
         RADHOL=KRBHOL+MONVOL(K1+12)
-        IF(FR_MV(ISPMD+1,I).EQ.0.AND.NCA.EQ.0) THEN
+        IF(FR_MV(ISPMD+1,I)==0.AND.NCA==0) THEN
           GO TO 200
         ENDIF
         IF(FLAG == 1 .AND.      (ITYP == 6 .OR. ITYP == 8)) GOTO 200 
@@ -248,7 +248,7 @@ C=======================================================================
 C=======================================================================
 C       PERFECT GAS
 C=======================================================================
-        IF(ITYP.EQ.3)THEN
+        IF(ITYP==3)THEN
            CALL VOLPVGB(
      1           MONVOL(K1)    ,VOLMON(KK1)   ,VOL  ,FSAV(1,I) ,NVENT  ,
      2           MONVOL(IADHOL),VOLMON(RADHOL),N    ,NN        ,IGRSURF,
@@ -256,17 +256,17 @@ C=======================================================================
 C=======================================================================
 C       AIRBAGS
 C=======================================================================
-        ELSEIF(ITYP.EQ.4.OR.ITYP.EQ.5.OR.ITYP.EQ.7.OR.ITYP.EQ.9)THEN
-         IF(NCA.GT.0.AND.NSPMD.GT.1) THEN
+        ELSEIF(ITYP==4.OR.ITYP==5.OR.ITYP==7.OR.ITYP==9)THEN
+         IF(NCA>0.AND.NSPMD>1) THEN
             CALL SPMD_MV_CA(
      1        FR_MV     ,I    ,NCA,VOLMON(KK1),VOLMON,
      2        MONVOL(K2),NJET ,MONVOL ,VOLMON(KRBJET),1,ITYP,100 )
-            IF(FR_MV(ISPMD+1,I).EQ.0) GOTO 150
+            IF(FR_MV(ISPMD+1,I)==0) GOTO 150
          END IF
 C=======================================================================
 C        AIRBAGS /AIRBAG1 /COMMU1
 C=======================================================================
-         IF (ITYP.EQ.7.OR.ITYP.EQ.9) THEN
+         IF (ITYP==7.OR.ITYP==9) THEN
              CALL AIRBAGB1(MONVOL(K1),MONVOL(K2),NJET ,MONVOL(IADJET),NVENT,
      2 MONVOL(IADHOL),VOLMON(KK1),VOLMON ,VOLMON(KK2),VOLMON(RADJET),
      3 VOLMON(RADHOL),FSAV(1,I)  ,N       ,NN      ,
@@ -286,7 +286,7 @@ C=======================================================================
          END IF
 C
  150     CONTINUE
-         IF(NCA.GT.0.AND.NSPMD.GT.1) THEN
+         IF(NCA>0.AND.NSPMD>1) THEN
             CALL SPMD_MV_CA(
      1        FR_MV     ,I    ,NCA,VOLMON(KK1),VOLMON,
      2        MONVOL(K2),NJET ,MONVOL ,VOLMON(KRBJET),2,ITYP,100)

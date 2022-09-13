@@ -109,7 +109,7 @@ C-----------------------------------------------
 
                 ISENS = 0
                 IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 25) ISENS = IPARI(64,N)  
-                IF(ISENS.NE.0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+                IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
                     TS = SENSOR(2,ISENS)
                 ELSE
                     TS = TT
@@ -119,13 +119,13 @@ C-----------------------------------------------
                 NMN = IPARI(6,N)
                 ! -----------------------------------------------------
                 ! type 7
-                IF((NTY==7.AND.TT.GE.TS).AND.(.NOT.TYPE18))THEN
+                IF((NTY==7.AND.TT>=TS).AND.(.NOT.TYPE18))THEN
                     ! wait the message only for proc with only secondary nodes 
                     IF(NSN>0.AND.NMN==0) THEN   !   local nsn>0 && local nmn == 0
                         DO P = 1, NSPMD
-                            IF(IRECVFROM(N,P).NE.0) THEN     !   nmn >0
-                                IF(P.NE.ISPMD+1) THEN
-                                    IF(SORT_COMM(N)%NB(P).NE.0) THEN
+                            IF(IRECVFROM(N,P)/=0) THEN     !   nmn >0
+                                IF(P/=ISPMD+1) THEN
+                                    IF(SORT_COMM(N)%NB(P)/=0) THEN
 #ifdef MPI
                                         CALL MPI_WAIT(SORT_COMM(N)%REQ_SD2(P),STATUS,IERROR) 
                                         DEALLOCATE(SORT_COMM(N)%DATA_PROC(P)%RBUF) 

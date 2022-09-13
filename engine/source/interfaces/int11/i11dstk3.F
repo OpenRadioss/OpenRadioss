@@ -145,18 +145,18 @@ C
 C
        XS2 = MAX(XS2,EM20)
        XM2 = MAX(XM2,EM20)
-       IF(H1M(I).LT.ZERO)THEN
+       IF(H1M(I)<ZERO)THEN
          H1M(I) = ZERO
          H1S(I) = -XA / XS2
-       ELSEIF(H1M(I).GT.ONE)THEN
+       ELSEIF(H1M(I)>ONE)THEN
          H1M(I) = ONE
          H1S(I) = -(XA + XSM) / XS2
        ENDIF
 C
-       IF(H1S(I).LT.ZERO)THEN
+       IF(H1S(I)<ZERO)THEN
          H1S(I) = ZERO
          H1M(I) = -XB / XM2
-       ELSEIF(H1S(I).GT.ONE)THEN
+       ELSEIF(H1S(I)>ONE)THEN
          H1S(I) = ONE
          H1M(I) = -(XB + XSM) / XM2
        ENDIF
@@ -225,7 +225,7 @@ Ctmp       FAC = (ONE +HALF)*(ONE +HALF)
       ENDDO
 #include  "vectorize.inc"
       DO I=1,JLT
-        IF(PENE2(I).NE.ZERO.AND.STIF(I).NE.ZERO)THEN
+        IF(PENE2(I)/=ZERO.AND.STIF(I)/=ZERO)THEN
           JLT_NEW = JLT_NEW + 1
           CAND_S(JLT_NEW) = CAND_S(I)
           CAND_M(JLT_NEW) = CAND_M(I)

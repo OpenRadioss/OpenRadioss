@@ -112,13 +112,13 @@ C-----------------------------------------------
 
         ISENS=0
         DO K=1,NSENSOR
-          IF(IGRV(6,NL).EQ.LSENSOR(1,K))ISENS=K
+          IF(IGRV(6,NL)==LSENSOR(1,K))ISENS=K
         ENDDO
-        IF(ISENS.EQ.0)THEN
+        IF(ISENS==0)THEN
           TS  = TT
         ELSE
           TS  = TT-SENSOR(2,ISENS)
-          IF(TS.LT.0.0)CYCLE
+          IF(TS<0.0)CYCLE
         ENDIF
 
         IF (IFUNC > 0) THEN
@@ -134,7 +134,7 @@ C-----------------------------------------------
         K2    = 3*N2-1
         K3    = 3*N2
         
-        IF(NL.EQ.1)THEN
+        IF(NL==1)THEN
          !initialisation
 #include "vectorize.inc"
           DO J=IADF,IADL
@@ -146,7 +146,7 @@ C-----------------------------------------------
             VERTEX(4,N1) = ONE
             !--- TODO : TFEXTT            
             ! VV = SKEW(K1,ISK)*V(1,N1)+SKEW(K2,ISK)*V(2,N1)+SKEW(K3,ISK)*V(3,N1)
-            ! IF(LGRAV(J).GT.0)TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*VV*DT1*WEIGHT(N1)
+            ! IF(LGRAV(J)>0)TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*VV*DT1*WEIGHT(N1)
            ENDDO !next J
          ELSE
           !cumul
@@ -160,7 +160,7 @@ C-----------------------------------------------
             VERTEX(4,N1) = ONE
             !--- TODO : TFEXTT            
             ! VV = SKEW(K1,ISK)*V(1,N1)+SKEW(K2,ISK)*V(2,N1)+SKEW(K3,ISK)*V(3,N1)
-            ! IF(LGRAV(J).GT.0)TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*VV*DT1*WEIGHT(N1)
+            ! IF(LGRAV(J)>0)TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*VV*DT1*WEIGHT(N1)
            ENDDO !next J
          ENDIF
 

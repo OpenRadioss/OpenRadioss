@@ -74,13 +74,13 @@ C-----------------------------------------------
 
 C Allocation des Buffers           
        ALLOCATE(SEND_BUF(2 * LENCOM),STAT=IERROR)
-       IF(IERROR.NE.0) THEN
+       IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
        ENDIF
        
        ALLOCATE(REC_BUF(2 * LENCOM),STAT=IERROR)
-       IF(IERROR.NE.0) THEN
+       IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
        ENDIF   
@@ -143,7 +143,7 @@ C ------------
 C END SEND
 C ------------
       DO P = 1, NSPMD
-        IF(IAD_ELEM(1,P+1)-IAD_ELEM(1,P).GT.0)THEN
+        IF(IAD_ELEM(1,P+1)-IAD_ELEM(1,P)>0)THEN
           CALL MPI_WAIT(REQ_S(P),STATUS,IERROR)
         ENDIF
       ENDDO

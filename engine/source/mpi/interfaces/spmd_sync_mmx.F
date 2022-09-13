@@ -83,21 +83,21 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
 C
-      IF(IRING.EQ.0) RETURN
+      IF(IRING==0) RETURN
 C
       LOC_PROC = ISPMD+1
 C
 C Compactage min/max, newfront, tzinf
 C
-      IF(LOC_PROC.NE.IRING) THEN
+      IF(LOC_PROC/=IRING) THEN
 C si proc participe aux interfaces
-        IF(IRCVFROM(NINTER+1,LOC_PROC).GT.0.OR.
-     +     ISENDTO(NINTER+1,LOC_PROC).GT.0) THEN
+        IF(IRCVFROM(NINTER+1,LOC_PROC)>0.OR.
+     +     ISENDTO(NINTER+1,LOC_PROC)>0) THEN
           L = 0
           DO KK=1,NINTC
             NIN = INTLIST(KK)
-            IF(IRCVFROM(NIN,LOC_PROC).NE.0.OR.
-     +         ISENDTO(NIN,LOC_PROC).NE.0)THEN
+            IF(IRCVFROM(NIN,LOC_PROC)/=0.OR.
+     +         ISENDTO(NIN,LOC_PROC)/=0)THEN
 C X MIN/MAX
               DO J=1,18
                 SBUF(L+J) = XSLV_L(J,NIN)
@@ -118,7 +118,7 @@ C
                 SBUF(L+J) = VMSR_L(J,NIN)
               END DO
               L = L + 6
-              IF(IPARI(7,NIN).NE.17)THEN
+              IF(IPARI(7,NIN)/=17)THEN
 C NEWFRONT
                 SBUF(L+1) = NEWFRONT(NIN)
               ELSE     ! interface 17 avec courbure
@@ -149,8 +149,8 @@ C T25 main gap changes with thickness change
           L = 0
           DO KK=1,NINTC
             NIN = INTLIST(KK)
-            IF(IRCVFROM(NIN,LOC_PROC).NE.0.OR.
-     +         ISENDTO(NIN,LOC_PROC).NE.0)THEN
+            IF(IRCVFROM(NIN,LOC_PROC)/=0.OR.
+     +         ISENDTO(NIN,LOC_PROC)/=0)THEN
              DO J=1,18
               XSLV_L(J,NIN) = SBUF(L+J)
              END DO
@@ -167,7 +167,7 @@ C T25 main gap changes with thickness change
               VMSR_L(J,NIN) = SBUF(L+J)
              END DO
              L = L + 6
-             IF(IPARI(7,NIN).NE.17)THEN
+             IF(IPARI(7,NIN)/=17)THEN
                NEWFRONT(NIN) = SBUF(L+1)
              ELSE     ! interface 17 avec courbure
                SIZE_T(NIN) = SBUF(L+1)
@@ -189,9 +189,9 @@ C Proc IRING
         L = 1
         NBIRECV = 0
         DO P = 1, NSPMD
-          IF(P.NE.LOC_PROC) THEN
-            IF(IRCVFROM(NINTER+1,P).GT.0.OR.
-     +         ISENDTO(NINTER+1,P).GT.0) THEN
+          IF(P/=LOC_PROC) THEN
+            IF(IRCVFROM(NINTER+1,P)>0.OR.
+     +         ISENDTO(NINTER+1,P)>0) THEN
               NBIRECV = NBIRECV + 1
               IRINDEXI(NBIRECV)=P
               MSGTYP =  MSGOFF
@@ -213,8 +213,8 @@ C
           L = IADR(P)
           DO KK=1,NINTC
             NIN = INTLIST(KK)
-            IF(IRCVFROM(NIN,P).NE.0.OR.
-     +         ISENDTO(NIN,P).NE.0)THEN
+            IF(IRCVFROM(NIN,P)/=0.OR.
+     +         ISENDTO(NIN,P)/=0)THEN
 C X MIN/MAX
               XSLV_L( 1,NIN) = MAX(XSLV_L( 1,NIN),SBUF(L))
               XSLV_L( 2,NIN) = MAX(XSLV_L( 2,NIN),SBUF(L+1))
@@ -265,7 +265,7 @@ C
               VMSR_L(5,NIN) = MIN(VMSR_L(5,NIN),SBUF(L+4))
               VMSR_L(6,NIN) = MIN(VMSR_L(6,NIN),SBUF(L+5))
               L = L + 6
-              IF(IPARI(7,NIN).NE.17)THEN
+              IF(IPARI(7,NIN)/=17)THEN
 C NEWFRONT
                 NEWFRONT(NIN) = NEWFRONT(NIN)+NINT(SBUF(L))
               ELSE     ! interface 17 avec courbure
@@ -293,8 +293,8 @@ C
           IADR(P) = L+1
           DO KK=1,NINTC
             NIN = INTLIST(KK)
-            IF(IRCVFROM(NIN,P).NE.0.OR.
-     +         ISENDTO(NIN,P).NE.0)THEN
+            IF(IRCVFROM(NIN,P)/=0.OR.
+     +         ISENDTO(NIN,P)/=0)THEN
               DO J=1,18
                 SBUF(L+J) = XSLV_L(J,NIN)
               END DO
@@ -311,7 +311,7 @@ C
               SBUF(L+J) = VMSR_L(J,NIN)
               END DO
               L = L + 6
-              IF(IPARI(7,NIN).NE.17)THEN
+              IF(IPARI(7,NIN)/=17)THEN
                 SBUF(L+1) = NEWFRONT(NIN)
               ELSE     ! interface 17 avec courbure
                 SBUF(L+1) = SIZE_T(NIN)

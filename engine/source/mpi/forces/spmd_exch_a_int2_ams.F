@@ -82,7 +82,7 @@ C
       L = 0
       DO I = 1, NSPMD
         LEN = IAD_I2M(I+1)-IAD_I2M(I)
-        IF(LEN.GT.0) THEN
+        IF(LEN>0) THEN
           SIZ = LEN*ISIZE
           L=L+1
           INDEXI(L)=I
@@ -102,7 +102,7 @@ C
         IAD = IAD_I2M(I)-1
         IF (INTTH2 == 1) THEN
          IF(IDT_THERM == 1) THEN      
-          IF (IRODDL.EQ.0) THEN
+          IF (IRODDL==0) THEN
 #include      "vectorize.inc"
            DO J = 1, LEN
             NOD = FR_I2M(IAD+J)
@@ -135,7 +135,7 @@ C
            ENDDO
           ENDIF
          ELSE
-          IF (IRODDL.EQ.0) THEN
+          IF (IRODDL==0) THEN
 #include      "vectorize.inc"
            DO J = 1, LEN
             NOD = FR_I2M(IAD+J)
@@ -167,7 +167,7 @@ C
           ENDIF
          ENDIF
         ELSE
-         IF (IRODDL.EQ.0) THEN
+         IF (IRODDL==0) THEN
 #include      "vectorize.inc"
           DO J = 1, LEN
             NOD = FR_I2M(IAD+J)
@@ -357,7 +357,7 @@ C
       DO P=1,NSPMD
        IF(P/=LOC_PROC)THEN
         LEN= IAD_I2M(P+1)-IAD_I2M(P)
-        IF(LEN.GT.0) THEN
+        IF(LEN>0) THEN
           L=L+1
           IDEB = 1+(IAD_I2M(P)-1)*ISIZE
           IAD = IAD_I2M(P)-1

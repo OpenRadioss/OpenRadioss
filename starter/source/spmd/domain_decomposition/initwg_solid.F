@@ -167,7 +167,7 @@ C -------------------------------
           INDI3 = 9
         ENDIF
         ! -----------------
-        IF (PID.NE.0) THEN
+        IF (PID/=0) THEN
          JHBE  = IGEO(10,PID)
          IGT   = IGEO(11,PID)
          NPN   = IGEO(4,PID)
@@ -203,20 +203,20 @@ C -------------------------------
         ELSE
          IRUP2 = 2
         ENDIF
-        IF (MLN.EQ.2) THEN
+        IF (MLN==2) THEN
            CC = PM(43,MID)
-           IF (CC.NE.0) THEN
+           IF (CC/=0) THEN
             INDI = 2
            ELSE
             INDI = 1
            ENDIF
         ELSEIF (MLN == 36)THEN
            NFUNC = MAX(IPM(10,MID) - 3,1)
-           IF (NFUNC.LE.2) THEN
+           IF (NFUNC<=2) THEN
             INDI = 1
-           ELSEIF (NFUNC.GT.2.AND.NFUNC.LE.7) THEN
+           ELSEIF (NFUNC>2.AND.NFUNC<=7) THEN
             INDI = 2
-           ELSEIF (NFUNC.GT.7) THEN
+           ELSEIF (NFUNC>7) THEN
             INDI = 3
            ENDIF
         ELSEIF (MLN==33) THEN
@@ -330,7 +330,7 @@ C -------------------------------
 !       ---------------------------
 !       TETRA 4
 !       ---------------------------       
-        IF (ISOL.EQ.4.AND. (JSROT .NE. 1)) THEN
+        IF (ISOL==4.AND. (JSROT /= 1)) THEN
         ! check if the (mid,pid) cost must be initialized from a previous run
          IF(RECHERCHE==0.AND.TEST_POIDS/=0) THEN
            POIN_PART = IPARTS(I)
@@ -368,10 +368,10 @@ C -------------------------------
 !       ---------------------------
 !       TETRA 10 or TETRA4 + JSROT
 !       ---------------------------
-        ELSEIF ((ISOL.EQ.10).OR.(ISOL.EQ.4.AND. JSROT==1)) THEN
+        ELSEIF ((ISOL==10).OR.(ISOL==4.AND. JSROT==1)) THEN
         ! check if the (mid,pid) cost must be initialized from a previous run
          IF(RECHERCHE==0.AND.TEST_POIDS/=0) THEN
-           IF(ISOL.EQ.10) THEN
+           IF(ISOL==10) THEN
             POIN_PART = IPARTS(I)
             POIN_MID = POIN_PART_SOL(1,POIN_PART,2)
             POIN_PID = POIN_PART_SOL(2,POIN_PART,2)
@@ -384,7 +384,7 @@ C -------------------------------
                  TELT = MID_PID_SOL(POIN_MID,POIN_ELM_TYP)%COST1D(POIN_PID)
              ENDIF
             ENDIF
-           ELSEIF(ISOL.EQ.4.AND. JSROT==1) THEN
+           ELSEIF(ISOL==4.AND. JSROT==1) THEN
             POIN_PART = IPARTS(I)
             POIN_MID = POIN_PART_SOL(1,POIN_PART,6)
             POIN_PID = POIN_PART_SOL(2,POIN_PART,6)
@@ -417,8 +417,8 @@ C -------------------------------
              ENDDO
             ENDIF
 !           --------------
-             IF(ISOL.EQ.10) TELT = TET10TELT(1)
-             IF(ISOL.EQ.4.AND. JSROT==1) TELT = TET4TELT(2)
+             IF(ISOL==10) TELT = TET10TELT(1)
+             IF(ISOL==4.AND. JSROT==1) TELT = TET4TELT(2)
              TELT = TMAT + TELT + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
          ENDIF
         ELSE
@@ -453,7 +453,7 @@ C -------------------------------
            ENDIF
         ! the (mid,pid) cost must be initialized from .inc file
            IF(COST_CHECK==0) THEN
-            IF (JHBE.EQ.1) THEN
+            IF (JHBE==1) THEN
 !           Solides ISOLD1
               IF( DDWEIGHTS(1,1,IABS(MID))/=0)THEN
                TMAT = DDWEIGHTS(1,1,IABS(MID)) * TPSREF
@@ -472,7 +472,7 @@ C -------------------------------
               ENDIF
 !             -------------- 
               TELT = TMAT + SOLTELT(1)  + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
-            ELSEIF (JHBE.EQ.2) THEN
+            ELSEIF (JHBE==2) THEN
 !           Solides ISOLD2
               IF( DDWEIGHTS(1,1,IABS(MID))/=0)THEN
                 TMAT = DDWEIGHTS(1,1,IABS(MID)) * TPSREF
@@ -491,7 +491,7 @@ C -------------------------------
               ENDIF
 !             -------------- 
               TELT = TMAT + SOLTELT(2) + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
-            ELSEIF (JHBE.EQ.24.OR.JHBE.EQ.104) THEN
+            ELSEIF (JHBE==24.OR.JHBE==104) THEN
 !           Solides ISOLD24  - HEPH
               IF( DDWEIGHTS(1,1,IABS(MID))/=0)THEN
                 TMAT = DDWEIGHTS(1,1,IABS(MID)) * TPSREF
@@ -511,7 +511,7 @@ C -------------------------------
 !             -------------- 
               TELT = TMAT + SOLTELT(3) + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
 C
-            ELSEIF (JHBE.EQ.12) THEN
+            ELSEIF (JHBE==12) THEN
 !           Solides ISOLD12 - std 8 node integ point
               IF( DDWEIGHTS(1,1,IABS(MID))/=0)THEN
                 TMAT = DDWEIGHTS(1,1,IABS(MID)) * TPSREF
@@ -530,7 +530,7 @@ C
               ENDIF
 !             -------------- 
               TELT = TMAT + SOLTELT(4) + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
-            ELSEIF ( (JHBE.EQ.14.OR.(JHBE.GE.222.AND.JHBE.LE.999)).AND.(IGT/=20.AND.IGT/=21.AND.IGT/=22)) THEN
+            ELSEIF ( (JHBE==14.OR.(JHBE>=222.AND.JHBE<=999)).AND.(IGT/=20.AND.IGT/=21.AND.IGT/=22)) THEN
 !           Solides HA8
                MPT = ABS (NPN)
                NPTR = MAX(MPT/100,1)
@@ -559,7 +559,7 @@ C
                OVERCOST_ELM = 0
                IF(NPTOT>8) OVERCOST_ELM = NPTOT-8
                TELT = NPTOT*(TMAT+TRUP)+SOLTELT(5) +OVERCOST_ELM *SOLTELT(6) + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
-            ELSEIF(JHBE.EQ.14.AND.(IGT==20.OR.IGT==21.OR.IGT==22)) THEN
+            ELSEIF(JHBE==14.AND.(IGT==20.OR.IGT==21.OR.IGT==22)) THEN
 !           Solides Thick shell
                MPT = ABS (NPN)
                NPTR = MAX(MPT/100,1)
@@ -629,7 +629,7 @@ C
                ! if NPT > 4, element weight = reference weight + overcost
                TELT = OVERCOST_ELM*TMAT+NPTOT*TRUP + 
      .                OVERCOST_ELM*NUMBER_LAYER*SOLTELT(10) + MULT_SPE*NLOCAL_OPTION(SPE_I_3)     
-            ELSEIF (JHBE.EQ.17) THEN   
+            ELSEIF (JHBE==17) THEN   
 !           ISOLIDE=17 H8C Standard 8-nodes compatible 
 !           solid full integration formulation 2*2*2 integration points, no hourglass
                IF( DDWEIGHTS(1,1,IABS(MID))/=0)THEN
@@ -649,7 +649,7 @@ C
                ENDIF
 !              -------------- 
                TELT =  (TMAT+TRUP)*8 + SOLTELT(7) + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
-            ELSEIF (JHBE.EQ.18) THEN   
+            ELSEIF (JHBE==18) THEN   
 !           ISOLIDE=18
                IF( DDWEIGHTS(1,1,IABS(MID))/=0)THEN
                 TMAT = DDWEIGHTS(1,1,IABS(MID)) * TPSREF
@@ -685,12 +685,12 @@ C
           POIDS = TELT * INVTREF
           ! --------------------
           IF(RECHERCHE==0) THEN
-           IF (WD_LOCAL.EQ.0..AND.MLN.NE.0)THEN
+           IF (WD_LOCAL==0..AND.MLN/=0)THEN
              WD(I) = POIDS
              POIN_PART = IPARTS(I)
-             IF (ISOL.EQ.4.AND. (JSROT .NE. 1)) THEN
+             IF (ISOL==4.AND. (JSROT /= 1)) THEN
                 POIN_ELM_TYP = 6
-             ELSEIF( (ISOL.EQ.10).OR.(ISOL.EQ.4.AND. JSROT==1) ) THEN
+             ELSEIF( (ISOL==10).OR.(ISOL==4.AND. JSROT==1) ) THEN
                 IF(ISOL==10) THEN
                         POIN_ELM_TYP = 2
                 ELSE
@@ -713,7 +713,7 @@ C
              POIN_MID = POIN_PART_SOL(1,POIN_PART,POIN_ELM_TYP)
              POIN_PID = POIN_PART_SOL(2,POIN_PART,POIN_ELM_TYP)
              IF(POIN_MID/=0.AND.POIN_PID/=0) MID_PID_SOL(POIN_MID,POIN_ELM_TYP)%COST1D(POIN_PID) = TELT
-           ELSEIF(MLN.EQ.0)THEN
+           ELSEIF(MLN==0)THEN
              WD(I) = 0.0001
            END IF
           ELSE

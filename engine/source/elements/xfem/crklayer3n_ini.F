@@ -302,7 +302,7 @@ C
         I=JCT(IR)
         FAC = 0
         DO K=1,3
-           IF(EDGEL(K,I).EQ.1.or.EDGEL(K,I).EQ.2) FAC=FAC+1
+           IF(EDGEL(K,I)==1.or.EDGEL(K,I)==2) FAC=FAC+1
         ENDDO
         IF(FAC /= 2)THEN
           WRITE(IOUT,*) 'ERROR IN INITIATION CRACK.NO CUT EDGES'

@@ -126,7 +126,7 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('LAW94_D3'     ,D3      ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
       !========== DEFAULT VALUES=============!              
       RHOR=ZERO
-      !!IF(RHOR.EQ.ZERO)RHOR=RHO0
+      !!IF(RHOR==ZERO)RHOR=RHO0
       PM(1) =RHOR
       PM(89)=RHO0
       
@@ -175,7 +175,7 @@ C
 !! not used     UPARAM(10) = ITEST
 C      
       NUPARAM = 9
-      IF(NUPARAM.GT.MAXUPARAM)THEN
+      IF(NUPARAM>MAXUPARAM)THEN
         WRITE(IOUT,*)' ** ERROR : NUPARAM GT MAXUPARAM'
         WRITE(IOUT,*)'      NUPARAM =',NUPARAM,
      .                ' MAXUPARAM =',MAXUPARAM

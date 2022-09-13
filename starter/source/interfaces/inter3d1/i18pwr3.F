@@ -64,16 +64,16 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
         DO I=LFT,LLT
-          IF(IPRI.GE.1.AND.PENE(I).GT.ZERO)THEN
+          IF(IPRI>=1.AND.PENE(I)>ZERO)THEN
             WRITE(IOUT,FMT=FMW_5I)
      1       ITAB(NSVG(I)),
      2       ITAB(IX1(I)),ITAB(IX2(I)),ITAB(IX3(I)),ITAB(IX4(I))
-          ELSEIF(IPRI.GE.6)THEN
+          ELSEIF(IPRI>=6)THEN
             WRITE(IOUT,FMT=FMW_5I)
      1       ITAB(NSVG(I)),
      2       ITAB(IX1(I)),ITAB(IX2(I)),ITAB(IX3(I)),ITAB(IX4(I))
           ENDIF
-          IF(PENE(I).GT.ZERO)THEN
+          IF(PENE(I)>ZERO)THEN
             TAG(NSVG(I))=TAG(NSVG(I))+1
             CAND_P(IWPENE+1)  = ZERO
             CAND_NN(IWPENE+1) = CAND_N(I)

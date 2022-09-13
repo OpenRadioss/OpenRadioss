@@ -97,7 +97,7 @@ C
       INTBUF_TAB(NI)%INFLG_SUBM(1:NISUBM)=0
 
 
-      IF ((NTY.EQ.11).AND.(NT19.EQ.0)) THEN
+      IF ((NTY==11).AND.(NT19==0)) THEN
 C----------------------------------------
 C  TAG nodes second calculate addresses
 C---------------------------------------------
@@ -137,8 +137,8 @@ C
            ID1=NOM_OPT(1,NINTER+JSUB)
            CALL FRETITL2(TITR1,
      .              NOM_OPT(LNOPT1-LTITR+1,NINTER+JSUB),LTITR)
-           IF(NOM_OPT(2,NINTER+JSUB).EQ.NOINT
-     .           .AND.NOM_OPT(5,NINTER+JSUB).EQ.1)THEN
+           IF(NOM_OPT(2,NINTER+JSUB)==NOINT
+     .           .AND.NOM_OPT(5,NINTER+JSUB)==1)THEN
                KSUB=KSUB+1
 C      LISUB(KSUB)=JSUB no interne de la sous-interface
                INTBUF_TAB(NI)%LISUB(KSUB) = JSUB
@@ -158,17 +158,17 @@ C
                       II=IGRSLIN(ISLIN1)%NODES(I,J)
                       FOUND=0
                       DO K=1,2
-                         IF(INTBUF_TAB(NI)%IRECTS(2*(IS-1)+K).EQ.II) FOUND=1
+                         IF(INTBUF_TAB(NI)%IRECTS(2*(IS-1)+K)==II) FOUND=1
                       END DO
                       FOUND_LINE = FOUND_LINE + FOUND
                     END DO
-                    IF (FOUND_LINE.EQ.2) THEN
+                    IF (FOUND_LINE==2) THEN
                       KM=IS
                       EXIT
                     ENDIF
                   ENDDO
 C
-                  IF(KM.EQ.0)THEN
+                  IF(KM==0)THEN
                     CALL ANCMSG(MSGID=1188,
      .                          MSGTYPE=MSGERROR,
      .                          ANMODE=ANINFO_BLIND_1,
@@ -212,11 +212,11 @@ C
                              II=INTBUF_TAB(NI)%IRECTS(2*(IS-1)+J)
                              FOUND=0
                              DO K=1,4
-                                IF(IGRSURF(ISU2)%NODES(I,K).EQ.II) FOUND=1
+                                IF(IGRSURF(ISU2)%NODES(I,K)==II) FOUND=1
                              END DO
                              FOUND_LINE = FOUND_LINE + FOUND
                           END DO
-                          IF ((FOUND_LINE.EQ.2).AND.(TAGLINS(IS).EQ.0)) THEN
+                          IF ((FOUND_LINE==2).AND.(TAGLINS(IS)==0)) THEN
                              INTBUF_TAB(NI)%ADDSUBS(IS)=INTBUF_TAB(NI)%ADDSUBS(IS)+1
 C                          Line must be taken into account only one time for one subinterface
                              TAGLINS(IS) = 1
@@ -241,11 +241,11 @@ C                          Line must be taken into account only one time for one
                              II=INTBUF_TAB(NI)%IRECTS(2*(IS-1)+J)
                              FOUND=0
                              DO K=1,4
-                                IF(IGRSURF(ISU1)%NODES(I,K).EQ.II) FOUND=1
+                                IF(IGRSURF(ISU1)%NODES(I,K)==II) FOUND=1
                              END DO
                              FOUND_LINE = FOUND_LINE + FOUND
                           END DO
-                          IF ((FOUND_LINE.EQ.2).AND.(TAGLINS(IS).EQ.0)) THEN
+                          IF ((FOUND_LINE==2).AND.(TAGLINS(IS)==0)) THEN
                              INTBUF_TAB(NI)%ADDSUBS(IS)=INTBUF_TAB(NI)%ADDSUBS(IS)+1
 C                          Line must be taken into account only one time for one subinterface
                              TAGLINS(IS) = 1
@@ -280,8 +280,8 @@ C      prepare LISUBS :
 C
          KSUB=0
          DO JSUB=1,NINTSUB
-            IF(NOM_OPT(2,NINTER+JSUB).EQ.NOINT
-     .         .AND.NOM_OPT(5,NINTER+JSUB).EQ.1)THEN
+            IF(NOM_OPT(2,NINTER+JSUB)==NOINT
+     .         .AND.NOM_OPT(5,NINTER+JSUB)==1)THEN
                KSUB=KSUB+1
 C
                ISLIN1  =NOM_OPT(4,NINTER+JSUB)
@@ -298,17 +298,17 @@ C
                       II=IGRSLIN(ISLIN1)%NODES(I,J)
                       FOUND=0
                       DO K=1,2
-                         IF(INTBUF_TAB(NI)%IRECTS(2*(IS-1)+K).EQ.II) FOUND=1
+                         IF(INTBUF_TAB(NI)%IRECTS(2*(IS-1)+K)==II) FOUND=1
                       END DO
                       FOUND_LINE = FOUND_LINE + FOUND
                     END DO
-                    IF (FOUND_LINE.EQ.2) THEN
+                    IF (FOUND_LINE==2) THEN
                       KM=IS
                       EXIT
                     ENDIF
                   ENDDO
 C
-                  IF(KM.NE.0)THEN
+                  IF(KM/=0)THEN
                     INTBUF_TAB(NI)%LISUBS(KAD(IS))=KSUB
                     KAD(IS)=KAD(IS)+1
                   END IF
@@ -342,13 +342,13 @@ C
                              II=INTBUF_TAB(NI)%IRECTS(2*(IS-1)+J)
                              FOUND=0
                              DO K=1,4
-                                IF(IGRSURF(ISU2)%NODES(I,K).EQ.II) FOUND=1
+                                IF(IGRSURF(ISU2)%NODES(I,K)==II) FOUND=1
                              END DO
                              FOUND_LINE = FOUND_LINE + FOUND
                           END DO
 
-                          IF (FOUND_LINE.EQ.2)THEN
-                            IF(TAGLINS(IS).EQ.0) THEN
+                          IF (FOUND_LINE==2)THEN
+                            IF(TAGLINS(IS)==0) THEN
                               INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS))=
      .                          BITSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)),0)
                               INTBUF_TAB(NI)%LISUBS(KAD(IS))=KSUB
@@ -379,12 +379,12 @@ C
                              II=INTBUF_TAB(NI)%IRECTS(2*(IS-1)+J)
                              FOUND=0
                              DO K=1,4
-                                IF(IGRSURF(ISU1)%NODES(I,K).EQ.II) FOUND=1
+                                IF(IGRSURF(ISU1)%NODES(I,K)==II) FOUND=1
                              END DO
                              FOUND_LINE = FOUND_LINE + FOUND
                           END DO   
-                          IF (FOUND_LINE.EQ.2)THEN
-                            IF(TAGLINS(IS).EQ.0) THEN
+                          IF (FOUND_LINE==2)THEN
+                            IF(TAGLINS(IS)==0) THEN
                               INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS))=
      .                          BITSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)),1)
                               INTBUF_TAB(NI)%LISUBS(KAD(IS))=KSUB
@@ -443,8 +443,8 @@ C
             ID1=NOM_OPT(1,NINTER+JSUB)
             CALL FRETITL2(TITR1,
      .               NOM_OPT(LNOPT1-LTITR+1,NINTER+JSUB),LTITR)
-            IF(NOM_OPT(2,NINTER+JSUB).EQ.NOINT
-     .           .AND.NOM_OPT(5,NINTER+JSUB).EQ.1)THEN
+            IF(NOM_OPT(2,NINTER+JSUB)==NOINT
+     .           .AND.NOM_OPT(5,NINTER+JSUB)==1)THEN
                KSUB=KSUB+1
 C
                ISLIN2  =NOM_OPT(3,NINTER+JSUB)
@@ -461,17 +461,17 @@ C
                       II=IGRSLIN(ISLIN2)%NODES(I,J)
                       FOUND=0
                       DO K=1,2
-                         IF(INTBUF_TAB(NI)%IRECTM(2*(IM-1)+K).EQ.II) FOUND=1
+                         IF(INTBUF_TAB(NI)%IRECTM(2*(IM-1)+K)==II) FOUND=1
                       END DO
                       FOUND_LINE = FOUND_LINE + FOUND
                     END DO
-                    IF (FOUND_LINE.EQ.2) THEN
+                    IF (FOUND_LINE==2) THEN
                       KM=IM
                       EXIT
                     ENDIF
                   ENDDO
 C
-                  IF(KM.EQ.0)THEN
+                  IF(KM==0)THEN
                     CALL ANCMSG(MSGID=1189,
      .                          MSGTYPE=MSGERROR,
      .                          ANMODE=ANINFO_BLIND_1,
@@ -514,11 +514,11 @@ C
                              II=INTBUF_TAB(NI)%IRECTM(2*(IS-1)+J)
                              FOUND=0
                              DO K=1,4
-                                IF(IGRSURF(ISU1)%NODES(I,K).EQ.II) FOUND=1
+                                IF(IGRSURF(ISU1)%NODES(I,K)==II) FOUND=1
                              END DO
                              FOUND_LINE = FOUND_LINE + FOUND
                           END DO
-                          IF ((FOUND_LINE.EQ.2).AND.(TAGLINM(IM).EQ.0)) THEN
+                          IF ((FOUND_LINE==2).AND.(TAGLINM(IM)==0)) THEN
                              INTBUF_TAB(NI)%ADDSUBM(IM)=INTBUF_TAB(NI)%ADDSUBM(IM)+1
 C                          Line must be taken into account only one time for one subinterface
                              TAGLINM(IM) = 1
@@ -543,11 +543,11 @@ C
                              II=INTBUF_TAB(NI)%IRECTM(2*(IS-1)+J)
                              FOUND=0
                              DO K=1,4
-                                IF(IGRSURF(ISU2)%NODES(I,K).EQ.II) FOUND=1
+                                IF(IGRSURF(ISU2)%NODES(I,K)==II) FOUND=1
                              END DO
                              FOUND_LINE = FOUND_LINE + FOUND
                           END DO
-                          IF ((FOUND_LINE.EQ.2).AND.(TAGLINM(IM).EQ.0)) THEN
+                          IF ((FOUND_LINE==2).AND.(TAGLINM(IM)==0)) THEN
                              INTBUF_TAB(NI)%ADDSUBM(IM)=INTBUF_TAB(NI)%ADDSUBM(IM)+1
 C                          Line must be taken into account only one time for one subinterface
                              TAGLINM(IM) = 1
@@ -580,8 +580,8 @@ C      prepare LISUBM :
 C
          KSUB=0
          DO JSUB=1,NINTSUB
-            IF(NOM_OPT(2,NINTER+JSUB).EQ.NOINT
-     .         .AND.NOM_OPT(5,NINTER+JSUB).EQ.1)THEN
+            IF(NOM_OPT(2,NINTER+JSUB)==NOINT
+     .         .AND.NOM_OPT(5,NINTER+JSUB)==1)THEN
                KSUB=KSUB+1
 C
                ISLIN2  =NOM_OPT(3,NINTER+JSUB)
@@ -598,17 +598,17 @@ C
                       II=IGRSLIN(ISLIN2)%NODES(I,J)
                       FOUND=0
                       DO K=1,2
-                         IF(INTBUF_TAB(NI)%IRECTM(2*(IM-1)+K).EQ.II) FOUND=1
+                         IF(INTBUF_TAB(NI)%IRECTM(2*(IM-1)+K)==II) FOUND=1
                       END DO
                       FOUND_LINE = FOUND_LINE + FOUND
                     END DO
-                    IF (FOUND_LINE.EQ.2) THEN
+                    IF (FOUND_LINE==2) THEN
                       KM=IM
                       EXIT
                     ENDIF
                   ENDDO
 C
-                  IF(KM.NE.0)THEN
+                  IF(KM/=0)THEN
                     INTBUF_TAB(NI)%LISUBM(KAD(IM))=KSUB
                     KAD(IM)=KAD(IM)+1
                   END IF
@@ -644,13 +644,13 @@ C
                              II=INTBUF_TAB(NI)%IRECTM(2*(IS-1)+J)
                              FOUND=0
                              DO K=1,4
-                                IF(IGRSURF(ISU1)%NODES(I,K).EQ.II) FOUND=1
+                                IF(IGRSURF(ISU1)%NODES(I,K)==II) FOUND=1
                              END DO
                              FOUND_LINE = FOUND_LINE + FOUND
                           END DO
 
-                          IF (FOUND_LINE.EQ.2)THEN
-                            IF(TAGLINM(IM).EQ.0) THEN
+                          IF (FOUND_LINE==2)THEN
+                            IF(TAGLINM(IM)==0) THEN
                               INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM))=
      .                          BITSET(INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM)),1)
                               INTBUF_TAB(NI)%LISUBM(KAD(IM))=KSUB
@@ -681,13 +681,13 @@ C                          Line must be taken into account only one time for one
                              II=INTBUF_TAB(NI)%IRECTM(2*(IS-1)+J)
                              FOUND=0
                              DO K=1,4
-                                IF(IGRSURF(ISU2)%NODES(I,K).EQ.II) FOUND=1
+                                IF(IGRSURF(ISU2)%NODES(I,K)==II) FOUND=1
                              END DO
                              FOUND_LINE = FOUND_LINE + FOUND
                           END DO
 
-                          IF (FOUND_LINE.EQ.2)THEN
-                            IF(TAGLINM(IM).EQ.0) THEN
+                          IF (FOUND_LINE==2)THEN
+                            IF(TAGLINM(IM)==0) THEN
                               INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM))=
      .                          BITSET(INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM)),0)
                               INTBUF_TAB(NI)%LISUBM(KAD(IM))=KSUB
@@ -711,7 +711,7 @@ C
 C
 
 C
-      ELSEIF ((NTY.EQ.11).AND.(NT19.GT.0)) THEN
+      ELSEIF ((NTY==11).AND.(NT19>0)) THEN
 C   interface type11 of iterface type19 - subinterface input by surfaces
 C
 C
@@ -751,8 +751,8 @@ C
             ID1=NOM_OPT(1,NINTER+JSUB)
             CALL FRETITL2(TITR1,
      .              NOM_OPT(LNOPT1-LTITR+1,NINTER+JSUB),LTITR)
-            IF(NOM_OPT(2,NINTER+JSUB).EQ.NOINT
-     .         .AND.NOM_OPT(5,NINTER+JSUB).EQ.1)THEN
+            IF(NOM_OPT(2,NINTER+JSUB)==NOINT
+     .         .AND.NOM_OPT(5,NINTER+JSUB)==1)THEN
                KSUB=KSUB+1
 C      LISUB(KSUB)=JSUB no interne de la sous-interface
                INTBUF_TAB(NI)%LISUB(KSUB) = JSUB
@@ -772,11 +772,11 @@ C
                         II=INTBUF_TAB(NI)%IRECTS(2*(IS-1)+J)
                         FOUND=0
                         DO K=1,4
-                          IF(IGRSURF(ISU)%NODES(I,K).EQ.II) FOUND=1
+                          IF(IGRSURF(ISU)%NODES(I,K)==II) FOUND=1
                         END DO
                         FOUND_LINE = FOUND_LINE + FOUND
                       END DO
-                      IF ((FOUND_LINE.EQ.2).AND.(TAGLINS(IS).EQ.0)) THEN
+                      IF ((FOUND_LINE==2).AND.(TAGLINS(IS)==0)) THEN
                         INTBUF_TAB(NI)%ADDSUBS(IS)=INTBUF_TAB(NI)%ADDSUBS(IS)+1
 C                       Line must be taken into account only one time for one subinterface
                         TAGLINS(IS) = 1
@@ -814,11 +814,11 @@ C
                              II=INTBUF_TAB(NI)%IRECTS(2*(IS-1)+J)
                              FOUND=0
                              DO K=1,4
-                                IF(IGRSURF(ISU2)%NODES(I,K).EQ.II) FOUND=1
+                                IF(IGRSURF(ISU2)%NODES(I,K)==II) FOUND=1
                              END DO
                              FOUND_LINE = FOUND_LINE + FOUND
                           END DO
-                          IF ((FOUND_LINE.EQ.2).AND.(TAGLINS(IS).EQ.0)) THEN
+                          IF ((FOUND_LINE==2).AND.(TAGLINS(IS)==0)) THEN
                              INTBUF_TAB(NI)%ADDSUBS(IS)=INTBUF_TAB(NI)%ADDSUBS(IS)+1
 C                          Line must be taken into account only one time for one subinterface
                              TAGLINS(IS) = 1
@@ -844,11 +844,11 @@ C                          Line must be taken into account only one time for one
                              II=INTBUF_TAB(NI)%IRECTS(2*(IS-1)+J)
                              FOUND=0
                              DO K=1,4
-                                IF(IGRSURF(ISU1)%NODES(I,K).EQ.II) FOUND=1
+                                IF(IGRSURF(ISU1)%NODES(I,K)==II) FOUND=1
                              END DO
                              FOUND_LINE = FOUND_LINE + FOUND
                           END DO
-                          IF ((FOUND_LINE.EQ.2).AND.(TAGLINS(IS).EQ.0)) THEN
+                          IF ((FOUND_LINE==2).AND.(TAGLINS(IS)==0)) THEN
                              INTBUF_TAB(NI)%ADDSUBS(IS)=INTBUF_TAB(NI)%ADDSUBS(IS)+1
 C                          Line must be taken into account only one time for one subinterface
                              TAGLINS(IS) = 1
@@ -882,8 +882,8 @@ C      prepare LISUBS :
 C
           KSUB=0
           DO JSUB=1,NINTSUB
-             IF(NOM_OPT(2,NINTER+JSUB).EQ.NOINT
-     .          .AND.NOM_OPT(5,NINTER+JSUB).EQ.1)THEN
+             IF(NOM_OPT(2,NINTER+JSUB)==NOINT
+     .          .AND.NOM_OPT(5,NINTER+JSUB)==1)THEN
                KSUB=KSUB+1
 C
                ISU  =NOM_OPT(4,NINTER+JSUB)
@@ -900,11 +900,11 @@ C
                         II=INTBUF_TAB(NI)%IRECTS(2*(IS-1)+J)
                         FOUND=0
                         DO K=1,4
-                          IF(IGRSURF(ISU)%NODES(I,K).EQ.II) FOUND=1
+                          IF(IGRSURF(ISU)%NODES(I,K)==II) FOUND=1
                         END DO
                         FOUND_LINE = FOUND_LINE + FOUND
                       END DO
-                      IF ((FOUND_LINE.EQ.2).AND.(TAGLINS(IS).EQ.0)) THEN
+                      IF ((FOUND_LINE==2).AND.(TAGLINS(IS)==0)) THEN
                         INTBUF_TAB(NI)%LISUBS(KAD(IS))=KSUB
                         KAD(IS)=KAD(IS)+1
 C                       Line must be taken into account only one time for one subinterface
@@ -941,13 +941,13 @@ C
                              II=INTBUF_TAB(NI)%IRECTS(2*(IS-1)+J)
                              FOUND=0
                              DO K=1,4
-                                IF(IGRSURF(ISU2)%NODES(I,K).EQ.II) FOUND=1
+                                IF(IGRSURF(ISU2)%NODES(I,K)==II) FOUND=1
                              END DO
                              FOUND_LINE = FOUND_LINE + FOUND
                           END DO
 
-                          IF (FOUND_LINE.EQ.2)THEN
-                            IF(TAGLINS(IS).EQ.0) THEN
+                          IF (FOUND_LINE==2)THEN
+                            IF(TAGLINS(IS)==0) THEN
                               INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS))=
      .                          BITSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)),0)
                               INTBUF_TAB(NI)%LISUBS(KAD(IS))=KSUB
@@ -979,13 +979,13 @@ C
                              II=INTBUF_TAB(NI)%IRECTS(2*(IS-1)+J)
                              FOUND=0
                              DO K=1,4
-                                IF(IGRSURF(ISU1)%NODES(I,K).EQ.II) FOUND=1
+                                IF(IGRSURF(ISU1)%NODES(I,K)==II) FOUND=1
                              END DO
                              FOUND_LINE = FOUND_LINE + FOUND
                           END DO
   
-                          IF (FOUND_LINE.EQ.2)THEN
-                            IF(TAGLINS(IS).EQ.0) THEN
+                          IF (FOUND_LINE==2)THEN
+                            IF(TAGLINS(IS)==0) THEN
                               INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS))=
      .                          BITSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)),1)
                               INTBUF_TAB(NI)%LISUBS(KAD(IS))=KSUB
@@ -1042,8 +1042,8 @@ C
               ID1=NOM_OPT(1,NINTER+JSUB)
               CALL FRETITL2(TITR1,
      .                NOM_OPT(LNOPT1-LTITR+1,NINTER+JSUB),LTITR)
-              IF(NOM_OPT(2,NINTER+JSUB).EQ.NOINT
-     .           .AND.NOM_OPT(5,NINTER+JSUB).EQ.1)THEN
+              IF(NOM_OPT(2,NINTER+JSUB)==NOINT
+     .           .AND.NOM_OPT(5,NINTER+JSUB)==1)THEN
                 KSUB=KSUB+1
 C
                 ISU  =NOM_OPT(3,NINTER+JSUB)
@@ -1060,11 +1060,11 @@ C
                         II=INTBUF_TAB(NI)%IRECTM(2*(IM-1)+J)
                         FOUND=0
                         DO K=1,4
-                          IF(IGRSURF(ISU)%NODES(I,K).EQ.II) FOUND=1
+                          IF(IGRSURF(ISU)%NODES(I,K)==II) FOUND=1
                         END DO
                         FOUND_LINE = FOUND_LINE + FOUND
                       END DO
-                      IF ((FOUND_LINE.EQ.2).AND.(TAGLINM(IM).EQ.0)) THEN
+                      IF ((FOUND_LINE==2).AND.(TAGLINM(IM)==0)) THEN
                         INTBUF_TAB(NI)%ADDSUBM(IM)=INTBUF_TAB(NI)%ADDSUBM(IM)+1
 C                       Line must be taken into account only one time for one subinterface
                         TAGLINM(IM) = 1
@@ -1100,11 +1100,11 @@ C
                              II=INTBUF_TAB(NI)%IRECTM(2*(IS-1)+J)
                              FOUND=0
                              DO K=1,4
-                                IF(IGRSURF(ISU1)%NODES(I,K).EQ.II) FOUND=1
+                                IF(IGRSURF(ISU1)%NODES(I,K)==II) FOUND=1
                              END DO
                              FOUND_LINE = FOUND_LINE + FOUND
                           END DO
-                          IF ((FOUND_LINE.EQ.2).AND.(TAGLINM(IM).EQ.0)) THEN
+                          IF ((FOUND_LINE==2).AND.(TAGLINM(IM)==0)) THEN
                              INTBUF_TAB(NI)%ADDSUBM(IM)=INTBUF_TAB(NI)%ADDSUBM(IM)+1
 C                          Line must be taken into account only one time for one subinterface
                              TAGLINM(IM) = 1
@@ -1131,11 +1131,11 @@ C                          Line must be taken into account only one time for one
                              II=INTBUF_TAB(NI)%IRECTM(2*(IS-1)+J)
                              FOUND=0
                              DO K=1,4
-                                IF(IGRSURF(ISU2)%NODES(I,K).EQ.II) FOUND=1
+                                IF(IGRSURF(ISU2)%NODES(I,K)==II) FOUND=1
                              END DO
                              FOUND_LINE = FOUND_LINE + FOUND
                           END DO
-                          IF ((FOUND_LINE.EQ.2).AND.(TAGLINM(IM).EQ.0)) THEN
+                          IF ((FOUND_LINE==2).AND.(TAGLINM(IM)==0)) THEN
                              INTBUF_TAB(NI)%ADDSUBM(IM)=INTBUF_TAB(NI)%ADDSUBM(IM)+1
 C                          Line must be taken into account only one time for one subinterface
                              TAGLINM(IM) = 1
@@ -1167,8 +1167,8 @@ C      prepare LISUBM :
 C
            KSUB=0
            DO JSUB=1,NINTSUB
-              IF(NOM_OPT(2,NINTER+JSUB).EQ.NOINT
-     .           .AND.NOM_OPT(5,NINTER+JSUB).EQ.1)THEN
+              IF(NOM_OPT(2,NINTER+JSUB)==NOINT
+     .           .AND.NOM_OPT(5,NINTER+JSUB)==1)THEN
                 KSUB=KSUB+1
 C
                 ISU  =NOM_OPT(3,NINTER+JSUB)
@@ -1185,11 +1185,11 @@ C
                         II=INTBUF_TAB(NI)%IRECTM(2*(IM-1)+J)
                         FOUND=0
                         DO K=1,4
-                          IF(IGRSURF(ISU)%NODES(I,K).EQ.II) FOUND=1
+                          IF(IGRSURF(ISU)%NODES(I,K)==II) FOUND=1
                         END DO
                         FOUND_LINE = FOUND_LINE + FOUND
                       END DO
-                      IF ((FOUND_LINE.EQ.2).AND.(TAGLINM(IM).EQ.0)) THEN
+                      IF ((FOUND_LINE==2).AND.(TAGLINM(IM)==0)) THEN
                         INTBUF_TAB(NI)%LISUBM(KAD(IM))=KSUB
                         KAD(IM)=KAD(IM)+1
 C                       Line must be taken into account only one time for one subinterface
@@ -1228,12 +1228,12 @@ C
                              II=INTBUF_TAB(NI)%IRECTM(2*(IS-1)+J)
                              FOUND=0
                              DO K=1,4
-                                IF(IGRSURF(ISU1)%NODES(I,K).EQ.II) FOUND=1
+                                IF(IGRSURF(ISU1)%NODES(I,K)==II) FOUND=1
                              END DO
                              FOUND_LINE = FOUND_LINE + FOUND
                           END DO
-                          IF (FOUND_LINE.EQ.2)THEN
-                            IF(TAGLINM(IM).EQ.0) THEN
+                          IF (FOUND_LINE==2)THEN
+                            IF(TAGLINM(IM)==0) THEN
                               INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM))=
      .                          BITSET(INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM)),1)
                               INTBUF_TAB(NI)%LISUBM(KAD(IM))=KSUB
@@ -1265,12 +1265,12 @@ C
                              II=INTBUF_TAB(NI)%IRECTM(2*(IS-1)+J)
                              FOUND=0
                              DO K=1,4
-                                IF(IGRSURF(ISU2)%NODES(I,K).EQ.II) FOUND=1
+                                IF(IGRSURF(ISU2)%NODES(I,K)==II) FOUND=1
                              END DO
                              FOUND_LINE = FOUND_LINE + FOUND
                           END DO
-                          IF (FOUND_LINE.EQ.2)THEN
-                            IF(TAGLINM(IM).EQ.0) THEN
+                          IF (FOUND_LINE==2)THEN
+                            IF(TAGLINM(IM)==0) THEN
                               INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM))=
      .                          BITSET(INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM)),0)
                               INTBUF_TAB(NI)%LISUBM(KAD(IM))=KSUB

@@ -63,12 +63,12 @@ C-----------------------------------------------
 C-----------------------------------------------
       OFF_L = 0.
       DO I=LFT,LLT
-Cf small3b        IF(OFF(I).LT.1.)OFFG(I) = OFF(I)
+Cf small3b        IF(OFF(I)<1.)OFFG(I) = OFF(I)
         OFF_L = MIN(OFF_L,OFFG(I))
       ENDDO
-      IF(OFF_L.LT.0.)THEN
+      IF(OFF_L<0.)THEN
         DO I=LFT,LLT
-          IF(OFFG(I).LT.0.)THEN
+          IF(OFFG(I)<0.)THEN
             F11(I)=0.
             F21(I)=0.
             F31(I)=0.

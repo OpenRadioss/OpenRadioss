@@ -90,8 +90,8 @@ C----------------------------------------------------
 C Boucle parallele dynamique SMP
 C
       DO NG = 1,NGROUP
-        IF(IPARG(8, NG).EQ.1) CYCLE
-        IF(IPARG(28,NG).NE.4) CYCLE
+        IF(IPARG(8, NG)==1) CYCLE
+        IF(IPARG(28,NG)/=4) CYCLE
         CALL INITBUF (IPARG    ,NG      ,
      2        MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,
      3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
@@ -140,7 +140,7 @@ C
       ENDDO !DO=1,NG
 
 c EXCHANGE
-      IF(NSPMD.GT.1)THEN
+      IF(NSPMD>1)THEN
         LENR = 2*(IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1))
         CALL SPMD_EXCH_VOL(VARNOD6(1,1),VARNOD6(1,NUMNOD+1),IAD_ELEM,
      .                     FR_ELEM, LENR )  
@@ -158,7 +158,7 @@ C Routine assembly PARITH/ON
          ENDDO
 
          !RHO0/RHO -> VARNOD
-         IF(VARNOD(J).NE.0)THEN
+         IF(VARNOD(J)/=0)THEN
            VARNOD(I)=VARNOD(I)/VARNOD(J)
          ENDIF
       ENDDO

@@ -63,7 +63,7 @@ C-----------------------------------------------
       ENDDO   
 
       !PRINTOUT
-      IF(IPRI.GE.1) THEN
+      IF(IPRI>=1) THEN
         WRITE(IOUT,'(/,A,/)')' CENTROID EXTRACTED FROM SOLID ELEMENTS : '
         WRITE(IOUT,FMT=FMW_10I)(IXS(11,MSV(I)),I=1,NBRIC)
       ENDIF

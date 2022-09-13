@@ -195,7 +195,7 @@ C     1ER TRIANGLE / Force normale.
 C----------------------------------------------------------
       DO 200 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
-      IF (IACTIV(1,IL).LE.0) GOTO 200
+      IF (IACTIV(1,IL)<=0) GOTO 200
       I  =NLS-NDEB
 C       STF(1,I)=STFAC*DEPTH(1,I)/MAX(DEPTH(1,I)-PENET(1,I),EM20)
       STF(1,I)=STFAC*DEPTH(1,I)**2/MAX((DEPTH(1,I)-PENET(1,I))**2,EM20)
@@ -208,7 +208,7 @@ C     1ER TRIANGLE / Extraction du pt de contact au cycle precedent.
 C-------------------------------
       DO 250 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
-      IF (IACTIV(1,IL).LE.0) GOTO 250
+      IF (IACTIV(1,IL)<=0) GOTO 250
       I  =NLS-NDEB
 C     Point sur le triangle tq D(P,L) etait maximum au cycle precedent.
       L1(I)=IOLD(1,4*(IL-1)+1)
@@ -221,7 +221,7 @@ C----------------------------------------------------------
 #include "vectorize.inc"
       DO 275 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
-      IF (IACTIV(1,IL).LE.0) GOTO 275
+      IF (IACTIV(1,IL)<=0) GOTO 275
       I  =NLS-NDEB
 C------------------------------
       FXT(1,I)=ZERO
@@ -230,12 +230,12 @@ C------------------------------
 C-------------------------------
 C     TOURNER DELTA(T-1) DANS LE PLAN TANGENT.
 C-------------------------------
-      IF (IACTIV(1,IL).GT.2) THEN
+      IF (IACTIV(1,IL)>2) THEN
        DELTX=DOLD(1,4*(IL-1)+1)
        DELTY=DOLD(2,4*(IL-1)+1)
        DELTZ=DOLD(3,4*(IL-1)+1)
        ND =SQRT(DELTX*DELTX+DELTY*DELTY+DELTZ*DELTZ)
-       IF (ND.NE.ZERO) THEN
+       IF (ND/=ZERO) THEN
         PN=DELTX*NXI(1,I)+DELTY*NYI(1,I)+DELTZ*NZI(1,I)
         DELTX=DELTX-PN*NXI(1,I)
         DELTY=DELTY-PN*NYI(1,I)
@@ -268,7 +268,7 @@ C-------------------------------
       VXH(1,I)=VXM+V1
       VYH(1,I)=VYM+V2
       VZH(1,I)=VZM+V3
-      IF (IACTIV(1,IL).GE.2) THEN
+      IF (IACTIV(1,IL)>=2) THEN
        VXK=L1(I)*VXG(I)+L2(I)*VX1(I)+L3(I)*VX2(I)
        VYK=L1(I)*VYG(I)+L2(I)*VY1(I)+L3(I)*VY2(I)
        VZK=L1(I)*VZG(I)+L2(I)*VZ1(I)+L3(I)*VZ2(I)
@@ -299,7 +299,7 @@ C     2EME TRIANGLE /  Force normale.
 C-------------------------------
       DO 300 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
-      IF (IACTIV(2,IL).LE.0) GOTO 300
+      IF (IACTIV(2,IL)<=0) GOTO 300
       I  =NLS-NDEB
 C       STF(2,I)=STFAC*DEPTH(2,I)/MAX(DEPTH(2,I)-PENET(2,I),EM20)
       STF(2,I)=STFAC*DEPTH(2,I)**2/MAX((DEPTH(2,I)-PENET(2,I))**2,EM20)
@@ -312,7 +312,7 @@ C     2EME TRIANGLE / Extraction du pt de contact au cycle precedent.
 C-------------------------------
       DO 350 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
-      IF (IACTIV(2,IL).LE.0) GOTO 350
+      IF (IACTIV(2,IL)<=0) GOTO 350
       I  =NLS-NDEB
 C     Point sur le triangle tq D(P,L) etait maximum au cycle precedent.
       L1(I)=IOLD(1,4*(IL-1)+2)
@@ -325,7 +325,7 @@ C----------------------------------------------------------
 #include "vectorize.inc"
       DO 375 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
-      IF (IACTIV(2,IL).LE.0) GOTO 375
+      IF (IACTIV(2,IL)<=0) GOTO 375
       I  =NLS-NDEB
       FXT(2,I)=ZERO
       FYT(2,I)=ZERO
@@ -333,12 +333,12 @@ C----------------------------------------------------------
 C-------------------------------
 C     TOURNER DELTA(T-1) DANS LE PLAN TANGENT.
 C-------------------------------
-      IF (IACTIV(2,IL).GT.2) THEN
+      IF (IACTIV(2,IL)>2) THEN
        DELTX=DOLD(1,4*(IL-1)+2)
        DELTY=DOLD(2,4*(IL-1)+2)
        DELTZ=DOLD(3,4*(IL-1)+2)
        ND =SQRT(DELTX*DELTX+DELTY*DELTY+DELTZ*DELTZ)
-       IF (ND.NE.0.) THEN
+       IF (ND/=0.) THEN
         PN=DELTX*NXI(2,I)+DELTY*NYI(2,I)+DELTZ*NZI(2,I)
         DELTX=DELTX-PN*NXI(2,I)
         DELTY=DELTY-PN*NYI(2,I)
@@ -371,7 +371,7 @@ C-------------------------------
       VXH(2,I)=VXM+V1
       VYH(2,I)=VYM+V2
       VZH(2,I)=VZM+V3
-      IF (IACTIV(2,IL).GE.2) THEN
+      IF (IACTIV(2,IL)>=2) THEN
        VXK=L1(I)*VXG(I)+L2(I)*VX2(I)+L3(I)*VX3(I)
        VYK=L1(I)*VYG(I)+L2(I)*VY2(I)+L3(I)*VY3(I)
        VZK=L1(I)*VZG(I)+L2(I)*VZ2(I)+L3(I)*VZ3(I)
@@ -402,7 +402,7 @@ C     3EME TRIANGLE /  Force normale.
 C-------------------------------
       DO 400 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
-      IF (IACTIV(3,IL).LE.0) GOTO 400
+      IF (IACTIV(3,IL)<=0) GOTO 400
       I  =NLS-NDEB
 C       STF(3,I)=STFAC*DEPTH(3,I)/MAX(DEPTH(3,I)-PENET(3,I),EM20)
       STF(3,I)=STFAC*DEPTH(3,I)**2/MAX((DEPTH(3,I)-PENET(3,I))**2,EM20)
@@ -415,7 +415,7 @@ C     3EME TRIANGLE / Extraction du pt de contact au cycle precedent.
 C-------------------------------
       DO 450 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
-      IF (IACTIV(3,IL).LE.0) GOTO 450
+      IF (IACTIV(3,IL)<=0) GOTO 450
       I  =NLS-NDEB
 C     Point sur le triangle tq D(P,L) etait maximum au cycle precedent.
       L1(I)=IOLD(1,4*(IL-1)+3)
@@ -428,7 +428,7 @@ C----------------------------------------------------------
 #include "vectorize.inc"
       DO 475 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
-      IF (IACTIV(3,IL).LE.0) GOTO 475
+      IF (IACTIV(3,IL)<=0) GOTO 475
       I  =NLS-NDEB
 C------------------------------
       FXT(3,I)=ZERO
@@ -437,12 +437,12 @@ C------------------------------
 C-------------------------------
 C     TOURNER DELTA(T-1) DANS LE PLAN TANGENT.
 C-------------------------------
-      IF (IACTIV(3,IL).GT.2) THEN
+      IF (IACTIV(3,IL)>2) THEN
        DELTX=DOLD(1,4*(IL-1)+3)
        DELTY=DOLD(2,4*(IL-1)+3)
        DELTZ=DOLD(3,4*(IL-1)+3)
        ND =SQRT(DELTX*DELTX+DELTY*DELTY+DELTZ*DELTZ)
-       IF (ND.NE.ZERO) THEN
+       IF (ND/=ZERO) THEN
         PN=DELTX*NXI(3,I)+DELTY*NYI(3,I)+DELTZ*NZI(3,I)
         DELTX=DELTX-PN*NXI(3,I)
         DELTY=DELTY-PN*NYI(3,I)
@@ -475,7 +475,7 @@ C-------------------------------
       VXH(3,I)=VXM+V1
       VYH(3,I)=VYM+V2
       VZH(3,I)=VZM+V3
-      IF (IACTIV(3,IL).GE.2) THEN
+      IF (IACTIV(3,IL)>=2) THEN
        VXK=L1(I)*VXG(I)+L2(I)*VX3(I)+L3(I)*VX4(I)
        VYK=L1(I)*VYG(I)+L2(I)*VY3(I)+L3(I)*VY4(I)
        VZK=L1(I)*VZG(I)+L2(I)*VZ3(I)+L3(I)*VZ4(I)
@@ -506,7 +506,7 @@ C     4EME TRIANGLE / Force normale.
 C-------------------------------
       DO 500 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
-      IF (IACTIV(4,IL).LE.0) GOTO 500
+      IF (IACTIV(4,IL)<=0) GOTO 500
       I  =NLS-NDEB
 C       STF(4,I)=STFAC*DEPTH(4,I)/MAX(DEPTH(4,I)-PENET(4,I),EM20)
       STF(4,I)=STFAC*DEPTH(4,I)**2/MAX((DEPTH(4,I)-PENET(4,I))**2,EM20)
@@ -519,7 +519,7 @@ C     4EME TRIANGLE / Extraction du pt de contact au cycle precedent.
 C-------------------------------
       DO 550 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
-      IF (IACTIV(4,IL).LE.0) GOTO 550
+      IF (IACTIV(4,IL)<=0) GOTO 550
       I  =NLS-NDEB
 C     Point sur le triangle tq D(P,L) etait maximum au cycle precedent.
       L1(I)=IOLD(1,4*(IL-1)+4)
@@ -532,7 +532,7 @@ C----------------------------------------------------------
 #include "vectorize.inc"
       DO 575 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
-      IF (IACTIV(4,IL).LE.0) GOTO 575
+      IF (IACTIV(4,IL)<=0) GOTO 575
       I  =NLS-NDEB
 C------------------------------
       FXT(4,I)=ZERO
@@ -541,12 +541,12 @@ C------------------------------
 C-------------------------------
 C     TOURNER DELTA(T-1) DANS LE PLAN TANGENT.
 C-------------------------------
-      IF (IACTIV(4,IL).GT.2) THEN
+      IF (IACTIV(4,IL)>2) THEN
        DELTX=DOLD(1,4*(IL-1)+4)
        DELTY=DOLD(2,4*(IL-1)+4)
        DELTZ=DOLD(3,4*(IL-1)+4)
        ND =SQRT(DELTX*DELTX+DELTY*DELTY+DELTZ*DELTZ)
-       IF (ND.NE.ZERO) THEN
+       IF (ND/=ZERO) THEN
         PN=DELTX*NXI(4,I)+DELTY*NYI(4,I)+DELTZ*NZI(4,I)
         DELTX=DELTX-PN*NXI(4,I)
         DELTY=DELTY-PN*NYI(4,I)
@@ -579,7 +579,7 @@ C-------------------------------
       VXH(4,I)=VXM+V1
       VYH(4,I)=VYM+V2
       VZH(4,I)=VZM+V3
-      IF (IACTIV(4,IL).GE.2) THEN
+      IF (IACTIV(4,IL)>=2) THEN
        VXK=L1(I)*VXG(I)+L2(I)*VX4(I)+L3(I)*VX1(I)
        VYK=L1(I)*VYG(I)+L2(I)*VY4(I)+L3(I)*VY1(I)
        VZK=L1(I)*VZG(I)+L2(I)*VZ4(I)+L3(I)*VZ1(I)
@@ -614,7 +614,7 @@ C-----------------------------------------------
 #include "vectorize.inc"
       DO 580 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
-      IF (IACTIV(1,IL).LE.0) GOTO 580
+      IF (IACTIV(1,IL)<=0) GOTO 580
       I  =NLS-NDEB
 C-----
       FTX=FXT(1,I)
@@ -626,7 +626,7 @@ C-----
       FTN=SQRT(FTX*FTX+FTY*FTY+FTZ*FTZ)
       FN =SQRT(FNX*FNX+FNY*FNY+FNZ*FNZ)
       FMAX= MAX(VFRIC*FN,ZERO)
-      IF (FTN.GT.FMAX) THEN
+      IF (FTN>FMAX) THEN
         SCALE =FMAX/FTN
         FTX=SCALE*FTX
         FTY=SCALE*FTY
@@ -634,7 +634,7 @@ C-----
       ELSE
         SCALE=ONE
       ENDIF
-      IF (IACTIV(1,IL).GT.1) THEN
+      IF (IACTIV(1,IL)>1) THEN
 C      Glissement DELTA=scale.DELTA
        DELTX=SCALE*DOLD(1,4*(IL-1)+1)
        DELTY=SCALE*DOLD(2,4*(IL-1)+1)
@@ -654,7 +654,7 @@ C-----------------------------------------------
 #include "vectorize.inc"
       DO 585 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
-      IF (IACTIV(2,IL).LE.0) GOTO 585
+      IF (IACTIV(2,IL)<=0) GOTO 585
       I  =NLS-NDEB
 C-----
       FTX=FXT(2,I)
@@ -666,7 +666,7 @@ C-----
       FTN=SQRT(FTX*FTX+FTY*FTY+FTZ*FTZ)
       FN =SQRT(FNX*FNX+FNY*FNY+FNZ*FNZ)
       FMAX= MAX(VFRIC*FN,ZERO)
-      IF (FTN.GT.FMAX) THEN
+      IF (FTN>FMAX) THEN
         SCALE =FMAX/FTN
         FTX=SCALE*FTX
         FTY=SCALE*FTY
@@ -674,7 +674,7 @@ C-----
       ELSE
         SCALE=ONE
       ENDIF
-      IF (IACTIV(2,IL).GT.1) THEN
+      IF (IACTIV(2,IL)>1) THEN
 C      Glissement DELTA=scale.DELTA
        DELTX=SCALE*DOLD(1,4*(IL-1)+2)
        DELTY=SCALE*DOLD(2,4*(IL-1)+2)
@@ -694,7 +694,7 @@ C-----------------------------------------------
 #include "vectorize.inc"
       DO 590 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
-      IF (IACTIV(3,IL).LE.0) GOTO 590
+      IF (IACTIV(3,IL)<=0) GOTO 590
       I  =NLS-NDEB
 C-----
       FTX=FXT(3,I)
@@ -706,7 +706,7 @@ C-----
       FTN=SQRT(FTX*FTX+FTY*FTY+FTZ*FTZ)
       FN =SQRT(FNX*FNX+FNY*FNY+FNZ*FNZ)
       FMAX= MAX(VFRIC*FN,ZERO)
-      IF (FTN.GT.FMAX) THEN
+      IF (FTN>FMAX) THEN
         SCALE =FMAX/FTN
         FTX=SCALE*FTX
         FTY=SCALE*FTY
@@ -714,7 +714,7 @@ C-----
       ELSE
         SCALE=ONE
       ENDIF
-      IF (IACTIV(3,IL).GT.1) THEN
+      IF (IACTIV(3,IL)>1) THEN
 C      Glissement DELTA=scale.DELTA
        DELTX=SCALE*DOLD(1,4*(IL-1)+3)
        DELTY=SCALE*DOLD(2,4*(IL-1)+3)
@@ -734,7 +734,7 @@ C-----------------------------------------------
 #include "vectorize.inc"
       DO 595 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
-      IF (IACTIV(4,IL).LE.0) GOTO 595
+      IF (IACTIV(4,IL)<=0) GOTO 595
       I  =NLS-NDEB
 C-----
       FTX=FXT(4,I)
@@ -746,7 +746,7 @@ C-----
       FTN=SQRT(FTX*FTX+FTY*FTY+FTZ*FTZ)
       FN =SQRT(FNX*FNX+FNY*FNY+FNZ*FNZ)
       FMAX= MAX(VFRIC*FN,ZERO)
-      IF (FTN.GT.FMAX) THEN
+      IF (FTN>FMAX) THEN
         SCALE =FMAX/FTN
         FTX=SCALE*FTX
         FTY=SCALE*FTY
@@ -754,7 +754,7 @@ C-----
       ELSE
         SCALE=ONE
       ENDIF
-      IF (IACTIV(4,IL).GT.1) THEN
+      IF (IACTIV(4,IL)>1) THEN
 C      Glissement DELTA=scale.DELTA
        DELTX=SCALE*DOLD(1,4*(IL-1)+4)
        DELTY=SCALE*DOLD(2,4*(IL-1)+4)
@@ -774,7 +774,7 @@ C------------------------------------------------------------
 C#include "vectorize.inc"
       DO 650 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
-      IF (IACTIV(1,IL).LE.0) GOTO 650
+      IF (IACTIV(1,IL)<=0) GOTO 650
       I  =NLS-NDEB
 C-----
       DX2=XP1(1,I)-XTK(1,I)
@@ -811,7 +811,7 @@ C------------------------------------------------------------
 C#include "vectorize.inc"
       DO 660 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
-      IF (IACTIV(2,IL).LE.0) GOTO 660
+      IF (IACTIV(2,IL)<=0) GOTO 660
       I  =NLS-NDEB
 C-----
       DX2=XP2(1,I)-XTK(2,I)
@@ -848,7 +848,7 @@ C------------------------------------------------------------
 C#include "vectorize.inc"
       DO 670 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
-      IF (IACTIV(3,IL).LE.0) GOTO 670
+      IF (IACTIV(3,IL)<=0) GOTO 670
       I  =NLS-NDEB
 C-----
       DX2=XP3(1,I)-XTK(3,I)
@@ -885,7 +885,7 @@ C------------------------------------------------------------
 C#include "vectorize.inc"
       DO 680 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
-      IF (IACTIV(4,IL).LE.0) GOTO 680
+      IF (IACTIV(4,IL)<=0) GOTO 680
       I  =NLS-NDEB
 C-----
       DX2=XP4(1,I)-XTK(4,I)
@@ -926,7 +926,7 @@ C------------------------------------------------------------
       IL =KSC(NLS)
       I  =NLS-NDEB
 C-----
-      IF (IACTIV(1,IL).GT.0) THEN
+      IF (IACTIV(1,IL)>0) THEN
        HOLD(1,4*(IL-1)+1)=XI(1,I)
        HOLD(2,4*(IL-1)+1)=YI(1,I)
        HOLD(3,4*(IL-1)+1)=ZI(1,I)
@@ -934,7 +934,7 @@ C-----
        NOLD(2,4*(IL-1)+1)=NYI(1,I)
        NOLD(3,4*(IL-1)+1)=NZI(1,I)
       ENDIF
-      IF (IACTIV(2,IL).GT.0) THEN
+      IF (IACTIV(2,IL)>0) THEN
        HOLD(1,4*(IL-1)+2)=XI(2,I)
        HOLD(2,4*(IL-1)+2)=YI(2,I)
        HOLD(3,4*(IL-1)+2)=ZI(2,I)
@@ -942,7 +942,7 @@ C-----
        NOLD(2,4*(IL-1)+2)=NYI(2,I)
        NOLD(3,4*(IL-1)+2)=NZI(2,I)
       ENDIF
-      IF (IACTIV(3,IL).GT.0) THEN
+      IF (IACTIV(3,IL)>0) THEN
        HOLD(1,4*(IL-1)+3)=XI(3,I)
        HOLD(2,4*(IL-1)+3)=YI(3,I)
        HOLD(3,4*(IL-1)+3)=ZI(3,I)
@@ -950,7 +950,7 @@ C-----
        NOLD(2,4*(IL-1)+3)=NYI(3,I)
        NOLD(3,4*(IL-1)+3)=NZI(3,I)
       ENDIF
-      IF (IACTIV(4,IL).GT.0) THEN
+      IF (IACTIV(4,IL)>0) THEN
        HOLD(1,4*(IL-1)+4)=XI(4,I)
        HOLD(2,4*(IL-1)+4)=YI(4,I)
        HOLD(3,4*(IL-1)+4)=ZI(4,I)
@@ -972,22 +972,22 @@ C-----
       IN3=KSI(3,IL)
       IN4=KSI(4,IL)
 C-----
-      IF (IACTIV(1,IL).GT.0) THEN
+      IF (IACTIV(1,IL)>0) THEN
        ST1=STF(1,I)
       ELSE
        ST1=ZERO
       ENDIF
-      IF (IACTIV(2,IL).GT.0) THEN
+      IF (IACTIV(2,IL)>0) THEN
        ST2=STF(2,I)
       ELSE
        ST2=ZERO
       ENDIF
-      IF (IACTIV(3,IL).GT.0) THEN
+      IF (IACTIV(3,IL)>0) THEN
        ST3=STF(3,I)
       ELSE
        ST3=ZERO
       ENDIF
-      IF (IACTIV(4,IL).GT.0) THEN
+      IF (IACTIV(4,IL)>0) THEN
        ST4=STF(4,I)
       ELSE
        ST4=ZERO
@@ -1022,22 +1022,22 @@ C-----
       IN3=KSI(3,IL)
       IN4=KSI(4,IL)
 C-----
-      IF (IACTIV(1,IL).GT.0) THEN
+      IF (IACTIV(1,IL)>0) THEN
        F1=FXN(1,I)
       ELSE
        F1=ZERO
       ENDIF
-      IF (IACTIV(2,IL).GT.0) THEN
+      IF (IACTIV(2,IL)>0) THEN
        F2=FXN(2,I)
       ELSE
        F2=ZERO
       ENDIF
-      IF (IACTIV(3,IL).GT.0) THEN
+      IF (IACTIV(3,IL)>0) THEN
        F3=FXN(3,I)
       ELSE
        F3=ZERO
       ENDIF
-      IF (IACTIV(4,IL).GT.0) THEN
+      IF (IACTIV(4,IL)>0) THEN
        F4=FXN(4,I)
       ELSE
        F4=ZERO
@@ -1063,22 +1063,22 @@ C-----
       WNF(1,IN3)=WNF(1,IN3)+F23+F33+FG
       WNF(1,IN4)=WNF(1,IN4)+F34+F44+FG
 C-----
-      IF (IACTIV(1,IL).GT.0) THEN
+      IF (IACTIV(1,IL)>0) THEN
        F1=FYN(1,I)
       ELSE
        F1=ZERO
       ENDIF
-      IF (IACTIV(2,IL).GT.0) THEN
+      IF (IACTIV(2,IL)>0) THEN
        F2=FYN(2,I)
       ELSE
        F2=ZERO
       ENDIF
-      IF (IACTIV(3,IL).GT.0) THEN
+      IF (IACTIV(3,IL)>0) THEN
        F3=FYN(3,I)
       ELSE
        F3=ZERO
       ENDIF
-      IF (IACTIV(4,IL).GT.0) THEN
+      IF (IACTIV(4,IL)>0) THEN
        F4=FYN(4,I)
       ELSE
        F4=ZERO
@@ -1104,22 +1104,22 @@ C-----
       WNF(2,IN3)=WNF(2,IN3)+F23+F33+FG
       WNF(2,IN4)=WNF(2,IN4)+F34+F44+FG
 C-----
-      IF (IACTIV(1,IL).GT.0) THEN
+      IF (IACTIV(1,IL)>0) THEN
        F1=FZN(1,I)
       ELSE
        F1=ZERO
       ENDIF
-      IF (IACTIV(2,IL).GT.0) THEN
+      IF (IACTIV(2,IL)>0) THEN
        F2=FZN(2,I)
       ELSE
        F2=ZERO
       ENDIF
-      IF (IACTIV(3,IL).GT.0) THEN
+      IF (IACTIV(3,IL)>0) THEN
        F3=FZN(3,I)
       ELSE
        F3=ZERO
       ENDIF
-      IF (IACTIV(4,IL).GT.0) THEN
+      IF (IACTIV(4,IL)>0) THEN
        F4=FZN(4,I)
       ELSE
        F4=ZERO
@@ -1157,22 +1157,22 @@ C-----
       IN3=KSI(3,IL)
       IN4=KSI(4,IL)
 C-----
-      IF (IACTIV(1,IL).GT.0) THEN
+      IF (IACTIV(1,IL)>0) THEN
        F1=FXT(1,I)
       ELSE
        F1=ZERO
       ENDIF
-      IF (IACTIV(2,IL).GT.0) THEN
+      IF (IACTIV(2,IL)>0) THEN
        F2=FXT(2,I)
       ELSE
        F2=ZERO
       ENDIF
-      IF (IACTIV(3,IL).GT.0) THEN
+      IF (IACTIV(3,IL)>0) THEN
        F3=FXT(3,I)
       ELSE
        F3=ZERO
       ENDIF
-      IF (IACTIV(4,IL).GT.0) THEN
+      IF (IACTIV(4,IL)>0) THEN
        F4=FXT(4,I)
       ELSE
        F4=ZERO
@@ -1198,22 +1198,22 @@ C-----
       WTF(1,IN3)=WTF(1,IN3)+F23+F33+FG
       WTF(1,IN4)=WTF(1,IN4)+F34+F44+FG
 C-----
-      IF (IACTIV(1,IL).GT.0) THEN
+      IF (IACTIV(1,IL)>0) THEN
        F1=FYT(1,I)
       ELSE
        F1=ZERO
       ENDIF
-      IF (IACTIV(2,IL).GT.0) THEN
+      IF (IACTIV(2,IL)>0) THEN
        F2=FYT(2,I)
       ELSE
        F2=ZERO
       ENDIF
-      IF (IACTIV(3,IL).GT.0) THEN
+      IF (IACTIV(3,IL)>0) THEN
        F3=FYT(3,I)
       ELSE
        F3=ZERO
       ENDIF
-      IF (IACTIV(4,IL).GT.0) THEN
+      IF (IACTIV(4,IL)>0) THEN
        F4=FYT(4,I)
       ELSE
        F4=ZERO
@@ -1239,22 +1239,22 @@ C-----
       WTF(2,IN3)=WTF(2,IN3)+F23+F33+FG
       WTF(2,IN4)=WTF(2,IN4)+F34+F44+FG
 C-----
-      IF (IACTIV(1,IL).GT.0) THEN
+      IF (IACTIV(1,IL)>0) THEN
        F1=FZT(1,I)
       ELSE
        F1=ZERO
       ENDIF
-      IF (IACTIV(2,IL).GT.0) THEN
+      IF (IACTIV(2,IL)>0) THEN
        F2=FZT(2,I)
       ELSE
        F2=ZERO
       ENDIF
-      IF (IACTIV(3,IL).GT.0) THEN
+      IF (IACTIV(3,IL)>0) THEN
        F3=FZT(3,I)
       ELSE
        F3=ZERO
       ENDIF
-      IF (IACTIV(4,IL).GT.0) THEN
+      IF (IACTIV(4,IL)>0) THEN
        F4=FZT(4,I)
       ELSE
        F4=ZERO
@@ -1288,12 +1288,12 @@ C------------------------------------------------------------
       DO 900 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
       I  =NLS-NDEB
-      IF (IACTIV(1,IL).GT.0) THEN
+      IF (IACTIV(1,IL)>0) THEN
        DVX=VX1(I)-VXH(1,I)
        DVY=VY1(I)-VYH(1,I)
        DVZ=VZ1(I)-VZH(1,I)
        PN=DVX*NXI(1,I)+DVY*NYI(1,I)+DVZ*NZI(1,I)
-       IF (PN.LT.ZERO) THEN
+       IF (PN<ZERO) THEN
         H  =XP1(1,I)*NXI(1,I)+XP1(2,I)*NYI(1,I)+XP1(3,I)*NZI(1,I)
         DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
        ENDIF
@@ -1301,7 +1301,7 @@ C------------------------------------------------------------
        DVY=VY2(I)-VYH(1,I)
        DVZ=VZ2(I)-VZH(1,I)
        PN=DVX*NXI(1,I)+DVY*NYI(1,I)+DVZ*NZI(1,I)
-       IF (PN.LT.ZERO) THEN
+       IF (PN<ZERO) THEN
         H  =XP2(1,I)*NXI(1,I)+XP2(2,I)*NYI(1,I)+XP2(3,I)*NZI(1,I)
         DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
        ENDIF
@@ -1309,17 +1309,17 @@ C------------------------------------------------------------
        DVY=VYG(I)-VYH(1,I)
        DVZ=VZG(I)-VZH(1,I)
        PN=DVX*NXI(1,I)+DVY*NYI(1,I)+DVZ*NZI(1,I)
-       IF (PN.LT.ZERO) THEN
+       IF (PN<ZERO) THEN
         H  =GX(1,I)*NXI(1,I)+GX(2,I)*NYI(1,I)+GX(3,I)*NZI(1,I)
         DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
        ENDIF
       ENDIF
-      IF (IACTIV(2,IL).GT.0) THEN
+      IF (IACTIV(2,IL)>0) THEN
        DVX=VX2(I)-VXH(2,I)
        DVY=VY2(I)-VYH(2,I)
        DVZ=VZ2(I)-VZH(2,I)
        PN=DVX*NXI(2,I)+DVY*NYI(2,I)+DVZ*NZI(2,I)
-       IF (PN.LT.ZERO) THEN
+       IF (PN<ZERO) THEN
         H  =XP2(1,I)*NXI(2,I)+XP2(2,I)*NYI(2,I)+XP2(3,I)*NZI(2,I)
         DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
        ENDIF
@@ -1327,7 +1327,7 @@ C------------------------------------------------------------
        DVY=VY3(I)-VYH(2,I)
        DVZ=VZ3(I)-VZH(2,I)
        PN=DVX*NXI(2,I)+DVY*NYI(2,I)+DVZ*NZI(2,I)
-       IF (PN.LT.ZERO) THEN
+       IF (PN<ZERO) THEN
         H  =XP3(1,I)*NXI(2,I)+XP3(2,I)*NYI(2,I)+XP3(3,I)*NZI(2,I)
         DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
        ENDIF
@@ -1335,17 +1335,17 @@ C------------------------------------------------------------
        DVY=VYG(I)-VYH(2,I)
        DVZ=VZG(I)-VZH(2,I)
        PN=DVX*NXI(2,I)+DVY*NYI(2,I)+DVZ*NZI(2,I)
-       IF (PN.LT.ZERO) THEN
+       IF (PN<ZERO) THEN
         H  =GX(1,I)*NXI(2,I)+GX(2,I)*NYI(2,I)+GX(3,I)*NZI(2,I)
         DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
        ENDIF
       ENDIF
-      IF (IACTIV(3,IL).GT.0) THEN
+      IF (IACTIV(3,IL)>0) THEN
        DVX=VX3(I)-VXH(3,I)
        DVY=VY3(I)-VYH(3,I)
        DVZ=VZ3(I)-VZH(3,I)
        PN=DVX*NXI(3,I)+DVY*NYI(3,I)+DVZ*NZI(3,I)
-       IF (PN.LT.ZERO) THEN
+       IF (PN<ZERO) THEN
         H  =XP3(1,I)*NXI(3,I)+XP3(2,I)*NYI(3,I)+XP3(3,I)*NZI(3,I)
         DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
        ENDIF
@@ -1353,7 +1353,7 @@ C------------------------------------------------------------
        DVY=VY4(I)-VYH(3,I)
        DVZ=VZ4(I)-VZH(3,I)
        PN=DVX*NXI(3,I)+DVY*NYI(3,I)+DVZ*NZI(3,I)
-       IF (PN.LT.ZERO) THEN
+       IF (PN<ZERO) THEN
         H  =XP4(1,I)*NXI(3,I)+XP4(2,I)*NYI(3,I)+XP4(3,I)*NZI(3,I)
         DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
        ENDIF
@@ -1361,17 +1361,17 @@ C------------------------------------------------------------
        DVY=VYG(I)-VYH(3,I)
        DVZ=VZG(I)-VZH(3,I)
        PN=DVX*NXI(3,I)+DVY*NYI(3,I)+DVZ*NZI(3,I)
-       IF (PN.LT.ZERO) THEN
+       IF (PN<ZERO) THEN
         H  =GX(1,I)*NXI(3,I)+GX(2,I)*NYI(3,I)+GX(3,I)*NZI(3,I)
         DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
        ENDIF
       ENDIF
-      IF (IACTIV(4,IL).GT.0) THEN
+      IF (IACTIV(4,IL)>0) THEN
        DVX=VX1(I)-VXH(4,I)
        DVY=VY1(I)-VYH(4,I)
        DVZ=VZ1(I)-VZH(4,I)
        PN=DVX*NXI(4,I)+DVY*NYI(4,I)+DVZ*NZI(4,I)
-       IF (PN.LT.ZERO) THEN
+       IF (PN<ZERO) THEN
         H  =XP1(1,I)*NXI(4,I)+XP1(2,I)*NYI(4,I)+XP1(3,I)*NZI(4,I)
         DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
        ENDIF
@@ -1379,7 +1379,7 @@ C------------------------------------------------------------
        DVY=VY4(I)-VYH(4,I)
        DVZ=VZ4(I)-VZH(4,I)
        PN=DVX*NXI(4,I)+DVY*NYI(4,I)+DVZ*NZI(4,I)
-       IF (PN.LT.ZERO) THEN
+       IF (PN<ZERO) THEN
         H  =XP4(1,I)*NXI(4,I)+XP4(2,I)*NYI(4,I)+XP4(3,I)*NZI(4,I)
         DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
        ENDIF
@@ -1387,12 +1387,12 @@ C------------------------------------------------------------
        DVY=VYG(I)-VYH(4,I)
        DVZ=VZG(I)-VZH(4,I)
        PN=DVX*NXI(4,I)+DVY*NYI(4,I)+DVZ*NZI(4,I)
-       IF (PN.LT.ZERO) THEN
+       IF (PN<ZERO) THEN
         H  =GX(1,I)*NXI(4,I)+GX(2,I)*NYI(4,I)+GX(3,I)*NZI(4,I)
         DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
        ENDIF
       ENDIF
-      IF(DTI.LT.DT2T)THEN
+      IF(DTI<DT2T)THEN
         DT2T    = DTI
         NELTST  = NOINT
         ITYPTST = 10
@@ -1400,17 +1400,17 @@ C------------------------------------------------------------
 C-----
  900  CONTINUE
 C----------------------------------
-      IF (DTI.LE.ZERO) THEN
+      IF (DTI<=ZERO) THEN
       DTI=EP20
       DO 950 NLS=NDEB+1,MIN(NDEB+MVSIZ,NSC)
       IL =KSC(NLS)
       I  =NLS-NDEB
-      IF (IACTIV(1,IL).GT.0) THEN
+      IF (IACTIV(1,IL)>0) THEN
        DVX=VX1(I)-VXH(1,I)
        DVY=VY1(I)-VYH(1,I)
        DVZ=VZ1(I)-VZH(1,I)
        PN=DVX*NXI(1,I)+DVY*NYI(1,I)+DVZ*NZI(1,I)
-       IF (PN.LT.ZERO) THEN
+       IF (PN<ZERO) THEN
         H  =XP1(1,I)*NXI(1,I)+XP1(2,I)*NYI(1,I)+XP1(3,I)*NZI(1,I)
         DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
        ENDIF
@@ -1418,7 +1418,7 @@ C----------------------------------
        DVY=VY2(I)-VYH(1,I)
        DVZ=VZ2(I)-VZH(1,I)
        PN=DVX*NXI(1,I)+DVY*NYI(1,I)+DVZ*NZI(1,I)
-       IF (PN.LT.ZERO) THEN
+       IF (PN<ZERO) THEN
         H  =XP2(1,I)*NXI(1,I)+XP2(2,I)*NYI(1,I)+XP2(3,I)*NZI(1,I)
         DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
        ENDIF
@@ -1426,17 +1426,17 @@ C----------------------------------
        DVY=VYG(I)-VYH(1,I)
        DVZ=VZG(I)-VZH(1,I)
        PN=DVX*NXI(1,I)+DVY*NYI(1,I)+DVZ*NZI(1,I)
-       IF (PN.LT.ZERO) THEN
+       IF (PN<ZERO) THEN
         H  =GX(1,I)*NXI(1,I)+GX(2,I)*NYI(1,I)+GX(3,I)*NZI(1,I)
         DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
        ENDIF
       ENDIF
-      IF (IACTIV(2,IL).GT.0) THEN
+      IF (IACTIV(2,IL)>0) THEN
        DVX=VX2(I)-VXH(2,I)
        DVY=VY2(I)-VYH(2,I)
        DVZ=VZ2(I)-VZH(2,I)
        PN=DVX*NXI(2,I)+DVY*NYI(2,I)+DVZ*NZI(2,I)
-       IF (PN.LT.ZERO) THEN
+       IF (PN<ZERO) THEN
         H  =XP2(1,I)*NXI(2,I)+XP2(2,I)*NYI(2,I)+XP2(3,I)*NZI(2,I)
         DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
        ENDIF
@@ -1444,7 +1444,7 @@ C----------------------------------
        DVY=VY3(I)-VYH(2,I)
        DVZ=VZ3(I)-VZH(2,I)
        PN=DVX*NXI(2,I)+DVY*NYI(2,I)+DVZ*NZI(2,I)
-       IF (PN.LT.ZERO) THEN
+       IF (PN<ZERO) THEN
         H  =XP3(1,I)*NXI(2,I)+XP3(2,I)*NYI(2,I)+XP3(3,I)*NZI(2,I)
         DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
        ENDIF
@@ -1452,17 +1452,17 @@ C----------------------------------
        DVY=VYG(I)-VYH(2,I)
        DVZ=VZG(I)-VZH(2,I)
        PN=DVX*NXI(2,I)+DVY*NYI(2,I)+DVZ*NZI(2,I)
-       IF (PN.LT.ZERO) THEN
+       IF (PN<ZERO) THEN
         H  =GX(1,I)*NXI(2,I)+GX(2,I)*NYI(2,I)+GX(3,I)*NZI(2,I)
         DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
        ENDIF
       ENDIF
-      IF (IACTIV(3,IL).GT.0) THEN
+      IF (IACTIV(3,IL)>0) THEN
        DVX=VX3(I)-VXH(3,I)
        DVY=VY3(I)-VYH(3,I)
        DVZ=VZ3(I)-VZH(3,I)
        PN=DVX*NXI(3,I)+DVY*NYI(3,I)+DVZ*NZI(3,I)
-       IF (PN.LT.ZERO) THEN
+       IF (PN<ZERO) THEN
         H  =XP3(1,I)*NXI(3,I)+XP3(2,I)*NYI(3,I)+XP3(3,I)*NZI(3,I)
         DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
        ENDIF
@@ -1470,7 +1470,7 @@ C----------------------------------
        DVY=VY4(I)-VYH(3,I)
        DVZ=VZ4(I)-VZH(3,I)
        PN=DVX*NXI(3,I)+DVY*NYI(3,I)+DVZ*NZI(3,I)
-       IF (PN.LT.ZERO) THEN
+       IF (PN<ZERO) THEN
         H  =XP4(1,I)*NXI(3,I)+XP4(2,I)*NYI(3,I)+XP4(3,I)*NZI(3,I)
         DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
        ENDIF
@@ -1478,17 +1478,17 @@ C----------------------------------
        DVY=VYG(I)-VYH(3,I)
        DVZ=VZG(I)-VZH(3,I)
        PN=DVX*NXI(3,I)+DVY*NYI(3,I)+DVZ*NZI(3,I)
-       IF (PN.LT.ZERO) THEN
+       IF (PN<ZERO) THEN
         H  =GX(1,I)*NXI(3,I)+GX(2,I)*NYI(3,I)+GX(3,I)*NZI(3,I)
         DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
        ENDIF
       ENDIF
-      IF (IACTIV(4,IL).GT.0) THEN
+      IF (IACTIV(4,IL)>0) THEN
        DVX=VX1(I)-VXH(4,I)
        DVY=VY1(I)-VYH(4,I)
        DVZ=VZ1(I)-VZH(4,I)
        PN=DVX*NXI(4,I)+DVY*NYI(4,I)+DVZ*NZI(4,I)
-       IF (PN.LT.ZERO) THEN
+       IF (PN<ZERO) THEN
         H  =XP1(1,I)*NXI(4,I)+XP1(2,I)*NYI(4,I)+XP1(3,I)*NZI(4,I)
         DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
        ENDIF
@@ -1496,7 +1496,7 @@ C----------------------------------
        DVY=VY4(I)-VYH(4,I)
        DVZ=VZ4(I)-VZH(4,I)
        PN=DVX*NXI(4,I)+DVY*NYI(4,I)+DVZ*NZI(4,I)
-       IF (PN.LT.ZERO) THEN
+       IF (PN<ZERO) THEN
         H  =XP4(1,I)*NXI(4,I)+XP4(2,I)*NYI(4,I)+XP4(3,I)*NZI(4,I)
         DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
        ENDIF
@@ -1504,12 +1504,12 @@ C----------------------------------
        DVY=VYG(I)-VYH(4,I)
        DVZ=VZG(I)-VZH(4,I)
        PN=DVX*NXI(4,I)+DVY*NYI(4,I)+DVZ*NZI(4,I)
-       IF (PN.LT.ZERO) THEN
+       IF (PN<ZERO) THEN
         H  =GX(1,I)*NXI(4,I)+GX(2,I)*NYI(4,I)+GX(3,I)*NZI(4,I)
         DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
        ENDIF
       ENDIF
-      IF(DTI.LE.ZERO)THEN
+      IF(DTI<=ZERO)THEN
          IN1=KSI(1,IL)
          IN2=KSI(2,IL)
          IN3=KSI(3,IL)

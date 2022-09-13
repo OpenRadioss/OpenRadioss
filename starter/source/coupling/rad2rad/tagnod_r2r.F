@@ -51,9 +51,9 @@ c-----FLAG = -1 : reset of tag for nodes of the current subdomain------
       IF (FLAG==-1) THEN
 
         DO J=1,NUMEL
-          IF (TAGBUF(IPARTE(J)).EQ.0) THEN
+          IF (TAGBUF(IPARTE(J))==0) THEN
             DO L=NIX1,NIX2
-              IF (TAGBUF(IX(L,J)+NPART).EQ.1) THEN
+              IF (TAGBUF(IX(L,J)+NPART)==1) THEN
 	        TAGBUF(IX(L,J)+NPART)=0
               ENDIF
             ENDDO
@@ -65,9 +65,9 @@ c-----FLAG = 0 : tag of the nodes of the domain------
       ELSEIF (FLAG==0) THEN
 
         DO J=1,NUMEL
-          IF (TAGBUF(IPARTE(J)).EQ.1) THEN
+          IF (TAGBUF(IPARTE(J))==1) THEN
             DO L=NIX1,NIX2
-              IF (TAGBUF(IX(L,J)+NPART).LT.2) THEN
+              IF (TAGBUF(IX(L,J)+NPART)<2) THEN
 	        TAGBUF(IX(L,J)+NPART)=1
               ENDIF
             ENDDO
@@ -79,12 +79,12 @@ c-----FLAG = 0 : tag of the nodes of the domain------
 c-----FLAG = 1 : a tagged node on of an untagged part is a node on the multidomains interface------
 
         DO J=1,NUMEL
-          IF (TAGBUF(IPARTE(J)).EQ.0) THEN
+          IF (TAGBUF(IPARTE(J))==0) THEN
             DO L=NIX1,NIX2
               IF (TAGBUF(IX(L,J)+NPART) == 1) THEN
 	        TAGBUF(IX(L,J)+NPART)=1+IDOM
 	      ELSEIF (TAGBUF(IX(L,J)+NPART)>1) THEN
-	        IF (TAGBUF(IX(L,J)+NPART).NE.(1+IDOM)) THEN
+	        IF (TAGBUF(IX(L,J)+NPART)/=(1+IDOM)) THEN
 C-------------Error -  common nodes between domains ----------------
                CALL ANCMSG(MSGID=838,
      .                     MSGTYPE=MSGERROR,
@@ -108,15 +108,15 @@ C-----FLAG = 2 : tag of nodes of elements tagged for the contacts between domain
         DO J=1,NUMEL
 C----------> TAG_EL is transfered to IPARTE-------------
           TAG_EL=IPARTE(J+NPART)
-          IF (TAG_EL.GT.0) THEN
+          IF (TAG_EL>0) THEN
             DO L=NIX1,NIX2
-              IF (TAGBUF(IX(L,J)+NPART).LE.2) THEN
+              IF (TAGBUF(IX(L,J)+NPART)<=2) THEN
 	        TAGBUF(IX(L,J)+NPART)=2*IPARTE(J+NPART)
               ENDIF
             ENDDO
-          ELSEIF (TAG_EL.EQ.-1) THEN
+          ELSEIF (TAG_EL==-1) THEN
             DO L=NIX1,NIX2
-              IF (TAGBUF(IX(L,J)+NPART).LT.0) THEN
+              IF (TAGBUF(IX(L,J)+NPART)<0) THEN
 	        TAGBUF(IX(L,J)+NPART)=0
               ENDIF
             ENDDO
@@ -128,10 +128,10 @@ C----------> TAG_EL is transfered to IPARTE-------------
 C-----FLAG = 3 : tag of additional nodes of springs---------
       
         DO J=1,NUMEL
-          IF (TAGBUF(IPARTE(J)).EQ.1) THEN
+          IF (TAGBUF(IPARTE(J))==1) THEN
             DO L=NIX1,NIX2    
-              IF (IX(L,J).GT.0) THEN	    
-                IF (TAGBUF(IX(L,J)+NPART).LT.1) THEN 
+              IF (IX(L,J)>0) THEN	    
+                IF (TAGBUF(IX(L,J)+NPART)<1) THEN 
 	          TAGBUF(IX(L,J)+NPART)=1
                 ENDIF
 	      ENDIF	    	   
@@ -140,10 +140,10 @@ C-----FLAG = 3 : tag of additional nodes of springs---------
         ENDDO
  
          DO J=1,NUMEL
-          IF (TAGBUF(IPARTE(J)).EQ.0) THEN
+          IF (TAGBUF(IPARTE(J))==0) THEN
             DO L=NIX1,NIX2
-              IF (IX(L,J).GT.0) THEN	          	    	
-                IF (TAGBUF(IX(L,J)+NPART).EQ.0) THEN
+              IF (IX(L,J)>0) THEN	          	    	
+                IF (TAGBUF(IX(L,J)+NPART)==0) THEN
 	          TAGBUF(IX(L,J)+NPART)=-1			        				
                 ENDIF
 	      ENDIF	    	   
@@ -151,7 +151,7 @@ C-----FLAG = 3 : tag of additional nodes of springs---------
 	  ENDIF
         ENDDO
 
-      ELSEIF ((FLAG==4).AND.(NUMEL.GT.0)) THEN
+      ELSEIF ((FLAG==4).AND.(NUMEL>0)) THEN
       
 C-----FLAG = 4 : tag of additional nodes of kjoints----------
       
@@ -159,10 +159,10 @@ C-----FLAG = 4 : tag of additional nodes of kjoints----------
         
         DO J=1,NUM_KJ
           RES = IX(5,J)                   
-          IF (TAGBUF(IPARTE(RES)).EQ.1) THEN
+          IF (TAGBUF(IPARTE(RES))==1) THEN
             DO L=NIX1,NIX2    
-              IF (IX(L,J).GT.0) THEN	    
-                IF (TAGBUF(IX(L,J)+NPART).LT.1) THEN 
+              IF (IX(L,J)>0) THEN	    
+                IF (TAGBUF(IX(L,J)+NPART)<1) THEN 
 	          TAGBUF(IX(L,J)+NPART)=1
                 ENDIF
 	      ENDIF	    	   
@@ -172,10 +172,10 @@ C-----FLAG = 4 : tag of additional nodes of kjoints----------
  
         DO J=1,NUM_KJ
           RES = IX(5,J)         
-          IF (TAGBUF(IPARTE(RES)).EQ.0) THEN
+          IF (TAGBUF(IPARTE(RES))==0) THEN
             DO L=NIX1,NIX2
-              IF (IX(L,J).GT.0) THEN	          	    	
-                IF (TAGBUF(IX(L,J)+NPART).EQ.0) THEN
+              IF (IX(L,J)>0) THEN	          	    	
+                IF (TAGBUF(IX(L,J)+NPART)==0) THEN
 	          TAGBUF(IX(L,J)+NPART)= -1			        				
                 ENDIF
 	      ENDIF	    	   
@@ -225,8 +225,8 @@ c-----tag of the nodes of the skews ------
 
         DO J=1,NUMSKW
 	  DO K=1,3
-	     IF (ISKWN(LISKN*J+K).GT.0) THEN
-             IF (TAGBUF(ISKWN(LISKN*J+K)+NPART).LE.2) THEN
+	     IF (ISKWN(LISKN*J+K)>0) THEN
+             IF (TAGBUF(ISKWN(LISKN*J+K)+NPART)<=2) THEN
 	        TAGBUF(ISKWN(LISKN*J+K)+NPART) = 2
              ENDIF
 	     ENDIF
@@ -238,8 +238,8 @@ c-----tag of the nodes of the frames ------
         OFF = LISKN*(NUMSKW+1)
         DO J=1,NUMFRAM
 	  DO K=1,3
-	     IF (ISKWN(OFF+LISKN*J+K).GT.0) THEN
-             IF (TAGBUF(ISKWN(OFF+LISKN*J+K)+NPART).LE.2)THEN
+	     IF (ISKWN(OFF+LISKN*J+K)>0) THEN
+             IF (TAGBUF(ISKWN(OFF+LISKN*J+K)+NPART)<=2)THEN
 	        TAGBUF(ISKWN(OFF+LISKN*J+K)+NPART) = 2
              ENDIF
 	     ENDIF
@@ -409,7 +409,7 @@ C-------------------------------------------------------------------------------
           DO L=2,9
 	    IF (TAGBUF(IXS(L,J)+NP)==1) TAGBUF(IXS(L,J)+NP)=1+IDOM
 	    IF (TAGBUF(IXS(L,J)+NP)>1) THEN
-	      IF (TAGBUF(IXS(L,J)+NP).NE.(1+IDOM)) THEN
+	      IF (TAGBUF(IXS(L,J)+NP)/=(1+IDOM)) THEN
 C-------------Error -  common nodes between domains -----------------
                CALL ANCMSG(MSGID=838,
      .                     MSGTYPE=MSGERROR,
@@ -432,7 +432,7 @@ C-------------------------------------------------------------------------------
           DO L=2,9
 	    IF (TAGBUF(IXS(L,J)+NP)==1) TAGBUF(IXS(L,J)+NP)=1+IDOM
 	    IF (TAGBUF(IXS(L,J)+NP)>1) THEN
-	      IF (TAGBUF(IXS(L,J)+NP).NE.(1+IDOM)) THEN
+	      IF (TAGBUF(IXS(L,J)+NP)/=(1+IDOM)) THEN
 C-------------Error -  common nodes between domains ----------------
                CALL ANCMSG(MSGID=838,
      .                     MSGTYPE=MSGERROR,
@@ -448,7 +448,7 @@ C-------------Error -  common nodes between domains ----------------
             IF (IXS10(L,I) /= 0) THEN
 	    IF (TAGBUF(IXS10(L,I)+NP)==1) TAGBUF(IXS10(L,I)+NP)=1+IDOM
 	    IF (TAGBUF(IXS10(L,I)+NP)>1) THEN
-	      IF (TAGBUF(IXS10(L,I)+NP).NE.(1+IDOM)) THEN
+	      IF (TAGBUF(IXS10(L,I)+NP)/=(1+IDOM)) THEN
 C-------------Error -  common nodes between domains -----------------
                CALL ANCMSG(MSGID=838,
      .                     MSGTYPE=MSGERROR,
@@ -472,7 +472,7 @@ C-------------------------------------------------------------------------------
           DO L=2,9
 	    IF (TAGBUF(IXS(L,J)+NP)==1) TAGBUF(IXS(L,J)+NP)=1+IDOM
 	    IF (TAGBUF(IXS(L,J)+NP)>1) THEN
-	      IF (TAGBUF(IXS(L,J)+NP).NE.(1+IDOM)) THEN
+	      IF (TAGBUF(IXS(L,J)+NP)/=(1+IDOM)) THEN
 C-------------Error -  common nodes between domains -----------------
                CALL ANCMSG(MSGID=838,
      .                     MSGTYPE=MSGERROR,
@@ -488,7 +488,7 @@ C-------------Error -  common nodes between domains -----------------
             IF (IXS20(L,I) /= 0) THEN
 	    IF (TAGBUF(IXS20(L,I)+NP)==1) TAGBUF(IXS20(L,I)+NP)=1+IDOM
 	    IF (TAGBUF(IXS20(L,I)+NP)>1) THEN
-	      IF (TAGBUF(IXS20(L,I)+NP).NE.(1+IDOM)) THEN
+	      IF (TAGBUF(IXS20(L,I)+NP)/=(1+IDOM)) THEN
 C-------------Error -  common nodes between domains ----------------
                CALL ANCMSG(MSGID=838,
      .                     MSGTYPE=MSGERROR,
@@ -512,7 +512,7 @@ C-------------------------------------------------------------------------------
           DO L=2,9
 	    IF (TAGBUF(IXS(L,J)+NP)==1) TAGBUF(IXS(L,J)+NP)=1+IDOM
 	    IF (TAGBUF(IXS(L,J)+NP)>1) THEN
-	      IF (TAGBUF(IXS(L,J)+NP).NE.(1+IDOM)) THEN
+	      IF (TAGBUF(IXS(L,J)+NP)/=(1+IDOM)) THEN
 C-------------Error -  common nodes between domains -----------------
                CALL ANCMSG(MSGID=838,
      .                     MSGTYPE=MSGERROR,
@@ -528,7 +528,7 @@ C-------------Error -  common nodes between domains -----------------
            IF (IXS16(L,I) /= 0) THEN
 	    IF (TAGBUF(IXS16(L,I)+NP)==1) TAGBUF(IXS16(L,I)+NP)=1+IDOM
 	    IF (TAGBUF(IXS16(L,I)+NP)>1) THEN
-	      IF (TAGBUF(IXS16(L,I)+NP).NE.(1+IDOM)) THEN
+	      IF (TAGBUF(IXS16(L,I)+NP)/=(1+IDOM)) THEN
 C-------------Error -  common nodes between domains -----------------
                CALL ANCMSG(MSGID=838,
      .                     MSGTYPE=MSGERROR,
@@ -552,7 +552,7 @@ C-------------------------------------------------------------------------------
       ELSEIF (FLAG==2) THEN
 
       DO J=1,NUMELS8
-        IF (IPARTS(J+NP).NE.0)THEN
+        IF (IPARTS(J+NP)/=0)THEN
           DO L=2,9
 	    IF (TAGBUF(IXS(L,J)+NP)<3) TAGBUF(IXS(L,J)+NP)=2*IPARTS(J+NP)
           ENDDO
@@ -561,7 +561,7 @@ C-------------------------------------------------------------------------------
 C-----------
       DO I=1,NUMELS10
         J = I + NUMELS8
-        IF (IPARTS(J+NP).NE.0)THEN
+        IF (IPARTS(J+NP)/=0)THEN
           DO L=2,9
 	    IF (TAGBUF(IXS(L,J)+NP)<3) TAGBUF(IXS(L,J)+NP)=2*IPARTS(J+NP)
           ENDDO
@@ -575,7 +575,7 @@ C-----------
 C-----------
       DO I=1,NUMELS20
         J = I + NUMELS8 + NUMELS10
-        IF (IPARTS(J+NP).NE.0)THEN
+        IF (IPARTS(J+NP)/=0)THEN
           DO L=2,9
 	    IF (TAGBUF(IXS(L,J)+NP)<3) TAGBUF(IXS(L,J)+NP)=2*IPARTS(J+NP)
           ENDDO
@@ -589,7 +589,7 @@ C-----------
 C-----------
       DO I=1,NUMELS16
         J = I + NUMELS8 + NUMELS10 + NUMELS20
-        IF (IPARTS(J+NP).NE.0)THEN
+        IF (IPARTS(J+NP)/=0)THEN
           DO L=2,9
 	    IF (TAGBUF(IXS(L,J)+NP)<3) TAGBUF(IXS(L,J)+NP)=2*IPARTS(J+NP)
           ENDDO

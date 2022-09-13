@@ -70,19 +70,19 @@ C Modes
          NSNI_L=0
          DO I=1,NSNI
             II=FXBNOD(ANOD+I-1)
-            IF (NODLOCAL(II).NE.0) THEN
+            IF (NODLOCAL(II)/=0) THEN
                NSN_L=NSN_L+1
                NSNI_L=NSNI_L+1
             ENDIF
          ENDDO
          DO I=NSNI+1,NSN
             II=FXBNOD(ANOD+I-1)
-            IF (NODLOCAL(II).NE.0) NSN_L=NSN_L+1
+            IF (NODLOCAL(II)/=0) NSN_L=NSN_L+1
          ENDDO
          LENNOD_L=LENNOD_L+NSN_L
-         IF (IFILE.EQ.0) THEN
+         IF (IFILE==0) THEN
             LENMOD_L=LENMOD_L+NSN_L*(NME+NMOD)
-         ELSEIF (IFILE.EQ.1) THEN
+         ELSEIF (IFILE==1) THEN
             LENMOD_L=LENMOD_L+NSNI_L*(NME+NMOD)
          ENDIF
 C Champs de contraintes
@@ -95,45 +95,45 @@ C Champs de contraintes
          DO I=1,NELS
             NG=FXBELM(AELM)
             P=IPARG(32,NG)
-            IF (P.EQ.PROC) THEN
+            IF (P==PROC) THEN
                LENELM_L=LENELM_L+13
-               IF (IFILE.EQ.0) LENSIG_L=LENSIG_L+7*NMOD
+               IF (IFILE==0) LENSIG_L=LENSIG_L+7*NMOD
             ENDIF
             AELM=AELM+13
          ENDDO
          DO I=1,NELC
             NG=FXBELM(AELM)
             P=IPARG(32,NG)
-            IF (P.EQ.PROC) THEN
+            IF (P==PROC) THEN
                LENELM_L=LENELM_L+10
-               IF (IFILE.EQ.0) LENSIG_L=LENSIG_L+10*NMOD
+               IF (IFILE==0) LENSIG_L=LENSIG_L+10*NMOD
             ENDIF
             AELM=AELM+10
          ENDDO
          DO I=1,NELT
             NG=FXBELM(AELM)
             P=IPARG(32,NG)
-            IF (P.EQ.PROC) THEN
+            IF (P==PROC) THEN
                LENELM_L=LENELM_L+7
-               IF (IFILE.EQ.0) LENSIG_L=LENSIG_L+2*NMOD
+               IF (IFILE==0) LENSIG_L=LENSIG_L+2*NMOD
             ENDIF
             AELM=AELM+7
          ENDDO
          DO I=1,NELP
             NG=FXBELM(AELM)
             P=IPARG(32,NG)
-            IF (P.EQ.PROC) THEN
+            IF (P==PROC) THEN
                LENELM_L=LENELM_L+9
-               IF (IFILE.EQ.0) LENSIG_L=LENSIG_L+8*NMOD
+               IF (IFILE==0) LENSIG_L=LENSIG_L+8*NMOD
             ENDIF
             AELM=AELM+9
          ENDDO
          DO I=1,NELTG
             NG=FXBELM(AELM)
             P=IPARG(32,NG)
-            IF (P.EQ.PROC) THEN
+            IF (P==PROC) THEN
                LENELM_L=LENELM_L+9
-               IF (IFILE.EQ.0) LENSIG_L=LENSIG_L+10*NMOD
+               IF (IFILE==0) LENSIG_L=LENSIG_L+10*NMOD
             ENDIF
             AELM=AELM+9
          ENDDO
@@ -146,7 +146,7 @@ C Gravite
             NNO_L=0
             DO I=1,NNO
                II=FXBGRVI(AGRVI+IADG+I+1)
-               IF (NODLOCAL(II).NE.0) NNO_L=NNO_L+1
+               IF (NODLOCAL(II)/=0) NNO_L=NNO_L+1
             ENDDO
             IADG=IADG+2+NNO
             LENGRVI_L=LENGRVI_L+2+NNO_L
@@ -233,11 +233,11 @@ C
       II=0
       DO NG=1,NGROUP
          P=IPARG(32,NG)
-         IF (P.EQ.PROC) THEN
+         IF (P==PROC) THEN
             II=II+1
             NG_L(NG)=II
             IAD_L(NG)=LB_L
-            IF (NG.LT.NGROUP) THEN
+            IF (NG<NGROUP) THEN
                LBUFELI=IPARG(4,NG+1)-IPARG(4,NG)
             ELSE
                LBUFELI=LBUFEL+1-IPARG(4,NG)
@@ -275,7 +275,7 @@ C Modes
          NSNI_L=0
          DO I=1,NSNI
             II=FXBNOD(ANOD+I-1)
-            IF (NODLOCAL(II).NE.0) THEN
+            IF (NODLOCAL(II)/=0) THEN
                NSN_L=NSN_L+1
                NSNI_L=NSNI_L+1
                ANOD_L=ANOD_L+1
@@ -285,7 +285,7 @@ C Modes
          ENDDO
          DO I=NSNI+1,NSN
             II=FXBNOD(ANOD+I-1)
-            IF (NODLOCAL(II).NE.0) THEN
+            IF (NODLOCAL(II)/=0) THEN
                NSN_L=NSN_L+1
                ANOD_L=ANOD_L+1
                FXBNOD_L(ANOD_L)=NODLOCAL(II)
@@ -299,11 +299,11 @@ C Modes
             FXBNOD_L(ANOD_L)=IADFXB(I)
          ENDDO
          FXBIPM_L(30,NFX)=IRCM_L
-         IF (IFILE.EQ.0) THEN
+         IF (IFILE==0) THEN
             DO I=1,NME+NMOD
                DO J=1,NSN
                   JJ=FXBNOD(ANOD+J-1)
-                  IF (NODLOCAL(JJ).NE.0) THEN
+                  IF (NODLOCAL(JJ)/=0) THEN
                      DO K=1,6
                         FXBMOD_L(AMOD_L+K)=FXBMOD(AMOD-1+6*(J-1)+K)
                      ENDDO
@@ -312,11 +312,11 @@ C Modes
                ENDDO
                AMOD=AMOD+6*NSN
             ENDDO
-         ELSEIF (IFILE.EQ.1) THEN
+         ELSEIF (IFILE==1) THEN
             DO I=1,NME+NMOD
                DO J=1,NSNI
                   JJ=FXBNOD(ANOD+J-1)
-                  IF (NODLOCAL(JJ).NE.0) THEN
+                  IF (NODLOCAL(JJ)/=0) THEN
                      DO K=1,6
                         FXBMOD_L(AMOD_L+K)=FXBMOD(AMOD-1+6*(J-1)+K)
                      ENDDO
@@ -327,7 +327,7 @@ C Modes
                DO J=NSNI+1,NSN
                   IRCM=IRCM+1
                   JJ=FXBNOD(ANOD+J-1)
-                  IF (NODLOCAL(JJ).NE.0) THEN
+                  IF (NODLOCAL(JJ)/=0) THEN
 !$OMP CRITICAL(read_IXFM_critic)
                      READ(IFXM,REC=IRCM) (VAR(K),K=1,6)
 !$OMP END CRITICAL(read_IXFM_critic)
@@ -358,14 +358,14 @@ C
             NELT_L=0
             NELP_L=0
             NELTG_L=0
-            IF (IFILE.EQ.0) THEN
+            IF (IFILE==0) THEN
                DO J=1,NELS
                   NG=FXBELM(AELM)
                   P=IPARG(32,NG)
                   IAD=IPARG(4,NG)
-                  IF (P.EQ.PROC) THEN
+                  IF (P==PROC) THEN
                      NELS_L=NELS_L+1
-                     IF (I.EQ.1) THEN
+                     IF (I==1) THEN
                         DO K=1,13
                            ELM(K)=FXBELM(AELM+K-1)
                         ENDDO
@@ -389,9 +389,9 @@ C
                   NG=FXBELM(AELM)
                   P=IPARG(32,NG)
                   IAD=IPARG(4,NG)
-                  IF (P.EQ.PROC) THEN
+                  IF (P==PROC) THEN
                      NELC_L=NELC_L+1
-                     IF (I.EQ.1) THEN
+                     IF (I==1) THEN
                         DO K=1,10
                            ELM(K)=FXBELM(AELM+K-1)
                         ENDDO
@@ -416,9 +416,9 @@ C
                   NG=FXBELM(AELM)
                   P=IPARG(32,NG)
                   IAD=IPARG(4,NG)
-                  IF (P.EQ.PROC) THEN
+                  IF (P==PROC) THEN
                      NELT_L=NELT_L+1
-                     IF (I.EQ.1) THEN
+                     IF (I==1) THEN
                         DO K=1,7
                            ELM(K)=FXBELM(AELM+K-1)
                         ENDDO
@@ -442,9 +442,9 @@ C
                   NG=FXBELM(AELM)
                   P=IPARG(32,NG)
                   IAD=IPARG(4,NG)
-                  IF (P.EQ.PROC) THEN
+                  IF (P==PROC) THEN
                      NELP_L=NELP_L+1
-                     IF (I.EQ.1) THEN
+                     IF (I==1) THEN
                         DO K=1,9
                            ELM(K)=FXBELM(AELM+K-1)
                         ENDDO
@@ -469,9 +469,9 @@ C
                   NG=FXBELM(AELM)
                   P=IPARG(32,NG)
                   IAD=IPARG(4,NG)
-                  IF (P.EQ.PROC) THEN
+                  IF (P==PROC) THEN
                      NELTG_L=NELTG_L+1
-                     IF (I.EQ.1) THEN
+                     IF (I==1) THEN
                         DO K=1,9
                            ELM(K)=FXBELM(AELM+K-1)
                         ENDDO
@@ -492,7 +492,7 @@ C
                   AELM=AELM+9
                   ASIG=ASIG+10
                ENDDO
-            ELSEIF (IFILE.EQ.1) THEN
+            ELSEIF (IFILE==1) THEN
                LVSIG=NELS*7+NELC*10+NELT*2+NELP*8+NELTG*10
                ALLOCATE(VSIG(LVSIG), VSIG2(LVSIG))
                IAD=0
@@ -504,7 +504,7 @@ C
                   IAD=IAD+6
                ENDDO
                JJ=LVSIG-(LVSIG/6)*6
-               IF (JJ.GT.0) THEN
+               IF (JJ>0) THEN
                   IRCS=IRCS+1
 !$OMP CRITICAL(read_IXFS_critic)
                   READ(IFXS,REC=IRCS) (VSIG(IAD+K),K=1,JJ)
@@ -517,9 +517,9 @@ C
                   NG=FXBELM(AELM)
                   P=IPARG(32,NG)
                   IAD=IPARG(4,NG)
-                  IF (P.EQ.PROC) THEN
+                  IF (P==PROC) THEN
                      NELS_L=NELS_L+1
-                     IF (I.EQ.1) THEN
+                     IF (I==1) THEN
                         DO K=1,13
                            ELM(K)=FXBELM(AELM+K-1)
                         ENDDO
@@ -543,9 +543,9 @@ C
                   NG=FXBELM(AELM)
                   P=IPARG(32,NG)
                   IAD=IPARG(4,NG)
-                  IF (P.EQ.PROC) THEN
+                  IF (P==PROC) THEN
                      NELC_L=NELC_L+1
-                     IF (I.EQ.1) THEN
+                     IF (I==1) THEN
                         DO K=1,10
                            ELM(K)=FXBELM(AELM+K-1)
                         ENDDO
@@ -570,9 +570,9 @@ C
                   NG=FXBELM(AELM)
                   P=IPARG(32,NG)
                   IAD=IPARG(4,NG)
-                  IF (P.EQ.PROC) THEN
+                  IF (P==PROC) THEN
                      NELT_L=NELT_L+1
-                     IF (I.EQ.1) THEN
+                     IF (I==1) THEN
                         DO K=1,7
                            ELM(K)=FXBELM(AELM+K-1)
                         ENDDO
@@ -596,9 +596,9 @@ C
                   NG=FXBELM(AELM)
                   P=IPARG(32,NG)
                   IAD=IPARG(4,NG)
-                  IF (P.EQ.PROC) THEN
+                  IF (P==PROC) THEN
                      NELP_L=NELP_L+1
-                     IF (I.EQ.1) THEN
+                     IF (I==1) THEN
                         DO K=1,9
                            ELM(K)=FXBELM(AELM+K-1)
                         ENDDO
@@ -623,9 +623,9 @@ C
                   NG=FXBELM(AELM)
                   P=IPARG(32,NG)
                   IAD=IPARG(4,NG)
-                  IF (P.EQ.PROC) THEN
+                  IF (P==PROC) THEN
                      NELTG_L=NELTG_L+1
-                     IF (I.EQ.1) THEN
+                     IF (I==1) THEN
                         DO K=1,9                     
                            ELM(K)=FXBELM(AELM+K-1)   
                         ENDDO                        
@@ -655,7 +655,7 @@ C
                   IAD=IAD+6
                ENDDO
                JJ=LVSIG2-(LVSIG2/6)*6
-               IF (JJ.NE.0) THEN
+               IF (JJ/=0) THEN
                   IRCS_L=IRCS_L+1
                   WRITE(IFXS_L+ITASK,REC=IRCS_L) (VSIG2(IAD+K),K=1,JJ)
                ENDIF
@@ -680,7 +680,7 @@ C Gravite
             NNO_L=0
             DO I=1,NNO
                II=FXBGRVI(AGRVI+IADG+I+1)
-               IF (NODLOCAL(II).NE.0) THEN
+               IF (NODLOCAL(II)/=0) THEN
                   NNO_L=NNO_L+1
                   FXBGRVI_L(AGRVI_L+IADG_L+NNO_L+1)=NODLOCAL(II)
                ENDIF
@@ -707,7 +707,7 @@ C Identification du PMAIN
  100              CONTINUE
                ENDIF
             ENDDO
-            IF(NSN_L.GT.NMAX)THEN
+            IF(NSN_L>NMAX)THEN
                PMAIN=P
                NMAX=NSN_L
             ENDIF
@@ -772,7 +772,7 @@ C
          FXBIPM_L(15,NFX)=LENMCD_L+1
          FXBIPM_L(27,NFX)=LENGRVR_L+1
 C
-         IF (PMAIN.EQ.PROC) THEN
+         IF (PMAIN==PROC) THEN
             LENGLM_L =LENGLM_L +NME*(NME+1)/2
             LENCP_L  =LENCP_L  +NTR*NMOD*NME
             LENLM_L  =LENLM_L  +NMOD
@@ -842,7 +842,7 @@ C
          ADLS_L =FXBIPM_L(12,NFX)
          AGRVR_L=FXBIPM_L(27,NFX)
 C
-         IF (PMAIN.EQ.PROC) THEN
+         IF (PMAIN==PROC) THEN
             DO I=1,NME*(NME+1)/2
                FXBGLM_L(AGLM_L+I-1)=FXBGLM(AGLM+I-1)
             ENDDO

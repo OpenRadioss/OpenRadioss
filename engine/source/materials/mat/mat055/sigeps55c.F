@@ -224,8 +224,8 @@ C
 C
         NNU(I) = NU(I) / (ONE - NU(I))       
        ENDDO
-       IF (ISIGI.EQ.0) THEN
-       IF(TIME.EQ.ZERO)THEN
+       IF (ISIGI==0) THEN
+       IF(TIME==ZERO)THEN
          DO I=1,NEL0           
            DO J=1,NRATE(I)
              UVAR(I,J)=0
@@ -272,7 +272,7 @@ C a verefier cette formule
 C-------------------
 C     STRAIN RATE
 C-------------------
-         IF (ISRATE .EQ. 0) EPSP(I) = 
+         IF (ISRATE == 0) EPSP(I) = 
      .     HALF*(EPSPXX(I)+EPSPYY(I)
      .   + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
      .                 + EPSPXY(I)*EPSPXY(I) ) )
@@ -283,7 +283,7 @@ C
          EPST(I) = HALF*(EPSXX(I)+EPSYY(I)
      .   + SQRT( (EPSXX(I)-EPSYY(I))*(EPSXX(I)-EPSYY(I))
      .                 + EPSXY(I)*EPSXY(I) ) )         
-         IF(OFF(I).EQ.ONE.AND.EPST(I).GT.EPSMAX(I))OFF(I) =FOUR_OVER_5
+         IF(OFF(I)==ONE.AND.EPST(I)>EPSMAX(I))OFF(I) =FOUR_OVER_5
        ENDDO
 C-------------------
 C     CRITERE
@@ -296,14 +296,14 @@ C
        DO I=1,NEL0
         DO J=2,NRATEP(I)-1
            IADBUF = IPM(7,MAT(I)) - 1
-           IF(ABS(EPSP(I)).GE.UPARAM(IADBUF+ 10 +J)) JJ(I) = J 
+           IF(ABS(EPSP(I))>=UPARAM(IADBUF+ 10 +J)) JJ(I) = J 
          ENDDO         
        ENDDO
      
         DO I=1,NEL0
           DO J=2,NRATEN(I)-1
            IADBUF = IPM(7,MAT(I))-1        
-            IF(ABS(EPSP(I)).GE.
+            IF(ABS(EPSP(I))>=
      .         ABS(UPARAM(IADBUF+10 + NRATEP(I) + J))) II(I) = NRATEP(I) + J 
            ENDDO
          ENDDO
@@ -376,17 +376,17 @@ C   elastique courbe
 C-------------------
 C     PROJECTION
 C-------------------
-       IF(IFLAG(1).EQ.2)THEN
+       IF(IFLAG(1)==2)THEN
 C projection radiale 
          DO I=1,NEL0
-          IF(OFF(I).EQ.1) THEN 
+          IF(OFF(I)==1) THEN 
            SVM(I)=SQRT(SIGNXX(I)*SIGNXX(I)
      .             +SIGNYY(I)*SIGNYY(I)
      .             -SIGNXX(I)*SIGNYY(I)
      .          +THREE*SIGNXY(I)*SIGNXY(I))       
 C contrainte elastique ..       
-           IF(SVM(I).NE.ZERO) THEN     
-            IF(SVM(I).GE.YLDELAS(I))THEN 
+           IF(SVM(I)/=ZERO) THEN     
+            IF(SVM(I)>=YLDELAS(I))THEN 
               DO ITER = 1, 10              
                R  = MIN(ONE,YLDELAS(I)/MAX(EM20,SVM(I)))
                DEV = (SIGNXX(I) + SIGNYY(I))*THIRD          
@@ -414,9 +414,9 @@ CCCACTUALISATION
      .             +SIGEYY(I)*SIGEYY(I)
      .             -SIGEXX(I)*SIGEYY(I)
      .          + THREE*SIGEXY(I)*SIGEXY(I))           
-           IF(SVM(I).GE.YLDMAX(I)) THEN                
+           IF(SVM(I)>=YLDMAX(I)) THEN                
             R  = MIN(ONE,YLDMAX(I)/MAX(EM20,SVM(I)))                        
-            ELSEIF(SVM(I).LE.YLDMIN(I))THEN                            
+            ELSEIF(SVM(I)<=YLDMIN(I))THEN                            
             R = MAX(ONE,YLDMIN(I)/MAX(EM20,SVM(I)))            
            ENDIF   
             DEV = (SIGEXX(I) + SIGEYY(I))*THIRD
@@ -432,7 +432,7 @@ CCCACTUALISATION
      .             -SIGEXX(I)*SIGEYY(I)
      .          + THREE*SIGEXY(I)*SIGEXY(I))
 C calcul des contraintes visquenses                
-            IF(R.NE.1.) THEN              
+            IF(R/=1.) THEN              
              SIGVXX(I)=SIGEXX(I) - SIGNXX(I)
              SIGVYY(I)=SIGEYY(I) - SIGNYY(I)
              SIGVXY(I)=SIGEXY(I) - SIGNXY(I)
@@ -458,13 +458,13 @@ C contrainte elastique ..
            THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
          ENDDO
 C
-       ELSEIF(IFLAG(1).EQ.1)THEN
+       ELSEIF(IFLAG(1)==1)THEN
 C-------------------------
 C     CRITERE DE VON MISES
 C-------------------------
 
 C-------------------------------------------
-       ELSEIF(IFLAG(1).EQ.0)THEN
+       ELSEIF(IFLAG(1)==0)THEN
 C 
        ENDIF
 C

@@ -60,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       CALL PRERBE3(IRBE3 ,MAX_M , IROTG,JT  ,JR   )
       ICOM = IAD_M(NSPMD+1)-IAD_M(1)
-c      IF (NSPMD.GT.1)CALL SPMD_MAX_II(IROTG,IAD_M,ICOM)
+c      IF (NSPMD>1)CALL SPMD_MAX_II(IROTG,IAD_M,ICOM)
 C----- 
 C     when a secnd node belongs to a domain, all main nodes also belong to the domain !!!
 C----- 
@@ -75,7 +75,7 @@ C going up
          DO N=1,NRBE3
           IAD = IRBE3(1,N)
           NS  = IRBE3(3,N)
-          IF (NS.EQ.0) CYCLE
+          IF (NS==0) CYCLE
           NML = IRBE3(5,N)
           IF(JT(1,N)+JT(2,N)+JT(3,N)/=0)THEN
            DO I=1,NML
@@ -89,7 +89,7 @@ C going up
          END DO
         END DO
 C
-        IF (ICOM.GT.0) THEN
+        IF (ICOM>0) THEN
           CALL SPMD_EXCH_RBE3_NODNX(
      1      NODXI_SMS,FR_M   ,IAD_M ,IAD_M(NSPMD+1) )
         END IF
@@ -101,7 +101,7 @@ C going down
          DO N=1,NRBE3
           IAD = IRBE3(1,N)
           NS  = IRBE3(3,N)
-          IF (NS.EQ.0) CYCLE
+          IF (NS==0) CYCLE
           NML = IRBE3(5,N)
           IF(JT(1,N)+JT(2,N)+JT(3,N)/=0)THEN
            DO I=1,NML
@@ -119,7 +119,7 @@ C             a climb-up is still needed
          END DO
         END DO
 C
-        IF (NSPMD.GT.1)CALL SPMD_MAX_II(FINFIN,IAD_M,ICOM)
+        IF (NSPMD>1)CALL SPMD_MAX_II(FINFIN,IAD_M,ICOM)
       END DO ! DO WHILE(FINFIN==0)
 C
       RETURN
@@ -192,15 +192,15 @@ C======================================================================|
       NMT0 = SLRBE3/2
       CALL PRERBE3(IRBE3 ,MAX_M , IROTG,JT  ,JR   )
       ICOM = IAD_M(NSPMD+1)-IAD_M(1)
-c      IF (NSPMD.GT.1)CALL SPMD_MAX_II(IROTG,IAD_M,ICOM)
+c      IF (NSPMD>1)CALL SPMD_MAX_II(IROTG,IAD_M,ICOM)
       IF (R3SIZE>5)IROTG = 1
 C
-      IF (NMT0.GT.0) THEN
+      IF (NMT0>0) THEN
        CALL PRERBE3P(IRBE3 ,LRBE3 ,IADMP ,IML   , NMT   )
        IADA=1
        IADMS=IADA+3*NMT
        IADFN=IADMS+NMT
-       IF (IROTG.GT.0) THEN
+       IF (IROTG>0) THEN
         IADAR=IADFN+NMT
         IADIN=IADAR+3*NMT
         IADFR=IADIN+NMT
@@ -222,7 +222,7 @@ C
        IPA=1
        IPMS=IPA+3*NMP
        IPFN=IPMS+NMP
-       IF (IROTG.GT.0) THEN
+       IF (IROTG>0) THEN
         IPAR=IPFN+NMP
         IPIN=IPAR+3*NMP
         IPFR=IPIN+NMP
@@ -236,7 +236,7 @@ C      version spmd p/on
 C      ALLOCATE(RSUM_PON(IADLP),STAT=IERR)
 C      RSUM_PON=ZERO
        CALL FOAT_TO_6_FLOAT(1  ,NMT*3  ,RSUM(IADA) ,RSUM_PON(IPA) )
-       IF (ICOM.GT.0) THEN
+       IF (ICOM>0) THEN
            ISIZE=3
            CALL SPMD_EXCH_RBE3_A_PON(
      .      RSUM_PON(IPA),FR_MPON,IAD_M  ,IAD_M(NSPMD+1),ISIZE)
@@ -249,7 +249,7 @@ C
 C      DEALLOCATE(RSUM_PON)
 C
 C      DEALLOCATE(RSUM)
-      END IF ! IF (NMT.GT.0)
+      END IF ! IF (NMT>0)
 C---
       RETURN
       END
@@ -305,10 +305,10 @@ C======================================================================|
       IADS = SLRBE3/2
       CALL PRERBE3(IRBE3 ,MAX_M , IROTG,JT  ,JR   )
       ALLOCATE(FDSTNB(3,6,MAX_M))
-      IF (IROTG.GT.0) ALLOCATE(MDSTNB(3,6,MAX_M))
+      IF (IROTG>0) ALLOCATE(MDSTNB(3,6,MAX_M))
 C
       NMT0 = SLRBE3/2
-      IF (NMT0.GT.0) THEN
+      IF (NMT0>0) THEN
        CALL PRERBE3P(IRBE3 ,LRBE3 ,IADMP ,IML   , NMT   )
        DO I=1,NMT
          M = IML(I)
@@ -321,7 +321,7 @@ C
       DO N=1,NRBE3
         IAD = IRBE3(1,N)
         NS  = IRBE3(3,N)
-        IF (NS.EQ.0) CYCLE
+        IF (NS==0) CYCLE
         NML = IRBE3(5,N)
 	IROT =MIN(IRBE3(6,N),IRODDL)
         CALL RBE3CL(LRBE3(IAD+1),LRBE3(IADS+IAD+1),NS     ,X      ,
@@ -344,7 +344,7 @@ C
       ENDDO
 C      
       DEALLOCATE(FDSTNB)
-      IF (IROTG.GT.0) DEALLOCATE(MDSTNB)
+      IF (IROTG>0) DEALLOCATE(MDSTNB)
 C---
       RETURN
       END
@@ -415,15 +415,15 @@ C======================================================================|
       NMT0 = SLRBE3/2
       CALL PRERBE3(IRBE3 ,MAX_M , IROTG,JT  ,JR   )
       ICOM = IAD_M(NSPMD+1)-IAD_M(1)
-c      IF (NSPMD.GT.1)CALL SPMD_MAX_II(IROTG,IAD_M,ICOM)
+c      IF (NSPMD>1)CALL SPMD_MAX_II(IROTG,IAD_M,ICOM)
        IF (R3SIZE>5)IROTG = 1
 C
-      IF (NMT0.GT.0) THEN
+      IF (NMT0>0) THEN
        CALL PRERBE3P(IRBE3 ,LRBE3 ,IADMP ,IML   , NMT   )
        IADA=1
        IADMS=IADA+3*NMT
        IADFN=IADMS+NMT
-       IF (IROTG.GT.0) THEN
+       IF (IROTG>0) THEN
         IADAR=IADFN+NMT
         IADIN=IADAR+3*NMT
         IADFR=IADIN+NMT
@@ -445,7 +445,7 @@ C
        IPA=1
        IPMS=IPA+3*NMP
        IPFN=IPMS+NMP
-       IF (IROTG.GT.0) THEN
+       IF (IROTG>0) THEN
         IPAR=IPFN+NMP
         IPIN=IPAR+3*NMP
         IPFR=IPIN+NMP
@@ -459,7 +459,7 @@ C      version spmd p/on
 C      ALLOCATE(RSUM_PON(IADLP),STAT=IERR)
 C      RSUM_PON=ZERO
        CALL FOAT_TO_6_FLOAT(1  ,NMT*3  ,RSUM(IADA) ,RSUM_PON(IPA) )
-       IF (ICOM.GT.0) THEN
+       IF (ICOM>0) THEN
            ISIZE=3
            CALL SPMD_EXCH_RBE3_A_PON(
      .      RSUM_PON(IPA),FR_MPON,IAD_M  ,IAD_M(NSPMD+1),ISIZE)
@@ -472,7 +472,7 @@ C
 C      DEALLOCATE(RSUM_PON)
 C
 C      DEALLOCATE(RSUM)
-      END IF ! IF (NMT.GT.0)
+      END IF ! IF (NMT>0)
 C---
       RETURN
       END
@@ -524,14 +524,14 @@ C     REAL
 C-----------------------------------------------
       IADS = NMT0
       ALLOCATE(FDSTNB(3,6,MAX_M))
-      IF (IROTG.GT.0) ALLOCATE(MDSTNB(3,6,MAX_M))
+      IF (IROTG>0) ALLOCATE(MDSTNB(3,6,MAX_M))
 C---
       DO N=1,NRBE3
         IAD = IRBE3(1,N)
         NS  = IRBE3(3,N)
         NML = IRBE3(5,N)
 	IROT =IRBE3(6,N)
-        IF (NS.GT.0) THEN
+        IF (NS>0) THEN
          CALL RBE3CL(LRBE3(IAD+1),LRBE3(IADS+IAD+1),NS     ,X      ,
      .               FRBE3(6*IAD+1),SKEW    ,NML     ,IROT   ,FDSTNB ,
      .               MDSTNB  ,IRBE3(2,N))
@@ -551,11 +551,11 @@ C---not to add supplementary mass globaly
 	 ENDDO
         ENDDO
 C---
-       END IF ! IF (NS.GT.0) THEN
+       END IF ! IF (NS>0) THEN
       ENDDO
 C
       DEALLOCATE(FDSTNB)
-      IF (IROTG.GT.0) DEALLOCATE(MDSTNB)
+      IF (IROTG>0) DEALLOCATE(MDSTNB)
 C
       RETURN
       END

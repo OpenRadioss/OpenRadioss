@@ -63,7 +63,7 @@ C-----------------------------------------------
      .   FAC(MVSIZ), S1(MVSIZ), S2(MVSIZ), S4(MVSIZ),
      .   T1,T2,T3,T4
 C-----------------------------------------------
-      IF (N2D.EQ.1) THEN
+      IF (N2D==1) THEN
       DO I=LFT,LLT
         FAC(I)=AREA(I)*AREA(I)/ MAX(EM15,VOL(I))/FOUR
       ENDDO
@@ -73,7 +73,7 @@ C-----------------------------------------------
       ENDDO
       ENDIF
 
-      IF(JCVT.EQ.0)THEN
+      IF(JCVT==0)THEN
        DO I=LFT,LLT
          AX1(I)=(SIG(I,3)+SVIS(I,3)-SIG(I,1)-SVIS(I,1))*FAC(I)
          AX2(I)=(SIG(I,4)+SVIS(I,4))*FAC(I)

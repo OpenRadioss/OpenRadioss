@@ -120,7 +120,7 @@ C       Vecteurs de travail (nbre maximum de facettes).
         KWNS   =KWTF   +3*NUMNOD
 C       Longueur totale des vecteurs de travail.
         KWLENG=KWNS+NUMNOD-1
-        IF (KWLENG.GT.LENWA) THEN
+        IF (KWLENG>LENWA) THEN
           CALL ANCMSG(MSGID=83,ANMODE=ANINFO)
           CALL ARRET(2)
         END IF
@@ -182,7 +182,7 @@ C-----------------------------------------------
      A  	 FTANGY,FTANGZ  ,DT2T  ,NOINT ,NELTST ,
      B  	 ITYPTST ,FRIC )
        NDEB=NDEB+MVSIZ
-       IF (NDEB.LT.NSC) GOTO 10
+       IF (NDEB<NSC) GOTO 10
 C-----------------------------------------------
 C      TRIANGLES.
 C-----------------------------------------------
@@ -206,7 +206,7 @@ C-----------------------------------------------
      9           FNORMY,FNORMZ,FTANGX,FTANGY,FTANGZ  ,
      A           DT2T  ,NOINT , NELTST ,ITYPTST ,FRIC  )
        NDEB=NDEB+MVSIZ
-       IF (NDEB.LT.NTC) GOTO 20
+       IF (NDEB<NTC) GOTO 20
 C------
 C      MARQUE LES NOEUDS / F<>0.
 C------

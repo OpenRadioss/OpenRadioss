@@ -99,30 +99,30 @@ C-----------------------------------------------
       DO NS=1,NSPHACT
        N=WASPACT(NS)
        IMPOSE=KXSP(2,N)/(NGROUP+1)
-       IF(IMPOSE.NE.0)THEN
+       IF(IMPOSE/=0)THEN
         ITYPE=ISPHIO(1,IMPOSE)
-        IF(ITYPE.EQ.2)THEN
+        IF(ITYPE==2)THEN
 C------
 C        general outlet.
          IPRT=ISPHIO(2,IMPOSE)
          IVAD=ISPHIO(4,IMPOSE)
 C
          IFPRES=ISPHIO(6,IMPOSE)
-         IF(IFPRES.NE.0)THEN
+         IF(IFPRES/=0)THEN
 C------
 C         P=f(t)
           NPF = (NPC(IFPRES+1)-NPC(IFPRES))/2
           II  = NPC(IFPRES)
-          IF (TT.LE.PLD(II)) THEN
+          IF (TT<=PLD(II)) THEN
            PENTP=(PLD(II+3)-PLD(II+1))/(PLD(II+2)-PLD(II))
            PN   =PLD(II+1)+PENTP*(TT-PLD(II))
-          ELSEIF (TT.GE.PLD(II+2*(NPF-1))) THEN
+          ELSEIF (TT>=PLD(II+2*(NPF-1))) THEN
            JJ=II+2*(NPF-1)
            PENTP=(PLD(JJ+1)-PLD(JJ-1))/(PLD(JJ)-PLD(JJ-2))
            PN   =PLD(JJ+1)+MAX(-PLD(JJ+1),PENTP*(TT-PLD(JJ)))
           ELSE
            DO IPT=1,NPF-1
-            IF (PLD(II).LE.TT.AND.TT.LE.PLD(II+2)) THEN
+            IF (PLD(II)<=TT.AND.TT<=PLD(II+2)) THEN
              PENTP=(PLD(II+3)-PLD(II+1))/(PLD(II+2)-PLD(II))
              PN   =PLD(II+1)+PENTP*(TT-PLD(II))
              GOTO 140
@@ -148,22 +148,22 @@ C
           DMIN=1.E+20
           DO J=1,KXSP(4,N)
            JNOD=IXSP(J,N)
-           IF(JNOD.GT.0)THEN
+           IF(JNOD>0)THEN
              M=NOD2SP(JNOD)
-             IF(KXSP(2,M).GE.0)THEN
+             IF(KXSP(2,M)>=0)THEN
               JMPOSE=KXSP(2,M)/(NGROUP+1)
               lBOOL=.FALSE.
-              IF(JMPOSE.EQ.0)THEN
+              IF(JMPOSE==0)THEN
                 lBOOL=.TRUE.
               ELSE
-                IF(ISPHIO(1,JMPOSE).EQ.1)lBOOL=.TRUE.
+                IF(ISPHIO(1,JMPOSE)==1)lBOOL=.TRUE.
               ENDIF
               IF(lBOOL)THEN
                XJ  =X(1,JNOD)
                YJ  =X(2,JNOD)
                ZJ  =X(3,JNOD)
                DD  =(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
-               IF(DD.LT.DMIN)THEN
+               IF(DD<DMIN)THEN
                 IPPV=JNOD
                 DMIN=DD
                ENDIF
@@ -172,17 +172,17 @@ C
            ELSE
              NN = -JNOD
              JMPOSE = NINT(XSPHR(12,NN))
-             IF(JMPOSE.GT.0)THEN
+             IF(JMPOSE>0)THEN
                JMPOSE2=ISPHIO(1,JMPOSE)
              ELSE
                 JMPOSE2=0
              ENDIF
-             IF(JMPOSE2.EQ.0.OR.JMPOSE2.EQ.1)THEN
+             IF(JMPOSE2==0.OR.JMPOSE2==1)THEN
                XJ  =XSPHR(3,NN)
                YJ  =XSPHR(4,NN)
                ZJ  =XSPHR(5,NN)
                DD  =(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
-               IF(DD.LT.DMIN)THEN
+               IF(DD<DMIN)THEN
                 IPPV=JNOD
                 DMIN=DD
                ENDIF
@@ -190,7 +190,7 @@ C
            ENDIF
           ENDDO
 C
-          IF(IPPV.GT.0)THEN
+          IF(IPPV>0)THEN
             NP=NOD2SP(IPPV)
             NG=MOD(KXSP(2,NP),NGROUP+1)
             CALL INITBUF (IPARG    ,NG      ,                   
@@ -212,7 +212,7 @@ C
      .           +GBUF%SIG(KK(2)+K)
      .           +GBUF%SIG(KK(3)+K))*THIRD
 
-          ELSEIF(IPPV.LT.0)THEN !cas IPPV negatif on se sert des infos recuperes ds la routine de com
+          ELSEIF(IPPV<0)THEN !cas IPPV negatif on se sert des infos recuperes ds la routine de com
 
             PN=-( WAR(1,-IPPV)
      .           +WAR(2,-IPPV)
@@ -259,9 +259,9 @@ C-----------------------------------------------
       DO NS=1,NSPHACT
        N=WASPACT(NS)
        IMPOSE=KXSP(2,N)/(NGROUP+1)
-       IF(IMPOSE.NE.0)THEN
+       IF(IMPOSE/=0)THEN
         ITYPE=ISPHIO(1,IMPOSE)
-        IF(ITYPE.EQ.3)THEN
+        IF(ITYPE==3)THEN
          IVAD=ISPHIO(4,IMPOSE)
 C-------
          INOD=KXSP(3,N)
@@ -273,9 +273,9 @@ C-------
          DMIN=1.E+20
          DO J=1,KXSP(4,N)
           JNOD=IXSP(J,N)
-          IF(JNOD.GT.0)THEN
+          IF(JNOD>0)THEN
             M=NOD2SP(JNOD)
-            IF(KXSP(2,M).GE.0)THEN
+            IF(KXSP(2,M)>=0)THEN
              JMPOSE=KXSP(2,M)/(NGROUP+1)
              lBOOL=.FALSE.
              IF(JMPOSE == 0)THEN
@@ -288,7 +288,7 @@ C-------
               YJ  =X(2,JNOD)
               ZJ  =X(3,JNOD)
               DD  =(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
-              IF(DD.LT.DMIN)THEN
+              IF(DD<DMIN)THEN
                IPPV=JNOD
                DMIN=DD
               ENDIF
@@ -297,17 +297,17 @@ C-------
           ELSE
              NN = -JNOD
              JMPOSE = NINT(XSPHR(12,NN))
-             IF(JMPOSE.GT.0)THEN
+             IF(JMPOSE>0)THEN
                JMPOSE2=ISPHIO(1,JMPOSE)
              ELSE
                JMPOSE2=0
              ENDIF
-             IF(JMPOSE2.EQ.0.OR.JMPOSE2.EQ.1)THEN
+             IF(JMPOSE2==0.OR.JMPOSE2==1)THEN
                XJ  =XSPHR(3,NN)
                YJ  =XSPHR(4,NN)
                ZJ  =XSPHR(5,NN)
                DD  =(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
-               IF(DD.LT.DMIN)THEN
+               IF(DD<DMIN)THEN
                 IPPV=JNOD
                 DMIN=DD
                ENDIF
@@ -316,19 +316,19 @@ C-------
          ENDDO
 C-------
          IFPRES=ISPHIO(6,IMPOSE)
-         IF(IFPRES.NE.0)THEN
+         IF(IFPRES/=0)THEN
           NPF = (NPC(IFPRES+1)-NPC(IFPRES))/2
           II  = NPC(IFPRES)
-          IF (TT.LE.PLD(II)) THEN
+          IF (TT<=PLD(II)) THEN
            PENTP=(PLD(II+3)-PLD(II+1))/(PLD(II+2)-PLD(II))
            PINFINI   =PLD(II+1)+PENTP*(TT-PLD(II))
-          ELSEIF (TT.GE.PLD(II+2*(NPF-1))) THEN
+          ELSEIF (TT>=PLD(II+2*(NPF-1))) THEN
            JJ=II+2*(NPF-1)
            PENTP=(PLD(JJ+1)-PLD(JJ-1))/(PLD(JJ)-PLD(JJ-2))
            PINFINI   =PLD(JJ+1)+MAX(-PLD(JJ+1),PENTP*(TT-PLD(JJ)))
           ELSE
            DO IPT=1,NPF-1
-            IF (PLD(II).LE.TT.AND.TT.LE.PLD(II+2)) THEN
+            IF (PLD(II)<=TT.AND.TT<=PLD(II+2)) THEN
              PENTP=(PLD(II+3)-PLD(II+1))/(PLD(II+2)-PLD(II))
              PINFINI   =PLD(II+1)+PENTP*(TT-PLD(II))
              GOTO 240
@@ -347,7 +347,7 @@ C------
          VZ=V(3,INOD)
          VN=VNORMAL(1,N)*VX+VNORMAL(2,N)*VY+VNORMAL(3,N)*VZ
 
-         IF(VN.GE.ZERO)THEN
+         IF(VN>=ZERO)THEN
           RHOI=SPBUF(2,N)
           SSPI=WA(8,N)
 C

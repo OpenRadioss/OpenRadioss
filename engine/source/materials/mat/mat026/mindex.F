@@ -54,30 +54,30 @@ C-----------------------------------------------
       I2 = NJ
       A1 = AA(1,I1)
       A2 = AA(1,I2)
-      IF(A2.GE.A1)THEN
+      IF(A2>=A1)THEN
  1      CONTINUE
          I3 = (I1 + I2)/2
          A3 = AA(1,I3)
-         IF(A3.GE.A)THEN
+         IF(A3>=A)THEN
            I2 = I3
            A2 = A3
          ELSE
            I1 = I3
            A1 = A3
          ENDIF
-       IF(I2-I1.GT.1) GOTO 1
+       IF(I2-I1>1) GOTO 1
       ELSE
  2      CONTINUE
          I3 = (I1 + I2)/2
          A3 = AA(1,I3)
-         IF(A3.LT.A)THEN
+         IF(A3<A)THEN
            I2 = I3
            A2 = A3
          ELSE
            I1 = I3
            A1 = A3
          ENDIF
-       IF(I2-I1.GT.1) GOTO 2
+       IF(I2-I1>1) GOTO 2
       ENDIF
 C
       MINDEX=I1

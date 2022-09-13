@@ -137,7 +137,7 @@ C  NUMELS
             ENDIF
           ENDDO
 C  NUMELS10
-          IF(NUMELS10.GT.0) THEN
+          IF(NUMELS10>0) THEN
             DO J=1,NUMELS10
               I = INDEX(NUMELS8+J)
               IP = IPARTS(I)
@@ -146,7 +146,7 @@ C  NUMELS10
                   N = IXS10(K,I-NUMELS8)
                   KMASS = MSSX(K,I) / MAX(EM20,PARTSAV1_PON(IP))
                   MASS  = KMASS * IPMAS(IGM)%PART(II)%RPMAS
-                  IF(N.NE.0)THEN
+                  IF(N/=0)THEN
                     MS(N) = MS(N) + MASS
                     TOTADDMAS = TOTADDMAS + MASS
                   END IF
@@ -155,7 +155,7 @@ C  NUMELS10
             ENDDO
           ENDIF
 C  NUMELS20
-          IF(NUMELS20.GT.0)THEN
+          IF(NUMELS20>0)THEN
             DO J=1,NUMELS20
               I = INDEX(NUMELS8+NUMELS10+J)
               IP = IPARTS(I)
@@ -164,7 +164,7 @@ C  NUMELS20
                   N = IXS20(K,I-NUMELS8-NUMELS10)
                   KMASS = MSSX(K,I) / MAX(EM20,PARTSAV1_PON(IP))
                   MASS  = KMASS * IPMAS(IGM)%PART(II)%RPMAS
-                  IF(N.NE.0)THEN
+                  IF(N/=0)THEN
                     MS(N) = MS(N) + MASS
                     TOTADDMAS = TOTADDMAS + MASS
                   ENDIF
@@ -173,7 +173,7 @@ C  NUMELS20
             ENDDO
           ENDIF
 C  NUMELS20
-          IF(NUMELS16.GT.0)THEN
+          IF(NUMELS16>0)THEN
             DO J=1,NUMELS16
               I = INDEX(NUMELS8+NUMELS10+NUMELS20+J)
               IP = IPARTS(I)
@@ -182,7 +182,7 @@ C  NUMELS20
                   N = IXS16(K,I-NUMELS8-NUMELS10-NUMELS20)
                   KMASS = MSSX(K,I) / MAX(EM20,PARTSAV1_PON(IP))
                   MASS  = KMASS * IPMAS(IGM)%PART(II)%RPMAS
-                  IF(N.NE.0)THEN
+                  IF(N/=0)THEN
                     MS(N) = MS(N) + MASS
                     TOTADDMAS = TOTADDMAS + MASS
                   ENDIF
@@ -251,7 +251,7 @@ C
         FLAG = IPMAS(IGM)%WEIGHT_FLAG
         DO II = 1,NMAS
           IPM = IPMAS(IGM)%PARTID(II)
-          IF(NADMESH.EQ.0)THEN
+          IF(NADMESH==0)THEN
             DO J=1,NUMELC
               I = INDEX(J)
               IP = IPARTC(I)
@@ -391,7 +391,7 @@ C
                 TOTADDMAS = TOTADDMAS + MASS
               ENDDO
               IGTYP = NINT(GEO(12,IXR(1,I)))
-              IF(IGTYP.EQ.12) THEN
+              IF(IGTYP==12) THEN
                 N = IXR(4,I)
                 KMASS = MSR(3,I) / MAX(EM20,PARTSAV1_PON(IP))
                 MASS  = KMASS * IPMAS(IGM)%PART(II)%RPMAS
@@ -412,7 +412,7 @@ C NUMELTG
         NMAS = IPMAS(IGM)%NPART
         DO II = 1,NMAS
           IPM = IPMAS(IGM)%PARTID(II)
-          IF(NADMESH.EQ.0)THEN
+          IF(NADMESH==0)THEN
             DO J=1,NUMELTG
               I = INDEX(J)
               IP = IPARTTG(I)
@@ -587,7 +587,7 @@ C
       ENDDO
 
 C  NUMELS10
-      IF(NUMELS10.GT.0) THEN
+      IF(NUMELS10>0) THEN
        DO J=1,NUMELS10
         I = INDEX(NUMELS8+J)
         IP = IPARTS(I)
@@ -597,7 +597,7 @@ C  NUMELS10
        ENDDO
       ENDIF
 C  NUMELS20
-      IF(NUMELS20.GT.0)THEN
+      IF(NUMELS20>0)THEN
        DO J=1,NUMELS20
         I = INDEX(NUMELS8+NUMELS10+J)
         IP = IPARTS(I)
@@ -607,7 +607,7 @@ C  NUMELS20
        ENDDO
       ENDIF
 C  NUMELS16
-      IF(NUMELS16.GT.0)THEN
+      IF(NUMELS16>0)THEN
        DO J=1,NUMELS16
         I = INDEX(NUMELS8+NUMELS10+NUMELS20+J)
         IP = IPARTS(I)

@@ -193,7 +193,7 @@ C
           INUM(11,I)=IXS(10,NFT+I)
           INUM(12,I)=IXS(11,NFT+I)
           INUM(13,I)=ISOLNOD(NFT+I)
-          IF (NSUBDOM.GT.0) INUM_R2R(I) = TAG_ELSF(NFT+I)
+          IF (NSUBDOM>0) INUM_R2R(I) = TAG_ELSF(NFT+I)
           IF (NPERTURB > 0) THEN
             DO IPERT = 1, NPERTURB
               XNUM_RNOISE(IPERT,I) = RNOISE(IPERT,NFT+I) 
@@ -227,7 +227,7 @@ C
           IXS(11,I+NFT)=INUM(12,INDEX(I))
           ISOLNOD(I+NFT)=INUM(13,INDEX(I))
           ITR1(NFT+INDEX(I)) = NFT+I
-          IF (NSUBDOM.GT.0) TAG_ELSF(NFT+I) = INUM_R2R(INDEX(I))
+          IF (NSUBDOM>0) TAG_ELSF(NFT+I) = INUM_R2R(INDEX(I))
           IF (NPERTURB > 0) THEN
             DO IPERT = 1, NPERTURB
               RNOISE(IPERT,I+NFT) = XNUM_RNOISE(IPERT,INDEX(I))
@@ -258,7 +258,7 @@ c
         ENDIF
 
 C        
-        IF (NFT.GE.NUMELS8+NUMELS10+NUMELS20) THEN
+        IF (NFT>=NUMELS8+NUMELS10+NUMELS20) THEN
          DO I = 1, NEL
           II = I+NFT-(NUMELS8+NUMELS10+NUMELS20)
           INUM(1,I)=IXS16(1,II)
@@ -281,7 +281,7 @@ C
           IXS16(7,II)=INUM(7,INDEX(I))
           IXS16(8,II)=INUM(8,INDEX(I))
          ENDDO
-        ELSEIF (NFT.GE.NUMELS8+NUMELS10) THEN
+        ELSEIF (NFT>=NUMELS8+NUMELS10) THEN
          DO I = 1, NEL
           II = I+NFT-(NUMELS8+NUMELS10)
           INUM(1,I)=IXS20(1,II)
@@ -312,7 +312,7 @@ C
           IXS20(11,II)=INUM(11,INDEX(I))
           IXS20(12,II)=INUM(12,INDEX(I))
          ENDDO
-        ELSEIF (NFT.GE.NUMELS8) THEN
+        ELSEIF (NFT>=NUMELS8) THEN
          DO I = 1, NEL
           II = I+NFT-NUMELS8
           INUM(1,I)=IXS10(1,II)
@@ -348,7 +348,7 @@ C
         P = CEP(NFT+INDEX(1))
         NB = 1
         DO I = 2, NEL
-          IF (CEP(NFT+INDEX(I)).NE.P) THEN
+          IF (CEP(NFT+INDEX(I))/=P) THEN
             DD_IAD(P+1,NSPGROUP+N) = NB
             NB = 1
             P = CEP(NFT+INDEX(I))
@@ -439,7 +439,7 @@ C
        DO P = 1, NSPMD
         NGP(P)=0
         NEL = DD_IAD(P+1,NSPGROUP+N)-DD_IAD(P,NSPGROUP+N)
-        IF (NEL.GT.0) THEN
+        IF (NEL>0) THEN
          NEL_PREC = DD_IAD(P,NSPGROUP+N)-DD_IAD(1,NSPGROUP+N)
          NGP(P)=NGROUP
          NG  = (NEL-1)/NVSIZ + 1
@@ -455,7 +455,7 @@ C Bolt preloading
           IF (NPRELOAD > 0) THEN
            IBOLTP=IFLAG_BPRELOAD(II)
           ENDIF
-          IF (NSUBDOM.GT.0) IPARTR2R = TAG_MAT(MID)
+          IF (NSUBDOM>0) IPARTR2R = TAG_MAT(MID)
           ID = IGEO(1,PID)
           CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,PID),LTITR)
           IKSNOD0=ISOLNOD(II)          
@@ -482,7 +482,7 @@ C de plus ISOLNOD remis a 0 real dans lectur
           IT10 = 0
 C-------------------------
 C         PARAMETRE GROUPE
-          IF (PID.NE.0) THEN
+          IF (PID/=0) THEN
             IREP   = IGEO(6,PID)
             JHBE   = IGEO(10,PID)
             IGT    = IGEO(11,PID)
@@ -560,10 +560,10 @@ C
               ICPT10 = ICPRE
             ENDIF
             IF (IGT == 14.OR.IGT == 6) THEN
-              IF (ITET4.NE.0.AND.IKSNOD0 == 8) THEN
+              IF (ITET4/=0.AND.IKSNOD0 == 8) THEN
                 ITET4=0
               END IF
-              IF (ITET10.NE.0.AND.IKSNOD0 == 8) THEN
+              IF (ITET10/=0.AND.IKSNOD0 == 8) THEN
                 ITET10=0
               END IF
 c              IF (ITET4 == 1 .AND. IKSNOD0 == 4 .AND. ISSN <= 3) THEN
@@ -588,8 +588,8 @@ C
                      ENDIF
 	     ENDIF
 C          
-          IF(MID.LT.0)THEN
-            IF(MLN == 6.AND.JPOR.NE.2)MLN=17
+          IF(MID<0)THEN
+            IF(MLN == 6.AND.JPOR/=2)MLN=17
             IF(MLN == 46)MLN=47
             MID=ABS(MID)
             IXS(1,II)=MID
@@ -711,14 +711,14 @@ C foam + air
           ELSEIF(JALE == 3 .AND. MLN == 77) THEN
             JLAG=1          
           ENDIF
-          IF(MLN.NE.50)JTUR=NINT(PM(70,MID)) 
+          IF(MLN/=50)JTUR=NINT(PM(70,MID)) 
           JTHE=NINT(PM(71,MID))
 C
 C     Multifluid law
           ISRAT=IPM(3,MID)
           IMATVIS = IPM(216, MID)
           ISSN=0
-          IF(JLAG.NE.0.AND.PID.NE.0)THEN
+          IF(JLAG/=0.AND.PID/=0)THEN
             ISSN=IGEO(5,PID)
 C            IF (ITET4 == 1 .AND. IKSNOD0 == 4 .AND. ISSN /= 0) ISSN=0
           ELSE
@@ -873,7 +873,7 @@ C--------------------
           !---------------------------------!  
 	  IF (JALE+JEUL /= 0) THEN
 
-            IF (JHBE.GE.2.AND.JHBE.NE.24) THEN   !FORMULATION CHECK
+            IF (JHBE>=2.AND.JHBE/=24) THEN   !FORMULATION CHECK
              CALL ANCMSG(MSGID=608,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO_BLIND_1,
@@ -1412,7 +1412,7 @@ c                                        other groups using old buffer
           IPARG(6,NGROUP) = NPT
           IPARG(18,NGROUP)= MID 
           IPARG(20,NGROUP) = 0
-          IF (MLN .EQ. 151) IPARG(20,NGROUP) = IPM(20, MID)
+          IF (MLN == 151) IPARG(20,NGROUP) = IPM(20, MID)
           IPARG(23,NGROUP)= JHBE
           IPARG(24,NGROUP)= JIVF
           IPARG(27,NGROUP)= JPOR
@@ -1434,9 +1434,9 @@ C reperage groupe/processeur
           ELSE
             IPARG(41,NGROUP)=ITET4
           ENDIF
-          IF(MLN.NE.24.AND.MLN.NE.25.AND.MLN.LT.28)THEN
+          IF(MLN/=24.AND.MLN/=25.AND.MLN<28)THEN
           IPARG(44,NGROUP)= ISTRAIN
-          ELSEIF(MLN.GE.28)THEN
+          ELSEIF(MLN>=28)THEN
            ISTRAIN=2
            IPARG(44,NGROUP)=ISTRAIN
           ENDIF
@@ -1473,7 +1473,7 @@ C         flag for vis stress
           IPARG(62,NGROUP)= PID  ! property number
           IPARG(69,NGROUP)= IPARTSPH
 C         flag for group of duplicated elements in multidomains
-          IF (NSUBDOM.GT.0) IPARG(77,NGROUP)= IPARTR2R
+          IF (NSUBDOM>0) IPARG(77,NGROUP)= IPARTR2R
 C         flag for bolt preloading
           IPARG(72,NGROUP)= IBOLTP
 C

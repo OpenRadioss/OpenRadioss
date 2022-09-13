@@ -514,7 +514,7 @@ c
      .    DXX, DXY, DXZ, DYX, DYY, DYZ, DZX, DZY, DZZ, D4, D5, D6,
      .    WXX, WYY, WZZ,LBUF%RHO,RHOO,VOLNP(1,IP),VOLN)
 C           
-         IF(DT1.NE.ZERO)CALL S16SIGS3(
+         IF(DT1/=ZERO)CALL S16SIGS3(
      1    DXX      ,DYY      ,DZZ      ,D4       ,D5       ,D6       ,
      2    RX(1,IP) ,RY(1,IP) ,RZ(1,IP) ,SX(1,IP) ,SY(1,IP) ,SZ(1,IP) ,
      3    TX(1,IP) ,TY(1,IP) ,TZ(1,IP) ,GBUF%EINT,LBUF%VOL,SIGS(1,IP) ,

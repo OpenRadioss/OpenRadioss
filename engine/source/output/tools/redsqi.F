@@ -60,8 +60,8 @@ C-----------------------------------------------
       INTEGER ISTR
 C-----------------------------------------------
       EXTERNAL ISTR
-      IF (L.EQ.0)RETURN
-      IF (MOD(IFORM,5).EQ.1)THEN
+      IF (L==0)RETURN
+      IF (MOD(IFORM,5)==1)THEN
        LREC=10
       ELSE
        LREC=2000
@@ -70,7 +70,7 @@ C
       L1=1
       L2=LREC
    1  L2=MIN(L,L2)
-      IF (MOD(IFORM,5).EQ.1)THEN
+      IF (MOD(IFORM,5)==1)THEN
        READ(IUNIT,'(10A8)') (STR(I),I=1,10)
        DO 100 I=L1,L2
        IA(I)=ISTR(STR(I-L1+1))
@@ -78,7 +78,7 @@ C
       ELSE
        READ(IUNIT) (IA(I),I=L1,L2)
       ENDIF
-      IF(L2.EQ.L)RETURN
+      IF(L2==L)RETURN
       L1=L2+1
       L2=L1+LREC-1
       GOTO 1

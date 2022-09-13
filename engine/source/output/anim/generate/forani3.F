@@ -64,7 +64,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N,K
 C
-      IF(ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT .GT. 0) THEN
+      IF(ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT > 0) THEN
 #include      "vectorize.inc"
         DO N=NODFT,NODLT
           FANI(1,N+NFEA)=FANI(1,N+NFEA) + A(1,N)*MS(N)

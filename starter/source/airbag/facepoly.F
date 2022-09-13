@@ -102,17 +102,17 @@ C Recensement des aretes de triangles
       DO I=1,NTRI
          DO J=1,3
             JJ=J+1
-            IF (J.EQ.3) JJ=1
+            IF (J==3) JJ=1
             J1=TRI(I,J)
             J2=TRI(I,JJ)
             IEDGE=0
             DO K=1,NEDGE
                K1=EDGE(K,1)
                K2=EDGE(K,2)
-               IF ((K1.EQ.J1.AND.K2.EQ.J2).OR.
-     .             (K2.EQ.J1.AND.K1.EQ.J2)) IEDGE=K
+               IF ((K1==J1.AND.K2==J2).OR.
+     .             (K2==J1.AND.K1==J2)) IEDGE=K
             ENDDO
-            IF (IEDGE.EQ.0) THEN
+            IF (IEDGE==0) THEN
                NEDGE=NEDGE+1
                TEDGE(I,J)=NEDGE
                EDGE(NEDGE,1)=J1
@@ -135,11 +135,11 @@ C Calcul des intersections des aretes avec le plan de la facette
          SS1=(X1-A(1))*N(1)+(Y1-A(2))*N(2)+(Z1-A(3))*N(3)
          SS2=(X2-A(1))*N(1)+(Y2-A(2))*N(2)+(Z2-A(3))*N(3)
          EDGE(I,3)=0
-         IF (ABS(SS1).LE.TOLE.OR.ABS(SS2).LE.TOLE) THEN
-            IF (ABS(SS1).LE.TOLE.AND.ABS(SS2).LE.TOLE) CYCLE
-         ELSEIF (SS1.LT.ZERO.AND.SS2.LT.ZERO) THEN
+         IF (ABS(SS1)<=TOLE.OR.ABS(SS2)<=TOLE) THEN
+            IF (ABS(SS1)<=TOLE.AND.ABS(SS2)<=TOLE) CYCLE
+         ELSEIF (SS1<ZERO.AND.SS2<ZERO) THEN
             CYCLE
-         ELSEIF (SS1.GE.ZERO.AND.SS2.GE.ZERO) THEN
+         ELSEIF (SS1>=ZERO.AND.SS2>=ZERO) THEN
             CYCLE
          ENDIF
          X12=X2-X1
@@ -170,14 +170,14 @@ C Calcul des intersections des triangles avec le plan de la facette (segments)
          ELSEG(I,2)=I
          DO J=1,3
             IEDGE=TEDGE(I,J)
-            IF (EDGE(IEDGE,3).EQ.0) CYCLE
+            IF (EDGE(IEDGE,3)==0) CYCLE
             NP=NP+1
             STMP(1,NP)=XEDGE(IEDGE,1)
             STMP(2,NP)=XEDGE(IEDGE,2)
             STMP(3,NP)=XEDGE(IEDGE,3)
             STMP(4,NP)=XEDGE(IEDGE,4)
          ENDDO
-         IF (NP.EQ.0) THEN
+         IF (NP==0) THEN
             SEG(I,1,1)=ZERO
             SEG(I,2,1)=ZERO
             SEG(I,3,1)=ZERO
@@ -185,17 +185,17 @@ C Calcul des intersections des triangles avec le plan de la facette (segments)
             SEG(I,2,2)=ZERO
             SEG(I,3,2)=ZERO
             CYCLE
-         ELSEIF (NP.EQ.3) THEN
+         ELSEIF (NP==3) THEN
             NP=0
             IDBL=0
             DO J=1,3
-               IF (STMP(4,J).LT.ZERO) THEN
+               IF (STMP(4,J)<ZERO) THEN
                   NP=NP+1
                   SEG(I,1,NP)=STMP(1,J)
                   SEG(I,2,NP)=STMP(2,J)
                   SEG(I,3,NP)=STMP(3,J)
-               ELSEIF (STMP(4,J).EQ.ZERO) THEN
-                  IF (IDBL.EQ.0) THEN
+               ELSEIF (STMP(4,J)==ZERO) THEN
+                  IF (IDBL==0) THEN
                      NP=NP+1
                      SEG(I,1,NP)=STMP(1,J)
                      SEG(I,2,NP)=STMP(2,J)
@@ -204,7 +204,7 @@ C Calcul des intersections des triangles avec le plan de la facette (segments)
                   ENDIF
                ENDIF
             ENDDO
-         ELSEIF (NP.EQ.2) THEN
+         ELSEIF (NP==2) THEN
             SEG(I,1,1)=STMP(1,1)
             SEG(I,2,1)=STMP(2,1)
             SEG(I,3,1)=STMP(3,1)
@@ -215,7 +215,7 @@ C Calcul des intersections des triangles avec le plan de la facette (segments)
 C Intersection (eventuelle) de chaque segment avec les aretes de la facette
          DO J=1,4
             NPI=NINTER(J)
-            IF (J.NE.4) THEN
+            IF (J/=4) THEN
                JJ=J+1
             ELSE
                JJ=1
@@ -250,7 +250,7 @@ C Intersection (eventuelle) de chaque segment avec les aretes de la facette
 C
             SS1=XA1P1*NX+YA1P1*NY+ZA1P1*NZ
             SS2=XA1P2*NX+YA1P2*NY+ZA1P2*NZ
-            IF (SS1.GT.ZERO.AND.SS2.GT.ZERO) THEN
+            IF (SS1>ZERO.AND.SS2>ZERO) THEN
                SEG(I,1,1)=ZERO
                SEG(I,2,1)=ZERO
                SEG(I,3,1)=ZERO
@@ -261,20 +261,20 @@ C
             ENDIF
 C
             SS2=X12*NX+Y12*NY+Z12*NZ
-            IF (SS2.EQ.ZERO) CYCLE
+            IF (SS2==ZERO) CYCLE
             ALPHA=-SS1/SS2
-            IF (ALPHA.LT.-TOLEI.OR.ALPHA.GT.ONE+TOLEI) CYCLE
+            IF (ALPHA<-TOLEI.OR.ALPHA>ONE+TOLEI) CYCLE
             XM=X1+ALPHA*X12
             YM=Y1+ALPHA*Y12
             ZM=Z1+ALPHA*Z12
             BETA=((XM-XA1)*XA12+(YM-YA1)*YA12+(ZM-ZA1)*ZA12)
      .          /(XA12**2+YA12**2+ZA12**2)
-            IF (BETA.LT.-TOLEI.OR.BETA.GT.ONE+TOLEI) CYCLE
+            IF (BETA<-TOLEI.OR.BETA>ONE+TOLEI) CYCLE
             SS1=(X1-XA1)*NX+(Y1-YA1)*NY+(Z1-ZA1)*NZ
             SS2=(X2-XA1)*NX+(Y2-YA1)*NY+(Z2-ZA1)*NZ
 C
-            IF (SS1*SS2.GT.ZERO) THEN
-               IF (ABS(SS1).LE.ABS(SS2)) THEN
+            IF (SS1*SS2>ZERO) THEN
+               IF (ABS(SS1)<=ABS(SS2)) THEN
                   SEG(I,1,1)=XM
                   SEG(I,2,1)=YM
                   SEG(I,3,1)=ZM
@@ -283,33 +283,33 @@ C
                   SEG(I,2,2)=YM
                   SEG(I,3,2)=ZM
                ENDIF
-            ELSEIF (SS1*SS2.LT.ZERO) THEN
-               IF (SS1.LT.ZERO) THEN
+            ELSEIF (SS1*SS2<ZERO) THEN
+               IF (SS1<ZERO) THEN
                   SEG(I,1,2)=XM
                   SEG(I,2,2)=YM
                   SEG(I,3,2)=ZM
-               ELSEIF (SS2.LT.ZERO) THEN
+               ELSEIF (SS2<ZERO) THEN
                   SEG(I,1,1)=XM
                   SEG(I,2,1)=YM
                   SEG(I,3,1)=ZM
                ENDIF   
             ELSE     
-               IF (SS1.EQ.ZERO) THEN
-                  IF (SS2.LT.ZERO) THEN
+               IF (SS1==ZERO) THEN
+                  IF (SS2<ZERO) THEN
                      SEG(I,1,1)=XM
                      SEG(I,2,1)=YM
                      SEG(I,3,1)=ZM
-                  ELSEIF (SS2.GE.ZERO) THEN
+                  ELSEIF (SS2>=ZERO) THEN
                      SEG(I,1,2)=XM
                      SEG(I,2,2)=YM
                      SEG(I,3,2)=ZM
                   ENDIF
-               ELSEIF (SS2.EQ.ZERO) THEN
-                  IF (SS1.LT.ZERO) THEN
+               ELSEIF (SS2==ZERO) THEN
+                  IF (SS1<ZERO) THEN
                      SEG(I,1,2)=XM
                      SEG(I,2,2)=YM
                      SEG(I,3,2)=ZM
-                  ELSEIF (SS1.GE.ZERO) THEN
+                  ELSEIF (SS1>=ZERO) THEN
                      SEG(I,1,1)=XM
                      SEG(I,2,1)=YM
                      SEG(I,3,1)=ZM
@@ -330,9 +330,9 @@ C
               NY=NORMT(2,I)
               NZ=NORMT(3,I)
               SS1=XA12*NX+YA12*NY+ZA12*NZ
-              IF (SS1.LE.ZERO) THEN
+              IF (SS1<=ZERO) THEN
                  PINTER(J,NPI,4)=ONE
-              ELSEIF (SS1.GE.ZERO) THEN
+              ELSEIF (SS1>=ZERO) THEN
                  PINTER(J,NPI,4)=-ONE
               ENDIF
            ENDIF
@@ -343,7 +343,7 @@ C
 C
 C Intersection eventuelle des segments internes avec les segments externes
       DO I=1,NTRI
-         IF(TRI(I,5).NE.3) CYCLE
+         IF(TRI(I,5)/=3) CYCLE
          XA1=SEG(I,1,1)
          YA1=SEG(I,2,1)
          ZA1=SEG(I,3,1)
@@ -424,7 +424,7 @@ C SI SS1=SS2=0 les segments sont colineaires (cas non traite)
 C
 C Segments additionels sur aretes
       DO I=1,4
-         IF (I.NE.4) THEN
+         IF (I/=4) THEN
             II=I+1
          ELSE
             II=1
@@ -438,7 +438,7 @@ C Segments additionels sur aretes
          XA12=XA2-XA1
          YA12=YA2-YA1
          ZA12=ZA2-ZA1
-         IF (NINTER(I).EQ.0) CYCLE
+         IF (NINTER(I)==0) CYCLE
 C Tri des points sur les bords de l'arete
          NPI=NINTER(I)
          DO J=1,NPI
@@ -455,7 +455,7 @@ C Tri des points sur les bords de l'arete
             XLREF=XL(REDIR(J))
             DO K=J+1,NPI
                XLC=XL(REDIR(K))
-               IF (XLC.LE.XLREF) THEN
+               IF (XLC<=XLREF) THEN
                   KK=REDIR(K)
                   REDIR(K)=REDIR(J)
                   REDIR(J)=KK
@@ -466,20 +466,20 @@ C Tri des points sur les bords de l'arete
 C Identification des doubles
          DO J=1,NPI
             JJ=REDIR(J)
-            IF (JJ.GT.0) THEN
+            IF (JJ>0) THEN
                X1=PINTER(I,JJ,1)
                Y1=PINTER(I,JJ,2)
                Z1=PINTER(I,JJ,3)
                T1=PINTER(I,JJ,4)
                DO K=J+1,NPI
                   KK=REDIR(K)
-                  IF (KK.GT.0) THEN
+                  IF (KK>0) THEN
                      X2=PINTER(I,KK,1)
                      Y2=PINTER(I,KK,2)
                      Z2=PINTER(I,KK,3)
                      T2=PINTER(I,KK,4)
                      DD=(X2-X1)**2+(Y2-Y1)**2+(Z2-Z1)**2+(T2-T1)**2
-                     IF (DD.LE.TOLE) REDIR(K)=0
+                     IF (DD<=TOLE) REDIR(K)=0
                   ENDIF
                ENDDO
             ENDIF
@@ -487,18 +487,18 @@ C Identification des doubles
 C Elimination des segments de longueur nulle
          DO J=1,NPI
            JJ=REDIR(J)
-           IF (JJ.GT.0) THEN
+           IF (JJ>0) THEN
                X1=PINTER(I,JJ,1)
                Y1=PINTER(I,JJ,2)
                Z1=PINTER(I,JJ,3)
                DO K=J+1,NPI
                   KK=REDIR(K)
-                  IF (KK.GT.0) THEN
+                  IF (KK>0) THEN
                      X2=PINTER(I,KK,1)
                      Y2=PINTER(I,KK,2)
                      Z2=PINTER(I,KK,3)
                      DD=(X2-X1)**2+(Y2-Y1)**2+(Z2-Z1)**2
-                     IF (DD.LE.TOLE) THEN
+                     IF (DD<=TOLE) THEN
                         REDIR(J)=0
                         REDIR(K)=0
 c                       print *,'on ne doit pas passer la non plus...',
@@ -517,14 +517,14 @@ C Condensation du tableau REDIR
          NPI_TMP=NPI
          NPI=0
          DO J=1,NPI_TMP
-            IF (REDIR_TMP(J).GT.0) THEN
+            IF (REDIR_TMP(J)>0) THEN
                NPI=NPI+1
                REDIR(NPI)=REDIR_TMP(J)
             ENDIF
          ENDDO
-         IF (NPI.EQ.0) CYCLE
+         IF (NPI==0) CYCLE
 C Creation des segments sur les aretes
-         IF (PINTER(I,REDIR(1),4).EQ.-ONE) THEN
+         IF (PINTER(I,REDIR(1),4)==-ONE) THEN
             NSEG=NSEG+1
             SEG(NSEG,1,1)=XA1
             SEG(NSEG,2,1)=YA1
@@ -538,7 +538,7 @@ C Creation des segments sur les aretes
          DO J=1,NPI-1
             JJ=REDIR(J)
             JJ1=REDIR(J+1)
-            IF (PINTER(I,JJ,4).EQ.-ONE) CYCLE
+            IF (PINTER(I,JJ,4)==-ONE) CYCLE
             XP1=PINTER(I,JJ,1)
             YP1=PINTER(I,JJ,2)
             ZP1=PINTER(I,JJ,3)
@@ -555,7 +555,7 @@ C Creation des segments sur les aretes
             SEG(NSEG,3,2)=ZP2
             ELSEG(NSEG,2)=ELINTER(I,JJ1)
          ENDDO
-         IF (PINTER(I,REDIR(NPI),4).EQ.ONE) THEN
+         IF (PINTER(I,REDIR(NPI),4)==ONE) THEN
             NSEG=NSEG+1
             SEG(NSEG,1,1)=PINTER(I,REDIR(NPI),1)
             SEG(NSEG,2,1)=PINTER(I,REDIR(NPI),2)
@@ -577,8 +577,8 @@ C Recensement des noeuds
          X2=SEG(I,1,2)
          Y2=SEG(I,2,2)
          Z2=SEG(I,3,2)
-         IF (X1.EQ.ZERO.AND.Y1.EQ.ZERO.AND.Z1.EQ.ZERO.AND.
-     .       X2.EQ.ZERO.AND.Y2.EQ.ZERO.AND.Z2.EQ.ZERO) THEN
+         IF (X1==ZERO.AND.Y1==ZERO.AND.Z1==ZERO.AND.
+     .       X2==ZERO.AND.Y2==ZERO.AND.Z2==ZERO) THEN
             ISEG(1,I)=0
             ISEG(2,I)=0
             ISEG(3,I)=1
@@ -594,11 +594,11 @@ C Recensement des noeuds
             ZZ1=NODE(3,J)
             DD1=(XX1-X1)**2+(YY1-Y1)**2+(ZZ1-Z1)**2
             DD2=(XX1-X2)**2+(YY1-Y2)**2+(ZZ1-Z2)**2
-            IF (DD1.LE.TOLE) ID1=J
-            IF (DD2.LE.TOLE) ID2=J
+            IF (DD1<=TOLE) ID1=J
+            IF (DD2<=TOLE) ID2=J
          ENDDO
          LL=(X2-X1)**2+(Y2-Y1)**2+(Z2-Z1)**2
-         IF (ID1.EQ.0) THEN
+         IF (ID1==0) THEN
             NNO=NNO+1
             NODE(1,NNO)=X1
             NODE(2,NNO)=Y1
@@ -606,8 +606,8 @@ C Recensement des noeuds
             ELNODE(NNO)=ELSEG(I,1)
             ID1=NNO
          ENDIF
-         IF (LL.LE.TOLE) ID2=ID1
-         IF (ID2.EQ.0) THEN
+         IF (LL<=TOLE) ID2=ID1
+         IF (ID2==0) THEN
             NNO=NNO+1
             NODE(1,NNO)=X2
             NODE(2,NNO)=Y2
@@ -618,7 +618,7 @@ C Recensement des noeuds
          ISEG(1,I)=ID1
          ISEG(2,I)=ID2
          ISEG(3,I)=0
-         IF (ID1.EQ.ID2) ISEG(3,I)=1
+         IF (ID1==ID2) ISEG(3,I)=1
          IF(ELSEG(I,1) == ELSEG(I,2)) THEN
             IF(TRI(ELSEG(I,1),5) == 3) THEN
 C Segment sur triangle interne
@@ -639,20 +639,20 @@ C Segment sur arete de boite
 C
 C Elimination des segments doubles
       DO I=1,NSEG
-         IF (ISEG(3,I).EQ.1) CYCLE
+         IF (ISEG(3,I)==1) CYCLE
          ID1=ISEG(1,I)
          ID2=ISEG(2,I)
          DO J=I+1,NSEG
-            IF ((ISEG(1,J).EQ.ID1.AND.ISEG(2,J).EQ.ID2).OR.
-     .          (ISEG(1,J).EQ.ID2.AND.ISEG(2,J).EQ.ID1)) ISEG(3,J)=1
+            IF ((ISEG(1,J)==ID1.AND.ISEG(2,J)==ID2).OR.
+     .          (ISEG(1,J)==ID2.AND.ISEG(2,J)==ID1)) ISEG(3,J)=1
          ENDDO
       ENDDO
 C
       NSEGF=0
       DO I=1,NSEG
-         IF (ISEG(3,I).EQ.0) NSEGF=NSEGF+1
+         IF (ISEG(3,I)==0) NSEGF=NSEGF+1
       ENDDO
-      IF (NSEGF.LE.1) RETURN
+      IF (NSEGF<=1) RETURN
 C
       IF(ALGO == 0) THEN
 C-----------------------------
@@ -668,14 +668,14 @@ C
            ISEG3_OLD(I)=ISEG(3,I)
         ENDDO
 C
-        DO WHILE (ISTOP.EQ.0)
+        DO WHILE (ISTOP==0)
            I=1
-           IF(I .LE. NSEG) THEN
-             DO WHILE (ISEG(3,I).EQ.1.AND.I.LE.NSEG)
+           IF(I <= NSEG) THEN
+             DO WHILE (ISEG(3,I)==1.AND.I<=NSEG)
                 I=I+1
              ENDDO
            ENDIF
-           IF (I.EQ.NSEG+1) THEN
+           IF (I==NSEG+1) THEN
               ISTOP=1
               CYCLE
            ENDIF
@@ -692,21 +692,21 @@ C
            ITAGSEG(ISSEG)=I0
            ICLOSE=0
            NOK = 0
-           DO WHILE (ICLOSE.EQ.0.AND.I.LT.NSEG)
+           DO WHILE (ICLOSE==0.AND.I<NSEG)
               I=I+1
               INEXT=0
               DO J=1,NSEG
-                 IF (J.EQ.ISSEG.OR.ISEG(3,J).EQ.1.OR.INEXT.NE.0) CYCLE
+                 IF (J==ISSEG.OR.ISEG(3,J)==1.OR.INEXT/=0) CYCLE
                  ID1=ISEG(1,J)
                  ID2=ISEG(2,J)
-                 IF (ID1.EQ.ISEG(IPSEG,ISSEG)) THEN
+                 IF (ID1==ISEG(IPSEG,ISSEG)) THEN
                     INEXT=1
                     ISSEG=J
                     IPSEG=2
                     I0=I0+1
                     ITAG(ISEG(1,ISSEG))=I0
                     ITAGSEG(J)=I0
-                 ELSEIF (ID2.EQ.ISEG(IPSEG,ISSEG)) THEN
+                 ELSEIF (ID2==ISEG(IPSEG,ISSEG)) THEN
                     INEXT=1
                     ISSEG=J
                     IPSEG=1
@@ -715,34 +715,34 @@ C
                     ITAGSEG(J)=-I0
                  ENDIF
               ENDDO
-              IF (INEXT.EQ.0) THEN
+              IF (INEXT==0) THEN
                  ISEG(3,ISSEG)=1
                  I=NSEG
                  NOK = 1
               ELSE
                  NN=ITAG(ISEG(IPSEG,ISSEG))
-                 IF (NN.NE.0) ICLOSE=NN
+                 IF (NN/=0) ICLOSE=NN
               ENDIF
            ENDDO
-           IF (ICLOSE.NE.0) THEN
+           IF (ICLOSE/=0) THEN
               NPOLY=NPOLY+1
               IADPOLY(NPOLY)=NP
               IAD=NP
               DO J=1,NSEG
                  JJ=ITAGSEG(J)
-                 IF (ABS(JJ).GE.ICLOSE) THEN
+                 IF (ABS(JJ)>=ICLOSE) THEN
                     NP=NP+1
                     POLY(1,IAD+ABS(JJ)-ICLOSE+1)=J
-                    IF (JJ.GT.0) THEN
+                    IF (JJ>0) THEN
                        POLY(2,IAD+ABS(JJ)-ICLOSE+1)=2
-                    ELSEIF (JJ.LT.0) THEN
+                    ELSEIF (JJ<0) THEN
                        POLY(2,IAD+ABS(JJ)-ICLOSE+1)=1
                     ENDIF
                     ISEG(3,J)=1
                  ENDIF
               ENDDO
               LENPOLY(NPOLY)=NP-IADPOLY(NPOLY)
-           ELSEIF(NOK.EQ.0.AND.ISSEGOLD.EQ.ISSEG)THEN
+           ELSEIF(NOK==0.AND.ISSEGOLD==ISSEG)THEN
                  ISEG(3,ISSEG)=1            
 c            print *,'cycle corrige !!!',ISSEG,i,NSEG
 c            stop 204
@@ -753,7 +753,7 @@ C
            DO J=1,NSEG
               IDIFF=MAX(IDIFF,ABS(ISEG3_OLD(J)-ISEG(3,J)))
            ENDDO
-           IF (IDIFF.EQ.0) THEN
+           IF (IDIFF==0) THEN
               WRITE(ISTDO,*)
               WRITE(ISTDO,'(A25,I8,A25)') 
      .    ' ** MONITORED VOLUME ID: ',MVID,' - INFINITE LOOP DETECTED'
@@ -763,10 +763,10 @@ C
      .    '    CUTTING BRICK NUMBER: ',NB,' - FACE NUMBER: ',IFAC
               CALL ARRET(2)
            ENDIF
-        ENDDO  ! DO WHILE (ISTOP.EQ.0)
+        ENDDO  ! DO WHILE (ISTOP==0)
 C
         INFO=0
-        IF (NPOLY.GT.NPOLMAX) THEN
+        IF (NPOLY>NPOLMAX) THEN
            NPOLMAX=NPOLY
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--            
            IF(ILVOUT >=1) WRITE(IOUT,'(A,I10,A,I10)') 
@@ -777,13 +777,13 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
         DO I=1,NPOLY
            LENMAX=MAX(LENMAX,LENPOLY(I))
         ENDDO
-        IF (LENMAX.GT.NPPMAX) THEN
+        IF (LENMAX>NPPMAX) THEN
            NPPMAX=LENMAX
            IF(ILVOUT >=1) WRITE(IOUT,'(A,I10,A,I10)') 
      .       ' MONITORED VOLUME ID: ',MVID,' NPPMAX  IS RESET TO ',LENMAX
            INFO=1
         ENDIF
-        IF (INFO.EQ.1) RETURN
+        IF (INFO==1) RETURN
         NNP=NPOLY
 C
       ELSE
@@ -1381,12 +1381,12 @@ C
            DO J=1,NSEG
               IF (JTAG(1,J) == I .OR. JTAG(2,J) == I) II=II+1
             ENDDO
-           IF (II.NE.0) THEN
+           IF (II/=0) THEN
              NPOLY=NPOLY+1
              LENPOLY(NPOLY)=II
            ENDIF
         ENDDO
-        IF (NPOLY.GT.NPOLMAX) THEN
+        IF (NPOLY>NPOLMAX) THEN
            NPOLMAX=NPOLY
            IF(ILVOUT >=1) WRITE(IOUT,'(A,I10,A,I10)') 
      .     ' MONITORED VOLUME ID: ',MVID,' NLAYER  IS RESET TO ',NPOLY
@@ -1396,13 +1396,13 @@ C
         DO I=1,NPOLY
            LENMAX=MAX(LENMAX,LENPOLY(I))
         ENDDO
-        IF (LENMAX.GT.NPPMAX) THEN
+        IF (LENMAX>NPPMAX) THEN
            NPPMAX=LENMAX
            IF(ILVOUT >=1) WRITE(IOUT,'(A,I10,A,I10)') 
      .     ' MONITORED VOLUME ID: ',MVID,' NPPMAX  IS RESET TO ',LENMAX
            INFO=1
         ENDIF
-        IF (INFO.EQ.1) RETURN
+        IF (INFO==1) RETURN
 C
         NNP=NPOLY
         NPOLY=0
@@ -1412,7 +1412,7 @@ C
            DO J=1,NSEG
               IF (JTAG(1,J) == I .OR. JTAG(2,J) == I) II=II+1
            ENDDO
-           IF (II.NE.0) THEN
+           IF (II/=0) THEN
               NPOLY=NPOLY+1
               LENPOLY(NPOLY)=II
               DO J=1,NSEG
@@ -1525,14 +1525,14 @@ C
          ENDDO
 C
          DO J=1,NPOLY
-            IF (I.EQ.J) CYCLE
+            IF (I==J) CYCLE
             ALPHA=ZERO
             X1=RPOLY(5,J)
             Y1=RPOLY(6,J)
             Z1=RPOLY(7,J)
             DO K=1,LENPOLY(I)
                KK=K+1
-               IF (K.EQ.LENPOLY(I)) KK=1
+               IF (K==LENPOLY(I)) KK=1
                XX1=RPOLY(4+3*(K-1)+1,I)
                YY1=RPOLY(4+3*(K-1)+2,I)
                ZZ1=RPOLY(4+3*(K-1)+3,I)
@@ -1564,15 +1564,15 @@ C
                VVY=VZ1*VX2-VX1*VZ2
                VVZ=VX1*VY2-VY1*VX2
                SS1=N(1)*VVX+N(2)*VVY+N(3)*VVZ
-               IF (SS1.GT.ZERO) THEN
+               IF (SS1>ZERO) THEN
                   ALPHA=ALPHA+ACOS(SS)
-               ELSEIF(SS1.LT.ZERO) THEN
+               ELSEIF(SS1<ZERO) THEN
                   ALPHA=ALPHA-ACOS(SS)
                ENDIF
             ENDDO
 C
-            IF (ABS(ALPHA).LT.TWO*PI) CYCLE
-C            IF (ABS(ALPHA).GE.ONE) THEN
+            IF (ABS(ALPHA)<TWO*PI) CYCLE
+C            IF (ABS(ALPHA)>=ONE) THEN
 C Le premier point du polygone i est a l'interieur du polygone j
 C Un point est interne si ABS(ALPHA)=2PI!
 C On teste tous les autres
@@ -1584,7 +1584,7 @@ C On teste tous les autres
                   ALPHA=ZERO
                   DO M=1,LENPOLY(I)
                      MM=M+1
-                     IF (M.EQ.LENPOLY(I)) MM=1
+                     IF (M==LENPOLY(I)) MM=1
                      XX1=RPOLY(4+3*(M-1)+1,I)
                      YY1=RPOLY(4+3*(M-1)+2,I)
                      ZZ1=RPOLY(4+3*(M-1)+3,I)
@@ -1616,22 +1616,22 @@ C On teste tous les autres
                      VVY=VZ1*VX2-VX1*VZ2
                      VVZ=VX1*VY2-VY1*VX2
                      SS1=N(1)*VVX+N(2)*VVY+N(3)*VVZ
-                     IF (SS1.GT.ZERO) THEN
+                     IF (SS1>ZERO) THEN
                         ALPHA=ALPHA+ACOS(SS)
-                     ELSEIF(SS1.LT.ZERO) THEN
+                     ELSEIF(SS1<ZERO) THEN
                         ALPHA=ALPHA-ACOS(SS)
                      ENDIF
                   ENDDO
-C                  IF (ABS(ALPHA).LT.ONE) IPOUT=1
-                  IF (ABS(ALPHA).LT.TWO*PI) IPOUT=1
+C                  IF (ABS(ALPHA)<ONE) IPOUT=1
+                  IF (ABS(ALPHA)<TWO*PI) IPOUT=1
                ENDDO
 C
-               IF (IPOUT.EQ.1) CYCLE
+               IF (IPOUT==1) CYCLE
 C Le polygone j est un trou dans le polygone i
                IPOLY(1,J)=-1
                NHOL=NHOL+1
                IADHOL(NHOL)=LENPOLY(I)
-               IF (LENPOLY(I)+LENPOLY(J).GT.NPPMAX) THEN
+               IF (LENPOLY(I)+LENPOLY(J)>NPPMAX) THEN
                   NPPMAX=LENPOLY(I)+LENPOLY(J)
                   IF(ILVOUT >=1) WRITE(IOUT,'(A,I10,A,I10)') 
      .                            ' MONITORED VOLUME ID: ',MVID,
@@ -1684,27 +1684,27 @@ C Point interieur polygone j
                   VVZ=ZZ-Z1
                   XLOC(1,K)=VVX*VX1+VVY*VY1+VVZ*VZ1
                   XLOC(2,K)=VVX*VX2+VVY*VY2+VVZ*VZ2
-                  IF (XLOC(2,K).LT.YLMIN) YLMIN=XLOC(2,K)
-                  IF (XLOC(2,K).GT.YLMAX) YLMAX=XLOC(2,K)
+                  IF (XLOC(2,K)<YLMIN) YLMIN=XLOC(2,K)
+                  IF (XLOC(2,K)>YLMAX) YLMAX=XLOC(2,K)
                ENDDO
                YLSEC=HALF*(YLMIN+YLMAX)
 C
                NSEC=0
                DO K=1,LENPOLY(J)
                   KK=K+1
-                  IF (K.EQ.LENPOLY(J)) KK=1
+                  IF (K==LENPOLY(J)) KK=1
                   X1=XLOC(1,K)
                   Y1=XLOC(2,K)
                   X2=XLOC(1,KK)
                   Y2=XLOC(2,KK)
-                  IF (Y1-Y2.NE.ZERO) THEN
+                  IF (Y1-Y2/=ZERO) THEN
                      ALPHA=(YLSEC-Y2)/(Y1-Y2)
-                     IF (ALPHA.GE.ZERO.AND.ALPHA.LE.ONE) THEN
+                     IF (ALPHA>=ZERO.AND.ALPHA<=ONE) THEN
                         NSEC=NSEC+1
                         XSEC(NSEC)=ALPHA*X1+(ONE-ALPHA)*X2
                      ENDIF
                   ELSE
-                     IF (Y1.EQ.YLSEC) THEN
+                     IF (Y1==YLSEC) THEN
                         NSEC=NSEC+1
                         XSEC(NSEC)=X1
                         NSEC=NSEC+1
@@ -1715,15 +1715,15 @@ C
 C
                XSMIN1=EP30
                DO K=1,NSEC
-                  IF (XSEC(K).LT.XSMIN1) THEN
+                  IF (XSEC(K)<XSMIN1) THEN
                      XSMIN1=XSEC(K)
                      KSMIN=K
                   ENDIF
                ENDDO
                XSMIN2=EP30
                DO K=1,NSEC
-                  IF (K.EQ.KSMIN) CYCLE
-                  IF (XSEC(K).LT.XSMIN2) XSMIN2=XSEC(K)
+                  IF (K==KSMIN) CYCLE
+                  IF (XSEC(K)<XSMIN2) XSMIN2=XSEC(K)
                ENDDO
 C
                XS=HALF*(XSMIN1+XSMIN2)
@@ -1734,7 +1734,7 @@ C
 C            ENDIF
          ENDDO
 C
-         IF (INFO.EQ.0) THEN
+         IF (INFO==0) THEN
             IPOLY(2,I)=LENPOLY(I)
             IPOLY(6+LENPOLY(I)+1,I)=NHOL
             DO J=1,NHOL

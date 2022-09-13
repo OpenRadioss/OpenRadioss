@@ -225,7 +225,7 @@ C     PRESSURE
 C-------------------------------
       DO I=1,NEL
          PNEW(I)=K1*MU(I)+DELTAP(I)
-         IF(MU(I).GT.ZERO) THEN
+         IF(MU(I)>ZERO) THEN
            PNEW(I)=PNEW(I)+K2*MU2(I)+K3*MU2(I)*MU(I)
          ELSE
            PMIN=-TSTAR*PHEL*(ONE-DAMAGE(I))
@@ -253,7 +253,7 @@ C
            SIGYF(I) = ZERO
          ENDIF
 C
-         IF(EPSD(I).LE.EPS0) THEN
+         IF(EPSD(I)<=EPS0) THEN
            CE = ONE
          ELSE
            CE = ONE + CC*LOG(EPSD(I)/EPS0)

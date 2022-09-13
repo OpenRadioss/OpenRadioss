@@ -148,13 +148,13 @@ C-----------------------------------------------------------------------
 C-----------------------------------------------------------------------
 C       test si dans la boite   
 C-----------------------------------------------------------------------
-        IF(LE .GT.0.AND.LES.GT.0.AND.
-     .           EMINXS(4,LES).GT.EMINX(1,LE).AND.
-     .           EMINXS(5,LES).GT.EMINX(2,LE).AND.
-     .           EMINXS(6,LES).GT.EMINX(3,LE).AND.
-     .           EMINXS(1,LES).LT.EMINX(4,LE).AND.
-     .           EMINXS(2,LES).LT.EMINX(5,LE).AND.
-     .           EMINXS(3,LES).LT.EMINX(6,LE))THEN
+        IF(LE >0.AND.LES>0.AND.
+     .           EMINXS(4,LES)>EMINX(1,LE).AND.
+     .           EMINXS(5,LES)>EMINX(2,LE).AND.
+     .           EMINXS(6,LES)>EMINX(3,LE).AND.
+     .           EMINXS(1,LES)<EMINX(4,LE).AND.
+     .           EMINXS(2,LES)<EMINX(5,LE).AND.
+     .           EMINXS(3,LES)<EMINX(6,LE))THEN
 c
 c      print *, "dans la boite",XMIN,XMAX,YMIN,YMAX,ZMIN,ZMAX
 c
@@ -195,7 +195,7 @@ c
 C-----------------------------------------------------------------------
 C     calcul de  [L] par paquet de mvsiz   
 C-----------------------------------------------------------------------
-          IF(LLT.EQ.MVSIZ-1)THEN
+          IF(LLT==MVSIZ-1)THEN
             CALL I17LLL(
      1       LLT ,LLL       ,JLL       ,SLL       ,XLL     ,V       ,
      2       XX  ,YY        ,ZZ        ,III       ,NC      ,IADLL   ,
@@ -213,7 +213,7 @@ c debug
 C-----------------------------------------------------------------------
 C     calcul de  [L] pour dernier paquet   
 C-----------------------------------------------------------------------	
-      IF(LLT.NE.0) CALL I17LLL(
+      IF(LLT/=0) CALL I17LLL(
      1       LLT ,LLL       ,JLL       ,SLL       ,XLL     ,V       ,
      2       XX  ,YY        ,ZZ        ,III       ,NC      ,IADLL   ,
      3       N_MUL_MX ,A    ,X         ,ITIED     ,NINT    ,NKMAX   ,
@@ -319,7 +319,7 @@ C-----------------------------------------------
 C      choix face 1 2 3 4 face 5 6 7 8 cote second
 C-----------------------------------------------
       DO I=1,LLT
-        IF(ABS(SI_S(I,1)).LE.ABS(SI_S(I,2)))THEN
+        IF(ABS(SI_S(I,1))<=ABS(SI_S(I,2)))THEN
 C         face 1 2 3 4
           S_CS(I) = -ONE
         ELSE
@@ -390,7 +390,7 @@ C-----------------------------------------------
 C      choix face 1 2 3 4 face 5 6 7 8 cote main
 C-----------------------------------------------
       DO I=1,LLT
-        IF(S_CM(I).LE.0.)THEN
+        IF(S_CM(I)<=0.)THEN
 C         face 1 2 3 4
           III(I,5) = III(I,9)
           III(I,6) = III(I,10)
@@ -436,7 +436,7 @@ c      DO I=1,LLT
 c        VV = MIN(VV,VIT(I))
 c      ENDDO
 c      DO I=1,LLT
-c        IF(VV.EQ.VIT(I))THEN
+c        IF(VV==VIT(I))THEN
 c          VV=1.
 c        ELSE
 c          ICONT(I,1)=0
@@ -445,7 +445,7 @@ c      ENDDO
 c tmp !!!!!!!!!!!!!!!!!!!!!!!!!!!
 c      DO I=1,LLT
 c        PENE = 1. - ABS(S_CM(I))
-c        IF(ICONT(I,1).EQ.1.AND.PENE.GT.PENE_MAX)THEN
+c        IF(ICONT(I,1)==1.AND.PENE>PENE_MAX)THEN
 c          PENE_MAX = PENE
 c          NC = NC_SAV
 c          J  = I
@@ -456,10 +456,10 @@ c      ICONT(J,1) = 1
 #include "lockon.inc"
       J=0
       DO I=1,LLT
-        IF(VIT(I).LT.VIT_MIN.OR.
-     .    (VIT(I).EQ.VIT_MIN.AND.
-     .          (IE(I).LT.IE_MIN.OR.
-     .          (IE(I).EQ.IE_MIN.AND.IES(I).LT.IES_MIN))))THEN
+        IF(VIT(I)<VIT_MIN.OR.
+     .    (VIT(I)==VIT_MIN.AND.
+     .          (IE(I)<IE_MIN.OR.
+     .          (IE(I)==IE_MIN.AND.IES(I)<IES_MIN))))THEN
           VIT_MIN = VIT(I)
           IE_MIN  = IE(I)
           IES_MIN = IES(I)
@@ -469,7 +469,7 @@ c      ICONT(J,1) = 1
         ENDIF
         ICONT(I,1) = 0
       ENDDO
-      IF(J.NE.0)THEN
+      IF(J/=0)THEN
         ICONT(J,1) = ICON
 cc	print *,ITASK,':',VIT(J),IE(J),IES(J),NC,J,ICON
       ENDIF
@@ -481,7 +481,7 @@ C-----------------------------------------------------------------------
      3             IADLL     ,III    ,IIIS   ,NI_M   ,NI_S   ,
      4             NX        ,NY     ,NZ     ,VIT    ,COMNTAG,
      5             ICONT(1,1),R_CM   ,T_CM   ,R_S    ,T_S    )
-c      IF(J.NE.0)THEN
+c      IF(J/=0)THEN
 c        do i=1,nc*16
 c	print *,ITASK,':',i,':',LLL(i),JLL(i),XLL(i)
 c	enddo
@@ -550,7 +550,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       test si contact
 C-----------------------------------------------
-        IF(ICONT(I).NE.0)THEN
+        IF(ICONT(I)/=0)THEN
 C
           VX = ZERO
           VY = ZERO
@@ -574,7 +574,7 @@ c
 C-----------------------------------------------
 C         test si vitesse entrante en s
 C-----------------------------------------------
-          IF(SM(I)*VN.LE.VIT(I))THEN
+          IF(SM(I)*VN<=VIT(I))THEN
 c
 c      print *, "vitesse entrante",vn
 c      print *, "s = ",S(I)
@@ -650,21 +650,21 @@ C-----------------------------------------------
       my_real
      .   VX,VY,VZ,VN,AA
 C-----------------------------------------------
-      IF(ITIED.EQ.0)THEN
+      IF(ITIED==0)THEN
        DO I=1,LLT
 C-----------------------------------------------
 C       test si contact
 C-----------------------------------------------
-        IF(ICONT(I).NE.0)THEN
+        IF(ICONT(I)/=0)THEN
 C
            NK = 16
             NC=NC+1
-            IF(NC.GT.N_MUL_MX)THEN
+            IF(NC>N_MUL_MX)THEN
               CALL ANCMSG(MSGID=89,ANMODE=ANINFO)
               CALL ARRET(2)
             ENDIF
             IADLL(NC+1)=IADLL(NC) + 48
-            IF(IADLL(NC+1)-1.GT.NKMAX)THEN
+            IF(IADLL(NC+1)-1>NKMAX)THEN
               CALL ANCMSG(MSGID=89,ANMODE=ANINFO)
               CALL ARRET(2)
             ENDIF
@@ -701,7 +701,7 @@ C
 c#include "lockoff.inc"
         ENDIF
        ENDDO
-      ELSEIF(ITIED.EQ.1)THEN
+      ELSEIF(ITIED==1)THEN
 C-----------------------------------------------
 C      ITIED = 1
 C-----------------------------------------------
@@ -709,14 +709,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       test si contact
 C-----------------------------------------------
-        IF(ICONT(I).NE.0)THEN
+        IF(ICONT(I)/=0)THEN
 C
            NK = 16
-            IF(NC+3.GT.N_MUL_MX)THEN
+            IF(NC+3>N_MUL_MX)THEN
               CALL ANCMSG(MSGID=89,ANMODE=ANINFO)
               CALL ARRET(2)
             ENDIF
-            IF(IADLL(NC+1)-1+16*3.GT.NKMAX)THEN
+            IF(IADLL(NC+1)-1+16*3>NKMAX)THEN
               CALL ANCMSG(MSGID=89,ANMODE=ANINFO)
               CALL ARRET(2)
             ENDIF
@@ -1120,7 +1120,7 @@ c------------------------------------------------
           DD2  = B2(I) + B4T + B5R + B5R
           DD3  = B3(I) + B4(I) * R_CS(I)
           D    = DD3 * CC2 - CC3 * DD2 
-          IF(ABS(D).LT.EM20)THEN
+          IF(ABS(D)<EM20)THEN
             CC2 = CC2 + EM10
             DD3 = DD3 + EM10
             D   = DD3 * CC2 - CC3 * DD2 
@@ -1158,7 +1158,7 @@ C
       ENDDO
 c
       DO I=1,LLT
-          IF(S_CM(I).GT.ZERO)THEN
+          IF(S_CM(I)>ZERO)THEN
             B1(I) = B1(I) - ONE
             C1(I) = C1(I) - ONE
           ELSE
@@ -1219,13 +1219,13 @@ c-----------------------------------------------------------------------
       EPS = EM3
       DO I=1,LLT
         D = B1(I) + (B2(I) + B3(I)*R_1S(I)) * R_1S(I)
-        IF(D.LT.-ONE-EPS.OR.D.GT.ONE+EPS) ICONT(I,1)=0
+        IF(D<-ONE-EPS.OR.D>ONE+EPS) ICONT(I,1)=0
         D = B1(I) + (B2(I) + B3(I)*R_2S(I)) * R_2S(I)
-        IF(D.LT.-ONE-EPS.OR.D.GT.ONE+EPS) ICONT(I,2)=0
+        IF(D<-ONE-EPS.OR.D>ONE+EPS) ICONT(I,2)=0
         D = C1(I) + (C2(I) + C3(I)*T_1S(I)) * T_1S(I)
-        IF(D.LT.-ONE-EPS.OR.D.GT.ONE+EPS) ICONT(I,3)=0
+        IF(D<-ONE-EPS.OR.D>ONE+EPS) ICONT(I,3)=0
         D = C1(I) + (C2(I) + C3(I)*T_2S(I)) * T_2S(I)
-        IF(D.LT.-ONE-EPS.OR.D.GT.ONE+EPS) ICONT(I,4)=0
+        IF(D<-ONE-EPS.OR.D>ONE+EPS) ICONT(I,4)=0
 c        R_CS(I) = ICONT(I,1)*R_1S(I) + ICONT(I,2)*R_2S(I) +  
 c     +            ICONT(I,3)*R_CS(I) + ICONT(I,4)*R_CS(I)
 c        T_CS(I) = ICONT(I,1)*T_CS(I) + ICONT(I,2)*T_CS(I) +  
@@ -1236,7 +1236,7 @@ cc        T_CM(I) = ICONT(I,1)*T_1M(I) + ICONT(I,2)*T_2M(I) +
 cc     +            ICONT(I,3)*T_3S(I) + ICONT(I,4)*T_4S(I)
 c        ICONT(I,1) = ICONT(I,1) + ICONT(I,2) +  
 c     +               ICONT(I,3) + ICONT(I,4)
-c        IF(ICONT(I,1).NE.0)THEN
+c        IF(ICONT(I,1)/=0)THEN
 c          R_CS(I) = R_CS(I) / ICONT(I,1) 
 c          T_CS(I) = T_CS(I) / ICONT(I,1) 
 c          ICONT(I,1) = 1 
@@ -1374,15 +1374,15 @@ c
 C
       DO I=1,LLT
         D =  B(I)*B(I) - FOUR*A(I)*C(I) 
-        IF(ABS(A(I)).LT.EM20)THEN
-          IF(ABS(B(I)).LT.EM20)THEN
+        IF(ABS(A(I))<EM20)THEN
+          IF(ABS(B(I))<EM20)THEN
             R1(I) = -ONE
             R2(I) =  ONE
           ELSE
             R1(I) = -C(I) / B(I)
             R2(I) = B(I) / ABS(B(I))
           ENDIF
-        ELSEIF(D.LT.ZERO)THEN
+        ELSEIF(D<ZERO)THEN
             R1(I) = -ONE
             R2(I) =  ONE	    
         ELSE
@@ -1437,9 +1437,9 @@ c  1.1: borne <r1,t> et <r,t1> a +-1 sur le main
 c-----------------------------------------------------------------------
         DO I=1,LLT
           RS(I) = C(I) + ( B(I) + A(I)*R_S(I) )*R_S(I)
-          IF(RS(I).GT.ONE)THEN
+          IF(RS(I)>ONE)THEN
             CC(I) = C(I) - ONE
-          ELSEIF(RS(I).LT.-ONE)THEN
+          ELSEIF(RS(I)<-ONE)THEN
             CC(I) = C(I) + ONE
           ELSE 
             CC(I) = ONE
@@ -1451,22 +1451,22 @@ c
         CALL I17RACINE(LLT,A,B,CC,R1,R2)
 c
         DO I=1,LLT
-          IF(RS(I).GT.ONE.OR.RS(I).LT.-ONE)THEN
+          IF(RS(I)>ONE.OR.RS(I)<-ONE)THEN
             RS1 = C(I) + ( B(I) + A(I)*R1(I) )*R1(I)
             RS2 = C(I) + ( B(I) + A(I)*R2(I) )*R2(I)
-            IF(RS1.GE.-ONE.AND.RS1.LE.ONE.AND.
-     +         RS2.GE.-ONE.AND.RS2.LE.ONE)THEN
-              IF(ABS(RS(I)-R1(I)).LT.ABS(RS(I)-R2(I)))THEN
+            IF(RS1>=-ONE.AND.RS1<=ONE.AND.
+     +         RS2>=-ONE.AND.RS2<=ONE)THEN
+              IF(ABS(RS(I)-R1(I))<ABS(RS(I)-R2(I)))THEN
                 R_S(I) = R1(I)
                 RS(I)  = RS1
               ELSE
                 R_S(I) = R2(I)
                 RS(I)  = RS2
               ENDIF
-            ELSEIF(RS1.GE.-ONE.AND.RS1.LE.ONE)THEN
+            ELSEIF(RS1>=-ONE.AND.RS1<=ONE)THEN
                 R_S(I) = R1(I)
                 RS(I)  = RS1
-            ELSEIF(RS2.GE.-ONE.AND.RS2.LE.ONE)THEN
+            ELSEIF(RS2>=-ONE.AND.RS2<=ONE)THEN
                 R_S(I) = R2(I)
                 RS(I)  = RS2
             ELSE

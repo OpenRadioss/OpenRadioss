@@ -98,7 +98,7 @@ C-----------------------------------------------
         DO NG = NGF, NGL
          ITY   =IPARG(5,NG)
          GBUF => ELBUF_TAB(NG)%GBUF
-         IF(ITY.EQ.6) THEN
+         IF(ITY==6) THEN
            NEL   =IPARG(2,NG)
            NFT   =IPARG(3,NG)
            IAD   =IPARG(4,NG)
@@ -106,8 +106,8 @@ C-----------------------------------------------
            LLT=NEL 
            DO I=LFT,LLT
              JJ = JJ + 1
-             IF (NBX.EQ.1)WA(JJ) = GBUF%OFF(I)
-cc             IF (NBX.EQ.1)WA(JJ) = BUFEL((IAD-1)+ I) 
+             IF (NBX==1)WA(JJ) = GBUF%OFF(I)
+cc             IF (NBX==1)WA(JJ) = BUFEL((IAD-1)+ I) 
            ENDDO 
          ENDIF  
         ENDDO 
@@ -126,7 +126,7 @@ cc             IF (NBX.EQ.1)WA(JJ) = BUFEL((IAD-1)+ I)
         ENDDO
        ENDIF
 !     ++++++++++
-       IF(ISPMD.EQ.0) THEN
+       IF(ISPMD==0) THEN
          RESP0 = 0 
          DO NN=1,NSPGROUP
           COMPTEUR = 0
@@ -140,11 +140,11 @@ cc             IF (NBX.EQ.1)WA(JJ) = BUFEL((IAD-1)+ I)
           ENDDO    ! k=1,nspmd
 
           JJ_OLD = COMPTEUR+RESP0
-          IF(JJ_OLD.GT.0) THEN
+          IF(JJ_OLD>0) THEN
            RES=MOD(JJ_OLD,6)
            WRTLEN=JJ_OLD-RES
-           IF (WRTLEN.GT.0) THEN
-            IF (OUTYY_FMT.EQ.2) THEN
+           IF (WRTLEN>0) THEN
+            IF (OUTYY_FMT==2) THEN
              WRITE(IUGEO,'(1P6E12.5)')(WAP0(J),J=1,WRTLEN)
             ELSE
              WRITE(IUGEO,'(1P6E20.13)')(WAP0(J),J=1,WRTLEN)
@@ -156,8 +156,8 @@ cc             IF (NBX.EQ.1)WA(JJ) = BUFEL((IAD-1)+ I)
            RESP0=RES
           ENDIF        ! if(jj_old>0)
          ENDDO         ! nn=1,nspgroup
-         IF (RESP0.GT.0) THEN
-          IF (OUTYY_FMT.EQ.2) THEN
+         IF (RESP0>0) THEN
+          IF (OUTYY_FMT==2) THEN
             WRITE(IUGEO,'(1P6E12.5)')(WAP0(J),J=1,RESP0)
           ELSE
             WRITE(IUGEO,'(1P6E20.13)')(WAP0(J),J=1,RESP0)

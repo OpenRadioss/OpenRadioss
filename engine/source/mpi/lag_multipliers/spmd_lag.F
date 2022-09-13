@@ -64,8 +64,8 @@ C-----------------------------------------------
 
        LOC_PROC = ISPMD+1
          
-       IF (ISPMD.NE.0) THEN
-        IF(FR_LAGF(1,LOC_PROC).GT.0) THEN
+       IF (ISPMD/=0) THEN
+        IF(FR_LAGF(1,LOC_PROC)>0) THEN
 
          MSGTYP = MSGOFF
          CALL MPI_SEND(
@@ -95,7 +95,7 @@ Cel mise a jour du flag directement ici et non dans LTAG_FXV
 C
          DO I=2,NSPMD
            NCL = FR_LAGF(1,I)
-           IF(NCL.GT.0)THEN
+           IF(NCL>0)THEN
              MSGTYP = MSGOFF 
 
              CALL MPI_RECV(
@@ -128,10 +128,10 @@ Cel mise a jour du flag directement ici et non dans LTAG_FXV
              N_IK = N_IK + IKL
            END IF             
          END DO
-c         IF(N_MULT.NE.FR_LAGF(1,NSPMD+1))
+c         IF(N_MULT/=FR_LAGF(1,NSPMD+1))
 c     .     print*,'**error : wrong gather of LAG MULT EQUATIONS',
 c     .     N_MULT,FR_LAGF(1,NSPMD+1)
-c         IF(N_IK.NE.FR_LAGF(2,NSPMD+1))
+c         IF(N_IK/=FR_LAGF(2,NSPMD+1))
 c     .     print*,'**error : wrong gather of LAG MULT VARIABLES',
 c     .     N_IK,FR_LAGF(2,NSPMD+1)
 C
@@ -185,9 +185,9 @@ C-----------------------------------------------
 C
 C
 C         
-       IF (ISPMD.NE.0) THEN
-        IF(NLAGF_L.GT.0) THEN
-         IF(IRODDL.NE.0)THEN
+       IF (ISPMD/=0) THEN
+        IF(NLAGF_L>0) THEN
+         IF(IRODDL/=0)THEN
            DO I = 1, NLAGF_L
              N = LLAGF(I)
              BUFCOM(1,I) = NODGLOB(N)
@@ -226,7 +226,7 @@ C
         END IF
 Code processeur0 
        ELSE
-         IF(IRODDL.NE.0)THEN
+         IF(IRODDL/=0)THEN
            DO I = 1, NLAGF_L
              N = LLAGF(I)
              INDEXLAG(NODGLOB(N)) = I
@@ -262,12 +262,12 @@ Code processeur0
 C
          DO P=2,NSPMD
            NNOD = FR_LAGF(3,P)
-           IF(NNOD.GT.0)THEN
+           IF(NNOD>0)THEN
              MSGTYP = MSGOFF 
              CALL MPI_RECV(
      1         BUFCOM,ISIZ*NNOD ,REAL  ,IT_SPMD(P),MSGTYP,
      2         MPI_COMM_WORLD   ,STATUS,IERROR)
-             IF(IRODDL.NE.0)THEN
+             IF(IRODDL/=0)THEN
                DO I = 1, NNOD
                  N = NINT(BUFCOM(1,I))
                  INDEXLAG(N) = NLAGF_G+I
@@ -302,7 +302,7 @@ C
              NLAGF_G=NLAGF_G+NNOD
            END IF             
          END DO
-c         IF(NLAGF_G.NE.FR_LAGF(3,NSPMD+1))
+c         IF(NLAGF_G/=FR_LAGF(3,NSPMD+1))
 c     .     print*,'**error : wrong gather of LAG MULT NODAL VALUES',
 c     .     NLAGF_G,FR_LAGF(3,NSPMD+1)
 C
@@ -353,14 +353,14 @@ C-----------------------------------------------
 C
 C
 C         
-       IF(ISPMD.NE.0) THEN
-        IF(NLAGF_L.GT.0) THEN
+       IF(ISPMD/=0) THEN
+        IF(NLAGF_L>0) THEN
 
          MSGTYP = MSGOFF 
          CALL MPI_RECV(
      1     BUFCOM,ISIZ*NLAGF_L,REAL  ,IT_SPMD(1),MSGTYP,
      2     MPI_COMM_WORLD    ,STATUS,IERROR)
-         IF(IRODDL.NE.0)THEN
+         IF(IRODDL/=0)THEN
            DO I = 1, NLAGF_L
              N = LLAGF(I)
              A(1,N)  = BUFCOM(1,I)
@@ -381,7 +381,7 @@ C
         END IF
 Code processeur0 
        ELSE
-         IF(IRODDL.NE.0)THEN
+         IF(IRODDL/=0)THEN
            DO I = 1, NLAGF_L
              N = LLAGF(I)
              A(1,N)  = AG(1,I) 
@@ -403,8 +403,8 @@ Code processeur0
 C
          DO P=2,NSPMD
            NNOD = FR_LAGF(3,P)
-           IF(NNOD.GT.0)THEN
-             IF(IRODDL.NE.0)THEN
+           IF(NNOD>0)THEN
+             IF(IRODDL/=0)THEN
                DO I = 1, NNOD
                  BUFCOM(1,I) = AG(1,NLAGF_G+I) 
                  BUFCOM(2,I) = AG(2,NLAGF_G+I) 
@@ -473,8 +473,8 @@ C-----------------------------------------------
 C
 C
 C         
-       IF(ISPMD.NE.0) THEN
-        IF(NLAGF_L.GT.0) THEN
+       IF(ISPMD/=0) THEN
+        IF(NLAGF_L>0) THEN
 
          MSGTYP = MSGOFF 
          CALL MPI_RECV(
@@ -499,7 +499,7 @@ Code processeur0
 C
          DO P=2,NSPMD
            NNOD = FR_LAGF(3,P)
-           IF(NNOD.GT.0)THEN
+           IF(NNOD>0)THEN
              DO I = 1, NNOD
                BUFCOM(1,I) = FANIG(1,NLAGF_G+I) 
                BUFCOM(2,I) = FANIG(2,NLAGF_G+I) 
@@ -585,7 +585,7 @@ C
       L = 1
       IAD_RECV(1) = 1
       DO I=1,NSPMD
-        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).NE.0)THEN
+        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)/=0)THEN
           SIZ = ISIZ*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))+1
           MSGTYP = MSGOFF2
           CALL MPI_IRECV(
@@ -598,16 +598,16 @@ C
 C
       IAD_SEND(1) = L
       DO I=1,NSPMD
-        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).NE.0)THEN
+        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)/=0)THEN
          INB = L
          L = L + 1
          NB_NOD = 0
          ISHIFT = IAD_ELEM(1,I)-1
-         IF(IRODDL.EQ.0)THEN
+         IF(IRODDL==0)THEN
 #include      "vectorize.inc"
           DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
            NOD = FR_ELEM(J)
-           IF(ITAG(NOD).EQ.1)THEN
+           IF(ITAG(NOD)==1)THEN
             RBUF(L)   = J-ISHIFT
 C J-ISHIFT donne l'adresse relative du noeud
             RBUF(L+1) = A(1,NOD)
@@ -621,7 +621,7 @@ C J-ISHIFT donne l'adresse relative du noeud
 #include      "vectorize.inc"
           DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
            NOD = FR_ELEM(J)
-           IF(ITAG(NOD).EQ.1)THEN
+           IF(ITAG(NOD)==1)THEN
             RBUF(L)   = J-ISHIFT
 C J-ISHIFT donne l'adresse relative du noeud
             RBUF(L+1) = A(1,NOD)
@@ -643,7 +643,7 @@ C
 C   echange messages
 C
       DO I=1,NSPMD
-        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).NE.0)THEN
+        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)/=0)THEN
           MSGTYP = MSGOFF2
           L = IAD_SEND(I+1)-IAD_SEND(I)
           LSEND = IAD_SEND(I)
@@ -656,14 +656,14 @@ C
 C decompactage
 C
       DO I = 1, NSPMD
-       IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).NE.0)THEN
+       IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)/=0)THEN
          CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
          L = IAD_RECV(I)
          NB_NOD = NINT(RBUF(L))
          L = L + 1
-         IF (NB_NOD.NE.0) THEN
+         IF (NB_NOD/=0) THEN
           ISHIFT = IAD_ELEM(1,I)-1
-          IF(IRODDL.EQ.0)THEN
+          IF(IRODDL==0)THEN
 #include      "vectorize.inc"
            DO J=1,NB_NOD
              NOD = FR_ELEM(NINT(RBUF(L))+ISHIFT)
@@ -692,7 +692,7 @@ C on recupere le bon noeud en fct de sa position relative dans fr_elem, liste tr
       ENDDO
 Cel wait terminaison isend
       DO I = 1, NSPMD
-        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).NE.0)
+        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)/=0)
      .    CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
       ENDDO
 C
@@ -810,7 +810,7 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I,N
 C         
-      IF(IRODDL.NE.0)THEN
+      IF(IRODDL/=0)THEN
         DO I = 1, NLAGF_L
           N = LLAGF(I)
           INDEXLAG(NODGLOB(N)) = I
@@ -879,7 +879,7 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I,N
 C         
-      IF(IRODDL.NE.0)THEN
+      IF(IRODDL/=0)THEN
         DO I = 1, NLAGF_L
           N = LLAGF(I)
           A(1,N)  = AG(1,I) 

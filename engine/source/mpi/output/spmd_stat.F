@@ -84,7 +84,7 @@ C-----------------------------------------------
      G    MPI_COMM_WORLD,IERROR)
 C
         IAD=0
-        IF(ISPMD.EQ.0)THEN
+        IF(ISPMD==0)THEN
           DO I=1,NSPMD
             DISP(I) = IAD
             IAD = IAD+LENP(I)
@@ -96,7 +96,7 @@ C
      R    PTV_P0(1)     ,LENP  ,DISP,MPI_INTEGER  ,IT_SPMD(1),
      G    MPI_COMM_WORLD,IERROR)
 C
-        IF(ISPMD.EQ.0)THEN
+        IF(ISPMD==0)THEN
 C         construit les pointeurs globaux de fin de zone
           PTV_P0(0)=0
           DO I=2,NSPMD
@@ -164,7 +164,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       NBF_L = SIZE*STAT_NUMEL
-      IF (ISPMD.NE.0) THEN
+      IF (ISPMD/=0) THEN
         MSGTYP=MSGOFF
 
 
@@ -248,7 +248,7 @@ C-----------------------------------------------
       INTEGER IBUF(NUMNODM)
 C   Tableau utilise par proc 0
          
-       IF (ISPMD.NE.0) THEN
+       IF (ISPMD/=0) THEN
 
          SIZ = 0
          DO I=1,NUMNOD
@@ -367,7 +367,7 @@ C-----------------------------------------------
       INTEGER IBUF(NUMNODM)
 C   Tableau utilise par proc 0
          
-       IF (ISPMD.NE.0) THEN
+       IF (ISPMD/=0) THEN
 
          SIZ = 0
          DO I=1,NUMNOD
@@ -476,7 +476,7 @@ C-----------------------------------------------
       INTEGER IBUFN(NUMNODM),IBUFM(NUMNODM)
 C   Tableau utilise par proc 0
          
-       IF (ISPMD.NE.0) THEN
+       IF (ISPMD/=0) THEN
 
          SIZ = 0
          DO I=1,NUMNOD

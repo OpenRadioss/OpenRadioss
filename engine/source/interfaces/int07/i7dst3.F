@@ -134,7 +134,7 @@ C--------------------------------------------------------
 C  CAS DES PAQUETS MIXTES
 C--------------------------------------------------------
        DO I=1,JLT
-        IF(IX3(I).NE.IX4(I))THEN
+        IF(IX3(I)/=IX4(I))THEN
          X0(I) = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
          Y0(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
          Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I)) 
@@ -274,17 +274,17 @@ C
 Cel     HLA, HLB1, HLC1 necessaires pour triangle angle obtu
         AAA = ONE / MAX(EM20,X12*X12+Y12*Y12+Z12*Z12)
         HLA= LA*ABS(LA) * AAA
-        IF(LA.LT.ZERO.AND.
-     +     HLA.LE.HLB1(I).AND.HLA.LE.HLC1(I))THEN
+        IF(LA<ZERO.AND.
+     +     HLA<=HLB1(I).AND.HLA<=HLC1(I))THEN
          LB1(I) = (XI2(I)*X12+YI2(I)*Y12+ZI2(I)*Z12) * AAA
          LB1(I) = MAX(ZERO,MIN(ONE,LB1(I)))
          LC1(I) = ONE - LB1(I)
-        ELSEIF(LB1(I).LT.ZERO.AND.
-     +         HLB1(I).LE.HLC1(I).AND.HLB1(I).LE.HLA)THEN
+        ELSEIF(LB1(I)<ZERO.AND.
+     +         HLB1(I)<=HLC1(I).AND.HLB1(I)<=HLA)THEN
          LB1(I) = ZERO
          LC1(I) = AL2(I)
-        ELSEIF(LC1(I).LT.ZERO.AND.
-     +         HLC1(I).LE.HLA.AND.HLC1(I).LE.HLB1(I))THEN
+        ELSEIF(LC1(I)<ZERO.AND.
+     +         HLC1(I)<=HLA.AND.HLC1(I)<=HLB1(I))THEN
          LC1(I) = ZERO
          LB1(I) = AL1(I)
         ENDIF
@@ -299,17 +299,17 @@ C
 Cel     HLA, HLB1, HLC1 necessaires pour triangle angle obtu
         AAA = ONE / MAX(EM20,X23*X23+Y23*Y23+Z23*Z23)
         HLA= LA*ABS(LA) * AAA
-        IF(LA.LT.ZERO.AND.
-     +     HLA.LE.HLB2(I).AND.HLA.LE.HLC2(I))THEN
+        IF(LA<ZERO.AND.
+     +     HLA<=HLB2(I).AND.HLA<=HLC2(I))THEN
          LB2(I) = (XI3(I)*X23+YI3(I)*Y23+ZI3(I)*Z23)*AAA
          LB2(I) = MAX(ZERO,MIN(ONE,LB2(I)))
          LC2(I) = ONE - LB2(I)
-        ELSEIF(LB2(I).LT.ZERO.AND.
-     +         HLB2(I).LE.HLC2(I).AND.HLB2(I).LE.HLA)THEN
+        ELSEIF(LB2(I)<ZERO.AND.
+     +         HLB2(I)<=HLC2(I).AND.HLB2(I)<=HLA)THEN
          LB2(I) = ZERO
          LC2(I) = AL3(I)
-        ELSEIF(LC2(I).LT.ZERO.AND.
-     +         HLC2(I).LE.HLA.AND.HLC2(I).LE.HLB2(I))THEN
+        ELSEIF(LC2(I)<ZERO.AND.
+     +         HLC2(I)<=HLA.AND.HLC2(I)<=HLB2(I))THEN
          LC2(I) = ZERO
          LB2(I) = AL2(I)
         ENDIF
@@ -324,17 +324,17 @@ C
 Cel     HLA, HLB1, HLC1 necessaires pour triangle angle obtu
         AAA = ONE / MAX(EM20,X34*X34+Y34*Y34+Z34*Z34)
         HLA= LA*ABS(LA) * AAA
-        IF(LA.LT.ZERO.AND.
-     +     HLA.LE.HLB3(I).AND.HLA.LE.HLC3(I))THEN
+        IF(LA<ZERO.AND.
+     +     HLA<=HLB3(I).AND.HLA<=HLC3(I))THEN
          LB3(I) = (XI4(I)*X34+YI4(I)*Y34+ZI4(I)*Z34)*AAA
          LB3(I) = MAX(ZERO,MIN(ONE,LB3(I)))
          LC3(I) = ONE - LB3(I)
-        ELSEIF(LB3(I).LT.ZERO.AND.
-     +         HLB3(I).LE.HLC3(I).AND.HLB3(I).LE.HLA)THEN
+        ELSEIF(LB3(I)<ZERO.AND.
+     +         HLB3(I)<=HLC3(I).AND.HLB3(I)<=HLA)THEN
          LB3(I) = ZERO
          LC3(I) = AL4(I)
-        ELSEIF(LC3(I).LT.ZERO.AND.
-     +         HLC3(I).LE.HLA.AND.HLC3(I).LE.HLB3(I))THEN
+        ELSEIF(LC3(I)<ZERO.AND.
+     +         HLC3(I)<=HLA.AND.HLC3(I)<=HLB3(I))THEN
          LC3(I) = ZERO
          LB3(I) = AL3(I)
         ENDIF
@@ -349,17 +349,17 @@ C
 Cel     HLA, HLB1, HLC1 necessaires pour triangle angle obtu
         AAA = ONE / MAX(EM20,X41*X41+Y41*Y41+Z41*Z41)
         HLA= LA*ABS(LA) * AAA
-        IF(LA.LT.ZERO.AND.
-     +     HLA.LE.HLB4(I).AND.HLA.LE.HLC4(I))THEN
+        IF(LA<ZERO.AND.
+     +     HLA<=HLB4(I).AND.HLA<=HLC4(I))THEN
          LB4(I) = (XI1(I)*X41+YI1(I)*Y41+ZI1(I)*Z41)*AAA
          LB4(I) = MAX(ZERO,MIN(ONE,LB4(I)))
          LC4(I) = ONE - LB4(I)
-        ELSEIF(LB4(I).LT.ZERO.AND.
-     +         HLB4(I).LE.HLC4(I).AND.HLB4(I).LE.HLA)THEN
+        ELSEIF(LB4(I)<ZERO.AND.
+     +         HLB4(I)<=HLC4(I).AND.HLB4(I)<=HLA)THEN
          LB4(I) = ZERO
          LC4(I) = AL1(I)
-        ELSEIF(LC4(I).LT.ZERO.AND.
-     +         HLC4(I).LE.HLA.AND.HLC4(I).LE.HLB4(I))THEN
+        ELSEIF(LC4(I)<ZERO.AND.
+     +         HLC4(I)<=HLA.AND.HLC4(I)<=HLB4(I))THEN
          LC4(I) = ZERO
          LB4(I) = AL4(I)
         ENDIF
@@ -432,33 +432,33 @@ C      PENE INITIALE
 C---------------------
       KEEP(1:JLT)=0
       IF(ITIED == 0)THEN
-       IF(INACTI.EQ.5.OR.INACTI.EQ.6)THEN
+       IF(INACTI==5.OR.INACTI==6)THEN
         DO I=1,JLT
-          IF(PENE2(I).EQ.ZERO.OR.STIF(I).EQ.ZERO)THEN
+          IF(PENE2(I)==ZERO.OR.STIF(I)==ZERO)THEN
             CAND_P(INDEX(I))=ZERO
           ENDIF
         ENDDO
        ENDIF
 #include   "vectorize.inc"
        DO I=1,JLT
-         IF( PENE2(I).NE.ZERO .AND. STIF(I).NE.ZERO)THEN
+         IF( PENE2(I)/=ZERO .AND. STIF(I)/=ZERO)THEN
            KEEP(I) =1
          END IF
        ENDDO
       ELSE
-       IF(INACTI.EQ.5.OR.INACTI.EQ.6)THEN
+       IF(INACTI==5.OR.INACTI==6)THEN
         DO I=1,JLT
-          IF((PENE2(I).EQ.ZERO.AND.CAND_F(1,INDEX(I)).EQ.ZERO).OR.
-     .        STIF(I).EQ.ZERO)THEN
+          IF((PENE2(I)==ZERO.AND.CAND_F(1,INDEX(I))==ZERO).OR.
+     .        STIF(I)==ZERO)THEN
             CAND_P(INDEX(I))=ZERO
           ENDIF
         ENDDO
        ENDIF
 #include   "vectorize.inc"
        DO I=1,JLT
-         IF( (PENE2(I).NE.ZERO.OR.CAND_F(1,INDEX(I)).NE.ZERO) .AND.
-     .       STIF(I).NE.ZERO)THEN
-           IF( CAND_F(1,INDEX(I)).NE.ZERO )THEN
+         IF( (PENE2(I)/=ZERO.OR.CAND_F(1,INDEX(I))/=ZERO) .AND.
+     .       STIF(I)/=ZERO)THEN
+           IF( CAND_F(1,INDEX(I))/=ZERO )THEN
              JLT_TIED =JLT_TIED+1
              KEEP(I)  =2
            ELSE
@@ -476,10 +476,10 @@ c----copy IORTHFRIC in local flag
 C
        IF(INTFRIC == 0) THEN
         IF(INTTH == 0 ) THEN
-         IF(ICURV.EQ.0.AND.IADM.EQ.0 )THEN
+         IF(ICURV==0.AND.IADM==0 )THEN
 #include   "vectorize.inc"
           DO I=1,JLT
-           IF(KEEP(I).NE.0)THEN
+           IF(KEEP(I)/=0)THEN
             JLT_NEW = JLT_NEW + 1
             CN_LOC(JLT_NEW) = CAND_N(I)
             CE_LOC(JLT_NEW) = CAND_E(I)
@@ -546,7 +546,7 @@ C
          ELSE    ! 
 #include   "vectorize.inc"
           DO I=1,JLT
-           IF(KEEP(I).NE.0)THEN
+           IF(KEEP(I)/=0)THEN
             JLT_NEW = JLT_NEW + 1
             CN_LOC(JLT_NEW) = CAND_N(I)
             CE_LOC(JLT_NEW) = CAND_E(I)
@@ -614,7 +614,7 @@ C
          IF(IADM == 0 )THEN
 #include   "vectorize.inc"
           DO I=1,JLT
-           IF(KEEP(I).NE.0)THEN
+           IF(KEEP(I)/=0)THEN
             JLT_NEW = JLT_NEW + 1
             CN_LOC(JLT_NEW) = CAND_N(I)
             CE_LOC(JLT_NEW) = CAND_E(I)
@@ -686,7 +686,7 @@ C
          ELSE    ! 
 #include   "vectorize.inc"
           DO I=1,JLT
-           IF(KEEP(I).NE.0)THEN
+           IF(KEEP(I)/=0)THEN
             JLT_NEW = JLT_NEW + 1
             CN_LOC(JLT_NEW) = CAND_N(I)
             CE_LOC(JLT_NEW) = CAND_E(I)
@@ -759,10 +759,10 @@ C
        ELSE ! INTFRIC
 
         IF(INTTH == 0 ) THEN
-         IF(ICURV.EQ.0.AND.IADM.EQ.0 )THEN
+         IF(ICURV==0.AND.IADM==0 )THEN
 #include   "vectorize.inc"
           DO I=1,JLT
-           IF(KEEP(I).NE.0)THEN
+           IF(KEEP(I)/=0)THEN
             JLT_NEW = JLT_NEW + 1
             CN_LOC(JLT_NEW) = CAND_N(I)
             CE_LOC(JLT_NEW) = CAND_E(I)
@@ -835,7 +835,7 @@ C
          ELSE    ! 
 #include   "vectorize.inc"
           DO I=1,JLT
-           IF(KEEP(I).NE.0)THEN
+           IF(KEEP(I)/=0)THEN
             JLT_NEW = JLT_NEW + 1
             CN_LOC(JLT_NEW) = CAND_N(I)
             CE_LOC(JLT_NEW) = CAND_E(I)
@@ -910,7 +910,7 @@ C
          IF(IADM == 0 )THEN
 #include   "vectorize.inc"
           DO I=1,JLT
-           IF(KEEP(I).NE.0)THEN
+           IF(KEEP(I)/=0)THEN
             JLT_NEW = JLT_NEW + 1
             CN_LOC(JLT_NEW) = CAND_N(I)
             CE_LOC(JLT_NEW) = CAND_E(I)
@@ -988,7 +988,7 @@ C
          ELSE    ! 
 #include   "vectorize.inc"
           DO I=1,JLT
-           IF(KEEP(I).NE.0)THEN
+           IF(KEEP(I)/=0)THEN
             JLT_NEW = JLT_NEW + 1
             CN_LOC(JLT_NEW) = CAND_N(I)
             CE_LOC(JLT_NEW) = CAND_E(I)
@@ -1073,10 +1073,10 @@ C ---------
 C
        IF(INTFRIC == 0) THEN
         IF(INTTH == 0 ) THEN
-         IF(ICURV.EQ.0.AND.IADM.EQ.0 )THEN
+         IF(ICURV==0.AND.IADM==0 )THEN
 #include   "vectorize.inc"
           DO I=1,JLT
-           IF(KEEP(I).NE.0)THEN
+           IF(KEEP(I)/=0)THEN
             JLT_NEW = JLT_NEW + 1
             CN_LOC(JLT_NEW) = CAND_N(I)
             CE_LOC(JLT_NEW) = CAND_E(I)
@@ -1144,7 +1144,7 @@ C
          ELSE    ! 
 #include   "vectorize.inc"
           DO I=1,JLT
-           IF(KEEP(I).NE.0)THEN
+           IF(KEEP(I)/=0)THEN
             JLT_NEW = JLT_NEW + 1
             CN_LOC(JLT_NEW) = CAND_N(I)
             CE_LOC(JLT_NEW) = CAND_E(I)
@@ -1215,7 +1215,7 @@ C
          IF(IADM == 0 )THEN
 #include   "vectorize.inc"
           DO I=1,JLT
-           IF(KEEP(I).NE.0)THEN
+           IF(KEEP(I)/=0)THEN
             JLT_NEW = JLT_NEW + 1
             CN_LOC(JLT_NEW) = CAND_N(I)
             CE_LOC(JLT_NEW) = CAND_E(I)
@@ -1288,7 +1288,7 @@ C
          ELSE    ! 
 #include   "vectorize.inc"
           DO I=1,JLT
-           IF(KEEP(I).NE.0)THEN
+           IF(KEEP(I)/=0)THEN
             JLT_NEW = JLT_NEW + 1
             CN_LOC(JLT_NEW) = CAND_N(I)
             CE_LOC(JLT_NEW) = CAND_E(I)
@@ -1361,10 +1361,10 @@ C
         ENDIF
        ELSE ! INTFRIC
         IF(INTTH == 0 ) THEN
-         IF(ICURV.EQ.0.AND.IADM.EQ.0 )THEN
+         IF(ICURV==0.AND.IADM==0 )THEN
 #include   "vectorize.inc"
           DO I=1,JLT
-           IF(KEEP(I).NE.0)THEN
+           IF(KEEP(I)/=0)THEN
             JLT_NEW = JLT_NEW + 1
             CN_LOC(JLT_NEW) = CAND_N(I)
             CE_LOC(JLT_NEW) = CAND_E(I)
@@ -1439,7 +1439,7 @@ C
          ELSE    ! 
 #include   "vectorize.inc"
           DO I=1,JLT
-           IF(KEEP(I).NE.0)THEN
+           IF(KEEP(I)/=0)THEN
             JLT_NEW = JLT_NEW + 1
             CN_LOC(JLT_NEW) = CAND_N(I)
             CE_LOC(JLT_NEW) = CAND_E(I)
@@ -1517,7 +1517,7 @@ C
          IF(IADM == 0 )THEN
 #include   "vectorize.inc"
           DO I=1,JLT
-           IF(KEEP(I).NE.0)THEN
+           IF(KEEP(I)/=0)THEN
             JLT_NEW = JLT_NEW + 1
             CN_LOC(JLT_NEW) = CAND_N(I)
             CE_LOC(JLT_NEW) = CAND_E(I)
@@ -1595,7 +1595,7 @@ C
          ELSE    ! 
 #include   "vectorize.inc"
           DO I=1,JLT
-           IF(KEEP(I).NE.0)THEN
+           IF(KEEP(I)/=0)THEN
             JLT_NEW = JLT_NEW + 1
             CN_LOC(JLT_NEW) = CAND_N(I)
             CE_LOC(JLT_NEW) = CAND_E(I)

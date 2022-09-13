@@ -154,21 +154,21 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
-        IF(SUB_XELEM(N) .NE. 0)THEN
-          IF(IPARTX(N) .NE. 0) IPARTX(N) = IPARTX(N) + OFF_PART(SUB_XELEM(N)) 
-          IF(IDEX(N) .NE. 0) IDEX(N) = IDEX(N) + OFF_EL(SUB_XELEM(N)) 
-          IF(IDGU(N) .NE. 0) IDGU(N) = IDGU(N) + OFF_DEF(SUB_XELEM(N))
+        IF(SUB_XELEM(N) /= 0)THEN
+          IF(IPARTX(N) /= 0) IPARTX(N) = IPARTX(N) + OFF_PART(SUB_XELEM(N)) 
+          IF(IDEX(N) /= 0) IDEX(N) = IDEX(N) + OFF_EL(SUB_XELEM(N)) 
+          IF(IDGU(N) /= 0) IDGU(N) = IDGU(N) + OFF_DEF(SUB_XELEM(N))
         ENDIF
 
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
-        IF( IPART(4,INDEX_PART) .NE. IPARTX(N) )THEN  
+        IF( IPART(4,INDEX_PART) /= IPARTX(N) )THEN  
           DO J=1,NPART                            
-            IF(IPART(4,J).EQ. IPARTX(N) ) INDEX_PART = J            
+            IF(IPART(4,J)== IPARTX(N) ) INDEX_PART = J            
           ENDDO  
         ENDIF
-        IF(IPART(4,INDEX_PART) .NE. IPARTX(N)) THEN
+        IF(IPART(4,INDEX_PART) /= IPARTX(N)) THEN
           CALL ANCMSG(MSGID=402,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
@@ -189,7 +189,7 @@ C
         NNOD = NODGRNR5(IDGU(N)   ,IGS     ,IXX(IAD),IGRNOD   ,
      .                    ITABM1 ,MESS    )
 C       check non sorted nodes group type.
-        IF (IGS.NE.0.AND.IGRNOD(IGS)%SORTED.NE.1) THEN
+        IF (IGS/=0.AND.IGRNOD(IGS)%SORTED/=1) THEN
            CALL ANCMSG(MSGID=411,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,
@@ -210,7 +210,7 @@ C
            CALL ANODSET(IXX(IAD+I), CHECK_USED)
  10     CONTINUE
         KXX(3,N)=NNOD
-        IF (NNOD.GT.MAXNX) MAXNX=NNOD
+        IF (NNOD>MAXNX) MAXNX=NNOD
         ISUMNX  =ISUMNX+NNOD
 C
         IAD     =IAD+NNOD
@@ -243,7 +243,7 @@ C
        WRITE (IOUT,'(A)') 'END OF ELEMENT TRACEBACK'
 c      call flush(IOUT)
   100 CONTINUE
-      IF(I2.EQ.NUMELX)GOTO 200
+      IF(I2==NUMELX)GOTO 200
       I1=I1+50
       I2=MIN0(I2+50,NUMELX)
       GOTO 90

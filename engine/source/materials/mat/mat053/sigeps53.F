@@ -188,7 +188,7 @@ C
          ENDDO    
        ENDDO
 C
-       IF(TIME.EQ.ZERO)THEN
+       IF(TIME==ZERO)THEN
          DO I=1,NEL
             UVAR(I,1)=ZERO
           DO J=1,NFUNC
@@ -249,10 +249,10 @@ C---first direction--
         CALL VINTER(TF,IAD1,IPOS1,ILEN1,NEL,EVOL,DYDX1,Y1)
        CALL VINTER(TF,IAD1,IPOS1,ILEN1,NEL,EVL,DYDX1,Y2)
 C
-        IF(J.EQ.1) THEN
+        IF(J==1) THEN
           DO I=1, NEL
-          IF(IFLAG(I).NE.1)THEN
-           IF(EVOL(I).GT.ZERO)THEN
+          IF(IFLAG(I)/=1)THEN
+           IF(EVOL(I)>ZERO)THEN
             S1C(I)= Y1(I) 
             S1T(I)= Y2(I)
             ELSE
@@ -266,13 +266,13 @@ C
           UVAR(I,1+J)= IPOS1(I)
           ENDDO
 C second direction
-         ELSEIF(J.EQ.2)THEN
+         ELSEIF(J==2)THEN
 C          CALL vINTER(TF,IAD2,IPOS2,ILEN2,NEL,PLA,DYDX1,Y1)
 C           CALL VINTER(TF,IAD2,IPOS2,ILEN2,NEL,EVL,DYDX1,Y2)
 C
         DO I=1, NEL
-          IF(IFLAG(I).NE.1)THEN
-          IF(EVOL(I).GT.ZERO)THEN
+          IF(IFLAG(I)/=1)THEN
+          IF(EVOL(I)>ZERO)THEN
             S2C(I)= Y1(I) 
            S2T(I)= Y2(I)
             ELSE
@@ -286,13 +286,13 @@ C
         UVAR(I,1+J)= IPOS1(I)
         ENDDO
 CC third direction
-       ELSEIF(J.EQ.3)THEN
+       ELSEIF(J==3)THEN
 C          CALL VINTER(TF,IAD3,IPOS3,ILEN3,NEL,PLA,DYDX1,Y1)
 C           CALL VINTER(TF,IAD3,IPOS3,ILEN3,NEL,EVL,DYDX1,Y2)
 C 
        DO I=1, NEL
-          IF(IFLAG(I).NE.1)THEN
-          IF(EVOL(I).GT.ZERO)THEN
+          IF(IFLAG(I)/=1)THEN
+          IF(EVOL(I)>ZERO)THEN
             S3C(I)= Y1(I) 
             S3T(I)= Y2(I)
           ELSE
@@ -306,13 +306,13 @@ C
          UVAR(I,1+J)= IPOS1(I)
          ENDDO
 CCC fourth direction
-        ELSEIF(J.EQ.4)THEN
+        ELSEIF(J==4)THEN
 C          CALL VINTER(TF,IAD4,IPOS4,ILEN4,NEL,PLA,DYDX1,Y1)
 C           CALL VINTER(TF,IAD4,IPOS4,ILEN4,NEL,EVL,DYDX1,Y2)
 C
       DO I=1, NEL
-        IF(IFLAG(I).NE.1)THEN
-         IF(EVOL(I).GT.ZERO)THEN
+        IF(IFLAG(I)/=1)THEN
+         IF(EVOL(I)>ZERO)THEN
           S4C(I)= Y1(I) 
            S4T(I)= Y2(I)
              ELSE
@@ -326,13 +326,13 @@ C
            UVAR(I,1+J)= IPOS1(I)
          ENDDO      
 CCCC 45 direction
-        ELSEIF(J.EQ.5)THEN
+        ELSEIF(J==5)THEN
 C          CALL VINTER(TF,IAD5,IPOS5,ILEN5,NEL,PLA,DYDX1,Y1)
 C           CALL VINTER(TF,IAD5,IPOS5,ILEN5,NEL,EVL,DYDX1,Y2)
 C
           DO I=1, NEL
-            IF(IFLAG(I).NE.1)THEN
-              IF(EVOL(I).GT.ZERO)THEN
+            IF(IFLAG(I)/=1)THEN
+              IF(EVOL(I)>ZERO)THEN
                S45C(I)= Y1(I) 
                S45T(I)= Y2(I)
               ELSE
@@ -358,7 +358,7 @@ C--YEILD SURFACE COEFFICIENTS
           F12(I)=(-HALF)*SQRT(F11(I)*F22(I))
           F23(I)=(-HALF)*F22(I)     
 C... CORRECTION
-           IF(IFUNC(I,5).GT.0)THEN
+           IF(IFUNC(I,5)>0)THEN
            F12(I)= TWO/(S45C(I)*S45C(I)) - 
      .        (HALF)*(F11(I)+ F22(I) + F44(I)) +
      .         (F1(I) + F2(I))/S45C(I)     
@@ -372,8 +372,8 @@ C... Chek the yeil condition according to Tsay Wu.
 C
 !!        SEQ_OUTPUT(I) = F(I)
 C             
-        IF(F(I).LE.ONE) SCALE=ONE
-        IF(F(I).GT.ONE)THEN
+        IF(F(I)<=ONE) SCALE=ONE
+        IF(F(I)>ONE)THEN
           BB= F1(I)*SIGNXX(I) + F2(I)*SIGNYY(I)+ F2(I)*SIGNZZ(I)
           CC = -ONE
           AA =
@@ -383,7 +383,7 @@ C
      .+TWO*F12(I)*SIGNZZ(I)*SIGNXX(I)
 C
           DD= BB**2 - FOUR*AA*CC
-          IF(DD.LT.ZERO) THEN
+          IF(DD<ZERO) THEN
             CALL ANCMSG(MSGID=136,ANMODE=ANINFO)
             CALL ARRET(2)
           ENDIF
@@ -391,13 +391,13 @@ C...
           SS1 = (-BB + SQRT(DD))/(TWO*AA)
           SS2 = (-BB - SQRT(DD))/(TWO*AA)
 C
-          IF(SS1.LE.ZERO) SCALE = SS2 
-          IF(SS2.LE.ZERO) SCALE = SS1 
+          IF(SS1<=ZERO) SCALE = SS2 
+          IF(SS2<=ZERO) SCALE = SS1 
 C
-          IF(SS1.GT.0.AND.SS2.GT.0) THEN
+          IF(SS1>0.AND.SS2>0) THEN
             WRITE(*,*)' TWO POSITIVE ROOTS IN STRANDFOAM'
-            IF(SS1.LT.SS2) SCALE = SS1
-            IF(SS2.LT.SS1) SCALE = SS2
+            IF(SS1<SS2) SCALE = SS1
+            IF(SS2<SS1) SCALE = SS2
           ENDIF
         ENDIF
 CCC STRESS SCALING

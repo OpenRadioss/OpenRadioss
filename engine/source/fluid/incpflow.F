@@ -155,10 +155,10 @@ C
 C Subcycling
       L_ASSEMB=.TRUE.
       DTSUB=RFLOW(3)
-      IF (DTSUB.GT.ZERO) THEN
+      IF (DTSUB>ZERO) THEN
          L_ASSEMB=.FALSE.
          TL=RFLOW(4)
-         IF (TT.GT.TL) THEN
+         IF (TT>TL) THEN
             L_ASSEMB=.TRUE.
             TL=MAX(TL+DTSUB,TT)
             RFLOW(4)=TL
@@ -284,13 +284,13 @@ C Vitesse a l'infini
       AGX=ZERO
       AGY=ZERO
       AGZ=ZERO
-      IF (IFVINI.GT.0) THEN
+      IF (IFVINI>0) THEN
          TSTART=ZERO
          SFVINI=RFLOW(7)
          SCALT=RFLOW(8)
          ISMOOTH = 0
          IF (IFVINI > 0) ISMOOTH = NPC(2*NFUNCT+IFVINI+1)
-         IF (TT.GT.TSTART.AND.DT1.GT.ZERO) THEN
+         IF (TT>TSTART.AND.DT1>ZERO) THEN
             TSG=(TT-TSTART)*SCALT
 !!            VV=SFVINI*FINTER(IFVINI, TSG, NPC, TF, DYDX)
            IF (ISMOOTH == 0) THEN
@@ -303,7 +303,7 @@ C Vitesse a l'infini
          VGX=RFLOW(9)*VV
          VGY=RFLOW(10)*VV
          VGZ=RFLOW(11)*VV
-         IF (DT1.GT.ZERO) THEN
+         IF (DT1>ZERO) THEN
             AGX=(VGX-VGX_OLD)/DT1
             AGY=(VGY-VGY_OLD)/DT1
             AGZ=(VGZ-VGZ_OLD)/DT1
@@ -333,7 +333,7 @@ C---------------------------------------------------
          NRY=NORM(2,I)
          NRZ=NORM(3,I)
          AREA=ELAREA(I)
-         IF(AREA.GT.EM20)THEN
+         IF(AREA>EM20)THEN
            AREA2=TWO*AREA         
            NRX=NRX/AREA2
            NRY=NRY/AREA2
@@ -350,7 +350,7 @@ C---------------------------------------------------
 C      
       DO I=1,NINOUT
          QI(I)=ZERO
-         IF (IINOUT(3,I).EQ.0) THEN
+         IF (IINOUT(3,I)==0) THEN
             IFREE=I
          ELSE
             ISENS=IINOUT(2,I)
@@ -359,12 +359,12 @@ C
             SCALT=RINOUT(3,I)
             ISMOOTH = 0
             IF (IFUNC > 0) ISMOOTH = NPC(2*NFUNCT+IFUNC+1)
-            IF (ISENS.EQ.0) THEN
+            IF (ISENS==0) THEN
                TSTART=ZERO
             ELSE
                TSTART=SENSOR(2,ISENS)
             ENDIF
-            IF (TT.GE.TSTART.AND.DT1.GT.ZERO) THEN
+            IF (TT>=TSTART.AND.DT1>ZERO) THEN
                TSG=(TT-TSTART)*SCALT
 !!               QI(I)=VEL*FINTER(IFUNC, TSG, NPC, TF, DYDX)
               IF (ISMOOTH == 0) THEN
@@ -376,13 +376,13 @@ C
          ENDIF
       ENDDO
 C
-      IF (NINOUT.GT.ZERO) THEN
+      IF (NINOUT>ZERO) THEN
          SFREE=ZERO
          ISQ=ZERO
          DO I=1,NEL
             IIO=ITAGEL(I)
-            IF (IIO.NE.0) THEN
-               IF (IIO.EQ.IFREE) THEN
+            IF (IIO/=0) THEN
+               IF (IIO==IFREE) THEN
                   SFREE=SFREE+ELAREA(I)
                ELSE
                   Q(I)=Q(I)+QI(IIO)
@@ -391,7 +391,7 @@ C
             ISQ=ISQ+Q(I)*ELAREA(I)
          ENDDO
 C
-         IF(SFREE.NE.ZERO)THEN
+         IF(SFREE/=ZERO)THEN
            VFREE=-ISQ/SFREE
          ELSE
            VFREE=ZERO
@@ -399,7 +399,7 @@ C
          QI(IFREE)=VFREE
          DO I=1,NEL
             IIO=ITAGEL(I)
-            IF (IIO.EQ.IFREE) Q(I)=Q(I)+VFREE
+            IF (IIO==IFREE) Q(I)=Q(I)+VFREE
          ENDDO
       ENDIF
 C
@@ -409,9 +409,9 @@ C
          ENDDO
          NERP=0
          IC=IBUFELC(1)
-         IF (IC.GT.0) THEN
+         IF (IC>0) THEN
             DO I=1,NEL
-               IF (IBUFELR(I).GT.0) THEN
+               IF (IBUFELR(I)>0) THEN
                   NERP=NERP+1
                   QL(NERP)=Q(I)
                ENDIF
@@ -422,7 +422,7 @@ C---------------------------------------------------
 C 2- Resolution BEM
 C---------------------------------------------------
       IF (NSPMD == 1) THEN
-         IF (DT1.GT.ZERO)
+         IF (DT1>ZERO)
      .      CALL BEMSOLV(L_ASSEMB, ILVOUT, IFORM, NNO,  NEL,
      .                   HBEM,     GBEM,   IBUF,  ELEM, NORM,
      .                   X,        Q,      PHI,   IPIV, PHI_INF)
@@ -444,12 +444,12 @@ C Tableaux de correspondance
          ENDDO
 C
          DO I=1,NNO
-            IF (IBUFR(I).GT.0) THEN
+            IF (IBUFR(I)>0) THEN
                NNRP=NNRP+1
                CR_LOC_GLOB(NNRP)=I
                CR_GLOB_LOC(I)=NNRP
             ENDIF
-            IF (IBUFC(I).GT.0) THEN
+            IF (IBUFC(I)>0) THEN
                NNCP=NNCP+1
                CC_LOC_GLOB(NNCP)=I
                CC_GLOB_LOC(I)=NNCP
@@ -468,15 +468,15 @@ C
             NC1=IBUFC(N1)
             NC2=IBUFC(N2)
             NC3=IBUFC(N3)
-            IF (NR1.NE.0.OR.NR2.NE.0.OR.NR3.NE.0) THEN
+            IF (NR1/=0.OR.NR2/=0.OR.NR3/=0) THEN
                NREIP=NREIP+1
                CREI_LOC_GLOB(NREIP)=I
             ENDIF
-            IF (NC1.NE.0.OR.NC2.NE.0.OR.NC3.NE.0) THEN
+            IF (NC1/=0.OR.NC2/=0.OR.NC3/=0) THEN
                NCEIP=NCEIP+1
                CCEI_LOC_GLOB(NCEIP)=I
             ENDIF
-            IF (IBUFELC(I).GT.0) THEN
+            IF (IBUFELC(I)>0) THEN
                NEP=NEP+1
                CE_LOC_GLOB(NEP)=I
                CE_GLOB_LOC(I)=NEP
@@ -486,7 +486,7 @@ C
          NPROW=IFLOW(18)
          NPCOL=IFLOW(19)
          NBLOC=IFLOW(12)
-         IF (DT1.GT.ZERO) 
+         IF (DT1>ZERO) 
      .      CALL BEMSOLVP(
      . ELEM,          NORM,  XL,          NNRP,        CR_LOC_GLOB,
      . CR_GLOB_LOC,   NNCP,  CC_LOC_GLOB, CC_GLOB_LOC, NCEIP,
@@ -549,9 +549,9 @@ C
             U(3,N3)=U(3,N3)+UZ*THIRD*AREA/AREAN3
          ENDDO
 C Vitesses sur les points auxiliaire
-         IF (NNI.GT.0.AND.IPINT.EQ.1) THEN
+         IF (NNI>0.AND.IPINT==1) THEN
             ITEST=IFLOW(21)
-            IF (ITEST.GT.0) THEN
+            IF (ITEST>0) THEN
                TOLE=RFLOW(6)
                XMIN=EP30
                XMAX=-EP30
@@ -576,9 +576,9 @@ C
                   XX=XL(1,NNO+I)
                   YY=XL(2,NNO+I)
                   ZZ=XL(3,NNO+I)
-                  IF (XX.GT.XMAX.OR.XX.LT.XMIN.OR.
-     .                YY.GT.YMAX.OR.YY.LT.YMIN.OR.
-     .                ZZ.GT.ZMAX.OR.ZZ.LT.ZMIN) CYCLE
+                  IF (XX>XMAX.OR.XX<XMIN.OR.
+     .                YY>YMAX.OR.YY<YMIN.OR.
+     .                ZZ>ZMAX.OR.ZZ<ZMIN) CYCLE
                   ST=ZERO
                   DO J=1,NEL
                      N1=ELEM(1,J)
@@ -618,12 +618,12 @@ C
                      SS1=-(NX1*NX2+NY1*NY2+NZ1*NZ2)/RR1/RR2
                      SS2=-(NX2*NX3+NY2*NY3+NZ2*NZ3)/RR2/RR3
                      SS3=-(NX3*NX1+NY3*NY1+NZ3*NZ1)/RR3/RR1
-                     IF (SS1.GT.ONE) SS1=ONE
-                     IF (SS1.LT.-ONE) SS1=-ONE
-                     IF (SS2.GT.ONE) SS2=ONE
-                     IF (SS2.LT.-ONE) SS2=-ONE
-                     IF (SS3.GT.ONE) SS3=ONE
-                     IF (SS3.LT.-ONE) SS3=-ONE
+                     IF (SS1>ONE) SS1=ONE
+                     IF (SS1<-ONE) SS1=-ONE
+                     IF (SS2>ONE) SS2=ONE
+                     IF (SS2<-ONE) SS2=-ONE
+                     IF (SS3>ONE) SS3=ONE
+                     IF (SS3<-ONE) SS3=-ONE
                      SAREA=ACOS(SS1)+ACOS(SS2)+ACOS(SS3)-PI
 C
                      VX1=X2-X1
@@ -639,11 +639,11 @@ C
                      YC=THIRD*(Y1+Y2+Y3)
                      ZC=THIRD*(Z1+Z2+Z3)
                      SS=NX*(XC-XX)+NY*(YC-YY)+NZ*(ZC-ZZ)
-                     IF (SS.LT.ZERO) SAREA=-SAREA
+                     IF (SS<ZERO) SAREA=-SAREA
                      ST=ST+SAREA
                   ENDDO
-                  IF (ITEST.EQ.1.AND.ABS(ST).GT.TOLE) ITAGNI(I)=1
-                  IF (ITEST.EQ.2.AND.ABS(ST).LE.TOLE) ITAGNI(I)=1
+                  IF (ITEST==1.AND.ABS(ST)>TOLE) ITAGNI(I)=1
+                  IF (ITEST==2.AND.ABS(ST)<=TOLE) ITAGNI(I)=1
                ENDDO
             ELSE
                DO I=1,NNI
@@ -656,7 +656,7 @@ C
                U(1,NNO+I)=ZERO
                U(2,NNO+I)=ZERO
                U(3,NNO+I)=ZERO
-               IF (ITAGNI(I).EQ.0) CYCLE
+               IF (ITAGNI(I)==0) CYCLE
                XX=XL(1,NNO+I)
                YY=XL(2,NNO+I)
                ZZ=XL(3,NNO+I)
@@ -681,13 +681,13 @@ C
      .                   (X0-X2)**2+(Y0-Y2)**2+(Z0-Z2)**2,
      .                   (X0-X3)**2+(Y0-Y3)**2+(Z0-Z3)**2)
 C Nombre de points de gauss sur le triangle
-                  IF (R2.GT.HUNDRED*D2) THEN
+                  IF (R2>HUNDRED*D2) THEN
                      NPG=1
                      IAD=1
-                  ELSEIF (R2.GT.TWENTY5*D2) THEN
+                  ELSEIF (R2>TWENTY5*D2) THEN
                      NPG=4
                      IAD=2
-                  ELSEIF (R2.GT.FOUR*D2) THEN
+                  ELSEIF (R2>FOUR*D2) THEN
                      NPG=7
                      IAD=6
                   ELSE
@@ -749,11 +749,11 @@ C Echange des potentiels
             RBUF(I)=ZERO
          ENDDO
          IC=IBUFC(1)
-         IF (IC.GT.0) THEN
+         IF (IC>0) THEN
             II=0
             DO I=1,NNO
                IR=IBUFR(I)
-               IF (IR.GT.0) THEN
+               IF (IR>0) THEN
                   II=II+1
                   SBUF(I)=PHI(II)
                ENDIF
@@ -796,7 +796,7 @@ C
             NRY=NORM(2,I)
             NRZ=NORM(3,I)
             AREA=ELAREA(I)
-            IF(AREA.GT.EM20)THEN
+            IF(AREA>EM20)THEN
               AREA2=TWO*AREA
               UX=GRX+Q(I)*NRX/AREA2
               UY=GRY+Q(I)*NRY/AREA2
@@ -817,12 +817,12 @@ C
 
          ENDDO    
 C On repartit les noeuds auxiliaires sur les procs
-         IF (NNI.GT.0.AND.IPINT.EQ.1) THEN
+         IF (NNI>0.AND.IPINT==1) THEN
             NL=NNI/NSPMD+1
             IFT=ISPMD*NL+1
             ILT=MIN(IFT+NL-1,NNI)
             ITEST=IFLOW(21)
-            IF (ITEST.GT.0) THEN
+            IF (ITEST>0) THEN
                TOLE=RFLOW(6)
                XMIN=EP30
                XMAX=-EP30
@@ -847,9 +847,9 @@ C
                   XX=XL(1,NNO+I)
                   YY=XL(2,NNO+I)
                   ZZ=XL(3,NNO+I)
-                  IF (XX.GT.XMAX.OR.XX.LT.XMIN.OR.
-     .                YY.GT.YMAX.OR.YY.LT.YMIN.OR.
-     .                ZZ.GT.ZMAX.OR.ZZ.LT.ZMIN) CYCLE
+                  IF (XX>XMAX.OR.XX<XMIN.OR.
+     .                YY>YMAX.OR.YY<YMIN.OR.
+     .                ZZ>ZMAX.OR.ZZ<ZMIN) CYCLE
                   ST=ZERO
                   DO J=1,NEL
                      N1=ELEM(1,J)
@@ -889,12 +889,12 @@ C
                      SS1=-(NX1*NX2+NY1*NY2+NZ1*NZ2)/RR1/RR2
                      SS2=-(NX2*NX3+NY2*NY3+NZ2*NZ3)/RR2/RR3
                      SS3=-(NX3*NX1+NY3*NY1+NZ3*NZ1)/RR3/RR1
-                     IF (SS1.GT.ONE) SS1=ONE
-                     IF (SS1.LT.-ONE) SS1=-ONE
-                     IF (SS2.GT.ONE) SS2=ONE
-                     IF (SS2.LT.-ONE) SS2=-ONE
-                     IF (SS3.GT.ONE) SS3=ONE
-                     IF (SS3.LT.-ONE) SS3=-ONE
+                     IF (SS1>ONE) SS1=ONE
+                     IF (SS1<-ONE) SS1=-ONE
+                     IF (SS2>ONE) SS2=ONE
+                     IF (SS2<-ONE) SS2=-ONE
+                     IF (SS3>ONE) SS3=ONE
+                     IF (SS3<-ONE) SS3=-ONE
                      SAREA=ACOS(SS1)+ACOS(SS2)+ACOS(SS3)-PI
 C
                      VX1=X2-X1
@@ -910,11 +910,11 @@ C
                      YC=THIRD*(Y1+Y2+Y3)
                      ZC=THIRD*(Z1+Z2+Z3)
                      SS=NX*(XC-XX)+NY*(YC-YY)+NZ*(ZC-ZZ)
-                     IF (SS.LT.ZERO) SAREA=-SAREA
+                     IF (SS<ZERO) SAREA=-SAREA
                      ST=ST+SAREA
                   ENDDO
-                  IF (ITEST.EQ.1.AND.ABS(ST).GT.TOLE) ITAGNI(I)=1
-                  IF (ITEST.EQ.2.AND.ABS(ST).LE.TOLE) ITAGNI(I)=1
+                  IF (ITEST==1.AND.ABS(ST)>TOLE) ITAGNI(I)=1
+                  IF (ITEST==2.AND.ABS(ST)<=TOLE) ITAGNI(I)=1
                ENDDO
             ELSE
                DO I=IFT,ILT
@@ -927,7 +927,7 @@ C
                U(1,NNO+I)=ZERO
                U(2,NNO+I)=ZERO
                U(3,NNO+I)=ZERO
-               IF (ITAGNI(I).EQ.0) CYCLE
+               IF (ITAGNI(I)==0) CYCLE
                XX=XL(1,NNO+I)
                YY=XL(2,NNO+I)
                ZZ=XL(3,NNO+I)
@@ -952,13 +952,13 @@ C
      .                   (X0-X2)**2+(Y0-Y2)**2+(Z0-Z2)**2,
      .                   (X0-X3)**2+(Y0-Y3)**2+(Z0-Z3)**2)
 C Nombre de points de gauss sur le triangle
-                  IF (R2.GT.HUNDRED*D2) THEN
+                  IF (R2>HUNDRED*D2) THEN
                      NPG=1
                      IAD=1
-                  ELSEIF (R2.GT.TWENTY5*D2) THEN
+                  ELSEIF (R2>TWENTY5*D2) THEN
                      NPG=4
                      IAD=2
-                  ELSEIF (R2.GT.FOUR*D2) THEN
+                  ELSEIF (R2>FOUR*D2) THEN
                      NPG=7
                      IAD=6
                   ELSE
@@ -968,7 +968,7 @@ C Nombre de points de gauss sur le triangle
 C
                   QM=Q(J)
                   AREA=ELAREA(J)
-                  IF(AREA.GT.EM20)THEN
+                  IF(AREA>EM20)THEN
                     AREA2=TWO*AREA
                     NRX=NORM(1,J)/AREA2
                     NRY=NORM(2,J)/AREA2
@@ -993,7 +993,7 @@ C
                      ZM=Z1*VAL1+Z2*VAL2+Z3*VAL3
                      PHIM=PHI(N1)*VAL1+PHI(N2)*VAL2+PHI(N3)*VAL3
                      R=SQRT((XX-XM)**2+(YY-YM)**2+(ZZ-ZM)**2)
-                     IF(R.GT.EM20)THEN
+                     IF(R>EM20)THEN
                        FAC=FOURTH/PI/R**3
                        FAC2=THREE/R**2*
      .                       ((XX-XM)*NRX+(YY-YM)*NRY+(ZZ-ZM)*NRZ)
@@ -1049,14 +1049,14 @@ C 4- Calcul des pressions
 C---------------------------------------------------
       RHO=RFLOW(5)
       IFPA=IFLOW(23)
-      IF (IFPA.NE.0) THEN
+      IF (IFPA/=0) THEN
 C La pression d'arret est imposee directement
          SFPA=RFLOW(1)
          SCALT=RFLOW(2)
          TSTART=ZERO
          ISMOOTH = 0
          IF (IFPA > 0) ISMOOTH = NPC(2*NFUNCT+IFPA+1)
-         IF (TT.GE.TSTART.AND.DT1.GT.ZERO) THEN
+         IF (TT>=TSTART.AND.DT1>ZERO) THEN
             TSG=(TT-TSTART)*SCALT
 !!            PA=SFPA*FINTER(IFPA, TSG, NPC, TF, DYDX)
            IF (ISMOOTH == 0) THEN
@@ -1068,7 +1068,7 @@ C La pression d'arret est imposee directement
       ELSE
 C La pression est imposee a une des entrees-sorties
          DO I=1,NINOUT
-            IF (IINOUT(4,I).NE.0) THEN
+            IF (IINOUT(4,I)/=0) THEN
                IFPRES=IINOUT(4,I)
                SFPRES=RINOUT(2,I)
                SCALT=RINOUT(3,I)
@@ -1076,7 +1076,7 @@ C La pression est imposee a une des entrees-sorties
                PIO=ZERO
                ISMOOTH = 0
                IF (IFPRES > 0) ISMOOTH = NPC(2*NFUNCT+IFPRES+1)
-               IF (TT.GT.TSTART.AND.DT1.GT.ZERO) THEN
+               IF (TT>TSTART.AND.DT1>ZERO) THEN
                   TSG=(TT-TSTART)*SCALT
 !!                  PIO=SFPRES*FINTER(IFPRES, TSG, NPC, TF, DYDX)
                  IF (ISMOOTH == 0) THEN
@@ -1090,8 +1090,8 @@ C La pression est imposee a une des entrees-sorties
          ENDDO
       ENDIF
 C
-      IF (DT1.GT.ZERO) THEN
-         IF (NCYCLE.GT.1) THEN
+      IF (DT1>ZERO) THEN
+         IF (NCYCLE>1) THEN
             DO I=1,NNO+NNI
                XX=XL(1,I)
                YY=XL(2,I)
@@ -1155,7 +1155,7 @@ C---------------------------------------------------
             N1=ELEM(1,I)
             N2=ELEM(2,I)
             N3=ELEM(3,I)
-            IF (IBUF(N1).NE.0.OR.IBUF(N2).NE.0.OR.IBUF(N3).NE.0) THEN
+            IF (IBUF(N1)/=0.OR.IBUF(N2)/=0.OR.IBUF(N3)/=0) THEN
                NELF=NELF+1
                LELF(NELF)=I
             ENDIF
@@ -1169,7 +1169,7 @@ C---------------------------------------------------
             NRX=NORM(1,II)
             NRY=NORM(2,II)
             NRZ=NORM(3,II)
-            IF (IBUF(N1).NE.0) THEN
+            IF (IBUF(N1)/=0) THEN
                NN1=IBUF(N1)
                A(1,NN1)=A(1,NN1)+COEF*NRX
                A(2,NN1)=A(2,NN1)+COEF*NRY
@@ -1178,7 +1178,7 @@ C---------------------------------------------------
      .                    +COEF*NRY*V(2,NN1)*DT1
      .                    +COEF*NRZ*V(3,NN1)*DT1
             ENDIF
-            IF (IBUF(N2).NE.0) THEN
+            IF (IBUF(N2)/=0) THEN
                NN2=IBUF(N2)
                A(1,NN2)=A(1,NN2)+COEF*NRX
                A(2,NN2)=A(2,NN2)+COEF*NRY
@@ -1187,7 +1187,7 @@ C---------------------------------------------------
      .                    +COEF*NRY*V(2,NN2)*DT1
      .                    +COEF*NRZ*V(3,NN2)*DT1
             ENDIF
-            IF (IBUF(N3).NE.0) THEN
+            IF (IBUF(N3)/=0) THEN
                NN3=IBUF(N3)
                A(1,NN3)=A(1,NN3)+COEF*NRX
                A(2,NN3)=A(2,NN3)+COEF*NRY
@@ -1235,7 +1235,7 @@ C
       VY1=Y2-Y1
       VZ1=Z2-Z1
       EX1=SQRT(VX1**2+VY1**2+VZ1**2)
-      IF(EX1.GT.EM20)THEN
+      IF(EX1>EM20)THEN
         VX1=VX1/EX1
         VY1=VY1/EX1
         VZ1=VZ1/EX1
@@ -1253,7 +1253,7 @@ C
       VY2=VY2-EX2*VY1
       VZ2=VZ2-EX2*VZ1
       EY2=SQRT(VX2**2+VY2**2+VZ2**2)
-      IF(EY2.GT.EM20)THEN      
+      IF(EY2>EM20)THEN      
         VX2=VX2/EY2
         VY2=VY2/EY2
         VZ2=VZ2/EY2
@@ -1270,7 +1270,7 @@ C
       XL3=EX2
       YL3=EY2
       JAC=(XL2-XL1)*(YL3-YL1)-(YL2-YL1)*(XL3-XL1)
-      IF(ABS(JAC).GT.EM20)THEN
+      IF(ABS(JAC)>EM20)THEN
         JJ11=(YL3-YL1)/JAC
         JJ12=-(XL3-XL1)/JAC
         JJ21=-(YL2-YL1)/JAC

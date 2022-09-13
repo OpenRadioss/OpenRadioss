@@ -265,8 +265,8 @@ C
 
       INTBUF_TAB%VARIABLES(9) = MAXBOX
       INTBUF_TAB%VARIABLES(12) = MINBOX
-      IF (IMACH.EQ.3) THEN
-        IF (IDDLEVEL.EQ.0)THEN
+      IF (IMACH==3) THEN
+        IF (IDDLEVEL==0)THEN
           IF ( (NELEMINT+I_STOK)*6 >  SIXINT)THEN
             CALL UPGRADE_IXINT(SIXINT,NELEMINT,I_STOK)
           ENDIF
@@ -276,14 +276,14 @@ C
      3     X                ,INTBUF_TAB%VARIABLES(2),DRAD, IGAP,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,
      4     INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML      ,INTBUF_TAB%VARIABLES(13),INTBUF_TAB%VARIABLES(16),BID)
         ENDIF
-        IF((IDDLEVEL.EQ.0.OR.NDSOLV.EQ.1).AND.
-     .     (DECTYP.GE.3.AND.DECTYP.LE.6))THEN
+        IF((IDDLEVEL==0.OR.NDSOLV==1).AND.
+     .     (DECTYP>=3.AND.DECTYP<=6))THEN
 C Appe routine poids noeuds interfaces
           CALL I20WCONTDD(INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN,NMN,IWCONT,
      .                  NSNT,NMNT)
         END IF
       ELSE
-        IF (NDSOLV.EQ.1)THEN 
+        IF (NDSOLV==1)THEN 
            IF ( (NELEMINT+I_STOK)*6 >  SIXINT)THEN
              CALL UPGRADE_IXINT(SIXINT,NELEMINT,I_STOK)
            ENDIF
@@ -293,7 +293,7 @@ C Appe routine poids noeuds interfaces
      3       X,INTBUF_TAB%VARIABLES(2),DRAD,IGAP,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,
      4     INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML      ,INTBUF_TAB%VARIABLES(13),INTBUF_TAB%VARIABLES(16),BID)
         ENDIF
-        IF(DECTYP.GE.3.AND.DECTYP.LE.6)THEN
+        IF(DECTYP>=3.AND.DECTYP<=6)THEN
 C Appe routine poids noeuds interfaces
           CALL I20WCONTDD(INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN,NMN,IWCONT,
      .                  NSNT,NMNT)
@@ -379,7 +379,7 @@ C------------------------------------------------------
  
         NGROUS=1+(I_STOK_E-1)/NVSIZ
 C
-        IF(IPRI.GE.1) WRITE(IOUT,2011)
+        IF(IPRI>=1) WRITE(IOUT,2011)
 C
         DO NG=1,NGROUS
          NFT = (NG-1) * NVSIZ
@@ -401,10 +401,10 @@ C
      3 N1        ,N2        ,M1     ,M2        ,NX        ,
      4 NY        ,NZ        ,GAPV   ,INTBUF_TAB%GAP_SE,INTBUF_TAB%GAP_ME,
      5 IGAP      ,X         ,FPENMAX )
-         IF(IWPENEDGE.NE.0.AND.INACTI.EQ.3.OR.INACTI.EQ.4) IWRN = 1
+         IF(IWPENEDGE/=0.AND.INACTI==3.OR.INACTI==4) IWRN = 1
         ENDDO
-        IF(((IMACH.EQ.3.AND.IDDLEVEL.EQ.0).OR.NDSOLV.EQ.1).AND.
-     +  (DECTYP.GE.3.AND.DECTYP.LE.6))THEN
+        IF(((IMACH==3.AND.IDDLEVEL==0).OR.NDSOLV==1).AND.
+     +  (DECTYP>=3.AND.DECTYP<=6))THEN
 C Appel routine poids noeuds interfaces
           CALL I20WCONTDD(INTBUF_TAB%NSVL,INTBUF_TAB%MSRL,NSNE,NMNE,IWCONT,
      .                NSNET,NMNET)
@@ -420,7 +420,7 @@ C------------------------------------------------------
       NGROUS=1+(I_STOK-1)/NVSIZ
 C
       DO NG=1,NGROUS
-       IF(IPRI.GE.1) WRITE(IOUT,2007)
+       IF(IPRI>=1) WRITE(IOUT,2007)
        NFT = (NG-1) * NVSIZ
        LFT = 1
        LLT = MIN0( NVSIZ, I_STOK - NFT )
@@ -478,7 +478,7 @@ C------------------------------------------------------
       IWPENEDGE=0
 C
       DO NG=1,NGROUS
-       IF(IPRI.GE.1) WRITE(IOUT,2007)
+       IF(IPRI>=1) WRITE(IOUT,2007)
        NFT = (NG-1) * NVSIZ
        LFT = 1
        LLT = MIN0( NVSIZ, I_STOK - NFT )
@@ -530,7 +530,7 @@ C------------------------------------------------------
  
         NGROUS=1+(I_STOK_E-1)/NVSIZ
 C
-        IF(IPRI.GE.1) WRITE(IOUT,2011)
+        IF(IPRI>=1) WRITE(IOUT,2011)
 C
         DO NG=1,NGROUS
          NFT = (NG-1) * NVSIZ
@@ -550,10 +550,10 @@ C
      3 N1        ,N2        ,M1     ,M2        ,NX        ,
      4 NY        ,NZ        ,GAPV   ,INTBUF_TAB%GAP_SE,INTBUF_TAB%GAP_ME,
      5 INTBUF_TAB%PENISE,INTBUF_TAB%PENIME,IGAP   )
-         IF(IWPENEDGE.NE.0.AND.INACTI.EQ.3.OR.INACTI.EQ.4) IWRN = 1
+         IF(IWPENEDGE/=0.AND.INACTI==3.OR.INACTI==4) IWRN = 1
         ENDDO
-        IF(((IMACH.EQ.3.AND.IDDLEVEL.EQ.0).OR.NDSOLV.EQ.1).AND.
-     +  (DECTYP.GE.3.AND.DECTYP.LE.6))THEN
+        IF(((IMACH==3.AND.IDDLEVEL==0).OR.NDSOLV==1).AND.
+     +  (DECTYP>=3.AND.DECTYP<=6))THEN
 C Appel routine poids noeuds interfaces
           CALL I20WCONTDD(INTBUF_TAB%NSVL,INTBUF_TAB%MSRL,NSNE,NMNE,IWCONT,
      .                NSNET,NMNET)

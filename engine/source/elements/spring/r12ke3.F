@@ -96,7 +96,7 @@ C=======================================================================
 c       NB3 =NB2  + NEL
 c       NB4 =NB3  + NEL
 c       NB5 =NB4  + NEL
-c       IF (SCODVER.LT.101) THEN
+c       IF (SCODVER<101) THEN
 c         NB6 =NB5  + NEL
 c       ELSE
 c         NB6 =NB5  + 2*NEL
@@ -129,7 +129,7 @@ C-------------------------
      3              KE33   )
 C-----------------------------------------------\
 
-              IF (NEIG.GT.0) CALL ELEOFF(
+              IF (NEIG>0) CALL ELEOFF(
      1                   JFT, JLT, IXR,NIXR ,3  , ETAG, OFF)
          CALL ASSEM_R3(NIXR    ,3        ,
      1       IXR       ,NEL       ,IDDL      ,NDOF      ,K_DIAG    ,

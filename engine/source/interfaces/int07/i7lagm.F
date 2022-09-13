@@ -186,7 +186,7 @@ C
       ENDDO
 C
       DO I=1,JLT
-        IF(IX3(I).NE.IX4(I))THEN
+        IF(IX3(I)/=IX4(I))THEN
          PENE(I) = MAX(P1(I),P2(I),P3(I),P4(I))
 C
          LA1 = ONE - LB1(I) - LC1(I)
@@ -224,7 +224,7 @@ cC       correction hourglass
 c         H0 = -.25*(H1(I) - H2(I) + H3(I) - H4(I))
 c         H0 = MIN(H0,H2(I),H4(I))
 c         H0 = MAX(H0,-H1(I),-H3(I))
-c         IF(IX3(I).EQ.IX4(I))H0 = 0.0
+c         IF(IX3(I)==IX4(I))H0 = 0.0
 c         H1(I) = H1(I) + H0
 c         H2(I) = H2(I) - H0
 c         H3(I) = H3(I) + H0
@@ -234,10 +234,10 @@ C
 C---------------------
 C
       DO I=1,JLT
-       IF( (GAPV(I)-PENE(I))/GAPV(I) .LT.EM10 .AND. 
-     .     STIF(I).GT.ZERO) THEN
+       IF( (GAPV(I)-PENE(I))/GAPV(I) <EM10 .AND. 
+     .     STIF(I)>ZERO) THEN
          STIF(I) = ZERO
-         IF (IMACH.EQ.3) NEWFRONT = -1
+         IF (IMACH==3) NEWFRONT = -1
 #include "lockon.inc"
             STFN(CN_LOC(I)) = -ABS(STFN(CN_LOC(I)))
 
@@ -270,12 +270,12 @@ C
      .                  - H4(I)*(V(3,IX4(I))+DT12*A(3,IX4(I)))
         VN(I) = NX(I)*VX(I) + NY(I)*VY(I) + NZ(I)*VZ(I)
 #include "lockon.inc"
-       IF(STIF(I).NE.ZERO.AND.PENE(I).GT.ZERO.AND.VN(I).LT.XTAG(IG))THEN
+       IF(STIF(I)/=ZERO.AND.PENE(I)>ZERO.AND.VN(I)<XTAG(IG))THEN
             AA = ONE/SQRT(NX(I)*NX(I)+NY(I)*NY(I)+NZ(I)*NZ(I))
             NX(I) = NX(I)*AA
             NY(I) = NY(I)*AA
             NZ(I) = NZ(I)*AA
-            IF(ITAG(NSVG(I)).eq.0)then
+            IF(ITAG(NSVG(I))==0)then
              N_MULT = N_MULT+1
              ITAG(NSVG(I)) = N_MULT
              XTAG(NSVG(I)) = VN(I)
@@ -398,9 +398,9 @@ C
 #include "lockoff.inc"
       ENDDO
 C
-      IF(IBAG.NE.0.OR.IADM.NE.0)THEN
+      IF(IBAG/=0.OR.IADM/=0)THEN
        DO I=1,JLT
-        IF(PENE(I).NE.ZERO)THEN
+        IF(PENE(I)/=ZERO)THEN
           ICONTACT(NSVG(I))=1
           ICONTACT(IX1(I))=1
           ICONTACT(IX2(I))=1

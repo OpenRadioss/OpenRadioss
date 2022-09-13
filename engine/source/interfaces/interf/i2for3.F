@@ -69,15 +69,15 @@ C     REAL
      .   H(4),XMSJ, SS, ST, XMSI, FXI, FYI, FZI,SP,SM,TP,TM,H2(4)
 C-----------------------------------------------
       NIR=2
-      IF(N2D.EQ.0)NIR=4
+      IF(N2D==0)NIR=4
 C
 Cel spmd pre-traitement sur noeuds main + sauvegarde de la masse
 Cel sauvegarde de la masse initiale
 C
-      IF(IMPL_S.GT.0) THEN
+      IF(IMPL_S>0) THEN
       DO II=1,NSN
        I=NSV(II)
-       IF(I.GT.0)THEN
+       IF(I>0)THEN
         L=IRTL(II)
 C
         I3=3*I
@@ -112,7 +112,7 @@ C       Additional shape functions for distribution of mass / inertia - to avoid
         H2(3)=TP*SP
         H2(4)=TP*SM
 C
-        IF(IRECT(3,L).EQ.IRECT(4,L)) THEN
+        IF(IRECT(3,L)==IRECT(4,L)) THEN
 	 NIR = 3
          H(3)=ONE-H(1)-H(2)
          H(4)=ZERO
@@ -139,8 +139,8 @@ C---    output of tied contact forces
      .	              IRECT(1,L),H	,NIR     ,FSAV    ,FNCONT ,
      .                FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)
 C      
-        IF(IRODDL.EQ.0)THEN
-          IF(IDEL2.NE.0.AND.MS(I).NE.0.)SMASS(II)=MS(I)
+        IF(IRODDL==0)THEN
+          IF(IDEL2/=0.AND.MS(I)/=0.)SMASS(II)=MS(I)
           MS(I)=ZERO
           STIFN(I)=EM20
           A(I1)=ZERO
@@ -154,7 +154,7 @@ C----
       ELSE
       DO II=1,NSN
        I=NSV(II)
-       IF(I.GT.0)THEN
+       IF(I>0)THEN
         L=IRTL(II)
 C
         I3=3*I
@@ -206,8 +206,8 @@ C---    output or tied contact forces
      .	              IRECT(1,L),H	,NIR     ,FSAV    ,FNCONT ,
      .                FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)
 C
-        IF(IRODDL.EQ.0)THEN
-          IF(IDEL2.NE.0.AND.MS(I).NE.0.)SMASS(II)=MS(I)
+        IF(IRODDL==0)THEN
+          IF(IDEL2/=0.AND.MS(I)/=0.)SMASS(II)=MS(I)
           MS(I)=ZERO
           STIFN(I)=EM20
           A(I1)=ZERO
@@ -271,10 +271,10 @@ C     REAL
      .   XMSJ,SS,ST,XMSI,FXI,FYI,FZI,SP,SM,TP,TM,H2(4)
 C=======================================================================
       NIR=2
-      IF(N2D.EQ.0)NIR=4
+      IF(N2D==0)NIR=4
 C
 Cel spmd pre-traitement sur noeuds main + sauvegarde de la masse
-      IF (IMACH.EQ.3) THEN
+      IF (IMACH==3) THEN
        ELSE
 Cel sauvegarde de la masse initiale
         DO II=1,NMN
@@ -282,7 +282,7 @@ Cel sauvegarde de la masse initiale
           MMASS(II)=MS(J)
         ENDDO
        ENDIF
-      IF(IMPL_S.GT.0) THEN
+      IF(IMPL_S>0) THEN
         DO II=1,NSN
           I=NSV(II)
           L=IRTL(II)
@@ -301,7 +301,7 @@ C
           SM=ONE - SS
           TP=FOURTH*(ONE + ST)
           TM=FOURTH*(ONE - ST)
-          IF(IRECT(3,L).EQ.IRECT(4,L)) THEN
+          IF(IRECT(3,L)==IRECT(4,L)) THEN
 	   NIR = 3
            H(1)=TM*SM
            H(2)=TM*SP
@@ -321,7 +321,7 @@ C        Additional shape functions for distribution of mass / inertia - to avoi
           SM=ONE - SS
           TP=FOURTH*(ONE + ST)
           TM=FOURTH*(ONE - ST)
-          IF(IRECT(3,L).EQ.IRECT(4,L)) THEN
+          IF(IRECT(3,L)==IRECT(4,L)) THEN
 	   NIR = 3
            H2(1)=TM*SM
            H2(2)=TM*SP
@@ -351,7 +351,7 @@ C---      output of tied contact forces
      .	               IRECT(1,L),H	,NIR     ,FSAV    ,FNCONT ,
      .                 FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)
 C
-          IF(IRODDL.EQ.0)THEN
+          IF(IRODDL==0)THEN
             STIFN(I)=EM20
             A(I1)=ZERO
             A(I2)=ZERO
@@ -414,7 +414,7 @@ C---      output of tied contact forces
      .	               IRECT(1,L),H	,NIR     ,FSAV    ,FNCONT ,
      .                 FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)
 C
-          IF(IRODDL.EQ.0)THEN
+          IF(IRODDL==0)THEN
             STIFN(I)=EM20
             A(I1)=ZERO
             A(I2)=ZERO
@@ -472,10 +472,10 @@ C     REAL
      .   H(4),XMSJ, SS, ST, XMSI, FXI, FYI, FZI,SP,SM,TP,TM, H2(4)
 C-----------------------------------------------
       NIR=2
-      IF(N2D.EQ.0)NIR=4
+      IF(N2D==0)NIR=4
 C
 Cel spmd pre-traitement sur noeuds main + sauvegarde de la masse
-      IF (IMACH.EQ.3) THEN
+      IF (IMACH==3) THEN
       ELSE
 Cel sauvegarde de la masse initiale
         DO II=1,NMN
@@ -484,7 +484,7 @@ Cel sauvegarde de la masse initiale
         ENDDO
       ENDIF
 C
-      IF(IMPL_S.GT.0) THEN
+      IF(IMPL_S>0) THEN
         DO II=1,NSN
          I=NSV(II)
           L=IRTL(II)
@@ -503,7 +503,7 @@ C
           SM=ONE - SS
           TP=FOURTH*(ONE + ST)
           TM=FOURTH*(ONE - ST)
-          IF(IRECT(3,L).EQ.IRECT(4,L)) THEN
+          IF(IRECT(3,L)==IRECT(4,L)) THEN
 	   NIR = 3
            H(1)=TM*SM
            H(2)=TM*SP
@@ -523,7 +523,7 @@ C        Additional shape functions for distribution of mass / inertia - to avoi
           SM=ONE - SS
           TP=FOURTH*(ONE + ST)
           TM=FOURTH*(ONE - ST)
-          IF(IRECT(3,L).EQ.IRECT(4,L)) THEN
+          IF(IRECT(3,L)==IRECT(4,L)) THEN
 	   NIR = 3
            H2(1)=TM*SM
            H2(2)=TM*SP
@@ -677,17 +677,17 @@ C     REAL
      .   STF,AI,H2(4)
 C-----------------------------------------------
 C     NMAS(II) initialise a MS(J) dans resol_init
-      IF(ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER .GT.0) THEN
+      IF(ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0) THEN
         DO II=1,NMN
           J=MSR(II)
           ADI(J) = ADI(J)*NMAS(II)
         ENDDO
       ENDIF
 C
-      IF(IMPL_S.GT.0) THEN
+      IF(IMPL_S>0) THEN
       DO II=1,NSN
        I=NSV(II)
-       IF(I.GT.0)THEN
+       IF(I>0)THEN
         L=IRTL(II)
 C
         SS=CRST(1,II)
@@ -713,7 +713,7 @@ C       Additional shape functions for distribution of mass / inertia - to avoid
         H2(3)=TP*SP
         H2(4)=TP*SM
 C
-        IF (IRECT(3,L).EQ.IRECT(4,L)) THEN
+        IF (IRECT(3,L)==IRECT(4,L)) THEN
          NIR=3
          H(3)=ONE-H(1)-H(2)
          H(4)=ZERO
@@ -755,7 +755,7 @@ C
 C
         W = WEIGHT(I)
         AI=AA * MS(I) * W
-        IF (ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER .GT.0) THEN
+        IF (ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0) THEN
           DO JJ=1,NIR
             J=IRECT(JJ,L)
             ADI(J)=ADI(J)+AI*H(JJ)
@@ -763,7 +763,7 @@ C
         END IF
         DO JJ=1,NIR
          J=IRECT(JJ,L)
-         IF (MINER(J).GT.EM20) THEN
+         IF (MINER(J)>EM20) THEN
           AR(1,J)=AR(1,J)+MXI*H(JJ)*W
           AR(2,J)=AR(2,J)+MYI*H(JJ)*W
           AR(3,J)=AR(3,J)+MZI*H(JJ)*W
@@ -772,10 +772,10 @@ C
          END IF
         ENDDO
         STIFR(I)=EM20
-        IF(IDEL2.NE.0.AND.IN(I).NE.ZERO)SINER(II)=IN(I)
+        IF(IDEL2/=0.AND.IN(I)/=ZERO)SINER(II)=IN(I)
         IN(I)=ZERO
         STIFN(I)=EM20
-        IF(IDEL2.NE.0.AND.MS(I).NE.ZERO)SMASS(II)=MS(I)
+        IF(IDEL2/=0.AND.MS(I)/=ZERO)SMASS(II)=MS(I)
         MS(I)=ZERO
         A(1,I)=ZERO
         A(2,I)=ZERO
@@ -786,7 +786,7 @@ C
       ELSE
       DO II=1,NSN
        I=NSV(II)
-       IF(I.GT.0)THEN
+       IF(I>0)THEN
         L=IRTL(II)
 C
         SS=CRST(1,II)
@@ -850,7 +850,7 @@ C
 C
         W = WEIGHT(I)
         AI=AA * MS(I) * W
-        IF (ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER .GT.0) THEN
+        IF (ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0) THEN
           DO JJ=1,4
             J=IRECT(JJ,L)
             ADI(J)=ADI(J)+AI*H(JJ)
@@ -858,7 +858,7 @@ C
         END IF
         DO JJ=1,4
          J=IRECT(JJ,L)
-         IF (MINER(J).GT.EM20) THEN
+         IF (MINER(J)>EM20) THEN
            AR(1,J)=AR(1,J)+MXI*H(JJ)*W
            AR(2,J)=AR(2,J)+MYI*H(JJ)*W
            AR(3,J)=AR(3,J)+MZI*H(JJ)*W
@@ -867,10 +867,10 @@ C
          END IF
         ENDDO
         STIFR(I)=EM20
-        IF(IDEL2.NE.0.AND.IN(I).NE.0.)SINER(II)=IN(I)
+        IF(IDEL2/=0.AND.IN(I)/=0.)SINER(II)=IN(I)
         IN(I)=ZERO
         STIFN(I)=EM20
-        IF(IDEL2.NE.0.AND.MS(I).NE.0.)SMASS(II)=MS(I)
+        IF(IDEL2/=0.AND.MS(I)/=0.)SMASS(II)=MS(I)
         MS(I)=ZERO
         A(1,I)=ZERO
         A(2,I)=ZERO
@@ -882,7 +882,7 @@ C
 C
 C Traitement specifique pour ADI
 C
-      IF(ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER .GT.0) THEN
+      IF(ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0) THEN
 #include "vectorize.inc"
         DO II=1,NMN
           J=MSR(II)
@@ -933,10 +933,10 @@ C     REAL
      .   X0,X1,X2,X3,X4,Y0,Y1,Y2,Y3,Y4,Z0,Z1,Z2,Z3,Z4,AA,STF,
      .   XC0,YC0,ZC0,SP,SM,TP,TM,XC,YC,ZC,H2(4)
 C-----------------------------------------------
-      IF(IMPL_S.GT.0) THEN
+      IF(IMPL_S>0) THEN
       DO II=1,NSN
        I=NSV(II)
-       IF(I.GT.0)THEN
+       IF(I>0)THEN
         L=IRTL(II)
 C
         SS=CRST(1,II)
@@ -945,7 +945,7 @@ C
         SM=ONE - SS
         TP=FOURTH*(ONE + ST)
         TM=FOURTH*(ONE - ST)
-        IF (IRECT(3,L).EQ.IRECT(4,L)) THEN
+        IF (IRECT(3,L)==IRECT(4,L)) THEN
          NIR=3
          H(1)=TM*SM
          H(2)=TM*SP
@@ -965,7 +965,7 @@ C       Additional shape functions for distribution of mass / inertia - to avoid
         SM=ONE - SS
         TP=FOURTH*(ONE + ST)
         TM=FOURTH*(ONE - ST)
-        IF (IRECT(3,L).EQ.IRECT(4,L)) THEN
+        IF (IRECT(3,L)==IRECT(4,L)) THEN
          NIR=3
          H2(1)=TM*SM
          H2(2)=TM*SP
@@ -1011,11 +1011,11 @@ C
         W = WEIGHT(I)
         DO JJ=1,NIR
          J=IRECT(JJ,L)
-         IF (MINER(J).GT.EM20) THEN
+         IF (MINER(J)>EM20) THEN
           AR(1,J)=AR(1,J)+MXI*H(JJ)*W
           AR(2,J)=AR(2,J)+MYI*H(JJ)*W
           AR(3,J)=AR(3,J)+MZI*H(JJ)*W
-          IF(TT.EQ.ZERO) IN(J)=IN(J)+INS*H2(JJ)*W
+          IF(TT==ZERO) IN(J)=IN(J)+INS*H2(JJ)*W
           STIFR(J)=STIFR(J)+ABS(STF*H(JJ)*W)
          END IF
         ENDDO
@@ -1096,11 +1096,11 @@ C
       W = WEIGHT(I)
       DO JJ=1,4
        J=IRECT(JJ,L)
-        IF (MINER(J).GT.EM20) THEN
+        IF (MINER(J)>EM20) THEN
          AR(1,J)=AR(1,J)+MXI*H(JJ)*W
          AR(2,J)=AR(2,J)+MYI*H(JJ)*W
          AR(3,J)=AR(3,J)+MZI*H(JJ)*W
-         IF(TT.EQ.ZERO) IN(J)=IN(J)+INS*H2(JJ)*W
+         IF(TT==ZERO) IN(J)=IN(J)+INS*H2(JJ)*W
          STIFR(J)=STIFR(J)+ABS(STF*H(JJ)*W)
         END IF
       ENDDO
@@ -1179,7 +1179,7 @@ C=======================================================================
 C
 C Traitement specifique pour DMAS
 C
-      IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS .GT.0.AND.ILEV.EQ.1) THEN
+      IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS >0.AND.ILEV==1) THEN
         DO II=1,NMN
           J=MSR(II)
           ADM(J) = ADM(J)*MMASS(II)
@@ -1195,10 +1195,10 @@ C     MASSES ET INERTIES DES NOEUDS SECONDS
 C     TRANSMISES AUX NOEUDS MAINS SOUS 
 C     FORME DE MASSES 
 C------------------------------
-      IF(IMPL_S.GT.0) THEN
+      IF(IMPL_S>0) THEN
       DO II=1,NSN
        I=NSV(II)
-       IF(I.GT.0)THEN
+       IF(I>0)THEN
         L=IRTL(II)
 C
         S = CRST(1,II)  
@@ -1220,7 +1220,7 @@ C
          YM(JJ)=X(2,J)
          ZM(JJ)=X(3,J)
         ENDDO 
-        IF(IRECT(3,L).EQ.IRECT(4,L)) THEN
+        IF(IRECT(3,L)==IRECT(4,L)) THEN
          NIR=3
          XM(4)=ZERO
          YM(4)=ZERO
@@ -1316,13 +1316,13 @@ C
 C------------------------------------------------------
 C     MASSES TRANSMISES AUX NOEUDS MAINS
 C------------------------------------------------------
-        IF(ILEV.EQ.1)THEN
+        IF(ILEV==1)THEN
           XMSI=MAX(FACM*XMSI,MR)
-        ELSEIF(ILEV.EQ.3)THEN
+        ELSEIF(ILEV==3)THEN
           XMSI=MAX(FACM*XMSI,MR)
         ENDIF
         DMAST = DMAST + NIR*XMSI - MS(I)
-        IF (ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS .GT.0) THEN
+        IF (ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS >0) THEN
          DO JJ=1,NIR
           J=IRECT(JJ,L)
           ADM(J) = ADM(J) + XMSI - FACM*MS(I)
@@ -1338,14 +1338,14 @@ C------------------------------------------------------
         ENDDO 
 C
         STIFN(I)=EM20
-        IF(IDEL2.NE.0.AND.MS(I).NE.0.)SMASS(II)=MS(I)
+        IF(IDEL2/=0.AND.MS(I)/=0.)SMASS(II)=MS(I)
         MS(I)=ZERO
         STIFR(I)=EM20
-        IF(IDEL2.NE.0.AND.IN(I).NE.0.)SINER(II)=IN(I)
+        IF(IDEL2/=0.AND.IN(I)/=0.)SINER(II)=IN(I)
         IN(I)=ZERO
        ENDIF
 C----
-       IF(I.GT.0)THEN
+       IF(I>0)THEN
 C---     output of tied contact forces
  	 CALL I2FORCES(X      ,V	,A	 ,MS	  ,I	  ,
      .	               IRECT(1,L),H	,NIR     ,FSAV    ,FNCONT ,
@@ -1357,7 +1357,7 @@ C----
       ELSE
       DO II=1,NSN
        I=NSV(II)
-       IF(I.GT.0)THEN
+       IF(I>0)THEN
         L=IRTL(II)
 C
         S = CRST(1,II)  
@@ -1492,13 +1492,13 @@ C
 C------------------------------------------------------
 C     MASSES TRANSMISES AUX NOEUDS MAINS
 C------------------------------------------------------
-        IF(ILEV.EQ.1)THEN
+        IF(ILEV==1)THEN
           XMSI=FOURTH*XMSI+MR
-        ELSEIF(ILEV.EQ.3)THEN
+        ELSEIF(ILEV==3)THEN
           XMSI=MAX(FOURTH*XMSI,MR)
         ENDIF
         DMAST = DMAST + FOUR*XMSI - MS(I)
-        IF (ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS .GT.0) THEN
+        IF (ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS >0) THEN
          ADM(J1) = ADM(J1) + XMSI - FOURTH*MS(I)
          ADM(J2) = ADM(J2) + XMSI - FOURTH*MS(I)
          ADM(J3) = ADM(J3) + XMSI - FOURTH*MS(I)
@@ -1517,14 +1517,14 @@ C------------------------------------------------------
         STIFN(J4)=STIFN(J4) + STF
 C
         STIFN(I)=EM20
-        IF(IDEL2.NE.0.AND.MS(I).NE.0.)SMASS(II)=MS(I)
+        IF(IDEL2/=0.AND.MS(I)/=0.)SMASS(II)=MS(I)
         MS(I)=ZERO
         STIFR(I)=EM20
-        IF(IDEL2.NE.0.AND.IN(I).NE.0.)SINER(II)=IN(I)
+        IF(IDEL2/=0.AND.IN(I)/=0.)SINER(II)=IN(I)
         IN(I)=ZERO
        ENDIF
 C----
-       IF(I.GT.0)THEN
+       IF(I>0)THEN
 C---     output of tied contact forces
  	 CALL I2FORCES(X      ,V	,A	 ,MS	  ,I	  ,
      .	               IRECT(1,L),H	,NIR     ,FSAV    ,FNCONT ,
@@ -1537,7 +1537,7 @@ C
 C
 C Traitement specifique pour ADM
 C
-      IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS .GT.0.AND.ILEV.EQ.1) THEN
+      IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS >0.AND.ILEV==1) THEN
 #include "vectorize.inc"
         DO II=1,NMN
           J=MSR(II)

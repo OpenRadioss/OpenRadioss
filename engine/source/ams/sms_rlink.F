@@ -86,7 +86,7 @@ C boucle parallele sur les threads SMP
 
             K = KIND(N)
             ISK=NLINK(K1+3)
-            IF(ISK.EQ.1)THEN
+            IF(ISK==1)THEN
               CALL SMS_RLINK1(
      1          MS      ,A       ,NLINK(K1) ,NLINK(K1+1),LLINK(K),
      2          WEIGHT,FRL6(1,1,N),1   ,IDOWN      ,FR_RL(NSPMD+2,N),
@@ -107,7 +107,7 @@ C routine appelee rlink par rlink a optimiser si besoin
             DO N=1,NRLINK
               IF(TAG_LNK_SMS(N)==0)CYCLE
 C routine de calcul Parith/ON de A rigid link
-              IF(FR_RL(ISPMD+1,N).NE.0)
+              IF(FR_RL(ISPMD+1,N)/=0)
      +          CALL SPMD_EXCH_FR6(FR_RL(1,N),FRL6(1,1,N),4*6)
             END DO
 
@@ -126,7 +126,7 @@ C boucle parallele sur les threads SMP
 
             K = KIND(N)
             ISK=NLINK(K1+3)
-            IF(ISK.EQ.1)THEN
+            IF(ISK==1)THEN
               CALL SMS_RLINK1(
      1          MS      ,A       ,NLINK(K1) ,NLINK(K1+1),LLINK(K),
      2          WEIGHT,FRL6(1,1,N),2  ,IDOWN      ,FR_RL(NSPMD+2,N),
@@ -211,13 +211,13 @@ C boucle parallele sur les threads SMP
             IPOL=NNLINK(6,N)
             K = KIND(N)
             IPOL=NNLINK(6,N)
-            IF(IPOL.EQ.1)THEN
+            IF(IPOL==1)THEN
                CALL SMS_RLINK3(
      1      MS       ,X          ,A            ,V        ,NNLINK(1,N),
      2      NNLINK(3,N),LLLINK(K),XFRAME(1,ISK),WEIGHT   ,FRL6(1,1,N),
      3      1  ,IDOWN  ,FR_LL(NSPMD+2,N),FRL(1,N),TAG_LNK_SMS(NRLINK+N),
      4      ITAB)
-            ELSEIF(ISK.EQ.1)THEN
+            ELSEIF(ISK==1)THEN
                CALL SMS_RLINK1(
      1      MS       ,A        ,NNLINK(1,N),NNLINK(3,N),LLLINK(K),
      2      WEIGHT   ,FRL6(1,1,N),1   ,IDOWN      ,FR_LL(NSPMD+2,N),
@@ -238,7 +238,7 @@ C routine appelee rlink par rlink a optimiser si besoin
             DO N=1,NLINK
               IF(TAG_LNK_SMS(NRLINK+N) < 0)CYCLE
 C routine de calcul Parith/ON de A rigid link
-              IF(FR_LL(ISPMD+1,N).NE.0)
+              IF(FR_LL(ISPMD+1,N)/=0)
      +          CALL SPMD_EXCH_FR6(FR_LL(1,N),FRL6(1,1,N),4*6)
             END DO
 
@@ -258,13 +258,13 @@ C boucle parallele sur les threads SMP
             IPOL=NNLINK(6,N)
             K = KIND(N)
             IPOL=NNLINK(6,N)
-            IF(IPOL.EQ.1)THEN
+            IF(IPOL==1)THEN
                CALL SMS_RLINK3(
      1      MS       ,X          ,A            ,V        ,NNLINK(1,N),
      2      NNLINK(3,N),LLLINK(K),XFRAME(1,ISK),WEIGHT   ,FRL6(1,1,N),
      3      2  ,IDOWN  ,FR_LL(NSPMD+2,N),FRL(1,N),TAG_LNK_SMS(NRLINK+N),
      4      ITAB)
-            ELSEIF(ISK.EQ.1)THEN
+            ELSEIF(ISK==1)THEN
                CALL SMS_RLINK1(
      1      MS       ,A        ,NNLINK(1,N),NNLINK(3,N),LLLINK(K),
      2      WEIGHT   ,FRL6(1,1,N),2  ,IDOWN      ,FR_LL(NSPMD+2,N),
@@ -338,7 +338,7 @@ C Init Parith/ON
 C
        DO I=1,NSN
         N = NOD(I)
-        IF(WEIGHT(N).EQ.1) THEN
+        IF(WEIGHT(N)==1) THEN
           F2(I)=A(1,N)
           F3(I)=A(2,N)
           F4(I)=A(3,N)
@@ -369,13 +369,13 @@ C
          N = NOD(I)
 C
 C transmet force dans la dion au nd
-         IF(IC.EQ.1.OR.IC.EQ.3.OR.IC.EQ.5.OR.IC.EQ.7)THEN
+         IF(IC==1.OR.IC==3.OR.IC==5.OR.IC==7)THEN
            A(3,N) =AZ
          ENDIF
-         IF(IC.EQ.2.OR.IC.EQ.3.OR.IC.EQ.6.OR.IC.EQ.7)THEN
+         IF(IC==2.OR.IC==3.OR.IC==6.OR.IC==7)THEN
            A(2,N) =AY
          ENDIF
-         IF(IC.EQ.4.OR.IC.EQ.5.OR.IC.EQ.6.OR.IC.EQ.7)THEN
+         IF(IC==4.OR.IC==5.OR.IC==6.OR.IC==7)THEN
            A(1,N) =AX
          ENDIF
        END DO
@@ -397,7 +397,7 @@ C Init Parith/ON
 C
        DO I=1,NSN
         N = NOD(I)
-        IF(WEIGHT(N).EQ.1) THEN
+        IF(WEIGHT(N)==1) THEN
           F1(I)=MS(N)
           F2(I)=MS(N)*A(1,N)
           F3(I)=MS(N)*A(2,N)
@@ -434,13 +434,13 @@ C
        AZ=AZ/MAX(EM30,MASS)
        DO I=1,NSN
          N = NOD(I)
-         IF(IC.EQ.1.OR.IC.EQ.3.OR.IC.EQ.5.OR.IC.EQ.7)THEN
+         IF(IC==1.OR.IC==3.OR.IC==5.OR.IC==7)THEN
            A(3,N) =AZ
          ENDIF
-         IF(IC.EQ.2.OR.IC.EQ.3.OR.IC.EQ.6.OR.IC.EQ.7)THEN
+         IF(IC==2.OR.IC==3.OR.IC==6.OR.IC==7)THEN
            A(2,N) =AY
          ENDIF
-         IF(IC.EQ.4.OR.IC.EQ.5.OR.IC.EQ.6.OR.IC.EQ.7)THEN
+         IF(IC==4.OR.IC==5.OR.IC==6.OR.IC==7)THEN
            A(1,N) =AX
          ENDIF
        END DO
@@ -513,7 +513,7 @@ c      AZ  =ZERO
 C
        DO I=1,NSN
         N = NOD(I)
-        IF(WEIGHT(N).EQ.1) THEN
+        IF(WEIGHT(N)==1) THEN
           F2(I)=A(1,N)
           F3(I)=A(2,N)
           F4(I)=A(3,N)
@@ -580,7 +580,7 @@ c      AZ  =ZERO
 C
        DO I=1,NSN
         N = NOD(I)
-        IF(WEIGHT(N).EQ.1) THEN
+        IF(WEIGHT(N)==1) THEN
           F1(I)=MS(N)
           F2(I)=MS(N)*A(1,N)
           F3(I)=MS(N)*A(2,N)
@@ -740,7 +740,7 @@ C-----------------------------------------------------------------------
         A(1,N) = RX * AX + RY * AY + RZ * AZ
         A(2,N) = SX * AX + SY * AY + SZ * AZ
         A(3,N) = (TX * AX + TY * AY + TZ * AZ) / R
-        IF(WEIGHT(N).EQ.1) THEN
+        IF(WEIGHT(N)==1) THEN
           F1(I) = R*R
           F2(I) = R*R*A(3,N)
 c          R2 = R2 + R*R
@@ -764,7 +764,7 @@ C-----------------------------------------------------------------------
         MASS=ZERO
         DO I=1,NSN
           N = NOD(I)
-          IF(WEIGHT(N).EQ.1) THEN
+          IF(WEIGHT(N)==1) THEN
             F3(I)=A(1,N)
             F4(I)=A(2,N)
           ELSE
@@ -894,7 +894,7 @@ C-----------------------------------------------------------------------
         A(1,N) = RX * AX + RY * AY + RZ * AZ
         A(2,N) = SX * AX + SY * AY + SZ * AZ
         A(3,N) = (TX * AX + TY * AY + TZ * AZ) / R
-        IF(WEIGHT(N).EQ.1) THEN
+        IF(WEIGHT(N)==1) THEN
           F1(I) = R*R*MS(N)
           F2(I) = R*R*MS(N)*A(3,N)
 c          MR2 = MR2 + R*R*M
@@ -918,7 +918,7 @@ C-----------------------------------------------------------------------
         MASS=ZERO
         DO I=1,NSN
           N = NOD(I)
-          IF(WEIGHT(N).EQ.1) THEN
+          IF(WEIGHT(N)==1) THEN
             F3(I)=A(1,N)
             F4(I)=A(2,N)
             F5(I)=MS(N)

@@ -291,7 +291,7 @@ C=======================================================================
 C----------------------
 C       FICHIERS NOISE
 C----------------------
-      IF(NNOISE.GT.0)THEN
+      IF(NNOISE>0)THEN
         CALL NOISE(
      1     BUFNOIS,INOISE,INOISE(2*NNOISE+1),BUFNOIS(2),V     ,
      2     A      ,IXS   ,ELBUF_TAB        ,IPARG     ,WEIGHT,
@@ -300,7 +300,7 @@ C----------------------
 C-----------------------
 C       ECRITURE LISTING
 C-----------------------
-C      IF(T1S.EQ.TT) THEN
+C      IF(T1S==TT) THEN
 C-------should use relative velocity for dynamic condensed nodes (Nd of S10)
        IF (NS10E>0) THEN
         LENG = 3*NUMNOD
@@ -329,26 +329,26 @@ C-------should use relative velocity for dynamic condensed nodes (Nd of S10)
 C---------------------------------------
 C       CALCUL DU FLUX ET DE LA ROTATION
 C---------------------------------------
-        IF(TT.GE.THIS .AND. NSFLSW.NE.0)
+        IF(TT>=THIS .AND. NSFLSW/=0)
      .  CALL FLUXSW(NSFLSW,NEFLSW,  NNFLSW,  CRFLSW,  FLSW  ,
      .              X     ,V       ,ELBUF  )
 C-----------------------------------------------
 C     CUMUL MASS SPMD
 C-----------------------------------------------
-      IF(IMACH.EQ.3.AND.NSPMD.GT.1.AND.(ANIM_N(2)+OUTP_N(2).GT.0).AND.
-     .  (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.
-     .   MANIM.EQ.4 .OR.MANIM.EQ.5 .OR.MANIM.EQ.6 .OR.MANIM.EQ.7.OR.
-     .   MANIM.EQ.8 .OR.MANIM.EQ.9 .OR.MANIM.EQ.10.OR.MANIM.EQ.11.OR.
-     .   MANIM.EQ.12.OR.MANIM.EQ.13.OR.MANIM.EQ.14.OR.MANIM.EQ.15)) THEN
+      IF(IMACH==3.AND.NSPMD>1.AND.(ANIM_N(2)+OUTP_N(2)>0).AND.
+     .  (TT>=TANIM.OR.TT>=TOUTP.OR.
+     .   MANIM==4 .OR.MANIM==5 .OR.MANIM==6 .OR.MANIM==7.OR.
+     .   MANIM==8 .OR.MANIM==9 .OR.MANIM==10.OR.MANIM==11.OR.
+     .   MANIM==12.OR.MANIM==13.OR.MANIM==14.OR.MANIM==15)) THEN
         LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
         CALL SPMD_EXCH_ADM(ANIN(NDMA+1),IAD_ELEM,FR_ELEM,LENR,WEIGHT_MD)
       ENDIF
-      IF(IMACH.EQ.3.AND.NSPMD.GT.1.AND.
-     .  (ANIM_N(12)+OUTP_N(3).GT.0).AND.
-     .  (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.
-     .   MANIM.EQ.4 .OR.MANIM.EQ.5 .OR.MANIM.EQ.6 .OR.MANIM.EQ.7.OR.
-     .   MANIM.EQ.8 .OR.MANIM.EQ.9 .OR.MANIM.EQ.10.OR.MANIM.EQ.11.OR.
-     .   MANIM.EQ.12.OR.MANIM.EQ.13.OR.MANIM.EQ.14.OR.MANIM.EQ.15)) THEN
+      IF(IMACH==3.AND.NSPMD>1.AND.
+     .  (ANIM_N(12)+OUTP_N(3)>0).AND.
+     .  (TT>=TANIM.OR.TT>=TOUTP.OR.
+     .   MANIM==4 .OR.MANIM==5 .OR.MANIM==6 .OR.MANIM==7.OR.
+     .   MANIM==8 .OR.MANIM==9 .OR.MANIM==10.OR.MANIM==11.OR.
+     .   MANIM==12.OR.MANIM==13.OR.MANIM==14.OR.MANIM==15)) THEN
         LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
         CALL SPMD_EXCH_ADM(ANIN(NDIN+1),IAD_ELEM,FR_ELEM,LENR,WEIGHT)
       ENDIF
@@ -357,14 +357,14 @@ C       Compute contact pressures from normal + tangential contact forces.
 C       Tied Contact : Inter type2
 C----------------------
       IFLAG_ANIPCONT = 0
-      IF((ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT .NE.0.OR.
-     .   ANIM_V(27)+H3D_DATA%N_VECT_PCONT2 .NE.0.)
+      IF((ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT /=0.OR.
+     .   ANIM_V(27)+H3D_DATA%N_VECT_PCONT2 /=0.)
      .    .AND.
-     .   (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D .OR.
-     .  MANIM.EQ.4 .OR.MANIM.EQ.5 .OR.MANIM.EQ.6 .OR.MANIM.EQ.7.OR.
-     .  MANIM.EQ.8 .OR.MANIM.EQ.9 .OR.MANIM.EQ.10.OR.MANIM.EQ.11.OR.
-     .  MANIM.EQ.12.OR.MANIM.EQ.13.OR.MANIM.EQ.14.OR.MANIM.EQ.15.OR.
-     .  H3D_DATA%MH3D.NE.0))THEN
+     .   (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D .OR.
+     .  MANIM==4 .OR.MANIM==5 .OR.MANIM==6 .OR.MANIM==7.OR.
+     .  MANIM==8 .OR.MANIM==9 .OR.MANIM==10.OR.MANIM==11.OR.
+     .  MANIM==12.OR.MANIM==13.OR.MANIM==14.OR.MANIM==15.OR.
+     .  H3D_DATA%MH3D/=0))THEN
         IF(NINTSTAMP==0)THEN
           CALL ANI_PCONT(IXS ,IXC    ,IXTG    ,FASOLFR  ,X      ,
      .               FNCONT  ,FTCONT,IAD_ELEM ,FR_ELEM  ,WEIGHT ,
@@ -382,7 +382,7 @@ C----------------------
 C------------------------------------------
 C       Compute maximum contact FCONT_MAX
 C------------------------------------------
-      IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX .NE.0) THEN
+      IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX /=0) THEN
          CALL FCONT_MAX_OUTPUT(CONT,FCONTG,NODGLOB,FCONT_MAX,WEIGHT)
       ENDIF 
 
@@ -390,27 +390,27 @@ C-----------------------------------------------
 C     FICHIERS D'ANIMATION
 C-----------------------------------------------
 c      IF(LOUT) THEN
-c      IF(TT.GE.TDES.OR.
-c     .   MANIM.EQ.1.OR.MANIM.EQ.3 .OR.MANIM.EQ.5 .OR.MANIM.EQ.7.OR.
-c     .   MANIM.EQ.9.OR.MANIM.EQ.11.OR.MANIM.EQ.13.OR.MANIM.EQ.15) THEN
+c      IF(TT>=TDES.OR.
+c     .   MANIM==1.OR.MANIM==3 .OR.MANIM==5 .OR.MANIM==7.OR.
+c     .   MANIM==9.OR.MANIM==11.OR.MANIM==13.OR.MANIM==15) THEN
 c       IGER=IGER+1
 c       CALL DESGEO(PARTSAV,D,V,ELBUF,WA)
-c       IF(TT.GE.TDES)TDES=TDES+DTDES
+c       IF(TT>=TDES)TDES=TDES+DTDES
 c      END IF
-c      IF(TT.GE.TPAT.OR.
-c     .   MANIM.EQ.2 .OR.MANIM.EQ.3 .OR.MANIM.EQ.6 .OR.MANIM.EQ.7.OR.
-c    .   MANIM.EQ.10.OR.MANIM.EQ.11.OR.MANIM.EQ.14.OR.MANIM.EQ.15) THEN
+c      IF(TT>=TPAT.OR.
+c     .   MANIM==2 .OR.MANIM==3 .OR.MANIM==6 .OR.MANIM==7.OR.
+c    .   MANIM==10.OR.MANIM==11.OR.MANIM==14.OR.MANIM==15) THEN
 c       IPAT=IPAT+1
 c       CALL PATRAN(D,V,ELBUF,IPARG,IXS,IXQ,IXC,IXT,IXP,IXR,ITAB)
-c       IF(TT.GE.TPAT)TPAT=TPAT+DTPAT
+c       IF(TT>=TPAT)TPAT=TPAT+DTPAT
 c      END IF
 c      END IF
    
-      IF (TT.GE.TANIM.OR. ! NUMELCRK > NUMELCRK2 .or.   !  => ANIM par fissure avance
-     .   MANIM.EQ.4 .OR.MANIM.EQ.5 .OR.MANIM.EQ.6 .OR.MANIM.EQ.7.OR.
-     .   MANIM.EQ.12.OR.MANIM.EQ.13.OR.MANIM.EQ.14.OR.MANIM.EQ.15 .OR.
+      IF (TT>=TANIM.OR. ! NUMELCRK > NUMELCRK2 .or.   !  => ANIM par fissure avance
+     .   MANIM==4 .OR.MANIM==5 .OR.MANIM==6 .OR.MANIM==7.OR.
+     .   MANIM==12.OR.MANIM==13.OR.MANIM==14.OR.MANIM==15 .OR.
      .   (MSTOP == 1  .AND. ICTLSTOP == 0) .OR. 
-     .   MSTOP == 2 .OR. DT2.LE.ZERO )THEN
+     .   MSTOP == 2 .OR. DT2<=ZERO )THEN
        IANIM=IANIM+1
 C      N1 = 1
 C      N2 = N1 + NUMNOD
@@ -434,9 +434,9 @@ C
          SN1 = MAX(3*NUMNOD,6*NEL3D+6*27*NUMELIG3D,3*NEL2D,9*NEL1D,NUMSPH)
          SN2 = NEL+3*NUMELS16+NUMSPH
          SN3 = 3 * NUMNOD + 2*NUMELS16 + 64*NUMELIG3D
-         IF (NSPMD .GT. 1) THEN
+         IF (NSPMD > 1) THEN
             DO IFV = 1, NFVBAG
-               IF (KMESH(IFV) .GT. 1) THEN
+               IF (KMESH(IFV) > 1) THEN
                   SN3 = SN3 + 3 * FVSPMD(IFV)%NNA_L
                ENDIF
             ENDDO
@@ -444,7 +444,7 @@ C
          SN4 = NPART + 1
          SN5 = NEL2D
          SN6 = NPART
-         IF (IMACH.EQ.3) THEN
+         IF (IMACH==3) THEN
            SN7 = NELG + 1
          ELSE
            SN7 = NEL+1
@@ -457,8 +457,8 @@ C
          N6 = N5 + NEL2D
          N7 = N6 + NPART
          N8 = N7 + NEL + 1
-          IF  (     (IMACH.NE.3.AND.NUMELX.GT.0)
-     .          .OR.(IMACH.EQ.3.AND.NUMELXG.GT.0)) THEN
+          IF  (     (IMACH/=3.AND.NUMELX>0)
+     .          .OR.(IMACH==3.AND.NUMELXG>0)) THEN
 
             SKUIX = 2*MAXNX
             SKXUSR = 3*MAXNX
@@ -501,7 +501,7 @@ C
 c a modifier
          SIG3DSOLID = 8*27*NUMELIG3D
 c
-         IF (IMACH.EQ.3) THEN
+         IF (IMACH==3) THEN
           SN9 =  NPART
          ELSE
           SN9 = 1
@@ -561,18 +561,18 @@ c
      2             FCONT_MAX  ,FNCONTP2  ,FTCONTP2    )
 c
        ENDIF
-      IF(TT.GE.TANIM)TANIM=TANIM+DTANIM
-      IF ((TSTOP.LT.TANIM).AND.(TANIM.LT.TSTOP+EM06*TSTOP)
-     .     .AND.(TSTOP+EM06*TSTOP.LT.TANIM+DTANIM)) THEN
+      IF(TT>=TANIM)TANIM=TANIM+DTANIM
+      IF ((TSTOP<TANIM).AND.(TANIM<TSTOP+EM06*TSTOP)
+     .     .AND.(TSTOP+EM06*TSTOP<TANIM+DTANIM)) THEN
          TANIM=TSTOP
       END IF
 C-----------------------------------------------
 C     H3D FILE
 C-----------------------------------------------
-      IF (ILASTH3D==1.OR.TT.GE.H3D_DATA%TH3D .OR. H3D_DATA%MH3D .EQ.1 .OR.
-     .   (MSTOP == 1  .AND. ICTLSTOP == 0 .AND. H3D_DATA%IH3D.NE. 0) .OR. 
-     .   (MSTOP == 2  .AND. H3D_DATA%IH3D.NE. 0) .OR. 
-     .   (DT2.LE.ZERO .AND. H3D_DATA%IH3D.NE. 0) )THEN
+      IF (ILASTH3D==1.OR.TT>=H3D_DATA%TH3D .OR. H3D_DATA%MH3D ==1 .OR.
+     .   (MSTOP == 1  .AND. ICTLSTOP == 0 .AND. H3D_DATA%IH3D/= 0) .OR. 
+     .   (MSTOP == 2  .AND. H3D_DATA%IH3D/= 0) .OR. 
+     .   (DT2<=ZERO .AND. H3D_DATA%IH3D/= 0) )THEN
 
          H3D_DATA%IH3D=H3D_DATA%IH3D+1
 
@@ -591,7 +591,7 @@ C
          SN4 = NPART + 1
          SN5 = NEL2D
          SN6 = NPART
-         IF (IMACH.EQ.3) THEN
+         IF (IMACH==3) THEN
            SN7 = NELG + 1
          ELSE
            SN7 = NEL+1
@@ -604,8 +604,8 @@ C
          N6 = N5 + NEL2D
          N7 = N6 + NPART
          N8 = N7 + NEL + 1
-          IF  (     (IMACH.NE.3.AND.NUMELX.GT.0)
-     .          .OR.(IMACH.EQ.3.AND.NUMELXG.GT.0)) THEN
+          IF  (     (IMACH/=3.AND.NUMELX>0)
+     .          .OR.(IMACH==3.AND.NUMELXG>0)) THEN
 
             SKUIX = 2*MAXNX
             SKXUSR = 3*MAXNX
@@ -648,7 +648,7 @@ C
 c a modifier
          SIG3DSOLID = 8*27*NUMELIG3D
 c
-         IF (IMACH.EQ.3) THEN
+         IF (IMACH==3) THEN
           SN9 =  NPART
          ELSE
           SN9 = 1
@@ -709,22 +709,22 @@ c
      4             LLOADP     ,LOADP     ,SENSOR      ,LSENSOR     ,TAGNCONT  ,
      5             LOADP_HYD_INTER,XFRAME,FORC        )
       ENDIF
-      IF(TT.GE.H3D_DATA%TH3D) H3D_DATA%TH3D = H3D_DATA%TH3D + H3D_DATA%DTH3D
-      IF ((TSTOP.LT. H3D_DATA%TH3D).AND.(H3D_DATA%TH3D .LT. TSTOP+EM06*TSTOP)
-     .     .AND.(TSTOP+EM06*TSTOP.LT. H3D_DATA%TH3D + H3D_DATA%DTH3D)) THEN
+      IF(TT>=H3D_DATA%TH3D) H3D_DATA%TH3D = H3D_DATA%TH3D + H3D_DATA%DTH3D
+      IF ((TSTOP< H3D_DATA%TH3D).AND.(H3D_DATA%TH3D < TSTOP+EM06*TSTOP)
+     .     .AND.(TSTOP+EM06*TSTOP< H3D_DATA%TH3D + H3D_DATA%DTH3D)) THEN
          H3D_DATA%TH3D = TSTOP
       END IF
 
-      IF (IMACH.EQ.3.AND.ISPMD.EQ.0) THEN
+      IF (IMACH==3.AND.ISPMD==0) THEN
           LENG = NUMNODG
       ELSE
           LENG = 0
       ENDIF
 C
-      IF(TT.GE.TOUTP.OR.
-     .   MANIM.EQ.8 .OR.MANIM.EQ.9 .OR.MANIM.EQ.10.OR.MANIM.EQ.11.OR.
-     .   MANIM.EQ.12.OR.MANIM.EQ.13.OR.MANIM.EQ.14.OR.MANIM.EQ.15.OR.
-     .   MOUTPT.EQ.1) THEN
+      IF(TT>=TOUTP.OR.
+     .   MANIM==8 .OR.MANIM==9 .OR.MANIM==10.OR.MANIM==11.OR.
+     .   MANIM==12.OR.MANIM==13.OR.MANIM==14.OR.MANIM==15.OR.
+     .   MOUTPT==1) THEN
        IOUTP=IOUTP+1
        CALL GENOUTP(X     ,D        ,V      ,A      ,
      2             IXS   ,IXQ       ,IXC    ,IXT    ,IXP   ,
@@ -735,18 +735,18 @@ C
      7             IPM   ,KXSP      ,SPBUF  ,NODGLOB,LENG  ,
      8             FOPT  ,NOM_OPT   ,NPBY   ,FNCONT ,FTCONT ,
      9             GEO   ,THKE      ,STACK  ,DRAPE_Q4, DRAPE_T3)
-       IF(TT.GE.TOUTP)TOUTP=TOUTP+DTOUTP
-       IF ((TSTOP.LT.TOUTP).AND.(TOUTP.LT.TSTOP+EM06*TSTOP)
-     .     .AND.(TSTOP+EM06*TSTOP.LT.TOUTP+DTOUTP)) THEN
+       IF(TT>=TOUTP)TOUTP=TOUTP+DTOUTP
+       IF ((TSTOP<TOUTP).AND.(TOUTP<TSTOP+EM06*TSTOP)
+     .     .AND.(TSTOP+EM06*TSTOP<TOUTP+DTOUTP)) THEN
          TOUTP=TSTOP
        END IF
       END IF
 C
 C .sta files
-      IF(TT.GE.TSTAT.OR.
-     .   MANIM.EQ.8 .OR.MANIM.EQ.9 .OR.MANIM.EQ.10.OR.MANIM.EQ.11.OR.
-     .   MANIM.EQ.12.OR.MANIM.EQ.13.OR.MANIM.EQ.14.OR.MANIM.EQ.15.OR.
-     .   MSTATT.EQ.1) THEN
+      IF(TT>=TSTAT.OR.
+     .   MANIM==8 .OR.MANIM==9 .OR.MANIM==10.OR.MANIM==11.OR.
+     .   MANIM==12.OR.MANIM==13.OR.MANIM==14.OR.MANIM==15.OR.
+     .   MSTATT==1) THEN
        ISTATF=ISTATF+1
 
        K1=1+LIPART1*(NPART+NTHPART)+2*9*(NPART+NTHPART)
@@ -761,7 +761,7 @@ C .sta files
        K10=K9+NUMELX
        K11=K10+NUMSPH
 C
-       IF(IMACH.NE.3)THEN
+       IF(IMACH/=3)THEN
          LENGC = NUMELC
          LENGTG= NUMELTG
          LENGS = NUMELS
@@ -769,7 +769,7 @@ C
          LENGP = NUMELP
          LENGT = NUMELT
          LENGQ = NUMELQ
-       ELSEIF (ISPMD.EQ.0) THEN
+       ELSEIF (ISPMD==0) THEN
          LENGC = NUMELCG
          LENGTG= NUMELTGG
          LENGS = NUMELSG
@@ -800,16 +800,16 @@ C
      B             LENGT    ,ISKEW  ,V     ,VR    ,LENGQ  ,
      C             MULTI_FVM,BUFMAT ,NPBY  ,LPBY  ,STACK  ,
      D             DRAPE_Q4, DRAPE_T3)
-       IF(TT.GE.TSTAT)TSTAT=TSTAT+DTSTAT
-       IF ((TSTOP.LT.TSTAT).AND.(TSTAT.LT.TSTOP+EM06*TSTOP)
-     .     .AND.(TSTOP+EM06*TSTOP.LT.TSTAT+DTSTAT)) THEN
+       IF(TT>=TSTAT)TSTAT=TSTAT+DTSTAT
+       IF ((TSTOP<TSTAT).AND.(TSTAT<TSTOP+EM06*TSTOP)
+     .     .AND.(TSTOP+EM06*TSTOP<TSTAT+DTSTAT)) THEN
          TSTAT=TSTOP
        END IF
       END IF
 C----------------------
 C     DYNAIN FILE
 C----------------------
-      IF(TT.GE.TDYNAIN) THEN
+      IF(TT>=TDYNAIN) THEN
        IDYNAINF=IDYNAINF+1
 
        K1=1+LIPART1*(NPART+NTHPART)+2*9*(NPART+NTHPART)
@@ -824,10 +824,10 @@ C----------------------
        K10=K9+NUMELX
        K11=K10+NUMSPH
 C
-       IF(IMACH.NE.3)THEN
+       IF(IMACH/=3)THEN
          LENGC = NUMELC
          LENGTG= NUMELTG
-       ELSEIF (ISPMD.EQ.0) THEN
+       ELSEIF (ISPMD==0) THEN
          LENGC = NUMELCG
          LENGTG= NUMELTGG
        ELSE
@@ -842,9 +842,9 @@ C
      5                NPBY     ,LPBY     , STACK  ,DRAPE_Q4 ,DRAPE_T3 , 
      6                IPART_DYNAIN) 
              
-       IF(TT.GE.TDYNAIN)TDYNAIN=TDYNAIN+DTDYNAIN
-       IF ((TSTOP.LT.TDYNAIN).AND.(TDYNAIN.LT.TSTOP+EM06*TSTOP)
-     .     .AND.(TSTOP+EM06*TSTOP.LT.TDYNAIN+DTDYNAIN)) THEN
+       IF(TT>=TDYNAIN)TDYNAIN=TDYNAIN+DTDYNAIN
+       IF ((TSTOP<TDYNAIN).AND.(TDYNAIN<TSTOP+EM06*TSTOP)
+     .     .AND.(TSTOP+EM06*TSTOP<TDYNAIN+DTDYNAIN)) THEN
          TDYNAIN=TSTOP
        END IF
       END IF
@@ -852,7 +852,7 @@ C
 C----------------------
 C       FICHIERS G ET T
 C----------------------
-        IF(NABFILE .NE. 0) THEN
+        IF(NABFILE /= 0) THEN
           TABFWR0(1) = TABFWR(1)
           TABFWR0(2) = TABFWR(2)
           TABFWR0(3) = TABFWR(3)
@@ -864,19 +864,19 @@ C----------------------
           TABFWR0(9) = TABFWR(9)
           TABFWR0(10) = TABFWR(10)
         ENDIF
-        IF(NINTER+NEXMAD.NE.0.AND.ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT > 0)THEN
+        IF(NINTER+NEXMAD/=0.AND.ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT > 0)THEN
             CALL ANICON0(CONT,NUMNOD)
             !law151 reaction forces can be output only with H3D (not ANIM files since vectores are at element centroids)
             IF (MULTI_FVM%IS_USED .AND. H3D_DATA%N_VECT_CONT > 0)CALL ANICON0(FANI_CELL,NUMELS+NUMELQ) !/H3D/ELEM/VECT/CONT
         ENDIF
-        IF(NINTSTAMP.NE.0.AND.ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT .GT.0)THEN
+        IF(NINTSTAMP/=0.AND.ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0)THEN
             CALL ANICON2(FCONTG,NCONT,INDEXCONT)     
         ENDIF
-        IF(NINTER.NE.0.AND.ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT.GT.0)THEN
+        IF(NINTER/=0.AND.ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0)THEN
             CALL ANICON0(FNCONT,NUMNOD)
             CALL ANICON0(FTCONT,NUMNOD)
         ENDIF
-        IF(NINTSTAMP.NE.0.AND.ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT.GT.0)THEN
+        IF(NINTSTAMP/=0.AND.ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0)THEN
           IF(IFLAG_ANIPCONT > 0) THEN
             CALL ANICON0(FNCONTG,NUMNODG)
             CALL ANICON0(FTCONTG,NUMNODG)
@@ -886,7 +886,7 @@ C----------------------
           ENDIF
         ENDIF
 
-        IF(NINTER.NE.0.AND.ANIM_V(27)+H3D_DATA%N_VECT_PCONT2.GT.0)THEN
+        IF(NINTER/=0.AND.ANIM_V(27)+H3D_DATA%N_VECT_PCONT2>0)THEN
             CALL ANICON0(FNCONTP2,NUMNOD)
             CALL ANICON0(FTCONTP2,NUMNOD)
         ENDIF
@@ -903,27 +903,27 @@ C
 c check if an update of any output (TH,tha,thb,abf,..) is done  
 c in this case set flag to 1    
         THUPDT = 0
-        IF(TT.GE.THIS) THEN
+        IF(TT>=THIS) THEN
 	  THUPDT = 1
-	ELSEIF(NABFILE.NE.0)THEN
-	  IF(TT.GE.TABFIS(1)) THUPDT = 1
+	ELSEIF(NABFILE/=0)THEN
+	  IF(TT>=TABFIS(1)) THUPDT = 1
 	ENDIF
-	IF(THUPDT.EQ.0)THEN	
+	IF(THUPDT==0)THEN	
      	  DO I=1,9
-	    IF(TT.GE.THIS1(I)) THEN
+	    IF(TT>=THIS1(I)) THEN
 	      THUPDT = 1
-	    ELSEIF(NABFILE.NE.0)THEN
-	      IF(TT.GE.TABFIS(I+1)) THUPDT = 1
+	    ELSEIF(NABFILE/=0)THEN
+	      IF(TT>=TABFIS(I+1)) THUPDT = 1
 	    ENDIF
 	  ENDDO
 	ENDIF
 
-        IF (ILASTANIM.NE.1.AND.ILASTANIM.NE.2) THEN
+        IF (ILASTANIM/=1.AND.ILASTANIM/=2) THEN
 C         to avoid double points
-          IF (NTHGRP01(1).NE.0)THEN
+          IF (NTHGRP01(1)/=0)THEN
             IUNIT = IUHI(1)
             IFIL = IUNIT
-            IF (TT.GE.THIS1(1))THEN
+            IF (TT>=THIS1(1))THEN
               SIZE_MES=1
             ELSE
               SIZE_MES=0
@@ -955,7 +955,7 @@ C         to avoid double points
 
 
 
-            IF(ABFILE(2) .NE. 0) THEN
+            IF(ABFILE(2) /= 0) THEN
             IFILABF = 12
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
@@ -978,7 +978,7 @@ C         to avoid double points
      M                  STACK ,ISPHIO  ,VSPHIO,ITHFLAG,1,PINCH_DATA,MULTI_FVM,W) 
             CPTFILE=CPTFILE+1
 
-            IF(TT.GE.TABFWR0(2) .AND. ISPMD == 0) THEN
+            IF(TT>=TABFWR0(2) .AND. ISPMD == 0) THEN
               FILNAMABF_TMP=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_a.tmp'
               LONG_TMP = 11
               LEN_TMP_NAME = OUTFILE_NAME_LEN+LONG_TMP+ROOTLEN
@@ -1011,10 +1011,10 @@ C         to avoid double points
             TABFIS(2)= EP30
           ENDIF
 C
-          IF(NTHGRP01(2).NE.0)THEN
+          IF(NTHGRP01(2)/=0)THEN
             IUNIT = IUHI(2)
             IFIL = IUNIT
-            IF (TT.GE.THIS1(2))THEN
+            IF (TT>=THIS1(2))THEN
               SIZE_MES=1
             ELSE
               SIZE_MES=0
@@ -1042,7 +1042,7 @@ C
      N                 ITHFLAG,PINCH_DATA,MULTI_FVM,W)
             IF (SIZE_MES==1 .AND.AFORM(2)==3 .AND.ISPMD==0 )
      *        CALL file_size(MULTITHFILESIZE(2))
-            IF(ABFILE(3) .NE. 0) THEN
+            IF(ABFILE(3) /= 0) THEN
             IFILABF = 13
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
@@ -1065,7 +1065,7 @@ C
      M                  STACK ,ISPHIO  ,VSPHIO,ITHFLAG,2,PINCH_DATA,MULTI_FVM,W)
             CPTFILE=CPTFILE+1
 
-            IF(TT.GE.TABFWR0(3) .AND. ISPMD == 0) THEN
+            IF(TT>=TABFWR0(3) .AND. ISPMD == 0) THEN
               FILNAMABF_TMP=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_b.tmp'
               LONG_TMP = 11
               LEN_TMP_NAME = OUTFILE_NAME_LEN+LONG_TMP+ROOTLEN
@@ -1099,11 +1099,11 @@ C
             TABFIS(3)= EP30
           ENDIF
 C
-          IF(NTHGRP01(3).NE.0)THEN
+          IF(NTHGRP01(3)/=0)THEN
             IUNIT = IUHI(3)
             IFIL = IUNIT
 !
-            IF (TT.GE.THIS1(3))THEN
+            IF (TT>=THIS1(3))THEN
               SIZE_MES=1
             ELSE
               SIZE_MES=0
@@ -1133,7 +1133,7 @@ C
         IF(SIZE_MES==1 .AND.
      *     AFORM(3)==3   .AND.
      *     ISPMD==0 ) CALL file_size(MULTITHFILESIZE(3))
-            IF(ABFILE(4) .NE. 0) THEN
+            IF(ABFILE(4) /= 0) THEN
             IFILABF = 14
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
@@ -1156,7 +1156,7 @@ C
      M                  STACK  ,ISPHIO  ,VSPHIO,ITHFLAG,1,PINCH_DATA,MULTI_FVM,W)
               CPTFILE=CPTFILE+1
 
-            IF(TT.GE.TABFWR0(4) .AND. ISPMD == 0) THEN
+            IF(TT>=TABFWR0(4) .AND. ISPMD == 0) THEN
               FILNAMABF_TMP=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_c.tmp'
               LONG_TMP = 11
               LEN_TMP_NAME = OUTFILE_NAME_LEN+LONG_TMP+ROOTLEN
@@ -1188,11 +1188,11 @@ C
             TABFIS(4)= EP30
           ENDIF
 C
-          IF(NTHGRP01(4).NE.0)THEN
+          IF(NTHGRP01(4)/=0)THEN
             IUNIT = IUHI(4)
             IFIL = IUNIT
 !
-            IF (TT.GE.THIS1(4))THEN
+            IF (TT>=THIS1(4))THEN
               SIZE_MES=1
             ELSE
               SIZE_MES=0
@@ -1221,7 +1221,7 @@ C
          IF(SIZE_MES==1 .AND.
      *     AFORM(4)==3   .AND.
      *     ISPMD==0 )CALL file_size(MULTITHFILESIZE(4))
-            IF(ABFILE(5) .NE. 0) THEN
+            IF(ABFILE(5) /= 0) THEN
             IFILABF = 15
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
@@ -1244,7 +1244,7 @@ C
      M                  STACK ,ISPHIO  ,VSPHIO,ITHFLAG,1,PINCH_DATA,MULTI_FVM,W)
               CPTFILE=CPTFILE+1
 
-            IF(TT.GE.TABFWR0(5) .AND. ISPMD == 0) THEN
+            IF(TT>=TABFWR0(5) .AND. ISPMD == 0) THEN
               FILNAMABF_TMP=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_d.tmp'
               LONG_TMP = 11
               LEN_TMP_NAME = OUTFILE_NAME_LEN+LONG_TMP+ROOTLEN
@@ -1275,11 +1275,11 @@ C
             TABFIS(5)= EP30
           ENDIF
 C
-          IF(NTHGRP01(5).NE.0)THEN
+          IF(NTHGRP01(5)/=0)THEN
             IUNIT = IUHI(5)
             IFIL = IUNIT
 !
-            IF (TT.GE.THIS1(5))THEN
+            IF (TT>=THIS1(5))THEN
               SIZE_MES=1
             ELSE
               SIZE_MES=0
@@ -1308,7 +1308,7 @@ C
         IF(SIZE_MES==1 .AND.
      *     AFORM(5)==3   .AND.
      *     ISPMD==0 ) CALL file_size(MULTITHFILESIZE(5))
-            IF(ABFILE(6) .NE. 0) THEN
+            IF(ABFILE(6) /= 0) THEN
             IFILABF = 16
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
@@ -1331,7 +1331,7 @@ C
      M                  STACK ,ISPHIO  ,VSPHIO,ITHFLAG,1,PINCH_DATA,MULTI_FVM,W)
               CPTFILE=CPTFILE+1
 
-            IF(TT.GE.TABFWR0(6) .AND. ISPMD == 0) THEN
+            IF(TT>=TABFWR0(6) .AND. ISPMD == 0) THEN
               FILNAMABF_TMP=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_e.tmp'
               LONG_TMP = 11
               LEN_TMP_NAME = OUTFILE_NAME_LEN+LONG_TMP+ROOTLEN
@@ -1363,10 +1363,10 @@ C
             TABFIS(6)= EP30
           ENDIF
 C
-          IF(NTHGRP01(6).NE.0)THEN
+          IF(NTHGRP01(6)/=0)THEN
             IUNIT = IUHI(6)
             IFIL = IUNIT
-            IF (TT.GE.THIS1(6))THEN
+            IF (TT>=THIS1(6))THEN
               SIZE_MES=1
             ELSE
               SIZE_MES=0
@@ -1396,7 +1396,7 @@ C
         IF(SIZE_MES==1 .AND.
      *     AFORM(6)==3   .AND.
      *     ISPMD==0 ) CALL file_size(MULTITHFILESIZE(6))
-            IF(ABFILE(7) .NE. 0) THEN
+            IF(ABFILE(7) /= 0) THEN
             IFILABF = 17
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
@@ -1419,7 +1419,7 @@ C
      M                  STACK ,ISPHIO  ,VSPHIO,ITHFLAG,1,PINCH_DATA,MULTI_FVM,W)
               CPTFILE=CPTFILE+1
 
-            IF(TT.GE.TABFWR0(7) .AND. ISPMD == 0) THEN
+            IF(TT>=TABFWR0(7) .AND. ISPMD == 0) THEN
               FILNAMABF_TMP=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_f.tmp'
               LONG_TMP = 11
               LEN_TMP_NAME = OUTFILE_NAME_LEN+LONG_TMP+ROOTLEN
@@ -1451,11 +1451,11 @@ C
             TABFIS(7)= EP30
           ENDIF
 C
-          IF(NTHGRP01(7).NE.0)THEN
+          IF(NTHGRP01(7)/=0)THEN
             IUNIT = IUHI(7)
             IFIL = IUNIT
 !
-             IF (TT.GE.THIS1(7))THEN
+             IF (TT>=THIS1(7))THEN
                SIZE_MES=1
              ELSE
                SIZE_MES=0
@@ -1484,7 +1484,7 @@ C
         IF(SIZE_MES==1 .AND.
      *     AFORM(7)==3   .AND.
      *     ISPMD==0 ) CALL file_size(MULTITHFILESIZE(7))
-            IF(ABFILE(8) .NE. 0) THEN
+            IF(ABFILE(8) /= 0) THEN
             IFILABF = 18
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
@@ -1507,7 +1507,7 @@ C
      M                  STACK  ,ISPHIO  ,VSPHIO,ITHFLAG,1,PINCH_DATA,MULTI_FVM,W)
               CPTFILE=CPTFILE+1
 
-            IF(TT.GE.TABFWR0(8) .AND. ISPMD == 0) THEN
+            IF(TT>=TABFWR0(8) .AND. ISPMD == 0) THEN
               FILNAMABF_TMP=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_g.tmp'
               LONG_TMP = 11
               LEN_TMP_NAME = OUTFILE_NAME_LEN+LONG_TMP+ROOTLEN
@@ -1539,11 +1539,11 @@ C
             TABFIS(8)= EP30
           ENDIF
 C
-          IF(NTHGRP01(8).NE.0)THEN
+          IF(NTHGRP01(8)/=0)THEN
             IUNIT = IUHI(8)
             IFIL = IUNIT
 !
-            IF (TT.GE.THIS1(8))THEN
+            IF (TT>=THIS1(8))THEN
               SIZE_MES=1
             ELSE
               SIZE_MES=0
@@ -1572,7 +1572,7 @@ C
         IF(SIZE_MES==1 .AND.
      *     AFORM(8)==3   .AND.
      *     ISPMD==0 ) CALL file_size(MULTITHFILESIZE(8))
-            IF(ABFILE(9) .NE. 0) THEN
+            IF(ABFILE(9) /= 0) THEN
             IFILABF = 19
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
@@ -1595,7 +1595,7 @@ C
      M                  STACK ,ISPHIO  ,VSPHIO,ITHFLAG,1,PINCH_DATA,MULTI_FVM,W)
               CPTFILE=CPTFILE+1
 
-            IF(TT.GE.TABFWR0(9) .AND. ISPMD == 0) THEN
+            IF(TT>=TABFWR0(9) .AND. ISPMD == 0) THEN
               FILNAMABF_TMP=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_h.tmp'
               LONG_TMP = 11
               LEN_TMP_NAME = OUTFILE_NAME_LEN+LONG_TMP+ROOTLEN
@@ -1627,10 +1627,10 @@ C
             TABFIS(9)= EP30
           ENDIF
 C
-          IF(NTHGRP01(9).NE.0)THEN
+          IF(NTHGRP01(9)/=0)THEN
             IUNIT = IUHI(9)
             IFIL = IUNIT
-            IF (TT.GE.THIS1(9))THEN
+            IF (TT>=THIS1(9))THEN
               SIZE_MES=1
             ELSE
               SIZE_MES=0
@@ -1659,7 +1659,7 @@ C
         IF(SIZE_MES==1 .AND.
      *     AFORM(9)==3   .AND.
      *     ISPMD==0 ) CALL file_size(MULTITHFILESIZE(9))
-            IF(ABFILE(10) .NE. 0) THEN
+            IF(ABFILE(10) /= 0) THEN
             IFILABF = 20
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
@@ -1682,7 +1682,7 @@ C
      M                  STACK ,ISPHIO  ,VSPHIO,ITHFLAG,9,PINCH_DATA,MULTI_FVM,W)
               CPTFILE=CPTFILE+1
 
-            IF(TT.GE.TABFWR0(10) .AND. ISPMD == 0) THEN
+            IF(TT>=TABFWR0(10) .AND. ISPMD == 0) THEN
               FILNAMABF_TMP=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_i.tmp'
               LONG_TMP = 11
               LEN_TMP_NAME = OUTFILE_NAME_LEN+LONG_TMP+ROOTLEN
@@ -1716,7 +1716,7 @@ C
 C
         IUNIT = IUHIS
         IFIL = 1
-        IF (TT.GE.THIS)THEN
+        IF (TT>=THIS)THEN
           SIZE_MES=1
         ELSE
           SIZE_MES=0
@@ -1747,7 +1747,7 @@ C
      *     ITFORM==3   .AND.
      *     ISPMD==0 )CALL file_size(THFILESIZE)
 
-        IF(ABFILE(1) .NE. 0) THEN
+        IF(ABFILE(1) /= 0) THEN
           IFILABF = 11
           CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                IXS  ,ELBUF,WA(N2),IPARG,
@@ -1769,7 +1769,7 @@ C
      L                1     ,GAUGE  ,IGAUP,NGAUP   ,RTHBUF,THKE ,
      M                STACK ,ISPHIO  ,VSPHIO,ITHFLAG,10,PINCH_DATA,MULTI_FVM,W)
 
-         IF((TT.GE.TABFWR0(1) .OR. TT+DT2.GT.TSTOP).AND. ISPMD == 0)THEN
+         IF((TT>=TABFWR0(1) .OR. TT+DT2>TSTOP).AND. ISPMD == 0)THEN
           FILNAMABF_TMP=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'.tmp'
           LONG_TMP = 9
           LEN_TMP_NAME = OUTFILE_NAME_LEN+LONG_TMP+ROOTLEN
@@ -1806,9 +1806,9 @@ C----------------------------------------------
 C-------------------------------------------------------
 C     TRAITEMENT SUR FSAV NON CUMULE
 C-------------------------------------------------------
-      IF(ISPMD.EQ.0.AND.THUPDT.EQ.1) THEN
+      IF(ISPMD==0.AND.THUPDT==1) THEN
 C en SPMD il faut remettre FSAV a 0 sur P0, la ou FSAV n est pas cumule
-        IF(NVOLU.GT.0)THEN
+        IF(NVOLU>0)THEN
          IAD = NINTER+NRWALL+NRBODY+NSECT+NJOINT
           DO I=1,NVOLU
             DO J=1,NTHVKI
@@ -1819,7 +1819,7 @@ C en SPMD il faut remettre FSAV a 0 sur P0, la ou FSAV n est pas cumule
       ENDIF
 
 C  FSAV(26) : contact elastic energy is not cumulated : only for int10 and int18 for the moment
-      IF(NINTER.GT.0)THEN
+      IF(NINTER>0)THEN
           DO I=1,NINTER
             ITY = IPARI(7,I)
             IF(ITY /= 10.AND.(ITY /= 7.OR.IPARI(22,I) /= 7)) THEN 

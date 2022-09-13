@@ -121,9 +121,9 @@ C
        ISENS   = 0
        XSENS   = ONE
        DO K=1,NSENSOR
-         IF(IB(6,NL).EQ.LSENSOR(1,K))ISENS=K
+         IF(IB(6,NL)==LSENSOR(1,K))ISENS=K
        ENDDO
-       IF(ISENS.EQ.0)THEN
+       IF(ISENS==0)THEN
           TS=TT
        ELSEIF (LSENSOR(4,ISENS)==753096514 .AND. TT /= ZERO) THEN
          IERR = SET_U_SENS_VALUE(ISENS,1,ZERO)
@@ -135,7 +135,7 @@ C
 C----------------
 C       PINCHING PRESSURE
 C----------------
-        IF(N_OLD.NE.N5.OR.X_OLD.NE.TS) THEN
+        IF(N_OLD/=N5.OR.X_OLD/=TS) THEN
 
           ISMOOTH = 0
           IF (N5 > 0) ISMOOTH = NPC(2*NFUNCT+N5+1)
@@ -150,7 +150,7 @@ C----------------
         ENDIF
         AAPINCH = FCYPINCH*F1*XSENS
 C
-        IF(N4.NE.0)THEN
+        IF(N4/=0)THEN
           NX = (X(2,N3)-X(2,N1))*(X(3,N4)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N4)-X(2,N2))
           NY = (X(3,N3)-X(3,N1))*(X(1,N4)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N4)-X(3,N2))
           NZ = (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))

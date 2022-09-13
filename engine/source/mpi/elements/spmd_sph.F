@@ -79,7 +79,7 @@ C
       IAD_RECV(1) = 1
       DO I=1,NSPMD
         SIZ = SIZE*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
-        IF(SIZ.NE.0)THEN
+        IF(SIZ/=0)THEN
           MSGTYP = MSGOFF 
           CALL MPI_IRECV(
      S      RBUF(L),SIZ,MPI_DOUBLE_PRECISION,IT_SPMD(I),MSGTYP,
@@ -127,7 +127,7 @@ C
 C--------------------------------------------------------------------
 C envoi a N+I mod P
 Cel test si msg necessaire a envoyer a completer par test interface
-       IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0)THEN
+       IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
           MSGTYP = MSGOFF 
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
           L = IAD_SEND(I)
@@ -143,7 +143,7 @@ C
       DO I = 1, NSPMD
 Cel test si msg necessaire a envoyer a completer par test interface
         NB_NOD = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
-        IF(NB_NOD.GT.0)THEN
+        IF(NB_NOD>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
           L = IAD_RECV(I)
           CALL MPI_GET_COUNT(STATUS,MPI_DOUBLE_PRECISION,SIZ,ierror)
@@ -182,7 +182,7 @@ C
 Cel wait terminaison isend
 C
       DO I = 1, NSPMD
-        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0)THEN
+        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -261,7 +261,7 @@ C
       BMINMA(6,LOC_PROC) = BMINMAL(6)
 C
       DO P = 1, NSPMD
-        IF(P.NE.LOC_PROC) THEN
+        IF(P/=LOC_PROC) THEN
           MSGTYP = MSGOFF
           CALL MPI_ISEND(
      .      BMINMA(1,LOC_PROC),6        ,REAL  ,IT_SPMD(P),MSGTYP,
@@ -271,7 +271,7 @@ C
 C
       NBIRECV=0
       DO P = 1, NSPMD
-        IF(LOC_PROC.NE.P) THEN
+        IF(LOC_PROC/=P) THEN
           MSGTYP = MSGOFF
           NBIRECV=NBIRECV+1
           IRINDEXI(NBIRECV)=P
@@ -289,12 +289,12 @@ C
         DO I=1, NSP2SORT
           N=WSP2SORT(I)
           NOD=KXSP(3,N)
-          IF(X(1,NOD).LE.BMINMA(1,P)) THEN
-           IF(X(1,NOD).GE.BMINMA(4,P)) THEN
-            IF(X(2,NOD).LE.BMINMA(2,P)) THEN
-             IF(X(2,NOD).GE.BMINMA(5,P)) THEN
-              IF(X(3,NOD).LE.BMINMA(3,P)) THEN
-               IF(X(3,NOD).GE.BMINMA(6,P)) THEN
+          IF(X(1,NOD)<=BMINMA(1,P)) THEN
+           IF(X(1,NOD)>=BMINMA(4,P)) THEN
+            IF(X(2,NOD)<=BMINMA(2,P)) THEN
+             IF(X(2,NOD)>=BMINMA(5,P)) THEN
+              IF(X(3,NOD)<=BMINMA(3,P)) THEN
+               IF(X(3,NOD)>=BMINMA(6,P)) THEN
                  NB = NB + 1
                  INDEX(NB) = N
                ENDIF
@@ -309,9 +309,9 @@ C
         CALL MPI_ISEND(NBO(P),1,MPI_INTEGER,IT_SPMD(P),MSGTYP,
      .                 MPI_COMM_WORLD,REQ_SD(P),IERROR)
 C
-        IF (NB.GT.0) THEN
+        IF (NB>0) THEN
           ALLOCATE(BUF(P)%P(SIZSPT*NB),STAT=IERROR)
-          IF(IERROR.NE.0) THEN
+          IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
           END IF
@@ -337,11 +337,11 @@ C
       L=0
       DO P = 1, NSPMD
         PSPHR(P) = 0
-        IF(LOC_PROC.NE.P) THEN
+        IF(LOC_PROC/=P) THEN
           MSGTYP = MSGOFF2
           CALL MPI_RECV(PSPHR(P),1,MPI_INTEGER,IT_SPMD(P),
      .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
-          IF(PSPHR(P).GT.0) THEN
+          IF(PSPHR(P)>0) THEN
             L=L+1
             ISINDEXI(L)=P
             NSPHR = NSPHR + PSPHR(P)
@@ -350,10 +350,10 @@ C
       END DO
       NBIRECV=L
 C
-      IF(NSPHR.GT.0) THEN
+      IF(NSPHR>0) THEN
         IF(ALLOCATED(XSPHR))DEALLOCATE(XSPHR)
         ALLOCATE(XSPHR(SIZSPT,NSPHR),STAT=IERROR)
-        IF(IERROR.NE.0) THEN
+        IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
         END IF
@@ -372,15 +372,15 @@ C
       END IF  
 C
       DO P = 1, NSPMD
-        IF(P.NE.LOC_PROC) THEN
+        IF(P/=LOC_PROC) THEN
           CALL MPI_WAIT(REQ_SB(P),STATUS,IERROR)
         ENDIF
       END DO
 C
       DO P = 1, NSPMD
-        IF(P.NE.LOC_PROC) THEN
+        IF(P/=LOC_PROC) THEN
           CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
-          IF(NBO(P).NE.0) THEN
+          IF(NBO(P)/=0) THEN
             CALL MPI_WAIT(REQ_SD2(P),STATUS,IERROR)
             DEALLOCATE(BUF(P)%P)
           END IF
@@ -452,7 +452,7 @@ C-----------------------------------------------
       IF(NSPMD > 1 .AND. ACT == 1) THEN
         IDEB = 0
         DO P = 1, NSPMD
-          IF(PSPHR(P).NE.0) THEN
+          IF(PSPHR(P)/=0) THEN
             MSGTYP = MSGOFF
             CALL MPI_IRECV(DKR(IDEB+1),PSPHR(P),REAL,IT_SPMD(P),
      .                  MSGTYP,MPI_COMM_WORLD,REQ_RECV(P),IERROR)
@@ -462,7 +462,7 @@ C-----------------------------------------------
       ELSEIF (NSPMD > 1 .AND. ACT == 2) THEN
         IDEB = 0
         DO P = 1, NSPMD
-          IF(PSPHS(P).NE.0 ) THEN
+          IF(PSPHS(P)/=0 ) THEN
            DO N = 1, PSPHS(P)
              DKS(IDEB+N) = TAB_DK(LSPHS(IDEB+N))
            ENDDO
@@ -475,13 +475,13 @@ C-----------------------------------------------
         ENDDO
 
         DO P = 1, NSPMD
-          IF(PSPHR(P).NE.0) THEN
+          IF(PSPHR(P)/=0) THEN
             CALL MPI_WAIT(REQ_RECV(P),STATUS,IERROR)
           END IF
         ENDDO
 
         DO P = 1, NSPMD
-          IF(PSPHS(P).NE.0) THEN
+          IF(PSPHS(P)/=0) THEN
             CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
           END IF
         ENDDO
@@ -543,7 +543,7 @@ C Envoi flag cellules actives
 C      
       IDEB = 1
       DO P = 1, NSPMD
-        IF(PSPHR(P).NE.0)THEN
+        IF(PSPHR(P)/=0)THEN
           MSGTYP = MSGOFF 
           CALL MPI_ISEND(
      S      ISPHR(IDEB),PSPHR(P),MPI_INTEGER,IT_SPMD(P),MSGTYP,
@@ -556,7 +556,7 @@ C Reception flag cellules actives
 C
       IDEB = 1
       DO P = 1, NSPMD
-        IF(PSPHS(P).NE.0)THEN
+        IF(PSPHS(P)/=0)THEN
           MSGTYP = MSGOFF 
           CALL MPI_RECV(ISPHS(IDEB),PSPHS(P),MPI_INTEGER,IT_SPMD(P),
      .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
@@ -566,7 +566,7 @@ C
 C 
 
        DO P = 1, NSPMD
-        IF(PSPHR(P).NE.0)THEN
+        IF(PSPHR(P)/=0)THEN
           CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
         END IF
       END DO
@@ -631,7 +631,7 @@ C
       IDEB = 0
       DO P = 1, NSPMD
 ctmp+1
-       IF(PSPHS(P).NE.0)THEN
+       IF(PSPHS(P)/=0)THEN
         DO N = 1, PSPHS(P)
           ICELL = LSPHS(IDEB+N)
           INOD = KXSP(3,ICELL)
@@ -655,7 +655,7 @@ C Reception X, H
 C
       IDEB = 0
       DO P = 1, NSPMD
-        IF(PSPHR(P).NE.0)THEN
+        IF(PSPHR(P)/=0)THEN
           MSGTYP = MSGOFF
           CALL MPI_RECV(BUFR,6*PSPHR(P),REAL,IT_SPMD(P),
      .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
@@ -674,8 +674,8 @@ C
 C Wait terminaison
 C
       DO P = 1, NSPMD
-ctmp+1        IF(PSPHR(P).NE.0)THEN
-        IF(PSPHS(P).NE.0)THEN
+ctmp+1        IF(PSPHR(P)/=0)THEN
+        IF(PSPHS(P)/=0)THEN
           CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
         END IF
       END DO
@@ -739,10 +739,10 @@ C Envoi WACOMP, WA, RHO sur cellules actives
 C
       IDEB = 0
       DO P = 1, NSPMD
-        IF(PSPHS(P).GT.0)THEN
+        IF(PSPHS(P)>0)THEN
           NN = 0
           DO N = 1, PSPHS(P)
-            IF(ISPHS(IDEB+N).EQ.1) THEN
+            IF(ISPHS(IDEB+N)==1) THEN
               NN = NN + 1
               ICELL = LSPHS(IDEB+N)
 C             INOD = KXSP(3,ICELL)
@@ -775,13 +775,13 @@ C Reception WACOMP, WA, RHO
 C
       IDEB = 0
       DO P = 1, NSPMD
-        IF(PSPHR(P).NE.0)THEN
+        IF(PSPHR(P)/=0)THEN
           MSGTYP = MSGOFF
           CALL MPI_RECV(BUFR,15*PSPHR(P),REAL,IT_SPMD(P),
      .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
           NN = 0
           DO N = 1, PSPHR(P)
-            IF(ISPHR(IDEB+N).EQ.1) THEN
+            IF(ISPHR(IDEB+N)==1) THEN
               NN = NN + 1
               XSPHR(7,IDEB+N)  = BUFR(1,NN)
               WACOMPR(1,IDEB+N)= BUFR(2,NN)
@@ -820,7 +820,7 @@ C
 C Wait terminaison
 C
       DO P = 1, NSPMD
-        IF(PSPHS(P).NE.0)THEN
+        IF(PSPHS(P)/=0)THEN
           CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
         END IF
       END DO
@@ -883,10 +883,10 @@ C Envoi STAB sur cellules actives
 C
       IDEB = 0
       DO P = 1, NSPMD
-        IF(PSPHS(P).GT.0)THEN
+        IF(PSPHS(P)>0)THEN
           NN = 0
           DO N = 1, PSPHS(P)
-            IF(ISPHS(IDEB+N).EQ.1) THEN
+            IF(ISPHS(IDEB+N)==1) THEN
               NN = NN + 1
               ICELL = LSPHS(IDEB+N)
 C             INOD = KXSP(3,ICELL)
@@ -905,13 +905,13 @@ C Reception STAB
 C
       IDEB = 0
       DO P = 1, NSPMD
-        IF(PSPHR(P).NE.0)THEN
+        IF(PSPHR(P)/=0)THEN
           MSGTYP = MSGOFF
           CALL MPI_RECV(BUFR,PSPHR(P),REAL,IT_SPMD(P),
      .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
           NN = 0
           DO N = 1, PSPHR(P)
-            IF(ISPHR(IDEB+N).EQ.1) THEN
+            IF(ISPHR(IDEB+N)==1) THEN
               NN = NN + 1
               STABR(7,IDEB+N)  = BUFR(NN)
             END IF
@@ -924,7 +924,7 @@ C
 C Wait terminaison
 C
       DO P = 1, NSPMD
-        IF(PSPHS(P).NE.0)THEN
+        IF(PSPHS(P)/=0)THEN
           CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
         END IF
       END DO
@@ -989,10 +989,10 @@ C
       IDEB = 0
       DO P = 1, NSPMD
 ctmp+1
-       IF(PSPHS(P).NE.0)THEN
+       IF(PSPHS(P)/=0)THEN
         NN = 0
         DO N = 1, PSPHS(P)
-          IF(ISPHS(IDEB+N).EQ.1) THEN
+          IF(ISPHS(IDEB+N)==1) THEN
             NN = NN + 1
             ICELL = LSPHS(IDEB+N)
             INOD = KXSP(3,ICELL)
@@ -1015,13 +1015,13 @@ C Reception A, H
 C
       IDEB = 0
       DO P = 1, NSPMD
-        IF(PSPHR(P).NE.0)THEN
+        IF(PSPHR(P)/=0)THEN
           MSGTYP = MSGOFF
           CALL MPI_RECV(BUFR,4*PSPHR(P),REAL,IT_SPMD(P),
      .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
           NN = 0
           DO N = 1, PSPHR(P)
-            IF(ISPHR(IDEB+N).EQ.1) THEN
+            IF(ISPHR(IDEB+N)==1) THEN
               NN = NN + 1
               XSPHR(2,IDEB+N) = BUFR(1,NN)
               ASPHR(1,IDEB+N) = BUFR(2,NN)
@@ -1036,8 +1036,8 @@ C
 C Wait terminaison
 C
       DO P = 1, NSPMD
-ctmp+1        IF(PSPHR(P).NE.0)THEN
-        IF(PSPHS(P).NE.0)THEN
+ctmp+1        IF(PSPHR(P)/=0)THEN
+        IF(PSPHS(P)/=0)THEN
           CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
         END IF
       END DO
@@ -1102,10 +1102,10 @@ C
       IDEB = 0
       DO P = 1, NSPMD
 ctmp+1
-       IF(PSPHS(P).NE.0)THEN
+       IF(PSPHS(P)/=0)THEN
         NN = 0
         DO N = 1, PSPHS(P)
-          IF(ISPHS(IDEB+N).EQ.1) THEN
+          IF(ISPHS(IDEB+N)==1) THEN
             NN = NN + 1
             ICELL = LSPHS(IDEB+N)
             INOD = KXSP(3,ICELL)
@@ -1129,13 +1129,13 @@ C Reception A, H
 C
       IDEB = 0
       DO P = 1, NSPMD
-        IF(PSPHR(P).NE.0)THEN
+        IF(PSPHR(P)/=0)THEN
           MSGTYP = MSGOFF
           CALL MPI_RECV(BUFR,5*PSPHR(P),REAL,IT_SPMD(P),
      .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
           NN = 0
           DO N = 1, PSPHR(P)
-            IF(ISPHR(IDEB+N).EQ.1) THEN
+            IF(ISPHR(IDEB+N)==1) THEN
               NN = NN + 1
               XSPHR(2,IDEB+N) = BUFR(1,NN)
               ASPHR(1,IDEB+N) = BUFR(2,NN)
@@ -1151,8 +1151,8 @@ C
 C Wait terminaison
 C
       DO P = 1, NSPMD
-ctmp+1        IF(PSPHR(P).NE.0)THEN
-        IF(PSPHS(P).NE.0)THEN
+ctmp+1        IF(PSPHR(P)/=0)THEN
+        IF(PSPHS(P)/=0)THEN
           CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
         END IF
       END DO
@@ -1216,7 +1216,7 @@ C Envoi H sur cellules actives
 C
       IDEB = 0
       DO P = 1, NSPMD
-       IF(PSPHS(P).NE.0)THEN
+       IF(PSPHS(P)/=0)THEN
         DO N = 1, PSPHS(P)
           ICELL = LSPHS(IDEB+N)
           INOD = KXSP(3,ICELL)
@@ -1234,7 +1234,7 @@ C Reception H
 C
       IDEB = 0
       DO P = 1, NSPMD
-        IF(PSPHR(P).NE.0)THEN
+        IF(PSPHR(P)/=0)THEN
           MSGTYP = MSGOFF
           CALL MPI_RECV(BUFR,PSPHR(P),REAL,IT_SPMD(P),
      .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
@@ -1248,7 +1248,7 @@ C
 C Wait terminaison
 C
       DO P = 1, NSPMD
-        IF(PSPHS(P).NE.0)THEN
+        IF(PSPHS(P)/=0)THEN
           CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
         END IF
       END DO
@@ -1298,7 +1298,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      IF (LEN .GT. 0) THEN
+      IF (LEN > 0) THEN
         CALL MPI_ALLREDUCE(V,VTMP,LEN,REAL,MPI_MAX,
      .                     MPI_COMM_WORLD,IERROR)
         DO I = 1, LEN
@@ -1364,10 +1364,10 @@ C Envoi WACOMP, WA, RHO sur cellules actives
 C
       IDEB = 0
       DO P = 1, NSPMD
-        IF(PSPHS(P).GT.0)THEN
+        IF(PSPHS(P)>0)THEN
           NN = 0
           DO N = 1, PSPHS(P)
-            IF(ISPHS(IDEB+N).EQ.1) THEN
+            IF(ISPHS(IDEB+N)==1) THEN
               NN = NN + 1
               ICELL = LSPHS(IDEB+N)
               BUFS(1,NN+IDEB)  = WT(ICELL)
@@ -1386,13 +1386,13 @@ C Reception WT
 C
       IDEB = 0
       DO P = 1, NSPMD
-        IF(PSPHR(P).NE.0)THEN
+        IF(PSPHR(P)/=0)THEN
           MSGTYP = MSGOFF
           CALL MPI_RECV(BUFR,PSPHR(P)*2,REAL,IT_SPMD(P),
      .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
           NN = 0
           DO N = 1, PSPHR(P)
-            IF(ISPHR(IDEB+N).EQ.1) THEN
+            IF(ISPHR(IDEB+N)==1) THEN
               NN = NN + 1
               WTR(IDEB+N)   = BUFR(1,NN)
               LAMBDR(IDEB+N)= BUFR(2,NN)
@@ -1405,7 +1405,7 @@ C
 C Wait terminaison
 C
       DO P = 1, NSPMD
-        IF(PSPHS(P).NE.0)THEN
+        IF(PSPHS(P)/=0)THEN
           CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
         END IF
       END DO
@@ -1468,10 +1468,10 @@ C Envoi WACOMP, WA, RHO sur cellules actives
 C
       IDEB = 0
       DO P = 1, NSPMD
-        IF(PSPHS(P).GT.0)THEN
+        IF(PSPHS(P)>0)THEN
           NN = 0
           DO N = 1, PSPHS(P)
-            IF(ISPHS(IDEB+N).EQ.1) THEN
+            IF(ISPHS(IDEB+N)==1) THEN
               NN = NN + 1
               ICELL = LSPHS(IDEB+N)
 C             INOD = KXSP(3,ICELL)
@@ -1496,13 +1496,13 @@ C Reception WACOMP, WA, RHO
 C
       IDEB = 0
       DO P = 1, NSPMD
-        IF(PSPHR(P).NE.0)THEN
+        IF(PSPHR(P)/=0)THEN
           MSGTYP = MSGOFF
           CALL MPI_RECV(BUFR,7*PSPHR(P),REAL,IT_SPMD(P),
      .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
           NN = 0
           DO N = 1, PSPHR(P)
-            IF(ISPHR(IDEB+N).EQ.1) THEN
+            IF(ISPHR(IDEB+N)==1) THEN
               NN = NN + 1
               WGR(1,IDEB+N)= BUFR(1,NN)
               WGR(2,IDEB+N)= BUFR(2,NN)
@@ -1532,7 +1532,7 @@ C
 C Wait terminaison
 C
       DO P = 1, NSPMD
-        IF(PSPHS(P).NE.0)THEN
+        IF(PSPHS(P)/=0)THEN
           CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
         END IF
       END DO
@@ -1599,10 +1599,10 @@ C Envoi WA sur cellules actives
 C
       IDEB = 0
       DO P = 1, NSPMD
-        IF(PSPHS(P).GT.0)THEN
+        IF(PSPHS(P)>0)THEN
           NN = 0
           DO N = 1, PSPHS(P)
-            IF(ISPHS(IDEB+N).EQ.1) THEN
+            IF(ISPHS(IDEB+N)==1) THEN
               NN = NN + 1
               ICELL = LSPHS(IDEB+N)
               BUFS(1,NN+IDEB)  = WA(1,ICELL)
@@ -1630,13 +1630,13 @@ C Reception
 C
       IDEB = 0
       DO P = 1, NSPMD
-        IF(PSPHR(P).NE.0)THEN
+        IF(PSPHR(P)/=0)THEN
           MSGTYP = MSGOFF
           CALL MPI_RECV(BUFR,10*PSPHR(P),REAL,IT_SPMD(P),
      .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
           NN = 0
           DO N = 1, PSPHR(P)
-            IF(ISPHR(IDEB+N).EQ.1) THEN
+            IF(ISPHR(IDEB+N)==1) THEN
               NN = NN + 1
               WAR2(1,IDEB+N)= BUFR(1,NN)
               WAR2(2,IDEB+N)= BUFR(2,NN)
@@ -1659,7 +1659,7 @@ C
 C Wait terminaison
 C
       DO P = 1, NSPMD
-        IF(PSPHS(P).NE.0)THEN
+        IF(PSPHS(P)/=0)THEN
           CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
         END IF
       END DO
@@ -1732,7 +1732,7 @@ C TAG_SPH set to 1 in sponof2 if remote neighbourg
 C send TAG_SPH
       IDEB = 1
       DO P = 1, NSPMD
-        IF(PSPHR(P).NE.0)THEN
+        IF(PSPHR(P)/=0)THEN
           MSGTYP = MSGOFF
           CALL MPI_ISEND(
      S      TAG_SPH(IDEB),PSPHR(P),MPI_INTEGER,IT_SPMD(P),MSGTYP,
@@ -1745,7 +1745,7 @@ C Reception TAG_SPH
 C
       IDEB = 1
       DO P = 1, NSPMD
-        IF(PSPHS(P).NE.0)THEN
+        IF(PSPHS(P)/=0)THEN
           MSGTYP = MSGOFF
           CALL MPI_RECV(TAG_SPHR(IDEB),PSPHS(P),MPI_INTEGER,
      .                 IT_SPMD(P),MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
@@ -1757,7 +1757,7 @@ C send OFF_SPH
 c OFF_SPH set to 1 in sponof2 if cell is deleted
       IDEB = 0
       DO P = 1, NSPMD
-       IF(PSPHS(P).NE.0)THEN
+       IF(PSPHS(P)/=0)THEN
         NN = 0
         DO N = 1, PSPHS(P)
             NN = NN + 1
@@ -1777,7 +1777,7 @@ C Reception OFF_SPH
 C
       IDEB = 0
       DO P = 1, NSPMD
-        IF(PSPHR(P).NE.0)THEN
+        IF(PSPHR(P)/=0)THEN
           MSGTYP = MSGOFF2
           CALL MPI_RECV(BUFR(IDEB+1),PSPHR(P),MPI_INTEGER,IT_SPMD(P),
      .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
@@ -1790,14 +1790,14 @@ C
           DO N = 1, PSPHS(P)
             ICELL = LSPHS(IDEB+N)
 ! remote neighbour to treat
-            IF(TAG_SPHR(IDEB+N).EQ.1) THEN
+            IF(TAG_SPHR(IDEB+N)==1) THEN
 
               NVOIS1=0
               DO J=1,KXSP(4,ICELL)
                 KNOD=IXSP(J,ICELL)
-                IF(KNOD.LT.0)THEN          
+                IF(KNOD<0)THEN          
 ! remote cell, add only if non deleted cell
-                  IF(BUFR(-KNOD).NE.1)THEN
+                  IF(BUFR(-KNOD)/=1)THEN
                     NVOIS1=NVOIS1+1
                     IXSP(NVOIS1,ICELL)=KNOD
                   ENDIF
@@ -1811,8 +1811,8 @@ C
               NVOIS2=NVOIS1
               DO K=KXSP(4,ICELL)+1,KXSP(5,ICELL)
                 KNOD=IXSP(K,ICELL)
-                IF(KNOD.LT.0)THEN                               
-                  IF(BUFR(-KNOD).NE.1)THEN
+                IF(KNOD<0)THEN                               
+                  IF(BUFR(-KNOD)/=1)THEN
                     NVOIS2=NVOIS2+1
                     IXSP(NVOIS2,ICELL)=KNOD
                   ENDIF
@@ -1825,9 +1825,9 @@ C
               NVOISS1=0
               DO K=KXSP(5,ICELL)+1,KXSP(5,ICELL)+KXSP(6,ICELL)
                 JK  =IXSP(K,ICELL)
-                IF(JK.LT.0)THEN
+                IF(JK<0)THEN
                   SM=-JK/(NSPCOND+1)
-                  IF(BUFR(SM).NE.1)THEN
+                  IF(BUFR(SM)/=1)THEN
                     NVOISS1=NVOISS1+1
                     IXSP(NVOIS2+NVOISS1,ICELL)=JK
                   ENDIF
@@ -1840,9 +1840,9 @@ C
               DO K=KXSP(5,ICELL)+KXSP(6,ICELL)+1,
      .                                KXSP(5,ICELL)+KXSP(7,ICELL)
                 JK  =IXSP(K,ICELL)
-                IF(JK.LT.0)THEN
+                IF(JK<0)THEN
                   SM=-JK/(NSPCOND+1)
-                  IF(BUFR(SM).NE.1)THEN
+                  IF(BUFR(SM)/=1)THEN
                     NVOISS2=NVOISS2+1
                     IXSP(NVOIS2+NVOISS2,ICELL)=JK
                   ENDIF  
@@ -1863,10 +1863,10 @@ C
 C Wait terminaison
 C
       DO P = 1, NSPMD
-        IF(PSPHR(P).NE.0)THEN
+        IF(PSPHR(P)/=0)THEN
           CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
         END IF
-        IF(PSPHS(P).NE.0)THEN
+        IF(PSPHS(P)/=0)THEN
           CALL MPI_WAIT(REQ_SD2(P),STATUS,IERROR)
         END IF
       END DO
@@ -1929,7 +1929,7 @@ c Get IMPOSE value KXSP(2,ICELL)/(NGROUP+1)
 
       IDEB = 0
       DO P = 1, NSPMD
-       IF(PSPHS(P).NE.0)THEN
+       IF(PSPHS(P)/=0)THEN
         DO N = 1, PSPHS(P)
           ICELL = LSPHS(IDEB+N)
            BUFS(N+IDEB) = KXSP(2,ICELL)/(NGROUP+1)
@@ -1946,7 +1946,7 @@ C Reception
 C
       IDEB = 0
       DO P = 1, NSPMD
-        IF(PSPHR(P).NE.0)THEN
+        IF(PSPHR(P)/=0)THEN
           MSGTYP = MSGOFF
           CALL MPI_RECV(BUFR,1*PSPHR(P),MPI_INTEGER,IT_SPMD(P),
      .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
@@ -1960,7 +1960,7 @@ C
 C Wait terminaison
 C
       DO P = 1, NSPMD
-        IF(PSPHS(P).NE.0)THEN
+        IF(PSPHS(P)/=0)THEN
           CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
         END IF
       END DO
@@ -2081,8 +2081,8 @@ c construction liste IPPV remotes
       DO NS=1,NSPHACT
        N=WASPACT(NS)
        IMPOSE=KXSP(2,N)/(NGROUP+1)
-       IF(IMPOSE.NE.0) THEN
-         IF ( ISPHIO(1,IMPOSE).EQ.2.OR.ISPHIO(1,IMPOSE).EQ.3 )THEN
+       IF(IMPOSE/=0) THEN
+         IF ( ISPHIO(1,IMPOSE)==2.OR.ISPHIO(1,IMPOSE)==3 )THEN
           INOD=KXSP(3,N)
           XI=X(1,INOD)
           YI=X(2,INOD)
@@ -2094,18 +2094,18 @@ C         plus proche voisin en amont de l'outlet => IPPV.
           DO  K=1,KXSP(4,N)  
            JNOD=IXSP(K,N)
   
-           IF(JNOD.GT.0)THEN
+           IF(JNOD>0)THEN
              M   =NOD2SP(JNOD)
              JMPOSE=KXSP(2,M)/(NGROUP+1)
              CONDITION = .FALSE.
-             CONDITION = JMPOSE.EQ.0
-             IF(JMPOSE/=0) CONDITION = ISPHIO(1,JMPOSE).EQ.1
+             CONDITION = JMPOSE==0
+             IF(JMPOSE/=0) CONDITION = ISPHIO(1,JMPOSE)==1
              IF(CONDITION)THEN
                XJ  =X(1,JNOD)
                YJ  =X(2,JNOD)
                ZJ  =X(3,JNOD)
                DD  =(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
-               IF(DD.LT.DMIN)THEN
+               IF(DD<DMIN)THEN
                 IPPV=JNOD
                 DMIN=DD
                ENDIF
@@ -2113,17 +2113,17 @@ C         plus proche voisin en amont de l'outlet => IPPV.
            ELSE
              NN = -JNOD
              JMPOSE = NINT(XSPHR(12,NN))
-             IF(JMPOSE.GT.0)THEN
+             IF(JMPOSE>0)THEN
                JMPOSE2=ISPHIO(1,JMPOSE)
              ELSE
                JMPOSE2=0
              ENDIF
-             IF(JMPOSE2.EQ.0.OR.JMPOSE2.EQ.1)THEN
+             IF(JMPOSE2==0.OR.JMPOSE2==1)THEN
                XJ  =XSPHR(3,NN)
                YJ  =XSPHR(4,NN)
                ZJ  =XSPHR(5,NN)
                DD  =(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
-               IF(DD.LT.DMIN)THEN
+               IF(DD<DMIN)THEN
                 IPPV=JNOD
                 DMIN=DD
                ENDIF
@@ -2131,17 +2131,17 @@ C         plus proche voisin en amont de l'outlet => IPPV.
            ENDIF
           ENDDO !enddo boucle voisin
           
-          IF(IPPV.LT.0)THEN
+          IF(IPPV<0)THEN
             !Indice IPPV negatif (global)
             IPPVR=IPPVR+1
             TMP_IPPV(1,IPPVR) = -IPPV
             ! recherche sur quel proc il est
             NBIS = 0
             DO P=1,NSPMD
-             IF(P.NE.LOC_PROC) THEN
+             IF(P/=LOC_PROC) THEN
               N1 = NBIS
               NBIS = NBIS+PSPHR(P)             
-               IF((-IPPV).LE.NBIS)THEN
+               IF((-IPPV)<=NBIS)THEN
                 TMP_IPPV(2,IPPVR)=P !proc sur lequel il se situe
                 TMP_IPPV(3,IPPVR)=(-IPPV)-N1 !Indice IPPV (local)
                 MYPSPHS(P)=MYPSPHS(P)+1
@@ -2166,7 +2166,7 @@ C         plus proche voisin en amont de l'outlet => IPPV.
 
        DO I=1,IPPVR
          P=TMP_IPPV(2,I)
-         IF(P.NE.LOC_PROC)THEN
+         IF(P/=LOC_PROC)THEN
          CPT_TMP(P)=CPT_TMP(P)+1
          INDICE=MYPSPHS2(P)+CPT_TMP(P)-1
          SEND_IPPV(INDICE)= TMP_IPPV(3,I)
@@ -2177,9 +2177,9 @@ C         plus proche voisin en amont de l'outlet => IPPV.
 C
 C Envoi liste IPPV < 0
 C
-c      IF(IPPVR.GT.0)THEN
+c      IF(IPPVR>0)THEN
         DO P = 1, NSPMD
-          IF(PSPHR(P).NE.0)THEN
+          IF(PSPHR(P)/=0)THEN
             MSGTYP = MSGOFF
             CALL MPI_ISEND(
      S        MYPSPHS(P),1,MPI_INTEGER,IT_SPMD(P),MSGTYP,
@@ -2190,7 +2190,7 @@ C
 C Reception flag cellules off
 C
         DO P = 1, NSPMD
-          IF(PSPHS(P).NE.0)THEN
+          IF(PSPHS(P)/=0)THEN
             MSGTYP = MSGOFF
             CALL MPI_RECV(MYPSPHR(P),1,MPI_INTEGER,IT_SPMD(P),
      .                    MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
@@ -2198,7 +2198,7 @@ C
         END DO
 
         DO P = 1, NSPMD
-          IF(MYPSPHS(P).NE.0)THEN
+          IF(MYPSPHS(P)/=0)THEN
             MSGTYP = MSGOFF2
             IDEB = MYPSPHS2(P)
             CALL MPI_ISEND(
@@ -2210,7 +2210,7 @@ C Reception flag cellules off
 C
         IDEB = 1
         DO P = 1, NSPMD
-          IF(MYPSPHR(P).NE.0)THEN
+          IF(MYPSPHR(P)/=0)THEN
             MSGTYP = MSGOFF2
             CALL MPI_RECV(
      .        REC_IPPV(IDEB),MYPSPHR(P),MPI_INTEGER,
@@ -2222,10 +2222,10 @@ C
 C Wait terminaison
 C
         DO P = 1, NSPMD
-          IF(PSPHR(P).NE.0)THEN
+          IF(PSPHR(P)/=0)THEN
             CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
           END IF
-          IF(MYPSPHS(P).NE.0)THEN
+          IF(MYPSPHS(P)/=0)THEN
             CALL MPI_WAIT(REQ_SD2(P),STATUS,IERROR)
           END IF
         END DO
@@ -2237,7 +2237,7 @@ C
 
       DO P = 1, NSPMD
 c traitement
-        IF(MYPSPHR(P).NE.0)THEN
+        IF(MYPSPHR(P)/=0)THEN
           DO N = 1, MYPSPHR(P)
             C = REC_IPPV(IDEB2+N)
             ICELL = LSPHS(C+IDEB)
@@ -2257,12 +2257,12 @@ c traitement
 
             DO J=1,KXSP(4,NP)
               JNOD=IXSP(J,NP)
-              IF(JNOD.GT.0)THEN          ! particule locale
+              IF(JNOD>0)THEN          ! particule locale
                 M=NOD2SP(JNOD)
                 JMPOSE=KXSP(2,M)/(NGROUP+1)
                 CONDITION = .FALSE.
-                CONDITION = JMPOSE.EQ.0
-                IF(JMPOSE/=0) CONDITION = ISPHIO(1,JMPOSE).EQ.1
+                CONDITION = JMPOSE==0
+                IF(JMPOSE/=0) CONDITION = ISPHIO(1,JMPOSE)==1
                 IF(CONDITION)THEN
                   DJ  =SPBUF(1,M)
                   XJ  =X(1,JNOD)
@@ -2280,12 +2280,12 @@ c traitement
               ELSE           ! particule remote
                 NN = -JNOD
                 JMPOSE = NINT(XSPHR(12,NN))
-                 IF(JMPOSE.GT.0)THEN
+                 IF(JMPOSE>0)THEN
                    JMPOSE2=ISPHIO(1,JMPOSE)
                  ELSE
                    JMPOSE2=0
                 ENDIF
-                IF(JMPOSE2.EQ.0.OR.JMPOSE2.EQ.1)THEN
+                IF(JMPOSE2==0.OR.JMPOSE2==1)THEN
                   DJ  =XSPHR(2,NN)
                   XJ  =XSPHR(3,NN)
                   YJ  =XSPHR(4,NN)
@@ -2324,12 +2324,12 @@ C------
 
             DO J=1,KXSP(4,NP)
               JNOD=IXSP(J,NP)
-              IF(JNOD.GT.0)THEN
+              IF(JNOD>0)THEN
                 M=NOD2SP(JNOD)
                 JMPOSE=KXSP(2,M)/(NGROUP+1)
                 CONDITION = .FALSE.
-                CONDITION = JMPOSE.EQ.0
-                IF(JMPOSE/=0) CONDITION = ISPHIO(1,JMPOSE).EQ.1
+                CONDITION = JMPOSE==0
+                IF(JMPOSE/=0) CONDITION = ISPHIO(1,JMPOSE)==1
                 IF(CONDITION)THEN
                   DJ  =SPBUF(1,M)
                   XJ  =X(1,JNOD)
@@ -2361,12 +2361,12 @@ C------
               ELSE
                 NN=-JNOD
                JMPOSE = NINT(XSPHR(12,NN))
-               IF(JMPOSE.GT.0)THEN
+               IF(JMPOSE>0)THEN
                  JMPOSE2=ISPHIO(1,JMPOSE)
                ELSE
                  JMPOSE2=0
                ENDIF
-               IF(JMPOSE2.EQ.0.OR.JMPOSE2.EQ.1)THEN
+               IF(JMPOSE2==0.OR.JMPOSE2==1)THEN
                  DJ  =XSPHR(2,NN)
                  XJ  =XSPHR(3,NN)
                  YJ  =XSPHR(4,NN)
@@ -2426,7 +2426,7 @@ C
       IDEB = 0
 
       DO P = 1, NSPMD
-          IF(MYPSPHS(P).NE.0)THEN
+          IF(MYPSPHS(P)/=0)THEN
           MSGTYP = MSGOFF3
           SIZ = 12*MYPSPHS(P)
           CALL MPI_RECV(BUFR,SIZ,REAL,IT_SPMD(P),
@@ -2453,7 +2453,7 @@ C
 C Wait terminaison
 C
       DO P = 1, NSPMD
-         IF(MYPSPHR(P).NE.0)THEN
+         IF(MYPSPHR(P)/=0)THEN
           CALL MPI_WAIT(REQ_SD3(P),STATUS,IERROR)
         END IF
       END DO
@@ -2615,7 +2615,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       LOC_PROC = ISPMD + 1
-      IF (LOC_PROC.EQ.1) THEN
+      IF (LOC_PROC==1) THEN
         IDEB = 1
         NBIRECV = 0
         DO I = 2, NSPMD

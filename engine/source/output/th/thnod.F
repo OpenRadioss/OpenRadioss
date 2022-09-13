@@ -100,7 +100,7 @@ C-------------------------
             IADV=ITHGRP(7,N)
             II=0
             IF(ITYP==0)THEN
-                IF(IRODDL.NE.0)THEN
+                IF(IRODDL/=0)THEN
                     II=0
                     DO J=IAD,IAD+NN-1
                         I=ITHBUF(J)
@@ -111,7 +111,7 @@ C-------------------------
                             DO L=IADV,IADV+NVAR-1
                                 II=II+1
                             ENDDO
-                        ELSEIF(ISK.EQ.1)THEN
+                        ELSEIF(ISK==1)THEN
 C---------
 C               output with respect to the global SKEW.
                           II_SAVE = II
@@ -119,46 +119,46 @@ C               output with respect to the global SKEW.
                             K=ITHBUF(L)
                             II=II+1
                             IJK=IJK+1
-                            IF (K.EQ.1)THEN
+                            IF (K==1)THEN
                                 WA(IJK)=D(1,I)
-                            ELSEIF(K.EQ.2)THEN
+                            ELSEIF(K==2)THEN
                                 WA(IJK)=D(2,I)
-                            ELSEIF(K.EQ.3)THEN
+                            ELSEIF(K==3)THEN
                                 WA(IJK)=D(3,I)
-                            ELSEIF(K.EQ.4)THEN
+                            ELSEIF(K==4)THEN
                                 WA(IJK)=V(1,I)
-                            ELSEIF(K.EQ.5)THEN
+                            ELSEIF(K==5)THEN
                                 WA(IJK)=V(2,I)
-                            ELSEIF(K.EQ.6)THEN
+                            ELSEIF(K==6)THEN
                                 WA(IJK)=V(3,I)
-                            ELSEIF(K.EQ.7)THEN
+                            ELSEIF(K==7)THEN
                                 WA(IJK)=A(1,I)
-                            ELSEIF(K.EQ.8)THEN
+                            ELSEIF(K==8)THEN
                                 WA(IJK)=A(2,I)
-                            ELSEIF(K.EQ.9)THEN
+                            ELSEIF(K==9)THEN
                                 WA(IJK)=A(3,I)
-                            ELSEIF(K.EQ.10)THEN
+                            ELSEIF(K==10)THEN
                                 WA(IJK)=VR(1,I)
-                            ELSEIF(K.EQ.11)THEN
+                            ELSEIF(K==11)THEN
                                 WA(IJK)=VR(2,I)
-                            ELSEIF(K.EQ.12)THEN
+                            ELSEIF(K==12)THEN
                                 WA(IJK)=VR(3,I)
-                            ELSEIF(K.EQ.13)THEN
+                            ELSEIF(K==13)THEN
                                 WA(IJK)=AR(1,I)
-                            ELSEIF(K.EQ.14)THEN
+                            ELSEIF(K==14)THEN
                                 WA(IJK)=AR(2,I)
-                            ELSEIF(K.EQ.15)THEN
+                            ELSEIF(K==15)THEN
                                 WA(IJK)=AR(3,I)
-                            ELSEIF(K.EQ.16)THEN
+                            ELSEIF(K==16)THEN
                                 WA(IJK)=X(1,I)
-                            ELSEIF(K.EQ.17)THEN
+                            ELSEIF(K==17)THEN
                                 WA(IJK)=X(2,I)
-                            ELSEIF(K.EQ.18)THEN
+                            ELSEIF(K==18)THEN
                                 WA(IJK)=X(3,I)
-                            ELSEIF(K.EQ.19)THEN
+                            ELSEIF(K==19)THEN
 C instruction pour contourner bug PGI si thermique
 		                        call sync_data(I)
-                                IF (ITHERM_FE .NE. 0) THEN
+                                IF (ITHERM_FE /= 0) THEN
                                     WA(IJK) = TEMP(I)
                                 ELSE
                                     WA(IJK) = ZERO
@@ -172,37 +172,37 @@ C instruction pour contourner bug PGI si thermique
                                     WA(IJK) = PLY(IPLY)%U(IDIR,INOD(I))
                                 ENDIF
                             ELSEIF(K == 620) THEN
-                                IF (NODREAC(I) .NE. 0) THEN
+                                IF (NODREAC(I) /= 0) THEN
                                     WA(IJK) = FTHREAC(1,NODREAC(I))
                                 ELSE
                                     WA(IJK) = ZERO
                                 ENDIF
                             ELSEIF(K == 621) THEN
-                                IF (NODREAC(I) .NE. 0) THEN
+                                IF (NODREAC(I) /= 0) THEN
                                     WA(IJK) = FTHREAC(2,NODREAC(I))
                                 ELSE
                                     WA(IJK) = ZERO
                                 ENDIF
                             ELSEIF(K == 622) THEN
-                                IF (NODREAC(I) .NE. 0) THEN
+                                IF (NODREAC(I) /= 0) THEN
                                     WA(IJK) = FTHREAC(3,NODREAC(I))
                                 ELSE
                                     WA(IJK) = ZERO
                                 ENDIF
                             ELSEIF(K == 623) THEN
-                                IF (NODREAC(I) .NE. 0) THEN
+                                IF (NODREAC(I) /= 0) THEN
                                     WA(IJK) = FTHREAC(4,NODREAC(I))
                                 ELSE
                                     WA(IJK) = ZERO
                                 ENDIF
                             ELSEIF(K == 624) THEN
-                                IF (NODREAC(I) .NE. 0) THEN
+                                IF (NODREAC(I) /= 0) THEN
                                     WA(IJK) = FTHREAC(5,NODREAC(I))
                                 ELSE
                                     WA(IJK) = ZERO
                                 ENDIF
                             ELSEIF(K == 625) THEN
-                                IF (NODREAC(I) .NE. 0) THEN
+                                IF (NODREAC(I) /= 0) THEN
                                     WA(IJK) = FTHREAC(6,NODREAC(I))
                                 ELSE
                                     WA(IJK) = ZERO
@@ -210,7 +210,7 @@ C instruction pour contourner bug PGI si thermique
                             ELSEIF(K == 626) THEN
                                 IF ((IDROT == 1 .OR. ISECUT>0 .OR. ISUB>0 .OR.
      .                              MSHSUB>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
-     .                              IRODDL.NE.0 )THEN
+     .                              IRODDL/=0 )THEN
                                     WA(IJK) = DR(1,I)
                                 ELSE
                                     WA(IJK) = ZERO
@@ -218,7 +218,7 @@ C instruction pour contourner bug PGI si thermique
                             ELSEIF(K == 627) THEN
                                 IF ((IDROT == 1 .OR. ISECUT>0 .OR. ISUB>0 .OR.
      .                               MSHSUB>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
-     .                               IRODDL.NE.0 )THEN
+     .                               IRODDL/=0 )THEN
                                     WA(IJK) = DR(2,I)
                                 ELSE
                                     WA(IJK) = ZERO
@@ -226,7 +226,7 @@ C instruction pour contourner bug PGI si thermique
                             ELSEIF(K == 628) THEN
                                 IF ((IDROT == 1 .OR. ISECUT>0 .OR. ISUB>0 .OR.
      .                               MSHSUB>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
-     .                               IRODDL.NE.0 )THEN
+     .                               IRODDL/=0 )THEN
                                     WA(IJK) = DR(3,I)
                                 ELSE
                                     WA(IJK) = ZERO
@@ -291,90 +291,90 @@ C end of pinching information
                           ENDDO   ! L=IADV,IADV+NVAR-1
                           IJK=IJK+1
                           WA(IJK) = II_SAVE
-                        ELSEIF(ISK.LE.NUMSKW+1+NSUBMOD)THEN
+                        ELSEIF(ISK<=NUMSKW+1+NSUBMOD)THEN
 !                       output with respect to a (non global) SKEW.
                           II_SAVE = II
                           DO L=IADV,IADV+NVAR-1
                             K=ITHBUF(L)
                             II=II+1
                             IJK=IJK+1
-                            IF(K.EQ.1)THEN
+                            IF(K==1)THEN
                                 WA(IJK) = D(1,I)*SKEW(1,ISK)
      .                                 + D(2,I)*SKEW(2,ISK)
      .                                 + D(3,I)*SKEW(3,ISK)
-                            ELSEIF(K.EQ.2)THEN
+                            ELSEIF(K==2)THEN
                                 WA(IJK) = D(1,I)*SKEW(4,ISK)
      .                                 + D(2,I)*SKEW(5,ISK)
      .                                 + D(3,I)*SKEW(6,ISK)
-                            ELSEIF(K.EQ.3)THEN
+                            ELSEIF(K==3)THEN
                                 WA(IJK) = D(1,I)*SKEW(7,ISK)
      .                                 + D(2,I)*SKEW(8,ISK)
      .                                 + D(3,I)*SKEW(9,ISK)
-                            ELSEIF(K.EQ.4)THEN
+                            ELSEIF(K==4)THEN
                                 WA(IJK) = V(1,I)*SKEW(1,ISK)
      .                                 + V(2,I)*SKEW(2,ISK)
      .                                 + V(3,I)*SKEW(3,ISK)
-                            ELSEIF(K.EQ.5)THEN
+                            ELSEIF(K==5)THEN
                                 WA(IJK) = V(1,I)*SKEW(4,ISK)
      .                                 + V(2,I)*SKEW(5,ISK)
      .                                 + V(3,I)*SKEW(6,ISK)
-                            ELSEIF(K.EQ.6)THEN
+                            ELSEIF(K==6)THEN
                                 WA(IJK) = V(1,I)*SKEW(7,ISK)
      .                                 + V(2,I)*SKEW(8,ISK)
      .                                 + V(3,I)*SKEW(9,ISK)
-                            ELSEIF(K.EQ.7)THEN
+                            ELSEIF(K==7)THEN
                                 WA(IJK) = A(1,I)*SKEW(1,ISK)
      .                                 + A(2,I)*SKEW(2,ISK)
      .                                 + A(3,I)*SKEW(3,ISK)
-                            ELSEIF(K.EQ.8)THEN
+                            ELSEIF(K==8)THEN
                                 WA(IJK) = A(1,I)*SKEW(4,ISK)
      .                                 + A(2,I)*SKEW(5,ISK)
      .                                 + A(3,I)*SKEW(6,ISK)
-                            ELSEIF(K.EQ.9)THEN
+                            ELSEIF(K==9)THEN
                                 WA(IJK) = A(1,I)*SKEW(7,ISK)
      .                                 + A(2,I)*SKEW(8,ISK)
      .                                 + A(3,I)*SKEW(9,ISK)
-                            ELSEIF(K.EQ.10)THEN
+                            ELSEIF(K==10)THEN
                                 WA(IJK) = VR(1,I)*SKEW(1,ISK)
      .                                 + VR(2,I)*SKEW(2,ISK)
      .                                 + VR(3,I)*SKEW(3,ISK)
-                            ELSEIF(K.EQ.11)THEN
+                            ELSEIF(K==11)THEN
                                 WA(IJK) = VR(1,I)*SKEW(4,ISK)
      .                                 + VR(2,I)*SKEW(5,ISK)
      .                                 + VR(3,I)*SKEW(6,ISK)
-                            ELSEIF(K.EQ.12)THEN
+                            ELSEIF(K==12)THEN
                                 WA(IJK) = VR(1,I)*SKEW(7,ISK)
      .                                 + VR(2,I)*SKEW(8,ISK)
      .                                 + VR(3,I)*SKEW(9,ISK)
-                            ELSEIF(K.EQ.13)THEN
+                            ELSEIF(K==13)THEN
                                 WA(IJK) = AR(1,I)*SKEW(1,ISK)
      .                                 + AR(2,I)*SKEW(2,ISK)
      .                                 + AR(3,I)*SKEW(3,ISK)
-                            ELSEIF(K.EQ.14)THEN
+                            ELSEIF(K==14)THEN
                                 WA(IJK) = AR(1,I)*SKEW(4,ISK)
      .                                 + AR(2,I)*SKEW(5,ISK)
      .                                 + AR(3,I)*SKEW(6,ISK)
-                            ELSEIF(K.EQ.15)THEN
+                            ELSEIF(K==15)THEN
                                 WA(IJK) = AR(1,I)*SKEW(7,ISK)
      .                                 + AR(2,I)*SKEW(8,ISK)
      .                                 + AR(3,I)*SKEW(9,ISK)
-                            ELSEIF(K.EQ.16)THEN
+                            ELSEIF(K==16)THEN
                                 WA(IJK) = X(1,I)*SKEW(1,ISK)
      .                                 + X(2,I)*SKEW(2,ISK)
      .                                 + X(3,I)*SKEW(3,ISK)
-                            ELSEIF(K.EQ.17)THEN
+                            ELSEIF(K==17)THEN
                                 WA(IJK) = X(1,I)*SKEW(4,ISK)
      .                                 + X(2,I)*SKEW(5,ISK)
      .                                 + X(3,I)*SKEW(6,ISK)
-                            ELSEIF(K.EQ.18)THEN
+                            ELSEIF(K==18)THEN
                                 WA(IJK) = X(1,I)*SKEW(7,ISK)
      .                                 + X(2,I)*SKEW(8,ISK)
      .                                 + X(3,I)*SKEW(9,ISK)
-                            ELSEIF(K.EQ.19)THEN
+                            ELSEIF(K==19)THEN
 C instruction pour contourner bug PGI si thermique
 		                        call sync_data(I)
                             ELSEIF(K == 620) THEN
-                                IF (NODREAC(I) .NE. 0) THEN
+                                IF (NODREAC(I) /= 0) THEN
                                   WA(IJK) = FTHREAC(1,NODREAC(I))*SKEW(1,ISK)
      .                                   + FTHREAC(2,NODREAC(I))*SKEW(2,ISK)
      .                                   + FTHREAC(3,NODREAC(I))*SKEW(3,ISK)
@@ -382,7 +382,7 @@ C instruction pour contourner bug PGI si thermique
                                   WA(IJK) = ZERO
                                 ENDIF
                             ELSEIF(K == 621) THEN
-                                IF (NODREAC(I) .NE. 0) THEN
+                                IF (NODREAC(I) /= 0) THEN
                                   WA(IJK) = FTHREAC(1,NODREAC(I))*SKEW(4,ISK)
      .                                   + FTHREAC(2,NODREAC(I))*SKEW(5,ISK)
      .                                   + FTHREAC(3,NODREAC(I))*SKEW(6,ISK)
@@ -390,7 +390,7 @@ C instruction pour contourner bug PGI si thermique
                                   WA(IJK) = ZERO
                                 ENDIF
                             ELSEIF(K == 622) THEN
-                                IF (NODREAC(I) .NE. 0) THEN
+                                IF (NODREAC(I) /= 0) THEN
                                   WA(IJK) = FTHREAC(1,NODREAC(I))*SKEW(7,ISK)
      .                                   + FTHREAC(2,NODREAC(I))*SKEW(8,ISK)
      .                                   + FTHREAC(3,NODREAC(I))*SKEW(9,ISK)
@@ -398,7 +398,7 @@ C instruction pour contourner bug PGI si thermique
                                   WA(IJK) = ZERO
                                 ENDIF
                             ELSEIF(K == 623) THEN
-                                IF (NODREAC(I) .NE. 0) THEN
+                                IF (NODREAC(I) /= 0) THEN
                                   WA(IJK) = FTHREAC(4,NODREAC(I))*SKEW(1,ISK)
      .                                   + FTHREAC(5,NODREAC(I))*SKEW(2,ISK)
      .                                   + FTHREAC(6,NODREAC(I))*SKEW(3,ISK)
@@ -406,7 +406,7 @@ C instruction pour contourner bug PGI si thermique
                                   WA(IJK) = ZERO
                                 ENDIF
                             ELSEIF(K == 624) THEN
-                                IF (NODREAC(I) .NE. 0) THEN
+                                IF (NODREAC(I) /= 0) THEN
                                   WA(IJK) = FTHREAC(4,NODREAC(I))*SKEW(4,ISK)
      .                                   + FTHREAC(5,NODREAC(I))*SKEW(5,ISK)
      .                                   + FTHREAC(6,NODREAC(I))*SKEW(6,ISK)
@@ -414,7 +414,7 @@ C instruction pour contourner bug PGI si thermique
                                   WA(IJK) = ZERO
                                 ENDIF
                             ELSEIF(K == 625) THEN
-                                IF (NODREAC(I) .NE. 0) THEN
+                                IF (NODREAC(I) /= 0) THEN
                                   WA(IJK) = FTHREAC(4,NODREAC(I))*SKEW(7,ISK)
      .                                   + FTHREAC(5,NODREAC(I))*SKEW(8,ISK)
      .                                   + FTHREAC(6,NODREAC(I))*SKEW(9,ISK)
@@ -424,7 +424,7 @@ C instruction pour contourner bug PGI si thermique
                             ELSEIF(K == 626) THEN
                                 IF ((IDROT == 1 .OR. ISECUT>0 .OR. ISUB>0 .OR.
      .                               MSHSUB>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
-     .                               IRODDL.NE.0 )THEN
+     .                               IRODDL/=0 )THEN
                                   WA(IJK) = DR(1,I)*SKEW(1,ISK)
      .                                   + DR(2,I)*SKEW(2,ISK)
      .                                   + DR(3,I)*SKEW(3,ISK)
@@ -434,7 +434,7 @@ C instruction pour contourner bug PGI si thermique
                             ELSEIF(K == 627) THEN
                                 IF ((IDROT == 1 .OR. ISECUT>0 .OR. ISUB>0 .OR.
      .                               MSHSUB>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
-     .                               IRODDL.NE.0 )THEN
+     .                               IRODDL/=0 )THEN
                                   WA(IJK) = DR(1,I)*SKEW(4,ISK)
      .                                   + DR(2,I)*SKEW(5,ISK)
      .                                   + DR(3,I)*SKEW(6,ISK)
@@ -444,7 +444,7 @@ C instruction pour contourner bug PGI si thermique
                             ELSEIF(K == 628) THEN
                                 IF ((IDROT == 1 .OR. ISECUT>0 .OR. ISUB>0 .OR.
      .                               MSHSUB>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
-     .                               IRODDL.NE.0 )THEN
+     .                               IRODDL/=0 )THEN
                                   WA(IJK) = DR(1,I)*SKEW(7,ISK)
      .                                   + DR(2,I)*SKEW(8,ISK)
      .                                   + DR(3,I)*SKEW(9,ISK)
@@ -544,46 +544,46 @@ C               output with respect to a REFERENCE FRAME.
                                 K=ITHBUF(L)
                                 II=II+1
                                 IJK=IJK+1
-                                IF (K.EQ.1)THEN
+                                IF (K==1)THEN
                                     WA(IJK)=DL(1)
-                                ELSEIF(K.EQ.2)THEN
+                                ELSEIF(K==2)THEN
                                     WA(IJK)=DL(2)
-                                ELSEIF(K.EQ.3)THEN
+                                ELSEIF(K==3)THEN
                                     WA(IJK)=DL(3)
-                                ELSEIF(K.EQ.4)THEN
+                                ELSEIF(K==4)THEN
                                     WA(IJK)=VL(1)
-                                ELSEIF(K.EQ.5)THEN
+                                ELSEIF(K==5)THEN
                                     WA(IJK)=VL(2)
-                                ELSEIF(K.EQ.6)THEN
+                                ELSEIF(K==6)THEN
                                     WA(IJK)=VL(3)
-                                ELSEIF(K.EQ.7)THEN
+                                ELSEIF(K==7)THEN
                                     WA(IJK)=AL(1)
-                                ELSEIF(K.EQ.8)THEN
+                                ELSEIF(K==8)THEN
                                     WA(IJK)=AL(2)
-                                ELSEIF(K.EQ.9)THEN
+                                ELSEIF(K==9)THEN
                                     WA(IJK)=AL(3)
-                                ELSEIF(K.EQ.10)THEN
+                                ELSEIF(K==10)THEN
                                     WA(IJK)=VRL(1)
-                                ELSEIF(K.EQ.11)THEN
+                                ELSEIF(K==11)THEN
                                     WA(IJK)=VRL(2)
-                                ELSEIF(K.EQ.12)THEN
+                                ELSEIF(K==12)THEN
                                     WA(IJK)=VRL(3)
-                                ELSEIF(K.EQ.13)THEN
+                                ELSEIF(K==13)THEN
                                     WA(IJK)=ARL(1)
-                                ELSEIF(K.EQ.14)THEN
+                                ELSEIF(K==14)THEN
                                     WA(IJK)=ARL(2)
-                                ELSEIF(K.EQ.15)THEN
+                                ELSEIF(K==15)THEN
                                     WA(IJK)=ARL(3)
-                                ELSEIF(K.EQ.16)THEN
+                                ELSEIF(K==16)THEN
                                     WA(IJK)=XL(1)
-                                ELSEIF(K.EQ.17)THEN
+                                ELSEIF(K==17)THEN
                                     WA(IJK)=XL(2)
-                                ELSEIF(K.EQ.18)THEN
+                                ELSEIF(K==18)THEN
                                     WA(IJK)=XL(3)
-                                ELSEIF(K.EQ.19)THEN
+                                ELSEIF(K==19)THEN
 C instruction pour contourner bug PGI si thermique
 		                            call sync_data(I)
-                                    IF (ITHERM_FE .NE. 0) THEN
+                                    IF (ITHERM_FE /= 0) THEN
                                         WA(IJK) = TEMP(I)
                                     ELSE
                                         WA(IJK) = ZERO
@@ -612,77 +612,77 @@ C
                             DO L=IADV,IADV+NVAR-1
                                 II=II+1
                             ENDDO
-                        ELSEIF(ISK.EQ.1)THEN
+                        ELSEIF(ISK==1)THEN
 C               output with respect to the global SKEW.
                             II_SAVE = II
                             DO L=IADV,IADV+NVAR-1
                                 K=ITHBUF(L)
                                 II=II+1
                                 IJK=IJK+1
-                                IF (K.EQ.1)THEN
+                                IF (K==1)THEN
                                     WA(IJK)=D(1,I)
-                                ELSEIF(K.EQ.2)THEN
+                                ELSEIF(K==2)THEN
                                     WA(IJK)=D(2,I)
-                                ELSEIF(K.EQ.3)THEN
+                                ELSEIF(K==3)THEN
                                     WA(IJK)=D(3,I)
-                                ELSEIF(K.EQ.4)THEN
+                                ELSEIF(K==4)THEN
                                     WA(IJK)=V(1,I)
-                                ELSEIF(K.EQ.5)THEN
+                                ELSEIF(K==5)THEN
                                     WA(IJK)=V(2,I)
-                                ELSEIF(K.EQ.6)THEN
+                                ELSEIF(K==6)THEN
                                     WA(IJK)=V(3,I)
-                                ELSEIF(K.EQ.7)THEN
+                                ELSEIF(K==7)THEN
                                     WA(IJK)=A(1,I)
-                                ELSEIF(K.EQ.8)THEN
+                                ELSEIF(K==8)THEN
                                     WA(IJK)=A(2,I)
-                                ELSEIF(K.EQ.9)THEN
+                                ELSEIF(K==9)THEN
                                     WA(IJK)=A(3,I)
-                                ELSEIF(K.EQ.16)THEN
+                                ELSEIF(K==16)THEN
                                     WA(IJK)=X(1,I)
-                                ELSEIF(K.EQ.17)THEN
+                                ELSEIF(K==17)THEN
                                     WA(IJK)=X(2,I)
-                                ELSEIF(K.EQ.18)THEN
+                                ELSEIF(K==18)THEN
                                     WA(IJK)=X(3,I)
-                                ELSEIF(K.EQ.19)THEN
+                                ELSEIF(K==19)THEN
 C instruction pour contourner bug PGI si thermique
 		                            call sync_data(I)
-                                    IF (ITHERM_FE .NE. 0) THEN
+                                    IF (ITHERM_FE /= 0) THEN
                                         WA(IJK) = TEMP(I)
                                     ELSE
                                         WA(IJK) = ZERO
                                     ENDIF
                                 ELSEIF(K == 620) THEN
-                                    IF (NODREAC(I) .NE. 0) THEN
+                                    IF (NODREAC(I) /= 0) THEN
                                         WA(IJK) = FTHREAC(1,NODREAC(I))
                                     ELSE
                                         WA(IJK) = ZERO
                                     ENDIF
                                 ELSEIF(K == 621) THEN
-                                    IF (NODREAC(I) .NE. 0) THEN
+                                    IF (NODREAC(I) /= 0) THEN
                                         WA(IJK) = FTHREAC(2,NODREAC(I))
                                     ELSE
                                         WA(IJK) = ZERO
                                     ENDIF
                                 ELSEIF(K == 622) THEN
-                                    IF (NODREAC(I) .NE. 0) THEN
+                                    IF (NODREAC(I) /= 0) THEN
                                         WA(IJK) = FTHREAC(3,NODREAC(I))
                                     ELSE
                                         WA(IJK) = ZERO
                                     ENDIF
                                 ELSEIF(K == 623) THEN
-                                    IF (NODREAC(I) .NE. 0) THEN
+                                    IF (NODREAC(I) /= 0) THEN
                                         WA(IJK) = FTHREAC(4,NODREAC(I))
                                     ELSE
                                         WA(IJK) = ZERO
                                     ENDIF
                                 ELSEIF(K == 624) THEN
-                                    IF (NODREAC(I) .NE. 0) THEN
+                                    IF (NODREAC(I) /= 0) THEN
                                         WA(IJK) = FTHREAC(5,NODREAC(I))
                                     ELSE
                                         WA(IJK) = ZERO
                                     ENDIF
                                 ELSEIF(K == 625) THEN
-                                    IF (NODREAC(I) .NE. 0) THEN
+                                    IF (NODREAC(I) /= 0) THEN
                                         WA(IJK) = FTHREAC(6,NODREAC(I))
                                     ELSE
                                         WA(IJK) = ZERO
@@ -690,7 +690,7 @@ C instruction pour contourner bug PGI si thermique
                                 ELSEIF(K == 626) THEN
                                     IF ((IDROT == 1 .OR. ISECUT>0 .OR. ISUB>0 .OR.
      .                                   MSHSUB>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
-     .                                   IRODDL.NE.0 )THEN
+     .                                   IRODDL/=0 )THEN
                                         WA(IJK) = DR(1,I)
                                     ELSE
                                         WA(IJK) = ZERO
@@ -698,7 +698,7 @@ C instruction pour contourner bug PGI si thermique
                                 ELSEIF(K == 627) THEN
                                     IF ((IDROT == 1 .OR. ISECUT>0 .OR. ISUB>0 .OR.
      .                                   MSHSUB>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
-     .                                   IRODDL.NE.0 )THEN
+     .                                   IRODDL/=0 )THEN
                                         WA(IJK) = DR(2,I)
                                     ELSE
                                         WA(IJK) = ZERO
@@ -706,7 +706,7 @@ C instruction pour contourner bug PGI si thermique
                                 ELSEIF(K == 628) THEN
                                     IF ((IDROT == 1 .OR. ISECUT>0 .OR. ISUB>0 .OR.
      .                                   MSHSUB>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
-     .                                   IRODDL.NE.0 )THEN
+     .                                   IRODDL/=0 )THEN
                                         WA(IJK) = DR(3,I)
                                     ELSE
                                         WA(IJK) = ZERO
@@ -717,7 +717,7 @@ C instruction pour contourner bug PGI si thermique
                             ENDDO ! L=IADV,IADV+NVAR-1
                             IJK=IJK+1
                             WA(IJK) = II_SAVE
-                        ELSEIF(ISK.LE.NUMSKW+1+NSUBMOD)THEN
+                        ELSEIF(ISK<=NUMSKW+1+NSUBMOD)THEN
 C---------
 C               output with respect to a (non global) SKEW.
                             II_SAVE=II
@@ -725,64 +725,64 @@ C               output with respect to a (non global) SKEW.
                                 K=ITHBUF(L)
                                 II=II+1
                                 IJK=IJK+1
-                                IF(K.EQ.1)THEN
+                                IF(K==1)THEN
                                     WA(IJK) = D(1,I)*SKEW(1,ISK)
      .                                     + D(2,I)*SKEW(2,ISK)
      .                                     + D(3,I)*SKEW(3,ISK)
-                                ELSEIF(K.EQ.2)THEN
+                                ELSEIF(K==2)THEN
                                     WA(IJK) = D(1,I)*SKEW(4,ISK)
      .                                     + D(2,I)*SKEW(5,ISK)
      .                                     + D(3,I)*SKEW(6,ISK)
-                                ELSEIF(K.EQ.3)THEN
+                                ELSEIF(K==3)THEN
                                     WA(IJK) = D(1,I)*SKEW(7,ISK)
      .                                     + D(2,I)*SKEW(8,ISK)
      .                                     + D(3,I)*SKEW(9,ISK)
-                                ELSEIF(K.EQ.4)THEN
+                                ELSEIF(K==4)THEN
                                     WA(IJK) = V(1,I)*SKEW(1,ISK)
      .                                     + V(2,I)*SKEW(2,ISK)
      .                                     + V(3,I)*SKEW(3,ISK)
-                                ELSEIF(K.EQ.5)THEN
+                                ELSEIF(K==5)THEN
                                     WA(IJK) = V(1,I)*SKEW(4,ISK)
      .                                     + V(2,I)*SKEW(5,ISK)
      .                                     + V(3,I)*SKEW(6,ISK)
-                                ELSEIF(K.EQ.6)THEN
+                                ELSEIF(K==6)THEN
                                     WA(IJK) = V(1,I)*SKEW(7,ISK)
      .                                     + V(2,I)*SKEW(8,ISK)
      .                                     + V(3,I)*SKEW(9,ISK)
-                                ELSEIF(K.EQ.7)THEN
+                                ELSEIF(K==7)THEN
                                     WA(IJK) = A(1,I)*SKEW(1,ISK)
      .                                     + A(2,I)*SKEW(2,ISK)
      .                                     + A(3,I)*SKEW(3,ISK)
-                                ELSEIF(K.EQ.8)THEN
+                                ELSEIF(K==8)THEN
                                     WA(IJK) = A(1,I)*SKEW(4,ISK)
      .                                     + A(2,I)*SKEW(5,ISK)
      .                                     + A(3,I)*SKEW(6,ISK)
-                                ELSEIF(K.EQ.9)THEN
+                                ELSEIF(K==9)THEN
                                     WA(IJK) = A(1,I)*SKEW(7,ISK)
      .                                     + A(2,I)*SKEW(8,ISK)
      .                                     + A(3,I)*SKEW(9,ISK)
-                                ELSEIF(K.EQ.16)THEN
+                                ELSEIF(K==16)THEN
                                     WA(IJK) = X(1,I)*SKEW(1,ISK)
      .                                     + X(2,I)*SKEW(2,ISK)
      .                                     + X(3,I)*SKEW(3,ISK)
-                                ELSEIF(K.EQ.17)THEN
+                                ELSEIF(K==17)THEN
                                     WA(IJK) = X(1,I)*SKEW(4,ISK)
      .                                     + X(2,I)*SKEW(5,ISK)
      .                                     + X(3,I)*SKEW(6,ISK)
-                                ELSEIF(K.EQ.18)THEN
+                                ELSEIF(K==18)THEN
                                     WA(IJK) = X(1,I)*SKEW(7,ISK)
      .                                     + X(2,I)*SKEW(8,ISK)
      .                                     + X(3,I)*SKEW(9,ISK)
-                                ELSEIF(K.EQ.19)THEN
+                                ELSEIF(K==19)THEN
 C instruction pour contourner bug PGI si thermique
 		                            call sync_data(I)
-                                    IF (ITHERM_FE .NE. 0) THEN
+                                    IF (ITHERM_FE /= 0) THEN
                                         WA(IJK) = TEMP(I)
                                     ELSE
                                         WA(IJK) = ZERO
                                     ENDIF
                                 ELSEIF(K == 620) THEN
-                                    IF (NODREAC(I) .NE. 0) THEN
+                                    IF (NODREAC(I) /= 0) THEN
                                       WA(IJK) = FTHREAC(1,NODREAC(I))*SKEW(1,ISK)
      .                                       + FTHREAC(2,NODREAC(I))*SKEW(2,ISK)
      .                                       + FTHREAC(3,NODREAC(I))*SKEW(3,ISK)
@@ -790,7 +790,7 @@ C instruction pour contourner bug PGI si thermique
                                       WA(IJK) = ZERO
                                     ENDIF
                                 ELSEIF(K == 621) THEN
-                                    IF (NODREAC(I) .NE. 0) THEN
+                                    IF (NODREAC(I) /= 0) THEN
                                       WA(IJK) = FTHREAC(1,NODREAC(I))*SKEW(4,ISK)
      .                                       + FTHREAC(2,NODREAC(I))*SKEW(5,ISK)
      .                                       + FTHREAC(3,NODREAC(I))*SKEW(6,ISK)
@@ -798,7 +798,7 @@ C instruction pour contourner bug PGI si thermique
                                       WA(IJK) = ZERO
                                     ENDIF
                                 ELSEIF(K == 622) THEN
-                                    IF (NODREAC(I) .NE. 0) THEN
+                                    IF (NODREAC(I) /= 0) THEN
                                       WA(IJK) = FTHREAC(1,NODREAC(I))*SKEW(7,ISK)
      .                                       + FTHREAC(2,NODREAC(I))*SKEW(8,ISK)
      .                                       + FTHREAC(3,NODREAC(I))*SKEW(9,ISK)
@@ -806,7 +806,7 @@ C instruction pour contourner bug PGI si thermique
                                       WA(IJK) = ZERO
                                     ENDIF
                                 ELSEIF(K == 623) THEN
-                                    IF (NODREAC(I) .NE. 0) THEN
+                                    IF (NODREAC(I) /= 0) THEN
                                       WA(IJK) = FTHREAC(4,NODREAC(I))*SKEW(1,ISK)
      .                                       + FTHREAC(5,NODREAC(I))*SKEW(2,ISK)
      .                                       + FTHREAC(6,NODREAC(I))*SKEW(3,ISK)
@@ -814,7 +814,7 @@ C instruction pour contourner bug PGI si thermique
                                       WA(IJK) = ZERO
                                     ENDIF
                                 ELSEIF(K == 624) THEN
-                                    IF (NODREAC(I) .NE. 0) THEN
+                                    IF (NODREAC(I) /= 0) THEN
                                       WA(IJK) = FTHREAC(4,NODREAC(I))*SKEW(4,ISK)
      .                                       + FTHREAC(5,NODREAC(I))*SKEW(5,ISK)
      .                                       + FTHREAC(6,NODREAC(I))*SKEW(6,ISK)
@@ -822,7 +822,7 @@ C instruction pour contourner bug PGI si thermique
                                       WA(IJK) = ZERO
                                     ENDIF
                                 ELSEIF(K == 625) THEN
-                                    IF (NODREAC(I) .NE. 0) THEN
+                                    IF (NODREAC(I) /= 0) THEN
                                         WA(IJK) = FTHREAC(4,NODREAC(I))*SKEW(7,ISK)
      .                                       + FTHREAC(5,NODREAC(I))*SKEW(8,ISK)
      .                                       + FTHREAC(6,NODREAC(I))*SKEW(9,ISK)
@@ -832,7 +832,7 @@ C instruction pour contourner bug PGI si thermique
                                 ELSEIF(K == 626) THEN
                                     IF ((IDROT == 1 .OR. ISECUT>0 .OR. ISUB>0 .OR.
      .                                  MSHSUB>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
-     .                                  IRODDL.NE.0 )THEN
+     .                                  IRODDL/=0 )THEN
                                         WA(IJK) = DR(1,I)*SKEW(1,ISK)
      .                                  + DR(2,I)*SKEW(2,ISK)
      .                                  + DR(3,I)*SKEW(3,ISK)
@@ -842,7 +842,7 @@ C instruction pour contourner bug PGI si thermique
                                 ELSEIF(K == 627) THEN
                                     IF ((IDROT == 1 .OR. ISECUT>0 .OR. ISUB>0 .OR.
      .                                   MSHSUB>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
-     .                                   IRODDL.NE.0 )THEN
+     .                                   IRODDL/=0 )THEN
                                       WA(IJK) = DR(1,I)*SKEW(4,ISK)
      .                                       + DR(2,I)*SKEW(5,ISK)
      .                                       + DR(3,I)*SKEW(6,ISK)
@@ -852,7 +852,7 @@ C instruction pour contourner bug PGI si thermique
                                 ELSEIF(K == 628) THEN
                                     IF ((IDROT == 1 .OR. ISECUT>0 .OR. ISUB>0 .OR.
      .                                  MSHSUB>0 .OR. IISROT>0 .OR. IMPOSE_DR>0) .AND.
-     .                                  IRODDL.NE.0 )THEN
+     .                                  IRODDL/=0 )THEN
                                       WA(IJK) = DR(1,I)*SKEW(7,ISK)
      .                                       + DR(2,I)*SKEW(8,ISK)
      .                                     + DR(3,I)*SKEW(9,ISK)
@@ -880,34 +880,34 @@ C                   output with respect to a REFERENCE FRAME.
                         K=ITHBUF(L)
                         II=II+1
                         IJK=IJK+1
-                        IF (K.EQ.1)THEN
+                        IF (K==1)THEN
                             WA(IJK)=DL(1)
-                        ELSEIF(K.EQ.2)THEN
+                        ELSEIF(K==2)THEN
                             WA(IJK)=DL(2)
-                        ELSEIF(K.EQ.3)THEN
+                        ELSEIF(K==3)THEN
                             WA(IJK)=DL(3)
-                        ELSEIF(K.EQ.4)THEN
+                        ELSEIF(K==4)THEN
                             WA(IJK)=VL(1)
-                        ELSEIF(K.EQ.5)THEN
+                        ELSEIF(K==5)THEN
                             WA(IJK)=VL(2)
-                        ELSEIF(K.EQ.6)THEN
+                        ELSEIF(K==6)THEN
                                 WA(IJK)=VL(3)
-                        ELSEIF(K.EQ.7)THEN
+                        ELSEIF(K==7)THEN
                                 WA(IJK)=AL(1)
-                        ELSEIF(K.EQ.8)THEN
+                        ELSEIF(K==8)THEN
                                 WA(IJK)=AL(2)
-                        ELSEIF(K.EQ.9)THEN
+                        ELSEIF(K==9)THEN
                                 WA(IJK)=AL(3)
-                        ELSEIF(K.EQ.16)THEN
+                        ELSEIF(K==16)THEN
                                 WA(IJK)=XL(1)
-                        ELSEIF(K.EQ.17)THEN
+                        ELSEIF(K==17)THEN
                                 WA(IJK)=XL(2)
-                        ELSEIF(K.EQ.18)THEN
+                        ELSEIF(K==18)THEN
                                 WA(IJK)=XL(3)
-                        ELSEIF(K.EQ.19)THEN
+                        ELSEIF(K==19)THEN
 C instruction pour contourner bug PGI si thermique
 		                    call sync_data(I)
-                            IF (ITHERM_FE .NE. 0) THEN
+                            IF (ITHERM_FE /= 0) THEN
                                 WA(IJK) = TEMP(I)
                             ELSE
                                 WA(IJK) = ZERO

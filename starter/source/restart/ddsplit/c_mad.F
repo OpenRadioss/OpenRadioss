@@ -62,7 +62,7 @@ C-----------------------------------------------
 C
 C Couplage etendu
 C
-      IF(NEXMAD.NE.0) THEN
+      IF(NEXMAD/=0) THEN
 C
 C ELEM shell4
 C
@@ -70,7 +70,7 @@ C
         ESHIFT = NUMELS+NUMELQ
         DO I = 1, NMADSH4
           K = IEXMAD(IDEB+I-1)
-          IF(CEP(K+ESHIFT).EQ.PROC) THEN
+          IF(CEP(K+ESHIFT)==PROC) THEN
             NMADSH4_L = NMADSH4_L+1
           END IF
         END DO
@@ -81,7 +81,7 @@ C
         ESHIFT = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR
         DO I = 1, NMADSH3
           K = IEXMAD(IDEB+I-1)
-          IF(CEP(K+ESHIFT).EQ.PROC) THEN
+          IF(CEP(K+ESHIFT)==PROC) THEN
             NMADSH3_L = NMADSH3_L+1
           END IF
         END DO
@@ -92,7 +92,7 @@ C
         ESHIFT = 0
         DO I = 1, NMADSOL
           K = IEXMAD(IDEB+I-1)
-          IF(CEP(K+ESHIFT).EQ.PROC) THEN
+          IF(CEP(K+ESHIFT)==PROC) THEN
             NMADSOL_L = NMADSOL_L+1
           END IF
         END DO

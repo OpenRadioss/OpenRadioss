@@ -78,7 +78,7 @@ C
         IF (JLAG/=0 .AND. JSPH == 0) THEN
           VOL(I) = VOL(I) * ( RHO(I) / PM(1,MA) )
         ENDIF
-        IF (JEUL+JALE /= 0 .AND.  PM(1,MA).NE.ZERO) THEN
+        IF (JEUL+JALE /= 0 .AND.  PM(1,MA)/=ZERO) THEN
           EINT(I) = EINT(I) * RHO(I) / PM(1,MA)
         ENDIF
 C 
@@ -97,8 +97,8 @@ C-----------------------------
               DO J = 1,MAX(NUMSOL+NUMQUAD,NUMELS+NUMELQ)
                 JJ= J
                 N = NINT(SIGI(7,J))
-                IF(N.EQ.0)GOTO 200
-                IF(N.EQ.IX(NIX,II))THEN
+                IF(N==0)GOTO 200
+                IF(N==IX(NIX,II))THEN
                   IFLAGINI = 1
                   GOTO 60
                 ENDIF
@@ -107,8 +107,8 @@ C-----------------------------
               DO J = 1,NUMSPH
                 JJ= J
                 N = NINT(SIGI(7,J))
-                IF(N.EQ.0)GOTO 200
-                IF(N.EQ.IX(NIX,II))THEN
+                IF(N==0)GOTO 200
+                IF(N==IX(NIX,II))THEN
                   IFLAGINI = 1
                   GOTO 60
                 ENDIF

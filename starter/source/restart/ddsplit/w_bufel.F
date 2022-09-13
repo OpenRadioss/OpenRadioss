@@ -61,9 +61,9 @@ C
       LB_L = 0
       DO NG=1,NGROUP
         P   = IPARG(32,NG)
-        IF(P.EQ.PROC) THEN
+        IF(P==PROC) THEN
           IAD = IPARG(4,NG)
-          IF(NG.LT.NGROUP) THEN
+          IF(NG<NGROUP) THEN
             LEN = IPARG(4,NG+1) - IPARG(4,NG)
           ELSE
              LEN =LBUFEL + 1 - IPARG(4,NG)

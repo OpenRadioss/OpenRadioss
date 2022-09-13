@@ -214,8 +214,8 @@ C latent heat
            COEF(I)  = UPARAM(24)                     
          ENDDO
 C
-       IF (ISIGI.EQ.0) THEN
-       IF(TIME.EQ.0.0)THEN
+       IF (ISIGI==0) THEN
+       IF(TIME==0.0)THEN
          DO I=1,NEL0
            UVAR(I,1) = ZERO
            UVAR(I,2) = VM0
@@ -283,7 +283,7 @@ ctmp + DH(I)*UVAR(I,3)
 C-------------------
 C     PROJECTION
 C-------------------
-       IF(IFLAG(1).EQ.0)THEN
+       IF(IFLAG(1)==0)THEN
 C projection radiale 
          DO I=1,NEL0
            SVM(I)=SQRT(SIGNXX(I)*SIGNXX(I)
@@ -304,9 +304,9 @@ Ctmp           DPLA(I) = OFF(I)*SVM(I)*UMR/(G3(I)+H(I))
              DEZZ=-(DEPSXX(I)+DEPSYY(I))*NNU1-NU3*DEZZ
              THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
            ENDIF
-           IF(R.LT.1.) ETSE(I)= H(I)/(H(I)+E) 
+           IF(R<1.) ETSE(I)= H(I)/(H(I)+E) 
          ENDDO
-       ELSEIF(IFLAG(1).EQ.1)THEN
+       ELSEIF(IFLAG(1)==1)THEN
 C-------------------------
 C     CRITERE DE VON MISES
 C-------------------------  
@@ -328,13 +328,13 @@ C     GATHER PLASTIC FLOW
 C-------------------------
          NINDX=0
          DO I=1,NEL0
-           IF(SVM(I).GT.YLD(I).AND.OFF(I).EQ.1.) THEN
+           IF(SVM(I)>YLD(I).AND.OFF(I)==1.) THEN
              NINDX=NINDX+1
              INDEX(NINDX)=I
            ENDIF
          ENDDO
 C         
-         IF(NINDX.NE.0) THEN
+         IF(NINDX/=0) THEN
 C---------------------------
 C    DEP EN CONTRAINTE PLANE
 C---------------------------
@@ -365,7 +365,7 @@ C
      .         *(E- TWO*DR(I)*H(I))/YLD_I
      .         - TWO*H(I)*YLD_I
              DF = SIGN(MAX(ABS(DF),EM20),DF)  
-             IF(DPLA(I).GT.ZERO) THEN
+             IF(DPLA(I)>ZERO) THEN
                DPLA_J(I)=MAX(ZERO,DPLA(I)-F/DF)
              ELSE
                DPLA_J(I)=ZERO
@@ -391,7 +391,7 @@ C------------------------------------------
           ENDDO
          ENDIF
 C------------------------------------------
-       ELSEIF(IFLAG(1).EQ.2)THEN
+       ELSEIF(IFLAG(1)==2)THEN
 C projection radial sur le deviateur sur un critere reduit
 C projection elastique en z => sig33 = 0
 C le coef. de reduction du critere est tel que 
@@ -428,7 +428,7 @@ ctmp           DPLA(I) = OFF(I)*SVM(I)*UMR/(G3(I)+H(I))
              DEZZ=-(DEPSXX(I)+DEPSYY(I))*NNU1-NU3*DEZZ
              THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
            ENDIF
-           IF(R.LT.ONE) ETSE(I)= H(I)/(H(I)+E)
+           IF(R<ONE) ETSE(I)= H(I)/(H(I)+E)
          ENDDO
        ENDIF
 C calcul de l'effet martensite ----
@@ -442,7 +442,7 @@ C calcul de l'effet martensite ----
 
          DVM = CB*EXP( ARGEXP )*DVM/MAX(CA,EM20)
 
-         IF(DPLA(I).NE.ZERO) UVAR(I,3) =  DVM
+         IF(DPLA(I)/=ZERO) UVAR(I,3) =  DVM
          VM(I) = VM(I) + MAX(DVM*DPLA(I),ZERO)
          VM(I) = MIN(VM(I), ONE)
 C la chaleur latente dans le terme source.

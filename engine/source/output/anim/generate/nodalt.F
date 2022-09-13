@@ -197,7 +197,7 @@ c                   endif
                     ELSE
                       pAdjBRICK  => BRICK_LIST(NIN,IB)%Adjacent_Brick(1:6,1:5)       
                       IPOS       =  BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(1)                    
-                      IF(IPOS.LE.NV46)THEN
+                      IF(IPOS<=NV46)THEN
                         IV     =  BRICK_LIST(NIN,IB)%Adjacent_Brick(IPOS,1)
                         NGv    =  BRICK_LIST(NIN,IB)%Adjacent_Brick(IPOS,2)
                         IDLOCv =  BRICK_LIST(NIN,IB)%Adjacent_Brick(IPOS,3) 

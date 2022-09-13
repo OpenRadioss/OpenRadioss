@@ -165,14 +165,14 @@ C-----------------------------------------------
       IS_CONTACT=.FALSE.
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
 
 C -------------------------------------------------------------
 C     CRITERE DE RETRI
 C -------------------------------------------------------------
       DIST = INTBUF_TAB%VARIABLES(5)
-      !IF (DIST.GT.ZERO) RETURN
+      !IF (DIST>ZERO) RETURN
       RETRI = 1
 C
 C -------------------------------------------------------------
@@ -285,10 +285,10 @@ C BARRIER II_STOK et RESULT
 
 C a conserver pour cas inacti est modifie sur p0
       INACTI=IPARI(22,NIN)
-      IF(ITASK.EQ.0)THEN
-        IF(ABS(BMINMA_LAG(6)-BMINMA_LAG(3)).GT.2*EP30.OR.
-     +     ABS(BMINMA_LAG(5)-BMINMA_LAG(2)).GT.2*EP30.OR.
-     +     ABS(BMINMA_LAG(4)-BMINMA_LAG(1)).GT.2*EP30)THEN
+      IF(ITASK==0)THEN
+        IF(ABS(BMINMA_LAG(6)-BMINMA_LAG(3))>2*EP30.OR.
+     +     ABS(BMINMA_LAG(5)-BMINMA_LAG(2))>2*EP30.OR.
+     +     ABS(BMINMA_LAG(4)-BMINMA_LAG(1))>2*EP30)THEN
           CALL ANCMSG(MSGID=87,ANMODE=ANINFO,
      .            I1=NOINT,C1='(I22BUCE)')
           CALL ARRET(2)
@@ -318,7 +318,7 @@ C     COMMUNICATION BORNES DES DOMAINES LAGRANGIENS
 C       BMINMA_LAG_G(1:6) is global model data
 C -------------------------------------------------------------
       IF(NSPMD > 1) THEN
-        IF(ITASK.EQ.0)THEN
+        IF(ITASK==0)THEN
           ALLOCATE(BMINMA_LAG_SPMD(6,NSPMD))
           CALL SPMD_LAGBOUNDS_EXCH_I22(
      .            BMINMA_LAG_SPMD, BMINMA_LAG, ISENDTO  ,IRCVFROM , NIN)
@@ -448,7 +448,7 @@ C -------------------------------------------------------------
  
       IF(NSPMD > 1) THEN
 
-        IF(ITASK.EQ.0) CRVOXEL(0:LRVOXEL,0:LRVOXEL,LOC_PROC)=0
+        IF(ITASK==0) CRVOXEL(0:LRVOXEL,0:LRVOXEL,LOC_PROC)=0
         CALL MY_BARRIER ! waiting for crvoxel init.
         IF (IMONM > 0 .AND. ITASK == 0) CALL STARTIME(26,1)
 
@@ -461,7 +461,7 @@ C -------------------------------------------------------------
         CALL MY_BARRIER ! all thread has to mark local domain Voxel before reading it above.
 
         IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(26,1)
-        IF(ITASK.EQ.0)THEN
+        IF(ITASK==0)THEN
       
         !CONTACT=TRUE si intersection non nulle entre domaine FLUIDE LOCAL / LAG DISTANTS    
         IF(IS_CONTACT) CALL SPMD_TRI22VOX(
@@ -650,9 +650,9 @@ C
 C--------------------------------------------------------------
 C--------------------------------------------------------------
       CALL MY_BARRIER
-      IF (RESULT.NE.0) THEN
+      IF (RESULT/=0) THEN
         CALL MY_BARRIER
-        IF (ITASK.EQ.0) THEN
+        IF (ITASK==0) THEN
 C utile si on revient
           INTBUF_TAB%I_STOK(1) = I_SK_OLD
           RESULT = 0
@@ -665,7 +665,7 @@ C utile si on revient
         GOTO 50
       ENDIF
 C mise a - de dist temporairement pour reperage dans partie frontiere
-      IF(NSPMD.GT.1)THEN
+      IF(NSPMD>1)THEN
 C mono tache
 !$OMP SINGLE
         IF (IMONM > 0) CALL STARTIME(26,1)
@@ -679,7 +679,7 @@ C
      4      MULTI_FVM)
         IPARI(24,NIN) = NSNR
 C
-        IF (NUM_IMP.GT.0) 
+        IF (NUM_IMP>0) 
      .     CALL IMP_RNUMCD(INTBUF_TAB%CAND_N,NIN,NSN,NUM_IMP,IND_IMP )
 C
         IF (IMONM > 0) CALL STOPTIME(26,1)

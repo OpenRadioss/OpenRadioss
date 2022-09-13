@@ -191,8 +191,8 @@ C
       STIGLO=-INTBUF_TAB%STFAC(1)
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
 C
       FRIC  =INTBUF_TAB%VARIABLES(1)
       GAP   =INTBUF_TAB%VARIABLES(2)
@@ -204,7 +204,7 @@ C
       DTMINI=INTBUF_TAB%VARIABLES(41)
       DGAPLOAD=INTBUF_TAB%VARIABLES(46)
       NUM_IMP = 0
-      IF (IMPL_S.EQ.1) THEN
+      IF (IMPL_S==1) THEN
           VISC  =ZERO
           VISCF =ZERO
       ENDIF
@@ -247,7 +247,7 @@ C
 C  cette partie est effectuee en // apres le calcul des forces des elem.
 C decoupage statique
       NB_LOC = I_STOK / NTHREAD
-      IF (JTASK.EQ.NTHREAD) THEN
+      IF (JTASK==NTHREAD) THEN
           I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
       ELSE
           I_STOK_LOC = NB_LOC
@@ -256,14 +256,14 @@ C decoupage statique
       I_STOK = 0
 C recalcul du istok
       DO I = DEBUT+1, DEBUT+I_STOK_LOC
-          IF(INTBUF_TAB%CAND_N(I).LT.0) THEN
+          IF(INTBUF_TAB%CAND_N(I)<0) THEN
             I_STOK = I_STOK + 1
             INDEX2(I_STOK) = I
 C inbuf == cand_S
             INTBUF_TAB%CAND_N(I) = -INTBUF_TAB%CAND_N(I)
           ENDIF
       ENDDO
-      IF (DEBUG(3).GE.1) THEN
+      IF (DEBUG(3)>=1) THEN
           NB_JLT = NB_JLT + I_STOK_LOC
           NB_STOK_N = NB_STOK_N + I_STOK
       ENDIF
@@ -274,7 +274,7 @@ C
           SFSAVPARIT = SFSAVPARIT + 1
         ENDIF
       ENDDO
-      IF (SFSAVPARIT .NE. 0) THEN
+      IF (SFSAVPARIT /= 0) THEN
         ALLOCATE(FSAVPARIT(NISUB+1,11,I_STOK),STAT=IERROR)
           IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
@@ -336,10 +336,10 @@ C preparation candidats retenus
      B        IPARTFRICMI,DGAPLOAD)
 
           JLT = JLT_NEW
-          IF(JLT_NEW.NE.0) THEN
+          IF(JLT_NEW/=0) THEN
             IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(20,1)
             IPARI(29) = 1
-            IF (DEBUG(3).GE.1)
+            IF (DEBUG(3)>=1)
      .        NB_JLT_NEW = NB_JLT_NEW + JLT_NEW
 
 C-------------------------------------------------------------------------------
@@ -409,7 +409,7 @@ C
      C  CONDINTS1    ,CONDINTS2    ,CONDINTM1   ,CONDINTM2   ,CONDN    ,
      D  CONDNSKYI    ,JTASK        ,H3D_DATA    )
 C
-            IF(IMPL_S.EQ.1) THEN
+            IF(IMPL_S==1) THEN
               DO I = 1 ,JLT_NEW
                 NS_IMP(I+NUM_IMP)=CS_LOC(I)
                 NE_IMP(I+NUM_IMP)=CM_LOC(I)

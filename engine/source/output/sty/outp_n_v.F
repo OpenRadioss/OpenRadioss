@@ -63,13 +63,13 @@ C-----------------------------------------------
       IF (NSPMD > 1) THEN
 
         CALL SPMD_DOUTP_VGATH(VECT,NODGLOB,WEIGHT,VGLOB)
-        IF (ISPMD.NE.0) RETURN
+        IF (ISPMD/=0) RETURN
       ENDIF
 
 C
        WRITE(IUGEO,'(2A)')'/NODAL     /VECTOR    /',KEY
        WRITE(IUGEO,'(A)')TEXT(1:LEN)
-       IF (OUTYY_FMT.EQ.2) THEN
+       IF (OUTYY_FMT==2) THEN
          WRITE(IUGEO,'(A)')'#FORMAT: (I8,1P3E16.9) '
        ELSE
          WRITE(IUGEO,'(A)')'#FORMAT: (I10,1P3E20.13) '
@@ -78,7 +78,7 @@ C
      .            '               Y               Z'
 
        IF (NSPMD == 1) THEN
-         IF (OUTYY_FMT.EQ.2) THEN
+         IF (OUTYY_FMT==2) THEN
            WRITE(IUGEO,'(I8,1P3E16.9)')
      .          (ITAB(J),(VECT(I,J),I=1,3),J=1,NUMNOD)
          ELSE
@@ -86,7 +86,7 @@ C
      .          (ITAB(J),(VECT(I,J),I=1,3),J=1,NUMNOD)
          ENDIF
        ELSE
-         IF (OUTYY_FMT.EQ.2) THEN
+         IF (OUTYY_FMT==2) THEN
            WRITE(IUGEO,'(I8,1P3E16.9)')
      .          (ITABG(J),(VGLOB(I,J),I=1,3),J=1,NUMNODG)
          ELSE
@@ -135,7 +135,7 @@ C-----------------------------------------------
       IF(NSPMD > 1)THEN
          CALL SPMD_GLOB_DSUM9(
      .        FOPT,6*(NSECT+NRBODY+NRWALL))
-         IF (ISPMD.NE.0) THEN
+         IF (ISPMD/=0) THEN
            DO N=1,NSECT+NRBODY+NRWALL
              DO I=1,6
                FOPT(I,N) = ZERO
@@ -149,7 +149,7 @@ C----
       WRITE(IUGEO,'(A)')'/RBODY     /VECTOR   /FORCE'
       WRITE(IUGEO,'(A)')
      .  'Rigid bodies : forces and moments'
-      IF (OUTYY_FMT.EQ.2) THEN
+      IF (OUTYY_FMT==2) THEN
         WRITE(IUGEO,'(A)')'#FORMAT: (I8,1P3E16.9,/,8X,,1P3E16.9) '
         WRITE(IUGEO,'(2A,/,2A)')'#RBODYID',
      .        '              FX              FY              FZ',
@@ -165,7 +165,7 @@ C                                                                     12
       END IF
 C
 C----
-      IF (OUTYY_FMT.EQ.2) THEN
+      IF (OUTYY_FMT==2) THEN
          WRITE(IUGEO,'(I8,1P3E16.9,/,8X,1P3E16.9)')
      .      (NPBY(6,N),(FOPT(I,NSECT+N),I=1,3),
      .       (FOPT(I,NSECT+N),I=4,6),N=1,NRBODY)
@@ -183,7 +183,7 @@ C----
       WRITE(IUGEO,'(A)')'/SECTION   /VECTOR	/FORCE'
       WRITE(IUGEO,'(A)')
      .  'Sections forces and moments'
-      IF (OUTYY_FMT.EQ.2) THEN
+      IF (OUTYY_FMT==2) THEN
         WRITE(IUGEO,'(A)')'#FORMAT: (I8,1P3E16.9,/,16X,,1P3E16.9) '
         WRITE(IUGEO,'(2A,/,2A)')'#SECT_ID',
      .        '              FX              FY              FZ',
@@ -199,7 +199,7 @@ C                                                                     12
       ENDIF
 C
 C----
-      IF (OUTYY_FMT.EQ.2) THEN
+      IF (OUTYY_FMT==2) THEN
         WRITE(IUGEO,'(I8,1P3E16.9,/,8X,1P3E16.9)')
      .  	(NOM_SECT(1,N),(FOPT(I,N),I=1,3),
      .           (FOPT(I,N),I=4,6),N=1,NSECT)
@@ -212,7 +212,7 @@ C
       WRITE(IUGEO,'(A)')'/RWALL    /VECTOR	/FORCE'
       WRITE(IUGEO,'(A)')
      .  'Rigid wall forces'
-      IF (OUTYY_FMT.EQ.2) THEN
+      IF (OUTYY_FMT==2) THEN
         WRITE(IUGEO,'(A)')'#FORMAT: (2I8,1P3E16.9) '
         WRITE(IUGEO,'(2A)')'#RWAL_ID',
      .    '             FX              FY              FZ'
@@ -223,7 +223,7 @@ C
 C                                                                     12
       ENDIF
 C
-      IF (OUTYY_FMT.EQ.2) THEN
+      IF (OUTYY_FMT==2) THEN
            WRITE(IUGEO,'(I8,1P3E16.9)')
      .     (NOM_WALL(1,N),(FOPT(I,NSECT+NRBODY+N),I=1,3),N=1,NRWALL)
       ELSE
@@ -292,14 +292,14 @@ C-----------------------------------------------
         END DO
 
         CALL SPMD_GLOB_DSUM9(VGLOB,3*NUMNODG)
-        IF (ISPMD.NE.0) RETURN
+        IF (ISPMD/=0) RETURN
       ENDIF
 
 C
        WRITE(IUGEO,'(2A)')'/NODAL     /VECTOR    /',KEY
        WRITE(IUGEO,'(A)')TEXT(1:LEN)
 
-       IF (OUTYY_FMT.EQ.2) THEN
+       IF (OUTYY_FMT==2) THEN
          WRITE(IUGEO,'(A)')'#FORMAT: (I8,1P3E16.9) '
        ELSE
          WRITE(IUGEO,'(A)')'#FORMAT: (I10,1P3E20.13) '
@@ -309,7 +309,7 @@ C
 
        IF (NSPMD == 1) THEN
 
-         IF (OUTYY_FMT.EQ.2) THEN
+         IF (OUTYY_FMT==2) THEN
            WRITE(IUGEO,'(I8,1P3E16.9)')
      .          (ITAB(J),(VECT(I,J),I=1,3),J=1,NUMNOD)
          ELSE
@@ -319,7 +319,7 @@ C
 
        ELSE
 
-         IF (OUTYY_FMT.EQ.2) THEN
+         IF (OUTYY_FMT==2) THEN
            WRITE(IUGEO,'(I8,1P3E16.9)')
      .          (ITABG(J),(VGLOB(I,J),I=1,3),J=1,NUMNODG)
 

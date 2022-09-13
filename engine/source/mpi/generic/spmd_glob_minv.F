@@ -81,7 +81,7 @@ C
       K1 = 1
       KK1 = 0
       DO I=1,NVOLU
-        IF(FR_MV(NSPMD+2,I).EQ.ISPMD+1) THEN
+        IF(FR_MV(NSPMD+2,I)==ISPMD+1) THEN
           RRBUF(3+(I-1)*7+1)=VOLMON(KK1+1)
           RRBUF(3+(I-1)*7+2)=VOLMON(KK1+2)
           RRBUF(3+(I-1)*7+3)=VOLMON(KK1+5)

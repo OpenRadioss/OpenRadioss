@@ -143,7 +143,7 @@ C
 C
 C-------- print of forces in ANIM / H3D
 C 
-      IF(ANIM_V(13)+H3D_DATA%N_VECT_CONT2.GT.0) THEN
+      IF(ANIM_V(13)+H3D_DATA%N_VECT_CONT2>0) THEN
         FNCONT(1,NSL) = (-FN(1)-FT(1)) * WEIGHT(NSL)
         FNCONT(2,NSL) = (-FN(2)-FT(2)) * WEIGHT(NSL)
         FNCONT(3,NSL) = (-FN(3)-FT(3)) * WEIGHT(NSL)
@@ -155,7 +155,7 @@ C
         ENDDO
       ENDIF  
 C
-      IF(ANIM_V(27)+H3D_DATA%N_VECT_PCONT2.GT.0) THEN ! Normal/Tangential forces output
+      IF(ANIM_V(27)+H3D_DATA%N_VECT_PCONT2>0) THEN ! Normal/Tangential forces output
         FNCONTP(1,NSL) = -FN(1) * WEIGHT(NSL)
         FNCONTP(2,NSL) = -FN(2) * WEIGHT(NSL)
         FNCONTP(3,NSL) = -FN(3) * WEIGHT(NSL)
