@@ -8978,6 +8978,11 @@ C     SEATBELT 2D->1D for SECTIONS
 C----------------------------------
         IF(NB_SEATBELT_SHELLS /= 0)THEN
           MY_ALLOCATE2D(SEATBELT_SHELL_TO_SPRING,NUMELC,2)
+          IF(NUMELC > 0)THEN
+            SEATBELT_SHELL_TO_SPRING(1:NUMELC,1) = 0
+            SEATBELT_SHELL_TO_SPRING(1:NUMELC,2) = 0
+          ENDIF
+c
           DO I=1,NB_SEATBELT_SHELLS
 
             L0 = 0
