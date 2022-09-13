@@ -1004,7 +1004,7 @@ C----
      .        NNZK0P(NSPMD), NDDLP(NSPMD), NNZKP(NSPMD),
      .        NNMAXP(NSPMD), NDDLPMAX
       INTEGER, DIMENSION(:), ALLOCATABLE :: CDDLP
-#ifdef MUMPS5
+#if defined(MUMPS5) && defined(DNC)
       TYPE(DMUMPS_STRUC) MUMPS_PAR
 #endif
       INTEGER IFVMESH
@@ -2613,7 +2613,7 @@ C
                    R_IMP=>IMPBUF_TAB%R_IMP
            ALLOCATE(FAC_K(0), IPIV_K(0))
          IF (IMUMPSV >0.OR.(ISOLV==7.AND.NSPMD>1)) THEN
-#ifdef MUMPS5
+#if defined(MUMPS5) && defined(DNC)
           CALL SPMD_MUMPS_INI(MUMPS_PAR, 1)
 #else
           WRITE(6,*) __LINE__,"Fatal error: MUMPS required"
@@ -8453,8 +8453,8 @@ C===============================================================================
 C                                     PARALLEL SECTION (SMP)
 C========================================================================================
 
-      IF (IMP_CHK>0) THEN
-#ifdef MUMPS5
+      IF (IMP_CHK > 0) THEN
+#if defined(MUMPS5) && defined(DNC)
          CALL IMP_CHKM(
      1  ICODE  ,ISKEW  ,ISKWN  ,IPART  ,IXUR   ,IXTG   ,IXS    ,IXQ    ,
      2  IXC    ,IXT    ,IXP    ,IXR    ,IXTG1          ,ITAB   ,ITABM1 ,
@@ -8485,7 +8485,7 @@ C===============================================================================
 C-----integer : 1:IKC,2:IKUD,3:W_DDL,4:IADM,5:JDIM,6:NDOFI,7:IDDLI
 C-----reel : 1,2,3,4:DIAG_K,LT_K,DIAG_M,LT_M,5,6:LB,DB,7:BKUD,8,9:D_IMP,DR_IMP
 C----       10,11,12:ELBUF_C,BUFMAT_C,X_C,13,14:DD,DDR,15,16:X_ac,V_zero,23,24:AC,ACR
-#ifdef MUMPS5
+#if defined(MUMPS5) && defined(DNC)
         CALL IMP_SOLV(
      1  ICODE  ,ISKEW  ,ISKWN  ,IPART  ,IXUR   ,IXTG   ,IXS    ,IXQ    ,
      2  IXC    ,IXT    ,IXP    ,IXR    ,IXTG1          ,ITAB   ,ITABM1 ,
@@ -8524,7 +8524,7 @@ C Modes buckling
         IF (NBUCK>0) IBUCK=1
       ELSEIF (IBUCK>0) THEN
 C
-#ifdef MUMPS5
+#if defined(MUMPS5) && defined(DNC)
          CALL IMP_BUCK(
      2 PM,             GEO,             IPM,       IGEO,           ELBUF,
      3 IXS,            IXQ,             IXC,       IXT,            IXP,
@@ -9739,7 +9739,7 @@ C
         END IF
         IF(IMPL_S>0.OR.NEIG>0)THEN
                    CALL DEALLOC_IMPBUF(IMPBUF_TAB)
-#ifdef MUMPS5
+#if defined(MUMPS5) && defined(DNC)
           CALL DEALLOCM_IMP(MUMPS_PAR)
 #endif
         END IF

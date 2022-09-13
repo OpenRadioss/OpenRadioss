@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-#ifdef MUMPS5
+#if defined(MUMPS5) && defined(DNC)
 Chd|====================================================================
 Chd|  IMP_SOLV                      source/implicit/imp_solv.F    
 Chd|-- called by -----------
@@ -1294,8 +1294,8 @@ C
      .                     IKC    ,DIAG_K  ,MS     ,IN     ,WEIGHT)
 C
 C        WRITE(6,*) IMUMPSV,IDSC,IMCONV
+#if defined(MUMPS5) && defined(DNC)
          IF (IMUMPSV >0 .AND.IDSC==1.AND.IMCONV>=0)
-#ifdef MUMPS5
      .     CALL IMP_MUMPS1(NDDL0,   NNZK0,     NDDL,   NNZK,  NNMAX,
      .                     NODGLOB, IDDL,      NDOF,   INLOC, IKC,
      .                     IADK,    JDIK,      DIAG_K, LT_K,  IAD_ELEM,
@@ -3114,7 +3114,7 @@ C------------------------------------------
  1002 FORMAT(' NODE NUM. =',I10,5X,'ROT_DIR = ',1A,5X,'VAL.= ',G14.7)
  1003 FORMAT(/,' LOOK AT CONNECTIVITY FOR NODE NUM. =',I10)
       END
-#ifdef MUMPS5
+#if defined(MUMPS5) && defined(DNC)
 Chd|====================================================================
 Chd|  IMP_CHKM                      source/implicit/imp_solv.F    
 Chd|-- called by -----------
@@ -4997,7 +4997,7 @@ C------------------------------------------
       RETURN
       END
 
-#ifdef MUMPS5
+#if defined(MUMPS5) && defined(DNC)
 Chd|====================================================================
 Chd|  DEALLOCM_IMP                  source/implicit/imp_solv.F    
 Chd|-- called by -----------
