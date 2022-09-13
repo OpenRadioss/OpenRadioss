@@ -118,7 +118,7 @@ C-----------------------------------------------
       my_real :: Z(3), DEPTH(MVSIZ), N(3,8),VEC(3), DELTA_P(MVSIZ),PSURF,PGRAV(MVSIZ),VFRAC,P(3,1:4)
       my_real :: LAMBDA,DIAG1(3),DIAG2(3),TOL,DIST,B(3),VOLFRAC
       my_real,ALLOCATABLE,DIMENSION(:,:) :: MIN_COOR, MAX_COOR, N_SURF, ZF
-      INTEGER :: K,KK,IGRP,ISURF,IGRAV,NP,MLW,NG,IAD0,II,NEL,J,IE,I,IERROR,IMAT,M(MVSIZ),Q,NSEG,ISEG
+      INTEGER :: K,KK,IGRP,ISURF,IGRAV,NPART_IN_GROUP,MLW,NG,IAD0,II,NEL,J,IE,I,IERROR,IMAT,M(MVSIZ),Q,NSEG,ISEG
       INTEGER :: USERID
       INTEGER :: NOD(8), MATID, IADBUF,IFORM,NEL2,LIST(MVSIZ),NBMAT,MATLAW,NIX,UID,SURF_TYPE,IELTYP
       INTEGER, ALLOCATABLE, DIMENSION(:) :: IP
@@ -152,17 +152,17 @@ C-----------------------------------------------
         IF (GRAV0==ZERO)CYCLE          !nothing to do if g=0 at time=0 => Delta_P=0 => P=P(t=0)=P0
         !READING GRPART DATA
         IF(IGRP/=0)THEN
-         NP       = IGRPART(IGRP)%NENTITY
-         ALLOCATE(IP(NP),STAT=IERROR)
+         NPART_IN_GROUP = IGRPART(IGRP)%NENTITY
+         ALLOCATE(IP(NPART_IN_GROUP),STAT=IERROR)
          IF(IERROR/=0)CALL ANCMSG(MSGID   = 268,
      .                            ANMODE  = ANINFO,
      .                            MSGTYPE = MSGERROR,
      .                            C1      = 'INIGRAV')
-         IP(1:NP) =  IPART(4,IGRPART(IGRP)%ENTITY(1:NP))
+         IP(1:NPART_IN_GROUP) = IPART(4,IGRPART(IGRP)%ENTITY(1:NPART_IN_GROUP))
         ELSE
          !by default treat all parts
-         IAD0   = 0
-         NP     = 0
+         IAD0 = 0
+         NPART_IN_GROUP = 0
         ENDIF
         l_PLANAR_SURF = .FALSE.
         l_USER_SURF   = .FALSE.
@@ -178,10 +178,8 @@ C-----------------------------------------------
           DO ISEG=1,NSEG
             lTRIA=.FALSE.
             IF(IGRSURF(ISURF)%NODES(ISEG,4)==0)lTRIA=.TRUE.
-            NP=4
             IF(lTRIA)THEN
-              NP=3
-              P(1:3,4)=P(1:3,3)
+                  P(1:3,4)=P(1:3,3)
             ENDIF
             !face coordinates
             P(1,1:4)=X(1,IGRSURF(ISURF)%NODES(ISEG,1:4))
@@ -256,7 +254,7 @@ C-----------------------------------------------
             IF(IGRP/=0)THEN
               lCYCLE = .TRUE.
               DO I=1,NEL
-                DO Q=1,NP
+                DO Q=1,NPART_IN_GROUP
                   IF(IPART(4,M(I))==IP(Q))THEN
                     NEL2 = NEL2+1
                     LIST(NEL2) = I
