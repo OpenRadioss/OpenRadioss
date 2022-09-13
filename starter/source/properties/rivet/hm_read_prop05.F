@@ -128,7 +128,7 @@ C---
      & 5X,'PROPERTY SET NUMBER . . . . . . . . . .=',I10/,
      & 5X,'MAX. TENSILE FORCE. . . . . . . . . . .=',1PG20.13/,
      & 5X,'MAX. SHEAR FORCE. . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'MAX. RIVET LENGHT . . . . . . . . . . .=',1PG20.13/,
+     & 5X,'MAX. RIVET LENGTH . . . . . . . . . . .=',1PG20.13/,
      & 5X,'ROTATION FLAG . . . . . . . . . . . . .=',I10/,
      & 5X,' (TRANS = 0 / TRANS+ROT = 1)'/
      & 5X,'FORMULATION FLAG. . . . . . . . . . . .=',I10/,

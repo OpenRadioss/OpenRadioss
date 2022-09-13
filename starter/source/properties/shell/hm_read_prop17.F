@@ -234,7 +234,7 @@ C CVIS
 C     Double stockage temporaire - supprimer GEO(12,I)=IGTYP apres tests
       IGEO( 1)= PROP_ID
 C        
-C recommanded formulation Iplyxfem=2  (old formalation iplyxfem=1)         
+C recommended formulation Iplyxfem=2  (old formulation iplyxfem=1)         
          IF(ISHXFEM > 0) IPLYXFEM = 2
          IF(ISHXFEM > 0 .AND. ISHXFEM /= 2 ) THEN
             CALL ANCMSG(MSGID=1607,
@@ -736,7 +736,7 @@ C----
  3000 FORMAT(
      & 5X,' COMPOSITE SUBSTACK SHELL ID . . . . . . =',I10/ ) 
  3100 FORMAT(
-     & 5X,'  INTEFACE NUMBER BETWEEN-SUBSTACK . . .  :',I10/ )
+     & 5X,'  INTERFACE NUMBER BETWEEN-SUBSTACK . . .:',I10/ )
  3200 FORMAT(
      & 5X,'      INTER-PLY_1 PID NUMBER  . . . . . =',I10/, 
      & 5X,'      INTER-PLY_2 PID NUMBER . . . . . .=',I10/,   

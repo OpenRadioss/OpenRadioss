@@ -218,10 +218,10 @@ C-----------------------------
       PROP_TAG(IGTYP)%G_LENGTH      = 1  ! X0 (AL0) - total length
       PROP_TAG(IGTYP)%G_TOTDEPL     = 1  ! DX - total deformation (translation)
       PROP_TAG(IGTYP)%G_DEP_IN_TENS = 1  ! DPX  (DPY,DPZ) - max displacement in tension
-      PROP_TAG(IGTYP)%G_DEP_IN_COMP = 1  ! DPX2 (DPY2,DPZ2) - max displacelent in compresion
+      PROP_TAG(IGTYP)%G_DEP_IN_COMP = 1  ! DPX2 (DPY2,DPZ2) - max displacement in compression
       PROP_TAG(IGTYP)%G_POSX        = 5
       PROP_TAG(IGTYP)%G_LENGTH_ERR  = 1
-      PROP_TAG(IGTYP)%G_NUVAR       = MAX(PROP_TAG(IGTYP)%G_NUVAR,NINT(GEO(25))) ! addtional internal variables for h=6
+      PROP_TAG(IGTYP)%G_NUVAR       = MAX(PROP_TAG(IGTYP)%G_NUVAR,NINT(GEO(25))) ! additional internal variables for h=6
       PROP_TAG(IGTYP)%G_DEFINI      = 1
       PROP_TAG(IGTYP)%G_FORINI      = 1
 C

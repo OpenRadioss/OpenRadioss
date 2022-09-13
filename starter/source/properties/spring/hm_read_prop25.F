@@ -898,7 +898,7 @@ C
       PROP_TAG(IGTYP)%G_SKEW = 3
       PROP_TAG(IGTYP)%G_SKEW_ERR = 3
       PROP_TAG(IGTYP)%G_E6 = 6
-      PROP_TAG(IGTYP)%G_NUVAR = MAX(PROP_TAG(IGTYP)%G_NUVAR,NINT(GEO(25))) ! addtional internal variables for h=6  
+      PROP_TAG(IGTYP)%G_NUVAR = MAX(PROP_TAG(IGTYP)%G_NUVAR,NINT(GEO(25))) ! additional internal variables for h=6  
       PROP_TAG(IGTYP)%G_DEFINI = 6
       PROP_TAG(IGTYP)%G_FORINI = 6
 C
