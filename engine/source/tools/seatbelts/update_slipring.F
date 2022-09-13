@@ -67,12 +67,13 @@ C-----------------------------------------------
      .        NFT,N1,N2,N3,N4,MTN,NN1,NN2,NN3,II(6),SLIP,
      .        COMPT,FRA,NFOUND,FOUND_SLIP(2),FOUND_FRAM(2),FRAM1,FRAM2,
      .        NODE_FRAM1,NODE_FRAM2,IREP,FLAG_REACTIV,FLAG_R1,FLAG_R2,NUVAR,
-     .        ISEATBELT,FRA1,FRA2,L_DIRA,NLAY,ISMSTR,NFRAM_MAX
+     .        ISEATBELT,FRA1,FRA2,L_DIRA,NLAY,ISMSTR,NFRAM_MAX,STRAND,NODE_CORES_DIR2(4)
 C
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAG_NOD,CORES_SLIP,CORES_FRAM
 C
       my_real 
-     .        XL2,YL2,XL3,YL3,XL4,YL4,L0FRAM1,L0FRAM2,DIST,DISTB,OFFSET,N_DIR2(2)
+     .        XL2,YL2,XL3,YL3,XL4,YL4,L0FRAM1,L0FRAM2,DIST,DISTB,OFFSET,N_DIR2(2),
+     .        FLOW_DIRECTION
 C
       TYPE(G_BUFEL_),POINTER :: GBUF
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
@@ -170,6 +171,15 @@ C
                   ENDDO
 C
                 ENDDO
+C               -> Storage of current fram ref length in slipring buffer -------
+                SLIP = GBUF%SLIPRING_ID(I)
+                FRA = GBUF%SLIPRING_FRAM_ID(I)
+                K =  GBUF%SLIPRING_STRAND(I)
+                IF ((SLIP > 0).AND.(FRA > 0).AND.(K > 0)) THEN
+                  IF (SLIPRING(SLIP)%FRAM(FRA)%UPDATE == 0) THEN
+                    SLIPRING(SLIP)%FRAM(FRA)%CURRENT_LENGTH(K) = GBUF%LENGTH(II(1)+I-1)       
+                  ENDIF
+                ENDIF
 C
             ENDDO
           ENDIF       
@@ -203,6 +213,10 @@ C
         DO SLIP=1,NSLIPRING
           NFRAM_MAX = MAX(NFRAM_MAX,SLIPRING(SLIP)%NFRAM)
         ENDDO
+        NODE_CORES_DIR2(1) = 4
+        NODE_CORES_DIR2(2) = 3
+        NODE_CORES_DIR2(3) = 2
+        NODE_CORES_DIR2(4) = 1
 C
         MY_ALLOCATE(TAG_NOD,NUMNOD)
         MY_ALLOCATE(CORES_SLIP,NSLIPRING*NFRAM_MAX)
@@ -218,8 +232,8 @@ C
             TAG_NOD(SLIPRING(SLIP)%FRAM(FRA)%NODE(2)) = COMPT
             CORES_SLIP(COMPT) = SLIP
             CORES_FRAM(COMPT) = FRA
-            TAG_NOD(SLIPRING(SLIP)%FRAM(FRA)%NODE(1)) = -1
-            TAG_NOD(SLIPRING(SLIP)%FRAM(FRA)%NODE(3)) = -1
+            TAG_NOD(SLIPRING(SLIP)%FRAM(FRA)%NODE(1)) = -COMPT
+            TAG_NOD(SLIPRING(SLIP)%FRAM(FRA)%NODE(3)) = -COMPT
           ENDDO
         ENDDO
 C
@@ -333,25 +347,37 @@ C
               IF ((FRAM1 > 0).AND.(FRAM1 /= FOUND_FRAM(1)).AND.(FRAM1 /= FOUND_FRAM(2))) THEN
 C               disconnection with slipring fram1 - ringslip must be stored in bufel
                 GBUF%SLIPRING_FRAM_ID(II(1)+I-1) = -GBUF%SLIPRING_FRAM_ID(II(1)+I-1)
-                GBUF%POSX(II(1)+I-1) = SLIPRING(SLIP)%FRAM(FRAM1)%RINGSLIP
-                GBUF%INTVAR(II(3)+I-1) = ABS(SLIPRING(SLIP)%FRAM(FRAM1)%PREV_REF_LENGTH)              
+                GBUF%POSX(II(1)+I-1) = SLIPRING(SLIP)%FRAM(FRAM1)%RINGSLIP  
+                GBUF%INTVAR(II(3)+I-1) = ABS(SLIPRING(SLIP)%FRAM(FRAM1)%PREV_REF_LENGTH)      
                 DO K=1,4
-                  IF (IXC(K+1,J) == SLIPRING(SLIP)%FRAM(FRAM1)%NODE2_PREV) THEN
+                  IF (IXC(K+1,J) == SLIPRING(SLIP)%FRAM(FRAM1)%NODE(1)) THEN
                     GBUF%INTVAR(II(5)+I-1) = K
+                    STRAND = 1
+                    FLOW_DIRECTION = ONE
+                  ELSEIF (IXC(K+1,J) == SLIPRING(SLIP)%FRAM(FRAM1)%NODE(3)) THEN
+                    GBUF%INTVAR(II(5)+I-1) = K
+                    STRAND = 2
+                    FLOW_DIRECTION = -ONE
                   ENDIF
-                ENDDO          
+                ENDDO     
               ENDIF
 C
               IF ((FRAM2 > 0).AND.(FRAM2 /= FOUND_FRAM(1)).AND.(FRAM2 /= FOUND_FRAM(2))) THEN
 C               disconnection with slipring fram2 - ringslip must be stored in bufel
                 GBUF%SLIPRING_FRAM_ID(II(2)+I-1) = -GBUF%SLIPRING_FRAM_ID(II(2)+I-1)
-                GBUF%POSX(II(2)+I-1) = SLIPRING(SLIP)%FRAM(FRAM2)%RINGSLIP
-                GBUF%INTVAR(II(4)+I-1) = ABS(SLIPRING(SLIP)%FRAM(FRAM2)%PREV_REF_LENGTH)
+                GBUF%POSX(II(2)+I-1) = SLIPRING(SLIP)%FRAM(FRAM2)%RINGSLIP 
+                GBUF%INTVAR(II(4)+I-1) = ABS(SLIPRING(SLIP)%FRAM(FRAM2)%PREV_REF_LENGTH)  
                 DO K=1,4
-                  IF (IXC(K+1,J) == SLIPRING(SLIP)%FRAM(FRAM2)%NODE2_PREV) THEN
+                  IF (IXC(K+1,J) == SLIPRING(SLIP)%FRAM(FRAM2)%NODE(1)) THEN
                     GBUF%INTVAR(II(6)+I-1) = K
+                    STRAND = 1
+                    FLOW_DIRECTION = ONE
+                  ELSEIF (IXC(K+1,J) == SLIPRING(SLIP)%FRAM(FRAM2)%NODE(3)) THEN
+                    GBUF%INTVAR(II(6)+I-1) = K
+                    STRAND = 2
+                    FLOW_DIRECTION = -ONE
                   ENDIF
-                ENDDO 
+                ENDDO
               ENDIF
 C
               IF ((GBUF%SLIPRING_ID(I)==0).AND.(NFOUND > 0)) THEN
@@ -366,18 +392,26 @@ C--             shell fully released by slipring - reactivated - tag -1
               ENDIF
 C
               IF (FLAG_REACTIV == 1) THEN
-C--             computation of local coordinates
                 FRA1 = ABS(GBUF%SLIPRING_FRAM_ID(II(1)+I-1))
                 FRA2 = ABS(GBUF%SLIPRING_FRAM_ID(II(2)+I-1))
+                L0FRAM1 = GBUF%INTVAR(II(3)+I-1)
+                L0FRAM2 = GBUF%INTVAR(II(4)+I-1)
+                NODE_FRAM1 = NINT(GBUF%INTVAR(II(5)+I-1))
+                NODE_FRAM2 = NINT(GBUF%INTVAR(II(6)+I-1))           
+                IF (FRA2 > 0) THEN
+                  OFFSET = (GBUF%POSX(II(1)+I-1)-GBUF%POSX(II(2)+I-1))*FLOW_DIRECTION
+                ELSE
+                  NODE_FRAM2 = NODE_CORES_DIR2(NODE_FRAM1)
+                  COMPT = ABS(TAG_NOD(IXC(1+NODE_FRAM2,J)))
+                  FRA2 = CORES_FRAM(COMPT)
+                  OFFSET = SLIPRING(SLIP)%FRAM(FRA1)%RINGSLIP - SLIPRING(SLIP)%FRAM(FRA2)%RINGSLIP
+                  OFFSET = FLOW_DIRECTION*OFFSET-SLIPRING(SLIP)%FRAM(FRA2)%CURRENT_LENGTH(STRAND)
+                ENDIF
+C--             computation of local coordinates
                 NN1 = SLIPRING(SLIP)%FRAM(FRA1)%ANCHOR_NODE
                 NN2 = SLIPRING(SLIP)%FRAM(FRA2)%ANCHOR_NODE
                 CALL SHELL_LOC_COR(X,IXC,J,XL2,YL2,XL3,YL3,XL4,YL4,IREP,NN1,NN2,N_DIR2)
 C--             shell reactivation process - update of reference state -- reset of strain tensor
-                L0FRAM1 = GBUF%INTVAR(II(3)+I-1)
-                L0FRAM2 = GBUF%INTVAR(II(4)+I-1)
-                OFFSET = GBUF%POSX(II(1)+I-1) - GBUF%POSX(II(2)+I-1)
-                NODE_FRAM1 = NINT(GBUF%INTVAR(II(5)+I-1))
-                NODE_FRAM2 = NINT(GBUF%INTVAR(II(6)+I-1))
                 CALL SHELL_REACTIVATION(I,II,L0FRAM1,L0FRAM2,NODE_FRAM1,
      .                                  NODE_FRAM2,GBUF%STRA,NEL,XL2,YL2,
      .                                  XL3,YL3,XL4,YL4,OFFSET,
