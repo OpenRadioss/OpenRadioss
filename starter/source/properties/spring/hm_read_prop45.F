@@ -134,7 +134,7 @@ C
       ENDIF
 C      
       NUVAR = 39
-C     SKEWR - id of lcoal joint - not used for joint type45
+C     SKEWR - id of local joint - not used for joint type45
       SKEWR = 0
       SENSR = SENSOR
       FAC_M = UNITAB%FAC_M(IUNIT)

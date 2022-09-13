@@ -558,7 +558,7 @@ c-----------------------------------------------------------------------
  3000 FORMAT(
      & 5X,' COMPOSITE SUBSTACK SHELL NUMBER . . . =',I10/ ) 
  3100 FORMAT(
-     & 5X,'  INTEFACE NUMBER BETWEEN-SUBSTACK . . .  :',I10/ )
+     & 5X,'  INTERFACE NUMBER BETWEEN-SUBSTACK . .:',I10/ )
  3300 FORMAT(
      & 5X,'      INTER-PLY_1 PID NUMBER  . . . . . =',I10/, 
      & 5X,'      INTER-PLY_2 PID NUMBER . . . . . .=',I10/)

@@ -290,7 +290,7 @@ C----
       GEO(3)  = XK / A
       GEO(4)  = XC
       GEO(7)  = IECROU+PUN
-C--   If H=6 - addditional internal variables must be stored in UVAR -  recommandation - GEO(25) = NUVAR
+C--   If H=6 - addditional internal variables must be stored in UVAR -  recommendation - GEO(25) = NUVAR
       IF (IECROU == 6) THEN
         GEO(25) = 6
       ENDIF
@@ -418,7 +418,7 @@ C----
       GEO(10) = XK / A
       GEO(11) = XC
       GEO(14) = IECROU+PUN
-C--   If H=6 - addditional internal variables must be stored in UVAR -  recommandation - GEO(25) = NUVAR
+C--   If H=6 - addditional internal variables must be stored in UVAR -  recommendation - GEO(25) = NUVAR
       IF (IECROU == 6) THEN
         GEO(25) = 6
       ENDIF
@@ -545,7 +545,7 @@ C----
       GEO(15) = XK / A
       GEO(16) = XC
       GEO(18) = IECROU+PUN
-C--   If H=6 - addditional internal variables must be stored in UVAR -  recommandation - GEO(25) = NUVAR
+C--   If H=6 - addditional internal variables must be stored in UVAR -  recommendation - GEO(25) = NUVAR
       IF (IECROU == 6) THEN
         GEO(25) = 6
       ENDIF
@@ -675,7 +675,7 @@ C----
       GEO(19)  = XK / A
       GEO(20)  = XC
       GEO(22)  = IECROU+PUN
-C--   If H=6 - addditional internal variables must be stored in UVAR -  recommandation - GEO(25) = NUVAR
+C--   If H=6 - addditional internal variables must be stored in UVAR -  recommendation - GEO(25) = NUVAR
       IF (IECROU == 6) THEN
         GEO(25) = 6
       ENDIF
@@ -802,7 +802,7 @@ C----
       GEO(23)  = XK / A
       GEO(24)  = XC
       GEO(26)  = IECROU+PUN
-C--   If H=6 - addditional internal variables must be stored in UVAR -  recommandation - GEO(25) = NUVAR
+C--   If H=6 - addditional internal variables must be stored in UVAR -  recommendation - GEO(25) = NUVAR
       IF (IECROU == 6) THEN
         GEO(25) = 6
       ENDIF
@@ -930,7 +930,7 @@ C----
       GEO(27)  = XK / A
       GEO(28)  = XC
       GEO(30)  = IECROU+PUN
-C--   If H=6 - addditional internal variables must be stored in UVAR -  recommandation - GEO(25) = NUVAR
+C--   If H=6 - addditional internal variables must be stored in UVAR -  recommendation - GEO(25) = NUVAR
       IF (IECROU == 6) THEN
         GEO(25) = 6
       ENDIF
@@ -975,9 +975,9 @@ C
        PROP_TAG(IGTYP)%G_FOREP = 3    ! FORCE - (ELASTO PLASTIQUE (ISOTROPE))
        PROP_TAG(IGTYP)%G_MOMEP = 3    ! MOMENT - (ELASTO PLASTIQUE (ISOTROPE))
        PROP_TAG(IGTYP)%G_DEP_IN_TENS = 3   ! DPX  (DPY,DPZ) - max displacement in tension
-       PROP_TAG(IGTYP)%G_DEP_IN_COMP = 3   ! DPX2 (DPY2,DPZ2) - max displacelent in compresion
+       PROP_TAG(IGTYP)%G_DEP_IN_COMP = 3   ! DPX2 (DPY2,DPZ2) - max displacement in compression
        PROP_TAG(IGTYP)%G_ROT_IN_TENS = 3   ! RPX (RPY,RPZ) - max rotation in tension
-       PROP_TAG(IGTYP)%G_ROT_IN_COMP = 3   ! RPX2 (RPY2,RPY2) - max rotation in compresion
+       PROP_TAG(IGTYP)%G_ROT_IN_COMP = 3   ! RPX2 (RPY2,RPY2) - max rotation in compression
        PROP_TAG(IGTYP)%G_POSX = 5
        PROP_TAG(IGTYP)%G_POSY = 5
        PROP_TAG(IGTYP)%G_POSZ = 5
@@ -988,7 +988,7 @@ C
        PROP_TAG(IGTYP)%G_LENGTH_ERR = 3
        PROP_TAG(IGTYP)%G_E6 = 6
        PROP_TAG(IGTYP)%G_RUPTCRIT = 1
-       PROP_TAG(IGTYP)%G_NUVAR = MAX(PROP_TAG(IGTYP)%G_NUVAR,NINT(GEO(25))) ! addtional internal variables for h=6
+       PROP_TAG(IGTYP)%G_NUVAR = MAX(PROP_TAG(IGTYP)%G_NUVAR,NINT(GEO(25))) ! additional internal variables for h=6
        PROP_TAG(IGTYP)%G_DEFINI = 6
        PROP_TAG(IGTYP)%G_FORINI = 6
        PROP_TAG(IGTYP)%G_SKEW_ID = 1

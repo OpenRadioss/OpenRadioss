@@ -309,7 +309,7 @@ C
       PROP_TAG(IGTYP)%G_LENGTH_ERR = 1
       PROP_TAG(IGTYP)%G_DFS = 1
       PROP_TAG(IGTYP)%G_INIFRIC = 1
-      PROP_TAG(IGTYP)%G_NUVAR = MAX(PROP_TAG(IGTYP)%G_NUVAR,NINT(GEO(25))) ! addtional internal variables for h=6
+      PROP_TAG(IGTYP)%G_NUVAR = MAX(PROP_TAG(IGTYP)%G_NUVAR,NINT(GEO(25))) ! additional internal variables for h=6
       PROP_TAG(IGTYP)%G_DEFINI = 1
       PROP_TAG(IGTYP)%G_FORINI = 1
 C
